@@ -1,8 +1,22 @@
+html {
+  background-color: white;
+}
+
 p {
+  font-size: 1vw;
+  margin: 20px;
   background-color: lightblue;
 }
 
 h1 {
   color: navy;
-  margin-left: 20px;
+  margin: 20px;
+  font-size: 5vw;
+}
+
+.content-box {
+  border: 1px solid black;
+  border-radius: 5px;
+  box-shadow: 3px 3px;
+  margin: 20px;
 }
