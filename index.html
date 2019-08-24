@@ -17,7 +17,55 @@
             <img src="bird.jpg" width="100%" max-width="10%"/>
         </div>
     </div>
+	<div class="table-box">
+		<input id="dbInput" type="text" onkeyup="searchFunction()" placeholder="search here" title="search"/>
+		<table id="dbTable" align="center">
+			<tr class="header">
+				<th style="width:25%;">Title</th>
+				<th style="width:25%;">Artist</th>
+				<th style="width:25%;">Commisioner</th>
+				<th style="width:25%;">Completed</th>
+			</tr>
+			<tr>
+				<td>The Annunciation</td>
+				<td>Fra Angelico</td>
+				<td>Cosimo de' Medici</td>
+				<td>1446</td>
+			</tr>
+			<tr>
+				<td>The Klassic</td>
+				<td>The Angelica</td>
+				<td>Cosimo Merci</td>
+				<td>1448</td>
+			</tr>
+		</table>
+	</div>
     
 </body>
-
+<script>
+function searchFunction() {
+	// Declare starting variables 
+	var input = document.getElementById("dbInput");
+	var filter = input.value.toUpperCase();
+	var table = document.getElementById("dbTable");
+	var trs = table.tBodies[0].getElementsByTagName("tr");
+	// Loop through rows
+	for (var i = 1; i < trs.length; i++) {
+		// Define the cells
+		var tds = trs[i].getElementsByTagName("td");
+		// hide the row
+		trs[i].style.display = "none";
+		// loop through row cells
+		for (var i2 = 0; i2 < tds.length; i2++) {
+			// if there's a match
+			if (tds[i2].innerHTML.toUpperCase().indexOf(filter) > -1) {
+			// show the row
+			trs[i].style.display = "";
+			// skip to the next row
+			continue;
+			}
+		}
+	}
+}
+</script>
 </html>
