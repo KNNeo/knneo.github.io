@@ -1,7 +1,5 @@
 <!DOCTYPE html>
 <html lang="en-SG">
-<!-- This is displaying a landing page with an image of a bird -->
-
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="index.css">
@@ -9,22 +7,16 @@
 </head>
 
 <body>
-    <div class="content-box">
-        <h1 class="left tundra">Hello World</h1>
-        <p class="main" title='Hello "World" My World'>I'm hosted with GitHub Pages.</p>
-        <blockquote class="main">The bird lands swiftly with its feet.</blockquote>
-        <div class="content-box right tundra-bg" style="width: 200px;">
-            <img src="bird.jpg" width="100%" max-width="10%"/>
-        </div>
+    <div class="content-box">	
+		<input id="dbInput" type="text" onkeyup="searchFunction()" placeholder="search here" title="search"/>
     </div>
 	<div class="table-box">
-		<input id="dbInput" type="text" onkeyup="searchFunction()" placeholder="search here" title="search"/>
 		<table id="dbTable" align="center">
 			<tr class="header">
-				<th style="width:25%;">Title</th>
-				<th style="width:25%;">Artist</th>
-				<th style="width:25%;">Commisioner</th>
-				<th style="width:25%;">Completed</th>
+				<th style="width:auto;">Title</th>
+				<th style="width:auto;">Artist</th>
+				<th style="width:auto;">Commisioner</th>
+				<th style="width:auto;">Completed</th>
 			</tr>
 			<tr>
 				<td>The Annunciation</td>
