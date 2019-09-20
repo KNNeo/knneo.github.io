@@ -8,36 +8,47 @@
 </head>
 
 <body>
-    <div class="search-box">	
-		<input id="dbInput" type="text" onkeyup="searchFunction()" placeholder="search here" title="search"/>
-    </div>
-	<div class="table-box">
-		<table id="dbTable">
-			<tr class="header">
-				<th style="width:auto;">Title</th>
-				<th style="width:auto;">Artist</th>
-				<th style="width:auto;">Commisioner</th>
-				<th style="width:auto;">Completed</th>
-			</tr>
-			<tr>
-				<td>The Annunciation</td>
-				<td>Fra Angelico</td>
-				<td>Cosimo de' Medici</td>
-				<td>1446</td>
-			</tr>
-			<tr>
-				<td>The Klassic</td>
-				<td>The Angelica</td>
-				<td>Cosimo Merci</td>
-				<td>1448</td>
-			</tr>
-		</table>
+	<div id="table-sort-module" style="display: none;">
+		<div class="search-box">	
+			<input id="dbInput" type="text" onkeyup="searchFunction()" placeholder="search here" title="search"/>
+		</div>
+		<div class="table-box">
+			<table id="dbTable">
+				<tr class="header">
+					<th style="width:auto;">Title</th>
+					<th style="width:auto;">Artist</th>
+					<th style="width:auto;">Commisioner</th>
+					<th style="width:auto;">Completed</th>
+				</tr>
+				<tr>
+					<td>The Annunciation</td>
+					<td>Fra Angelico</td>
+					<td>Cosimo de' Medici</td>
+					<td>1446</td>
+				</tr>
+				<tr>
+					<td>The Klassic</td>
+					<td>The Angelica</td>
+					<td>Cosimo Merci</td>
+					<td>1448</td>
+				</tr>
+			</table>
+		</div>
 	</div>
-	<div class="input-box">
-		<textarea id="nameInput" rows="4" cols="50" placeholder="Input list of names here..."></textarea>
-		<button type="button" value="Submit" onclick="getResult()">Submit</button>
-	</div>
-	<div class="result-box">
+	<div id="input-module">
+		<div class="input-box">
+			<textarea id="nameInput" rows="8" cols="100" placeholder="Input list of names here..."></textarea>
+		</div>
+		<div class="result-component">
+			<div class="show-result">
+				<button type="button" value="Submit" onclick="getResult1()">Dating</button>
+				<span id="result1" class="result-box" ></span>
+			</div>
+			<div class="show-result">
+				<button type="button" value="Submit" onclick="getResult2()">Anime</button>
+				<span id="result2" class="result-box" ></span>
+			</div>
+		</div>
 	</div>
     
 </body>
