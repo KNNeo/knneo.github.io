@@ -61,3 +61,7 @@ function getResult2() {
 	else
 		result1.innerHTML = "Please key in something!";
 }
+
+/* on how to load csv file, add in here or another external js file
+https://stackoverflow.com/questions/24172045/automatically-import-a-local-csv-file-with-javascript-or-jquery/24172885#24172885
+*/
