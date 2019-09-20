@@ -3,15 +3,16 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="index.css">
+	<script src="index.js"></script>
     <title>Welcome</title>
 </head>
 
 <body>
-    <div class="content-box">	
+    <div class="search-box">	
 		<input id="dbInput" type="text" onkeyup="searchFunction()" placeholder="search here" title="search"/>
     </div>
 	<div class="table-box">
-		<table id="dbTable" align="center">
+		<table id="dbTable">
 			<tr class="header">
 				<th style="width:auto;">Title</th>
 				<th style="width:auto;">Artist</th>
@@ -32,32 +33,12 @@
 			</tr>
 		</table>
 	</div>
+	<div class="input-box">
+		<textarea id="nameInput" rows="4" cols="50" placeholder="Input list of names here..."></textarea>
+		<button type="button" value="Submit" onclick="getResult()">Submit</button>
+	</div>
+	<div class="result-box">
+	</div>
     
 </body>
-<script>
-function searchFunction() {
-	// Declare starting variables 
-	var input = document.getElementById("dbInput");
-	var filter = input.value.toUpperCase();
-	var table = document.getElementById("dbTable");
-	var trs = table.tBodies[0].getElementsByTagName("tr");
-	// Loop through rows
-	for (var i = 1; i < trs.length; i++) {
-		// Define the cells
-		var tds = trs[i].getElementsByTagName("td");
-		// hide the row
-		trs[i].style.display = "none";
-		// loop through row cells
-		for (var i2 = 0; i2 < tds.length; i2++) {
-			// if there's a match
-			if (tds[i2].innerHTML.toUpperCase().indexOf(filter) > -1) {
-			// show the row
-			trs[i].style.display = "";
-			// skip to the next row
-			continue;
-			}
-		}
-	}
-}
-</script>
 </html>
