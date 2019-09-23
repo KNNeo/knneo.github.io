@@ -75,7 +75,24 @@ function getResult3() {
 		var name3 = nameList[Math.floor(Math.random() * nameList.length)];
 		while(name3 == name2 || name3 == name1)
 			name3 = nameList[Math.floor(Math.random() * nameList.length)];
-		result1.innerHTML = "What would you rather f**k, marry or kill: \"" + name3 + "\", \"" + name1 + "\" or \"" + name2 + "\"?";
+		result1.innerHTML = "Who would you rather f**k, marry or kill: \"" + name3 + "\", \"" + name1 + "\" or \"" + name2 + "\"?";
+	}
+	else
+		result1.innerHTML = "Please key in something!";
+}
+
+function getResult4() {
+    var text = document.getElementById("nameInput").value.trim();
+	var nameList = text.split("\n");
+	var result1 = document.getElementById("result4");
+	result1.innerHTML = "";
+	if(text.length > 0)
+	{
+		var name1 = nameList[Math.floor(Math.random() * nameList.length)];
+		var name2 = nameList[Math.floor(Math.random() * nameList.length)];
+		while(name2 == name1)
+			name2 = nameList[Math.floor(Math.random() * nameList.length)];
+		result1.innerHTML = "Who would you rather save when both of them fell into the river and cannot swim: \"" + name1 + "\" or \"" + name2 + "\"?";
 	}
 	else
 		result1.innerHTML = "Please key in something!";
