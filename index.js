@@ -98,6 +98,25 @@ function getResult4() {
 		result1.innerHTML = "Please key in something!";
 }
 
+function getResult5() {
+    var text = document.getElementById("nameInput").value.trim();
+	var nameList = text.split("\n");
+	var result1 = document.getElementById("result5");
+	result1.innerHTML = "";
+	if(text.length > 0)
+	{
+		var name1 = nameList[Math.floor(Math.random() * nameList.length)];
+		var name2 = nameList[Math.floor(Math.random() * nameList.length)];
+		var name3 = nameList[Math.floor(Math.random() * nameList.length)];
+		var name4 = nameList[Math.floor(Math.random() * nameList.length)];
+		var name5 = nameList[Math.floor(Math.random() * nameList.length)];		
+		var name6 = nameList[Math.floor(Math.random() * nameList.length)];
+		result1.innerHTML = "Hair from \"" + name1 + "\", face from \"" + name2 + "\", chest from \"" + name3 + "\", waist from \"" + name4 + "\", hips from \"" + name5 + "\", legs from \"" + name6 + "\"";
+	}
+	else
+		result1.innerHTML = "Please key in something!";
+}
+
 /* on how to load csv file, add in here or another external js file
 https://stackoverflow.com/questions/24172045/automatically-import-a-local-csv-file-with-javascript-or-jquery/24172885#24172885
 */
