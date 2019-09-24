@@ -92,7 +92,7 @@ function getResult4() {
 		var name2 = nameList[Math.floor(Math.random() * nameList.length)];
 		while(name2 == name1)
 			name2 = nameList[Math.floor(Math.random() * nameList.length)];
-		result1.innerHTML = "Who would you rather save when both of them fell into the river and cannot swim: \"" + name1 + "\" or \"" + name2 + "\"?";
+		result1.innerHTML = "Who would you rather save first when both of them fell into the river \"" + name1 + "\" or \"" + name2 + "\"? (*Assume both cannot swim)";
 	}
 	else
 		result1.innerHTML = "Please key in something!";
