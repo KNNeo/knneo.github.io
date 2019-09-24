@@ -64,7 +64,7 @@ function getResult2() {
 function getResult3() {
     var text = document.getElementById("nameInput").value.trim();
 	var nameList = text.split("\n");
-	var result1 = document.getElementById("result3");
+	var result1 = document.getElementById("result1");
 	result1.innerHTML = "";
 	if(text.length > 0)
 	{
@@ -84,7 +84,7 @@ function getResult3() {
 function getResult4() {
     var text = document.getElementById("nameInput").value.trim();
 	var nameList = text.split("\n");
-	var result1 = document.getElementById("result4");
+	var result1 = document.getElementById("result1");
 	result1.innerHTML = "";
 	if(text.length > 0)
 	{
@@ -101,7 +101,7 @@ function getResult4() {
 function getResult5() {
     var text = document.getElementById("nameInput").value.trim();
 	var nameList = text.split("\n");
-	var result1 = document.getElementById("result5");
+	var result1 = document.getElementById("result1");
 	result1.innerHTML = "";
 	if(text.length > 0)
 	{
@@ -110,8 +110,7 @@ function getResult5() {
 		var name3 = nameList[Math.floor(Math.random() * nameList.length)];
 		var name4 = nameList[Math.floor(Math.random() * nameList.length)];
 		var name5 = nameList[Math.floor(Math.random() * nameList.length)];		
-		var name6 = nameList[Math.floor(Math.random() * nameList.length)];
-		result1.innerHTML = "Hair from \"" + name1 + "\", face from \"" + name2 + "\", chest from \"" + name3 + "\", waist from \"" + name4 + "\", hips from \"" + name5 + "\", legs from \"" + name6 + "\"";
+		result1.innerHTML = "Hair from \"" + name1 + "\", face from \"" + name2 + "\", chest from \"" + name3 + "\", hips and waist from \"" + name4 + "\", legs from \"" + name5 + "\"";
 	}
 	else
 		result1.innerHTML = "Please key in something!";
