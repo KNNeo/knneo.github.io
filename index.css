@@ -1,11 +1,13 @@
 html {
   background-color: white;
+  font: caption;
 }
 
-p {
+#input-module {
   background-color: lightblue;
-  font-size: 1vw;
-  margin: 20px;
+  margin: 10px;
+  border-radius: 5px;
+  padding: 10px;
 }
 
 h1 {
@@ -13,11 +15,17 @@ h1 {
   margin: 20px;
 }
 
-.content-box {
+button {
   border: 1px solid black;
   border-radius: 5px;
   box-shadow: 3px 3px;
-  margin: 20px;
+  padding: 8px;
+  margin: 1px;
+}
+
+button:active {
+  box-shadow: 1px 1px;
+  transform: translate(2px,2px); 
 }
 
 .left, .right {
@@ -31,8 +39,11 @@ h1 {
 
 .result-box {
 	border-bottom: 1px solid black;
-	display: inline-block;
-	width: 80%;
+	display: block;
+	width: 50%;
+	height: 15px;
+	padding: 5px;
+
 }
 
 @media screen and (max-width:800px) {

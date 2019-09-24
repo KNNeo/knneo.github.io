@@ -26,46 +26,46 @@ function searchFunction() {
 	}
 }
 
-function getResult1() {
+function getresult1() {
     var text = document.getElementById("nameInput").value.trim();
 	var nameList = text.split("\n");
-	var result1 = document.getElementById("result1");
-	result1.innerHTML = "";
+	var result = document.getElementById("result1");
+	result.innerHTML = "";
 	if(text.length > 0)
 	{
 		var name1 = nameList[Math.floor(Math.random() * nameList.length)];
 		var name2 = nameList[Math.floor(Math.random() * nameList.length)];
 		while(name2 == name1)
 			name2 = nameList[Math.floor(Math.random() * nameList.length)];
-		result1.innerHTML = "Would you rather go on a date with \"" + name1 + "\" or \"" + name2 + "\"?";
+		result.innerHTML = "Would you rather go on a date with \"" + name1 + "\" or \"" + name2 + "\"?";
 
 	}
 	else
-		result1.innerHTML = "Please key in something!";
+		result.innerHTML = "Please key in something!";
 }
 
 function getResult2() {
     var text = document.getElementById("nameInput").value.trim();
 	var nameList = text.split("\n");
-	var result1 = document.getElementById("result2");
-	result1.innerHTML = "";
+	var result = document.getElementById("result2");
+	result.innerHTML = "";
 	if(text.length > 0)
 	{
 		var name1 = nameList[Math.floor(Math.random() * nameList.length)];
 		var name2 = nameList[Math.floor(Math.random() * nameList.length)];
 		while(name2 == name1)
 			name2 = nameList[Math.floor(Math.random() * nameList.length)];
-		result1.innerHTML = "What would you rather watch for the rest of your life: \"" + name1 + "\" or \"" + name2 + "\"?";
+		result.innerHTML = "What would you rather watch for the rest of your life: \"" + name1 + "\" or \"" + name2 + "\"?";
 	}
 	else
-		result1.innerHTML = "Please key in something!";
+		result.innerHTML = "Please key in something!";
 }
 
 function getResult3() {
     var text = document.getElementById("nameInput").value.trim();
 	var nameList = text.split("\n");
-	var result1 = document.getElementById("result1");
-	result1.innerHTML = "";
+	var result = document.getElementById("result1");
+	result.innerHTML = "";
 	if(text.length > 0)
 	{
 		var name1 = nameList[Math.floor(Math.random() * nameList.length)];
@@ -75,45 +75,47 @@ function getResult3() {
 		var name3 = nameList[Math.floor(Math.random() * nameList.length)];
 		while(name3 == name2 || name3 == name1)
 			name3 = nameList[Math.floor(Math.random() * nameList.length)];
-		result1.innerHTML = "Who would you rather f**k, marry or kill: \"" + name3 + "\", \"" + name1 + "\" or \"" + name2 + "\"?";
+		result.innerHTML = "Who would you rather f**k, marry or kill: \"" + name3 + "\", \"" + name1 + "\" or \"" + name2 + "\"?";
 	}
 	else
-		result1.innerHTML = "Please key in something!";
+		result.innerHTML = "Please key in something!";
 }
 
 function getResult4() {
     var text = document.getElementById("nameInput").value.trim();
 	var nameList = text.split("\n");
-	var result1 = document.getElementById("result1");
-	result1.innerHTML = "";
+	var result = document.getElementById("result1");
+	result.innerHTML = "";
 	if(text.length > 0)
 	{
 		var name1 = nameList[Math.floor(Math.random() * nameList.length)];
 		var name2 = nameList[Math.floor(Math.random() * nameList.length)];
 		while(name2 == name1)
 			name2 = nameList[Math.floor(Math.random() * nameList.length)];
-		result1.innerHTML = "Who would you rather save first when both of them fell into the river \"" + name1 + "\" or \"" + name2 + "\"? (*Assume both cannot swim)";
+		result.innerHTML = "Who would you rather save first when both of them fell into the river \"" + name1 + "\" or \"" + name2 + "\"? (*Assume both cannot swim)";
 	}
 	else
-		result1.innerHTML = "Please key in something!";
+		result.innerHTML = "Please key in something!";
 }
 
 function getResult5() {
     var text = document.getElementById("nameInput").value.trim();
 	var nameList = text.split("\n");
-	var result1 = document.getElementById("result1");
-	result1.innerHTML = "";
-	if(text.length > 0)
+	var result = document.getElementById("result1");
+	result.innerHTML = "";
+	if(text.length > 0 && nameList.length >= 5)
 	{
 		var name1 = nameList[Math.floor(Math.random() * nameList.length)];
 		var name2 = nameList[Math.floor(Math.random() * nameList.length)];
 		var name3 = nameList[Math.floor(Math.random() * nameList.length)];
 		var name4 = nameList[Math.floor(Math.random() * nameList.length)];
 		var name5 = nameList[Math.floor(Math.random() * nameList.length)];		
-		result1.innerHTML = "Hair from \"" + name1 + "\", face from \"" + name2 + "\", chest from \"" + name3 + "\", hips and waist from \"" + name4 + "\", legs from \"" + name5 + "\"";
+		result.innerHTML = "Hair from \"" + name1 + "\", face from \"" + name2 + "\", chest from \"" + name3 + "\", hips and waist from \"" + name4 + "\", legs from \"" + name5 + "\"";
 	}
+	else if (text.length <= 0)
+		result.innerHTML = "Please key in something!";
 	else
-		result1.innerHTML = "Please key in something!";
+		result.innerHTML = "Minimum 5 names!";
 }
 
 /* on how to load csv file, add in here or another external js file
