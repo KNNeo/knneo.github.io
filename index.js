@@ -43,10 +43,16 @@ function getResult(module) {
 			name3 = nameList[Math.floor(Math.random() * nameList.length)];
 		if(categoryName == "Dating")	
 			result.innerHTML = "Would you rather go on a date with \"" + name1 + "\" or \"" + name2 + "\"?";
-		else if (categoryName == "F**k Marry Kill")
+		else if(categoryName == "F**k Marry Kill")
 			result.innerHTML = "Who would you rather f**k, marry or kill: \"" + name3 + "\", \"" + name1 + "\" or \"" + name2 + "\"?";
 		else if(categoryName == "Save")	
 			result.innerHTML = "Who would you rather save first when both of them fell into the river \"" + name1 + "\" or \"" + name2 + "\"? (*Assume both cannot swim)";
+		else if(categoryName == "Mirror")
+		{
+			var mirrorFeatures = ["cutest","coolest","most beautiful","funniest"];
+			var mirrorFeature = mirrorFeatures[Math.floor(Math.random() * mirrorFeatures.length)];
+			result.innerHTML = "Mirror, mirror, on the wall; Who is the " + mirrorFeature + " of them all? " + name1 + " or " + name2 + " or " + name3 + "?";
+		}
 	}
 	else
 		result.innerHTML = "Please key in something!";
