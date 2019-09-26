@@ -26,7 +26,8 @@ function searchFunction() {
 	}
 }
 
-function getresult1() {
+function getResult(module) {
+	var categoryName = module.innerHTML;
     var text = document.getElementById("nameInput").value.trim();
 	var nameList = text.split("\n");
 	var result = document.getElementById("result1");
@@ -37,8 +38,15 @@ function getresult1() {
 		var name2 = nameList[Math.floor(Math.random() * nameList.length)];
 		while(name2 == name1)
 			name2 = nameList[Math.floor(Math.random() * nameList.length)];
-		result.innerHTML = "Would you rather go on a date with \"" + name1 + "\" or \"" + name2 + "\"?";
-
+		var name3 = nameList[Math.floor(Math.random() * nameList.length)];
+		while(name3 == name2 || name3 == name1)
+			name3 = nameList[Math.floor(Math.random() * nameList.length)];
+		if(categoryName == "Dating")	
+			result.innerHTML = "Would you rather go on a date with \"" + name1 + "\" or \"" + name2 + "\"?";
+		else if (categoryName == "F**k Marry Kill")
+			result.innerHTML = "Who would you rather f**k, marry or kill: \"" + name3 + "\", \"" + name1 + "\" or \"" + name2 + "\"?";
+		else if(categoryName == "Save")	
+			result.innerHTML = "Who would you rather save first when both of them fell into the river \"" + name1 + "\" or \"" + name2 + "\"? (*Assume both cannot swim)";
 	}
 	else
 		result.innerHTML = "Please key in something!";
@@ -62,43 +70,6 @@ function getResult2() {
 }
 
 function getResult3() {
-    var text = document.getElementById("nameInput").value.trim();
-	var nameList = text.split("\n");
-	var result = document.getElementById("result1");
-	result.innerHTML = "";
-	if(text.length > 0)
-	{
-		var name1 = nameList[Math.floor(Math.random() * nameList.length)];
-		var name2 = nameList[Math.floor(Math.random() * nameList.length)];
-		while(name2 == name1)
-			name2 = nameList[Math.floor(Math.random() * nameList.length)];
-		var name3 = nameList[Math.floor(Math.random() * nameList.length)];
-		while(name3 == name2 || name3 == name1)
-			name3 = nameList[Math.floor(Math.random() * nameList.length)];
-		result.innerHTML = "Who would you rather f**k, marry or kill: \"" + name3 + "\", \"" + name1 + "\" or \"" + name2 + "\"?";
-	}
-	else
-		result.innerHTML = "Please key in something!";
-}
-
-function getResult4() {
-    var text = document.getElementById("nameInput").value.trim();
-	var nameList = text.split("\n");
-	var result = document.getElementById("result1");
-	result.innerHTML = "";
-	if(text.length > 0)
-	{
-		var name1 = nameList[Math.floor(Math.random() * nameList.length)];
-		var name2 = nameList[Math.floor(Math.random() * nameList.length)];
-		while(name2 == name1)
-			name2 = nameList[Math.floor(Math.random() * nameList.length)];
-		result.innerHTML = "Who would you rather save first when both of them fell into the river \"" + name1 + "\" or \"" + name2 + "\"? (*Assume both cannot swim)";
-	}
-	else
-		result.innerHTML = "Please key in something!";
-}
-
-function getResult5() {
     var text = document.getElementById("nameInput").value.trim();
 	var nameList = text.split("\n");
 	var result = document.getElementById("result1");
