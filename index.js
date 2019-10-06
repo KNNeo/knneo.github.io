@@ -51,7 +51,7 @@ function getResult(module) {
 		{
 			var mirrorFeatures = ["cutest","coolest","most beautiful","funniest"];
 			var mirrorFeature = mirrorFeatures[Math.floor(Math.random() * mirrorFeatures.length)];
-			result.innerHTML = "Mirror, mirror, on the wall; Who is the " + mirrorFeature + " of them all? " + name1 + " or " + name2 + " or " + name3 + "?";
+			result.innerHTML = "Mirror, mirror, on the wall; Who is the " + mirrorFeature + " of them all? \"" + name1 + "\" or \"" + name2 + "\" or \"" + name3 + "\"?";
 		}
 		else if (categoryName == "Messager")
 			result.innerHTML = "Would you rather exchange numbers and message every day with \"" + name1 + "\" or \"" + name2 + "\"?";
