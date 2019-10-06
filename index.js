@@ -97,9 +97,24 @@ function getResult3() {
 		result.innerHTML = "Minimum 5 names!";
 }
 
+
 /* on how to load csv file, add in here or another external js file
 https://stackoverflow.com/questions/24172045/automatically-import-a-local-csv-file-with-javascript-or-jquery/24172885#24172885
 */
+
+function loadPreset(module) {
+	var categoryName = module.innerHTML;
+    var text = document.getElementById("nameInput");
+	var loadedText = "";
+	
+	if(categoryName == "Load Name Preset")
+		loadedText = document.getElementById("namesPreset").innerText;
+	else if (categoryName == "Load Anime Preset")
+		loadedText = document.getElementById("showsPreset").innerText;
+	
+	text.innerHTML = loadedText.split(",");
+}
+
 window.onload = function () { 
  //Check the support for the File API support 
  if (window.File && window.FileReader && window.FileList && window.Blob) {
