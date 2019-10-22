@@ -55,6 +55,10 @@ function getResult(module) {
 		}
 		else if (categoryName == "Messager")
 			result.innerHTML = "Would you rather exchange numbers and message every day with \"" + name1 + "\" or \"" + name2 + "\"?";
+		else if (categoryName == "Hair")
+			result.innerHTML = "Would you prefer long-haired \"" + name1 + "\" or short-haired \"" + name2 + "\"?";
+		else if (categoryName == "Last Round")
+			result.innerHTML = "It's the last round of a board game. Who would you rather let win? \"" + name1 + "\" or \"" + name2 + "\"? (Assume both are tied)";
 	}
 	else
 		result.innerHTML = "Please key in something!";
