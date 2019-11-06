@@ -156,8 +156,8 @@ var TimeKnots = {
         return Math.floor(cfg.width/2)
     }).on("mouseover", function(d){
       if(cfg.dateDimension){
-        var format = d3.time.format(cfg.dateFormat);
-        var datetime = format(new Date(d.date));
+        var format = d3.timeFormat(cfg.dateFormat);
+        var datetime = d3.format(new Date(d.date));
         var dateValue = (datetime != "")?(d.name +" <small>("+datetime+")</small>"):d.name;
       }else{
         var format = function(d){return d}; // TODO
