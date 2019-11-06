@@ -12,7 +12,7 @@ var TimeKnots = {
       showLabels: false,
       labelFormat: "%Y/%m/%d %H:%M:%S",
       addNow: false,
-      //seriesColor: d3.scale.category20(),
+      seriesColor: "#1f77b4",
       dateDimension: true
     };
 
