@@ -12,7 +12,7 @@ var TimeKnots = {
       showLabels: false,
       labelFormat: "%Y/%m/%d %H:%M:%S",
       addNow: false,
-      seriesColor: d3.scale.category20(),
+      //seriesColor: d3.scale.category20(),
       dateDimension: true
     };
 
@@ -115,7 +115,7 @@ var TimeKnots = {
                         if(series.indexOf(d.series) < 0){
                           series.push(d.series);
                         }
-                        return cfg.seriesColor(series.indexOf(d.series));
+                        //return cfg.seriesColor(series.indexOf(d.series));
                       }
                       return cfg.color})
     .style("stroke-width", cfg.lineWidth);
@@ -134,7 +134,7 @@ var TimeKnots = {
                         series.push(d.series);
                       }
                       console.log(d.series, series, series.indexOf(d.series));
-                      return cfg.seriesColor(series.indexOf(d.series));
+                      //return cfg.seriesColor(series.indexOf(d.series));
                     }
                     return cfg.color}
     )
@@ -171,7 +171,7 @@ var TimeKnots = {
       if(d.img != undefined){
         tip.append("img").style("float", "left").style("margin-right", "4px").attr("src", d.img).attr("width", "64px");
       }
-      tip.append("div").style("margin", "0").html(dateValue );
+      tip.append("div").style("float", "left").html(dateValue );
       tip.transition()
       .duration(100)
       .style("opacity", .9);
