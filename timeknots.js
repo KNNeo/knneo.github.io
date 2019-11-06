@@ -157,7 +157,7 @@ var TimeKnots = {
     }).on("mouseover", function(d){
       if(cfg.dateDimension){
         var format = d3.timeFormat(cfg.dateFormat);
-        var datetime = d3.format(new Date(d.date));
+        var datetime = format(new Date(d.date));
         var dateValue = (datetime != "")?(d.name +" <small>("+datetime+")</small>"):d.name;
       }else{
         var format = function(d){return d}; // TODO
@@ -188,7 +188,7 @@ var TimeKnots = {
     //Adding start and end labels
     if(cfg.showLabels != false){
       if(cfg.dateDimension){
-        var format = d3.time.format(cfg.labelFormat);
+        var format = d3.timeFormat(cfg.labelFormat);
         var startString = format(new Date(minValue));
         var endString = format(new Date(maxValue));
       }else{
