@@ -171,7 +171,7 @@ var TimeKnots = {
       if(d.img != undefined){
         tip.append("img").style("float", "left").style("margin-right", "4px").attr("src", d.img).attr("width", "64px");
       }
-      tip.append("div").style("float", "left").style("margin", "0").html(dateValue );
+      tip.append("div").style("margin", "0").html(dateValue );
       tip.transition()
       .duration(100)
       .style("opacity", .9);
