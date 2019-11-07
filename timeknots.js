@@ -158,7 +158,7 @@ var TimeKnots = {
       if(cfg.dateDimension){
         var format = d3.time.format(cfg.dateFormat);
         var datetime = format(new Date(d.date));
-        var dateValue = (datetime != "")?("<small>"+d.name+"</small><small>("+datetime+")</small>"):d.name;
+        var dateValue = (datetime != "")?(d.name+" <small>("+datetime+")</small>"):d.name;
       }else{
         var format = function(d){return d}; // TODO
         var datetime = d.value;
