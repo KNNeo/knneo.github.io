@@ -34,7 +34,7 @@ var TimeKnots = {
     .style("font-weight", "300")
     .style("background","rgba(0,0,0,0.5)")
     .style("color", "white")
-    .style("padding", "5px 10px 5px 10px")
+    .style("padding", "2px 5px")
     .style("-moz-border-radius", "8px 8px")
     .style("border-radius", "8px 8px");
     var svg = d3.select(id).append('svg').attr("width", cfg.width).attr("height", cfg.height);
