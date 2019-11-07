@@ -12,7 +12,7 @@ var TimeKnots = {
       showLabels: false,
       labelFormat: "%Y/%m/%d %H:%M:%S",
       addNow: false,
-      seriesColor: "#1f77b4",
+      seriesColor: d3.scale.category20(),
       dateDimension: true
     };
 
@@ -115,7 +115,7 @@ var TimeKnots = {
                         if(series.indexOf(d.series) < 0){
                           series.push(d.series);
                         }
-                        //return cfg.seriesColor(series.indexOf(d.series));
+                        return cfg.seriesColor(series.indexOf(d.series));
                       }
                       return cfg.color})
     .style("stroke-width", cfg.lineWidth);
@@ -134,7 +134,7 @@ var TimeKnots = {
                         series.push(d.series);
                       }
                       console.log(d.series, series, series.indexOf(d.series));
-                      //return cfg.seriesColor(series.indexOf(d.series));
+                      return cfg.seriesColor(series.indexOf(d.series));
                     }
                     return cfg.color}
     )
@@ -156,7 +156,7 @@ var TimeKnots = {
         return Math.floor(cfg.width/2)
     }).on("mouseover", function(d){
       if(cfg.dateDimension){
-        var format = d3.timeFormat(cfg.dateFormat);
+        var format = d3.time.format(cfg.dateFormat);
         var datetime = format(new Date(d.date));
         var dateValue = (datetime != "")?(d.name +" <small>("+datetime+")</small>"):d.name;
       }else{
@@ -188,7 +188,7 @@ var TimeKnots = {
     //Adding start and end labels
     if(cfg.showLabels != false){
       if(cfg.dateDimension){
-        var format = d3.timeFormat(cfg.labelFormat);
+        var format = d3.time.format(cfg.labelFormat);
         var startString = format(new Date(minValue));
         var endString = format(new Date(maxValue));
       }else{
