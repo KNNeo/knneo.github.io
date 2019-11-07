@@ -171,7 +171,7 @@ var TimeKnots = {
       if(d.img != undefined){
         tip.append("img").style("float", "left").style("margin-right", "4px").attr("src", d.img).attr("width", "64px");
       }
-      tip.append("div").style("float", "left").html(dateValue );
+      tip.append("div").html(dateValue );
       tip.transition()
       .duration(100)
       .style("opacity", .9);
@@ -210,7 +210,7 @@ var TimeKnots = {
 
     svg.on("mousemove", function(){
         tipPixels = parseInt(tip.style("height").replace("px", ""));
-    return tip.style("top", (0)+"px").style("left",(0)+"px");})
+    return tip.style("top", (d3.event.pageY-tipPixels-margin)+"px").style("left",(d3.event.pageX+20)+"px");})
     .on("mouseout", function(){return tip.style("opacity", 0).style("top","0px").style("left","0px");});
   }
 }
