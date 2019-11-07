@@ -158,7 +158,7 @@ var TimeKnots = {
       if(cfg.dateDimension){
         var format = d3.time.format(cfg.dateFormat);
         var datetime = format(new Date(d.date));
-        var dateValue = (datetime != "")?(d.name +" <small>("+datetime+")</small>"):d.name;
+        var dateValue = (datetime != "")?("<small>"d.name +"</small><small>("+datetime+")</small>"):d.name;
       }else{
         var format = function(d){return d}; // TODO
         var datetime = d.value;
@@ -166,12 +166,12 @@ var TimeKnots = {
       }
       d3.select(this)
       .style("fill", function(d){if(d.color != undefined){return d.color} return cfg.color}).transition()
-	.duration(100);//.attr("r",  function(d){if(d.radius != undefined){return Math.floor(d.radius*1.5)} return Math.floor(cfg.radius*1.5)});
+	  .duration(100);//.attr("r",  function(d){if(d.radius != undefined){return Math.floor(d.radius*1.5)} return Math.floor(cfg.radius*1.5)});
       tip.html("");
       if(d.img != undefined){
         tip.append("img").style("float", "left").style("margin-right", "4px").attr("src", d.img).attr("width", "64px");
       }
-      tip.append("div").style("float", "left").html(dateValue);
+      tip.append("div").style("float", "right").html(dateValue);
       tip.transition()
       .duration(100)
       .style("opacity", .9);
