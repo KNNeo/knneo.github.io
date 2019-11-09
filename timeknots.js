@@ -18,7 +18,7 @@ var TimeKnots = {
 
 
     //default configuration overrid
-    for(var i in options){
+    for(var i in cfg){
       if(options[i] != undefined){
         cfg[i] = options[i];
       }
@@ -159,11 +159,11 @@ var TimeKnots = {
       if(cfg.dateDimension){
         var format = d3.time.format(cfg.dateFormat);
         var datetime = format(new Date(d.date));
-        var dateValue = (datetime != "")?(d.name+"("+datetime+")</small>"):d.name;
+        var dateValue = (datetime != "")?(d.name+" ("+datetime+")</small>"):d.name;
       }else{
         var format = function(d){return d}; // TODO
         var datetime = d.value;
-        var dateValue = d.name +" <small>("+d.value+")</small>";
+        var dateValue = d.name +"<small> ("+d.value+")</small>";
       }
       d3.select(this)
       .style("fill", function(d){if(d.color != undefined){return d.color} return cfg.color}).transition()
