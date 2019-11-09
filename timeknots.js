@@ -1,7 +1,7 @@
 var TimeKnots = {
   draw: function(id, events, options){
     var cfg = {
-      width: (document.getElementById(id.toString().substring(1)).getBoundingClientRect().width)-20,
+      width: document.getElementById(id.toString().substring(1)).getBoundingClientRect().width,
       height: document.getElementById(id.toString().substring(1)).getBoundingClientRect().height,
       radius: 10,
       lineWidth: 4,
@@ -38,7 +38,7 @@ var TimeKnots = {
     .style("margin", "2px 5px")
     .style("-moz-border-radius", "8px 8px")
     .style("border-radius", "8px 8px");
-    var svg = d3.select(id).append('svg').attr("width", cfg.width).attr("height", cfg.height);
+    var svg = d3.select(id).append('svg').attr("width", cfg.width-20).attr("height", cfg.height);
     //Calculate times in terms of timestamps
     if(!cfg.dateDimension){
       var timestamps = events.map(function(d){return  d.value});//new Date(d.date).getTime()});
@@ -50,9 +50,9 @@ var TimeKnots = {
       var minValue = d3.min(timestamps);
     }
     var margin = (d3.max(events.map(function(d){return d.radius})) || cfg.radius)*1.5+cfg.lineWidth;
-    var step = (cfg.horizontalLayout)?((cfg.width-2*margin)/(maxValue - minValue)):((cfg.height-2*margin)/(maxValue - minValue));
+    var step = (cfg.horizontalLayout)?((cfg.width-20-2*margin)/(maxValue - minValue)):((cfg.height-2*margin)/(maxValue - minValue));
     var series = [];
-    if(maxValue == minValue){step = 0;if(cfg.horizontalLayout){margin=cfg.width/2}else{margin=cfg.height/2}}
+    if(maxValue == minValue){step = 0;if(cfg.horizontalLayout){margin=cfg.width-20/2}else{margin=cfg.height/2}}
 
     linePrevious = {
       x1 : null,
@@ -71,7 +71,7 @@ var TimeKnots = {
                         ret = Math.floor(step*(datum - minValue) + margin)
                       }
                       else{
-                        ret = Math.floor(cfg.width/2)
+                        ret = Math.floor(cfg.width-20/2)
                       }
                       linePrevious.x1 = ret
                       return ret
@@ -84,7 +84,7 @@ var TimeKnots = {
                         var datum = (cfg.dateDimension)?new Date(d.date).getTime():d.value;
                         ret = Math.floor(step*(datum - minValue ))
                       }
-                      return Math.floor(cfg.width/2)
+                      return Math.floor(cfg.width-20/2)
                       })
     .attr("y1", function(d){
                       var ret;
@@ -154,7 +154,7 @@ var TimeKnots = {
           var x=  Math.floor(step*(datum - minValue) + margin);
           return x;
         }
-        return Math.floor(cfg.width/2)
+        return Math.floor(cfg.width-20/2)
     }).on("mouseover", function(d){
       if(cfg.dateDimension){
         var format = d3.time.format(cfg.dateFormat);
@@ -204,7 +204,7 @@ var TimeKnots = {
 
       svg.append("text")
          .text(endString).style("font-size", "70%").style("fill", "white").style("font-family", "Open Sans")
-         .attr("x", function(d){if(cfg.horizontalLayout){return  cfg.width -  d3.max([this.getBBox().width, (margin+this.getBBox().width/2)])} return Math.floor(this.getBBox().width/2)})
+         .attr("x", function(d){if(cfg.horizontalLayout){return  cfg.width-20 -  d3.max([this.getBBox().width, (margin+this.getBBox().width/2)])} return Math.floor(this.getBBox().width/2)})
          .attr("y", function(d){if(cfg.horizontalLayout){return Math.floor(cfg.height/2+(margin+this.getBBox().height))}return cfg.height-margin+this.getBBox().height/2+10})
     }
 
