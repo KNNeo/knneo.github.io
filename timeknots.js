@@ -123,7 +123,6 @@ var TimeKnots = {
 
     svg.selectAll("circle")
     .data(events).enter()
-	.append("a").attr("xlink:href", function(d) { return "#"+d.name.replace(" ","") })
     .append("circle")
     .attr("class", "timeline-event")
     .attr("r", function(d){if(d.radius != undefined){return d.radius} return cfg.radius})
@@ -187,10 +186,7 @@ var TimeKnots = {
         tip.transition()
         .duration(100)
     .style("opacity", 0)});
-/* 	.on("click", function(d){
-		alert(document.getElementById("#"+d.name.toString().replace(" ","")));
-	});
- */
+
     //Adding start and end labels
     if(cfg.showLabels != false){
       if(cfg.dateDimension){
