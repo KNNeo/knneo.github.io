@@ -120,7 +120,7 @@ var TimeKnots = {
                       }
                       return cfg.color})
     .style("stroke-width", cfg.lineWidth);
-
+	
     svg.selectAll("circle")
     .data(events).enter()
     .append("circle")
@@ -140,7 +140,7 @@ var TimeKnots = {
                     return cfg.color}
     )
     .style("stroke-width", function(d){if(d.lineWidth != undefined){return d.lineWidth} return cfg.lineWidth})
-    .style("fill", function(d){if(d.background != undefined){return d.background} return cfg.background})
+    .style("fill", function(d){ if(d.name == "Me") { return "#00e4ff" } if(d.background != undefined){ return d.background } return cfg.background})
     .attr("cy", function(d){
         if(cfg.horizontalLayout){
           return Math.floor(cfg.height/2)
@@ -158,7 +158,7 @@ var TimeKnots = {
     })
 	.on("mouseover", function(d){
 	  d3.selectAll("circle")
-	  .style("fill", function(d){if(d.background != undefined){return d.background} return cfg.background}).transition();
+      .style("fill", function(d){ if(d.name == "Me") { return "#00e4ff" } if(d.background != undefined){ return d.background } return cfg.background});
       if(cfg.dateDimension){
         var format = d3.time.format(cfg.dateFormat);
         var datetime = format(new Date(d.date));
