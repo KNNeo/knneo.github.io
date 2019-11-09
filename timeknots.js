@@ -1,8 +1,8 @@
 var TimeKnots = {
   draw: function(id, events, options){
     var cfg = {
-      width: "100%",
-      height: 200,
+      width: document.getElementById("timeline").getBoundingClientRect().width,
+      height: document.getElementById("timeline").getBoundingClientRect().height,
       radius: 10,
       lineWidth: 4,
       color: "#999",
@@ -18,8 +18,8 @@ var TimeKnots = {
 
 
     //default configuration overrid
-    if(options != undefined){
-      for(var i in options){
+    for(var i in options){
+      if(options[i] != undefined){
         cfg[i] = options[i];
       }
     }
