@@ -210,7 +210,7 @@ var TimeKnots = {
 
     svg.on("mousemove", function(){
         tipPixels = parseInt(tip.style("height").replace("px", ""));
-    return tip.style("left", d3.mouse(document.getElementById("timeline"))[0]+"px").style("top", d3.mouse(document.getElementById("timeline"))[1]+"px");})//.style("top", (d3.event.pageY-tipPixels-margin)+"px").style("left",(d3.event.pageX+20)+"px");}) //top and left are aligned wrongly
+    return tip.style("left", (document.getElementById("timeline").getBoundingClientRect().x+d3.mouse(document.getElementById("timeline"))[0]+tip.attr("cx")+10)+"px").style("top", (document.getElementById("timeline").getBoundingClientRect().y+d3.mouse(document.getElementById("timeline"))[1]+tip.attr("cy")+20)+"px");})//.style("top", (d3.event.pageY-tipPixels-margin)+"px").style("left",(d3.event.pageX+20)+"px");}) //top and left are aligned wrongly
     .on("mouseout", function(){return tip.style("opacity", 0).style("top","0px").style("left","0px");});
   }
 }
