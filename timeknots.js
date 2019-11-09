@@ -209,6 +209,13 @@ var TimeKnots = {
       .duration(100)
       .style("opacity", 1);
     });
+	
+	//tooltip to stay on cursor when mouse on circle
+    svg.on("mousemove", function(){
+        tipPixels = parseInt(tip.style("height").replace("px", ""));
+    return tip.style("left", (document.getElementById(id.toString().substring(1)).getBoundingClientRect().x)+"px").style("top", (document.getElementById(id.toString().substring(1)).getBoundingClientRect().y)+"px");})//.style("top", (d3.event.pageY-tipPixels-margin)+"px").style("left",(d3.event.pageX+20)+"px");}) //top and left are aligned wrongly
+    // .on("mouseout", function(){return tip.style("opacity", 0).style("top","0px").style("left","0px");})
+	;
 
     //Adding start and end labels
     if(cfg.showLabels != false){
@@ -231,12 +238,5 @@ var TimeKnots = {
          .attr("x", function(d){if(cfg.horizontalLayout){return  cfg.width-20 -  d3.max([this.getBBox().width, (margin+this.getBBox().width/2)])} return Math.floor(this.getBBox().width/2)})
          .attr("y", function(d){if(cfg.horizontalLayout){return Math.floor(cfg.height/2+(margin+this.getBBox().height))}return cfg.height-margin+this.getBBox().height/2+10})
     }
-
-
-    svg.on("mousemove", function(){
-        tipPixels = parseInt(tip.style("height").replace("px", ""));
-    return tip.style("left", (document.getElementById(id.toString().substring(1)).getBoundingClientRect().x)+"px").style("top", (document.getElementById(id.toString().substring(1)).getBoundingClientRect().y)+"px");})//.style("top", (d3.event.pageY-tipPixels-margin)+"px").style("left",(d3.event.pageX+20)+"px");}) //top and left are aligned wrongly
-    // .on("mouseout", function(){return tip.style("opacity", 0).style("top","0px").style("left","0px");})
-	;
   }
 }
