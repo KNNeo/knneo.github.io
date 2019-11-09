@@ -182,7 +182,8 @@ var TimeKnots = {
     })
     .on("mouseout", function(){
         d3.select(this)
-        // .style("fill", function(d){if(d.background != undefined){return d.background} return cfg.background}).transition()
+        // .style("fill", function(d){if(d.background != undefined){return d.background} return cfg.background})
+			.transition()
         .duration(100).attr("r", function(d){if(d.radius != undefined){return d.radius} return cfg.radius});
         tip.transition()
         .duration(100)
