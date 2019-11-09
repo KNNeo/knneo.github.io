@@ -29,7 +29,7 @@ var TimeKnots = {
     var tip = d3.select(id)
     .append('div')
     .style("opacity", 0)
-    .style("position", "fixed")
+    .style("position", "absolute")
     .style("font-family", "Open Sans")
     .style("font-weight", "300")
     .style("background","rgba(0,0,0,0.5)")
