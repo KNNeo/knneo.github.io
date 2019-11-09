@@ -29,7 +29,7 @@ var TimeKnots = {
     var tip = d3.select(id)
     .append('div')
     .style("opacity", 0)
-    .style("position", "absolute")
+    .style("position", "fixed")
     .style("font-family", "Open Sans")
     .style("font-weight", "300")
     .style("background","rgba(0,0,0,0.5)")
@@ -123,6 +123,7 @@ var TimeKnots = {
 
     svg.selectAll("circle")
     .data(events).enter()
+	.append("a").attr("xlink:href", function(d) { return "#"+d.name.replace(" ","") })
     .append("circle")
     .attr("class", "timeline-event")
     .attr("r", function(d){if(d.radius != undefined){return d.radius} return cfg.radius})
@@ -155,7 +156,8 @@ var TimeKnots = {
           return x;
         }
         return Math.floor(cfg.width-20/2)
-    }).on("mouseover", function(d){
+    })
+	.on("mouseover", function(d){
       if(cfg.dateDimension){
         var format = d3.time.format(cfg.dateFormat);
         var datetime = format(new Date(d.date));
@@ -185,7 +187,10 @@ var TimeKnots = {
         tip.transition()
         .duration(100)
     .style("opacity", 0)});
-
+/* 	.on("click", function(d){
+		alert(document.getElementById("#"+d.name.toString().replace(" ","")));
+	});
+ */
     //Adding start and end labels
     if(cfg.showLabels != false){
       if(cfg.dateDimension){
