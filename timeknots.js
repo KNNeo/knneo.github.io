@@ -1,7 +1,7 @@
 var TimeKnots = {
   draw: function(id, events, options){
     var cfg = {
-      width: 600,
+      width: "100%",
       height: 200,
       radius: 10,
       lineWidth: 4,
