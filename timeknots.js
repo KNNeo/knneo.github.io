@@ -1,7 +1,7 @@
 var TimeKnots = {
   draw: function(id, events, options){
     var cfg = {
-      width: document.getElementById(id.toString().substring(1)).getBoundingClientRect().width-20,
+      width: (document.getElementById(id.toString().substring(1)).getBoundingClientRect().width)-20,
       height: document.getElementById(id.toString().substring(1)).getBoundingClientRect().height,
       radius: 10,
       lineWidth: 4,
