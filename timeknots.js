@@ -1,8 +1,8 @@
 var TimeKnots = {
   draw: function(id, events, options){
     var cfg = {
-      width: document.getElementById("timeline").getBoundingClientRect().width,
-      height: document.getElementById("timeline").getBoundingClientRect().height,
+      width: document.getElementById(id.toString().substring(1)).getBoundingClientRect().width-20,
+      height: document.getElementById(id.toString().substring(1)).getBoundingClientRect().height,
       radius: 10,
       lineWidth: 4,
       color: "#999",
@@ -35,6 +35,7 @@ var TimeKnots = {
     .style("background","rgba(0,0,0,0.5)")
     .style("color", "white")
     .style("padding", "2px 5px")
+    .style("margin", "2px 5px")
     .style("-moz-border-radius", "8px 8px")
     .style("border-radius", "8px 8px");
     var svg = d3.select(id).append('svg').attr("width", cfg.width).attr("height", cfg.height);
@@ -197,12 +198,12 @@ var TimeKnots = {
         var endString = maxValue;
       }
       svg.append("text")
-         .text(startString).style("font-size", "70%").style("color", "white")
+         .text(startString).style("font-size", "70%").style("fill", "white").style("font-family", "Open Sans")
          .attr("x", function(d){if(cfg.horizontalLayout){return d3.max([0, (margin-this.getBBox().width/2)])} return Math.floor(this.getBBox().width/2)})
          .attr("y", function(d){if(cfg.horizontalLayout){return Math.floor(cfg.height/2+(margin+this.getBBox().height))}return margin+this.getBBox().height/2+10});
 
       svg.append("text")
-         .text(endString).style("font-size", "70%").style("color", "white")
+         .text(endString).style("font-size", "70%").style("fill", "white").style("font-family", "Open Sans")
          .attr("x", function(d){if(cfg.horizontalLayout){return  cfg.width -  d3.max([this.getBBox().width, (margin+this.getBBox().width/2)])} return Math.floor(this.getBBox().width/2)})
          .attr("y", function(d){if(cfg.horizontalLayout){return Math.floor(cfg.height/2+(margin+this.getBBox().height))}return cfg.height-margin+this.getBBox().height/2+10})
     }
@@ -210,7 +211,7 @@ var TimeKnots = {
 
     svg.on("mousemove", function(){
         tipPixels = parseInt(tip.style("height").replace("px", ""));
-    return tip.style("left", (document.getElementById("timeline").getBoundingClientRect().x+d3.mouse(document.getElementById("timeline"))[0]+tip.attr("cx")+10)+"px").style("top", (document.getElementById("timeline").getBoundingClientRect().y+d3.mouse(document.getElementById("timeline"))[1]+tip.attr("cy")+20)+"px");})//.style("top", (d3.event.pageY-tipPixels-margin)+"px").style("left",(d3.event.pageX+20)+"px");}) //top and left are aligned wrongly
+    return tip.style("left", (document.getElementById(id.toString().substring(1)).getBoundingClientRect().x+d3.mouse(document.getElementById(id.toString().substring(1)))[0]+tip.attr("cx")+10)+"px").style("top", (document.getElementById(id.toString().substring(1)).getBoundingClientRect().y+d3.mouse(document.getElementById(id.toString().substring(1)))[1]+tip.attr("cy")+20)+"px");})//.style("top", (d3.event.pageY-tipPixels-margin)+"px").style("left",(d3.event.pageX+20)+"px");}) //top and left are aligned wrongly
     .on("mouseout", function(){return tip.style("opacity", 0).style("top","0px").style("left","0px");});
   }
 }
