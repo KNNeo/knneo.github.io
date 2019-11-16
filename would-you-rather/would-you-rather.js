@@ -103,9 +103,9 @@ function loadPreset(module) {
     var text = document.getElementById("nameInput");
 	var loadedText = "";
 	
-	if(categoryName == "Load Name Preset")
+	if(categoryName == "Load People Name Preset")
 		loadedText = document.getElementById("namesPreset").innerText;
-	else if (categoryName == "Load Anime Preset")
+	else if (categoryName == "Load Show Titles Preset")
 		loadedText = document.getElementById("showsPreset").innerText;
 	
 	text.innerHTML = loadedText.split(",");
