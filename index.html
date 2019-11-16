@@ -1,6 +1,18 @@
-<header><h1>Welcome</h1></header>
-<body style="text-align: center; padding: 10px;">
-<p>DEMOS</p>
-<p><a href="./would-you-rather/would-you-rather.html">Would You Rather?</a></p>
-<p><a href="./wanted-list/wanted-list.html">Wanted List</a></p>
+<header>
+<title>Welcome</title>
+</header>
+<body style="text-align: center; padding: 0 5px;">
+<h1>DEMOS</h1>
+<p><button onclick="loadFrame('./would-you-rather/would-you-rather.html')">Would You Rather?</button> <button onclick="loadFrame('./wanted-list/wanted-list.html')">Wanted List</button> <button onclick="loadFrame('')">Clear</button></p>
+<div style="max-width: 800px; margin: auto;">
+<iframe id="displayFrame" style="width: 100%; height: 100%;"></iframe>
+</div>
 </body>
+<script>
+window.onload = function() {
+document.getElementById("displayFrame").style.height = window.innerHeight*0.85;
+}
+function loadFrame(link) {
+document.getElementById('displayFrame').src = link;
+}
+</script>
