@@ -1,6 +1,8 @@
 html {
   background-color: white;
-  font: caption;
+  font-family: Open Sans;
+  max-width: 640px;
+  margin: auto;
 }
 
 #input-module {
@@ -54,7 +56,9 @@ button:active {
 	margin: 5px;
 
 }
-
+.show-result, .input-box {
+	padding: 10px;
+}
 @media screen and (max-width:800px) {
   .left, .main, .right {
     width:100%; /* The width is 100%, when the viewport is 800px or smaller */
