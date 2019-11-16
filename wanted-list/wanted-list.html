@@ -1,162 +1,77 @@
-<style>
-html {
-  scroll-behavior: smooth;
-  overflow-x: hidden;
-}
-.profile-box {
-  border-radius: 8px;
-  border: 1px solid white;
-  box-shadow: 3px 3px;
-  padding: 4px 8px;
-}
-.profile-box, #timeline, #calendar {
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-.profile-box:active {
-  box-shadow: 1px 1px;
-  transform: translate(2px,2px);
-}
-#wantedList {
-  list-style-type: none;
-  margin: 5px;
-  padding: 5px;
-  text-align: center;
-}
-#wantedList li {
-  display: inline;
-  -webkit-user-select: text;
-  -khtml-user-select: text;
-  -moz-user-select: text;
-  -ms-user-select: text;
-  user-select: text;
-  line-height: 1.5;
-  white-space: nowrap;
-}
-#wantedList a {
-  text-decoration: underline solid #00e4ff;
-}
-#wantedList a:hover {
-  text-decoration: underline solid white;
-}
-#timeline::-webkit-scrollbar { 
-  z-index: 0;
-  height: 10px;
-}
-#timeline::-webkit-scrollbar-thumb {
-  background: white;
-}
-#timeline::-webkit-scrollbar-track {
-  background: #444444;
-}
-.popitem{
-    position: absolute;
-    background-color: black;
-    right: 0;
-    left: 0;
-}
-#calendar td {
-    width: 30px;
-    height: 20px;
-}
-#HocchanAge { color: #444444; }
-#HocchanAge:hover { color: white; }
-@media only screen and (max-width : 540px) {
-/*#wantedList li {
-  display: block;
-  text-decoration: none;
-}*/
-}
-</style>
-<div style="font-size: small; text-align: center;">
-<blockquote>
-<i>"I think once I do not refer to you by your full name you will be added to this list. That, or when I can stare at your images all day." -Kaineng</i></blockquote>
-</div>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="wanted-list.css">
+	<link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'/>
+    <title>Wanted List</title>
+</head>
+<body>
+<h1>声優恋図鑑</h1>
 <ul id="wantedList">
-<li><a href="https://www.blogger.com/null">Amamiya Sora</a></li>
-<li><a href="https://www.blogger.com/null">Anzai Chika</a></li>
-<li><a href="https://www.blogger.com/null">Asakura Momo</a></li>
-<li><a href="https://www.blogger.com/null">Asumi Kana</a></li>
-<li><a href="https://www.blogger.com/null">Baba Fumika</a></li>
-<li><a href="https://www.blogger.com/null">Endou Yurika</a></li>
-<li><a href="https://www.blogger.com/null">Fuchigami Mai</a></li>
-<li><a href="https://www.blogger.com/null">Hanazawa Kana</a></li>
-<li><a href="https://www.blogger.com/null">Hidaka Rina</a></li>
-<li><a href="https://www.blogger.com/null">Hikasa Youko</a></li>
-<li><a href="https://www.blogger.com/null">Hondo Kaede</a></li>
-<li><a href="https://www.blogger.com/null">Horie Yui</a></li>
-<li><a href="https://www.blogger.com/null">Isobe Karin</a></li>
-<li><a href="https://www.blogger.com/null">Kayano Ai</a></li>
-<li><a href="https://www.blogger.com/null">Kido Ibuki</a></li>
-<li><a href="https://www.blogger.com/null">Kitou Akari</a></li>
-<li><a href="https://www.blogger.com/null">Kohara Konomi</a></li>
-<li><a href="https://www.blogger.com/null">Komatsu Mikako</a></li>
-<li><a href="https://www.blogger.com/null">Kotobuki Minako</a></li>
-<li><a href="https://www.blogger.com/null">Kouno Marika</a></li>
-<li><a href="https://www.blogger.com/null">Lynn</a></li>
-<li><a href="https://www.blogger.com/null">Minase Inori</a></li>
-<li><a href="https://www.blogger.com/null">Nagae Rika</a></li>
-<li><a href="https://www.blogger.com/null">Nagatsuma Juuri</a></li>
-<li><a href="https://www.blogger.com/null">Natsukawa Shiina</a></li>
-<li><a href="https://www.blogger.com/null">Numakura Manami</a></li>
-<li><a href="https://www.blogger.com/null">Oogame Asuka</a></li>
-<li><a href="https://www.blogger.com/null">Ookubo Rumi</a></li>
-<li><a href="https://www.blogger.com/null">Oonishi Saori</a></li>
-<li><a href="https://www.blogger.com/null">Oono Yuuko</a></li>
-<li><a href="https://www.blogger.com/null">Oozora Naomi</a></li>
-<li><a href="https://www.blogger.com/null">Satou Satomi</a></li>
-<li><a href="https://www.blogger.com/null">Tachibana Haru</a></li>
-<li><a href="https://www.blogger.com/null">Tachibana Rika</a></li>
-<li><a href="https://www.blogger.com/null">Takagaki Ayahi</a></li>
-<li><a href="https://www.blogger.com/null">Takahashi Rie</a></li>
-<li><a href="https://www.blogger.com/null">Taketatsu Ayana</a></li>
-<li><a href="https://www.blogger.com/null">Tomatsu Haruka</a></li>
-<li><a href="https://www.blogger.com/null">Touyama Nao</a></li>
-<li><a href="https://www.blogger.com/null">Toyosaki Aki</a></li>
-<li><a href="https://www.blogger.com/null">Toyota Moe</a></li>
-<li><a href="https://www.blogger.com/null">Uesaka Sumire</a></li>
-<li><a href="https://www.blogger.com/null">Waki Azumi</a></li>
-<li><a href="https://www.blogger.com/null">Yoshimura Haruka</a></li>
-<li><a href="https://www.blogger.com/null">Yuuki Aoi</a></li>
+<li><a>Amamiya Sora</a></li>
+<li><a>Anzai Chika</a></li>
+<li><a>Asakura Momo</a></li>
+<li><a>Asumi Kana</a></li>
+<li><a>Baba Fumika</a></li>
+<li><a>Endou Yurika</a></li>
+<li><a>Fuchigami Mai</a></li>
+<li><a>Hanazawa Kana</a></li>
+<li><a>Hidaka Rina</a></li>
+<li><a>Hikasa Youko</a></li>
+<li><a>Hondo Kaede</a></li>
+<li><a>Horie Yui</a></li>
+<li><a>Isobe Karin</a></li>
+<li><a>Kayano Ai</a></li>
+<li><a>Kido Ibuki</a></li>
+<li><a>Kitou Akari</a></li>
+<li><a>Kohara Konomi</a></li>
+<li><a>Komatsu Mikako</a></li>
+<li><a>Kotobuki Minako</a></li>
+<li><a>Kouno Marika</a></li>
+<li><a>Lynn</a></li>
+<li><a>Minase Inori</a></li>
+<li><a>Nagae Rika</a></li>
+<li><a>Nagatsuma Juuri</a></li>
+<li><a>Natsukawa Shiina</a></li>
+<li><a>Numakura Manami</a></li>
+<li><a>Oogame Asuka</a></li>
+<li><a>Ookubo Rumi</a></li>
+<li><a>Oonishi Saori</a></li>
+<li><a>Oono Yuuko</a></li>
+<li><a>Oozora Naomi</a></li>
+<li><a>Satou Satomi</a></li>
+<li><a>Tachibana Haru</a></li>
+<li><a>Tachibana Rika</a></li>
+<li><a>Takagaki Ayahi</a></li>
+<li><a>Takahashi Rie</a></li>
+<li><a>Taketatsu Ayana</a></li>
+<li><a>Tomatsu Haruka</a></li>
+<li><a>Touyama Nao</a></li>
+<li><a>Toyosaki Aki</a></li>
+<li><a>Toyota Moe</a></li>
+<li><a>Uesaka Sumire</a></li>
+<li><a>Waki Azumi</a></li>
+<li><a>Yoshimura Haruka</a></li>
+<li><a>Yuuki Aoi</a></li>
 </ul>
 <br/>
-<div onclick="toggleTimeline()" style="text-align: center; text-decoration: underline; display: none;">[Show Timeline]</div>
 <div id="timeline" style="width: 100%; height: 105px; text-align: center; overflow-x: auto; overflow-y: hidden; border: 1px solid white;">
 </div>
 <br />
-<div onclick="toggleCalendar()" style="text-align: center; text-decoration: underline; display: none;">[Show Calendar]</div>
 <div id="calendar" style="text-align: center; width: 100%; margin: auto; padding: 5px">
 </div>
 <br/>
-(Image is among first few taken to show initial impression; Google for latest images)<br />
-<br />
-THE NOT SEIYUU<br />
 <div id="BabaFumika">
 <br />
 <div class="profile-box">
 <div class="separator" style="clear: both; text-align: center;">
 <img border="0" data-original-height="900" data-original-width="599" height="320" src="https://1.bp.blogspot.com/-Vj-42IFoYss/XYX3mz5R-oI/AAAAAAAA0q0/rZkGIlB5_bQrzE100m0M8AgL_nsIPCKNwCLcBGAsYHQ/s320/CB5Ra64UMAAxfHG.jpg" width="212" /></div>
-<table cellpadding="0" cellspacing="0" style="border-bottom: 1px dashed white; width: 100%;"><tbody>
+<table cellpadding="0" cellspacing="0" style="width: 100%;"><tbody>
 <tr style="text-align: left;"><td class="tr-caption">Name (Nickname)</td></tr>
 <tr style="text-align: right;"><td>Baba Fumika (-chan*)</td></tr>
 <tr style="text-align: left;"><td class="tr-caption">Date Of Birth</td></tr>
 <tr style="text-align: right;"><td><span class="DOB">1995.06.21</span></td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Profile</td></tr>
-<tr style="text-align: right;"><td>Gravure model, TV drama actor</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Status (Singer Debut|Swimsuit Photobook|Married)</td></tr>
-<tr style="text-align: right;"><td>No**|Yes|No</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">How I came to know of her</td></tr>
-<tr style="text-align: right;"><td>Gravure magazines since she was featured there often back in 2015</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Why would she be "wanted" by me</td></tr>
-<tr style="text-align: right;"><td>That rack, dude. And her acting ain't half bad considering she isn't that into gravure and is a regular at local TV drama now.</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Wanted Level</td></tr>
-<tr style="text-align: right;"><td>★★★★☆ (Purely because of rack and face)</td></tr>
 </tbody></table>
-(*She is more commonly referred to as Fumi-chan)<br />
-(**She did sing a song before for a producer and it wasn't bad, see <a href="https://youtu.be/pgz4CKPqK_Y" target="_blank">this MV</a>)
+<br/>
 </div>
 </div>
 <div id="TachibanaHaru">
@@ -164,51 +79,27 @@ THE NOT SEIYUU<br />
 <div class="profile-box">
 <div class="separator" style="clear: both; text-align: center;">
 <img border="0" src="https://4.bp.blogspot.com/-rUQTFs7pkmM/Xax1NXhWF7I/AAAAAAAA1Vw/VRCAMAaZV6UAkGjrdYggZgKJVMPK3gwggCPcBGAYYCw/s320/Cw3342xUcAAZzWE.jpg" width="320" height="240" data-original-width="1280" data-original-height="960" /></div>
-<table cellpadding="0" cellspacing="0" style="border-bottom: 1px dashed white; width: 100%;"><tbody>
+<table cellpadding="0" cellspacing="0" style="width: 100%;"><tbody>
 <tr style="text-align: left;"><td class="tr-caption">Name (Nickname)</td></tr>
 <tr style="text-align: right;"><td>Tachibana Haru (Futon-chan)</td></tr>
 <tr style="text-align: left;"><td class="tr-caption">Date Of Birth</td></tr>
 <tr style="text-align: right;"><td><span class="DOB">1995.01.20 (if I'm not wrong should be)</span></td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Profile</td></tr>
-<tr style="text-align: right;"><td>Cosplayer, model, event MC</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Status (Singer Debut|Swimsuit Photobook|Married)</td></tr>
-<tr style="text-align: right;"><td>No|Yes*|No</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">How I came to know of her</td></tr>
-<tr style="text-align: right;"><td>From mobile game "Alternative Girls" official livestream series "OruKomi"</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Why would she be "wanted" by me</td></tr>
-<tr style="text-align: right;"><td>I can't say I want to f**k her, but she'll never hear of that haha. She'll make a good gf though, as conflicting as we may be in personality maybe (sorry for insulting your avatar in your livestream!! (&gt;w&lt;)</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Wanted Level</td></tr>
-<tr style="text-align: right;"><td>★★★★★ (Outside of female seiyuu)</td></tr>
 </tbody></table>
-(*I reviewed her 3rd photobook and her final for Comiket <a href="https://knwebreports.blogspot.com/2019/09/sixth-book-worth-of-photos-cosplayer-on.html" target="_blank">here</a>)
+<br/>
 </div>
 </div>
-<br />
-<hr />
-<br />
-THE SEIYU: 1ST WAVE<br />
 <div id="HanazawaKana">
 <br />
 <div class="profile-box">
 <div class="separator" style="clear: both; text-align: center;">
 <img border="0" data-original-height="600" data-original-width="450" height="320" src="https://1.bp.blogspot.com/-hezPufoGCcM/XYX4BbNbCBI/AAAAAAAA0rA/j9f2IaPw2n46yjcGaDX8vXG4WRpwCuOGgCLcBGAsYHQ/s320/b0012149_4d18ac7ea154e.jpg" width="240" /></div>
-<table cellpadding="0" cellspacing="0" style="border-bottom: 1px dashed white; width: 100%;"><tbody>
+<table cellpadding="0" cellspacing="0" style="width: 100%;"><tbody>
 <tr style="text-align: left;"><td class="tr-caption">Name (Nickname)</td></tr>
 <tr style="text-align: right;"><td>Hanazawa Kana (-chan)</td></tr>
 <tr style="text-align: left;"><td class="tr-caption">Date Of Birth</td></tr>
 <tr style="text-align: right;"><td><span class="DOB">1989.02.25 (yep, it was)</span></td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Profile</td></tr>
-<tr style="text-align: right;"><td>Anime Voice Actress</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Status (Singer Debut|Swimsuit Photobook|Married)</td></tr>
-<tr style="text-align: right;"><td>Yes|No*|No</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">How I came to know of her</td></tr>
-<tr style="text-align: right;"><td>From Anime "OreImo" as Kuroneko</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Why would she be "wanted" by me</td></tr>
-<tr style="text-align: right;"><td>Kana-chan has been in so many roles, you're weird if you didn't like her because of one of them.</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Wanted Level</td></tr>
-<tr style="text-align: right;"><td>★★★★☆ (That voice can save lives)</td></tr>
 </tbody></table>
-(*The closest she has come to it was wearing one, specifically just the top with a shirt above, on her 400th episode of her radio program)
+<br/>
 </div>
 </div>
 <div id="HikasaYouko">
@@ -216,47 +107,26 @@ THE SEIYU: 1ST WAVE<br />
 <div class="profile-box">
 <div class="separator" style="clear: both; text-align: center;">
 <img border="0" data-original-height="640" data-original-width="427" height="320" src="https://1.bp.blogspot.com/-K4HC01n_tUE/XYX4WSJPNiI/AAAAAAAA0rM/QsJX5915MQIgmuYB8ZVPKhHjB8z8Rru0QCLcBGAsYHQ/s320/50ded06e418a8f8caa6457c0.jpg" width="213" /></div>
-<table cellpadding="0" cellspacing="0" style="border-bottom: 1px dashed white; width: 100%;"><tbody>
+<table cellpadding="0" cellspacing="0" style="width: 100%;"><tbody>
 <tr style="text-align: left;"><td class="tr-caption">Name (Nickname)</td></tr>
 <tr style="text-align: right;"><td>Hikasa Youko (Yocchan)</td></tr>
 <tr style="text-align: left;"><td class="tr-caption">Date Of Birth</td></tr>
 <tr style="text-align: right;"><td><span class="DOB">1985.07.16 (man, it's)</span></td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Profile</td></tr>
-<tr style="text-align: right;"><td>Anime Voice Actress</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Status (Singer Debut|Swimsuit Photobook|Married)</td></tr>
-<tr style="text-align: right;"><td>Yes|No|Yes</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">How I came to know of her</td></tr>
-<tr style="text-align: right;"><td>From Anime "K-ON!" as Akiyama Mio and later in her solo singer career</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Why would she be "wanted" by me</td></tr>
-<tr style="text-align: right;"><td>I like her voice thanks to the one Anime "K-ON!", but also because of that do I get exposed to how interesting she is* in front of the camera.</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Wanted Level</td></tr>
-<tr style="text-align: right;"><td>★★★☆☆ (Since it's only the voice)</td></tr>
 </tbody></table>
-(*She is a senpai in most live events, and is normally targeted for her age in recent years with all the newbies around)
+<br/>
 </div>
 </div>
 <div id="HorieYui">
 <br />
 <div class="profile-box">
 <div class="separator" style="clear: both; text-align: center;"><img border="0" src="https://1.bp.blogspot.com/-HmYC9GrNQ5s/Xax2R7Tj8cI/AAAAAAAA1V4/19GTXzhJrJgx01sgxQ_3hA6m0Byw7I33QCLcBGAsYHQ/s320/e0025035_161134.jpg" width="320" height="237" data-original-width="1348" data-original-height="1000" /></div>
-<table cellpadding="0" cellspacing="0" style="border-bottom: 1px dashed white; width: 100%;"><tbody>
+<table cellpadding="0" cellspacing="0" style="width: 100%;"><tbody>
 <tr style="text-align: left;"><td class="tr-caption">Name (Nickname)</td></tr>
 <tr style="text-align: right;"><td>Horie Yui (Hocchan)</td></tr>
 <tr style="text-align: left;"><td class="tr-caption">Date Of Birth</td></tr>
 <tr style="text-align: right;"><td>(lol you don't want to know so it's) [ALWAYS 17 years ago**]</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Profile</td></tr>
-<tr style="text-align: right;"><td>Anime Voice Actress</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Status (Singer Debut|Swimsuit Photobook|Married)</td></tr>
-<tr style="text-align: right;"><td>Yes|No*|No</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">How I came to know of her</td></tr>
-<tr style="text-align: right;"><td>From Anime "Love Hina" as Narusegawa Naru and "Toradora!" as Kushieda Minori</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Why would she be "wanted" by me</td></tr>
-<tr style="text-align: right;"><td>On camera she is very kind (regardless of age), and technically her face is still attractive for her age</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Wanted Level</td></tr>
-<tr style="text-align: right;"><td>★★★★☆ (Purely because of her unique voice)</td></tr>
 </tbody></table>
-(*Have we ever? More like, do we want to now?)<br />
-(**Okay I'm going to reveal it, you ready? It's <span class="DOB" id="HocchanAge">1976.09.20</span>)
+<br/>
 </div>
 </div>
 <div id="KayanoAi">
@@ -264,23 +134,13 @@ THE SEIYU: 1ST WAVE<br />
 <div class="profile-box">
 <div class="separator" style="clear: both; text-align: center;">
 <img border="0" src="https://2.bp.blogspot.com/-_D86tcp19j0/Xax2hd_3MII/AAAAAAAA1V8/fX6byhHcG7Y0PFF3j79kIRcb-jccfB3_gCLcBGAsYHQ/s320/tumblr_mv6or0fZm41qaysjmo1_1280.jpg" width="224" height="320" data-original-width="718" data-original-height="1024" /></div>
-<table cellpadding="0" cellspacing="0" style="border-bottom: 1px dashed white; width: 100%;"><tbody>
+<table cellpadding="0" cellspacing="0" style="width: 100%;"><tbody>
 <tr style="text-align: left;"><td class="tr-caption">Name (Nickname)</td></tr>
 <tr style="text-align: right;"><td>Kayano Ai (Kayanon)</td></tr>
 <tr style="text-align: left;"><td class="tr-caption">Date Of Birth</td></tr>
 <tr style="text-align: right;"><td><span class="DOB">1987.09.13 (yes it was)</span></td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Profile</td></tr>
-<tr style="text-align: right;"><td>Anime Voice Actress</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Status (Singer Debut|Swimsuit Photobook|Married)</td></tr>
-<tr style="text-align: right;"><td>No*|No|No</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">How I came to know of her</td></tr>
-<tr style="text-align: right;"><td>Because she's cute? And later from Anime "Hyouka" as Chitanda Eru</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Why would she be "wanted" by me</td></tr>
-<tr style="text-align: right;"><td>One of those few who I followed because she looks cute, and subsequently I've came to love her voice acting and singing too.</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Wanted Level</td></tr>
-<tr style="text-align: right;"><td>★★★★☆ (Overall package, face and all)</td></tr>
 </tbody></table>
-(*Pity, isn't it?)
+<br/>
 </div>
 </div>
 <div id="KomatsuMikako">
@@ -288,23 +148,13 @@ THE SEIYU: 1ST WAVE<br />
 <div class="profile-box">
 <div class="separator" style="clear: both; text-align: center;">
 <img border="0" src="https://4.bp.blogspot.com/-HXrOmUVJlwI/Xax2vYwwuZI/AAAAAAAA1WE/uRhgujDZH0kabvpB2SJd1q7SyLaxMyh0wCLcBGAsYHQ/s320/tumblr_mdos8vKwsp1qaysjmo1_1280.jpg" width="213" height="320" data-original-width="1033" data-original-height="1550" /></div>
-<table cellpadding="0" cellspacing="0" style="border-bottom: 1px dashed white; width: 100%;"><tbody>
+<table cellpadding="0" cellspacing="0" style="width: 100%;"><tbody>
 <tr style="text-align: left;"><td class="tr-caption">Name (Nickname)</td></tr>
 <tr style="text-align: right;"><td>Komatsu Mikako (Mikakoshi)</td></tr>
 <tr style="text-align: left;"><td class="tr-caption">Date Of Birth</td></tr>
 <tr style="text-align: right;"><td><span class="DOB">1988.11.11 (It was)</span></td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Profile</td></tr>
-<tr style="text-align: right;"><td>Anime Voice Actress</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Status (Singer Debut|Swimsuit Photobook|Married)</td></tr>
-<tr style="text-align: right;"><td>Yes|No|No</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">How I came to know of her</td></tr>
-<tr style="text-align: right;"><td>From Anime "Kamisama Inai no Nichiyoubi", through the ending theme song</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Why would she be "wanted" by me</td></tr>
-<tr style="text-align: right;"><td>She must be the perfect girl next door, from early days posting selfies on Twitter* to her music career, she has all the talent.</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Wanted Level</td></tr>
-<tr style="text-align: right;"><td>★★★★★ (The perfect older sister)</td></tr>
 </tbody></table>
-(*Here's an example of <a href="https://twitter.com/mikakokomatsu/status/698835135022571520" target="_blank">what she posted</a> on one particular Valentine's Day)
+<br/>
 </div>
 </div>
 <div id="KotobukiMinako">
@@ -312,23 +162,13 @@ THE SEIYU: 1ST WAVE<br />
 <div class="profile-box">
 <div class="separator" style="clear: both; text-align: center;">
 <img border="0" src="https://1.bp.blogspot.com/-8zygC3k_gWY/Xax24BDAdLI/AAAAAAAA1WM/jYNvxpLJ-iEu74afgkj6ceNj7XQN7NOnQCLcBGAsYHQ/s320/tumblr_loa64f8zFc1qaysjmo1_1280.jpg" width="237" height="320" data-original-width="741" data-original-height="1000" /></div>
-<table cellpadding="0" cellspacing="0" style="border-bottom: 1px dashed white; width: 100%;"><tbody>
+<table cellpadding="0" cellspacing="0" style="width: 100%;"><tbody>
 <tr style="text-align: left;"><td class="tr-caption">Name (Nickname)</td></tr>
 <tr style="text-align: right;"><td>Kotobuki Minako (Mina-chan)</td></tr>
 <tr style="text-align: left;"><td class="tr-caption">Date Of Birth</td></tr>
 <tr style="text-align: right;"><td><span class="DOB">1991.09.17</span></td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Profile</td></tr>
-<tr style="text-align: right;"><td>Anime Voice Actress</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Status (Singer Debut|Swimsuit Photobook|Married)</td></tr>
-<tr style="text-align: right;"><td>Yes|Yes|No*</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">How I came to know of her</td></tr>
-<tr style="text-align: right;"><td>From Anime "K-ON!" as Kotobuki Tsumugi</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Why would she be "wanted" by me</td></tr>
-<tr style="text-align: right;"><td>Having a distinctive lovely voice, she has starred in many roles who will make an impression. Her music career has also been loved by me over the years as she continues to grow. Her half-naked is just bonus.</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Wanted Level</td></tr>
-<tr style="text-align: right;"><td>★★★★☆ (Overall awesomeness, but the age...)</td></tr>
 </tbody></table>
-(*Not yet, and that might be a good thing hehe)
+<br/>
 </div>
 </div>
 <div id="OokuboRumi">
@@ -336,24 +176,13 @@ THE SEIYU: 1ST WAVE<br />
 <div class="profile-box">
 <div class="separator" style="clear: both; text-align: center;">
 <img border="0" src="https://2.bp.blogspot.com/-8Ow66UOqGqs/Xax3HuLgxpI/AAAAAAAA1WU/thxRkBGyOi0QY9K7cqbvHMpsfZctYJuyQCLcBGAsYHQ/s320/tumblr_np956lSywQ1qaysjmo1_1280.jpg" width="240" height="320" data-original-width="1201" data-original-height="1600" /></div>
-<table cellpadding="0" cellspacing="0" style="border-bottom: 1px dashed white; width: 100%;"><tbody>
+<table cellpadding="0" cellspacing="0" style="width: 100%;"><tbody>
 <tr style="text-align: left;"><td class="tr-caption">Name (Nickname)</td></tr>
 <tr style="text-align: right;"><td>Ookubo Rumi (Rumi*)</td></tr>
 <tr style="text-align: left;"><td class="tr-caption">Date Of Birth</td></tr>
 <tr style="text-align: right;"><td><span class="DOB">1989.09.27</span></td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Profile</td></tr>
-<tr style="text-align: right;"><td>Anime Voice Actress</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Status (Singer Debut|Swimsuit Photobook|Married)</td></tr>
-<tr style="text-align: right;"><td>No|No|No</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">How I came to know of her</td></tr>
-<tr style="text-align: right;"><td>Because she's cute, and from Anime "Servant x Service" as Ichimiya Touko</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Why would she be "wanted" by me</td></tr>
-<tr style="text-align: right;"><td>With the perfect tsundere** voice acting and a really cute face even at her age, she is to be loved for everything she has to offer.</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Wanted Level</td></tr>
-<tr style="text-align: right;"><td>★★★★☆ (Outside of Anime her is so underrated)</td></tr>
 </tbody></table>
-(*Read as "RumiRumi")<br />
-(**Hot-cold personality specifically towards love)
+<br/>
 </div>
 </div>
 <div id="SatouSatomi">
@@ -361,25 +190,13 @@ THE SEIYU: 1ST WAVE<br />
 <div class="profile-box">
 <div class="separator" style="clear: both; text-align: center;">
 <img border="0" data-original-height="1600" data-original-width="1067" height="320" src="https://1.bp.blogspot.com/-QouPVoToFBc/XYX5WHXr0iI/AAAAAAAA0rk/Ya1fTu2Ajo0dmFQKpoQKEoEuQZBSm0WogCLcBGAsYHQ/s320/satomisato.jpg" width="213" /></div>
-<table cellpadding="0" cellspacing="0" style="border-bottom: 1px dashed white; width: 100%;"><tbody>
+<table cellpadding="0" cellspacing="0" style="width: 100%;"><tbody>
 <tr style="text-align: left;"><td class="tr-caption">Name (Nickname)</td></tr>
 <tr style="text-align: right;"><td>Satou Satomi (-chan*)</td></tr>
 <tr style="text-align: left;"><td class="tr-caption">Date Of Birth</td></tr>
 <tr style="text-align: right;"><td><span class="DOB">1986.05.08 (It was already)</span></td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Profile</td></tr>
-<tr style="text-align: right;"><td>Anime Voice Actress</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Status (Singer Debut|Swimsuit Photobook|Married)</td></tr>
-<tr style="text-align: right;"><td>Yes**|No|Yes***</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">How I came to know of her</td></tr>
-<tr style="text-align: right;"><td>From Anime "K-ON!" as Tainaka Ritsu</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Why would she be "wanted" by me</td></tr>
-<tr style="text-align: right;"><td>Hyper voice Satomi-chan is the best, whether it is from Anime, or in her singing career. Nobody comes close in this aspect and I love her for this.</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Wanted Level</td></tr>
-<tr style="text-align: right;"><td>★★★★☆ (Purely because of hyped Satomi-chan)</td></tr>
 </tbody></table>
-(*Commonly referred to as "Shugami" because of her name, amongst other nicknames given)<br />
-(**Inactive as of 2017)<br />
-(***Married to fellow voice actor Terashima Takuma)
+<br/>
 </div>
 </div>
 <div id="TaketatsuAyana">
@@ -387,24 +204,13 @@ THE SEIYU: 1ST WAVE<br />
 <div class="profile-box">
 <div class="separator" style="clear: both; text-align: center;">
 <img border="0" src="https://1.bp.blogspot.com/-4RcqxRRtpuQ/Xax3XR4qn1I/AAAAAAAA1Wc/B9hX_znOi3wmOS6407VYezqVZRAij6q-gCLcBGAsYHQ/s320/tumblr_mcwi2vo9D41qaysjmo1_1280.jpg" width="213" height="320" data-original-width="1067" data-original-height="1600" /></div>
-<table cellpadding="0" cellspacing="0" style="border-bottom: 1px dashed white; width: 100%;"><tbody>
+<table cellpadding="0" cellspacing="0" style="width: 100%;"><tbody>
 <tr style="text-align: left;"><td class="tr-caption">Name (Nickname)</td></tr>
 <tr style="text-align: right;"><td>Taketatsu Ayana (Ayachi)</td></tr>
 <tr style="text-align: left;"><td class="tr-caption">Date Of Birth</td></tr>
 <tr style="text-align: right;"><td><span class="DOB">1989.06.23 (It has been)</span></td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Profile</td></tr>
-<tr style="text-align: right;"><td>Anime Voice Actress</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Status (Singer Debut|Swimsuit Photobook|Married)</td></tr>
-<tr style="text-align: right;"><td>Yes|Yes*|Yes**</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">How I came to know of her</td></tr>
-<tr style="text-align: right;"><td>From Anime "K-ON!" as Nakano Azusa and later in Anime "OreImo" as Kousaka Kirino</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Why would she be "wanted" by me</td></tr>
-<tr style="text-align: right;"><td>I wish I could point out more bad stuff about her but apart from her less than skilled singing everything about her is great. And she has a rack too. You don't need her Anime roles with this real life equivalent.</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Wanted Level</td></tr>
-<tr style="text-align: right;"><td>★★★★★ (Overrated in popularity but I like)</td></tr>
 </tbody></table>
-(*Technically yes in her 2nd photobook with a thin shirt, and yes later in an event-only photobook as seen on Twitter <a href="https://twitter.com/Ayana_take/status/943700093781213184" target="_blank">here</a>)<br />
-(**Married to fellow voice actor Kaji Yuki)
+<br/>
 </div>
 </div>
 <div id="TomatsuHaruka">
@@ -412,24 +218,13 @@ THE SEIYU: 1ST WAVE<br />
 <div class="profile-box">
 <div class="separator" style="clear: both; text-align: center;">
 <img border="0" data-original-height="1124" data-original-width="749" height="320" src="https://1.bp.blogspot.com/-3XzHomkpfrA/XYX6NhmS5vI/AAAAAAAA0r8/ewYGS4m-sQkpCGOPaZb9dF4ifhhq7qx1gCLcBGAsYHQ/s320/tumblr_mhduc9TA9b1qaysjmo1_1280.jpg" width="213" /></div>
-<table cellpadding="0" cellspacing="0" style="border-bottom: 1px dashed white; width: 100%;"><tbody>
+<table cellpadding="0" cellspacing="0" style="width: 100%;"><tbody>
 <tr style="text-align: left;"><td class="tr-caption">Name (Nickname)</td></tr>
 <tr style="text-align: right;"><td>Tomatsu Haruka (Tomacchan*)</td></tr>
 <tr style="text-align: left;"><td class="tr-caption">Date Of Birth</td></tr>
 <tr style="text-align: right;"><td><span class="DOB">1990.02.04</span></td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Profile</td></tr>
-<tr style="text-align: right;"><td>Anime Voice Actress</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Status (Singer Debut|Swimsuit Photobook|Married)</td></tr>
-<tr style="text-align: right;"><td>Yes|Yes**|Yes</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">How I came to know of her</td></tr>
-<tr style="text-align: right;"><td>From Anime "Kannagi" as Nagi and later from idol group "sphere"</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Why would she be "wanted" by me</td></tr>
-<tr style="text-align: right;"><td>She is real perfect all around in looks and talent despite the lack of a chest, her roles in Anime are diverse yet professionally voiced. I want to switch my same age elder sister with her haha</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Wanted Level</td></tr>
-<tr style="text-align: right;"><td>★★★★☆ (So popular and perfect, she might not be my type)</td></tr>
 </tbody></table>
-(*Also referred to as "Haru-chan" by other members in her idol group "sphere")<br />
-(**Appeared half-naked in the highest amount of times among all the voice actresses mentioned here)
+<br/>
 </div>
 </div>
 <div id="ToyosakiAki">
@@ -437,24 +232,13 @@ THE SEIYU: 1ST WAVE<br />
 <div class="profile-box">
 <div class="separator" style="clear: both; text-align: center;">
 <img border="0" data-original-height="852" data-original-width="1280" height="266" src="https://1.bp.blogspot.com/-Me2BX5OPwQ8/XYX6ry1s9BI/AAAAAAAA0sI/SritW8De-xUJCLUTo7zsOw09PsIXZKpPgCLcBGAsYHQ/s400/image%2B41.jpg" width="400" /></div>
-<table cellpadding="0" cellspacing="0" style="border-bottom: 1px dashed white; width: 100%;"><tbody>
+<table cellpadding="0" cellspacing="0" style="width: 100%;"><tbody>
 <tr style="text-align: left;"><td class="tr-caption">Name (Nickname)</td></tr>
 <tr style="text-align: right;"><td>Toyosaki Aki (-chan)</td></tr>
 <tr style="text-align: left;"><td class="tr-caption">Date Of Birth</td></tr>
 <tr style="text-align: right;"><td><span class="DOB">1986.10.28 (yeah, it's already)</span></td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Profile</td></tr>
-<tr style="text-align: right;"><td>Anime Voice Actress</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Status (Singer Debut|Swimsuit Photobook|Married)</td></tr>
-<tr style="text-align: right;"><td>Yes|No|Yes</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">How I came to know of her</td></tr>
-<tr style="text-align: right;"><td>From Anime "K-ON!" as Hirasawa Yui</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Why would she be "wanted" by me</td></tr>
-<tr style="text-align: right;"><td>You'll know her when she appears in Anime* (arguably over Hanazawa Kana), and I have loved her everything** for the duration of her solo music career before she was married.</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Wanted Level</td></tr>
-<tr style="text-align: right;"><td>★★★★★ (This unwavering love for her...)</td></tr>
 </tbody></table>
-(*The first exception to this was from Anime "Fractale" when she voiced a matured woman. It threw me off the wall and beyond)<br />
-(**Don't mind her height though being tall wasn't her choice)
+<br/>
 </div>
 </div>
 <div id="YuukiAoi">
@@ -462,53 +246,27 @@ THE SEIYU: 1ST WAVE<br />
 <div class="profile-box">
 <div class="separator" style="clear: both; text-align: center;">
 <img border="0" src="https://4.bp.blogspot.com/-12hnKzo_g8g/Xax3wdMpiCI/AAAAAAAA1Ws/TWoorHJZ26AcI5mLjGKGPWgb9_xA6Uv4ACLcBGAsYHQ/s320/tumblr_nf74esajus1s6kajio1_1280.png" width="218" height="320" data-original-width="640" data-original-height="938" /></div>
-<table cellpadding="0" cellspacing="0" style="border-bottom: 1px dashed white; width: 100%;"><tbody>
+<table cellpadding="0" cellspacing="0" style="width: 100%;"><tbody>
 <tr style="text-align: left;"><td class="tr-caption">Name (Nickname)</td></tr>
 <tr style="text-align: right;"><td>Yuuki Aoi (-chan*)</td></tr>
 <tr style="text-align: left;"><td class="tr-caption">Date Of Birth</td></tr>
 <tr style="text-align: right;"><td><span class="DOB">1992.03.27 (wow, it's only)</span></td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Profile</td></tr>
-<tr style="text-align: right;"><td>Anime Voice Actress</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Status (Singer Debut|Swimsuit Photobook|Married)</td></tr>
-<tr style="text-align: right;"><td>Yes|No|No</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">How I came to know of her</td></tr>
-<tr style="text-align: right;"><td>From Taketatsu Ayana in idol unit "petit milady", and later in Anime "A Channel" as Tooru</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Why would she be "wanted" by me</td></tr>
-<tr style="text-align: right;"><td>A master and child prodigy in voice acting**, she voices a myriad of roles from where you will least expect her, and her age is not truly reflective of her easy-going personality and cute appearance. My love for her grew slowly but surely over the years and today she deserves my respect.</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Wanted Level</td></tr>
-<tr style="text-align: right;"><td>★★★★☆ (Not exactly my type but she is lovely)</td></tr>
 </tbody></table>
-(*More commonly referred to as "Ao-chan")<br />
-(**Today I learnt she was in the original AND remake of Anime "Kino no Tabi", premier aired on <span class="DOB">2003.04.08</span> and <span class="DOB">2017.10.06</span> respectively)
+<br/>
 </div>
 </div>
-<br />
-<hr />
-<br />
-THE SEIYU: 2ND WAVE<br />
 <div id="AmamiyaSora">
 <br />
 <div class="profile-box">
 <div class="separator" style="clear: both; text-align: center;">
 <img border="0" data-original-height="1600" data-original-width="1067" height="320" src="https://1.bp.blogspot.com/-flPfb9l_YGo/XYX34VDxtwI/AAAAAAAA0q8/tULKDfoakrw7hMTgCIV8OJ-zCWFIY331wCLcBGAsYHQ/s320/amamiyasora.jpg" width="213" /></div>
-<table cellpadding="0" cellspacing="0" style="border-bottom: 1px dashed white; width: 100%;"><tbody>
+<table cellpadding="0" cellspacing="0" style="width: 100%;"><tbody>
 <tr style="text-align: left;"><td class="tr-caption">Name (Nickname)</td></tr>
 <tr style="text-align: right;"><td>Amamiya Sora (Ten-chan*)</td></tr>
 <tr style="text-align: left;"><td class="tr-caption">Date Of Birth</td></tr>
 <tr style="text-align: right;"><td><span class="DOB">1993.08.28</span></td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Profile</td></tr>
-<tr style="text-align: right;"><td>Anime Voice Actress</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Status (Singer Debut|Swimsuit Photobook|Married)</td></tr>
-<tr style="text-align: right;"><td>Yes|No**|No</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">How I came to know of her</td></tr>
-<tr style="text-align: right;"><td>From Anime "Isshukan Friends." as Fujimiya Kaori</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Why would she be "wanted" by me</td></tr>
-<tr style="text-align: right;"><td>That same year waifu I want but cannot get. If you feel that she is in a different level than us you're not alone.</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Wanted Level</td></tr>
-<tr style="text-align: right;"><td>★★★★☆ (Because I wish she was my same year waifu hehe)</td></tr>
 </tbody></table>
-(*Because her name can be pronounced as "Sora" and "Ten")<br />
-(**I doubt we'll ever see it tbh)
+<br/>
 </div>
 </div>
 <div id="AsakuraMomo">
@@ -517,24 +275,13 @@ THE SEIYU: 2ND WAVE<br />
 <div class="separator" style="clear: both; padding: 2px; text-align: center;">
 <img border="0" src="https://1.bp.blogspot.com/-S3Tfg1WFml0/Xa2nLUmVoUI/AAAAAAAA1ZA/y2k7pL14r4kfLcRm_PXRc-nS8Q5M2aw4QCLcBGAsYHQ/s320/momo.jpg" width="213" height="320" data-original-width="1067" data-original-height="1600" />
 </div>
-<table cellpadding="0" cellspacing="0" style="border-bottom: 1px dashed white; width: 100%;"><tbody>
+<table cellpadding="0" cellspacing="0" style="width: 100%;"><tbody>
 <tr style="text-align: left;"><td class="tr-caption">Name (Nickname)</td></tr>
 <tr style="text-align: right;"><td>Asakura Momo (Mocho)</td></tr>
 <tr style="text-align: left;"><td class="tr-caption">Date Of Birth</td></tr>
 <tr style="text-align: right;"><td><span class="DOB">1994.06.25</span></td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Profile</td></tr>
-<tr style="text-align: right;"><td>Anime Voice Actress</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Status (Singer Debut|Swimsuit Photobook|Married)</td></tr>
-<tr style="text-align: right;"><td>Yes|Yes*|No</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">How I came to know of her</td></tr>
-<tr style="text-align: right;"><td>From her idol group "TrySail" and Anime "PriPri Chii-chan" as Yuuka</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Why would she be "wanted" by me</td></tr>
-<tr style="text-align: right;"><td>I just want her as a friend who will bright up my life, make me a genius (because she isn't**), and I want to cuddle her every day after work. Dakimakuras have nothing on this girl haha</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Wanted Level</td></tr>
-<tr style="text-align: right;"><td>★★★★☆ (Purely because of rack haha)</td></tr>
 </tbody></table>
-(*I'll call her 1st photobook technically it, as reviewed over <a href="https://knwebreports.blogspot.com/2019/03/three-books-worth-of-photos-that-marry.html" target="_blank">here</a>)<br />
-(**YouTube has clips about how she flubs on livestreams and sometimes can't control herself even in front of the camera)
+<br/>
 </div>
 </div>
 <div id="EndouYurika">
@@ -542,24 +289,13 @@ THE SEIYU: 2ND WAVE<br />
 <div class="profile-box">
 <div class="separator" style="clear: both; padding: 2px; text-align: center;">
 <img border="0" data-original-height="531" data-original-width="640" height="266" src="https://1.bp.blogspot.com/-6Vbo-yjHLyg/XaMznnWUj2I/AAAAAAAA1KY/aqTtKh7_wwkuNFecPj2hX-C8nKnHhZigwCLcBGAsYHQ/s320/Cx3zHhAUkAEmY0L.jpg" width="320" /></div>
-<table cellpadding="0" cellspacing="0" style="border-bottom: 1px dashed white; width: 100%;"><tbody>
+<table cellpadding="0" cellspacing="0" style="width: 100%;"><tbody>
 <tr style="text-align: left;"><td class="tr-caption">Name (Nickname)</td></tr>
 <tr style="text-align: right;"><td>Endou Yurika (Yurishii)</td></tr>
 <tr style="text-align: left;"><td class="tr-caption">Date Of Birth</td></tr>
 <tr style="text-align: right;"><td><span class="DOB">1994.06.24*</span></td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Profile</td></tr>
-<tr style="text-align: right;"><td>Anime Voice Actress**, DJ</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Status (Singer Debut|Swimsuit Photobook|Married)</td></tr>
-<tr style="text-align: right;"><td>Yes|No|No</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">How I came to know of her</td></tr>
-<tr style="text-align: right;"><td>From Game "Alternative Girls" as Mizushima Airi</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Why would she be "wanted" by me</td></tr>
-<tr style="text-align: right;"><td>She has a fashion style one would be proud of dating, and she has a lovely personality and voice. What's not to like?</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Wanted Level</td></tr>
-<tr style="text-align: right;"><td>★★★★☆ (If she would come back...)</td></tr>
 </tbody></table>
-(*Wait, you and Mocho are only a day away??)<br />
-(**Retired as of end 2018 due to health conditions)
+<br/>
 </div>
 </div>
 <div id="KounoMarika">
@@ -567,24 +303,13 @@ THE SEIYU: 2ND WAVE<br />
 <div class="profile-box">
 <div class="separator" style="clear: both; text-align: center;">
 <img border="0" data-original-height="667" data-original-width="1000" height="266" src="https://1.bp.blogspot.com/-AFjJCvycTYs/XYX6_2gSr8I/AAAAAAAA0sQ/tEgA43s_3_EBoK8A6WDnv0N-K9iMwgZiwCLcBGAsYHQ/s400/4508e79bgw1f73jiylxpij20rs0ij784.jpg" width="400" /></div>
-<table cellpadding="0" cellspacing="0" style="border-bottom: 1px dashed white; width: 100%;"><tbody>
+<table cellpadding="0" cellspacing="0" style="width: 100%;"><tbody>
 <tr style="text-align: left;"><td class="tr-caption">Name (Nickname)</td></tr>
 <tr style="text-align: right;"><td>Kouno Marika (Marinka)</td></tr>
 <tr style="text-align: left;"><td class="tr-caption">Date Of Birth</td></tr>
 <tr style="text-align: right;"><td><span class="DOB">1994.02.22</span></td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Profile</td></tr>
-<tr style="text-align: right;"><td>Anime Voice Actress</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Status (Singer Debut|Swimsuit Photobook|Married)</td></tr>
-<tr style="text-align: right;"><td>Yes*|No**|No</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">How I came to know of her</td></tr>
-<tr style="text-align: right;"><td>From Anime "Sore ga Seiyuu!" as Kohara Rin and Game "Alternative Girls" as Onitsuka Chiho</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Why would she be "wanted" by me</td></tr>
-<tr style="text-align: right;"><td>Thanks to my friend who got interested in her, and before that it was because of her appearance and how she changed over the years</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Wanted Level</td></tr>
-<tr style="text-align: right;"><td>★★★★☆ (Excluding friend influence)</td></tr>
 </tbody></table>
-(*Member of idol music group "Earphones" created from Anime "Sore ga Seiyuu!")<br />
-(**She technically did not appear half-naked in her 1st photobook despite the bath dip, reviewed <a href="https://knwebreports.blogspot.com/2019/03/fourth-book-worth-of-photos-what.html" target="_blank">here</a>)
+<br/>
 </div>
 </div>
 <div id="MinaseInori">
@@ -592,23 +317,13 @@ THE SEIYU: 2ND WAVE<br />
 <div class="profile-box">
 <div class="separator" style="clear: both; text-align: center;">
 <img border="0" data-original-height="473" data-original-width="630" height="240" src="https://1.bp.blogspot.com/-Zbb8N9WEXL4/XYX4kIJx6FI/AAAAAAAA0rQ/j3-_Xm7ve0E3V6vEZeqsZPCWCGk58ICSACLcBGAsYHQ/s320/CigWgDDUYAQSeAe.jpg" width="320" /></div>
-<table cellpadding="0" cellspacing="0" style="border-bottom: 1px dashed white; width: 100%;"><tbody>
+<table cellpadding="0" cellspacing="0" style="width: 100%;"><tbody>
 <tr style="text-align: left;"><td class="tr-caption">Name (Nickname)</td></tr>
 <tr style="text-align: right;"><td>Minase Inori (Inorin)</td></tr>
 <tr style="text-align: left;"><td class="tr-caption">Date Of Birth</td></tr>
 <tr style="text-align: right;"><td><span class="DOB">1995.12.02</span></td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Profile</td></tr>
-<tr style="text-align: right;"><td>Anime Voice Actress</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Status (Singer Debut|Swimsuit Photobook|Married)</td></tr>
-<tr style="text-align: right;"><td>Yes|No|No</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">How I came to know of her</td></tr>
-<tr style="text-align: right;"><td>Probably from Anime "Sora no Method" as Noel, and later from her solo 2nd single*</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Why would she be "wanted" by me</td></tr>
-<tr style="text-align: right;"><td>Her singing voice has been impeccable ever since I gave her solo music career a chance, and she is popular cute and has a loving personality in front of the camera</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Wanted Level</td></tr>
-<tr style="text-align: right;"><td>★★★★☆ (Overrated 3D Anime girl equivalent)</td></tr>
 </tbody></table>
-(*Music video of "harmony ribbon" is on <a href="https://www.youtube.com/watch?v=RcbWbp-lPYo" target="_blank">YouTube</a>)
+<br/>
 </div>
 </div>
 <div id="NatsukawaShiina">
@@ -616,24 +331,13 @@ THE SEIYU: 2ND WAVE<br />
 <div class="profile-box">
 <div class="separator" style="clear: both; text-align: center;">
 <img border="0" data-original-height="1600" data-original-width="1266" height="320" src="https://1.bp.blogspot.com/-8KI7KvYXcKk/XYX5AfpOm2I/AAAAAAAA0rc/JLlERbpK8A4WvOnMSqGK811ZPwlR5eONQCLcBGAsYHQ/s320/4508e79bgy1fdhlg41gwmj21671hcah5.jpg" width="253" /></div>
-<table cellpadding="0" cellspacing="0" style="border-bottom: 1px dashed white; width: 100%;"><tbody>
+<table cellpadding="0" cellspacing="0" style="width: 100%;"><tbody>
 <tr style="text-align: left;"><td class="tr-caption">Name (Nickname)</td></tr>
 <tr style="text-align: right;"><td>Natsukawa Shiina (Nan-chan*)</td></tr>
 <tr style="text-align: left;"><td class="tr-caption">Date Of Birth</td></tr>
 <tr style="text-align: right;"><td><span class="DOB">1996.07.18</span></td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Profile</td></tr>
-<tr style="text-align: right;"><td>Anime Voice Actress</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Status (Singer Debut|Swimsuit Photobook|Married)</td></tr>
-<tr style="text-align: right;"><td>Yes|No|No</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">How I came to know of her</td></tr>
-<tr style="text-align: right;"><td>Probably from Anime "Sora no Method" as Komiya Nonoka, and then from idol group TrySail</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Why would she be "wanted" by me</td></tr>
-<tr style="text-align: right;"><td>From her lovely voice to that cute face to that fantastic cry when she sings... She is the perfect video game-loving imouto** I have always wanted. Period.</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Wanted Level</td></tr>
-<tr style="text-align: right;"><td>★★★★★ (IMOUTO BANZAI!! 6 stars if I can place it)</td></tr>
 </tbody></table>
-(*She is more commonly called "Nansu", and her name coincides with the number "417")<br />
-(**Younger sister)
+<br/>
 </div>
 </div>
 <div id="NumakuraManami">
@@ -641,24 +345,13 @@ THE SEIYU: 2ND WAVE<br />
 <div class="profile-box">
 <div class="separator" style="clear: both; text-align: center;">
 <img border="0" data-original-height="639" data-original-width="450" height="320" src="https://1.bp.blogspot.com/-FQ3nJm5Hfh0/XYX5ISs2tFI/AAAAAAAA0rg/QI9AW3pptcYa6867xi0C4ga7Sr5Eoi6EwCLcBGAsYHQ/s320/1b7f80750baf45dce28a0fdd965bb600.jpg" width="225" /></div>
-<table cellpadding="0" cellspacing="0" style="border-bottom: 1px dashed white; width: 100%;"><tbody>
+<table cellpadding="0" cellspacing="0" style="width: 100%;"><tbody>
 <tr style="text-align: left;"><td class="tr-caption">Name (Nickname)</td></tr>
 <tr style="text-align: right;"><td>Numakura Manami (Nu-chan)</td></tr>
 <tr style="text-align: left;"><td class="tr-caption">Date Of Birth</td></tr>
 <tr style="text-align: right;"><td><span class="DOB">1988.04.15 (oh it's)</span></td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Profile</td></tr>
-<tr style="text-align: right;"><td>Anime Voice Actress</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Status (Singer Debut|Swimsuit Photobook|Married)</td></tr>
-<tr style="text-align: right;"><td>Yes*|No|Yes**</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">How I came to know of her</td></tr>
-<tr style="text-align: right;"><td>From Anime "Dagashi Kashi" as Endou Saya, and later from her solo music career*</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Why would she be "wanted" by me</td></tr>
-<tr style="text-align: right;"><td>Her lovely personality and voice acting over the years attracted me. Add in her powerful singing voice and she is formidable.</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Wanted Level</td></tr>
-<tr style="text-align: right;"><td>★★★★☆ (Not the cutest face out there)</td></tr>
 </tbody></table>
-(*Her 2nd single "<a href="https://youtu.be/FU21xtlEUKw" target="_blank">Climber's High</a>" is her most impressive release in Klassic Note)<br />
-(**Married to fellow voice actor Osaka Ryouta)
+<br/>
 </div>
 </div>
 <div id="TachibanaRika">
@@ -666,23 +359,13 @@ THE SEIYU: 2ND WAVE<br />
 <div class="profile-box">
 <div class="separator" style="clear: both; text-align: center;">
 <img border="0" data-original-height="462" data-original-width="500" height="295" src="https://1.bp.blogspot.com/-Mbe7dhUnNoI/XYX5mbR2l2I/AAAAAAAA0rw/4boK5cxn99QMYNPnYI5KD4nVzu0ZfDHmACLcBGAsYHQ/s320/C_ohlgzUIAAwWEX.jpg" width="320" /></div>
-<table cellpadding="0" cellspacing="0" style="border-bottom: 1px dashed white; width: 100%;"><tbody>
+<table cellpadding="0" cellspacing="0" style="width: 100%;"><tbody>
 <tr style="text-align: left;"><td class="tr-caption">Name (Nickname)</td></tr>
 <tr style="text-align: right;"><td>Tachibana Rika (Rika-sama)</td></tr>
 <tr style="text-align: left;"><td class="tr-caption">Date Of Birth</td></tr>
 <tr style="text-align: right;"><td><span class="DOB">1987.02.27 (she may be new but it's)</span></td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Profile</td></tr>
-<tr style="text-align: right;"><td>Anime Voice Actress</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Status (Singer Debut|Swimsuit Photobook|Married)</td></tr>
-<tr style="text-align: right;"><td>Yes|No*|No</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">How I came to know of her</td></tr>
-<tr style="text-align: right;"><td>From Game "Alternative Girls" as Meya and its official livestream series as a guest</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Why would she be "wanted" by me</td></tr>
-<tr style="text-align: right;"><td>Her bubbly personality in front of the camera is a rarity when she was new to the industry, and she has been lovely all around ever since. Anime roles not included in this judgement</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Wanted Level</td></tr>
-<tr style="text-align: right;"><td>★★★★☆ (If you're younger I want us to be together)</td></tr>
 </tbody></table>
-(*It's all those photobooks without her half-naked that kind of explains her age imo)
+<br/>
 </div>
 </div>
 <div id="TakahashiRie">
@@ -690,24 +373,13 @@ THE SEIYU: 2ND WAVE<br />
 <div class="profile-box">
 <div class="separator" style="clear: both; text-align: center;">
 <img border="0" data-original-height="1024" data-original-width="1024" height="320" src="https://1.bp.blogspot.com/-IITGKCVZXbI/XYX6Dh7M7dI/AAAAAAAA0r4/q3pqomxpqCEE6j4Ge2ytXGTN-k6PmwFjgCLcBGAsYHQ/s320/CWFt0oOXIAALg7s.jpg" width="320" /></div>
-<table cellpadding="0" cellspacing="0" style="border-bottom: 1px dashed white; width: 100%;"><tbody>
+<table cellpadding="0" cellspacing="0" style="width: 100%;"><tbody>
 <tr style="text-align: left;"><td class="tr-caption">Name (Nickname)</td></tr>
 <tr style="text-align: right;"><td>Takahashi Rie (Rieri*)</td></tr>
 <tr style="text-align: left;"><td class="tr-caption">Date Of Birth</td></tr>
-<tr style="text-align: right;"><td><span class="DOB">1994.02.27</span>(Wait, she same birthday as Rika-sama?)</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Profile</td></tr>
-<tr style="text-align: right;"><td>Anime Voice Actress</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Status (Singer Debut|Swimsuit Photobook|Married)</td></tr>
-<tr style="text-align: right;"><td>Yes**|No|No</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">How I came to know of her</td></tr>
-<tr style="text-align: right;"><td>From Anime "Sore ga Seiyuu!" as Ichinose Futaba</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Why would she be "wanted" by me</td></tr>
-<tr style="text-align: right;"><td>Her lovely personality outside of Anime shines through the horizon, along with her appearances in Anime makes her a popular girl all around. Naturally, I have to follow suit.</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Wanted Level</td></tr>
-<tr style="text-align: right;"><td>★★★★☆ (Not the cutest face I've seen here)</td></tr>
+<tr style="text-align: right;"><td><span class="DOB">1994.02.27</span></td></tr>
 </tbody></table>
-(*Getting used to her common nickname took a while tbh, and before that I referred to her as "Rie-chan")<br />
-(**Part of idol group "Earphones" based on Anime "Sore ga Seiyuu!")
+<br/>
 </div>
 </div>
 <div id="TouyamaNao">
@@ -715,24 +387,13 @@ THE SEIYU: 2ND WAVE<br />
 <div class="profile-box">
 <div class="separator" style="clear: both; text-align: center;">
 <img border="0" src="https://1.bp.blogspot.com/-a22hO72IJ8o/Xax38izWZ0I/AAAAAAAA1Ww/soTy7ZhmYkslKJSOy1dpfP6S8wDE9wBCwCLcBGAsYHQ/s320/0hGBmUvV_TGG1QLDcrdRlnOh9xHgIpTwJlOlQPVyV6EkMlQA9tOFYSVT18Gg0iTAEnKRI8fSAuPF49VVdyHBQOaQ1IET4oehdzG0MQd3FwRg5hHFozaEhSD3YoR111SV87bklfTnQrQgh4S1s4.jpg" width="240" height="320" data-original-width="1200" data-original-height="1600" /></div>
-<table cellpadding="0" cellspacing="0" style="border-bottom: 1px dashed white; width: 100%;"><tbody>
+<table cellpadding="0" cellspacing="0" style="width: 100%;"><tbody>
 <tr style="text-align: left;"><td class="tr-caption">Name (Nickname)</td></tr>
 <tr style="text-align: right;"><td>Touyama Nao (Naobou)</td></tr>
 <tr style="text-align: left;"><td class="tr-caption">Date Of Birth</td></tr>
 <tr style="text-align: right;"><td><span class="DOB">1992.03.11</span></td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Profile</td></tr>
-<tr style="text-align: right;"><td>Anime Voice Actress</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Status (Singer Debut|Swimsuit Photobook|Married)</td></tr>
-<tr style="text-align: right;"><td>Yes|No*|No</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">How I came to know of her</td></tr>
-<tr style="text-align: right;"><td>From Anime "KONOBI" as Imari Maria, and later from her 2nd solo single**</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Why would she be "wanted" by me</td></tr>
-<tr style="text-align: right;"><td>She is so cute, appearance and all, after getting into her voice and voice acting I've never said no to her cuteness ever since. (I didn't want to watch Anime "Kiniro Mosiac" because I'm afraid I might die of her cuteness)</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Wanted Level</td></tr>
-<tr style="text-align: right;"><td>★★★★☆ (Just pure cuteness overflowing from her)</td></tr>
 </tbody></table>
-(*She may be too cute to have such a photobook, or even have one)<br />
-(**Music video available as preview on <a href="https://www.youtube.com/watch?v=ZGHRRdMWSIw" target="_blank">YouTube</a>, for Anime "Tsuki ga Kirei")
+<br/>
 </div>
 </div>
 <div id="UesakaSumire">
@@ -740,53 +401,27 @@ THE SEIYU: 2ND WAVE<br />
 <div class="profile-box">
 <div class="separator" style="clear: both; text-align: center;">
 <img border="0" src="https://3.bp.blogspot.com/-5uF5rGCsmkU/Xax4IO4XhgI/AAAAAAAA1W0/cL9X2DbBEa04t3LRG0EHyGxaBJne40oZwCLcBGAsYHQ/s320/7f9ce3e2.jpg" width="240" height="320" data-original-width="720" data-original-height="960" /></div>
-<table cellpadding="0" cellspacing="0" style="border-bottom: 1px dashed white; width: 100%;"><tbody>
+<table cellpadding="0" cellspacing="0" style="width: 100%;"><tbody>
 <tr style="text-align: left;"><td class="tr-caption">Name (Nickname)</td></tr>
 <tr style="text-align: right;"><td>Uesaka Sumire (Sumipe)</td></tr>
 <tr style="text-align: left;"><td class="tr-caption">Date Of Birth</td></tr>
 <tr style="text-align: right;"><td><span class="DOB">1991.12.19</span></td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Profile</td></tr>
-<tr style="text-align: right;"><td>Anime Voice Actress</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Status (Singer Debut|Swimsuit Photobook|Married)</td></tr>
-<tr style="text-align: right;"><td>Yes|Yes*|No</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">How I came to know of her</td></tr>
-<tr style="text-align: right;"><td>From Anime "KONOBI" as Colette and Game "Alternative Girls" as Hiiragi Tsumugi</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Why would she be "wanted" by me</td></tr>
-<tr style="text-align: right;"><td>Her obvious rack drew me in**, and everything from her cute voice acting to her somewhat weak singing in her solo music career (to her love for Russia maybe) to her rather clumsy yet wild personality were just part of her fan package. The unbelievably high amount of images she posts weekly on the Internet are my daily fuel.</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Wanted Level</td></tr>
-<tr style="text-align: right;"><td>★★★★☆ (Not my type but that rack...)</td></tr>
 </tbody></table>
-(*Technically she was in a swimsuit in her 25th birthday "style book")<br />
-(**Some say they look the best in the voice acting industry especially with those curves, some being me)
+<br/>
 </div>
 </div>
-<br />
-<hr />
-<br />
-THE SEIYUU: 3RD WAVE<br />
 <div id="FuchigamiMai">
 <br />
 <div class="profile-box">
 <div class="separator" style="clear: both; padding: 2px; text-align: center;">
 <img border="0" data-original-height="1280" data-original-width="854" height="320" src="https://1.bp.blogspot.com/-qj81LMB-J9M/XaXaNU4i4WI/AAAAAAAA1M4/k9Y3a6OUaOkFk5M79JRQf3QJL8ZzkPsCACLcBGAsYHQ/s320/C9ddGGaV0AYs2vS.jpg" width="214" /></div>
-<table cellpadding="0" cellspacing="0" style="border-bottom: 1px dashed white; width: 100%;"><tbody>
+<table cellpadding="0" cellspacing="0" style="width: 100%;"><tbody>
 <tr style="text-align: left;"><td class="tr-caption">Name (Nickname)</td></tr>
 <tr style="text-align: right;"><td>Fuchigami Mai (-chan*)</td></tr>
 <tr style="text-align: left;"><td class="tr-caption">Date Of Birth</td></tr>
 <tr style="text-align: right;"><td><span class="DOB">1987.05.28 (we're not supposed to know but it's)</span></td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Profile</td></tr>
-<tr style="text-align: right;"><td>Anime Voice Actress</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Status (Singer Debut|Swimsuit Photobook|Married)</td></tr>
-<tr style="text-align: right;"><td>Yes|No|No</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">How I came to know of her</td></tr>
-<tr style="text-align: right;"><td>From Game "Alternative Girls" as Sylvia Richter and later from Anime "Assassination Classroom" as Shiota Nagisa</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Why would she be "wanted" by me</td></tr>
-<tr style="text-align: right;"><td>She is known for acting male characters, but it's when she voices females that shows out her best, in my opinion. Not talking about voice, she doesn't look half bad either. Her singing career** is really helping to improve her image on me.</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Wanted Level</td></tr>
-<tr style="text-align: right;"><td>★★★☆☆ (Not really my type but if she throws me a wink I can't say no)</td></tr>
 </tbody></table>
-(*More commonly referred to as "MaiMai")<br />
-(**Most notably in Klassic Note is "BLACK CAT" where in the music video she cosplays as a cat girl, available on YouTube)
+<br/>
 </div>
 </div>
 <div id="HidakaRina">
@@ -794,24 +429,13 @@ THE SEIYUU: 3RD WAVE<br />
 <div class="profile-box">
 <div class="separator" style="clear: both; text-align: center;">
 <img border="0" src="https://4.bp.blogspot.com/-V8m0QOSbd3Y/Xb0OLQOa1SI/AAAAAAAA1qM/5HjnxRMG16gVXSIUYK2-PfE6HdwEkI2bQCLcBGAsYHQ/s320/1310179528.jpg" width="225" height="320" data-original-width="1126" data-original-height="1600" /></div>
-<table cellpadding="0" cellspacing="0" style="border-bottom: 1px dashed white; width: 100%;"><tbody>
+<table cellpadding="0" cellspacing="0" style="width: 100%;"><tbody>
 <tr style="text-align: left;"><td class="tr-caption">Name (Nickname)</td></tr>
 <tr style="text-align: right;"><td>Hidaka Rina (-chan*)</td></tr>
 <tr style="text-align: left;"><td class="tr-caption">Date Of Birth</td></tr>
 <tr style="text-align: right;"><td><span class="DOB">1994.06.15</span></td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Profile</td></tr>
-<tr style="text-align: right;"><td>Anime Voice Actress</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Status (Singer Debut|Swimsuit Photobook|Married)</td></tr>
-<tr style="text-align: right;"><td>No|No|No</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">How I came to know of her</td></tr>
-<tr style="text-align: right;"><td>Because she looks cute and sounds like it too, and later from Anime "Servant x Service" as Momoi Kanon</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Why would she be "wanted" by me</td></tr>
-<tr style="text-align: right;"><td>She's the cute girl type that everyone loves, but I just think she looks cute even after all these years. Later on I also found out she has a lovely personality too** so that's a plus. Our paths hardly cross in Anime even if she has been around way longer than many here.</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Wanted Level</td></tr>
-<tr style="text-align: right;"><td>★★★☆☆ (Purely based on looks)</td></tr>
 </tbody></table>
-(*More commonly referred to as "ChanRina" for some reason I don't know)<br />
-(**As seen from Internet video series "Ohisamagumi" with Hikasa Youko)
+<br/>
 </div>
 </div>
 <div id="IsobeKarin">
@@ -819,24 +443,13 @@ THE SEIYUU: 3RD WAVE<br />
 <div class="profile-box">
 <div class="separator" style="clear: both; text-align: center;">
 <img border="0" src="https://4.bp.blogspot.com/-H0tO2L0L_gk/Xa2jSVkODRI/AAAAAAAA1YY/tw9jwWVh5Ckm_OzHGW1RDcJo-5k_Er7UACLcBGAsYHQ/s320/DU4Lcc9UQAAEStA.jpg" width="320" height="320" data-original-width="1592" data-original-height="1592" /></div>
-<table cellpadding="0" cellspacing="0" style="border-bottom: 1px dashed white; width: 100%;"><tbody>
+<table cellpadding="0" cellspacing="0" style="width: 100%;"><tbody>
 <tr style="text-align: left;"><td class="tr-caption">Name (Nickname)</td></tr>
 <tr style="text-align: right;"><td>Isobe Karin (-chan*)</td></tr>
 <tr style="text-align: left;"><td class="tr-caption">Date Of Birth</td></tr>
 <tr style="text-align: right;"><td><span class="DOB">1994.05.26</span></td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Profile</td></tr>
-<tr style="text-align: right;"><td>Anime Voice Actress</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Status (Singer Debut|Swimsuit Photobook|Married)</td></tr>
-<tr style="text-align: right;"><td>No|No|No</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">How I came to know of her</td></tr>
-<tr style="text-align: right;"><td>From Anime "Just Because!" as Natsume Mio, just like everyone else**</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Why would she be "wanted" by me</td></tr>
-<tr style="text-align: right;"><td>Once you realise who she is behind the Anime, you'll like her. Once you know how lovely she is beyond everything else, you will not stop liking her, just like I did. She just needs more Anime roles though, been working on games and that idol unit may not be enough exposure.</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Wanted Level</td></tr>
-<tr style="text-align: right;"><td>★★★★☆ (I need more reasons to like her more)</td></tr>
 </tbody></table>
-(*More commonly referred to as "Karirin" but "Karin-chan" is also popular)<br />
-(**It's her only Anime main role)
+<br/>
 </div>
 </div>
 <div id="KidoIbuki">
@@ -844,24 +457,13 @@ THE SEIYUU: 3RD WAVE<br />
 <div class="profile-box">
 <div class="separator" style="clear: both; text-align: center;">
 <img border="0" src="https://1.bp.blogspot.com/-oKeVUXfqkXc/Xax4YPSV4jI/AAAAAAAA1W4/6pn4hXXW7KwVz-X0sckuQcAXcEaGXu50wCLcBGAsYHQ/s320/DoL3Oe9VsAATLrc.jpg" width="320" height="309" data-original-width="1106" data-original-height="1068" /></div>
-<table cellpadding="0" cellspacing="0" style="border-bottom: 1px dashed white; width: 100%;"><tbody>
+<table cellpadding="0" cellspacing="0" style="width: 100%;"><tbody>
 <tr style="text-align: left;"><td class="tr-caption">Name (Nickname)</td></tr>
 <tr style="text-align: right;"><td>Kido Ibuki (-chan*)</td></tr>
 <tr style="text-align: left;"><td class="tr-caption">Date Of Birth</td></tr>
 <tr style="text-align: right;"><td><span class="DOB">1997.11.14 [surprisingly only]</span></td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Profile</td></tr>
-<tr style="text-align: right;"><td>Anime Voice Actress</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Status (Singer Debut|Swimsuit Photobook|Married)</td></tr>
-<tr style="text-align: right;"><td>No|No**|No</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">How I came to know of her</td></tr>
-<tr style="text-align: right;"><td>From Anime "Subete ga F ni Naru" as Magata Shiki and Game "Alternative Girls" as Saionji Rei and Anime "Eromanga-sensei" as Megumi</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Why would she be "wanted" by me</td></tr>
-<tr style="text-align: right;"><td>Her tsundere voices are my fuel, and she is kind of cute. Despite her young age in the industry she excels in her roles and has a somewhat sloppy character and I like her for that somehow.</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Wanted Level</td></tr>
-<tr style="text-align: right;"><td>★★★★☆ (The childhood friend I wanted but don't have)</td></tr>
 </tbody></table>
-(*People like to call her "Ibuking" I don't know. That's how she came up with her Twitter account name, I guess.)<br />
-(**Not yet, but I reviewed her 1st photobook without swimsuits <a href="https://knwebreports.blogspot.com/2019/05/fifth-book-worth-of-photos-tsundere-who.html" target="_blank">here</a>)
+<br/>
 </div>
 </div>
 <div id="KitouAkari">
@@ -869,23 +471,13 @@ THE SEIYUU: 3RD WAVE<br />
 <div class="profile-box">
 <div class="separator" style="clear: both; padding: 2px; text-align: center;">
 <img border="0" data-original-height="524" data-original-width="400" height="320" src="https://1.bp.blogspot.com/-lziBc4N3PZU/XacnUEzfFjI/AAAAAAAA1O0/6O7hp8XFPLA2_SdaAwlAfCUyboYUaknwwCLcBGAsYHQ/s320/DMQsmpmVwAA_SZs.jpg" width="244" /></div>
-<table cellpadding="0" cellspacing="0" style="border-bottom: 1px dashed white; width: 100%;"><tbody>
+<table cellpadding="0" cellspacing="0" style="width: 100%;"><tbody>
 <tr style="text-align: left;"><td class="tr-caption">Name (Nickname)</td></tr>
 <tr style="text-align: right;"><td>Kitou Akari (Akarin)</td></tr>
 <tr style="text-align: left;"><td class="tr-caption">Date Of Birth</td></tr>
 <tr style="text-align: right;"><td><span class="DOB">1994.10.16</span></td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Profile</td></tr>
-<tr style="text-align: right;"><td>Anime Voice Actress</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Status (Singer Debut|Swimsuit Photobook|Married)</td></tr>
-<tr style="text-align: right;"><td>Yes*|No|No</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">How I came to know of her</td></tr>
-<tr style="text-align: right;"><td>From Anime "Blend.S" as Hinata Kaho and Anime "Tsurezure Children" as Ijima Kana</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Why would she be "wanted" by me</td></tr>
-<tr style="text-align: right;"><td>Her voice acting might be overrated by me considering she's still rather new, but somehow her fear of horror amongst many things about her attracted me to her. The singing just makes her perfect imouto candidate now lol</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Wanted Level</td></tr>
-<tr style="text-align: right;"><td>★★★★☆ (Not the best face out there)</td></tr>
 </tbody></table>
-(*Under music label PONY CANYON; I reviewed her debut single <a href="https://knwebreports.blogspot.com/2019/10/the-klassic-note-review-201910-issue-1.html" target="_blank">here</a>)
+<br/>
 </div>
 </div>
 <div id="NagaeRika">
@@ -894,24 +486,13 @@ THE SEIYUU: 3RD WAVE<br />
 <div class="separator" style="clear: both; padding: 2px; text-align: center;">
 <img border="0" src="https://3.bp.blogspot.com/-ZqrYLrqkdvI/Xa2l7ERTxyI/AAAAAAAA1Yk/o1HZGo3pxKkzvOJ_hqNexdghU0kJ4XVNwCLcBGAsYHQ/s320/45891820_165850191039380_4195944577507421424_n.jpg" width="320" height="213" data-original-width="1043" data-original-height="694" />
 </div>
-<table cellpadding="0" cellspacing="0" style="border-bottom: 1px dashed white; width: 100%;"><tbody>
+<table cellpadding="0" cellspacing="0" style="width: 100%;"><tbody>
 <tr style="text-align: left;"><td class="tr-caption">Name (Nickname)</td></tr>
 <tr style="text-align: right;"><td>Nagae Rika (-chan?*)</td></tr>
 <tr style="text-align: left;"><td class="tr-caption">Date Of Birth</td></tr>
 <tr style="text-align: right;"><td>????.09.28 (she may be younger than we think?)</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Profile</td></tr>
-<tr style="text-align: right;"><td>Anime Voice Actress</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Status (Singer Debut|Swimsuit Photobook|Married)</td></tr>
-<tr style="text-align: right;"><td>No|No|No</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">How I came to know of her</td></tr>
-<tr style="text-align: right;"><td>From Anime "Asobi Asobase" as Olivia</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Why would she be "wanted" by me</td></tr>
-<tr style="text-align: right;"><td>She's that cute waifu we all want. And she loves cooking too, so that's a plus. Sadly she isn't that interested in guys** it seems so that's a bummer lol why</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Wanted Level</td></tr>
-<tr style="text-align: right;"><td>★★★★☆ (Pure cuteness)</td></tr>
 </tbody></table>
-(*More commonly referred to as "Rikachimalu", and exists in Hiragana and Katakana forms. According to her Instagram story, they represent intimate and casual forms of her nickname.)
-(**Due to hanging out with other female artiste in the industry, and with supposed gf Fushimi Haruka)
+<br/>
 </div>
 </div>
 <div id="OozoraNaomi">
@@ -920,24 +501,13 @@ THE SEIYUU: 3RD WAVE<br />
 <div class="separator" style="clear: both; text-align: center;">
 <img border="0" src="https://1.bp.blogspot.com/-nq0qMDFjNJM/Xb0ObhODd5I/AAAAAAAA1qQ/mGPX8xF7Qykv7xU3e_V8FxzsF74KfghYACLcBGAsYHQ/s320/4508e79bgy1fj4bgu1g5mj20hs0qo76x.jpg" width="213" height="320" data-original-width="640" data-original-height="960" />
 </div>
-<table cellpadding="0" cellspacing="0" style="border-bottom: 1px dashed white; width: 100%;"><tbody>
+<table cellpadding="0" cellspacing="0" style="width: 100%;"><tbody>
 <tr style="text-align: left;"><td class="tr-caption">Name (Nickname)</td></tr>
 <tr style="text-align: right;"><td>Oozora Naomi (-chan*)</td></tr>
 <tr style="text-align: left;"><td class="tr-caption">Date Of Birth</td></tr>
 <tr style="text-align: right;"><td><span class="DOB">1989.02.04 (Very deceptive but it is indeed)</span></td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Profile</td></tr>
-<tr style="text-align: right;"><td>Anime Voice Actress</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Status (Singer Debut|Swimsuit Photobook|Married)</td></tr>
-<tr style="text-align: right;"><td>No|No|No</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">How I came to know of her</td></tr>
-<tr style="text-align: right;"><td>From Game "Alternative Girls" as Tachibana Naomi and later in Anime "Chio-chan no Tsuugakuro" as Miyamo Chio</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Why would she be "wanted" by me</td></tr>
-<tr style="text-align: right;"><td>Despite her age and late entrance into the Anime industry, she excels cutely in roles involving her Osaka hometown accent**, and even outside Anime she presents a bubbly personality and subtle awkwardness that is to love.</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Wanted Level</td></tr>
-<tr style="text-align: right;"><td>★★★★☆ (Her existence makes me happy for being alive, no joke)</td></tr>
 </tbody></table>
-(*More commonly referred to as "SoraSora")<br />
-(**Examples I know include mobile game "Alternative Girls", and as Kanna in desktop video game "Dead or Alive: Venus Vacation")
+<br/>
 </div>
 </div>
 <div id="WakiAzumi">
@@ -946,53 +516,28 @@ THE SEIYUU: 3RD WAVE<br />
 <div class="separator" style="clear: both; padding: 2px; text-align: center;">
 <img border="0" data-original-height="1000" data-original-width="750" height="320" src="https://3.bp.blogspot.com/-aKiQ8OqHses/XacpFdkNWSI/AAAAAAAA1PA/Otqag9HbPKgLLI2q6xytF4Fy20e2ZIYVQCLcBGAsYHQ/s320/DOa_qTfU8AAAFux.jpg" width="240" />
 </div>
-<table cellpadding="0" cellspacing="0" style="border-bottom: 1px dashed white; width: 100%;"><tbody>
+<table cellpadding="0" cellspacing="0" style="width: 100%;"><tbody>
 <tr style="text-align: left;"><td class="tr-caption">Name (Nickname)</td></tr>
 <tr style="text-align: right;"><td>Waki Azumi (-chan?*)</td></tr>
 <tr style="text-align: left;"><td class="tr-caption">Date Of Birth</td></tr>
 <tr style="text-align: right;"><td><span class="DOB">1994.09.08</span></td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Profile</td></tr>
-<tr style="text-align: right;"><td>Anime Voice Actress</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Status (Singer Debut|Swimsuit Photobook|Married)</td></tr>
-<tr style="text-align: right;"><td>Yes**|No|No</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">How I came to know of her</td></tr>
-<tr style="text-align: right;"><td>From Anime "Blend.S" as Sakuranomiya Maika, and later in Anime "Midara na Ao-chan wa Benkyou ga Dekinai" as Horie Ao</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Why would she be "wanted" by me</td></tr>
-<tr style="text-align: right;"><td>Purely because of looks, period. No seriously, her many appealing selfies is proof of how good she can take photos alone, and I can't help myself but follow her. In terms of voice hers is not exactly unique but she is popular and I've seen her in a variety of roles and she excels in all of them. She was a replacement voice in Game "Alternative Girls" too as Mizushima Airi, taking from retired voice actress Endou Yurika.</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Wanted Level</td></tr>
-<tr style="text-align: right;"><td>★★★★☆ (Purely based on looks and personality)</td></tr>
 </tbody></table>
-(*More commonly referred to as "Ajuju", and I hardly refer to her as Azumi-chan tbh)<br />
-(**Yes as in soon, under Columbia Japan)
+<br/>
 </div>
 </div>
-<br />
-<hr />
-<br />
-THE SEIYUU: 3RD WAVE RIPPLES<br />
 <div id="KoharaKonomi">
 <br />
 <div class="profile-box">
 <div class="separator" style="clear: both; text-align: center;">
 <img border="0" src="https://4.bp.blogspot.com/-GjDfJXaXd64/Xb0O-y3X-pI/AAAAAAAA1qc/P6m16xdkENIBv9VvJgBrO70zpgxep9R5gCLcBGAsYHQ/s320/45282021_314337085821062_3555961365544955043_n.jpg" width="320" height="320" data-original-width="1080" data-original-height="1080" />
 </div>
-<table cellpadding="0" cellspacing="0" style="border-bottom: 1px dashed white; width: 100%;"><tbody>
+<table cellpadding="0" cellspacing="0" style="width: 100%;"><tbody>
 <tr style="text-align: left;"><td class="tr-caption">Name (Nickname)</td></tr>
 <tr style="text-align: right;"><td>Kohara Konomi (Koko-chan)</td></tr>
 <tr style="text-align: left;"><td class="tr-caption">Date Of Birth</td></tr>
 <tr style="text-align: right;"><td><span class="DOB">1992.06.28</span></td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Profile</td></tr>
-<tr style="text-align: right;"><td>Anime Voice Actress</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Status (Singer Debut|Swimsuit Photobook|Married)</td></tr>
-<tr style="text-align: right;"><td>No|No|No</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">How I came to know of her</td></tr>
-<tr style="text-align: right;"><td>From Anime "Asobi Asobase" as Nomura Kasumi and earlier in Anime "Tsuki ga Kirei" as Mizuno Akane</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Why would she be "wanted" by me</td></tr>
-<tr style="text-align: right;"><td>She may have a temper, she may not be the cutest girl out there, but she is presenting herself as honest and as beautiful she can and I applaud her for that. Which also makes me like her that much more when she is in every cute role** of every other Anime.</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Wanted Level</td></tr>
-<tr style="text-align: right;"><td>★★★☆☆ (Very normal in every aspect but she is kinda cute)</td></tr>
 </tbody></table>
-(*Most notable I've seen include Anime "Takagi-san" as Mina-chan and "Kaguya-sama" as Fujiwara Chika)
+<br/>
 </div>
 </div>
 <div id="ToyotaMoe">
@@ -1001,23 +546,13 @@ THE SEIYUU: 3RD WAVE RIPPLES<br />
 <div class="separator" style="clear: both; padding: 2px; text-align: center;">
 <img border="0" src="https://2.bp.blogspot.com/-KbZD4IDAEWk/Xa2mgPVU80I/AAAAAAAA1Ys/jevRvFzIr30X3Kc_IJowDMcCKE5H-HTJACLcBGAsYHQ/s320/D4jtZGDXsAAzgQT.jpg" width="240" height="320" data-original-width="1108" data-original-height="1478" />
 </div>
-<table cellpadding="0" cellspacing="0" style="border-bottom: 1px dashed white; width: 100%;"><tbody>
+<table cellpadding="0" cellspacing="0" style="width: 100%;"><tbody>
 <tr style="text-align: left;"><td class="tr-caption">Name (Nickname)</td></tr>
 <tr style="text-align: right;"><td>Toyota Moe (Moeshi)</td></tr>
 <tr style="text-align: left;"><td class="tr-caption">Date Of Birth</td></tr>
 <tr style="text-align: right;"><td><span class="DOB">1995.03.15</span></td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Profile</td></tr>
-<tr style="text-align: right;"><td>Anime Voice Actress</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Status (Singer Debut|Swimsuit Photobook|Married)</td></tr>
-<tr style="text-align: right;"><td>No|Yes*|No</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">How I came to know of her</td></tr>
-<tr style="text-align: right;"><td>From Itou Miku (not featured here) and their idol group Pyxis (which I don't listen)</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Why would she be "wanted" by me</td></tr>
-<tr style="text-align: right;"><td>She's like that friend's friend who is more attractive than your friend lol (sorry Itou Miku). She is not as popular in roles though as she is somewhat new, but her roles do present her as being idol-like. Not that I've given any though. Without proper Anime credit I am refraining my idolism on her for now tbh</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Wanted Level</td></tr>
-<tr style="text-align: right;"><td>★★★☆☆ (Selfie fuel ranked right after Sumipe)</td></tr>
 </tbody></table>
-(*I reviewed her 2nd photobook- NO I DID NOT haha)
+<br/>
 </div>
 </div>
 <div id="YoshimuraHaruka">
@@ -1026,177 +561,17 @@ THE SEIYUU: 3RD WAVE RIPPLES<br />
 <div class="separator" style="clear: both; padding: 2px; text-align: center;">
 <img border="0" src="https://1.bp.blogspot.com/-if83pmMZxFA/Xa2mt6duOGI/AAAAAAAA1Yw/xq3nizjQOhMDFS5bbnN0auAEwAjUzvp6QCLcBGAsYHQ/s320/4508e79bgy1foyf3b6nwnj20dc0nqac0.jpg" width="180" height="320" data-original-width="480" data-original-height="854" />
 </div>
-<table cellpadding="0" cellspacing="0" style="border-bottom: 1px dashed white; width: 100%;"><tbody>
+<table cellpadding="0" cellspacing="0" style="width: 100%;"><tbody>
 <tr style="text-align: left;"><td class="tr-caption">Name (Nickname)</td></tr>
 <tr style="text-align: right;"><td>Yoshimura Haruka (Rurukyan)</td></tr>
 <tr style="text-align: left;"><td class="tr-caption">Date Of Birth</td></tr>
 <tr style="text-align: right;"><td>????.02.14 (we legit don't know her age*)</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Profile</td></tr>
-<tr style="text-align: right;"><td>Anime Voice Actress</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Status (Singer Debut|Swimsuit Photobook|Married)</td></tr>
-<tr style="text-align: right;"><td>No|No|No</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">How I came to know of her</td></tr>
-<tr style="text-align: right;"><td>From Game "Alternative Girls" as Orimiya Yui</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Why would she be "wanted" by me</td></tr>
-<tr style="text-align: right;"><td>Her personality is lovely despite her really compelling voice acting using her higher pitched cute voice, so  mostly it's the way she expresses herself in live events that make her stand out.</td></tr>
-<tr style="text-align: left;"><td class="tr-caption">Wanted Level</td></tr>
-<tr style="text-align: right;"><td>★★★☆☆ (Purely based on personality)</td></tr>
 </tbody></table>
-(*Fans guess she's in her 30s, so maybe born in late 1980s)
+<br/>
 </div>
 </div>
-<script src="https://knneo.github.io/d3.v2.js" type="application/javascript"></script>
-<!--<script src="https://graves.cl/timeknots/src/timeknots.js" type="application/javascript"></script>-->
-<script src="https://knneo.github.io/timeknots.js" type="application/javascript"></script>
-<script>
-var datesOfBirth = document.getElementsByClassName("DOB");
-var years = 1000 * 60 * 60 * 24 * 365;
-for(var i = 0; i < datesOfBirth.length; i++)
-{
-  var age = parseInt(getAge(datesOfBirth[i].innerHTML));
-  if(age > 0) datesOfBirth[i].innerHTML = datesOfBirth[i].innerHTML.concat(" [").concat(age.toString()).concat(" years ago]");
-}
-function getAge(DOB) {
-    var birthDateStr = DOB.replace(".","-");;
-    var birthDate = Date.parse(birthDateStr.replace(".","-").substring(0,10));
-    return Math.floor((new Date().getTime() - birthDate)/years);
-}
-var childDivs = document.getElementById('wantedList').getElementsByTagName('li');
-for(var childDiv of childDivs)
-{
- childDiv.firstChild.href = '#' + childDiv.innerText.replace(' ','');
- if(document.getElementById(childDiv.innerText.replace(' ','')) == null)
-    childDiv.innerHTML= childDiv.innerText;
-}
-var listOfDOB = new Array();
-listOfDOB.push({ date: "1993-02-19", name: "Me" });
-for (var wanted of document.getElementById("wantedList").getElementsByTagName("a"))
-{
-    var targetId = wanted.innerText;
-    var targetDOB = document.getElementById(targetId.replace(" ","")).getElementsByTagName("table")[0].getElementsByClassName("DOB");
-    if(targetDOB.length > 0)
-    {
-        var birthDate = new Date(Date.parse(targetDOB[0].innerText.replace(".","-").replace(".","-").substring(0,10)));
-        var age = parseInt(getAge(targetDOB[0].innerText));
-        if(!birthDate.toUTCString().includes(NaN))
-        listOfDOB.push({ date: targetDOB[0].innerText.replace(".","-").replace(".","-").substring(0,10), name: targetId, currentAge: age });
-    }
-}
-listOfDOB.sort(function(a, b){return Date.parse(a.date) - Date.parse(b.date)});
-window.addEventListener("load", function(){
-TimeKnots.draw("#timeline", listOfDOB, {horizontalLayout: true, width: 5000, height: 100, dateFormat: "%Y.%m.%d", showLabels: true, labelFormat: "%Y"}); adjustKnots(); });
-function toggleTimeline() {
-if(document.getElementById("timeline").style.display == "" || document.getElementById("timeline").style.display == "none")
-{
-document.getElementById("timeline").style.display = "block";
-document.getElementById("timeline").scrollTo(5000,0);
-}
-else
-document.getElementById("timeline").style.display = "none";
-}
-var currentMonth = createCalendar(new Date().getMonth());
-function createCalendar(monthNo) {
- var month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
- var calendarArray = new Array();
- var dayOfMonth = 1;
- for (var week = 0; week < 6; week++)
- {
-   var weekList = ['','','','','','',''];
-   for (var day = 0; day < 7; day++)
-   {
-  if(new Date(new Date().getFullYear(),monthNo,dayOfMonth).getDay() == day)
-  {
-   //add to array
-   if(dayOfMonth > new Date(new Date().getFullYear(),monthNo,dayOfMonth).getDate()) break;
-   weekList[day] = dayOfMonth;
-   dayOfMonth++;
-  }
-   }
-   calendarArray.push(weekList); 
- }
- var htmlString = "<table style=\"margin:auto;border: 1px solid white;\"><tbody><tr><td id=\"prevMonth\">\<\<</td><td colspan=\"5\">"+month[monthNo]+" "+new Date().getFullYear()+"</td><td id=\"nextMonth\">\>\></td></tr><tr><td>Sun</td><td>Mon</td><td>Tue</td><td>Wed</td><td>Thu</td><td>Fri</td><td>Sat</td></tr>";
- for (var week = 0; week < 6; week++)
- {
-   htmlString += "<tr>";
-   var weekList = calendarArray[week];
-   for (var day = 0; day < 7; day++)
-   {
-      htmlString += "<td>"+weekList[day]+"</td>";
-   }
-   htmlString += "</tr>";
- }
- htmlString += "</tbody></table>";
- for(var item of listOfDOB)
- {
-   var birthdayInYear = new Date(new Date().getFullYear(),new Date(item.date).getMonth(),new Date(item.date).getDate());
-   if(htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1 && htmlString.indexOf("<td>"+birthdayInYear.getDay()+"</td>") > -1 && item.name != "Me")
-  htmlString = htmlString.replace("<td>"+birthdayInYear.getDate()+"</td>","<td style=\"color: #00e4ff;\"><div class=\"popitem\" style=\"height: 25px; display:none;\">"+item.name+" turns "+item.currentAge+"! ("+birthdayInYear.getDate()+" "+month[birthdayInYear.getMonth()].substring(0,3)+")</div>"+birthdayInYear.getDate()+"</td>");
- }
- document.getElementById("calendar").innerHTML = htmlString;
-/*for(var today of document.getElementById("calendar").getElementsByTagName("td"))
-{
-   if(today.outerText == new Date().getDate()) today.style.border = "1px solid white";
-}*/
- document.getElementById("calendar").addEventListener("mouseover", function(event) {
-  if(event.target.style.color == "rgb(0, 228, 255)")
-   event.target.getElementsByClassName("popitem")[0].style.display = "block";
-  else
-  {
-   for (var display of document.getElementById("calendar").getElementsByClassName("popitem"))
-    display.style.display = "none";
-  }
- });
- currentMonth = monthNo;
-document.getElementById("prevMonth").style.opacity= 1;
-document.getElementById("nextMonth").style.opacity= 1;
-if(currentMonth >= 1) document.getElementById("prevMonth").addEventListener("click", function() { createCalendar(--currentMonth); });
-else document.getElementById("prevMonth").style.opacity= 0;
-if(currentMonth <= 10) document.getElementById("nextMonth").addEventListener("click", function() { createCalendar(++currentMonth); });
-else document.getElementById("nextMonth").style.opacity= 0;
- return monthNo;
-}
-function toggleCalendar() {
-if(document.getElementById("calendar").style.display == "" || document.getElementById("calendar").style.display == "none")
-document.getElementById("calendar").style.display = "block";
-else
-document.getElementById("calendar").style.display = "none";
-}
-window.addEventListener("scroll", function() { 
-document.getElementById("timeline").getElementsByTagName("div")[0].style.opacity = "0";
-document.getElementById("calendar").getElementsByTagName("div")[0].style.display = "none";
-//document.getElementById("timeline").style.display = "none";
-//document.getElementById("calendar").style.display = "none";
-});
-document.getElementById("timeline").addEventListener("wheel", function(e) { 
-//document.getElementById('timeline').scrollLeft -= e.wheelDelta/2;
-e.preventDefault();
-var origWidth = document.getElementById("timeline").getElementsByTagName("svg")[0].width.baseVal.value+e.wheelDelta;
-if(origWidth >= document.getElementById("timeline").offsetWidth && origWidth <= 10000)
-{
-document.getElementById("timeline").innerHTML = "";
-TimeKnots.draw("#timeline", listOfDOB, {horizontalLayout: true, width: origWidth, height: 100, dateFormat: "%Y.%m.%d", showLabels: true, labelFormat: "%Y"});
-adjustKnots();
-}
-else if (origWidth < document.getElementById("timeline").offsetWidth)
-{
-document.getElementById("timeline").innerHTML = "";
-TimeKnots.draw("#timeline", listOfDOB, {horizontalLayout: true, width: document.getElementById("timeline").offsetWidth, height: 100, dateFormat: "%Y.%m.%d", showLabels: true, labelFormat: "%Y"});
-adjustKnots();
-}
-else if (origWidth > 10000)
-{
-document.getElementById("timeline").innerHTML = "";
-TimeKnots.draw("#timeline", listOfDOB, {horizontalLayout: true, width: 48000, height: 100, dateFormat: "%Y.%m.%d", showLabels: true, labelFormat: "%Y"});
-adjustKnots();
-}
-});
-for(var profBox of document.getElementsByClassName("profile-box")) profBox.addEventListener("dblclick", function() { document.getElementById("wantedList").scrollIntoView(); } );
-function adjustKnots(){
-var circleList = document.getElementsByTagName("circle");
-for(var i = 0; i < circleList.length-1; i++)
-{
-var oldCX = parseInt(circleList[i].getAttribute("cx"));
-if(circleList[i+1].getAttribute("cx")-oldCX<=20) circleList[i+1].setAttribute("cx", oldCX+20);
-}
-}
-</script>
+<p style="text-align: center;"><a href="../index.html">Back</a></p>
+<script src="wanted-list.js" type="application/javascript"></script>
+<script src="d3.v2.js" type="application/javascript"></script>
+<script src="timeknots.js" type="application/javascript"></script>
+</body>

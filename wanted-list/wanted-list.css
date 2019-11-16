@@ -1,0 +1,83 @@
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  font-family: Open Sans;
+}
+body {
+  background-color: black;
+  color: white;
+  max-width: 800px;
+  margin: auto;
+  padding: 5px;
+}
+h1 {
+	text-align: center;
+}
+a {
+	color: cyan;
+}
+.profile-box {
+  border-radius: 8px;
+  border: 1px solid white;
+  box-shadow: 3px 3px;
+  padding: 4px 8px;
+}
+.profile-box, #timeline, #calendar {
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.profile-box:active {
+  box-shadow: 1px 1px;
+  transform: translate(2px,2px);
+}
+.tr-caption {
+	font-size: small;
+}
+#wantedList {
+  list-style-type: none;
+  margin: 5px;
+  padding: 5px;
+  text-align: center;
+}
+#wantedList li {
+  display: inline;
+  -webkit-user-select: text;
+  -khtml-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+#wantedList a {
+  text-decoration: underline solid #00e4ff;
+}
+#wantedList a:hover {
+  text-decoration: underline solid white;
+}
+#timeline::-webkit-scrollbar { 
+  z-index: 0;
+  height: 10px;
+}
+#timeline::-webkit-scrollbar-thumb {
+  background: white;
+}
+#timeline::-webkit-scrollbar-track {
+  background: #444444;
+}
+.popitem{
+    position: absolute;
+    background-color: black;
+    right: 0;
+    left: 0;
+}
+#calendar td {
+    width: 30px;
+    height: 20px;
+	text-align: center;
+}
+#HocchanAge { color: #444444; }
+#HocchanAge:hover { color: white; }
