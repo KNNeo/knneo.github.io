@@ -82,3 +82,6 @@ a {
 }
 #HocchanAge { color: #444444; }
 #HocchanAge:hover { color: white; }
+.separator {
+    display: none;
+}
