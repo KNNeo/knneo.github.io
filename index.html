@@ -10,11 +10,9 @@
 </body>
 <script>
 window.onload = function() {
-if(window.innerWidth > 640) document.getElementById("displayFrame").style.height = window.innerHeight*0.85;
-else document.getElementById("displayFrame").style.display = "none";
+document.getElementById("displayFrame").style.height = window.innerHeight*0.85;
 }
 function loadFrame(link) {
-if(window.innerWidth > 640) document.getElementById('displayFrame').src = link;
-else location.assign(link);
+document.getElementById('displayFrame').src = link;
 }
 </script>
