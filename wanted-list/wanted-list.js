@@ -134,8 +134,8 @@ document.getElementById("timeline").addEventListener("wheel", function(e) {
 	if(window.innerWidth < 540) document.getElementById("timeline").scrollLeft -= e.wheelDelta/2;
 	else
 	{
-		var origWidth = document.getElementById("timeline").getElementsByTagName("svg")[0].width.baseVal.value + e.wheelDelta;
-		if (origWidth >= 1000 && origWidth <= 10000) {
+		    var origWidth = document.getElementById("timeline").getElementsByTagName("svg")[0].width.baseVal.value + e.wheelDelta;
+		if (origWidth >= document.getElementById("timeline").offsetWidth && origWidth <= 10000) {
 			document.getElementById("timeline").innerHTML = "";
 			TimeKnots.draw("#timeline", listOfDOB, {
 				horizontalLayout: true,
@@ -146,11 +146,11 @@ document.getElementById("timeline").addEventListener("wheel", function(e) {
 				labelFormat: "%Y"
 			});
 			adjustKnots();
-		} else if (origWidth < 1000) {
+		} else if (origWidth < document.getElementById("timeline").offsetWidth) {
 			document.getElementById("timeline").innerHTML = "";
 			TimeKnots.draw("#timeline", listOfDOB, {
 				horizontalLayout: true,
-				width: 1000,
+				width: document.getElementById("timeline").offsetWidth,
 				height: 100,
 				dateFormat: "%Y.%m.%d",
 				showLabels: true,
