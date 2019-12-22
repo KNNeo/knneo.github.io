@@ -166,7 +166,7 @@ var TimeKnots = {
       }else{
         var format = function(d){return d}; // TODO
         var datetime = d.value;
-        var dateValue = d.name +"<small> ("+d.value+")</small>";
+        var dateValue = "<a href=\"#AnzaiChika\">" + d.name +"<small> ("+d.value+")</small></a>";
       }
       d3.select(this)
       .style("fill", function(d){if(d.color != undefined){return d.color} return cfg.color}).transition()
