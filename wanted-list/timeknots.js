@@ -4,7 +4,7 @@ var TimeKnots = {
       width: document.getElementById(id.toString().substring(1)).getBoundingClientRect().width,
       height: document.getElementById(id.toString().substring(1)).getBoundingClientRect().height,
       radius: 10,
-      lineWidth: -4,
+      lineWidth: 4,
       color: "#999",
       background: "#FFF",
       dateFormat: "%Y/%m/%d %H:%M:%S",
@@ -231,12 +231,12 @@ var TimeKnots = {
       }
       svg.append("text")
          .text(startString).style("font-size", "70%").style("fill", "white").style("font-family", "Open Sans")
-         .attr("x", function(d){if(cfg.horizontalLayout){return d3.max([0, (margin-this.getBBox().width/2)])} return Math.floor(this.getBBox().width/2)})
+         .attr("x", function(d){if(cfg.horizontalLayout){return d3.max([0, (margin-10-this.getBBox().width/2)])} return Math.floor(this.getBBox().width/2)})
          .attr("y", function(d){if(cfg.horizontalLayout){return Math.floor(cfg.height/2+(margin+this.getBBox().height))}return margin+this.getBBox().height/2+10});
 
       svg.append("text")
          .text(endString).style("font-size", "70%").style("fill", "white").style("font-family", "Open Sans")
-         .attr("x", function(d){if(cfg.horizontalLayout){return  cfg.width-20 -  d3.max([this.getBBox().width, (margin+this.getBBox().width/2)])} return Math.floor(this.getBBox().width/2)})
+         .attr("x", function(d){if(cfg.horizontalLayout){return  cfg.width-20 -  d3.max([this.getBBox().width, (margin+10+this.getBBox().width/2)])} return Math.floor(this.getBBox().width/2)})
          .attr("y", function(d){if(cfg.horizontalLayout){return Math.floor(cfg.height/2+(margin+this.getBBox().height))}return cfg.height-margin+this.getBBox().height/2+10})
     }
   }
