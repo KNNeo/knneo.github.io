@@ -4,7 +4,7 @@ var TimeKnots = {
       width: document.getElementById(id.toString().substring(1)).getBoundingClientRect().width,
       height: document.getElementById(id.toString().substring(1)).getBoundingClientRect().height,
       radius: 10,
-      lineWidth: 4,
+      lineWidth: -4,
       color: "#999",
       background: "#FFF",
       dateFormat: "%Y/%m/%d %H:%M:%S",
@@ -49,7 +49,7 @@ var TimeKnots = {
       var maxValue = d3.max(timestamps);
       var minValue = d3.min(timestamps);
     }
-    var margin = (d3.max(events.map(function(d){return d.radius})) || cfg.radius)*2+cfg.lineWidth;
+    var margin = (d3.max(events.map(function(d){return d.radius})) || cfg.radius)*1.5+cfg.lineWidth;
     var step = (cfg.horizontalLayout)?((cfg.width-20-2*margin)/(maxValue - minValue)):((cfg.height-2*margin)/(maxValue - minValue));
     var series = [];
     if(maxValue == minValue){step = 0;if(cfg.horizontalLayout){margin=cfg.width-20/2}else{margin=cfg.height/2}}
