@@ -225,19 +225,24 @@ var TimeKnots = {
         var startString = format(new Date(minValue));
         var endString = format(new Date(maxValue));
       }else{
-        var format = function(d){return d}; //Should I do something else?
+        var format = function(d){return d};
         var startString = minValue;
         var endString = maxValue;
       }
+	  var labelMargin = 25;
       svg.append("text")
          .text(startString).style("font-size", "70%").style("fill", "white").style("font-family", "Open Sans")
-         .attr("x", function(d){if(cfg.horizontalLayout){return d3.max([0, (margin-10-this.getBBox().width/2)])} return Math.floor(this.getBBox().width/2)})
-         .attr("y", function(d){if(cfg.horizontalLayout){return Math.floor(cfg.height/2+5+(margin+this.getBBox().height))}return margin+this.getBBox().height/2+10});
+		 .attr("x", labelMargin/4)
+		 .attr("y", cfg.height/2 + labelMargin);
+         //.attr("x", function(d){if(cfg.horizontalLayout){return d3.max([0, (margin-this.getBBox().width/2)])} return Math.floor(this.getBBox().width/2)})
+         //.attr("y", function(d){if(cfg.horizontalLayout){return Math.floor(cfg.height/2+(margin+this.getBBox().height))}return margin+this.getBBox().height/2+10});
 
       svg.append("text")
          .text(endString).style("font-size", "70%").style("fill", "white").style("font-family", "Open Sans")
-         .attr("x", function(d){if(cfg.horizontalLayout){return  cfg.width-20 -  d3.max([this.getBBox().width, (margin+10+this.getBBox().width/2)])} return Math.floor(this.getBBox().width/2)})
-         .attr("y", function(d){if(cfg.horizontalLayout){return Math.floor(cfg.height/2+5+(margin+this.getBBox().height))}return cfg.height-margin+this.getBBox().height/2+10})
+		 .attr("x", cfg.width - labelMargin*2)
+		 .attr("y", cfg.height/2 + labelMargin)
+         //.attr("x", function(d){if(cfg.horizontalLayout){return  cfg.width-20 -  d3.max([this.getBBox().width, (margin+this.getBBox().width/2)])} return Math.floor(this.getBBox().width/2)})
+         //.attr("y", function(d){if(cfg.horizontalLayout){return Math.floor(cfg.height/2+(margin+this.getBBox().height))}return cfg.height-margin+this.getBBox().height/2+10})
     }
   }
 }
