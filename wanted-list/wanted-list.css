@@ -33,9 +33,6 @@ a {
   box-shadow: 1px 1px;
   transform: translate(2px,2px);
 }
-.tr-caption {
-	font-size: small;
-}
 #wantedList {
   list-style-type: none;
   margin: 5px;
@@ -74,13 +71,19 @@ a {
     right: 0;
     left: 0;
 }
+.tp-description { display: none; }
+.turning-point:hover .tp-description {
+    display: block;
+    position: absolute;
+    background: black;
+    border: 1px solid white;
+    padding: 5px 8px;
+    font-size: 1.3em;
+    margin-right: 8px;
+}
 #calendar td {
     width: 30px;
-    height: 20px;
-	text-align: center;
-	font-size: small;
-}
-#HocchanAge { color: #444444; }
+    height: 20px;#HocchanAge { color: #444444; }
 #HocchanAge:hover { color: white; }
 .separator {
     display: none;
