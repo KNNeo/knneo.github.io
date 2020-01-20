@@ -148,76 +148,8 @@ function createCalendar(monthNo, DOBlist) {
 }
 //on scroll turn off all overlays in timeline and calendar
 window.addEventListener("scroll", function() {
-    document.getElementById("timeline").getElementsByTagName("div")[0].style.opacity = "0";
     document.getElementById("calendar").getElementsByTagName("div")[0].style.display = "none";
 });
-//on timeline double click shrink timeline
-document.getElementById("timeline").addEventListener("dblclick", function() {
-    var origWidth = document.getElementById("timeline").getElementsByTagName("svg")[0].width.baseVal.value / 2;
-    document.getElementById("timeline").innerHTML = "";
-    if (origWidth < 1000)
-        TimeKnots.draw("#timeline", DOBlist, {
-            horizontalLayout: true,
-            width: 1000,
-            height: 100,
-            dateFormat: "%Y.%m.%d",
-            showLabels: true,
-            labelFormat: "%Y"
-        });
-    else
-        TimeKnots.draw("#timeline", DOBlist, {
-            horizontalLayout: true,
-            width: origWidth,
-            height: 100,
-            dateFormat: "%Y.%m.%d",
-            showLabels: true,
-            labelFormat: "%Y"
-        });
-    adjustKnots();
-});
-//on timeline wheel scroll adjust timeline length ie. redraw
-document.getElementById("timeline").addEventListener("wheel", function(e) {
-    e.preventDefault();
-    if(!e.shiftKey){ document.getElementById('timeline').scrollLeft -= e.wheelDelta/2; return; }
-    var origWidth = document.getElementById("timeline").getElementsByTagName("svg")[0].width.baseVal.value + e.wheelDelta;
-    document.getElementById("timeline").innerHTML = "";
-    if (origWidth >= 1000 && origWidth <= 10000)
-        TimeKnots.draw("#timeline", DOBlist, {
-            horizontalLayout: true,
-            width: origWidth,
-            height: 100,
-            dateFormat: "%Y.%m.%d",
-            showLabels: true,
-            labelFormat: "%Y"
-        });
-    else if (origWidth < 1000)
-        TimeKnots.draw("#timeline", DOBlist, {
-            horizontalLayout: true,
-            width: 1000,
-            height: 100,
-            dateFormat: "%Y.%m.%d",
-            showLabels: true,
-            labelFormat: "%Y"
-        });
-    else if (origWidth > 10000)
-        TimeKnots.draw("#timeline", DOBlist, {
-            horizontalLayout: true,
-            width: 10000,
-            height: 100,
-            dateFormat: "%Y.%m.%d",
-            showLabels: true,
-            labelFormat: "%Y"
-        });
-    adjustKnots();
-});
-//to shift position of knots if overlap with previous
-function adjustKnots() {
-    var circleList = document.getElementsByTagName("circle");
-    for (var i = 0; i < circleList.length - 1; i++) {
-        var oldCX = parseInt(circleList[i].getAttribute("cx"));
-        if (circleList[i + 1].getAttribute("cx") - oldCX <= 20) circleList[i + 1].setAttribute("cx", oldCX + 20);
-    }
-}
 //double click profile box go up to list of names
 for (var profBox of document.getElementsByClassName("profile-box")) profBox.addEventListener("dblclick", function() {
     if (window.innerWidth < 780) {

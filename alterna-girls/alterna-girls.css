@@ -1,6 +1,8 @@
 html {
   scroll-behavior: smooth;
   overflow-x: hidden;
+  background-color: black;
+  color: white;
 }
 .profile-box {
   border-radius: 8px;
