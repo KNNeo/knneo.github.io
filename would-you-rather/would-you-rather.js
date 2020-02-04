@@ -56,6 +56,10 @@ function getResult(module) {
 			result.innerHTML = "Would you prefer long-haired \"" + name1 + "\" or short-haired \"" + name2 + "\"?";
 		else if (categoryName == "Last Round")
 			result.innerHTML = "It's the last round of a board game. Who would you rather let win? \"" + name1 + "\" or \"" + name2 + "\"? (Assume both are tied)";
+		else if (categoryName == "Bump")
+			result.innerHTML = "Would you rather do a chest bump with \"" + name1 + "\" or \"" + name2 + "\"?";
+		else if (categoryName == "Sweet Talk")
+			result.innerHTML = "Would you rather say sweet nothings all day with \"" + name1 + "\" or \"" + name2 + "\"?";
 	}
 	else
 		result.innerHTML = "Please key in something!";
