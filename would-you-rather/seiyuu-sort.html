@@ -17,41 +17,41 @@
 //
 //*********************************************************
 var namMember = new Array(
-"悠木碧",
-"本渡楓",
-"花澤香菜",
-"大亀あすか",
-"茅野愛衣",
-"渕上舞",
-"大空直美",
-"小松未可子",
-"長妻樹里",
-"沼倉愛美",
-"大久保瑠美",
-"小見川千明",
-"竹達彩奈",
-"戸松遥",
-"安済知佳",
-"上坂すみれ",
-"寿美菜子",
-"東山奈央",
-"大西沙織",
-"小原好美",
-"雨宮天",
-"大野柚布子",
-"高野麻里佳",
-"高橋李依",
-"麻倉もも",
-"礒部花凜",
-"遠藤ゆりか",
-"豊田萌絵",
-"日高里菜",
-"和氣あず未",
-"水瀬いのり",
-"木野日菜",
-"夏川椎菜",
-"木戸衣吹"
+"悠木碧<br>[Yuuki Aoi]",
+"本渡楓<br>[Hondo Kaede]",
+"花澤香菜<br>[Hanazawa Kana]",
+"茅野愛衣<br>[Kayano Ai]",
+"渕上舞<br>[Fuchigami Mai]",
+"大空直美<br>[Oozora Naomi]",
+"小松未可子<br>[Komatsu Mikako]",
+"長妻樹里<br>[Nagatsuma Juuri]",
+"沼倉愛美<br>[Numakura Manami]",
+"大久保瑠美<br>[Ookubo Rumi]",
+"小見川千明<br>[Omigawa Chiaki]",
+"竹達彩奈<br>[Taketatsu Ayana]",
+"戸松遥<br>[Tomatsu Haruka]",
+"安済知佳<br>[Anzai Chika]",
+"上坂すみれ<br>[Uesaka Sumire]",
+"寿美菜子<br>[Kotobuki Minako]",
+"東山奈央<br>[Touyama Nao]",
+"大西沙織<br>[Oonishi Saori]",
+"小原好美<br>[Kohara Konomi]",
+"雨宮天<br>[Amamiya Sora]",
+"大野柚布子<br>[Oono Yuuko]",
+"高野麻里佳<br>[Kouno Marika]",
+"高橋李依<br>[Takahashi Rie]",
+"麻倉もも<br>[Asakura Momo]",
+"礒部花凜<br>[Isobe Karin]",
+"遠藤ゆりか<br>[Endou Yurika]",
+"豊田萌絵<br>[Toyota Moe]",
+"日高里菜<br>[Hidaka Rina]",
+"和氣あず未<br>[Waki Azumi]",
+"水瀬いのり<br>[Minase Inori]",
+"木野日菜<br>[Kino Hina]",
+"夏川椎菜<br>[Natsukawa Shiina]",
+"木戸衣吹<br>[Kido Ibuki]"
 );
+namMember = shuffle(namMember);
 //*********************************************************
 
 var lstMember = new Array();
@@ -289,6 +289,28 @@ function toNameFace(n){
 	*/
 	return str;
 }
+/**
+ * Randomize array element order in-place.
+ * Using Fisher-Yates (aka Knuth) Shuffle algorithm.
+ */
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
 //-->
 </script>
 <style type="text/css">
@@ -307,17 +329,17 @@ function toNameFace(n){
 	border-spacing: 10px 5px;
 }
 #leftField{
-	width: 150px;
+	width: 120px;
 	height: 150px;
 	border: 1px solid #000;
 }
 #rightField{
-	width: 150px;
+	width: 120px;
 	height: 150px;
 	border: 1px solid #000;
 }
 .middleField{
-	width: 150px;
+	width: 60px;
 	height: 70px;
 	border: 1px solid #000;
 }
@@ -340,18 +362,18 @@ td {
 	<tr>
 		<td id="leftField" onclick="if(finishFlag==0)sortList(-1);" rowspan="2"></td>
 		<td class="middleField" onclick="if(finishFlag==0)sortList(0);">
-			引き分け
+			引き分け<br>[Draw]
 		</td>
 		<td id="rightField" onclick="if(finishFlag==0)sortList(1);" rowspan="2"></td>
 	</tr>
-	<tr>
+	<!--<tr>
 		<td class="middleField" onclick="if(finishFlag==0)sortList(0);">
 			どちらもしらない
 		</td>
-	</tr>
+	</tr>-->
 </tbody></table><br><br>
 <div id="resultField" style="text-align:center;">
-<div id="resultField" style="text-align: center;">好きな方（または引き分け）をクリックで選択してください。 <br><br> こちらのページへのリンクはフリーです。 <br>なお、声優ご本人、所属事務所等との関係はございません。
+<div id="resultField" style="text-align: center;">Choose the one you like more. <br><br> This page is not related to the voice actresses or their talent companies in any way.
 </div>
 </div>
 <p style="text-align: center;"><a href="would-you-rather.html">Back</a></p>
