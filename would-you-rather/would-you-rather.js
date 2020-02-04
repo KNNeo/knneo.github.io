@@ -111,6 +111,8 @@ function loadPreset(module) {
 		loadedText = document.getElementById("namesPreset").innerText;
 	else if (categoryName == "Load Show Titles Preset")
 		loadedText = document.getElementById("showsPreset").innerText;
+	else if (categoryName == "Load People Sort Ranking")
+		window.location.href = "seiyuu-sort.html";
 	
 	text.innerHTML = loadedText.split(",");
 }
