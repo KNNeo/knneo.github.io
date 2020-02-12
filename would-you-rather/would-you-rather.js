@@ -112,7 +112,7 @@ function loadPreset(module) {
 	else if (categoryName == "Load Show Titles Preset")
 		loadedText = document.getElementById("showsPreset").innerText;
 	else if (categoryName == "Load People Sort Ranking")
-		window.location.href = "seiyuu-sort.html";
+		window.location.href = "seiyuu-sort-utf8.html";
 	
 	text.innerHTML = loadedText.split(",");
 }

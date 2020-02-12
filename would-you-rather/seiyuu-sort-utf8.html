@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<meta http-equiv="Content-Style-Type" content="text/css">
+<meta http-equiv="Content-Script-Type" content="text/javascript">
+<title>女性声優ソート</title>
+
+<script type="text/javascript">
+<!--
+//*********************************************************
+//
+// 評価するメンバーの名前のリスト
+//
+// この部分を変更して下さい。名前の削除・追加も可能です。
+// 名前を引用符(")で括り、コンマ(,)で区切って下さい。
+// 但し、リストの最後にはコンマを入れてはいけません。
+//
+//*********************************************************
+var namMember = new Array(
+"悠木碧<br>[Yuuki Aoi]",
+"本渡楓<br>[Hondo Kaede]",
+"花澤香菜<br>[Hanazawa Kana]",
+"茅野愛衣<br>[Kayano Ai]",
+"渕上舞<br>[Fuchigami Mai]",
+"大空直美<br>[Oozora Naomi]",
+"小松未可子<br>[Komatsu Mikako]",
+"長妻樹里<br>[Nagatsuma Juuri]",
+"沼倉愛美<br>[Numakura Manami]",
+"大久保瑠美<br>[Ookubo Rumi]",
+"小見川千明<br>[Omigawa Chiaki]",
+"竹達彩奈<br>[Taketatsu Ayana]",
+"戸松遥<br>[Tomatsu Haruka]",
+"安済知佳<br>[Anzai Chika]",
+"上坂すみれ<br>[Uesaka Sumire]",
+"寿美菜子<br>[Kotobuki Minako]",
+"東山奈央<br>[Touyama Nao]",
+"大西沙織<br>[Oonishi Saori]",
+"小原好美<br>[Kohara Konomi]",
+"雨宮天<br>[Amamiya Sora]",
+"大野柚布子<br>[Oono Yuuko]",
+"高野麻里佳<br>[Kouno Marika]",
+"高橋李依<br>[Takahashi Rie]",
+"麻倉もも<br>[Asakura Momo]",
+"礒部花凜<br>[Isobe Karin]",
+"遠藤ゆりか<br>[Endou Yurika]",
+"豊田萌絵<br>[Toyota Moe]",
+"日高里菜<br>[Hidaka Rina]",
+"和氣あず未<br>[Waki Azumi]",
+"水瀬いのり<br>[Minase Inori]",
+"木野日菜<br>[Kino Hina]",
+"夏川椎菜<br>[Natsukawa Shiina]",
+"木戸衣吹<br>[Kido Ibuki]"
+);
+namMember = shuffle(namMember);
+//*********************************************************
+
+var lstMember = new Array();
+var parent = new Array();
+var equal = new Array();
+var rec = new Array();
+var cmp1,cmp2;
+var head1,head2;
+var nrec;
+
+var numQuestion;
+var totalSize;
+var finishSize;
+var finishFlag;
+
+//変数の初期化+++++++++++++++++++++++++++++++++++++++++++++
+function initList(){
+	var n = 0;
+	var mid;
+	var i;
+
+	//ソートすべき配列
+	lstMember[n] = new Array();
+	for (i=0; i<namMember.length; i++) {
+		lstMember[n][i] = i;
+	}
+	parent[n] = -1;
+	totalSize = 0;
+	n++;
+
+	for (i=0; i<lstMember.length; i++) {
+		//要素数が２以上なら２分割し、
+		//分割された配列をlstMemberの最後に加える
+		if(lstMember[i].length>=2) {
+			mid = Math.ceil(lstMember[i].length/2);
+			lstMember[n] = new Array();
+			lstMember[n] = lstMember[i].slice(0,mid);
+			totalSize += lstMember[n].length;
+			parent[n] = i;
+			n++;
+			lstMember[n] = new Array();
+			lstMember[n] = lstMember[i].slice(mid,lstMember[i].length);
+			totalSize += lstMember[n].length;
+			parent[n] = i;
+			n++;
+		}
+	}
+
+	//保存用配列
+	for (i=0; i<namMember.length; i++) {
+		rec[i] = 0;
+	}
+	nrec = 0;
+
+	//引き分けの結果を保存するリスト
+	//キー：リンク始点の値
+	// 値 ：リンク終点の値
+	for (i=0; i<=namMember.length; i++) {
+		equal[i] = -1;
+	}
+
+	cmp1 = lstMember.length-2;
+	cmp2 = lstMember.length-1;
+	head1 = 0;
+	head2 = 0;
+	numQuestion = 1;
+	finishSize = 0;
+	finishFlag = 0;
+}
+
+//リストのソート+++++++++++++++++++++++++++++++++++++++++++
+//flag：比較結果
+//  -1：左を選択
+//   0：引き分け
+//   1：右を選択
+function sortList(flag){
+	var i;
+	var str;
+
+	//recに保存
+	if (flag<0) {
+		rec[nrec] = lstMember[cmp1][head1];
+		head1++;
+		nrec++;
+		finishSize++;
+		while (equal[rec[nrec-1]]!=-1) {
+			rec[nrec] = lstMember[cmp1][head1];
+			head1++;
+			nrec++;
+			finishSize++;
+		}
+	}
+	else if (flag>0) {
+		rec[nrec] = lstMember[cmp2][head2];
+		head2++;
+		nrec++;
+		finishSize++;
+		while (equal[rec[nrec-1]]!=-1) {
+			rec[nrec] = lstMember[cmp2][head2];
+			head2++;
+			nrec++;
+			finishSize++;
+		}
+	}
+	else {
+		rec[nrec] = lstMember[cmp1][head1];
+		head1++;
+		nrec++;
+		finishSize++;
+		while (equal[rec[nrec-1]]!=-1) {
+			rec[nrec] = lstMember[cmp1][head1];
+			head1++;
+			nrec++;
+			finishSize++;
+		}
+		equal[rec[nrec-1]] = lstMember[cmp2][head2];
+		rec[nrec] = lstMember[cmp2][head2];
+		head2++;
+		nrec++;
+		finishSize++;
+		while (equal[rec[nrec-1]]!=-1) {
+			rec[nrec] = lstMember[cmp2][head2];
+			head2++;
+			nrec++;
+			finishSize++;
+		}
+	}
+
+	//片方のリストを走査し終えた後の処理
+	if (head1<lstMember[cmp1].length && head2==lstMember[cmp2].length) {
+		//リストcmp2が走査済 - リストcmp1の残りをコピー
+		while (head1<lstMember[cmp1].length){
+			rec[nrec] = lstMember[cmp1][head1];
+			head1++;
+			nrec++;
+			finishSize++;
+		}
+	}
+	else if (head1==lstMember[cmp1].length && head2<lstMember[cmp2].length) {
+		//リストcmp1が走査済 - リストcmp2の残りをコピー
+		while (head2<lstMember[cmp2].length){
+			rec[nrec] = lstMember[cmp2][head2];
+			head2++;
+			nrec++;
+			finishSize++;
+		}
+	}
+
+	//両方のリストの最後に到達した場合は
+	//親リストを更新する
+	if (head1==lstMember[cmp1].length && head2==lstMember[cmp2].length) {
+		for (i=0; i<lstMember[cmp1].length+lstMember[cmp2].length; i++) {
+			lstMember[parent[cmp1]][i] = rec[i];
+		}
+		lstMember.pop();
+		lstMember.pop();
+		cmp1 = cmp1-2;
+		cmp2 = cmp2-2;
+		head1 = 0;
+		head2 = 0;
+
+		//新しい比較を行う前にrecを初期化
+		if (head1==0 && head2==0) {
+			for (i=0; i<namMember.length; i++) {
+				rec[i] = 0;
+			}
+			nrec = 0;
+		}
+	}
+
+	if (cmp1<0) {
+		str = "Battle No."+(numQuestion-1)+"<br>"+Math.floor(finishSize*100/totalSize)+"% sorted.";
+		document.getElementById("battleNumber").innerHTML = str;
+
+		showResult();
+		finishFlag = 1;
+	}
+	else {
+		showImage();
+	}
+}
+
+//結果の表示+++++++++++++++++++++++++++++++++++++++++++++++
+function showResult() {
+	var ranking = 1;
+	var sameRank = 1;
+	var str = "";
+	var i;
+
+	str += "<table style=\"width:200px; font-size:12px; line-height:120%; margin-left:auto; margin-right:auto; border:1px solid #000; border-collapse:collapse\" align=\"center\">";
+	str += "<tr><td style=\"color:#ffffff; background-color:#000; text-align:center;\">順位<\/td><td style=\"color:#ffffff; background-color:#000; text-align:center;\">名前<\/td><\/tr>";
+
+	for (i=0; i<namMember.length; i++) {
+		str += "<tr><td style=\"border:1px solid #000; text-align:right; padding-right:5px;\">"+ranking+"<\/td><td style=\"border:1px solid #000; padding-left:5px;\">"+namMember[lstMember[0][i]]+"<\/td><\/tr>";
+		if (i<namMember.length-1) {
+			if (equal[lstMember[0][i]]==lstMember[0][i+1]) {
+				sameRank++;
+			} else {
+				ranking += sameRank;
+				sameRank = 1;
+			}
+		}
+	}
+	str += "<\/table>";
+
+	document.getElementById("resultField").innerHTML = str;
+}
+
+//比較する２つ要素の表示+++++++++++++++++++++++++++++++++++
+function showImage() {
+	var str0 = "Battle No."+numQuestion+"<br>"+Math.floor(finishSize*100/totalSize)+"% sorted.";
+	var str1 = ""+toNameFace(lstMember[cmp1][head1]);
+	var str2 = ""+toNameFace(lstMember[cmp2][head2]);
+
+	document.getElementById("battleNumber").innerHTML = str0;
+	document.getElementById("leftField").innerHTML = str1;
+	document.getElementById("rightField").innerHTML = str2;
+
+	numQuestion++;
+}
+
+//数値を名前（顔文字）に変換+++++++++++++++++++++++++++++++
+function toNameFace(n){
+	var str = namMember[n];
+
+	//顔文字を追加する場合は以下のコメントアウトを外す
+	//namMemberのインデックスと矛盾しないように注意
+	/*
+	str += "<br>────<br>";
+	switch(n) {
+		//case -1 はサンプルなので削除すること
+		case -1: str+="（ ´∀｀）";break;
+		default: str+=""+n;
+	}
+	*/
+	return str;
+}
+/**
+ * Randomize array element order in-place.
+ * Using Fisher-Yates (aka Knuth) Shuffle algorithm.
+ */
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
+//-->
+</script>
+<style type="text/css">
+<!--
+/**********************************************************
+ 表のスタイルを変更する場合はここを編集してください。
+**********************************************************/
+#mainTable{
+	font-size: 16px;
+	text-align: center;
+	vertical-align: middle;
+	width: 450px;
+	margin-left: auto;
+	margin-right: auto;
+	border-collapse: separate;
+	border-spacing: 10px 5px;
+}
+#leftField{
+	width: 120px;
+	height: 150px;
+	border: 1px solid #000;
+}
+#rightField{
+	width: 120px;
+	height: 150px;
+	border: 1px solid #000;
+}
+.middleField{
+	width: 60px;
+	height: 70px;
+	border: 1px solid #000;
+}
+body {
+	cursor: default;
+}
+td {
+	cursor: pointer;
+}
+//-->
+</style>
+</head>
+
+
+<body style="">
+<table id="mainTable" align="center">
+	<tbody><tr>
+		<td id="battleNumber" colspan="3" style="padding-bottom: 10px;">Battle No.1<br>0% sorted.</td>
+	</tr>
+	<tr>
+		<td id="leftField" onclick="if(finishFlag==0)sortList(-1);" rowspan="2"></td>
+		<td class="middleField" onclick="if(finishFlag==0)sortList(0);">
+			引き分け<br>[Draw]
+		</td>
+		<td id="rightField" onclick="if(finishFlag==0)sortList(1);" rowspan="2"></td>
+	</tr>
+	<!--<tr>
+		<td class="middleField" onclick="if(finishFlag==0)sortList(0);">
+			どちらもしらない
+		</td>
+	</tr>-->
+</tbody></table><br><br>
+<div id="resultField" style="text-align:center;">
+<div id="resultField" style="text-align: center;">Choose the one you like more. <br><br> This page is not related to the voice actresses or their talent companies in any way.
+</div>
+</div>
+<p style="text-align: center;"><a href="would-you-rather.html">Back</a></p>
+<script type="text/javascript"><!--
+	initList();
+	showImage();
+//-->
+</script>
+
+</body></html>
