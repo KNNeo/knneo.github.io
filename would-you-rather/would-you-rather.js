@@ -60,6 +60,10 @@ function getResult(module) {
 			result.innerHTML = "Would you rather do a chest bump with \"" + name1 + "\" or \"" + name2 + "\"?";
 		else if (categoryName == "Sweet Talk")
 			result.innerHTML = "Would you rather say sweet nothings all day with \"" + name1 + "\" or \"" + name2 + "\"?";
+		else if (categoryName == "Sweet Talk")
+			result.innerHTML = "Would you rather say sweet nothings all day with \"" + name1 + "\" or \"" + name2 + "\"?";
+		else if (categoryName == "Meal")
+			result.innerHTML = "Would you rather treat \"" + name1 + "\" to a meal at the restaurant or have a cheap takeaway meal with \"" + name2 + "\"? (Or vice versa?)";
 	}
 	else
 		result.innerHTML = "Please key in something!";
