@@ -1,16 +1,17 @@
-function getResult(module) {
-	var categoryName = module.innerHTML;
-    var text = document.getElementById("nameInput").value.trim();
-	var nameList = text.split("\n");
-	var result = document.getElementById("result1");
+function getResultFromNames(module) {
+	let categoryName = module.innerHTML;
+    let text = document.getElementById("nameInput").value.trim();
+	let nameList = text.split("\n");
+	let result = document.getElementById("result1");
 	result.innerHTML = "";
-	if(text.length > 0)
+	if(document.getElementById("nameInput").name !== "Load People Name Preset") result.innerHTML = "Wrong list loaded!";
+	else if(text.length > 0)
 	{
-		var name1 = nameList[Math.floor(Math.random() * nameList.length)];
-		var name2 = nameList[Math.floor(Math.random() * nameList.length)];
+		let name1 = nameList[Math.floor(Math.random() * nameList.length)];
+		let name2 = nameList[Math.floor(Math.random() * nameList.length)];
 		while(name2 == name1)
 			name2 = nameList[Math.floor(Math.random() * nameList.length)];
-		var name3 = nameList[Math.floor(Math.random() * nameList.length)];
+		let name3 = nameList[Math.floor(Math.random() * nameList.length)];
 		while(name3 == name2 || name3 == name1)
 			name3 = nameList[Math.floor(Math.random() * nameList.length)];
 		if(categoryName == "Dating")	
@@ -21,8 +22,8 @@ function getResult(module) {
 			result.innerHTML = "Who would you rather save first when both of them fell into the river \"" + name1 + "\" or \"" + name2 + "\"? (*Assume both cannot swim)";
 		else if(categoryName == "Mirror")
 		{
-			var mirrorFeatures = ["cutest","coolest","most beautiful","funniest","sexiest"];
-			var mirrorFeature = mirrorFeatures[Math.floor(Math.random() * mirrorFeatures.length)];
+			let mirrorFeatures = ["cutest","coolest","most beautiful","funniest","sexiest"];
+			let mirrorFeature = mirrorFeatures[Math.floor(Math.random() * mirrorFeatures.length)];
 			result.innerHTML = "Mirror, mirror, on the wall; Who is the " + mirrorFeature + " of them all? \"" + name1 + "\" or \"" + name2 + "\" or \"" + name3 + "\"?";
 		}
 		else if (categoryName == "Messager")
@@ -44,41 +45,30 @@ function getResult(module) {
 		result.innerHTML = "Please key in something!";
 }
 
-function getResult2() {
-    var text = document.getElementById("nameInput").value.trim();
-	var nameList = text.split("\n");
-	var result = document.getElementById("result2");
+function getResultFromTitles(module) {
+	let categoryName = module.innerHTML;
+    let text = document.getElementById("nameInput").value.trim();
+	let nameList = text.split("\n");
+	let result = document.getElementById("result2");
 	result.innerHTML = "";
-	if(text.length > 0)
+	if(document.getElementById("nameInput").name !== "Load Show Titles Preset") result.innerHTML = "Wrong list loaded!";
+	else if(text.length > 0)
 	{
-		var name1 = nameList[Math.floor(Math.random() * nameList.length)];
-		var name2 = nameList[Math.floor(Math.random() * nameList.length)];
+		let name1 = nameList[Math.floor(Math.random() * nameList.length)];
+		let name2 = nameList[Math.floor(Math.random() * nameList.length)];
 		while(name2 == name1)
 			name2 = nameList[Math.floor(Math.random() * nameList.length)];
-		result.innerHTML = "What would you rather watch for the rest of your life: \"" + name1 + "\" or \"" + name2 + "\"?";
+		if(categoryName == "Forever")
+			result.innerHTML = "What show would you rather watch for the rest of your life: \"" + name1 + "\" or \"" + name2 + "\"?";
+		else if(categoryName == "Plot")
+			result.innerHTML = "Which show has the best plot? \"" + name1 + "\" or \"" + name2 + "\"?";
+		else if(categoryName == "Character")
+			result.innerHTML = "Which show has the best characters? \"" + name1 + "\" or \"" + name2 + "\"?";
+		else if(categoryName == "Cast")
+			result.innerHTML = "Which show has the best cast of voice actors? \"" + name1 + "\" or \"" + name2 + "\"?";
 	}
 	else
 		result.innerHTML = "Please key in something!";
-}
-
-function getResult3() {
-    var text = document.getElementById("nameInput").value.trim();
-	var nameList = text.split("\n");
-	var result = document.getElementById("result1");
-	result.innerHTML = "";
-	if(text.length > 0 && nameList.length >= 5)
-	{
-		var name1 = nameList[Math.floor(Math.random() * nameList.length)];
-		var name2 = nameList[Math.floor(Math.random() * nameList.length)];
-		var name3 = nameList[Math.floor(Math.random() * nameList.length)];
-		var name4 = nameList[Math.floor(Math.random() * nameList.length)];
-		var name5 = nameList[Math.floor(Math.random() * nameList.length)];		
-		result.innerHTML = "Hair from \"" + name1 + "\", face from \"" + name2 + "\", chest from \"" + name3 + "\", hips and waist from \"" + name4 + "\", legs from \"" + name5 + "\"";
-	}
-	else if (text.length <= 0)
-		result.innerHTML = "Please key in something!";
-	else
-		result.innerHTML = "Minimum 5 names!";
 }
 
 function loadPreset(module) {
@@ -94,4 +84,5 @@ function loadPreset(module) {
 		window.location.href = "seiyuu-sort-utf8.html";
 	
 	text.innerHTML = loadedText.split(",");
+	text.name = module.innerText;
 }

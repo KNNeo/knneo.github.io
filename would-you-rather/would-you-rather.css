@@ -27,7 +27,7 @@ button {
   border-radius: 5px;
   box-shadow: 3px 3px;
   padding: 8px;
-  margin: 1px;
+  margin: 3px 0;
 }
 
 button:active {

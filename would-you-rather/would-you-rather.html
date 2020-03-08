@@ -10,47 +10,36 @@
 
 <body>
     <h1>Would you rather...?</h1>
-	<div id="table-sort-module" style="display: none;">
-		<div class="search-box">	
-			<input id="dbInput" type="text" onkeyup="searchFunction()" placeholder="search here" title="search"/>
-		</div>
-		<div class="table-box">
-			<table id="dbTable">
-				<tr class="header">
-					<th style="width:auto;">Title</th>
-					<th style="width:auto;">Artist</th>
-					<th style="width:auto;">Commisioner</th>
-					<th style="width:auto;">Completed</th>
-				</tr>
-				<tr>
-					<td>The Annunciation</td>
-					<td>Fra Angelico</td>
-					<td>Cosimo de' Medici</td>
-					<td>1446</td>
-				</tr>
-				<tr>
-					<td>The Klassic</td>
-					<td>The Angelica</td>
-					<td>Cosimo Merci</td>
-					<td>1448</td>
-				</tr>
-			</table>
-		</div>
-	</div>
 	<div id="input-module">
 		<div class="input-box">
-			<textarea id="nameInput" rows="10" cols="50" placeholder="Input list of names here..."></textarea>
-			<button type="button" value="Submit" onclick="loadPreset(this)">Load People Name Preset</button><button type="button" onclick="loadPreset(this)">Load Show Titles Preset</button><button type="button" onclick="loadPreset(this)">Load People Sort Ranking</button>
+			<textarea id="nameInput" rows="10" cols="50" name="" placeholder="Input list of names here..."></textarea>
+			<button type="button" value="Submit" onclick="loadPreset(this)">Load People Name Preset</button>
+			<button type="button" onclick="loadPreset(this)">Load Show Titles Preset</button>
+			<br>
+			<button type="button" onclick="loadPreset(this)"><b>Load People Sort Ranking</b></button>
 		</div>
 		<div class="result-component">
 			<div class="show-result">
 				<div class="category-title">People Names</div>
-				<button type="button" value="Submit" onclick="getResult(this)">Dating</button><button type="button" value="Submit" onclick="getResult(this)">F**k Marry Kill</button><button type="button" value="Submit" onclick="getResult(this)">Save</button><button type="button" value="Submit" onclick="getResult(this)">Mirror</button><button type="button" value="Submit" onclick="getResult3()">Human Maker</button><button type="button" value="Submit" onclick="getResult(this)">Messager</button><button type="button" value="Submit" onclick="getResult(this)">Hair</button><button type="button" value="Submit" onclick="getResult(this)">Last Round</button><button type="button" value="Submit" onclick="getResult(this)">Bump</button><button type="button" value="Submit" onclick="getResult(this)">Sweet Talk</button><button type="button" value="Submit" onclick="getResult(this)">Meal</button>
+				<button type="button" value="Submit" onclick="getResultFromNames(this)">Dating</button>
+				<button type="button" value="Submit" onclick="getResultFromNames(this)">F**k Marry Kill</button>
+				<button type="button" value="Submit" onclick="getResultFromNames(this)">Save</button>
+				<button type="button" value="Submit" onclick="getResultFromNames(this)">Mirror</button>
+				<button type="button" value="Submit" onclick="getResultFromNames(this)">Human Maker</button>
+				<button type="button" value="Submit" onclick="getResultFromNames(this)">Messager</button>
+				<button type="button" value="Submit" onclick="getResultFromNames(this)">Hair</button>
+				<button type="button" value="Submit" onclick="getResultFromNames(this)">Last Round</button>
+				<button type="button" value="Submit" onclick="getResultFromNames(this)">Bump</button>
+				<button type="button" value="Submit" onclick="getResultFromNames(this)">Sweet Talk</button>
+				<button type="button" value="Submit" onclick="getResultFromNames(this)">Meal</button>
 				<div id="result1" class="result-box" ></div>
 			</div>
 			<div class="show-result">
-				<div class="category-title">Show Titles</div>
-				<button type="button" value="Submit" onclick="getResult2()">Anime</button>
+				<div class="category-title">Anime Titles</div>
+				<button type="button" value="Submit" onclick="getResultFromTitles(this)">Forever</button>
+				<button type="button" value="Submit" onclick="getResultFromTitles(this)">Plot</button>
+				<button type="button" value="Submit" onclick="getResultFromTitles(this)">Character</button>
+				<button type="button" value="Submit" onclick="getResultFromTitles(this)">Cast</button>
 				<span id="result2" class="result-box" ></span>
 			</div>
 		</div>
