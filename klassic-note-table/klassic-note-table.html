@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en-SG">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'/>
+	<script src="p5.min.js"></script>
+    <title>Klassic Note Table</title>
+</head>
+
+<body>
+    <h1>Klassic Note Table</h1>
+    <p style="text-align: center;"><a href="../index.html">Back</a></p>
+	<div id="table-sort-module">
+		<div class="search-box">	
+			<input id="dbInput" type="text" onkeyup="searchFunction()" placeholder="search here" title="search"/>
+		</div>
+		<div class="table-box">
+			<table id="dbTable">
+				<tr class="header">
+					<th style="width:auto;">Title</th>
+					<th style="width:auto;">Artist</th>
+					<th style="width:auto;">Commisioner</th>
+					<th style="width:auto;">Completed</th>
+				</tr>
+				<tr>
+					<td>The Annunciation</td>
+					<td>Fra Angelico</td>
+					<td>Cosimo de' Medici</td>
+					<td>1446</td>
+				</tr>
+				<tr>
+					<td>The Klassic</td>
+					<td>The Angelica</td>
+					<td>Cosimo Merci</td>
+					<td>1448</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+<script>
+function searchFunction() {
+	// Declare starting variables 
+	var input = document.getElementById("dbInput");
+	var filter = input.value.toUpperCase();
+	var table = document.getElementById("dbTable");
+	var trs = table.tBodies[0].getElementsByTagName("tr");
+	// Loop through rows
+	for (var i = 1; i < trs.length; i++) {
+		// Define the cells
+		var tds = trs[i].getElementsByTagName("td");
+		// hide the row
+		trs[i].style.display = "none";
+		// loop through row cells
+		for (var i2 = 0; i2 < tds.length; i2++) {
+			// if there's a match
+			if (tds[i2].innerHTML.toUpperCase().indexOf(filter) > -1) {
+			// show the row
+			trs[i].style.display = "";
+			// skip to the next row
+			continue;
+			}
+		}
+	}
+}
+
+//-- p5.js EXAMPLE --//
+// Given the following CSV file called "klassic-note-database-song-table.csv"
+// located in the project's root folder
+
+let table;
+setup();
+
+function preload() {
+  //my table is comma separated value "csv"
+  //and has a header specifying the columns labels
+  table = loadTable('./klassic-note-database-song-table.csv', 'csv', 'header');
+  //the file can be remote
+  //table = loadTable("http://p5js.org/reference/assets/mammals.csv",
+  //                  "csv", "header");
+}
+
+function setup() {
+  preload();
+  //count the columns
+  print(table.getRowCount() + ' total rows in table');
+  print(table.getColumnCount() + ' total columns in table');
+
+  //print(table.getColumn('name'));
+  //["Goat", "Leopard", "Zebra"]
+
+  //cycle through the table
+  for (let r = 0; r < table.getRowCount(); r++)
+    for (let c = 0; c < table.getColumnCount(); c++) {
+      print(table.getString(r, c));
+    }
+	document.getElementById("table-box").innerHTML = table;
+}
+</script>
+</html>
