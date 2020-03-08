@@ -72,7 +72,7 @@ function getResultFromTitles(module) {
 }
 
 function loadPreset(module) {
-	var categoryName = module.innerHTML;
+	var categoryName = module.innerText;
     var text = document.getElementById("nameInput");
 	var loadedText = "";
 	
