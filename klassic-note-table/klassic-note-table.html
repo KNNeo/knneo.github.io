@@ -3,20 +3,23 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'/>
-	<script src="p5.min.js"></script>
+	<script src="p5.js"></script>
     <title>Klassic Note Table</title>
 </head>
+<style>
 
+</style>
 <body>
     <h1>Klassic Note Table</h1>
     <p style="text-align: center;"><a href="../index.html">Back</a></p>
 	<div id="table-sort-module">
-		<div class="search-box">	
-			<input id="dbInput" type="text" onkeyup="searchFunction()" placeholder="search here" title="search"/>
+		<div id="search-box">	
+			<input id="dbInput" type="text" placeholder="search by song title" title="search"/>
+			<input id="dbSubmit" type="submit" onclick="searchFunction()" placeholder="submit" title="submit"/>
 		</div>
-		<div class="table-box">
+		<div id="table-box">
 			<table id="dbTable">
-				<tr class="header">
+				<!-- <tr class="header">
 					<th style="width:auto;">Title</th>
 					<th style="width:auto;">Artist</th>
 					<th style="width:auto;">Commisioner</th>
@@ -33,16 +36,24 @@
 					<td>The Angelica</td>
 					<td>Cosimo Merci</td>
 					<td>1448</td>
-				</tr>
+				</tr> -->
 			</table>
 		</div>
 	</div>
 </body>
 <script>
+document.getElementById('dbInput').addEventListener("keyup", function(event) {
+  // Number 13 is the "Enter" key on the keyboard
+  if (event.keyCode === 13) {
+    // Cancel the default action, if needed
+    event.preventDefault();
+    // Trigger the button element with a click
+    document.getElementById("dbSubmit").click();
+  }
+});
 function searchFunction() {
 	// Declare starting variables 
-	var input = document.getElementById("dbInput");
-	var filter = input.value.toUpperCase();
+	var filter = document.getElementById("dbInput").value.toUpperCase();
 	var table = document.getElementById("dbTable");
 	var trs = table.tBodies[0].getElementsByTagName("tr");
 	// Loop through rows
@@ -51,10 +62,10 @@ function searchFunction() {
 		var tds = trs[i].getElementsByTagName("td");
 		// hide the row
 		trs[i].style.display = "none";
-		// loop through row cells
+		// loop through cell columns
 		for (var i2 = 0; i2 < tds.length; i2++) {
-			// if there's a match
-			if (tds[i2].innerHTML.toUpperCase().indexOf(filter) > -1) {
+			// if there's a match AND based on column
+			if (tds[i2].innerHTML.toUpperCase().indexOf(filter) > -1 && i2 == 6) {
 			// show the row
 			trs[i].style.display = "";
 			// skip to the next row
@@ -69,32 +80,42 @@ function searchFunction() {
 // located in the project's root folder
 
 let table;
-setup();
 
 function preload() {
   //my table is comma separated value "csv"
   //and has a header specifying the columns labels
-  table = loadTable('./klassic-note-database-song-table.csv', 'csv', 'header');
+  table = loadTable('https://knneo.github.io/klassic-note-table/klassic-note-database-song-table.csv', 'csv');
   //the file can be remote
   //table = loadTable("http://p5js.org/reference/assets/mammals.csv",
   //                  "csv", "header");
 }
 
 function setup() {
-  preload();
   //count the columns
   print(table.getRowCount() + ' total rows in table');
   print(table.getColumnCount() + ' total columns in table');
 
-  //print(table.getColumn('name'));
-  //["Goat", "Leopard", "Zebra"]
-
   //cycle through the table
-  for (let r = 0; r < table.getRowCount(); r++)
-    for (let c = 0; c < table.getColumnCount(); c++) {
-      print(table.getString(r, c));
-    }
-	document.getElementById("table-box").innerHTML = table;
+  let tableArray = table.getArray();
+  let tableHTML;
+  for (let i = 0; i < tableArray.length; i++) {
+    if(i > 0) {
+	tableHTML += '<tr>';
+	for(let j = 0; j < tableArray[i].length; j++) {
+	tableHTML += '<td>' + tableArray[i][j] + '</td>';
+	}
+	tableHTML += '</tr>';
+	continue;
+	}
+	//header
+	tableHTML = '<tr class="header">';
+	for(let j = 0; j < tableArray[i].length; j++) {
+	tableHTML += '<td>' + tableArray[i][j] + '</td>';
+	}
+	tableHTML += '</tr>';
+  }
+  //assign
+  document.getElementById("dbTable").innerHTML = tableHTML;
 }
 </script>
 </html>
