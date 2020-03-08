@@ -257,6 +257,7 @@ function showResult() {
 	}
 	str += "<\/table>";
 
+	document.getElementById("mainTable").remove();
 	document.getElementById("resultField").innerHTML = str;
 }
 
@@ -350,6 +351,13 @@ td {
 	cursor: pointer;
 }
 //-->
+#mainTable {
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
 </style>
 </head>
 
