@@ -16,12 +16,14 @@ html {
 <body>
     <h1>Klassic Note Table</h1>
     <p><a href="../index.html">Back</a></p>
+	<div id="search-box">
+		<input id="dbInputSongTitle" type="text" placeholder="search by song title" title="search"/>
+		<input id="dbSubmitSongTitle" type="submit" onclick="searchFunction('dbInputSongTitle')" placeholder="submit" value="Submit"/>
+		<input id="dbInputArtistTitle" type="text" placeholder="search by artist title" title="search"/>
+		<input id="dbSubmitArtistTitle" type="submit" onclick="searchFunction('dbInputArtistTitle')" placeholder="submit" value="Submit"/>
+	</div>
+	<br>
 	<div id="table-sort-module">
-		<div id="search-box">	
-			<input id="dbInput" type="text" placeholder="search by song title" title="search"/>
-			<input id="dbSubmit" type="submit" onclick="searchFunction()" placeholder="submit" title="submit"/>
-		</div>
-		<br>
 		<div id="table-box">
 			<table id="dbTable">
 				<!-- <tr class="header">
@@ -47,34 +49,47 @@ html {
 	</div>
 </body>
 <script>
-document.getElementById('dbInput').addEventListener("keyup", function(event) {
+document.getElementById('dbInputSongTitle').addEventListener("keyup", function(event) {
   // Number 13 is the "Enter" key on the keyboard
   if (event.keyCode === 13) {
     // Cancel the default action, if needed
     event.preventDefault();
     // Trigger the button element with a click
-    document.getElementById("dbSubmit").click();
+    document.getElementById("dbSubmitSongTitle").click(this);
   }
 });
-function searchFunction() {
+document.getElementById('dbInputArtistTitle').addEventListener("keyup", function(event) {
+  // Number 13 is the "Enter" key on the keyboard
+  if (event.keyCode === 13) {
+    // Cancel the default action, if needed
+    event.preventDefault();
+    // Trigger the button element with a click
+    document.getElementById("dbSubmitArtistTitle").click(this);
+  }
+});
+function searchFunction(item) {
 	// Declare starting variables 
-	let filter = document.getElementById("dbInput").value.toUpperCase();
+	let filter = document.getElementById(item).value.toUpperCase();
 	let table = document.getElementById("dbTable");
 	let trs = table.tBodies[0].getElementsByTagName("tr");
+	// Clear inputs
+	for (let input of document.getElementsByTagName("input")) { if(input.title == "search") input.value = ""; }
 	// Loop through rows
 	for (let i = 1; i < trs.length; i++) {
 		// Define the cells
 		let tds = trs[i].getElementsByTagName("td");
+		if(filter == "") trs[i].style.display = "";
 		// hide the row
-		trs[i].style.display = "none";
+		else trs[i].style.display = "none";
 		// loop through cell columns
 		for (let i2 = 0; i2 < tds.length; i2++) {
-			// if there's a match AND based on column
-			if (tds[i2].innerHTML.toUpperCase().indexOf(filter) > -1 && i2 == 6) {
-			// show the row
-			trs[i].style.display = "";
-			// skip to the next row
-			continue;
+			// if there's a match AND based on 
+			//if (tds[i2].innerHTML.toUpperCase().indexOf(filter) > -1) { // unhide the row
+			if (tds[i2].innerHTML.toUpperCase().includes(filter)) { // unhide the row
+				if(item == "dbInputSongTitle" && i2 == 6) { trs[i].style.display = ""; }
+				if(item == "dbInputArtistTitle" && i2 == 7) { trs[i].style.display = ""; }
+				// skip to the next row
+				continue;
 			}
 		}
 	}
@@ -107,7 +122,7 @@ function setup() {
     if(i > 0) {
 	tableHTML += '<tr>';
 	for(let j = 0; j < tableArray[i].length; j++) {
-	tableHTML += '<td>' + (tableArray[i][j].includes('https') ? '<a href="' + tableArray[i][j] + '">' + tableArray[i][j] + '</a>' : tableArray[i][j]) + '</td>';
+	tableHTML += '<td>' + (tableArray[i][j].includes('http') ? '<a href="' + tableArray[i][j] + '" target="_blank">' + tableArray[i][j] + '</a>' : tableArray[i][j]) + '</td>';
 	}
 	tableHTML += '</tr>';
 	continue;
