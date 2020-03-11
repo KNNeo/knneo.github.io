@@ -12,6 +12,9 @@ html {
   font-size: 12px;
   margin: auto;
 }
+tr {
+  
+}
 </style>
 <body>
     <h1>Klassic Note Table</h1>
@@ -122,7 +125,7 @@ function setup() {
     if(i > 0) {
 	tableHTML += '<tr>';
 	for(let j = 0; j < tableArray[i].length; j++) {
-	tableHTML += '<td>' + (tableArray[i][j].includes('http') ? '<a href="' + tableArray[i][j] + '" target="_blank">' + tableArray[i][j] + '</a>' : tableArray[i][j]) + '</td>';
+	tableHTML += '<td nowrap>' + (tableArray[i][j].includes('http') ? '<a href="' + tableArray[i][j] + '" target="_blank">Link</a>' : tableArray[i][j]) + '</td>';
 	}
 	tableHTML += '</tr>';
 	continue;
