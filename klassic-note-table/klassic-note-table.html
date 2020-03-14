@@ -3,7 +3,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'/>
-	<script src="p5.min.js"></script>
+	<script src="p5.js"></script>
     <title>Klassic Note Table</title>
 </head>
 <style>
@@ -12,21 +12,24 @@ html {
   font-size: 12px;
   margin: auto;
 }
-tr {
-  
+.table-filter {
+  padding: 2px;
 }
 </style>
 <body>
     <h1>Klassic Note Table</h1>
     <p><a href="../index.html">Back</a></p>
-	<div id="search-box">
-		<input id="dbInputSongTitle" type="text" placeholder="search by song title" title="search"/>
+	<div class="table-filter">
+		<input id="dbInputSongTitle" type="text" placeholder="Song Title" title="search"/>
 		<input id="dbSubmitSongTitle" type="submit" onclick="searchFunction('dbInputSongTitle')" placeholder="submit" value="Submit"/>
-		<input id="dbInputArtistTitle" type="text" placeholder="search by artist title" title="search"/>
+	</div>
+	<div class="table-filter">
+		<input id="dbInputArtistTitle" type="text" placeholder="Artist Title" title="search"/>
 		<input id="dbSubmitArtistTitle" type="submit" onclick="searchFunction('dbInputArtistTitle')" placeholder="submit" value="Submit"/>
 	</div>
 	<br>
 	<div id="table-sort-module">
+		<div id="table-result"></div>
 		<div id="table-box">
 			<table id="dbTable">
 				<!-- <tr class="header">
@@ -71,9 +74,11 @@ document.getElementById('dbInputArtistTitle').addEventListener("keyup", function
   }
 });
 function searchFunction(item) {
+	let counter = 0;
 	// Declare starting variables 
 	let filter = document.getElementById(item).value.toUpperCase();
 	let table = document.getElementById("dbTable");
+	if(table.tBodies[0] == undefined) return;
 	let trs = table.tBodies[0].getElementsByTagName("tr");
 	// Clear inputs
 	for (let input of document.getElementsByTagName("input")) { if(input.title == "search") input.value = ""; }
@@ -89,13 +94,14 @@ function searchFunction(item) {
 			// if there's a match AND based on 
 			//if (tds[i2].innerHTML.toUpperCase().indexOf(filter) > -1) { // unhide the row
 			if (tds[i2].innerHTML.toUpperCase().includes(filter)) { // unhide the row
-				if(item == "dbInputSongTitle" && i2 == 6) { trs[i].style.display = ""; }
-				if(item == "dbInputArtistTitle" && i2 == 7) { trs[i].style.display = ""; }
+				if(item == "dbInputSongTitle" && i2 == 6) { trs[i].style.display = ""; counter++; }
+				if(item == "dbInputArtistTitle" && i2 == 7) { trs[i].style.display = ""; counter++; }
 				// skip to the next row
 				continue;
 			}
 		}
 	}
+	document.getElementById("table-result").innerText = counter + " results found";
 }
 
 //-- p5.js EXAMPLE --//
@@ -104,19 +110,23 @@ function searchFunction(item) {
 
 let table;
 
-function preload() {
+function loadTableFromCSV() {
+  button.hide();
+  document.getElementById("table-result").innerText = "Loading...";
   //my table is comma separated value "csv"
   //and has a header specifying the columns labels
-  table = loadTable('https://knneo.github.io/klassic-note-table/klassic-note-database-song-table.csv', 'csv');
+  table = loadTable('https://knneo.github.io/klassic-note-table/klassic-note-database-song-table.csv', 'csv', displayTable);
   //the file can be remote
   //table = loadTable("http://p5js.org/reference/assets/mammals.csv",
   //                  "csv", "header");
 }
 
-function setup() {
+function displayTable() {
+  if(table.getRowCount() == 0) button.show();
   //count the columns
-  print(table.getRowCount() + ' total rows in table');
-  print(table.getColumnCount() + ' total columns in table');
+  //print(table.getRowCount() + ' total rows in table');
+  //print(table.getColumnCount() + ' total columns in table');
+  document.getElementById("table-result").innerText = (table.getRowCount() - 1) + " results found";
 
   //cycle through the table
   let tableArray = table.getArray();
@@ -133,13 +143,19 @@ function setup() {
 	//header
 	tableHTML = '<tr class="header">';
 	for(let j = 0; j < tableArray[i].length; j++) {
-	tableHTML += '<td>' + tableArray[i][j] + '</td>';
+	tableHTML += '<th>' + tableArray[i][j] + '</th>';
 	}
 	tableHTML += '</tr>';
   }
   //assign
   document.getElementById("dbTable").innerHTML = tableHTML;
   //disable input until load complete
+}
+
+function setup() {
+  //button to load table
+  button = createButton('Load Table');
+  button.mousePressed(loadTableFromCSV);
 }
 </script>
 </html>
