@@ -76,7 +76,7 @@ document.getElementById('dbInputArtistTitle').addEventListener("keyup", function
 function searchFunction(item) {
 	let counter = 0;
 	// Declare starting variables 
-	let filter = document.getElementById(item).value.toUpperCase();
+	let filter = document.getElementById(item).value.toUpperCase().trim();
 	let table = document.getElementById("dbTable");
 	if(table.tBodies[0] == undefined) return;
 	let trs = table.tBodies[0].getElementsByTagName("tr");
