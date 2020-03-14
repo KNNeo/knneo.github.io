@@ -27,6 +27,7 @@ html {
 		<input id="dbInputArtistTitle" type="text" placeholder="Artist Title" title="search"/>
 		<input id="dbSubmitArtistTitle" type="submit" onclick="searchFunction('dbInputArtistTitle')" placeholder="submit" value="Submit"/>
 	</div>
+	<div class="table-reset"><a href="javascript:void(0);" onclick="searchFunction('')">Reset</a></div>
 	<br>
 	<div id="table-sort-module">
 		<div id="table-result"></div>
@@ -76,7 +77,9 @@ document.getElementById('dbInputArtistTitle').addEventListener("keyup", function
 function searchFunction(item) {
 	let counter = 0;
 	// Declare starting variables 
-	let filter = document.getElementById(item).value.toUpperCase().trim();
+	let filter = null;
+	if(item == '') filter = '';
+	else filter = document.getElementById(item).value.toUpperCase().trim();
 	let table = document.getElementById("dbTable");
 	if(table.tBodies[0] == undefined) return;
 	let trs = table.tBodies[0].getElementsByTagName("tr");
@@ -86,7 +89,7 @@ function searchFunction(item) {
 	for (let i = 1; i < trs.length; i++) {
 		// Define the cells
 		let tds = trs[i].getElementsByTagName("td");
-		if(filter == "") trs[i].style.display = "";
+		if(filter == '') { trs[i].style.display = ""; counter++; }
 		// hide the row
 		else trs[i].style.display = "none";
 		// loop through cell columns
