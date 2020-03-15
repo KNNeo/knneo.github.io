@@ -197,7 +197,7 @@ function displayTable(table) {
   }
   tableHTML += '</tr>';
   
-  let maxRow = resultTable.getRowCount() > 100 ? 100 : resultTable.getRowCount();
+  let maxRow = resultTable.getRowCount() > 250 ? 100 : resultTable.getRowCount();
   for (let i = 0; i < maxRow; i++) {
     if(i >= 0) {
 	tableHTML += '<tr>';
