@@ -7,24 +7,31 @@
     <title>Klassic Note Table</title>
 </head>
 <style>
+.p5Canvas {
+	display: none;
+}
 html {
   font-family: Open Sans;
   font-size: 12px;
   margin: auto;
 }
 .table-filter {
-  padding: 2px;
+  background-color: white;
+  padding: 10px 0;
+  position: sticky;
+  top: 0;
 }
 </style>
 <body>
-    <h1>Klassic Note Table</h1>
-    <p><a href="../index.html">Back</a></p>
+	<h1>Klassic Note Table</h1>
+	<p><a href="../index.html">Back</a></p>
 	<div class="table-filter">
 		<input id="dbInputSongTitle" type="text" placeholder="Song Title" title="search"/>
 		<input id="dbInputArtistTitle" type="text" placeholder="Artist Title" title="search"/>
 		<input id="dbSubmitArtistTitle" type="submit" onclick="loadTableFromCSV()" placeholder="submit" value="Submit"/>
+		<a href="javascript:void(0);" onclick="resetFunction()">Reset</a>
 	</div>
-	<div class="table-reset"><a href="javascript:void(0);" onclick="resetFunction()">Reset</a></div>
+	<div class="table-reset"></div>
 	<br>
 	<div id="table-sort-module">
 		<div id="table-result"></div>
