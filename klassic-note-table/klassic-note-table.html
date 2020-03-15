@@ -1,228 +1,260 @@
 <!DOCTYPE html>
 <html lang="en-SG">
+
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'/>
-	<script src="p5.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet' />
+    <script src="p5.min.js"></script>
     <title>Klassic Note Table</title>
 </head>
 <style>
-.p5Canvas {
-	display: none;
-}
-html {
-  font-family: Open Sans;
-  font-size: 12px;
-  margin: auto;
-}
-.table-filter {
-  background-color: white;
-  padding: 10px 0;
-  position: sticky;
-  top: 0;
-}
+    .p5Canvas {
+        display: none;
+    }
+    
+    html {
+        font-family: Open Sans;
+        font-size: 12px;
+        margin: auto;
+    }
+    
+    .table-filter {
+        background-color: white;
+        padding: 10px 0;
+        position: sticky;
+        top: 0;
+    }
+    
+    .table-column-ticks {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
 </style>
+
 <body>
-	<h1>Klassic Note Table</h1>
-	<p><a href="../index.html">Back</a></p>
-	<div class="table-filter">
-		<input id="dbInputSongTitle" type="text" placeholder="Song Title" title="search"/>
-		<input id="dbInputArtistTitle" type="text" placeholder="Artist Title" title="search"/>
-		<input id="dbSubmitArtistTitle" type="submit" onclick="loadTableFromCSV()" placeholder="submit" value="Submit"/>
-		<a href="javascript:void(0);" onclick="resetFunction()">Reset</a>
-	</div>
-	<div class="table-reset"></div>
-	<br>
-	<div id="table-sort-module">
-		<div id="table-result"></div>
-		<div id="table-box">
-			<table id="dbTable">
-				<!-- <tr class="header">
-					<th style="width:auto;">Title</th>
-					<th style="width:auto;">Artist</th>
-					<th style="width:auto;">Commisioner</th>
-					<th style="width:auto;">Completed</th>
-				</tr>
-				<tr>
-					<td>The Annunciation</td>
-					<td>Fra Angelico</td>
-					<td>Cosimo de' Medici</td>
-					<td>1446</td>
-				</tr>
-				<tr>
-					<td>The Klassic</td>
-					<td>The Angelica</td>
-					<td>Cosimo Merci</td>
-					<td>1448</td>
-				</tr> -->
-			</table>
-		</div>
-	</div>
+    <h1>Klassic Note Table</h1>
+    <p><a href="../index.html">Back</a></p>
+    <div class="table-filter">
+        <input id="dbInputSongTitle" type="text" placeholder="Song Title" title="search" />
+        <input id="dbInputArtistTitle" type="text" placeholder="Artist Title" title="search" />
+        <input id="dbSubmitArtistTitle" type="submit" onclick="loadTableFromCSV()" placeholder="submit" value="Submit" />
+        <a href="javascript:void(0);" onclick="resetFunction()">Reset</a>
+        <div id="table-column-ticks">
+            <label>
+                <input type="checkbox" name="columnSongID" value="SongID" >SongID</label>
+            <label>
+                <input type="checkbox" name="columnKNID" value="KNID" >KNID</label>
+            <label>
+                <input type="checkbox" name="columnKNJAPAN" value="KNJAPAN" >KNJAPAN</label>
+            <label>
+                <input type="checkbox" name="columnKNJPOP" value="KNJPOP" >KNJPOP</label>
+            <label>
+                <input type="checkbox" name="columnKNYEAR" value="KNYEAR" checked>KNYEAR</label>
+            <label>
+                <input type="checkbox" name="columnFilename" value="Filename" >Filename</label>
+            <label>
+                <input type="checkbox" name="columnSongTitle" value="SongTitle" checked>SongTitle</label>
+            <label>
+                <input type="checkbox" name="columnArtistTitle" value="ArtistTitle" checked>ArtistTitle</label>
+            <label>
+                <input type="checkbox" name="columnParentArtist" value="ParentArtist" checked>ParentArtist</label>
+            <label>
+                <input type="checkbox" name="columnReleaseTitle" value="ReleaseTitle" checked>ReleaseTitle</label>
+            <label>
+                <input type="checkbox" name="columnReleaseArtistTitle" value="ReleaseArtistTitle" checked>ReleaseArtistTitle</label>
+            <label>
+                <input type="checkbox" name="columnReleaseYear" value="ReleaseYear" checked>ReleaseYear</label>
+            <label>
+                <input type="checkbox" name="columnRating" value="Rating" checked>Rating</label>
+            <label>
+                <input type="checkbox" name="columnGenre" value="Genre" checked>Genre</label>
+            <label>
+                <input type="checkbox" name="columnDateCreated" value="DateCreated" checked>DateCreated</label>
+            <label>
+                <input type="checkbox" name="columnVocalCode" value="VocalCode" checked>VocalCode</label>
+            <label>
+                <input type="checkbox" name="columnLanguage" value="Language" checked>Language</label>
+            <label>
+                <input type="checkbox" name="columnInAppleMusic" value="InAppleMusic" checked>InAppleMusic</label>
+            <label>
+                <input type="checkbox" name="columnLyricsURL" value="LyricsURL" checked>LyricsURL</label>
+            <label>
+                <input type="checkbox" name="columnSongTitleAlt" value="SongTitleAlt" checked>SongTitleAlt</label>
+            <label>
+                <input type="checkbox" name="columnArtistTitleAlt" value="ArtistTitleAlt" checked>ArtistTitleAlt</label>
+            <label>
+                <input type="checkbox" name="columnReleaseTitleAlt" value="ReleaseTitleAlt" checked>ReleaseTitleAlt</label>
+            <label>
+                <input type="checkbox" name="columnReleaseArtistTitleAlt" value="ReleaseArtistTitleAlt" checked>ReleaseArtistTitleAlt</label>
+        </div>
+    </div>
+    <div class="table-reset"></div>
+    <br>
+    <div id="table-sort-module">
+        <div id="table-result"></div>
+        <div id="table-box">
+            <table id="dbTable">
+            </table>
+        </div>
+    </div>
 </body>
 <script>
-document.getElementById('dbInputSongTitle').addEventListener("keyup", function(event) {
-  // Number 13 is the "Enter" key on the keyboard
-  if (event.keyCode === 13) {
-    // Cancel the default action, if needed
-    event.preventDefault();
-    // Trigger the button element with a click
-    document.getElementById("dbSubmitArtistTitle").click(this);
+    document.getElementById('dbInputSongTitle').addEventListener("keyup", function(event) {
+        // Number 13 is the "Enter" key on the keyboard
+        if (event.keyCode === 13) {
+            // Cancel the default action, if needed
+            event.preventDefault();
+            // Trigger the button element with a click
+            document.getElementById("dbSubmitArtistTitle").click(this);
+        }
+    });
+    document.getElementById('dbInputArtistTitle').addEventListener("keyup", function(event) {
+        // Number 13 is the "Enter" key on the keyboard
+        if (event.keyCode === 13) {
+            // Cancel the default action, if needed
+            event.preventDefault();
+            // Trigger the button element with a click
+            document.getElementById("dbSubmitArtistTitle").click(this);
+        }
+    });
+
+    function resetFunction() {
+        for (let input of document.getElementsByTagName("input")) {
+            if (input.title == "search") input.value = "";
+        }
+        loadTableFromCSV();
+    }
+
+    /*function newSearchFunction(table) {
+    let newTable = new p5.Table();
+    let inputSongTitle = document.getElementById('dbInputSongTitle').value.trim();
+    let inputArtistTitle = document.getElementById('dbInputArtistTitle').value.trim();
+    //if(table.tBodies[0] == undefined) return;
+    if(inputSongTitle != '') {
+    newTable.columns = table.columns;
+    let rows = table.matchRows('.*'+inputSongTitle+'.*', 6);
+    newTable.rows = rows;
+    return newTable;
+    }
+    if(inputArtistTitle != '') {
+    newTable.columns = table.columns;
+    let rows = table.matchRows('.*'+inputArtistTitle+'.*', 7);
+    newTable.rows = rows;
+    return newTable;
+    }
+    //if no results returned
+    newTable = table;
+    return newTable;
+    }*/
+
+    function filterRows(table) {
+        let inputSongTitle = document.getElementById('dbInputSongTitle').value.toUpperCase().trim();
+        let inputArtistTitle = document.getElementById('dbInputArtistTitle').value.toUpperCase().trim();
+        let strictMode = inputSongTitle != '' && inputArtistTitle != '';
+        if (inputSongTitle + inputArtistTitle == '') return table;
+        else {
+            let newTable = new p5.Table();
+            newTable.columns = table.columns;
+            let rows = table.getRows();
+            for (row of rows) {
+                let valid = 0;
+                if (inputSongTitle != '' && row.getString(6).toUpperCase().includes(inputSongTitle)) valid++;
+                if (inputArtistTitle != '' && row.getString(7).toUpperCase().includes(inputArtistTitle)) valid++;
+                if (strictMode && valid > 1) newTable.addRow(row);
+                else if (!strictMode && valid > 0) newTable.addRow(row);
+            }
+            return newTable;
+        }
+    }
+
+    function filterColumns(table) {
+        let columnTicks = document.getElementById("table-column-ticks").getElementsByTagName("input");
+        for (let tick of columnTicks) {
+            if (!tick.checked) table.removeColumn(tick.value);
+        }
+		//remove default columns (uncheck too)
+        table.removeColumn('SongID');
+        table.removeColumn('KNID');
+        table.removeColumn('KNJAPAN');
+        table.removeColumn('KNJPOP');
+        table.removeColumn('Filename');
+        table.removeColumn('SongID');
+        return table;
+    }
+
+    //-- p5.js EXAMPLE --//
+    // Given the following CSV file called "klassic-note-database-song-table.csv"
+    // located in the project's root folder
+
+    function loadTableFromCSV() {
+        button.hide();
+        document.getElementById("table-result").innerText = "Loading...";
+        //my table is comma separated value "csv"
+        //and has a header specifying the columns labels
+        let table = loadTable('https://knneo.github.io/klassic-note-table/klassic-note-database-song-table.csv', 'csv', 'header', displayTable);
+        //the file can be remote
+        //table = loadTable("http://p5js.org/reference/assets/mammals.csv",
+        //                  "csv", "header");
+    }
+
+    function displayTable(table) {
+
+        //get results based on input
+        let resultTable = filterRows(table);
+        //if checkboxes are unticked
+        //if(true) resultTable = filterColumns(resultTable);
+        //load column checkboxes
+        /*let columnHTML = '';
+  for(let c of resultTable.columns) {	
+	  columnHTML += '<label><input type="checkbox" name="column'+c+'" value="'+c+'" checked>'+c+'</label>';
   }
-});
-document.getElementById('dbInputArtistTitle').addEventListener("keyup", function(event) {
-  // Number 13 is the "Enter" key on the keyboard
-  if (event.keyCode === 13) {
-    // Cancel the default action, if needed
-    event.preventDefault();
-    // Trigger the button element with a click
-    document.getElementById("dbSubmitArtistTitle").click(this);
-  }
-});
+  document.getElementById("table-column-ticks").innerHTML = columnHTML;*/
+        resultTable = filterColumns(resultTable);
+        //count rows
+        document.getElementById("table-result").innerText = resultTable.getRowCount() + " result" + (resultTable.getRowCount() > 1 ? "s" : "") + " found";
+        if (resultTable.getRowCount() > 100) document.getElementById("table-result").innerText += "; Displaying first 100 results";
 
-function resetFunction() {
-	for (let input of document.getElementsByTagName("input")) { if(input.title == "search") input.value = ""; }
-	loadTableFromCSV();
-}
+        //cycle through the table
+        let tableArray = resultTable.getArray();
+        let tableHTML;
 
-function searchFunction(item) {
-	let counter = 0;
-	// Declare starting variables 
-	let filter = null;
-	if(item == '') filter = '';
-	else filter = document.getElementById(item).value.toUpperCase().trim();
-	let table = document.getElementById("dbTable");
-	if(table.tBodies[0] == undefined) return;
-	let trs = table.tBodies[0].getElementsByTagName("tr");
-	// Clear inputs
-	for (let input of document.getElementsByTagName("input")) { if(input.title == "search") input.value = ""; }
-	// Loop through rows
-	for (let i = 1; i < trs.length; i++) {
-		// Define the cells
-		let tds = trs[i].getElementsByTagName("td");
-		if(filter == '') { trs[i].style.display = ""; counter++; }
-		// hide the row
-		else trs[i].style.display = "none";
-		// loop through cell columns
-		for (let i2 = 0; i2 < tds.length; i2++) {
-			// if there's a match AND based on 
-			//if (tds[i2].innerHTML.toUpperCase().indexOf(filter) > -1) { // unhide the row
-			if (tds[i2].innerHTML.toUpperCase().includes(filter)) { // unhide the row
-				if(item == "dbInputSongTitle" && i2 == 6) { trs[i].style.display = ""; counter++; }
-				if(item == "dbInputArtistTitle" && i2 == 7) { trs[i].style.display = ""; counter++; }
-				// skip to the next row
-				continue;
-			}
-		}
-	}
-	document.getElementById("table-result").innerText = counter + " results found";
-}
+        //header
+        let columns = resultTable.columns;
+        tableHTML = '<tr class="header">';
+        for (let c of columns) {
+            tableHTML += '<th>' + c + '</th>';
+        }
+        tableHTML += '</tr>';
 
-function newSearchFunction(table) {
-let newTable = new p5.Table();
-let inputSongTitle = document.getElementById('dbInputSongTitle').value.trim();
-let inputArtistTitle = document.getElementById('dbInputArtistTitle').value.trim();
-//if(table.tBodies[0] == undefined) return;
-if(inputSongTitle != '') {
-newTable.columns = table.columns;
-let rows = table.matchRows('.*'+inputSongTitle+'.*', 6);
-newTable.rows = rows;
-return newTable;
-}
-if(inputArtistTitle != '') {
-newTable.columns = table.columns;
-let rows = table.matchRows('.*'+inputArtistTitle+'.*', 7);
-newTable.rows = rows;
-return newTable;
-}
-//if no results returned
-newTable = table;
-return newTable;
-}
+        let maxRow = resultTable.getRowCount() > 250 ? 100 : resultTable.getRowCount();
+        for (let i = 0; i < maxRow; i++) {
+            if (i >= 0) {
+                tableHTML += '<tr>';
+                for (let j = 0; j < tableArray[i].length; j++) {
+                    tableHTML += '<td nowrap>' + (tableArray[i][j].includes('http') ? '<a href="' + tableArray[i][j] + '" target="_blank">Link</a>' : tableArray[i][j]) + '</td>';
+                }
+                tableHTML += '</tr>';
+                continue;
+            }
+            //header
+            //tableHTML = '<tr class="header">';
+            //for(let j = 0; j < tableArray[i].length; j++) {
+            //tableHTML += '<th>' + tableArray[i][j] + '</th>';
+            //}
+            tableHTML += '</tr>';
+        }
+        //assign
+        document.getElementById("dbTable").innerHTML = tableHTML;
+        //disable input until load complete
+    }
 
-function newOldSearchFunction(table) {
-	let inputSongTitle = document.getElementById('dbInputSongTitle').value.toUpperCase().trim();
-	let inputArtistTitle = document.getElementById('dbInputArtistTitle').value.toUpperCase().trim();
-	let strictMode = inputSongTitle != '' && inputArtistTitle != '';
-	if(inputSongTitle + inputArtistTitle == '') return table;
-	else {
-		let newTable = new p5.Table();
-		newTable.columns = table.columns;
-		let rows = table.getRows();
-		for(row of rows) {
-			let valid = 0;
-			if(inputSongTitle != '' && row.getString(6).toUpperCase().includes(inputSongTitle)) valid++;
-			if(inputArtistTitle != '' && row.getString(7).toUpperCase().includes(inputArtistTitle)) valid++;
-			if(strictMode && valid > 1) newTable.addRow(row);
-			else if(!strictMode && valid > 0) newTable.addRow(row);
-		}
-		return newTable;
-	}
-}
-
-//-- p5.js EXAMPLE --//
-// Given the following CSV file called "klassic-note-database-song-table.csv"
-// located in the project's root folder
-
-function loadTableFromCSV() {
-  button.hide();
-  document.getElementById("table-result").innerText = "Loading...";
-  //my table is comma separated value "csv"
-  //and has a header specifying the columns labels
-  let table = loadTable('https://knneo.github.io/klassic-note-table/klassic-note-database-song-table.csv', 'csv', 'header', displayTable);
-  //the file can be remote
-  //table = loadTable("http://p5js.org/reference/assets/mammals.csv",
-  //                  "csv", "header");
-}
-
-function displayTable(table) {
-  if(table.getRowCount() == 0) button.show();
-  
-  let resultTable = newOldSearchFunction(table);
-  //count the columns
-  //print(table.getRowCount() + ' total rows in table');
-  //print(table.getColumnCount() + ' total columns in table');
-  document.getElementById("table-result").innerText = resultTable.getRowCount() + " result" + (resultTable.getRowCount() > 1 ? "s" : "") + " found";
-  if(resultTable.getRowCount() > 100) document.getElementById("table-result").innerText += "; Displaying first 100 results";
-
-  //cycle through the table
-  let tableArray = resultTable.getArray();
-  let tableHTML;
-  
-  //header
-  let columns = resultTable.columns;
-  tableHTML = '<tr class="header">';
-  for(let c of columns)
-  {
-	tableHTML += '<th>' + c + '</th>';
-  }
-  tableHTML += '</tr>';
-  
-  let maxRow = resultTable.getRowCount() > 250 ? 100 : resultTable.getRowCount();
-  for (let i = 0; i < maxRow; i++) {
-    if(i >= 0) {
-	tableHTML += '<tr>';
-	for(let j = 0; j < tableArray[i].length; j++) {
-	tableHTML += '<td nowrap>' + (tableArray[i][j].includes('http') ? '<a href="' + tableArray[i][j] + '" target="_blank">Link</a>' : tableArray[i][j]) + '</td>';
-	}
-	tableHTML += '</tr>';
-	continue;
-	}
-	//header
-	//tableHTML = '<tr class="header">';
-	//for(let j = 0; j < tableArray[i].length; j++) {
-	//tableHTML += '<th>' + tableArray[i][j] + '</th>';
-	//}
-	tableHTML += '</tr>';
-  }
-  //assign
-  document.getElementById("dbTable").innerHTML = tableHTML;
-  //disable input until load complete
-}
-
-function setup() {
-  //button to load table
-  button = createButton('Load Table');
-  button.mousePressed(loadTableFromCSV);
-}
+    function setup() {
+        //button to load table
+        button = createButton('Load Table');
+        button.mousePressed(loadTableFromCSV);
+    }
 </script>
+
 </html>
