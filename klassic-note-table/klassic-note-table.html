@@ -21,16 +21,21 @@
     .table-filter {
         background-color: white;
         padding: 10px 0;
-        position: sticky;
         top: 0;
+        position: -webkit-sticky;
+        position: sticky;
     }
     
-    .table-column-ticks {
+    #table-column-ticks {
+		max-width: 1000px;
         -webkit-user-select: none;
         -moz-user-select: none;
         -ms-user-select: none;
         user-select: none;
     }
+	label {
+		white-space: nowrap;
+	}
 </style>
 
 <body>
@@ -39,7 +44,8 @@
     <div class="table-filter">
         <input id="dbInputSongTitle" type="text" placeholder="Song Title" title="search" />
         <input id="dbInputArtistTitle" type="text" placeholder="Artist Title" title="search" />
-        <input id="dbSubmitArtistTitle" type="submit" onclick="loadTableFromCSV()" placeholder="submit" value="Submit" />
+        <input id="dbInputReleaseYear" type="text" placeholder="Release Year" title="search" />
+        <input id="dbSubmitButton" type="submit" onclick="loadTableFromCSV()" placeholder="submit" value="Submit" />
         <a href="javascript:void(0);" onclick="resetFunction()">Reset</a>
         <div id="table-column-ticks">
             <label>
@@ -107,7 +113,7 @@
             // Cancel the default action, if needed
             event.preventDefault();
             // Trigger the button element with a click
-            document.getElementById("dbSubmitArtistTitle").click(this);
+            document.getElementById("dbSubmitButton").click(this);
         }
     });
     document.getElementById('dbInputArtistTitle').addEventListener("keyup", function(event) {
@@ -116,7 +122,16 @@
             // Cancel the default action, if needed
             event.preventDefault();
             // Trigger the button element with a click
-            document.getElementById("dbSubmitArtistTitle").click(this);
+            document.getElementById("dbSubmitButton").click(this);
+        }
+    });
+    document.getElementById('dbInputReleaseYear').addEventListener("keyup", function(event) {
+        // Number 13 is the "Enter" key on the keyboard
+        if (event.keyCode === 13) {
+            // Cancel the default action, if needed
+            event.preventDefault();
+            // Trigger the button element with a click
+            document.getElementById("dbSubmitButton").click(this);
         }
     });
 
@@ -127,33 +142,12 @@
         loadTableFromCSV();
     }
 
-    /*function newSearchFunction(table) {
-    let newTable = new p5.Table();
-    let inputSongTitle = document.getElementById('dbInputSongTitle').value.trim();
-    let inputArtistTitle = document.getElementById('dbInputArtistTitle').value.trim();
-    //if(table.tBodies[0] == undefined) return;
-    if(inputSongTitle != '') {
-    newTable.columns = table.columns;
-    let rows = table.matchRows('.*'+inputSongTitle+'.*', 6);
-    newTable.rows = rows;
-    return newTable;
-    }
-    if(inputArtistTitle != '') {
-    newTable.columns = table.columns;
-    let rows = table.matchRows('.*'+inputArtistTitle+'.*', 7);
-    newTable.rows = rows;
-    return newTable;
-    }
-    //if no results returned
-    newTable = table;
-    return newTable;
-    }*/
-
     function filterRows(table) {
         let inputSongTitle = document.getElementById('dbInputSongTitle').value.toUpperCase().trim();
         let inputArtistTitle = document.getElementById('dbInputArtistTitle').value.toUpperCase().trim();
-        let strictMode = inputSongTitle != '' && inputArtistTitle != '';
-        if (inputSongTitle + inputArtistTitle == '') return table;
+        let inputReleaseYear = document.getElementById('dbInputReleaseYear').value.toUpperCase().trim();
+        let strictMode = inputSongTitle != '' && inputArtistTitle != '' && inputReleaseYear != '';
+        if (inputSongTitle + inputArtistTitle + inputReleaseYear == '') return table;
         else {
             let newTable = new p5.Table();
             newTable.columns = table.columns;
@@ -162,7 +156,8 @@
                 let valid = 0;
                 if (inputSongTitle != '' && row.getString(6).toUpperCase().includes(inputSongTitle)) valid++;
                 if (inputArtistTitle != '' && row.getString(7).toUpperCase().includes(inputArtistTitle)) valid++;
-                if (strictMode && valid > 1) newTable.addRow(row);
+                if (inputReleaseYear != '' && row.getString(11).toUpperCase().includes(inputReleaseYear)) valid++;
+                if (strictMode && valid > 2) newTable.addRow(row);
                 else if (!strictMode && valid > 0) newTable.addRow(row);
             }
             return newTable;
@@ -184,10 +179,6 @@
         return table;
     }
 
-    //-- p5.js EXAMPLE --//
-    // Given the following CSV file called "klassic-note-database-song-table.csv"
-    // located in the project's root folder
-
     function loadTableFromCSV() {
         button.hide();
         document.getElementById("table-result").innerText = "Loading...";
@@ -200,23 +191,17 @@
     }
 
     function displayTable(table) {
-
-        //get results based on input
+        //filter results based on input and checkboxes
         let resultTable = filterRows(table);
-        //if checkboxes are unticked
-        //if(true) resultTable = filterColumns(resultTable);
-        //load column checkboxes
-        /*let columnHTML = '';
-  for(let c of resultTable.columns) {	
-	  columnHTML += '<label><input type="checkbox" name="column'+c+'" value="'+c+'" checked>'+c+'</label>';
-  }
-  document.getElementById("table-column-ticks").innerHTML = columnHTML;*/
         resultTable = filterColumns(resultTable);
+		
         //count rows
+		let maxRow = resultTable.getRowCount() > 250 ? 100 : resultTable.getRowCount();
+		//display count
         document.getElementById("table-result").innerText = resultTable.getRowCount() + " result" + (resultTable.getRowCount() > 1 ? "s" : "") + " found";
-        if (resultTable.getRowCount() > 100) document.getElementById("table-result").innerText += "; Displaying first 100 results";
+        if (resultTable.getRowCount() > maxRow) document.getElementById("table-result").innerText += "; Displaying first "+maxRow+" results";
 
-        //cycle through the table
+        //table to array
         let tableArray = resultTable.getArray();
         let tableHTML;
 
@@ -227,8 +212,8 @@
             tableHTML += '<th>' + c + '</th>';
         }
         tableHTML += '</tr>';
-
-        let maxRow = resultTable.getRowCount() > 250 ? 100 : resultTable.getRowCount();
+		
+		//content
         for (let i = 0; i < maxRow; i++) {
             if (i >= 0) {
                 tableHTML += '<tr>';
@@ -238,11 +223,6 @@
                 tableHTML += '</tr>';
                 continue;
             }
-            //header
-            //tableHTML = '<tr class="header">';
-            //for(let j = 0; j < tableArray[i].length; j++) {
-            //tableHTML += '<th>' + tableArray[i][j] + '</th>';
-            //}
             tableHTML += '</tr>';
         }
         //assign
