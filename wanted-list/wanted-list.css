@@ -6,7 +6,6 @@ body {
   padding: 5px;
   background-color: black;
   color: white;
-  max-width: 800px;
   margin: auto;
 }
 #wantedList li, #wantedList a {
@@ -18,7 +17,10 @@ h1 {
 a {
 	color: cyan;
 }
-	
+h1, #wantedList, #calendar, p {
+  max-width: 800px;
+  margin: auto;	
+}
 
 /*End Github*/
 
@@ -44,6 +46,7 @@ html {
 .profile-category > div {
   display: inline-block;
   width: 98%;
+  max-width: 800px;
   margin: 3px;
   vertical-align: top;
   padding-right: 5px;
@@ -73,7 +76,7 @@ font-size: 70%;
 }
 #wantedList {
   list-style-type: none;
-  margin: 5px;
+  //margin: 5px;
   padding: 5px;
   text-align: center;
   //text-transform: uppercase;
