@@ -157,7 +157,7 @@ function createCalendar(monthNo, DOBlist) {
 }
 //on scroll turn off all overlays in timeline and calendar
 window.addEventListener("scroll", function() {
-	if(document.getElementById("timeline").getElementsByTagName("div") != null)
+	if(document.getElementById("timeline").getElementsByTagName("div").length > 0)
 		document.getElementById("timeline").getElementsByTagName("div")[0].style.opacity = "0";
     //document.getElementById("calendar").getElementsByTagName("div")[0].style.display = "none";
 });
