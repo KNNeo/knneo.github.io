@@ -162,7 +162,8 @@ window.addEventListener("scroll", function() {
     //document.getElementById("calendar").getElementsByTagName("div")[0].style.display = "none";
 });
 //on timeline double click shrink timeline
-document.getElementById("timeline").addEventListener("dblclick", function() {
+document.getElementById("timeline").addEventListener("dblclick", function(e) {
+	e.preventDefault();
     var origWidth = document.getElementById("timeline").getElementsByTagName("svg")[0].width.baseVal.value / 2;
     document.getElementById("timeline").innerHTML = "";
     if (origWidth < 1000)
@@ -229,7 +230,8 @@ function adjustKnots() {
     }
 }
 //double click profile box go up to list of names
-for (var profBox of document.getElementsByClassName("profile-box")) profBox.addEventListener("dblclick", function() {
+for (var profBox of document.getElementsByClassName("profile-box")) profBox.addEventListener("dblclick", function(e) {
+	e.preventDefault();
     if (window.innerWidth < 780) {
         document.getElementById("wantedList").scrollIntoView();
         return;
