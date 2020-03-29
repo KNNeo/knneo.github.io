@@ -28,5 +28,23 @@ for(var profileBox of profileBoxes)
 //document.getElementsByClassName("profile-box")[0].getElementsByClassName("profile-box-img")[0].innerHTML;
 //document.getElementsByClassName("profile-box")[0].getElementsByTsgName("table")[0].innerHTML;
 //document.getElementsByClassName("profile-box")[0].innerHTML = document.getElementsByClassName("profile-box")[0].getElementsByClassName("profile-box-img")[0].outerHTML + document.getElementsByClassName("profile-box")[0].getElementsByTagName("table")[0].outerHTML;
+//have to call switch images again
+var animeImgList = document.getElementsByTagName("img");
+for (var i = 0; i < animeImgList.length; i++) {
+        animeImgList[i].addEventListener("error", function() {
+            if(this.nextElementSibling != null) this.nextElementSibling.style.display = "";
+            this.remove();
+        });
+        animeImgList[i].addEventListener("click", function() {
+            if(this.nextElementSibling == null && this.previousElementSibling == null) return;
+            if(this.style.display == "") this.style.display = "none"; else this.style.display = "";
+            if(this.nextElementSibling != null) this.nextElementSibling.style.display = this.nextElementSibling.style.display == "" ? "none" : "";
+            if(this.previousElementSibling != null) this.previousElementSibling .style.display = this.previousElementSibling .style.display == "" ? "none" : "";
+        });
+    if(animeImgList[i].nextElementSibling == null && animeImgList[i].previousElementSibling != null) animeImgList[i].style.display = "none";
+    resizeProfileBoxImg(animeImgList[i]);
+}
+
+
 
 //END

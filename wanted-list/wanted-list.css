@@ -17,6 +17,9 @@ h1 {
 a {
 	color: cyan;
 }
+p {
+	padding: 20px;
+}
 h1, #wantedList, #calendar, p {
   max-width: 800px;
   margin: auto;	
