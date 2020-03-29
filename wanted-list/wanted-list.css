@@ -21,6 +21,10 @@ h1, #wantedList, #calendar, p {
   max-width: 800px;
   margin: auto;	
 }
+.profile-box > table {
+	/*border-bottom: 1px dashed white; */
+	width: 100%;
+}
 
 /*End Github*/
 
@@ -76,10 +80,10 @@ font-size: 70%;
 }
 #wantedList {
   list-style-type: none;
-  //margin: 5px;
+/*   margin: 5px; */
   padding: 5px;
   text-align: center;
-  //text-transform: uppercase;
+  /* text-transform: uppercase; */
 }
 #wantedList li, #wantedList a {
   display: inline-block;
