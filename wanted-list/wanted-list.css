@@ -28,6 +28,9 @@ h1, #wantedList, #calendar, p {
 	/*border-bottom: 1px dashed white; */
 	width: 100%;
 }
+.profile-box {
+	touch-action: manipulation;
+}
 
 /*End Github*/
 

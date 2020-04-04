@@ -231,7 +231,6 @@ function adjustKnots() {
 }
 //double click profile box go up to list of names
 for (var profBox of document.getElementsByClassName("profile-box")) profBox.addEventListener("dblclick", function(e) {
-	e.preventDefault();
     if (window.innerWidth < 780) {
         document.getElementById("wantedList").scrollIntoView();
         return;
