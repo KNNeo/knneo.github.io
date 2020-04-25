@@ -1,0 +1,92 @@
+/*Github Page Only Controls*/
+html {
+  font-family: Open Sans;
+}
+body {
+  padding: 5px;
+  background-color: black;
+  color: white;
+  margin: auto;
+}
+h1 {
+	text-align: center;
+}
+p {
+	padding: 20px;
+}
+h1, p {
+  max-width: 800px;
+  margin: auto;	
+}
+.profile-box {
+	touch-action: manipulation;
+}
+.profile-box-img img {
+  max-width: 90vw;
+  max-height: 50vh;
+}
+
+
+/*End Github*/
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.profile-box-img {
+  margin: auto;
+  clear: both;
+  text-align: center;
+}
+.profile-category {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+  padding-bottom: 5px;
+  scroll-snap-type: x mandatory;
+}
+.profile-category > div {
+  display: inline-block;
+  margin: 3px;
+  vertical-align: top;
+  padding-right: 5px;
+  scroll-snap-align: center;
+}
+.profile-box {
+  border: 1px solid white;
+  box-shadow: 3px 3px;
+  white-space: normal;
+}
+.profile-box:active {
+  box-shadow: 1px 1px;
+  transform: translate(2px,2px);
+}
+.profile-category::-webkit-scrollbar { 
+  z-index: 0;
+  height: 10px;
+}
+.profile-category::-webkit-scrollbar-thumb {
+  background: white;
+}
+.profile-category::-webkit-scrollbar-track {
+  background: #444444;
+}
+.popitem {
+    position: absolute;
+    background-color: black;
+    right: 0;
+    left: 0;
+    display: none;
+}
+.popitem { display: block; }
+
+/*scrollbars for top and bottom labels only on desktop*/
+@media only screen and (max-width : 1040px) {
+div { scrollbar-width: 0 !important; }
+div::-webkit-scrollbar { width: 0 !important }
+}
