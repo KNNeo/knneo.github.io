@@ -41,6 +41,7 @@ function renderGallery(array) {
 	for(var image of document.getElementsByTagName("img"))
 	{
 		image.src = image.alt;
+		image.alt = '';
 	}
 	
 	//add event listener when click on image
@@ -50,14 +51,14 @@ function renderGallery(array) {
 	}
 	function openViewer(image) {
 		let viewer = document.getElementById('viewer');
+		
 		let holder = document.createElement('DIV');
 		holder.classList.add('holder');
 		holder.style.textAlign = 'center';
-		holder.style.backgroundImage = "url('/" + image.alt + "') center center no-repeat";
-		//let img = image.cloneNode(true);
-		//img.style.maxHeight = '100vh';
-		//img.style.maxWidth = '100vw';
-		//holder.appendChild(img);
+		let img = image.cloneNode(true);
+		img.style.maxHeight = '100vh';
+		img.style.maxWidth = '100vw';
+		holder.appendChild(img);
 		if(viewer.childNodes.length > 0) viewer.innerHTML = '';
 		viewer.appendChild(holder);
 		viewer.style.display = 'block';
