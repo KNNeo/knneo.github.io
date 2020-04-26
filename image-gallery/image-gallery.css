@@ -9,12 +9,7 @@ body {
   margin: auto;
 }
 h1 {
-	text-align: center;
-}
-p {
-	padding: 20px;
-}
-h1, p {
+  text-align: center;
   max-width: 800px;
   margin: auto;	
 }
@@ -25,7 +20,10 @@ h1, p {
   max-width: 90vw;
   max-height: 50vh;
 }
-
+label {
+	padding: 5px;
+	white-space: nowrap;
+}
 
 /*End Github*/
 
@@ -38,11 +36,6 @@ html {
   -ms-user-select: none;
   user-select: none;
 }
-.profile-box-img {
-  margin: auto;
-  clear: both;
-  text-align: center;
-}
 .profile-category {
   overflow-x: scroll;
   overflow-y: hidden;
@@ -50,14 +43,11 @@ html {
   padding-bottom: 5px;
   scroll-snap-type: x mandatory;
 }
-.profile-category > div {
-  display: inline-block;
-  margin: 3px;
-  vertical-align: top;
-  padding-right: 5px;
-  scroll-snap-align: center;
-}
 .profile-box {
+  display: inline-block;
+  margin: 5px;
+  vertical-align: top;
+  scroll-snap-align: center;
   border: 1px solid white;
   box-shadow: 3px 3px;
   white-space: normal;
