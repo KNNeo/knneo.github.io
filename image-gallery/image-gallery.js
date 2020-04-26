@@ -34,6 +34,27 @@ function renderGallery(array) {
 		image.src = image.alt;
 		image.alt = '';
 	}
+	
+	//add event listener when click on image
+	for (let i = 0 ; i < document.getElementsByTagName('img').length ; i++)
+	{
+		document.getElementsByTagName('img')[i].addEventListener('click', function() { openViewer(document.getElementsByTagName('img')[i]); });
+	}
+	function openViewer(image) {
+		let viewer = document.getElementById('viewer');
+		
+		let holder = document.createElement('DIV');
+		holder.classList.add('holder');
+		holder.style.backgroundColor = 'black';
+		holder.style.textAlign = 'center';
+		let img = image.cloneNode(true);
+		img.style.maxHeight = '100vh';
+		img.style.maxWidth = '100vw';	
+		holder.appendChild(img);
+		if(viewer.childNodes.length > 0) viewer.innerHTML = '';
+		viewer.appendChild(holder);
+		viewer.style.display = 'block';
+	}
 }
 
 //generate name labels
@@ -59,33 +80,18 @@ for(let label of labelArray)
 	document.getElementById('name').appendChild(labelHTML);
 }
 
-//add event listeners to orientation tickboxes
-for (let tickbox of document.getElementById('orientation').getElementsByTagName('label'))
+//add event listeners to tickboxes
+for (let tickbox of document.getElementsByTagName('label'))
 {
-	tickbox.addEventListener('click',renderOrientationFilter);
+	tickbox.addEventListener('click',renderFilter);
 }
-function renderOrientationFilter() {
+function renderFilter() {
 	let orientationArray = new Array();
 	for (let label of document.getElementById('orientation').getElementsByTagName('input'))
 	{
 		if(label.checked == true)
 			orientationArray.push(label.value);
 	}
-	let newArray = new Array();
-	for(let img of imgArray)
-	{
-		if(orientationArray.indexOf(img[2]) > -1)
-			newArray.push(img);
-	}
-	renderGallery(newArray);
-}
-
-//add event listeners to name tickboxes
-for (let tickbox of document.getElementById('name').getElementsByTagName('label'))
-{
-	tickbox.addEventListener('click',renderNameFilter);
-}
-function renderNameFilter() {
 	let nameArray = new Array();
 	for (let label of document.getElementById('name').getElementsByTagName('input'))
 	{
@@ -95,12 +101,17 @@ function renderNameFilter() {
 	let newArray = new Array();
 	for(let img of imgArray)
 	{
-		if(nameArray.indexOf(img[3]) > -1)
+		if(nameArray.indexOf(img[3]) > -1 && orientationArray.indexOf(img[2]) > -1)
 			newArray.push(img);
 	}
 	renderGallery(newArray);
 }
 
+//initial viewer state
+document.getElementById('viewer').addEventListener('click', function() {
+	document.getElementById('viewer').style.display = 'none';
+	document.getElementById('viewer').innerHTML = '';
+});
 
 //prevent right click events
 document.addEventListener('contextmenu', function(e) {
@@ -112,3 +123,4 @@ document.addEventListener('contextmenu', function(e) {
 window.onload = function () {
 	renderGallery(imgArray);
 }
+

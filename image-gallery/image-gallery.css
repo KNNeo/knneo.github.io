@@ -3,7 +3,6 @@ html {
   font-family: Open Sans;
 }
 body {
-  padding: 5px;
   background-color: black;
   color: white;
   margin: auto;
@@ -24,7 +23,12 @@ label {
 	padding: 5px;
 	white-space: nowrap;
 }
-
+#viewer {
+	z-index: 99;
+	position: fixed;
+	width: 100vw;
+	height: 100vh;
+}
 /*End Github*/
 
 html {
@@ -58,7 +62,7 @@ html {
 }
 .profile-category::-webkit-scrollbar { 
   z-index: 0;
-  height: 10px;
+  height: 12px;
 }
 .profile-category::-webkit-scrollbar-thumb {
   background: white;
