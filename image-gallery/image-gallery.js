@@ -54,6 +54,7 @@ for(let label of labelArray)
 	inputHTML.name = 'column' + label.replace(' ','');
 	inputHTML.value = label;
 	inputHTML.innerText = label;
+	inputHTML.checked = true;
 	labelHTML.insertBefore(inputHTML,labelHTML.childNodes[0]);
 	document.getElementById('name').appendChild(labelHTML);
 }
