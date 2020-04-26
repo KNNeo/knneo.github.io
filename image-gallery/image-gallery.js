@@ -2,11 +2,20 @@
 //[sortOrder,directory,orientation,name]
 var imgArray = [
 [0,'','',''],
-[1,'images/SELFSCAN_20140424_0002.jpg','portrait','Kotobuki Minako'],
-[1,'images/SELFSCAN_20140324_0002.jpg','portrait','Toyosaki Aki'],
-[1,'images/SELFSCAN_20140111_0007.jpg','landscape','Tomatsu Haruka'],
+[1, 'images/SELFSCAN_20140111_0002','portrait', 'Kotobuki Minako'],
+[2, 'images/SELFSCAN_20140111_0005','portrait', 'Hikasa Youko'],
+[3, 'images/SELFSCAN_20140111_0007','landscape','Tomatsu Haruka'],
+[4, 'images/SELFSCAN_20140111_0009','landscape','Taketatsu Ayana'],
+[5, 'images/SELFSCAN_20140111_0010','portrait', 'Taketatsu Ayana'],
+[6, 'images/SELFSCAN_20140111_0011','portrait', 'Taketatsu Ayana'],
+[7, 'images/SELFSCAN_20140307_0001','portrait', 'Horie Yui'],
+[8, 'images/SELFSCAN_20140311_0002','landscape','Satou Satomi'],
+[9, 'images/SELFSCAN_20140324_0001','portrait', 'Horie Yui'],
+[10,'images/SELFSCAN_20140324_0002','portrait', 'Toyosaki Aki'],
+[11,'images/SELFSCAN_20140424_0002','portrait', 'Kotobuki Minako'],
 [999,'','','']
 ];
+
 //generate profile category based on array
 function renderGallery(array) {
 	let profileCategoryHTML = document.createElement('DIV');
@@ -20,7 +29,7 @@ function renderGallery(array) {
 		profileBoxImgHTML.classList.add('profile-box-img');
 		let imgHTML = document.createElement('IMG');
 		imgHTML.classList.add(img[2]);
-		imgHTML.alt = img[1];
+		imgHTML.alt = img[1] + '.jpg';
 		imgHTML.title = img[3];
 		profileBoxImgHTML.appendChild(imgHTML);
 		profileBoxHTML.appendChild(profileBoxImgHTML);
