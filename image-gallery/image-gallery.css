@@ -2,7 +2,7 @@
 html {
   font-family: Open Sans;
 }
-body {
+body, a {
   background-color: black;
   color: white;
   margin: auto;
