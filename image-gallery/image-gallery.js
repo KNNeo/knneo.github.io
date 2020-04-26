@@ -25,24 +25,23 @@ let imgArray = [
 [21,'SELFSCAN_20151001_0001','portrait', 'Tomatsu Haruka'],
 [22,'SELFSCAN_20160204_0001','portrait', 'Taketatsu Ayana'],
 [23,'SELFSCAN_20160227_0005','portrait', 'Tomatsu Haruka'],
-[24,'SELFSCAN_20151001_0001','portrait', 'Tomatsu Haruka'],
-[25,'SELFSCAN_20160402_0001','portrait', 'Toyosaki Aki'],
-[26,'SELFSCAN_20160531_0001','landscape','TrySail'],
-[27,'SELFSCAN_20160602_0003','portrait', 'TrySail'],
-[11,'SELFSCAN_20160629_0003','portrait', 'Kotobuk Minako'],
-[11,'SELFSCAN_20160629_0004','landscape','Toyosaki Aki'],
-[11,'SELFSCAN_20160629_0006','portrait', 'Toyosaki Aki'],
-[11,'SELFSCAN_20160629_0007','landscape','Toyosaki Aki'],
-[11,'SELFSCAN_20160629_0008','landscape','Toyosaki Aki'],
-[11,'SELFSCAN_20160629_0010','portrait', 'Toyosaki Aki'],
-[11,'SELFSCAN_20160629_0011','portrait', 'Toyosaki Aki'],
-[11,'SELFSCAN_20160905_0001','portrait', 'Toyosaki Aki'],
-[11,'SELFSCAN_20170510_0001','portrait', 'Natsukawa Shiina'],
-[27,'SELFSCAN_20170602_0002','portrait', 'TrySail'],
-[11,'SELFSCAN_20170610_0001','portrait', 'Toyosaki Aki'],
-[11,'SELFSCAN_20170728_0005','portrait', 'Uesaka Sumire'],
-[27,'SELFSCAN_20170728_0008','portrait', 'TrySail'],
-[11,'SELFSCAN_20170908_0001','landscape','Natsukawa Shiina'],
+[24,'SELFSCAN_20160402_0001','portrait', 'Toyosaki Aki'],
+[25,'SELFSCAN_20160531_0001','landscape','TrySail'],
+[26,'SELFSCAN_20160602_0003','portrait', 'TrySail'],
+[27,'SELFSCAN_20160629_0003','portrait', 'Kotobuki Minako'],
+[28,'SELFSCAN_20160629_0004','landscape','Toyosaki Aki'],
+[29,'SELFSCAN_20160629_0006','portrait', 'Toyosaki Aki'],
+[30,'SELFSCAN_20160629_0007','landscape','Toyosaki Aki'],
+[31,'SELFSCAN_20160629_0008','landscape','Toyosaki Aki'],
+[32,'SELFSCAN_20160629_0010','portrait', 'Toyosaki Aki'],
+[33,'SELFSCAN_20160629_0011','portrait', 'Toyosaki Aki'],
+[34,'SELFSCAN_20160905_0001','portrait', 'Toyosaki Aki'],
+[35,'SELFSCAN_20170510_0001','portrait', 'Natsukawa Shiina'],
+[36,'SELFSCAN_20170602_0002','portrait', 'TrySail'],
+[37,'SELFSCAN_20170610_0001','portrait', 'Toyosaki Aki'],
+[38,'SELFSCAN_20170728_0005','portrait', 'Uesaka Sumire'],
+[39,'SELFSCAN_20170728_0008','portrait', 'TrySail'],
+[40,'SELFSCAN_20170908_0001','landscape','Natsukawa Shiina'],
 [999,'','','']
 ];
 
@@ -103,6 +102,7 @@ for(let label of imgArray)
 	if(labelArray.indexOf(label[3]) > -1) continue;
 	else labelArray.push(label[3]);
 }
+labelArray.sort();
 //generate tickboxes
 for(let label of labelArray)
 {

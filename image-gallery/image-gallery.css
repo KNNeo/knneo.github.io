@@ -21,6 +21,7 @@ h1 {
 }
 label {
 	padding: 5px;
+	display: inline-block;
 	white-space: nowrap;
 }
 #viewer {
