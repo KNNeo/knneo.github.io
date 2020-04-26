@@ -54,11 +54,10 @@ function renderGallery(array) {
 		
 		let holder = document.createElement('DIV');
 		holder.classList.add('holder');
-		holder.style.backgroundColor = 'black';
 		holder.style.textAlign = 'center';
 		let img = image.cloneNode(true);
 		img.style.maxHeight = '100vh';
-		img.style.maxWidth = '100vw';	
+		img.style.maxWidth = '100vw';
 		holder.appendChild(img);
 		if(viewer.childNodes.length > 0) viewer.innerHTML = '';
 		viewer.appendChild(holder);
