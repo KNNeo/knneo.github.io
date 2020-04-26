@@ -51,7 +51,7 @@ html {
   overflow-y: hidden;
   white-space: nowrap;
   padding-bottom: 5px;
-  scroll-snap-type: x mandatory;
+  scroll-snap-type: x proximity;
 }
 .profile-box {
   display: inline-block;
