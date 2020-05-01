@@ -58,7 +58,9 @@ function renderGallery(array) {
 		profileBoxImgHTML.classList.add('profile-box-img');
 		let imgHTML = document.createElement('IMG');
 		imgHTML.classList.add(img[2]);
-		imgHTML.alt = 'images/' + img[1] + '.jpg';
+		imgHTML.classList.add('lazyestload');
+		imgHTML.setAttribute('alt', 'images/' + img[1] + '.jpg');
+		imgHTML.setAttribute('src', 'images/' + img[1] + '_thumb.jpg');
 		imgHTML.title = img[3];
 		profileBoxImgHTML.appendChild(imgHTML);
 		profileBoxHTML.appendChild(profileBoxImgHTML);
@@ -70,7 +72,7 @@ function renderGallery(array) {
 	for(var image of document.getElementsByTagName("img"))
 	{
 		image.src = image.alt;
-		image.alt = '';
+		image.removeAttribute('alt');
 	}
 	
 	//add event listener when click on image
