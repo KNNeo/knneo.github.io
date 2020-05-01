@@ -198,7 +198,7 @@
         //count rows
 		let maxRow = resultTable.getRowCount() > 250 ? 100 : resultTable.getRowCount();
 		//display count
-        document.getElementById("table-result").innerText = resultTable.getRowCount() + " result" + (resultTable.getRowCount() > 1 ? "s" : "") + " found";
+        document.getElementById("table-result").innerText = resultTable.getRowCount() + " result" + (resultTable.getRowCount() != 1 ? "s" : "") + " found";
         if (resultTable.getRowCount() > maxRow) document.getElementById("table-result").innerText += "; Displaying first "+maxRow+" results";
 
         //table to array
