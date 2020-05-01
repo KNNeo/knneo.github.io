@@ -60,7 +60,7 @@ function renderGallery(array) {
 		imgHTML.classList.add(img[2]);
 		imgHTML.classList.add('lazyestload');
 		imgHTML.setAttribute('alt', 'images/' + img[1] + '.jpg');
-		imgHTML.setAttribute('src', 'images/' + img[1] + '_thumb.jpg');
+		imgHTML.setAttribute('src', 'https://knneo.github.io/resources/spacer.gif');
 		imgHTML.title = img[3];
 		profileBoxImgHTML.appendChild(imgHTML);
 		profileBoxHTML.appendChild(profileBoxImgHTML);
