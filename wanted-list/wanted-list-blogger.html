@@ -990,7 +990,7 @@ function handleMessage(e) {
     // Reference to element for data display
     var el = document.getElementByTagName('html')[0];
     // Check origin
-    if ( e.origin === 'https://knwebreports.blogspot.com/' ) {
+    if ( e.origin === '*' ) {
         // Retrieve data sent in postMessage
         e.innerHTML = el.data;
         // Send reply to source of message
