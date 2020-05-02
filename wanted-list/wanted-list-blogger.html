@@ -982,5 +982,15 @@ THE SEIYUU: 3RD WAVE<br />
 <hr/>
 <p style="text-align: center;"><a href="../index.html">Back</a></p>
 <script src="wanted-list.js"></script>
+<script>
+window.addEventListener('message', event => {
+    // IMPORTANT: check the origin of the data! 
+    if (event.origin.startsWith('https://knwebreports.blogspot.com/*')) { 
+        console.log(event.data); 
+    } else {
+        return; 
+    } 
+}); 
+</script>
 </body>
 </html>
