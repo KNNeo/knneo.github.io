@@ -986,7 +986,7 @@ THE SEIYUU: 3RD WAVE<br />
 window.addEventListener('message', event => {
     // IMPORTANT: check the origin of the data! 
     if (event.origin.startsWith('https://knwebreports.blogspot.com/*')) { 
-        console.log(event.data); 
+        return document.getElementByTagName("html")[0];
     } else {
         return; 
     } 
