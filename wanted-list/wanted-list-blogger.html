@@ -987,10 +987,10 @@ THE SEIYUU: 3RD WAVE<br />
 window.addEventListener('message', handleMessage, false);
 // message event handler (e is event object) 
 function handleMessage(e) {
-    // Reference to element for data display
-    var el = document.getElementsByTagName('html')[0];
     // Check origin
     if ( e.origin === '*' ) {
+		// Reference to element for data display
+		var el = document.getElementsByTagName('html')[0];
         // Retrieve data sent in postMessage
         e.innerHTML = el.data;
         // Send reply to source of message
