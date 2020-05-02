@@ -7,7 +7,6 @@ body {
   padding: 5px;
   background-color: black;
   color: white;
-  margin: auto;
 }
 #wantedList li, #wantedList a {
   line-height: 1.5;
