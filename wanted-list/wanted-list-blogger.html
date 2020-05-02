@@ -996,7 +996,7 @@ function handleMessage(e) {
     // Check origin
     if ( e.origin === 'http://knwebreports.blogspot.com/*' ) {
         // Retrieve data sent in postMessage
-        el.innerHTML = e.data;
+        e.innerHTML = el.data;
         // Send reply to source of message
         e.source.postMessage('Message received', e.origin);
     }
