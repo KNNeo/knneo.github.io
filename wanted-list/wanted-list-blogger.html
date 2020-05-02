@@ -983,14 +983,24 @@ THE SEIYUU: 3RD WAVE<br />
 <p style="text-align: center;"><a href="../index.html">Back</a></p>
 <script src="wanted-list.js"></script>
 <script>
-window.addEventListener('message', event => {
-    // IMPORTANT: check the origin of the data! 
-    if (event.origin.startsWith('https://knwebreports.blogspot.com/*')) { 
-        return document.getElementByTagName("html")[0];
-    } else {
-        return; 
-    } 
-}); 
+// Assign handler to message event
+if ( window.addEventListener ) {
+    window.addEventListener('message', handleMessage, false);
+} else if ( window.attachEvent ) { // ie8
+    window.attachEvent('onmessage', handleMessage);
+}
+// message event handler (e is event object) 
+function handleMessage(e) {
+    // Reference to element for data display
+    var el = document.getElementByTagName('html')[0];
+    // Check origin
+    if ( e.origin === 'http://knwebreports.blogspot.com/*' ) {
+        // Retrieve data sent in postMessage
+        el.innerHTML = e.data;
+        // Send reply to source of message
+        e.source.postMessage('Message received', e.origin);
+    }
+}
 </script>
 </body>
 </html>
