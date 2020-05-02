@@ -984,11 +984,7 @@ THE SEIYUU: 3RD WAVE<br />
 <script src="wanted-list.js"></script>
 <script>
 // Assign handler to message event
-if ( window.addEventListener ) {
-    window.addEventListener('message', handleMessage, false);
-} else if ( window.attachEvent ) { // ie8
-    window.attachEvent('onmessage', handleMessage);
-}
+window.addEventListener('message', handleMessage, false);
 // message event handler (e is event object) 
 function handleMessage(e) {
     // Reference to element for data display
