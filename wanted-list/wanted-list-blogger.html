@@ -988,7 +988,7 @@ window.addEventListener('message', handleMessage, false);
 // message event handler (e is event object) 
 function handleMessage(e) {
     // Reference to element for data display
-    var el = document.getElementByTagName('html')[0];
+    var el = document.getElementsByTagName('html')[0];
     // Check origin
     if ( e.origin === '*' ) {
         // Retrieve data sent in postMessage
