@@ -1,0 +1,1 @@
+select artisttitle||' - '||songtitle, count(date) as Count from sotd where songtitle <> '' and artisttitle <> '' and ispastyear = 1 group by songtitle, artisttitle order by count(date) desc, artisttitle

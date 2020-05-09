@@ -1,0 +1,3 @@
+select '2016' as Year, a.category, count(a.ReleaseTitle) as Count from (select r.category, r.releasetitle from song s join release r on s.releasetitle = r.releasetitle where s.knyear <= '2016' and r.Category = 'SINGLE' group by r.category, r.releasetitle)a
+union all
+select '2016' as Year, a.category, count(a.ReleaseTitle) as Count from (select r.category, r.releasetitle from song s join release r on s.releasetitle = r.releasetitle where s.knyear <= '2016' and r.Category = 'ALBUM' group by r.category, r.releasetitle)a

@@ -1,0 +1,1 @@
+select artisttitle, count(artisttitle) from song group by artisttitle having count(artisttitle) >= 10 order by count(*) desc
