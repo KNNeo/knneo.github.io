@@ -1,0 +1,1 @@
+select Artist.ArtistCode, count(Artist.ArtistCode) from AppleMusic join Song on AppleMusic.KNID = Song.KNID join Artist on Artist.ArtistTitle = song.ArtistTitle where Artist.ArtistCode <> '' group by Artist.ArtistCode
