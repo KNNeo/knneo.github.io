@@ -197,7 +197,11 @@ for(let label of imgArray)
 	if(labelArray.indexOf(label[3]) > -1) continue;
 	else labelArray.push(label[3]);
 }
-labelArray.sort();
+labelArray.sort(function (a, b) { 
+    if (a.toLowerCase() < b.toLowerCase()) return -1;
+    if (a.toLowerCase() > b.toLowerCase()) return 1;
+    return 0;
+});
 //generate tickboxes
 for(let label of labelArray)
 {
