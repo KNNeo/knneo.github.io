@@ -13,16 +13,43 @@ for (var i = 0; i < animeImgList.length; i++) {
     if(animeImgList[i].nextElementSibling == null && animeImgList[i].previousElementSibling != null) animeImgList[i].style.display = "none";
     resizeProfileBoxImg(animeImgList[i]);
 }
-function resizeProfileBoxImg(dis) {
-    var isPortrait = dis.height >= dis.width;
-    dis.style.height = "320px";
-    if (window.innerWidth < 485) {
-        if (!isPortrait) {
-            dis.style.height = "";
-            dis.style.width = "100%";
-        }
-    }
-}
+
+//show checkbox on hover on wanted list
+document.getElementById("marriedCouple").addEventListener("mouseover", function () { document.getElementById("isMarried").style.visibility = "visible"; });
+document.getElementById("marriedCouple").addEventListener("mouseout", function () { document.getElementById("isMarried").style.visibility = "hidden"; });
+document.getElementById("isMarried").style.visibility = "hidden";
+
+//on load create timeline using timeknots.js
+generateWantedList(false);
+var DOBlist = createDOBlist(0,35);
+window.addEventListener("load", function() {
+    TimeKnots.draw("#timeline", DOBlist, {
+        horizontalLayout: true,
+        width: 5000,
+        height: 100,
+        dateFormat: "%Y.%m.%d",
+        showLabels: true,
+        labelFormat: "%Y"
+    });
+    adjustKnots();
+    batchResizeProfileBoxImg();
+    switchProfileBoxImage();
+	censorData();
+});
+
+//on scroll turn off all overlays in timeline and calendar
+window.addEventListener("scroll", function() {
+	if(document.getElementById("timeline").getElementsByTagName("div")[0] != undefined)
+		document.getElementById("timeline").getElementsByTagName("div")[0].style.opacity = "0";
+    //document.getElementById("calendar").getElementsByTagName("div")[0].style.display = "none";
+});
+
+//on load create calendar
+var calendarDOBlist = createDOBlist(0,50);
+var currentMonth = createCalendar(new Date().getMonth(), calendarDOBlist);
+
+
+
 //add age after DOB
 for (var dateOfBirth of document.getElementsByClassName("DOB")) {
     var age = parseInt(getAge(dateOfBirth .innerHTML));
@@ -35,27 +62,109 @@ function getAge(DOB) {
     return Math.floor((new Date().getTime() - birthDate) / 31556952000);
 }
 
-//generate wantedList (combine with below)
+//generate wanted list
+function generateWantedList(excludeMarried) {
 var wantedListString = "";
+
+//create name array from static profile boxes
 var profileNames = document.getElementsByClassName("profile-name");
 var profileNamesList = new Array();
 for(var profileName of profileNames)
 {
+ if(excludeMarried && profileName.parentElement.parentElement.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.innerText.replace(/\*/g,"").endsWith("Yes")) continue;
 profileNamesList.push(profileName.innerText);
 }
 profileNamesList.sort();
+
+//create wanted list from list of names
 for(var profileName of profileNamesList)
 {
  wantedListString += "<li><a>" + profileName + "</a></li>";
 }
 document.getElementById("wantedList").innerHTML = wantedListString;
+
+//wanted list processing
 for(var id = 0; id < document.getElementById("wantedList").getElementsByTagName("a").length; id++)
 {
 let boxString = document.getElementById("wantedList").getElementsByTagName("a")[id].innerText.replace(" ","");
 document.getElementById("wantedList").getElementsByTagName("a")[id].addEventListener("click", function() { document.getElementById(boxString).scrollIntoView(); });
 }
+}
 
-//create array of objects with DOB info, parameter age range inclusive
+//on timeline double click shrink timeline
+document.getElementById("timeline").addEventListener("dblclick", function() {
+    var origWidth = document.getElementById("timeline").getElementsByTagName("svg")[0].width.baseVal.value / 2;
+    document.getElementById("timeline").innerHTML = "";
+    if (origWidth < 1000)
+        TimeKnots.draw("#timeline", DOBlist, {
+            horizontalLayout: true,
+            width: 1000,
+            height: 100,
+            dateFormat: "%Y.%m.%d",
+            showLabels: true,
+            labelFormat: "%Y"
+        });
+    else
+        TimeKnots.draw("#timeline", DOBlist, {
+            horizontalLayout: true,
+            width: origWidth,
+            height: 100,
+            dateFormat: "%Y.%m.%d",
+            showLabels: true,
+            labelFormat: "%Y"
+        });
+    adjustKnots();
+});
+
+//on timeline wheel scroll adjust timeline length ie. redraw
+document.getElementById("timeline").addEventListener("wheel", function(e) {
+    e.preventDefault();
+    if(!e.shiftKey){ document.getElementById('timeline').scrollLeft -= e.wheelDelta/2; return; }
+    var origWidth = document.getElementById("timeline").getElementsByTagName("svg")[0].width.baseVal.value + e.wheelDelta;
+    document.getElementById("timeline").innerHTML = "";
+    if (origWidth >= 1000 && origWidth <= 10000)
+        TimeKnots.draw("#timeline", DOBlist, {
+            horizontalLayout: true,
+            width: origWidth,
+            height: 100,
+            dateFormat: "%Y.%m.%d",
+            showLabels: true,
+            labelFormat: "%Y"
+        });
+    else if (origWidth < 1000)
+        TimeKnots.draw("#timeline", DOBlist, {
+            horizontalLayout: true,
+            width: 1000,
+            height: 100,
+            dateFormat: "%Y.%m.%d",
+            showLabels: true,
+            labelFormat: "%Y"
+        });
+    else if (origWidth > 10000)
+        TimeKnots.draw("#timeline", DOBlist, {
+            horizontalLayout: true,
+            width: 10000,
+            height: 100,
+            dateFormat: "%Y.%m.%d",
+            showLabels: true,
+            labelFormat: "%Y"
+        });
+    adjustKnots();
+});
+
+//write pop up into HTML to explain status of wanted list profile
+var statusPopup = "<div id=\"tp-description\">As answered haphazardly by Uesaka Sumire (and expanded on by me) the three \"turning points\" of a voice actress (but applicable to all):<br/>~ Singer Debut (The exhibition of their unique voices in singing)<br/>~ Swimsuit Photobook (The display of their figure to the extent of being half-naked)<br/>~ Married (The declaration of the end of idolism)</div>";
+for (var statusPopOut of document.getElementsByClassName("turning-point")) {
+statusPopOut.addEventListener("mouseover", function(d) {
+    d.target.innerHTML = statusPopup + d.target.innerHTML;
+});
+statusPopOut.addEventListener("mouseout", function() { if(document.getElementById("tp-description") != undefined) document.getElementById("tp-description").remove(); });
+}
+document.addEventListener("touchmove", function() { if(document.getElementById("tp-description") != undefined) document.getElementById("tp-description").remove(); });
+
+//functions//
+
+//create array of objects with DOB info, parameter: age (range inclusive)
 function createDOBlist(minAge, maxAge) {
 var listOfDOB = new Array();
 listOfDOB.push({
@@ -83,10 +192,18 @@ listOfDOB.sort(function(a, b) {
 return listOfDOB;
 }
 
-//on load create timeline using timeknots.js
-var DOBlist = createDOBlist(0,35);
-window.addEventListener("load", function() {
-    TimeKnots.draw("#timeline", DOBlist, {
+function toggleMarried(){
+//create DOB list must be changed to accept new flag, if checkbox true then remove all entries where married is true
+//currently not working because createDOBlist has to read text on a tags in wanted list which is all uppercase not same as div id
+//cause: css renders after js so results is always uppercase
+//solution: set uppercase via js, undo when have to generate list again, or if have alternative (modularise generate wantedlist)
+
+var excludeMarried = document.getElementById("marriedCheckbox").checked == true;
+generateWantedList(excludeMarried);
+
+DOBlist = createDOBlist(0,35);
+document.getElementById("timeline").innerHTML = "";
+TimeKnots.draw("#timeline", DOBlist, {
         horizontalLayout: true,
         width: 5000,
         height: 100,
@@ -95,12 +212,9 @@ window.addEventListener("load", function() {
         labelFormat: "%Y"
     });
     adjustKnots();
-});
+}
 
-//create calendar
-var calendarDOBlist = createDOBlist(0,50);
-var currentMonth = createCalendar(new Date().getMonth(), calendarDOBlist);
-
+//generate calendar from profile boxes
 function createCalendar(monthNo, DOBlist) {
     var month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     var calendarArray = new Array();
@@ -155,72 +269,7 @@ function createCalendar(monthNo, DOBlist) {
     else document.getElementById("nextMonth").style.opacity = 0;
     return monthNo;
 }
-//on scroll turn off all overlays in timeline and calendar
-window.addEventListener("scroll", function() {
-	if(document.getElementById("timeline").getElementsByTagName("div").length > 0)
-		document.getElementById("timeline").getElementsByTagName("div")[0].style.opacity = "0";
-    //document.getElementById("calendar").getElementsByTagName("div")[0].style.display = "none";
-});
-//on timeline double click shrink timeline
-document.getElementById("timeline").addEventListener("dblclick", function(e) {
-	e.preventDefault();
-    var origWidth = document.getElementById("timeline").getElementsByTagName("svg")[0].width.baseVal.value / 2;
-    document.getElementById("timeline").innerHTML = "";
-    if (origWidth < 1000)
-        TimeKnots.draw("#timeline", DOBlist, {
-            horizontalLayout: true,
-            width: 1000,
-            height: 100,
-            dateFormat: "%Y.%m.%d",
-            showLabels: true,
-            labelFormat: "%Y"
-        });
-    else
-        TimeKnots.draw("#timeline", DOBlist, {
-            horizontalLayout: true,
-            width: origWidth,
-            height: 100,
-            dateFormat: "%Y.%m.%d",
-            showLabels: true,
-            labelFormat: "%Y"
-        });
-    adjustKnots();
-});
-//on timeline wheel scroll adjust timeline length ie. redraw
-document.getElementById("timeline").addEventListener("wheel", function(e) {
-    e.preventDefault();
-    if(!e.shiftKey){ document.getElementById('timeline').scrollLeft -= e.wheelDelta/2; return; }
-    var origWidth = document.getElementById("timeline").getElementsByTagName("svg")[0].width.baseVal.value + e.wheelDelta;
-    document.getElementById("timeline").innerHTML = "";
-    if (origWidth >= 1000 && origWidth <= 10000)
-        TimeKnots.draw("#timeline", DOBlist, {
-            horizontalLayout: true,
-            width: origWidth,
-            height: 100,
-            dateFormat: "%Y.%m.%d",
-            showLabels: true,
-            labelFormat: "%Y"
-        });
-    else if (origWidth < 1000)
-        TimeKnots.draw("#timeline", DOBlist, {
-            horizontalLayout: true,
-            width: 1000,
-            height: 100,
-            dateFormat: "%Y.%m.%d",
-            showLabels: true,
-            labelFormat: "%Y"
-        });
-    else if (origWidth > 10000)
-        TimeKnots.draw("#timeline", DOBlist, {
-            horizontalLayout: true,
-            width: 10000,
-            height: 100,
-            dateFormat: "%Y.%m.%d",
-            showLabels: true,
-            labelFormat: "%Y"
-        });
-    adjustKnots();
-});
+
 //to shift position of knots if overlap with previous
 function adjustKnots() {
     var circleList = document.getElementsByTagName("circle");
@@ -229,21 +278,58 @@ function adjustKnots() {
         if (circleList[i + 1].getAttribute("cx") - oldCX <= 20) circleList[i + 1].setAttribute("cx", oldCX + 20);
     }
 }
+
 //double click profile box go up to list of names
-for (var profBox of document.getElementsByClassName("profile-box")) profBox.addEventListener("dblclick", function(e) {
+for (var profBox of document.getElementsByClassName("profile-box")) profBox.addEventListener("dblclick", function() {
     if (window.innerWidth < 780) {
-        document.getElementById("wantedList").scrollIntoView();
+        document.getElementById("marriedCouple").scrollIntoView();
         return;
     }
     document.body.scrollTop = 0; // For Safari
     document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 });
-//write pop up into HTML to explain status of wanted list profile
-var statusPopup = "<div id=\"tp-description\">As answered haphazardly by Uesaka Sumire (and expanded on by me) the three \"turning points\" of a voice actress (but applicable to all):<br/>~ Singer Debut (The exhibition of their unique voices in singing)<br/>~ Swimsuit Photobook (The display of their figure to the extent of being half-naked)<br/>~ Married (The declaration of the end of idolism)</div>";
-for (var statusPopOut of document.getElementsByClassName("turning-point")) {
-statusPopOut.addEventListener("mouseover", function(d) {
-    d.target.innerHTML = statusPopup + d.target.innerHTML;
-});
-statusPopOut.addEventListener("mouseout", function() { if(document.getElementById("tp-description") != undefined) document.getElementById("tp-description").remove(); });
+
+//add event listener for image switch
+function batchResizeProfileBoxImg() {
+var animeImgList = document.getElementsByTagName("img");
+for (var i = 0; i < animeImgList.length; i++) {
+        animeImgList[i].addEventListener("error", function() {
+            if(this.nextElementSibling != null) this.nextElementSibling.style.display = "";
+            this.remove();
+        });
+        /*animeImgList[i].addEventListener("click", function() {
+            if(this.nextElementSibling == null && this.previousElementSibling == null) return;
+            if(this.style.display == "") this.style.display = "none"; else this.style.display = "";
+            if(this.nextElementSibling != null) this.nextElementSibling.style.display = this.nextElementSibling.style.display == "" ? "none" : "";
+            if(this.previousElementSibling != null) this.previousElementSibling .style.display = this.previousElementSibling .style.display == "" ? "none" : "";
+        });*/
+    if(animeImgList[i].nextElementSibling == null && animeImgList[i].previousElementSibling != null) animeImgList[i].style.display = "none";
+    resizeProfileBoxImg(animeImgList[i]);
 }
-document.addEventListener("touchmove", function() { if(document.getElementById("tp-description") != undefined) document.getElementById("tp-description").remove(); });
+};
+
+//add event listener for image switch but through clicking on profile box
+function switchProfileBoxImage() {
+var profileBoxImgList = document.getElementsByClassName("profile-box");
+for (var i = 0; i < profileBoxImgList.length; i++) {
+        profileBoxImgList[i].addEventListener("click", function() {
+            if(this.getElementsByTagName("img")[0] == null && this.getElementsByTagName("img")[1] == null) return;
+if(this.getElementsByTagName("img")[1] == null) return;
+            if(this.getElementsByTagName("img")[0] != null) this.getElementsByTagName("img")[0].style.display = this.getElementsByTagName("img")[0].style.display == "" ? "none" : "";
+            if(this.getElementsByTagName("img")[1] != null) this.getElementsByTagName("img")[1].style.display = this.getElementsByTagName("img")[1].style.display == "" ? "none" : "";
+        });
+}
+}
+
+//resize images on load
+function resizeProfileBoxImg(dis) {
+    var isPortrait = dis.height >= dis.width;
+    dis.style.height = "320px";
+    if (window.innerWidth < 485) {
+        if (!isPortrait) {
+            dis.style.height = "";
+            dis.style.maxHeight = "100%";
+            dis.style.maxWidth = "320px";
+        }
+    }
+}

@@ -1,11 +1,12 @@
 /*Objective: To create a seaprate function to run on Github to censor all unrelated data to display*/
 
+function censorData() {
 //remove all content besides first four rows of each profile box table
 let profileBoxes = document.getElementsByClassName("profile-box");
 for(var profileBox of profileBoxes)
 {
-	while(profileBox.getElementsByTagName("table")[0].getElementsByTagName("tr")[4] != undefined) {
-		profileBox.getElementsByTagName("table")[0].getElementsByTagName("tr")[4].remove();
+	while(profileBox.getElementsByTagName("table")[0].getElementsByTagName("tr")[8] != undefined) {
+		profileBox.getElementsByTagName("table")[0].getElementsByTagName("tr")[8].remove();
 	}
 }
 //document.getElementsByClassName("profile-box")[0].getElementsByTagName("table")[0].getElementsByTagName("tr")[4].remove();
@@ -14,7 +15,8 @@ for(var profileBox of profileBoxes)
 //remove all nicknames, if any
 for(var profileBox of profileBoxes)
 {
-	profileBox.getElementsByClassName("profile-name")[0].parentElement.innerHTML = profileBox.getElementsByClassName("profile-name")[0].innerHTML;
+	var realName = profileBox.getElementsByClassName("profile-name")[0].parentElement.getElementsByTagName('span')[0].outerHTML;
+	profileBox.getElementsByClassName("profile-name")[0].parentElement.innerHTML = realName;
 }
 //document.getElementsByClassName("profile-box")[0].getElementsByClassName("profile-name")[0].innerHTML;
 //document.getElementsByClassName("profile-box")[0].getElementsByClassName("profile-name")[0].parentElement.innerHTML;
@@ -42,9 +44,9 @@ for (var i = 0; i < animeImgList.length; i++) {
             if(this.previousElementSibling != null) this.previousElementSibling .style.display = this.previousElementSibling .style.display == "" ? "none" : "";
         });
     if(animeImgList[i].nextElementSibling == null && animeImgList[i].previousElementSibling != null) animeImgList[i].style.display = "none";
-    resizeProfileBoxImg(animeImgList[i]);
+    batchResizeProfileBoxImg(animeImgList[i]);
 }
-
+}
 
 
 //END

@@ -52,7 +52,7 @@ let imgArray = [
 [71,'SELFSCAN_20170602_0002','portrait','TrySail'],
 [72,'SELFSCAN_20170610_0001','portrait','Toyosaki Aki'],
 [73,'SELFSCAN_20170720_0001','portrait','Toyosaki Aki'],
-[77,'SELFSCAN_20170728_0005','landscape','Uesaka Sumire'],
+[77,'SELFSCAN_20170728_0005','portrait','Uesaka Sumire'],
 [79,'SELFSCAN_20170728_0008','portrait','TrySail'],
 [80,'SELFSCAN_20170908_0001','landscape','Natsukawa Shiina'],
 [81,'CCI20180102_0001','portrait','Amamiya Sora'],
