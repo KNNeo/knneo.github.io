@@ -163,10 +163,10 @@
                 if (inputArtistTitle != '') validInput++;
                 if (inputReleaseYear != '') validInput++;
                 if (inputArtistCode != '') validInput++;
-                if (row.getString(6).toUpperCase().includes(inputSongTitle)) validRows++;
-                if (row.getString(7).toUpperCase().includes(inputArtistTitle)) validRows++;
-                if (row.getString(11).toUpperCase().includes(inputReleaseYear)) validRows++;
-                if (row.getString(23).toUpperCase().includes(inputArtistCode)) validRows++;
+                if (inputSongTitle != '' && row.getString(6).toUpperCase().includes(inputSongTitle)) validRows++;
+                if (inputArtistTitle != '' && row.getString(7).toUpperCase().includes(inputArtistTitle)) validRows++;
+                if (inputReleaseYear != '' && row.getString(11).toUpperCase().includes(inputReleaseYear)) validRows++;
+                if (inputArtistCode != '' && row.getString(23).toUpperCase().includes(inputArtistCode)) validRows++;
                 <!-- if (strictMode && validRows > 2) newTable.addRow(row); -->
                 <!-- else if (!strictMode && validRows > 0) newTable.addRow(row); -->
 				if (validRows >= validInput) newTable.addRow(row);
