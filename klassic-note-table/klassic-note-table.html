@@ -45,6 +45,7 @@
         <input id="dbInputSongTitle" type="text" placeholder="Song Title" title="search" />
         <input id="dbInputArtistTitle" type="text" placeholder="Artist Title" title="search" />
         <input id="dbInputReleaseYear" type="text" placeholder="Release Year" title="search" />
+        <input id="dbInputArtistCode" type="text" placeholder="Artist Type" title="search" />
         <input id="dbSubmitButton" type="submit" onclick="loadTableFromCSV()" placeholder="submit" value="Submit" />
         <a href="javascript:void(0);" onclick="resetFunction()">Reset</a>
         <div id="table-column-ticks">
@@ -94,6 +95,8 @@
                 <input type="checkbox" name="columnReleaseTitleAlt" value="ReleaseTitleAlt" checked>ReleaseTitleAlt</label>
             <label>
                 <input type="checkbox" name="columnReleaseArtistTitleAlt" value="ReleaseArtistTitleAlt" checked>ReleaseArtistTitleAlt</label>
+            <label>
+                <input type="checkbox" name="columnArtistCode" value="ArtistCode" checked>ArtistCode</label>
         </div>
     </div>
     <div class="table-reset"></div>
@@ -146,19 +149,27 @@
         let inputSongTitle = document.getElementById('dbInputSongTitle').value.toUpperCase().trim();
         let inputArtistTitle = document.getElementById('dbInputArtistTitle').value.toUpperCase().trim();
         let inputReleaseYear = document.getElementById('dbInputReleaseYear').value.toUpperCase().trim();
-        let strictMode = inputSongTitle != '' && inputArtistTitle != '' && inputReleaseYear != '';
-        if (inputSongTitle + inputArtistTitle + inputReleaseYear == '') return table;
+        let inputArtistCode = document.getElementById('dbInputArtistCode').value.toUpperCase().trim();
+        <!-- let strictMode = inputSongTitle != '' && inputArtistTitle != '' && inputReleaseYear != ''&& inputArtistCode != ''; -->
+        if (inputSongTitle + inputArtistTitle + inputReleaseYear + inputArtistCode == '') return table;
         else {
             let newTable = new p5.Table();
             newTable.columns = table.columns;
             let rows = table.getRows();
             for (row of rows) {
-                let valid = 0;
-                if (inputSongTitle != '' && row.getString(6).toUpperCase().includes(inputSongTitle)) valid++;
-                if (inputArtistTitle != '' && row.getString(7).toUpperCase().includes(inputArtistTitle)) valid++;
-                if (inputReleaseYear != '' && row.getString(11).toUpperCase().includes(inputReleaseYear)) valid++;
-                if (strictMode && valid > 2) newTable.addRow(row);
-                else if (!strictMode && valid > 0) newTable.addRow(row);
+                let validInput = 0;
+                let validRows = 0;
+                if (inputSongTitle != '') validInput++;
+                if (inputArtistTitle != '') validInput++;
+                if (inputReleaseYear != '') validInput++;
+                if (inputArtistCode != '') validInput++;
+                if (row.getString(6).toUpperCase().includes(inputSongTitle)) validRows++;
+                if (row.getString(7).toUpperCase().includes(inputArtistTitle)) validRows++;
+                if (row.getString(11).toUpperCase().includes(inputReleaseYear)) validRows++;
+                if (row.getString(23).toUpperCase().includes(inputArtistCode)) validRows++;
+                <!-- if (strictMode && validRows > 2) newTable.addRow(row); -->
+                <!-- else if (!strictMode && validRows > 0) newTable.addRow(row); -->
+				if (validRows >= validInput) newTable.addRow(row);
             }
             return newTable;
         }
