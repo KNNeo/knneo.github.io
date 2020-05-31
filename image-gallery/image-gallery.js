@@ -151,7 +151,6 @@ function renderGallery(array) {
 		profileBoxImgHTML.classList.add('profile-box-img');
 		let imgHTML = document.createElement('IMG');
 		imgHTML.classList.add(img[2]);
-		imgHTML.classList.add('lazyestload');
 		imgHTML.setAttribute('alt', 'images/' + img[1] + '.jpg');
 		imgHTML.setAttribute('src', 'https://knneo.github.io/resources/spacer.gif');
 		imgHTML.title = img[3];

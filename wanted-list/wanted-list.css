@@ -60,7 +60,7 @@ html {
   margin: 3px;
   vertical-align: top;
   padding-right: 5px;
-  scroll-snap-align: start;
+  scroll-snap-align: center;
 }
 .profile-box {
   border-radius: 8px;
