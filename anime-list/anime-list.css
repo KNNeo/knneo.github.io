@@ -33,7 +33,7 @@ h1, p {
 h3 { text-align: center; }
 
 #anime-list {
-	height: 75vh;
+	height: 500px;
 	overflow: auto;	
 }
 

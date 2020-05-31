@@ -150,8 +150,23 @@ for(let anime of customArray)
 animeTable.appendChild(animeTableBody);
 document.getElementById('anime-list').appendChild(animeTable);
 
-/* 
 //[4] after adjustments
+let h3height = document.getElementsByTagName('h3')[0].getBoundingClientRect().height;
+let headerHeight = document.getElementById('header').offsetHeight;
+let footerHeight = document.getElementById('footer').offsetHeight;
+document.getElementById('anime-list').style.height = (window.innerHeight - h3height - headerHeight - footerHeight - 150) + 'px';	
+
+
+
+
+
+
+
+
+
+
+/* 
+//aechived
 //switch source for onload
 for (var image of document.getElementsByTagName("img"))
 {
