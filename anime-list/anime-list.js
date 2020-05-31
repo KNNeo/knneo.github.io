@@ -117,11 +117,23 @@ let animeTableBody = document.createElement('tbody');
 let animeTableHeader = document.createElement('tr');
 
 let animeTableHeaderRow = document.createElement('th');
-animeTableHeaderRow.innerText = 'Series Title';
-animeTableHeader.appendChild(animeTableHeaderRow);
-animeTableHeaderRow = document.createElement('th');
+// animeTableHeaderRow.innerText = 'Series Title';
+// animeTableHeader.appendChild(animeTableHeaderRow);
+// animeTableHeaderRow = document.createElement('th');
 animeTableHeaderRow.innerText = 'Anime Title';
 animeTableHeader.appendChild(animeTableHeaderRow);
+
+let seasons = ['','Winter','Spring','Summer','Autumn'];
+for(let y = 2013; y <= 2020; y++)
+{
+	for(let s = 1; s <= 4; s++)
+	{
+		animeTableHeaderRow = document.createElement('th');
+		if(y == 2020 && seasons[s] == 'Spring') animeTableHeaderRow.style.backgroundColor = '#444444'; //current season
+		animeTableHeaderRow.innerHTML = y + "<br>" + seasons[s];
+		animeTableHeader.appendChild(animeTableHeaderRow);
+	}
+}
 
 animeTableBody.appendChild(animeTableHeader);
 
@@ -129,9 +141,9 @@ for(let anime of customArray)
 {
 	let animeTableRow = document.createElement('tr');
 	
-	let animeTableContent = document.createElement('td');
-	animeTableContent.innerText = anime.seriesTitle;
-	animeTableRow.appendChild(animeTableContent);
+	// let animeTableContent = document.createElement('td');
+	// animeTableContent.innerText = anime.seriesTitle;
+	// animeTableRow.appendChild(animeTableContent);
 	
 	animeTableContent = document.createElement('td');
 	animeTableContent.innerText = anime.title;
@@ -139,11 +151,19 @@ for(let anime of customArray)
 	
 	animeTableBody.appendChild(animeTableRow);
 	
-	for(let i=0; i < 30; i++)
+	for(let y = 2013; y <= 2020; y++)
 	{
-		animeTableContent = document.createElement('td');
-		animeTableContent.innerText = '1';
-		animeTableRow.appendChild(animeTableContent);
+		for(let s = 1; s <= 4; s++)
+		{
+			animeTableContent = document.createElement('td');
+			if(y == 2020 && seasons[s] == 'Spring') animeTableContent.style.backgroundColor = '#444444'; //current season
+			if(y == anime.year && seasons[s] == anime.season)
+				animeTableContent.innerText = 'X';
+			else
+				animeTableContent.innerText = '';
+			animeTableContent.style.textAlign = 'center';
+			animeTableRow.appendChild(animeTableContent);
+		}
 	}
 }
 
@@ -154,7 +174,7 @@ document.getElementById('anime-list').appendChild(animeTable);
 let h3height = document.getElementsByTagName('h3')[0].getBoundingClientRect().height;
 let headerHeight = document.getElementById('header').offsetHeight;
 let footerHeight = document.getElementById('footer').offsetHeight;
-document.getElementById('anime-list').style.height = (window.innerHeight - h3height - headerHeight - footerHeight - 150) + 'px';	
+document.getElementById('anime-list').style.height = (window.innerHeight - h3height - headerHeight - footerHeight - 0.15*window.innerHeight) + 'px';	
 
 
 

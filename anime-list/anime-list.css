@@ -39,6 +39,8 @@ h3 { text-align: center; }
 
 td { white-space: nowrap; }
 
+table, tr, td { border-collapse: collapse; }
+
 /*End Github*/
 
 
