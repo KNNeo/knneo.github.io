@@ -30,6 +30,15 @@ h1, p {
 	text-decoration: underline;
 }
 
+h3 { text-align: center; }
+
+#anime-list {
+	height: 75vh;
+	overflow: auto;	
+}
+
+td { white-space: nowrap; }
+
 /*End Github*/
 
 
