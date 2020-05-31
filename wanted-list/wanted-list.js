@@ -13,7 +13,7 @@ for (var i = 0; i < animeImgList.length; i++) {
     if(animeImgList[i].nextElementSibling == null && animeImgList[i].previousElementSibling != null) animeImgList[i].style.display = "none";
     resizeProfileBoxImg(animeImgList[i]);
 }
-
+	
 //show checkbox on hover on wanted list
 document.getElementById("marriedCouple").addEventListener("mouseover", function () { document.getElementById("isMarried").style.visibility = "visible"; });
 document.getElementById("marriedCouple").addEventListener("mouseout", function () { document.getElementById("isMarried").style.visibility = "hidden"; });
@@ -35,6 +35,12 @@ window.addEventListener("load", function() {
     batchResizeProfileBoxImg();
     switchProfileBoxImage();
 	censorData();
+	
+	for(var image of document.getElementsByTagName("img"))
+	{
+		image.src = image.alt;
+		image.removeAttribute('alt');
+	}
 });
 
 //on scroll turn off all overlays in timeline and calendar
