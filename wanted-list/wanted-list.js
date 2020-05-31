@@ -1,7 +1,8 @@
 /*Add From Image Gallery*/
 for(var image of document.getElementsByTagName("img"))
 {
-	image.src = image.alt;
+	if(image.alt != '')
+		image.src = image.alt;
 	image.removeAttribute('alt');
 }
 /*End add from Image Gallery*/
