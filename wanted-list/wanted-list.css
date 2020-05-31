@@ -1,6 +1,7 @@
 /*Github Page Only Controls*/
 html {
   font-family: Open Sans;
+  overflow-x: hidden;
 }
 body {
   padding: 5px;

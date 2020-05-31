@@ -1,3 +1,11 @@
+/*Add From Image Gallery*/
+for(var image of document.getElementsByTagName("img"))
+{
+	image.src = image.alt;
+	image.removeAttribute('alt');
+}
+/*End add from Image Gallery*/
+
 var animeImgList = document.getElementsByTagName("img");
 for (var i = 0; i < animeImgList.length; i++) {
         animeImgList[i].addEventListener("error", function() {
@@ -36,11 +44,6 @@ window.addEventListener("load", function() {
     switchProfileBoxImage();
 	censorData();
 	
-	for(var image of document.getElementsByTagName("img"))
-	{
-		image.src = image.alt;
-		image.removeAttribute('alt');
-	}
 });
 
 //on scroll turn off all overlays in timeline and calendar
