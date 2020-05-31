@@ -36,6 +36,16 @@ label {
 
 .holder img {
 }
+
+@media only screen and (max-width : 1040px) {
+/*scrollbars for top and bottom labels only on desktop*/
+div { scrollbar-width: 0 !important; }
+div::-webkit-scrollbar { width: 0 !important }
+/*adjust font for filters on mobile*/
+#orientation > *, #name > * { font-size: 0.75em; }
+/*snap on touch is better on mobile than on desktop*/
+.profile-box { scroll-snap-align: center; }
+}
 /*End Github*/
 
 html {
@@ -58,7 +68,7 @@ html {
   display: inline-block;
   margin: 5px;
   vertical-align: top;
-  scroll-snap-align: center;
+  /* scroll-snap-align: center; */
   border: 1px solid white;
   box-shadow: 3px 3px;
   white-space: normal;
@@ -85,9 +95,3 @@ html {
     display: none;
 }
 .popitem { display: block; }
-
-/*scrollbars for top and bottom labels only on desktop*/
-@media only screen and (max-width : 1040px) {
-div { scrollbar-width: 0 !important; }
-div::-webkit-scrollbar { width: 0 !important }
-}
