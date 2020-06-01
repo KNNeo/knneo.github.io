@@ -37,6 +37,15 @@ label {
 .holder img {
 }
 
+#slideshow, #ssstop {
+	padding: 5px;
+	border-radius: 8px;
+	border: 1px solid white;
+	padding: 4px 8px;
+	white-space: normal;
+	width: auto;
+}
+
 @media only screen and (max-width : 1040px) {
 /*scrollbars for top and bottom labels only on desktop*/
 div { scrollbar-width: 0 !important; }

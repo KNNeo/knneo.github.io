@@ -284,3 +284,22 @@ window.onload = function () {
 	renderGallery(imgArray);
 }
 
+let runSlideshow;
+function switchButtons() {
+	document.getElementById('slideshow').style.display = document.getElementById('slideshow').style.display == 'none' ? '' : 'none';
+	document.getElementById('ssstop').style.display = document.getElementById('ssstop').style.display == 'none' ? '' : 'none';
+	clearTimeout(runSlideshow);
+}
+
+//add slideslow moode when left idle
+function slideshowImg() {
+	document.getElementById('slideshow').style.display = document.getElementById('slideshow').style.display == 'none' ? '' : 'none';
+	document.getElementById('ssstop').style.display = document.getElementById('ssstop').style.display == 'none' ? '' : 'none';
+	runSlideshow = setTimeout(randomImg, 3000);
+}
+
+function randomImg() {
+	let images = document.getElementsByClassName('profile-box');
+	images[Math.floor(Math.random()*images.length)].scrollIntoView();
+	runSlideshow = setTimeout(randomImg, 3000);
+}
