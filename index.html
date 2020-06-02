@@ -2,10 +2,61 @@
 <html lang="en-SG">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="index.css">
 	<link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'/>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<title>Welcome</title>
 </head>
+<style>
+body {
+	text-align: center;
+	padding: 10px;
+	font-family: Open Sans;
+	-webkit-user-select: none; /* Safari */
+	-ms-user-select: none; /* IE 10+ and Edge */
+	user-select: none; /* Standard syntax */
+}
+#darkmode {
+	cursor: pointer;
+}
+.darked {
+		background-color: black;
+		color: white;
+}
+
+.darked a {
+	color: #00e4ff;
+}
+
+.darked a:visited {
+	color: #00e4ff;
+}
+
+@media (prefers-color-scheme: dark) {
+	html {
+		background-color: black;
+		color: white;
+	}
+	a {
+		color: #00e4ff;
+	}
+	a:visited {
+		color: #00e4ff;
+	}
+
+	.darked {
+		background-color: white;
+		color: black;
+		
+	}		
+	.darked a {
+		color: rgb(0, 0, 238);
+	}
+
+	.darked a:visited {
+		color: rgb(85, 26, 139);
+	}
+}
+</style>
 <body>
 <h1>DEMOS @ knneo.github.io</h1>
 <h3><a href="./would-you-rather/would-you-rather.html">Would You Rather?</a></h3>
@@ -15,5 +66,14 @@
 <h3><a href="./anime-list/anime-list.html">Anime List</a></h3>
 <hr/>
 <h5><a href="https://knwebreports.blogspot.com/p/home.html">BLOG</a></h5>
+<div id="darkmode" title="Toggle Dark Mode"><i class="material-icons">brightness_high</i></div>
 </body>
+<script>
+document.getElementById('darkmode').addEventListener('click', function() {
+if(document.getElementsByTagName('html')[0].classList.contains('darked'))
+document.getElementsByTagName('html')[0].classList.remove('darked');
+else
+document.getElementsByTagName('html')[0].classList.add('darked');
+} );
+</script>
 </html>
