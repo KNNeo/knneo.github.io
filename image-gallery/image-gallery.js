@@ -173,12 +173,9 @@ function renderGallery(array) {
 		document.getElementsByTagName('img')[i].addEventListener('click', function() { openViewer(document.getElementsByTagName('img')[i]); });
 	}
 	function openViewer(image) {
-		document.getElementById('slideshow').style.display = '';
-		document.getElementById('ssstop').style.display = 'none';
-		clearTimeout(runSlideshow);
+		stopSlideshow();
 
 		let viewer = document.getElementById('viewer');
-		
 		let holder = document.createElement('DIV');
 		holder.classList.add('holder');
 		holder.style.textAlign = 'center';
@@ -273,7 +270,32 @@ document.getElementById('viewer').addEventListener('click', function() {
 //allow scroll on desktop
 document.getElementById("imgGallery").addEventListener("wheel", function(e) {
     e.preventDefault();
-    document.getElementsByClassName('profile-category')[0].scrollLeft -= e.wheelDelta*4;
+	//get relative positions of all images
+	let scrollList = new Array();
+	for(let img of document.getElementsByClassName('profile-box'))
+	{
+		scrollList.push(img.getBoundingClientRect().x);
+	}
+    // document.getElementsByClassName('profile-category')[0].scrollLeft -= e.wheelDelta*4;
+	let posDelta = 0;
+	//sort reverse order if scroll up
+	if(e.wheelDelta > 0) scrollList.sort(function(a, b){return b-a});
+	//find next closest element
+	for(let position of scrollList)
+	{
+		if(e.wheelDelta < 0 && position > 1)
+		{
+			posDelta = position;
+			break;
+		}
+		if(e.wheelDelta > 0 && position < -1)
+		{
+			posDelta = position;
+			break;
+		}
+	}
+	//scroll
+	document.getElementsByClassName('profile-category')[0].scrollLeft += + posDelta;
 	return;
 });
 
@@ -287,19 +309,22 @@ document.addEventListener('contextmenu', function(e) {
 window.onload = function () {
 	renderGallery(imgArray);
 }
-
+//slideshow event
 let runSlideshow;
-function switchButtons() {
-	document.getElementById('slideshow').style.display = document.getElementById('slideshow').style.display == 'none' ? '' : 'none';
-	document.getElementById('ssstop').style.display = document.getElementById('ssstop').style.display == 'none' ? '' : 'none';
+//start slideshow
+function startSlideshow() {
+	switchButtons();
+	randomImg();
+}
+//stop slideshow
+function stopSlideshow() {
+	switchButtons();
 	clearTimeout(runSlideshow);
 }
 
-//add slideslow moode when left idle
-function slideshowImg() {
-	document.getElementById('slideshow').style.display = document.getElementById('slideshow').style.display == 'none' ? '' : 'none';
+function switchButtons() {
+	document.getElementById('ssstart').style.display = document.getElementById('ssstart').style.display == 'none' ? '' : 'none';
 	document.getElementById('ssstop').style.display = document.getElementById('ssstop').style.display == 'none' ? '' : 'none';
-	randomImg();
 }
 
 function randomImg() {
