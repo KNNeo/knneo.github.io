@@ -285,12 +285,12 @@ document.getElementById("imgGallery").addEventListener("wheel", function(e) {
 	//find next closest element
 	for(let position of scrollList)
 	{
-		if(e.wheelDelta < 0 && position > 0.5*window.innerWidth)
+		if(e.wheelDelta < 0 && position >= 0.5*window.innerWidth)
 		{
 			posDelta = position;
 			break;
 		}
-		if(e.wheelDelta > 0 && position < -0.5*window.innerWidth)
+		if(e.wheelDelta > 0 && position <= -0.5*window.innerWidth)
 		{
 			posDelta = position;
 			break;
