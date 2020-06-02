@@ -1,28 +1,3 @@
-/*Add From Image Gallery*/
-for(var image of document.getElementsByTagName("img"))
-{
-	if(image.alt != '')
-		image.src = image.alt;
-	image.removeAttribute('alt');
-}
-/*End add from Image Gallery*/
-
-var animeImgList = document.getElementsByTagName("img");
-for (var i = 0; i < animeImgList.length; i++) {
-        animeImgList[i].addEventListener("error", function() {
-            if(this.nextElementSibling != null) this.nextElementSibling.style.display = "";
-            this.remove();
-        });
-        animeImgList[i].addEventListener("click", function() {
-            if(this.nextElementSibling == null && this.previousElementSibling == null) return;
-            if(this.style.display == "") this.style.display = "none"; else this.style.display = "";
-            if(this.nextElementSibling != null) this.nextElementSibling.style.display = this.nextElementSibling.style.display == "" ? "none" : "";
-            if(this.previousElementSibling != null) this.previousElementSibling .style.display = this.previousElementSibling .style.display == "" ? "none" : "";
-        });
-    if(animeImgList[i].nextElementSibling == null && animeImgList[i].previousElementSibling != null) animeImgList[i].style.display = "none";
-    resizeProfileBoxImg(animeImgList[i]);
-}
-	
 //show checkbox on hover on wanted list
 document.getElementById("marriedCouple").addEventListener("mouseover", function () { document.getElementById("isMarried").style.visibility = "visible"; });
 document.getElementById("marriedCouple").addEventListener("mouseout", function () { document.getElementById("isMarried").style.visibility = "hidden"; });
@@ -41,16 +16,16 @@ window.addEventListener("load", function() {
         labelFormat: "%Y"
     });
     adjustKnots();
+	censorData(); //ONLY FOR GITHUB
+    reloadImages();
     batchResizeProfileBoxImg();
     switchProfileBoxImage();
-	censorData();
-	
+    if(loadedImages != document.getElementsByTagName("img").length) setTimeout( function() {reloadImages();}, 1000);
 });
 
 //on scroll turn off all overlays in timeline and calendar
 window.addEventListener("scroll", function() {
-	if(document.getElementById("timeline").getElementsByTagName("div")[0] != undefined)
-		document.getElementById("timeline").getElementsByTagName("div")[0].style.opacity = "0";
+    document.getElementById("timeline").getElementsByTagName("div")[0].style.opacity = "0";
     //document.getElementById("calendar").getElementsByTagName("div")[0].style.display = "none";
 });
 
@@ -299,6 +274,7 @@ for (var profBox of document.getElementsByClassName("profile-box")) profBox.addE
     document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 });
 
+var loadedImages = 0;
 //add event listener for image switch
 function batchResizeProfileBoxImg() {
 var animeImgList = document.getElementsByTagName("img");
@@ -314,7 +290,7 @@ for (var i = 0; i < animeImgList.length; i++) {
             if(this.previousElementSibling != null) this.previousElementSibling .style.display = this.previousElementSibling .style.display == "" ? "none" : "";
         });*/
     if(animeImgList[i].nextElementSibling == null && animeImgList[i].previousElementSibling != null) animeImgList[i].style.display = "none";
-    resizeProfileBoxImg(animeImgList[i]);
+    
 }
 };
 
@@ -329,6 +305,24 @@ if(this.getElementsByTagName("img")[1] == null) return;
             if(this.getElementsByTagName("img")[1] != null) this.getElementsByTagName("img")[1].style.display = this.getElementsByTagName("img")[1].style.display == "" ? "none" : "";
         });
 }
+}
+
+function reloadImages() {
+var animeImgList = document.getElementsByTagName("img");
+for(var image of animeImgList)
+{
+ if(image.alt != '')
+  image.src = image.alt;
+ image.removeAttribute('alt');
+}
+for (var i = 0; i < animeImgList.length; i++) {
+if(animeImgList[i].complete) 
+{
+resizeProfileBoxImg(animeImgList[i]);
+loadedImages++;
+}
+}
+if(loadedImages != animeImgList.length) setTimeout(reloadImages, 1000);
 }
 
 //resize images on load
