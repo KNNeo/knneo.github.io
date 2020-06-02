@@ -14,6 +14,7 @@ h1 {
 }
 .profile-box {
 	touch-action: manipulation;
+	line-height: 0;
 }
 .profile-box-img img {
   max-width: 90vw;
