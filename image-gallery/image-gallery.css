@@ -31,11 +31,7 @@ label {
 	background-color: black;
 	width: 100vw;
 	height: 100vh;
-}
-.holder {
-}
-
-.holder img {
+	text-align: center;
 }
 
 #ssstart, #ssstop {

@@ -179,15 +179,21 @@ function renderGallery(array) {
 
 		let viewer = document.getElementById('viewer');
 		let holder = document.createElement('DIV');
-		holder.classList.add('holder');
-		holder.style.textAlign = 'center';
+		// holder.classList.add('holder');
+		// holder.style.textAlign = 'center';
 		let img = image.cloneNode(true);
 		img.style.maxHeight = '100vh';
 		img.style.maxWidth = '100vw';
-		holder.appendChild(img);
+		// holder.appendChild(img);
 		if(viewer.childNodes.length > 0) viewer.innerHTML = '';
-		viewer.appendChild(holder);
+		viewer.appendChild(img);
 		viewer.style.display = 'block';
+		adjustViewerMargin();
+	}
+	
+	function adjustViewerMargin() {
+		let viewer = document.getElementById('viewer');
+		viewer.style.paddingTop = (viewer.getBoundingClientRect().height - viewer.getElementsByTagName('img')[0].height)/2 + 'px';
 	}
 }
 
@@ -266,6 +272,7 @@ function renderFilter() {
 //initial viewer state
 document.getElementById('viewer').addEventListener('click', function() {
 	document.getElementById('viewer').style.display = 'none';
+	document.getElementById('viewer').style.paddingTop = '0';
 	document.getElementById('viewer').innerHTML = '';
 });
 
