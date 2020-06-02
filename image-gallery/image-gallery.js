@@ -315,6 +315,7 @@ window.onload = function () {
 let runSlideshow;
 //start slideshow
 function startSlideshow() {
+	document.getElementById('description').remove();
 	switchButtons();
 	randomImg();
 }
