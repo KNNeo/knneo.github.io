@@ -17,15 +17,16 @@ window.addEventListener("load", function() {
     });
     adjustKnots();
 	censorData(); //ONLY FOR GITHUB
-    reloadImages();
+    let loadedImages = reloadImages();
     batchResizeProfileBoxImg();
     switchProfileBoxImage();
-    if(loadedImages != document.getElementsByTagName("img").length) setTimeout( function() {reloadImages();}, 1000);
+    // if(loadedImages != document.getElementsByTagName("img").length) setTimeout( function() {reloadImages();}, 1000);
 });
 
 //on scroll turn off all overlays in timeline and calendar
 window.addEventListener("scroll", function() {
-    document.getElementById("timeline").getElementsByTagName("div")[0].style.opacity = "0";
+	if(document.getElementById("timeline").getElementsByTagName("div")[0] != undefined)
+		document.getElementById("timeline").getElementsByTagName("div")[0].style.opacity = "0";
     //document.getElementById("calendar").getElementsByTagName("div")[0].style.display = "none";
 });
 
@@ -274,7 +275,6 @@ for (var profBox of document.getElementsByClassName("profile-box")) profBox.addE
     document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 });
 
-var loadedImages = 0;
 //add event listener for image switch
 function batchResizeProfileBoxImg() {
 var animeImgList = document.getElementsByTagName("img");
@@ -307,22 +307,26 @@ if(this.getElementsByTagName("img")[1] == null) return;
 }
 }
 
+var imgLoad;
 function reloadImages() {
-var animeImgList = document.getElementsByTagName("img");
-for(var image of animeImgList)
-{
- if(image.alt != '')
-  image.src = image.alt;
- image.removeAttribute('alt');
-}
-for (var i = 0; i < animeImgList.length; i++) {
-if(animeImgList[i].complete) 
-{
-resizeProfileBoxImg(animeImgList[i]);
-loadedImages++;
-}
-}
-if(loadedImages != animeImgList.length) setTimeout(reloadImages, 1000);
+	let loadedImages = 0;
+	let animeImgList = document.getElementsByTagName("img");
+	for(let image of animeImgList)
+	{
+		if(image.alt != '')
+			image.src = image.alt;
+		image.removeAttribute('alt');
+	}
+	for (let i = 0; i < animeImgList.length; i++) {
+		if(animeImgList[i].complete)
+		{
+			resizeProfileBoxImg(animeImgList[i]);
+			loadedImages++;
+		}
+	}
+	if(loadedImages < animeImgList.length) imgLoad = setTimeout(reloadImages, 1000);
+	else clearTimeout(imgLoad);
+	return loadedImages;
 }
 
 //resize images on load
