@@ -173,6 +173,10 @@ function renderGallery(array) {
 		document.getElementsByTagName('img')[i].addEventListener('click', function() { openViewer(document.getElementsByTagName('img')[i]); });
 	}
 	function openViewer(image) {
+		document.getElementById('slideshow').style.display = '';
+		document.getElementById('ssstop').style.display = 'none';
+		clearTimeout(runSlideshow);
+
 		let viewer = document.getElementById('viewer');
 		
 		let holder = document.createElement('DIV');
