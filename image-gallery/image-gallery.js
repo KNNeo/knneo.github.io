@@ -299,7 +299,7 @@ function switchButtons() {
 function slideshowImg() {
 	document.getElementById('slideshow').style.display = document.getElementById('slideshow').style.display == 'none' ? '' : 'none';
 	document.getElementById('ssstop').style.display = document.getElementById('ssstop').style.display == 'none' ? '' : 'none';
-	runSlideshow = setTimeout(randomImg, 3000);
+	randomImg();
 }
 
 function randomImg() {
