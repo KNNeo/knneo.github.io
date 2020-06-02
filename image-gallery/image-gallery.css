@@ -82,7 +82,7 @@ html {
   display: inline-block;
   margin: 5px;
   vertical-align: top;
-  /* scroll-snap-align: center; */
+  scroll-snap-align: center;
   border: 1px solid white;
   box-shadow: 3px 3px;
   white-space: normal;

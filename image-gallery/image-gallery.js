@@ -173,7 +173,9 @@ function renderGallery(array) {
 		document.getElementsByTagName('img')[i].addEventListener('click', function() { openViewer(document.getElementsByTagName('img')[i]); });
 	}
 	function openViewer(image) {
-		stopSlideshow();
+		document.getElementById('ssstart').style.display = '';
+		document.getElementById('ssstop').style.display = 'none';
+		clearTimeout(runSlideshow);
 
 		let viewer = document.getElementById('viewer');
 		let holder = document.createElement('DIV');
@@ -283,12 +285,12 @@ document.getElementById("imgGallery").addEventListener("wheel", function(e) {
 	//find next closest element
 	for(let position of scrollList)
 	{
-		if(e.wheelDelta < 0 && position > 1)
+		if(e.wheelDelta < 0 && position > 0.5*window.innerWidth)
 		{
 			posDelta = position;
 			break;
 		}
-		if(e.wheelDelta > 0 && position < -1)
+		if(e.wheelDelta > 0 && position < -0.5*window.innerWidth)
 		{
 			posDelta = position;
 			break;
