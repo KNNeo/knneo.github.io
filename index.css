@@ -3,3 +3,16 @@ body {
 	padding: 10px;
 	font-family: Open Sans;
 }
+
+@media (prefers-color-scheme: dark) {
+	html {
+		background-color: black;
+		color: white;
+	}
+	a {
+		color: #00e4ff;
+	}
+	a:visited {
+		color: #00e4ff;
+	}
+}
