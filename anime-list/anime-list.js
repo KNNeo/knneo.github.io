@@ -151,17 +151,24 @@ for(let anime of customArray)
 	
 	animeTableBody.appendChild(animeTableRow);
 	
+	let remainder = anime.length;
 	for(let y = 2013; y <= 2020; y++)
 	{
 		for(let s = 1; s <= 4; s++)
 		{
 			animeTableContent = document.createElement('td');
-			if(y == 2020 && seasons[s] == 'Spring') animeTableContent.style.backgroundColor = '#444444'; //current season
-			if(y == anime.year && seasons[s] == anime.season)
-				animeTableContent.innerText = 'X';
+			if(y*10+s >= anime.year*10+seasons.indexOf(anime.season) && remainder > 0)
+			{
+				animeTableContent.classList.add('active-period');
+				// animeTableContent.style.backgroundColor = 'white';
+				// animeTableContent.innerText = 'X';
+				remainder--;
+			}
 			else
 				animeTableContent.innerText = '';
-			animeTableContent.style.textAlign = 'center';
+			if(y == 2020 && seasons[s] == 'Spring' && !animeTableContent.classList.contains('active-period'))
+				animeTableContent.style.backgroundColor = '#444444'; //current season
+			// animeTableContent.style.textAlign = 'center';
 			animeTableRow.appendChild(animeTableContent);
 		}
 	}

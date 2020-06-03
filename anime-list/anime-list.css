@@ -41,6 +41,14 @@ td { white-space: nowrap; }
 
 table, tr, td { border-collapse: collapse; }
 
+tr { 
+	border-bottom: 1px solid #444444; 
+} 
+
+td.active-period {
+	background-color: white;
+}
+
 /*End Github*/
 
 
