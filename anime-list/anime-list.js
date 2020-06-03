@@ -99,15 +99,47 @@ let customArray = [
 
 ];
 
-//[2] generate labels
+var seriesArray = new Array();
+function generateNewArray() {
+	if(isGroupBySeries)
+	{
+		//unique series
+		let allSeries = new Array();
+		for(let show of customArray)
+		{
+			if(allSeries.indexOf(show.seriesTitle == '' ? show.title : show.seriesTitle) < 0)
+				allSeries.push(show.seriesTitle == '' ? show.title : show.seriesTitle);
+		}
+		//empty series list
+		for(let show of allSeries)
+		{
+			seriesArray.push( {
+				seriesTitle: show, 
+				shows: new Array()
+				});
+		}
+		//add all shows into series
+		for(let series of seriesArray)
+		{
+			for(let show of customArray)
+			{
+				if(show.seriesTitle == series.seriesTitle || show.title == series.seriesTitle)
+					series.shows.push(show);
+			}
+		}
+	}
+}
 
+//[2] generate labels
 //add event for radio buttons
-let isGroupBySeries = document.getElementById('groupSeries');
+let isGroupBySeries = false;
 document.getElementsByClassName('selection')[1].addEventListener('click', function() { inverseRadio(1); });
 document.getElementsByClassName('selection')[0].addEventListener('click', function() { inverseRadio(0); });
 function inverseRadio(val) {
 		document.getElementsByClassName('selection')[1].checked = val==1 ? true : false;
 		document.getElementsByClassName('selection')[0].checked = val==0 ? true : false;
+		isGroupBySeries = document.getElementsByClassName('selection')[1].checked;
+		if(isGroupBySeries) generateNewArray();
 }
 
 //[3] generate HTML based on array
@@ -145,6 +177,8 @@ for(let anime of customArray)
 	// animeTableContent.innerText = anime.seriesTitle;
 	// animeTableRow.appendChild(animeTableContent);
 	
+	
+	// if(!isGroupBySeries)
 	animeTableContent = document.createElement('td');
 	animeTableContent.innerText = anime.title;
 	animeTableRow.appendChild(animeTableContent);
