@@ -322,7 +322,7 @@ window.onload = function () {
 let runSlideshow;
 //start slideshow
 function startSlideshow() {
-	document.getElementById('description').remove();
+	if(document.getElementById('description') != null) document.getElementById('description').remove();
 	switchButtons();
 	randomImg();
 }
