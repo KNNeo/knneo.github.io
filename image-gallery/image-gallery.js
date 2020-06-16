@@ -236,29 +236,6 @@ function renderGallery(array) {
 	{
 		document.getElementsByTagName('img')[i].addEventListener('click', function() { openViewer(document.getElementsByTagName('img')[i]); });
 	}
-	function openViewer(image) {
-		document.getElementById('ssstart').style.display = '';
-		document.getElementById('ssstop').style.display = 'none';
-		clearTimeout(runSlideshow);
-
-		let viewer = document.getElementById('viewer');
-		let holder = document.createElement('DIV');
-		// holder.classList.add('holder');
-		// holder.style.textAlign = 'center';
-		let img = image.cloneNode(true);
-		img.style.maxHeight = '100vh';
-		img.style.maxWidth = '100vw';
-		// holder.appendChild(img);
-		if(viewer.childNodes.length > 0) viewer.innerHTML = '';
-		viewer.appendChild(img);
-		viewer.style.display = 'block';
-		adjustViewerMargin();
-	}
-	
-	function adjustViewerMargin() {
-		let viewer = document.getElementById('viewer');
-		viewer.style.paddingTop = (viewer.getBoundingClientRect().height - viewer.getElementsByTagName('img')[0].height)/2 + 'px';
-	}
 }
 
 //generate name labels
@@ -336,7 +313,6 @@ function renderFilter() {
 //initial viewer state
 document.getElementById('viewer').addEventListener('click', function() {
 	document.getElementById('viewer').style.display = 'none';
-	document.getElementById('viewer').style.paddingTop = '0';
 	document.getElementById('viewer').innerHTML = '';
 });
 
@@ -372,6 +348,32 @@ document.getElementById("imgGallery").addEventListener("wheel", function(e) {
 	return;
 });
 
+//open image to fullscreen
+let viewer = document.getElementById('viewer');
+function openViewer(image) {
+	//document.getElementById('ssstart').style.display = '';
+	//document.getElementById('ssstop').style.display = 'none';
+	//clearTimeout(runSlideshow);
+
+	viewer.style.display = 'block';
+	openImageInViewer(image);
+}
+
+function openImageInViewer(image) {
+	let img = image.cloneNode(true);
+	img.style.maxHeight = '100vh';
+	img.style.maxWidth = '100vw';
+	if(viewer.childNodes.length > 0) viewer.innerHTML = '';
+	viewer.appendChild(img);
+	adjustViewerMargin();
+}
+
+function adjustViewerMargin() {
+	//let viewer = document.getElementById('viewer');
+	viewer.style.paddingTop = '0';
+	viewer.style.paddingTop = (viewer.getBoundingClientRect().height - viewer.getElementsByTagName('img')[0].height)/2 + 'px';
+}
+
 //prevent right click events
 document.addEventListener('contextmenu', function(e) {
     e.preventDefault();
@@ -403,6 +405,8 @@ function switchButtons() {
 
 function randomImg() {
 	let images = document.getElementsByClassName('profile-box');
-	images[Math.floor(Math.random()*images.length)].scrollIntoView();
+	let selected = images[Math.floor(Math.random()*images.length)];
+	selected.scrollIntoView();
+	if(viewer.style.display == 'block') openImageInViewer(selected.getElementsByTagName('img')[0]);
 	runSlideshow = setTimeout(randomImg, 3000);
 }
