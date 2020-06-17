@@ -416,7 +416,7 @@ function randomImg() {
 //allow document to fullscreen
 function openFullscreen() {
 if(!document.getElementById('isFullscreen').checked) return;
-let elem = document.documentElement;
+let elem = document.body;
   if (elem.requestFullscreen) {
     elem.requestFullscreen();
   } else if (elem.mozRequestFullScreen) { /* Firefox */
@@ -429,7 +429,7 @@ let elem = document.documentElement;
 }
 
 function closeFullscreen() {
-let elem = document.documentElement;
+let elem = document.body;
 if(document.fullscreenElement == null) return;
   if (document.exitFullscreen) {
     document.exitFullscreen();
