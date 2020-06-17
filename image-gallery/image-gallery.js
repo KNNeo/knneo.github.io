@@ -413,8 +413,6 @@ function randomImg() {
 	runSlideshow = setTimeout(randomImg, 3000);
 }
 
-let isFullscreen = false;
-
 //allow document to fullscreen
 function openFullscreen() {
 if(!document.getElementById('isFullscreen').checked) return;
@@ -428,12 +426,11 @@ let elem = document.documentElement;
   } else if (elem.msRequestFullscreen) { /* IE/Edge */
     elem.msRequestFullscreen();
   }
-  isFullscreen = true;
 }
 
 function closeFullscreen() {
-if(!isFullscreen) return;
 let elem = document.documentElement;
+if(document.fullscreenElement == null) return;
   if (document.exitFullscreen) {
     document.exitFullscreen();
   } else if (document.mozCancelFullScreen) { /* Firefox */
@@ -443,5 +440,4 @@ let elem = document.documentElement;
   } else if (document.msExitFullscreen) { /* IE/Edge */
     document.msExitFullscreen();
   }
-  isFullscreen = false;
 }
