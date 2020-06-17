@@ -7,7 +7,7 @@ body, a {
   color: white;
   margin: auto;
 }
-h1 {
+h1, #options {
   text-align: center;
   max-width: 800px;
   margin: auto;	
@@ -46,6 +46,10 @@ label {
 #ssstop {
 	background-color: white;
 	color: black;
+}
+
+h4 { 
+	margin: 0;
 }
 
 @media only screen and (max-width : 1040px) {
