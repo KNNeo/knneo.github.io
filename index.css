@@ -2,6 +2,26 @@ body {
 	text-align: center;
 	padding: 10px;
 	font-family: Open Sans;
+	-webkit-user-select: none; /* Safari */
+	-ms-user-select: none; /* IE 10+ and Edge */
+	user-select: none; /* Standard syntax */
+}
+
+
+#darkmode {
+	cursor: pointer;
+}
+.darked {
+		background-color: black;
+		color: white;
+}
+
+.darked a {
+	color: #00e4ff;
+}
+
+.darked a:visited {
+	color: #00e4ff;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -14,5 +34,18 @@ body {
 	}
 	a:visited {
 		color: #00e4ff;
+	}
+
+	.darked {
+		background-color: white;
+		color: black;
+		
+	}		
+	.darked a {
+		color: rgb(0, 0, 238);
+	}
+
+	.darked a:visited {
+		color: rgb(85, 26, 139);
 	}
 }
