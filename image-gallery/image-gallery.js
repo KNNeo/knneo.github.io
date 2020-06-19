@@ -317,10 +317,12 @@ document.getElementById('viewer').addEventListener('click', function() {
 });
 
 //allow scroll on desktop
+var scrollList = new Array();
 document.getElementById("imgGallery").addEventListener("wheel", function(e) {
     e.preventDefault();
 	//get relative positions of all images
-	let scrollList = new Array();
+	
+	scrollList = new Array();
 	for(let img of document.getElementsByClassName('profile-box'))
 	{
 		scrollList.push(img.getBoundingClientRect().x);
@@ -334,17 +336,19 @@ document.getElementById("imgGallery").addEventListener("wheel", function(e) {
 	{
 		if(e.wheelDelta < 0 && position >= 0.5*window.innerWidth)
 		{
-			posDelta = position;
+			posDelta = position/2;
 			break;
 		}
 		if(e.wheelDelta > 0 && position <= -0.5*window.innerWidth)
 		{
-			posDelta = position;
+			posDelta = position/2;
 			break;
 		}
 	}
+	//console.log(posDelta);
 	//scroll
 	document.getElementsByClassName('profile-category')[0].scrollLeft += + posDelta;
+	//console.log(document.getElementsByClassName('profile-category')[0].scrollLeft);
 	return;
 });
 
