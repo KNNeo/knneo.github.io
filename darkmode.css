@@ -42,7 +42,7 @@
 		box-shadow: 3px 3px white;
 	}	
 
-	.darked, .darked div {
+	.darked, .darked button, .darked textarea, .darked div {
 		background-color: white;
 		color: black;
 	}		
