@@ -21,7 +21,6 @@
     }
     
     .table-filter {
-        background-color: white;
         padding: 10px 0;
         top: 0;
         position: -webkit-sticky;
@@ -47,73 +46,61 @@
 	}
 	button {
 		margin: 5px 0;
+		box-shadow: 0
 	}
 	a {
 		margin: 5px;
+	}
+	h1 {
+		margin: 0;
+	}
+	#back {
+		font-size: 1.2em;
+		position: fixed;
+		top: 0;
+		right: 0;
+		padding: 5px;
 	}
 </style>
 
 <body>
     <h1 style="display: inline-block;">Klassic Note Table</h1>
 	<span style="display: inline-block;" title="Toggle Dark Mode"><i id="darkmode" class="material-icons">brightness_high</i></span>
-    <div class="table-filter">
+	<div id="back"><a href="../index.html">Back</a></div>
+    <span  style="display: block;" class="table-filter">
         <input id="dbInputSongTitle" type="text" placeholder="Song Title" title="search" />
         <input id="dbInputArtistTitle" type="text" placeholder="Artist Title" title="search" />
         <input id="dbInputReleaseYear" type="text" placeholder="Release Year" title="search" />
         <input id="dbInputArtistCode" type="text" placeholder="Artist Type" title="search" />
-        <button id="dbSubmitButton" type="submit" onclick="loadTableFromCSV()" placeholder="submit" value="Submit">Submit</button>
-        <a href="javascript:void(0);" onclick="resetFunction()">Reset</a><a href="../index.html">Back</a>
-        <div id="table-column-ticks">
-            <label>
-                <input type="checkbox" name="columnSongID" value="SongID" >SongID</label>
-            <label>
-                <input type="checkbox" name="columnKNID" value="KNID" >KNID</label>
-            <label>
-                <input type="checkbox" name="columnKNJAPAN" value="KNJAPAN" >KNJAPAN</label>
-            <label>
-                <input type="checkbox" name="columnKNJPOP" value="KNJPOP" >KNJPOP</label>
-            <label>
-                <input type="checkbox" name="columnKNYEAR" value="KNYEAR" checked>KNYEAR</label>
-            <label>
-                <input type="checkbox" name="columnFilename" value="Filename" >Filename</label>
-            <label>
-                <input type="checkbox" name="columnSongTitle" value="SongTitle" checked>SongTitle</label>
-            <label>
-                <input type="checkbox" name="columnArtistTitle" value="ArtistTitle" checked>ArtistTitle</label>
-            <label>
-                <input type="checkbox" name="columnParentArtist" value="ParentArtist" checked>ParentArtist</label>
-            <label>
-                <input type="checkbox" name="columnReleaseTitle" value="ReleaseTitle" checked>ReleaseTitle</label>
-            <label>
-                <input type="checkbox" name="columnReleaseArtistTitle" value="ReleaseArtistTitle" checked>ReleaseArtistTitle</label>
-            <label>
-                <input type="checkbox" name="columnReleaseYear" value="ReleaseYear" checked>ReleaseYear</label>
-            <label>
-                <input type="checkbox" name="columnRating" value="Rating" checked>Rating</label>
-            <label>
-                <input type="checkbox" name="columnGenre" value="Genre" checked>Genre</label>
-            <label>
-                <input type="checkbox" name="columnDateCreated" value="DateCreated" checked>DateCreated</label>
-            <label>
-                <input type="checkbox" name="columnVocalCode" value="VocalCode" checked>VocalCode</label>
-            <label>
-                <input type="checkbox" name="columnLanguage" value="Language" checked>Language</label>
-            <label>
-                <input type="checkbox" name="columnInAppleMusic" value="InAppleMusic" checked>InAppleMusic</label>
-            <label>
-                <input type="checkbox" name="columnLyricsURL" value="LyricsURL" checked>LyricsURL</label>
-            <label>
-                <input type="checkbox" name="columnSongTitleAlt" value="SongTitleAlt" checked>SongTitleAlt</label>
-            <label>
-                <input type="checkbox" name="columnArtistTitleAlt" value="ArtistTitleAlt" checked>ArtistTitleAlt</label>
-            <label>
-                <input type="checkbox" name="columnReleaseTitleAlt" value="ReleaseTitleAlt" checked>ReleaseTitleAlt</label>
-            <label>
-                <input type="checkbox" name="columnReleaseArtistTitleAlt" value="ReleaseArtistTitleAlt" checked>ReleaseArtistTitleAlt</label>
-            <label>
-                <input type="checkbox" name="columnArtistCode" value="ArtistCode" checked>ArtistCode</label>
-        </div>
-    </div>
+		<button id="dbSubmitButton" type="submit" onclick="loadTableFromCSV()" placeholder="submit" value="Submit">Submit</button>
+		<button id="dbResetButton" type="submit" onclick="resetFunction()" placeholder="reset" value="Reset">Reset</button>
+    </span>
+	<div id="table-column-ticks">
+		<label><input type="checkbox" name="columnSongID" value="SongID" >SongID</label>
+		<label><input type="checkbox" name="columnKNID" value="KNID" >KNID</label>
+		<label><input type="checkbox" name="columnKNJAPAN" value="KNJAPAN" >KNJAPAN</label>
+		<label><input type="checkbox" name="columnKNJPOP" value="KNJPOP" >KNJPOP</label>
+		<label><input type="checkbox" name="columnKNYEAR" value="KNYEAR" checked>KNYEAR</label>
+		<label><input type="checkbox" name="columnFilename" value="Filename" >Filename</label>
+		<label><input type="checkbox" name="columnSongTitle" value="SongTitle" checked>SongTitle</label>
+		<label><input type="checkbox" name="columnArtistTitle" value="ArtistTitle" checked>ArtistTitle</label>
+		<label><input type="checkbox" name="columnParentArtist" value="ParentArtist" checked>ParentArtist</label>
+		<label><input type="checkbox" name="columnReleaseTitle" value="ReleaseTitle" checked>ReleaseTitle</label>
+		<label><input type="checkbox" name="columnReleaseArtistTitle" value="ReleaseArtistTitle" checked>ReleaseArtistTitle</label>
+		<label><input type="checkbox" name="columnReleaseYear" value="ReleaseYear" checked>ReleaseYear</label>
+		<label><input type="checkbox" name="columnRating" value="Rating" checked>Rating</label>
+		<label><input type="checkbox" name="columnGenre" value="Genre" checked>Genre</label>
+		<label><input type="checkbox" name="columnDateCreated" value="DateCreated" checked>DateCreated</label>
+		<label><input type="checkbox" name="columnVocalCode" value="VocalCode" checked>VocalCode</label>
+		<label><input type="checkbox" name="columnLanguage" value="Language" checked>Language</label>
+		<label><input type="checkbox" name="columnInAppleMusic" value="InAppleMusic" checked>InAppleMusic</label>
+		<label><input type="checkbox" name="columnLyricsURL" value="LyricsURL" checked>LyricsURL</label>
+		<label><input type="checkbox" name="columnSongTitleAlt" value="SongTitleAlt" checked>SongTitleAlt</label>
+		<label><input type="checkbox" name="columnArtistTitleAlt" value="ArtistTitleAlt" checked>ArtistTitleAlt</label>
+		<label><input type="checkbox" name="columnReleaseTitleAlt" value="ReleaseTitleAlt" checked>ReleaseTitleAlt</label>
+		<label><input type="checkbox" name="columnReleaseArtistTitleAlt" value="ReleaseArtistTitleAlt" checked>ReleaseArtistTitleAlt</label>
+		<label><input type="checkbox" name="columnArtistCode" value="ArtistCode" checked>ArtistCode</label>
+	</div>
     <div class="table-reset"></div>
     <div id="table-sort-module">
         <div id="table-result"></div>
@@ -188,8 +175,7 @@
                 if (inputReleaseYear != '' && row.getString(11).toUpperCase().includes(inputReleaseYear)) validRows++;
                 if (inputArtistCode != '' && row.getString(23).toUpperCase().includes(inputArtistCode)) validRows++;
                 <!-- if (strictMode && validRows > 2) newTable.addRow(row); -->
-                <!-- else if (!strictMode && validRows > 0) newTable.addRow(row); -->
-				if (validRows >= validInput) newTable.addRow(row);
+                <!-- else if (!strictMode && validRows > 0) newTable.addRow(row); -->	if (validRows >= validInput) newTable.addRow(row);
             }
             return newTable;
         }

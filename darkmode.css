@@ -6,7 +6,6 @@
 
 .darked button {
     border: 1px solid lightgray;
-    box-shadow: 3px 3px white;  
 }
 
 .darked a {
@@ -39,7 +38,6 @@
 		background-color: black;
 		color: white;
 		border: 1px solid lightgray;
-		box-shadow: 3px 3px white;
 	}	
 
 	.darked, .darked button, .darked textarea, .darked div {
