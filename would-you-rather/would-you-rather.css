@@ -103,15 +103,15 @@ button:active {
 		color: #00e4ff;
 	}
 	button {
-	  background-color: black;
-	  border: 1px solid lightgray;
-	  box-shadow: 3px 3px white;  
+		background-color: black;
+		color: white;
+		border: 1px solid lightgray;
+		box-shadow: 3px 3px white;
 	}	
 
 	.darked {
 		background-color: white;
 		color: black;
-		
 	}		
 	.darked a {
 		color: rgb(0, 0, 238);
