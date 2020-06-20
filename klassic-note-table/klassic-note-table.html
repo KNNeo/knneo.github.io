@@ -43,22 +43,26 @@
 		vertical-align: bottom;
 	}
 	p {
-		padding-left: 10px;
-		vertical-align: middle;
+		 margin: 0;
+	}
+	button {
+		margin: 5px 0;
+	}
+	a {
+		margin: 5px;
 	}
 </style>
 
 <body>
     <h1 style="display: inline-block;">Klassic Note Table</h1>
 	<span style="display: inline-block;" title="Toggle Dark Mode"><i id="darkmode" class="material-icons">brightness_high</i></span>
-    <p style="display: inline-block;"><a href="../index.html">Back</a></p>
     <div class="table-filter">
         <input id="dbInputSongTitle" type="text" placeholder="Song Title" title="search" />
         <input id="dbInputArtistTitle" type="text" placeholder="Artist Title" title="search" />
         <input id="dbInputReleaseYear" type="text" placeholder="Release Year" title="search" />
         <input id="dbInputArtistCode" type="text" placeholder="Artist Type" title="search" />
-        <input id="dbSubmitButton" type="submit" onclick="loadTableFromCSV()" placeholder="submit" value="Submit" />
-        <a href="javascript:void(0);" onclick="resetFunction()">Reset</a>
+        <button id="dbSubmitButton" type="submit" onclick="loadTableFromCSV()" placeholder="submit" value="Submit">Submit</button>
+        <a href="javascript:void(0);" onclick="resetFunction()">Reset</a><a href="../index.html">Back</a>
         <div id="table-column-ticks">
             <label>
                 <input type="checkbox" name="columnSongID" value="SongID" >SongID</label>
@@ -111,7 +115,6 @@
         </div>
     </div>
     <div class="table-reset"></div>
-    <br>
     <div id="table-sort-module">
         <div id="table-result"></div>
         <div id="table-box">
