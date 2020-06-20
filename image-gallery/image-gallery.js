@@ -16,6 +16,7 @@ let imgArray = [
 [16,'SELFSCAN_20140529_0001','landscape','sphere'],
 [20,'SELFSCAN_20140719_0001','portrait','Toyosaki Aki'],
 [23,'SELFSCAN_20140823_0001','portrait','Amamiya Sora'],
+[24,'IMG_20141029_0001','landscape','Taketatsu Ayana'],
 [25,'SELFSCAN_20141117_0001','portrait','Toyosaki Aki'],
 [30,'SELFSCAN_20150228_0005','landscape','sphere'],
 [31,'SELFSCAN_20150415_0001','portrait','Kotobuki Minako'],
