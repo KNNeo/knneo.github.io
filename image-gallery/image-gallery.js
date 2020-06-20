@@ -105,25 +105,25 @@ let imgArray = [
 [127,'CCI20190629_0006_2','portrait','Asakura Momo','Book "Seiyuu Animedia 2018 October" Animate Bonus'],
 [128,'CCI20190629_0006_3','portrait','Asakura Momo','Book "Seiyuu Animedia 2018 October" Animate Bonus'],
 [129,'CCI20190921','landscape','Asakura Momo','CD "Yume Cinderella" Gamers Bonus'],
-[130,'CCI20190921_0001_1','portrait','Tachibana Haru',''],
-[131,'CCI20190921_0001_2','portrait','Tachibana Haru',''],
-[132,'CCI20190921_0001_3','landscape','Tachibana Haru',''],
-[133,'CCI20190921_0001_4','landscape','Tachibana Haru',''],
-[134,'CCI20190921_0002_1','portrait','Tachibana Haru',''],
-[135,'CCI20190921_0002_2','landscape','Tachibana Haru',''],
-[136,'CCI20190921_0002_3','portrait','Tachibana Haru',''],
-[137,'CCI20190921_0002_4','portrait','Tachibana Haru',''],
-[138,'CCI20190921_0003_1','portrait','Tachibana Haru',''],
-[139,'CCI20190921_0003_2','landscape','Tachibana Haru',''],
-[140,'CCI20190921_0003_3','portrait','Tachibana Haru',''],
-[141,'CCI20190921_0003_4','portrait','Tachibana Haru',''],
-[142,'CCI20190921_0004_1','landscape','Tachibana Haru',''],
-[143,'CCI20190921_0004_2','portrait','Tachibana Haru',''],
-[144,'CCI20190921_0004_3','portrait','Tachibana Haru',''],
-[145,'CCI20190921_0005_1','landscape','Tachibana Haru',''],
-[146,'CCI20190921_0005_2','portrait','Tachibana Haru',''],
-[147,'CCI20190921_0005_3','portrait','Tachibana Haru',''],
-[148,'CCI20190921_0005_4','portrait','Tachibana Haru',''],
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 [149,'CCI20191026_0001','landscape','Kitou Akari','CD "Swinging Heart" Canime Bonus'],
 [150,'CCI20200222_0001_1','portrait','Uesaka Sumire','Event "Uesaka Sumire no No Future Diary 2019 LIVE" Bromide'],
 [151,'CCI20200222_0001_2','landscape','Uesaka Sumire','Event "Uesaka Sumire no No Future Diary 2019 LIVE" Bromide'],
@@ -348,8 +348,12 @@ document.getElementById("imgGallery").addEventListener("wheel", function(e) {
 			break;
 		}
 	}
-	//console.log(posDelta);
+	//optimise scroll
+	//console.log(e.wheelDelta);
+	if ((e.wheelDelta < 5 || e.wheelDelta > -5) && Math.floor(Math.random()*10)>0) return;
+	if(e.wheelDelta > 50 || e.wheelDelta < -50) return;
 	//scroll
+	//console.log(posDelta);
 	document.getElementsByClassName('profile-category')[0].scrollLeft += + posDelta;
 	//console.log(document.getElementsByClassName('profile-category')[0].scrollLeft);
 	return;
