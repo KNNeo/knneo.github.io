@@ -1,0 +1,56 @@
+/*when not in dark mode*/
+.darked, .darked button, .darked textarea {
+		background-color: black;
+		color: white;
+}
+
+.darked button {
+    border: 1px solid lightgray;
+    box-shadow: 3px 3px white;  
+}
+
+.darked a {
+	color: #00e4ff;
+}
+
+.darked a:visited {
+	color: #00e4ff;
+}
+
+#darkmode {
+	-webkit-user-select: none; /* Safari */
+	-ms-user-select: none; /* IE 10+ and Edge */
+	user-select: none; /* Standard syntax */
+}
+
+/*if dark mode available*/
+@media (prefers-color-scheme: dark) {
+	html {
+		background-color: black;
+		color: white;
+	}
+	a {
+		color: #00e4ff;
+	}
+	a:visited {
+		color: #00e4ff;
+	}
+	button {
+		background-color: black;
+		color: white;
+		border: 1px solid lightgray;
+		box-shadow: 3px 3px white;
+	}	
+
+	.darked {
+		background-color: white;
+		color: black;
+	}		
+	.darked a {
+		color: rgb(0, 0, 238);
+	}
+
+	.darked a:visited {
+		color: rgb(85, 26, 139);
+	}
+}

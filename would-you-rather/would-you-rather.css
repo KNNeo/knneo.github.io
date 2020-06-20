@@ -67,7 +67,7 @@ button:active {
   }
 }	
 
-.darked, .darked button, .darked textarea {
+/* .darked, .darked button, .darked textarea {
 		background-color: black;
 		color: white;
 }
@@ -86,9 +86,9 @@ button:active {
 }
 
 #darkmode {
-	-webkit-user-select: none; /* Safari */
-	-ms-user-select: none; /* IE 10+ and Edge */
-	user-select: none; /* Standard syntax */
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -121,7 +121,4 @@ button:active {
 		color: rgb(85, 26, 139);
 	}
 }
-
-/* colour palette */
-.tundra {color: #444444; }
-.tundra-bg {background-color: #444444; }
+ */
