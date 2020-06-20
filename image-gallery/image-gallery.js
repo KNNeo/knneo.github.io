@@ -59,10 +59,10 @@ let imgArray = [
 [81,'CCI20180102_0001','portrait','Amamiya Sora','CD "Eternal" Aniplex+ Bonus'],
 
 [83,'CCI20180331_0001','landscape','TrySail','CD "WANTED GIRL" Tower Records Bonus'],
-[84,'CCI20180930-1','portrait','Minase Inori','Book "Seiyuu Animedia 2017 December" Animate Bonus'],
-
-
-
+[84,'CCI20180930-1','portrait','Minase Inori',''],
+[85,'CCI20180930-2','portrait','Minase Inori','Book "Seiyuu Animedia 2017 December" Animate Bonus'],
+[86,'CCI20180930-3','portrait','Minase Inori',''],
+[87,'CCI20180930-4','portrait','Minase Inori',''],
 
 
 
@@ -202,7 +202,6 @@ let imgArray = [
 [224,'CCI20200613_0017-1','landscape','TrySail',''],
 [225,'CCI20200613_0017-2','landscape','Kitou Akari',''],
 [226,'CCI20200613_0017-3','landscape','TrySail',''],
-
 [999,'','','']
 ];
 
