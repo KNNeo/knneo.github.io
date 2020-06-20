@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../darkmode.css">
     <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet' />
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="p5.min.js"></script>
     <title>Klassic Note Table</title>
 </head>
@@ -37,11 +38,20 @@
 	label {
 		white-space: nowrap;
 	}
+	#darkmode {
+		padding-left: 10px;
+		vertical-align: bottom;
+	}
+	p {
+		padding-left: 10px;
+		vertical-align: middle;
+	}
 </style>
 
 <body>
-    <h1>Klassic Note Table</h1>
-    <p><a href="../index.html">Back</a></p>
+    <h1 style="display: inline-block;">Klassic Note Table</h1>
+	<span style="display: inline-block;" title="Toggle Dark Mode"><i id="darkmode" class="material-icons">brightness_high</i></span>
+    <p style="display: inline-block;"><a href="../index.html">Back</a></p>
     <div class="table-filter">
         <input id="dbInputSongTitle" type="text" placeholder="Song Title" title="search" />
         <input id="dbInputArtistTitle" type="text" placeholder="Artist Title" title="search" />
@@ -111,6 +121,12 @@
     </div>
 </body>
 <script>
+	document.getElementById('darkmode').addEventListener('click', function() {
+		if(document.getElementsByTagName('html')[0].classList.contains('darked'))
+			document.getElementsByTagName('html')[0].classList.remove('darked');
+		else
+			document.getElementsByTagName('html')[0].classList.add('darked');
+	} );
     document.getElementById('dbInputSongTitle').addEventListener("keyup", function(event) {
         // Number 13 is the "Enter" key on the keyboard
         if (event.keyCode === 13) {

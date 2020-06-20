@@ -1,5 +1,5 @@
 /*when not in dark mode*/
-.darked, .darked button, .darked textarea {
+.darked, .darked button, .darked textarea, .darked div {
 		background-color: black;
 		color: white;
 }
@@ -25,7 +25,7 @@
 
 /*if dark mode available*/
 @media (prefers-color-scheme: dark) {
-	html {
+	html, div {
 		background-color: black;
 		color: white;
 	}
@@ -42,7 +42,7 @@
 		box-shadow: 3px 3px white;
 	}	
 
-	.darked {
+	.darked, .darked div {
 		background-color: white;
 		color: black;
 	}		
