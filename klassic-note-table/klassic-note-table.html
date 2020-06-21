@@ -238,6 +238,8 @@
         //table = loadTable("http://p5js.org/reference/assets/mammals.csv",
         //                  "csv", "header");
     }
+	
+	let maxRows = window.innerWidth < 540 ? 100 : 500;
 
     function displayTable(table) {
         //filter results based on input and checkboxes
@@ -245,7 +247,7 @@
         resultTable = filterColumns(resultTable);
 		
         //count rows
-		let maxRow = resultTable.getRowCount() > 250 ? 100 : resultTable.getRowCount();
+		let maxRow = resultTable.getRowCount() > maxRows ? maxRows : resultTable.getRowCount();
 		//display count
         document.getElementById("table-result").innerText = resultTable.getRowCount() + " result" + (resultTable.getRowCount() != 1 ? "s" : "") + " found";
         if (resultTable.getRowCount() > maxRow) document.getElementById("table-result").innerText += "; Displaying first "+maxRow+" results";
