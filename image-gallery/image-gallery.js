@@ -85,7 +85,7 @@ let imgArray = [
 [107,'CCI20190629_0000_3','portrait','Hanazawa Kana','Book "Tooi Kuchibue" Animate Bonus'],
 
 
-[110,'CCI20190629_0001_1','portrait','Asakura Momo','CD "Smash Drop" Animate Bonus'],
+[110,'CCI20190629_0001_1','landscape','Asakura Momo','CD "Smash Drop" Animate Bonus'],
 [111,'CCI20190629_0001_2','portrait','Kouno Marika','Book "Seiyuu Paradise R vol.24" Kinokuniya Bonus'],
 [112,'CCI20190629_0002_1','portrait','Kouno Marika','Book "Seiyuu Paradise R vol.24" Kinokuniya Bonus'],
 [113,'CCI20190629_0002_2','portrait','Kouno Marika','Book "Seiyuu Paradise R vol.24" Kinokuniya Bonus'],
