@@ -31,10 +31,6 @@ h1, p {
 	border-radius: 50%;
 }
 
-.year-current {
-	text-decoration: underline;
-}
-
 h3, #labels { text-align: center; }
 
 #anime-list {
@@ -82,11 +78,6 @@ tr > td:first-child:active {
 	transition: background-color 0s;
 }
 
-@keyframes blink-animation {
-  from {
-	  background-color: white;
-  }
-}
 
 /*End Github*/
 

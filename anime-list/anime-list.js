@@ -99,6 +99,9 @@ let customArray = [
 
 ];
 
+let currentYear = 2020;
+let currentSeason = 'Spring';
+
 let seriesArray = new Array();
 function generateSeriesArray() {
 	if(isGroupBySeries && seriesArray.length == 0)
@@ -150,7 +153,7 @@ function generateSeriesArray() {
 			for(let s = 1; s <= 4; s++)
 			{
 				animeTableHeaderRow = document.createElement('th');
-				if(y == 2020 && seasons[s] == 'Spring') animeTableHeaderRow.style.backgroundColor = '#444444'; //current season
+				if(y == currentYear && seasons[s] == currentSeason) animeTableHeaderRow.style.backgroundColor = '#444444'; //current season
 				animeTableHeaderRow.innerHTML = y + "<br>" + seasons[s];
 				animeTableHeader.appendChild(animeTableHeaderRow);
 			}
@@ -191,7 +194,7 @@ function generateSeriesArray() {
 					}
 					else
  */					animeTableContent.innerText = '';
-					if(y == 2020 && seasons[s] == 'Spring' && !animeTableContent.classList.contains('active-period'))
+					if(y == currentYear && seasons[s] == currentSeason && !animeTableContent.classList.contains('active-period'))
 						animeTableContent.style.backgroundColor = '#444444'; //current season
 					animeTableRow.appendChild(animeTableContent);
 				}
@@ -223,6 +226,7 @@ function generateSeriesArray() {
 						if(y*10+s >= series.year*10+seasons.indexOf(series.season) && remainder > 0)
 						{
 							tableSeries[rowNo].getElementsByTagName('td')[column].classList.add('active-period');
+							tableSeries[rowNo].getElementsByTagName('td')[column].style.backgroundColor = 'white';
 							tableSeries[rowNo].getElementsByTagName('td')[column].innerText = 'X';
 							remainder--;
 							break;
@@ -273,7 +277,7 @@ function renderSeasonsArray() {
 		for(let s = 1; s <= 4; s++)
 		{
 			animeTableHeaderRow = document.createElement('th');
-			if(y == 2020 && seasons[s] == 'Spring') animeTableHeaderRow.style.backgroundColor = '#444444'; //current season
+			if(y == currentYear && seasons[s] == currentSeason) animeTableHeaderRow.style.backgroundColor = '#444444'; //current season
 			animeTableHeaderRow.innerHTML = y + "<br>" + seasons[s];
 			animeTableHeader.appendChild(animeTableHeaderRow);
 		}
@@ -315,7 +319,7 @@ function renderSeasonsArray() {
 					}
 					else
 						animeTableContent.innerText = '';
-					if(y == 2020 && seasons[s] == 'Spring' && !animeTableContent.classList.contains('active-period'))
+					if(y == currentYear && seasons[s] == currentSeason && !animeTableContent.classList.contains('active-period'))
 						animeTableContent.style.backgroundColor = '#444444'; //current season
 					// animeTableContent.style.textAlign = 'center';
 					animeTableRow.appendChild(animeTableContent);
