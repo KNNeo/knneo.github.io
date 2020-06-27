@@ -99,10 +99,10 @@ let customArray = [
 
 ];
 
-var seriesArray = new Array();
-function generateNewArray() {
-	if(isGroupBySeries)
-	{
+let seriesArray = new Array();
+function generateSeriesArray() {
+	if(isGroupBySeries && seriesArray.length == 0)
+	{			
 		//unique series
 		let allSeries = new Array();
 		for(let show of customArray)
@@ -110,6 +110,7 @@ function generateNewArray() {
 			if(allSeries.indexOf(show.seriesTitle == '' ? show.title : show.seriesTitle) < 0)
 				allSeries.push(show.seriesTitle == '' ? show.title : show.seriesTitle);
 		}
+		seriesArray = new Array();
 		//empty series list
 		for(let show of allSeries)
 		{
@@ -128,6 +129,111 @@ function generateNewArray() {
 			}
 		}
 	}
+	
+	if(isGroupBySeries)
+	{
+		
+		let animeTable = document.createElement('table');
+		let animeTableBody = document.createElement('tbody');
+		let animeTableHeader = document.createElement('tr');
+
+		let animeTableHeaderRow = document.createElement('th');
+		// animeTableHeaderRow.innerText = 'Series Title';
+		// animeTableHeader.appendChild(animeTableHeaderRow);
+		// animeTableHeaderRow = document.createElement('th');
+		animeTableHeaderRow.innerText = 'Series Title';
+		animeTableHeader.appendChild(animeTableHeaderRow);
+
+		let seasons = ['','Winter','Spring','Summer','Autumn'];
+		for(let y = 2013; y <= 2020; y++)
+		{
+			for(let s = 1; s <= 4; s++)
+			{
+				animeTableHeaderRow = document.createElement('th');
+				if(y == 2020 && seasons[s] == 'Spring') animeTableHeaderRow.style.backgroundColor = '#444444'; //current season
+				animeTableHeaderRow.innerHTML = y + "<br>" + seasons[s];
+				animeTableHeader.appendChild(animeTableHeaderRow);
+			}
+		}
+		
+		animeTableBody.appendChild(animeTableHeader);
+	
+		for(let anime of seriesArray)
+		{
+
+			let animeTableRow = document.createElement('tr');
+			let count = 0;
+			for (let series of anime.shows)
+			{
+				count += series.length;
+			}
+			if(count == 0) continue;
+
+			animeTableContent = document.createElement('td');
+			animeTableContent.innerText = anime.seriesTitle;
+			animeTableRow.appendChild(animeTableContent);
+			
+			animeTableBody.appendChild(animeTableRow);
+						
+			let remainder = anime.length;
+			for(let y = 2013; y <= 2020; y++)
+			{
+				for(let s = 1; s <= 4; s++)
+				{
+					animeTableContent = document.createElement('td');
+/* 					if(y*10+s >= anime.year*10+seasons.indexOf(anime.season) && remainder > 0)
+					{
+						animeTableContent.classList.add('active-period');
+						// animeTableContent.style.backgroundColor = 'white';
+						// animeTableContent.innerText = 'X';
+						remainder--;
+					}
+					else
+ */					animeTableContent.innerText = '';
+					if(y == 2020 && seasons[s] == 'Spring' && !animeTableContent.classList.contains('active-period'))
+						animeTableContent.style.backgroundColor = '#444444'; //current season
+					animeTableRow.appendChild(animeTableContent);
+				}
+			}
+		}
+		
+		for(let anime of seriesArray)
+		{
+			for (let series of anime.shows)
+			{
+				//find series row
+				let tableSeries = animeTableBody.getElementsByTagName('tr');
+				var rowNo = -1;
+				for(let s = 0; s < tableSeries.length; s++)
+				{
+					if(tableSeries[s].getElementsByTagName('th').length > 0) continue;
+					if(tableSeries[s].getElementsByTagName('td')[0].innerText == anime.seriesTitle)
+						rowNo = s;
+				}
+				
+				//loop but replace instead of insert
+				let remainder = series.length;
+				var column = 0;
+				for(let y = 2013; y <= 2020; y++)
+				{
+					for(let s = 1; s <= 4; s++)
+					{
+						column++;
+						if(y*10+s >= series.year*10+seasons.indexOf(series.season) && remainder > 0)
+						{
+							tableSeries[rowNo].getElementsByTagName('td')[column].classList.add('active-period');
+							remainder--;
+							break;
+						}
+					}
+				}
+			}
+		}
+		
+		animeTable.appendChild(animeTableBody);
+		document.getElementById('anime-list').innerHTML = '';
+		document.getElementById('anime-list').appendChild(animeTable);
+	}
 }
 
 //[2] generate labels
@@ -139,77 +245,86 @@ function inverseRadio(val) {
 		document.getElementsByClassName('selection')[1].checked = val==1 ? true : false;
 		document.getElementsByClassName('selection')[0].checked = val==0 ? true : false;
 		isGroupBySeries = document.getElementsByClassName('selection')[1].checked;
-		if(isGroupBySeries) generateNewArray();
+		if(isGroupBySeries) generateSeriesArray();
+		else renderSeasonsArray();
 }
 
 //[3] generate HTML based on array
 //Every row in the form of: title, table of boxes where lit
-let animeTable = document.createElement('table');
-let animeTableBody = document.createElement('tbody');
-let animeTableHeader = document.createElement('tr');
+renderSeasonsArray();
+function renderSeasonsArray() {
+	let animeTable = document.createElement('table');
+	let animeTableBody = document.createElement('tbody');
+	let animeTableHeader = document.createElement('tr');
 
-let animeTableHeaderRow = document.createElement('th');
-// animeTableHeaderRow.innerText = 'Series Title';
-// animeTableHeader.appendChild(animeTableHeaderRow);
-// animeTableHeaderRow = document.createElement('th');
-animeTableHeaderRow.innerText = 'Anime Title';
-animeTableHeader.appendChild(animeTableHeaderRow);
+	let animeTableHeaderRow = document.createElement('th');
+	// animeTableHeaderRow.innerText = 'Series Title';
+	// animeTableHeader.appendChild(animeTableHeaderRow);
+	// animeTableHeaderRow = document.createElement('th');
+	animeTableHeaderRow.innerText = 'Anime Title';
+	animeTableHeader.appendChild(animeTableHeaderRow);
 
-let seasons = ['','Winter','Spring','Summer','Autumn'];
-for(let y = 2013; y <= 2020; y++)
-{
-	for(let s = 1; s <= 4; s++)
-	{
-		animeTableHeaderRow = document.createElement('th');
-		if(y == 2020 && seasons[s] == 'Spring') animeTableHeaderRow.style.backgroundColor = '#444444'; //current season
-		animeTableHeaderRow.innerHTML = y + "<br>" + seasons[s];
-		animeTableHeader.appendChild(animeTableHeaderRow);
-	}
-}
-
-animeTableBody.appendChild(animeTableHeader);
-
-for(let anime of customArray)
-{
-	let animeTableRow = document.createElement('tr');
-	
-	// let animeTableContent = document.createElement('td');
-	// animeTableContent.innerText = anime.seriesTitle;
-	// animeTableRow.appendChild(animeTableContent);
-	
-	
-	// if(!isGroupBySeries)
-	animeTableContent = document.createElement('td');
-	animeTableContent.innerText = anime.title;
-	animeTableRow.appendChild(animeTableContent);
-	
-	animeTableBody.appendChild(animeTableRow);
-	
-	let remainder = anime.length;
+	let seasons = ['','Winter','Spring','Summer','Autumn'];
 	for(let y = 2013; y <= 2020; y++)
 	{
 		for(let s = 1; s <= 4; s++)
 		{
-			animeTableContent = document.createElement('td');
-			if(y*10+s >= anime.year*10+seasons.indexOf(anime.season) && remainder > 0)
-			{
-				animeTableContent.classList.add('active-period');
-				// animeTableContent.style.backgroundColor = 'white';
-				// animeTableContent.innerText = 'X';
-				remainder--;
-			}
-			else
-				animeTableContent.innerText = '';
-			if(y == 2020 && seasons[s] == 'Spring' && !animeTableContent.classList.contains('active-period'))
-				animeTableContent.style.backgroundColor = '#444444'; //current season
-			// animeTableContent.style.textAlign = 'center';
-			animeTableRow.appendChild(animeTableContent);
+			animeTableHeaderRow = document.createElement('th');
+			if(y == 2020 && seasons[s] == 'Spring') animeTableHeaderRow.style.backgroundColor = '#444444'; //current season
+			animeTableHeaderRow.innerHTML = y + "<br>" + seasons[s];
+			animeTableHeader.appendChild(animeTableHeaderRow);
 		}
+	}
+
+	animeTableBody.appendChild(animeTableHeader);
+
+	if(!isGroupBySeries)
+	{
+		for(let anime of customArray)
+		{
+			let animeTableRow = document.createElement('tr');
+			
+			// let animeTableContent = document.createElement('td');
+			// animeTableContent.innerText = anime.seriesTitle;
+			// animeTableRow.appendChild(animeTableContent);
+			
+			
+			// if(!isGroupBySeries)
+			if(anime.length == 0) continue;
+			animeTableContent = document.createElement('td');
+			animeTableContent.innerText = anime.title;
+			animeTableRow.appendChild(animeTableContent);
+			
+			animeTableBody.appendChild(animeTableRow);
+			
+			let remainder = anime.length;
+			for(let y = 2013; y <= 2020; y++)
+			{
+				for(let s = 1; s <= 4; s++)
+				{
+					animeTableContent = document.createElement('td');
+					if(y*10+s >= anime.year*10+seasons.indexOf(anime.season) && remainder > 0)
+					{
+						animeTableContent.classList.add('active-period');
+						// animeTableContent.style.backgroundColor = 'white';
+						animeTableContent.innerText = 'X';
+						remainder--;
+					}
+					else
+						animeTableContent.innerText = '';
+					if(y == 2020 && seasons[s] == 'Spring' && !animeTableContent.classList.contains('active-period'))
+						animeTableContent.style.backgroundColor = '#444444'; //current season
+					// animeTableContent.style.textAlign = 'center';
+					animeTableRow.appendChild(animeTableContent);
+				}
+			}
+		}
+		animeTable.appendChild(animeTableBody);
+		document.getElementById('anime-list').innerHTML = '';
+		document.getElementById('anime-list').appendChild(animeTable);
 	}
 }
 
-animeTable.appendChild(animeTableBody);
-document.getElementById('anime-list').appendChild(animeTable);
 
 //[4] after adjustments
 let h3height = document.getElementsByTagName('h3')[0].getBoundingClientRect().height;

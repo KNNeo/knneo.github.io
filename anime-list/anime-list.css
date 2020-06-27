@@ -33,8 +33,10 @@ h1, p {
 h3 { text-align: center; }
 
 #anime-list {
+	max-width: 800px;
+	overflow: scroll;
 	height: 500px;
-	overflow: auto;	
+	/* overflow: auto;	 */
 }
 
 td { white-space: nowrap; }
@@ -47,6 +49,16 @@ tr {
 
 td.active-period {
 	background-color: white;
+}
+
+tr > td:first-child, tr > th:first-child {
+	border-right: 1px solid #444444;
+    position: sticky;
+    position: webkit-sticky;
+	left: 0;
+    /* height: 20px; */
+    /* z-index: 1; */
+    background-color: black;
 }
 
 /*End Github*/
