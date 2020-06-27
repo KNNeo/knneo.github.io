@@ -170,6 +170,7 @@ function generateSeriesArray() {
 			if(count == 0) continue;
 
 			animeTableContent = document.createElement('td');
+			animeTableContent.classList.add('row-title');
 			animeTableContent.innerText = anime.seriesTitle;
 			animeTableRow.appendChild(animeTableContent);
 			
@@ -222,6 +223,7 @@ function generateSeriesArray() {
 						if(y*10+s >= series.year*10+seasons.indexOf(series.season) && remainder > 0)
 						{
 							tableSeries[rowNo].getElementsByTagName('td')[column].classList.add('active-period');
+							tableSeries[rowNo].getElementsByTagName('td')[column].innerText = 'X';
 							remainder--;
 							break;
 						}
@@ -233,6 +235,7 @@ function generateSeriesArray() {
 		animeTable.appendChild(animeTableBody);
 		document.getElementById('anime-list').innerHTML = '';
 		document.getElementById('anime-list').appendChild(animeTable);
+		enableSelectTitle();
 	}
 }
 
@@ -292,6 +295,7 @@ function renderSeasonsArray() {
 			// if(!isGroupBySeries)
 			if(anime.length == 0) continue;
 			animeTableContent = document.createElement('td');
+			animeTableContent.classList.add('row-title');
 			animeTableContent.innerText = anime.title;
 			animeTableRow.appendChild(animeTableContent);
 			
@@ -306,7 +310,6 @@ function renderSeasonsArray() {
 					if(y*10+s >= anime.year*10+seasons.indexOf(anime.season) && remainder > 0)
 					{
 						animeTableContent.classList.add('active-period');
-						// animeTableContent.style.backgroundColor = 'white';
 						animeTableContent.innerText = 'X';
 						remainder--;
 					}
@@ -322,17 +325,41 @@ function renderSeasonsArray() {
 		animeTable.appendChild(animeTableBody);
 		document.getElementById('anime-list').innerHTML = '';
 		document.getElementById('anime-list').appendChild(animeTable);
+		enableSelectTitle();
 	}
 }
 
 
 //[4] after adjustments
+
+//fix table height such that window scroll is disabled
 let h3height = document.getElementsByTagName('h3')[0].getBoundingClientRect().height;
 let headerHeight = document.getElementById('header').offsetHeight;
 let footerHeight = document.getElementById('footer').offsetHeight;
-document.getElementById('anime-list').style.height = (window.innerHeight - h3height - headerHeight - footerHeight - 0.15*window.innerHeight) + 'px';	
+document.getElementById('anime-list').style.height = (window.innerHeight - h3height - headerHeight - footerHeight - 0.2*window.innerHeight) + 'px';	
 
-
+//click season/series to scroll to timeline first box
+function enableSelectTitle() {
+	if(document.getElementById('anime-list').getBoundingClientRect().width > 800)
+	{
+		for(let s = 1; s < document.getElementsByTagName('tr').length; s++)
+		{
+			document.getElementsByTagName('tr')[s].getElementsByTagName('td')[0].addEventListener('click', function() {
+				for(let c = 1; c < document.getElementsByTagName('tr')[s].getElementsByTagName('td').length; c++)
+				{
+					if(document.getElementsByTagName('tr')[s].getElementsByTagName('td')[c].innerText == 'X')
+					{
+						document.getElementById('anime-list').scrollLeft += document.getElementsByTagName('tr')[s].getElementsByTagName('td')[c].getBoundingClientRect().x-620;
+						document.getElementById('anime-list').scrollTop += document.getElementsByTagName('tr')[s].getElementsByTagName('td')[c].getBoundingClientRect().y-155;
+						console.log(document.getElementById('anime-list').scrollLeft);
+						console.log(document.getElementById('anime-list').scrollTop);
+						break;
+					}
+				}			
+			});
+		}
+	}
+}
 
 
 
