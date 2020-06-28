@@ -1,20 +1,5 @@
 //[1] array containing all gallery info
 let customArray = [
-// { sortOrder: 0, year: 0, type: '', title: '', altTitle: '', handle: '', imgURL: '' },
-// { sortOrder: 1, year: 2008, type: 'Anime', title: 'BLEACH', altTitle: 'ブリーチー',
-// handle: '', imgURL: '' },
-// { sortOrder: 2, year: 2008, type: 'Anime', title: 'Love Hina', altTitle: 'ラブ　ひな', 
-// handle: '', imgURL: '' },
-// { sortOrder: 3, year: 2008, type: 'Anime', title: 'Kekkaishi', altTitle: '結界師', 
-// handle: '', imgURL: '' },
-// { sortOrder: 4, year: 2008, type: 'Anime', title: 'Toradora!', altTitle: 'とらドラ！', 
-// handle: '', imgURL: '' },
-// { sortOrder: 5, year: 2008, type: 'Anime', title: 'Kuroshitsuji', altTitle: '黒執事', 
-// handle: '', imgURL: '' },
-// { sortOrder: 6, year: 2019, type: 'Anime', title: 'Rikei ga Koi ni Ochita no de Shoumei Shite Mita.', altTitle:  '理系が恋に落ちたので証明してみた。', 
-// handle: 'rikeigakoini',
-// imgURL: 'https://pbs.twimg.com/profile_images/1197753575834652672/ANH_2P3h.jpg' },
-// { sortOrder: 999, year: 0, type: '', title: '', altTitle: '', handle: '', imgURL: '' }
 { sortOrder:33, year:2013, season: 'Spring', length:1, seriesTitle: '', type:'TV', title:'RDG: Red Data Girl', altTitle:'', handle:'', imgURL:'' },
 { sortOrder:34, year:2013, season: 'Spring', length:1, seriesTitle: 'Ore no Imouto ga Konnani Kawaii Wake ga Nai', type:'TV', title:'Ore no Imouto ga Konnani Kawaii Wake ga Nai.', altTitle:'俺の妹がこんなに可愛いわけがない。', handle:'oreimo_eromanga', imgURL:'https://twitter.com/oreimo_eromanga' },
 { sortOrder:35, year:2013, season: '', length:0, seriesTitle: '', type:'TV', title:'Acchi Kocchi ', altTitle:'あっちこっち', handle:'ackc_anime', imgURL:'https://twitter.com/ackc_anime' },
@@ -101,6 +86,7 @@ let customArray = [
 
 let currentYear = 2020;
 let currentSeason = 'Spring';
+let seasons = ['','Winter','Spring','Summer','Autumn'];
 
 let seriesArray = new Array();
 function generateSeriesArray() {
@@ -141,13 +127,9 @@ function generateSeriesArray() {
 		let animeTableHeader = document.createElement('tr');
 
 		let animeTableHeaderRow = document.createElement('th');
-		// animeTableHeaderRow.innerText = 'Series Title';
-		// animeTableHeader.appendChild(animeTableHeaderRow);
-		// animeTableHeaderRow = document.createElement('th');
 		animeTableHeaderRow.innerText = 'Series Title';
 		animeTableHeader.appendChild(animeTableHeaderRow);
 
-		let seasons = ['','Winter','Spring','Summer','Autumn'];
 		for(let y = 2013; y <= 2020; y++)
 		{
 			for(let s = 1; s <= 4; s++)
@@ -185,15 +167,7 @@ function generateSeriesArray() {
 				for(let s = 1; s <= 4; s++)
 				{
 					animeTableContent = document.createElement('td');
-/* 					if(y*10+s >= anime.year*10+seasons.indexOf(anime.season) && remainder > 0)
-					{
-						animeTableContent.classList.add('active-period');
-						// animeTableContent.style.backgroundColor = 'white';
-						// animeTableContent.innerText = 'X';
-						remainder--;
-					}
-					else
- */					animeTableContent.innerText = '';
+					animeTableContent.innerText = '';
 					if(y == currentYear && seasons[s] == currentSeason && !animeTableContent.classList.contains('active-period'))
 						animeTableContent.style.backgroundColor = '#444444'; //current season
 					animeTableRow.appendChild(animeTableContent);
@@ -229,6 +203,12 @@ function generateSeriesArray() {
 							tableSeries[rowNo].getElementsByTagName('td')[column].style.backgroundColor = 'white';
 							tableSeries[rowNo].getElementsByTagName('td')[column].innerText = 'X';
 							remainder--;
+							
+							let animeTableContentOverlay = document.createElement('span');
+							animeTableContentOverlay.classList.add('show-overlay');
+							animeTableContentOverlay.innerText = series.title + (series.altTitle == '' ? '' : '\n[' + series.altTitle + ']');
+							tableSeries[rowNo].getElementsByTagName('td')[column].appendChild(animeTableContentOverlay);
+
 							break;
 						}
 					}
@@ -265,13 +245,9 @@ function renderSeasonsArray() {
 	let animeTableHeader = document.createElement('tr');
 
 	let animeTableHeaderRow = document.createElement('th');
-	// animeTableHeaderRow.innerText = 'Series Title';
-	// animeTableHeader.appendChild(animeTableHeaderRow);
-	// animeTableHeaderRow = document.createElement('th');
 	animeTableHeaderRow.innerText = 'Anime Title';
 	animeTableHeader.appendChild(animeTableHeaderRow);
 
-	let seasons = ['','Winter','Spring','Summer','Autumn'];
 	for(let y = 2013; y <= 2020; y++)
 	{
 		for(let s = 1; s <= 4; s++)
@@ -289,15 +265,9 @@ function renderSeasonsArray() {
 	{
 		for(let anime of customArray)
 		{
-			let animeTableRow = document.createElement('tr');
-			
-			// let animeTableContent = document.createElement('td');
-			// animeTableContent.innerText = anime.seriesTitle;
-			// animeTableRow.appendChild(animeTableContent);
-			
-			
-			// if(!isGroupBySeries)
 			if(anime.length == 0) continue;
+
+			let animeTableRow = document.createElement('tr');
 			animeTableContent = document.createElement('td');
 			animeTableContent.classList.add('row-title');
 			animeTableContent.innerText = anime.title;
@@ -321,7 +291,12 @@ function renderSeasonsArray() {
 						animeTableContent.innerText = '';
 					if(y == currentYear && seasons[s] == currentSeason && !animeTableContent.classList.contains('active-period'))
 						animeTableContent.style.backgroundColor = '#444444'; //current season
-					// animeTableContent.style.textAlign = 'center';
+					
+					let animeTableContentOverlay = document.createElement('span');
+					animeTableContentOverlay.classList.add('show-overlay');
+					animeTableContentOverlay.innerText = anime.title + (anime.altTitle == '' ? '' : '\n[' + anime.altTitle + ']');
+					animeTableContent.appendChild(animeTableContentOverlay);
+					
 					animeTableRow.appendChild(animeTableContent);
 				}
 			}
@@ -330,6 +305,7 @@ function renderSeasonsArray() {
 		document.getElementById('anime-list').innerHTML = '';
 		document.getElementById('anime-list').appendChild(animeTable);
 		enableSelectTitle();
+		fixOverlayPosition();
 	}
 }
 
@@ -344,77 +320,37 @@ document.getElementById('anime-list').style.height = (window.innerHeight - h3hei
 
 //click season/series to scroll to timeline first box
 function enableSelectTitle() {
-	if(document.getElementById('anime-list').getBoundingClientRect().width > 800)
+	let windowWidth = document.getElementById('anime-list').getBoundingClientRect().width;
+	for(let s = 1; s < document.getElementsByTagName('tr').length; s++)
 	{
-		for(let s = 1; s < document.getElementsByTagName('tr').length; s++)
-		{
-			document.getElementsByTagName('tr')[s].getElementsByTagName('td')[0].addEventListener('click', function() {
-				for(let c = 1; c < document.getElementsByTagName('tr')[s].getElementsByTagName('td').length; c++)
+		document.getElementsByTagName('tr')[s].getElementsByTagName('td')[0].addEventListener('click', function() {
+			for(let c = 1; c < document.getElementsByTagName('tr')[s].getElementsByTagName('td').length; c++)
+			{
+				if(document.getElementsByTagName('tr')[s].getElementsByTagName('td')[c].innerText == 'X')
 				{
-					if(document.getElementsByTagName('tr')[s].getElementsByTagName('td')[c].innerText == 'X')
-					{
-						document.getElementById('anime-list').scrollLeft += document.getElementsByTagName('tr')[s].getElementsByTagName('td')[c].getBoundingClientRect().x-620;
-						document.getElementById('anime-list').scrollTop += document.getElementsByTagName('tr')[s].getElementsByTagName('td')[c].getBoundingClientRect().y-155;
-						console.log(document.getElementById('anime-list').scrollLeft);
-						console.log(document.getElementById('anime-list').scrollTop);
-						break;
-					}
-				}			
-			});
-		}
+					document.getElementById('anime-list').scrollLeft += document.getElementsByTagName('tr')[s].getElementsByTagName('td')[c].getBoundingClientRect().x-(windowWidth < 800 ? 0.75*window.innerWidth : 0.5*window.innerWidth);
+					document.getElementById('anime-list').scrollTop += document.getElementsByTagName('tr')[s].getElementsByTagName('td')[c].getBoundingClientRect().y-(windowWidth < 800 ? 135 : 155);
+					console.log(document.getElementById('anime-list').scrollLeft);
+					console.log(document.getElementById('anime-list').scrollTop);
+					break;
+				}
+			}			
+		});
 	}
 }
 
-
-
-
-
-
-
-
-/* 
-//aechived
-//switch source for onload
-for (var image of document.getElementsByTagName("img"))
-{
- image.src = image.alt;
- image.alt = "";
+//display overlay on each active period hover
+function fixOverlayPosition() {
+	for(let s = 0; s < document.getElementsByClassName('active-period').length; s++)
+	{
+		document.getElementsByClassName('active-period')[s].addEventListener('mouseover', function() {
+			let x = this.getBoundingClientRect().x;			
+			let y = this.getBoundingClientRect().y;
+			let w = this.getElementsByClassName('show-overlay')[0].getBoundingClientRect().width;
+			this.getElementsByClassName('show-overlay')[0].style.left = x + 'px';
+			if(x + w > window.innerWidth)
+				this.getElementsByClassName('show-overlay')[0].style.left = (x - (x+w-window.innerWidth)) + 'px';
+			this.getElementsByClassName('show-overlay')[0].style.top = y + 'px';
+		});
+	}
 }
-//error eventListener
-var animeImgList = document.getElementsByTagName("img");
-for (var i = 0; i < animeImgList.length; i++)
-{
-animeImgList[i].addEventListener("error", function() { this.onerror=null; this.src='https://knneo.github.io/resources/spacer.gif'; this.style.border = '0px white solid'; this.style.backgroundColor = 'transparent'; });
-}
-
-//expand to see details
-var animeLineList = document.getElementsByClassName("anime-line");
-for (var j = 0; j < animeLineList.length - 1; j++)
-{
-	animeLineList[j].addEventListener("click", function() { 
-		document.getElementsByClassName("anime-details-box")[j].style.display = "block";
-		document.getElementsByClassName("anime-details-box")[j].style.fontSize = "small";
-		animeLineList[j].style.fontSize = "1em";
-	} );
-
-	document.getElementsByClassName("anime-details-box")[j].addEventListener("dblclick", function() { 
-		document.getElementsByClassName("anime-details-box")[j].style.display = "none";
-		animeLineList[j].style.fontSize = "";
-	});
-}
-
-//allow collapse of years and expand when clicked
-var animeYearList = document.getElementsByClassName("year-display");
-for (var i = 0; i < animeYearList.length; i++)
-{
-animeYearList[i].parentElement.getElementsByClassName("anime-year")[0].style.maxHeight = i == animeYearList.length - 1 ? '400px' : 0;
-animeYearList[i].parentElement.getElementsByClassName("anime-year")[0].style.visibility= i == animeYearList.length - 1 ? 'visible' : 'collapse';
-animeYearList[i].parentElement.getElementsByClassName("anime-year")[0].style.transition = 'max-height 0.5s ease-in-out';
-animeYearList[i].addEventListener("click", function() {
-//close all
-for(var openList of document.getElementsByClassName("anime-year")) {openList.style.maxHeight = 0; openList.style.visibility = 'collapse'; }
-//open one
-this.parentElement.getElementsByClassName("anime-year")[0].style.visibility = 'visible';
-this.parentElement.getElementsByClassName("anime-year")[0].style.maxHeight = '400px';
-});
-} */

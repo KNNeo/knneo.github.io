@@ -78,6 +78,20 @@ tr > td:first-child:active {
 	transition: background-color 0s;
 }
 
+.show-overlay {
+	display: none;
+}
+
+.active-period:hover .show-overlay {
+	display: block;
+	position: absolute;
+	background-color: black;
+	border-radius: 8px;
+	border: 1px solid white;
+	box-shadow: 3px 3px;
+	padding: 4px 8px;
+}
+
 
 /*End Github*/
 
