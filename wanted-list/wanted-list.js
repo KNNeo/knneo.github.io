@@ -5,7 +5,7 @@ document.getElementById("isMarried").style.visibility = "hidden";
 
 //on load create timeline using timeknots.js
 generateWantedList(false);
-var DOBlist = createDOBlist(0,35);
+var DOBlist = createDOBlist(1,35);
 window.addEventListener("load", function() {
     TimeKnots.draw("#timeline", DOBlist, {
         horizontalLayout: true,
@@ -17,16 +17,15 @@ window.addEventListener("load", function() {
     });
     adjustKnots();
 	censorData(); //ONLY FOR GITHUB
-    let loadedImages = reloadImages();
+    reloadImages();
     batchResizeProfileBoxImg();
     switchProfileBoxImage();
-    // if(loadedImages != document.getElementsByTagName("img").length) setTimeout( function() {reloadImages();}, 1000);
+    if(loadedImages != document.getElementsByTagName("img").length) setTimeout( function() {reloadImages();}, 1000);
 });
 
 //on scroll turn off all overlays in timeline and calendar
 window.addEventListener("scroll", function() {
-	if(document.getElementById("timeline").getElementsByTagName("div")[0] != undefined)
-		document.getElementById("timeline").getElementsByTagName("div")[0].style.opacity = "0";
+    document.getElementById("timeline").getElementsByTagName("div")[0].style.opacity = "0";
     //document.getElementById("calendar").getElementsByTagName("div")[0].style.display = "none";
 });
 
@@ -162,7 +161,7 @@ for (var wanted of document.getElementById("wantedList").getElementsByTagName("a
     var targetDOB = document.getElementById(targetId.replace(" ", "")).getElementsByClassName("DOB");
     if (targetDOB.length > 0) {
         var birthDate = new Date(Date.parse(targetDOB[0].innerText.replace(".", "-").replace(".", "-").substring(0, 10)));
-        var age = parseInt(getAge(targetDOB[0].innerText))+1;
+        var age = targetDOB[0].innerText.includes('?') ? 0 : parseInt(getAge(targetDOB[0].innerText))+1;
         if (!birthDate.toUTCString().includes(NaN) && age >= minAge && age <= maxAge)
             listOfDOB.push({
                 date: targetDOB[0].innerText.replace(".", "-").replace(".", "-").substring(0, 10),
@@ -187,7 +186,7 @@ function toggleMarried(){
 var excludeMarried = document.getElementById("marriedCheckbox").checked == true;
 generateWantedList(excludeMarried);
 
-DOBlist = createDOBlist(0,35);
+DOBlist = createDOBlist(1,35);
 document.getElementById("timeline").innerHTML = "";
 TimeKnots.draw("#timeline", DOBlist, {
         horizontalLayout: true,
@@ -231,7 +230,7 @@ function createCalendar(monthNo, DOBlist) {
         var birthdayInYear = new Date(new Date().getFullYear(), new Date(item.date).getMonth(), new Date(item.date).getDate());
     var IsBirthdayOver = (new Date() - birthdayInYear) > 0;
     if (htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1 && htmlString.indexOf("<td>" + birthdayInYear.getDate() + "</td>") > -1 && item.name != "Me")
-        htmlString = htmlString.replace("<td>" + birthdayInYear.getDate() + "</td>", "<td style=\"color: #00e4ff;\"><div class=\"popitem\" style=\"padding: 1px;\">" + item.name + " turns " + (IsBirthdayOver ? item.currentAge-1 : item.currentAge) + "! (" + birthdayInYear.getDate() + " " + month[birthdayInYear.getMonth()].substring(0, 3) + ")</div>" + birthdayInYear.getDate() + "</td>");
+        htmlString = htmlString.replace("<td>" + birthdayInYear.getDate() + "</td>", "<td style=\"color: #00e4ff;\"><div class=\"popitem\" style=\"padding: 1px;\">" + item.name + " turns " + (IsBirthdayOver ? (item.currentAge-1 == 0 ? "??" : item.currentAge-1 + "!") : (item.currentAge == 0 ? "??" : item.currentAge + "!")) + " (" + birthdayInYear.getDate() + " " + month[birthdayInYear.getMonth()].substring(0, 3) + ")</div>" + birthdayInYear.getDate() + "</td>");
         else if (htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1)
             htmlString = htmlString.replace("</div>" + birthdayInYear.getDate() + "</td>", "<br />" + item.name + " turns " + (IsBirthdayOver ? item.currentAge-1 : item.currentAge) + "! (" + birthdayInYear.getDate() + " " + month[birthdayInYear.getMonth()].substring(0, 3) + ")</div>" + birthdayInYear.getDate() + "</td>");
     }
@@ -275,6 +274,7 @@ for (var profBox of document.getElementsByClassName("profile-box")) profBox.addE
     document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 });
 
+var loadedImages = 0;
 //add event listener for image switch
 function batchResizeProfileBoxImg() {
 var animeImgList = document.getElementsByTagName("img");
@@ -307,26 +307,22 @@ if(this.getElementsByTagName("img")[1] == null) return;
 }
 }
 
-let imgLoad;
 function reloadImages() {
-	let loadedImages = 0;
-	let animeImgList = document.getElementsByTagName("img");
-	for(let image of animeImgList)
-	{
-		if(image.alt != '')
-			image.src = image.alt;
-		image.removeAttribute('alt');
-	}
-	for (let i = 0; i < animeImgList.length; i++) {
-		if(animeImgList[i].complete)
-		{
-			resizeProfileBoxImg(animeImgList[i]);
-			loadedImages++;
-		}
-	}
-	if(loadedImages < animeImgList.length) imgLoad = setTimeout(reloadImages, 1000);
-	else clearTimeout(imgLoad);
-	return loadedImages;
+var animeImgList = document.getElementsByTagName("img");
+for(var image of animeImgList)
+{
+ if(image.alt != '')
+  image.src = image.alt;
+ image.removeAttribute('alt');
+}
+for (var i = 0; i < animeImgList.length; i++) {
+if(animeImgList[i].complete) 
+{
+resizeProfileBoxImg(animeImgList[i]);
+loadedImages++;
+}
+}
+if(loadedImages != animeImgList.length) setTimeout(reloadImages, 300);
 }
 
 //resize images on load
@@ -341,3 +337,49 @@ function resizeProfileBoxImg(dis) {
         }
     }
 }
+  
+  
+//generate wanted list array from html
+//exception to note from export: (1) nagae rika add dob and dob comment, (2) horie yui dob censor year, comment include fake getAge string
+/*function generateWantedListArray() {
+	let array = new Array();
+	for(let category of document.getElementsByClassName('profile-category'))
+	{
+		for(let box of category.getElementsByClassName('profile-box'))
+		{
+			let dobStr = box.getElementsByClassName('DOB').length > 0 ? box.getElementsByClassName('DOB')[0].innerText : '';
+            let nicknameStr = box.getElementsByClassName('profile-name')[0].parentElement.outerText;
+          	let newBox = box.cloneNode(true);
+          	newBox.getElementsByTagName('table')[0].remove();
+            let turningPoints = box.getElementsByTagName('td')[7].innerText.replace('*','').replace('*','').replace('*','').replace('*','').split('|');
+          	let imgArray = new Array();
+	        imgArray.push(box.getElementsByTagName('img')[0].src);
+          	if(box.getElementsByTagName('img').length > 1) imgArray.push(box.getElementsByTagName('img')[1].src);
+          	let commentsArray = new Array();
+          	if(newBox.outerText.includes('(*'))
+              commentsArray.push(newBox.outerText.substring(newBox.outerText.indexOf('(*')).substring(1,newBox.outerText.substring(newBox.outerText.indexOf('(*')).indexOf(')')));
+          	if(newBox.outerText.includes('(**'))
+              commentsArray.push(newBox.outerText.substring(newBox.outerText.indexOf('(**')).substring(1,newBox.outerText.substring(newBox.outerText.indexOf('(**')).indexOf(')')));
+          	if(newBox.outerText.includes('(***'))
+              commentsArray.push(newBox.outerText.substring(newBox.outerText.indexOf('(***')).substring(1,newBox.outerText.substring(newBox.outerText.indexOf('(***')).indexOf(')')));
+			let boxElement = {
+				category: category.id,
+				id: box.getElementsByClassName('profile-name')[0].innerText.replace(' ',''),
+				images: imgArray,
+				name: box.getElementsByClassName('profile-name')[0].innerText,
+				nickname: nicknameStr.substring(nicknameStr.indexOf('(')+1,nicknameStr.indexOf(')')),
+				dob: dobStr.substring(0,10),
+				dobComment: dobStr.includes('(') ? dobStr.substring(12, dobStr.indexOf(')')) : '',
+				profile: box.getElementsByTagName('td')[5].innerText,
+				turningPoint: { singerDebut: turningPoints[0] == 'Yes', swimsuitPhotobook: turningPoints[1] == 'Yes', isMarried: turningPoints[2] == 'Yes' },
+				intro: box.getElementsByTagName('td')[9].innerText,
+				description: box.getElementsByTagName('td')[11].innerText,
+				wantedLevel: box.getElementsByTagName('td')[13].innerText.substring(0,5),
+				wantedLevelComment: box.getElementsByTagName('td')[13].innerText.substring(7).replace(')',''),
+				comments: commentsArray
+			};
+          	array.push(boxElement);
+		}
+	}
+	return array;
+}*/
