@@ -8,6 +8,7 @@ body {
   background-color: black;
   color: white;
   margin: auto;
+  max-width: 800px;
 }
 #wantedList li, #wantedList a {
   line-height: 1.5;
@@ -22,7 +23,6 @@ p {
 	padding: 20px;
 }
 h1, #wantedList, #calendar, p {
-  max-width: 800px;
   margin: auto;	
 }
 .profile-box > table {
