@@ -307,7 +307,7 @@ if(this.getElementsByTagName("img")[1] == null) return;
 }
 }
 
-var imgLoad;
+let imgLoad;
 function reloadImages() {
 	let loadedImages = 0;
 	let animeImgList = document.getElementsByTagName("img");
