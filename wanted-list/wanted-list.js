@@ -227,14 +227,18 @@ function createCalendar(monthNo, DOBlist) {
     }
     htmlString += "</tbody></table>";
     for (var item of DOBlist) {
-        var birthdayInYear = new Date(new Date().getFullYear(), new Date(item.date).getMonth(), new Date(item.date).getDate());
-    var IsBirthdayOver = (new Date() - birthdayInYear) > 0;
-    if (htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1 && htmlString.indexOf("<td>" + birthdayInYear.getDate() + "</td>") > -1 && item.name != "Me")
-        htmlString = htmlString.replace("<td>" + birthdayInYear.getDate() + "</td>", "<td style=\"color: #00e4ff;\"><div class=\"popitem\" style=\"padding: 1px;\">" + item.name + " turns " + (IsBirthdayOver ? (item.currentAge-1 == 0 ? "??" : item.currentAge-1 + "!") : (item.currentAge == 0 ? "??" : item.currentAge + "!")) + " (" + birthdayInYear.getDate() + " " + month[birthdayInYear.getMonth()].substring(0, 3) + ")</div>" + birthdayInYear.getDate() + "</td>");
-        else if (htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1)
-            htmlString = htmlString.replace("</div>" + birthdayInYear.getDate() + "</td>", "<br />" + item.name + " turns " + (IsBirthdayOver ? item.currentAge-1 : item.currentAge) + "! (" + birthdayInYear.getDate() + " " + month[birthdayInYear.getMonth()].substring(0, 3) + ")</div>" + birthdayInYear.getDate() + "</td>");
-    }
-    document.getElementById("calendar").innerHTML = htmlString;
+        var birthdayInYear = new Date(new Date().getFullYear(), new Date(item.date.replace('????','2020')).getMonth(), new Date(item.date.replace('????','2020')).getDate());
+        var IsBirthdayOver = (new Date() - birthdayInYear) > 0;
+        let thisAge;
+        if(item.currentAge <= 1) thisAge = '??';
+        else if(IsBirthdayOver) thisAge = item.currentAge - 1;
+        else thisAge = item.currentAge;
+        //console.log(item.name + "|" + birthdayInYear);
+        if (htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1 && htmlString.indexOf("<td>" + birthdayInYear.getDate() + "</td>") > -1 && item.name != "Me")
+            htmlString = htmlString.replace("<td>" + birthdayInYear.getDate() + "</td>", "<td style=\"color: #00e4ff;\"><div class=\"popitem\" style=\"padding: 1px;\">" + item.name + " turns " + thisAge + " (" + birthdayInYear.getDate() + " " + month[birthdayInYear.getMonth()].substring(0, 3) + ")</div>" + birthdayInYear.getDate() + "</td>");
+            else if (htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1)
+                htmlString = htmlString.replace("</div>" + birthdayInYear.getDate() + "</td>", "<br />" + item.name + " turns " + (IsBirthdayOver ? item.currentAge-1 : item.currentAge) + "! (" + birthdayInYear.getDate() + " " + month[birthdayInYear.getMonth()].substring(0, 3) + ")</div>" + birthdayInYear.getDate() + "</td>");
+    }    document.getElementById("calendar").innerHTML = htmlString;
     /*document.getElementById("calendar").addEventListener("mouseover", function(event) {
         if (event.target.style.color == "rgb(0, 228, 255)") event.target.getElementsByClassName("popitem")[0].style.display = "block";
         else {
