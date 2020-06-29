@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en-SG">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="wanted-list.css"rel="stylesheet" type="text/css" >
+	<script src="https://knneo.github.io/wanted-list/d3.v2.min.js"></script>
+	<script src="https://knneo.github.io/wanted-list/timeknots.js" type="application/javascript" async></script>
+	<link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'/>
+    <title>Wanted List</title>
+</head>
+<body>
+<h1>声優プロフィールまとめ</h1>
+<div id="marriedCouple">
+<div id="isMarried"><label for="marriedCheckbox"><input type="checkbox" id="marriedCheckbox" onclick="toggleMarried()">Show Not Married</label></div>
+<ul id="wantedList">
+</ul></div>
+<br/>
+<div id="timeline" style="width: 100%; height: 105px; text-align: center; overflow-x: auto; overflow-y: hidden; border: 1px solid white;">
+</div>
+<br />
+<div id="calendar" style="text-align: center; width: 100%; margin: auto; padding: 5px">
+</div>
+<div style="text-align: center;">*Calendar is regardless of marital status</div>
+<br/>
+<hr/>
+<div style="display: none;">(Image is among first few seen to show initial impression; Google for latest images)</div>
+<br />
+THE NOT SEIYUU<br />
+<div class="profile-category" id="seiyuu0">
+</div>
+<br />
+<hr />
+<br />
+THE SEIYUU: 1ST WAVE<br />
+<div class="profile-category" id="seiyuu1">
+</div>
+<br />
+<hr />
+<br />
+THE SEIYUU: 2ND WAVE<br />
+<div class="profile-category" id="seiyuu2">
+</div>
+<br />
+<hr />
+<br />
+THE SEIYUU: 3RD WAVE<br />
+<div class="profile-category" id="seiyuu3">
+</div>
+<hr/>
+<p style="text-align: center;"><a href="../index.html">Back</a></p>
+<script src="profile-list.js"></script>
+<script src="wanted-list.js"></script>
+<script src="censorship.js"></script>
+</body>
+</html>

@@ -1,0 +1,174 @@
+/*Github Page Only Controls*/
+html {
+  font-family: Open Sans;
+  overflow-x: hidden;
+}
+body {
+  padding: 5px;
+  background-color: black;
+  color: white;
+  margin: auto;
+  max-width: 800px;
+}
+#wantedList li, #wantedList a {
+  line-height: 1.5;
+}
+h1 {
+	text-align: center;
+}
+a {
+	color: cyan;
+}
+p {
+	padding: 20px;
+}
+h1, #wantedList, #calendar, p {
+  margin: auto;	
+}
+.profile-box > table {
+	/*border-bottom: 1px dashed white; */
+	width: 100%;
+}
+.profile-box {
+	touch-action: manipulation;
+}
+
+/*End Github*/
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.profile-box-img {
+  margin: auto;
+}
+.profile-category {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+  padding-bottom: 5px;
+  scroll-snap-type: x mandatory;
+}
+.profile-category > div {
+  display: inline-block;
+  width: 98%;
+  max-width: 800px;
+  margin: 3px;
+  vertical-align: top;
+  padding-right: 5px;
+  scroll-snap-align: center;
+}
+.profile-box {
+  border-radius: 8px;
+  border: 1px solid white;
+  box-shadow: 3px 3px;
+  padding: 4px 8px;
+  white-space: normal;
+}
+.profile-box, #wantedList, #timeline, #calendar {
+}
+.profile-box:active {
+  box-shadow: 1px 1px;
+  transform: translate(2px,2px);
+}
+.profile-box tr:nth-child(odd) {
+ text-align: left;
+}
+.profile-box tr:nth-child(odd) td {
+font-size: 70%;
+}
+.profile-box tr:nth-child(even) {
+ text-align: right;
+}
+#wantedList {
+  list-style-type: none;
+/*   margin: 5px; */
+  padding: 5px;
+  text-align: center;
+  /* text-transform: uppercase; */
+}
+#wantedList li, #wantedList a {
+  display: inline-block;
+  -webkit-user-select: text;
+  -khtml-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+  white-space: nowrap;
+  margin: 2px;
+  cursor: pointer;
+}
+#wantedList a {
+  color: #00e4ff;
+  text-decoration: underline solid #00e4ff;
+}
+#wantedList a:hover {
+  color: white;
+  text-decoration: underline solid white;
+}
+
+#isMarried {
+text-align: center;
+}
+
+#marriedCheckbox {
+    vertical-align: bottom;
+}
+
+#timeline::-webkit-scrollbar, .profile-category::-webkit-scrollbar { 
+  z-index: 0;
+  height: 10px;
+}
+#timeline::-webkit-scrollbar-thumb, .profile-category::-webkit-scrollbar-thumb {
+  background: white;
+}
+#timeline::-webkit-scrollbar-track, .profile-category::-webkit-scrollbar-track {
+  background: #444444;
+}
+.popitem {
+    position: absolute;
+    background-color: black;
+    right: 0;
+    left: 0;
+    display: none;
+}
+#calendar td:hover .popitem { display: block; }
+/*.tp-description { display: none; }
+.turning-point:hover .tp-description {
+    display: block;
+    position: absolute;
+    background: black;
+    border: 1px solid white;
+    padding: 5px 8px;
+    font-size: 1.3em;
+    margin-right: 8px;
+}*/
+#tp-description {
+    display: block;
+    position: absolute;
+    background: black;
+    border: 1px solid white;
+    padding: 5px 8px;
+    font-size: 1.3em;
+    width: 80%;
+    margin-top: 13px;
+}
+#calendar td {
+    width: 30px;
+    height: 20px;
+}
+#HocchanAge { color: #444444; }
+#HocchanAge:hover { color: white; }
+
+/*scrollbars for top and bottom labels only on desktop*/
+@media only screen and (max-width : 1040px) {
+div { scrollbar-width: 0 !important; }
+div::-webkit-scrollbar { width: 0 !important }
+html { scroll-behavior: auto; }
+.profile-category { scroll-snap-type: none; }
+}
