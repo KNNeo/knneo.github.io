@@ -169,4 +169,6 @@ text-align: center;
 @media only screen and (max-width : 1040px) {
 div { scrollbar-width: 0 !important; }
 div::-webkit-scrollbar { width: 0 !important }
+html { scroll-behavior: auto; }
+.profile-category { scroll-snap-type: none; }
 }
