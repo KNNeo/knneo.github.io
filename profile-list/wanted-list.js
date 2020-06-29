@@ -6,7 +6,8 @@ document.getElementById("isMarried").style.visibility = "hidden";
 //on load create timeline using timeknots.js
 generateWantedList(false);
 var DOBlist = createDOBlist(1,35);
-window.addEventListener("load", function() {
+function startWantedList() {
+	
     TimeKnots.draw("#timeline", DOBlist, {
         horizontalLayout: true,
         width: 5000,
@@ -16,12 +17,12 @@ window.addEventListener("load", function() {
         labelFormat: "%Y"
     });
     adjustKnots();
-	censorData(); //ONLY FOR GITHUB
+	//censorData(); //ONLY FOR GITHUB
     reloadImages();
     batchResizeProfileBoxImg();
     switchProfileBoxImage();
     if(loadedImages != document.getElementsByTagName("img").length) setTimeout( function() {reloadImages();}, 1000);
-});
+}
 
 //on scroll turn off all overlays in timeline and calendar
 window.addEventListener("scroll", function() {

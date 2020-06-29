@@ -1,15 +1,74 @@
 //generate from json file
-var xmlhttp = new XMLHttpRequest();
+let spacer = 'https://knneo.github.io/resources/spacer.gif';
+var profileList;
+let xmlhttp = new XMLHttpRequest();
 xmlhttp.onreadystatechange = function() {
   if (this.readyState == 4 && this.status == 200) {
-    let profileList = JSON.parse(this.responseText);
-    //code here
-	if(generateProfileListFromJSON(profileList)) console.log('Load complete.');
+	profileList = JSON.parse(this.responseText);
+	//code here
+	if(generateProfileListFromJSON(profileList)) startWantedList();
   }
 };
-xmlhttp.open("GET", "profile-list.txt", true);
+xmlhttp.open("GET", "https://knneo.github.io/profile-list/profile-list.json", true);
 xmlhttp.send();
-
-function generateProfileListFromJSON(profileList) {
 	
+function generateProfileListFromJSON(profileList) {	
+	for(let profile of profileList)
+	{
+		let idBox = document.createElement('div');
+		idBox.id = profile.name.replace(' ','');
+		
+			let profileBox = document.createElement('div');
+			profileBox.classList.add('profile-box');
+		
+				let profileBoxImg = document.createElement('div');
+				profileBoxImg.classList.add('profile-box-img');
+				profileBoxImg.style.clear = 'both';
+				profileBoxImg.style.textAlign = 'center';
+				
+					let image1 = document.createElement('img');
+					image1.src = spacer;
+					image1.alt = profile.images[0];
+					profileBoxImg.appendChild(image1);
+					
+					if(profile.images.length > 1)
+					{
+						let image2 = document.createElement('img');
+						image2.src = spacer;
+						image2.alt = profile.images[1];
+						profileBoxImg.appendChild(image2);
+					}
+			
+				profileBox.appendChild(profileBoxImg);
+				
+				let profileTable = document.createElement('table');
+				
+					let profileTableBody = document.createElement('tbody');
+					
+						let row = document.createElement('tr');
+						
+							let cell = document.createElement('td');
+							cell.innerText = 'Name (Nickname)';
+							row.appendChild(cell);
+						
+						profileTableBody.appendChild(row);
+						
+						row = document.createElement('tr');
+						
+							cell = document.createElement('td');
+							cell.innerText = profile.name + '(' + profile.nickname + ')';
+							row.appendChild(cell);
+						
+						profileTableBody.appendChild(row);
+					
+					profileTable.appendChild(profileTableBody);
+				
+				profileBox.appendChild(profileTable);
+		
+			idBox.appendChild(profileBox);
+		
+		document.getElementById(profile.category).appendChild(idBox);
+	}
+	
+	return true;
 }
