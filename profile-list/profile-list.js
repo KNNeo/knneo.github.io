@@ -60,7 +60,67 @@ function generateProfileListFromJSON(profileList) {
 							row.appendChild(cell);
 						
 						profileTableBody.appendChild(row);
+						
+						row = document.createElement('tr');
+						
+							cell = document.createElement('td');
+							cell.innerText = 'Date Of Birth';
+							row.appendChild(cell);
+						
+						profileTableBody.appendChild(row);
+						
+						row = document.createElement('tr');
+						
+							cell = document.createElement('td');
+							
+								let DOBspan = document.createElement('span');
+								DOBspan.classList.add('DOB');
+								DOBspan.innerText = profile.dob;
+								//DOBspan.innerText = profile.dob + (profile.dobComment != '' ? (' (' + profile.dobComment + ')') : '');
+								cell.appendChild(DOBspan);
+							
+							row.appendChild(cell);
+						
+						profileTableBody.appendChild(row);
 					
+						row = document.createElement('tr');
+						
+							cell = document.createElement('td');
+							cell.innerText = 'Profile';
+							row.appendChild(cell);
+						
+						profileTableBody.appendChild(row);
+						
+						row = document.createElement('tr');
+						
+							cell = document.createElement('td');
+							cell.innerText = profile.profile;
+							row.appendChild(cell);
+						
+						profileTableBody.appendChild(row);
+						
+						row = document.createElement('tr');
+						
+							cell = document.createElement('td');
+							cell.classList.add('tr-caption');
+							cell.classList.add('turning-point');
+							cell.innerText = 'Status (Singer Debut|Swimsuit Photobook|Married)';
+							row.appendChild(cell);
+						
+						profileTableBody.appendChild(row);
+						
+						row = document.createElement('tr');
+						
+							cell = document.createElement('td');
+							cell.innerText = getTurningPoints(
+								profile.turningPoint.singerDebut,
+								profile.turningPoint.swimsuitPhotobook,
+								profile.turningPoint.isMarried
+							); //what about comments?
+							row.appendChild(cell);
+						
+						profileTableBody.appendChild(row);
+						
 					profileTable.appendChild(profileTableBody);
 				
 				profileBox.appendChild(profileTable);
@@ -72,3 +132,7 @@ function generateProfileListFromJSON(profileList) {
 	
 	return true;
 }
+
+function getTurningPoints(singerDebut,swimsuitPhotobook,isMarried) { return boolToStr(singerDebut) + "|" + boolToStr(singerDebut) + "|" + boolToStr(singerDebut); }
+
+function boolToStr(bool) { if(bool) return 'Yes'; else return 'No'; }
