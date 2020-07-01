@@ -42,6 +42,10 @@ function getResultFromNames(module) {
 			result.innerHTML = "Would you rather treat \"" + name1 + "\" to a meal at the restaurant or have a cheap takeaway meal with \"" + name2 + "\"? (Or vice versa?)";
 		else if (categoryName == "Housewife")
 			result.innerHTML = "If " + name1 + " came to you after your work from home and asked \"Would you rather have dinner, have a bath or me?\", what would you prefer?";
+		else if (categoryName == "Day/Night")
+			result.innerHTML = "Would you rather spend the day with " + name1 + " or spend the night with " + name2 + "?";
+		else if (categoryName == "Minutes/Seconds")
+			result.innerHTML = "Would you rather have 2 minutes with " + name1 + " or spend 2 seconds with " + name2 + "?";
 	}
 	else
 		result.innerHTML = "Please key in something!";
