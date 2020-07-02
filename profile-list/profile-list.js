@@ -112,8 +112,7 @@ function generateProfileListFromJSON(profileList) {
 						row = document.createElement('tr');
 						
 							cell = document.createElement('td');
-							cell.innerText = profile.turningPoint.singerDebut + "|" + profile.turningPoint.singerDebut + "|" + profile.turningPoint.singerDebut;
-							//what about comments?
+							cell.innerText = profile.turningPointStr.singerDebutStr + "|" + profile.turningPointStr.singerDebutStr + "|" + profile.turningPointStr.singerDebutStr;
 							row.appendChild(cell);
 						
 						profileTableBody.appendChild(row);
