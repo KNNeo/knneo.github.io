@@ -12,9 +12,9 @@
 		"dobComment":"",
 		"profile":"Gravure model, TV drama actor",
 		"turningPoint":{
-			"singerDebut":false,
-			"swimsuitPhotobook":true,
-			"isMarried":false
+			"singerDebut":"No**",
+			"swimsuitPhotobook":"Yes",
+			"isMarried":"No"
 		},
 		"intro":"Gravure magazines since she was featured there often back in 2015",
 		"description":"That rack, dude. And her acting ain't half bad considering she isn't that into gravure and is a regular at local TV drama now.",
@@ -38,9 +38,9 @@
 		"dobComment":"If I'm not wrong should be*",
 		"profile":"Cosplayer, model, event MC",
 		"turningPoint":{
-			"singerDebut":false,
-			"swimsuitPhotobook":true,
-			"isMarried":false
+			"singerDebut":"No",
+			"swimsuitPhotobook":"Yes**",
+			"isMarried":"No"
 		},
 		"intro":"From mobile game \"Alternative Girls\" official livestream series \"OruKomi\"",
 		"description":"I can't say I want to f**k her, but she'll never hear of that haha. She'll make a good girlfriend though, as conflicting as we may be in personality maybe sorry for insulting your avatar in your livestream!! (>w<)",
@@ -64,9 +64,9 @@
 		"dobComment":"Yep, it was",
 		"profile":"Anime Voice Actress",
 		"turningPoint":{
-			"singerDebut":true,
-			"swimsuitPhotobook":false,
-			"isMarried":false
+			"singerDebut":"Yes",
+			"swimsuitPhotobook":"No*",
+			"isMarried":"No"
 		},
 		"intro":"From Anime \"OreImo\" as Kuroneko or earlier in \"Kannagi\" as Zange-chan",
 		"description":"Kana-chan has been in so many roles, you're weird if you didn't like her because of one of them.",
@@ -89,9 +89,9 @@
 		"dobComment":"Man, it's",
 		"profile":"Anime Voice Actress",
 		"turningPoint":{
-			"singerDebut":true,
-			"swimsuitPhotobook":false,
-			"isMarried":true
+			"singerDebut":"Yes",
+			"swimsuitPhotobook":"No",
+			"isMarried":"Yes"
 		},
 		"intro":"From Anime \"K-ON!\" as Akiyama Mio, \"Seitokai Yakuindomo\" as Amakusa Shino, and later in her solo singer career",
 		"description":"I like her voice thanks to the one Anime \"K-ON!\", but also because of that do I get exposed to how interesting she is* in front of the camera.",
@@ -114,9 +114,9 @@
 		"dobComment":"lol you don't want to know so it's ALWAYS 17 years ago**",
 		"profile":"Anime Voice Actress",
 		"turningPoint":{
-			"singerDebut":true,
-			"swimsuitPhotobook":false,
-			"isMarried":false
+			"singerDebut":"Yes",
+			"swimsuitPhotobook":"No*",
+			"isMarried":"No"
 		},
 		"intro":"From Anime \"Love Hina\" as Narusegawa Naru and \"Toradora!\" as Kushieda Minori",
 		"description":"On camera she is very kind (regardless of age), and technically her face is still attractive for her age",
@@ -125,6 +125,31 @@
 		"comments":[
 			"*Have we ever? More like, do we want to now?",
 			"**Okay I'm going to reveal it, you ready? It's 1976.09.20"
+		]
+	},
+	{
+		"category":"seiyuu1",
+		"id":"KayanoAi",
+		"images":[
+			"https://pbs.twimg.com/media/EM4MJsvU0AAj7QL?format=jpg&name=small",
+			"https://2.bp.blogspot.com/-_D86tcp19j0/Xax2hd_3MII/AAAAAAAA1V8/fX6byhHcG7Y0PFF3j79kIRcb-jccfB3_gCLcBGAsYHQ/s320/tumblr_mv6or0fZm41qaysjmo1_1280.jpg"
+		],
+		"name":"Kayano Ai",
+		"nickname":"Kayanon",
+		"dob":"1987.09.13",
+		"dobComment":"Yes, it was",
+		"profile":"Anime Voice Actress",
+		"turningPoint":{
+			"singerDebut":"No*",
+			"swimsuitPhotobook":"No",
+			"isMarried":"No"
+		},
+		"intro":"Because she's cute? And later from Anime \"Hyouka\" as Chitanda Eru",
+		"description":"One of those few who I followed because she looks cute, and subsequently I've came to love her voice acting and singing too.",
+		"wantedLevel":"★★★★☆",
+		"wantedLevelComment":"Overall package, face and all",
+		"comments":[
+			"*Pity, isn't it?"
 		]
 	},
 	{
@@ -140,9 +165,9 @@
 		"dobComment":"It was",
 		"profile":"Anime Voice Actress",
 		"turningPoint":{
-			"singerDebut":true,
-			"swimsuitPhotobook":false,
-			"isMarried":true
+			"singerDebut":"Yes",
+			"swimsuitPhotobook":"No",
+			"isMarried":"Yes*"
 		},
 		"intro":"From Anime \"Kamisama Inai no Nichiyoubi\" as Princess Ulla Eulesse Hecmatika, and specifically the ending theme song",
 		"description":"She must be the perfect girl next door, from early days posting selfies on Twitter** to her music career, she has all the talent.",
@@ -166,9 +191,9 @@
 		"dobComment":"",
 		"profile":"Anime Voice Actress",
 		"turningPoint":{
-			"singerDebut":true,
-			"swimsuitPhotobook":true,
-			"isMarried":false
+			"singerDebut":"Yes",
+			"swimsuitPhotobook":"Yes",
+			"isMarried":"No*"
 		},
 		"intro":"From Anime \"K-ON!\" as Kotobuki Tsumugi and later in \"A-Channel\" as Yuuko",
 		"description":"Having a distinctive lovely voice, she has starred in many roles who will make an impression. Her music career has also been loved by me over the years as she continues to grow. Her half-naked is just bonus.",
@@ -191,9 +216,9 @@
 		"dobComment":"",
 		"profile":"Anime Voice Actress",
 		"turningPoint":{
-			"singerDebut":false,
-			"swimsuitPhotobook":false,
-			"isMarried":false
+			"singerDebut":"No",
+			"swimsuitPhotobook":"No",
+			"isMarried":"No"
 		},
 		"intro":"Because she's cute, and from Anime \"Servant x Service\" as Ichimiya Touko",
 		"description":"With the perfect tsundere** voice acting and a really cute face even at her age, she is to be loved for everything she has to offer.",
@@ -217,9 +242,9 @@
 		"dobComment":"It was already",
 		"profile":"Anime Voice Actress",
 		"turningPoint":{
-			"singerDebut":true,
-			"swimsuitPhotobook":false,
-			"isMarried":false
+			"singerDebut":"Yes**",
+			"swimsuitPhotobook":"No",
+			"isMarried":"Yes***"
 		},
 		"intro":"From Anime \"K-ON!\" as Tainaka Ritsu, and later in \"Seitokai Yakuindomo\" as Shichijou Aria",
 		"description":"Hyper voice Satomi-chan is the best, whether it is from Anime, or in her singing career. Nobody comes close in this aspect and I love her for this.",
@@ -229,6 +254,32 @@
 			"*Commonly referred to as \"Shugami\" because of her name, amongst other nicknames given",
 			"**Inactive as of 2017",
 			"***Married to fellow voice actor Terashima Takuma"
+		]
+	},
+	{
+		"category":"seiyuu1",
+		"id":"TaketatsuAyana",
+		"images":[
+			"https://pbs.twimg.com/media/EH0Uw3IU8AEdzIm?format=jpg&name=small",
+			"https://1.bp.blogspot.com/-4RcqxRRtpuQ/Xax3XR4qn1I/AAAAAAAA1Wc/B9hX_znOi3wmOS6407VYezqVZRAij6q-gCLcBGAsYHQ/s320/tumblr_mcwi2vo9D41qaysjmo1_1280.jpg"
+		],
+		"name":"Taketatsu Ayana",
+		"nickname":"Ayachi",
+		"dob":"1989.06.23",
+		"dobComment":"It has been",
+		"profile":"Anime Voice Actress",
+		"turningPoint":{
+			"singerDebut":"Yes",
+			"swimsuitPhotobook":"Yes*",
+			"isMarried":"Yes**"
+		},
+		"intro":"From Anime \"K-ON!\" as Nakano Azusa and later in Anime \"OreImo\" as Kousaka Kirino",
+		"description":"I wish I could point out more bad stuff about her but apart from her less than skilled singing everything about her is great. And she has a rack too. You don't need her Anime roles with this real life equivalent.",
+		"wantedLevel":"★★★★★",
+		"wantedLevelComment":"Overrated in popularity but I like",
+		"comments":[
+			"*Technically yes in her 2nd photobook with a thin shirt, and yes later in an event-only photobook as seen on Twitter here",
+			"**Married to fellow voice actor Kaji Yuki"
 		]
 	},
 	{
@@ -244,9 +295,9 @@
 		"dobComment":"",
 		"profile":"Anime Voice Actress",
 		"turningPoint":{
-			"singerDebut":true,
-			"swimsuitPhotobook":true,
-			"isMarried":true
+			"singerDebut":"Yes",
+			"swimsuitPhotobook":"Yes**",
+			"isMarried":"Yes"
 		},
 		"intro":"From Anime \"Kannagi\" as Nagi and later from idol group \"sphere\"",
 		"description":"She is real perfect all around in looks and talent despite the lack of a chest, her roles in Anime are diverse yet professionally voiced. I want to switch my same year elder sister with her haha",
@@ -270,9 +321,9 @@
 		"dobComment":"Yeah, it's already",
 		"profile":"Anime Voice Actress",
 		"turningPoint":{
-			"singerDebut":true,
-			"swimsuitPhotobook":false,
-			"isMarried":true
+			"singerDebut":"Yes",
+			"swimsuitPhotobook":"No",
+			"isMarried":"Yes"
 		},
 		"intro":"From Anime \"K-ON!\" as Hirasawa Yui and \"Hatsukoi Limited.\" as Bessho Koyoi",
 		"description":"You'll know her when she appears in Anime* (arguably over Hanazawa Kana), and I have loved her everything** for the duration of her solo music career before she was married. Today her is still my definition of cute, as jovial as a veteran she may be.",
@@ -296,9 +347,9 @@
 		"dobComment":"Wow, it's only",
 		"profile":"Anime Voice Actress",
 		"turningPoint":{
-			"singerDebut":true,
-			"swimsuitPhotobook":false,
-			"isMarried":false
+			"singerDebut":"Yes",
+			"swimsuitPhotobook":"No",
+			"isMarried":"No"
 		},
 		"intro":"From Taketatsu Ayana in idol unit \"petit milady\", and later in Anime \"A Channel\" as Tooru",
 		"description":"A master and child prodigy in voice acting**, she voices a myriad of roles from where you will least expect her, and her age is not truly reflective of her easy-going personality and cute appearance. My love for her grew slowly but surely over the years and today she deserves my respect.",
@@ -322,9 +373,9 @@
 		"dobComment":"",
 		"profile":"Anime Voice Actress",
 		"turningPoint":{
-			"singerDebut":true,
-			"swimsuitPhotobook":false,
-			"isMarried":false
+			"singerDebut":"Yes",
+			"swimsuitPhotobook":"No**",
+			"isMarried":"No"
 		},
 		"intro":"From Anime \"Isshukan Friends.\" as Fujimiya Kaori",
 		"description":"That same year waifu I want but cannot get. She is well-mannered, rather serious, but cute and sometimes sadistic it makes her fellow group members from TrySail scared. If you feel that she is in a different level than us you're not alone.",
@@ -333,6 +384,32 @@
 		"comments":[
 			"*Because her name can be pronounced as \"Sora\" and \"Ten\"",
 			"**I doubt we'll ever see it tbh, but I'll take the many photobooks this attractive woman is on like this one that I reviewed"
+		]
+	},
+	{
+		"category":"seiyuu2",
+		"id":"AsakuraMomo",
+		"images":[
+			"https://img.animatetimes.com/2020/01/5e2c062302f9d_d54cd9b1fca0630849a0536fa5e79180.jpg",
+			"https://1.bp.blogspot.com/-S3Tfg1WFml0/Xa2nLUmVoUI/AAAAAAAA1ZA/y2k7pL14r4kfLcRm_PXRc-nS8Q5M2aw4QCLcBGAsYHQ/s320/momo.jpg"
+		],
+		"name":"Asakura Momo",
+		"nickname":"Mocho",
+		"dob":"1994.06.25",
+		"dobComment":"",
+		"profile":"Anime Voice Actress",
+		"turningPoint":{
+			"singerDebut":"Yes",
+			"swimsuitPhotobook":"Yes*",
+			"isMarried":"No"
+		},
+		"intro":"From her idol group \"TrySail\" and later in Anime \"PriPri Chii-chan\" as Yuuka",
+		"description":"I just want her as a friend who will light up my life, make me a genius (because she isn't**), and I want to cuddle her every day after work. Dakimakuras have nothing on this girl.",
+		"wantedLevel":"★★★★☆",
+		"wantedLevelComment":"Mostly because of rack, and I like everything else of her too tbh",
+		"comments":[
+			"*I'll call her 1st photobook technically it even though it's under a thin shirt, as reviewed over here",
+			"**YouTube has clips about how she flubs on livestreams and sometimes can't control herself even in front of the camera"
 		]
 	},
 	{
@@ -347,9 +424,9 @@
 		"dobComment":"",
 		"profile":"Anime Voice Actress**, DJ",
 		"turningPoint":{
-			"singerDebut":true,
-			"swimsuitPhotobook":false,
-			"isMarried":false
+			"singerDebut":"Yes**",
+			"swimsuitPhotobook":"No",
+			"isMarried":"No"
 		},
 		"intro":"From Game \"Alternative Girls\" as Mizushima Airi",
 		"description":"She has a fashion style one would be proud of dating, and she has a lovely personality and voice. Even though I've only heard her in that one mobile game but what's not to like?",
@@ -373,9 +450,9 @@
 		"dobComment":"",
 		"profile":"Anime Voice Actress",
 		"turningPoint":{
-			"singerDebut":false,
-			"swimsuitPhotobook":false,
-			"isMarried":false
+			"singerDebut":"No",
+			"swimsuitPhotobook":"No",
+			"isMarried":"No"
 		},
 		"intro":"Because she looks cute and sounds like it too, and later from Anime \"Servant x Service\" as Momoi Kanon",
 		"description":"She's the cute girl type that everyone loves, but I just think she looks cute even after all these years I've known her. Later on I also found out she has a lovely personality too** so that's a plus. Our paths hardly cross in Anime even if she has been around way longer than many mentioned here.",
@@ -399,9 +476,9 @@
 		"dobComment":"",
 		"profile":"Anime Voice Actress",
 		"turningPoint":{
-			"singerDebut":true,
-			"swimsuitPhotobook":false,
-			"isMarried":false
+			"singerDebut":"Yes*",
+			"swimsuitPhotobook":"No**",
+			"isMarried":"No"
 		},
 		"intro":"From Anime \"Sore ga Seiyuu!\" as Kohara Rin and Game \"Alternative Girls\" as Onitsuka Chiho",
 		"description":"Initially it was due to her maturing over the years since her first starring role in Anime, and thanks to my friend who got interested in her, I've grown more interested in her ever since.",
@@ -425,9 +502,9 @@
 		"dobComment":"",
 		"profile":"Anime Voice Actress",
 		"turningPoint":{
-			"singerDebut":true,
-			"swimsuitPhotobook":false,
-			"isMarried":false
+			"singerDebut":"Yes",
+			"swimsuitPhotobook":"No",
+			"isMarried":"No"
 		},
 		"intro":"From Anime \"Sora no Method\" as Noel, and later from her solo 2nd single*",
 		"description":"Her singing voice has been impeccable ever since I gave her solo music career a chance, she is popular amongst production and fans, she is the definition of cute and has a loving personality in front of the camera. It's hard to not like this girl.",
@@ -450,9 +527,9 @@
 		"dobComment":"",
 		"profile":"Anime Voice Actress",
 		"turningPoint":{
-			"singerDebut":true,
-			"swimsuitPhotobook":false,
-			"isMarried":false
+			"singerDebut":"Yes",
+			"swimsuitPhotobook":"No**",
+			"isMarried":"No"
 		},
 		"intro":"Probably from Anime \"Sora no Method\" as Komiya Nonoka, and then from idol group TrySail",
 		"description":"From her lovely voice to that adorable face to that fantastic cry when she sings... She is the perfect video game-loving imouto*** I have always wanted. Period. An Anime voice actress who loves video games what more can I ask?",
@@ -462,6 +539,32 @@
 			"*She is more commonly called \"Nansu\", and her name Shi-i-na coincides with the number \"417\"",
 			"**She is more literary than we think, with her 1st photobook which I reviewed eventually getting a novel serialisation",
 			"***She is indeed younger than me, and I would love to play video games with her considering she does YouTube Let's Plays on things like that Harvest Moon remake which I bought the Japanese version and played because of her instead of waiting for the English version to come out"
+		]
+	},
+	{
+		"category":"seiyuu2",
+		"id":"NumakuraManami",
+		"images":[
+			"https://obs.line-scdn.net/0hDzSlxtGEG1VuFTMz7y5kAiVIHToXdgFdBG0MbxtDEXsbeQxVBm8LdxdFHyEAdQBTDSMIa1d9HxglVTV7IQ48S0hlBj0FIwFmCRgiZjBDPRE0bD5-N29UN00TRWFLI1UKUnsGYEsWQiBCdl5WAXFQYQ/small",
+			"https://1.bp.blogspot.com/-FQ3nJm5Hfh0/XYX5ISs2tFI/AAAAAAAA0rg/QI9AW3pptcYa6867xi0C4ga7Sr5Eoi6EwCLcBGAsYHQ/s320/1b7f80750baf45dce28a0fdd965bb600.jpg"
+		],
+		"name":"Numakura Manami",
+		"nickname":"Nu-chan",
+		"dob":"1988.04.15",
+		"dobComment":"Oh it's",
+		"profile":"Anime Voice Actress",
+		"turningPoint":{
+			"singerDebut":"Yes*",
+			"swimsuitPhotobook":"No",
+			"isMarried":"Yes**"
+		},
+		"intro":"From Anime \"Dagashi Kashi\" as Endou Saya, and later from her solo music career*",
+		"description":"Her lovely personality and voice acting over the years attracted me. Add in her powerful singing voice and she is formidable. Her personality on camera is lovely too.",
+		"wantedLevel":"★★★★☆",
+		"wantedLevelComment":"Not the cutest face out there but I like",
+		"comments":[
+			"*Her 2nd single \"Climber's High\" is her most impressive release in Klassic Note",
+			"**Married to fellow voice actor Osaka Ryouta"
 		]
 	},
 	{
@@ -477,9 +580,9 @@
 		"dobComment":"She may be new but it's",
 		"profile":"Anime Voice Actress",
 		"turningPoint":{
-			"singerDebut":true,
-			"swimsuitPhotobook":false,
-			"isMarried":true
+			"singerDebut":"Yes",
+			"swimsuitPhotobook":"No*",
+			"isMarried":"Yes"
 		},
 		"intro":"From Game \"Alternative Girls\" as Meya and its official livestream series as a guest",
 		"description":"Her bubbly personality in front of the camera is a rarity when she was new to the industry, and she has been lovely all around ever since. Anime roles not included in this judgement",
@@ -502,9 +605,9 @@
 		"dobComment":"",
 		"profile":"Anime Voice Actress",
 		"turningPoint":{
-			"singerDebut":true,
-			"swimsuitPhotobook":false,
-			"isMarried":false
+			"singerDebut":"Yes*",
+			"swimsuitPhotobook":"No",
+			"isMarried":"No"
 		},
 		"intro":"From Anime \"Sore ga Seiyuu!\" as Ichinose Futaba, and later in \"Karakai Jouzu no Takagi-san\" as Takagi",
 		"description":"Her bubbly personality outside of Anime makes me smile, along with her appearances in Anime and in her own livestream** makes her a popular girl all around. Naturally, I have to follow suit.",
@@ -528,9 +631,9 @@
 		"dobComment":"",
 		"profile":"Anime Voice Actress",
 		"turningPoint":{
-			"singerDebut":true,
-			"swimsuitPhotobook":false,
-			"isMarried":false
+			"singerDebut":"Yes",
+			"swimsuitPhotobook":"No*",
+			"isMarried":"No"
 		},
 		"intro":"From Anime \"KONOBI\" as Imari Maria, and later from her 2nd solo single**",
 		"description":"She is so cute, appearance and all, after getting into her voice and voice acting I've never said no to her cuteness ever since. (I refrained from watching Anime \"Kiniro Mosiac\" because I'm afraid I might die of her cuteness)",
@@ -539,6 +642,32 @@
 		"comments":[
 			"*She may be too cute to have such a photobook, or even have one",
 			"**Music video available as preview on YouTube, for Anime \"Tsuki ga Kirei\""
+		]
+	},
+	{
+		"category":"seiyuu2",
+		"id":"UesakaSumire",
+		"images":[
+			"https://obs.line-scdn.net/0h_VLFzAWYAHlxPyvkRhV_LjpiBhYIXBpxG0cXQwRpClcEUxd5GUULSxZvBBkyTQNzFRobAxVmOBcAd056Tjs5XDFNDjwqfQdkSlEnawJBLTw-bEByUVlLGVM4V0hdCEcvRQsYGF07WwxdXEUoSllISg/small",
+			"https://3.bp.blogspot.com/-5uF5rGCsmkU/Xax4IO4XhgI/AAAAAAAA1W0/cL9X2DbBEa04t3LRG0EHyGxaBJne40oZwCLcBGAsYHQ/s320/7f9ce3e2.jpg"
+		],
+		"name":"Uesaka Sumire",
+		"nickname":"Sumipe",
+		"dob":"1991.12.19",
+		"dobComment":"",
+		"profile":"Anime Voice Actress",
+		"turningPoint":{
+			"singerDebut":"Yes",
+			"swimsuitPhotobook":"Yes*",
+			"isMarried":"No"
+		},
+		"intro":"From Anime \"KONOBI\" as Colette and Game \"Alternative Girls\" as Hiiragi Tsumugi",
+		"description":"Her obvious rack drew me in, and everything from her cute voice acting** to her somewhat weak singing in her solo music career (to her love for Russia maybe) to her rather clumsy yet wild personality were just part of her fan package. The unbelievably high amount of images she posts weekly on the Internet are my daily fuel.",
+		"wantedLevel":"★★★★☆",
+		"wantedLevelComment":"Not exactly my type but that rack...",
+		"comments":[
+			"*Refer to her photobook which I reviewed here",
+			"**I prefer when she uses her own voice or her being matured, as in Anime \"Aho Girl\" as Morals Council Chairperson"
 		]
 	},
 	{
@@ -554,9 +683,9 @@
 		"dobComment":"According to sources it should be",
 		"profile":"Anime Voice Actress",
 		"turningPoint":{
-			"singerDebut":false,
-			"swimsuitPhotobook":false,
-			"isMarried":false
+			"singerDebut":"No",
+			"swimsuitPhotobook":"No**",
+			"isMarried":"No"
 		},
 		"intro":"From Game \"Alternative Girls\" as Tendou Machi, and later in Anime \"Araburu Kisetsu no Otome Domo yo.\" as Sugawara Niina",
 		"description":"She may look normal in every aspect, but from her matured look to her jovial personality she brings about a very friendly aura and will totally make of a lovely drinking partner provided if you can pay for her drinks. I don't know enough about her to be honest.",
@@ -580,9 +709,9 @@
 		"dobComment":"We're not supposed to know but it's",
 		"profile":"Anime Voice Actress",
 		"turningPoint":{
-			"singerDebut":true,
-			"swimsuitPhotobook":false,
-			"isMarried":false
+			"singerDebut":"Yes",
+			"swimsuitPhotobook":"No",
+			"isMarried":"No"
 		},
 		"intro":"From Game \"Alternative Girls\" as Sylvia Richter and later from Anime \"Assassination Classroom\" as Shiota Nagisa",
 		"description":"She is known for acting male characters, but it's when she voices females that shows out her best, in my opinion. Not talking about voice, she doesn't look half bad either. Her singing career** is really helping to improve her image on me.",
@@ -606,9 +735,9 @@
 		"dobComment":"I keep forgetting it was only",
 		"profile":"Anime Voice Actress",
 		"turningPoint":{
-			"singerDebut":false,
-			"swimsuitPhotobook":false,
-			"isMarried":false
+			"singerDebut":"No",
+			"swimsuitPhotobook":"No",
+			"isMarried":"No"
 		},
 		"intro":"From Anime \"Demi-chan wa Kataritai\" as Takanashi Hikari, and later in Game \"Alternative Girls\" as Kira Sayuri",
 		"description":"She is in the level of adorable that everyone will love in Anime, making her super popular around 2017 that somewhat died down. Outside of Anime, she has an active personality and shows enthusiasm in her job**, compensating for her (slight) imperfections in image.",
@@ -632,9 +761,9 @@
 		"dobComment":"",
 		"profile":"Anime Voice Actress",
 		"turningPoint":{
-			"singerDebut":true,
-			"swimsuitPhotobook":false,
-			"isMarried":false
+			"singerDebut":"Yes**",
+			"swimsuitPhotobook":"No",
+			"isMarried":"No"
 		},
 		"intro":"From Anime \"Just Because!\" as Natsume Mio",
 		"description":"Once you realise who she is behind Anime and know how lovely she is beyond everything else, you will not stop liking her, just like I did. She just needs more Anime roles though, been working on games and that idol unit may not be enough exposure.",
@@ -643,6 +772,33 @@
 		"comments":[
 			"*More commonly referred to as \"Karirin\" but \"Karin-chan\" is also popular",
 			"**Part of five-member idol group BlooDye"
+		]
+	},
+	{
+		"category":"seiyuu3",
+		"id":"KidoIbuki",
+		"images":[
+			"https://pbs.twimg.com/media/ETEj--6UEAEHPFX?format=jpg&name=small",
+			"https://1.bp.blogspot.com/-oKeVUXfqkXc/Xax4YPSV4jI/AAAAAAAA1W4/6pn4hXXW7KwVz-X0sckuQcAXcEaGXu50wCLcBGAsYHQ/s320/DoL3Oe9VsAATLrc.jpg"
+		],
+		"name":"Kido Ibuki",
+		"nickname":"-chan*",
+		"dob":"1997.11.14",
+		"dobComment":"Surprisingly only",
+		"profile":"Anime Voice Actress",
+		"turningPoint":{
+			"singerDebut":"Yes**",
+			"swimsuitPhotobook":"No***",
+			"isMarried":"No"
+		},
+		"intro":"From Anime \"Subete ga F ni Naru\" as Magata Shiki and Game \"Alternative Girls\" as Saionji Rei and Anime \"Eromanga-sensei\" as Megumi",
+		"description":"Her tsundere voices are my fuel, and she is kind of cute. Despite her young age in the industry she excels in her roles and has a somewhat sloppy character and I like her for that somehow.",
+		"wantedLevel":"★★★★☆",
+		"wantedLevelComment":"The childhood friend I wanted but don't have",
+		"comments":[
+			"*People like to call her \"Ibuking\" I don't know. That's how she came up with her Twitter account name, I guess.",
+			"**Part of idol group \"everying!\" with Yamasaki Erii",
+			"***Not yet, but I reviewed her 1st photobook without swimsuits here"
 		]
 	},
 	{
@@ -658,9 +814,9 @@
 		"dobComment":"",
 		"profile":"Anime Voice Actress",
 		"turningPoint":{
-			"singerDebut":true,
-			"swimsuitPhotobook":false,
-			"isMarried":false
+			"singerDebut":"Yes*",
+			"swimsuitPhotobook":"No",
+			"isMarried":"No"
 		},
 		"intro":"From Anime \"Blend.S\" as Hinata Kaho and Anime \"Tsurezure Children\" as Ijima Kana",
 		"description":"Her voice acting might be overrated by me considering she's still rather new, but so far her embarrassment drew me in. Somehow her fear of horror amongst many things about her gives me a vibe unlike her genius personality**. The singing just makes her perfect imouto candidate now lol",
@@ -684,9 +840,9 @@
 		"dobComment":"",
 		"profile":"Anime Voice Actress",
 		"turningPoint":{
-			"singerDebut":false,
-			"swimsuitPhotobook":false,
-			"isMarried":false
+			"singerDebut":"No",
+			"swimsuitPhotobook":"No",
+			"isMarried":"No"
 		},
 		"intro":"From Anime \"Asobi Asobase\" as Nomura Kasumi and earlier in Anime \"Tsuki ga Kirei\" as Mizuno Akane",
 		"description":"She may have a temper, she may not be the cutest girl out there, but she is presenting herself as honest and as beautiful she can and I applaud her for that. Which also makes me like her that much more when she is in every cute role* of every other Anime.",
@@ -709,9 +865,9 @@
 		"dobComment":"",
 		"profile":"Anime Voice Actress",
 		"turningPoint":{
-			"singerDebut":false,
-			"swimsuitPhotobook":false,
-			"isMarried":false
+			"singerDebut":"No",
+			"swimsuitPhotobook":"No*",
+			"isMarried":"No"
 		},
 		"intro":"From Anime \"Demi-chan wa Kataritai\" as Takanashi Himari and later in Anime \"Just Because!\" as Komiya Ena",
 		"description":"Besides being uniquely Western in appearance (mix between American and Japanese), she has a really nice voice that leaves an impression despite not being in the spotlight. Over the years I just happen to remember her name and how well she performs. Outside of Anime is where she totally shines, as she looks like someone desperate trying to get a partner** lol",
@@ -735,9 +891,9 @@
 		"dobComment":"She may be younger than we think?",
 		"profile":"Anime Voice Actress",
 		"turningPoint":{
-			"singerDebut":false,
-			"swimsuitPhotobook":false,
-			"isMarried":false
+			"singerDebut":"No",
+			"swimsuitPhotobook":"No",
+			"isMarried":"No"
 		},
 		"intro":"From Anime \"Asobi Asobase\" as Olivia and \"PriPri Chii-chan\" as Joe-kun",
 		"description":"She's that cute waifu we all want. She loves to talk to her fans and she loves cooking too, so that's a plus. Sadly she isn't that interested in guys** it seems so that's quite a bummer lol why",
@@ -746,6 +902,32 @@
 		"comments":[
 			"*More commonly referred to as \"Rikachimalu\", and exists in Hiragana and Katakana forms. According to her Instagram story, they represent intimate and casual forms of her nickname respectively.",
 			"**Due to hanging out with other female seiyuu in the industry, and with supposed gf Fushimi Haruka"
+		]
+	},
+	{
+		"category":"seiyuu3",
+		"id":"NagatsumaJuuri",
+		"images":[
+			"https://pbs.twimg.com/media/EI8EQ2WVAAEKaYl?format=jpg&name=small",
+			"https://1.bp.blogspot.com/-sRQqQdanxkI/Xvh0FdmSszI/AAAAAAAA8io/KTKSlFMYspw6is88v3_Ij9AzbYu7te6HQCK4BGAsYHg/s320/gd236785_-3.jpg"
+		],
+		"name":"Nagatsuma Juuri",
+		"nickname":"Juuri...*",
+		"dob":"1988.10.27",
+		"dobComment":"Yeah it was already",
+		"profile":"Anime Voice Actress",
+		"turningPoint":{
+			"singerDebut":"Yes**",
+			"swimsuitPhotobook":"No",
+			"isMarried":"No"
+		},
+		"intro":"From Game \"Alternative Girls\" as Agatsuma Ren",
+		"description":"She has the best overall package to love, and in her first impression to me she voiced someone who is desperate to love. What else can I ask for? Outside of voice acting she has a friendly personality, though not much is known about her even after all these years. Her weekly blog post on Sundays is a good indicator of her recent activities.",
+		"wantedLevel":"★★★☆☆",
+		"wantedLevelComment":"If she were in more Anime roles I want us to be together",
+		"comments":[
+			"*Thanks to one Muscle Miyazaki from Game \"Alternative Girls\" livestream series I can't forget this now lol",
+			"**Released two singles under retired music label ZERO-A, but you should've heard her character song in the only game I know of her"
 		]
 	},
 	{
@@ -760,9 +942,9 @@
 		"dobComment":"",
 		"profile":"Anime Voice Actress",
 		"turningPoint":{
-			"singerDebut":false,
-			"swimsuitPhotobook":false,
-			"isMarried":false
+			"singerDebut":"No",
+			"swimsuitPhotobook":"No*",
+			"isMarried":"No"
 		},
 		"intro":"From Anime \"Seitokai Yakuindomo\" as Mitsuba Mutsumi, and recently in Anime \"Bungou Stray Dogs\" as Tanizaki Naomi and \"Chio-chan no Tsuugakuro\" as Nonomura Manana",
 		"description":"She may not have many roles over the past decade, but you'll recognise her coarse yet lovely voice from a mile away. Her personality outside of Anime is even better than her roles, and as she gets older her allure presented from her Instagram photos attracted me to her more than ever.",
@@ -783,15 +965,15 @@
 		"name":"Oonishi Saori",
 		"nickname":"-san*",
 		"dob":"1992.08.06",
-		"dobComment":"",
+		"dobComment":"Can't believe it's just",
 		"profile":"Anime Voice Actress",
 		"turningPoint":{
-			"singerDebut":false,
-			"swimsuitPhotobook":false,
-			"isMarried":false
+			"singerDebut":"No",
+			"swimsuitPhotobook":"No",
+			"isMarried":"No"
 		},
 		"intro":"From Game \"Eromanga-sensei\" as Senjuu Muramasa, and later in Game \"Dead or Alive: Venus Vacation\" as Tamaki",
-		"description":"This is another one of those \"your friend's hotter than you\" and being on the same video series as Minase Inori** it's not hard to notice a difference. Oonishi exudes a playful yet matured personality, making her an absolute talent outside of Anime**. Inside of Anime, it's when she potrays matured characters (see above roles) that makes her stand out.",
+		"description":"This is another one of those \"your friend's hotter than you\" and being on the same video series as Minase Inori** it's not hard to notice a difference. Oonishi exudes a playful yet matured personality, making her an absolute talent outside of Anime***. Inside of Anime, it's when she potrays matured characters (see above roles) that makes her stand out.",
 		"wantedLevel":"★★★★☆",
 		"wantedLevelComment":"Her friendly personality shines through the darkness, quite a beauty too",
 		"comments":[
@@ -804,18 +986,18 @@
 		"category":"seiyuu3",
 		"id":"OonoYuuko",
 		"images":[
-			"https://pbs.twimg.com/media/EUmjikWUYAEZXou?format=jpg&name=small",
+			"https://pbs.twimg.com/media/Eb1zJ9mUEAQBFuN?format=jpg&name=small",
 			"https://1.bp.blogspot.com/-glPpS3lLPyM/XlvVlbt-Z7I/AAAAAAAA5gQ/KAVK2JVaBLwYV1xWiSiwJsp-ZLq-Osh6gCLcBGAsYHQ/s320/C_C9ZFQVwAEO_xG.jpg"
 		],
 		"name":"Oono Yuuko",
 		"nickname":"Yuupon",
-		"dob":"",
-		"dobComment":"",
+		"dob":"????.11.02",
+		"dobComment":"She may not be that young anymore but we don't know*",
 		"profile":"Anime Voice Actress",
 		"turningPoint":{
-			"singerDebut":false,
-			"swimsuitPhotobook":false,
-			"isMarried":false
+			"singerDebut":"No",
+			"swimsuitPhotobook":"No",
+			"isMarried":"No"
 		},
 		"intro":"From Game \"Alternative Girls\" as Beruru",
 		"description":"Her roles do stand out to be very different from her in person, because this inherent cuteness flowing out within her is hard to resist. If she ever out-cutes her own voice in an Anime role I think I'll die of overdose. She is a really good definition of what kawaii is in Japan without even acting.",
@@ -838,9 +1020,9 @@
 		"dobComment":"Very deceptive but it is indeed",
 		"profile":"Anime Voice Actress",
 		"turningPoint":{
-			"singerDebut":false,
-			"swimsuitPhotobook":false,
-			"isMarried":false
+			"singerDebut":"No",
+			"swimsuitPhotobook":"No",
+			"isMarried":"No"
 		},
 		"intro":"From Game \"Alternative Girls\" as Tachibana Naomi and later in Anime \"Chio-chan no Tsuugakuro\" as Miyamo Chio",
 		"description":"Despite her age and late entrance into the Anime industry, she excels cutely in roles involving her Osaka hometown accent**, and even outside Anime she presents a bubbly personality and subtle awkwardness that is to love.",
@@ -849,6 +1031,31 @@
 		"comments":[
 			"*More commonly referred to as \"SoraSora\"",
 			"**Examples I know include mobile game \"Alternative Girls\", and as Kanna in desktop video game \"Dead or Alive: Venus Vacation\""
+		]
+	},
+	{
+		"category":"seiyuu3",
+		"id":"ToyotaMoe",
+		"images":[
+			"https://pbs.twimg.com/media/EQ-5mfsUEAEelNV?format=jpg&name=small",
+			"https://2.bp.blogspot.com/-KbZD4IDAEWk/Xa2mgPVU80I/AAAAAAAA1Ys/jevRvFzIr30X3Kc_IJowDMcCKE5H-HTJACLcBGAsYHQ/s320/D4jtZGDXsAAzgQT.jpg"
+		],
+		"name":"Toyota Moe",
+		"nickname":"Moeshi",
+		"dob":"1995.03.15",
+		"dobComment":"",
+		"profile":"Anime Voice Actress",
+		"turningPoint":{
+			"singerDebut":"No",
+			"swimsuitPhotobook":"Yes*",
+			"isMarried":"No"
+		},
+		"intro":"From Itou Miku (not featured here) and their idol group Pyxis (which I don't listen)",
+		"description":"She's like that friend's friend who is more attractive than your friend lol (sorry Itou Miku). She is not as popular in roles though as she is somewhat new, but her roles do present her as being idol-like. Not that I've given any though. Without proper Anime credit I am refraining my idolism on her for now tbh",
+		"wantedLevel":"★★★☆☆",
+		"wantedLevelComment":"Selfie fuel ranked right after Sumipe",
+		"comments":[
+			"*I reviewed her 2nd photobook- NO I DID NOT haha"
 		]
 	},
 	{
@@ -864,9 +1071,9 @@
 		"dobComment":"",
 		"profile":"Anime Voice Actress",
 		"turningPoint":{
-			"singerDebut":true,
-			"swimsuitPhotobook":false,
-			"isMarried":false
+			"singerDebut":"Yes",
+			"swimsuitPhotobook":"No",
+			"isMarried":"No"
 		},
 		"intro":"From Anime \"Blend.S\" as Sakuranomiya Maika, and later in Anime \"Midara na Ao-chan wa Benkyou ga Dekinai\" as Horie Ao",
 		"description":"Her many appealing selfies is proof of how good she can take photos alone, and I can't help myself but follow her. In terms of voice hers is not exactly unique but she is popular and she is seen in a variety of roles and she excels in all of them**.",
@@ -889,9 +1096,9 @@
 		"dobComment":"At last we know now it was*",
 		"profile":"Anime Voice Actress",
 		"turningPoint":{
-			"singerDebut":false,
-			"swimsuitPhotobook":false,
-			"isMarried":true
+			"singerDebut":"No",
+			"swimsuitPhotobook":"No**",
+			"isMarried":"Yes"
 		},
 		"intro":"From Game \"Alternative Girls\" as Orimiya Yui, and later in Anime \"Domestic na Kanojo\" as Kashiwabara Momo",
 		"description":"Her personality is lovely despite her really compelling voice acting using her higher pitched cute voice, so for me it's mostly how she expresses herself outside of Anime that make her stand out.",

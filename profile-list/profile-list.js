@@ -112,11 +112,8 @@ function generateProfileListFromJSON(profileList) {
 						row = document.createElement('tr');
 						
 							cell = document.createElement('td');
-							cell.innerText = getTurningPoints(
-								profile.turningPoint.singerDebut,
-								profile.turningPoint.swimsuitPhotobook,
-								profile.turningPoint.isMarried
-							); //what about comments?
+							cell.innerText = profile.turningPoint.singerDebut + "|" + profile.turningPoint.singerDebut + "|" + profile.turningPoint.singerDebut;
+							//what about comments?
 							row.appendChild(cell);
 						
 						profileTableBody.appendChild(row);
@@ -132,7 +129,3 @@ function generateProfileListFromJSON(profileList) {
 	
 	return true;
 }
-
-function getTurningPoints(singerDebut,swimsuitPhotobook,isMarried) { return boolToStr(singerDebut) + "|" + boolToStr(singerDebut) + "|" + boolToStr(singerDebut); }
-
-function boolToStr(bool) { if(bool) return 'Yes'; else return 'No'; }
