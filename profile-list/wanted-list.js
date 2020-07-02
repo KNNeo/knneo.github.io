@@ -4,7 +4,7 @@ document.getElementById("marriedCouple").addEventListener("mouseout", function (
 document.getElementById("isMarried").style.visibility = "hidden";
 
 //on load create timeline using timeknots.js
-generateWantedList(false);
+window.onload = generateWantedList(false);
 var DOBlist = createDOBlist(1,35);
 function startWantedList() {
 	

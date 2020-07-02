@@ -10,6 +10,10 @@ h1, #options {
   max-width: 800px;
   margin: auto;	
 }
+#description {
+	display: none;
+}
+
 .profile-box {
 	touch-action: manipulation;
 	line-height: 0;
@@ -95,10 +99,11 @@ html {
   height: 12px;
 }
 .profile-category::-webkit-scrollbar-thumb {
-  background: white;
+  background: black;
 }
 .profile-category::-webkit-scrollbar-track {
-  background: #444444;
+  background: white;
+  border-bottom: 1px solid black;
 }
 .popitem {
     position: absolute;
