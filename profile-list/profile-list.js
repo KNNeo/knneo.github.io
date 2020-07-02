@@ -56,7 +56,7 @@ function generateProfileListFromJSON(profileList) {
 						row = document.createElement('tr');
 						
 							cell = document.createElement('td');
-							cell.innerText = profile.name + '(' + profile.nickname + ')';
+							cell.innerText = profile.name + ' (' + profile.nickname + ')';
 							row.appendChild(cell);
 						
 						profileTableBody.appendChild(row);
@@ -75,8 +75,8 @@ function generateProfileListFromJSON(profileList) {
 							
 								let DOBspan = document.createElement('span');
 								DOBspan.classList.add('DOB');
-								DOBspan.innerText = profile.dob;
-								//DOBspan.innerText = profile.dob + (profile.dobComment != '' ? (' (' + profile.dobComment + ')') : '');
+								//DOBspan.innerText = profile.dob;
+								DOBspan.innerText = profile.dob + (profile.dobComment != '' ? (' (' + profile.dobComment + ')') : '');
 								cell.appendChild(DOBspan);
 							
 							row.appendChild(cell);
@@ -112,7 +112,55 @@ function generateProfileListFromJSON(profileList) {
 						row = document.createElement('tr');
 						
 							cell = document.createElement('td');
-							cell.innerText = profile.turningPointStr.singerDebutStr + "|" + profile.turningPointStr.singerDebutStr + "|" + profile.turningPointStr.singerDebutStr;
+							cell.innerText = profile.turningPointStr.singerDebutStr + "|" + profile.turningPointStr.swimsuitPhotobookStr + "|" + profile.turningPointStr.isMarriedStr;
+							row.appendChild(cell);
+						
+						profileTableBody.appendChild(row);
+						
+						row = document.createElement('tr');
+						
+							cell = document.createElement('td');
+							cell.innerText = 'How I came to know of her';
+							row.appendChild(cell);
+						
+						profileTableBody.appendChild(row);
+						
+						row = document.createElement('tr');
+						
+							cell = document.createElement('td');
+							cell.innerText = profile.intro;
+							row.appendChild(cell);
+						
+						profileTableBody.appendChild(row);
+						
+						row = document.createElement('tr');
+						
+							cell = document.createElement('td');
+							cell.innerText = 'Why would she be \"wanted\" by me';
+							row.appendChild(cell);
+						
+						profileTableBody.appendChild(row);
+						
+						row = document.createElement('tr');
+						
+							cell = document.createElement('td');
+							cell.innerText = profile.description;
+							row.appendChild(cell);
+						
+						profileTableBody.appendChild(row);
+						
+						row = document.createElement('tr');
+						
+							cell = document.createElement('td');
+							cell.innerText = 'Wanted Level';
+							row.appendChild(cell);
+						
+						profileTableBody.appendChild(row);
+						
+						row = document.createElement('tr');
+						
+							cell = document.createElement('td');
+							cell.innerText = profile.wantedLevel + addBrackets(profile.wantedLevelComment, true);
 							row.appendChild(cell);
 						
 						profileTableBody.appendChild(row);
@@ -120,6 +168,12 @@ function generateProfileListFromJSON(profileList) {
 					profileTable.appendChild(profileTableBody);
 				
 				profileBox.appendChild(profileTable);
+				
+				let commentBox = document.createElement('div');
+				commentBox.classList.add('profile-box-comments');
+				commentBox.innerText = addBrackets(profile.comments.join(')\n('),false);
+				
+				profileBox.appendChild(commentBox);
 		
 			idBox.appendChild(profileBox);
 		
@@ -128,3 +182,5 @@ function generateProfileListFromJSON(profileList) {
 	
 	return true;
 }
+
+function addBrackets(content, startWithWhitespace) { return (startWithWhitespace ? ' ' : '') + '(' + content + ')'; }
