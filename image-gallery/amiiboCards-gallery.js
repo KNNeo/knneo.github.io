@@ -26,7 +26,7 @@ let imgArray = [
 [23,'https://animal-crossing.com/amiibo/assets/img/cards/NVL-C-MAAY-USZ-F0(0)023.png','portrait','Cheri','Cheri'],
 [24,'https://animal-crossing.com/amiibo/assets/img/cards/NVL-C-MAAZ-USZ-F0(0)024.png','portrait','Kyle','Kyle'],
 [25,'https://animal-crossing.com/amiibo/assets/img/cards/NVL-C-MABA-USZ-F0(0)025.png','portrait','Al','Al'],
-[26,'https://animal-crossing.com/amiibo/assets/img/cards/NVL-C-MABB-USZ-F0(0)026.png','portrait','Renée','Renée'],
+[26,'https://animal-crossing.com/amiibo/assets/img/cards/NVL-C-MABB-USZ-F0(0)026.png','portrait','Renee','Renee'],
 [27,'https://animal-crossing.com/amiibo/assets/img/cards/NVL-C-MABC-USZ-F0(0)027.png','portrait','Lopez','Lopez'],
 [28,'https://animal-crossing.com/amiibo/assets/img/cards/NVL-C-MABD-USZ-F0(0)028.png','portrait','Jambette','Jambette'],
 [29,'https://animal-crossing.com/amiibo/assets/img/cards/NVL-C-MABE-USZ-F0(0)029.png','portrait','Rasher','Rasher'],
@@ -416,7 +416,7 @@ for(counter = 0; counter < 25; counter++)
 */
 
 //to create dictionary: https://animalcrossing.fandom.com/wiki/Villager_list_(New_Horizons)
-//exceptions: Renée, T-Bone
+//exceptions: Renée(Renee), T-Bone(TBone)
 /*
 for(let i = 5; i < document.getElementsByTagName('tr').length; i++)
 {
