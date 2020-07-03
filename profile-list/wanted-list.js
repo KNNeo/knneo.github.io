@@ -25,7 +25,7 @@ function startWantedList() {
     adjustKnots();
 	addProfileBoxClick();
 	addStatusPopUp();
-	//censorData(); //ONLY FOR GITHUB
+	censorData(); //ONLY FOR GITHUB
     reloadImages();
     batchResizeProfileBoxImg();
     switchProfileBoxImage();

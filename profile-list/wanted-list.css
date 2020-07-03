@@ -169,5 +169,4 @@ text-align: center;
 div { scrollbar-width: 0 !important; }
 div::-webkit-scrollbar { width: 0 !important }
 html { scroll-behavior: auto; }
-.profile-category { scroll-snap-type: none; }
 }
