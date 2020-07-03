@@ -4,10 +4,14 @@ document.getElementById("marriedCouple").addEventListener("mouseout", function (
 document.getElementById("isMarried").style.visibility = "hidden";
 
 //on load create timeline using timeknots.js
-window.onload = generateWantedList(false);
+//window.onload = startWantedList();
+//on load create calendar
+var calendarDOBlist = createDOBlist(0,50);
+var currentMonth = createCalendar(new Date().getMonth(), calendarDOBlist);
 var DOBlist = createDOBlist(1,35);
 function startWantedList() {
-	
+	generateWantedList(false);
+	DOBlist = createDOBlist(1,35)
     TimeKnots.draw("#timeline", DOBlist, {
         horizontalLayout: true,
         width: 5000,
@@ -16,7 +20,11 @@ function startWantedList() {
         showLabels: true,
         labelFormat: "%Y"
     });
+	calendarDOBlist = createDOBlist(0,50);
+	currentMonth = createCalendar(new Date().getMonth(), calendarDOBlist);
     adjustKnots();
+	addProfileBoxClick();
+	addStatusPopUp();
 	//censorData(); //ONLY FOR GITHUB
     reloadImages();
     batchResizeProfileBoxImg();
@@ -29,12 +37,6 @@ window.addEventListener("scroll", function() {
     document.getElementById("timeline").getElementsByTagName("div")[0].style.opacity = "0";
     //document.getElementById("calendar").getElementsByTagName("div")[0].style.display = "none";
 });
-
-//on load create calendar
-var calendarDOBlist = createDOBlist(0,50);
-var currentMonth = createCalendar(new Date().getMonth(), calendarDOBlist);
-
-
 
 //add age after DOB
 for (var dateOfBirth of document.getElementsByClassName("DOB")) {
@@ -140,6 +142,7 @@ document.getElementById("timeline").addEventListener("wheel", function(e) {
 
 //write pop up into HTML to explain status of wanted list profile
 var statusPopup = "<div id=\"tp-description\">As answered haphazardly by Uesaka Sumire (and expanded on by me) the three \"turning points\" of a voice actress (but applicable to all):<br/>~ Singer Debut (The exhibition of their unique voices in singing)<br/>~ Swimsuit Photobook (The display of their figure to the extent of being half-naked)<br/>~ Married (The declaration of the end of idolism)</div>";
+function addStatusPopUp() {
 for (var statusPopOut of document.getElementsByClassName("turning-point")) {
 statusPopOut.addEventListener("mouseover", function(d) {
     d.target.innerHTML = statusPopup + d.target.innerHTML;
@@ -147,7 +150,7 @@ statusPopOut.addEventListener("mouseover", function(d) {
 statusPopOut.addEventListener("mouseout", function() { if(document.getElementById("tp-description") != undefined) document.getElementById("tp-description").remove(); });
 }
 document.addEventListener("touchmove", function() { if(document.getElementById("tp-description") != undefined) document.getElementById("tp-description").remove(); });
-
+}
 //functions//
 
 //create array of objects with DOB info, parameter: age (range inclusive)
@@ -270,6 +273,7 @@ function adjustKnots() {
 }
 
 //double click profile box go up to list of names
+function addProfileBoxClick() {
 for (var profBox of document.getElementsByClassName("profile-box")) profBox.addEventListener("dblclick", function() {
     if (window.innerWidth < 780) {
         document.getElementById("marriedCouple").scrollIntoView();
@@ -278,6 +282,7 @@ for (var profBox of document.getElementsByClassName("profile-box")) profBox.addE
     document.body.scrollTop = 0; // For Safari
     document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 });
+}
 
 var loadedImages = 0;
 //add event listener for image switch

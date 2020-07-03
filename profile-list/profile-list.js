@@ -56,7 +56,13 @@ function generateProfileListFromJSON(profileList) {
 						row = document.createElement('tr');
 						
 							cell = document.createElement('td');
-							cell.innerText = profile.name + ' (' + profile.nickname + ')';
+							cell.innerText = ' (' + profile.nickname + ')';
+							
+								let span = document.createElement('span');
+								span.classList.add('profile-name');
+								span.innerText = profile.name;
+								cell.insertBefore(span, cell.childNodes[0]);
+								
 							row.appendChild(cell);
 						
 						profileTableBody.appendChild(row);
