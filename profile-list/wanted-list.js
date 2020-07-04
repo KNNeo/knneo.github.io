@@ -82,7 +82,7 @@ function renderWantedList() {
 	switchProfileBoxImage();
 	addAgeAfterDOB();
 	addStatusPopUp();
-	//if(window.location.href.includes('knneo.github.io')) censorData(); //ONLY FOR GITHUB
+	if(window.location.href.includes('knneo.github.io')) censorData(); //ONLY FOR GITHUB
 	if (loadedImages != document.getElementsByTagName("img").length) setTimeout(function() {
 		reloadImages();
 	}, 1000);
