@@ -34,7 +34,8 @@ function startWantedList() {
 
 //on scroll turn off all overlays in timeline and calendar
 window.addEventListener("scroll", function() {
-    document.getElementById("timeline").getElementsByTagName("div")[0].style.opacity = "0";
+	if(document.getElementById("timeline").getElementsByTagName("div").length > 0)
+		document.getElementById("timeline").getElementsByTagName("div")[0].style.opacity = "0";
     //document.getElementById("calendar").getElementsByTagName("div")[0].style.display = "none";
 });
 
@@ -143,13 +144,13 @@ document.getElementById("timeline").addEventListener("wheel", function(e) {
 //write pop up into HTML to explain status of wanted list profile
 var statusPopup = "<div id=\"tp-description\">As answered haphazardly by Uesaka Sumire (and expanded on by me) the three \"turning points\" of a voice actress (but applicable to all):<br/>~ Singer Debut (The exhibition of their unique voices in singing)<br/>~ Swimsuit Photobook (The display of their figure to the extent of being half-naked)<br/>~ Married (The declaration of the end of idolism)</div>";
 function addStatusPopUp() {
-for (var statusPopOut of document.getElementsByClassName("turning-point")) {
-statusPopOut.addEventListener("mouseover", function(d) {
-    d.target.innerHTML = statusPopup + d.target.innerHTML;
-});
-statusPopOut.addEventListener("mouseout", function() { if(document.getElementById("tp-description") != undefined) document.getElementById("tp-description").remove(); });
-}
-document.addEventListener("touchmove", function() { if(document.getElementById("tp-description") != undefined) document.getElementById("tp-description").remove(); });
+  for (var statusPopOut of document.getElementsByClassName("turning-point")) {
+  statusPopOut.addEventListener("mouseover", function(d) {
+      d.target.innerHTML = statusPopup + d.target.innerHTML;
+  });
+  statusPopOut.addEventListener("mouseout", function() { if(document.getElementById("tp-description") != null) document.getElementById("tp-description").remove(); });
+  }
+  document.addEventListener("touchmove", function() { if(document.getElementById("tp-description") != null) document.getElementById("tp-description").remove(); });
 }
 //functions//
 
