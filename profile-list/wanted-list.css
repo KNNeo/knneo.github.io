@@ -32,9 +32,6 @@ h1, #wantedList, #calendar, p {
 .profile-box {
 	touch-action: manipulation;
 }
-#isMarried {
-	visibility: hidden;
-}
 /*End Github*/
 
 html {
@@ -86,6 +83,9 @@ font-size: 70%;
 }
 .profile-box tr:nth-child(even) {
  text-align: right;
+}
+#isMarried {
+	visibility: hidden;
 }
 #wantedList {
   list-style-type: none;
