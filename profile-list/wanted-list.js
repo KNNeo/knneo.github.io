@@ -7,14 +7,13 @@ document.getElementById("marriedCouple").addEventListener("mouseover", function(
 document.getElementById("marriedCouple").addEventListener("mouseout", function() {
 	document.getElementById("isMarried").style.visibility = "hidden";
 });
-document.getElementById("isMarried").style.visibility = "hidden";
 
 //on timeline double click shrink timeline
 document.getElementById("timeline").addEventListener("dblclick", function() {
-	var origWidth = document.getElementById("timeline").getElementsByTagName("svg")[0].width.baseVal.value / 2;
+	let origWidth = document.getElementById("timeline").getElementsByTagName("svg")[0].width.baseVal.value / 2;
 	document.getElementById("timeline").innerHTML = "";
 	if (origWidth < 1000) origWidth = 1000;
-	TimeKnots.draw("#timeline", DOBlist, {
+	TimeKnots.draw("#timeline", timelineDOBlist, {
 		horizontalLayout: true,
 		width: origWidth,
 		height: 100,
@@ -32,13 +31,13 @@ document.getElementById("timeline").addEventListener("wheel", function(e) {
 		document.getElementById('timeline').scrollLeft -= e.wheelDelta / 2;
 		return;
 	}
-	var origWidth = document.getElementById("timeline").getElementsByTagName("svg")[0].width.baseVal.value + e.wheelDelta;
+	let origWidth = document.getElementById("timeline").getElementsByTagName("svg")[0].width.baseVal.value + e.wheelDelta;
 	document.getElementById("timeline").innerHTML = "";
 	if (origWidth < 1000)
 		origWidth = 1000;
 	else if (origWidth > 10000)
 		origWidth > 10000;
-	TimeKnots.draw("#timeline", DOBlist, {
+	TimeKnots.draw("#timeline", timelineDOBlist, {
 		horizontalLayout: true,
 		width: origWidth,
 		height: 100,
@@ -56,18 +55,18 @@ window.addEventListener("scroll", function() {
 });
 
 //--variables--//
-var loadedImages = 0;
-var calendarDOBlist = createDOBlist(0, 50);
-var currentMonth = createCalendar(new Date().getMonth(), calendarDOBlist);
-var DOBlist = createDOBlist(1, 35);
-var statusPopup = "<div id=\"tp-description\">As answered haphazardly by Uesaka Sumire (and expanded on by me) the three \"turning points\" of a voice actress (but applicable to all):<br/>~ Singer Debut (The exhibition of their unique voices in singing)<br/>~ Swimsuit Photobook (The display of their figure to the extent of being half-naked)<br/>~ Married (The declaration of the end of idolism)</div>";
+let loadedImages = 0;
+let timelineDOBlist = [];
+let calendarDOBlist = [];
+let currentMonth = 0;
+let statusPopup = "<div id=\"tp-description\">As answered haphazardly by Uesaka Sumire (and expanded on by me) the three \"turning points\" of a voice actress (but applicable to all):<br/>~ Singer Debut (The exhibition of their unique voices in singing)<br/>~ Swimsuit Photobook (The display of their figure to the extent of being half-naked)<br/>~ Married (The declaration of the end of idolism)</div>";
 
 //--dependent on render, as functions to call on render--//
-function startWantedList() {
+function renderWantedList() {
 	reloadImages();
 	generateWantedList(false);
-	DOBlist = createDOBlist(1, 35);
-	TimeKnots.draw("#timeline", DOBlist, {
+	timelineDOBlist = createDOBlist(1, 35);
+	TimeKnots.draw("#timeline", timelineDOBlist, {
 		horizontalLayout: true,
 		width: 5000,
 		height: 100,
@@ -92,39 +91,38 @@ function startWantedList() {
 //--functions--//
 //add age after DOB span
 function addAgeAfterDOB() {
-	for (var dateOfBirth of document.getElementsByClassName("DOB")) {
-		var age = parseInt(getAge(dateOfBirth.innerHTML));
+	for (let dateOfBirth of document.getElementsByClassName("DOB")) {
+		let age = parseInt(getAge(dateOfBirth.innerHTML));
 		if (age != undefined && age > 0) dateOfBirth.innerHTML = dateOfBirth.innerHTML.concat(" [").concat(age.toString()).concat(" years ago]");
 	}
 }
 
 function getAge(DOB) {
-	var birthDateStr = DOB.replace(".", "-");;
-	var birthDate = Date.parse(birthDateStr.replace(".", "-").substring(0, 10));
+	let birthDateStr = DOB.replace(".", "-");;
+	let birthDate = Date.parse(birthDateStr.replace(".", "-").substring(0, 10));
 	return Math.floor((new Date().getTime() - birthDate) / 31556952000);
 }
 
 //generate wanted list
 function generateWantedList(excludeMarried) {
-	var wantedListString = "";
+	let wantedListString = "";
 
 	//create name array from static profile boxes
-	var profileNames = document.getElementsByClassName("profile-name");
-	var profileNamesList = new Array();
-	for (var profileName of profileNames) {
-		if (excludeMarried && profileName.parentElement.parentElement.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.innerText.replace(/\*/g, "").endsWith("Yes")) continue;
-		profileNamesList.push(profileName.innerText);
+	let profileNamesList = new Array();
+	for (let profileName of profileList) {
+		if (excludeMarried && profileName.turningPoint.isMarried) continue;
+		profileNamesList.push(profileName.name);
 	}
 	profileNamesList.sort();
 
 	//create wanted list from list of names
-	for (var profileName of profileNamesList) {
+	for (let profileName of profileNamesList) {
 		wantedListString += "<li><a>" + profileName + "</a></li>";
 	}
 	document.getElementById("wantedList").innerHTML = wantedListString;
 
 	//wanted list processing
-	for (var id = 0; id < document.getElementById("wantedList").getElementsByTagName("a").length; id++) {
+	for (let id = 0; id < document.getElementById("wantedList").getElementsByTagName("a").length; id++) {
 		let boxString = document.getElementById("wantedList").getElementsByTagName("a")[id].innerText.replace(" ", "");
 		document.getElementById("wantedList").getElementsByTagName("a")[id].addEventListener("click", function() {
 			document.getElementById(boxString).scrollIntoView();
@@ -133,7 +131,7 @@ function generateWantedList(excludeMarried) {
 }
 
 function addStatusPopUp() {
-	for (var statusPopOut of document.getElementsByClassName("turning-point")) {
+	for (let statusPopOut of document.getElementsByClassName("turning-point")) {
 		statusPopOut.addEventListener("mouseover", function(d) {
 			d.target.innerHTML = statusPopup + d.target.innerHTML;
 		});
@@ -148,17 +146,17 @@ function addStatusPopUp() {
 
 //create array of objects with DOB info, parameter: age (range inclusive)
 function createDOBlist(minAge, maxAge) {
-	var listOfDOB = new Array();
+	let listOfDOB = new Array();
 	listOfDOB.push({
 		date: "1993-02-19",
 		name: "Me"
 	});
-	for (var wanted of document.getElementById("wantedList").getElementsByTagName("a")) {
-		var targetId = wanted.innerText;
-		var targetDOB = document.getElementById(targetId.replace(" ", "")).getElementsByClassName("DOB");
+	for (let wanted of document.getElementById("wantedList").getElementsByTagName("a")) {
+		let targetId = wanted.innerText;
+		let targetDOB = document.getElementById(targetId.replace(" ", "")).getElementsByClassName("DOB");
 		if (targetDOB.length > 0) {
-			var birthDate = new Date(Date.parse(targetDOB[0].innerText.replace(".", "-").replace(".", "-").substring(0, 10)));
-			var age = targetDOB[0].innerText.includes('?') ? 0 : parseInt(getAge(targetDOB[0].innerText)) + 1;
+			let birthDate = new Date(Date.parse(targetDOB[0].innerText.replace(".", "-").replace(".", "-").substring(0, 10)));
+			let age = targetDOB[0].innerText.includes('?') ? 0 : parseInt(getAge(targetDOB[0].innerText)) + 1;
 			if (!birthDate.toUTCString().includes(NaN) && age >= minAge && age <= maxAge)
 				listOfDOB.push({
 					date: targetDOB[0].innerText.replace(".", "-").replace(".", "-").substring(0, 10),
@@ -175,17 +173,10 @@ function createDOBlist(minAge, maxAge) {
 }
 
 function toggleMarried() {
-	//create DOB list must be changed to accept new flag, if checkbox true then remove all entries where married is true
-	//currently not working because createDOBlist has to read text on a tags in wanted list which is all uppercase not same as div id
-	//cause: css renders after js so results is always uppercase
-	//solution: set uppercase via js, undo when have to generate list again, or if have alternative (modularise generate wantedlist)
-
-	var excludeMarried = document.getElementById("marriedCheckbox").checked == true;
-	generateWantedList(excludeMarried);
-
-	DOBlist = createDOBlist(1, 35);
+	generateWantedList(document.getElementById("marriedCheckbox").checked == true);
+	timelineDOBlist = createDOBlist(1, 35);
 	document.getElementById("timeline").innerHTML = "";
-	TimeKnots.draw("#timeline", DOBlist, {
+	TimeKnots.draw("#timeline", timelineDOBlist, {
 		horizontalLayout: true,
 		width: 5000,
 		height: 100,
@@ -198,12 +189,12 @@ function toggleMarried() {
 
 //generate calendar from profile boxes
 function createCalendar(monthNo, DOBlist) {
-	var month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-	var calendarArray = new Array();
-	var dayOfMonth = 1;
-	for (var week = 0; week < 6; week++) {
-		var weekList = ['', '', '', '', '', '', ''];
-		for (var day = 0; day < 7; day++) {
+	let month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+	let calendarArray = new Array();
+	let dayOfMonth = 1;
+	for (let week = 0; week < 6; week++) {
+		let weekList = ['', '', '', '', '', '', ''];
+		for (let day = 0; day < 7; day++) {
 			if (new Date(new Date().getFullYear(), monthNo, dayOfMonth).getDay() == day) {
 				//add to array
 				if (dayOfMonth > new Date(new Date().getFullYear(), monthNo, dayOfMonth).getDate()) break;
@@ -213,19 +204,19 @@ function createCalendar(monthNo, DOBlist) {
 		}
 		calendarArray.push(weekList);
 	}
-	var htmlString = "<table style=\"margin:auto;border: 1px solid white;\"><tbody><tr><td id=\"prevMonth\">\<\<</td><td colspan=\"5\">" + month[monthNo] + " " + new Date().getFullYear() + "</td><td id=\"nextMonth\">\>\></td></tr><tr><td>Sun</td><td>Mon</td><td>Tue</td><td>Wed</td><td>Thu</td><td>Fri</td><td>Sat</td></tr>";
-	for (var week = 0; week < 6; week++) {
+	let htmlString = "<table style=\"margin:auto;border: 1px solid white;\"><tbody><tr><td id=\"prevMonth\">\<\<</td><td colspan=\"5\">" + month[monthNo] + " " + new Date().getFullYear() + "</td><td id=\"nextMonth\">\>\></td></tr><tr><td>Sun</td><td>Mon</td><td>Tue</td><td>Wed</td><td>Thu</td><td>Fri</td><td>Sat</td></tr>";
+	for (let week = 0; week < 6; week++) {
 		htmlString += "<tr>";
-		var weekList = calendarArray[week];
-		for (var day = 0; day < 7; day++) {
+		let weekList = calendarArray[week];
+		for (let day = 0; day < 7; day++) {
 			htmlString += "<td>" + weekList[day] + "</td>";
 		}
 		htmlString += "</tr>";
 	}
 	htmlString += "</tbody></table>";
-	for (var item of DOBlist) {
-		var birthdayInYear = new Date(new Date().getFullYear(), new Date(item.date.replace('????', '2020')).getMonth(), new Date(item.date.replace('????', '2020')).getDate());
-		var IsBirthdayOver = (new Date() - birthdayInYear) > 0;
+	for (let item of DOBlist) {
+		let birthdayInYear = new Date(new Date().getFullYear(), new Date(item.date.replace('????', '2020')).getMonth(), new Date(item.date.replace('????', '2020')).getDate());
+		let IsBirthdayOver = (new Date() - birthdayInYear) > 0;
 		let thisAge;
 		if (item.currentAge <= 1) thisAge = '??';
 		else if (IsBirthdayOver) thisAge = item.currentAge - 1;
@@ -237,12 +228,6 @@ function createCalendar(monthNo, DOBlist) {
 			htmlString = htmlString.replace("</div>" + birthdayInYear.getDate() + "</td>", "<br />" + item.name + " turns " + (IsBirthdayOver ? item.currentAge - 1 : item.currentAge) + "! (" + birthdayInYear.getDate() + " " + month[birthdayInYear.getMonth()].substring(0, 3) + ")</div>" + birthdayInYear.getDate() + "</td>");
 	}
 	document.getElementById("calendar").innerHTML = htmlString;
-	/*document.getElementById("calendar").addEventListener("mouseover", function(event) {
-	    if (event.target.style.color == "rgb(0, 228, 255)") event.target.getElementsByClassName("popitem")[0].style.display = "block";
-	    else {
-	        for (var display of document.getElementById("calendar").getElementsByClassName("popitem")) display.style.display = "none";
-	    }
-	});*/
 	currentMonth = monthNo;
 	document.getElementById("prevMonth").style.opacity = 1;
 	document.getElementById("nextMonth").style.opacity = 1;
@@ -259,16 +244,16 @@ function createCalendar(monthNo, DOBlist) {
 
 //to shift position of knots if overlap with previous
 function adjustKnots() {
-	var circleList = document.getElementsByTagName("circle");
-	for (var i = 0; i < circleList.length - 1; i++) {
-		var oldCX = parseInt(circleList[i].getAttribute("cx"));
+	let circleList = document.getElementsByTagName("circle");
+	for (let i = 0; i < circleList.length - 1; i++) {
+		let oldCX = parseInt(circleList[i].getAttribute("cx"));
 		if (circleList[i + 1].getAttribute("cx") - oldCX <= 20) circleList[i + 1].setAttribute("cx", oldCX + 20);
 	}
 }
 
 //double click profile box go up to list of names
 function addProfileBoxClick() {
-	for (var profBox of document.getElementsByClassName("profile-box")) profBox.addEventListener("dblclick", function() {
+	for (let profBox of document.getElementsByClassName("profile-box")) profBox.addEventListener("dblclick", function() {
 		if (window.innerWidth < 780) {
 			document.getElementById("marriedCouple").scrollIntoView();
 			return;
@@ -280,27 +265,22 @@ function addProfileBoxClick() {
 
 //add event listener for image switch
 function batchResizeProfileBoxImg() {
-	var animeImgList = document.getElementsByTagName("img");
-	for (var i = 0; i < animeImgList.length; i++) {
-		animeImgList[i].addEventListener("error", function() {
+	let profileBoxImg = document.getElementsByTagName("img");
+	for (let i = 0; i < profileBoxImg.length; i++) {
+		profileBoxImg[i].addEventListener("error", function() {
 			if (this.nextElementSibling != null) this.nextElementSibling.style.display = "";
 			this.remove();
 		});
-		/*animeImgList[i].addEventListener("click", function() {
-		    if(this.nextElementSibling == null && this.previousElementSibling == null) return;
-		    if(this.style.display == "") this.style.display = "none"; else this.style.display = "";
-		    if(this.nextElementSibling != null) this.nextElementSibling.style.display = this.nextElementSibling.style.display == "" ? "none" : "";
-		    if(this.previousElementSibling != null) this.previousElementSibling .style.display = this.previousElementSibling .style.display == "" ? "none" : "";
-		});*/
-		if (animeImgList[i].nextElementSibling == null && animeImgList[i].previousElementSibling != null) animeImgList[i].style.display = "none";
+		if (profileBoxImg[i].nextElementSibling == null && profileBoxImg[i].previousElementSibling != null)
+			profileBoxImg[i].style.display = "none";
 
 	}
 };
 
 //add event listener for image switch but through clicking on profile box
 function switchProfileBoxImage() {
-	var profileBoxImgList = document.getElementsByClassName("profile-box");
-	for (var i = 0; i < profileBoxImgList.length; i++) {
+	let profileBoxImgList = document.getElementsByClassName("profile-box");
+	for (let i = 0; i < profileBoxImgList.length; i++) {
 		profileBoxImgList[i].addEventListener("click", function() {
 			if (this.getElementsByTagName("img")[0] == null && this.getElementsByTagName("img")[1] == null) return;
 			if (this.getElementsByTagName("img")[1] == null) return;
@@ -312,26 +292,26 @@ function switchProfileBoxImage() {
 
 //allow reload in case of initial fail, on slower networks
 function reloadImages() {
-	var animeImgList = document.getElementsByTagName("img");
-	for (var image of animeImgList) {
+	let profileBoxImg = document.getElementsByTagName("img");
+	for (let image of profileBoxImg) {
 		if (image.alt != '')
 		{
 			image.src = image.alt;
 			image.removeAttribute('alt');
 		}
 	}
-	for (var i = 0; i < animeImgList.length; i++) {
-		if (animeImgList[i].complete) {
-			resizeProfileBoxImg(animeImgList[i]);
+	for (let i = 0; i < profileBoxImg.length; i++) {
+		if (profileBoxImg[i].complete) {
+			resizeProfileBoxImg(profileBoxImg[i]);
 			loadedImages++;
 		}
 	}
-	if (loadedImages != animeImgList.length) setTimeout(reloadImages, 300);
+	if (loadedImages != profileBoxImg.length) setTimeout(reloadImages, 300);
 }
 
 //resize images on load
 function resizeProfileBoxImg(dis) {
-	var isPortrait = dis.height >= dis.width;
+	let isPortrait = dis.height >= dis.width;
 	dis.style.height = "320px";
 	if (window.innerWidth < 485) {
 		if (!isPortrait) {

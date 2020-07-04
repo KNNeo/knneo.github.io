@@ -32,7 +32,9 @@ h1, #wantedList, #calendar, p {
 .profile-box {
 	touch-action: manipulation;
 }
-
+#isMarried {
+	visibility: hidden;
+}
 /*End Github*/
 
 html {
