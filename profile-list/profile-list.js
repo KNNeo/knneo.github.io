@@ -178,6 +178,8 @@ function generateProfileListFromJSON(profileList) {
 				let commentBox = document.createElement('div');
 				commentBox.classList.add('profile-box-comments');
 				commentBox.innerText = addBrackets(profile.comments.join(')\n('),false);
+				if(commentBox.innerHTML.includes('1976.09.20'))
+					commentBox.innerHTML = commentBox.innerHTML.replace('1976.09.20', '<span id=\'HocchanAge\' class=\'DOB\'>1976.09.20</span>');
 				
 				profileBox.appendChild(commentBox);
 		
