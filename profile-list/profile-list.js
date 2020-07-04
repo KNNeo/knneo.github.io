@@ -6,7 +6,11 @@ xmlhttp.onreadystatechange = function() {
   if (this.readyState == 4 && this.status == 200) {
 	profileList = JSON.parse(this.responseText);
 	//code here
-	if(generateProfileListFromJSON(profileList)) renderWantedList();
+	if(generateProfileListFromJSON(profileList))
+	{
+		renderWantedList();
+		renderWantedList();
+	}
   }
 };
 xmlhttp.open("GET", "https://knneo.github.io/profile-list/profile-list.json", true);
