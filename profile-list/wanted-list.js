@@ -63,7 +63,7 @@ let statusPopup = "<div id=\"tp-description\">As answered haphazardly by Uesaka 
 
 //--dependent on render, as functions to call on render--//
 function renderWantedList() {
-	reloadImages();
+	//reloadImages();
 	generateWantedList(false);
 	timelineDOBlist = createDOBlist(1, 35);
 	TimeKnots.draw("#timeline", timelineDOBlist, {
