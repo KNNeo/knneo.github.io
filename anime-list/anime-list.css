@@ -108,7 +108,7 @@ tr > td:first-child:active {
  font-size: x-small;
 }
 
-.anime-line img {
+img {
  left: 0;
  right: 0;
  border: 4px white solid;
