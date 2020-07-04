@@ -64,6 +64,7 @@ let statusPopup = "<div id=\"tp-description\">As answered haphazardly by Uesaka 
 //--dependent on render, as functions to call on render--//
 function renderWantedList() {
 	//reloadImages();
+	resizeAllProfileBoxImg();
 	generateWantedList(false);
 	timelineDOBlist = createDOBlist(1, 35);
 	TimeKnots.draw("#timeline", timelineDOBlist, {
@@ -310,6 +311,13 @@ function reloadImages() {
 }
 
 //resize images on load
+function resizeAllProfileBoxImg() {
+	for(let image of document.getElementsByTagName('img'))
+	{
+		resizeProfileBoxImg(image);
+	}
+}
+
 function resizeProfileBoxImg(dis) {
 	let isPortrait = dis.height >= dis.width;
 	dis.style.height = "320px";

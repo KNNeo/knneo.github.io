@@ -28,14 +28,14 @@ function generateProfileListFromJSON(profileList) {
 				
 					let image1 = document.createElement('img');
 					image1.src = spacer;
-					image1.alt = profile.images[0];
+					image1.src = profile.images[0];
 					profileBoxImg.appendChild(image1);
 					
 					if(profile.images.length > 1)
 					{
 						let image2 = document.createElement('img');
 						image2.src = spacer;
-						image2.alt = profile.images[1];
+						image2.src = profile.images[1];
 						profileBoxImg.appendChild(image2);
 					}
 			

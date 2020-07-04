@@ -32,6 +32,10 @@ h1, #wantedList, #calendar, p {
 .profile-box {
 	touch-action: manipulation;
 }
+@media only screen and (max-width : 1040px) {
+  html { font-size: 0.9em; }
+}
+
 /*End Github*/
 
 html {
@@ -66,7 +70,7 @@ html {
   border-radius: 8px;
   border: 1px solid white;
   box-shadow: 3px 3px;
-  padding: 4px 8px;
+  padding: 4px;
   white-space: normal;
 }
 .profile-box, #wantedList, #timeline, #calendar {
