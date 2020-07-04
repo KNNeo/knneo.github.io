@@ -10,9 +10,6 @@ body {
   margin: auto;
   max-width: 800px;
 }
-#wantedList li, #wantedList a {
-  line-height: 1.5;
-}
 h1 {
 	text-align: center;
 }
@@ -21,6 +18,9 @@ a {
 }
 p {
 	padding: 20px;
+}
+#wantedList li, #wantedList a {
+  line-height: 1.5;
 }
 h1, #wantedList, #calendar, p {
   margin: auto;	
@@ -87,10 +87,8 @@ font-size: 70%;
 }
 #wantedList {
   list-style-type: none;
-/*   margin: 5px; */
   padding: 5px;
   text-align: center;
-  /* text-transform: uppercase; */
 }
 #wantedList li, #wantedList a {
   display: inline-block;
@@ -138,16 +136,7 @@ text-align: center;
     display: none;
 }
 #calendar td:hover .popitem { display: block; }
-/*.tp-description { display: none; }
-.turning-point:hover .tp-description {
-    display: block;
-    position: absolute;
-    background: black;
-    border: 1px solid white;
-    padding: 5px 8px;
-    font-size: 1.3em;
-    margin-right: 8px;
-}*/
+
 #tp-description {
     display: block;
     position: absolute;
