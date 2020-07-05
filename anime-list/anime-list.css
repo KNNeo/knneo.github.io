@@ -150,14 +150,4 @@ tr > td:first-child:active {
   overflow: hidden;
   text-overflow: ellipsis;
  }
- span {
-  -webkit-user-select: all;
-  /* Safari 3.1+ */
-  -moz-user-select: all;
-  /* Firefox 2+ */
-  -ms-user-select: all;
-  /* IE 10+ */
-  user-select: all;
-  /* Standard syntax */
- }
 }

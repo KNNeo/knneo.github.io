@@ -359,8 +359,8 @@ function generateAnimeList(isGroupBySeries) {
 								
 							animeTableContentOverlayImageContainer.appendChild(animeTableContentOverlayImageLink);
 						}
-							
-						animeTableContentOverlay.insertBefore(animeTableContentOverlayImageContainer, animeTableContentOverlay.childNodes[0]);
+						if(window.outerWidth < 960) animeTableContentOverlay.appendChild(animeTableContentOverlayImageContainer);
+						else animeTableContentOverlay.insertBefore(animeTableContentOverlayImageContainer, animeTableContentOverlay.childNodes[0]);
 					}
 					
 					animeTableContent.appendChild(animeTableContentOverlay);
@@ -671,7 +671,7 @@ function enableSelectTitle() {
 			{
 				if(document.getElementsByTagName('tr')[s].getElementsByTagName('td')[c].innerText == 'X')
 				{
-					document.getElementById('anime-list').scrollLeft += document.getElementsByTagName('tr')[s].getElementsByTagName('td')[c].getBoundingClientRect().x-(windowWidth < 800 ? 0.75*window.innerWidth : 0.5*window.innerWidth);
+					document.getElementById('anime-list').scrollLeft += document.getElementsByTagName('tr')[s].getElementsByTagName('td')[c].getBoundingClientRect().x-(windowWidth < 800 ? 0.75*window.outerWidth : 0.5*window.outerWidth);
 					document.getElementById('anime-list').scrollTop += document.getElementsByTagName('tr')[s].getElementsByTagName('td')[c].getBoundingClientRect().y-(windowWidth < 800 ? 135 : 155);
 					console.log(document.getElementById('anime-list').scrollLeft);
 					console.log(document.getElementById('anime-list').scrollTop);
@@ -691,8 +691,8 @@ function fixOverlayPosition() {
 			let y = this.getBoundingClientRect().y;
 			let w = this.getElementsByClassName('show-overlay')[0].getBoundingClientRect().width;
 			this.getElementsByClassName('show-overlay')[0].style.left = x + 'px';
-			if(x + w > window.innerWidth)
-				this.getElementsByClassName('show-overlay')[0].style.left = (x - (x+w-window.innerWidth)) + 'px';
+			if(x + w > window.outerWidth)
+				this.getElementsByClassName('show-overlay')[0].style.left = (x - (x+w-window.outerWidth) - 3) + 'px';
 			this.getElementsByClassName('show-overlay')[0].style.top = y + 'px';
 		});
 	}
