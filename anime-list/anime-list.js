@@ -84,12 +84,15 @@ let customArray = [
 
 ];
 
+let isGroupBySeries = false;
 let currentYear = 2020;
 let currentSeason = 'Spring';
 let seasons = ['','Winter','Spring','Summer','Autumn'];
-
 let seriesArray = new Array();
-function generateSeriesArray() {
+
+generateAnimeList(false);
+function generateAnimeList(isGroupBySeries) {
+	//create series array if needed
 	if(isGroupBySeries && seriesArray.length == 0)
 	{
 		//unique series
@@ -119,11 +122,12 @@ function generateSeriesArray() {
 		}
 	}
 	
+	let animeTable = document.createElement('table');
+	let animeTableBody = document.createElement('tbody');
+	
+	//generate table contents
 	if(isGroupBySeries)
 	{
-		
-		let animeTable = document.createElement('table');
-		let animeTableBody = document.createElement('tbody');
 		let animeTableHeader = document.createElement('tr');
 
 		let animeTableHeaderRow = document.createElement('th');
@@ -140,7 +144,6 @@ function generateSeriesArray() {
 				animeTableHeader.appendChild(animeTableHeaderRow);
 			}
 		}
-		
 		animeTableBody.appendChild(animeTableHeader);
 	
 		for(let anime of seriesArray)
@@ -219,7 +222,7 @@ function generateSeriesArray() {
 									
 										let animeTableContentOverlayImage = document.createElement('img');
 										animeTableContentOverlayImage.src = series.imgURL;
-										if(y*10+s >= 20173) animeTableContentOverlayImage.style.borderRadius = '50%';
+										if(y*10+s >= 20174) animeTableContentOverlayImage.style.borderRadius = '50%';
 												
 										animeTableContentOverlayImageLink.appendChild(animeTableContentOverlayImage);
 										
@@ -238,55 +241,28 @@ function generateSeriesArray() {
 			}
 		}
 		
-		animeTable.appendChild(animeTableBody);
-		document.getElementById('anime-list').innerHTML = '';
-		document.getElementById('anime-list').appendChild(animeTable);
-		enableSelectTitle();
-		fixOverlayPosition();
-		addImageNotFoundHide();
 	}
-}
-
-//[2] generate labels
-//add event for radio buttons
-let isGroupBySeries = false;
-document.getElementsByClassName('selection')[1].addEventListener('click', function() { inverseRadio(1); });
-document.getElementsByClassName('selection')[0].addEventListener('click', function() { inverseRadio(0); });
-function inverseRadio(val) {
-		document.getElementsByClassName('selection')[1].checked = val==1 ? true : false;
-		document.getElementsByClassName('selection')[0].checked = val==0 ? true : false;
-		isGroupBySeries = document.getElementsByClassName('selection')[1].checked;
-		if(isGroupBySeries) generateSeriesArray();
-		else renderSeasonsArray();
-}
-
-//[3] generate HTML based on array
-//Every row in the form of: title, table of boxes where lit
-renderSeasonsArray();
-function renderSeasonsArray() {
-	let animeTable = document.createElement('table');
-	let animeTableBody = document.createElement('tbody');
-	let animeTableHeader = document.createElement('tr');
-
-	let animeTableHeaderRow = document.createElement('th');
-	animeTableHeaderRow.innerText = 'Anime Title';
-	animeTableHeader.appendChild(animeTableHeaderRow);
-
-	for(let y = 2013; y <= 2020; y++)
+	else
 	{
-		for(let s = 1; s <= 4; s++)
+		let animeTableHeader = document.createElement('tr');
+
+		let animeTableHeaderRow = document.createElement('th');
+		animeTableHeaderRow.innerText = 'Anime Title';
+		animeTableHeader.appendChild(animeTableHeaderRow);
+
+		for(let y = 2013; y <= 2020; y++)
 		{
-			animeTableHeaderRow = document.createElement('th');
-			if(y == currentYear && seasons[s] == currentSeason) animeTableHeaderRow.style.backgroundColor = '#444444'; //current season
-			animeTableHeaderRow.innerHTML = y + "<br>" + seasons[s];
-			animeTableHeader.appendChild(animeTableHeaderRow);
+			for(let s = 1; s <= 4; s++)
+			{
+				animeTableHeaderRow = document.createElement('th');
+				if(y == currentYear && seasons[s] == currentSeason) animeTableHeaderRow.style.backgroundColor = '#444444'; //current season
+				animeTableHeaderRow.innerHTML = y + "<br>" + seasons[s];
+				animeTableHeader.appendChild(animeTableHeaderRow);
+			}
 		}
-	}
 
-	animeTableBody.appendChild(animeTableHeader);
-
-	if(!isGroupBySeries)
-	{
+		animeTableBody.appendChild(animeTableHeader);
+		
 		for(let anime of customArray)
 		{
 			if(anime.length == 0) continue;
@@ -340,7 +316,124 @@ function renderSeasonsArray() {
 							
 								let animeTableContentOverlayImage = document.createElement('img');
 								animeTableContentOverlayImage.src = anime.imgURL;
-								if(y*10+s >= 20173) animeTableContentOverlayImage.style.borderRadius = '50%';
+								if(y*10+s >= 20174) animeTableContentOverlayImage.style.borderRadius = '50%';
+										
+								animeTableContentOverlayImageLink.appendChild(animeTableContentOverlayImage);
+								
+							animeTableContentOverlayImageContainer.appendChild(animeTableContentOverlayImageLink);
+						}
+							
+						animeTableContentOverlay.insertBefore(animeTableContentOverlayImageContainer, animeTableContentOverlay.childNodes[0]);
+					}
+					
+					animeTableContent.appendChild(animeTableContentOverlay);
+					
+					animeTableRow.appendChild(animeTableContent);
+				}
+			}
+		}
+	}
+	
+	animeTable.appendChild(animeTableBody);
+	document.getElementById('anime-list').innerHTML = '';
+	document.getElementById('anime-list').appendChild(animeTable);
+	enableSelectTitle();
+	fixOverlayPosition();
+	addImageNotFoundHide();
+}
+
+//[2] generate labels
+//add event for radio buttons
+document.getElementsByClassName('selection')[1].addEventListener('click', function() { inverseRadio(1); });
+document.getElementsByClassName('selection')[0].addEventListener('click', function() { inverseRadio(0); });
+function inverseRadio(val) {
+		document.getElementsByClassName('selection')[1].checked = val==1 ? true : false;
+		document.getElementsByClassName('selection')[0].checked = val==0 ? true : false;
+		isGroupBySeries = document.getElementsByClassName('selection')[1].checked;
+		generateAnimeList(isGroupBySeries);
+}
+
+//[3] generate HTML based on array
+//Every row in the form of: title, table of boxes where lit
+//renderSeasonsArray();
+/* function renderSeasonsArray() {
+	if(!isGroupBySeries)
+	{
+		let animeTable = document.createElement('table');
+		let animeTableBody = document.createElement('tbody');
+		let animeTableHeader = document.createElement('tr');
+
+		let animeTableHeaderRow = document.createElement('th');
+		animeTableHeaderRow.innerText = 'Anime Title';
+		animeTableHeader.appendChild(animeTableHeaderRow);
+
+		for(let y = 2013; y <= 2020; y++)
+		{
+			for(let s = 1; s <= 4; s++)
+			{
+				animeTableHeaderRow = document.createElement('th');
+				if(y == currentYear && seasons[s] == currentSeason) animeTableHeaderRow.style.backgroundColor = '#444444'; //current season
+				animeTableHeaderRow.innerHTML = y + "<br>" + seasons[s];
+				animeTableHeader.appendChild(animeTableHeaderRow);
+			}
+		}
+
+		animeTableBody.appendChild(animeTableHeader);
+		
+		for(let anime of customArray)
+		{
+			if(anime.length == 0) continue;
+
+			let animeTableRow = document.createElement('tr');
+			animeTableContent = document.createElement('td');
+			animeTableContent.classList.add('row-title');
+			
+				// let animeTitleLink = document.createElement('a');
+				// animeTitleLink.href = 'https://www.twitter.com/' + anime.handle;
+				
+					let animeTitleContent = document.createElement('span');
+					animeTitleContent.innerText = anime.title;
+					// animeTitleLink.appendChild(animeTitleContent);
+					
+				animeTableContent.appendChild(animeTitleContent);
+				
+			animeTableRow.appendChild(animeTableContent);
+			
+			animeTableBody.appendChild(animeTableRow);
+			
+			let remainder = anime.length;
+			for(let y = 2013; y <= 2020; y++)
+			{
+				for(let s = 1; s <= 4; s++)
+				{
+					animeTableContent = document.createElement('td');
+					if(y*10+s >= anime.year*10+seasons.indexOf(anime.season) && remainder > 0)
+					{
+						animeTableContent.classList.add('active-period');
+						animeTableContent.innerText = 'X';
+						remainder--;
+					}
+					else
+						animeTableContent.innerText = '';
+					if(y == currentYear && seasons[s] == currentSeason && !animeTableContent.classList.contains('active-period'))
+						animeTableContent.style.backgroundColor = '#444444'; //current season
+					
+					let animeTableContentOverlay = document.createElement('span');
+					animeTableContentOverlay.classList.add('show-overlay');
+					animeTableContentOverlay.innerText = anime.title + (anime.altTitle == '' ? '' : '\n[' + anime.altTitle + ']');
+					
+					if(anime.imgURL != '')
+					{
+						let animeTableContentOverlayImageContainer = document.createElement('div');
+						if(anime.handle != '')
+						{
+							let animeTableContentOverlayImageLink = document.createElement('a');
+							animeTableContentOverlayImageLink.href = 'https://twitter.com/' + anime.handle;
+							animeTableContentOverlayImageLink.setAttribute("target", "_blank")
+							
+								let animeTableContentOverlayImage = document.createElement('img');
+								animeTableContentOverlayImage.src = anime.imgURL;
+								if(y*10+s >= 20174) animeTableContentOverlayImage.style.borderRadius = '50%';
 										
 								animeTableContentOverlayImageLink.appendChild(animeTableContentOverlayImage);
 								
@@ -364,6 +457,163 @@ function renderSeasonsArray() {
 		addImageNotFoundHide();
 	}
 }
+ */
+ /* function generateSeriesArray() {
+	if(isGroupBySeries && seriesArray.length == 0)
+	{
+		//unique series
+		let allSeries = new Array();
+		for(let show of customArray)
+		{
+			if(allSeries.indexOf(show.seriesTitle == '' ? show.title : show.seriesTitle) < 0)
+				allSeries.push(show.seriesTitle == '' ? show.title : show.seriesTitle);
+		}
+		seriesArray = new Array();
+		//empty series list
+		for(let show of allSeries)
+		{
+			seriesArray.push( {
+				seriesTitle: show, 
+				shows: new Array()
+				});
+		}
+		//add all shows into series
+		for(let series of seriesArray)
+		{
+			for(let show of customArray)
+			{
+				if(show.seriesTitle == series.seriesTitle || show.title == series.seriesTitle)
+					series.shows.push(show);
+			}
+		}
+	}
+	
+	if(isGroupBySeries)
+	{
+		let animeTable = document.createElement('table');
+		let animeTableBody = document.createElement('tbody');
+		let animeTableHeader = document.createElement('tr');
+
+		let animeTableHeaderRow = document.createElement('th');
+		animeTableHeaderRow.innerText = 'Series Title';
+		animeTableHeader.appendChild(animeTableHeaderRow);
+
+		for(let y = 2013; y <= 2020; y++)
+		{
+			for(let s = 1; s <= 4; s++)
+			{
+				animeTableHeaderRow = document.createElement('th');
+				if(y == currentYear && seasons[s] == currentSeason) animeTableHeaderRow.style.backgroundColor = '#444444'; //current season
+				animeTableHeaderRow.innerHTML = y + "<br>" + seasons[s];
+				animeTableHeader.appendChild(animeTableHeaderRow);
+			}
+		}
+		animeTableBody.appendChild(animeTableHeader);
+	
+		for(let anime of seriesArray)
+		{
+
+			let animeTableRow = document.createElement('tr');
+			let count = 0;
+			for (let series of anime.shows)
+			{
+				count += series.length;
+			}
+			if(count == 0) continue;
+
+			animeTableContent = document.createElement('td');
+			animeTableContent.classList.add('row-title');
+			animeTableContent.innerText = anime.seriesTitle;
+			animeTableRow.appendChild(animeTableContent);
+			
+			animeTableBody.appendChild(animeTableRow);
+						
+			let remainder = anime.length;
+			for(let y = 2013; y <= 2020; y++)
+			{
+				for(let s = 1; s <= 4; s++)
+				{
+					animeTableContent = document.createElement('td');
+					animeTableContent.innerText = '';
+					if(y == currentYear && seasons[s] == currentSeason && !animeTableContent.classList.contains('active-period'))
+						animeTableContent.style.backgroundColor = '#444444'; //current season
+					animeTableRow.appendChild(animeTableContent);
+				}
+			}
+		}
+		
+		for(let anime of seriesArray)
+		{
+			for (let series of anime.shows)
+			{
+				//find series row
+				let tableSeries = animeTableBody.getElementsByTagName('tr');
+				var rowNo = -1;
+				for(let s = 0; s < tableSeries.length; s++)
+				{
+					if(tableSeries[s].getElementsByTagName('th').length > 0) continue;
+					if(tableSeries[s].getElementsByTagName('td')[0].innerText == anime.seriesTitle)
+						rowNo = s;
+				}
+				
+				//loop but replace instead of insert
+				let remainder = series.length;
+				var column = 0;
+				for(let y = 2013; y <= 2020; y++)
+				{
+					for(let s = 1; s <= 4; s++)
+					{
+						column++;
+						if(y*10+s >= series.year*10+seasons.indexOf(series.season) && remainder > 0)
+						{
+							tableSeries[rowNo].getElementsByTagName('td')[column].classList.add('active-period');
+							tableSeries[rowNo].getElementsByTagName('td')[column].style.backgroundColor = 'white';
+							tableSeries[rowNo].getElementsByTagName('td')[column].innerText = 'X';
+							remainder--;
+							
+							let animeTableContentOverlay = document.createElement('span');
+							animeTableContentOverlay.classList.add('show-overlay');
+							animeTableContentOverlay.innerText = series.title + (series.altTitle == '' ? '' : '\n[' + series.altTitle + ']');
+					
+							if(series.imgURL != '')
+							{
+								let animeTableContentOverlayImageContainer = document.createElement('div');
+								if(series.handle != '')
+								{
+									let animeTableContentOverlayImageLink = document.createElement('a');
+									animeTableContentOverlayImageLink.href = 'https://twitter.com/' + series.handle;
+									animeTableContentOverlayImageLink.setAttribute("target", "_blank")
+									
+										let animeTableContentOverlayImage = document.createElement('img');
+										animeTableContentOverlayImage.src = series.imgURL;
+										if(y*10+s >= 20174) animeTableContentOverlayImage.style.borderRadius = '50%';
+												
+										animeTableContentOverlayImageLink.appendChild(animeTableContentOverlayImage);
+										
+									animeTableContentOverlayImageContainer.appendChild(animeTableContentOverlayImageLink);
+								}
+																		
+								animeTableContentOverlay.insertBefore(animeTableContentOverlayImageContainer, animeTableContentOverlay.childNodes[0]);
+							}
+
+							tableSeries[rowNo].getElementsByTagName('td')[column].appendChild(animeTableContentOverlay);
+
+							break;
+						}
+					}
+				}
+			}
+		}
+		
+		animeTable.appendChild(animeTableBody);
+		document.getElementById('anime-list').innerHTML = '';
+		document.getElementById('anime-list').appendChild(animeTable);
+		enableSelectTitle();
+		fixOverlayPosition();
+		addImageNotFoundHide();
+	}
+}
+ */
 
 
 //[4] after adjustments
