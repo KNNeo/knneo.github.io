@@ -207,6 +207,26 @@ function generateSeriesArray() {
 							let animeTableContentOverlay = document.createElement('span');
 							animeTableContentOverlay.classList.add('show-overlay');
 							animeTableContentOverlay.innerText = series.title + (series.altTitle == '' ? '' : '\n[' + series.altTitle + ']');
+					
+							if(series.imgURL != '')
+							{
+								let animeTableContentOverlayImageContainer = document.createElement('div');
+								
+									let animeTableContentOverlayImageLink = document.createElement('a');
+									animeTableContentOverlayImageLink.href = 'https://twitter.com/' + series.handle;
+									animeTableContentOverlayImageLink.setAttribute("target", "_blank")
+									
+										let animeTableContentOverlayImage = document.createElement('img');
+										animeTableContentOverlayImage.src = series.imgURL;
+										if(y*10+s >= 20173) animeTableContentOverlayImage.style.borderRadius = '50%';
+												
+										animeTableContentOverlayImageLink.appendChild(animeTableContentOverlayImage);
+										
+									animeTableContentOverlayImageContainer.appendChild(animeTableContentOverlayImageLink);
+																		
+								animeTableContentOverlay.insertBefore(animeTableContentOverlayImageContainer, animeTableContentOverlay.childNodes[0]);
+							}
+
 							tableSeries[rowNo].getElementsByTagName('td')[column].appendChild(animeTableContentOverlay);
 
 							break;
@@ -220,6 +240,8 @@ function generateSeriesArray() {
 		document.getElementById('anime-list').innerHTML = '';
 		document.getElementById('anime-list').appendChild(animeTable);
 		enableSelectTitle();
+		fixOverlayPosition();
+		addImageNotFoundHide();
 	}
 }
 
@@ -271,14 +293,14 @@ function renderSeasonsArray() {
 			animeTableContent = document.createElement('td');
 			animeTableContent.classList.add('row-title');
 			
-				let animeTitleLink = document.createElement('a');
-				animeTitleLink.href = 'https://www.twitter.com/' + anime.handle;
+				// let animeTitleLink = document.createElement('a');
+				// animeTitleLink.href = 'https://www.twitter.com/' + anime.handle;
 				
 					let animeTitleContent = document.createElement('span');
 					animeTitleContent.innerText = anime.title;
-					animeTitleLink.appendChild(animeTitleContent);
+					// animeTitleLink.appendChild(animeTitleContent);
 					
-				animeTableContent.appendChild(animeTitleLink);
+				animeTableContent.appendChild(animeTitleContent);
 				
 			animeTableRow.appendChild(animeTableContent);
 			
@@ -305,14 +327,21 @@ function renderSeasonsArray() {
 					animeTableContentOverlay.classList.add('show-overlay');
 					animeTableContentOverlay.innerText = anime.title + (anime.altTitle == '' ? '' : '\n[' + anime.altTitle + ']');
 					
-					if(false && anime.imgURL != '')
+					if(anime.imgURL != '')
 					{
 						let animeTableContentOverlayImageContainer = document.createElement('div');
 						
-							let animeTableContentOverlayImage = document.createElement('img');
-							animeTableContentOverlayImage.src = anime.imgURL;
+							let animeTableContentOverlayImageLink = document.createElement('a');
+							animeTableContentOverlayImageLink.href = 'https://twitter.com/' + anime.handle;
+							animeTableContentOverlayImageLink.setAttribute("target", "_blank")
 							
-							animeTableContentOverlayImageContainer.appendChild(animeTableContentOverlayImage);
+								let animeTableContentOverlayImage = document.createElement('img');
+								animeTableContentOverlayImage.src = anime.imgURL;
+								if(y*10+s >= 20173) animeTableContentOverlayImage.style.borderRadius = '50%';
+										
+								animeTableContentOverlayImageLink.appendChild(animeTableContentOverlayImage);
+								
+							animeTableContentOverlayImageContainer.appendChild(animeTableContentOverlayImageLink);
 							
 						animeTableContentOverlay.insertBefore(animeTableContentOverlayImageContainer, animeTableContentOverlay.childNodes[0]);
 					}
@@ -328,6 +357,7 @@ function renderSeasonsArray() {
 		document.getElementById('anime-list').appendChild(animeTable);
 		enableSelectTitle();
 		fixOverlayPosition();
+		addImageNotFoundHide();
 	}
 }
 
@@ -373,6 +403,16 @@ function fixOverlayPosition() {
 			if(x + w > window.innerWidth)
 				this.getElementsByClassName('show-overlay')[0].style.left = (x - (x+w-window.innerWidth)) + 'px';
 			this.getElementsByClassName('show-overlay')[0].style.top = y + 'px';
+		});
+	}
+}
+
+//image on error, hide
+function addImageNotFoundHide() {
+	for(let i = 0; i < document.getElementsByTagName('img').length; i++)
+	{
+		document.getElementsByTagName('img')[i].addEventListener('error', function() {
+			this.style.display = 'none';
 		});
 	}
 }
