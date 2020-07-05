@@ -93,7 +93,7 @@ function renderWantedList() {
 //add age after DOB span
 function addAgeAfterDOB() {
 	for (let dateOfBirth of document.getElementsByClassName("DOB")) {
-		let age = parseInt(getAge(dateOfBirth.innerHTML));
+		let age = dateOfBirth.innerText.includes('????') ? 0 : parseInt(getAge(dateOfBirth.innerText));
 		if (age != undefined && age > 0) dateOfBirth.innerHTML = dateOfBirth.innerHTML.concat(" [").concat(age.toString()).concat(" years ago]");
 	}
 }
