@@ -1,5 +1,37 @@
 //[1] array containing all gallery info
 let customArray = [
+{ sortOrder:1, year:2008, season: '', length:16, seriesTitle: '', type:'TV', title:'BLEACH', altTitle:'ブリーチー', handle:'BLEACHanimation', imgURL:'' },
+{ sortOrder:2, year:2008, season: '', length:0, seriesTitle: '', type:'TV', title:'Love Hina', altTitle:'ラブ　ひな', handle:'', imgURL:'' },
+{ sortOrder:3, year:2008, season: '', length:0, seriesTitle: '', type:'TV', title:'Kekkaishi', altTitle:'結界師', handle:'', imgURL:'' },
+{ sortOrder:4, year:2008, season: 'Autumn', length:2, seriesTitle: '', type:'TV', title:'Toradora!', altTitle:'とらドラ！', handle:'', imgURL:'' },
+{ sortOrder:5, year:2008, season: 'Autumn', length:2, seriesTitle: 'Kuroshitsuji', type:'TV', title:'Kuroshitsuji', altTitle:'黒執事', handle:'kuroshitsuji2', imgURL:'' },
+{ sortOrder:6, year:2009, season: 'Spring', length:1, seriesTitle: '', type:'TV', title:'Hatsukoi Limited.', altTitle:'初恋限定。', handle:'', imgURL:'' },
+{ sortOrder:7, year:2009, season: 'Spring', length:1, seriesTitle: 'K-ON!', type:'TV', title:'K-ON!', altTitle:'けいおん！', handle:'', imgURL:'' },
+{ sortOrder:8, year:2009, season: '', length:0, seriesTitle: '', type:'TV', title:'Nagarasete Airantou', altTitle:'ながされて愛蘭島', handle:'', imgURL:'' },
+{ sortOrder:9, year:2009, season: '', length:0, seriesTitle: '', type:'TV', title:'Kannagi', altTitle:'かんなぎ', handle:'', imgURL:'' },
+{ sortOrder:10, year:2009, season: '', length:0, seriesTitle: 'Shakugan no Shana', type:'TV', title:'Shakugan no Shana', altTitle:'灼眼のシャナ', handle:'', imgURL:'' },
+{ sortOrder:11, year:2009, season: '', length:0, seriesTitle: 'Shakugan no Shana', type:'TV', title:'Shakugan no Shana Second', altTitle:'灼眼のシャナII', handle:'', imgURL:'' },
+{ sortOrder:12, year:2010, season: 'Winter', length:1, seriesTitle: '', type:'TV', title:'So.Ra.No.Wo.To', altTitle:'ソ．ラ．ノ．ヲ．ト', handle:'', imgURL:'' },
+{ sortOrder:13, year:2010, season: 'Spring', length:2, seriesTitle: 'K-ON!', type:'TV', title:'K-ON!!', altTitle:'けいおん！！', handle:'', imgURL:'' },
+{ sortOrder:14, year:2010, season: 'Spring', length:1, seriesTitle: 'WORKING!!', type:'TV', title:'WORKING!!', altTitle:'', handle:'Wagnaria', imgURL:'https://pbs.twimg.com/profile_images/715919741009809409/D_zDV9BH.jpg' },
+{ sortOrder:15, year:2010, season: 'Spring', length:1, seriesTitle: '', type:'TV', title:'Yojouhan Shinwa Taikei', altTitle:'四畳半神話大系', handle:'', imgURL:'' },
+{ sortOrder:16, year:2010, season: 'Summer', length:1, seriesTitle: 'Kuroshitsuji', type:'TV', title:'Kuroshitsuji II', altTitle:'黒執事II', handle:'kuroshitsuji2', imgURL:'https://pbs.twimg.com/profile_images/459199935506677760/RfFVR915.png' },
+{ sortOrder:17, year:2010, season: 'Summer', length:1, seriesTitle: 'Seitokai Yakuindomo', type:'TV', title:'Seitokai Yakuindomo', altTitle:'生徒会役員共', handle:'seitokai0428', imgURL:'https://pbs.twimg.com/profile_images/1202785307428417536/k0CYX9kO.jpg' },
+{ sortOrder:18, year:2010, season: 'Autumn', length:1, seriesTitle: 'Ore no Imouto ga Konnani Kawaii Wake ga Nai', type:'TV', title:'Ore no Imouto ga Konnani Kawaii Wake ga Nai', altTitle:'俺の妹がこんなに可愛いわけがない', handle:'oreimo_eromanga', imgURL:'https://pbs.twimg.com/profile_images/782442603639738368/uZqqQNAp.jpg' },
+{ sortOrder:19, year:2011, season: 'Winter', length:1, seriesTitle: '', type:'TV', title:'Fractale', altTitle:'フラクタル', handle:'fractale_system', imgURL:'https://pbs.twimg.com/profile_images/1185917529/fractalesystem.jpg' },
+{ sortOrder:20, year:2011, season: '', length:0, seriesTitle: '', type:'TV', title:'Bartender', altTitle:'バーテンダー', handle:'', imgURL:'' },
+{ sortOrder:21, year:2011, season: 'Spring', length:1, seriesTitle: '', type:'TV', title:'[C] - CONTROL: THE MONEY OF SOUL AND POSSIBILITY', altTitle:'', handle:'', imgURL:'' },
+{ sortOrder:22, year:2011, season: 'Spring', length:1, seriesTitle: '', type:'TV', title:'A Channel', altTitle:'Aチャンネル', handle:'A_CH_anime', imgURL:'https://pbs.twimg.com/profile_images/1267528750/a_ch_logo_reasonably_small.gif' },
+{ sortOrder:23, year:2011, season: 'Summer', length:2, seriesTitle: '', type:'TV', title:'Nichijou', altTitle:'日常', handle:'shinonome_lab', imgURL:'https://pbs.twimg.com/profile_images/1294157199/nichijou0.jpg' },
+{ sortOrder:24, year:2011, season: 'Autumn', length:0, seriesTitle: 'WORKING!!', type:'TV', title:'WORKING\'!!', altTitle:'', handle:'Wagnaria', imgURL:'https://pbs.twimg.com/profile_images/715919741009809409/D_zDV9BH.jpg' },
+{ sortOrder:25, year:2011, season: 'Autumn', length:2, seriesTitle: 'Shakugan no Shana', type:'TV', title:'Shakugan no Shana Final', altTitle:'灼眼のシャナIII -FINAL-', handle:'', imgURL:'' },
+{ sortOrder:26, year:2012, season: 'Spring', length:1, seriesTitle: '', type:'TV', title:'Sakamichi no Apollon', altTitle:'坂道のアポロン', handle:'apollon_anime', imgURL:'https://pbs.twimg.com/profile_images/1832775581/kaoru.jpg' },
+{ sortOrder:27, year:2012, season: 'Spring', length:1, seriesTitle: '', type:'TV', title:'Natsuiro Kiseki ', altTitle:'夏色キセキ', handle:'', imgURL:'' },
+{ sortOrder:28, year:2012, season: 'Spring', length:2, seriesTitle: '', type:'TV', title:'Hyouka ', altTitle:'氷菓', handle:'', imgURL:'' },
+{ sortOrder:29, year:2012, season: 'Summer', length:1, seriesTitle: '', type:'TV', title:'Binbougami ga! ', altTitle:'貧乏神が！', handle:'binbogamiga', imgURL:'https://pbs.twimg.com/profile_images/2276698026/lwnbo23caaa8j8mlzwcu.png' },
+{ sortOrder:30, year:2012, season: 'Summer', length:1, seriesTitle: '', type:'TV', title:'Kokoro Connect ', altTitle:'ココロコネクト', handle:'kokoroco_anime', imgURL:'https://pbs.twimg.com/profile_images/2309214867/o2i5vtew5lijp697yu7c.png' },
+{ sortOrder:31, year:2012, season: 'Summer', length:1, seriesTitle: '', type:'TV', title:'TARI TARI', altTitle:'', handle:'taritarianime', imgURL:'https://pbs.twimg.com/profile_images/877893755419975680/_bhhuzqS.jpg' },
+{ sortOrder:32, year:2012, season: 'Autumn', length:1, seriesTitle: '', type:'TV', title:'Tonari no Kaibutsu-kun ', altTitle:'となりの怪物くん', handle:'tk_anime', imgURL:'https://pbs.twimg.com/profile_images/2427248339/jr2693xm66xypq2bn20d_reasonably_small.gif' },
 { sortOrder:33, year:2013, season: 'Spring', length:1, seriesTitle: '', type:'TV', title:'RDG: Red Data Girl', altTitle:'', handle:'', imgURL:'' },
 { sortOrder:34, year:2013, season: 'Spring', length:1, seriesTitle: 'Ore no Imouto ga Konnani Kawaii Wake ga Nai', type:'TV', title:'Ore no Imouto ga Konnani Kawaii Wake ga Nai.', altTitle:'俺の妹がこんなに可愛いわけがない。', handle:'oreimo_eromanga', imgURL:'https://pbs.twimg.com/profile_images/782442603639738368/uZqqQNAp.jpg' },
 { sortOrder:35, year:2013, season: '', length:0, seriesTitle: '', type:'TV', title:'Acchi Kocchi ', altTitle:'あっちこっち', handle:'ackc_anime', imgURL:'https://pbs.twimg.com/profile_images/537215428385202177/TM13Pwi7.jpeg' },
@@ -81,10 +113,15 @@ let customArray = [
 { sortOrder:111, year:2020, season: 'Spring', length:1, seriesTitle: '', type:'TV', title:'Kakushigoto', altTitle:'かくしごと', handle:'kakushigoto_pr', imgURL:'https://pbs.twimg.com/profile_images/1202602021670375424/UAwiY-ED.jpg' },
 { sortOrder:112, year:2020, season: 'Spring', length:1, seriesTitle: '', type:'TV', title:'Yesterday wo Utatte', altTitle:'イエスタデイをうたって', handle:'anime_yesterday', imgURL:'https://pbs.twimg.com/profile_images/1219731464255758336/eEqosTW9.jpg' },
 { sortOrder:113, year:2020, season: 'Spring', length:1, seriesTitle: 'Kaguya-sama wa Kokurasetai', type:'TV', title:'Kaguya-sama wa Kokurasetai?', altTitle:'かぐや様は告らせたい～天才たちの恋愛頭脳戦？～', handle:'anime_kaguya', imgURL:'https://pbs.twimg.com/profile_images/1082000976964333573/vlZMd2Z7.jpg' },
+{ sortOrder:114, year:2020, season: 'Summer', length:1, seriesTitle: '', type:'TV', title:'GREAT PRETENDER', altTitle:'', handle:'GrePre_anime', imgURL:'https://pbs.twimg.com/profile_images/1220648780011167745/QMKboWCS.jpg' },
+{ sortOrder:115, year:2020, season: 'Summer', length:1, seriesTitle: '', type:'TV', title:'Uzaki-chan wa Asobitai!', altTitle:'宇崎ちゃんは遊びたい！', handle:'uzakichan_asobi', imgURL:'https://pbs.twimg.com/profile_images/1147099341858824192/pL6QoWt7.png' },
+{ sortOrder:116, year:2020, season: 'Summer', length:1, seriesTitle: '', type:'TV', title:'Kanojo, Okarishimasu', altTitle:'彼女、お借りします', handle:'kanokari_anime', imgURL:'https://pbs.twimg.com/profile_images/1264535167755931648/AUajKJKz.jpg' },
 
 ];
 
 let isGroupBySeries = false;
+let startYear = 2008;
+let startSeason = 'Autumn';
 let currentYear = 2020;
 let currentSeason = 'Spring';
 let seasons = ['','Winter','Spring','Summer','Autumn'];
@@ -134,7 +171,7 @@ function generateAnimeList(isGroupBySeries) {
 		animeTableHeaderRow.innerText = 'Series Title';
 		animeTableHeader.appendChild(animeTableHeaderRow);
 
-		for(let y = 2013; y <= 2020; y++)
+		for(let y = startYear; y <= currentYear; y++)
 		{
 			for(let s = 1; s <= 4; s++)
 			{
@@ -165,7 +202,7 @@ function generateAnimeList(isGroupBySeries) {
 			animeTableBody.appendChild(animeTableRow);
 						
 			let remainder = anime.length;
-			for(let y = 2013; y <= 2020; y++)
+			for(let y = startYear; y <= currentYear; y++)
 			{
 				for(let s = 1; s <= 4; s++)
 				{
@@ -195,7 +232,7 @@ function generateAnimeList(isGroupBySeries) {
 				//loop but replace instead of insert
 				let remainder = series.length;
 				var column = 0;
-				for(let y = 2013; y <= 2020; y++)
+				for(let y = startYear; y <= currentYear; y++)
 				{
 					for(let s = 1; s <= 4; s++)
 					{
@@ -250,7 +287,7 @@ function generateAnimeList(isGroupBySeries) {
 		animeTableHeaderRow.innerText = 'Anime Title';
 		animeTableHeader.appendChild(animeTableHeaderRow);
 
-		for(let y = 2013; y <= 2020; y++)
+		for(let y = startYear; y <= currentYear; y++)
 		{
 			for(let s = 1; s <= 4; s++)
 			{
@@ -285,7 +322,7 @@ function generateAnimeList(isGroupBySeries) {
 			animeTableBody.appendChild(animeTableRow);
 			
 			let remainder = anime.length;
-			for(let y = 2013; y <= 2020; y++)
+			for(let y = startYear; y <= currentYear; y++)
 			{
 				for(let s = 1; s <= 4; s++)
 				{
@@ -367,7 +404,7 @@ function inverseRadio(val) {
 		animeTableHeaderRow.innerText = 'Anime Title';
 		animeTableHeader.appendChild(animeTableHeaderRow);
 
-		for(let y = 2013; y <= 2020; y++)
+		for(let y = startYear; y <= currentYear; y++)
 		{
 			for(let s = 1; s <= 4; s++)
 			{
@@ -402,7 +439,7 @@ function inverseRadio(val) {
 			animeTableBody.appendChild(animeTableRow);
 			
 			let remainder = anime.length;
-			for(let y = 2013; y <= 2020; y++)
+			for(let y = startYear; y <= currentYear; y++)
 			{
 				for(let s = 1; s <= 4; s++)
 				{
@@ -498,7 +535,7 @@ function inverseRadio(val) {
 		animeTableHeaderRow.innerText = 'Series Title';
 		animeTableHeader.appendChild(animeTableHeaderRow);
 
-		for(let y = 2013; y <= 2020; y++)
+		for(let y = startYear; y <= currentYear; y++)
 		{
 			for(let s = 1; s <= 4; s++)
 			{
@@ -529,7 +566,7 @@ function inverseRadio(val) {
 			animeTableBody.appendChild(animeTableRow);
 						
 			let remainder = anime.length;
-			for(let y = 2013; y <= 2020; y++)
+			for(let y = startYear; y <= currentYear; y++)
 			{
 				for(let s = 1; s <= 4; s++)
 				{
@@ -559,7 +596,7 @@ function inverseRadio(val) {
 				//loop but replace instead of insert
 				let remainder = series.length;
 				var column = 0;
-				for(let y = 2013; y <= 2020; y++)
+				for(let y = startYear; y <= currentYear; y++)
 				{
 					for(let s = 1; s <= 4; s++)
 					{
