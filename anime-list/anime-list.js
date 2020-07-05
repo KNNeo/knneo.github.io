@@ -91,7 +91,7 @@ let seasons = ['','Winter','Spring','Summer','Autumn'];
 let seriesArray = new Array();
 function generateSeriesArray() {
 	if(isGroupBySeries && seriesArray.length == 0)
-	{			
+	{
 		//unique series
 		let allSeries = new Array();
 		for(let show of customArray)
@@ -211,7 +211,8 @@ function generateSeriesArray() {
 							if(series.imgURL != '')
 							{
 								let animeTableContentOverlayImageContainer = document.createElement('div');
-								
+								if(series.handle != '')
+								{
 									let animeTableContentOverlayImageLink = document.createElement('a');
 									animeTableContentOverlayImageLink.href = 'https://twitter.com/' + series.handle;
 									animeTableContentOverlayImageLink.setAttribute("target", "_blank")
@@ -223,6 +224,7 @@ function generateSeriesArray() {
 										animeTableContentOverlayImageLink.appendChild(animeTableContentOverlayImage);
 										
 									animeTableContentOverlayImageContainer.appendChild(animeTableContentOverlayImageLink);
+								}
 																		
 								animeTableContentOverlay.insertBefore(animeTableContentOverlayImageContainer, animeTableContentOverlay.childNodes[0]);
 							}
@@ -330,7 +332,8 @@ function renderSeasonsArray() {
 					if(anime.imgURL != '')
 					{
 						let animeTableContentOverlayImageContainer = document.createElement('div');
-						
+						if(anime.handle != '')
+						{
 							let animeTableContentOverlayImageLink = document.createElement('a');
 							animeTableContentOverlayImageLink.href = 'https://twitter.com/' + anime.handle;
 							animeTableContentOverlayImageLink.setAttribute("target", "_blank")
@@ -342,6 +345,7 @@ function renderSeasonsArray() {
 								animeTableContentOverlayImageLink.appendChild(animeTableContentOverlayImage);
 								
 							animeTableContentOverlayImageContainer.appendChild(animeTableContentOverlayImageLink);
+						}
 							
 						animeTableContentOverlay.insertBefore(animeTableContentOverlayImageContainer, animeTableContentOverlay.childNodes[0]);
 					}
