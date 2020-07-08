@@ -1,4 +1,5 @@
 //generate from json file
+let isExternal = window.location.href.includes('knneo.github.io');
 let spacer = 'https://knneo.github.io/resources/spacer.gif';
 let profileList;
 let xmlhttp = new XMLHttpRequest();
@@ -118,7 +119,11 @@ function generateProfileListFromJSON(profileList) {
 						row = document.createElement('tr');
 						
 							cell = document.createElement('td');
-							cell.innerText = profile.turningPointStr.singerDebutStr + "|" + profile.turningPointStr.swimsuitPhotobookStr + "|" + profile.turningPointStr.isMarriedStr;
+							if(!isExternal) 
+								cell.innerText = profile.turningPointStr.singerDebutStr + "|" + profile.turningPointStr.swimsuitPhotobookStr + "|" + profile.turningPointStr.isMarriedStr;
+							else
+								cell.innerText = isYesNo(profile.turningPoint.swimsuitPhotobook)+ "|" + isYesNo(profile.turningPoint.swimsuitPhotobook) + "|" + isYesNo(profile.turningPoint.isMarried);
+							
 							row.appendChild(cell);
 						
 						profileTableBody.appendChild(row);
@@ -192,3 +197,4 @@ function generateProfileListFromJSON(profileList) {
 }
 
 function addBrackets(content, startWithWhitespace) { return (startWithWhitespace ? ' ' : '') + '(' + content + ')'; }
+function isYesNo(option) { return option ? "Yes" : "No"; }
