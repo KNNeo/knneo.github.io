@@ -76,19 +76,20 @@
 		"turningPoint":{
 			"singerDebut":true,
 			"swimsuitPhotobook":false,
-			"isMarried":false
+			"isMarried":true
 		},
 		"turningPointStr":{
 			"singerDebutStr":"Yes",
 			"swimsuitPhotobookStr":"No*",
-			"isMarriedStr":"No"
+			"isMarriedStr":"Yes**"
 		},
 		"intro":"From Anime \"OreImo\" as Kuroneko or earlier in \"Kannagi\" as Zange-chan",
 		"description":"Kana-chan has been in so many roles, you're weird if you didn't like her because of one of them.",
 		"wantedLevel":"★★★★☆",
 		"wantedLevelComment":"That voice can save lives",
 		"comments":[
-			"*The closest she has come to it was wearing one, specifically just the top with a shirt above, on her 400th episode of her radio program"
+			"*The closest she has come to it was wearing one, specifically just the top with a shirt above, on her 400th episode of her radio program",
+			"**Married to fellow voice actor Oono Kensho"
 		]
 	},
 	{
