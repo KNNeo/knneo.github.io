@@ -10,48 +10,47 @@ document.getElementById("marriedCouple").addEventListener("mouseout", function()
 
 //on timeline double click shrink timeline
 document.getElementById("timeline").addEventListener("dblclick", function() {
-	let origWidth = document.getElementById("timeline").getElementsByTagName("svg")[0].width.baseVal.value / 2;
-	document.getElementById("timeline").innerHTML = "";
-	if (origWidth < 1000) origWidth = 1000;
-	TimeKnots.draw("#timeline", timelineDOBlist, {
-		horizontalLayout: true,
-		width: origWidth,
-		height: 100,
-		dateFormat: "%Y.%m.%d",
-		showLabels: true,
-		labelFormat: "%Y"
-	});
-	adjustKnots();
+	let origWidth = this.getElementsByTagName("svg")[0].width.baseVal.value / 2;
+	this.innerHTML = "";
+	loadTimeline(origWidth < 1000 ? 1000 : origWidth);
 });
 
 //on timeline wheel scroll adjust timeline length ie. redraw
 document.getElementById("timeline").addEventListener("wheel", function(e) {
 	e.preventDefault();
 	if (!e.shiftKey) {
-		document.getElementById('timeline').scrollLeft -= e.wheelDelta / 2;
+		this.scrollLeft -= e.wheelDelta / 2;
 		return;
 	}
-	let origWidth = document.getElementById("timeline").getElementsByTagName("svg")[0].width.baseVal.value + e.wheelDelta;
-	document.getElementById("timeline").innerHTML = "";
-	if (origWidth < 1000)
-		origWidth = 1000;
-	else if (origWidth > 10000)
-		origWidth > 10000;
+	let origWidth = this.getElementsByTagName("svg")[0].width.baseVal.value + e.wheelDelta;
+	this.innerHTML = "";
+	if (origWidth < 1000) origWidth = 1000;
+	else if (origWidth > 10000) origWidth > 10000;
+	loadTimeline(origWidth);
+});
+
+//refresh images on resize to avoid image fitting errors
+window.addEventListener('resize', function () {
+	resizeAllProfileBoxImg();
+});
+
+function loadTimeline(width) {
 	TimeKnots.draw("#timeline", timelineDOBlist, {
 		horizontalLayout: true,
-		width: origWidth,
+		width: width,
 		height: 100,
 		dateFormat: "%Y.%m.%d",
 		showLabels: true,
 		labelFormat: "%Y"
 	});
-	adjustKnots();
-});
+	adjustKnots();	
+}
 
 //on scroll turn off all overlays in timeline and calendar
 window.addEventListener("scroll", function() {
-	if (document.getElementById("timeline").getElementsByTagName("div").length > 0)
-		document.getElementById("timeline").getElementsByTagName("div")[0].style.opacity = "0";
+	let timeline = document.getElementById("timeline");
+	if (timeline.getElementsByTagName("div").length > 0)
+		timeline.getElementsByTagName("div")[0].style.opacity = "0";
 });
 
 //--variables--//
@@ -60,6 +59,7 @@ let timelineDOBlist = [];
 let calendarDOBlist = [];
 let currentMonth = 0;
 let statusPopup = "<div id=\"tp-description\">As answered haphazardly by Uesaka Sumire (and expanded on by me) the three \"turning points\" of a voice actress (but applicable to all):<br/>~ Singer Debut (The exhibition of their unique voices in singing)<br/>~ Swimsuit Photobook (The display of their figure to the extent of being half-naked)<br/>~ Married (The declaration of the end of idolism)</div>";
+let month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 //--dependent on render, as functions to call on render--//
 function renderWantedList() {
@@ -67,19 +67,11 @@ function renderWantedList() {
 	resizeAllProfileBoxImg();
 	generateWantedList(false);
 	timelineDOBlist = createDOBlist(1, 35);
-	TimeKnots.draw("#timeline", timelineDOBlist, {
-		horizontalLayout: true,
-		width: 5000,
-		height: 100,
-		dateFormat: "%Y.%m.%d",
-		showLabels: true,
-		labelFormat: "%Y"
-	});
-	adjustKnots();
+	loadTimeline(5000);
 	calendarDOBlist = createDOBlist(0, 50);
 	currentMonth = createCalendar(new Date().getMonth(), calendarDOBlist);
 	addProfileBoxClick();
-	batchResizeProfileBoxImg();
+	addProfileBoxImgOnError();
 	switchProfileBoxImage();
 	addAgeAfterDOB();
 	addStatusPopUp();
@@ -94,19 +86,21 @@ function renderWantedList() {
 function addAgeAfterDOB() {
 	for (let dateOfBirth of document.getElementsByClassName("DOB")) {
 		let age = dateOfBirth.innerText.includes('????') ? 0 : parseInt(getAge(dateOfBirth.innerText));
-		if (age != undefined && age > 0) dateOfBirth.innerHTML = dateOfBirth.innerHTML.concat(" [").concat(age.toString()).concat(" years ago]");
+		if (age != undefined && age > 0)
+			dateOfBirth.innerHTML = dateOfBirth.innerHTML.concat(" [").concat(age.toString()).concat(" years ago]");
 	}
 }
 
 function getAge(DOB) {
-	let birthDateStr = DOB.replace(".", "-");;
-	let birthDate = Date.parse(birthDateStr.replace(".", "-").substring(0, 10));
+	let birthDateStr = DOB.replace(".", "-").replace(".", "-"); //yyyy.MM.dd -> yyyy-MM-dd
+	let birthDate = Date.parse(birthDateStr.substring(0, 10));
 	return Math.floor((new Date().getTime() - birthDate) / 31556952000);
 }
 
 //generate wanted list
 function generateWantedList(excludeMarried) {
 	let wantedListString = "";
+	let wantedList = document.getElementById("wantedList");
 
 	//create name array from static profile boxes
 	let profileNamesList = new Array();
@@ -120,12 +114,12 @@ function generateWantedList(excludeMarried) {
 	for (let profileName of profileNamesList) {
 		wantedListString += "<li><a>" + profileName + "</a></li>";
 	}
-	document.getElementById("wantedList").innerHTML = wantedListString;
+	wantedList.innerHTML = wantedListString;
 
 	//wanted list processing
-	for (let id = 0; id < document.getElementById("wantedList").getElementsByTagName("a").length; id++) {
-		let boxString = document.getElementById("wantedList").getElementsByTagName("a")[id].innerText.replace(" ", "");
-		document.getElementById("wantedList").getElementsByTagName("a")[id].addEventListener("click", function() {
+	for (let id = 0; id < wantedList.getElementsByTagName("a").length; id++) {
+		let boxString = wantedList.getElementsByTagName("a")[id].innerText.replace(" ", "");
+		wantedList.getElementsByTagName("a")[id].addEventListener("click", function() {
 			document.getElementById(boxString).scrollIntoView();
 		});
 	}
@@ -174,23 +168,14 @@ function createDOBlist(minAge, maxAge) {
 }
 
 function toggleMarried() {
-	generateWantedList(document.getElementById("marriedCheckbox").checked == true);
+	generateWantedList(document.getElementById("marriedCheckbox").checked);
 	timelineDOBlist = createDOBlist(1, 35);
 	document.getElementById("timeline").innerHTML = "";
-	TimeKnots.draw("#timeline", timelineDOBlist, {
-		horizontalLayout: true,
-		width: 5000,
-		height: 100,
-		dateFormat: "%Y.%m.%d",
-		showLabels: true,
-		labelFormat: "%Y"
-	});
-	adjustKnots();
+	loadTimeline(5000);
 }
 
 //generate calendar from profile boxes
 function createCalendar(monthNo, DOBlist) {
-	let month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 	let calendarArray = new Array();
 	let dayOfMonth = 1;
 	for (let week = 0; week < 6; week++) {
@@ -265,7 +250,7 @@ function addProfileBoxClick() {
 }
 
 //add event listener for image switch
-function batchResizeProfileBoxImg() {
+function addProfileBoxImgOnError() {
 	let profileBoxImg = document.getElementsByTagName("img");
 	for (let i = 0; i < profileBoxImg.length; i++) {
 		profileBoxImg[i].addEventListener("error", function() {
@@ -318,18 +303,17 @@ function resizeAllProfileBoxImg() {
 	}
 }
 
-function resizeProfileBoxImg(dis) {
-	let isPortrait = dis.height >= dis.width;
-	dis.style.height = "320px";
-	if (window.innerWidth < 485) {
+function resizeProfileBoxImg(image) {
+	let isPortrait = image.height >= image.width;
+	image.style.height = "320px";
+	if (window.outerWidth < 640) {
 		if (!isPortrait) {
-			dis.style.height = "";
-			dis.style.maxHeight = "100%";
-			dis.style.maxWidth = "320px";
+			image.style.height = "";
+			image.style.maxHeight = "100%";
+			image.style.maxWidth = "95%";
 		}
 	}
 }
-
 
 //generate wanted list array from html
 //exception to note from export: (1) nagae rika add dob and dob comment, (2) horie yui dob censor year, comment include fake getAge string
