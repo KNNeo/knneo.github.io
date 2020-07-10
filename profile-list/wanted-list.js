@@ -75,6 +75,7 @@ function renderWantedList() {
 	switchProfileBoxImage();
 	addAgeAfterDOB();
 	addStatusPopUp();
+	openLinksInNew();
 	if(isExternal) censorData(); //ONLY FOR GITHUB
 	if (loadedImages != document.getElementsByTagName("img").length) setTimeout(function() {
 		reloadImages();
@@ -311,6 +312,19 @@ function resizeProfileBoxImg(image) {
 			image.style.height = "";
 			image.style.maxHeight = "100%";
 			image.style.maxWidth = "95%";
+		}
+	}
+}
+
+function openLinksInNew() {
+	for(let comments of document.getElementsByClassName('profile-box-comments'))
+	{
+		for(let link of comments.getElementsByTagName('a'))
+		{
+			let url = link.href;
+			if(!isExternal && url.includes('knwebreports.blogspot')) continue;
+			link.href = 'javascript:void(0)';
+			link.addEventListener('click', function () { window.open(url, '_blank'); } );
 		}
 	}
 }
