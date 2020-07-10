@@ -330,27 +330,29 @@ document.getElementById("imgGallery").addEventListener("wheel", function(e) {
 	{
 		scrollList.push(img.getBoundingClientRect().x);
 	}
+	
     // document.getElementsByClassName('profile-category')[0].scrollLeft -= e.wheelDelta*4;
 	let posDelta = 0;
 	//sort reverse order if scroll up
-	if(e.wheelDelta > 0) scrollList.sort(function(a, b){return b-a});
+	if(e.wheelDelta < 0) scrollList.sort(function(a, b){return b-a});
 	//find next closest element
 	for(let position of scrollList)
 	{
-		if(e.wheelDelta < 0 && position >= 0.5*window.innerWidth)
+		if(e.wheelDelta < 0 && position < window.innerWidth) //scroll right
 		{
-			posDelta = position/2;
+			posDelta = position;
 			break;
 		}
-		if(e.wheelDelta > 0 && position <= -0.5*window.innerWidth)
+		if(e.wheelDelta > 0 && position > -window.innerWidth)
 		{
-			posDelta = position/2;
+			posDelta = position;
 			break;
 		}
 	}
 	//optimise scroll
 	//console.log(e.wheelDelta);
 	if ((e.wheelDelta < 5 || e.wheelDelta > -5) && Math.floor(Math.random()*10)>0) return;
+	//prevent large scroll
 	if(e.wheelDelta > 50 || e.wheelDelta < -50) return;
 	//scroll
 	//console.log(posDelta);
