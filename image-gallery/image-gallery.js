@@ -321,8 +321,17 @@ document.getElementById('viewer').addEventListener('click', function() {
 
 //allow scroll on desktop
 var scrollList = new Array();
+let largestHalfWidth = 0;
+let time = new Date();
 document.getElementById("imgGallery").addEventListener("wheel", function(e) {
     e.preventDefault();
+	//console.log(new Date() - time);
+	if(new Date() - time < 20 && (e.wheelDelta < 100 || e.wheelDelta > -100)) //conditions to stop more scrolling
+	{
+		time = new Date();
+		return;
+	}
+	time = new Date();
 	//get relative positions of all images
 	
 	scrollList = new Array();
@@ -331,33 +340,41 @@ document.getElementById("imgGallery").addEventListener("wheel", function(e) {
 		scrollList.push(img.getBoundingClientRect().x);
 	}
 	
-    // document.getElementsByClassName('profile-category')[0].scrollLeft -= e.wheelDelta*4;
-	let posDelta = 0;
-	//sort reverse order if scroll up
-	if(e.wheelDelta < 0) scrollList.sort(function(a, b){return b-a});
-	//find next closest element
-	for(let position of scrollList)
+	largestHalfWidth = document.getElementsByClassName('landscape')[0].getBoundingClientRect().width/2;
+	let halfWidth = window.innerWidth/2;
+	let diff = 99999; //closest x
+	let imgIndex = -1; //corresponding index
+	let x = 0;
+	for(let i = 0; i < document.getElementsByClassName('profile-box').length; i++)
 	{
-		if(e.wheelDelta < 0 && position < window.innerWidth) //scroll right
+		x = document.getElementsByClassName('profile-box')[i].getBoundingClientRect().x;
+		if(x < halfWidth && halfWidth - x < diff)
 		{
-			posDelta = position;
-			break;
-		}
-		if(e.wheelDelta > 0 && position > -window.innerWidth)
-		{
-			posDelta = position;
-			break;
+			imgIndex = i;
 		}
 	}
-	//optimise scroll
-	//console.log(e.wheelDelta);
-	if ((e.wheelDelta < 5 || e.wheelDelta > -5) && Math.floor(Math.random()*10)>0) return;
-	//prevent large scroll
-	if(e.wheelDelta > 50 || e.wheelDelta < -50) return;
-	//scroll
-	//console.log(posDelta);
-	document.getElementsByClassName('profile-category')[0].scrollLeft += + posDelta;
-	//console.log(document.getElementsByClassName('profile-category')[0].scrollLeft);
+	//console.log(imgIndex);
+	let imgLength = document.getElementsByClassName('profile-box').length;
+	let newIndex = -1;
+	if(e.wheelDelta < 0) //scroll right
+		newIndex = imgIndex + 1;
+	if(e.wheelDelta > 0) //scroll left
+		newIndex = imgIndex - 1;
+	
+	let left = document.getElementsByClassName('profile-category')[0].scrollLeft;
+	let newX = document.getElementsByClassName('profile-box')[newIndex].getBoundingClientRect().width;
+	if(e.wheelDelta > 0) newX = -1*newX;
+	document.getElementsByClassName('profile-category')[0].scrollLeft += newX;
+	let newLeft = document.getElementsByClassName('profile-category')[0].scrollLeft;
+	//console.log(left + "|" + newLeft + "|" + (newX));
+	
+	//if(document.getElementsByClassName('profile-category')[0].scrollLeft < halfWidth)
+	//	document.getElementsByClassName('profile-category')[0].scrollLeft += document.getElementsByClassName('profile-box')[2].getBoundingClientRect().x;
+		
+	//scroll depends on transition from image orientation eg. portrait to landscape
+	//but scrollLeft value is always left edge of category box (0 is first img)
+	//bountingrect.x for each image is wrt left edge of screen (0 is left edge of screen of category box)
+	//document.getElementsByClassName('profile-category')[0].scrollLeft += document.getElementsByTagName('img')[1].getBoundingClientRect().x;
 	return;
 });
 
