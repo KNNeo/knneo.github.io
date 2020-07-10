@@ -1,5 +1,5 @@
 //generate from json file
-let isExternal = window.location.href.includes('knneo.github.io');
+let isExternal = window.location.href.includes('://knneo.github.io');
 let spacer = 'https://knneo.github.io/resources/spacer.gif';
 let profileList;
 let xmlhttp = new XMLHttpRequest();
@@ -196,5 +196,6 @@ function generateProfileListFromJSON(profileList) {
 	return true;
 }
 
+function getWantedLevelComment(profile) { return console.log(profile.name + '\n' + profile.wantedLevel + '\n' + profile.wantedLevelComment); }
 function addBrackets(content, startWithWhitespace) { return (startWithWhitespace ? ' ' : '') + '(' + content + ')'; }
 function isYesNo(option) { return option ? "Yes" : "No"; }
