@@ -326,14 +326,21 @@ let time = new Date();
 document.getElementById("imgGallery").addEventListener("wheel", function(e) {
     e.preventDefault();
 	//console.log(new Date() - time);
-	if(new Date() - time < 20 && (e.wheelDelta < 100 || e.wheelDelta > -100)) //conditions to stop more scrolling
-	{
-		time = new Date();
-		return;
-	}
 	time = new Date();
-	//get relative positions of all images
+	document.getElementsByClassName('profile-category')[0].scrollLeft -= e.wheelDelta;
 	
+	if(new Date() - time < 500 && (e.wheelDelta > 100 || e.wheelDelta < -100)) //conditions to prevent immediate snap
+	{
+		setTimeout( function() { 
+			document.getElementsByClassName('profile-category')[0].style.setProperty('scroll-snap-type','x proximity');
+		}, 500);
+		setTimeout( function() { 
+			document.getElementsByClassName('profile-category')[0].style.setProperty('scroll-snap-type','none');
+		}, 505);
+	}
+	
+	//get relative positions of all images
+	/*
 	scrollList = new Array();
 	for(let img of document.getElementsByClassName('profile-box'))
 	{
@@ -364,9 +371,10 @@ document.getElementById("imgGallery").addEventListener("wheel", function(e) {
 	let left = document.getElementsByClassName('profile-category')[0].scrollLeft;
 	let newX = document.getElementsByClassName('profile-box')[newIndex].getBoundingClientRect().width;
 	if(e.wheelDelta > 0) newX = -1*newX;
-	document.getElementsByClassName('profile-category')[0].scrollLeft += newX;
+	//document.getElementsByClassName('profile-category')[0].scrollLeft += newX;
 	let newLeft = document.getElementsByClassName('profile-category')[0].scrollLeft;
 	//console.log(left + "|" + newLeft + "|" + (newX));
+	*/
 	
 	//if(document.getElementsByClassName('profile-category')[0].scrollLeft < halfWidth)
 	//	document.getElementsByClassName('profile-category')[0].scrollLeft += document.getElementsByClassName('profile-box')[2].getBoundingClientRect().x;
@@ -375,7 +383,7 @@ document.getElementById("imgGallery").addEventListener("wheel", function(e) {
 	//but scrollLeft value is always left edge of category box (0 is first img)
 	//bountingrect.x for each image is wrt left edge of screen (0 is left edge of screen of category box)
 	//document.getElementsByClassName('profile-category')[0].scrollLeft += document.getElementsByTagName('img')[1].getBoundingClientRect().x;
-	return;
+
 });
 
 //open image to fullscreen
