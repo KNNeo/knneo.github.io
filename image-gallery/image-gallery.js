@@ -325,6 +325,7 @@ let largestHalfWidth = 0;
 let time = new Date();
 document.getElementById("imgGallery").addEventListener("wheel", function(e) {
     e.preventDefault();
+	document.getElementsByClassName('profile-category')[0].classList.remove('snap');
 	//console.log(new Date() - time);
 	time = new Date();
 	document.getElementsByClassName('profile-category')[0].scrollLeft -= e.wheelDelta;
@@ -386,6 +387,10 @@ document.getElementById("imgGallery").addEventListener("wheel", function(e) {
 	//bountingrect.x for each image is wrt left edge of screen (0 is left edge of screen of category box)
 	//document.getElementsByClassName('profile-category')[0].scrollLeft += document.getElementsByTagName('img')[1].getBoundingClientRect().x;
 
+});
+
+document.getElementById("imgGallery").addEventListener("touchmove", function(e) {
+	document.getElementsByClassName('profile-category')[0].classList.add('snap');
 });
 
 //open image to fullscreen
