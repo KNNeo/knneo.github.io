@@ -332,11 +332,13 @@ document.getElementById("imgGallery").addEventListener("wheel", function(e) {
 	if(new Date() - time < 500 && (e.wheelDelta > 100 || e.wheelDelta < -100)) //conditions to prevent immediate snap
 	{
 		setTimeout( function() { 
-			document.getElementsByClassName('profile-category')[0].style.setProperty('scroll-snap-type','x proximity');
+			//document.getElementsByClassName('profile-category')[0].style.setProperty('scroll-snap-type','x proximity');
+			document.getElementsByClassName('profile-category')[0].classList.add('snap');
 		}, 500);
 		setTimeout( function() { 
-			document.getElementsByClassName('profile-category')[0].style.setProperty('scroll-snap-type','none');
-		}, 505);
+			//document.getElementsByClassName('profile-category')[0].style.setProperty('scroll-snap-type','none');
+			document.getElementsByClassName('profile-category')[0].classList.remove('snap');
+		}, 600);
 	}
 	
 	//get relative positions of all images
