@@ -310,6 +310,7 @@ document.getElementById('SelectAll').addEventListener('click', function () {
 for (let tickbox of document.getElementsByTagName('label'))
 {
 	tickbox.addEventListener('click', function() { renderFilter(undefined); });
+	if(tickbox.innerText == 'Select All') continue;
 	tickbox.addEventListener('contextmenu', function() { renderFilter(this); });
 }
 
@@ -320,7 +321,7 @@ function renderFilter(element) {
 		if(label.checked == true)
 			orientationArray.push(label.value);
 	}
-		
+	
 	let nameArray = new Array();
 	if(element != undefined)
 	{
