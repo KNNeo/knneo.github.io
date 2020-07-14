@@ -10,7 +10,7 @@ h1, #options {
   max-width: 800px;
   margin: auto;	
 }
-#description, #orientation {
+#orientation {
 	display: none;
 }
 
@@ -95,7 +95,6 @@ html {
   overflow-y: hidden;
   white-space: nowrap;
   padding-bottom: 5px;
-  scroll-snap-type: x proximity;
 }
 .profile-box {
   display: inline-block;

@@ -817,6 +817,7 @@ Zell: 'Deer',
 Zucker: 'Octopus'
 };
 
+let spacerURL = 'https://knneo.github.io/resources/spacer.gif';
 //map to imgArray firstChild
 for(let label of imgArray)
 {
@@ -855,9 +856,6 @@ function renderGallery(array) {
 		image.removeAttribute('alt');
 	}
 
-
-
-
 	document.getElementById('loadedCount').innerText = 0;
 	setTimeout(reloadImages,500);
 	
@@ -880,8 +878,8 @@ function reloadImages() {
 			
 		}
 	}
-	if(loadedImages < imgArray.length-2) setTimeout(reloadImages,500);
-	if(loadedImages >= imgArray.length-2) setTimeout(function () { document.getElementById('description').style.display = 'none'; }, 2000);
+	if(loadedImages < imgArray.length-1) setTimeout(reloadImages,500);
+	if(loadedImages >= imgArray.length-1) setTimeout(function () { document.getElementById('description').style.display = 'none'; }, 2000);
 }
 
 //generate name labels
