@@ -257,8 +257,8 @@ function reloadImages() {
 			
 		}
 	}
-	if(loadedImages < document.getElementsByTagName("img").length) setTimeout(reloadImages,500);
-	if(loadedImages == document.getElementsByTagName("img").length) setTimeout(function () { document.getElementById('description').remove(); }, 2000);
+	if(loadedImages < imgArray.length) setTimeout(reloadImages,500);
+	if(loadedImages == imgArray.length) setTimeout(function () { document.getElementById('description').remove(); }, 2000);
 }
 
 //generate name labels
