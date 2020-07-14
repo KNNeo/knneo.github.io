@@ -257,8 +257,8 @@ function reloadImages() {
 			
 		}
 	}
-	if(loadedImages < imgArray.length) setTimeout(reloadImages,500);
-	if(loadedImages == imgArray.length) setTimeout(function () { document.getElementById('description').remove(); }, 2000);
+	if(loadedImages < imgArray.length-2) setTimeout(reloadImages,500);
+	if(loadedImages >= imgArray.length-2) setTimeout(function () { document.getElementById('description').style.display = 'none'; }, 2000);
 }
 
 //generate name labels
@@ -309,21 +309,33 @@ document.getElementById('SelectAll').addEventListener('click', function () {
 });
 for (let tickbox of document.getElementsByTagName('label'))
 {
-	tickbox.addEventListener('click',renderFilter);
+	tickbox.addEventListener('click', function() { renderFilter(undefined); });
+	tickbox.addEventListener('contextmenu', function() { renderFilter(this); });
 }
-function renderFilter() {
+
+function renderFilter(element) {
 	let orientationArray = new Array();
 	for (let label of document.getElementById('orientation').getElementsByTagName('input'))
 	{
 		if(label.checked == true)
 			orientationArray.push(label.value);
 	}
+		
 	let nameArray = new Array();
+	if(element != undefined)
+	{
+		for (let label of document.getElementById('name').getElementsByTagName('input'))
+		{
+			label.checked = false;
+			if(element.innerText == label.parentElement.innerText) label.checked = true;
+		}
+	}
 	for (let label of document.getElementById('name').getElementsByTagName('input'))
 	{
 		if(label.checked == true)
 			nameArray.push(label.value);
 	}
+	
 	let newArray = new Array();
 	for(let img of imgArray)
 	{
@@ -453,7 +465,7 @@ window.onload = function () {
 let runSlideshow;
 //start slideshow
 function startSlideshow() {
-	if(document.getElementById('description') != null) document.getElementById('description').remove();
+	document.getElementById('description').style.display = 'none';
 	switchButtons();
 	openFullscreen();
 	randomImg();
