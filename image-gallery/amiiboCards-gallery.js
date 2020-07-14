@@ -854,12 +854,34 @@ function renderGallery(array) {
 		image.src = image.alt;
 		image.removeAttribute('alt');
 	}
+
+
+
+
+	document.getElementById('loadedCount').innerText = 0;
+	setTimeout(reloadImages,500);
 	
 	//add event listener when click on image
 	/*for (let i = 0 ; i < document.getElementsByTagName('img').length ; i++)
 	{
 		document.getElementsByTagName('img')[i].addEventListener('click', function() { openViewer(document.getElementsByTagName('img')[i]); });
 	}*/
+}
+
+function reloadImages() {
+	let loadedImages = 0;
+	for(var image of document.getElementsByTagName("img"))
+	{
+		if(image.complete) document.getElementById('loadedCount').innerText = ++loadedImages;
+		else {
+			let source = image.src;
+			image.src = spacerURL;
+			image.src = source;
+			
+		}
+	}
+	if(loadedImages < imgArray.length-2) setTimeout(reloadImages,500);
+	if(loadedImages >= imgArray.length-2) setTimeout(function () { document.getElementById('description').style.display = 'none'; }, 2000);
 }
 
 //generate name labels
@@ -912,21 +934,33 @@ document.getElementById('SelectAll').addEventListener('click', function () {
 });
 for (let tickbox of document.getElementsByTagName('label'))
 {
-	tickbox.addEventListener('click',renderFilter);
+	tickbox.addEventListener('click', function() { renderFilter(undefined); });
+	if(tickbox.innerText == 'Select All') continue;
+	tickbox.addEventListener('contextmenu', function() { renderFilter(this); });
 }
-function renderFilter() {
+function renderFilter(element) {
 	let orientationArray = new Array();
 	for (let label of document.getElementById('orientation').getElementsByTagName('input'))
 	{
 		if(label.checked == true)
 			orientationArray.push(label.value);
 	}
+	
 	let nameArray = new Array();
+	if(element != undefined)
+	{
+		for (let label of document.getElementById('name').getElementsByTagName('input'))
+		{
+			label.checked = false;
+			if(element.innerText == label.parentElement.innerText) label.checked = true;
+		}
+	}
 	for (let label of document.getElementById('name').getElementsByTagName('input'))
 	{
 		if(label.checked == true)
 			nameArray.push(label.value);
 	}
+	
 	let newArray = new Array();
 	for(let img of imgArray)
 	{
@@ -944,42 +978,76 @@ document.getElementById('viewer').addEventListener('click', function() {
 
 //allow scroll on desktop
 var scrollList = new Array();
+let largestHalfWidth = 0;
+let time = new Date();
 document.getElementById("imgGallery").addEventListener("wheel", function(e) {
     e.preventDefault();
-	//get relative positions of all images
+	document.getElementsByClassName('profile-category')[0].classList.remove('snap');
+	//console.log(new Date() - time);
+	time = new Date();
+	document.getElementsByClassName('profile-category')[0].scrollLeft -= e.wheelDelta;
 	
+	if(new Date() - time < 500 && (e.wheelDelta > 100 || e.wheelDelta < -100)) //conditions to prevent immediate snap
+	{
+		setTimeout( function() { 
+			//document.getElementsByClassName('profile-category')[0].style.setProperty('scroll-snap-type','x proximity');
+			document.getElementsByClassName('profile-category')[0].classList.add('snap');
+		}, 500);
+		setTimeout( function() { 
+			//document.getElementsByClassName('profile-category')[0].style.setProperty('scroll-snap-type','none');
+			document.getElementsByClassName('profile-category')[0].classList.remove('snap');
+		}, 600);
+	}
+	
+	//get relative positions of all images
+	/*
 	scrollList = new Array();
 	for(let img of document.getElementsByClassName('profile-box'))
 	{
 		scrollList.push(img.getBoundingClientRect().x);
 	}
-    // document.getElementsByClassName('profile-category')[0].scrollLeft -= e.wheelDelta*4;
-	let posDelta = 0;
-	//sort reverse order if scroll up
-	if(e.wheelDelta > 0) scrollList.sort(function(a, b){return b-a});
-	//find next closest element
-	for(let position of scrollList)
+	
+	largestHalfWidth = document.getElementsByClassName('landscape')[0].getBoundingClientRect().width/2;
+	let halfWidth = window.innerWidth/2;
+	let diff = 99999; //closest x
+	let imgIndex = -1; //corresponding index
+	let x = 0;
+	for(let i = 0; i < document.getElementsByClassName('profile-box').length; i++)
 	{
-		if(e.wheelDelta < 0 && position >= 0.5*window.innerWidth)
+		x = document.getElementsByClassName('profile-box')[i].getBoundingClientRect().x;
+		if(x < halfWidth && halfWidth - x < diff)
 		{
-			posDelta = position/2;
-			break;
-		}
-		if(e.wheelDelta > 0 && position <= -0.5*window.innerWidth)
-		{
-			posDelta = position/2;
-			break;
+			imgIndex = i;
 		}
 	}
-	//optimise scroll
-	//console.log(e.wheelDelta);
-	if ((e.wheelDelta < 5 || e.wheelDelta > -5) && Math.floor(Math.random()*10)>0) return;
-	if(e.wheelDelta > 50 || e.wheelDelta < -50) return;
-	//scroll
-	//console.log(posDelta);
-	document.getElementsByClassName('profile-category')[0].scrollLeft += + posDelta;
-	//console.log(document.getElementsByClassName('profile-category')[0].scrollLeft);
-	return;
+	//console.log(imgIndex);
+	let imgLength = document.getElementsByClassName('profile-box').length;
+	let newIndex = -1;
+	if(e.wheelDelta < 0) //scroll right
+		newIndex = imgIndex + 1;
+	if(e.wheelDelta > 0) //scroll left
+		newIndex = imgIndex - 1;
+	
+	let left = document.getElementsByClassName('profile-category')[0].scrollLeft;
+	let newX = document.getElementsByClassName('profile-box')[newIndex].getBoundingClientRect().width;
+	if(e.wheelDelta > 0) newX = -1*newX;
+	//document.getElementsByClassName('profile-category')[0].scrollLeft += newX;
+	let newLeft = document.getElementsByClassName('profile-category')[0].scrollLeft;
+	//console.log(left + "|" + newLeft + "|" + (newX));
+	*/
+	
+	//if(document.getElementsByClassName('profile-category')[0].scrollLeft < halfWidth)
+	//	document.getElementsByClassName('profile-category')[0].scrollLeft += document.getElementsByClassName('profile-box')[2].getBoundingClientRect().x;
+		
+	//scroll depends on transition from image orientation eg. portrait to landscape
+	//but scrollLeft value is always left edge of category box (0 is first img)
+	//bountingrect.x for each image is wrt left edge of screen (0 is left edge of screen of category box)
+	//document.getElementsByClassName('profile-category')[0].scrollLeft += document.getElementsByTagName('img')[1].getBoundingClientRect().x;
+
+});
+
+document.getElementById("imgGallery").addEventListener("touchmove", function(e) {
+	document.getElementsByClassName('profile-category')[0].classList.add('snap');
 });
 
 //open image to fullscreen
@@ -1022,7 +1090,7 @@ window.onload = function () {
 let runSlideshow;
 //start slideshow
 function startSlideshow() {
-	if(document.getElementById('description') != null) document.getElementById('description').remove();
+	document.getElementById('description').style.display = 'none';
 	switchButtons();
 	openFullscreen();
 	randomImg();
@@ -1040,10 +1108,12 @@ function switchButtons() {
 }
 
 function randomImg() {
+	document.getElementsByClassName('profile-category')[0].classList.add('snap');
 	let images = document.getElementsByClassName('profile-box');
 	let selected = images[Math.floor(Math.random()*images.length)];
 	selected.scrollIntoView();
 	if(viewer.style.display == 'block') openImageInViewer(selected.getElementsByTagName('img')[0]);
+	document.getElementsByClassName('profile-category')[0].classList.remove('snap');
 	runSlideshow = setTimeout(randomImg, 3000);
 }
 
