@@ -205,6 +205,7 @@ let imgArray = [
 [999,'','','']
 ];
 
+let spacerURL = 'https://knneo.github.io/resources/spacer.gif';
 //generate profile category based on array
 function renderGallery(array) {
 	let profileCategoryHTML = document.createElement('DIV');
@@ -219,7 +220,7 @@ function renderGallery(array) {
 		let imgHTML = document.createElement('IMG');
 		imgHTML.classList.add(img[2]);
 		imgHTML.setAttribute('alt', 'images/' + img[1] + '.jpg');
-		imgHTML.setAttribute('src', 'https://knneo.github.io/resources/spacer.gif');
+		imgHTML.setAttribute('src', spacerURL);
 		imgHTML.title = img[4] == "" ? img[3] : img[4];
 		profileBoxImgHTML.appendChild(imgHTML);
 		profileBoxHTML.appendChild(profileBoxImgHTML);
@@ -234,11 +235,30 @@ function renderGallery(array) {
 		image.removeAttribute('alt');
 	}
 	
+	document.getElementById('loadedCount').innerText = 0;
+	setTimeout(reloadImages,500);
+	
 	//add event listener when click on image
 	for (let i = 0 ; i < document.getElementsByTagName('img').length ; i++)
 	{
 		document.getElementsByTagName('img')[i].addEventListener('click', function() { openViewer(document.getElementsByTagName('img')[i]); });
 	}
+}
+
+function reloadImages() {
+	let loadedImages = 0;
+	for(var image of document.getElementsByTagName("img"))
+	{
+		if(image.complete) document.getElementById('loadedCount').innerText = ++loadedImages;
+		else {
+			let source = image.src;
+			image.src = spacerURL;
+			image.src = source;
+			
+		}
+	}
+	if(loadedImages < document.getElementsByTagName("img").length) setTimeout(reloadImages,500);
+	if(loadedImages == document.getElementsByTagName("img").length) setTimeout(function () { document.getElementById('description').remove(); }, 2000);
 }
 
 //generate name labels
@@ -451,10 +471,12 @@ function switchButtons() {
 }
 
 function randomImg() {
+	document.getElementsByClassName('profile-category')[0].classList.add('snap');
 	let images = document.getElementsByClassName('profile-box');
 	let selected = images[Math.floor(Math.random()*images.length)];
 	selected.scrollIntoView();
 	if(viewer.style.display == 'block') openImageInViewer(selected.getElementsByTagName('img')[0]);
+	document.getElementsByClassName('profile-category')[0].classList.remove('snap');
 	runSlideshow = setTimeout(randomImg, 3000);
 }
 
