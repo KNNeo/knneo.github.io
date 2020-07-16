@@ -58,6 +58,10 @@ input {
 	color: black;
 }
 
+#fullScreen, #orientation {
+	display: none;
+}
+
 h4 { 
 	margin: 0;
 }

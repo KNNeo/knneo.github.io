@@ -4,32 +4,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="surugaya-gallery.css"rel="stylesheet" type="text/css" >
 	<link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'/>
-    <title>GALLERY</title>
+    <title>ギャラリー</title>
 </head>
 <body>	
 <div id="viewer" style="display: none;">
 </div>
-<h1>GALLERY</h1>
+<h1>ギャラリー</h1>
 <div id="options">
 <div id="description">
-<h5>Use this page to create your own private image gallery!<br />
-(Add to array in sugaraya-gallery.js)</h5>
-<h5>[<span id="loadedCount"></span> images loaded]</h5>
+<h5>[<span id="loadedCount"></span> 画像ロード完了]</h5>
 </div>
 <div id="filter">
 <div id="orientation">
-<h4>Orientation</h4>
-<label><input type="checkbox" name="columnPortrait" value="portrait" checked>Portrait</label>
-<label><input type="checkbox" name="columnLandscape" value="landscape" checked>Landscape</label>
+<h4>オリエンテーション</h4>
+<label><input type="checkbox" name="columnPortrait" value="portrait" checked>ポートレート</label>
+<label><input type="checkbox" name="columnLandscape" value="landscape" checked>ランドスケープ</label>
 </div>
 <div id ="name">
-<h4>Tags</h4>
-<label><input id="SelectAll" type="checkbox" name="columnSelectAll" value="selectall" checked>Select All</label>
+<h4>タグ</h4>
+<label><input id="SelectAll" type="checkbox" name="columnSelectAll" value="selectall" checked>全選</label>
 </div>
 </div>
 </div>
 <hr/>
-<div style="text-align: center; padding: 10px;"><span id="ssstart" onclick="startSlideshow()">Slideshow</span><span id="ssstop" style="display:none;" onclick="stopSlideshow()">Stop</span><label><input id="isFullscreen" type="checkbox" name="fullscreen">Fullscreen</label></div>
+<div style="text-align: center; padding: 10px;"><span id="ssstart" onclick="startSlideshow()">Slideshow</span><span id="ssstop" style="display:none;" onclick="stopSlideshow()">Stop</span><label id="fullScreen"><input id="isFullscreen" type="checkbox" name="fullscreen">Fullscreen</label></div>
 <div id="imgGallery">
 </div>
 <p style="text-align: center;"><a href="image-gallery.html">Photos</a></p>
