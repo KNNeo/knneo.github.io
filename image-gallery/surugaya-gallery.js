@@ -2,14 +2,48 @@
 //[sortOrder,directory,orientation,name]
 let imgArray = [
 [0,'FILENAME','ORIENTATION','TAG','DETAIL'],
-[1,'https://www.suruga-ya.jp/database/pics/game/gg208488.jpg','portrait','tag','detail'],
-[1,'https://www.suruga-ya.jp/database/pics/game/g3614262.jpg','portrait','tag','detail'],
-[1,'https://www.suruga-ya.jp/database/pics/game/gg189336.jpg','portrait','tag','detail'],
-[1,'https://www.suruga-ya.jp/database/pics/game/g3716291.jpg','portrait','tag','detail'],
-[1,'https://www.suruga-ya.jp/database/pics/game/g3711221.jpg','portrait','tag','detail'],
+/*
+[1,'https://www.suruga-ya.jp/database/pics/game/g3013821.jpg','portrait','tag','detail'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g3204936.jpg','portrait','tag','detail'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g3238850.jpg','portrait','tag','detail'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g3204937.jpg','portrait','tag','detail'],
 [1,'https://www.suruga-ya.jp/database/pics/game/g3238851.jpg','portrait','tag','detail'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g4494725.jpg','portrait','tag','detail'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g4494727.jpg','portrait','tag','detail'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g3040713.jpg','portrait','tag','detail'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g3040714.jpg','portrait','tag','detail'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g3242327.jpg','portrait','tag','detail'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g4494723.jpg','portrait','tag','detail'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g3013817.jpg','portrait','tag','detail'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g6235275.jpg','portrait','tag','detail'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g6235276.jpg','portrait','tag','detail'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g6235279.jpg','portrait','tag','detail'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g8603998.jpg','portrait','tag','detail'],
+[1,'https://www.suruga-ya.jp/database/pics/game/gg284089.jpg','portrait','tag','detail'],
+[1,'https://www.suruga-ya.jp/database/pics/game/gg284086.jpg','portrait','tag','detail'],
+[1,'https://www.suruga-ya.jp/database/pics/game/gg284087.jpg','portrait','tag','detail'],
+[1,'https://www.suruga-ya.jp/database/pics/game/gg208488.jpg','portrait','tag','detail'],
+[1,'https://www.suruga-ya.jp/database/pics/game/gg208489.jpg','portrait','tag','detail'],
+[1,'https://www.suruga-ya.jp/database/pics/game/gg189340.jpg','portrait','tag','detail'],
+[1,'https://www.suruga-ya.jp/database/pics/game/gg189336.jpg','portrait','tag','detail'],
+[1,'https://www.suruga-ya.jp/database/pics/game/gg284973.jpg','portrait','tag','detail'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g3768927.jpg','portrait','tag','detail'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g3716291.jpg','portrait','tag','detail'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g3711225.jpg','portrait','tag','detail'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g3778061.jpg','portrait','tag','detail'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g3580668.jpg','portrait','tag','detail'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g3580667.jpg','portrait','tag','detail'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g3716299.jpg','portrait','tag','detail'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g3711221.jpg','portrait','tag','detail'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g3614262.jpg','portrait','tag','detail'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g3778062.jpg','portrait','tag','detail'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g3453849.jpg','portrait','tag','detail'],
 [1,'https://www.suruga-ya.jp/database/pics/game/g3532448.jpg','portrait','tag','detail'],
 [1,'https://www.suruga-ya.jp/database/pics/game/g3453848.jpg','portrait','tag','detail'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g3453852.jpg','portrait','tag','detail'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g3445470.jpg','portrait','tag','detail'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g3566551.jpg','portrait','tag','detail'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g3453853.jpg','portrait','tag','detail'],
 [1,'https://www.suruga-ya.jp/database/pics/game/g3532449.jpg','portrait','tag','detail'],
 [1,'https://www.suruga-ya.jp/database/pics/game/g3345811.jpg','portrait','tag','detail'],
 [1,'https://www.suruga-ya.jp/database/pics/game/g3445466.jpg','portrait','tag','detail'],
@@ -17,33 +51,62 @@ let imgArray = [
 [1,'https://www.suruga-ya.jp/database/pics/game/g3445467.jpg','portrait','tag','detail'],
 [1,'https://www.suruga-ya.jp/database/pics/game/g3458434.jpg','portrait','tag','detail'],
 [1,'https://www.suruga-ya.jp/database/pics/game/g3458433.jpg','portrait','tag','detail'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g3458435.jpg','portrait','tag','detail'],
 [1,'https://www.suruga-ya.jp/database/pics/game/g3445468.jpg','portrait','tag','detail'],
-[1,'https://www.suruga-ya.jp/database/pics/game/g3238850.jpg','portrait','tag','detail'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g3395275.jpg','portrait','tag','detail'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g3087480.jpg','portrait','tag','detail'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g3087468.jpg','portrait','tag','detail'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g3345812.jpg','portrait','tag','detail'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g3087475.jpg','portrait','tag','detail'],
 [1,'https://www.suruga-ya.jp/database/pics/game/g3087473.jpg','portrait','tag','detail'],
 [1,'https://www.suruga-ya.jp/database/pics/game/g3030374.jpg','portrait','tag','detail'],
-[1,'https://www.suruga-ya.jp/database/pics/game/g3040713.jpg','portrait','tag','detail'],
-[1,'https://www.suruga-ya.jp/database/pics/game/g3242327.jpg','portrait','tag','detail'],
-[1,'https://www.suruga-ya.jp/database/pics/game/g4494723.jpg','portrait','tag','detail'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g5802449.jpg','portrait','tag','detail'],
 [1,'https://www.suruga-ya.jp/database/pics/game/g5802448.jpg','portrait','tag','detail'],
-[1,'https://www.suruga-ya.jp/database/pics/game/g3013817.jpg','portrait','tag','detail'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g5802446.jpg','portrait','tag','detail'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g5802444.jpg','portrait','tag','detail'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g5802443.jpg','portrait','tag','detail'],
+*/
+[1,'https://www.suruga-ya.jp/database/pics/game/gg427055.jpg','portrait','上坂すみれ','横型・上半身・衣装オレンジ・振り返り/「上坂すみれのPROPAGANDA CITY 2020」どっちかにしなさいよ!生写真 TYPE-B'],
+[1,'https://www.suruga-ya.jp/database/pics/game/gg427051.jpg','portrait','上坂すみれ','バストアップ・衣装青.黒・体右向き・背景黒/「上坂すみれのPROPAGANDA CITY 2020」どっちかにしなさいよ!生写真 TYPE-A'],
+[1,'https://www.suruga-ya.jp/database/pics/game/gg427052.jpg','portrait','上坂すみれ','横型・バストアップ・衣装青.黒・両手頬/「上坂すみれのPROPAGANDA CITY 2020」どっちかにしなさいよ!生写真 TYPE-A'],
+[1,'https://www.suruga-ya.jp/database/pics/game/gg427053.jpg','portrait','上坂すみれ','上半身・衣装オレンジ・飲み物/「上坂すみれのPROPAGANDA CITY 2020」どっちかにしなさいよ!生写真 TYPE-B'],
+[1,'https://www.suruga-ya.jp/database/pics/game/gg427050.jpg','portrait','上坂すみれ','バストアップ・衣装青.黒・左手胸・背景赤/「上坂すみれのPROPAGANDA CITY 2020」どっちかにしなさいよ!生写真 TYPE-A'],
+[1,'https://www.suruga-ya.jp/database/pics/game/gg034304.jpg','portrait','上坂すみれ','上半身・衣装紫・左手サングラス・背景黒/「上坂すみれのノーフューチャーダイアリー2019」生写真セットA'],
+[1,'https://www.suruga-ya.jp/database/pics/game/gg034303.jpg','portrait','上坂すみれ','横型・上半身・衣装紫・右手銃・背景黒/「上坂すみれのノーフューチャーダイアリー2019」生写真セットA'],
+[1,'https://www.suruga-ya.jp/database/pics/game/gg034305.jpg','portrait','上坂すみれ','横型・顔アップ・衣装紫・体右向き・背景黒/「上坂すみれのノーフューチャーダイアリー2019」生写真セットA'],
+[1,'https://www.suruga-ya.jp/database/pics/game/gg034306.jpg','portrait','上坂すみれ','横型・バストアップ・衣装ピンク・右手パー・背景水色/「上坂すみれのノーフューチャーダイアリー2019」生写真セットB'],
+[1,'https://www.suruga-ya.jp/database/pics/game/gg034308.jpg','portrait','上坂すみれ','膝上・衣装ピンク・体左向き・背景水色/「上坂すみれのノーフューチャーダイアリー2019」生写真セットB'],
+[1,'https://www.suruga-ya.jp/database/pics/game/gg034309.jpg','portrait','上坂すみれ','上半身・衣装白・黒・ピンク・両手棒・口元・背景ピンク/上坂すみれファンクラブ「コルホーズの玉ねぎ畑」イベント「義・バレンタイン」生写真'],
+[1,'https://www.suruga-ya.jp/database/pics/game/gg277820.jpg','portrait','上坂すみれ','バストアップ・衣装白・黒・左向き・背景ピンク・印刷サイン入り/上坂すみれファンクラブ「コルホーズの玉ねぎ畑」イベント「義・バレンタイン」生写真'],
+[1,'https://www.suruga-ya.jp/database/pics/game/gg277821.jpg','portrait','上坂すみれ','膝上・衣装白・黒・両手下・首傾げ・背景ピンク/上坂すみれファンクラブ「コルホーズの玉ねぎ畑」イベント「義・バレンタイン」生写真'],
+[1,'https://www.suruga-ya.jp/database/pics/game/gg277815.jpg','portrait','上坂すみれ','上半身・衣装白・黒・右手棒・目線左上・背景白・印刷サイン入り/上坂すみれファンクラブ「コルホーズの玉ねぎ畑」イベント「義・バレンタイン」生写真'],
+[1,'https://www.suruga-ya.jp/database/pics/game/gg277813.jpg','portrait','上坂すみれ','上半身・衣装白・黒・右手棒・左手指差し・背景白/上坂すみれファンクラブ「コルホーズの玉ねぎ畑」イベント「義・バレンタイン」生写真'],
+[1,'https://www.suruga-ya.jp/database/pics/game/gg277817.jpg','portrait','上坂すみれ','全身・衣装白・黒・両手棒・右足曲げ・背景白/上坂すみれファンクラブ「コルホーズの玉ねぎ畑」イベント「義・バレンタイン」生写真'],
+[1,'https://www.suruga-ya.jp/database/pics/game/gg277819.jpg','portrait','上坂すみれ','バストアップ・衣装白・黒・右手曲げ・右向き・背景ピンク/上坂すみれファンクラブ「コルホーズの玉ねぎ畑」イベント「義・バレンタイン」生写真'],
+[1,'https://www.suruga-ya.jp/database/pics/game/gg277816.jpg','portrait','上坂すみれ','上半身・衣装白・黒・右手棒・左手腰・顔左向き・口開け・背景ピンク/上坂すみれファンクラブ「コルホーズの玉ねぎ畑」イベント「義・バレンタイン」生写真'],
+[1,'https://www.suruga-ya.jp/database/pics/game/gg277814.jpg','portrait','上坂すみれ','膝上・衣装白・黒・両手棒・口開け・背景白/上坂すみれファンクラブ「コルホーズの玉ねぎ畑」イベント「義・バレンタイン」生写真'],
+[1,'https://www.suruga-ya.jp/database/pics/game/gg277818.jpg','portrait','上坂すみれ','上半身・衣装白・黒・右手棒・顔右向き・背景白/上坂すみれファンクラブ「コルホーズの玉ねぎ畑」イベント「義・バレンタイン」生写真'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g3609175.jpg','portrait','上坂すみれ','衣装ピンク・右手髪の毛/雑誌「声優グランプリ 2018年2月号」ゲーマーズ特典生写真'],
+[1,'https://www.suruga-ya.jp/database/pics/game/gg062401.jpg','portrait','上坂すみれ','雑誌「B.L.T. VOICE GIRLS Vol.38」アニメイト特典生写真'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g3643823.jpg','portrait','上坂すみれ','雑誌「B.L.T. VOICE GIRLS Vol.33」アニメイト特典生写真'],
+
 ];
 
-//from site: https://www.suruga-ya.jp/search?category=5&search_word=%E5%A3%B0%E5%84%AA&is_marketplace=2&restrict[]=brand=Music%2BRay%E2%80%99n&restrict[]=price=[100,199]
+//from site: https://www.suruga-ya.jp/
 //create array based on item box info
 /*
-let list;
+let list = '';
 for(let item of document.getElementsByClassName('item')) {
     let url = item.getElementsByTagName('p')[0].getElementsByTagName('a')[0].href;
     if(url.includes('?')) continue;
-	let newurl = url.replace('https://www.suruga-ya.jp/product/detail/','https://www.suruga-ya.jp/database/pics/game/').toLowerCase();
-    list+= ("[1,'"+newurl+"','portrait','tag','detail'],") + '\n';
+	let newurl = url.replace('https://www.suruga-ya.jp/product/detail/','https://www.suruga-ya.jp/database/pics/game/').toLowerCase() + '.jpg';
+    list+= ("[1,'"+newurl+".jpg','portrait','tag','detail'],") + '\n';
 }
 */
 
 
 function obtainArray() {
-	
-	imgArray.push([]);
+	//imgArray.push([]);
 }
 
 let spacerURL = 'https://knneo.github.io/resources/spacer.gif';
@@ -70,7 +133,7 @@ function renderGallery(array) {
 	if(document.getElementById('imgGallery').childNodes.length > 0) document.getElementById('imgGallery').innerHTML = '';
 	document.getElementById('imgGallery').appendChild(profileCategoryHTML);
 	
-	for(var image of document.getElementsByTagName("img"))
+	for(let image of document.getElementsByTagName("img"))
 	{
 		image.src = image.alt;
 		image.removeAttribute('alt');
@@ -204,7 +267,7 @@ document.getElementById("imgGallery").addEventListener("wheel", function(e) {
 	time = new Date();
 	document.getElementsByClassName('profile-category')[0].scrollLeft -= e.wheelDelta;
 	
-	if(new Date() - time < 500 && (e.wheelDelta > 100 || e.wheelDelta < -100)) //conditions to prevent immediate snap
+	if(new Date() - time < 300 && (e.wheelDelta > 50 || e.wheelDelta < -50)) //conditions to prevent immediate snap
 	{
 		setTimeout( function() { 
 			//document.getElementsByClassName('profile-category')[0].style.setProperty('scroll-snap-type','x proximity');
@@ -295,8 +358,8 @@ function adjustViewerMargin() {
 
 //prevent right click events
 document.addEventListener('contextmenu', function(e) {
-    e.preventDefault();
-    return false;
+    //e.preventDefault();
+    //return false;
 }, false);
 
 //"lazy load" on window load
