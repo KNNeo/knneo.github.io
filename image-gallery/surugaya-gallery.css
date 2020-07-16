@@ -17,7 +17,6 @@ h1, #options {
 .profile-box-img img {
 	max-width: 90vw;
 	max-height: 50vh;
-	height: 50vh;
 	background-color: white;
 	filter: opacity(100%);
 	transition: filter 1s;
