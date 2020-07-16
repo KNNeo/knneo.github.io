@@ -80,10 +80,10 @@ function renderGallery(array) {
 	setTimeout(reloadImages,500);
 	
 	//add event listener when click on image
-	for (let i = 0 ; i < document.getElementsByTagName('img').length ; i++)
+	/*for (let i = 0 ; i < document.getElementsByTagName('img').length ; i++)
 	{
 		document.getElementsByTagName('img')[i].addEventListener('click', function() { openViewer(document.getElementsByTagName('img')[i]); });
-	}
+	}*/
 }
 
 function reloadImages() {
