@@ -62,6 +62,10 @@ input {
 	color: black;
 }
 
+#fullScreen {
+	display: none;
+}
+
 h4 { 
 	margin: 0;
 }
