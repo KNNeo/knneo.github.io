@@ -380,7 +380,7 @@ function reloadImages() {
 				image.style.height = '50vh';
 		}
 		else {
-			if(image.height < lowestHeight) //resize to lowest height
+			if(image.height < lowestHeight && image.height > 1) //resize to lowest height
 				lowestHeight = image.height;
 			else
 				image.height = lowestHeight;
