@@ -309,6 +309,7 @@ for(let item of document.getElementsByClassName('item')) {
 
 let spacerURL = 'https://knneo.github.io/resources/spacer.gif';
 let lowestHeight = 9999;
+let highestHeight = 0;
 //generate profile category based on array
 function renderGallery(array) {
 	let profileCategoryHTML = document.createElement('DIV');
@@ -340,6 +341,7 @@ function renderGallery(array) {
 	
 	document.getElementById('loadedCount').innerText = 0;
 	lowestHeight = 9999;
+	highestHeight = 0;
 	setTimeout(reloadImages,500);
 	
 	//add event listener when click on image
@@ -370,14 +372,27 @@ function reloadImages() {
 			
 		}
 		
-		if(image.height < lowestHeight) //resize to lowest height
-			lowestHeight = image.height;
+		if(image.height > highestHeight) //resize to lowest height
+			highestHeight = image.height;
 		else
-			image.height = lowestHeight;
+			image.height = highestHeight;
 		
 	}
 	if(loadedImages < imgArray.length-1) setTimeout(reloadImages,500);
 	if(loadedImages >= imgArray.length-1) setTimeout(function () { document.getElementById('description').style.display = 'none'; }, 2000);
+	checkImageHeights();
+}
+
+function checkImageHeights() {
+	for(var image of document.getElementsByTagName("img"))
+	{
+		if(image.height < highestHeight)
+		{
+			setTimeout(reloadImages,500);
+			return;
+		}
+			
+	}
 }
 
 //generate name labels
