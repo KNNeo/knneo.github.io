@@ -259,10 +259,19 @@ function reloadImages() {
 			image.src = source;
 		}
 		
-		if(image.height < lowestHeight) //resize to lowest height
-			lowestHeight = image.height;
-		else
-			image.height = lowestHeight;
+		if(window.innerWidth >= 1040)
+		{
+			if(image.height > highestHeight) //resize to highest height
+				highestHeight = image.height;
+			else
+				image.style.height = '50vh';
+		}
+		else {
+			if(image.height < lowestHeight) //resize to lowest height
+				lowestHeight = image.height;
+			else
+				image.height = lowestHeight;
+		}
 
 	}
 	if(loadedImages < imgArray.length-2) setTimeout(reloadImages,500);
