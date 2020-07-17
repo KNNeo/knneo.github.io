@@ -266,7 +266,30 @@ let imgArray = [
 [1,'https://www.suruga-ya.jp/database/pics/game/g6469390.jpg','portrait','竹達彩奈','CD「apple symphony」スペシャル盤・初回限定盤 ゲーマーズ特典'],
 [1,'https://www.suruga-ya.jp/database/pics/game/g6490268.jpg','portrait','竹達彩奈','CD「時空ツアーズ」その他法人特典'],
 [1,'https://www.suruga-ya.jp/database/pics/game/g6677810.jpg','portrait','竹達彩奈','CD「時空ツアーズ」HMV特典'],
-
+[1,'https://www.suruga-ya.jp/database/pics/game/g3982186.jpg','portrait','沼倉愛美','印刷サイン・メッセージ入り/CD「アイ」TOWER RECORDS特典ブロマイド'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g3982188.jpg','portrait','沼倉愛美','印刷サイン・メッセージ入り/CD「アイ」HMV特典ブロマイド'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g3996272.jpg','portrait','沼倉愛美','雑誌「Pick-up Voice 2019年4月号 vol.133」公式オンラインストア(EMTG STORE)特典フォト'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g3982189.jpg','portrait','沼倉愛美','印刷サイン・メッセージ入り/CD「アイ」とらのあな特典ブロマイド'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g3293641.jpg','portrait','沼倉愛美','印刷サイン・メッセージ入り/CD「Climber’s High!」アニメイト特典ブロマイド'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g3409982.jpg','portrait','沼倉愛美','印刷サイン・メッセージ入り・「歌詞も書いてます。」/CD「My LIVE」TOWER RECORD特典ブロマイド'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g3416172.jpg','portrait','沼倉愛美','全身・座り・衣装白・両手合わせ/雑誌「声優アニメディア 2017年7月号」アニメイト特典生写真'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g3204986.jpg','portrait','沼倉愛美','印刷サイン・メッセージ入り/CD「叫べ」HMV特典ブロマイド'],
+[1,'https://www.suruga-ya.jp/database/pics/game/gg483720.jpg','portrait','沼倉愛美','雑誌「Pick-up Voice 2017年3月号 vol.108」公式オンラインストア(EMTG STORE)特典フォト'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g3204981.jpg','portrait','沼倉愛美','印刷サイン・メッセージ入り/CD「叫べ」ビクターエンタテインメントオンラインショップ特典ブロマイド'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g3204982.jpg','portrait','沼倉愛美','印刷サイン・メッセージ入り/CD「叫べ」アニメイト特典ブロマイド'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g3293643.jpg','portrait','沼倉愛美','印刷サイン・メッセージ入り/CD「Climber’s High!」とらのあな特典ブロマイド'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g3204989.jpg','portrait','沼倉愛美','印刷サイン・メッセージ入り/CD「叫べ」ソフマップ特典ブロマイド'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g3494176.jpg','portrait','沼倉愛美','沼倉愛美/横型・全身・衣装白・うつ伏せ・右手頬杖・背景ピンク/Trident Artist Book「Blue Memory」ゲーマーズ特典ブロマイド'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g3494181.jpg','portrait','沼倉愛美','沼倉愛美/膝上・座り・衣装白・両手クッション・背景ピンク/Trident Artist Book「Blue Memory」通販予約特典ブロマイド'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g3964143.jpg','portrait','渕上舞','印刷サイン・メッセージ入り・2Lサイズ/CD「Journey ＆ My music」アニメイト特典ブロマイド'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g3609178.jpg','portrait','渕上舞','雑誌「声優アニメディア 2018年2月号」アニメイト特典生写真'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g3686792.jpg','portrait','渕上舞','膝上・ぶたの乗り物・印刷サイン、メッセージ入り/DVD「声優散歩～渕上舞～」ゲーマーズ特典'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g3686790.jpg','portrait','渕上舞','横型・上半身・両手絵馬・印刷サイン、メッセージ入り/DVD「声優散歩～渕上舞～」とらのあな特典'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g3686789.jpg','portrait','渕上舞','バストアップ・右手鳥・印刷サイン、メッセージ入り/DVD「声優散歩～渕上舞～」アニメイト特典'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g3686793.jpg','portrait','渕上舞','横型・バストアップ・口開け・印刷サイン、メッセージ入り/DVD「声優散歩～渕上舞～」ショップ.学研特典'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g3494175.jpg','portrait','渕上舞','渕上舞/上半身・衣装白・両手タンス・背景青/Trident Artist Book「Blue Memory」ゲーマーズ特典ブロマイド'],
+[1,'https://www.suruga-ya.jp/database/pics/game/g4237193.jpg','portrait','茅野愛衣','写真集「LETTERS」ゲーマズ特典'],
+[2,'https://www.suruga-ya.jp/database/pics/game/g4237192.jpg','portrait','茅野愛衣','写真集「LETTERS」アニメイト特典'],
 ];
 
 //from site: https://www.suruga-ya.jp/
@@ -285,6 +308,7 @@ for(let item of document.getElementsByClassName('item')) {
 */
 
 let spacerURL = 'https://knneo.github.io/resources/spacer.gif';
+let lowestHeight = 9999;
 //generate profile category based on array
 function renderGallery(array) {
 	let profileCategoryHTML = document.createElement('DIV');
@@ -315,6 +339,7 @@ function renderGallery(array) {
 	}
 	
 	document.getElementById('loadedCount').innerText = 0;
+	lowestHeight = 9999;
 	setTimeout(reloadImages,500);
 	
 	//add event listener when click on image
@@ -336,6 +361,7 @@ function reloadImages() {
 				image.classList.remove('portrait');
 				image.classList.add('landscape');
 			}
+			
 		}
 		else {
 			let source = image.src;
@@ -343,6 +369,12 @@ function reloadImages() {
 			image.src = source;
 			
 		}
+		
+		if(image.height < lowestHeight) //resize to lowest height
+			lowestHeight = image.height;
+		else
+			image.height = lowestHeight;
+		
 	}
 	if(loadedImages < imgArray.length-1) setTimeout(reloadImages,500);
 	if(loadedImages >= imgArray.length-1) setTimeout(function () { document.getElementById('description').style.display = 'none'; }, 2000);
@@ -450,16 +482,10 @@ document.getElementById("imgGallery").addEventListener("wheel", function(e) {
 	time = new Date();
 	document.getElementsByClassName('profile-category')[0].scrollLeft -= e.wheelDelta;
 	
-	if(new Date() - time < 300 && (e.wheelDelta > 5 || e.wheelDelta < -5)) //conditions to prevent immediate snap
+	if((new Date() - time < 500 && (e.wheelDelta > 50 || e.wheelDelta < -50))
+		) //conditions to prevent immediate snap
 	{
-		setTimeout( function() { 
-			//document.getElementsByClassName('profile-category')[0].style.setProperty('scroll-snap-type','x proximity');
-			document.getElementsByClassName('profile-category')[0].classList.add('snap');
-		}, 500);
-		setTimeout( function() { 
-			//document.getElementsByClassName('profile-category')[0].style.setProperty('scroll-snap-type','none');
-			document.getElementsByClassName('profile-category')[0].classList.remove('snap');
-		}, 600);
+		reSnap();
 	}
 	
 	//get relative positions of all images
@@ -508,6 +534,17 @@ document.getElementById("imgGallery").addEventListener("wheel", function(e) {
 	//document.getElementsByClassName('profile-category')[0].scrollLeft += document.getElementsByTagName('img')[1].getBoundingClientRect().x;
 
 });
+
+function reSnap() {
+	setTimeout( function() { 
+		//document.getElementsByClassName('profile-category')[0].style.setProperty('scroll-snap-type','x proximity');
+		document.getElementsByClassName('profile-category')[0].classList.add('snap');
+	}, 500);
+	setTimeout( function() { 
+		//document.getElementsByClassName('profile-category')[0].style.setProperty('scroll-snap-type','none');
+		document.getElementsByClassName('profile-category')[0].classList.remove('snap');
+	}, 600);
+}
 
 document.getElementById("imgGallery").addEventListener("touchmove", function(e) {
 	document.getElementsByClassName('profile-category')[0].classList.add('snap');
