@@ -374,7 +374,7 @@ function reloadImages() {
 		
 		if(window.innerWidth >= 640)
 		{
-			if(image.height > highestHeight) //resize to highest height
+			if(image.height > highestHeight && image.height > 1) //resize to highest height
 				highestHeight = image.height;
 			else
 				image.style.height = '50vh';
