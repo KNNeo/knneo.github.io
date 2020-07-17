@@ -985,7 +985,7 @@ document.getElementById("imgGallery").addEventListener("wheel", function(e) {
 	time = new Date();
 	document.getElementsByClassName('profile-category')[0].scrollLeft -= e.wheelDelta;
 	
-	if(new Date() - time < 500 && (e.wheelDelta > 100 || e.wheelDelta < -100)) //conditions to prevent immediate snap
+	if(new Date() - time < 300 && (e.wheelDelta > 5 || e.wheelDelta < -100)) //conditions to prevent immediate snap
 	{
 		setTimeout( function() { 
 			//document.getElementsByClassName('profile-category')[0].style.setProperty('scroll-snap-type','x proximity');
