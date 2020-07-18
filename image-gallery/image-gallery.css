@@ -20,7 +20,7 @@ h1, #options {
   max-width: 90vw;
   max-height: 50vh;
 }
-label, p > a {
+label, a {
 	padding: 5px;
 	display: inline-block;
 	white-space: nowrap;

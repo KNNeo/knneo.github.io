@@ -31,7 +31,7 @@ h1, #options {
 	transition: filter 0s;
 }
 
-label, p > a {
+label, a {
 	padding: 5px;
 	display: inline-block;
 	white-space: nowrap;
