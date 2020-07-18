@@ -323,8 +323,10 @@ window.onload = function () {
 	//renderGallery(imgArray);
 }
 
+let windowHeight = window.innerHeight;
 window.addEventListener('resize',function () {
-	renderFilter(undefined);
+	if(window.innerHeight == windowHeight) renderFilter(undefined);
+	else windowHeight = window.innerHeight;
 });
 
 function obtainArray() {
