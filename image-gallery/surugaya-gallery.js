@@ -318,8 +318,11 @@ document.getElementById('filter').addEventListener('contextmenu', function(e) {
 window.onload = function () {
 	renderFilter(undefined);
 	//renderGallery(imgArray);
-
 }
+
+window.addEventListener('resize',function () {
+	renderFilter(undefined);
+});
 
 function obtainArray() {
 	//imgArray.push([]);

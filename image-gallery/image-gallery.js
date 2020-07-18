@@ -261,13 +261,13 @@ function reloadImages() {
 		
 		if(window.innerWidth >= 1040)
 		{
-			if(image.height > highestHeight) //resize to highest height
+			if(image.height > highestHeight && image.height > 1) //resize to highest height
 				highestHeight = image.height;
 			else
 				image.style.height = '50vh';
 		}
 		else {
-			if(image.height < lowestHeight) //resize to lowest height
+			if(image.height < lowestHeight && image.height > 1) //resize to lowest height
 				lowestHeight = image.height;
 			else
 				image.height = lowestHeight;
