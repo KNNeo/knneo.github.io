@@ -29,6 +29,7 @@ function renderGallery(array) {
 		let profileBoxImgHTML = document.createElement('DIV');
 		profileBoxImgHTML.classList.add('profile-box-img');
 		let imgHTML = document.createElement('IMG');
+		imgHTML.id = img[1].replace('https://www.suruga-ya.jp/database/pics/game/','').replace('.jpg','');
 		imgHTML.classList.add(img[2]);
 		imgHTML.setAttribute('alt', img[1]);
 		imgHTML.setAttribute('src', spacerURL);
@@ -60,23 +61,25 @@ function renderGallery(array) {
 
 function reloadImages(array) {
 	let loadedImages = 0;
-	for(var image of document.getElementsByTagName("img"))
+	for(var img of array)
 	{
+		let image = document.getElementById(img[1].replace('https://www.suruga-ya.jp/database/pics/game/','').replace('.jpg',''));
+		if(image == null) continue;
 		if(image.complete)
 		{
 			document.getElementById('loadedCount').innerText = ++loadedImages;
-			if(image.width >= image.height) //if landscape
+			if(image.width >= image.height && !image.classList.contains('landscape')) //if landscape
 			{
 				image.classList.remove('portrait');
 				image.classList.add('landscape');
+				img[2] = 'landscape';
 			}
 			
 		}
 		else {
 			let source = image.src;
 			image.src = spacerURL;
-			image.src = source;
-			
+			image.src = source;	
 		}
 		
 		if(window.innerWidth >= 640)
