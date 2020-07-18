@@ -819,6 +819,7 @@ Zucker: 'Octopus'
 
 let spacerURL = 'https://knneo.github.io/resources/spacer.gif';
 let lowestHeight = 9999;
+let highestHeight = 0;
 //map to imgArray firstChild
 for(let label of imgArray)
 {
@@ -881,19 +882,19 @@ function reloadImages() {
 			
 		}
 		
-		if(window.innerWidth >= 1040)
-		{
-			if(image.height > highestHeight && image.height > 1) //resize to highest height
-				highestHeight = image.height;
-			else
-				image.style.height = '50vh';
-		}
-		else {
-			if(image.height < lowestHeight && image.height > 1) //resize to lowest height
-				lowestHeight = image.height;
-			else
-				image.height = lowestHeight;
-		}
+		// if(window.innerWidth >= 1040)
+		// {
+			// if(image.height > highestHeight && image.height > 1) //resize to highest height
+				// highestHeight = image.height;
+			// else
+				// image.style.height = '50vh';
+		// }
+		// else {
+			// if(image.height < lowestHeight && image.height > 1) //resize to lowest height
+				// lowestHeight = image.height;
+			// else
+				// image.height = lowestHeight;
+		// }
 	}
 	if(loadedImages < imgArray.length-1) setTimeout(reloadImages,500);
 	if(loadedImages >= imgArray.length-1) setTimeout(function () { document.getElementById('description').style.display = 'none'; }, 2000);
