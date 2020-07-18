@@ -453,7 +453,7 @@ document.getElementById('SelectAll').addEventListener('click', function () {
 for (let tickbox of document.getElementsByTagName('label'))
 {
 	tickbox.addEventListener('click', function() { renderFilter(undefined); });
-	if(tickbox.innerText == 'Select All') continue;
+	if(tickbox.innerText == '全選') continue;
 	tickbox.addEventListener('contextmenu', function() { renderFilter(this); });
 }
 
@@ -600,10 +600,10 @@ function adjustViewerMargin() {
 	viewer.style.paddingTop = (viewer.getBoundingClientRect().height - viewer.getElementsByTagName('img')[0].height)/2 + 'px';
 }
 
-//prevent right click events
-document.addEventListener('contextmenu', function(e) {
-    //e.preventDefault();
-    //return false;
+//prevent right click events on filters
+document.getElementById('filter').addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+    return false;
 }, false);
 
 //"lazy load" on window load
