@@ -510,7 +510,7 @@ let imgArray = [
 [21,'https://www.suruga-ya.jp/database/pics/game/g6455997.jpg','portrait','佐藤聡美','DVD「月刊 モバコン☆聡美はっけん伝」予約特典 番組オリジナル生写真'],
 [1,'https://www.suruga-ya.jp/database/pics/game/g3792549.jpg','portrait','高野麻里佳','バストアップ・衣装青・浴衣・両手重ね顎・野外・階段/写真集「まりん夏」初版封入特典ブロマイド'],
 [2,'https://www.suruga-ya.jp/database/pics/game/g3803334.jpg','portrait','高野麻里佳','写真集「まりん夏」とらのあな特典ブロマイド'],
-[3,'https://www.suruga-ya.jp/product-other/g3782971.jpg','portrait','高野麻里佳','写真集「まりん夏」ゲーマーズ特典ブロマイド'],
+[3,'https://www.suruga-ya.jp/database/pics/game/g3782971.jpg','portrait','高野麻里佳','写真集「まりん夏」ゲーマーズ特典ブロマイド'],
 [4,'https://www.suruga-ya.jp/database/pics/game/g3792553.jpg','portrait','高野麻里佳','膝上・衣装白・タンクトップ・体左向き・座り・両手頭・岩場/写真集「まりん夏」初版封入特典ブロマイド'],
 [5,'https://www.suruga-ya.jp/database/pics/game/g3792567.jpg','portrait','高野麻里佳','バストアップ・衣装白・首傾げ・右手髪・左手上げ・2Lサイズ/ブロマイド専用印刷機「コンテンツラッシュ」 写真集「まりん夏」発売記念プレミアムブロマイド'],
 [6,'https://www.suruga-ya.jp/database/pics/game/g3792547.jpg','portrait','高野麻里佳','横型・全身・衣装白・座り・体左向き・腕伸ばし・畳/写真集「まりん夏」初版封入特典ブロマイド'],

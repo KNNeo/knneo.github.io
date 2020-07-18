@@ -18,7 +18,7 @@ let lowestHeight = 9999;
 let highestHeight = 0;
 //generate profile category based on array
 function renderGallery(array) {
-	document.getElementById('description').style.display = 'block';
+	document.getElementById('description').classList.remove('closed');
 	let profileCategoryHTML = document.createElement('DIV');
 	profileCategoryHTML.classList.add('profile-category');
 	for(let img of array)
@@ -95,7 +95,7 @@ function reloadImages(array) {
 		
 	}
 	if(loadedImages < array.length-1) setTimeout( function() { reloadImages(array); },500);
-	if(loadedImages >= array.length-1) setTimeout(function () { document.getElementById('description').style.display = 'none'; }, 1000);
+	if(loadedImages >= array.length-1) setTimeout(function () { document.getElementById('description').classList.add('closed') }, 1000);
 	checkImageHeights(array);
 }
 
@@ -332,7 +332,7 @@ function obtainArray() {
 let runSlideshow;
 //start slideshow
 function startSlideshow() {
-	document.getElementById('description').style.display = 'none';
+	document.getElementById('description').classList.add('closed');
 	switchButtons();
 	openFullscreen();
 	randomImg();

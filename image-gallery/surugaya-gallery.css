@@ -27,6 +27,7 @@ h1, #options {
 	transition: filter 0s;
 }
 
+
 label {
 	padding: 5px;
 	display: inline-block;
@@ -58,7 +59,7 @@ input {
 	color: black;
 }
 
-#fullScreen, #orientation {
+#fullScreen, #orientation, .closed {
 	display: none;
 }
 
