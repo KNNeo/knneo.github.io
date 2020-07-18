@@ -95,7 +95,6 @@ function reloadImages(array) {
 			else
 				image.height = lowestHeight;
 		}
-		
 	}
 	if(loadedImages < array.length-1) setTimeout( function() { reloadImages(array); },500);
 	if(loadedImages >= array.length-1) setTimeout(function () { document.getElementById('description').classList.add('closed') }, 1000);
@@ -105,12 +104,22 @@ function reloadImages(array) {
 function checkImageHeights(array) {
 	for(var image of document.getElementsByTagName("img"))
 	{
-		if(image.height < highestHeight)
+		if(window.innerWidth >= 640)
 		{
-			setTimeout( function() { reloadImages(array); },500);
-			return;
+			if(image.height < highestHeight)
+			{
+				setTimeout( function() { reloadImages(array); },500);
+				return;
+			}
 		}
-			
+		else
+		{
+			if(image.height > lowestHeight)
+			{
+				setTimeout( function() { reloadImages(array); },500);
+				return;
+			}
+		}
 	}
 }
 
@@ -324,9 +333,13 @@ window.onload = function () {
 }
 
 let windowHeight = window.innerHeight;
+let windowWidth = window.innerWidth;
 window.addEventListener('resize',function () {
-	if(window.innerHeight == windowHeight) renderFilter(undefined);
-	else windowHeight = window.innerHeight;
+	if(window.innerHeight == windowHeight || window.innerWidth != windowWidth) renderFilter(undefined);
+	else {
+		windowHeight = window.innerHeight;
+		windowWidth = window.innerWidth
+	}
 });
 
 function obtainArray() {
