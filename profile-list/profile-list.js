@@ -2,17 +2,26 @@
 let isExternal = window.location.href.includes('://knneo.github.io');
 let spacer = 'https://knneo.github.io/resources/spacer.gif';
 let profileList;
-let xmlhttp = new XMLHttpRequest();
-xmlhttp.onreadystatechange = function() {
-  if (this.readyState == 4 && this.status == 200) {
-	profileList = JSON.parse(this.responseText);
-	//code here
-	if(generateProfileListFromJSON(profileList)) renderWantedList();
-  }
-};
-xmlhttp.open("GET", "https://knneo.github.io/profile-list/profile-list.json", true);
-xmlhttp.send();
-	
+let useTestJson = false; //take from actual json, else from profile-list-json.js
+if(!useTestJson) {
+	let xmlhttp = new XMLHttpRequest();
+	xmlhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			profileList = JSON.parse(this.responseText);
+			//code here
+			if(profileList != null && generateProfileListFromJSON(profileList)) renderWantedList();
+		}
+	};
+	xmlhttp.open("GET", "https://knneo.github.io/profile-list/profile-list.json", true);
+	xmlhttp.send();
+}
+else {
+	if(profileListJson != null && generateProfileListFromJSON(profileListJson)) {
+		profileList = profileListJson;
+		renderWantedList();
+	}
+}
+
 function generateProfileListFromJSON(profileList) {	
 	for(let profile of profileList)
 	{
