@@ -46,6 +46,9 @@ function getResultFromNames(module) {
 			result.innerHTML = "Would you rather spend the day with " + name1 + " or spend the night with " + name2 + "?";
 		else if (categoryName == "Minutes/Seconds")
 			result.innerHTML = "Would you rather have 2 minutes with " + name1 + " or spend 2 seconds with " + name2 + "?";
+		else if (categoryName == "BFF")
+			result.innerHTML = "Would you rather BFFs with " + name1 + " (and never be able to marry her) or marry " + name2 + " (and let her be your sole partner)?";
+
 	}
 	else
 		result.innerHTML = "Please key in something!";
