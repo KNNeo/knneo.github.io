@@ -471,7 +471,11 @@ function adjustViewerMargin() {
 }
 
 //prevent right click events
-document.addEventListener('contextmenu', function(e) {
+document.getElementById('imgGallery').addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+    return false;
+}, false);
+document.getElementById('viewer').addEventListener('contextmenu', function(e) {
     e.preventDefault();
     return false;
 }, false);
