@@ -84,21 +84,32 @@ function reloadImages(array) {
 		
 		if(window.innerWidth >= 640)
 		{
-			if(image.height > highestHeight && image.height > 1) //resize to highest height
+			if(image.height > highestHeight && image.height > 1) //set to highest height
 				highestHeight = image.height;
-			else
-				image.style.height = '50vh';
+			//else
+			//	image.style.height = '50vh';
 		}
 		else {
-			if(image.height < lowestHeight && image.height > 1) //resize to lowest height
+			if(image.height < lowestHeight && image.height > 1) //set to lowest height
 				lowestHeight = image.height;
-			else
-				image.height = lowestHeight;
+			//else
+			//	image.height = lowestHeight;
 		}
 	}
+	resizeImageHeights();
+	//checkImageHeights(array);
 	if(loadedImages < array.length-1) setTimeout( function() { reloadImages(array); },500);
 	if(loadedImages >= array.length-1) setTimeout(function () { document.getElementById('description').classList.add('closed') }, 1000);
-	checkImageHeights(array);
+}
+
+function resizeImageHeights() {
+	for(var image of document.getElementsByTagName("img"))
+	{
+		if(window.innerWidth >= 640 && image.height < highestHeight && image.height > 1)//resize to highest height
+			image.style.height = '50vh';
+		else if(image.height > lowestHeight && image.height > 1) //resize to lowest height
+			image.height = lowestHeight;
+	}
 }
 
 function checkImageHeights(array) {
