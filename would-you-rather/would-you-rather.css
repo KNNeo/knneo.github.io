@@ -61,6 +61,14 @@ button:active {
 .show-result, .input-box {
 	padding: 10px;
 }
+
+.flexi-input {
+	margin: 0 5px;
+	border: 0;
+	border-bottom: 1px solid;
+	text-align: center;
+}
+
 @media screen and (max-width:800px) {
   .left, .main, .right {
     width:100%; /* The width is 100%, when the viewport is 800px or smaller */

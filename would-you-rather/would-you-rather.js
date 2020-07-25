@@ -3,7 +3,7 @@ function getResultFromNames(module) {
     let text = document.getElementById("nameInput").value.trim();
 	let nameList = text.split("\n");
 	let result = document.getElementById("result1");
-	result.innerHTML = "";
+	if(!result.innerHTML.includes('flexi-input')) result.innerHTML = "";
 	if(document.getElementById("nameInput").name !== "Load People Name Preset") result.innerHTML = "Wrong list loaded!";
 	else if(text.length > 0)
 	{
@@ -41,14 +41,56 @@ function getResultFromNames(module) {
 		else if (categoryName == "Meal")
 			result.innerHTML = "Would you rather treat \"" + name1 + "\" to a meal at the restaurant or have a cheap takeaway meal with \"" + name2 + "\"? (Or vice versa?)";
 		else if (categoryName == "Housewife")
-			result.innerHTML = "If " + name1 + " came to you after your work from home and asked \"Would you rather have dinner, have a bath or me?\", what would you prefer?";
+			result.innerHTML = "If \"" + name1 + "\" came to you after your work from home and asked \"Would you rather have dinner, have a bath or me?\", what would you prefer?";
 		else if (categoryName == "Day/Night")
-			result.innerHTML = "Would you rather spend the day with " + name1 + " or spend the night with " + name2 + "?";
+			result.innerHTML = "Would you rather spend the day with \"" + name1 + "\" or spend the night with \"" + name2 + "\"?";
 		else if (categoryName == "Minutes/Seconds")
-			result.innerHTML = "Would you rather have 2 minutes with " + name1 + " or spend 2 seconds with " + name2 + "?";
+			result.innerHTML = "Would you rather have 2 minutes with \"" + name1 + "\" or spend 2 seconds with \"" + name2 + "\"?";
 		else if (categoryName == "BFF")
-			result.innerHTML = "Would you rather BFFs with " + name1 + " (and never be able to marry her) or marry " + name2 + " (and let her be your sole partner)?";
-
+			result.innerHTML = "Would you rather BFFs with \"" + name1 + "\" (and never be able to marry her) or marry \"" + name2 + "\" (and let her be your sole partner)?";
+		else if(categoryName == "Custom")
+		{
+			if(result.innerHTML.includes('flexi-name')) {
+				result.getElementsByClassName('flexi-name')[0].innerText = name1;
+				result.getElementsByClassName('flexi-name')[1].innerText = name2;
+			}
+			else {				
+				let holder = document.createElement('div');
+				
+				let text1 = document.createElement('span');
+				text1.innerText = "Would you rather";
+				holder.appendChild(text1);
+				
+				let input1 = document.createElement('input');
+				input1.classList.add('flexi-input');
+				holder.appendChild(input1);
+				
+				let randomName1 = document.createElement('span');
+				randomName1.classList.add('flexi-name');
+				randomName1.innerText = name1;
+				holder.appendChild(randomName1);
+							
+				let text2 = document.createElement('span');
+				text2.innerText = " or";
+				holder.appendChild(text2);
+				
+				let input2 = document.createElement('input');
+				input2.classList.add('flexi-input');
+				holder.appendChild(input2);
+				
+				let randomName2 = document.createElement('span');
+				randomName2.classList.add('flexi-name');
+				randomName2.innerText = name2;
+				holder.appendChild(randomName2);
+				
+				let text3 = document.createElement('span');
+				text3.innerText = "?";
+				holder.appendChild(text3);
+				
+				result.appendChild(holder);
+			}
+			
+		}
 	}
 	else
 		result.innerHTML = "Please key in something!";
