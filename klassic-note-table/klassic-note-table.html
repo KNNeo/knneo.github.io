@@ -95,9 +95,9 @@
 		<label><input type="checkbox" name="columnFilename" value="Filename" >Filename</label>
 		<label><input type="checkbox" name="columnSongTitle" value="SongTitle" checked>SongTitle</label>
 		<label><input type="checkbox" name="columnArtistTitle" value="ArtistTitle" checked>ArtistTitle</label>
-		<label><input type="checkbox" name="columnParentArtist" value="ParentArtist" checked>ParentArtist</label>
+		<label><input type="checkbox" name="columnParentArtist" value="ParentArtist" >ParentArtist</label>
 		<label><input type="checkbox" name="columnReleaseTitle" value="ReleaseTitle" checked>ReleaseTitle</label>
-		<label><input type="checkbox" name="columnReleaseArtistTitle" value="ReleaseArtistTitle" checked>ReleaseArtistTitle</label>
+		<label><input type="checkbox" name="columnReleaseArtistTitle" value="ReleaseArtistTitle" >ReleaseArtistTitle</label>
 		<label><input type="checkbox" name="columnReleaseYear" value="ReleaseYear" checked>ReleaseYear</label>
 		<label><input type="checkbox" name="columnRating" value="Rating" checked>Rating</label>
 		<label><input type="checkbox" name="columnGenre" value="Genre" checked>Genre</label>
@@ -106,10 +106,10 @@
 		<label><input type="checkbox" name="columnLanguage" value="Language" checked>Language</label>
 		<label><input type="checkbox" name="columnInAppleMusic" value="InAppleMusic" checked>InAppleMusic</label>
 		<label><input type="checkbox" name="columnLyricsURL" value="LyricsURL" checked>LyricsURL</label>
-		<label><input type="checkbox" name="columnSongTitleAlt" value="SongTitleAlt" checked>SongTitleAlt</label>
-		<label><input type="checkbox" name="columnArtistTitleAlt" value="ArtistTitleAlt" checked>ArtistTitleAlt</label>
-		<label><input type="checkbox" name="columnReleaseTitleAlt" value="ReleaseTitleAlt" checked>ReleaseTitleAlt</label>
-		<label><input type="checkbox" name="columnReleaseArtistTitleAlt" value="ReleaseArtistTitleAlt" checked>ReleaseArtistTitleAlt</label>
+		<label><input type="checkbox" name="columnSongTitleAlt" value="SongTitleAlt" >SongTitleAlt</label>
+		<label><input type="checkbox" name="columnArtistTitleAlt" value="ArtistTitleAlt" >ArtistTitleAlt</label>
+		<label><input type="checkbox" name="columnReleaseTitleAlt" value="ReleaseTitleAlt" >ReleaseTitleAlt</label>
+		<label><input type="checkbox" name="columnReleaseArtistTitleAlt" value="ReleaseArtistTitleAlt" >ReleaseArtistTitleAlt</label>
 		<label><input type="checkbox" name="columnArtistCode" value="ArtistCode" checked>ArtistCode</label>
 	</div>
 	<br>
@@ -138,7 +138,6 @@
     document.getElementById('presetAll').addEventListener("click", function(event) {
 		console.log(event.checked);
 	});
-	
 	
     document.getElementById('dbInputSongTitle').addEventListener("keyup", function(event) {
         // Number 13 is the "Enter" key on the keyboard
