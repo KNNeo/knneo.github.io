@@ -474,7 +474,7 @@ let profileListJson =
 		"comments":[
 			"*Because her name can be pronounced as \"Sora\" and \"Ten\" in Japanese",
 			"**Under music label and talent agency MusicRay'n since 2014",
-			"***I doubt we'll ever see it to be honest, as much as I would like to. But I'll take as many photobooks this attractive woman can come up with (like <a href=\"https://knwebreports.blogspot.com/2019/03/three-books-worth-of-photos-that-marry.html#tenlooks\">this one that I reviewed</a>) as I can"
+			"***I doubt we'll ever see it to be honest, as much as I would like to. But I'll take as many photobooks this attractive woman can come up with as I can like <a href=\"https://knwebreports.blogspot.com/2019/03/three-books-worth-of-photos-that-marry.html#tenlooks\">this one that I reviewed</a>"
 		]
 	},
 	{
