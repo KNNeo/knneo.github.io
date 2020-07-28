@@ -3,9 +3,13 @@ function censorData() {
 	//remove all content besides first four rows of each profile box table
 	let profileBoxes = document.getElementsByClassName("profile-box");
 	for (var profileBox of profileBoxes) {
-		while (profileBox.getElementsByTagName("table")[0].getElementsByTagName("tr")[8] != undefined) {
-			profileBox.getElementsByTagName("table")[0].getElementsByTagName("tr")[8].remove();
+		// while (profileBox.getElementsByTagName("table")[0].getElementsByTagName("tr")[8] != undefined) {
+			// profileBox.getElementsByTagName("table")[0].getElementsByTagName("tr")[8].remove();
+		// }
+		for(let p = 8; p < profileBox.getElementsByTagName("table")[0].getElementsByTagName("tr").length; p++) {
+			profileBox.getElementsByTagName("table")[0].getElementsByTagName("tr")[p].style.visibility = 'collapse';
 		}
+		//add listener for unhide, "See more..."
 	}
 	//document.getElementsByClassName("profile-box")[0].getElementsByTagName("table")[0].getElementsByTagName("tr")[4].remove();
 	//while [4] is not undefined, remove
