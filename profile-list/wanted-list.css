@@ -165,3 +165,7 @@ div { scrollbar-width: 0 !important; }
 div::-webkit-scrollbar { width: 0 !important }
 html { scroll-behavior: auto; }
 }
+
+html {
+	font-size: 82%;
+}
