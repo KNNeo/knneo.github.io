@@ -202,6 +202,11 @@ let imgArray = [
 [224,'CCI20200613_0017-1','landscape','TrySail','CD "Free Turn" Animate Bonus'],
 [225,'CCI20200613_0017-2','landscape','Kitou Akari','Book "Seiyuu Paradise R vol.32" Sofmap Animega Bonus'],
 [226,'CCI20200613_0017-3','landscape','TrySail','Book "Seiyuu Animedia 2020 April" Animate/Gamers/Toranoana Bonus'],
+[227,'CCI20200728_0008_1','portrait','Yuuki Aoi','Event "ColoFes 2020" Yuuki Aoi Bromide Set'],
+[228,'CCI20200728_0008_2','portrait','Yuuki Aoi','Event "ColoFes 2020" Yuuki Aoi Bromide Set'],
+[229,'CCI20200728_0008_3','portrait','Yuuki Aoi','Event "ColoFes 2020" Yuuki Aoi Bromide Set'],
+
+
 [999,'','','']
 ];
 
