@@ -334,7 +334,7 @@ for (let tickbox of document.getElementsByTagName('label'))
 {
 	tickbox.addEventListener('click', function() { renderFilter(undefined); });
 	if(tickbox.innerText == 'Select All') continue;
-	tickbox.addEventListener('contextmenu', function() { renderFilter(this); });
+	tickbox.addEventListener('contextmenu', function(e) { e.preventDefault(); renderFilter(this); });
 }
 
 function renderFilter(element) {
