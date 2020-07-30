@@ -206,6 +206,9 @@ let imgArray = [
 [228,'CCI20200728_0008_2','portrait','Yuuki Aoi','Event "ColoFes 2020" Yuuki Aoi Bromide Set'],
 [229,'CCI20200728_0008_3','portrait','Yuuki Aoi','Event "ColoFes 2020" Yuuki Aoi Bromide Set'],
 
+[237,'CCI20200728_0011_1','portrait','Minase Inori','Event "Inori Minase LIVE TOUR 2020 We Are Now" Bromide Set A'],
+[238,'CCI20200728_0011_2','portrait','Minase Inori','Event "Inori Minase LIVE TOUR 2020 We Are Now" Bromide Set A'],
+[239,'CCI20200728_0011_3','portrait','Minase Inori','Event "Inori Minase LIVE TOUR 2020 We Are Now" Bromide Set A'],
 
 [999,'','','']
 ];
@@ -374,6 +377,10 @@ document.getElementById('viewer').addEventListener('click', function() {
 	document.getElementById('viewer').style.display = 'none';
 	document.getElementById('viewer').innerHTML = '';
 });
+
+window.addEventListener('resize', function() { adjustViewerMargin(); });
+
+
 
 //allow scroll on desktop
 var scrollList = new Array();
