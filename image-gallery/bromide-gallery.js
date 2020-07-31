@@ -481,8 +481,8 @@ function openViewer(image) {
 
 function openImageInViewer(image) {
 	let img = image.cloneNode(true);
-	img.style.maxHeight = '100vh';
-	img.style.maxWidth = '100vw';
+	img.style.maxHeight = '100%';
+	img.style.maxWidth = '100%';
 	if(viewer.childNodes.length > 0) viewer.innerHTML = '';
 	viewer.appendChild(img);
 	adjustViewerMargin();
@@ -490,6 +490,7 @@ function openImageInViewer(image) {
 
 function adjustViewerMargin() {
 	//let viewer = document.getElementById('viewer');
+	if(viewer.getElementsByTagName('img')[0] == null) return;
 	viewer.style.paddingTop = '0';
 	viewer.style.paddingTop = (viewer.getBoundingClientRect().height - viewer.getElementsByTagName('img')[0].height)/2 + 'px';
 }

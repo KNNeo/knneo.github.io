@@ -328,7 +328,8 @@ function openImageInViewer(image) {
 function adjustViewerMargin() {
 	//let viewer = document.getElementById('viewer');
 	viewer.style.paddingTop = '0';
-	viewer.style.paddingTop = (viewer.getBoundingClientRect().height - viewer.getElementsByTagName('img')[0].height)/2 + 'px';
+	if(viewer.getBoundingClientRect().height != viewer.getElementsByTagName('img')[0].height)
+		viewer.style.paddingTop = (viewer.getBoundingClientRect().height - viewer.getElementsByTagName('img')[0].height)/2 + 'px';
 }
 
 //prevent right click events on filters
