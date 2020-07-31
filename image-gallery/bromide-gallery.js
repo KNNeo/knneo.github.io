@@ -387,6 +387,7 @@ function renderFilter(element) {
 
 //initial viewer state
 document.getElementById('viewer').addEventListener('click', function() {
+	document.getElementById('viewer').style.paddingTop = '0';
 	document.getElementById('viewer').style.display = 'none';
 	document.getElementById('viewer').innerHTML = '';
 });
@@ -492,7 +493,7 @@ function openImageInViewer(image) {
 function adjustViewerMargin() {
 	//let viewer = document.getElementById('viewer');
 	if(viewer.getElementsByTagName('img')[0] == null) return;
-	viewer.style.paddingTop = '0';
+	//viewer.style.paddingTop = '0';
 	viewer.style.paddingTop = (viewer.getBoundingClientRect().height - viewer.getElementsByTagName('img')[0].height)/2 + 'px';
 }
 
