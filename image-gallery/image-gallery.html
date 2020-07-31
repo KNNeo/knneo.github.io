@@ -2,39 +2,26 @@
 <html lang="en-SG">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="image-gallery.css"rel="stylesheet" type="text/css" >
 	<link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'/>
     <title>GALLERY</title>
 </head>
-<body>	
-<div id="viewer" style="display: none;">
-</div>
-<h1>GALLERY</h1>
-<p id="navigation" style="text-align: center;"></p>
-<div id="options">
-<div id="description">
-<h5>Use this page to create your own private image gallery!<br />
-(Add to array in image-gallery.js)</h5>
-<h5>[<span id="loadedCount"></span> images loaded]</h5>
-</div>
-<div id="filter">
-<div id="orientation">
-<h4>Orientation</h4>
-<label><input type="checkbox" name="columnPortrait" value="portrait" checked>Portrait</label>
-<label><input type="checkbox" name="columnLandscape" value="landscape" checked>Landscape</label>
-</div>
-<div id ="name">
-<h4>Tags</h4>
-<label><input id="SelectAll" type="checkbox" name="columnSelectAll" value="selectall" checked>Select All</label>
-</div>
-</div>
-</div>
-<hr/>
-<div style="text-align: center; padding: 10px;"><span id="ssstart" onclick="startSlideshow()">Slideshow</span><span id="ssstop" style="display:none;" onclick="stopSlideshow()">Stop</span><label><input id="isFullscreen" type="checkbox" name="fullscreen">Fullscreen</label></div>
-<div id="imgGallery">
-</div>
-<p style="text-align: center;"><a href="../index.html">Back</a></p>
+<style>
+body {
+	margin: 0;
+}
+iframe {
+	border: 0;
+	width: 100vw;
+	height: 100vh;
+}
+</style>
+<body>
 </body>
-<script src="image-gallery-navigation.js" type="application/javascript" charset="utf-8"></script>
-<script src="image-gallery.js" type="application/javascript"></script>
+<script>
+let activePage = 'bromide-gallery.html';
+let newFrame = document.createElement('iframe');
+newFrame.id = activePage.replace('.html','');
+newFrame.src = activePage;
+document.getElementsByTagName('body')[0].appendChild(newFrame);
+</script>
 </html>

@@ -1,5 +1,4 @@
-
-let links = ['image-gallery.html','amiiboCards-gallery.html','surugaya-gallery.html'];
+let links = ['bromide-gallery.html','amiiboCards-gallery.html','surugaya-gallery.html'];
 let navigationPara = document.createElement('div');
 navigationPara.style.textAlign = 'center';
 for(let link of links)
