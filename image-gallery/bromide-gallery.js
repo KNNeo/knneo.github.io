@@ -387,7 +387,7 @@ function renderFilter(element) {
 
 //initial viewer state
 document.getElementById('viewer').addEventListener('click', function() {
-	document.getElementById('viewer').style.paddingTop = '0';
+	//document.getElementById('viewer').style.paddingTop = '0';
 	document.getElementById('viewer').style.display = 'none';
 	document.getElementById('viewer').innerHTML = '';
 });
@@ -486,6 +486,7 @@ function openImageInViewer(image) {
 	img.style.maxHeight = '100%';
 	img.style.maxWidth = '100%';
 	if(viewer.childNodes.length > 0) viewer.innerHTML = '';
+	viewer.style.paddingTop = '0';
 	viewer.appendChild(img);
 	adjustViewerMargin();
 }
