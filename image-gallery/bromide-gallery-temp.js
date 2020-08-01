@@ -470,34 +470,6 @@ document.getElementById("imgGallery").addEventListener("touchmove", function(e) 
 	document.getElementsByClassName('profile-category')[0].classList.add('snap');
 });
 
-//open image to fullscreen
-function openViewer(image) {
-	//document.getElementById('ssstart').style.display = '';
-	//document.getElementById('ssstop').style.display = 'none';
-	//clearTimeout(runSlideshow);
-
-	let viewer = document.getElementById('viewer');
-	viewer.style.display = 'block';
-	openImageInViewer(image);
-}
-
-function openImageInViewer(image) {
-	let viewer = document.getElementById('viewer');
-	let img = image.cloneNode(true);
-	img.style.maxHeight = '100%';
-	img.style.maxWidth = '100%';
-	if(viewer.childNodes.length > 0) viewer.innerHTML = '';
-	viewer.appendChild(img);
-	adjustViewerMargin();
-}
-
-function adjustViewerMargin() {
-	let viewer = document.getElementById('viewer');
-	if(viewer.getElementsByTagName('img')[0] == null) return;
-	//viewer.style.paddingTop = '0';
-	viewer.style.paddingTop = (viewer.getBoundingClientRect().height - viewer.getElementsByTagName('img')[0].height)/2 + 'px';
-}
-
 //prevent right click events
 document.getElementById('imgGallery').addEventListener('contextmenu', function(e) {
     e.preventDefault();
