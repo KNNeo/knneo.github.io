@@ -836,7 +836,7 @@
 		"turningPoint":{
 			"singerDebut":false,
 			"swimsuitPhotobook":false,
-			"isMarried":false
+			"isMarried":true
 		},
 		"turningPointStr":{
 			"singerDebutStr":"No",
