@@ -48,6 +48,8 @@ function getResultFromNames(module) {
 			result.innerHTML = "Would you rather have 2 minutes with \"" + name1 + "\" or spend 2 seconds with \"" + name2 + "\"?";
 		else if (categoryName == "BFF")
 			result.innerHTML = "Would you rather be BFFs with \"" + name1 + "\" (and never be able to marry her) and/or marry \"" + name2 + "\" (and let her be your sole partner)?";
+		else if (categoryName == "Kidnap")
+			result.innerHTML = "Who would you rather be kidnap for 24 hours and do anything with and nothing will be remembered? " + name1 + " or " + name2 + "?";
 		else if(categoryName == "Custom")
 		{
 			if(result.innerHTML.includes('flexi-name')) {
