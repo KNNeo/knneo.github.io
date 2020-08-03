@@ -2,13 +2,23 @@
 <html lang="en-SG">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../darkmode.css">
 	<link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'/>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <title>GALLERY</title>
 </head>
 <body>
 </body>
 <script src="image-gallery.js" type="application/javascript" charset="utf-8"></script>
 <script src="bromide-gallery-temp.js" type="application/javascript"></script>
+<script>
+document.getElementById('darkmode').addEventListener('click', function() {
+	if(document.getElementsByTagName('html')[0].classList.contains('darked'))
+		document.getElementsByTagName('html')[0].classList.remove('darked');
+	else
+		document.getElementsByTagName('html')[0].classList.add('darked');
+} );
+</script>
 <script>
 <!-- let activePage = 'bromide-gallery.html'; -->
 <!-- let newFrame = document.createElement('iframe'); -->

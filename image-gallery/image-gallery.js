@@ -130,6 +130,16 @@ function renderPage() {
 	back.appendChild(backLink);
 	frame.appendChild(back);
 	
+	let darkmodeDiv = document.createElement('div');
+	darkmodeDiv.title = 'Toggle Dark Mode';
+	darkmodeDiv.style.textAlign = 'center';
+	let darkmode = document.createElement('i');
+	darkmode.classList.add('material-icons');
+	darkmode.id = 'darkmode';
+	darkmode.innerText = 'brightness_high';
+	darkmodeDiv.appendChild(darkmode);
+	frame.appendChild(darkmodeDiv);
+	
 	body.innerHTML = '';
 	body.appendChild(frame);
 }
