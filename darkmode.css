@@ -17,9 +17,9 @@
 }
 
 #darkmode {
-	-webkit-user-select: none; /* Safari */
-	-ms-user-select: none; /* IE 10+ and Edge */
-	user-select: none; /* Standard syntax */
+	-webkit-user-select: none; 
+	-ms-user-select: none; 
+	user-select: none; 
 }
 
 /*if dark mode available*/
@@ -52,3 +52,17 @@
 		color: rgb(85, 26, 139);
 	}
 }
+
+/*
+html {
+	transition: color 500ms, background-color 500ms;
+	background-color: white;
+}
+
+.darked {
+	filter: invert(1);
+}
+
+.darked img {
+	filter: invert(1);
+}*/
