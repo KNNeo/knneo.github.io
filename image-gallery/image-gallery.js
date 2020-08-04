@@ -287,6 +287,8 @@ function stopSlideshow() {
 function switchButtons() {
 	document.getElementById('ssstart').style.display = document.getElementById('ssstart').style.display == 'none' ? '' : 'none';
 	document.getElementById('ssstop').style.display = document.getElementById('ssstop').style.display == 'none' ? '' : 'none';
+	document.getElementById('inViewer').disabled = document.getElementById('inViewer').disabled ? false : true;
+	document.getElementById('isFullscreen').disabled = document.getElementById('isFullscreen').disabled ? false : true;
 }
 
 function randomImg() {
