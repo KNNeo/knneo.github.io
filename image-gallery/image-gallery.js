@@ -33,6 +33,7 @@ function renderPage() {
 	let links = ['bromide-gallery.html','amiiboCards-gallery.html','surugaya-gallery.html'];
 	let navigationPara = document.createElement('div');
 	navigationPara.style.textAlign = 'center';
+	navigationPara.style.paddingBottom = '20px';
 	for(let link of links)
 	{
 		let newLink = document.createElement('a');
@@ -46,9 +47,11 @@ function renderPage() {
 	frame.appendChild(navigationPara);
 
 	let options = document.createElement('div');
-	options.id = 'options';
+	options.id = 'description';
+	options.style.textAlign = 'center';
+	options.style.margin = 'auto';
 		let description = document.createElement('div');
-		description.id = 'description';
+		//description.id = 'description';
 		let descriptionText = document.createElement('h5');
 		descriptionText.innerText = pageDescription;
 		description.appendChild(descriptionText);
@@ -56,10 +59,31 @@ function renderPage() {
 		let loader = writeLoadedCount();
 		options.appendChild(loader);
 	frame.appendChild(options);
-
-	let filter = document.createElement('div');					//MAKE COLLAPSIBLE WITH ICON
+	
+	let toggler = document.createElement('div');
+	toggler.style.textAlign = 'center';
+	let togglerButton = document.createElement('i');
+	togglerButton.classList.add('material-icons');
+	togglerButton.id = 'toggler';
+	togglerButton.style.cursor = 'pointer';
+	togglerButton.style.position = 'absolute';
+	togglerButton.style.left = '0';
+	togglerButton.style.right = '0';
+	togglerButton.style.fontSize = '32px';
+	togglerButton.innerText = 'blur_linear';
+	togglerButton.addEventListener('click', function() { 
+		this.innerText = this.innerText == 'blur_linear' ? 'maximize': 'blur_linear'; 
+		this.style.position = this.style.position == 'absolute' ? 'inherit' : 'absolute';
+		toggleFilter();
+	} );
+	toggler.appendChild(togglerButton);
+	frame.appendChild(toggler);
+	
+	let filter = document.createElement('div');
 	filter.id = 'filter';
-	filter.style.textAlign = 'center';
+	toggler.style.textAlign = 'center';
+	filter.style.maxWidth = '800px';
+	filter.style.margin = 'auto';
 		let orientation = document.createElement('div');
 		orientation.id = 'orientation';
 		let orientationTitle = document.createElement('h4');
@@ -89,31 +113,31 @@ function renderPage() {
 		orientation.appendChild(landscape);
 	filter.appendChild(orientation);
 
-	let name = document.createElement('div');
-	name.id = 'name';
-	let nameTitle = document.createElement('h4');
-	nameTitle.innerText = tagTitle;
-	name.appendChild(nameTitle);
-		//checkboxes
-		let selectAll = document.createElement('label');
-		let selectAllCheckbox = document.createElement('input');
-		selectAllCheckbox.id = 'SelectAll';
-		selectAllCheckbox.type = 'checkbox';
-		selectAllCheckbox.name = 'columnselectAll';
-		selectAllCheckbox.value = 'selectAll';
-		selectAllCheckbox.checked = true;
-		selectAll.appendChild(selectAllCheckbox);
-		let selectAllText = document.createElement('span');
-		selectAllText.innerText = 'Select All';
-		selectAll.appendChild(selectAllText);
-		name.appendChild(selectAll);
-	filter.appendChild(name);
+		let name = document.createElement('div');
+		name.id = 'name';
+		let nameTitle = document.createElement('h4');
+		nameTitle.innerText = tagTitle;
+		name.appendChild(nameTitle);
+			//checkboxes
+			let selectAll = document.createElement('label');
+			let selectAllCheckbox = document.createElement('input');
+			selectAllCheckbox.id = 'SelectAll';
+			selectAllCheckbox.type = 'checkbox';
+			selectAllCheckbox.name = 'columnselectAll';
+			selectAllCheckbox.value = 'selectAll';
+			selectAllCheckbox.checked = true;
+			selectAll.appendChild(selectAllCheckbox);
+			let selectAllText = document.createElement('span');
+			selectAllText.innerText = 'Select All';
+			selectAll.appendChild(selectAllText);
+			name.appendChild(selectAll);
+		filter.appendChild(name);
 	frame.appendChild(filter);
 
 	let midline = document.createElement('hr');
+	midline.id = 'midline';
 	frame.appendChild(midline);
 	
-	//ALLOW SLIDESHOW NORMAL, SLIDESHOW IN VIEWER, SLIDESHOW FULLSCREEN, BOTH
 	let ssDiv = document.createElement('div');
 	ssDiv.style.textAlign = 'center';
 	ssDiv.style.padding = '10px';
@@ -165,6 +189,7 @@ function renderPage() {
 	let darkmode = document.createElement('i');
 	darkmode.classList.add('material-icons');
 	darkmode.id = 'darkmode';
+	darkmode.style.cursor = 'pointer';
 	darkmode.innerText = 'brightness_high';
 	darkmodeDiv.appendChild(darkmode);
 	frame.appendChild(darkmodeDiv);
@@ -289,6 +314,11 @@ if(document.fullscreenElement == null) return;
   } else if (document.msExitFullscreen) { /* IE/Edge */
     document.msExitFullscreen();
   }
+}
+
+function toggleFilter() {
+	document.getElementById('filter').style.display = document.getElementById('filter').style.display == 'none' ? '' : 'none';
+	document.getElementById('midline').style.display = document.getElementById('midline').style.display == 'none' ? '' : 'none';
 }
 
 //load CSS file based on URL
