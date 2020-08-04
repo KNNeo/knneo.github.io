@@ -4,7 +4,7 @@
 	color: white;
 }
 
-.darked button {
+.darked button, .darked img {
     border: 1px solid lightgray;
 }
 

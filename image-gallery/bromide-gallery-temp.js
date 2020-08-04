@@ -346,7 +346,7 @@ document.getElementById('SelectAll').addEventListener('click', function () {
 	}
 	renderFilter();
 });
-for (let tickbox of document.getElementsByTagName('label'))
+for (let tickbox of document.getElementById('filter').getElementsByTagName('label'))
 {
 	tickbox.addEventListener('click', function() { renderFilter(undefined); });
 	if(tickbox.innerText == 'Select All') continue;
@@ -483,63 +483,4 @@ document.getElementById('viewer').addEventListener('contextmenu', function(e) {
 //"lazy load" on window load
 window.onload = function () {
 	renderGallery(imgArray);
-}
-//slideshow event
-let runSlideshow;
-//start slideshow
-function startSlideshow() {
-	document.getElementById('description').classList.add('closed');
-	switchButtons();
-	openFullscreen();
-	randomImg();
-}
-//stop slideshow
-function stopSlideshow() {
-	closeFullscreen();
-	switchButtons();
-	clearTimeout(runSlideshow);
-}
-
-function switchButtons() {
-	document.getElementById('ssstart').style.display = document.getElementById('ssstart').style.display == 'none' ? '' : 'none';
-	document.getElementById('ssstop').style.display = document.getElementById('ssstop').style.display == 'none' ? '' : 'none';
-}
-
-function randomImg() {
-	document.getElementsByClassName('profile-category')[0].classList.add('snap');
-	let images = document.getElementsByClassName('profile-box');
-	let selected = images[Math.floor(Math.random()*images.length)];
-	selected.scrollIntoView();
-	if(viewer.style.display == 'block') openImageInViewer(selected.getElementsByTagName('img')[0]);
-	document.getElementsByClassName('profile-category')[0].classList.remove('snap');
-	runSlideshow = setTimeout(randomImg, 3000);
-}
-
-//allow document to fullscreen
-function openFullscreen() {
-if(!document.getElementById('isFullscreen').checked) return;
-let elem = document.documentElement;
-  if (elem.requestFullscreen) {
-    elem.requestFullscreen();
-  } else if (elem.mozRequestFullScreen) { /* Firefox */
-    elem.mozRequestFullScreen();
-  } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
-    elem.webkitRequestFullscreen();
-  } else if (elem.msRequestFullscreen) { /* IE/Edge */
-    elem.msRequestFullscreen();
-  }
-}
-
-function closeFullscreen() {
-let elem = document.documentElement;
-if(document.fullscreenElement == null) return;
-  if (document.exitFullscreen) {
-    document.exitFullscreen();
-  } else if (document.mozCancelFullScreen) { /* Firefox */
-    document.mozCancelFullScreen();
-  } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
-    document.webkitExitFullscreen();
-  } else if (document.msExitFullscreen) { /* IE/Edge */
-    document.msExitFullscreen();
-  }
 }

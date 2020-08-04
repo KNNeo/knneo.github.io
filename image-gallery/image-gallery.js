@@ -59,6 +59,7 @@ function renderPage() {
 
 	let filter = document.createElement('div');					//MAKE COLLAPSIBLE WITH ICON
 	filter.id = 'filter';
+	filter.style.textAlign = 'center';
 		let orientation = document.createElement('div');
 		orientation.id = 'orientation';
 		let orientationTitle = document.createElement('h4');
@@ -111,12 +112,40 @@ function renderPage() {
 
 	let midline = document.createElement('hr');
 	frame.appendChild(midline);
-
-	let ssDiv //ALLOW SLIDESHOW NORMAL, SLIDESHOW IN VIEWER, SLIDESHOW FULLSCREEN, BOTH
-	let ssStartSpan
-	let ssStopSpan
-	let fullscreen
-	let fullscreenCheckbox
+	
+	//ALLOW SLIDESHOW NORMAL, SLIDESHOW IN VIEWER, SLIDESHOW FULLSCREEN, BOTH
+	let ssDiv = document.createElement('div');
+	ssDiv.style.textAlign = 'center';
+	ssDiv.style.padding = '10px';
+		let ssStartSpan = document.createElement('span');
+		ssStartSpan.id = 'ssstart';
+		ssStartSpan.innerText = 'Slideshow';
+		ssStartSpan.addEventListener('click', startSlideshow);
+		ssDiv.appendChild(ssStartSpan);
+		let ssStopSpan = document.createElement('span');
+		ssStopSpan.id = 'ssstop';
+		ssStopSpan.style.display = 'none';
+		ssStopSpan.innerText = 'Stop';
+		ssStopSpan.addEventListener('click', stopSlideshow);
+		ssDiv.appendChild(ssStopSpan);
+		let inViewer = document.createElement('label');
+		inViewer.innerText = 'In Viewer';
+			let inViewerCheckbox = document.createElement('input');
+			inViewerCheckbox.id = 'inViewer';
+			inViewerCheckbox.type = 'checkbox';
+			inViewerCheckbox.name = 'inViewer';
+		inViewer.insertBefore(inViewerCheckbox, inViewer.childNodes[0]);
+		ssDiv.appendChild(inViewer);
+		let fullscreen = document.createElement('label');
+		fullscreen.innerText = 'Fullscreen';
+			let fullscreenCheckbox = document.createElement('input');
+			fullscreenCheckbox.id = 'isFullscreen';
+			fullscreenCheckbox.type = 'checkbox';
+			fullscreenCheckbox.name = 'fullscreen';
+		fullscreen.insertBefore(fullscreenCheckbox, fullscreen.childNodes[0]);
+	ssDiv.appendChild(fullscreen);
+	
+	frame.appendChild(ssDiv);
 
 	let imgGallery = document.createElement('div');
 	imgGallery.id = 'imgGallery';
@@ -197,6 +226,69 @@ function writeLoadedCount(number) {
 	loaderSuffix.innerText = ' images loaded]';
 	loader.appendChild(loaderSuffix);
 	return loader;
+}
+
+//slideshow
+let runSlideshow;
+//start slideshow
+function startSlideshow() {
+	document.getElementById('description').classList.add('closed');
+	switchButtons();
+	openFullscreen();
+	let imgNo = randomImg();
+	if(document.getElementById('inViewer').checked) openViewer(document.getElementsByTagName('img')[imgNo]);
+}
+//stop slideshow
+function stopSlideshow() {
+	closeFullscreen();
+	switchButtons();
+	clearTimeout(runSlideshow);
+}
+
+function switchButtons() {
+	document.getElementById('ssstart').style.display = document.getElementById('ssstart').style.display == 'none' ? '' : 'none';
+	document.getElementById('ssstop').style.display = document.getElementById('ssstop').style.display == 'none' ? '' : 'none';
+}
+
+function randomImg() {
+	document.getElementsByClassName('profile-category')[0].classList.add('snap');
+	let images = document.getElementsByClassName('profile-box');
+	let select = Math.floor(Math.random()*images.length);
+	let selected = images[select];
+	selected.scrollIntoView();
+	if(viewer.style.display == 'block') openImageInViewer(selected.getElementsByTagName('img')[0]);
+	document.getElementsByClassName('profile-category')[0].classList.remove('snap');
+	runSlideshow = setTimeout(randomImg, 3000);
+	return select;
+}
+
+//allow document to fullscreen
+function openFullscreen() {
+if(!document.getElementById('isFullscreen').checked) return;
+let elem = document.documentElement;
+  if (elem.requestFullscreen) {
+    elem.requestFullscreen();
+  } else if (elem.mozRequestFullScreen) { /* Firefox */
+    elem.mozRequestFullScreen();
+  } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+    elem.webkitRequestFullscreen();
+  } else if (elem.msRequestFullscreen) { /* IE/Edge */
+    elem.msRequestFullscreen();
+  }
+}
+
+function closeFullscreen() {
+let elem = document.documentElement;
+if(document.fullscreenElement == null) return;
+  if (document.exitFullscreen) {
+    document.exitFullscreen();
+  } else if (document.mozCancelFullScreen) { /* Firefox */
+    document.mozCancelFullScreen();
+  } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+    document.webkitExitFullscreen();
+  } else if (document.msExitFullscreen) { /* IE/Edge */
+    document.msExitFullscreen();
+  }
 }
 
 //load CSS file based on URL
