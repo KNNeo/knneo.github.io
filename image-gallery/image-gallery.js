@@ -1,20 +1,22 @@
 //--SETTINGS--//
-let enableViewer = false; //images smaller than screen will not resize up
-let enableOrientation = false; //assume has values in orientation column
-let enableSlideshow = false; //enable slideshow button
-let enableFullscreenSlideshow = false; //enable fullscreen button for slideshow, for browser only not viewer
-let enableShadows = false; //removes shadows and borders in images
+let enableViewer = true; //images smaller than screen will not resize up
+let enableOrientation = true; //assume has values in orientation column
+let enableSlideshow = true; //enable slideshow button
+let enableFullscreenSlideshow = true; //enable fullscreen button for slideshow, for browser only not viewer
+let enableShadows = 'boolean'; //removes shadows and borders in images
 
 let pageTitle = 'GALLERY'; //for tab, and top of page
 let pageDescription = 'Use this page to create your own private image gallery!\n(Add to array in image-gallery.js)'; //hides on load with images loaded
 let pageCredit = ''; //does not hide, and will hide if empty
 let theme = 'white'; //do up shadow for white theme {white, black}
-let tagTitle = 'Tags';
-let defaultTag = ''; //if empty will select first tag in list
+let tagTitle = 'Girls';
+let defaultTag = ''; //if empty will select first tag in list, follow surugaya-gallery
 
 //--COMMON LOADER--//
 //should add in here only if common; reconcile all differences via settings
 function renderPage() {
+	document.getElementsByTagName('head')[0].getElementsByTagName('title')[0].innerText = pageTitle;
+	
 	let body = document.getElementsByTagName('body')[0];
 	let frame = document.createElement('div');
 	frame.id = 'bromide-gallery';
@@ -60,20 +62,27 @@ function renderPage() {
 		options.appendChild(loader);
 	frame.appendChild(options);
 	
+	let credit = document.createElement('div');
+	credit.id = 'credit';
+	credit.style.textAlign = 'center';
+	credit.style.margin = 'auto';
+	credit.innerText = pageCredit;
+	frame.appendChild(credit);
+	
 	let toggler = document.createElement('div');
 	toggler.style.textAlign = 'center';
 	let togglerButton = document.createElement('i');
 	togglerButton.classList.add('material-icons');
 	togglerButton.id = 'toggler';
 	togglerButton.style.cursor = 'pointer';
-	togglerButton.style.position = 'absolute';
+	togglerButton.style.position = enableOrientation ? 'absolute' : 'inherit';
 	togglerButton.style.left = '0';
 	togglerButton.style.right = '0';
 	togglerButton.style.fontSize = '32px';
 	togglerButton.innerText = 'blur_linear';
 	togglerButton.addEventListener('click', function() { 
 		this.innerText = this.innerText == 'blur_linear' ? 'maximize': 'blur_linear'; 
-		this.style.position = this.style.position == 'absolute' ? 'inherit' : 'absolute';
+		if(enableOrientation) this.style.position = this.style.position == 'absolute' ? 'inherit' : 'absolute';
 		toggleFilter();
 	} );
 	toggler.appendChild(togglerButton);
@@ -86,6 +95,7 @@ function renderPage() {
 	filter.style.margin = 'auto';
 		let orientation = document.createElement('div');
 		orientation.id = 'orientation';
+		orientation.style.display = enableOrientation ? '' : 'none';
 		let orientationTitle = document.createElement('h4');
 		orientationTitle.innerText = 'Orientation';
 		orientation.appendChild(orientationTitle);
@@ -143,6 +153,7 @@ function renderPage() {
 	ssDiv.style.padding = '10px';
 		let ssStartSpan = document.createElement('span');
 		ssStartSpan.id = 'ssstart';
+		ssStartSpan.style.display = enableSlideshow ? '' : 'none';
 		ssStartSpan.innerText = 'Slideshow';
 		ssStartSpan.addEventListener('click', startSlideshow);
 		ssDiv.appendChild(ssStartSpan);
@@ -153,6 +164,7 @@ function renderPage() {
 		ssStopSpan.addEventListener('click', stopSlideshow);
 		ssDiv.appendChild(ssStopSpan);
 		let inViewer = document.createElement('label');
+		inViewer.style.display = enableViewer ? '' : 'none';
 		inViewer.innerText = 'In Viewer';
 			let inViewerCheckbox = document.createElement('input');
 			inViewerCheckbox.id = 'inViewer';
@@ -161,6 +173,7 @@ function renderPage() {
 		inViewer.insertBefore(inViewerCheckbox, inViewer.childNodes[0]);
 		ssDiv.appendChild(inViewer);
 		let fullscreen = document.createElement('label');
+		fullscreen.style.display = enableSlideshow && enableFullscreenSlideshow ? '' : 'none';
 		fullscreen.innerText = 'Fullscreen';
 			let fullscreenCheckbox = document.createElement('input');
 			fullscreenCheckbox.id = 'isFullscreen';
@@ -204,6 +217,7 @@ window.onload = loadPage('bromide-gallery'); //default
 
 //viewer
 function openViewer(image) {
+	if(!enableViewer) return;
 	document.getElementById('viewer').style.display = 'block';
 	openImageInViewer(image);
 }
