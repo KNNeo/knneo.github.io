@@ -397,16 +397,17 @@ window.addEventListener('resize', function() { adjustViewerMargin(); });
 
 
 //allow scroll on desktop
-var mousewheelEvent = (/Firefox/i.test(navigator.userAgent))? "DOMMouseScroll" : "mousewheel"
+let isFirefox = (/Firefox/i.test(navigator.userAgent));
+var mousewheelEvent = isFirefox ? "DOMMouseScroll" : "mousewheel"
 var scrollList = new Array();
 let largestHalfWidth = 0;
 let time = new Date();
-document.getElementById("imgGallery").addEventListener(mousewheelEvent, function(e) {
+document.getElementById("imgGallery").addEventListener(isFirefox ? "DOMMouseScroll" : "mousewheel", function(e) {
     e.preventDefault();
 	document.getElementsByClassName('profile-category')[0].classList.remove('snap');
 	//console.log(new Date() - time);
 	time = new Date();
-	document.getElementsByClassName('profile-category')[0].scrollLeft -= e.wheelDelta;
+	document.getElementsByClassName('profile-category')[0].scrollLeft -= isFirefox ? e.deltaY*10 : e.wheelDelta;
 	
 	if(new Date() - time < 500 && (e.wheelDelta > 100 || e.wheelDelta < -100)) //conditions to prevent immediate snap
 	{
