@@ -94,6 +94,7 @@ function renderPage() {
 	toggler.style.textAlign = 'center';
 	filter.style.maxWidth = '1040px';
 	filter.style.margin = 'auto';
+	filter.style.paddingTop = '10px';
 		let orientation = document.createElement('div');
 		orientation.id = 'orientation';
 		orientation.style.display = enableOrientation ? '' : 'none';
@@ -235,7 +236,7 @@ function openImageInViewer(image) {
 }
 
 function adjustViewerMargin(viewer) {
-	if(viewer.getElementsByTagName('img')[0] == null) return;
+	if(viewer.childElementCount == 0) return;
 	viewer.style.paddingTop = (viewer.getBoundingClientRect().height - viewer.getElementsByTagName('img')[0].height)/2 + 'px';
 }
 
