@@ -71,18 +71,18 @@ function renderPage() {
 	
 	let toggler = document.createElement('div');
 	toggler.style.textAlign = 'center';
+	toggler.style.position = enableOrientation ? 'absolute' : 'inherit';
+	toggler.style.left = '0';
+	toggler.style.right = '0';
 	let togglerButton = document.createElement('i');
 	togglerButton.classList.add('material-icons');
 	togglerButton.id = 'toggler';
 	togglerButton.style.cursor = 'pointer';
-	togglerButton.style.position = enableOrientation ? 'absolute' : 'inherit';
-	togglerButton.style.left = '0';
-	togglerButton.style.right = '0';
 	togglerButton.style.fontSize = '32px';
 	togglerButton.innerText = 'blur_linear';
 	togglerButton.addEventListener('click', function() { 
 		this.innerText = this.innerText == 'blur_linear' ? 'maximize': 'blur_linear'; 
-		if(enableOrientation) this.style.position = this.style.position == 'absolute' ? 'inherit' : 'absolute';
+		if(enableOrientation) this.parentElement.style.position = this.parentElement.style.position == 'absolute' ? 'inherit' : 'absolute';
 		toggleFilter();
 	} );
 	toggler.appendChild(togglerButton);
