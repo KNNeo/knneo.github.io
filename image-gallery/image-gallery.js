@@ -92,7 +92,7 @@ function renderPage() {
 	let filter = document.createElement('div');
 	filter.id = 'filter';
 	toggler.style.textAlign = 'center';
-	filter.style.maxWidth = '800px';
+	filter.style.maxWidth = '1040px';
 	filter.style.margin = 'auto';
 		let orientation = document.createElement('div');
 		orientation.id = 'orientation';
