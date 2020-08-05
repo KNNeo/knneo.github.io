@@ -397,10 +397,11 @@ window.addEventListener('resize', function() { adjustViewerMargin(); });
 
 
 //allow scroll on desktop
+var mousewheelEvent = (/Firefox/i.test(navigator.userAgent))? "DOMMouseScroll" : "mousewheel"
 var scrollList = new Array();
 let largestHalfWidth = 0;
 let time = new Date();
-document.getElementById("imgGallery").addEventListener("wheel", function(e) {
+document.getElementById("imgGallery").addEventListener(mousewheelEvent, function(e) {
     e.preventDefault();
 	document.getElementsByClassName('profile-category')[0].classList.remove('snap');
 	//console.log(new Date() - time);
