@@ -232,10 +232,11 @@ function openImageInViewer(image) {
 	if(viewer.childNodes.length > 0) viewer.innerHTML = '';
 	viewer.style.paddingTop = '0';
 	viewer.appendChild(img);
-	adjustViewerMargin(viewer);
+	adjustViewerMargin();
 }
 
-function adjustViewerMargin(viewer) {
+function adjustViewerMargin() {
+	let viewer = document.getElementById('viewer');
 	if(viewer.childElementCount == 0) return;
 	viewer.style.paddingTop = (viewer.getBoundingClientRect().height - viewer.getElementsByTagName('img')[0].height)/2 + 'px';
 }
