@@ -74,6 +74,7 @@ function renderPage() {
 	toggler.style.position = enableOrientation ? 'absolute' : 'inherit';
 	toggler.style.left = '0';
 	toggler.style.right = '0';
+	toggler.style.backgroundColor = 'transparent';
 	let togglerButton = document.createElement('i');
 	togglerButton.classList.add('material-icons');
 	togglerButton.id = 'toggler';
