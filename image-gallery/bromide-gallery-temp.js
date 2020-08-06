@@ -407,7 +407,7 @@ document.getElementById("imgGallery").addEventListener(isFirefox ? "DOMMouseScro
 	document.getElementsByClassName('profile-category')[0].classList.remove('snap');
 	//console.log(new Date() - time);
 	time = new Date();
-	document.getElementsByClassName('profile-category')[0].scrollLeft -= isFirefox ? e.deltaY*10 : e.wheelDelta;
+	document.getElementsByClassName('profile-category')[0].scrollLeft -= isFirefox ? e.detail : e.wheelDelta;
 	
 	if(new Date() - time < 500 && (e.wheelDelta > 100 || e.wheelDelta < -100)) //conditions to prevent immediate snap
 	{
