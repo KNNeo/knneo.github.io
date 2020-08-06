@@ -233,6 +233,7 @@ let highestHeight = 0;
 function renderGallery(array) {
 	let profileCategoryHTML = document.createElement('DIV');
 	profileCategoryHTML.classList.add('profile-category');
+	if(isFirefox) profileCategoryHTML.classList.add('snap');
 	for(let img of array)
 	{
 		if(img[0] == 0) continue;
@@ -394,8 +395,6 @@ document.getElementById('viewer').addEventListener('click', function() {
 
 window.addEventListener('resize', function() { adjustViewerMargin(); });
 
-
-
 //allow scroll on desktop
 let isFirefox = (/Firefox/i.test(navigator.userAgent));
 var mousewheelEvent = isFirefox ? "DOMMouseScroll" : "mousewheel"
@@ -404,10 +403,10 @@ let largestHalfWidth = 0;
 let time = new Date();
 document.getElementById("imgGallery").addEventListener(isFirefox ? "DOMMouseScroll" : "mousewheel", function(e) {
     e.preventDefault();
-	document.getElementsByClassName('profile-category')[0].classList.remove('snap');
+	//document.getElementsByClassName('profile-category')[0].classList.remove('snap');
 	//console.log(new Date() - time);
 	time = new Date();
-	document.getElementsByClassName('profile-category')[0].scrollLeft -= isFirefox ? e.detail : e.wheelDelta;
+	document.getElementsByClassName('profile-category')[0].scrollLeft -= isFirefox ? -e.detail*100 : e.wheelDelta;
 	
 	if(new Date() - time < 500 && (e.wheelDelta > 100 || e.wheelDelta < -100)) //conditions to prevent immediate snap
 	{
@@ -415,10 +414,11 @@ document.getElementById("imgGallery").addEventListener(isFirefox ? "DOMMouseScro
 			//document.getElementsByClassName('profile-category')[0].style.setProperty('scroll-snap-type','x proximity');
 			document.getElementsByClassName('profile-category')[0].classList.add('snap');
 		}, 500);
-		setTimeout( function() { 
-			//document.getElementsByClassName('profile-category')[0].style.setProperty('scroll-snap-type','none');
-			document.getElementsByClassName('profile-category')[0].classList.remove('snap');
-		}, 600);
+		if(!isFirefox)
+			setTimeout( function() { 
+				//document.getElementsByClassName('profile-category')[0].style.setProperty('scroll-snap-type','none');
+				document.getElementsByClassName('profile-category')[0].classList.remove('snap');
+			}, 600);
 	}
 	
 	//get relative positions of all images

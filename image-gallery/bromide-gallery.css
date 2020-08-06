@@ -61,7 +61,7 @@ h4 {
 }
 
 .snap {
-	scroll-snap-type: x mandatory;
+	scroll-snap-type: x mandatory !important;
 }
 
 @media only screen and (max-width : 1040px) {
