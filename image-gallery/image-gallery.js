@@ -14,17 +14,22 @@ let defaultTag = ''; //if empty will select first tag in list, follow surugaya-g
 
 //--COMMON LOADER--//
 //should add in here only if common; reconcile all differences via settings
-function renderPage() {
-	document.getElementsByTagName('head')[0].getElementsByTagName('title')[0].innerText = pageTitle;
+function renderPage(pageName) {
+	document.head.getElementsByTagName('title')[0].innerText = pageTitle;
 	
 	let body = document.getElementsByTagName('body')[0];
 	let frame = document.createElement('div');
-	frame.id = 'bromide-gallery';
+	frame.id = pageName;
 
 	let viewer = document.createElement('div');
 	viewer.id = 'viewer';
+	viewer.style.paddingTop = '0';
 	viewer.style.display = 'none';
 	viewer.addEventListener('click', closeViewer);
+	viewer.addEventListener('contextmenu', function(e) {
+		e.preventDefault();
+		return false;
+	}, false);
 	frame.appendChild(viewer);
 
 	let title = document.createElement('h1');
@@ -33,9 +38,10 @@ function renderPage() {
 
 	//navigation
 	let links = ['bromide-gallery.html','amiiboCards-gallery.html','surugaya-gallery.html'];
-	let navigationPara = document.createElement('div');
-	navigationPara.style.textAlign = 'center';
-	navigationPara.style.paddingBottom = '20px';
+	let navigation = document.createElement('div');
+	navigation.style.textAlign = 'center';
+	navigation.style.paddingBottom = '20px';
+	navigation.style.display = 'none';
 	for(let link of links)
 	{
 		let newLink = document.createElement('a');
@@ -44,9 +50,9 @@ function renderPage() {
 		if(link == links[0]) newLink.innerText = 'GALLERY';
 		if(link == links[1]) newLink.innerText = 'amiibo Cards';
 		if(link == links[2]) newLink.innerText = 'ギャラリー';
-		navigationPara.appendChild(newLink);
+		navigation.appendChild(newLink);
 	}
-	frame.appendChild(navigationPara);
+	frame.appendChild(navigation);
 
 	let options = document.createElement('div');
 	options.id = 'description';
@@ -188,6 +194,10 @@ function renderPage() {
 
 	let imgGallery = document.createElement('div');
 	imgGallery.id = 'imgGallery';
+	imgGallery.addEventListener('contextmenu', function(e) {
+		e.preventDefault();
+		return false;
+	}, false);
 	frame.appendChild(imgGallery);
 
 	let back = document.createElement('div');
@@ -214,8 +224,9 @@ function renderPage() {
 }
 
 //--COMMON EVENTS--//
-//temp code
-window.onload = loadPage('bromide-gallery'); //default
+//on startup (temp)
+window.onload = loadPage('bromide-gallery');
+window.addEventListener('resize', function() { adjustViewerMargin(); });
 
 //viewer
 function openViewer(image) {
@@ -250,9 +261,71 @@ function closeViewer() {
 
 //--FUNCTIONS--//
 function loadPage(pageName) {
-	renderPage();
+	renderPage(pageName);
 	unloadCurrentStyle();
 	loadStyle(pageName);
+	unloadCurrentScripts();
+	loadScripts(pageName);
+	//setupGallery(); //this is dependent on secondary js loaded
+}
+
+//load CSS file based on URL
+function loadStyle(url) {
+	let css = document.createElement('link');
+	css.id = url + '-css';
+	css.href = url + '.css';
+	css.type = 'text/css';
+	css.rel = 'stylesheet'
+	document.head.appendChild(css);
+}
+
+//unload css loaded
+function unloadCurrentStyle() {
+	//let currentPageName = window.location.pathname.split('/').pop().replace('.html','');
+	let currentPageName = document.getElementsByTagName('body')[0].getElementsByTagName('div')[0].id + '-css';
+	if(document.getElementById(currentPageName) != null)
+		document.getElementById(currentPageName).parentNode.removeChild(document.getElementById(currentPageName));
+}
+
+function loadScripts(pageName) {
+	let processScript = document.createElement('script');
+	processScript.id = pageName + '-temp'
+	processScript.src = processScript.id + '.js';
+	processScript.type = "text/javascript";
+	processScript.charset = 'utf-8';
+	processScript.onreadystatechange = function() { loadDataScript(pageName); };
+    processScript.onload = function() { loadDataScript(pageName); };
+	document.head.appendChild(processScript);
+}
+
+function loadDataScript(pageName) {
+	let dataScript = document.createElement('script');
+	dataScript.id = pageName + '-data'
+	dataScript.src = dataScript.id + '.js';
+	dataScript.type = "text/javascript";
+	dataScript.charset = 'utf-8';
+	dataScript.onreadystatechange = setupGallery;
+    dataScript.onload = setupGallery;
+	document.head.appendChild(dataScript);
+}
+
+function unloadCurrentScripts() {
+	let currentPageName = document.getElementsByTagName('body')[0].getElementsByTagName('div')[0].id;
+	let currentDataScript = currentPageName + '-data';
+	let currentProcessScript = currentPageName + '-temp';
+	if(document.getElementById(currentDataScript) != null)
+		document.removeChild(document.getElementById(currentDataScript));
+	if(document.getElementById(currentProcessScript) != null)
+		document.removeChild(document.getElementById(currentProcessScript));
+}
+
+function enableDarkMode() {
+	document.getElementById('darkmode').addEventListener('click', function() {
+	if(document.getElementsByTagName('html')[0].classList.contains('darked'))
+		document.getElementsByTagName('html')[0].classList.remove('darked');
+	else
+		document.getElementsByTagName('html')[0].classList.add('darked');
+	} );	
 }
 
 function writeLoadedCount(number) {
@@ -340,19 +413,3 @@ function toggleFilter() {
 	document.getElementById('midline').style.display = document.getElementById('midline').style.display == 'none' ? '' : 'none';
 }
 
-//load CSS file based on URL
-function loadStyle(url) {
-	let css = document.createElement('link');
-	css.id = url + '-css';
-	css.href = url + '.css';
-	css.type = 'text/css';
-	css.rel = 'stylesheet'
-	document.getElementsByTagName('head')[0].appendChild(css);
-}
-
-function unloadCurrentStyle() {
-	//let currentPageName = window.location.pathname.split('/').pop().replace('.html','');
-	let currentPageName = document.getElementsByTagName('body')[0].getElementsByTagName('div')[0].id + '-css';
-	if(document.getElementById(currentPageName) != null)
-		document.getElementById(currentPageName).parentNode.removeChild(document.getElementById(currentPageName));
-}
