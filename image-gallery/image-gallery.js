@@ -286,7 +286,6 @@ function openImageInViewer(image) {
 	img.title = thumbnail.title;
 	img.style.maxHeight = '100%';
 	img.style.maxWidth = '100%';
-	if(img.style.height != '') img.height = image.style.height;
 	if(viewer.childNodes.length > 0) viewer.innerHTML = '';
 	viewer.style.paddingTop = '0';
 	viewer.appendChild(img);
@@ -644,8 +643,8 @@ function writeLoadedCount(number) {
 //start slideshow
 function startSlideshow() {
 	document.getElementById('description').classList.add('closed');
-	switchButtons();
 	openFullscreen();
+	switchButtons();
 	let imgNo = randomImg();
 	if(document.getElementById('inViewer').checked) openViewer(document.getElementsByTagName('img')[imgNo]);
 }
