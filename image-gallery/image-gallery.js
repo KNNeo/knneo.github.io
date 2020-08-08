@@ -18,6 +18,7 @@ let isFirefox = (/Firefox/i.test(navigator.userAgent));
 let lowestHeight = 9999;
 let highestHeight = 0;
 let imgArray = [];
+let runSlideshow = null;
 
 //--COMMON LOADER--//
 //should add in here only if common; reconcile all differences via settings
@@ -273,12 +274,17 @@ function closeViewer() {
 
 //--FUNCTIONS--//
 function loadPage(pageName) {
+	if(runSlideshow != null) stopSlideshow();
 	unloadCurrentStyle();
 	loadStyle(pageName);
 	unloadCurrentScripts();
-	loadDataScript(pageName);
+	loadDataScript(pageName); //will trigger rest of setup
+}
+
+function loadData(pageName) {
+	reloadDarkmodeStyle();
 	renderPage(pageName);
-	setupGallery();
+	setupGallery(); 
 }
 
 //load CSS file based on URL
@@ -318,7 +324,7 @@ function reloadDarkmodeStyle() {
 	}
 }
 
-function loadProcessScript(pageName) {
+/*function loadProcessScript(pageName) {
 	let processScript = document.createElement('script');
 	processScript.id = pageName + '-temp'
 	processScript.src = processScript.id + '.js';
@@ -327,7 +333,7 @@ function loadProcessScript(pageName) {
 	processScript.onreadystatechange = function() { loadDataScript(pageName); };
     processScript.onload = function() { loadDataScript(pageName); };
 	document.head.appendChild(processScript);
-}
+}*/
 
 function loadDataScript(pageName) {
 	let dataScript = document.createElement('script');
@@ -335,16 +341,8 @@ function loadDataScript(pageName) {
 	dataScript.src = dataScript.id + '.js';
 	dataScript.type = "text/javascript";
 	dataScript.charset = 'utf-8';
-	dataScript.onreadystatechange = function() { 
-		reloadDarkmodeStyle();
-		renderPage(pageName);
-		setupGallery(); 
-	};
-    dataScript.onload = function() { 
-		reloadDarkmodeStyle();
-		renderPage(pageName);
-		setupGallery(); 
-	};
+	dataScript.onreadystatechange = function() { loadData(pageName); };
+    dataScript.onload = function() { loadData(pageName); };
 	document.head.appendChild(dataScript);
 }
 
@@ -587,8 +585,6 @@ function writeLoadedCount(number) {
 	return loader;
 }
 
-//slideshow
-let runSlideshow;
 //start slideshow
 function startSlideshow() {
 	document.getElementById('description').classList.add('closed');
