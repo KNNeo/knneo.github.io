@@ -4,8 +4,6 @@ html {
   font-size: 95%;
 }
 body, a {
-  /*background-color: black;
-  color: white;*/
   margin: auto;
 }
 h1, #options {
@@ -72,7 +70,6 @@ div::-webkit-scrollbar { width: 0 !important }
 #orientation > *, #name > * { font-size: 0.8em; }
 /*snap on touch is better on mobile than on desktop*/
 .profile-box { scroll-snap-align: center; }
-/*.profile-category { scroll-snap-type: x proximity; }*/
 }
 /*End Github*/
 
@@ -96,23 +93,34 @@ html {
   margin: 5px;
   vertical-align: top;
   scroll-snap-align: center;
-  border: 1px solid lightgray;
-  box-shadow: 3px 3px;
   white-space: normal;
 }
-.profile-box:active {
+.shadowed {
+  border: 1px solid lightgray;
+  box-shadow: 3px 3px;
+}
+.shadowed:active {
   box-shadow: 1px 1px;
   transform: translate(2px,2px);
+}
+.unshadowed {
+	filter: opacity(100%);
+	transition: filter 1s;
+}
+.unshadowed:active {
+	filter: opacity(50%);
+	transition: filter 0s;
 }
 .profile-category::-webkit-scrollbar { 
   z-index: 0;
   height: 12px;
 }
 .profile-category::-webkit-scrollbar-thumb {
-  background: white;
+  background: black;
 }
 .profile-category::-webkit-scrollbar-track {
-  background: #444444;
+  background: white;
+  border-bottom: 1px solid black;
 }
 .popitem {
     position: absolute;

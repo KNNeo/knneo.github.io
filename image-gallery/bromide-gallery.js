@@ -238,6 +238,7 @@ function renderGallery(array) {
 		if(img[0] == 0) continue;
 		let profileBoxHTML = document.createElement('DIV');
 		profileBoxHTML.classList.add('profile-box');
+		profileBoxHTML.classList.add('shadowed');
 		let profileBoxImgHTML = document.createElement('DIV');
 		profileBoxImgHTML.classList.add('profile-box-img');
 		let imgHTML = document.createElement('IMG');

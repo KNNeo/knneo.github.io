@@ -3,7 +3,8 @@ enableViewer = true; //images smaller than screen will not resize up
 enableOrientation = true; //assume has values in orientation column
 enableSlideshow = true; //enable slideshow button
 enableFullscreenSlideshow = true; //enable fullscreen button for slideshow, for browser only not viewer
-enableShadows = 'boolean'; //removes shadows and borders in images
+enableShadows = true; //removes shadows and borders in images
+enableDarkMode = true; //no button to toggle, when load always white background
 
 pageTitle = 'GALLERY'; //for tab, and top of page
 pageDescription = 'Use this page to create your own private image gallery!\n(Add to array in image-gallery.js)'; //hides on load with images loaded

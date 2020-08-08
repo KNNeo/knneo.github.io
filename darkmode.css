@@ -16,6 +16,13 @@
 	color: #00e4ff;
 }
 
+.darked .profile-category::-webkit-scrollbar-thumb {
+  background: white;
+}
+.darked .profile-category::-webkit-scrollbar-track {
+  background: #444444;
+}
+
 #darkmode {
 	-webkit-user-select: none; 
 	-ms-user-select: none; 
