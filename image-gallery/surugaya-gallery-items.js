@@ -775,7 +775,11 @@ let imgArray = [
 [13,'https://www.suruga-ya.jp/database/pics/game/g3860247.jpg','portrait','petit milady','悠木碧・竹達彩奈/横型・上半身・「2015 Summer」・印刷サイン入り・ポストカードサイズ/「アンフィシアターの怪人!ファントムを探せ!～2nd LIVEじゃないよ～」開催記念 petit milady-2015夏-フェア 特典ブロマイド'],
 [16,'https://www.suruga-ya.jp/database/pics/game/g4412584.jpg','portrait','petit milady','悠木碧・竹達彩奈/横型/CD「ハコネハコイリムスメ」とらのあな特典'],
 [17,'https://www.suruga-ya.jp/database/pics/game/g3021537.jpg','portrait','petit milady','悠木碧・竹達彩奈/横型・上半身・両手肩・帽子・背景白・「7.19 舞浜アンフィシアター」/「アンフィシアターの怪人!ファントムを探せ!～2nd LIVEじゃないよ～」会場販売ブロマイド'],
-
+[1,'https://www.suruga-ya.jp/database/pics/game/g3243051.jpg','portrait','馬場ふみか','バストアップ・水着黄/写真集「色っぽょ」封入特典生写真'],
+[2,'https://www.suruga-ya.jp/database/pics/game/g3241097.jpg','portrait','馬場ふみか','バストアップ・下着グレー・左向き/写真集「色っぽょ」特典生写真'],
+[3,'https://www.suruga-ya.jp/database/pics/game/g3544672.jpg','portrait','馬場ふみか','上半身・水着・体左向き・笑顔/「馬場ふみか 2018カレンダーブック」初回版封入特典生写真'],
+[4,'https://www.suruga-ya.jp/database/pics/game/g3241094.jpg','portrait','馬場ふみか','膝上・下着白・花柄・両手髪/写真集「色っぽょ」特典生写真'],
+[5,'https://www.suruga-ya.jp/database/pics/game/bg521280.jpg','portrait','馬場ふみか','上半身・下着ピンク・左向き・寄りかかり・左手置き・2Lサイズ/写真集「色っぽょ」特典生写真'],
 
 
 
