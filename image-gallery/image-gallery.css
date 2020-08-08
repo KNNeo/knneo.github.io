@@ -71,7 +71,7 @@ label {
 }
 .profile-box-img img {
   max-width: 90vw;
-  max-height: 50vh;
+  max-height: 40vh;
 }
 .shadowed {
   border: 1px solid lightgray;
