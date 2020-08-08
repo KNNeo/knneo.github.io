@@ -1,3 +1,16 @@
+enableViewer = true; //images smaller than screen will not resize up
+enableOrientation = true; //assume has values in orientation column
+enableSlideshow = true; //enable slideshow button
+enableFullscreenSlideshow = true; //enable fullscreen button for slideshow, for browser only not viewer
+enableShadows = 'boolean'; //removes shadows and borders in images
+
+pageTitle = 'GALLERY'; //for tab, and top of page
+pageDescription = 'Use this page to create your own private image gallery!\n(Add to array in image-gallery.js)'; //hides on load with images loaded
+pageCredit = ''; //does not hide, and will hide if empty
+theme = 'white'; //do up shadow for white theme {white, black}
+tagTitle = 'Girls';
+defaultTag = ''; //if empty will select all
+
 //array containing all gallery info
 //[sortOrder,directory,orientation,name]
 let imgArray = [
