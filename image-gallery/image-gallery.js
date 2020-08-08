@@ -212,10 +212,11 @@ function renderPage(pageName) {
 	darkmodeDiv.title = 'Toggle Dark Mode';
 	darkmodeDiv.style.textAlign = 'center';
 	let darkmode = document.createElement('i');
-	darkmode.classList.add('material-icons');
 	darkmode.id = 'darkmode';
+	darkmode.classList.add('material-icons');
 	darkmode.style.cursor = 'pointer';
 	darkmode.innerText = 'brightness_high';
+	darkmode.addEventListener('click', toggleDarkMode);
 	darkmodeDiv.appendChild(darkmode);
 	frame.appendChild(darkmodeDiv);
 	
@@ -319,13 +320,11 @@ function unloadCurrentScripts() {
 		document.removeChild(document.getElementById(currentProcessScript));
 }
 
-function enableDarkMode() {
-	document.getElementById('darkmode').addEventListener('click', function() {
-	if(document.getElementsByTagName('html')[0].classList.contains('darked'))
-		document.getElementsByTagName('html')[0].classList.remove('darked');
+function toggleDarkMode() {
+	if(document.getElementsByTagName('body')[0].classList.contains('darked'))
+		document.getElementsByTagName('body')[0].classList.remove('darked');
 	else
-		document.getElementsByTagName('html')[0].classList.add('darked');
-	} );	
+		document.getElementsByTagName('body')[0].classList.add('darked');	
 }
 
 function writeLoadedCount(number) {
