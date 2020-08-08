@@ -277,13 +277,15 @@ function openViewer(image) {
 
 function openImageInViewer(image) {
 	let viewer = document.getElementById('viewer');
-	let img = image.cloneNode(true);
-	if(img.style.height != '') {
-		img.height = img.style.height;
-		img.style.height = '';
-	}
+	let thumbnail = image.cloneNode(true);
+	let img = document.createElement('img');
+	img.id = thumbnail.id;
+	img.classList = thumbnail.classList;
+	img.src = thumbnail.src;
+	img.title = thumbnail.title;
 	img.style.maxHeight = '100%';
 	img.style.maxWidth = '100%';
+	if(img.style.height != '') img.height = image.style.height;
 	if(viewer.childNodes.length > 0) viewer.innerHTML = '';
 	viewer.style.paddingTop = '0';
 	viewer.appendChild(img);
@@ -484,10 +486,7 @@ function resizeImageHeights() {
 		if(window.innerWidth >= 640 && image.height < highestHeight && image.height > 1)//resize to highest height
 			image.style.height = '50vh';
 		else if(image.height > lowestHeight && image.height > 1) //resize to lowest height
-		{
-			image.style.height = image.height;
 			image.height = lowestHeight;
-		}
 	}
 }
 
