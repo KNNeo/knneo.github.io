@@ -1,5 +1,26 @@
+//To add gallery:
+// Copy and fill in image-gallery-data, rename file to end with \'-data\'
+// Fill in links variable in image-gallery.js
+// Tada!
+
+
+//--REINITIALISE SETTINGS--//
+enableViewer = false; //images smaller than screen will not resize up
+enableOrientation = false; //assume has values in orientation column
+enableSlideshow = true; //enable slideshow button
+enableFullscreenSlideshow = false; //enable fullscreen button for slideshow, for browser only not viewer
+enableShadows = false; //removes shadows and borders in images
+enableDarkMode = true; //no button to toggle, when load always white background
+
+pageTitle = 'ギャラリー'; //for tab, and top of page
+pageCredit = '[画像提供：https://suruga-ya.jp/]'; //does not hide, and will hide if empty
+tagTitle = 'タグ';
+selectAllTag = '全選';
+defaultTag = 'TrySail'; //if empty will select all
+
 //from site: https://www.suruga-ya.jp/ and search name based on おもちゃ・ホビー category
 //create array based on item box info
+//assumption of image url: thumbnail filename is same as image filename on clicked in page, varying dimensions
 /*
 let list = '\n';
 let counter = 1;
@@ -14,8 +35,7 @@ for(let item of document.getElementsByClassName('item')) {
 */
 
 //array containing all gallery info
-//[sortOrder,directory,orientation,name]
-let imgArray = [
+imgArray = [
 [0,'FILENAME','ORIENTATION','TAG','DETAIL'],
 [1,'https://www.suruga-ya.jp/database/pics/game/gg241535.jpg','portrait','上坂すみれ','全身・衣装白・ワンピース・両手スカート・体右向き・背景白/「2019 AUTUMN」上坂すみれ ブロマイドセット 第15弾'],
 [2,'https://www.suruga-ya.jp/database/pics/game/gg463257.jpg','portrait','上坂すみれ','バストアップ・衣装白・右向き・背景青/「上坂すみれのPROPAGANDA CITY 2020」キャー変態!!!!ブロマイド第16弾'],

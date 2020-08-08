@@ -1,3 +1,9 @@
+//To add gallery:
+// Copy and fill in image-gallery-data, rename file to end with \'-data\'
+// Fill in links variable in image-gallery.js
+// Tada!
+
+
 //--REINITIALISE SETTINGS--//
 enableViewer = true; //images smaller than screen will not resize up
 enableOrientation = true; //assume has values in orientation column
@@ -7,17 +13,14 @@ enableShadows = true; //removes shadows and borders in images
 enableDarkMode = true; //no button to toggle, when load always white background
 
 pageTitle = 'GALLERY'; //for tab, and top of page
-pageDescription = 'Use this page to create your own private image gallery!\n(Add to array in image-gallery.js)'; //hides on load with images loaded
 pageCredit = ''; //does not hide, and will hide if empty
-theme = 'white'; //do up shadow for white theme {white, black}
 tagTitle = 'Girls';
+selectAllTag = 'Select All';
 defaultTag = ''; //if empty will select all
 
-
 //array containing all gallery info
-//[sortOrder,directory,orientation,tag,description]
 imgArray = [
-[0,'','',''],
+[0,'FILENAME','ORIENTATION','TAG','DETAIL'],
 [1,'images/SELFSCAN_20140111_0002.jpg','portrait','Kotobuki Minako','CD "pretty fever" Animate Bonus'],
 [2,'images/SELFSCAN_20140111_0005.jpg','portrait','Hikasa Youko','CD "Seek Diamonds" Animate Bonus'],
 [3,'images/SELFSCAN_20140111_0007.jpg','landscape','Tomatsu Haruka','CD "Yume Sekai" ver.6 Bonus'],

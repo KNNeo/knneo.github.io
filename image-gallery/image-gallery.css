@@ -1,9 +1,15 @@
-/*Github Page Only Controls*/
 html {
   font-family: Open Sans;
   font-size: 95%;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
-body, a {
+body {
   margin: auto;
 }
 h1, #options {
@@ -11,23 +17,13 @@ h1, #options {
   max-width: 800px;
   margin: auto;	
 }
-.profile-box {
-	touch-action: manipulation;
-	line-height: 0;
+h4 { 
+	margin: 0;
 }
-.profile-box-img img {
-  max-width: 90vw;
-  max-height: 50vh;
-}
-
-
-label, a {
+label {
 	padding: 5px;
 	display: inline-block;
 	white-space: nowrap;
-}
-input {
-	vertical-align: bottom;
 }
 #viewer {
 	z-index: 9;
@@ -55,34 +51,8 @@ input {
 .closed {
 	display: none;
 }
-
-h4 { 
-	margin: 0;
-}
-
 .snap {
 	scroll-snap-type: x mandatory !important;
-}
-
-@media only screen and (max-width : 1040px) {
-/*scrollbars for top and bottom labels only on desktop*/
-div { scrollbar-width: 0 !important; }
-div::-webkit-scrollbar { width: 0 !important }
-/*adjust font for filters on mobile*/
-#orientation > *, #name > * { font-size: 0.8em; }
-/*snap on touch is better on mobile than on desktop*/
-.profile-box { scroll-snap-align: center; }
-}
-/*End Github*/
-
-html {
-  scroll-behavior: smooth;
-  overflow-x: hidden;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
 }
 .profile-category {
   overflow-x: scroll;
@@ -91,11 +61,17 @@ html {
   padding-bottom: 5px;
 }
 .profile-box {
-  display: inline-block;
-  margin: 5px;
-  vertical-align: top;
-  scroll-snap-align: center;
-  white-space: normal;
+	display: inline-block;
+	margin: 5px;
+	vertical-align: top;
+	scroll-snap-align: center;
+	white-space: normal;
+	touch-action: manipulation;
+	line-height: 0;
+}
+.profile-box-img img {
+  max-width: 90vw;
+  max-height: 50vh;
 }
 .shadowed {
   border: 1px solid lightgray;
@@ -124,11 +100,13 @@ html {
   background: white;
   border-bottom: 1px solid black;
 }
-.popitem {
-    position: absolute;
-    background-color: black;
-    right: 0;
-    left: 0;
-    display: none;
+
+@media only screen and (max-width : 1040px) {
+/*scrollbars for top and bottom labels only on desktop*/
+div { scrollbar-width: 0 !important; }
+div::-webkit-scrollbar { width: 0 !important }
+/*adjust font for filters on mobile*/
+#orientation > *, #name > * { font-size: 0.8em; }
+/*snap on touch is better on mobile than on desktop*/
+.profile-box { scroll-snap-align: center; }
 }
-.popitem { display: block; }

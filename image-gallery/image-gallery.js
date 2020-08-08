@@ -6,12 +6,13 @@ let enableFullscreenSlideshow = true; //enable fullscreen button for slideshow, 
 let enableShadows = true; //removes shadows and borders in images
 let enableDarkMode = true; //no button to toggle, when load always white background
 
+let links = ['bromide-gallery','amiiboCards-gallery','surugaya-gallery']; //allow navigation, must name all files based on this
 let pageTitle = 'GALLERY'; //for tab, and top of page
-let pageDescription = 'Use this page to create your own private image gallery!\n(Add to array in image-gallery.js)'; //hides on load with images loaded
+let pageDescription = 'To add gallery:\n- Copy and fill in image-gallery-data, rename file to end with \'-data\'\n- Fill in links variable in image-gallery.js\n- Tada!'; //hides on load with images loaded
 let pageCredit = ''; //does not hide, and will hide if empty
-let theme = 'white'; //do up shadow for white theme {white, black}
-let tagTitle = 'Girls';
-let defaultTag = ''; //if empty will select first tag in list, follow surugaya-gallery
+let tagTitle = 'Girls (Right Click to Select 1)';
+let selectAllTag = 'Select All';
+let defaultTag = 'Portrait'; //if empty or not in tags in array, will show all
 
 let spacerURL = 'https://knneo.github.io/resources/spacer.gif';
 let isFirefox = (/Firefox/i.test(navigator.userAgent));
@@ -42,11 +43,11 @@ function renderPage(pageName) {
 	frame.appendChild(viewer);
 
 	//navigation
-	let links = ['bromide-gallery','amiiboCards-gallery','surugaya-gallery'];	
 	let navigation = document.createElement('div');
 	navigation.id = 'navigation';
 	navigation.style.textAlign = 'center';
 	navigation.style.paddingBottom = '10px';
+	navigation.style.lineHeight = '2';
 	//navigation.style.display = 'none';
 	let navigationTable = document.createElement('table');
 	navigationTable.style.marginLeft = 'auto';
@@ -126,7 +127,7 @@ function renderPage(pageName) {
 	toggler.style.textAlign = 'center';
 	filter.style.maxWidth = '1040px';
 	filter.style.margin = 'auto';
-	filter.style.paddingTop = '10px';
+	filter.style.padding = '10px';
 		let orientation = document.createElement('div');
 		orientation.id = 'orientation';
 		orientation.style.display = enableOrientation ? '' : 'none';
@@ -169,10 +170,10 @@ function renderPage(pageName) {
 			selectAllCheckbox.type = 'checkbox';
 			selectAllCheckbox.name = 'columnselectAll';
 			selectAllCheckbox.value = 'selectAll';
-			selectAllCheckbox.checked = true;
+			selectAllCheckbox.checked = defaultTag.length == 0
 			selectAll.appendChild(selectAllCheckbox);
 			let selectAllText = document.createElement('span');
-			selectAllText.innerText = 'Select All';
+			selectAllText.innerText = selectAllTag;
 			selectAll.appendChild(selectAllText);
 			name.appendChild(selectAll);
 		filter.appendChild(name);
@@ -226,7 +227,7 @@ function renderPage(pageName) {
 	}, false);
 	frame.appendChild(imgGallery);
 
-	let back = document.createElement('div');
+	let back = document.createElement('h3');
 	back.style.textAlign = 'center';
 		let backLink = document.createElement('a');
 		backLink.href = '../index.html';
@@ -254,9 +255,18 @@ function renderPage(pageName) {
 }
 
 //--COMMON EVENTS--//
-//on startup (temp)
+//on startup
+let windowHeight = window.innerHeight;
+let windowWidth = window.innerWidth;
 window.onload = loadPage('bromide-gallery');
-window.addEventListener('resize', function() { adjustViewerMargin(); });
+window.addEventListener('resize',function () {
+	if(window.innerHeight == windowHeight || window.innerWidth != windowWidth) renderFilter(undefined);
+	else {
+		windowHeight = window.innerHeight;
+		windowWidth = window.innerWidth
+	}
+	adjustViewerMargin();
+});
 
 //viewer
 function openViewer(image) {
@@ -268,6 +278,7 @@ function openViewer(image) {
 function openImageInViewer(image) {
 	let viewer = document.getElementById('viewer');
 	let img = image.cloneNode(true);
+	if(img.style.height != '') img.height = img.style.height;
 	img.style.maxHeight = '100%';
 	img.style.maxWidth = '100%';
 	if(viewer.childNodes.length > 0) viewer.innerHTML = '';
@@ -292,8 +303,8 @@ function closeViewer() {
 //--FUNCTIONS--//
 function loadPage(pageName) {
 	if(runSlideshow != null) stopSlideshow();
-	unloadCurrentStyle();
-	loadStyle(pageName);
+	//unloadCurrentStyle();
+	//loadStyle(pageName);
 	unloadCurrentScripts();
 	loadDataScript(pageName); //will trigger rest of setup
 }
@@ -341,17 +352,6 @@ function reloadDarkmodeStyle() {
 	}
 }
 
-/*function loadProcessScript(pageName) {
-	let processScript = document.createElement('script');
-	processScript.id = pageName + '-temp'
-	processScript.src = processScript.id + '.js';
-	processScript.type = "text/javascript";
-	processScript.charset = 'utf-8';
-	processScript.onreadystatechange = function() { loadDataScript(pageName); };
-    processScript.onload = function() { loadDataScript(pageName); };
-	document.head.appendChild(processScript);
-}*/
-
 function loadDataScript(pageName) {
 	let dataScript = document.createElement('script');
 	dataScript.id = pageName + '-data'
@@ -374,15 +374,17 @@ function unloadCurrentScripts() {
 }
 
 function setupGallery() {
-	renderGallery(imgArray);
 	var labelArray = generateNameLabels(imgArray);
 	generateTickboxFilter(labelArray);
 	generateTickboxAction();
 	renderGalleryScroll();
+	renderFilter(undefined);
+	//renderGallery(imgArray);
 }
 
 //generate profile category based on array
 function renderGallery(array) {
+	document.getElementById('description').classList.remove('closed');
 	let profileCategoryHTML = document.createElement('DIV');
 	profileCategoryHTML.classList.add('profile-category');
 	if(isFirefox) profileCategoryHTML.classList.add('snap');
@@ -396,6 +398,7 @@ function renderGallery(array) {
 		let profileBoxImgHTML = document.createElement('DIV');
 		profileBoxImgHTML.classList.add('profile-box-img');
 		let imgHTML = document.createElement('IMG');
+		imgHTML.id = img[1].substring(img[1].lastIndexOf('/')+1).replace('.jpg','');
 		imgHTML.classList.add(img[2]);
 		imgHTML.setAttribute('alt', img[1]);
 		imgHTML.setAttribute('src', spacerURL);
@@ -416,45 +419,75 @@ function renderGallery(array) {
 	document.getElementById('loadedCount').innerText = 0;
 	lowestHeight = 9999;
 	highestHeight = 0;
-	setTimeout(reloadImages,500);
+	setTimeout( function() { reloadImages(array); },500);
 	
 	//add event listener when click on image
-	for (let i = 0 ; i < document.getElementsByTagName('img').length ; i++)
+	if(enableViewer)
 	{
-		document.getElementsByTagName('img')[i].addEventListener('click', function() { openViewer(document.getElementsByTagName('img')[i]); });
+		for (let i = 0 ; i < document.getElementsByTagName('img').length ; i++)
+		{
+			document.getElementsByTagName('img')[i].addEventListener('click', function() { openViewer(document.getElementsByTagName('img')[i]); });
+		}
 	}
 }
 
-function reloadImages() {
+
+function reloadImages(array) {
 	let loadedImages = 0;
-	for(var image of document.getElementsByTagName("img"))
+	for(var img of array)
 	{
+		let image = document.getElementById(img[1].substring(img[1].lastIndexOf('/')+1).replace('.jpg',''));
+		if(image == null) continue;
 		if(image.complete)
+		{
 			document.getElementById('loadedCount').innerText = ++loadedImages;
+			if(image.width >= image.height && !image.classList.contains('landscape')) //if landscape
+			{
+				image.classList.remove('portrait');
+				image.classList.add('landscape');
+				img[2] = 'landscape';
+			}
+			
+		}
 		else {
 			let source = image.src;
 			image.src = spacerURL;
-			image.src = source;
+			image.src = source;	
 		}
 		
-		// if(window.innerWidth >= 1040)
-		// {
-			// if(image.height > highestHeight && image.height > 1) //resize to highest height
-				// highestHeight = image.height;
-			// else
-				// image.style.height = '50vh';
-		// }
-		// else {
-			// if(image.height < lowestHeight && image.height > 1) //resize to lowest height
-				// lowestHeight = image.height;
-			// else
-				// image.height = lowestHeight;
-		// }
-
+		if(window.innerWidth >= 640)
+		{
+			if(image.height > highestHeight && image.height > 1) //set to highest height
+				highestHeight = image.height;
+			//else
+			//	image.style.height = '50vh';
+		}
+		else {
+			if(image.height < lowestHeight && image.height > 1) //set to lowest height
+				lowestHeight = image.height;
+			//else
+			//	image.height = lowestHeight;
+		}
 	}
-	if(loadedImages < imgArray.length-2) setTimeout(reloadImages,500);
-	if(loadedImages >= imgArray.length-2) setTimeout(function () { document.getElementById('description').style.display = 'none'; }, 2000);
+	resizeImageHeights();
+	//checkImageHeights(array);
+	if(loadedImages < array.length-1) setTimeout( function() { reloadImages(array); },500);
+	if(loadedImages >= array.length-1) setTimeout(function () { document.getElementById('description').classList.add('closed') }, 1000);
 }
+
+function resizeImageHeights() {
+	for(var image of document.getElementsByTagName("img"))
+	{
+		if(window.innerWidth >= 640 && image.height < highestHeight && image.height > 1)//resize to highest height
+			image.style.height = '50vh';
+		else if(image.height > lowestHeight && image.height > 1) //resize to lowest height
+		{
+			image.style.height = image.height;
+			image.height = lowestHeight;
+		}
+	}
+}
+
 
 function generateNameLabels(imgArray) {
 	let labelArray = new Array();
@@ -484,7 +517,7 @@ function generateTickboxFilter(labelArray) {
 		inputHTML.name = 'column' + label.replace(' ','');
 		inputHTML.value = label;
 		inputHTML.innerText = label;
-		inputHTML.checked = true;
+		inputHTML.checked = defaultTag.length > 0 ? label == defaultTag : true;
 		labelHTML.insertBefore(inputHTML,labelHTML.childNodes[0]);
 		document.getElementById('name').appendChild(labelHTML);
 	}
@@ -563,21 +596,24 @@ function renderGalleryScroll() {
 		
 		if(new Date() - time < 500 && (e.wheelDelta > 100 || e.wheelDelta < -100)) //conditions to prevent immediate snap
 		{
-			setTimeout( function() { 
-				//document.getElementsByClassName('profile-category')[0].style.setProperty('scroll-snap-type','x proximity');
-				document.getElementsByClassName('profile-category')[0].classList.add('snap');
-			}, 500);
-			if(!isFirefox)
-				setTimeout( function() { 
-					//document.getElementsByClassName('profile-category')[0].style.setProperty('scroll-snap-type','none');
-					document.getElementsByClassName('profile-category')[0].classList.remove('snap');
-				}, 600);
+			reSnap();
 		}
 	});
 	
 	document.getElementById("imgGallery").addEventListener("touchmove", function(e) {
 		document.getElementsByClassName('profile-category')[0].classList.add('snap');
 	});
+}
+
+function reSnap() {
+	setTimeout( function() { 
+		//document.getElementsByClassName('profile-category')[0].style.setProperty('scroll-snap-type','x proximity');
+		document.getElementsByClassName('profile-category')[0].classList.add('snap');
+	}, 500);
+	setTimeout( function() { 
+		//document.getElementsByClassName('profile-category')[0].style.setProperty('scroll-snap-type','none');
+		document.getElementsByClassName('profile-category')[0].classList.remove('snap');
+	}, 600);
 }
 
 function toggleDarkMode() {
@@ -642,11 +678,11 @@ if(!document.getElementById('isFullscreen').checked) return;
 let elem = document.documentElement;
   if (elem.requestFullscreen) {
     elem.requestFullscreen();
-  } else if (elem.mozRequestFullScreen) { /* Firefox */
+  } else if (elem.mozRequestFullScreen) { //Firefox 
     elem.mozRequestFullScreen();
-  } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+  } else if (elem.webkitRequestFullscreen) { //Chrome, Safari, Opera
     elem.webkitRequestFullscreen();
-  } else if (elem.msRequestFullscreen) { /* IE/Edge */
+  } else if (elem.msRequestFullscreen) { //IE,Edge
     elem.msRequestFullscreen();
   }
 }
@@ -655,13 +691,13 @@ function closeFullscreen() {
 let elem = document.documentElement;
 if(document.fullscreenElement == null) return;
   if (document.exitFullscreen) {
-    document.exitFullscreen();
-  } else if (document.mozCancelFullScreen) { /* Firefox */
-    document.mozCancelFullScreen();
-  } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
-    document.webkitExitFullscreen();
-  } else if (document.msExitFullscreen) { /* IE/Edge */
-    document.msExitFullscreen();
+    elem.requestFullscreen();
+  } else if (elem.mozRequestFullScreen) { //Firefox 
+    elem.mozRequestFullScreen();
+  } else if (elem.webkitRequestFullscreen) { //Chrome, Safari, Opera
+    elem.webkitRequestFullscreen();
+  } else if (elem.msRequestFullscreen) { //IE,Edge
+    elem.msRequestFullscreen();
   }
 }
 

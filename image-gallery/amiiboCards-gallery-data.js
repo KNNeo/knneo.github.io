@@ -1,3 +1,9 @@
+//To add gallery:
+// Copy and fill in image-gallery-data, rename file to end with \'-data\'
+// Fill in links variable in image-gallery.js
+// Tada!
+
+
 //--REINITIALISE SETTINGS--//
 enableViewer = false; //images smaller than screen will not resize up
 enableOrientation = false; //assume has values in orientation column
@@ -7,10 +13,9 @@ enableShadows = false; //removes shadows and borders in images
 enableDarkMode = false; //no button to toggle, when load always white background
 
 pageTitle = 'Animal Crossing amiibo Cards'; //for tab, and top of page
-pageDescription = 'Use this page to create your own private image gallery!\n(Add to array in image-gallery.js)'; //hides on load with images loaded
 pageCredit = '[Source: https://animal-crossing.com/amiibo/collections/series-1-4-amiibo-cards/]'; //does not hide, and will hide if empty
-theme = 'white'; //do up shadow for white theme {white, black}
 tagTitle = 'Animals';
+selectAllTag = 'Select All';
 defaultTag = ''; //if empty will select all
 
 
@@ -34,8 +39,8 @@ for(let i = 5; i < document.getElementsByTagName('tr').length; i++)
 
 
 //array containing all gallery info
-//[sortOrder,directory,orientation,tag,description]
 imgArray = [
+[0,'FILENAME','ORIENTATION','TAG','DETAIL'],
 [1,'https://animal-crossing.com/amiibo/assets/img/cards/NVL-C-MAAA-USZ-F0(0)001.png','portrait','Special Characters','Isabelle'],
 [2,'https://animal-crossing.com/amiibo/assets/img/cards/NVL-C-MAAB-USZ-F0(0)002.png','portrait','Special Characters','Tom Nook'],
 [3,'https://animal-crossing.com/amiibo/assets/img/cards/NVL-C-MAAC-USZ-F0(0)003.png','portrait','Special Characters','DJ KK'],
