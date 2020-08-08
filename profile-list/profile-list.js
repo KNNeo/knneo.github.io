@@ -92,7 +92,7 @@ function generateProfileListFromJSON(profileList) {
 								let DOBspan = document.createElement('span');
 								DOBspan.classList.add('DOB');
 								//DOBspan.innerText = profile.dob;
-								DOBspan.innerText = profile.dob + (profile.dobComment != '' ? (' (' + profile.dobComment + ')') : '');
+								DOBspan.innerText = profile.dob + (isExternal && profile.dobComment != '' ? (' (' + profile.dobComment + ')') : '');
 								cell.appendChild(DOBspan);
 							
 							row.appendChild(cell);
