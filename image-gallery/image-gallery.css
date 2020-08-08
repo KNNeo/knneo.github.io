@@ -103,6 +103,7 @@ label {
 
 @media only screen and (max-width : 1040px) {
 /*scrollbars for top and bottom labels only on desktop*/
+html { font-size: 100%; }
 div { scrollbar-width: 0 !important; }
 div::-webkit-scrollbar { width: 0 !important }
 /*adjust font for filters on mobile*/

@@ -8,7 +8,7 @@ let enableDarkMode = true; //no button to toggle, when load always white backgro
 
 let links = ['bromide-gallery','amiiboCards-gallery','surugaya-gallery']; //allow navigation, must name all files based on this
 let pageTitle = 'GALLERY'; //for tab, and top of page
-let pageDescription = 'To add gallery:\n- Copy and fill in image-gallery-data, rename file to end with \'-data\'\n- Fill in links variable in image-gallery.js\n- Tada!'; //hides on load with images loaded
+let pageDescription = 'To add gallery:\n- Copy and fill in image-gallery-data, filename to end with \'-data.js\'\n- Add to links variable in image-gallery.js new filename\n- Tada!\n\n(Note: Loading speed dependent on size and number of images;\nTo avoid slowness, set defaultTag)'; //hides on load with images loaded
 let pageCredit = ''; //does not hide, and will hide if empty
 let tagTitle = 'Girls (Right Click to Select 1)';
 let selectAllTag = 'Select All';
@@ -82,9 +82,9 @@ function renderPage(pageName) {
 	frame.appendChild(title);
 
 	let options = document.createElement('div');
-	options.id = 'description';
-	options.style.textAlign = 'center';
+	options.id = 'description';	
 	options.style.margin = 'auto';
+	options.style.maxWidth = '600px';
 		let description = document.createElement('div');
 		//description.id = 'description';
 		let descriptionText = document.createElement('h5');
@@ -92,6 +92,7 @@ function renderPage(pageName) {
 		description.appendChild(descriptionText);
 		options.appendChild(description);
 		let loader = writeLoadedCount();
+		loader.style.textAlign = 'center';
 		options.appendChild(loader);
 	frame.appendChild(options);
 	
