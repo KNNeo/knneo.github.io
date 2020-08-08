@@ -278,7 +278,10 @@ function openViewer(image) {
 function openImageInViewer(image) {
 	let viewer = document.getElementById('viewer');
 	let img = image.cloneNode(true);
-	if(img.style.height != '') img.height = img.style.height;
+	if(img.style.height != '') {
+		img.height = img.style.height;
+		img.style.height = '';
+	}
 	img.style.maxHeight = '100%';
 	img.style.maxWidth = '100%';
 	if(viewer.childNodes.length > 0) viewer.innerHTML = '';
