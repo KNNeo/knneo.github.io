@@ -41,27 +41,44 @@ function renderPage(pageName) {
 	}, false);
 	frame.appendChild(viewer);
 
-	let title = document.createElement('h1');
-	title.innerText = pageTitle;
-	frame.appendChild(title);
-
 	//navigation
-	let links = ['bromide-gallery','amiiboCards-gallery','surugaya-gallery'];
+	let links = ['bromide-gallery','amiiboCards-gallery','surugaya-gallery'];	
 	let navigation = document.createElement('div');
+	navigation.id = 'navigation';
 	navigation.style.textAlign = 'center';
-	navigation.style.paddingBottom = '20px';
+	navigation.style.paddingBottom = '10px';
 	//navigation.style.display = 'none';
+	let navigationTable = document.createElement('table');
+	navigationTable.style.marginLeft = 'auto';
+	navigationTable.style.marginRight = 'auto';
+	navigationTable.style.borderCollapse = 'collapse';
+	let navigationTableBody = document.createElement('tbody');
+	let navigationRow = document.createElement('tr');
+
 	for(let link of links)
 	{
-		let newLink = document.createElement('a');
+		let newLink = document.createElement('td');
 		//newLink.href = link;
+		//newLink.classList.add('shadowed');
+		newLink.style.padding = '0 10px';
+		newLink.style.borderLeft = '1px solid gray';
+		newLink.style.borderRight = '1px solid gray';
+		newLink.style.verticalAlign = 'bottom';
+		newLink.style.cursor = 'pointer';
 		newLink.addEventListener('click', function() { loadPage(link); });
 		if(link == links[0]) newLink.innerText = 'GALLERY';
 		if(link == links[1]) newLink.innerText = 'amiibo Cards';
 		if(link == links[2]) newLink.innerText = 'ギャラリー';
-		navigation.appendChild(newLink);
+		navigationRow.appendChild(newLink);
 	}
+	navigationTableBody.appendChild(navigationRow);
+	navigationTable.appendChild(navigationTableBody);
+	navigation.appendChild(navigationTable);
 	frame.appendChild(navigation);
+	
+	let title = document.createElement('h1');
+	title.innerText = pageTitle;
+	frame.appendChild(title);
 
 	let options = document.createElement('div');
 	options.id = 'description';
@@ -77,7 +94,7 @@ function renderPage(pageName) {
 		options.appendChild(loader);
 	frame.appendChild(options);
 	
-	let credit = document.createElement('div');
+	let credit = document.createElement('h5');
 	credit.id = 'credit';
 	credit.style.textAlign = 'center';
 	credit.style.margin = 'auto';
