@@ -1,4 +1,5 @@
-//--SETTINGS--//
+//--DEFAULT SETTINGS--//
+
 let enableViewer = true; //images smaller than screen will not resize up
 let enableOrientation = true; //assume has values in orientation column
 let enableSlideshow = true; //enable slideshow button
@@ -11,6 +12,12 @@ let pageCredit = ''; //does not hide, and will hide if empty
 let theme = 'white'; //do up shadow for white theme {white, black}
 let tagTitle = 'Girls';
 let defaultTag = ''; //if empty will select first tag in list, follow surugaya-gallery
+
+let spacerURL = 'https://knneo.github.io/resources/spacer.gif';
+let isFirefox = (/Firefox/i.test(navigator.userAgent));
+let lowestHeight = 9999;
+let highestHeight = 0;
+let imgArray = [];
 
 //--COMMON LOADER--//
 //should add in here only if common; reconcile all differences via settings
@@ -37,16 +44,16 @@ function renderPage(pageName) {
 	frame.appendChild(title);
 
 	//navigation
-	let links = ['bromide-gallery.html','amiiboCards-gallery.html','surugaya-gallery.html'];
+	let links = ['bromide-gallery','amiiboCards-gallery','surugaya-gallery'];
 	let navigation = document.createElement('div');
 	navigation.style.textAlign = 'center';
 	navigation.style.paddingBottom = '20px';
-	navigation.style.display = 'none';
+	//navigation.style.display = 'none';
 	for(let link of links)
 	{
 		let newLink = document.createElement('a');
 		//newLink.href = link;
-		newLink.addEventListener('click', function() { loadPage(link.replace('.html','')); });
+		newLink.addEventListener('click', function() { loadPage(link); });
 		if(link == links[0]) newLink.innerText = 'GALLERY';
 		if(link == links[1]) newLink.innerText = 'amiibo Cards';
 		if(link == links[2]) newLink.innerText = 'ギャラリー';
@@ -315,9 +322,9 @@ function unloadCurrentScripts() {
 	let currentDataScript = currentPageName + '-data';
 	let currentProcessScript = currentPageName + '-temp';
 	if(document.getElementById(currentDataScript) != null)
-		document.removeChild(document.getElementById(currentDataScript));
+		document.getElementById(currentDataScript).parentNode.removeChild(document.getElementById(currentDataScript));
 	if(document.getElementById(currentProcessScript) != null)
-		document.removeChild(document.getElementById(currentProcessScript));
+		document.getElementById(currentProcessScript).parentNode.removeChild(document.getElementById(currentProcessScript));
 }
 
 function toggleDarkMode() {

@@ -1,3 +1,4 @@
+//--REINITIALISE SETTINGS--//
 enableViewer = true; //images smaller than screen will not resize up
 enableOrientation = true; //assume has values in orientation column
 enableSlideshow = true; //enable slideshow button
@@ -11,9 +12,10 @@ theme = 'white'; //do up shadow for white theme {white, black}
 tagTitle = 'Girls';
 defaultTag = ''; //if empty will select all
 
+
 //array containing all gallery info
-//[sortOrder,directory,orientation,name]
-let imgArray = [
+//[sortOrder,directory,orientation,tag,description]
+imgArray = [
 [0,'','',''],
 [1,'images/SELFSCAN_20140111_0002.jpg','portrait','Kotobuki Minako','CD "pretty fever" Animate Bonus'],
 [2,'images/SELFSCAN_20140111_0005.jpg','portrait','Hikasa Youko','CD "Seek Diamonds" Animate Bonus'],

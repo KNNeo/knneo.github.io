@@ -1,7 +1,8 @@
-let spacerURL = 'https://knneo.github.io/resources/spacer.gif';
-let isFirefox = (/Firefox/i.test(navigator.userAgent));
-let lowestHeight = 9999;
-let highestHeight = 0;
+spacerURL = 'https://knneo.github.io/resources/spacer.gif';
+isFirefox = (/Firefox/i.test(navigator.userAgent));
+lowestHeight = 9999;
+highestHeight = 0;
+
 //generate profile category based on array
 function renderGallery(array) {
 	let profileCategoryHTML = document.createElement('DIV');
