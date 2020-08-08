@@ -693,13 +693,13 @@ function closeFullscreen() {
 let elem = document.documentElement;
 if(document.fullscreenElement == null) return;
   if (document.exitFullscreen) {
-    elem.requestFullscreen();
-  } else if (elem.mozRequestFullScreen) { //Firefox 
-    elem.mozRequestFullScreen();
-  } else if (elem.webkitRequestFullscreen) { //Chrome, Safari, Opera
-    elem.webkitRequestFullscreen();
-  } else if (elem.msRequestFullscreen) { //IE,Edge
-    elem.msRequestFullscreen();
+    document.exitFullscreen();
+  } else if (document.mozCancelFullScreen) { //Firefox
+    document.mozCancelFullScreen();
+  } else if (document.webkitExitFullscreen) { //Chrome, Safari, Opera
+    document.webkitExitFullscreen();
+  } else if (document.msExitFullscreen) { //IE, Edge
+    document.msExitFullscreen();
   }
 }
 
