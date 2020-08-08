@@ -96,7 +96,7 @@ html {
   margin: 5px;
   vertical-align: top;
   scroll-snap-align: center;
-  /*border: 1px solid black;*/
+  border: 1px solid lightgray;
   box-shadow: 3px 3px;
   white-space: normal;
 }
