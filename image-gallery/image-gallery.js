@@ -20,6 +20,7 @@ let lowestHeight = 9999;
 let highestHeight = 0;
 let imgArray = [];
 let runSlideshow = null;
+let descriptionClosed = false;
 
 //--COMMON LOADER--//
 //should add in here only if common; reconcile all differences via settings
@@ -80,17 +81,30 @@ function renderPage(pageName) {
 	let title = document.createElement('h1');
 	title.innerText = pageTitle;
 	frame.appendChild(title);
-
-	let options = document.createElement('div');
-	options.id = 'description';	
-	options.style.margin = 'auto';
-	options.style.maxWidth = '600px';
-		let description = document.createElement('div');
-		//description.id = 'description';
+	
+	let description = document.createElement('div');
+	description.id = 'description';	
+	description.style.margin = 'auto';
+	description.style.maxWidth = '480px';
+	description.style.display = descriptionClosed ? 'none' : '';
+		let descriptionCloser = document.createElement('i');
+		descriptionCloser.classList.add('material-icons');
+		descriptionCloser.style.float = 'right';
+		descriptionCloser.style.cursor = 'pointer';
+		descriptionCloser.innerText = 'close';
+		descriptionCloser.addEventListener('click', function() {
+			this.parentElement.classList.add('closed');
+			descriptionClosed = true;
+		});
+		description.appendChild(descriptionCloser);	
 		let descriptionText = document.createElement('h5');
 		descriptionText.innerText = pageDescription;
 		description.appendChild(descriptionText);
-		options.appendChild(description);
+	frame.appendChild(description);
+
+	let options = document.createElement('div');
+	options.id = 'options';	
+	options.style.margin = 'auto';
 		let loader = writeLoadedCount();
 		loader.style.textAlign = 'center';
 		options.appendChild(loader);
@@ -477,7 +491,7 @@ function reloadImages(array) {
 	resizeImageHeights();
 	//checkImageHeights(array);
 	if(loadedImages < array.length-1) setTimeout( function() { reloadImages(array); },500);
-	if(loadedImages >= array.length-1) setTimeout(function () { document.getElementById('description').classList.add('closed') }, 1000);
+	if(loadedImages >= array.length-1) setTimeout(function () { document.getElementById('options').classList.add('closed') }, 1000);
 }
 
 function resizeImageHeights() {
