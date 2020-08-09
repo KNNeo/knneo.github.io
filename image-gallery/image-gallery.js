@@ -431,7 +431,7 @@ function renderGallery(array) {
 	if(document.getElementById('imgGallery').childNodes.length > 0) document.getElementById('imgGallery').innerHTML = '';
 	document.getElementById('imgGallery').appendChild(profileCategoryHTML);
 	
-	for(let image of document.getElementsByTagName("img"))
+	for(let image of document.getElementById('imgGallery').getElementsByTagName("img"))
 	{
 		image.src = image.alt;
 		image.removeAttribute('alt');
@@ -445,9 +445,9 @@ function renderGallery(array) {
 	//add event listener when click on image
 	if(enableViewer)
 	{
-		for (let i = 0 ; i < document.getElementsByTagName('img').length ; i++)
+		for (let i = 0 ; i < document.getElementById('imgGallery').getElementsByTagName('img').length ; i++)
 		{
-			document.getElementsByTagName('img')[i].addEventListener('click', function() { openViewer(document.getElementsByTagName('img')[i]); });
+			document.getElementById('imgGallery').getElementsByTagName('img')[i].addEventListener('click', function() { openViewer(document.getElementById('imgGallery').getElementsByTagName('img')[i]); });
 		}
 	}
 }
@@ -497,7 +497,7 @@ function reloadImages(array) {
 }
 
 function resizeImageHeights() {
-	for(var image of document.getElementsByTagName("img"))
+	for(var image of document.getElementById('imgGallery').getElementsByTagName("img"))
 	{
 		if(window.innerWidth >= 640 && image.height < highestHeight && image.height > 1)//resize to highest height
 			image.style.height = '50vh';
@@ -662,7 +662,7 @@ function startSlideshow() {
 	openFullscreen();
 	switchButtons();
 	let imgNo = randomImg();
-	if(document.getElementById('inViewer').checked) openViewer(document.getElementsByTagName('img')[imgNo]);
+	if(document.getElementById('inViewer').checked) openViewer(document.getElementById('imgGallery').getElementsByTagName('img')[imgNo]);
 }
 //stop slideshow
 function stopSlideshow() {
