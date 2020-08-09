@@ -314,8 +314,7 @@ function openImageInViewer(image) {
 	img.classList = thumbnail.classList;
 	img.src = thumbnail.src;
 	img.title = thumbnail.title;
-	if(img.width < img.height) img.style.height = 'inherit'; //portrait
-	else img.style.width = 'inherit'; //landscape
+	img.style.width = 'inherit';
 	img.style.maxHeight = '100%';
 	img.style.maxWidth = '100%';
 	if(viewer.childNodes.length > 0) viewer.innerHTML = '';
