@@ -6,7 +6,7 @@
 
 //--REINITIALISE SETTINGS--//
 enableViewer = window.innerWidth <= 640; //images smaller than screen will not resize up
-enableOrientation = false; //assume has values in orientation column
+enableOrientation = true; //assume has values in orientation column
 enableSlideshow = true; //enable slideshow button
 enableFullscreenSlideshow = window.innerWidth <= 640; //enable fullscreen button for slideshow, for browser only not viewer
 enableShadows = false; //removes shadows and borders in images
@@ -22,6 +22,8 @@ closeIconTitle = '閉じる';
 collapseFilterIconTitle = 'フィルター崩れる';
 expandFilterIconTitle = 'フィルター広げる';
 orientationTitle = 'オリエンテーション';
+portraitTitle = '縦向き';
+landscapeTitle = '横向き';
 tagRightClickTitle = '右クリックのはこれだけ選択する';
 loaderTextPrefix = '読み込む画像：';
 

@@ -22,6 +22,8 @@ closeIconTitle = 'Close';
 collapseFilterIconTitle = 'Collapse Filters';
 expandFilterIconTitle = 'Expand Filters';
 orientationTitle = 'Orientation';
+portraitTitle = 'Portrait';
+landscapeTitle = 'Landscape';
 tagRightClickTitle = 'Right Click to Select This Only';
 loaderTextPrefix = 'Images Loaded: ';
 

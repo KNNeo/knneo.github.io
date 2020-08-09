@@ -21,8 +21,12 @@ let closeIconTitle = 'Close';
 let collapseFilterIconTitle = 'Collapse Filters';
 let expandFilterIconTitle = 'Expand Filters';
 let orientationTitle = 'Orientation';
+let portraitTitle = 'Portrait';
+let landscapeTitle = 'Landscape';
 let tagRightClickTitle = 'Right Click to Select This Only';
 let loaderTextPrefix = 'Images Loaded: ';
+
+
 
 //--VARIABLES--//
 let spacerURL = 'https://knneo.github.io/resources/spacer.gif';
@@ -142,11 +146,12 @@ function renderPage(pageName) {
 	togglerButton.id = 'toggler';
 	togglerButton.style.cursor = 'pointer';
 	togglerButton.style.fontSize = '32px';
-	togglerButton.title = 'Collapse Filters';
+	togglerButton.title = collapseFilterIconTitle;
 	togglerButton.innerText = 'blur_linear';
 	togglerButton.addEventListener('click', function() { 
-		this.title = this.innerText == 'blur_linear' ? expandFilterIconTitle : collapseFilterIconTitle; 
-		this.innerText = this.innerText == 'blur_linear' ? 'maximize': 'blur_linear'; 
+		let isBlurLinear = this.innerText == 'blur_linear';
+		this.title = isBlurLinear ? expandFilterIconTitle : collapseFilterIconTitle; 
+		this.innerText = isBlurLinear ? 'maximize': 'blur_linear'; 
 		if(enableOrientation) this.parentElement.style.position = this.parentElement.style.position == 'absolute' ? 'inherit' : 'absolute';
 		toggleFilter();
 	} );
@@ -173,7 +178,7 @@ function renderPage(pageName) {
 			portraitCheckbox.checked = true;
 			portrait.appendChild(portraitCheckbox);
 			let portraitText = document.createElement('span');
-			portraitText.innerText = 'Portrait';
+			portraitText.innerText = portraitTitle;
 			portrait.appendChild(portraitText);
 			orientation.appendChild(portrait);
 			let landscape = document.createElement('label');
@@ -184,7 +189,7 @@ function renderPage(pageName) {
 			landscapeCheckbox.checked = true;
 			landscape.appendChild(landscapeCheckbox);
 			let landscapeText = document.createElement('span');
-			landscapeText.innerText = 'Landscape';
+			landscapeText.innerText = landscapeTitle;
 			landscape.appendChild(landscapeText);
 		orientation.appendChild(landscape);
 	filter.appendChild(orientation);
@@ -296,7 +301,7 @@ window.addEventListener('resize',function () {
 		windowHeight = window.innerHeight;
 		windowWidth = window.innerWidth
 	}
-	adjustViewerMargin();
+	closeViewer();
 });
 
 //viewer
@@ -314,7 +319,8 @@ function openImageInViewer(image) {
 	img.classList = thumbnail.classList;
 	img.src = thumbnail.src;
 	img.title = thumbnail.title;
-	img.style.width = 'inherit';
+	if(window.innerHeight > window.innerWidth) img.style.width = 'inherit'; //portrait
+	if(window.innerHeight <= window.innerWidth) img.style.height = 'inherit'; //landscape
 	img.style.maxHeight = '100%';
 	img.style.maxWidth = '100%';
 	if(viewer.childNodes.length > 0) viewer.innerHTML = '';
@@ -505,6 +511,7 @@ function reloadImages(array) {
 			//	image.height = lowestHeight;
 		}
 	}
+	recoverOrientationIfEmpty(array);
 	resizeImageHeights();
 	//checkImageHeights(array);
 	if(loadedImages < array.length-1) setTimeout( function() { reloadImages(array); },500);
@@ -579,7 +586,8 @@ function generateTickboxAction() {
 	for (let tickbox of document.getElementById('filter').getElementsByTagName('label'))
 	{
 		tickbox.addEventListener('click', function() { renderFilter(undefined); });
-		if(tickbox.innerText == 'Select All') continue;
+		if(tickbox.innerText == selectAllTag) continue;
+		if(tickbox.parentElement.id == 'orientation') continue;
 		tickbox.addEventListener('contextmenu', function(e) { e.preventDefault(); renderFilter(this); });
 	}
 }
@@ -614,6 +622,30 @@ function renderFilter(element) {
 			newArray.push(img);
 	}
 	renderGallery(newArray);
+}
+
+function recoverOrientationIfEmpty(array) {
+	//to write back orientation if found no values
+	//find in array, if at least one empty, update
+	let orientationArray = new Array();
+	for (let label of document.getElementById('orientation').getElementsByTagName('input'))
+	{
+		if(label.checked == true)
+			orientationArray.push(label.value);
+	}
+	
+	let count = 0;
+	for(let img of array) {
+		if(orientationArray.indexOf(img[2]) == -1) count++;
+		if(count > 0) break;
+	}
+	
+	//update
+	for(let img of array) {
+		let image = document.getElementById(img[1].substring(img[1].lastIndexOf('/')+1).replace('.jpg',''));
+		if(image == null) continue;
+		img[2] = image.width >= image.height ? 'landscape' : 'portrait';
+	}
 }
 
 function renderGalleryScroll() {
