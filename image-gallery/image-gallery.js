@@ -8,7 +8,7 @@ let enableDarkMode = true; //no button to toggle, when load always white backgro
 
 let links = ['bromide-gallery','amiiboCards-gallery','surugaya-gallery']; //allow navigation, must name all files based on this
 let pageTitle = 'GALLERY'; //for tab, and top of page
-let pageDescription = 'To add gallery:\n- Copy and fill in image-gallery-data, filename to end with \'-data.js\'\n- Add to links variable in image-gallery.js new filename\n- Tada!\n\n(Note: Loading speed dependent on size and number of images;\nTo avoid slowness, set defaultTag)'; //hides on load with images loaded
+let pageDescription = 'To add gallery:\n- Copy and fill in image-gallery-data, filename to end with \'-data.js\'\n- Add to links variable in image-gallery.js new filename\n- Tada!\n\n(Note: Loading speed dependent on size and number of images; To avoid slowness, set defaultTag)'; //hides on load with images loaded
 let pageCredit = ''; //does not hide, and will hide if empty
 let tagTitle = 'Girls (Right Click to Select 1)';
 let selectAllTag = 'Select All';
@@ -85,7 +85,8 @@ function renderPage(pageName) {
 	let description = document.createElement('div');
 	description.id = 'description';	
 	description.style.margin = 'auto';
-	description.style.maxWidth = '480px';
+	description.style.padding = '10px';
+	description.style.maxWidth = '405px';
 	description.style.display = descriptionClosed ? 'none' : '';
 		let descriptionCloser = document.createElement('i');
 		descriptionCloser.classList.add('material-icons');
@@ -403,7 +404,7 @@ function setupGallery() {
 
 //generate profile category based on array
 function renderGallery(array) {
-	document.getElementById('description').classList.remove('closed');
+	//document.getElementById('description').classList.remove('closed');
 	let profileCategoryHTML = document.createElement('DIV');
 	profileCategoryHTML.classList.add('profile-category');
 	if(isFirefox) profileCategoryHTML.classList.add('snap');
@@ -656,7 +657,7 @@ function writeLoadedCount(number) {
 
 //start slideshow
 function startSlideshow() {
-	document.getElementById('description').classList.add('closed');
+	//document.getElementById('description').classList.add('closed');
 	openFullscreen();
 	switchButtons();
 	let imgNo = randomImg();

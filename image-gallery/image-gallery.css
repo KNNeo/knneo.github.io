@@ -17,7 +17,7 @@ h1, #options {
   max-width: 800px;
   margin: auto;	
 }
-h4 { 
+h4, h5 { 
 	margin: 0;
 }
 label {
