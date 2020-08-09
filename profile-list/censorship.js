@@ -27,6 +27,12 @@ function censorData() {
 	for (var profileBox of profileBoxes) {
 		profileBox.innerHTML = profileBox.getElementsByClassName("profile-box-img")[0].outerHTML + profileBox.getElementsByTagName("table")[0].outerHTML;
 	}
+	
+	//remove all asterisks
+	for (var profileBox of profileBoxes) {
+		profileBox.innerHTML = profileBox.innerHTML.replace('*','');
+	}
+	
 	//document.getElementsByClassName("profile-box")[0].getElementsByClassName("profile-box-img")[0].innerHTML;
 	//document.getElementsByClassName("profile-box")[0].getElementsByTsgName("table")[0].innerHTML;
 	//document.getElementsByClassName("profile-box")[0].innerHTML = document.getElementsByClassName("profile-box")[0].getElementsByClassName("profile-box-img")[0].outerHTML + document.getElementsByClassName("profile-box")[0].getElementsByTagName("table")[0].outerHTML;
