@@ -12,12 +12,18 @@ enableFullscreenSlideshow = false; //enable fullscreen button for slideshow, for
 enableShadows = false; //removes shadows and borders in images
 enableDarkMode = false; //no button to toggle, when load always white background
 
+//localization
 pageTitle = 'Animal Crossing amiibo Cards'; //for tab, and top of page
 pageCredit = '[Source: https://animal-crossing.com/amiibo/collections/series-1-4-amiibo-cards/]'; //does not hide, and will hide if empty
 tagTitle = 'Animals';
 selectAllTag = 'Select All';
-defaultTag = ''; //if empty will select all
-
+defaultTag = 'Special Characters'; //if empty will select all
+closeIconTitle = 'Close';
+collapseFilterIconTitle = 'Collapse Filters';
+expandFilterIconTitle = 'Expand Filters';
+orientationTitle = 'Orientation';
+tagRightClickTitle = 'Right Click to Select This Only';
+loaderTextPrefix = 'Cards Loaded: ';
 
 //to generate image array https://animal-crossing.com/amiibo/collections/series-1-4-amiibo-cards/
 /*

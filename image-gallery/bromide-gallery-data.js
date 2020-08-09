@@ -12,11 +12,19 @@ enableFullscreenSlideshow = true; //enable fullscreen button for slideshow, for 
 enableShadows = true; //removes shadows and borders in images
 enableDarkMode = true; //no button to toggle, when load always white background
 
+
+//localization
 pageTitle = 'GALLERY'; //for tab, and top of page
 pageCredit = ''; //does not hide, and will hide if empty
 tagTitle = 'Girls';
 selectAllTag = 'Select All';
 defaultTag = ''; //if empty will select all
+closeIconTitle = 'Close';
+collapseFilterIconTitle = 'Collapse Filters';
+expandFilterIconTitle = 'Expand Filters';
+orientationTitle = 'Orientation';
+tagRightClickTitle = 'Right Click to Select This Only';
+loaderTextPrefix = 'Images Loaded: ';
 
 //array containing all gallery info
 imgArray = [

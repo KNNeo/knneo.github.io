@@ -1,3 +1,7 @@
+//ADD LINKS TO FILENAMES HERE//
+let links = ['bromide-gallery','amiiboCards-gallery','surugaya-gallery']; 
+
+
 //--DEFAULT SETTINGS--//
 let enableViewer = true; //images smaller than screen will not resize up
 let enableOrientation = true; //assume has values in orientation column
@@ -5,15 +9,22 @@ let enableSlideshow = true; //enable slideshow button
 let enableFullscreenSlideshow = true; //enable fullscreen button for slideshow, for browser only not viewer
 let enableShadows = true; //removes shadows and borders in images
 let enableDarkMode = true; //no button to toggle, when load always white background
-
-let links = ['bromide-gallery','amiiboCards-gallery','surugaya-gallery']; //allow navigation, must name all files based on this
-let pageTitle = 'GALLERY'; //for tab, and top of page
 let pageDescription = 'To add gallery:\n- Copy and fill in image-gallery-data, filename to end with \'-data.js\'\n- Add to links variable in image-gallery.js new filename\n- Tada!\n\n(Note: Loading speed dependent on size and number of images; To avoid slowness, set defaultTag)'; //hides on load with images loaded
+
+//localization
+let pageTitle = 'GALLERY'; //for tab, and top of page
 let pageCredit = ''; //does not hide, and will hide if empty
-let tagTitle = 'Girls (Right Click to Select 1)';
+let tagTitle = 'Girls';
 let selectAllTag = 'Select All';
 let defaultTag = 'Portrait'; //if empty or not in tags in array, will show all
+let closeIconTitle = 'Close';
+let collapseFilterIconTitle = 'Collapse Filters';
+let expandFilterIconTitle = 'Expand Filters';
+let orientationTitle = 'Orientation';
+let tagRightClickTitle = 'Right Click to Select This Only';
+let loaderTextPrefix = 'Images Loaded: ';
 
+//--VARIABLES--//
 let spacerURL = 'https://knneo.github.io/resources/spacer.gif';
 let isFirefox = (/Firefox/i.test(navigator.userAgent));
 let lowestHeight = 9999;
@@ -92,6 +103,7 @@ function renderPage(pageName) {
 		descriptionCloser.classList.add('material-icons');
 		descriptionCloser.style.float = 'right';
 		descriptionCloser.style.cursor = 'pointer';
+		descriptionCloser.title = closeIconTitle;
 		descriptionCloser.innerText = 'close';
 		descriptionCloser.addEventListener('click', function() {
 			this.parentElement.classList.add('closed');
@@ -130,8 +142,10 @@ function renderPage(pageName) {
 	togglerButton.id = 'toggler';
 	togglerButton.style.cursor = 'pointer';
 	togglerButton.style.fontSize = '32px';
+	togglerButton.title = 'Collapse Filters';
 	togglerButton.innerText = 'blur_linear';
 	togglerButton.addEventListener('click', function() { 
+		this.title = this.innerText == 'blur_linear' ? expandFilterIconTitle : collapseFilterIconTitle; 
 		this.innerText = this.innerText == 'blur_linear' ? 'maximize': 'blur_linear'; 
 		if(enableOrientation) this.parentElement.style.position = this.parentElement.style.position == 'absolute' ? 'inherit' : 'absolute';
 		toggleFilter();
@@ -148,9 +162,9 @@ function renderPage(pageName) {
 		let orientation = document.createElement('div');
 		orientation.id = 'orientation';
 		orientation.style.display = enableOrientation ? '' : 'none';
-		let orientationTitle = document.createElement('h4');
-		orientationTitle.innerText = 'Orientation';
-		orientation.appendChild(orientationTitle);
+		let rotationTitle = document.createElement('h4');
+		rotationTitle.innerText = orientationTitle;
+		orientation.appendChild(rotationTitle);
 			let portrait = document.createElement('label');
 			let portraitCheckbox = document.createElement('input');
 			portraitCheckbox.type = 'checkbox';
@@ -529,6 +543,7 @@ function generateTickboxFilter(labelArray) {
 	for(let label of labelArray)
 	{
 		let labelHTML = document.createElement('LABEL');
+		labelHTML.title = tagRightClickTitle;
 		labelHTML.innerText = label;
 		let inputHTML = document.createElement('input');
 		inputHTML.type = 'checkbox';
@@ -644,14 +659,14 @@ function toggleDarkMode() {
 function writeLoadedCount(number) {
 	let loader = document.createElement('h5');
 	let loaderPrefix = document.createElement('span');
-	loaderPrefix.innerText = '[';
+	loaderPrefix.innerText = '[' + loaderTextPrefix;
 	loader.appendChild(loaderPrefix);
 	let loaderSpan = document.createElement('span');
 	loaderSpan.id = 'loadedCount';
 	loaderSpan.innerText = number ?? 0;
 	loader.appendChild(loaderSpan);
 	let loaderSuffix = document.createElement('span');
-	loaderSuffix.innerText = ' images loaded]';
+	loaderSuffix.innerText = ']';
 	loader.appendChild(loaderSuffix);
 	return loader;
 }

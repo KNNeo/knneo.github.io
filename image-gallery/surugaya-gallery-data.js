@@ -12,11 +12,18 @@ enableFullscreenSlideshow = false; //enable fullscreen button for slideshow, for
 enableShadows = false; //removes shadows and borders in images
 enableDarkMode = true; //no button to toggle, when load always white background
 
+//localization
 pageTitle = 'ギャラリー'; //for tab, and top of page
 pageCredit = '[画像提供：https://suruga-ya.jp/]'; //does not hide, and will hide if empty
 tagTitle = 'タグ';
 selectAllTag = '全選';
 defaultTag = 'TrySail'; //if empty will select all
+closeIconTitle = '閉じる';
+collapseFilterIconTitle = 'フィルター崩れる';
+expandFilterIconTitle = 'フィルター広げる';
+orientationTitle = 'オリエンテーション';
+tagRightClickTitle = '右クリックのはこれだけ選択する';
+loaderTextPrefix = '読み込む画像：';
 
 //from site: https://www.suruga-ya.jp/ and search name based on おもちゃ・ホビー category
 //create array based on item box info
