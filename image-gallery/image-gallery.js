@@ -596,8 +596,10 @@ function renderFilter(element) {
 	let orientationArray = new Array();
 	for (let label of document.getElementById('orientation').getElementsByTagName('input'))
 	{
-		if(label.checked == true)
+		if(label.checked == true || element != null)
 			orientationArray.push(label.value);
+		if(element != null)
+			label.checked = true;
 	}
 	
 	let nameArray = new Array();
