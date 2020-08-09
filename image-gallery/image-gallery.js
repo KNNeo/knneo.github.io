@@ -106,6 +106,7 @@ function renderPage(pageName) {
 	let options = document.createElement('div');
 	options.id = 'options';	
 	options.style.margin = 'auto';
+	options.style.padding = '10px';
 		let loader = writeLoadedCount();
 		loader.style.textAlign = 'center';
 		options.appendChild(loader);
@@ -404,7 +405,7 @@ function setupGallery() {
 
 //generate profile category based on array
 function renderGallery(array) {
-	//document.getElementById('description').classList.remove('closed');
+	document.getElementById('options').classList.remove('closed');
 	let profileCategoryHTML = document.createElement('DIV');
 	profileCategoryHTML.classList.add('profile-category');
 	if(isFirefox) profileCategoryHTML.classList.add('snap');
