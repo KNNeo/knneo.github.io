@@ -37,6 +37,20 @@ let imgArray = [];
 let runSlideshow = null;
 let descriptionClosed = false;
 
+//--COMMON EVENTS--//
+//on startup
+let windowHeight = window.innerHeight;
+let windowWidth = window.innerWidth;
+window.onload = loadPage('surugaya-gallery');
+window.addEventListener('resize',function () {
+	if(window.innerHeight == windowHeight || window.innerWidth != windowWidth) renderFilter(undefined);
+	else {
+		windowHeight = window.innerHeight;
+		windowWidth = window.innerWidth
+	}
+	closeViewer();
+});
+
 //--COMMON LOADER--//
 //should add in here only if common; reconcile all differences via settings
 function renderPage(pageName) {
@@ -289,20 +303,6 @@ function renderPage(pageName) {
 	body.innerHTML = '';
 	body.appendChild(frame);
 }
-
-//--COMMON EVENTS--//
-//on startup
-let windowHeight = window.innerHeight;
-let windowWidth = window.innerWidth;
-window.onload = loadPage('bromide-gallery');
-window.addEventListener('resize',function () {
-	if(window.innerHeight == windowHeight || window.innerWidth != windowWidth) renderFilter(undefined);
-	else {
-		windowHeight = window.innerHeight;
-		windowWidth = window.innerWidth
-	}
-	closeViewer();
-});
 
 //viewer
 function openViewer(image) {
