@@ -5,10 +5,10 @@
 
 
 //--REINITIALISE SETTINGS--//
-enableViewer = false; //images smaller than screen will not resize up
+enableViewer = window.innerWidth <= 640; //images smaller than screen will not resize up
 enableOrientation = false; //assume has values in orientation column
 enableSlideshow = true; //enable slideshow button
-enableFullscreenSlideshow = false; //enable fullscreen button for slideshow, for browser only not viewer
+enableFullscreenSlideshow = window.innerWidth <= 640; //enable fullscreen button for slideshow, for browser only not viewer
 enableShadows = false; //removes shadows and borders in images
 enableDarkMode = true; //no button to toggle, when load always white background
 
