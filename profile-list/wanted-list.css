@@ -4,20 +4,20 @@ html {
   overflow-x: hidden;
 }
 body {
-  padding: 5px;
+  /*padding: 5px;*/
   background-color: black;
   color: white;
-  margin: auto;
-  max-width: 800px;
-}
-h1 {
-	text-align: center;
 }
 a {
 	color: cyan;
 }
 p {
 	padding: 20px;
+}
+h1, #wantedList, #marriedCouple, #timeline, #calendar {
+	text-align: center;
+	max-width: 800px;
+	margin: auto;
 }
 #wantedList li, #wantedList a {
   line-height: 1.5;
@@ -60,7 +60,7 @@ html {
 .profile-category > div {
   display: inline-block;
   width: 98%;
-  max-width: 800px;
+  max-width: 740px;
   margin: 3px;
   vertical-align: top;
   padding-right: 5px;
