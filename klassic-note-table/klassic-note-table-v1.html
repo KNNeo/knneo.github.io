@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en-SG">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../darkmode.css">
+    <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet' />
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="p5.min.js"></script>
+    <title>Klassic Note Table</title>
+</head>
+<style>
+html {
+	font-family: Open Sans;
+	font-size: 12px;
+	margin: auto;
+}
+a {
+	margin: 5px;
+}
+button {
+	margin: 5px 0;
+	box-shadow: 0
+}
+h4 {
+	margin: 3px;
+}
+label {
+	white-space: nowrap;
+}
+p, h1, h5 {
+	 margin: 0;
+}
+#table-column-ticks {
+	max-width: 1000px;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+#darkmode {
+	padding-left: 10px;
+	vertical-align: bottom;
+}
+#back {
+	font-size: 1.2em;
+	position: fixed;
+	top: 0;
+	right: 0;
+	padding: 10px;
+	z-index: 2;
+}
+.p5Canvas {
+	display: none;
+}
+.table-filter {
+	padding: 10px 0;
+	top: 0;
+	position: -webkit-sticky;
+	position: sticky;
+}
+</style>
+<body>
+    <h1 style="display: inline-block;">Klassic Note Table</h1>
+	<span style="display: inline-block;" title="Toggle Dark Mode"><i id="darkmode" class="material-icons">brightness_high</i></span>
+	<div id="back"><a href="../index.html">Back</a></div>
+	<h5>Table powered by p5.js</h5>
+	<div id="table-column-ticks">
+		<h4>Columns</h4>
+		<label><input type="checkbox" name="tickboxAll" value="All" >All</label>
+		<label><input type="checkbox" name="tickboxSongID" value="SongID" >SongID</label>
+		<label><input type="checkbox" name="tickboxKNID" value="KNID" >KNID</label>
+		<label><input type="checkbox" name="tickboxKNJAPAN" value="KNJAPAN" >KNJAPAN</label>
+		<label><input type="checkbox" name="tickboxKNJPOP" value="KNJPOP" >KNJPOP</label>
+		<label><input type="checkbox" name="tickboxKNYEAR" value="KNYEAR" checked>KNYEAR</label>
+		<label><input type="checkbox" name="tickboxFilename" value="Filename" >Filename</label>
+		<label><input type="checkbox" name="tickboxSongTitle" value="SongTitle" checked>SongTitle</label>
+		<label><input type="checkbox" name="tickboxArtistTitle" value="ArtistTitle" checked>ArtistTitle</label>
+		<label><input type="checkbox" name="tickboxParentArtist" value="ParentArtist" >ParentArtist</label>
+		<label><input type="checkbox" name="tickboxReleaseTitle" value="ReleaseTitle" checked>ReleaseTitle</label>
+		<label><input type="checkbox" name="tickboxReleaseArtistTitle" value="ReleaseArtistTitle" >ReleaseArtistTitle</label>
+		<label><input type="checkbox" name="tickboxReleaseYear" value="ReleaseYear" checked>ReleaseYear</label>
+		<label><input type="checkbox" name="tickboxRating" value="Rating" checked>Rating</label>
+		<label><input type="checkbox" name="tickboxGenre" value="Genre" checked>Genre</label>
+		<label><input type="checkbox" name="tickboxDateCreated" value="DateCreated" checked>DateCreated</label>
+		<label><input type="checkbox" name="tickboxVocalCode" value="VocalCode" checked>VocalCode</label>
+		<label><input type="checkbox" name="tickboxLanguage" value="Language" checked>Language</label>
+		<label><input type="checkbox" name="tickboxInAppleMusic" value="InAppleMusic" checked>InAppleMusic</label>
+		<label><input type="checkbox" name="tickboxLyricsURL" value="LyricsURL" checked>LyricsURL</label>
+		<label><input type="checkbox" name="tickboxSongTitleAlt" value="SongTitleAlt" >SongTitleAlt</label>
+		<label><input type="checkbox" name="tickboxArtistTitleAlt" value="ArtistTitleAlt" >ArtistTitleAlt</label>
+		<label><input type="checkbox" name="tickboxReleaseTitleAlt" value="ReleaseTitleAlt" >ReleaseTitleAlt</label>
+		<label><input type="checkbox" name="tickboxReleaseArtistTitleAlt" value="ReleaseArtistTitleAlt" >ReleaseArtistTitleAlt</label>
+		<label><input type="checkbox" name="tickboxArtistCode" value="ArtistCode" checked>ArtistCode</label>
+	</div>
+	<div id="table-preset-ticks" style="display: none;">
+		<h4>Presets</h4>
+		<label><input type="radio" id="presetAll" value="All" >All Columns</label>
+		<label><input type="radio" id="presetStdMeta" value="StdMeta" >Standard Metadata</label>
+		<label><input type="radio" id="presetRawMeta" value="RawMeta" >Raw Metadata</label>
+		<label><input type="radio" id="presetTitles" value="Titles" >Title Only</label>
+	</div>
+	<div>
+		<h4>Search</h4>
+		<span style="display: inline;" id="table-filter" class="table-filter">
+			<input id="dbInputSongTitle" type="text" placeholder="Song Title" title="search" />
+			<input id="dbInputArtistTitle" type="text" placeholder="Artist Title" title="search" />
+			<input id="dbInputReleaseYear" type="text" placeholder="Release Year" title="search" />
+			<input id="dbInputArtistCode" type="text" placeholder="Artist Type" title="search" />
+		</span>
+		<span style="display: inline;" class="table-filter">
+			<button id="dbSubmitButton" type="submit" onclick="loadTableFromCSV()" placeholder="submit" value="Submit">Submit</button>
+			<button id="dbResetButton" type="submit" onclick="resetFunction()" placeholder="reset" value="Reset">Reset</button>
+		</span>
+	</div>
+	<br>
+    <div class="table-reset"></div>
+    <div id="table-sort-module">
+        <div id="table-result"></div>
+        <div id="table-box">
+            <table id="dbTable">
+            </table>
+        </div>
+    </div>
+</body>
+<script>
+document.getElementById('darkmode').addEventListener('click', function() {
+	if(document.getElementsByTagName('html')[0].classList.contains('darked'))
+		document.getElementsByTagName('html')[0].classList.remove('darked');
+	else
+		document.getElementsByTagName('html')[0].classList.add('darked');
+} );
+
+let presetAllArray = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23];
+let presetStdMetaArray = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23];
+let presetRawMetaArray = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23];
+let presetTitlesArray = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23];
+
+document.getElementById('presetAll').addEventListener("click", function(event) {
+	console.log(event.checked);
+});
+
+document.getElementById('dbInputSongTitle').addEventListener("keyup", function(event) {
+	// Number 13 is the "Enter" key on the keyboard
+	if (event.keyCode === 13) {
+		// Cancel the default action, if needed
+		event.preventDefault();
+		// Trigger the button element with a click
+		document.getElementById("dbSubmitButton").click(this);
+	}
+});
+document.getElementById('dbInputArtistTitle').addEventListener("keyup", function(event) {
+	// Number 13 is the "Enter" key on the keyboard
+	if (event.keyCode === 13) {
+		// Cancel the default action, if needed
+		event.preventDefault();
+		// Trigger the button element with a click
+		document.getElementById("dbSubmitButton").click(this);
+	}
+});
+document.getElementById('dbInputReleaseYear').addEventListener("keyup", function(event) {
+	// Number 13 is the "Enter" key on the keyboard
+	if (event.keyCode === 13) {
+		// Cancel the default action, if needed
+		event.preventDefault();
+		// Trigger the button element with a click
+		document.getElementById("dbSubmitButton").click(this);
+	}
+});
+document.getElementById('dbInputArtistCode').addEventListener("keyup", function(event) {
+	// Number 13 is the "Enter" key on the keyboard
+	if (event.keyCode === 13) {
+		// Cancel the default action, if needed
+		event.preventDefault();
+		// Trigger the button element with a click
+		document.getElementById("dbSubmitButton").click(this);
+	}
+});
+
+function resetFunction() {
+	for (let input of document.getElementsByTagName("input")) {
+		if (input.title == "search") input.value = "";
+	}
+	loadTableFromCSV();
+}
+
+function filterRows(table) {
+	let inputSongTitle = document.getElementById('dbInputSongTitle').value.toUpperCase().trim();
+	let inputArtistTitle = document.getElementById('dbInputArtistTitle').value.toUpperCase().trim();
+	let inputReleaseYear = document.getElementById('dbInputReleaseYear').value.toUpperCase().trim();
+	let inputArtistCode = document.getElementById('dbInputArtistCode').value.toUpperCase().trim();
+	<!-- let strictMode = inputSongTitle != '' && inputArtistTitle != '' && inputReleaseYear != ''&& inputArtistCode != ''; -->
+	if (inputSongTitle + inputArtistTitle + inputReleaseYear + inputArtistCode == '') return table;
+	else {
+		let newTable = new p5.Table();
+		newTable.columns = table.columns;
+		let rows = table.getRows();
+		for (row of rows) {
+			let validInput = 0;
+			let validRows = 0;
+			if (inputSongTitle != '') validInput++;
+			if (inputArtistTitle != '') validInput++;
+			if (inputReleaseYear != '') validInput++;
+			if (inputArtistCode != '') validInput++;
+			if (inputSongTitle != '' && row.getString(6).toUpperCase().includes(inputSongTitle)) validRows++;
+			if (inputArtistTitle != '' && row.getString(7).toUpperCase().includes(inputArtistTitle)) validRows++;
+			if (inputReleaseYear != '' && row.getString(11).toUpperCase().includes(inputReleaseYear)) validRows++;
+			if (inputArtistCode != '' && row.getString(23).toUpperCase().includes(inputArtistCode)) validRows++;
+			<!-- if (strictMode && validRows > 2) newTable.addRow(row); -->
+			<!-- else if (!strictMode && validRows > 0) newTable.addRow(row); -->	if (validRows >= validInput) newTable.addRow(row);
+			if (validRows > 0) newTable.addRow(row);
+		}
+		return newTable;
+	}
+}
+
+function filterColumns(table) {
+	let presetTicks = 0;	
+	let columnTicks = document.getElementById("table-column-ticks").getElementsByTagName("input");
+	for (let tick of columnTicks) {
+		if (!tick.checked) table.removeColumn(tick.value);
+	}
+	//remove default columns (uncheck too)
+	//table.removeColumn('SongID');
+	//table.removeColumn('KNID');
+	//table.removeColumn('KNJAPAN');
+	//table.removeColumn('KNJPOP');
+	//table.removeColumn('Filename');
+	//table.removeColumn('SongID');
+	return table;
+}
+
+function loadTableFromCSV() {
+	button.hide();
+	document.getElementById("table-result").innerText = "Loading...";
+	//my table is comma separated value "csv"
+	//and has a header specifying the columns labels
+	let table = loadTable('https://knneo.github.io/klassic-note-table/klassic-note-database-song-table.csv', 'csv', 'header', displayTable);
+	//the file can be remote
+	//table = loadTable("http://p5js.org/reference/assets/mammals.csv",
+	//                  "csv", "header");
+}
+
+let maxRows = window.innerWidth < 540 ? 100 : 500;
+
+function displayTable(table) {
+	//filter results based on input and checkboxes
+	let resultTable = filterRows(table);
+	resultTable = filterColumns(resultTable);
+	
+	//count rows
+	let maxRow = resultTable.getRowCount() > maxRows ? maxRows : resultTable.getRowCount();
+	//display count
+	document.getElementById("table-result").innerText = resultTable.getRowCount() + " result" + (resultTable.getRowCount() != 1 ? "s" : "") + " found";
+	if (resultTable.getRowCount() > maxRow) document.getElementById("table-result").innerText += "; Displaying first "+maxRow+" results";
+
+	//table to array
+	let tableArray = resultTable.getArray();
+	let tableHTML;
+	
+	let knTable = document.createElement('table');
+	let knTableBody = document.createElement('tbody');
+	let knTableHeader = document.createElement('tr');
+	knTableHeader.classList.add('header');
+	
+	//header
+	let columns = resultTable.columns;
+	for (let column of columns)
+	{
+		let knColumn = document.createElement('th');
+		knColumn.id = 'column' + column.replace(' ','');
+		knColumn.innerText = column;
+		knTableHeader.appendChild(knColumn);
+	}
+	knTableBody.appendChild(knTableHeader);
+	
+	//content
+	for (let i = 0; i < maxRow; i++) {
+		let knTableRow = document.createElement('tr');
+		if (i >= 0) {
+			for (let j = 0; j < tableArray[i].length; j++) {
+				tableHTML += '<td nowrap>' + (tableArray[i][j].includes('http') ? '<a href="' + tableArray[i][j] + '" target="_blank">Link</a>' : tableArray[i][j]) + '</td>';
+			}
+			
+			knTableBody.appendChild(knTableRow);
+			continue;
+		}
+		knTableBody.appendChild(knTableRow);
+	}
+	
+	knTable.appendChild(knTableBody);
+	console.log(knTable);
+
+	//console.log(columns);
+	tableHTML = '<tr class="header">';
+	for (let c of columns) {
+		tableHTML += '<th>' + c + '</th>';
+	}
+	tableHTML += '</tr>';
+	
+	//content
+	for (let i = 0; i < maxRow; i++) {
+		if (i >= 0) {
+			tableHTML += '<tr>';
+			for (let j = 0; j < tableArray[i].length; j++) {
+				tableHTML += '<td nowrap>' + (tableArray[i][j].includes('http') ? '<a href="' + tableArray[i][j] + '" target="_blank">Link</a>' : tableArray[i][j]) + '</td>';
+			}
+			tableHTML += '</tr>';
+			continue;
+		}
+		tableHTML += '</tr>';
+	}
+	//assign
+	document.getElementById("dbTable").innerHTML = tableHTML;
+	//disable input until load complete
+}
+
+function setup() {
+	//button to load table
+	button = createButton('Load Table');
+	button.mousePressed(loadTableFromCSV);
+}
+</script>
+</html>

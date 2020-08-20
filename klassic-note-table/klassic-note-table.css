@@ -1,0 +1,49 @@
+html {
+	font-family: Open Sans;
+	font-size: 12px;
+	margin: auto;
+}
+a {
+	margin: 5px;
+}
+button {
+	margin: 5px 0;
+	box-shadow: 0
+}
+h4 {
+	margin: 3px;
+}
+label {
+	white-space: nowrap;
+}
+p, h1, h5 {
+	 margin: 0;
+}
+#table-column-ticks {
+	max-width: 1000px;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+#darkmode {
+	padding-left: 10px;
+	vertical-align: bottom;
+}
+#back {
+	font-size: 1.2em;
+	position: fixed;
+	top: 0;
+	right: 0;
+	padding: 10px;
+	z-index: 2;
+}
+.p5Canvas {
+	display: none;
+}
+.table-filter {
+	padding: 10px 0;
+	top: 0;
+	position: -webkit-sticky;
+	position: sticky;
+}
