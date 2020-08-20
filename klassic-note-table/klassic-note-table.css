@@ -20,6 +20,7 @@ p, h1, h5 {
 	 margin: 0;
 }
 #table-column-ticks {
+	width: 95%;
 	max-width: 1000px;
 	-webkit-user-select: none;
 	-moz-user-select: none;
@@ -29,14 +30,16 @@ p, h1, h5 {
 #darkmode {
 	padding-left: 10px;
 	vertical-align: bottom;
+	cursor: pointer;
 }
-#back {
-	font-size: 1.2em;
-	position: fixed;
+#back i {
+	font-size: 32px;
+	/*position: fixed;
 	top: 0;
 	right: 0;
-	padding: 10px;
-	z-index: 2;
+	z-index: 2;*/
+	transform: rotate(180deg);
+	vertical-align: bottom;
 }
 .p5Canvas {
 	display: none;

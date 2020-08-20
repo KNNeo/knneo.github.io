@@ -14,6 +14,16 @@ document.getElementById('presetAll').addEventListener("click", function(event) {
 	console.log(event.checked);
 });
 
+document.getElementById('tickboxAll').addEventListener("click", function() {
+	if(!this.checked) location.reload();
+	let count = 0;
+	for(let tickbox of document.getElementById('table-column-ticks').getElementsByTagName('input'))
+	{
+		tickbox.checked = this.checked;
+		if(tickbox.checked) count++;
+	}
+});
+
 document.getElementById('dbInputSongTitle').addEventListener("keyup", function(event) {
 	// Number 13 is the "Enter" key on the keyboard
 	if (event.keyCode === 13) {

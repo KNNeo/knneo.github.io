@@ -10,37 +10,39 @@
     <title>Klassic Note Table</title>
 </head>
 <body>
-    <h1 style="display: inline-block;">Klassic Note Table</h1>
-	<span style="display: inline-block;" title="Toggle Dark Mode"><i id="darkmode" class="material-icons">brightness_high</i></span>
-	<div id="back"><a href="../index.html">Back</a></div>
+	<div>
+		<a id="back" href="../index.html"><i class="material-icons">forward</i></a>
+		<h1 style="display: inline-block;">Klassic Note Table</h1>
+		<span style="display: inline-block;" title="Toggle Dark Mode"><i id="darkmode" class="material-icons">brightness_high</i></span>
+	</div>
 	<h5>Table powered by p5.js</h5>
 	<div id="table-column-ticks">
 		<h4>Columns</h4>
-		<label><input type="checkbox" name="tickboxAll" value="All" >All</label>
-		<label><input type="checkbox" name="tickboxSongID" value="SongID" >SongID</label>
-		<label><input type="checkbox" name="tickboxKNID" value="KNID" >KNID</label>
-		<label><input type="checkbox" name="tickboxKNJAPAN" value="KNJAPAN" >KNJAPAN</label>
-		<label><input type="checkbox" name="tickboxKNJPOP" value="KNJPOP" >KNJPOP</label>
-		<label><input type="checkbox" name="tickboxKNYEAR" value="KNYEAR" checked>KNYEAR</label>
-		<label><input type="checkbox" name="tickboxFilename" value="Filename" >Filename</label>
-		<label><input type="checkbox" name="tickboxSongTitle" value="SongTitle" checked>SongTitle</label>
-		<label><input type="checkbox" name="tickboxArtistTitle" value="ArtistTitle" checked>ArtistTitle</label>
-		<label><input type="checkbox" name="tickboxParentArtist" value="ParentArtist" >ParentArtist</label>
-		<label><input type="checkbox" name="tickboxReleaseTitle" value="ReleaseTitle" checked>ReleaseTitle</label>
-		<label><input type="checkbox" name="tickboxReleaseArtistTitle" value="ReleaseArtistTitle" >ReleaseArtistTitle</label>
-		<label><input type="checkbox" name="tickboxReleaseYear" value="ReleaseYear" checked>ReleaseYear</label>
-		<label><input type="checkbox" name="tickboxRating" value="Rating" checked>Rating</label>
-		<label><input type="checkbox" name="tickboxGenre" value="Genre" checked>Genre</label>
-		<label><input type="checkbox" name="tickboxDateCreated" value="DateCreated" checked>DateCreated</label>
-		<label><input type="checkbox" name="tickboxVocalCode" value="VocalCode" checked>VocalCode</label>
-		<label><input type="checkbox" name="tickboxLanguage" value="Language" checked>Language</label>
-		<label><input type="checkbox" name="tickboxInAppleMusic" value="InAppleMusic" checked>InAppleMusic</label>
-		<label><input type="checkbox" name="tickboxLyricsURL" value="LyricsURL" checked>LyricsURL</label>
-		<label><input type="checkbox" name="tickboxSongTitleAlt" value="SongTitleAlt" >SongTitleAlt</label>
-		<label><input type="checkbox" name="tickboxArtistTitleAlt" value="ArtistTitleAlt" >ArtistTitleAlt</label>
-		<label><input type="checkbox" name="tickboxReleaseTitleAlt" value="ReleaseTitleAlt" >ReleaseTitleAlt</label>
-		<label><input type="checkbox" name="tickboxReleaseArtistTitleAlt" value="ReleaseArtistTitleAlt" >ReleaseArtistTitleAlt</label>
-		<label><input type="checkbox" name="tickboxArtistCode" value="ArtistCode" checked>ArtistCode</label>
+		<label><input type="checkbox" name="tickboxAll" id="tickboxAll" value="All">All</label>
+		<label><input type="checkbox" name="tickboxSongID" id="tickboxSongID" value="SongID" >SongID</label>
+		<label><input type="checkbox" name="tickboxKNID" id="tickboxKNID" value="KNID" >KNID</label>
+		<label><input type="checkbox" name="tickboxKNJAPAN" id="tickboxKNJAPAN" value="KNJAPAN" >KNJAPAN</label>
+		<label><input type="checkbox" name="tickboxKNJPOP" id="tickboxKNJPOP" value="KNJPOP" >KNJPOP</label>
+		<label><input type="checkbox" name="tickboxKNYEAR"id="tickboxKNYEAR" value="KNYEAR" checked>KNYEAR</label>
+		<label><input type="checkbox" name="tickboxFilename" id="tickboxFilename" value="Filename" >Filename</label>
+		<label><input type="checkbox" name="tickboxSongTitle" id="tickboxSongTitle" value="SongTitle" checked>SongTitle</label>
+		<label><input type="checkbox" name="tickboxArtistTitle" id="tickboxArtistTitle" value="ArtistTitle" checked>ArtistTitle</label>
+		<label><input type="checkbox" name="tickboxParentArtist" id="tickboxParentArtist" value="ParentArtist" >ParentArtist</label>
+		<label><input type="checkbox" name="tickboxReleaseTitle" id="tickboxReleaseTitle" value="ReleaseTitle" checked>ReleaseTitle</label>
+		<label><input type="checkbox" name="tickboxReleaseArtistTitle" id="tickboxReleaseArtistTitle" value="ReleaseArtistTitle" >ReleaseArtistTitle</label>
+		<label><input type="checkbox" name="tickboxReleaseYear" id="tickboxReleaseYear" value="ReleaseYear" checked>ReleaseYear</label>
+		<label><input type="checkbox" name="tickboxRating" id="tickboxRating" value="Rating" checked>Rating</label>
+		<label><input type="checkbox" name="tickboxGenre" id="tickboxGenre" value="Genre" checked>Genre</label>
+		<label><input type="checkbox" name="tickboxDateCreated" id="tickboxDateCreated" value="DateCreated" checked>DateCreated</label>
+		<label><input type="checkbox" name="tickboxVocalCode" id="tickboxVocalCode" value="VocalCode" checked>VocalCode</label>
+		<label><input type="checkbox" name="tickboxLanguage" id="tickboxLanguage" value="Language" checked>Language</label>
+		<label><input type="checkbox" name="tickboxInAppleMusic" id="tickboxInAppleMusic" value="InAppleMusic" checked>InAppleMusic</label>
+		<label><input type="checkbox" name="tickboxLyricsURL" id="tickboxLyricsURL" value="LyricsURL" checked>LyricsURL</label>
+		<label><input type="checkbox" name="tickboxSongTitleAlt" id="tickboxSongTitleAlt" value="SongTitleAlt" >SongTitleAlt</label>
+		<label><input type="checkbox" name="tickboxArtistTitleAlt" id="tickboxArtistTitleAlt" value="ArtistTitleAlt" >ArtistTitleAlt</label>
+		<label><input type="checkbox" name="tickboxReleaseTitleAlt" id="tickboxReleaseTitleAlt" value="ReleaseTitleAlt" >ReleaseTitleAlt</label>
+		<label><input type="checkbox" name="tickboxReleaseArtistTitleAlt" id="tickboxReleaseArtistTitleAlt" value="ReleaseArtistTitleAlt" >ReleaseArtistTitleAlt</label>
+		<label><input type="checkbox" name="tickboxArtistCode" id="tickboxArtistCode" value="ArtistCode" checked>ArtistCode</label>
 	</div>
 	<div id="table-preset-ticks" style="display: none;">
 		<h4>Presets</h4>
