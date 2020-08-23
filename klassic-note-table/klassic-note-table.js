@@ -1,18 +1,31 @@
+function generateFilters() {
+	
+}
+
+function generateSearch() {
+	
+}
+
+
+
+//--VARIABLES--//
+let presetAllArray = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23];
+let presetStdMetaArray = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23];
+let presetRawMetaArray = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23];
+let presetTitlesArray = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23];
+
+
+//--FIRST TIME CALLS--//
+document.getElementById('presetAll').addEventListener("click", function(event) {
+	console.log(event.checked);
+});
+
 document.getElementById('darkmode').addEventListener('click', function() {
 	if(document.getElementsByTagName('html')[0].classList.contains('darked'))
 		document.getElementsByTagName('html')[0].classList.remove('darked');
 	else
 		document.getElementsByTagName('html')[0].classList.add('darked');
 } );
-
-let presetAllArray = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23];
-let presetStdMetaArray = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23];
-let presetRawMetaArray = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23];
-let presetTitlesArray = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23];
-
-document.getElementById('presetAll').addEventListener("click", function(event) {
-	console.log(event.checked);
-});
 
 document.getElementById('tickboxAll').addEventListener("click", function() {
 	if(!this.checked) location.reload();
@@ -24,6 +37,7 @@ document.getElementById('tickboxAll').addEventListener("click", function() {
 	}
 });
 
+//--SEARCH INPUTS--//
 document.getElementById('dbInputSongTitle').addEventListener("keyup", function(event) {
 	// Number 13 is the "Enter" key on the keyboard
 	if (event.keyCode === 13) {
@@ -61,6 +75,7 @@ document.getElementById('dbInputArtistCode').addEventListener("keyup", function(
 	}
 });
 
+//--FUNCTIONS--//
 function resetFunction() {
 	for (let input of document.getElementsByTagName("input")) {
 		if (input.title == "search") input.value = "";
@@ -104,25 +119,15 @@ function filterColumns(table) {
 	for (let tick of columnTicks) {
 		if (!tick.checked) table.removeColumn(tick.value);
 	}
-	//remove default columns (uncheck too)
-	//table.removeColumn('SongID');
-	//table.removeColumn('KNID');
-	//table.removeColumn('KNJAPAN');
-	//table.removeColumn('KNJPOP');
-	//table.removeColumn('Filename');
-	//table.removeColumn('SongID');
 	return table;
 }
 
+//--P5 JS SPECIFIC FUNCTIONS--//
 function loadTableFromCSV() {
 	button.hide();
 	document.getElementById("table-result").innerText = "Loading...";
-	//my table is comma separated value "csv"
-	//and has a header specifying the columns labels
+	//table is comma separated value "csv" and has a header specifying the columns labels
 	let table = loadTable('https://knneo.github.io/klassic-note-table/klassic-note-database-song-table.csv', 'csv', 'header', displayTable);
-	//the file can be remote
-	//table = loadTable("http://p5js.org/reference/assets/mammals.csv",
-	//                  "csv", "header");
 }
 
 let maxRows = window.innerWidth < 540 ? 100 : 500;

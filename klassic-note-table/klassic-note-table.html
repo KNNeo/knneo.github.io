@@ -25,7 +25,8 @@
 		<label><input type="checkbox" name="tickboxKNJPOP" id="tickboxKNJPOP" value="KNJPOP" >KNJPOP</label>
 		<label><input type="checkbox" name="tickboxKNYEAR"id="tickboxKNYEAR" value="KNYEAR" checked>KNYEAR</label>
 		<label><input type="checkbox" name="tickboxFilename" id="tickboxFilename" value="Filename" >Filename</label>
-		<label><input type="checkbox" name="tickboxSongTitle" id="tickboxSongTitle" value="SongTitle" checked>SongTitle</label>
+		<div><label><input type="checkbox" name="tickboxSongTitle" id="tickboxSongTitle" value="SongTitle" checked></label>
+		<input id="dbInputSongTitle" type="text" placeholder="Song Title" title="search" disabled></div>
 		<label><input type="checkbox" name="tickboxArtistTitle" id="tickboxArtistTitle" value="ArtistTitle" checked>ArtistTitle</label>
 		<label><input type="checkbox" name="tickboxParentArtist" id="tickboxParentArtist" value="ParentArtist" >ParentArtist</label>
 		<label><input type="checkbox" name="tickboxReleaseTitle" id="tickboxReleaseTitle" value="ReleaseTitle" checked>ReleaseTitle</label>
@@ -51,15 +52,14 @@
 		<label><input type="radio" id="presetRawMeta" value="RawMeta" >Raw Metadata</label>
 		<label><input type="radio" id="presetTitles" value="Titles" >Title Only</label>
 	</div>
-	<div>
-		<h4>Search</h4>
-		<span style="display: inline;" id="table-filter" class="table-filter">
-			<input id="dbInputSongTitle" type="text" placeholder="Song Title" title="search" />
+	<h4>Search</h4>
+	<div id="table-filter">
+		<span style="display: inline;" id="table-filter">
 			<input id="dbInputArtistTitle" type="text" placeholder="Artist Title" title="search" />
 			<input id="dbInputReleaseYear" type="text" placeholder="Release Year" title="search" />
 			<input id="dbInputArtistCode" type="text" placeholder="Artist Type" title="search" />
 		</span>
-		<span style="display: inline;" class="table-filter">
+		<span style="display: inline-block;" class="table-filter">
 			<button id="dbSubmitButton" type="submit" onclick="loadTableFromCSV()" placeholder="submit" value="Submit">Submit</button>
 			<button id="dbResetButton" type="submit" onclick="resetFunction()" placeholder="reset" value="Reset">Reset</button>
 		</span>

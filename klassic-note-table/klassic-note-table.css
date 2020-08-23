@@ -44,7 +44,7 @@ p, h1, h5 {
 .p5Canvas {
 	display: none;
 }
-.table-filter {
+#table-filter {
 	padding: 10px 0;
 	top: 0;
 	position: -webkit-sticky;
