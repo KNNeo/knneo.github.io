@@ -470,7 +470,6 @@ function setupGallery() {
 	generateTickboxAction();
 	renderGalleryScroll();
 	renderFilter(undefined);
-	createLinkedList();
 	//renderGallery(imgArray);
 }
 
@@ -521,6 +520,9 @@ function renderGallery(array) {
 			document.getElementById('imgGallery').getElementsByTagName('img')[i].addEventListener('click', function() { openViewer(document.getElementById('imgGallery').getElementsByTagName('img')[i]); });
 		}
 	}
+	
+	//update linked list for viewer
+	createLinkedList();
 }
 
 
