@@ -34,6 +34,34 @@ label {
 	text-align: center;
 }
 
+#viewer-prev {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 25%;
+	height: 100%;
+	z-index: 11;
+}
+
+#viewer-next {
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 25%;
+	height: 100%;
+	z-index: 11;
+}
+
+#viewer-next:active {
+	opacity: 0.4;
+	background-image: linear-gradient(to left, white, transparent);
+}
+
+#viewer-prev:active {
+	opacity: 0.4;
+	background-image: linear-gradient(to right, white, transparent);
+}
+
 #ssstart, #ssstop {
 	padding: 5px;
 	border-radius: 8px;
