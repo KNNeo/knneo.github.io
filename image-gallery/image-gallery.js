@@ -350,7 +350,8 @@ function openImageInViewer(image) {
 	img.classList = thumbnail.classList;
 	img.src = thumbnail.src;
 	img.title = thumbnail.title;
-	//if(window.innerHeight > window.innerWidth) img.style.width = 'inherit'; //portrait
+	if(window.innerHeight > window.innerWidth && img.getBoundingClientRect().width < window.innerWidth)
+		img.style.width = 'inherit'; //portrait
 	if(window.innerHeight <= window.innerWidth) img.style.height = 'inherit'; //landscape
 	img.style.maxHeight = '100%';
 	img.style.maxWidth = '100%';
