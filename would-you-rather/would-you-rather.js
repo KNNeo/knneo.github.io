@@ -108,7 +108,19 @@ function generateName(nameList) {
 	}
 	
 	newList.push(newName);
-	return newName;
+	return censor(newName);
+}
+
+function censor(name) {
+	//return name[0] + '*'.repeat(name.length - 2) + name.slice(-1);
+	let checkbox = document.getElementById('censorName');
+	if(checkbox.checked) return name[0] + name.slice(1).replace(/.(?=\S)/g, '*');
+	return name;
+}
+
+function toggleCensor() {
+	let checkbox = document.getElementById('censorName');
+	
 }
 
 function getResultFromTitles(module) {
