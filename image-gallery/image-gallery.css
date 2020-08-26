@@ -35,6 +35,7 @@ label {
 }
 
 #viewer-prev {
+	background-color: transparent;
 	position: absolute;
 	left: 0;
 	top: 0;
@@ -44,6 +45,7 @@ label {
 }
 
 #viewer-next {
+	background-color: transparent;
 	position: absolute;
 	right: 0;
 	top: 0;

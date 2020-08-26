@@ -29,10 +29,6 @@
 	user-select: none; 
 }
 
-#viewer-prev, #viewer-next {
-	background-color: transparent;
-}
-
 /*if dark mode available*/
 @media (prefers-color-scheme: dark) {
 	html, div {
