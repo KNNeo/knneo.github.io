@@ -738,10 +738,10 @@ function reSnap() {
 }
 
 function toggleDarkMode() {
-	if(document.body.classList.contains('darked'))
-		document.body.classList.remove('darked');
+	if(document.getElementsByTagName('html')[0].classList.contains('darked'))
+		document.getElementsByTagName('html')[0].classList.remove('darked');
 	else
-		document.body.classList.add('darked');	
+		document.getElementsByTagName('html')[0].classList.add('darked');	
 }
 
 function writeLoadedCount(number) {

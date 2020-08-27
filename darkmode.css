@@ -19,6 +19,7 @@
 .darked .profile-category::-webkit-scrollbar-thumb {
   background: white;
 }
+
 .darked .profile-category::-webkit-scrollbar-track {
   background: #444444;
 }
@@ -62,6 +63,15 @@
 	#viewer-prev, #viewer-next {
 		background-color: transparent;
 	}
+	
+	.darked .profile-category::-webkit-scrollbar-thumb {
+	  background: white;
+	}
+	
+	.darked .profile-category::-webkit-scrollbar-track {
+	  background: #444444;
+	}
+
 }
 
 /*

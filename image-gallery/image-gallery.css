@@ -127,8 +127,7 @@ label {
   background: black;
 }
 .profile-category::-webkit-scrollbar-track {
-  background: white;
-  border-bottom: 1px solid black;
+  background: #dddddd;
 }
 
 @media only screen and (max-width : 1040px) {
