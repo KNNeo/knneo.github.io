@@ -10,13 +10,13 @@ button {
 	margin: 5px 0;
 	box-shadow: 0
 }
-h4 {
+h4, h5 {
 	margin: 3px;
 }
 label {
 	white-space: nowrap;
 }
-p, h1, h5 {
+p, h1 {
 	 margin: 0;
 }
 #table-column-ticks {

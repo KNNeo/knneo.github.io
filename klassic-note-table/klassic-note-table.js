@@ -1,5 +1,14 @@
+window.onload = loadPage();
+
+function loadPage() {
+	generateFilters();
+	
+}
+
 function generateFilters() {
 	
+	
+	generateSearch();
 }
 
 function generateSearch() {
@@ -7,19 +16,20 @@ function generateSearch() {
 }
 
 
-
 //--VARIABLES--//
+const isMobile = function() {
+    const match = window.matchMedia('(pointer:coarse)');
+    return (match && match.matches);
+};
+
 let presetAllArray = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23];
 let presetStdMetaArray = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23];
 let presetRawMetaArray = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23];
 let presetTitlesArray = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23];
-
+let maxRows = isMobile ? 100 : 500;
+let displayTable;
 
 //--FIRST TIME CALLS--//
-document.getElementById('presetAll').addEventListener("click", function(event) {
-	console.log(event.checked);
-});
-
 document.getElementById('darkmode').addEventListener('click', function() {
 	if(document.getElementsByTagName('html')[0].classList.contains('darked'))
 		document.getElementsByTagName('html')[0].classList.remove('darked');
@@ -38,7 +48,7 @@ document.getElementById('tickboxAll').addEventListener("click", function() {
 });
 
 //--SEARCH INPUTS--//
-document.getElementById('dbInputSongTitle').addEventListener("keyup", function(event) {
+/*document.getElementById('dbInputSongTitle').addEventListener("keyup", function(event) {
 	// Number 13 is the "Enter" key on the keyboard
 	if (event.keyCode === 13) {
 		// Cancel the default action, if needed
@@ -73,7 +83,7 @@ document.getElementById('dbInputArtistCode').addEventListener("keyup", function(
 		// Trigger the button element with a click
 		document.getElementById("dbSubmitButton").click(this);
 	}
-});
+});*/
 
 //--FUNCTIONS--//
 function resetFunction() {
@@ -127,24 +137,24 @@ function loadTableFromCSV() {
 	button.hide();
 	document.getElementById("table-result").innerText = "Loading...";
 	//table is comma separated value "csv" and has a header specifying the columns labels
-	let table = loadTable('https://knneo.github.io/klassic-note-table/klassic-note-database-song-table.csv', 'csv', 'header', displayTable);
+	let table = loadTable('https://knneo.github.io/klassic-note-table/klassic-note-database-song-table.csv', 'csv', 'header', createTable);
 }
 
-let maxRows = window.innerWidth < 540 ? 100 : 500;
-
-function displayTable(table) {
+//--CALLBACK FUNCTION--//
+function createTable(table) {
 	//filter results based on input and checkboxes
-	let resultTable = filterRows(table);
-	resultTable = filterColumns(resultTable);
+	displayTable = table;
+	//filterRows(displayTable);
+	//filterColumns(resultTable);
 	
 	//count rows
-	let maxRow = resultTable.getRowCount() > maxRows ? maxRows : resultTable.getRowCount();
+	let maxRow = displayTable.getRowCount() > maxRows ? maxRows : displayTable.getRowCount();
 	//display count
-	document.getElementById("table-result").innerText = resultTable.getRowCount() + " result" + (resultTable.getRowCount() != 1 ? "s" : "") + " found";
-	if (resultTable.getRowCount() > maxRow) document.getElementById("table-result").innerText += "; Displaying first "+maxRow+" results";
+	document.getElementById("table-result").innerText = displayTable.getRowCount() + " result" + (displayTable.getRowCount() != 1 ? "s" : "") + " found";
+	if (displayTable.getRowCount() > maxRow) document.getElementById("table-result").innerText += "; Displaying first "+maxRow+" results";
 
 	//table to array
-	let tableArray = resultTable.getArray();
+	let tableArray = displayTable.getArray();
 	let tableHTML;
 	
 	let knTable = document.createElement('table');
@@ -153,7 +163,7 @@ function displayTable(table) {
 	knTableHeader.classList.add('header');
 	
 	//header
-	let columns = resultTable.columns;
+	let columns = displayTable.columns;
 	for (let column of columns)
 	{
 		let knColumn = document.createElement('th');
@@ -178,7 +188,7 @@ function displayTable(table) {
 	}
 	
 	knTable.appendChild(knTableBody);
-	console.log(knTable);
+	//console.log(knTable);
 
 	//console.log(columns);
 	tableHTML = '<tr class="header">';
@@ -204,6 +214,7 @@ function displayTable(table) {
 	//disable input until load complete
 }
 
+//--P5.JS MAIN FUNCTION--//
 function setup() {
 	//button to load table
 	button = createButton('Load Table');

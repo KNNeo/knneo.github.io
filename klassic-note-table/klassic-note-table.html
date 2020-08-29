@@ -16,53 +16,16 @@
 		<span style="display: inline-block;" title="Toggle Dark Mode"><i id="darkmode" class="material-icons">brightness_high</i></span>
 	</div>
 	<h5>Table powered by p5.js</h5>
+	<div id="table-preset-ticks">
+		<h4>Presets</h4>
+		<label><input id="presetAll" type="radio" name="presetAll" value="All" checked>No Preset</label>
+	</div>
 	<div id="table-column-ticks">
 		<h4>Columns</h4>
-		<label><input type="checkbox" name="tickboxAll" id="tickboxAll" value="All">All</label>
-		<label><input type="checkbox" name="tickboxSongID" id="tickboxSongID" value="SongID" >SongID</label>
-		<label><input type="checkbox" name="tickboxKNID" id="tickboxKNID" value="KNID" >KNID</label>
-		<label><input type="checkbox" name="tickboxKNJAPAN" id="tickboxKNJAPAN" value="KNJAPAN" >KNJAPAN</label>
-		<label><input type="checkbox" name="tickboxKNJPOP" id="tickboxKNJPOP" value="KNJPOP" >KNJPOP</label>
-		<label><input type="checkbox" name="tickboxKNYEAR"id="tickboxKNYEAR" value="KNYEAR" checked>KNYEAR</label>
-		<label><input type="checkbox" name="tickboxFilename" id="tickboxFilename" value="Filename" >Filename</label>
-		<div><label><input type="checkbox" name="tickboxSongTitle" id="tickboxSongTitle" value="SongTitle" checked></label>
-		<input id="dbInputSongTitle" type="text" placeholder="Song Title" title="search" disabled></div>
-		<label><input type="checkbox" name="tickboxArtistTitle" id="tickboxArtistTitle" value="ArtistTitle" checked>ArtistTitle</label>
-		<label><input type="checkbox" name="tickboxParentArtist" id="tickboxParentArtist" value="ParentArtist" >ParentArtist</label>
-		<label><input type="checkbox" name="tickboxReleaseTitle" id="tickboxReleaseTitle" value="ReleaseTitle" checked>ReleaseTitle</label>
-		<label><input type="checkbox" name="tickboxReleaseArtistTitle" id="tickboxReleaseArtistTitle" value="ReleaseArtistTitle" >ReleaseArtistTitle</label>
-		<label><input type="checkbox" name="tickboxReleaseYear" id="tickboxReleaseYear" value="ReleaseYear" checked>ReleaseYear</label>
-		<label><input type="checkbox" name="tickboxRating" id="tickboxRating" value="Rating" checked>Rating</label>
-		<label><input type="checkbox" name="tickboxGenre" id="tickboxGenre" value="Genre" checked>Genre</label>
-		<label><input type="checkbox" name="tickboxDateCreated" id="tickboxDateCreated" value="DateCreated" checked>DateCreated</label>
-		<label><input type="checkbox" name="tickboxVocalCode" id="tickboxVocalCode" value="VocalCode" checked>VocalCode</label>
-		<label><input type="checkbox" name="tickboxLanguage" id="tickboxLanguage" value="Language" checked>Language</label>
-		<label><input type="checkbox" name="tickboxInAppleMusic" id="tickboxInAppleMusic" value="InAppleMusic" checked>InAppleMusic</label>
-		<label><input type="checkbox" name="tickboxLyricsURL" id="tickboxLyricsURL" value="LyricsURL" checked>LyricsURL</label>
-		<label><input type="checkbox" name="tickboxSongTitleAlt" id="tickboxSongTitleAlt" value="SongTitleAlt" >SongTitleAlt</label>
-		<label><input type="checkbox" name="tickboxArtistTitleAlt" id="tickboxArtistTitleAlt" value="ArtistTitleAlt" >ArtistTitleAlt</label>
-		<label><input type="checkbox" name="tickboxReleaseTitleAlt" id="tickboxReleaseTitleAlt" value="ReleaseTitleAlt" >ReleaseTitleAlt</label>
-		<label><input type="checkbox" name="tickboxReleaseArtistTitleAlt" id="tickboxReleaseArtistTitleAlt" value="ReleaseArtistTitleAlt" >ReleaseArtistTitleAlt</label>
-		<label><input type="checkbox" name="tickboxArtistCode" id="tickboxArtistCode" value="ArtistCode" checked>ArtistCode</label>
-	</div>
-	<div id="table-preset-ticks" style="display: none;">
-		<h4>Presets</h4>
-		<label><input type="radio" id="presetAll" value="All" >All Columns</label>
-		<label><input type="radio" id="presetStdMeta" value="StdMeta" >Standard Metadata</label>
-		<label><input type="radio" id="presetRawMeta" value="RawMeta" >Raw Metadata</label>
-		<label><input type="radio" id="presetTitles" value="Titles" >Title Only</label>
+		<label><input id="tickboxAll" type="checkbox" name="tickboxAll" value="All">All</label>
 	</div>
 	<h4>Search</h4>
 	<div id="table-filter">
-		<span style="display: inline;" id="table-filter">
-			<input id="dbInputArtistTitle" type="text" placeholder="Artist Title" title="search" />
-			<input id="dbInputReleaseYear" type="text" placeholder="Release Year" title="search" />
-			<input id="dbInputArtistCode" type="text" placeholder="Artist Type" title="search" />
-		</span>
-		<span style="display: inline-block;" class="table-filter">
-			<button id="dbSubmitButton" type="submit" onclick="loadTableFromCSV()" placeholder="submit" value="Submit">Submit</button>
-			<button id="dbResetButton" type="submit" onclick="resetFunction()" placeholder="reset" value="Reset">Reset</button>
-		</span>
 	</div>
 	<br>
     <div class="table-reset"></div>
