@@ -251,6 +251,11 @@ imgArray = [
 [248,'https://knneo.webs.com/CCI20200728_0014_2.jpg','portrait','Taketatsu Ayana','Event "Taketatsu Ayana LIVE HOUSE TOUR 2019 A -Analyze-/-Another-" Bromide Set B'],
 [249,'https://knneo.webs.com/CCI20200728_0014_3.jpg','portrait','Taketatsu Ayana','Event "Taketatsu Ayana LIVE HOUSE TOUR 2019 A -Analyze-/-Another-" Bromide Set B'],
 [250,'https://knneo.webs.com/CCI20200728_0014_4.jpg','portrait','Taketatsu Ayana','Event "Taketatsu Ayana LIVE HOUSE TOUR 2019 A -Analyze-/-Another-" Bromide Set B'],
+[251,'https://knneo.webs.com/CCI20200829_0001_1.jpg','portrait','Touyama Nao','Book "Seiyuu Grand Prix 2020 September" Gamers/HMVJapan/Toranoana Bonus'],
+[252,'https://knneo.webs.com/CCI20200829_0001_2.jpg','landscape','Amamiya Sora','Book "Seiyuu Grand Prix 2020 September" Gamers/HMVJapan/Toranoana Bonus'],
+[253,'https://knneo.webs.com/CCI20200829_0001_3.jpg','landscape','Takahashi Rie','Book "Seiyuu Grand Prix 2020 September" Gamers/HMVJapan/Toranoana Bonus'],
+[254,'https://knneo.webs.com/CCI20200829_0001_4.jpg','portrait','Yuuki Aoi','Book "Seiyuu Grand Prix 2020 September" Gamers/HMVJapan/Toranoana Bonus'],
+[256,'https://knneo.webs.com/CCI20200829_0002_2.jpg','portrait','Kouno Marika','CD "churata churaha" HMV Japan Bonus'],
 
 
 [999,'','','']
