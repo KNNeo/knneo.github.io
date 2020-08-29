@@ -22,10 +22,14 @@
 	</div>
 	<div id="table-column-ticks">
 		<h4>Columns</h4>
-		<label><input id="tickboxAll" type="checkbox" name="tickboxAll" value="All">All</label>
+		<label><input id="tickboxAll" type="checkbox" name="tickboxAll" value="All" checked>All</label>
+		<span id="table-columns"></span>
 	</div>
 	<h4>Search</h4>
-	<div id="table-filter">
+	<div id="table-filter" class="table-filter"></div>
+	<div class="table-filter">
+		<button id="dbSubmitButton" type="submit" onclick="loadTableFromCSV()" placeholder="submit" value="Submit">Submit</button>
+		<button id="dbResetButton" type="submit" onclick="resetFunction()" placeholder="reset" value="Reset">Reset</button>
 	</div>
 	<br>
     <div class="table-reset"></div>
