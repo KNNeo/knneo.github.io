@@ -95,7 +95,8 @@ function addAgeAfterDOB() {
 function getAge(DOB) {
 	let birthDateStr = DOB.replace(".", "-").replace(".", "-"); //yyyy.MM.dd -> yyyy-MM-dd
 	let birthDate = Date.parse(birthDateStr.substring(0, 10));
-	return Math.floor((new Date().getTime() - birthDate) / 31556952000);
+	//return Math.floor((new Date().getTime() - birthDate) / 31556952000);
+	return moment().tz("Asia/Tokyo").diff(moment.tz(birthDate, "Asia/Tokyo"), 'years');
 }
 
 //generate wanted list
