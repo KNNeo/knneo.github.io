@@ -10,7 +10,7 @@ function generateFilters(filters) {
 		columnSpan.style.display = 'inline-block';
 		
 		let columnLabel = document.createElement('label');
-		columnLabel.innerText = column;
+		//columnLabel.innerText = column;
 		
 		let columnTickbox = document.createElement('input');
 		columnTickbox.type = 'checkbox';
@@ -21,10 +21,9 @@ function generateFilters(filters) {
 		let columnText = document.createElement('span');
 		columnText.innerText = column;
 			
-		//columnLabel.appendChild(columnTickbox);
-		//columnLabel.appendChild(columnText);
+		columnLabel.appendChild(columnTickbox);
+		columnLabel.appendChild(columnText);
 		
-		columnSpan.appendChild(columnTickbox);
 		columnSpan.appendChild(columnLabel);
 		
 		columnTickbox.addEventListener('click', function() {
