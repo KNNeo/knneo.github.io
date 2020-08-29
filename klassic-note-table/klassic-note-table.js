@@ -312,6 +312,11 @@ function createTable(table) {
 	//assign
 	document.getElementById("dbTable").innerHTML = tableHTML;
 	//disable input until load complete
+	if(!document.getElementById("tickboxAll").checked) {
+		document.getElementById("dbTable").innerHTML = '';
+		document.getElementById("table-result").innerText = "All has been deselected. Check something to display results";
+		return;
+	}
 }
 
 //--P5.JS MAIN FUNCTION--//
@@ -319,4 +324,5 @@ function setup() {
 	//button to load table
 	button = createButton('Load Table');
 	button.mousePressed(loadTableFromCSV);
+	if(isMobile) document.getElementById('table-filter').removeAttribute('position');
 }
