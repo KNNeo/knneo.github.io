@@ -5,7 +5,12 @@ function generateFilters(filters) {
 	document.getElementById("table-columns").innerHTML = '';
 	for (let column of filters.allColumns)
 	{
+		let columnSpan = document.createElement('span');
+		//columnSpan.style.whiteSpace = 'nowrap';
+		columnSpan.style.display = 'inline-block';
+		
 		let columnLabel = document.createElement('label');
+		columnLabel.innerText = column;
 		
 		let columnTickbox = document.createElement('input');
 		columnTickbox.type = 'checkbox';
@@ -16,8 +21,11 @@ function generateFilters(filters) {
 		let columnText = document.createElement('span');
 		columnText.innerText = column;
 			
-		columnLabel.appendChild(columnTickbox);
-		columnLabel.appendChild(columnText);
+		//columnLabel.appendChild(columnTickbox);
+		//columnLabel.appendChild(columnText);
+		
+		columnSpan.appendChild(columnTickbox);
+		columnSpan.appendChild(columnLabel);
 		
 		columnTickbox.addEventListener('click', function() {
 			if(!this.checked) document.getElementById('dbInput'+column).style.display = 'none';
@@ -28,7 +36,7 @@ function generateFilters(filters) {
 				document.getElementById('tickboxAll').checked = false;
 			});
 		
-		document.getElementById('table-columns').appendChild(columnLabel);
+		document.getElementById('table-columns').appendChild(columnSpan);
 	}
 	
 	if(filters.columns.length == filters.allColumns.length)
