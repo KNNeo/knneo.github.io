@@ -472,11 +472,13 @@ function setupGallery() {
 	renderGalleryScroll();
 	renderFilter(undefined);
 	//renderGallery(imgArray);
+	
 }
 
 //generate profile category based on array
 function renderGallery(array) {
 	document.getElementById('options').classList.remove('closed');
+	let totalCount = 0;
 	let profileCategoryHTML = document.createElement('DIV');
 	profileCategoryHTML.classList.add('profile-category');
 	if(isFirefox) profileCategoryHTML.classList.add('snap');
@@ -498,6 +500,7 @@ function renderGallery(array) {
 		profileBoxImgHTML.appendChild(imgHTML);
 		profileBoxHTML.appendChild(profileBoxImgHTML);
 		profileCategoryHTML.appendChild(profileBoxHTML);
+		totalCount++;
 	}
 	if(document.getElementById('imgGallery').childNodes.length > 0) document.getElementById('imgGallery').innerHTML = '';
 	document.getElementById('imgGallery').appendChild(profileCategoryHTML);
@@ -524,6 +527,7 @@ function renderGallery(array) {
 	
 	//update linked list for viewer
 	createLinkedList();
+	console.log(totalCount + ' rows detected');
 }
 
 

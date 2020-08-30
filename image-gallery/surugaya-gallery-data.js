@@ -371,7 +371,6 @@ imgArray = [
 [10,'https://www.suruga-ya.jp/database/pics/game/gg109023.jpg','portrait','麻倉もも','CD「スマッシュ・ドロップ」アニメイト特典ブロマイド'],
 [11,'https://www.suruga-ya.jp/database/pics/game/gg109024.jpg','portrait','麻倉もも','CD「スマッシュ・ドロップ」ゲーマーズ特典ブロマイド'],
 [12,'https://www.suruga-ya.jp/database/pics/game/gg151515.jpg','portrait','麻倉もも','横型・膝上・背景水色・印刷サイン・メッセージ入り/CD「スマッシュ・ドロップ」ゲーマーズガラポン抽選会参加賞ブロマイド'],
-[13,'https://www.suruga-ya.jp/database/pics/game/gg151514.jpg','portrait','麻倉もも','全身・壁紙破き・背景水色・印刷サイン・メッセージ入り/「LAWSON presents TrySail Live Tour 2019 ”The TrySail Odyssey”」広島会場限定 CD「スマッシュ・ドロップ」特典ブロマイド'],
 [14,'https://www.suruga-ya.jp/database/pics/game/gg070330.jpg','portrait','麻倉もも','雑誌「声優アニメディア 2019年6月号」アニメイト/ゲーマーズ特典ブロマイド'],
 [16,'https://www.suruga-ya.jp/database/pics/game/g3975831.jpg','portrait','麻倉もも','CD「365×LOVE」アニメイト特典ブロマイド'],
 [17,'https://www.suruga-ya.jp/database/pics/game/gg109022.jpg','portrait','麻倉もも','CD「365×LOVE」発売記念 アニメイト店頭抽選会D賞 オリジナルブロマイド'],
