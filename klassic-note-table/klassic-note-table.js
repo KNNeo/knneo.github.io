@@ -13,6 +13,7 @@ function generateFilters(filters) {
 		//columnLabel.innerText = column;
 		
 		let columnTickbox = document.createElement('input');
+		columnTickbox.id = 'tickbox' + column.replace(' ','');
 		columnTickbox.type = 'checkbox';
 		columnTickbox.name = 'tickbox' + column.replace(' ','');
 		columnTickbox.value = column.replace(' ','');
@@ -40,11 +41,11 @@ function generateFilters(filters) {
 	
 	if(filters.columns.length == filters.allColumns.length)
 		document.getElementById('tickboxAll').checked = true;
-	generateSearch(filters);
+	//generateSearchFromFilters(filters);
 }
 
 //generate search for all displayed columns only (assume if not filtered shouldn't be able to search)
-function generateSearch(filters) {
+function generateSearchFromFilters(filters) {
 	let tableFilters = document.getElementById('table-filter');
 	
 	tableFilters.innerHTML = '';
@@ -55,6 +56,33 @@ function generateSearch(filters) {
 		columnInput.type = 'text';
 		columnInput.placeholder = column;
 		columnInput.title = 'search';
+		
+		columnInput.addEventListener('keyup', function(event) {
+			// Number 13 is the "Enter" key on the keyboard
+			if (event.keyCode === 13) {
+				// Cancel the default action, if needed
+				event.preventDefault();
+				// Trigger the button element with a click
+				document.getElementById("dbSubmitButton").click(this);
+			}
+		});
+		
+		tableFilters.appendChild(columnInput);
+	}
+}
+
+function generateSearch(filters) {
+	let tableFilters = document.getElementById('table-filter');
+	
+	tableFilters.innerHTML = '';
+	for (let column of filters)
+	{
+		let columnInput = document.createElement('input');
+		columnInput.id = 'dbInput' + column.replace(' ','');
+		columnInput.type = 'text';
+		columnInput.placeholder = column;
+		columnInput.title = 'search';
+		columnInput.style.display = document.getElementById('tickbox' + column) != null && !document.getElementById('tickbox' + column).checked ? 'none' : '';
 		
 		columnInput.addEventListener('keyup', function(event) {
 			// Number 13 is the "Enter" key on the keyboard
@@ -245,6 +273,7 @@ function createTable(table) {
 	{
 		allColumns.push(column);
 	}
+	generateSearch(allColumns);
 	
 	//filter results based on input and checkboxes
 	table = filterRows(table);
@@ -319,7 +348,7 @@ function createTable(table) {
 	//assign
 	document.getElementById("dbTable").innerHTML = tableHTML;
 	//disable input until load complete
-	if(!document.getElementById("tickboxAll").checked) {
+	if(table.columns == 0) {
 		document.getElementById("dbTable").innerHTML = '';
 		document.getElementById("table-result").innerText = "All has been deselected. Check something to display results";
 		return;

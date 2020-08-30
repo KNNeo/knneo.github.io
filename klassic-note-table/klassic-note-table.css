@@ -50,3 +50,6 @@ p, h1 {
 	position: -webkit-sticky;
 	position: sticky;
 }
+#table-preset-ticks {
+	display: none;
+}
