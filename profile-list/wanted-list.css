@@ -14,7 +14,7 @@ a {
 p {
 	padding: 20px;
 }
-h1, #wantedList, #marriedCouple, #timeline, #calendar {
+h1, #wantedList, #marriedCouple, #timeline, #calendar, div#profile {
 	text-align: center;
 	max-width: 800px;
 	margin: auto;
@@ -32,6 +32,7 @@ h1, #wantedList, #calendar, p {
 .profile-box {
 	touch-action: manipulation;
 }
+
 @media only screen and (max-width : 1040px) {
   html { font-size: 0.9em; }
 }
@@ -79,7 +80,7 @@ html {
   box-shadow: 1px 1px;
   transform: translate(2px,2px);
 }
-.profile-box tr:nth-child(odd) {
+.profile-box tr:nth-child(odd), .profile-box-comments {
  text-align: left;
 }
 .profile-box tr:nth-child(odd) td {
