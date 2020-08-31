@@ -1,4 +1,16 @@
 //--not dependent on render--//
+function navigateToProfile(e) {
+	event.preventDefault();
+	for(let link of document.getElementById('wantedList').getElementsByTagName('a'))
+	{
+		if(link.innerText == e.title)
+		{
+			link.click();
+			document.getElementById('timeline').getElementsByTagName('div')[0].style.opacity = '0';
+			return;
+		}
+	}
+}
 
 //show checkbox on hover on wanted list
 document.getElementById("marriedCouple").addEventListener("mouseover", function() {
@@ -43,7 +55,7 @@ function loadTimeline(width) {
 		showLabels: true,
 		labelFormat: "%Y"
 	});
-	adjustKnots();	
+	adjustKnots();
 }
 
 //on scroll turn off all overlays in timeline and calendar
@@ -67,7 +79,7 @@ function renderWantedList() {
 	resizeAllProfileBoxImg();
 	generateWantedList(false);
 	timelineDOBlist = createDOBlist(1, 35);
-	loadTimeline(5000);
+	loadTimeline(2500);
 	calendarDOBlist = createDOBlist(0, 50);
 	currentMonth = createCalendar(new Date().getMonth(), calendarDOBlist);
 	addProfileBoxClick();

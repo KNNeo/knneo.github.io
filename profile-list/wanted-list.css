@@ -141,6 +141,7 @@ text-align: center;
     right: 0;
     left: 0;
     display: none;
+	color: white;
 }
 #calendar td:hover .popitem { display: block; }
 
