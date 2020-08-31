@@ -9,6 +9,7 @@ let enableSlideshow = true; //enable slideshow button
 let enableFullscreenSlideshow = true; //enable fullscreen button for slideshow, for browser only not viewer
 let enableShadows = true; //removes shadows and borders in images
 let enableDarkMode = true; //no button to toggle, when load always white background
+let enableCollapseFilterOnSelect = window.innerWidth <= 640; //right click any tag will collapse filter
 let pageDescription = 'To add gallery:\n- Copy and fill in image-gallery-data, filename to end with \'-data.js\'\n- Add to links variable in image-gallery.js new filename\n- Tada!\n\n(Note: Loading speed dependent on size and number of images; To avoid slowness, set defaultTag)'; //hides on load with images loaded
 
 //localization
@@ -645,7 +646,11 @@ function generateTickboxAction() {
 		tickbox.addEventListener('click', function() { renderFilter(undefined); });
 		if(tickbox.innerText == selectAllTag) continue;
 		if(tickbox.parentElement.id == 'orientation') continue;
-		tickbox.addEventListener('contextmenu', function(e) { e.preventDefault(); renderFilter(this); });
+		tickbox.addEventListener('contextmenu', function(e) { 
+			e.preventDefault();
+			renderFilter(this);
+			if(enableCollapseFilterOnSelect) document.getElementById('toggler').click();
+		});
 	}
 }
 
