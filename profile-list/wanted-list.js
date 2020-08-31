@@ -1,4 +1,6 @@
 //--not dependent on render--//
+function navigateToProfile(e) {
+}
 
 //show checkbox on hover on wanted list
 document.getElementById("marriedCouple").addEventListener("mouseover", function() {
