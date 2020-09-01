@@ -339,6 +339,7 @@ function openImageInViewer(image) {
 	let imgNo = updateImageNo(image);
 	
 	let viewer = document.getElementById('viewer');
+	if(viewer.style.display != 'block') viewer.style.display = 'block';
 	let viewerPrev = document.createElement('div');
 	viewerPrev.id = 'viewer-prev';
 	viewerPrev.classList.add('viewer-nav');
@@ -773,10 +774,12 @@ function writeLoadedCount(number) {
 //start slideshow
 function startSlideshow() {
 	//document.getElementById('description').classList.add('closed');
-	openFullscreen();
 	switchButtons();
-	let imgNo = randomImg();
-	if(document.getElementById('inViewer').checked) openViewer(document.getElementById('imgGallery').getElementsByTagName('img')[imgNo]);
+	setTimeout(openFullscreen, 200);
+	setTimeout(function() {
+	if(document.getElementById('inViewer').checked)
+		openViewer(document.getElementById('imgGallery').getElementsByTagName('img')[randomImg()]);
+	}, 500);
 }
 //stop slideshow
 function stopSlideshow() {
