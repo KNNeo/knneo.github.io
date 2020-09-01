@@ -335,7 +335,7 @@ function openViewer(image) {
 	openImageInViewer(image);
 }
 
-function openImageInViewer(image) {
+function openImageInViewer(image) {	
 	let imgNo = updateImageNo(image);
 	
 	let viewer = document.getElementById('viewer');
@@ -364,11 +364,13 @@ function openImageInViewer(image) {
 	
 	if(imgNo-1 >= 0)
 		document.getElementById('viewer-prev').addEventListener('click', function(e) {
+			if(runSlideshow != null) return;
 			openImageInViewer(linkedImgList[imgNo-1]);
 			return false;
 		}, false);
 	if(imgNo+1 < linkedImgList.length)
 		document.getElementById('viewer-next').addEventListener('click', function(e) {
+			if(runSlideshow != null) return;
 			openImageInViewer(linkedImgList[imgNo+1]);
 			return false;
 		}, false);
