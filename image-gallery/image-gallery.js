@@ -720,14 +720,15 @@ function renderGalleryScroll() {
 	let mousewheelEvent = isFirefox ? "DOMMouseScroll" : "mousewheel"
 	let scrollList = new Array();
 	let time = new Date();
-	document.getElementById("imgGallery").addEventListener(isFirefox ? "DOMMouseScroll" : "mousewheel", function(e) {
+	document.getElementById("imgGallery").addEventListener(mousewheelEvent, function(e) {
 		e.preventDefault();
 		//document.getElementsByClassName('profile-category')[0].classList.remove('snap');
 		//console.log(new Date() - time);
 		time = new Date();
-		document.getElementsByClassName('profile-category')[0].scrollLeft -= isFirefox ? -e.detail*100 : e.wheelDelta;
+		let scrollDelta = isFirefox ? -e.detail*100 : e.wheelDelta
+		document.getElementsByClassName('profile-category')[0].scrollLeft -= scrollDelta;
 		
-		if(new Date() - time < 500 && (e.wheelDelta > 100 || e.wheelDelta < -100)) //conditions to prevent immediate snap
+		if(new Date() - time < 400 && ((scrollDelta/2) > 30 || (scrollDelta/2) < -30)) //conditions to prevent immediate snap
 		{
 			reSnap();
 		}
@@ -742,11 +743,11 @@ function reSnap() {
 	setTimeout( function() { 
 		//document.getElementsByClassName('profile-category')[0].style.setProperty('scroll-snap-type','x proximity');
 		document.getElementsByClassName('profile-category')[0].classList.add('snap');
-	}, 500);
-	setTimeout( function() { 
-		//document.getElementsByClassName('profile-category')[0].style.setProperty('scroll-snap-type','none');
-		document.getElementsByClassName('profile-category')[0].classList.remove('snap');
-	}, 600);
+		setTimeout( function() { 
+			//document.getElementsByClassName('profile-category')[0].style.setProperty('scroll-snap-type','none');
+			document.getElementsByClassName('profile-category')[0].classList.remove('snap');
+		}, 100);
+	}, 400);
 }
 
 function toggleDarkMode() {
