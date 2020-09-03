@@ -82,7 +82,7 @@ function renderWantedList() {
 	loadTimeline(2500);
 	calendarDOBlist = createDOBlist(0, 50);
 	currentMonth = createCalendar(new Date().getMonth(), calendarDOBlist);
-	addProfileBoxClick();
+	//addProfileBoxClick();
 	addProfileBoxImgOnError();
 	switchProfileBoxImage();
 	addAgeAfterDOB();

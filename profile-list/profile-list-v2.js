@@ -1,5 +1,5 @@
 //generate from json file
-let isExternal = !window.location.href.includes('://knneo.github.io');
+let isExternal = window.location.href.includes('://knneo.github.io');
 let spacer = 'https://knneo.github.io/resources/spacer.gif';
 let profileList;
 let useTestJson = false; //take from actual json, else from profile-list-json.js
@@ -129,10 +129,10 @@ function generateProfileListFromJSON(profileList) {
 						row = document.createElement('tr');
 						
 							cell = document.createElement('td');
-							if(!isExternal) 
+							if(!isExternal)
 								cell.innerText = profile.turningPointStr.singerDebutStr + "|" + profile.turningPointStr.swimsuitPhotobookStr + "|" + profile.turningPointStr.isMarriedStr;
 							else
-								cell.innerText = isYesNo(profile.turningPoint.swimsuitPhotobook)+ "|" + isYesNo(profile.turningPoint.swimsuitPhotobook) + "|" + isYesNo(profile.turningPoint.isMarried);
+								cell.innerText = isYesNo(profile.turningPoint.singerDebut)+ "|" + isYesNo(profile.turningPoint.swimsuitPhotobook) + "|" + isYesNo(profile.turningPoint.isMarried);
 							
 							row.appendChild(cell);
 						
@@ -205,7 +205,6 @@ function generateProfileListFromJSON(profileList) {
 	
 	return true;
 }
-
 
 function generateProfileFromJSON(profileName) {
 	let profile = profileList.filter( function(n) {
@@ -322,7 +321,7 @@ function generateProfileFromJSON(profileName) {
 						if(!isExternal) 
 							cell.innerText = profile.turningPointStr.singerDebutStr + "|" + profile.turningPointStr.swimsuitPhotobookStr + "|" + profile.turningPointStr.isMarriedStr;
 						else
-							cell.innerText = isYesNo(profile.turningPoint.singerDebut)+ "|" + isYesNo(profile.turningPoint.swimsuitPhotobook) + "|" + isYesNo(profile.turningPoint.isMarried);
+							cell.innerText = removeAsterisks(profile.turningPointStr.singerDebutStr)+ "|" + removeAsterisks(profile.turningPointStr.swimsuitPhotobookStr) + "|" + removeAsterisks(profile.turningPointStr.isMarriedStr);
 						
 						row.appendChild(cell);
 					
@@ -397,4 +396,10 @@ function generateProfileFromJSON(profileName) {
 
 function getWantedLevelComment(profile) { return console.log(profile.name + '\n' + profile.wantedLevel + '\n' + profile.wantedLevelComment); }
 function addBrackets(content, startWithWhitespace) { return (startWithWhitespace ? ' ' : '') + '(' + content + ')'; }
-function isYesNo(option) { return option ? "Yes" : "No"; }
+function isYesNo(option) { return option ? 'Yes' : 'No'; }
+function removeAsterisks(option) {
+	while(option.includes('*')){
+		option = option.replace('*','');
+	}
+	return option;
+}
