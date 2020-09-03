@@ -133,44 +133,6 @@ document.getElementById('tickboxAll').addEventListener("click", function() {
 
 });
 
-//--SEARCH INPUTS--//
-/*document.getElementById('dbInputSongTitle').addEventListener("keyup", function(event) {
-	// Number 13 is the "Enter" key on the keyboard
-	if (event.keyCode === 13) {
-		// Cancel the default action, if needed
-		event.preventDefault();
-		// Trigger the button element with a click
-		document.getElementById("dbSubmitButton").click(this);
-	}
-});
-document.getElementById('dbInputArtistTitle').addEventListener("keyup", function(event) {
-	// Number 13 is the "Enter" key on the keyboard
-	if (event.keyCode === 13) {
-		// Cancel the default action, if needed
-		event.preventDefault();
-		// Trigger the button element with a click
-		document.getElementById("dbSubmitButton").click(this);
-	}
-});
-document.getElementById('dbInputReleaseYear').addEventListener("keyup", function(event) {
-	// Number 13 is the "Enter" key on the keyboard
-	if (event.keyCode === 13) {
-		// Cancel the default action, if needed
-		event.preventDefault();
-		// Trigger the button element with a click
-		document.getElementById("dbSubmitButton").click(this);
-	}
-});
-document.getElementById('dbInputArtistCode').addEventListener("keyup", function(event) {
-	// Number 13 is the "Enter" key on the keyboard
-	if (event.keyCode === 13) {
-		// Cancel the default action, if needed
-		event.preventDefault();
-		// Trigger the button element with a click
-		document.getElementById("dbSubmitButton").click(this);
-	}
-});*/
-
 //--FUNCTIONS--//
 function resetFunction() {
 	for (let input of document.getElementsByTagName("input")) {
@@ -182,11 +144,6 @@ function resetFunction() {
 }
 
 function filterRows(table) {
-	//let inputSongTitle = document.getElementById('dbInputSongTitle').value.toUpperCase().trim();
-	//let inputArtistTitle = document.getElementById('dbInputArtistTitle').value.toUpperCase().trim();
-	//let inputReleaseYear = document.getElementById('dbInputReleaseYear').value.toUpperCase().trim();
-	//let inputArtistCode = document.getElementById('dbInputArtistCode').value.toUpperCase().trim();
-	
 	let tableFilters = document.getElementById('table-filter').getElementsByTagName('input');
 	let tableFilterNos = [];
 	for(let filter of tableFilters)
@@ -194,7 +151,7 @@ function filterRows(table) {
 		tableFilterNos.push(filter.placeholder);
 	}
 	
-	if (tableFilters.length == 0) return table;
+	if (tableFilterNos.length == 0) return table;
 	let validFilters = [];
 	for(let column of tableFilters)
 	{
@@ -226,20 +183,7 @@ function filterRows(table) {
 			{
 				if(table.getString(r, validFilters[v].columnNo) != '' && table.getString(r, validFilters[v].columnNo).toUpperCase().includes(validFilters[v].columnValue)) validRows++;
 			}
-			// if (inputSongTitle != '' && row.getString(6).toUpperCase().includes(inputSongTitle)) validRows++;
-			// if (inputArtistTitle != '' && row.getString(7).toUpperCase().includes(inputArtistTitle)) validRows++;
-			// if (inputReleaseYear != '' && row.getString(11).toUpperCase().includes(inputReleaseYear)) validRows++;
-			// if (inputArtistCode != '' && row.getString(23).toUpperCase().includes(inputArtistCode)) validRows++;
-			
-			//strict mode
-			// if (inputSongTitle != '') validInput++;
-			// if (inputArtistTitle != '') validInput++;
-			// if (inputReleaseYear != '') validInput++;
-			// if (inputArtistCode != '') validInput++;
-			
-			// if (strictMode && validRows > 2) newTable.addRow(row);
-			// else if (!strictMode && validRows > 0) newTable.addRow(row); 
-			//if (validRows >= validInput) newTable.addRow(row);
+
 			if (validRows > 0) newTable.addRow(table.getRow(r));
 			//console.log(r);
 		}
@@ -273,11 +217,13 @@ function createTable(table) {
 	{
 		allColumns.push(column);
 	}
-	generateSearch(allColumns);
 	
 	//filter results based on input and checkboxes
 	table = filterRows(table);
 	filterColumns(table);
+	
+	//reset search according to columns selected
+	generateSearch(allColumns);
 	
 	//count rows
 	let maxRow = table.getRowCount() > maxRows ? maxRows : table.getRowCount();
