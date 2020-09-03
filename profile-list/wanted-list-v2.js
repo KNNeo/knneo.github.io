@@ -1,3 +1,16 @@
+//--right click to toggle censor--//
+function invertCensor() {
+	for(let link of document.getElementById('wantedList').getElementsByTagName('a'))
+	{
+		link.addEventListener('contextmenu', function(e) {
+			e.preventDefault();
+			isExternal = !isExternal;
+			this.click();
+			isExternal = !isExternal;
+		}, false);
+	}
+}
+
 //--not dependent on render--//
 function navigateToProfile(e) {
 	event.preventDefault();
@@ -88,6 +101,7 @@ function renderWantedList() {
 	addAgeAfterDOB();
 	addStatusPopUp();
 	openLinksInNew();
+	invertCensor();
 	if(isExternal) censorData(); //ONLY FOR GITHUB
 	if (loadedImages != document.getElementsByTagName("img").length) setTimeout(function() {
 		reloadImages();

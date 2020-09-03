@@ -213,7 +213,8 @@ function generateProfileFromJSON(profileName) {
 	
 	document.getElementById('profile').innerHTML = '';
 	
-	console.log(profile);
+	//console.log(profile);
+	
 	let idBox = document.createElement('div');
 	idBox.id = profile.name.replace(' ','');
 	idBox.style.padding = '20px 0';
