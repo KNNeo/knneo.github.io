@@ -1,5 +1,5 @@
 //generate from json file
-let isExternal = window.location.href.includes('://knneo.github.io');
+let isExternal = !window.location.href.includes('://knneo.github.io');
 let spacer = 'https://knneo.github.io/resources/spacer.gif';
 let profileList;
 let useTestJson = false; //take from actual json, else from profile-list-json.js
@@ -214,6 +214,7 @@ function generateProfileFromJSON(profileName) {
 	
 	document.getElementById('profile').innerHTML = '';
 	
+	console.log(profile);
 	let idBox = document.createElement('div');
 	idBox.id = profile.name.replace(' ','');
 	idBox.style.padding = '20px 0';
@@ -321,7 +322,7 @@ function generateProfileFromJSON(profileName) {
 						if(!isExternal) 
 							cell.innerText = profile.turningPointStr.singerDebutStr + "|" + profile.turningPointStr.swimsuitPhotobookStr + "|" + profile.turningPointStr.isMarriedStr;
 						else
-							cell.innerText = isYesNo(profile.turningPoint.swimsuitPhotobook)+ "|" + isYesNo(profile.turningPoint.swimsuitPhotobook) + "|" + isYesNo(profile.turningPoint.isMarried);
+							cell.innerText = isYesNo(profile.turningPoint.singerDebut)+ "|" + isYesNo(profile.turningPoint.swimsuitPhotobook) + "|" + isYesNo(profile.turningPoint.isMarried);
 						
 						row.appendChild(cell);
 					

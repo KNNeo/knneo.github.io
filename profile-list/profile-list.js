@@ -25,6 +25,7 @@ else {
 function generateProfileListFromJSON(profileList) {	
 	for(let profile of profileList)
 	{
+		console.log(profile);
 		let idBox = document.createElement('div');
 		idBox.id = profile.name.replace(' ','');
 		
@@ -131,7 +132,7 @@ function generateProfileListFromJSON(profileList) {
 							if(!isExternal) 
 								cell.innerText = profile.turningPointStr.singerDebutStr + "|" + profile.turningPointStr.swimsuitPhotobookStr + "|" + profile.turningPointStr.isMarriedStr;
 							else
-								cell.innerText = isYesNo(profile.turningPoint.swimsuitPhotobook)+ "|" + isYesNo(profile.turningPoint.swimsuitPhotobook) + "|" + isYesNo(profile.turningPoint.isMarried);
+								cell.innerText = isYesNo(profile.turningPoint.singerDebut)+ "|" + isYesNo(profile.turningPoint.swimsuitPhotobook) + "|" + isYesNo(profile.turningPoint.isMarried);
 							
 							row.appendChild(cell);
 						
