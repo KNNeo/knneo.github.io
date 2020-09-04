@@ -184,7 +184,7 @@ function filterRows(table) {
 				if(table.getString(r, validFilters[v].columnNo) != '' && table.getString(r, validFilters[v].columnNo).toUpperCase().includes(validFilters[v].columnValue)) validRows++;
 			}
 
-			if (validRows > 0) newTable.addRow(table.getRow(r));
+			if (validRows >= validFilters.length) newTable.addRow(table.getRow(r));
 			//console.log(r);
 		}
 		return newTable;
