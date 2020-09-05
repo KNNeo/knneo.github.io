@@ -87,14 +87,17 @@ let statusPopup = "<div id=\"tp-description\">As answered haphazardly by Uesaka 
 let month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 //--dependent on render, as functions to call on render--//
-function renderWantedList() {
-	//reloadImages();
-	resizeAllProfileBoxImg();
+function initialiseWantedList() {
 	generateWantedList(false);
 	timelineDOBlist = createDOBlist(1, 35);
 	loadTimeline(2500);
 	calendarDOBlist = createDOBlist(0, 50);
 	currentMonth = createCalendar(new Date().getMonth(), calendarDOBlist);
+}
+
+function renderWantedList() {
+	//reloadImages();
+	resizeAllProfileBoxImg();
 	//addProfileBoxClick();
 	addProfileBoxImgOnError();
 	switchProfileBoxImage();
@@ -177,15 +180,15 @@ function createDOBlist(minAge, maxAge) {
 		date: "1993-02-19",
 		name: "Me"
 	});
-	for (let wanted of document.getElementById("wantedList").getElementsByTagName("a")) {
-		let targetId = wanted.innerText;
-		let targetDOB = document.getElementById(targetId.replace(" ", "")).getElementsByClassName("DOB");
+	for(let profile of profileList) {
+		let targetId = profile.id;
+		let targetDOB = profile.dob; //document.getElementById(targetId.replace(" ", "")).getElementsByClassName("DOB");
 		if (targetDOB.length > 0) {
-			let birthDate = new Date(Date.parse(targetDOB[0].innerText.replace(".", "-").replace(".", "-").substring(0, 10)));
-			let age = targetDOB[0].innerText.includes('?') ? 0 : parseInt(getAge(targetDOB[0].innerText)) + 1;
+			let birthDate = new Date(Date.parse(targetDOB.replace(".", "-").replace(".", "-").substring(0, 10)));
+			let age = targetDOB.includes('?') ? 0 : parseInt(getAge(targetDOB)) + 1;
 			if (!birthDate.toUTCString().includes(NaN) && age >= minAge && age <= maxAge)
 				listOfDOB.push({
-					date: targetDOB[0].innerText.replace(".", "-").replace(".", "-").substring(0, 10),
+					date: targetDOB.replace(".", "-").replace(".", "-").substring(0, 10),
 					name: targetId,
 					currentAge: age
 				});
