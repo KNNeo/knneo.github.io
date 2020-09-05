@@ -4,26 +4,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="wanted-list.css"rel="stylesheet" type="text/css" >
 	<script src="../wanted-list/d3.v2.min.js"></script>
-	<script src="../wanted-list/timeknots.js" type="application/javascript" async></script>
+	<script src="../wanted-list/timeknots.js"></script>
 	<script src="../wanted-list/moment.min.js"></script>
 	<script src="../wanted-list/moment-timezone-with-data-10-year-range.min.js"></script>
 	<link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'/>
     <title>Profile List</title>
 </head>
 <body>
-<h1 onclick="location.reload()">女性声優プロフィールまとめ</h1>
-<div id="profile"></div>
+<h1 class="page-align" onclick="location.reload()">女性声優プロフィールまとめ</h1>
+<div id="profile" class="page-align"></div>
 <div id="stats">
-<div id="timeline" style="width: 100%; height: 105px; text-align: center; overflow-x: auto; overflow-y: hidden; border: 1px solid white;">
-</div>
+<div id="timeline" class="page-align"></div>
 <br />
-<div id="calendar" style="text-align: center; width: 100%; margin: auto; padding: 5px">
+<div id="calendar" class="page-align">
 </div>
 <div style="text-align: center;">*Calendar is regardless of marital status</div>
 </div>
-<div id="marriedCouple">
+<div id="marriedCouple" class="page-align">
 <div id="isMarried"><label for="marriedCheckbox"><input type="checkbox" id="marriedCheckbox" onclick="toggleMarried()">Show Not Married</label></div>
-<ul id="wantedList">
+<ul id="wantedList" class="page-align">
 Loading...
 </ul></div>
 <div class="profile-category" style="display: none;"></div>

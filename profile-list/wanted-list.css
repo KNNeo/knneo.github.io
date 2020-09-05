@@ -2,6 +2,7 @@
 html {
   font-family: Open Sans;
   overflow-x: hidden;
+  font-size: 13px;
 }
 body {
   /*padding: 5px;*/
@@ -14,16 +15,13 @@ a {
 p {
 	padding: 20px;
 }
-h1, #wantedList, #marriedCouple, #timeline, #calendar, div#profile {
+.page-align {
 	text-align: center;
 	max-width: 800px;
 	margin: auto;
 }
-#wantedList li, #wantedList a {
+.page-align li, .page-align a {
   line-height: 1.5;
-}
-h1, #wantedList, #calendar, p {
-  margin: auto;	
 }
 .profile-box > table {
 	/*border-bottom: 1px dashed white; */
@@ -33,8 +31,22 @@ h1, #wantedList, #calendar, p {
 	touch-action: manipulation;
 }
 
+#isMarried {
+	padding-top: 10px;
+	visibility: hidden;
+}
+
+#timeline {
+	width: 100%;
+	height: 110px;
+	overflow-x: auto;
+	overflow-y: hidden;
+	border: 1px solid white;
+	padding: 5px;
+}
+
 @media only screen and (max-width : 1040px) {
-  html { font-size: 0.9em; }
+  html { font-size: 0.8em; }
 }
 
 /*End Github*/
@@ -74,8 +86,6 @@ html {
   padding: 4px;
   white-space: normal;
 }
-.profile-box, #wantedList, #timeline, #calendar {
-}
 .profile-box:active {
   box-shadow: 1px 1px;
   transform: translate(2px,2px);
@@ -89,13 +99,9 @@ font-size: 70%;
 .profile-box tr:nth-child(even) {
  text-align: right;
 }
-#isMarried {
-	visibility: hidden;
-}
 #wantedList {
   list-style-type: none;
   padding: 5px;
-  text-align: center;
 }
 #wantedList li, #wantedList a {
   display: inline-block;
@@ -166,8 +172,4 @@ text-align: center;
 div { scrollbar-width: 0 !important; }
 div::-webkit-scrollbar { width: 0 !important }
 html { scroll-behavior: auto; }
-}
-
-html {
-	font-size: 82%;
 }
