@@ -1,4 +1,9 @@
 /*when not in dark mode*/
+html, div {
+	background-color: white;
+	color: black;
+}
+
 .darked, .darked button, .darked textarea, .darked div {
 	background-color: black;
 	color: white;

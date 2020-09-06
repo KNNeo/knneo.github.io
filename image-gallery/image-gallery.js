@@ -138,6 +138,7 @@ function renderPage(pageName) {
 	options.id = 'options';	
 	options.style.margin = 'auto';
 	options.style.padding = '10px';
+	//if(options.style.backgroundColor == "") options.style.backgroundColor = 'white';
 		let loader = writeLoadedCount();
 		loader.style.textAlign = 'center';
 		options.appendChild(loader);
@@ -438,14 +439,16 @@ function reloadDarkmodeStyle() {
 	}
 	if(document.getElementById(url + '-css') != null)
 		document.getElementById(url + '-css').parentNode.removeChild(document.getElementById(url + '-css'));
-	if(enableDarkMode)
+	let css = document.createElement('link');
+	css.id = url + '-css';
+	css.href = '../' + url + '.css';
+	css.type = 'text/css';
+	css.rel = 'stylesheet'
+	document.head.appendChild(css);
+	
+	if(!enableDarkMode)
 	{
-		let css = document.createElement('link');
-		css.id = url + '-css';
-		css.href = '../' + url + '.css';
-		css.type = 'text/css';
-		css.rel = 'stylesheet'
-		document.head.appendChild(css);
+		toggleDarkMode();
 	}
 }
 
