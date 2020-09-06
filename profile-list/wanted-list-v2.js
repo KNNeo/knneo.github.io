@@ -5,9 +5,13 @@ function setThumbnails() {
         let initialHeight = allThumbnails[i].getElementsByClassName('thumbnail-initial')[0].offsetHeight;
         let popHeight = allThumbnails[i].getElementsByClassName('thumbnail-pop')[0].offsetHeight;
         allThumbnails[i].style.height = Math.max(initialHeight, popHeight) + 'px';
-		allThumbnails[i].addEventListener('click', function() {
+		allThumbnails[i].getElementsByClassName('thumbnail-toggle')[0].addEventListener('click', function() {
 			//switchThumbnails(closestClass(this, "thumbnail"));
-			setTimeout(switchThumbnails(this), 200);
+			setTimeout(switchThumbnails(this.parentElement.parentElement), 200);
+		});
+		allThumbnails[i].getElementsByClassName('thumbnail-toggle')[1].addEventListener('click', function() {
+			//switchThumbnails(closestClass(this, "thumbnail"));
+			setTimeout(switchThumbnails(this.parentElement.parentElement), 200);
 		});
     }
 }

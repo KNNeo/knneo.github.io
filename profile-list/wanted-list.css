@@ -72,7 +72,7 @@ p {
 
 .thumbnail-pop {
   visibility: hidden;
-  padding: 20px;
+  padding: 0 20px;
 }
 
 .thumbnail-initial * img {
@@ -86,7 +86,16 @@ p {
   animation: none;
 }
 
+.thumbnail-toggle {
+	position: block;
+	top: 0;
+	right: 0;
+	left: 0;
+}
 
+.material-icons {
+	font-size: 30px !important;
+}
 
 
 /*End Github*/
