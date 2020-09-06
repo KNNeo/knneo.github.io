@@ -64,7 +64,14 @@ label {
 	background-image: linear-gradient(to right, white, transparent);
 }
 
-#ssstart, #ssstop {
+#options {
+	position: fixed;
+	top: 5vh;
+	left: 0;
+	right: 0;
+}
+
+#ssstart, #ssstop, #options {
 	padding: 5px;
 	border-radius: 8px;
 	border: 1px solid gray;
