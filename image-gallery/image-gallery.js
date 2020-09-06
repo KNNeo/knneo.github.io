@@ -781,10 +781,12 @@ function startSlideshow() {
 	//document.getElementById('description').classList.add('closed');
 	switchButtons();
 	setTimeout(openFullscreen, 200);
-	setTimeout(function() {
 	if(document.getElementById('inViewer').checked)
-		openViewer(document.getElementById('imgGallery').getElementsByTagName('img')[randomImg()]);
-	}, 500);
+		setTimeout(function() {
+			openViewer(document.getElementById('imgGallery').getElementsByTagName('img')[randomImg()]);
+		}, 500);
+	else
+		document.getElementById('imgGallery').getElementsByTagName('img')[randomImg()].scrollIntoView();
 }
 //stop slideshow
 function stopSlideshow() {
