@@ -49,6 +49,46 @@ p {
   html { font-size: 0.8em; }
 }
 
+/*Multi-image thumbnail (Refer to js for logic)*/
+
+.thumbnail {
+  display: block;
+}
+
+.thumbnail-initial {
+  position: absolute;
+  text-align: center;
+  left: 0;
+  right: 0;
+  background-color: black;
+}
+
+.thumbnail-normal {
+  position: initial;
+  text-align: center;
+  left: 0;
+  right: 0;
+}
+
+.thumbnail-pop {
+  visibility: hidden;
+  padding: 20px;
+}
+
+.thumbnail-initial * img {
+  border: 1px solid transparent;
+  animation: imgblink 3s infinite;
+  -webkit-animation: imgblink 3s infinite;
+  -moz-animation: imgblink 3s infinite;
+}
+
+.thumbnail .popup:hover .pop img {
+  animation: none;
+}
+
+
+
+
 /*End Github*/
 
 html {

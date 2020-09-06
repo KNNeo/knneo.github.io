@@ -1,3 +1,47 @@
+//Multi-image thumbnail: Define caption height, onclick event
+function setThumbnails() {
+    let allThumbnails = document.body.getElementsByClassName("thumbnail");
+    for (let i = 0; i < allThumbnails.length; i++) {
+        let initialHeight = allThumbnails[i].getElementsByClassName('thumbnail-initial')[0].offsetHeight;
+        let popHeight = allThumbnails[i].getElementsByClassName('thumbnail-pop')[0].offsetHeight;
+        allThumbnails[i].style.height = Math.max(initialHeight, popHeight) + 'px';
+		allThumbnails[i].addEventListener('click', function() {
+			//switchThumbnails(closestClass(this, "thumbnail"));
+			setTimeout(switchThumbnails(this), 200);
+		});
+    }
+}
+let closestClass = function(inputElement, targetClassName) {
+    while (inputElement.className != targetClassName) {
+        inputElement = inputElement.parentNode;
+    }
+    return inputElement;
+}
+
+function switchThumbnails(tn) {
+    let tc = tn.getElementsByClassName("thumbnail-initial");
+    let initialVisible = true;
+    if (tc[0].style.visibility == "hidden") {
+        tc[0].style.visibility = "visible";
+        tc[1].style.visibility = "hidden";
+    } else if (tc[0].style.visibility == "" || tc[1].style.visibility == "") {
+        tc[0].style.visibility = "hidden";
+        tc[1].style.visibility = "visible";
+initialVisible = false;
+    } else {
+        tc[0].style.visibility = "hidden";
+        tc[1].style.visibility = "visible";
+initialVisible = false;
+    }
+
+  let initialHeight = tn.getElementsByClassName('thumbnail-initial')[0].offsetHeight;
+  let popHeight = tn.getElementsByClassName('thumbnail-pop')[0].offsetHeight;
+  if(popHeight - initialHeight > 100 || popHeight - initialHeight < -100)
+	  tn.style.height = (initialVisible ? initialHeight : popHeight) + 'px';
+
+    return false;
+}
+
 //--right click to toggle censor--//
 function invertCensor() {
 	for(let link of document.getElementById('wantedList').getElementsByTagName('a'))
@@ -16,9 +60,11 @@ function navigateToProfile(e) {
 	event.preventDefault();
 	for(let link of document.getElementById('wantedList').getElementsByTagName('a'))
 	{
-		if(link.innerText == e.title)
+		if(link.innerHTML.replace(' ','') == e.title)
 		{
-			link.click();
+			generateProfileFromJSON(link.innerHTML.replace(' ', ''));
+			renderWantedList();
+			document.getElementById('profile').scrollIntoView();
 			document.getElementById('timeline').getElementsByTagName('div')[0].style.opacity = '0';
 			return;
 		}
@@ -78,7 +124,7 @@ window.addEventListener("scroll", function() {
 		timeline.getElementsByTagName("div")[0].style.opacity = "0";
 });
 
-//--variables--//
+//--letiables--//
 let loadedImages = 0;
 let timelineDOBlist = [];
 let calendarDOBlist = [];
@@ -93,6 +139,7 @@ function initialiseWantedList() {
 	loadTimeline(2500);
 	calendarDOBlist = createDOBlist(0, 50);
 	currentMonth = createCalendar(new Date().getMonth(), calendarDOBlist);
+	setThumbnails();
 }
 
 function renderWantedList() {
@@ -149,13 +196,19 @@ function generateWantedList(excludeMarried) {
 
 	//wanted list processing
 	for (let id = 0; id < wantedList.getElementsByTagName("a").length; id++) {
-		let boxString = wantedList.getElementsByTagName("a")[id].innerText.replace(" ", "");
 		wantedList.getElementsByTagName("a")[id].addEventListener("click", function() {
-			//document.getElementById(boxString).scrollIntoView();
-			generateProfileFromJSON(boxString);
+			generateProfileFromJSON(this.innerText.replace(" ", ""));
 			renderWantedList();
 			document.getElementById('profile').scrollIntoView();
 		});
+		wantedList.getElementsByTagName("a")[id].addEventListener("contextmenu", function(e) {
+			e.preventDefault();
+			isExternal = !isExternal;
+			generateProfileFromJSON(this.innerText.replace(" ", ""));
+			renderWantedList();
+			document.getElementById('profile').scrollIntoView();
+			isExternal = !isExternal;
+		}, false);
 	}
 }
 
@@ -181,7 +234,7 @@ function createDOBlist(minAge, maxAge) {
 		name: "Me"
 	});
 	for(let profile of profileList) {
-		let targetId = profile.id;
+		let targetId = profile.name;
 		let targetDOB = profile.dob; //document.getElementById(targetId.replace(" ", "")).getElementsByClassName("DOB");
 		if (targetDOB.length > 0) {
 			let birthDate = new Date(Date.parse(targetDOB.replace(".", "-").replace(".", "-").substring(0, 10)));

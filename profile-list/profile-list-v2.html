@@ -13,21 +13,24 @@
 <body>
 <h1 class="page-align" onclick="location.reload()">女性声優プロフィールまとめ</h1>
 <div id="profile" class="page-align"></div>
-<div id="stats">
+<div class="thumbnail">
+<div id="stats" class="thumbnail-initial">
 <div id="timeline" class="page-align"></div>
 <br />
 <div id="calendar" class="page-align">
 </div>
 <div style="text-align: center;">*Calendar is regardless of marital status</div>
 </div>
-<div id="marriedCouple" class="page-align">
+<div id="marriedCouple" class="page-align thumbnail-initial thumbnail-pop">
 <div id="isMarried"><label for="marriedCheckbox"><input type="checkbox" id="marriedCheckbox" onclick="toggleMarried()">Show Not Married</label></div>
 <ul id="wantedList" class="page-align">
 Loading...
 </ul></div>
-<div class="profile-category" style="display: none;"></div>
+</div>
+<div>
 <h6 style="text-align: center;">Timeline powered by timeknots at GitHub</h6>
 <p style="text-align: center;"><a href="../index.html">Back</a></p>
+</div>
 <script src="censorship.js"></script>
 <script src="wanted-list-v2.js"></script>
 <script src="profile-list-json.js"></script>

@@ -29,6 +29,8 @@ function generateProfileFromJSON(profileName) {
         return n.id == profileName;
     })[0];
 	
+	if(profile == null || profile.length == 0) return;
+	
 	document.getElementById('profile').innerHTML = '';
 	
 	//console.log(profile);
