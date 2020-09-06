@@ -13,6 +13,7 @@ function setThumbnails() {
 			//switchThumbnails(closestClass(this, "thumbnail"));
 			setTimeout(switchThumbnails(this.parentElement.parentElement), 200);
 		});
+		document.getElementById('isMarried').style.visibility = 'hidden';
     }
 }
 let closestClass = function(inputElement, targetClassName) {
