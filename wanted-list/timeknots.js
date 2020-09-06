@@ -162,11 +162,11 @@ var TimeKnots = {
       if(cfg.dateDimension){
         var format = d3.time.format(cfg.dateFormat);
         var datetime = format(new Date(d.date));
-        var dateValue = (datetime != "")?(d.name == "Me"?"<small>" +d.name+" ("+datetime+")</small>":"<a title=\""+d.name+"\" href=\"#" +d.name.replace(" ","")+ "\" onclick=\"navigateToProfile(this)\"><small>" +d.name+" ("+datetime+")</small></a>"):d.name;
+        var dateValue = (datetime != "")?(d.name == "Me"?"<small>" +d.name+" ("+datetime+")</small>":"<a title=\""+d.name.replace(' ','')+"\" href=\"#" +d.name.replace(' ','')+ "\" onclick=\"navigateToProfile(this)\"><small>" +d.name+" ("+datetime+")</small></a>"):d.name;
       }else{
         var format = function(d){return d}; // TODO
         var datetime = d.value;
-        var dateValue = "<a href=\"#" +d.name.replace(" ","")+ "\">" + d.name +"<small> ("+d.value+")</small></a>";
+        var dateValue = "<a href=\"#" +d.name+ "\">" + d.name +"<small> ("+d.value+")</small></a>";
       }
       d3.select(this)
       .style("fill", function(d){if(d.color != undefined){return d.color} return cfg.color}).transition()
@@ -192,7 +192,7 @@ var TimeKnots = {
       if(cfg.dateDimension){
         var format = d3.time.format(cfg.dateFormat);
         var datetime = format(new Date(d.date));
-        var dateValue = (datetime != "")?(d.name == "Me"?"<small>" +d.name+" ("+datetime+")</small>":"<a title=\""+d.name+"\"  href=\"#" +d.name.replace(" ","")+ "\" onclick=\"navigateToProfile(this)\"><small>" +d.name+" ("+datetime+")</small></a>"):d.name;
+        var dateValue = (datetime != "")?(d.name == "Me"?"<small>" +d.name+" ("+datetime+")</small>":"<a title=\""+d.name.replace(' ','')+"\"  href=\"#" +d.name.replace(' ','')+ "\" onclick=\"navigateToProfile(this)\"><small>" +d.name+" ("+datetime+")</small></a>"):d.name;
       }else{
         var format = function(d){return d}; // TODO
         var datetime = d.value;
