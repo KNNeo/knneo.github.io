@@ -1,0 +1,146 @@
+html {
+  font-family: Open Sans;
+  font-size: 90%;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+body {
+  margin: auto;
+}
+body > div, h1 {
+  text-align: center;
+  max-width: 800px;
+  margin: auto;	
+}
+label {
+	padding: 5px;
+	display: inline-block;
+	white-space: nowrap;
+}
+#viewer {
+	z-index: 9;
+	position: fixed;
+	background-color: black;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+}
+
+#viewer-prev {
+	background-color: transparent;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 25%;
+	height: 100%;
+	z-index: 11;
+}
+
+#viewer-next {
+	background-color: transparent;
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 25%;
+	height: 100%;
+	z-index: 11;
+}
+
+#viewer-next:active {
+	opacity: 0.4;
+	background-image: linear-gradient(to left, white, transparent);
+}
+
+#viewer-prev:active {
+	opacity: 0.4;
+	background-image: linear-gradient(to right, white, transparent);
+}
+
+#options {
+	width: 300px;
+	position: absolute;
+	top: 5vh;
+	left: 0;
+	right: 0;
+}
+
+#ssstart, #ssstop, #options {
+	padding: 5px;
+	border-radius: 8px;
+	border: 1px solid gray;
+	padding: 4px 8px;
+	white-space: normal;
+}
+
+#ssstop {
+	background-color: white;
+	color: black;
+}
+
+.closed {
+	display: none;
+}
+.snap {
+	scroll-snap-type: x mandatory !important;
+}
+.profile-category {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+  padding-bottom: 5px;
+}
+.profile-box {
+	display: inline-block;
+	margin: 5px;
+	vertical-align: top;
+	scroll-snap-align: center;
+	white-space: normal;
+	touch-action: manipulation;
+	line-height: 0;
+}
+.profile-box-img img {
+  max-width: 90vw;
+  max-height: 40vh;
+}
+.shadowed {
+  border: 1px solid lightgray;
+  box-shadow: 3px 3px;
+}
+.shadowed:active {
+  box-shadow: 1px 1px;
+  transform: translate(2px,2px);
+}
+.unshadowed {
+	filter: opacity(100%);
+	transition: filter 1s;
+}
+.unshadowed:active {
+	filter: opacity(50%);
+	transition: filter 0s;
+}
+.profile-category::-webkit-scrollbar { 
+  z-index: 0;
+  height: 12px;
+}
+.profile-category::-webkit-scrollbar-thumb {
+  background: black;
+}
+.profile-category::-webkit-scrollbar-track {
+  background: #dddddd;
+}
+
+@media only screen and (max-width : 1040px) {
+/*scrollbars for top and bottom labels only on desktop*/
+html { font-size: 100%; }
+div { scrollbar-width: 0 !important; }
+div::-webkit-scrollbar { width: 0 !important }
+/*adjust font for filters on mobile*/
+#orientation > *, #name > * { font-size: 0.8em; }
+/*snap on touch is better on mobile than on desktop*/
+.profile-box { scroll-snap-align: center; }
+}

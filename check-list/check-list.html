@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en-SG">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link id="darkmode-css" rel="stylesheet" type="text/css" href="../darkmode.css">
+    <link id="image-gallery-css" rel="stylesheet" type="text/css" href="check-list.css">
+	<link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'/>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>CHECKLIST</title>
+</head>
+<body>
+<h1 class="page-align" onclick="location.reload()">
+Animal Crossing Art Checklist<br/>
+(New Horizons Edition)
+</h1>
+<div><h5>*Just a checklist that will store data on this site when you come back. Uses simple localStorage to store data.</h5></div>
+<div id="checklist"></div>
+<div id="reset"><a id="resetLink" onclick="resetList()"><h3>Reset</h3></a></div>
+<div title="Toggle Dark Mode"><i id="darkmode" class="material-icons">brightness_high</i></div>
+</body>
+<script>
+document.getElementById('darkmode').addEventListener('click', function() {
+	if(document.getElementsByTagName('html')[0].classList.contains('darked'))
+		document.getElementsByTagName('html')[0].classList.remove('darked');
+	else
+		document.getElementsByTagName('html')[0].classList.add('darked');
+} );
+
+let keys = [
+	'Academic Painting',
+	'Amazing Painting',
+	'Ancient Statue',
+	'Basic Painting',
+	'Beautiful Statue',
+	'Calm Painting',
+	'Common Painting',
+	'Detailed Painting',
+	'Dynamic Painting',
+	'Familiar Statue',
+	'Famous Painting',
+	'Flowery Painting',
+	'Gallant Statue',
+	'Glowing Painting',
+	'Graceful Painting',
+	'Great Statue',
+	'Informative Statue',
+	'Jolly Painting',
+	'Moody Painting',
+	'Motherly Statue',
+	'Moving Painting',
+	'Mysterious Painting',
+	'Mystic Statue',
+	'Nice Painting',
+	'Perfect Painting',
+	'Proper Painting',
+	'Quaint Painting',
+	'Robust Statue',
+	'Rock-Head Statue',
+	'Scary Painting',
+	'Scenic Painting',
+	'Serene Painting',
+	'Sinking Painting',
+	'Solemn Painting',
+	'Tremendous Statue',
+	'Twinkling Painting',
+	'Valiant Statue',
+	'Warm Painting',
+	'Warrior Statue',
+	'Wild Painting Left Half',
+	'Wild Painting Right Half',
+	'Wistful Painting',
+	'Worthy Painting'
+];
+
+window.onload = function() {
+	loadChecklist();
+};
+
+function loadChecklist() {
+	let initialCount = 0;
+	let checkList = new Array();
+	for(let key of keys)
+	{
+		let value = localStorage.getItem(key);
+		if(value == null) value = false;
+		else initialCount++;
+		checkList.push({
+			key: key,
+			value: value
+		});
+	}
+	
+	if(initialCount == 0) document.getElementById('resetLink').style.color = 'white';
+
+	buildChecklistHTML(checkList);
+}
+
+function buildChecklistHTML(list) {
+	let checklistDiv = document.createElement('div');
+	
+	for(let value of list)
+	{
+		let checkboxDiv = document.createElement('div');
+		
+		let label = document.createElement('label');
+		
+		let labelSpan = document.createElement('span');
+		labelSpan.innerText = value.key;
+		label.appendChild(labelSpan);
+		
+		let checkbox = document.createElement('input');
+		checkbox.type = 'checkbox';
+		checkbox.checked = value.value ?? false;
+		checkbox.addEventListener('click', function () {
+			localStorage.setItem(this.previousElementSibling.innerText, this.checked);
+			document.getElementById('resetLink').style.color = '';
+		});
+		label.appendChild(checkbox);
+		
+		checkboxDiv.appendChild(label);
+		
+		checklistDiv.appendChild(checkboxDiv);		
+	}
+	
+	document.getElementById('checklist').innerHTML = '';
+	document.getElementById('checklist').appendChild(checklistDiv);
+}
+
+function resetList() {
+	localStorage.clear();
+	loadChecklist();
+}
+</script>
+</html>
