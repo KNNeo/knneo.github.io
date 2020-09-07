@@ -446,7 +446,8 @@ function reloadDarkmodeStyle() {
 	css.rel = 'stylesheet'
 	document.head.appendChild(css);
 	
-	if(!enableDarkMode)
+	//if dark mode is disabled, defaults to light
+	if(!enableDarkMode && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)
 	{
 		toggleDarkMode();
 	}
