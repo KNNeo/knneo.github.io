@@ -17,7 +17,7 @@ body > div, h1 {
   max-width: 800px;
   margin: auto;	
 }
-label {
+.padded {
 	padding: 5px;
 	display: inline-block;
 	white-space: nowrap;
@@ -59,27 +59,6 @@ label {
 #viewer-prev:active {
 	opacity: 0.4;
 	background-image: linear-gradient(to right, white, transparent);
-}
-
-#options {
-	width: 300px;
-	position: absolute;
-	top: 5vh;
-	left: 0;
-	right: 0;
-}
-
-#ssstart, #ssstop, #options {
-	padding: 5px;
-	border-radius: 8px;
-	border: 1px solid gray;
-	padding: 4px 8px;
-	white-space: normal;
-}
-
-#ssstop {
-	background-color: white;
-	color: black;
 }
 
 .closed {
@@ -125,7 +104,7 @@ label {
 }
 .profile-category::-webkit-scrollbar { 
   z-index: 0;
-  height: 12px;
+  height: 0;
 }
 .profile-category::-webkit-scrollbar-thumb {
   background: black;

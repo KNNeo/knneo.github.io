@@ -14,17 +14,33 @@ Animal Crossing Art Checklist<br/>
 (New Horizons Edition)
 </h1>
 <div><h5>*Just a checklist that will store data on this site when you come back. Uses simple localStorage to store data.</h5></div>
-<div id="checklist"></div>
-<div id="reset"><a id="resetLink" onclick="resetList()"><h3>Reset</h3></a></div>
-<div title="Toggle Dark Mode"><i id="darkmode" class="material-icons">brightness_high</i></div>
+<div class="profile-category">
+<div id="checklist" class="profile-box shadowed"></div>
+<div id="reset"><h3><a id="resetLink" onclick="resetList()">Reset</a></h3></div>
+</div>
+<br/>
+<div title="Toggle Dark Mode" onclick="onDarkModeToggle()"><i id="darkmode" class="material-icons">brightness_high</i></div>
+<br/>
 </body>
 <script>
-document.getElementById('darkmode').addEventListener('click', function() {
+const isMobile = function() {
+    const match = window.matchMedia('(pointer:coarse)');
+    return (match && match.matches);
+};
+
+let isDarked = false;
+function onDarkModeToggle() {
+	toggleDarkMode();
+	isDarked = !isDarked;
+	localStorage.setItem('darkMode', isDarked);
+}
+
+function toggleDarkMode() {
 	if(document.getElementsByTagName('html')[0].classList.contains('darked'))
 		document.getElementsByTagName('html')[0].classList.remove('darked');
 	else
 		document.getElementsByTagName('html')[0].classList.add('darked');
-} );
+}
 
 let keys = [
 	'Academic Painting',
@@ -73,8 +89,15 @@ let keys = [
 ];
 
 window.onload = function() {
+	loadDarkMode();
 	loadChecklist();
 };
+
+function loadDarkMode() {
+	isDarked = localStorage.getItem("darkMode") == "true";
+	if(isDarked == null) localStorage.setItem("darkMode", false);
+	if(isDarked == true) toggleDarkMode();
+}
 
 function loadChecklist() {
 	let initialCount = 0;
@@ -90,7 +113,7 @@ function loadChecklist() {
 		});
 	}
 	
-	if(initialCount == 0) document.getElementById('resetLink').style.color = 'white';
+	if(initialCount == 0) document.getElementById('resetLink').innerText = 'Reset!';
 
 	buildChecklistHTML(checkList);
 }
@@ -101,6 +124,7 @@ function buildChecklistHTML(list) {
 	for(let value of list)
 	{
 		let checkboxDiv = document.createElement('div');
+		checkboxDiv.style.padding = '10px 10px';
 		
 		let label = document.createElement('label');
 		
@@ -113,7 +137,7 @@ function buildChecklistHTML(list) {
 		checkbox.checked = value.value ?? false;
 		checkbox.addEventListener('click', function () {
 			localStorage.setItem(this.previousElementSibling.innerText, this.checked);
-			document.getElementById('resetLink').style.color = '';
+			document.getElementById('resetLink').innerText = 'Reset';
 		});
 		label.appendChild(checkbox);
 		
