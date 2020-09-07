@@ -65,7 +65,8 @@ label {
 }
 
 #options {
-	position: fixed;
+	width: 300px;
+	position: absolute;
 	top: 5vh;
 	left: 0;
 	right: 0;
@@ -77,7 +78,6 @@ label {
 	border: 1px solid gray;
 	padding: 4px 8px;
 	white-space: normal;
-	width: auto;
 }
 
 #ssstop {
