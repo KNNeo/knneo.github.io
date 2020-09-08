@@ -13,7 +13,7 @@ function setThumbnails() {
 			//switchThumbnails(closestClass(this, "thumbnail"));
 			setTimeout(switchThumbnails(this.parentElement.parentElement), 200);
 		});
-		document.getElementById('isMarried').style.visibility = 'hidden';
+		//document.getElementById('isMarried').style.visibility = 'hidden';
     }
 }
 let closestClass = function(inputElement, targetClassName) {
@@ -77,12 +77,12 @@ function navigateToProfile(e) {
 }
 
 //show checkbox on hover on wanted list
-document.getElementById("marriedCouple").addEventListener("mouseover", function() {
+/*document.getElementById("marriedCouple").addEventListener("mouseover", function() {
 	document.getElementById("isMarried").style.visibility = "visible";
 });
 document.getElementById("marriedCouple").addEventListener("mouseout", function() {
 	document.getElementById("isMarried").style.visibility = "hidden";
-});
+});*/
 
 //on timeline double click shrink timeline
 document.getElementById("timeline").addEventListener("dblclick", function() {
