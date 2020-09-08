@@ -149,7 +149,6 @@ function initialiseWantedList() {
 
 function renderWantedList() {
 	//reloadImages();
-	resizeAllProfileBoxImg();
 	//addProfileBoxClick();
 	addProfileBoxImgOnError();
 	switchProfileBoxImage();
@@ -158,9 +157,7 @@ function renderWantedList() {
 	openLinksInNew();
 	invertCensor();
 	if(isExternal) censorData(); //ONLY FOR GITHUB
-	if (loadedImages != document.getElementsByTagName("img").length) setTimeout(function() {
-		reloadImages();
-	}, 1000);
+	setTimeout(reloadImages, 500);
 }
 
 //--functions--//
@@ -384,7 +381,9 @@ function reloadImages() {
 			loadedImages++;
 		}
 	}
+
 	if (loadedImages != profileBoxImg.length) setTimeout(reloadImages, 300);
+	else resizeAllProfileBoxImg();
 }
 
 //resize images on load
