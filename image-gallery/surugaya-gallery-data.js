@@ -1510,7 +1510,7 @@ imgArray = [
 [11,'https://cdn.suruga-ya.jp/database/pics_light/game/g3366207.jpg','portrait','遠藤ゆりか','印刷サイン・メッセージ入り/CD「Melody and Flower」Amazon特典ブロマイド'],
 [12,'https://cdn.suruga-ya.jp/database/pics_light/game/g3366211.jpg','portrait','遠藤ゆりか','印刷サイン・メッセージ入り/CD「Melody and Flower」とらのあな特典ブロマイド'],
 [13,'https://cdn.suruga-ya.jp/database/pics_light/game/g3366209.jpg','portrait','遠藤ゆりか','印刷サイン・メッセージ入り/CD「Melody and Flower」ソフマップ特典ブロマイド'],
-[16,'https://cdn.suruga-ya.jp/database/pics_light/game/g3366779.jpg','portrait','遠藤ゆりか(吉川春乃)','上半身・衣装白・ユニフォーム・両手合わせ・背景グレー・キャラクターショット/舞台「ダイヤのA The LIVE IV」公式生写真'],
+[16,'https://cdn.suruga-ya.jp/database/pics_light/game/g3366779.jpg','portrait','遠藤ゆりか','上半身・衣装白・ユニフォーム・両手合わせ・背景グレー・キャラクターショット/舞台「ダイヤのA The LIVE IV」公式生写真'],
 [19,'https://cdn.suruga-ya.jp/database/pics_light/game/g3031149.jpg','portrait','遠藤ゆりか','印刷サイン・コメント入り/CD「ふたりのクロノスタシス」きゃにめ.jo特典'],
 [20,'https://cdn.suruga-ya.jp/database/pics_light/game/g3031150.jpg','portrait','遠藤ゆりか','印刷サイン・コメント入り/CD「ふたりのクロノスタシス」アニメイト特典'],
 [21,'https://cdn.suruga-ya.jp/database/pics_light/game/g3031157.jpg','portrait','遠藤ゆりか','印刷サイン・コメント入り/CD「ふたりのクロノスタシス」タワーレコード特典'],
