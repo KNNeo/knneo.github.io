@@ -28,6 +28,7 @@ var TimeKnots = {
     }
     var tip = d3.select(id)
     .append('div')
+    .attr("class", "timeline-popup")
     .style("opacity", 0)
     .style("position", "fixed")
     .style("font-family", "Open Sans")

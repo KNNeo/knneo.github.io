@@ -74,6 +74,8 @@ function navigateToProfile(e) {
 			return;
 		}
 	}
+	if(document.getElementsByClassName('timeline-popup').length > 0)
+		document.getElementsByClassName('timeline-popup')[0].style.opacity = '0';
 }
 
 //show checkbox on hover on wanted list
