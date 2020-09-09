@@ -9,6 +9,8 @@
 	<title>Welcome</title>
 </head>
 <body>
+<div id="landing-cover"><p>Please key in password:</p></div>
+<div>
 <h1>DEMOS @ knneo.github.io</h1>
 <h6>All DIY unless otherwise stated</h6>
 <h3><a href="./would-you-rather/would-you-rather.html">Would You Rather?</a></h3>
@@ -20,13 +22,39 @@
 <hr/>
 <h5><a href="https://knwebreports.blogspot.com/p/home.html">BLOG</a></h5>
 <div title="Toggle Dark Mode"><i id="darkmode" class="material-icons">brightness_high</i></div>
+</div>
 </body>
 <script>
+const isMobile = function() {
+    const match = window.matchMedia('(pointer:coarse)');
+    return (match && match.matches);
+};
+
 document.getElementById('darkmode').addEventListener('click', function() {
 	if(document.getElementsByTagName('html')[0].classList.contains('darked'))
 		document.getElementsByTagName('html')[0].classList.remove('darked');
 	else
 		document.getElementsByTagName('html')[0].classList.add('darked');
 } );
+
+let keys = 0;
+//if mobile, tap 10 times
+document.addEventListener('touchstart', function(event) {
+	console.log(keys++);
+	if (keys >= 10) {
+		document.getElementById("landing-cover").style.display = 'none';
+	}
+	
+});
+//if desktop, hit 10 keys within 1 second
+document.addEventListener('keyup', function(event) {
+	event.preventDefault();
+	console.log(keys++);
+	if (keys >= 10) {
+		document.getElementById("landing-cover").style.display = 'none';
+	}
+	
+	setTimeout(function() { keys = 0; }, 1000);
+});
 </script>
 </html>
