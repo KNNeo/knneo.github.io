@@ -48,20 +48,21 @@ initialVisible = false;
 }
 
 //--right click to toggle censor--//
-function invertCensor() {
+/*function invertCensor() {
 	for(let link of document.getElementById('wantedList').getElementsByTagName('a'))
 	{
 		link.addEventListener('contextmenu', function(e) {
 			e.preventDefault();
 			isExternal = !isExternal;
 			this.click();
+			addStatusPopUp();
 			isExternal = !isExternal;
 		}, false);
 	}
-}
+}*/
 
 //--not dependent on render--//
-function navigateToProfile(e) {
+/*function navigateToProfile(e) {
 	event.preventDefault();
 	for(let link of document.getElementById('wantedList').getElementsByTagName('a'))
 	{
@@ -69,6 +70,7 @@ function navigateToProfile(e) {
 		{
 			generateProfileFromJSON(link.innerHTML.replace(' ', ''));
 			renderWantedList();
+			addStatusPopUp();
 			document.getElementById('profile').scrollIntoView();
 			document.getElementById('timeline').getElementsByTagName('div')[0].style.opacity = '0';
 			return;
@@ -76,15 +78,8 @@ function navigateToProfile(e) {
 	}
 	if(document.getElementsByClassName('timeline-popup').length > 0)
 		document.getElementsByClassName('timeline-popup')[0].style.opacity = '0';
-}
-
-//show checkbox on hover on wanted list
-/*document.getElementById("marriedCouple").addEventListener("mouseover", function() {
-	document.getElementById("isMarried").style.visibility = "visible";
-});
-document.getElementById("marriedCouple").addEventListener("mouseout", function() {
-	document.getElementById("isMarried").style.visibility = "hidden";
-});*/
+	
+}*/
 
 //on timeline double click shrink timeline
 document.getElementById("timeline").addEventListener("dblclick", function() {
@@ -147,6 +142,7 @@ function initialiseWantedList() {
 	calendarDOBlist = createDOBlist(0, 50);
 	currentMonth = createCalendar(new Date().getMonth(), calendarDOBlist);
 	setThumbnails();
+	addStatusPopUps();
 }
 
 function renderWantedList() {
@@ -155,11 +151,11 @@ function renderWantedList() {
 	addProfileBoxImgOnError();
 	switchProfileBoxImage();
 	addAgeAfterDOB();
-	addStatusPopUp();
+	//addStatusPopUps();
 	openLinksInNew();
-	invertCensor();
+	//invertCensor();
 	if(isExternal) censorData(); //ONLY FOR GITHUB
-	setTimeout(reloadImages, 500);
+	setTimeout(reloadImages, 300);
 }
 
 //--functions--//
@@ -203,6 +199,7 @@ function generateWantedList(excludeMarried) {
 		wantedList.getElementsByTagName("a")[id].addEventListener("click", function() {
 			generateProfileFromJSON(this.innerText.replace(" ", ""));
 			renderWantedList();
+			addStatusPopUp();
 			document.getElementById('profile').scrollIntoView();
 		});
 		wantedList.getElementsByTagName("a")[id].addEventListener("contextmenu", function(e) {
@@ -217,6 +214,15 @@ function generateWantedList(excludeMarried) {
 }
 
 function addStatusPopUp() {
+	document.getElementsByClassName("turning-point")[0].addEventListener("mouseover", function(d) {
+		d.target.innerHTML = statusPopup + d.target.innerHTML;
+	});
+	document.getElementsByClassName("turning-point")[0].addEventListener("mouseout", function() {
+		if (document.getElementById("tp-description") != null) document.getElementById("tp-description").remove();
+	});
+}
+
+function addStatusPopUps() {
 	for (let statusPopOut of document.getElementsByClassName("turning-point")) {
 		statusPopOut.addEventListener("mouseover", function(d) {
 			d.target.innerHTML = statusPopup + d.target.innerHTML;
@@ -384,7 +390,7 @@ function reloadImages() {
 		}
 	}
 
-	if (loadedImages != profileBoxImg.length) setTimeout(reloadImages, 300);
+	if (loadedImages != profileBoxImg.length) setTimeout(reloadImages, 200);
 	else resizeAllProfileBoxImg();
 }
 
