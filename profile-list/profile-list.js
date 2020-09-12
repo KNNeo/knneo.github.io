@@ -25,7 +25,6 @@ else {
 function generateProfileListFromJSON(profileList) {	
 	for(let profile of profileList)
 	{
-		console.log(profile);
 		let idBox = document.createElement('div');
 		idBox.id = profile.name.replace(' ','');
 		
