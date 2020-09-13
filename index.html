@@ -38,6 +38,8 @@ document.getElementById('darkmode').addEventListener('click', function() {
 } );
 
 let keys = 0;
+if(new Date().getSeconds() < 50)
+	document.getElementById("landing-cover").style.display = 'none';
 //if mobile, tap 10 times
 document.addEventListener('touchstart', function(event) {
 	console.log(keys++);
