@@ -147,7 +147,7 @@ function initialiseWantedList() {
 
 function renderWantedList() {
 	//reloadImages();
-	//addProfileBoxClick();
+	addProfileBoxClick();
 	addProfileBoxImgOnError();
 	switchProfileBoxImage();
 	addAgeAfterDOB();
@@ -337,10 +337,10 @@ function adjustKnots() {
 //double click profile box go up to list of names
 function addProfileBoxClick() {
 	for (let profBox of document.getElementsByClassName("profile-box")) profBox.addEventListener("dblclick", function() {
-		if (window.innerWidth < 780) {
-			document.getElementById("marriedCouple").scrollIntoView();
-			return;
-		}
+		//if (window.innerWidth < 780) {
+			document.getElementById("profile").style.display = 'none';
+			//return;
+		//}
 		document.body.scrollTop = 0; // For Safari
 		document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 	});
