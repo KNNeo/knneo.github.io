@@ -238,14 +238,16 @@ function renderPage(pageName) {
 	let ssDiv = document.createElement('div');
 	ssDiv.style.textAlign = 'center';
 	ssDiv.style.padding = '10px';
-		let ssStartSpan = document.createElement('span');
+		let ssStartSpan = document.createElement('button');
 		ssStartSpan.id = 'ssstart';
+		ssStartSpan.type = 'button';
 		ssStartSpan.style.display = enableSlideshow ? '' : 'none';
 		ssStartSpan.innerText = 'Slideshow';
 		ssStartSpan.addEventListener('click', startSlideshow);
 		ssDiv.appendChild(ssStartSpan);
-		let ssStopSpan = document.createElement('span');
+		let ssStopSpan = document.createElement('button');
 		ssStopSpan.id = 'ssstop';
+		ssStartSpan.type = 'button';
 		ssStopSpan.style.display = 'none';
 		ssStopSpan.innerText = 'Stop';
 		ssStopSpan.addEventListener('click', stopSlideshow);
@@ -486,7 +488,12 @@ function setupGallery() {
 
 //generate profile category based on array
 function renderGallery(array) {
+	//disable relevant elements
 	document.getElementById('options').classList.remove('closed');
+	document.getElementById('ssstart').setAttribute('disabled','');
+	document.getElementById('inViewer').setAttribute('disabled','');
+	document.getElementById('isFullscreen').setAttribute('disabled','');
+	
 	let totalCount = 0;
 	let profileCategoryHTML = document.createElement('DIV');
 	profileCategoryHTML.classList.add('profile-category');
@@ -581,7 +588,13 @@ function reloadImages(array) {
 	resizeImageHeights();
 	//checkImageHeights(array);
 	if(loadedImages < array.length-1) setTimeout( function() { reloadImages(array); },500);
-	if(loadedImages >= array.length-1) setTimeout(function () { document.getElementById('options').classList.add('closed') }, 1000);
+	if(loadedImages >= array.length-1) 
+	{
+		document.getElementById('ssstart').removeAttribute('disabled');
+		document.getElementById('inViewer').removeAttribute('disabled');
+		document.getElementById('isFullscreen').removeAttribute('disabled');
+		setTimeout(function () { document.getElementById('options').classList.add('closed') }, 1000);
+	}
 }
 
 function resizeImageHeights() {
@@ -721,7 +734,7 @@ function recoverOrientationIfEmpty(array) {
 }
 
 function renderGalleryScroll() {
-//allow scroll on desktop
+	//allow scroll on desktop
 	let mousewheelEvent = isFirefox ? "DOMMouseScroll" : "mousewheel"
 	let scrollList = new Array();
 	let time = new Date();
