@@ -146,6 +146,7 @@ function initialiseWantedList() {
 }
 
 function renderWantedList() {
+	document.getElementById('profile').style.display = '';
 	//reloadImages();
 	addProfileBoxClick();
 	addProfileBoxImgOnError();
