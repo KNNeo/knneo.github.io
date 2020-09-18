@@ -525,6 +525,18 @@ function renderGallery(array) {
 	{
 		image.src = image.alt;
 		image.removeAttribute('alt');
+		image.addEventListener('click', function() {
+			this.scrollIntoView({
+				behavior: "smooth",
+				inline: "center"
+			});
+		});
+		image.addEventListener('contextmenu', function() {
+			this.scrollIntoView({
+				behavior: "smooth",
+				inline: "center"
+			});
+		});
 	}
 	
 	document.getElementById('loadedCount').innerText = 0;
