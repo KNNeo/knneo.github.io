@@ -340,6 +340,7 @@ function addProfileBoxClick() {
 	for (let profBox of document.getElementsByClassName("profile-box")) profBox.addEventListener("dblclick", function() {
 		//if (window.innerWidth < 780) {
 			document.getElementById("profile").style.display = 'none';
+			document.getElementById("profile").innerHTML = '';
 			//return;
 		//}
 		document.body.scrollTop = 0; // For Safari
