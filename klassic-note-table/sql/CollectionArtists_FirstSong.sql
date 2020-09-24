@@ -1,0 +1,40 @@
+select ArtistTitle, min(DateCreated) as FirstSong from Song
+where ArtistTitle in (
+--select artisttitle from song group by artisttitle having count(artisttitle) >= 12
+'YUI',
+'Aqua Timez',
+'Ikimonogakari',
+'Chatmonchy',
+'Rie fu',
+'Lil''B',
+'SPECIAL OTHERS',
+'STEREOPONY',
+'sphere',
+'ASIAN KUNG-FU GENERATION',
+'VELTPUNCH',
+'SID',
+'Kalafina',
+'SCANDAL',
+'miwa',
+'Toyosaki Aki',
+'Sambomaster',
+'Tomatsu Haruka',
+'Kotobuki Minako',
+'ClariS',
+'Neat''s',
+'Tsuji Shion',
+'Porno Graffitti',
+'Taketatsu Ayana',
+'fumika',
+'Hanazawa Kana',
+'NEGOTO',
+'nano.RIPE',
+'yanaginagi',
+'TrySail',
+'cinema staff',
+'Yoru no Honki Dance',
+'THE ORAL CIGARETTES',
+'Amamiya Sora'
+
+)
+group by ArtistTitle order by DateCreated
