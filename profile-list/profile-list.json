@@ -30,12 +30,6 @@
 			"**She did sing a song before for a producer and it wasn't bad, see <a href=\"https://youtu.be/pgz4CKPqK_Y\">this music video</a>",
 			"***As mentioned in her photobook interview, which I reviewed (and translated) <a href=\"https://knwebreports.blogspot.com/2019/11/seventh-book-worth-of-photos-top-beauty.html\">here</a>"
 		],
-		"friends": [
-			{
-				"id": "",
-				"images": ""
-			}
-		],
 	},
 	{
 		"category":"seiyuu0",
@@ -237,7 +231,7 @@
 				"images": "https://pbs.twimg.com/media/EipYyyYUMAAbzyl?format=jpg&name=small"
 			},
 			{
-				"id": "KomatsuMikako",
+				"id": "UesakaSumire",
 				"images": "https://pbs.twimg.com/media/EWN3ZZ9UwAQCGtr?format=jpg&name=small"
 			}
 		],
@@ -1377,6 +1371,12 @@
 		"comments":[
 			"*Fans guess she's in her 30s, so maybe born in late 1980s- HOLY SH*T she is old haha",
 			"**She does post online of herself at the beach in a swimsuit every year though"
-		]
+		],
+		"friends": [
+			{
+				"id": "AnzaiChika",
+				"images": "https://pbs.twimg.com/media/EicFvkRUwAMi0hq?format=jpg&name=small"
+			}
+		],
 	}
 ]
