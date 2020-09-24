@@ -29,7 +29,13 @@
 			"*She is more commonly referred to as Fumi-chan",
 			"**She did sing a song before for a producer and it wasn't bad, see <a href=\"https://youtu.be/pgz4CKPqK_Y\">this music video</a>",
 			"***As mentioned in her photobook interview, which I reviewed (and translated) <a href=\"https://knwebreports.blogspot.com/2019/11/seventh-book-worth-of-photos-top-beauty.html\">here</a>"
-		]
+		],
+		"friends": [
+			{
+				"id": "",
+				"images": ""
+			}
+		],
 	},
 	{
 		"category":"seiyuu0",
@@ -92,7 +98,13 @@
 			"*The closest she has come to it was wearing one, specifically just the top with a shirt above, on her 400th episode of her radio program. And maybe when she showed off her back in <a href=\"https://twitter.com/hitokana_qr/status/1298991156748070912\">this Tweet</a> a year later",
 			"**Married to fellow voice actor Oono Kensho, also known to be dating 3 years prior to announcement in July 2020",
 			"***She is high about bread you thought she is into drugs, in <a href=\"https://twitter.com/hanazawa_staff/status/1230298398135242757\">this Tweet</a> off her radio show"
-		]
+		],
+		"friends": [
+			{
+				"id": "KomatsuMikako",
+				"images": "https://pbs.twimg.com/media/EipYyyYUMAAbzyl?format=jpg&name=small"
+			}
+		],
 	},
 	{
 		"category":"seiyuu1",
@@ -218,7 +230,17 @@
 			"*Initially under KING AMUSEMENT CREATIVE (formerly together with King Records), and now under TOYS' FACTORY produced under Anime composers group Q-MHz; Latest song is for Anime \"Babylon\"",
 			"**To fellow voice actor Maeno Tomoaki",
 			"***Here's an example of <a href=\"https://twitter.com/mikakokomatsu/status/698835135022571520\">what she posted</a> on one particular Valentine's Day"
-		]
+		],
+		"friends": [
+			{
+				"id": "HanazawaKana",
+				"images": "https://pbs.twimg.com/media/EipYyyYUMAAbzyl?format=jpg&name=small"
+			},
+			{
+				"id": "KomatsuMikako",
+				"images": "https://pbs.twimg.com/media/EWN3ZZ9UwAQCGtr?format=jpg&name=small"
+			}
+		],
 	},
 	{
 		"category":"seiyuu1",
@@ -819,7 +841,13 @@
 			"*Under music label KING AMUSEMENT CREATIVE since 2013",
 			"**Refer to her photobook which I reviewed <a href=\"https://knwebreports.blogspot.com/2019/12/eighth-book-worth-of-photos-her-biggest.html\">here</a> for shots that will blow your mind",
 			"***I prefer when she uses her own voice or her being matured, such as from Anime \"Aho Girl\" as Morals Council Chairperson"
-		]
+		],
+		"friends": [
+			{
+				"id": "KomatsuMikako",
+				"images": "https://pbs.twimg.com/media/EWN3ZZ9UwAQCGtr?format=jpg&name=small"
+			},
+		],
 	},
 	{
 		"category":"seiyuu3",
@@ -850,7 +878,13 @@
 		"comments":[
 			"*More commonly known as \"Chikape\"",
 			"**She released a photobook though, for her 10th year as a voice actress; I reviewed it <a href=\"https://knwebreports.blogspot.com/2020/01/ninth-book-worth-of-photos-once-in.html\">here</a>"
-		]
+		],
+		"friends": [
+			{
+				"id": "YoshimuraHaruka",
+				"images": "https://pbs.twimg.com/media/EicFvkRUwAMi0hq?format=jpg&name=small"
+			}
+		],
 	},
 	{
 		"category":"seiyuu3",
