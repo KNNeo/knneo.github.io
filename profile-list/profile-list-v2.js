@@ -24,12 +24,52 @@ else {
 	}
 }
 
+function friendCheck() {
+	console.log('Friend check!');
+	let friendList = [];
+	for(let profile of profileList)
+	{
+		if(profile.friends == undefined) continue;
+		for(let friend of profile.friends)
+		{
+			friendList.push({
+				friend1: friend.id,
+				friend2: profile.id
+			});
+		}
+	}
+	
+	for(let pair of friendList)
+	{
+		let pairs = friendList.filter( function(n) {
+			return n.friend1 == pair.friend2 && pair.friend1 == n.friend2;
+		});
+		
+		if(pairs.length == 0)
+			console.log(pair.friend2 + ' missing in ' + pair.friend1);
+	}
+	
+	console.log('Done.');
+}
+
 function generateProfileFromJSON(profileName) {
 	let profile = profileList.filter( function(n) {
         return n.id == profileName;
     })[0];
 	
 	if(profile == null || profile.length == 0) return;
+	
+	if(document.getElementById('profile').childElementCount > 0)
+	{
+		let currentProfileName = document.getElementById('profile').getElementsByTagName('div')[0].id;
+		let currentProfile = profileList.filter( function(n) {
+			return n.id == currentProfileName;
+		})[0];
+		
+		console.log('Friend found! ' + currentProfile.name + ' x ' + profile.name);
+		
+		//return true;
+	}
 	
 	document.getElementById('profile').innerHTML = '';
 	
