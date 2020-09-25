@@ -29,7 +29,7 @@
 			"*She is more commonly referred to as Fumi-chan",
 			"**She did sing a song before for a producer and it wasn't bad, see <a href=\"https://youtu.be/pgz4CKPqK_Y\">this music video</a>",
 			"***As mentioned in her photobook interview, which I reviewed (and translated) <a href=\"https://knwebreports.blogspot.com/2019/11/seventh-book-worth-of-photos-top-beauty.html\">here</a>"
-		],
+		]
 	},
 	{
 		"category":"seiyuu0",
@@ -98,7 +98,7 @@
 				"id": "KomatsuMikako",
 				"images": "https://pbs.twimg.com/media/EipYyyYUMAAbzyl?format=jpg&name=small"
 			}
-		],
+		]
 	},
 	{
 		"category":"seiyuu1",
@@ -234,7 +234,7 @@
 				"id": "UesakaSumire",
 				"images": "https://pbs.twimg.com/media/EWN3ZZ9UwAQCGtr?format=jpg&name=small"
 			}
-		],
+		]
 	},
 	{
 		"category":"seiyuu1",
@@ -840,8 +840,8 @@
 			{
 				"id": "KomatsuMikako",
 				"images": "https://pbs.twimg.com/media/EWN3ZZ9UwAQCGtr?format=jpg&name=small"
-			},
-		],
+			}
+		]
 	},
 	{
 		"category":"seiyuu3",
@@ -878,7 +878,7 @@
 				"id": "YoshimuraHaruka",
 				"images": "https://pbs.twimg.com/media/EicFvkRUwAMi0hq?format=jpg&name=small"
 			}
-		],
+		]
 	},
 	{
 		"category":"seiyuu3",
@@ -1377,6 +1377,6 @@
 				"id": "AnzaiChika",
 				"images": "https://pbs.twimg.com/media/EicFvkRUwAMi0hq?format=jpg&name=small"
 			}
-		],
+		]
 	}
 ]
