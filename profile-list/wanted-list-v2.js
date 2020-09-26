@@ -143,6 +143,7 @@ function initialiseWantedList() {
 	currentMonth = createCalendar(new Date().getMonth(), calendarDOBlist);
 	setThumbnails();
 	addStatusPopUps();
+	friendCheck();
 }
 
 function renderWantedList() {
