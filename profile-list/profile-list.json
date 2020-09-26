@@ -96,7 +96,8 @@
 		"friends": [
 			{
 				"id": "KomatsuMikako",
-				"images": "https://pbs.twimg.com/media/EipYyyYUMAAbzyl?format=jpg&name=small"
+				"image": "https://pbs.twimg.com/media/EipYyyYUMAAbzyl?format=jpg&name=small",
+				"imageId": "HanazawaKana-KomatsuMikako"
 			}
 		]
 	},
@@ -228,11 +229,13 @@
 		"friends": [
 			{
 				"id": "HanazawaKana",
-				"images": "https://pbs.twimg.com/media/EipYyyYUMAAbzyl?format=jpg&name=small"
+				"image": "https://pbs.twimg.com/media/EipYyyYUMAAbzyl?format=jpg&name=small",
+				"imageId": "HanazawaKana-KomatsuMikako"
 			},
 			{
 				"id": "UesakaSumire",
-				"images": "https://pbs.twimg.com/media/EWN3ZZ9UwAQCGtr?format=jpg&name=small"
+				"image": "https://pbs.twimg.com/media/EWN3ZZ9UwAQCGtr?format=jpg&name=small",
+				"imageId": "UesakaSumire-KomatsuMikako"
 			}
 		]
 	},
@@ -839,7 +842,8 @@
 		"friends": [
 			{
 				"id": "KomatsuMikako",
-				"images": "https://pbs.twimg.com/media/EWN3ZZ9UwAQCGtr?format=jpg&name=small"
+				"image": "https://pbs.twimg.com/media/EWN3ZZ9UwAQCGtr?format=jpg&name=small",
+				"imageId": "UesakaSumire-KomatsuMikako"
 			}
 		]
 	},
@@ -876,7 +880,8 @@
 		"friends": [
 			{
 				"id": "YoshimuraHaruka",
-				"images": "https://pbs.twimg.com/media/EicFvkRUwAMi0hq?format=jpg&name=small"
+				"image": "https://pbs.twimg.com/media/EicFvkRUwAMi0hq?format=jpg&name=small",
+				"imageId": "AnzaiChika-YoshimuraHaruka"
 			}
 		]
 	},
@@ -1375,7 +1380,8 @@
 		"friends": [
 			{
 				"id": "AnzaiChika",
-				"images": "https://pbs.twimg.com/media/EicFvkRUwAMi0hq?format=jpg&name=small"
+				"image": "https://pbs.twimg.com/media/EicFvkRUwAMi0hq?format=jpg&name=small",
+				"imageId": "AnzaiChika-YoshimuraHaruka"
 			}
 		]
 	}
