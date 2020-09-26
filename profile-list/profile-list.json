@@ -366,9 +366,11 @@
 			"***She is one of few who surpassed 1 million Twitter followers as a voice actor in Japan"
 		],
 		"friends": [
-			"id": "YuukiAoi",
-			"image": "https://pbs.twimg.com/media/DwxTkfoV4AYLzcT?format=jpg&name=small",
-			"imageId": "TaketatsuAyana-YuukiAoi"
+			{
+				"id": "YuukiAoi",
+				"image": "https://pbs.twimg.com/media/DwxTkfoV4AYLzcT?format=jpg&name=small",
+				"imageId": "TaketatsuAyana-YuukiAoi"
+			}
 		]
 	},
 	{
@@ -465,6 +467,13 @@
 			"*More commonly referred to as \"Ao-chan\"",
 			"**She was main in the original AND remake of Anime \"Kino no Tabi\", premiered on 2003.04.08 and 2017.10.06 respectively",
 			"***Her range stretches from voicing Otus Lotta in Anime \"ACCA\" (cute) to Hanatabake Yoshiko in \"Aho Girl\" (crazy) to Takagi Megumi in \"Sangatsu no Lion\" (cool)"
+		],
+		"friends": [
+			{
+				"id": "TaketatsuAyana",
+				"image": "https://pbs.twimg.com/media/DwxTkfoV4AYLzcT?format=jpg&name=small",
+				"imageId": "TaketatsuAyana-YuukiAoi"
+			}
 		]
 	},
 	{
