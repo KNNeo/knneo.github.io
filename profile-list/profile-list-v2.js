@@ -154,7 +154,7 @@ function generateProfileFromJSON(profileName) {
 						let cellDiv = document.createElement('div');
 						if(friendMode) cellDiv.style.textAlign = 'left';
 						if(friendMode) cellDiv.style.position = 'absolute';
-						cellDiv.innerText = ' (' + profile.nickname + ')';
+						if(!friendMode) cellDiv.innerText = ' (' + profile.nickname + ')';
 						
 							let span = document.createElement('span');
 							span.classList.add('profile-name');
@@ -167,7 +167,7 @@ function generateProfileFromJSON(profileName) {
 						if(friendMode)
 						{
 							cellDiv = document.createElement('div');
-							cellDiv.innerText = ' (' + currentProfile.nickname + ')';
+							// cellDiv.innerText = ' (' + currentProfile.nickname + ')';
 							
 								span = document.createElement('span');
 								span.classList.add('profile-name');
@@ -175,6 +175,7 @@ function generateProfileFromJSON(profileName) {
 								cellDiv.insertBefore(span, cellDiv.childNodes[0]);
 								
 							cell.appendChild(cellDiv);
+							row.appendChild(cell);
 						}
 					
 					profileTableBody.appendChild(row);
@@ -199,7 +200,7 @@ function generateProfileFromJSON(profileName) {
 								let DOBspan = document.createElement('span');
 								DOBspan.classList.add('DOB');
 								//DOBspan.innerText = profile.dob;
-								DOBspan.innerText = profile.dob + (!isExternal && profile.dobComment != '' ? (' (' + profile.dobComment + ')') : '');
+								DOBspan.innerText = profile.dob + (!isExternal && !friendMode && profile.dobComment != '' ? (' (' + profile.dobComment + ')') : '');
 								cellDiv.appendChild(DOBspan);
 							
 							cell.appendChild(cellDiv);
@@ -211,7 +212,7 @@ function generateProfileFromJSON(profileName) {
 								DOBspan = document.createElement('span');
 								DOBspan.classList.add('DOB');
 								//DOBspan.innerText = profile.dob;
-								DOBspan.innerText = currentProfile.dob + (!isExternal && currentProfile.dobComment != '' ? (' (' + currentProfile.dobComment + ')') : '');
+								DOBspan.innerText = currentProfile.dob + (!isExternal && !friendMode && currentProfile.dobComment != '' ? (' (' + currentProfile.dobComment + ')') : '');
 								cellDiv.appendChild(DOBspan);
 							
 								cell.appendChild(cellDiv);

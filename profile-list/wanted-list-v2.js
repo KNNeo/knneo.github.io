@@ -175,7 +175,7 @@ function getAge(DOB) {
 	let birthDateStr = DOB.replace(".", "-").replace(".", "-"); //yyyy.MM.dd -> yyyy-MM-dd
 	let birthDate = Date.parse(birthDateStr.substring(0, 10));
 	//return Math.floor((new Date().getTime() - birthDate) / 31556952000);
-	let diff = moment().tz(timezone).diff(moment.tz(birthDateStr, timezone));
+	let diff = moment().tz(timezone).diff(moment.tz(birthDate, timezone));
 	return moment.duration(diff).years();
 }
 
