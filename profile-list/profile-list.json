@@ -98,6 +98,11 @@
 				"id": "KomatsuMikako",
 				"image": "https://pbs.twimg.com/media/EipYyyYUMAAbzyl?format=jpg&name=small",
 				"imageId": "HanazawaKana-KomatsuMikako"
+			},
+			{
+				"id": "HidakaRina",
+				"image": "https://pbs.twimg.com/media/EEaGlW6U4AAEVBq?format=jpg&name=small",
+				"imageId": "HidakaRina-HanazawaKana"
 			}
 		]
 	},
@@ -597,6 +602,11 @@
 				"id": "NatsukawaShiina",
 				"image": "https://pbs.twimg.com/media/EOj49SeUcAEU9H4?format=jpg&name=small",
 				"imageId": "NatsukawaShiina-AsakuraMomo"
+			},
+			{
+				"id": "Lynn",
+				"image": "https://thetv.jp/i/nw/219265/1361806.jpg?w=615",
+				"imageId": "Lynn-NatsukawaShiina"
 			}
 		]
 	},
@@ -665,6 +675,11 @@
 				"id": "HikasaYouko",
 				"image": "https://pbs.twimg.com/media/Ef2DjfIUMAAM_qF?format=jpg&name=small",
 				"imageId": "HidakaRina-HikasaYouko"
+			},
+			{
+				"id": "HanazawaKana",
+				"image": "https://pbs.twimg.com/media/EEaGlW6U4AAEVBq?format=jpg&name=small",
+				"imageId": "HidakaRina-HanazawaKana"
 			}
 		]
 	},
@@ -840,6 +855,11 @@
 				"id": "TakahashiRie",
 				"image": "https://obs.line-scdn.net/0h2H6LBxwlbWcLNUBydMsSMH9oawhyVndvYU16XX5jZ0l-WXpnY099RXJlaRNlVXZhaAN-WTJQSypFf25zRVR5AllcYQVtZSNoPit0USx8dSBlW05qZ08iBSwwMFQgBSozN1twCSc8M1ZjBCNhY1sqCSY",
 				"imageId": "TakahashiRie-NumakuraManami"
+			},
+			{
+				"id": "TouyamaNao",
+				"image": "https://obs.line-scdn.net/0h3VzSvJs0bHlHKkeE_N4TLgh3ahY-SXZxLVJ7QzJ8ZlcyRnt5L1BmQSp6bhk1SnUzCBlAGzFJVxAXREt2BxtaHjR2WS4TQC1tITgifCYsdU12Gi8pekkgHmAjNEliTygqe0olWmN6Z04_TyMt",
+				"imageId": "NumakuraManami-TouyamaNao"
 			}
 		]
 	},
@@ -931,6 +951,11 @@
 				"id": "NumakuraManami",
 				"image": "https://obs.line-scdn.net/0h2H6LBxwlbWcLNUBydMsSMH9oawhyVndvYU16XX5jZ0l-WXpnY099RXJlaRNlVXZhaAN-WTJQSypFf25zRVR5AllcYQVtZSNoPit0USx8dSBlW05qZ08iBSwwMFQgBSozN1twCSc8M1ZjBCNhY1sqCSY",
 				"imageId": "TakahashiRie-NumakuraManami"
+			},
+			{
+				"id": "HondoKaede",
+				"image": "https://pbs.twimg.com/media/EG15sKiUUAcsC5L?format=jpg&name=small",
+				"imageId": "TakahashiRie-HondoKaede"
 			}
 		]
 	},
@@ -990,6 +1015,11 @@
 				"id": "MinaseInori",
 				"image": "https://pbs.twimg.com/media/EPsmY5sU0AMyEnc?format=jpg&name=small",
 				"imageId": "TouyamaNao-MinaseInori"
+			},
+			{
+				"id": "NumakuraManami",
+				"image": "https://obs.line-scdn.net/0h3VzSvJs0bHlHKkeE_N4TLgh3ahY-SXZxLVJ7QzJ8ZlcyRnt5L1BmQSp6bhk1SnUzCBlAGzFJVxAXREt2BxtaHjR2WS4TQC1tITgifCYsdU12Gi8pekkgHmAjNEliTygqe0olWmN6Z04_TyMt",
+				"imageId": "NumakuraManami-TouyamaNao"
 			}
 		]
 	},
@@ -1151,6 +1181,11 @@
 				"id": "TouyamaNao",
 				"image": "https://obs.line-scdn.net/0h4n7Tuydaa0EKLUGtUREUFkVwbS5zTnFJYFV8e397YW9_QXxBYldheWd9aSF4TXILaTR8Iy9TdhpSWGtDSTIlQylkVhUmfFxcdy9MeUx7NQw7HSgTNUwmIyolMHEvT3seP0kkYi4lZ3chSChE",
 				"imageId": "TouyamaNao-HondoKaede"
+			},
+			{
+				"id": "TakahashiRie",
+				"image": "https://pbs.twimg.com/media/EG15sKiUUAcsC5L?format=jpg&name=small",
+				"imageId": "TakahashiRie-HondoKaede"
 			}
 		]
 	},
@@ -1189,6 +1224,11 @@
 				"id": "TachibanaRika",
 				"image": "https://pbs.twimg.com/media/DpO8BEcUYAIg18p?format=jpg&name=small",
 				"imageId": "IsobeKarin-TachibanaRika"
+			},
+			{
+				"id": "Lynn",
+				"image": "https://pbs.twimg.com/media/EDYevV_VUAEiZS0?format=jpg&name=large",
+				"imageId": "Lynn-IsobeKarin"
 			}
 		]
 	},
@@ -1305,8 +1345,8 @@
 			},
 			{
 				"id": "NagaeRika",
-				"image": "https://pbs.twimg.com/media/EbkU5xJUMAYiFIV?format=jpg&name=small",
-				"imageId": "KoharaKonomi-NagaeRika"
+				"image": "https://pbs.twimg.com/media/Ei6ZvILUwAAMvyC?format=jpg&name=small",
+				"imageId": "NagaeRika-KoharaKonomi"
 			}
 		]
 	},
@@ -1345,6 +1385,16 @@
 				"id": "NumakuraManami",
 				"image": "https://obs.line-scdn.net/0hJfiKQWzqFUlUMj1GCLNqHiBvEyYtUQ9BPkoCcyFkH2chXgJJPEgFay1iET06Ug5PNwQGd21ELg0hfCpLbFMRVi9BCHEBBlJ8LV0gdyswQjkKeipUbUhaK3gwQnF8CloWaFwPLHI0T3k8AwFPbVJTfXY",
 				"imageId": "NumakuraManami-Lynn"
+			},
+			{
+				"id": "NatsukawaShiina",
+				"image": "https://thetv.jp/i/nw/219265/1361806.jpg?w=615",
+				"imageId": "Lynn-NatsukawaShiina"
+			},
+			{
+				"id": "IsobeKarin",
+				"image": "https://pbs.twimg.com/media/EDYevV_VUAEiZS0?format=jpg&name=large",
+				"imageId": "Lynn-IsobeKarin"
 			}
 		]
 	},
