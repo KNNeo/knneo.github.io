@@ -345,32 +345,36 @@ function generateProfileFromJSON(profileName) {
 						
 						profileTableBody.appendChild(row);
 						
-						row = document.createElement('tr');
-						
-							cell = document.createElement('td');
-							cell.innerText = 'Friends';
-							row.appendChild(cell);
-						
-						profileTableBody.appendChild(row);
-						
-						row = document.createElement('tr');
-						
-							cell = document.createElement('td');
+						if(profile.friends != undefined)
+						{
+							row = document.createElement('tr');
 							
-								cellDiv = document.createElement('div');
-								for(let friend of profile.friends)
-								{
-									let span = document.createElement('span');
-									span.innerText = ' ';
-									cellDiv.appendChild(span);
-									cellDiv.appendChild(generateWantedListEntry(friend.id));
-								}
+								cell = document.createElement('td');
+								cell.innerText = 'Friends';
+								row.appendChild(cell);
+							
+							profileTableBody.appendChild(row);
+							
+							row = document.createElement('tr');
+							
+								cell = document.createElement('td');
 								
-								cell.appendChild(cellDiv);
-								
-							row.appendChild(cell);
+									cellDiv = document.createElement('div');
+									for(let friend of profile.friends)
+									{
+										let span = document.createElement('span');
+										span.innerText = ' ';
+										cellDiv.appendChild(span);
+										cellDiv.appendChild(generateWantedListEntry(friend.id));
+									}
+									
+									cell.appendChild(cellDiv);
+									
+								row.appendChild(cell);
+							
+							profileTableBody.appendChild(row);
+						}
 						
-						profileTableBody.appendChild(row);
 					}
 					
 				profileTable.appendChild(profileTableBody);
