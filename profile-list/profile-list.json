@@ -142,6 +142,11 @@
 				"id": "HidakaRina",
 				"image": "https://pbs.twimg.com/media/Ef2DjfIUMAAM_qF?format=jpg&name=small",
 				"imageId": "HidakaRina-HikasaYouko"
+			},
+			{
+				"id": "TomatsuHaruka",
+				"image": "https://livedoor.blogimg.jp/hiyonikki/imgs/2/2/220ba98e.jpg",
+				"imageId": "TomatsuHaruka-HikasaYouko"
 			}
 		]
 	},
@@ -325,6 +330,11 @@
 				"id": "TouyamaNao",
 				"image": "https://obs.line-scdn.net/0hdP5dGrVmO38IHRdTt-tEKEdAPRBxfiF3YmUsRX1LMVF9cSx_YGcxR2VNOR96fSI1VwI8Tk8dDQdSWiBSUXkOaWtGPQ0mbh5zbH4xWS5BIC85LXgpMXN0GC8abE8tf3QhNHx8XCwbbElwJXQp",
 				"imageId": "OokuboRumi-TouyamaNao"
+			},
+			{
+				"id": "TakahashiRie",
+				"image": "https://pbs.twimg.com/media/Ea34IKbU0AInZMD?format=jpg&name=small",
+				"imageId": "TakahashiRie-OokuboRumi"
 			}
 		]
 	},
@@ -439,6 +449,13 @@
 			"*Also referred to as \"Haru-chan\" by other members in her idol group \"sphere\"",
 			"**Under music label and talent agency MusicRay'n since 2008, notable for her theme songs for Anime series \"Sword Art Online\"",
 			"***Highest amount of appearances in photobooks half-naked among all the voice actresses mentioned here, to the extent of underwear even"
+		],
+		"friends": [
+			{
+				"id": "HikasaYouko",
+				"image": "https://livedoor.blogimg.jp/hiyonikki/imgs/2/2/220ba98e.jpg",
+				"imageId": "TomatsuHaruka-HikasaYouko"
+			}
 		]
 	},
 	{
@@ -574,6 +591,13 @@
 			"*Under music label and talent agency MusicRay'n since 2016",
 			"**I'll call her 1st photobook technically it even though it's under a thin shirt, as reviewed over <a href=\"https://knwebreports.blogspot.com/2019/03/three-books-worth-of-photos-that-marry.html#pleasant\">here</a>",
 			"***YouTube has clips about how she flubs on livestreams and sometimes can't control herself even in front of the camera"
+		],
+		"friends": [
+			{
+				"id": "NatsukawaShiina",
+				"image": "https://pbs.twimg.com/media/EOj49SeUcAEU9H4?format=jpg&name=small",
+				"imageId": "NatsukawaShiina-AsakuraMomo"
+			}
 		]
 	},
 	{
@@ -724,6 +748,11 @@
 				"id": "TakahashiRie",
 				"image": "https://pbs.twimg.com/media/EFJvuGdUEAAXcLS?format=jpg&name=small",
 				"imageId": "TakahashiRie-MinaseInori"
+			},
+			{
+				"id": "TouyamaNao",
+				"image": "https://pbs.twimg.com/media/EPsmY5sU0AMyEnc?format=jpg&name=small",
+				"imageId": "TouyamaNao-MinaseInori"
 			}
 		]
 	},
@@ -757,6 +786,13 @@
 			"*She is more commonly called \"Nansu\", and her name Shi-i-na coincides with the number \"417\"",
 			"**She is more literary than we think, with her <a href=\"https://knwebreports.blogspot.com/2019/03/three-books-worth-of-photos-that-marry.html#nukegara\">1st photobook which I reviewed</a> eventually getting a novel serialisation",
 			"***Initially she was in gaming site Famitsu on a monthly column, and now she does YouTube Let's Plays on their official channel with games from Resident Evil to that <a href=\"https://www.youtube.com/watch?v=BbMSj66BuB4\">Harvest Moon remake</a> which I bought the Japanese version and played because of her instead of waiting for the English version to come out"
+		],
+		"friends": [
+			{
+				"id": "AsakuraMomo",
+				"image": "https://pbs.twimg.com/media/EOj49SeUcAEU9H4?format=jpg&name=small",
+				"imageId": "NatsukawaShiina-AsakuraMomo"
+			}
 		]
 	},
 	{
@@ -794,6 +830,16 @@
 				"id": "TaketatsuAyana",
 				"image": "https://pbs.twimg.com/media/D7ae0oPUcAAOO0W?format=jpg&name=small",
 				"imageId": "TaketatsuAyana-NumakuraManami"
+			},
+			{
+				"id": "Lynn",
+				"image": "https://obs.line-scdn.net/0hJfiKQWzqFUlUMj1GCLNqHiBvEyYtUQ9BPkoCcyFkH2chXgJJPEgFay1iET06Ug5PNwQGd21ELg0hfCpLbFMRVi9BCHEBBlJ8LV0gdyswQjkKeipUbUhaK3gwQnF8CloWaFwPLHI0T3k8AwFPbVJTfXY",
+				"imageId": "NumakuraManami-Lynn"
+			},
+			{
+				"id": "TakahashiRie",
+				"image": "https://obs.line-scdn.net/0h2H6LBxwlbWcLNUBydMsSMH9oawhyVndvYU16XX5jZ0l-WXpnY099RXJlaRNlVXZhaAN-WTJQSypFf25zRVR5AllcYQVtZSNoPit0USx8dSBlW05qZ08iBSwwMFQgBSozN1twCSc8M1ZjBCNhY1sqCSY",
+				"imageId": "TakahashiRie-NumakuraManami"
 			}
 		]
 	},
@@ -870,11 +916,21 @@
 				"id": "MinaseInori",
 				"image": "https://pbs.twimg.com/media/EFJvuGdUEAAXcLS?format=jpg&name=small",
 				"imageId": "TakahashiRie-MinaseInori"
-			,
+			},
 			{
 				"id": "OonoYuuko",
 				"image": "https://pbs.twimg.com/media/EKm5lNfU8AARbmo?format=jpg&name=small",
 				"imageId": "TakahashiRie-OonoYuuko"
+			},
+			{
+				"id": "OokuboRumi",
+				"image": "https://pbs.twimg.com/media/Ea34IKbU0AInZMD?format=jpg&name=small",
+				"imageId": "TakahashiRie-OokuboRumi"
+			},
+			{
+				"id": "NumakuraManami",
+				"image": "https://obs.line-scdn.net/0h2H6LBxwlbWcLNUBydMsSMH9oawhyVndvYU16XX5jZ0l-WXpnY099RXJlaRNlVXZhaAN-WTJQSypFf25zRVR5AllcYQVtZSNoPit0USx8dSBlW05qZ08iBSwwMFQgBSozN1twCSc8M1ZjBCNhY1sqCSY",
+				"imageId": "TakahashiRie-NumakuraManami"
 			}
 		]
 	},
@@ -924,6 +980,16 @@
 				"id": "HondoKaede",
 				"image": "https://obs.line-scdn.net/0h4n7Tuydaa0EKLUGtUREUFkVwbS5zTnFJYFV8e397YW9_QXxBYldheWd9aSF4TXILaTR8Iy9TdhpSWGtDSTIlQylkVhUmfFxcdy9MeUx7NQw7HSgTNUwmIyolMHEvT3seP0kkYi4lZ3chSChE",
 				"imageId": "TouyamaNao-HondoKaede"
+			},
+			{
+				"id": "KoharaKonomi",
+				"image": "https://pbs.twimg.com/media/Efie5W7X0AEwFhs?format=jpg&name=small",
+				"imageId": "TouyamaNao-KoharaKonomi"
+			},
+			{
+				"id": "MinaseInori",
+				"image": "https://pbs.twimg.com/media/EPsmY5sU0AMyEnc?format=jpg&name=small",
+				"imageId": "TouyamaNao-MinaseInori"
 			}
 		]
 	},
@@ -1230,6 +1296,18 @@
 		"wantedLevelComment":"Very normal in every aspect but she is kinda cute",
 		"comments":[
 			"*Most notable I've seen include Anime \"Takagi-san\" as Mina-chan and \"Kaguya-sama\" as Fujiwara Chika"
+		],
+		"friends": [
+			{
+				"id": "TouyamaNao",
+				"image": "https://pbs.twimg.com/media/Efie5W7X0AEwFhs?format=jpg&name=small",
+				"imageId": "TouyamaNao-KoharaKonomi"
+			},
+			{
+				"id": "NagaeRika",
+				"image": "https://pbs.twimg.com/media/EbkU5xJUMAYiFIV?format=jpg&name=small",
+				"imageId": "KoharaKonomi-NagaeRika"
+			}
 		]
 	},
 	{
@@ -1261,6 +1339,13 @@
 		"comments":[
 			"*If she will ever come up with one I will assuredly be mind blown haha you know what I mean",
 			"**See her <a href=\"https://twitter.com/Lynn_0601_/status/1273242510354087937\">Twitter</a> and <a href=\"https://www.instagram.com/p/CB5ByiLlQUa/\">Instagram</a> for alluring photos that will not disappoint"
+		],
+		"friends": [
+			{
+				"id": "NumakuraManami",
+				"image": "https://obs.line-scdn.net/0hJfiKQWzqFUlUMj1GCLNqHiBvEyYtUQ9BPkoCcyFkH2chXgJJPEgFay1iET06Ug5PNwQGd21ELg0hfCpLbFMRVi9BCHEBBlJ8LV0gdyswQjkKeipUbUhaK3gwQnF8CloWaFwPLHI0T3k8AwFPbVJTfXY",
+				"imageId": "NumakuraManami-Lynn"
+			}
 		]
 	},
 	{
@@ -1292,6 +1377,13 @@
 		"comments":[
 			"*More commonly referred to as \"Rikachimalu\", and exists in Hiragana and Katakana forms. According to her Instagram story, they represent intimate and casual forms of her nickname respectively.",
 			"**Due to hanging out with other female seiyuu in the industry, and with supposed gf Fushimi Haruka"
+		],
+		"friends": [
+			{
+				"id": "KoharaKonomi",
+				"image": "https://pbs.twimg.com/media/EbkU5xJUMAYiFIV?format=jpg&name=small",
+				"imageId": "KoharaKonomi-NagaeRika"
+			}
 		]
 	},
 	{
@@ -1421,6 +1513,11 @@
 				"id": "TakahashiRie",
 				"image": "https://pbs.twimg.com/media/EKm5lNfU8AARbmo?format=jpg&name=small",
 				"imageId": "TakahashiRie-OonoYuuko"
+			},
+			{
+				"id": "OozoraNaomi",
+				"image": "https://pbs.twimg.com/media/EdInLhiUYAE-3g1?format=jpg&name=small",
+				"imageId": "OonoYuuko-OozoraNaomi"
 			}
 		]
 	},
@@ -1453,6 +1550,13 @@
 		"comments":[
 			"*More commonly referred to as \"SoraSora\"",
 			"**Examples I know include mobile game \"Alternative Girls\", and as Kanna in desktop video game \"Dead or Alive: Venus Vacation\""
+		],
+		"friends": [
+			{
+				"id": "OonoYuuko",
+				"image": "https://pbs.twimg.com/media/EdInLhiUYAE-3g1?format=jpg&name=small",
+				"imageId": "OonoYuuko-OozoraNaomi"
+			}
 		]
 	},
 	{
