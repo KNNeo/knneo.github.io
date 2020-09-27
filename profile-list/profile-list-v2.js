@@ -18,11 +18,9 @@ if(!useTestJson) {
 	xmlhttp.open("GET", "https://knneo.github.io/profile-list/profile-list.json", true);
 	xmlhttp.send();
 }
-else {
-	if(profileListJson != null) {
-		profileList = profileListJson;
-		initialiseWantedList();
-	}
+else if(profileListJson != null) {
+	profileList = profileListJson;
+	initialiseWantedList();
 }
 
 function friendCheck() {
@@ -38,6 +36,10 @@ function friendCheck() {
 			});
 		}
 	}
+	
+	friendList.sort( function(a,b) {
+		return a.friend1[0] > b.friend1[0];
+	});
 	
 	for(let pair of friendList)
 	{
@@ -342,6 +344,33 @@ function generateProfileFromJSON(profileName) {
 							row.appendChild(cell);
 						
 						profileTableBody.appendChild(row);
+						
+						row = document.createElement('tr');
+						
+							cell = document.createElement('td');
+							cell.innerText = 'Friends';
+							row.appendChild(cell);
+						
+						profileTableBody.appendChild(row);
+						
+						row = document.createElement('tr');
+						
+							cell = document.createElement('td');
+							
+								cellDiv = document.createElement('div');
+								for(let friend of profile.friends)
+								{
+									let span = document.createElement('span');
+									span.innerText = ' ';
+									cellDiv.appendChild(span);
+									cellDiv.appendChild(generateWantedListEntry(friend.id));
+								}
+								
+								cell.appendChild(cellDiv);
+								
+							row.appendChild(cell);
+						
+						profileTableBody.appendChild(row);
 					}
 					
 				profileTable.appendChild(profileTableBody);
@@ -353,8 +382,7 @@ function generateProfileFromJSON(profileName) {
 				let commentBox = document.createElement('div');
 				commentBox.classList.add('profile-box-comments');
 				commentBox.innerHTML = addBrackets(profile.comments.join(')<br/>('),false);
-				if(commentBox.innerHTML.includes('1976.09.20'))
-					commentBox.innerHTML = commentBox.innerHTML.replace('1976.09.20', '<span id=\'HocchanAge\' class=\'DOB\'>1976.09.20</span>');
+				commentBox.innerHTML = commentBox.innerHTML.replace('1976.09.20', '<span id=\'HocchanAge\' class=\'DOB\'>1976.09.20</span>');
 				
 				profileBox.appendChild(commentBox);
 			}
@@ -374,4 +402,32 @@ function removeAsterisks(option) {
 		option = option.replace('*','');
 	}
 	return option;
+}
+function generateWantedListEntry(id) {
+	let profileFromId = profileList.find( function(n) {
+		return n.id == id
+	});
+	
+	let friendLink = document.createElement('a');
+	friendLink.classList.add('friend-link');
+	friendLink.innerText = profileFromId.name;
+	
+	//wanted list processing
+	friendLink.addEventListener("click", function() {
+		generateProfileFromJSON(this.innerText.replace(" ", ""));
+		renderWantedList();
+		addStatusPopUp();
+		document.getElementById('profile').scrollIntoView();
+	});
+	friendLink.addEventListener("contextmenu", function(e) {
+		e.preventDefault();
+		isExternal = !isExternal;
+		generateProfileFromJSON(this.innerText.replace(" ", ""));
+		renderWantedList();
+		addStatusPopUp();
+		document.getElementById('profile').scrollIntoView();
+		isExternal = !isExternal;
+	}, false);
+	
+	return friendLink;
 }
