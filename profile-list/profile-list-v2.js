@@ -139,12 +139,12 @@ function generateProfileFromJSON(profileName) {
 				{					
 					image2 = document.createElement('img');
 					image2.src = spacer;
-					image2.src = profile.images[1];
+					image2.src = profile.images.length > 1 ? profile.images[1] : profile.images[0];
 					profileBoxImg.appendChild(image2);
 					
 					image2 = document.createElement('img');
 					image2.src = spacer;
-					image2.src = currentProfile.images[1];
+					image2.src = currentProfile.images.length > 1 ? currentProfile.images[1] : currentProfile.images[0];
 					profileBoxImg.appendChild(image2);
 				}
 		
@@ -363,7 +363,7 @@ function generateProfileFromJSON(profileName) {
 							row = document.createElement('tr');
 							
 								cell = document.createElement('td');
-								cell.innerText = 'Known Friends';
+								cell.innerText = 'Known Acquaintances';
 								row.appendChild(cell);
 							
 							profileTableBody.appendChild(row);
