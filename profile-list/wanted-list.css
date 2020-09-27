@@ -38,7 +38,7 @@ p {
 	visibility: visible;
 }
 #timeline {
-	width: 95%;
+	width: 90%;
 	height: 110px;
 	overflow-x: auto;
 	overflow-y: hidden;
