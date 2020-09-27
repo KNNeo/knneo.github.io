@@ -826,6 +826,13 @@
 		"comments":[
 			"*Under music label Rokkan Music (under Teichiku Entertainment), from 2018 to 2020",
 			"**She did release two books worth of photos without her half-naked and that kind of explains her late entrace to the industry imo"
+		],
+		"friends": [
+			{
+				"id": "IsobeKarin",
+				"image": "https://pbs.twimg.com/media/DpO8BEcUYAIg18p?format=jpg&name=small",
+				"imageId": "IsobeKarin-TachibanaRika"
+			}
 		]
 	},
 	{
@@ -863,6 +870,11 @@
 				"id": "MinaseInori",
 				"image": "https://pbs.twimg.com/media/EFJvuGdUEAAXcLS?format=jpg&name=small",
 				"imageId": "TakahashiRie-MinaseInori"
+			,
+			{
+				"id": "OonoYuuko",
+				"image": "https://pbs.twimg.com/media/EKm5lNfU8AARbmo?format=jpg&name=small",
+				"imageId": "TakahashiRie-OonoYuuko"
 			}
 		]
 	},
@@ -1105,6 +1117,13 @@
 		"comments":[
 			"*More commonly referred to as \"Karirin\" but \"Karin-chan\" is also popular",
 			"**Part of five-member idol group BlooDye"
+		],
+		"friends": [
+			{
+				"id": "TachibanaRika",
+				"image": "https://pbs.twimg.com/media/DpO8BEcUYAIg18p?format=jpg&name=small",
+				"imageId": "IsobeKarin-TachibanaRika"
+			}
 		]
 	},
 	{
@@ -1396,6 +1415,13 @@
 		"wantedLevelComment":"I want her to be in an Anime that I can like",
 		"comments":[
 			"*Someone please tell me she is still young, please"
+		],
+		"friends": [
+			{
+				"id": "TakahashiRie",
+				"image": "https://pbs.twimg.com/media/EKm5lNfU8AARbmo?format=jpg&name=small",
+				"imageId": "TakahashiRie-OonoYuuko"
+			}
 		]
 	},
 	{
