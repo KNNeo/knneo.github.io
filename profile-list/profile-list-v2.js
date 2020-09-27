@@ -61,7 +61,8 @@ function generateProfileFromJSON(profileName) {
 	
 	if(profile == null || profile.length == 0) return;
 	
-	if(document.getElementById('profile').childElementCount > 0)
+	if(!document.getElementById('profile').classList.contains('friend-mode') &&
+	document.getElementById('profile').childElementCount > 0)
 	{
 		let currentProfileName = document.getElementById('profile').getElementsByTagName('div')[0].id;
 		currentProfile = profileList.filter( function(n) {
@@ -81,6 +82,11 @@ function generateProfileFromJSON(profileName) {
 	}
 	
 	document.getElementById('profile').innerHTML = '';
+	
+	//if in friend mode and has friend in next friend call, show single mode first
+	if(friendMode) document.getElementById('profile').classList.add('friend-mode');
+	else if(document.getElementById('profile').classList.contains('friend-mode'))
+		document.getElementById('profile').classList.remove('friend-mode');
 	
 	//console.log(profile);
 	
