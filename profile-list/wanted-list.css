@@ -146,11 +146,6 @@ font-size: 70%;
 }
 #wantedList li, #wantedList a {
   display: inline-block;
-  -webkit-user-select: text;
-  -khtml-user-select: text;
-  -moz-user-select: text;
-  -ms-user-select: text;
-  user-select: text;
   white-space: nowrap;
   margin: 2px;
   cursor: pointer;
