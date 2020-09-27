@@ -1,10 +1,10 @@
 //generate from json file
-const useTestJson = false; //false: from actual json, true: from profile-list-json.js
+const useTestJson = true; //false: from actual json, true: from profile-list-json.js
 const spacer = 'https://knneo.github.io/resources/spacer.gif';
 let isExternal = window.location.href.includes('://knneo.github.io');
 let profileList;
 let friendList = [];
-if(!useTestJson) {
+if(!useTestJson || profileListJson.length == 0) {
 	let xmlhttp = new XMLHttpRequest();
 	xmlhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
