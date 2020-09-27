@@ -76,7 +76,7 @@ function generateProfileFromJSON(profileName) {
 		//	console.log('Friend found! ' + currentProfile.name + ' x ' + profile.name);
 		
 		//update based on friend found, desktop only for now
-		friendMode = friendFound && window.innerWidth > 640;
+		friendMode = friendFound && window.innerWidth > 480;
 		//IN FRIEND MODE: left is profile, right is currentProfile
 	}
 	
