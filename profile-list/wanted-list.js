@@ -61,6 +61,7 @@ let timelineDOBlist = [];
 let calendarDOBlist = [];
 let currentMonth = 0;
 let statusPopup = "<div id=\"tp-description\">As answered haphazardly by Uesaka Sumire (and expanded on by me) the three \"turning points\" of a voice actress (but applicable to all):<br/>~ Singer Debut (The exhibition of their unique voices in singing)<br/>~ Swimsuit Photobook (The display of their figure to the extent of being half-naked)<br/>~ Married (The declaration of the end of idolism)</div>";
+let timezone = "Asia/Tokyo";
 let month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 //--dependent on render, as functions to call on render--//
@@ -98,7 +99,8 @@ function getAge(DOB) {
 	let birthDateStr = DOB.replace(".", "-").replace(".", "-"); //yyyy.MM.dd -> yyyy-MM-dd
 	let birthDate = Date.parse(birthDateStr.substring(0, 10));
 	//return Math.floor((new Date().getTime() - birthDate) / 31556952000);
-	return moment().tz("Asia/Tokyo").diff(moment.tz(birthDate, "Asia/Tokyo"), 'years');
+	let diff = moment().tz(timezone).diff(moment.tz(birthDateStr, timezone));
+	return moment.duration(diff).years();
 }
 
 //generate wanted list
