@@ -152,6 +152,11 @@
 				"id": "TomatsuHaruka",
 				"image": "https://livedoor.blogimg.jp/hiyonikki/imgs/2/2/220ba98e.jpg",
 				"imageId": "TomatsuHaruka-HikasaYouko"
+			},
+			{
+				"id": "SatouSatomi",
+				"image": "https://livedoor.blogimg.jp/hiyonikki/imgs/8/2/8260af82.jpg",
+				"imageId": "SatouSatomi-HikasaYouko"
 			}
 		]
 	},
@@ -298,6 +303,13 @@
 			"*Under music label SACRA MUSIC, latest release January 2019",
 			"**Like her fellow group member Tomatsu Haruka, she has released some spectacular shots to bewilder",
 			"***Due to her studying overseas for a year in England since April 2020; YouTube videos like <a href=\"https://www.youtube.com/watch?v=6qbhQYBjrU8\">this</a> where you can see her without makeup (CANNOT UNSEE WARNING but I like)"
+		],
+		"friends": [
+			{
+				"id": "TomatsuHaruka",
+				"image": "https://pbs.twimg.com/media/DvCV4LNVYAAGZld?format=jpg&name=small",
+				"imageId": "KotobukiMinako-TomatsuHaruka"
+			}
 		]
 	},
 	{
@@ -373,6 +385,13 @@
 			"*Commonly referred to as \"Shugami\" because of her name, amongst other nicknames given",
 			"**Under music label KING AMUSEMENT CREATIVE (formerly together with King Records) from 2014 to 2017, releasing 3 singles and 2 albums",
 			"***Married to fellow voice actor Terashima Takuma"
+		],
+		"friends": [
+			{
+				"id": "HikasaYouko",
+				"image": "https://livedoor.blogimg.jp/hiyonikki/imgs/8/2/8260af82.jpg",
+				"imageId": "SatouSatomi-HikasaYouko"
+			}
 		]
 	},
 	{
@@ -460,6 +479,11 @@
 				"id": "HikasaYouko",
 				"image": "https://livedoor.blogimg.jp/hiyonikki/imgs/2/2/220ba98e.jpg",
 				"imageId": "TomatsuHaruka-HikasaYouko"
+			},
+			{
+				"id": "KotobukiMinako",
+				"image": "https://pbs.twimg.com/media/DvCV4LNVYAAGZld?format=jpg&name=small",
+				"imageId": "KotobukiMinako-TomatsuHaruka"
 			}
 		]
 	},
@@ -531,6 +555,11 @@
 				"id": "TaketatsuAyana",
 				"image": "https://pbs.twimg.com/media/DwxTkfoV4AYLzcT?format=jpg&name=small",
 				"imageId": "TaketatsuAyana-YuukiAoi"
+			},
+			{
+				"id": "OonishiSaori",
+				"image": "https://cdnx.natalie.mu/media/pp/static/comic/boogiepop01/gallery15.jpg",
+				"imageId": "YuukiAoi-OonishiSaori"
 			}
 		]
 	},
@@ -602,11 +631,6 @@
 				"id": "NatsukawaShiina",
 				"image": "https://pbs.twimg.com/media/EOj49SeUcAEU9H4?format=jpg&name=small",
 				"imageId": "NatsukawaShiina-AsakuraMomo"
-			},
-			{
-				"id": "Lynn",
-				"image": "https://thetv.jp/i/nw/219265/1361806.jpg?w=615",
-				"imageId": "Lynn-NatsukawaShiina"
 			}
 		]
 	},
@@ -719,6 +743,11 @@
 				"id": "WakiAzumi",
 				"image": "https://pbs.twimg.com/media/EAfYmNMU4AEn_ZP?format=jpg&name=small",
 				"imageId": "WakiAzumi-KounoMarika"
+			},
+			{
+				"id": "TakahashiRie",
+				"image": "https://pbs.twimg.com/media/DqrwuBOVAAAaQGH?format=jpg&name=small",
+				"imageId": "TakahashiRie-KounoMarika"
 			}
 		]
 	},
@@ -768,6 +797,11 @@
 				"id": "TouyamaNao",
 				"image": "https://pbs.twimg.com/media/EPsmY5sU0AMyEnc?format=jpg&name=small",
 				"imageId": "TouyamaNao-MinaseInori"
+			},
+			{
+				"id": "OonishiSaori",
+				"image": "https://pbs.twimg.com/media/DldEOYnVAAEZCb1?format=jpg&name=small",
+				"imageId": "MinaseInori-OonishiSaori"
 			}
 		]
 	},
@@ -807,6 +841,11 @@
 				"id": "AsakuraMomo",
 				"image": "https://pbs.twimg.com/media/EOj49SeUcAEU9H4?format=jpg&name=small",
 				"imageId": "NatsukawaShiina-AsakuraMomo"
+			},
+			{
+				"id": "Lynn",
+				"image": "https://thetv.jp/i/nw/219265/1361806.jpg?w=615",
+				"imageId": "Lynn-NatsukawaShiina"
 			}
 		]
 	},
@@ -898,6 +937,16 @@
 				"id": "IsobeKarin",
 				"image": "https://pbs.twimg.com/media/DpO8BEcUYAIg18p?format=jpg&name=small",
 				"imageId": "IsobeKarin-TachibanaRika"
+			},
+			{
+				"id": "YoshimuraHaruka",
+				"image": "https://pbs.twimg.com/media/DptmUnwVsAAeHoA?format=jpg&name=small",
+				"imageId": "YoshimuraHaruka-TachibanaRika"
+			},
+			{
+				"id": "FuchigamiMai",
+				"image": "https://pbs.twimg.com/media/DlqI1MuV4AIm9k7?format=jpg&name=small",
+				"imageId": "FuchigamiMai-TachibanaRika"
 			}
 		]
 	},
@@ -956,6 +1005,11 @@
 				"id": "HondoKaede",
 				"image": "https://pbs.twimg.com/media/EG15sKiUUAcsC5L?format=jpg&name=small",
 				"imageId": "TakahashiRie-HondoKaede"
+			},
+			{
+				"id": "KounoMarika",
+				"image": "https://pbs.twimg.com/media/DqrwuBOVAAAaQGH?format=jpg&name=small",
+				"imageId": "TakahashiRie-KounoMarika"
 			}
 		]
 	},
@@ -1144,6 +1198,13 @@
 		"comments":[
 			"*More commonly referred to as \"MaiMai\"",
 			"**Most notably in Klassic Note is \"<a href=\"https://www.youtube.com/watch?v=NEBbw_HftRA\">BLACK CAT</a>\" where in the music video she cosplays as a cat girl"
+		],
+		"friends": [
+			{
+				"id": "TachibanaRika",
+				"image": "https://pbs.twimg.com/media/DlqI1MuV4AIm9k7?format=jpg&name=small",
+				"imageId": "FuchigamiMai-TachibanaRika"
+			}
 		]
 	},
 	{
@@ -1186,6 +1247,16 @@
 				"id": "TakahashiRie",
 				"image": "https://pbs.twimg.com/media/EG15sKiUUAcsC5L?format=jpg&name=small",
 				"imageId": "TakahashiRie-HondoKaede"
+			},
+			{
+				"id": "NagatsumaJuuri",
+				"image": "https://pbs.twimg.com/media/Dnq-fUIU0AEua4D?format=jpg&name=small",
+				"imageId": "HondoKaede-NagatsumaJuuri"
+			},
+			{
+				"id": "WakiAzumi",
+				"image": "https://pbs.twimg.com/media/DjgosGkVsAI2iae?format=jpg&name=small",
+				"imageId": "HondoKaede-WakiAzumi"
 			}
 		]
 	},
@@ -1465,6 +1536,18 @@
 		"comments":[
 			"*Thanks to one Muscle Miyazaki from Game \"Alternative Girls\" livestream series I can't forget this now lol",
 			"**Released two singles under retired music label ZERO-A, but you should've heard <a href=\"https://music.apple.com/us/album/my-precious-darling/1495149555?i=1495149559\">her character song</a> in the only game I know of her"
+		],
+		"friends": [
+			{
+				"id": "HondoKaede",
+				"image": "https://pbs.twimg.com/media/Dnq-fUIU0AEua4D?format=jpg&name=small",
+				"imageId": "HondoKaede-NagatsumaJuuri"
+			},
+			{
+				"id": "YoshimuraHaruka",
+				"image": "https://pbs.twimg.com/media/DitrDp5V4AAwqcA?format=jpg&name=small",
+				"imageId": "YoshimuraHaruka-NagatsumaJuuri"
+			}
 		]
 	},
 	{
@@ -1527,6 +1610,23 @@
 			"*I typically refer to her by her family name, but more commonly referred to as \"Saorin\"",
 			"**From live video series off Anime \"Re:Zero\" with Minase Inori \"Minase Inori to Oonishi Saori no Pick Up Girls!\" where they just hang around to chat in 10-minute videos",
 			"***Through several YouTube videos featuring her and Sakura Ayane's radio show where they just flirt around and win the Anime Radio Awards while they're at it"
+		],
+		"friends": [
+			{
+				"id": "WakiAzumi",
+				"image": "https://pbs.twimg.com/media/DldCru_UcAAmC4-?format=jpg&name=small",
+				"imageId": "OonishiSaori-WakiAzumi"
+			},
+			{
+				"id": "YuukiAoi",
+				"image": "https://cdnx.natalie.mu/media/pp/static/comic/boogiepop01/gallery15.jpg",
+				"imageId": "YuukiAoi-OonishiSaori"
+			},
+			{
+				"id": "MinaseInori",
+				"image": "https://pbs.twimg.com/media/DldEOYnVAAEZCb1?format=jpg&name=small",
+				"imageId": "MinaseInori-OonishiSaori"
+			}
 		]
 	},
 	{
@@ -1686,6 +1786,16 @@
 				"id": "KounoMarika",
 				"image": "https://pbs.twimg.com/media/EAfYmNMU4AEn_ZP?format=jpg&name=small",
 				"imageId": "WakiAzumi-KounoMarika"
+			},
+			{
+				"id": "OonishiSaori",
+				"image": "https://pbs.twimg.com/media/DldCru_UcAAmC4-?format=jpg&name=small",
+				"imageId": "OonishiSaori-WakiAzumi"
+			},
+			{
+				"id": "HondoKaede",
+				"image": "https://pbs.twimg.com/media/DjgosGkVsAI2iae?format=jpg&name=small",
+				"imageId": "HondoKaede-WakiAzumi"
 			}
 		]
 	},
@@ -1723,6 +1833,16 @@
 				"id": "AnzaiChika",
 				"image": "https://pbs.twimg.com/media/EicFvkRUwAMi0hq?format=jpg&name=small",
 				"imageId": "AnzaiChika-YoshimuraHaruka"
+			},
+			{
+				"id": "TachibanaRika",
+				"image": "https://pbs.twimg.com/media/DptmUnwVsAAeHoA?format=jpg&name=small",
+				"imageId": "YoshimuraHaruka-TachibanaRika"
+			},
+			{
+				"id": "NagatsumaJuuri",
+				"image": "https://pbs.twimg.com/media/DitrDp5V4AAwqcA?format=jpg&name=small",
+				"imageId": "YoshimuraHaruka-NagatsumaJuuri"
 			}
 		]
 	}
