@@ -1,10 +1,9 @@
 //generate from json file
-const useTestJson = true; //false: from actual json, true: from profile-list-json.js
 const spacer = 'https://knneo.github.io/resources/spacer.gif';
 let isExternal = window.location.href.includes('://knneo.github.io');
 let profileList;
 let friendList = [];
-if(!useTestJson || profileListJson.length == 0) {
+if(profileListJson.length == 0) {
 	let xmlhttp = new XMLHttpRequest();
 	xmlhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
@@ -18,7 +17,8 @@ if(!useTestJson || profileListJson.length == 0) {
 	xmlhttp.open("GET", "https://knneo.github.io/profile-list/profile-list.json", true);
 	xmlhttp.send();
 }
-else if(profileListJson != null) {
+else {
+	console.log('Using test json');
 	profileList = profileListJson;
 	initialiseWantedList();
 }
@@ -38,7 +38,7 @@ function friendCheck() {
 	}
 	
 	friendList.sort( function(a,b) {
-		return a.friend1[0] > b.friend1[0];
+		return a.friend1.localeCompare(b.friend1)
 	});
 	
 	for(let pair of friendList)
@@ -373,7 +373,11 @@ function generateProfileFromJSON(profileName) {
 								cell = document.createElement('td');
 								
 									cellDiv = document.createElement('div');
-									for(let friend of profile.friends)
+									//sorting only works on firefox
+									for(let friend of profile.friends.sort( function(a,b) { 
+											return a.id.localeCompare(b.id)
+										}
+									))
 									{
 										let span = document.createElement('span');
 										span.innerText = ' ';
