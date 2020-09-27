@@ -663,6 +663,13 @@
 			"*Under music label KING AMUSEMENT CREATIVE, since 2015",
 			"**She has till date, mind you, never released a full photobook of any sort in her career thus far which is a rarity since many will have done so from a magazine serialisation and she has one.",
 			"***Music video of \"harmony ribbon\" is on <a href=\"https://www.youtube.com/watch?v=RcbWbp-lPYo\">YouTube</a>"
+		],
+		"friends": [
+			{
+				"id": "UesakaSumire",
+				"image": "https://pbs.twimg.com/media/EXAft9ZUMAEuUfr?format=jpg&name=small",
+				"imageId": "UesakaSumire-MinaseInori"
+			}
 		]
 	},
 	{
@@ -858,6 +865,11 @@
 				"id": "KomatsuMikako",
 				"image": "https://pbs.twimg.com/media/EWN3ZZ9UwAQCGtr?format=jpg&name=small",
 				"imageId": "UesakaSumire-KomatsuMikako"
+			},
+			{
+				"id": "MinaseInori",
+				"image": "https://pbs.twimg.com/media/EXAft9ZUMAEuUfr?format=jpg&name=small",
+				"imageId": "UesakaSumire-MinaseInori"
 			}
 		]
 	},
