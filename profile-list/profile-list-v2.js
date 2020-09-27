@@ -127,11 +127,24 @@ function generateProfileFromJSON(profileName) {
 				image1.src = friendMode ? friendImage : profile.images[0];
 				profileBoxImg.appendChild(image1);
 				
-				if(profile.images.length > 1 && !friendMode)
+				if(!friendMode && profile.images.length > 1)
 				{
 					let image2 = document.createElement('img');
 					image2.src = spacer;
 					image2.src = profile.images[1];
+					profileBoxImg.appendChild(image2);
+				}
+				
+				if(friendMode)
+				{					
+					image2 = document.createElement('img');
+					image2.src = spacer;
+					image2.src = profile.images[1];
+					profileBoxImg.appendChild(image2);
+					
+					image2 = document.createElement('img');
+					image2.src = spacer;
+					image2.src = currentProfile.images[1];
 					profileBoxImg.appendChild(image2);
 				}
 		
