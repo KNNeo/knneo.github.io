@@ -374,10 +374,19 @@ function switchProfileBoxImage() {
 		profileBoxImgList[i].addEventListener("click", function() {
 			if (this.getElementsByTagName("img")[0] == null && this.getElementsByTagName("img")[1] == null) return;
 			if (this.getElementsByTagName("img")[1] == null) return;
-			// if (this.getElementsByTagName("img")[1].parentElement.tagName == 'DIV') return;
-			if (this.getElementsByTagName("img")[0] != null) this.getElementsByTagName("img")[0].style.display = this.getElementsByTagName("img")[0].style.display == "" ? "none" : "";
-			if (this.getElementsByTagName("img")[1] != null) this.getElementsByTagName("img")[1].style.display = this.getElementsByTagName("img")[1].style.display == "" ? "none" : "";
-			if (this.getElementsByTagName("img")[2] != null) this.getElementsByTagName("img")[2].style.display = this.getElementsByTagName("img")[2].style.display == "" ? "none" : "";
+			
+			for(let image of this.getElementsByTagName("img"))
+			{
+				if(image != null) image.style.display = image.style.display == "" ? "none" : "";
+			}
+			
+			if(document.getElementsByClassName('profile-box-img')[0].offsetHeight > 325)
+			{
+				for(let image of this.getElementsByTagName("img"))
+				{
+					if(image != null) image.style.display = image.style.display == "" ? "none" : "";
+				}
+			}
 		});
 	}
 }
