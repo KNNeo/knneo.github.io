@@ -62,7 +62,7 @@ initialVisible = false;
 }*/
 
 //--not dependent on render--//
-/*function navigateToProfile(e) {
+function navigateToProfile(e) {
 	event.preventDefault();
 	for(let link of document.getElementById('wantedList').getElementsByTagName('a'))
 	{
@@ -79,7 +79,7 @@ initialVisible = false;
 	if(document.getElementsByClassName('timeline-popup').length > 0)
 		document.getElementsByClassName('timeline-popup')[0].style.opacity = '0';
 	
-}*/
+}
 
 //on timeline double click shrink timeline
 document.getElementById("timeline").addEventListener("dblclick", function() {

@@ -91,6 +91,7 @@ p {
 .friend-link {
   text-decoration: underline solid #00e4ff;
   padding-left: 5px;
+  cursor: pointer;
 }
 
 

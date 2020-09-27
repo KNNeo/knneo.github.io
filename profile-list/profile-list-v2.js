@@ -350,7 +350,7 @@ function generateProfileFromJSON(profileName) {
 							row = document.createElement('tr');
 							
 								cell = document.createElement('td');
-								cell.innerText = 'Friends';
+								cell.innerText = 'Known Friends';
 								row.appendChild(cell);
 							
 							profileTableBody.appendChild(row);
