@@ -704,6 +704,11 @@
 				"id": "HanazawaKana",
 				"image": "https://pbs.twimg.com/media/EEaGlW6U4AAEVBq?format=jpg&name=small",
 				"imageId": "HidakaRina-HanazawaKana"
+			},
+			{
+				"id": "MinaseInori",
+				"image": "https://pbs.twimg.com/media/EjAfUbEVgAcUVi3?format=jpg&name=small",
+				"imageId": "HidakaRina-MinaseInori"
 			}
 		]
 	},
@@ -802,6 +807,11 @@
 				"id": "OonishiSaori",
 				"image": "https://pbs.twimg.com/media/DldEOYnVAAEZCb1?format=jpg&name=small",
 				"imageId": "MinaseInori-OonishiSaori"
+			},
+			{
+				"id": "HidakaRina",
+				"image": "https://pbs.twimg.com/media/EjAfUbEVgAcUVi3?format=jpg&name=small",
+				"imageId": "HidakaRina-MinaseInori"
 			}
 		]
 	},
