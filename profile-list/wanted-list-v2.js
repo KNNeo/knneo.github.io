@@ -272,7 +272,14 @@ function toggleMarried() {
 	generateWantedList(document.getElementById("marriedCheckbox").checked);
 	timelineDOBlist = createDOBlist(1, 35);
 	document.getElementById("timeline").innerHTML = "";
-	loadTimeline(5000);
+	loadTimeline(2500);
+}
+
+function togglePairs() {
+	//generate wanted list again, but all disable (grayscale too?), only those who have friends
+	//clicking on first link will store first value as variable
+	//this variable is then used to light up all wanted list again on generate, to available pair
+	//clicking on second link will now go to pair view (call generate profile twice will do)
 }
 
 //generate calendar from profile boxes

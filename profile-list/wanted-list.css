@@ -90,8 +90,8 @@ p {
 }
 .friend-link {
   text-decoration: underline solid #00e4ff;
-  padding-left: 5px;
-  cursor: pointer;
+  /*padding-left: 5px;
+  cursor: pointer;*/
 }
 
 
@@ -149,7 +149,7 @@ font-size: 70%;
   list-style-type: none;
   padding: 5px;
 }
-#wantedList li, #wantedList a {
+#wantedList li, #wantedList a, #profile-friends a {
   display: inline-block;
   white-space: nowrap;
   margin: 2px;

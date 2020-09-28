@@ -373,6 +373,7 @@ function generateProfileFromJSON(profileName) {
 								cell = document.createElement('td');
 								
 									cellDiv = document.createElement('div');
+									cellDiv.id = 'profile-friends';
 									//sorting only works on firefox
 									for(let friend of profile.friends.sort( function(a,b) { 
 											return a.id.localeCompare(b.id)
