@@ -86,9 +86,9 @@ function generateProfileFromJSON(profileName) {
 	document.getElementById('profile').innerHTML = '';
 	
 	//if in friend mode and has friend in next friend call, show single mode first
-	if(friendMode) document.getElementById('profile').classList.add('friend-mode');
-	else if(document.getElementById('profile').classList.contains('friend-mode'))
-		document.getElementById('profile').classList.remove('friend-mode');
+	//if(friendMode) document.getElementById('profile').classList.add('friend-mode');
+	//else if(document.getElementById('profile').classList.contains('friend-mode'))
+	//	document.getElementById('profile').classList.remove('friend-mode');
 	
 	//console.log(profile);
 	
@@ -124,27 +124,26 @@ function generateProfileFromJSON(profileName) {
 					
 				let image1 = document.createElement('img');
 				image1.src = spacer;
-				image1.src = friendMode ? friendImage : profile.images[0];
+				image1.src = friendMode ? friendImage : randomProfileImg(profile.images);
 				profileBoxImg.appendChild(image1);
 				
-				if(!friendMode && profile.images.length > 1)
-				{
-					let image2 = document.createElement('img');
-					image2.src = spacer;
-					image2.src = profile.images[1];
-					profileBoxImg.appendChild(image2);
-				}
-				
 				if(friendMode)
-				{					
+				{
 					image2 = document.createElement('img');
-					image2.src = spacer;
-					image2.src = profile.images.length > 1 ? profile.images[1] : profile.images[0];
+					//image2.src = spacer;
+					image2.src = profile.images.length > 1 ? profile.images[profile.images.length-1] : randomProfileImg(profile.images);
 					profileBoxImg.appendChild(image2);
 					
 					image2 = document.createElement('img');
+					//image2.src = spacer;
+					image2.src = currentProfile.images.length > 1 ? currentProfile.images[currentProfile.images.length-1] : randomProfileImg(currentProfile.images);
+					profileBoxImg.appendChild(image2);
+				}
+				else if(profile.images.length > 1)
+				{
+					let image2 = document.createElement('img');
 					image2.src = spacer;
-					image2.src = currentProfile.images.length > 1 ? currentProfile.images[1] : currentProfile.images[0];
+					image2.src = profile.images[profile.images.length-1];
 					profileBoxImg.appendChild(image2);
 				}
 		
@@ -424,6 +423,9 @@ function removeAsterisks(option) {
 		option = option.replace('*','');
 	}
 	return option;
+}
+function randomProfileImg(images) {
+	return images[Math.floor(Math.random()*(images.length-1))];
 }
 function generateWantedListEntry(id) {
 	let profileFromId = profileList.find( function(n) {

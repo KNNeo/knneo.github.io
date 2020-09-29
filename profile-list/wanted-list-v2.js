@@ -69,7 +69,7 @@ function navigateToProfile(e) {
 		if(link.innerHTML.replace(' ','') == e.title)
 		{
 			generateProfileFromJSON(link.innerHTML.replace(' ', ''));
-			renderWantedList();
+			renderProfileBox();
 			addStatusPopUp();
 			document.getElementById('profile').scrollIntoView();
 			document.getElementById('timeline').getElementsByTagName('div')[0].style.opacity = '0';
@@ -132,12 +132,14 @@ let timelineDOBlist = [];
 let calendarDOBlist = [];
 let currentMonth = 0;
 let statusPopup = "<div id=\"tp-description\">As answered haphazardly by Uesaka Sumire (and expanded on by me) the three \"turning points\" of a voice actress (but applicable to all):<br/>~ Singer Debut (The exhibition of their unique voices in singing)<br/>~ Swimsuit Photobook (The display of their figure to the extent of being half-naked)<br/>~ Married (The declaration of the end of idolism?)</div>";
+let friendMode = false;
+let excludeMarried = false;
 let timezone = "Asia/Tokyo";
 let month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 //--dependent on render, as functions to call on render--//
 function initialiseWantedList() {
-	generateWantedList(false);
+	generateWantedList();
 	timelineDOBlist = createDOBlist(1, 35);
 	loadTimeline(2500);
 	calendarDOBlist = createDOBlist(0, 50);
@@ -147,7 +149,7 @@ function initialiseWantedList() {
 	friendCheck();
 }
 
-function renderWantedList() {
+function renderProfileBox() {
 	document.getElementById('profile').style.display = '';
 	//reloadImages();
 	addProfileBoxClick();
@@ -180,21 +182,36 @@ function getAge(DOB) {
 }
 
 //generate wanted list
-function generateWantedList(excludeMarried) {
+function generateWantedList(profileLink) {
 	let wantedListString = "";
+	//let friendMode = document.getElementById("pairsCheckbox").checked;
+	//let excludeMarried = document.getElementById("marriedCheckbox").checked;
 	let wantedList = document.getElementById("wantedList");
 
 	//create name array from static profile boxes
 	let profileNamesList = new Array();
 	for (let profileName of profileList) {
 		if (excludeMarried && profileName.turningPoint.isMarried) continue;
+		if (friendMode && friendList.filter( function(n) {
+					return (n.friend1 == profileName.id) || 
+						   (n.friend2 == profileName.id)
+				}).length == 0) continue;
 		profileNamesList.push(profileName.name);
+
 	}
 	profileNamesList.sort();
 
 	//create wanted list from list of names
+	let currentProfileName = profileLink != undefined ? profileLink.innerText.replace(' ','') : '';
 	for (let profileName of profileNamesList) {
-		wantedListString += "<li><a>" + profileName + "</a></li>";
+		wantedListString += "<li><a" + 
+		(friendMode && friendList.filter( function(n) {
+					return (n.friend1 == currentProfileName && n.friend2 == profileName.replace(' ','')) || 
+						   (n.friend2 == currentProfileName && n.friend1 == profileName.replace(' ',''))
+				}).length == 0
+									? " style=\"filter: grayscale(100);\"" 
+									: ""
+						) + ">" + profileName + "</a></li>";
 	}
 	wantedList.innerHTML = wantedListString;
 
@@ -202,15 +219,17 @@ function generateWantedList(excludeMarried) {
 	for (let id = 0; id < wantedList.getElementsByTagName("a").length; id++) {
 		wantedList.getElementsByTagName("a")[id].addEventListener("click", function() {
 			generateProfileFromJSON(this.innerText.replace(" ", ""));
-			renderWantedList();
+			renderProfileBox();
 			addStatusPopUp();
+			generateWantedList(this);
 			document.getElementById('profile').scrollIntoView();
 		});
 		wantedList.getElementsByTagName("a")[id].addEventListener("contextmenu", function(e) {
 			e.preventDefault();
 			isExternal = !isExternal;
 			generateProfileFromJSON(this.innerText.replace(" ", ""));
-			renderWantedList();
+			renderProfileBox();
+			generateWantedList(this);
 			document.getElementById('profile').scrollIntoView();
 			isExternal = !isExternal;
 		}, false);
@@ -269,7 +288,13 @@ function createDOBlist(minAge, maxAge) {
 }
 
 function toggleMarried() {
-	generateWantedList(document.getElementById("marriedCheckbox").checked);
+	excludeMarried = document.getElementById("marriedCheckbox").checked;
+	if(excludeMarried && friendMode) 
+	{
+		document.getElementById("pairsCheckbox").checked = false;
+		togglePairs();
+	}
+	generateWantedList();
 	timelineDOBlist = createDOBlist(1, 35);
 	document.getElementById("timeline").innerHTML = "";
 	loadTimeline(2500);
@@ -280,6 +305,17 @@ function togglePairs() {
 	//clicking on first link will store first value as variable
 	//this variable is then used to light up all wanted list again on generate, to available pair
 	//clicking on second link will now go to pair view (call generate profile twice will do)
+	//generateWantedList(document.getElementById("marriedCheckbox").checked);
+	friendMode = document.getElementById("pairsCheckbox").checked;
+	if(document.getElementById('profile').childElementCount > 0) 
+	{
+		let profileNode = document.createElement('div');
+		profileNode.innerText = document.getElementById('profile').childNodes[0].id;
+		
+		generateWantedList(profileNode);
+		//document.getElementById("profile").style.display = 'none';
+		//document.getElementById("profile").innerHTML = '';
+	}
 }
 
 //generate calendar from profile boxes
@@ -359,6 +395,7 @@ function addProfileBoxClick() {
 }
 
 //add event listener for image switch
+//consider changing to detect 1st image error, move src or 2nd image up, remove 2nd image, use while loop to allow as many images but only switch 1st two images
 function addProfileBoxImgOnError() {
 	let profileBoxImg = document.getElementsByTagName("img");
 	for (let i = 0; i < profileBoxImg.length; i++) {
