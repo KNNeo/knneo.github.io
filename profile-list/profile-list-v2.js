@@ -9,7 +9,7 @@ if(profileListJson.length == 0) {
 		if (this.readyState == 4 && this.status == 200) {
 			profileList = JSON.parse(this.responseText);
 			//code here
-			//if(profileList != null && generateProfileListFromJSON(profileList)) renderWantedList();
+			//if(profileList != null && generateProfileListFromJSON(profileList)) renderProfileBox();
 			if(profileList != null) initialiseWantedList();
 			
 		}
@@ -439,7 +439,7 @@ function generateWantedListEntry(id) {
 	//wanted list processing
 	friendLink.addEventListener("click", function() {
 		generateProfileFromJSON(this.innerText.replace(" ", ""));
-		renderWantedList();
+		renderProfileBox();
 		addStatusPopUp();
 		document.getElementById('profile').scrollIntoView();
 	});
@@ -447,7 +447,7 @@ function generateWantedListEntry(id) {
 		e.preventDefault();
 		isExternal = !isExternal;
 		generateProfileFromJSON(this.innerText.replace(" ", ""));
-		renderWantedList();
+		renderProfileBox();
 		addStatusPopUp();
 		document.getElementById('profile').scrollIntoView();
 		isExternal = !isExternal;
