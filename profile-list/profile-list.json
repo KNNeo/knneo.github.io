@@ -111,6 +111,7 @@
 		"category":"seiyuu1",
 		"id":"HikasaYouko",
 		"images":[
+			"https://obs.line-scdn.net/0hQwmiYXgDDlhQECdJuPxxDxhNCDcpcxRQOmgZYiVGBHYlfBlYOGoYZi9AEjg1fhNQcHMSWnJqKB4rXEB3NDUkTnxpVi0AdRRqMywbRCgXGS0HPEkJbXZGPXMUVmB9KBtZaH5GPzARAjt_IRtePw/small",
 			"https://thetv.jp/i/nw/177407/1049381.jpg",
 			"https://1.bp.blogspot.com/-K4HC01n_tUE/XYX4WSJPNiI/AAAAAAAA0rM/QsJX5915MQIgmuYB8ZVPKhHjB8z8Rru0QCLcBGAsYHQ/s320/50ded06e418a8f8caa6457c0.jpg"
 		],
@@ -146,8 +147,8 @@
 			},
 			{
 				"id": "HidakaRina",
-				"image": "https://pbs.twimg.com/media/Ef2DjfIUMAAM_qF?format=jpg&name=small",
-				"imageId": "HidakaRina-HikasaYouko"
+				"image": "https://obs.line-scdn.net/0h-j4aeAiFckUJGFtXVSgNEkFFdCpwe2hNY2Blf3xOeGt8dGVFYWJke3ZIbiVsdm9NKQNnJUtdVDNYQEtUVwE5d3VrTHR9SmYUPB00IFp8dRBhNDUUNH45ICkZKnUkIGdANXg5I2kZfiYkLjwXMw/small",
+				"imageId": "HikasaYouko-HidakaRina"
 			},
 			{
 				"id": "TomatsuHaruka",
@@ -698,8 +699,8 @@
 		"friends": [
 			{
 				"id": "HikasaYouko",
-				"image": "https://pbs.twimg.com/media/Ef2DjfIUMAAM_qF?format=jpg&name=small",
-				"imageId": "HidakaRina-HikasaYouko"
+				"image": "https://obs.line-scdn.net/0h-j4aeAiFckUJGFtXVSgNEkFFdCpwe2hNY2Blf3xOeGt8dGVFYWJke3ZIbiVsdm9NKQNnJUtdVDNYQEtUVwE5d3VrTHR9SmYUPB00IFp8dRBhNDUUNH45ICkZKnUkIGdANXg5I2kZfiYkLjwXMw/small",
+				"imageId": "HikasaYouko-HidakaRina"
 			},
 			{
 				"id": "HanazawaKana",
