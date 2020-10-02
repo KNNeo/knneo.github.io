@@ -47,14 +47,6 @@ p {
 }
 @media only screen and (max-width : 1040px) {
   html { font-size: 0.8em; }
-  #profile {
-	position: absolute;
-    z-index: 1;
-    background: black;
-    width: 95%;
-    right: 0;
-    left: 0;
-  }
 }
 
 /*Multi-image thumbnail (Refer to js for logic)*/
