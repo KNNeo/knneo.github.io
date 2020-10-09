@@ -1054,10 +1054,8 @@ imgArray = [
 [7,'https://cdn.suruga-ya.jp/database/pics_light/game/g3499213.jpg','portrait','豊田萌絵','DVD「moRe moDe」アニメイト特典ブロマイド'],
 [8,'https://cdn.suruga-ya.jp/database/pics_light/game/g3499217.jpg','portrait','豊田萌絵','DVD「moRe moDe」アニメガ・文教堂特典ブロマイド'],
 [9,'https://cdn.suruga-ya.jp/database/pics_light/game/g3499216.jpg','portrait','豊田萌絵','DVD「moRe moDe」とらのあな特典ブロマイド'],
-[11,'https://cdn.suruga-ya.jp/database/pics_light/game/g3472523.jpg','portrait','豊田萌絵','衣装黒・振り向き/1st写真集『moRe』とらのあな特典生写真'],
 [12,'https://cdn.suruga-ya.jp/database/pics_light/game/g3472522.jpg','portrait','豊田萌絵','座り・赤水着チェック柄/1st写真集『moRe』アニメイト特典生写真'],
 [13,'https://cdn.suruga-ya.jp/database/pics_light/game/g3472526.jpg','portrait','豊田萌絵','膝立ち・衣装赤/1st写真集『moRe』楽天ブックス特典生写真'],
-[14,'https://cdn.suruga-ya.jp/database/pics_light/game/g3472527.jpg','portrait','豊田萌絵','座り・ベッド寄りかかり/1st写真集『moRe』アニメガ特典生写真'],
 [15,'https://cdn.suruga-ya.jp/database/pics_light/game/g3472525.jpg','portrait','豊田萌絵','横型・寝そべり/1st写真集『moRe』セブンネット特典生写真'],
 [16,'https://cdn.suruga-ya.jp/database/pics_light/game/g3472524.jpg','portrait','豊田萌絵','かき氷/1st写真集『moRe』ローチケHMV特典生写真'],
 [3,'https://cdn.suruga-ya.jp/database/pics_light/game/g3374139.jpg','portrait','豊田萌絵','ゲーマーズ限定フェア「春の声優まつり」'],
@@ -1323,7 +1321,6 @@ imgArray = [
 [3,'https://cdn.suruga-ya.jp/database/pics_light/game/g3544672.jpg','portrait','馬場ふみか','上半身・水着・体左向き・笑顔/「馬場ふみか 2018カレンダーブック」初回版封入特典生写真'],
 [4,'https://cdn.suruga-ya.jp/database/pics_light/game/g3241094.jpg','portrait','馬場ふみか','膝上・下着白・花柄・両手髪/写真集「色っぽょ」特典生写真'],
 [5,'https://cdn.suruga-ya.jp/database/pics_light/game/bg521280.jpg','portrait','馬場ふみか','上半身・下着ピンク・左向き・寄りかかり・左手置き・2Lサイズ/写真集「色っぽょ」特典生写真'],
-[1,'https://cdn.suruga-ya.jp/database/pics_light/game/g3544673.jpg','portrait','馬場ふみか','横型・うつ伏せ・衣装赤/「馬場ふみか 2018カレンダーブック」初回版封入特典生写真'],
 [1,'https://cdn.suruga-ya.jp/database/pics_light/game/g3544673.jpg','portrait','馬場ふみか','横型・うつ伏せ・衣装赤/「馬場ふみか 2018カレンダーブック」初回版封入特典生写真'],
 
 [1,'https://cdn.suruga-ya.jp/database/pics_light/game/gg540835.jpg','portrait','鬼頭明里','印刷サイン・メッセージ入り/CD「STYLE」とらのあな特典ブロマイド'],

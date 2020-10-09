@@ -874,3 +874,14 @@ function toggleFilter() {
 	document.getElementById('midline').style.display = document.getElementById('midline').style.display == 'none' ? '' : 'none';
 }
 
+function checkDuplicates() {
+	//based on url
+	let uniqueArray = new Array();
+	for(let image of imgArray)
+	{
+		if(uniqueArray.indexOf(image[1]) < 0)
+			uniqueArray.push(image[1]);
+		else
+			console.log('Duplicate URL found: ', image[1]);
+	}
+}
