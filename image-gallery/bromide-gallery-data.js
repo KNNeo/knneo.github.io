@@ -284,6 +284,24 @@ imgArray = [
 [282,'https://knneo.webs.com/CCI20200905_0008_1.jpg','landscape','sphere','CD "vivid brilliant door!" Gamers Bonus'],
 [283,'https://knneo.webs.com/CCI20200905_0008_2.jpg','landscape','Kido Ibuki','Book "IMADOKI!!" Pre-order Bonus'],
 
+[285,'https://knneo.webs.com/CCI20201008_0001_2.jpg','portrait','Natsukawa Shiina','CD "Antithese" Toranoana Bonus'],
+[286,'https://knneo.webs.com/CCI20201008_0001_3.jpg','portrait','Toyota Moe','Event "Toyota Moe Birthday Party 2020" Bonus'],
+[287,'https://knneo.webs.com/CCI20201008_0002_1.jpg','landscape','Kitou Akari','Event "Kitou Akari 1st LIVE TOUR Colorful Closet" Bromide Set A'],
+[288,'https://knneo.webs.com/CCI20201008_0002_2.jpg','portrait','Kitou Akari','Event "Kitou Akari 1st LIVE TOUR Colorful Closet" Bromide Set A'],
+[289,'https://knneo.webs.com/CCI20201008_0002_3.jpg','portrait','Kitou Akari','Event "Kitou Akari 1st LIVE TOUR Colorful Closet" Bromide Set A'],
+[290,'https://knneo.webs.com/CCI20201008_0003_1.jpg','portrait','Kitou Akari','Event "Kitou Akari 1st LIVE TOUR Colorful Closet" Bromide Set B'],
+[291,'https://knneo.webs.com/CCI20201008_0003_2.jpg','landscape','Kitou Akari','Event "Kitou Akari 1st LIVE TOUR Colorful Closet" Bromide Set B'],
+[292,'https://knneo.webs.com/CCI20201008_0003_3.jpg','landscape','Kitou Akari','Event "Kitou Akari 1st LIVE TOUR Colorful Closet" Bromide Set B'],
+[293,'https://knneo.webs.com/CCI20201008_0005_1.jpg','landscape','Kitou Akari','Event "Kitou Akari 1st LIVE TOUR Colorful Closet" Bromide Set C'],
+[294,'https://knneo.webs.com/CCI20201008_0005_2.jpg','portrait','Kitou Akari','Event "Kitou Akari 1st LIVE TOUR Colorful Closet" Bromide Set C'],
+[295,'https://knneo.webs.com/CCI20201008_0005_3.jpg','portrait','Kitou Akari','Event "Kitou Akari 1st LIVE TOUR Colorful Closet" Bromide Set C'],
+[296,'https://knneo.webs.com/CCI20201008_0006_1.jpg','portrait','Toyota Moe','Event "Toyota Moe Birthday Party 2020" Bromide Set A'],
+[297,'https://knneo.webs.com/CCI20201008_0006_2.jpg','landscape','Toyota Moe','Event "Toyota Moe Birthday Party 2020" Bromide Set A'],
+[298,'https://knneo.webs.com/CCI20201008_0007_1.jpg','portrait','Toyota Moe','Event "Toyota Moe Birthday Party 2020" Bromide Set A'],
+[299,'https://knneo.webs.com/CCI20201008_0007_2.jpg','landscape','Toyota Moe','Event "Toyota Moe Birthday Party 2020" Bromide Set B'],
+[300,'https://knneo.webs.com/CCI20201008_0008_1.jpg','portrait','Toyota Moe','Event "Toyota Moe Birthday Party 2020" Bromide Set B'],
+[301,'https://knneo.webs.com/CCI20201008_0008_2.jpg','portrait','Toyota Moe','Event "Toyota Moe Birthday Party 2020" Bromide Set B'],
+
 
 
 [999,'','','']
