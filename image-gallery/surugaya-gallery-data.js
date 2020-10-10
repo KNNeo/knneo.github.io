@@ -261,6 +261,8 @@ imgArray = [
 [23,'https://cdn.suruga-ya.jp/database/pics_light/game/g3086872.jpg','portrait','上坂すみれ','上半身・衣装赤・体左向き・両手下・「第二回 革ブロ総決起集会-ファイナル-」2015.2.11 中野サンプラザ」/上坂すみれ ブロマイドセット 第5弾'],
 [24,'https://cdn.suruga-ya.jp/database/pics_light/game/g3086824.jpg','portrait','上坂すみれ','全身・衣装白・青・両手顔・「第二回 革ブロ総決起集会-ファイナル-」2015.2.11 中野サンプラザ」/上坂すみれ ブロマイドセット 第5弾'],
 
+[1,'https://cdn.suruga-ya.jp/database/pics_light/game/gg576075.jpg','portrait','夏川椎菜','横型・全身・膝立ち・衣装白・左向き/雑誌「声優グランプリ 2020年10月号」アニメイト特典ブロマイド'],
+[2,'https://cdn.suruga-ya.jp/database/pics_light/game/gg576076.jpg','portrait','夏川椎菜','横型・バストアップ・衣装紫・両手曲げ/雑誌「声優グランプリ 2020年10月号」アニメイト特典ブロマイド'],
 [2,'https://cdn.suruga-ya.jp/database/pics_light/game/gg229661.jpg','portrait','夏川椎菜','CD「Ep01」アニメイト特典ブロマイド'],
 [3,'https://cdn.suruga-ya.jp/database/pics_light/game/gg229662.jpg','portrait','夏川椎菜','CD「Ep01」ゲーマーズ特典ブロマイド'],
 [4,'https://cdn.suruga-ya.jp/database/pics_light/game/gg229663.jpg','portrait','夏川椎菜','CD「Ep01」とらのあな特典ブロマイド'],
