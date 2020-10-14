@@ -1,0 +1,72 @@
+html {
+  background-color: white;
+}
+
+body {
+  font-family: Open Sans;
+  max-width: 640px;
+  margin: auto;
+}
+
+h1 {
+  margin: 20px 0;
+}
+
+button {
+  font-family: Open Sans;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 5px;
+  box-shadow: 3px 3px;
+  padding: 8px;
+  margin: 3px 0;
+}
+
+td { 
+	border: 1px solid white; 
+	padding: 2px 4px; 
+}
+
+button:active {
+  box-shadow: 1px 1px;
+  transform: translate(2px,2px); 
+}
+
+.player {
+	width: 100%;
+}
+
+.left, .right {
+  float: left;
+  width: 30%;
+}
+.main {
+  float: left;
+  width: 40%;
+}
+
+.result-box {
+	border: 1px solid gray;
+	display: block;
+	width: auto;
+	height: auto;
+	padding: 5px;
+	margin: 5px;
+
+}
+.show-result, .input-box {
+	padding: 10px;
+}
+
+.flexi-input {
+	margin: 0 5px;
+	border: 0;
+	border-bottom: 1px solid;
+	text-align: center;
+}
+
+@media screen and (max-width:800px) {
+  .left, .main, .right {
+    width:100%; /* The width is 100%, when the viewport is 800px or smaller */
+  }
+}
