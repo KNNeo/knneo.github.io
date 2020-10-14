@@ -25,6 +25,7 @@ button {
 td { 
 	border: 1px solid white; 
 	padding: 2px 4px; 
+	font-size: 0.8em;
 }
 
 button:active {
@@ -65,8 +66,9 @@ button:active {
 	text-align: center;
 }
 
-@media screen and (max-width:800px) {
-  .left, .main, .right {
-    width:100%; /* The width is 100%, when the viewport is 800px or smaller */
-  }
+@media only screen
+   and (min-device-width : 320px)
+   and (max-device-width : 960px)
+{
+	
 }
