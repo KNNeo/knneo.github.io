@@ -22,6 +22,17 @@ else {
 	}
 }
 
+function invertCensor() {
+	isExternal = !isExternal;
+	for(let box of document.getElementsByClassName('profile-category'))
+	{
+		box.innerHTML = '';
+	}
+	if(profileListJson != null) generateProfileListFromJSON(profileListJson);
+	else generateProfileListFromJSON(profileList);
+	renderWantedList();
+}
+
 function generateProfileListFromJSON(profileList) {	
 	for(let profile of profileList)
 	{
