@@ -11,8 +11,8 @@ function createDarkMode() {
 }
 
 //timestamp display for audio player
-var timer;
-var timestamps = new Array();
+let timer;
+let timestamps = new Array();
 timestamps.push([24, 45, 20]); //position,time, rank: time is when current position ends
 timestamps.push([23, 94, 19]);
 timestamps.push([22, 135, 18]);
@@ -42,15 +42,18 @@ function runTimestamp() {
     timer = setInterval(setTimestamp, 1000);
 }
 
+let playerID = 'Top20Audio';
+let tableID = 'Top20';
 function setTimestamp() {
     //get player, table
-    var audioPlayer = document.getElementById("Top20Audio");
-    var top20Table = document.getElementById("Top20");
+    let audioPlayer = document.getElementById(playerID);
+    let audioTable = document.getElementById(tableID);
+	//if(audioPlayer == null || audioTable == null) return;
     //find current supposed highlighted based on time on player
-    var currentTime = Math.floor(audioPlayer.currentTime);
-    var currentPos;
-    var prevPos;
-    for (var pair of timestamps) {
+    let currentTime = Math.floor(audioPlayer.currentTime);
+    let currentPos;
+    let prevPos;
+    for (let pair of timestamps) {
         if (pair[1] >= currentTime) {
             currentPos = pair[0];
             break;
@@ -62,18 +65,18 @@ function setTimestamp() {
     else {
         if (prevPos != undefined && currentTime >= prevPos[1]) clearTimestamp();
         if (!audioPlayer.paused) {
-            if(top20Table.getElementsByTagName("tr")[currentPos].cells.length == 2) top20Table.getElementsByTagName("tr")[currentPos-1].getElementsByTagName("td")[0].style.fontWeight = "bold";
-            top20Table.getElementsByTagName("tr")[currentPos].style.fontWeight = "bold";
+            if(audioTable.getElementsByTagName("tr")[currentPos].cells.length == 2) audioTable.getElementsByTagName("tr")[currentPos-1].getElementsByTagName("td")[0].style.fontWeight = "bold";
+            audioTable.getElementsByTagName("tr")[currentPos].style.fontWeight = "bold";
         }
         else {
-            top20Table.getElementsByTagName("tr")[currentPos].style.fontWeight = "normal";
+            audioTable.getElementsByTagName("tr")[currentPos].style.fontWeight = "normal";
             clearInterval(timer);
         }
     }
 }
 
 function clearTimestamp() {
-    for (var row of document.getElementById("Top20").getElementsByTagName("tr")) {
+    for (let row of document.getElementById(tableID).getElementsByTagName("tr")) {
         if(row.cells.length == 3) row.getElementsByTagName("td")[0].style.fontWeight = null;
         row.style.fontWeight = "normal";
     }
