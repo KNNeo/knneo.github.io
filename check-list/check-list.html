@@ -2,6 +2,8 @@
 <html lang="en-SG">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
     <link id="darkmode-css" rel="stylesheet" type="text/css" href="../darkmode.css">
     <link id="image-gallery-css" rel="stylesheet" type="text/css" href="check-list.css">
 	<link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'/>
@@ -15,8 +17,9 @@ Animal Crossing Art Checklist<br/>
 </h1>
 <div><h5>*Just a checklist that will store data on this site when you come back. Uses simple localStorage to store data.</h5></div>
 <div class="profile-category">
-<div id="checklist" class="profile-box shadowed"></div>
+<div id="checklist" class="profile-box"></div>
 <div id="reset"><h3><a id="resetLink" onclick="resetList()">Reset</a></h3></div>
+<div id="back"><a id="../index.html">Back</a></div>
 </div>
 <br/>
 <div title="Toggle Dark Mode" onclick="onDarkModeToggle()"><i id="darkmode" class="material-icons">brightness_high</i></div>
@@ -34,12 +37,16 @@ function onDarkModeToggle() {
 	isDarked = !isDarked;
 	localStorage.setItem('darkMode', isDarked);
 }
-
 function toggleDarkMode() {
 	if(document.getElementsByTagName('html')[0].classList.contains('darked'))
 		document.getElementsByTagName('html')[0].classList.remove('darked');
 	else
 		document.getElementsByTagName('html')[0].classList.add('darked');
+}
+function loadDarkMode() {
+	isDarked = localStorage.getItem("darkMode") == "true";
+	if(isDarked == null) localStorage.setItem("darkMode", false);
+	if(isDarked == true) toggleDarkMode();
 }
 
 let keys = [
@@ -93,18 +100,12 @@ window.onload = function() {
 	loadChecklist();
 };
 
-function loadDarkMode() {
-	isDarked = localStorage.getItem("darkMode") == "true";
-	if(isDarked == null) localStorage.setItem("darkMode", false);
-	if(isDarked == true) toggleDarkMode();
-}
-
 function loadChecklist() {
 	let initialCount = 0;
 	let checkList = new Array();
 	for(let key of keys)
 	{
-		let value = localStorage.getItem(key);
+		let value = localStorage.getItem(key) == "true";
 		if(value == null) value = false;
 		else initialCount++;
 		checkList.push({
@@ -121,7 +122,10 @@ function loadChecklist() {
 function buildChecklistHTML(list) {
 	let checklistDiv = document.createElement('div');
 	
-	for(let value of list)
+	let sortedList = list.sort(function (a, b) {return b.value - a.value});
+	console.log(sortedList);
+	
+	for(let value of sortedList)
 	{
 		let checkboxDiv = document.createElement('div');
 		checkboxDiv.style.padding = '10px 10px';
@@ -138,6 +142,7 @@ function buildChecklistHTML(list) {
 		checkbox.addEventListener('click', function () {
 			localStorage.setItem(this.previousElementSibling.innerText, this.checked);
 			document.getElementById('resetLink').innerText = 'Reset';
+			loadChecklist();
 		});
 		label.appendChild(checkbox);
 		
