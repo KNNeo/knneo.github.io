@@ -2,8 +2,7 @@
 let isExternal = window.location.href.includes('://knneo.github.io');
 let spacer = 'https://knneo.github.io/resources/spacer.gif';
 let profileList;
-let useTestJson = false; //take from actual json, else from profile-list-json.js
-if(!useTestJson) {
+if(profileListJson.length == 0) {
 	let xmlhttp = new XMLHttpRequest();
 	xmlhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
@@ -16,10 +15,9 @@ if(!useTestJson) {
 	xmlhttp.send();
 }
 else {
-	if(profileListJson != null && generateProfileListFromJSON(profileListJson)) {
-		profileList = profileListJson;
-		renderWantedList();
-	}
+	console.log('Using test json');
+	profileList = profileListJson;
+	if(generateProfileListFromJSON(profileList)) renderWantedList();
 }
 
 function invertCensor() {
@@ -28,7 +26,10 @@ function invertCensor() {
 	{
 		box.innerHTML = '';
 	}
-	if(profileListJson != null) generateProfileListFromJSON(profileListJson);
+	if(profileListJson.length > 0) {
+		generateProfileListFromJSON(profileListJson);
+		profileList = profileListJson;
+	}
 	else generateProfileListFromJSON(profileList);
 	renderWantedList();
 }
