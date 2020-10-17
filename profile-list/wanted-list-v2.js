@@ -32,16 +32,16 @@ function switchThumbnails(tn) {
     } else if (tc[0].style.visibility == "" || tc[1].style.visibility == "") {
         tc[0].style.visibility = "hidden";
         tc[1].style.visibility = "visible";
-initialVisible = false;
+		initialVisible = false;
     } else {
         tc[0].style.visibility = "hidden";
         tc[1].style.visibility = "visible";
-initialVisible = false;
+		initialVisible = false;
     }
 
   let initialHeight = tn.getElementsByClassName('thumbnail-initial')[0].offsetHeight;
   let popHeight = tn.getElementsByClassName('thumbnail-pop')[0].offsetHeight;
-  if(popHeight - initialHeight > 100 || popHeight - initialHeight < -100)
+  //if(popHeight - initialHeight > 100 || popHeight - initialHeight < -100)
 	  tn.style.height = (initialVisible ? initialHeight : popHeight) + 'px';
 
     return false;
@@ -139,6 +139,7 @@ let month = ["January", "February", "March", "April", "May", "June", "July", "Au
 
 //--dependent on render, as functions to call on render--//
 function initialiseWantedList() {
+	toggleInitialThumbnailLayout();
 	generateWantedList();
 	timelineDOBlist = createDOBlist(1, 35);
 	loadTimeline(2500);
@@ -147,6 +148,22 @@ function initialiseWantedList() {
 	setThumbnails();
 	addStatusPopUps();
 	friendCheck();
+}
+
+function toggleInitialThumbnailLayout() {
+	if(!smallScreen)
+	{
+		let thumbnail = document.getElementsByClassName('thumbnail')[0];
+		let thumbnailInitial = thumbnail.getElementsByClassName('thumbnail-initial')[0];
+		let thumbnailPop = thumbnail.getElementsByClassName('thumbnail-pop')[0];
+		let marriedCouple = document.getElementById('marriedCouple').cloneNode(true);
+		document.getElementById('marriedCouple').remove();
+		let profile = document.getElementById('profile').cloneNode(true);
+		document.getElementById('profile').remove();
+		thumbnailPop.appendChild(profile);
+		thumbnailInitial.appendChild(marriedCouple);
+		document.getElementById('pairSearch').remove();
+	}
 }
 
 function renderProfileBox() {
@@ -223,6 +240,7 @@ function generateWantedList(profileLink) {
 			addStatusPopUp();
 			generateWantedList(this);
 			document.getElementById('profile').scrollIntoView();
+			if(!smallScreen) switchThumbnails(document.getElementsByClassName('thumbnail')[0]);
 		});
 		wantedList.getElementsByTagName("a")[id].addEventListener("contextmenu", function(e) {
 			e.preventDefault();
@@ -231,6 +249,7 @@ function generateWantedList(profileLink) {
 			renderProfileBox();
 			generateWantedList(this);
 			document.getElementById('profile').scrollIntoView();
+			if(!smallScreen) switchThumbnails(document.getElementsByClassName('thumbnail')[0]);
 			isExternal = !isExternal;
 		}, false);
 	}
@@ -391,6 +410,7 @@ function addProfileBoxClick() {
 		//}
 		document.body.scrollTop = 0; // For Safari
 		document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+		switchThumbnails(document.getElementsByClassName('thumbnail')[0]);
 	});
 }
 

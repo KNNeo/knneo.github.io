@@ -1,6 +1,7 @@
 //generate from json file
 const spacer = 'https://knneo.github.io/resources/spacer.gif';
 let isExternal = window.location.href.includes('://knneo.github.io');
+let smallScreen = window.innerWidth <= 640;
 let profileList;
 let friendList = [];
 if(profileListJson.length == 0) {
