@@ -39,12 +39,14 @@ function switchThumbnails(tn) {
 		initialVisible = false;
     }
 
-  let initialHeight = tn.getElementsByClassName('thumbnail-initial')[0].offsetHeight;
-  let popHeight = tn.getElementsByClassName('thumbnail-pop')[0].offsetHeight;
-  //if(popHeight - initialHeight > 100 || popHeight - initialHeight < -100)
-	  tn.style.height = (initialVisible ? initialHeight : popHeight) + 'px';
-
     return false;
+}
+
+function adjustThumbnailHeight(tn) {
+	let initialHeight = tn.getElementsByClassName('thumbnail-initial')[0].offsetHeight;
+	let popHeight = tn.getElementsByClassName('thumbnail-pop')[0].offsetHeight;
+	//if(popHeight - initialHeight > 100 || popHeight - initialHeight < -100)
+	tn.style.height = (tn.getElementsByClassName('thumbnail-initial')[0].style.visibility == 'hidden' ? popHeight : initialHeight) + 'px';
 }
 
 //--right click to toggle censor--//
@@ -411,6 +413,7 @@ function addProfileBoxClick() {
 		document.body.scrollTop = 0; // For Safari
 		document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 		switchThumbnails(document.getElementsByClassName('thumbnail')[0]);
+		adjustThumbnailHeight(document.getElementsByClassName('thumbnail')[0]);
 	});
 }
 
@@ -474,14 +477,18 @@ function reloadImages() {
 
 	if (loadedImages != profileBoxImg.length) setTimeout(reloadImages, 200);
 	else resizeAllProfileBoxImg();
+
 }
 
 //resize images on load
 function resizeAllProfileBoxImg() {
+	loadedImages = 0;
 	for(let image of document.getElementsByTagName('img'))
 	{
 		resizeProfileBoxImg(image);
 	}
+	
+	adjustThumbnailHeight(document.getElementsByClassName('thumbnail')[0]);
 }
 
 function resizeProfileBoxImg(image) {
