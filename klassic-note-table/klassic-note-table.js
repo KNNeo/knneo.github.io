@@ -14,6 +14,7 @@ function generateFilters(filters) {
 		
 		let columnTickbox = document.createElement('input');
 		columnTickbox.id = 'tickbox' + column.replace(' ','');
+		columnTickbox.classList.add('tickbox-column');
 		columnTickbox.type = 'checkbox';
 		columnTickbox.name = 'tickbox' + column.replace(' ','');
 		columnTickbox.value = column.replace(' ','');
@@ -42,6 +43,7 @@ function generateFilters(filters) {
 	if(filters.columns.length == filters.allColumns.length)
 		document.getElementById('tickboxAll').checked = true;
 	//generateSearchFromFilters(filters);
+	
 }
 
 //generate search for all displayed columns only (assume if not filtered shouldn't be able to search)
@@ -98,16 +100,51 @@ function generateSearch(filters) {
 	}
 }
 
+function generatePresets() {
+	if(document.getElementById('table-preset-ticks').style.display == 'block') return;
+
+	/*
+	document.getElementById('table-presets').innerHTML = '';
+	
+	let columnPreset = document.createElement('input');
+	columnPreset.classList.add('preset');
+	columnPreset.type = 'radio';
+	columnPreset.value = 'radio';
+	
+	document.getElementById('table-presets').appendChild(columnPreset);
+	*/		
+	document.getElementById('table-preset-ticks').style.display = 'block';
+}
+
+function generateSearchOnPreset(radioInput) {
+	let radioId = radioInput.id;
+	for (let radio of document.getElementById('table-preset-ticks').getElementsByTagName('input'))
+	{
+		if(radio.id != radioId)
+			radio.checked = false;
+	}
+	for (let column of document.getElementsByClassName('tickbox-column'))
+	{
+		//list of arrays for each preset to search
+		if(radioId == 'presetAll') column.checked = presetAllArray.indexOf(column.value) >= 0;
+		if(radioId == 'preset1') column.checked = preset1Array.indexOf(column.value) >= 0;
+		if(radioId == 'preset2') column.checked = preset2Array.indexOf(column.value) >= 0;
+	}
+	
+	loadTableFromCSV();
+}
+
 //--VARIABLES--//
 const isMobile = function() {
     const match = window.matchMedia('(pointer:coarse)');
     return (match && match.matches);
 };
 
-let presetAllArray = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23];
-let presetStdMetaArray = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23];
-let presetRawMetaArray = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23];
-let presetTitlesArray = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23];
+let firstLoad = true;
+let activePreset = [];
+let presetAllArray = ["SongID", "KNID", "KNJAPAN", "KNJPOP", "KNYEAR", "Filename", "SongTitle", "ArtistTitle", "ParentArtist", "ReleaseTitle", "ReleaseArtistTitle", "ReleaseYear", "Rating", "Genre", "DateCreated", "VocalCode", "Language", "InAppleMusic", "LyricsURL", "SongTitleAlt", "ArtistTitleAlt", "ReleaseTitleAlt", "ReleaseArtistTitleAlt", "ArtistCode"];
+let preset1Array = ["SongTitle", "ArtistTitle", "ParentArtist", "ReleaseTitle", "ReleaseArtistTitle"];
+let preset2Array = ["SongTitleAlt", "ArtistTitleAlt", "ReleaseTitleAlt", "ReleaseArtistTitleAlt"];
 let maxRows = isMobile ? 100 : 500;
 
 //--FIRST TIME CALLS--//
@@ -245,7 +282,9 @@ function createTable(table) {
 		columns: table.columns,
 		allColumns: allColumns
 	};
+	
 	generateFilters(filters);
+	
 	for (let column of table.columns)
 	{
 		let knColumn = document.createElement('th');
@@ -299,6 +338,8 @@ function createTable(table) {
 		document.getElementById("table-result").innerText = "All has been deselected. Check something to display results";
 		return;
 	}
+	
+	generatePresets();
 }
 
 //--P5.JS MAIN FUNCTION--//

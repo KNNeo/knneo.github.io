@@ -2,6 +2,8 @@
 <html lang="en-SG">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
     <link rel="stylesheet" type="text/css" href="../darkmode.css">
     <link rel="stylesheet" type="text/css" href="klassic-note-table.css">
     <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet' />
@@ -18,7 +20,11 @@
 	<h5>Table powered by p5.js</h5>
 	<div id="table-preset-ticks">
 		<h4>Presets</h4>
-		<label><input id="presetAll" type="radio" name="presetAll" value="All" checked>No Preset</label>
+		<label><input id="presetAll" type="radio" name="presetAll" value="All" onclick="generateSearchOnPreset(this)" checked>No Preset</label>
+		<span id="table-presets">
+			<label><input id="preset1" type="radio" name="preset1" value="Preset1" onclick="generateSearchOnPreset(this)">English Only</label>
+			<label><input id="preset2" type="radio" name="preset2" value="Preset2" onclick="generateSearchOnPreset(this)">Japanese Only</label>
+		</span>
 	</div>
 	<div id="table-column-ticks">
 		<h4>Columns</h4>
