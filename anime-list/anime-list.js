@@ -116,6 +116,10 @@ let customArray = [
 { sortOrder:114, year:2020, season: 'Summer', length:1, seriesTitle: '', type:'TV', title:'GREAT PRETENDER', altTitle:'', handle:'GrePre_anime', imgURL:'https://pbs.twimg.com/profile_images/1220648780011167745/QMKboWCS.jpg' },
 { sortOrder:115, year:2020, season: 'Summer', length:1, seriesTitle: '', type:'TV', title:'Uzaki-chan wa Asobitai!', altTitle:'宇崎ちゃんは遊びたい！', handle:'uzakichan_asobi', imgURL:'https://pbs.twimg.com/profile_images/1147099341858824192/pL6QoWt7.png' },
 { sortOrder:116, year:2020, season: 'Summer', length:1, seriesTitle: '', type:'TV', title:'Kanojo, Okarishimasu', altTitle:'彼女、お借りします', handle:'kanokari_anime', imgURL:'https://pbs.twimg.com/profile_images/1264535167755931648/AUajKJKz.jpg' },
+{ sortOrder:117, year:2020, season: 'Autumn', length:1, seriesTitle: '', type:'TV', title:'Tonikaku Kawaii', altTitle:'トニカクカワイイ', handle:'tonikawa_anime', imgURL:'https://pbs.twimg.com/profile_images/1289486194414256128/8N9U_U-A.jpg' },
+{ sortOrder:118, year:2020, season: 'Autumn', length:1, seriesTitle: '', type:'TV', title:'Majou no Tabitabi', altTitle:'魔女の旅々', handle:'majotabi_PR', imgURL:'https://pbs.twimg.com/profile_images/1185540696037421056/njCjSwao.png' },
+{ sortOrder:119, year:2020, season: 'Autumn', length:1, seriesTitle: 'Shingeki no Kyojin', type:'TV', title:'Shingeki no Kyojin The Final Season', altTitle:'進撃の巨人 The Final Season', handle:'anime_shingeki', imgURL:'https://pbs.twimg.com/profile_images/1309025164139663360/cbRKqHxk.jpg' },
+
 
 ];
 
@@ -123,7 +127,7 @@ let isGroupBySeries = false;
 let startYear = 2008;
 let startSeason = 'Autumn';
 let currentYear = 2020;
-let currentSeason = 'Spring';
+let currentSeason = 'Autumn';
 let seasons = ['','Winter','Spring','Summer','Autumn'];
 let seriesArray = new Array();
 
