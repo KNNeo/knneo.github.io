@@ -119,7 +119,7 @@ html {
 .profile-category > div {
   display: inline-block;
   width: 98%;
-  max-width: 740px;
+  max-width: 640px;
   margin: 3px;
   vertical-align: top;
   padding-right: 5px;
