@@ -447,13 +447,13 @@ function switchProfileBoxImage() {
 				if(image != null) image.style.display = image.style.display == "" ? "none" : "";
 			}
 			
-			if(document.getElementsByClassName('profile-box-img')[0].offsetHeight > 325)
+			/*if(document.getElementsByClassName('profile-box-img')[0].offsetHeight > 325)
 			{
 				for(let image of this.getElementsByTagName("img"))
 				{
 					if(image != null) image.style.display = image.style.display == "" ? "none" : "";
 				}
-			}
+			}*/
 		});
 	}
 }

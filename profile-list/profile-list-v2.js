@@ -130,21 +130,21 @@ function generateProfileFromJSON(profileName) {
 				
 				if(friendMode)
 				{
-					image2 = document.createElement('img');
+					//image2 = document.createElement('img');
 					//image2.src = spacer;
-					image2.src = profile.images.length > 1 ? profile.images[profile.images.length-1] : randomProfileImg(profile.images);
-					profileBoxImg.appendChild(image2);
+					//image2.alt = profile.images.length > 1 ? profile.images[profile.images.length-1] : randomProfileImg(profile.images);
+					//profileBoxImg.appendChild(image2);
 					
 					image2 = document.createElement('img');
-					//image2.src = spacer;
-					image2.src = currentProfile.images.length > 1 ? currentProfile.images[currentProfile.images.length-1] : randomProfileImg(currentProfile.images);
+					image2.src = spacer;
+					image2.alt = currentProfile.images.length > 1 ? currentProfile.images[currentProfile.images.length-1] : randomProfileImg(currentProfile.images);
 					profileBoxImg.appendChild(image2);
 				}
 				else if(profile.images.length > 1)
 				{
 					let image2 = document.createElement('img');
 					image2.src = spacer;
-					image2.src = profile.images[profile.images.length-1];
+					image2.alt = profile.images[profile.images.length-1];
 					profileBoxImg.appendChild(image2);
 				}
 		
