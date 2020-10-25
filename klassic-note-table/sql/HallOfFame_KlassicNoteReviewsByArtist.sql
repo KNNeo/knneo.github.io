@@ -1,0 +1,1 @@
+select a.ArtistTitle, count(a.ArtistTitle) from Review r join Artist a on r.ArtistID = a.ArtistID group by a.ArtistTitle order by count(a.ArtistTitle) desc
