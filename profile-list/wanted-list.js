@@ -97,12 +97,12 @@ function addAgeAfterDOB() {
 
 function getAge(DOB) {
 	let birthDateStr = DOB.replace(".", "-").replace(".", "-"); //yyyy.MM.dd -> yyyy-MM-dd
-	let birthDate = Date.parse(birthDateStr.substring(0, 10));
+	let birthDate = birthDateStr.substring(0, 10);
 	//return Math.floor((new Date().getTime() - birthDate) / 31556952000);
-	let diff = moment().tz(timezone).diff(moment.tz(birthDate, timezone));
-	return moment.duration(diff).years();
+	let offsetMinutes = moment().utcOffset() - moment.tz(timezone).utcOffset();
+	let diff = moment().diff(moment(birthDate));
+	return moment.duration(diff).subtract(offsetMinutes, 'minutes').years();
 }
-
 //generate wanted list
 function generateWantedList(excludeMarried) {
 	let wantedListString = "";

@@ -186,7 +186,7 @@ function renderProfileBox() {
 //add age after DOB span
 function addAgeAfterDOB() {
 	for (let dateOfBirth of document.getElementsByClassName("DOB")) {
-		let age = dateOfBirth.innerText.includes('????') ? 0 : parseInt(getAge(dateOfBirth.innerText));
+		let age = dateOfBirth.innerText.includes('????') ? 0 : parseInt(getAge(dateOfBirth.innerHTML));
 		if (age != undefined && age > 0)
 			dateOfBirth.innerHTML = dateOfBirth.innerHTML.concat(" [").concat(age.toString()).concat(" years ago]");
 	}
@@ -194,10 +194,11 @@ function addAgeAfterDOB() {
 
 function getAge(DOB) {
 	let birthDateStr = DOB.replace(".", "-").replace(".", "-"); //yyyy.MM.dd -> yyyy-MM-dd
-	let birthDate = Date.parse(birthDateStr.substring(0, 10));
+	let birthDate = birthDateStr.substring(0, 10);
 	//return Math.floor((new Date().getTime() - birthDate) / 31556952000);
-	let diff = moment().tz(timezone).diff(moment.tz(birthDate, timezone));
-	return moment.duration(diff).years();
+	let offsetMinutes = moment().utcOffset() - moment.tz(timezone).utcOffset();
+	let diff = moment().diff(moment(birthDate));
+	return moment.duration(diff).subtract(offsetMinutes, 'minutes').years();
 }
 
 //generate wanted list
@@ -514,4 +515,19 @@ function openLinksInNew() {
 			link.addEventListener('click', function () { window.open(url, '_blank'); } );
 		}
 	}
+}
+
+function checkDuplicateImages() {
+	for(let profile of profileList)
+	{
+		let duplicates = checkDuplicates(profile.images);
+		if(duplicates.length > 0)
+			console.log(profile.id, duplicates);
+	}
+}
+
+function checkDuplicates(array) {
+	let duplicates = [];
+	let uniqueIndexes = array.filter((item, index) => array.indexOf(item) == index).map((item, index) => index);
+	return array.filter((item, index) => uniqueIndexes.indexOf(index) < 0);
 }
