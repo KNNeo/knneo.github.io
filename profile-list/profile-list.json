@@ -108,7 +108,7 @@
 			},
 			{
 				"id": "HondoKaede",
-				"image": "https://pbs.twimg.com/media/ElLKAsJU8AA6J28?format=jpg&name=small",
+				"image": "https://pbs.twimg.com/media/EleAiboVMAEYpmE?format=jpg&name=small",
 				"imageId": "HanazawaKana-HondoKaede"
 			}
 		]
@@ -153,8 +153,8 @@
 			},
 			{
 				"id": "HidakaRina",
-				"image": "https://obs.line-scdn.net/0h-j4aeAiFckUJGFtXVSgNEkFFdCpwe2hNY2Blf3xOeGt8dGVFYWJke3ZIbiVsdm9NKQNnJUtdVDNYQEtUVwE5d3VrTHR9SmYUPB00IFp8dRBhNDUUNH45ICkZKnUkIGdANXg5I2kZfiYkLjwXMw/small",
-				"imageId": "HikasaYouko-HidakaRina"
+				"image": "https://pbs.twimg.com/media/Ele78agU8AA2lkP?format=jpg&name=small",
+				"imageId": "HidakaRina-HikasaYouko"
 			},
 			{
 				"id": "TomatsuHaruka",
@@ -710,8 +710,8 @@
 		"friends": [
 			{
 				"id": "HikasaYouko",
-				"image": "https://obs.line-scdn.net/0h-j4aeAiFckUJGFtXVSgNEkFFdCpwe2hNY2Blf3xOeGt8dGVFYWJke3ZIbiVsdm9NKQNnJUtdVDNYQEtUVwE5d3VrTHR9SmYUPB00IFp8dRBhNDUUNH45ICkZKnUkIGdANXg5I2kZfiYkLjwXMw/small",
-				"imageId": "HikasaYouko-HidakaRina"
+				"image": "https://pbs.twimg.com/media/Ele78agU8AA2lkP?format=jpg&name=small",
+				"imageId": "HidakaRina-HikasaYouko"
 			},
 			{
 				"id": "HanazawaKana",
@@ -1291,7 +1291,7 @@
 			},
 			{
 				"id": "HanazawaKana",
-				"image": "https://pbs.twimg.com/media/ElLKAsJU8AA6J28?format=jpg&name=small",
+				"image": "https://pbs.twimg.com/media/EleAiboVMAEYpmE?format=jpg&name=small",
 				"imageId": "HanazawaKana-HondoKaede"
 			}
 		]
