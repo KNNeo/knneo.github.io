@@ -459,10 +459,10 @@ function switchProfileBoxImage() {
 		
 		profileBoxImgList[i].addEventListener("click", function() {
 			let boxImg = this.getElementsByClassName('profile-box-img')[0];
-			if(boxImg.style.backgroundImage == boxImg.alt) return;
-			let temp = boxImg.style.backgroundImage;
-			boxImg.style.backgroundImage = boxImg.alt;
-			boxImg.alt = temp;
+			if(boxImg.style.backgroundImage == boxImg.getAttribute('alt')) return;
+			let temp = boxImg.getAttribute('alt');//boxImg.style.backgroundImage;
+			boxImg.setAttribute('alt', boxImg.style.backgroundImage);
+			boxImg.style.backgroundImage = temp;
 		});
 	} 
 }

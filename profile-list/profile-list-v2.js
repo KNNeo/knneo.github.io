@@ -133,7 +133,7 @@ function generateProfileFromJSON(profileName) {
 			profileBoxImg.style.backgroundRepeat = 'no-repeat';
 			profileBoxImg.style.backgroundPosition = 'center';
 			profileBoxImg.style.backgroundImage = addUrlClause(image1Source);
-			profileBoxImg.alt = addUrlClause(image2Source);
+			profileBoxImg.setAttribute('alt', addUrlClause(image2Source));
 			
 					
 				/* let image1 = document.createElement('img');
