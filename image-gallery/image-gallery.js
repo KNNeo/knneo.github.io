@@ -128,6 +128,7 @@ function renderPage(pageName) {
 		descriptionCloser.addEventListener('click', function() {
 			this.parentElement.classList.add('closed');
 			descriptionClosed = true;
+			localStorage.setItem("descriptionClosed", descriptionClosed);
 		});
 		description.appendChild(descriptionCloser);	
 		let descriptionText = document.createElement('h5');
@@ -403,11 +404,17 @@ function closeViewer() {
 
 //--FUNCTIONS--//
 function loadPage(pageName) {
+	loadSettings();
 	if(runSlideshow != null) stopSlideshow();
 	//unloadCurrentStyle();
 	//loadStyle(pageName);
 	unloadCurrentScripts();
 	loadDataScript(pageName); //will trigger rest of setup
+}
+
+function loadSettings() {
+	descriptionClosed = localStorage.getItem("descriptionClosed") == "true";
+	if(descriptionClosed == null) localStorage.setItem("descriptionClosed", false);
 }
 
 function loadData(pageName) {
