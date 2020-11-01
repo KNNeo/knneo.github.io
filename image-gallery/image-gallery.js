@@ -92,6 +92,7 @@ function renderPage(pageName) {
 		let newLink = document.createElement('td');
 		//newLink.href = link;
 		//newLink.classList.add('shadowed');
+		newLink.style.display = 'inline-block';
 		newLink.style.padding = '0 10px';
 		newLink.style.borderLeft = '1px solid gray';
 		newLink.style.borderRight = '1px solid gray';
