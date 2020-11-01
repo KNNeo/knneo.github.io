@@ -1,5 +1,5 @@
 //ADD LINKS TO FILENAMES HERE//
-let links = ['bromide-gallery','amiiboCards-gallery','surugaya-gallery']; 
+let links = ['bromide-gallery','amiiboCards-gallery','surugaya-gallery','profile-gallery']; 
 
 
 //--DEFAULT SETTINGS--//
@@ -101,6 +101,7 @@ function renderPage(pageName) {
 		if(link == links[0]) newLink.innerText = 'GALLERY';
 		if(link == links[1]) newLink.innerText = 'amiibo Cards';
 		if(link == links[2]) newLink.innerText = 'ギャラリー';
+		if(link == links[3]) newLink.innerText = 'Profiles';
 		navigationRow.appendChild(newLink);
 	}
 	navigationTableBody.appendChild(navigationRow);
