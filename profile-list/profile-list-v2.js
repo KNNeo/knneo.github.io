@@ -104,26 +104,39 @@ function generateProfileFromJSON(profileName) {
 			profileBoxImg.classList.add('profile-box-img');
 			profileBoxImg.style.clear = 'both';
 			profileBoxImg.style.textAlign = 'center';
-			
-				//pre processing for friend image to flip profiles order
-				let friendImage = '';
-				if(friendMode)
+			profileBoxImg.style.width = '100%';
+			profileBoxImg.style.height = '320px';
+				
+			//pre processing for friend image to flip profiles order
+			let friendImage = '';
+			if(friendMode)
+			{
+				let friend = currentProfile.friends.find( function(p) {
+					return p.id == profile.id
+				});
+				
+				friendImage = friend.image;
+				
+				if(friend.imageId !== (profile.id + '-' + currentProfile.id))
 				{
-					let friend = currentProfile.friends.find( function(p) {
-						return p.id == profile.id
-					});
-					
-					friendImage = friend.image;
-					
-					if(friend.imageId !== (profile.id + '-' + currentProfile.id))
-					{
-						let tempProfile = currentProfile;
-						currentProfile = profile;
-						profile = tempProfile;
-					}
+					let tempProfile = currentProfile;
+					currentProfile = profile;
+					profile = tempProfile;
 				}
+			}
+				
+			let image1Source = friendMode ? friendImage : randomProfileImg(profile.images);
+			let image2Source = profile.images[profile.images.length-1];
+			if(friendMode) image2Source = currentProfile.images.length > 1 ? currentProfile.images[currentProfile.images.length-1] : randomProfileImg(currentProfile.images);
+			
+			profileBoxImg.style.backgroundSize = 'contain';
+			profileBoxImg.style.backgroundRepeat = 'no-repeat';
+			profileBoxImg.style.backgroundPosition = 'center';
+			profileBoxImg.style.backgroundImage = addUrlClause(image1Source);
+			profileBoxImg.alt = addUrlClause(image2Source);
+			
 					
-				let image1 = document.createElement('img');
+				/* let image1 = document.createElement('img');
 				image1.src = spacer;
 				image1.src = friendMode ? friendImage : randomProfileImg(profile.images);
 				profileBoxImg.appendChild(image1);
@@ -146,7 +159,7 @@ function generateProfileFromJSON(profileName) {
 					image2.src = spacer;
 					image2.alt = profile.images[profile.images.length-1];
 					profileBoxImg.appendChild(image2);
-				}
+				} */
 		
 			profileBox.appendChild(profileBoxImg);
 			
@@ -455,4 +468,7 @@ function generateWantedListEntry(id) {
 	}, false);
 	
 	return friendLink;
+}
+function addUrlClause(url) {
+	return "url('" + url + "')";
 }

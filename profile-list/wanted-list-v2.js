@@ -439,7 +439,7 @@ function addProfileBoxImgOnError() {
 function switchProfileBoxImage() {
 	let profileBoxImgList = document.getElementsByClassName("profile-box");
 	for (let i = 0; i < profileBoxImgList.length; i++) {
-		profileBoxImgList[i].addEventListener("click", function() {
+		/* profileBoxImgList[i].addEventListener("click", function() {
 			if (this.getElementsByTagName("img")[0] == null && this.getElementsByTagName("img")[1] == null) return;
 			if (this.getElementsByTagName("img")[1] == null) return;
 			
@@ -448,15 +448,23 @@ function switchProfileBoxImage() {
 				if(image != null) image.style.display = image.style.display == "" ? "none" : "";
 			}
 			
-			/*if(document.getElementsByClassName('profile-box-img')[0].offsetHeight > 325)
+			if(document.getElementsByClassName('profile-box-img')[0].offsetHeight > 325)
 			{
 				for(let image of this.getElementsByTagName("img"))
 				{
 					if(image != null) image.style.display = image.style.display == "" ? "none" : "";
 				}
-			}*/
+			}
+		});*/
+		
+		profileBoxImgList[i].addEventListener("click", function() {
+			let boxImg = this.getElementsByClassName('profile-box-img')[0];
+			if(boxImg.style.backgroundImage == boxImg.alt) return;
+			let temp = boxImg.style.backgroundImage;
+			boxImg.style.backgroundImage = boxImg.alt;
+			boxImg.alt = temp;
 		});
-	}
+	} 
 }
 
 //allow reload in case of initial fail, on slower networks
