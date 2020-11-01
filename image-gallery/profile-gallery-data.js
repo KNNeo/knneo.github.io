@@ -57,6 +57,7 @@ for(let profile of profileList)
 {
 	for(let image of profile.images)
 	{
+		if(image.includes('.blogspot.com')) continue;
 		imgArray.push([smallCounter, image, 'portrait', profile.name, '']);
 	}
 }
