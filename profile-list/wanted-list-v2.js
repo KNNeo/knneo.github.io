@@ -470,6 +470,19 @@ function switchProfileBoxImage() {
 			let temp = boxImg.getAttribute('alt');//boxImg.style.backgroundImage;
 			boxImg.setAttribute('alt', boxImg.style.backgroundImage);
 			boxImg.style.backgroundImage = temp;
+			if(temp.split('url(').length - 1 > 1) 
+			{
+				if(window.innerWidth > 640) boxImg.style.backgroundSize = '320px, 320px';
+				if(window.innerWidth <= 640) boxImg.style.backgroundSize = '50%, 50%';
+				boxImg.style.backgroundRepeat = 'no-repeat';
+				boxImg.style.backgroundPosition = 'left, right';
+			}
+			else
+			{
+				boxImg.style.backgroundSize = 'contain';
+				boxImg.style.backgroundRepeat = 'no-repeat';
+				boxImg.style.backgroundPosition = 'center';
+			}
 		});
 	} 
 }

@@ -127,13 +127,14 @@ function generateProfileFromJSON(profileName) {
 				
 			let image1Source = friendMode ? friendImage : randomProfileImg(profile.images);
 			let image2Source = profile.images[profile.images.length-1];
-			if(friendMode) image2Source = currentProfile.images.length > 1 ? currentProfile.images[currentProfile.images.length-1] : randomProfileImg(currentProfile.images);
+			//if(friendMode) image2Source = image1Source;//currentProfile.images.length > 1 ? currentProfile.images[currentProfile.images.length-1] : randomProfileImg(currentProfile.images);
+			if(friendMode) image2Source = addUrlClause(randomProfileImg(profile.images)) + ", " + addUrlClause(randomProfileImg(currentProfile.images));
 			
 			profileBoxImg.style.backgroundSize = 'contain';
 			profileBoxImg.style.backgroundRepeat = 'no-repeat';
 			profileBoxImg.style.backgroundPosition = 'center';
 			profileBoxImg.style.backgroundImage = addUrlClause(image1Source);
-			profileBoxImg.setAttribute('alt', addUrlClause(image2Source));
+			profileBoxImg.setAttribute('alt', friendMode ? image2Source : addUrlClause(image2Source));
 			
 					
 				/* let image1 = document.createElement('img');
