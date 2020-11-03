@@ -5,10 +5,10 @@
 
 
 //--REINITIALISE SETTINGS--//
-enableViewer = false; //images smaller than screen will not resize up
+enableViewer = window.innerWidth <= 640;; //images smaller than screen will not resize up
 enableOrientation = false; //assume has values in orientation column
 enableSlideshow = true; //enable slideshow button
-enableFullscreenSlideshow = false; //enable fullscreen button for slideshow, for browser only not viewer
+enableFullscreenSlideshow = window.innerWidth <= 640;; //enable fullscreen button for slideshow, for browser only not viewer
 enableShadows = true; //removes shadows and borders in images
 enableDarkMode = true; //no button to toggle, when load always white background
 
@@ -28,9 +28,6 @@ tagRightClickTitle = 'Right Click to Select This Only';
 loaderTextPrefix = 'Images Loaded: ';
 
 //json deserialisation based on profile-list
-const spacer = 'https://knneo.github.io/resources/spacer.gif';
-let isExternal = window.location.href.includes('://knneo.github.io');
-let smallScreen = window.innerWidth <= 640;
 let profileList;
 let friendList = [];
 let xmlhttp = new XMLHttpRequest();
