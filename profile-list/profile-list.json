@@ -165,6 +165,11 @@
 				"id": "SatouSatomi",
 				"image": "https://livedoor.blogimg.jp/hiyonikki/imgs/8/2/8260af82.jpg",
 				"imageId": "SatouSatomi-HikasaYouko"
+			},
+			{
+				"id": "ToyotaMoe",
+				"image": "https://obs.line-scdn.net/0hu_T-o-JsKnBpVAO3RfBVJyEJLB8QNzB4Ayw9ShwCIF4cOD1wAS48ThYENhAMOjd4SVNsXhEnFTk_BTViPFMATjERBAERPW1mN2EzES4dFgAmeG0hVDdnFURcckBEbD8uXTplFglVJhUWYWRyVw/small",
+				"imageId": "HikasaYouko-ToyotaMoe"
 			}
 		]
 	},
@@ -1792,6 +1797,11 @@
 				"id": "AnzaiChika",
 				"image": "https://pbs.twimg.com/media/EI6sU2GU4AAh7NP?format=jpg&name=small",
 				"imageId": "AnzaiChika-ToyotaMoe"
+			},
+			{
+				"id": "HikasaYouko",
+				"image": "https://obs.line-scdn.net/0hu_T-o-JsKnBpVAO3RfBVJyEJLB8QNzB4Ayw9ShwCIF4cOD1wAS48ThYENhAMOjd4SVNsXhEnFTk_BTViPFMATjERBAERPW1mN2EzES4dFgAmeG0hVDdnFURcckBEbD8uXTplFglVJhUWYWRyVw/small",
+				"imageId": "HikasaYouko-ToyotaMoe"
 			}
 		]
 	},
