@@ -1,5 +1,6 @@
 //ADD LINKS TO FILENAMES HERE//
 let links = ['bromide-gallery','amiiboCards-gallery','surugaya-gallery','profile-gallery']; 
+let linkTitles = ['GALLERY','amiibo Cards','ギャラリー','Profiles']; 
 
 
 //--DEFAULT SETTINGS--//
@@ -79,35 +80,28 @@ function renderPage(pageName) {
 	navigation.style.textAlign = 'center';
 	navigation.style.paddingBottom = '10px';
 	navigation.style.lineHeight = '2';
-	//navigation.style.display = 'none';
-	let navigationTable = document.createElement('table');
-	navigationTable.style.marginLeft = 'auto';
-	navigationTable.style.marginRight = 'auto';
-	navigationTable.style.borderCollapse = 'collapse';
-	let navigationTableBody = document.createElement('tbody');
-	let navigationRow = document.createElement('tr');
 
 	for(let link of links)
 	{
-		let newLink = document.createElement('td');
+		let newLink = document.createElement('div');
 		//newLink.href = link;
-		//newLink.classList.add('shadowed');
+		newLink.classList.add('shadowed');
 		newLink.style.display = 'inline-block';
-		newLink.style.padding = '0 10px';
-		newLink.style.borderLeft = '1px solid gray';
-		newLink.style.borderRight = '1px solid gray';
+		newLink.style.padding = '5px 10px';
+		//newLink.style.borderLeft = '1px solid gray';
+		//newLink.style.borderRight = '1px solid gray';
 		newLink.style.verticalAlign = 'bottom';
 		newLink.style.cursor = 'pointer';
 		newLink.addEventListener('click', function() { loadPage(link); });
+		
 		if(link == links[0]) newLink.innerText = 'GALLERY';
 		if(link == links[1]) newLink.innerText = 'amiibo Cards';
 		if(link == links[2]) newLink.innerText = 'ギャラリー';
 		if(link == links[3]) newLink.innerText = 'Profiles';
-		navigationRow.appendChild(newLink);
+		
+		navigation.appendChild(newLink);
 	}
-	navigationTableBody.appendChild(navigationRow);
-	navigationTable.appendChild(navigationTableBody);
-	navigation.appendChild(navigationTable);
+	
 	frame.appendChild(navigation);
 	
 	let title = document.createElement('h1');
