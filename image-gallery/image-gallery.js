@@ -83,6 +83,7 @@ function renderPage(pageName) {
 
 	for(let link of links)
 	{
+		if(pageName.includes(link)) continue;
 		let newLink = document.createElement('div');
 		//newLink.href = link;
 		newLink.classList.add('shadowed');
@@ -106,6 +107,9 @@ function renderPage(pageName) {
 	
 	let title = document.createElement('h1');
 	title.innerText = pageTitle;
+	title.addEventListener('click', function() {
+		loadPage(pageName);
+	});
 	frame.appendChild(title);
 	
 	let description = document.createElement('div');
