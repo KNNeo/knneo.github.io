@@ -35,15 +35,23 @@ function generateFilters(filters) {
 		
 		columnTickbox.addEventListener('click', function() {
 				document.getElementById('tickboxAll').checked = false;
+				resetPresets();
 			});
 		
 		document.getElementById('table-columns').appendChild(columnSpan);
 	}
 	
-	if(filters.columns.length == filters.allColumns.length)
-		document.getElementById('tickboxAll').checked = true;
+	document.getElementById('tickboxAll').checked = filters.columns.length == filters.allColumns.length;
 	//generateSearchFromFilters(filters);
 	
+}
+
+function resetPresets() {
+	for(let preset of document.getElementById('table-preset-ticks').getElementsByTagName('input'))
+	{
+		preset.checked = false;
+	}
+
 }
 
 //generate search for all displayed columns only (assume if not filtered shouldn't be able to search)
