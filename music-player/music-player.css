@@ -6,7 +6,7 @@ body {
 	font-family: Open Sans;
 	max-width: 640px;
 	margin: auto;
-	padding: 2px 8px; 
+	padding: 2px 8px;
 }
 
 h1 {
@@ -23,10 +23,20 @@ button {
 	margin: 3px 0;
 }
 
+
 td { 
 	border: 1px solid black; 
 	padding: 2px 4px; 
 	font-size: 0.8em;
+}
+
+h1 {
+	margin-bottom: 0;
+}
+
+.year {
+	padding: 5px;
+	cursor: pointer;
 }
 
 .darked td {
@@ -38,7 +48,7 @@ button:active {
   transform: translate(2px,2px); 
 }
 
-.player {
+.player, table {
 	width: 100%;
 }
 
