@@ -3,30 +3,54 @@ let tableID = '2019';
 let playerID = tableID + 'Player';
 let timer;
 let timestamps = new Array();
-timestamps.push([2019, 24,   45, 20]); //position,time, rank: time is when current position ends
-timestamps.push([2019, 23,   94, 19]);
-timestamps.push([2019, 22,  135, 18]);
-timestamps.push([2019, 20,  179, 17-1]);
-timestamps.push([2019, 21,  219, 17-2]); //17th has two places, 2nd order to place before 1st
-timestamps.push([2019, 19,  262, 16]);
-timestamps.push([2019, 17,  303, 15-1]);
-timestamps.push([2019, 18,  347, 15-2]);
-timestamps.push([2019, 16,  385, 14]);
-timestamps.push([2019, 15,  429, 13]);
-timestamps.push([2019, 14,  478, 12]);
-timestamps.push([2019, 13,  521, 11]);
-timestamps.push([2019, 12,  562, 10]);
-timestamps.push([2019, 11,  606, 9]);
-timestamps.push([2019, 10,  654, 8]);
-timestamps.push([2019,  9,  703, 7]);
-timestamps.push([2019,  7,  749, 6-1]);
-timestamps.push([2019,  8,  793, 6-2]);
-timestamps.push([2019,  6,  844, 5]);
-timestamps.push([2019,  5,  888, 4]);
-timestamps.push([2019,  3,  932, 3-1]);
-timestamps.push([2019,  4,  975, 3-2]);
-timestamps.push([2019,  2, 1019, 2]);
-timestamps.push([2019,  1, 1109, 1]);
+//year_string,position_in_table,time_in_seconds,rank: time is when current rank ends
+timestamps.push(['2019', 24,   45, 20]);
+timestamps.push(['2019', 23,   94, 19]);
+timestamps.push(['2019', 22,  135, 18]);
+timestamps.push(['2019', 20,  179, 17-1]);
+timestamps.push(['2019', 21,  219, 17-2]); //17th has two places, so order is same as order of play
+timestamps.push(['2019', 19,  262, 16]);
+timestamps.push(['2019', 17,  303, 15-1]);
+timestamps.push(['2019', 18,  347, 15-2]);
+timestamps.push(['2019', 16,  385, 14]);
+timestamps.push(['2019', 15,  429, 13]);
+timestamps.push(['2019', 14,  478, 12]);
+timestamps.push(['2019', 13,  521, 11]);
+timestamps.push(['2019', 12,  562, 10]);
+timestamps.push(['2019', 11,  606, 9]);
+timestamps.push(['2019', 10,  654, 8]);
+timestamps.push(['2019',  9,  703, 7]);
+timestamps.push(['2019',  7,  749, 6-1]);
+timestamps.push(['2019',  8,  793, 6-2]);
+timestamps.push(['2019',  6,  844, 5]);
+timestamps.push(['2019',  5,  888, 4]);
+timestamps.push(['2019',  3,  932, 3-1]);
+timestamps.push(['2019',  4,  975, 3-2]);
+timestamps.push(['2019',  2, 1019, 2]);
+timestamps.push(['2019',  1, 1109, 1]);
+
+timestamps.push(['2018', 22,   41, 20]);
+timestamps.push(['2018', 21,   91, 19]);
+timestamps.push(['2018', 20,  135, 18]);
+timestamps.push(['2018', 18,  179, 17-1]);
+timestamps.push(['2018', 19,  220, 17-2]);
+timestamps.push(['2018', 17,  269, 16]);
+timestamps.push(['2018', 16,  316, 15]);
+timestamps.push(['2018', 15,  366, 14]);
+timestamps.push(['2018', 14,  411, 13]);
+timestamps.push(['2018', 13,  460, 12]);
+timestamps.push(['2018', 12,  506, 11]);
+timestamps.push(['2018', 11,  550, 10]);
+timestamps.push(['2018', 10,  596, 9]);
+timestamps.push(['2018',  9,  637, 8]);
+timestamps.push(['2018',  8,  676, 7]);
+timestamps.push(['2018',  7,  721, 6]);
+timestamps.push(['2018',  5,  766, 5-1]);
+timestamps.push(['2018',  6,  810, 5-2]);
+timestamps.push(['2018',  4,  856, 4]);
+timestamps.push(['2018',  3,  905, 3]);
+timestamps.push(['2018',  2,  950, 2]);
+timestamps.push(['2018',  1, 1029, 1]);
 
 
 window.onload = startup();
@@ -47,6 +71,8 @@ function generateSidemenu() {
 		item.addEventListener('click', function() {
 			tableID = this.innerText;
 			playerID = this.innerText + 'Player';
+			document.getElementsByClassName('player')[0].pause();
+            clearInterval(timer);
 			clearTimestamp();
 			hideIrrelevant();
 		});
@@ -93,7 +119,7 @@ function setTimestamp() {
     let currentTime = Math.floor(audioPlayer.currentTime);
     let currentPos;
     let prevPos;
-    for (let pair of timestamps) {
+    for (let pair of timestamps.filter(time => time[0] == tableID)) {
         if (pair[2] >= currentTime) {
             currentPos = pair[1];
             break;
