@@ -35,6 +35,8 @@
 		"category":"seiyuu0",
 		"id":"TachibanaHaru",
 		"images":[
+			"https://pbs.twimg.com/media/EmIMFu6VoAA8yj3?format=jpg&name=small",
+			"https://pbs.twimg.com/media/El91Q82U0AEqVug?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EjJx0-aUMAIQl-m?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EhYGwnyU8AAmAfw?format=jpg&name=small",
 			"https://4.bp.blogspot.com/-rUQTFs7pkmM/Xax1NXhWF7I/AAAAAAAA1Vw/VRCAMAaZV6UAkGjrdYggZgKJVMPK3gwggCPcBGAYYCw/s320/Cw3342xUcAAZzWE.jpg"
@@ -67,6 +69,7 @@
 		"category":"seiyuu1",
 		"id":"HanazawaKana",
 		"images":[
+			"https://spice.eplus.jp/images/PdNfITo13aqgF2SMUh29OjBn8Xqbj4WOcmuDirpi61WGHEXJ5KTx2S7BuuRAz8Bv/",
 			"https://pbs.twimg.com/media/EhIpaxxU4AAm1hR?format=jpg&name=small",
 			"https://1.bp.blogspot.com/-hezPufoGCcM/XYX4BbNbCBI/AAAAAAAA0rA/j9f2IaPw2n46yjcGaDX8vXG4WRpwCuOGgCLcBGAsYHQ/s320/b0012149_4d18ac7ea154e.jpg"
 		],
@@ -1111,6 +1114,7 @@
 		"category":"seiyuu2",
 		"id":"UesakaSumire",
 		"images":[
+			"https://pbs.twimg.com/media/EmJT16NU0AE97XU?format=jpg&name=small",
 			"https://instagram.fsin9-1.fna.fbcdn.net/v/t51.2885-15/e35/p1080x1080/122157062_128778568685737_4914240360518503787_n.jpg?_nc_ht=instagram.fsin9-1.fna.fbcdn.net&_nc_cat=1&_nc_ohc=DlnWHoPCVjUAX_9qFv2&tp=19&oh=799758f27bfc54121fa6ad9b95fba70b&oe=5FBC8DBA",
 			"https://instagram.fsin9-1.fna.fbcdn.net/v/t51.2885-15/e35/p1080x1080/121393087_1851497608337670_8165068592952772639_n.jpg?_nc_ht=instagram.fsin9-1.fna.fbcdn.net&_nc_cat=1&_nc_ohc=DCB5DttZWwQAX-eLeKe&_nc_tp=19&oh=fc54263905bedde543bcdcefcba0eae6&oe=5FAE8E5D",
 			"https://obs.line-scdn.net/0hEZmR4-4qGnVQKzJBZmJlIht2HBopSAB9OlMNTyV9EFslRw11OFERRzd7HhUTWRl_NA4BDypzRBN6SQtdEiYREhVoLBU1TCNbLxQDWHYqRQEqQT50cE1RGnYvREZ1GFojZB8CG3wpQwB8SFR0a05URw/small",
@@ -1337,7 +1341,7 @@
 			},
 			{
 				"id": "Lynn",
-				"image": "https://pbs.twimg.com/media/EDYevV_VUAEiZS0?format=jpg&name=large",
+				"image": "https://pbs.twimg.com/media/EDYevV_VUAEiZS0?format=jpg&name=small",
 				"imageId": "Lynn-IsobeKarin"
 			}
 		]
@@ -1346,6 +1350,7 @@
 		"category":"seiyuu3",
 		"id":"KidoIbuki",
 		"images":[
+			"https://pbs.twimg.com/media/EmJFO9iU0Ak-svE?format=jpg&name=small",
 			"https://pbs.twimg.com/media/ElFCGvDUYAA2Emb?format=jpg&name=small",
 			"https://pbs.twimg.com/media/Ei7GukuVgAAzTDt?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EdrB82xVAAEVo5L?format=jpg&name=small",
@@ -1380,6 +1385,7 @@
 		"category":"seiyuu3",
 		"id":"KitouAkari",
 		"images":[
+			"https://img2.animatetimes.com/2020/11/5fa2a8371257a_029169d6c31102077e15419af85af975.jpg",
 			"https://img.ananweb.jp/2020/09/08174448/5-100146938.jpg",
 			"https://scontent-sin6-1.cdninstagram.com/v/t51.2885-15/e35/s1080x1080/122065449_642953246405803_4319323971119697063_n.jpg?_nc_ht=scontent-sin6-1.cdninstagram.com&_nc_cat=107&_nc_ohc=EnSOPdfwVTkAX9Vt3jP&_nc_tp=15&oh=b97410107d1b1ca064666c60a4229cbc&oe=5FBE440E",
 			"https://instagram.fsin9-1.fna.fbcdn.net/v/t51.2885-15/e35/s1080x1080/121203130_2921893891246187_9155078250835015137_n.jpg?_nc_ht=instagram.fsin9-1.fna.fbcdn.net&_nc_cat=1&_nc_ohc=UKbqwPRia_MAX8YAIMr&_nc_tp=15&oh=f6047e29163cecf29a68895721101a16&oe=5FAE0C9D",
@@ -1511,7 +1517,7 @@
 			},
 			{
 				"id": "IsobeKarin",
-				"image": "https://pbs.twimg.com/media/EDYevV_VUAEiZS0?format=jpg&name=large",
+				"image": "https://pbs.twimg.com/media/EDYevV_VUAEiZS0?format=jpg&name=small",
 				"imageId": "Lynn-IsobeKarin"
 			}
 		]
@@ -1681,7 +1687,9 @@
 		"category":"seiyuu3",
 		"id":"OonoYuuko",
 		"images":[
+			"https://pbs.twimg.com/media/El6QTO5VMAA7rg0?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EfmE0F4UwAEFUxq?format=jpg&name=small",
+			"https://pbs.twimg.com/media/EhetOlOUcAM0fhY?format=jpg&name=small",
 			"https://1.bp.blogspot.com/-glPpS3lLPyM/XlvVlbt-Z7I/AAAAAAAA5gQ/KAVK2JVaBLwYV1xWiSiwJsp-ZLq-Osh6gCLcBGAsYHQ/s320/C_C9ZFQVwAEO_xG.jpg"
 		],
 		"name":"Oono Yuuko",
@@ -1762,6 +1770,7 @@
 		"category":"seiyuu3",
 		"id":"ToyotaMoe",
 		"images":[
+			"https://pbs.twimg.com/media/EmD4h8XVMAI6ycF?format=jpg&name=small",
 			"https://pbs.twimg.com/media/ElKUPEWVkAA4lPa?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EfeGJznUwAA-23m?format=jpg&name=small",
 			"https://2.bp.blogspot.com/-KbZD4IDAEWk/Xa2mgPVU80I/AAAAAAAA1Ys/jevRvFzIr30X3Kc_IJowDMcCKE5H-HTJACLcBGAsYHQ/s320/D4jtZGDXsAAzgQT.jpg"
