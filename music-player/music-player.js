@@ -3,7 +3,7 @@ let tableID = '2019';
 let playerID = tableID + 'Player';
 let timer;
 let timestamps = new Array();
-//year_string,position_in_table,time_in_seconds,rank: time is when current rank ends
+//title_string,table_row,time_in_seconds,rank_till_time
 timestamps.push(['2019', 24,   45, 20]);
 timestamps.push(['2019', 23,   94, 19]);
 timestamps.push(['2019', 22,  135, 18]);
@@ -20,7 +20,7 @@ timestamps.push(['2019', 12,  562, 10]);
 timestamps.push(['2019', 11,  606, 9]);
 timestamps.push(['2019', 10,  654, 8]);
 timestamps.push(['2019',  9,  703, 7]);
-timestamps.push(['2019',  7,  749, 6-1]);
+timestamps.push(['2019',  7,  747, 6-1]);
 timestamps.push(['2019',  8,  793, 6-2]);
 timestamps.push(['2019',  6,  844, 5]);
 timestamps.push(['2019',  5,  888, 4]);
@@ -30,9 +30,9 @@ timestamps.push(['2019',  2, 1019, 2]);
 timestamps.push(['2019',  1, 1109, 1]);
 
 timestamps.push(['2018', 22,   41, 20]);
-timestamps.push(['2018', 21,   91, 19]);
+timestamps.push(['2018', 21,   90, 19]);
 timestamps.push(['2018', 20,  135, 18]);
-timestamps.push(['2018', 18,  179, 17-1]);
+timestamps.push(['2018', 18,  175, 17-1]);
 timestamps.push(['2018', 19,  220, 17-2]);
 timestamps.push(['2018', 17,  269, 16]);
 timestamps.push(['2018', 16,  316, 15]);
@@ -71,7 +71,10 @@ function generateSidemenu() {
 		item.addEventListener('click', function() {
 			tableID = this.innerText;
 			playerID = this.innerText + 'Player';
-			document.getElementsByClassName('player')[0].pause();
+			for(let player of document.getElementsByClassName('player'))
+			{
+				player.load();
+			}
             clearInterval(timer);
 			clearTimestamp();
 			hideIrrelevant();
@@ -131,7 +134,9 @@ function setTimestamp() {
     else {
         if (prevPos != undefined && currentTime >= prevPos[2]) clearTimestamp();
         if (!audioPlayer.paused) {
-            if(audioTable.getElementsByTagName("tr")[currentPos].cells.length == 2) audioTable.getElementsByTagName("tr")[currentPos-1].getElementsByTagName("td")[1].style.fontWeight = "bold";
+			//if has colspan on column 0 ensure on second row cell on first row is highlighted
+            if(audioTable.getElementsByTagName("tr")[currentPos].cells.length == 2)
+				audioTable.getElementsByTagName("tr")[currentPos-1].cells[0].style.fontWeight = "bold";
             audioTable.getElementsByTagName("tr")[currentPos].style.fontWeight = "bold";
         }
         else {
@@ -143,7 +148,7 @@ function setTimestamp() {
 
 function clearTimestamp() {
     for (let row of document.getElementById(tableID).getElementsByTagName("tr")) {
-        if(row.cells.length == 3) row.getElementsByTagName("td")[1].style.fontWeight = null;
+        if(row.cells.length == 3) row.cells[0].style.fontWeight = null;
         row.style.fontWeight = "normal";
     }
 }
