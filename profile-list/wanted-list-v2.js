@@ -472,10 +472,18 @@ function switchProfileBoxImage() {
 			boxImg.style.backgroundImage = temp;
 			if(temp.split('url(').length - 1 > 1) 
 			{
-				if(window.innerWidth > 640) boxImg.style.backgroundSize = '320px, 320px';
-				if(window.innerWidth <= 640) boxImg.style.backgroundSize = '50%, 50%';
 				boxImg.style.backgroundRepeat = 'no-repeat';
-				boxImg.style.backgroundPosition = 'left, right';
+				if(window.innerWidth > 640) 
+				{
+					boxImg.style.backgroundSize = '40%, 40%';
+					//boxImg.style.backgroundSize = '320px, 320px';
+					boxImg.style.backgroundPosition = 'left, right';
+				}
+				if(window.innerWidth <= 640) 
+				{
+					boxImg.style.backgroundSize = 'auto 50%, auto 50%';
+					boxImg.style.backgroundPosition = 'top, bottom';
+				}
 			}
 			else
 			{

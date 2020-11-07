@@ -134,8 +134,7 @@ function generateProfileFromJSON(profileName) {
 			profileBoxImg.style.backgroundRepeat = 'no-repeat';
 			profileBoxImg.style.backgroundPosition = 'center';
 			profileBoxImg.style.backgroundImage = addUrlClause(image1Source);
-			profileBoxImg.setAttribute('alt', friendMode ? image2Source : addUrlClause(image2Source));
-			
+			profileBoxImg.setAttribute('alt', friendMode ? image2Source : addUrlClause(image2Source));			
 					
 				/* let image1 = document.createElement('img');
 				image1.src = spacer;
