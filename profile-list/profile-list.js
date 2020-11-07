@@ -6,7 +6,10 @@ if(profileListJson.length == 0) {
 	let xmlhttp = new XMLHttpRequest();
 	xmlhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
-			profileList = JSON.parse(this.responseText);
+			profileListJson = JSON.parse(this.responseText);
+			profileList = profileListJson.filter( function(n) {
+				return n.category != 'friendList';
+			});
 			//code here
 			if(profileList != null && generateProfileListFromJSON(profileList)) renderWantedList();
 		}

@@ -2,13 +2,19 @@
 const spacer = 'https://knneo.github.io/resources/spacer.gif';
 let isExternal = window.location.href.includes('://knneo.github.io');
 let smallScreen = window.innerWidth <= 640;
-let profileList;
 let friendList = [];
+let profileList;
 if(profileListJson.length == 0) {
 	let xmlhttp = new XMLHttpRequest();
 	xmlhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
-			profileList = JSON.parse(this.responseText);
+			profileListJson = JSON.parse(this.responseText);
+			profileList = profileListJson.filter( function(n) {
+				return n.category != 'friendList';
+			});
+			friendList = profileListJson.filter( function(n) {
+				return n.category == 'friendList';
+			});
 			//code here
 			//if(profileList != null && generateProfileListFromJSON(profileList)) renderProfileBox();
 			if(profileList != null) initialiseWantedList();
@@ -20,36 +26,55 @@ if(profileListJson.length == 0) {
 }
 else {
 	console.log('Using test json');
-	profileList = profileListJson;
+	profileList = profileListJson.filter( function(n) {
+				return n.category != 'friendList';
+			});
+	friendList = profileListJson.filter( function(n) {
+		return n.category == 'friendList';
+	});
 	initialiseWantedList();
 }
 
 function friendCheck() {
 	console.log('Friend check!');
-	for(let profile of profileList)
+	
+	if(friendList.length == 1 && friendList[0].length > 0)
 	{
-		if(profile.friends == undefined) continue;
-		for(let friend of profile.friends)
+		
+		/* for(let profile of profileList)
 		{
-			friendList.push({
-				friend1: friend.id,
-				friend2: profile.id
-			});
-		}
-	}
-	
-	friendList.sort( function(a,b) {
-		return a.friend1.localeCompare(b.friend1)
-	});
-	
-	for(let pair of friendList)
-	{
-		let pairs = friendList.filter( function(n) {
-			return n.friend1 == pair.friend2 && pair.friend1 == n.friend2;
+			if(profile.friends == undefined) continue;
+			for(let friend of profile.friends)
+			{
+				friendList.push({
+					friend1: friend.id,
+					friend2: profile.id
+				});
+			}
+		} */
+		
+		friendList[0].friends.sort( function(a,b) {
+			return a.id.localeCompare(b.id)
 		});
 		
-		if(pairs.length == 0)
-			console.log(pair.friend2 + ' missing in ' + pair.friend1);
+		/* for(let pair of friendList)
+		{
+			let pairs = friendList.filter( function(n) {
+				return n.friend1 == pair.friend2 && pair.friend1 == n.friend2;
+			});
+			
+			if(pairs.length == 0)
+				console.log(pair.friend2 + ' missing in ' + pair.friend1);
+		} */
+		
+		for(let pair of friendList[0].friends)
+		{
+			let result = friendList[0].friends.filter( function(f) {
+				return f.id == pair.id;
+			});
+			if(result != undefined && result.length > 1)
+				console.log(pair.id + " has duplicates");
+		}
 	}
 	
 	console.log('Done.');
@@ -72,9 +97,11 @@ function generateProfileFromJSON(profileName) {
 			return n.id == currentProfileName;
 		})[0];
 		
-		let friendFound = friendList.filter( function(n) {
-			return n.friend1 == currentProfile.id && n.friend2 == profile.id;
-		}).length > 0;
+		
+		let friendFound = friendList[0].friends.find( function(p) {
+					return p.id == currentProfile.id + "-" + profile.id ||
+					p.id == profile.id + "-" + currentProfile.id;
+		}) != undefined;
 		
 		//if(friendFound)
 		//	console.log('Friend found! ' + currentProfile.name + ' x ' + profile.name);
@@ -111,17 +138,21 @@ function generateProfileFromJSON(profileName) {
 			let friendImage = '';
 			if(friendMode)
 			{
-				let friend = currentProfile.friends.find( function(p) {
-					return p.id == profile.id
+				let friend = friendList[0].friends.find( function(p) {
+					return p.id == currentProfile.id + '-' + profile.id || 
+						p.id == profile.id + '-' + currentProfile.id;
 				});
 				
-				friendImage = friend.image;
-				
-				if(friend.imageId !== (profile.id + '-' + currentProfile.id))
+				if(friend != undefined)
 				{
-					let tempProfile = currentProfile;
-					currentProfile = profile;
-					profile = tempProfile;
+					friendImage = friend.image;
+					
+					if(friend.id !== (profile.id + '-' + currentProfile.id))
+					{
+						let tempProfile = currentProfile;
+						currentProfile = profile;
+						profile = tempProfile;
+					}
 				}
 			}
 				
@@ -371,7 +402,10 @@ function generateProfileFromJSON(profileName) {
 						
 						profileTableBody.appendChild(row);
 						
-						if(profile.friends != undefined)
+						let profileFriendsList = friendList[0].friends.filter( function(p) {
+							return p.id.endsWith(profile.id) || p.id.startsWith(profile.id);
+						});
+						if(profileFriendsList.length > 0)
 						{
 							row = document.createElement('tr');
 							
@@ -388,15 +422,24 @@ function generateProfileFromJSON(profileName) {
 									cellDiv = document.createElement('div');
 									cellDiv.id = 'profile-friends';
 									//sorting only works on firefox
-									for(let friend of profile.friends.sort( function(a,b) { 
-											return a.id.localeCompare(b.id)
+									
+									let profileFriends = [];
+									for(let friend1 of profileFriendsList)
+									{
+										let splits = friend1.id.split('-');
+										for(let item of splits)
+										{
+											if(item != profile.id)
+												profileFriends.push(item);
 										}
-									))
+									}
+									
+									for(let friend of profileFriends.sort())
 									{
 										let span = document.createElement('span');
 										span.innerText = ' ';
 										cellDiv.appendChild(span);
-										cellDiv.appendChild(generateWantedListEntry(friend.id));
+										cellDiv.appendChild(generateWantedListEntry(friend));
 									}
 									
 									cell.appendChild(cellDiv);

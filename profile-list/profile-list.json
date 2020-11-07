@@ -1,5 +1,190 @@
 [
 	{
+		"category":"friendList",
+		"friends": [
+			{
+				"image": "https://pbs.twimg.com/media/EipYyyYUMAAbzyl?format=jpg&name=small",
+				"id": "HanazawaKana-KomatsuMikako"
+			},
+			{
+				"image": "https://pbs.twimg.com/media/EleAiboVMAEYpmE?format=jpg&name=small",
+				"id": "HanazawaKana-HondoKaede"
+			},
+			{
+				"image": "https://obs.line-scdn.net/0hu_T-o-JsKnBpVAO3RfBVJyEJLB8QNzB4Ayw9ShwCIF4cOD1wAS48ThYENhAMOjd4SVNsXhEnFTk_BTViPFMATjERBAERPW1mN2EzES4dFgAmeG0hVDdnFURcckBEbD8uXTplFglVJhUWYWRyVw/small",
+				"id": "HikasaYouko-ToyotaMoe"
+			},
+			{
+				"image": "https://pbs.twimg.com/media/DvCV4LNVYAAGZld?format=jpg&name=small",
+				"id": "KotobukiMinako-TomatsuHaruka"
+			},
+			{
+				"image": "https://obs.line-scdn.net/0hdP5dGrVmO38IHRdTt-tEKEdAPRBxfiF3YmUsRX1LMVF9cSx_YGcxR2VNOR96fSI1VwI8Tk8dDQdSWiBSUXkOaWtGPQ0mbh5zbH4xWS5BIC85LXgpMXN0GC8abE8tf3QhNHx8XCwbbElwJXQp/small",
+				"id": "OokuboRumi-TouyamaNao"
+			},
+			{
+				"image": "https://pbs.twimg.com/media/EjU48AUVgAEdGOh?format=jpg&name=small",
+				"id": "OokuboRumi-TakahashiRie"
+			},
+			{
+				"image": "https://livedoor.blogimg.jp/hiyonikki/imgs/8/2/8260af82.jpg",
+				"id": "SatouSatomi-HikasaYouko"
+			},
+			{
+				"image": "https://pbs.twimg.com/media/DwxTkfoV4AYLzcT?format=jpg&name=small",
+				"id": "TaketatsuAyana-YuukiAoi"
+			},
+			{
+				"image": "https://pbs.twimg.com/media/D7ae0oPUcAAOO0W?format=jpg&name=small",
+				"id": "TaketatsuAyana-NumakuraManami"
+			},
+			{
+				"image": "https://livedoor.blogimg.jp/hiyonikki/imgs/2/2/220ba98e.jpg",
+				"id": "TomatsuHaruka-HikasaYouko"
+			},
+			{
+				"image": "https://cdnx.natalie.mu/media/pp/static/comic/boogiepop01/gallery15.jpg",
+				"id": "YuukiAoi-OonishiSaori"
+			},
+			{
+				"image": "https://pbs.twimg.com/media/Ele78agU8AA2lkP?format=jpg&name=small",
+				"id": "HidakaRina-HikasaYouko"
+			},
+			{
+				"image": "https://pbs.twimg.com/media/EEaGlW6U4AAEVBq?format=jpg&name=small",
+				"id": "HidakaRina-HanazawaKana"
+			},
+			{
+				"image": "https://pbs.twimg.com/media/EjAfUbEVgAcUVi3?format=jpg&name=small",
+				"id": "HidakaRina-MinaseInori"
+			},
+			{
+				"image": "https://pbs.twimg.com/media/DldEOYnVAAEZCb1?format=jpg&name=small",
+				"id": "MinaseInori-OonishiSaori"
+			},
+			{
+				"image": "https://pbs.twimg.com/media/EOj49SeUcAEU9H4?format=jpg&name=small",
+				"id": "NatsukawaShiina-AsakuraMomo"
+			},
+			{
+				"image": "https://obs.line-scdn.net/0hJfiKQWzqFUlUMj1GCLNqHiBvEyYtUQ9BPkoCcyFkH2chXgJJPEgFay1iET06Ug5PNwQGd21ELg0hfCpLbFMRVi9BCHEBBlJ8LV0gdyswQjkKeipUbUhaK3gwQnF8CloWaFwPLHI0T3k8AwFPbVJTfXY/small",
+				"id": "NumakuraManami-Lynn"
+			},
+			{
+				"image": "https://obs.line-scdn.net/0h3VzSvJs0bHlHKkeE_N4TLgh3ahY-SXZxLVJ7QzJ8ZlcyRnt5L1BmQSp6bhk1SnUzCBlAGzFJVxAXREt2BxtaHjR2WS4TQC1tITgifCYsdU12Gi8pekkgHmAjNEliTygqe0olWmN6Z04_TyMt/small",
+				"id": "NumakuraManami-TouyamaNao"
+			},
+			{
+				"image": "https://pbs.twimg.com/media/EFJvuGdUEAAXcLS?format=jpg&name=small",
+				"id": "TakahashiRie-MinaseInori"
+			},
+			{
+				"image": "https://pbs.twimg.com/media/EKm5lNfU8AARbmo?format=jpg&name=small",
+				"id": "TakahashiRie-OonoYuuko"
+			},
+			{
+				"image": "https://obs.line-scdn.net/0h2H6LBxwlbWcLNUBydMsSMH9oawhyVndvYU16XX5jZ0l-WXpnY099RXJlaRNlVXZhaAN-WTJQSypFf25zRVR5AllcYQVtZSNoPit0USx8dSBlW05qZ08iBSwwMFQgBSozN1twCSc8M1ZjBCNhY1sqCSY/small",
+				"id": "TakahashiRie-NumakuraManami"
+			},
+			{
+				"image": "https://pbs.twimg.com/media/EG15sKiUUAcsC5L?format=jpg&name=small",
+				"id": "TakahashiRie-HondoKaede"
+			},
+			{
+				"image": "https://pbs.twimg.com/media/DqrwuBOVAAAaQGH?format=jpg&name=small",
+				"id": "TakahashiRie-KounoMarika"
+			},
+			{
+				"image": "https://pbs.twimg.com/media/EcO8pUyU0AIs5SX?format=jpg&name=small",
+				"id": "TouyamaNao-HikasaYouko"
+			},
+			{
+				"image": "https://obs.line-scdn.net/0h4n7Tuydaa0EKLUGtUREUFkVwbS5zTnFJYFV8e397YW9_QXxBYldheWd9aSF4TXILaTR8Iy9TdhpSWGtDSTIlQylkVhUmfFxcdy9MeUx7NQw7HSgTNUwmIyolMHEvT3seP0kkYi4lZ3chSChE/small",
+				"id": "TouyamaNao-HondoKaede"
+			},
+			{
+				"image": "https://pbs.twimg.com/media/Efie5W7X0AEwFhs?format=jpg&name=small",
+				"id": "TouyamaNao-KoharaKonomi"
+			},
+			{
+				"image": "https://pbs.twimg.com/media/EPsmY5sU0AMyEnc?format=jpg&name=small",
+				"id": "TouyamaNao-MinaseInori"
+			},
+			{
+				"image": "https://pbs.twimg.com/media/EWN3ZZ9UwAQCGtr?format=jpg&name=small",
+				"id": "UesakaSumire-KomatsuMikako"
+			},
+			{
+				"image": "https://obs.line-scdn.net/0hbwN2a2LQPVhzSxcTSBlCDzgWOzcKKCdQGTMqYgYdN3YGJypYGzE2ahQbOTgwOT5SF24mIghJERcDJQ5WDkY5dSsZOhUIAXlWEE4lW18ZGBo4Mi90Uy12O1FOYmhdcn8OR38hOFJIZS1fc30HS38lOg/small",
+				"id": "UesakaSumire-MinaseInori"
+			},
+			{
+				"image": "https://obs.line-scdn.net/0haGuS2EWOPmhIKhTmey9BPwN3OAcxSSRgIlIpUj18NEY9RiloIFA1Wi96OggLWD1iLA8lEjVIHBwMen9DBBUpdG5DByEhRRw6IAsyTWpVPlgWG3x2aEx1CmQsaVBjGnw-fB4mC24rYB1kSno6c0h0DQ/small",
+				"id": "UesakaSumire-HorieYui"
+			},
+			{
+				"image": "https://pbs.twimg.com/media/EicFvkRUwAMi0hq?format=jpg&name=small",
+				"id": "AnzaiChika-YoshimuraHaruka"
+			},
+			{
+				"image": "https://pbs.twimg.com/media/EI6sU2GU4AAh7NP?format=jpg&name=small",
+				"id": "AnzaiChika-ToyotaMoe"
+			},
+			{
+				"image": "https://pbs.twimg.com/media/DlqI1MuV4AIm9k7?format=jpg&name=small",
+				"id": "FuchigamiMai-TachibanaRika"
+			},
+			{
+				"image": "https://pbs.twimg.com/media/Dnq-fUIU0AEua4D?format=jpg&name=small",
+				"id": "HondoKaede-NagatsumaJuuri"
+			},
+			{
+				"image": "https://pbs.twimg.com/media/DjgosGkVsAI2iae?format=jpg&name=small",
+				"id": "HondoKaede-WakiAzumi"
+			},
+			{
+				"image": "https://pbs.twimg.com/media/DpO8BEcUYAIg18p?format=jpg&name=small",
+				"id": "IsobeKarin-TachibanaRika"
+			},
+			{
+				"image": "https://pbs.twimg.com/media/ETjfQz8UEAE6dNO?format=jpg&name=small",
+				"id": "KitouAkari-WakiAzumi"
+			},
+			{
+				"image": "https://pbs.twimg.com/media/DfoERUqUYAAze_n?format=jpg&name=small",
+				"id": "KitouAkari-TaketatsuAyana"
+			},
+			{
+				"image": "https://thetv.jp/i/nw/219265/1361806.jpg?w=615",
+				"id": "Lynn-NatsukawaShiina"
+			},
+			{
+				"image": "https://pbs.twimg.com/media/EDYevV_VUAEiZS0?format=jpg&name=small",
+				"id": "Lynn-IsobeKarin"
+			},
+			{
+				"image": "https://pbs.twimg.com/media/DldCru_UcAAmC4-?format=jpg&name=small",
+				"id": "OonishiSaori-WakiAzumi"
+			},
+			{
+				"image": "https://pbs.twimg.com/media/EdInLhiUYAE-3g1?format=jpg&name=small",
+				"id": "OonoYuuko-OozoraNaomi"
+			},
+			{
+				"image": "https://pbs.twimg.com/media/EAfYmNMU4AEn_ZP?format=jpg&name=small",
+				"id": "WakiAzumi-KounoMarika"
+			},
+			{
+				"image": "https://pbs.twimg.com/media/DptmUnwVsAAeHoA?format=jpg&name=small",
+				"id": "YoshimuraHaruka-TachibanaRika"
+			},
+			{
+				"image": "https://pbs.twimg.com/media/DitrDp5V4AAwqcA?format=jpg&name=small",
+				"id": "YoshimuraHaruka-NagatsumaJuuri"
+			}
+		]
+	},
+	{
 		"category":"seiyuu0",
 		"id":"BabaFumika",
 		"images":[
@@ -96,23 +281,6 @@
 			"*The closest she has come to it was wearing one, specifically just the top with a shirt above, on her 400th episode of her radio program. And maybe when she showed off her back in <a href=\"https://twitter.com/hitokana_qr/status/1298991156748070912\">this Tweet</a> a year later",
 			"**Married to fellow voice actor Oono Kensho, also known to be dating 3 years prior to announcement in July 2020",
 			"***She is high about bread you thought she is into drugs, in <a href=\"https://twitter.com/hanazawa_staff/status/1230298398135242757\">this Tweet</a> off her radio show"
-		],
-		"friends": [
-			{
-				"id": "KomatsuMikako",
-				"image": "https://pbs.twimg.com/media/EipYyyYUMAAbzyl?format=jpg&name=small",
-				"imageId": "HanazawaKana-KomatsuMikako"
-			},
-			{
-				"id": "HidakaRina",
-				"image": "https://pbs.twimg.com/media/EEaGlW6U4AAEVBq?format=jpg&name=small",
-				"imageId": "HidakaRina-HanazawaKana"
-			},
-			{
-				"id": "HondoKaede",
-				"image": "https://pbs.twimg.com/media/EleAiboVMAEYpmE?format=jpg&name=small",
-				"imageId": "HanazawaKana-HondoKaede"
-			}
 		]
 	},
 	{
@@ -146,33 +314,6 @@
 			"*More commonly referred to as \"Hiyocchi\"",
 			"**Brief solo music career under music label PONY CANYON from 2013 to 2014, releasing 4 singles and 1 album; First single was ending theme for Anime \"Attack on Titan\"",
 			"***Ever since her performance in Anime series \"WORKING!!\" she has been regarded as an \"old hag\" by fellow voice actors as during the recording the director praised on her voice acting skills on voicing Takanashi Izumi, a lazy and weak woman"
-		],
-		"friends": [
-			{
-				"id": "TouyamaNao",
-				"image": "https://pbs.twimg.com/media/EcO8pUyU0AIs5SX?format=jpg&name=small",
-				"imageId": "TouyamaNao-HikasaYouko"
-			},
-			{
-				"id": "HidakaRina",
-				"image": "https://pbs.twimg.com/media/Ele78agU8AA2lkP?format=jpg&name=small",
-				"imageId": "HidakaRina-HikasaYouko"
-			},
-			{
-				"id": "TomatsuHaruka",
-				"image": "https://livedoor.blogimg.jp/hiyonikki/imgs/2/2/220ba98e.jpg",
-				"imageId": "TomatsuHaruka-HikasaYouko"
-			},
-			{
-				"id": "SatouSatomi",
-				"image": "https://livedoor.blogimg.jp/hiyonikki/imgs/8/2/8260af82.jpg",
-				"imageId": "SatouSatomi-HikasaYouko"
-			},
-			{
-				"id": "ToyotaMoe",
-				"image": "https://obs.line-scdn.net/0hu_T-o-JsKnBpVAO3RfBVJyEJLB8QNzB4Ayw9ShwCIF4cOD1wAS48ThYENhAMOjd4SVNsXhEnFTk_BTViPFMATjERBAERPW1mN2EzES4dFgAmeG0hVDdnFURcckBEbD8uXTplFglVJhUWYWRyVw/small",
-				"imageId": "HikasaYouko-ToyotaMoe"
-			}
 		]
 	},
 	{
@@ -204,13 +345,6 @@
 		"comments":[
 			"*As stated by her as a farce of concealing her age, but we know... Okay I'm going to reveal it, you ready? It's 1976.09.20",
 			"**Have we ever? More like, do we want to now? She did release a ton of photobooks over the years when she was... still... young lol"
-		],
-		"friends": [
-			{
-				"id": "UesakaSumire",
-				"image": "https://obs.line-scdn.net/0haGuS2EWOPmhIKhTmey9BPwN3OAcxSSRgIlIpUj18NEY9RiloIFA1Wi96OggLWD1iLA8lEjVIHBwMen9DBBUpdG5DByEhRRw6IAsyTWpVPlgWG3x2aEx1CmQsaVBjGnw-fB4mC24rYB1kSno6c0h0DQ/small",
-				"imageId": "UesakaSumire-HorieYui"
-			}
 		]
 	},
 	{
@@ -275,18 +409,6 @@
 			"*Initially under KING AMUSEMENT CREATIVE (formerly together with King Records), and now under TOYS' FACTORY produced under Anime composers group Q-MHz; Latest song is for Anime \"Babylon\"",
 			"**To fellow voice actor Maeno Tomoaki",
 			"***Here's an example of <a href=\"https://twitter.com/mikakokomatsu/status/698835135022571520\">what she posted</a> on one particular Valentine's Day"
-		],
-		"friends": [
-			{
-				"id": "HanazawaKana",
-				"image": "https://pbs.twimg.com/media/EipYyyYUMAAbzyl?format=jpg&name=small",
-				"imageId": "HanazawaKana-KomatsuMikako"
-			},
-			{
-				"id": "UesakaSumire",
-				"image": "https://pbs.twimg.com/media/EWN3ZZ9UwAQCGtr?format=jpg&name=small",
-				"imageId": "UesakaSumire-KomatsuMikako"
-			}
 		]
 	},
 	{
@@ -319,13 +441,6 @@
 			"*Under music label SACRA MUSIC, latest release January 2019",
 			"**Like her fellow group member Tomatsu Haruka, she has released some spectacular shots to bewilder",
 			"***Due to her studying overseas for a year in England since April 2020; YouTube videos like <a href=\"https://www.youtube.com/watch?v=6qbhQYBjrU8\">this</a> where you can see her without makeup (CANNOT UNSEE WARNING but I like)"
-		],
-		"friends": [
-			{
-				"id": "TomatsuHaruka",
-				"image": "https://pbs.twimg.com/media/DvCV4LNVYAAGZld?format=jpg&name=small",
-				"imageId": "KotobukiMinako-TomatsuHaruka"
-			}
 		]
 	},
 	{
@@ -357,18 +472,6 @@
 		"comments":[
 			"*Hot-cold personality specifically towards love",
 			"**Known characters from me (may not be tsundere) are Game \"Alternative Girls\" as Mano Sakurako, and Anime\"Acchi Kocchi\" Miniwa Tsumiki"
-		],
-		"friends": [
-			{
-				"id": "TouyamaNao",
-				"image": "https://obs.line-scdn.net/0hdP5dGrVmO38IHRdTt-tEKEdAPRBxfiF3YmUsRX1LMVF9cSx_YGcxR2VNOR96fSI1VwI8Tk8dDQdSWiBSUXkOaWtGPQ0mbh5zbH4xWS5BIC85LXgpMXN0GC8abE8tf3QhNHx8XCwbbElwJXQp/small",
-				"imageId": "OokuboRumi-TouyamaNao"
-			},
-			{
-				"id": "TakahashiRie",
-				"image": "https://pbs.twimg.com/media/EjU48AUVgAEdGOh?format=jpg&name=small",
-				"imageId": "OokuboRumi-TakahashiRie"
-			}
 		]
 	},
 	{
@@ -401,13 +504,6 @@
 			"*Commonly referred to as \"Shugami\" because of her name, amongst other nicknames given",
 			"**Under music label KING AMUSEMENT CREATIVE (formerly together with King Records) from 2014 to 2017, releasing 3 singles and 2 albums",
 			"***Married to fellow voice actor Terashima Takuma"
-		],
-		"friends": [
-			{
-				"id": "HikasaYouko",
-				"image": "https://livedoor.blogimg.jp/hiyonikki/imgs/8/2/8260af82.jpg",
-				"imageId": "SatouSatomi-HikasaYouko"
-			}
 		]
 	},
 	{
@@ -440,23 +536,6 @@
 			"*Technically yes in her 2nd photobook with a thin shirt, and yes later in an event-only photobook as seen on Twitter <a href=\"https://twitter.com/Ayana_take/status/943700093781213184\">here</a>",
 			"**Married to fellow voice actor Kaji Yuki",
 			"***She is one of few who surpassed 1 million Twitter followers as a voice actor in Japan"
-		],
-		"friends": [
-			{
-				"id": "YuukiAoi",
-				"image": "https://pbs.twimg.com/media/DwxTkfoV4AYLzcT?format=jpg&name=small",
-				"imageId": "TaketatsuAyana-YuukiAoi"
-			},
-			{
-				"id": "NumakuraManami",
-				"image": "https://pbs.twimg.com/media/D7ae0oPUcAAOO0W?format=jpg&name=small",
-				"imageId": "TaketatsuAyana-NumakuraManami"
-			},
-			{
-				"id": "KitouAkari",
-				"image": "https://pbs.twimg.com/media/DfoERUqUYAAze_n?format=jpg&name=small",
-				"imageId": "KitouAkari-TaketatsuAyana"
-			}
 		]
 	},
 	{
@@ -489,18 +568,6 @@
 			"*Also referred to as \"Haru-chan\" by other members in her idol group \"sphere\"",
 			"**Under music label and talent agency MusicRay'n since 2008, notable for her theme songs for Anime series \"Sword Art Online\"",
 			"***Highest amount of appearances in photobooks half-naked among all the voice actresses mentioned here, to the extent of underwear even"
-		],
-		"friends": [
-			{
-				"id": "HikasaYouko",
-				"image": "https://livedoor.blogimg.jp/hiyonikki/imgs/2/2/220ba98e.jpg",
-				"imageId": "TomatsuHaruka-HikasaYouko"
-			},
-			{
-				"id": "KotobukiMinako",
-				"image": "https://pbs.twimg.com/media/DvCV4LNVYAAGZld?format=jpg&name=small",
-				"imageId": "KotobukiMinako-TomatsuHaruka"
-			}
 		]
 	},
 	{
@@ -565,18 +632,6 @@
 			"*More commonly referred to as \"Ao-chan\"",
 			"**She was main in the original AND remake of Anime \"Kino no Tabi\", premiered on 2003.04.08 and 2017.10.06 respectively",
 			"***Her range stretches from voicing Otus Lotta in Anime \"ACCA\" (cute) to Hanatabake Yoshiko in \"Aho Girl\" (crazy) to Takagi Megumi in \"Sangatsu no Lion\" (cool)"
-		],
-		"friends": [
-			{
-				"id": "TaketatsuAyana",
-				"image": "https://pbs.twimg.com/media/DwxTkfoV4AYLzcT?format=jpg&name=small",
-				"imageId": "TaketatsuAyana-YuukiAoi"
-			},
-			{
-				"id": "OonishiSaori",
-				"image": "https://cdnx.natalie.mu/media/pp/static/comic/boogiepop01/gallery15.jpg",
-				"imageId": "YuukiAoi-OonishiSaori"
-			}
 		]
 	},
 	{
@@ -642,13 +697,6 @@
 			"*Under music label and talent agency MusicRay'n since 2016",
 			"**I'll call her 1st photobook technically it even though it's under a thin shirt, as reviewed over <a href=\"https://knwebreports.blogspot.com/2019/03/three-books-worth-of-photos-that-marry.html#pleasant\">here</a>",
 			"***YouTube has clips about how she flubs on livestreams and sometimes can't control herself even in front of the camera"
-		],
-		"friends": [
-			{
-				"id": "NatsukawaShiina",
-				"image": "https://pbs.twimg.com/media/EOj49SeUcAEU9H4?format=jpg&name=small",
-				"imageId": "NatsukawaShiina-AsakuraMomo"
-			}
 		]
 	},
 	{
@@ -713,23 +761,6 @@
 		"comments":[
 			"*More commonly referred to as \"ChanRina\" for some reason I don't know, but it is associated to how fellow seiyuu called her as such",
 			"**As seen from Internet video series \"Ohisamagumi\" with Hikasa Youko"
-		],
-		"friends": [
-			{
-				"id": "HikasaYouko",
-				"image": "https://pbs.twimg.com/media/Ele78agU8AA2lkP?format=jpg&name=small",
-				"imageId": "HidakaRina-HikasaYouko"
-			},
-			{
-				"id": "HanazawaKana",
-				"image": "https://pbs.twimg.com/media/EEaGlW6U4AAEVBq?format=jpg&name=small",
-				"imageId": "HidakaRina-HanazawaKana"
-			},
-			{
-				"id": "MinaseInori",
-				"image": "https://pbs.twimg.com/media/EjAfUbEVgAcUVi3?format=jpg&name=small",
-				"imageId": "HidakaRina-MinaseInori"
-			}
 		]
 	},
 	{
@@ -763,18 +794,6 @@
 			"*Member of idol music group \"Earphones\" born from Anime \"Sore ga Seiyuu!\"",
 			"**She technically did not appear half-naked in her 1st photobook despite the bath dip as mentioned in the interview, reviewed <a href=\"https://knwebreports.blogspot.com/2019/03/fourth-book-worth-of-photos-what.html\">here</a>",
 			"***Try her <a href=\"https://www.instagram.com/marika_kohno/\">Instagram account</a> and you'll get what I mean"
-		],
-		"friends": [
-			{
-				"id": "WakiAzumi",
-				"image": "https://pbs.twimg.com/media/EAfYmNMU4AEn_ZP?format=jpg&name=small",
-				"imageId": "WakiAzumi-KounoMarika"
-			},
-			{
-				"id": "TakahashiRie",
-				"image": "https://pbs.twimg.com/media/DqrwuBOVAAAaQGH?format=jpg&name=small",
-				"imageId": "TakahashiRie-KounoMarika"
-			}
 		]
 	},
 	{
@@ -809,33 +828,6 @@
 			"*Under music label KING AMUSEMENT CREATIVE, since 2015",
 			"**She has till date, mind you, never released a full photobook of any sort in her career thus far which is a rarity since many will have done so from a magazine serialisation and she has one.",
 			"***Music video of \"harmony ribbon\" is on <a href=\"https://www.youtube.com/watch?v=RcbWbp-lPYo\">YouTube</a>"
-		],
-		"friends": [
-			{
-				"id": "UesakaSumire",
-				"image": "https://obs.line-scdn.net/0hbwN2a2LQPVhzSxcTSBlCDzgWOzcKKCdQGTMqYgYdN3YGJypYGzE2ahQbOTgwOT5SF24mIghJERcDJQ5WDkY5dSsZOhUIAXlWEE4lW18ZGBo4Mi90Uy12O1FOYmhdcn8OR38hOFJIZS1fc30HS38lOg/small",
-				"imageId": "UesakaSumire-MinaseInori"
-			},
-			{
-				"id": "TakahashiRie",
-				"image": "https://pbs.twimg.com/media/EFJvuGdUEAAXcLS?format=jpg&name=small",
-				"imageId": "TakahashiRie-MinaseInori"
-			},
-			{
-				"id": "TouyamaNao",
-				"image": "https://pbs.twimg.com/media/EPsmY5sU0AMyEnc?format=jpg&name=small",
-				"imageId": "TouyamaNao-MinaseInori"
-			},
-			{
-				"id": "OonishiSaori",
-				"image": "https://pbs.twimg.com/media/DldEOYnVAAEZCb1?format=jpg&name=small",
-				"imageId": "MinaseInori-OonishiSaori"
-			},
-			{
-				"id": "HidakaRina",
-				"image": "https://pbs.twimg.com/media/EjAfUbEVgAcUVi3?format=jpg&name=small",
-				"imageId": "HidakaRina-MinaseInori"
-			}
 		]
 	},
 	{
@@ -868,18 +860,6 @@
 			"*She is more commonly called \"Nansu\", and her name Shi-i-na coincides with the number \"417\"",
 			"**She is more literary than we think, with her <a href=\"https://knwebreports.blogspot.com/2019/03/three-books-worth-of-photos-that-marry.html#nukegara\">1st photobook which I reviewed</a> eventually getting a novel serialisation",
 			"***Initially she was in gaming site Famitsu on a monthly column, and now she does YouTube Let's Plays on their official channel with games from Resident Evil to that <a href=\"https://www.youtube.com/watch?v=BbMSj66BuB4\">Harvest Moon remake</a> which I bought the Japanese version and played because of her instead of waiting for the English version to come out"
-		],
-		"friends": [
-			{
-				"id": "AsakuraMomo",
-				"image": "https://pbs.twimg.com/media/EOj49SeUcAEU9H4?format=jpg&name=small",
-				"imageId": "NatsukawaShiina-AsakuraMomo"
-			},
-			{
-				"id": "Lynn",
-				"image": "https://thetv.jp/i/nw/219265/1361806.jpg?w=615",
-				"imageId": "Lynn-NatsukawaShiina"
-			}
 		]
 	},
 	{
@@ -911,28 +891,6 @@
 		"comments":[
 			"*Under music label \"Flying Dog\" from 2016 to 2020; Her 2nd single \"<a href=\"https://youtu.be/FU21xtlEUKw\">Climber's High</a>\" for Anime \"Fuuka\" is her most impressive release in Klassic Note",
 			"**Married to fellow voice actor Osaka Ryouta"
-		],
-		"friends": [
-			{
-				"id": "TaketatsuAyana",
-				"image": "https://pbs.twimg.com/media/D7ae0oPUcAAOO0W?format=jpg&name=small",
-				"imageId": "TaketatsuAyana-NumakuraManami"
-			},
-			{
-				"id": "Lynn",
-				"image": "https://obs.line-scdn.net/0hJfiKQWzqFUlUMj1GCLNqHiBvEyYtUQ9BPkoCcyFkH2chXgJJPEgFay1iET06Ug5PNwQGd21ELg0hfCpLbFMRVi9BCHEBBlJ8LV0gdyswQjkKeipUbUhaK3gwQnF8CloWaFwPLHI0T3k8AwFPbVJTfXY/small",
-				"imageId": "NumakuraManami-Lynn"
-			},
-			{
-				"id": "TakahashiRie",
-				"image": "https://obs.line-scdn.net/0h2H6LBxwlbWcLNUBydMsSMH9oawhyVndvYU16XX5jZ0l-WXpnY099RXJlaRNlVXZhaAN-WTJQSypFf25zRVR5AllcYQVtZSNoPit0USx8dSBlW05qZ08iBSwwMFQgBSozN1twCSc8M1ZjBCNhY1sqCSY/small",
-				"imageId": "TakahashiRie-NumakuraManami"
-			},
-			{
-				"id": "TouyamaNao",
-				"image": "https://obs.line-scdn.net/0h3VzSvJs0bHlHKkeE_N4TLgh3ahY-SXZxLVJ7QzJ8ZlcyRnt5L1BmQSp6bhk1SnUzCBlAGzFJVxAXREt2BxtaHjR2WS4TQC1tITgifCYsdU12Gi8pekkgHmAjNEliTygqe0olWmN6Z04_TyMt/small",
-				"imageId": "NumakuraManami-TouyamaNao"
-			}
 		]
 	},
 	{
@@ -964,23 +922,6 @@
 		"comments":[
 			"*Under music label Rokkan Music (under Teichiku Entertainment), from 2018 to 2020",
 			"**She did release two books worth of photos without her half-naked and that kind of explains her late entrace to the industry imo"
-		],
-		"friends": [
-			{
-				"id": "IsobeKarin",
-				"image": "https://pbs.twimg.com/media/DpO8BEcUYAIg18p?format=jpg&name=small",
-				"imageId": "IsobeKarin-TachibanaRika"
-			},
-			{
-				"id": "YoshimuraHaruka",
-				"image": "https://pbs.twimg.com/media/DptmUnwVsAAeHoA?format=jpg&name=small",
-				"imageId": "YoshimuraHaruka-TachibanaRika"
-			},
-			{
-				"id": "FuchigamiMai",
-				"image": "https://pbs.twimg.com/media/DlqI1MuV4AIm9k7?format=jpg&name=small",
-				"imageId": "FuchigamiMai-TachibanaRika"
-			}
 		]
 	},
 	{
@@ -1012,38 +953,6 @@
 		"comments":[
 			"*Part of idol group \"Earphones\" born from Anime \"Sore ga Seiyuu!\"",
 			"**She hosts her own livestream sponsored by an online cooking website where she makes her own dishes, as much as she isn't good at it initially. Today this might be her hobby as seen from her Tweets."
-		],
-		"friends": [
-			{
-				"id": "MinaseInori",
-				"image": "https://pbs.twimg.com/media/EFJvuGdUEAAXcLS?format=jpg&name=small",
-				"imageId": "TakahashiRie-MinaseInori"
-			},
-			{
-				"id": "OonoYuuko",
-				"image": "https://pbs.twimg.com/media/EKm5lNfU8AARbmo?format=jpg&name=small",
-				"imageId": "TakahashiRie-OonoYuuko"
-			},
-			{
-				"id": "OokuboRumi",
-				"image": "https://pbs.twimg.com/media/EjU48AUVgAEdGOh?format=jpg&name=small",
-				"imageId": "OokuboRumi-TakahashiRie"
-			},
-			{
-				"id": "NumakuraManami",
-				"image": "https://obs.line-scdn.net/0h2H6LBxwlbWcLNUBydMsSMH9oawhyVndvYU16XX5jZ0l-WXpnY099RXJlaRNlVXZhaAN-WTJQSypFf25zRVR5AllcYQVtZSNoPit0USx8dSBlW05qZ08iBSwwMFQgBSozN1twCSc8M1ZjBCNhY1sqCSY/small",
-				"imageId": "TakahashiRie-NumakuraManami"
-			},
-			{
-				"id": "HondoKaede",
-				"image": "https://pbs.twimg.com/media/EG15sKiUUAcsC5L?format=jpg&name=small",
-				"imageId": "TakahashiRie-HondoKaede"
-			},
-			{
-				"id": "KounoMarika",
-				"image": "https://pbs.twimg.com/media/DqrwuBOVAAAaQGH?format=jpg&name=small",
-				"imageId": "TakahashiRie-KounoMarika"
-			}
 		]
 	},
 	{
@@ -1076,38 +985,6 @@
 			"*Under music label \"Flying Dog\" since 2017; Music video available as preview on <a href=\"https://www.youtube.com/watch?v=ZGHRRdMWSIw\">YouTube</a>, for Anime \"Tsuki ga Kirei\"",
 			"**She may be too cute to have such a photobook, or even have one. Then again it's her age...?",
 			"***I have refrained from watching Anime \"Kiniro Mosiac\" because I'm afraid I might die of her cuteness with her voicing as English-foreigner Karen. Though I would argue her English isn't as awesome as you think even if she has listened to her dad speak since she was a kid."
-		],
-		"friends": [
-			{
-				"id": "HikasaYouko",
-				"image": "https://pbs.twimg.com/media/EcO8pUyU0AIs5SX?format=jpg&name=small",
-				"imageId": "TouyamaNao-HikasaYouko"
-			},
-			{
-				"id": "OokuboRumi",
-				"image": "https://obs.line-scdn.net/0hdP5dGrVmO38IHRdTt-tEKEdAPRBxfiF3YmUsRX1LMVF9cSx_YGcxR2VNOR96fSI1VwI8Tk8dDQdSWiBSUXkOaWtGPQ0mbh5zbH4xWS5BIC85LXgpMXN0GC8abE8tf3QhNHx8XCwbbElwJXQp/small",
-				"imageId": "OokuboRumi-TouyamaNao"
-			},
-			{
-				"id": "HondoKaede",
-				"image": "https://obs.line-scdn.net/0h4n7Tuydaa0EKLUGtUREUFkVwbS5zTnFJYFV8e397YW9_QXxBYldheWd9aSF4TXILaTR8Iy9TdhpSWGtDSTIlQylkVhUmfFxcdy9MeUx7NQw7HSgTNUwmIyolMHEvT3seP0kkYi4lZ3chSChE/small",
-				"imageId": "TouyamaNao-HondoKaede"
-			},
-			{
-				"id": "KoharaKonomi",
-				"image": "https://pbs.twimg.com/media/Efie5W7X0AEwFhs?format=jpg&name=small",
-				"imageId": "TouyamaNao-KoharaKonomi"
-			},
-			{
-				"id": "MinaseInori",
-				"image": "https://pbs.twimg.com/media/EPsmY5sU0AMyEnc?format=jpg&name=small",
-				"imageId": "TouyamaNao-MinaseInori"
-			},
-			{
-				"id": "NumakuraManami",
-				"image": "https://obs.line-scdn.net/0h3VzSvJs0bHlHKkeE_N4TLgh3ahY-SXZxLVJ7QzJ8ZlcyRnt5L1BmQSp6bhk1SnUzCBlAGzFJVxAXREt2BxtaHjR2WS4TQC1tITgifCYsdU12Gi8pekkgHmAjNEliTygqe0olWmN6Z04_TyMt/small",
-				"imageId": "NumakuraManami-TouyamaNao"
-			}
 		]
 	},
 	{
@@ -1143,23 +1020,6 @@
 			"*Under music label KING AMUSEMENT CREATIVE since 2013",
 			"**Refer to her photobook which I reviewed <a href=\"https://knwebreports.blogspot.com/2019/12/eighth-book-worth-of-photos-her-biggest.html\">here</a> for shots that will blow your mind",
 			"***I prefer when she uses her own voice or her being matured, such as from Anime \"Aho Girl\" as Morals Council Chairperson"
-		],
-		"friends": [
-			{
-				"id": "KomatsuMikako",
-				"image": "https://pbs.twimg.com/media/EWN3ZZ9UwAQCGtr?format=jpg&name=small",
-				"imageId": "UesakaSumire-KomatsuMikako"
-			},
-			{
-				"id": "MinaseInori",
-				"image": "https://obs.line-scdn.net/0hbwN2a2LQPVhzSxcTSBlCDzgWOzcKKCdQGTMqYgYdN3YGJypYGzE2ahQbOTgwOT5SF24mIghJERcDJQ5WDkY5dSsZOhUIAXlWEE4lW18ZGBo4Mi90Uy12O1FOYmhdcn8OR38hOFJIZS1fc30HS38lOg/small",
-				"imageId": "UesakaSumire-MinaseInori"
-			},
-			{
-				"id": "HorieYui",
-				"image": "https://obs.line-scdn.net/0haGuS2EWOPmhIKhTmey9BPwN3OAcxSSRgIlIpUj18NEY9RiloIFA1Wi96OggLWD1iLA8lEjVIHBwMen9DBBUpdG5DByEhRRw6IAsyTWpVPlgWG3x2aEx1CmQsaVBjGnw-fB4mC24rYB1kSno6c0h0DQ/small",
-				"imageId": "UesakaSumire-HorieYui"
-			}
 		]
 	},
 	{
@@ -1191,18 +1051,6 @@
 		"comments":[
 			"*More commonly known as \"Chikape\"",
 			"**She released a photobook though, for her 10th year as a voice actress; I reviewed it <a href=\"https://knwebreports.blogspot.com/2020/01/ninth-book-worth-of-photos-once-in.html\">here</a>"
-		],
-		"friends": [
-			{
-				"id": "YoshimuraHaruka",
-				"image": "https://pbs.twimg.com/media/EicFvkRUwAMi0hq?format=jpg&name=small",
-				"imageId": "AnzaiChika-YoshimuraHaruka"
-			},
-			{
-				"id": "ToyotaMoe",
-				"image": "https://pbs.twimg.com/media/EI6sU2GU4AAh7NP?format=jpg&name=small",
-				"imageId": "AnzaiChika-ToyotaMoe"
-			}
 		]
 	},
 	{
@@ -1234,13 +1082,6 @@
 		"comments":[
 			"*More commonly referred to as \"MaiMai\"",
 			"**Most notably in Klassic Note is \"<a href=\"https://www.youtube.com/watch?v=NEBbw_HftRA\">BLACK CAT</a>\" where in the music video she cosplays as a cat girl"
-		],
-		"friends": [
-			{
-				"id": "TachibanaRika",
-				"image": "https://pbs.twimg.com/media/DlqI1MuV4AIm9k7?format=jpg&name=small",
-				"imageId": "FuchigamiMai-TachibanaRika"
-			}
 		]
 	},
 	{
@@ -1272,33 +1113,6 @@
 		"comments":[
 			"*Pronounced as \"A-dey-chan\", a short form of her name Ka-e-de",
 			"**She has demonstrated that by dressing up and creating custom merchandise for the characters she voices, as seen from \"Demi-chan\" event where she shows up as casual look Hikari and in \"Alternative Girls\" livestream series where she shows up in the T-shirt worn by her character that has never been mass produced as official goods"
-		],
-		"friends": [
-			{
-				"id": "TouyamaNao",
-				"image": "https://obs.line-scdn.net/0h4n7Tuydaa0EKLUGtUREUFkVwbS5zTnFJYFV8e397YW9_QXxBYldheWd9aSF4TXILaTR8Iy9TdhpSWGtDSTIlQylkVhUmfFxcdy9MeUx7NQw7HSgTNUwmIyolMHEvT3seP0kkYi4lZ3chSChE/small",
-				"imageId": "TouyamaNao-HondoKaede"
-			},
-			{
-				"id": "TakahashiRie",
-				"image": "https://pbs.twimg.com/media/EG15sKiUUAcsC5L?format=jpg&name=small",
-				"imageId": "TakahashiRie-HondoKaede"
-			},
-			{
-				"id": "NagatsumaJuuri",
-				"image": "https://pbs.twimg.com/media/Dnq-fUIU0AEua4D?format=jpg&name=small",
-				"imageId": "HondoKaede-NagatsumaJuuri"
-			},
-			{
-				"id": "WakiAzumi",
-				"image": "https://pbs.twimg.com/media/DjgosGkVsAI2iae?format=jpg&name=small",
-				"imageId": "HondoKaede-WakiAzumi"
-			},
-			{
-				"id": "HanazawaKana",
-				"image": "https://pbs.twimg.com/media/EleAiboVMAEYpmE?format=jpg&name=small",
-				"imageId": "HanazawaKana-HondoKaede"
-			}
 		]
 	},
 	{
@@ -1332,18 +1146,6 @@
 		"comments":[
 			"*More commonly referred to as \"Karirin\" but \"Karin-chan\" is also popular",
 			"**Part of five-member idol group BlooDye"
-		],
-		"friends": [
-			{
-				"id": "TachibanaRika",
-				"image": "https://pbs.twimg.com/media/DpO8BEcUYAIg18p?format=jpg&name=small",
-				"imageId": "IsobeKarin-TachibanaRika"
-			},
-			{
-				"id": "Lynn",
-				"image": "https://pbs.twimg.com/media/EDYevV_VUAEiZS0?format=jpg&name=small",
-				"imageId": "Lynn-IsobeKarin"
-			}
 		]
 	},
 	{
@@ -1416,18 +1218,6 @@
 		"comments":[
 			"*I reviewed her debut single <a href=\"https://knwebreports.blogspot.com/2019/10/the-klassic-note-review-201910-issue-1.html\">here</a>",
 			"**She was a part-time illustrator before she became a voice actor, and explained on TV on how easy it is to do it AND study in school"
-		],
-		"friends": [
-			{
-				"id": "WakiAzumi",
-				"image": "https://pbs.twimg.com/media/ETjfQz8UEAE6dNO?format=jpg&name=small",
-				"imageId": "KitouAkari-WakiAzumi"
-			},
-			{
-				"id": "TaketatsuAyana",
-				"image": "https://pbs.twimg.com/media/DfoERUqUYAAze_n?format=jpg&name=small",
-				"imageId": "KitouAkari-TaketatsuAyana"
-			}
 		]
 	},
 	{
@@ -1459,18 +1249,6 @@
 		"wantedLevelComment":"Very normal in every aspect but she is kinda cute",
 		"comments":[
 			"*Most notable I've seen include Anime \"Takagi-san\" as Mina-chan and \"Kaguya-sama\" as Fujiwara Chika"
-		],
-		"friends": [
-			{
-				"id": "TouyamaNao",
-				"image": "https://pbs.twimg.com/media/Efie5W7X0AEwFhs?format=jpg&name=small",
-				"imageId": "TouyamaNao-KoharaKonomi"
-			},
-			{
-				"id": "NagaeRika",
-				"image": "https://pbs.twimg.com/media/Ei6ZvILUwAAMvyC?format=jpg&name=small",
-				"imageId": "NagaeRika-KoharaKonomi"
-			}
 		]
 	},
 	{
@@ -1503,23 +1281,6 @@
 		"comments":[
 			"*If she will ever come up with one I will assuredly be mind blown haha you know what I mean",
 			"**See her <a href=\"https://twitter.com/Lynn_0601_/status/1273242510354087937\">Twitter</a> and <a href=\"https://www.instagram.com/p/CB5ByiLlQUa/\">Instagram</a> for alluring photos that will not disappoint"
-		],
-		"friends": [
-			{
-				"id": "NumakuraManami",
-				"image": "https://obs.line-scdn.net/0hJfiKQWzqFUlUMj1GCLNqHiBvEyYtUQ9BPkoCcyFkH2chXgJJPEgFay1iET06Ug5PNwQGd21ELg0hfCpLbFMRVi9BCHEBBlJ8LV0gdyswQjkKeipUbUhaK3gwQnF8CloWaFwPLHI0T3k8AwFPbVJTfXY/small",
-				"imageId": "NumakuraManami-Lynn"
-			},
-			{
-				"id": "NatsukawaShiina",
-				"image": "https://thetv.jp/i/nw/219265/1361806.jpg?w=615",
-				"imageId": "Lynn-NatsukawaShiina"
-			},
-			{
-				"id": "IsobeKarin",
-				"image": "https://pbs.twimg.com/media/EDYevV_VUAEiZS0?format=jpg&name=small",
-				"imageId": "Lynn-IsobeKarin"
-			}
 		]
 	},
 	{
@@ -1552,13 +1313,6 @@
 		"comments":[
 			"*More commonly referred to as \"Rikachimalu\", and exists in Hiragana and Katakana forms. According to her Instagram story, they represent intimate and casual forms of her nickname respectively.",
 			"**Due to hanging out with other female seiyuu in the industry, and with supposed gf Fushimi Haruka"
-		],
-		"friends": [
-			{
-				"id": "KoharaKonomi",
-				"image": "https://pbs.twimg.com/media/EbkU5xJUMAYiFIV?format=jpg&name=small",
-				"imageId": "KoharaKonomi-NagaeRika"
-			}
 		]
 	},
 	{
@@ -1590,18 +1344,6 @@
 		"comments":[
 			"*Thanks to one Muscle Miyazaki from Game \"Alternative Girls\" livestream series I can't forget this now lol",
 			"**Released two singles under retired music label ZERO-A, but you should've heard <a href=\"https://music.apple.com/us/album/my-precious-darling/1495149555?i=1495149559\">her character song</a> in the only game I know of her"
-		],
-		"friends": [
-			{
-				"id": "HondoKaede",
-				"image": "https://pbs.twimg.com/media/Dnq-fUIU0AEua4D?format=jpg&name=small",
-				"imageId": "HondoKaede-NagatsumaJuuri"
-			},
-			{
-				"id": "YoshimuraHaruka",
-				"image": "https://pbs.twimg.com/media/DitrDp5V4AAwqcA?format=jpg&name=small",
-				"imageId": "YoshimuraHaruka-NagatsumaJuuri"
-			}
 		]
 	},
 	{
@@ -1664,23 +1406,6 @@
 			"*I typically refer to her by her family name, but more commonly referred to as \"Saorin\"",
 			"**From live video series off Anime \"Re:Zero\" with Minase Inori \"Minase Inori to Oonishi Saori no Pick Up Girls!\" where they just hang around to chat in 10-minute videos",
 			"***Through several YouTube videos featuring her and Sakura Ayane's radio show where they just flirt around and win the Anime Radio Awards while they're at it"
-		],
-		"friends": [
-			{
-				"id": "WakiAzumi",
-				"image": "https://pbs.twimg.com/media/DldCru_UcAAmC4-?format=jpg&name=small",
-				"imageId": "OonishiSaori-WakiAzumi"
-			},
-			{
-				"id": "YuukiAoi",
-				"image": "https://cdnx.natalie.mu/media/pp/static/comic/boogiepop01/gallery15.jpg",
-				"imageId": "YuukiAoi-OonishiSaori"
-			},
-			{
-				"id": "MinaseInori",
-				"image": "https://pbs.twimg.com/media/DldEOYnVAAEZCb1?format=jpg&name=small",
-				"imageId": "MinaseInori-OonishiSaori"
-			}
 		]
 	},
 	{
@@ -1713,18 +1438,6 @@
 		"wantedLevelComment":"I want her to be in an Anime that I can like",
 		"comments":[
 			"*Someone please tell me she is still young, please"
-		],
-		"friends": [
-			{
-				"id": "TakahashiRie",
-				"image": "https://pbs.twimg.com/media/EKm5lNfU8AARbmo?format=jpg&name=small",
-				"imageId": "TakahashiRie-OonoYuuko"
-			},
-			{
-				"id": "OozoraNaomi",
-				"image": "https://pbs.twimg.com/media/EdInLhiUYAE-3g1?format=jpg&name=small",
-				"imageId": "OonoYuuko-OozoraNaomi"
-			}
 		]
 	},
 	{
@@ -1757,13 +1470,6 @@
 		"comments":[
 			"*More commonly referred to as \"SoraSora\"",
 			"**Examples I know include mobile game \"Alternative Girls\", and as Kanna in desktop video game \"Dead or Alive: Venus Vacation\""
-		],
-		"friends": [
-			{
-				"id": "OonoYuuko",
-				"image": "https://pbs.twimg.com/media/EdInLhiUYAE-3g1?format=jpg&name=small",
-				"imageId": "OonoYuuko-OozoraNaomi"
-			}
 		]
 	},
 	{
@@ -1796,18 +1502,6 @@
 		"wantedLevelComment":"Selfie fuel ranked right after Sumipe",
 		"comments":[
 			"*I reviewed her 2nd photobook- NO I DID NOT haha"
-		],
-		"friends": [
-			{
-				"id": "AnzaiChika",
-				"image": "https://pbs.twimg.com/media/EI6sU2GU4AAh7NP?format=jpg&name=small",
-				"imageId": "AnzaiChika-ToyotaMoe"
-			},
-			{
-				"id": "HikasaYouko",
-				"image": "https://obs.line-scdn.net/0hu_T-o-JsKnBpVAO3RfBVJyEJLB8QNzB4Ayw9ShwCIF4cOD1wAS48ThYENhAMOjd4SVNsXhEnFTk_BTViPFMATjERBAERPW1mN2EzES4dFgAmeG0hVDdnFURcckBEbD8uXTplFglVJhUWYWRyVw/small",
-				"imageId": "HikasaYouko-ToyotaMoe"
-			}
 		]
 	},
 	{
@@ -1840,28 +1534,6 @@
 		"comments":[
 			"*More commonly referred to as \"Ajuju\", and I hardly call her Azumi-chan tbh",
 			"**She was a replacement voice in Game \"Alternative Girls\" as Mizushima Airi, taking over from retired voice actress Endou Yurika"
-		],
-		"friends": [
-			{
-				"id": "KitouAkari",
-				"image": "https://pbs.twimg.com/media/ETjfQz8UEAE6dNO?format=jpg&name=small",
-				"imageId": "KitouAkari-WakiAzumi"
-			},
-			{
-				"id": "KounoMarika",
-				"image": "https://pbs.twimg.com/media/EAfYmNMU4AEn_ZP?format=jpg&name=small",
-				"imageId": "WakiAzumi-KounoMarika"
-			},
-			{
-				"id": "OonishiSaori",
-				"image": "https://pbs.twimg.com/media/DldCru_UcAAmC4-?format=jpg&name=small",
-				"imageId": "OonishiSaori-WakiAzumi"
-			},
-			{
-				"id": "HondoKaede",
-				"image": "https://pbs.twimg.com/media/DjgosGkVsAI2iae?format=jpg&name=small",
-				"imageId": "HondoKaede-WakiAzumi"
-			}
 		]
 	},
 	{
@@ -1892,23 +1564,6 @@
 		"comments":[
 			"*Fans guess she's in her 30s, so maybe born in late 1980s- HOLY SH*T she is old haha",
 			"**She does post online of herself at the beach in a swimsuit every year though"
-		],
-		"friends": [
-			{
-				"id": "AnzaiChika",
-				"image": "https://pbs.twimg.com/media/EicFvkRUwAMi0hq?format=jpg&name=small",
-				"imageId": "AnzaiChika-YoshimuraHaruka"
-			},
-			{
-				"id": "TachibanaRika",
-				"image": "https://pbs.twimg.com/media/DptmUnwVsAAeHoA?format=jpg&name=small",
-				"imageId": "YoshimuraHaruka-TachibanaRika"
-			},
-			{
-				"id": "NagatsumaJuuri",
-				"image": "https://pbs.twimg.com/media/DitrDp5V4AAwqcA?format=jpg&name=small",
-				"imageId": "YoshimuraHaruka-NagatsumaJuuri"
-			}
 		]
 	}
 ]
