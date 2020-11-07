@@ -50,11 +50,23 @@ imgArray = [
 
 //processing to fit image-gallery
 let smallCounter = 1;
-for(let profile of profileList)
+for(let profile of profileList.filter( function(n) {
+				return n.category != 'friendList';
+			}))
 {
 	for(let image of profile.images)
 	{
 		if(image.includes('.blogspot.com')) continue;
 		imgArray.push([smallCounter, image, 'portrait', profile.name, '']);
+	}
+}
+for(let friendList of profileList.filter( function(n) {
+				return n.category == 'friendList';
+			}))
+{
+	for(let image of friendList.friends)
+	{
+		if(image.image.includes('.blogspot.com')) continue;
+		imgArray.push([smallCounter, image.image, 'portrait', '#Friends', '']);
 	}
 }
