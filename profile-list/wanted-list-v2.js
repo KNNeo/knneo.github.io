@@ -475,7 +475,7 @@ function switchProfileBoxImage() {
 				boxImg.style.backgroundRepeat = 'no-repeat';
 				if(window.innerWidth > 640) 
 				{
-					boxImg.style.backgroundSize = '40%, 40%';
+					boxImg.style.backgroundSize = '25%, 25%';
 					//boxImg.style.backgroundSize = '320px, 320px';
 					boxImg.style.backgroundPosition = 'left, right';
 				}
