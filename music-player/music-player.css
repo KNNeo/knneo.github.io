@@ -1,9 +1,9 @@
 html {
 	background-color: white;
+	font-family: Open Sans;
 }
 
-body {
-	font-family: Open Sans;
+.body {
 	max-width: 640px;
 	margin: auto;
 	padding: 2px 8px;
@@ -23,11 +23,14 @@ button {
 	margin: 3px 0;
 }
 
-
 td { 
 	border: 1px solid black; 
 	padding: 2px 4px; 
 	font-size: 0.8em;
+}
+
+.darked td {
+	border: 1px solid white; 
 }
 
 h1 {
@@ -39,9 +42,6 @@ h1 {
 	cursor: pointer;
 }
 
-.darked td {
-	border: 1px solid white; 
-}
 
 button:active {
   box-shadow: 1px 1px;
@@ -86,4 +86,14 @@ button:active {
    and (max-device-width : 960px)
 {
 	
+}
+
+@media (prefers-color-scheme: dark) {
+	td { 
+		border: 1px solid white; 
+	}
+
+	.darked td {
+		border: 1px solid black; 
+	}
 }

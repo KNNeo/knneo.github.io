@@ -12,9 +12,20 @@
 </head>
 
 <body>
+	<div class="body">
     <h1>Music Player</h1>
 	<div id="sidebar"></div>
     <h5>Demo for timestamps on table based on input</h5>
+	</div>
+	<audio id="2019Player" class="player" onplaying="runTimestamp()" onseeking="clearTimestamp()" controls>
+	  <source src="https://klassicnoteawards.webs.com/awardrankings2019.mp3" type="audio/mpeg"></source>
+	  [You'll need a newer browser that supports HTML5 to listen to this.]
+	</audio>
+	<audio id="2018Player" class="player" onplaying="runTimestamp()" onseeking="clearTimestamp()" controls>
+		<source src="https://klassicnoteawards.webs.com/awardrankings2018-1.mp3" type="audio/mpeg"></source>
+		[You'll need a newer browser that supports HTML5 to listen to The Top 20 of Klassic Note 2018.]
+	</audio>
+	<div class="body">
 	<table id="2019" class="list" border="0" cellpadding="0" cellspacing="0">
 		<tbody>
 			<tr height="15">
@@ -258,14 +269,7 @@
 		</tbody>
 	</table>
 	<br />
-	<audio id="2019Player" class="player" onplaying="runTimestamp()" onseeking="clearTimestamp()" controls>
-	  <source src="https://klassicnoteawards.webs.com/awardrankings2019.mp3" type="audio/mpeg"></source>
-	  [You'll need a newer browser that supports HTML5 to listen to this.]
-	</audio>
-	<audio id="2018Player" class="player" onplaying="runTimestamp()" onseeking="clearTimestamp()" controls>
-		<source src="https://klassicnoteawards.webs.com/awardrankings2018-1.mp3" type="audio/mpeg"></source>
-		[You'll need a newer browser that supports HTML5 to listen to The Top 20 of Klassic Note 2018.]
-	</audio>
+	</div>
 	<!-- <div id="Top20AudioCaption"></div> -->
 	<h6 style="text-align: center;">(c) Klassic Note 2018-2020</h6>
     <p style="text-align: center;"><a href="../index.html">Back</a></p>
