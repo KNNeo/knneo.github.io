@@ -213,7 +213,8 @@ function createCalendar(monthNo, DOBlist) {
 		let DOB = '2020' + item.date.substring(4);
 		let offsetMinutes = moment().utcOffset() - moment.tz(timezone).utcOffset();
 		let diff = moment().diff(moment(DOB));
-		let IsBirthdayOver = moment.duration(diff).subtract(offsetMinutes, 'minutes').days() > 0;
+		let timeDiff = moment.duration(diff).subtract(offsetMinutes, 'minutes');
+		let IsBirthdayOver = timeDiff.days() >= 0 && timeDiff.hours() >= 0 && timeDiff.minutes() >= 0 && timeDiff.seconds() >= 0 && timeDiff.milliseconds() >= 0;
 		
 		let thisAge;
 		if (item.currentAge <= 1) thisAge = '??';
