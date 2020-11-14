@@ -28,7 +28,7 @@ landscapeTitle = 'Landscape';
 tagRightClickTitle = 'Right Click to Select This Only';
 loaderTextPrefix = 'Images Loaded: ';
 
-//array containing all gallery info
+//array containing all gallery info, tags delimiter "|"
 imgArray = [
 [0,'FILENAME','ORIENTATION','TAG','DETAIL'],
 [1,'https://knneo.webs.com/SELFSCAN_20140111_0002.jpg','portrait','Kotobuki Minako','CD "pretty fever" Animate Bonus'],

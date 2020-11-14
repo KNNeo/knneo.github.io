@@ -38,8 +38,7 @@ runSlideshow.open("GET", "https://knneo.github.io/profile-list/profile-list.json
 runSlideshow.send();
 runSlideshow = null;
 
-
-//array containing all gallery info
+//array containing all gallery info, tags delimiter "|"
 function preProcessProfileList(inputList) {
 	
 	imgArray = [
@@ -47,9 +46,10 @@ function preProcessProfileList(inputList) {
 	];
 	
 	//processing to fit image-gallery
-	for(let profile of inputList.filter( function(n) {
+	let profiles = inputList.filter( function(n) {
 					return n.category != 'friendList';
-				}))
+				});
+	for(let profile of profiles)
 	{
 		for(let image of profile.images)
 		{
@@ -64,7 +64,15 @@ function preProcessProfileList(inputList) {
 		for(let image of friendList.friends)
 		{
 			if(image.image.includes('.blogspot.com')) continue;
-			imgArray.push([1, image.image, 'portrait', '#Friends', '']);
+			let friendIds = image.id.split('-');
+			let friendNames = [];
+			for(let f of friendIds)
+			{
+				friendNames.push(profiles.filter( function(n) {
+					return f == n.id;
+				})[0].name);
+			}
+			imgArray.push([1, image.image, 'portrait', friendNames.join("|"), '']);
 		}
 	}
 }

@@ -58,7 +58,7 @@ for(let item of document.getElementsByClassName('cap_wrap')) {
 
 */
 
-//array containing all gallery info
+//array containing all gallery info, tags delimiter "|"
 imgArray = [
 [0,'FILENAME','ORIENTATION','TAG','DETAIL'],
 [1,'https://cdn.suruga-ya.jp/database/pics_light/game/gg241535.jpg','portrait','上坂すみれ','全身・衣装白・ワンピース・両手スカート・体右向き・背景白/「2019 AUTUMN」上坂すみれ ブロマイドセット 第15弾'],

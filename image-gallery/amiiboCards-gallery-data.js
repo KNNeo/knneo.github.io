@@ -46,7 +46,7 @@ for(let i = 5; i < document.getElementsByTagName('tr').length; i++)
 }*/
 
 
-//array containing all gallery info
+//array containing all gallery info, tags delimiter "|"
 imgArray = [
 [0,'FILENAME','ORIENTATION','TAG','DETAIL'],
 [1,'https://animal-crossing.com/amiibo/assets/img/cards/NVL-C-MAAA-USZ-F0(0)001.png','portrait','Special Characters','Isabelle'],

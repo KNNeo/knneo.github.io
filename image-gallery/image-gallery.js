@@ -633,8 +633,12 @@ function generateNameLabels(imgArray) {
 	for(let label of imgArray)
 	{
 		if(label[0] == 0 || label[0] == 999) continue;
-		if(labelArray.indexOf(label[3]) > -1) continue;
-		else labelArray.push(label[3]);
+		let labels = label[3].split('|');
+		for(let l of labels)
+		{
+			if(labelArray.indexOf(l) > -1) continue;
+			else labelArray.push(l);
+		}
 	}
 	labelArray.sort(function (a, b) { 
 		if (a.toLowerCase() < b.toLowerCase()) return -1;
@@ -722,8 +726,13 @@ function renderFilter(element) {
 	let newArray = new Array();
 	for(let img of imgArray)
 	{
-		if(nameArray.indexOf(img[3]) > -1 && orientationArray.indexOf(img[2]) > -1)
-			newArray.push(img);
+		let labels = img[3].split('|');
+		for(let l of labels)
+		{
+			if(nameArray.indexOf(l) > -1 && orientationArray.indexOf(img[2]) > -1 
+			&& newArray.filter( function(n) { return n[1] == img[1]; }).length == 0)
+				newArray.push(img);
+		}
 	}
 	renderGallery(newArray);
 }

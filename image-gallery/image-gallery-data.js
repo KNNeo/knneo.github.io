@@ -27,7 +27,7 @@ landscapeTitle = 'Landscape';
 tagRightClickTitle = 'Right Click to Select This Only';
 loaderTextPrefix = 'Images Loaded: ';
 
-//array containing all gallery info
+//array containing all gallery info, tags delimiter "|"
 imgArray = [
 [0,'FILENAME','ORIENTATION','TAG','DETAIL'],
 
