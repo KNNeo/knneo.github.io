@@ -14,7 +14,7 @@ enableDarkMode = true; //no button to toggle, when load always white background
 
 //localization
 pageTitle = 'ギャラリー'; //for tab, and top of page
-pageCredit = '[画像提供：https://suruga-ya.jp/]'; //does not hide, and will hide if empty
+pageCredit = '[画像提供：https://suruga-ya.com/]'; //does not hide, and will hide if empty
 tagTitle = 'タグ';
 selectAllTag = '全選';
 defaultTag = 'TrySail'; //if empty will select all
@@ -27,11 +27,13 @@ landscapeTitle = '横向き';
 tagRightClickTitle = '右クリックのはこれだけ選択する';
 loaderTextPrefix = '読み込む画像：';
 
-//from site: https://www.suruga-ya.jp/ and search name based on おもちゃ・ホビー category
 //create array based on item box info
 //assumption of image url: thumbnail filename is same as image filename on clicked in page, varying dimensions
-//alternate image domains: 'https://www.suruga-ya.jp/database/pics/game/','https://cdn.suruga-ya.jp/database/pics_light/game/'
+//alternate image domains: 'https://www.suruga-ya.jp/database/pics/game/','https://cdn.suruga-ya.jp/database/pics_light/game/',
+//alternate search pages: 'https://www.suruga-ya.com/en/category/501080317'
 /*
+from site: https://www.suruga-ya.jp/ and search name based on おもちゃ・ホビー category
+
 let list = '\n';
 let counter = 1;
 for(let item of document.getElementsByClassName('item')) {
@@ -42,6 +44,18 @@ for(let item of document.getElementsByClassName('item')) {
     let detail = item.getElementsByClassName('title')[0].innerText.substring(item.getElementsByClassName('title')[0].innerText.indexOf('/')+1);
     list+= ("["+(counter++)+",'"+newurl+".jpg','portrait','"+tag+"','"+detail+"'],") + '\n';
 }
+
+from page: 'https://www.suruga-ya.com/en/category/501080317'
+let list = '\n';
+let counter = 1;
+for(let item of document.getElementsByClassName('cap_wrap')) {
+    let data = JSON.parse(item.getElementsByTagName('a')[0].getAttribute('data-info'));
+	let newurl = 'https://cdn.suruga-ya.jp/database/pics_light/game/' + data.id.toLowerCase() + '.jpg';
+    let tag = data.name.substring(0,data.name.indexOf('/'));
+    let detail = data.name.substring(data.name.indexOf('/')+1);
+    list+= ("["+(counter++)+",'"+newurl+"','portrait','"+tag+"','"+detail+"'],") + '\n';
+}
+
 */
 
 //array containing all gallery info
