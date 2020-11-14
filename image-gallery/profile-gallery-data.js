@@ -28,41 +28,43 @@ tagRightClickTitle = 'Right Click to Select This Only';
 loaderTextPrefix = 'Images Loaded: ';
 
 //json deserialisation based on profile-list
-xmlhttp.onreadystatechange = function() {
+runSlideshow = new XMLHttpRequest();
+runSlideshow.onreadystatechange = function() {
 	if (this.readyState == 4 && this.status == 200) {
-		profileList = JSON.parse(this.responseText);
-		//code here
-		//if(profileList != null && generateProfileListFromJSON(profileList)) renderProfileBox();
-		//if(profileList != null) initialiseWantedList();
-		
+		preProcessProfileList(JSON.parse(this.responseText));		
 	}
 };
-xmlhttp.open("GET", "https://knneo.github.io/profile-list/profile-list.json", false);
-xmlhttp.send();
+runSlideshow.open("GET", "https://knneo.github.io/profile-list/profile-list.json", false);
+runSlideshow.send();
+runSlideshow = null;
+
 
 //array containing all gallery info
-imgArray = [
-[0,'FILENAME','ORIENTATION','TAG','DETAIL']
-];
-
-//processing to fit image-gallery
-for(let profile of profileList.filter( function(n) {
-				return n.category != 'friendList';
-			}))
-{
-	for(let image of profile.images)
+function preProcessProfileList(inputList) {
+	
+	imgArray = [
+	[0,'FILENAME','ORIENTATION','TAG','DETAIL']
+	];
+	
+	//processing to fit image-gallery
+	for(let profile of inputList.filter( function(n) {
+					return n.category != 'friendList';
+				}))
 	{
-		if(image.includes('.blogspot.com')) continue;
-		imgArray.push([1, image, 'portrait', profile.name, '']);
+		for(let image of profile.images)
+		{
+			if(image.includes('.blogspot.com')) continue;
+			imgArray.push([1, image, 'portrait', profile.name, '']);
+		}
 	}
-}
-for(let friendList of profileList.filter( function(n) {
-				return n.category == 'friendList';
-			}))
-{
-	for(let image of friendList.friends)
+	for(let friendList of inputList.filter( function(n) {
+					return n.category == 'friendList';
+				}))
 	{
-		if(image.image.includes('.blogspot.com')) continue;
-		imgArray.push([1, image.image, 'portrait', '#Friends', '']);
+		for(let image of friendList.friends)
+		{
+			if(image.image.includes('.blogspot.com')) continue;
+			imgArray.push([1, image.image, 'portrait', '#Friends', '']);
+		}
 	}
 }

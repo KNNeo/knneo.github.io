@@ -38,8 +38,6 @@ let highestHeight = 0;
 let imgArray = [];
 let runSlideshow = null;
 let descriptionClosed = false;
-let profileList;
-let xmlhttp = new XMLHttpRequest();
 
 //--COMMON EVENTS--//
 //on startup
