@@ -141,7 +141,7 @@ let month = ["January", "February", "March", "April", "May", "June", "July", "Au
 
 //--dependent on render, as functions to call on render--//
 function initialiseWantedList() {
-	toggleInitialThumbnailLayout();
+	//toggleInitialThumbnailLayout();
 	generateWantedList();
 	timelineDOBlist = createDOBlist(1, 35);
 	loadTimeline(2500);
@@ -237,13 +237,14 @@ function generateWantedList(profileLink) {
 
 	//wanted list processing
 	for (let id = 0; id < wantedList.getElementsByTagName("a").length; id++) {
+		wantedList.getElementsByTagName("a")[id].style.margin = '5px';
 		wantedList.getElementsByTagName("a")[id].addEventListener("click", function() {
 			generateProfileFromJSON(this.innerText.replace(" ", ""));
 			renderProfileBox();
 			addStatusPopUp();
 			generateWantedList(this);
 			document.getElementById('profile').scrollIntoView();
-			if(!smallScreen) switchThumbnails(document.getElementsByClassName('thumbnail')[0]);
+			//if(!smallScreen) switchThumbnails(document.getElementsByClassName('thumbnail')[0]);
 		});
 		wantedList.getElementsByTagName("a")[id].addEventListener("contextmenu", function(e) {
 			e.preventDefault();
@@ -252,7 +253,7 @@ function generateWantedList(profileLink) {
 			renderProfileBox();
 			generateWantedList(this);
 			document.getElementById('profile').scrollIntoView();
-			if(!smallScreen) switchThumbnails(document.getElementsByClassName('thumbnail')[0]);
+			//if(!smallScreen) switchThumbnails(document.getElementsByClassName('thumbnail')[0]);
 			isExternal = !isExternal;
 		}, false);
 	}
