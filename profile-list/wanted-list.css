@@ -82,7 +82,8 @@ p {
   animation: none;
 }
 .thumbnail-toggle {
-	position: block;
+	background-image: linear-gradient(black, transparent);
+	position: sticky;
 	top: 0;
 	right: 0;
 	left: 0;

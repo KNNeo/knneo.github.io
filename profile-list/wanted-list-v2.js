@@ -39,6 +39,7 @@ function switchThumbnails(tn) {
 		initialVisible = false;
     }
 
+	document.documentElement.scrollTop = 0;
     return false;
 }
 
@@ -243,7 +244,8 @@ function generateWantedList(profileLink) {
 			renderProfileBox();
 			addStatusPopUp();
 			generateWantedList(this);
-			document.getElementById('profile').scrollIntoView();
+			document.documentElement.scrollTop = 0;
+			//document.getElementById('profile').scrollIntoView();
 			//if(!smallScreen) switchThumbnails(document.getElementsByClassName('thumbnail')[0]);
 		});
 		wantedList.getElementsByTagName("a")[id].addEventListener("contextmenu", function(e) {
@@ -252,7 +254,8 @@ function generateWantedList(profileLink) {
 			generateProfileFromJSON(this.innerText.replace(" ", ""));
 			renderProfileBox();
 			generateWantedList(this);
-			document.getElementById('profile').scrollIntoView();
+			document.documentElement.scrollTop = 0;
+			//document.getElementById('profile').scrollIntoView();
 			//if(!smallScreen) switchThumbnails(document.getElementsByClassName('thumbnail')[0]);
 			isExternal = !isExternal;
 		}, false);
