@@ -65,7 +65,7 @@ function preProcessProfileList(inputList) {
 		{
 			if(image.image.includes('.blogspot.com')) continue;
 			let friendIds = image.id.split('-');
-			let friendNames = [];
+			let friendNames = ['*Twoshots Only'];
 			for(let f of friendIds)
 			{
 				friendNames.push(profiles.filter( function(n) {
