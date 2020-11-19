@@ -38,7 +38,7 @@ else {
 function friendCheck() {
 	console.log('Friend check!');
 	
-	if(friendList.length == 1 && friendList[0].length > 0)
+	if(friendList.length == 1 && friendList[0].friends.length > 0)
 	{
 		
 		/* for(let profile of profileList)
@@ -67,13 +67,25 @@ function friendCheck() {
 				console.log(pair.friend2 + ' missing in ' + pair.friend1);
 		} */
 		
+		//check duplicate ids
 		for(let pair of friendList[0].friends)
 		{
 			let result = friendList[0].friends.filter( function(f) {
 				return f.id == pair.id;
 			});
 			if(result != undefined && result.length > 1)
-				console.log(pair.id + " has duplicates");
+				console.log(pair.id + " has exact duplicates");
+		}
+		
+		//check ids but of different positions
+		for(let pair of friendList[0].friends)
+		{
+			let splits = pair.id.split('-');
+			let result = friendList[0].friends.filter( function(f) {
+				return f.id == (splits[1] + '-' + splits[0]);
+			});
+			if(result != undefined && result.length > 0)
+				console.log(pair.id + " has duplicates of different positions");
 		}
 	}
 	
