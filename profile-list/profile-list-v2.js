@@ -94,15 +94,16 @@ function friendCheck() {
 
 function generateProfileFromJSON(profileName) {
 	let friendMode = false;
+	//the profile selected
 	let profile = profileList.filter( function(n) {
         return n.id == profileName;
     })[0];
-	let currentProfile;
+	//previous profile
+	let currentProfile = null;
 	
 	if(profile == null || profile.length == 0) return;
 	
-	if(!document.getElementById('profile').classList.contains('friend-mode') &&
-	document.getElementById('profile').childElementCount > 0)
+	if(document.getElementById('profile').childElementCount > 0)
 	{
 		let currentProfileName = document.getElementById('profile').getElementsByTagName('div')[0].id;
 		currentProfile = profileList.filter( function(n) {
@@ -123,6 +124,9 @@ function generateProfileFromJSON(profileName) {
 		//IN FRIEND MODE: left is profile, right is currentProfile
 	}
 	
+	if(document.getElementById('profile').classList.contains('friend-mode'))
+		friendMode = false;
+		
 	document.getElementById('profile').innerHTML = '';
 	
 	//if in friend mode and has friend in next friend call, show single mode first
@@ -487,6 +491,10 @@ function generateProfileFromJSON(profileName) {
 	
 		idBox.appendChild(profileBox);
 	
+	if(!friendMode)
+		document.getElementById('profile').classList.remove('friend-mode');
+	else
+		document.getElementById('profile').classList.add('friend-mode')
 	document.getElementById('profile').appendChild(idBox);
 	
 	return true;
