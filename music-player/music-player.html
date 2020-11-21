@@ -10,7 +10,6 @@
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <title>Music Player</title>
 </head>
-
 <body>
 	<div class="body">
     <h1>Music Player</h1>
@@ -23,255 +22,379 @@
 	</audio>
 	<audio id="2018Player" class="player" onplaying="runTimestamp()" onseeking="clearTimestamp()" controls>
 		<source src="https://klassicnoteawards.webs.com/awardrankings2018-1.mp3" type="audio/mpeg"></source>
-		[You'll need a newer browser that supports HTML5 to listen to The Top 20 of Klassic Note 2018.]
+	  [You'll need a newer browser that supports HTML5 to listen to this.]
+	</audio>
+	<audio id="2017Player" class="player" onplaying="runTimestamp()" onseeking="clearTimestamp()" controls>
+		<source src="https://klassicnoteawards.webs.com/awardrankings2017.mp3" type="audio/mpeg"></source>
+	  [You'll need a newer browser that supports HTML5 to listen to this.]
 	</audio>
 	<div class="body">
 	<table id="2019" class="list" border="0" cellpadding="0" cellspacing="0">
 		<tbody>
-			<tr height="15">
-			  <td height="15" width="40">Rank</td>
-			  <td style="border-left: none;" width="270">Song Name</td>
-			  <td style="border-left: none;" width="270">Contributing Artist(s)</td>
+			<tr>
+			  <td width="30">Rank</td>
+			  <td width="270">Song Title</td>
+			  <td width="270">Contributing Artist(s)</td>
 			 </tr>
-			<tr height="15">
-			  <td align="right" height="15" style="border-top: none;">1</td>
-			  <td style="border-left: none; border-top: none;">Catch The Rainbow!</td>
-			  <td style="border-left: none; border-top: none;">Minase Inori</td>
+			<tr>
+			  <td align="right">1</td>
+			  <td>Catch The Rainbow!</td>
+			  <td>Minase Inori</td>
 			 </tr>
-			<tr height="15">
-			  <td align="right" height="15" style="border-top: none;">2</td>
-			  <td style="border-left: none; border-top: none;">Shiroi Sabaku no March</td>
-			  <td style="border-left: none; border-top: none;">cinema staff</td>
+			<tr>
+			  <td align="right">2</td>
+			  <td>Shiroi Sabaku no March</td>
+			  <td>cinema staff</td>
 			 </tr>
-			<tr height="15">
-			  <td align="right" height="15" rowspan="2" style="border-top: none;">3</td>
-			  <td style="border-left: none; border-top: none;">sabotage</td>
-			  <td style="border-left: none; border-top: none;">Ryokuoushoku Shakai</td>
+			<tr>
+			  <td align="right" rowspan="2">3</td>
+			  <td>sabotage</td>
+			  <td>Ryokuoushoku Shakai</td>
 			 </tr>
-			<tr height="15">
-			  <td style="border-left: none; border-top: none;">Masquerade</td>
-			  <td style="border-left: none; border-top: none;">SHE'S</td>
+			<tr>
+			  <td>Masquerade</td>
+			  <td>SHE'S</td>
 			 </tr>
-			<tr height="15">
-			  <td align="right" height="15" style="border-top: none;">4</td>
-			  <td style="border-left: none; border-top: none;">Take it back</td>
-			  <td style="border-left: none; border-top: none;">Yoru no Honki Dance</td>
+			<tr>
+			  <td align="right">4</td>
+			  <td>Take it back</td>
+			  <td>Yoru no Honki Dance</td>
 			 </tr>
-			<tr height="15">
-			  <td align="right" height="15" style="border-top: none;">5</td>
-			  <td style="border-left: none; border-top: none;">Shiawase ni Natte</td>
-			  <td style="border-left: none; border-top: none;">MaRuRi to Ryuga</td>
+			<tr>
+			  <td align="right">5</td>
+			  <td>Shiawase ni Natte</td>
+			  <td>MaRuRi to Ryuga</td>
 			 </tr>
-			<tr height="15">
-			  <td align="right" height="15" rowspan="2" style="border-top: none;">6</td>
-			  <td style="border-left: none; border-top: none;">DENKOUSEKKA</td>
-			  <td style="border-left: none; border-top: none;">Polkadot Stingray</td>
+			<tr>
+			  <td align="right" rowspan="2">6</td>
+			  <td>DENKOUSEKKA</td>
+			  <td>Polkadot Stingray</td>
 			 </tr>
-			<tr height="15">
-			  <td style="border-left: none; border-top: none;">Mikansei no Shoudou</td>
-			  <td style="border-left: none; border-top: none;">Ghost Sense</td>
+			<tr>
+			  <td>Mikansei no Shoudou</td>
+			  <td>Ghost Sense</td>
 			 </tr>
-			<tr height="15">
-			  <td align="right" height="15" style="border-top: none;">7</td>
-			  <td style="border-left: none; border-top: none;">Boku no Koto</td>
-			  <td style="border-left: none; border-top: none;">Mrs. GREEN APPLE</td>
+			<tr>
+			  <td align="right">7</td>
+			  <td>Boku no Koto</td>
+			  <td>Mrs. GREEN APPLE</td>
 			 </tr>
-			<tr height="15">
-			  <td align="right" height="15" style="border-top: none;">8</td>
-			  <td style="border-left: none; border-top: none;">What's Gonna Be?</td>
-			  <td style="border-left: none; border-top: none;">FIVE NEW OLD</td>
+			<tr>
+			  <td align="right">8</td>
+			  <td>What's Gonna Be?</td>
+			  <td>FIVE NEW OLD</td>
 			 </tr>
-			<tr height="15">
-			  <td align="right" height="15" style="border-top: none;">9</td>
-			  <td style="border-left: none; border-top: none;">TryAgain</td>
-			  <td style="border-left: none; border-top: none;">TrySail</td>
+			<tr>
+			  <td align="right">9</td>
+			  <td>TryAgain</td>
+			  <td>TrySail</td>
 			 </tr>
-			<tr height="15">
-			  <td align="right" height="15" style="border-top: none;">10</td>
-			  <td style="border-left: none; border-top: none;">Romanticism</td>
-			  <td style="border-left: none; border-top: none;">Mrs. GREEN APPLE</td>
+			<tr>
+			  <td align="right">10</td>
+			  <td>Romanticism</td>
+			  <td>Mrs. GREEN APPLE</td>
 			 </tr>
-			<tr height="15">
-			  <td align="right" height="15" style="border-top: none;">11</td>
-			  <td style="border-left: none; border-top: none;">Asagao</td>
-			  <td style="border-left: none; border-top: none;">Horie Yui</td>
+			<tr>
+			  <td align="right">11</td>
+			  <td>Asagao</td>
+			  <td>Horie Yui</td>
 			 </tr>
-			<tr height="15">
-			  <td align="right" height="15" style="border-top: none;">12</td>
-			  <td style="border-left: none; border-top: none;">Shisenjou no Hana</td>
-			  <td style="border-left: none; border-top: none;">Yuuki Aoi</td>
+			<tr>
+			  <td align="right">12</td>
+			  <td>Shisenjou no Hana</td>
+			  <td>Yuuki Aoi</td>
 			 </tr>
-			<tr height="15">
-			  <td align="right" height="15" style="border-top: none;">13</td>
-			  <td style="border-left: none; border-top: none;">Love Summer!</td>
-			  <td style="border-left: none; border-top: none;">Fuchigami Mai</td>
+			<tr>
+			  <td align="right">13</td>
+			  <td>Love Summer!</td>
+			  <td>Fuchigami Mai</td>
 			 </tr>
-			<tr height="15">
-			  <td align="right" height="15" style="border-top: none;">14</td>
-			  <td style="border-left: none; border-top: none;">Tenshi no Suitcase</td>
-			  <td style="border-left: none; border-top: none;">SIX LOUNGE</td>
+			<tr>
+			  <td align="right">14</td>
+			  <td>Tenshi no Suitcase</td>
+			  <td>SIX LOUNGE</td>
 			 </tr>
-			<tr height="15">
-			  <td align="right" height="15" rowspan="2" style="border-top: none;">15</td>
-			  <td style="border-left: none; border-top: none;">RUN</td>
-			  <td style="border-left: none; border-top: none;">Cocoro Auction</td>
+			<tr>
+			  <td align="right" rowspan="2">15</td>
+			  <td>RUN</td>
+			  <td>Cocoro Auction</td>
 			 </tr>
-			<tr height="15">
-			  <td style="border-left: none; border-top: none;">Bokura no Uta</td>
-			  <td style="border-left: none; border-top: none;">AyumiKurikaMaki</td>
+			<tr>
+			  <td>Bokura no Uta</td>
+			  <td>AyumiKurikaMaki</td>
 			 </tr>
-			<tr height="15">
-			  <td align="right" height="15" style="border-top: none;">16</td>
-			  <td style="border-left: none; border-top: none;">Wagamama</td>
-			  <td style="border-left: none; border-top: none;">Takigawa Alisa</td>
+			<tr>
+			  <td align="right">16</td>
+			  <td>Wagamama</td>
+			  <td>Takigawa Alisa</td>
 			 </tr>
-			<tr height="15">
-			  <td align="right" height="15" rowspan="2" style="border-top: none;">17</td>
-			  <td style="border-left: none; border-top: none;">Smash Drop</td>
-			  <td style="border-left: none; border-top: none;">Asakura Momo</td>
+			<tr>
+			  <td align="right" rowspan="2">17</td>
+			  <td>Smash Drop</td>
+			  <td>Asakura Momo</td>
 			 </tr>
-			<tr height="15">
-			  <td style="border-left: none; border-top: none;">Shimaeba Ii</td>
-			  <td style="border-left: none; border-top: none;">Natsukawa Shiina</td>
+			<tr>
+			  <td>Shimaeba Ii</td>
+			  <td>Natsukawa Shiina</td>
 			 </tr>
-			<tr height="15">
-			  <td align="right" height="15" style="border-top: none;">18</td>
-			  <td style="border-left: none; border-top: none;">Reboot</td>
-			  <td style="border-left: none; border-top: none;">miwa</td>
+			<tr>
+			  <td align="right">18</td>
+			  <td>Reboot</td>
+			  <td>miwa</td>
 			 </tr>
-			<tr height="15">
-			  <td align="right" height="15" style="border-top: none;">19</td>
-			  <td style="border-left: none; border-top: none;">Sign</td>
-			  <td style="border-left: none; border-top: none;">sphere</td>
+			<tr>
+			  <td align="right">19</td>
+			  <td>Sign</td>
+			  <td>sphere</td>
 			 </tr>
-			<tr height="15">
-			  <td align="right" height="15" style="border-top: none;">20</td>
-			  <td style="border-left: none; border-top: none;">irodori -color-</td>
-			  <td style="border-left: none; border-top: none;">Numakura Manami</td>
+			<tr>
+			  <td align="right">20</td>
+			  <td>irodori -color-</td>
+			  <td>Numakura Manami</td>
 			 </tr>
 			</tbody>
 	</table>
 	<table id="2018" class="list" border="0" cellpadding="0" cellspacing="0">
 		<tbody>
-			<tr height="15">
-				<td height="15" width="40">Rank</td>
-				<td width="270" style="border-left: none;">Song Name</td>
-				<td width="270" style="border-left: none;">Contributing   Artist(s)</td>
+			<tr>
+				<td width="30">Rank</td>
+				<td width="270">Song Title</td>
+				<td width="270">Contributing Artist(s)</td>
 			</tr>
-			<tr height="15">
-				<td align="right" height="15" style="border-top: none;">1</td>
-				<td style="border-left: none; border-top: none;">Magical Feelin'</td>
-				<td style="border-left: none; border-top: none;">Yoru no Honki Dance</td>
+			<tr>
+				<td align="right">1</td>
+				<td>Magical Feelin'</td>
+				<td>Yoru no Honki Dance</td>
 			</tr>
-			<tr height="15">
-				<td align="right" height="15" style="border-top: none;">2</td>
-				<td style="border-left: none; border-top: none;">over and over</td>
-				<td style="border-left: none; border-top: none;">Aqua Timez</td>
+			<tr>
+				<td align="right">2</td>
+				<td>over and over</td>
+				<td>Aqua Timez</td>
 			</tr>
-			<tr height="15">
-				<td align="right" height="15" style="border-top: none;">3</td>
-				<td style="border-left: none; border-top: none;">Orokamono Tachi</td>
-				<td style="border-left: none; border-top: none;">GLIM SPANKY</td>
+			<tr>
+				<td align="right">3</td>
+				<td>Orokamono Tachi</td>
+				<td>GLIM SPANKY</td>
 			</tr>
-			<tr height="15">
-				<td align="right" height="15" style="border-top: none;">4</td>
-				<td style="border-left: none; border-top: none;">Kagayaki Dashite Hasshiteku</td>
-				<td style="border-left: none; border-top: none;">Sambomaster</td>
+			<tr>
+				<td align="right">4</td>
+				<td>Kagayaki Dashite Hasshiteku</td>
+				<td>Sambomaster</td>
 			</tr>
-			<tr height="15">
-				<td align="right" height="15" rowspan="2" style="border-top: none;">5</td>
-				<td style="border-left: none; border-top: none;">The Everglow</td>
-				<td style="border-left: none; border-top: none;">SHE'S</td>
+			<tr>
+				<td align="right" rowspan="2">5</td>
+				<td>The Everglow</td>
+				<td>SHE'S</td>
 			</tr>
-			<tr height="15">
-				<td style="border-left: none; border-top: none;">Saijoukyuu</td>
-				<td style="border-left: none; border-top: none;">wacci</td>
+			<tr>
+				<td>Saijoukyuu</td>
+				<td>wacci</td>
 			</tr>
-			<tr height="15">
-				<td align="right" height="15" style="border-top: none;">6</td>
-				<td style="border-left: none; border-top: none;">Bokura</td>
-				<td style="border-left: none; border-top: none;">LuckLife</td>
+			<tr>
+				<td align="right">6</td>
+				<td>Bokura</td>
+				<td>LuckLife</td>
 			</tr>
-			<tr height="15">
-				<td align="right" height="15" style="border-top: none;">7</td>
-				<td style="border-left: none; border-top: none;">Youshitenrei na Uso</td>
-				<td style="border-left: none; border-top: none;">THE ORAL CIGARETTES</td>
+			<tr>
+				<td align="right">7</td>
+				<td>Youshitenrei na Uso</td>
+				<td>THE ORAL CIGARETTES</td>
 			</tr>
-			<tr height="15">
-				<td align="right" height="15" style="border-top: none;">8</td>
-				<td style="border-left: none; border-top: none;">Bluemin' Days</td>
-				<td style="border-left: none; border-top: none;">Yogee New Waves</td>
+			<tr>
+				<td align="right">8</td>
+				<td>Bluemin' Days</td>
+				<td>Yogee New Waves</td>
 			</tr>
-			<tr height="15">
-				<td align="right" height="15" style="border-top: none;">9</td>
-				<td style="border-left: none; border-top: none;">Telecaster Stripe</td>
-				<td style="border-left: none; border-top: none;">Polkadot Stingray</td>
+			<tr>
+				<td align="right">9</td>
+				<td>Telecaster Stripe</td>
+				<td>Polkadot Stingray</td>
 			</tr>
-			<tr height="15">
-				<td align="right" height="15" style="border-top: none;">10</td>
-				<td style="border-left: none; border-top: none;">Hi-Fi TRAIN</td>
-				<td style="border-left: none; border-top: none;">ORESAMA</td>
+			<tr>
+				<td align="right">10</td>
+				<td>Hi-Fi TRAIN</td>
+				<td>ORESAMA</td>
 			</tr>
-			<tr height="15">
-				<td align="right" height="15" style="border-top: none;">11</td>
-				<td style="border-left: none; border-top: none;">Little Singer</td>
-				<td style="border-left: none; border-top: none;">Ryokuoushoku Shakai</td>
+			<tr>
+				<td align="right">11</td>
+				<td>Little Singer</td>
+				<td>Ryokuoushoku Shakai</td>
 			</tr>
-			<tr height="15">
-				<td align="right" height="15" style="border-top: none;">12</td>
-				<td style="border-left: none; border-top: none;">Evergreen</td>
-				<td style="border-left: none; border-top: none;">Cider Girl</td>
+			<tr>
+				<td align="right">12</td>
+				<td>Evergreen</td>
+				<td>Cider Girl</td>
 			</tr>
-			<tr height="15">
-				<td align="right" height="15" style="border-top: none;">13</td>
-				<td style="border-left: none; border-top: none;">HAGANE</td>
-				<td style="border-left: none; border-top: none;">Iwasaki Ai</td>
+			<tr>
+				<td align="right">13</td>
+				<td>HAGANE</td>
+				<td>Iwasaki Ai</td>
 			</tr>
-			<tr height="15">
-				<td align="right" height="15" style="border-top: none;">14</td>
-				<td style="border-left: none; border-top: none;">Oukan</td>
-				<td style="border-left: none; border-top: none;">Tsuji Shion</td>
+			<tr>
+				<td align="right">14</td>
+				<td>Oukan</td>
+				<td>Tsuji Shion</td>
 			</tr>
-			<tr height="15">
-				<td align="right" height="15" style="border-top: none;">15</td>
-				<td style="border-left: none; border-top: none;">Beautiful Lie</td>
-				<td style="border-left: none; border-top: none;">SECONDWALL</td>
+			<tr>
+				<td align="right">15</td>
+				<td>Beautiful Lie</td>
+				<td>SECONDWALL</td>
 			</tr>
-			<tr height="15">
-				<td align="right" height="15" style="border-top: none;">16</td>
-				<td style="border-left: none; border-top: none;">Polaris</td>
-				<td style="border-left: none; border-top: none;">nano.RIPE</td>
+			<tr>
+				<td align="right">16</td>
+				<td>Polaris</td>
+				<td>nano.RIPE</td>
 			</tr>
-			<tr height="15">
-				<td align="right" height="15" rowspan="2" style="border-top: none;">17</td>
-				<td style="border-left: none; border-top: none;">Lilas</td>
-				<td style="border-left: none; border-top: none;">Amamiya Sora</td>
+			<tr>
+				<td align="right" rowspan="2">17</td>
+				<td>Lilas</td>
+				<td>Amamiya Sora</td>
 			</tr>
-			<tr height="15">
-				<td style="border-left: none; border-top: none;">Fanfare!!</td>
-				<td style="border-left: none; border-top: none;">Asakura Momo</td>
+			<tr>
+				<td>Fanfare!!</td>
+				<td>Asakura Momo</td>
 			</tr>
-			<tr height="15">
-				<td align="right" height="15" style="border-top: none;">18</td>
-				<td style="border-left: none; border-top: none;">Desires</td>
-				<td style="border-left: none; border-top: none;">Numakura Manami</td>
+			<tr>
+				<td align="right">18</td>
+				<td>Desires</td>
+				<td>Numakura Manami</td>
 			</tr>
-			<tr height="15">
-				<td align="right" height="15" style="border-top: none;">19</td>
-				<td style="border-left: none; border-top: none;">Light The Fire</td>
-				<td style="border-left: none; border-top: none;">Sunrise In My Attache Case</td>
+			<tr>
+				<td align="right">19</td>
+				<td>Light The Fire</td>
+				<td>Sunrise In My Attache Case</td>
 			</tr>
-			<tr height="15">
-				<td align="right" height="15" style="border-top: none;">20</td>
-				<td style="border-left: none; border-top: none;">Traumerei</td>
-				<td style="border-left: none; border-top: none;">YUKI</td>
+			<tr>
+				<td align="right">20</td>
+				<td>Traumerei</td>
+				<td>YUKI</td>
+			</tr>
+		</tbody>
+	</table>
+	<table id="2017" class="list" border="0" cellpadding="0" cellspacing="0">
+		<tbody>
+			<tr>
+				<td width="30">Rank</td>
+				<td width="270">Song Title</td>
+				<td width="270">Contributing Artist(s)</td>
+			</tr>
+			<tr>
+				<td align="right">1</td>
+				<td>Anata no Inai, Kono Sekai de.</td>
+				<td>fumika</td>
+			</tr>
+			<tr>
+				<td align="right">2</td>
+				<td>Sora mo Toberu Hazu</td>
+				<td>NEGOTO</td>
+			</tr>
+			<tr>
+				<td align="right">3</td>
+				<td>Wonder Drive</td>
+				<td>ORESAMA</td>
+			</tr>
+			<tr>
+				<td align="right">4</td>
+				<td>SHINY</td>
+				<td>Yoru no Honki Dance</td>
+			</tr>
+			<tr>
+				<td align="right">5</td>
+				<td>Hajimari no Uta</td>
+				<td>Ryokuoushoku Shakai</td>
+			</tr>
+			<tr>
+				<td align="right" rowspan="2">6</td>
+				<td>Fighter</td>
+				<td>KANA-BOON</td>
+			</tr>
+			<tr>
+				<td>Be with</td>
+				<td>SPYAIR</td>
+			</tr>
+			<tr>
+				<td align="right" rowspan="2">7</td>
+				<td>petit bonheur</td>
+				<td>Primary</td>
+			</tr>
+			<tr>
+				<td>irodori</td>
+				<td>Amamiya Sora</td>
+			</tr>
+			<tr>
+				<td align="right">8</td>
+				<td>Odore! Kyuukyoku Tetsugaku</td>
+				<td>Uesaka Sumire</td>
+			</tr>
+			<tr>
+				<td align="right">9</td>
+				<td>Sayonara Moon Town</td>
+				<td>Scenarioart</td>
+			</tr>
+			<tr>
+				<td align="right">10</td>
+				<td>A Short Film</td>
+				<td>LILI LIMIT</td>
+			</tr>
+			<tr>
+				<td align="right">11</td>
+				<td>adrenaline!!!</td>
+				<td>TrySail</td>
+			</tr>
+			<tr>
+				<td align="right">12</td>
+				<td>Flowerwall</td>
+				<td>Yonezu Kenshi</td>
+			</tr>
+			<tr>
+				<td align="right">13</td>
+				<td>Climber's High!</td>
+				<td>Numakura Manami</td>
+			</tr>
+			<tr>
+				<td align="right">14</td>
+				<td>Tachiagare</td>
+				<td>Shishido Kavka</td>
+			</tr>
+			<tr>
+				<td align="right">15</td>
+				<td>Sunny Day</td>
+				<td>LuckLife</td>
+			</tr>
+			<tr>
+				<td align="right">16</td>
+				<td>Netsugen</td>
+				<td>cinema staff</td>
+			</tr>
+			<tr>
+				<td align="right" rowspan="2">17</td>
+				<td>Ah!Oh!</td>
+				<td>wacci</td>
+			</tr>
+			<tr>
+				<td>You</td>
+				<td>Goose house</td>
+			</tr>
+			<tr>
+				<td align="right">18</td>
+				<td>HEARTRAIL</td>
+				<td>Komatsu Mikako</td>
+			</tr>
+			<tr>
+				<td align="right">19</td>
+				<td>Imakoko</td>
+				<td>Touyama Nao</td>
+			</tr>
+			<tr>
+				<td align="right">20</td>
+				<td>Ride On Wave</td>
+				<td>Yogee New Waves</td>
 			</tr>
 		</tbody>
 	</table>
 	<br />
 	</div>
-	<!-- <div id="Top20AudioCaption"></div> -->
-	<h6 style="text-align: center;">(c) Klassic Note 2018-2020</h6>
+	<h6 style="text-align: center;">(c) Klassic Note 2017-2020</h6>
     <p style="text-align: center;"><a href="../index.html">Back</a></p>
 	<div style="text-align: center;" title="Toggle Dark Mode"><i id="darkmode" class="material-icons">brightness_high</i></div>
 </body>
