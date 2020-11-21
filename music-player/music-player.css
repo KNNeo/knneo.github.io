@@ -3,10 +3,18 @@ html {
 	font-family: Open Sans;
 }
 
-.body {
+.centered {
 	max-width: 640px;
 	margin: auto;
 	padding: 2px 8px;
+}
+
+tr:hover {
+	background-color: gray;
+}
+
+.darked tr:hover {
+	background-color: lightgray;
 }
 
 h1 {

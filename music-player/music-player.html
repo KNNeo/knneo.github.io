@@ -11,150 +11,27 @@
     <title>Music Player</title>
 </head>
 <body>
-	<div class="body">
+	<div class="centered" >
     <h1>Music Player</h1>
 	<div id="sidebar"></div>
     <h5>Demo for timestamps on table based on input</h5>
 	</div>
-	<audio id="2019Player" class="player" onplaying="runTimestamp()" onseeking="clearTimestamp()" controls>
-	  <source src="https://klassicnoteawards.webs.com/awardrankings2019.mp3" type="audio/mpeg"></source>
-	  [You'll need a newer browser that supports HTML5 to listen to this.]
-	</audio>
-	<audio id="2018Player" class="player" onplaying="runTimestamp()" onseeking="clearTimestamp()" controls>
-		<source src="https://klassicnoteawards.webs.com/awardrankings2018-1.mp3" type="audio/mpeg"></source>
-	  [You'll need a newer browser that supports HTML5 to listen to this.]
-	</audio>
-	<audio id="2017Player" class="player" onplaying="runTimestamp()" onseeking="clearTimestamp()" controls>
-		<source src="https://klassicnoteawards.webs.com/awardrankings2017.mp3" type="audio/mpeg"></source>
-	  [You'll need a newer browser that supports HTML5 to listen to this.]
-	</audio>
-	<div class="body">
-	<table id="2019" class="list" border="0" cellpadding="0" cellspacing="0">
-		<tbody>
-			<tr>
-			  <td width="30">Rank</td>
-			  <td width="270">Song Title</td>
-			  <td width="270">Contributing Artist(s)</td>
-			 </tr>
-			<tr>
-			  <td align="right">1</td>
-			  <td>Catch The Rainbow!</td>
-			  <td>Minase Inori</td>
-			 </tr>
-			<tr>
-			  <td align="right">2</td>
-			  <td>Shiroi Sabaku no March</td>
-			  <td>cinema staff</td>
-			 </tr>
-			<tr>
-			  <td align="right" rowspan="2">3</td>
-			  <td>sabotage</td>
-			  <td>Ryokuoushoku Shakai</td>
-			 </tr>
-			<tr>
-			  <td>Masquerade</td>
-			  <td>SHE'S</td>
-			 </tr>
-			<tr>
-			  <td align="right">4</td>
-			  <td>Take it back</td>
-			  <td>Yoru no Honki Dance</td>
-			 </tr>
-			<tr>
-			  <td align="right">5</td>
-			  <td>Shiawase ni Natte</td>
-			  <td>MaRuRi to Ryuga</td>
-			 </tr>
-			<tr>
-			  <td align="right" rowspan="2">6</td>
-			  <td>DENKOUSEKKA</td>
-			  <td>Polkadot Stingray</td>
-			 </tr>
-			<tr>
-			  <td>Mikansei no Shoudou</td>
-			  <td>Ghost Sense</td>
-			 </tr>
-			<tr>
-			  <td align="right">7</td>
-			  <td>Boku no Koto</td>
-			  <td>Mrs. GREEN APPLE</td>
-			 </tr>
-			<tr>
-			  <td align="right">8</td>
-			  <td>What's Gonna Be?</td>
-			  <td>FIVE NEW OLD</td>
-			 </tr>
-			<tr>
-			  <td align="right">9</td>
-			  <td>TryAgain</td>
-			  <td>TrySail</td>
-			 </tr>
-			<tr>
-			  <td align="right">10</td>
-			  <td>Romanticism</td>
-			  <td>Mrs. GREEN APPLE</td>
-			 </tr>
-			<tr>
-			  <td align="right">11</td>
-			  <td>Asagao</td>
-			  <td>Horie Yui</td>
-			 </tr>
-			<tr>
-			  <td align="right">12</td>
-			  <td>Shisenjou no Hana</td>
-			  <td>Yuuki Aoi</td>
-			 </tr>
-			<tr>
-			  <td align="right">13</td>
-			  <td>Love Summer!</td>
-			  <td>Fuchigami Mai</td>
-			 </tr>
-			<tr>
-			  <td align="right">14</td>
-			  <td>Tenshi no Suitcase</td>
-			  <td>SIX LOUNGE</td>
-			 </tr>
-			<tr>
-			  <td align="right" rowspan="2">15</td>
-			  <td>RUN</td>
-			  <td>Cocoro Auction</td>
-			 </tr>
-			<tr>
-			  <td>Bokura no Uta</td>
-			  <td>AyumiKurikaMaki</td>
-			 </tr>
-			<tr>
-			  <td align="right">16</td>
-			  <td>Wagamama</td>
-			  <td>Takigawa Alisa</td>
-			 </tr>
-			<tr>
-			  <td align="right" rowspan="2">17</td>
-			  <td>Smash Drop</td>
-			  <td>Asakura Momo</td>
-			 </tr>
-			<tr>
-			  <td>Shimaeba Ii</td>
-			  <td>Natsukawa Shiina</td>
-			 </tr>
-			<tr>
-			  <td align="right">18</td>
-			  <td>Reboot</td>
-			  <td>miwa</td>
-			 </tr>
-			<tr>
-			  <td align="right">19</td>
-			  <td>Sign</td>
-			  <td>sphere</td>
-			 </tr>
-			<tr>
-			  <td align="right">20</td>
-			  <td>irodori -color-</td>
-			  <td>Numakura Manami</td>
-			 </tr>
-			</tbody>
-	</table>
-	<table id="2018" class="list" border="0" cellpadding="0" cellspacing="0">
+	<div id="music">
+		<audio id="2019Player" class="player" onplaying="runTimestamp()" onseeking="clearTimestamp()" controls>
+		  <source src="https://klassicnoteawards.webs.com/awardrankings2019.mp3" type="audio/mpeg"></source>
+		  [You'll need a newer browser that supports HTML5 to listen to this.]
+		</audio>
+		<audio id="2018Player" class="player" onplaying="runTimestamp()" onseeking="clearTimestamp()" controls>
+			<source src="https://klassicnoteawards.webs.com/awardrankings2018-1.mp3" type="audio/mpeg"></source>
+		  [You'll need a newer browser that supports HTML5 to listen to this.]
+		</audio>
+		<audio id="2017Player" class="player" onplaying="runTimestamp()" onseeking="clearTimestamp()" controls>
+			<source src="https://klassicnoteawards.webs.com/awardrankings2017.mp3" type="audio/mpeg"></source>
+		  [You'll need a newer browser that supports HTML5 to listen to this.]
+		</audio>
+	</div>
+	<div id="table">
+	<table id="2018" class="list centered" border="0" cellpadding="0" cellspacing="0">
 		<tbody>
 			<tr>
 				<td width="30">Rank</td>
@@ -271,7 +148,7 @@
 			</tr>
 		</tbody>
 	</table>
-	<table id="2017" class="list" border="0" cellpadding="0" cellspacing="0">
+	<table id="2017" class="list centered" border="0" cellpadding="0" cellspacing="0">
 		<tbody>
 			<tr>
 				<td width="30">Rank</td>
@@ -392,11 +269,10 @@
 			</tr>
 		</tbody>
 	</table>
-	<br />
 	</div>
 	<h6 style="text-align: center;">(c) Klassic Note 2017-2020</h6>
     <p style="text-align: center;"><a href="../index.html">Back</a></p>
 	<div style="text-align: center;" title="Toggle Dark Mode"><i id="darkmode" class="material-icons">brightness_high</i></div>
 </body>
-<script src="music-player.js"></script>
+<script src="music-player-v2.js"></script>
 </html>
