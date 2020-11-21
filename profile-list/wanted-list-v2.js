@@ -212,7 +212,7 @@ function generateWantedList(profileLink) {
 	//create name array from static profile boxes
 	let profileNamesList = new Array();
 	for (let profileName of profileList) {
-		if (excludeMarried && profileName.turningPoint.isMarried) continue;
+		if (excludeMarried && processTurningPoint(profileName.turningPoint.isMarried, true)) continue;
 		if (friendMode && friendList.filter( function(n) {
 					return (n.friend1 == profileName.id) || 
 						   (n.friend2 == profileName.id)

@@ -144,9 +144,13 @@ function generateProfileListFromJSON(profileList) {
 						
 							cell = document.createElement('td');
 							if(!isExternal) 
-								cell.innerText = profile.turningPointStr.singerDebutStr + "|" + profile.turningPointStr.swimsuitPhotobookStr + "|" + profile.turningPointStr.isMarriedStr;
+								cell.innerText = profile.turningPoint.singerDebut 
+										+ "|" + profile.turningPoint.swimsuitPhotobook 
+										+ "|" + profile.turningPoint.isMarried;
 							else
-								cell.innerText = isYesNo(profile.turningPoint.singerDebut)+ "|" + isYesNo(profile.turningPoint.swimsuitPhotobook) + "|" + isYesNo(profile.turningPoint.isMarried);
+								cell.innerText = processTurningPoint(profile.turningPoint.singerDebut, false)
+										+ "|" + processTurningPoint(profile.turningPoint.swimsuitPhotobook, false) 
+										+ "|" + processTurningPoint(profile.turningPoint.isMarried, false);
 							
 							row.appendChild(cell);
 						
@@ -222,7 +226,10 @@ function generateProfileListFromJSON(profileList) {
 
 function getWantedLevelComment(profile) { return console.log(profile.name + '\n' + profile.wantedLevel + '\n' + profile.wantedLevelComment); }
 function addBrackets(content, startWithWhitespace) { return (startWithWhitespace ? ' ' : '') + '(' + content + ')'; }
-function isYesNo(option) { return option ? "Yes" : "No"; }
-function randomProfileImg(images) {
+function processTurningPoint(option, returnBool) {
+	if(returnBool)
+		return option.includes('Yes') ? true : false;
+	return option.split('*').join('');
+}function randomProfileImg(images) {
 	return images[Math.floor(Math.random()*(images.length-1))];
 }

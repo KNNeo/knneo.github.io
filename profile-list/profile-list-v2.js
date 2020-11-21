@@ -342,9 +342,13 @@ function generateProfileFromJSON(profileName) {
 							if(friendMode) cellDiv.style.textAlign = 'left';
 							if(friendMode) cellDiv.style.position = 'absolute';
 								if(!isExternal && !friendMode) 
-									cellDiv.innerText = profile.turningPointStr.singerDebutStr + "|" + profile.turningPointStr.swimsuitPhotobookStr + "|" + profile.turningPointStr.isMarriedStr;
+									cellDiv.innerText = profile.turningPoint.singerDebut 
+												+ "|" + profile.turningPoint.swimsuitPhotobook 
+												+ "|" + profile.turningPoint.isMarried;
 								else
-									cellDiv.innerText = removeAsterisks(profile.turningPointStr.singerDebutStr)+ "|" + removeAsterisks(profile.turningPointStr.swimsuitPhotobookStr) + "|" + removeAsterisks(profile.turningPointStr.isMarriedStr);
+									cellDiv.innerText = processTurningPoint(profile.turningPoint.singerDebut, false)
+												+ "|" + processTurningPoint(profile.turningPoint.swimsuitPhotobook, false) 
+												+ "|" + processTurningPoint(profile.turningPoint.isMarried, false);
 								
 						cell.appendChild(cellDiv);
 									
@@ -353,9 +357,13 @@ function generateProfileFromJSON(profileName) {
 							cellDiv = document.createElement('div');
 							
 							if(!isExternal && !friendMode) 
-								cellDiv.innerText = currentProfile.turningPointStr.singerDebutStr + "|" + currentProfile.turningPointStr.swimsuitPhotobookStr + "|" + currentProfile.turningPointStr.isMarriedStr;
+								cellDiv.innerText = profile.turningPoint.singerDebut 
+											+ "|" + profile.turningPoint.swimsuitPhotobook 
+											+ "|" + profile.turningPoint.isMarried;
 							else
-								cellDiv.innerText = removeAsterisks(currentProfile.turningPointStr.singerDebutStr)+ "|" + removeAsterisks(currentProfile.turningPointStr.swimsuitPhotobookStr) + "|" + removeAsterisks(currentProfile.turningPointStr.isMarriedStr);
+								cellDiv.innerText = processTurningPoint(profile.turningPoint.singerDebut, false)
+											+ "|" + processTurningPoint(profile.turningPoint.swimsuitPhotobook, false) 
+											+ "|" + processTurningPoint(profile.turningPoint.isMarried, false);
 								
 							cell.appendChild(cellDiv);
 						}
@@ -486,12 +494,10 @@ function generateProfileFromJSON(profileName) {
 
 function getWantedLevelComment(profile) { return console.log(profile.name + '\n' + profile.wantedLevel + '\n' + profile.wantedLevelComment); }
 function addBrackets(content, startWithWhitespace) { return (startWithWhitespace ? ' ' : '') + '(' + content + ')'; }
-function isYesNo(option) { return option ? 'Yes' : 'No'; }
-function removeAsterisks(option) {
-	while(option.includes('*')){
-		option = option.replace('*','');
-	}
-	return option;
+function processTurningPoint(option, returnBool) {
+	if(returnBool)
+		return option.includes('Yes') ? true : false;
+	return option.split('*').join('');
 }
 function randomProfileImg(images) {
 	return images[Math.floor(Math.random()*(images.length-1))];

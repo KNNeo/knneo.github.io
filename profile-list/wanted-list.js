@@ -111,7 +111,7 @@ function generateWantedList(excludeMarried) {
 	//create name array from static profile boxes
 	let profileNamesList = new Array();
 	for (let profileName of profileList) {
-		if (excludeMarried && profileName.turningPoint.isMarried) continue;
+		if (excludeMarried && processTurningPoint(profileName.turningPoint.isMarried, true)) continue;
 		profileNamesList.push(profileName.name);
 	}
 	profileNamesList.sort();
