@@ -30,8 +30,12 @@ function invertCensor() {
 		box.innerHTML = '';
 	}
 	if(profileListJson.length > 0) {
-		generateProfileListFromJSON(profileListJson);
-		profileList = profileListJson;
+		generateProfileListFromJSON(profileListJson.filter( function(n) {
+				return n.category != 'friendList';
+			}));
+		profileList = profileListJson.filter( function(n) {
+				return n.category != 'friendList';
+			});
 	}
 	else generateProfileListFromJSON(profileList);
 	renderWantedList();
@@ -41,7 +45,7 @@ function generateProfileListFromJSON(profileList) {
 	for(let profile of profileList)
 	{
 		let idBox = document.createElement('div');
-		idBox.id = profile.name.replace(' ','');
+		idBox.id = profile.id;
 		
 			let profileBox = document.createElement('div');
 			profileBox.classList.add('profile-box');
