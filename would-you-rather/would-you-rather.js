@@ -51,6 +51,10 @@ function getResultFromNames(module) {
 			result.innerHTML = "Would you rather stay with your current date \"" + generateName(nameList) + "\" or betray her and go date \"" + generateName(nameList) + "\"?";
 		else if (categoryName == "Harem")
 			result.innerHTML = "It's a harem!! Would you rather date \"" + generateName(nameList) + "\" who is your childhood friend, or \"" + generateName(nameList) + "\" who is your long lost step sibling, or \"" + generateName(nameList) + "\" who landed on top of you by accident, or \"" + generateName(nameList) + "\" who suddenly asked you out to confess to you?";
+		else if (categoryName == "Affair")
+			result.innerHTML = "Would you rather \"" + generateName(nameList) + "\" be your wife while you have an affair with \"" + generateName(nameList) + "\"? Or vice versa?";
+		else if (categoryName == "Island")
+			result.innerHTML = "You and " + generateName(nameList) + " are stuck in an uninhabited island. Would you rather escape in a lifeboat only enough for one, try to call for rescue while waiting together, or procreate and start a new life?";
 		else if(categoryName == "Custom")
 		{
 			if(result.innerHTML.includes('flexi-name')) {
