@@ -150,7 +150,19 @@ function initialiseWantedList() {
 	currentMonth = createCalendar(new Date().getMonth(), calendarDOBlist);
 	setThumbnails();
 	addStatusPopUps();
+	initialiseTime();
 	friendCheck();
+}
+
+function initialiseTime() {
+	updateTime();
+	setTimeout(updateTime, 1000);
+}
+
+function updateTime() {
+	let offsetMinutes = moment().utcOffset() - moment.tz(timezone).utcOffset();
+	document.getElementById('time').innerText = moment().subtract(offsetMinutes, 'minutes').format("yyyy.MM.DD HH:mm:ss");
+	setTimeout(updateTime, 1000);
 }
 
 function toggleInitialThumbnailLayout() {

@@ -25,6 +25,10 @@ else {
 
 function invertCensor() {
 	isExternal = !isExternal;
+	//change title
+	let title = document.getElementById('title').innerHTML;
+	document.getElementById('title').innerHTML = title.includes('<sup>MATOME</sup>') ? title.replace('<sup>MATOME</sup>','') : title + '<sup>MATOME</sup>';
+	//re-render profile list
 	for(let box of document.getElementsByClassName('profile-category'))
 	{
 		box.innerHTML = '';

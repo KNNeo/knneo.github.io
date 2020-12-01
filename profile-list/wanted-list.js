@@ -79,6 +79,7 @@ function renderWantedList() {
 	addAgeAfterDOB();
 	addStatusPopUp();
 	openLinksInNew();
+	initialiseTime();
 	if(isExternal) censorData(); //ONLY FOR GITHUB
 	if (loadedImages != document.getElementsByTagName("img").length) setTimeout(function() {
 		reloadImages();
@@ -86,6 +87,17 @@ function renderWantedList() {
 }
 
 //--functions--//
+function initialiseTime() {
+	updateTime();
+	setTimeout(updateTime, 1000);
+}
+
+function updateTime() {
+	let offsetMinutes = moment().utcOffset() - moment.tz(timezone).utcOffset();
+	document.getElementById('time').innerText = moment().subtract(offsetMinutes, 'minutes').format("yyyy.MM.DD HH:mm:ss");
+	setTimeout(updateTime, 1000);
+}
+
 //add age after DOB span
 function addAgeAfterDOB() {
 	for (let dateOfBirth of document.getElementsByClassName("DOB")) {
