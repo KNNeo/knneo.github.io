@@ -130,6 +130,7 @@ window.addEventListener("scroll", function() {
 });
 
 //--variables--//
+let myDOB = '1993-02-19'; // format: yyyy-MM-dd
 let loadedImages = 0;
 let timelineDOBlist = [];
 let calendarDOBlist = [];
@@ -196,6 +197,31 @@ function renderProfileBox() {
 }
 
 //--functions--//
+function daysFromMe() {
+	let me = timelineDOBlist.filter(t => t.name == "Me")[0];
+	let others = timelineDOBlist.filter(t => t.name != "Me");
+	console.log('with respect to ' + me.date + ':');
+	let awway = new Array();
+	for(let other of others)
+	{
+		if(other.date.includes('????')) continue;
+		let DOB = other.date;
+		let myDateStr = me.date.replace(".", "-").replace(".", "-"); //yyyy.MM.dd -> yyyy-MM-dd
+		let myDate = myDateStr.substring(0, 10);
+		let birthDateStr = DOB.replace(".", "-").replace(".", "-"); //yyyy.MM.dd -> yyyy-MM-dd
+		let birthDate = birthDateStr.substring(0, 10);
+		//return Math.floor((new Date().getTime() - birthDate) / 31556952000);
+		let offsetMinutes = moment().utcOffset() - moment.tz(timezone).utcOffset();
+		let diff = moment(myDate).diff(moment(birthDate));
+		awway.push({
+			name: other.name,
+			daysAway: Math.abs(Math.round(moment.duration(diff).subtract(offsetMinutes, 'minutes').asDays(),0))
+			});
+	}
+	
+	console.log(awway.sort((a,b) => a.daysAway - b.daysAway));
+}
+
 //add age after DOB span
 function addAgeAfterDOB() {
 	for (let dateOfBirth of document.getElementsByClassName("DOB")) {
@@ -301,7 +327,7 @@ function addStatusPopUps() {
 function createDOBlist(minAge, maxAge) {
 	let listOfDOB = new Array();
 	listOfDOB.push({
-		date: "1993-02-19",
+		date: myDOB,
 		name: "Me"
 	});
 	for(let profile of profileList) {
