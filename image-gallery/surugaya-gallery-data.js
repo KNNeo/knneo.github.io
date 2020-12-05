@@ -45,7 +45,7 @@ for(let item of document.getElementsByClassName('item')) {
     list+= ("["+(counter++)+",'"+newurl+".jpg','portrait','"+tag+"','"+detail+"'],") + '\n';
 }
 
-from page: 'https://www.suruga-ya.com/en/category/501080317'
+from page: 'https://www.suruga-ya.com/en/products?category=501080317&keyword='
 let list = '\n';
 let counter = 1;
 for(let item of document.getElementsByClassName('cap_wrap')) {
@@ -311,6 +311,8 @@ imgArray = [
 [6,'https://cdn.suruga-ya.jp/database/pics_light/game/g3310765.jpg','portrait','夏川椎菜','「夏川椎菜1stフォトブック ナンスの挑戦本!!ってなんナンスか!?」ゲーマーズ特典'],
 [7,'https://cdn.suruga-ya.jp/database/pics_light/game/g3310762.jpg','portrait','夏川椎菜','「夏川椎菜1stフォトブック ナンスの挑戦本!!ってなんナンスか!?」アニメイト特典'],
 [8,'https://cdn.suruga-ya.jp/database/pics_light/game/g3310767.jpg','portrait','夏川椎菜','「夏川椎菜1stフォトブック ナンスの挑戦本!!ってなんナンスか!?」とらのあな特典'],
+[1,'https://cdn.suruga-ya.jp/database/pics_light/game/gg576076.jpg','portrait','夏川椎菜','横型・バストアップ・衣装紫・両手曲げ/雑誌「声優グランプリ 2020年10月号」アニメイト特典ブロマイド'],
+[2,'https://cdn.suruga-ya.jp/database/pics_light/game/gg576078.jpg','portrait','夏川椎菜','雑誌「声優グランプリ 2020年10月号」ゲーマーズ特典ブロマイド'],
 
 [1,'https://cdn.suruga-ya.jp/database/pics_light/game/gg400371.jpg','portrait','TrySail','集合(3人)/CD「ごまかし/うつろい」ゲーマーズ特典ブロマイド'],
 [2,'https://cdn.suruga-ya.jp/database/pics_light/game/gg400370.jpg','portrait','TrySail','集合(3人)/CD「ごまかし/うつろい」アニメイト特典ブロマイド'],
@@ -779,13 +781,18 @@ imgArray = [
 [3,'https://cdn.suruga-ya.jp/database/pics_light/game/g4237192.jpg','portrait','茅野愛衣','写真集「LETTERS」アニメイト特典'],
 [4,'https://cdn.suruga-ya.jp/database/pics_light/game/g4237194.jpg','portrait','茅野愛衣','写真集「LETTERS」とらのあな特典'],
 
-[1,'https://cdn.suruga-ya.jp/database/pics_light/game/g6438577.jpg','portrait','堀江由衣','CD「夏の約束」/タワーレコード特典'],
-[2,'https://cdn.suruga-ya.jp/database/pics_light/game/g5857981.jpg','portrait','堀江由衣','B.L.T. VOICE GIRLS vol.18 アニメイトVer.'],
-[3,'https://cdn.suruga-ya.jp/database/pics_light/game/g6805549.jpg','portrait','堀江由衣','上半身・衣装黒・背景赤/写真集「LAST DANCE-黒薔薇保存会The FILE」特典'],
-[4,'https://cdn.suruga-ya.jp/database/pics_light/game/g6805548.jpg','portrait','堀江由衣','赤薔薇/写真集「LAST DANCE-黒薔薇保存会The FILE」特典'],
-[6,'https://cdn.suruga-ya.jp/database/pics_light/game/g6805547.jpg','portrait','堀江由衣','座り・全身/写真集「LAST DANCE-黒薔薇保存会The FILE」特典'],
-[7,'https://cdn.suruga-ya.jp/database/pics_light/game/g4435642.jpg','portrait','堀江由衣','「KING SUPER LIVE 2015」オフィシャルブロマイド'],
-[8,'https://cdn.suruga-ya.jp/database/pics_light/game/g4435640.jpg','portrait','堀江由衣','「KING SUPER LIVE 2015」オフィシャルブロマイド'],
+[1,'https://cdn.suruga-ya.jp/database/pics_light/game/gg145373.jpg','portrait','堀江由衣','2Lサイズ/CD「文学少女の歌集」TOWER RECORDS特典ブロマイド'],
+[2,'https://cdn.suruga-ya.jp/database/pics_light/game/gg145368.jpg','portrait','堀江由衣','CD「文学少女の歌集」アニメイト特典ブロマイド'],
+[3,'https://cdn.suruga-ya.jp/database/pics_light/game/gg145369.jpg','portrait','堀江由衣','CD「文学少女の歌集」キンクリ堂特典ブロマイド'],
+[4,'https://cdn.suruga-ya.jp/database/pics_light/game/gg145370.jpg','portrait','堀江由衣','CD「文学少女の歌集」ゲーマーズ特典ブロマイド'],
+[5,'https://cdn.suruga-ya.jp/database/pics_light/game/g3758792.jpg','portrait','堀江由衣','写真集「堀江由衣 Photo book YUI NOTE」ゲーマーズ特典ブロマイド'],
+[6,'https://cdn.suruga-ya.jp/database/pics_light/game/g4435642.jpg','portrait','堀江由衣','「KING SUPER LIVE 2015」オフィシャルブロマイド'],
+[7,'https://cdn.suruga-ya.jp/database/pics_light/game/g4435640.jpg','portrait','堀江由衣','「KING SUPER LIVE 2015」オフィシャルブロマイド'],
+[8,'https://cdn.suruga-ya.jp/database/pics_light/game/g6839179.jpg','portrait','堀江由衣','CD「夏の約束」/TSUTAYA特典'],
+[9,'https://cdn.suruga-ya.jp/database/pics_light/game/g5344174.jpg','portrait','堀江由衣','CD「夏の約束」とらのあな特典生写真'],
+[10,'https://cdn.suruga-ya.jp/database/pics_light/game/g5344177.jpg','portrait','堀江由衣','CD「夏の約束」文教堂・JBOOK特典生写真'],
+[11,'https://cdn.suruga-ya.jp/database/pics_light/game/g6438577.jpg','portrait','堀江由衣','CD「夏の約束」/タワーレコード特典'],
+[12,'https://cdn.suruga-ya.jp/database/pics_light/game/g6886851.jpg','portrait','堀江由衣','バストアップ/CD「夏の約束」アニメイト特典生写真'],
 
 [1,'https://cdn.suruga-ya.jp/database/pics_light/game/g3186657.jpg','portrait','佐藤聡美','横型・印刷サイン・メッセージ入り・2Lサイズ/CD「雨の菫青石」アニメイト特典ブロマイド'],
 [2,'https://cdn.suruga-ya.jp/database/pics_light/game/g3186659.jpg','portrait','佐藤聡美','横型・印刷サイン・メッセージ入り/CD「雨の菫青石」ゲーマーズ特典ブロマイド'],
@@ -1296,6 +1303,36 @@ imgArray = [
 [13,'https://cdn.suruga-ya.jp/database/pics_light/game/g8719805.jpg','portrait','寿美菜子','『Pick-up Voice vol.26』ゲーマーズ購入特典'],
 [15,'https://cdn.suruga-ya.jp/database/pics_light/game/g4314322.jpg','portrait','寿美菜子','寿美菜子/スフィア5thアニバーサリー×ゲーマーズ特典生写真'],
 
+[1,'https://cdn.suruga-ya.jp/database/pics_light/game/gg605557.jpg','portrait','木戸衣吹','「木戸衣吹 1stソロフォトブック『breath』発売記念イベント」ブロマイド'],
+[2,'https://cdn.suruga-ya.jp/database/pics_light/game/gg605577.jpg','portrait','木戸衣吹','「木戸衣吹 1stソロフォトブック『breath』発売記念イベント」ブロマイド'],
+[3,'https://cdn.suruga-ya.jp/database/pics_light/game/gg605562.jpg','portrait','木戸衣吹','「木戸衣吹 1stソロフォトブック『breath』発売記念イベント」ブロマイド'],
+[4,'https://cdn.suruga-ya.jp/database/pics_light/game/gg605555.jpg','portrait','木戸衣吹','横型/「木戸衣吹 1stソロフォトブック『breath』発売記念イベント」ブロマイド'],
+[5,'https://cdn.suruga-ya.jp/database/pics_light/game/gg605534.jpg','portrait','木戸衣吹','横型/「木戸衣吹 1stソロフォトブック『breath』発売記念イベント」ブロマイド'],
+[6,'https://cdn.suruga-ya.jp/database/pics_light/game/gg605533.jpg','portrait','木戸衣吹','「木戸衣吹 1stソロフォトブック『breath』発売記念イベント」ブロマイド'],
+[7,'https://cdn.suruga-ya.jp/database/pics_light/game/gg605567.jpg','portrait','木戸衣吹','横型/「木戸衣吹 1stソロフォトブック『breath』発売記念イベント」ブロマイド'],
+[8,'https://cdn.suruga-ya.jp/database/pics_light/game/gg605544.jpg','portrait','木戸衣吹','横型/「木戸衣吹 1stソロフォトブック『breath』発売記念イベント」ブロマイド'],
+[9,'https://cdn.suruga-ya.jp/database/pics_light/game/gg605548.jpg','portrait','木戸衣吹','「木戸衣吹 1stソロフォトブック『breath』発売記念イベント」ブロマイド'],
+[10,'https://cdn.suruga-ya.jp/database/pics_light/game/gg605535.jpg','portrait','木戸衣吹','横型/「木戸衣吹 1stソロフォトブック『breath』発売記念イベント」ブロマイド'],
+[11,'https://cdn.suruga-ya.jp/database/pics_light/game/gg605560.jpg','portrait','木戸衣吹','横型/「木戸衣吹 1stソロフォトブック『breath』発売記念イベント」ブロマイド'],
+[12,'https://cdn.suruga-ya.jp/database/pics_light/game/gg605568.jpg','portrait','木戸衣吹','横型/「木戸衣吹 1stソロフォトブック『breath』発売記念イベント」ブロマイド'],
+[13,'https://cdn.suruga-ya.jp/database/pics_light/game/gg605580.jpg','portrait','木戸衣吹','「木戸衣吹 1stソロフォトブック『breath』発売記念イベント」特典ブロマイド'],
+[14,'https://cdn.suruga-ya.jp/database/pics_light/game/gg605547.jpg','portrait','木戸衣吹','横型/「木戸衣吹 1stソロフォトブック『breath』発売記念イベント」ブロマイド'],
+[15,'https://cdn.suruga-ya.jp/database/pics_light/game/gg605579.jpg','portrait','木戸衣吹','「木戸衣吹 1stソロフォトブック『breath』発売記念イベント」ブロマイド'],
+[16,'https://cdn.suruga-ya.jp/database/pics_light/game/gg605565.jpg','portrait','木戸衣吹','「木戸衣吹 1stソロフォトブック『breath』発売記念イベント」ブロマイド'],
+[17,'https://cdn.suruga-ya.jp/database/pics_light/game/gg605581.jpg','portrait','木戸衣吹','「木戸衣吹 1stソロフォトブック『breath』発売記念イベント」特典ブロマイド'],
+[18,'https://cdn.suruga-ya.jp/database/pics_light/game/gg605540.jpg','portrait','木戸衣吹','「木戸衣吹 1stソロフォトブック『breath』発売記念イベント」ブロマイド'],
+[19,'https://cdn.suruga-ya.jp/database/pics_light/game/gg605578.jpg','portrait','木戸衣吹','横型/「木戸衣吹 1stソロフォトブック『breath』発売記念イベント」ブロマイド'],
+[20,'https://cdn.suruga-ya.jp/database/pics_light/game/gg605543.jpg','portrait','木戸衣吹','「木戸衣吹 1stソロフォトブック『breath』発売記念イベント」ブロマイド'],
+[21,'https://cdn.suruga-ya.jp/database/pics_light/game/gg605564.jpg','portrait','木戸衣吹','「木戸衣吹 1stソロフォトブック『breath』発売記念イベント」ブロマイド'],
+[22,'https://cdn.suruga-ya.jp/database/pics_light/game/gg605539.jpg','portrait','木戸衣吹','横型/「木戸衣吹 1stソロフォトブック『breath』発売記念イベント」ブロマイド'],
+[23,'https://cdn.suruga-ya.jp/database/pics_light/game/gg605531.jpg','portrait','木戸衣吹','「木戸衣吹 1stソロフォトブック『breath』発売記念イベント」ブロマイド'],
+[24,'https://cdn.suruga-ya.jp/database/pics_light/game/gg605538.jpg','portrait','木戸衣吹','「木戸衣吹 1stソロフォトブック『breath』発売記念イベント」ブロマイド'],
+[1,'https://cdn.suruga-ya.jp/database/pics_light/game/gg605551.jpg','portrait','木戸衣吹','横型/「木戸衣吹 1stソロフォトブック『breath』発売記念イベント」ブロマイド'],
+[2,'https://cdn.suruga-ya.jp/database/pics_light/game/gg605570.jpg','portrait','木戸衣吹','「木戸衣吹 1stソロフォトブック『breath』発売記念イベント」ブロマイド'],
+[3,'https://cdn.suruga-ya.jp/database/pics_light/game/gg605571.jpg','portrait','木戸衣吹','「木戸衣吹 1stソロフォトブック『breath』発売記念イベント」ブロマイド'],
+[4,'https://cdn.suruga-ya.jp/database/pics_light/game/gg605550.jpg','portrait','木戸衣吹','「木戸衣吹 1stソロフォトブック『breath』発売記念イベント」ブロマイド'],
+[5,'https://cdn.suruga-ya.jp/database/pics_light/game/gg605558.jpg','portrait','木戸衣吹','「木戸衣吹 1stソロフォトブック『breath』発売記念イベント」ブロマイド'],
+[6,'https://cdn.suruga-ya.jp/database/pics_light/game/gg605536.jpg','portrait','木戸衣吹','横型/「木戸衣吹 1stソロフォトブック『breath』発売記念イベント」ブロマイド'],
 [2,'https://cdn.suruga-ya.jp/database/pics_light/game/g5309591.jpg','portrait','木戸衣吹','顔アップ・衣装白・腕組み・うつ伏せ・2Lサイズ/ゲーマーズポイント景品/公式生写真'],
 [3,'https://cdn.suruga-ya.jp/database/pics_light/game/g3958337.jpg','portrait','木戸衣吹','横型・顔アップ・衣装水色・両手下・顔斜め左向き/雑誌「IMADOKI!!」特典生写真'],
 [18,'https://cdn.suruga-ya.jp/database/pics_light/game/g3943141.jpg','portrait','木戸衣吹','木戸衣吹/CD「カラフルストーリー」アニメガイベント会場特典ブロマイド'],
