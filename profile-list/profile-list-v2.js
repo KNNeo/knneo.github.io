@@ -345,21 +345,6 @@ function generateProfileFromJSON(profileName) {
 							cellDiv = document.createElement('div');
 							if(friendMode) cellDiv.style.textAlign = 'left';
 							if(friendMode) cellDiv.style.position = 'absolute';
-								if(!isExternal && !friendMode) 
-									cellDiv.innerText = profile.turningPoint.singerDebut 
-												+ "|" + profile.turningPoint.swimsuitPhotobook 
-												+ "|" + profile.turningPoint.isMarried;
-								else
-									cellDiv.innerText = processTurningPoint(profile.turningPoint.singerDebut, false)
-												+ "|" + processTurningPoint(profile.turningPoint.swimsuitPhotobook, false) 
-												+ "|" + processTurningPoint(profile.turningPoint.isMarried, false);
-								
-						cell.appendChild(cellDiv);
-									
-						if(friendMode)
-						{
-							cellDiv = document.createElement('div');
-							
 							if(!isExternal && !friendMode) 
 								cellDiv.innerText = profile.turningPoint.singerDebut 
 											+ "|" + profile.turningPoint.swimsuitPhotobook 
@@ -368,6 +353,21 @@ function generateProfileFromJSON(profileName) {
 								cellDiv.innerText = processTurningPoint(profile.turningPoint.singerDebut, false)
 											+ "|" + processTurningPoint(profile.turningPoint.swimsuitPhotobook, false) 
 											+ "|" + processTurningPoint(profile.turningPoint.isMarried, false);
+								
+						cell.appendChild(cellDiv);
+									
+						if(friendMode)
+						{
+							cellDiv = document.createElement('div');
+							
+							if(!isExternal && !friendMode) 
+								cellDiv.innerText = currentProfile.turningPoint.singerDebut 
+											+ "|" + currentProfile.turningPoint.swimsuitPhotobook 
+											+ "|" + currentProfile.turningPoint.isMarried;
+							else
+								cellDiv.innerText = processTurningPoint(currentProfile.turningPoint.singerDebut, false)
+											+ "|" + processTurningPoint(currentProfile.turningPoint.swimsuitPhotobook, false) 
+											+ "|" + processTurningPoint(currentProfile.turningPoint.isMarried, false);
 								
 							cell.appendChild(cellDiv);
 						}
