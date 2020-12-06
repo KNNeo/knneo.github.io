@@ -47,8 +47,8 @@
 				"id":"YuukiAoi-OonishiSaori"
 			},
 			{
-				"image":"https://pbs.twimg.com/media/Ele78agU8AA2lkP?format=jpg&name=small",
-				"id":"HidakaRina-HikasaYouko"
+				"image":"https://obs.line-scdn.net/0hKyT0Oq5hFFZpST39sFVrASYUEjkQKg5eAzEDbBwfHngcJQNWATMCaBYZCDYMJwleSXwebTcSDjIaKS1eDX9YWz8xQz87HiBjNkgFcxQaEmQTZVMHVClYNERKSmdEcQYDUC5adU0cS28TKlFT/small",
+				"id":"HikasaYouko-HidakaRina"
 			},
 			{
 				"image":"https://pbs.twimg.com/media/EEaGlW6U4AAEVBq?format=jpg&name=small",
@@ -278,6 +278,7 @@
 		"category":"seiyuu1",
 		"id":"HikasaYouko",
 		"images":[
+			"https://obs.line-scdn.net/0hRUGm3q2aDXp6FCTW5tFyLTJJCxUDdxdyEGwaQA9CB1QPeBp6Em4bRAVEERofehByWhM_dBsWCDMQeBp2D3oaXDxqWw9UQ0peRSQrFSFLUwEsOEorR3RCGlgQW09XLB8tRXZHGxoVBktRd0MlRQ/small",
 			"https://obs.line-scdn.net/0hQwmiYXgDDlhQECdJuPxxDxhNCDcpcxRQOmgZYiVGBHYlfBlYOGoYZi9AEjg1fhNQcHMSWnJqKB4rXEB3NDUkTnxpVi0AdRRqMywbRCgXGS0HPEkJbXZGPXMUVmB9KBtZaH5GPzARAjt_IRtePw/small",
 			"https://thetv.jp/i/nw/177407/1049381.jpg",
 			"https://1.bp.blogspot.com/-K4HC01n_tUE/XYX4WSJPNiI/AAAAAAAA0rM/QsJX5915MQIgmuYB8ZVPKhHjB8z8Rru0QCLcBGAsYHQ/s320/50ded06e418a8f8caa6457c0.jpg"
@@ -662,6 +663,7 @@
 		"category":"seiyuu2",
 		"id":"HidakaRina",
 		"images":[
+			"https://pbs.twimg.com/media/EmTiTbJVgAAqi9f?format=jpg&name=small",
 			"https://pbs.twimg.com/media/ElK9iZ0U0AAvR3F?format=jpg&name=small",
 			"https://magazine.jp.square-enix.com/yg/gravure/details/201002_01/images/img_03_l.jpg",
 			"https://storage.mantan-web.jp/images/2020/10/01/20201001dog00m200033000c/003_size6.jpg",
