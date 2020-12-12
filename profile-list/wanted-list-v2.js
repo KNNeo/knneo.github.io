@@ -145,9 +145,10 @@ let month = ["January", "February", "March", "April", "May", "June", "July", "Au
 function initialiseWantedList() {
 	//toggleInitialThumbnailLayout();
 	generateWantedList();
-	timelineDOBlist = createDOBlist(1, 35);
+	timelineDOBlist = createDOBlist(profileList, 1, 35);
 	loadTimeline(2500);
-	calendarDOBlist = createDOBlist(0, 50);
+	calendarDOBlist = createDOBlist(profileList, 0, 50);
+	calendarDOBlist = calendarDOBlist.concat(createDOBlist(birthdayListJson, 0, 50));
 	currentMonth = createCalendar(new Date().getMonth(), calendarDOBlist);
 	setThumbnails();
 	addStatusPopUps();
@@ -324,13 +325,14 @@ function addStatusPopUps() {
 }
 
 //create array of objects with DOB info, parameter: age (range inclusive)
-function createDOBlist(minAge, maxAge) {
+function createDOBlist(list, minAge, maxAge) {
 	let listOfDOB = new Array();
 	listOfDOB.push({
+		category: 'default',
 		date: myDOB,
 		name: "Me"
 	});
-	for(let profile of profileList) {
+	for(let profile of list) {
 		let targetId = profile.name;
 		let targetDOB = profile.dob; //document.getElementById(targetId.replace(" ", "")).getElementsByClassName("DOB");
 		if (targetDOB.length > 0) {
@@ -338,6 +340,7 @@ function createDOBlist(minAge, maxAge) {
 			let age = targetDOB.includes('?') ? 0 : parseInt(getAge(targetDOB)) + 1;
 			if (!birthDate.toUTCString().includes(NaN) && age >= minAge && age <= maxAge)
 				listOfDOB.push({
+					category: profile.category,
 					date: targetDOB.replace(".", "-").replace(".", "-").substring(0, 10),
 					name: targetId,
 					currentAge: age
@@ -359,7 +362,7 @@ function toggleMarried() {
 		togglePairs();
 	}
 	generateWantedList();
-	timelineDOBlist = createDOBlist(1, 35);
+	timelineDOBlist = createDOBlist(profileList, 1, 35);
 	document.getElementById("timeline").innerHTML = "";
 	loadTimeline(2500);
 }
@@ -425,10 +428,12 @@ function createCalendar(monthNo, DOBlist) {
 		else if (IsBirthdayOver) thisAge = item.currentAge - 1;
 		else thisAge = item.currentAge;
 		//console.log(item.name + "|" + birthdayInYear);
-		if (htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1 && htmlString.indexOf("<td>" + birthdayInYear.getDate() + "</td>") > -1 && item.name != "Me")
-			htmlString = htmlString.replace("<td>" + birthdayInYear.getDate() + "</td>", "<td style=\"color: #00e4ff;\"><div class=\"popitem\" style=\"padding: 1px;\">" + item.name + " turns " + thisAge + " (" + birthdayInYear.getDate() + " " + month[birthdayInYear.getMonth()].substring(0, 3) + ")</div>" + birthdayInYear.getDate() + "</td>");
+		if (htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1 && htmlString.indexOf("<td>" + birthdayInYear.getDate() + "</td>") > -1 && item.name != "Me" && thisAge == '??')
+			htmlString = htmlString.replace("<td>" + birthdayInYear.getDate() + "</td>", "<td style=\"color: " + setColour(item.category) + ";\"><div class=\"popitem\" style=\"padding: 1px;\">Happy Birthday <b>" + item.name + "</b>!!</div>" + birthdayInYear.getDate() + "</td>");
+		else if (htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1 && htmlString.indexOf("<td>" + birthdayInYear.getDate() + "</td>") > -1 && item.name != "Me")
+			htmlString = htmlString.replace("<td>" + birthdayInYear.getDate() + "</td>", "<td style=\"color: " + setColour(item.category) + ";\"><div class=\"popitem\" style=\"padding: 1px;\"><b>" + item.name + "</b> turns " + thisAge + " (" + birthdayInYear.getDate() + " " + month[birthdayInYear.getMonth()].substring(0, 3) + ")</div>" + birthdayInYear.getDate() + "</td>");
 		else if (htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1)
-			htmlString = htmlString.replace("</div>" + birthdayInYear.getDate() + "</td>", "<br />" + item.name + " turns " + (IsBirthdayOver ? item.currentAge - 1 : item.currentAge) + " (" + birthdayInYear.getDate() + " " + month[birthdayInYear.getMonth()].substring(0, 3) + ")</div>" + birthdayInYear.getDate() + "</td>");
+			htmlString = htmlString.replace("</div>" + birthdayInYear.getDate() + "</td>", "<br /><b>" + item.name + " turns " + (IsBirthdayOver ? item.currentAge - 1 : item.currentAge) + "</b> (" + birthdayInYear.getDate() + " " + month[birthdayInYear.getMonth()].substring(0, 3) + ")</div>" + birthdayInYear.getDate() + "</td>");
 	}
 	document.getElementById("calendar").innerHTML = htmlString;
 	currentMonth = monthNo;
@@ -443,6 +448,15 @@ function createCalendar(monthNo, DOBlist) {
 	});
 	else document.getElementById("nextMonth").style.opacity = 0;
 	return monthNo;
+}
+
+function setColour(categoryId) {
+	switch(categoryId) {
+		case 'alterna':
+			return '#fbc9f0';
+		default:
+			return '#00e4ff';
+	}
 }
 
 //to shift position of knots if overlap with previous
