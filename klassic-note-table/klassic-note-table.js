@@ -1,3 +1,48 @@
+//--VARIABLES--//
+const isMobile = function() {
+    const match = window.matchMedia('(pointer:coarse)');
+    return (match && match.matches);
+};
+let firstLoad = true;
+let activePreset = [];
+let presetAllArray = ["SongID", "KNID", "KNJAPAN", "KNJPOP", "KNYEAR", "Filename", "SongTitle", "ArtistTitle", "ParentArtist", "ReleaseTitle", "ReleaseArtistTitle", "ReleaseYear", "Rating", "Genre", "DateCreated", "VocalCode", "Language", "InAppleMusic", "LyricsURL", "SongTitleAlt", "ArtistTitleAlt", "ReleaseTitleAlt", "ReleaseArtistTitleAlt", "ArtistCode"];
+let preset1Array = ["SongTitle", "ArtistTitle", "ParentArtist", "ReleaseTitle", "ReleaseArtistTitle"];
+let preset2Array = ["SongTitleAlt", "ArtistTitleAlt", "ReleaseTitleAlt", "ReleaseArtistTitleAlt"];
+let preset3Array = ["SongTitle", "ArtistTitle", "LyricsURL"];
+let maxRows = isMobile ? 100 : 500;
+//columns on demand: query table based on row column generated
+let exColumns = [
+	{
+		title: 'InMonth',
+		cellText: 'Similar DateCreated',
+		destColumn: 'DateCreated'
+	}
+];
+
+//--FIRST TIME CALLS--//
+document.getElementById('darkmode').addEventListener('click', function() {
+	if(document.getElementsByTagName('html')[0].classList.contains('darked'))
+		document.getElementsByTagName('html')[0].classList.remove('darked');
+	else
+		document.getElementsByTagName('html')[0].classList.add('darked');
+} );
+
+document.getElementById('tickboxAll').addEventListener("click", function() {
+	let count = 0;
+	for(let tickbox of document.getElementById('table-column-ticks').getElementsByTagName('input'))
+	{
+		tickbox.checked = this.checked;
+		if(tickbox.checked) count++;
+	}
+	
+	for(let searchbox of document.getElementById('table-filter').getElementsByTagName('input'))
+	{
+		searchbox.style.display = this.checked ? '' : 'none';
+	}
+	
+	if(this.checked) resetPresets();
+});
+
 //generate tickboxes for all columns
 function generateFilters(filters) {
 	if(filters.columns.length == 0) return;
@@ -49,7 +94,7 @@ function generateFilters(filters) {
 function resetPresets() {
 	for(let preset of document.getElementById('table-preset-ticks').getElementsByTagName('input'))
 	{
-		preset.checked = false;
+		preset.checked = preset.name == "presetAll";
 	}
 
 }
@@ -137,46 +182,11 @@ function generateSearchOnPreset(radioInput) {
 		if(radioId == 'presetAll') column.checked = presetAllArray.indexOf(column.value) >= 0;
 		if(radioId == 'preset1') column.checked = preset1Array.indexOf(column.value) >= 0;
 		if(radioId == 'preset2') column.checked = preset2Array.indexOf(column.value) >= 0;
+		if(radioId == 'preset3') column.checked = preset3Array.indexOf(column.value) >= 0;
 	}
 	
 	loadTableFromCSV();
 }
-
-//--VARIABLES--//
-const isMobile = function() {
-    const match = window.matchMedia('(pointer:coarse)');
-    return (match && match.matches);
-};
-
-let firstLoad = true;
-let activePreset = [];
-let presetAllArray = ["SongID", "KNID", "KNJAPAN", "KNJPOP", "KNYEAR", "Filename", "SongTitle", "ArtistTitle", "ParentArtist", "ReleaseTitle", "ReleaseArtistTitle", "ReleaseYear", "Rating", "Genre", "DateCreated", "VocalCode", "Language", "InAppleMusic", "LyricsURL", "SongTitleAlt", "ArtistTitleAlt", "ReleaseTitleAlt", "ReleaseArtistTitleAlt", "ArtistCode"];
-let preset1Array = ["SongTitle", "ArtistTitle", "ParentArtist", "ReleaseTitle", "ReleaseArtistTitle"];
-let preset2Array = ["SongTitleAlt", "ArtistTitleAlt", "ReleaseTitleAlt", "ReleaseArtistTitleAlt"];
-let maxRows = isMobile ? 100 : 500;
-
-//--FIRST TIME CALLS--//
-document.getElementById('darkmode').addEventListener('click', function() {
-	if(document.getElementsByTagName('html')[0].classList.contains('darked'))
-		document.getElementsByTagName('html')[0].classList.remove('darked');
-	else
-		document.getElementsByTagName('html')[0].classList.add('darked');
-} );
-
-document.getElementById('tickboxAll').addEventListener("click", function() {
-	let count = 0;
-	for(let tickbox of document.getElementById('table-column-ticks').getElementsByTagName('input'))
-	{
-		tickbox.checked = this.checked;
-		if(tickbox.checked) count++;
-	}
-	
-	for(let searchbox of document.getElementById('table-filter').getElementsByTagName('input'))
-	{
-		searchbox.style.display = this.checked ? '' : 'none';
-	}
-
-});
 
 //--FUNCTIONS--//
 function resetFunction() {
@@ -184,6 +194,7 @@ function resetFunction() {
 		if (input.title == "search") input.value = "";
 		if (input.type == "checkbox") input.checked = true;
 	}
+	resetPresets();
 	document.getElementById('tickboxAll').checked = true;
 	loadTableFromCSV();
 }
@@ -356,4 +367,5 @@ function setup() {
 	button = createButton('Load Table');
 	button.mousePressed(loadTableFromCSV);
 	if(isMobile) document.getElementById('table-filter').removeAttribute('position');
+	loadTableFromCSV();
 }
