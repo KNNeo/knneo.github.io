@@ -319,6 +319,18 @@ function createTable(table) {
 		if (i >= 0) {
 			for (let j = 0; j < tableArray[i].length; j++) {
 				tableHTML += '<td nowrap>' + (tableArray[i][j].includes('http') ? '<a href="' + tableArray[i][j] + '" target="_blank">Link</a>' : tableArray[i][j]) + '</td>';
+				let knTableCell = document.createElement('td');
+				knTableCell.setAttribute('nowrap','nowrap');
+				knTableCell.innerText = tableArray[i][j];
+				if(tableArray[i][j].includes('http'))
+				{
+					//a tag
+					let knTableLink = document.createElement('a');
+					knTableLink.setAttribute('target','_blank');
+					knTableLink.src = tableArray[i][j];
+					knTableCell.appendChild(knTableLink);
+				}
+				knTableRow.appendChild(knTableCell);
 			}
 			
 			knTableBody.appendChild(knTableRow);
@@ -328,29 +340,22 @@ function createTable(table) {
 	}
 	
 	knTable.appendChild(knTableBody);
-	//console.log(knTable);
-
-	//console.log(table.columns);
-	tableHTML = '<tr class="header">';
-	for (let c of table.columns) {
-		tableHTML += '<th>' + c + '</th>';
-	}
-	tableHTML += '</tr>';
 	
-	//content
-	for (let i = 0; i < maxRow; i++) {
-		if (i >= 0) {
-			tableHTML += '<tr>';
-			for (let j = 0; j < tableArray[i].length; j++) {
-				tableHTML += '<td nowrap>' + (tableArray[i][j].includes('http') ? '<a href="' + tableArray[i][j] + '" target="_blank">Link</a>' : tableArray[i][j]) + '</td>';
-			}
-			tableHTML += '</tr>';
-			continue;
-		}
-		tableHTML += '</tr>';
-	}
+	//custom columns
+	// for (let i = 0; i < maxRow; i++) {
+		// if (i >= 0) {
+			// tableHTML += '<tr>';
+			// for (let j = 0; j < tableArray[i].length; j++) {
+				// tableHTML += '<td nowrap>' + '<a href="javascript:void(0)" onclick="processCustomColumn(this)">' +  + '</a>' + '</td>';
+			// }
+			// tableHTML += '</tr>';
+			// continue;
+		// }
+		// tableHTML += '</tr>';
+	// }
+	
 	//assign
-	document.getElementById("dbTable").innerHTML = tableHTML;
+	document.getElementById("dbTable").innerHTML = knTable.innerHTML;
 	//disable input until load complete
 	if(table.columns == 0) {
 		document.getElementById("dbTable").innerHTML = '';
@@ -367,5 +372,5 @@ function setup() {
 	button = createButton('Load Table');
 	button.mousePressed(loadTableFromCSV);
 	if(isMobile) document.getElementById('table-filter').removeAttribute('position');
-	loadTableFromCSV();
+	resetFunction();
 }
