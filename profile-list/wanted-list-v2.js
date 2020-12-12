@@ -428,11 +428,11 @@ function createCalendar(monthNo, DOBlist) {
 		else if (IsBirthdayOver) thisAge = item.currentAge - 1;
 		else thisAge = item.currentAge;
 		//console.log(item.name + "|" + birthdayInYear);
-		if (htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1 && htmlString.indexOf("<td>" + birthdayInYear.getDate() + "</td>") > -1 && item.name != "Me" && thisAge == '??')
+		if (htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1 && htmlString.indexOf("<td>" + birthdayInYear.getDate() + "</td>") > -1 && item.name != "Me" && thisAge == '??') //if no age
 			htmlString = htmlString.replace("<td>" + birthdayInYear.getDate() + "</td>", "<td style=\"color: " + setColour(item.category) + ";\"><div class=\"popitem\" style=\"padding: 1px;\">Happy Birthday <b>" + item.name + "</b>!!</div>" + birthdayInYear.getDate() + "</td>");
-		else if (htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1 && htmlString.indexOf("<td>" + birthdayInYear.getDate() + "</td>") > -1 && item.name != "Me")
+		else if (htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1 && htmlString.indexOf("<td>" + birthdayInYear.getDate() + "</td>") > -1 && item.name != "Me") //normal
 			htmlString = htmlString.replace("<td>" + birthdayInYear.getDate() + "</td>", "<td style=\"color: " + setColour(item.category) + ";\"><div class=\"popitem\" style=\"padding: 1px;\"><b>" + item.name + "</b> turns " + thisAge + " (" + birthdayInYear.getDate() + " " + month[birthdayInYear.getMonth()].substring(0, 3) + ")</div>" + birthdayInYear.getDate() + "</td>");
-		else if (htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1)
+		else if (htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1) //overlap DOBs
 			htmlString = htmlString.replace("</div>" + birthdayInYear.getDate() + "</td>", "<br /><b>" + item.name + " turns " + (IsBirthdayOver ? item.currentAge - 1 : item.currentAge) + "</b> (" + birthdayInYear.getDate() + " " + month[birthdayInYear.getMonth()].substring(0, 3) + ")</div>" + birthdayInYear.getDate() + "</td>");
 	}
 	document.getElementById("calendar").innerHTML = htmlString;
@@ -451,9 +451,12 @@ function createCalendar(monthNo, DOBlist) {
 }
 
 function setColour(categoryId) {
+	//default list always first, so overlap is default color
 	switch(categoryId) {
 		case 'alterna':
 			return '#fbc9f0';
+		case 'doaxvv':
+			return '#e6e600';
 		default:
 			return '#00e4ff';
 	}
