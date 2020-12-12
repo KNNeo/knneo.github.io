@@ -14,7 +14,7 @@ let maxRows = isMobile ? 100 : 500;
 let exColumns = [
 	{
 		title: 'InMonth',
-		cellText: 'Similar DateCreated',
+		cellText: 'Month Created',
 		destColumn: 'DateCreated'
 	}
 ];
@@ -86,7 +86,8 @@ function generateFilters(filters) {
 		document.getElementById('table-columns').appendChild(columnSpan);
 	}
 	
-	document.getElementById('tickboxAll').checked = filters.columns.length == filters.allColumns.length;
+	let ex = exColumns.map(e => e.title);
+	document.getElementById('tickboxAll').checked = filters.columns.length == filters.allColumns.filter(col => ex.indexOf(col) < 0).length;
 	//generateSearchFromFilters(filters);
 	
 }
@@ -190,13 +191,23 @@ function generateSearchOnPreset(radioInput) {
 
 //--FUNCTIONS--//
 function resetFunction() {
+	resetPresets();
+	resetTickboxes();
+	resetSearch();
+	loadTableFromCSV();
+}
+
+function resetSearch() {
 	for (let input of document.getElementsByTagName("input")) {
 		if (input.title == "search") input.value = "";
+	}
+}
+
+function resetTickboxes() {
+	document.getElementById('tickboxAll').checked = true;
+	for (let input of document.getElementsByTagName("input")) {
 		if (input.type == "checkbox") input.checked = true;
 	}
-	resetPresets();
-	document.getElementById('tickboxAll').checked = true;
-	loadTableFromCSV();
 }
 
 function filterRows(table) {
@@ -273,9 +284,13 @@ function createTable(table) {
 	{
 		allColumns.push(column);
 	}
+	for (let column of exColumns)
+	{
+		allColumns.push(column.title);
+	}
 	
 	//filter results based on input and checkboxes
-	table = filterRows(table);
+	filterRows(table);
 	filterColumns(table);
 	
 	//reset search according to columns selected
@@ -303,13 +318,24 @@ function createTable(table) {
 	};
 	
 	generateFilters(filters);
-	
+
 	for (let column of table.columns)
 	{
 		let knColumn = document.createElement('th');
 		knColumn.id = 'column' + column.replace(' ','');
 		knColumn.innerText = column;
 		knTableHeader.appendChild(knColumn);
+	}
+	for (let column of exColumns)
+	{
+		let id = document.getElementById('tickbox' + column.title);
+		if(allColumns.indexOf(column.title) >= 0)// && id != null && id.checked)
+		{
+			knColumn = document.createElement('th');
+			knColumn.id = 'column' + column.title.replace(' ','');
+			knColumn.innerText = column.title;
+			knTableHeader.appendChild(knColumn);
+		}
 	}
 	knTableBody.appendChild(knTableHeader);
 	
@@ -318,19 +344,40 @@ function createTable(table) {
 		let knTableRow = document.createElement('tr');
 		if (i >= 0) {
 			for (let j = 0; j < tableArray[i].length; j++) {
-				tableHTML += '<td nowrap>' + (tableArray[i][j].includes('http') ? '<a href="' + tableArray[i][j] + '" target="_blank">Link</a>' : tableArray[i][j]) + '</td>';
 				let knTableCell = document.createElement('td');
+				knTableCell.classList.add(table.columns[j]);
 				knTableCell.setAttribute('nowrap','nowrap');
-				knTableCell.innerText = tableArray[i][j];
 				if(tableArray[i][j].includes('http'))
 				{
 					//a tag
 					let knTableLink = document.createElement('a');
 					knTableLink.setAttribute('target','_blank');
-					knTableLink.src = tableArray[i][j];
+					knTableLink.href = tableArray[i][j];
+					knTableLink.innerText = 'Link';
 					knTableCell.appendChild(knTableLink);
 				}
+				else
+					knTableCell.innerText = tableArray[i][j];
 				knTableRow.appendChild(knTableCell);
+			}
+			
+			//derived as in exColumns
+			for(let column of exColumns)
+			{	
+				let id = document.getElementById('tickbox' + column.title);
+				if(allColumns.indexOf(column.title) >= 0)// && id != null && id.checked)
+				{
+					knTableCell = document.createElement('td');
+					knTableCell.classList.add(column.title);
+					knTableCell.setAttribute('nowrap','nowrap');
+					//a tag
+					let knTableLink = document.createElement('a');
+					knTableLink.href = 'javascript:void(0)';
+					//knTableLink.addEventListener('click', function() { processCustomColumn(this); });
+					knTableLink.innerText = column.cellText;
+					knTableCell.appendChild(knTableLink);
+					knTableRow.appendChild(knTableCell);
+				}
 			}
 			
 			knTableBody.appendChild(knTableRow);
@@ -341,19 +388,6 @@ function createTable(table) {
 	
 	knTable.appendChild(knTableBody);
 	
-	//custom columns
-	// for (let i = 0; i < maxRow; i++) {
-		// if (i >= 0) {
-			// tableHTML += '<tr>';
-			// for (let j = 0; j < tableArray[i].length; j++) {
-				// tableHTML += '<td nowrap>' + '<a href="javascript:void(0)" onclick="processCustomColumn(this)">' +  + '</a>' + '</td>';
-			// }
-			// tableHTML += '</tr>';
-			// continue;
-		// }
-		// tableHTML += '</tr>';
-	// }
-	
 	//assign
 	document.getElementById("dbTable").innerHTML = knTable.innerHTML;
 	//disable input until load complete
@@ -363,7 +397,47 @@ function createTable(table) {
 		return;
 	}
 	
+	//set custom column events
+	for(let column of exColumns)
+	{
+		for(let ex of document.getElementsByClassName(column.title))
+		{
+			ex.addEventListener('click', function() { processCustomColumn(this); });
+		}
+	}
+	
 	generatePresets();
+}
+
+function processCustomColumn(cell) {
+	let ex = exColumns.filter(e => e.cellText == cell.innerText)[0];
+	let row = cell.parentElement;
+	switch(cell.innerText) {
+		case 'Month Created':
+			//set no preset
+			resetPresets();
+			//ensure DateCreated tickbox checked
+			for (let input of document.getElementsByTagName("input")) {
+				if (input.type == "checkbox") input.checked = input.value == ex.destColumn;
+			}
+			//add search in input
+			let dateCreated = row.getElementsByClassName('DateCreated')[0];
+			for (let input of document.getElementsByTagName("input")) {
+				if (input.title == "search" && input.placeholder == ex.destColumn)
+					input.value = dateCreated.innerText.length > 0 ? dateCreated.innerText.substring(0,7) : '';
+			}
+			//load
+			loadTableFromCSV();
+		default:
+			loadTableFromCSV();
+	}
+	/* 
+	//no preset
+	resetPresets();
+	//all tickboxes
+	resetTickboxes();
+	//fill in search
+	loadTableFromCSV(); */
 }
 
 //--P5.JS MAIN FUNCTION--//
