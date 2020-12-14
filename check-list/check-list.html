@@ -18,9 +18,9 @@ Animal Crossing Art Checklist<br/>
 <div><h5>*Just a checklist that will store data on this site when you come back. Uses simple localStorage to store data.</h5></div>
 <div class="profile-category">
 <div id="checklist" class="profile-box"></div>
-<div id="reset"><h3><a id="resetLink" onclick="resetList()">Reset</a></h3></div>
-<div id="back"><a id="../index.html">Back</a></div>
+<div id="reset"><h3><button id="resetLink" onclick="resetList()">Reset</button></h3></div>
 </div>
+<div id="back"><a href="../index.html">Back</a></div>
 <br/>
 <div title="Toggle Dark Mode" onclick="onDarkModeToggle()"><i id="darkmode" class="material-icons">brightness_high</i></div>
 <br/>
@@ -114,7 +114,8 @@ function loadChecklist() {
 		});
 	}
 	
-	if(initialCount == 0) document.getElementById('resetLink').innerText = 'Reset!';
+	if(checkList.filter(c => c.value == true).length == 0)
+		document.getElementById('resetLink').disabled = true;
 
 	buildChecklistHTML(checkList);
 }
@@ -123,7 +124,7 @@ function buildChecklistHTML(list) {
 	let checklistDiv = document.createElement('div');
 	
 	let sortedList = list.sort(function (a, b) {return b.value - a.value});
-	console.log(sortedList);
+	//console.log(sortedList);
 	
 	for(let value of sortedList)
 	{
@@ -141,7 +142,7 @@ function buildChecklistHTML(list) {
 		checkbox.checked = value.value ?? false;
 		checkbox.addEventListener('click', function () {
 			localStorage.setItem(this.previousElementSibling.innerText, this.checked);
-			document.getElementById('resetLink').innerText = 'Reset';
+			document.getElementById('resetLink').disabled = false;
 			loadChecklist();
 		});
 		label.appendChild(checkbox);
@@ -157,6 +158,7 @@ function buildChecklistHTML(list) {
 
 function resetList() {
 	localStorage.clear();
+	document.getElementById('resetLink').disabled = true;
 	loadChecklist();
 }
 </script>
