@@ -301,6 +301,32 @@ imgArray = [
 [299,'https://knneo.webs.com/CCI20201008_0007_2.jpg','landscape','Toyota Moe','Event "Toyota Moe Birthday Party 2020" Bromide Set B'],
 [300,'https://knneo.webs.com/CCI20201008_0008_1.jpg','portrait','Toyota Moe','Event "Toyota Moe Birthday Party 2020" Bromide Set B'],
 [301,'https://knneo.webs.com/CCI20201008_0008_2.jpg','portrait','Toyota Moe','Event "Toyota Moe Birthday Party 2020" Bromide Set B'],
+[302,'https://knneo.webs.com/CCI20201212_0001_1.jpg','portrait','Ueda Reina','CD "Literature" Animate Bonus'],
+[303,'https://knneo.webs.com/CCI20201212_0001_2.jpg','portrait','Hikasa Youko','CD "Utsukushiki Zankoku na Sekai" Gamers Bonus'],
+[304,'https://knneo.webs.com/CCI20201212_0001_3.jpg','portrait','Kouno Marika','Book "Marinka" First Press Limited Edition Bonus'],
+[305,'https://knneo.webs.com/CCI20201212_0001_4.jpg','portrait','Ookubo Rumi','DVD "Ookubo Rumi Hara Sayuri Seishun Gakuen Girls High Fandisk Vol.2" Bonus'],
+[306,'https://knneo.webs.com/CCI20201212_0002_1.jpg','landscape','Waki Azumi','CD "Fuwatto/Citrus" Toranoana Bonus'],
+[307,'https://knneo.webs.com/CCI20201212_0002_2.jpg','portrait','Touyama Nao','CD "Aruite Ikou!" Toranoana Bonus'],
+[308,'https://knneo.webs.com/CCI20201212_0002_3.jpg','portrait','Touyama Nao','Book "My Girl vol.22" Gamers Bonus'],
+[309,'https://knneo.webs.com/CCI20201212_0002_4.jpg','portrait','Touyama Nao','Book "My Girl vol.22" Gamers Bonus'],
+[310,'https://knneo.webs.com/CCI20201212_0003_1.jpg','portrait','Kouno Marika','Book "Marinka" First Press Limited Edition Bonus'],
+[311,'https://knneo.webs.com/CCI20201212_0003_2.jpg','landscape','Hikasa Youko','CD "EX:FUTURIZE" Toranoana Bonus'],
+[312,'https://knneo.webs.com/CCI20201212_0003_3.jpg','landscape','Koga Aoi','Book "Seiyuu Animedia August 2020" Animate Bonus'],
+[313,'https://knneo.webs.com/CCI20201212_0003_4.jpg','landscape','Tachibana Rika','CD "LIFE" Gamers Bonus'],
+[314,'https://knneo.webs.com/CCI20201212_0004_1.jpg','portrait','Natsukawa Shiina','Book "Seiyuu Grand Prix October 2020" Gamers Bonus'],
+[315,'https://knneo.webs.com/CCI20201212_0004_2.jpg','landscape','Natsukawa Shiina','Book "Seiyuu Grand Prix October 2020" Animate Bonus'],
+[316,'https://knneo.webs.com/CCI20201212_0004_3.jpg','landscape','Kido Ibuki','Book "breath" Release Event Bonus'],
+[317,'https://knneo.webs.com/CCI20201212_0004_4.jpg','landscape','Kido Ibuki','Book "breath" Release Event Bonus'],
+[318,'https://knneo.webs.com/CCI20201212_0005_1.jpg','landscape','Kido Ibuki','Book "breath" Release Event Bonus'],
+[319,'https://knneo.webs.com/CCI20201212_0005_2.jpg','landscape','Kido Ibuki','Book "breath" Release Event Bonus'],
+[320,'https://knneo.webs.com/CCI20201212_0005_3.jpg','landscape','Kido Ibuki','Book "breath" Release Event Bonus'],
+[321,'https://knneo.webs.com/CCI20201212_0005_4.jpg','portrait','Kido Ibuki','Book "breath" Release Event Bonus'],
+[322,'https://knneo.webs.com/CCI20201212_0006_1.jpg','landscape','Kido Ibuki','Book "breath" Release Event Bonus'],
+[323,'https://knneo.webs.com/CCI20201212_0006_2.jpg','landscape','Kido Ibuki','Book "breath" Release Event Bonus'],
+[324,'https://knneo.webs.com/CCI20201212_0006_3.jpg','portrait','Kido Ibuki','Book "breath" Release Event Bonus'],
+[325,'https://knneo.webs.com/CCI20201212_0006_4.jpg','portrait','Kido Ibuki','Book "breath" Release Event Bonus'],
+
+
 
 
 
