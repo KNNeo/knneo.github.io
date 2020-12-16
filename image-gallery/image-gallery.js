@@ -254,7 +254,7 @@ function renderPage(pageName) {
 		ssStopSpan.addEventListener('click', stopSlideshow);
 		ssDiv.appendChild(ssStopSpan);
 		let inViewer = document.createElement('label');
-		inViewer.style.display = enableViewer ? '' : 'none';
+		inViewer.style.display = localStorage.getItem("enableViewer") == "true" ? '' : 'none';
 		inViewer.innerText = 'In Viewer';
 			let inViewerCheckbox = document.createElement('input');
 			inViewerCheckbox.id = 'inViewer';
@@ -293,15 +293,29 @@ function renderPage(pageName) {
 	if(enableDarkMode)
 	{
 		let darkmodeDiv = document.createElement('div');
-		darkmodeDiv.title = 'Toggle Dark Mode';
+		//darkmodeDiv.title = 'Toggle Dark Mode';
 		darkmodeDiv.style.textAlign = 'center';
-		let darkmode = document.createElement('i');
-		darkmode.id = 'darkmode';
-		darkmode.classList.add('material-icons');
-		darkmode.style.cursor = 'pointer';
-		darkmode.innerText = 'brightness_high';
-		darkmode.addEventListener('click', toggleDarkMode);
-		darkmodeDiv.appendChild(darkmode);
+		
+			let darkmode = document.createElement('i');
+			darkmode.id = 'darkmode';
+			darkmode.title = 'Toggle Dark Mode';
+			darkmode.classList.add('material-icons');
+			darkmode.style.cursor = 'pointer';
+			darkmode.innerText = 'brightness_high';
+			darkmode.addEventListener('click', toggleDarkMode);
+			darkmodeDiv.appendChild(darkmode);
+			
+			let viewing = document.createElement('i');
+			viewing.id = 'darkmode';
+			viewing.classList.add('material-icons');
+			viewing.style.cursor = 'pointer';
+			viewing.innerText = localStorage.getItem("enableViewer") == "true" ? 'view_column' : 'view_carousel';
+			viewing.addEventListener('click', function() {
+				localStorage.setItem("enableViewer", localStorage.getItem("enableViewer") == "true" ? false : true);
+				loadPage(document.body.id);
+			});
+			darkmodeDiv.appendChild(viewing);
+		
 		frame.appendChild(darkmodeDiv);
 	}
 	
@@ -334,7 +348,7 @@ function updateImageNo(image) {
 }
 
 function openViewer(image) {
-	if(!enableViewer) return;
+	if(localStorage.getItem("enableViewer") != "true") return;
 	document.getElementById('viewer').style.display = 'block';
 	openImageInViewer(image);
 }
@@ -414,6 +428,8 @@ function loadPage(pageName) {
 function loadSettings() {
 	descriptionClosed = localStorage.getItem("descriptionClosed") == "true";
 	if(descriptionClosed == null) localStorage.setItem("descriptionClosed", false);
+	enableViewer = localStorage.getItem("enableViewer") == "true";
+	if(enableViewer == null) localStorage.setItem("enableViewer", enableViewer);
 }
 
 function loadData(pageName) {
@@ -552,7 +568,7 @@ function renderGallery(array) {
 	setTimeout( function() { reloadImages(array); },500);
 	
 	//add event listener when click on image
-	if(enableViewer)
+	if(localStorage.getItem("enableViewer") == "true")
 	{
 		for (let i = 0 ; i < document.getElementById('imgGallery').getElementsByTagName('img').length ; i++)
 		{
@@ -901,3 +917,5 @@ function checkDuplicates() {
 			console.log('Duplicate URL found: ', image[1]);
 	}
 }
+
+//settings
