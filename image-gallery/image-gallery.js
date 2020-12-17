@@ -310,11 +310,12 @@ function renderPage(pageName) {
 		if(enableViewer)
 		{
 			let viewing = document.createElement('i');
-			viewing.id = 'darkmode';
+			viewing.id = 'enable-viewer';
+			viewing.title = 'Toggle Viewer';
 			viewing.classList.add('material-icons');
 			viewing.style.cursor = 'pointer';
 			viewing.style.padding = '5px';
-			viewing.innerText = localStorage.getItem("enableViewer") == "true" ? 'view_column' : 'view_carousel';
+			viewing.innerText = localStorage.getItem("enableViewer") == "true" ? 'view_carousel' : 'view_column';
 			viewing.addEventListener('click', function() {
 				localStorage.setItem("enableViewer", localStorage.getItem("enableViewer") == "true" ? false : true);
 				loadPage(document.body.id);
