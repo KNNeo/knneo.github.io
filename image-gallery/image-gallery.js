@@ -263,7 +263,7 @@ function renderPage(pageName) {
 		inViewer.insertBefore(inViewerCheckbox, inViewer.childNodes[0]);
 		ssDiv.appendChild(inViewer);
 		let fullscreen = document.createElement('label');
-		fullscreen.style.display = enableSlideshow && enableFullscreenSlideshow ? '' : 'none';
+		fullscreen.style.display = localStorage.getItem("enableViewer") == "true" && enableFullscreenSlideshow ? '' : 'none';
 		fullscreen.innerText = 'Fullscreen';
 			let fullscreenCheckbox = document.createElement('input');
 			fullscreenCheckbox.id = 'isFullscreen';
@@ -290,34 +290,39 @@ function renderPage(pageName) {
 	back.appendChild(backLink);
 	frame.appendChild(back);
 	
-	if(enableDarkMode)
-	{
-		let darkmodeDiv = document.createElement('div');
-		//darkmodeDiv.title = 'Toggle Dark Mode';
-		darkmodeDiv.style.textAlign = 'center';
+	let settingsDiv = document.createElement('div');
+	//settingsDiv.title = 'Toggle Dark Mode';
+	settingsDiv.style.textAlign = 'center';
 		
+		if(enableDarkMode)
+		{
 			let darkmode = document.createElement('i');
 			darkmode.id = 'darkmode';
 			darkmode.title = 'Toggle Dark Mode';
 			darkmode.classList.add('material-icons');
 			darkmode.style.cursor = 'pointer';
+			darkmode.style.padding = '5px';
 			darkmode.innerText = 'brightness_high';
 			darkmode.addEventListener('click', toggleDarkMode);
-			darkmodeDiv.appendChild(darkmode);
-			
+			settingsDiv.appendChild(darkmode);
+		}
+		
+		if(enableViewer)
+		{
 			let viewing = document.createElement('i');
 			viewing.id = 'darkmode';
 			viewing.classList.add('material-icons');
 			viewing.style.cursor = 'pointer';
+			viewing.style.padding = '5px';
 			viewing.innerText = localStorage.getItem("enableViewer") == "true" ? 'view_column' : 'view_carousel';
 			viewing.addEventListener('click', function() {
 				localStorage.setItem("enableViewer", localStorage.getItem("enableViewer") == "true" ? false : true);
 				loadPage(document.body.id);
 			});
-			darkmodeDiv.appendChild(viewing);
-		
-		frame.appendChild(darkmodeDiv);
-	}
+			settingsDiv.appendChild(viewing);
+		}
+	
+	frame.appendChild(settingsDiv);
 	
 	body.innerHTML = '';
 	body.appendChild(frame);
