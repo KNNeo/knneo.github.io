@@ -187,21 +187,21 @@
 	{
 		"category":"seiyuu0",
 		"id":"BabaFumika",
-		"images":[
+		"image":"https://knneo.webs.com/babafumika.jpg",
+		"landscapes":[],
+		"portraits":[
 			"https://pbs.twimg.com/media/EnvUIA1UwAIk2S_?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EnvTXqJVgAAbPTu?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EnvTJCdVkAEsdKF?format=jpg&name=small",
-			"https://obs.line-scdn.net/0hu4eKdxktKhtYMgNy1oNVTBBvLHQhUTATMko9IS1kIDUtXj0bMEg2LS5iI28pWjcdeBZtNhRtA2p8Z28OEwdtIyY6M0AeBAsfLR0FHAdiFyoeHm1JbFFjdHo0fCp1Cj8ebVNkeDgzJi4lUj0YYw/small",
-			"https://1.bp.blogspot.com/-Vj-42IFoYss/XYX3mz5R-oI/AAAAAAAA0q0/rZkGIlB5_bQrzE100m0M8AgL_nsIPCKNwCLcBGAsYHQ/s320/CB5Ra64UMAAxfHG.jpg"
+			"https://obs.line-scdn.net/0hu4eKdxktKhtYMgNy1oNVTBBvLHQhUTATMko9IS1kIDUtXj0bMEg2LS5iI28pWjcdeBZtNhRtA2p8Z28OEwdtIyY6M0AeBAsfLR0FHAdiFyoeHm1JbFFjdHo0fCp1Cj8ebVNkeDgzJi4lUj0YYw/small"
 		],
-		"portraits":[],
 		"name":"Baba Fumika",
 		"nickname":"-chan*",
 		"dob":"1995.06.21",
 		"dobComment":"",
 		"profile":"Gravure model, TV drama actor",
 		"turningPoint":{
-			"singerDebut":"No**",
+			"soloDebut":"No**",
 			"swimsuitPhotobook":"Yes",
 			"isMarried":"No"
 		},
@@ -218,23 +218,23 @@
 	{
 		"category":"seiyuu0",
 		"id":"TachibanaHaru",
-		"images":[
+		"image":"https://knneo.webs.com/tachibanaharu.jpg",
+		"landscapes":[],
+		"portraits":[
 			"https://pbs.twimg.com/media/EpbO6T_UcAI0to6?format=jpg&name=small",
 			"https://pbs.twimg.com/media/En7hKqjUUAAAUI0?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EmIMFu6VoAA8yj3?format=jpg&name=small",
 			"https://pbs.twimg.com/media/El91Q82U0AEqVug?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EjJx0-aUMAIQl-m?format=jpg&name=small",
-			"https://pbs.twimg.com/media/EhYGwnyU8AAmAfw?format=jpg&name=small",
-			"https://4.bp.blogspot.com/-rUQTFs7pkmM/Xax1NXhWF7I/AAAAAAAA1Vw/VRCAMAaZV6UAkGjrdYggZgKJVMPK3gwggCPcBGAYYCw/s320/Cw3342xUcAAZzWE.jpg"
+			"https://pbs.twimg.com/media/EhYGwnyU8AAmAfw?format=jpg&name=small"
 		],
-		"portraits":[],
 		"name":"Tachibana Haru",
 		"nickname":"Futon-chan",
 		"dob":"1995.01.20",
 		"dobComment":"If I'm not wrong should be*",
 		"profile":"Cosplayer, model, event MC",
 		"turningPoint":{
-			"singerDebut":"No",
+			"soloDebut":"No",
 			"swimsuitPhotobook":"Yes**",
 			"isMarried":"No"
 		},
@@ -250,21 +250,22 @@
 	{
 		"category":"seiyuu1",
 		"id":"HanazawaKana",
-		"images":[
+		"image":"https://knneo.webs.com/hanazawakana.jpg",
+		"landscapes":[
 			"https://d1uzk9o9cg136f.cloudfront.net/f/16782943/rc/2020/11/22/152db223296396f75b91723a5a684b4c8f17a7fa_large.jpg",
-			"https://realsound.jp/wp-content/uploads/2019/11/20191127-hanazawa-shin.jpg",
-			"https://spice.eplus.jp/images/PdNfITo13aqgF2SMUh29OjBn8Xqbj4WOcmuDirpi61WGHEXJ5KTx2S7BuuRAz8Bv/",
-			"https://pbs.twimg.com/media/EhIpaxxU4AAm1hR?format=jpg&name=small",
-			"https://1.bp.blogspot.com/-hezPufoGCcM/XYX4BbNbCBI/AAAAAAAA0rA/j9f2IaPw2n46yjcGaDX8vXG4WRpwCuOGgCLcBGAsYHQ/s320/b0012149_4d18ac7ea154e.jpg"
+			"https://realsound.jp/wp-content/uploads/2019/11/20191127-hanazawa-shin.jpg"			
 		],
-		"portraits":[],
+		"portraits":[
+			"https://spice.eplus.jp/images/PdNfITo13aqgF2SMUh29OjBn8Xqbj4WOcmuDirpi61WGHEXJ5KTx2S7BuuRAz8Bv/",
+			"https://pbs.twimg.com/media/EhIpaxxU4AAm1hR?format=jpg&name=small"
+		],
 		"name":"Hanazawa Kana",
 		"nickname":"-chan",
 		"dob":"1989.02.25",
 		"dobComment":"Yep, it was already",
 		"profile":"Japanese Voice Actress",
 		"turningPoint":{
-			"singerDebut":"Yes",
+			"soloDebut":"Yes",
 			"swimsuitPhotobook":"No*",
 			"isMarried":"Yes**"
 		},
@@ -281,20 +282,22 @@
 	{
 		"category":"seiyuu1",
 		"id":"HikasaYouko",
-		"images":[
-			"https://obs.line-scdn.net/0hRUGm3q2aDXp6FCTW5tFyLTJJCxUDdxdyEGwaQA9CB1QPeBp6Em4bRAVEERofehByWhM_dBsWCDMQeBp2D3oaXDxqWw9UQ0peRSQrFSFLUwEsOEorR3RCGlgQW09XLB8tRXZHGxoVBktRd0MlRQ/small",
-			"https://obs.line-scdn.net/0hQwmiYXgDDlhQECdJuPxxDxhNCDcpcxRQOmgZYiVGBHYlfBlYOGoYZi9AEjg1fhNQcHMSWnJqKB4rXEB3NDUkTnxpVi0AdRRqMywbRCgXGS0HPEkJbXZGPXMUVmB9KBtZaH5GPzARAjt_IRtePw/small",
-			"https://thetv.jp/i/nw/177407/1049381.jpg",
-			"https://1.bp.blogspot.com/-K4HC01n_tUE/XYX4WSJPNiI/AAAAAAAA0rM/QsJX5915MQIgmuYB8ZVPKhHjB8z8Rru0QCLcBGAsYHQ/s320/50ded06e418a8f8caa6457c0.jpg"
+		"image":"https://knneo.webs.com/hikasayouko.jpg",
+		"landscapes":[
+			"https://thetv.jp/i/nw/177407/1049381.jpg"
 		],
-		"portraits":[],
+		"portraits":[
+			"https://obs.line-scdn.net/0hRUGm3q2aDXp6FCTW5tFyLTJJCxUDdxdyEGwaQA9CB1QPeBp6Em4bRAVEERofehByWhM_dBsWCDMQeBp2D3oaXDxqWw9UQ0peRSQrFSFLUwEsOEorR3RCGlgQW09XLB8tRXZHGxoVBktRd0MlRQ/small",
+			"https://obs.line-scdn.net/0hQwmiYXgDDlhQECdJuPxxDxhNCDcpcxRQOmgZYiVGBHYlfBlYOGoYZi9AEjg1fhNQcHMSWnJqKB4rXEB3NDUkTnxpVi0AdRRqMywbRCgXGS0HPEkJbXZGPXMUVmB9KBtZaH5GPzARAjt_IRtePw/small"
+			
+		],
 		"name":"Hikasa Youko",
 		"nickname":"Yocchan*",
 		"dob":"1985.07.16",
 		"dobComment":"Man, it was",
 		"profile":"Japanese Voice Actress",
 		"turningPoint":{
-			"singerDebut":"Yes**",
+			"soloDebut":"Yes**",
 			"swimsuitPhotobook":"No",
 			"isMarried":"Yes"
 		},
@@ -311,9 +314,9 @@
 	{
 		"category":"seiyuu1",
 		"id":"HorieYui",
-		"images":[
-			"https://pbs.twimg.com/media/D8sRalEV4AApRhc?format=jpg&name=small",
-			"https://1.bp.blogspot.com/-HmYC9GrNQ5s/Xax2R7Tj8cI/AAAAAAAA1V4/19GTXzhJrJgx01sgxQ_3hA6m0Byw7I33QCLcBGAsYHQ/s320/e0025035_161134.jpg"
+		"image":"https://knneo.webs.com/horieyui.jpg",
+		"landscapes":[
+			"https://pbs.twimg.com/media/D8sRalEV4AApRhc?format=jpg&name=small"
 		],
 		"portraits":[],
 		"name":"Horie Yui",
@@ -322,7 +325,7 @@
 		"dobComment":"lol you don't want to know so it's ALWAYS 17 years ago*",
 		"profile":"Japanese Voice Actress",
 		"turningPoint":{
-			"singerDebut":"Yes",
+			"soloDebut":"Yes",
 			"swimsuitPhotobook":"No**",
 			"isMarried":"No"
 		},
@@ -338,10 +341,10 @@
 	{
 		"category":"seiyuu1",
 		"id":"KayanoAi",
-		"images":[
+		"image":"https://knneo.webs.com/kayanoai.jpg",
+		"landscapes":[
 			"https://pbs.twimg.com/media/ElVHyTbVkAAMui8?format=jpg&name=small",
-			"https://kayanoai-10th-anniversary.com/assets/img/kv.jpg",
-			"https://2.bp.blogspot.com/-_D86tcp19j0/Xax2hd_3MII/AAAAAAAA1V8/fX6byhHcG7Y0PFF3j79kIRcb-jccfB3_gCLcBGAsYHQ/s320/tumblr_mv6or0fZm41qaysjmo1_1280.jpg"
+			"https://kayanoai-10th-anniversary.com/assets/img/kv.jpg"
 		],
 		"portraits":[],
 		"name":"Kayano Ai",
@@ -350,7 +353,7 @@
 		"dobComment":"Yes, it really was",
 		"profile":"Japanese Voice Actress",
 		"turningPoint":{
-			"singerDebut":"No*",
+			"soloDebut":"No*",
 			"swimsuitPhotobook":"No",
 			"isMarried":"No"
 		},
@@ -366,22 +369,24 @@
 	{
 		"category":"seiyuu1",
 		"id":"KomatsuMikako",
-		"images":[
-			"https://pbs.twimg.com/media/EpXuG3aUUAA8Szl?format=jpg&name=small",
-			"https://image.news.livedoor.com/newsimage/stf/5/1/514daad1c94019507cf655781094c3f4.jpg",
+		"image":"https://knneo.webs.com/komatsumikako.jpg",
+		"landscapes":[
 			"https://pbs.twimg.com/media/EmjfcHTVkAQTxJa?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EmePV4YVoAAOSCb?format=jpg&name=small",
-			"https://pbs.twimg.com/media/Efy1w95U4AAHWVK?format=jpg&name=small",
-			"https://4.bp.blogspot.com/-HXrOmUVJlwI/Xax2vYwwuZI/AAAAAAAA1WE/uRhgujDZH0kabvpB2SJd1q7SyLaxMyh0wCLcBGAsYHQ/s320/tumblr_mdos8vKwsp1qaysjmo1_1280.jpg"
+			"https://pbs.twimg.com/media/Efy1w95U4AAHWVK?format=jpg&name=small"
+			
 		],
-		"portraits":[],
+		"portraits":[
+			"https://pbs.twimg.com/media/EpXuG3aUUAA8Szl?format=jpg&name=small",
+			"https://image.news.livedoor.com/newsimage/stf/5/1/514daad1c94019507cf655781094c3f4.jpg"
+		],
 		"name":"Komatsu Mikako",
 		"nickname":"Mikakoshi",
 		"dob":"1988.11.11",
 		"dobComment":"It was",
 		"profile":"Japanese Voice Actress",
 		"turningPoint":{
-			"singerDebut":"Yes*",
+			"soloDebut":"Yes*",
 			"swimsuitPhotobook":"No",
 			"isMarried":"Yes**"
 		},
@@ -398,19 +403,20 @@
 	{
 		"category":"seiyuu1",
 		"id":"KotobukiMinako",
-		"images":[
-			"https://seigura.com/wp-content/uploads/2020/05/869c0e58136a3a691162dc6021efc203.jpg",
-			"https://www.kotobukiminako.com/assets/img/top/bg/05.jpg",
-			"https://1.bp.blogspot.com/-8zygC3k_gWY/Xax24BDAdLI/AAAAAAAA1WM/jYNvxpLJ-iEu74afgkj6ceNj7XQN7NOnQCLcBGAsYHQ/s320/tumblr_loa64f8zFc1qaysjmo1_1280.jpg"
+		"image":"https://knneo.webs.com/kotobukiminako.jpg",
+		"landscapes":[
+			"https://www.kotobukiminako.com/assets/img/top/bg/05.jpg"			
 		],
-		"portraits":[],
+		"portraits":[
+			"https://seigura.com/wp-content/uploads/2020/05/869c0e58136a3a691162dc6021efc203.jpg"
+		],
 		"name":"Kotobuki Minako",
 		"nickname":"Mina-chan",
 		"dob":"1991.09.17",
 		"dobComment":"",
 		"profile":"Japanese Voice Actress",
 		"turningPoint":{
-			"singerDebut":"Yes*",
+			"soloDebut":"Yes*",
 			"swimsuitPhotobook":"Yes**",
 			"isMarried":"No"
 		},
@@ -427,18 +433,18 @@
 	{
 		"category":"seiyuu1",
 		"id":"OokuboRumi",
-		"images":[
-			"https://pbs.twimg.com/media/ERoDKqmU0AAnpqN?format=jpg&name=small",
-			"https://2.bp.blogspot.com/-8Ow66UOqGqs/Xax3HuLgxpI/AAAAAAAA1WU/thxRkBGyOi0QY9K7cqbvHMpsfZctYJuyQCLcBGAsYHQ/s320/tumblr_np956lSywQ1qaysjmo1_1280.jpg"
+		"image":"https://knneo.webs.com/ookuborumi.jpg",
+		"landscapes":[],
+		"portraits":[
+			"https://pbs.twimg.com/media/ERoDKqmU0AAnpqN?format=jpg&name=small"
 		],
-		"portraits":[],
 		"name":"Ookubo Rumi",
 		"nickname":"RumiRumi",
 		"dob":"1989.09.27",
 		"dobComment":"",
 		"profile":"Japanese Voice Actress",
 		"turningPoint":{
-			"singerDebut":"No",
+			"soloDebut":"No",
 			"swimsuitPhotobook":"No",
 			"isMarried":"No"
 		},
@@ -454,9 +460,9 @@
 	{
 		"category":"seiyuu1",
 		"id":"SatouSatomi",
-		"images":[
-			"https://stat.ameba.jp/user_images/20200312/14/sato-satomi58/15/0a/j/o1080108014726869807.jpg",
-			"https://1.bp.blogspot.com/-QouPVoToFBc/XYX5WHXr0iI/AAAAAAAA0rk/Ya1fTu2Ajo0dmFQKpoQKEoEuQZBSm0WogCLcBGAsYHQ/s320/satomisato.jpg"
+		"image":"https://knneo.webs.com/satousatomi.jpg",
+		"landscapes":[
+			"https://stat.ameba.jp/user_images/20200312/14/sato-satomi58/15/0a/j/o1080108014726869807.jpg"
 		],
 		"portraits":[],
 		"name":"Satou Satomi",
@@ -465,7 +471,7 @@
 		"dobComment":"It was already",
 		"profile":"Japanese Voice Actress",
 		"turningPoint":{
-			"singerDebut":"Yes**",
+			"soloDebut":"Yes**",
 			"swimsuitPhotobook":"No",
 			"isMarried":"Yes***"
 		},
@@ -482,21 +488,22 @@
 	{
 		"category":"seiyuu1",
 		"id":"TaketatsuAyana",
-		"images":[
-			"https://pbs.twimg.com/media/Eo9bpNCUUAIT1at?format=jpg&name=small",
-			"https://pbs.twimg.com/media/Egg8PsKU8AA4Emt?format=jpg&name=small",
-			"https://pbs.twimg.com/media/EaelSwTVAAA5uyO?format=jpg&name=small",
-			"https://pbs.twimg.com/media/EYsW-mAU8AAfm_2?format=jpg&name=small",
-			"https://1.bp.blogspot.com/-4RcqxRRtpuQ/Xax3XR4qn1I/AAAAAAAA1Wc/B9hX_znOi3wmOS6407VYezqVZRAij6q-gCLcBGAsYHQ/s320/tumblr_mcwi2vo9D41qaysjmo1_1280.jpg"
+		"image":"https://knneo.webs.com/taketatsuayana.jpg",
+		"landscapes":[
+			"https://pbs.twimg.com/media/Egg8PsKU8AA4Emt?format=jpg&name=small"
 		],
-		"portraits":[],
+		"portraits":[
+			"https://pbs.twimg.com/media/Eo9bpNCUUAIT1at?format=jpg&name=small",
+			"https://pbs.twimg.com/media/EaelSwTVAAA5uyO?format=jpg&name=small",
+			"https://pbs.twimg.com/media/EYsW-mAU8AAfm_2?format=jpg&name=small"
+		],
 		"name":"Taketatsu Ayana",
 		"nickname":"Ayachi",
 		"dob":"1989.06.23",
 		"dobComment":"It has been",
 		"profile":"Japanese Voice Actress",
 		"turningPoint":{
-			"singerDebut":"Yes",
+			"soloDebut":"Yes",
 			"swimsuitPhotobook":"Yes*",
 			"isMarried":"Yes**"
 		},
@@ -513,19 +520,20 @@
 	{
 		"category":"seiyuu1",
 		"id":"TomatsuHaruka",
-		"images":[
-			"https://seigura.com/wp-content/uploads/2020/05/5dea6b04226c0d1b4130c9ed29d0489a.jpg",
-			"https://www.tomatsuharuka.com/assets/img/top/bg/01.jpg",
-			"https://1.bp.blogspot.com/-3XzHomkpfrA/XYX6NhmS5vI/AAAAAAAA0r8/ewYGS4m-sQkpCGOPaZb9dF4ifhhq7qx1gCLcBGAsYHQ/s320/tumblr_mhduc9TA9b1qaysjmo1_1280.jpg"
+		"image":"https://knneo.webs.com/tomatsuharuka.jpg",
+		"landscapes":[
+			"https://www.tomatsuharuka.com/assets/img/top/bg/01.jpg"
 		],
-		"portraits":[],
+		"portraits":[
+			"https://seigura.com/wp-content/uploads/2020/05/5dea6b04226c0d1b4130c9ed29d0489a.jpg"
+		],
 		"name":"Tomatsu Haruka",
 		"nickname":"Tomacchan*",
 		"dob":"1990.02.04",
 		"dobComment":"It has been",
 		"profile":"Japanese Voice Actress",
 		"turningPoint":{
-			"singerDebut":"Yes**",
+			"soloDebut":"Yes**",
 			"swimsuitPhotobook":"Yes***",
 			"isMarried":"Yes"
 		},
@@ -542,20 +550,22 @@
 	{
 		"category":"seiyuu1",
 		"id":"ToyosakiAki",
-		"images":[
-			"https://seigura.com/wp-content/uploads/2020/05/e1ed2fb17751ea69005db185c597847f.jpeg",
-			"https://pbs.twimg.com/media/EIraD6rVUAENS6z?format=jpg&name=small",
-			"http://www.toyosakiaki.com/assets/img/top/bg/05.jpg",
-			"https://1.bp.blogspot.com/-Me2BX5OPwQ8/XYX6ry1s9BI/AAAAAAAA0sI/SritW8De-xUJCLUTo7zsOw09PsIXZKpPgCLcBGAsYHQ/s400/image%2B41.jpg"
+		"image":"https://knneo.webs.com/toyosakiaki.jpg",
+		"landscapes":[
+			"http://www.toyosakiaki.com/assets/img/top/bg/05.jpg"
+			
 		],
-		"portraits":[],
+		"portraits":[
+			"https://seigura.com/wp-content/uploads/2020/05/e1ed2fb17751ea69005db185c597847f.jpeg",
+			"https://pbs.twimg.com/media/EIraD6rVUAENS6z?format=jpg&name=small"
+		],
 		"name":"Toyosaki Aki",
 		"nickname":"-chan",
 		"dob":"1986.10.28",
 		"dobComment":"Yeah, it's already",
 		"profile":"Japanese Voice Actress",
 		"turningPoint":{
-			"singerDebut":"Yes*",
+			"soloDebut":"Yes*",
 			"swimsuitPhotobook":"No",
 			"isMarried":"Yes"
 		},
@@ -572,9 +582,10 @@
 	{
 		"category":"seiyuu1",
 		"id":"YuukiAoi",
-		"images":[
-			"https://storage.mantan-web.jp/images/2020/07/06/20200706dog00m200010000c/004_size6.jpg",
-			"https://4.bp.blogspot.com/-12hnKzo_g8g/Xax3wdMpiCI/AAAAAAAA1Ws/TWoorHJZ26AcI5mLjGKGPWgb9_xA6Uv4ACLcBGAsYHQ/s320/tumblr_nf74esajus1s6kajio1_1280.png"
+		"image":"https://knneo.webs.com/yuukiaoi.jpg",
+		"landscapes":[
+			"https://storage.mantan-web.jp/images/2020/07/06/20200706dog00m200010000c/004_size6.jpg"
+			
 		],
 		"portraits":[],
 		"name":"Yuuki Aoi",
@@ -583,7 +594,7 @@
 		"dobComment":"Wow, it's only",
 		"profile":"Japanese Voice Actress",
 		"turningPoint":{
-			"singerDebut":"Yes",
+			"soloDebut":"Yes",
 			"swimsuitPhotobook":"No",
 			"isMarried":"No"
 		},
@@ -600,10 +611,10 @@
 	{
 		"category":"seiyuu2",
 		"id":"AmamiyaSora",
-		"images":[
+		"image":"https://knneo.webs.com/amamiyasora.jpg",
+		"landscapes":[
 			"https://cdnx.natalie.mu/media/pp/static/music/thepeggies/photo02.jpg",
-			"https://hominis.media/2020/08/images/00_kanokari01.jpg",
-			"https://1.bp.blogspot.com/-flPfb9l_YGo/XYX34VDxtwI/AAAAAAAA0q8/tULKDfoakrw7hMTgCIV8OJ-zCWFIY331wCLcBGAsYHQ/s320/amamiyasora.jpg"
+			"https://hominis.media/2020/08/images/00_kanokari01.jpg"			
 		],
 		"portraits":[],
 		"name":"Amamiya Sora",
@@ -612,7 +623,7 @@
 		"dobComment":"",
 		"profile":"Japanese Voice Actress",
 		"turningPoint":{
-			"singerDebut":"Yes**",
+			"soloDebut":"Yes**",
 			"swimsuitPhotobook":"No***",
 			"isMarried":"No"
 		},
@@ -629,10 +640,10 @@
 	{
 		"category":"seiyuu2",
 		"id":"AsakuraMomo",
-		"images":[
+		"image":"https://knneo.webs.com/asakuramomo.jpg",
+		"landscapes":[
 			"https://cdnx.natalie.mu/media/pp/static/music/asakuramomo03/photo07.jpg",
-			"https://img.animatetimes.com/2020/01/5e2c062302f9d_d54cd9b1fca0630849a0536fa5e79180.jpg",
-			"https://1.bp.blogspot.com/-S3Tfg1WFml0/Xa2nLUmVoUI/AAAAAAAA1ZA/y2k7pL14r4kfLcRm_PXRc-nS8Q5M2aw4QCLcBGAsYHQ/s320/momo.jpg"
+			"https://img.animatetimes.com/2020/01/5e2c062302f9d_d54cd9b1fca0630849a0536fa5e79180.jpg"
 		],
 		"portraits":[],
 		"name":"Asakura Momo",
@@ -641,7 +652,7 @@
 		"dobComment":"",
 		"profile":"Japanese Voice Actress",
 		"turningPoint":{
-			"singerDebut":"Yes*",
+			"soloDebut":"Yes*",
 			"swimsuitPhotobook":"Yes**",
 			"isMarried":"No"
 		},
@@ -658,9 +669,8 @@
 	{
 		"category":"seiyuu2",
 		"id":"EndouYurika",
-		"images":[
-			"https://1.bp.blogspot.com/-6Vbo-yjHLyg/XaMznnWUj2I/AAAAAAAA1KY/aqTtKh7_wwkuNFecPj2hX-C8nKnHhZigwCLcBGAsYHQ/s320/Cx3zHhAUkAEmY0L.jpg"
-		],
+		"image":"https://knneo.webs.com/endouyurika.jpg",
+		"landscapes":[],
 		"portraits":[],
 		"name":"Endou Yurika",
 		"nickname":"Yurishi",
@@ -668,7 +678,7 @@
 		"dobComment":"",
 		"profile":"Japanese Voice Actress*, DJ",
 		"turningPoint":{
-			"singerDebut":"Yes**",
+			"soloDebut":"Yes**",
 			"swimsuitPhotobook":"No",
 			"isMarried":"No"
 		},
@@ -684,10 +694,10 @@
 	{
 		"category":"seiyuu2",
 		"id":"HidakaRina",
-		"images":[
+		"image":"https://knneo.webs.com/hidakarina.jpg",
+		"landscapes":[
 			"https://pbs.twimg.com/media/EmTiTbJVgAAqi9f?format=jpg&name=small",
-			"https://pbs.twimg.com/media/EhuDJryUMAEn5yO?format=jpg&name=small",
-			"https://4.bp.blogspot.com/-V8m0QOSbd3Y/Xb0OLQOa1SI/AAAAAAAA1qM/5HjnxRMG16gVXSIUYK2-PfE6HdwEkI2bQCLcBGAsYHQ/s320/1310179528.jpg"
+			"https://pbs.twimg.com/media/EhuDJryUMAEn5yO?format=jpg&name=small"
 		],
 		"portraits":[
 			"https://pbs.twimg.com/media/ElK9iZ0U0AAvR3F?format=jpg&name=small",
@@ -700,7 +710,7 @@
 		"dobComment":"",
 		"profile":"Japanese Voice Actress",
 		"turningPoint":{
-			"singerDebut":"No",
+			"soloDebut":"No",
 			"swimsuitPhotobook":"No",
 			"isMarried":"No"
 		},
@@ -716,9 +726,9 @@
 	{
 		"category":"seiyuu2",
 		"id":"KounoMarika",
-		"images":[
-			"https://pbs.twimg.com/media/EkvhYF-UYAELfRQ?format=jpg&name=small",
-			"https://1.bp.blogspot.com/-AFjJCvycTYs/XYX6_2gSr8I/AAAAAAAA0sQ/tEgA43s_3_EBoK8A6WDnv0N-K9iMwgZiwCLcBGAsYHQ/s400/4508e79bgw1f73jiylxpij20rs0ij784.jpg"
+		"image":"https://knneo.webs.com/kounomarika.jpg",
+		"landscapes":[
+			"https://pbs.twimg.com/media/EkvhYF-UYAELfRQ?format=jpg&name=small"			
 		],
 		"portraits":[
 			"https://pbs.twimg.com/media/EpQTpvmU8AIyTKM?format=jpg&name=small",
@@ -731,7 +741,7 @@
 		"dobComment":"",
 		"profile":"Japanese Voice Actress",
 		"turningPoint":{
-			"singerDebut":"Yes*",
+			"soloDebut":"Yes*",
 			"swimsuitPhotobook":"No**",
 			"isMarried":"No"
 		},
@@ -748,11 +758,11 @@
 	{
 		"category":"seiyuu2",
 		"id":"MinaseInori",
-		"images":[
+		"image":"https://knneo.webs.com/minaseinori.jpg",
+		"landscapes":[
 			"https://d2wi3xvhr3qrd7.cloudfront.net/wp/wp-content/uploads/2020/10/08192735/MAT00652-516x344.jpg",
 			"https://akiba-souken.k-img.com/assets/images/article/000/877/t640_877184.jpg",
-			"https://pbs.twimg.com/media/EgujiTlU0AEAX6H?format=jpg&name=small",
-			"https://1.bp.blogspot.com/-Zbb8N9WEXL4/XYX4kIJx6FI/AAAAAAAA0rQ/j3-_Xm7ve0E3V6vEZeqsZPCWCGk58ICSACLcBGAsYHQ/s320/CigWgDDUYAQSeAe.jpg"
+			"https://pbs.twimg.com/media/EgujiTlU0AEAX6H?format=jpg&name=small"			
 		],
 		"portraits":[
 			"https://pbs.twimg.com/media/EpQcpD9UYAIQo37?format=jpg&name=small",
@@ -767,7 +777,7 @@
 		"dobComment":"",
 		"profile":"Japanese Voice Actress",
 		"turningPoint":{
-			"singerDebut":"Yes*",
+			"soloDebut":"Yes*",
 			"swimsuitPhotobook":"No**",
 			"isMarried":"No"
 		},
@@ -784,9 +794,8 @@
 	{
 		"category":"seiyuu2",
 		"id":"NatsukawaShiina",
-		"images":[
-			"https://1.bp.blogspot.com/-8KI7KvYXcKk/XYX5AfpOm2I/AAAAAAAA0rc/JLlERbpK8A4WvOnMSqGK811ZPwlR5eONQCLcBGAsYHQ/s320/4508e79bgy1fdhlg41gwmj21671hcah5.jpg"
-		],
+		"image":"https://knneo.webs.com/natsukawashiina.jpg",
+		"landscapes":[],
 		"portraits":[
 			"https://image.news.livedoor.com/newsimage/stf/c/f/cff805378b5526b8a7f24bf359a9046b.jpg"
 		],
@@ -796,7 +805,7 @@
 		"dobComment":"",
 		"profile":"Japanese Voice Actress",
 		"turningPoint":{
-			"singerDebut":"Yes",
+			"soloDebut":"Yes",
 			"swimsuitPhotobook":"No**",
 			"isMarried":"No"
 		},
@@ -813,9 +822,8 @@
 	{
 		"category":"seiyuu2",
 		"id":"NumakuraManami",
-		"images":[
-			"https://1.bp.blogspot.com/-FQ3nJm5Hfh0/XYX5ISs2tFI/AAAAAAAA0rg/QI9AW3pptcYa6867xi0C4ga7Sr5Eoi6EwCLcBGAsYHQ/s320/1b7f80750baf45dce28a0fdd965bb600.jpg"
-		],
+		"image":"https://knneo.webs.com/numakuramanami.jpg",
+		"landscapes":[],
 		"portraits":[
 			"https://obs.line-scdn.net/0hDzSlxtGEG1VuFTMz7y5kAiVIHToXdgFdBG0MbxtDEXsbeQxVBm8LdxdFHyEAdQBTDSMIa1d9HxglVTV7IQ48S0hlBj0FIwFmCRgiZjBDPRE0bD5-N29UN00TRWFLI1UKUnsGYEsWQiBCdl5WAXFQYQ/small"
 		],
@@ -825,7 +833,7 @@
 		"dobComment":"Oh it was",
 		"profile":"Japanese Voice Actress",
 		"turningPoint":{
-			"singerDebut":"Yes*",
+			"soloDebut":"Yes*",
 			"swimsuitPhotobook":"No",
 			"isMarried":"Yes**"
 		},
@@ -841,11 +849,11 @@
 	{
 		"category":"seiyuu2",
 		"id":"TachibanaRika",
-		"images":[
+		"image":"https://knneo.webs.com/tachibanarika.jpg",
+		"landscapes":[
 			"https://contents.perfect.ne.jp/media/6bCq3f/3bfgv6idxg.jpg",
 			"https://s3-ap-northeast-1.amazonaws.com/pf-web/fanclubs/107/assets/181/images/profile/profile.jpg",
-			"https://pbs.twimg.com/media/EQ0j2JUUYAMsaWv?format=jpg&name=small",
-			"https://1.bp.blogspot.com/-Mbe7dhUnNoI/XYX5mbR2l2I/AAAAAAAA0rw/4boK5cxn99QMYNPnYI5KD4nVzu0ZfDHmACLcBGAsYHQ/s320/C_ohlgzUIAAwWEX.jpg"
+			"https://pbs.twimg.com/media/EQ0j2JUUYAMsaWv?format=jpg&name=small"
 		],
 		"portraits":[],
 		"name":"Tachibana Rika",
@@ -854,7 +862,7 @@
 		"dobComment":"She may be new but it was",
 		"profile":"Japanese Voice Actress",
 		"turningPoint":{
-			"singerDebut":"Yes*",
+			"soloDebut":"Yes*",
 			"swimsuitPhotobook":"No**",
 			"isMarried":"Yes"
 		},
@@ -870,10 +878,10 @@
 	{
 		"category":"seiyuu2",
 		"id":"TakahashiRie",
-		"images":[
+		"image":"https://knneo.webs.com/takahashirie.jpg",
+		"landscapes":[
 			"https://pbs.twimg.com/media/EnRutASVQAA7vAs?format=jpg&name=small",
-			"https://pbs.twimg.com/media/Ea3D2PhU8AED1v4?format=jpg&name=small",
-			"https://1.bp.blogspot.com/-IITGKCVZXbI/XYX6Dh7M7dI/AAAAAAAA0r4/q3pqomxpqCEE6j4Ge2ytXGTN-k6PmwFjgCLcBGAsYHQ/s320/CWFt0oOXIAALg7s.jpg"
+			"https://pbs.twimg.com/media/Ea3D2PhU8AED1v4?format=jpg&name=small"
 		],
 		"portraits":[],
 		"name":"Takahashi Rie",
@@ -882,7 +890,7 @@
 		"dobComment":"",
 		"profile":"Japanese Voice Actress",
 		"turningPoint":{
-			"singerDebut":"Yes*",
+			"soloDebut":"Yes*",
 			"swimsuitPhotobook":"No",
 			"isMarried":"No"
 		},
@@ -898,9 +906,8 @@
 	{
 		"category":"seiyuu2",
 		"id":"TouyamaNao",
-		"images":[
-			"https://1.bp.blogspot.com/-a22hO72IJ8o/Xax38izWZ0I/AAAAAAAA1Ww/soTy7ZhmYkslKJSOy1dpfP6S8wDE9wBCwCLcBGAsYHQ/s320/0hGBmUvV_TGG1QLDcrdRlnOh9xHgIpTwJlOlQPVyV6EkMlQA9tOFYSVT18Gg0iTAEnKRI8fSAuPF49VVdyHBQOaQ1IET4oehdzG0MQd3FwRg5hHFozaEhSD3YoR111SV87bklfTnQrQgh4S1s4.jpg"
-		],
+		"image":"https://knneo.webs.com/touyamanao.jpg",
+		"landscapes":[],
 		"portraits":[
 			"https://pbs.twimg.com/media/EpLVguRVQAABtLo?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EojH4tJUwAAzgno?format=jpg&name=small",
@@ -918,7 +925,7 @@
 		"dobComment":"",
 		"profile":"Japanese Voice Actress",
 		"turningPoint":{
-			"singerDebut":"Yes*",
+			"soloDebut":"Yes*",
 			"swimsuitPhotobook":"No**",
 			"isMarried":"No"
 		},
@@ -935,10 +942,10 @@
 	{
 		"category":"seiyuu2",
 		"id":"UesakaSumire",
-		"images":[
+		"image":"https://knneo.webs.com/uesakasumire.jpg",
+		"landscapes":[
 			"https://assets.st-note.com/production/uploads/images/38603557/picture_pc_fd3b82b608a1154b0d9ffa5371a62ca2.jpg",
-			"https://pbs.twimg.com/media/EmJT16NU0AE97XU?format=jpg&name=small",
-			"https://3.bp.blogspot.com/-5uF5rGCsmkU/Xax4IO4XhgI/AAAAAAAA1W0/cL9X2DbBEa04t3LRG0EHyGxaBJne40oZwCLcBGAsYHQ/s320/7f9ce3e2.jpg"
+			"https://pbs.twimg.com/media/EmJT16NU0AE97XU?format=jpg&name=small"
 		],
 		"portraits":[
 			"https://pbs.twimg.com/media/EpXkHVXU8AER47I?format=jpg&name=small",
@@ -951,7 +958,7 @@
 		"dobComment":"",
 		"profile":"Japanese Voice Actress",
 		"turningPoint":{
-			"singerDebut":"Yes*",
+			"soloDebut":"Yes*",
 			"swimsuitPhotobook":"Yes**",
 			"isMarried":"No"
 		},
@@ -968,9 +975,8 @@
 	{
 		"category":"seiyuu3",
 		"id":"AnzaiChika",
-		"images":[
-			"https://1.bp.blogspot.com/-YBCecpVovDE/Xf91ev0QwlI/AAAAAAAA3HQ/7YwkWOHJogs7EtwXCKJ4jrKUqJ6xoJgZQCLcBGAsYHQ/s320/Czuvnc9UAAE3ggH.jpg"
-		],
+		"image":"https://knneo.webs.com/anzaichika.jpg",
+		"landscapes":[],
 		"portraits":[
 			"https://pbs.twimg.com/media/EGBPPSTU0AEOK49?format=jpg&name=small"
 		],
@@ -980,7 +986,7 @@
 		"dobComment":"",
 		"profile":"Japanese Voice Actress",
 		"turningPoint":{
-			"singerDebut":"No",
+			"soloDebut":"No",
 			"swimsuitPhotobook":"No**",
 			"isMarried":"Yes"
 		},
@@ -996,10 +1002,10 @@
 	{
 		"category":"seiyuu3",
 		"id":"FuchigamiMai",
-		"images":[
+		"image":"https://knneo.webs.com/fuchigamimai.jpg",
+		"landscapes":[
 			"https://pbs.twimg.com/media/EjUQAo-UYAQfnP6?format=jpg&name=small",
-			"https://pbs.twimg.com/media/EVKHdGdU8AEW8qy?format=jpg&name=small",
-			"https://1.bp.blogspot.com/-qj81LMB-J9M/XaXaNU4i4WI/AAAAAAAA1M4/k9Y3a6OUaOkFk5M79JRQf3QJL8ZzkPsCACLcBGAsYHQ/s320/C9ddGGaV0AYs2vS.jpg"
+			"https://pbs.twimg.com/media/EVKHdGdU8AEW8qy?format=jpg&name=small"			
 		],
 		"portraits":[
 			"https://pbs.twimg.com/media/EoZaU67UcAYytRM?format=jpg&name=small",
@@ -1011,7 +1017,7 @@
 		"dobComment":"We're not supposed to know but it's",
 		"profile":"Japanese Voice Actress",
 		"turningPoint":{
-			"singerDebut":"Yes",
+			"soloDebut":"Yes",
 			"swimsuitPhotobook":"No",
 			"isMarried":"No"
 		},
@@ -1027,9 +1033,9 @@
 	{
 		"category":"seiyuu3",
 		"id":"HondoKaede",
-		"images":[
-			"https://pbs.twimg.com/media/EfczABaWAAA3zuy?format=jpg&name=small",
-			"https://1.bp.blogspot.com/-zAVp_pty6iY/Xvhz_sFBYlI/AAAAAAAA8ic/JBmZswpMnZAV4rYYm5cODvCBzWxLBnTMQCK4BGAsYHg/s320/C6KbxmeVUAQVQiP.jpg"
+		"image":"https://knneo.webs.com/hondokaede.jpg",
+		"landscapes":[
+			"https://pbs.twimg.com/media/EfczABaWAAA3zuy?format=jpg&name=small"			
 		],
 		"portraits":[],
 		"name":"Hondo Kaede",
@@ -1038,7 +1044,7 @@
 		"dobComment":"I keep forgetting it was only",
 		"profile":"Japanese Voice Actress",
 		"turningPoint":{
-			"singerDebut":"No",
+			"soloDebut":"No",
 			"swimsuitPhotobook":"No",
 			"isMarried":"No"
 		},
@@ -1054,13 +1060,13 @@
 	{
 		"category":"seiyuu3",
 		"id":"IsobeKarin",
-		"images":[
+		"image":"https://knneo.webs.com/isobekarin.jpg",
+		"landscapes":[
 			"https://pbs.twimg.com/media/EoZPsQdUwAEYgC1?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EmhWsCmXUAIwz5S?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EmcR9wFVgAIeFn3?format=jpg&name=small",
 			"https://pbs.twimg.com/media/ElF05DUUYAA8K56?format=jpg&name=small",
-			"https://pbs.twimg.com/media/Ehos11nVoAAIehR?format=jpg&name=small",
-			"https://4.bp.blogspot.com/-H0tO2L0L_gk/Xa2jSVkODRI/AAAAAAAA1YY/tw9jwWVh5Ckm_OzHGW1RDcJo-5k_Er7UACLcBGAsYHQ/s320/DU4Lcc9UQAAEStA.jpg"
+			"https://pbs.twimg.com/media/Ehos11nVoAAIehR?format=jpg&name=small"			
 		],
 		"portraits":[],
 		"name":"Isobe Karin",
@@ -1069,7 +1075,7 @@
 		"dobComment":"",
 		"profile":"Japanese Voice Actress",
 		"turningPoint":{
-			"singerDebut":"Yes**",
+			"soloDebut":"Yes**",
 			"swimsuitPhotobook":"No",
 			"isMarried":"No"
 		},
@@ -1085,12 +1091,12 @@
 	{
 		"category":"seiyuu3",
 		"id":"KidoIbuki",
-		"images":[
+		"image":"https://knneo.webs.com/kidoibuki.jpg",
+		"landscapes":[
 			"https://pbs.twimg.com/media/EmJFO9iU0Ak-svE?format=jpg&name=small",
 			"https://pbs.twimg.com/media/ElFCGvDUYAA2Emb?format=jpg&name=small",
 			"https://pbs.twimg.com/media/Ei7GukuVgAAzTDt?format=jpg&name=small",
-			"https://pbs.twimg.com/media/EdrB82xVAAEVo5L?format=jpg&name=small",
-			"https://1.bp.blogspot.com/-oKeVUXfqkXc/Xax4YPSV4jI/AAAAAAAA1W4/6pn4hXXW7KwVz-X0sckuQcAXcEaGXu50wCLcBGAsYHQ/s320/DoL3Oe9VsAATLrc.jpg"
+			"https://pbs.twimg.com/media/EdrB82xVAAEVo5L?format=jpg&name=small"			
 		],
 		"portraits":[
 			"https://pbs.twimg.com/media/En6iRhTVgAQ1kJe?format=jpg&name=small",
@@ -1102,7 +1108,7 @@
 		"dobComment":"Surprisingly only",
 		"profile":"Japanese Voice Actress",
 		"turningPoint":{
-			"singerDebut":"Yes**",
+			"soloDebut":"Yes**",
 			"swimsuitPhotobook":"No***",
 			"isMarried":"No"
 		},
@@ -1119,10 +1125,10 @@
 	{
 		"category":"seiyuu3",
 		"id":"KitouAkari",
-		"images":[
+		"image":"https://knneo.webs.com/kitouakari.jpg",
+		"landscapes":[
 			"https://pbs.twimg.com/media/EiW-TT-VoAAPnKq?format=jpg&name=small",
-			"https://pbs.twimg.com/media/Ee9jRmyUEAIVGio?format=jpg&name=small",
-			"https://1.bp.blogspot.com/-lziBc4N3PZU/XacnUEzfFjI/AAAAAAAA1O0/6O7hp8XFPLA2_SdaAwlAfCUyboYUaknwwCLcBGAsYHQ/s320/DMQsmpmVwAA_SZs.jpg"
+			"https://pbs.twimg.com/media/Ee9jRmyUEAIVGio?format=jpg&name=small"			
 		],
 		"portraits":[
 			"https://pbs.twimg.com/media/EiW-TT-VoAAPnKq?format=jpg&name=small",
@@ -1134,7 +1140,7 @@
 		"dobComment":"",
 		"profile":"Japanese Voice Actress",
 		"turningPoint":{
-			"singerDebut":"Yes*",
+			"soloDebut":"Yes*",
 			"swimsuitPhotobook":"No",
 			"isMarried":"No"
 		},
@@ -1150,9 +1156,8 @@
 	{
 		"category":"seiyuu3",
 		"id":"KoharaKonomi",
-		"images":[
-			"https://4.bp.blogspot.com/-GjDfJXaXd64/Xb0O-y3X-pI/AAAAAAAA1qc/P6m16xdkENIBv9VvJgBrO70zpgxep9R5gCLcBGAsYHQ/s320/45282021_314337085821062_3555961365544955043_n.jpg"
-		],
+		"image":"https://knneo.webs.com/koharakonomi.jpg",
+		"landscapes":[],
 		"portraits":[
 			"https://thetv.jp/i/nw/229779/1439217.jpg?h=320"
 		],
@@ -1162,7 +1167,7 @@
 		"dobComment":"",
 		"profile":"Japanese Voice Actress",
 		"turningPoint":{
-			"singerDebut":"No",
+			"soloDebut":"No",
 			"swimsuitPhotobook":"No",
 			"isMarried":"No"
 		},
@@ -1177,10 +1182,10 @@
 	{
 		"category":"seiyuu3",
 		"id":"Lynn",
-		"images":[
+		"image":"https://knneo.webs.com/lynn.jpg",
+		"landscapes":[
 			"https://pbs.twimg.com/media/EpNqdwHVQAgvvOz?format=jpg&name=small",
-			"https://pbs.twimg.com/media/EgMjO-aVAAE4Rqc?format=jpg&name=small",
-			"https://1.bp.blogspot.com/-QewO1WHwDTo/Xvhxdi4jX7I/AAAAAAAA8hs/pcMyeD8RahIT437yR-8qH5kvTQeqZUhbgCK4BGAsYHg/w214-h320/DkuVHldVsAItm3O.jpg"
+			"https://pbs.twimg.com/media/EgMjO-aVAAE4Rqc?format=jpg&name=small"
 		],
 		"portraits":[
 			"https://pbs.twimg.com/media/ElJX3QMUYAAgt9R?format=jpg&name=small"
@@ -1191,7 +1196,7 @@
 		"dobComment":"",
 		"profile":"Japanese Voice Actress",
 		"turningPoint":{
-			"singerDebut":"No",
+			"soloDebut":"No",
 			"swimsuitPhotobook":"No*",
 			"isMarried":"No"
 		},
@@ -1207,9 +1212,8 @@
 	{
 		"category":"seiyuu3",
 		"id":"NagaeRika",
-		"images":[
-			"https://3.bp.blogspot.com/-ZqrYLrqkdvI/Xa2l7ERTxyI/AAAAAAAA1Yk/o1HZGo3pxKkzvOJ_hqNexdghU0kJ4XVNwCLcBGAsYHQ/s320/45891820_165850191039380_4195944577507421424_n.jpg"
-		],
+		"image":"https://knneo.webs.com/nagaerika.jpg",
+		"landscapes":[],
 		"portraits":[
 			"https://pbs.twimg.com/media/EouI8deUYAAxwea?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EnmI8twXEAIZ5J8?format=jpg&name=small",
@@ -1222,7 +1226,7 @@
 		"dobComment":"She may be younger than we think?",
 		"profile":"Japanese Voice Actress",
 		"turningPoint":{
-			"singerDebut":"No",
+			"soloDebut":"No",
 			"swimsuitPhotobook":"No",
 			"isMarried":"No"
 		},
@@ -1238,9 +1242,8 @@
 	{
 		"category":"seiyuu3",
 		"id":"NagatsumaJuuri",
-		"images":[
-			"https://1.bp.blogspot.com/-sRQqQdanxkI/Xvh0FdmSszI/AAAAAAAA8io/KTKSlFMYspw6is88v3_Ij9AzbYu7te6HQCK4BGAsYHg/s320/gd236785_-3.jpg"
-		],
+		"image":"https://knneo.webs.com/nagatsumajuuri.jpg",
+		"landscapes":[],
 		"portraits":[
 			"https://pbs.twimg.com/media/EI8EQ2WVAAEKaYl?format=jpg&name=small"
 		],
@@ -1250,7 +1253,7 @@
 		"dobComment":"Yeah it was already",
 		"profile":"Japanese Voice Actress",
 		"turningPoint":{
-			"singerDebut":"Yes**",
+			"soloDebut":"Yes**",
 			"swimsuitPhotobook":"No",
 			"isMarried":"No"
 		},
@@ -1266,9 +1269,8 @@
 	{
 		"category":"seiyuu3",
 		"id":"OmigawaChiaki",
-		"images":[
-			"https://2.bp.blogspot.com/-JBPucrPHmrE/XlvVPul7GII/AAAAAAAA5gI/Srtywt2eWrAxfJJtZ2hW1lyCY2CE8U81gCLcBGAsYHQ/s320/80707483_528630844417526_7319122847722068668_n.jpg"
-		],
+		"image":"https://knneo.webs.com/omigawachiaki.jpg",
+		"landscapes":[],
 		"portraits":[],
 		"name":"Omigawa Chiaki",
 		"nickname":"-chan?*",
@@ -1276,7 +1278,7 @@
 		"dobComment":"",
 		"profile":"Japanese Voice Actress",
 		"turningPoint":{
-			"singerDebut":"No",
+			"soloDebut":"No",
 			"swimsuitPhotobook":"No*",
 			"isMarried":"No"
 		},
@@ -1292,9 +1294,9 @@
 	{
 		"category":"seiyuu3",
 		"id":"OonishiSaori",
-		"images":[
-			"https://pbs.twimg.com/media/ENcGUThUYAAavVR?format=jpg&name=small",
-			"https://1.bp.blogspot.com/-mQYC7uvUtbE/XvhzoYHs3vI/AAAAAAAA8iI/Y9JuGfTiIAU30lWIn_p3CzYW5Z_T_J1FACK4BGAsYHg/s320/bcaba549gy1fmt6ch8uewj21kw2chnpd.jpg"
+		"image":"https://knneo.webs.com/oonishisaori.jpg",
+		"landscapes":[
+			"https://pbs.twimg.com/media/ENcGUThUYAAavVR?format=jpg&name=small"			
 		],
 		"portraits":[],
 		"name":"Oonishi Saori",
@@ -1303,7 +1305,7 @@
 		"dobComment":"Can't believe it's just",
 		"profile":"Japanese Voice Actress",
 		"turningPoint":{
-			"singerDebut":"No",
+			"soloDebut":"No",
 			"swimsuitPhotobook":"No",
 			"isMarried":"No"
 		},
@@ -1320,10 +1322,10 @@
 	{
 		"category":"seiyuu3",
 		"id":"OonoYuuko",
-		"images":[
+		"image":"https://knneo.webs.com/oonoyuuko.jpg",
+		"landscapes":[
 			"https://pbs.twimg.com/media/EfmE0F4UwAEFUxq?format=jpg&name=small",
-			"https://pbs.twimg.com/media/EhetOlOUcAM0fhY?format=jpg&name=small",
-			"https://1.bp.blogspot.com/-glPpS3lLPyM/XlvVlbt-Z7I/AAAAAAAA5gQ/KAVK2JVaBLwYV1xWiSiwJsp-ZLq-Osh6gCLcBGAsYHQ/s320/C_C9ZFQVwAEO_xG.jpg"
+			"https://pbs.twimg.com/media/EhetOlOUcAM0fhY?format=jpg&name=small"
 		],
 		"portraits":[
 			"https://pbs.twimg.com/media/El6QTO5VMAA7rg0?format=jpg&name=small"
@@ -1334,7 +1336,7 @@
 		"dobComment":"She may not be that young anymore but we don't know*",
 		"profile":"Japanese Voice Actress",
 		"turningPoint":{
-			"singerDebut":"No",
+			"soloDebut":"No",
 			"swimsuitPhotobook":"No",
 			"isMarried":"No"
 		},
@@ -1349,9 +1351,8 @@
 	{
 		"category":"seiyuu3",
 		"id":"OozoraNaomi",
-		"images":[
-			"https://1.bp.blogspot.com/-nq0qMDFjNJM/Xb0ObhODd5I/AAAAAAAA1qQ/mGPX8xF7Qykv7xU3e_V8FxzsF74KfghYACLcBGAsYHQ/s320/4508e79bgy1fj4bgu1g5mj20hs0qo76x.jpg"
-		],
+		"image":"https://knneo.webs.com/oozoranaomi.jpg",
+		"landscapes":[],
 		"portraits":[
 			"https://pbs.twimg.com/media/ElKUy78VkAA5tql?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EP3MOauUYAA8fGL?format=jpg&name=small"
@@ -1362,7 +1363,7 @@
 		"dobComment":"Very deceptive but it is indeed",
 		"profile":"Japanese Voice Actress",
 		"turningPoint":{
-			"singerDebut":"No",
+			"soloDebut":"No",
 			"swimsuitPhotobook":"No",
 			"isMarried":"No"
 		},
@@ -1378,9 +1379,9 @@
 	{
 		"category":"seiyuu3",
 		"id":"ToyotaMoe",
-		"images":[
-			"https://pbs.twimg.com/media/EfeGJznUwAA-23m?format=jpg&name=small",
-			"https://2.bp.blogspot.com/-KbZD4IDAEWk/Xa2mgPVU80I/AAAAAAAA1Ys/jevRvFzIr30X3Kc_IJowDMcCKE5H-HTJACLcBGAsYHQ/s320/D4jtZGDXsAAzgQT.jpg"
+		"image":"https://knneo.webs.com/toyotamoe.jpg",
+		"landscapes":[
+			"https://pbs.twimg.com/media/EfeGJznUwAA-23m?format=jpg&name=small"
 		],
 		"portraits":[
 			"https://pbs.twimg.com/media/EpRtTIVUUAQiy21?format=jpg&name=small",
@@ -1393,7 +1394,7 @@
 		"dobComment":"",
 		"profile":"Japanese Voice Actress",
 		"turningPoint":{
-			"singerDebut":"No",
+			"soloDebut":"No",
 			"swimsuitPhotobook":"Yes*",
 			"isMarried":"No"
 		},
@@ -1408,9 +1409,9 @@
 	{
 		"category":"seiyuu3",
 		"id":"WakiAzumi",
-		"images":[
-			"https://pbs.twimg.com/media/Edf6cXOUYAEwpNm?format=jpg&name=small",
-			"https://3.bp.blogspot.com/-aKiQ8OqHses/XacpFdkNWSI/AAAAAAAA1PA/Otqag9HbPKgLLI2q6xytF4Fy20e2ZIYVQCLcBGAsYHQ/s320/DOa_qTfU8AAAFux.jpg"
+		"image":"https://knneo.webs.com/wakiazumi.jpg",
+		"landscapes":[
+			"https://pbs.twimg.com/media/Edf6cXOUYAEwpNm?format=jpg&name=small"
 		],
 		"portraits":[
 			"https://pbs.twimg.com/media/EotlqLeVoAcz8a8?format=jpg&name=small",
@@ -1422,7 +1423,7 @@
 		"dobComment":"",
 		"profile":"Japanese Voice Actress",
 		"turningPoint":{
-			"singerDebut":"Yes",
+			"soloDebut":"Yes",
 			"swimsuitPhotobook":"No",
 			"isMarried":"No"
 		},
@@ -1438,9 +1439,8 @@
 	{
 		"category":"seiyuu3",
 		"id":"YoshimuraHaruka",
-		"images":[
-			"https://1.bp.blogspot.com/-if83pmMZxFA/Xa2mt6duOGI/AAAAAAAA1Yw/xq3nizjQOhMDFS5bbnN0auAEwAjUzvp6QCLcBGAsYHQ/s320/4508e79bgy1foyf3b6nwnj20dc0nqac0.jpg"
-		],
+		"image":"https://knneo.webs.com/yoshimuraharuka.jpg",
+		"landscapes":[],
 		"portraits":[],
 		"name":"Yoshimura Haruka",
 		"nickname":"Rurukyan",
@@ -1448,7 +1448,7 @@
 		"dobComment":"At last we know now it was*",
 		"profile":"Japanese Voice Actress",
 		"turningPoint":{
-			"singerDebut":"No",
+			"soloDebut":"No",
 			"swimsuitPhotobook":"No**",
 			"isMarried":"Yes"
 		},
@@ -1460,5 +1460,65 @@
 			"*Fans guess she's in her 30s, so maybe born in late 1980s- HOLY SH*T she is old haha",
 			"**She does post online of herself at the beach in a swimsuit every year though"
 		]
+	},
+	{
+		"category":"seiyuu4",
+		"id":"KogaAoi",
+		"image":"https://pbs.twimg.com/media/Ef3zm9uUYAAK1UT?format=jpg&name=small",
+		"landscapes":[],
+		"portraits":[],
+		"name":"Koga Aoi",
+		"dob":"1993.08.24",
+		"profile":"Japanese Voice Actress",
+		"turningPoint":{
+			"soloDebut":"No",
+			"swimsuitPhotobook":"No",
+			"isMarried":"No"
+		}
+	},
+	{
+		"category":"seiyuu4",
+		"id":"SasakiNao",
+		"image":"https://pbs.twimg.com/media/EoyZsPjUUAAf97l?format=jpg&name=small",
+		"landscapes":[],
+		"portraits":[],
+		"name":"Sasaki Nao",
+		"dob":"????.03.06",
+		"profile":"Japanese Voice Actress",
+		"turningPoint":{
+			"soloDebut":"No",
+			"swimsuitPhotobook":"No",
+			"isMarried":"No"
+		}
+	},
+	{
+		"category":"seiyuu4",
+		"id":"TokuiSora",
+		"image":"https://pbs.twimg.com/media/EpW8WxxVEAEM9Wg?format=jpg&name=small",
+		"landscapes":[],
+		"portraits":[],
+		"name":"Tokui Sora",
+		"dob":"1989.12.26",
+		"profile":"Japanese Voice Actress",
+		"turningPoint":{
+			"soloDebut":"Yes",
+			"swimsuitPhotobook":"No",
+			"isMarried":"No"
+		}
+	},
+	{
+		"category":"seiyuu4",
+		"id":"TomiyaMiyu",
+		"image":"https://pbs.twimg.com/media/Epg0eXnVQAE2TRB?format=jpg&name=small",
+		"landscapes":[],
+		"portraits":[],
+		"name":"Tomiya Miyu",
+		"dob":"1999.11.15",
+		"profile":"Japanese Voice Actress",
+		"turningPoint":{
+			"soloDebut":"Yes",
+			"swimsuitPhotobook":"No",
+			"isMarried":"No"
+		}
 	}
 ]

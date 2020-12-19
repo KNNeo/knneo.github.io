@@ -293,6 +293,7 @@ function switchProfileBoxImage() {
 	let profileBoxImgList = document.getElementsByClassName("profile-box");
 	for (let i = 0; i < profileBoxImgList.length; i++) {
 		profileBoxImgList[i].addEventListener("click", function() {
+			//if(window.innerWidth < 780) this.scrollIntoView();
 			if (this.getElementsByTagName("img")[0] == null && this.getElementsByTagName("img")[1] == null) return;
 			if (this.getElementsByTagName("img")[1] == null) return;
 			if (this.getElementsByTagName("img")[0] != null) this.getElementsByTagName("img")[0].style.display = this.getElementsByTagName("img")[0].style.display == "" ? "none" : "";
@@ -385,7 +386,7 @@ function openLinksInNew() {
 				dob: dobStr.substring(0,10),
 				dobComment: dobStr.includes('(') ? dobStr.substring(12, dobStr.indexOf(')')) : '',
 				profile: box.getElementsByTagName('td')[5].innerText,
-				turningPoint: { singerDebut: turningPoints[0] == 'Yes', swimsuitPhotobook: turningPoints[1] == 'Yes', isMarried: turningPoints[2] == 'Yes' },
+				turningPoint: { soloDebut: turningPoints[0] == 'Yes', swimsuitPhotobook: turningPoints[1] == 'Yes', isMarried: turningPoints[2] == 'Yes' },
 				intro: box.getElementsByTagName('td')[9].innerText,
 				description: box.getElementsByTagName('td')[11].innerText,
 				wantedLevel: box.getElementsByTagName('td')[13].innerText.substring(0,5),
