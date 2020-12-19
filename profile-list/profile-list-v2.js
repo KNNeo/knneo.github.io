@@ -98,6 +98,9 @@ function generateProfileFromJSON(profileName) {
 	let profile = profileList.filter( function(n) {
         return n.id == profileName;
     })[0];
+	//for if only mandatory field are filled
+	let simplified = profile.intro == undefined;
+
 	//previous profile
 	let currentProfile = null;
 	
@@ -173,11 +176,23 @@ function generateProfileFromJSON(profileName) {
 					}
 				}
 			}
-				
-			let image1Source = friendMode ? friendImage : randomProfileImg(profile.images);
-			let image2Source = profile.images[profile.images.length-1];
-			//if(friendMode) image2Source = image1Source;//currentProfile.images.length > 1 ? currentProfile.images[currentProfile.images.length-1] : randomProfileImg(currentProfile.images);
-			if(friendMode) image2Source = addUrlClause(randomProfileImg(profile.images)) + ", " + addUrlClause(randomProfileImg(currentProfile.images));
+			
+			if(profile.landscapes == undefined) profile.landscapes = [];
+			if(profile.portraits == undefined) profile.portraits = [];
+			let allImages = profile.landscapes.concat(profile.portraits);
+			
+			let image1Source = profile.image;
+			if(allImages.length > 0) image1Source = randomProfileImg(allImages);
+			if(friendMode) image1Source = friendImage;
+			
+			let image2Source = profile.image;
+			if(friendMode)
+			{
+				if(profile.portraits.length == 0) profile.portraits.push(profile.image);
+				if(currentProfile.portraits == undefined) currentProfile.portraits = [];
+				if(currentProfile.portraits.length == 0) currentProfile.portraits.push(currentProfile.image);
+				image2Source = addUrlClause(randomProfileImg(profile.portraits)) + ", " + addUrlClause(randomProfileImg(currentProfile.portraits));
+			}
 			
 			profileBoxImg.style.backgroundSize = 'contain';
 			profileBoxImg.style.backgroundRepeat = 'no-repeat';
@@ -231,7 +246,7 @@ function generateProfileFromJSON(profileName) {
 						let cellDiv = document.createElement('div');
 						if(friendMode) cellDiv.style.textAlign = 'left';
 						if(friendMode) cellDiv.style.position = 'absolute';
-						if(!friendMode) cellDiv.innerText = ' (' + profile.nickname + ')';
+						if(!friendMode && !simplified) cellDiv.innerText = ' (' + profile.nickname + ')';
 						
 							let span = document.createElement('span');
 							span.classList.add('profile-name');
@@ -277,7 +292,7 @@ function generateProfileFromJSON(profileName) {
 								let DOBspan = document.createElement('span');
 								DOBspan.classList.add('DOB');
 								//DOBspan.innerText = profile.dob;
-								DOBspan.innerText = profile.dob + (!isExternal && !friendMode && profile.dobComment != '' ? (' (' + profile.dobComment + ')') : '');
+								DOBspan.innerText = profile.dob + (!isExternal && !friendMode && !simplified && profile.dobComment != '' ? (' (' + profile.dobComment + ')') : '');
 								cellDiv.appendChild(DOBspan);
 							
 							cell.appendChild(cellDiv);
@@ -289,7 +304,7 @@ function generateProfileFromJSON(profileName) {
 								DOBspan = document.createElement('span');
 								DOBspan.classList.add('DOB');
 								//DOBspan.innerText = profile.dob;
-								DOBspan.innerText = currentProfile.dob + (!isExternal && !friendMode && currentProfile.dobComment != '' ? (' (' + currentProfile.dobComment + ')') : '');
+								DOBspan.innerText = currentProfile.dob + (!isExternal && !friendMode && !simplified && currentProfile.dobComment != '' ? (' (' + currentProfile.dobComment + ')') : '');
 								cellDiv.appendChild(DOBspan);
 							
 								cell.appendChild(cellDiv);
@@ -347,12 +362,12 @@ function generateProfileFromJSON(profileName) {
 							cellDiv = document.createElement('div');
 							if(friendMode) cellDiv.style.textAlign = 'left';
 							if(friendMode) cellDiv.style.position = 'absolute';
-							if(!isExternal && !friendMode) 
-								cellDiv.innerText = profile.turningPoint.singerDebut 
+							if(!isExternal && !friendMode && !simplified) 
+								cellDiv.innerText = profile.turningPoint.soloDebut 
 											+ "|" + profile.turningPoint.swimsuitPhotobook 
 											+ "|" + profile.turningPoint.isMarried;
 							else
-								cellDiv.innerText = processTurningPoint(profile.turningPoint.singerDebut, false)
+								cellDiv.innerText = processTurningPoint(profile.turningPoint.soloDebut, false)
 											+ "|" + processTurningPoint(profile.turningPoint.swimsuitPhotobook, false) 
 											+ "|" + processTurningPoint(profile.turningPoint.isMarried, false);
 								
@@ -361,16 +376,9 @@ function generateProfileFromJSON(profileName) {
 						if(friendMode)
 						{
 							cellDiv = document.createElement('div');
-							
-							if(!isExternal && !friendMode) 
-								cellDiv.innerText = currentProfile.turningPoint.singerDebut 
-											+ "|" + currentProfile.turningPoint.swimsuitPhotobook 
-											+ "|" + currentProfile.turningPoint.isMarried;
-							else
-								cellDiv.innerText = processTurningPoint(currentProfile.turningPoint.singerDebut, false)
-											+ "|" + processTurningPoint(currentProfile.turningPoint.swimsuitPhotobook, false) 
-											+ "|" + processTurningPoint(currentProfile.turningPoint.isMarried, false);
-								
+							cellDiv.innerText = processTurningPoint(currentProfile.turningPoint.soloDebut, false)
+										+ "|" + processTurningPoint(currentProfile.turningPoint.swimsuitPhotobook, false) 
+										+ "|" + processTurningPoint(currentProfile.turningPoint.isMarried, false);
 							cell.appendChild(cellDiv);
 						}
 					
@@ -378,7 +386,7 @@ function generateProfileFromJSON(profileName) {
 						
 					profileTableBody.appendChild(row);
 					
-					if(!friendMode)
+					if(!friendMode && !simplified)
 					{
 						row = document.createElement('tr');
 						
@@ -481,7 +489,7 @@ function generateProfileFromJSON(profileName) {
 			
 			profileBox.appendChild(profileTable);
 			
-			if(!friendMode)
+			if(!friendMode && !simplified)
 			{
 				let commentBox = document.createElement('div');
 				commentBox.classList.add('profile-box-comments');
