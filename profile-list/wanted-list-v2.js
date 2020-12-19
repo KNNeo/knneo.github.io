@@ -7,11 +7,11 @@ function setThumbnails() {
         allThumbnails[i].style.height = Math.max(initialHeight, popHeight) + 'px';
 		allThumbnails[i].getElementsByClassName('thumbnail-toggle')[0].addEventListener('click', function() {
 			//switchThumbnails(closestClass(this, "thumbnail"));
-			setTimeout(switchThumbnails(this.parentElement.parentElement), 200);
+			//setTimeout(switchThumbnails(this.parentElement.parentElement), 200);
 		});
 		allThumbnails[i].getElementsByClassName('thumbnail-toggle')[1].addEventListener('click', function() {
 			//switchThumbnails(closestClass(this, "thumbnail"));
-			setTimeout(switchThumbnails(this.parentElement.parentElement), 200);
+			//setTimeout(switchThumbnails(this.parentElement.parentElement), 200);
 		});
 		//document.getElementById('isMarried').style.visibility = 'hidden';
     }
@@ -127,6 +127,11 @@ window.addEventListener("scroll", function() {
 	let timeline = document.getElementById("timeline");
 	if (timeline.getElementsByTagName("div").length > 0)
 		timeline.getElementsByTagName("div")[0].style.opacity = "0";
+});
+
+//prevent right click on images
+document.getElementById('profile').addEventListener("contextmenu", function(e) {
+	e.preventDefault();
 });
 
 //--variables--//
@@ -283,8 +288,8 @@ function generateWantedList(profileLink) {
 			renderProfileBox();
 			addStatusPopUp();
 			generateWantedList(this);
-			document.documentElement.scrollTop = 0;
-			//document.getElementById('profile').scrollIntoView();
+			//document.documentElement.scrollTop = 0;
+			document.getElementById('profile').scrollIntoView();
 			//if(!smallScreen) switchThumbnails(document.getElementsByClassName('thumbnail')[0]);
 		});
 		wantedList.getElementsByTagName("a")[id].addEventListener("contextmenu", function(e) {
@@ -293,8 +298,8 @@ function generateWantedList(profileLink) {
 			generateProfileFromJSON(this.innerText.replace(" ", ""));
 			renderProfileBox();
 			generateWantedList(this);
-			document.documentElement.scrollTop = 0;
-			//document.getElementById('profile').scrollIntoView();
+			//document.documentElement.scrollTop = 0;
+			document.getElementById('profile').scrollIntoView();
 			//if(!smallScreen) switchThumbnails(document.getElementsByClassName('thumbnail')[0]);
 			isExternal = !isExternal;
 		}, false);
@@ -428,10 +433,12 @@ function createCalendar(monthNo, DOBlist) {
 		else if (IsBirthdayOver) thisAge = item.currentAge - 1;
 		else thisAge = item.currentAge;
 		//console.log(item.name + "|" + birthdayInYear);
-		if (htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1 && htmlString.indexOf("<td>" + birthdayInYear.getDate() + "</td>") > -1 && item.name != "Me" && thisAge == '??') //if no age
+		if (thisAge == '??' && htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1 && htmlString.indexOf("<td>" + birthdayInYear.getDate() + "</td>") > -1 && item.name != "Me") //if no age
 			htmlString = htmlString.replace("<td>" + birthdayInYear.getDate() + "</td>", "<td style=\"color: " + setColour(item.category) + ";\"><div class=\"popitem\" style=\"padding: 1px;\">Happy Birthday <b>" + item.name + "</b>!!</div>" + birthdayInYear.getDate() + "</td>");
 		else if (htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1 && htmlString.indexOf("<td>" + birthdayInYear.getDate() + "</td>") > -1 && item.name != "Me") //normal
-			htmlString = htmlString.replace("<td>" + birthdayInYear.getDate() + "</td>", "<td style=\"color: " + setColour(item.category) + ";\"><div class=\"popitem\" style=\"padding: 1px;\"><b>" + item.name + "</b> turns " + thisAge + " (" + birthdayInYear.getDate() + " " + month[birthdayInYear.getMonth()].substring(0, 3) + ")</div>" + birthdayInYear.getDate() + "</td>");
+			htmlString = htmlString.replace("<td>" + birthdayInYear.getDate() + "</td>", "<td style=\"color: " + setColour(item.category) + ";\"><div class=\"popitem\" style=\"padding: 1px;\"><b>" + item.name + "</b> turns " + thisAge + " (" + birthdayInYear.getDate() + " " + month[birthdayInYear.getMonth()].substring(0, 3) + ")</div>" + birthdayInYear.getDate() + "</td>");	
+		else if (thisAge == '??' && htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1) //overlap DOBs, if no age
+			htmlString = htmlString.replace("</div>" + birthdayInYear.getDate() + "</td>", "<br />Happy Birthday <b>" + item.name + "</b>!!</div>" + birthdayInYear.getDate() + "</td>");
 		else if (htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1) //overlap DOBs
 			htmlString = htmlString.replace("</div>" + birthdayInYear.getDate() + "</td>", "<br /><b>" + item.name + " turns " + (IsBirthdayOver ? item.currentAge - 1 : item.currentAge) + "</b> (" + birthdayInYear.getDate() + " " + month[birthdayInYear.getMonth()].substring(0, 3) + ")</div>" + birthdayInYear.getDate() + "</td>");
 	}
@@ -453,14 +460,19 @@ function createCalendar(monthNo, DOBlist) {
 function setColour(categoryId) {
 	//default list always first, so overlap is default color
 	switch(categoryId) {
-		case 'alterna':
-			return '#fbc9f0';
-		case 'doaxvv':
-			return '#e6e600';
+		case 'alterna': //alterna
+			return 'pink';
+		case 'doaxvv': //doaxvv
+			return 'lime';
 		default:
-			return '#00e4ff';
+			return 'cyan';
 	}
 }
+
+document.getElementById('calendar-legend').innerHTML = 
+'<div style="background-color: pink; display: inline-block; height: 10px; width: 10px;"></div><span style="padding: 0 5px;">Alterna</span>' +
+'<div style="background-color: lime; display: inline-block; height: 10px; width: 10px;"></div><span style="padding: 0 5px;">DOAXVV</span>' +
+'<div style="background-color: cyan; display: inline-block; height: 10px; width: 10px;"></div><span style="padding: 0 5px;">Seiyuu</span>';
 
 //to shift position of knots if overlap with previous
 function adjustKnots() {
@@ -481,8 +493,8 @@ function addProfileBoxClick() {
 		//}
 		document.body.scrollTop = 0; // For Safari
 		document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-		switchThumbnails(document.getElementsByClassName('thumbnail')[0]);
-		adjustThumbnailHeight(document.getElementsByClassName('thumbnail')[0]);
+		//switchThumbnails(document.getElementsByClassName('thumbnail')[0]);
+		//adjustThumbnailHeight(document.getElementsByClassName('thumbnail')[0]);
 	});
 }
 
@@ -586,7 +598,7 @@ function resizeAllProfileBoxImg() {
 		resizeProfileBoxImg(image);
 	}
 	
-	adjustThumbnailHeight(document.getElementsByClassName('thumbnail')[0]);
+	//adjustThumbnailHeight(document.getElementsByClassName('thumbnail')[0]);
 }
 
 function resizeProfileBoxImg(image) {

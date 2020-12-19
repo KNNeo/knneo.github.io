@@ -47,6 +47,10 @@ p {
 	border: 1px solid white;
 	padding: 5px;
 }
+#profile {
+	top: 38px;
+	background-color: black;
+}
 @media only screen and (max-width : 1040px) {
   html { font-size: 0.8em; }
 }

@@ -138,7 +138,9 @@ function generateProfileFromJSON(profileName) {
 	
 	let idBox = document.createElement('div');
 	idBox.id = profile.id;
-	idBox.style.padding = '20px 0';
+	//idBox.style.padding = '20px 0';
+	idBox.style.width = '90%';
+	idBox.style.margin = 'auto';
 	
 		let profileBox = document.createElement('div');
 		profileBox.classList.add('profile-box');
