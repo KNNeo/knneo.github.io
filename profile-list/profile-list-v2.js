@@ -188,6 +188,7 @@ function generateProfileFromJSON(profileName) {
 			let image2Source = profile.image;
 			if(friendMode)
 			{
+				if(currentProfile.landscapes == undefined) currentProfile.landscapes = [];
 				if(profile.portraits.length == 0) profile.portraits.push(profile.image);
 				if(currentProfile.portraits == undefined) currentProfile.portraits = [];
 				if(currentProfile.portraits.length == 0) currentProfile.portraits.push(currentProfile.image);
