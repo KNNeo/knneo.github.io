@@ -51,9 +51,12 @@ function preProcessProfileList(inputList) {
 				});
 	for(let profile of profiles)
 	{
-		for(let image of profile.images)
+		if(profile.landscapes == undefined) profile.landscapes = [];
+		if(profile.portraits == undefined) profile.portraits = [];
+		let allImages = profile.landscapes.concat(profile.portraits).concat(profile.image);
+		for(let image of allImages)
 		{
-			//if(image.includes('.blogspot.com')) continue;
+			if(image.includes('knneo.webs.com')) continue;
 			let profileNames = [profile.name];
 			imgArray.push([1, image, 'portrait', profileNames.join("|"), '']);
 		}
@@ -64,7 +67,6 @@ function preProcessProfileList(inputList) {
 	{
 		for(let friend of friendList.friends)
 		{
-			if(friend.image.includes('.blogspot.com')) continue;
 			let friendIds = friend.id.split('-');
 			let friendNames = ['*Twoshots Only'];
 			for(let f of friendIds)
