@@ -53,18 +53,19 @@ function preProcessProfileList(inputList) {
 	{
 		for(let image of profile.images)
 		{
-			if(image.includes('.blogspot.com')) continue;
-			imgArray.push([1, image, 'portrait', profile.name, '']);
+			//if(image.includes('.blogspot.com')) continue;
+			let profileNames = [profile.name];
+			imgArray.push([1, image, 'portrait', profileNames.join("|"), '']);
 		}
 	}
 	for(let friendList of inputList.filter( function(n) {
 					return n.category == 'friendList';
 				}))
 	{
-		for(let image of friendList.friends)
+		for(let friend of friendList.friends)
 		{
-			if(image.image.includes('.blogspot.com')) continue;
-			let friendIds = image.id.split('-');
+			if(friend.image.includes('.blogspot.com')) continue;
+			let friendIds = friend.id.split('-');
 			let friendNames = ['*Twoshots Only'];
 			for(let f of friendIds)
 			{
@@ -72,7 +73,7 @@ function preProcessProfileList(inputList) {
 					return f == n.id;
 				})[0].name);
 			}
-			imgArray.push([1, image.image, 'portrait', friendNames.join("|"), '']);
+			imgArray.push([1, friend.image, 'portrait', friendNames.join("|"), '']);
 		}
 	}
 }
