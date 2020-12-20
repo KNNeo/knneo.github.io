@@ -1,0 +1,28 @@
+create table Export as select 
+s.KNID, 
+s.KNJAPAN, 
+s.KNJPOP, 
+s.KNYEAR, 
+s.Filename, 
+s.SongTitle, 
+s.ArtistTitle, 
+s.ParentArtist, 
+s.ReleaseTitle, 
+s.ReleaseArtistTitle, 
+s.ReleaseYear, 
+s.Rating, 
+s.Genre, 
+s.DateCreated, 
+s.VocalCode, 
+s.LanguageCode, 
+am.InLibrary as InAppleMusic,
+s.LyricsURL, 
+s.SongTitleAlt, 
+s.ArtistTitleAlt,
+s.ReleaseTitleAlt, 
+s.ReleaseArtistTitleAlt, 
+a.ArtistCode 
+from Song s
+join Artist a on s.ArtistTitle = a.ArtistTitle
+join AppleMusic am on s.KNID = am.KNID
+order by s.KNID;

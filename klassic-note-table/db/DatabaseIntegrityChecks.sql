@@ -5,7 +5,9 @@
 select distinct Song.ArtistTitle from Song left join Artist on Song.ArtistTitle = Artist.ArtistTitle where Artist.ArtistID is NULL order by Song.ArtistTitle
 
 --Every Song must have an associated Release, with details to map
-select distinct Song.ReleaseArtistTitle, Song.ReleaseTitle from Song left join Release on replace(replace(replace(Song.ReleaseTitle,' Disc 1',''),' Disc 2',''),' Disc 3','') = Release.ReleaseTitle and Song.ReleaseArtistTitle = Release.ReleaseArtistTitle where Release.ReleaseID is NULL order by Song.ReleaseArtistTitle, replace(replace(replace(Song.ReleaseTitle,' Disc 1',''),' Disc 2',''),' Disc 3','')
+select distinct Song.KNYEAR, Song.ReleaseArtistTitle, Song.ReleaseTitle from Song left join Release on replace(replace(replace(Song.ReleaseTitle,' Disc 1',''),' Disc 2',''),' Disc 3','') = Release.ReleaseTitle and Song.ReleaseArtistTitle = Release.ReleaseArtistTitle where Release.ReleaseID is NULL order by Song.ReleaseArtistTitle, replace(replace(replace(Song.ReleaseTitle,' Disc 1',''),' Disc 2',''),' Disc 3','')
+----Releases with multiple discs
+select distinct ReleaseTitle from Song where lower(ReleaseTitle) like '%disc %'
 
 --Every ParentArtist must be in Song list
 --[[ParentArtist as of Artist table can be descriptive of its members and therefore not in Song list as ArtistTitle eg. STARTails]]--
