@@ -52,6 +52,29 @@ window.addEventListener('resize',function () {
 	}
 	closeViewer();
 });
+window.addEventListener('keydown', function(event) {
+	event.preventDefault();
+	if (event.keyCode === 33) //"PageUp" key
+	{
+		let gallery = document.getElementsByClassName("profile-category")[0];
+		gallery.scrollTo(gallery.scrollLeft-window.innerWidth*.9,0);
+		reSnap();
+	}
+	if (event.keyCode === 34) //"PageDown" key
+	{
+		let gallery = document.getElementsByClassName("profile-category")[0];
+		gallery.scrollTo(gallery.scrollLeft+window.innerWidth*.9,0);
+		reSnap();
+	}
+	if (event.keyCode === 35) //"End" key
+	{
+		document.getElementsByClassName("profile-box")[document.getElementsByClassName("profile-box").length-1].scrollIntoView();
+	}
+	if (event.keyCode === 36) //"Home" key
+	{
+		document.getElementsByClassName("profile-box")[0].scrollIntoView();
+	}
+});
 
 //--COMMON LOADER--//
 //should add in here only if common; reconcile all differences via settings
