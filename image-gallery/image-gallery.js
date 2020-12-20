@@ -84,13 +84,11 @@ function renderPage(pageName) {
 	for(let link of links)
 	{
 		if(pageName.includes(link)) continue;
+		if(link == links[0] && !window.location.href.includes('knneo.github.io')) continue;
 		let newLink = document.createElement('div');
-		//newLink.href = link;
 		newLink.classList.add('shadowed');
 		newLink.style.display = 'inline-block';
 		newLink.style.padding = '5px 10px';
-		//newLink.style.borderLeft = '1px solid gray';
-		//newLink.style.borderRight = '1px solid gray';
 		newLink.style.verticalAlign = 'bottom';
 		newLink.style.cursor = 'pointer';
 		newLink.addEventListener('click', function() { loadPage(link); });
@@ -322,6 +320,23 @@ function renderPage(pageName) {
 			});
 			settingsDiv.appendChild(viewing);
 		}
+		
+		if(enableShadows)
+		{
+			let shadows = document.createElement('i');
+			shadows.id = 'enable-shadows';
+			shadows.title = 'Toggle Shadows';
+			shadows.classList.add('material-icons');
+			shadows.style.cursor = 'pointer';
+			shadows.style.padding = '5px';
+			shadows.style.transform = 'scaleX(-1)';
+			shadows.innerText = localStorage.getItem("enableShadows") == "true" ? 'filter' : 'crop_original';
+			shadows.addEventListener('click', function() {
+				localStorage.setItem("enableShadows", localStorage.getItem("enableShadows") == "true" ? false : true);
+				loadPage(document.body.id);
+			});
+			settingsDiv.appendChild(shadows);
+		}
 	
 	frame.appendChild(settingsDiv);
 	
@@ -436,6 +451,8 @@ function loadSettings() {
 	if(descriptionClosed == null) localStorage.setItem("descriptionClosed", false);
 	enableViewer = localStorage.getItem("enableViewer") == "true";
 	if(enableViewer == null) localStorage.setItem("enableViewer", enableViewer);
+	enableShadows = localStorage.getItem("enableShadows") == "true";
+	if(enableShadows == null) localStorage.setItem("enableShadows", enableShadows);
 }
 
 function loadData(pageName) {
@@ -532,8 +549,8 @@ function renderGallery(array) {
 		if(img[0] == 0 || img[0] == 999) continue;
 		let profileBoxHTML = document.createElement('DIV');
 		profileBoxHTML.classList.add('profile-box');
-		if(enableShadows) profileBoxHTML.classList.add('shadowed');
-		if(!enableShadows) profileBoxHTML.classList.add('unshadowed');
+		if(enableShadows && localStorage.getItem("enableShadows") == "true") profileBoxHTML.classList.add('shadowed');
+		else if(localStorage.getItem("enableShadows") != "true") profileBoxHTML.classList.add('unshadowed');
 		let profileBoxImgHTML = document.createElement('DIV');
 		profileBoxImgHTML.classList.add('profile-box-img');
 		let imgHTML = document.createElement('IMG');

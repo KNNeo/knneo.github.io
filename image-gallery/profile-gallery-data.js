@@ -6,7 +6,7 @@
 
 //--REINITIALISE SETTINGS--//
 enableViewer = true; //images smaller than screen will not resize up
-enableOrientation = false; //assume has values in orientation column
+enableOrientation = true; //assume has values in orientation column
 enableSlideshow = true; //enable slideshow button
 enableFullscreenSlideshow = window.innerWidth <= 640;; //enable fullscreen button for slideshow, for browser only not viewer
 enableShadows = true; //removes shadows and borders in images
