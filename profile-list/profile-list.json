@@ -1270,8 +1270,14 @@
 		"category":"seiyuu3",
 		"id":"OmigawaChiaki",
 		"image":"https://knneo.webs.com/omigawachiaki.jpg",
-		"landscapes":[],
-		"portraits":[],
+		"landscapes":[
+			"https://pbs.twimg.com/media/EpKXx9WVQAEIFuO?format=jpg&name=small",
+			"https://pbs.twimg.com/media/EoymjfaU0AEzjt_?format=jpg&name=small",
+			"https://pbs.twimg.com/media/EoHRuhoUcAEh0Oe?format=jpg&name=small",
+		],
+		"portraits":[
+			"https://pbs.twimg.com/media/EoiPVSYVoAE0-cz?format=jpg&name=small"
+		],
 		"name":"Omigawa Chiaki",
 		"nickname":"-chan?*",
 		"dob":"1989.11.11",
