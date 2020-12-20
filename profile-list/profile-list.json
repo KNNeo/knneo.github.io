@@ -188,8 +188,12 @@
 		"category":"seiyuu0",
 		"id":"BabaFumika",
 		"image":"https://knneo.webs.com/babafumika.jpg",
-		"landscapes":[],
+		"landscapes":[
+			"https://pbs.twimg.com/media/Eo2zXyyVgAAed6a?format=jpg&name=small",
+		],
 		"portraits":[
+			"https://wpb.shueisha.co.jp/news/entertainment/2020/images/814ca7af931ed7d89b20509a405ef8b03c95371b.jpg",
+			"https://wpb.shueisha.co.jp/news/entertainment/2020/images/201202_playboy_0428.jpg",
 			"https://pbs.twimg.com/media/EnvUIA1UwAIk2S_?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EnvTXqJVgAAbPTu?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EnvTJCdVkAEsdKF?format=jpg&name=small",
