@@ -43,7 +43,7 @@ document.getElementById('tickboxAll').addEventListener("click", function() {
 	if(this.checked) resetPresets();
 });
 
-//generate tickboxes for all columns
+//COLUMN TICKBOXES--//
 function generateFilters(filters) {
 	if(filters.columns.length == 0) return;
 
@@ -76,57 +76,25 @@ function generateFilters(filters) {
 		columnTickbox.addEventListener('click', function() {
 			if(!this.checked) document.getElementById('dbInput'+column).style.display = 'none';
 			else document.getElementById('dbInput'+column).style.display = '';
+			
+			document.getElementById('tickboxAll').checked = false;
+			resetPresets();
 		});
-		
-		columnTickbox.addEventListener('click', function() {
-				document.getElementById('tickboxAll').checked = false;
-				resetPresets();
-			});
 		
 		document.getElementById('table-columns').appendChild(columnSpan);
 	}
 	
-	let ex = exColumns.map(e => e.title);
-	document.getElementById('tickboxAll').checked = filters.columns.length == filters.allColumns.filter(col => ex.indexOf(col) < 0).length;
-	//generateSearchFromFilters(filters);
-	
+	document.getElementById('tickboxAll').checked = filters.columns.length == filters.allColumns.length;
 }
 
-function resetPresets() {
-	for(let preset of document.getElementById('table-preset-ticks').getElementsByTagName('input'))
-	{
-		preset.checked = preset.name == "presetAll";
-	}
-
-}
-
-//generate search for all displayed columns only (assume if not filtered shouldn't be able to search)
-function generateSearchFromFilters(filters) {
-	let tableFilters = document.getElementById('table-filter');
-	
-	tableFilters.innerHTML = '';
-	for (let column of filters.columns)
-	{
-		let columnInput = document.createElement('input');
-		columnInput.id = 'dbInput' + column.replace(' ','');
-		columnInput.type = 'text';
-		columnInput.placeholder = column;
-		columnInput.title = 'search';
-		
-		columnInput.addEventListener('keyup', function(event) {
-			// Number 13 is the "Enter" key on the keyboard
-			if (event.keyCode === 13) {
-				// Cancel the default action, if needed
-				event.preventDefault();
-				// Trigger the button element with a click
-				document.getElementById("dbSubmitButton").click(this);
-			}
-		});
-		
-		tableFilters.appendChild(columnInput);
+function resetFilters() {
+	document.getElementById('tickboxAll').checked = true;
+	for (let input of document.getElementsByTagName("input")) {
+		if (input.type == "checkbox") input.checked = true;
 	}
 }
 
+//--COLUMN INPUTS--//
 function generateSearch(filters) {
 	let tableFilters = document.getElementById('table-filter');
 	
@@ -154,22 +122,54 @@ function generateSearch(filters) {
 	}
 }
 
+function resetSearch() {
+	for (let input of document.getElementsByTagName("input")) {
+		if (input.title == "search") input.value = "";
+	}
+}
+
+//event
+function generateSearchFromFilters(filters) {
+	let tableFilters = document.getElementById('table-filter');
+	
+	tableFilters.innerHTML = '';
+	for (let column of filters.columns)
+	{
+		let columnInput = document.createElement('input');
+		columnInput.id = 'dbInput' + column.replace(' ','');
+		columnInput.type = 'text';
+		columnInput.placeholder = column;
+		columnInput.title = 'search';
+		
+		columnInput.addEventListener('keyup', function(event) {
+			// Number 13 is the "Enter" key on the keyboard
+			if (event.keyCode === 13) {
+				// Cancel the default action, if needed
+				event.preventDefault();
+				// Trigger the button element with a click
+				document.getElementById("dbSubmitButton").click(this);
+			}
+		});
+		
+		tableFilters.appendChild(columnInput);
+	}
+}
+
+//--PRESET RADIO INPUTS--//
 function generatePresets() {
 	if(document.getElementById('table-preset-ticks').style.display == 'block') return;
-
-	/*
-	document.getElementById('table-presets').innerHTML = '';
-	
-	let columnPreset = document.createElement('input');
-	columnPreset.classList.add('preset');
-	columnPreset.type = 'radio';
-	columnPreset.value = 'radio';
-	
-	document.getElementById('table-presets').appendChild(columnPreset);
-	*/		
 	document.getElementById('table-preset-ticks').style.display = 'block';
 }
 
+function resetPresets() {
+	for(let preset of document.getElementById('table-preset-ticks').getElementsByTagName('input'))
+	{
+		preset.checked = preset.name == "presetAll";
+	}
+
+}
+
+//event
 function generateSearchOnPreset(radioInput) {
 	let radioId = radioInput.id;
 	for (let radio of document.getElementById('table-preset-ticks').getElementsByTagName('input'))
@@ -185,73 +185,49 @@ function generateSearchOnPreset(radioInput) {
 		if(radioId == 'preset2') column.checked = preset2Array.indexOf(column.value) >= 0;
 		if(radioId == 'preset3') column.checked = preset3Array.indexOf(column.value) >= 0;
 	}
-	
 	loadTableFromCSV();
 }
 
 //--FUNCTIONS--//
-function resetFunction() {
+function resetTable() {
 	resetPresets();
-	resetTickboxes();
+	resetFilters();
 	resetSearch();
 	loadTableFromCSV();
 }
 
-function resetSearch() {
-	for (let input of document.getElementsByTagName("input")) {
-		if (input.title == "search") input.value = "";
-	}
-}
-
-function resetTickboxes() {
-	document.getElementById('tickboxAll').checked = true;
-	for (let input of document.getElementsByTagName("input")) {
-		if (input.type == "checkbox") input.checked = true;
-	}
-}
-
 function filterRows(table) {
-	let tableFilters = document.getElementById('table-filter').getElementsByTagName('input');
-	let tableFilterNos = [];
-	for(let filter of tableFilters)
-	{
-		tableFilterNos.push(filter.placeholder);
-	}
-	
-	if (tableFilterNos.length == 0) return table;
-	let validFilters = [];
-	for(let column of tableFilters)
+	let filtersWithInput = [];
+	for(let column of document.getElementById('table-filter').getElementsByTagName('input'))
 	{
 		if(column.value != '')
-			validFilters.push({
+			filtersWithInput.push({
 				columnNo: column.placeholder,
 				columnValue: column.value.toUpperCase().trim()
 			});
-	} //columns that have value
+	}
 
-	
-	
 	// let strictMode = inputSongTitle != '' && inputArtistTitle != '' && inputReleaseYear != ''&& inputArtistCode != '';
 	
 	//if all search are empty, return table, else filter
-	//if (inputSongTitle + inputArtistTitle + inputReleaseYear + inputArtistCode == '') return table;
-	if (validFilters.length == table.columns.length || validFilters.length == 0) return table;
+	if (filtersWithInput.length == table.columns.length || filtersWithInput.length == 0) return table;
 	else {
-		let newTable = new p5.Table();
-		newTable.columns = table.columns; //all columns
-		let rows = table.getRows();
+		let newTable = new p5.Table(); //(Note: table is mutable variable!)
+		newTable.columns = table.columns; //to change in filterColumns
 		for (let r = 0; r < table.getRows().length; r++) {
 			let validInput = 0;
 			let validRows = 0;
 			
 			//filter per row
 			//have to filter by type: if is int then getInt, else below
-			for(let v = 0; v < validFilters.length; v++)
+			for(let v = 0; v < filtersWithInput.length; v++)
 			{
-				if(table.getString(r, validFilters[v].columnNo) != '' && table.getString(r, validFilters[v].columnNo).toUpperCase().includes(validFilters[v].columnValue)) validRows++;
+				if(table.getString(r, filtersWithInput[v].columnNo) != '' &&
+				table.getString(r, filtersWithInput[v].columnNo).toUpperCase().includes(filtersWithInput[v].columnValue))
+					validRows++;
 			}
 
-			if (validRows >= validFilters.length) newTable.addRow(table.getRow(r));
+			if (validRows >= filtersWithInput.length) newTable.addRow(table.getRow(r));
 			//console.log(r);
 		}
 		return newTable;
@@ -273,52 +249,49 @@ function loadTableFromCSV() {
 	button.hide();
 	document.getElementById("table-result").innerText = "Loading...";
 	//table is comma separated value "csv" and has a header specifying the columns labels
-	let table = loadTable('https://knneo.github.io/klassic-note-table/klassic-note-database-song-table.csv', 'csv', 'header', createTable);
+	let table = loadTable(
+		'https://knneo.github.io/klassic-note-table/klassic-note-database-song-table.csv', 
+		'csv', 
+		'header', 
+		createTable);
 }
 
 //--CALLBACK FUNCTION--//
 function createTable(table) {
-	//original table properties need to take before modifications (table taken as global)
+	//ORIGINAL TABLE PROCESSING//
 	let allColumns = [];
 	for (let column of table.columns)
 	{
 		allColumns.push(column);
 	}
-	for (let column of exColumns)
-	{
-		allColumns.push(column.title);
-	}
-	
-	//filter results based on input and checkboxes
-	filterRows(table);
-	filterColumns(table);
-	
 	//reset search according to columns selected
 	generateSearch(allColumns);
 	
-	//count rows
-	let maxRow = table.getRowCount() > maxRows ? maxRows : table.getRowCount();
-	//display count
-	document.getElementById("table-result").innerText = table.getRowCount() + " result" + (table.getRowCount() != 1 ? "s" : "") + " found";
-	if (table.getRowCount() > maxRow) document.getElementById("table-result").innerText += "; Displaying first "+maxRow+" results";
-
-	//table to array
-	let tableArray = table.getArray();
-	let tableHTML;
+	//FILTER RESULTS//
+	//(Note: table is mutable variable!)
+	table = filterRows(table);
+	table = filterColumns(table);
 	
+	//display row count
+	let maxRow = table.getRowCount() > maxRows ? maxRows : table.getRowCount();
+	document.getElementById("table-result").innerText = 
+		table.getRowCount() + " result" + (table.getRowCount() != 1 ? "s" : "") + " found";
+	if (table.getRowCount() > maxRow)
+		document.getElementById("table-result").innerText += "; Displaying first "+maxRow+" results";
+
+	//remap column tickboxes
+	generateFilters({ 
+		columns: table.columns,
+		allColumns: allColumns
+	});
+	
+	//create table
 	let knTable = document.createElement('table');
 	let knTableBody = document.createElement('tbody');
 	let knTableHeader = document.createElement('tr');
 	knTableHeader.classList.add('header');
 	
-	//header
-	let filters = { 
-		columns: table.columns,
-		allColumns: allColumns
-	};
-	
-	generateFilters(filters);
-
+	//headers
 	for (let column of table.columns)
 	{
 		let knColumn = document.createElement('th');
@@ -326,20 +299,10 @@ function createTable(table) {
 		knColumn.innerText = column;
 		knTableHeader.appendChild(knColumn);
 	}
-	for (let column of exColumns)
-	{
-		let id = document.getElementById('tickbox' + column.title);
-		if(allColumns.indexOf(column.title) >= 0)// && id != null && id.checked)
-		{
-			knColumn = document.createElement('th');
-			knColumn.id = 'column' + column.title.replace(' ','');
-			knColumn.innerText = column.title;
-			knTableHeader.appendChild(knColumn);
-		}
-	}
 	knTableBody.appendChild(knTableHeader);
 	
 	//content
+	let tableArray = table.getArray();
 	for (let i = 0; i < maxRow; i++) {
 		let knTableRow = document.createElement('tr');
 		if (i >= 0) {
@@ -361,25 +324,6 @@ function createTable(table) {
 				knTableRow.appendChild(knTableCell);
 			}
 			
-			//derived as in exColumns
-			for(let column of exColumns)
-			{	
-				let id = document.getElementById('tickbox' + column.title);
-				if(allColumns.indexOf(column.title) >= 0)// && id != null && id.checked)
-				{
-					knTableCell = document.createElement('td');
-					knTableCell.classList.add(column.title);
-					knTableCell.setAttribute('nowrap','nowrap');
-					//a tag
-					let knTableLink = document.createElement('a');
-					knTableLink.href = 'javascript:void(0)';
-					//knTableLink.addEventListener('click', function() { processCustomColumn(this); });
-					knTableLink.innerText = column.cellText;
-					knTableCell.appendChild(knTableLink);
-					knTableRow.appendChild(knTableCell);
-				}
-			}
-			
 			knTableBody.appendChild(knTableRow);
 			continue;
 		}
@@ -397,47 +341,7 @@ function createTable(table) {
 		return;
 	}
 	
-	//set custom column events
-	for(let column of exColumns)
-	{
-		for(let ex of document.getElementsByClassName(column.title))
-		{
-			ex.addEventListener('click', function() { processCustomColumn(this); });
-		}
-	}
-	
 	generatePresets();
-}
-
-function processCustomColumn(cell) {
-	let ex = exColumns.filter(e => e.cellText == cell.innerText)[0];
-	let row = cell.parentElement;
-	switch(cell.innerText) {
-		case 'Month Created':
-			//set no preset
-			resetPresets();
-			//ensure DateCreated tickbox checked
-			for (let input of document.getElementsByTagName("input")) {
-				if (input.type == "checkbox") input.checked = input.value == ex.destColumn;
-			}
-			//add search in input
-			let dateCreated = row.getElementsByClassName('DateCreated')[0];
-			for (let input of document.getElementsByTagName("input")) {
-				if (input.title == "search" && input.placeholder == ex.destColumn)
-					input.value = dateCreated.innerText.length > 0 ? dateCreated.innerText.substring(0,7) : '';
-			}
-			//load
-			loadTableFromCSV();
-		default:
-			loadTableFromCSV();
-	}
-	/* 
-	//no preset
-	resetPresets();
-	//all tickboxes
-	resetTickboxes();
-	//fill in search
-	loadTableFromCSV(); */
 }
 
 //--P5.JS MAIN FUNCTION--//
@@ -446,5 +350,5 @@ function setup() {
 	button = createButton('Load Table');
 	button.mousePressed(loadTableFromCSV);
 	if(isMobile) document.getElementById('table-filter').removeAttribute('position');
-	resetFunction();
+	resetTable();
 }
