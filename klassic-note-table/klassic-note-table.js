@@ -264,8 +264,6 @@ function createTable(table) {
 	{
 		allColumns.push(column);
 	}
-	//reset search according to columns selected
-	generateSearch(allColumns);
 	
 	//FILTER RESULTS//
 	//(Note: table is mutable variable!)
@@ -279,6 +277,8 @@ function createTable(table) {
 	if (table.getRowCount() > maxRow)
 		document.getElementById("table-result").innerText += "; Displaying first "+maxRow+" results";
 
+	//reset search according to columns selected
+	generateSearch(allColumns);
 	//remap column tickboxes
 	generateFilters({ 
 		columns: table.columns,
