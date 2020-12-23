@@ -21,11 +21,19 @@ h1 {
 	margin: 20px 0;
 }
 
-table, td, th { 
-	border: 1px solid black; 
+table {
+	border-collapse: collapse;
+	font-size: 0.9em;
+}
+
+td, th { 
 	padding: 2px 4px; 
 	font-size: 0.9em;
-	border-collapse: collapse;
+	border: 1px solid black; 
+}
+
+.empty td {
+	border: 1px solid transparent;
 }
 
 .darked td {

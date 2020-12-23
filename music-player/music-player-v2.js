@@ -317,6 +317,7 @@ function generateTable(tableID) {
 	while(tbody.getElementsByTagName('tr').length < 25)
 	{
 		let tf = document.createElement('tr');
+		tf.classList.add('empty');
 		tf.style.visibility = 'hidden';
 		
 		let td = document.createElement('td');
@@ -371,12 +372,9 @@ function generateSidemenu() {
 		item.classList.add('year');
 		item.innerText = year;
 		item.addEventListener('click', function() {
+			window.location.hash = '#' + this.innerText;
 			tableID = this.innerText;
 			playerID = this.innerText + 'Player';
-			//for(let player of document.getElementsByClassName('player'))
-			//{
-			//	player.load();
-			//}
 			generateTable(tableID);
 			generatePlayer(tableID);
             clearInterval(timer);
@@ -384,6 +382,18 @@ function generateSidemenu() {
 			hideIrrelevant();
 		});
 		document.getElementById('sidebar').appendChild(item);
+	}
+	
+	//if location has anchor, click on year (eg. "?year=2020")
+	if(years.indexOf(window.location.hash.slice(1)) >= 0)
+	{
+			tableID = window.location.hash.slice(1);
+			playerID = window.location.hash.slice(1) + 'Player';
+			generateTable(tableID);
+			generatePlayer(tableID);
+            clearInterval(timer);
+			clearTimestamp();
+			hideIrrelevant();
 	}
 }
 
