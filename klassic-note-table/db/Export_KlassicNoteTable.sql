@@ -1,4 +1,5 @@
-create table Export as select 
+create table Export as
+select 
 s.KNID, 
 s.KNJAPAN, 
 s.KNJPOP, 
@@ -23,6 +24,6 @@ s.ReleaseTitleAlt,
 s.ReleaseArtistTitleAlt, 
 a.ArtistCode 
 from Song s
-join Artist a on s.ArtistTitle = a.ArtistTitle
+join (select distinct ArtistTitle, ArtistCode from Artist) a on s.ArtistTitle = a.ArtistTitle
 join AppleMusic am on s.KNID = am.KNID
 order by s.KNID;
