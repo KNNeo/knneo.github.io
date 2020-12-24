@@ -223,7 +223,9 @@
 		"category":"seiyuu0",
 		"id":"TachibanaHaru",
 		"image":"https://knneo.webs.com/tachibanaharu.jpg",
-		"landscapes":[],
+		"landscapes":[
+			"https://pbs.twimg.com/media/Ep60WrYUcAACZWb?format=jpg&name=small",
+		],
 		"portraits":[
 			"https://pbs.twimg.com/media/EpbO6T_UcAI0to6?format=jpg&name=small",
 			"https://pbs.twimg.com/media/En7hKqjUUAAAUI0?format=jpg&name=small",
@@ -381,6 +383,7 @@
 			
 		],
 		"portraits":[
+			"https://pbs.twimg.com/media/Ep7qG9jU0AEl3uV?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EpXuG3aUUAA8Szl?format=jpg&name=small",
 			"https://image.news.livedoor.com/newsimage/stf/5/1/514daad1c94019507cf655781094c3f4.jpg"
 		],
@@ -913,6 +916,7 @@
 		"image":"https://knneo.webs.com/touyamanao.jpg",
 		"landscapes":[],
 		"portraits":[
+			"https://pbs.twimg.com/media/EqAUDLlVoAAPLp4?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EpLVguRVQAABtLo?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EojH4tJUwAAzgno?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EogkhLIUwAAvpG-?format=jpg&name=small",
@@ -1008,6 +1012,7 @@
 		"id":"FuchigamiMai",
 		"image":"https://knneo.webs.com/fuchigamimai.jpg",
 		"landscapes":[
+			"https://pbs.twimg.com/media/EqAHAt5VgAEjuAi?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EjUQAo-UYAQfnP6?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EVKHdGdU8AEW8qy?format=jpg&name=small"			
 		],
@@ -1193,6 +1198,7 @@
 			"https://pbs.twimg.com/media/EgMjO-aVAAE4Rqc?format=jpg&name=small"
 		],
 		"portraits":[
+			"https://cdnx.natalie.mu/media/pp/static/comic/joseetora/g_04.jpg",
 			"https://pbs.twimg.com/media/ElJX3QMUYAAgt9R?format=jpg&name=small"
 		],
 		"name":"Lynn",
