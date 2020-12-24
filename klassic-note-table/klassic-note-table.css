@@ -27,9 +27,6 @@ p, h1 {
 	-ms-user-select: none;
 	user-select: none;
 }
-#table-preset-ticks {
-	display: none;
-}
 #darkmode {
 	padding-left: 10px;
 	vertical-align: bottom;

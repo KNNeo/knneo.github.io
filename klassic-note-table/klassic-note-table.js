@@ -98,9 +98,16 @@ function resetFilters() {
 function generateSearch(filters) {
 	let tableFilters = document.getElementById('table-filter');
 	
-	tableFilters.innerHTML = '';
-	for (let column of filters)
+	//tableFilters.innerHTML = '';
+	for (let column of filters.allColumns)
 	{
+		if(document.getElementById('dbInput' + column.replace(' ','')) != null)
+		{
+			if(filters.columns.indexOf(column) < 0)
+				document.getElementById('dbInput' + column.replace(' ','')).remove();
+			continue;
+		}
+		
 		let columnInput = document.createElement('input');
 		columnInput.id = 'dbInput' + column.replace(' ','');
 		columnInput.type = 'text';
@@ -118,6 +125,10 @@ function generateSearch(filters) {
 			}
 		});
 		
+		columnInput.addEventListener('input', function(event) {
+			this.style.textAlign = this.value.length > 0 ? 'right' : '';
+		});
+		
 		tableFilters.appendChild(columnInput);
 	}
 }
@@ -125,6 +136,7 @@ function generateSearch(filters) {
 function resetSearch() {
 	for (let input of document.getElementsByTagName("input")) {
 		if (input.title == "search") input.value = "";
+		input.style.textAlign = '';
 	}
 }
 
@@ -258,6 +270,7 @@ function loadTableFromCSV() {
 
 //--CALLBACK FUNCTION--//
 function createTable(table) {
+	let start = Date.now();
 	//ORIGINAL TABLE PROCESSING//
 	let allColumns = [];
 	for (let column of table.columns)
@@ -278,7 +291,10 @@ function createTable(table) {
 		document.getElementById("table-result").innerText += "; Displaying first "+maxRow+" results";
 
 	//reset search according to columns selected
-	generateSearch(allColumns);
+	generateSearch({ 
+		columns: table.columns,
+		allColumns: allColumns
+	});
 	//remap column tickboxes
 	generateFilters({ 
 		columns: table.columns,
@@ -333,15 +349,16 @@ function createTable(table) {
 	knTable.appendChild(knTableBody);
 	
 	//assign
-	document.getElementById("dbTable").innerHTML = knTable.innerHTML;
+	document.getElementById("dbTable").innerHTML = knTable.innerHTML;	
+	//generatePresets();
+	
 	//disable input until load complete
 	if(table.columns == 0) {
 		document.getElementById("dbTable").innerHTML = '';
 		document.getElementById("table-result").innerText = "All has been deselected. Check something to display results";
 		return;
 	}
-	
-	generatePresets();
+	// console.log(Date.now() - start);
 }
 
 //--P5.JS MAIN FUNCTION--//
