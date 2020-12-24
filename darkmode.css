@@ -35,6 +35,14 @@ html, div {
 	user-select: none; 
 }
 
+tr:hover {
+	background-color: lightgray;
+}
+.darked tr:hover {
+	background-color: gray;
+}
+
+
 /*if dark mode available*/
 @media (prefers-color-scheme: dark) {
 	html, div {
@@ -76,7 +84,14 @@ html, div {
 	.darked .profile-category::-webkit-scrollbar-track {
 	  background: #444444;
 	}
-
+	
+	tr:hover {
+		background-color: gray;
+	}
+	
+	.darked tr:hover {
+		background-color: lightgray;
+	}
 }
 
 /*
