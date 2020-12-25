@@ -37,12 +37,17 @@ from site: https://www.suruga-ya.jp/ and search name based on おもちゃ・ホ
 let list = '\n';
 let counter = 1;
 for(let item of document.getElementsByClassName('item')) {
-    let url = item.getElementsByTagName('p')[0].getElementsByTagName('a')[0].href;
-    if(url.includes('?')) url = url.substring(0,url.indexOf('?'));
-	let newurl = url.replace('https://www.suruga-ya.jp/product/detail/','https://cdn.suruga-ya.jp/database/pics_light/game/').toLowerCase();
-    let tag = item.getElementsByClassName('title')[0].innerText.substring(0,item.getElementsByClassName('title')[0].innerText.indexOf('/'));
-    let detail = item.getElementsByClassName('title')[0].innerText.substring(item.getElementsByClassName('title')[0].innerText.indexOf('/')+1);
-    list+= ("["+(counter++)+",'"+newurl+".jpg','portrait','"+tag+"','"+detail+"'],") + '\n';
+    let image = item.getElementsByTagName('img')[0];
+    if(image.getBoundingClientRect().width == image.getBoundingClientRect().height) list += '';
+	else
+	{
+		let url = item.getElementsByTagName('p')[0].getElementsByTagName('a')[0].href;
+		if(url.includes('?')) url = url.substring(0,url.indexOf('?'));
+		let newurl = url.replace('https://www.suruga-ya.jp/product/detail/','https://cdn.suruga-ya.jp/database/pics_light/game/').toLowerCase();
+		let tag = item.getElementsByClassName('title')[0].innerText.substring(0,item.getElementsByClassName('title')[0].innerText.indexOf('/'));
+		let detail = item.getElementsByClassName('title')[0].innerText.substring(item.getElementsByClassName('title')[0].innerText.indexOf('/')+1);
+		list+= ("["+(counter++)+",'"+newurl+".jpg','portrait','"+tag+"','"+detail+"'],") + '\n';
+	}
 }
 
 from page: 'https://www.suruga-ya.com/en/products?category=501080317&keyword='
