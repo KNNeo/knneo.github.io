@@ -12,18 +12,49 @@ html {
 body {
   margin: auto;
 }
-h1, #options {
-  text-align: center;
-  max-width: 800px;
-  margin: auto;	
-}
 h4, h5 { 
 	margin: 0;
 }
-label {
+
+#title, #options, #credit {
+  max-width: 800px;
+  margin: auto;	
+}
+#ssstart, #ssstop, #description, #options {
+	padding: 5px;
+	border-radius: 8px;
+	border: 1px solid gray;
+	padding: 4px 8px;
+	white-space: normal;
+}
+#settings, #footer, #viewer, #title, #options, #credit {
+  text-align: center;
+}
+#filter {
+	margin: auto;
+	max-width: 1040px;
+	padding: 10px;
+}
+#filter label {
 	padding: 5px;
 	display: inline-block;
 	white-space: nowrap;
+}
+#description {
+	position: absolute;
+	left: 0;
+	right: 0;
+	margin: auto;
+	padding: 10px;
+	max-width: 405px;
+	z-index: 1;
+}
+#toggle {
+	position: absolute;
+	left: 0;
+	right: 0;
+	margin: auto;
+	background-color: transparent;
 }
 #viewer {
 	z-index: 9;
@@ -31,9 +62,9 @@ label {
 	background-color: black;
 	width: 100%;
 	height: 100%;
-	text-align: center;
+	padding-top: 0;
+	display: none;
 }
-
 #viewer-prev {
 	background-color: transparent;
 	position: absolute;
@@ -43,7 +74,6 @@ label {
 	height: 100%;
 	z-index: 11;
 }
-
 #viewer-next {
 	background-color: transparent;
 	position: absolute;
@@ -53,38 +83,45 @@ label {
 	height: 100%;
 	z-index: 11;
 }
-
 #viewer-next:active {
 	opacity: 0.4;
 	background-image: linear-gradient(to left, white, transparent);
 }
-
 #viewer-prev:active {
 	opacity: 0.4;
 	background-image: linear-gradient(to right, white, transparent);
 }
-
 #options {
 	width: 300px;
 	position: absolute;
 	top: 5vh;
 	left: 0;
 	right: 0;
+	margin: auto;
+	padding: 10px;
 }
-
-#ssstart, #ssstop, #options {
-	padding: 5px;
-	border-radius: 8px;
-	border: 1px solid gray;
-	padding: 4px 8px;
-	white-space: normal;
+#slideshow {
+	text-align: center;
+	padding: 10px;
 }
-
+#slideshow label {
+	vertical-align: middle;
+}
 #ssstop {
 	background-color: white;
 	color: black;
 }
 
+.material-icons {
+	cursor: pointer;
+	padding: 5px;
+}
+.navigation-item {
+	display: inline-block;
+	padding: 5px 10px;
+	vertical-align: bottom;
+	cursor: pointer;
+}
 .closed {
 	display: none;
 }

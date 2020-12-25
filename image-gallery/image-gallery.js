@@ -50,10 +50,13 @@ window.addEventListener('resize',function () {
 		windowHeight = window.innerHeight;
 		windowWidth = window.innerWidth
 	}
+	if(document.getElementById('filter').classList.contains('closed')) toggleFilter();
 	closeViewer();
 });
 window.addEventListener('keydown', function(event) {
-	event.preventDefault();
+	if ([33,34,35,36].indexOf(event.keyCode) >= 0)
+		event.preventDefault();
+		
 	if (event.keyCode === 33) //"PageUp" key
 	{
 		let gallery = document.getElementsByClassName("profile-category")[0];
@@ -88,8 +91,6 @@ function renderPage(pageName) {
 
 	let viewer = document.createElement('div');
 	viewer.id = 'viewer';
-	viewer.style.paddingTop = '0';
-	viewer.style.display = 'none';
 	//viewer.addEventListener('click', closeViewer);
 	viewer.addEventListener('contextmenu', function(e) {
 		e.preventDefault();
@@ -109,11 +110,8 @@ function renderPage(pageName) {
 		if(pageName.includes(link)) continue;
 		if(link == links[0] && !window.location.href.includes('knneo.github.io')) continue;
 		let newLink = document.createElement('div');
+		newLink.classList.add('navigation-item');
 		newLink.classList.add('shadowed');
-		newLink.style.display = 'inline-block';
-		newLink.style.padding = '5px 10px';
-		newLink.style.verticalAlign = 'bottom';
-		newLink.style.cursor = 'pointer';
 		newLink.addEventListener('click', function() { loadPage(link); });
 		
 		if(link == links[0]) newLink.innerText = 'GALLERY';
@@ -127,6 +125,7 @@ function renderPage(pageName) {
 	frame.appendChild(navigation);
 	
 	let title = document.createElement('h1');
+	title.id = 'title';
 	title.innerText = pageTitle;
 	title.addEventListener('click', function() {
 		loadPage(pageName);
@@ -134,15 +133,12 @@ function renderPage(pageName) {
 	frame.appendChild(title);
 	
 	let description = document.createElement('div');
-	description.id = 'description';	
-	description.style.margin = 'auto';
-	description.style.padding = '10px';
-	description.style.maxWidth = '405px';
-	description.style.display = descriptionClosed ? 'none' : '';
+	description.id = 'description';
+	if(descriptionClosed) description.classList.add('closed');
 		let descriptionCloser = document.createElement('i');
 		descriptionCloser.classList.add('material-icons');
 		descriptionCloser.style.float = 'right';
-		descriptionCloser.style.cursor = 'pointer';
+		descriptionCloser.style.padding = '0';
 		descriptionCloser.title = closeIconTitle;
 		descriptionCloser.innerText = 'close';
 		descriptionCloser.addEventListener('click', function() {
@@ -158,27 +154,21 @@ function renderPage(pageName) {
 
 	let options = document.createElement('div');
 	options.id = 'options';	
-	options.style.margin = 'auto';
-	options.style.padding = '10px';
-	//if(options.style.backgroundColor == "") options.style.backgroundColor = 'white';
+	
 		let loader = writeLoadedCount();
-		loader.style.textAlign = 'center';
 		options.appendChild(loader);
+		
 	frame.appendChild(options);
 	
 	let credit = document.createElement('h5');
 	credit.id = 'credit';
-	credit.style.textAlign = 'center';
-	credit.style.margin = 'auto';
 	credit.innerText = pageCredit;
 	frame.appendChild(credit);
 	
 	let toggler = document.createElement('div');
+	toggler.id = 'toggle';
 	toggler.style.textAlign = 'center';
 	toggler.style.position = enableOrientation ? 'absolute' : 'inherit';
-	toggler.style.left = '0';
-	toggler.style.right = '0';
-	toggler.style.backgroundColor = 'transparent';
 	let togglerButton = document.createElement('i');
 	togglerButton.classList.add('material-icons');
 	togglerButton.id = 'toggler';
@@ -187,10 +177,11 @@ function renderPage(pageName) {
 	togglerButton.title = collapseFilterIconTitle;
 	togglerButton.innerText = 'blur_linear';
 	togglerButton.addEventListener('click', function() { 
-		let isBlurLinear = this.innerText == 'blur_linear';
-		this.title = isBlurLinear ? expandFilterIconTitle : collapseFilterIconTitle; 
-		this.innerText = isBlurLinear ? 'maximize': 'blur_linear'; 
-		if(enableOrientation) this.parentElement.style.position = this.parentElement.style.position == 'absolute' ? 'inherit' : 'absolute';
+		let isClosed = document.getElementById('filter').classList.contains('closed');
+		this.title = isClosed ? collapseFilterIconTitle : expandFilterIconTitle; 
+		//this.innerText = isClosed ? 'maximize': 'blur_linear'; 
+		if(enableOrientation)
+			this.parentElement.style.position = this.parentElement.style.position == 'absolute' ? 'inherit' : 'absolute';
 		toggleFilter();
 	} );
 	toggler.appendChild(togglerButton);
@@ -198,13 +189,9 @@ function renderPage(pageName) {
 	
 	let filter = document.createElement('div');
 	filter.id = 'filter';
-	toggler.style.textAlign = 'center';
-	filter.style.maxWidth = '1040px';
-	filter.style.margin = 'auto';
-	filter.style.padding = '10px';
 		let orientation = document.createElement('div');
 		orientation.id = 'orientation';
-		orientation.style.display = enableOrientation ? '' : 'none';
+		if(!enableOrientation) orientation.style.display = 'none';
 		let rotationTitle = document.createElement('h4');
 		rotationTitle.innerText = orientationTitle;
 		orientation.appendChild(rotationTitle);
@@ -258,8 +245,7 @@ function renderPage(pageName) {
 	frame.appendChild(midline);
 	
 	let ssDiv = document.createElement('div');
-	ssDiv.style.textAlign = 'center';
-	ssDiv.style.padding = '10px';
+	ssDiv.id = 'slideshow';
 		let ssStartSpan = document.createElement('button');
 		ssStartSpan.id = 'ssstart';
 		ssStartSpan.type = 'button';
@@ -302,18 +288,9 @@ function renderPage(pageName) {
 		return false;
 	}, false);
 	frame.appendChild(imgGallery);
-
-	let back = document.createElement('h3');
-	back.style.textAlign = 'center';
-		let backLink = document.createElement('a');
-		backLink.href = '../index.html';
-		backLink.innerText = 'Back';
-	back.appendChild(backLink);
-	frame.appendChild(back);
 	
-	let settingsDiv = document.createElement('div');
-	//settingsDiv.title = 'Toggle Dark Mode';
-	settingsDiv.style.textAlign = 'center';
+	let settingsDiv = document.createElement('h3');
+	settingsDiv.id = 'settings';
 		
 		if(enableDarkMode)
 		{
@@ -321,8 +298,6 @@ function renderPage(pageName) {
 			darkmode.id = 'darkmode';
 			darkmode.title = 'Toggle Dark Mode';
 			darkmode.classList.add('material-icons');
-			darkmode.style.cursor = 'pointer';
-			darkmode.style.padding = '5px';
 			darkmode.innerText = 'brightness_high';
 			darkmode.addEventListener('click', toggleDarkMode);
 			settingsDiv.appendChild(darkmode);
@@ -334,8 +309,6 @@ function renderPage(pageName) {
 			viewing.id = 'enable-viewer';
 			viewing.title = 'Toggle Viewer';
 			viewing.classList.add('material-icons');
-			viewing.style.cursor = 'pointer';
-			viewing.style.padding = '5px';
 			viewing.innerText = localStorage.getItem("enableViewer") == "true" ? 'view_carousel' : 'view_column';
 			viewing.addEventListener('click', function() {
 				localStorage.setItem("enableViewer", localStorage.getItem("enableViewer") == "true" ? false : true);
@@ -350,8 +323,6 @@ function renderPage(pageName) {
 			shadows.id = 'enable-shadows';
 			shadows.title = 'Toggle Shadows';
 			shadows.classList.add('material-icons');
-			shadows.style.cursor = 'pointer';
-			shadows.style.padding = '5px';
 			shadows.style.transform = 'scaleX(-1)';
 			shadows.innerText = localStorage.getItem("enableShadows") == "true" ? 'filter' : 'crop_original';
 			shadows.addEventListener('click', function() {
@@ -362,6 +333,14 @@ function renderPage(pageName) {
 		}
 	
 	frame.appendChild(settingsDiv);
+	
+	let back = document.createElement('h4');
+	back.id = 'footer';
+		let backLink = document.createElement('a');
+		backLink.href = '../index.html';
+		backLink.innerText = 'Back';
+	back.appendChild(backLink);
+	frame.appendChild(back);
 	
 	body.innerHTML = '';
 	body.appendChild(frame);
@@ -478,10 +457,23 @@ function loadSettings() {
 	if(enableShadows == null) localStorage.setItem("enableShadows", enableShadows);
 }
 
+function calculateGalleryHeight() {
+	let baseItems = ['navigation','title','credit','filter','midline','slideshow','settings','footer'];
+	let result = 0;
+	let filterHeight = 0;
+	//console.log(window.innerHeight);
+	for(let item of baseItems) {
+		//console.log(item, document.getElementById(item).getBoundingClientRect().height);
+		result += document.getElementById(item).getBoundingClientRect().height;
+		if(item == 'filter') filterHeight = document.getElementById(item).getBoundingClientRect().height;
+	}
+	return window.innerHeight - result < 200 ? window.innerHeight - result - 100 + filterHeight : window.innerHeight - result - 100;
+}
+
 function loadData(pageName) {
 	reloadDarkmodeStyle();
 	renderPage(pageName);
-	setupGallery(); 
+	setupGallery();
 }
 
 //load CSS file based on URL
@@ -552,7 +544,6 @@ function setupGallery() {
 	renderGalleryScroll();
 	renderFilter(undefined);
 	//renderGallery(imgArray);
-	
 }
 
 //generate profile category based on array
@@ -609,9 +600,9 @@ function renderGallery(array) {
 	}
 	
 	document.getElementById('loadedCount').innerText = 0;
-	lowestHeight = 9999;
-	highestHeight = 0;
-	setTimeout( function() { reloadImages(array); },500);
+	// lowestHeight = 9999;
+	// highestHeight = 0;
+	setTimeout( function() { reloadImages(array); }, 500);
 	
 	//add event listener when click on image
 	if(localStorage.getItem("enableViewer") == "true")
@@ -626,7 +617,6 @@ function renderGallery(array) {
 	createLinkedList();
 	console.log(totalCount + ' rows detected');
 }
-
 
 function reloadImages(array) {
 	let loadedImages = 0;
@@ -651,26 +641,18 @@ function reloadImages(array) {
 			image.src = source;	
 		}
 		
-		if(window.innerWidth >= 640)
-		{
-			if(image.height > highestHeight && image.height > 1) //set to highest height
-				highestHeight = image.height;
-			//else
-			//	image.style.height = '50vh';
-		}
-		else {
-			if(image.height < lowestHeight && image.height > 1) //set to lowest height
-				lowestHeight = image.height;
-			//else
-			//	image.height = lowestHeight;
-		}
+		//benchmarking for resizeImageHeights()
+		if(window.innerWidth >= 640 && image.height > highestHeight && image.height > 1)
+			highestHeight = image.height;
+		else if (image.height < lowestHeight && image.height > 1)
+			lowestHeight = image.height;
 	}
 	recoverOrientationIfEmpty(array);
 	resizeImageHeights();
-	//checkImageHeights(array);
-	if(loadedImages < array.length-1) setTimeout( function() { reloadImages(array); },500);
-	if(loadedImages >= array.length-1) 
+	if(loadedImages < array.length - 1) setTimeout( function() { reloadImages(array); },500);
+	if(loadedImages >= array.length - 1) 
 	{
+		resizeImageHeights();
 		document.getElementById('ssstart').removeAttribute('disabled');
 		document.getElementById('inViewer').removeAttribute('disabled');
 		document.getElementById('isFullscreen').removeAttribute('disabled');
@@ -679,12 +661,13 @@ function reloadImages(array) {
 }
 
 function resizeImageHeights() {
+	let galleryHeight = calculateGalleryHeight();
 	for(var image of document.getElementById('imgGallery').getElementsByTagName("img"))
 	{
 		if(window.innerWidth >= 640 && image.height < highestHeight && image.height > 1)//resize to highest height
-			image.style.height = '50vh';
+			image.style.height = galleryHeight + 'px'; //fallback to default if height too low
 		else if(image.height > lowestHeight && image.height > 1) //resize to lowest height
-			image.height = lowestHeight;
+			image.height = lowestHeight; //if small screen hit css maxHeight
 	}
 }
 
@@ -948,8 +931,10 @@ if(document.fullscreenElement == null) return;
 }
 
 function toggleFilter() {
-	document.getElementById('filter').style.display = document.getElementById('filter').style.display == 'none' ? '' : 'none';
-	document.getElementById('midline').style.display = document.getElementById('midline').style.display == 'none' ? '' : 'none';
+	if(document.getElementById('filter').classList.contains('closed')) document.getElementById('filter').classList.remove('closed');
+	else document.getElementById('filter').classList.add('closed');
+	if(document.getElementById('midline').classList.contains('closed')) document.getElementById('midline').classList.remove('closed');
+	else document.getElementById('midline').classList.add('closed');
 }
 
 function checkDuplicates() {
