@@ -31,6 +31,10 @@
 				"id":"SatouSatomi-HikasaYouko"
 			},
 			{
+				"image":"https://pbs.twimg.com/media/EqFe8pOU8AI6fG-?format=jpg&name=small",
+				"id":"SatouSatomi-MinaseInori"
+			},
+			{
 				"image":"https://pbs.twimg.com/media/DwxTkfoV4AYLzcT?format=jpg&name=small",
 				"id":"TaketatsuAyana-YuukiAoi"
 			},
@@ -1103,6 +1107,7 @@
 		"id":"KidoIbuki",
 		"image":"https://knneo.webs.com/kidoibuki.jpg",
 		"landscapes":[
+			"https://pbs.twimg.com/media/EqFU7xyUYAE26XX?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EmJFO9iU0Ak-svE?format=jpg&name=small",
 			"https://pbs.twimg.com/media/ElFCGvDUYAA2Emb?format=jpg&name=small",
 			"https://pbs.twimg.com/media/Ei7GukuVgAAzTDt?format=jpg&name=small",
@@ -1137,6 +1142,7 @@
 		"id":"KitouAkari",
 		"image":"https://knneo.webs.com/kitouakari.jpg",
 		"landscapes":[
+			"https://pbs.twimg.com/media/EqA8WuxVgAAUWo5?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EiW-TT-VoAAPnKq?format=jpg&name=small",
 			"https://pbs.twimg.com/media/Ee9jRmyUEAIVGio?format=jpg&name=small"			
 		],
@@ -1198,6 +1204,7 @@
 			"https://pbs.twimg.com/media/EgMjO-aVAAE4Rqc?format=jpg&name=small"
 		],
 		"portraits":[
+			"https://pbs.twimg.com/media/EqEc5bOVQAAlsdU?format=jpg&name=small",
 			"https://cdnx.natalie.mu/media/pp/static/comic/joseetora/g_04.jpg",
 			"https://pbs.twimg.com/media/ElJX3QMUYAAgt9R?format=jpg&name=small"
 		],
