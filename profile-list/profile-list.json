@@ -1493,7 +1493,9 @@
 		"id":"KogaAoi",
 		"image":"https://pbs.twimg.com/media/Ef3zm9uUYAAK1UT?format=jpg&name=small",
 		"landscapes":[],
-		"portraits":[],
+		"portraits":[
+			"https://pbs.twimg.com/media/ElPQxrcUwAAUcR4?format=jpg&name=small"
+		],
 		"name":"Koga Aoi",
 		"dob":"1993.08.24",
 		"profile":"Japanese Voice Actress",
@@ -1507,8 +1509,15 @@
 		"category":"seiyuu4",
 		"id":"SasakiNao",
 		"image":"https://pbs.twimg.com/media/EoyZsPjUUAAf97l?format=jpg&name=small",
-		"landscapes":[],
-		"portraits":[],
+		"landscapes":[
+			"https://pbs.twimg.com/media/EqEru3GU0AAmO19?format=jpg&name=small",
+			"https://pbs.twimg.com/media/Ep6h4xlVoAEHuf1?format=jpg&name=small",
+			"https://pbs.twimg.com/media/Elfpv-IU4AMB6Xe?format=jpg&name=small"
+		],
+		"portraits":[
+			"https://pbs.twimg.com/media/En6LdJFVkAQD0e8?format=jpg&name=small",
+			"https://pbs.twimg.com/media/EZLkPBnUcAEDnm9?format=jpg&name=small"
+		],
 		"name":"Sasaki Nao",
 		"dob":"????.03.06",
 		"profile":"Japanese Voice Actress",
@@ -1520,25 +1529,14 @@
 	},
 	{
 		"category":"seiyuu4",
-		"id":"TokuiSora",
-		"image":"https://pbs.twimg.com/media/EpW8WxxVEAEM9Wg?format=jpg&name=small",
-		"landscapes":[],
-		"portraits":[],
-		"name":"Tokui Sora",
-		"dob":"1989.12.26",
-		"profile":"Japanese Voice Actress",
-		"turningPoint":{
-			"soloDebut":"Yes",
-			"swimsuitPhotobook":"No",
-			"isMarried":"No"
-		}
-	},
-	{
-		"category":"seiyuu4",
 		"id":"TomiyaMiyu",
 		"image":"https://pbs.twimg.com/media/Epg0eXnVQAE2TRB?format=jpg&name=small",
 		"landscapes":[],
-		"portraits":[],
+		"portraits":[
+			"https://pbs.twimg.com/media/Ep4t2--VEAImI2Y?format=jpg&name=small",
+			"https://pbs.twimg.com/media/EotjkB_UYAABU8d?format=jpg&name=small",
+			"https://pbs.twimg.com/media/Ema9F-eVcAEAuKz?format=jpg&name=small"
+		],
 		"name":"Tomiya Miyu",
 		"dob":"1999.11.15",
 		"profile":"Japanese Voice Actress",
