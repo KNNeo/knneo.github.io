@@ -14,6 +14,68 @@ window.onload = function() {
     addHoverForLinks();
     if (window.location.href.includes("/search/label/")) addHoverOnExpander();
 };
+
+function addCustomElements() {
+	let topButton = document.createElement('a');
+	topButton.id = 'GoToTopBtn';
+	// topButton.onclick = goToTop();
+	topButton.title = 'Back To Top';
+		let topButtonIcon = document.createElement('i');
+		topButtonIcon.classList.add('material-icons');
+		topButtonIcon.innerText = 'arrow_upward';
+		topButton.appendChild(topButtonIcon);
+	if(document.getElementById('GoToTopBtn') != undefined) document.getElementById('GoToTopBtn').remove();
+	document.body.appendChild(topButton);
+	
+	let searchButton = document.createElement('a');
+	searchButton.id = 'SearchBtn';
+	// searchButton.onclick = toggleSearch();
+	searchButton.title = 'Search Blog';
+		let searchButtonIcon = document.createElement('i');
+		searchButtonIcon.classList.add('material-icons');
+		searchButtonIcon.innerText = 'search';
+		searchButton.appendChild(searchButtonIcon);
+	if(document.getElementById('SearchBtn') != undefined) document.getElementById('SearchBtn').remove();
+	document.body.appendChild(searchButton);
+	
+	let sidebarButton = document.createElement('a');
+	sidebarButton.id = 'SidebarBtn';
+	// sidebarButton.onclick = toggleSidebar();
+	sidebarButton.title = 'Toggle Sidebar';
+		let sidebarButtonIcon = document.createElement('i');
+		sidebarButtonIcon.classList.add('material-icons');
+		sidebarButtonIcon.innerText = 'menu';
+		sidebarButton.appendChild(sidebarButtonIcon);
+	if(document.getElementById('SidebarBtn') != undefined) document.getElementById('SidebarBtn').remove();
+	document.body.appendChild(sidebarButton);
+		
+	document.getElementById('GoToTopBtn').addEventListener('click', goToTop);
+	document.getElementById('SearchBtn').addEventListener('click', toggleSearch);
+	document.getElementById('SidebarBtn').addEventListener('click', toggleSidebar);
+
+	// <a id='GoToTopBtn' onclick='goToTop()' title='Back to Top'><i class='material-icons'>arrow_upward</i></a>
+	// <a id='SearchBtn' onclick='toggleSearch()' title='Search Blog'><i class='material-icons'>search</i></a>
+	// <a id='SidebarBtn' onclick='toggleSidebar()' title='Toggle Sidebar'><i class='material-icons'>menu</i></a>
+}
+
+function loadExternalScripts() {
+	
+	// let dataScript = document.createElement('script');
+	// dataScript.id = pageName + '-data'
+	// dataScript.src = dataScript.id + '.js';
+	// dataScript.type = "text/javascript";
+	// dataScript.charset = 'utf-8';
+	// dataScript.onreadystatechange = function() { loadData(pageName); };
+    // dataScript.onload = function() { loadData(pageName); };
+	// document.head.appendChild(dataScript);
+	
+	// <meta content='width=device-width,initial-scale=1.0' name='viewport'/>
+	// <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'/>
+	// <link href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet'/>
+	// <script async='async' charset='utf-8' src='https://platform.twitter.com/widgets.js'/>
+	// <script async='async' src='//www.instagram.com/embed.js'/>
+}
+
 // Reload based on first visit: if no 'm=0/1' add, if m=0 edit older posts and newer posts URL
 function preloadSequence() {
     //initial URL visit fix
@@ -52,64 +114,6 @@ function preloadSequence() {
         }
     }
 }
-
-function addCustomElements() {
-	let topButton = document.createElement('a');
-	topButton.id = 'GoToTopBtn';
-	topButton.onclick = goToTop();
-	topButton.title = 'Back To Top';
-		let topButtonIcon = document.createElement('i');
-		topButtonIcon.classList.add('material-icons');
-		topButtonIcon.innerText = 'arrow_upward';
-		topButton.appendChild(topButtonIcon);
-	if(document.getElementById('GoToTopBtn') == undefined)
-		document.body.appendChild(topButton);
-	
-	let searchButton = document.createElement('a');
-	searchButton.id = 'SearchBtn';
-	searchButton.onclick = toggleSearch();
-	searchButton.title = 'Search Blog';
-		let searchButtonIcon = document.createElement('i');
-		searchButtonIcon.classList.add('material-icons');
-		searchButtonIcon.innerText = 'search';
-		searchButton.appendChild(searchButtonIcon);
-	if(document.getElementById('SearchBtn') == undefined)
-		document.body.appendChild(searchButton);
-	
-	let sidebarButton = document.createElement('a');
-	sidebarButton.id = 'SidebarBtn';
-	sidebarButton.onclick = toggleSidebar();
-	sidebarButton.title = 'Toggle Sidebar';
-		let sidebarButtonIcon = document.createElement('i');
-		sidebarButtonIcon.classList.add('material-icons');
-		sidebarButtonIcon.innerText = 'menu';
-		sidebarButton.appendChild(sidebarButtonIcon);
-	if(document.getElementById('SidebarBtn') == undefined)
-		document.body.appendChild(sidebarButton);
-
-	// <a id='GoToTopBtn' onclick='goToTop()' title='Back to Top'><i class='material-icons'>arrow_upward</i></a>
-	// <a id='SearchBtn' onclick='toggleSearch()' title='Search Blog'><i class='material-icons'>search</i></a>
-	// <a id='SidebarBtn' onclick='toggleSidebar()' title='Toggle Sidebar'><i class='material-icons'>menu</i></a>
-}
-
-function loadExternalScripts() {
-	
-	// let dataScript = document.createElement('script');
-	// dataScript.id = pageName + '-data'
-	// dataScript.src = dataScript.id + '.js';
-	// dataScript.type = "text/javascript";
-	// dataScript.charset = 'utf-8';
-	// dataScript.onreadystatechange = function() { loadData(pageName); };
-    // dataScript.onload = function() { loadData(pageName); };
-	// document.head.appendChild(dataScript);
-	
-	// <meta content='width=device-width,initial-scale=1.0' name='viewport'/>
-	// <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'/>
-	// <link href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet'/>
-	// <script async='async' charset='utf-8' src='https://platform.twitter.com/widgets.js'/>
-	// <script async='async' src='//www.instagram.com/embed.js'/>
-}
-
 //fix only all old thumbnails with images, not for span
 function fixPopup() {
     for (let popup of document.getElementsByClassName('popup')) {
