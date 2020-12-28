@@ -223,6 +223,12 @@ let birthdayListJson =
 		"id":"Tsukushi",
 		"name":"Tsukushi",
 		"dob":"????.10.24"
+	},
+	{
+		"category":"doaxvv",
+		"id":"Loberia",
+		"name":"Loberia",
+		"dob":"????.06.25"
 	}
 ]
 
