@@ -1,8 +1,8 @@
 // Single onLoad event control: put all functions in sequence
 window.onload = function() {
-    preloadSequence();
 	addCustomElements();
 	loadExternalScripts();
+    preloadSequence();
     reduceResults();
     fixPopup();
     if (document.getElementsByClassName('popup').length > 0) fixPopup();
