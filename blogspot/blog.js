@@ -56,17 +56,17 @@ function addCustomElements() {
 }
 
 function loadExternalScripts() {
-	let css = document.createElement('link');
-	css.href = 'https://fonts.googleapis.com/css?family=Open Sans';
-	// css.type = 'text/css';
-	css.rel = 'stylesheet'
-	document.head.appendChild(css);
+	let fontCss = document.createElement('link');
+	fontCss.href = 'https://fonts.googleapis.com/css?family=Open Sans';
+	// fontCss.type = 'text/css';
+	fontCss.rel = 'stylesheet'
+	document.head.appendChild(fontCss);
 	
-	let css = document.createElement('link');
-	css.href = 'https://fonts.googleapis.com/icon?family=Material+Icons';
-	// css.type = 'text/css';
-	css.rel = 'stylesheet'
-	document.head.appendChild(css);
+	let iconCss = document.createElement('link');
+	iconCss.href = 'https://fonts.googleapis.com/icon?family=Material+Icons';
+	// iconCss.type = 'text/css';
+	iconCss.rel = 'stylesheet'
+	document.head.appendChild(iconCss);
 	
 	let twScript = document.createElement('script');
 	twScript.src = 'https://platform.twitter.com/widgets.js';
