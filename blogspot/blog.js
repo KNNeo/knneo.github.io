@@ -18,7 +18,6 @@ window.onload = function() {
 function addCustomElements() {
 	let topButton = document.createElement('a');
 	topButton.id = 'GoToTopBtn';
-	// topButton.onclick = goToTop();
 	topButton.title = 'Back To Top';
 		let topButtonIcon = document.createElement('i');
 		topButtonIcon.classList.add('material-icons');
@@ -29,7 +28,6 @@ function addCustomElements() {
 	
 	let searchButton = document.createElement('a');
 	searchButton.id = 'SearchBtn';
-	// searchButton.onclick = toggleSearch();
 	searchButton.title = 'Search Blog';
 		let searchButtonIcon = document.createElement('i');
 		searchButtonIcon.classList.add('material-icons');
@@ -40,7 +38,6 @@ function addCustomElements() {
 	
 	let sidebarButton = document.createElement('a');
 	sidebarButton.id = 'SidebarBtn';
-	// sidebarButton.onclick = toggleSidebar();
 	sidebarButton.title = 'Toggle Sidebar';
 		let sidebarButtonIcon = document.createElement('i');
 		sidebarButtonIcon.classList.add('material-icons');
@@ -59,15 +56,31 @@ function addCustomElements() {
 }
 
 function loadExternalScripts() {
+	let css = document.createElement('link');
+	css.href = 'https://fonts.googleapis.com/css?family=Open Sans';
+	// css.type = 'text/css';
+	css.rel = 'stylesheet'
+	document.head.appendChild(css);
 	
-	// let dataScript = document.createElement('script');
-	// dataScript.id = pageName + '-data'
-	// dataScript.src = dataScript.id + '.js';
-	// dataScript.type = "text/javascript";
-	// dataScript.charset = 'utf-8';
-	// dataScript.onreadystatechange = function() { loadData(pageName); };
-    // dataScript.onload = function() { loadData(pageName); };
-	// document.head.appendChild(dataScript);
+	let css = document.createElement('link');
+	css.href = 'https://fonts.googleapis.com/icon?family=Material+Icons';
+	// css.type = 'text/css';
+	css.rel = 'stylesheet'
+	document.head.appendChild(css);
+	
+	let twScript = document.createElement('script');
+	twScript.src = 'https://platform.twitter.com/widgets.js';
+	twScript.type = 'text/javascript';
+	twScript.charset = 'utf-8';
+	twScript.async = 'async';
+	document.head.appendChild(twScript);
+	
+	let inScript = document.createElement('script');
+	inScript.src = 'https://www.instagram.com/embed.js';
+	inScript.type = 'text/javascript';
+	inScript.charset = 'utf-8';
+	inScript.async = 'async';
+	document.head.appendChild(inScript);
 	
 	// <meta content='width=device-width,initial-scale=1.0' name='viewport'/>
 	// <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'/>
