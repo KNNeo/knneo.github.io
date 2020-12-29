@@ -15,6 +15,10 @@ window.onload = function() {
     if (window.location.href.includes("/search/label/")) addHoverOnExpander();
 };
 
+window.onbeforeunload = function() {
+	document.body.style.display = 'none';
+};
+
 function addCustomElements() {
 	let topButton = document.createElement('a');
 	topButton.id = 'GoToTopBtn';
