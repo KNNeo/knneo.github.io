@@ -1,3 +1,8 @@
+/*Variables*/
+:root {
+  --primary: var(--primary);
+}
+
 /*Klassic Note: Website Additions*/
 
 .flip-arrow {
@@ -76,7 +81,7 @@ body {
 }*/
 
 h1.title > a:hover {
-  color: #00e4ff;
+  color: var(--primary);
 }
 
 h2.date-header {
@@ -94,7 +99,7 @@ h3.post-title.entry-title {
   background-color: black;
 }
 a img {
-  border: 1px solid #00e4ff;
+  border: 1px solid var(--primary);
 }
 a:hover {
   text-decoration: none;
@@ -451,7 +456,7 @@ div.content-cap-bottom.cap-bottom {
   }
   span#blog-pager-older-link>a:hover,
   span#blog-pager-newer-link>a:hover {
-    color: #00e4ff;
+    color: var(--primary);
   }
 
 .search-expander i {
@@ -683,7 +688,7 @@ abbr.imgpop:hover img {
   		display: none;
     }
     .new-thumbnail-initial {
-        color: #00e4ff;
+        color: var(--primary);
     }
     .new-thumbnail {
         border-top: 1px solid white;
@@ -707,10 +712,10 @@ abbr.imgpop:hover img {
     color: #ffffff;
   }
   5% {
-    color: #00e4ff;
+    color: var(--primary);
   }
   20% {
-    color: #00e4ff;
+    color: var(--primary);
   }
   25% {
     color: #ffffff;
@@ -722,10 +727,10 @@ abbr.imgpop:hover img {
     border: 1px solid transparent;
   }
   55% {
-    border: 1px solid #00e4ff;
+    border: 1px solid var(--primary);
   }
   65% {
-    border: 1px solid #00e4ff;
+    border: 1px solid var(--primary);
   }
   70% {
     border: 1px solid transparent;
