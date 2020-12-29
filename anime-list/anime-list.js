@@ -124,11 +124,13 @@ let customArray = [
 ];
 
 let isGroupBySeries = false;
+let isSortByTitleAsc;
 let startYear = 2008;
 let startSeason = 'Autumn';
 let currentYear = 2020;
 let currentSeason = 'Autumn';
 let seasons = ['','Winter','Spring','Summer','Autumn'];
+let seasonArray = new Array();
 let seriesArray = new Array();
 
 generateAnimeList(false);
@@ -145,9 +147,11 @@ function generateAnimeList(isGroupBySeries) {
 		}
 		seriesArray = new Array();
 		//empty series list
+		let counter = 0;
 		for(let show of allSeries)
 		{
 			seriesArray.push( {
+				id: ++counter, 
 				seriesTitle: show, 
 				shows: new Array()
 				});
@@ -172,7 +176,8 @@ function generateAnimeList(isGroupBySeries) {
 		let animeTableHeader = document.createElement('tr');
 
 		let animeTableHeaderRow = document.createElement('th');
-		animeTableHeaderRow.innerText = 'Series Title';
+		animeTableHeaderRow.id = 'animeTitle';
+		animeTableHeaderRow.innerText = 'Series Title' + (isSortByTitleAsc == true ? ' (asc)' : '') + (isSortByTitleAsc == false ? ' (dsc)' : '');
 		animeTableHeader.appendChild(animeTableHeaderRow);
 
 		for(let y = startYear; y <= currentYear; y++)
@@ -187,7 +192,21 @@ function generateAnimeList(isGroupBySeries) {
 		}
 		animeTableBody.appendChild(animeTableHeader);
 	
-		for(let anime of seriesArray)
+		for(let anime of seriesArray.sort(function(a,b) {
+			if(isSortByTitleAsc == true)
+			{
+				if (a.seriesTitle.toLowerCase() < b.seriesTitle.toLowerCase()) return -1;
+				if (a.seriesTitle.toLowerCase() > b.seriesTitle.toLowerCase()) return 1;
+				return 0;
+			}
+			if(isSortByTitleAsc == false)
+			{
+				if (a.seriesTitle.toLowerCase() < b.seriesTitle.toLowerCase()) return 1;
+				if (a.seriesTitle.toLowerCase() > b.seriesTitle.toLowerCase()) return -1;
+				return 0;
+			}
+			return a.id - b.id;
+		}))
 		{
 
 			let animeTableRow = document.createElement('tr');
@@ -288,7 +307,8 @@ function generateAnimeList(isGroupBySeries) {
 		let animeTableHeader = document.createElement('tr');
 
 		let animeTableHeaderRow = document.createElement('th');
-		animeTableHeaderRow.innerText = 'Anime Title';
+		animeTableHeaderRow.id = 'animeTitle';
+		animeTableHeaderRow.innerText = 'Anime Title' + (isSortByTitleAsc == true ? ' (asc)' : '') + (isSortByTitleAsc == false ? ' (dsc)' : '');
 		animeTableHeader.appendChild(animeTableHeaderRow);
 
 		for(let y = startYear; y <= currentYear; y++)
@@ -304,7 +324,29 @@ function generateAnimeList(isGroupBySeries) {
 
 		animeTableBody.appendChild(animeTableHeader);
 		
-		for(let anime of customArray)
+		if(seasonArray.length == 0)
+		{
+			for(let anime of customArray)
+			{
+				seasonArray.push(anime);
+			}
+		}
+		
+		for(let anime of seasonArray.sort(function(a,b) {
+			if(isSortByTitleAsc == true)
+			{
+				if (a.title.toLowerCase() < b.title.toLowerCase()) return -1;
+				if (a.title.toLowerCase() > b.title.toLowerCase()) return 1;
+				return 0;
+			}
+			if(isSortByTitleAsc == false)
+			{
+				if (a.title.toLowerCase() < b.title.toLowerCase()) return 1;
+				if (a.title.toLowerCase() > b.title.toLowerCase()) return -1;
+				return 0;
+			}
+			return a.sortOrder - b.sortOrder;
+		}))
 		{
 			if(anime.length == 0) continue;
 
@@ -381,6 +423,7 @@ function generateAnimeList(isGroupBySeries) {
 	enableSelectTitle();
 	fixOverlayPosition();
 	addImageNotFoundHide();
+	addAnimeTitleSort();
 }
 
 //[2] generate labels
@@ -677,8 +720,8 @@ function enableSelectTitle() {
 				{
 					document.getElementById('anime-list').scrollLeft += document.getElementsByTagName('tr')[s].getElementsByTagName('td')[c].getBoundingClientRect().x-(windowWidth < 800 ? 0.75*window.outerWidth : 0.5*window.outerWidth);
 					document.getElementById('anime-list').scrollTop += document.getElementsByTagName('tr')[s].getElementsByTagName('td')[c].getBoundingClientRect().y-(windowWidth < 800 ? 135 : 155);
-					console.log(document.getElementById('anime-list').scrollLeft);
-					console.log(document.getElementById('anime-list').scrollTop);
+					//console.log(document.getElementById('anime-list').scrollLeft);
+					//console.log(document.getElementById('anime-list').scrollTop);
 					break;
 				}
 			}			
@@ -710,4 +753,20 @@ function addImageNotFoundHide() {
 			this.style.display = 'none';
 		});
 	}
+}
+
+function addAnimeTitleSort() {
+	document.getElementById('animeTitle').addEventListener('click', function() {
+		switch(isSortByTitleAsc) {
+		  case false:
+			isSortByTitleAsc = undefined;
+			break;
+		  case true:
+			isSortByTitleAsc = false;
+			break;
+		  default:
+			isSortByTitleAsc = true;
+		}
+		generateAnimeList(isGroupBySeries);
+	});
 }
