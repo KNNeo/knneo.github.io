@@ -523,17 +523,17 @@ function olderNewerTextToIcon() {
 
 function addLabelNavigation() {
     document.getElementById("Label1").innerHTML = '<i class="material-icons bar-left" style="font-size: 48px;">arrow_left</i><i class="material-icons bar-right" style="font-size: 48px;">arrow_right</i>' + document.getElementById("Label1").innerHTML;
-    document.getElementById("PageList2").innerHTML = '<i class="material-icons bar-left" style="font-size: 48px;">arrow_left</i><i class="material-icons bar-right" style="font-size: 48px;">arrow_right</i>' + document.getElementById("PageList2").innerHTML;
+    // document.getElementById("PageList2").innerHTML = '<i class="material-icons bar-left" style="font-size: 48px;">arrow_left</i><i class="material-icons bar-right" style="font-size: 48px;">arrow_right</i>' + document.getElementById("PageList2").innerHTML;
     document.getElementById("Label1").getElementsByClassName("bar-right")[0].addEventListener("click", function() {
         document.getElementById("Label1").getElementsByTagName("ul")[0].scrollLeft += 100;
     });
     document.getElementById("Label1").getElementsByClassName("bar-left")[0].addEventListener("click", function() {
         document.getElementById("Label1").getElementsByTagName("ul")[0].scrollLeft -= 100;
     });
-    document.getElementById("PageList2").getElementsByClassName("bar-right")[0].addEventListener("click", function() {
-        document.getElementById("PageList2").getElementsByTagName("ul")[0].scrollLeft += 100;
-    });
-    document.getElementById("PageList2").getElementsByClassName("bar-left")[0].addEventListener("click", function() {
-        document.getElementById("PageList2").getElementsByTagName("ul")[0].scrollLeft -= 100;
-    });
+    // document.getElementById("PageList2").getElementsByClassName("bar-right")[0].addEventListener("click", function() {
+       // document.getElementById("PageList2").getElementsByTagName("ul")[0].scrollLeft += 100;
+    // });
+    // document.getElementById("PageList2").getElementsByClassName("bar-left")[0].addEventListener("click", function() {
+        // document.getElementById("PageList2").getElementsByTagName("ul")[0].scrollLeft -= 100;
+    // });
 }
