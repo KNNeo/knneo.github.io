@@ -11,6 +11,7 @@ window.onload = function() {
     fixLabels();
     olderNewerTextToIcon();
     addLabelForNavigation();
+	fixLightbox();
     addHoverForLinks();
     if (window.location.href.includes("/search/label/")) addHoverOnExpander();
 };
@@ -43,6 +44,7 @@ window.onresize = function() {
 };
 
 // FUNCTIONS, in above order
+// Add floating action buttons
 function addCustomElements() {
 	let topButton = document.createElement('a');
 	topButton.id = 'GoToTopBtn';
@@ -83,6 +85,7 @@ function addCustomElements() {
 	// <a id='SidebarBtn' onclick='toggleSidebar()' title='Toggle Sidebar'><i class='material-icons'>menu</i></a>
 }
 
+// Add custom scripts to only add this script on layout
 function loadExternalScripts() {
 	let fontCss = document.createElement('link');
 	fontCss.href = 'https://fonts.googleapis.com/css?family=Open Sans';
@@ -201,7 +204,7 @@ function reduceResults() {
     }
 }
 
-//fix only all old thumbnails with images, not for span
+// Fix only all old thumbnail div with images, not for span
 function fixPopup() {
     for (let popup of document.getElementsByClassName('popup')) {
         if (popup.getElementsByTagName('table').length < 2) continue;
@@ -220,7 +223,7 @@ function fixPopup() {
     }
 }
 
-//Multi-image thumbnail: Define caption height, onclick event
+// Multi-image thumbnail: Define max caption height, onclick event
 function setThumbnails() {
     var allThumbnails = document.body.getElementsByClassName("thumbnail");
     for (var i = 0; i < allThumbnails.length; i++) {
@@ -271,6 +274,7 @@ function switchThumbnails(tn) {
     return false;
 }
 
+// Responsive image resizing based on screen dimensions
 function resizeImg() {
     //current issues
     /*
@@ -352,18 +356,20 @@ function resizeImg() {
     setThumbnails();
 }
 
+// Fix search results to return 5 results instead of 1
 function fixLabels() {
     for (var link of document.getElementById("Label1").getElementsByTagName("a")) {
         link.href = link.href += link.href.includes("?") ? "&max-results=5" : "?max-results=5";
     }
 }
 
+// Convert text to icon for footer next previous posts
 function olderNewerTextToIcon() {
     if (document.getElementById("blog-pager-newer-link") != null) document.getElementById("blog-pager-newer-link").getElementsByTagName("a")[0].innerHTML = "<i class='material-icons flip-arrow'>arrow_right_alt</i>";
     if (document.getElementById("blog-pager-older-link") != null) document.getElementById("blog-pager-older-link").getElementsByTagName("a")[0].innerHTML = "<i class='material-icons'>arrow_right_alt</i>";
 }
 
-//new popup element, based on content type
+// Add arrows for search labels when in smaller screens
 function addLabelForNavigation() {
     document.getElementById("Label1").innerHTML = '<i class="material-icons bar-left" style="font-size: 48px;">arrow_left</i><i class="material-icons bar-right" style="font-size: 48px;">arrow_right</i>' + document.getElementById("Label1").innerHTML;
     document.getElementById("Label1").getElementsByClassName("bar-right")[0].addEventListener("click", function() {
@@ -374,6 +380,25 @@ function addLabelForNavigation() {
     });
 }
 
+//to fix lightbox gallery not covering screen on Chrome mobile, run only once per refresh
+function fixLightbox() {
+	if(document.getElementById("Blog1") != null)
+		document.getElementById("Blog1").addEventListener("click", cleanupLightbox);
+}
+
+function cleanupLightbox() {
+    if (document.getElementsByTagName("body")[0].parentElement.className != "v2") {
+        var browseContainer = document.getElementsByClassName("CSS_LIGHTBOX_PHOTO_BROWSE_CONTAINER")[0];
+        var attributeContainerHolder = document.getElementsByClassName("CSS_LAYOUT_COMPONENT CSS_LIGHTBOX_ATTRIBUTION_INDEX_CONTAINER")[0].firstChild;
+        attributeContainerHolder.firstChild.remove();
+        attributeContainerHolder.firstChild.style.width = "100%";
+        attributeContainerHolder.style.width = "100%";
+        document.getElementsByClassName("CSS_LIGHTBOX_BG_MASK_TRANSPARENT")[0].style.height = "120%";
+    }
+	document.getElementById("Blog1").removeEventListener("click", cleanupLightbox);
+}
+
+//new popup element, based on content type
 function addHoverForLinks() {
     for (let link of document.getElementsByClassName('post-body entry-content')[0].getElementsByTagName('a')) {
         link.addEventListener('mouseover', renderPopup);
@@ -476,22 +501,6 @@ function generatePopupContent(url) {
             url + '" data-instgrm-version="13" style="max-width:540px; min-width:326px; padding:0; width:100%;"></blockquote></center><script async="async" src="//www.instagram.com/embed.js">\</script\>';
     }
     return null;
-}
-
-//to fix lightbox gallery not covering screen on Chrome mobile, run only once per refresh
-if(document.getElementById("Blog1") != null)
-	document.getElementById("Blog1").addEventListener("click", cleanupLightbox);
-
-function cleanupLightbox() {
-    if (document.getElementsByTagName("body")[0].parentElement.className != "v2") {
-        var browseContainer = document.getElementsByClassName("CSS_LIGHTBOX_PHOTO_BROWSE_CONTAINER")[0];
-        var attributeContainerHolder = document.getElementsByClassName("CSS_LAYOUT_COMPONENT CSS_LIGHTBOX_ATTRIBUTION_INDEX_CONTAINER")[0].firstChild;
-        attributeContainerHolder.firstChild.remove();
-        attributeContainerHolder.firstChild.style.width = "100%";
-        attributeContainerHolder.style.width = "100%";
-        document.getElementsByClassName("CSS_LIGHTBOX_BG_MASK_TRANSPARENT")[0].style.height = "120%";
-    }
-	document.getElementById("Blog1").removeEventListener("click", cleanupLightbox);
 }
 
 //floating action button events
