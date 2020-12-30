@@ -1,14 +1,15 @@
 // Single onLoad event control: put all functions in sequence
 window.onload = function() {
-	addCustomElements();
 	loadExternalScripts();
+	addFloatingButtons();
     preloadSequence();
     reduceResults();
     // fixPopup();
     if (document.getElementsByClassName('popup').length > 0) fixPopup();
     setThumbnails();
     resizeImg();
-    fixLabels();
+    fixLabelResults();
+	fixNavigationResults();
     olderNewerTextToIcon();
     addLabelForNavigation();
 	fixLightbox();
@@ -44,8 +45,43 @@ window.onresize = function() {
 };
 
 // FUNCTIONS, in above order
+// Add custom scripts to only add this script on layout
+function loadExternalScripts() {
+	let fontCss = document.createElement('link');
+	fontCss.href = 'https://fonts.googleapis.com/css?family=Open Sans';
+	// fontCss.type = 'text/css';
+	fontCss.rel = 'stylesheet'
+	document.head.appendChild(fontCss);
+	
+	let iconCss = document.createElement('link');
+	iconCss.href = 'https://fonts.googleapis.com/icon?family=Material+Icons';
+	// iconCss.type = 'text/css';
+	iconCss.rel = 'stylesheet'
+	document.head.appendChild(iconCss);
+	
+	let twScript = document.createElement('script');
+	twScript.src = 'https://platform.twitter.com/widgets.js';
+	twScript.type = 'text/javascript';
+	twScript.charset = 'utf-8';
+	twScript.async = 'async';
+	document.head.appendChild(twScript);
+	
+	let inScript = document.createElement('script');
+	inScript.src = 'https://www.instagram.com/embed.js';
+	inScript.type = 'text/javascript';
+	inScript.charset = 'utf-8';
+	inScript.async = 'async';
+	document.head.appendChild(inScript);
+	
+	// <meta content='width=device-width,initial-scale=1.0' name='viewport'/>
+	// <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'/>
+	// <link href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet'/>
+	// <script async='async' charset='utf-8' src='https://platform.twitter.com/widgets.js'/>
+	// <script async='async' src='//www.instagram.com/embed.js'/>
+}
+
 // Add floating action buttons
-function addCustomElements() {
+function addFloatingButtons() {
 	let topButton = document.createElement('a');
 	topButton.id = 'GoToTopBtn';
 	topButton.title = 'Back To Top';
@@ -85,78 +121,30 @@ function addCustomElements() {
 	// <a id='SidebarBtn' onclick='toggleSidebar()' title='Toggle Sidebar'><i class='material-icons'>menu</i></a>
 }
 
-// Add custom scripts to only add this script on layout
-function loadExternalScripts() {
-	let fontCss = document.createElement('link');
-	fontCss.href = 'https://fonts.googleapis.com/css?family=Open Sans';
-	// fontCss.type = 'text/css';
-	fontCss.rel = 'stylesheet'
-	document.head.appendChild(fontCss);
-	
-	let iconCss = document.createElement('link');
-	iconCss.href = 'https://fonts.googleapis.com/icon?family=Material+Icons';
-	// iconCss.type = 'text/css';
-	iconCss.rel = 'stylesheet'
-	document.head.appendChild(iconCss);
-	
-	let twScript = document.createElement('script');
-	twScript.src = 'https://platform.twitter.com/widgets.js';
-	twScript.type = 'text/javascript';
-	twScript.charset = 'utf-8';
-	twScript.async = 'async';
-	document.head.appendChild(twScript);
-	
-	let inScript = document.createElement('script');
-	inScript.src = 'https://www.instagram.com/embed.js';
-	inScript.type = 'text/javascript';
-	inScript.charset = 'utf-8';
-	inScript.async = 'async';
-	document.head.appendChild(inScript);
-	
-	// <meta content='width=device-width,initial-scale=1.0' name='viewport'/>
-	// <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'/>
-	// <link href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet'/>
-	// <script async='async' charset='utf-8' src='https://platform.twitter.com/widgets.js'/>
-	// <script async='async' src='//www.instagram.com/embed.js'/>
-}
-
 // Reload based on first visit: if no 'm=0/1' add, if m=0 edit older posts and newer posts URL
 function preloadSequence() {
     //initial URL visit fix
     var firstVisit = window.location.href;
     var isFixedURL = false;
     if (firstVisit.includes("/search/label/The%20Entertainment%20News")) document.getElementById("hashtags").remove();
-    if (firstVisit.includes("post-preview")) {
-        document.getElementsByTagName("body")[0].style.display = 'block';
-        document.getElementsByClassName("blogger-clickTrap")[0].remove();
-        return;
-    }
-    /*if (firstVisit.includes("#")) {
-        firstVisit = firstVisit.substring(0, firstVisit.indexOf("#"));
-    }*/
-    else
-        isFixedURL = true;
-    if (isFixedURL) {
-        document.getElementsByTagName("body")[0].style.display = 'block';
-        document.getElementById("SearchBtn").style.display = 'block';
-        if (window.innderWidth < 1040) document.getElementById("SidebarBtn").style.display = 'block';
-    }
-    //fix number of pages to display on older and newer links
-    if (document.getElementsByClassName('blog-pager-older-link').length > 0) {
-        var pagerLink = document.getElementsByClassName('blog-pager-older-link')[0].href;
-        if (pagerLink.includes('&max-results=5') || pagerLink.includes('&max-results=20'))
-            pagerLink = pagerLink.replace('&max-results=5', '&max-results=1');
-        else
-            pagerLink += '&max-results=1';
+    // if (firstVisit.includes("post-preview")) {
+        // document.getElementsByTagName("body")[0].style.display = 'block';
+        // document.getElementsByClassName("blogger-clickTrap")[0].remove();
+        // return;
+    // }
+    // if (firstVisit.includes("#")) {
+        // firstVisit = firstVisit.substring(0, firstVisit.indexOf("#"));
+    // }
+    // else
+        // isFixedURL = true;
 
-        if (document.getElementsByClassName('blog-pager-newer-link').length > 0) {
-            pagerLink = document.getElementsByClassName('blog-pager-newer-link')[0].href;
-            if (pagerLink.includes('&max-results=5'))
-                pagerLink = pagerLink.replace('&max-results=5', '&max-results=1');
-            else
-                pagerLink += '&max-results=1';
-        }
-    }
+    // if (isFixedURL) {
+	document.getElementsByTagName("body")[0].style.display = 'block';
+	document.getElementById("SearchBtn").style.display = 'block';
+	if (window.innderWidth < 1040) document.getElementById("SidebarBtn").style.display = 'block';
+    // }
+	// else
+		// console.log('unable to complete preLoad');
 }
 
 // For search, collapse all results
@@ -283,17 +271,26 @@ function resizeImg() {
     ~Images that always resize to 100% instead of retaining original size which can fit screen, consider putting back original size if no overflow
     ~Consluion: Consider redo whole list based on stricter requirements, and clearer ranges/lists to maintain exclusions
     */
-    var p1 = document.getElementsByTagName("img");
-    for (var p2 of p1) {
+    var images = document.getElementsByTagName("img");
+    for (var p2 of images) {
         var imgWidth = p2.width;
         var imgHeight = p2.height;
-        //exclusion list
-        if (imgWidth < 20 || imgHeight < 20) continue;
-        if (p2.parentElement.tagName == "ABBR" || p2.parentElement.parentElement.className == "popup" || p2.parentElement.className == "anime-row") continue;
-        if (p2.id == "news-thumbnail" || p2.parentElement.parentElement.parentElement.id == "anime-list") continue;
-        if (p2.parentElement.className == "profile-box-img" || p2.parentElement.parentElement.parentElement.className == "anime-year") continue;
+        //process exclusion list
+        if (imgWidth < 20 || imgHeight < 20) continue; //by image size
+        if (p2.parentElement.tagName == "ABBR" || 
+			p2.parentElement.parentElement.className == "popup" || 
+			p2.parentElement.className == "anime-row") 
+				continue; //by any class or tag name
+        if (p2.id == "news-thumbnail" || 
+			p2.parentElement.parentElement.parentElement.id == "anime-list")
+				continue;
+        if (p2.parentElement.className == "profile-box-img" || 
+			p2.parentElement.parentElement.parentElement.className == "anime-year") 
+				continue;
         //if(p2.parentElement.classList.contains("post-body")) continue;
-        //end of exclusion list
+        //end of process exclusion list
+		
+		//process based on parent
         if (p2.parentElement.tagName == "DIV" && !p2.parentElement.classList.contains("post") && !p2.parentElement.classList.contains("post-body") &&
             !p2.parentElement.classList.contains("post-outer")) {
             p2.parentElement.style.maxWidth = imgWidth + 'px';
@@ -312,6 +309,9 @@ function resizeImg() {
             p2.parentElement.parentElement.parentElement.style.maxWidth = imgWidth + 'px';
             p2.parentElement.parentElement.parentElement.style.maxHeight = imgHeight + 'px';
         }
+		//end of process based on parent
+		
+		//process based on dimensions
         if (imgWidth >= imgHeight) //landscape
         {
             p2.removeAttribute("height");
@@ -341,6 +341,9 @@ function resizeImg() {
             else
                 p2.style.width = imgWidth + 'px';
         }
+		//end of process based on dimensions
+		
+		//separator special case
         if (p2.parentElement.className == "separator") {
             p2.parentElement.style.marginLeft = 'auto';
             p2.parentElement.style.marginRight = 'auto';
@@ -349,6 +352,8 @@ function resizeImg() {
             p2.parentElement.parentElement.style.marginLeft = 'auto';
             p2.parentElement.parentElement.style.marginRight = 'auto';
         }
+		//end of separator special case
+		
         if (p2.width >= document.getElementsByClassName("post-body")[0].offsetWidth && document.getElementsByClassName("post-body")[0].offsetWidth > 0) {
             p2.style.width = '100%';
         }
@@ -357,9 +362,28 @@ function resizeImg() {
 }
 
 // Fix search results to return 5 results instead of 1
-function fixLabels() {
+function fixLabelResults() {
     for (var link of document.getElementById("Label1").getElementsByTagName("a")) {
         link.href = link.href += link.href.includes("?") ? "&max-results=5" : "?max-results=5";
+    }
+}
+
+// Fix number of pages to display on older and newer links
+function fixNavigationResults() {
+    if (document.getElementsByClassName('blog-pager-older-link').length > 0) {
+        var pagerLink = document.getElementsByClassName('blog-pager-older-link')[0].href;
+        if (pagerLink.includes('&max-results=5') || pagerLink.includes('&max-results=20'))
+            pagerLink = pagerLink.replace('&max-results=5', '&max-results=1');
+        else
+            pagerLink += '&max-results=1';
+
+        if (document.getElementsByClassName('blog-pager-newer-link').length > 0) {
+            pagerLink = document.getElementsByClassName('blog-pager-newer-link')[0].href;
+            if (pagerLink.includes('&max-results=5'))
+                pagerLink = pagerLink.replace('&max-results=5', '&max-results=1');
+            else
+                pagerLink += '&max-results=1';
+        }
     }
 }
 
