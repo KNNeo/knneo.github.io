@@ -353,6 +353,7 @@
 		"id":"KayanoAi",
 		"image":"https://knneo.webs.com/kayanoai.jpg",
 		"landscapes":[
+			"https://pbs.twimg.com/media/EqaC-B4VoAAD9VS?format=jpg&name=small",
 			"https://pbs.twimg.com/media/ElVHyTbVkAAMui8?format=jpg&name=small",
 			"https://kayanoai-10th-anniversary.com/assets/img/kv.jpg"
 		],
@@ -807,7 +808,9 @@
 		"category":"seiyuu2",
 		"id":"NatsukawaShiina",
 		"image":"https://knneo.webs.com/natsukawashiina.jpg",
-		"landscapes":[],
+		"landscapes":[
+			"https://news-pctr.c.yimg.jp/uUzvQ3lML_bkIqyakc1vFhcD1LjPo8yt_iUb5dR3d8r5m8rSD2r1Nf-NxZJIuHs64J1FUtS0VLOtrrQvFDMF0_CPezC5NuOPE-Sbhrf93x6cyeyWf-SIkq2HjZCfqw2uziQ_Fsh_WgFpaUUop9UheCMVW3JuhH-xy9eOFGLTJXg="
+		],
 		"portraits":[
 			"https://image.news.livedoor.com/newsimage/stf/c/f/cff805378b5526b8a7f24bf359a9046b.jpg"
 		],
