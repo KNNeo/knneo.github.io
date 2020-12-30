@@ -4,13 +4,13 @@ window.onload = function() {
 	loadExternalScripts();
     preloadSequence();
     reduceResults();
-    fixPopup();
+    // fixPopup();
     if (document.getElementsByClassName('popup').length > 0) fixPopup();
     setThumbnails();
     resizeImg();
     fixLabels();
     olderNewerTextToIcon();
-    addLabelNavigation();
+    addLabelForNavigation();
     addHoverForLinks();
     if (window.location.href.includes("/search/label/")) addHoverOnExpander();
 };
@@ -19,6 +19,30 @@ window.onbeforeunload = function() {
 	document.body.style.display = 'none';
 };
 
+window.onscroll = function() {
+	// When the user scrolls down to half of viewport from the top of the document, change floating action button
+    if (document.body.scrollTop > document.documentElement.clientHeight || document.documentElement.scrollTop > document.documentElement.clientHeight) {
+        document.getElementById('GoToTopBtn').style.visibility = 'visible';
+        document.getElementById('SearchBtn').style.visibility = 'hidden';
+    } else {
+        document.getElementById('GoToTopBtn').style.visibility = 'hidden';
+        document.getElementById('SearchBtn').style.visibility = 'visible';
+    }
+};
+
+window.onresize = function() {
+    if (document.getElementById('sidebarOverlay') != null && document.getElementById('sidebarOverlay').style.display != 'none')	
+		toggleSidebar();
+    if (window.innerWidth >= 1040) {
+        document.getElementById('LinkList1').style.display = '';
+        document.getElementById('BlogArchive1').style.display = '';
+    }
+	if(window.innerWidth <= 320) {
+		document.body.style.visibility = 'hidden';
+	}
+};
+
+// FUNCTIONS, in above order
 function addCustomElements() {
 	let topButton = document.createElement('a');
 	topButton.id = 'GoToTopBtn';
@@ -131,25 +155,8 @@ function preloadSequence() {
         }
     }
 }
-//fix only all old thumbnails with images, not for span
-function fixPopup() {
-    for (let popup of document.getElementsByClassName('popup')) {
-        if (popup.getElementsByTagName('table').length < 2) continue;
 
-        let newInitial = document.createElement('DIV');
-        newInitial.className = 'thumbnail-initial hover-hidden';
-        newInitial.innerHTML = popup.getElementsByClassName('initial')[0].innerHTML;
-        let newPop = document.createElement('DIV');
-        newPop.className = 'thumbnail-initial thumbnail-pop hover-visible';
-        newPop.innerHTML = popup.getElementsByClassName('pop')[0].innerHTML;
-        popup.innerHTML = '';
-        popup.appendChild(newInitial);
-        popup.appendChild(newPop);
-
-        popup.className = 'thumbnail';
-    }
-}
-
+// For search, collapse all results
 function reduceResults() {
     if (document.getElementsByClassName('post-body entry-content').length > 1) {
         for (var footer of document.getElementsByClassName('post-footer-line-2')) {
@@ -158,8 +165,6 @@ function reduceResults() {
         while (document.getElementsByClassName('date-header')[0] != undefined) {
             document.getElementsByClassName('date-header')[0].remove(); //remove header
         }
-    }
-    if (document.getElementsByClassName('post-body entry-content').length > 1) { //&& !window.location.href.includes('The%20Statement')) {
         for (var content of document.getElementsByClassName('post-body entry-content')) //[0] != undefined)
         {
             if (content.parentElement.getElementsByTagName('h3').length > 0)
@@ -196,124 +201,74 @@ function reduceResults() {
     }
 }
 
-function addHoverForLinks() {
-    for (let link of document.getElementsByClassName('post-body entry-content')[0].getElementsByTagName('a')) {
-        link.addEventListener('mouseover', renderPopup);
+//fix only all old thumbnails with images, not for span
+function fixPopup() {
+    for (let popup of document.getElementsByClassName('popup')) {
+        if (popup.getElementsByTagName('table').length < 2) continue;
+
+        let newInitial = document.createElement('DIV');
+        newInitial.className = 'thumbnail-initial hover-hidden';
+        newInitial.innerHTML = popup.getElementsByClassName('initial')[0].innerHTML;
+        let newPop = document.createElement('DIV');
+        newPop.className = 'thumbnail-initial thumbnail-pop hover-visible';
+        newPop.innerHTML = popup.getElementsByClassName('pop')[0].innerHTML;
+        popup.innerHTML = '';
+        popup.appendChild(newInitial);
+        popup.appendChild(newPop);
+
+        popup.className = 'thumbnail';
     }
 }
 
-function addHoverOnExpander() {
-    for (let expander of document.getElementsByClassName('search-expander')) {
-        expander.addEventListener('click', function() {
-            for (let page of document.getElementsByClassName('post-body entry-content')) {
-                if (page.style.display == 'none') continue;
-                for (let link of page.getElementsByTagName('a')) {
-                    link.addEventListener('mouseover', renderPopup);
-                }
-            }
-        });
-    }
-}
-
-function addHoverForPopups() {
-    for (let page of document.getElementsByClassName('post-body entry-content')) {
-        for (let popup of page.getElementsByClassName('new-t')) {
-            popup.addEventListener('click', togglePopup);
+//Multi-image thumbnail: Define caption height, onclick event
+function setThumbnails() {
+    var allThumbnails = document.body.getElementsByClassName("thumbnail");
+    for (var i = 0; i < allThumbnails.length; i++) {
+        var firstElement = allThumbnails[i].getElementsByClassName('thumbnail-initial')[0];
+        if (firstElement == undefined) continue;
+        var initialHeight = firstElement.offsetHeight;
+        var popHeight = allThumbnails[i].getElementsByClassName('thumbnail-pop')[0].offsetHeight;
+        allThumbnails[i].style.height = Math.max(initialHeight, popHeight) + 'px';
+        if (popHeight - initialHeight > 50 || popHeight - initialHeight < -50)
+            allThumbnails[i].style.height = initialHeight + 'px';
+        var allThumbImages = allThumbnails[i].getElementsByTagName("img");
+        for (j = 0; j < allThumbImages.length; j++) {
+            allThumbImages[j].onclick = function() {
+                switchThumbnails(closestClass(this, "thumbnail"));
+            };
         }
     }
 }
 
-function togglePopup() {
-    if (this.classList.contains('new-thumbnail'))
-        this.classList.remove('new-thumbnail');
-    else {
-        for (let page of document.getElementsByClassName('post-body entry-content')) {
-            for (let popup of page.getElementsByClassName('new-thumbnail')) {
-                popup.classList.remove('new-thumbnail');
-            }
-        }
-        this.classList.add('new-thumbnail');
+var closestClass = function(inputElement, targetClassName) {
+    while (inputElement.className != targetClassName) {
+        inputElement = inputElement.parentNode;
     }
+    return inputElement;
 }
 
-function renderPopup() {
-    //if(link.childElementCount == 0)
-    event.preventDefault();
-    if (this.href.includes('blogspot.com') && this.childElementCount > 0) return; //exclusion for blogger
-    //if(link.childElementCount > 0) return; //exclusion class
-    if (this.classList.contains('opt-out')) return; //exclusion class
-    let newContent = generatePopupContent(this.href);
-    if (newContent == null) {
-        return; //if not compatible for any design
+function switchThumbnails(tn) {
+    var tc = tn.getElementsByClassName("thumbnail-initial");
+    var initialVisible = true;
+    if (tc[0].style.visibility == "hidden") {
+        tc[0].style.visibility = "visible";
+        tc[1].style.visibility = "hidden";
+    } else if (tc[0].style.visibility == "" || tc[1].style.visibility == "") {
+        tc[0].style.visibility = "hidden";
+        tc[1].style.visibility = "visible";
+        initialVisible = false;
+    } else {
+        tc[0].style.visibility = "hidden";
+        tc[1].style.visibility = "visible";
+        initialVisible = false;
     }
-    let thumbnail = document.createElement('div');
-    //thumbnail.classList.add('new-thumbnail');
-    thumbnail.classList.add('new-t');
 
-    let initial = document.createElement('div');
-    initial.classList.add('new-thumbnail-initial');
-    initial.innerHTML = this.innerHTML;
+    var initialHeight = tn.getElementsByClassName('thumbnail-initial')[0].offsetHeight;
+    var popHeight = tn.getElementsByClassName('thumbnail-pop')[0].offsetHeight;
+    if (popHeight - initialHeight > 50 || popHeight - initialHeight < -50)
+        tn.style.height = (initialVisible ? initialHeight : popHeight) + 'px';
 
-    let focus = document.createElement('div');
-    focus.classList.add('new-thumbnail-focus');
-    focus.classList.add('fadeIn');
-    focus.innerHTML = newContent;
-
-    thumbnail.appendChild(initial);
-    thumbnail.appendChild(focus);
-
-    this.outerHTML = thumbnail.outerHTML;
-    twttr.widgets.load(); //special case
-    window.instgrm.Embeds.process(); //special case
-    addHoverForPopups();
-}
-
-function generatePopupContent(url) {
-    if (url.includes('.jpg')) {
-        //process image
-        return '<div class="separator"><img style="max-height: 360px;" src="' + url + '" /></div>';
-    }
-    if (url.includes('music.apple.com')) {
-        //process itunes embed
-        return '<iframe allow="autoplay *; encrypted-media *;" frameborder="0" height="450" sandbox="allow-modals allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation" src="' +
-            url.replace('music.apple.com', 'embed.music.apple.com') +
-            '" style="background: transparent; max-width: 660px; max-height: 360px; overflow: hidden; width: 100%;"></iframe>';
-    }
-    if (url.includes('twitter.com') && url.includes('/status/')) {
-        //process twitter embed
-        return '<blockquote class="twitter-tweet tw-align-center" data-cards="hidden" data-lang="en"><a href="' +
-            url +
-            '"></a></blockquote><script async="async" charset="utf-8" src="https://platform.twitter.com/widgets.js" >\</script\>';
-    }
-    if (url.includes('youtube.com') && url.includes('/watch')) {
-        //process youtube embed
-        let id = url.substring(url.indexOf('?v=') + 3);
-        return '<iframe allow="autoplay; encrypted-media" allowfullscreen="" frameborder="0" style="max-height: 360px;" src="' +
-            'https://www.youtube.com/embed/' + id +
-            '"></iframe>';
-    }
-    if (url.includes('instagram.com')) {
-        //process instagram embed
-        return '<center><blockquote class="instagram-media" data-instgrm-permalink="' +
-            url + '" data-instgrm-version="13" style="max-width:540px; min-width:326px; padding:0; width:100%;"></blockquote></center><script async="async" src="//www.instagram.com/embed.js">\</script\>';
-    }
-    return null;
-}
-
-if(document.getElementById("Blog1") != null)
-	document.getElementById("Blog1").addEventListener("click", function() {
-		cleanupLightbox();
-	});
-
-function cleanupLightbox() {
-    if (document.getElementsByTagName("body")[0].parentElement.className != "v2") {
-        var browseContainer = document.getElementsByClassName("CSS_LIGHTBOX_PHOTO_BROWSE_CONTAINER")[0];
-        var attributeContainerHolder = document.getElementsByClassName("CSS_LAYOUT_COMPONENT CSS_LIGHTBOX_ATTRIBUTION_INDEX_CONTAINER")[0].firstChild;
-        attributeContainerHolder.firstChild.remove();
-        attributeContainerHolder.firstChild.style.width = "100%";
-        attributeContainerHolder.style.width = "100%";
-        document.getElementsByClassName("CSS_LIGHTBOX_BG_MASK_TRANSPARENT")[0].style.height = "120%";
-    }
+    return false;
 }
 
 function resizeImg() {
@@ -396,80 +351,150 @@ function resizeImg() {
     }
     setThumbnails();
 }
-//Multi-image thumbnail: Define caption height, onclick event
-function setThumbnails() {
-    var allThumbnails = document.body.getElementsByClassName("thumbnail");
-    for (var i = 0; i < allThumbnails.length; i++) {
-        var firstElement = allThumbnails[i].getElementsByClassName('thumbnail-initial')[0];
-        if (firstElement == undefined) continue;
-        var initialHeight = firstElement.offsetHeight;
-        var popHeight = allThumbnails[i].getElementsByClassName('thumbnail-pop')[0].offsetHeight;
-        allThumbnails[i].style.height = Math.max(initialHeight, popHeight) + 'px';
-        if (popHeight - initialHeight > 50 || popHeight - initialHeight < -50)
-            allThumbnails[i].style.height = initialHeight + 'px';
-        var allThumbImages = allThumbnails[i].getElementsByTagName("img");
-        for (j = 0; j < allThumbImages.length; j++) {
-            allThumbImages[j].onclick = function() {
-                switchThumbnails(closestClass(this, "thumbnail"));
-            };
-        }
-    }
-}
-var closestClass = function(inputElement, targetClassName) {
-    while (inputElement.className != targetClassName) {
-        inputElement = inputElement.parentNode;
-    }
-    return inputElement;
-}
-
-function switchThumbnails(tn) {
-    var tc = tn.getElementsByClassName("thumbnail-initial");
-    var initialVisible = true;
-    if (tc[0].style.visibility == "hidden") {
-        tc[0].style.visibility = "visible";
-        tc[1].style.visibility = "hidden";
-    } else if (tc[0].style.visibility == "" || tc[1].style.visibility == "") {
-        tc[0].style.visibility = "hidden";
-        tc[1].style.visibility = "visible";
-        initialVisible = false;
-    } else {
-        tc[0].style.visibility = "hidden";
-        tc[1].style.visibility = "visible";
-        initialVisible = false;
-    }
-
-    var initialHeight = tn.getElementsByClassName('thumbnail-initial')[0].offsetHeight;
-    var popHeight = tn.getElementsByClassName('thumbnail-pop')[0].offsetHeight;
-    if (popHeight - initialHeight > 50 || popHeight - initialHeight < -50)
-        tn.style.height = (initialVisible ? initialHeight : popHeight) + 'px';
-
-    return false;
-}
 
 function fixLabels() {
     for (var link of document.getElementById("Label1").getElementsByTagName("a")) {
         link.href = link.href += link.href.includes("?") ? "&max-results=5" : "?max-results=5";
     }
 }
-// When the user scrolls down to half of viewport from the top of the document, show floating action button
-window.onscroll = function() {
-    if (document.body.scrollTop > document.documentElement.clientHeight || document.documentElement.scrollTop > document.documentElement.clientHeight) {
-        document.getElementById('GoToTopBtn').style.visibility = 'visible';
-        document.getElementById('SearchBtn').style.visibility = 'hidden';
-    } else {
-        document.getElementById('GoToTopBtn').style.visibility = 'hidden';
-        document.getElementById('SearchBtn').style.visibility = 'visible';
-    }
-};
 
-window.onresize = function() {
-    if (document.getElementById('sidebarOverlay') != null && document.getElementById('sidebarOverlay').style.display != 'none') toggleSidebar();
-    if (window.innerWidth >= 1040) {
-        document.getElementById('LinkList1').style.display = '';
-        document.getElementById('BlogArchive1').style.display = '';
-    }
-};
+function olderNewerTextToIcon() {
+    if (document.getElementById("blog-pager-newer-link") != null) document.getElementById("blog-pager-newer-link").getElementsByTagName("a")[0].innerHTML = "<i class='material-icons flip-arrow'>arrow_right_alt</i>";
+    if (document.getElementById("blog-pager-older-link") != null) document.getElementById("blog-pager-older-link").getElementsByTagName("a")[0].innerHTML = "<i class='material-icons'>arrow_right_alt</i>";
+}
 
+//new popup element, based on content type
+function addLabelForNavigation() {
+    document.getElementById("Label1").innerHTML = '<i class="material-icons bar-left" style="font-size: 48px;">arrow_left</i><i class="material-icons bar-right" style="font-size: 48px;">arrow_right</i>' + document.getElementById("Label1").innerHTML;
+    document.getElementById("Label1").getElementsByClassName("bar-right")[0].addEventListener("click", function() {
+        document.getElementById("Label1").getElementsByTagName("ul")[0].scrollLeft += 100;
+    });
+    document.getElementById("Label1").getElementsByClassName("bar-left")[0].addEventListener("click", function() {
+        document.getElementById("Label1").getElementsByTagName("ul")[0].scrollLeft -= 100;
+    });
+}
+
+function addHoverForLinks() {
+    for (let link of document.getElementsByClassName('post-body entry-content')[0].getElementsByTagName('a')) {
+        link.addEventListener('mouseover', renderPopup);
+    }
+}
+
+function addHoverOnExpander() {
+    for (let expander of document.getElementsByClassName('search-expander')) {
+        expander.addEventListener('click', function() {
+            for (let page of document.getElementsByClassName('post-body entry-content')) {
+                if (page.style.display == 'none') continue;
+                for (let link of page.getElementsByTagName('a')) {
+                    link.addEventListener('mouseover', renderPopup);
+                }
+            }
+        });
+    }
+}
+
+function addHoverForPopups() {
+    for (let page of document.getElementsByClassName('post-body entry-content')) {
+        for (let popup of page.getElementsByClassName('new-t')) {
+            popup.addEventListener('click', togglePopup);
+        }
+    }
+}
+
+function togglePopup() {
+    if (this.classList.contains('new-thumbnail'))
+        this.classList.remove('new-thumbnail');
+    else {
+        for (let page of document.getElementsByClassName('post-body entry-content')) {
+            for (let popup of page.getElementsByClassName('new-thumbnail')) {
+                popup.classList.remove('new-thumbnail');
+            }
+        }
+        this.classList.add('new-thumbnail');
+    }
+}
+
+function renderPopup() {
+    //if(link.childElementCount == 0)
+    event.preventDefault();
+    if (this.href.includes('blogspot.com') && this.childElementCount > 0) return; //exclusion for blogger
+    //if(link.childElementCount > 0) return; //exclusion class
+    if (this.classList.contains('opt-out')) return; //exclusion class
+    let newContent = generatePopupContent(this.href);
+    if (newContent == null) {
+        return; //if not compatible for any design
+    }
+    let thumbnail = document.createElement('div');
+    //thumbnail.classList.add('new-thumbnail');
+    thumbnail.classList.add('new-t');
+
+    let initial = document.createElement('div');
+    initial.classList.add('new-thumbnail-initial');
+    initial.innerHTML = this.innerHTML;
+
+    let focus = document.createElement('div');
+    focus.classList.add('new-thumbnail-focus');
+    focus.classList.add('fadeIn');
+    focus.innerHTML = newContent;
+
+    thumbnail.appendChild(initial);
+    thumbnail.appendChild(focus);
+
+    this.outerHTML = thumbnail.outerHTML;
+    twttr.widgets.load(); //special case
+    window.instgrm.Embeds.process(); //special case
+    addHoverForPopups();
+}
+
+function generatePopupContent(url) {
+    if (url.includes('.jpg')) {
+        //process image
+        return '<div class="separator"><img style="max-height: 360px; max-width: 100%;" src="' + url + '" /></div>';
+    }
+    if (url.includes('music.apple.com')) {
+        //process itunes embed
+        return '<iframe allow="autoplay *; encrypted-media *;" frameborder="0" height="450" sandbox="allow-modals allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation" src="' +
+            url.replace('music.apple.com', 'embed.music.apple.com') +
+            '" style="background: transparent; max-width: 660px; max-height: 360px; overflow: hidden; width: 100%;"></iframe>';
+    }
+    if (url.includes('twitter.com') && url.includes('/status/')) {
+        //process twitter embed
+        return '<blockquote class="twitter-tweet tw-align-center" data-cards="hidden" data-lang="en"><a href="' +
+            url +
+            '"></a></blockquote><script async="async" charset="utf-8" src="https://platform.twitter.com/widgets.js" >\</script\>';
+    }
+    if (url.includes('youtube.com') && url.includes('/watch')) {
+        //process youtube embed
+        let id = url.substring(url.indexOf('?v=') + 3);
+        return '<iframe allow="autoplay; encrypted-media" allowfullscreen="" frameborder="0" style="max-height: 360px;" src="' +
+            'https://www.youtube.com/embed/' + id +
+            '"></iframe>';
+    }
+    if (url.includes('instagram.com')) {
+        //process instagram embed
+        return '<center><blockquote class="instagram-media" data-instgrm-permalink="' +
+            url + '" data-instgrm-version="13" style="max-width:540px; min-width:326px; padding:0; width:100%;"></blockquote></center><script async="async" src="//www.instagram.com/embed.js">\</script\>';
+    }
+    return null;
+}
+
+//to fix lightbox gallery not covering screen on Chrome mobile, run only once per refresh
+if(document.getElementById("Blog1") != null)
+	document.getElementById("Blog1").addEventListener("click", cleanupLightbox);
+
+function cleanupLightbox() {
+    if (document.getElementsByTagName("body")[0].parentElement.className != "v2") {
+        var browseContainer = document.getElementsByClassName("CSS_LIGHTBOX_PHOTO_BROWSE_CONTAINER")[0];
+        var attributeContainerHolder = document.getElementsByClassName("CSS_LAYOUT_COMPONENT CSS_LIGHTBOX_ATTRIBUTION_INDEX_CONTAINER")[0].firstChild;
+        attributeContainerHolder.firstChild.remove();
+        attributeContainerHolder.firstChild.style.width = "100%";
+        attributeContainerHolder.style.width = "100%";
+        document.getElementsByClassName("CSS_LIGHTBOX_BG_MASK_TRANSPARENT")[0].style.height = "120%";
+    }
+	document.getElementById("Blog1").removeEventListener("click", cleanupLightbox);
+}
+
+//floating action button events
 function toggleSearch() {
     goToTop();
     var barDisp = document.getElementById('CustomBlogSearch').style.display;
@@ -514,26 +539,4 @@ function toggleSidebar() {
 function goToTop() {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
-}
-
-function olderNewerTextToIcon() {
-    if (document.getElementById("blog-pager-newer-link") != null) document.getElementById("blog-pager-newer-link").getElementsByTagName("a")[0].innerHTML = "<i class='material-icons flip-arrow'>arrow_right_alt</i>";
-    if (document.getElementById("blog-pager-older-link") != null) document.getElementById("blog-pager-older-link").getElementsByTagName("a")[0].innerHTML = "<i class='material-icons'>arrow_right_alt</i>";
-}
-
-function addLabelNavigation() {
-    document.getElementById("Label1").innerHTML = '<i class="material-icons bar-left" style="font-size: 48px;">arrow_left</i><i class="material-icons bar-right" style="font-size: 48px;">arrow_right</i>' + document.getElementById("Label1").innerHTML;
-    // document.getElementById("PageList2").innerHTML = '<i class="material-icons bar-left" style="font-size: 48px;">arrow_left</i><i class="material-icons bar-right" style="font-size: 48px;">arrow_right</i>' + document.getElementById("PageList2").innerHTML;
-    document.getElementById("Label1").getElementsByClassName("bar-right")[0].addEventListener("click", function() {
-        document.getElementById("Label1").getElementsByTagName("ul")[0].scrollLeft += 100;
-    });
-    document.getElementById("Label1").getElementsByClassName("bar-left")[0].addEventListener("click", function() {
-        document.getElementById("Label1").getElementsByTagName("ul")[0].scrollLeft -= 100;
-    });
-    // document.getElementById("PageList2").getElementsByClassName("bar-right")[0].addEventListener("click", function() {
-       // document.getElementById("PageList2").getElementsByTagName("ul")[0].scrollLeft += 100;
-    // });
-    // document.getElementById("PageList2").getElementsByClassName("bar-left")[0].addEventListener("click", function() {
-        // document.getElementById("PageList2").getElementsByTagName("ul")[0].scrollLeft -= 100;
-    // });
 }
