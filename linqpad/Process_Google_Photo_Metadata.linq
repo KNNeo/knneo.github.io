@@ -11,7 +11,9 @@ void Main()
 	var files = Directory.GetFiles(folderpath, "*.json", SearchOption.AllDirectories);
 	//Console.WriteLine(files);
 	
+	var jsonList = new List<GooglePhotosMetadata>();
 	var nameList = new List<string>();
+	var peopleList = new List<string>();
 	
 	//foreach json file
 	foreach(var f in files)
@@ -19,13 +21,14 @@ void Main()
 		//if(!f.Contains(".json")) continue;
 		string text = File.ReadAllText(f);
 		
-		if(text.Length > 0) 
+		if(text.Length > 0)
 		{		
 			var jsonObj = JsonConvert.DeserializeObject<GooglePhotosMetadata>(text);
+			jsonList.Add(jsonObj);
 			//Console.WriteLine(jsonObj.title + " | " + jsonObj.description);
-			if(jsonObj.people == null || jsonObj.people.Count < 1)
+			if(jsonObj.people == null || jsonObj.people.Count != 1)
 			{
-				//Console.WriteLine("> " + jsonObj.title);
+				//Console.WriteLine("> " + jsonObj.description);
 				nameList.Add(jsonObj.description);
 			}
 			else
@@ -33,12 +36,14 @@ void Main()
 				foreach(var person in jsonObj.people)
 				{
 					nameList.Add(person.name);
+					peopleList.Add(jsonObj.description);
 				}
 			}
 		}
 	}
 	
 	var names = new List<Names>();
+	var people = new List<Names>();
 	
 	//compile
 	//foreach name, count
@@ -54,9 +59,29 @@ void Main()
 		}
 	}
 	
+	foreach(var name in peopleList)
+	{
+		if(people.Where(n => n.name == name).Count() > 0) continue;
+		else
+		{
+			people.Add(new Names{
+				name = name,
+				count = nameList.Where(n => n == name).Count()
+			});
+		}
+	}
+	
 	//views
 	Console.WriteLine(names.OrderBy(n => n.name));
-	Console.WriteLine(names.OrderByDescending(n => n.count));
+	//Console.WriteLine(names.OrderByDescending(n => n.count));
+	
+	Console.WriteLine(jsonList.Where(n => n.people == null).OrderByDescending(n => n.creationTime.timestamp).Select(n =>
+		new {
+			description = n.description,
+			time = n.creationTime.formatted
+		}
+	));
+	//Console.WriteLine(jsonList.Where(n => n.description == "Anzai Chika" || (n.people != null && n.people.Any(p => p.name == "Anzai Chika"))));
 }
 
 // Define other methods and classes here
@@ -70,9 +95,15 @@ public class GooglePhotosMetadata
 {
 	public string title { get; set; }
 	public string description { get; set; }
-	public List<GooglePhotosMetadataPeople> people { get; set; }	
+	public List<GooglePhotosMetadataPeople> people { get; set; }
+	public GooglePhotosMetadataCreationTime creationTime { get; set; }
 }
 public class GooglePhotosMetadataPeople
 {
 	public string name { get; set; }
+}
+public class GooglePhotosMetadataCreationTime
+{
+	public int timestamp { get; set; }
+	public string formatted { get; set; }
 }
