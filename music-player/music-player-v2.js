@@ -257,17 +257,17 @@ function generateTable(tableID) {
 	//header
 	let th = document.createElement('tr');
 		
-		let td1 = document.createElement('td');
+		let td1 = document.createElement('th');
 		td1.width = 30;
 		td1.innerText = 'Rank';			
 		th.appendChild(td1);
 		
-		let td2 = document.createElement('td');
+		let td2 = document.createElement('th');
 		td2.width = 270;
 		td2.innerText = 'Song Title';			
 		th.appendChild(td2);
 		
-		let td3 = document.createElement('td');
+		let td3 = document.createElement('th');
 		td3.width = 270;
 		td3.innerText = 'Contributing Artist(s)';			
 		th.appendChild(td3);

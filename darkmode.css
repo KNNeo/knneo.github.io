@@ -35,7 +35,7 @@ html, div {
 	user-select: none; 
 }
 
-tr:hover {
+tr:hover > td {
 	background-color: lightgray;
 }
 .darked tr:hover {
@@ -85,7 +85,7 @@ tr:hover {
 	  background: #444444;
 	}
 	
-	tr:hover {
+	tr:hover > td {
 		background-color: gray;
 	}
 	

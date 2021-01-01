@@ -9,16 +9,17 @@ html {
 	padding: 2px 8px;
 }
 
-tr:hover {
+.list tr:hover > td {
 	background-color: gray;
 }
 
-.darked tr:hover {
+.darked tr:hover > td {
 	background-color: lightgray;
 }
 
 h1 {
 	margin: 20px 0;
+	margin-bottom: 0;
 }
 
 table {
@@ -36,23 +37,13 @@ td, th {
 	border: 1px solid transparent;
 }
 
-.darked td {
-	border: 1px solid white; 
-}
-
-h1 {
-	margin-bottom: 0;
+.darked td, .darked th {
+	border: 1px solid white;
 }
 
 .year {
 	padding: 5px;
 	cursor: pointer;
-}
-
-
-button:active {
-  box-shadow: 1px 1px;
-  transform: translate(2px,2px); 
 }
 
 .player, .list {
@@ -96,11 +87,11 @@ button:active {
 }
 
 @media (prefers-color-scheme: dark) {
-	td { 
+	td, th { 
 		border: 1px solid white; 
 	}
 
-	.darked td {
+	.darked td, .darked th {
 		border: 1px solid black; 
 	}
 }
