@@ -229,7 +229,7 @@ timestamps.push(['2013', 24, 0000, 20, 'yanaginagi', 'You can count on me']);
 
 
 //--FUNCTIONS--//
-window.onload = startup();
+window.onload += startup();
 
 function startup() {
 	timestamps = timestamps.sort((a,b) => a[1] - b[1]);
