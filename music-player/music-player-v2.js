@@ -1,5 +1,5 @@
 //timestamp display for audio player
-let tableID = '2019';
+let tableID = '2020';
 let playerID = tableID + 'Player';
 let domain = 'https://klassicnoteawards.webs.com/';
 let timer;
