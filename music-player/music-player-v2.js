@@ -258,7 +258,7 @@ function generateTable(tableID) {
 	let th = document.createElement('tr');
 		
 		let td1 = document.createElement('th');
-		td1.width = 30;
+		td1.width = 35;
 		td1.innerText = 'Rank';			
 		th.appendChild(td1);
 		
