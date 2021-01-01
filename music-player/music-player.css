@@ -55,7 +55,7 @@ button:active {
   transform: translate(2px,2px); 
 }
 
-.player, table {
+.player, .list {
 	width: 100%;
 }
 

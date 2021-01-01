@@ -233,11 +233,15 @@ window.onload = startup();
 
 function startup() {
 	timestamps = timestamps.sort((a,b) => a[1] - b[1]);
-	generateSidemenu();
-	hideIrrelevant();
+	if(document.getElementById('sidebar') != undefined) 
+	{
+		generateSidemenu();
+		hideIrrelevant();
+	}
+	if(document.getElementById('darkmode') != undefined)
+		createDarkMode();
 	generateTable(tableID);
 	generatePlayer(tableID);
-	createDarkMode();
 }
 
 function generateTable(tableID) {
@@ -438,6 +442,7 @@ function createDarkMode() {
 		} );
 }
 
+//actual timestamp run event when playing
 function runTimestamp() {
     timer = setInterval(setTimestamp, 1000);
 }
