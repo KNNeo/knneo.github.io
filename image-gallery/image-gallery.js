@@ -108,13 +108,12 @@ function renderPage(pageName) {
 	for(let link of links)
 	{
 		if(pageName.includes(link)) continue;
-		if(link == links[0] && !window.location.href.includes('//knneo.github.io')) continue;
 		let newLink = document.createElement('div');
 		newLink.classList.add('navigation-item');
 		newLink.classList.add('shadowed');
 		newLink.addEventListener('click', function() { loadPage(link); });
 		
-		if(link == links[0]) newLink.innerText = 'GALLERY';
+		if(link == links[0] && !window.location.href.includes('//knneo.github.io')) newLink.innerText = 'GALLERY';
 		if(link == links[1]) newLink.innerText = 'amiibo Cards';
 		if(link == links[2]) newLink.innerText = 'ギャラリー';
 		if(link == links[3]) newLink.innerText = 'Profiles';
