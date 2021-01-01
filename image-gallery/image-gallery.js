@@ -108,7 +108,7 @@ function renderPage(pageName) {
 	for(let link of links)
 	{
 		if(pageName.includes(link)) continue;
-		if(link == links[0] && !window.location.href.includes('knneo.github.io')) continue;
+		if(link == links[0] && !window.location.href.includes('//knneo.github.io')) continue;
 		let newLink = document.createElement('div');
 		newLink.classList.add('navigation-item');
 		newLink.classList.add('shadowed');
