@@ -6,6 +6,31 @@ let timer;
 let timestamps = new Array();
 //title_string,table_row,time_in_seconds,rank_till_time
 //for ranks with more than 1 result, order is same as order of push not table_row
+timestamps.push(['2020', 24,    0, 20, 'Sangatsu no Phantasia', 'Kemuri']);
+timestamps.push(['2020', 23,   40, 19, 'Kitou Akari', 'Desire Again']);
+timestamps.push(['2020', 22,   81, 18, 'ORESAMA', 'Gimmme!']);
+timestamps.push(['2020', 21,  126, 17, 'SID', 'Houkiboshi']);
+timestamps.push(['2020', 19,  168, 16, 'yourness', 'Kago no Naka ni Tori']);
+timestamps.push(['2020', 20,  213, 16, 'SHE\'S', 'Tragicomedy']);
+timestamps.push(['2020', 18,  255, 15, 'MOSHIMO', 'Denkousekka Jealousy']);
+timestamps.push(['2020', 17,  301, 14, 'VELTPUNCH', 'Suicide King']);
+timestamps.push(['2020', 15,  345, 13, 'Natsukawa Shiina', 'Antithesis']);
+timestamps.push(['2020', 16,  390, 13, 'Fuchigami Mai', 'Valentine Hunter']);
+timestamps.push(['2020', 14,  434, 12, 'Suzuki Aina', 'Hikariiro no Uta']);
+timestamps.push(['2020', 13,  481, 11, 'Numakura Manami', 'Minna de!']);
+timestamps.push(['2020', 12,  529, 10, 'Polkadot Stingray', 'Megami']);
+timestamps.push(['2020', 11,  565,  9, 'Minase Inori', 'Kokoro Somari']);
+timestamps.push(['2020', 10,  611,  8, 'SCANDAL', 'A.M.D.K.J.']);
+timestamps.push(['2020',  9,  650,  7, 'spira.spica', 'Pop Step Jump!']);
+timestamps.push(['2020',  8,  696,  6, 'Aimer', 'SPARK-AGAIN']);
+timestamps.push(['2020',  6,  744,  5, 'Asakura Momo', 'Agapanthus']);
+timestamps.push(['2020',  7,  785,  5, 'Waki Azumi', 'Fuwatto']);
+timestamps.push(['2020',  5,  834,  4, 'tacica', 'aranami']);
+timestamps.push(['2020',  4,  879,  3, 'yorushika', 'Shisouhan']);
+timestamps.push(['2020',  2,  923,  2, 'Ryokuoushoku Shakai', 'Shout Baby']);
+timestamps.push(['2020',  3,  968,  2, 'THE ORAL CIGARETTES', 'Slowly but surely I go on']);
+timestamps.push(['2020',  1, 1007,  1, 'Ryokuoushoku Shakai', 'Mela!']);
+
 timestamps.push(['2019', 24,    0, 20, 'Numakura Manami', 'irodori -color-']);
 timestamps.push(['2019', 23,   45, 19, 'sphere', 'Sign']);
 timestamps.push(['2019', 22,   94, 18, 'miwa', 'Reboot']);
@@ -336,7 +361,6 @@ function generateSeek(time) {
 	let player = document.getElementById('music').getElementsByClassName('player')[0];
 	player.currentTime = time;
 	player.play();
-	runTimestamp();
 }
 
 function generatePlayer(tableID) {
@@ -398,15 +422,7 @@ function generateSidemenu() {
 }
 
 function hideIrrelevant() {
-/* 	for(let table of document.getElementsByClassName('list'))
-	{
-		table.style.display = table.id != tableID ? 'none' : '';
-	}
-	for(let player of document.getElementsByClassName('player'))
-	{
-		player.style.display = player.id != playerID ? 'none' : '';
-	}
- */	for(let year of document.getElementsByClassName('year'))
+	for(let year of document.getElementsByClassName('year'))
 	{
 		year.style.fontWeight = year.innerText != tableID ? 'normal' : 'bold';
 	}
@@ -422,7 +438,6 @@ function createDarkMode() {
 		} );
 }
 
-
 function runTimestamp() {
     timer = setInterval(setTimestamp, 1000);
 }
@@ -437,16 +452,16 @@ function setTimestamp() {
     let currentPos;
     let prevPos;
     for (let pair of timestamps.filter(time => time[0] == tableID).sort((a,b) => b[2] - a[2])) {
+        prevPos = pair;
         if (pair[2] <= currentTime) {
             currentPos = pair[1];
             break;
         }
-        prevPos = pair;
     }
     //only change when time of next has passed: current to normal, next to bold
     if (currentPos == undefined) clearInterval(timer);
     else {
-        if (prevPos != undefined && currentTime <= prevPos[2]) clearTimestamp();
+        if (prevPos != undefined && prevPos[2] <= currentTime) clearTimestamp();
         if (!audioPlayer.paused) {
 			//if has colspan on column 0 ensure on second row cell on first row is highlighted
             if(audioTable.getElementsByTagName("tr")[currentPos].cells.length == 2)
@@ -458,6 +473,7 @@ function setTimestamp() {
             clearInterval(timer);
         }
     }
+	console.log(currentTime, currentPos, prevPos);
 }
 
 function clearTimestamp() {
