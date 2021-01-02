@@ -363,6 +363,7 @@ function resizeImg() {
 
 // Fix search results to return 5 results instead of 1
 function fixLabelResults() {
+	if(document.getElementById("Label1") == undefined) return;
     for (var link of document.getElementById("Label1").getElementsByTagName("a")) {
         link.href = link.href += link.href.includes("?") ? "&max-results=5" : "?max-results=5";
     }
@@ -395,6 +396,7 @@ function olderNewerTextToIcon() {
 
 // Add arrows for search labels when in smaller screens
 function addLabelForNavigation() {
+	if(document.getElementById("Label1") == undefined) return;
     document.getElementById("Label1").innerHTML = '<i class="material-icons bar-left" style="font-size: 48px;">arrow_left</i><i class="material-icons bar-right" style="font-size: 48px;">arrow_right</i>' + document.getElementById("Label1").innerHTML;
     document.getElementById("Label1").getElementsByClassName("bar-right")[0].addEventListener("click", function() {
         document.getElementById("Label1").getElementsByTagName("ul")[0].scrollLeft += 100;
