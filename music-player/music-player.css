@@ -1,7 +1,20 @@
 html {
-	background-color: white;
+	/* background-color: white; */
 	font-family: Open Sans;
 }
+
+ /* Hide scrollbar for Chrome, Safari and Opera */
+#sidebar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+#sidebar {
+	overflow-x: scroll;
+	overflow-y: hidden;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+} 
 
 .centered {
 	max-width: 640px;
@@ -10,11 +23,11 @@ html {
 }
 
 .list tr:hover > td {
-	background-color: gray;
+	background-color: transparent;
 }
 
 .darked tr:hover > td {
-	background-color: lightgray;
+	background-color: transparent;
 }
 
 h1 {

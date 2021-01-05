@@ -280,26 +280,28 @@ function generateTable(tableID) {
 			return n[0] == tableID && n[3] == rank;
 		})
 		
+		let tr = document.createElement('tr');
+		tr.style.cursor = 'pointer';
+		tr.setAttribute('seek',stamps[0][2]);
+		tr.addEventListener('click', function() { generateSeek(this.getAttribute('seek')); });
+		tr.addEventListener('mouseover', hoverOnRow);
+		tr.addEventListener('mouseout', hoverOnRow);
+		
 		if(stamps.length > 1)
 		{
-			let tr = document.createElement('tr');
-			tr.style.cursor = 'pointer';
-			tr.setAttribute('seek',stamps[0][2]);
-			tr.addEventListener('click', function() { generateSeek(this.getAttribute('seek')); });
+			let td1 = document.createElement('td');
+			td1.style.textAlign = 'right';
+			td1.setAttribute('rowspan', 2);
+			td1.innerText = stamps[0][3];
+			tr.appendChild(td1);
 			
-				let td1 = document.createElement('td');
-				td1.style.textAlign = 'right';
-				td1.setAttribute('rowspan', 2);
-				td1.innerText = stamps[0][3];
-				tr.appendChild(td1);
-				
-				let td2 = document.createElement('td');
-				td2.innerText = stamps[0][5];
-				tr.appendChild(td2);
-				
-				let td3 = document.createElement('td');
-				td3.innerText = stamps[0][4];
-				tr.appendChild(td3);
+			let td2 = document.createElement('td');
+			td2.innerText = stamps[0][5];
+			tr.appendChild(td2);
+			
+			let td3 = document.createElement('td');
+			td3.innerText = stamps[0][4];
+			tr.appendChild(td3);
 			
 			tbody.appendChild(tr);
 			
@@ -307,36 +309,34 @@ function generateTable(tableID) {
 			tr.style.cursor = 'pointer';
 			tr.setAttribute('seek',stamps[1][2]);
 			tr.addEventListener('click', function() { generateSeek(this.getAttribute('seek')); });
+			tr.addEventListener('mouseover', hoverOnRow);
+			tr.addEventListener('mouseout', hoverOnRow);
 							
-				td2 = document.createElement('td');
-				td2.innerText = stamps[1][5];
-				tr.appendChild(td2);
-				
-				td3 = document.createElement('td');
-				td3.innerText = stamps[1][4];
-				tr.appendChild(td3);
+			td2 = document.createElement('td');
+			td2.innerText = stamps[1][5];
+			tr.appendChild(td2);
+			
+			td3 = document.createElement('td');
+			td3.innerText = stamps[1][4];
+			tr.appendChild(td3);
 			
 			tbody.appendChild(tr);
 		}
 		else
 		{
-			let tr = document.createElement('tr');
-			tr.style.cursor = 'pointer';
-			tr.setAttribute('seek',stamps[0][2]);
-			tr.addEventListener('click', function() { generateSeek(this.getAttribute('seek')); });
 			
-				let td1 = document.createElement('td');
-				td1.style.textAlign = 'right';
-				td1.innerText = stamps[0][3];
-				tr.appendChild(td1);
-				
-				let td2 = document.createElement('td');
-				td2.innerText = stamps[0][5];
-				tr.appendChild(td2);
-				
-				let td3 = document.createElement('td');
-				td3.innerText = stamps[0][4];
-				tr.appendChild(td3);
+			let td1 = document.createElement('td');
+			td1.style.textAlign = 'right';
+			td1.innerText = stamps[0][3];
+			tr.appendChild(td1);
+			
+			let td2 = document.createElement('td');
+			td2.innerText = stamps[0][5];
+			tr.appendChild(td2);
+			
+			let td3 = document.createElement('td');
+			td3.innerText = stamps[0][4];
+			tr.appendChild(td3);
 			
 			tbody.appendChild(tr);
 		}
@@ -361,6 +361,25 @@ function generateTable(tableID) {
 	document.getElementById('table').appendChild(table);
 }
 
+function hoverOnRow() {
+	let cells = this.getElementsByTagName('td');
+	let prevCells = this.previousSibling.getElementsByTagName('td');
+	if(prevCells.length == 3 && cells.length == 2 && prevCells[0].rowSpan != undefined)
+		toggleHover(prevCells[0]);//.style.visibility = 'hidden';
+	toggleHover(cells[0]);//.style.visibility = 'hidden';
+	toggleHover(cells[1]);//.style.visibility = 'hidden';
+	if(cells.length > 2) toggleHover(cells[2]);//.style.visibility = 'hidden';
+}
+
+function toggleHover(cell) {
+	let supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+	let isDarked = document.getElementsByTagName('html')[0].classList.contains('darked');
+	let cellColor = 'transparent';
+	if(supportDarkMode) cellColor = isDarked ? 'lightgray' : 'gray';
+	else cellColor = isDarked ? 'gray' : 'lightgray';
+	cell.style.backgroundColor = cell.style.backgroundColor == cellColor ? '' : cellColor;
+}
+
 function generateSeek(time) {
 	let player = document.getElementById('music').getElementsByClassName('player')[0];
 	player.currentTime = time;
@@ -374,7 +393,7 @@ function generatePlayer(tableID) {
 	audio.id = tableID + 'Player';
 	audio.classList.add('player');
 	audio.addEventListener('playing', runTimestamp);
-	audio.addEventListener('seeking', clearTimestamp);
+	audio.addEventListener('seeking', clearTimestamps);
 	audio.controls = true;
 	audio.volume = 0.5;
 	
@@ -406,7 +425,7 @@ function generateSidemenu() {
 			generateTable(tableID);
 			generatePlayer(tableID);
             clearInterval(timer);
-			clearTimestamp();
+			clearTimestamps();
 			hideIrrelevant();
 		});
 		document.getElementById('sidebar').appendChild(item);
@@ -420,7 +439,7 @@ function generateSidemenu() {
 			generateTable(tableID);
 			generatePlayer(tableID);
             clearInterval(timer);
-			clearTimestamp();
+			clearTimestamps();
 			hideIrrelevant();
 	}
 }
@@ -444,10 +463,10 @@ function createDarkMode() {
 
 //actual timestamp run event when playing
 function runTimestamp() {
-    timer = setInterval(setTimestamp, 1000);
+    timer = setInterval(checkTimestamps, 1000);
 }
 
-function setTimestamp() {
+function checkTimestamps() {
     //get player, table
     let audioPlayer = document.getElementById(playerID);
     let audioTable = document.getElementById(tableID);
@@ -466,22 +485,27 @@ function setTimestamp() {
     //only change when time of next has passed: current to normal, next to bold
     if (currentPos == undefined) clearInterval(timer);
     else {
-        if (prevPos != undefined && prevPos[2] <= currentTime) clearTimestamp();
+        if (prevPos != undefined && prevPos[2] <= currentTime) clearTimestamps();
         if (!audioPlayer.paused) {
 			//if has colspan on column 0 ensure on second row cell on first row is highlighted
             if(audioTable.getElementsByTagName("tr")[currentPos].cells.length == 2)
-				audioTable.getElementsByTagName("tr")[currentPos-1].cells[0].style.fontWeight = "bold";
-            audioTable.getElementsByTagName("tr")[currentPos].style.fontWeight = "bold";
+				setTimestamp(audioTable.getElementsByTagName("tr")[currentPos-1].cells[0]);//.style.fontWeight = "bold";
+            setTimestamp(audioTable.getElementsByTagName("tr")[currentPos]);//.style.fontWeight = "bold";
         }
         else {
-            audioTable.getElementsByTagName("tr")[currentPos].style.fontWeight = "normal";
+			clearTimestamps();
+            //audioTable.getElementsByTagName("tr")[currentPos].style.fontWeight = "normal";
             clearInterval(timer);
         }
     }
-	console.log(currentTime, currentPos, prevPos);
+	//console.log(currentTime, currentPos, prevPos);
 }
 
-function clearTimestamp() {
+function setTimestamp(cell) {
+	cell.style.fontWeight = "bold";
+}
+
+function clearTimestamps() {
     for (let row of document.getElementById(tableID).getElementsByTagName("tr")) {
         if(row.cells.length == 3) row.cells[0].style.fontWeight = null;
         row.style.fontWeight = "normal";
