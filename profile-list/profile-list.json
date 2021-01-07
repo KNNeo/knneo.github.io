@@ -930,8 +930,11 @@
 		"category":"seiyuu2",
 		"id":"TouyamaNao",
 		"image":"https://knneo.webs.com/touyamanao.jpg",
-		"landscapes":[],
+		"landscapes":[
+			"https://img2.animatetimes.com/2021/01/5ff556032a041_a51e58816f20370ec75a265452cc3935.jpg"
+		],
 		"portraits":[
+			"https://img2.animatetimes.com/2021/01/5ff55600e17ac_16fee2057ee41ce6002249bb8b61b7f6.jpg",
 			"https://obs.line-scdn.net/0hl2KoVb1CMx12FhqUv5BMSjlLNXIPdSkVHG4kJwNAOTMDeiQdHmw5JRtGMX0EdipXQgY5fQsUBF0ZZSk2CXgCfwkfF18pVDxIPAd1PhZlLS5HJnNKQnV1eVYQby1TdCFDSXV1PlJDbn0PdSZL/small",
 			"https://pbs.twimg.com/media/EqAUDLlVoAAPLp4?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EpLVguRVQAABtLo?format=jpg&name=small",
