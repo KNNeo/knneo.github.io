@@ -1,8 +1,7 @@
 // Single onLoad event control: put all functions in sequence
 window.onload = function() {
-	loadExternalScripts();
-	addFloatingButtons();
-	addSearchBar();
+	loadExternal();
+	addObjects();
     preloadSequence();
     reduceResults();
     // fixPopup();
@@ -47,7 +46,15 @@ window.onresize = function() {
 
 // FUNCTIONS, in above order
 // Add custom scripts to only add this script on layout
-function loadExternalScripts() {
+function loadExternal() {
+	//document.querySelector('meta[name="viewport"]').setAttribute("content", "width=device-width,initial-scale=1.0");
+	for(let metadata of document.getElementsByTagName('meta')) {
+		if(metadata.name == 'viewport') {
+			metadata.content = 'width=device-width,initial-scale=1.0';
+			break;
+		}
+	}
+
 	let fontCss = document.createElement('link');
 	fontCss.href = 'https://fonts.googleapis.com/css?family=Open Sans';
 	// fontCss.type = 'text/css';
@@ -81,8 +88,19 @@ function loadExternalScripts() {
 	// <script async='async' src='//www.instagram.com/embed.js'/>
 }
 
-// Add floating action buttons
-function addFloatingButtons() {
+// Add search bar, floating action buttons
+function addObjects() {
+	//search bar
+	if(document.getElementById('CustomBlogSearch') == null) {
+		let search = document.createElement('div');
+		search.id = 'CustomBlogSearch';
+		search.innerHTML = '<div class="widget-content"><div id="_form"><form action="https://knwebreports.blogspot.com/search" class="gsc-search-box" target="_top"><div cellpadding="0" cellspacing="0" class="gsc-search-box"><div><div><span class="gsc-input"><input autocomplete="off" class="gsc-input" name="q" size="10" title="search" type="text" value=""></span><span class="gsc-search-button" style="display: none;"><input class="gsc-search-button" name="max-results" title="search" type="submit" value="5"></span></div></div></div></form></div></div>';
+		
+		if(document.getElementsByClassName('header-outer').length > 0)
+			document.getElementsByClassName('header-outer')[0].appendChild(search);
+	}
+	
+	//FABs
 	let topButton = document.createElement('a');
 	topButton.id = 'GoToTopBtn';
 	topButton.title = 'Back To Top';
@@ -120,17 +138,6 @@ function addFloatingButtons() {
 	// <a id='GoToTopBtn' onclick='goToTop()' title='Back to Top'><i class='material-icons'>arrow_upward</i></a>
 	// <a id='SearchBtn' onclick='toggleSearch()' title='Search Blog'><i class='material-icons'>search</i></a>
 	// <a id='SidebarBtn' onclick='toggleSidebar()' title='Toggle Sidebar'><i class='material-icons'>menu</i></a>
-}
-
-function addSearchBar() {
-	if(document.getElementById('CustomBlogSearch') == null) {
-		let search = document.createElement('div');
-		search.id = 'CustomBlogSearch';
-		search.innerHTML = '<div class="widget-content"><div id="_form"><form action="https://knwebreports.blogspot.com/search" class="gsc-search-box" target="_top"><div cellpadding="0" cellspacing="0" class="gsc-search-box"><div><div><span class="gsc-input"><input autocomplete="off" class="gsc-input" name="q" size="10" title="search" type="text" value=""></span><span class="gsc-search-button" style="display: none;"><input class="gsc-search-button" name="max-results" title="search" type="submit" value="5"></span></div></div></div></form></div></div>';
-		
-		if(document.getElementsByClassName('header-outer').length > 0)
-			document.getElementsByClassName('header-outer')[0].appendChild(search);
-	}
 }
 
 // Reload based on first visit: if no 'm=0/1' add, if m=0 edit older posts and newer posts URL
