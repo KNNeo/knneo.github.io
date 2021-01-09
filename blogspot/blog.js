@@ -125,6 +125,7 @@ function addFloatingButtons() {
 function addSearchBar() {
 	if(document.getElementById('CustomBlogSearch') == null) {
 		let search = document.createElement('div');
+		search.id = 'CustomBlogSearch';
 		search.style.display = 'block';
 		search.innerHTML = '<div class="widget-content"><div id="_form"><form action="https://knwebreports.blogspot.com/search" class="gsc-search-box" target="_top"><div cellpadding="0" cellspacing="0" class="gsc-search-box"><div><div><span class="gsc-input"><input autocomplete="off" class="gsc-input" name="q" size="10" title="search" type="text" value=""></span><span class="gsc-search-button" style="display: none;"><input class="gsc-search-button" name="max-results" title="search" type="submit" value="5"></span></div></div></div></form></div></div>';
 		
