@@ -186,11 +186,11 @@ function reduceResults() {
 			
 			
 			//Mobile: remove content, fixed link
-			post.classList.add('latest-post');
 			if(document.getElementById('hashtags') != undefined)
 				document.getElementById('hashtags').parentElement.removeChild(document.getElementById('hashtags'));
 			for (var post of document.getElementsByClassName('post'))
 			{
+				post.classList.add('latest-post');
 				let title = post.getElementsByClassName('post-title')[0];
 				let snippet = post.getElementsByClassName('post-body')[0];
 				let thumb = snippet.getElementsByTagName('img')[0];
