@@ -216,7 +216,7 @@ function reduceResults() {
 					let homeThumb = document.createElement('div');
 					homeThumb.classList.add('home-thumb');
 					homeThumb.style.float = 'left';
-					homeThumb.style.backgroundImage = 'url(\'' + thumb.src + '\')';
+					homeThumb.style.backgroundImage = 'url(\'' + (thumb != undefined ? thumb.src : '') + '\')';
 				thumbDiv.appendChild(homeThumb);
 				
 				let latestPostSummary = document.createElement('div');
