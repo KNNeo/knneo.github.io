@@ -228,8 +228,11 @@ div.column-left-outer,
      color: white;
 }
 
+.latest-post:hover a {
+	color: var(--primary);
+}
+
 .latest-post-summary {
-	color: white;
     max-height: 75px;
     overflow: hidden;
 }
