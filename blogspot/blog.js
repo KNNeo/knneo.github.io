@@ -224,6 +224,7 @@ function reduceResults() {
 				thumbDiv.appendChild(homeThumb);
 				
 				let latestPostSummary = document.createElement('div');
+				latestPostSummary.classList.add('latest-post-summary');
 				latestPostSummary.innerHTML = (title == undefined ? '<h3>' + snippet.innerHTML + '</h3>' : snippet.innerText.trim().substring(0,380));
 				
 				let contents = document.createElement('div');
