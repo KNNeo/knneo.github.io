@@ -197,6 +197,7 @@ function reduceResults() {
 				let snippet = post.getElementsByClassName('post-body')[0];
 				if(snippet.getElementsByTagName('style').length > 0)
 					snippet.removeChild(snippet.childNodes[0]); //remove style
+				let statement = snippet.getElementsByTagName('b');
 				let thumb = snippet.getElementsByTagName('img')[0];
 					
 				//generate thumb
@@ -207,7 +208,7 @@ function reduceResults() {
 				innerPostLink.href = link != undefined ? link.href : './search/label/The%20Statement';
 				
 				let latestPostTitle = document.createElement('h3');
-				latestPostTitle.innerText = title != undefined ? title.innerText : snippet.innerHTML;
+				latestPostTitle.innerText = title != undefined ? title.innerText : statement[0].innerText;
 				
 				let thumbDiv = document.createElement('div');
 				thumbDiv.style.float = 'left';
