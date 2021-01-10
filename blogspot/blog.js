@@ -209,7 +209,7 @@ function reduceResults() {
 				innerPostLink.href = link != undefined ? link.href : './search/label/The%20Statement';
 				
 				let latestPostTitle = document.createElement('h3');
-				latestPostTitle.innerText = title.innerText;
+				latestPostTitle.innerText = title != undefined ? title.innerText : '';
 								
 				let thumbDiv = document.createElement('div');
 				thumbDiv.style.float = 'left';
