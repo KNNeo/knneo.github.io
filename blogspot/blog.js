@@ -191,12 +191,14 @@ function reduceResults() {
 			for (var post of document.getElementsByClassName('post'))
 			{
 				post.classList.add('latest-post');
+				let footer = post.getElementsByClassName('post-footer')[0];
+				post.removeChild(footer);
 				let title = post.getElementsByClassName('post-title')[0];
 				let snippet = post.getElementsByClassName('post-body')[0];
 				let thumb = snippet.getElementsByTagName('img')[0];
 				if(snippet.getElementsByTagName('style').length > 0)
 					snippet.removeChild(snippet.childNodes[0]); //remove style
-				snippet.innerHTML = '<table><tbody>'
+				post.innerHTML = '<table><tbody>'
 				+ (thumb != undefined 
 				? ('<tr><td rowspan="2"><div class="homepage-thumb" style="background-image: url(\'' + thumb.src + '\');"></div></td>' + 
 				(title != undefined ? '<td>' + title.outerHTML + '</td>' : '') + '</tr>')
@@ -206,44 +208,44 @@ function reduceResults() {
 				if(title != undefined)
 					post.removeChild(title); //remove title
 			}
-			
-			return;
 		}
-		
-        for (var content of document.getElementsByClassName('post-body entry-content')) //[0] != undefined)
-        {
-            if (content.parentElement.getElementsByTagName('h3').length > 0)
-                content.style.display = 'none';
-           //document.getElementsByClassName('post-body entry-content')[0].remove();
-        }
-		
-        //add button to expand/collapse
-        for (var titleBar of document.getElementsByClassName('post-title entry-title')) {
-            titleBar.innerHTML = '<table><tbody><tr><td><div class="search-expander"><i class="material-icons">unfold_less</i></div></td><td>' + titleBar.innerHTML + '</td></tr></tbody></table>';
-        }
-        //add click logic
-        for (var i = 0; i < document.getElementsByClassName('post-title entry-title').length; i++) {
-            document.getElementsByClassName('search-expander')[i].addEventListener("click", function() {
-                var titleBar = this.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
-                if (titleBar.getElementsByClassName('entry-content')[0].style.display == 'none') {
-                    titleBar.getElementsByClassName('entry-content')[0].style.display = '';
-                    //this.style.color = '#00e4ff';
-                    this.getElementsByTagName('i')[0].innerText = 'unfold_more';
-                } else {
-                    titleBar.getElementsByClassName('entry-content')[0].style.display = 'none';
-                    //this.style.color = 'white';
-                    this.getElementsByTagName('i')[0].innerText = 'unfold_less';
-                }
-                setThumbnails();
-            });
-        }
-        //fix table cell border depending on content type due to mix of post contents
-        for (var table of document.getElementsByTagName('td')) {
-            if (table.getElementsByTagName('img').length > 0 || table.className == 'tr-caption') {
-                table.style.border = 'none';
-                table.style.padding = '0';
-            }
-        }
+		else
+		{
+			for (var content of document.getElementsByClassName('post-body entry-content')) //[0] != undefined)
+			{
+				if (content.parentElement.getElementsByTagName('h3').length > 0)
+					content.style.display = 'none';
+			   //document.getElementsByClassName('post-body entry-content')[0].remove();
+			}
+			
+			//add button to expand/collapse
+			for (var titleBar of document.getElementsByClassName('post-title entry-title')) {
+				titleBar.innerHTML = '<table><tbody><tr><td><div class="search-expander"><i class="material-icons">unfold_less</i></div></td><td>' + titleBar.innerHTML + '</td></tr></tbody></table>';
+			}
+			//add click logic
+			for (var i = 0; i < document.getElementsByClassName('post-title entry-title').length; i++) {
+				document.getElementsByClassName('search-expander')[i].addEventListener("click", function() {
+					var titleBar = this.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
+					if (titleBar.getElementsByClassName('entry-content')[0].style.display == 'none') {
+						titleBar.getElementsByClassName('entry-content')[0].style.display = '';
+						//this.style.color = '#00e4ff';
+						this.getElementsByTagName('i')[0].innerText = 'unfold_more';
+					} else {
+						titleBar.getElementsByClassName('entry-content')[0].style.display = 'none';
+						//this.style.color = 'white';
+						this.getElementsByTagName('i')[0].innerText = 'unfold_less';
+					}
+					setThumbnails();
+				});
+			}
+			//fix table cell border depending on content type due to mix of post contents
+			for (var table of document.getElementsByTagName('td')) {
+				if (table.getElementsByTagName('img').length > 0 || table.className == 'tr-caption') {
+					table.style.border = 'none';
+					table.style.padding = '0';
+				}
+			}
+		}
     }
 }
 
