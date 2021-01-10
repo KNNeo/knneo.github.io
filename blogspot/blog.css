@@ -231,11 +231,12 @@ div.column-left-outer,
 	color: white;
 }
 
-.latest-post:hover > a {
+.latest-post:hover > h3 {
 	color: var(--primary);
 }
 
 .latest-post-summary {
+	padding: 10px;
     max-height: 75px;
     overflow: hidden;
 }
