@@ -213,7 +213,7 @@ div.column-left-outer,
 }
 
 .homepage-column-center-inner {
-	padding-top: 5px;
+	margin-top: -15px;
 }
 
 .latest-post {
