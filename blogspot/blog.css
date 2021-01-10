@@ -229,7 +229,7 @@ div.column-left-outer,
 }
 
 .homepage-thumb {
-    padding: 10px;
+    margin: 4px;
 	width: 90px;
 	height: 90px;
 	background-size: cover;
