@@ -615,7 +615,7 @@ function generatePopupContent(url) {
             'https://www.youtube.com/embed/' + id +
             '"></iframe>';
     }
-    if (url.includes('instagram.com')) {
+    if (url.includes('instagram.com/p/')) {
         //process instagram embed
         return '<center><blockquote class="instagram-media" data-instgrm-permalink="' +
             url + '" data-instgrm-version="13" style="max-width:540px; min-width:326px; padding:0; width:100%;"></blockquote></center><script async="async" src="//www.instagram.com/embed.js">\</script\>';
