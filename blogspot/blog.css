@@ -212,6 +212,12 @@ div.column-left-outer,
 	text-align: center;
 }
 
+.homepage-thumb {
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
 /*Label header and footer navigation*/
 
 div.list-label-widget-content,
