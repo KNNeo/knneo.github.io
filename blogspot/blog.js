@@ -176,12 +176,12 @@ function reduceResults() {
         while (document.getElementsByClassName('date-header')[0] != undefined) {
             document.getElementsByClassName('date-header')[0].remove(); //remove header
         }
-        for (var content of document.getElementsByClassName('post-body entry-content')) //[0] != undefined)
-        {
-            if (content.parentElement.getElementsByTagName('h3').length > 0)
-                content.style.display = 'none';
-            //document.getElementsByClassName('post-body entry-content')[0].remove();
-        }
+        // for (var content of document.getElementsByClassName('post-body entry-content')) //[0] != undefined)
+        // {
+            // if (content.parentElement.getElementsByTagName('h3').length > 0)
+                // content.style.display = 'none';
+        //    document.getElementsByClassName('post-body entry-content')[0].remove();
+        // }
 		
 		if(!window.location.href.includes('/search/'))
 		{
