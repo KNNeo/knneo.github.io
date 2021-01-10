@@ -190,21 +190,56 @@ function reduceResults() {
 				document.getElementById('hashtags').parentElement.removeChild(document.getElementById('hashtags'));
 			for (var post of document.getElementsByClassName('post'))
 			{
+				//definition and preprocessing
 				post.classList.add('latest-post');
 				let footer = post.getElementsByClassName('post-footer')[0];
 				footer.parentElement.removeChild(footer);
 				let title = post.getElementsByClassName('post-title')[0];
 				let snippet = post.getElementsByClassName('post-body')[0];
-				let thumb = snippet.getElementsByTagName('img')[0];
 				if(snippet.getElementsByTagName('style').length > 0)
 					snippet.removeChild(snippet.childNodes[0]); //remove style
-				post.innerHTML = '<table><tbody>'
-				+ (title != undefined ? '<tr><td colspan="2">' + title.outerHTML + '</td></tr>' : '')
-				+ (thumb != undefined 
-				? ('<tr><td><div class="homepage-thumb" style="background-image: url(\'' + thumb.src + '\');"></div></td>' + 
-				'<td><div class="latest-post-summary">' + (title == undefined ? snippet.innerHTML : snippet.innerText.substring(0,380)) + '</div></td></tr>')
-				: '')
-				+ '</tbody></table>';
+				let thumb = snippet.getElementsByTagName('img')[0];
+					
+				//generate thumb
+				let latestPost = document.createElement('div');
+				latestPost.classList.add('latest-post');
+								
+				let innerPostLink = document.createElement('a');
+				innerPostLink.href = title.href;
+				
+				let latestPostTitle = document.createElement('h3');
+				latestPostTitle.innerText = title.innerText;
+								
+				let thumbDiv = document.createElement('div');
+				thumbDiv.style.float = 'left';
+					let homeThumb = document.createElement('div');
+					homeThumb.classList.add('home-thumb');
+					homeThumb.style.float = 'left';
+					homeThumb.style.backgroundImage = 'url(\'' + thumb.src + '\')';
+				thumbDiv.appendChild(homeThumb);
+				
+				let latestPostSummary = document.createElement('div');
+				latestPostSummary.innerHTML = (title == undefined ? snippet.innerHTML : snippet.innerText.trim().substring(0,380));
+				
+				let contents = document.createElement('div');
+				contents.appendChild(thumbDiv);
+				contents.appendChild(latestPostSummary);
+				
+				let innerWrapper = document.createElement('div');
+				innerWrapper.appendChild(latestPostTitle);
+				innerWrapper.appendChild(contents);
+				
+				innerPostLink.appendChild(innerWrapper);
+				
+				latestPost.appendChild(innerPostLink);
+				
+				// post.innerHTML = '<table><tbody>'
+				// + (title != undefined ? '<tr><td colspan="2">' + title.outerHTML + '</td></tr>' : '')
+				// + (thumb != undefined 
+				// ? ('<tr><td><div class="homepage-thumb" style="background-image: url(\'' + thumb.src + '\');"></div></td>' + 
+				// '<td><div class="latest-post-summary">' + (title == undefined ? snippet.innerHTML : snippet.innerText.substring(0,380)) + '</div></td></tr>')
+				// : '<tr><td>' + + '</td></tr>')
+				// + '</tbody></table>';
 			}
 		}
 		else
