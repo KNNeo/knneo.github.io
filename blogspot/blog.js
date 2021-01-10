@@ -180,7 +180,7 @@ function reduceResults() {
             document.getElementsByClassName('blog-feeds')[0].remove(); //remove feed
         }
 
-		if(!window.location.href.includes('/search/'))
+		if(!window.location.href.includes('/search'))
 		{
 			let columnCenterInner = document.getElementsByClassName('column-center-inner')[0];
 			columnCenterInner.classList.add('homepage-column-center-inner');
@@ -223,7 +223,7 @@ function reduceResults() {
 				latestPostSummary.innerHTML = (title == undefined ? '' : snippet.innerText.trim().substring(0,380));
 				
 				let contents = document.createElement('div');
-				if(link != undefined) contents.appendChild(thumbDiv);
+				if(link != undefined && thumb != undefined) contents.appendChild(thumbDiv);
 				if(title != undefined) contents.appendChild(latestPostSummary);
 				
 				let innerWrapper = document.createElement('div');
