@@ -197,7 +197,7 @@ function reduceResults() {
 					snippet.removeChild(snippet.childNodes[0]); //remove style
 				snippet.innerHTML = '<table><tbody>'
 				+ (thumb != undefined 
-				? ('<tr><td>' + title.outerHTML + '</td>'+ (title != undefined ? '<td>' + title.outerHTML + '</td>' : '')'</tr>' : '') 
+				? ('<tr><td>' + title.outerHTML + '</td>' + (title != undefined ? '<td>' + title.outerHTML + '</td>' : '') + '</tr>' : '') 
 				: '<tr><td>' + title.outerHTML + '</td>'+'</tr>' : '')
 				+ '<tr><td>' + (title == undefined ? snippet.innerHTML : snippet.innerText.substring(0,380)) + '</td></tr>'
 				+ '</tbody></table>';
