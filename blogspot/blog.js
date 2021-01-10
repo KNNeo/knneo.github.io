@@ -183,7 +183,7 @@ function reduceResults() {
             //document.getElementsByClassName('post-body entry-content')[0].remove();
         }
 		
-		if(!window.location.href.contains('/search/'))
+		if(!window.location.href.includes('/search/'))
 		{
 			//Desktop: allow expand/collapse
 			// for (var post of document.getElementsByClassName('post')) {
