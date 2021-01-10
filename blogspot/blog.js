@@ -224,7 +224,7 @@ function reduceResults() {
 				
 				let contents = document.createElement('div');
 				if(link != undefined) contents.appendChild(thumbDiv);
-				contents.appendChild(latestPostSummary);
+				if(title != undefined) contents.appendChild(latestPostSummary);
 				
 				let innerWrapper = document.createElement('div');
 				innerWrapper.appendChild(latestPostTitle);
