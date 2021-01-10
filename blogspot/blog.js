@@ -195,6 +195,7 @@ function reduceResults() {
 				let footer = post.getElementsByClassName('post-footer')[0];
 				footer.parentElement.removeChild(footer);
 				let title = post.getElementsByClassName('post-title')[0];
+				let link = title != undefined ? title.getElementsByTagName('a')[0] : undefined;
 				let snippet = post.getElementsByClassName('post-body')[0];
 				if(snippet.getElementsByTagName('style').length > 0)
 					snippet.removeChild(snippet.childNodes[0]); //remove style
@@ -205,8 +206,7 @@ function reduceResults() {
 				latestPost.classList.add('latest-post');
 								
 				let innerPostLink = document.createElement('a');
-				let link = title.childNodes[0];
-				innerPostLink.href = link.href;
+				innerPostLink.href = link != undefined ? link.href : './search/label/The%20Statement';
 				
 				let latestPostTitle = document.createElement('h3');
 				latestPostTitle.innerText = title.innerText;
