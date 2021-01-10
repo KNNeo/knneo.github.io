@@ -225,10 +225,13 @@ div.column-left-outer,
      -ms-user-select: none;
      user-select: none;
      overflow: hidden;
-     color: white;
 }
 
-.latest-post:hover a {
+.latest-post a, .latest-post-summary {
+	color: white;
+}
+
+.latest-post:hover > a {
 	color: var(--primary);
 }
 
