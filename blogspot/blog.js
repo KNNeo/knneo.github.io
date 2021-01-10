@@ -205,7 +205,8 @@ function reduceResults() {
 				latestPost.classList.add('latest-post');
 								
 				let innerPostLink = document.createElement('a');
-				innerPostLink.href = title.href;
+				let link = title.childNodes[0];
+				innerPostLink.href = link.href;
 				
 				let latestPostTitle = document.createElement('h3');
 				latestPostTitle.innerText = title.innerText;
