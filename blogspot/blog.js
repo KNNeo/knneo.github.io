@@ -233,7 +233,7 @@ function reduceResults() {
 				
 				post.innerHTML = '';
 				latestPost.appendChild(innerPostLink);
-				post.appendChild(innerPostLink);
+				post.appendChild(latestPost);
 				
 				// post.innerHTML = '<table><tbody>'
 				// + (title != undefined ? '<tr><td colspan="2">' + title.outerHTML + '</td></tr>' : '')
