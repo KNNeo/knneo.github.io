@@ -232,6 +232,7 @@ function reduceResults() {
 				
 				innerPostLink.appendChild(innerWrapper);
 				
+				post.innerHTML = '';
 				latestPost.appendChild(innerPostLink);
 				
 				// post.innerHTML = '<table><tbody>'
