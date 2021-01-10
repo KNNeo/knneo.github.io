@@ -192,7 +192,7 @@ function reduceResults() {
 			{
 				post.classList.add('latest-post');
 				let footer = post.getElementsByClassName('post-footer')[0];
-				post.removeChild(footer);
+				footer.parentElement.removeChild(footer);
 				let title = post.getElementsByClassName('post-title')[0];
 				let snippet = post.getElementsByClassName('post-body')[0];
 				let thumb = snippet.getElementsByTagName('img')[0];
