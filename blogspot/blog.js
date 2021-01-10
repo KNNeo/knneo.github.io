@@ -206,7 +206,7 @@ function reduceResults() {
 				+ '<tr><td>' + (title == undefined ? snippet.innerHTML : snippet.innerText.substring(0,380)) + '</td></tr>'
 				+ '</tbody></table>';
 				if(title != undefined)
-					post.removeChild(title); //remove title
+					title.parentElement.removeChild(title); //remove title
 			}
 		}
 		else
