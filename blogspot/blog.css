@@ -229,11 +229,12 @@ div.column-left-outer,
 }
 
 .latest-post-summary {
+	color: white;
     max-height: 75px;
     overflow: hidden;
 }
 
-.homepage-thumb {
+.home-thumb {
     margin: 4px;
 	width: 90px;
 	height: 90px;
