@@ -191,7 +191,6 @@ function reduceResults() {
 			for (var post of document.getElementsByClassName('post'))
 			{
 				//definition and preprocessing
-				post.classList.add('latest-post');
 				let footer = post.getElementsByClassName('post-footer')[0];
 				footer.parentElement.removeChild(footer);
 				let title = post.getElementsByClassName('post-title')[0];
@@ -234,7 +233,7 @@ function reduceResults() {
 				
 				post.innerHTML = '';
 				latestPost.appendChild(innerPostLink);
-				post.appendChild(latestPost);
+				post.appendChild(innerPostLink);
 				
 				// post.innerHTML = '<table><tbody>'
 				// + (title != undefined ? '<tr><td colspan="2">' + title.outerHTML + '</td></tr>' : '')
