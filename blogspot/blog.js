@@ -203,7 +203,7 @@ function reduceResults() {
 				? ('<tr><td rowspan="2"><div class="homepage-thumb" style="background-image: url(\'' + thumb.src + '\');"></div></td>' + 
 				(title != undefined ? '<td>' + title.outerHTML + '</td>' : '') + '</tr>')
 				: '')
-				+ '<tr><td>' + (title == undefined ? snippet.innerHTML : snippet.innerText.substring(0,380)) + '</td></tr>'
+				+ '<tr><td><div =class"latest-post-summary">' + (title == undefined ? snippet.innerHTML : snippet.innerText.substring(0,380)) + '</div></td></tr>'
 				+ '</tbody></table>';
 			}
 		}
