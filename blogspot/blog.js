@@ -519,6 +519,7 @@ function cleanupLightbox() {
 
 //new popup element, based on content type
 function addHoverForLinks() {
+	if(document.getElementsByClassName('post-body entry-content').length == 0) return;
     for (let link of document.getElementsByClassName('post-body entry-content')[0].getElementsByTagName('a')) {
         link.addEventListener('mouseover', renderPopup);
     }
