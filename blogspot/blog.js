@@ -186,6 +186,7 @@ function reduceResults() {
 			
 			
 			//Mobile: remove content, fixed link
+			post.classList.add('latest-post');
 			if(document.getElementById('hashtags') != undefined)
 				document.getElementById('hashtags').parentElement.removeChild(document.getElementById('hashtags'));
 			for (var post of document.getElementsByClassName('post'))
