@@ -199,7 +199,7 @@ function reduceResults() {
 				if(snippet.getElementsByTagName('style').length > 0)
 					snippet.removeChild(snippet.childNodes[0]); //remove style
 				post.innerHTML = '<table><tbody>'
-				+ (title != undefined ? '<tr><td>' + title.outerHTML + '</td></tr>' : '')
+				+ (title != undefined ? '<tr><td colspan="2">' + title.outerHTML + '</td></tr>' : '')
 				+ (thumb != undefined 
 				? ('<tr><td><div class="homepage-thumb" style="background-image: url(\'' + thumb.src + '\');"></div></td>' + 
 				'<td><div class="latest-post-summary">' + (title == undefined ? snippet.innerHTML : snippet.innerText.substring(0,380)) + '</div></td></tr>')
