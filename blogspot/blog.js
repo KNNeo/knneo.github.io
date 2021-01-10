@@ -222,7 +222,7 @@ function reduceResults() {
 				latestPostSummary.innerHTML = (title == undefined ? snippet.innerHTML : snippet.innerText.trim().substring(0,380));
 				
 				let contents = document.createElement('div');
-				contents.appendChild(thumbDiv);
+				if(link != undefined) contents.appendChild(thumbDiv);
 				contents.appendChild(latestPostSummary);
 				
 				let innerWrapper = document.createElement('div');
