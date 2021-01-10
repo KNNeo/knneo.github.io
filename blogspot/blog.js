@@ -562,7 +562,7 @@ function togglePopup() {
 function renderPopup() {
     //if(link.childElementCount == 0)
     event.preventDefault();
-    if (this.href.includes('blogspot.com') && this.childElementCount > 0) return; //exclusion for blogger
+    //if (this.href.includes('blogspot.com') && this.childElementCount > 0) return; //exclusion for blogger
     //if(link.childElementCount > 0) return; //exclusion class
     if (this.classList.contains('opt-out')) return; //exclusion class
     let newContent = generatePopupContent(this.href);
