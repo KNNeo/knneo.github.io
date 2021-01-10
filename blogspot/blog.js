@@ -184,13 +184,7 @@ function reduceResults() {
 		{
 			let columnCenterInner = document.getElementsByClassName('column-center-inner')[0];
 			columnCenterInner.classList.add('homepage-column-center-inner');
-			//Desktop: allow expand/collapse
-			// for (var post of document.getElementsByClassName('post')) {
-				// titleBar.innerHTML = '<table><tbody><tr><td><div class="search-expander"><i class="material-icons">unfold_less</i></div></td><td>' + titleBar.innerHTML + '</td></tr></tbody></table>';
-			// }
 			
-			
-			//Mobile: remove content, fixed link
 			if(document.getElementById('hashtags') != undefined)
 				document.getElementById('hashtags').parentElement.removeChild(document.getElementById('hashtags'));
 			for (var post of document.getElementsByClassName('post'))
@@ -213,8 +207,8 @@ function reduceResults() {
 				innerPostLink.href = link != undefined ? link.href : './search/label/The%20Statement';
 				
 				let latestPostTitle = document.createElement('h3');
-				latestPostTitle.innerText = title != undefined ? title.innerText : '';
-								
+				latestPostTitle.innerText = title != undefined ? title.innerText : snippet.innerHTML;
+				
 				let thumbDiv = document.createElement('div');
 				thumbDiv.style.float = 'left';
 					let homeThumb = document.createElement('div');
@@ -225,7 +219,7 @@ function reduceResults() {
 				
 				let latestPostSummary = document.createElement('div');
 				latestPostSummary.classList.add('latest-post-summary');
-				latestPostSummary.innerHTML = (title == undefined ? '<h3>' + snippet.innerHTML + '</h3>' : snippet.innerText.trim().substring(0,380));
+				latestPostSummary.innerHTML = (title == undefined ? '' : snippet.innerText.trim().substring(0,380));
 				
 				let contents = document.createElement('div');
 				if(link != undefined) contents.appendChild(thumbDiv);
