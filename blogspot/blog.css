@@ -229,10 +229,8 @@ div.column-left-outer,
 }
 
 .latest-post-summary {
-    min-height: 84px;
-    max-height: 84px;
+    max-height: 75px;
     overflow: hidden;
-    padding: 10px;
 }
 
 .homepage-thumb {
