@@ -235,8 +235,13 @@ div.column-left-outer,
 	color: white;
 }
 
-.latest-post:hover > h3 {
+.latest-post:hover h3 {
 	color: var(--primary);
+}
+
+.latest-post:active {
+     box-shadow: 1px 1px;
+     transform: translate(2px,2px);
 }
 
 .latest-post-summary {
