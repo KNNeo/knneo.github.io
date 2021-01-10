@@ -176,7 +176,10 @@ function reduceResults() {
         while (document.getElementsByClassName('date-header')[0] != undefined) {
             document.getElementsByClassName('date-header')[0].remove(); //remove header
         }
-		
+        while (document.getElementsByClassName('blog-feeds')[0] != undefined) {
+            document.getElementsByClassName('blog-feeds')[0].remove(); //remove feed
+        }
+
 		if(!window.location.href.includes('/search/'))
 		{
 			let columnCenterInner = document.getElementsByClassName('column-center-inner')[0];
