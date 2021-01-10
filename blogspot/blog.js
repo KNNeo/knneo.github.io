@@ -199,11 +199,11 @@ function reduceResults() {
 				if(snippet.getElementsByTagName('style').length > 0)
 					snippet.removeChild(snippet.childNodes[0]); //remove style
 				post.innerHTML = '<table><tbody>'
+				+ (title != undefined ? '<tr><td>' + title.outerHTML + '</td></tr>' : '')
 				+ (thumb != undefined 
 				? ('<tr><td rowspan="2"><div class="homepage-thumb" style="background-image: url(\'' + thumb.src + '\');"></div></td>' + 
-				(title != undefined ? '<td>' + title.outerHTML + '</td>' : '') + '</tr>')
+				'<td><div class="latest-post-summary">' + (title == undefined ? snippet.innerHTML : snippet.innerText.substring(0,380)) + '</div></td></tr>'
 				: '')
-				+ '<tr><td><div class="latest-post-summary">' + (title == undefined ? snippet.innerHTML : snippet.innerText.substring(0,380)) + '</div></td></tr>'
 				+ '</tbody></table>';
 			}
 		}
