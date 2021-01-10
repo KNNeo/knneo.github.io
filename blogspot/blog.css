@@ -212,6 +212,10 @@ div.column-left-outer,
 	text-align: center;
 }
 
+.homepage-column-center-inner {
+	padding-top: 5px;
+}
+
 .latest-post {
      box-shadow: 3px 3px white;
      border: 1px solid white;
