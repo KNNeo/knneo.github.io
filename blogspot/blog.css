@@ -246,12 +246,12 @@ div.column-left-outer,
 
 .latest-post-summary {
 	padding: 10px;
-    max-height: 75px;
+    max-height: 76px;
     overflow: hidden;
 }
 
 .home-thumb {
-    margin: 4px;
+    margin: 10px 0;
 	width: 90px;
 	height: 90px;
 	background-size: cover;
