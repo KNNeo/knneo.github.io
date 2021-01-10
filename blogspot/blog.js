@@ -221,7 +221,7 @@ function reduceResults() {
 				thumbDiv.appendChild(homeThumb);
 				
 				let latestPostSummary = document.createElement('div');
-				latestPostSummary.innerHTML = (title == undefined ? snippet.innerHTML : snippet.innerText.trim().substring(0,380));
+				latestPostSummary.innerHTML = (title == undefined ? '<h3>' + snippet.innerHTML + '</h3>' : snippet.innerText.trim().substring(0,380));
 				
 				let contents = document.createElement('div');
 				if(link != undefined) contents.appendChild(thumbDiv);
