@@ -198,7 +198,7 @@ function reduceResults() {
 				snippet.innerHTML = '<table><tbody>'
 				+ (thumb != undefined 
 				? ('<tr><td rowspan="2">' + thumb.innerHTML + '</td>' + 
-				(title != undefined ? '<td>' + title.outerHTML + '</td>' : '') + '</tr>'
+				(title != undefined ? '<td>' + title.outerHTML + '</td>' : '') + '</tr>')
 				: '')
 				+ '<tr><td>' + (title == undefined ? snippet.innerHTML : snippet.innerText.substring(0,380)) + '</td></tr>'
 				+ '</tbody></table>';
