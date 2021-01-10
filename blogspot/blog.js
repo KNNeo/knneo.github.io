@@ -169,6 +169,7 @@ function preloadSequence() {
 // For search, collapse all results
 function reduceResults() {
     if (document.getElementsByClassName('post-body entry-content').length > 1) {
+		//Remove content
         for (var footer of document.getElementsByClassName('post-footer-line-2')) {
             footer.innerHTML = '<hr>';
         }
@@ -181,6 +182,32 @@ function reduceResults() {
                 content.style.display = 'none';
             //document.getElementsByClassName('post-body entry-content')[0].remove();
         }
+		
+		//Desktop: allow expand/collapse
+        // for (var post of document.getElementsByClassName('post')) {
+            // titleBar.innerHTML = '<table><tbody><tr><td><div class="search-expander"><i class="material-icons">unfold_less</i></div></td><td>' + titleBar.innerHTML + '</td></tr></tbody></table>';
+        // }
+		
+		
+		//Mobile: remove content, fixed link
+		if(document.getElementById('hashtags') != undefined)
+			document.getElementById('hashtags').parentElement.removeChild(document.getElementById('hashtags'));
+        for (var post of document.getElementsByClassName('post')) {
+			let title = post.getElementsByClassName('post-title')[0];
+			let snippet = post.getElementsByClassName('post-body')[0];
+			let thumb = snippet.getElementsByTagName('img')[0];
+			if(snippet.getElementsByTagName('style').length > 0)
+				snippet.removeChild(snippet.childNodes[0]); //remove style
+            snippet.innerHTML = '<table><tbody>'
+			+ (title != undefined ? '<tr><td>' + title.outerHTML + '</td>'+'</tr>' : '')
+			+ '<tr><td>' + (title == undefined ? snippet.innerHTML : snippet.innerText.substring(0,380)) + '</td></tr>'
+			+ '</tbody></table>';
+			if(title != undefined)
+				post.removeChild(title); //remove title
+        }
+		
+		return;
+		
         //add button to expand/collapse
         for (var titleBar of document.getElementsByClassName('post-title entry-title')) {
             titleBar.innerHTML = '<table><tbody><tr><td><div class="search-expander"><i class="material-icons">unfold_less</i></div></td><td>' + titleBar.innerHTML + '</td></tr></tbody></table>';
