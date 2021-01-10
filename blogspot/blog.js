@@ -179,6 +179,8 @@ function reduceResults() {
 		
 		if(!window.location.href.includes('/search/'))
 		{
+			let columnCenterInner = document.getElementsByClassName('column-center-inner')[0];
+			columnCenterInner.classList.add('homepage-column-center-inner');
 			//Desktop: allow expand/collapse
 			// for (var post of document.getElementsByClassName('post')) {
 				// titleBar.innerHTML = '<table><tbody><tr><td><div class="search-expander"><i class="material-icons">unfold_less</i></div></td><td>' + titleBar.innerHTML + '</td></tr></tbody></table>';
