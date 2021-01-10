@@ -213,7 +213,10 @@ div.column-left-outer,
 }
 
 .homepage-thumb {
-	background-size: contain;
+    padding: 10px;
+	width: 90px;
+	height: 90px;
+	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center;
 }
