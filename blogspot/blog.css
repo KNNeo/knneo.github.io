@@ -228,6 +228,13 @@ div.column-left-outer,
      color: white;
 }
 
+.latest-post-summary {
+    min-height: 84px;
+    max-height: 84px;
+    overflow: hidden;
+    padding: 10px;
+}
+
 .homepage-thumb {
     margin: 4px;
 	width: 90px;
