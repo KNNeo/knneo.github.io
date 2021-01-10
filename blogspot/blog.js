@@ -188,14 +188,17 @@ function reduceResults() {
 			//Mobile: remove content, fixed link
 			if(document.getElementById('hashtags') != undefined)
 				document.getElementById('hashtags').parentElement.removeChild(document.getElementById('hashtags'));
-			for (var post of document.getElementsByClassName('post')) {
+			for (var post of document.getElementsByClassName('post'))
+			{
 				let title = post.getElementsByClassName('post-title')[0];
 				let snippet = post.getElementsByClassName('post-body')[0];
 				let thumb = snippet.getElementsByTagName('img')[0];
 				if(snippet.getElementsByTagName('style').length > 0)
 					snippet.removeChild(snippet.childNodes[0]); //remove style
 				snippet.innerHTML = '<table><tbody>'
-				+ (title != undefined ? '<tr><td>' + title.outerHTML + '</td>'+'</tr>' : '')
+				+ (thumb != undefined 
+				? ('<tr><td>' + title.outerHTML + '</td>'+ (title != undefined ? '<td>' + title.outerHTML + '</td>' : '')'</tr>' : '') 
+				: '<tr><td>' + title.outerHTML + '</td>'+'</tr>' : '')
 				+ '<tr><td>' + (title == undefined ? snippet.innerHTML : snippet.innerText.substring(0,380)) + '</td></tr>'
 				+ '</tbody></table>';
 				if(title != undefined)
