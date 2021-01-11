@@ -20,7 +20,8 @@ string UpdateRegexContent(string content, Match loosematch, Match strictMatch, s
 
 void Main()
 {
-	string filepath = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\blog-12-20-2020.xml";
+	string filepath = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\blog-01-08-2021.xml";
+	string domainLink = "https://knwebreports.blogspot.com/";
 	string text = File.ReadAllText(filepath);
 	XDocument doc = XDocument.Parse(text);
 	
@@ -38,6 +39,7 @@ void Main()
 		// Exclude any entries with an <app:draft> element except <app:draft>no</app:draft>
 		.Where(entry => !entry.Descendants(app+"draft").Any(draft => draft.Value != "no"));
 	
+	Console.WriteLine("<div class=\"Count\">" + posts.ToList().Count + " published posts found</div>");
 	// Process XML content per post
 	foreach (var entry in posts)
 	{
@@ -53,6 +55,8 @@ void Main()
 		/*
 		* website adjustments: remove post inline style, fix urls
 		* remove embed styles for thumbnail normal/hover (ignore sp-thumbnail)
+		* fix twitter embed
+		* fix youtube iframe size
 		* thumbnail normal table => new thumbnail
 		* thumbnail hover table => new thumbnail
 		* popup initial table => new thumbnail
@@ -62,6 +66,7 @@ void Main()
 		* span popup normal pop => div popup normal pop
 		* adjust ent news headers
 		* add class to header prefix for styling
+		* set all link directory to current blog
 		*/
 		
 		#region remove embed styles for thumbnail normal/hover
@@ -131,6 +136,16 @@ void Main()
 		content = UpdateRegexContent(content, match, matchExp, prefix, suffix);
 		#endregion
 		
+		#region any gif img tag should not have enclosing a tag (should try to manual fix)
+		//expression = @"(<a)(.*?)(<img)(.*?)(</img>)(.*?)(</a>)";
+		//
+		//match = Regex.Match(content, expression);
+		//matchExp = Regex.Match(content, matchExpression);
+		//prefix = @"</table></div><div class=""thumbnail-initial thumbnail-pop hover-visible""><table";
+		//suffix = "</table></div>";
+		//content = UpdateRegexContent(content, match, matchExp, prefix, suffix);
+		#endregion
+		
 		#region abbr imgpop => div popup normal pop
 		expression = @"(<abbr class=""imgpop"">)(.*?)(/>)(.*?)(</abbr>)";
 		
@@ -148,18 +163,18 @@ void Main()
 		#endregion
 		
 		#region adjust ent news headers
-		expression = @"(<blockquote class=""tr_bq""><div style=""text-align: center;""><span style=""font-size: large;"">)(.*?)(</span></div></blockquote>)"; 
-		
-		match = Regex.Match(content, expression);
-		prefix = @"<blockquote class=""tr_bq anime""><div style=""text-align: center;""><span style=""background: rgb(0, 184, 204); border-radius: 5px; padding: 3px 5px; text-align: center; vertical-align: text-bottom;""><b>アニメ</b></span><span style=""font-size: large;""> ";
-		//midfix = @"</span><span class=""pop fadeIn"">";
-		suffix = "</span></div></blockquote>";
-		while(match.Success && match.Groups.Count == 4)
-		{
-			var replacement = prefix + match.Groups[2].Value + suffix;
-			content = content.Replace(match.Value, replacement);
-			match = match.NextMatch();
-		};
+		//expression = @"(<blockquote class=""tr_bq""><div style=""text-align: center;""><span style=""font-size: large;"">)(.*?)(</span></div></blockquote>)"; 
+		//
+		//match = Regex.Match(content, expression);
+		//prefix = @"<blockquote class=""tr_bq anime""><div style=""text-align: center;""><span style=""background: rgb(0, 184, 204); border-radius: 5px; padding: 3px 5px; text-align: center; vertical-align: text-bottom;""><b>アニメ</b></span><span style=""font-size: large;""> ";
+		////midfix = @"</span><span class=""pop fadeIn"">";
+		//suffix = "</span></div></blockquote>";
+		//while(match.Success && match.Groups.Count == 4)
+		//{
+		//	var replacement = prefix + match.Groups[2].Value + suffix;
+		//	content = content.Replace(match.Value, replacement);
+		//	match = match.NextMatch();
+		//}; //can also be for not anime, see 2018 ent news #30, might not be possible
 		
 		var animeHeader = @"<blockquote class=""tr_bq""><div style=""text-align: center;""><span style=""background: #09a5b8; border-radius: 5px; padding: 3px 5px; text-align: center;""><b>アニメ</b></span> <span style=""font-size: large;"">ANIME</span></div></blockquote><blockquote class=""tr_bq anime"">";
 		content = content.Replace(animeHeader, @"<blockquote class=""tr_bq anime"">");
@@ -172,6 +187,12 @@ void Main()
 		content = content.Replace(animeHeaderPrefix, @"<span class=""head-prefix"">");
 		#endregion
 		
+		#region set all link directory to current blog
+		//var referenceStr = "../../";//"../"; //actual only need one level parent
+		//content = content.Replace(domainLink, referenceStr);
+		content = content.Replace("https://knwebreports2014.blogspot.com/", domainLink);
+		#endregion
+		
 		//Replace back
 		entry.Element(_+"content").Value = content;
 	}
@@ -179,3 +200,37 @@ void Main()
 	// Write to new file, suffix "-edit"
 	doc.Save(filepath.Replace(".xml","-edit.xml"));
 }
+
+/* TO SET UP NEW THEME FROM CURRENT THEME
+Select first Travel Studio, Apply
+Customise:
+* Remove background image (blog.css to determine color)
+* Widths 1024px, 264 left sidebar
+* Layout left sidebar only
+* Advanced:
+** Page text Open Sans, white
+** Background both not transparent, inner black, outer black
+** Links Cyan [#00e4ff] for all
+** Title and Description Trebuchet, white
+** Tabs text Open Sans 14px #00e4ff
+** Date header 10px Open Sans white
+** Post title Trebuchet
+** Post background transparent
+** Gadget Title white, open sans
+** Gadget text white, gadget links #00e4ff alt color white
+Edit HTML:
+* Add this => <meta content='width=device-width,initial-scale=1.0' name='viewport'/>
+* Disable actual resize
+Layout:
+* Navbar off
+* Blog Posts (adjust author, disable quick editing)
+* In-Site pages, Out-site, Archive, Search on sidebar
+Settings:
+* Time zone
+* Custom Redirect to home page [p/home.html], create first then change back to single slashes (home page change feed url)
+** From: /
+** To: /p/home.html
+** Permanent: Yes
+Blog.css file should cater to current changes
+Home Page need to repaste code of script as not formatted (/p/none error?)
+*/

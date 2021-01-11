@@ -6,8 +6,8 @@
 
 void Main()
 {
-	string filepath = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\blog-12-20-2020.xml";
-	string domainLink = "https://knwebreports2014.blogspot.com/";
+	string filepath = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\blog-01-08-2021.xml";
+	string domainLink = "https://knwebreports.blogspot.com/";
 	string text = File.ReadAllText(filepath);
 	XDocument doc = XDocument.Parse(text);
 	
@@ -35,12 +35,14 @@ void Main()
 		//var expressionStrict = @"(?<=<img)(.*?)(?= />)";
 		//var expression = @"(<blockquote class=""tr_bq""><div style=""text-align: center;""><span style=""font-size: large;"">)(.*?)(</span></div></blockquote>)"; 
 		//var expression = @"(href=""" + domainLink + @"(.*?)" + @""")"; 
-		var expression = @"(<a)(.*?)(.gif"")(.*?)(>)(<img)(.*?)(.gif"")(.*?)(/>)(.*?)(</a>)";
+		//var expression = @"(<a)(.*?)(.gif"")(.*?)(>)(<img)(.*?)(.gif"")(.*?)(/>)(.*?)(</a>)";
+		//var expression = @"(<a)(.*?)(href=""https://knwebreports)(.*?)(>)(.*?)(</a>)";
+		var expression = @"(<style>)(.*?)(tr|td|th|table)(.*?)(</style>)";
 		//Console.WriteLine(expression);
 		Match match = Regex.Match(content, expression);
 		//Match matchStrict = Regex.Match(content, expressionStrict);
 		//Console.WriteLine(match);
-		while(match.Success && match.Length < 2000)
+		while(match.Success &&  match.Length < 2000)
 		{
 			//if(match.Groups.Count == 4)
 			//{
@@ -48,6 +50,7 @@ void Main()
 				//Console.WriteLine(matchStrict.Value);
 				//Console.WriteLine(match);
 				Console.WriteLine(match.Groups[0].Value);
+				//Console.WriteLine(match.Groups[3].Value+match.Groups[4].Value);
 				//Console.WriteLine();
 				//Console.WriteLine(match.Groups[6].Value + match.Groups[7].Value + match.Groups[8].Value + match.Groups[9].Value + match.Groups[10].Value);
 				Console.WriteLine();

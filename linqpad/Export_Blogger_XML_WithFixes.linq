@@ -20,7 +20,7 @@ string UpdateRegexContent(string content, Match loosematch, Match strictMatch, s
 
 void Main()
 {
-	string filepath = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\blog-12-20-2020.xml";
+	string filepath = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\blog-01-10-2021.xml";
 	string domainLink = "https://knwebreports.blogspot.com/";
 	string text = File.ReadAllText(filepath);
 	XDocument doc = XDocument.Parse(text);
@@ -38,19 +38,20 @@ void Main()
 		.Where(entry => !entry.Element(_+"category").Attribute("term").ToString().Contains("#page"))
 		// Exclude any entries with an <app:draft> element except <app:draft>no</app:draft>
 		.Where(entry => !entry.Descendants(app+"draft").Any(draft => draft.Value != "no"));
-		
+	
+	#region Only For Export
 	foreach(var folder in Directory.GetDirectories(Path.GetDirectoryName(filepath)))
 	{
 		if(folder.Replace("blog-archive","").Contains("blog-"))
 			Directory.Delete(folder, true);
 	}
-			
 	var outfolder = Path.Combine(Path.GetDirectoryName(filepath), Path.GetFileNameWithoutExtension(filepath));
-	Directory.CreateDirectory(outfolder);
-	
+	Directory.CreateDirectory(outfolder);	
 	var allTags = new List<string>();
+	#endregion
 	
 	Console.WriteLine("<div class=\"Count\">" + posts.ToList().Count + " published posts found</div>");
+	// Process XML content per post
 	foreach (var entry in posts)
 	{
 		//FIX POST ATTRIBUTES
@@ -77,6 +78,7 @@ void Main()
 		* adjust ent news headers
 		* add class to header prefix for styling
 		* set all link directory to current blog
+		* all table styles to be within post
 		*/
 		
 		#region remove embed styles for thumbnail normal/hover
@@ -145,6 +147,7 @@ void Main()
 		suffix = "</table></div>";
 		content = UpdateRegexContent(content, match, matchExp, prefix, suffix);
 		#endregion
+		//The Entertainment News 2019 Edition Issue #17 kyojin thumbs did not replace successfully
 		
 		#region any gif img tag should not have enclosing a tag (should try to manual fix)
 		//expression = @"(<a)(.*?)(<img)(.*?)(</img>)(.*?)(</a>)";
@@ -200,7 +203,12 @@ void Main()
 		#region set all link directory to current blog
 		//var referenceStr = "../../";//"../"; //actual only need one level parent
 		//content = content.Replace(domainLink, referenceStr);
-		//content = content.Replace(domainLink.Replace("knwebreports.","knwebreports2014."), referenceStr);
+		content = content.Replace("https://knwebreports2014.blogspot.com/", domainLink);
+		#endregion
+		
+		#region all table styles to be within post
+		// change style tr or whatever to .post-content tr respectively		
+		
 		#endregion
 		
 		
@@ -237,12 +245,13 @@ void Main()
 			output.WriteLine("<head>");
 			output.WriteLine("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>");
 			output.WriteLine("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
-			output.WriteLine("<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../blog.css\"></style>");
 		    output.WriteLine("<link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet' />");
-			output.WriteLine("<link href=\"https://fonts.googleapis.com/icon?family=Material+Icons\" rel=\"stylesheet\">");
-			output.WriteLine("<script src=\"../../../blog-bef.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
+			output.WriteLine("<link href=\"https://fonts.googleapis.com/icon?family=Material+Icons\" rel=\"stylesheet\" />");
+			output.WriteLine("<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../blog.css\" />");
+			output.WriteLine("<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../blogspot.css\" />");
+			//output.WriteLine("<script src=\"../../../blog.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
 			output.WriteLine("<title>" + title + "</title>");
-			output.WriteLine("<body>");
+			output.WriteLine("<body class=\"post-body entry-content\">");
 			output.WriteLine("<div id=\"viewer\" style=\"display: none;\"></div>");
 			output.WriteLine("<div id=\"contents\">");
 			output.WriteLine("<a id='GoToTopBtn' onclick='goToTop()' title='Back to Top'><i class='material-icons'>arrow_upward</i></a>");
@@ -266,7 +275,8 @@ void Main()
 			output.Write("<br>");
 			output.WriteLine("</div>");
 			output.WriteLine("</body>");
-			output.WriteLine("<script src=\"../../../blog-aft.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
+			output.WriteLine("<script src=\"../../../blog.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
+			//output.WriteLine("<script src=\"../../../blog-aft.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
 			output.WriteLine("<script src=\"../../../blog-fixes.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
 			output.WriteLine("</html>");
 		}

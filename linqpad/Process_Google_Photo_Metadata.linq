@@ -42,8 +42,8 @@ void Main()
 		}
 	}
 	
-	var names = new List<Names>();
-	var people = new List<Names>();
+	var names = new List<Names>(); //descriptions only
+	var people = new List<Names>(); //people, and if null, description
 	
 	//compile
 	//foreach name, count
@@ -72,9 +72,10 @@ void Main()
 	}
 	
 	//views
-	Console.WriteLine(names.OrderBy(n => n.name));
-	//Console.WriteLine(names.OrderByDescending(n => n.count));
+	//Console.WriteLine(names.OrderBy(n => n.name));
+	Console.WriteLine(people.OrderByDescending(n => n.count));
 	
+	Console.WriteLine("Items without tags");
 	Console.WriteLine(jsonList.Where(n => n.people == null).OrderByDescending(n => n.creationTime.timestamp).Select(n =>
 		new {
 			description = n.description,
