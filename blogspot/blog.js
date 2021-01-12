@@ -37,11 +37,13 @@ window.onresize = function() {
 		toggleSidebar();
 	if (window.innerWidth >= 1040) {
 		document.getElementById('LinkList1').style.display = '';
-		document.getElementById('BlogArchive1').style.display = '';
-		document.body.style.visibility = '';
+		document.getElementById('BlogArchive1').style.display = '';	
 	}
 	if(window.innerWidth <= 320) {
 		document.body.style.visibility = 'hidden';
+	}
+	else {
+		document.body.style.visibility = '';	
 	}
 };
 
