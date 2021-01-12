@@ -33,12 +33,13 @@ window.onscroll = function() {
 };
 
 window.onresize = function() {
-    if (document.getElementById('sidebarOverlay') != null && document.getElementById('sidebarOverlay').style.display != 'none')	
+	if (document.getElementById('sidebarOverlay') != null && document.getElementById('sidebarOverlay').style.display != 'none')	
 		toggleSidebar();
-    if (window.innerWidth >= 1040) {
-        document.getElementById('LinkList1').style.display = '';
-        document.getElementById('BlogArchive1').style.display = '';
-    }
+	if (window.innerWidth >= 1040) {
+		document.getElementById('LinkList1').style.display = '';
+		document.getElementById('BlogArchive1').style.display = '';
+		document.body.style.visibility = '';
+	}
 	if(window.innerWidth <= 320) {
 		document.body.style.visibility = 'hidden';
 	}
