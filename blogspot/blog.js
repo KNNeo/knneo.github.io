@@ -562,7 +562,7 @@ function togglePopup() {
 function renderPopup() {
     //if(link.childElementCount == 0)
     event.preventDefault();
-    //if (this.href.includes('blogspot.com') && this.childElementCount > 0) return; //exclusion for blogger
+    if (this.href.includes('blogspot.com') && this.childElementCount > 0) return; //exclusion for blogger
     //if(link.childElementCount > 0) return; //exclusion class
     if (this.classList.contains('opt-out')) return; //exclusion class
     let newContent = generatePopupContent(this.href);
@@ -592,7 +592,7 @@ function renderPopup() {
 }
 
 function generatePopupContent(url) {
-    if (url.includes('.jpg') || url.includes('.gif')) {
+    if (url.includes('.jpg')) {
         //process image
         return '<div class="separator"><img style="max-height: 360px; max-width: 100%;" src="' + url + '" /></div>';
     }
