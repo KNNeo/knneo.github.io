@@ -171,7 +171,7 @@ function preloadSequence() {
 
 // For search, collapse all results
 function reduceResults() {
-    if (document.getElementsByClassName('post-body entry-content').length > 1) {
+    if (!window.location.href.includes(window.location.origin + '/20')) {
 		//Remove content
         for (var footer of document.getElementsByClassName('post-footer-line-2')) {
             footer.innerHTML = '<hr>';
@@ -183,7 +183,7 @@ function reduceResults() {
             document.getElementsByClassName('blog-feeds')[0].remove(); //remove feed
         }
 
-		if(!window.location.href.includes('/search'))
+		if(!window.location.href.includes(window.location.origin + '/search'))
 		{
 			let columnCenterInner = document.getElementsByClassName('column-center-inner')[0];
 			columnCenterInner.classList.add('homepage-column-center-inner');
