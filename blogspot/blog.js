@@ -171,123 +171,121 @@ function preloadSequence() {
 
 // For search, collapse all results
 function reduceResults() {
-    if (!window.location.href.includes(window.location.origin + '/20') && 
-		!window.location.href.includes('/blog/post/edit/preview')
-		) {
-		//Remove content
-        for (var footer of document.getElementsByClassName('post-footer-line-2')) {
-            footer.innerHTML = '<hr>';
-        }
-        while (document.getElementsByClassName('date-header')[0] != undefined) {
-            document.getElementsByClassName('date-header')[0].remove(); //remove header
-        }
-        while (document.getElementsByClassName('blog-feeds')[0] != undefined) {
-            document.getElementsByClassName('blog-feeds')[0].remove(); //remove feed
-        }
+    if (window.location.href.includes(window.location.origin + '/20') || window.location.href.includes('/blog/post/edit/preview'))
+		return;
+	//Remove content
+	for (var footer of document.getElementsByClassName('post-footer-line-2')) {
+		footer.innerHTML = '<hr>';
+	}
+	while (document.getElementsByClassName('date-header')[0] != undefined) {
+		document.getElementsByClassName('date-header')[0].remove(); //remove header
+	}
+	while (document.getElementsByClassName('blog-feeds')[0] != undefined) {
+		document.getElementsByClassName('blog-feeds')[0].remove(); //remove feed
+	}
 
-		if(!window.location.href.includes(window.location.origin + '/search'))
+	if(!window.location.href.includes(window.location.origin + '/search'))
+	{
+		let columnCenterInner = document.getElementsByClassName('column-center-inner')[0];
+		columnCenterInner.classList.add('homepage-column-center-inner');
+		
+		if(document.getElementById('hashtags') != undefined)
+			document.getElementById('hashtags').parentElement.removeChild(document.getElementById('hashtags'));
+		for (var post of document.getElementsByClassName('post'))
 		{
-			let columnCenterInner = document.getElementsByClassName('column-center-inner')[0];
-			columnCenterInner.classList.add('homepage-column-center-inner');
+			//definition and preprocessing
+			let footer = post.getElementsByClassName('post-footer')[0];
+			footer.parentElement.removeChild(footer);
+			let title = post.getElementsByClassName('post-title')[0];
+			let link = title != undefined ? title.getElementsByTagName('a')[0] : undefined;
+			let snippet = post.getElementsByClassName('post-body')[0];
+			if(snippet.getElementsByTagName('style').length > 0)
+				snippet.removeChild(snippet.childNodes[0]); //remove style
+			let statement = snippet.getElementsByTagName('b');
+			let thumb = snippet.getElementsByTagName('img')[0];
+				
+			//generate thumb
+			let latestPost = document.createElement('div');
+			latestPost.classList.add('latest-post');
+							
+			let innerPostLink = document.createElement('a');
+			innerPostLink.href = link != undefined ? link.href : './search/label/The%20Statement';
 			
-			if(document.getElementById('hashtags') != undefined)
-				document.getElementById('hashtags').parentElement.removeChild(document.getElementById('hashtags'));
-			for (var post of document.getElementsByClassName('post'))
-			{
-				//definition and preprocessing
-				let footer = post.getElementsByClassName('post-footer')[0];
-				footer.parentElement.removeChild(footer);
-				let title = post.getElementsByClassName('post-title')[0];
-				let link = title != undefined ? title.getElementsByTagName('a')[0] : undefined;
-				let snippet = post.getElementsByClassName('post-body')[0];
-				if(snippet.getElementsByTagName('style').length > 0)
-					snippet.removeChild(snippet.childNodes[0]); //remove style
-				let statement = snippet.getElementsByTagName('b');
-				let thumb = snippet.getElementsByTagName('img')[0];
-					
-				//generate thumb
-				let latestPost = document.createElement('div');
-				latestPost.classList.add('latest-post');
-								
-				let innerPostLink = document.createElement('a');
-				innerPostLink.href = link != undefined ? link.href : './search/label/The%20Statement';
-				
-				let latestPostTitle = document.createElement('h3');
-				latestPostTitle.innerText = title != undefined ? title.innerText : statement[0].innerText;
-				
-				let thumbDiv = document.createElement('div');
-				thumbDiv.style.float = 'left';
-					let homeThumb = document.createElement('div');
-					homeThumb.classList.add('home-thumb');
-					homeThumb.style.float = 'left';
-					homeThumb.style.backgroundImage = 'url(\'' + (thumb != undefined ? thumb.src : '') + '\')';
-				thumbDiv.appendChild(homeThumb);
-				
-				let latestPostSummary = document.createElement('div');
-				latestPostSummary.classList.add('latest-post-summary');
-				latestPostSummary.innerHTML = (title == undefined ? '' : snippet.innerText.trim().substring(0,380));
-				
-				let contents = document.createElement('div');
-				if(link != undefined && thumb != undefined) contents.appendChild(thumbDiv);
-				if(title != undefined) contents.appendChild(latestPostSummary);
-				
-				let innerWrapper = document.createElement('div');
-				innerWrapper.appendChild(latestPostTitle);
-				innerWrapper.appendChild(contents);
-				
-				innerPostLink.appendChild(innerWrapper);
-				
-				post.innerHTML = '';
-				latestPost.appendChild(innerPostLink);
-				post.appendChild(latestPost);
-				
-				// post.innerHTML = '<table><tbody>'
-				// + (title != undefined ? '<tr><td colspan="2">' + title.outerHTML + '</td></tr>' : '')
-				// + (thumb != undefined 
-				// ? ('<tr><td><div class="homepage-thumb" style="background-image: url(\'' + thumb.src + '\');"></div></td>' + 
-				// '<td><div class="latest-post-summary">' + (title == undefined ? snippet.innerHTML : snippet.innerText.substring(0,380)) + '</div></td></tr>')
-				// : '<tr><td>' + + '</td></tr>')
-				// + '</tbody></table>';
-			}
+			let latestPostTitle = document.createElement('h3');
+			latestPostTitle.innerText = title != undefined ? title.innerText : statement[0].innerText;
+			
+			let thumbDiv = document.createElement('div');
+			thumbDiv.style.float = 'left';
+				let homeThumb = document.createElement('div');
+				homeThumb.classList.add('home-thumb');
+				homeThumb.style.float = 'left';
+				homeThumb.style.backgroundImage = 'url(\'' + (thumb != undefined ? thumb.src : '') + '\')';
+			thumbDiv.appendChild(homeThumb);
+			
+			let latestPostSummary = document.createElement('div');
+			latestPostSummary.classList.add('latest-post-summary');
+			latestPostSummary.innerHTML = (title == undefined ? '' : snippet.innerText.trim().substring(0,380));
+			
+			let contents = document.createElement('div');
+			if(link != undefined && thumb != undefined) contents.appendChild(thumbDiv);
+			if(title != undefined) contents.appendChild(latestPostSummary);
+			
+			let innerWrapper = document.createElement('div');
+			innerWrapper.appendChild(latestPostTitle);
+			innerWrapper.appendChild(contents);
+			
+			innerPostLink.appendChild(innerWrapper);
+			
+			post.innerHTML = '';
+			latestPost.appendChild(innerPostLink);
+			post.appendChild(latestPost);
+			
+			// post.innerHTML = '<table><tbody>'
+			// + (title != undefined ? '<tr><td colspan="2">' + title.outerHTML + '</td></tr>' : '')
+			// + (thumb != undefined 
+			// ? ('<tr><td><div class="homepage-thumb" style="background-image: url(\'' + thumb.src + '\');"></div></td>' + 
+			// '<td><div class="latest-post-summary">' + (title == undefined ? snippet.innerHTML : snippet.innerText.substring(0,380)) + '</div></td></tr>')
+			// : '<tr><td>' + + '</td></tr>')
+			// + '</tbody></table>';
 		}
-		else
+	}
+	else
+	{
+		for (var content of document.getElementsByClassName('post-body entry-content')) //[0] != undefined)
 		{
-			for (var content of document.getElementsByClassName('post-body entry-content')) //[0] != undefined)
-			{
-				if (content.parentElement.getElementsByTagName('h3').length > 0)
-					content.style.display = 'none';
-			   //document.getElementsByClassName('post-body entry-content')[0].remove();
-			}
-			
-			//add button to expand/collapse
-			for (var titleBar of document.getElementsByClassName('post-title entry-title')) {
-				titleBar.innerHTML = '<table><tbody><tr><td><div class="search-expander"><i class="material-icons">unfold_less</i></div></td><td>' + titleBar.innerHTML + '</td></tr></tbody></table>';
-			}
-			//add click logic
-			for (var i = 0; i < document.getElementsByClassName('post-title entry-title').length; i++) {
-				document.getElementsByClassName('search-expander')[i].addEventListener("click", function() {
-					var titleBar = this.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
-					if (titleBar.getElementsByClassName('entry-content')[0].style.display == 'none') {
-						titleBar.getElementsByClassName('entry-content')[0].style.display = '';
-						//this.style.color = '#00e4ff';
-						this.getElementsByTagName('i')[0].innerText = 'unfold_more';
-					} else {
-						titleBar.getElementsByClassName('entry-content')[0].style.display = 'none';
-						//this.style.color = 'white';
-						this.getElementsByTagName('i')[0].innerText = 'unfold_less';
-					}
-					setThumbnails();
-				});
-			}
-			//fix table cell border depending on content type due to mix of post contents
-			for (var table of document.getElementsByTagName('td')) {
-				if (table.getElementsByTagName('img').length > 0 || table.className == 'tr-caption') {
-					table.style.border = 'none';
-					table.style.padding = '0';
+			if (content.parentElement.getElementsByTagName('h3').length > 0)
+				content.style.display = 'none';
+		   //document.getElementsByClassName('post-body entry-content')[0].remove();
+		}
+		
+		//add button to expand/collapse
+		for (var titleBar of document.getElementsByClassName('post-title entry-title')) {
+			titleBar.innerHTML = '<table><tbody><tr><td><div class="search-expander"><i class="material-icons">unfold_less</i></div></td><td>' + titleBar.innerHTML + '</td></tr></tbody></table>';
+		}
+		//add click logic
+		for (var i = 0; i < document.getElementsByClassName('post-title entry-title').length; i++) {
+			document.getElementsByClassName('search-expander')[i].addEventListener("click", function() {
+				var titleBar = this.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
+				if (titleBar.getElementsByClassName('entry-content')[0].style.display == 'none') {
+					titleBar.getElementsByClassName('entry-content')[0].style.display = '';
+					//this.style.color = '#00e4ff';
+					this.getElementsByTagName('i')[0].innerText = 'unfold_more';
+				} else {
+					titleBar.getElementsByClassName('entry-content')[0].style.display = 'none';
+					//this.style.color = 'white';
+					this.getElementsByTagName('i')[0].innerText = 'unfold_less';
 				}
+				setThumbnails();
+			});
+		}
+		//fix table cell border depending on content type due to mix of post contents
+		for (var table of document.getElementsByTagName('td')) {
+			if (table.getElementsByTagName('img').length > 0 || table.className == 'tr-caption') {
+				table.style.border = 'none';
+				table.style.padding = '0';
 			}
 		}
-    }
+	}
 }
 
 // Fix only all old thumbnail div with images, not for span
