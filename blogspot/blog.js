@@ -220,7 +220,11 @@ function reduceResults() {
 			if(posts.length > 1) thumbDiv.style.float = 'left';
 				let homeThumb = document.createElement('div');
 				homeThumb.classList.add('home-thumb');
-				if(posts.length == 1) homeThumb.style.margin = 'auto';
+				if(posts.length == 1) {
+					homeThumb.style.margin = 'auto';
+					homeThumb.style.width = '240px';
+					homeThumb.style.height = '240px';
+				}
 				homeThumb.style.backgroundImage = 'url(\'' + (thumb != undefined ? thumb.src : '') + '\')';
 			thumbDiv.appendChild(homeThumb);
 			
