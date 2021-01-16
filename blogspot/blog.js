@@ -192,7 +192,8 @@ function reduceResults() {
 		
 		if(document.getElementById('hashtags') != undefined)
 			document.getElementById('hashtags').parentElement.removeChild(document.getElementById('hashtags'));
-		for (var post of document.getElementsByClassName('post'))
+		let posts = document.getElementsByClassName('post');
+		for (var post of posts)
 		{
 			//definition and preprocessing
 			let footer = post.getElementsByClassName('post-footer')[0];
@@ -216,10 +217,10 @@ function reduceResults() {
 			latestPostTitle.innerText = title != undefined ? title.innerText : statement[0].innerText;
 			
 			let thumbDiv = document.createElement('div');
-			thumbDiv.style.float = 'left';
+			if(posts.length > 1) thumbDiv.style.float = 'left';
 				let homeThumb = document.createElement('div');
 				homeThumb.classList.add('home-thumb');
-				homeThumb.style.float = 'left';
+				if(posts.length == 1) homeThumb.style.margin = 'auto';
 				homeThumb.style.backgroundImage = 'url(\'' + (thumb != undefined ? thumb.src : '') + '\')';
 			thumbDiv.appendChild(homeThumb);
 			
