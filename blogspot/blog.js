@@ -172,7 +172,8 @@ function preloadSequence() {
 // For search, collapse all results
 function reduceResults() {
     if (window.location.href.includes(window.location.origin + '/20') || 
-		window.location.href.includes(window.location.origin + '/b/blog-preview'))
+		window.location.href.includes(window.location.origin + '/b/blog-preview') || 
+		window.location.href.includes(window.location.origin + '/p/'))
 		return;
 	//Remove content
 	for (var footer of document.getElementsByClassName('post-footer-line-2')) {
