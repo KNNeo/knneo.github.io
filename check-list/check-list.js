@@ -73,23 +73,25 @@ window.onload = function() {
 };
 
 function loadChecklist() {
-	let initialCount = 0;
-	let checkList = new Array();
+	let checkList = generateArray(keys);
+	if(checkList.filter(c => c.value == true).length == 0)
+		document.getElementById('resetLink').disabled = true;
+
+	buildChecklistHTML(checkList);
+}
+
+function generateArray(keys) {	
+	let checkList = [];
 	for(let key of keys)
 	{
 		let value = localStorage.getItem(key) == "true";
 		if(value == null) value = false;
-		else initialCount++;
 		checkList.push({
 			key: key,
 			value: value
 		});
 	}
-	
-	if(checkList.filter(c => c.value == true).length == 0)
-		document.getElementById('resetLink').disabled = true;
-
-	buildChecklistHTML(checkList);
+	return checkList;
 }
 
 function buildChecklistHTML(list) {
@@ -132,16 +134,7 @@ function resetList() {
 	var reply = confirm('Do you want to reset? The checklist will be downloaded');
 	if(reply == true) {
 		//create download file		
-		let checkList = new Array();
-		for(let key of keys)
-		{
-			let value = localStorage.getItem(key) == "true";
-			if(value == null) value = false;
-			checkList.push({
-				name: key,
-				checked: value
-			});
-		}
+		let checkList = generateArray(keys);
 		let downloadLink = document.createElement('a');
 		downloadLink.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(JSON.stringify(checkList));
 		downloadLink.target = '_blank';
@@ -151,7 +144,10 @@ function resetList() {
 		document.body.removeChild(downloadLink);
 		
 		//clear
-		localStorage.clear();
+		for(let key of keys)
+		{
+			localStorage.removeItem(key);
+		}
 		document.getElementById('resetLink').disabled = true;
 		loadChecklist();
 	}
