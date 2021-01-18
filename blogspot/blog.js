@@ -1,6 +1,5 @@
 // Single onLoad event control: put all functions in sequence
 window.onload = function() {
-	document.body.style.display = 'none';
 	loadExternal();
 	addObjects();
     preloadSequence();
@@ -147,7 +146,7 @@ function preloadSequence() {
     var isFixedURL = false;
     if (firstVisit.includes("/search/label/The%20Entertainment%20News")) document.getElementById("hashtags").remove();
     // if (firstVisit.includes("post-preview")) {
-        // document.getElementsByTagName("body")[0].style.display = 'block';
+        // document.body.style.display = 'block';
         // document.getElementsByClassName("blogger-clickTrap")[0].remove();
         // return;
     // }
@@ -158,7 +157,7 @@ function preloadSequence() {
         // isFixedURL = true;
 
     // if (isFixedURL) {
-	document.getElementsByTagName("body")[0].style.display = 'block';
+	document.body.style.display = 'block';
 	document.getElementById("SearchBtn").style.display = 'block';
 	if (window.innderWidth < 1040) document.getElementById("SidebarBtn").style.display = 'block';
     // }
@@ -513,7 +512,7 @@ function fixLightbox() {
 }
 
 function cleanupLightbox() {
-    if (document.getElementsByTagName("body")[0].parentElement.className != "v2") {
+    if (document.body.parentElement.className != "v2") {
         var browseContainer = document.getElementsByClassName("CSS_LIGHTBOX_PHOTO_BROWSE_CONTAINER")[0];
         var attributeContainerHolder = document.getElementsByClassName("CSS_LAYOUT_COMPONENT CSS_LIGHTBOX_ATTRIBUTION_INDEX_CONTAINER")[0].firstChild;
         attributeContainerHolder.firstChild.remove();
