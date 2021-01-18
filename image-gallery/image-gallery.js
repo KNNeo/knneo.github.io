@@ -108,7 +108,7 @@ function renderPage(pageName) {
 
 	for(let link of links)
 	{
-		if(link == links[0] && window.location.href.includes('//knneo.github.io')) continue;
+		//if(link == links[0] && window.location.href.includes('//knneo.github.io')) continue;
 		
 		if(pageName.includes(link)) continue;
 		let newLink = document.createElement('div');
