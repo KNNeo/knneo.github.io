@@ -167,7 +167,8 @@ function preloadSequence() {
 
 // For search, collapse all results
 function reduceResults() {
-    if (window.location.href.includes(window.location.origin + '/20') || 
+	//Exceptions in order: single posts, previews, pages
+    if ((window.location.href.includes(window.location.origin + '/20') && window.location.href.endsWith('.html')) || 
 		window.location.href.includes(window.location.origin + '/b/blog-preview') || 
 		window.location.href.includes(window.location.origin + '/p/'))
 		return;
