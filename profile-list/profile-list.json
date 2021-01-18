@@ -450,7 +450,9 @@
 		"category":"seiyuu1",
 		"id":"OokuboRumi",
 		"image":"https://knneo.webs.com/ookuborumi.jpg",
-		"landscapes":[],
+		"landscapes":[
+			"https://pbs.twimg.com/media/Er74JocVkAInEGI?format=jpg&name=small"
+		],
 		"portraits":[
 			"https://pbs.twimg.com/media/ERoDKqmU0AAnpqN?format=jpg&name=small"
 		],
@@ -1039,6 +1041,7 @@
 			"https://pbs.twimg.com/media/EVKHdGdU8AEW8qy?format=jpg&name=small"			
 		],
 		"portraits":[
+			"https://pbs.twimg.com/media/Er_JQbvXEAssvyn?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EoZaU67UcAYytRM?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EnwMSpIVQAItjgh?format=jpg&name=small"
 		],
