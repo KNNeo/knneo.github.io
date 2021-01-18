@@ -445,6 +445,7 @@ function loadPage(pageName) {
 	let code = 'knneo.webs.com';
 	if(pageName == 'bromide-gallery') {
 		passCode = prompt('Enter code:');
+		if(passCode == null) return;
 	}
 	loadSettings();
 	if(runSlideshow != null) stopSlideshow();
