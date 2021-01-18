@@ -38,6 +38,7 @@ let highestHeight = 0;
 let imgArray = [];
 let runSlideshow = null;
 let descriptionClosed = false;
+let passCode = '';
 
 //--COMMON EVENTS--//
 //on startup
@@ -441,6 +442,10 @@ function closeViewer() {
 
 //--FUNCTIONS--//
 function loadPage(pageName) {
+	let code = 'knneo.webs.com';
+	if(pageName == 'bromide-gallery') {
+		passCode = prompt('Enter code:');
+	}
 	loadSettings();
 	if(runSlideshow != null) stopSlideshow();
 	//unloadCurrentStyle();
@@ -472,6 +477,11 @@ function calculateGalleryHeight() {
 }
 
 function loadData(pageName) {
+	if(pageName == 'bromide-gallery') {
+		for(let img of imgArray) {
+			img[1] = img[1].replace('{domain}', passCode);
+		}
+	}
 	reloadDarkmodeStyle();
 	renderPage(pageName);
 	setupGallery();
