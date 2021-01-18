@@ -1,5 +1,6 @@
 // Single onLoad event control: put all functions in sequence
 window.onload = function() {
+	document.body.style.display = 'none';
 	loadExternal();
 	addObjects();
     preloadSequence();
@@ -15,10 +16,6 @@ window.onload = function() {
 	fixLightbox();
     addHoverForLinks();
     if (window.location.href.includes("/search/label/")) addHoverOnExpander();
-};
-
-window.onbeforeunload = function() {
-	document.body.style.display = 'none';
 };
 
 window.onscroll = function() {
