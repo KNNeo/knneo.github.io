@@ -4,7 +4,6 @@ window.onload = function() {
 	addObjects();
     preloadSequence();
     reduceResults();
-    // fixPopup();
     if (document.getElementsByClassName('popup').length > 0) fixPopup();
     setThumbnails();
     resizeImg();
@@ -15,8 +14,10 @@ window.onload = function() {
 	fixLightbox();
     addHoverForLinks();
     if (window.location.href.includes("/search/label/")) addHoverOnExpander();
+    if (window.location.href.includes("TheEntertainmentNews")) addHashtags();
 };
 
+// Window events (FAB events at end)
 window.onscroll = function() {
 	// When the user scrolls down to half of viewport from the top of the document, change floating action button
     if (document.body.scrollTop > document.documentElement.clientHeight || document.documentElement.scrollTop > document.documentElement.clientHeight) {
@@ -43,7 +44,7 @@ window.onresize = function() {
 	}
 };
 
-// FUNCTIONS, in above order
+// FUNCTIONS, in above order //
 // Add custom scripts to only add this script on layout
 function loadExternal() {
 	//document.querySelector('meta[name="viewport"]').setAttribute("content", "width=device-width,initial-scale=1.0");
@@ -506,7 +507,7 @@ function addLabelForNavigation() {
     });
 }
 
-//to fix lightbox gallery not covering screen on Chrome mobile, run only once per refresh
+// To fix lightbox gallery not covering screen on Chrome mobile, run only once per refresh
 function fixLightbox() {
 	if(document.getElementById("Blog1") != null)
 		document.getElementById("Blog1").addEventListener("click", cleanupLightbox);
@@ -524,7 +525,7 @@ function cleanupLightbox() {
 	document.getElementById("Blog1").removeEventListener("click", cleanupLightbox);
 }
 
-//new popup element, based on content type
+// Popup element, based on content type
 function addHoverForLinks() {
 	if(document.getElementsByClassName('post-body entry-content').length == 0) return;
     for (let link of document.getElementsByClassName('post-body entry-content')[0].getElementsByTagName('a')) {
@@ -630,7 +631,32 @@ function generatePopupContent(url) {
     return null;
 }
 
-//floating action button events
+// Add hashtags for Entertainment News posts with anchors
+function addHashtags() {
+	if(document.getElementById("hashtags").childElementCount > 0)
+		document.getElementById("hashtags").innerHTML = '';
+	
+	var hashtags = [];
+	for(var topic of document.getElementsByClassName("anime"))
+	{
+		hashtags.push({
+			tag: topic.id.substring(0,topic.id.length-2), 
+			target: topic.id 
+		});
+	}
+	if(hashtags.length == 0) return;
+	for(let item of hashtags)
+	{
+		let newItem = document.createElement('a');
+		newItem.style.paddingRight = '3px';
+		newItem.innerText = '#' + item.tag;
+		newItem.href = 'javascript:void(0);';
+		newItem.
+		document.getElementById("hashtags").appendChild(newItem);
+	}
+}
+
+// Floating action button events
 function toggleSearch() {
     goToTop();
     var barDisp = document.getElementById('CustomBlogSearch').style.display;
