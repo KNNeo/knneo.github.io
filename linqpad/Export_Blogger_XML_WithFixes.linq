@@ -20,8 +20,22 @@ string UpdateRegexContent(string content, Match loosematch, Match strictMatch, s
 
 void Main()
 {
-	string filepath = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\blog-01-10-2021.xml";
+	string folderpath = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\";
+	string filepath = "";
 	string domainLink = "https://knwebreports.blogspot.com/";
+	string[] xmls = Directory.GetFiles(Path.GetDirectoryName(folderpath), "*.xml");
+	if(xmls.Length == 1)
+		filepath = xmls[0];
+	else if(xmls.Length == 0)
+	{
+		Console.WriteLine("No xml files found");
+		return;
+	}
+	else
+	{
+		Console.WriteLine("More than 1 xml files found");
+		return;
+	}
 	string text = File.ReadAllText(filepath);
 	XDocument doc = XDocument.Parse(text);
 	
