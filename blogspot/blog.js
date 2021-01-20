@@ -641,17 +641,20 @@ function addHashtags() {
 	{
 		hashtags.push({
 			tag: topic.id.substring(0,topic.id.length-2), 
-			target: topic.id 
+			target: topic.id
 		});
 	}
 	if(hashtags.length == 0) return;
 	for(let item of hashtags)
 	{
 		let newItem = document.createElement('a');
+		newItem.title = item.target;
 		newItem.style.paddingRight = '3px';
 		newItem.innerText = '#' + item.tag;
 		newItem.href = 'javascript:void(0);';
-		newItem.
+		newItem.addEventListener('click', function() {
+			document.getElementById(this.title).scrollIntoView();
+		});
 		document.getElementById("hashtags").appendChild(newItem);
 	}
 }
