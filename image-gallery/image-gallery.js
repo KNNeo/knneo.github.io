@@ -445,8 +445,8 @@ function loadPage(pageName) {
 	let code = 'knneo.webs.com';
 	if(pageName == 'bromide-gallery') {
 		passCode = prompt('Enter code:');
-		if(passCode == null) return;
-		if(passCode == '../../../') passCode += 'knneo.webs.com';
+		console.log(passCode);
+		if(passCode == '') passCode = '../../../../OneDrive/Pictures/SELFSCAN';
 		else passCode = 'https://' + passCode;
 	}
 	loadSettings();
