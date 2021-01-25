@@ -47,7 +47,6 @@ window.onresize = function() {
 // FUNCTIONS, in above order //
 // Add custom scripts to only add this script on layout
 function loadExternal() {
-	//document.querySelector('meta[name="viewport"]').setAttribute("content", "width=device-width,initial-scale=1.0");
 	for(let metadata of document.getElementsByTagName('meta')) {
 		if(metadata.name == 'viewport') {
 			metadata.content = 'width=device-width,initial-scale=1.0';
@@ -80,12 +79,6 @@ function loadExternal() {
 	inScript.charset = 'utf-8';
 	inScript.async = 'async';
 	document.head.appendChild(inScript);
-	
-	// <meta content='width=device-width,initial-scale=1.0' name='viewport'/>
-	// <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'/>
-	// <link href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet'/>
-	// <script async='async' charset='utf-8' src='https://platform.twitter.com/widgets.js'/>
-	// <script async='async' src='//www.instagram.com/embed.js'/>
 }
 
 // Add search bar, floating action buttons
@@ -134,41 +127,23 @@ function addObjects() {
 	document.getElementById('GoToTopBtn').addEventListener('click', goToTop);
 	document.getElementById('SearchBtn').addEventListener('click', toggleSearch);
 	document.getElementById('SidebarBtn').addEventListener('click', toggleSidebar);
-
-	// <a id='GoToTopBtn' onclick='goToTop()' title='Back to Top'><i class='material-icons'>arrow_upward</i></a>
-	// <a id='SearchBtn' onclick='toggleSearch()' title='Search Blog'><i class='material-icons'>search</i></a>
-	// <a id='SidebarBtn' onclick='toggleSidebar()' title='Toggle Sidebar'><i class='material-icons'>menu</i></a>
 }
 
 // Reload based on first visit: if no 'm=0/1' add, if m=0 edit older posts and newer posts URL
 function preloadSequence() {
     //initial URL visit fix
     var firstVisit = window.location.href;
-    var isFixedURL = false;
     if (firstVisit.includes("/search/label/The%20Entertainment%20News")) document.getElementById("hashtags").remove();
-    // if (firstVisit.includes("post-preview")) {
-        // document.body.style.display = 'block';
-        // document.getElementsByClassName("blogger-clickTrap")[0].remove();
-        // return;
-    // }
-    // if (firstVisit.includes("#")) {
-        // firstVisit = firstVisit.substring(0, firstVisit.indexOf("#"));
-    // }
-    // else
-        // isFixedURL = true;
-
-    // if (isFixedURL) {
+	
+	//open body if no other fixes
 	document.body.style.display = 'block';
 	document.getElementById("SearchBtn").style.display = 'block';
 	if (window.innderWidth < 1040) document.getElementById("SidebarBtn").style.display = 'block';
-    // }
-	// else
-		// console.log('unable to complete preLoad');
 }
 
 // For search, collapse all results
 function reduceResults() {
-	//Exceptions in order: single posts, previews, pages
+	//Exceptions in order: single posts, previews, pages, linqpad
     if ((window.location.href.includes(window.location.origin + '/20') && window.location.href.includes('.html')) || 
 		window.location.href.includes(window.location.origin + '/b/blog-preview') || 
 		window.location.href.includes(window.location.origin + '/p/') ||
@@ -245,23 +220,14 @@ function reduceResults() {
 			post.innerHTML = '';
 			latestPost.appendChild(innerPostLink);
 			post.appendChild(latestPost);
-			
-			// post.innerHTML = '<table><tbody>'
-			// + (title != undefined ? '<tr><td colspan="2">' + title.outerHTML + '</td></tr>' : '')
-			// + (thumb != undefined 
-			// ? ('<tr><td><div class="homepage-thumb" style="background-image: url(\'' + thumb.src + '\');"></div></td>' + 
-			// '<td><div class="latest-post-summary">' + (title == undefined ? snippet.innerHTML : snippet.innerText.substring(0,380)) + '</div></td></tr>')
-			// : '<tr><td>' + + '</td></tr>')
-			// + '</tbody></table>';
 		}
 	}
 	else
 	{
-		for (var content of document.getElementsByClassName('post-body entry-content')) //[0] != undefined)
+		for (var content of document.getElementsByClassName('post-body entry-content'))
 		{
 			if (content.parentElement.getElementsByTagName('h3').length > 0)
 				content.style.display = 'none';
-		   //document.getElementsByClassName('post-body entry-content')[0].remove();
 		}
 		
 		//add button to expand/collapse
@@ -274,7 +240,6 @@ function reduceResults() {
 				var titleBar = this.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
 				if (titleBar.getElementsByClassName('entry-content')[0].style.display == 'none') {
 					titleBar.getElementsByClassName('entry-content')[0].style.display = '';
-					//this.style.color = '#00e4ff';
 					this.getElementsByTagName('i')[0].innerText = 'unfold_more';
 				} else {
 					titleBar.getElementsByClassName('entry-content')[0].style.display = 'none';
@@ -377,19 +342,21 @@ function resizeImg() {
     for (var p2 of images) {
         var imgWidth = p2.width;
         var imgHeight = p2.height;
+		console.log('width x height', imgWidth, imgHeight);
         //process exclusion list
-        if (imgWidth < 20 || imgHeight < 20) continue; //by image size
+		//by image size, class, tag name, or by id
+        if (imgWidth < 20 || imgHeight < 20) continue;
         if (p2.parentElement.tagName == "ABBR" || 
 			p2.parentElement.parentElement.className == "popup" || 
-			p2.parentElement.className == "anime-row") 
-				continue; //by any class or tag name
-        if (p2.id == "news-thumbnail" || 
-			p2.parentElement.parentElement.parentElement.id == "anime-list")
-				continue;
-        if (p2.parentElement.className == "profile-box-img" || 
+			p2.parentElement.className == "anime-row" ||
+			p2.id == "news-thumbnail" || 
+			p2.parentElement.parentElement.parentElement.id == "anime-list" ||
+			p2.parentElement.className == "profile-box-img" || 
 			p2.parentElement.parentElement.parentElement.className == "anime-year") 
-				continue;
-        //if(p2.parentElement.classList.contains("post-body")) continue;
+		{
+			console.log('exclusion', p2, p2.parentElement);
+			continue;
+		}
         //end of process exclusion list
 		
 		//process based on parent
@@ -450,10 +417,10 @@ function resizeImg() {
             p2.parentElement.style.marginLeft = 'auto';
             p2.parentElement.style.marginRight = 'auto';
         }
-        if (p2.parentElement.parentElement.className == "separator") {
-            p2.parentElement.parentElement.style.marginLeft = 'auto';
-            p2.parentElement.parentElement.style.marginRight = 'auto';
-        }
+        // if (p2.parentElement.parentElement.className == "separator") {
+            // p2.parentElement.parentElement.style.marginLeft = 'auto';
+            // p2.parentElement.parentElement.style.marginRight = 'auto';
+        // }
 		//end of separator special case
 		
         if (p2.width >= document.getElementsByClassName("post-body")[0].offsetWidth && document.getElementsByClassName("post-body")[0].offsetWidth > 0) {
