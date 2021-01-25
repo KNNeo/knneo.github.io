@@ -361,23 +361,25 @@ function resizeImg() {
         //end of process exclusion list
 		
 		//process based on parent
-        if (p.parentElement.tagName == "DIV" && !p.parentElement.classList.contains("post") && !p.parentElement.classList.contains("post-body") &&
-            !p.parentElement.classList.contains("post-outer")) {
+        if (p.parentElement.tagName == "DIV" && !p.parentElement.classList.contains("post") && !p.parentElement.classList.contains("post-body") && !p.parentElement.classList.contains("post-outer")) {
             p.parentElement.style.maxWidth = imgWidth + 'px';
             p.parentElement.style.maxHeight = imgHeight + 'px';
+			console.log('parentElement', p.parentElement.style.maxWidth, p.parentElement.style.maxHeight);
         } else if ((p.parentElement.parentElement.tagName == "TR" ||
                 (p.parentElement.parentElement.className == "separator" && p.parentElement.parentElement.tagName != "TR")) &&
             !p.parentElement.parentElement.classList.contains("post") && !p.parentElement.parentElement.classList.contains("post-body") &&
-            !p.parentElement.parentElement.classList.contains("post-outer")
-        ) {
+            !p.parentElement.parentElement.classList.contains("post-outer")) {
             p.parentElement.parentElement.style.maxWidth = imgWidth + 'px';
             p.parentElement.parentElement.style.maxHeight = imgHeight + 'px';
+			console.log('parentElement.parentElement', p.parentElement.parentElement.style.maxWidth, p.parentElement.parentElement.style.maxHeight);
             p.parentElement.style.width = (100 / (p.parentElement.parentElement.childElementCount)) + '%';
+			console.log('parentElement', p.parentElement.style.width);
         } else if (!p.parentElement.parentElement.parentElement.classList.contains("post") &&
             !p.parentElement.parentElement.parentElement.classList.contains("post-body") &&
             !p.parentElement.parentElement.parentElement.classList.contains("post-outer")) {
             p.parentElement.parentElement.parentElement.style.maxWidth = imgWidth + 'px';
             p.parentElement.parentElement.parentElement.style.maxHeight = imgHeight + 'px';
+			console.log('parentElement.parentElement.parentElement', p.parentElement.parentElement.parentElement.style.maxWidth, p.parentElement.parentElement.parentElement.style.maxHeight);
         }
 		//end of process based on parent
 		
@@ -396,6 +398,7 @@ function resizeImg() {
                 p.style.width = 'auto';
             else
                 p.style.width = imgWidth + 'px';
+			console.log('landscape', p.style.width, p.style.height);
         } else //portrait
         {
             p.removeAttribute("width");
@@ -410,6 +413,7 @@ function resizeImg() {
                 p.style.width = 'auto';
             else
                 p.style.width = imgWidth + 'px';
+			console.log('portrait', p.style.width, p.style.height);
         }
 		//end of process based on dimensions
 		
@@ -417,15 +421,18 @@ function resizeImg() {
         if (p.parentElement.className == "separator") {
             p.parentElement.style.marginLeft = 'auto';
             p.parentElement.style.marginRight = 'auto';
+			console.log('separator', p.style.marginLeft, p.style.marginRight);
         }
         if (p.parentElement.parentElement.className == "separator" && p.parentElement.tagName == 'A') {
             p.parentElement.style.marginLeft = '';
             p.parentElement.style.marginRight = '';
+			console.log('separator', p.style.marginLeft, p.style.marginRight);
         }
 		//end of separator special case
 		
         if (p.width >= document.getElementsByClassName("post-body")[0].offsetWidth && document.getElementsByClassName("post-body")[0].offsetWidth > 0) {
             p.style.width = '100%';
+			console.log('offsetWidth', p.style.width, p.style.height);
         }
     }
     setThumbnails();
