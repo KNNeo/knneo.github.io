@@ -418,14 +418,10 @@ function resizeImg() {
 		//end of process based on dimensions
 		
 		//separator special case
-        if (p.parentElement.className == "separator") {
+        if (p.parentElement.className == "separator" ||
+			p.parentElement.parentElement.className == "separator") {
             p.parentElement.style.marginLeft = 'auto';
             p.parentElement.style.marginRight = 'auto';
-			console.log('separator', p.style.marginLeft, p.style.marginRight);
-        }
-        if (p.parentElement.parentElement.className == "separator" && p.parentElement.tagName == 'A') {
-            p.parentElement.style.marginLeft = '';
-            p.parentElement.style.marginRight = '';
 			console.log('separator', p.style.marginLeft, p.style.marginRight);
         }
 		//end of separator special case
