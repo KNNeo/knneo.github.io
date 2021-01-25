@@ -417,10 +417,10 @@ function resizeImg() {
             p2.parentElement.style.marginLeft = 'auto';
             p2.parentElement.style.marginRight = 'auto';
         }
-        // if (p2.parentElement.parentElement.className == "separator") {
-            // p2.parentElement.parentElement.style.marginLeft = 'auto';
-            // p2.parentElement.parentElement.style.marginRight = 'auto';
-        // }
+        if (p2.parentElement.parentElement.className == "separator" && p2.parentElement.tagName == 'A') {
+            p2.parentElement.style.marginLeft = '';
+            p2.parentElement.style.marginRight = '';
+        }
 		//end of separator special case
 		
         if (p2.width >= document.getElementsByClassName("post-body")[0].offsetWidth && document.getElementsByClassName("post-body")[0].offsetWidth > 0) {
