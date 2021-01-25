@@ -339,92 +339,93 @@ function resizeImg() {
     ~Consluion: Consider redo whole list based on stricter requirements, and clearer ranges/lists to maintain exclusions
     */
     var images = document.getElementsByTagName("img");
-    for (var p2 of images) {
-        var imgWidth = p2.width;
-        var imgHeight = p2.height;
+    for (var p of images) {
+		console.log(p);
+        var imgWidth = p.width;
+        var imgHeight = p.height;
 		console.log('width x height', imgWidth, imgHeight);
         //process exclusion list
 		//by image size, class, tag name, or by id
         if (imgWidth < 20 || imgHeight < 20) continue;
-        if (p2.parentElement.tagName == "ABBR" || 
-			p2.parentElement.parentElement.className == "popup" || 
-			p2.parentElement.className == "anime-row" ||
-			p2.id == "news-thumbnail" || 
-			p2.parentElement.parentElement.parentElement.id == "anime-list" ||
-			p2.parentElement.className == "profile-box-img" || 
-			p2.parentElement.parentElement.parentElement.className == "anime-year") 
+        if (p.parentElement.tagName == "ABBR" || 
+			p.parentElement.parentElement.className == "popup" || 
+			p.parentElement.className == "anime-row" ||
+			p.id == "news-thumbnail" || 
+			p.parentElement.parentElement.parentElement.id == "anime-list" ||
+			p.parentElement.className == "profile-box-img" || 
+			p.parentElement.parentElement.parentElement.className == "anime-year") 
 		{
-			console.log('exclusion', p2, p2.parentElement);
+			console.log('exclusion', p, p.parentElement);
 			continue;
 		}
         //end of process exclusion list
 		
 		//process based on parent
-        if (p2.parentElement.tagName == "DIV" && !p2.parentElement.classList.contains("post") && !p2.parentElement.classList.contains("post-body") &&
-            !p2.parentElement.classList.contains("post-outer")) {
-            p2.parentElement.style.maxWidth = imgWidth + 'px';
-            p2.parentElement.style.maxHeight = imgHeight + 'px';
-        } else if ((p2.parentElement.parentElement.tagName == "TR" ||
-                (p2.parentElement.parentElement.className == "separator" && p2.parentElement.parentElement.tagName != "TR")) &&
-            !p2.parentElement.parentElement.classList.contains("post") && !p2.parentElement.parentElement.classList.contains("post-body") &&
-            !p2.parentElement.parentElement.classList.contains("post-outer")
+        if (p.parentElement.tagName == "DIV" && !p.parentElement.classList.contains("post") && !p.parentElement.classList.contains("post-body") &&
+            !p.parentElement.classList.contains("post-outer")) {
+            p.parentElement.style.maxWidth = imgWidth + 'px';
+            p.parentElement.style.maxHeight = imgHeight + 'px';
+        } else if ((p.parentElement.parentElement.tagName == "TR" ||
+                (p.parentElement.parentElement.className == "separator" && p.parentElement.parentElement.tagName != "TR")) &&
+            !p.parentElement.parentElement.classList.contains("post") && !p.parentElement.parentElement.classList.contains("post-body") &&
+            !p.parentElement.parentElement.classList.contains("post-outer")
         ) {
-            p2.parentElement.parentElement.style.maxWidth = imgWidth + 'px';
-            p2.parentElement.parentElement.style.maxHeight = imgHeight + 'px';
-            p2.parentElement.style.width = (100 / (p2.parentElement.parentElement.childElementCount)) + '%';
-        } else if (!p2.parentElement.parentElement.parentElement.classList.contains("post") &&
-            !p2.parentElement.parentElement.parentElement.classList.contains("post-body") &&
-            !p2.parentElement.parentElement.parentElement.classList.contains("post-outer")) {
-            p2.parentElement.parentElement.parentElement.style.maxWidth = imgWidth + 'px';
-            p2.parentElement.parentElement.parentElement.style.maxHeight = imgHeight + 'px';
+            p.parentElement.parentElement.style.maxWidth = imgWidth + 'px';
+            p.parentElement.parentElement.style.maxHeight = imgHeight + 'px';
+            p.parentElement.style.width = (100 / (p.parentElement.parentElement.childElementCount)) + '%';
+        } else if (!p.parentElement.parentElement.parentElement.classList.contains("post") &&
+            !p.parentElement.parentElement.parentElement.classList.contains("post-body") &&
+            !p.parentElement.parentElement.parentElement.classList.contains("post-outer")) {
+            p.parentElement.parentElement.parentElement.style.maxWidth = imgWidth + 'px';
+            p.parentElement.parentElement.parentElement.style.maxHeight = imgHeight + 'px';
         }
 		//end of process based on parent
 		
 		//process based on dimensions
         if (imgWidth >= imgHeight) //landscape
         {
-            p2.removeAttribute("height");
-            p2.removeAttribute("width");
-            if (p2.parentElement.parentElement.tagName == "TR" && p2.parentElement.parentElement.getElementsByTagName("td").length > 1) //in table
-                p2.style.width = '100%';
-            else if (p2.parentElement.parentElement.parentElement.tagName == "TR" && p2.parentElement.parentElement.parentElement.getElementsByTagName("td").length > 1 && p2.parentElement.tagName == "A") //in table, with link
-                p2.style.width = '100%';
-            else if (p2.width >= window.innerWidth)
-                p2.style.width = '100%';
-            else if (p2.width <= imgWidth)
-                p2.style.width = 'auto';
+            p.removeAttribute("height");
+            p.removeAttribute("width");
+            if (p.parentElement.parentElement.tagName == "TR" && p.parentElement.parentElement.getElementsByTagName("td").length > 1) //in table
+                p.style.width = '100%';
+            else if (p.parentElement.parentElement.parentElement.tagName == "TR" && p.parentElement.parentElement.parentElement.getElementsByTagName("td").length > 1 && p.parentElement.tagName == "A") //in table, with link
+                p.style.width = '100%';
+            else if (p.width >= window.innerWidth)
+                p.style.width = '100%';
+            else if (p.width <= imgWidth)
+                p.style.width = 'auto';
             else
-                p2.style.width = imgWidth + 'px';
+                p.style.width = imgWidth + 'px';
         } else //portrait
         {
-            p2.removeAttribute("width");
-            p2.removeAttribute("height");
-            if (p2.parentElement.parentElement.tagName == "TR" && p2.parentElement.parentElement.getElementsByTagName("td").length > 1) //in table
-                p2.style.width = '100%';
-            else if (p2.parentElement.parentElement.parentElement.tagName == "TR" && p2.parentElement.parentElement.parentElement.getElementsByTagName("td").length > 1 && p2.parentElement.tagName == "A") //in table, with link
-                p2.style.width = '100%';
-            else if (p2.width >= window.innerWidth)
-                p2.style.width = '100%';
-            else if (p2.width >= imgWidth)
-                p2.style.width = 'auto';
+            p.removeAttribute("width");
+            p.removeAttribute("height");
+            if (p.parentElement.parentElement.tagName == "TR" && p.parentElement.parentElement.getElementsByTagName("td").length > 1) //in table
+                p.style.width = '100%';
+            else if (p.parentElement.parentElement.parentElement.tagName == "TR" && p.parentElement.parentElement.parentElement.getElementsByTagName("td").length > 1 && p.parentElement.tagName == "A") //in table, with link
+                p.style.width = '100%';
+            else if (p.width >= window.innerWidth)
+                p.style.width = '100%';
+            else if (p.width >= imgWidth)
+                p.style.width = 'auto';
             else
-                p2.style.width = imgWidth + 'px';
+                p.style.width = imgWidth + 'px';
         }
 		//end of process based on dimensions
 		
 		//separator special case
-        if (p2.parentElement.className == "separator") {
-            p2.parentElement.style.marginLeft = 'auto';
-            p2.parentElement.style.marginRight = 'auto';
+        if (p.parentElement.className == "separator") {
+            p.parentElement.style.marginLeft = 'auto';
+            p.parentElement.style.marginRight = 'auto';
         }
-        if (p2.parentElement.parentElement.className == "separator" && p2.parentElement.tagName == 'A') {
-            p2.parentElement.style.marginLeft = '';
-            p2.parentElement.style.marginRight = '';
+        if (p.parentElement.parentElement.className == "separator" && p.parentElement.tagName == 'A') {
+            p.parentElement.style.marginLeft = '';
+            p.parentElement.style.marginRight = '';
         }
 		//end of separator special case
 		
-        if (p2.width >= document.getElementsByClassName("post-body")[0].offsetWidth && document.getElementsByClassName("post-body")[0].offsetWidth > 0) {
-            p2.style.width = '100%';
+        if (p.width >= document.getElementsByClassName("post-body")[0].offsetWidth && document.getElementsByClassName("post-body")[0].offsetWidth > 0) {
+            p.style.width = '100%';
         }
     }
     setThumbnails();
