@@ -465,8 +465,7 @@ function fixNavigationResults() {
 function olderNewerTextToIcon() {
     if (document.getElementById("blog-pager-newer-link") != null) document.getElementById("blog-pager-newer-link").getElementsByTagName("a")[0].innerHTML = "<i class='material-icons flip-arrow'>arrow_right_alt</i>";
     if (document.getElementById("blog-pager-older-link") != null) document.getElementById("blog-pager-older-link").getElementsByTagName("a")[0].innerHTML = "<i class='material-icons'>arrow_right_alt</i>";
-	let isHomeURL = window.location.pathname.length < 2 && window.location.search.length < 4;
-    if (!isHomeURL && document.getElementsByClassName('home-link').length > 0) document.getElementsByClassName('home-link')[0].innerHTML = "<i class='material-icons'>home</i>";
+    if (!window.location.href.includes("knwebreports.blogspot.com/?m=1") && document.getElementsByClassName('home-link').length > 0) document.getElementsByClassName('home-link')[0].innerHTML = "<i class='material-icons'>home</i>";
 }
 
 // Add arrows for search labels when in smaller screens
