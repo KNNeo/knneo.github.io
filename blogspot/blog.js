@@ -340,7 +340,7 @@ function resizeImg() {
     */
     var images = document.getElementsByTagName("img");
     for (var p of images) {
-		console.log(p);
+		// console.log(p);
         var imgWidth = p.width;
         var imgHeight = p.height;
 		console.log('width x height', imgWidth, imgHeight);
