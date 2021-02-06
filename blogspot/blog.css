@@ -468,7 +468,8 @@ div.content-cap-bottom.cap-bottom {
   /*Fix post newer older post links*/
   .blog-mobile-link,
   a.home-link {
-    display: none;
+    color: white;
+	position: absolute;
   }
   .bar-left {
     position: absolute;
