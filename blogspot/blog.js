@@ -340,10 +340,11 @@ function resizeImg() {
     */
     var images = document.getElementsByTagName("img");
     for (var p of images) {
-		// console.log(p);
+		let showLog = false;
+		if(showLog) console.log(p);
         var imgWidth = p.width;
         var imgHeight = p.height;
-		console.log('width x height', imgWidth, imgHeight);
+		if(showLog) console.log('width x height', imgWidth, imgHeight);
         //process exclusion list
 		//by image size, class, tag name, or by id
         if (imgWidth < 20 || imgHeight < 20) continue;
@@ -355,7 +356,7 @@ function resizeImg() {
 			p.parentElement.className == "profile-box-img" || 
 			p.parentElement.parentElement.parentElement.className == "anime-year") 
 		{
-			console.log('exclusion', p, p.parentElement);
+			if(showLog) console.log('exclusion', p, p.parentElement);
 			continue;
 		}
         //end of process exclusion list
@@ -364,22 +365,22 @@ function resizeImg() {
         if (p.parentElement.tagName == "DIV" && !p.parentElement.classList.contains("post") && !p.parentElement.classList.contains("post-body") && !p.parentElement.classList.contains("post-outer")) {
             p.parentElement.style.maxWidth = imgWidth + 'px';
             p.parentElement.style.maxHeight = imgHeight + 'px';
-			console.log('parentElement', p.parentElement.style.maxWidth, p.parentElement.style.maxHeight);
+			if(showLog) console.log('parentElement', p.parentElement.style.maxWidth, p.parentElement.style.maxHeight);
         } else if ((p.parentElement.parentElement.tagName == "TR" ||
                 (p.parentElement.parentElement.className == "separator" && p.parentElement.parentElement.tagName != "TR")) &&
             !p.parentElement.parentElement.classList.contains("post") && !p.parentElement.parentElement.classList.contains("post-body") &&
             !p.parentElement.parentElement.classList.contains("post-outer")) {
             p.parentElement.parentElement.style.maxWidth = imgWidth + 'px';
             p.parentElement.parentElement.style.maxHeight = imgHeight + 'px';
-			console.log('parentElement.parentElement', p.parentElement.parentElement.style.maxWidth, p.parentElement.parentElement.style.maxHeight);
+			if(showLog) console.log('parentElement.parentElement', p.parentElement.parentElement.style.maxWidth, p.parentElement.parentElement.style.maxHeight);
             p.parentElement.style.width = (100 / (p.parentElement.parentElement.childElementCount)) + '%';
-			console.log('parentElement', p.parentElement.style.width);
+			if(showLog) console.log('parentElement', p.parentElement.style.width);
         } else if (!p.parentElement.parentElement.parentElement.classList.contains("post") &&
             !p.parentElement.parentElement.parentElement.classList.contains("post-body") &&
             !p.parentElement.parentElement.parentElement.classList.contains("post-outer")) {
             p.parentElement.parentElement.parentElement.style.maxWidth = imgWidth + 'px';
             p.parentElement.parentElement.parentElement.style.maxHeight = imgHeight + 'px';
-			console.log('parentElement.parentElement.parentElement', p.parentElement.parentElement.parentElement.style.maxWidth, p.parentElement.parentElement.parentElement.style.maxHeight);
+			if(showLog) console.log('parentElement.parentElement.parentElement', p.parentElement.parentElement.parentElement.style.maxWidth, p.parentElement.parentElement.parentElement.style.maxHeight);
         }
 		//end of process based on parent
 		
@@ -398,7 +399,7 @@ function resizeImg() {
                 p.style.width = 'auto';
             else
                 p.style.width = imgWidth + 'px';
-			console.log('landscape', p.style.width, p.style.height);
+			if(showLog) console.log('landscape', p.style.width, p.style.height);
         } else //portrait
         {
             p.removeAttribute("width");
@@ -413,7 +414,7 @@ function resizeImg() {
                 p.style.width = 'auto';
             else
                 p.style.width = imgWidth + 'px';
-			console.log('portrait', p.style.width, p.style.height);
+			if(showLog) console.log('portrait', p.style.width, p.style.height);
         }
 		//end of process based on dimensions
 		
@@ -422,13 +423,13 @@ function resizeImg() {
 			p.parentElement.parentElement.className == "separator") {
             p.parentElement.style.marginLeft = 'auto';
             p.parentElement.style.marginRight = 'auto';
-			console.log('separator', p.style.marginLeft, p.style.marginRight);
+			if(showLog) console.log('separator', p.style.marginLeft, p.style.marginRight);
         }
 		//end of separator special case
 		
         if (p.width >= document.getElementsByClassName("post-body")[0].offsetWidth && document.getElementsByClassName("post-body")[0].offsetWidth > 0) {
             p.style.width = '100%';
-			console.log('offsetWidth', p.style.width, p.style.height);
+			if(showLog) console.log('offsetWidth', p.style.width, p.style.height);
         }
     }
     setThumbnails();
@@ -465,7 +466,9 @@ function fixNavigationResults() {
 function olderNewerTextToIcon() {
     if (document.getElementById("blog-pager-newer-link") != null) document.getElementById("blog-pager-newer-link").getElementsByTagName("a")[0].innerHTML = "<i class='material-icons flip-arrow'>arrow_right_alt</i>";
     if (document.getElementById("blog-pager-older-link") != null) document.getElementById("blog-pager-older-link").getElementsByTagName("a")[0].innerHTML = "<i class='material-icons'>arrow_right_alt</i>";
-    if (!window.location.href.includes("knwebreports.blogspot.com/?m=1") && document.getElementsByClassName('home-link').length > 0) document.getElementsByClassName('home-link')[0].innerHTML = "<i class='material-icons'>home</i>";
+    if (!window.location.href.includes("knwebreports.blogspot.com/?m=1") && 
+	window.innerWidth < 1040
+	document.getElementsByClassName('home-link').length > 0) document.getElementsByClassName('home-link')[0].innerHTML = "<i class='material-icons'>home</i>";
 }
 
 // Add arrows for search labels when in smaller screens
