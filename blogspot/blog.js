@@ -565,7 +565,7 @@ function renderPopup() {
     let focus = document.createElement('div');
     focus.classList.add('new-thumbnail-focus');
     focus.classList.add('fadeIn');
-	if(!this.href.includes('twitter.com')) focus.sgtyle.paddingBottom = '10px';
+	if(!this.href.includes('twitter.com')) focus.style.paddingBottom = '10px';
     focus.innerHTML = newContent;
 
     thumbnail.appendChild(initial);
