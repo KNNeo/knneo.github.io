@@ -92,6 +92,39 @@ function friendCheck() {
 	console.log('Done.');
 }
 
+function exportCalendar() {
+	let textOutput = '"Subject","Start date","All Day Event","Description","Private"';
+	// title, MM/dd/yyyy, true, description, true
+	for(let profile of profileList)
+	{
+		textOutput += '\n';
+		let formatDate = profile.dob.substring(5,7) + '/' + profile.dob.substring(8,10) + '/' + moment().year();
+		
+		//follow wanted-list-v2.js
+		let birthdayInYear = new Date(new Date().getFullYear(), new Date(profile.dob.replace('????', '2021')).getMonth(), new Date(profile.dob.replace('????', '2021')).getDate());
+		let DOB = '2021' + profile.dob.substring(4);
+		let offsetMinutes = moment().utcOffset() - moment.tz(timezone).utcOffset();
+		let diff = moment().diff(moment(DOB));
+		let timeDiff = moment.duration(diff).subtract(offsetMinutes, 'minutes');
+		let IsBirthdayOver = timeDiff.days() >= 0 && timeDiff.hours() >= 0 && timeDiff.minutes() >= 0 && timeDiff.seconds() >= 0 && timeDiff.milliseconds() >= 0;
+		
+		let line = '"'+profile.name+'\'s Birthday'+(profile.dob.includes('?') ? '' : ' ('+(IsBirthdayOver ? getAge(profile.dob) : getAge(profile.dob)+1)+')')+'","'+formatDate+'","true","'+(profile.dob.includes('?') ? '' : ('Born ' + profile.dob))+'","true"';
+		textOutput += line;
+	}
+	
+	//create download file
+	let downloadLink = document.createElement('a');
+	downloadLink.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(textOutput);
+	downloadLink.target = '_blank';
+	downloadLink.download = 'profiles.csv';
+	document.body.appendChild(downloadLink);
+	downloadLink.click();
+	document.body.removeChild(downloadLink);
+	
+	console.log('Export done');
+	document.getElementById('exportBtn').setAttribute('disabled','');
+}
+
 function generateProfileFromJSON(profileName) {
 	let friendMode = false;
 	//the profile selected
