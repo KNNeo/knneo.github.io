@@ -571,8 +571,7 @@ function renderPopup() {
     thumbnail.appendChild(initial);
     thumbnail.appendChild(focus);
 
-	let oldContent = this.outerHTML;
-	this.parentElement.replaceChild(oldContent, thumbnail.outerHTML);
+	this.parentElement.replaceChild(this, thumbnail);
     twttr.widgets.load(); //special case
     window.instgrm.Embeds.process(); //special case
     addHoverForPopups();
