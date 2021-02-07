@@ -4,7 +4,7 @@ window.onload = function() {
 	addObjects();
     preloadSequence();
     reduceResults();
-    if (document.getElementsByClassName('popup').length > 0) fixPopup();
+    fixPopup();
     setThumbnails();
     resizeImg();
     fixLabelResults();
@@ -13,8 +13,8 @@ window.onload = function() {
     addLabelForNavigation();
 	fixLightbox();
     addHoverForLinks();
-    if (window.location.href.includes("/search/label/")) addHoverOnExpander();
-    if (window.location.href.includes("TheEntertainmentNews")) addHashtags();
+    addHoverOnExpander();
+    addHashtags();
 };
 
 // Window events (FAB events at end)
@@ -510,6 +510,7 @@ function addHoverForLinks() {
 }
 
 function addHoverOnExpander() {
+	if (!window.location.href.includes("/search/label/")) return;
     for (let expander of document.getElementsByClassName('search-expander')) {
         expander.addEventListener('click', function() {
             for (let page of document.getElementsByClassName('post-body entry-content')) {
@@ -609,6 +610,7 @@ function generatePopupContent(url) {
 
 // Add hashtags for Entertainment News posts with anchors
 function addHashtags() {
+	if(document.getElementById("hashtags") == null) return;
 	if(document.getElementById("hashtags").childElementCount > 0)
 		document.getElementById("hashtags").innerHTML = '';
 	
