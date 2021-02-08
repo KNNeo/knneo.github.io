@@ -215,6 +215,8 @@ void Main()
 		content = content.Replace(animeHeaderPrefix, @"<span class=""head-prefix"">");
 		animeHeaderPrefix = @"<span style=""background: rgb(0, 184, 204); border-radius: 5px; padding: 3px 5px; text-align: center; vertical-align: text-bottom;"">";
 		content = content.Replace(animeHeaderPrefix, @"<span class=""head-prefix"">");
+		animeHeaderPrefix = @"<span style=""background: rgb(0, 184, 204); border-radius: 5px; padding: 3px 5px; text-align: center;"">";
+		content = content.Replace(animeHeaderPrefix, @"<span class=""head-prefix"">");
 		#endregion
 		
 		#region set all link directory to current blog

@@ -14,6 +14,7 @@ void Main()
 	var jsonList = new List<GooglePhotosMetadata>();
 	var nameList = new List<string>();
 	var peopleList = new List<string>();
+	var namePeopleList = new List<string>();
 	
 	//foreach json file
 	foreach(var f in files)
@@ -26,17 +27,20 @@ void Main()
 			var jsonObj = JsonConvert.DeserializeObject<GooglePhotosMetadata>(text);
 			jsonList.Add(jsonObj);
 			//Console.WriteLine(jsonObj.title + " | " + jsonObj.description);
-			if(jsonObj.people == null || jsonObj.people.Count != 1)
+			if(jsonObj.people == null || jsonObj.people.Count != 1) //without tag
 			{
 				//Console.WriteLine("> " + jsonObj.description);
 				nameList.Add(jsonObj.description);
 			}
-			else
+			else //with tag
 			{
 				foreach(var person in jsonObj.people)
 				{
 					nameList.Add(person.name);
 					peopleList.Add(jsonObj.description);
+					if(person.name.Trim() != jsonObj.description.Trim()) {
+						namePeopleList.Add(person.name + " | " + jsonObj.description + " | " + jsonObj.creationTime.formatted);
+					}
 				}
 			}
 		}
@@ -73,6 +77,7 @@ void Main()
 	
 	//views
 	//Console.WriteLine(names.OrderBy(n => n.name));
+	Console.WriteLine("Items, by tag name");
 	Console.WriteLine(people.OrderByDescending(n => n.count));
 	
 	Console.WriteLine("Items without tags");
@@ -82,6 +87,10 @@ void Main()
 			time = n.creationTime.formatted
 		}
 	));
+	
+	Console.WriteLine("Items, description different from tag");
+	var exceptionList = new string[]{"TrySail", "sphere"};
+	Console.WriteLine(namePeopleList);
 	//Console.WriteLine(jsonList.Where(n => n.description == "Anzai Chika" || (n.people != null && n.people.Any(p => p.name == "Anzai Chika"))));
 }
 

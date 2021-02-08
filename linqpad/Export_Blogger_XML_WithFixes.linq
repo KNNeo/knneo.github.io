@@ -64,7 +64,8 @@ void Main()
 	var allTags = new List<string>();
 	#endregion
 	
-	Console.WriteLine("<div class=\"Count\">" + posts.ToList().Count + " published posts found</div>");
+	var textString = "";
+	textString += "<div class=\"Count\">" + posts.ToList().Count + " published posts found</div>";
 	// Process XML content per post
 	foreach (var entry in posts)
 	{
@@ -212,6 +213,8 @@ void Main()
 		content = content.Replace(animeHeaderPrefix, @"<span class=""head-prefix"">");
 		animeHeaderPrefix = @"<span style=""background: rgb(0, 184, 204); border-radius: 5px; padding: 3px 5px; text-align: center; vertical-align: text-bottom;"">";
 		content = content.Replace(animeHeaderPrefix, @"<span class=""head-prefix"">");
+		animeHeaderPrefix = @"<span style=""background: rgb(0, 184, 204); border-radius: 5px; padding: 3px 5px; text-align: center;"">";
+		content = content.Replace(animeHeaderPrefix, @"<span class=""head-prefix"">");
 		#endregion
 		
 		#region set all link directory to current blog
@@ -230,6 +233,7 @@ void Main()
 		DateTime published = DateTime.Parse(entry.Element(_+"published").Value);
 		DateTime updated = DateTime.Parse(entry.Element(_+"updated").Value);
 		string title = entry.Element(_+"title").Value;
+		Console.WriteLine("Processing " + (title != "" ? title : "A Random Statement"));
 		string type = entry.Element(_+"content").Attribute("type").Value ?? "html";
 		XElement empty = new XElement("empty");
 		XAttribute emptA = new XAttribute("empty","");
@@ -307,14 +311,17 @@ void Main()
 			var pageLink = "./" + Path.GetFileNameWithoutExtension(filepath) + "/" + published.Year.ToString("0000") + "/"  + published.Month.ToString("00") + "/"  + Path.GetFileNameWithoutExtension(originalLink) + "." + type;
 			
 			if(title != "")
-				Console.WriteLine("<div"+classes+"><span>"+published.ToString("yyyy.MM.dd")+" </span><a href=\""+pageLink+"\">"+title+"</a></div>");
+				textString += "<div"+classes+"><span>"+published.ToString("yyyy.MM.dd")+" </span><a href=\""+pageLink+"\">"+title+"</a></div>";
 			else
-				Console.WriteLine("<div"+classes+"><span>"+published.ToString("yyyy.MM.dd")+" </span><a href=\""+pageLink+"\">A Random Statement</a></div>");				
+				textString += "<div"+classes+"><span>"+published.ToString("yyyy.MM.dd")+" </span><a href=\""+pageLink+"\">A Random Statement</a></div>";				
 		}
 		else
-			Console.WriteLine("<div"+classes+"><span>"+published.ToString("yyyy.MM.dd")+" </span>"+title+"</div>");
+			textString += "<div"+classes+"><span>"+published.ToString("yyyy.MM.dd")+" </span>"+title+"</div>";
 			
 	}
 	
-	//Console.WriteLine("<div class=\"allTags\"><a>"+string.Join("</a> <a>",allTags)+"</a></div>");
+	string fileString = File.ReadAllText(folderpath + "\\blog.html");
+	fileString = fileString.Replace("<div id=\"blog-archive-list\" style=\"font-size: 0.8em; padding-bottom: 20px;\"></div>", ("<div id=\"blog-archive-list\" style=\"font-size: 0.8em; padding-bottom: 20px;\">" + textString + "</div>"));
+	File.WriteAllText(folderpath + "\\blog.html", fileString);
+	//textString += "<div class=\"allTags\"><a>"+string.Join("</a> <a>",allTags)+"</a></div>");
 }
