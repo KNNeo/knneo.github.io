@@ -470,6 +470,8 @@ div.content-cap-bottom.cap-bottom {
   a.home-link {
     color: white;
 	position: absolute;
+    left: 0;
+    right: 0;
   }
   .bar-left {
     position: absolute;
