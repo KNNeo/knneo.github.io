@@ -65,7 +65,7 @@ void Main()
 	#endregion
 	
 	var textString = "";
-	textString += "<div class=\"Count\">" + posts.ToList().Count + " published posts found</div>";
+	textString += "<div class=\"Count\">" + posts.ToList().Count + " published posts found</div>\n";
 	// Process XML content per post
 	foreach (var entry in posts)
 	{
@@ -311,17 +311,16 @@ void Main()
 			var pageLink = "./" + Path.GetFileNameWithoutExtension(filepath) + "/" + published.Year.ToString("0000") + "/"  + published.Month.ToString("00") + "/"  + Path.GetFileNameWithoutExtension(originalLink) + "." + type;
 			
 			if(title != "")
-				textString += "<div"+classes+"><span>"+published.ToString("yyyy.MM.dd")+" </span><a href=\""+pageLink+"\">"+title+"</a></div>";
+				textString += "<div"+classes+"><span>"+published.ToString("yyyy.MM.dd")+" </span><a href=\""+pageLink+"\">"+title+"</a></div>\n";
 			else
-				textString += "<div"+classes+"><span>"+published.ToString("yyyy.MM.dd")+" </span><a href=\""+pageLink+"\">A Random Statement</a></div>";				
+				textString += "<div"+classes+"><span>"+published.ToString("yyyy.MM.dd")+" </span><a href=\""+pageLink+"\">A Random Statement</a></div>\n";				
 		}
 		else
-			textString += "<div"+classes+"><span>"+published.ToString("yyyy.MM.dd")+" </span>"+title+"</div>";
+			textString += "<div"+classes+"><span>"+published.ToString("yyyy.MM.dd")+" </span>"+title+"</div>\n";
 			
 	}
 	
-	string fileString = File.ReadAllText(folderpath + "\\blog.html");
+	string fileString = File.ReadAllText(folderpath + "\\blog_template.html");
 	fileString = fileString.Replace("<div id=\"blog-archive-list\" style=\"font-size: 0.8em; padding-bottom: 20px;\"></div>", ("<div id=\"blog-archive-list\" style=\"font-size: 0.8em; padding-bottom: 20px;\">" + textString + "</div>"));
 	File.WriteAllText(folderpath + "\\blog.html", fileString);
-	//textString += "<div class=\"allTags\"><a>"+string.Join("</a> <a>",allTags)+"</a></div>");
 }
