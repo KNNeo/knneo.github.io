@@ -466,9 +466,9 @@ function fixNavigationResults() {
 function olderNewerTextToIcon() {
     if (document.getElementById("blog-pager-newer-link") != null) document.getElementById("blog-pager-newer-link").getElementsByTagName("a")[0].innerHTML = "<i class='material-icons flip-arrow'>arrow_right_alt</i>";
     if (document.getElementById("blog-pager-older-link") != null) document.getElementById("blog-pager-older-link").getElementsByTagName("a")[0].innerHTML = "<i class='material-icons'>arrow_right_alt</i>";
-    if (window.innerWidth < 1040 &&	document.getElementsByClassName('home-link').length > 0) {
+	if (document.getElementsByClassName('home-link').length > 0) {
 		let homeLink = document.getElementsByClassName('home-link')[0];
-		if(!window.location.href.includes("knwebreports.blogspot.com/?m=1")) 
+		if(window.innerHeight*2 < document.body.getBoundingClientRect().height) 
 			homeLink.innerHTML = "<i class='material-icons'>home</i>";
 		else
 			homeLink.classList.add('display-none');
