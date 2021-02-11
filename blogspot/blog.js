@@ -396,7 +396,7 @@ function resizeImg() {
                 p.classList.add('img-width-fit');
             else if (p.width >= window.innerWidth)
                 p.classList.add('img-width-fit');
-            else if (p.width <= imgWidth)
+            else if (p.width < imgWidth)
                 p.classList.add('img-width-auto');
             else
                 p.style.width = imgWidth + 'px';
