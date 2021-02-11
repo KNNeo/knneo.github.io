@@ -357,6 +357,7 @@ function resizeImg() {
 			p.parentElement.parentElement.parentElement.className == "anime-year") 
 		{
 			if(showLog) console.log('exclusion', p, p.parentElement);
+			p.classList.add('img-unchanged');
 			continue;
 		}
         //end of process exclusion list
@@ -390,13 +391,13 @@ function resizeImg() {
             p.removeAttribute("height");
             p.removeAttribute("width");
             if (p.parentElement.parentElement.tagName == "TR" && p.parentElement.parentElement.getElementsByTagName("td").length > 1) //in table
-                p.style.width = '100%';
+                p.classList.add('img-width-fit');
             else if (p.parentElement.parentElement.parentElement.tagName == "TR" && p.parentElement.parentElement.parentElement.getElementsByTagName("td").length > 1 && p.parentElement.tagName == "A") //in table, with link
-                p.style.width = '100%';
+                p.classList.add('img-width-fit');
             else if (p.width >= window.innerWidth)
-                p.style.width = '100%';
+                p.classList.add('img-width-fit');
             else if (p.width <= imgWidth)
-                p.style.width = 'auto';
+                p.classList.add('img-width-auto');
             else
                 p.style.width = imgWidth + 'px';
 			if(showLog) console.log('landscape', p.style.width, p.style.height);
@@ -405,13 +406,13 @@ function resizeImg() {
             p.removeAttribute("width");
             p.removeAttribute("height");
             if (p.parentElement.parentElement.tagName == "TR" && p.parentElement.parentElement.getElementsByTagName("td").length > 1) //in table
-                p.style.width = '100%';
+                p.classList.add('img-width-fit');
             else if (p.parentElement.parentElement.parentElement.tagName == "TR" && p.parentElement.parentElement.parentElement.getElementsByTagName("td").length > 1 && p.parentElement.tagName == "A") //in table, with link
-                p.style.width = '100%';
+                p.classList.add('img-width-fit');
             else if (p.width >= window.innerWidth)
-                p.style.width = '100%';
+                p.classList.add('img-width-fit');
             else if (p.width >= imgWidth)
-                p.style.width = 'auto';
+                p.classList.add('img-width-auto');
             else
                 p.style.width = imgWidth + 'px';
 			if(showLog) console.log('portrait', p.style.width, p.style.height);
@@ -419,18 +420,19 @@ function resizeImg() {
 		//end of process based on dimensions
 		
 		//separator special case
-        if (p.parentElement.className == "separator" ||
+        /* if (p.parentElement.className == "separator" ||
 			p.parentElement.parentElement.className == "separator") {
             p.parentElement.style.marginLeft = 'auto';
             p.parentElement.style.marginRight = 'auto';
 			if(showLog) console.log('separator', p.style.marginLeft, p.style.marginRight);
-        }
+			p.classList.add('img-separator');
+        } */
 		//end of separator special case
 		
-        if (p.width >= document.getElementsByClassName("post-body")[0].offsetWidth && document.getElementsByClassName("post-body")[0].offsetWidth > 0) {
+        /* if (p.width >= document.getElementsByClassName("post-body")[0].offsetWidth && document.getElementsByClassName("post-body")[0].offsetWidth > 0) {
             p.style.width = '100%';
 			if(showLog) console.log('offsetWidth', p.style.width, p.style.height);
-        }
+        } */
     }
     setThumbnails();
 }
