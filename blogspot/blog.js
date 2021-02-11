@@ -394,7 +394,7 @@ function resizeImg() {
                 p.classList.add('img-width-fit');
             else if (p.parentElement.parentElement.parentElement.tagName == "TR" && p.parentElement.parentElement.parentElement.getElementsByTagName("td").length > 1 && p.parentElement.tagName == "A") //in table, with link
                 p.classList.add('img-width-fit');
-            else if (p.width + 10 >= window.outerWidth) //see #main
+            else if (p.width + 20 >= window.outerWidth) //see #main and .separator
                 p.classList.add('img-width-fit');
             else if (p.width < imgWidth)
                 p.classList.add('img-width-auto');
@@ -409,7 +409,7 @@ function resizeImg() {
                 p.classList.add('img-width-fit');
             else if (p.parentElement.parentElement.parentElement.tagName == "TR" && p.parentElement.parentElement.parentElement.getElementsByTagName("td").length > 1 && p.parentElement.tagName == "A") //in table, with link
                 p.classList.add('img-width-fit');
-            else if (p.width + 10 >= window.outerWidth) //see #main
+            else if (p.width + 20 >= window.outerWidth) //see #main and .separator
                 p.classList.add('img-width-fit');
             else if (p.width >= imgWidth)
                 p.classList.add('img-width-auto');
