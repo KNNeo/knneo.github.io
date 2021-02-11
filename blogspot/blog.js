@@ -431,6 +431,8 @@ function resizeImg() {
 		p.parentElement.marginLeft != "" &&
 		p.parentElement.marginRight != "")
 		{
+			p.parentElement.style.removeAttribute('marginLeft');
+			p.parentElement.style.removeAttribute('marginRight');
 			p.parentElement.classList.add('img-separator');
 		}
 		//end of separator special cases
