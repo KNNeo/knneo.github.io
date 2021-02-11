@@ -362,7 +362,7 @@ function resizeImg() {
         //end of process exclusion list
 		
 		//process based on parent
-        if (p.parentElement.tagName == "DIV" && !p.parentElement.classList.contains("post") && !p.parentElement.classList.contains("post-body") && !p.parentElement.classList.contains("post-outer")) {
+        /* if (p.parentElement.tagName == "DIV" && !p.parentElement.classList.contains("post") && !p.parentElement.classList.contains("post-body") && !p.parentElement.classList.contains("post-outer")) {
             p.parentElement.style.maxWidth = imgWidth + 'px';
             p.parentElement.style.maxHeight = imgHeight + 'px';
 			if(showLog) console.log('parentElement', p.parentElement.style.maxWidth, p.parentElement.style.maxHeight);
@@ -381,7 +381,7 @@ function resizeImg() {
             p.parentElement.parentElement.parentElement.style.maxWidth = imgWidth + 'px';
             p.parentElement.parentElement.parentElement.style.maxHeight = imgHeight + 'px';
 			if(showLog) console.log('parentElement.parentElement.parentElement', p.parentElement.parentElement.parentElement.style.maxWidth, p.parentElement.parentElement.parentElement.style.maxHeight);
-        }
+        } */
 		//end of process based on parent
 		
 		//process based on dimensions
