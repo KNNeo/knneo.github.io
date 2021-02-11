@@ -419,7 +419,7 @@ function resizeImg() {
         }
 		//end of process based on dimensions
 		
-		//separator special case
+		//separator special cases
         if (p.parentElement.className == "separator" ||
 			p.parentElement.parentElement.className == "separator") {
             // p.parentElement.style.marginLeft = 'auto';
@@ -427,7 +427,13 @@ function resizeImg() {
 			if(showLog) console.log('separator', p.style.marginLeft, p.style.marginRight);
 			p.parentElement.classList.add('img-separator');
         }
-		//end of separator special case
+		if(p.parentElement.tagName == "A" &&
+		p.parentElement.marginLeft != "" &&
+		p.parentElement.marginRight != "")
+		{
+			p.parentElement.classList.add('img-separator');
+		}
+		//end of separator special cases
 		
         /* if (p.width >= document.getElementsByClassName("post-body")[0].offsetWidth && document.getElementsByClassName("post-body")[0].offsetWidth > 0) {
             p.style.width = '100%';
