@@ -579,7 +579,7 @@ function renderPopup() {
     let focus = document.createElement('div');
     focus.classList.add('new-thumbnail-focus');
     focus.classList.add('fadeIn');
-	// if(!this.href.includes('twitter.com')) focus.style.paddingBottom = '10px';
+	if(!this.href.includes('twitter.com')) focus.style.paddingTop = '10px';
     focus.innerHTML = newContent;
 
     thumbnail.appendChild(initial);
@@ -619,6 +619,11 @@ function generatePopupContent(url) {
         //process instagram embed
         return '<center><blockquote class="instagram-media" data-instgrm-permalink="' +
             url + '" data-instgrm-version="13" style="max-width:540px; min-width:326px; padding:0; width:100%;"></blockquote></center><script async="async" src="//www.instagram.com/embed.js">\</script\>';
+    }
+    if (url.includes('jisho.org/search/')) {
+        //process jisho as iframe
+        return '<iframe id="myFrame" src="' +
+            url + '" style="height:380px;width:100%"></iframe>';
     }
     return null;
 }
