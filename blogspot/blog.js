@@ -623,7 +623,7 @@ function generatePopupContent(url) {
     if (url.includes('jisho.org/search/')) {
         //process jisho as iframe
         return '<iframe id="myFrame" src="' +
-            url + '" style="height:50%;width:100%"></iframe>';
+            url + '" style="height:60vh;width:100%"></iframe>';
     }
     return null;
 }
