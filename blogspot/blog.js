@@ -420,13 +420,13 @@ function resizeImg() {
 		//end of process based on dimensions
 		
 		//separator special case
-        /* if (p.parentElement.className == "separator" ||
+        if (p.parentElement.className == "separator" ||
 			p.parentElement.parentElement.className == "separator") {
-            p.parentElement.style.marginLeft = 'auto';
-            p.parentElement.style.marginRight = 'auto';
+            // p.parentElement.style.marginLeft = 'auto';
+            // p.parentElement.style.marginRight = 'auto';
 			if(showLog) console.log('separator', p.style.marginLeft, p.style.marginRight);
 			p.classList.add('img-separator');
-        } */
+        }
 		//end of separator special case
 		
         /* if (p.width >= document.getElementsByClassName("post-body")[0].offsetWidth && document.getElementsByClassName("post-body")[0].offsetWidth > 0) {
