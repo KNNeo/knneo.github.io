@@ -425,7 +425,7 @@ function resizeImg() {
             // p.parentElement.style.marginLeft = 'auto';
             // p.parentElement.style.marginRight = 'auto';
 			if(showLog) console.log('separator', p.style.marginLeft, p.style.marginRight);
-			p.classList.add('img-separator');
+			p.parentElement.classList.add('img-separator');
         }
 		//end of separator special case
 		
