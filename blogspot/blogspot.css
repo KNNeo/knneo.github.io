@@ -1,0 +1,139 @@
+body {
+	display: block;
+	color: white;
+	background-color: black;
+	font-family: Open Sans;
+	padding: 0 10px;
+}
+
+@media only screen and (min-width: 320px) and (max-width: 1040px) {
+  body {
+    max-width: auto !important;
+  }
+}
+
+#contents {
+	max-width: 800px;
+	margin: auto;
+	font-size: 0.9em;
+	right: 0;
+	left: 0;
+	margin: auto;
+}
+
+a {
+	color: #00e4ff;
+}
+
+#tags a {
+	cursor: pointer;
+}
+
+.TheStatement {
+	display: none;
+}
+
+a#BackBtn {
+	position: fixed;
+	visibility: visible;
+	bottom: 20px;
+	left: 20px;
+	z-index: 9;
+	outline: none;
+	background-color: black;
+	color: white;
+	cursor: pointer;
+	padding: 8px 6px 6px 6px;
+	border-radius: 7px;
+	z-index:0;
+}
+
+a#BackBtn {
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+a#BackBtn {
+	border: 1px solid lightgray;
+	background-color: #000000;
+	padding: 10px;
+	box-shadow: 3px 3px;
+	border-radius: 8px;
+}
+
+#BackBtn:active {
+	box-shadow: 1px 1px;
+	transform: translate(2px, 2px);
+}
+
+a#SidebarBtn, a#SearchBtn {
+	display: none;
+}
+
+.tr-caption {
+	font-size: 0.7em;
+}
+
+h2 {
+	margin: 0;
+}
+
+.published {
+	text-transform: uppercase;
+}
+
+.material-icons {
+	font-size: 32px;
+}
+
+#viewer {
+	z-index: 9;
+	position: fixed;
+	background-color: black;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	right: 0;
+	display: none;
+}
+
+#viewer-prev {
+	background-color: transparent;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 25%;
+	height: 100%;
+	z-index: 11;
+}
+
+#viewer-next {
+	background-color: transparent;
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 25%;
+	height: 100%;
+	z-index: 11;
+}
+
+#viewer-next:active {
+	opacity: 0.4;
+	background-image: linear-gradient(to left, white, transparent);
+}
+
+#viewer-prev:active {
+	opacity: 0.4;
+	background-image: linear-gradient(to right, white, transparent);
+}
+
+#viewer img {
+	margin: auto;
+	left: 0;
+	right: 0;
+	position: fixed;
+}

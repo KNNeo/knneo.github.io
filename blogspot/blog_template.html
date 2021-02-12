@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en-SG">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet' />
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link rel="stylesheet" href="./blog.css" />
+    <link rel="stylesheet" href="./blogspot.css" />
+    <title>BLOG</title>
+</head>
+<body style="text-align: center; background-color: black;">
+<h2>Blog Archive</h2>
+<h4>Visit the current blog <a href="https://knwebreports.blogspot.com/">here</a></h4>
+<div id="tags">
+	<a id="All" onclick="filterByTag(this)">All Posts</a>
+	<span>|</span>
+	<a id="TheEntertainmentNews" onclick="filterByTag(this)">The Entertainment News</a>
+	<span>|</span>
+	<a id="TheStatement" onclick="filterByTag(this)">The Statement</a>
+	<span>|</span>
+	<a id="TheKlassicNote" onclick="filterByTag(this)">The Klassic Note</a>
+	<span>|</span>
+	<a id="TheDreams" onclick="filterByTag(this)">The Dreams</a>
+	<span>|</span>
+	<a id="TheEverydayLife" onclick="filterByTag(this)">The Everyday Life</a>
+	<span>|</span>
+	<a id="TheAPoL" onclick="filterByTag(this)">The APoL</a>
+</div>
+<div id="blog-archive-list" style="font-size: 0.8em; padding-bottom: 20px;"></div>
+</body>
+<script>
+function filterByTag(tag) {
+	let blogList = document.getElementById("blog-archive-list");
+	let posts = blogList.getElementsByClassName("Post");
+	let count = 0;
+	for(let post of posts)
+	{
+		if(post.classList.length == 0 && tag.id != "All")
+		{
+			post.style.visibility = 'hidden';
+			post.style.height = 0;
+		}
+		else if(!post.classList.contains(tag.id) && tag.id != "All")
+		{
+			post.style.visibility = 'hidden';
+			post.style.height = 0;
+		}
+		else
+		{
+			post.style.visibility = '';
+			post.style.height = '';
+			count++;
+		}
+	}
+	document.getElementsByClassName("Count")[0].innerText = count + " published posts " + (tag.id == "TheStatement" ? "hidden" : "found");
+}
+</script>
+</html>
