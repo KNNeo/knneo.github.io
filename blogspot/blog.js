@@ -22,10 +22,10 @@ window.onscroll = function() {
 	// When the user scrolls down to half of viewport from the top of the document, change floating action button
     if (document.body.scrollTop > document.documentElement.clientHeight || document.documentElement.scrollTop > document.documentElement.clientHeight) {
         document.getElementById('GoToTopBtn').style.visibility = 'visible';
-        document.getElementById('SearchBtn').style.visibility = 'hidden';
+        if(!window.location.href.includes("knneo.github.io")) document.getElementById('SearchBtn').style.visibility = 'hidden';
     } else {
         document.getElementById('GoToTopBtn').style.visibility = 'hidden';
-        document.getElementById('SearchBtn').style.visibility = 'visible';
+        if(!window.location.href.includes("knneo.github.io")) document.getElementById('SearchBtn').style.visibility = 'visible';
     }
 };
 
@@ -84,7 +84,7 @@ function loadExternal() {
 // Add search bar, floating action buttons
 function addObjects() {
 	//search bar
-	if(document.getElementById('CustomBlogSearch') == null) {
+	if(!window.location.href.includes("knneo.github.io") && document.getElementById('CustomBlogSearch') == null) {
 		let search = document.createElement('div');
 		search.id = 'CustomBlogSearch';
 		search.innerHTML = '<div class="widget-content"><div id="_form"><form action="' + window.location.origin + '/search" class="gsc-search-box" target="_top"><div cellpadding="0" cellspacing="0" class="gsc-search-box"><div><div><span class="gsc-input"><input autocomplete="off" class="gsc-input" name="q" size="10" title="search" type="text" value=""></span><span class="gsc-search-button" style="display: none;"><input class="gsc-search-button" name="max-results" title="search" type="submit" value="5"></span></div></div></div></form></div></div>';
@@ -104,15 +104,18 @@ function addObjects() {
 	if(document.getElementById('GoToTopBtn') != undefined) document.getElementById('GoToTopBtn').remove();
 	document.body.appendChild(topButton);
 	
-	let searchButton = document.createElement('a');
-	searchButton.id = 'SearchBtn';
-	searchButton.title = 'Search Blog';
-		let searchButtonIcon = document.createElement('i');
-		searchButtonIcon.classList.add('material-icons');
-		searchButtonIcon.innerText = 'search';
-		searchButton.appendChild(searchButtonIcon);
-	if(document.getElementById('SearchBtn') != undefined) document.getElementById('SearchBtn').remove();
-	document.body.appendChild(searchButton);
+	if(!window.location.href.includes("knneo.github.io"))
+	{
+		let searchButton = document.createElement('a');
+		searchButton.id = 'SearchBtn';
+		searchButton.title = 'Search Blog';
+			let searchButtonIcon = document.createElement('i');
+			searchButtonIcon.classList.add('material-icons');
+			searchButtonIcon.innerText = 'search';
+			searchButton.appendChild(searchButtonIcon);
+		if(document.getElementById('SearchBtn') != undefined) document.getElementById('SearchBtn').remove();
+		document.body.appendChild(searchButton);
+	}
 	
 	let sidebarButton = document.createElement('a');
 	sidebarButton.id = 'SidebarBtn';
@@ -125,7 +128,7 @@ function addObjects() {
 	document.body.appendChild(sidebarButton);
 		
 	document.getElementById('GoToTopBtn').addEventListener('click', goToTop);
-	document.getElementById('SearchBtn').addEventListener('click', toggleSearch);
+	if(!window.location.href.includes("knneo.github.io")) document.getElementById('SearchBtn').addEventListener('click', toggleSearch);
 	document.getElementById('SidebarBtn').addEventListener('click', toggleSidebar);
 }
 
@@ -138,7 +141,7 @@ function preloadSequence() {
 	
 	//open body if no other fixes
 	document.body.style.display = 'block';
-	document.getElementById("SearchBtn").style.display = 'block';
+	if(!window.location.href.includes("knneo.github.io")) document.getElementById("SearchBtn").style.display = 'block';
 	if (window.innderWidth < 1040)
 		document.getElementById("SidebarBtn").style.display = 'block';
 }
@@ -149,7 +152,7 @@ function reduceResults() {
     if ((window.location.href.includes(window.location.origin + '/20') && window.location.href.includes('.html')) || 
 		window.location.href.includes(window.location.origin + '/b/blog-preview') || 
 		window.location.href.includes(window.location.origin + '/p/') ||
-		window.location.href.includes('LINQPad'))
+		window.location.href.includes('knneo.github.io'))
 		return;
 	//Remove content
 	for (var footer of document.getElementsByClassName('post-footer-line-2')) {
@@ -661,6 +664,7 @@ function addHashtags() {
 // Floating action button events
 function toggleSearch() {
     goToTop();
+	if(document.getElementById('CustomBlogSearch') == null) return;
     var barDisp = document.getElementById('CustomBlogSearch').style.display;
     if (barDisp == 'none' || barDisp == '')
         document.getElementById('CustomBlogSearch').style.display = 'block';
