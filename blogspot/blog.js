@@ -15,33 +15,33 @@ window.onload = function() {
     addHoverForLinks();
     addHoverOnExpander();
     addHashtags();
-};
+		
+	// Window events (FAB events at end)
+	window.onscroll = function() {
+		// When the user scrolls down to half of viewport from the top of the document, change floating action button
+		if (document.body.scrollTop > document.documentElement.clientHeight || document.documentElement.scrollTop > document.documentElement.clientHeight) {
+			document.getElementById('GoToTopBtn').style.visibility = 'visible';
+			if(!window.location.href.includes("knneo.github.io")) document.getElementById('SearchBtn').style.visibility = 'hidden';
+		} else {
+			document.getElementById('GoToTopBtn').style.visibility = 'hidden';
+			if(!window.location.href.includes("knneo.github.io")) document.getElementById('SearchBtn').style.visibility = 'visible';
+		}
+	};
 
-// Window events (FAB events at end)
-window.onscroll = function() {
-	// When the user scrolls down to half of viewport from the top of the document, change floating action button
-    if (document.body.scrollTop > document.documentElement.clientHeight || document.documentElement.scrollTop > document.documentElement.clientHeight) {
-        document.getElementById('GoToTopBtn').style.visibility = 'visible';
-        if(!window.location.href.includes("knneo.github.io")) document.getElementById('SearchBtn').style.visibility = 'hidden';
-    } else {
-        document.getElementById('GoToTopBtn').style.visibility = 'hidden';
-        if(!window.location.href.includes("knneo.github.io")) document.getElementById('SearchBtn').style.visibility = 'visible';
-    }
-};
-
-window.onresize = function() {
-	if (document.getElementById('sidebarOverlay') != null && document.getElementById('sidebarOverlay').style.display != 'none')	
-		toggleSidebar();
-	if (window.innerWidth >= 1040) {
-		document.getElementById('LinkList1').style.display = '';
-		document.getElementById('BlogArchive1').style.display = '';	
-	}
-	if(window.innerWidth <= 320) {
-		document.body.style.visibility = 'hidden';
-	}
-	else {
-		document.body.style.visibility = '';	
-	}
+	window.onresize = function() {
+		if (document.getElementById('sidebarOverlay') != null && document.getElementById('sidebarOverlay').style.display != 'none')	
+			toggleSidebar();
+		if (window.innerWidth >= 1040) {
+			document.getElementById('LinkList1').style.display = '';
+			document.getElementById('BlogArchive1').style.display = '';	
+		}
+		if(window.innerWidth <= 320) {
+			document.body.style.visibility = 'hidden';
+		}
+		else {
+			document.body.style.visibility = '';	
+		}
+	};
 };
 
 // FUNCTIONS, in above order //
@@ -583,7 +583,8 @@ function renderPopup() {
     let focus = document.createElement('div');
     focus.classList.add('new-thumbnail-focus');
     focus.classList.add('fadeIn');
-	if(!this.href.includes('twitter.com')) focus.style.paddingTop = '10px';
+	if(!this.href.includes('twitter.com') && !this.href.includes('/status/'))
+		focus.style.paddingTop = '10px';
     focus.innerHTML = newContent;
 
     thumbnail.appendChild(initial);
@@ -606,11 +607,19 @@ function generatePopupContent(url) {
             url.replace('music.apple.com', 'embed.music.apple.com') +
             '" style="background: transparent; max-width: 660px; max-height: 360px; overflow: hidden; width: 100%;"></iframe>';
     }
-    if (url.includes('twitter.com') && url.includes('/status/')) {
+    if (url.includes('twitter.com')) {
         //process twitter embed
-        return '<blockquote class="twitter-tweet tw-align-center" data-cards="hidden" data-lang="en"><a href="' +
-            url +
-            '"></a></blockquote><script async="async" charset="utf-8" src="https://platform.twitter.com/widgets.js" >\</script\>';
+		//data-height for timeline is max width
+		if(url.includes('/status/')) {
+			return '<blockquote class="twitter-tweet tw-align-center" data-height="' + 0.6*window.innerHeight + '"><a href="' +
+				url +
+				'"></a></blockquote><script async="async" charset="utf-8" src="https://platform.twitter.com/widgets.js" >\</script\>';
+		}
+		else {
+			return '<a class="twitter-timeline" data-width="568" data-height="' + 0.6*window.innerHeight + '" href="' +
+				url +
+				'"></a><script async="async" charset="utf-8" src="https://platform.twitter.com/widgets.js" >\</script\>';
+		}
     }
     if (url.includes('youtube.com') && url.includes('/watch')) {
         //process youtube embed
@@ -625,7 +634,7 @@ function generatePopupContent(url) {
             url + '" data-instgrm-version="13" style="max-width:540px; min-width:326px; padding:0; width:100%;"></blockquote></center><script async="async" src="//www.instagram.com/embed.js">\</script\>';
     }
     if (url.includes('jisho.org/search/')) {
-        //process jisho as iframe
+        //process page as iframe
         return '<iframe id="myFrame" src="' +
             url + '" style="height:60vh;width:100%"></iframe>';
     }
