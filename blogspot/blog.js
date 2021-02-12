@@ -343,7 +343,7 @@ function resizeImg() {
     */
     var images = document.getElementsByTagName("img");
     for (var p of images) {
-		let showLog = true;
+		let showLog = false;
 		if(showLog) console.log(p);
         var imgWidth = p.width;
         var imgHeight = p.height;
@@ -351,12 +351,12 @@ function resizeImg() {
         //process exclusion list
 		//by image size, class, tag name, or by id
         if (imgWidth < 20 || imgHeight < 20) continue;
-        if (p.parentElement.tagName == "ABBR" || 
-			p.parentElement.parentElement.className == "popup" || 
+        if (p.id == "news-thumbnail" || 
+			p.parentElement.tagName == "ABBR" || 
 			p.parentElement.className == "anime-row" ||
-			p.id == "news-thumbnail" || 
-			p.parentElement.parentElement.parentElement.id == "anime-list" ||
 			p.parentElement.className == "profile-box-img" || 
+			p.parentElement.parentElement.className == "popup" || 
+			p.parentElement.parentElement.parentElement.id == "anime-list" ||
 			p.parentElement.parentElement.parentElement.className == "anime-year") 
 		{
 			if(showLog) console.log('exclusion', p, p.parentElement);
