@@ -133,12 +133,14 @@ function addObjects() {
 function preloadSequence() {
     //initial URL visit fix
     var firstVisit = window.location.href;
-    if (firstVisit.includes("/search/label/The%20Entertainment%20News")) document.getElementById("hashtags").remove();
+    if (firstVisit.includes("/search/label/The%20Entertainment%20News"))
+		document.getElementById("hashtags").remove();
 	
 	//open body if no other fixes
 	document.body.style.display = 'block';
 	document.getElementById("SearchBtn").style.display = 'block';
-	if (window.innderWidth < 1040) document.getElementById("SidebarBtn").style.display = 'block';
+	if (window.innderWidth < 1040)
+		document.getElementById("SidebarBtn").style.display = 'block';
 }
 
 // For search, collapse all results
@@ -160,7 +162,8 @@ function reduceResults() {
 		document.getElementsByClassName('blog-feeds')[0].remove(); //remove feed
 	}
 
-	if(!window.location.href.includes(window.location.origin + '/search'))
+	if(!window.location.href.startsWith(window.location.origin + '/search') && 
+		!window.location.href.startsWith(window.location.origin + '/20'))
 	{
 		let columnCenterInner = document.getElementsByClassName('column-center-inner')[0];
 		columnCenterInner.classList.add('homepage-column-center-inner');
@@ -422,10 +425,8 @@ function resizeImg() {
 		//separator special cases
         if (p.parentElement.className == "separator" ||
 			p.parentElement.parentElement.className == "separator") {
-            // p.parentElement.style.marginLeft = 'auto';
-            // p.parentElement.style.marginRight = 'auto';
-			if(showLog) console.log('separator', p.style.marginLeft, p.style.marginRight);
 			p.parentElement.classList.add('img-separator');
+			if(showLog) console.log('separator', p.style.marginLeft, p.style.marginRight);
         }
 		if(p.parentElement.tagName == "A" &&
 		p.parentElement.marginLeft != "" &&
