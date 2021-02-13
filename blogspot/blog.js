@@ -19,12 +19,11 @@ window.onload = function() {
 	// Window events (FAB events at end)
 	window.onscroll = function() {
 		// When the user scrolls down to half of viewport from the top of the document, change floating action button
-		if (document.body.scrollTop > document.documentElement.clientHeight || document.documentElement.scrollTop > document.documentElement.clientHeight) {
-			document.getElementById('GoToTopBtn').style.visibility = 'visible';
-			if(!window.location.href.includes("knneo.github.io")) document.getElementById('SearchBtn').style.visibility = 'hidden';
+		if (document.body.scrollTop > document.documentElement.clientHeight || 
+			document.documentElement.scrollTop > document.documentElement.clientHeight) {
+			switchToButton('GoToTopBtn');
 		} else {
-			document.getElementById('GoToTopBtn').style.visibility = 'hidden';
-			if(!window.location.href.includes("knneo.github.io")) document.getElementById('SearchBtn').style.visibility = 'visible';
+			switchToButton('SearchBtn');
 		}
 	};
 
@@ -550,8 +549,10 @@ function addHoverForPopups() {
 }
 
 function togglePopup() {
-    if (this.classList.contains('new-thumbnail'))
+    if (this.classList.contains('new-thumbnail')) {
         this.classList.remove('new-thumbnail');
+		switchToButton('GoToTopBtn');
+	}
     else {
         for (let page of document.getElementsByClassName('post-body entry-content')) {
             for (let popup of page.getElementsByClassName('new-thumbnail')) {
@@ -559,7 +560,18 @@ function togglePopup() {
             }
         }
         this.classList.add('new-thumbnail');
+		switchToButton('CloseBtn');	
     }
+}
+
+function closePopups() {
+	for (let page of document.getElementsByClassName('post-body entry-content')) {
+		for (let popup of page.getElementsByClassName('new-thumbnail')) {
+			popup.classList.remove('new-thumbnail');
+		}
+	}
+	switchToButton('GoToTopBtn');
+	
 }
 
 function renderPopup() {
@@ -594,6 +606,18 @@ function renderPopup() {
     twttr.widgets.load(); //special case
     window.instgrm.Embeds.process(); //special case
     addHoverForPopups();
+	
+	//FAB to close
+	let closeButton = document.createElement('a');
+	closeButton.id = 'CloseBtn';
+	closeButton.title = 'Close Popup';
+	closeButton.addEventListener('click', closePopups);
+		let closeButtonIcon = document.createElement('i');
+		closeButtonIcon.classList.add('material-icons');
+		closeButtonIcon.innerText = 'close';
+		closeButton.appendChild(closeButtonIcon);
+	if(document.getElementById('CloseBtn') != undefined) document.getElementById('CloseBtn').remove();
+	document.body.appendChild(closeButton);
 }
 
 function generatePopupContent(url) {
@@ -636,7 +660,7 @@ function generatePopupContent(url) {
     if (url.includes('jisho.org/search/')) {
         //process page as iframe
         return '<iframe id="myFrame" src="' +
-            url + '" style="height:60vh;width:100%"></iframe>';
+            url + '" style="height:60vh;width:98%"></iframe>';
     }
     return null;
 }
@@ -711,6 +735,16 @@ function toggleSidebar() {
     aside.style.display = aside.style.display == '' ? 'block' : '';
     if (window.innerHeight <= 480) document.getElementById('LinkList1').style.display = document.getElementById('LinkList1').style.display == '' ? 'none' : '';
     if (window.innerHeight <= 960) document.getElementById('BlogArchive1').style.display = document.getElementById('BlogArchive1').style.display == '' ? 'none' : '';
+}
+
+function switchToButton(id) {
+	let buttons = ['GoToTopBtn','SearchBtn','CloseBtn'];
+	for(let button of buttons)
+	{
+		if(document.getElementById(button) != null) document.getElementById(button).style.visibility = 'hidden';
+	}
+	if(id != 'SearchBtn') document.getElementById(id).style.visibility = 'visible';
+	else if (!window.location.href.includes("knneo.github.io")) document.getElementById('SearchBtn').style.visibility = 'visible';
 }
 
 function goToTop() {

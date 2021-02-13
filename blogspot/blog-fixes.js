@@ -25,6 +25,7 @@ function removeContentDimensions() {
 
 //add back button to each page
 function goBack() {
+	closePopups();
 	window.history.back();
 }
 

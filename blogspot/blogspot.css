@@ -35,17 +35,17 @@ a {
 
 a#BackBtn {
 	position: fixed;
+	display: block;
 	visibility: visible;
 	bottom: 20px;
 	left: 20px;
-	z-index: 9;
+	z-index: 8;
 	outline: none;
 	background-color: black;
 	color: white;
 	cursor: pointer;
 	padding: 8px 6px 6px 6px;
 	border-radius: 7px;
-	z-index:0;
 }
 
 a#BackBtn {
@@ -59,7 +59,7 @@ a#BackBtn {
 a#BackBtn {
 	border: 1px solid lightgray;
 	background-color: #000000;
-	padding: 10px;
+	/* padding: 10px; */
 	box-shadow: 3px 3px;
 	border-radius: 8px;
 }
@@ -85,9 +85,9 @@ h2 {
 	text-transform: uppercase;
 }
 
-.material-icons {
-	font-size: 32px;
-}
+/* .material-icons {
+	font-size: 36px;
+} */
 
 #viewer {
 	z-index: 9;
