@@ -29,8 +29,8 @@ loaderTextPrefix = '読み込む画像：';
 
 //create array based on item box info
 //assumption of image url: thumbnail filename is same as image filename on clicked in page, varying dimensions
-//alternate image domains: 'https://www.suruga-ya.jp/database/pics/game/','https://cdn.suruga-ya.jp/database/pics_light/game/',
-//alternate search pages: 'https://www.suruga-ya.com/en/category/501080317'
+//alternate image domains: https://www.suruga-ya.jp/database/pics/game/ https://cdn.suruga-ya.jp/database/pics_light/game/
+//alternate search pages: https://www.suruga-ya.com/en/category/501080317
 /*
 from site: https://www.suruga-ya.jp/ and search name based on おもちゃ・ホビー category
 
@@ -239,13 +239,6 @@ imgArray = [
 [5,'https://cdn.suruga-ya.jp/database/pics_light/game/gg463399.jpg','portrait','上坂すみれ','全身・衣装グレー・白・水色・両手重ね・右足曲げ・「上坂すみれ 2016 SUMMER」/「上坂すみれブロマイドセット第9弾」'],
 [6,'https://cdn.suruga-ya.jp/database/pics_light/game/gg189006.jpg','portrait','上坂すみれ','全身・衣装白・赤・両手ボール・右足曲げ・背景黄色・「上坂すみれ 2016 SUMMER」/「上坂すみれブロマイド 第9弾」'],
 [7,'https://cdn.suruga-ya.jp/database/pics_light/game/g4494720.jpg','portrait','上坂すみれ','印刷サイン・メッセージ入り/CD「20世紀の逆襲」多売店特典ブロマイド'],
-[8,'https://cdn.suruga-ya.jp/database/pics_light/game/g3089613.jpg','portrait','上坂すみれ','上半身・衣装茶色・ベージュ・両手ビスケットのクッション・背景白/「超中野大陸の逆襲」2016.2.11-12中野サンプラザ」/上坂すみれブロマイド第8弾'],
-[9,'https://cdn.suruga-ya.jp/database/pics_light/game/g4494714.jpg','portrait','上坂すみれ','印刷サイン・メッセージ入り/CD「20世紀の逆襲」とらのあな特典ブロマイド'],
-[10,'https://cdn.suruga-ya.jp/database/pics_light/game/g3346909.jpg','portrait','上坂すみれ','バストアップ・衣装白・水色・右向き・両手組み/「超中野大陸の逆襲」2016.2.11-12中野サンプラザ」/上坂すみれ ブロマイド第8弾'],
-[11,'https://cdn.suruga-ya.jp/database/pics_light/game/g3493477.jpg','portrait','上坂すみれ','全身・衣装白茶・右足曲げ・顔斜め左向き・「超中野大陸の逆襲」「2016.2.11-12中野サンプラザ」/上坂すみれ ブロマイド第8弾'],
-[12,'https://cdn.suruga-ya.jp/database/pics_light/game/g3493478.jpg','portrait','上坂すみれ','上半身・衣装赤・右手バケツ・左手刷毛・背景水色・「超中野大陸の逆襲」「2016.2.11-12中野サンプラザ」/上坂すみれ ブロマイド第8弾'],
-[13,'https://cdn.suruga-ya.jp/database/pics_light/game/g3089612.jpg','portrait','上坂すみれ','全身・衣装白・水色・両手ティーポット・背景白/「超中野大陸の逆襲」2016.2.11-12中野サンプラザ」/上坂すみれブロマイド第8弾'],
-[14,'https://cdn.suruga-ya.jp/database/pics_light/game/g3493479.jpg','portrait','上坂すみれ','上半身・衣装水色白・左手胸元・体斜め左向き・「超中野大陸の逆襲」「2016.2.11-12中野サンプラザ」/上坂すみれ ブロマイド第8弾'],
 [15,'https://cdn.suruga-ya.jp/database/pics_light/game/g3058231.jpg','portrait','上坂すみれ','顔アップ・体左向き・衣装白・右手人差し指口元・背景グレー・「上坂すみれ 2015 SUMMER」/上坂すみれ ブロマイドセット 第7弾'],
 [16,'https://cdn.suruga-ya.jp/database/pics_light/game/g4494710.jpg','portrait','上坂すみれ','印刷サイン・メッセージ入り/CD「20世紀の逆襲」amazon特典ブロマイド'],
 [17,'https://cdn.suruga-ya.jp/database/pics_light/game/g3397749.jpg','portrait','上坂すみれ','膝上・衣装黒・新聞摘み/「ファンクラブイベント第3弾上坂すみれの「コル玉アワー☆」!!」ファンクラブ会員限定販売 『コル玉代表の写真セット第3弾 めがね女子ver. 』'],
@@ -273,12 +266,6 @@ imgArray = [
 [16,'https://cdn.suruga-ya.jp/database/pics_light/game/g3086792.jpg','portrait','上坂すみれ','上半身・衣装白・左手「生産者の心得」を指差し/「ファンクラブイベント 第1弾 “開墾記念式典“」2015.5.24 東京キネマ倶楽部」ファンクラブ会員限定販売 『コル玉代表の写真セット』'],
 [17,'https://cdn.suruga-ya.jp/database/pics_light/game/g3086799.jpg','portrait','上坂すみれ','バストアップ・左手顔・赤色のハート型風船・「上坂すみれ 2015 SUMMER」/上坂すみれ ブロマイドセット 第6弾'],
 [18,'https://cdn.suruga-ya.jp/database/pics_light/game/g3086793.jpg','portrait','上坂すみれ','上半身・衣装白・左手本持ち・右手顔/「ファンクラブイベント 第1弾 “開墾記念式典“」2015.5.24 東京キネマ倶楽部」ファンクラブ会員限定販売 『コル玉代表の写真セット』'],
-[19,'https://cdn.suruga-ya.jp/database/pics_light/game/g3058228.jpg','portrait','上坂すみれ','膝上・衣装ピンク・赤・白・左手頬・「上坂すみれ 2015 SUMMER」/上坂すみれ ブロマイドセット 第6弾'],
-[20,'https://cdn.suruga-ya.jp/database/pics_light/game/g3086818.jpg','portrait','上坂すみれ','全身・ベージュ・右手スカート・左手人差し指顔・右足上げ・「第二回 革ブロ総決起集会-ファイナル-」2015.2.11 中野サンプラザ」/上坂すみれ ブロマイドセット 第5弾'],
-[21,'https://cdn.suruga-ya.jp/database/pics_light/game/g3086826.jpg','portrait','上坂すみれ','バストアップ・体右向き・両手顔の前・ウサ耳・衣装白・「第二回 革ブロ総決起集会-ファイナル-」2015.2.11 中野サンプラザ」/上坂すみれ ブロマイドセット 第5弾'],
-[22,'https://cdn.suruga-ya.jp/database/pics_light/game/g3086821.jpg','portrait','上坂すみれ','バストアップ・体斜め左向き・衣装青・白・ウサ耳・「第二回 革ブロ総決起集会-ファイナル-」2015.2.11 中野サンプラザ」/上坂すみれ ブロマイドセット 第5弾'],
-[23,'https://cdn.suruga-ya.jp/database/pics_light/game/g3086872.jpg','portrait','上坂すみれ','上半身・衣装赤・体左向き・両手下・「第二回 革ブロ総決起集会-ファイナル-」2015.2.11 中野サンプラザ」/上坂すみれ ブロマイドセット 第5弾'],
-[24,'https://cdn.suruga-ya.jp/database/pics_light/game/g3086824.jpg','portrait','上坂すみれ','全身・衣装白・青・両手顔・「第二回 革ブロ総決起集会-ファイナル-」2015.2.11 中野サンプラザ」/上坂すみれ ブロマイドセット 第5弾'],
 
 [1,'https://cdn.suruga-ya.jp/database/pics_light/game/gg576075.jpg','portrait','夏川椎菜','横型・全身・膝立ち・衣装白・左向き/雑誌「声優グランプリ 2020年10月号」アニメイト特典ブロマイド'],
 [2,'https://cdn.suruga-ya.jp/database/pics_light/game/gg576076.jpg','portrait','夏川椎菜','横型・バストアップ・衣装紫・両手曲げ/雑誌「声優グランプリ 2020年10月号」アニメイト特典ブロマイド'],
@@ -1381,6 +1368,25 @@ imgArray = [
 [5,'https://cdn.suruga-ya.jp/database/pics_light/game/bg521280.jpg','portrait','馬場ふみか','上半身・下着ピンク・左向き・寄りかかり・左手置き・2Lサイズ/写真集「色っぽょ」特典生写真'],
 [1,'https://cdn.suruga-ya.jp/database/pics_light/game/g3544673.jpg','portrait','馬場ふみか','横型・うつ伏せ・衣装赤/「馬場ふみか 2018カレンダーブック」初回版封入特典生写真'],
 
+[4,'https://cdn.suruga-ya.jp/database/pics_light/game/gg607965.jpg','portrait','鬼頭明里','雑誌「月刊ドラゴンエイジ 2020年 10月号増刊 ヤングドラゴンエイジ Vol.4」アニメイト特典ブロマイド'],
+[6,'https://cdn.suruga-ya.jp/database/pics_light/game/gg357550.jpg','portrait','鬼頭明里','鬼頭明里1st写真集「Love Route」ヨドバシ特典ブロマイド'],
+[7,'https://cdn.suruga-ya.jp/database/pics_light/game/gg357556.jpg','portrait','鬼頭明里','5 ： 鬼頭明里/鬼頭明里1st写真集「Love Route」ゲーマーズ特典ブロマイド'],
+[8,'https://cdn.suruga-ya.jp/database/pics_light/game/gg397651.jpg','portrait','鬼頭明里','印刷サイン・メッセージ入り・2Lサイズ/CD「Desire Again」きゃにめ特典ブロマイド'],
+[9,'https://cdn.suruga-ya.jp/database/pics_light/game/gg346544.jpg','portrait','鬼頭明里','5 ： 鬼頭明里/鬼頭明里1st写真集「Love Route」初回版封入特典プレミアムブロマイド'],
+[10,'https://cdn.suruga-ya.jp/database/pics_light/game/gg477503.jpg','portrait','鬼頭明里','雑誌「声優グランプリ 2020年6月号」アニメイト特典ブロマイド'],
+[19,'https://cdn.suruga-ya.jp/database/pics_light/game/gg629657.jpg','portrait','鬼頭明里','印刷サイン・メッセージ入り/CD「キミのとなりで」ゲーマーズ特典ブロマイド'],
+[20,'https://cdn.suruga-ya.jp/database/pics_light/game/gg679330.jpg','portrait','鬼頭明里','横型・バストアップ/「鬼頭明里 1st LIVE TOUR 『Colorful Closet』」ブロマイドセット B'],
+[21,'https://cdn.suruga-ya.jp/database/pics_light/game/gg679327.jpg','portrait','鬼頭明里','上半身/「鬼頭明里 1st LIVE TOUR 『Colorful Closet』」ブロマイドセット A'],
+[22,'https://cdn.suruga-ya.jp/database/pics_light/game/gg679332.jpg','portrait','鬼頭明里','膝上/「鬼頭明里 1st LIVE TOUR 『Colorful Closet』」ブロマイドセット C'],
+[23,'https://cdn.suruga-ya.jp/database/pics_light/game/gg679326.jpg','portrait','鬼頭明里','膝上/「鬼頭明里 1st LIVE TOUR 『Colorful Closet』」ブロマイドセット A'],
+[24,'https://cdn.suruga-ya.jp/database/pics_light/game/gg679328.jpg','portrait','鬼頭明里','バストアップ/「鬼頭明里 1st LIVE TOUR 『Colorful Closet』」ブロマイドセット B'],
+[1,'https://cdn.suruga-ya.jp/database/pics_light/game/gg679331.jpg','portrait','鬼頭明里','横型・顔アップ/「鬼頭明里 1st LIVE TOUR 『Colorful Closet』」ブロマイドセット C'],
+[2,'https://cdn.suruga-ya.jp/database/pics_light/game/gg679333.jpg','portrait','鬼頭明里','膝上/「鬼頭明里 1st LIVE TOUR 『Colorful Closet』」ブロマイドセット C'],
+[3,'https://cdn.suruga-ya.jp/database/pics_light/game/gg357555.jpg','portrait','鬼頭明里','5 ： 鬼頭明里/鬼頭明里1st写真集「Love Route」ゲーマーズ特典ブロマイド'],
+[6,'https://cdn.suruga-ya.jp/database/pics_light/game/gg629660.jpg','portrait','鬼頭明里','CD「キミのとなりで」TOWER RECORDS特典ブロマイド'],
+[7,'https://cdn.suruga-ya.jp/database/pics_light/game/gg397642.jpg','portrait','鬼頭明里','印刷サイン・メッセージ入り/CD「Desire Again」とらのあな特典ブロマイド'],
+[8,'https://cdn.suruga-ya.jp/database/pics_light/game/gg346543.jpg','portrait','鬼頭明里','5 ： 鬼頭明里/鬼頭明里1st写真集「Love Route」初回版封入特典プレミアムブロマイド'],
+[9,'https://cdn.suruga-ya.jp/database/pics_light/game/gg607966.jpg','portrait','鬼頭明里','雑誌「月刊ドラゴンエイジ 2020年 10月号増刊 ヤングドラゴンエイジ Vol.4」ゲーマーズ特典ブロマイド'],
 [1,'https://cdn.suruga-ya.jp/database/pics_light/game/gg540835.jpg','portrait','鬼頭明里','印刷サイン・メッセージ入り/CD「STYLE」とらのあな特典ブロマイド'],
 [15,'https://cdn.suruga-ya.jp/database/pics_light/game/gg477506.jpg','portrait','鬼頭明里','雑誌「声優グランプリ 2020年6月号」セブンネット・アニメガ×ソフマップ・マルサン書店・書泉ブックタワー・星野書店近鉄パッセ店特典ブロマイド'],
 [16,'https://cdn.suruga-ya.jp/database/pics_light/game/gg477503.jpg','portrait','鬼頭明里','雑誌「声優グランプリ 2020年6月号」アニメイト特典ブロマイド'],
@@ -1407,6 +1413,14 @@ imgArray = [
 [11,'https://cdn.suruga-ya.jp/database/pics_light/game/gg453334.jpg','portrait','和氣あず未','全身・座り・背景水色・シトラス・印刷サイン・メッセージ入り/CD「ふわっと/シトラス」発売記念ゲーマーズ限定フェア 店頭抽選会D賞ブロマイド'],
 [12,'https://cdn.suruga-ya.jp/database/pics_light/game/gg453333.jpg','portrait','和氣あず未','うつ伏せ・背景水色・シトラス・印刷サイン・メッセージ入り/CD「ふわっと/シトラス」発売記念アニメイト限定フェア 応援メッセージキャンペーン特典ブロマイド'],
 
+[2,'https://cdn.suruga-ya.jp/database/pics_light/game/g6481858.jpg','portrait','花澤香菜','live 2013 claire かめやまかめきちTシャツ(東京)購入特典'],
+[3,'https://cdn.suruga-ya.jp/database/pics_light/game/g3173416.jpg','portrait','花澤香菜','上半身・衣装水色・白・右手傘/「花澤香菜live 2014 “25”」会場限定物販『かな～でぃあん”クッキー”ファミリーズ』購入特典ブロマイド'],
+[5,'https://cdn.suruga-ya.jp/database/pics_light/game/g3504460.jpg','portrait','花澤香菜','横型・顔アップ・衣装赤・右手飴・左手頬・帽子/花澤香菜 live 2017 Opportunity「花澤屋 ポテトチップス～香菜味～」封入オリジナルカード'],
+[6,'https://cdn.suruga-ya.jp/database/pics_light/game/g6481859.jpg','portrait','花澤香菜','カレンダー 2013.4～2014.3 アニメイト 購入特典'],
+[7,'https://cdn.suruga-ya.jp/database/pics_light/game/g3173413.jpg','portrait','花澤香菜','膝上・衣装黒・両手顔/「花澤香菜live 2014 “25”」会場限定物販『カナーディガン』購入特典ブロマイド'],
+[17,'https://cdn.suruga-ya.jp/database/pics_light/game/gg423548.jpg','portrait','花澤香菜','花澤香菜写真集「How to go?」先着購入特典 アニメイト/書泉グランデ/書泉ブックタワー/芳林堂書店高田馬場店 Ver.'],
+[23,'https://cdn.suruga-ya.jp/database/pics_light/game/g4255520.jpg','portrait','花澤香菜','カレンダー 2013.4～2014.3 とらのあな購入特典'],
+[24,'https://cdn.suruga-ya.jp/database/pics_light/game/g5378840.jpg','portrait','花澤香菜','花澤香菜 2nd写真集「遠い口笛」タワーレコード特典'],
 [3,'https://cdn.suruga-ya.jp/database/pics_light/game/gg423550.jpg','portrait','花澤香菜','花澤香菜写真集「How to go?」先着購入特典 セブンネットショッピング Ver.'],
 [10,'https://cdn.suruga-ya.jp/database/pics_light/game/g3589706.jpg','portrait','花澤香菜','バストアップ・衣装ピンク・体右向き/花澤香菜 live 2017 Opportunity「花澤屋 ポテトチップス～香菜味～」封入オリジナルカード'],
 [11,'https://cdn.suruga-ya.jp/database/pics_light/game/g3589708.jpg','portrait','花澤香菜','横型・顔アップ・左手顔/花澤香菜 live 2017 Opportunity「花澤屋 ポテトチップス～香菜味～」封入オリジナルカード'],
