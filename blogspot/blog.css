@@ -345,16 +345,19 @@ div#PageList2 ul::-webkit-scrollbar {
   width: initial;
 }
 
-div#sidebar-left-1>div,
+div#sidebar-left-1 > div,
 #SidebarBtn,
 #GoToTopBtn,
 #SearchBtn,
 a#CloseBtn {
   border: 1px solid lightgray;
   background-color: #000000;
-  /* padding: 10px; */
   box-shadow: 3px 3px;
   border-radius: 8px;
+}
+
+div#sidebar-left-1 > div {
+  padding: 10px;
 }
 
 div#Text1:active,

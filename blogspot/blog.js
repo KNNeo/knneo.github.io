@@ -40,6 +40,7 @@ window.onload = function() {
 		else {
 			document.body.style.visibility = '';	
 		}
+		closePopups();
 	};
 };
 
@@ -571,6 +572,7 @@ function closePopups() {
 		}
 	}
 	switchToButton('GoToTopBtn');
+	if(document.getElementById('CloseBtn') != null) document.getElementById('CloseBtn').style.visibility = 'hidden';
 	
 }
 
@@ -738,7 +740,7 @@ function toggleSidebar() {
 }
 
 function switchToButton(id) {
-	let buttons = ['GoToTopBtn','SearchBtn','CloseBtn'];
+	let buttons = ['GoToTopBtn','SearchBtn'];
 	for(let button of buttons)
 	{
 		if(document.getElementById(button) != null) document.getElementById(button).style.visibility = 'hidden';
