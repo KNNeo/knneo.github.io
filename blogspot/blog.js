@@ -553,6 +553,7 @@ function togglePopup() {
     if (this.classList.contains('new-thumbnail')) {
         this.classList.remove('new-thumbnail');
 		switchToButton('GoToTopBtn');
+		if(document.getElementById('CloseBtn') != null) document.getElementById('CloseBtn').style.visibility = 'hidden';
 	}
     else {
         for (let page of document.getElementsByClassName('post-body entry-content')) {
