@@ -4,7 +4,7 @@ let linkTitles = ['GALLERY','amiibo Cards','ギャラリー','Profiles'];
 
 
 //--DEFAULT SETTINGS--//
-let enableViewer = true; //images smaller than screen will not resize up
+let enableViewer = false; //images smaller than screen will not resize up
 let enableOrientation = true; //assume has values in orientation column
 let enableSlideshow = true; //enable slideshow button
 let enableFullscreenSlideshow = true; //enable fullscreen button for slideshow, for browser only not viewer
@@ -449,21 +449,29 @@ function loadPage(pageName) {
 		if(passCode == '') passCode = '../../../../OneDrive/Pictures/SELFSCAN';
 		else passCode = 'https://' + passCode;
 	}
-	loadSettings();
 	if(runSlideshow != null) stopSlideshow();
 	//unloadCurrentStyle();
 	//loadStyle(pageName);
 	unloadCurrentScripts();
 	loadDataScript(pageName); //will trigger rest of setup
+	loadSettings();
 }
 
 function loadSettings() {
 	descriptionClosed = localStorage.getItem("descriptionClosed") == "true";
 	if(descriptionClosed == null) localStorage.setItem("descriptionClosed", false);
-	enableViewer = localStorage.getItem("enableViewer") == "true";
-	if(enableViewer == null) localStorage.setItem("enableViewer", enableViewer);
-	enableShadows = localStorage.getItem("enableShadows") == "true";
-	if(enableShadows == null) localStorage.setItem("enableShadows", enableShadows);
+	
+	if(!enableViewer) localStorage.setItem("enableViewer", enableViewer);
+	else {
+		enableViewer = localStorage.getItem("enableViewer") == "true";
+		if(enableViewer == null) localStorage.setItem("enableViewer", enableViewer);		
+	}
+	
+	if(!enableShadows) localStorage.setItem("enableShadows", enableShadows);
+	else {
+		enableShadows = localStorage.getItem("enableShadows") == "true";
+		if(enableShadows == null) localStorage.setItem("enableShadows", enableShadows);
+	}
 }
 
 function calculateGalleryHeight() {
