@@ -1,0 +1,1 @@
+--query new release table using song table
