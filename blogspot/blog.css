@@ -612,11 +612,15 @@ div#PageList2 {
     left: 15px;
   }
   a#GoToTopBtn,
-  a#SearchBtn,
-  a#CloseBtn  {
+  a#SearchBtn  {
     bottom: 15px;
     right: 15px;
   }
+a#CloseBtn {
+    top: 15px;
+    right: 15px;
+	
+	}
   div#Label1,
   div#PageList2 {
     margin: 0 5px;
