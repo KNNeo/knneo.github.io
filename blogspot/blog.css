@@ -608,19 +608,21 @@ div#PageList2 {
     font-size: 36px;
   }
   a#SidebarBtn{
-    bottom: 15px;
     left: 15px;
   }
+  a#SidebarBtn,
   a#GoToTopBtn,
   a#SearchBtn  {
     bottom: 15px;
-    right: 15px;
   }
-a#CloseBtn {
+  a#CloseBtn,
+  a#GoToTopBtn,
+  a#SearchBtn  {
+	right: 15px;
+  } 
+  a#CloseBtn {
     top: 15px;
-    right: 15px;
-	
-	}
+  }
   div#Label1,
   div#PageList2 {
     margin: 0 5px;
