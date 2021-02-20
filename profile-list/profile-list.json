@@ -393,6 +393,7 @@
 			
 		],
 		"portraits":[
+			"https://pbs.twimg.com/media/Euba9OXVoAAONmn?format=jpg&name=small",
 			"https://pbs.twimg.com/media/ErnxsBQVEAQHseS?format=jpg&name=small",
 			"https://images.animageplus.jp/articles/34000/34894/wysiwyg/0c8582f9bc385635476cbf890e637146.jpg",
 			"https://pbs.twimg.com/media/Ep7qG9jU0AEl3uV?format=jpg&name=small",
@@ -615,7 +616,9 @@
 			"https://storage.mantan-web.jp/images/2020/07/06/20200706dog00m200010000c/004_size6.jpg"
 			
 		],
-		"portraits":[],
+		"portraits":[
+			"https://www.tvguide.or.jp/wp/wp-content/uploads/2021/02/cus_210217_02.jpg"
+		],
 		"name":"Yuuki Aoi",
 		"nickname":"-chan*",
 		"dob":"1992.03.27",
