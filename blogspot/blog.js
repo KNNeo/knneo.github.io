@@ -630,9 +630,9 @@ function generatePopupContent(url) {
     }
     if (url.includes('music.apple.com')) {
         //process itunes embed
-        return '<iframe allow="autoplay *; encrypted-media *;" frameborder="0" height="450" sandbox="allow-modals allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation" src="' +
+        return '<iframe allow="autoplay *; encrypted-media *;" frameborder="0" height="'+ (!url.includes('i=') ? '450' : '150') +'" sandbox="allow-modals allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation" src="' +
             url.replace('music.apple.com', 'embed.music.apple.com') +
-            '" style="background: transparent; max-width: 660px; max-height: 360px; overflow: hidden; width: 100%;"></iframe>';
+            '" style="background: transparent; max-width: 660px; overflow: hidden; width: 100%;"></iframe>';
     }
     if (url.includes('twitter.com')) {
         //process twitter embed
