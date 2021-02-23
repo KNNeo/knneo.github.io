@@ -146,6 +146,10 @@ div.post-header {
   padding-top: 20px;
 }
 
+.post-body a {
+	text-decoration: underline;
+}
+
 .widget .post-body ul {
   padding: 0 1.5em;
 }
