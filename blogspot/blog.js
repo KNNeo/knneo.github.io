@@ -47,12 +47,11 @@ window.onload = function() {
 // FUNCTIONS, in above order //
 // Add custom scripts to only add this script on layout
 function loadExternal() {
-	for(let metadata of document.getElementsByTagName('meta')) {
-		if(metadata.name == 'viewport') {
-			metadata.content = 'width=device-width,initial-scale=1.0';
-			break;
-		}
-	}
+	
+	let viewport = document.createElement('meta');
+	viewport.setAttribute('name','viewport');
+	viewport.setAttribute('content','width=device-width,initial-scale=1.0');
+	document.head.appendChild(viewport);
 
 	let apple = document.createElement('meta');
 	apple.setAttribute('name','apple-mobile-web-app-capable');
