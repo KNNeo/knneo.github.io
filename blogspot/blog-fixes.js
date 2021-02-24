@@ -82,10 +82,10 @@ function openImageInViewer(image) {
 	img.classList = thumbnail.classList;
 	img.src = thumbnail.href;
 	img.title = thumbnail.title;
-	if(window.innerHeight > window.innerWidth && img.getBoundingClientRect().width < window.innerWidth)
-		img.style.width = 'inherit'; //portrait
-	if(window.innerHeight <= window.innerWidth && img.getBoundingClientRect().height >= window.innerHeight)
-		img.style.height = 'inherit'; //landscape
+	// if(window.innerHeight > window.innerWidth && img.getBoundingClientRect().width < window.innerWidth)
+		// img.style.width = 'inherit'; //portrait
+	// if(window.innerHeight <= window.innerWidth && img.getBoundingClientRect().height >= window.innerHeight)
+		// img.style.height = 'inherit'; //landscape
 	img.style.maxHeight = '100%';
 	img.style.maxWidth = '100%';
 	img.style.visibility = 'hidden';
