@@ -54,12 +54,12 @@ function loadExternal() {
 		}
 	}
 
-	let apple = document.createElement('mets');
+	let apple = document.createElement('meta');
 	apple.setAttribute('name','apple-mobile-web-app-capable');
 	apple.setAttribute('content','yes');
 	document.head.appendChild(apple);
 
-	let mobile = document.createElement('mets');
+	let mobile = document.createElement('meta');
 	mobile.setAttribute('name','mobile-web-app-capable');
 	mobile.setAttribute('content','yes');
 	document.head.appendChild(mobile);
