@@ -1,8 +1,3 @@
-let viewport = document.createElement('meta');
-viewport.setAttribute('name','viewport');
-viewport.setAttribute('content','width=device-width,initial-scale=1.0');
-document.head.appendChild(viewport);
-	
 // Single onLoad event control: put all functions in sequence
 window.onload = function() {
 	loadExternal();
@@ -52,6 +47,11 @@ window.onload = function() {
 // FUNCTIONS, in above order //
 // Add custom scripts to only add this script on layout
 function loadExternal() {
+	let viewport = document.createElement('meta');
+	viewport.setAttribute('name','viewport');
+	viewport.setAttribute('content','width=device-width,initial-scale=1.0');
+	document.head.appendChild(viewport);
+
 	let apple = document.createElement('meta');
 	apple.setAttribute('name','apple-mobile-web-app-capable');
 	apple.setAttribute('content','yes');
