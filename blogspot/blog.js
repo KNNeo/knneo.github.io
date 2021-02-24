@@ -63,7 +63,7 @@ function loadExternal() {
 	mobile.setAttribute('content','yes');
 	document.head.appendChild(mobile);
 	
-	let theme = document.createElement('mets');
+	let theme = document.createElement('meta');
 	theme.name = 'theme-color';
 	theme.content = 'black';
 	document.head.appendChild(theme);
