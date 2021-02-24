@@ -54,6 +54,21 @@ function loadExternal() {
 		}
 	}
 
+	let apple = document.createElement('mets');
+	apple.setAttribute('name','apple-mobile-web-app-capable');
+	apple.setAttribute('content','yes');
+	document.head.appendChild(apple);
+
+	let mobile = document.createElement('mets');
+	mobile.setAttribute('name','mobile-web-app-capable');
+	mobile.setAttribute('content','yes');
+	document.head.appendChild(mobile);
+	
+	let theme = document.createElement('mets');
+	theme.name = 'theme-color';
+	theme.content = 'black';
+	document.head.appendChild(theme);
+	
 	let fontCss = document.createElement('link');
 	fontCss.href = 'https://fonts.googleapis.com/css?family=Open Sans';
 	// fontCss.type = 'text/css';
