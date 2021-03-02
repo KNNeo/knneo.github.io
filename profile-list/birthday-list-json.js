@@ -17,7 +17,7 @@ let birthdayListJson =
 	{
 		"category":"alterna",
 		"id":"KiraSayuri",
-		"name":"KiraSayuri",
+		"name":"Kira Sayuri",
 		"dob":"????.03.04"
 	},
 	{
