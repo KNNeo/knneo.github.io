@@ -60,7 +60,7 @@ let loadedImages = 0;
 let timelineDOBlist = [];
 let calendarDOBlist = [];
 let currentMonth = 0;
-let statusPopup = "<div id=\"tp-description\">As answered haphazardly by Uesaka Sumire (and expanded on by me) the three \"turning points\" of a voice actress (but applicable to all):<br/>~ Singer Debut (The exhibition of their unique voices in singing)<br/>~ Swimsuit Photobook (The display of their figure to the extent of being half-naked)<br/>~ Married (The declaration of the end of idolism)</div>";
+let statusPopup = "<div id=\"tp-description\">As answered haphazardly by Uesaka Sumire (and expanded on by me) the three \"turning points\" of a voice actress (but applicable to all):<br/>~ Singer Debut (The exhibition of their unique voices in singing)<br/>~ Swimsuit Photobook (The display of their figure to the extent of being half-naked)<br/>~ Married (The declaration of the end of idolism?)</div>";
 let timezone = "Asia/Tokyo";
 let month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
