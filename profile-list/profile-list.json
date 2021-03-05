@@ -386,6 +386,7 @@
 		"id":"KomatsuMikako",
 		"image":"https://knneo.webs.com/komatsumikako.jpg",
 		"landscapes":[
+			"https://pbs.twimg.com/media/EvjinkGUYAAMuW4?format=jpg&name=small",
 			"https://img2.animatetimes.com/2020/12/5fead61ee912f_b7d15d1b97d5d9b0d601504b2909ebb3.jpg",
 			"https://pbs.twimg.com/media/EmjfcHTVkAQTxJa?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EmePV4YVoAAOSCb?format=jpg&name=small",
@@ -763,6 +764,8 @@
 		"id":"KounoMarika",
 		"image":"https://knneo.webs.com/kounomarika.jpg",
 		"landscapes":[
+			"https://hominis.media/2021/03/images/00_konoma0304.jpg",
+			"https://hominis.media/2021/03/images/00_konoma0303.jpg",
 			"https://pbs.twimg.com/media/EkvhYF-UYAELfRQ?format=jpg&name=small"			
 		],
 		"portraits":[
@@ -1091,7 +1094,9 @@
 		"landscapes":[
 			"https://pbs.twimg.com/media/EfczABaWAAA3zuy?format=jpg&name=small"			
 		],
-		"portraits":[],
+		"portraits":[
+			"https://pbs.twimg.com/media/EvT-NK4VIAEkKLq?format=jpg&name=small"
+		],
 		"name":"Hondo Kaede",
 		"nickname":"Ede-chan*",
 		"dob":"1996.03.06",
@@ -1187,6 +1192,7 @@
 		"id":"KitouAkari",
 		"image":"https://knneo.webs.com/kitouakari.jpg",
 		"landscapes":[
+			"https://pbs.twimg.com/media/EvXJVI3UcAQTv6p?format=jpg&name=small",
 			"https://img2.animatetimes.com/2020/12/5fead62c08f24_f31c4efc0ffa58adb2ca234aa74621f9.jpg",
 			"https://storage.mantan-web.jp/images/2020/12/19/20201219dog00m200082000c/002_size6.jpg",
 			"https://pbs.twimg.com/media/EqA8WuxVgAAUWo5?format=jpg&name=small",
@@ -1401,6 +1407,7 @@
 		"id":"OonoYuuko",
 		"image":"https://knneo.webs.com/oonoyuuko.jpg",
 		"landscapes":[
+			"https://pbs.twimg.com/media/EvKMT_kVIAEol1f?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EfmE0F4UwAEFUxq?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EhetOlOUcAM0fhY?format=jpg&name=small"
 		],
