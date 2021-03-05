@@ -113,7 +113,7 @@ function getAge(DOB) {
 	//return Math.floor((new Date().getTime() - birthDate) / 31556952000);
 	let offsetMinutes = moment().utcOffset() - moment.tz(timezone).utcOffset();
 	let diff = moment().diff(moment(birthDate));
-	return moment.duration(diff).subtract(offsetMinutes, 'minutes').years();
+	return moment.duration(diff).subtract(offsetMinutes, 'minutes').add(1, 'day').years();
 }
 //generate wanted list
 function generateWantedList(excludeMarried) {
