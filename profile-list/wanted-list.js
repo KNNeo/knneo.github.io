@@ -225,7 +225,7 @@ function createCalendar(monthNo, DOBlist) {
 		let DOB = '2021' + item.date.substring(4);
 		let offsetMinutes = moment().utcOffset() - moment.tz(timezone).utcOffset();
 		let diff = moment().diff(moment(DOB));
-		let timeDiff = moment.duration(diff).subtract(offsetMinutes, 'minutes');
+		let timeDiff = moment.duration(diff).subtract(offsetMinutes, 'minutes').add(1, 'day');
 		let IsBirthdayOver = timeDiff.days() >= 0 && timeDiff.hours() >= 0 && timeDiff.minutes() >= 0 && timeDiff.seconds() >= 0 && timeDiff.milliseconds() >= 0;
 		
 		let thisAge;

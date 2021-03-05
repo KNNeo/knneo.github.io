@@ -424,7 +424,7 @@ function createCalendar(monthNo, DOBlist) {
 		let DOB = '2020' + item.date.substring(4);
 		let offsetMinutes = moment().utcOffset() - moment.tz(timezone).utcOffset();
 		let diff = moment().diff(moment(DOB));
-		let timeDiff = moment.duration(diff).subtract(offsetMinutes, 'minutes');
+		let timeDiff = moment.duration(diff).subtract(offsetMinutes, 'minutes').add(1, 'day');
 		let IsBirthdayOver = timeDiff.days() >= 0 && timeDiff.hours() >= 0 && timeDiff.minutes() >= 0 && timeDiff.seconds() >= 0 && timeDiff.milliseconds() >= 0;
 		//console.log(item.name, timeDiff.days(), timeDiff.hours(), timeDiff.minutes(), timeDiff.seconds(), timeDiff.milliseconds());
 		
@@ -432,7 +432,7 @@ function createCalendar(monthNo, DOBlist) {
 		if (item.currentAge <= 1) thisAge = '??';
 		else if (IsBirthdayOver) thisAge = item.currentAge - 1;
 		else thisAge = item.currentAge;
-		//console.log(item.name + "|" + birthdayInYear);
+		// console.log(item.name + "|" + item.currentAge);
 		if (thisAge == '??' && htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1 && htmlString.indexOf("<td>" + birthdayInYear.getDate() + "</td>") > -1 && item.name != "Me") //if no age
 			htmlString = htmlString.replace("<td>" + birthdayInYear.getDate() + "</td>", "<td style=\"color: " + setColour(item.category) + ";\"><div class=\"popitem\" style=\"padding: 1px;\">Happy Birthday <b>" + item.name + "</b>!!</div>" + birthdayInYear.getDate() + "</td>");
 		else if (htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1 && htmlString.indexOf("<td>" + birthdayInYear.getDate() + "</td>") > -1 && item.name != "Me") //normal
@@ -440,7 +440,7 @@ function createCalendar(monthNo, DOBlist) {
 		else if (thisAge == '??' && htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1) //overlap DOBs, if no age
 			htmlString = htmlString.replace("</div>" + birthdayInYear.getDate() + "</td>", "<br />Happy Birthday <b>" + item.name + "</b>!!</div>" + birthdayInYear.getDate() + "</td>");
 		else if (htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1) //overlap DOBs
-			htmlString = htmlString.replace("</div>" + birthdayInYear.getDate() + "</td>", "<br /><b>" + item.name + " turns " + (IsBirthdayOver ? item.currentAge - 1 : item.currentAge) + "</b> (" + birthdayInYear.getDate() + " " + month[birthdayInYear.getMonth()].substring(0, 3) + ")</div>" + birthdayInYear.getDate() + "</td>");
+			htmlString = htmlString.replace("</div>" + birthdayInYear.getDate() + "</td>", "<br /><b>" + item.name + "</b> turns " + thisAge + "</b> (" + birthdayInYear.getDate() + " " + month[birthdayInYear.getMonth()].substring(0, 3) + ")</div>" + birthdayInYear.getDate() + "</td>");
 	}
 	document.getElementById("calendar").innerHTML = htmlString;
 	currentMonth = monthNo;
