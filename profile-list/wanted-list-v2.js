@@ -418,10 +418,11 @@ function createCalendar(monthNo, DOBlist) {
 	htmlString += "</tbody></table>";
 	for (let item of DOBlist) {
 		//calculate if birthday this year has passed
-		let birthdayInYear = new Date(new Date().getFullYear(), new Date(item.date.replace('????', '2020')).getMonth(), new Date(item.date.replace('????', '2020')).getDate());
+		let currentYear = '2021';
+		let birthdayInYear = new Date(new Date().getFullYear(), new Date(item.date.replace('????', currentYear)).getMonth(), new Date(item.date.replace('????', currentYear)).getDate());
 		//let IsBirthdayOver = (new Date() - birthdayInYear) > 0;
 		
-		let DOB = '2020' + item.date.substring(4);
+		let DOB = currentYear + item.date.substring(4);
 		let offsetMinutes = moment().utcOffset() - moment.tz(timezone).utcOffset();
 		let diff = moment().diff(moment(DOB));
 		let timeDiff = moment.duration(diff).subtract(offsetMinutes, 'minutes').add(1, 'day');
@@ -432,7 +433,7 @@ function createCalendar(monthNo, DOBlist) {
 		if (item.currentAge <= 1) thisAge = '??';
 		else if (IsBirthdayOver) thisAge = item.currentAge - 1;
 		else thisAge = item.currentAge;
-		// console.log(item.name + "|" + item.currentAge);
+		console.log(item.name + "|" + item.currentAge);
 		if (thisAge == '??' && htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1 && htmlString.indexOf("<td>" + birthdayInYear.getDate() + "</td>") > -1 && item.name != "Me") //if no age
 			htmlString = htmlString.replace("<td>" + birthdayInYear.getDate() + "</td>", "<td style=\"color: " + setColour(item.category) + ";\"><div class=\"popitem\" style=\"padding: 1px;\">Happy Birthday <b>" + item.name + "</b>!!</div>" + birthdayInYear.getDate() + "</td>");
 		else if (htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1 && htmlString.indexOf("<td>" + birthdayInYear.getDate() + "</td>") > -1 && item.name != "Me") //normal

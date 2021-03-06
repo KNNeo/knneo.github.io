@@ -219,10 +219,11 @@ function createCalendar(monthNo, DOBlist) {
 	}
 	htmlString += "</tbody></table>";
 	for (let item of DOBlist) {
-		let birthdayInYear = new Date(new Date().getFullYear(), new Date(item.date.replace('????', '2021')).getMonth(), new Date(item.date.replace('????', '2021')).getDate());
+		let currentYear = '2021';
+		let birthdayInYear = new Date(new Date().getFullYear(), new Date(item.date.replace('????', currentYear)).getMonth(), new Date(item.date.replace('????', currentYear)).getDate());
 		//let IsBirthdayOver = (new Date() - birthdayInYear) > 0;
 		
-		let DOB = '2021' + item.date.substring(4);
+		let DOB = currentYear + item.date.substring(4);
 		let offsetMinutes = moment().utcOffset() - moment.tz(timezone).utcOffset();
 		let diff = moment().diff(moment(DOB));
 		let timeDiff = moment.duration(diff).subtract(offsetMinutes, 'minutes').add(1, 'day');
