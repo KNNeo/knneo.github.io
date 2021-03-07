@@ -690,6 +690,7 @@ function addHashtags() {
 	var hashtags = [];
 	for(var topic of document.getElementsByClassName("anime"))
 	{
+		if(topic.parentElement.style.display == "none") continue;
 		hashtags.push({
 			tag: topic.id.substring(0,topic.id.length-2), 
 			target: topic.id
