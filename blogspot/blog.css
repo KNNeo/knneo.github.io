@@ -109,6 +109,10 @@ body {
 	background-color: gray;
 }
 
+.center-cells td {
+	text-align: center;
+}
+
 h1.title > a:hover {
   color: var(--primary);
 }
