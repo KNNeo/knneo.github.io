@@ -97,6 +97,17 @@ body {
 	}
 }*/
 
+/* Custom Table */
+.custom-table td, .custom-table td {
+	border: 1px solid white; padding: 2px 4px;
+}  
+.custom-table {
+	border-collapse: collapse;
+}
+.custom-table tr:hover > td {
+	background-color: gray;
+}
+
 h1.title > a:hover {
   color: var(--primary);
 }
