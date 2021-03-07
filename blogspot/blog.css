@@ -98,8 +98,9 @@ body {
 }*/
 
 /* Custom Table */
-.custom-table td, .custom-table td {
-	border: 1px solid white; padding: 2px 4px;
+.custom-table th, .custom-table td {
+	border: 1px solid white;
+	padding: 2px 4px;
 }  
 .custom-table {
 	border-collapse: collapse;
