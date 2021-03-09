@@ -2,7 +2,7 @@
 for(let url of document.getElementsByTagName('a'))
 {
 	if(url.href.includes('search?q=')) url.href = 'javascript:void(0)';
-	if(url.href.includes('https://knwebreports.blogspot.com/'))
+	if(url.href.includes('https://knwebreports.blogspot.com/') && url.innerText != "Blogger")
 		url.href = url.href.replace('https://knwebreports.blogspot.com/','../../');
 }
 
