@@ -12,6 +12,12 @@ body {
   }
 }
 
+@media only screen and (max-width: 480px) {
+  .Post span {
+    display: block;
+  }
+}
+
 #contents {
 	max-width: 800px;
 	margin: auto;
