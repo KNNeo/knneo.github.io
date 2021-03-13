@@ -621,6 +621,7 @@ function renderGallery(array) {
 		});
 		image.addEventListener('error', function() {
 			image.parentElement.parentElement.style.display = 'none';
+			image.classList.add('failed');
 		});
 	}
 	
@@ -645,10 +646,16 @@ function renderGallery(array) {
 
 function reloadImages(array) {
 	let loadedImages = 0;
+	let failedImages = 0;
 	for(var img of array)
 	{
 		let image = document.getElementById(img[1].substring(img[1].lastIndexOf('/')+1).replace('.jpg',''));
 		if(image == null) continue;
+		if(image.classList.contains('failed'))
+		{
+			++failedImages;
+			continue;
+		}
 		if(image.complete)
 		{
 			document.getElementById('loadedCount').innerText = ++loadedImages;
@@ -674,8 +681,9 @@ function reloadImages(array) {
 	}
 	recoverOrientationIfEmpty(array);
 	resizeImageHeights();
-	if(loadedImages < array.length - 1) setTimeout( function() { reloadImages(array); },500);
-	if(loadedImages >= array.length - 1) 
+	let totalImages = loadedImages + failedImages;
+	if(totalImages < array.length - 1) setTimeout( function() { reloadImages(array); },500);
+	if(totalImages >= array.length - 1) 
 	{
 		resizeImageHeights();
 		document.getElementById('ssstart').removeAttribute('disabled');
