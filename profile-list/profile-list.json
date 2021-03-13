@@ -551,6 +551,7 @@
 			"https://www.tomatsuharuka.com/assets/img/top/bg/01.jpg"
 		],
 		"portraits":[
+			"https://webnewtype.com/rsz/S1/1023512/10208078.jpg",
 			"https://image.news.livedoor.com/newsimage/stf/d/5/d5c1262864ce51dbab90e78fdbfefd3b.jpg",
 			"https://seigura.com/wp-content/uploads/2020/05/5dea6b04226c0d1b4130c9ed29d0489a.jpg"
 		],
@@ -956,6 +957,8 @@
 			"https://img2.animatetimes.com/2021/01/5ff556032a041_a51e58816f20370ec75a265452cc3935.jpg"
 		],
 		"portraits":[
+			"https://pbs.twimg.com/media/EwMeovAVkAkM5fF?format=jpg&name=small",
+			"https://pbs.twimg.com/media/EwF9QkjVoAEDVq9?format=jpg&name=small",
 			"https://obs.line-scdn.net/0hWM3FXJBJCGIOPx4hAf53NUBiDg13XBJqZEcfWHtpAkx7Ux9iZkUCWmNvCgJ8XxEoNgJOXU5-LglDfAlHWjwDRU13DiBCWg4zVAMvT3dHFCw_D0g0MVFBByw3U1IrXRw9MVsCBX44V1ErBkg/small",
 			"https://obs.line-scdn.net/0h07yZ_cCmbxhEI3lbS7cQTwt-aXc9QHUQLlt4IjF1ZTYxT3gYLFllIClzbXg2Q3ZSIThFBQpDZHoadlEOLQdfPSNzREM0EXFLDBBmGRtFRXJ1Ey9Oe00mfWchOShhQXtNfkEiO2B2NilqG3tM/small",
 			"https://obs.line-scdn.net/0hAzqX46YnHlVMITfA-h5hAgN8GDo1QgRdJlkJbzl3FHs5TQlVJFsUbSFxHDU-QQcfEjQZci55Qh1lGFgKNSIBbiB6OxY9YQt5CEMoOxdeBTF9EV4CeEFUMWogSWVpQwoAc0ZVdmh0QzE1El0K/small",
@@ -1092,9 +1095,13 @@
 		"id":"HondoKaede",
 		"image":"https://knneo.webs.com/hondokaede.jpg",
 		"landscapes":[
-			"https://pbs.twimg.com/media/EfczABaWAAA3zuy?format=jpg&name=small"			
+			"https://pbs.twimg.com/media/Evxw-jRUYAMk95q?format=jpg&name=small",
+			"https://pbs.twimg.com/media/Evub0B_VcBA4isR?format=jpg&name=small",
+			"https://pbs.twimg.com/media/EfczABaWAAA3zuy?format=jpg&name=small"	
 		],
 		"portraits":[
+			"https://pbs.twimg.com/media/EwCvyKaVcAcfbkV?format=jpg&name=small",
+			"https://pbs.twimg.com/media/EvT-NK5U4AAAy7O?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EvT-NK4VIAEkKLq?format=jpg&name=small"
 		],
 		"name":"Hondo Kaede",
@@ -1153,6 +1160,8 @@
 		"id":"KidoIbuki",
 		"image":"https://knneo.webs.com/kidoibuki.jpg",
 		"landscapes":[
+			"https://pbs.twimg.com/media/EwLo8FnU8AAzptq?format=jpg&name=small",
+			"https://pbs.twimg.com/media/EvFFHFZXEA4wWWw?format=jpg&name=small",
 			"https://ddnavi.com/wp-content/uploads/2021/02/kido004.jpg",
 			"https://pbs.twimg.com/media/EtYfL4HVgAE5o3O?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EqFU7xyUYAE26XX?format=jpg&name=small",
