@@ -619,6 +619,9 @@ function renderGallery(array) {
 				inline: "center"
 			});
 		});
+		image.addEventListener('error', function() {
+			image.parentElement.parentElement.style.display = 'none';
+		});
 	}
 	
 	document.getElementById('loadedCount').innerText = 0;
