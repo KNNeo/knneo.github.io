@@ -690,7 +690,9 @@ function addHashtags() {
 	var hashtags = [];
 	for(var topic of document.getElementsByClassName("anime"))
 	{
-		if(topic.parentElement.style.display == "none") continue;
+		//if last 2 characters do not render a number, do not add
+		var numeric = parseInt(topic.id.slice(-2)) || 0;
+		if(numeric == 0) continue;
 		hashtags.push({
 			tag: topic.id.substring(0,topic.id.length-2), 
 			target: topic.id
