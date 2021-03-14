@@ -240,10 +240,9 @@ function addAgeAfterDOB() {
 function getAge(DOB) {
 	let birthDateStr = DOB.replace(".", "-").replace(".", "-"); //yyyy.MM.dd -> yyyy-MM-dd
 	let birthDate = birthDateStr.substring(0, 10);
-	//return Math.floor((new Date().getTime() - birthDate) / 31556952000);
 	let offsetMinutes = moment().utcOffset() - moment.tz(timezone).utcOffset();
 	let diff = moment().diff(moment(birthDate));
-	return moment.duration(diff).subtract(offsetMinutes, 'minutes').add(1, 'day').years();
+	return moment.duration(diff).subtract(offsetMinutes, 'minutes').years();
 }
 
 //generate wanted list
@@ -342,7 +341,7 @@ function createDOBlist(list, minAge, maxAge) {
 		let targetDOB = profile.dob; //document.getElementById(targetId.replace(" ", "")).getElementsByClassName("DOB");
 		if (targetDOB.length > 0) {
 			let birthDate = new Date(Date.parse(targetDOB.replace(".", "-").replace(".", "-").substring(0, 10)));
-			let age = targetDOB.includes('?') ? 0 : parseInt(getAge(targetDOB)) + 1;
+			let age = targetDOB.includes('?') ? 0 : parseInt(getAge(targetDOB));
 			if (!birthDate.toUTCString().includes(NaN) && age >= minAge && age <= maxAge)
 				listOfDOB.push({
 					category: profile.category,
@@ -420,20 +419,19 @@ function createCalendar(monthNo, DOBlist) {
 		//calculate if birthday this year has passed
 		let currentYear = '2021';
 		let birthdayInYear = new Date(new Date().getFullYear(), new Date(item.date.replace('????', currentYear)).getMonth(), new Date(item.date.replace('????', currentYear)).getDate());
-		//let IsBirthdayOver = (new Date() - birthdayInYear) > 0;
 		
 		let DOB = currentYear + item.date.substring(4);
 		let offsetMinutes = moment().utcOffset() - moment.tz(timezone).utcOffset();
-		let diff = moment().diff(moment(DOB));
-		let timeDiff = moment.duration(diff).subtract(offsetMinutes, 'minutes').add(1, 'day');
+		let difference = moment().diff(moment(DOB));
+		let timeDiff = moment.duration(difference).subtract(offsetMinutes, 'minutes');
 		let IsBirthdayOver = timeDiff.days() >= 0 && timeDiff.hours() >= 0 && timeDiff.minutes() >= 0 && timeDiff.seconds() >= 0 && timeDiff.milliseconds() >= 0;
-		//console.log(item.name, timeDiff.days(), timeDiff.hours(), timeDiff.minutes(), timeDiff.seconds(), timeDiff.milliseconds());
+		// console.log(item.name, timeDiff.days(), timeDiff.hours(), timeDiff.minutes(), timeDiff.seconds(), timeDiff.milliseconds());
 		
 		let thisAge;
 		if (item.currentAge <= 1) thisAge = '??';
-		else if (IsBirthdayOver) thisAge = item.currentAge - 1;
-		else thisAge = item.currentAge;
-		console.log(item.name + "|" + item.currentAge);
+		else if (IsBirthdayOver) thisAge = item.currentAge;
+		else thisAge = item.currentAge + 1;
+		// console.log(item.name + "|" + item.currentAge);
 		if (thisAge == '??' && htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1 && htmlString.indexOf("<td>" + birthdayInYear.getDate() + "</td>") > -1 && item.name != "Me") //if no age
 			htmlString = htmlString.replace("<td>" + birthdayInYear.getDate() + "</td>", "<td style=\"color: " + setColour(item.category) + ";\"><div class=\"popitem\" style=\"padding: 1px;\">Happy Birthday <b>" + item.name + "</b>!!</div>" + birthdayInYear.getDate() + "</td>");
 		else if (htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1 && htmlString.indexOf("<td>" + birthdayInYear.getDate() + "</td>") > -1 && item.name != "Me") //normal
