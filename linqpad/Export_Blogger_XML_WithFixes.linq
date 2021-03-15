@@ -4,6 +4,13 @@
   <Namespace>System.Windows.Forms</Namespace>
 </Query>
 
+/* NOTES
+ * (1) Place blogspot xml file in folderpath
+ * (2) Create blogpath since did not do checking for directory exist
+ * (3) Change domainLink to desired domain as exported
+ * (4) FIX POST ATTRIBUTES and FIX POST CONTENT can be removed as desired
+ */
+
 string UpdateRegexContent(string content, Match loosematch, Match strictMatch, string replacementPrefix, string replacementSuffix)
 {
 	var newContent = content;
@@ -21,9 +28,10 @@ string UpdateRegexContent(string content, Match loosematch, Match strictMatch, s
 void Main()
 {
 	string folderpath = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\";
+	string blogpath = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blogspot\";
 	string filepath = "";
 	string domainLink = "https://knwebreports.blogspot.com/";
-	string[] xmls = Directory.GetFiles(Path.GetDirectoryName(folderpath), "*.xml");
+	string[] xmls = Directory.GetFiles(Path.GetDirectoryName(folderpath), "blog-*.xml");
 	if(xmls.Length == 1)
 		filepath = xmls[0];
 	else if(xmls.Length == 0)
@@ -54,12 +62,12 @@ void Main()
 		.Where(entry => !entry.Descendants(app+"draft").Any(draft => draft.Value != "no"));
 	
 	#region Only For Export
-	foreach(var folder in Directory.GetDirectories(Path.GetDirectoryName(filepath)))
+	foreach(var folder in Directory.GetDirectories(blogpath))
 	{
-		if(folder.Replace("blog-archive","").Contains("blog-"))
+		if(folder.Contains("blog"))
 			Directory.Delete(folder, true);
 	}
-	var outfolder = Path.Combine(Path.GetDirectoryName(filepath), Path.GetFileNameWithoutExtension(filepath));
+	var outfolder = Path.Combine(blogpath, "blog\\");
 	Directory.CreateDirectory(outfolder);	
 	var allTags = new List<string>();
 	#endregion
@@ -73,6 +81,7 @@ void Main()
 		//fix url of ent news, by year except 2014
 		
 		// FIX POST CONTENT
+		int count = 0;
 		string content = entry.Element(_+"content").Value;
 		string expression, matchExpression;
 		Match match, matchExp;
@@ -98,19 +107,23 @@ void Main()
 		
 		#region remove embed styles for thumbnail normal/hover
 		var thumbnailStyle = ".thumbnail .hover {       display:none;     }     .thumbnail:hover .normal {       display:none;     }     .thumbnail:hover .hover {       display:inline;  /* CHANGE IF FOR BLOCK ELEMENTS */     } ";
+		if(content.Contains(thumbnailStyle)) count++;
 		content = content.Replace(thumbnailStyle, "");
 		#endregion
 		
 		#region fix twitter embed
 		var twitterScript = "\"//platform.twitter.com/widgets.js\"";
+		if(content.Contains(twitterScript)) count++;
 		content = content.Replace(twitterScript, "\"https://platform.twitter.com/widgets.js\"");
 		var unalignedTweetClass = "class=\"twitter-tweet";
+		if(content.Contains(unalignedTweetClass)) count++;
 		content = content.Replace(unalignedTweetClass, "class=\"twitter-tweet tw-align-center");
 		#endregion
 		
 		#region fix youtube iframe size
 		var youtubeHeight = @"height=""315""";
 		var youtubeWidth = @"width=""560""";
+		if(content.Contains(youtubeHeight) || content.Contains(youtubeWidth)) count++;
 		content = content.Replace(youtubeHeight, "");
 		content = content.Replace(youtubeWidth, "");
 		#endregion
@@ -128,6 +141,7 @@ void Main()
 		prefix = @"<div class=""thumbnail""><div class=""thumbnail-initial hover-hidden""><table";
 		suffix = "</table></div>";
 		content = UpdateRegexContent(content, match, matchExp, prefix, suffix);
+		if(match.Success) count++;
 		#endregion
 		
 		#region thumbnail hover => new thumbnail
@@ -139,6 +153,7 @@ void Main()
 		prefix = @"</table></div><div class=""thumbnail-initial thumbnail-pop hover-visible""><table";
 		suffix = "</table></div>";
 		content = UpdateRegexContent(content, match, matchExp, prefix, suffix);
+		if(match.Success) count++;
 		#endregion
 		
 		#region popup initial table => new thumbnail
@@ -150,6 +165,7 @@ void Main()
 		prefix = @"<div class=""thumbnail""><div class=""thumbnail-initial hover-hidden""><table";
 		suffix = "</table>";
 		content = UpdateRegexContent(content, match, matchExp, prefix, suffix);
+		if(match.Success) count++;
 		#endregion
 		
 		#region popup pop table => new thumbnail
@@ -161,6 +177,7 @@ void Main()
 		prefix = @"</table></div><div class=""thumbnail-initial thumbnail-pop hover-visible""><table";
 		suffix = "</table></div>";
 		content = UpdateRegexContent(content, match, matchExp, prefix, suffix);
+		if(match.Success) count++;
 		#endregion
 		//The Entertainment News 2019 Edition Issue #17 kyojin thumbs did not replace successfully
 		
@@ -188,6 +205,7 @@ void Main()
 			match = match.NextMatch();
 			matchExp = matchExp.NextMatch();
 		};
+		if(match.Success) count++;
 		#endregion
 		
 		#region adjust ent news headers
@@ -205,22 +223,28 @@ void Main()
 		//}; //can also be for not anime, see 2018 ent news #30, might not be possible
 		
 		var animeHeader = @"<blockquote class=""tr_bq""><div style=""text-align: center;""><span style=""background: #09a5b8; border-radius: 5px; padding: 3px 5px; text-align: center;""><b>アニメ</b></span> <span style=""font-size: large;"">ANIME</span></div></blockquote><blockquote class=""tr_bq anime"">";
+		if(content.Contains(animeHeader)) count++;
 		content = content.Replace(animeHeader, @"<blockquote class=""tr_bq anime"">");
 		#endregion
 		
 		#region add class to header prefix for styling
 		var animeHeaderPrefix = @"<span style=""background: #09a5b8; border-radius: 5px; padding: 3px 5px; text-align: center; vertical-align: text-bottom;"">";
+		if(content.Contains(animeHeaderPrefix)) count++;
 		content = content.Replace(animeHeaderPrefix, @"<span class=""head-prefix"">");
 		animeHeaderPrefix = @"<span style=""background: rgb(0, 184, 204); border-radius: 5px; padding: 3px 5px; text-align: center; vertical-align: text-bottom;"">";
+		if(content.Contains(animeHeaderPrefix)) count++;
 		content = content.Replace(animeHeaderPrefix, @"<span class=""head-prefix"">");
 		animeHeaderPrefix = @"<span style=""background: rgb(0, 184, 204); border-radius: 5px; padding: 3px 5px; text-align: center;"">";
+		if(content.Contains(animeHeaderPrefix)) count++;
 		content = content.Replace(animeHeaderPrefix, @"<span class=""head-prefix"">");
 		#endregion
 		
 		#region set all link directory to current blog
 		//var referenceStr = "../../";//"../"; //actual only need one level parent
 		//content = content.Replace(domainLink, referenceStr);
-		content = content.Replace("https://knwebreports2014.blogspot.com/", domainLink);
+		var oldDomainLink = "https://knwebreports2014.blogspot.com/";
+		content = content.Replace(oldDomainLink, domainLink);
+		if(content.Contains(oldDomainLink)) count++;
 		#endregion
 		
 		#region all table styles to be within post
@@ -233,13 +257,14 @@ void Main()
 		DateTime published = DateTime.Parse(entry.Element(_+"published").Value);
 		DateTime updated = DateTime.Parse(entry.Element(_+"updated").Value);
 		string title = entry.Element(_+"title").Value;
-		Console.WriteLine("Processing " + (title != "" ? title : "A Random Statement"));
+		// Console.WriteLine("Processing...  " + (title != "" ? title : "A Random Statement"));
 		string type = entry.Element(_+"content").Attribute("type").Value ?? "html";
 		XElement empty = new XElement("empty");
 		XAttribute emptA = new XAttribute("empty","");
 		string originalLink = ((entry.Elements(_+"link")
 			.FirstOrDefault(e => e.Attribute("rel").Value == "alternate") ?? empty)
 			.Attribute("href") ?? emptA).Value;
+			
 		var yearfolder = Path.Combine(outfolder, published.Year.ToString("0000"));
 		if(!Directory.Exists(yearfolder)) Directory.CreateDirectory(outfolder);
 		var monthfolder = Path.Combine(yearfolder, published.Month.ToString("00"));
@@ -263,6 +288,7 @@ void Main()
 			output.WriteLine("<head>");
 			output.WriteLine("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>");
 			output.WriteLine("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
+			output.WriteLine("<meta name=\"theme-color\" content=\"black\">");
 		    output.WriteLine("<link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet' />");
 			output.WriteLine("<link href=\"https://fonts.googleapis.com/icon?family=Material+Icons\" rel=\"stylesheet\" />");
 			output.WriteLine("<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../blog.css\" />");
@@ -272,7 +298,7 @@ void Main()
 			output.WriteLine("<body class=\"post-body entry-content\">");
 			output.WriteLine("<div id=\"viewer\" style=\"display: none;\"></div>");
 			output.WriteLine("<div id=\"contents\">");
-			output.WriteLine("<a id='GoToTopBtn' onclick='goToTop()' title='Back to Top'><i class='material-icons'>arrow_upward</i></a>");
+			//output.WriteLine("<a id='GoToTopBtn' onclick='goToTop()' title='Back to Top'><i class='material-icons'>arrow_upward</i></a>");
 			output.WriteLine("<a id='BackBtn' onclick='goBack()' title='Go Back'><i class='material-icons'>arrow_back</i></a>");
  			//output.WriteLine("<a id='SearchBtn' onclick='toggleSearch()' title='Search Blog'><i class='material-icons'>search</i></a>");
 			//output.WriteLine("title: \"{0}\"", title);
@@ -281,7 +307,7 @@ void Main()
 			//output.WriteLine("---");
 			if (originalLink != "")
 				output.WriteLine("<small style=\"text-align: center;\"><p><i>This post was imported from "+
-				 "<a href=\"{0}\">Blogger</a></i></p></small>", domainLink+originalLink);
+				 "<a href=\"{0}\">Blogger</a></i></p></small>", originalLink);
 				 
 			output.WriteLine("<small class=\"published\">"+published.ToString("dddd, dd MMMM yyyy")+"</small>");
 			output.WriteLine("<h2>"+title+"</h2>");
@@ -308,8 +334,8 @@ void Main()
 		
 		if (originalLink != "")
 		{
-			var pageLink = "./" + Path.GetFileNameWithoutExtension(filepath) + "/" + published.Year.ToString("0000") + "/"  + published.Month.ToString("00") + "/"  + Path.GetFileNameWithoutExtension(originalLink) + "." + type;
-			
+			var pageLink = "./" + Path.GetFileNameWithoutExtension(filepath.Replace(filepath, "blog")) + "/" + published.Year.ToString("0000") + "/"  + published.Month.ToString("00") + "/"  + Path.GetFileNameWithoutExtension(originalLink) + "." + type;
+
 			if(title != "")
 				textString += "<div"+classes+"><span>"+published.ToString("yyyy.MM.dd")+" </span><a href=\""+pageLink+"\">"+title+"</a></div>\n";
 			else
@@ -317,10 +343,11 @@ void Main()
 		}
 		else
 			textString += "<div"+classes+"><span>"+published.ToString("yyyy.MM.dd")+" </span>"+title+"</div>\n";
-			
+		if(count > 0) Console.WriteLine(title + " [" + count + "]");
 	}
 	
-	string fileString = File.ReadAllText(folderpath + "\\blog_template.html");
+	string fileString = File.ReadAllText(blogpath + "\\blog_template.html");
 	fileString = fileString.Replace("<div id=\"blog-archive-list\" style=\"font-size: 0.8em; padding-bottom: 20px;\"></div>", ("<div id=\"blog-archive-list\" style=\"font-size: 0.8em; padding-bottom: 20px;\">" + textString + "</div>"));
-	File.WriteAllText(folderpath + "\\blog.html", fileString);
+	File.WriteAllText(blogpath + "\\blog.html", fileString);
+
 }
