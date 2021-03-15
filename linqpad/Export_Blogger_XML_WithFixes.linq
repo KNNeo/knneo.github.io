@@ -289,18 +289,17 @@ void Main()
 			output.WriteLine("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>");
 			output.WriteLine("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
 			output.WriteLine("<meta name=\"theme-color\" content=\"black\">");
+			output.WriteLine("<meta name=\"apple-mobile-web-app-capable\" content=\"yes\">");
+			output.WriteLine("<meta name=\"mobile-web-app-capable\" content=\"yes\">");
 		    output.WriteLine("<link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet' />");
 			output.WriteLine("<link href=\"https://fonts.googleapis.com/icon?family=Material+Icons\" rel=\"stylesheet\" />");
 			output.WriteLine("<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../blog.css\" />");
 			output.WriteLine("<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../blogspot.css\" />");
-			//output.WriteLine("<script src=\"../../../blog.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
 			output.WriteLine("<title>" + title + "</title>");
 			output.WriteLine("<body class=\"post-body entry-content\">");
 			output.WriteLine("<div id=\"viewer\" style=\"display: none;\"></div>");
 			output.WriteLine("<div id=\"contents\">");
-			//output.WriteLine("<a id='GoToTopBtn' onclick='goToTop()' title='Back to Top'><i class='material-icons'>arrow_upward</i></a>");
 			output.WriteLine("<a id='BackBtn' onclick='goBack()' title='Go Back'><i class='material-icons'>arrow_back</i></a>");
- 			//output.WriteLine("<a id='SearchBtn' onclick='toggleSearch()' title='Search Blog'><i class='material-icons'>search</i></a>");
 			//output.WriteLine("title: \"{0}\"", title);
 			//output.WriteLine("layout: post");
 			//output.WriteLine("# Pulled from Blogger. Last updated on: {0:yyyy-MM-dd}", updated);
@@ -315,12 +314,11 @@ void Main()
 			output.Write("<hr>");
 			if(tags.Count > 0) output.Write("<h4>#" + string.Join(" #",tags) + "</h4>");
 			output.Write("<br>");
-			output.Write("<h5 style=\"text-align: center;\">Copyright (c) 2014-2020 Klassic Note Web Reports</h5>");
+			output.Write("<h5 style=\"text-align: center;\">Copyright (c) 2014-2021 Klassic Note Web Reports</h5>");
 			output.Write("<br>");
 			output.WriteLine("</div>");
 			output.WriteLine("</body>");
 			output.WriteLine("<script src=\"../../../blog.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
-			//output.WriteLine("<script src=\"../../../blog-aft.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
 			output.WriteLine("<script src=\"../../../blog-fixes.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
 			output.WriteLine("</html>");
 		}
@@ -343,7 +341,7 @@ void Main()
 		}
 		else
 			textString += "<div"+classes+"><span>"+published.ToString("yyyy.MM.dd")+" </span>"+title+"</div>\n";
-		if(count > 0) Console.WriteLine(title + " [" + count + "]");
+		if(count > 0) Console.WriteLine(title + "\t[" + count + " changes]");
 	}
 	
 	string fileString = File.ReadAllText(blogpath + "\\blog_template.html");

@@ -66,7 +66,7 @@ void Main()
 	var allTags = new List<string>();
 	#endregion
 	
-	var count = 0;
+	var postCount = 0;
 	// Process XML content per post
 	foreach (var entry in posts)
 	{
@@ -74,6 +74,7 @@ void Main()
 		//fix url of ent news, by year except 2014
 		
 		// FIX POST CONTENT
+		int count = 0;
 		string oldContent = entry.Element(_+"content").Value;
 		string content = entry.Element(_+"content").Value;
 		string expression, matchExpression;
@@ -101,6 +102,7 @@ void Main()
 		#region remove embed styles for thumbnail normal/hover
 		var thumbnailStyle = ".thumbnail .hover {       display:none;     }     .thumbnail:hover .normal {       display:none;     }     .thumbnail:hover .hover {       display:inline;  /* CHANGE IF FOR BLOCK ELEMENTS */     } ";
 		content = content.Replace(thumbnailStyle, "");
+		if(oldContent.Contains(thumbnailStyle)) count++;
 		#endregion
 		
 		#region fix twitter embed
@@ -108,6 +110,7 @@ void Main()
 		content = content.Replace(twitterScript, "\"https://platform.twitter.com/widgets.js\"");
 		var unalignedTweetClass = "class=\"twitter-tweet";
 		content = content.Replace(unalignedTweetClass, "class=\"twitter-tweet tw-align-center");
+		if(oldContent.Contains(twitterScript) || oldContent.Contains(unalignedTweetClass)) count++;
 		#endregion
 		
 		#region fix youtube iframe size
@@ -115,6 +118,7 @@ void Main()
 		var youtubeWidth = @"width=""560""";
 		content = content.Replace(youtubeHeight, "");
 		content = content.Replace(youtubeWidth, "");
+		if(oldContent.Contains(youtubeHeight) || oldContent.Contains(youtubeWidth)) count++;
 		#endregion
 		
 		// Process XML content per post	
@@ -130,6 +134,7 @@ void Main()
 		prefix = @"<div class=""thumbnail""><div class=""thumbnail-initial hover-hidden""><table";
 		suffix = "</table></div>";
 		content = UpdateRegexContent(content, match, matchExp, prefix, suffix);
+		if(match.Success) count++;
 		#endregion
 		
 		#region thumbnail hover => new thumbnail
@@ -141,6 +146,7 @@ void Main()
 		prefix = @"</table></div><div class=""thumbnail-initial thumbnail-pop hover-visible""><table";
 		suffix = "</table></div>";
 		content = UpdateRegexContent(content, match, matchExp, prefix, suffix);
+		if(match.Success) count++;
 		#endregion
 		
 		#region popup initial table => new thumbnail
@@ -152,6 +158,7 @@ void Main()
 		prefix = @"<div class=""thumbnail""><div class=""thumbnail-initial hover-hidden""><table";
 		suffix = "</table>";
 		content = UpdateRegexContent(content, match, matchExp, prefix, suffix);
+		if(match.Success) count++;
 		#endregion
 		
 		#region popup pop table => new thumbnail
@@ -163,6 +170,7 @@ void Main()
 		prefix = @"</table></div><div class=""thumbnail-initial thumbnail-pop hover-visible""><table";
 		suffix = "</table></div>";
 		content = UpdateRegexContent(content, match, matchExp, prefix, suffix);
+		if(match.Success) count++;
 		#endregion
 		//The Entertainment News 2019 Edition Issue #17 kyojin thumbs did not replace successfully
 		
@@ -190,6 +198,7 @@ void Main()
 			match = match.NextMatch();
 			matchExp = matchExp.NextMatch();
 		};
+		if(match.Success) count++;
 		#endregion
 		
 		#region adjust ent news headers
@@ -208,28 +217,33 @@ void Main()
 		
 		var animeHeader = @"<blockquote class=""tr_bq""><div style=""text-align: center;""><span style=""background: #09a5b8; border-radius: 5px; padding: 3px 5px; text-align: center;""><b>アニメ</b></span> <span style=""font-size: large;"">ANIME</span></div></blockquote><blockquote class=""tr_bq anime"">";
 		content = content.Replace(animeHeader, @"<blockquote class=""tr_bq anime"">");
+		if(oldContent.Contains(animeHeader)) count++;
 		#endregion
 		
 		#region add class to header prefix for styling
 		var animeHeaderPrefix = @"<span style=""background: #09a5b8; border-radius: 5px; padding: 3px 5px; text-align: center; vertical-align: text-bottom;"">";
 		content = content.Replace(animeHeaderPrefix, @"<span class=""head-prefix"">");
+		if(oldContent.Contains(animeHeaderPrefix)) count++;
 		animeHeaderPrefix = @"<span style=""background: rgb(0, 184, 204); border-radius: 5px; padding: 3px 5px; text-align: center; vertical-align: text-bottom;"">";
 		content = content.Replace(animeHeaderPrefix, @"<span class=""head-prefix"">");
+		if(oldContent.Contains(animeHeaderPrefix)) count++;
 		animeHeaderPrefix = @"<span style=""background: rgb(0, 184, 204); border-radius: 5px; padding: 3px 5px; text-align: center;"">";
 		content = content.Replace(animeHeaderPrefix, @"<span class=""head-prefix"">");
+		if(oldContent.Contains(animeHeaderPrefix)) count++;
 		#endregion
 		
 		#region set all link directory to current blog
 		//var referenceStr = "../../";//"../"; //actual only need one level parent
 		//content = content.Replace(domainLink, referenceStr);
-		content = content.Replace("https://knwebreports2014.blogspot.com/", domainLink);
+		var oldDomainLink = "https://knwebreports2014.blogspot.com/";
+		content = content.Replace(oldDomainLink, domainLink);
+		if(oldContent.Contains(oldDomainLink)) count++;
 		#endregion
 		
 		#region all table styles to be within post
 		// change style tr or whatever to .post-content tr respectively		
 		
 		#endregion
-		
 		
 	   	// Extract data from XML
 		DateTime published = DateTime.Parse(entry.Element(_+"published").Value);
@@ -268,17 +282,23 @@ void Main()
 		
 		//Output Result
 		if(oldContent.Length != content.Length) {
-			Console.WriteLine("Processing \"" + title + "\"");
+			// Console.WriteLine("Processing \"" + title + "\"");
 			var oldContentPath = Path.Combine(monthfolder, outFileName + "_old." + type);
 			var newContentPath = Path.Combine(monthfolder, outFileName + "_new." + type);
 			using (StreamWriter output = File.CreateText(oldContentPath)) {
 				output.WriteLine(oldContent);
 			}
-			using (StreamWriter output = File.CreateText(newContentPath)) {
-				output.WriteLine(content);
-			}
+			if(count > 0)
+				using (StreamWriter output = File.CreateText(newContentPath)) {
+					output.WriteLine(content);
+				}
+		}
+		
+		if(count > 0) {
+			Console.WriteLine(title + " [" + count + "]");
+			postCount++;
 		}
 	}
 	
-	Console.WriteLine("" + count + " published posts needed to update");
+	Console.WriteLine("" + postCount + " published posts needed to update");
 }
