@@ -99,7 +99,7 @@ void Main()
 		* any gif img tag should not have enclosing a tag
 		* abbr imgpop => div popup normal pop
 		* span popup normal pop => div popup normal pop
-		* div popup normal pop => div new-thumbnail
+		* div popup normal pop (images) => div new-thumbnail
 		* adjust ent news headers
 		* add class to header prefix for styling
 		* set all link directory to current blog
@@ -209,8 +209,8 @@ void Main()
 		if(match.Success) count++;
 		#endregion
 		
-		#region div popup normal pop => div new-thumbnail
-		expression = @"(<div class=""popup""><span class=""normal"">)(.*?)(</span><span class=""pop"">)(.*?)(src="")(.*?)("" /></span></div>)";
+		#region div popup normal pop (images) => div new-thumbnail
+		expression = @"(<div class=""popup""><span class=""normal"">)(.*?)(</span><span class=""pop"">)(.*?)(<img)(.*?)(src="")(.*?)("" /></span></div>)";
 		
 		match = Regex.Match(content, expression);
 		prefix = @"<a href=""";
@@ -218,7 +218,7 @@ void Main()
 		suffix = "</a>";
 		while(match.Success)
 		{
-			var replacement = prefix + match.Groups[6].Value + midfix + match.Groups[2].Value + suffix;
+			var replacement = prefix + match.Groups[8].Value + midfix + match.Groups[2].Value + suffix;
 			content = content.Replace(match.Value, replacement);
 			match = match.NextMatch();
 			matchExp = matchExp.NextMatch();
@@ -270,6 +270,17 @@ void Main()
 		// change style tr or whatever to .post-content tr respectively		
 		
 		#endregion
+		
+		#region jisho links detection
+		//expression = @"(<a href="")(https://jisho.org/search/)(.*?)("" target=""_blank"">)(.*?)(</a>)";
+		//match = Regex.Match(content, expression);
+		//while(match.Success)
+		//{
+		//	Console.WriteLine(match.Groups);
+		//};
+		#endregion
+		
+		
 		
 		
 	   	// Extract data from XML
