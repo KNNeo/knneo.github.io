@@ -370,6 +370,7 @@ imgArray = [
 [369,'{domain}/CCI20210309_0007_2.jpg','landscape','Taketatsu Ayana','Event "Taketatsu Ayana ONLINE LIVE Good-bye winter Hello spring!" Bromide Set B'],
 [370,'{domain}/CCI20210309_0007_3.jpg','landscape','Taketatsu Ayana','Event "Taketatsu Ayana ONLINE LIVE Good-bye winter Hello spring!" Bromide Set B'],
 [371,'{domain}/CCI20210309_0007_4.jpg','portrait','Taketatsu Ayana','Event "Taketatsu Ayana ONLINE LIVE Good-bye winter Hello spring!" Bromide Set B'],
+[372,'{domain}/CCI20210319_1.jpg','portrait','Kouno Marika','CD "Yume Mitai, Demo Yume Janai" Toranoana Bonuns'],
 
 
 
