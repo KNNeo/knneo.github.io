@@ -425,7 +425,7 @@ input.gsc-input {
 
 /*Middle Screen Width Responsive*/
 
-@media only screen and (min-width: 320px) and (max-width: 1040px) {
+@media only screen and (min-width: 481px) and (max-width: 1024px) {
   body {
     min-width: auto !important;
     max-width: 760px !important;
@@ -564,7 +564,7 @@ div#PageList2 {
 	display: none;
 }
 
-@media only screen and (min-width: 1040px) {
+@media only screen and (min-width: 1025px) {
   .bar-left,
   .bar-right {
     display: none;
@@ -615,7 +615,7 @@ div#PageList2 {
 
 /*Middle Screen Width (Responsive)*/
 
-@media only screen and (max-width: 780px) {
+@media only screen and (max-width: 480px) {
   .header-inner .Header .titlewrapper,
   .header-inner .Header .descriptionwrapper {
     padding-left: 0;
@@ -780,31 +780,31 @@ abbr.imgpop:hover img {
 }
 
 /*EXPERIMENTAL - all prefixed with new for now*/
-    .new-t, .new-thumbnail, .new-thumbnail-initial {
-  		display: inline;
-      	cursor: pointer;
-    }
-    .new-thumbnail-focus {
-  		display: none;
-    }
-    .new-thumbnail-initial {
-        color: var(--primary);
-    }
-    .new-thumbnail {
-        /* border-top: 1px solid white; */
-		border-bottom: 2px solid white;
-		/* box-shadow: inset 0 -0.1em white, inset 0 -0.11em white, inset 0 -0.12em white, inset 0 -0.13em white; */
-    }
-    .new-thumbnail .new-thumbnail-focus {
-  		position: absolute;
-  		display: block;
-        z-index: 1;
-      	left: 0;
-      	right: 0;
-      	margin-top: 3px;
-      	text-align: center;
-      	max-width: 100%;
-    }
+.new-t, .new-thumbnail, .new-thumbnail-initial {
+	display: inline;
+	cursor: pointer;
+}
+.new-thumbnail-focus {
+	display: none;
+}
+.new-thumbnail-initial {
+	color: var(--primary);
+}
+.new-thumbnail {
+	/* border-top: 1px solid white; */
+	border-bottom: 2px solid white;
+	/* box-shadow: inset 0 -0.1em white, inset 0 -0.11em white, inset 0 -0.12em white, inset 0 -0.13em white; */
+}
+.new-thumbnail .new-thumbnail-focus {
+	position: absolute;
+	display: block;
+	z-index: 1;
+	left: 0;
+	right: 0;
+	margin-top: 3px;
+	text-align: center;
+	max-width: 100%;
+}
 	
 /*Assign class based on image resize for responsive, see blog.js resizeImg()*/
 .img-width-fit {
@@ -818,15 +818,6 @@ abbr.imgpop:hover img {
 .img-separator {
 	margin-left: auto;
 	margin-right: auto;
-}
-
-@media only screen and (min-width: 320px) and (max-width: 1040px) {
-}
-	
-@media only screen and (min-width: 1040px) {
-}
-
-@media only screen and (max-width: 780px) {
 }
 
 /*Blink animation (Time is 10x blink sequence)*/
