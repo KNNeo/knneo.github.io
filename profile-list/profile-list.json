@@ -193,6 +193,7 @@
 		"id":"BabaFumika",
 		"image":"https://knneo.webs.com/babafumika.jpg",
 		"landscapes":[
+			"https://obs.line-scdn.net/0h8D76bNQAZ2sKT3FEMCsYPEISYQRzLH1jYDdwUX8ZbUV_I3BrYjV7XXwfbh97J3ptKi0rRHAXXAJSG3B0UmBMZlEIWz1-KihoVmopfXMmTChuYyA6Ni0qCCtKPVMnd3I1NSgrBWpObFIie3Q-NA/small",
 			"https://pbs.twimg.com/media/Eo2zXyyVgAAed6a?format=jpg&name=small"
 		],
 		"portraits":[
@@ -228,9 +229,14 @@
 		"id":"TachibanaHaru",
 		"image":"https://knneo.webs.com/tachibanaharu.jpg",
 		"landscapes":[
+			"https://pbs.twimg.com/media/EwLYfMlUUAMmXWd?format=jpg&name=small",
+			"https://pbs.twimg.com/media/Etx2BTGVIAUx0_6?format=jpg&name=small",
 			"https://pbs.twimg.com/media/Ep60WrYUcAACZWb?format=jpg&name=small"
 		],
 		"portraits":[
+			"https://pbs.twimg.com/media/EwR9Pc_UYAMWvfr?format=jpg&name=small",
+			"https://pbs.twimg.com/media/EuqU90KUYAMqLzr?format=jpg&name=small",
+			"https://pbs.twimg.com/media/EuQ2VadU4AAMa3y?format=jpg&name=small",
 			"https://pbs.twimg.com/media/Etnnnw_UcAMcmPG?format=jpg&name=small",
 			"https://img-mdpr.freetls.fastly.net/article/FiGG/nm/FiGGIDxmeadrpBPjCb-go4yco6o4z4T2riup2iEzHsw.jpg?width=500&disable=upscale&auto=webp",
 			"https://pbs.twimg.com/media/EpbO6T_UcAI0to6?format=jpg&name=small",
@@ -394,6 +400,7 @@
 			
 		],
 		"portraits":[
+			"https://pbs.twimg.com/media/Ewre8UZUYAc8ZDv?format=jpg&name=small",
 			"https://pbs.twimg.com/media/Euba9OXVoAAONmn?format=jpg&name=small",
 			"https://pbs.twimg.com/media/ErnxsBQVEAQHseS?format=jpg&name=small",
 			"https://images.animageplus.jp/articles/34000/34894/wysiwyg/0c8582f9bc385635476cbf890e637146.jpg",
@@ -650,7 +657,9 @@
 			"https://cdnx.natalie.mu/media/pp/static/music/thepeggies/photo02.jpg",
 			"https://hominis.media/2020/08/images/00_kanokari01.jpg"			
 		],
-		"portraits":[],
+		"portraits":[
+			"https://seigura.com/wp-content/uploads/2021/03/404b69ef8f59d902ce76c20fb0a0362d.jpg"
+		],
 		"name":"Amamiya Sora",
 		"nickname":"Ten-chan*",
 		"dob":"1993.08.28",
@@ -799,11 +808,13 @@
 		"id":"MinaseInori",
 		"image":"https://knneo.webs.com/minaseinori.jpg",
 		"landscapes":[
+			"https://storage.mantan-web.jp/images/2021/03/16/20210316dog00m200058000c/002_size6.jpg",
 			"https://d2wi3xvhr3qrd7.cloudfront.net/wp/wp-content/uploads/2020/10/08192735/MAT00652-516x344.jpg",
 			"https://akiba-souken.k-img.com/assets/images/article/000/877/t640_877184.jpg",
 			"https://pbs.twimg.com/media/EgujiTlU0AEAX6H?format=jpg&name=small"			
 		],
 		"portraits":[
+			"https://img2.animatetimes.com/2021/03/605187070822b_cd47af3a3c7276f17bea90b4aaa4b660.jpg",
 			"https://pbs.twimg.com/media/EuPuN5hUcAY8BI8?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EpQcpD9UYAIQo37?format=jpg&name=small",
 			"https://www.inoriminase.com/img/profile/artist/43cd303c7c44602b03930812787aa76c05de47d9.jpg",
@@ -1209,6 +1220,7 @@
 			"https://pbs.twimg.com/media/Ee9jRmyUEAIVGio?format=jpg&name=small"			
 		],
 		"portraits":[
+			"https://pbs.twimg.com/media/EvzAcnYWQAAEgRd?format=jpg&name=small",
 			"https://news-img.dwango.jp/uploads/medium/file/000/288/780/288780/lg_wsxoh9bzopvqzlhgcbs.jpg",
 			"https://pbs.twimg.com/media/EiW-TT-VoAAPnKq?format=jpg&name=small",
 			"https://pbs.twimg.com/media/Ee9jRmyUEAIVGio?format=jpg&name=small"
@@ -1447,8 +1459,11 @@
 		"category":"seiyuu3",
 		"id":"OozoraNaomi",
 		"image":"https://knneo.webs.com/oozoranaomi.jpg",
-		"landscapes":[],
+		"landscapes":[
+			"https://pbs.twimg.com/media/Eu-NJnMU4AAA8hi?format=jpg&name=small"
+		],
 		"portraits":[
+			"https://pbs.twimg.com/media/Ew1vm5VVEAIdyWp?format=jpg&name=small",
 			"https://pbs.twimg.com/media/ErtQgR1VQAA5rwj?format=jpg&name=small",
 			"https://pbs.twimg.com/media/ElKUy78VkAA5tql?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EP3MOauUYAA8fGL?format=jpg&name=small"
@@ -1477,9 +1492,11 @@
 		"id":"ToyotaMoe",
 		"image":"https://knneo.webs.com/toyotamoe.jpg",
 		"landscapes":[
+			"https://pbs.twimg.com/media/EwNMCOoUcAIjIMR?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EfeGJznUwAA-23m?format=jpg&name=small"
 		],
 		"portraits":[
+			"https://pbs.twimg.com/media/EwhHWO-U8AAl4eE?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EsVEfb9VoAYZq_8?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EqkevT6UYAIupdZ?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EpRtTIVUUAQiy21?format=jpg&name=small",
@@ -1513,6 +1530,7 @@
 			"https://pbs.twimg.com/media/Edf6cXOUYAEwpNm?format=jpg&name=small"
 		],
 		"portraits":[
+			"https://pbs.twimg.com/media/EvysBLdVoAAkv25?format=jpg&name=small",
 			"https://pbs.twimg.com/media/Et3mDTGU0AMAEm1?format=jpg&name=small",
 			"https://pbs.twimg.com/media/Et3mDTGVkAQUe47?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EqP22iaVQAENFdw?format=jpg&name=small",
