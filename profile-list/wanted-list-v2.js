@@ -155,8 +155,9 @@ function initialiseWantedList() {
 	calendarDOBlist = createDOBlist(profileList, 0, 50);
 	calendarDOBlist = calendarDOBlist.concat(createDOBlist(birthdayListJson, 0, 50));
 	currentMonth = createCalendar(new Date().getMonth(), calendarDOBlist);
+	addCalendarLegend();
 	setThumbnails();
-	addStatusPopUps();
+	// addStatusPopUps();
 	initialiseTime();
 	friendCheck();
 }
@@ -196,7 +197,7 @@ function renderProfileBox() {
 	switchProfileBoxImage();
 	addAgeAfterDOB();
 	//addStatusPopUps();
-	openLinksInNew();
+	openCommentLinksInNew();
 	//invertCensor();
 	if(isExternal) censorData(); //ONLY FOR GITHUB
 	setTimeout(reloadImages, 300);
@@ -230,11 +231,11 @@ function daysFromMe() {
 
 //add age after DOB span
 function addAgeAfterDOB() {
-	for (let dateOfBirth of document.getElementsByClassName("DOB")) {
-		let age = !dateOfBirth.innerText.includes('.') ? 0 : parseInt(getAge(dateOfBirth.innerHTML));
-		if (age != undefined && age > 0)
-			dateOfBirth.innerHTML = dateOfBirth.innerHTML.concat(" [").concat(age.toString()).concat(" years ago]");
-	}
+	let profile = profileList.filter(p => p.id === document.getElementById('profile').firstChild.id)[0];
+	let DOBspan = document.getElementById(profile.id).getElementsByClassName('DOB')[0];
+	let age = !profile.dob.includes('.') ? 0 : parseInt(getAge(profile.dob));
+	if (age != undefined && age > 0)
+		DOBspan.innerHTML = DOBspan.innerHTML.concat(" [").concat(age.toString()).concat(" years ago]");
 }
 
 function getAge(DOB) {
@@ -306,6 +307,7 @@ function generateWantedList(profileLink) {
 }
 
 function addStatusPopUp() {
+	if(statusPopup == '') return;
 	document.getElementsByClassName("turning-point")[0].addEventListener("mouseover", function(d) {
 		d.target.innerHTML = statusPopup + d.target.innerHTML;
 	});
@@ -468,10 +470,23 @@ function setColour(categoryId) {
 	}
 }
 
-document.getElementById('calendar-legend').innerHTML = 
-'<div style="background-color: pink; display: inline-block; height: 10px; width: 10px;"></div><span style="padding: 0 5px;">Alterna</span>' +
-'<div style="background-color: lime; display: inline-block; height: 10px; width: 10px;"></div><span style="padding: 0 5px;">DOAXVV</span>' +
-'<div style="background-color: cyan; display: inline-block; height: 10px; width: 10px;"></div><span style="padding: 0 5px;">Seiyuu</span>';
+function addCalendarLegend() {
+	let categories = ['alterna','doaxvv','seiyuu'];
+	document.getElementById('calendar-legend').innerHTML = '';
+	for(let category of categories) {
+		let legendColor = document.createElement('div');
+		legendColor.style.backgroundColor = setColour(category.toLowerCase());
+		legendColor.style.display = 'inline-block';
+		legendColor.style.height = '10px';
+		legendColor.style.width = '10px';
+		document.getElementById('calendar-legend').appendChild(legendColor);
+		
+		let legend = document.createElement('span');
+		legend.style.padding = '0 5px';
+		legend.innerText = category.substring(0,1).toUpperCase() + category.substring(1);
+		document.getElementById('calendar-legend').appendChild(legend);
+	}
+}
 
 //to shift position of knots if overlap with previous
 function adjustKnots() {
@@ -610,7 +625,7 @@ function resizeProfileBoxImg(image) {
 	}
 }
 
-function openLinksInNew() {
+function openCommentLinksInNew() {
 	for(let comments of document.getElementsByClassName('profile-box-comments'))
 	{
 		for(let link of comments.getElementsByTagName('a'))
@@ -626,13 +641,13 @@ function openLinksInNew() {
 function checkDuplicateImages() {
 	for(let profile of profileList)
 	{
-		let duplicates = checkDuplicates(profile.images);
+		let duplicates = duplicates(profile.landscapes.concat(profile.portraits));
 		if(duplicates.length > 0)
 			console.log(profile.id, duplicates);
 	}
 }
 
-function checkDuplicates(array) {
+function duplicates(array) {
 	let duplicates = [];
 	let uniqueIndexes = array.filter((item, index) => array.indexOf(item) == index).map((item, index) => index);
 	return array.filter((item, index) => uniqueIndexes.indexOf(index) < 0);
