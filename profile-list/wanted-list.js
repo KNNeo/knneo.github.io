@@ -74,8 +74,8 @@ function renderWantedList() {
 	calendarDOBlist = createDOBlist(0, 50);
 	currentMonth = createCalendar(new Date().getMonth(), calendarDOBlist);
 	addProfileBoxClick();
+	addProfileBoxDoubleClick();
 	addProfileBoxImgOnError();
-	switchProfileBoxImage();
 	addAgeAfterDOB();
 	addStatusPopUp();
 	openLinksInNew();
@@ -264,7 +264,7 @@ function adjustKnots() {
 }
 
 //double click profile box go up to list of names
-function addProfileBoxClick() {
+function addProfileBoxDoubleClick() {
 	for (let profBox of document.getElementsByClassName("profile-box")) profBox.addEventListener("dblclick", function() {
 		if (window.innerWidth < 780) {
 			document.getElementById("marriedCouple").scrollIntoView();
@@ -290,7 +290,7 @@ function addProfileBoxImgOnError() {
 };
 
 //add event listener for image switch but through clicking on profile box
-function switchProfileBoxImage() {
+function addProfileBoxClick() {
 	let profileBoxImgList = document.getElementsByClassName("profile-box");
 	for (let i = 0; i < profileBoxImgList.length; i++) {
 		profileBoxImgList[i].addEventListener("click", function() {
@@ -299,6 +299,7 @@ function switchProfileBoxImage() {
 			if (this.getElementsByTagName("img")[1] == null) return;
 			if (this.getElementsByTagName("img")[0] != null) this.getElementsByTagName("img")[0].style.display = this.getElementsByTagName("img")[0].style.display == "" ? "none" : "";
 			if (this.getElementsByTagName("img")[1] != null) this.getElementsByTagName("img")[1].style.display = this.getElementsByTagName("img")[1].style.display == "" ? "none" : "";
+			document.getElementById(this.parentElement.id).scrollIntoView();
 		});
 	}
 }
