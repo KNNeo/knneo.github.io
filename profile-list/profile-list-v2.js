@@ -327,6 +327,10 @@ function generateProfileFromJSON(profileName) {
 								DOBspan.classList.add('DOB');
 								//DOBspan.innerText = profile.dob;
 								DOBspan.innerText = profile.dob + (!isExternal && !friendMode && !simplified && profile.dobComment != '' ? (' (' + profile.dobComment + ')') : '');
+								if(DOBspan.innerText.includes('????')) {
+									let dateOnly = new Date(1990,profile.dob.substring(5,2),profile.dob.substring(8,2),0,0,0,0);
+									DOBspan.innerText = month[parseInt(profile.dob.substring(5,7))-1] + ' ' + parseInt(profile.dob.substring(8,10)) + (!isExternal && !friendMode && !simplified && profile.dobComment != '' ? (' (' + profile.dobComment + ')') : '');
+								}
 								cellDiv.appendChild(DOBspan);
 							
 							cell.appendChild(cellDiv);
