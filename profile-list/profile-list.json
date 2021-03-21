@@ -185,6 +185,10 @@
 			{
 				"image":"https://pbs.twimg.com/media/EmYP1awVcAAqTID?format=jpg&name=small",
 				"id":"HikasaYouko-TouyamaNao"
+			},
+			{
+				"image":"https://pbs.twimg.com/media/EmJWWCLVoAA4w1a?format=jpg&name=small",
+				"id":"OonoYuuko-KogaAoi"
 			}
 		]
 	},
@@ -1249,6 +1253,35 @@
 	},
 	{
 		"category":"seiyuu3",
+		"id":"KogaAoi",
+		"image":"https://knneo.webs.com/kogaaoi.jpg",
+		"landscapes":[],
+		"portraits":[
+			"https://pbs.twimg.com/media/ElPQxrcUwAAUcR4?format=jpg&name=small",
+			"https://pbs.twimg.com/media/Ef3zm9uUYAAK1UT?format=jpg&name=small",
+			"https://pbs.twimg.com/media/Ep7dMo5VgAEfJi2?format=jpg&name=small"
+		],
+		"name":"Koga Aoi",
+		"nickname":"Ao-chan?*",
+		"dob":"1993.08.24",
+		"dobComment":"",
+		"profile":"Japanese Voice Actress",
+		"turningPoint":{
+			"soloDebut":"No",
+			"swimsuitPhotobook":"No**",
+			"isMarried":"No"
+		},
+		"intro":"From Anime \"Kaguya-sama wa Kokurasetai\" as Shinomiya Kaguya",
+		"description":"She is that friend's friend who one will like over time, for her shy yet friendly personality makes her an adorable friend to hang out with. Coming from a poorer background, she is also thankful for her career as a voice actress today. In Anime, she has a slight corase voice one would recognize easily.",
+		"wantedLevel":"★★★★☆",
+		"wantedLevelComment":"I can't say what is actually missing from her",
+		"comments":[
+			"*I don't even know what to call her while not confusing with Yuuki Aoi, to be honest.",
+			"**I have reviewed her <a href=\"https://knwebreports.blogspot.com/2021/03/the-eleventh-book-vs-twelfth-book-worth.html#Aoiiro\">1st PHOTO BOOK</a>"
+		]
+	},
+	{
+		"category":"seiyuu3",
 		"id":"KoharaKonomi",
 		"image":"https://knneo.webs.com/koharakonomi.jpg",
 		"landscapes":[
@@ -1547,16 +1580,17 @@
 		"profile":"Japanese Voice Actress",
 		"turningPoint":{
 			"soloDebut":"Yes*",
-			"swimsuitPhotobook":"No",
+			"swimsuitPhotobook":"No*",
 			"isMarried":"No"
 		},
 		"intro":"From Anime \"Blend.S\" as Sakuranomiya Maika, and later in Anime \"Midara na Ao-chan wa Benkyou ga Dekinai\" as Horie Ao",
-		"description":"Her many appealing selfies is proof of how good she can take photos alone, and I can't help myself but follow her. In terms of voice hers is not exactly unique but she is popular and she is seen in a variety of roles and she excels in all of them**.",
+		"description":"Her many appealing selfies is proof of how good she can take photos alone, and I can't help myself but follow her. In terms of voice hers is not exactly unique but she is popular and she is seen in a variety of roles and she excels in all of them***.",
 		"wantedLevel":"★★★★☆",
 		"wantedLevelComment":"Purely based on looks at this point",
 		"comments":[
 			"*Under music label Nippon Columbia",
-			"**She was a replacement voice in Game \"Alternative Girls\" as Mizushima Airi, taking over from retired voice actress Endou Yurika"
+			"**I have reviewed her <a href=\"https://knwebreports.blogspot.com/2021/03/the-eleventh-book-vs-twelfth-book-worth.html#AZUYOU\">1st photobook</a>",
+			"***She was a replacement voice in Game \"Alternative Girls\" as Mizushima Airi, taking over from retired voice actress Endou Yurika"
 		]
 	},
 	{
@@ -1583,23 +1617,6 @@
 			"*Fans guess she's in her 30s, so maybe born in late 1980s- HOLY SH*T she is old haha",
 			"**She does post online of herself at the beach in a swimsuit every year though"
 		]
-	},
-	{
-		"category":"seiyuu4",
-		"id":"KogaAoi",
-		"image":"https://pbs.twimg.com/media/Ef3zm9uUYAAK1UT?format=jpg&name=small",
-		"landscapes":[],
-		"portraits":[
-			"https://pbs.twimg.com/media/ElPQxrcUwAAUcR4?format=jpg&name=small"
-		],
-		"name":"Koga Aoi",
-		"dob":"1993.08.24",
-		"profile":"Japanese Voice Actress",
-		"turningPoint":{
-			"soloDebut":"No",
-			"swimsuitPhotobook":"No",
-			"isMarried":"No"
-		}
 	},
 	{
 		"category":"seiyuu4",
