@@ -187,7 +187,7 @@
 				"id":"HikasaYouko-TouyamaNao"
 			},
 			{
-				"image":"https://pbs.twimg.com/media/EmJWWCLVoAA4w1a?format=jpg&name=small",
+				"image":"https://pbs.twimg.com/media/EmJTxEqVMAE-YrU?format=jpg&name=small",
 				"id":"OonoYuuko-KogaAoi"
 			}
 		]
@@ -238,6 +238,7 @@
 			"https://pbs.twimg.com/media/Ep60WrYUcAACZWb?format=jpg&name=small"
 		],
 		"portraits":[
+			"https://pbs.twimg.com/media/Ew_4hQAVcAMtnmZ?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EwR9Pc_UYAMWvfr?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EuqU90KUYAMqLzr?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EuQ2VadU4AAMa3y?format=jpg&name=small",
@@ -1617,6 +1618,40 @@
 			"*Fans guess she's in her 30s, so maybe born in late 1980s- HOLY SH*T she is old haha",
 			"**She does post online of herself at the beach in a swimsuit every year though"
 		]
+	},
+	{
+		"category":"seiyuu4",
+		"id":"FujitaAkane",
+		"image":"https://image.news.livedoor.com/newsimage/stf/3/1/313c174ad3d8e4b9af267fd6eb92aa7c.jpg",
+		"landscapes":[
+			"https://image.news.livedoor.com/newsimage/stf/7/9/793d2d625b45ec9a793b8b5d20756b8a.jpg"
+		],
+		"portraits":[],
+		"name":"FujitaAkane",
+		"dob":"1993.01.26",
+		"profile":"Japanese Voice Actress",
+		"turningPoint":{
+			"soloDebut":"No",
+			"swimsuitPhotobook":"No",
+			"isMarried":"No"
+		}
+	},
+	{
+		"category":"seiyuu4",
+		"id":"KannoMai",
+		"image":"https://pbs.twimg.com/media/EwsPdF5VIAIan-R?format=jpg&name=small",
+		"landscapes":[
+			"https://pbs.twimg.com/media/Ew_v-R5VgAQr3cS?format=jpg&name=small"
+		],
+		"portraits":[],
+		"name":"Kanno Mai",
+		"dob":"1998.08.14",
+		"profile":"Japanese Voice Actress",
+		"turningPoint":{
+			"soloDebut":"No",
+			"swimsuitPhotobook":"No",
+			"isMarried":"No"
+		}
 	},
 	{
 		"category":"seiyuu4",
