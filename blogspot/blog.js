@@ -15,6 +15,7 @@ window.onload = function() {
     addHoverForLinks();
     addHoverOnExpander();
     addHashtags();
+	hideImagesOnError();
 	
 		
 	// Window events (FAB events at end)
