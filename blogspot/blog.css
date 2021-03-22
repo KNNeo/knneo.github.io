@@ -89,19 +89,21 @@ a#CloseBtn {
 }
 
 /*Website Adjustments*/
-
+/*By Tag*/
 body {
   display: none;
   background-color: #444444;
 }
 
-/*@media (prefers-color-scheme: dark) {
-	body {
-		opacity: 0.8;
-	}
-}*/
+a img {
+  border: 1px solid var(--primary);
+}
 
-/* Custom Table */
+a:hover {
+  text-decoration: none;
+}
+
+/*By Class*/
 .custom-table th, .custom-table td {
 	border: 1px solid white;
 	padding: 2px 4px;
@@ -117,44 +119,38 @@ body {
 	text-align: center;
 }
 
-h1.title > a:hover {
+.title > a:hover {
   color: var(--primary);
 }
 
-h2.date-header {
+.date-header {
   text-transform: uppercase;
   transition: height 1s;
 }
 
-h3.post-title {
+.post-title {
   margin: 0;
 }
 
-h3.post-title a,
-h3.post-title.entry-title {
+.post-title a,
+.post-title.entry-title {
   font: normal bold 22px 'Trebuchet MS', Trebuchet, sans-serif;
   background-color: black;
-}
-a img {
-  border: 1px solid var(--primary);
-}
-a:hover {
-  text-decoration: none;
 }
 
 .content-outer {
   padding-top: 0;
 }
 
-div.content-cap-bottom.cap-bottom {
+.content-cap-bottom.cap-bottom {
   height: 30px;
 }
 
-div.footer-inner {
+.footer-inner {
   padding: 10px 10px;
 }
 
-div.post-header {
+.post-header {
   margin: 0;
 }
 
@@ -186,37 +182,36 @@ div.post-header {
   display: none;
 }
 
-div#HTML2.widget.HTML {
+.HTML {
   border: none;
   padding: 0;
 }
 
-div#comments.comments {
+.comments {
   padding: 0;
   background: none;
 }
 
-.BlogArchive #ArchiveList ul ul li {
-    padding-left: 0;
-    text-align: right;
-}
-
-.BlogArchive #ArchiveList ul li {
+.BlogArchive ul li {
     padding-left: 0;
     text-indent: 0;
 }
 
-#BlogArchive1_ArchiveList .toggle {
+.BlogArchive ul ul li {
+    padding-left: 0;
+    text-align: right;
+}
+
+.toggle {
     font-size: medium;
 }
 
-span.post-count {
+.post-count {
     display: none;
 }
 
 #Label1>div,
 div.column-left-outer,
-#PageList2>div,
 .search-expander,
 .bar-left,
 .bar-right {
@@ -240,7 +235,7 @@ div.column-left-outer,
 	font-weight: bold;
 }
 
-#LinkList1 li {
+.widget.LinkList li {
     white-space: nowrap;
     overflow-x: hidden;
 }
@@ -281,8 +276,8 @@ div.column-left-outer,
 }
 
 .latest-post:active {
-     box-shadow: 1px 1px;
-     transform: translate(2px,2px);
+	box-shadow: 1px 1px;
+	transform: translate(2px,2px);
 }
 
 .latest-post-summary {
@@ -302,8 +297,7 @@ div.column-left-outer,
 
 /*Label header and footer navigation*/
 
-div.list-label-widget-content,
-div#PageList2.widget-content {
+.list-label-widget-content {
   font-size: 14px;
 }
 
@@ -340,11 +334,6 @@ div#PageList2.widget-content {
   transform: translate(2px, 2px);
 }
 
-div#PageList2.widget ul {
-  padding-left: 0;
-  height: 66px;
-}
-
 div#Label1 .widget ul {
   padding: 0 0 0 1em;
 }
@@ -353,8 +342,7 @@ div#Label1 .widget ul {
   font-size: 16px;
 }
 
-div#Label1 ul::-webkit-scrollbar,
-div#PageList2 ul::-webkit-scrollbar {
+div#Label1 ul::-webkit-scrollbar {
   width: 0 !important
 } // Safari and Chrome
 
@@ -479,27 +467,19 @@ div.content-cap-bottom.cap-bottom {
     padding-left: 10px;
     padding-right: 10px;
   }
-  div#Label1,
-  div#PageList2 {
+  div#Label1 {
     margin: 0 20px;
   }
-  div#Label1 ul,
-  div#PageList2 ul {
+  div#Label1 ul {
     white-space: nowrap;
     overflow-x: hidden;
     height: 68px;
     padding: 0 10px;
   }
-  div#Label1 ul:hover,
-  div#PageList2 ul:hover {
+  div#Label1 ul:hover {
     overflow-x: scroll;
   }
   div#Label1 li {
-    float: none;
-    display: inline-block;
-    padding: 12px 20px;
-  }
-  div#PageList2 li {
     float: none;
     display: inline-block;
     padding: 12px 20px;
@@ -555,19 +535,13 @@ div.content-cap-bottom.cap-bottom {
   span#blog-pager-newer-link>a:hover {
     color: var(--primary);
   }
-
-.search-expander i {
-	font-size:36px;
+  .search-expander i {
+    font-size:36px;
 	font-weight:normal;
-}
+  }
 }
 
 /*Large Screen Width (Responsive)*/
-
-div#PageList2 {
-	display: none;
-}
-
 @media only screen and (min-width: 1025px) {
   .tabs-inner {
 	margin: 0;
@@ -650,8 +624,7 @@ div#PageList2 {
   a#CloseBtn {
     top: 15px;
   }
-  div#Label1,
-  div#PageList2 {
+  div#Label1 {
     margin: 0 5px;
   }
   div#footer-3 {
