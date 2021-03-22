@@ -425,7 +425,7 @@ input.gsc-input {
 
 /*Middle Screen Width Responsive*/
 
-@media only screen and (min-width: 481px) and (max-width: 1024px) {
+@media only screen and (min-width: 320px) and (max-width: 1024px) {
   body {
     min-width: auto !important;
     max-width: 760px !important;
