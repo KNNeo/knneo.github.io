@@ -79,6 +79,7 @@ a#SidebarBtn, a#SearchBtn {
 	display: none;
 }
 
+/*Fixes from Blogger*/
 .tr-caption {
 	font-size: 0.7em;
 }
@@ -91,10 +92,16 @@ h2 {
 	text-transform: uppercase;
 }
 
+table.tr-caption-container {
+    padding: 4px;
+    margin-bottom: .5em;
+}
+
 /* .material-icons {
 	font-size: 36px;
 } */
 
+/*Custom viewer*/
 #viewer {
 	z-index: 9;
 	position: fixed;
