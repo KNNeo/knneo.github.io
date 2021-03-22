@@ -619,7 +619,7 @@ div#PageList2 {
 
 /*Middle Screen Width (Responsive)*/
 
-@media only screen and (min-width: 481px) and (max-width: 1024px) {
+@media only screen and (max-width: 780px) {
   .header-inner .Header .titlewrapper,
   .header-inner .Header .descriptionwrapper {
     padding-left: 0;
