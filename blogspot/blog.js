@@ -15,6 +15,7 @@ window.onload = function() {
     addHoverForLinks();
     addHoverOnExpander();
     addHashtags();
+	
 		
 	// Window events (FAB events at end)
 	window.onscroll = function() {
@@ -769,4 +770,13 @@ function switchToButton(id) {
 function goToTop() {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
+}
+
+function hideImagesOnError() {
+	for(let image of document.getElementsByTagName('img') {
+		image.addEventListener('error', function() {
+			// image.parentElement.parentElement.style.display = 'none';
+			image.classList.add('failed');
+		});
+	}
 }

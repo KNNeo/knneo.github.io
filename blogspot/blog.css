@@ -4,6 +4,10 @@
 }
 
 /*Klassic Note: Website Additions*/
+.failed {
+	display: none;
+	border: 0;
+}
 
 .flip-arrow {
   transform: rotate(180deg);
