@@ -21,7 +21,6 @@ function removeContentDimensions() {
 	|| document.body.style.maxWidth != ''
 	|| document.body.style.maxHeight != '')
 		setTimeout(removeContentDimensions, 200);
-		
 }
 
 //add back button to each page
@@ -32,7 +31,6 @@ function goBack() {
 
 //add viewer in place of lightbox
 let viewer = document.getElementById('viewer');
-//viewer.addEventListener('click', closeViewer);
 viewer.addEventListener('contextmenu', function(e) {
 	e.preventDefault();
 	return false;
@@ -62,14 +60,12 @@ function updateImageNo(image) {
 }
 
 function openViewer() {
-	//if(!enableViewer) return;
 	document.getElementById('viewer').style.display = 'block';
 	openImageInViewer(this);
 }
 
 function openImageInViewer(image) {
 	let imgNo = updateImageNo(image);
-	
 	let viewer = document.getElementById('viewer');
 	let viewerPrev = document.createElement('div');
 	viewerPrev.id = 'viewer-prev';
@@ -83,10 +79,6 @@ function openImageInViewer(image) {
 	img.classList = thumbnail.classList;
 	img.src = thumbnail.href;
 	img.title = thumbnail.title;
-	// if(window.innerHeight > window.innerWidth && img.getBoundingClientRect().width < window.innerWidth)
-		// img.style.width = 'inherit'; //portrait
-	// if(window.innerHeight <= window.innerWidth && img.getBoundingClientRect().height >= window.innerHeight)
-		// img.style.height = 'inherit'; //landscape
 	img.style.maxHeight = '100%';
 	img.style.maxWidth = '100%';
 	img.style.visibility = 'hidden';
@@ -95,9 +87,7 @@ function openImageInViewer(image) {
 	viewer.appendChild(viewerPrev);
 	viewer.appendChild(viewerNext);
 	viewer.appendChild(img);
-	
 	adjustViewerMargin();
-	
 	img.style.visibility = '';
 	
 	if(imgNo-1 >= 0)
@@ -139,7 +129,5 @@ for (let image of document.getElementsByTagName('img'))
 			e.preventDefault();
 		});
 		image.parentElement.addEventListener('click', openViewer);
-		//image.parentElement.href = 'javascript:void(0)';
-		//image.parentElement.setAttribute('target', '_blank');
 	}
 }
