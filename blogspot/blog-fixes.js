@@ -1,9 +1,11 @@
 //fix urls disable if search on blog
 for(let url of document.getElementsByTagName('a'))
 {
+	let origin = window.location.origin;
+	if(!url.href.includes(origin)) continue;
 	if(url.href.includes('search?q=')) url.href = 'javascript:void(0)';
-	if(url.href.includes('https://knwebreports.blogspot.com/') && url.innerText != "Blogger")
-		url.href = url.href.replace('https://knwebreports.blogspot.com/','../../');
+	if(url.innerText != "Blogger")
+		url.href = url.href.replace(origin,'../../');
 }
 
 //fix urls to local if navigating to blog
