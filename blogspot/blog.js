@@ -775,10 +775,11 @@ function goToTop() {
 
 function hideImagesOnError() {
 	for(let image of document.getElementsByTagName('img')) {
-		image.style.display = image.complete ? '' : 'none';
+		// image.style.display = image.complete ? '' : 'none';
 		// image.addEventListener('error', function() {
 			// image.parentElement.parentElement.style.display = 'none';
 			// image.classList.add('failed');
 		// });
+		image.src = '../../../../resources/spacer.gif';
 	}
 }
