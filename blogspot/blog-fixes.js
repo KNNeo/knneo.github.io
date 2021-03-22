@@ -5,7 +5,7 @@ for(let url of document.getElementsByTagName('a'))
 	if(!url.href.includes(origin)) continue;
 	if(url.href.includes('search?q=')) url.href = 'javascript:void(0)';
 	if(url.innerText != "Blogger")
-		url.href = url.href.replace(origin,'../../');
+		url.href = url.href.replace(origin,'../..');
 }
 
 //fix urls to local if navigating to blog
