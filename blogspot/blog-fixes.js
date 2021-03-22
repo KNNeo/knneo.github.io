@@ -4,7 +4,7 @@ for(let url of document.getElementsByTagName('a'))
 	if(!url.href.includes('https://knwebreports.blogspot.com/')) continue;
 	if(url.href.includes('search?q=')) url.href = 'javascript:void(0)';
 	if(url.innerText != "Blogger")
-		url.href = url.href.replace('https://knwebreports.blogspot.com/','../../');
+		url.href = url.href.replace('https://knwebreports.blogspot.com/', '../../');
 }
 
 //fix urls to local if navigating to blog
