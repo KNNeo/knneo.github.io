@@ -773,7 +773,7 @@ function goToTop() {
 }
 
 function hideImagesOnError() {
-	for(let image of document.getElementsByTagName('img') {
+	for(let image of document.getElementsByTagName('img')) {
 		image.addEventListener('error', function() {
 			// image.parentElement.parentElement.style.display = 'none';
 			image.classList.add('failed');
