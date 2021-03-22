@@ -780,6 +780,6 @@ function hideImagesOnError() {
 			// image.parentElement.parentElement.style.display = 'none';
 			// image.classList.add('failed');
 		// });
-		image.src = '../../../../resources/spacer.gif';
+		image.src = 'https://knneo.github.io/resources/spacer.gif';
 	}
 }
