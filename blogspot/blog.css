@@ -449,9 +449,6 @@ input.gsc-input {
     color: white;
     text-decoration: none;
   }
-  #footer-1 {
-    margin: 0;
-  }
   #header-inner {
     padding-left: 10px;
     padding-right: 10px;
@@ -500,12 +497,12 @@ input.gsc-input {
     background-image: linear-gradient(to left, black, transparent);
     height: 68px;
   }
-  span#blog-pager-newer-link {
+/*   span#blog-pager-newer-link {
     left: 0;
   }
   span#blog-pager-older-link {
     right: 0;
-  }
+  } */
   div#blog-pager.blog-pager {
     /* padding: 0 1em 1em 0; */
     margin: 0;
