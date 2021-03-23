@@ -44,7 +44,7 @@ window.onload = function() {
 		}
 		if (document.body.scrollTop > document.documentElement.clientHeight || 
 			document.documentElement.scrollTop > document.documentElement.clientHeight) {
-			switchToButton('GoToTopBtn');
+			switchToButton('');
 		} else {
 			switchToButton('SearchBtn');
 		}
@@ -765,13 +765,14 @@ function toggleSidebar() {
 }
 
 function switchToButton(id) {
+	if(id == '') return;
 	let buttons = ['GoToTopBtn','SearchBtn'];
 	for(let button of buttons)
 	{
 		if(document.getElementById(button) != null) document.getElementById(button).style.visibility = 'hidden';
 	}
 	if(id != 'SearchBtn') document.getElementById(id).style.visibility = 'visible';
-	else if (!window.location.href.includes("knneo.github.io")) document.getElementById('SearchBtn').style.visibility = 'visible';
+	else if (window.location.href.includes("knwebreports.blogspot")) document.getElementById('SearchBtn').style.visibility = 'visible';
 }
 
 function goToTop() {
