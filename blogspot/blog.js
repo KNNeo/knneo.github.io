@@ -42,6 +42,12 @@ window.onload = function() {
 		else {
 			document.body.style.visibility = '';	
 		}
+		if (document.body.scrollTop > document.documentElement.clientHeight || 
+			document.documentElement.scrollTop > document.documentElement.clientHeight) {
+			switchToButton('GoToTopBtn');
+		} else {
+			switchToButton('SearchBtn');
+		}
 		closePopups();
 	};
 };
