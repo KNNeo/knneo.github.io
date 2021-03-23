@@ -1,5 +1,6 @@
 // Single onLoad event control: put all functions in sequence
 window.onpageshow = function() {
+	// To be in sequence unless otherwise
 	loadExternal();
 	addObjects();
     preloadSequence();
@@ -16,34 +17,10 @@ window.onpageshow = function() {
     addHoverOnExpander();
     addHashtags();
 	// hideImagesOnError();
-	
-		
-	// Window events (FAB events at end)
-	window.onscroll = function() {
-		// When the user scrolls down to half of viewport from the top of the document, change floating action button
-		if (document.body.scrollTop > document.documentElement.clientHeight || 
-			document.documentElement.scrollTop > document.documentElement.clientHeight) {
-			switchToButton('GoToTopBtn');
-		} else {
-			switchToButton('SearchBtn');
-		}
-	};
 
-	window.onresize = function() {
-		if (document.getElementById('sidebarOverlay') != null && document.getElementById('sidebarOverlay').style.display != 'none')	
-			toggleSidebar();
-		if (window.innerWidth >= 1040) {
-			document.getElementById('LinkList1').style.display = '';
-			document.getElementById('BlogArchive1').style.display = '';	
-		}
-		if(window.innerWidth <= 320) {
-			document.body.style.visibility = 'hidden';
-		}
-		else {
-			document.body.style.visibility = '';	
-		}
-		closePopups();
-	};
+	// Window events
+	window.onscroll = displayFAB;
+	window.onresize = windowOnResize;
 };
 
 // FUNCTIONS, in above order //
@@ -587,14 +564,10 @@ function closePopups() {
 			popup.classList.remove('new-thumbnail');
 		}
 	}
-	if (document.body.scrollTop > document.documentElement.clientHeight || 
-			document.documentElement.scrollTop > document.documentElement.clientHeight) {
-			switchToButton('GoToTopBtn');
-		} else {
-			switchToButton('SearchBtn');
-		}
-	if(document.getElementById('CloseBtn') != null) document.getElementById('CloseBtn').style.visibility = 'hidden';
+	if(document.getElementById('CloseBtn') != null)
+		document.getElementById('CloseBtn').style.visibility = 'hidden';
 	
+	displayFAB();
 }
 
 function renderPopup() {
@@ -790,4 +763,29 @@ function hideImagesOnError() {
 	}
 }
 
+function displayFAB() {
+	// When the user scrolls down to half of viewport from the top of the document, change floating action button
+	if (document.body.scrollTop > document.documentElement.clientHeight || 
+		document.documentElement.scrollTop > document.documentElement.clientHeight) {
+		switchToButton('GoToTopBtn');
+	} else {
+		switchToButton('SearchBtn');
+	}
+}
 
+function windowOnResize() {
+	if (document.getElementById('sidebarOverlay') != null && 
+		document.getElementById('sidebarOverlay').style.display != 'none')	
+		toggleSidebar();
+	if (window.innerWidth >= 1040) {
+		document.getElementById('LinkList1').style.display = '';
+		document.getElementById('BlogArchive1').style.display = '';	
+	}
+	if(window.innerWidth <= 320) {
+		document.body.style.visibility = 'hidden';
+	}
+	else {
+		document.body.style.visibility = '';	
+	}
+	closePopups();
+};

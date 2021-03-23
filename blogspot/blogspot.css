@@ -52,20 +52,13 @@ a#BackBtn {
 	cursor: pointer;
 	padding: 8px 6px 6px 6px;
 	border-radius: 7px;
-}
-
-a#BackBtn {
 	-webkit-user-select: none;
 	-khtml-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
-}
-
-a#BackBtn {
 	border: 1px solid lightgray;
 	background-color: #000000;
-	/* padding: 10px; */
 	box-shadow: 3px 3px;
 	border-radius: 8px;
 }
