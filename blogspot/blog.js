@@ -587,7 +587,12 @@ function closePopups() {
 			popup.classList.remove('new-thumbnail');
 		}
 	}
-	switchToButton('GoToTopBtn');
+	if (document.body.scrollTop > document.documentElement.clientHeight || 
+			document.documentElement.scrollTop > document.documentElement.clientHeight) {
+			switchToButton('GoToTopBtn');
+		} else {
+			switchToButton('SearchBtn');
+		}
 	if(document.getElementById('CloseBtn') != null) document.getElementById('CloseBtn').style.visibility = 'hidden';
 	
 }
