@@ -19,7 +19,15 @@ window.onpageshow = function() {
 	
 		
 	// Window events (FAB events at end)
-	window.onscroll = windowOnScroll();
+	window.onscroll = function() {
+		// When the user scrolls down to half of viewport from the top of the document, change floating action button
+		if (document.body.scrollTop > document.documentElement.clientHeight || 
+			document.documentElement.scrollTop > document.documentElement.clientHeight) {
+			switchToButton('GoToTopBtn');
+		} else {
+			switchToButton('SearchBtn');
+		}
+	};
 
 	window.onresize = function() {
 		if (document.getElementById('sidebarOverlay') != null && document.getElementById('sidebarOverlay').style.display != 'none')	
@@ -777,12 +785,4 @@ function hideImagesOnError() {
 	}
 }
 
-function windowOnScroll() {
-		// When the user scrolls down to half of viewport from the top of the document, change floating action button
-		if (document.body.scrollTop > document.documentElement.clientHeight || 
-			document.documentElement.scrollTop > document.documentElement.clientHeight) {
-			switchToButton('GoToTopBtn');
-		} else {
-			switchToButton('SearchBtn');
-		}
-	}
+
