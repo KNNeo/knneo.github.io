@@ -7,9 +7,6 @@ for(let url of document.getElementsByTagName('a'))
 		url.href = url.href.replace('https://knwebreports.blogspot.com/', '../../');
 }
 
-//fix urls to local if navigating to blog
-
-
 //fix image width adjustment breaking contents width
 function removeContentDimensions() {
 	document.getElementById('contents').style.maxWidth = '';

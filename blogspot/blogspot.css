@@ -18,6 +18,10 @@ body {
   }
 }
 
+a {
+	color: #00e4ff;
+}
+
 #contents {
 	max-width: 800px;
 	margin: auto;
@@ -27,16 +31,8 @@ body {
 	margin: auto;
 }
 
-a {
-	color: #00e4ff;
-}
-
 #tags a {
 	cursor: pointer;
-}
-
-.TheStatement {
-	display: none;
 }
 
 a#BackBtn {
@@ -72,22 +68,27 @@ a#SidebarBtn, a#SearchBtn {
 	display: none;
 }
 
-/*Fixes from Blogger*/
-.tr-caption {
-	font-size: 0.7em;
+.TheStatement {
+	display: none;
 }
 
+/*Fixes from Blogger*/
 h2 {
 	margin: 0;
-}
-
-.published {
-	text-transform: uppercase;
 }
 
 table.tr-caption-container {
     padding: 4px;
     margin-bottom: .5em;
+}
+
+.tr-caption {
+	font-size: 0.7em;
+}
+
+
+.published {
+	text-transform: uppercase;
 }
 
 /* .material-icons {
