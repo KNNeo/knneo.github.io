@@ -940,13 +940,16 @@
 		"id":"TakahashiRie",
 		"image":"https://knneo.webs.com/takahashirie.jpg",
 		"landscapes":[
+			"https://image.news.livedoor.com/newsimage/stf/3/b/3b0c8405c0aea2086620bf77f87bb3a1.jpg",
 			"https://img2.animatetimes.com/2021/01/600eb3d2526a3_9cc990dc0032fa7f0bb9658db21591b0.jpg",
 			"https://storage.mantan-web.jp/images/2020/12/24/20201224dog00m200069000c/003_size6.jpg",
 			"https://pbs.twimg.com/media/Eqg_fdKUcAA8pWh?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EnRutASVQAA7vAs?format=jpg&name=small",
 			"https://pbs.twimg.com/media/Ea3D2PhU8AED1v4?format=jpg&name=small"
 		],
-		"portraits":[],
+		"portraits":[
+			"https://image.news.livedoor.com/newsimage/stf/8/b/8b370bca084af8d99268993bef7c56ba.jpg"
+		],
 		"name":"Takahashi Rie",
 		"nickname":"Rieri",
 		"dob":"1994.02.27",
