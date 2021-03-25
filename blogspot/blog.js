@@ -663,9 +663,10 @@ function generatePopupContent(url) {
 
 // Add hashtags for Entertainment News posts with anchors
 function addHashtags() {
-	if(document.getElementById("hashtags") == null) return;
-	if(document.getElementById("hashtags").childElementCount > 0)
-		document.getElementById("hashtags").innerHTML = '';
+	let hashTag = document.getElementById("hashtags");
+	if(hashTag == null) return;
+	if(hashTag.childElementCount > 0)
+		hashTag.innerHTML = '';
 	
 	var hashtags = [];
 	for(var topic of document.getElementsByClassName("anime"))
@@ -689,7 +690,7 @@ function addHashtags() {
 		newItem.addEventListener('click', function() {
 			document.getElementById(this.title).scrollIntoView();
 		});
-		document.getElementById("hashtags").appendChild(newItem);
+		hashTag.appendChild(newItem);
 	}
 }
 
@@ -706,34 +707,40 @@ function toggleSearch() {
 
 function toggleSidebar() {
     let outer = document.getElementsByClassName('main-inner')[0].getElementsByClassName('column-left-outer')[0];
-    if (document.getElementById('sidebarOverlay') == undefined) {
-        let sidebarOverlay = document.createElement('div');
-        sidebarOverlay.id = 'sidebarOverlay';
-        sidebarOverlay.style.display = 'none';
-        sidebarOverlay.style.backgroundColor = 'black';
-        sidebarOverlay.style.position = 'fixed';
-        sidebarOverlay.style.opacity = 0.5;
-        sidebarOverlay.style.width = '100%';
-        sidebarOverlay.style.height = '120%';
-        sidebarOverlay.style.bottom = 0;
-        sidebarOverlay.style.top = 0;
-        sidebarOverlay.style.left = 0;
-        sidebarOverlay.style.zIndex = 8;
-        outer.parentElement.appendChild(sidebarOverlay);
+    outer.style.position = toggleStyle(outer, 'fixed');
+	
+    if (document.getElementById('SidebarOverlay') == undefined) {
+        let SidebarOverlay = document.createElement('div');
+        SidebarOverlay.id = 'SidebarOverlay';
+        SidebarOverlay.style.display = 'none';
+        outer.parentElement.appendChild(SidebarOverlay);
     }
-    document.getElementById('sidebarOverlay').style.display = document.getElementById('sidebarOverlay').style.display == 'none' ? '' : 'none';
-    document.getElementById('SidebarBtn').getElementsByTagName('i')[0].innerText = document.getElementById('SidebarBtn').getElementsByTagName('i')[0].innerText == 'menu' ? 'menu_open' : 'menu';
-    let aside = outer.getElementsByClassName('column-left-inner')[0].getElementsByTagName('aside')[0];
-    outer.style.position = outer.style.position == '' ? 'fixed' : '';
+	else {
+		document.getElementById('SidebarOverlay').style.display = toggleStyle(document.getElementById('SidebarOverlay'), 'none');
+	}
+	
+	let menuStatus = document.getElementById('SidebarBtn').getElementsByTagName('i')[0];
+	menuStatus.innerText = menuStatus.innerText == 'menu' ? 'menu_open' : 'menu';
+	
     let iconLeft = window.innerWidth >= 780 ? '5px' : '0';
     outer.style.left = outer.style.left == '' ? iconLeft : '';
+	
     let iconBottom = window.innerWidth >= 780 ? '78px' : '60px';
     outer.style.bottom = outer.style.bottom == '' ? iconBottom : '';
     outer.style.margin = outer.style.margin == '' ? 'auto' : '';
     outer.style.zIndex = outer.style.zIndex != 9 ? 9 : '';
-    aside.style.display = aside.style.display == '' ? 'block' : '';
-    if (window.innerHeight <= 480) document.getElementById('LinkList1').style.display = document.getElementById('LinkList1').style.display == '' ? 'none' : '';
-    if (window.innerHeight <= 960) document.getElementById('BlogArchive1').style.display = document.getElementById('BlogArchive1').style.display == '' ? 'none' : '';
+	
+    let aside = outer.getElementsByClassName('column-left-inner')[0].getElementsByTagName('aside')[0];
+    aside.style.display = toggleStyle(aside, 'block');
+	
+    if (window.innerHeight <= 480)
+		document.getElementById('LinkList1').style.display = toggleStyle(document.getElementById('LinkList1'), 'none');
+    if (window.innerHeight <= 960)
+		document.getElementById('BlogArchive1').style.display = toggleStyle(document.getElementById('BlogArchive1'), 'none');
+}
+
+function toggleStyle(element, defaultValue) {
+	return element.style.display == '' ? defaultValue : '';
 }
 
 function switchToButton(id) {
@@ -754,11 +761,11 @@ function goToTop() {
 
 function hideImagesOnError() {
 	for(let image of document.getElementsByTagName('img')) {
-		// image.style.display = image.complete ? '' : 'none';
-		// image.addEventListener('error', function() {
-			// image.parentElement.parentElement.style.display = 'none';
-			// image.classList.add('failed');
-		// });
+		image.style.display = image.complete ? '' : 'none';
+		image.addEventListener('error', function() {
+			image.parentElement.parentElement.style.display = 'none';
+			image.classList.add('failed');
+		});
 		image.src = 'https://knneo.github.io/resources/spacer.gif';
 	}
 }
@@ -774,18 +781,13 @@ function displayFAB() {
 }
 
 function windowOnResize() {
-	if (document.getElementById('sidebarOverlay') != null && 
-		document.getElementById('sidebarOverlay').style.display != 'none')	
+	if (document.getElementById('SidebarOverlay') != null && 
+		document.getElementById('SidebarOverlay').style.display != 'none')	
 		toggleSidebar();
 	if (window.innerWidth >= 1040) {
 		document.getElementById('LinkList1').style.display = '';
 		document.getElementById('BlogArchive1').style.display = '';	
 	}
-	if(window.innerWidth <= 320) {
-		document.body.style.visibility = 'hidden';
-	}
-	else {
-		document.body.style.visibility = '';	
-	}
+	document.body.style.visibility = window.innerWidth <= 320 ? 'hidden' : '';
 	closePopups();
 };
