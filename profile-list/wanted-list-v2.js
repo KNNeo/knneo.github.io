@@ -243,7 +243,15 @@ function getAge(DOB) {
 	let birthDate = birthDateStr.substring(0, 10);
 	let offsetMinutes = moment().utcOffset() - moment.tz(timezone).utcOffset();
 	let diff = moment().diff(moment(birthDate));
-	return moment.duration(diff).subtract(offsetMinutes, 'minutes').years();
+	return moment.duration(diff).subtract(offsetMinutes, 'minutes').add(1,'days').years();
+}
+
+function checkBirthdayPassed(DOB) {
+	let offsetMinutes = moment().utcOffset() - moment.tz(timezone).utcOffset();
+	let diff = moment().diff(moment(DOB));
+	let timeDiff = moment.duration(diff).subtract(offsetMinutes, 'minutes');
+	return timeDiff.days() >= 0 && timeDiff.hours() >= 0 && timeDiff.minutes() >= 0 && timeDiff.seconds() >= 0 && timeDiff.milliseconds() >= 0;
+	
 }
 
 //generate wanted list
@@ -423,10 +431,10 @@ function createCalendar(monthNo, DOBlist) {
 		let birthdayInYear = new Date(new Date().getFullYear(), new Date(item.date.replace('????', currentYear)).getMonth(), new Date(item.date.replace('????', currentYear)).getDate());
 		
 		let DOB = currentYear + item.date.substring(4);
-		let offsetMinutes = moment().utcOffset() - moment.tz(timezone).utcOffset();
-		let difference = moment().diff(moment(DOB));
-		let timeDiff = moment.duration(difference).subtract(offsetMinutes, 'minutes');
-		let IsBirthdayOver = timeDiff.days() >= 0 && timeDiff.hours() >= 0 && timeDiff.minutes() >= 0 && timeDiff.seconds() >= 0 && timeDiff.milliseconds() >= 0;
+		// let offsetMinutes = moment().utcOffset() - moment.tz(timezone).utcOffset();
+		// let difference = moment().diff(moment(DOB));
+		// let timeDiff = moment.duration(difference).subtract(offsetMinutes, 'minutes');
+		let IsBirthdayOver = checkBirthdayPassed(DOB);
 		// console.log(item.name, timeDiff.days(), timeDiff.hours(), timeDiff.minutes(), timeDiff.seconds(), timeDiff.milliseconds());
 		
 		let thisAge;
