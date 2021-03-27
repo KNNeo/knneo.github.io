@@ -229,6 +229,126 @@ let birthdayListJson =
 		"id":"Loberia",
 		"name":"Loberia",
 		"dob":"????.06.25"
+	},
+	{
+		"category":"vtuber",
+		"id":"UsadaPekora",
+		"name":"Usada Pekora",
+		"dob":"????.01.06"
+	},
+	{
+		"category":"vtuber",
+		"id":"NekomataOkayu",
+		"name":"Nekomata Okayu",
+		"dob":"????.01.22"
+	},
+	{
+		"category":"vtuber",
+		"id":"OmaruPolka",
+		"name":"Omaru Polka",
+		"dob":"????.01.30"
+	},
+	{
+		"category":"vtuber",
+		"id":"NekomataOkayu",
+		"name":"Nekomata Okayu",
+		"dob":"????.02.22"
+	},
+	{
+		"category":"vtuber",
+		"id":"SakuraMiko",
+		"name":"Sakura Miko",
+		"dob":"????.03.05"
+	},
+	{
+		"category":"vtuber",
+		"id":"HoshimachiSuisei",
+		"name":"Hoshimachi Suisei",
+		"dob":"????.03.22"
+	},
+	{
+		"category":"vtuber",
+		"id":"ShiranuiFlare",
+		"name":"Shiranui Flare",
+		"dob":"????.04.02"
+	},
+	{
+		"category":"vtuber",
+		"id":"AmaneKanata",
+		"name":"Amane Kanata",
+		"dob":"????.04.22"
+	},
+	{
+		"category":"vtuber",
+		"id":"TokinoSora",
+		"name":"Tokino Sora",
+		"dob":"????.05.15"
+	},
+	{
+		"category":"vtuber",
+		"id":"TsunomakiWatame",
+		"name":"Tsunomaki Watame",
+		"dob":"????.06.06"
+	},
+	{
+		"category":"vtuber",
+		"id":"KiryuCoco",
+		"name":"Kiryu Coco",
+		"dob":"????.06.17"
+	},
+	{
+		"category":"vtuber",
+		"id":"OozoraSubaru",
+		"name":"Oozora Subaru",
+		"dob":"????.07.02"
+	},
+	{
+		"category":"vtuber",
+		"id":"NatsuiroMatsuri",
+		"name":"Natsuiro Matsuri",
+		"dob":"????.07.22"
+	},
+	{
+		"category":"vtuber",
+		"id":"HonshouMarine",
+		"name":"Honshou Marine",
+		"dob":"????.07.30"
+	},
+	{
+		"category":"vtuber",
+		"id":"OokamiMio",
+		"name":"Ookami Mio",
+		"dob":"????.08.20"
+	},
+	{
+		"category":"vtuber",
+		"id":"ShirakamiFubuki",
+		"name":"Shirakami Fubuki",
+		"dob":"????.10.05"
+	},
+	{
+		"category":"vtuber",
+		"id":"HimemoriLuna",
+		"name":"Himemori Luna",
+		"dob":"????.10.10"
+	},
+	{
+		"category":"vtuber",
+		"id":"ShiroganeNoel",
+		"name":"Shirogane Noel",
+		"dob":"????.11.24"
+	},
+	{
+		"category":"vtuber",
+		"id":"MinatoAqua",
+		"name":"Minato Aqua",
+		"dob":"????.12.01"
+	},
+	{
+		"category":"vtuber",
+		"id":"MurasakiShion",
+		"name":"Murasaki Shion",
+		"dob":"????.12.08"
 	}
 ]
 

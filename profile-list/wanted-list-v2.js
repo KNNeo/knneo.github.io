@@ -443,9 +443,9 @@ function createCalendar(monthNo, DOBlist) {
 		else thisAge = item.currentAge + 1;
 		// console.log(item.name + "|" + item.currentAge);
 		if (thisAge == '??' && htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1 && htmlString.indexOf("<td>" + birthdayInYear.getDate() + "</td>") > -1 && item.name != "Me") //if no age
-			htmlString = htmlString.replace("<td>" + birthdayInYear.getDate() + "</td>", "<td style=\"color: " + setColour(item.category) + ";\"><div class=\"popitem\" style=\"padding: 1px;\">Happy Birthday <b>" + item.name + "</b>!!</div>" + birthdayInYear.getDate() + "</td>");
+			htmlString = htmlString.replace("<td>" + birthdayInYear.getDate() + "</td>", "<td style=\"color: " + setCalendarColour(item.category) + ";\"><div class=\"popitem\" style=\"padding: 1px;\">Happy Birthday <b>" + item.name + "</b>!!</div>" + birthdayInYear.getDate() + "</td>");
 		else if (htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1 && htmlString.indexOf("<td>" + birthdayInYear.getDate() + "</td>") > -1 && item.name != "Me") //normal
-			htmlString = htmlString.replace("<td>" + birthdayInYear.getDate() + "</td>", "<td style=\"color: " + setColour(item.category) + ";\"><div class=\"popitem\" style=\"padding: 1px;\"><b>" + item.name + "</b> turns " + thisAge + " (" + birthdayInYear.getDate() + " " + month[birthdayInYear.getMonth()].substring(0, 3) + ")</div>" + birthdayInYear.getDate() + "</td>");	
+			htmlString = htmlString.replace("<td>" + birthdayInYear.getDate() + "</td>", "<td style=\"color: " + setCalendarColour(item.category) + ";\"><div class=\"popitem\" style=\"padding: 1px;\"><b>" + item.name + "</b> turns " + thisAge + " (" + birthdayInYear.getDate() + " " + month[birthdayInYear.getMonth()].substring(0, 3) + ")</div>" + birthdayInYear.getDate() + "</td>");	
 		else if (thisAge == '??' && htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1) //overlap DOBs, if no age
 			htmlString = htmlString.replace("</div>" + birthdayInYear.getDate() + "</td>", "<br />Happy Birthday <b>" + item.name + "</b>!!</div>" + birthdayInYear.getDate() + "</td>");
 		else if (htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1) //overlap DOBs
@@ -466,24 +466,26 @@ function createCalendar(monthNo, DOBlist) {
 	return monthNo;
 }
 
-function setColour(categoryId) {
+function setCalendarColour(categoryId) {
 	//default list always first, so overlap is default color
 	switch(categoryId) {
-		case 'alterna': //alterna
+		case 'alterna':
 			return 'pink';
-		case 'doaxvv': //doaxvv
+		case 'doaxvv':
 			return 'lime';
+		case 'vtuber':
+			return 'gold';
 		default:
 			return 'cyan';
 	}
 }
 
 function addCalendarLegend() {
-	let categories = ['alterna','doaxvv','seiyuu'];
+	let categories = ['alterna','doaxvv','seiyuu','vtuber'];
 	document.getElementById('calendar-legend').innerHTML = '';
 	for(let category of categories) {
 		let legendColor = document.createElement('div');
-		legendColor.style.backgroundColor = setColour(category.toLowerCase());
+		legendColor.style.backgroundColor = setCalendarColour(category.toLowerCase());
 		legendColor.style.display = 'inline-block';
 		legendColor.style.height = '10px';
 		legendColor.style.width = '10px';
