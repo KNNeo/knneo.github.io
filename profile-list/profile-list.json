@@ -380,16 +380,17 @@
 		"profile":"Japanese Voice Actress",
 		"turningPoint":{
 			"soloDebut":"No*",
-			"swimsuitPhotobook":"No",
+			"swimsuitPhotobook":"No**",
 			"isMarried":"No"
 		},
 		"intro":"Because she's cute? And later from Anime \"Hyouka\" as Ibara Mayaka",
-		"description":"She is one of those few who I followed because she looks cute back in the day, and subsequently I've came to love her voice acting and singing. Her hosting that wine-drinking YouTube series** is just a bonus to see her talk about what she likes.",
+		"description":"She is one of those few who I followed because she looks cute back in the day, and subsequently I've came to love her voice acting and singing. Her hosting that wine-drinking YouTube series*** is just a bonus to see her talk about what she likes.",
 		"wantedLevel":"★★★★☆",
 		"wantedLevelComment":"Overall package, face and all",
 		"comments":[
-			"*Pity, isn't it? Listen to her character songs in Anime and you'll know what I mean.",
-			"**Called \"Kayanomi\", <a href=\"https://www.youtube.com/channel/UC0D6qi-Gr5RW7hqOvTEKmAw\">on YouTube</a>"
+			"*She released an original mini-album for her 10th anniversary as a voice actress, along with a photobook",
+			"*She has released several photobooks without swimsuits, including one for her 10th anniversary as a voice actress",
+			"***Titled \"Kayanomi\", <a href=\"https://www.youtube.com/channel/UC0D6qi-Gr5RW7hqOvTEKmAw\">on YouTube</a>"
 		]
 	},
 	{
@@ -428,7 +429,7 @@
 		"wantedLevel":"★★★★★",
 		"wantedLevelComment":"The perfect older sister",
 		"comments":[
-			"*Initially under KING AMUSEMENT CREATIVE (formerly together with King Records), and now under TOYS' FACTORY produced under Anime composers group Q-MHz; Latest song is for Anime \"Babylon\"",
+			"*Initially under KING AMUSEMENT CREATIVE (formerly together with King Records), and now under TOYS' FACTORY produced under Anime composers group Q-MHz",
 			"**To fellow voice actor Maeno Tomoaki",
 			"***Here's an example of <a href=\"https://twitter.com/mikakokomatsu/status/698835135022571520\">what she posted on one particular Valentine's Day</a>"
 		]
@@ -552,7 +553,7 @@
 		"comments":[
 			"*Technically yes in her 2nd photobook with a thin shirt, and yes later in an event-only photobook as seen <a href=\"https://twitter.com/Ayana_take/status/943700093781213184\">on Twitter</a>",
 			"**Married to fellow voice actor Kaji Yuki",
-			"***She is one of few who surpassed 1 million Twitter followers as a voice actor in Japan"
+			"***She is one of few who grew quickly to 1 million Twitter followers as a voice actor in Japan"
 		]
 	},
 	{
@@ -627,11 +628,13 @@
 		"image":"https://knneo.webs.com/yuukiaoi.jpg",
 		"landscapes":[
 			"https://hominis.media/2021/01/images/03_kumo01.jpg",
-			"https://storage.mantan-web.jp/images/2020/07/06/20200706dog00m200010000c/004_size6.jpg"
+			"https://storage.mantan-web.jp/images/2020/07/06/20200706dog00m200010000c/004_size6.jpg",
+			"https://img2.animatetimes.com/2019/01/003-18.jpg"
 			
 		],
 		"portraits":[
-			"https://www.tvguide.or.jp/wp/wp-content/uploads/2021/02/cus_210217_02.jpg"
+			"https://www.tvguide.or.jp/wp/wp-content/uploads/2021/02/cus_210217_02.jpg",
+			"https://img2.animatetimes.com/2019/01/015-2.jpg"
 		],
 		"name":"Yuuki Aoi",
 		"nickname":"-chan*",
@@ -804,7 +807,7 @@
 		"wantedLevel":"★★★★☆",
 		"wantedLevelComment":"Independent of friend influence",
 		"comments":[
-			"*Member of idol music group \"Earphones\" born from Anime \"Sore ga Seiyuu!\", solo music career under music label Nippon Columbia",
+			"*Member of idol music group \"Earphones\" born from Anime \"Sore ga Seiyuu!\"; Solo music career under music label Nippon Columbia, I reviewed <a href=\"https://knwebreports.blogspot.com/2021/03/the-klassic-note-review-202103.html\">her debut single</a>",
 			"**She technically did not appear half-naked in <a href=\"https://knwebreports.blogspot.com/2019/03/fourth-book-worth-of-photos-what.html\">her 1st photobook</a> despite the bath dip as mentioned in the interview",
 			"***Try her <a href=\"https://www.instagram.com/marika_kohno/\">Instagram account</a> and you'll get what I mean"
 		]
@@ -963,9 +966,9 @@
 		"intro":"From Anime \"Sore ga Seiyuu!\" as Ichinose Futaba, and later in \"Karakai Jouzu no Takagi-san\" as Takagi",
 		"description":"Her bubbly personality outside of Anime makes me smile, and with her appearances in Anime live events and in her own cooking livestream** makes her a popular girl all around. Naturally, I'm drawn to her appealing image.",
 		"wantedLevel":"★★★★☆",
-		"wantedLevelComment":"Not the best face I've seen but she is adorable",
+		"wantedLevelComment":"Not the best face I've seen but she is real adorable",
 		"comments":[
-			"*Part of idol group \"Earphones\" born from Anime \"Sore ga Seiyuu!\", solo music career under music label A-Sketch",
+			"*Part of idol group \"Earphones\" born from Anime \"Sore ga Seiyuu!\"; Solo music career under music label A-Sketch",
 			"**She hosts her own livestream sponsored by an online cooking website where she makes her own dishes, as much as she isn't good at it initially. Today this might be her hobby as seen from her Tweets."
 		]
 	},
@@ -1098,17 +1101,18 @@
 		"dobComment":"We're not supposed to know but it's",
 		"profile":"Japanese Voice Actress",
 		"turningPoint":{
-			"soloDebut":"Yes",
+			"soloDebut":"Yes**",
 			"swimsuitPhotobook":"No",
 			"isMarried":"No"
 		},
 		"intro":"From Game \"Alternative Girls\" as Sylvia Richter and later from Anime \"Assassination Classroom\" as Shiota Nagisa",
-		"description":"She is known for acting male characters, but it's when she voices females that shows out her best, in my opinion. Not talking about voice, she doesn't look half bad either. Her singing career** is really helping to improve her image on me.",
+		"description":"She is known for acting male characters, but it's when she voices females that shows out her best, in my opinion. Not talking about voice, she doesn't look half bad either. Her singing career*** is really helping to improve her image on me.",
 		"wantedLevel":"★★★★☆",
 		"wantedLevelComment":"Not really my type but she is growing in me",
 		"comments":[
 			"*More commonly referred to as \"MaiMai\"",
-			"**Most notably in Klassic Note is \"<a href=\"https://www.youtube.com/watch?v=NEBbw_HftRA\">BLACK CAT</a>\" where in the music video she cosplays as a cat girl"
+			"**Under music label Lantis",
+			"***Most notably in Klassic Note is \"<a href=\"https://www.youtube.com/watch?v=NEBbw_HftRA\">BLACK CAT</a>\" where in the music video she cosplays as a cat girl"
 		]
 	},
 	{
@@ -1167,13 +1171,13 @@
 			"swimsuitPhotobook":"No",
 			"isMarried":"No"
 		},
-		"intro":"From Anime \"Just Because!\" as Natsume Mio",
+		"intro":"From Anime \"Just Because!\" as Natsume Mio and later in Game \"IDOLMASTER: Shiny Colors\" as Tsukioka Kogane",
 		"description":"Once you realise who she is behind Anime and know how lovely she is beyond everything else, you will not stop liking her, just like I did. She just needs more Anime roles though, been working on games and that idol unit may not be enough exposure.",
 		"wantedLevel":"★★★★☆",
 		"wantedLevelComment":"I need more reasons to like her more",
 		"comments":[
 			"*More commonly referred to as \"Karirin\" but \"Karin-chan\" is also popular",
-			"**Part of five-member idol group BlooDye"
+			"**Part of five-member idol group BlooDye and four-member idol group Healer Girls"
 		]
 	},
 	{
@@ -1214,7 +1218,7 @@
 		"comments":[
 			"*People like to call her \"Ibuking\" I don't know. That's how she came up with her Twitter account name, I guess.",
 			"**Part of idol group \"everying!\" with Yamasaki Erii",
-			"***I reviewed her <a href=\"https://knwebreports.blogspot.com/2019/05/fifth-book-worth-of-photos-tsundere-who.html\">1st photobook without swimsuits</a> which got a re-release the following year"
+			"***I reviewed her <a href=\"https://knwebreports.blogspot.com/2019/05/fifth-book-worth-of-photos-tsundere-who.html\">1st photobook without swimsuits</a> which got a remaster the following year"
 		]
 	},
 	{
@@ -1438,9 +1442,13 @@
 		"id":"OonishiSaori",
 		"image":"https://knneo.webs.com/oonishisaori.jpg",
 		"landscapes":[
-			"https://pbs.twimg.com/media/ENcGUThUYAAavVR?format=jpg&name=small"			
+			"https://pbs.twimg.com/media/ENcGUThUYAAavVR?format=jpg&name=small",
+			"https://img2.animatetimes.com/2019/01/011-7.jpg",
+			"https://img2.animatetimes.com/2019/01/026-1.jpg"
 		],
-		"portraits":[],
+		"portraits":[
+			"https://www.imenterprise.jp/files/img/20201202121518.jpg"
+		],
 		"name":"Oonishi Saori",
 		"nickname":"-san*",
 		"dob":"1992.08.06",
