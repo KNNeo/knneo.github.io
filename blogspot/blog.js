@@ -338,6 +338,7 @@ else
 active = t;
 	    }
 if(active == null) return false;
+	else console.log(active);
 	    let nextActive = active.nextElementSibling;
 	    if(nextActive == null) nextActive = tn.firstElementChild;
 	    nextActive.classList.remove("thumbnail-pop");
