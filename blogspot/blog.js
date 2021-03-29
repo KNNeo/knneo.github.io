@@ -338,7 +338,7 @@ break;
 	    }
 	    for(let t of tc) {
 if(!t.classList.contains("thumbnail-pop"))
-nextActive.classList.add("thumbnail-pop");
+t.classList.add("thumbnail-pop");
 	    }
 if(active == null) return false;
 	else console.log(active);
