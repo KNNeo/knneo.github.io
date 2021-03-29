@@ -332,7 +332,7 @@ function switchThumbnails(tn) {
     let active = Array.from(tc).filter(t => !t.classList.contains("thumbnail-pop"));
     if(active.length == 1) {
 	    for(let t of tc) {
-		    tc.classList.remove("thumbnail-pop");
+		    t.classList.remove("thumbnail-pop");
 	    }
 	    let nextActive = active[0].nextElementSibling;
 	    if(nextActive == null) nextActive = tc.firstElementChild;
@@ -340,7 +340,7 @@ function switchThumbnails(tn) {
     }
     else return false;
     var initialVisible = true;
-    let heights = tc.map(t => t.offsetHeight);
+    let heights = Array.from(tc).map(t => t.offsetHeight);
     /*if (tc[0].style.visibility == "hidden") {
         tc[0].style.visibility = "visible";
         tc[1].style.visibility = "hidden";
