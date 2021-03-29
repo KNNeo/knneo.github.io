@@ -741,7 +741,7 @@ function toggleSearch() {
 
 function toggleSidebar() {
     let outer = document.getElementsByClassName('main-inner')[0].getElementsByClassName('column-left-outer')[0];
-    outer.style.position = toggleStyle(outer, 'fixed');
+    outer.style.position = toggleDisplay(outer, 'fixed');
 	
     if (document.getElementById('SidebarOverlay') == undefined) {
         let SidebarOverlay = document.createElement('div');
@@ -749,7 +749,8 @@ function toggleSidebar() {
         SidebarOverlay.style.display = 'none';
         outer.parentElement.appendChild(SidebarOverlay);
     }
-	document.getElementById('SidebarOverlay').style.display = toggleStyle(document.getElementById('SidebarOverlay'), 'none');
+	document.getElementById('SidebarOverlay').style.display = toggleDisplay(document.getElementById('SidebarOverlay'), 'none');
+	document.body.style.overflow = document.body.style.overflow == '' ? 'hidden' : '';
 	
 	let menuStatus = document.getElementById('SidebarBtn').getElementsByTagName('i')[0];
 	menuStatus.innerText = menuStatus.innerText == 'menu' ? 'menu_open' : 'menu';
@@ -763,15 +764,15 @@ function toggleSidebar() {
     outer.style.zIndex = outer.style.zIndex != 9 ? 9 : '';
 	
     let aside = outer.getElementsByClassName('column-left-inner')[0].getElementsByTagName('aside')[0];
-    aside.style.display = toggleStyle(aside, 'block');
+    aside.style.display = toggleDisplay(aside, 'block');
 	
     if (window.innerHeight <= 480)
-		document.getElementById('LinkList1').style.display = toggleStyle(document.getElementById('LinkList1'), 'none');
+		document.getElementById('LinkList1').style.display = toggleDisplay(document.getElementById('LinkList1'), 'none');
     if (window.innerHeight <= 960)
-		document.getElementById('BlogArchive1').style.display = toggleStyle(document.getElementById('BlogArchive1'), 'none');
+		document.getElementById('BlogArchive1').style.display = toggleDisplay(document.getElementById('BlogArchive1'), 'none');
 }
 
-function toggleStyle(element, defaultValue) {
+function toggleDisplay(element, defaultValue) {
 	return element.style.display == '' ? defaultValue : '';
 }
 
