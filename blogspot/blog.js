@@ -329,16 +329,18 @@ var closestClass = function(inputElement, targetClassName) {
 
 function switchThumbnails(tn) {
     var tc = tn.getElementsByClassName("thumbnail-initial");
-    let active = Array.from(tc).filter(t => !t.classList.contains("thumbnail-pop"));
-    if(active.length == 1) {
+    let active = null;
+    
 	    for(let t of tc) {
+if(t.classList.contains("thumbnail-pop"))
 		    t.classList.remove("thumbnail-pop");
+else
+active = t;
 	    }
-	    let nextActive = active[0].nextElementSibling;
-	    if(nextActive == null) nextActive = tc.firstElementChild;
+	    let nextActive = active.nextElementSibling;
+	    if(nextActive == null) nextActive = tn.firstElementChild;
 	    nextActive.classList.add("thumbnail-pop");
-    }
-    else return false;
+    
     var initialVisible = true;
     let heights = Array.from(tc).map(t => t.offsetHeight);
     /*if (tc[0].style.visibility == "hidden") {
