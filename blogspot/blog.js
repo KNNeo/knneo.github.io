@@ -303,7 +303,7 @@ var closestClass = function(inputElement, targetClassName) {
     return inputElement;
 }
 
-function switchThumbnails(tn) {
+/*function switchThumbnails(tn) {
     var tc = tn.getElementsByClassName("thumbnail-initial");
     var initialVisible = true;
     if (tc[0].style.visibility == "hidden") {
@@ -324,6 +324,41 @@ function switchThumbnails(tn) {
     if (popHeight - initialHeight > 50 || popHeight - initialHeight < -50)
         tn.style.height = (initialVisible ? initialHeight : popHeight) + 'px';
 
+    return false;
+}*/
+
+function switchThumbnails(tn) {
+    var tc = tn.getElementsByClassName("thumbnail-initial");
+    let active = tc.where(t => !t.classList.contains("thumbnail-pop"));
+    if(active.length == 1) {
+	    for(let t of tc) {
+		    tc.classList.remove("thumbnail-pop");
+	    }
+	    let nextActive = active[0].nextElementSibling;
+	    if(nextActive == null) nextActive = tc.firstElementChild;
+	    nextActive.classList.add("thumbnail-pop");
+    }
+    else return false;
+    var initialVisible = true;
+    let heights = tc.map(t => t.offsetHeight);
+    /*if (tc[0].style.visibility == "hidden") {
+        tc[0].style.visibility = "visible";
+        tc[1].style.visibility = "hidden";
+    } else if (tc[0].style.visibility == "" || tc[1].style.visibility == "") {
+        tc[0].style.visibility = "hidden";
+        tc[1].style.visibility = "visible";
+        initialVisible = false;
+    } else {
+        tc[0].style.visibility = "hidden";
+        tc[1].style.visibility = "visible";
+        initialVisible = false;
+    }
+
+    var initialHeight = tn.getElementsByClassName('thumbnail-initial')[0].offsetHeight;
+    var popHeight = tn.getElementsByClassName('thumbnail-pop')[0].offsetHeight;
+    if (popHeight - initialHeight > 50 || popHeight - initialHeight < -50)
+        tn.style.height = (initialVisible ? initialHeight : popHeight) + 'px';*/
+	tn.style.height = Math.max(...heights) + 'px';
     return false;
 }
 
