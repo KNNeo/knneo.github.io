@@ -337,6 +337,7 @@ if(t.classList.contains("thumbnail-pop"))
 else
 active = t;
 	    }
+if(active == null) return false;
 	    let nextActive = active.nextElementSibling;
 	    if(nextActive == null) nextActive = tn.firstElementChild;
 	    nextActive.classList.add("thumbnail-pop");
