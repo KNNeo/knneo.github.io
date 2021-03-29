@@ -278,23 +278,24 @@ function fixPopup() {
 
 // Multi-image thumbnail: Define max caption height, onclick event
 function setThumbnails() {
-    var allThumbnails = document.body.getElementsByClassName("thumbnail");
-    for (var i = 0; i < allThumbnails.length; i++) {
-        var firstElement = allThumbnails[i].getElementsByClassName('thumbnail-initial')[0];
+    let allThumbnails = document.body.getElementsByClassName("thumbnail");
+    for (let i = 0; i < allThumbnails.length; i++) {
+/*         var firstElement = allThumbnails[i].getElementsByClassName('thumbnail-initial')[0];
         if (firstElement == undefined) continue;
         var initialHeight = firstElement.offsetHeight;
         var popHeight = allThumbnails[i].getElementsByClassName('thumbnail-pop')[0].offsetHeight;
         allThumbnails[i].style.height = Math.max(initialHeight, popHeight) + 'px';
         if (popHeight - initialHeight > 50 || popHeight - initialHeight < -50)
-            allThumbnails[i].style.height = initialHeight + 'px';
-        var allThumbImages = allThumbnails[i].getElementsByTagName("img");
+            allThumbnails[i].style.height = initialHeight + 'px'; */
+		
+		allThumbnails[i].style.height = calculateThumbnailHeight(allThumbnails[i]) + 'px';
+        let allThumbImages = allThumbnails[i].getElementsByTagName("img");
         for (j = 0; j < allThumbImages.length; j++) {
             allThumbImages[j].onclick = function() {
                 switchThumbnails(closestClass(this, "thumbnail"));
             };
         }
-		let images = allThumbnails[i].getElementsByTagName("IMG");
-		for(let image of images) {
+		for(let image of allThumbImages) {
 			if(image.parentElement.tagName == "A") {
 				console.error("Thumbnail has image with link: Will prevent switchThumbnails from image click");
 				return;
@@ -326,10 +327,10 @@ function switchThumbnails(tn) {
 	if(nextActive == null) nextActive = tn.firstElementChild;
 	nextActive.classList.remove("thumbnail-pop");
 	// recalculate height if huge difference
-    var initialVisible = true;
-    let heights = Array.from(tc).map(t => t.offsetHeight);
-	let maxHeight = Math.max(...heights);
-	let minHeight = Math.min(...heights);
+    // var initialVisible = true;
+    // let heights = Array.from(tc).map(t => t.offsetHeight);
+	// let maxHeight = Math.max(...heights);
+	// let minHeight = Math.min(...heights);
     /*let tc = tn.getElementsByClassName("thumbnail-initial");
     if (tc[0].style.visibility == "hidden") {
         tc[0].style.visibility = "visible";
@@ -348,9 +349,16 @@ function switchThumbnails(tn) {
     var popHeight = tn.getElementsByClassName('thumbnail-pop')[0].offsetHeight;
     if (popHeight - initialHeight > 50 || popHeight - initialHeight < -50)
         tn.style.height = (initialVisible ? initialHeight : popHeight) + 'px';*/
-	if(maxHeight - minHeight > 50)
-		tn.style.height = maxHeight + 'px';
+	// if(maxHeight - minHeight > 50)
+	tn.style.height = calculateThumbnailHeight(tn) + 'px';
     return;
+}
+
+function calculateThumbnailHeight(thumbnailList) {
+    let tc = thumbnailList.getElementsByClassName("thumbnail-initial");
+    let heights = Array.from(tc).map(t => t.offsetHeight);
+	let maxHeight = Math.max(...heights);
+	return maxHeight || tc[0].offsetHeight;
 }
 
 // Responsive image resizing based on screen dimensions
