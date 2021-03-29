@@ -304,25 +304,30 @@ var closestClass = function(inputElement, targetClassName) {
 }
 
 function switchThumbnails(tn) {
-    var tc = tn.getElementsByClassName("thumbnail-initial");
+    let tc = tn.getElementsByClassName("thumbnail-initial");
     let active = null;
-	    for(let t of tc) {
-if(!t.classList.contains("thumbnail-pop")) {
-active = t;
-break;
-}
-	    }
-	    for(let t of tc) {
-if(!t.classList.contains("thumbnail-pop"))
-t.classList.add("thumbnail-pop");
-	    }
-if(active == null) return false;
-	    let nextActive = active.nextElementSibling;
-	    if(nextActive == null) nextActive = tn.firstElementChild;
-	    nextActive.classList.remove("thumbnail-pop");
+	// to identify active
+	for(let t of tc) {
+		if(!t.classList.contains("thumbnail-pop")) {
+			active = t;
+			break;
+		}
+	}
+	// to reset before setting new active
+	for(let t of tc) {
+		if(!t.classList.contains("thumbnail-pop"))
+		t.classList.add("thumbnail-pop");
+	}
+	if(active == null) return;
+	let nextActive = active.nextElementSibling;
+	if(nextActive == null) nextActive = tn.firstElementChild;
+	nextActive.classList.remove("thumbnail-pop");
 	
+	// recalculate height if huge difference
     var initialVisible = true;
     let heights = Array.from(tc).map(t => t.offsetHeight);
+	let maxHeight = Math.max(...heights);
+	let minHeight = Math.min(...heights);
     /*if (tc[0].style.visibility == "hidden") {
         tc[0].style.visibility = "visible";
         tc[1].style.visibility = "hidden";
@@ -340,8 +345,9 @@ if(active == null) return false;
     var popHeight = tn.getElementsByClassName('thumbnail-pop')[0].offsetHeight;
     if (popHeight - initialHeight > 50 || popHeight - initialHeight < -50)
         tn.style.height = (initialVisible ? initialHeight : popHeight) + 'px';*/
-	tn.style.height = Math.max(...heights) + 'px';
-    return false;
+	if(maxHeight - minHeight > 50)
+		tn.style.height = maxHeight + 'px';
+    return;
 }
 
 // Responsive image resizing based on screen dimensions
