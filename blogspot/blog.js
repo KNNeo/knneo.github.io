@@ -332,10 +332,10 @@ function switchThumbnails(tn) {
     let active = null;
     
 	    for(let t of tc) {
-if(!t.classList.contains("thumbnail-pop"))
-		    t.classList.add("thumbnail-pop");
-else
+if(t.classList.contains("thumbnail-pop"))
 active = t;
+else
+		    t.classList.add("thumbnail-pop");
 	    }
 if(active == null) return false;
 	else console.log(active);
