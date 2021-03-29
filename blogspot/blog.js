@@ -334,6 +334,11 @@ function switchThumbnails(tn) {
 	    for(let t of tc) {
 if(!t.classList.contains("thumbnail-pop"))
 active = t;
+break;
+	    }
+	    for(let t of tc) {
+if(!t.classList.contains("thumbnail-pop"))
+nextActive.classList.add("thumbnail-pop");
 	    }
 if(active == null) return false;
 	else console.log(active);
@@ -341,10 +346,6 @@ if(active == null) return false;
 	    if(nextActive == null) nextActive = tn.firstElementChild;
 	    nextActive.classList.remove("thumbnail-pop");
 	
-	    for(let t of tc) {
-if(!t.classList.contains("thumbnail-pop") && t != nextActive)
-nextActive.classList.add("thumbnail-pop");
-	    }
     
     var initialVisible = true;
     let heights = Array.from(tc).map(t => t.offsetHeight);
