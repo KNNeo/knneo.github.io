@@ -749,9 +749,7 @@ function toggleSidebar() {
         SidebarOverlay.style.display = 'none';
         outer.parentElement.appendChild(SidebarOverlay);
     }
-	else {
-		document.getElementById('SidebarOverlay').style.display = toggleStyle(document.getElementById('SidebarOverlay'), 'none');
-	}
+	document.getElementById('SidebarOverlay').style.display = toggleStyle(document.getElementById('SidebarOverlay'), 'none');
 	
 	let menuStatus = document.getElementById('SidebarBtn').getElementsByTagName('i')[0];
 	menuStatus.innerText = menuStatus.innerText == 'menu' ? 'menu_open' : 'menu';
