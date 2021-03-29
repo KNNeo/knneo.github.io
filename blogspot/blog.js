@@ -332,15 +332,15 @@ function switchThumbnails(tn) {
     let active = null;
     
 	    for(let t of tc) {
-if(t.classList.contains("thumbnail-pop"))
-		    t.classList.remove("thumbnail-pop");
+if(!t.classList.contains("thumbnail-pop"))
+		    t.classList.add("thumbnail-pop");
 else
 active = t;
 	    }
 if(active == null) return false;
 	    let nextActive = active.nextElementSibling;
 	    if(nextActive == null) nextActive = tn.firstElementChild;
-	    nextActive.classList.add("thumbnail-pop");
+	    nextActive.classList.remove("thumbnail-pop");
     
     var initialVisible = true;
     let heights = Array.from(tc).map(t => t.offsetHeight);
