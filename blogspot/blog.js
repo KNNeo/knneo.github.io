@@ -303,34 +303,9 @@ var closestClass = function(inputElement, targetClassName) {
     return inputElement;
 }
 
-/*function switchThumbnails(tn) {
-    var tc = tn.getElementsByClassName("thumbnail-initial");
-    var initialVisible = true;
-    if (tc[0].style.visibility == "hidden") {
-        tc[0].style.visibility = "visible";
-        tc[1].style.visibility = "hidden";
-    } else if (tc[0].style.visibility == "" || tc[1].style.visibility == "") {
-        tc[0].style.visibility = "hidden";
-        tc[1].style.visibility = "visible";
-        initialVisible = false;
-    } else {
-        tc[0].style.visibility = "hidden";
-        tc[1].style.visibility = "visible";
-        initialVisible = false;
-    }
-
-    var initialHeight = tn.getElementsByClassName('thumbnail-initial')[0].offsetHeight;
-    var popHeight = tn.getElementsByClassName('thumbnail-pop')[0].offsetHeight;
-    if (popHeight - initialHeight > 50 || popHeight - initialHeight < -50)
-        tn.style.height = (initialVisible ? initialHeight : popHeight) + 'px';
-
-    return false;
-}*/
-
 function switchThumbnails(tn) {
     var tc = tn.getElementsByClassName("thumbnail-initial");
     let active = null;
-    
 	    for(let t of tc) {
 if(!t.classList.contains("thumbnail-pop")) {
 active = t;
@@ -342,12 +317,10 @@ if(!t.classList.contains("thumbnail-pop"))
 t.classList.add("thumbnail-pop");
 	    }
 if(active == null) return false;
-	else console.log(active);
 	    let nextActive = active.nextElementSibling;
 	    if(nextActive == null) nextActive = tn.firstElementChild;
 	    nextActive.classList.remove("thumbnail-pop");
 	
-    
     var initialVisible = true;
     let heights = Array.from(tc).map(t => t.offsetHeight);
     /*if (tc[0].style.visibility == "hidden") {
