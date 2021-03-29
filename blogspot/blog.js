@@ -329,7 +329,7 @@ var closestClass = function(inputElement, targetClassName) {
 
 function switchThumbnails(tn) {
     var tc = tn.getElementsByClassName("thumbnail-initial");
-    let active = tc.where(t => !t.classList.contains("thumbnail-pop"));
+    let active = tc.filter(t => !t.classList.contains("thumbnail-pop"));
     if(active.length == 1) {
 	    for(let t of tc) {
 		    tc.classList.remove("thumbnail-pop");
