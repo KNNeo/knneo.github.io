@@ -340,6 +340,11 @@ if(active == null) return false;
 	    let nextActive = active.nextElementSibling;
 	    if(nextActive == null) nextActive = tn.firstElementChild;
 	    nextActive.classList.remove("thumbnail-pop");
+	
+	    for(let t of tc) {
+if(!t.classList.contains("thumbnail-pop") && t != nextActive)
+nextActive.classList.add("thumbnail-pop");
+	    }
     
     var initialVisible = true;
     let heights = Array.from(tc).map(t => t.offsetHeight);
