@@ -5,11 +5,12 @@
 
 /*Klassic Note: Website Additions*/
 #hashtags {
-width: 100%;
+	width: 100%;
 }
 
-#hashtags span {
-white-space: nowrap;
+#hashtags a {
+    display: inline-block;
+	white-space: nowrap;
 }
 
 #SidebarBtn {
