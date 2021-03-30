@@ -669,11 +669,11 @@ function generatePopupContent(url) {
 				url +
 				'"></a></blockquote><script async="async" charset="utf-8" src="https://platform.twitter.com/widgets.js" >\</script\>';
 		}
-		else {
+ 		/*else {
 			return '<a class="twitter-timeline" data-width="568" data-height="' + 0.6*window.innerHeight + '" href="' +
 				url +
 				'"></a><script async="async" charset="utf-8" src="https://platform.twitter.com/widgets.js" >\</script\>';
-		}
+		} */
     }
     if (url.includes('youtube.com') && url.includes('/watch')) {
         //process youtube embed
