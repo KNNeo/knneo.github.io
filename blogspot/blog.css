@@ -4,6 +4,14 @@
 }
 
 /*Klassic Note: Website Additions*/
+#hashtags {
+width: 100%;
+}
+
+#hashtags span {
+white-space: nowrap;
+}
+
 #SidebarBtn {
   position: fixed;
   display: none;
