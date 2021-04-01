@@ -1,9 +1,18 @@
 <Query Kind="Program">
+  <Reference>&lt;RuntimeDirectory&gt;\mscorlib.dll</Reference>
+  <Reference>&lt;RuntimeDirectory&gt;\System.Globalization.dll</Reference>
   <NuGetReference>Rock.Core.Newtonsoft</NuGetReference>
   <Namespace>Newtonsoft.Json</Namespace>
   <Namespace>Newtonsoft.Json.Linq</Namespace>
+  <Namespace>System</Namespace>
+  <Namespace>System.Globalization</Namespace>
 </Query>
 
+/* NOTE
+ * Collection starts from technically 16 Dec 2013
+ * Select all albums on Takeout
+ */
+ 
 void Main()
 {
 	//read
@@ -15,6 +24,7 @@ void Main()
 	var nameList = new List<string>();
 	var peopleList = new List<string>();
 	var namePeopleList = new List<string>();
+		namePeopleList.Add("Tag | Description | Time");
 	
 	//foreach json file
 	foreach(var f in files)
@@ -39,7 +49,7 @@ void Main()
 					nameList.Add(person.name);
 					peopleList.Add(jsonObj.description);
 					if(person.name.Trim() != jsonObj.description.Trim()) {
-						namePeopleList.Add(person.name + " | " + jsonObj.description + " | " + jsonObj.creationTime.formatted);
+						namePeopleList.Add(person.name + " | " + jsonObj.description + " | " + ParseGooglePhotosDateTime(jsonObj.photoTakenTime.formatted));
 					}
 				}
 			}
@@ -53,38 +63,38 @@ void Main()
 	//foreach name, count
 	foreach(var name in nameList)
 	{
-		if(names.Where(n => n.name == name).Count() > 0) continue;
+		if(names.Where(n => n.Tag == name).Count() > 0) continue;
 		else
 		{
 			names.Add(new Names{
-				name = name,
-				count = nameList.Where(n => n == name).Count()
+				Tag = name,
+				Count = nameList.Where(n => n == name).Count()
 			});
 		}
 	}
 	
 	foreach(var name in peopleList)
 	{
-		if(people.Where(n => n.name == name).Count() > 0) continue;
+		if(people.Where(n => n.Tag == name).Count() > 0) continue;
 		else
 		{
 			people.Add(new Names{
-				name = name,
-				count = nameList.Where(n => n == name).Count()
+				Tag = name,
+				Count = nameList.Where(n => n == name).Count()
 			});
 		}
 	}
 	
 	//views
 	//Console.WriteLine(names.OrderBy(n => n.name));
-	Console.WriteLine("Items, by tag name");
-	Console.WriteLine(people.OrderByDescending(n => n.count));
+	Console.WriteLine("Items, ordered by tag name count");
+	Console.WriteLine(people.OrderByDescending(n => n.Count));
 	
-	Console.WriteLine("Items without tags");
-	Console.WriteLine(jsonList.Where(n => n.people == null).OrderByDescending(n => n.creationTime.timestamp).Select(n =>
+	Console.WriteLine("Items without tags and/or items without face identified");
+	Console.WriteLine(jsonList.Where(n => n.people == null && n.photoTakenTime != null).OrderByDescending(n => n.photoTakenTime.timestamp).Select(n =>
 		new {
-			description = n.description,
-			time = n.creationTime.formatted
+			Description = n.description,
+			Time = ParseGooglePhotosDateTime(n.photoTakenTime.formatted)
 		}
 	));
 	
@@ -94,11 +104,21 @@ void Main()
 	//Console.WriteLine(jsonList.Where(n => n.description == "Anzai Chika" || (n.people != null && n.people.Any(p => p.name == "Anzai Chika"))));
 }
 
+string ParseGooglePhotosDateTime(string input) {
+	if(input.Contains("Sept")) input = input.Replace("Sept", "Sep");
+	return DateTimeOffset.ParseExact(
+				input.Replace(" UTC", "Z"),
+				"d MMM yyyy, HH:mm:ss %K", 
+				CultureInfo.InvariantCulture.DateTimeFormat, 
+				DateTimeStyles.AllowWhiteSpaces
+			).AddHours(8).ToString("dd MMM yyyy, HH:mm:ss") + " SGT";
+}
+
 // Define other methods and classes here
 public class Names
 {
-	public string name { get; set; }
-	public int count { get; set; }
+	public string Tag { get; set; }
+	public int Count { get; set; }
 }
 
 public class GooglePhotosMetadata 
@@ -106,7 +126,7 @@ public class GooglePhotosMetadata
 	public string title { get; set; }
 	public string description { get; set; }
 	public List<GooglePhotosMetadataPeople> people { get; set; }
-	public GooglePhotosMetadataCreationTime creationTime { get; set; }
+	public GooglePhotosMetadataCreationTime photoTakenTime { get; set; }
 }
 public class GooglePhotosMetadataPeople
 {
