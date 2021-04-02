@@ -165,6 +165,6 @@ function loadPreset(module) {
 	else if (categoryName == "Load People Sort Ranking")
 		window.location.href = "seiyuu-sort-utf8.html";
 	
-	text.innerHTML = loadedText.split(",");
+	text.value = loadedText.split(",");
 	text.name = module.innerText;
 }
