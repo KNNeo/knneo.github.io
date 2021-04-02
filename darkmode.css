@@ -13,10 +13,7 @@ html, div {
     border: 1px solid lightgray;
 }
 
-.darked a {
-	color: #00e4ff;
-}
-
+.darked a,
 .darked a:visited {
 	color: #00e4ff;
 }
@@ -29,17 +26,27 @@ html, div {
   background: #444444;
 }
 
-#darkmode {
-	-webkit-user-select: none; 
-	-ms-user-select: none; 
-	user-select: none; 
-}
-
 tr:hover > td {
 	background-color: lightgray;
 }
 .darked tr:hover {
 	background-color: gray;
+}
+	
+.settings {
+	text-align: center;
+}
+
+.settings a {
+	-webkit-user-select: none; 
+	-ms-user-select: none; 
+	user-select: none;
+	color: black;
+    text-decoration: none;	
+}
+
+.darked .settings a  {
+	color: white;
 }
 
 
@@ -59,7 +66,16 @@ tr:hover > td {
 		background-color: black;
 		color: white;
 		border: 1px solid lightgray;
-	}	
+	}
+	
+	.settings a {
+		color: white;
+		text-decoration: none;	
+	}
+
+	.darked .settings a  {
+		color: black;
+	}
 
 	.darked, .darked button, .darked textarea, .darked div {
 		background-color: white;
@@ -71,10 +87,6 @@ tr:hover > td {
 
 	.darked a:visited {
 		color: rgb(85, 26, 139);
-	}
-	
-	#viewer-prev, #viewer-next {
-		background-color: transparent;
 	}
 	
 	.darked .profile-category::-webkit-scrollbar-thumb {
