@@ -739,7 +739,7 @@ function generateTickboxFilter(labelArray) {
 		inputHTML.value = label;
 		inputHTML.innerText = label;
 		inputHTML.checked = false;
-		if(typeof defaultTag == 'number' && defaultTag >= 0)
+		if(typeof defaultTag == 'number' && defaultTag >= 0 && defaultTag < labelArray.length)
 			inputHTML.checked = label == labelArray[defaultTag];
 		if(typeof defaultTag == 'string') {
 			if(defaultTag.length == 0)
