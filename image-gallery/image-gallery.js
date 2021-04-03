@@ -625,7 +625,7 @@ function renderGallery(array) {
 		});
 	}
 	
-	document.getElementById('loadedCount').innerText = 0;
+	document.getElementById('loaderCount').innerText = 0;
 	// lowestHeight = 9999;
 	// highestHeight = 0;
 	setTimeout( function() { reloadImages(array); }, 500);
@@ -658,7 +658,7 @@ function reloadImages(array) {
 		}
 		if(image.complete)
 		{
-			document.getElementById('loadedCount').innerText = ++loadedImages;
+			document.getElementById('loaderCount').innerText = ++loadedImages;
 			if(image.width >= image.height && !image.classList.contains('landscape')) //if landscape
 			{
 				image.classList.remove('portrait');
@@ -897,18 +897,23 @@ function toggleDarkMode() {
 		document.getElementsByTagName('html')[0].classList.add('darked');	
 }
 
-function writeLoadedCount(number) {
+function writeLoadedCount(number) {	
+	let oldNumber = document.getElementById('loaderCount') == undefined ? -1 : parseInt(document.getElementById('loaderCount').innerText);
+	if(oldNumber >= 0 && number < oldNumber) return document.getElementById('loader');
+
 	let loader = document.createElement('h5');
+	loader.id = 'loader';
 	let loaderPrefix = document.createElement('span');
 	loaderPrefix.innerText = '[' + loaderTextPrefix;
 	loader.appendChild(loaderPrefix);
 	let loaderSpan = document.createElement('span');
-	loaderSpan.id = 'loadedCount';
+	loaderSpan.id = 'loaderCount';
 	loaderSpan.innerText = number ?? 0;
 	loader.appendChild(loaderSpan);
 	let loaderSuffix = document.createElement('span');
 	loaderSuffix.innerText = ']';
 	loader.appendChild(loaderSuffix);
+
 	return loader;
 }
 
