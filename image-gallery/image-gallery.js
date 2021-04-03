@@ -828,6 +828,15 @@ function renderFilter(element) {
 				newArray.push(img);
 		}
 	}
+	
+	if(newArray[0].length > 5 && imgArray[0][5] == 'DATE') { // As in yyyy/MM/dd
+		newArray.sort(function (a, b) {
+			let aDate = new Date(a[5]);
+			let bDate = new Date(b[5]);
+			return bDate - aDate;
+		});
+	}
+	
 	renderGallery(newArray);
 }
 
