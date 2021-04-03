@@ -47,8 +47,9 @@ for(let item of items) {
 		if(url.includes('?')) url = url.substring(0,url.indexOf('?'));
 		let newurl = url.replace('https://www.suruga-ya.jp/product/detail/','https://cdn.suruga-ya.jp/database/pics_light/game/').toLowerCase();
 		let tag = item.getElementsByClassName('title')[0].innerText.substring(0,item.getElementsByClassName('title')[0].innerText.indexOf('/'));
+		let date = item.getElementsByClassName('release_date')[0].innerText.replace('発売日：','');
 		let detail = item.getElementsByClassName('title')[0].innerText.substring(item.getElementsByClassName('title')[0].innerText.indexOf('/')+1);
-		list+= ("["+(counter++)+",'"+newurl+".jpg','portrait','"+tag+"','"+detail+"'],") + '\n';
+		list+= ("["+(counter++)+",'"+newurl+".jpg','"+date+"','"+tag+"','"+detail+"'],") + '\n';
 	}
 }
 
