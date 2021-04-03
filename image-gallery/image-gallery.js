@@ -18,7 +18,7 @@ let pageTitle = 'GALLERY'; //for tab, and top of page
 let pageCredit = ''; //does not hide, and will hide if empty
 let tagTitle = 'Girls';
 let selectAllTag = 'Select All';
-let defaultTag = 'Portrait'; //if empty or not in tags in array, will show all
+let defaultTag = ''; //if empty or not in tags in array, will show all
 let closeIconTitle = 'Close';
 let collapseFilterIconTitle = 'Collapse Filters';
 let expandFilterIconTitle = 'Expand Filters';
@@ -738,7 +738,15 @@ function generateTickboxFilter(labelArray) {
 		inputHTML.name = 'column' + label.replace(' ','');
 		inputHTML.value = label;
 		inputHTML.innerText = label;
-		inputHTML.checked = defaultTag.length > 0 ? label == defaultTag : true;
+		inputHTML.checked = false;
+		if(typeof defaultTag == 'number' && defaultTag >= 0)
+			inputHTML.checked = label == labelArray[defaultTag];
+		if(typeof defaultTag == 'string') {
+			if(defaultTag.length == 0)
+				inputHTML.checked = true;
+			else
+				inputHTML.checked = label == defaultTag;
+		}
 		labelHTML.insertBefore(inputHTML,labelHTML.childNodes[0]);
 		document.getElementById('name').appendChild(labelHTML);
 	}
