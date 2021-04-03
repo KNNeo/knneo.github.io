@@ -561,8 +561,8 @@ function unloadCurrentScripts() {
 
 function setupGallery() {
 	var labelArray = generateNameLabels(imgArray);
-	generateTickboxFilter(labelArray);
-	generateTickboxAction();
+	var noneSelected = generateTickboxFilter(labelArray);
+	generateTickboxAction(noneSelected);
 	renderGalleryScroll();
 	renderFilter(undefined);
 	//renderGallery(imgArray);
@@ -727,6 +727,7 @@ function generateNameLabels(imgArray) {
 }
 
 function generateTickboxFilter(labelArray) {
+	let noneSelected = false;
 	//generate tickboxes
 	for(let label of labelArray)
 	{
@@ -741,18 +742,21 @@ function generateTickboxFilter(labelArray) {
 		inputHTML.checked = false;
 		if(typeof defaultTag == 'number' && defaultTag >= 0 && defaultTag < labelArray.length)
 			inputHTML.checked = label == labelArray[defaultTag];
-		if(typeof defaultTag == 'string') {
+		else if(typeof defaultTag == 'string') {
 			if(defaultTag.length == 0)
 				inputHTML.checked = true;
 			else
 				inputHTML.checked = label == defaultTag;
 		}
+		if(inputHTML.checked) noneSelected = true;
 		labelHTML.insertBefore(inputHTML,labelHTML.childNodes[0]);
 		document.getElementById('name').appendChild(labelHTML);
 	}
+	
+	return noneSelected;	
 }
 
-function generateTickboxAction() {
+function generateTickboxAction(noneSelected) {
 	//add event listeners to tickboxes
 	document.getElementById('SelectAll').addEventListener('click', function () {
 		if(document.getElementById('SelectAll').checked == true)
@@ -781,6 +785,10 @@ function generateTickboxAction() {
 			renderFilter(this);
 			if(enableCollapseFilterOnSelect) document.getElementById('toggler').click();
 		});
+	}
+	if(!noneSelected && !document.getElementById('SelectAll').checked) {
+		console.error('defaultTag is not in list or in specified format: All is selected');
+		document.getElementById('SelectAll').click();
 	}
 }
 
