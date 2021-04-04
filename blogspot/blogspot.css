@@ -33,6 +33,7 @@ a {
 
 #tags a {
 	cursor: pointer;
+	white-space: nowrap;
 }
 
 a#BackBtn {
