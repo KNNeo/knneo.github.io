@@ -73,7 +73,7 @@
   border-radius: 7px;
 }
 
-#SidebarOverlay {
+#Overlay {
 	background-color: black;
 	position: fixed;
 	opacity: 0.5;

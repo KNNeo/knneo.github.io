@@ -588,8 +588,9 @@ function togglePopup() {
             }
         }
         this.classList.add('new-thumbnail');
-		switchToButton('CloseBtn');	
+		switchToButton('CloseBtn');
     }
+	toggleOverlay(document.getElementsByClassName('main-inner')[0] || document.getElementById('contents'));
 }
 
 function closePopups() {
@@ -602,6 +603,7 @@ function closePopups() {
 		document.getElementById('CloseBtn').style.visibility = 'hidden';
 	
 	displayFAB();
+	toggleOverlay();
 }
 
 function renderPopup() {
@@ -739,18 +741,24 @@ function toggleSearch() {
         document.getElementById('CustomBlogSearch').style.display = 'none';
 }
 
+function toggleOverlay(body) {
+    if (document.getElementById('Overlay') == undefined) {
+		let overlay = document.createElement('div');
+		overlay.id = 'Overlay';
+		overlay.style.display = 'none';
+		overlay.style.backgroundColor = 'transparent';
+		overlay.addEventListener('click',closePopups);
+		body.appendChild(overlay);
+	}
+	document.getElementById('Overlay').style.display = toggleDisplay(document.getElementById('Overlay'), 'none');
+	if(body.classList.contains('main-inner')) document.body.style.overflow = document.body.style.overflow == '' ? 'hidden' : '';
+}
+
 function toggleSidebar() {
-    let outer = document.getElementsByClassName('main-inner')[0].getElementsByClassName('column-left-outer')[0];
+    let outer = document.getElementsByClassName('main-inner')[0] || document.getElementById('contents');
     outer.style.position = toggleDisplay(outer, 'fixed');
 	
-    if (document.getElementById('SidebarOverlay') == undefined) {
-        let SidebarOverlay = document.createElement('div');
-        SidebarOverlay.id = 'SidebarOverlay';
-        SidebarOverlay.style.display = 'none';
-        outer.parentElement.appendChild(SidebarOverlay);
-    }
-	document.getElementById('SidebarOverlay').style.display = toggleDisplay(document.getElementById('SidebarOverlay'), 'none');
-	document.body.style.overflow = document.body.style.overflow == '' ? 'hidden' : '';
+    toggleOverlay(outer);
 	
 	let menuStatus = document.getElementById('SidebarBtn').getElementsByTagName('i')[0];
 	menuStatus.innerText = menuStatus.innerText == 'menu' ? 'menu_open' : 'menu';
@@ -814,8 +822,8 @@ function displayFAB() {
 }
 
 function windowOnResize() {
-	if (document.getElementById('SidebarOverlay') != null && 
-		document.getElementById('SidebarOverlay').style.display != 'none')	
+	if (document.getElementById('Overlay') != null && 
+		document.getElementById('Overlay').style.display != 'none')	
 		toggleSidebar();
 	if (window.innerWidth >= 1040) {
 		document.getElementById('LinkList1').style.display = '';
