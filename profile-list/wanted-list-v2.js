@@ -233,7 +233,8 @@ function daysFromMe() {
 function addAgeAfterDOB() {
 	let profile = profileList.filter(p => p.id === document.getElementById('profile').firstChild.id)[0];
 	let DOBspan = document.getElementById(profile.id).getElementsByClassName('DOB')[0];
-	let age = !profile.dob.includes('.') ? 0 : parseInt(getAge(profile.dob));
+	let age = profile.dob.includes('????') ? 0 : parseInt(getAge(profile.dob));
+	console.log(profile);
 	if (age != undefined && age > 0)
 		DOBspan.innerHTML = DOBspan.innerHTML.concat(" [").concat(age.toString()).concat(" years ago]");
 }
