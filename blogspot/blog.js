@@ -753,9 +753,12 @@ function toggleOverlay(fromSidebar) {
 		body.appendChild(overlay);
 	}
 	document.getElementById('Overlay').style.display = toggleDisplay(document.getElementById('Overlay'), 'none');
-	// if(body.classList.contains('main-inner')) document.body.style.overflow = document.body.style.overflow == '' ? 'hidden' : '';
 	document.getElementById('Overlay').style.backgroundColor = fromSidebar ? 'black' : 'transparent';
-	if(!fromSidebar) toggleDisplay(document.getElementById('SidebarBtn'), 'none');
+	
+	if(fromSidebar)
+		document.body.style.overflow = document.body.style.overflow == '' ? 'hidden' : '';
+	else
+		document.getElementById('SidebarBtn').style.display = toggleDisplay(document.getElementById('SidebarBtn'), 'none');
 }
 
 function toggleSidebar() {
