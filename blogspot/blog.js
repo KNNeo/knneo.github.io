@@ -756,7 +756,7 @@ function toggleOverlay(body) {
 
 function toggleSidebar() {
     let outer = document.getElementsByClassName('main-inner')[0] || document.getElementById('contents');
-    outer.style.position = toggleDisplay(outer, 'fixed');
+    document.body.style.position = toggleDisplay(outer, 'fixed');
 	
     toggleOverlay(outer);
 	
