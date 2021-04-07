@@ -755,7 +755,7 @@ function toggleOverlay(fromSidebar) {
 	document.getElementById('Overlay').style.display = toggleDisplay(document.getElementById('Overlay'), 'none');
 	// if(body.classList.contains('main-inner')) document.body.style.overflow = document.body.style.overflow == '' ? 'hidden' : '';
 	document.getElementById('Overlay').style.backgroundColor = fromSidebar ? 'black' : 'transparent';
-	if(fromSidebar) toggleDisplay(document.getElementById('SidebarBtn').style.display, 'none');
+	if(!fromSidebar) toggleDisplay(document.getElementById('SidebarBtn').style.display, 'none');
 }
 
 function toggleSidebar() {
