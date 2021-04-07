@@ -590,12 +590,8 @@ function togglePopup() {
         this.classList.add('new-thumbnail');
 		switchToButton('CloseBtn');
     }
-	if(document.getElementById('Overlay') != null &&
-	document.getElementById('Overlay').style.display != 'none' && 
-	document.getElementById('Overlay').style.backgroundColor == 'black')
-		toggleSidebar();
-	else
-		toggleOverlay(false);
+	
+	toggleOverlay(false);
 }
 
 function closePopups() {
