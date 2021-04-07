@@ -843,5 +843,5 @@ function windowOnResize() {
 		if(document.getElementById('BlogArchive1') != null) document.getElementById('BlogArchive1').style.display = '';	
 	}
 	document.body.style.visibility = window.innerWidth <= 320 ? 'hidden' : '';
-	closePopups();
+	if(document.getElementById('Overlay') != null) closePopups();
 };
