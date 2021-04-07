@@ -604,7 +604,8 @@ function closePopups() {
 	
 	displayFAB();
 	
-	if(document.getElementById('SidebarBtn') != null) toggleSidebar();
+	if(document.getElementById('SidebarBtn') != null && document.getElementById('Overlay').style.backgroundColor == 'black')
+		toggleSidebar();
 	else toggleOverlay(false);
 }
 
