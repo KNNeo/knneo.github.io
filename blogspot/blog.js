@@ -590,7 +590,7 @@ function togglePopup() {
         this.classList.add('new-thumbnail');
 		switchToButton('CloseBtn');
     }
-	toggleOverlay(document.getElementsByClassName('main-inner')[0] || document.getElementById('contents'));
+	toggleOverlay(false);
 }
 
 function closePopups() {
@@ -603,7 +603,7 @@ function closePopups() {
 		document.getElementById('CloseBtn').style.visibility = 'hidden';
 	
 	displayFAB();
-	toggleOverlay();
+	toggleOverlay(false);
 }
 
 function renderPopup() {
@@ -741,24 +741,28 @@ function toggleSearch() {
         document.getElementById('CustomBlogSearch').style.display = 'none';
 }
 
-function toggleOverlay(body) {
+function toggleOverlay(fromSidebar) {
+	let body = document.body;
     if (document.getElementById('Overlay') == undefined) {
 		let overlay = document.createElement('div');
 		overlay.id = 'Overlay';
 		overlay.style.display = 'none';
-		overlay.style.backgroundColor = 'transparent';
 		overlay.addEventListener('click',closePopups);
 		body.appendChild(overlay);
 	}
 	document.getElementById('Overlay').style.display = toggleDisplay(document.getElementById('Overlay'), 'none');
-	if(body.classList.contains('main-inner')) document.body.style.overflow = document.body.style.overflow == '' ? 'hidden' : '';
+	// if(body.classList.contains('main-inner')) document.body.style.overflow = document.body.style.overflow == '' ? 'hidden' : '';
+	if (!fromSidebar)
+		document.getElementById('Overlay').style.backgroundColor = 'transparent';
 }
 
 function toggleSidebar() {
     let outer = document.getElementsByClassName('main-inner')[0] || document.getElementById('contents');
     document.body.style.position = document.body.style.position == 'fixed' ? '' : 'fixed';
+    // document.body.style.left = document.body.style.left == '0' ? '' : '0';
+    // document.body.style.right = document.body.style.right == '0' ? '' : '0';
 	
-    toggleOverlay(outer);
+    toggleOverlay(true);
 	
 	let menuStatus = document.getElementById('SidebarBtn').getElementsByTagName('i')[0];
 	menuStatus.innerText = menuStatus.innerText == 'menu' ? 'menu_open' : 'menu';
@@ -826,8 +830,8 @@ function windowOnResize() {
 		document.getElementById('Overlay').style.display != 'none')	
 		toggleSidebar();
 	if (window.innerWidth >= 1040) {
-		document.getElementById('LinkList1').style.display = '';
-		document.getElementById('BlogArchive1').style.display = '';	
+		if(document.getElementById('LinkList1') != null) document.getElementById('LinkList1').style.display = '';
+		if(document.getElementById('BlogArchive1') != null) document.getElementById('BlogArchive1').style.display = '';	
 	}
 	document.body.style.visibility = window.innerWidth <= 320 ? 'hidden' : '';
 	closePopups();
