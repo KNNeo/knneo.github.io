@@ -756,13 +756,15 @@ function toggleOverlay(fromSidebar) {
 }
 
 function toggleSidebar() {
-    let outer = document.getElementsByClassName('column-left-outer')[0];
-	outer.style.position = toggleDisplay(outer, 'fixed');
+	// toggle body overlay
+    toggleOverlay(true);
     // document.body.style.position = document.body.style.position == 'fixed' ? '' : 'fixed';
     // document.body.style.left = document.body.style.left == '0' ? '' : '0';
     // document.body.style.right = document.body.style.right == '0' ? '' : '0';
 	
-    toggleOverlay(true);
+	// left sidebar element
+    let outer = document.getElementsByClassName('column-left-outer')[0];
+	outer.style.position = toggleDisplay(outer, 'fixed');
 	
 	let menuStatus = document.getElementById('SidebarBtn').getElementsByTagName('i')[0];
 	menuStatus.innerText = menuStatus.innerText == 'menu' ? 'menu_open' : 'menu';
