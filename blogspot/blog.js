@@ -603,7 +603,9 @@ function closePopups() {
 		document.getElementById('CloseBtn').style.visibility = 'hidden';
 	
 	displayFAB();
-	toggleOverlay(false);
+	
+	if(document.getElementById('SidebarBtn') != null) toggleSidebar();
+	else toggleOverlay(false);
 }
 
 function renderPopup() {
