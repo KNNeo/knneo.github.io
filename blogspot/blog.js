@@ -604,7 +604,9 @@ function closePopups() {
 	
 	displayFAB();
 	
-	if(document.getElementById('SidebarBtn') != null && document.getElementById('Overlay').style.backgroundColor == 'black')
+	if(document.getElementById('Overlay') != null &&
+	document.getElementById('Overlay').style.display != 'none' && 
+	document.getElementById('Overlay').style.backgroundColor == 'black')
 		toggleSidebar();
 	else toggleOverlay(false);
 }
@@ -835,8 +837,9 @@ function displayFAB() {
 }
 
 function windowOnResize() {
-	if (document.getElementById('Overlay') != null && 
-		document.getElementById('Overlay').style.display != 'none')	
+	if(document.getElementById('Overlay') != null &&
+	document.getElementById('Overlay').style.display != 'none' && 
+	document.getElementById('Overlay').style.backgroundColor == 'black')
 		toggleSidebar();
 	if (window.innerWidth >= 1040) {
 		if(document.getElementById('LinkList1') != null) document.getElementById('LinkList1').style.display = '';
