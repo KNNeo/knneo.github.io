@@ -756,7 +756,8 @@ function toggleOverlay(fromSidebar) {
 }
 
 function toggleSidebar() {
-    let outer = document.getElementsByClassName('main-inner')[0] || document.getElementById('contents');
+    let outer = document.getElementsByClassName('main-inner')[0];
+	let body = document.body;
     // document.body.style.position = document.body.style.position == 'fixed' ? '' : 'fixed';
     // document.body.style.left = document.body.style.left == '0' ? '' : '0';
     // document.body.style.right = document.body.style.right == '0' ? '' : '0';
@@ -767,14 +768,14 @@ function toggleSidebar() {
 	menuStatus.innerText = menuStatus.innerText == 'menu' ? 'menu_open' : 'menu';
 	
     let iconLeft = window.innerWidth >= 780 ? '5px' : '0';
-    outer.style.left = outer.style.left == '' ? iconLeft : '';
+    body.style.left = outer.style.left == '' ? iconLeft : '';
 	
     let iconBottom = window.innerWidth >= 780 ? '78px' : '60px';
-    outer.style.bottom = outer.style.bottom == '' ? iconBottom : '';
-    outer.style.margin = outer.style.margin == '' ? 'auto' : '';
-    outer.style.zIndex = outer.style.zIndex != 9 ? 9 : '';
+    body.style.bottom = outer.style.bottom == '' ? iconBottom : '';
+    body.style.margin = outer.style.margin == '' ? 'auto' : '';
+    // outer.style.zIndex = outer.style.zIndex != 8 ? 8 : '';
 	
-    let aside = outer.getElementsByClassName('column-left-inner')[0].getElementsByTagName('aside')[0];
+    let aside = body.getElementsByClassName('column-left-inner')[0].getElementsByTagName('aside')[0];
     aside.style.display = toggleDisplay(aside, 'block');
 	
     if (window.innerHeight <= 480)
