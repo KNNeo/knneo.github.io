@@ -756,7 +756,7 @@ function toggleOverlay(fromSidebar) {
 }
 
 function toggleSidebar() {
-    let outer = document.getElementsByClassName('main-inner')[0];
+    let outer = document.getElementsByClassName('column-left-outer')[0];
     // document.body.style.position = document.body.style.position == 'fixed' ? '' : 'fixed';
     // document.body.style.left = document.body.style.left == '0' ? '' : '0';
     // document.body.style.right = document.body.style.right == '0' ? '' : '0';
@@ -772,9 +772,9 @@ function toggleSidebar() {
     let iconBottom = window.innerWidth >= 780 ? '78px' : '60px';
     outer.style.bottom = outer.style.bottom == '' ? iconBottom : '';
     outer.style.margin = outer.style.margin == '' ? 'auto' : '';
-    outer.style.zIndex = outer.style.zIndex != 9 ? 9 : '';
+    // outer.style.zIndex = outer.style.zIndex != 9 ? 9 : '';
 	
-    let aside = outer.getElementsByClassName('column-left-inner')[0].getElementsByTagName('aside')[0];
+    let aside = outer.getElementsByTagName('aside')[0];
     aside.style.display = toggleDisplay(aside, 'block');
 	
     if (window.innerHeight <= 480)
