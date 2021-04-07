@@ -824,6 +824,9 @@ function hideImagesOnError() {
 }
 
 function displayFAB() {
+	if(document.getElementById('Overlay') != null &&
+	document.getElementById('Overlay').style.display != 'none')
+		return;
 	// When the user scrolls down to half of viewport from the top of the document, change floating action button
 	if (document.body.scrollTop > document.documentElement.clientHeight || 
 		document.documentElement.scrollTop > document.documentElement.clientHeight) {
