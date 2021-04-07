@@ -752,13 +752,12 @@ function toggleOverlay(fromSidebar) {
 	}
 	document.getElementById('Overlay').style.display = toggleDisplay(document.getElementById('Overlay'), 'none');
 	// if(body.classList.contains('main-inner')) document.body.style.overflow = document.body.style.overflow == '' ? 'hidden' : '';
-	if (!fromSidebar)
-		document.getElementById('Overlay').style.backgroundColor = 'transparent';
+	document.getElementById('Overlay').style.backgroundColor = fromSidebar ? 'black' : 'transparent';
 }
 
 function toggleSidebar() {
     let outer = document.getElementsByClassName('main-inner')[0] || document.getElementById('contents');
-    document.body.style.position = document.body.style.position == 'fixed' ? '' : 'fixed';
+    // document.body.style.position = document.body.style.position == 'fixed' ? '' : 'fixed';
     // document.body.style.left = document.body.style.left == '0' ? '' : '0';
     // document.body.style.right = document.body.style.right == '0' ? '' : '0';
 	
