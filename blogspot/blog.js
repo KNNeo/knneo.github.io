@@ -605,7 +605,10 @@ function closePopups() {
 	
 	displayFAB();
 	
-	toggleOverlay(document.getElementById('Overlay').style.backgroundColor == 'black');
+	if(document.getElementById('Overlay').style.backgroundColor == 'black')
+		toggleSidebar();
+	else
+		toggleOverlay(false);
 }
 
 function renderPopup() {
