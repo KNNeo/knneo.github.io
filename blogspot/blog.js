@@ -754,11 +754,12 @@ function toggleOverlay(fromSidebar) {
 	}
 	document.getElementById('Overlay').style.display = toggleDisplay(document.getElementById('Overlay'), 'none');
 	document.getElementById('Overlay').style.backgroundColor = fromSidebar ? 'black' : 'transparent';
+	document.getElementById('Overlay').style.zIndex = fromSidebar ? '8' : '0';
 	
-	if(fromSidebar)
+	if(fromSidebar) {
 		document.body.style.overflow = document.body.style.overflow == '' ? 'hidden' : '';
-	else
 		document.getElementById('SidebarBtn').style.display = toggleDisplay(document.getElementById('SidebarBtn'), 'none');
+	}
 }
 
 function toggleSidebar() {
