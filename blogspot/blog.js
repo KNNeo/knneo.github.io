@@ -362,6 +362,7 @@ function calculateThumbnailHeight(thumbnailList) {
     let heights = Array.from(tc).map(t => t.offsetHeight);
 	let minHeight = Math.min(...heights);
 	let maxHeight = Math.max(...heights);
+	//if large difference in height then adjust when switch
 	if(maxHeight - minHeight < 50)
 		return maxHeight || tc[0].offsetHeight;
 	return 0;
