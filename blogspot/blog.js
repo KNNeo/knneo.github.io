@@ -851,6 +851,6 @@ function windowOnResize() {
 	}
 	document.body.style.visibility = window.innerWidth <= 320 ? 'hidden' : '';
 	
-	if(document.getElementById('Overlay') != null && document.getElementById('Overlay').style.display != 'none'))
+	if(document.getElementById('Overlay') != null && document.getElementById('Overlay').style.display != 'none')
 		closePopups();
 };
