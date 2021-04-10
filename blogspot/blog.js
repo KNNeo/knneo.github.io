@@ -848,6 +848,9 @@ function windowOnResize() {
 	if (window.innerWidth >= 1040) {
 		if(document.getElementById('LinkList1') != null) document.getElementById('LinkList1').style.display = '';
 		if(document.getElementById('BlogArchive1') != null) document.getElementById('BlogArchive1').style.display = '';	
+		let outer = document.getElementsByClassName('column-left-outer')[0];
+		if(outer != null)
+			outer.style.position = '';
 	}
 	document.body.style.visibility = window.innerWidth <= 320 ? 'hidden' : '';
 	
