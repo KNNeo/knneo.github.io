@@ -352,6 +352,8 @@ function switchThumbnails(tn) {
     if (popHeight - initialHeight > 50 || popHeight - initialHeight < -50)
         tn.style.height = (initialVisible ? initialHeight : popHeight) + 'px';*/
 	// if(maxHeight - minHeight > 50)
+	let nextHeight = tc[active].offsetHeight;
+	let maxHeight = calculateMaxThumbHeight(tn);
 	if(maxHeight - nextHeight > 50)
 		tn.style.height = tc[active].offsetHeight + 'px';
     return;
