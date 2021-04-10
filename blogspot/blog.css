@@ -191,7 +191,7 @@ a:hover {
 
 .post-title,
 .post-header {
-  margin: 0;
+  margin: 0 !important;
 }
 
 .post-title a,
