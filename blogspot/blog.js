@@ -350,15 +350,19 @@ function switchThumbnails(tn) {
     if (popHeight - initialHeight > 50 || popHeight - initialHeight < -50)
         tn.style.height = (initialVisible ? initialHeight : popHeight) + 'px';*/
 	// if(maxHeight - minHeight > 50)
-	tn.style.height = calculateThumbnailHeight(tn) + 'px';
+	let maxHeight = calculateThumbnailHeight(tn);
+	if(maxHeight > 0) tn.style.height = maxHeight + 'px';
     return;
 }
 
 function calculateThumbnailHeight(thumbnailList) {
     let tc = thumbnailList.getElementsByClassName("thumbnail-initial");
     let heights = Array.from(tc).map(t => t.offsetHeight);
+	let minHeight = Math.min(...heights);
 	let maxHeight = Math.max(...heights);
-	return maxHeight || tc[0].offsetHeight;
+	if(maxHeight - minHeight < 50)
+		return maxHeight || tc[0].offsetHeight;
+	return 0;
 }
 
 // Responsive image resizing based on screen dimensions
