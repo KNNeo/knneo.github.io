@@ -354,7 +354,7 @@ function switchThumbnails(tn) {
 	// if(maxHeight - minHeight > 50)
 	let [min, max] = calcMinMaxThumbHeight(tn);
 	if(max - min > 50)
-		tn.style.height = tc[active].offsetHeight + 'px';
+		tn.style.height = nextActive.offsetHeight + 'px';
     return;
 }
 
