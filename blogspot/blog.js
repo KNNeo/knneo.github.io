@@ -288,7 +288,8 @@ function setThumbnails() {
         if (popHeight - initialHeight > 50 || popHeight - initialHeight < -50)
             allThumbnails[i].style.height = initialHeight + 'px'; */
 		
-		let maxHeight = calculateThumbnailHeight(tn);
+		let tc = allThumbnails[i].getElementsByClassName("thumbnail-initial");
+		let maxHeight = calculateThumbnailHeight(tc);
 		if(maxHeight > 0)
 			allThumbnails[i].style.height = maxHeight + 'px';
         let allThumbImages = allThumbnails[i].getElementsByTagName("img");
