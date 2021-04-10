@@ -288,8 +288,7 @@ function setThumbnails() {
         if (popHeight - initialHeight > 50 || popHeight - initialHeight < -50)
             allThumbnails[i].style.height = initialHeight + 'px'; */
 		
-		let tc = allThumbnails[i].getElementsByClassName("thumbnail-initial");
-		let maxHeight = calculateThumbnailHeight(tc);
+		let maxHeight = calculateThumbnailHeight(allThumbnails[i]);
 		if(maxHeight > 0)
 			allThumbnails[i].style.height = maxHeight + 'px';
         let allThumbImages = allThumbnails[i].getElementsByTagName("img");
@@ -358,8 +357,8 @@ function switchThumbnails(tn) {
     return;
 }
 
-function calculateThumbnailHeight(thumbnailList) {
-    let tc = thumbnailList.getElementsByClassName("thumbnail-initial");
+function calculateThumbnailHeight(thumbnailClass) {
+    let tc = thumbnailClass.getElementsByClassName("thumbnail-initial");
     let heights = Array.from(tc).map(t => t.offsetHeight);
 	let minHeight = Math.min(...heights);
 	let maxHeight = Math.max(...heights);
