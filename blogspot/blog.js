@@ -605,8 +605,9 @@ function closePopups() {
 	
 	displayFAB();
 	
-	if(document.getElementById('Overlay').style.backgroundColor == 'black')
-		toggleSidebar();
+	//remove overlay if
+	if(document.getElementById('SidebarBtn') != null && document.getElementById('Overlay').style.backgroundColor == 'black')
+		document.getElementById('SidebarBtn').click(); //from sidebar
 	else
 		toggleOverlay(false);
 }
@@ -843,14 +844,11 @@ function displayFAB() {
 }
 
 function windowOnResize() {
-	if(document.getElementById('Overlay') != null &&
-	document.getElementById('Overlay').style.display != 'none' && 
-	document.getElementById('Overlay').style.backgroundColor == 'black')
-		toggleSidebar();
 	if (window.innerWidth >= 1040) {
 		if(document.getElementById('LinkList1') != null) document.getElementById('LinkList1').style.display = '';
 		if(document.getElementById('BlogArchive1') != null) document.getElementById('BlogArchive1').style.display = '';	
 	}
 	document.body.style.visibility = window.innerWidth <= 320 ? 'hidden' : '';
-	if(document.getElementById('Overlay') != null) closePopups();
+	
+	closePopups();
 };
