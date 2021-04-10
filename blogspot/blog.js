@@ -313,20 +313,20 @@ var closestClass = function(inputElement, targetClassName) {
     return inputElement;
 }
 
-function switchThumbnails(tn) {
-    let tc = tn.getElementsByClassName("thumbnail-initial");
+function switchThumbnails(thumbnailClass) {
+    let thumbnailChildren = thumbnailClass.getElementsByClassName("thumbnail-initial");
 	// to identify active
-	let active = tn.getAttribute('active');
+	let active = thumbnailClass.getAttribute('active');
 	if(active == null)
-		active = Array.from(tc).findIndex(t => !t.classList.contains("thumbnail-pop"));
+		active = Array.from(thumbnailChildren).findIndex(t => !t.classList.contains("thumbnail-pop"));
 	// to reset before setting new active
-	for(let t of tc) {
+	for(let t of thumbnailChildren) {
 		if(!t.classList.contains("thumbnail-pop"))
 		t.classList.add("thumbnail-pop");
 	}
 	if(active == null) return;
-	let nextActive = tc[active].nextElementSibling;
-	if(nextActive == null) nextActive = tn.firstElementChild;
+	let nextActive = thumbnailChildren[active].nextElementSibling;
+	if(nextActive == null) nextActive = thumbnailClass.firstElementChild;
 	nextActive.classList.remove("thumbnail-pop");
 	// recalculate height if huge difference
     // var initialVisible = true;
@@ -352,8 +352,10 @@ function switchThumbnails(tn) {
     if (popHeight - initialHeight > 50 || popHeight - initialHeight < -50)
         tn.style.height = (initialVisible ? initialHeight : popHeight) + 'px';*/
 	// if(maxHeight - minHeight > 50)
-	let maxHeight = calculateThumbnailHeight(tn);
-	if(maxHeight > 0) tn.style.height = maxHeight + 'px';
+	let maxHeight = calculateThumbnailHeight(thumbnailClass);
+	if(maxHeight > 0)
+		tn.style.height = maxHeight + 'px';
+	
     return;
 }
 
