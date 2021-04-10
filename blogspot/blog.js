@@ -365,7 +365,7 @@ function calculateThumbnailHeight(thumbnailClass) {
 	//if large difference in height then adjust when switch
 	if(maxHeight - minHeight > 50)
 		return maxHeight || tc[0].offsetHeight;
-	return null;
+	return tc[0].offsetHeight;
 }
 
 // Responsive image resizing based on screen dimensions
