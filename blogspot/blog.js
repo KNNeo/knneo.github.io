@@ -606,7 +606,8 @@ function closePopups() {
 	displayFAB();
 	
 	//remove overlay if
-	if(document.getElementById('SidebarBtn') != null && document.getElementById('Overlay').style.backgroundColor == 'black')
+	if(document.getElementById('SidebarBtn') != null && document.getElementById('Overlay') != null && 
+	document.getElementById('Overlay').style.backgroundColor == 'black')
 		document.getElementById('SidebarBtn').click(); //from sidebar
 	else
 		toggleOverlay(false);
@@ -850,5 +851,6 @@ function windowOnResize() {
 	}
 	document.body.style.visibility = window.innerWidth <= 320 ? 'hidden' : '';
 	
-	closePopups();
+	if(document.getElementById('Overlay') != null && document.getElementById('Overlay').style.display != 'none'))
+		closePopups();
 };
