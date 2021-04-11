@@ -201,10 +201,6 @@
 			{
 				"image":"https://pbs.twimg.com/media/Ep2LABcUcAEfVsv?format=jpg&name=small",
 				"id":"KogaAoi-TomitaMiyu"
-			},
-			{
-				"image":"https://pbs.twimg.com/media/EmJTxEqVMAE-YrU?format=jpg&name=small",
-				"id":"OonoYuuko-KogaAoi"
 			}
 		]
 	},
@@ -1737,14 +1733,14 @@
 	},
 	{
 		"category":"seiyuu4",
-		"id":"TomiyaMiyu",
+		"id":"TomitaMiyu",
 		"image":"https://pbs.twimg.com/media/Ema9F-eVcAEAuKz?format=jpg&name=small",
 		"landscapes":[],
 		"portraits":[
 			"https://pbs.twimg.com/media/Exkam29VoAIauzu?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EotjkB_UYAABU8d?format=jpg&name=small"			
 		],
-		"name":"Tomiya Miyu",
+		"name":"Tomita Miyu",
 		"dob":"1999.11.15",
 		"profile":"Japanese Voice Actress",
 		"turningPoint":{
