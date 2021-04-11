@@ -104,6 +104,7 @@ void Main()
 		* add class to header prefix for styling
 		* set all link directory to current blog
 		* all table styles to be within post
+		* remove hashtags on post level
 		*/
 		
 		#region remove embed styles for thumbnail normal/hover
@@ -274,11 +275,22 @@ void Main()
 		#region jisho links detection
 		//expression = @"(<a href="")(https://jisho.org/search/)(.*?)("" target=""_blank"">)(.*?)(</a>)";
 		//match = Regex.Match(content, expression);
-		//while(match.Success)
-		//{
-		//	Console.WriteLine(match.Groups);
-		//};
+		//if(match.Value.Length > 0)
+		//	Console.WriteLine(match.Value);
 		#endregion
+		
+		#region remove hashtags on post level
+		expression = @"(<script>)(.*?)(var hashtags)(.*?)(</script>)";
+		match = Regex.Match(content, expression);
+		while(match.Success && match.Groups.Count == 6)
+		{
+			content = content.Replace(match.Value, "");
+			match = match.NextMatch();
+		};
+		if(match.Success) count++;
+		#endregion
+		
+		
 		
 		
 		
