@@ -150,6 +150,11 @@ a:hover {
 }
 
 /*By Class*/
+.tr-caption-container {
+    padding: 4px;
+    margin-bottom: .5em;
+}
+
 .failed {
 	display: none;
 	border: 0;
