@@ -32,19 +32,9 @@
 </h3>
 </div>
 </body>
+<script src="index.js"></script>
 <script>
-const isMobile = function() {
-    const match = window.matchMedia('(pointer:coarse)');
-    return (match && match.matches);
-};
-
-document.getElementById('darkmode').addEventListener('click', function() {
-	if(document.getElementsByTagName('html')[0].classList.contains('darked'))
-		document.getElementsByTagName('html')[0].classList.remove('darked');
-	else
-		document.getElementsByTagName('html')[0].classList.add('darked');
-} );
-
+//*fake prevention*//
 let keys = 0;
 if(new Date().getSeconds() % 4 > 0)
 	document.getElementById("landing-cover").style.display = 'none';

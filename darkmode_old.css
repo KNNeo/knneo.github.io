@@ -1,0 +1,121 @@
+/*when not in dark mode*/
+html, div {
+	background-color: white;
+	color: black;
+}
+
+.darked, .darked button, .darked textarea, .darked div {
+	background-color: black;
+	color: white;
+}
+
+.darked button {
+    border: 1px solid lightgray;
+}
+
+.darked a,
+.darked a:visited {
+	color: #00e4ff;
+}
+
+.darked .profile-category::-webkit-scrollbar-thumb {
+  background: white;
+}
+
+.darked .profile-category::-webkit-scrollbar-track {
+  background: #444444;
+}
+
+tr:hover > td {
+	background-color: lightgray;
+}
+.darked tr:hover {
+	background-color: gray;
+}
+	
+.settings {
+	text-align: center;
+}
+
+.settings a {
+	-webkit-user-select: none; 
+	-ms-user-select: none; 
+	user-select: none;
+	color: black;
+    text-decoration: none;	
+}
+
+.darked .settings a  {
+	color: white;
+}
+
+
+/*if dark mode available*/
+@media (prefers-color-scheme: dark) {
+	html, div {
+		background-color: black;
+		color: white;
+	}
+	a {
+		color: #00e4ff;
+	}
+	a:visited {
+		color: #00e4ff;
+	}
+	button {
+		background-color: black;
+		color: white;
+		border: 1px solid lightgray;
+	}
+	
+	.settings a {
+		color: white;
+		text-decoration: none;	
+	}
+
+	.darked .settings a  {
+		color: black;
+	}
+
+	.darked, .darked button, .darked textarea, .darked div {
+		background-color: white;
+		color: black;
+	}		
+	.darked a {
+		color: rgb(0, 0, 238);
+	}
+
+	.darked a:visited {
+		color: rgb(85, 26, 139);
+	}
+	
+	.darked .profile-category::-webkit-scrollbar-thumb {
+	  background: white;
+	}
+	
+	.darked .profile-category::-webkit-scrollbar-track {
+	  background: #444444;
+	}
+	
+	tr:hover > td {
+		background-color: gray;
+	}
+	
+	.darked tr:hover {
+		background-color: lightgray;
+	}
+}
+
+/*
+html {
+	transition: color 500ms, background-color 500ms;
+	background-color: white;
+}
+
+.darked {
+	filter: invert(1);
+}
+
+.darked img {
+	filter: invert(1);
+}*/

@@ -4,11 +4,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
 	<meta content="utf-8" http-equiv="encoding">
-    <link rel="stylesheet" type="text/css" href="would-you-rather.css">
     <link rel="stylesheet" type="text/css" href="../darkmode.css">
+    <link rel="stylesheet" type="text/css" href="would-you-rather.css">
 	<link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'/>
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<script src="would-you-rather.js"></script>
     <title>Would you rather...?</title>
 </head>
 
@@ -64,14 +63,9 @@
 		<a id="darkmode" title="Toggle Dark Mode" class="material-icons" href="javascript:void(0);">brightness_high</a>
 	</h3>
 </body>
-<script>
-document.getElementById('darkmode').addEventListener('click', function() {
-if(document.getElementsByTagName('html')[0].classList.contains('darked'))
-document.getElementsByTagName('html')[0].classList.remove('darked');
-else
-document.getElementsByTagName('html')[0].classList.add('darked');
-} );
-</script>
+<script src="../index.js"></script>
+<script src="would-you-rather.js"></script>
+<!-- Inline load because anything other than JS script src will be ignored -->
 <script type="text/csv" id="namesPreset">Amamiya Sora
 Anzai Chika
 Asakura Momo
@@ -141,80 +135,5 @@ A Channel [Aチャンネル]
 Nichijou [日常]
 Shakugan no Shana Final [灼眼のシャナIII -FINAL-]
 WORKING'!!
-UN-GO
-Sakamichi no Apollon [坂道のアポロン]
-Natsuiro Kiseki [夏色キセキ]
-Hyouka [氷菓]
-Binbougami ga! [貧乏神が！]
-Kokoro Connect [ココロコネクト]
-TARI TARI
-Tonari no Kaibutsu-kun [となりの怪物くん]
-RDG: Red Data Girl
-Ore no Imouto ga Konnani Kawaii Wake ga Nai [俺の妹がこんなに可愛いわけがない。]
-Acchi Kocchi [あっちこっち]
-Shingeki no Kyojin [進撃の巨人]
-Servant x Service [サーバント×サービス]
-Kamisama no Inai Nichiyoubi [神さまのいない日曜日]
-COPPELION
-Golden Time [ゴールデンタイム]
-Nagi no Asukara [凪のあすから]
-Samurai Flamenco [サムライフラメンコ]
-Seitokai Yakuindomo* [生徒会役員共＊]
-Tonari no Seki-kun [となりの関くん]
-Bokura wa Minna Kawaisou [僕らはみんな河合荘]
-Isshuukan Friends. [一週間フレンズ。]
-Ryuugajou Nanana no Maizoukin [龍ヶ嬢七々々の埋蔵金]
-Kuroshitsuji: Book of Circus [黒執事 Book of Circus]
-Glasslip [グラスリップ]
-Denki-gai no Honya-san [デンキ街の本屋さん]
-Shigatsu wa Kimi no Uso [四月は君の嘘]
-Sora no Method [天体のメソッド]
-Koufuku Graffiti [幸腹グラフィティ]
-Ansatsu Kyoushitsu [暗殺教室]
-Plastic Memories [プラスティック・メモリーズ]
-Punch Line [パンチライン]
-WORKING!!!
-Sore ga Seiyuu! [それが声優！]
-Ranpo Kitan Game of Laplace [乱歩奇譚 Game of Laplace]
-Subete ga F ni Naru [すべてがFになる THE PERFECT INSIDER]
-Ansatsu Kyoushitsu 2nd Season [暗殺教第2期]
-Boku Dake ga Inai Machi [僕だけがいない街]
-Dagashi Kashi [だがしかし]
-Bungou Stray Dogs [文豪ストレイドッグス]
-Kono Bijutsubu ni wa Mondai ga Aru! [この美術部には問題がある！]
-Time Travel Shoujo [タイムトラベル少女～マリ・ワカと8人の科学者たち～]
-WWW.WORKING!!
-ACCA 13-ku Kansatsu-ka [ACCA13区監察課]
-Demi-chan wa Kataritai [亜人ちゃんは語りたい]
-Tsuki ga Kirei [月がきれい]
-Eromanga-sensei [エロマンガ先生]
-Shingeki no Kyojin Season 2 [進撃の巨人]
-Alice to Zouroku [アリスと蔵六]
-Aho Girl [アホガール]
-Tsurezure Children [徒然チルドレン]
-Gamers! [ゲーマーズ！]
-Just Because!
-Blend.S [ブレンド・S]
-Houseki no Kuni [宝石の国]
-Sangatsu no Lion [３月のライオン]
-Dagashi Kashi 2 [だがしかし2]
-Slow Start [スロウスタート]
-Karakai Jouzu no Takagi-san [からかい上手の高木さん]
-Tada-kun wa Koi wo Shinai [多田くんは恋をしない]
-Fumikiri Jikan [踏切時間]
-Wotaku ni Koi wa Muzukashii [ヲタクに恋は難しい]
-Chio-chan no Tsuugakuro [ちおちゃんの通学路]
-Asobi Asobase [あそびあそばせ]
-Shingeki no Kyojin Season 3 [進撃の巨人]
-Tsukumogami Kashimasu [つくもがみ貸します]
-BANANA FISH
-Uchi no Maid ga Uzasugiru! [うちのメイドがウザすぎる！]
-Gaikotsu Shoten'in Honda-san [ガイコツ書店員 本田さん]
-Domestic na Kanojo [ドメスティックな彼女]
-Kaguya-sama wa Kokurasetai [かぐや様は告らせたい～天才たちの恋愛頭脳戦～]
-Midara na Ao-chan wa Benkyou ga Dekinai [みだらな青ちゃんは勉強ができない]
-Bungou Stray Dogs Season 3 [文豪ストレイドッグス]
-Joshikausei [女子かう生]
-Sewayaki Kitsune no Senko-san [世話やきキツネの仙狐さん]
-Shingeki no Kyojin Season 3 Part.2 [進撃の巨人]</script>
+UN-GO</script>
 </html>
