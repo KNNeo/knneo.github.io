@@ -105,9 +105,9 @@ function displayOutput(categoryName) {
 	else if (categoryName == "Affair")
 		return "Would you rather \"" + generateName() + "\" be your wife while you have an affair with \"" + generateName() + "\"? Or vice versa?";
 	else if (categoryName == "Island")
-		return "You and " + generateName() + " are stuck in an uninhabited island. Would you rather escape in a lifeboat only enough for one, try to call for rescue while waiting together, or procreate and start a new life?";
+		return "You and \"" + generateName() + "\" are stuck in an uninhabited island. Would you rather escape in a lifeboat only enough for one, try to call for rescue while waiting together, or procreate and start a new life?";
 	else if (categoryName == "Hug/Kiss")
-		return "Would you rather receive a hug from " + generateName() + " or receive a kiss on the cheek from " + generateName() + "?";
+		return "Would you rather receive a hug from \"" + generateName() + "\" or receive a kiss on the cheek from \"" + generateName() + "\"?";
 	return;
 }
 
