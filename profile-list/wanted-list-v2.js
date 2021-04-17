@@ -145,6 +145,7 @@ let friendMode = false;
 let excludeMarried = false;
 let timezone = "Asia/Tokyo";
 let month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+let DateTime = luxon.DateTime;
 
 //--dependent on render, as functions to call on render--//
 function initialiseWantedList() {
@@ -168,8 +169,11 @@ function initialiseTime() {
 }
 
 function updateTime() {
-	let offsetMinutes = moment().utcOffset() - moment.tz(timezone).utcOffset();
-	document.getElementById('time').innerText = moment().subtract(offsetMinutes, 'minutes').format("yyyy.MM.DD HH:mm:ss");
+	// let offsetMinutes = moment().utcOffset() - moment.tz(timezone).utcOffset();
+	// document.getElementById('time').innerText = moment().subtract(offsetMinutes, 'minutes').format("yyyy.MM.DD HH:mm:ss");
+	var now = DateTime.local().setZone(timezone);
+	document.getElementById('time').innerText = now.toFormat("yyyy.MM.dd HH:mm:ss");
+	
 	setTimeout(updateTime, 1000);
 }
 
@@ -218,11 +222,11 @@ function daysFromMe() {
 		let birthDateStr = DOB.replace(".", "-").replace(".", "-"); //yyyy.MM.dd -> yyyy-MM-dd
 		let birthDate = birthDateStr.substring(0, 10);
 		//return Math.floor((new Date().getTime() - birthDate) / 31556952000);
-		let offsetMinutes = moment().utcOffset() - moment.tz(timezone).utcOffset();
-		let diff = moment(myDate).diff(moment(birthDate));
+		// let offsetMinutes = moment().utcOffset() - moment.tz(timezone).utcOffset();
+		let diff = DateTime.fromISO(myDate).setZone(timezone).diff(DateTime.fromISO(birthDate), 'days').days;
 		awway.push({
 			name: other.name,
-			daysAway: Math.abs(Math.round(moment.duration(diff).subtract(offsetMinutes, 'minutes').asDays(),0))
+			daysAway: Math.abs(diff) // Math.abs(Math.round(moment.duration(diff).subtract(offsetMinutes, 'minutes').asDays(),0))
 			});
 	}
 	
@@ -234,24 +238,26 @@ function addAgeAfterDOB() {
 	let profile = profileList.filter(p => p.id === document.getElementById('profile').firstChild.id)[0];
 	let DOBspan = document.getElementById(profile.id).getElementsByClassName('DOB')[0];
 	let age = profile.dob.includes('????') ? 0 : parseInt(getAge(profile.dob));
-	console.log(profile);
 	if (age != undefined && age > 0)
 		DOBspan.innerHTML = DOBspan.innerHTML.concat(" [").concat(age.toString()).concat(" years ago]");
 }
 
 function getAge(DOB) {
 	let birthDateStr = DOB.replace(".", "-").replace(".", "-"); //yyyy.MM.dd -> yyyy-MM-dd
-	let birthDate = birthDateStr.substring(0, 10);
-	let offsetMinutes = moment().utcOffset() - moment.tz(timezone).utcOffset();
-	let diff = moment().diff(moment(birthDate));
-	return moment.duration(diff).subtract(offsetMinutes, 'minutes').add(1,'days').years();
+	let birthDate = DateTime.fromISO(birthDateStr.substring(0, 10)).setZone(timezone); // birthDateStr.substring(0, 10);
+	let offsetMinutes = 0; // moment().utcOffset() - moment.tz(timezone).utcOffset();
+	let diff = 0; // moment().diff(moment(birthDate));
+	return DateTime.now().setZone(timezone).diff(birthDate, 'years').years; // moment.duration(diff).subtract(offsetMinutes, 'minutes').add(1,'days').years();
 }
 
 function checkBirthdayPassed(DOB) {
-	let offsetMinutes = moment().utcOffset() - moment.tz(timezone).utcOffset();
-	let diff = moment().diff(moment(DOB));
-	let timeDiff = moment.duration(diff).subtract(offsetMinutes, 'minutes');
-	return timeDiff.days() >= 0 && timeDiff.hours() >= 0 && timeDiff.minutes() >= 0 && timeDiff.seconds() >= 0 && timeDiff.milliseconds() >= 0;
+	// let offsetMinutes = moment().utcOffset() - moment.tz(timezone).utcOffset();
+	let birthDateStr = DOB.replace(".", "-").replace(".", "-"); //yyyy.MM.dd -> yyyy-MM-dd
+	let birthDate = DateTime.fromISO(birthDateStr.substring(0, 10)).setZone(timezone);
+	let diff = DateTime.now().setZone(timezone).diff(birthDate, 'days'); // moment().diff(moment(DOB));
+	// let timeDiff = moment.duration(diff).subtract(offsetMinutes, 'minutes');
+	return diff.days >= 0;
+	// timeDiff.days() >= 0 && timeDiff.hours() >= 0 && timeDiff.minutes() >= 0 && timeDiff.seconds() >= 0 && timeDiff.milliseconds() >= 0;
 	
 }
 
