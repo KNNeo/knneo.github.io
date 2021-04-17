@@ -16,7 +16,7 @@
 <h2>Blog Archive</h2>
 <h4>Visit the current blog <a href="https://knwebreports.blogspot.com/">here</a></h4>
 <div id="tags">
-	<a id="All" onclick="filterByTag(this)">All Posts</a>
+	<a id="All" onclick="filterByTag(this.id)" href="#All">All Posts</a>
 	<span>|</span>
 	<a id="TheEntertainmentNews" onclick="filterByTag(this.id)" href="#TheEntertainmentNews">The Entertainment News</a>
 	<span>|</span>
@@ -36,18 +36,19 @@
 window.onpageshow = filterByTag();
 function filterByTag(sourceFilter) {
 	let tag = sourceFilter || window.location.hash.replace('#','');
-	window.location.hash = '#' + tag;
+	let isAll = tag == "All" || tag == "";
+	window.location.hash = !isAll ? '#' + tag : "";
 	let blogList = document.getElementById("blog-archive-list");
 	let posts = blogList.getElementsByClassName("Post");
 	let count = 0;
 	for(let post of posts)
 	{
-		if(post.classList.length == 0 && tag != "All")
+		if(post.classList.length == 0 && !isAll)
 		{
 			post.style.visibility = 'hidden';
 			post.style.height = 0;
 		}
-		else if(!post.classList.contains(tag) && tag != "All")
+		else if(!post.classList.contains(tag) && !isAll)
 		{
 			post.style.visibility = 'hidden';
 			post.style.height = 0;

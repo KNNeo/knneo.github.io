@@ -338,7 +338,7 @@ void Main()
 			output.WriteLine("<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../blog.css\" />");
 			output.WriteLine("<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../blogspot.css\" />");
 			output.WriteLine("<title>" + title + "</title>");
-			output.WriteLine("<body class=\"post-body entry-content\">");
+			output.WriteLine("<body class=\"post-body entry-content\" style=\"display:none;\">");
 			output.WriteLine("<div id=\"viewer\" style=\"display: none;\"></div>");
 			output.WriteLine("<div id=\"contents\">");
 			output.WriteLine("<a id='BackBtn' onclick='goBack()' title='Go Back'><i class='material-icons'>arrow_back</i></a>");
