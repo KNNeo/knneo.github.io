@@ -122,7 +122,8 @@ function renderPage(pageName) {
 		//if(link == links[0] && window.location.href.includes('//knneo.github.io')) continue;
 		
 		if(pageName.includes(link)) continue;
-		let newLink = document.createElement('div');
+		let newLink = document.createElement('a');
+		newLink.href = 'javascript:void(0);';
 		newLink.classList.add('navigation-item');
 		newLink.classList.add('shadowed');
 		newLink.addEventListener('click', function() { loadPage(link); });
