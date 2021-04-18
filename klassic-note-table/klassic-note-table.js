@@ -1,8 +1,4 @@
 //--VARIABLES--//
-const isMobile = function() {
-    const match = window.matchMedia('(pointer:coarse)');
-    return (match && match.matches);
-};
 let firstLoad = true;
 let activePreset = [];
 let presetAllArray = ["SongID", "KNID", "KNJAPAN", "KNJPOP", "KNYEAR", "Filename", "SongTitle", "ArtistTitle", "ParentArtist", "ReleaseTitle", "ReleaseArtistTitle", "ReleaseYear", "Rating", "Genre", "DateCreated", "VocalCode", "Language", "InAppleMusic", "LyricsURL", "SongTitleAlt", "ArtistTitleAlt", "ReleaseTitleAlt", "ReleaseArtistTitleAlt", "ArtistCode"];
@@ -20,13 +16,6 @@ let exColumns = [
 ];
 
 //--FIRST TIME CALLS--//
-document.getElementById('darkmode').addEventListener('click', function() {
-	if(document.getElementsByTagName('html')[0].classList.contains('darked'))
-		document.getElementsByTagName('html')[0].classList.remove('darked');
-	else
-		document.getElementsByTagName('html')[0].classList.add('darked');
-} );
-
 document.getElementById('tickboxAll').addEventListener("click", function() {
 	let count = 0;
 	for(let tickbox of document.getElementById('table-column-ticks').getElementsByTagName('input'))

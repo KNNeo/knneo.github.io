@@ -41,6 +41,10 @@ th, td {
 	padding-left: 10px;
 	vertical-align: bottom;
 	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 #back i {
 	font-size: 32px;
