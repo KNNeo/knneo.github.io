@@ -31,6 +31,7 @@ let loaderTextPrefix = 'Images Loaded: ';
 
 
 //--VARIABLES--//
+let body = document.getElementById('contents');
 let spacerURL = 'https://knneo.github.io/resources/spacer.gif';
 let isFirefox = (/Firefox/i.test(navigator.userAgent));
 let lowestHeight = 9999;
@@ -39,6 +40,7 @@ let imgArray = [];
 let runSlideshow = null;
 let descriptionClosed = false;
 let passCode = '';
+let settingsLoaded = false;
 
 //--COMMON EVENTS--//
 //on startup
@@ -85,7 +87,6 @@ window.addEventListener('keydown', function(event) {
 function renderPage(pageName) {
 	document.head.getElementsByTagName('title')[0].innerText = pageTitle;
 	
-	let body = document.body;
 	body.id = pageName;
 	let frame = document.createElement('div');
 	//frame.id = pageName;
@@ -96,7 +97,17 @@ function renderPage(pageName) {
 	viewer.addEventListener('contextmenu', function(e) {
 		e.preventDefault();
 		return false;
+	}, false);		
+	viewer.addEventListener('keyup', function(e) {
+		if (event.keyCode === 37 && document.getElementById('viewer-prev') != null) {
+			document.getElementById('viewer-prev').click();
+		}
+		if (event.keyCode === 39 && document.getElementById('viewer-next') != null) {
+			document.getElementById('viewer-next').click();
+		}
+		return false;
 	}, false);
+	
 	frame.appendChild(viewer);
 
 	//navigation
@@ -294,47 +305,98 @@ function renderPage(pageName) {
 	let settingsDiv = document.createElement('h3');
 	settingsDiv.id = 'settings';
 		
+		let darkmode = document.getElementById('darkmode');
 		if(enableDarkMode)
 		{
-			let darkmode = document.createElement('i');
-			darkmode.id = 'darkmode';
-			darkmode.title = 'Toggle Dark Mode';
-			darkmode.classList.add('material-icons');
-			darkmode.innerText = 'brightness_high';
-			darkmode.addEventListener('click', toggleDarkMode);
-			settingsDiv.appendChild(darkmode);
+			if(darkmode == null) {
+				darkmode = document.createElement('i');
+				darkmode.id = 'darkmode';
+				darkmode.title = 'Toggle Dark Mode';
+				darkmode.classList.add('material-icons');
+				darkmode.innerText = 'brightness_high';
+				darkmode.addEventListener('click', toggleDarkMode);
+				settingsDiv.appendChild(darkmode);
+			}
+			else {
+				darkmode.style.display = '';
+				if(window.matchMedia('(prefers-color-scheme: dark)').matches) toggleDarkMode();
+			}
+		}
+		else if(darkmode != null) {
+			darkmode.style.display = 'none';
+			if(document.getElementsByClassName('darked').length > 0)
+				toggleDarkMode();
 		}
 		
-		if(enableViewer)
-		{
-			let viewing = document.createElement('i');
-			viewing.id = 'enable-viewer';
-			viewing.title = 'Toggle Viewer';
-			viewing.classList.add('material-icons');
-			viewing.innerText = localStorage.getItem("enableViewer") == "true" ? 'view_carousel' : 'view_column';
+		let viewing = document.getElementById('enable-viewer');	
+		if(!settingsLoaded)
 			viewing.addEventListener('click', function() {
 				localStorage.setItem("enableViewer", localStorage.getItem("enableViewer") == "true" ? false : true);
-				loadPage(document.body.id);
+				loadPage(body.id);
 			});
-			settingsDiv.appendChild(viewing);
+		if(enableViewer)
+		{
+			if(viewing == null) {
+				viewing = document.createElement('i');
+				viewing.id = 'enable-viewer';
+				viewing.title = 'Toggle Viewer';
+				viewing.classList.add('material-icons');
+				viewing.innerText = localStorage.getItem("enableViewer") == "true" ? 'view_carousel' : 'view_column';
+				viewing.addEventListener('click', function() {
+					localStorage.setItem("enableViewer", localStorage.getItem("enableViewer") == "true" ? false : true);
+					loadPage(body.id);
+				});
+				settingsDiv.appendChild(viewing);
+			}
+			else {
+				viewing.style.display = '';
+				viewing.innerText = localStorage.getItem("enableViewer") == "true" ? 'view_carousel' : 'view_column';
+			}
+		}
+		else if(viewing != null) {
+			viewing.style.display = 'none';
+			if(localStorage.getItem("enableViewer") == "true") {
+				localStorage.setItem("enableViewer", false);
+				loadPage(body.id);
+			}
 		}
 		
-		if(enableShadows)
-		{
-			let shadows = document.createElement('i');
-			shadows.id = 'enable-shadows';
-			shadows.title = 'Toggle Shadows';
-			shadows.classList.add('material-icons');
-			shadows.style.transform = 'scaleX(-1)';
-			shadows.innerText = localStorage.getItem("enableShadows") == "true" ? 'filter' : 'crop_original';
+		let shadows = document.getElementById('enable-shadows');
+		if(!settingsLoaded)
 			shadows.addEventListener('click', function() {
 				localStorage.setItem("enableShadows", localStorage.getItem("enableShadows") == "true" ? false : true);
-				loadPage(document.body.id);
+				loadPage(body.id);
 			});
-			settingsDiv.appendChild(shadows);
+		if(enableShadows)
+		{
+			if(shadows == null) {
+				shadows = document.createElement('i');
+				shadows.id = 'enable-shadows';
+				shadows.title = 'Toggle Shadows';
+				shadows.classList.add('material-icons');
+				shadows.style.transform = 'scaleX(-1)';
+				shadows.innerText = localStorage.getItem("enableShadows") == "true" ? 'filter' : 'crop_original';
+				shadows.addEventListener('click', function() {
+					localStorage.setItem("enableShadows", localStorage.getItem("enableShadows") == "true" ? false : true);
+					loadPage(body.id);
+				});
+				settingsDiv.appendChild(shadows);
+			}
+			else {
+				shadows.style.display = '';
+				shadows.innerText = localStorage.getItem("enableShadows") == "true" ? 'filter' : 'crop_original';
+			}
+		}
+		else if(shadows != null) {
+			shadows.style.display = 'none';
+			if(localStorage.getItem("enableShadows") == "true") {
+				localStorage.setItem("enableShadows", false);
+				loadPage(body.id);
+			}
 		}
 	
-	frame.appendChild(settingsDiv);
+	settingsLoaded = true;
+	// frame.appendChild(settingsDiv);
 	
 	let back = document.createElement('h4');
 	back.id = 'footer';
@@ -342,7 +404,7 @@ function renderPage(pageName) {
 		backLink.href = '../index.html';
 		backLink.innerText = 'Back';
 	back.appendChild(backLink);
-	frame.appendChild(back);
+	// frame.appendChild(back);
 	
 	body.innerHTML = '';
 	body.appendChild(frame);
@@ -382,14 +444,18 @@ function openImageInViewer(image) {
 	let imgNo = updateImageNo(image);
 	
 	let viewer = document.getElementById('viewer');
+	viewer.tabIndex = 999;
 	if(viewer.style.display != 'block') viewer.style.display = 'block';
-	let viewerPrev = document.createElement('div');
+	let viewerPrev = document.createElement('a');
 	viewerPrev.id = 'viewer-prev';
 	viewerPrev.classList.add('viewer-nav');
-	let viewerNext = document.createElement('div');
+	let viewerNext = document.createElement('a');
 	viewerNext.id = 'viewer-next';
 	viewerNext.classList.add('viewer-nav');
 	let thumbnail = image.cloneNode(true);
+	let linkable = document.createElement('a');
+	linkable.tabIndex = 1000;
+	linkable.href = 'javascript:void(0);';
 	let img = document.createElement('img');
 	img.id = thumbnail.id;
 	img.classList = thumbnail.classList;
@@ -405,22 +471,25 @@ function openImageInViewer(image) {
 	viewer.style.paddingTop = '0';
 	if(imgNo-1 >= 0) viewer.appendChild(viewerPrev);
 	if(imgNo+1 < linkedImgList.length) viewer.appendChild(viewerNext);
-	viewer.appendChild(img);
+	linkable.appendChild(img);
+	viewer.appendChild(linkable);
+	viewer.focus();
 	
-	if(imgNo-1 >= 0)
+	if(imgNo-1 >= 0) {
 		document.getElementById('viewer-prev').addEventListener('click', function(e) {
 			if(runSlideshow != null) return;
 			openImageInViewer(linkedImgList[imgNo-1]);
 			return false;
 		}, false);
-	if(imgNo+1 < linkedImgList.length)
+	}
+	if(imgNo+1 < linkedImgList.length) {
 		document.getElementById('viewer-next').addEventListener('click', function(e) {
 			if(runSlideshow != null) return;
 			openImageInViewer(linkedImgList[imgNo+1]);
 			return false;
 		}, false);
-		
-	img.addEventListener('click', closeViewer);
+	}
+	linkable.addEventListener('click', closeViewer);
 	
 	adjustViewerMargin();
 }
@@ -475,7 +544,7 @@ function loadSettings() {
 }
 
 function calculateGalleryHeight() {
-	let baseItems = ['navigation','title','credit','filter','midline','slideshow','settings','footer'];
+	let baseItems = ['navigation','title','credit','filter','midline','slideshow','settings'];//,'footer'];
 	let result = 0;
 	let filterHeight = 0;
 	//console.log(window.innerHeight);
@@ -511,7 +580,7 @@ function loadStyle(url) {
 //unload css loaded
 function unloadCurrentStyle() {
 	//let currentPageName = window.location.pathname.split('/').pop().replace('.html','');
-	let currentPageName = document.body.id + '-css';
+	let currentPageName = body.id + '-css';
 	if(document.getElementById(currentPageName) != null)
 		document.getElementById(currentPageName).parentNode.removeChild(document.getElementById(currentPageName));
 }
@@ -550,7 +619,7 @@ function loadDataScript(pageName) {
 }
 
 function unloadCurrentScripts() {
-	let currentPageName = document.body.id;
+	let currentPageName = body.id;
 	let currentDataScript = currentPageName + '-data';
 	let currentProcessScript = currentPageName + '-temp';
 	if(document.getElementById(currentDataScript) != null)
@@ -587,16 +656,19 @@ function renderGallery(array) {
 		profileBoxHTML.classList.add('profile-box');
 		if(enableShadows && localStorage.getItem("enableShadows") == "true") profileBoxHTML.classList.add('shadowed');
 		else if(localStorage.getItem("enableShadows") != "true") profileBoxHTML.classList.add('unshadowed');
-		let profileBoxImgHTML = document.createElement('DIV');
-		profileBoxImgHTML.classList.add('profile-box-img');
-		let imgHTML = document.createElement('IMG');
-		imgHTML.id = img[1].substring(img[1].lastIndexOf('/')+1).replace('.jpg','');
-		imgHTML.classList.add(img[2]);
-		imgHTML.setAttribute('alt', img[1]);
-		imgHTML.setAttribute('src', spacerURL);
-		imgHTML.title = img[4] == "" ? img[3] : img[4];
-		profileBoxImgHTML.appendChild(imgHTML);
-		profileBoxHTML.appendChild(profileBoxImgHTML);
+			let profileBoxImgHTML = document.createElement('DIV');
+			profileBoxImgHTML.classList.add('profile-box-img');
+				let imgWrapHTML = document.createElement('A');
+				imgWrapHTML.href = 'javascript:void(0);';
+					let imgHTML = document.createElement('IMG');
+					imgHTML.id = img[1].substring(img[1].lastIndexOf('/')+1).replace('.jpg','');
+					imgHTML.classList.add(img[2]);
+					imgHTML.setAttribute('alt', img[1]);
+					imgHTML.setAttribute('src', spacerURL);
+					imgHTML.title = img[4] == "" ? img[3] : img[4];
+					imgWrapHTML.appendChild(imgHTML);
+				profileBoxImgHTML.appendChild(imgWrapHTML);
+			profileBoxHTML.appendChild(profileBoxImgHTML);
 		profileCategoryHTML.appendChild(profileBoxHTML);
 		totalCount++;
 	}
@@ -607,13 +679,19 @@ function renderGallery(array) {
 	{
 		image.src = image.alt;
 		image.removeAttribute('alt');
-		image.addEventListener('click', function() {
+		image.parentElement.addEventListener('focus', function() {
 			this.scrollIntoView({
 				behavior: "smooth",
 				inline: "center"
 			});
 		});
-		image.addEventListener('contextmenu', function() {
+		image.parentElement.addEventListener('click', function() {
+			this.scrollIntoView({
+				behavior: "smooth",
+				inline: "center"
+			});
+		});
+		image.parentElement.addEventListener('contextmenu', function() {
 			this.scrollIntoView({
 				behavior: "smooth",
 				inline: "center"
@@ -635,7 +713,7 @@ function renderGallery(array) {
 	{
 		for (let i = 0 ; i < document.getElementById('imgGallery').getElementsByTagName('img').length ; i++)
 		{
-			document.getElementById('imgGallery').getElementsByTagName('img')[i].addEventListener('click', function() { openViewer(document.getElementById('imgGallery').getElementsByTagName('img')[i]); });
+			document.getElementById('imgGallery').getElementsByTagName('img')[i].parentElement.addEventListener('click', function() { openViewer(document.getElementById('imgGallery').getElementsByTagName('img')[i]); });
 		}
 	}
 	
