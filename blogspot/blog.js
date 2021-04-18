@@ -3,6 +3,7 @@ window.onpageshow = function() {
 	// To be in sequence unless otherwise
 	loadExternal();
 	addObjects();
+    preloadSequence();
     reduceResults();
     fixPopup();
     setThumbnails();
@@ -15,7 +16,6 @@ window.onpageshow = function() {
     addHoverForLinks();
     addHoverOnExpander();
     addHashtags();
-    preloadSequence();
 	// hideImagesOnError();
 
 	// Window events
