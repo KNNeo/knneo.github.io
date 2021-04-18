@@ -1,3 +1,4 @@
+--when table created, go to Export table "save table as currently displayed" as CSV
 create table Export as
 select 
 s.KNID, 
