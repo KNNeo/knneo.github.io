@@ -333,12 +333,12 @@ void Main()
 			output.WriteLine("<meta name=\"theme-color\" content=\"black\">");
 			output.WriteLine("<meta name=\"apple-mobile-web-app-capable\" content=\"yes\">");
 			output.WriteLine("<meta name=\"mobile-web-app-capable\" content=\"yes\">");
-		    output.WriteLine("<link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet' />");
-			output.WriteLine("<link href=\"https://fonts.googleapis.com/icon?family=Material+Icons\" rel=\"stylesheet\" />");
 			output.WriteLine("<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../blog.css\" />");
 			output.WriteLine("<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../blogspot.css\" />");
+		    output.WriteLine("<link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet' />");
+			output.WriteLine("<link href=\"https://fonts.googleapis.com/icon?family=Material+Icons\" rel=\"stylesheet\" />");
 			output.WriteLine("<title>" + title + "</title>");
-			output.WriteLine("<body class=\"post-body entry-content\" style=\"display:none;\">");
+			output.WriteLine("<body class=\"post-body entry-content\">");
 			output.WriteLine("<div id=\"viewer\" style=\"display: none;\"></div>");
 			output.WriteLine("<div id=\"contents\">");
 			output.WriteLine("<a id='BackBtn' onclick='goBack()' title='Go Back'><i class='material-icons'>arrow_back</i></a>");
