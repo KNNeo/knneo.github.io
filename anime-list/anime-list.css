@@ -41,7 +41,19 @@ td { white-space: nowrap; }
 th { padding: 0 5px; }
 tr { border-bottom: 1px solid #444444; } 
 
+tr:hover > td {
+	background-color: black;
+}
+
+.darked tr:hover > td {
+	background-color: white;
+}
+
 td.active-period {
+	background-color: black;
+}
+
+.darked td.active-period {
 	background-color: white;
 }
 
@@ -103,14 +115,19 @@ tr > td:first-child:active {
 .active-period:hover .show-overlay {
 	display: block;
 	position: absolute;
-	background-color: black;
+	background-color: white;
 	font-size: 0.8em;
 	border-radius: 8px;
-	border: 1px solid white;
+	border: 1px solid black;
 	box-shadow: 3px 3px;
 	text-align: center;
 	padding: 4px 8px;
 	z-index: 3;
+}
+
+.darked .active-period:hover .show-overlay {
+	background-color: black;
+	border: 1px solid white;
 }
 
 @media only screen and (max-width: 960px) {
@@ -138,7 +155,7 @@ tr > td:first-child:active {
 
 .anime-details-box {
  border-radius: 8px;
- border: 1px solid white;
+ border: 1px solid black;
  box-shadow: 3px 3px;
  padding: 4px 8px;
  display: none;
@@ -147,6 +164,10 @@ tr > td:first-child:active {
  -moz-user-select: none;
  -ms-user-select: none;
  user-select: none;
+}
+
+.darked .anime-details-box {
+ border: 1px solid white;
 }
 
 .anime-line:active .anime-details-box {
