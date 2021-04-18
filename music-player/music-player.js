@@ -58,7 +58,6 @@ window.onload = startup();
 function startup() {
 	generateSidemenu();
 	hideIrrelevant();
-	createDarkMode();
 }
 
 //for side menu, add all tables to have list class, use ids to generate
@@ -97,17 +96,6 @@ function hideIrrelevant() {
 		year.style.fontWeight = year.innerText != tableID ? 'normal' : 'bold';
 	}
 }
-
-function createDarkMode() {
-	if(document.getElementById('darkmode') != undefined)
-		document.getElementById('darkmode').addEventListener('click', function() {
-			if(document.getElementsByTagName('html')[0].classList.contains('darked'))
-				document.getElementsByTagName('html')[0].classList.remove('darked');
-			else
-				document.getElementsByTagName('html')[0].classList.add('darked');
-		} );
-}
-
 
 function runTimestamp() {
     timer = setInterval(setTimestamp, 1000);

@@ -238,8 +238,6 @@ function startup() {
 		generateSidemenu();
 		hideIrrelevant();
 	}
-	if(document.getElementById('darkmode') != undefined)
-		createDarkMode();
 	generateTable(tableID);
 	generatePlayer(tableID);
 }
@@ -449,16 +447,6 @@ function hideIrrelevant() {
 	{
 		year.style.fontWeight = year.innerText != tableID ? 'normal' : 'bold';
 	}
-}
-
-function createDarkMode() {
-	if(document.getElementById('darkmode') != undefined)
-		document.getElementById('darkmode').addEventListener('click', function() {
-			if(document.getElementsByTagName('html')[0].classList.contains('darked'))
-				document.getElementsByTagName('html')[0].classList.remove('darked');
-			else
-				document.getElementsByTagName('html')[0].classList.add('darked');
-		} );
 }
 
 //actual timestamp run event when playing

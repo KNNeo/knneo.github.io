@@ -99,7 +99,7 @@ td, th {
 	
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
 	td, th { 
 		border: 1px solid white; 
 	}
@@ -107,4 +107,4 @@ td, th {
 	.darked td, .darked th {
 		border: 1px solid black; 
 	}
-}
+} */
