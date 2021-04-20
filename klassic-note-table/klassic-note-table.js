@@ -63,9 +63,8 @@ function generateFilters(filters) {
 		columnSpan.appendChild(columnLabel);
 		
 		columnTickbox.addEventListener('click', function() {
-			if(!this.checked) document.getElementById('dbInput'+column).style.display = 'none';
-			else document.getElementById('dbInput'+column).style.display = '';
-			
+			let search = document.getElementById('dbInput'+column);
+			if(search != null) search.style.display = this.checked ? '' : 'none';
 			document.getElementById('tickboxAll').checked = false;
 			resetPresets();
 		});
@@ -90,35 +89,34 @@ function generateSearch(filters) {
 	//tableFilters.innerHTML = '';
 	for (let column of filters.allColumns)
 	{
-		if(document.getElementById('dbInput' + column.replace(' ','')) != null)
-		{
-			if(filters.columns.indexOf(column) < 0)
-				document.getElementById('dbInput' + column.replace(' ','')).remove();
-			continue;
+		let columnInput = document.getElementById('dbInput' + column.replace(' ',''));
+		if(columnInput != null) {
+			columnInput.style.display = filters.columns.indexOf(column) < 0 ? 'none' : '';
 		}
-		
-		let columnInput = document.createElement('input');
-		columnInput.id = 'dbInput' + column.replace(' ','');
-		columnInput.type = 'text';
-		columnInput.placeholder = column;
-		columnInput.title = 'search';
-		columnInput.style.display = document.getElementById('tickbox' + column) != null && !document.getElementById('tickbox' + column).checked ? 'none' : '';
-		
-		columnInput.addEventListener('keyup', function(event) {
-			// Number 13 is the "Enter" key on the keyboard
-			if (event.keyCode === 13) {
-				// Cancel the default action, if needed
-				event.preventDefault();
-				// Trigger the button element with a click
-				document.getElementById("dbSubmitButton").click(this);
-			}
-		});
-		
-		columnInput.addEventListener('input', function(event) {
-			this.style.textAlign = this.value.length > 0 ? 'right' : '';
-		});
-		
-		tableFilters.appendChild(columnInput);
+		else {
+			let columnInput = document.createElement('input');
+			columnInput.id = 'dbInput' + column.replace(' ','');
+			columnInput.type = 'text';
+			columnInput.placeholder = column;
+			columnInput.title = 'search';
+			columnInput.style.display = document.getElementById('tickbox' + column) != null && !document.getElementById('tickbox' + column).checked ? 'none' : '';
+			
+			columnInput.addEventListener('keyup', function(event) {
+				// Number 13 is the "Enter" key on the keyboard
+				if (event.keyCode === 13) {
+					// Cancel the default action, if needed
+					event.preventDefault();
+					// Trigger the button element with a click
+					document.getElementById("dbSubmitButton").click(this);
+				}
+			});
+			
+			columnInput.addEventListener('input', function(event) {
+				this.style.textAlign = this.value.length > 0 ? 'right' : '';
+			});
+			
+			tableFilters.appendChild(columnInput);		
+		}
 	}
 }
 
