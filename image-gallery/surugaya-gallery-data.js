@@ -73,6 +73,24 @@ for(let item of document.getElementsByClassName('cap_wrap')) {
     list+= ("["+(counter++)+",'"+newurl+"','portrait','"+tag+"','"+detail+"'],") + '\n';
 }
 
+from cart: 'https://www.suruga-ya.com/ja/cart/detail'
+let dict = new Array();
+for(let item of document.getElementsByClassName('table-active')) {
+	let link = item.getElementsByTagName('h5')[0];
+	if(link != undefined) {
+		let tag = link.innerText.substring(0,link.innerText.indexOf('/')).replace('A ： ','').replace('B ： ','').replace('C ： ','');
+		if(dict.map(d => d.tag).includes(tag)) {
+			let selected = dict.filter(d => d.tag == tag);
+			if(selected.length > 0) {
+				selected[0].count += 1;
+			}
+		}
+		else {
+			dict.push({ tag:tag, count:1 });
+		}
+	}
+}
+console.log(dict.sort((a,b) => b.count - a.count));
 */
 
 //array containing all gallery info, tags delimiter "|"
