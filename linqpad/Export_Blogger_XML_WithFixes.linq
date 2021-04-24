@@ -337,6 +337,7 @@ void Main()
 			output.WriteLine("<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../blogspot.css\" />");
 		    output.WriteLine("<link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet' />");
 			output.WriteLine("<link href=\"https://fonts.googleapis.com/icon?family=Material+Icons\" rel=\"stylesheet\" />");
+			output.WriteLine("<link rel=\"icon\" href=\"../../../storytime.ico\" />");
 			output.WriteLine("<title>" + title + "</title>");
 			output.WriteLine("<body class=\"post-body entry-content\">");
 			output.WriteLine("<div id=\"viewer\" style=\"display: none;\"></div>");

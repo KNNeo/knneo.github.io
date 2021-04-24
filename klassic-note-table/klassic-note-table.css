@@ -50,11 +50,13 @@ th, td {
 #darkmode {
 	font-size: 26px;
 	vertical-align: bottom;
-	cursor: pointer;
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
+}
+#title, #darkmode {
+	cursor: pointer;
 }
 #back {
 	font-size: 32px;

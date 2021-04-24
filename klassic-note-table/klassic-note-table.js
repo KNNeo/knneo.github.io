@@ -11,7 +11,7 @@ let exColumns = [
 	{
 		title: 'InMonth',
 		cellText: 'Month Created',
-		destColumn: 'DateCreated'
+		sourceColumn: 'DateCreated'
 	}
 ];
 
@@ -35,10 +35,12 @@ document.getElementById('tickboxAll').addEventListener("click", function() {
 //COLUMN TICKBOXES--//
 function generateFilters(filters) {
 	if(filters.columns.length == 0) return;
-
+	
 	document.getElementById("table-columns").innerHTML = '';
 	for (let column of filters.allColumns)
 	{
+		let isExtra = exColumns.map(e => e.title).includes(column);
+		
 		let columnSpan = document.createElement('span');
 		//columnSpan.style.whiteSpace = 'nowrap';
 		columnSpan.style.display = 'inline-block';
@@ -85,6 +87,7 @@ function resetFilters() {
 //--COLUMN INPUTS--//
 function generateSearch(filters) {
 	let tableFilters = document.getElementById('table-filter');
+	let extraColumns = exColumns.map(e => e.title);
 	
 	//tableFilters.innerHTML = '';
 	for (let column of filters.allColumns)
@@ -93,7 +96,7 @@ function generateSearch(filters) {
 		if(columnInput != null) {
 			columnInput.style.display = filters.columns.indexOf(column) < 0 ? 'none' : '';
 		}
-		else {
+		else if(!extraColumns.includes(column)) {
 			let columnInput = document.createElement('input');
 			columnInput.id = 'dbInput' + column.replace(' ','');
 			columnInput.type = 'text';
@@ -128,7 +131,7 @@ function resetSearch() {
 }
 
 //event
-function generateSearchFromFilters(filters) {
+/* function generateSearchFromFilters(filters) {
 	let tableFilters = document.getElementById('table-filter');
 	
 	tableFilters.innerHTML = '';
@@ -152,13 +155,13 @@ function generateSearchFromFilters(filters) {
 		
 		tableFilters.appendChild(columnInput);
 	}
-}
+} */
 
 //--PRESET RADIO INPUTS--//
-function generatePresets() {
+/* function generatePresets() {
 	if(document.getElementById('table-preset-ticks').style.display == 'block') return;
 	document.getElementById('table-preset-ticks').style.display = 'block';
-}
+} */
 
 function resetPresets() {
 	for(let preset of document.getElementById('table-preset-ticks').getElementsByTagName('input'))
@@ -243,6 +246,23 @@ function filterColumns(table) {
 	return table;
 }
 
+function generateExtraColumns(table) {
+	for(let column of exColumns) {
+		if(document.getElementById('tickbox' + column.title) == null)
+			table.addColumn(column.title);
+		else if(document.getElementById('tickbox' + column.title).checked)
+			table.addColumn(column.title);
+	}
+	
+}
+
+function filterByExtraColumn(field) {
+	console.log(field);
+	//need column info before table render?
+	//how about check enable filter if have to render
+	//consider changing to object based rendering, then each tr has KNID
+}
+
 //--P5 JS SPECIFIC FUNCTIONS--//
 function loadTableFromCSV() {
 	button.hide();
@@ -250,13 +270,15 @@ function loadTableFromCSV() {
 	//table is comma separated value "csv" and has a header specifying the columns labels
 	let table = loadTable(
 		'https://knneo.github.io/klassic-note-table/klassic-note-database-song-table.csv', 
-		'csv', 
-		'header', 
+		'csv',
+		'header',
 		createTable);
 }
 
 //--CALLBACK FUNCTION--//
 function createTable(table) {
+	let fullTable = table.getObject();
+	console.log(fullTable);
 	let start = Date.now();
 	//ORIGINAL TABLE PROCESSING//
 	let allColumns = [];
@@ -264,11 +286,17 @@ function createTable(table) {
 	{
 		allColumns.push(column);
 	}
+	for (let column of exColumns)
+	{
+		allColumns.push(column.title);
+	}
+	console.log(allColumns);
 	
 	//FILTER RESULTS//
 	//(Note: table is mutable variable!)
-	table = filterRows(table);
-	table = filterColumns(table);
+	filterRows(table);
+	filterColumns(table);
+	generateExtraColumns(table);
 	
 	//display row count
 	let maxRow = table.getRowCount() > maxRows ? maxRows : table.getRowCount();
@@ -306,21 +334,36 @@ function createTable(table) {
 	
 	//content
 	let tableArray = table.getArray();
+	let extraColumns = exColumns.map(e => e.title);
 	for (let i = 0; i < maxRow; i++) {
 		let knTableRow = document.createElement('tr');
 		if (i >= 0) {
-			for (let j = 0; j < tableArray[i].length; j++) {
+			for (let j = 0; j < table.columns.length; j++) {
 				let knTableCell = document.createElement('td');
 				knTableCell.classList.add(table.columns[j]);
 				knTableCell.setAttribute('nowrap','nowrap');
-				if(tableArray[i][j].includes('http'))
+				//if extra column, if table entry has link
+				if(extraColumns.includes(table.columns[j]))
+				{
+					//a tag
+					let knTableLink = document.createElement('a');
+					
+					knTableLink.href = 'javascript:void(0);';
+					// knTableLink.classList.add(table.columns[j]);
+					knTableLink.innerText = 'Link';
+					knTableLink.addEventListener('click', function() {
+						filterByExtraColumn(this.parentElement.parentElement);
+					});
+					knTableCell.appendChild(knTableLink);
+				}
+				else if(tableArray[i][j].includes('http'))
 				{
 					//a tag
 					let knTableLink = document.createElement('a');
 					knTableLink.setAttribute('target','_blank');
 					knTableLink.href = tableArray[i][j];
 					knTableLink.innerText = 'Link';
-					knTableCell.appendChild(knTableLink);
+					knTableCell.appendChild(knTableLink);					
 				}
 				else
 					knTableCell.innerText = tableArray[i][j];
@@ -336,7 +379,8 @@ function createTable(table) {
 	knTable.appendChild(knTableBody);
 	
 	//assign
-	document.getElementById("dbTable").innerHTML = knTable.innerHTML;	
+	document.getElementById("dbTable").innerHTML = '';
+	document.getElementById("dbTable").appendChild(knTable);	
 	//generatePresets();
 	
 	//disable input until load complete
