@@ -288,9 +288,9 @@ function setThumbnails() {
         if (popHeight - initialHeight > 50 || popHeight - initialHeight < -50)
             allThumbnails[i].style.height = initialHeight + 'px'; */
 		
-		let [, maxHeight] = calcMinMaxThumbHeight(allThumbnails[i], true);
-		if(maxHeight)
-			allThumbnails[i].style.height = maxHeight + 'px';
+		let [minHeight, ] = calcMinMaxThumbHeight(allThumbnails[i], true);
+		if(minHeight)
+			allThumbnails[i].style.height = minHeight + 'px';
         let allThumbImages = allThumbnails[i].getElementsByTagName("img");
         for (j = 0; j < allThumbImages.length; j++) {
             allThumbImages[j].onclick = function() {
