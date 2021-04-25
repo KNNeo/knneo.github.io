@@ -288,9 +288,9 @@ function setThumbnails() {
         if (popHeight - initialHeight > 50 || popHeight - initialHeight < -50)
             allThumbnails[i].style.height = initialHeight + 'px'; */
 		
-		let [minHeight, ] = calcMinMaxThumbHeight(allThumbnails[i], true);
-		if(minHeight)
-			allThumbnails[i].style.height = minHeight + 'px';
+		let [, maxHeight] = calcMinMaxThumbHeight(allThumbnails[i], true);
+		if(maxHeight)
+			allThumbnails[i].style.height = maxHeight + 'px';
         let allThumbImages = allThumbnails[i].getElementsByTagName("img");
         for (j = 0; j < allThumbImages.length; j++) {
             allThumbImages[j].onclick = function() {
@@ -363,7 +363,9 @@ function calcMinMaxThumbHeight(thumbnailClass, isFirstLoad) {
     let heights = Array.from(tc).map(t => t.offsetHeight);
 	let minHeight = Math.min(...heights);
 	let maxHeight = Math.max(...heights);
-	return isFirstLoad ? [tc[0].offsetHeight, null] : [minHeight, maxHeight] || [tc[0].offsetHeight, null];
+	if(isFirstLoad && maxHeight - minHeight > 50)
+		return [null, tc[0].offsetHeight];
+	return [minHeight, maxHeight] || [tc[0].offsetHeight, tc[0].offsetHeight];
 }
 
 // Responsive image resizing based on screen dimensions
