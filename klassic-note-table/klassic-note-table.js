@@ -2,9 +2,9 @@
 let firstLoad = true;
 let activePreset = [];
 let presetAllArray = ["SongID", "KNID", "KNJAPAN", "KNJPOP", "KNYEAR", "Filename", "SongTitle", "ArtistTitle", "ParentArtist", "ReleaseTitle", "ReleaseArtistTitle", "ReleaseYear", "Rating", "Genre", "DateCreated", "VocalCode", "Language", "InAppleMusic", "LyricsURL", "SongTitleAlt", "ArtistTitleAlt", "ReleaseTitleAlt", "ReleaseArtistTitleAlt", "ArtistCode"];
-let preset1Array = ["SongTitle", "ArtistTitle", "ParentArtist", "ReleaseTitle", "ReleaseArtistTitle"];
-let preset2Array = ["SongTitleAlt", "ArtistTitleAlt", "ReleaseTitleAlt", "ReleaseArtistTitleAlt"];
-let preset3Array = ["SongTitle", "ArtistTitle", "LyricsURL"];
+let preset1Array = ["KNID", "SongTitle", "ArtistTitle", "ParentArtist", "ReleaseTitle", "ReleaseArtistTitle"];
+let preset2Array = ["KNID", "SongTitleAlt", "ArtistTitleAlt", "ReleaseTitleAlt", "ReleaseArtistTitleAlt"];
+let preset3Array = ["KNID", "SongTitle", "ArtistTitle", "LyricsURL"];
 let maxRows = isMobile ? 100 : 500;
 //columns on demand: query table based on row column generated
 let exColumns = [
@@ -12,8 +12,14 @@ let exColumns = [
 		title: 'InMonth',
 		cellText: 'Month Created',
 		sourceColumn: 'DateCreated'
+	},
+	{
+		title: 'FindArtist',
+		cellText: 'Find Artist',
+		sourceColumn: 'ArtistTitle'
 	}
 ];
+let refTable;
 
 //--FIRST TIME CALLS--//
 document.getElementById('tickboxAll').addEventListener("click", function() {
@@ -256,13 +262,6 @@ function generateExtraColumns(table) {
 	
 }
 
-function filterByExtraColumn(field) {
-	console.log(field);
-	//need column info before table render?
-	//how about check enable filter if have to render
-	//consider changing to object based rendering, then each tr has KNID
-}
-
 //--P5 JS SPECIFIC FUNCTIONS--//
 function loadTableFromCSV() {
 	button.hide();
@@ -277,8 +276,8 @@ function loadTableFromCSV() {
 
 //--CALLBACK FUNCTION--//
 function createTable(table) {
-	let fullTable = table.getObject();
-	console.log(fullTable);
+	// const refTable = table.getObject();
+	
 	let start = Date.now();
 	//ORIGINAL TABLE PROCESSING//
 	let allColumns = [];
@@ -290,12 +289,11 @@ function createTable(table) {
 	{
 		allColumns.push(column.title);
 	}
-	console.log(allColumns);
 	
 	//FILTER RESULTS//
 	//(Note: table is mutable variable!)
-	filterRows(table);
-	filterColumns(table);
+	table = filterRows(table);
+	table = filterColumns(table);
 	generateExtraColumns(table);
 	
 	//display row count
@@ -327,7 +325,8 @@ function createTable(table) {
 	{
 		let knColumn = document.createElement('th');
 		knColumn.id = 'column' + column.replace(' ','');
-		knColumn.innerText = column;
+		knColumn.innerText = exColumns.filter(e => e.title == column).length > 0 ? exColumns.filter(e => e.title == column)[0].cellText : column;
+		knColumn.style.whiteSpace = 'nowrap';
 		knTableHeader.appendChild(knColumn);
 	}
 	knTableBody.appendChild(knTableHeader);
@@ -345,14 +344,36 @@ function createTable(table) {
 				//if extra column, if table entry has link
 				if(extraColumns.includes(table.columns[j]))
 				{
+					let exColumn = exColumns.filter(e => e.title == table.columns[j])[0];
+					knTableCell.style.textAlign = 'center';
 					//a tag
 					let knTableLink = document.createElement('a');
-					
 					knTableLink.href = 'javascript:void(0);';
-					// knTableLink.classList.add(table.columns[j]);
 					knTableLink.innerText = 'Link';
-					knTableLink.addEventListener('click', function() {
-						filterByExtraColumn(this.parentElement.parentElement);
+					knTableLink.addEventListener('click', function(event) {
+						event.preventDefault();
+						// custom search logic
+						// assumption: first column must display
+						if(table.columns[j] == 'InMonth') {
+							resetSearch();
+							resetFilters();
+							
+							let id = this.parentElement.parentElement.getElementsByTagName('td')[0];
+							let row = refTable[parseInt(id.innerText) - 1]; //based on first column
+							let targetVal = row[exColumn.sourceColumn]; //object based column
+							document.getElementById('dbInput' + exColumn.sourceColumn).value = targetVal.substring(0,7); //custom logic here
+						}
+						if(table.columns[j] == 'FindArtist') {
+							resetSearch();
+							resetFilters();
+							
+							let id = this.parentElement.parentElement.getElementsByTagName('td')[0];
+							let row = refTable[parseInt(id.innerText) - 1]; //based on first column
+							let targetVal = row[exColumn.sourceColumn]; //object based column
+							document.getElementById('dbInput' + exColumn.sourceColumn).value = targetVal;
+						}
+						
+						document.getElementById("dbSubmitButton").click(this);
 					});
 					knTableCell.appendChild(knTableLink);
 				}
@@ -394,9 +415,23 @@ function createTable(table) {
 
 //--P5.JS MAIN FUNCTION--//
 function setup() {
+	loadTable(
+		'https://knneo.github.io/klassic-note-table/klassic-note-database-song-table.csv', 
+		'csv',
+		'header',
+		loadReferenceTable);
 	//button to load table
 	button = createButton('Load Table');
 	button.mousePressed(loadTableFromCSV);
 	if(isMobile) document.getElementById('table-filter').removeAttribute('position');
 	resetTable();
 }
+
+function loadReferenceTable(table) {
+	refTable = table.getObject();
+}
+
+//TODO:
+//Revamp rendering of table such that original table is never mutated, and filters are done after getArray/getObject (prefer latter?)
+//Use getArray advantages at use column number where getObject can only call on object name which cannot be called? eg. row.DateCreated
+//If query table twice is still unavoidable make it such that all align to mutable design for loadTableFromCSV
