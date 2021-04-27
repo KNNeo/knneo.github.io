@@ -209,6 +209,10 @@
 			{
 				"image":"https://pbs.twimg.com/media/EzQt4QCVgAgPjzo?format=jpg&name=small",
 				"id":"KogaAoi-OozoraNaomi"
+			},
+			{
+				"image":"https://pbs.twimg.com/media/Ez8_c4hVkAIzexT?format=jpg&name=small",
+				"id":"KogaAoi-TaketatsuAyana"
 			}
 		]
 	},
@@ -1170,6 +1174,7 @@
 		"id":"HondoKaede",
 		"image":"https://knneo.webs.com/hondokaede.jpg",
 		"landscapes":[
+			"https://www.lisani.jp/admin/wp-content/uploads/2021/04/2104261800-mt-010.jpg",
 			"https://img2.animatetimes.com/2021/04/606fd8938e618_a1db25d189136b6889855edf2a1da202.jpg",
 			"https://pbs.twimg.com/media/Evxw-jRUYAMk95q?format=jpg&name=small",
 			"https://pbs.twimg.com/media/Evub0B_VcBA4isR?format=jpg&name=small",
