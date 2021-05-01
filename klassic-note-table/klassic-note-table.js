@@ -313,12 +313,13 @@ function createTable(table) {
 	generateExtraColumns(table);
 	
 	//set pagination
+	let onePageResults = table.getRowCount() < maxRows;
 	if(pageNo < 1) pageNo = 1;
-	document.getElementById('dbPrevButton').disabled = pageNo < 2;
+	document.getElementById('dbPrevButton').disabled = pageNo < 2 || onePageResults;
 	
 	let maxPages = Math.ceil(table.getRowCount() / maxRows);
 	if(pageNo >= maxPages) pageNo = maxPages;
-	document.getElementById('dbNextButton').disabled = pageNo >= maxPages;
+	document.getElementById('dbNextButton').disabled = pageNo >= maxPages || onePageResults;
 	// console.log(maxPages, pageNo);
 	
 	//display row count
@@ -330,7 +331,7 @@ function createTable(table) {
 		// document.getElementById("table-result").innerText += "; Displaying first "+maxRow+" results";
 	
 	let minRow = pageNo >= maxPages ? ((maxPages-1) * maxRows) : maxRow - maxRows;
-	document.getElementById("table-result").innerText += "; Displaying " + (minRow + 1) + " - "+ maxRow;
+	document.getElementById("table-result").innerText += onePageResults ? "" : ("; Displaying " + (minRow + 1) + " - "+ maxRow);
 	
 
 	//reset search according to columns selected
@@ -404,6 +405,7 @@ function createTable(table) {
 						}
 						
 						document.getElementById("dbSubmitButton").click(this);
+						document.body.scrollIntoView();
 					});
 					knTableCell.appendChild(knTableLink);
 				}
