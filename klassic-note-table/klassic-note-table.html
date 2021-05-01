@@ -13,7 +13,7 @@
 </head>
 <body>
 	<div class="header">
-		<a id="back" title="Back" class="material-icons" href="../index.html">forward</a>
+		<a id="back" title="Back" class="material-icons" href="../index.html">home</a>
 		<h1 id="title" style="display: inline-block;" onclick="location.reload()">Klassic Note Table</h1>
 		<a id="darkmode" title="Toggle Dark Mode" class="material-icons" href="javascript:void(0);">brightness_high</a>
 	</div>
@@ -35,11 +35,15 @@
 	<h4>Search</h4>
 	<div id="table-filter" class="table-filter"></div>
 	<div class="table-filter">
-		<button id="dbSubmitButton" type="submit" onclick="loadTableFromCSV()" placeholder="submit" value="Submit">Submit</button>
-		<button id="dbClearButton" type="submit" onclick="resetSearch()" placeholder="clear" value="Clear">Clear</button>
-		<button id="dbResetButton" type="submit" onclick="resetTable()" placeholder="reset" value="Reset">Reset</button>
-		<button id="dbPrevButton" type="submit" onclick="prevPage()" placeholder="previous" value="Previous Page">PREV</button>
-		<button id="dbNextButton" type="submit" onclick="nextPage()" placeholder="next" value="Next Page">NEXT</button>
+		<button id="dbSubmitButton" type="submit" onclick="loadTableFromCSV()" placeholder="submit" value="Submit" title="Submit">Submit</button>
+		<button id="dbClearButton" type="submit" onclick="resetSearch()" placeholder="clear" value="Clear" title="Clear">Clear</button>
+		<button id="dbResetButton" type="submit" onclick="resetTable()" placeholder="reset" value="Reset" title="Reset">Reset</button>
+		<button id="dbPrevButton" type="submit" onclick="prevPage()" placeholder="previous" value="Previous Page" title="Previous Page">
+			<i style="font-size:inherit;" class="material-icons">skip_previous</i>
+		</button>
+		<button id="dbNextButton" type="submit" onclick="nextPage()" placeholder="next" value="Next Page" title="Next Page">
+			<i style="font-size:inherit;" class="material-icons">skip_next</i>
+		</button>
 	</div>
 	<br>
     <div class="table-reset"></div>

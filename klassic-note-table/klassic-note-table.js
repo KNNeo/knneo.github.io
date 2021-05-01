@@ -5,7 +5,7 @@ let presetAllArray = ["SongID", "KNID", "KNJAPAN", "KNJPOP", "KNYEAR", "Filename
 let preset1Array = ["KNID", "SongTitle", "ArtistTitle", "ParentArtist", "ReleaseTitle", "ReleaseArtistTitle"];
 let preset2Array = ["KNID", "SongTitleAlt", "ArtistTitleAlt", "ReleaseTitleAlt", "ReleaseArtistTitleAlt"];
 let preset3Array = ["KNID", "SongTitle", "ArtistTitle", "LyricsURL"];
-let maxRows = isMobile ? 100 : 500;
+let maxRows = isMobile() ? 100 : 500;
 let pageNo = 1;
 //columns on demand: query table based on row column generated
 let exColumns = [
@@ -200,7 +200,7 @@ function generateSearchOnPreset(radioInput) {
 //--FUNCTIONS--//
 function resetTable() {
 	pageNo = 1;
-	maxRows = isMobile ? 100 : 500;
+	maxRows = isMobile() ? 100 : 500;
 	resetPresets();
 	resetFilters();
 	resetSearch();

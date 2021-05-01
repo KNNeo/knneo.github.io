@@ -60,7 +60,7 @@ th, td {
 }
 #back {
 	font-size: 32px;
-	transform: rotate(180deg);
+	/* transform: rotate(180deg); */
 	vertical-align: bottom;
 }
 .p5Canvas {
