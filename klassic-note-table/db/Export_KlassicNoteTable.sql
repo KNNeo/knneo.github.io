@@ -26,5 +26,5 @@ s.ReleaseArtistTitleAlt,
 a.ArtistCode 
 from Song s
 join (select distinct ArtistTitle, ArtistCode from Artist) a on s.ArtistTitle = a.ArtistTitle
-join AppleMusic am on s.KNID = am.KNID
+left join AppleMusic am on s.KNID = am.KNID
 order by s.KNID;
