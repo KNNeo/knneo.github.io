@@ -268,12 +268,14 @@ function generateExtraColumns(table) {
 
 function prevPage() {
 	pageNo--;
-	loadTableFromCSV();
+	if(pageNo > 0)
+		loadTableFromCSV();
 }
 
 function nextPage() {
 	pageNo++;
-	loadTableFromCSV();
+	if(!document.getElementById("table-result").innerText.endsWith(pageNo * maxRows))
+		loadTableFromCSV();
 }
 
 //--P5 JS SPECIFIC FUNCTIONS--//
