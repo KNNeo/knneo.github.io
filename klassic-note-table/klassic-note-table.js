@@ -6,6 +6,7 @@ let preset1Array = ["KNID", "SongTitle", "ArtistTitle", "ParentArtist", "Release
 let preset2Array = ["KNID", "SongTitleAlt", "ArtistTitleAlt", "ReleaseTitleAlt", "ReleaseArtistTitleAlt"];
 let preset3Array = ["KNID", "SongTitle", "ArtistTitle", "LyricsURL"];
 let maxRows = isMobile ? 100 : 500;
+let pageNo = 1;
 //columns on demand: query table based on row column generated
 let exColumns = [
 	{
@@ -21,7 +22,7 @@ let exColumns = [
 ];
 let refTable;
 
-//--FIRST TIME CALLS--//
+//--FIRST TIME CALLS
 document.getElementById('tickboxAll').addEventListener("click", function() {
 	let count = 0;
 	for(let tickbox of document.getElementById('table-column-ticks').getElementsByTagName('input'))
@@ -198,6 +199,8 @@ function generateSearchOnPreset(radioInput) {
 
 //--FUNCTIONS--//
 function resetTable() {
+	pageNo = 1;
+	maxRows = isMobile ? 100 : 500;
 	resetPresets();
 	resetFilters();
 	resetSearch();
@@ -262,6 +265,17 @@ function generateExtraColumns(table) {
 	
 }
 
+
+function prevPage() {
+	pageNo--;
+	loadTableFromCSV();
+}
+
+function nextPage() {
+	pageNo++;
+	loadTableFromCSV();
+}
+
 //--P5 JS SPECIFIC FUNCTIONS--//
 function loadTableFromCSV() {
 	button.hide();
@@ -296,12 +310,26 @@ function createTable(table) {
 	table = filterColumns(table);
 	generateExtraColumns(table);
 	
+	//set pagination
+	if(pageNo < 1) pageNo = 1;
+	document.getElementById('dbPrevButton').disabled = pageNo < 2;
+	
+	let maxPages = Math.ceil(table.getRowCount() / maxRows);
+	if(pageNo >= maxPages) pageNo = maxPages;
+	document.getElementById('dbNextButton').disabled = pageNo >= maxPages;
+	// console.log(maxPages, pageNo);
+	
 	//display row count
-	let maxRow = table.getRowCount() > maxRows ? maxRows : table.getRowCount();
+	let maxRow = pageNo * maxRows > table.getRowCount() ? table.getRowCount() : pageNo * maxRows;
+	// table.getRowCount() > maxRows ? maxRows : table.getRowCount();
 	document.getElementById("table-result").innerText = 
 		table.getRowCount() + " result" + (table.getRowCount() != 1 ? "s" : "") + " found";
-	if (table.getRowCount() > maxRow)
-		document.getElementById("table-result").innerText += "; Displaying first "+maxRow+" results";
+	// if (table.getRowCount() > maxRow)
+		// document.getElementById("table-result").innerText += "; Displaying first "+maxRow+" results";
+	
+	let minRow = pageNo >= maxPages ? ((maxPages-1) * maxRows) : maxRow - maxRows;
+	document.getElementById("table-result").innerText += "; Displaying " + (minRow + 1) + " - "+ maxRow;
+	
 
 	//reset search according to columns selected
 	generateSearch({ 
@@ -334,7 +362,7 @@ function createTable(table) {
 	//content
 	let tableArray = table.getArray();
 	let extraColumns = exColumns.map(e => e.title);
-	for (let i = 0; i < maxRow; i++) {
+	for (let i = minRow; i < maxRow; i++) {
 		let knTableRow = document.createElement('tr');
 		if (i >= 0) {
 			for (let j = 0; j < table.columns.length; j++) {
@@ -411,6 +439,7 @@ function createTable(table) {
 		return;
 	}
 	// console.log(Date.now() - start);
+	
 }
 
 //--P5.JS MAIN FUNCTION--//
