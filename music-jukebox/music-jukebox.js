@@ -5,9 +5,24 @@ let mosaicArray = new Array();
 mosaicArray.push(['https://is3-ssl.mzstatic.com/image/thumb/Music124/v4/c7/a1/c7/c7a1c7b8-c697-2509-40a2-23b08a64fbad/PCCG_01967_A.jpg/500x500cc.jpeg','1562664393','32CKhuDhSINttWOAdUNfeT']);
 mosaicArray.push(['https://is5-ssl.mzstatic.com/image/thumb/Music124/v4/e3/c5/83/e3c58354-4649-7e15-885f-ca4d513898f8/KICM-92079.jpg/500x500cc.jpeg','1558995369','7gLRNCBoLQh8tHb6aeSpl2']);
 mosaicArray.push(['https://is3-ssl.mzstatic.com/image/thumb/Music114/v4/1c/cc/ce/1cccced5-4824-14ed-7226-6ddee11f997e/4547366490237.jpg/500x500cc.jpeg','1545321704','738yVyo1lZE9Sv1rY5VTqF']);
-mosaicArray.push(['https://is5-ssl.mzstatic.com/image/thumb/Music114/v4/3d/28/49/3d28492e-ae3b-94c3-7348-fc9d20282e2a/COZC-1728.jpg/500x500cc.jpeg','1556000069','1SWWzVxV7S1QRei81zHO0b']);
+mosaicArray.push(['https://is2-ssl.mzstatic.com/image/thumb/Music114/v4/bc/c1/e4/bcc1e45a-2600-c28b-4541-b2f497b02f6c/VEATP-32342.jpg/500x500bb.jpg','960571252','0DnWOB5oKeCF2B4x3uKVtp']);
 mosaicArray.push(['https://is5-ssl.mzstatic.com/image/thumb/Music124/v4/00/bf/ee/00bfee78-d68b-3918-5c17-e135e4c36df6/190296743276.jpg/500x500cc.jpeg','1557238100','3cqeIPIj8gyb9olBEqhC2D']);
 mosaicArray.push(['https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/62/ad/b9/62adb92d-1a8e-5a01-79b7-1ad07bffd642/21UMGIM17841.rgb.jpg/500x500cc.jpeg','1559496693','6MUMuN96mU5B0DysdNlkGa']);
+mosaicArray.push(['https://is5-ssl.mzstatic.com/image/thumb/Music124/v4/1e/0e/4f/1e0e4f03-2fe0-03ca-62ce-a3f2ca27744f/JK_ZMCZ-14784.jpg/500x500bb.jpeg','1561703970','0iyvKg1J7uPr8YgF2pczBD']);
+mosaicArray.push(['https://is3-ssl.mzstatic.com/image/thumb/Music124/v4/33/93/0d/33930dda-b19c-77d9-e205-d25443f38c6b/4547366506389.jpg/500x500bb.jpg','1559690822','1NCDebxxHejkBOfPURW8dg']);
+mosaicArray.push(['https://is4-ssl.mzstatic.com/image/thumb/Music124/v4/48/1d/8b/481d8baf-ddad-26aa-a323-4ef2e2a1fa71/4582169618976.jpg/500x500bb.jpg','1554108196','7D3FVm8lV3Zt2y582AbhcD']);
+mosaicArray.push(['https://is1-ssl.mzstatic.com/image/thumb/Music3/v4/ae/f8/54/aef85455-382c-ad4f-7c0f-d85d9e77c179/859751658783_cover.jpg/500x500bb.jpg','933457835','6EFDt2nB8BzmGl2OFTFCnj']);
+mosaicArray.push(['https://is5-ssl.mzstatic.com/image/thumb/Music124/v4/34/aa/e0/34aae087-daa7-91f0-1a13-f75f065c0399/4547366502305.jpg/500x500bb.jpg','1556622311','1ZKqKNaTjM3yuWYRmv33m4']);
+mosaicArray.push(['https://is4-ssl.mzstatic.com/image/thumb/Music124/v4/7e/7e/da/7e7eda2a-9a22-6557-472c-3d57cdbd6d96/00600406634559.rgb.jpg/500x500bb.jpg','1440740509','2NntpzUApyESbWpuylSP31']);
+mosaicArray.push(['https://is4-ssl.mzstatic.com/image/thumb/Music/v4/ab/a8/4e/aba84e3d-4105-819f-756e-63aa2454925c/NIW82.jpg/500x500bb.jpg','570854044','19jZH4MZhFvICMKIiaxtiT']);
+mosaicArray.push(['https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/94/18/95/9418950e-7872-5b87-b2e2-9baf13ec532a/4570040690074_cover.jpg/500x500bb.jpg','1523850310','2GPY2ETVgdTPla5yHePnKu']);
+mosaicArray.push(['https://is5-ssl.mzstatic.com/image/thumb/Music113/v4/18/89/52/1889520a-cb83-971a-7d7f-a7a850728298/jacket_SECL02567B01A_550.jpg/500x500bb.jpg','1538262078','5UWo44UYwscMLidiMLKe9Q']);
+mosaicArray.push(['https://is3-ssl.mzstatic.com/image/thumb/Music114/v4/a9/6a/4d/a96a4d3d-260c-0de3-dc19-e6c9cd2cf08b/C970.jpg/500x500bb.jpg','1547792023','5UM0UhgiOw7RIKRgXqwwoC']);
+mosaicArray.push(['https://is4-ssl.mzstatic.com/image/thumb/Music114/v4/59/d2/32/59d232c5-a1ca-e8e2-2fd0-f6dd6fb22cac/4571374918308_cover.jpg/500x500bb.jpg','1521642040','3qZM6POAgClovPgT5FwfT9']);
+mosaicArray.push(['https://is1-ssl.mzstatic.com/image/thumb/Music2/v4/38/0d/62/380d6285-bb0e-7526-cd1e-182a854a338c/15UMGIM75302.jpg/500x500bb.jpg','1440787736','4seExhof6lZ2yg5dZfengb']);
+mosaicArray.push(['https://is2-ssl.mzstatic.com/image/thumb/Music114/v4/f9/f4/aa/f9f4aac6-1849-1baa-6d40-3c1b137c7b5b/jacket_ESCL05129B00Z_550.jpg/500x500bb.jpg','1538134868','7ibkOnS6ApxvZ3R79cualG']);
+mosaicArray.push(['https://is4-ssl.mzstatic.com/image/thumb/Music124/v4/62/ec/e0/62ece02f-242a-273a-9912-08f56b66e608/jacket_ESCL05118B00Z_550.jpg/500x500bb.jpg','1538134507','63jw5JmK58auIqM9SoXwWf']);
+mosaicArray.push(['https://is2-ssl.mzstatic.com/image/thumb/Music3/v4/74/51/64/745164eb-b896-646b-9663-224f04e970d1/VEATP-32911.jpg/500x500bb.jpg','1044970564','3z5QN0MODTkxGB28VLKuuA']);
 
 //--VARIABLES--//
 let isDarkMode = document.getElementsByTagName('html')[0].classList.contains('darked');
