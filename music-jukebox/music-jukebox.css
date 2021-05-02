@@ -38,13 +38,13 @@ h1 {
 table {
 	border: 0;
 	border-collapse: collapse;
-	font-size: 0.9em;
+	/* font-size: 0.9em; */
 }
 
 td, th { 
 	border: 0;
 	padding: 2px 4px; 
-	font-size: 0.9em;
+	/* font-size: 0.9em; */
 	/* border: 1px solid black;  */
 }
 
