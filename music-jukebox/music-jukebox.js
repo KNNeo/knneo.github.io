@@ -23,7 +23,7 @@ function startup() {
 }
 
 function generateLayout() {
-	if(isMobile() && window.innerWidth < 800)
+	if(window.innerWidth < 800)
 		generateVerticalLayout(); // top player and menu, bottom covers
 	else
 		generateHorizontalLayout(); // left player and menu, right covers
@@ -184,7 +184,8 @@ function generateHorizontalLayout() {
 	description.innerText = 'Click on album cover to play preview';
 	
 	let disclaimer = document.createElement('h6');
-	disclaimer.innerText = 'Album covers (c) respective music labels';
+	disclaimer.innerText += 'Powered by Masonry JS';
+	disclaimer.innerText += '\nAlbum covers (c) respective music labels';
 	
 	mainTableRow1Cell1.appendChild(title);
 	mainTableRow1Cell1.appendChild(description);
@@ -289,7 +290,7 @@ function generateMosaic() {
 				else
 					document.getElementById('player').innerHTML = code;
 				document.getElementById('player').title = releaseId;
-				if(isMobile() && window.innerWidth < 800)
+				if(window.innerWidth < 800)
 					goToTop();
 			});
 		}
