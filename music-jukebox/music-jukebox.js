@@ -21,7 +21,7 @@ function startup() {
 }
 
 function generateLayout() {
-	if(isMobile() || window.innerWidth < 800)
+	if(isMobile() && window.innerWidth < 800)
 		generateVerticalLayout(); // top player and menu, bottom covers
 	else
 		generateHorizontalLayout(); // left player and menu, right covers
@@ -287,7 +287,7 @@ function generateMosaic() {
 				else
 					document.getElementById('player').innerHTML = code;
 				document.getElementById('player').title = releaseId;
-				if(isMobile() || window.innerWidth < 800)
+				if(isMobile() && window.innerWidth < 800)
 					goToTop();
 			});
 		}
