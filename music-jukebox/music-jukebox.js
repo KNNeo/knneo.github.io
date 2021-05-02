@@ -262,7 +262,7 @@ function generateGrid() {
 		gridItem.classList.add('grid-item');
 		
 		let image = document.createElement('img');
-		image.src = imageUrl;
+		image.src = imageUrl || 'https://knneo.github.io/resources/spacer.gif';
 		
 		gridItem.appendChild(image);
 		grid.appendChild(gridItem);
