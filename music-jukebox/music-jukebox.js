@@ -58,6 +58,8 @@ function generateVerticalLayout() {
 	
 	let title = document.createElement('h1');
 	title.innerText = 'Music Jukebox';
+	title.onclick = startup;
+	title.style.cursor = 'pointer';
 	
 	let description = document.createElement('h5');
 	description.innerText = 'Click on album cover to play preview';
@@ -180,6 +182,8 @@ function generateHorizontalLayout() {
 	
 	let title = document.createElement('h1');
 	title.innerText = 'Music Jukebox';
+	title.onclick = startup;
+	title.style.cursor = 'pointer';
 	
 	let description = document.createElement('h5');
 	description.innerText = 'Click on album cover to play preview';
