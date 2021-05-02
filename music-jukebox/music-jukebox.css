@@ -56,60 +56,12 @@ td, th {
 	border: 0;
 }
 
-.year {
-	padding: 5px;
-	cursor: pointer;
-}
-
-.player, .list {
-	width: 100%;
-}
-
-.left, .right {
-  float: left;
-  width: 30%;
-}
-.main {
-  float: left;
-  width: 40%;
-}
-
-.result-box {
-	border: 1px solid gray;
-	display: block;
-	width: auto;
-	height: auto;
-	padding: 5px;
-	margin: 5px;
-
-}
-.show-result, .input-box {
-	padding: 10px;
-}
-
-.flexi-input {
-	margin: 0 5px;
-	border: 0;
-	border-bottom: 1px solid;
-	text-align: center;
-}
-
 @media only screen
    and (min-device-width : 320px)
    and (max-device-width : 960px)
 {
 	
 }
-
-/* @media (prefers-color-scheme: dark) {
-	td, th { 
-		border: 1px solid white; 
-	}
-
-	.darked td, .darked th {
-		border: 1px solid black; 
-	}
-} */
 
 body {
 	margin: 0;
