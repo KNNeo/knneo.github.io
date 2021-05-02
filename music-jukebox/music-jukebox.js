@@ -18,6 +18,8 @@ window.addEventListener('resize', startup);
 function startup() {
 	generateLayout();
 	generateMosaic();
+	if(document.getElementById('darkmode') != null)
+		document.getElementById('darkmode').addEventListener('click', toggleDarkMode);
 }
 
 function generateLayout() {
