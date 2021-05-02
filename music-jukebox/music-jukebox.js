@@ -96,6 +96,7 @@ function generateVerticalLayout() {
 
 	let back = document.createElement('a');
 	back.style.padding = '0 10px';
+	back.style.verticalAlign = 'top';
 	back.href = '../index.html';
 	back.innerText = 'Back';
 	settings.appendChild(back);
@@ -218,6 +219,7 @@ function generateHorizontalLayout() {
 
 	let back = document.createElement('a');
 	back.style.padding = '0 10px';
+	back.style.verticalAlign = 'top';
 	back.href = '../index.html';
 	back.innerText = 'Back';
 	settings.appendChild(back);
