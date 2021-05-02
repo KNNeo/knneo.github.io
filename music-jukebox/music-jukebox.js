@@ -1,13 +1,13 @@
 //--SETTINGS--//
 let playerHeight = 400;
 let mosaicArray = new Array();
-// mosaicArray.push(['imgURL','appleMusicId']);
-mosaicArray.push(['https://is3-ssl.mzstatic.com/image/thumb/Music124/v4/c7/a1/c7/c7a1c7b8-c697-2509-40a2-23b08a64fbad/PCCG_01967_A.jpg/500x500cc.jpeg','1562664393']);
-mosaicArray.push(['https://is5-ssl.mzstatic.com/image/thumb/Music124/v4/e3/c5/83/e3c58354-4649-7e15-885f-ca4d513898f8/KICM-92079.jpg/500x500cc.jpeg','1558995369']);
-mosaicArray.push(['https://is3-ssl.mzstatic.com/image/thumb/Music114/v4/1c/cc/ce/1cccced5-4824-14ed-7226-6ddee11f997e/4547366490237.jpg/500x500cc.jpeg','1545321704']);
-mosaicArray.push(['https://is5-ssl.mzstatic.com/image/thumb/Music114/v4/3d/28/49/3d28492e-ae3b-94c3-7348-fc9d20282e2a/COZC-1728.jpg/500x500cc.jpeg','1556000069']);
-mosaicArray.push(['https://is5-ssl.mzstatic.com/image/thumb/Music124/v4/00/bf/ee/00bfee78-d68b-3918-5c17-e135e4c36df6/190296743276.jpg/500x500cc.jpeg','1557238100']);
-mosaicArray.push(['https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/62/ad/b9/62adb92d-1a8e-5a01-79b7-1ad07bffd642/21UMGIM17841.rgb.jpg/500x500cc.jpeg','1559496693']);
+// mosaicArray.push(['imgURL','appleMusicId','spotifyId']);
+mosaicArray.push(['https://is3-ssl.mzstatic.com/image/thumb/Music124/v4/c7/a1/c7/c7a1c7b8-c697-2509-40a2-23b08a64fbad/PCCG_01967_A.jpg/500x500cc.jpeg','1562664393','32CKhuDhSINttWOAdUNfeT']);
+mosaicArray.push(['https://is5-ssl.mzstatic.com/image/thumb/Music124/v4/e3/c5/83/e3c58354-4649-7e15-885f-ca4d513898f8/KICM-92079.jpg/500x500cc.jpeg','1558995369','7gLRNCBoLQh8tHb6aeSpl2']);
+mosaicArray.push(['https://is3-ssl.mzstatic.com/image/thumb/Music114/v4/1c/cc/ce/1cccced5-4824-14ed-7226-6ddee11f997e/4547366490237.jpg/500x500cc.jpeg','1545321704','738yVyo1lZE9Sv1rY5VTqF']);
+mosaicArray.push(['https://is5-ssl.mzstatic.com/image/thumb/Music114/v4/3d/28/49/3d28492e-ae3b-94c3-7348-fc9d20282e2a/COZC-1728.jpg/500x500cc.jpeg','1556000069','1SWWzVxV7S1QRei81zHO0b']);
+mosaicArray.push(['https://is5-ssl.mzstatic.com/image/thumb/Music124/v4/00/bf/ee/00bfee78-d68b-3918-5c17-e135e4c36df6/190296743276.jpg/500x500cc.jpeg','1557238100','3cqeIPIj8gyb9olBEqhC2D']);
+mosaicArray.push(['https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/62/ad/b9/62adb92d-1a8e-5a01-79b7-1ad07bffd642/21UMGIM17841.rgb.jpg/500x500cc.jpeg','1559496693','6MUMuN96mU5B0DysdNlkGa']);
 
 //--VARIABLES--//
 let isDarkMode = document.getElementsByTagName('html')[0].classList.contains('darked');
@@ -18,8 +18,10 @@ window.addEventListener('resize', startup);
 function startup() {
 	generateLayout();
 	generateMosaic();
-	if(document.getElementById('darkmode') != null)
+	if(document.getElementById('darkmode') != null) {
 		document.getElementById('darkmode').addEventListener('click', toggleDarkMode);
+		document.getElementById('darkmode').addEventListener('click', startup);
+	}
 }
 
 function generateLayout() {
@@ -124,24 +126,9 @@ function generateVerticalLayout() {
 	let mosaic = document.createElement('div');
 	mosaic.id = 'mosaic';
 	
-	let grid = document.createElement('div');
-	grid.classList.add('grid');
-	
-	for(let item of mosaicArray) {
-		let imageUrl = item[0];
-		let playerId = item[1];
-		
-		let gridItem = document.createElement('div');
-		gridItem.id = playerId;
-		gridItem.classList.add('grid-item');
-		
-		let image = document.createElement('img');
-		image.src = imageUrl;
-		
-		gridItem.appendChild(image);
-		grid.appendChild(gridItem);
-	}
+	let grid = generateGrid();
 	mosaic.appendChild(grid);
+	
 	bodyTableRow2Cell1.appendChild(mosaic);
 	bodyTableRow2.appendChild(bodyTableRow2Cell1);
 	
@@ -247,23 +234,7 @@ function generateHorizontalLayout() {
 	let mosaic = document.createElement('div');
 	mosaic.id = 'mosaic';
 	
-	let grid = document.createElement('div');
-	grid.classList.add('grid');
-	
-	for(let item of mosaicArray) {
-		let imageUrl = item[0];
-		let playerId = item[1];
-		
-		let gridItem = document.createElement('div');
-		gridItem.id = playerId;
-		gridItem.classList.add('grid-item');
-		
-		let image = document.createElement('img');
-		image.src = imageUrl;
-		
-		gridItem.appendChild(image);
-		grid.appendChild(gridItem);
-	}
+	let grid = generateGrid();
 	mosaic.appendChild(grid);
 	bodyTableRowCell2.appendChild(mosaic);
 	
@@ -276,6 +247,29 @@ function generateHorizontalLayout() {
 	
 }
 
+function generateGrid() {
+	let darked = document.getElementsByTagName('html')[0].classList.contains('darked');
+	let grid = document.createElement('div');
+	grid.classList.add('grid');
+	
+	for(let item of mosaicArray) {
+		let imageUrl = item[0];
+		let appleMusicId = item[1];
+		let spotifyId = item[2];
+		
+		let gridItem = document.createElement('div');
+		gridItem.id = darked ? appleMusicId : spotifyId;
+		gridItem.classList.add('grid-item');
+		
+		let image = document.createElement('img');
+		image.src = imageUrl;
+		
+		gridItem.appendChild(image);
+		grid.appendChild(gridItem);
+	}
+	return grid;
+}
+
 function generateMosaic() {
 	// build grid
 	let mosaic = document.getElementById('mosaic');
@@ -283,18 +277,16 @@ function generateMosaic() {
 		let images = mosaic.getElementsByTagName('img');
 		for(let image of images) {
 			image.addEventListener('click', function() {
+				let darked = document.getElementsByTagName('html')[0].classList.contains('darked');
 				for(let image of document.getElementById('mosaic').getElementsByTagName('img')) {
 					image.style.visibility = '';
 				}
 				this.style.visibility = 'hidden';
 				let releaseId = this.parentElement.id;
-				let url = "https://music.apple.com/jp/album/" + releaseId;
+				let url = (darked ? "https://music.apple.com/jp/album/" : "https://open.spotify.com/embed/album/") + releaseId;
 				
 				let code = generatePlayerByURL(url);
-				if(document.getElementById('player').title == releaseId)
-					document.getElementById('player').innerHTML = '';
-				else
-					document.getElementById('player').innerHTML = code;
+				document.getElementById('player').innerHTML = code;
 				document.getElementById('player').title = releaseId;
 				if(window.innerWidth < 800)
 					goToTop();
@@ -329,6 +321,9 @@ function generatePlayerByURL(url) {
             url.replace('music.apple.com', 'embed.music.apple.com') +
             '" style="background: transparent; max-width: 660px; overflow: hidden; width: 100%;"></iframe>';
     }
+	if(url.includes('open.spotify.com')) {
+		return '<iframe src="' + url + '" width="660" height="' + playerHeight + '" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>';
+	}
 }
 
 function goToTop() {
