@@ -339,7 +339,7 @@ function generatePlayerByURL(url) {
             '" style="background: transparent; max-width: 660px; overflow: hidden; width: 100%;"></iframe>';
     }
 	if(url.includes('open.spotify.com')) {
-		return '<iframe src="' + url + '" width="' + (window.innerWidth < 660 ? window.innerWidth-20 : 660) +'" height="' + playerHeight + '" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>';
+		return '<iframe src="' + url + '" width="' + (window.innerWidth < 660 ? window.innerWidth-30 : 660) +'" height="' + playerHeight + '" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>';
 	}
 }
 
