@@ -62,7 +62,7 @@ function generateVerticalLayout() {
 	
 	let main = document.createElement('div');
 	main.id = 'main';
-	main.style.height = '99vh';
+	main.style.height = '90vh';
 	let mainTable = document.createElement('table');
 	mainTable.style.width = '100%';
 	mainTable.style.height = '100%';	
@@ -207,6 +207,7 @@ function generateHorizontalLayout() {
 	
 	let player = document.createElement('div');
 	player.id = 'player';
+	player.syle.height = '400px';
 	mainTableRow2Cell1.appendChild(player);
 	
 	let mainTableRow3 = document.createElement('tr');
