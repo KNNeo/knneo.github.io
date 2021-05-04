@@ -207,7 +207,7 @@ function generateHorizontalLayout() {
 	
 	let player = document.createElement('div');
 	player.id = 'player';
-	player.syle.height = '400px';
+	player.style.height = '400px';
 	mainTableRow2Cell1.appendChild(player);
 	
 	let mainTableRow3 = document.createElement('tr');
@@ -333,6 +333,8 @@ function generatePlayer() {
 }
 
 function generatePlayerByURL(url) {
+	if(0.5*window.innerHeight < playerHeight)
+		playerHeight = 0.5*window.innerHeight;
     if (url.includes('music.apple.com')) {
         //process itunes embed
         return '<iframe allow="autoplay *; encrypted-media *;" frameborder="0" height="'+ playerHeight +'" sandbox="allow-modals allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation" src="' +
@@ -340,7 +342,7 @@ function generatePlayerByURL(url) {
             '" style="background: transparent; max-width: 660px; overflow: hidden; width: 100%;"></iframe>';
     }
 	if(url.includes('open.spotify.com')) {
-		return '<iframe src="' + url + '" width="' + (window.innerWidth < 660 ? window.innerWidth-30 : 660) +'" height="' + playerHeight + '" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>';
+		return '<iframe src="' + url + '" width="' + (window.innerWidth < 660 ? window.innerWidth-50 : 660) +'" height="' + playerHeight + '" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>';
 	}
 }
 
