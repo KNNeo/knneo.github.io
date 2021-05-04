@@ -62,7 +62,7 @@ function generateVerticalLayout() {
 	
 	let main = document.createElement('div');
 	main.id = 'main';
-	main.style.height = '90vh';
+	main.style.height = '99vh';
 	let mainTable = document.createElement('table');
 	mainTable.style.width = '100%';
 	mainTable.style.height = '100%';	
