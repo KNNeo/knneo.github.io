@@ -79,7 +79,7 @@ function addObjects() {
 	if(!window.location.href.includes("knneo.github.io") && document.getElementById('CustomBlogSearch') == null) {
 		let search = document.createElement('div');
 		search.id = 'CustomBlogSearch';
-		search.innerHTML = '<div class="widget-content"><div id="_form"><form action="' + window.location.origin + '/search" class="gsc-search-box" target="_top"><div cellpadding="0" cellspacing="0" class="gsc-search-box"><div><div><span class="gsc-input"><input autocomplete="off" class="gsc-input" name="q" size="10" title="search" type="text" value=""></span><span class="gsc-search-button" style="display: none;"><input class="gsc-search-button" name="max-results" title="search" type="submit" value="5"></span></div></div></div></form></div></div>';
+		search.innerHTML = '<div class="widget-content"><div id="_form"><form action="' + window.location.origin + '/search" class="gsc-search-box" target="_top"><div cellpadding="0" cellspacing="0" class="gsc-search-box"><div><div><span class="gsc-input"><input autocomplete="off" class="gsc-input" name="q" size="10" title="search" type="text" value=""></span><span class="gsc-search-button" style="display: none;"><input id="BlogSearch" class="gsc-search-button" name="max-results" title="search" type="submit" value="5"></span></div></div></div></form></div></div>';
 		
 		if(document.getElementsByClassName('header-outer').length > 0)
 			document.getElementsByClassName('header-outer')[0].appendChild(search);
@@ -760,8 +760,10 @@ function toggleSearch() {
     goToTop();
 	if(document.getElementById('CustomBlogSearch') == null) return;
     var barDisp = document.getElementById('CustomBlogSearch').style.display;
-    if (barDisp == 'none' || barDisp == '')
+    if (barDisp == 'none' || barDisp == '') {
         document.getElementById('CustomBlogSearch').style.display = 'block';
+		document.getElementById('BlogSearch').focus();
+	}
     else
         document.getElementById('CustomBlogSearch').style.display = 'none';
 }
