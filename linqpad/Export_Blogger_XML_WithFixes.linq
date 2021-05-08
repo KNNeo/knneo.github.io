@@ -10,6 +10,12 @@
  * (3) Change domainLink to desired domain as exported
  * (4) FIX POST ATTRIBUTES and FIX POST CONTENT can be removed as desired
  */
+ 
+public class MatchItem
+{
+	public string Title { get; set; }
+	public string Item { get; set; }
+}
 
 string UpdateRegexContent(string content, Match loosematch, Match strictMatch, string replacementPrefix, string replacementSuffix)
 {
@@ -86,6 +92,7 @@ void Main()
 		string expression, matchExpression;
 		Match match, matchExp;
 		string prefix, midfix, suffix;
+		List<MatchItem> matchItems = new List<MatchItem>();
 		// List of Cases:
 		/*
 		* website adjustments: remove post inline style, fix urls
@@ -280,17 +287,27 @@ void Main()
 		#endregion
 		
 		#region remove hashtags on post level
-		expression = @"(<script>)(.*?)(var hashtags)(.*?)(</script>)";
-		match = Regex.Match(content, expression);
-		while(match.Success && match.Groups.Count == 6)
+		// only remove those without old hiddenTags span comma seaprated list
+		if(!content.Contains("id=\"hiddenTags\"") || !content.Contains("document.getElementById(\"hiddenTags\")"))
 		{
-			content = content.Replace(match.Value, "");
-			match = match.NextMatch();
-		};
-		if(match.Success) count++;
+			expression = @"(<script>)(.*?)(var hashtags)(.*?)(</script>)";
+			match = Regex.Match(content, expression);
+			while(match.Success && match.Groups.Count == 6)
+			{
+				//Add to debug
+				//if(match.Success) matchItems.Add(new MatchItem {
+				//	Title = entry.Element(_+"title").Value,
+				//	Item = match.Value
+				//});
+				content = content.Replace(match.Value, "");
+				match = match.NextMatch();
+			};
+			if(match.Success) count++;
+		}
 		#endregion
 		
-		
+		if(matchItems.Count() > 0)
+			Console.WriteLine(matchItems);
 		
 		
 		
@@ -390,5 +407,5 @@ void Main()
 	string fileString = File.ReadAllText(blogpath + "\\blog_template.html");
 	fileString = fileString.Replace("<div id=\"blog-archive-list\" style=\"font-size: 0.8em; padding-bottom: 20px;\"></div>", ("<div id=\"blog-archive-list\" style=\"font-size: 0.8em; padding-bottom: 20px;\">" + textString + "</div>"));
 	File.WriteAllText(blogpath + "\\blog.html", fileString);
-
+	
 }
