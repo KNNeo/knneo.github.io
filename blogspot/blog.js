@@ -714,10 +714,10 @@ function generatePopupContent(url) {
 
 // Add hashtags for Entertainment News posts with anchors
 function addHashtags() {
+	//ignore old id and if is search result
 	let elements = document.querySelectorAll("[id='hashtags']");
 	let hiddenTags = document.querySelectorAll("[id='hiddenTags']");
 	if(hiddenTags.length > 0) return;
-	
 	if(elements.length > 1 && window.location.href.includes("/search")) {
 		for(let element of elements) {
 			element.style.display = 'none';
@@ -731,6 +731,7 @@ function addHashtags() {
 		hashTag.innerHTML = '';
 	
 	var hashtags = [];
+	//add anime
 	for(var topic of document.getElementsByClassName("anime"))
 	{
 		//if last 2 characters do not render a number, do not add
@@ -741,6 +742,22 @@ function addHashtags() {
 			target: topic.id
 		});
 	}
+	
+	//add klassic note
+	let klassicNoteSpan = '';
+	for(let span of document.body.getElementsByTagName("span")) {
+		if(span.innerText == "This Week on Klassic Note") {
+			//set id on class
+			span.id = "KlassicNote";
+			hashtags.push({
+				tag: "ThisWeekOnKlassicNote", 
+				target: span.id
+			});
+			break;
+		}
+	}
+	
+	//render
 	if(hashtags.length == 0) return;
 	for(let item of hashtags)
 	{
