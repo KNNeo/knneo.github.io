@@ -101,24 +101,25 @@ void Main()
 		
 		#region remove embed styles for thumbnail normal/hover
 		var thumbnailStyle = ".thumbnail .hover {       display:none;     }     .thumbnail:hover .normal {       display:none;     }     .thumbnail:hover .hover {       display:inline;  /* CHANGE IF FOR BLOCK ELEMENTS */     } ";
+		if(content.Contains(thumbnailStyle)) count++;
 		content = content.Replace(thumbnailStyle, "");
-		if(oldContent.Contains(thumbnailStyle)) count++;
 		#endregion
 		
 		#region fix twitter embed
 		var twitterScript = "\"//platform.twitter.com/widgets.js\"";
+		if(content.Contains(twitterScript)) count++;
 		content = content.Replace(twitterScript, "\"https://platform.twitter.com/widgets.js\"");
 		var unalignedTweetClass = "class=\"twitter-tweet";
+		if(content.Contains(unalignedTweetClass)) count++;
 		content = content.Replace(unalignedTweetClass, "class=\"twitter-tweet tw-align-center");
-		if(oldContent.Contains(twitterScript) || oldContent.Contains(unalignedTweetClass)) count++;
 		#endregion
 		
 		#region fix youtube iframe size
 		var youtubeHeight = @"height=""315""";
 		var youtubeWidth = @"width=""560""";
+		if(content.Contains(youtubeHeight) || content.Contains(youtubeWidth)) count++;
 		content = content.Replace(youtubeHeight, "");
 		content = content.Replace(youtubeWidth, "");
-		if(oldContent.Contains(youtubeHeight) || oldContent.Contains(youtubeWidth)) count++;
 		#endregion
 		
 		// Process XML content per post	
@@ -188,9 +189,9 @@ void Main()
 		expression = @"(<abbr class=""imgpop"">)(.*?)(/>)(.*?)(</abbr>)";
 		
 		match = Regex.Match(content, expression);
-		prefix = @"<span class=""popup""><span class=""normal"">";
-		midfix = @"</span><span class=""pop fadeIn"">";
-		suffix = "</span></span>";
+		prefix = @"<div class=""popup""><span class=""normal"">";
+		midfix = @"</span><span class=""pop"">";
+		suffix = "</span></div>";
 		while(match.Success && match.Groups.Count == 6)
 		{
 			var replacement = prefix + match.Groups[4].Value + midfix + match.Groups[2].Value + match.Groups[3].Value + suffix;
@@ -199,6 +200,24 @@ void Main()
 			matchExp = matchExp.NextMatch();
 		};
 		if(match.Success) count++;
+		#endregion
+		
+		#region div popup normal pop (images) => div new-thumbnail
+		expression = @"(<div class=""popup""><span class=""normal"">)(.*?)(</span><span class=""pop"">)(.*?)(<img)(.*?)(src="")(.*?)("" /></span></div>)";
+		
+		match = Regex.Match(content, expression);
+		prefix = @"<a href=""";
+		midfix = @""" target=""_blank"">";
+		suffix = "</a>";
+		while(match.Success)
+		{
+			var replacement = prefix + match.Groups[8].Value + midfix + match.Groups[2].Value + suffix;
+			content = content.Replace(match.Value, replacement);
+			match = match.NextMatch();
+			matchExp = matchExp.NextMatch();
+		};
+		if(match.Success) count++;
+		
 		#endregion
 		
 		#region adjust ent news headers
@@ -216,20 +235,20 @@ void Main()
 		//}; //can also be for not anime, see 2018 ent news #30, might not be possible
 		
 		var animeHeader = @"<blockquote class=""tr_bq""><div style=""text-align: center;""><span style=""background: #09a5b8; border-radius: 5px; padding: 3px 5px; text-align: center;""><b>アニメ</b></span> <span style=""font-size: large;"">ANIME</span></div></blockquote><blockquote class=""tr_bq anime"">";
+		if(content.Contains(animeHeader)) count++;
 		content = content.Replace(animeHeader, @"<blockquote class=""tr_bq anime"">");
-		if(oldContent.Contains(animeHeader)) count++;
 		#endregion
 		
 		#region add class to header prefix for styling
 		var animeHeaderPrefix = @"<span style=""background: #09a5b8; border-radius: 5px; padding: 3px 5px; text-align: center; vertical-align: text-bottom;"">";
+		if(content.Contains(animeHeaderPrefix)) count++;
 		content = content.Replace(animeHeaderPrefix, @"<span class=""head-prefix"">");
-		if(oldContent.Contains(animeHeaderPrefix)) count++;
 		animeHeaderPrefix = @"<span style=""background: rgb(0, 184, 204); border-radius: 5px; padding: 3px 5px; text-align: center; vertical-align: text-bottom;"">";
+		if(content.Contains(animeHeaderPrefix)) count++;
 		content = content.Replace(animeHeaderPrefix, @"<span class=""head-prefix"">");
-		if(oldContent.Contains(animeHeaderPrefix)) count++;
 		animeHeaderPrefix = @"<span style=""background: rgb(0, 184, 204); border-radius: 5px; padding: 3px 5px; text-align: center;"">";
+		if(content.Contains(animeHeaderPrefix)) count++;
 		content = content.Replace(animeHeaderPrefix, @"<span class=""head-prefix"">");
-		if(oldContent.Contains(animeHeaderPrefix)) count++;
 		#endregion
 		
 		#region set all link directory to current blog
@@ -237,13 +256,35 @@ void Main()
 		//content = content.Replace(domainLink, referenceStr);
 		var oldDomainLink = "https://knwebreports2014.blogspot.com/";
 		content = content.Replace(oldDomainLink, domainLink);
-		if(oldContent.Contains(oldDomainLink)) count++;
+		if(content.Contains(oldDomainLink)) count++;
 		#endregion
 		
 		#region all table styles to be within post
 		// change style tr or whatever to .post-content tr respectively		
 		
 		#endregion
+		
+		#region jisho links detection
+		//expression = @"(<a href="")(https://jisho.org/search/)(.*?)("" target=""_blank"">)(.*?)(</a>)";
+		//match = Regex.Match(content, expression);
+		//if(match.Value.Length > 0)
+		//	Console.WriteLine(match.Value);
+		#endregion
+		
+		#region remove hashtags on post level
+		expression = @"(<script>)(.*?)(var hashtags)(.*?)(</script>)";
+		match = Regex.Match(content, expression);
+		while(match.Success && match.Groups.Count == 6)
+		{
+			content = content.Replace(match.Value, "");
+			match = match.NextMatch();
+		};
+		if(match.Success) count++;
+		#endregion
+		
+		
+		
+		
 		
 	   	// Extract data from XML
 		DateTime published = DateTime.Parse(entry.Element(_+"published").Value);
