@@ -714,6 +714,9 @@ function generatePopupContent(url) {
 // Add hashtags for Entertainment News posts with anchors
 function addHashtags() {
 	let elements = document.querySelectorAll("[id='hashtags']");
+	let hiddenTags = document.querySelectorAll("[id='hiddenTags']");
+	if(hiddenTags.length > 0) return;
+	
 	if(elements.length > 1 && window.location.href.includes("/search")) {
 		for(let element of elements) {
 			element.style.display = 'none';
