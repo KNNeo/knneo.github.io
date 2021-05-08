@@ -765,8 +765,11 @@ function toggleSearch() {
         document.getElementById('CustomBlogSearch').style.display = 'block';
 		document.getElementById('BlogSearch').focus();
 	}
-    else
+    else {
         document.getElementById('CustomBlogSearch').style.display = 'none';
+		document.getElementById('BlogSearch').innerText = '';
+		document.getElementById('BlogSearch').blur();
+	}
 }
 
 function toggleOverlay(fromSidebar) {
