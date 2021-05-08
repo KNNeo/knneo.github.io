@@ -33,6 +33,7 @@ string UpdateRegexContent(string content, Match loosematch, Match strictMatch, s
 
 void Main()
 {
+	bool writeTitleOnConsole = true;
 	string folderpath = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\";
 	string blogpath = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blogspot\";
 	string filepath = "";
@@ -306,6 +307,12 @@ void Main()
 		}
 		#endregion
 		
+		#region alternate links detection for new popups		
+		var youTubeLink = @"https://youtu.be";
+		if(content.Contains(youTubeLink)) count++;
+		content = content.Replace(youTubeLink, @"https://www.youtube.com/watch?v=");
+		#endregion
+		
 		if(matchItems.Count() > 0)
 			Console.WriteLine(matchItems);
 		
@@ -401,7 +408,7 @@ void Main()
 		}
 		else
 			textString += "<div"+classes+"><span>"+published.ToString("yyyy.MM.dd")+" </span>"+title+"</div>\n";
-		if(count > 0) Console.WriteLine(title + "\t[" + count + " changes]");
+		if(writeTitleOnConsole && count > 0) Console.WriteLine(title + "\t[" + count + " changes]");
 	}
 	
 	string fileString = File.ReadAllText(blogpath + "\\blog_template.html");
