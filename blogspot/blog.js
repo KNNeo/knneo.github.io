@@ -76,11 +76,12 @@ function loadExternal() {
 // Add search bar, floating action buttons
 function addObjects() {
 	//search bar
-	if(!window.location.href.includes("knneo.github.io") && document.getElementById('CustomBlogSearch') == null) {
+	if(!window.location.href.includes("knneo.github.io")) {
 		let search = document.createElement('div');
 		search.id = 'CustomBlogSearch';
 		search.innerHTML = '<div class="widget-content"><div id="_form"><form action="' + window.location.origin + '/search" class="gsc-search-box" target="_top"><div cellpadding="0" cellspacing="0" class="gsc-search-box"><div><div><span class="gsc-input"><input autocomplete="off" class="gsc-input" name="q" size="10" title="search" type="text" value=""></span><span class="gsc-search-button" style="display: none;"><input id="BlogSearch" class="gsc-search-button" name="max-results" title="search" type="submit" value="5"></span></div></div></div></form></div></div>';
 		
+		if(document.getElementById('CustomBlogSearch') != null) document.getElementById('CustomBlogSearch').remove();
 		if(document.getElementsByClassName('header-outer').length > 0)
 			document.getElementsByClassName('header-outer')[0].appendChild(search);
 	}
