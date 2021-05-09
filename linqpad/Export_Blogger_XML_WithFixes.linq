@@ -344,10 +344,10 @@ void Main()
 		var youTubeLink = @"https://youtu.be";
 		if(content.Contains(youTubeLink)) count++;
 		content = content.Replace(youTubeLink, @"https://www.youtube.com/watch?v=");
-		//
-		//youTubeLink = @"http://youtu.be";
-		//if(content.Contains(youTubeLink)) count++;
-		//content = content.Replace(youTubeLink, @"https://www.youtube.com/watch?v=");
+		
+		youTubeLink = @"http://youtu.be";
+		if(content.Contains(youTubeLink)) count++;
+		content = content.Replace(youTubeLink, @"https://www.youtube.com/watch?v=");
 		#endregion
 		
 		#region any link not referenced within blog to open on new tab
