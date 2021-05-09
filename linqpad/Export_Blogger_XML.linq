@@ -5,7 +5,6 @@ void Main()
 	string folderpath = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\";
 	string blogpath = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blogspot\";
 	string filepath = "";
-	string domainLink = "https://knwebreports.blogspot.com/";
 	string[] xmls = Directory.GetFiles(Path.GetDirectoryName(folderpath), "blog-*.xml");
 	if(xmls.Length == 1)
 		filepath = xmls[0];
