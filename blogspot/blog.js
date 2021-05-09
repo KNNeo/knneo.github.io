@@ -5,7 +5,7 @@ window.onpageshow = function() {
 	addObjects();
     preloadSequence();
     reduceResults();
-    fixPopup();
+    // fixPopup();
     setThumbnails();
     resizeImg();
     fixLabelResults();
@@ -723,12 +723,22 @@ function addHashtags() {
 		return;
 	}
 	
+	var hashtags = [];
+	
 	let hashTag = document.getElementById("hashtags");
 	if(hashTag == null) return;
-	if(hashTag.childElementCount > 0)
-		hashTag.innerHTML = '';
+	if(hashTag.childElementCount > 0 && hashTag.innerHTML.includes("<a>")) {
+		//render search href on hashtags list
+		let childDivs = hashTag.getElementsByTagName('a');
+		for(let tag of childDivs) {
+			hashtags.push({
+				tag: tag.innerText.substring(1), 
+				target: "\"/search?q=" + tag.innerText.substring(1)
+			});
+		}
+	}
+	hashTag.innerHTML = '';
 	
-	var hashtags = [];
 	//add hiddenTags direct to search
 	let hiddenTags = document.querySelectorAll("[id='hiddenTags']");
 	if(hiddenTags.length > 0) {
