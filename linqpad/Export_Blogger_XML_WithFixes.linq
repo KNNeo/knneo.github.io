@@ -55,7 +55,7 @@ void Main()
 {
 	bool WriteTitleOnConsole = true;
 	Console.WriteLine("WriteTitleOnConsole is " + WriteTitleOnConsole);
-	Console.WriteLine("Post with changes will appear here");
+	Console.WriteLine("*Post with changes will appear here");
 	string folderpath = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\";
 	string blogpath = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blogspot\";
 	string filepath = "";
