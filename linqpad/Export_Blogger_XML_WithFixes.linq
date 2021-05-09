@@ -10,10 +10,9 @@
  * (3) Change domainLink to desired domain as exported
  * (4) FIX POST ATTRIBUTES and FIX POST CONTENT can be removed as desired
  * (5) [Status] List of Cases
- * []	website adjustments: remove post inline style, fix urls
  * []	remove embed styles for thumbnail normal/hover (ignore posts with sp-thumbnail)
- * [OK]	fix twitter embed
- * []	fix youtube iframe size
+ * [ok]	fix twitter embed
+ * [ok]	fix youtube iframe size
  * []	thumbnail normal table => new thumbnail
  * []	thumbnail hover table => new thumbnail
  * []	popup initial table => new thumbnail
@@ -26,9 +25,9 @@
  * []	add class to header prefix for styling
  * []	set all link directory to current blog
  * []	all table styles to be within post
- * []	remove hashtags on post level
- * []	alternate links detection for new popups\
- * []	any link not referenced within blog to open on new tab
+ * [ok]	remove hashtags on post level
+ * [ok]	alternate links detection for new popups (youtu.be)
+ * [ok]	any link not referenced within blog to open on new tab
  */
  
 public class MatchItem
@@ -340,7 +339,7 @@ void Main()
 		if(match.Success) count++;
 		#endregion
 		
-		#region alternate links detection for new popups
+		#region alternate links detection for new popups (youtu.be)
 		var youTubeLink = @"https://youtu.be";
 		if(content.Contains(youTubeLink)) count++;
 		content = content.Replace(youTubeLink, @"https://www.youtube.com/watch?v=");
@@ -351,40 +350,39 @@ void Main()
 		#endregion
 		
 		#region any link not referenced within blog to open on new tab
-		//content = content.Replace("       >", ">");
-		//expression = @"(<a )(.*?)(?<=href="")(.*?)(?="")(.*?)(>)(.*?)(</a>)";
-		//
-		//match = Regex.Match(content, expression);
-		//prefix = @"<a href=""";
-		//midfix = @""" target=""_blank"">";
-		//suffix = "</a>";
-		//while(match.Success)
-		//{
-		//	if(!(match.Value.Contains("target=\"_blank\"") || match.Value.Contains("name='more'")) && 
-		//	!(match.Groups[3].Value.Contains("blogspot") || match.Groups[3].Value.Contains("#") || match.Groups[3].Value.Contains("https://www.blogger.com/null")) && 
-		//	!match.Groups[6].Value.Contains("<img"))
-		//	{
-		//		//Add to debug
-		//		//if(match.Success) matchItems.Add(new MatchItem {
-		//		//	Title = "external link",
-		//		//	Item = match.Value
-		//		//});
-		//		if(match.Success) count++;
-		//		var replacement = prefix + match.Groups[3].Value + midfix + match.Groups[6].Value + suffix;
-		//		content = content.Replace(match.Value, replacement);
-		//	}
-		//	else if(match.Groups[3].Value.Contains("knwebreports"))
-		//	{
-		//		//Add to debug
-		//		//if(match.Success) matchItems.Add(new MatchItem {
-		//		//	Title = "link within blog",
-		//		//	Item = match.Value
-		//		//});
-		//		content = content.Replace(match.Value, match.Value.Replace("target=\"_blank\"", ""));
-		//	}
-		//	match = match.NextMatch();
-		//	matchExp = matchExp.NextMatch();
-		//};
+		content = content.Replace("       >", ">");
+		expression = @"(<a )(.*?)(?<=href="")(.*?)(?="")(.*?)(>)(.*?)(</a>)";
+		
+		match = Regex.Match(content, expression);
+		prefix = @"<a href=""";
+		midfix = @""" target=""_blank"">";
+		suffix = "</a>";
+		while(match.Success)
+		{
+			if(!(match.Value.Contains("target=\"_blank\"") || match.Value.Contains("name='more'")) && 
+			!(match.Groups[3].Value.Contains("blogspot") || match.Groups[3].Value.Contains("#") || match.Groups[3].Value.Contains("https://www.blogger.com/null")) && 
+			!match.Groups[6].Value.Contains("<img"))
+			{
+				//Add to debug
+				//if(match.Success && !match.Value.Contains("twitter.com")) matchItems.Add(new MatchItem {
+				//	Title = "external link",
+				//	Item = match.Value
+				//});
+				if(match.Success) count++;
+				var replacement = prefix + match.Groups[3].Value + midfix + match.Groups[6].Value + suffix;
+				content = content.Replace(match.Value, replacement);
+			}
+			else if(match.Groups[3].Value.Contains("knwebreports"))
+			{
+				//Add to debug
+				//if(match.Success) matchItems.Add(new MatchItem {
+				//	Title = "link within blog",
+				//	Item = match.Value
+				//});
+				content = content.Replace(match.Value, match.Value.Replace("target=\"_blank\"", ""));
+			}
+			match = match.NextMatch();
+		};
 		#endregion
 		
 		
@@ -474,7 +472,7 @@ void Main()
 		}
 		else
 			textString += "<div"+classes+"><span>"+published.ToString("yyyy.MM.dd")+" </span>"+title+"</div>\n";
-		if(WriteTitleOnConsole && count > 0) Console.WriteLine(title + "\t[" + count + " change(s)]");
+		if(WriteTitleOnConsole && count > 0) Console.WriteLine((title != "" ? title : "A Random Statement") + "\t[" + count + " change(s)]");
 	}
 	
 	string fileString = File.ReadAllText(blogpath + "\\blog_template.html");
