@@ -398,9 +398,9 @@ void Main()
 		#endregion
 		
 		#region remove add href to hashtags script
-		//var childDivScript = "<script>var childDivs = document.getElementById('hashtags').getElementsByTagName('a'); for( i=0; i< childDivs.length; i++ ) {  var childDiv = childDivs[i];  childDiv.href = '/search?q=' + childDiv.text.substring(1); } </script>";
-		//if(content.Contains(childDivScript)) count++;
-		//content = content.Replace(childDivScript, "");
+		var childDivScript = "<script>var childDivs = document.getElementById('hashtags').getElementsByTagName('a'); for( i=0; i< childDivs.length; i++ ) {  var childDiv = childDivs[i];  childDiv.href = '/search?q=' + childDiv.text.substring(1); } </script>";
+		if(content.Contains(childDivScript)) count++;
+		content = content.Replace(childDivScript, "");
 		#endregion
 		
 		
