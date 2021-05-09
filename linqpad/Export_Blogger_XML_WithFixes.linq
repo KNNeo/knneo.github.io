@@ -140,11 +140,11 @@ void Main()
 		#endregion
 		
 		#region fix youtube iframe size
-		//var youtubeHeight = @"height=""315""";
-		//var youtubeWidth = @"width=""560""";
-		//if(content.Contains(youtubeHeight) || content.Contains(youtubeWidth)) count++;
-		//content = content.Replace(youtubeHeight, "");
-		//content = content.Replace(youtubeWidth, "");
+		var youtubeHeight = @"height=""315""";
+		var youtubeWidth = @"width=""560""";
+		if(content.Contains(youtubeHeight) || content.Contains(youtubeWidth)) count++;
+		content = content.Replace(youtubeHeight, "");
+		content = content.Replace(youtubeWidth, "");
 		#endregion
 		
 		#region thumbnail normal => new thumbnail
