@@ -716,8 +716,6 @@ function generatePopupContent(url) {
 function addHashtags() {
 	//ignore old id and if is search result
 	let elements = document.querySelectorAll("[id='hashtags']");
-	let hiddenTags = document.querySelectorAll("[id='hiddenTags']");
-	if(hiddenTags.length > 0) return;
 	if(elements.length > 1 && window.location.href.includes("/search")) {
 		for(let element of elements) {
 			element.style.display = 'none';
@@ -731,6 +729,22 @@ function addHashtags() {
 		hashTag.innerHTML = '';
 	
 	var hashtags = [];
+	//add hiddenTags direct to search
+	let hiddenTags = document.querySelectorAll("[id='hiddenTags']");
+	if(hiddenTags.length > 0) {
+		var topicList = hiddenTags[0].innerText.split(",");
+		for(var topic of topicList) {
+			// hashtags += "<a href=\"/search?q=" + topic.trim() + "\">#" + topic.trim() + "</a> ";
+			// document.getElementById("hashtags").innerHTML = hashtags;
+			// document.getElementById("hiddenTags").remove();
+			
+			hashtags.push({
+				tag: topic.trim(), 
+				target: "\"/search?q=" + topic.trim()
+			});
+		}	
+	}
+	
 	//add anime
 	for(var topic of document.getElementsByClassName("anime"))
 	{
@@ -762,13 +776,14 @@ function addHashtags() {
 	for(let item of hashtags)
 	{
 		let newItem = document.createElement('a');
-		newItem.title = item.target;
+		newItem.title = item.target.includes("/search") ? "" : item.target;
 		newItem.style.paddingRight = '3px';
 		newItem.innerText = '#' + item.tag;
-		newItem.href = 'javascript:void(0);';
-		newItem.addEventListener('click', function() {
-			document.getElementById(this.title).scrollIntoView();
-		});
+		newItem.href = item.target.includes("/search") && !window.location.href.includes("knneo.github.io") ? item.target : 'javascript:void(0);';
+		if(!item.target.includes("/search"))
+			newItem.addEventListener('click', function() {
+				document.getElementById(this.title).scrollIntoView();
+			});
 		hashTag.appendChild(newItem);
 	}
 }
