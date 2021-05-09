@@ -341,9 +341,9 @@ void Main()
 		#endregion
 		
 		#region alternate links detection for new popups
-		//var youTubeLink = @"https://youtu.be";
-		//if(content.Contains(youTubeLink)) count++;
-		//content = content.Replace(youTubeLink, @"https://www.youtube.com/watch?v=");
+		var youTubeLink = @"https://youtu.be";
+		if(content.Contains(youTubeLink)) count++;
+		content = content.Replace(youTubeLink, @"https://www.youtube.com/watch?v=");
 		//
 		//youTubeLink = @"http://youtu.be";
 		//if(content.Contains(youTubeLink)) count++;
