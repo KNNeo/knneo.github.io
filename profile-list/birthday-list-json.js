@@ -396,3 +396,8 @@ let birthdayListJson =
 
 //insert above//
 ;
+/*
+queries to see order of doaxvv girls
+birthdayListJson.filter(b => b.category == "doaxvv").sort((a,b) => a.sortOrder - b.sortOrder).map(b => [b.name, b.sortOrder]);
+birthdayListJson.filter(b => b.category == "doaxvv").sort((a,b) => a.ssrOrder - b.ssrOrder).map(b => [b.name, b.ssrOrder]);
+*/
