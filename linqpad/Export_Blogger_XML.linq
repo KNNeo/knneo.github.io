@@ -2,8 +2,25 @@
 
 void Main()
 {
-	string filepath = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\blog-11-15-2020.xml";
-	string domainLink = "http://knwebreports.blogspot.com/";
+	bool writeTitleOnConsole = false;
+	Console.WriteLine("writeTitleOnConsole is " + writeTitleOnConsole);
+	string folderpath = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\";
+	string blogpath = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blogspot\";
+	string filepath = "";
+	string domainLink = "https://knwebreports.blogspot.com/";
+	string[] xmls = Directory.GetFiles(Path.GetDirectoryName(folderpath), "blog-*.xml");
+	if(xmls.Length == 1)
+		filepath = xmls[0];
+	else if(xmls.Length == 0)
+	{
+		Console.WriteLine("No xml files found");
+		return;
+	}
+	else
+	{
+		Console.WriteLine("More than 1 xml files found");
+		return;
+	}
 	string text = File.ReadAllText(filepath);
 	XDocument doc = XDocument.Parse(text);
 	
@@ -20,22 +37,24 @@ void Main()
 		.Where(entry => !entry.Element(_+"category").Attribute("term").ToString().Contains("#page"))
 		// Exclude any entries with an <app:draft> element except <app:draft>no</app:draft>
 		.Where(entry => !entry.Descendants(app+"draft").Any(draft => draft.Value != "no"));
-		
-	foreach(var folder in Directory.GetDirectories(Path.GetDirectoryName(filepath)))
+	
+	#region Only For Export
+	foreach(var folder in Directory.GetDirectories(blogpath))
 	{
-		if(folder.Replace("blog-archive","").Contains("blog-"))
+		if(folder.Contains("blog"))
 			Directory.Delete(folder, true);
 	}
-			
-	var outfolder = Path.Combine(Path.GetDirectoryName(filepath), Path.GetFileNameWithoutExtension(filepath));
-	Directory.CreateDirectory(outfolder);
-	
+	var outfolder = Path.Combine(blogpath, "blog\\");
+	Directory.CreateDirectory(outfolder);	
 	var allTags = new List<string>();
+	#endregion
 	
-	Console.WriteLine("<div class=\"Count\">" + posts.ToList().Count + " published posts found</div>");
+	var textString = "";
+	textString += "<div class=\"Count\">" + posts.ToList().Count + " published posts found</div>\n";
+	// Process XML content per post
 	foreach (var entry in posts)
 	{
-	   // Extract data from XML
+		// Extract data from XML
 		DateTime published = DateTime.Parse(entry.Element(_+"published").Value);
 		DateTime updated = DateTime.Parse(entry.Element(_+"updated").Value);
 		string title = entry.Element(_+"title").Value;
@@ -46,6 +65,7 @@ void Main()
 		string originalLink = ((entry.Elements(_+"link")
 			.FirstOrDefault(e => e.Attribute("rel").Value == "alternate") ?? empty)
 			.Attribute("href") ?? emptA).Value;
+			
 		var yearfolder = Path.Combine(outfolder, published.Year.ToString("0000"));
 		if(!Directory.Exists(yearfolder)) Directory.CreateDirectory(outfolder);
 		var monthfolder = Path.Combine(yearfolder, published.Month.ToString("00"));
@@ -69,24 +89,26 @@ void Main()
 			output.WriteLine("<head>");
 			output.WriteLine("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>");
 			output.WriteLine("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
-			output.WriteLine("<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../blog.css\"></style>");
+			output.WriteLine("<meta name=\"theme-color\" content=\"black\">");
+			output.WriteLine("<meta name=\"apple-mobile-web-app-capable\" content=\"yes\">");
+			output.WriteLine("<meta name=\"mobile-web-app-capable\" content=\"yes\">");
+			output.WriteLine("<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../blog.css\" />");
+			output.WriteLine("<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../blogspot.css\" />");
 		    output.WriteLine("<link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet' />");
-			output.WriteLine("<link href=\"https://fonts.googleapis.com/icon?family=Material+Icons\" rel=\"stylesheet\">");
-			output.WriteLine("<script src=\"../../../blog-bef.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
+			output.WriteLine("<link href=\"https://fonts.googleapis.com/icon?family=Material+Icons\" rel=\"stylesheet\" />");
+			output.WriteLine("<link rel=\"icon\" href=\"../../../storytime.ico\" />");
 			output.WriteLine("<title>" + title + "</title>");
-			output.WriteLine("<body>");
+			output.WriteLine("<body class=\"post-body entry-content\">");
 			output.WriteLine("<div id=\"viewer\" style=\"display: none;\"></div>");
 			output.WriteLine("<div id=\"contents\">");
-			output.WriteLine("<a id='GoToTopBtn' onclick='goToTop()' title='Back to Top'><i class='material-icons'>arrow_upward</i></a>");
 			output.WriteLine("<a id='BackBtn' onclick='goBack()' title='Go Back'><i class='material-icons'>arrow_back</i></a>");
- 			//output.WriteLine("<a id='SearchBtn' onclick='toggleSearch()' title='Search Blog'><i class='material-icons'>search</i></a>");
 			//output.WriteLine("title: \"{0}\"", title);
 			//output.WriteLine("layout: post");
 			//output.WriteLine("# Pulled from Blogger. Last updated on: {0:yyyy-MM-dd}", updated);
 			//output.WriteLine("---");
 			if (originalLink != "")
 				output.WriteLine("<small style=\"text-align: center;\"><p><i>This post was imported from "+
-				 "<a href=\"{0}\">Blogger</a></i></p></small>", domainLink+originalLink);
+				 "<a href=\"{0}\">Blogger</a></i></p></small>", originalLink);
 				 
 			output.WriteLine("<small class=\"published\">"+published.ToString("dddd, dd MMMM yyyy")+"</small>");
 			output.WriteLine("<h2>"+title+"</h2>");
@@ -94,11 +116,11 @@ void Main()
 			output.Write("<hr>");
 			if(tags.Count > 0) output.Write("<h4>#" + string.Join(" #",tags) + "</h4>");
 			output.Write("<br>");
-			output.Write("<h5 style=\"text-align: center;\">Copyright (c) 2014-2020 Klassic Note Web Reports</h5>");
+			output.Write("<h5 style=\"text-align: center;\">Copyright (c) 2014-2021 Klassic Note Web Reports</h5>");
 			output.Write("<br>");
 			output.WriteLine("</div>");
 			output.WriteLine("</body>");
-			output.WriteLine("<script src=\"../../../blog-aft.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
+			output.WriteLine("<script src=\"../../../blog.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
 			output.WriteLine("<script src=\"../../../blog-fixes.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
 			output.WriteLine("</html>");
 		}
@@ -112,15 +134,19 @@ void Main()
 		
 		if (originalLink != "")
 		{
-			var pageLink = "./" + Path.GetFileNameWithoutExtension(filepath) + "/" + published.Year.ToString("0000") + "/"  + published.Month.ToString("00") + "/"  + Path.GetFileNameWithoutExtension(originalLink) + "." + type;
-			
+			var pageLink = "./" + Path.GetFileNameWithoutExtension(filepath.Replace(filepath, "blog")) + "/" + published.Year.ToString("0000") + "/"  + published.Month.ToString("00") + "/"  + Path.GetFileNameWithoutExtension(originalLink) + "." + type;
+
 			if(title != "")
-				Console.WriteLine("<div"+classes+"><span>"+published.ToString("yyyy.MM.dd")+" </span><a href=\""+pageLink+"\">"+title+"</a></div>");
+				textString += "<div"+classes+"><span>"+published.ToString("yyyy.MM.dd")+" </span><a href=\""+pageLink+"\">"+title+"</a></div>\n";
 			else
-				Console.WriteLine("<div"+classes+"><span>"+published.ToString("yyyy.MM.dd")+" </span><a href=\""+pageLink+"\">A Random Statement</a></div>");				
+				textString += "<div"+classes+"><span>"+published.ToString("yyyy.MM.dd")+" </span><a href=\""+pageLink+"\">A Random Statement</a></div>\n";				
 		}
 		else
-			Console.WriteLine("<div"+classes+"><span>"+published.ToString("yyyy.MM.dd")+" </span>"+title+"</div>");
+			textString += "<div"+classes+"><span>"+published.ToString("yyyy.MM.dd")+" </span>"+title+"</div>\n";
 	}
-	// Console.WriteLine("<div class=\"allTags\"><a>"+string.Join("</a> <a>",allTags)+"</a></div>");
+	
+	string fileString = File.ReadAllText(blogpath + "\\blog_template.html");
+	fileString = fileString.Replace("<div id=\"blog-archive-list\" style=\"font-size: 0.8em; padding-bottom: 20px;\"></div>", ("<div id=\"blog-archive-list\" style=\"font-size: 0.8em; padding-bottom: 20px;\">" + textString + "</div>"));
+	File.WriteAllText(blogpath + "\\blog.html", fileString);
+	
 }
