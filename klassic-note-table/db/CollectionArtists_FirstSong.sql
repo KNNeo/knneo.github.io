@@ -34,7 +34,7 @@ where ArtistTitle in (
 'cinema staff',
 'Yoru no Honki Dance',
 'THE ORAL CIGARETTES',
-'Amamiya Sora'
-
+'Amamiya Sora',
+'SPYAIR'
 )
 group by ArtistTitle order by DateCreated
