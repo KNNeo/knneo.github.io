@@ -9,6 +9,26 @@
  * (2) Create blogpath since did not do checking for directory exist
  * (3) Change domainLink to desired domain as exported
  * (4) FIX POST ATTRIBUTES and FIX POST CONTENT can be removed as desired
+ * (5) [Status] List of Cases
+ * []	website adjustments: remove post inline style, fix urls
+ * []	remove embed styles for thumbnail normal/hover (ignore posts with sp-thumbnail)
+ * [OK]	fix twitter embed
+ * []	fix youtube iframe size
+ * []	thumbnail normal table => new thumbnail
+ * []	thumbnail hover table => new thumbnail
+ * []	popup initial table => new thumbnail
+ * []	popup pop table => new thumbnail
+ * []	any gif img tag should not have enclosing a tag
+ * []	abbr imgpop => div popup normal pop
+ * []	span popup normal pop => div popup normal pop
+ * []	div popup normal pop (images) => div new-thumbnail
+ * []	adjust ent news headers
+ * []	add class to header prefix for styling
+ * []	set all link directory to current blog
+ * []	all table styles to be within post
+ * []	remove hashtags on post level
+ * []	alternate links detection for new popups\
+ * []	any link not referenced within blog to open on new tab
  */
  
 public class MatchItem
@@ -33,7 +53,9 @@ string UpdateRegexContent(string content, Match loosematch, Match strictMatch, s
 
 void Main()
 {
-	bool writeTitleOnConsole = true;
+	bool WriteTitleOnConsole = true;
+	Console.WriteLine("WriteTitleOnConsole is " + WriteTitleOnConsole);
+	Console.WriteLine("Post with changes will appear here");
 	string folderpath = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\";
 	string blogpath = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blogspot\";
 	string filepath = "";
@@ -94,100 +116,83 @@ void Main()
 		Match match, matchExp;
 		string prefix, midfix, suffix;
 		List<MatchItem> matchItems = new List<MatchItem>();
-		// List of Cases:
-		/*
-		* website adjustments: remove post inline style, fix urls
-		* remove embed styles for thumbnail normal/hover (ignore sp-thumbnail)
-		* fix twitter embed
-		* fix youtube iframe size
-		* thumbnail normal table => new thumbnail
-		* thumbnail hover table => new thumbnail
-		* popup initial table => new thumbnail
-		* popup pop table => new thumbnail
-		* any gif img tag should not have enclosing a tag
-		* abbr imgpop => div popup normal pop
-		* span popup normal pop => div popup normal pop
-		* div popup normal pop (images) => div new-thumbnail
-		* adjust ent news headers
-		* add class to header prefix for styling
-		* set all link directory to current blog
-		* all table styles to be within post
-		* remove hashtags on post level
-		*/
 		
-		#region remove embed styles for thumbnail normal/hover
-		var thumbnailStyle = ".thumbnail .hover {       display:none;     }     .thumbnail:hover .normal {       display:none;     }     .thumbnail:hover .hover {       display:inline;  /* CHANGE IF FOR BLOCK ELEMENTS */     } ";
-		if(content.Contains(thumbnailStyle)) count++;
-		content = content.Replace(thumbnailStyle, "");
+		// All regions of change to include in order: [1] detection expression [2] increment if detected [3] replacement
+		// Process XML content per post	if is not simple replace
+		// [1] Define Regex Expression (loose and strict)
+		// [2] Replace String According to Expression (simple without format, or simple with format, or complex use UpdateRegexContent)
+		
+		#region remove embed styles for thumbnail normal/hover (ignore posts with sp-thumbnail)
+		//var thumbnailStyle = ".thumbnail .hover {       display:none;     }     .thumbnail:hover .normal {       display:none;     }     .thumbnail:hover .hover {       display:inline;  /* CHANGE IF FOR BLOCK ELEMENTS */     } ";
+		//if(content.Contains(thumbnailStyle)) count++;
+		//content = content.Replace(thumbnailStyle, "");
 		#endregion
 		
 		#region fix twitter embed
 		var twitterScript = "\"//platform.twitter.com/widgets.js\"";
 		if(content.Contains(twitterScript)) count++;
 		content = content.Replace(twitterScript, "\"https://platform.twitter.com/widgets.js\"");
+		
 		var unalignedTweetClass = "class=\"twitter-tweet";
-		if(content.Contains(unalignedTweetClass)) count++;
 		content = content.Replace(unalignedTweetClass, "class=\"twitter-tweet tw-align-center");
+		if(content.Contains("class=\"twitter-tweet tw-align-center tw-align-center")) count++;
+		content = content.Replace("class=\"twitter-tweet tw-align-center tw-align-center", "class=\"twitter-tweet tw-align-center");
 		#endregion
 		
 		#region fix youtube iframe size
-		var youtubeHeight = @"height=""315""";
-		var youtubeWidth = @"width=""560""";
-		if(content.Contains(youtubeHeight) || content.Contains(youtubeWidth)) count++;
-		content = content.Replace(youtubeHeight, "");
-		content = content.Replace(youtubeWidth, "");
+		//var youtubeHeight = @"height=""315""";
+		//var youtubeWidth = @"width=""560""";
+		//if(content.Contains(youtubeHeight) || content.Contains(youtubeWidth)) count++;
+		//content = content.Replace(youtubeHeight, "");
+		//content = content.Replace(youtubeWidth, "");
 		#endregion
 		
-		// Process XML content per post	
 		#region thumbnail normal => new thumbnail
-		//[1]Define Regex Expression
-		//(div element type, class normal)
-		expression = @"(<div class=""thumbnail""><span class=""normal""><table)(.*?)(</table></span>)";
-		matchExpression = @"(?<=<div class=""thumbnail""><span class=""normal""><table)(.*?)(?=</table></span>)";
-		
-		//[2]Replace String According to Expression
-		match = Regex.Match(content, expression);
-		matchExp = Regex.Match(content, matchExpression);
-		prefix = @"<div class=""thumbnail""><div class=""thumbnail-initial hover-hidden""><table";
-		suffix = "</table></div>";
-		content = UpdateRegexContent(content, match, matchExp, prefix, suffix);
-		if(match.Success) count++;
+		//expression = @"(<div class=""thumbnail""><span class=""normal""><table)(.*?)(</table></span>)";
+		//matchExpression = @"(?<=<div class=""thumbnail""><span class=""normal""><table)(.*?)(?=</table></span>)";
+		//
+		//match = Regex.Match(content, expression);
+		//matchExp = Regex.Match(content, matchExpression);
+		//prefix = @"<div class=""thumbnail""><div class=""thumbnail-initial hover-hidden""><table";
+		//suffix = "</table></div>";
+		//content = UpdateRegexContent(content, match, matchExp, prefix, suffix);
+		//if(match.Success) count++;
 		#endregion
 		
 		#region thumbnail hover => new thumbnail
-		expression = @"(</table></div><span class=""hover""><table)(.*?)(</table></span>)";
-		matchExpression = @"(?<=</table></div><span class=""hover""><table)(.*?)(?=</table></span>)";
-		
-		match = Regex.Match(content, expression);
-		matchExp = Regex.Match(content, matchExpression);
-		prefix = @"</table></div><div class=""thumbnail-initial thumbnail-pop hover-visible""><table";
-		suffix = "</table></div>";
-		content = UpdateRegexContent(content, match, matchExp, prefix, suffix);
-		if(match.Success) count++;
+		//expression = @"(</table></div><span class=""hover""><table)(.*?)(</table></span>)";
+		//matchExpression = @"(?<=</table></div><span class=""hover""><table)(.*?)(?=</table></span>)";
+		//
+		//match = Regex.Match(content, expression);
+		//matchExp = Regex.Match(content, matchExpression);
+		//prefix = @"</table></div><div class=""thumbnail-initial thumbnail-pop hover-visible""><table";
+		//suffix = "</table></div>";
+		//content = UpdateRegexContent(content, match, matchExp, prefix, suffix);
+		//if(match.Success) count++;
 		#endregion
 		
 		#region popup initial table => new thumbnail
-		expression = @"(<div class=""popup""><span class=""initial""><table)(.*?)(</table></span>)";
-		matchExpression = @"(?<=<div class=""popup""><span class=""initial""><table)(.*?)(?=</table></span>)";
-		
-		match = Regex.Match(content, expression);
-		matchExp = Regex.Match(content, matchExpression);
-		prefix = @"<div class=""thumbnail""><div class=""thumbnail-initial hover-hidden""><table";
-		suffix = "</table>";
-		content = UpdateRegexContent(content, match, matchExp, prefix, suffix);
-		if(match.Success) count++;
+		//expression = @"(<div class=""popup""><span class=""initial""><table)(.*?)(</table></span>)";
+		//matchExpression = @"(?<=<div class=""popup""><span class=""initial""><table)(.*?)(?=</table></span>)";
+		//
+		//match = Regex.Match(content, expression);
+		//matchExp = Regex.Match(content, matchExpression);
+		//prefix = @"<div class=""thumbnail""><div class=""thumbnail-initial hover-hidden""><table";
+		//suffix = "</table>";
+		//content = UpdateRegexContent(content, match, matchExp, prefix, suffix);
+		//if(match.Success) count++;
 		#endregion
 		
 		#region popup pop table => new thumbnail
-		expression = @"(<span class=""pop"" style=""margin: 0; position: initial;""><table)(.*?)(</table></span>)";
-		matchExpression = @"(?<=<span class=""pop"" style=""margin: 0; position: initial;""><table)(.*?)(?=</table></span>)";
-		
-		match = Regex.Match(content, expression);
-		matchExp = Regex.Match(content, matchExpression);
-		prefix = @"</table></div><div class=""thumbnail-initial thumbnail-pop hover-visible""><table";
-		suffix = "</table></div>";
-		content = UpdateRegexContent(content, match, matchExp, prefix, suffix);
-		if(match.Success) count++;
+		//expression = @"(<span class=""pop"" style=""margin: 0; position: initial;""><table)(.*?)(</table></span>)";
+		//matchExpression = @"(?<=<span class=""pop"" style=""margin: 0; position: initial;""><table)(.*?)(?=</table></span>)";
+		//
+		//match = Regex.Match(content, expression);
+		//matchExp = Regex.Match(content, matchExpression);
+		//prefix = @"</table></div><div class=""thumbnail-initial thumbnail-pop hover-visible""><table";
+		//suffix = "</table></div>";
+		//content = UpdateRegexContent(content, match, matchExp, prefix, suffix);
+		//if(match.Success) count++;
 		#endregion
 		//The Entertainment News 2019 Edition Issue #17 kyojin thumbs did not replace successfully
 		
@@ -201,78 +206,114 @@ void Main()
 		//content = UpdateRegexContent(content, match, matchExp, prefix, suffix);
 		#endregion
 		
-		#region abbr imgpop => div popup normal pop
-		expression = @"(<abbr class=""imgpop"">)(.*?)(/>)(.*?)(</abbr>)";
+		#region span popup normal pop => div popup normal pop
+		//expression = @"(<span class=""popup""><span class=""normal"">)(.*?)(</span><span class=""pop"">)(.*?)(</span></span>)";
+		//content = content.Replace("<span class=\"popup\"><span class=\"normal\">", "<div class=\"popup\"><span class=\"normal\">");
+		//content = content.Replace("</span></span>", "</span></div>");
 		
-		match = Regex.Match(content, expression);
-		prefix = @"<div class=""popup""><span class=""normal"">";
-		midfix = @"</span><span class=""pop"">";
-		suffix = "</span></div>";
-		while(match.Success && match.Groups.Count == 6)
-		{
-			var replacement = prefix + match.Groups[4].Value + midfix + match.Groups[2].Value + match.Groups[3].Value + suffix;
-			content = content.Replace(match.Value, replacement);
-			match = match.NextMatch();
-			matchExp = matchExp.NextMatch();
-		};
-		if(match.Success) count++;
+		//cannot really remove all, as span popup has text and images and iframes
+		//using match will have to ensure only certain pop tags be rendered: leave text div alone
+		
+		//match = Regex.Match(content, expression);
+		//prefix = @"<div class=""popup""><span class=""normal"">";
+		//midfix = @"</span><span class=""pop"">";
+		//suffix = "</span></div>";
+		//while(match.Success && match.Groups.Count == 6)
+		//{
+		//	Console.WriteLine(match.Groups);
+		//	var replacement = prefix + match.Groups[4].Value + midfix + match.Groups[2].Value + match.Groups[3].Value + suffix;
+		//	content = content.Replace(match.Value, replacement);
+		//	match = match.NextMatch();
+		//	matchExp = matchExp.NextMatch();
+		//};
+		//if(match.Success) count++;
+		#endregion
+		
+		#region abbr imgpop => div popup normal pop
+		//expression = @"(<abbr class=""imgpop"">)(.*?)(/>)(.*?)(</abbr>)";
+		//
+		//match = Regex.Match(content, expression);
+		//prefix = @"<div class=""popup""><span class=""normal"">";
+		//midfix = @"</span><span class=""pop"">";
+		//suffix = "</span></div>";
+		//while(match.Success && match.Groups.Count == 6)
+		//{
+		//	var replacement = prefix + match.Groups[4].Value + midfix + match.Groups[2].Value + match.Groups[3].Value + suffix;
+		//	content = content.Replace(match.Value, replacement);
+		//	match = match.NextMatch();
+		//	matchExp = matchExp.NextMatch();
+		//};
+		//if(match.Success) count++;
 		#endregion
 		
 		#region div popup normal pop (images) => div new-thumbnail
-		expression = @"(<div class=""popup""><span class=""normal"">)(.*?)(</span><span class=""pop"">)(.*?)(<img)(.*?)(src="")(.*?)("" /></span></div>)";
-		
-		match = Regex.Match(content, expression);
-		prefix = @"<a href=""";
-		midfix = @""" target=""_blank"">";
-		suffix = "</a>";
-		while(match.Success)
-		{
-			var replacement = prefix + match.Groups[8].Value + midfix + match.Groups[2].Value + suffix;
-			content = content.Replace(match.Value, replacement);
-			match = match.NextMatch();
-			matchExp = matchExp.NextMatch();
-		};
-		if(match.Success) count++;
-		
-		#endregion
-		
-		#region adjust ent news headers
-		//expression = @"(<blockquote class=""tr_bq""><div style=""text-align: center;""><span style=""font-size: large;"">)(.*?)(</span></div></blockquote>)"; 
+		//expression = @"(<div class=""popup""><span class=""normal"">)(.*?)(</span><span class=""pop"">)(.*?)(<img)(.*?)(src="")(.*?)("" /></span></div>)";
 		//
 		//match = Regex.Match(content, expression);
-		//prefix = @"<blockquote class=""tr_bq anime""><div style=""text-align: center;""><span style=""background: rgb(0, 184, 204); border-radius: 5px; padding: 3px 5px; text-align: center; vertical-align: text-bottom;""><b>アニメ</b></span><span style=""font-size: large;""> ";
-		////midfix = @"</span><span class=""pop fadeIn"">";
-		//suffix = "</span></div></blockquote>";
-		//while(match.Success && match.Groups.Count == 4)
+		//prefix = @"<a href=""";
+		//midfix = @""" target=""_blank"">";
+		//suffix = "</a>";
+		//while(match.Success)
 		//{
-		//	var replacement = prefix + match.Groups[2].Value + suffix;
+		//	var replacement = prefix + match.Groups[8].Value + midfix + match.Groups[2].Value + suffix;
 		//	content = content.Replace(match.Value, replacement);
 		//	match = match.NextMatch();
-		//}; //can also be for not anime, see 2018 ent news #30, might not be possible
-		
-		var animeHeader = @"<blockquote class=""tr_bq""><div style=""text-align: center;""><span style=""background: #09a5b8; border-radius: 5px; padding: 3px 5px; text-align: center;""><b>アニメ</b></span> <span style=""font-size: large;"">ANIME</span></div></blockquote><blockquote class=""tr_bq anime"">";
-		if(content.Contains(animeHeader)) count++;
-		content = content.Replace(animeHeader, @"<blockquote class=""tr_bq anime"">");
+		//	matchExp = matchExp.NextMatch();
+		//};
+		//if(match.Success) count++;
 		#endregion
 		
-		#region add class to header prefix for styling
-		var animeHeaderPrefix = @"<span style=""background: #09a5b8; border-radius: 5px; padding: 3px 5px; text-align: center; vertical-align: text-bottom;"">";
-		if(content.Contains(animeHeaderPrefix)) count++;
-		content = content.Replace(animeHeaderPrefix, @"<span class=""head-prefix"">");
-		animeHeaderPrefix = @"<span style=""background: rgb(0, 184, 204); border-radius: 5px; padding: 3px 5px; text-align: center; vertical-align: text-bottom;"">";
-		if(content.Contains(animeHeaderPrefix)) count++;
-		content = content.Replace(animeHeaderPrefix, @"<span class=""head-prefix"">");
-		animeHeaderPrefix = @"<span style=""background: rgb(0, 184, 204); border-radius: 5px; padding: 3px 5px; text-align: center;"">";
-		if(content.Contains(animeHeaderPrefix)) count++;
-		content = content.Replace(animeHeaderPrefix, @"<span class=""head-prefix"">");
+		#region div popup normal pop (iframes) => div new-thumbnail
+		//expression = @"(<div class=""popup""><span class=""normal"">)(.*?)(</span><span class=""pop""><iframe)(.*?)(src="")(.*?)(""></iframe></span></div>)";
+		//
+		//match = Regex.Match(content, expression);
+		//prefix = @"<a href=""";
+		//midfix = @""" target=""_blank"">";
+		//suffix = "</a>";
+		//while(match.Success)
+		//{
+		//	//Add to debug
+		//	if(match.Success) matchItems.Add(new MatchItem {
+		//		Title = "div popup normal pop (iframes) => div new-thumbnail",
+		//		Item = match.Value
+		//	});
+		//	//url specific changes
+		//	var url = match.Groups[8].Value;
+		//	if(url.Contains("embed.music.apple.com"))
+		//		url = match.Groups[8].Value.Replace("embed.music.apple.com", "music.apple.com");
+		//	if(url.Contains("youtube.com"))
+		//		url = match.Groups[8].Value.Replace("embed", "watch");
+		//	var replacement = prefix + url + midfix + match.Groups[2].Value + suffix;
+		//	content = content.Replace(match.Value, replacement);
+		//	
+		//	match = match.NextMatch();
+		//	matchExp = matchExp.NextMatch();
+		//};
+		//if(match.Success) count++;
+		#endregion
+		
+		#region adjust ent news headers		
+		//var animeHeader = @"<blockquote class=""tr_bq""><div style=""text-align: center;""><span style=""background: #09a5b8; border-radius: 5px; padding: 3px 5px; text-align: center;""><b>アニメ</b></span> <span style=""font-size: large;"">ANIME</span></div></blockquote><blockquote class=""tr_bq anime"">";
+		//if(content.Contains(animeHeader)) count++;
+		//content = content.Replace(animeHeader, @"<blockquote class=""tr_bq anime"">");
+		//#endregion
+		//
+		//#region add class to header prefix for styling
+		//var animeHeaderPrefix = @"<span style=""background: #09a5b8; border-radius: 5px; padding: 3px 5px; text-align: center; vertical-align: text-bottom;"">";
+		//if(content.Contains(animeHeaderPrefix)) count++;
+		//content = content.Replace(animeHeaderPrefix, @"<span class=""head-prefix"">");
+		//animeHeaderPrefix = @"<span style=""background: rgb(0, 184, 204); border-radius: 5px; padding: 3px 5px; text-align: center; vertical-align: text-bottom;"">";
+		//if(content.Contains(animeHeaderPrefix)) count++;
+		//content = content.Replace(animeHeaderPrefix, @"<span class=""head-prefix"">");
+		//animeHeaderPrefix = @"<span style=""background: rgb(0, 184, 204); border-radius: 5px; padding: 3px 5px; text-align: center;"">";
+		//if(content.Contains(animeHeaderPrefix)) count++;
+		//content = content.Replace(animeHeaderPrefix, @"<span class=""head-prefix"">");
 		#endregion
 		
 		#region set all link directory to current blog
-		//var referenceStr = "../../";//"../"; //actual only need one level parent
-		//content = content.Replace(domainLink, referenceStr);
-		var oldDomainLink = "https://knwebreports2014.blogspot.com/";
-		content = content.Replace(oldDomainLink, domainLink);
-		if(content.Contains(oldDomainLink)) count++;
+		//var oldDomainLink = "https://knwebreports2014.blogspot.com/";
+		//content = content.Replace(oldDomainLink, domainLink);
+		//if(content.Contains(oldDomainLink)) count++;
 		#endregion
 		
 		#region all table styles to be within post
@@ -289,41 +330,77 @@ void Main()
 		
 		#region remove hashtags on post level
 		// only remove those without old hiddenTags span comma seaprated list
-		if(!content.Contains("id=\"hiddenTags\"") || !content.Contains("document.getElementById(\"hiddenTags\")"))
-		{
-			expression = @"(<script>)(.*?)(var hashtags)(.*?)(</script>)";
-			match = Regex.Match(content, expression);
-			while(match.Success && match.Groups.Count == 6)
-			{
-				//Add to debug
-				//if(match.Success) matchItems.Add(new MatchItem {
-				//	Title = entry.Element(_+"title").Value,
-				//	Item = match.Value
-				//});
-				content = content.Replace(match.Value, "");
-				match = match.NextMatch();
-			};
-			if(match.Success) count++;
-		}
+		//if(!content.Contains("id=\"hiddenTags\"") || !content.Contains("document.getElementById(\"hiddenTags\")"))
+		//{
+		//	expression = @"(<script>)(.*?)(var hashtags)(.*?)(</script>)";
+		//	match = Regex.Match(content, expression);
+		//	while(match.Success && match.Groups.Count == 6)
+		//	{
+		//		content = content.Replace(match.Value, "");
+		//		match = match.NextMatch();
+		//	};
+		//	if(match.Success) count++;
+		//}
 		#endregion
 		
-		#region alternate links detection for new popups		
-		var youTubeLink = @"https://youtu.be";
-		if(content.Contains(youTubeLink)) count++;
-		content = content.Replace(youTubeLink, @"https://www.youtube.com/watch?v=");
+		#region alternate links detection for new popups
+		//var youTubeLink = @"https://youtu.be";
+		//if(content.Contains(youTubeLink)) count++;
+		//content = content.Replace(youTubeLink, @"https://www.youtube.com/watch?v=");
+		//
+		//youTubeLink = @"http://youtu.be";
+		//if(content.Contains(youTubeLink)) count++;
+		//content = content.Replace(youTubeLink, @"https://www.youtube.com/watch?v=");
 		#endregion
 		
+		#region any link not referenced within blog to open on new tab
+		//content = content.Replace("       >", ">");
+		//expression = @"(<a )(.*?)(?<=href="")(.*?)(?="")(.*?)(>)(.*?)(</a>)";
+		//
+		//match = Regex.Match(content, expression);
+		//prefix = @"<a href=""";
+		//midfix = @""" target=""_blank"">";
+		//suffix = "</a>";
+		//while(match.Success)
+		//{
+		//	if(!(match.Value.Contains("target=\"_blank\"") || match.Value.Contains("name='more'")) && 
+		//	!(match.Groups[3].Value.Contains("blogspot") || match.Groups[3].Value.Contains("#") || match.Groups[3].Value.Contains("https://www.blogger.com/null")) && 
+		//	!match.Groups[6].Value.Contains("<img"))
+		//	{
+		//		//Add to debug
+		//		//if(match.Success) matchItems.Add(new MatchItem {
+		//		//	Title = "external link",
+		//		//	Item = match.Value
+		//		//});
+		//		if(match.Success) count++;
+		//		var replacement = prefix + match.Groups[3].Value + midfix + match.Groups[6].Value + suffix;
+		//		content = content.Replace(match.Value, replacement);
+		//	}
+		//	else if(match.Groups[3].Value.Contains("knwebreports"))
+		//	{
+		//		//Add to debug
+		//		//if(match.Success) matchItems.Add(new MatchItem {
+		//		//	Title = "link within blog",
+		//		//	Item = match.Value
+		//		//});
+		//		content = content.Replace(match.Value, match.Value.Replace("target=\"_blank\"", ""));
+		//	}
+		//	match = match.NextMatch();
+		//	matchExp = matchExp.NextMatch();
+		//};
+		#endregion
+		
+		
+		
+		//Add to debug
 		if(matchItems.Count() > 0)
 			Console.WriteLine(matchItems);
-		
-		
-		
-		
+			
 	   	// Extract data from XML
 		DateTime published = DateTime.Parse(entry.Element(_+"published").Value);
 		DateTime updated = DateTime.Parse(entry.Element(_+"updated").Value);
 		string title = entry.Element(_+"title").Value;
-		// Console.WriteLine("Processing...  " + (title != "" ? title : "A Random Statement"));
+		//Console.WriteLine("Processing...  " + (title != "" ? title : "A Random Statement"));
 		string type = entry.Element(_+"content").Attribute("type").Value ?? "html";
 		XElement empty = new XElement("empty");
 		XAttribute emptA = new XAttribute("empty","");
@@ -336,16 +413,12 @@ void Main()
 		var monthfolder = Path.Combine(yearfolder, published.Month.ToString("00"));
 		if(!Directory.Exists(monthfolder)) Directory.CreateDirectory(monthfolder);
 		string outFileName = Path.GetFileNameWithoutExtension(originalLink) + "." + type;
-		//string outFileName = string.Format("{0:yyyy-MM-dd}-{1}.{2}", published, Path.GetFileNameWithoutExtension(originalLink), type);
 		var outPath = Path.Combine(monthfolder, outFileName);
 		
 		var tags = entry.Elements(_+"category")
 		// An <entry> is either a post, or some bit of metadata no one cares about.
 		// Exclude entries that don't have a child like <category term="...#post"/>
 		.Where(e => !e.Attribute("term").ToString().Contains("#post")).Select(q => q.Attribute("term").Value).ToList();
-		
-		//if (content.Count(c => c == '\n') <= 3)
-		//	content = AddLineBreaks(content); // optional
 		
 		// Write output file (partial HTML for Jekyll)
 		using (StreamWriter output = File.CreateText(outPath)) {
@@ -367,19 +440,15 @@ void Main()
 			output.WriteLine("<div id=\"viewer\" style=\"display: none;\"></div>");
 			output.WriteLine("<div id=\"contents\">");
 			output.WriteLine("<a id='BackBtn' onclick='goBack()' title='Go Back'><i class='material-icons'>arrow_back</i></a>");
-			//output.WriteLine("title: \"{0}\"", title);
-			//output.WriteLine("layout: post");
-			//output.WriteLine("# Pulled from Blogger. Last updated on: {0:yyyy-MM-dd}", updated);
-			//output.WriteLine("---");
 			if (originalLink != "")
 				output.WriteLine("<small style=\"text-align: center;\"><p><i>This post was imported from "+
-				 "<a href=\"{0}\">Blogger</a></i></p></small>", originalLink);
-				 
+				 "<a href=\"{0}\">Blogger</a></i></p></small>", originalLink);				 
 			output.WriteLine("<small class=\"published\">"+published.ToString("dddd, dd MMMM yyyy")+"</small>");
 			output.WriteLine("<h2>"+title+"</h2>");
 			output.Write(content);
 			output.Write("<hr>");
-			if(tags.Count > 0) output.Write("<h4>#" + string.Join(" #",tags) + "</h4>");
+			if(tags.Count > 0)
+				output.Write("<h4>#" + string.Join(" #",tags) + "</h4>");
 			output.Write("<br>");
 			output.Write("<h5 style=\"text-align: center;\">Copyright (c) 2014-2021 Klassic Note Web Reports</h5>");
 			output.Write("<br>");
@@ -408,7 +477,7 @@ void Main()
 		}
 		else
 			textString += "<div"+classes+"><span>"+published.ToString("yyyy.MM.dd")+" </span>"+title+"</div>\n";
-		if(writeTitleOnConsole && count > 0) Console.WriteLine(title + "\t[" + count + " changes]");
+		if(WriteTitleOnConsole && count > 0) Console.WriteLine(title + "\t[" + count + " change(s)]");
 	}
 	
 	string fileString = File.ReadAllText(blogpath + "\\blog_template.html");
