@@ -2,8 +2,6 @@
 
 void Main()
 {
-	bool writeTitleOnConsole = false;
-	Console.WriteLine("writeTitleOnConsole is " + writeTitleOnConsole);
 	string folderpath = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\";
 	string blogpath = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blogspot\";
 	string filepath = "";
@@ -58,6 +56,7 @@ void Main()
 		DateTime published = DateTime.Parse(entry.Element(_+"published").Value);
 		DateTime updated = DateTime.Parse(entry.Element(_+"updated").Value);
 		string title = entry.Element(_+"title").Value;
+		Console.WriteLine("Processing...  " + (title != "" ? title : "A Random Statement"));
 		string content = entry.Element(_+"content").Value;
 		string type = entry.Element(_+"content").Attribute("type").Value ?? "html";
 		XElement empty = new XElement("empty");
