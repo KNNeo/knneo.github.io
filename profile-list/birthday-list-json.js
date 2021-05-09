@@ -120,115 +120,157 @@ let birthdayListJson =
 		"category":"doaxvv",
 		"id":"MarieRose",
 		"name":"Marie Rose",
-		"dob":"????.06.06"
+		"dob":"????.06.06",
+		"sortOrder":11,
+		"ssrOrder":10
 	},
 	{
 		"category":"doaxvv",
 		"id":"Honoka",
 		"name":"Honoka",
-		"dob":"????.03.24"
+		"dob":"????.03.24",
+		"sortOrder":6,
+		"ssrOrder":4
 	},
 	{
 		"category":"doaxvv",
 		"id":"Kasumi",
 		"name":"Kasumi",
-		"dob":"????.02.23"
+		"dob":"????.02.23",
+		"sortOrder":2,
+		"ssrOrder":11
 	},
 	{
 		"category":"doaxvv",
 		"id":"Ayane",
 		"name":"Ayane",
-		"dob":"????.08.05"
+		"dob":"????.08.05",
+		"sortOrder":4,
+		"ssrOrder":2
 	},
 	{
 		"category":"doaxvv",
 		"id":"Momiji",
 		"name":"Momiji",
-		"dob":"????.09.20"
+		"dob":"????.09.20",
+		"sortOrder":3,
+		"ssrOrder":1
 	},
 	{
 		"category":"doaxvv",
 		"id":"Kokoro",
 		"name":"Kokoro",
-		"dob":"????.12.01"
+		"dob":"????.12.01",
+		"sortOrder":1,
+		"ssrOrder":7
 	},
 	{
 		"category":"doaxvv",
 		"id":"Hitomi",
 		"name":"Hitomi",
-		"dob":"????.05.25"
+		"dob":"????.05.25",
+		"sortOrder":5,
+		"ssrOrder":3
 	},
 	{
 		"category":"doaxvv",
 		"id":"Helena",
 		"name":"Helena",
-		"dob":"????.01.30"
+		"dob":"????.01.30",
+		"sortOrder":7,
+		"ssrOrder":5
 	},
 	{
 		"category":"doaxvv",
 		"id":"Leifan",
 		"name":"Leifan",
-		"dob":"????.04.23"
+		"dob":"????.04.23",
+		"sortOrder":13,
+		"ssrOrder":13
 	},
 	{
 		"category":"doaxvv",
 		"id":"Misaki",
 		"name":"Misaki",
-		"dob":"????.07.07"
+		"dob":"????.07.07",
+		"sortOrder":9,
+		"ssrOrder":8
 	},
 	{
 		"category":"doaxvv",
 		"id":"Luna",
 		"name":"Luna",
-		"dob":"????.10.15"
+		"dob":"????.10.15",
+		"sortOrder":8,
+		"ssrOrder":6
 	},
 	{
 		"category":"doaxvv",
 		"id":"Tamaki",
 		"name":"Tamaki",
-		"dob":"????.08.19"
+		"dob":"????.08.19",
+		"sortOrder":10,
+		"ssrOrder":9
 	},
 	{
 		"category":"doaxvv",
 		"id":"Fiona",
 		"name":"Fiona",
-		"dob":"????.02.11"
+		"dob":"????.02.11",
+		"sortOrder":14,
+		"ssrOrder":14
 	},
 	{
 		"category":"doaxvv",
 		"id":"Nagisa",
 		"name":"Nagisa",
-		"dob":"????.05.05"
+		"dob":"????.05.05",
+		"sortOrder":16,
+		"ssrOrder":16
 	},
 	{
 		"category":"doaxvv",
 		"id":"Monica",
 		"name":"Monica",
-		"dob":"????.01.01"
+		"dob":"????.01.01",
+		"sortOrder":17,
+		"ssrOrder":17
 	},
 	{
 		"category":"doaxvv",
 		"id":"Sayuri",
 		"name":"Sayuri",
-		"dob":"????.03.31"
+		"dob":"????.03.31",
+		"sortOrder":18,
+		"ssrOrder":18
 	},
 	{
 		"category":"doaxvv",
 		"id":"Patty",
 		"name":"Patty",
-		"dob":"????.07.31"
+		"dob":"????.07.31",
+		"sortOrder":19,
+		"ssrOrder":19
 	},
 	{
 		"category":"doaxvv",
 		"id":"Tsukushi",
 		"name":"Tsukushi",
-		"dob":"????.10.24"
+		"dob":"????.10.24",
+		"sortOrder":20,
+		"ssrOrder":20
 	},
 	{
 		"category":"doaxvv",
 		"id":"Loberia",
 		"name":"Loberia",
 		"dob":"????.06.25"
+	},
+	{
+		"category":"doaxvv",
+		"id":"Nanami",
+		"name":"Nanami",
+		"dob":"????.04.16"
 	},
 	{
 		"category":"vtuber",
