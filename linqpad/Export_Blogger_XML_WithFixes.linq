@@ -330,17 +330,14 @@ void Main()
 		
 		#region remove hashtags on post level
 		// only remove those without old hiddenTags span comma seaprated list
-		//if(!content.Contains("id=\"hiddenTags\"") || !content.Contains("document.getElementById(\"hiddenTags\")"))
-		//{
-		//	expression = @"(<script>)(.*?)(var hashtags)(.*?)(</script>)";
-		//	match = Regex.Match(content, expression);
-		//	while(match.Success && match.Groups.Count == 6)
-		//	{
-		//		content = content.Replace(match.Value, "");
-		//		match = match.NextMatch();
-		//	};
-		//	if(match.Success) count++;
-		//}
+		expression = @"(<script>)(.*?)(var hashtags)(.*?)(</script>)";
+		match = Regex.Match(content, expression);
+		while(match.Success)
+		{
+			content = content.Replace(match.Value, "");
+			match = match.NextMatch();
+		};
+		if(match.Success) count++;
 		#endregion
 		
 		#region alternate links detection for new popups
