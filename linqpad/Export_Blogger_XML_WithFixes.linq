@@ -10,13 +10,13 @@
  * (3) Change domainLink to desired domain as exported
  * (4) FIX POST ATTRIBUTES and FIX POST CONTENT can be removed as desired
  * (5) [Status] List of Cases
- * []	remove embed styles for thumbnail normal/hover (ignore posts with sp-thumbnail)
  * [ok]	fix twitter embed
  * [ok]	fix youtube iframe size
+ * []	remove embed styles for thumbnail normal/hover (ignore posts with sp-thumbnail)
  * []	thumbnail normal table => new thumbnail
  * []	thumbnail hover table => new thumbnail
- * []	popup initial table => new thumbnail
- * []	popup pop table => new thumbnail
+ * [ok]	div popup table => new thumbnail
+ * [ok]	span popup table => new thumbnail
  * []	any gif img tag should not have enclosing a tag
  * []	abbr imgpop => div popup normal pop
  * []	span popup normal pop => div popup normal pop
@@ -28,6 +28,7 @@
  * [ok]	remove hashtags on post level
  * [ok]	alternate links detection for new popups (youtu.be)
  * [ok]	any link not referenced within blog to open on new tab
+ * []	remove add href to hashtags script
  */
  
 public class MatchItem
@@ -121,12 +122,6 @@ void Main()
 		// [1] Define Regex Expression (loose and strict)
 		// [2] Replace String According to Expression (simple without format, or simple with format, or complex use UpdateRegexContent)
 		
-		#region remove embed styles for thumbnail normal/hover (ignore posts with sp-thumbnail)
-		//var thumbnailStyle = ".thumbnail .hover {       display:none;     }     .thumbnail:hover .normal {       display:none;     }     .thumbnail:hover .hover {       display:inline;  /* CHANGE IF FOR BLOCK ELEMENTS */     } ";
-		//if(content.Contains(thumbnailStyle)) count++;
-		//content = content.Replace(thumbnailStyle, "");
-		#endregion
-		
 		#region fix twitter embed
 		var twitterScript = "\"//platform.twitter.com/widgets.js\"";
 		if(content.Contains(twitterScript)) count++;
@@ -144,6 +139,12 @@ void Main()
 		if(content.Contains(youtubeHeight) || content.Contains(youtubeWidth)) count++;
 		content = content.Replace(youtubeHeight, "");
 		content = content.Replace(youtubeWidth, "");
+		#endregion
+		
+		#region remove embed styles for thumbnail normal/hover (ignore posts with sp-thumbnail)
+		//var thumbnailStyle = ".thumbnail .hover {       display:none;     }     .thumbnail:hover .normal {       display:none;     }     .thumbnail:hover .hover {       display:inline;  /* CHANGE IF FOR BLOCK ELEMENTS */     } ";
+		//if(content.Contains(thumbnailStyle)) count++;
+		//content = content.Replace(thumbnailStyle, "");
 		#endregion
 		
 		#region thumbnail normal => new thumbnail
@@ -170,30 +171,41 @@ void Main()
 		//if(match.Success) count++;
 		#endregion
 		
-		#region popup initial table => new thumbnail
-		//expression = @"(<div class=""popup""><span class=""initial""><table)(.*?)(</table></span>)";
-		//matchExpression = @"(?<=<div class=""popup""><span class=""initial""><table)(.*?)(?=</table></span>)";
-		//
-		//match = Regex.Match(content, expression);
+		#region div popup table => new thumbnail
+		expression = @"(<div class=""popup""><span class=""initial"">)(.*?)(</span><span class=""pop"" style=""margin: 0; position: initial;"">)(.*?)(</span></div>)";
+		//matchExpression = @"(?<=<div class=""popup""><span class=""initial"">)(.*?)(</span><span class=""pop"" style=""margin: 0; position: initial;"">)(.*?)(?=</span></div>)";
+		
+		match = Regex.Match(content, expression);
 		//matchExp = Regex.Match(content, matchExpression);
-		//prefix = @"<div class=""thumbnail""><div class=""thumbnail-initial hover-hidden""><table";
-		//suffix = "</table>";
-		//content = UpdateRegexContent(content, match, matchExp, prefix, suffix);
-		//if(match.Success) count++;
+		prefix = @"<div class=""thumbnail""><div class=""thumbnail-initial hover-hidden"">";
+		midfix = @"</div><div class=""thumbnail-initial thumbnail-pop hover-visible"">";
+		suffix = @"</div></div>";
+		while(match.Success && match.Groups[2].Value.Contains("<table") && match.Groups[4].Value.Contains("<table"))
+		{
+			var replacement = prefix + match.Groups[2].Value + midfix + match.Groups[4].Value + suffix;
+			content = content.Replace(match.Value, replacement);
+			match = match.NextMatch();
+			//matchExp = matchExp.NextMatch();
+		};
 		#endregion
 		
-		#region popup pop table => new thumbnail
-		//expression = @"(<span class=""pop"" style=""margin: 0; position: initial;""><table)(.*?)(</table></span>)";
-		//matchExpression = @"(?<=<span class=""pop"" style=""margin: 0; position: initial;""><table)(.*?)(?=</table></span>)";
-		//
-		//match = Regex.Match(content, expression);
+		#region span popup table => new thumbnail		
+		expression = @"(<span class=""popup""><span class=""initial"">)(.*?)(</span><span class=""pop"" style=""margin: 0; position: initial;"">)(.*?)(</span></span>)";
+		//matchExpression = @"(?<=<div class=""popup""><span class=""initial"">)(.*?)(</span><span class=""pop"" style=""margin: 0; position: initial;"">)(.*?)(?=</span></div>)";
+		
+		match = Regex.Match(content, expression);
 		//matchExp = Regex.Match(content, matchExpression);
-		//prefix = @"</table></div><div class=""thumbnail-initial thumbnail-pop hover-visible""><table";
-		//suffix = "</table></div>";
-		//content = UpdateRegexContent(content, match, matchExp, prefix, suffix);
-		//if(match.Success) count++;
+		prefix = @"<div class=""thumbnail""><div class=""thumbnail-initial hover-hidden"">";
+		midfix = @"</div><div class=""thumbnail-initial thumbnail-pop hover-visible"">";
+		suffix = @"</div></div>";
+		while(match.Success && match.Groups[2].Value.Contains("<table") && match.Groups[4].Value.Contains("<table"))
+		{
+			var replacement = prefix + match.Groups[2].Value + midfix + match.Groups[4].Value + suffix;
+			content = content.Replace(match.Value, replacement);
+			match = match.NextMatch();
+			//matchExp = matchExp.NextMatch();
+		};
 		#endregion
-		//The Entertainment News 2019 Edition Issue #17 kyojin thumbs did not replace successfully
 		
 		#region any gif img tag should not have enclosing a tag (should try to manual fix)
 		//expression = @"(<a)(.*?)(<img)(.*?)(</img>)(.*?)(</a>)";
@@ -383,6 +395,12 @@ void Main()
 			}
 			match = match.NextMatch();
 		};
+		#endregion
+		
+		#region remove add href to hashtags script
+		//var childDivScript = "<script>var childDivs = document.getElementById('hashtags').getElementsByTagName('a'); for( i=0; i< childDivs.length; i++ ) {  var childDiv = childDivs[i];  childDiv.href = '/search?q=' + childDiv.text.substring(1); } </script>";
+		//if(content.Contains(childDivScript)) count++;
+		//content = content.Replace(childDivScript, "");
 		#endregion
 		
 		
