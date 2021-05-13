@@ -311,14 +311,14 @@ function closestClass(inputElement, targetClassName) {
     while (inputElement.className != targetClassName) {
         inputElement = inputElement.parentNode;
     }
-    return null;
+    return inputElement;
 }
 
 function closestTag(inputElement, targetTagName) {
     while (inputElement.tagName != targetTagName.toUpperCase()) {
         inputElement = inputElement.parentNode;
     }
-    return null;
+    return inputElement;
 }
 
 function switchThumbnails(tn) {
