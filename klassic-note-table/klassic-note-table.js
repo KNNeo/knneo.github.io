@@ -109,6 +109,7 @@ function generateSearch(filters) {
 			columnInput.type = 'text';
 			columnInput.placeholder = column;
 			columnInput.title = 'search';
+			if(isMobile()) columnInput.style.width = '33%';
 			columnInput.style.display = document.getElementById('tickbox' + column) != null && !document.getElementById('tickbox' + column).checked ? 'none' : '';
 			
 			columnInput.addEventListener('keyup', function(event) {
@@ -419,7 +420,10 @@ function createTable(table) {
 					knTableCell.appendChild(knTableLink);					
 				}
 				else
+				{
+					knTableCell.title = tableArray[i][j];
 					knTableCell.innerText = tableArray[i][j];
+				}
 				knTableRow.appendChild(knTableCell);
 			}
 			

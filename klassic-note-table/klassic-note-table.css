@@ -38,6 +38,7 @@ th {
 th, td {
 	border-bottom: 1px solid;
 	line-height: 2;
+	padding-right: 25px;
 }
 #table-column-ticks, #table-preset-ticks {
 	width: 95%;
@@ -67,8 +68,14 @@ th, td {
 	display: none;
 }
 #table-filter {
+	width: 95%;
+	max-width: 1000px;
 	padding: 10px 0;
 	top: 0;
 	position: -webkit-sticky;
 	position: sticky;
+}
+
+#table-filter > input {
+	max-width: 150px;
 }
