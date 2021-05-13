@@ -16,7 +16,6 @@ window.onpageshow = function() {
     addHoverForLinks();
     addHoverOnExpander();
     addHashtags();
-	fixExternalFrames();
 	// hideImagesOnError();
 
 	// Window events
