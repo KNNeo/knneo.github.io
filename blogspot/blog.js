@@ -311,14 +311,14 @@ function closestClass(inputElement, targetClassName) {
     while (inputElement.className != targetClassName) {
         inputElement = inputElement.parentNode;
     }
-    return inputElement;
+    return null;
 }
 
 function closestTag(inputElement, targetTagName) {
     while (inputElement.tagName != targetTagName.toUpperCase()) {
         inputElement = inputElement.parentNode;
     }
-    return inputElement;
+    return null;
 }
 
 function switchThumbnails(tn) {
@@ -592,11 +592,13 @@ function addHoverForPopups() {
 
 function togglePopup() {
     if (this.classList.contains('new-thumbnail')) {
+		//hide
         this.classList.remove('new-thumbnail');
 		switchToButton('GoToTopBtn');
 		if(document.getElementById('CloseBtn') != null) document.getElementById('CloseBtn').style.visibility = 'hidden';
 	}
     else {
+		//display
         for (let page of document.getElementsByClassName('post-body entry-content')) {
             for (let popup of page.getElementsByClassName('new-thumbnail')) {
                 popup.classList.remove('new-thumbnail');
@@ -604,6 +606,7 @@ function togglePopup() {
         }
         this.classList.add('new-thumbnail');
 		switchToButton('CloseBtn');
+		fixExternalFrame(this);
     }
 	
 	toggleOverlay(false);
@@ -660,7 +663,6 @@ function renderPopup() {
     twttr.widgets.load(); //special case
     window.instgrm.Embeds.process(); //special case
     addHoverForPopups();
-	fixExternalFrame(thumbnail);
 	
 	//FAB to close
 	let closeButton = document.createElement('a');
