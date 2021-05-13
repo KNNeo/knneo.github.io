@@ -16,6 +16,7 @@ window.onpageshow = function() {
     addHoverForLinks();
     addHoverOnExpander();
     addHashtags();
+	fixExternalFrames();
 	// hideImagesOnError();
 
 	// Window events
@@ -307,8 +308,15 @@ function setThumbnails() {
     }
 }
 
-var closestClass = function(inputElement, targetClassName) {
+function closestClass(inputElement, targetClassName) {
     while (inputElement.className != targetClassName) {
+        inputElement = inputElement.parentNode;
+    }
+    return inputElement;
+}
+
+function closestTag(inputElement, targetTagName) {
+    while (inputElement.tagName != targetTagName.toUpperCase()) {
         inputElement = inputElement.parentNode;
     }
     return inputElement;
@@ -653,6 +661,7 @@ function renderPopup() {
     twttr.widgets.load(); //special case
     window.instgrm.Embeds.process(); //special case
     addHoverForPopups();
+	fixExternalFrame(thumbnail);
 	
 	//FAB to close
 	let closeButton = document.createElement('a');
@@ -923,3 +932,12 @@ function windowOnResize() {
 	if(document.getElementById('Overlay') != null && document.getElementById('Overlay').style.display != 'none')
 		closePopups();
 };
+
+function fixExternalFrame(thumbnail) {
+	//fix iframes in thumbnails that don't fit content width
+	if(thumbnail.getElementsByTagName('iframe').length > 0) {
+		let thumbnailTable = closestTag(thumbnail, 'TABLE');
+		if (thumbnailTable != null)
+			thumbnailTable.style.width = '100%';
+	}
+}
