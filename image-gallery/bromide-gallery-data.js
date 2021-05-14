@@ -371,6 +371,18 @@ imgArray = [
 [370,'{domain}/CCI20210309_0007_3.jpg','landscape','Taketatsu Ayana','Event "Taketatsu Ayana ONLINE LIVE Good-bye winter Hello spring!" Bromide Set B'],
 [371,'{domain}/CCI20210309_0007_4.jpg','portrait','Taketatsu Ayana','Event "Taketatsu Ayana ONLINE LIVE Good-bye winter Hello spring!" Bromide Set B'],
 [372,'{domain}/CCI20210319_1.jpg','portrait','Kouno Marika','CD "Yume Mitai, Demo Yume Janai" Toranoana Bonuns'],
+[374,'{domain}/CCI20210513_0001_1.jpg','portrait','Minase Inori','Event "Inori Machi Choumin Shukai 2021" Bromide Set A'],
+[375,'{domain}/CCI20210513_0001_2.jpg','portrait','Minase Inori','Event "Inori Machi Choumin Shukai 2021" Bromide Set A'],
+[376,'{domain}/CCI20210513_0001_3.jpg','portrait','Minase Inori','Event "Inori Machi Choumin Shukai 2021" Bromide Set A'],
+[377,'{domain}/CCI20210513_0002_1.jpg','landscape','Minase Inori','Event "Inori Machi Choumin Shukai 2021" Bromide Set B'],
+[378,'{domain}/CCI20210513_0002_2.jpg','portrait','Minase Inori','Event "Inori Machi Choumin Shukai 2021" Bromide Set B'],
+[379,'{domain}/CCI20210513_0002_3.jpg','landscape','Minase Inori','Event "Inori Machi Choumin Shukai 2021" Bromide Set B'],
+[380,'{domain}/CCI20210513_0003_1.jpg','landscape','Kitou Akari','Event "Kito Akari Fanclub Event smile giving day vol.1" Bromide Set A'],
+[381,'{domain}/CCI20210513_0003_2.jpg','landscape','Kitou Akari','Event "Kito Akari Fanclub Event smile giving day vol.1" Bromide Set A'],
+[382,'{domain}/CCI20210513_0003_3.jpg','landscape','Kitou Akari','Event "Kito Akari Fanclub Event smile giving day vol.1" Bromide Set A'],
+[383,'{domain}/CCI20210513_0004_1.jpg','landscape','Kitou Akari','Event "Kito Akari Fanclub Event smile giving day vol.1" Bromide Set B'],
+[384,'{domain}/CCI20210513_0004_2.jpg','landscape','Kitou Akari','Event "Kito Akari Fanclub Event smile giving day vol.1" Bromide Set B'],
+[385,'{domain}/CCI20210513_0004_3.jpg','landscape','Kitou Akari','Event "Kito Akari Fanclub Event smile giving day vol.1" Bromide Set B'],
 
 
 
