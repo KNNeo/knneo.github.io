@@ -34,11 +34,21 @@ table {
 }
 th {
 	border-top: 1px solid;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 th, td {
 	border-bottom: 1px solid;
 	line-height: 2;
 	padding-right: 25px;
+}
+td {
+	-webkit-user-select: all;
+	-moz-user-select: all;
+	-ms-user-select: all;
+	user-select: all;
 }
 #table-column-ticks, #table-preset-ticks {
 	width: 95%;
