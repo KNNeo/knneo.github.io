@@ -50,6 +50,12 @@ td {
 	-ms-user-select: all;
 	user-select: all;
 }
+td > a {
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
 #table-column-ticks, #table-preset-ticks {
 	width: 95%;
 	max-width: 1000px;
