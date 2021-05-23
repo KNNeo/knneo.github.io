@@ -23,8 +23,10 @@ s.SongTitleAlt,
 s.ArtistTitleAlt,
 s.ReleaseTitleAlt, 
 s.ReleaseArtistTitleAlt, 
-a.ArtistCode 
+a.ArtistCode,
+ts.AnimeTitle || ' ' || ts.SongType as 'Reference'
 from Song s
 join (select distinct ArtistTitle, ArtistCode from Artist) a on s.ArtistTitle = a.ArtistTitle
 left join AppleMusic am on s.KNID = am.KNID
+left join ThemeSong ts on ts.KNID = s.KNID
 order by s.KNID;
