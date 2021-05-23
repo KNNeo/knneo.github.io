@@ -830,6 +830,7 @@
 		"id":"KounoMarika",
 		"image":"https://knneo.webs.com/kounomarika.jpg",
 		"landscapes":[
+			"https://www.moviecollection.jp/wp/wp-content/uploads/2021/05/Takano02.jpg",
 			"https://hominis.media/2021/03/images/00_konoma0304.jpg",
 			"https://hominis.media/2021/03/images/00_konoma0303.jpg",
 			"https://pbs.twimg.com/media/EkvhYF-UYAELfRQ?format=jpg&name=small"			
@@ -1455,8 +1456,13 @@
 		"category":"seiyuu3",
 		"id":"NagatsumaJuuri",
 		"image":"https://knneo.webs.com/nagatsumajuuri.jpg",
-		"landscapes":[],
+		"landscapes":[
+			"https://pbs.twimg.com/media/E10Kls0VcAoMdb1?format=jpg&name=small",
+			"https://pbs.twimg.com/media/DV1zTAHU0AAqPnL?format=jpg&name=small"
+		],
 		"portraits":[
+			"https://pbs.twimg.com/media/E10Kls2VoAAb4CQ?format=jpg&name=small",
+			"https://pbs.twimg.com/media/E1VjEYBUcAAfQC3?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EI8EQ2WVAAEKaYl?format=jpg&name=small"
 		],
 		"name":"Nagatsuma Juuri",
