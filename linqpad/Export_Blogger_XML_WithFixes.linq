@@ -29,6 +29,7 @@
  * [ok]	alternate links detection for new popups (youtu.be)
  * [ok]	any link not referenced within blog to open on new tab
  * []	remove add href to hashtags script
+ * []	remove wallpaper images cache linked from facebook
  */
  
 public class MatchItem
@@ -53,7 +54,7 @@ string UpdateRegexContent(string content, Match loosematch, Match strictMatch, s
 
 void Main()
 {
-	bool WriteTitleOnConsole = true;
+	bool WriteTitleOnConsole = false;
 	Console.WriteLine("WriteTitleOnConsole is " + WriteTitleOnConsole);
 	Console.WriteLine("*Post with changes will appear here");
 	string folderpath = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\";
@@ -403,6 +404,19 @@ void Main()
 		content = content.Replace(childDivScript, "");
 		#endregion
 		
+		#region remove wallpaper images cache linked from facebook
+		//expression = @"(\[P.)(.*?)(fbcdn.net)(.*?)(\])";
+		//match = Regex.Match(content, expression);
+		//while(match.Success)
+		//{
+		//	//Console.WriteLine(entry.Element(_+"title").Value);
+		//	//Console.WriteLine(match);
+		//	//return;
+		//	content = content.Replace(match.Value, "");
+		//	match = match.NextMatch();
+		//};
+		//if(match.Success) count++;
+		#endregion
 		
 		
 		//Add to debug
