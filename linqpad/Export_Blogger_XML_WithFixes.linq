@@ -54,7 +54,7 @@ string UpdateRegexContent(string content, Match loosematch, Match strictMatch, s
 
 void Main()
 {
-	bool WriteTitleOnConsole = false;
+	bool WriteTitleOnConsole = true;
 	Console.WriteLine("WriteTitleOnConsole is " + WriteTitleOnConsole);
 	Console.WriteLine("*Post with changes will appear here");
 	string folderpath = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\";
