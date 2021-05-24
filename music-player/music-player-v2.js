@@ -394,6 +394,7 @@ function generatePlayer(tableID) {
 	audio.addEventListener('seeking', clearTimestamps);
 	audio.controls = true;
 	audio.volume = 0.5;
+	audio.controlsList = 'nodownload';
 	
 	let source = document.createElement('source');
 	if(tableID == '2018') source.src = domain + 'awardrankings2018-1.mp3';
