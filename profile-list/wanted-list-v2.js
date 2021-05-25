@@ -238,16 +238,20 @@ function addAgeAfterDOB() {
 	let profile = profileList.filter(p => p.id === document.getElementById('profile').firstChild.id)[0];
 	let DOBspan = document.getElementById(profile.id).getElementsByClassName('DOB')[0];
 	let age = profile.dob.includes('????') ? 0 : parseInt(getAge(profile.dob));
+	//if(checkBirthdayPassed(profile.dob)) age++;
 	if (age != undefined && age > 0)
 		DOBspan.innerHTML = DOBspan.innerHTML.concat(" [").concat(age.toString()).concat(" years ago]");
 }
 
 function getAge(DOB) {
 	let birthDateStr = DOB.replace(".", "-").replace(".", "-"); //yyyy.MM.dd -> yyyy-MM-dd
-	let birthDate = DateTime.fromISO(birthDateStr.substring(0, 10)).setZone(timezone); // birthDateStr.substring(0, 10);
-	let offsetMinutes = 0; // moment().utcOffset() - moment.tz(timezone).utcOffset();
-	let diff = 0; // moment().diff(moment(birthDate));
-	return DateTime.now().setZone(timezone).diff(birthDate, 'years').years; // moment.duration(diff).subtract(offsetMinutes, 'minutes').add(1,'days').years();
+	let birthDate = DateTime.fromISO(birthDateStr.substring(0, 10))
+	//let tDate = birthDate.setZone(timezone); // birthDateStr.substring(0, 10);
+	//let offsetMinutes = 0; // moment().utcOffset() - moment.tz(timezone).utcOffset();
+	//let diff = 0; // moment().diff(moment(birthDate));
+	let actual = DateTime.fromISO(DateTime.now()).setZone(timezone);
+	return actual.diff(birthDate, 'years').years; // moment.duration(diff).subtract(offsetMinutes, 'minutes').add(1,'days').years();
+	//still suffers from difference not calculated on set timezone, will still return based on local timezone
 }
 
 function checkBirthdayPassed(DOB) {
