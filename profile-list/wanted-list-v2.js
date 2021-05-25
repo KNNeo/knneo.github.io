@@ -245,7 +245,7 @@ function addAgeAfterDOB() {
 
 function getAge(DOB) {
 	let birthDateStr = DOB.replace(".", "-").replace(".", "-"); //yyyy.MM.dd -> yyyy-MM-dd
-	let birthDate = DateTime.fromISO(birthDateStr.substring(0, 10))
+	let birthDate = DateTime.fromISO(birthDateStr.substring(0, 10));
 	//let tDate = birthDate.setZone(timezone); // birthDateStr.substring(0, 10);
 	//let offsetMinutes = 0; // moment().utcOffset() - moment.tz(timezone).utcOffset();
 	//let diff = 0; // moment().diff(moment(birthDate));
