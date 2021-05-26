@@ -606,7 +606,7 @@ function togglePopup() {
         }
         this.classList.add('new-thumbnail');
 		switchToButton('CloseBtn');
-		fixExternalFrame(this);
+		// fixExternalFrame(this);
     }
 	
 	toggleOverlay(false);
