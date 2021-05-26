@@ -316,7 +316,8 @@ function closestClass(inputElement, targetClassName) {
 
 function closestTag(inputElement, targetTagName) {
     while (inputElement.tagName != targetTagName.toUpperCase()) {
-        inputElement = inputElement.parentNode;
+		if(inputElement.parentNode.tagName != "HTML")
+			inputElement = inputElement.parentNode;
     }
     return inputElement;
 }
@@ -606,7 +607,7 @@ function togglePopup() {
         }
         this.classList.add('new-thumbnail');
 		switchToButton('CloseBtn');
-		// fixExternalFrame(this);
+		fixExternalFrame(this);
     }
 	
 	toggleOverlay(false);
@@ -938,7 +939,7 @@ function fixExternalFrame(thumbnail) {
 	//fix iframes in thumbnails that don't fit content width
 	if(thumbnail.getElementsByTagName('iframe').length > 0) {
 		let thumbnailTable = closestTag(thumbnail, 'TABLE');
-		if (thumbnailTable != null)
+		if (thumbnailTable != thumbnail)
 			thumbnailTable.style.width = '100%';
 	}
 }
