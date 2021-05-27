@@ -699,7 +699,7 @@ function renderGallery(array) {
 			});
 		});
 		image.addEventListener('error', function() {
-			image.parentElement.parentElement.style.display = 'none';
+			image.parentElement.parentElement.parentElement.style.display = 'none';
 			image.classList.add('failed');
 		});
 	}
