@@ -245,24 +245,17 @@ function addAgeAfterDOB() {
 
 function getAge(DOB) {
 	let birthDateStr = DOB.replace(".", "-").replace(".", "-"); //yyyy.MM.dd -> yyyy-MM-dd
-	let birthDate = DateTime.fromISO(birthDateStr.substring(0, 10));
-	//let tDate = birthDate.setZone(timezone); // birthDateStr.substring(0, 10);
-	//let offsetMinutes = 0; // moment().utcOffset() - moment.tz(timezone).utcOffset();
-	//let diff = 0; // moment().diff(moment(birthDate));
-	let actual = DateTime.fromISO(DateTime.now()).setZone(timezone);
-	return actual.diff(birthDate, 'years').years; // moment.duration(diff).subtract(offsetMinutes, 'minutes').add(1,'days').years();
-	//still suffers from difference not calculated on set timezone, will still return based on local timezone
+	let birthDate = DateTime.fromISO(birthDateStr.substring(0, 10), {zone: timezone}); // birthDateStr.substring(0, 10);
+	let today = DateTime.fromISO(DateTime.now(), {zone: timezone});
+	// console.log(today.diff(birthDate, ['years','months','days','hours','minutes','seconds']));
+	return today.diff(birthDate, 'years').years;
 }
 
 function checkBirthdayPassed(DOB) {
-	// let offsetMinutes = moment().utcOffset() - moment.tz(timezone).utcOffset();
 	let birthDateStr = DOB.replace(".", "-").replace(".", "-"); //yyyy.MM.dd -> yyyy-MM-dd
-	let birthDate = DateTime.fromISO(birthDateStr.substring(0, 10)).setZone(timezone);
-	let diff = DateTime.now().setZone(timezone).diff(birthDate, 'days'); // moment().diff(moment(DOB));
-	// let timeDiff = moment.duration(diff).subtract(offsetMinutes, 'minutes');
-	return diff.days >= 0;
-	// timeDiff.days() >= 0 && timeDiff.hours() >= 0 && timeDiff.minutes() >= 0 && timeDiff.seconds() >= 0 && timeDiff.milliseconds() >= 0;
-	
+	let birthDate = DateTime.fromISO(birthDateStr.substring(0, 10), {zone: timezone}); 
+	let today = DateTime.fromISO(DateTime.now(), {zone: timezone});
+	return today.diff(birthDate, 'days').days >= 0;
 }
 
 //generate wanted list
