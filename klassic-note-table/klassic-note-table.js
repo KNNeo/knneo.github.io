@@ -1,9 +1,9 @@
 //--VARIABLES--//
 let firstLoad = true;
 let activePreset = [];
-let presetAllArray = ["SongID", "KNID", "KNJAPAN", "KNJPOP", "KNYEAR", "Filename", "SongTitle", "ArtistTitle", "ParentArtist", "ReleaseTitle", "ReleaseArtistTitle", "ReleaseYear", "ReleaseDate", "Rating", "Genre", "DateCreated", "VocalCode", "Language", "InAppleMusic", "LyricsURL", "SongTitleAlt", "ArtistTitleAlt", "ReleaseTitleAlt", "ReleaseArtistTitleAlt", "ArtistCode"];
-let preset1Array = ["KNID", "SongTitle", "ArtistTitle", "ParentArtist", "ReleaseTitle", "ReleaseArtistTitle"];
-let preset2Array = ["KNID", "SongTitleAlt", "ArtistTitleAlt", "ReleaseTitleAlt", "ReleaseArtistTitleAlt"];
+let presetAllArray = ["SongID", "KNID", "KNJAPAN", "KNJPOP", "KNYEAR", "Filename", "SongTitle", "ArtistTitle", "ParentArtist", "ReleaseTitle", "ReleaseArtistTitle", "ReleaseYear", "ReleaseDate", "Rating", "Genre", "DateCreated", "VocalCode", "LanguageCode", "InAppleMusic", "LyricsURL", "SongTitleAlt", "ArtistTitleAlt", "ReleaseTitleAlt", "ReleaseArtistTitleAlt", "ArtistCode", "Reference"];
+let preset1Array = ["KNID", "KNYEAR", "SongTitle", "ArtistTitle", "ReleaseTitle", "ReleaseArtistTitle"];
+let preset2Array = ["KNID", "KNYEAR", "SongTitleAlt", "ArtistTitleAlt", "ReleaseTitleAlt", "ReleaseArtistTitleAlt"];
 let preset3Array = ["KNID", "SongTitle", "ArtistTitle", "LyricsURL"];
 let maxRows = isMobile() ? 100 : 500;
 let pageNo = 1;
