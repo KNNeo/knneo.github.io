@@ -24,5 +24,7 @@ select '2018' as 'Year', (select SUM(LENGTH(REPLACE(VocalCode,'F',''))) from son
 union all
 select '2019' as 'Year', (select SUM(LENGTH(REPLACE(VocalCode,'F',''))) from song where KNYEAR = 2019) as 'M' , (select SUM(LENGTH(REPLACE(VocalCode,'M',''))) from song where KNYEAR = 2019) as 'F'
 union all
+select '2020' as 'Year', (select SUM(LENGTH(REPLACE(VocalCode,'F',''))) from song where KNYEAR = 2020) as 'M' , (select SUM(LENGTH(REPLACE(VocalCode,'M',''))) from song where KNYEAR = 2020) as 'F'
+union all
 select 'Overall' as 'Year', (select SUM(LENGTH(REPLACE(VocalCode,'F',''))) from song) as 'M' , (select SUM(LENGTH(REPLACE(VocalCode,'M',''))) from song) as 'F'
 

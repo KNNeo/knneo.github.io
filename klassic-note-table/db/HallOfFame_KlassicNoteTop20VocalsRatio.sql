@@ -11,3 +11,5 @@ union all
 select '2018' as 'Year', (select SUM(LENGTH(REPLACE(s.VocalCode,'F',''))) from song s join ranking r on s.knid = r.knid where s.KNYEAR = 2018) as 'M' , (select SUM(LENGTH(REPLACE(s.VocalCode,'M',''))) from song s join ranking r on s.knid = r.knid where s.KNYEAR = 2018) as 'F'
 union all
 select '2019' as 'Year', (select SUM(LENGTH(REPLACE(s.VocalCode,'F',''))) from song s join ranking r on s.knid = r.knid where s.KNYEAR = 2019) as 'M' , (select SUM(LENGTH(REPLACE(s.VocalCode,'M',''))) from song s join ranking r on s.knid = r.knid where s.KNYEAR = 2019) as 'F'
+union all
+select '2020' as 'Year', (select SUM(LENGTH(REPLACE(s.VocalCode,'F',''))) from song s join ranking r on s.knid = r.knid where s.KNYEAR = 2020) as 'M' , (select SUM(LENGTH(REPLACE(s.VocalCode,'M',''))) from song s join ranking r on s.knid = r.knid where s.KNYEAR = 2020) as 'F'
