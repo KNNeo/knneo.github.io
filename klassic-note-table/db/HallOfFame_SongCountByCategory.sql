@@ -24,3 +24,5 @@ union all
 select  '2018' as [KNYEAR], count(KNID) as [KLASSIC NOTE], count(KNJAPAN) as [KLASSIC JAPAN], count(KNJPOP) AS [KLASSIC J-POP], (select count(DateAdded) from AppleMusic where DateAdded <= '2018.12.31') as [APPLE MUSIC] from song where KNYEAR <= 2018
 union all
 select  '2019' as [KNYEAR], count(KNID) as [KLASSIC NOTE], count(KNJAPAN) as [KLASSIC JAPAN], count(KNJPOP) AS [KLASSIC J-POP], (select count(DateAdded) from AppleMusic where DateAdded <= '2019.12.31') as [APPLE MUSIC] from song where KNYEAR <= 2019
+union all
+select  '2020' as [KNYEAR], count(KNID) as [KLASSIC NOTE], count(KNJAPAN) as [KLASSIC JAPAN], count(KNJPOP) AS [KLASSIC J-POP], (select count(DateAdded) from AppleMusic where DateAdded <= '2020.12.31') as [APPLE MUSIC] from song where KNYEAR <= 2020

@@ -13,7 +13,8 @@ select 'Independent Band' as 'Type',
 (select count(*) from song s join (select distinct artisttitle, artistcode from artist) a on s.artisttitle = a.artisttitle where artistcode = 'BD' and knyear = 2016) as '2016',
 (select count(*) from song s join (select distinct artisttitle, artistcode from artist) a on s.artisttitle = a.artisttitle where artistcode = 'BD' and knyear = 2017) as '2017',
 (select count(*) from song s join (select distinct artisttitle, artistcode from artist) a on s.artisttitle = a.artisttitle where artistcode = 'BD' and knyear = 2018) as '2018',
-(select count(*) from song s join (select distinct artisttitle, artistcode from artist) a on s.artisttitle = a.artisttitle where artistcode = 'BD' and knyear = 2019) as '2019'
+(select count(*) from song s join (select distinct artisttitle, artistcode from artist) a on s.artisttitle = a.artisttitle where artistcode = 'BD' and knyear = 2019) as '2019',
+(select count(*) from song s join (select distinct artisttitle, artistcode from artist) a on s.artisttitle = a.artisttitle where artistcode = 'BD' and knyear = 2019) as '2020'
 from song where knid = 1 union all
 select 'Idol Group' as 'Type',
 (select count(*) from song s join (select distinct artisttitle, artistcode from artist) a on s.artisttitle = a.artisttitle where artistcode = 'ID' and knyear = 2007) as '2007',
@@ -28,7 +29,8 @@ select 'Idol Group' as 'Type',
 (select count(*) from song s join (select distinct artisttitle, artistcode from artist) a on s.artisttitle = a.artisttitle where artistcode = 'ID' and knyear = 2016) as '2016',
 (select count(*) from song s join (select distinct artisttitle, artistcode from artist) a on s.artisttitle = a.artisttitle where artistcode = 'ID' and knyear = 2017) as '2017',
 (select count(*) from song s join (select distinct artisttitle, artistcode from artist) a on s.artisttitle = a.artisttitle where artistcode = 'ID' and knyear = 2018) as '2018',
-(select count(*) from song s join (select distinct artisttitle, artistcode from artist) a on s.artisttitle = a.artisttitle where artistcode = 'ID' and knyear = 2019) as '2019'
+(select count(*) from song s join (select distinct artisttitle, artistcode from artist) a on s.artisttitle = a.artisttitle where artistcode = 'ID' and knyear = 2019) as '2019',
+(select count(*) from song s join (select distinct artisttitle, artistcode from artist) a on s.artisttitle = a.artisttitle where artistcode = 'ID' and knyear = 2019) as '2020'
 from song where knid = 1 union all
 select 'Anime Voice Actor Groups' as 'Type',
 (select count(*) from song s join (select distinct artisttitle, artistcode from artist) a on s.artisttitle = a.artisttitle where artistcode = 'AG' and knyear = 2007) as '2007',
@@ -43,7 +45,8 @@ select 'Anime Voice Actor Groups' as 'Type',
 (select count(*) from song s join (select distinct artisttitle, artistcode from artist) a on s.artisttitle = a.artisttitle where artistcode = 'AG' and knyear = 2016) as '2016',
 (select count(*) from song s join (select distinct artisttitle, artistcode from artist) a on s.artisttitle = a.artisttitle where artistcode = 'AG' and knyear = 2017) as '2017',
 (select count(*) from song s join (select distinct artisttitle, artistcode from artist) a on s.artisttitle = a.artisttitle where artistcode = 'AG' and knyear = 2018) as '2018',
-(select count(*) from song s join (select distinct artisttitle, artistcode from artist) a on s.artisttitle = a.artisttitle where artistcode = 'AG' and knyear = 2019) as '2019'
+(select count(*) from song s join (select distinct artisttitle, artistcode from artist) a on s.artisttitle = a.artisttitle where artistcode = 'AG' and knyear = 2019) as '2019',
+(select count(*) from song s join (select distinct artisttitle, artistcode from artist) a on s.artisttitle = a.artisttitle where artistcode = 'AG' and knyear = 2019) as '2020'
 from song where knid = 1 union all
 select 'Anime Voice Actor(s)' as 'Type',
 (select count(*) from song s join (select distinct artisttitle, artistcode from artist) a on s.artisttitle = a.artisttitle where artistcode = 'AS' and knyear = 2007) as '2007',
@@ -58,7 +61,8 @@ select 'Anime Voice Actor(s)' as 'Type',
 (select count(*) from song s join (select distinct artisttitle, artistcode from artist) a on s.artisttitle = a.artisttitle where artistcode = 'AS' and knyear = 2016) as '2016',
 (select count(*) from song s join (select distinct artisttitle, artistcode from artist) a on s.artisttitle = a.artisttitle where artistcode = 'AS' and knyear = 2017) as '2017',
 (select count(*) from song s join (select distinct artisttitle, artistcode from artist) a on s.artisttitle = a.artisttitle where artistcode = 'AS' and knyear = 2018) as '2018',
-(select count(*) from song s join (select distinct artisttitle, artistcode from artist) a on s.artisttitle = a.artisttitle where artistcode = 'AS' and knyear = 2019) as '2019'
+(select count(*) from song s join (select distinct artisttitle, artistcode from artist) a on s.artisttitle = a.artisttitle where artistcode = 'AS' and knyear = 2019) as '2019',
+(select count(*) from song s join (select distinct artisttitle, artistcode from artist) a on s.artisttitle = a.artisttitle where artistcode = 'AS' and knyear = 2019) as '2020'
 from song where knid = 1 union all
 select 'Collaboration' as 'Type',
 (select count(*) from song s join (select distinct artisttitle, artistcode from artist) a on s.artisttitle = a.artisttitle where artistcode = 'CL' and knyear = 2007) as '2007',
@@ -73,7 +77,8 @@ select 'Collaboration' as 'Type',
 (select count(*) from song s join (select distinct artisttitle, artistcode from artist) a on s.artisttitle = a.artisttitle where artistcode = 'CL' and knyear = 2016) as '2016',
 (select count(*) from song s join (select distinct artisttitle, artistcode from artist) a on s.artisttitle = a.artisttitle where artistcode = 'CL' and knyear = 2017) as '2017',
 (select count(*) from song s join (select distinct artisttitle, artistcode from artist) a on s.artisttitle = a.artisttitle where artistcode = 'CL' and knyear = 2018) as '2018',
-(select count(*) from song s join (select distinct artisttitle, artistcode from artist) a on s.artisttitle = a.artisttitle where artistcode = 'CL' and knyear = 2019) as '2019'
+(select count(*) from song s join (select distinct artisttitle, artistcode from artist) a on s.artisttitle = a.artisttitle where artistcode = 'CL' and knyear = 2019) as '2019',
+(select count(*) from song s join (select distinct artisttitle, artistcode from artist) a on s.artisttitle = a.artisttitle where artistcode = 'CL' and knyear = 2019) as '2020'
 from song where knid = 1 union all
 select 'Singer-Songwriter' as 'Type',
 (select count(*) from song s join (select distinct artisttitle, artistcode from artist) a on s.artisttitle = a.artisttitle where artistcode = 'SS' and knyear = 2007) as '2007',
@@ -88,7 +93,8 @@ select 'Singer-Songwriter' as 'Type',
 (select count(*) from song s join (select distinct artisttitle, artistcode from artist) a on s.artisttitle = a.artisttitle where artistcode = 'SS' and knyear = 2016) as '2016',
 (select count(*) from song s join (select distinct artisttitle, artistcode from artist) a on s.artisttitle = a.artisttitle where artistcode = 'SS' and knyear = 2017) as '2017',
 (select count(*) from song s join (select distinct artisttitle, artistcode from artist) a on s.artisttitle = a.artisttitle where artistcode = 'SS' and knyear = 2018) as '2018',
-(select count(*) from song s join (select distinct artisttitle, artistcode from artist) a on s.artisttitle = a.artisttitle where artistcode = 'SS' and knyear = 2019) as '2019'
+(select count(*) from song s join (select distinct artisttitle, artistcode from artist) a on s.artisttitle = a.artisttitle where artistcode = 'SS' and knyear = 2019) as '2019',
+(select count(*) from song s join (select distinct artisttitle, artistcode from artist) a on s.artisttitle = a.artisttitle where artistcode = 'SS' and knyear = 2019) as '2020'
 from song where knid = 1 union all
 select 'Solo Artist' as 'Type',
 (select count(*) from song s join (select distinct artisttitle, artistcode from artist) a on s.artisttitle = a.artisttitle where artistcode = 'SL' and knyear = 2007) as '2007',
@@ -103,5 +109,6 @@ select 'Solo Artist' as 'Type',
 (select count(*) from song s join (select distinct artisttitle, artistcode from artist) a on s.artisttitle = a.artisttitle where artistcode = 'SL' and knyear = 2016) as '2016',
 (select count(*) from song s join (select distinct artisttitle, artistcode from artist) a on s.artisttitle = a.artisttitle where artistcode = 'SL' and knyear = 2017) as '2017',
 (select count(*) from song s join (select distinct artisttitle, artistcode from artist) a on s.artisttitle = a.artisttitle where artistcode = 'SL' and knyear = 2018) as '2018',
-(select count(*) from song s join (select distinct artisttitle, artistcode from artist) a on s.artisttitle = a.artisttitle where artistcode = 'SL' and knyear = 2019) as '2019'
+(select count(*) from song s join (select distinct artisttitle, artistcode from artist) a on s.artisttitle = a.artisttitle where artistcode = 'SL' and knyear = 2019) as '2019',
+(select count(*) from song s join (select distinct artisttitle, artistcode from artist) a on s.artisttitle = a.artisttitle where artistcode = 'SL' and knyear = 2019) as '2020'
 from song where knid = 1

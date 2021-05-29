@@ -24,4 +24,6 @@ select 'KN2018' as KNYEAR, 100.00*(select count(*) from AppleMusic join Song on 
 union all
 select 'KN2019' as KNYEAR, 100.00*(select count(*) from AppleMusic join Song on AppleMusic.KNID = Song.KNID where InLibrary = 1 and Song.KNYEAR = 2019)/(select count(*) from Song where Song.KNYEAR = 2019 and Song.LanguageCode <> 'CH')/100.00 as Percentage
 union all
+select 'KN2020' as KNYEAR, 100.00*(select count(*) from AppleMusic join Song on AppleMusic.KNID = Song.KNID where InLibrary = 1 and Song.KNYEAR = 2020)/(select count(*) from Song where Song.KNYEAR = 2020 and Song.LanguageCode <> 'CH')/100.00 as Percentage
+union all
 select 'Total' as KNYEAR, 100.00*(select count(*) from AppleMusic join Song on AppleMusic.KNID = Song.KNID where InLibrary = 1)/(select count(*) from Song where Song.LanguageCode <> 'CH')/100.00 as Percentage

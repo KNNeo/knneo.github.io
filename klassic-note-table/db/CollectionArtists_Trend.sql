@@ -11,7 +11,8 @@ select a.artisttitle,
 (select count(artisttitle) from Song where knyear <= '2016' and a.artisttitle = artisttitle) as '2016', 
 (select count(artisttitle) from Song where knyear <= '2017' and a.artisttitle = artisttitle) as '2017', 
 (select count(artisttitle) from Song where knyear <= '2018' and a.artisttitle = artisttitle) as '2018', 
-(select count(artisttitle) from Song where knyear <= '2019' and a.artisttitle = artisttitle) as '2019'
+(select count(artisttitle) from Song where knyear <= '2019' and a.artisttitle = artisttitle) as '2019',
+(select count(artisttitle) from Song where knyear <= '2020' and a.artisttitle = artisttitle) as '2020'
 from song a
 where a.artisttitle in 
 (select artisttitle from song group by artisttitle having count(artisttitle) >= 18)
