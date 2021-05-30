@@ -679,7 +679,7 @@ function renderPopup() {
 }
 
 function generatePopupContent(url) {
-    if (url.includes('.jpg') || url.includes('.gif')) {
+    if (url.includes('.jpg') || url.includes('.png') || url.includes('.gif')) {
         //process image
         return '<div class="separator"><img style="max-height: 360px; max-width: 100%;" src="' + url + '" /></div>';
     }
