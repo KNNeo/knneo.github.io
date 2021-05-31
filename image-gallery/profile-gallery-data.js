@@ -57,7 +57,7 @@ function preProcessProfileList(inputList) {
 		for(let image of allImages)
 		{
 			if(image.includes('knneo.webs.com')) continue;
-			if(image.endsWith('small') && windowWidth >= 1024) image = image.replace('small','large');
+			// if(image.endsWith('small') && windowWidth >= 1024) image = image.replace('small','large');
 			let profileNames = [profile.name];
 			imgArray.push([1, image, 'portrait', profileNames.join("|"), '']);
 		}
