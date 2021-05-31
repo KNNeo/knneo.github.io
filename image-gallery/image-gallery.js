@@ -460,7 +460,7 @@ function openImageInViewer(image) {
 	let img = document.createElement('img');
 	img.id = thumbnail.id;
 	img.classList = thumbnail.classList;
-	img.src = thumbnail.src;
+	img.src = processImageSourceForViewer(thumbnail.src);
 	img.title = thumbnail.title;
 	if(window.innerHeight > window.innerWidth && img.getBoundingClientRect().width >= window.innerWidth)
 		img.style.width = 'inherit'; //portrait
@@ -493,6 +493,17 @@ function openImageInViewer(image) {
 	linkable.addEventListener('click', closeViewer);
 	
 	adjustViewerMargin();
+}
+
+function processImageSourceForViewer(url) {
+	if(url.includes('pbs.twimg.com')) {
+		return url.replace('small','large');
+	}
+	if(url.includes('obs.line-scdn.net')) {
+		return url.replace('/small','');
+	}
+	
+	return image;
 }
 
 function adjustViewerMargin() {
