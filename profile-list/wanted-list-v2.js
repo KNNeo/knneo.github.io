@@ -155,7 +155,7 @@ function initialiseWantedList() {
 	loadTimeline(2500);
 	calendarDOBlist = createDOBlist(profileList, 0, 50);
 	calendarDOBlist = calendarDOBlist.concat(createDOBlist(birthdayListJson, 0, 50));
-	currentMonth = createCalendar(new Date().getMonth(), calendarDOBlist);
+	currentMonth = createCalendar(DateTime.fromISO(DateTime.now(), {zone: timezone}).month-1, calendarDOBlist);
 	addCalendarLegend();
 	setThumbnails();
 	// addStatusPopUps();
