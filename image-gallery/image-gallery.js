@@ -1034,6 +1034,7 @@ function stopSlideshow() {
 	closeFullscreen();
 	switchButtons();
 	clearTimeout(runSlideshow);
+	runSlideshow = null;
 }
 
 function switchButtons() {
