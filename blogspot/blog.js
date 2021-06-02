@@ -308,16 +308,15 @@ function setThumbnails() {
 }
 
 function closestClass(inputElement, targetClassName) {
-    while (inputElement.className != targetClassName) {
+    while (inputElement.className != targetClassName && inputElement.parentNode.tagName.toUpperCase() != "BODY") {
         inputElement = inputElement.parentNode;
     }
     return inputElement;
 }
 
 function closestTag(inputElement, targetTagName) {
-    while (inputElement.tagName != targetTagName.toUpperCase()) {
-		if(inputElement.parentNode.tagName != "HTML")
-			inputElement = inputElement.parentNode;
+    while (inputElement.tagName != targetTagName.toUpperCase() && inputElement.parentNode.tagName.toUpperCase() != "BODY") {
+		inputElement = inputElement.parentNode;
     }
     return inputElement;
 }
