@@ -30,6 +30,7 @@
 	<span>|</span>
 	<a id="TheAPoL" onclick="filterByTag(this.id)" href="#TheAPoL">The APoL</a>
 </div>
+<a id='BackBtn' onclick='goBack()' title='Go Back'><i class='material-icons'>arrow_back</i></a>
 <div id="blog-archive-list" style="font-size: 0.8em; padding-bottom: 20px;"></div>
 </body>
 <script>
@@ -61,6 +62,9 @@ function filterByTag(sourceFilter) {
 		}
 	}
 	document.getElementsByClassName("Count")[0].innerText = count + " published posts " + (tag == "TheStatement" ? "hidden" : "found");
+}
+function goBack() {
+	window.location.href = '../index.html';
 }
 </script>
 </html>
