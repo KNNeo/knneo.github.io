@@ -701,10 +701,11 @@ function renderGallery(array) {
 		image.src = image.alt;
 		image.removeAttribute('alt');
 		image.parentElement.addEventListener('focus', function() {
-			this.scrollIntoView({
-				behavior: "smooth",
-				inline: "center"
-			});
+			if(getSetting("enableViewer") != "true")
+				this.scrollIntoView({
+					behavior: "smooth",
+					inline: "center"
+				});
 		});
 		image.parentElement.addEventListener('click', function() {
 			this.scrollIntoView({
