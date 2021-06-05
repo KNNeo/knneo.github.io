@@ -199,6 +199,7 @@ function renderPage(pageName) {
 		if(enableOrientation)
 			this.parentElement.style.position = this.parentElement.style.position == 'absolute' ? 'inherit' : 'absolute';
 		toggleFilter();
+		resizeImageHeights();
 	} );
 	toggler.appendChild(togglerButton);
 	frame.appendChild(toggler);
@@ -565,16 +566,23 @@ function loadSettings() {
 }
 
 function calculateGalleryHeight() {
-	let baseItems = ['navigation','title','credit','filter','midline','slideshow','settings'];//,'footer'];
+	let baseItems = ['navigation','title','credit','toggle','filter','midline','slideshow','settings'];//,'footer'];
 	let result = 0;
 	let filterHeight = 0;
-	//console.log(window.innerHeight);
 	for(let item of baseItems) {
-		//console.log(item, document.getElementById(item).getBoundingClientRect().height);
-		result += document.getElementById(item).getBoundingClientRect().height;
-		if(item == 'filter') filterHeight = document.getElementById(item).getBoundingClientRect().height;
+		// console.log(item, document.getElementById(item).getBoundingClientRect().height);
+		// if(item == 'filter') filterHeight = document.getElementById(item).getBoundingClientRect().height;
+		if(item == 'filter')
+			filterHeight = document.getElementById(item).getBoundingClientRect().height;
+		else if(item != 'toggle')
+			result += document.getElementById(item).getBoundingClientRect().height;
+		else if(document.getElementById(item).style.position != 'absolute')
+			result += document.getElementById(item).getBoundingClientRect().height;
+		// console.log(result);
 	}
-	return window.innerHeight - result < 200 ? window.innerHeight - result - 100 + filterHeight : window.innerHeight - result - 100;
+	// console.log(window.innerHeight, result);
+	return window.innerHeight - result - (filterHeight > 0 ? 105 : 90) - filterHeight;
+	// return window.innerHeight - result < 200 ? window.innerHeight - result - 150 + filterHeight : window.innerHeight - result - 150;
 }
 
 function loadData(pageName) {
@@ -797,7 +805,9 @@ function resizeImageHeights() {
 	let galleryHeight = calculateGalleryHeight();
 	for(var image of document.getElementById('imgGallery').getElementsByTagName("img"))
 	{
-		if(window.innerWidth >= 640 && image.height < highestHeight && image.height > 1)//resize to highest height
+		if(window.innerWidth >= 640 
+		// && image.height < highestHeight 
+		&& image.height > 1)//resize to highest height
 			image.style.height = galleryHeight + 'px'; //fallback to default if height too low
 		else if(image.height > lowestHeight && image.height > 1) //resize to lowest height
 			image.height = lowestHeight; //if small screen hit css maxHeight
