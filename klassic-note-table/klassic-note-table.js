@@ -282,7 +282,7 @@ function nextPage() {
 
 //--P5 JS SPECIFIC FUNCTIONS--//
 function loadTableFromCSV() {
-	button.hide();
+	// button.hide();
 	document.getElementById("table-result").innerText = "Loading...";
 	//table is comma separated value "csv" and has a header specifying the columns labels
 	let table = loadTable(
@@ -294,7 +294,7 @@ function loadTableFromCSV() {
 
 //--CALLBACK FUNCTION--//
 function createTable(table) {
-	// const refTable = table.getObject();
+	const refTable = JSON.parse(JSON.stringify(table.getObject()));
 	
 	let start = Date.now();
 	//ORIGINAL TABLE PROCESSING//
@@ -453,14 +453,14 @@ function createTable(table) {
 
 //--P5.JS MAIN FUNCTION--//
 function setup() {
-	loadTable(
-		'https://knneo.github.io/klassic-note-table/klassic-note-database-song-table.csv', 
-		'csv',
-		'header',
-		loadReferenceTable);
-	//button to load table
-	button = createButton('Load Table');
-	button.mousePressed(loadTableFromCSV);
+	// loadTable(
+		// 'https://knneo.github.io/klassic-note-table/klassic-note-database-song-table.csv', 
+		// 'csv',
+		// 'header',
+		// loadReferenceTable);
+	// button to load table
+	// button = createButton('Load Table');
+	// button.mousePressed(loadTableFromCSV);
 	if(isMobile) document.getElementById('table-filter').removeAttribute('position');
 	resetTable();
 }
