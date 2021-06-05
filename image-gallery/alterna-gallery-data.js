@@ -35,7 +35,7 @@ function preProcessProfileList() {
 	let inputList = birthdayListJson;
 	
 	imgArray = [
-	[0,'FILENAME','ORIENTATION','TAG','DETAIL']
+	// [0,'FILENAME','ORIENTATION','TAG','DETAIL']
 	];
 	
 	//processing to fit image-gallery
@@ -51,4 +51,9 @@ function preProcessProfileList() {
 			imgArray.push([1, imageUrl, 'portrait', profileNames.join("|"), '']);
 		}
 	}
+	imgArray.sort(function(a, b) {
+		  if ( a[1] < b[1] ) return -1;
+		  if ( a[1] > b[1] ) return 1;
+		  return 0;
+	});
 }
