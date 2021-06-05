@@ -506,7 +506,7 @@ function processImageSourceForViewer(url) {
 		return url.replace('/small','');
 	}
 	
-	return image;
+	return url;
 }
 
 function adjustViewerMargin() {
