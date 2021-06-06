@@ -9,7 +9,7 @@ a {
 .header a {
 	text-decoration: none;
 }
-.darked a {
+.darked a, .darked a:visited {
 	color: white;
 }
 button {
