@@ -805,12 +805,11 @@ function resizeImageHeights() {
 	let galleryHeight = calculateGalleryHeight();
 	for(var image of document.getElementById('imgGallery').getElementsByTagName("img"))
 	{
-		if(window.innerWidth >= 640 
-		// && image.height < highestHeight 
-		&& image.height > 1)//resize to highest height
-			image.style.height = galleryHeight + 'px'; //fallback to default if height too low
-		else if(image.height > lowestHeight && image.height > 1) //resize to lowest height
+		if(image.height <= 10) continue;
+		if(window.innerWidth < 1040 && image.height > lowestHeight) //resize to lowest height
 			image.height = lowestHeight; //if small screen hit css maxHeight
+		else
+			image.style.height = galleryHeight + 'px'; //fallback to default if height too low
 	}
 }
 
