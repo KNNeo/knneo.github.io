@@ -806,10 +806,10 @@ function resizeImageHeights() {
 	for(var image of document.getElementById('imgGallery').getElementsByTagName("img"))
 	{
 		if(image.height <= 10) continue;
-		if(window.innerWidth < 1040 && image.height > lowestHeight) //resize to lowest height
-			image.height = lowestHeight; //if small screen hit css maxHeight
-		else
+		if(window.innerWidth > 1040) //resize to lowest height
 			image.style.height = galleryHeight + 'px'; //fallback to default if height too low
+		else //if(image.height > lowestHeight)
+			image.height = lowestHeight; //if small screen hit css maxHeight
 	}
 }
 
