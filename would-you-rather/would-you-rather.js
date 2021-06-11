@@ -84,8 +84,6 @@ function displayOutput(categoryName) {
 		return "Would you rather do a chest bump with \"" + generateName() + "\" or \"" + generateName() + "\"?";
 	else if (categoryName == "Sweet Talk")
 		return "Would you rather say sweet nothings all day with \"" + generateName() + "\" or \"" + generateName() + "\"?";
-	else if (categoryName == "Sweet Talk")
-		return "Would you rather say sweet nothings all day with \"" + generateName() + "\" or \"" + generateName() + "\"?";
 	else if (categoryName == "Meal")
 		return "Would you rather treat \"" + generateName() + "\" to a meal at the restaurant or have a cheap takeaway meal with \"" + generateName() + "\"?";
 	else if (categoryName == "Housewife")
@@ -108,6 +106,8 @@ function displayOutput(categoryName) {
 		return "You and \"" + generateName() + "\" are stuck in an uninhabited island. Would you rather escape in a lifeboat only enough for one, try to call for rescue while waiting together, or procreate and start a new life?";
 	else if (categoryName == "Hug/Kiss")
 		return "Would you rather receive a hug from \"" + generateName() + "\" or receive a kiss on the cheek from \"" + generateName() + "\"?";
+	else if (categoryName == "Morning")
+		return "You were drunk last night and ended up on a bed in a hotel room the next morning. Would you rather \"" + generateName() + "\" or \"" + generateName() + "\" to be sleeping by you?";
 	return;
 }
 
