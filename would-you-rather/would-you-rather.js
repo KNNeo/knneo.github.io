@@ -56,59 +56,65 @@ function getResultFromNames(module) {
 			}
 		}
 		else
-			result.innerHTML = displayOutput(categoryName);
+			result.innerHTML = displayOutput(categoryName)
+								.replace("{name}", generateName())
+								.replace("{name}", generateName())
+								.replace("{name}", generateName())
+								.replace("{name}", generateName());
 	}
 	else
 		result.innerHTML = "Please key in something!";
 }
 
 function displayOutput(categoryName) {
-	if(categoryName == "Dating")
-		return "Would you rather go on a date with \"" + generateName() + "\" or \"" + generateName() + "\"?";
-	else if(categoryName == "F**k Marry Kill")
-		return "Who would you rather f**k, marry or kill: \"" + generateName() + "\", \"" + generateName() + "\" or \"" + generateName() + "\"?";
-	else if(categoryName == "Save")	
-		return "Who would you rather save first when both of them fell into the river \"" + generateName() + "\" or \"" + generateName() + "\"? (Assume both cannot swim)";
-	else if(categoryName == "Mirror")
+	switch(categoryName)
 	{
-		let mirrorFeature = mirrorFeatures[Math.floor(Math.random() * mirrorFeatures.length)];
-		return "Mirror, mirror, on the wall; Who is the " + mirrorFeature + " of them all? \"" + generateName() + "\" or \"" + generateName() + "\" or \"" + generateName() + "\"?";
+		case "Dating":
+			return "Would you rather go on a date with {name} or {name}?";
+		case "F**k Marry Kill":
+			return "Who would you rather f**k, marry or kill: {name}, {name} or {name}?";
+		case "Save":
+			return "Who would you rather save first when both of them fell into the river {name} or {name}? (Assume both cannot swim)";
+		case "Mirror":
+			let mirrorFeature = mirrorFeatures[Math.floor(Math.random() * mirrorFeatures.length)];
+			return "Mirror, mirror, on the wall; Who is the " + mirrorFeature + " of them all? {name} or {name} or {name}?";
+		case "Messager":
+			return "Would you rather exchange numbers and message every day with {name} or {name}?";
+		case "Hair":
+			return "Would you prefer long-haired {name} or short-haired {name}?";
+		case "Last Round":
+			return "It's the last round of a board game. Who would you rather let win? {name} or {name}? (Assume both are tied)";
+		case "Bump":
+			return "Would you rather do a chest bump with {name} or {name}?";
+		case "Sweet Talk":
+			return "Would you rather say sweet nothings all day with {name} or {name}?";
+		case "Meal":
+			return "Would you rather treat {name} to a meal at the restaurant or have a cheap takeaway meal with {name}?";
+		case "Housewife":
+			return "If {name} came to you after your work from home and asked \"Would you rather have dinner, have a bath or me?\", what would you prefer?";
+		case "Day/Night":
+			return "Would you rather spend the day with {name} or spend the night with {name}?";
+		case "Minutes/Seconds":
+			return "Would you rather have 2 minutes with {name} or spend 2 seconds with {name}?";
+		case "BFF":
+			return "Would you rather be BFFs with {name} (and never be able to marry her) and/or marry {name} (and let her be your sole partner forever)?";
+		case "Kidnap":
+			return "Who would you rather be kidnap for 24 hours and do anything with but nothing will be remembered? {name} or {name}?";
+		case "Betrayal":
+			return "Would you rather stay with your current date {name} or betray her and go date {name}?";
+		case "Harem":
+			return "It's a harem!! Would you rather date {name} who is your childhood friend, or {name} who is your long lost step sibling, or {name} who landed on top of you by accident, or {name} who suddenly asked you out to confess to you?";
+		case "Affair":
+			return "Would you rather {name} be your wife while you have an affair with {name}? Or vice versa?";
+		case "Island":
+			return "You and {name} are stuck in an uninhabited island. Would you rather escape in a lifeboat only enough for one, try to call for rescue while waiting together, or procreate and start a new life?";
+		case "Hug/Kiss":
+			return "Would you rather receive a hug from {name} or receive a kiss on the cheek from {name}?";
+		case "Morning":
+			return "You were drunk last night and ended up on a bed naked in a hotel room the next morning. Would you rather {name} or {name} to be sleeping beside you?";
+		default:
+			return "{name} or {name}?";
 	}
-	else if (categoryName == "Messager")
-		return "Would you rather exchange numbers and message every day with \"" + generateName() + "\" or \"" + generateName() + "\"?";
-	else if (categoryName == "Hair")
-		return "Would you prefer long-haired \"" + generateName() + "\" or short-haired \"" + generateName() + "\"?";
-	else if (categoryName == "Last Round")
-		return "It's the last round of a board game. Who would you rather let win? \"" + generateName() + "\" or \"" + generateName() + "\"? (Assume both are tied)";
-	else if (categoryName == "Bump")
-		return "Would you rather do a chest bump with \"" + generateName() + "\" or \"" + generateName() + "\"?";
-	else if (categoryName == "Sweet Talk")
-		return "Would you rather say sweet nothings all day with \"" + generateName() + "\" or \"" + generateName() + "\"?";
-	else if (categoryName == "Meal")
-		return "Would you rather treat \"" + generateName() + "\" to a meal at the restaurant or have a cheap takeaway meal with \"" + generateName() + "\"?";
-	else if (categoryName == "Housewife")
-		return "If \"" + generateName() + "\" came to you after your work from home and asked \"Would you rather have dinner, have a bath or me?\", what would you prefer?";
-	else if (categoryName == "Day/Night")
-		return "Would you rather spend the day with \"" + generateName() + "\" or spend the night with \"" + generateName() + "\"?";
-	else if (categoryName == "Minutes/Seconds")
-		return "Would you rather have 2 minutes with \"" + generateName() + "\" or spend 2 seconds with \"" + generateName() + "\"?";
-	else if (categoryName == "BFF")
-		return "Would you rather be BFFs with \"" + generateName() + "\" (and never be able to marry her) and/or marry \"" + generateName() + "\" (and let her be your sole partner forever)?";
-	else if (categoryName == "Kidnap")
-		return "Who would you rather be kidnap for 24 hours and do anything with but nothing will be remembered? \"" + generateName() + "\" or \"" + generateName() + "\"?";
-	else if (categoryName == "Betrayal")
-		return "Would you rather stay with your current date \"" + generateName() + "\" or betray her and go date \"" + generateName() + "\"?";
-	else if (categoryName == "Harem")
-		return "It's a harem!! Would you rather date \"" + generateName() + "\" who is your childhood friend, or \"" + generateName() + "\" who is your long lost step sibling, or \"" + generateName() + "\" who landed on top of you by accident, or \"" + generateName() + "\" who suddenly asked you out to confess to you?";
-	else if (categoryName == "Affair")
-		return "Would you rather \"" + generateName() + "\" be your wife while you have an affair with \"" + generateName() + "\"? Or vice versa?";
-	else if (categoryName == "Island")
-		return "You and \"" + generateName() + "\" are stuck in an uninhabited island. Would you rather escape in a lifeboat only enough for one, try to call for rescue while waiting together, or procreate and start a new life?";
-	else if (categoryName == "Hug/Kiss")
-		return "Would you rather receive a hug from \"" + generateName() + "\" or receive a kiss on the cheek from \"" + generateName() + "\"?";
-	else if (categoryName == "Morning")
-		return "You were drunk last night and ended up on a bed in a hotel room the next morning. Would you rather \"" + generateName() + "\" or \"" + generateName() + "\" to be sleeping by you?";
-	return;
 }
 
 function generateName() {
@@ -120,19 +126,17 @@ function generateName() {
 	}
 	
 	newList.push(newName);
-	return censor(newName);
+	return "\"" + censor(newName) + "\"";
 }
 
 function censor(name) {
-	//return name[0] + '*'.repeat(name.length - 2) + name.slice(-1);
 	let checkbox = document.getElementById('censorName');
 	if(checkbox.checked) return name[0] + name.slice(1).replace(/.(?=\S)/g, '*');
 	return name;
 }
 
 function toggleCensor() {
-	let checkbox = document.getElementById('censorName');
-	
+	let checkbox = document.getElementById('censorName');	
 }
 
 function getResultFromTitles(module) {
