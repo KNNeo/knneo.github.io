@@ -235,6 +235,7 @@ function daysFromMe() {
 
 //add age after DOB span
 function addAgeAfterDOB() {
+	if(document.getElementById('profile').classList.contains('friend-mode')) return;
 	let profile = profileList.filter(p => p.id === document.getElementById('profile').firstChild.id)[0];
 	let DOBspan = document.getElementById(profile.id).getElementsByClassName('DOB')[0];
 	let age = profile.dob.includes('????') ? 0 : parseInt(getAge(profile.dob));
