@@ -715,6 +715,8 @@
 		"id":"AmamiyaSora",
 		"image":"https://knneo.webs.com/amamiyasora.jpg",
 		"landscapes":[
+			"https://pbs.twimg.com/media/E3XX-NUXEAcKv-c?format=jpg&name=small",
+			"https://pbs.twimg.com/media/E2ol7CRUcAEVaUd?format=jpg&name=small",
 			"https://pbs.twimg.com/media/E0YMrX8VoAIyxqg?format=jpg&name=small",
 			"https://www.m-on-music.jp/admin/wp-content/uploads/2020/12/20201229-ys-151501.jpg",
 			"https://cdnx.natalie.mu/media/pp/static/music/thepeggies/photo02.jpg",
@@ -752,7 +754,9 @@
 			"https://cdnx.natalie.mu/media/pp/static/music/asakuramomo03/photo07.jpg",
 			"https://img.animatetimes.com/2020/01/5e2c062302f9d_d54cd9b1fca0630849a0536fa5e79180.jpg"
 		],
-		"portraits":[],
+		"portraits":[
+			"https://pbs.twimg.com/media/EmtNHjPUwAEwPps?format=jpg&name=small"
+		],
 		"name":"Asakura Momo",
 		"nickname":"Mocho",
 		"dob":"1994.06.25",
@@ -875,6 +879,7 @@
 		"id":"MinaseInori",
 		"image":"https://knneo.webs.com/minaseinori.jpg",
 		"landscapes":[
+			"https://www.tvlife.jp/wps/wp-content/uploads/2021/06/373101_10.jpg",
 			"https://storage.mantan-web.jp/images/2021/06/03/20210603dog00m200077000c/003_size6.jpg",
 			"https://hominis.media/2021/04/images/07_osamakeminase.jpg",
 			"https://pbs.twimg.com/media/Ex3_xUgU8AMOHYW?format=jpg&name=small",
