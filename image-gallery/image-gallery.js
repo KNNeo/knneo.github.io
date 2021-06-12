@@ -27,6 +27,7 @@ let portraitTitle = 'Portrait';
 let landscapeTitle = 'Landscape';
 let tagRightClickTitle = 'Right Click to Select This Only';
 let loaderTextPrefix = 'Images Loaded: ';
+let excludedPopupText = 'Image will be excluded. Proceed for all?';
 
 
 
@@ -143,6 +144,8 @@ function renderPage(pageName) {
 	title.id = 'title';
 	title.innerText = pageTitle;
 	title.addEventListener('click', function() {
+		setSetting('excludedImages', '[]');
+		purgeSetting('excludedPopupDecision');
 		loadPage(pageName);
 	});
 	frame.appendChild(title);
@@ -704,6 +707,8 @@ function renderGallery(array) {
 	if(document.getElementById('imgGallery').childNodes.length > 0) document.getElementById('imgGallery').innerHTML = '';
 	document.getElementById('imgGallery').appendChild(profileCategoryHTML);
 	
+	let excludes = [];
+	if(getSetting('excludedImages') != null) excludes = JSON.parse(getSetting('excludedImages'));
 	for(let image of document.getElementById('imgGallery').getElementsByTagName("img"))
 	{
 		image.src = image.alt;
@@ -721,16 +726,19 @@ function renderGallery(array) {
 				inline: "center"
 			});
 		});
-		image.parentElement.addEventListener('contextmenu', function() {
-			this.scrollIntoView({
-				behavior: "smooth",
-				inline: "center"
-			});
-		});
+		// image.parentElement.addEventListener('contextmenu', function() {
+			// this.scrollIntoView({
+				// behavior: "smooth",
+				// inline: "center"
+			// });
+		// });
+		image.addEventListener('contextmenu', excludeSelectedImage);
 		image.addEventListener('error', function() {
 			image.parentElement.parentElement.parentElement.style.display = 'none';
 			image.classList.add('failed');
 		});
+		
+		if(excludes.includes(image.id)) excludeImage(image);
 	}
 	
 	document.getElementById('loaderCount').innerText = 0;
@@ -750,6 +758,29 @@ function renderGallery(array) {
 	//update linked list for viewer
 	createLinkedList();
 	console.log(totalCount + ' rows detected');
+}
+
+function excludeSelectedImage() {
+	if(this.tagName.toUpperCase() != 'IMG') return;
+	if(getSetting('excludedPopupDecision') == null)
+		setSetting('excludedPopupDecision', confirm(excludedPopupText));
+	if(getSetting('excludedPopupDecision') == 'false')  {
+		setSetting('excludedImages', '[]');
+		return;
+	}
+	//get list
+	let excludes = [];
+	if(getSetting('excludedImages') != null) excludes = JSON.parse(getSetting('excludedImages'));
+	if(!excludes.includes(this.id)) excludes.push(this.id);
+	excludeImage(this);
+	
+	//push back list
+	setSetting('excludedImages', JSON.stringify(excludes));
+}
+
+function excludeImage(image) {
+	image.parentElement.parentElement.parentElement.style.display = 'none';
+	image.classList.add('excluded');
 }
 
 function reloadImages(array) {
@@ -1130,6 +1161,10 @@ function getSetting(settingName) {
 
 function setSetting(settingName, settingValue) {
 	localStorage.setItem(body.id + "_" + settingName, settingValue);
+}
+
+function purgeSetting(settingName) {
+	localStorage.removeItem(body.id + "_" + settingName);
 }
 
 function toggleSetting(settingName, settingValue) {
