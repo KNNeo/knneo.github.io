@@ -300,8 +300,8 @@ function setThumbnails() {
                 switchThumbnails(closestClass(this, "thumbnail"));
             };
         }
-        for (j = 0; j < allThumbVideos.length; j++) {
-            allThumbVideos[j].onclick = function() {
+        for (k = 0; k < allThumbVideos.length; k++) {
+            allThumbVideos[k].onclick = function() {
                 switchThumbnails(closestClass(this, "thumbnail"));
             };
         }
@@ -950,14 +950,15 @@ function fixExternalFrame(thumbnail) {
 	}
 }
 
-function videoifyGIFs() {
+async function videoifyGIFs() {
 	if(!window.location.href.includes("https://")) return; //reject file://
 	for(let gif of document.getElementsByTagName('img')) {
 		if(gif.src.endsWith('gif')) {
-			videoifyGIF(gif);
+			count++;
+			await videoifyGIF(gif);
 		}
 	}
-	setThumbnails();	
+	setThumbnails();
 }
 
 async function videoifyGIF(gif) {
