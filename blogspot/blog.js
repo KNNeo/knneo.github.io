@@ -17,7 +17,7 @@ window.onpageshow = function() {
     addHoverOnExpander();
     addHashtags();
 	// hideImagesOnError();
-	if(window.location.href.includes("knneo.github.io")) videoifyGIFs();
+	videoifyGIFs();
 
 	// Window events
 	window.onscroll = displayFAB;
@@ -942,4 +942,36 @@ function fixExternalFrame(thumbnail) {
 		if (thumbnailTable != thumbnail)
 			thumbnailTable.style.width = '100%';
 	}
+}
+
+function videoifyGIFs() {
+	if(!window.location.href.includes("https://")) return; //reject file://
+	for(let gif of document.getElementsByTagName('img')) {
+		if(gif.src.endsWith('gif')) {
+			videoifyGIF(gif);
+		}
+	}
+	
+}
+
+async function videoifyGIF(gif) {
+	const { createFFmpeg, fetchFile } = FFmpeg;
+	const ffmpeg = createFFmpeg({ log: false });
+	await ffmpeg.load();
+	ffmpeg.FS('writeFile', 'input.gif', await fetchFile(gif.src));
+	await ffmpeg.run('-f', 'gif', '-i', 'input.gif', 'output.mp4');
+	const data = ffmpeg.FS('readFile', 'output.mp4');
+	const video = document.createElement('video');
+	video.setAttribute('autoplay','');
+	video.setAttribute('loop','');
+	video.src = URL.createObjectURL(
+	  new Blob([data.buffer], { type: 'video/mp4' }),
+	);
+	video.onclick = function(e) {
+		e.preventDefault();
+		switchThumbnails(closestClass(this, "thumbnail"));
+	};
+	let td = gif.parentElement;
+	td.innerHTML = '';
+	td.appendChild(video);
 }
