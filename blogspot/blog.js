@@ -294,8 +294,14 @@ function setThumbnails() {
 		if(maxHeight)
 			allThumbnails[i].style.height = maxHeight + 'px';
         let allThumbImages = allThumbnails[i].getElementsByTagName("img");
+        let allThumbVideos = allThumbnails[i].getElementsByTagName("video");
         for (j = 0; j < allThumbImages.length; j++) {
             allThumbImages[j].onclick = function() {
+                switchThumbnails(closestClass(this, "thumbnail"));
+            };
+        }
+        for (j = 0; j < allThumbVideos.length; j++) {
+            allThumbVideos[j].onclick = function() {
                 switchThumbnails(closestClass(this, "thumbnail"));
             };
         }
@@ -951,7 +957,7 @@ function videoifyGIFs() {
 			videoifyGIF(gif);
 		}
 	}
-	
+	setThumbnails();	
 }
 
 async function videoifyGIF(gif) {
@@ -967,10 +973,10 @@ async function videoifyGIF(gif) {
 	video.src = URL.createObjectURL(
 	  new Blob([data.buffer], { type: 'video/mp4' }),
 	);
-	video.onclick = function(e) {
-		e.preventDefault();
-		switchThumbnails(closestClass(this, "thumbnail"));
-	};
+	// video.onclick = function(e) {
+		// e.preventDefault();
+		// switchThumbnails(closestClass(this, "thumbnail"));
+	// };
 	let td = gif.parentElement;
 	td.innerHTML = '';
 	td.appendChild(video);
