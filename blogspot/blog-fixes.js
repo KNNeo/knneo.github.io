@@ -150,6 +150,7 @@ async function videoifyGIF(gif) {
 	video.src = URL.createObjectURL(
 	  new Blob([data.buffer], { type: 'video/mp4' }),
 	);
-	gif.parentElement.innerHTML = '';
-	gif.parentElement.appendChild(video);
+	let td = gif.parentElement;
+	td.innerHTML = '';
+	td.appendChild(video);
 }
