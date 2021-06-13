@@ -951,7 +951,7 @@ function fixExternalFrame(thumbnail) {
 }
 
 async function videoifyGIFs() {
-	if(!window.location.href.includes("https://")) return; //reject file://
+	if(!window.location.href.includes("https://knneo.github.io")) return; //reject file://
 	for(let gif of document.getElementsByTagName('img')) {
 		if(gif.src.endsWith('gif')) {
 			await videoifyGIF(gif);
