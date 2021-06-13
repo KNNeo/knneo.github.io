@@ -740,7 +740,8 @@ abbr.imgpop:hover img {
   visibility: hidden;
 }
 
-.thumbnail-initial * img {
+.thumbnail-initial * img,
+.thumbnail-initial * video {
   border: 1px solid transparent;
   animation: imgblink 3s infinite;
   -webkit-animation: imgblink 3s infinite;

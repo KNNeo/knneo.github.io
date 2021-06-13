@@ -140,7 +140,7 @@ function videoifyGIFs() {
 
 async function videoifyGIF(gif) {
 	const { createFFmpeg, fetchFile } = FFmpeg;
-	const ffmpeg = createFFmpeg({ log: true });
+	const ffmpeg = createFFmpeg({ log: false });
 	await ffmpeg.load();
 	ffmpeg.FS('writeFile', 'input.gif', await fetchFile(gif.src));
 	await ffmpeg.run('-f', 'gif', '-i', 'input.gif', 'output.mp4');
@@ -151,6 +151,10 @@ async function videoifyGIF(gif) {
 	video.src = URL.createObjectURL(
 	  new Blob([data.buffer], { type: 'video/mp4' }),
 	);
+	video.onclick = function(e) {
+		e.preventDefault();
+		switchThumbnails(closestClass(this, "thumbnail"));
+	};
 	let td = gif.parentElement;
 	td.innerHTML = '';
 	td.appendChild(video);
