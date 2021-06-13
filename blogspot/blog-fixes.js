@@ -146,8 +146,10 @@ async function videoifyGIF(gif) {
 	await ffmpeg.run('-f', 'gif', '-i', 'input.gif', 'output.mp4');
 	const data = ffmpeg.FS('readFile', 'output.mp4');
 	const video = document.createElement('video');
+	video.setAttribute('loop','');
 	video.src = URL.createObjectURL(
 	  new Blob([data.buffer], { type: 'video/mp4' }),
 	);
-	gif.parentElement.replaceChild(gif, video);
+	gif.parentElement.innerHTML = '';
+	gif.parentElement.appendChild(video);
 }
