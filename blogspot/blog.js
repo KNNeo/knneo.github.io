@@ -17,6 +17,7 @@ window.onpageshow = function() {
     addHoverOnExpander();
     addHashtags();
 	// hideImagesOnError();
+	videoifyGIFs();
 
 	// Window events
 	window.onscroll = displayFAB;
