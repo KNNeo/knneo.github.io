@@ -128,3 +128,26 @@ for (let image of document.getElementsByTagName('img'))
 		image.parentElement.addEventListener('click', openViewer);
 	}
 }
+
+function videoifyGIFs() {
+	for(let gif of document.getElementsByTagName('img')) {
+		if(gif.src.endsWith('gif')) {
+			videoifyGIF(gif);
+		}
+	}
+	
+}
+
+async function videoifyGIF(gif) {
+	const { createFFmpeg, fetchFile } = FFmpeg;
+	const ffmpeg = createFFmpeg({ log: true });
+	await ffmpeg.load();
+	ffmpeg.FS('writeFile', 'input.gif', await fetchFile(gif.src));
+	await ffmpeg.run('-f', 'gif', '-i', 'input.gif', 'output.mp4');
+	const data = ffmpeg.FS('readFile', 'output.mp4');
+	const video = document.createElement('video');
+	video.src = URL.createObjectURL(
+	  new Blob([data.buffer], { type: 'video/mp4' }),
+	);
+	gif.parentElement.replaceChild(gif, video);
+}
