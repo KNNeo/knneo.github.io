@@ -17,7 +17,7 @@ window.onpageshow = function() {
     addHoverOnExpander();
     addHashtags();
 	// hideImagesOnError();
-	videoifyGIFs();
+	if(window.location.href.includes("knneo.github.io")) videoifyGIFs();
 
 	// Window events
 	window.onscroll = displayFAB;
