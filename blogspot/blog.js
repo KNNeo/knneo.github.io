@@ -954,7 +954,6 @@ async function videoifyGIFs() {
 	if(!window.location.href.includes("https://")) return; //reject file://
 	for(let gif of document.getElementsByTagName('img')) {
 		if(gif.src.endsWith('gif')) {
-			count++;
 			await videoifyGIF(gif);
 		}
 	}
