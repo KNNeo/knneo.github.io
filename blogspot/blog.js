@@ -17,7 +17,7 @@ window.onpageshow = function() {
     addHoverOnExpander();
     addHashtags();
 	// hideImagesOnError();
-	videoifyGIFs();
+	// videoifyGIFs();
 
 	// Window events
 	window.onscroll = displayFAB;
@@ -950,6 +950,7 @@ function fixExternalFrame(thumbnail) {
 	}
 }
 
+//removed due to compatibility issue and having to do up cross origin support
 async function videoifyGIFs() {
 	if(!window.location.href.includes("https://knneo.github.io")) return; //reject file://
 	for(let gif of document.getElementsByTagName('img')) {
