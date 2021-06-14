@@ -209,12 +209,17 @@ void Main()
 		#endregion
 		
 		#region any gif img tag should not have enclosing a tag (should try to manual fix)
-		//expression = @"(<a)(.*?)(<img)(.*?)(</img>)(.*?)(</a>)";
-		//
+		//expression = @"(?<=<a)(.*?)(?<=><img)(.*?)(?<=gif"")(.*?)(?<=/></a>)";
+		//matchExpression = @"(?<=<div class=""thumbnail""><span class=""normal""><table)(.*?)(?=</table></span>)";
+		
 		//match = Regex.Match(content, expression);
 		//matchExp = Regex.Match(content, matchExpression);
 		//prefix = @"</table></div><div class=""thumbnail-initial thumbnail-pop hover-visible""><table";
 		//suffix = "</table></div>";
+		//if(match.Success) {
+		//	Console.WriteLine(match);
+		//	break;
+		//}
 		//content = UpdateRegexContent(content, match, matchExp, prefix, suffix);
 		#endregion
 		
