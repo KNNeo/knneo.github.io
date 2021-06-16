@@ -221,6 +221,10 @@
 			{
 				"image":"https://pbs.twimg.com/media/E3TKFnvVIAEOxqV?format=jpg&name=small",
 				"id":"NatsukawaShiina-ToyosakiAki"
+			},
+			{
+				"image":"https://pbs.twimg.com/media/E4Ae9prUUAkVCXk?format=jpg&name=small",
+				"id":"OozoraNaomi-Lynn"
 			}
 		]
 	},
@@ -1406,6 +1410,7 @@
 		"id":"Lynn",
 		"image":"https://knneo.webs.com/lynn.jpg",
 		"landscapes":[
+			"https://pbs.twimg.com/media/E4AiicSUUAoNOqr?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EtIk1cqU4AA9yBQ?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EpNqdwHVQAgvvOz?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EgMjO-aVAAE4Rqc?format=jpg&name=small"
@@ -1611,6 +1616,7 @@
 		"id":"OozoraNaomi",
 		"image":"https://knneo.webs.com/oozoranaomi.jpg",
 		"landscapes":[
+			"https://pbs.twimg.com/media/E4AZBcxVgAMF7zB?format=jpg&name=small",
 			"https://pbs.twimg.com/media/Eu-NJnMU4AAA8hi?format=jpg&name=small"
 		],
 		"portraits":[
@@ -1685,6 +1691,7 @@
 			"https://pbs.twimg.com/media/Edf6cXOUYAEwpNm?format=jpg&name=small"
 		],
 		"portraits":[
+			"https://pbs.twimg.com/media/E4Avc8aVcAE_WYQ?format=jpg&name=small",
 			"https://images.animageplus.jp/articles/36000/36425/wysiwyg/e595c9b8387e8e6585af6963aaa81be4.jpg",
 			"https://pbs.twimg.com/media/ExjzOoiUUAoAQHx?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EvysBLdVoAAkv25?format=jpg&name=small",
