@@ -55,8 +55,8 @@
 				"id":"HidakaRina-HikasaYouko"
 			},
 			{
-				"image":"https://pbs.twimg.com/media/EEaGlW6U4AAEVBq?format=jpg&name=small",
-				"id":"HidakaRina-HanazawaKana"
+				"image":"https://pbs.twimg.com/media/E4IgdDVVIAIiGyG?format=jpg&name=small",
+				"id":"HanazawaKana-HidakaRina"
 			},
 			{
 				"image":"https://pbs.twimg.com/media/EjAfUbEVgAcUVi3?format=jpg&name=small",
@@ -385,7 +385,9 @@
 		"landscapes":[
 			"https://pbs.twimg.com/media/D8sRalEV4AApRhc?format=jpg&name=small"
 		],
-		"portraits":[],
+		"portraits":[
+			"https://horie-yui.com/images/profile/img_photo.jpg"
+		],
 		"name":"Horie Yui",
 		"nickname":"Hocchan",
 		"dob":"????.09.20",
@@ -811,6 +813,8 @@
 		"id":"HidakaRina",
 		"image":"https://knneo.webs.com/hidakarina.jpg",
 		"landscapes":[
+			"https://img2.animatetimes.com/2021/06/60cadb384dd6d_d0b9ee551ae6731a004413f1bdf8c1c0.jpg",
+			"https://img2.animatetimes.com/2021/06/60cadb3c028ff_bbe2bde926bb6e5c5889ede24988856b.jpg",
 			"https://pbs.twimg.com/media/EmTiTbJVgAAqi9f?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EhuDJryUMAEn5yO?format=jpg&name=small"
 		],
