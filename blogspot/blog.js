@@ -699,7 +699,7 @@ function generatePopupContent(url) {
         //process twitter embed
 		//data-height for timeline is max width
 		if(url.includes('/status/')) {
-			return '<blockquote class="twitter-tweet tw-align-center" data-height="' + 0.6*window.innerHeight + '"><a href="' +
+			return '<blockquote class="twitter-tweet tw-align-center" data-conversation="none" data-height="' + 0.6*window.innerHeight + '"><a href="' +
 				url +
 				'"></a></blockquote><script async="async" charset="utf-8" src="https://platform.twitter.com/widgets.js" >\</script\>';
 		}
