@@ -27,8 +27,8 @@
  * []	all table styles to be within post
  * [ok]	remove hashtags on post level
  * [ok]	alternate links detection for new popups (youtu.be)
- * [ok]	any link not referenced within blog to open on new tab
- * []	remove add href to hashtags script
+ * []	any link not referenced within blog to open on new tab
+ * [ok]	remove add href to hashtags script
  * []	remove wallpaper images cache linked from facebook
  */
  
@@ -368,7 +368,7 @@ void Main()
 		#endregion
 		
 		#region any link not referenced within blog to open on new tab
-		content = content.Replace("       >", ">");
+		content = content.Replace("       >", ">").Replace("        <", " <").Replace("     ", " ").Replace("a   >", "a>");
 		expression = @"(<a )(.*?)(?<=href="")(.*?)(?="")(.*?)(>)(.*?)(</a>)";
 		
 		match = Regex.Match(content, expression);
@@ -399,6 +399,7 @@ void Main()
 				//});
 				content = content.Replace(match.Value, match.Value.Replace("target=\"_blank\"", ""));
 			}
+			
 			match = match.NextMatch();
 		};
 		#endregion
@@ -488,7 +489,6 @@ void Main()
 			output.WriteLine("</body>");
 			output.WriteLine("<script src=\"../../../blog.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
 			output.WriteLine("<script src=\"../../../blog-fixes.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
-			output.WriteLine("<script src=\"../../../ffmpeg.min.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
 			output.WriteLine("</html>");
 		}
 		
@@ -510,7 +510,7 @@ void Main()
 		}
 		else
 			textString += "<div"+classes+"><span>"+published.ToString("yyyy.MM.dd")+" </span>"+title+"</div>\n";
-		if(WriteTitleOnConsole && count > 0) Console.WriteLine((title != "" ? title : "A Random Statement") + "\t[" + count + " change(s)]");
+		if(WriteTitleOnConsole) Console.WriteLine((title != "" ? title : "A Random Statement") + (count > 0 ? "\t[" + count + " change(s)]" : ""));
 	}
 	
 	string fileString = File.ReadAllText(blogpath + "\\blog_template.html");
