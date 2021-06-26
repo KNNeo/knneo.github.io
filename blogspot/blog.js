@@ -901,6 +901,7 @@ function switchToButton(id) {
 function goToTop() {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
+	window.location.hash = "";
 }
 
 function hideImagesOnError() {
@@ -961,6 +962,7 @@ async function videoifyGIFs() {
 	setThumbnails();
 }
 
+//requires download of ffmpeg.js to work: permissions may be needed for cross origin use
 async function videoifyGIF(gif) {
 	const { createFFmpeg, fetchFile } = FFmpeg;
 	const ffmpeg = createFFmpeg({ log: false });
