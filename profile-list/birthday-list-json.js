@@ -89,7 +89,8 @@ let birthdayListJson =
 			"DIDcF2pUMAAVjx4",
 			"DJqcgz-UQAAVhRQ",
 			"DRjN62dW0AAW3SZ",
-			"DZmMqqfXkAAeNRm"
+			"DZmMqqfXkAAeNRm",
+			"E4JyZd4VoAcIKy4"
 		]
 	},
 	{
@@ -179,7 +180,8 @@ let birthdayListJson =
 			"DMj2_lxUQAAz74I",
 			"DPDg9efUMAAVi8m",
 			"DTPaeYqVAAEUGlS",
-			"DWigQnEW4AEC88b"
+			"DWigQnEW4AEC88b",
+			"E4JycXzVgAEaAvS"
 		]
 	},
 	{
