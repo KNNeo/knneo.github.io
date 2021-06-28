@@ -18,6 +18,11 @@ let exColumns = [
 		title: 'FindArtist',
 		cellText: 'Find Artist',
 		sourceColumn: 'ArtistTitle'
+	},
+	{
+		title: 'AddToTimeline',
+		cellText: 'Add To Timeline',
+		sourceColumn: 'DateCreated'
 	}
 ];
 let refTable;
@@ -38,6 +43,7 @@ document.getElementById('tickboxAll').addEventListener("click", function() {
 	
 	if(this.checked) resetPresets();
 });
+timeline.style.display = 'none';
 
 //COLUMN TICKBOXES--//
 function generateFilters(filters) {
@@ -280,6 +286,12 @@ function nextPage() {
 		loadTableFromCSV();
 }
 
+function toggleTimeline() {
+	let timeline = document.getElementById("timeline");
+	timeline.style.display = timeline.style.display == 'none'? '' : 'none';
+	if(timeline.style.display != 'none') loadTimeline();
+}
+
 //--P5 JS SPECIFIC FUNCTIONS--//
 function loadTableFromCSV() {
 	// button.hide();
@@ -383,6 +395,14 @@ function createTable(table) {
 					let knTableLink = document.createElement('a');
 					knTableLink.href = 'javascript:void(0);';
 					knTableLink.innerText = 'Link';
+					
+					if(table.columns[j] == 'AddToTimeline') {
+						knTableLink.classList.add('material-icons');
+						knTableLink.innerText = 'add_box';
+						knTableLink.style.fontSize = '18px';
+						knTableLink.style.textDecoration = 'none';
+					}
+					
 					knTableLink.addEventListener('click', function(event) {
 						event.preventDefault();
 						// custom search logic
@@ -395,6 +415,9 @@ function createTable(table) {
 							let row = refTable[parseInt(id.innerText) - 1]; //based on first column
 							let targetVal = row[exColumn.sourceColumn]; //object based column
 							document.getElementById('dbInput' + exColumn.sourceColumn).value = targetVal.substring(0,7); //custom logic here
+							
+							document.getElementById("dbSubmitButton").click(this);
+							document.body.scrollIntoView();
 						}
 						if(table.columns[j] == 'FindArtist') {
 							resetSearch();
@@ -404,10 +427,23 @@ function createTable(table) {
 							let row = refTable[parseInt(id.innerText) - 1]; //based on first column
 							let targetVal = row[exColumn.sourceColumn]; //object based column
 							document.getElementById('dbInput' + exColumn.sourceColumn).value = targetVal;
+							
+							document.getElementById("dbSubmitButton").click(this);
+							document.body.scrollIntoView();
+						}
+						if(table.columns[j] == 'AddToTimeline') {							
+							let id = this.parentElement.parentElement.getElementsByTagName('td')[0];
+							let row = refTable[parseInt(id.innerText) - 1]; //based on first column
+							let targetVal = row[exColumn.sourceColumn]; //object based column
+							
+							if(targetVal.length > 5)
+							{
+								let data = { KNID: row["KNID"], songTitle: row["SongTitle"], artistTitle: row["ArtistTitle"], rmin: 5, rmax: 5, x: new Date(targetVal.replace('.','-').replace('.','-')), y: 0 };
+								// console.log(data);
+								addData(data);
+							}
 						}
 						
-						document.getElementById("dbSubmitButton").click(this);
-						document.body.scrollIntoView();
 					});
 					knTableCell.appendChild(knTableLink);
 				}
@@ -468,6 +504,83 @@ function setup() {
 function loadReferenceTable(table) {
 	refTable = table.getObject();
 }
+
+//--KLASSIC NOTE TIMELINE--//
+let timelineChart;
+function loadTimeline() {
+	let timeline = document.getElementById('chart');
+	timeline.width = '100%';
+	timeline.height = '125';
+	let data = {
+	  datasets: [{
+		data: [],
+		backgroundColor: 'rgb(255, 99, 132)'
+	  }],
+	};
+	let config = {
+	  type: 'bubble',
+	  data: data,
+	  options: {
+		  plugins: {
+			legend: {
+			  display: false
+			},
+			tooltip: {
+				borderColor: 'rgb(255, 255, 255)',
+                callbacks: {
+                    label: function(context) {
+                        return context.raw.x.toDateString().substring(3);
+                    },
+                    footer: function(tooltipItems, data) {
+						// console.log(tooltipItems[0].raw.artistTitle, data);
+                        return [tooltipItems[0].raw.songTitle, tooltipItems[0].raw.artistTitle];
+                    }
+                }
+			}
+		  },
+		scales: {
+		  x: {
+			min: new Date('2007-12-01'),
+			max: new Date('2021-12-31'),
+			ticks: {
+				callback: function(value, index, values) {
+					return new Date(value).toDateString().substring(3);
+				},
+			},
+			type: 'linear',
+			position: 'bottom'
+		  },
+		  y: {       
+			min: -2,
+			max: 1,     
+			ticks: {
+				display: false
+			}
+		  }
+		}
+	  }
+	};
+	if(timelineChart == undefined)
+		timelineChart = new Chart(
+			timeline,
+			config
+		);
+	
+	//add events
+}
+
+function addData(data) {
+	if(timelineChart == undefined || document.getElementById('timeline').style.display == 'none')
+		toggleTimeline();
+	
+	let chart = timelineChart;
+    // chart.data.labels.push(label);
+    chart.data.datasets.forEach((dataset) => {
+		if(dataset.data.filter(d => d.KNID == data.KNID).length == 0)
+			dataset.data.push(data);
+    });
+    chart.update();
+} 
 
 //TODO:
 //Revamp rendering of table such that original table is never mutated, and filters are done after getArray/getObject (prefer latter?)

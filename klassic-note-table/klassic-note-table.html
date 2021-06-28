@@ -9,6 +9,7 @@
     <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet' />
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="p5.min.js"></script>
+    <script src="chart.min.js"></script>
     <title>Klassic Note Table</title>
 </head>
 <body>
@@ -44,6 +45,9 @@
 		<button id="dbNextButton" type="submit" onclick="nextPage()" placeholder="next" value="Next Page" title="Next Page">
 			<i style="font-size:inherit;" class="material-icons">skip_next</i>
 		</button>
+		<button id="dbTimelineButton" type="submit" onclick="toggleTimeline()" placeholder="timeline" value="Toggle Timeline" title="Toggle Timeline">
+			<i style="font-size:inherit;" class="material-icons">timeline</i>
+		</button>
 	</div>
 	<br>
     <div class="table-reset"></div>
@@ -54,6 +58,9 @@
             </table>
         </div>
     </div>
+    <div id="timeline" class="timeline">
+		<canvas id="chart"></canvas>
+	</div>
 </body>
 <script src="../index.js"></script>
 <script src="klassic-note-table.js" type="application/javascript" charset="utf-8"></script>

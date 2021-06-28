@@ -95,3 +95,12 @@ td > a {
 #table-filter > input {
 	max-width: 150px;
 }
+
+#timeline {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	text-align: center;
+	border-top: 1px solid #444;
+}
