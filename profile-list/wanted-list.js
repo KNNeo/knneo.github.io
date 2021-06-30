@@ -301,9 +301,7 @@ function addProfileBoxClick() {
 			if (this.getElementsByTagName("img")[0] != null) this.getElementsByTagName("img")[0].style.display = this.getElementsByTagName("img")[0].style.display == "" ? "none" : "";
 			if (this.getElementsByTagName("img")[1] != null) this.getElementsByTagName("img")[1].style.display = this.getElementsByTagName("img")[1].style.display == "" ? "none" : "";
 			
-			window.scrollBy(0, -25);
 			document.getElementById(this.parentElement.id).scrollIntoView();
-			setTimeout(function() { window.scrollBy(0, -25); }, 500);
 		});
 	}
 }
