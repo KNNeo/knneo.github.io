@@ -22,7 +22,10 @@ let exColumns = [
 	{
 		title: 'AddToTimeline',
 		cellText: 'Add To Timeline',
-		sourceColumn: 'DateCreated'
+		sourceColumn: 'DateCreated',
+		refColumn: 'KNID',
+		timelineFooter1: 'SongTitle',
+		timelineFooter2: 'ArtistTitle',
 	}
 ];
 let refTable;
@@ -370,8 +373,49 @@ function createTable(table) {
 	{
 		let knColumn = document.createElement('th');
 		knColumn.id = 'column' + column.replace(' ','');
-		knColumn.innerText = exColumns.filter(e => e.title == column).length > 0 ? exColumns.filter(e => e.title == column)[0].cellText : column;
+		knColumn.innerText = exColumns.filter(e => e.title == column).length > 0 
+			? exColumns.filter(e => e.title == column)[0].cellText 
+			: column;
 		knColumn.style.whiteSpace = 'nowrap';
+		
+		//custom logic
+		if(knColumn.innerText == 'Add To Timeline') {
+			knColumn.addEventListener('click',function(event) {
+				if(!this.classList.contains('all-added')) {
+					this.innerText = '';
+					let overlay = document.createElement('a');
+					overlay.href = 'javascript:void(0);';
+					overlay.innerText = 'Add All To Timeline';
+					overlay.addEventListener('click',function(event) {
+						//add all results on current table
+						let array = [];
+						let exColumn = exColumns.filter(e => e.title == 'AddToTimeline')[0];
+						
+						for(let item of document.getElementById('dbTable').getElementsByTagName('tr')) {
+							if(item.getElementsByTagName('td').length == 0) continue;
+							let row = refTable[parseInt(item.getElementsByTagName('td')[0].innerText) - 1];
+							let data = {
+								id: row[exColumn.refColumn],
+								songTitle: row[exColumn.timelineFooter1],
+								artistTitle: row[exColumn.timelineFooter2],
+								rmin: 5,
+								rmax: 5,
+								x: new Date(row[exColumn.sourceColumn].replace('.','-').replace('.','-')),
+								y: 0
+							};
+							addData(data);
+						}
+						this.innerText = 'Add To Timeline';
+						this.parentElement.classList.add('all-added');
+					});
+					this.appendChild(overlay);
+				}
+				else
+					this.innerHTML = 'Add To Timeline';
+			});
+			
+		}
+		
 		knTableHeader.appendChild(knColumn);
 	}
 	knTableBody.appendChild(knTableHeader);
@@ -391,11 +435,12 @@ function createTable(table) {
 				{
 					let exColumn = exColumns.filter(e => e.title == table.columns[j])[0];
 					knTableCell.style.textAlign = 'center';
-					//a tag
+					//link tag
 					let knTableLink = document.createElement('a');
 					knTableLink.href = 'javascript:void(0);';
 					knTableLink.innerText = 'Link';
 					
+					// custom display logic
 					if(table.columns[j] == 'AddToTimeline') {
 						knTableLink.classList.add('material-icons');
 						knTableLink.innerText = 'add_box';
@@ -438,9 +483,18 @@ function createTable(table) {
 							
 							if(targetVal.length > 5)
 							{
-								let data = { KNID: row["KNID"], songTitle: row["SongTitle"], artistTitle: row["ArtistTitle"], rmin: 5, rmax: 5, x: new Date(targetVal.replace('.','-').replace('.','-')), y: 0 };
+								let data = {
+									id: row[exColumn.refColumn],
+									songTitle: row[exColumn.timelineFooter1],
+									artistTitle: row[exColumn.timelineFooter2],
+									rmin: 5,
+									rmax: 5,
+									x: new Date(row[exColumn.sourceColumn].replace('.','-').replace('.','-')),
+									y: 0
+								};
 								// console.log(data);
 								addData(data);
+								this.innerText = '';
 							}
 						}
 						
@@ -485,6 +539,8 @@ function createTable(table) {
 	}
 	// console.log(Date.now() - start);
 	
+	//wipe chart
+	document.getElementById('timeline').innerHTML = '';	
 }
 
 //--P5.JS MAIN FUNCTION--//
@@ -509,6 +565,12 @@ function loadReferenceTable(table) {
 let timelineChart;
 function loadTimeline() {
 	let timeline = document.getElementById('chart');
+	if(timeline == undefined) {
+		let canvas = document.createElement('canvas');
+		canvas.id = 'chart';
+		document.getElementById('timeline').appendChild(canvas);
+		timeline = document.getElementById('chart');
+	}
 	timeline.width = '100%';
 	timeline.height = '125';
 	let data = {
@@ -540,8 +602,8 @@ function loadTimeline() {
 		  },
 		scales: {
 		  x: {
-			min: new Date('2007-12-01'),
-			max: new Date('2021-12-31'),
+			// min: new Date('2007-12-01'),
+			// max: new Date('2021-12-31'),
 			ticks: {
 				callback: function(value, index, values) {
 					return new Date(value).toDateString().substring(3);
@@ -560,7 +622,7 @@ function loadTimeline() {
 		}
 	  }
 	};
-	if(timelineChart == undefined)
+	// if(timelineChart == undefined)
 		timelineChart = new Chart(
 			timeline,
 			config
@@ -576,8 +638,12 @@ function addData(data) {
 	let chart = timelineChart;
     // chart.data.labels.push(label);
     chart.data.datasets.forEach((dataset) => {
-		if(dataset.data.filter(d => d.KNID == data.KNID).length == 0)
+		if(dataset.data.filter(d => d.KNID == data.id).length == 0) // still hardcoded object key
 			dataset.data.push(data);
+		if(dataset.data.length > 20) {
+			chart.options.scales.x.min = new Date('2007-12-01');
+			chart.options.scales.x.max = new Date('2021-12-31');
+		}
     });
     chart.update();
 } 
