@@ -80,6 +80,7 @@ function renderWantedList() {
 	addStatusPopUp();
 	openLinksInNew();
 	initialiseTime();
+	focusProfileBox();
 	if(isExternal) censorData(); //ONLY FOR GITHUB
 	if (loadedImages != document.getElementsByTagName("img").length) setTimeout(function() {
 		reloadImages();
@@ -299,7 +300,10 @@ function addProfileBoxClick() {
 			if (this.getElementsByTagName("img")[1] == null) return;
 			if (this.getElementsByTagName("img")[0] != null) this.getElementsByTagName("img")[0].style.display = this.getElementsByTagName("img")[0].style.display == "" ? "none" : "";
 			if (this.getElementsByTagName("img")[1] != null) this.getElementsByTagName("img")[1].style.display = this.getElementsByTagName("img")[1].style.display == "" ? "none" : "";
+			
+			window.scrollBy(0, -25);
 			document.getElementById(this.parentElement.id).scrollIntoView();
+			setTimeout(function() { window.scrollBy(0, -25); }, 500);
 		});
 	}
 }
@@ -353,6 +357,17 @@ function openLinksInNew() {
 			link.href = 'javascript:void(0)';
 			link.addEventListener('click', function () { window.open(url, '_blank'); } );
 		}
+	}
+}
+
+function focusProfileBox() {
+	let profileBoxImgList = document.getElementsByClassName("profile-box");
+	for (let i = 0; i < profileBoxImgList.length; i++) {
+		profileBoxImgList[i].addEventListener("contextmenu", function() {
+			event.preventDefault();
+			this.scrollIntoView();
+			setTimeout(function() { window.scrollBy(0, -25); }, 500);
+		});
 	}
 }
 
