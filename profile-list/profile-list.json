@@ -225,6 +225,10 @@
 			{
 				"image":"https://pbs.twimg.com/media/E4Ae9prUUAkVCXk?format=jpg&name=small",
 				"id":"OozoraNaomi-Lynn"
+			},
+			{
+				"image":"https://pbs.twimg.com/media/E5XR2e0VUAcc1Fw?format=jpg&name=small",
+				"id":"NagaeRika-KitouAkari"
 			}
 		]
 	},
@@ -386,7 +390,9 @@
 			"https://pbs.twimg.com/media/D8sRalEV4AApRhc?format=jpg&name=small"
 		],
 		"portraits":[
-			"https://horie-yui.com/images/profile/img_photo.jpg"
+			"https://horie-yui.com/images/profile/img_photo.jpg",
+			"https://pbs.twimg.com/media/EC0Fg2XUUAAO0ke?format=jpg&name=small",
+			"https://pbs.twimg.com/media/ECvH77SVUAEFGjk?format=jpg&name=small"
 		],
 		"name":"Horie Yui",
 		"nickname":"Hocchan",
