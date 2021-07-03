@@ -9,4 +9,7 @@ select '2013' as 'KNYEAR', count(artisttitle) from (select artisttitle from song
 select '2014' as 'KNYEAR', count(artisttitle) from (select artisttitle from song where knyear <= 2014 and knjapan is not null group by artisttitle) as 'Total Artists' union all
 select '2015' as 'KNYEAR', count(artisttitle) from (select artisttitle from song where knyear <= 2015 and knjapan is not null group by artisttitle) as 'Total Artists' union all
 select '2016' as 'KNYEAR', count(artisttitle) from (select artisttitle from song where knyear <= 2016 and knjapan is not null group by artisttitle) as 'Total Artists' union all
-select '2017' as 'KNYEAR', count(artisttitle) from (select artisttitle from song where knyear <= 2017 and knjapan is not null group by artisttitle) as 'Total Artists'
+select '2017' as 'KNYEAR', count(artisttitle) from (select artisttitle from song where knyear <= 2017 and knjapan is not null group by artisttitle) as 'Total Artists' union all
+select '2018' as 'KNYEAR', count(artisttitle) from (select artisttitle from song where knyear <= 2018 and knjapan is not null group by artisttitle) as 'Total Artists' union all
+select '2019' as 'KNYEAR', count(artisttitle) from (select artisttitle from song where knyear <= 2019 and knjapan is not null group by artisttitle) as 'Total Artists' union all
+select '2020' as 'KNYEAR', count(artisttitle) from (select artisttitle from song where knyear <= 2020 and knjapan is not null group by artisttitle) as 'Total Artists'
