@@ -229,6 +229,10 @@
 			{
 				"image":"https://pbs.twimg.com/media/E5XR2e0VUAcc1Fw?format=jpg&name=small",
 				"id":"NagaeRika-KitouAkari"
+			},
+			{
+				"image":"https://pbs.twimg.com/media/E5ckTdGVkAQ3QTU?format=jpg&name=small",
+				"id":"UesakaSumire-ToyotaMoe"
 			}
 		]
 	},
@@ -730,6 +734,7 @@
 		"id":"AmamiyaSora",
 		"image":"https://knneo.webs.com/amamiyasora.jpg",
 		"landscapes":[
+			"https://www.lisani.jp/admin/wp-content/uploads/2021/07/2107041300-yh-005.jpg",
 			"https://pbs.twimg.com/media/E3XX-NUXEAcKv-c?format=jpg&name=small",
 			"https://pbs.twimg.com/media/E2ol7CRUcAEVaUd?format=jpg&name=small",
 			"https://pbs.twimg.com/media/E0YMrX8VoAIyxqg?format=jpg&name=small",
