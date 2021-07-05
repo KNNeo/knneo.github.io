@@ -92,6 +92,19 @@ body {
   /* transform: translate(2px,2px);  */
 /* } */
 
+.static-banner {
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  padding: 5px 10px;
+  color: white;
+  background: #A2C;
+  font-size: 22px;
+  border: 1px solid white;
+  /* box-shadow: 3px 3px; */
+  z-index: 2;
+}
+
 .darked .grid-item {
   border: 1px solid white;
 	

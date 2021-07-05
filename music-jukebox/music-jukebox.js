@@ -245,7 +245,9 @@ function generateGrid() {
 	let grid = document.createElement('div');
 	grid.classList.add('grid');
 	
-	for(let item of mosaicArray) {
+	let year = 0;
+	
+	for(let item of mosaicArray.sort(function(a,b){return a[3]-b[3]})) {
 		let imageUrl = item[0];
 		let appleMusicId = item[1];
 		let spotifyId = item[2];
@@ -254,11 +256,20 @@ function generateGrid() {
 		gridItem.id = darked ? appleMusicId : spotifyId;
 		gridItem.classList.add('grid-item');
 		
+		if(item[3] > 0 && year != item[3]) {
+			let overlay = document.createElement('div');
+			overlay.classList.add('static-banner');
+			overlay.innerText = item[3];
+			gridItem.appendChild(overlay);
+			year = item[3];
+		}
+		
 		let image = document.createElement('img');
 		image.src = imageUrl || 'https://knneo.github.io/resources/spacer.gif';
 		
 		gridItem.appendChild(image);
 		grid.appendChild(gridItem);
+		
 	}
 	return grid;
 }
