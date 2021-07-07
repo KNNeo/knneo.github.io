@@ -1,6 +1,7 @@
 //--VARIABLES--//
 let playerHeight = 400;
-let isDarkMode = document.getElementsByTagName('html')[0].classList.contains('darked');
+let isDarkMode = true;//document.getElementsByTagName('html')[0].classList.contains('darked');
+let enableDarkMode = false;
 
 window.onload = startup();
 window.addEventListener('resize', startup);
@@ -8,7 +9,15 @@ window.addEventListener('resize', startup);
 function startup() {
 	generateLayout();
 	generateMosaic();
-	if(document.getElementById('darkmode') != null) {
+	if(!enableDarkMode) {
+		if(isDarkMode) {
+			document.getElementsByTagName('html')[0].classList.add('darked');
+		}
+		else {
+			document.getElementsByTagName('html')[0].classList.remove('darked');
+		}
+	}
+	if(enableDarkMode && document.getElementById('darkmode') != null) {
 		document.getElementById('darkmode').addEventListener('click', toggleDarkMode);
 		document.getElementById('darkmode').addEventListener('click', startup);
 	}
@@ -82,12 +91,14 @@ function generateVerticalLayout() {
 	settings.id = 'settings';
 	settings.classList.add('settings');
 	
-	let darkmode = document.createElement('a');
-	darkmode.id = 'darkmode';
-	darkmode.classList.add('material-icons');
-	darkmode.href = 'javascript:void(0);';
-	darkmode.innerText = 'brightness_high';
-	settings.appendChild(darkmode);
+	if(enableDarkMode) {
+		let darkmode = document.createElement('a');
+		darkmode.id = 'darkmode';
+		darkmode.classList.add('material-icons');
+		darkmode.href = 'javascript:void(0);';
+		darkmode.innerText = 'brightness_high';
+		settings.appendChild(darkmode);
+	}
 
 	let back = document.createElement('a');
 	back.style.padding = '0 10px';
@@ -194,12 +205,14 @@ function generateHorizontalLayout() {
 	settings.id = 'settings';
 	settings.classList.add('settings');
 	
-	let darkmode = document.createElement('a');
-	darkmode.id = 'darkmode';
-	darkmode.classList.add('material-icons');
-	darkmode.href = 'javascript:void(0);';
-	darkmode.innerText = 'brightness_high';
-	settings.appendChild(darkmode);
+	if(enableDarkMode) {
+		let darkmode = document.createElement('a');
+		darkmode.id = 'darkmode';
+		darkmode.classList.add('material-icons');
+		darkmode.href = 'javascript:void(0);';
+		darkmode.innerText = 'brightness_high';
+		settings.appendChild(darkmode);		
+	}
 
 	let back = document.createElement('a');
 	back.style.padding = '0 10px';
@@ -241,7 +254,6 @@ function generateHorizontalLayout() {
 }
 
 function generateGrid() {
-	let darked = document.getElementsByTagName('html')[0].classList.contains('darked');
 	let grid = document.createElement('div');
 	grid.classList.add('grid');
 	
@@ -253,7 +265,7 @@ function generateGrid() {
 		let spotifyId = item[2];
 		
 		let gridItem = document.createElement('div');
-		gridItem.id = darked ? appleMusicId : spotifyId;
+		gridItem.id = isDarkMode ? appleMusicId : spotifyId;
 		gridItem.classList.add('grid-item');
 		
 		if(item[3] > 0 && year != item[3]) {
@@ -281,13 +293,12 @@ function generateMosaic() {
 		let images = mosaic.getElementsByTagName('img');
 		for(let image of images) {
 			image.addEventListener('click', function() {
-				let darked = document.getElementsByTagName('html')[0].classList.contains('darked');
 				for(let image of document.getElementById('mosaic').getElementsByTagName('img')) {
 					image.style.visibility = '';
 				}
 				this.style.visibility = 'hidden';
 				let releaseId = this.parentElement.id;
-				let url = (darked ? "https://music.apple.com/jp/album/" : "https://open.spotify.com/embed/album/") + releaseId;
+				let url = (isDarkMode ? "https://music.apple.com/jp/album/" : "https://open.spotify.com/embed/album/") + releaseId;
 				
 				let code = generatePlayerByURL(url);
 				document.getElementById('player').innerHTML = code;
