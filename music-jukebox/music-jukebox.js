@@ -266,6 +266,7 @@ function generateGrid() {
 		
 		let gridItem = document.createElement('div');
 		gridItem.id = isDarkMode ? appleMusicId : spotifyId;
+		if(gridItem.id == '') continue;
 		gridItem.classList.add('grid-item');
 		
 		if(item[3] > 0 && year != item[3]) {
