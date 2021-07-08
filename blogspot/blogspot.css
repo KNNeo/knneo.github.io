@@ -2,7 +2,7 @@ body {
 	display: block;
 	color: white;
 	background-color: black;
-	font-family: Open Sans;
+    font: normal normal 13px Open Sans;
 	padding: 0 10px;
 }
 
@@ -23,7 +23,7 @@ a {
 }
 
 #contents {
-	max-width: 800px;
+	max-width: 680px;
 	margin: auto;
 	font-size: 0.9em;
 	right: 0;
