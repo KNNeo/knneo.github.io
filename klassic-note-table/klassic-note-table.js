@@ -4,7 +4,7 @@ let activePreset = [];
 let presetAllArray = ["SongID", "KNID", "KNJAPAN", "KNJPOP", "KNYEAR", "Filename", "SongTitle", "ArtistTitle", "ParentArtist", "ReleaseTitle", "ReleaseArtistTitle", "ReleaseYear", "ReleaseDate", "Rating", "Genre", "DateCreated", "VocalCode", "LanguageCode", "InAppleMusic", "LyricsURL", "SongTitleAlt", "ArtistTitleAlt", "ReleaseTitleAlt", "ReleaseArtistTitleAlt", "ArtistCode", "Reference"];
 let preset1Array = ["KNID", "KNYEAR", "SongTitle", "ArtistTitle", "ReleaseTitle", "ReleaseArtistTitle"];
 let preset2Array = ["KNID", "KNYEAR", "SongTitleAlt", "ArtistTitleAlt", "ReleaseTitleAlt", "ReleaseArtistTitleAlt"];
-let preset3Array = ["KNID", "SongTitle", "ArtistTitle", "LyricsURL"];
+let preset3Array = ["KNID", "SongTitle", "ArtistTitle", "LyricsURL", "AddToTimeline"];
 let maxRows = isMobile() ? 100 : 500;
 let pageNo = 1;
 //columns on demand: query table based on row column generated
@@ -290,7 +290,9 @@ function nextPage() {
 }
 
 function toggleTimeline() {
+	let body = document.body;
 	let timeline = document.getElementById("timeline");
+	body.style.paddingLeft = timeline.style.display == 'none'? '200px' : '0';
 	timeline.style.display = timeline.style.display == 'none'? '' : 'none';
 	if(timeline.style.display != 'none') loadTimeline();
 }
@@ -400,8 +402,8 @@ function createTable(table) {
 								artistTitle: row[exColumn.timelineFooter2],
 								rmin: 5,
 								rmax: 5,
-								x: new Date(row[exColumn.sourceColumn].replace('.','-').replace('.','-')),
-								y: 0
+								y: new Date(row[exColumn.sourceColumn].replace('.','-').replace('.','-')),
+								x: 0
 							};
 							addData(data);
 						}
@@ -489,8 +491,8 @@ function createTable(table) {
 									artistTitle: row[exColumn.timelineFooter2],
 									rmin: 5,
 									rmax: 5,
-									x: new Date(row[exColumn.sourceColumn].replace('.','-').replace('.','-')),
-									y: 0
+									y: new Date(row[exColumn.sourceColumn].replace('.','-').replace('.','-')),
+									x: 0
 								};
 								// console.log(data);
 								addData(data);
@@ -591,7 +593,7 @@ function loadTimeline() {
 				borderColor: 'rgb(255, 255, 255)',
                 callbacks: {
                     label: function(context) {
-                        return context.raw.x.toDateString().substring(3);
+                        return context.raw.y.toDateString().substring(3);
                     },
                     footer: function(tooltipItems, data) {
 						// console.log(tooltipItems[0].raw.artistTitle, data);
@@ -602,22 +604,23 @@ function loadTimeline() {
 		  },
 		scales: {
 		  x: {
+			min: -2,
+			max: 1,     
+			ticks: {
+				display: false
+			}
+		  },
+		  y: {
 			// min: new Date('2007-12-01'),
 			// max: new Date('2021-12-31'),
 			ticks: {
 				callback: function(value, index, values) {
 					return new Date(value).toDateString().substring(3);
 				},
+				color: 'rgb(255, 255, 255)',
 			},
 			type: 'linear',
-			position: 'bottom'
-		  },
-		  y: {       
-			min: -2,
-			max: 1,     
-			ticks: {
-				display: false
-			}
+			position: 'left'
 		  }
 		}
 	  }
@@ -638,11 +641,16 @@ function addData(data) {
 	let chart = timelineChart;
     // chart.data.labels.push(label);
     chart.data.datasets.forEach((dataset) => {
-		if(dataset.data.filter(d => d.KNID == data.id).length == 0) // still hardcoded object key
-			dataset.data.push(data);
+		let sameDateVals = dataset.data.filter(d => d.y.valueOf() == data.y.valueOf()).length; // still hardcoded object key
+		if(sameDateVals > 0) {
+			data.x = data.x + sameDateVals * 0.1;
+			if(data.x > 1) return;
+		}
+		dataset.data.push(data);
+		
 		if(dataset.data.length > 20) {
-			chart.options.scales.x.min = new Date('2007-12-01');
-			chart.options.scales.x.max = new Date('2021-12-31');
+			chart.options.scales.y.min = new Date('2007-12-01');
+			chart.options.scales.y.max = new Date('2021-12-31');
 		}
     });
     chart.update();
