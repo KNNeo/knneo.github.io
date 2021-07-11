@@ -215,6 +215,7 @@ function resetTable() {
 	resetPresets();
 	resetFilters();
 	resetSearch();
+	resetTimeline();
 	loadTableFromCSV();
 }
 
@@ -294,7 +295,8 @@ function toggleTimeline() {
 	let timeline = document.getElementById("timeline");
 	body.style.paddingLeft = timeline.style.display == 'none'? '200px' : '0';
 	timeline.style.display = timeline.style.display == 'none'? '' : 'none';
-	if(timeline.style.display != 'none') loadTimeline();
+	let chart = document.getElementById("chart");
+	if(chart == null) loadTimeline();
 }
 
 //--P5 JS SPECIFIC FUNCTIONS--//
@@ -407,6 +409,7 @@ function createTable(table) {
 							};
 							addData(data);
 						}
+						timelineChart.update();
 						this.innerText = 'Add To Timeline';
 						this.parentElement.classList.add('all-added');
 					});
@@ -496,6 +499,7 @@ function createTable(table) {
 								};
 								// console.log(data);
 								addData(data);
+								timelineChart.update();
 								this.innerText = '';
 							}
 						}
@@ -542,7 +546,7 @@ function createTable(table) {
 	// console.log(Date.now() - start);
 	
 	//wipe chart
-	document.getElementById('timeline').innerHTML = '';	
+	//document.getElementById('timeline').innerHTML = '';	
 }
 
 //--P5.JS MAIN FUNCTION--//
@@ -566,8 +570,8 @@ function loadReferenceTable(table) {
 //--KLASSIC NOTE TIMELINE--//
 let timelineChart;
 function loadTimeline() {
-	let timeline = document.getElementById('chart');
-	if(timeline == undefined) {
+	let timeline = timelineChart;
+	if(document.getElementById('chart') == undefined) {
 		let canvas = document.createElement('canvas');
 		canvas.id = 'chart';
 		document.getElementById('timeline').appendChild(canvas);
@@ -604,8 +608,8 @@ function loadTimeline() {
 		  },
 		scales: {
 		  x: {
-			min: -2,
-			max: 1,     
+			min: -0.5,
+			max: 1.5,     
 			ticks: {
 				display: false
 			}
@@ -625,22 +629,24 @@ function loadTimeline() {
 		}
 	  }
 	};
-	// if(timelineChart == undefined)
-		timelineChart = new Chart(
-			timeline,
-			config
-		);
 	
-	//add events
+	timelineChart = new Chart(timeline, config);
+}
+
+function resetTimeline() {
+	let body = document.body;
+	let timeline = document.getElementById("timeline");
+	body.style.paddingLeft = '0';
+	timeline.style.display = 'none';
+	if(document.getElementById("chart") != null) timeline.innerHTML = '';
+	loadTimeline();
 }
 
 function addData(data) {
-	if(timelineChart == undefined || document.getElementById('timeline').style.display == 'none')
+	if(document.getElementById("timeline").style.display == 'none')
 		toggleTimeline();
 	
-	let chart = timelineChart;
-    // chart.data.labels.push(label);
-    chart.data.datasets.forEach((dataset) => {
+    timelineChart.data.datasets.forEach((dataset) => {
 		let sameDateVals = dataset.data.filter(d => d.y.valueOf() == data.y.valueOf()).length; // still hardcoded object key
 		if(sameDateVals > 0) {
 			data.x = data.x + sameDateVals * 0.1;
@@ -657,11 +663,11 @@ function addData(data) {
 			
 			if(min <= new Date('2008-01-01')) min = new Date('2007-12-01');
 			if(max >= new Date('2021-01-01')) max = new Date('2021-12-31');
-			chart.options.scales.y.min = min;
-			chart.options.scales.y.max = max;
+			timelineChart.options.scales.y.min = min;
+			timelineChart.options.scales.y.max = max;
 		}
     });
-    chart.update();
+	//update chart based on calling function
 } 
 
 //TODO:
