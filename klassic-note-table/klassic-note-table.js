@@ -649,8 +649,16 @@ function addData(data) {
 		dataset.data.push(data);
 		
 		if(dataset.data.length > 20) {
-			chart.options.scales.y.min = new Date('2007-12-01');
-			chart.options.scales.y.max = new Date('2021-12-31');
+			let set = Array.from(dataset.data.filter(d => d.y != 'Invalid Date')).map(d => d.y);
+			let min = new Date(Math.min(...set));
+			let max = new Date(Math.max(...set));
+			// console.log(data);
+			// console.log(min,max);
+			
+			if(min <= new Date('2008-01-01')) min = new Date('2007-12-01');
+			if(max >= new Date('2021-01-01')) max = new Date('2021-12-31');
+			chart.options.scales.y.min = min;
+			chart.options.scales.y.max = max;
 		}
     });
     chart.update();
