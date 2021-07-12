@@ -1,7 +1,9 @@
 /*Variables*/
 :root {
   --primary: #00e4ff;
+  --secondary: #00b8cc;
 }
+
 
 /*Klassic Note: Website Additions*/
 #hashtags {
@@ -139,6 +141,10 @@
 body {
   display: none;
   background-color: #444444;
+}
+
+a {
+  color: var(--primary);
 }
 
 a img,
@@ -295,7 +301,7 @@ a:hover {
 }
 
 .head-prefix {
-	background-color: #00b8cc;
+	background-color: var(--secondary);
 	border-radius: 5px;
 	padding: 3px 5px;
 	text-align: center;
