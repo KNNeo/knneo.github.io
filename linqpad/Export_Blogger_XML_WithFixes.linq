@@ -30,6 +30,7 @@
  * []	any link not referenced within blog to open on new tab
  * [ok]	remove add href to hashtags script
  * []	remove wallpaper images cache linked from facebook
+ * []	fix primary and secondary colours to variables
  */
  
 public class MatchItem
@@ -422,6 +423,16 @@ void Main()
 		//	match = match.NextMatch();
 		//};
 		//if(match.Success) count++;
+		#endregion
+		
+		#region fix primary and secondary colours to variables
+		var primaryColour = "#00e4ff";
+		var headerPrefixColour = "#00b8cc";
+		var headerPrefixColourRgb = "rgb(0, 184, 204)";
+		if(content.Contains(primaryColour) || content.Contains(headerPrefixColour) ||content.Contains(headerPrefixColourRgb)) count++;
+		content = content.Replace(primaryColour, "var(--primary)");
+		content = content.Replace(headerPrefixColour, "var(--secondary)");
+		content = content.Replace(headerPrefixColourRgb, "var(--secondary)");
 		#endregion
 		
 		
