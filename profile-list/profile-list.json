@@ -233,6 +233,10 @@
 			{
 				"image":"https://pbs.twimg.com/media/E5ckTdGVkAQ3QTU?format=jpg&name=small",
 				"id":"UesakaSumire-ToyotaMoe"
+			},
+			{
+				"image":"https://img2.animatetimes.com/2021/07/60efbefbe6edf_8b4dcf47adf93e2fd65a0da49d4eb16a.jpg",
+				"id":"Lynn-WakiAzumi"
 			}
 		]
 	},
@@ -245,6 +249,7 @@
 			"https://pbs.twimg.com/media/Eo2zXyyVgAAed6a?format=jpg&name=small"
 		],
 		"portraits":[
+			"https://obs.line-scdn.net/0hAL0FsB3LHmMNPwjrxXFhNEViGAx0XARrZ0cJWXhpFE14UwljZUUCVXtvFxd8VwNlLRErAVBrACchTxs8VlkaV2NlPVtheCBLRgUlcCt8HSxEE1kyMl5TBi88SFUgBwtgOFBSDW0-FFBzWws0OQ/small",
 			"https://obs.line-scdn.net/0hRrm3ymDjDV1QShtaWtZyChgXCzIpKRdVOjIaZyUcB3MlJhpdODARayYaBCkhIhBbcE4JWA8ODmkGHDpqZXQSYh4fIwQmczENCVASMhVNGxkeZkoMbCtKOnJKWmt9chhYbC1AOTBLBmUveR5YPw/small",
 			"https://obs.line-scdn.net/0hVo0eQ9-zCUANHB8pcJh2F0VBDy90fxNIZ2QeenhKA254cB5AZWYVdntMADR8dBRGLT9ER1V6FglhSghBSzMFRXJeL3liKDZ3WR1HfH1-HidVME4RMXpCIiAcVHIgJBxBMX5GIm0dAnVwJEhEMw/small",
 			"https://wpb.shueisha.co.jp/news/entertainment/2020/images/814ca7af931ed7d89b20509a405ef8b03c95371b.jpg",
@@ -734,6 +739,7 @@
 		"id":"AmamiyaSora",
 		"image":"https://knneo.webs.com/amamiyasora.jpg",
 		"landscapes":[
+			"https://bizspa.jp/wp-content/uploads/2021/07/IMG_4851.jpg",
 			"https://www.lisani.jp/admin/wp-content/uploads/2021/07/2107041300-yh-005.jpg",
 			"https://pbs.twimg.com/media/E3XX-NUXEAcKv-c?format=jpg&name=small",
 			"https://pbs.twimg.com/media/E2ol7CRUcAEVaUd?format=jpg&name=small",
@@ -865,6 +871,7 @@
 		"id":"KounoMarika",
 		"image":"https://knneo.webs.com/kounomarika.jpg",
 		"landscapes":[
+			"https://pbs.twimg.com/media/E6Ty9guVkAATUTG?format=jpg&name=small",
 			"https://hominis.media/2021/06/images/00_kohno072.jpg",
 			"https://hominis.media/2021/06/images/00_kohno071.jpg",
 			"https://pbs.twimg.com/media/E2x6PsCVgAE-vvt?format=jpg&name=small",
@@ -1434,6 +1441,7 @@
 		"id":"Lynn",
 		"image":"https://knneo.webs.com/lynn.jpg",
 		"landscapes":[
+			"https://img2.animatetimes.com/2021/07/60efbeff3f28f_db258406bd2bc2eba4bf44e11d71eedb.jpg",
 			"https://pbs.twimg.com/media/E4AiicSUUAoNOqr?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EtIk1cqU4AA9yBQ?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EpNqdwHVQAgvvOz?format=jpg&name=small",
@@ -1710,11 +1718,13 @@
 		"id":"WakiAzumi",
 		"image":"https://knneo.webs.com/wakiazumi.jpg",
 		"landscapes":[
+			"https://img2.animatetimes.com/2021/07/60e82c50cb1c8_0435d909deb8d920dbda2827f87c8062.jpg",
 			"https://pbs.twimg.com/media/ExXPPPbU8AAW0A-?format=jpg&name=small",
 			"https://img2.animatetimes.com/2021/02/6026393177ade_9bd922f0f2bc78e4c1871789035a5fae.jpg",
 			"https://pbs.twimg.com/media/Edf6cXOUYAEwpNm?format=jpg&name=small"
 		],
 		"portraits":[
+			"https://pbs.twimg.com/media/E6Q3qQsVoAgxO3q?format=jpg&name=small",
 			"https://pbs.twimg.com/media/E4Avc8aVcAE_WYQ?format=jpg&name=small",
 			"https://images.animageplus.jp/articles/36000/36425/wysiwyg/e595c9b8387e8e6585af6963aaa81be4.jpg",
 			"https://pbs.twimg.com/media/ExjzOoiUUAoAQHx?format=jpg&name=small",
