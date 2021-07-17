@@ -21,7 +21,6 @@ body {
 #contents {
 	max-width: 680px;
 	margin: auto;
-	font-size: 1em;
 	right: 0;
 	left: 0;
 	margin: auto;
@@ -80,7 +79,7 @@ table.tr-caption-container {
 }
 
 .tr-caption {
-	font-size: 0.85em;
+	font-size: 80%;
 }
 
 
