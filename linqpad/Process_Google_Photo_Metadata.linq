@@ -47,8 +47,8 @@ void Main()
 				foreach(var person in jsonObj.people)
 				{
 					nameList.Add(person.name);
-					peopleList.Add(jsonObj.description);
-					if(person.name.Trim() != jsonObj.description.Trim()) {
+					peopleList.Add(person.name);
+					if(!jsonObj.description.Trim().Contains(person.name.Trim())) {
 						namePeopleList.Add(person.name + " | " + jsonObj.description + " | " + ParseGooglePhotosDateTime(jsonObj.photoTakenTime.formatted));
 					}
 				}
@@ -86,22 +86,20 @@ void Main()
 	}
 	
 	//views
-	//Console.WriteLine(names.OrderBy(n => n.name));
-	Console.WriteLine("Items, ordered by tag name count");
-	Console.WriteLine(people.OrderByDescending(n => n.Count));
+	Console.WriteLine("Items, description different from tag");
+	var exceptionList = new string[]{"TrySail", "sphere"};
+	Console.WriteLine(namePeopleList);
 	
-	Console.WriteLine("Items without tags and/or items without face identified");
+	Console.WriteLine("Items, ordered by tag name count");
+	Console.WriteLine(people.OrderByDescending(n => n.Count).ToList());
+	
+	Console.WriteLine("Items without face identified");
 	Console.WriteLine(jsonList.Where(n => n.people == null && n.photoTakenTime != null).OrderByDescending(n => n.photoTakenTime.timestamp).Select(n =>
 		new {
 			Description = n.description,
 			Time = ParseGooglePhotosDateTime(n.photoTakenTime.formatted)
 		}
-	));
-	
-	Console.WriteLine("Items, description different from tag");
-	var exceptionList = new string[]{"TrySail", "sphere"};
-	Console.WriteLine(namePeopleList);
-	//Console.WriteLine(jsonList.Where(n => n.description == "Anzai Chika" || (n.people != null && n.people.Any(p => p.name == "Anzai Chika"))));
+	).ToList());
 }
 
 string ParseGooglePhotosDateTime(string input) {
