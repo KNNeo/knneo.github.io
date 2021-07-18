@@ -17,7 +17,7 @@ if(profileListJson.length == 0) {
 			});
 			//code here
 			//if(profileList != null && generateProfileListFromJSON(profileList)) renderProfileBox();
-			if(profileList != null) initialiseWantedList();
+			if(profileList != null) renderWantedList();
 			
 		}
 	};
@@ -32,7 +32,7 @@ else {
 	friendList = profileListJson.filter( function(n) {
 		return n.category == 'friendList';
 	});
-	initialiseWantedList();
+	renderWantedList();
 }
 
 function friendCheck() {
