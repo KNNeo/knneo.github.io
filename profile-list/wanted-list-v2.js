@@ -16,7 +16,8 @@ function setThumbnails() {
 		//document.getElementById('isMarried').style.visibility = 'hidden';
     }
 }
-let closestClass = function(inputElement, targetClassName) {
+
+function closestClass(inputElement, targetClassName) {
     while (inputElement.className != targetClassName) {
         inputElement = inputElement.parentNode;
     }
