@@ -63,6 +63,7 @@ let currentMonth = 0;
 let statusPopup = "<div id=\"tp-description\">As answered haphazardly by Uesaka Sumire (and expanded on by me) the three \"turning points\" of a voice actress (but applicable to all):<br/>~ Singer Debut (The exhibition of their unique voices in singing)<br/>~ Swimsuit Photobook (The display of their figure to the extent of being half-naked)<br/>~ Married (The declaration of the end of idolism?)</div>";
 let timezone = "Asia/Tokyo";
 let month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+let DateTime = luxon.DateTime;
 
 //--dependent on render, as functions to call on render--//
 function renderWantedList() {
@@ -72,7 +73,7 @@ function renderWantedList() {
 	timelineDOBlist = createDOBlist(1, 35);
 	loadTimeline(5000);
 	calendarDOBlist = createDOBlist(0, 50);
-	currentMonth = createCalendar(new Date().getMonth(), calendarDOBlist);
+	currentMonth = createCalendar(DateTime.fromISO(DateTime.now(), {zone: timezone}).month-1, calendarDOBlist);
 	addProfileBoxClick();
 	addProfileBoxDoubleClick();
 	addProfileBoxImgOnError();
@@ -94,8 +95,8 @@ function initialiseTime() {
 }
 
 function updateTime() {
-	let offsetMinutes = moment().utcOffset() - moment.tz(timezone).utcOffset();
-	document.getElementById('time').innerText = moment().subtract(offsetMinutes, 'minutes').format("yyyy.MM.DD HH:mm:ss");
+	var now = DateTime.local().setZone(timezone);
+	document.getElementById('time').innerText = now.toFormat("yyyy.MM.dd HH:mm:ss");
 	setTimeout(updateTime, 1000);
 }
 
@@ -110,11 +111,19 @@ function addAgeAfterDOB() {
 
 function getAge(DOB) {
 	let birthDateStr = DOB.replace(".", "-").replace(".", "-"); //yyyy.MM.dd -> yyyy-MM-dd
-	let birthDate = birthDateStr.substring(0, 10);
-	let offsetMinutes = moment().utcOffset() - moment.tz(timezone).utcOffset();
-	let diff = moment().diff(moment(birthDate));
-	return moment.duration(diff).subtract(offsetMinutes, 'minutes').years();
+	let birthDate = DateTime.fromISO(birthDateStr.substring(0, 10), {zone: timezone}); // birthDateStr.substring(0, 10);
+	let today = DateTime.fromISO(DateTime.now(), {zone: timezone});
+	// console.log(today.diff(birthDate, ['years','months','days','hours','minutes','seconds']));
+	return today.diff(birthDate, 'years').years;
 }
+
+function checkBirthdayPassed(DOB) {
+	let birthDateStr = DOB.replace(".", "-").replace(".", "-"); //yyyy.MM.dd -> yyyy-MM-dd
+	let birthDate = DateTime.fromISO(birthDateStr.substring(0, 10), {zone: timezone}); 
+	let today = DateTime.fromISO(DateTime.now(), {zone: timezone});
+	return today.diff(birthDate, 'days').days >= 0;
+}
+
 //generate wanted list
 function generateWantedList(excludeMarried) {
 	let wantedListString = "";
@@ -219,15 +228,15 @@ function createCalendar(monthNo, DOBlist) {
 	}
 	htmlString += "</tbody></table>";
 	for (let item of DOBlist) {
+		//calculate if birthday this year has passed
 		let currentYear = '2021';
 		let birthdayInYear = new Date(new Date().getFullYear(), new Date(item.date.replace('????', currentYear)).getMonth(), new Date(item.date.replace('????', currentYear)).getDate());
-		//let IsBirthdayOver = (new Date() - birthdayInYear) > 0;
 		
 		let DOB = currentYear + item.date.substring(4);
-		let offsetMinutes = moment().utcOffset() - moment.tz(timezone).utcOffset();
-		let difference = moment().diff(moment(DOB));
-		let timeDiff = moment.duration(difference).subtract(offsetMinutes, 'minutes');
-		let IsBirthdayOver = timeDiff.days() >= 0 && timeDiff.hours() >= 0 && timeDiff.minutes() >= 0 && timeDiff.seconds() >= 0 && timeDiff.milliseconds() >= 0;
+		// let offsetMinutes = moment().utcOffset() - moment.tz(timezone).utcOffset();
+		// let difference = moment().diff(moment(DOB));
+		// let timeDiff = moment.duration(difference).subtract(offsetMinutes, 'minutes');
+		let IsBirthdayOver = checkBirthdayPassed(DOB);
 		// console.log(item.name, timeDiff.days(), timeDiff.hours(), timeDiff.minutes(), timeDiff.seconds(), timeDiff.milliseconds());
 		
 		let thisAge;
