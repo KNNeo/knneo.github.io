@@ -148,7 +148,7 @@ let month = ["January", "February", "March", "April", "May", "June", "July", "Au
 let DateTime = luxon.DateTime;
 
 //--dependent on render, as functions to call on render--//
-function initialiseWantedList() {
+function renderWantedList() {
 	//toggleInitialThumbnailLayout();
 	generateWantedList();
 	timelineDOBlist = createDOBlist(profileList, 1, 35);
