@@ -27,6 +27,8 @@ window.onpageshow = function() {
 // FUNCTIONS, in above order //
 // Add custom scripts to only add this script on layout
 function loadExternal() {
+	if(window.location.href.includes('knneo.github.io')) return;
+	
 	let viewport = document.createElement('meta');
 	viewport.setAttribute('name','viewport');
 	viewport.setAttribute('content','width=device-width,initial-scale=1.0');

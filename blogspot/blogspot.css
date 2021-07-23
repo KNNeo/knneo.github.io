@@ -18,12 +18,15 @@ body {
   }
 }
 
+#blog-archive-list {
+	padding-bottom: 20px;
+}
+
 #contents {
 	max-width: 680px;
 	margin: auto;
 	right: 0;
 	left: 0;
-	margin: auto;
 }
 
 #tags a {
@@ -87,9 +90,9 @@ table.tr-caption-container {
 	text-transform: uppercase;
 }
 
-/* .material-icons {
+.material-icons {
 	font-size: 36px;
-} */
+}
 
 /*Custom viewer*/
 #viewer {
