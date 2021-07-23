@@ -474,10 +474,10 @@ void Main()
 			output.WriteLine("<meta name=\"theme-color\" content=\"black\">");
 			output.WriteLine("<meta name=\"apple-mobile-web-app-capable\" content=\"yes\">");
 			output.WriteLine("<meta name=\"mobile-web-app-capable\" content=\"yes\">");
-			output.WriteLine("<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../blog.css\" />");
-			output.WriteLine("<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../blogspot.css\" />");
 		    output.WriteLine("<link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet' />");
 			output.WriteLine("<link href=\"https://fonts.googleapis.com/icon?family=Material+Icons\" rel=\"stylesheet\" />");
+			output.WriteLine("<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../blog.css\" />");
+			output.WriteLine("<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../blogspot.css\" />");
 			output.WriteLine("<link rel=\"icon\" href=\"../../../storytime.ico\" />");
 			output.WriteLine("<title>" + title + "</title>");
 			output.WriteLine("<body class=\"post-body entry-content\">");
@@ -525,7 +525,7 @@ void Main()
 	}
 	
 	string fileString = File.ReadAllText(blogpath + "\\blog_template.html");
-	fileString = fileString.Replace("<div id=\"blog-archive-list\" style=\"font-size: 0.8em; padding-bottom: 20px;\"></div>", ("<div id=\"blog-archive-list\" style=\"font-size: 0.8em; padding-bottom: 20px;\">" + textString + "</div>"));
+	fileString = fileString.Replace("<div id=\"blog-archive-list\"></div>", ("<div id=\"blog-archive-list\">" + textString + "</div>"));
 	File.WriteAllText(blogpath + "\\blog.html", fileString);
 	
 }
