@@ -481,6 +481,17 @@ imgArray = [
 [481,'{domain}/CCI_000012_2.jpg','portrait','Tachibana Rika',''],
 [482,'{domain}/CCI_000012_3.jpg','portrait','Tachibana Rika',''],
 [483,'{domain}/CCI_000012_4.jpg','portrait','Tachibana Rika','CD "Returner Butterfly" Toranoana Bonus'],
+[484,'{domain}/CCI_000013_1.jpg','portrait','Waki Azumi','Event "Waki Azumi 1st LIVE -Chou Kakumeiteki Koisuru Ongakukai-" Photo Set'],
+[485,'{domain}/CCI_000013_2.jpg','portrait','Waki Azumi','Event "Waki Azumi 1st LIVE -Chou Kakumeiteki Koisuru Ongakukai-" Photo Set'],
+[486,'{domain}/CCI_000013_3.jpg','portrait','Waki Azumi','Event "Waki Azumi 1st LIVE -Chou Kakumeiteki Koisuru Ongakukai-" Photo Set'],
+[487,'{domain}/CCI_000014_1.jpg','portrait','Waki Azumi','Event "Waki Azumi 1st LIVE -Chou Kakumeiteki Koisuru Ongakukai-" Photo Set'],
+[488,'{domain}/CCI_000014_2.jpg','portrait','Waki Azumi','Event "Waki Azumi 1st LIVE -Chou Kakumeiteki Koisuru Ongakukai-" Photo Set'],
+[489,'{domain}/CCI_000014_3.jpg','portrait','Waki Azumi','Event "Waki Azumi 1st LIVE -Chou Kakumeiteki Koisuru Ongakukai-" Photo Set'],
+[490,'{domain}/CCI_000015_1.jpg','landscape','Toyosaki Aki','Event "AKI TOYOSAKI CONCERT 2021 Camel Back Hall" Postcard Set'],
+[491,'{domain}/CCI_000015_2.jpg','portrait','Toyosaki Aki','Event "AKI TOYOSAKI CONCERT 2021 Camel Back Hall" Postcard Set'],
+[492,'{domain}/CCI_000017_1.jpg','portrait','Toyosaki Aki','Event "AKI TOYOSAKI CONCERT 2021 Camel Back Hall" Postcard Set'],
+[493,'{domain}/CCI_000017_2.jpg','portrait','Toyosaki Aki','Event "AKI TOYOSAKI CONCERT 2021 Camel Back Hall" Postcard Set'],
+[494,'{domain}/CCI_000018_1.jpg','landscape','Toyosaki Aki','Event "AKI TOYOSAKI CONCERT 2021 Camel Back Hall" Postcard Set'],
 
 
 
