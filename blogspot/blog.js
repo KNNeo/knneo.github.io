@@ -27,7 +27,6 @@ window.onpageshow = function() {
 // FUNCTIONS, in above order //
 // Add custom scripts to only add this script on layout
 function loadExternal() {
-	if(window.location.href.includes('knneo.github.io')) return;
 	
 	let viewport = document.createElement('meta');
 	viewport.setAttribute('name','viewport');
@@ -60,6 +59,21 @@ function loadExternal() {
 	// iconCss.type = 'text/css';
 	iconCss.rel = 'stylesheet'
 	document.head.appendChild(iconCss);
+	
+	if(window.location.href.includes('knneo.github.io'))
+	{
+		let blogCss = document.createElement('link');
+		blogCss.href = '../../../blog.css';
+		// blogCss.type = 'text/css';
+		blogCss.rel = 'stylesheet'
+		document.head.appendChild(blogCss);
+		
+		let blogspotCss = document.createElement('link');
+		blogspotCss.href = '../../../blogspot.css';
+		// blogspotCss.type = 'text/css';
+		blogspotCss.rel = 'stylesheet'
+		document.head.appendChild(blogspotCss);
+	}
 	
 	let twScript = document.createElement('script');
 	twScript.src = 'https://platform.twitter.com/widgets.js';
