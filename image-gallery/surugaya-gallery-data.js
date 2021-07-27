@@ -99,6 +99,49 @@ for(let item of document.getElementsByClassName('table-active')) {
 console.log(dict.sort((a,b) => b.count - a.count));
 */
 
+//get data response to image array
+//json deserialisation based on profile-list
+runSlideshow = new XMLHttpRequest();
+runSlideshow.onreadystatechange = function() {
+	if (this.readyState == 4 && this.status == 200) {
+		preProcessData(this.responseText);		s
+	}
+};
+runSlideshow.open("GET", "https://www.suruga-ya.jp/search?category=501080317&search_word=%E6%9C%A8%E6%88%B8%E8%A1%A3%E5%90%B9|%E5%AF%BF%E7%BE%8E%E8%8F%9C%E5%AD%90|%E9%AB%98%E9%87%8E%E9%BA%BB%E9%87%8C%E4%BD%B3|%E6%82%A0%E6%9C%A8%E7%A2%A7|%E6%88%B8%E6%9D%BE%E9%81%A5|%E5%A4%8F%E5%B7%9D%E6%A4%8E%E8%8F%9C|%E5%A4%A7%E4%B9%85%E4%BF%9D%E7%91%A0%E7%BE%8E|%E7%AB%8B%E8%8A%B1%E7%90%86%E9%A6%99|%E5%8F%A4%E8%B3%80%E8%91%B5|%E6%9D%B1%E5%B1%B1%E5%A5%88%E5%A4%AE|%E4%BD%90%E8%97%A4%E8%81%A1%E7%BE%8E|%E5%A0%80%E6%B1%9F%E7%94%B1%E8%A1%A3|%E5%92%8C%E6%B0%A3%E3%81%82%E3%81%9A%E6%9C%AA|%E6%B8%95%E4%B8%8A%E8%88%9E|%E6%9C%AC%E6%B8%A1%E6%A5%93|%E6%B2%BC%E5%80%89%E6%84%9B%E7%BE%8E|%E9%AB%98%E6%A9%8B%E6%9D%8E%E4%BE%9D|%E5%AF%8C%E7%94%B0%E7%BE%8E%E6%86%82|%E8%8C%85%E9%87%8E%E6%84%9B%E8%A1%A3&adult_s=1&rankBy=release_date(int):descending", false);
+// runSlideshow.send();
+// runSlideshow = null;
+
+//array containing all gallery info, tags delimiter "|"
+function preProcessData(responseText) {
+	
+	//response html to accessible data
+	if(document.getElementById('response') != null) document.getElementById('response').remove();
+	let response = document.createElement('div');
+	response.style.display = 'none';
+	response.innerHTML = responseText;
+	document.body.appendChild(response);
+	console.log(response);
+	
+	imgArray = [
+		[0,'FILENAME','ORIENTATION','TAG','DETAIL','DATE'],
+		[1,'https://cdn.suruga-ya.jp/database/pics_light/game/gg851815.jpg' ,'portrait','上坂すみれ','雑誌「声優アニメディア 2021年6月号」HMV特典ブロマイド','2021/05/10']
+	];
+	
+	//processing to fit image-gallery
+	// for(let profile of profiles)
+	// {
+		// if(profile.landscapes == undefined) profile.landscapes = [];
+		// if(profile.portraits == undefined) profile.portraits = [];
+		// let allImages = profile.landscapes.concat(profile.portraits).concat(profile.image);
+		// for(let image of allImages)
+		// {
+			// if(image.includes('knneo.webs.com')) continue;
+			// if(image.endsWith('small') && windowWidth >= 1024) image = image.replace('small','large');
+			// let profileNames = [profile.name];
+			// imgArray.push([1, image, 'portrait', profileNames.join("|"), '']);
+		// }
+	// }
+}
 //array containing all gallery info, tags delimiter "|"
 imgArray = [
 [0,'FILENAME','ORIENTATION','TAG','DETAIL','DATE'],
