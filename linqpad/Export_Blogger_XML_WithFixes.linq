@@ -541,7 +541,7 @@ void Main()
                 textString += thumbnailUrl == "" ? "<div"+classes+"><span>"+published.ToString("yyyy.MM.dd")+" </span><a href=\""+pageLink+"\">"+title+"</a></div>\n" : thumbnailDiv;
 			}
             else
-                textString += "<div"+classes+"><span>"+published.ToString("yyyy.MM.dd")+" </span><a href=\""+pageLink+"\">A Random Statement</a></div>\n";				
+                textString += "<div"+classes.Replace("Post ","Post TheStatement")+"><span>"+published.ToString("yyyy.MM.dd")+" </span><a href=\""+pageLink+"\">A Random Statement</a></div>\n";				
         }
         else
             textString += "<div"+classes+"><span>"+published.ToString("yyyy.MM.dd")+" </span>"+title+"</div>\n";
