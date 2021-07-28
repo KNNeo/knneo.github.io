@@ -33,41 +33,5 @@
 <a id='BackBtn' onclick='goBack()' title='Go Back'><i class='material-icons'>arrow_back</i></a>
 <div id="blog-archive-list"></div>
 </body>
-<script>
-window.onpageshow = filterByTag();
-function filterByTag(sourceFilter) {
-	let tag = sourceFilter || window.location.hash.replace('#','');
-	let isAll = tag == "All" || tag == "";
-	window.location.hash = !isAll ? '#' + tag : "";
-	let blogList = document.getElementById("blog-archive-list");
-	let posts = blogList.getElementsByClassName("Post");
-	let count = 0;
-	for(let post of posts)
-	{
-		if(post.classList.length == 0 && !isAll)
-		{
-			//post.style.visibility = 'hidden';
-			post.style.display = 'none';
-			post.style.height = 0;
-		}
-		else if(!post.classList.contains(tag) && !isAll)
-		{
-			//post.style.visibility = 'hidden';
-			post.style.display = 'none';
-			post.style.height = 0;
-		}
-		else
-		{
-			//post.style.visibility = '';
-			post.style.display = '';
-			post.style.height = '';
-			count++;
-		}
-	}
-	document.getElementsByClassName("Count")[0].innerText = count + " published posts " + (tag == "TheStatement" ? "hidden" : "found");
-}
-function goBack() {
-	window.location.href = '../index.html';
-}
-</script>
+<script src="blogspot.js" type="application/javascript" charset="utf-8"></script>
 </html>
