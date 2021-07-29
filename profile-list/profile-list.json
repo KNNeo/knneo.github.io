@@ -241,6 +241,10 @@
 			{
 				"image":"https://pbs.twimg.com/media/E6bFs3PVIAIheSN?format=jpg&name=small",
 				"id":"HondoKaede-OonishiSaori"
+			},
+			{
+				"image":"https://pbs.twimg.com/media/E7dae2jVEAgm58s?format=jpg&name=small",
+				"id":"AmamiyaSora-HondoKaede"
 			}
 		]
 	},
@@ -1105,6 +1109,7 @@
 			"https://img2.animatetimes.com/2021/01/5ff556032a041_a51e58816f20370ec75a265452cc3935.jpg"
 		],
 		"portraits":[
+			"https://img2.animatetimes.com/2021/07/60f7e2e41d557_b3726841d031ff3d3c7781b4555bd0e5.jpg",
 			"https://pbs.twimg.com/media/E2O4bbrVoAABy7l?format=jpg&name=small",
 			"https://obs.line-scdn.net/0hW5xypCgmCBpFAB76m3J3TQpdDnU8YxISL3gfIDBWAjQwbB8aLXoCIihQCno3YBFQfjYFDzNAN1ctRjoZIzgcFzlDDEMbYj0ZKyIgJmFeC2J0MEhMcWJHeWAFXipgYkdMfmRAOWFVBCg_YE9I/small",
 			"https://pbs.twimg.com/media/EwMeovAVkAkM5fF?format=jpg&name=small",
@@ -1187,8 +1192,11 @@
 		"category":"seiyuu3",
 		"id":"AnzaiChika",
 		"image":"https://knneo.webs.com/anzaichika.jpg",
-		"landscapes":[],
+		"landscapes":[
+			"https://febri.jp/wp/wp-content/uploads/2021/07/SHO_6646-1-e1625739727485.jpg"
+		],
 		"portraits":[
+			"https://febri.jp/wp/wp-content/uploads/2021/07/SHO_6603-1-e1625809956535.jpg",
 			"https://pbs.twimg.com/media/EGBPPSTU0AEOK49?format=jpg&name=small"
 		],
 		"name":"Anzai Chika",
@@ -1732,6 +1740,7 @@
 		"id":"WakiAzumi",
 		"image":"https://knneo.webs.com/wakiazumi.jpg",
 		"landscapes":[
+			"https://thetv.jp/i/nw/1044029/10409606.jpg",
 			"https://img2.animatetimes.com/2021/07/60e82c50cb1c8_0435d909deb8d920dbda2827f87c8062.jpg",
 			"https://pbs.twimg.com/media/ExXPPPbU8AAW0A-?format=jpg&name=small",
 			"https://img2.animatetimes.com/2021/02/6026393177ade_9bd922f0f2bc78e4c1871789035a5fae.jpg",
