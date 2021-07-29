@@ -22,6 +22,7 @@ window.onpageshow = function() {
 	// Window events
 	window.onscroll = displayFAB;
 	window.onresize = windowOnResize;
+	setTimeout(scrollToSectionByUrl, 1);
 };
 
 // FUNCTIONS, in above order //
@@ -815,6 +816,13 @@ function addHashtags() {
 			});
 		hashTag.appendChild(newItem);
 	}
+}
+
+function scrollToSectionByUrl() {
+	let hash = window.location.hash;
+	let target = document.querySelector(hash);
+	if(target != null)
+		target.scrollIntoView();
 }
 
 // Floating action button events
