@@ -820,7 +820,7 @@ function addHashtags() {
 
 function scrollToSectionByUrl() {
 	let hash = window.location.hash;
-	let target = document.querySelector(hash);
+	let target = hash.length > 0 ? document.querySelector(hash) : null;
 	if(target != null)
 		target.scrollIntoView();
 }
