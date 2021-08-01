@@ -99,6 +99,7 @@ table.tr-caption-container {
 }
 
 .tr-caption {
+	max-width: 680px;
 	font-size: 80%;
 }
 
