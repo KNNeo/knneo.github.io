@@ -294,9 +294,9 @@ function setThumbnails() {
             allThumbnails[i].style.height = initialHeight + 'px'; */
 		
 		let [min, max] = calcMinMaxThumbHeight(allThumbnails[i]);
-		if(!min)
-			allThumbnails[i].style.height = allThumbnails[i].getElementsByClassName("thumbnail-initial")[0].offsetHeight + 'px';
 		if(min && max)
+			allThumbnails[i].style.height = allThumbnails[i].getElementsByClassName("thumbnail-initial")[0].offsetHeight + 'px';
+		if(!min)
 			allThumbnails[i].style.height = max + 'px';
         let allThumbImages = allThumbnails[i].getElementsByTagName("img");
         let allThumbVideos = allThumbnails[i].getElementsByTagName("video");
