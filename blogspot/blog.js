@@ -295,7 +295,7 @@ function setThumbnails() {
 		
 		let [, maxHeight] = calcMinMaxThumbHeight(allThumbnails[i]);
 		if(maxHeight)
-			allThumbnails[i].style.height = maxHeight + 'px';
+			allThumbnails[i].style.height = maxHeight + 'px';	
         let allThumbImages = allThumbnails[i].getElementsByTagName("img");
         let allThumbVideos = allThumbnails[i].getElementsByTagName("video");
         for (j = 0; j < allThumbImages.length; j++) {
@@ -371,7 +371,7 @@ function switchThumbnails(tn) {
         tn.style.height = (initialVisible ? initialHeight : popHeight) + 'px';*/
 	// if(maxHeight - minHeight > 50)
 	let [min, max] = calcMinMaxThumbHeight(tn);
-	if(min)
+	if(min && max)
 		tn.style.height = nextActive.offsetHeight + 'px';
     return;
 }
@@ -387,8 +387,10 @@ function calcMinMaxThumbHeight(thumbnailClass) {
 	let minHeight = Math.min(...heights);
 	let maxHeight = Math.max(...heights);
 	if(maxHeight - minHeight <= 50)
-		return [null, tc[0].offsetHeight];
-	return [minHeight, maxHeight] || [tc[0].offsetHeight, tc[0].offsetHeight];
+		return [null, maxHeight];
+	if(minHeight && maxHeight)
+		return [minHeight, maxHeight];
+	return [null, null];
 }
 
 // Responsive image resizing based on screen dimensions
