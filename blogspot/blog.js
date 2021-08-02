@@ -962,6 +962,7 @@ function windowOnResize() {
 };
 
 function fixExternalFrame(thumbnail) {
+	if(window.location.href.includes("knneo.github.io")) return;
 	//fix iframes in thumbnails that don't fit content width
 	if(thumbnail.getElementsByTagName('iframe').length > 0) {
 		let thumbnailTable = closestTag(thumbnail, 'TABLE');
