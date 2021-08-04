@@ -6,7 +6,7 @@ window.onpageshow = function() {
     preloadSequence();
     reduceResults();
     // fixPopup();
-    setThumbnails();
+    setTimeout(setThumbnails, 1);
     resizeImg();
     fixLabelResults();
 	fixNavigationResults();
