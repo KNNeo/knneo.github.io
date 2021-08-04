@@ -1,0 +1,252 @@
+/* Newly added */
+html {
+	overflow: hidden;
+}
+
+.container {
+	max-height: 100vh;
+	overflow-y: scroll;
+	scroll-snap-type: mandatory;
+	scroll-snap-points-y: repeat(3rem);
+	scroll-snap-type: y mandatory;
+	scroll-behavior: smooth;
+}
+
+.page {
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	scroll-snap-align: start;
+	text-align: center;
+}
+
+/* Copied from anime-list */
+#GoToTopBtn {
+  position: fixed;
+  display: block;
+  visibility: hidden;
+  bottom: 10px;
+  right: 30px;
+  z-index: 7;
+  outline: none;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+  padding: 8px 6px 6px 6px;
+  border-radius: 7px;
+}
+
+.page-element,
+#GoToTopBtn {	
+  border: 1px solid lightgray;
+  background-color: #000000;
+  box-shadow: 3px 3px;
+  border-radius: 8px;
+}
+
+.page-element:active,
+#GoToTopBtn:active {
+  box-shadow: 1px 1px;
+  transform: translate(2px, 2px);
+}
+
+
+
+/*Github Page Only Controls*/
+html {
+  font-family: Open Sans;
+}
+body {
+  /* padding: 5px; */
+  /* background-color: black; */
+  /* color: white; */
+  margin: auto;
+  display: flex;
+  overflow: auto;
+  outline: 1px dashed lightgray;
+  flex: none;
+  flex-flow: column nowrap;
+}
+h1 {
+	text-align: center;
+}
+a {
+	color: cyan;
+}
+p {
+	padding: 20px;
+}
+h1, p {
+  max-width: 800px;
+  margin: auto;	
+}
+
+.circle-icon img {
+	border-radius: 50%;
+}
+
+h3, #labels { text-align: center; }
+
+#anime-list {
+	overflow: scroll;
+	height: 500px;
+	/* overflow: auto;	 */
+}
+
+
+table, tr, td { border-collapse: collapse; }
+
+td { white-space: nowrap; }
+th { padding: 0 5px; }
+tr { border-bottom: 1px solid #444444; } 
+
+tr:hover > td {
+	background-color: black;
+}
+
+.darked tr:hover > td {
+	background-color: white;
+}
+
+td.active-period {
+	background-color: black;
+}
+
+.darked td.active-period {
+	background-color: white;
+}
+
+tr:first-child > th {
+    position: sticky;
+    position: webkit-sticky;
+	top: 0;
+	left: 0;
+    background-color: white;
+}
+
+.darked tr:first-child > th {
+    background-color: black;
+}
+
+tr:first-child > th:first-child {
+	z-index: 1;
+    background-color: white;
+}
+
+.darked tr:first-child > th:first-child {
+    background-color: black;
+}
+
+tr > td:first-child, tr > th:first-child {
+    position: sticky;
+    position: webkit-sticky;
+	left: 0;
+    background-color: white;
+	border-right: 1px solid #444444;
+	transition: background-color 1s;
+	cursor: pointer;
+}
+
+.darked tr > td:first-child, tr > th:first-child {
+    background-color: black;
+}
+
+tr > td:first-child:active {
+    background-color: black;
+	transition: background-color 0s;
+}
+
+.darked tr > td:first-child:active {
+    background-color: white;
+	transition: background-color 0s;
+}
+
+.show-overlay {
+	display: none;
+}
+
+.show-overlay img {
+	border: 0;
+	max-width: 150px;
+	max-height: 150px;
+}
+
+.active-period:hover .show-overlay {
+	display: block;
+	position: absolute;
+	background-color: white;
+	font-size: 0.8em;
+	border-radius: 8px;
+	border: 1px solid black;
+	box-shadow: 3px 3px;
+	text-align: center;
+	padding: 4px 8px;
+	z-index: 3;
+}
+
+.darked .active-period:hover .show-overlay {
+	background-color: black;
+	border: 1px solid white;
+}
+
+@media only screen and (max-width: 960px) {
+	table {
+		font-size: 0.6rem;
+	}
+	.active-period:hover .show-overlay {
+		font-size: 1.5em;
+	}
+}
+/*End Github*/
+
+
+.anime-line {
+ max-width: 100%;
+ max-height: 100%;
+ font-size: x-small;
+}
+
+.anime-labels span {
+	background-color: #333333;
+	padding: 0 5px;
+}
+
+
+.anime-details-box {
+ border-radius: 8px;
+ border: 1px solid black;
+ box-shadow: 3px 3px;
+ padding: 4px 8px;
+ display: none;
+ -webkit-user-select: none;
+ -khtml-user-select: none;
+ -moz-user-select: none;
+ -ms-user-select: none;
+ user-select: none;
+}
+
+.darked .anime-details-box {
+ border: 1px solid white;
+}
+
+.anime-line:active .anime-details-box {
+ box-shadow: 1px 1px;
+ transform: translate(2px, 2px);
+}
+
+@media only screen and (max-width: 960px) {
+ .anime-row,
+ .year-display {
+  -webkit-touch-callout: default;
+  -webkit-user-select: auto;
+  -khtml-user-select: auto;
+  -moz-user-select: auto;
+  -ms-user-select: auto;
+  user-select: auto;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+ }
+}
