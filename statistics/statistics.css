@@ -28,6 +28,7 @@ html {
 	margin: 0 auto;
 }
 
+#main,
 .section {
 	height: 100vh;
 	display: flex;
@@ -45,6 +46,23 @@ html {
 	 margin: 0 auto;
 }
 
+
+.page-next {
+	padding-top: 20px;
+	cursor: pointer;
+}
+
+.page-prev {
+	padding-bottom: 10px;
+	cursor: pointer;
+}
+
+.page-next .material-icons,
+.page-prev .material-icons {
+	font-size: 48px;
+}
+
+
 @media only screen and (max-width: 960px) {
 	.container {
 		 width: 100%;
@@ -52,6 +70,9 @@ html {
 	}
 	.landing {
 		display: block;
+	}
+	table {
+		font-size: 0.6rem;
 	}
 }
 
@@ -108,42 +129,29 @@ html {
   font-family: Open Sans;
 }
 body {
-  /* padding: 5px; */
-  /* background-color: black; */
-  /* color: white; */
   margin: auto;
   display: flex;
   overflow: auto;
-  outline: 1px dashed lightgray;
   flex: none;
   flex-flow: column nowrap;
 }
 h1 {
 	text-align: center;
 }
-a {
+a:hover {
 	color: cyan;
 }
 p {
 	padding: 20px;
 }
-h1, p {
-  max-width: 800px;
-  margin: auto;	
-}
+/* h1, p { */
+  /* max-width: 800px; */
+  /* margin: auto;	 */
+/* } */
 
 .circle-icon img {
 	border-radius: 50%;
 }
-
-h3, #labels { text-align: center; }
-
-#anime-list {
-	overflow: scroll;
-	height: 500px;
-	/* overflow: auto;	 */
-}
-
 
 table, tr, td { border-collapse: collapse; }
 
@@ -210,93 +218,4 @@ tr > td:first-child:active {
 .darked tr > td:first-child:active {
     background-color: white;
 	transition: background-color 0s;
-}
-
-.show-overlay {
-	display: none;
-}
-
-.show-overlay img {
-	border: 0;
-	max-width: 150px;
-	max-height: 150px;
-}
-
-.active-period:hover .show-overlay {
-	display: block;
-	position: absolute;
-	background-color: white;
-	font-size: 0.8em;
-	border-radius: 8px;
-	border: 1px solid black;
-	box-shadow: 3px 3px;
-	text-align: center;
-	padding: 4px 8px;
-	z-index: 3;
-}
-
-.darked .active-period:hover .show-overlay {
-	background-color: black;
-	border: 1px solid white;
-}
-
-@media only screen and (max-width: 960px) {
-	table {
-		font-size: 0.6rem;
-	}
-	.active-period:hover .show-overlay {
-		font-size: 1.5em;
-	}
-}
-/*End Github*/
-
-
-.anime-line {
- max-width: 100%;
- max-height: 100%;
- font-size: x-small;
-}
-
-.anime-labels span {
-	background-color: #333333;
-	padding: 0 5px;
-}
-
-
-.anime-details-box {
- border-radius: 8px;
- border: 1px solid black;
- box-shadow: 3px 3px;
- padding: 4px 8px;
- display: none;
- -webkit-user-select: none;
- -khtml-user-select: none;
- -moz-user-select: none;
- -ms-user-select: none;
- user-select: none;
-}
-
-.darked .anime-details-box {
- border: 1px solid white;
-}
-
-.anime-line:active .anime-details-box {
- box-shadow: 1px 1px;
- transform: translate(2px, 2px);
-}
-
-@media only screen and (max-width: 960px) {
- .anime-row,
- .year-display {
-  -webkit-touch-callout: default;
-  -webkit-user-select: auto;
-  -khtml-user-select: auto;
-  -moz-user-select: auto;
-  -ms-user-select: auto;
-  user-select: auto;
-  text-align: left;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
- }
 }
