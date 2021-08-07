@@ -27,9 +27,9 @@ let pageElements = [
 		suffix: 'JAPANESE CATEGORY',
 	},
 	{
-		title: 'Song Appetite Survey',
-		description: 'FROM KLASSIC NOTE SONG AWARDS “SONG APPETITE SURVEY”, OR FROM TOTAL NUMBER OF SONGS IN PREVIOUS MONTHS',
-		chartTitle: 'Total Song Count by Year',
+		title: 'Klassic Note Participants (Artists)',
+		description: 'FROM NUMBER OF ARTISTS REVIEWED IN KLASSIC NOTE CIRCA 2007; INCLUDES LISTED ARTISTS FOR ULTIMATE COLLECTION',
+		chartTitle: 'Collection Artists (Trend)',
 		chartLabel: [
 			"2008",
 			"2009",
@@ -255,7 +255,7 @@ function renderPage() {
 			let newSection = document.createElement('div');
 			newSection.classList.add('section');
 			document.getElementsByClassName('page')[0].appendChild(newSection);
-			console.log(mainSectionNo);
+			// console.log(mainSectionNo);
 			// renderSection(sectionNo, mainSectionNo);
 		}
 	}
@@ -348,4 +348,5 @@ function toggleGoToTopBtn() {
 // startup
 renderVariables();
 renderPage();
-scrollToMainPage();
+if(document.body.clientWidth > 960) 
+	scrollToMainPage();
