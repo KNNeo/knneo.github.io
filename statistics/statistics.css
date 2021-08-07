@@ -3,22 +3,56 @@ html {
 	overflow: hidden;
 }
 
-.container {
-	max-height: 100vh;
-	overflow-y: scroll;
-	scroll-snap-type: mandatory;
-	scroll-snap-points-y: repeat(3rem);
-	scroll-snap-type: y mandatory;
-	scroll-behavior: smooth;
+.landing {
+	width: 100vw;
+	height: 100vh;
+	display: none;
+}
+
+.landing p {
+    position: relative;
+    top: 50vh;
+    padding: 0;
+    text-align: center;
 }
 
 .page {
+	max-height: 100vh;
+	overflow-y: scroll;
+	scroll-behavior: smooth;
+	scroll-snap-type: y mandatory;
+	scroll-snap-points-y: repeat(3rem);
+}
+
+.page-title {
+	margin: 0 auto;
+}
+
+.section {
 	height: 100vh;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	scroll-snap-align: start;
 	text-align: center;
+}
+
+.section:active {
+	scroll-snap-align: start;
+}
+
+.container {
+	 width: 80vw;
+	 margin: 0 auto;
+}
+
+@media only screen and (max-width: 960px) {
+	.container {
+		 width: 100%;
+		 margin: 0;
+	}
+	.landing {
+		display: block;
+	}
 }
 
 /* Copied from anime-list */
@@ -37,10 +71,10 @@ html {
   border-radius: 7px;
 }
 
-.page-element,
+.container,
 #GoToTopBtn {	
   border: 1px solid lightgray;
-  background-color: #000000;
+  /* background-color: #000000; */
   box-shadow: 3px 3px;
   border-radius: 8px;
 }
