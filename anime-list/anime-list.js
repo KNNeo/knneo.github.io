@@ -125,7 +125,7 @@ let customArray = [
 { sortOrder:123, year:2021, season: 'Spring', length:1, seriesTitle: '', type:'TV', title:'Hige wo Soru. Soshite Joshikousei wo Hirou.', altTitle:'ひげを剃る。そして女子高生を拾う。', handle:'higehiro_anime', imgURL:'https://pbs.twimg.com/profile_images/1311599822730715141/l39MahWA_400x400.jpg' },
 { sortOrder:124, year:2021, season: 'Spring', length:1, seriesTitle: '', type:'TV', title:'Osananajimi ga Zettai ni Makenai Love Comedy', altTitle:'幼なじみが絶対に負けないラブコメ', handle:'osamake_project', imgURL:'https://pbs.twimg.com/profile_images/1312352077423636482/WoxK7ZKO_400x400.jpg' },
 { sortOrder:125, year:2021, season: 'Summer', length:1, seriesTitle: '', type:'TV', title:'Kanojo mo Kanojo', altTitle:'カノジョも彼女', handle:'kanokano_anime', imgURL:'https://pbs.twimg.com/profile_images/1378523649842454529/Iltf_L5Y.jpg' },
-{ sortOrder:126, year:2021, season: 'Summer', length:1, seriesTitle: '', type:'TV', title:'Shinigami Bocchan to Kuro Maid', altTitle:'死神坊ちゃんと黒メイド', handle:'bocchan_anime', imgURL:'https://pbs.twimg.com/profile_images/1377637066184351750/EDzqxnRR.jpg' },
+{ sortOrder:126, year:2021, season: 'Summer', length:1, seriesTitle: '', type:'TV', title:'Shinigami Bocchan to Kuro Maid', altTitle:'死神坊ちゃんと黒メイド', handle:'bocchan_anime', imgURL:'https://pbs.twimg.com/profile_images/1377637066184351750/EDzqxnRR_400x400.jpg' },
 { sortOrder:127, year:2021, season: 'Summer', length:1, seriesTitle: '', type:'TV', title:'Sonny Boy', altTitle:'', handle:'sonnyboy_anime', imgURL:'https://pbs.twimg.com/profile_images/1415738208835407872/qdHMoMo3.jpg' },
 { sortOrder:128, year:2021, season: 'Summer', length:1, seriesTitle: '', type:'TV', title:'Tantei wa Mou, Shindeiru.', altTitle:'探偵はもう、死んでいる。', handle:'tanteiwamou_', imgURL:'https://pbs.twimg.com/profile_images/1245369835896229889/JDG3Y_Wo.png' },
 
@@ -137,6 +137,7 @@ let startYear = 2008;
 let startSeason = 'Autumn';
 let currentYear = 2021;
 let currentSeason = 'Summer';
+let endYear = 2022;
 let seasons = ['','Winter','Spring','Summer','Autumn'];
 let seasonArray = new Array();
 let seriesArray = new Array();
@@ -188,7 +189,7 @@ function generateAnimeList(isGroupBySeries) {
 		animeTableHeaderRow.innerText = 'Series Title' + (isSortByTitleAsc == true ? ' (asc)' : '') + (isSortByTitleAsc == false ? ' (dsc)' : '');
 		animeTableHeader.appendChild(animeTableHeaderRow);
 
-		for(let y = startYear; y <= currentYear; y++)
+		for(let y = startYear; y <= endYear; y++)
 		{
 			for(let s = 1; s <= 4; s++)
 			{
@@ -233,7 +234,7 @@ function generateAnimeList(isGroupBySeries) {
 			animeTableBody.appendChild(animeTableRow);
 						
 			let remainder = anime.length;
-			for(let y = startYear; y <= currentYear; y++)
+			for(let y = startYear; y <= endYear; y++)
 			{
 				for(let s = 1; s <= 4; s++)
 				{
@@ -263,7 +264,7 @@ function generateAnimeList(isGroupBySeries) {
 				//loop but replace instead of insert
 				let remainder = series.length;
 				var column = 0;
-				for(let y = startYear; y <= currentYear; y++)
+				for(let y = startYear; y <= endYear; y++)
 				{
 					for(let s = 1; s <= 4; s++)
 					{
@@ -319,7 +320,7 @@ function generateAnimeList(isGroupBySeries) {
 		animeTableHeaderRow.innerText = 'Anime Title' + (isSortByTitleAsc == true ? ' (asc)' : '') + (isSortByTitleAsc == false ? ' (dsc)' : '');
 		animeTableHeader.appendChild(animeTableHeaderRow);
 
-		for(let y = startYear; y <= currentYear; y++)
+		for(let y = startYear; y <= endYear; y++)
 		{
 			for(let s = 1; s <= 4; s++)
 			{
@@ -376,7 +377,7 @@ function generateAnimeList(isGroupBySeries) {
 			animeTableBody.appendChild(animeTableRow);
 			
 			let remainder = anime.length;
-			for(let y = startYear; y <= currentYear; y++)
+			for(let y = startYear; y <= endYear; y++)
 			{
 				for(let s = 1; s <= 4; s++)
 				{
