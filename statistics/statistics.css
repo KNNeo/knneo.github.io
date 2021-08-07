@@ -49,12 +49,10 @@ html {
 
 .page-next {
 	padding-top: 20px;
-	cursor: pointer;
 }
 
 .page-prev {
 	padding-bottom: 10px;
-	cursor: pointer;
 }
 
 .page-next .material-icons,
@@ -137,6 +135,9 @@ body {
 }
 h1 {
 	text-align: center;
+}
+a {
+  cursor: pointer;
 }
 a:hover {
 	color: cyan;
