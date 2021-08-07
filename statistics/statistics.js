@@ -132,6 +132,20 @@ document.body.appendChild(topButton);
 document.getElementById('GoToTopBtn').addEventListener('click', scrollToMainPage);
 document.getElementsByClassName('page')[0].addEventListener('scroll', toggleGoToTopBtn);
 
+let closeButton = document.createElement('a');
+closeButton.id = 'CloseBtn';
+closeButton.title = 'Close Popup';
+let closeButtonIcon = document.createElement('i');
+closeButtonIcon.classList.add('material-icons');
+closeButtonIcon.innerText = 'close';
+closeButton.appendChild(closeButtonIcon);
+document.body.appendChild(closeButton);
+document.getElementById('CloseBtn').addEventListener('click', goBack);
+
+function goBack() {
+	window.location.href = '../index.html';
+}
+
 function toggleGoToTopBtn() {
 	// When the user scrolls down to half of viewport from the top of the document, change floating action button
 	if (document.getElementsByClassName('page')[0].scrollTop >= document.body.clientHeight) {

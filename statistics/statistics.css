@@ -61,7 +61,7 @@ html {
   display: block;
   visibility: hidden;
   bottom: 10px;
-  right: 30px;
+  right: 25px;
   z-index: 7;
   outline: none;
   background-color: black;
@@ -71,8 +71,23 @@ html {
   border-radius: 7px;
 }
 
+#CloseBtn {
+  position: fixed;
+  display: block;
+  top: 10px;
+  right: 25px;
+  z-index: 9;
+  outline: none;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+  padding: 8px 6px 6px 6px;
+  border-radius: 7px;
+}
+
 .container,
-#GoToTopBtn {	
+#GoToTopBtn,
+#CloseBtn {	
   border: 1px solid lightgray;
   /* background-color: #000000; */
   box-shadow: 3px 3px;
@@ -80,7 +95,8 @@ html {
 }
 
 .page-element:active,
-#GoToTopBtn:active {
+#GoToTopBtn:active,
+#CloseBtn:active {
   box-shadow: 1px 1px;
   transform: translate(2px, 2px);
 }
