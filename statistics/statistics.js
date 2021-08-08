@@ -105,9 +105,10 @@ function scrollToPrevPage() {
 	this.parentElement.parentElement.previousElementSibling.scrollIntoView();
 }
 
-function scrollToMainPage() {
-	document.getElementsByClassName('section')[0].scrollIntoView();
-	if(document.getElementById('main') != null)
+function scrollToMainPage(firstLoad) {
+	console.log(firstLoad);
+	document.getElementsByClassName('page')[0].firstElementChild.scrollIntoView();
+	if(firstLoad == true && document.getElementById('main') != null)
 		document.getElementById('main').scrollIntoView();
 }
 
@@ -349,4 +350,4 @@ function toggleGoToTopBtn() {
 renderVariables();
 renderPage();
 if(document.body.clientWidth > 960) 
-	scrollToMainPage();
+	scrollToMainPage(true);
