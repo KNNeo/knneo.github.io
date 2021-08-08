@@ -436,6 +436,18 @@ void Main()
         content = content.Replace(headerPrefixColour, "var(--secondary)");
         content = content.Replace(headerPrefixColourRgb, "var(--secondary)");
         #endregion
+		
+		#region (entertainment news) convert inline styles migrated to blog.css
+        var oldStyle = @"<div id=""news-thumbnail"" style=""display: none;"">";
+        var newStyle = @"<div class=""news-thumbnail"">";
+        if(content.Contains(oldStyle)) count++;
+        content = content.Replace(oldStyle, newStyle);
+		
+        oldStyle = @"<div id=""hashtags"" style=""color: #bbbbbb; font-size: 0.8em;"">";
+        newStyle = @"<div id=""hashtags"">";
+        if(content.Contains(oldStyle)) count++;
+        content = content.Replace(oldStyle, newStyle);
+		#endregion
         
         
         
