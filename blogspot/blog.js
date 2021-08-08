@@ -182,7 +182,13 @@ function reduceResults() {
 			if(snippet.getElementsByTagName('style').length > 0)
 				snippet.removeChild(snippet.childNodes[0]); //remove style
 			let statement = snippet.getElementsByTagName('b');
-			let thumb = snippet.getElementsByTagName('img')[0];
+			let thumb = snippet.getElementsByClassName('post-thumbnail');
+			if(thumb.length > 0) {
+				thumb = snippet.getElementsByClassName('post-thumbnail')[0].getAttribute('data-src');
+			}
+			else if (snippet.getElementsByTagName('img').length > 0) {
+				thumb = snippet.getElementsByTagName('img')[0].src;
+			}
 				
 			//generate thumb
 			let latestPost = document.createElement('div');
@@ -203,7 +209,7 @@ function reduceResults() {
 					homeThumb.style.width = '240px';
 					homeThumb.style.height = '240px';
 				}
-				homeThumb.style.backgroundImage = 'url(\'' + (thumb != undefined ? thumb.src : '') + '\')';
+				homeThumb.style.backgroundImage = 'url(\'' + (thumb || '') + '\')';
 			thumbDiv.appendChild(homeThumb);
 			
 			let latestPostSummary = document.createElement('div');
