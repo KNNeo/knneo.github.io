@@ -352,6 +352,10 @@ a:hover {
 	background-position: center;
 }
 
+.news-thumbnail {
+	display: none;
+}
+
 /*Label header and footer navigation*/
 .list-label-widget-content {
   font-size: 14px;
