@@ -38,6 +38,7 @@ html {
 	text-align: center;
 }
 
+#main:active,
 .section:active {
 	scroll-snap-align: start;
 }
@@ -46,7 +47,6 @@ html {
 	 width: 80vw;
 	 margin: 0 auto;
 }
-
 
 .page-next {
 	padding-top: 20px;
@@ -60,7 +60,6 @@ html {
 .page-prev .material-icons {
 	font-size: 48px;
 }
-
 
 @media only screen and (max-width: 960px) {
 	.container {

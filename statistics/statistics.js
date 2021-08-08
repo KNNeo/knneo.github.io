@@ -1,9 +1,13 @@
 //set elements here
+//to generate colors:
+//(1) go to https://mdigi.tools/color-shades/
+//(2) copy into console: Array.from(document.getElementsByClassName('color-shade')).map(color => color.style.backgroundColor);
 let pageElements = [
 	{
 		title: 'Song Appetite Survey',
 		description: 'FROM KLASSIC NOTE SONG AWARDS “SONG APPETITE SURVEY”, OR FROM TOTAL NUMBER OF SONGS IN PREVIOUS MONTHS',
 		chartTitle: 'Total Song Count by Year',
+		chartColors: ["rgb(253, 236, 245)", "rgb(249, 197, 226)", "rgb(246, 158, 207)", "rgb(242, 119, 188)", "rgb(238, 80, 169)", "rgb(235, 42, 150)", "rgb(213, 20, 129)", "rgb(175, 17, 106)", "rgb(136, 13, 82)", "rgb(97, 9, 59)", "rgb(58, 6, 35)", "rgb(19, 2, 12)"],
 		chartLabel: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
 		chartData: [
 			[2009,14,22,34,45,56,75,96,115,121,147,165,175],
@@ -30,23 +34,8 @@ let pageElements = [
 		title: 'Klassic Note Participants (Artists)',
 		description: 'FROM NUMBER OF ARTISTS REVIEWED IN KLASSIC NOTE CIRCA 2007; INCLUDES LISTED ARTISTS FOR ULTIMATE COLLECTION',
 		chartTitle: 'Collection Artists (Trend)',
-		chartLabel: [
-			"2008",
-			"2009",
-			"2010",
-			"2011",
-			"2012",
-			"2013",
-			"2014",
-			"2015",
-			"2016",
-			"2017",
-			"2018",
-			"2019",
-			"2020",
-			"2021",
-			"Total"
-		],
+		chartColors: ["rgb(247, 253, 247)", "rgb(232, 248, 231)", "rgb(217, 243, 216)", "rgb(202, 238, 200)", "rgb(187, 234, 184)", "rgb(172, 229, 169)", "rgb(157, 224, 153)", "rgb(142, 220, 137)", "rgb(127, 215, 122)", "rgb(112, 210, 106)", "rgb(97, 205, 90)", "rgb(82, 201, 75)", "rgb(67, 196, 59)", "rgb(62, 180, 54)", "rgb(56, 165, 50)", "rgb(51, 149, 45)", "rgb(46, 133, 40)", "rgb(40, 118, 35)", "rgb(35, 102, 31)", "rgb(29, 86, 26)", "rgb(24, 71, 21)", "rgb(19, 55, 17)", "rgb(13, 39, 12)", "rgb(8, 24, 7)", "rgb(3, 8, 2)"],
+		chartLabel: ["2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020","2021","Total"],
 		chartData: [
 			["miwa",null,null,null,5,15,23,32,37,44,46,49,51,54,55,null,55  ],
 			["Aqua Timez",3,11,19,23,26,32,33,38,43,47,47,50,null,null,null,50  ],
@@ -88,6 +77,7 @@ let pageElements = [
 		title: 'Klassic Note Participants (Songs)',
 		description: 'FROM NUMBER OF SONGS IN KLASSIC NOTE FROM CIRCA 2007; ALL CHARTS TO FOLLOW “KLASSIC NOTE”)',
 		chartTitle: 'Song Count by Category/Source',
+		chartColors: ["rgb(171, 174, 254)", "rgb(2, 11, 253)", "rgb(1, 4, 84)"],
 		chartLabel: [2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020],
 		chartData: [
 			["KLASSIC JAPAN",138,297,474,641,831,1028,1243,1414,1654,1885,2084,2319,2521],
@@ -208,14 +198,19 @@ function renderSection(sectionNo, mainSectionNo) {
 		canvas.id = 'section' + sectionNo;
 		canvas.classList.add('container');
 		section.appendChild(canvas);
+		if(pageElements[sectionNo].chartColors) console.error('chartColors is mandatory');
+		let colors = pageElements[sectionNo].chartColors.concat(pageElements[sectionNo].chartColors);
+		let fillColors = pageElements[sectionNo].chartFillColors ? pageElements[sectionNo].chartFillColors.concat(pageElements[sectionNo].chartFillColors) : colors;
 		
 		let chartContents = {
 			title: pageElements[sectionNo].chartTitle,
 			labels: pageElements[sectionNo].chartLabel,
-			datasets: pageElements[sectionNo].chartData.map(row => {
+			datasets: pageElements[sectionNo].chartData.map((row,index) => {
 				return {
 					label: row[0],
-					data: row.slice(1)
+					data: row.slice(1),
+					borderColor: colors[index],
+					backgroundColor: fillColors[index]
 				};
 			})
 		};
@@ -300,7 +295,6 @@ function loadTimeline(sectionNo, chartContents) {
 					text: chartContents.title,
 				},
 				tooltip: {
-					borderColor: 'rgb(255, 255, 255)',
 				}
 			},
 			scales: {
@@ -311,27 +305,29 @@ function loadTimeline(sectionNo, chartContents) {
 	window['container'+sectionNo] = new Chart(timeline, config);
 }
 
-//copied functions to modify and use:
-let topButton = document.createElement('a');
-topButton.id = 'GoToTopBtn';
-topButton.title = 'Back To Top';
-let topButtonIcon = document.createElement('i');
-topButtonIcon.classList.add('material-icons');
-topButtonIcon.innerText = 'arrow_upward';
-topButton.appendChild(topButtonIcon);
-document.body.appendChild(topButton);
-document.getElementById('GoToTopBtn').addEventListener('click', scrollToMainPage);
-document.getElementsByClassName('page')[0].addEventListener('scroll', toggleGoToTopBtn);
+function renderButtons() {
+	let topButton = document.createElement('a');
+	topButton.id = 'GoToTopBtn';
+	topButton.title = 'Back To Top';
+	let topButtonIcon = document.createElement('i');
+	topButtonIcon.classList.add('material-icons');
+	topButtonIcon.innerText = 'arrow_upward';
+	topButton.appendChild(topButtonIcon);
+	document.body.appendChild(topButton);
+	document.getElementById('GoToTopBtn').addEventListener('click', scrollToMainPage);
+	document.getElementsByClassName('page')[0].addEventListener('scroll', toggleGoToTopBtn);
 
-let closeButton = document.createElement('a');
-closeButton.id = 'CloseBtn';
-closeButton.title = 'Close Popup';
-let closeButtonIcon = document.createElement('i');
-closeButtonIcon.classList.add('material-icons');
-closeButtonIcon.innerText = 'close';
-closeButton.appendChild(closeButtonIcon);
-document.body.appendChild(closeButton);
-document.getElementById('CloseBtn').addEventListener('click', goBack);
+	let closeButton = document.createElement('a');
+	closeButton.id = 'CloseBtn';
+	closeButton.title = 'Close Popup';
+	let closeButtonIcon = document.createElement('i');
+	closeButtonIcon.classList.add('material-icons');
+	closeButtonIcon.innerText = 'close';
+	closeButton.appendChild(closeButtonIcon);
+	document.body.appendChild(closeButton);
+	document.getElementById('CloseBtn').addEventListener('click', goBack);
+}
+
 
 function goBack() {
 	window.location.href = '../index.html';
@@ -349,5 +345,6 @@ function toggleGoToTopBtn() {
 // startup
 renderVariables();
 renderPage();
+renderButtons();
 if(document.body.clientWidth > 960) 
 	scrollToMainPage(true);
