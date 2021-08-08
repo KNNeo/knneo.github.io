@@ -9,6 +9,8 @@
 #hashtags {
 	width: 100%;
 	padding-bottom: 1em;
+	color: #bbbbbb;
+	font-size: 0.8em;
 }
 
 #hashtags a {
