@@ -198,7 +198,7 @@ function renderSection(sectionNo, mainSectionNo) {
 		canvas.id = 'section' + sectionNo;
 		canvas.classList.add('container');
 		section.appendChild(canvas);
-		if(pageElements[sectionNo].chartColors) console.error('chartColors is mandatory');
+		if(!pageElements[sectionNo].chartColors) console.error('chartColors is mandatory');
 		let colors = pageElements[sectionNo].chartColors.concat(pageElements[sectionNo].chartColors);
 		let fillColors = pageElements[sectionNo].chartFillColors ? pageElements[sectionNo].chartFillColors.concat(pageElements[sectionNo].chartFillColors) : colors;
 		
