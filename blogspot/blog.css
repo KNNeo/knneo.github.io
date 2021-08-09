@@ -493,6 +493,11 @@ input.gsc-input {
   #SidebarBtn {
     display: block;
   }
+  #hashtags a {
+	padding: 3px;
+	font-size: 0.9em;
+  }
+
   div.footer-inner {
     padding: 10px 0;
   }
