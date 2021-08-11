@@ -22,7 +22,7 @@ let pageElements = [
 		chartType: 'line',
 		chartTitle: 'Collection Artists (Trend)',
 		chartColors: Tableau20,
-		chartLabel: ["2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020","2021","Total"],
+		chartLabel: [2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,"Total"],
 		chartData: [
 			["Ikimonogakari",1,11,21,26,30,38,46,55,58,67,67,67,72,73,73,73  ],
 			["miwa",null,null,null,5,15,23,32,37,44,46,49,51,54,55,55,55  ],
@@ -88,7 +88,7 @@ let pageElements = [
 		description: 'FROM NUMBER OF SONGS IN KLASSIC NOTE FROM CIRCA 2007; ALL CHARTS TO FOLLOW “KLASSIC NOTE”)',
 		chartType: 'line',
 		chartTitle: 'Song Count by Category/Source',
-		chartColors: ["#7F7F7F", "#BFBFBF", "#C00000","#000000"],
+		chartColors: ["#7F7F7F", "#BFBFBF", "#C00000", "#000000"],
 		chartLabel: [2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020],
 		chartData: [
 			["KLASSIC NOTE",43,154,322,502,687,889,1094,1314,1493,1733,1966,2171,2411,2616  ],
@@ -126,6 +126,18 @@ let pageElements = [
 			lineWidth: 2,
 			lineValue: 18
 		}
+	},
+	{
+		chartType: 'bar',
+		chartTitle: 'Klassic Note is...',
+		chartColors: ["#C0504D", "#8064A2", "#F79646"],
+		chartLabel: [2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020],
+		chartData: [
+			["Mainstream",57.8,51.3,50.1,50.5,50,49.8,50.3,52.3,52.4,53.7,54.7,55.5  ],
+			["Idolism",21.7,20.5,22.5,26.2,28.7,31.2,32.6,32.5,33.2,32.5,32.4,32.5  ],
+			["Anime",20.5,28.2,27.4,23.3,21.3,19,17.1,15.1,14.3,13.8,12.9,12  ]
+		],
+		chartAsPercentage: true,
 	}
 ];
 
@@ -249,6 +261,7 @@ function renderSection(sectionNo, mainSectionNo) {
 			title: pageElements[sectionNo].chartTitle,
 			labels: pageElements[sectionNo].chartLabel,
 			vertical: pageElements[sectionNo].chartMinLine,
+			isPercent: pageElements[sectionNo].chartAsPercentage,
 			datasets: pageElements[sectionNo].chartData.map((row,index) => {
 				return {
 					label: row[0],
@@ -371,20 +384,31 @@ function loadTimeline(sectionNo, chartContents) {
 				},
 				tooltip: {
 					// position: 'nearest',
-					// yAlign: 'center'
+					xAlign: chartContents.type == 'bar' ? 'center' : undefined,
+					callbacks: {
+						label: function(context) {
+							return context.dataset.label + ': ' + context.raw + (chartContents.isPercent ? '%' : '');
+						}
+					}
 				},
 				drawVerticalLine: chartContents.vertical
 			},
 			scales: {
 				x: {
-					stacked: chartContents.type == 'bar'
+					stacked: chartContents.type == 'bar',
+					ticks: {
+						callback: function(value, index, values) {
+							if(chartContents.isPercent) return value + '%';
+							return this.getLabelForValue(value);
+						}
+					}
 				},
 				y: {
 					stacked: chartContents.type == 'bar'
 				}
 			}
 		},
-  plugins: [drawVerticalLine]
+		plugins: [drawVerticalLine]
 	};
 	
 	window['container'+sectionNo] = new Chart(timeline, config);
