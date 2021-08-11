@@ -361,8 +361,8 @@ function loadTimeline(sectionNo, chartContents) {
 		options: {
 			indexAxis: chartContents.type == 'bar' ? 'y' : '',
 			responsive: true,
-			maintainAspectRatio: false,
-			aspectRatio: 0.5,
+			maintainAspectRatio: true,
+			// aspectRatio: 0.5,
 			datasets: {
 				bar: {
 					barPercentage: 1
