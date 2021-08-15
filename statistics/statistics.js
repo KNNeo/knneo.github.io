@@ -3,12 +3,15 @@
 //(1) go to https://mdigi.tools/color-shades/, copy into console: Array.from(document.getElementsByClassName('color-shade')).map(color => color.style.backgroundColor);
 //(2) from github chartjs-plugin-colorschemes/src/colorschemes/colorschemes.tableau.js:
 const Tableau20 = ['#4E79A7', '#A0CBE8', '#F28E2B', '#FFBE7D', '#59A14F', '#8CD17D', '#B6992D', '#F1CE63', '#499894', '#86BCB6', '#E15759', '#FF9D9A', '#79706E', '#BAB0AC', '#D37295', '#FABFD2', '#B07AA1', '#D4A6C8', '#9D7660', '#D7B5A6']
+const Classic10 = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf']
 const Classic20 = ['#1f77b4', '#aec7e8', '#ff7f0e', '#ffbb78', '#2ca02c', '#98df8a', '#d62728', '#ff9896', '#9467bd', '#c5b0d5', '#8c564b', '#c49c94', '#e377c2', '#f7b6d2', '#7f7f7f', '#c7c7c7', '#bcbd22', '#dbdb8d', '#17becf', '#9edae5']
 const BlueTeal20 = ['#bce4d8', '#aedcd5', '#a1d5d2', '#95cecf', '#89c8cc', '#7ec1ca', '#72bac6', '#66b2c2', '#59acbe', '#4ba5ba', '#419eb6', '#3b96b2', '#358ead', '#3586a7', '#347ea1', '#32779b', '#316f96', '#2f6790', '#2d608a', '#2c5985']
+const ColorBlind10 = ['#1170aa', '#fc7d0b', '#a3acb9', '#57606c', '#5fa2ce', '#c85200', '#7b848f', '#a3cce9', '#ffbc79', '#c8d0d9']
 
 let pageElements = [
 	{
-		title: 'TEMPLATE (To show main page not first page, and minimal object fill)'
+		title: 'EXAMPLE',
+		description: '(To show main page as after first page: all fields are optional, chart- defined parameters depend on chartData)'		
 	},
 	{
 		isMain: true,
@@ -17,8 +20,110 @@ let pageElements = [
 		suffix: 'JAPANESE CATEGORY',
 	},
 	{
+		title: 'List of Japanese Artists',
+		description: 'FROM FIRST YEAR ARTIST PARTICIPATION IN KLASSIC NOTE, IN NO PARTICULAR ORDER',
+		chartType: 'histogram',
+		chartColors: [],
+		chartLabel: [2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020],
+		chartData: [
+			["2007 (26)","UVERworld","Rie fu","Younha","HIGH and MIGHTY COLOR","Horie Yui","YUI","Aqua Timez","Takacha","Kishidan","Koda Kumi","Hoshimura Mai"  ],
+			["2020 (29)","Play.Goose","Liyuu","Tachibana Rika","Waki Azumi","Uso to Chameleon","Suzuki Aina","Nanawo Akari"  ]
+		]
+	},
+	{
+		title: 'Klassic Note Participants (Songs)',
+		description: 'FROM NUMBER OF SONGS IN KLASSIC NOTE FROM CIRCA 2007; ALL CHARTS TO FOLLOW “KLASSIC NOTE”)',
+		chartType: 'line',
+		chartTitle: 'Song Count by Category/Source',
+		chartColors: ["#7F7F7F", "#BFBFBF", "#C00000", "#000000"],
+		chartLabel: [2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020],
+		chartData: [
+			["KLASSIC NOTE",43,154,322,502,687,889,1094,1314,1493,1733,1966,2171,2411,2616  ],
+			["KLASSIC JAPAN",43,138,297,474,641,831,1028,1243,1414,1654,1885,2084,2319,2521  ],
+			["KLASSIC J-POP",43,135,264,409,544,718,899,1104,1273,1511,1733,1923,2152,2351  ],
+			["APPLE MUSIC",null,null,null,null,null,null,null,null,null,795,1143,1599,2037,2304  ]
+		]
+	},
+	{
+		chartType: 'bar',
+		chartTitle: 'Song Count by Artist Type',
+		chartColors: Classic10,
+		chartLabel: [2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020],
+		chartData: [
+			["Independent Band",16,53,81,84,61,89,71,86,92,135,117,119,130,130  ],
+			["Idol Group",1,4,19,12,20,17,15,17,25,14,15,9,8,8  ],
+			["Anime Voice Actor Groups",0,1,8,17,3,3,2,3,0,0,2,4,3,3  ],
+			["Anime Voice Actor(s)",0,2,22,16,29,7,12,5,2,2,7,4,3,3  ],
+			["Collaboration",0,1,0,3,6,3,2,0,1,2,4,2,2,2  ],
+			["Singer-Songwriter",18,17,17,23,33,25,33,31,18,34,19,23,33,33  ],
+			["Solo Artist",8,17,12,22,15,45,62,73,33,53,67,37,56,56  ]
+		]
+	},
+	{
+		chartType: 'bar',
+		chartTitle: 'Klassic Note is...',
+		chartColors: ["#C0504D", "#8064A2", "#F79646"],
+		chartLabel: [2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020],
+		chartData: [
+			["% Mainstream",57.8,51.3,50.1,50.5,50,49.8,50.3,52.3,52.4,53.7,54.7,55.5  ],
+			["% Idolism",21.7,20.5,22.5,26.2,28.7,31.2,32.6,32.5,33.2,32.5,32.4,32.5  ],
+			["% Anime",20.5,28.2,27.4,23.3,21.3,19,17.1,15.1,14.3,13.8,12.9,12  ]
+		],
+		chartAsPercentage: true,
+		chartAsPercentageAxis: 'x',
+	},
+	{
+		chartType: 'line',
+		chartTitle: 'Song of the Day Tally',
+		chartColors: ColorBlind10,
+		chartLabel: [1,2,3,4,5,6,7,8,9,10,11,12],
+		chartData: [
+			["2013",32.07,25.00,16.30,11.96,7.07,4.35,2.72,0.54,0.00,0.00,0.00,0.00  ],
+			["2014",39.82,20.35,17.70,10.62,5.75,2.21,2.21,0.88,0.00,0.44,0.00,0.00  ],
+			["2015",32.86,19.72,15.96,13.62,10.80,4.23,2.35,0.47,0.00,0.00,0.00,0.00  ],
+			["2016",41.15,24.23,15.38,6.54,7.31,2.69,1.92,0.00,0.38,0.38,0.00,0.00  ],
+			["2017",45.67,26.77,12.60,5.51,1.97,3.54,1.97,0.39,0.79,0.39,0.00,0.39  ],
+			["2018",45.13,28.76,13.27,7.08,3.10,0.44,1.33,0.44,0.00,0.44,0.00,0.00  ],
+			["2019",49.61,18.75,11.72,8.20,5.86,3.13,1.95,0.00,0.39,0.39,0.00,0.00  ],
+			["2020",50.98,19.22,10.98,5.88,5.49,2.75,2.35,0.39,0.78,0.39,0.39,0.39  ],
+			["Total",33.58,25.50,17.55,9.85,6.36,3.73,2.08,0.67,0.31,0.18,0.12,0.06  ]
+		],
+		chartAsPercentage: true,
+		chartAsPercentageAxis: 'y',
+		xAxisLabel: 'Frequency',
+		yAxisLabel: '# of Songs'
+	},
+	{
 		title: 'Klassic Note Participants (Artists)',
 		description: 'FROM NUMBER OF ARTISTS REVIEWED IN KLASSIC NOTE CIRCA 2007; INCLUDES LISTED ARTISTS FOR ULTIMATE COLLECTION',
+		chartType: 'bar',
+		chartTitle: 'Klassic Note Collection Artists',
+		chartColors: BlueTeal20,
+		chartLabel: ["Ikimonogakari","YUI","Aqua Timez","miwa","Chatmonchy","SCANDAL","Rie fu","sphere","Toyosaki Aki","Tomatsu Haruka","SPECIAL OTHERS","ASIAN KUNG-FU GENERATION","Kalafina","Kotobuki Minako","SID","ClariS","STEREOPONY","VELTPUNCH","Sambomaster","Tsuji Shion","LIL'B aka MIE&AILA","Taketatsu Ayana","Porno Graffitti","Neat's","Hanazawa Kana","fumika","NEGOTO","nano.RIPE","yanaginagi","TrySail","cinema staff","Yoru no Honki Dance","THE ORAL CIGARETTES","Amamiya Sora","Komatsu Mikako"  ],
+		chartData: [
+			[2007,1,10,2,null,2,null,3,null,null,null,null,1,null,null,null,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null  ],
+			[2008,10,12,9,null,5,null,3,null,null,null,1,3,null,null,1,null,3,3,3,null,4,null,2,null,null,null,null,null,null,null,null,null,null,null,null  ],
+			[2009,10,5,8,null,8,3,5,5,2,1,3,2,7,null,6,null,9,1,3,4,7,null,4,null,null,null,null,null,null,null,null,null,null,null,null  ],
+			[2010,5,9,4,5,7,6,3,5,4,7,7,7,3,4,4,2,5,2,4,7,2,null,4,null,null,null,null,null,null,null,null,null,null,null,null  ],
+			[2011,4,9,3,10,4,6,4,8,7,2,8,3,4,1,4,3,5,4,3,2,5,null,2,null,null,1,1,null,null,null,null,null,null,null,null  ],
+			[2012,8,4,6,8,11,5,7,7,6,6,6,5,5,8,3,4,3,7,4,3,null,4,3,null,4,4,4,null,null,null,null,null,null,null,null  ],
+			[2013,8,null,1,9,null,9,4,3,8,5,5,2,5,4,4,5,null,null,2,null,2,6,2,9,4,7,null,null,2,null,3,null,null,null,1  ],
+			[2014,9,null,5,5,2,8,7,5,6,2,3,3,3,7,3,6,null,null,2,null,null,4,null,10,3,2,6,6,12,null,2,null,null,2,7  ],
+			[2015,3,null,5,7,4,3,null,6,2,5,4,3,3,4,null,3,null,2,2,3,null,2,null,null,5,2,3,5,null,4,3,3,3,null,null  ],
+			[2016,9,null,4,2,1,3,5,2,6,9,null,1,null,1,null,3,null,5,null,4,null,5,3,null,3,2,6,6,1,7,4,6,2,3,3  ],
+			[2017,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,1,2,5,4,6,6,3,4  ],
+			[2018,null,null,3,2,3,1,null,null,null,2,4,8,1,3,1,3,null,null,1,3,null,1,1,null,3,null,null,4,1,3,null,1,3,4,2  ],
+			[2019,5,null,null,3,null,2,2,3,null,null,null,null,null,1,2,null,null,null,null,null,null,1,null,null,3,2,3,null,4,2,6,3,3,2,null  ],
+			[2020,1,null,null,1,null,3,null,null,null,null,5,1,null,null,null,null,null,5,1,null,null,null,null,null,null,null,null,3,3,2,null,1,4,4,null  ],
+			[2021,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,1  ]
+		],
+		chartMinLine: {
+			lineColor: 'red',
+			lineWidth: 2,
+			lineValue: 18
+		}
+	},
+	{
 		chartType: 'line',
 		chartTitle: 'Collection Artists (Trend)',
 		chartColors: Tableau20,
@@ -82,64 +187,44 @@ let pageElements = [
 			[2019,18,44,70,88,110,129,147,159,185,204,218,240],
 			[2020,23,43,56,75,90,100,116,137,161,186,195,205]
 		]
-	},
-	{
-		title: 'Klassic Note Participants (Songs)',
-		description: 'FROM NUMBER OF SONGS IN KLASSIC NOTE FROM CIRCA 2007; ALL CHARTS TO FOLLOW “KLASSIC NOTE”)',
-		chartType: 'line',
-		chartTitle: 'Song Count by Category/Source',
-		chartColors: ["#7F7F7F", "#BFBFBF", "#C00000", "#000000"],
-		chartLabel: [2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020],
-		chartData: [
-			["KLASSIC NOTE",43,154,322,502,687,889,1094,1314,1493,1733,1966,2171,2411,2616  ],
-			["KLASSIC JAPAN",43,138,297,474,641,831,1028,1243,1414,1654,1885,2084,2319,2521  ],
-			["KLASSIC J-POP",43,135,264,409,544,718,899,1104,1273,1511,1733,1923,2152,2351  ],
-			["APPLE MUSIC",null,null,null,null,null,null,null,null,null,795,1143,1599,2037,2304  ]
-		]
-	},
-	{
-		title: 'Klassic Note Participants (Songs)',
-		description: 'FROM NUMBER OF SONGS IN KLASSIC NOTE FROM CIRCA 2007; ALL CHARTS TO FOLLOW “KLASSIC NOTE”)',
-		chartType: 'bar',
-		chartTitle: 'Song Count by Category/Source',
-		chartColors: BlueTeal20,
-		chartLabel: ["Ikimonogakari","YUI","Aqua Timez","miwa","Chatmonchy","SCANDAL","Rie fu","sphere","Toyosaki Aki","Tomatsu Haruka","SPECIAL OTHERS","ASIAN KUNG-FU GENERATION","Kalafina","Kotobuki Minako","SID","ClariS","STEREOPONY","VELTPUNCH","Sambomaster","Tsuji Shion","LIL'B aka MIE&AILA","Taketatsu Ayana","Porno Graffitti","Neat's","Hanazawa Kana","fumika","NEGOTO","nano.RIPE","yanaginagi","TrySail","cinema staff","Yoru no Honki Dance","THE ORAL CIGARETTES","Amamiya Sora","Komatsu Mikako"  ],
-		chartData: [
-			[2007,1,10,2,null,2,null,3,null,null,null,null,1,null,null,null,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null  ],
-			[2008,10,12,9,null,5,null,3,null,null,null,1,3,null,null,1,null,3,3,3,null,4,null,2,null,null,null,null,null,null,null,null,null,null,null,null  ],
-			[2009,10,5,8,null,8,3,5,5,2,1,3,2,7,null,6,null,9,1,3,4,7,null,4,null,null,null,null,null,null,null,null,null,null,null,null  ],
-			[2010,5,9,4,5,7,6,3,5,4,7,7,7,3,4,4,2,5,2,4,7,2,null,4,null,null,null,null,null,null,null,null,null,null,null,null  ],
-			[2011,4,9,3,10,4,6,4,8,7,2,8,3,4,1,4,3,5,4,3,2,5,null,2,null,null,1,1,null,null,null,null,null,null,null,null  ],
-			[2012,8,4,6,8,11,5,7,7,6,6,6,5,5,8,3,4,3,7,4,3,null,4,3,null,4,4,4,null,null,null,null,null,null,null,null  ],
-			[2013,8,null,1,9,null,9,4,3,8,5,5,2,5,4,4,5,null,null,2,null,2,6,2,9,4,7,null,null,2,null,3,null,null,null,1  ],
-			[2014,9,null,5,5,2,8,7,5,6,2,3,3,3,7,3,6,null,null,2,null,null,4,null,10,3,2,6,6,12,null,2,null,null,2,7  ],
-			[2015,3,null,5,7,4,3,null,6,2,5,4,3,3,4,null,3,null,2,2,3,null,2,null,null,5,2,3,5,null,4,3,3,3,null,null  ],
-			[2016,9,null,4,2,1,3,5,2,6,9,null,1,null,1,null,3,null,5,null,4,null,5,3,null,3,2,6,6,1,7,4,6,2,3,3  ],
-			[2017,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,1,2,5,4,6,6,3,4  ],
-			[2018,null,null,3,2,3,1,null,null,null,2,4,8,1,3,1,3,null,null,1,3,null,1,1,null,3,null,null,4,1,3,null,1,3,4,2  ],
-			[2019,5,null,null,3,null,2,2,3,null,null,null,null,null,1,2,null,null,null,null,null,null,1,null,null,3,2,3,null,4,2,6,3,3,2,null  ],
-			[2020,1,null,null,1,null,3,null,null,null,null,5,1,null,null,null,null,null,5,1,null,null,null,null,null,null,null,null,3,3,2,null,1,4,4,null  ],
-			[2021,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,1  ]
-		],
-		chartMinLine: {
-			lineColor: 'red',
-			lineWidth: 2,
-			lineValue: 18
-		}
-	},
-	{
-		chartType: 'bar',
-		chartTitle: 'Klassic Note is...',
-		chartColors: ["#C0504D", "#8064A2", "#F79646"],
-		chartLabel: [2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020],
-		chartData: [
-			["Mainstream",57.8,51.3,50.1,50.5,50,49.8,50.3,52.3,52.4,53.7,54.7,55.5  ],
-			["Idolism",21.7,20.5,22.5,26.2,28.7,31.2,32.6,32.5,33.2,32.5,32.4,32.5  ],
-			["Anime",20.5,28.2,27.4,23.3,21.3,19,17.1,15.1,14.3,13.8,12.9,12  ]
-		],
-		chartAsPercentage: true,
 	}
 ];
+// convertStringArrayToHistogram();
+function convertStringArrayToHistogram(chartData, chartLabel) {
+	/*
+	input: [
+		[axislabel, data1, data2, ...],
+		[axislabe2, data3, data4, ...]
+		... <dataset>
+	] && [labels in which <dataset>.length == thisArray.length]
+	output: [
+		[data1, 1], //1st row
+		[data2, 1],
+		[data3, (...array of 1 nulls), 1], //2nd row
+		[data4, (...array of 1 nulls), 1],
+	]
+	objective: to change chartData in above json to fit current flow, data1 is data point, 1 is the bar
+	*/
+
+	let nullLabel = chartLabel.map(l => null);
+	let histogramData = [];
+	for(i = 0; i < chartData.length; i++) {
+		for(j = 1; j < chartData[i].length-1; j++) { // or use .forEach
+			let item = chartData[i][j];
+			// console.log(chartData[i][j]);
+			let newItem = [];
+			newItem.push(item);
+			for(k = 0; k < i; k++) {
+				newItem.push(null); //duplicate i-1 times
+			}
+			newItem.push(1);
+			histogramData.push(newItem);
+		}
+	}
+	
+	// console.log(histogramData);
+	return histogramData;
+}
 
 function scrollToNextPage() {
 	this.parentElement.parentElement.nextElementSibling.scrollIntoView();
@@ -176,6 +261,7 @@ function renderMain(sectionNo) {
 			prevButton.title = 'Previous';
 			prevButton.style.visibility = main.previousElementSibling != null ? 'visible' : 'hidden';
 			prevButton.addEventListener('click',scrollToPrevPage);
+			prevButton.addEventListener('touchstart',scrollToPrevPage);
 			let prevButtonIcon = document.createElement('i');
 			prevButtonIcon.classList.add('material-icons');
 			prevButtonIcon.innerText = 'keyboard_arrow_up';
@@ -203,6 +289,7 @@ function renderMain(sectionNo) {
 			nextButton.title = 'Next';
 			nextButton.style.visibility = main.nextElementSibling != null ? 'visible' : 'hidden';
 			nextButton.addEventListener('click',scrollToNextPage);
+			nextButton.addEventListener('touchstart',scrollToNextPage);
 			let nextButtonIcon = document.createElement('i');
 			nextButtonIcon.classList.add('material-icons');
 			nextButtonIcon.innerText = 'keyboard_arrow_down';
@@ -225,6 +312,7 @@ function renderSection(sectionNo, mainSectionNo) {
 		prevButton.title = 'Previous';
 		prevButton.style.visibility = section.previousElementSibling != null ? 'visible' : 'hidden';
 		prevButton.addEventListener('click',scrollToPrevPage);
+		prevButton.addEventListener('touchstart',scrollToPrevPage);
 		let prevButtonIcon = document.createElement('i');
 		prevButtonIcon.classList.add('material-icons');
 		prevButtonIcon.innerText = 'keyboard_arrow_up';
@@ -262,15 +350,31 @@ function renderSection(sectionNo, mainSectionNo) {
 			labels: pageElements[sectionNo].chartLabel,
 			vertical: pageElements[sectionNo].chartMinLine,
 			isPercent: pageElements[sectionNo].chartAsPercentage,
-			datasets: pageElements[sectionNo].chartData.map((row,index) => {
+			isPercentAxis: pageElements[sectionNo].chartAsPercentageAxis,
+			xAxisLabel: pageElements[sectionNo].xAxisLabel,
+			yAxisLabel: pageElements[sectionNo].yAxisLabel,
+			datasets: content.chartType == 'histogram' ? convertStringArrayToHistogram(pageElements[sectionNo].chartData, pageElements[sectionNo].chartLabel).map((row,index) => {
+				return {
+					label: row[0],
+					data:row.slice(1).map(point => {
+						return point == null ? null : 1; //so each dataset is a data point
+					}),
+					origData: row.slice(1),
+					borderColor: colors[index],
+					backgroundColor: fillColors[index]
+				};
+			}) :
+			pageElements[sectionNo].chartData.map((row,index) => {
 				return {
 					label: row[0],
 					data: row.slice(1),
+					origData: row.slice(1),
 					borderColor: colors[index],
 					backgroundColor: fillColors[index]
 				};
 			})
 		};
+		console.log(chartContents);
 		loadTimeline(sectionNo, chartContents);
 	}
 	else {
@@ -284,6 +388,7 @@ function renderSection(sectionNo, mainSectionNo) {
 		nextButton.title = 'Next';
 		nextButton.style.visibility = section.nextElementSibling != null ? 'visible' : 'hidden';
 		nextButton.addEventListener('click',scrollToNextPage);
+		nextButton.addEventListener('touchstart',scrollToNextPage);
 		let nextButtonIcon = document.createElement('i');
 		nextButtonIcon.classList.add('material-icons');
 		nextButtonIcon.innerText = 'keyboard_arrow_down';
@@ -355,7 +460,71 @@ function loadTimeline(sectionNo, chartContents) {
 		document.getElementById(identifier).appendChild(canvas); //parent div
 	}
 	timeline = document.getElementById(charter);
-	let config = {
+	// console.log(chartContents.datasets);
+	let config = chartContents.type == 'histogram' ? {
+		type: 'bar',
+		data: chartContents,
+		options: {
+			indexAxis: chartContents.type == 'histogram' ? 'y' : '',
+			responsive: true,
+			maintainAspectRatio: true,
+			// aspectRatio: 0.5,
+			datasets: {
+				bar: {
+					barPercentage: 1
+				}
+			},
+			interaction: {
+				mode: chartContents.type == 'histogram' ? 'point' : 'index',
+				intersect: false
+			},
+			plugins: {
+				legend: {
+					display: false,
+				},
+				title: {
+					display: true,
+					text: chartContents.title,
+					font: {
+						size: 15
+					}
+				},
+				tooltip: {
+					// position: 'nearest',
+					xAlign: chartContents.type == 'histogram' ? 'center' : undefined,
+					callbacks: {
+						label: function(context) {
+							return context.dataset.label + ': ' + context.raw + (chartContents.isPercent ? '%' : '');
+						}
+					}
+				},
+				drawVerticalLine: chartContents.vertical
+			},
+			scales: {
+				x: {
+					title: chartContents.isPercent && chartContents.isPercentAxis.toLowerCase() == 'x' ? chartContents.xAxisLabel : '',
+					stacked: chartContents.type == 'histogram',
+					ticks: {
+						callback: function(value, index, values) {
+							if(chartContents.isPercent && chartContents.isPercentAxis.toLowerCase() == 'x') return value + '%';
+							return this.getLabelForValue(value);
+						}
+					}
+				},
+				y: {
+					title: chartContents.isPercent && chartContents.isPercentAxis.toLowerCase() == 'y' ? chartContents.yAxisLabel : '',
+					stacked: chartContents.type == 'histogram',
+					ticks: {
+						callback: function(value, index, values) {
+							if(chartContents.isPercent && chartContents.isPercentAxis.toLowerCase() == 'y') return value + '%';
+							return this.getLabelForValue(value);
+						}
+					}
+				}
+			}
+		},
+		plugins: [drawVerticalLine]
+	} : {
 		type: chartContents.type || 'line',
 		data: chartContents,
 		options: {
@@ -381,6 +550,9 @@ function loadTimeline(sectionNo, chartContents) {
 				title: {
 					display: true,
 					text: chartContents.title,
+					font: {
+						size: 15
+					}
 				},
 				tooltip: {
 					// position: 'nearest',
@@ -395,16 +567,24 @@ function loadTimeline(sectionNo, chartContents) {
 			},
 			scales: {
 				x: {
+					title: chartContents.isPercent && chartContents.isPercentAxis.toLowerCase() == 'x' ? chartContents.xAxisLabel : '',
 					stacked: chartContents.type == 'bar',
 					ticks: {
 						callback: function(value, index, values) {
-							if(chartContents.isPercent) return value + '%';
+							if(chartContents.isPercent && chartContents.isPercentAxis.toLowerCase() == 'x') return value + '%';
 							return this.getLabelForValue(value);
 						}
 					}
 				},
 				y: {
-					stacked: chartContents.type == 'bar'
+					title: chartContents.isPercent && chartContents.isPercentAxis.toLowerCase() == 'y' ? chartContents.yAxisLabel : '',
+					stacked: chartContents.type == 'bar',
+					ticks: {
+						callback: function(value, index, values) {
+							if(chartContents.isPercent && chartContents.isPercentAxis.toLowerCase() == 'y') return value + '%';
+							return this.getLabelForValue(value);
+						}
+					}
 				}
 			}
 		},
