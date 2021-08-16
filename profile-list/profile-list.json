@@ -785,12 +785,14 @@
 		"id":"AsakuraMomo",
 		"image":"https://knneo.webs.com/asakuramomo.jpg",
 		"landscapes":[
+			"https://ogre.natalie.mu/media/pp/static/music/asakuramomo04/photo06.jpg",
 			"https://bltweb.jp/wp/wp-content/uploads/2020/11/20201106_asakuramomo10941920_photo_toukou.jpg",
 			"https://www.m-on-music.jp/admin/wp-content/uploads/2020/12/20201229-ys-151201.jpg",
 			"https://cdnx.natalie.mu/media/pp/static/music/asakuramomo03/photo07.jpg",
 			"https://img.animatetimes.com/2020/01/5e2c062302f9d_d54cd9b1fca0630849a0536fa5e79180.jpg"
 		],
 		"portraits":[
+			"https://ogre.natalie.mu/media/pp/static/music/asakuramomo04/photo04.jpg",
 			"https://bltweb.jp/wp/wp-content/uploads/2021/07/voice07.jpg",
 			"https://bltweb.jp/wp/wp-content/uploads/2020/04/20200417_vg42_main_asakuramomo.jpg",
 			"https://pbs.twimg.com/media/EmtNHjPUwAEwPps?format=jpg&name=small"
@@ -883,6 +885,8 @@
 		"id":"KounoMarika",
 		"image":"https://knneo.webs.com/kounomarika.jpg",
 		"landscapes":[
+			"https://res.cloudinary.com/gsjebzejhjubm/image/private/s--vsrRfdK9--/c_scale,dpr_2,f_auto,t_article_image,w_664/v1629025643/210720FRI0315_vjcxpk.jpg",
+			"https://res.cloudinary.com/gsjebzejhjubm/image/private/s--QypXd6JI--/c_scale,dpr_2,f_auto,t_article_image,w_664/v1629025637/210720FRI0120_snijxb.jpg",
 			"https://pbs.twimg.com/media/E6Ty9guVkAATUTG?format=jpg&name=small",
 			"https://hominis.media/2021/06/images/00_kohno072.jpg",
 			"https://hominis.media/2021/06/images/00_kohno071.jpg",
@@ -893,6 +897,7 @@
 			"https://pbs.twimg.com/media/EkvhYF-UYAELfRQ?format=jpg&name=small"			
 		],
 		"portraits":[
+			"https://res.cloudinary.com/gsjebzejhjubm/image/private/s--a6NecPwi--/c_scale,dpr_2,f_auto,t_article_image,w_664/v1629025637/02_hjpobw.jpg",
 			"https://pbs.twimg.com/media/E4fkNCWX0AQBPCA?format=jpg&name=small",
 			"https://hominis.media/2021/07/images/06_kohno072.jpg",
 			"https://hominis.media/2021/07/images/03_kohno071.jpg",
