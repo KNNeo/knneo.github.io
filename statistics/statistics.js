@@ -10,7 +10,7 @@ const ColorBlind10 = ['#1170aa', '#fc7d0b', '#a3acb9', '#57606c', '#5fa2ce', '#c
 
 let pageElements = [
 	{
-		title: 'EXAMPLE',
+		title: 'POWERED BY CHART.JS',
 		description: '(To show main page as after first page: all fields are optional, chart- defined parameters depend on chartData)'		
 	},
 	{
