@@ -221,6 +221,25 @@ let pageElements = [
 		],
 		chartBarOrientation: 'x',
 		chartBarGrouping: true
+	},
+	{
+		title: 'Vocal Popularity Survey',
+		description: '(FROM KLASSIC NOTE SONG AWARDS “VOCALS STYLES POPULARITY SURVEY”)',
+		chartType: 'bar',
+		chartTitle: 'Song Vocals by Category',
+		chartColors: Classic10,
+		chartLabel: [2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020],
+		chartData: [
+			["Male Solo",35,36,38,39,38,31,32,45,77,69,70,74,51  ],
+			["Female Solo",59,88,95,98,111,127,146,89,132,122,107,110,128  ],
+			["Male Duo",3,4,2,3,2,0,4,1,4,0,1,0,1  ],
+			["Female Duo",9,17,16,12,10,12,10,3,4,6,5,2,2  ],
+			["Combined Duo",7,3,4,13,8,6,4,7,9,8,7,8,10  ],
+			["Trio",1,11,7,7,13,14,8,17,9,11,5,5,5  ],
+			["Quartet or More",5,13,8,14,12,4,13,18,5,10,6,41,2  ]
+		],
+		chartBarOrientation: 'x',
+		chartBarGrouping: true
 	}
 ];
 // convertStringArrayToHistogram();
@@ -406,11 +425,10 @@ function renderSection(sectionNo, mainSectionNo) {
 					origData: row.slice(1),
 					borderColor: colors[index],
 					backgroundColor: fillColors[index],
-					stack: pageElements[sectionNo].chartBarGrouping ? (index).toString() : '0'
+					stack: pageElements[sectionNo].chartBarGrouping ? (index).toString() : undefined
 				};
 			})
 		};
-		console.log(chartContents);
 		loadTimeline(sectionNo, chartContents);
 	}
 	else {
@@ -468,10 +486,10 @@ function renderPage() {
 const drawVerticalLine = {
   id: 'drawVerticalLine',
   afterDraw(chart, args, options) {
-    const {ctx, chartArea: {left, top, bottom, width, height}, scales: {x, y}} = chart;
-    const valueY = y.getPixelForValue(options.lineValue);
-	const thickness = options.lineWidth || 0;
 	if(options.lineValue) {
+		const {ctx, chartArea: {left, top, bottom, width, height}, scales: {x, y}} = chart;
+		const valueY = y.getPixelForValue(options.lineValue);
+		const thickness = options.lineWidth || 0;
 		ctx.save();
 		ctx.beginPath();
 		ctx.strokeStyle = options.lineColor || 'black';
@@ -547,7 +565,7 @@ function loadTimeline(sectionNo, chartContents) {
 		type: chartContents.type || 'line',
 		data: chartContents,
 		options: {
-			indexAxis: chartContents.type == 'bar' ? (chartContents.chartBarOrientation || 'y') : '',
+			indexAxis: chartContents.type == 'bar' ? (chartContents.chartBarOrientation || 'y') : undefined,
 			responsive: true,
 			maintainAspectRatio: true,
 			// aspectRatio: 0.5,
