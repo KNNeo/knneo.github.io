@@ -199,6 +199,28 @@ let pageElements = [
 			[2019,18,44,70,88,110,129,147,159,185,204,218,240],
 			[2020,23,43,56,75,90,100,116,137,161,186,195,205]
 		]
+	},
+	{
+		chartType: 'bar',
+		chartTitle: 'Song Count by Month',
+		chartColors: Classic20,
+		chartLabel: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+		chartData: [
+			[2009,14,8,12,11,11,19,21,19,6,26,18,10  ],
+			[2010,12,13,15,10,20,10,13,10,19,22,19,15  ],
+			[2011,22,18,16,18,21,9,24,15,21,4,10,11  ],
+			[2012,15,13,7,14,11,10,28,30,32,17,19,7  ],
+			[2013,18,18,21,12,9,21,14,30,14,15,25,8  ],
+			[2014,14,19,22,18,16,24,19,11,19,17,26,15  ],
+			[2015,11,22,9,22,18,14,18,10,13,17,17,9  ],
+			[2016,15,16,32,16,24,11,22,21,14,15,26,28  ],
+			[2017,13,33,28,15,26,18,23,20,12,16,19,10  ],
+			[2018,17,10,17,17,27,18,23,18,13,18,17,10  ],
+			[2019,18,26,26,18,22,19,18,12,26,19,14,22  ],
+			[2020,23,20,13,19,15,10,16,21,24,25,9,10  ]
+		],
+		chartBarOrientation: 'x',
+		chartBarGrouping: true
 	}
 ];
 // convertStringArrayToHistogram();
@@ -365,6 +387,7 @@ function renderSection(sectionNo, mainSectionNo) {
 			isPercentAxis: pageElements[sectionNo].chartAsPercentageAxis,
 			xAxisLabel: pageElements[sectionNo].xAxisLabel,
 			yAxisLabel: pageElements[sectionNo].yAxisLabel,
+			chartBarOrientation: pageElements[sectionNo].chartBarOrientation,
 			datasets: content.chartType == 'histogram' ? convertStringArrayToHistogram(pageElements[sectionNo].chartData, pageElements[sectionNo].chartLabel).map((row,index) => {
 				return {
 					label: row[0],
@@ -382,7 +405,8 @@ function renderSection(sectionNo, mainSectionNo) {
 					data: row.slice(1),
 					origData: row.slice(1),
 					borderColor: colors[index],
-					backgroundColor: fillColors[index]
+					backgroundColor: fillColors[index],
+					stack: pageElements[sectionNo].chartBarGrouping ? (index).toString() : '0'
 				};
 			})
 		};
@@ -523,7 +547,7 @@ function loadTimeline(sectionNo, chartContents) {
 		type: chartContents.type || 'line',
 		data: chartContents,
 		options: {
-			indexAxis: chartContents.type == 'bar' ? 'y' : '',
+			indexAxis: chartContents.type == 'bar' ? (chartContents.chartBarOrientation || 'y') : '',
 			responsive: true,
 			maintainAspectRatio: true,
 			// aspectRatio: 0.5,
@@ -550,7 +574,6 @@ function loadTimeline(sectionNo, chartContents) {
 					}
 				},
 				tooltip: {
-					// position: 'nearest',
 					xAlign: chartContents.type == 'bar' ? 'center' : undefined,
 					callbacks: {
 						label: function(context) {
