@@ -90,20 +90,17 @@ let pageElements = [
 		chartColors: ColorBlind10,
 		chartLabel: [1,2,3,4,5,6,7,8,9,10,11,12],
 		chartData: [
-			["2013",32.07,25.00,16.30,11.96,7.07,4.35,2.72,0.54,0.00,0.00,0.00,0.00  ],
-			["2014",39.82,20.35,17.70,10.62,5.75,2.21,2.21,0.88,0.00,0.44,0.00,0.00  ],
-			["2015",32.86,19.72,15.96,13.62,10.80,4.23,2.35,0.47,0.00,0.00,0.00,0.00  ],
-			["2016",41.15,24.23,15.38,6.54,7.31,2.69,1.92,0.00,0.38,0.38,0.00,0.00  ],
-			["2017",45.67,26.77,12.60,5.51,1.97,3.54,1.97,0.39,0.79,0.39,0.00,0.39  ],
-			["2018",45.13,28.76,13.27,7.08,3.10,0.44,1.33,0.44,0.00,0.44,0.00,0.00  ],
-			["2019",49.61,18.75,11.72,8.20,5.86,3.13,1.95,0.00,0.39,0.39,0.00,0.00  ],
-			["2020",50.98,19.22,10.98,5.88,5.49,2.75,2.35,0.39,0.78,0.39,0.39,0.39  ],
-			["Total",33.58,25.50,17.55,9.85,6.36,3.73,2.08,0.67,0.31,0.18,0.12,0.06  ]
+			[2013,59,46,30,22,13,8,5,1,0,0,0,0  ],
+			[2014,90,46,40,24,13,5,5,2,0,1,0,0  ],
+			[2015,70,42,34,29,23,9,5,1,0,0,0,0  ],
+			[2016,107,63,40,17,19,7,5,0,1,1,0,0  ],
+			[2017,116,68,32,14,5,9,5,1,2,1,0,1  ],
+			[2018,102,65,30,16,7,1,3,1,0,1,0,0  ],
+			[2019,127,48,30,21,15,8,5,0,1,1,0,0  ],
+			[2020,130,49,28,15,14,7,6,1,2,1,1,1  ]
 		],
-		chartAsPercentage: true,
-		chartAsPercentageAxis: 'y',
-		xAxisLabel: 'Frequency',
-		yAxisLabel: '# of Songs'
+		xAxisLabel: 'Mentioned in Year',
+		yAxisLabel: 'No. of Songs'
 	},
 	{
 		title: 'Klassic Note Participants (Artists)',
@@ -627,7 +624,10 @@ function loadTimeline(sectionNo, chartContents) {
 			},
 			scales: {
 				x: {
-					title: chartContents.isPercent && chartContents.isPercentAxis.toLowerCase() == 'x' ? chartContents.xAxisLabel : '',
+					title: {
+						display: chartContents.xAxisLabel,
+						text: chartContents.xAxisLabel || ''
+					},
 					stacked: chartContents.type == 'bar',
 					ticks: {
 						callback: function(value, index, values) {
@@ -637,7 +637,10 @@ function loadTimeline(sectionNo, chartContents) {
 					}
 				},
 				y: {
-					title: chartContents.isPercent && chartContents.isPercentAxis.toLowerCase() == 'y' ? chartContents.yAxisLabel : '',
+					title: {
+						display: chartContents.yAxisLabel,
+						text: chartContents.yAxisLabel || ''
+					},
 					stacked: chartContents.type == 'bar',
 					ticks: {
 						callback: function(value, index, values) {
