@@ -376,7 +376,7 @@ function renderMain(sectionNo) {
 }
 
 function renderSection(sectionNo, mainSectionNo) {
-	let section = document.getElementsByClassName('section')[sectionNo > mainSectionNo ? sectionNo - mainSectionNo : sectionNo];
+	let section = document.getElementsByClassName('section')[sectionNo];// > mainSectionNo ? sectionNo - mainSectionNo : sectionNo];
 	let content = pageElements[sectionNo];
 	
 	// if(section.previousElementSibling != null) {
@@ -480,6 +480,7 @@ function renderPage() {
 		if(content.isMain) {
 			let newMain = document.createElement('div');
 			newMain.id = 'main';
+			newMain.classList.add('section');
 			document.getElementsByClassName('page')[0].appendChild(newMain);
 			mainSectionNo = sectionNo;
 			// renderMain(sectionNo);
