@@ -20,6 +20,20 @@ let pageElements = [
 		suffix: 'JAPANESE CATEGORY',
 	},
 	{
+		title: 'Klassic Note Participants (Artists)',
+		description: '(FROM NUMBER OF ARTISTS REVIEWED IN KLASSIC NOTE CIRCA 2007; INCLUDES LISTED ARTISTS FOR ULTIMATE COLLECTION)',
+		chartTitle: 'Artist Participation/Growth',
+		chartType: 'line-bar',
+		chartColors: Tableau20,
+		chartLabel: [2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020],
+		chartData: [
+			["New Artists (% Change)",null,null,35,21,29,19,15,14,9,12,13,6,4,8  ],
+			["Total Artists Participated",27,52,80,101,142,175,207,241,266,303,347,370,386,415  ],
+		],
+		chartAsPercentage: true,
+		chartAsPercentageAxis: 'A',
+	},
+	{
 		title: 'List of Japanese Artists',
 		description: 'FROM FIRST YEAR ARTIST PARTICIPATION IN KLASSIC NOTE, IN NO PARTICULAR ORDER',
 		chartType: 'histogram',
@@ -439,9 +453,17 @@ function renderSection(sectionNo, mainSectionNo) {
 					backgroundColor: fillColors[index]
 				};
 			}) :
-			pageElements[sectionNo].chartData.map((row,index) => {
+			pageElements[sectionNo].chartData.map((row,index,array) => {
+				let axisId = undefined;
+				let dataType = undefined;
+				if(pageElements[sectionNo].chartType == 'line-bar' && array.length == 2) {
+					axisId = index == 0 ? 'A' : 'B';
+					dataType = pageElements[sectionNo].chartType.startsWith('line') && index == 0 ? 'line' : 'bar';
+				}
 				return {
+					type: dataType,
 					label: row[0],
+					yAxisID: axisId,
 					data: row.slice(1),
 					origData: row.slice(1),
 					borderColor: colors[index],
@@ -617,13 +639,47 @@ function loadTimeline(sectionNo, chartContents) {
 					xAlign: chartContents.type == 'bar' ? 'center' : undefined,
 					callbacks: {
 						label: function(context) {
+							console.log(context);
+							if(context.dataset.yAxisID != null && chartContents.isPercentAxis.toLowerCase() != context.dataset.yAxisID.toLowerCase())
+								return context.dataset.label + ': ' + context.raw;
 							return context.dataset.label + ': ' + context.raw + (chartContents.isPercent ? '%' : '');
 						}
 					}
 				},
 				drawVerticalLine: chartContents.vertical
 			},
-			scales: {
+			scales: chartContents.type == 'line-bar' ? 
+			{
+				A: {
+					position: 'left',
+					title: {
+						display: chartContents.xAxisLabel,
+						text: chartContents.xAxisLabel || ''
+					},
+					stacked: chartContents.type == 'bar',
+					ticks: {
+						callback: function(value, index, values) {
+							if(chartContents.isPercent && chartContents.isPercentAxis.toLowerCase() == 'a') return value + '%';
+							return this.getLabelForValue(value);
+						}
+					}
+				},
+				B: {
+					position: 'right',
+					title: {
+						display: chartContents.xAxisLabel,
+						text: chartContents.xAxisLabel || ''
+					},
+					stacked: chartContents.type == 'bar',
+					ticks: {
+						callback: function(value, index, values) {
+							if(chartContents.isPercent && chartContents.isPercentAxis.toLowerCase() == 'b') return value + '%';
+							return this.getLabelForValue(value);
+						}
+					}
+				},
+			} : 
+			{
 				x: {
 					title: {
 						display: chartContents.xAxisLabel,
