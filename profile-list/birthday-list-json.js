@@ -40,7 +40,6 @@ let birthdayListJson =
 			"DdTO4KHVQAADEzg",
 			"DFKP_L6VoAECF54",
 			"Dg68NvkWAAABngS",
-			"DgwpIEWW4AArStw",
 			"DMj28f1UQAAcHPa",
 			"DRjN62QWAAAJCt2",
 			"DSWt0PeUQAAGWgN",
@@ -157,7 +156,6 @@ let birthdayListJson =
 			"DbnDR23W4AIObZU",
 			"DEbsVqTUQAAMqGi",
 			"Dg68NuWXcAA2Imy",
-			"DgwpID3XkAA5OWk",
 			"DP29qS7UMAAifiH",
 			"DXGjbWzW4AA-3Ah",
 			"E0L2IklVcAEGltp"
