@@ -1878,19 +1878,36 @@
 		"category":"seiyuu4",
 		"id":"TomitaMiyu",
 		"image":"https://pbs.twimg.com/media/Ema9F-eVcAEAuKz?format=jpg&name=small",
-		"landscapes":[],
+		"landscapes":[
+			"https://pbs.twimg.com/media/E9sdiypVUAE6xti?format=jpg&name=small",
+			"https://pbs.twimg.com/media/E9onu9rVgAI1mwQ?format=jpg&name=small",
+			"https://pbs.twimg.com/media/E6_N9EVVgAAzL83?format=jpg&name=small",
+			"https://pbs.twimg.com/media/E5IUda8VIAQM4ow?format=jpg&name=small"
+		],
 		"portraits":[
+			"https://pbs.twimg.com/media/E9pEqOYUYAYK58c?format=jpg&name=small",
+			"https://pbs.twimg.com/media/E45OSlMUYAU7CET?format=jpg&name=small",
 			"https://pbs.twimg.com/media/Ez-n9dRVcAUywb8?format=jpg&name=small",
 			"https://pbs.twimg.com/media/Exkam29VoAIauzu?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EotjkB_UYAABU8d?format=jpg&name=small"			
 		],
 		"name":"Tomita Miyu",
+		"nickname":"-CHAN!!*",
 		"dob":"1999.11.15",
+		"dobComment":"She is so young it was only*",
 		"profile":"Japanese Voice Actress",
 		"turningPoint":{
-			"soloDebut":"Yes",
+			"soloDebut":"Yes**",
 			"swimsuitPhotobook":"No",
 			"isMarried":"No"
 		}
+		"intro":"From Anime \"Joshikousei no Mudazukai\" as Yamamoto Minami and \"Houkago Saikoro Club\" as Oono Midori",
+		"description":"Her roles in anime have been impressive as I have seen a few till date, her outside of Anime is a total millennia having a picky appetite*, and is cool overall. It's hard to not be interested in her.",
+		"wantedLevel":"★★★★☆",
+		"wantedLevelComment":"Purely based on personality",
+		"comments":[
+			"*Most of my inferences come from the one \"JoshiMuda\" livestream, by the way, from where veteran Okitsu Kazuyuki fanboys on her also promoting her as a then newbie, to how she is always behaving different from the seniors in the cast",
+			"**Under music label Columbia Japan since 2019 for Anime \"Houkago Saikoro Club\""
+		]
 	}
 ]
