@@ -16,7 +16,7 @@
 void Main()
 {
 	//variables
-	var analysisMode = false;
+	var analysisMode = true;
 	
 	//read
 	string folderpath = @"C:\Users\KAINENG\Documents\LINQPad Queries\photos-takeout\Takeout";
