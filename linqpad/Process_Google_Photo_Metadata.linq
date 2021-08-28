@@ -15,6 +15,9 @@
  
 void Main()
 {
+	//variables
+	var analysisMode = false;
+	
 	//read
 	string folderpath = @"C:\Users\KAINENG\Documents\LINQPad Queries\photos-takeout\Takeout";
 	var files = Directory.GetFiles(folderpath, "*.json", SearchOption.AllDirectories);
@@ -86,20 +89,26 @@ void Main()
 	}
 	
 	//views
-	Console.WriteLine("Items, description different from tag");
-	var exceptionList = new string[]{"TrySail", "sphere"};
-	Console.WriteLine(namePeopleList);
-	
-	Console.WriteLine("Items, ordered by tag name count");
-	Console.WriteLine(people.OrderByDescending(n => n.Count).ToList());
-	
-	Console.WriteLine("Items without face identified");
-	Console.WriteLine(jsonList.Where(n => n.people == null && n.photoTakenTime != null).OrderByDescending(n => n.photoTakenTime.timestamp).Select(n =>
-		new {
-			Description = n.description,
-			Time = ParseGooglePhotosDateTime(n.photoTakenTime.formatted)
-		}
-	).ToList());
+	if(!analysisMode) {
+		Console.WriteLine("All Items");
+		Console.WriteLine(jsonList);
+	}
+	else {	
+		Console.WriteLine("Items, description different from tag");
+		var exceptionList = new string[]{"TrySail", "sphere"};
+		Console.WriteLine(namePeopleList);
+		
+		Console.WriteLine("Items, ordered by tag name count");
+		Console.WriteLine(people.OrderByDescending(n => n.Count).ToList());
+		
+		Console.WriteLine("Items without face identified");
+		Console.WriteLine(jsonList.Where(n => n.people == null && n.photoTakenTime != null).OrderByDescending(n => n.photoTakenTime.timestamp).Select(n =>
+			new {
+				Description = n.description,
+				Time = ParseGooglePhotosDateTime(n.photoTakenTime.formatted)
+			}
+		).ToList());
+	}
 }
 
 string ParseGooglePhotosDateTime(string input) {
