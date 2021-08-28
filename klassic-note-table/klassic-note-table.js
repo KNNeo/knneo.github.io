@@ -47,6 +47,8 @@ document.getElementById('tickboxAll').addEventListener("click", function() {
 	if(this.checked) resetPresets();
 });
 timeline.style.display = 'none';
+if(document.getElementById('darkmode') != null)
+	document.getElementById('darkmode').addEventListener('click', setColors);
 
 //COLUMN TICKBOXES--//
 function generateFilters(filters) {
@@ -570,6 +572,7 @@ function loadReferenceTable(table) {
 //--KLASSIC NOTE TIMELINE--//
 let timelineChart;
 function loadTimeline() {
+	let isDarked = document.getElementsByTagName('html')[0].classList.contains('darked');
 	let timeline = timelineChart;
 	if(document.getElementById('chart') == undefined) {
 		let canvas = document.createElement('canvas');
@@ -621,7 +624,7 @@ function loadTimeline() {
 				callback: function(value, index, values) {
 					return new Date(value).toDateString().substring(3);
 				},
-				color: 'rgb(255, 255, 255)',
+				color: isDarked ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)',
 			},
 			type: 'linear',
 			position: 'left'
@@ -669,6 +672,12 @@ function addData(data) {
     });
 	//update chart based on calling function
 } 
+
+function setColors() {
+	let isDarked = document.getElementsByTagName('html')[0].classList.contains('darked');
+	timelineChart.options.scales.y.ticks.color = isDarked ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)';
+	timelineChart.update();
+}
 
 //TODO:
 //Revamp rendering of table such that original table is never mutated, and filters are done after getArray/getObject (prefer latter?)
