@@ -98,6 +98,9 @@ void Main()
 		var exceptionList = new string[]{"TrySail", "sphere"};
 		Console.WriteLine(namePeopleList);
 		
+		Console.WriteLine("Items, ordered by description count");
+		Console.WriteLine(names.OrderByDescending(n => n.Count).ToList());
+		
 		Console.WriteLine("Items, ordered by tag name count");
 		Console.WriteLine(people.OrderByDescending(n => n.Count).ToList());
 		
