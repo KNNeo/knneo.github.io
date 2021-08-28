@@ -6,8 +6,8 @@ window.onpageshow = function() {
     preloadSequence();
     reduceResults();
     // fixPopup();
-    setThumbnails();
-    setTimeout(resizeImg, 1);
+    setTimeout(setThumbnails, 1);
+    setTimeout(resizeImg, 5);
     fixLabelResults();
 	fixNavigationResults();
     olderNewerTextToIcon();
@@ -630,8 +630,9 @@ function togglePopup() {
             }
         }
         this.classList.add('new-thumbnail');
+		this.scrollIntoView();
 		switchToButton('CloseBtn');
-		fixExternalFrame(this);
+		fixExternalFrame(this);	
     }
 	
 	toggleOverlay(false);
