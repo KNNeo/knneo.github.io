@@ -1378,12 +1378,14 @@
 		"id":"KitouAkari",
 		"image":"https://knneo.webs.com/kitouakari.jpg",
 		"landscapes":[
+			"https://www.asahicom.jp/articles/images/AS20210901001938_comm.jpg",
 			"https://pbs.twimg.com/media/EvXJVI3UcAQTv6p?format=jpg&name=small",
 			"https://img2.animatetimes.com/2020/12/5fead62c08f24_f31c4efc0ffa58adb2ca234aa74621f9.jpg",
 			"https://storage.mantan-web.jp/images/2020/12/19/20201219dog00m200082000c/002_size6.jpg",
 			"https://pbs.twimg.com/media/EqA8WuxVgAAUWo5?format=jpg&name=small"		
 		],
 		"portraits":[
+			"https://www.asahicom.jp/articles/images/AS20210901001944_comm.jpg",
 			"https://webnewtype.com/rsz/S1/1024935/10221656.jpg",
 			"https://pbs.twimg.com/media/EvzAcnYWQAAEgRd?format=jpg&name=small",
 			"https://news-img.dwango.jp/uploads/medium/file/000/288/780/288780/lg_wsxoh9bzopvqzlhgcbs.jpg",
@@ -1817,6 +1819,66 @@
 	},
 	{
 		"category":"seiyuu4",
+		"id":"KannoMai",
+		"image":"https://pbs.twimg.com/media/EwsPdF5VIAIan-R?format=jpg&name=small",
+		"landscapes":[
+			"https://pbs.twimg.com/media/Ew_v-R5VgAQr3cS?format=jpg&name=small"
+		],
+		"portraits":[],
+		"name":"Kanno Mai",
+		"nickname":"-chan?",
+		"dob":"1998.08.14",
+		"dobComment":"",
+		"profile":"Japanese Voice Actress",
+		"turningPoint":{
+			"soloDebut":"No",
+			"swimsuitPhotobook":"No",
+			"isMarried":"No"
+		},
+		"intro":"From the introductory livestream of Anime \"IDOLY PRIDE\" because she's cute",
+		"description":"Initially it didn't even catch my attention, but as I see her on social media more often and thanks to her Instagram lives where she sings acapella karaoke, she only got more adorable in impression.",
+		"wantedLevel":"★★★★☆",
+		"wantedLevelComment":"Cuteness dominates her image",
+		"comments":[]
+	},
+	{
+		"category":"seiyuu4",
+		"id":"TomitaMiyu",
+		"image":"https://pbs.twimg.com/media/Ema9F-eVcAEAuKz?format=jpg&name=small",
+		"landscapes":[
+			"https://pbs.twimg.com/media/E9sdiypVUAE6xti?format=jpg&name=small",
+			"https://pbs.twimg.com/media/E9onu9rVgAI1mwQ?format=jpg&name=small",
+			"https://pbs.twimg.com/media/E6_N9EVVgAAzL83?format=jpg&name=small",
+			"https://pbs.twimg.com/media/E5IUda8VIAQM4ow?format=jpg&name=small"
+		],
+		"portraits":[
+			"https://pbs.twimg.com/media/E9pEqOYUYAYK58c?format=jpg&name=small",
+			"https://pbs.twimg.com/media/E45OSlMUYAU7CET?format=jpg&name=small",
+			"https://pbs.twimg.com/media/Ez-n9dRVcAUywb8?format=jpg&name=small",
+			"https://pbs.twimg.com/media/Exkam29VoAIauzu?format=jpg&name=small",
+			"https://pbs.twimg.com/media/EotjkB_UYAABU8d?format=jpg&name=small"			
+		],
+		"name":"Tomita Miyu",
+		"nickname":"-CHAN!!*",
+		"dob":"1999.11.15",
+		"dobComment":"She is so young it was only*",
+		"profile":"Japanese Voice Actress",
+		"turningPoint":{
+			"soloDebut":"Yes**",
+			"swimsuitPhotobook":"No",
+			"isMarried":"No"
+		},
+		"intro":"From Anime \"Joshikousei no Mudazukai\" as Yamamoto Minami and \"Houkago Saikoro Club\" as Oono Midori",
+		"description":"Her roles in anime have been impressive as I have seen a few till date, her outside of Anime is a total millennia having a picky appetite*, and is cool overall. It's hard to not be interested in her. Her boyish image is covering up her childish yet innocent personality.",
+		"wantedLevel":"★★★★☆",
+		"wantedLevelComment":"Purely based on personality",
+		"comments":[
+			"*Most of my inferences come from the one \"JoshiMuda\" livestream, by the way, from where veteran Okitsu Kazuyuki fanboys on her also promoting her as a then newbie, to how she is always behaving different from the seniors in the cast",
+			"**Under music label Columbia Japan since 2019 for Anime \"Houkago Saikoro Club\""
+		]
+	},
+	{
+		"category":"seiyuu4",
 		"id":"FujitaAkane",
 		"image":"https://image.news.livedoor.com/newsimage/stf/3/1/313c174ad3d8e4b9af267fd6eb92aa7c.jpg",
 		"landscapes":[
@@ -1825,23 +1887,6 @@
 		"portraits":[],
 		"name":"Fujita Akane",
 		"dob":"1993.01.26",
-		"profile":"Japanese Voice Actress",
-		"turningPoint":{
-			"soloDebut":"No",
-			"swimsuitPhotobook":"No",
-			"isMarried":"No"
-		}
-	},
-	{
-		"category":"seiyuu4",
-		"id":"KannoMai",
-		"image":"https://pbs.twimg.com/media/EwsPdF5VIAIan-R?format=jpg&name=small",
-		"landscapes":[
-			"https://pbs.twimg.com/media/Ew_v-R5VgAQr3cS?format=jpg&name=small"
-		],
-		"portraits":[],
-		"name":"Kanno Mai",
-		"dob":"1998.08.14",
 		"profile":"Japanese Voice Actress",
 		"turningPoint":{
 			"soloDebut":"No",
@@ -1875,41 +1920,5 @@
 			"swimsuitPhotobook":"No",
 			"isMarried":"No"
 		}
-	},
-	{
-		"category":"seiyuu4",
-		"id":"TomitaMiyu",
-		"image":"https://pbs.twimg.com/media/Ema9F-eVcAEAuKz?format=jpg&name=small",
-		"landscapes":[
-			"https://pbs.twimg.com/media/E9sdiypVUAE6xti?format=jpg&name=small",
-			"https://pbs.twimg.com/media/E9onu9rVgAI1mwQ?format=jpg&name=small",
-			"https://pbs.twimg.com/media/E6_N9EVVgAAzL83?format=jpg&name=small",
-			"https://pbs.twimg.com/media/E5IUda8VIAQM4ow?format=jpg&name=small"
-		],
-		"portraits":[
-			"https://pbs.twimg.com/media/E9pEqOYUYAYK58c?format=jpg&name=small",
-			"https://pbs.twimg.com/media/E45OSlMUYAU7CET?format=jpg&name=small",
-			"https://pbs.twimg.com/media/Ez-n9dRVcAUywb8?format=jpg&name=small",
-			"https://pbs.twimg.com/media/Exkam29VoAIauzu?format=jpg&name=small",
-			"https://pbs.twimg.com/media/EotjkB_UYAABU8d?format=jpg&name=small"			
-		],
-		"name":"Tomita Miyu",
-		"nickname":"-CHAN!!*",
-		"dob":"1999.11.15",
-		"dobComment":"She is so young it was only*",
-		"profile":"Japanese Voice Actress",
-		"turningPoint":{
-			"soloDebut":"Yes**",
-			"swimsuitPhotobook":"No",
-			"isMarried":"No"
-		},
-		"intro":"From Anime \"Joshikousei no Mudazukai\" as Yamamoto Minami and \"Houkago Saikoro Club\" as Oono Midori",
-		"description":"Her roles in anime have been impressive as I have seen a few till date, her outside of Anime is a total millennia having a picky appetite*, and is cool overall. It's hard to not be interested in her.",
-		"wantedLevel":"★★★★☆",
-		"wantedLevelComment":"Purely based on personality",
-		"comments":[
-			"*Most of my inferences come from the one \"JoshiMuda\" livestream, by the way, from where veteran Okitsu Kazuyuki fanboys on her also promoting her as a then newbie, to how she is always behaving different from the seniors in the cast",
-			"**Under music label Columbia Japan since 2019 for Anime \"Houkago Saikoro Club\""
-		]
 	}
 ]
