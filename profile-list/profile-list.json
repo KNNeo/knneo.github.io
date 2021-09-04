@@ -1822,9 +1822,16 @@
 		"id":"KannoMai",
 		"image":"https://pbs.twimg.com/media/EwsPdF5VIAIan-R?format=jpg&name=small",
 		"landscapes":[
-			"https://pbs.twimg.com/media/Ew_v-R5VgAQr3cS?format=jpg&name=small"
+			"https://pbs.twimg.com/media/Ew_v-R5VgAQr3cS?format=jpg&name=small",
+			"https://pbs.twimg.com/media/E9PG50lUYAMuDOV?format=jpg&name=small"
 		],
-		"portraits":[],
+		"portraits":[
+			"https://pbs.twimg.com/media/E94NimnVkAEW6In?format=jpg&name=small",
+			"https://pbs.twimg.com/media/E81XsCMVkAUlLVL?format=jpg&name=small",
+			"https://pbs.twimg.com/media/E8wOX2OVkA8LZw9?format=jpg&name=small",
+			"https://pbs.twimg.com/media/E7yVr0GUYAEi1w7?format=jpg&name=small",
+			"https://pbs.twimg.com/media/E7EMRl9WEAQIzm-?format=jpg&name=small"
+		],
 		"name":"Kanno Mai",
 		"nickname":"-chan?",
 		"dob":"1998.08.14",
@@ -1852,6 +1859,7 @@
 			"https://pbs.twimg.com/media/E5IUda8VIAQM4ow?format=jpg&name=small"
 		],
 		"portraits":[
+			"https://pbs.twimg.com/media/E-bw8JoVkAE9kxm?format=jpg&name=small",
 			"https://pbs.twimg.com/media/E9pEqOYUYAYK58c?format=jpg&name=small",
 			"https://pbs.twimg.com/media/E45OSlMUYAU7CET?format=jpg&name=small",
 			"https://pbs.twimg.com/media/Ez-n9dRVcAUywb8?format=jpg&name=small",
