@@ -1302,6 +1302,7 @@
 		"id":"IsobeKarin",
 		"image":"https://knneo.webs.com/isobekarin.jpg",
 		"landscapes":[
+			"https://pbs.twimg.com/media/E-cEcz_UYAYlWMP?format=jpg&name=small",
 			"https://pbs.twimg.com/media/E0OQHLbVUAUckPl?format=jpg&name=small",
 			"https://pbs.twimg.com/media/Ep0sJ8oVEAAr-p8?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EoZPsQdUwAEYgC1?format=jpg&name=small",
@@ -1310,7 +1311,9 @@
 			"https://pbs.twimg.com/media/ElF05DUUYAA8K56?format=jpg&name=small",
 			"https://pbs.twimg.com/media/Ehos11nVoAAIehR?format=jpg&name=small"			
 		],
-		"portraits":[],
+		"portraits":[
+			"https://pbs.twimg.com/media/E-cFD8vVIAI1i0G?format=jpg&name=small"
+		],
 		"name":"Isobe Karin",
 		"nickname":"-chan*",
 		"dob":"1994.05.26",
