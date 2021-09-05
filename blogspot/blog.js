@@ -207,9 +207,9 @@ function reduceResults() {
 				let homeThumb = document.createElement('div');
 				homeThumb.classList.add('home-thumb');
 				if(counter == 0) {
-					homeThumb.style.margin = 'auto';
-					homeThumb.style.width = '240px';
-					homeThumb.style.height = '240px';
+					homeThumb.style.margin = '5px auto';
+					homeThumb.style.width = '180px';
+					homeThumb.style.height = '180px';
 				}
 				homeThumb.style.backgroundImage = 'url(\'' + (thumb || '') + '\')';
 				
