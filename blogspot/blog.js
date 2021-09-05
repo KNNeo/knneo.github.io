@@ -171,6 +171,7 @@ function reduceResults() {
 		if(document.getElementById('hashtags') != undefined)
 			document.getElementById('hashtags').parentElement.removeChild(document.getElementById('hashtags'));
 		let posts = document.getElementsByClassName('post');
+		let counter = 0;
 		for (var post of posts)
 		{
 			//definition and preprocessing
@@ -201,15 +202,17 @@ function reduceResults() {
 			latestPostTitle.innerText = title != undefined ? title.innerText : statement[0].innerText;
 			
 			let thumbDiv = document.createElement('div');
-			if(posts.length > 1) thumbDiv.style.float = 'left';
+			if(counter > 0) thumbDiv.style.float = 'left';
+			
 				let homeThumb = document.createElement('div');
 				homeThumb.classList.add('home-thumb');
-				if(posts.length == 1) {
+				if(counter == 0) {
 					homeThumb.style.margin = 'auto';
 					homeThumb.style.width = '240px';
 					homeThumb.style.height = '240px';
 				}
 				homeThumb.style.backgroundImage = 'url(\'' + (thumb || '') + '\')';
+				
 			thumbDiv.appendChild(homeThumb);
 			
 			let latestPostSummary = document.createElement('div');
@@ -229,6 +232,8 @@ function reduceResults() {
 			post.innerHTML = '';
 			latestPost.appendChild(innerPostLink);
 			post.appendChild(latestPost);
+			
+			counter++;
 		}
 	}
 	else
