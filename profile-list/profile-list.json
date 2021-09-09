@@ -1890,23 +1890,6 @@
 	},
 	{
 		"category":"seiyuu4",
-		"id":"FujitaAkane",
-		"image":"https://image.news.livedoor.com/newsimage/stf/3/1/313c174ad3d8e4b9af267fd6eb92aa7c.jpg",
-		"landscapes":[
-			"https://image.news.livedoor.com/newsimage/stf/7/9/793d2d625b45ec9a793b8b5d20756b8a.jpg"
-		],
-		"portraits":[],
-		"name":"Fujita Akane",
-		"dob":"1993.01.26",
-		"profile":"Japanese Voice Actress",
-		"turningPoint":{
-			"soloDebut":"No",
-			"swimsuitPhotobook":"No",
-			"isMarried":"No"
-		}
-	},
-	{
-		"category":"seiyuu4",
 		"id":"SasakiNao",
 		"image":"https://pbs.twimg.com/media/EoyZsPjUUAAf97l?format=jpg&name=small",
 		"landscapes":[
