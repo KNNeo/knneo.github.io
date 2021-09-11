@@ -156,7 +156,7 @@ font-size: 70%;
   list-style-type: none;
   padding: 5px;
 }
-#wantedList li, #wantedList a, #profile-friends a {
+#wantedList li, #wantedList a, #profile-friends a, #profile-social a {
   display: inline-block;
   white-space: nowrap;
   margin: 2px;

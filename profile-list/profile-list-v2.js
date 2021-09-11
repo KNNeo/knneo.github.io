@@ -518,6 +518,60 @@ function generateProfileFromJSON(profileName) {
 							profileTableBody.appendChild(row);
 						}
 						
+						if(profile.socialHandlers)
+						{
+							row = document.createElement('tr');
+							
+								cell = document.createElement('td');
+								cell.innerText = 'Social Media';
+								row.appendChild(cell);
+							
+							profileTableBody.appendChild(row);
+							
+							row = document.createElement('tr');
+							
+								cell = document.createElement('td');
+								
+									cellDiv = document.createElement('div');
+									cellDiv.id = 'profile-social';
+									
+									if(profile.socialHandlers.twitter)
+									{
+										let twitterSpan = document.createElement('a');
+										twitterSpan.href = 'https://twitter.com/' + profile.socialHandlers.twitter;
+										twitterSpan.target = '_blank';
+										twitterSpan.title = profile.socialHandlers.twitter;
+										twitterSpan.innerText = 'Twitter';										
+										cellDiv.appendChild(twitterSpan);
+									}
+									
+									if(profile.socialHandlers.instagram)
+									{
+										let instagramSpan = document.createElement('a');
+										instagramSpan.href = 'https://www.instagram.com/' + profile.socialHandlers.instagram;
+										instagramSpan.target = '_blank';
+										instagramSpan.title = profile.socialHandlers.instagram;
+										instagramSpan.innerText = 'Instagram';										
+										cellDiv.appendChild(instagramSpan);
+									}
+									
+									if(profile.socialHandlers.youtube)
+									{
+										let youtubeSpan = document.createElement('a');
+										youtubeSpan.href = 'https://www.youtube.com/c/' + profile.socialHandlers.youtube;
+										youtubeSpan.target = '_blank';
+										youtubeSpan.title = profile.socialHandlers.youtube;
+										youtubeSpan.innerText = 'YouTube';										
+										cellDiv.appendChild(youtubeSpan);
+									}
+									
+									cell.appendChild(cellDiv);
+									
+								row.appendChild(cell);
+							
+							profileTableBody.appendChild(row);
+						}
+						
 					}
 					
 				profileTable.appendChild(profileTableBody);
