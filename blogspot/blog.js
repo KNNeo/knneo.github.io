@@ -635,9 +635,10 @@ function togglePopup() {
             }
         }
         this.classList.add('new-thumbnail');
-		this.scrollIntoView();
 		switchToButton('CloseBtn');
-		fixExternalFrame(this);	
+		fixExternalFrame(this);
+		if(this.children.length > 1 && this.firstElementChild.nextElementSibling)
+			this.firstElementChild.nextElementSibling.scrollIntoView(false);
     }
 	
 	toggleOverlay(false);
@@ -971,6 +972,8 @@ function windowOnResize() {
 	
 	if(document.getElementById('Overlay') != null && document.getElementById('Overlay').style.display != 'none')
 		closePopups();
+	
+	resizeImg();
 };
 
 function fixExternalFrame(thumbnail) {
