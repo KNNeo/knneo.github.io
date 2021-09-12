@@ -51,6 +51,12 @@ p {
 	top: 38px;
 	background-color: black;
 }
+tr:hover > td {
+	background-color: transparent;
+}
+.darked tr:hover {
+	background-color: transparent;
+}
 @media only screen and (max-width : 1040px) {
   html { font-size: 0.8em; }
 }
