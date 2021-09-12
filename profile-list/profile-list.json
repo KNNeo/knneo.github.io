@@ -329,7 +329,11 @@
 		"comments":[
 			"*Fans inferred her age from when she graduated from university, in 2017",
 			"**I reviewed <a href=\"https://knwebreports.blogspot.com/2019/09/sixth-book-worth-of-photos-cosplayer-on.html\">her 3rd photobook</a> and her final for Comiket"
-		]
+		],
+		"socialHandlers":{
+			"twitter":"hu_ton_",
+			"instagram":"hu_ton_"
+		}
 	},
 	{
 		"category":"seiyuu1",
@@ -508,7 +512,10 @@
 			"*Initially under KING AMUSEMENT CREATIVE (formerly together with King Records), and now under TOYS' FACTORY produced under Anime composers group Q-MHz",
 			"**To fellow voice actor Maeno Tomoaki",
 			"***Here's an example of <a href=\"https://twitter.com/mikakokomatsu/status/698835135022571520\">what she posted on one particular Valentine's Day</a>"
-		]
+		],
+		"socialHandlers":{
+			"twitter":"mikakokomatsu"
+		}
 	},
 	{
 		"category":"seiyuu1",
@@ -750,7 +757,10 @@
 			"*More commonly referred to as \"Ao-chan\"",
 			"**She was main in the original AND remake of Anime \"Kino no Tabi\", premiered on 2003.04.08 and 2017.10.06 respectively",
 			"***Her range stretches from voicing Otus Lotta in Anime \"ACCA\" (cute) to Hanatabake Yoshiko in \"Aho Girl\" (crazy) to Takagi Megumi in \"Sangatsu no Lion\" (cool)"
-		]
+		],
+		"socialHandlers":{
+			"twitter":"staff_aoi"
+		}
 	},
 	{
 		"category":"seiyuu2",
@@ -997,7 +1007,12 @@
 			"*Under music label KING AMUSEMENT CREATIVE, since 2015",
 			"**She has till date, mind you, never released a full photobook of any sort in her career thus far which is a rarity since many will have done so from a magazine serialisation and she has one.",
 			"***<a href=\"https://www.youtube.com/watch?v=RcbWbp-lPYo\">Music video of \"harmony ribbon\"</a> is on YouTube"
-		]
+		],
+		"socialHandlers":{
+			"twitter":"inoriminase",
+			"instagram":"inoriminase_info",
+			"youtube":"minaseinori_KING"
+		}
 	},
 	{
 		"category":"seiyuu2",
@@ -1064,7 +1079,11 @@
 		"comments":[
 			"*Under music label \"Flying Dog\" from 2016 to 2020; Her 2nd single \"<a href=\"https://youtu.be/FU21xtlEUKw\">Climber's High</a>\" for Anime \"Fuuka\" is her most impressive release in Klassic Note",
 			"**Married to fellow voice actor Osaka Ryouta"
-		]
+		],
+		"socialHandlers":{
+			"twitter":"numakura_manami",
+			"instagram":"nu_manami"
+		}
 	},
 	{
 		"category":"seiyuu2",
@@ -1093,7 +1112,11 @@
 		"comments":[
 			"*Under music label Rokkan Music (under Teichiku Entertainment), from 2018 to 2020",
 			"**She did release two books worth of photos without her half-naked and that kind of explains her late entrace to the industry imo"
-		]
+		],
+		"socialHandlers":{
+			"twitter":"RiccaTachibana",
+			"instagram":"alcoholojisan"
+		}
 	},
 	{
 		"category":"seiyuu2",
@@ -1132,7 +1155,12 @@
 		"comments":[
 			"*Part of idol group \"Earphones\" born from Anime \"Sore ga Seiyuu!\"; Solo music career under music label A-Sketch",
 			"**She hosts her own livestream sponsored by an online cooking website where she makes her own dishes, as much as she isn't good at it initially. Today this might be her hobby as seen from her Tweets."
-		]
+		],
+		"socialHandlers":{
+			"twitter":"taka8rie",
+			"instagram":"riery_syame",
+			"youtube":"taka8rie"
+		}
 	},
 	{
 		"category":"seiyuu2",
@@ -1374,7 +1402,11 @@
 		"comments":[
 			"*More commonly referred to as \"Karirin\" but \"Karin-chan\" is also popular",
 			"**Part of five-member idol group BlooDye and four-member idol group Healer Girls"
-		]
+		],
+		"socialHandlers":{
+			"twitter":"Carin_Official",
+			"instagram":"caririn.official"
+		}
 	},
 	{
 		"category":"seiyuu3",
@@ -1810,7 +1842,7 @@
 		"intro":"From Itou Miku (not featured here) and their idol group Pyxis (which I don't listen)",
 		"description":"She's like that friend's friend who is more attractive than your friend lol (sorry Itou Miku). She is not as popular in roles though as she is somewhat new, but her roles do present her as being idol-like. Not that I've given any though. Without proper Anime credit I am refraining my idolism on her for now tbh",
 		"wantedLevel":"★★★★☆",
-		"wantedLevelComment":"Selfie fuel ranked right after Sumipe",
+		"wantedLevelComment":"Selfie fuel ranked right after Uesaka Sumire",
 		"comments":[
 			"*Part of idol group \"Pyxis\" with fellow voice actress Itou Miku",
 			"**I reviewed all her solo and group photobooks- NO I DID NOT haha"
@@ -1858,7 +1890,12 @@
 			"*Under music label Nippon Columbia",
 			"**I have reviewed her <a href=\"https://knwebreports.blogspot.com/2021/03/the-eleventh-book-vs-twelfth-book-worth.html#AZUYOU\">1st photobook</a> without any swimsuits, a pity",
 			"***She was chosen as a replacement voice in Game \"Alternative Girls\" as Mizushima Airi, taking over from retired voice actress Endou Yurika"
-		]
+		],
+		"socialHandlers":{
+			"twitter":"azumi_waki",
+			"instagram":"ajujustaff",
+			"youtube":"UCIMgDPnwOYpj-_Sh8yVMxlw"
+		}
 	},
 	{
 		"category":"seiyuu3",
@@ -1955,7 +1992,11 @@
 		"comments":[
 			"*Most of my inferences come from the one \"JoshiMuda\" livestream, by the way, from where veteran Okitsu Kazuyuki fanboys on her also promoting her as a then newbie, to how she is always behaving different from the seniors in the cast",
 			"**Under music label Columbia Japan since 2019 for Anime \"Houkago Saikoro Club\""
-		]
+		],
+		"socialHandlers":{
+			"twitter":"miyju_tomita",
+			"youtube":"UCvLYHd1gVyZP7txA_vL89Ng"
+		}
 	},
 	{
 		"category":"seiyuu4",
@@ -1982,6 +2023,9 @@
 			"soloDebut":"No",
 			"swimsuitPhotobook":"No",
 			"isMarried":"No"
+		},
+		"socialHandlers":{
+			"twitter":"sasaki_nao_0306"
 		}
 	}
 ]
