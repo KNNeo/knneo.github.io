@@ -486,7 +486,7 @@ function generateProfileFromJSON(profileName) {
 							
 							row = document.createElement('tr');
 							
-								cell = document.createElement('td');
+								cell = document.createElement('td')
 								
 									cellDiv = document.createElement('div');
 									cellDiv.id = 'profile-friends';

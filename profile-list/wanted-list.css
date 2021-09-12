@@ -170,7 +170,7 @@ font-size: 70%;
   color: #00e4ff;
   text-decoration: underline solid #00e4ff;
 }
-#wantedList a:hover {
+#wantedList a:hover, #profile-friends a:hover, #profile-social a:hover {
   color: white;
   text-decoration: underline solid white;
 }
