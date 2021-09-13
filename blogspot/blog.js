@@ -6,8 +6,6 @@ window.onpageshow = function() {
     preloadSequence();
     reduceResults();
     // fixPopup();
-    setTimeout(setThumbnails, 1000);
-    setTimeout(resizeImg, 1000);
     fixLabelResults();
 	fixNavigationResults();
     olderNewerTextToIcon();
@@ -16,6 +14,8 @@ window.onpageshow = function() {
     addHoverForLinks();
     addHoverOnExpander();
     addHashtags();
+    setThumbnails();
+    resizeImg();
 	// hideImagesOnError();
 	// videoifyGIFs();
 
@@ -292,234 +292,6 @@ function fixPopup() {
     }
 }
 
-// Multi-image thumbnail: Define max caption height, onclick event
-function setThumbnails() {
-    let allThumbnails = document.body.getElementsByClassName("thumbnail");
-    for (let i = 0; i < allThumbnails.length; i++) {
-/*         var firstElement = allThumbnails[i].getElementsByClassName('thumbnail-initial')[0];
-        if (firstElement == undefined) continue;
-        var initialHeight = firstElement.offsetHeight;
-        var popHeight = allThumbnails[i].getElementsByClassName('thumbnail-pop')[0].offsetHeight;
-        allThumbnails[i].style.height = Math.max(initialHeight, popHeight) + 'px';
-        if (popHeight - initialHeight > 50 || popHeight - initialHeight < -50)
-            allThumbnails[i].style.height = initialHeight + 'px'; */
-		
-		let [min, max] = calcMinMaxThumbHeight(allThumbnails[i]);
-		if(min && max)
-			allThumbnails[i].style.height = allThumbnails[i].getElementsByClassName("thumbnail-initial")[0].offsetHeight + 'px';
-		if(!min)
-			allThumbnails[i].style.height = max + 'px';
-        let allThumbImages = allThumbnails[i].getElementsByTagName("img");
-        let allThumbVideos = allThumbnails[i].getElementsByTagName("video");
-        for (j = 0; j < allThumbImages.length; j++) {
-            allThumbImages[j].onclick = function() {
-                switchThumbnails(closestClass(this, "thumbnail"));
-            };
-        }
-        for (k = 0; k < allThumbVideos.length; k++) {
-            allThumbVideos[k].onclick = function() {
-                switchThumbnails(closestClass(this, "thumbnail"));
-            };
-        }
-		for(let image of allThumbImages) {
-			if(image.parentElement.tagName == "A") {
-				console.error("Thumbnail has image with link: Will prevent switchThumbnails from image click");
-				return;
-			}
-		}
-    }
-}
-
-function closestClass(inputElement, targetClassName) {
-    while (inputElement.className != targetClassName && inputElement.parentNode.tagName.toUpperCase() != "BODY") {
-        inputElement = inputElement.parentNode;
-    }
-    return inputElement;
-}
-
-function closestTag(inputElement, targetTagName) {
-    while (inputElement.tagName != targetTagName.toUpperCase() && inputElement.parentNode.tagName.toUpperCase() != "BODY") {
-		inputElement = inputElement.parentNode;
-    }
-    return inputElement;
-}
-
-function switchThumbnails(tn) {
-    let tc = tn.getElementsByClassName("thumbnail-initial");
-	// to identify active
-	let active = tn.getAttribute('active');
-	if(active == null)
-		active = Array.from(tc).findIndex(t => !t.classList.contains("thumbnail-pop"));
-	// to reset before setting new active
-	for(let t of tc) {
-		if(!t.classList.contains("thumbnail-pop"))
-		t.classList.add("thumbnail-pop");
-	}
-	if(active == null) return;
-	let nextActive = tc[active].nextElementSibling;
-	if(nextActive == null) nextActive = tn.firstElementChild;
-	nextActive.classList.remove("thumbnail-pop");
-	// recalculate height if huge difference
-    // var initialVisible = true;
-    // let heights = Array.from(tc).map(t => t.offsetHeight);
-	// let maxHeight = Math.max(...heights);
-	// let minHeight = Math.min(...heights);
-    /*let tc = tn.getElementsByClassName("thumbnail-initial");
-    if (tc[0].style.visibility == "hidden") {
-        tc[0].style.visibility = "visible";
-        tc[1].style.visibility = "hidden";
-    } else if (tc[0].style.visibility == "" || tc[1].style.visibility == "") {
-        tc[0].style.visibility = "hidden";
-        tc[1].style.visibility = "visible";
-        initialVisible = false;
-    } else {
-        tc[0].style.visibility = "hidden";
-        tc[1].style.visibility = "visible";
-        initialVisible = false;
-    }
-
-    var initialHeight = tn.getElementsByClassName('thumbnail-initial')[0].offsetHeight;
-    var popHeight = tn.getElementsByClassName('thumbnail-pop')[0].offsetHeight;
-    if (popHeight - initialHeight > 50 || popHeight - initialHeight < -50)
-        tn.style.height = (initialVisible ? initialHeight : popHeight) + 'px';*/
-	// if(maxHeight - minHeight > 50)
-	let [min, max] = calcMinMaxThumbHeight(tn);
-	if(min && max)
-		tn.style.height = nextActive.offsetHeight + 'px';
-    return;
-}
-
-function calcMinMaxThumbHeight(thumbnailClass) {
-	//calculation logic:
-	/*
-	 * if large difference ie. >50, set min and max height
-	 * if small difference, set no min, max as max height
-	 */
-    let tc = thumbnailClass.getElementsByClassName("thumbnail-initial");
-    let heights = Array.from(tc).map(t => t.offsetHeight);
-	let minHeight = Math.min(...heights);
-	let maxHeight = Math.max(...heights);
-	if(maxHeight - minHeight <= 50)
-		return [null, maxHeight];
-	if(minHeight && maxHeight)
-		return [minHeight, maxHeight];
-	return [null, null];
-}
-
-// Responsive image resizing based on screen dimensions
-function resizeImg() {
-    //current issues
-    /*
-    ~Exclusion list for class lists to avoid on parent element eg. when parent element in post div
-    ~Consider writing in whitelist case then with blacklist case
-    ~Images that always resize to 100% instead of retaining original size which can fit screen, consider putting back original size if no overflow
-    ~Consluion: Consider redo whole list based on stricter requirements, and clearer ranges/lists to maintain exclusions
-    */
-    var images = document.getElementsByTagName("img");
-    for (var p of images) {
-		let showLog = false;
-		if(showLog) console.log(p);
-        var imgWidth = p.width;
-        var imgHeight = p.height;
-		if(showLog) console.log('width x height', imgWidth, imgHeight);
-        //process exclusion list
-		//by image size, class, tag name, or by id
-        if (imgWidth < 20 || imgHeight < 20) continue;
-        if (p.id == "news-thumbnail" || 
-			p.parentElement.tagName == "ABBR" || 
-			p.parentElement.className == "anime-row" ||
-			p.parentElement.className == "profile-box-img" || 
-			p.parentElement.parentElement.className == "popup" || 
-			p.parentElement.parentElement.parentElement.id == "anime-list" ||
-			p.parentElement.parentElement.parentElement.className == "anime-year") 
-		{
-			if(showLog) console.log('exclusion', p, p.parentElement);
-			p.classList.add('img-unchanged');
-			continue;
-		}
-        //end of process exclusion list
-		
-		//process based on parent
-        /* if (p.parentElement.tagName == "DIV" && !p.parentElement.classList.contains("post") && !p.parentElement.classList.contains("post-body") && !p.parentElement.classList.contains("post-outer")) {
-            p.parentElement.style.maxWidth = imgWidth + 'px';
-            p.parentElement.style.maxHeight = imgHeight + 'px';
-			if(showLog) console.log('parentElement', p.parentElement.style.maxWidth, p.parentElement.style.maxHeight);
-        } else if ((p.parentElement.parentElement.tagName == "TR" ||
-                (p.parentElement.parentElement.className == "separator" && p.parentElement.parentElement.tagName != "TR")) &&
-            !p.parentElement.parentElement.classList.contains("post") && !p.parentElement.parentElement.classList.contains("post-body") &&
-            !p.parentElement.parentElement.classList.contains("post-outer")) {
-            p.parentElement.parentElement.style.maxWidth = imgWidth + 'px';
-            p.parentElement.parentElement.style.maxHeight = imgHeight + 'px';
-			if(showLog) console.log('parentElement.parentElement', p.parentElement.parentElement.style.maxWidth, p.parentElement.parentElement.style.maxHeight);
-            p.parentElement.style.width = (100 / (p.parentElement.parentElement.childElementCount)) + '%';
-			if(showLog) console.log('parentElement', p.parentElement.style.width);
-        } else if (!p.parentElement.parentElement.parentElement.classList.contains("post") &&
-            !p.parentElement.parentElement.parentElement.classList.contains("post-body") &&
-            !p.parentElement.parentElement.parentElement.classList.contains("post-outer")) {
-            p.parentElement.parentElement.parentElement.style.maxWidth = imgWidth + 'px';
-            p.parentElement.parentElement.parentElement.style.maxHeight = imgHeight + 'px';
-			if(showLog) console.log('parentElement.parentElement.parentElement', p.parentElement.parentElement.parentElement.style.maxWidth, p.parentElement.parentElement.parentElement.style.maxHeight);
-        } */
-		//end of process based on parent
-		
-		//process based on dimensions
-        if (imgWidth >= imgHeight) //landscape
-        {
-            p.removeAttribute("height");
-            p.removeAttribute("width");
-            if (p.parentElement.parentElement.tagName == "TR" && p.parentElement.parentElement.getElementsByTagName("td").length > 1) //in table
-                p.classList.add('img-width-fit');
-            else if (p.parentElement.parentElement.parentElement.tagName == "TR" && p.parentElement.parentElement.parentElement.getElementsByTagName("td").length > 1 && p.parentElement.tagName == "A") //in table, with link
-                p.classList.add('img-width-fit');
-            else if (p.width + 20 >= window.outerWidth) //see #main and .separator
-                p.classList.add('img-width-fit');
-            else if (p.width < imgWidth)
-                p.classList.add('img-width-auto');
-            else
-                p.style.width = imgWidth + 'px';
-			if(showLog) console.log('landscape', p.style.width, p.style.height);
-        } else //portrait
-        {
-            p.removeAttribute("width");
-            p.removeAttribute("height");
-            if (p.parentElement.parentElement.tagName == "TR" && p.parentElement.parentElement.getElementsByTagName("td").length > 1) //in table
-                p.classList.add('img-width-fit');
-            else if (p.parentElement.parentElement.parentElement.tagName == "TR" && p.parentElement.parentElement.parentElement.getElementsByTagName("td").length > 1 && p.parentElement.tagName == "A") //in table, with link
-                p.classList.add('img-width-fit');
-            else if (p.width + 20 >= window.outerWidth) //see #main and .separator
-                p.classList.add('img-width-fit');
-            else if (p.width >= imgWidth)
-                p.classList.add('img-width-auto');
-            else
-                p.style.width = imgWidth + 'px';
-			if(showLog) console.log('portrait', p.style.width, p.style.height);
-        }
-		//end of process based on dimensions
-		
-		//separator special cases
-        if (p.parentElement.className == "separator" ||
-			p.parentElement.parentElement.className == "separator") {
-			p.parentElement.classList.add('img-separator');
-			if(showLog) console.log('separator', p.style.marginLeft, p.style.marginRight);
-        }
-		if(p.parentElement.tagName == "A" &&
-		p.parentElement.marginLeft != "" &&
-		p.parentElement.marginRight != "")
-		{
-			p.parentElement.style.marginLeft = null;
-			p.parentElement.style.marginRight = null;
-			p.parentElement.classList.add('img-separator');
-		}
-		//end of separator special cases
-		
-        /* if (p.width >= document.getElementsByClassName("post-body")[0].offsetWidth && document.getElementsByClassName("post-body")[0].offsetWidth > 0) {
-            p.style.width = '100%';
-			if(showLog) console.log('offsetWidth', p.style.width, p.style.height);
-        } */
-    }
-	
-    setThumbnails();
-}
 
 // Fix search results to return 5 results instead of 1
 function fixLabelResults() {
@@ -985,6 +757,235 @@ function fixExternalFrame(thumbnail) {
 		if (thumbnailTable != thumbnail)
 			thumbnailTable.style.width = '100%';
 	}
+}
+
+// Multi-image thumbnail: Define max caption height, onclick event
+function setThumbnails() {
+    let allThumbnails = document.body.getElementsByClassName("thumbnail");
+    for (let i = 0; i < allThumbnails.length; i++) {
+/*         var firstElement = allThumbnails[i].getElementsByClassName('thumbnail-initial')[0];
+        if (firstElement == undefined) continue;
+        var initialHeight = firstElement.offsetHeight;
+        var popHeight = allThumbnails[i].getElementsByClassName('thumbnail-pop')[0].offsetHeight;
+        allThumbnails[i].style.height = Math.max(initialHeight, popHeight) + 'px';
+        if (popHeight - initialHeight > 50 || popHeight - initialHeight < -50)
+            allThumbnails[i].style.height = initialHeight + 'px'; */
+		
+		let [min, max] = calcMinMaxThumbHeight(allThumbnails[i]);
+		if(min && max)
+			allThumbnails[i].style.height = allThumbnails[i].getElementsByClassName("thumbnail-initial")[0].offsetHeight + 'px';
+		if(!min)
+			allThumbnails[i].style.height = max + 'px';
+        let allThumbImages = allThumbnails[i].getElementsByTagName("img");
+        let allThumbVideos = allThumbnails[i].getElementsByTagName("video");
+        for (j = 0; j < allThumbImages.length; j++) {
+            allThumbImages[j].onclick = function() {
+                switchThumbnails(closestClass(this, "thumbnail"));
+            };
+        }
+        for (k = 0; k < allThumbVideos.length; k++) {
+            allThumbVideos[k].onclick = function() {
+                switchThumbnails(closestClass(this, "thumbnail"));
+            };
+        }
+		for(let image of allThumbImages) {
+			if(image.parentElement.tagName == "A") {
+				console.error("Thumbnail has image with link: Will prevent switchThumbnails from image click");
+				return;
+			}
+		}
+    }
+}
+
+function closestClass(inputElement, targetClassName) {
+    while (inputElement.className != targetClassName && inputElement.parentNode.tagName.toUpperCase() != "BODY") {
+        inputElement = inputElement.parentNode;
+    }
+    return inputElement;
+}
+
+function closestTag(inputElement, targetTagName) {
+    while (inputElement.tagName != targetTagName.toUpperCase() && inputElement.parentNode.tagName.toUpperCase() != "BODY") {
+		inputElement = inputElement.parentNode;
+    }
+    return inputElement;
+}
+
+function switchThumbnails(tn) {
+    let tc = tn.getElementsByClassName("thumbnail-initial");
+	// to identify active
+	let active = tn.getAttribute('active');
+	if(active == null)
+		active = Array.from(tc).findIndex(t => !t.classList.contains("thumbnail-pop"));
+	// to reset before setting new active
+	for(let t of tc) {
+		if(!t.classList.contains("thumbnail-pop"))
+		t.classList.add("thumbnail-pop");
+	}
+	if(active == null) return;
+	let nextActive = tc[active].nextElementSibling;
+	if(nextActive == null) nextActive = tn.firstElementChild;
+	nextActive.classList.remove("thumbnail-pop");
+	// recalculate height if huge difference
+    // var initialVisible = true;
+    // let heights = Array.from(tc).map(t => t.offsetHeight);
+	// let maxHeight = Math.max(...heights);
+	// let minHeight = Math.min(...heights);
+    /*let tc = tn.getElementsByClassName("thumbnail-initial");
+    if (tc[0].style.visibility == "hidden") {
+        tc[0].style.visibility = "visible";
+        tc[1].style.visibility = "hidden";
+    } else if (tc[0].style.visibility == "" || tc[1].style.visibility == "") {
+        tc[0].style.visibility = "hidden";
+        tc[1].style.visibility = "visible";
+        initialVisible = false;
+    } else {
+        tc[0].style.visibility = "hidden";
+        tc[1].style.visibility = "visible";
+        initialVisible = false;
+    }
+
+    var initialHeight = tn.getElementsByClassName('thumbnail-initial')[0].offsetHeight;
+    var popHeight = tn.getElementsByClassName('thumbnail-pop')[0].offsetHeight;
+    if (popHeight - initialHeight > 50 || popHeight - initialHeight < -50)
+        tn.style.height = (initialVisible ? initialHeight : popHeight) + 'px';*/
+	// if(maxHeight - minHeight > 50)
+	let [min, max] = calcMinMaxThumbHeight(tn);
+	if(min && max)
+		tn.style.height = nextActive.offsetHeight + 'px';
+    return;
+}
+
+function calcMinMaxThumbHeight(thumbnailClass) {
+	//calculation logic:
+	/*
+	 * if large difference ie. >50, set min and max height
+	 * if small difference, set no min, max as max height
+	 */
+    let tc = thumbnailClass.getElementsByClassName("thumbnail-initial");
+    let heights = Array.from(tc).map(t => t.offsetHeight);
+	let minHeight = Math.min(...heights);
+	let maxHeight = Math.max(...heights);
+	if(maxHeight - minHeight <= 50)
+		return [null, maxHeight];
+	if(minHeight && maxHeight)
+		return [minHeight, maxHeight];
+	return [null, null];
+}
+
+// Responsive image resizing based on screen dimensions
+function resizeImg() {
+    //current issues
+    /*
+    ~Exclusion list for class lists to avoid on parent element eg. when parent element in post div
+    ~Consider writing in whitelist case then with blacklist case
+    ~Images that always resize to 100% instead of retaining original size which can fit screen, consider putting back original size if no overflow
+    ~Consluion: Consider redo whole list based on stricter requirements, and clearer ranges/lists to maintain exclusions
+    */
+    var images = document.getElementsByTagName("img");
+    for (var p of images) {
+		let showLog = false;
+		if(showLog) console.log(p);
+        var imgWidth = p.width;
+        var imgHeight = p.height;
+		if(showLog) console.log('width x height', imgWidth, imgHeight);
+        //process exclusion list
+		//by image size, class, tag name, or by id
+        if (imgWidth < 20 || imgHeight < 20) continue;
+        if (p.id == "news-thumbnail" || 
+			p.parentElement.tagName == "ABBR" || 
+			p.parentElement.className == "anime-row" ||
+			p.parentElement.className == "profile-box-img" || 
+			p.parentElement.parentElement.className == "popup" || 
+			p.parentElement.parentElement.parentElement.id == "anime-list" ||
+			p.parentElement.parentElement.parentElement.className == "anime-year") 
+		{
+			if(showLog) console.log('exclusion', p, p.parentElement);
+			p.classList.add('img-unchanged');
+			continue;
+		}
+        //end of process exclusion list
+		
+		//process based on parent
+        /* if (p.parentElement.tagName == "DIV" && !p.parentElement.classList.contains("post") && !p.parentElement.classList.contains("post-body") && !p.parentElement.classList.contains("post-outer")) {
+            p.parentElement.style.maxWidth = imgWidth + 'px';
+            p.parentElement.style.maxHeight = imgHeight + 'px';
+			if(showLog) console.log('parentElement', p.parentElement.style.maxWidth, p.parentElement.style.maxHeight);
+        } else if ((p.parentElement.parentElement.tagName == "TR" ||
+                (p.parentElement.parentElement.className == "separator" && p.parentElement.parentElement.tagName != "TR")) &&
+            !p.parentElement.parentElement.classList.contains("post") && !p.parentElement.parentElement.classList.contains("post-body") &&
+            !p.parentElement.parentElement.classList.contains("post-outer")) {
+            p.parentElement.parentElement.style.maxWidth = imgWidth + 'px';
+            p.parentElement.parentElement.style.maxHeight = imgHeight + 'px';
+			if(showLog) console.log('parentElement.parentElement', p.parentElement.parentElement.style.maxWidth, p.parentElement.parentElement.style.maxHeight);
+            p.parentElement.style.width = (100 / (p.parentElement.parentElement.childElementCount)) + '%';
+			if(showLog) console.log('parentElement', p.parentElement.style.width);
+        } else if (!p.parentElement.parentElement.parentElement.classList.contains("post") &&
+            !p.parentElement.parentElement.parentElement.classList.contains("post-body") &&
+            !p.parentElement.parentElement.parentElement.classList.contains("post-outer")) {
+            p.parentElement.parentElement.parentElement.style.maxWidth = imgWidth + 'px';
+            p.parentElement.parentElement.parentElement.style.maxHeight = imgHeight + 'px';
+			if(showLog) console.log('parentElement.parentElement.parentElement', p.parentElement.parentElement.parentElement.style.maxWidth, p.parentElement.parentElement.parentElement.style.maxHeight);
+        } */
+		//end of process based on parent
+		
+		//process based on dimensions
+        if (imgWidth >= imgHeight) //landscape
+        {
+            p.removeAttribute("height");
+            p.removeAttribute("width");
+            if (p.parentElement.parentElement.tagName == "TR" && p.parentElement.parentElement.getElementsByTagName("td").length > 1) //in table
+                p.classList.add('img-width-fit');
+            else if (p.parentElement.parentElement.parentElement.tagName == "TR" && p.parentElement.parentElement.parentElement.getElementsByTagName("td").length > 1 && p.parentElement.tagName == "A") //in table, with link
+                p.classList.add('img-width-fit');
+            else if (p.width + 20 >= window.outerWidth) //see #main and .separator
+                p.classList.add('img-width-fit');
+            else if (p.width < imgWidth)
+                p.classList.add('img-width-auto');
+            else
+                p.style.width = imgWidth + 'px';
+			if(showLog) console.log('landscape', p.style.width, p.style.height);
+        } else //portrait
+        {
+            p.removeAttribute("width");
+            p.removeAttribute("height");
+            if (p.parentElement.parentElement.tagName == "TR" && p.parentElement.parentElement.getElementsByTagName("td").length > 1) //in table
+                p.classList.add('img-width-fit');
+            else if (p.parentElement.parentElement.parentElement.tagName == "TR" && p.parentElement.parentElement.parentElement.getElementsByTagName("td").length > 1 && p.parentElement.tagName == "A") //in table, with link
+                p.classList.add('img-width-fit');
+            else if (p.width + 20 >= window.outerWidth) //see #main and .separator
+                p.classList.add('img-width-fit');
+            else if (p.width >= imgWidth)
+                p.classList.add('img-width-auto');
+            else
+                p.style.width = imgWidth + 'px';
+			if(showLog) console.log('portrait', p.style.width, p.style.height);
+        }
+		//end of process based on dimensions
+		
+		//separator special cases
+        if (p.parentElement.className == "separator" ||
+			p.parentElement.parentElement.className == "separator") {
+			p.parentElement.classList.add('img-separator');
+			if(showLog) console.log('separator', p.style.marginLeft, p.style.marginRight);
+        }
+		if(p.parentElement.tagName == "A" &&
+		p.parentElement.marginLeft != "" &&
+		p.parentElement.marginRight != "")
+		{
+			p.parentElement.style.marginLeft = null;
+			p.parentElement.style.marginRight = null;
+			p.parentElement.classList.add('img-separator');
+		}
+		//end of separator special cases
+		
+        /* if (p.width >= document.getElementsByClassName("post-body")[0].offsetWidth && document.getElementsByClassName("post-body")[0].offsetWidth > 0) {
+            p.style.width = '100%';
+			if(showLog) console.log('offsetWidth', p.style.width, p.style.height);
+        } */
+    }
+	
+    setThumbnails();
 }
 
 //removed due to compatibility issue and having to do up cross origin support
