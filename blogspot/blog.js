@@ -6,8 +6,8 @@ window.onpageshow = function() {
     preloadSequence();
     reduceResults();
     // fixPopup();
-    setTimeout(setThumbnails, 100);
-    setTimeout(resizeImg, 100);
+    setTimeout(setThumbnails, 1000);
+    setTimeout(resizeImg, 1000);
     fixLabelResults();
 	fixNavigationResults();
     olderNewerTextToIcon();
