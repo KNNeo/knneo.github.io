@@ -6,8 +6,8 @@ window.onpageshow = function() {
     preloadSequence();
     reduceResults();
     // fixPopup();
-    setTimeout(setThumbnails, 1);
-    setTimeout(resizeImg, 5);
+    setTimeout(setThumbnails, 100);
+    setTimeout(resizeImg, 100);
     fixLabelResults();
 	fixNavigationResults();
     olderNewerTextToIcon();
@@ -517,6 +517,7 @@ function resizeImg() {
 			if(showLog) console.log('offsetWidth', p.style.width, p.style.height);
         } */
     }
+	
     setThumbnails();
 }
 
