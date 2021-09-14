@@ -13,6 +13,7 @@ body {
 }
 a {
 	color: cyan;
+	cursor: pointer;
 }
 p {
 	padding: 0 10px;

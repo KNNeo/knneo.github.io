@@ -576,17 +576,8 @@ function switchProfileBoxImage() {
 			if(temp.split('url(').length - 1 > 1) 
 			{
 				boxImg.style.backgroundRepeat = 'no-repeat';
-				if(!smallScreen) 
-				{
-					boxImg.style.backgroundSize = '25%, 25%';
-					//boxImg.style.backgroundSize = '320px, 320px';
-					boxImg.style.backgroundPosition = 'left, right';
-				}
-				if(smallScreen) 
-				{
-					boxImg.style.backgroundSize = 'auto 50%, auto 50%';
-					boxImg.style.backgroundPosition = 'top, bottom';
-				}
+				boxImg.style.backgroundSize = '50% auto';
+				boxImg.style.backgroundPosition = 'left, right';
 			}
 			else
 			{

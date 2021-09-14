@@ -172,7 +172,7 @@ function generateProfileFromJSON(profileName) {
 	let idBox = document.createElement('div');
 	idBox.id = profile.id;
 	//idBox.style.padding = '20px 0';
-	idBox.style.width = '90%';
+	idBox.style.width = !friendMode ? '90%' : '440px';
 	idBox.style.margin = 'auto';
 	
 		let profileBox = document.createElement('div');
@@ -264,10 +264,13 @@ function generateProfileFromJSON(profileName) {
 				
 					let row = document.createElement('tr');
 					
+					if(!friendMode)
+					{
 						let cell = document.createElement('td');
 						if(friendMode) cell.style.textAlign = 'center';
-						cell.innerText = 'Name (Nickname)';
+						cell.innerText = 'Name ' + (!simplified ? '' : '(Nickname)');
 						row.appendChild(cell);
+					}
 					
 					profileTableBody.appendChild(row);
 					
@@ -279,9 +282,19 @@ function generateProfileFromJSON(profileName) {
 						if(friendMode) cellDiv.style.position = 'absolute';
 						if(!friendMode && !simplified) cellDiv.innerText = ' (' + profile.nickname + ')';
 						
-							let span = document.createElement('span');
+							let span = document.createElement(friendMode ? 'a' : 'span');
 							span.classList.add('profile-name');
 							span.innerText = profile.name;
+							if(friendMode) 
+							{	
+								span.href = 'javascript:void(0)';
+								span.addEventListener("click", function() {
+									generateProfileFromJSON(this.innerText.replace(" ", ""));
+									renderProfileBox();
+									addStatusPopUp();
+									document.getElementById('profile').scrollIntoView();
+								});
+							}
 							cellDiv.insertBefore(span, cellDiv.childNodes[0]);
 							
 						cell.appendChild(cellDiv);
@@ -292,9 +305,16 @@ function generateProfileFromJSON(profileName) {
 							cellDiv = document.createElement('div');
 							// cellDiv.innerText = ' (' + currentProfile.nickname + ')';
 							
-								span = document.createElement('span');
+								span = document.createElement('a');
 								span.classList.add('profile-name');
 								span.innerText = currentProfile.name;
+								span.href = 'javascript:void(0)';
+								span.addEventListener("click", function() {
+									generateProfileFromJSON(this.innerText.replace(" ", ""));
+									renderProfileBox();
+									addStatusPopUp();
+									document.getElementById('profile').scrollIntoView();
+								});
 								cellDiv.insertBefore(span, cellDiv.childNodes[0]);
 								
 							cell.appendChild(cellDiv);
@@ -305,10 +325,13 @@ function generateProfileFromJSON(profileName) {
 					
 					row = document.createElement('tr');
 						
+					if(!friendMode)
+					{
 						cell = document.createElement('td');
 						if(friendMode) cell.style.textAlign = 'center';
 						cell.innerText = 'Date Of Birth';
 						row.appendChild(cell);
+					}
 					
 					profileTableBody.appendChild(row);
 					
@@ -348,78 +371,82 @@ function generateProfileFromJSON(profileName) {
 						row.appendChild(cell);
 					
 					profileTableBody.appendChild(row);
-				
-					row = document.createElement('tr');
 					
-						cell = document.createElement('td');
-						if(friendMode) cell.style.textAlign = 'center';
-						cell.innerText = 'Profile';
-						row.appendChild(cell);
 					
-					profileTableBody.appendChild(row);
-					
-					row = document.createElement('tr');
-					
-						cell = document.createElement('td');
+					if(!friendMode)
+					{
+						row = document.createElement('tr');
 						
-							cellDiv = document.createElement('div');
-							if(friendMode) cellDiv.style.textAlign = 'left';
-							if(friendMode) cellDiv.style.position = 'absolute';
-							cellDiv.innerText = profile.profile;
-							cell.appendChild(cellDiv);
+							cell = document.createElement('td');
+							if(friendMode) cell.style.textAlign = 'center';
+							cell.innerText = 'Profile';
+							row.appendChild(cell);
+						
+						profileTableBody.appendChild(row);
+						
+						row = document.createElement('tr');
+						
+							cell = document.createElement('td');
 							
+								cellDiv = document.createElement('div');
+								if(friendMode) cellDiv.style.textAlign = 'left';
+								if(friendMode) cellDiv.style.position = 'absolute';
+								cellDiv.innerText = profile.profile;
+								cell.appendChild(cellDiv);
+								
+								if(friendMode)
+								{
+									cellDiv = document.createElement('div');
+									cellDiv.innerText = profile.profile;
+									cell.appendChild(cellDiv);
+								}
+								
+							row.appendChild(cell);
+						
+						profileTableBody.appendChild(row);
+					
+						row = document.createElement('tr');
+						
+							cell = document.createElement('td');
+							cell.classList.add('tr-caption');
+							cell.classList.add('turning-point');
+							if(friendMode) cell.style.textAlign = 'center';
+							cell.innerText = 'Status (Singer Debut|Swimsuit Photobook|Married)';
+							row.appendChild(cell);
+						
+						profileTableBody.appendChild(row);
+					
+						row = document.createElement('tr');
+							
+							cell = document.createElement('td');
+								
+								cellDiv = document.createElement('div');
+								if(friendMode) cellDiv.style.textAlign = 'left';
+								if(friendMode) cellDiv.style.position = 'absolute';
+								if(!isExternal && !friendMode && !simplified) 
+									cellDiv.innerText = profile.turningPoint.soloDebut 
+												+ "|" + profile.turningPoint.swimsuitPhotobook 
+												+ "|" + profile.turningPoint.isMarried;
+								else
+									cellDiv.innerText = processTurningPoint(profile.turningPoint.soloDebut, false)
+												+ "|" + processTurningPoint(profile.turningPoint.swimsuitPhotobook, false) 
+												+ "|" + processTurningPoint(profile.turningPoint.isMarried, false);
+									
+							cell.appendChild(cellDiv);
+										
 							if(friendMode)
 							{
 								cellDiv = document.createElement('div');
-								cellDiv.innerText = profile.profile;
+								cellDiv.innerText = processTurningPoint(currentProfile.turningPoint.soloDebut, false)
+											+ "|" + processTurningPoint(currentProfile.turningPoint.swimsuitPhotobook, false) 
+											+ "|" + processTurningPoint(currentProfile.turningPoint.isMarried, false);
 								cell.appendChild(cellDiv);
 							}
-							
-						row.appendChild(cell);
-					
-					profileTableBody.appendChild(row);
-					
-					row = document.createElement('tr');
-					
-						cell = document.createElement('td');
-						cell.classList.add('tr-caption');
-						cell.classList.add('turning-point');
-						if(friendMode) cell.style.textAlign = 'center';
-						cell.innerText = 'Status (Singer Debut|Swimsuit Photobook|Married)';
-						row.appendChild(cell);
-					
-					profileTableBody.appendChild(row);
-				
-					row = document.createElement('tr');
 						
-						cell = document.createElement('td');
+							row.appendChild(cell);
 							
-							cellDiv = document.createElement('div');
-							if(friendMode) cellDiv.style.textAlign = 'left';
-							if(friendMode) cellDiv.style.position = 'absolute';
-							if(!isExternal && !friendMode && !simplified) 
-								cellDiv.innerText = profile.turningPoint.soloDebut 
-											+ "|" + profile.turningPoint.swimsuitPhotobook 
-											+ "|" + profile.turningPoint.isMarried;
-							else
-								cellDiv.innerText = processTurningPoint(profile.turningPoint.soloDebut, false)
-											+ "|" + processTurningPoint(profile.turningPoint.swimsuitPhotobook, false) 
-											+ "|" + processTurningPoint(profile.turningPoint.isMarried, false);
-								
-						cell.appendChild(cellDiv);
-									
-						if(friendMode)
-						{
-							cellDiv = document.createElement('div');
-							cellDiv.innerText = processTurningPoint(currentProfile.turningPoint.soloDebut, false)
-										+ "|" + processTurningPoint(currentProfile.turningPoint.swimsuitPhotobook, false) 
-										+ "|" + processTurningPoint(currentProfile.turningPoint.isMarried, false);
-							cell.appendChild(cellDiv);
-						}
-					
-						row.appendChild(cell);
-						
-					profileTableBody.appendChild(row);
+						profileTableBody.appendChild(row);
+					}
 					
 					if(!friendMode && !simplified)
 					{
