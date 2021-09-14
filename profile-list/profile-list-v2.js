@@ -172,7 +172,8 @@ function generateProfileFromJSON(profileName) {
 	let idBox = document.createElement('div');
 	idBox.id = profile.id;
 	//idBox.style.padding = '20px 0';
-	idBox.style.width = !friendMode ? '90%' : '440px';
+	idBox.style.width = '90%';
+	if(friendMode) idBox.style.maxWidth = '440px';
 	idBox.style.margin = 'auto';
 	idBox.style.padding = '3px';
 	
