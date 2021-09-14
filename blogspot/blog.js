@@ -410,8 +410,6 @@ function togglePopup() {
         this.classList.add('new-thumbnail');
 		switchToButton('CloseBtn');
 		fixExternalFrame(this);
-		if(this.children.length > 1 && this.firstElementChild.nextElementSibling)
-			this.firstElementChild.nextElementSibling.scrollIntoView(false);
     }
 	
 	toggleOverlay(false);
@@ -439,6 +437,7 @@ function closePopups() {
 function renderPopup() {
     //if(link.childElementCount == 0)
     event.preventDefault();
+
     if (this.href.includes('blogspot.com') && this.target == '') return; //exclusion for blogger
     //if(link.childElementCount > 0) return; //exclusion class
     if (this.classList.contains('opt-out')) return; //exclusion class
@@ -463,12 +462,18 @@ function renderPopup() {
 
     thumbnail.appendChild(initial);
     thumbnail.appendChild(focus);
+	
+	try {
+		twttr.widgets.load(); // to render twitter embed
+		window.instgrm.Embeds.process(); // to render instagram embed
+	}
+	catch(err) {
+	  return;
+	}
 
     this.outerHTML = thumbnail.outerHTML;
-    twttr.widgets.load(); //special case
-    window.instgrm.Embeds.process(); //special case
     addHoverForPopups();
-	
+
 	//FAB to close
 	let closeButton = document.createElement('a');
 	closeButton.id = 'CloseBtn';
