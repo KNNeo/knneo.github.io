@@ -296,6 +296,15 @@ function generateProfileFromJSON(profileName) {
 									addStatusPopUp();
 									document.getElementById('profile').scrollIntoView();
 								});
+								span.addEventListener("contextmenu", function(e) {
+									e.preventDefault();
+									isExternal = !isExternal;
+									generateProfileFromJSON(this.innerText.replace(" ", ""));
+									renderProfileBox();
+									addStatusPopUp();
+									document.getElementById('profile').scrollIntoView();
+									isExternal = !isExternal;
+								}, false);
 							}
 							cellDiv.insertBefore(span, cellDiv.childNodes[0]);
 							
