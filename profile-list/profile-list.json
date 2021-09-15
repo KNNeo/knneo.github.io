@@ -67,7 +67,7 @@
 				"id":"MinaseInori-OonishiSaori"
 			},
 			{
-				"image":"https://pbs.twimg.com/media/EOj49SeUcAEU9H4?format=jpg&name=small",
+				"image":"https://ogre.natalie.mu/media/pp/static/music/trysail04/photo06.jpg",
 				"id":"NatsukawaShiina-AsakuraMomo"
 			},
 			{
@@ -245,6 +245,14 @@
 			{
 				"image":"https://pbs.twimg.com/media/E7dae2jVEAgm58s?format=jpg&name=small",
 				"id":"AmamiyaSora-HondoKaede"
+			},
+			{
+				"image":"https://ogre.natalie.mu/media/pp/static/music/trysail04/photo04.jpg",
+				"id":"AsakuraMomo-AmamiyaSora"
+			},
+			{
+				"image":"https://ogre.natalie.mu/media/pp/static/music/trysail04/photo02.jpg",
+				"id":"AmamiyaSora-NatsukawaShiina"
 			}
 		]
 	},
