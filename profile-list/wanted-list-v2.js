@@ -347,11 +347,13 @@ function addStatusPopUps() {
 //create array of objects with DOB info, parameter: age (range inclusive)
 function createDOBlist(list, minAge, maxAge) {
 	let listOfDOB = new Array();
-	listOfDOB.push({
-		category: defaultProfile.category,
-		date: defaultProfile.dob,
-		name: defaultProfile.name
-	});
+	if(defaultProfile) {
+		listOfDOB.push({
+			category: defaultProfile.category,
+			date: defaultProfile.dob,
+			name: defaultProfile.name
+		});
+	}
 	for(let profile of list) {
 		let targetId = profile.name;
 		let targetDOB = profile.dob; //document.getElementById(targetId.replace(" ", "")).getElementsByClassName("DOB");
