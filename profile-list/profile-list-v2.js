@@ -98,7 +98,7 @@ function exportCalendar() {
 	for(let profile of calendarDOBlist.filter(c => c.name != 'Me'))
 	{
 		textOutput += '\n';
-		let formatDate = profile.date.substring(5,7) + '/' + profile.date.substring(8,10) + '/' + moment().year();
+		let formatDate = profile.date.substring(5,7) + '/' + profile.date.substring(8,10) + '/' + DateTime.now().year;
 		
 		//follow wanted-list-v2.js
 		let birthdayInYear = new Date(new Date().getFullYear(), new Date(profile.date.replace('????', '2021')).getMonth(), new Date(profile.date.replace('????', '2021')).getDate());
@@ -173,7 +173,7 @@ function generateProfileFromJSON(profileName) {
 	idBox.id = profile.id;
 	//idBox.style.padding = '20px 0';
 	idBox.style.width = '90%';
-	if(simplified || friendMode) idBox.style.maxWidth = '440px';
+	idBox.style.maxWidth = simplified || friendMode ? '440px' : '640px';
 	idBox.style.margin = 'auto';
 	idBox.style.padding = '3px';
 	
