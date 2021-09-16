@@ -8,7 +8,7 @@ if(profileListJson.length == 0) {
 		if (this.readyState == 4 && this.status == 200) {
 			profileListJson = JSON.parse(this.responseText);
 			profileList = profileListJson.filter( function(n) {
-				return n.category != 'friendList';
+				return n.category != 'friendList' && n.category != 'default';
 			});
 			//code here
 			if(profileList != null && generateProfileListFromJSON(profileList)) renderWantedList();
@@ -20,7 +20,7 @@ if(profileListJson.length == 0) {
 else {
 	console.log('Using test json');
 	profileList = profileListJson.filter( function(n) {
-		return n.category != 'friendList';
+		return n.category != 'friendList' && n.category != 'default';
 	});
 	if(generateProfileListFromJSON(profileList)) renderWantedList();
 }
