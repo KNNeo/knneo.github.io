@@ -129,7 +129,7 @@ function generateProfileFromJSON(profileName) {
         return n.id == profileName;
     })[0];
 	//for if only mandatory field are filled
-	let simplified = profile.intro == undefined;
+	let simplified = profile.intro == undefined || isExternal;
 
 	//previous profile
 	let currentProfile = null;
@@ -173,7 +173,7 @@ function generateProfileFromJSON(profileName) {
 	idBox.id = profile.id;
 	//idBox.style.padding = '20px 0';
 	idBox.style.width = '90%';
-	if(friendMode) idBox.style.maxWidth = '440px';
+	if(simplified || friendMode) idBox.style.maxWidth = '440px';
 	idBox.style.margin = 'auto';
 	idBox.style.padding = '3px';
 	
@@ -556,78 +556,78 @@ function generateProfileFromJSON(profileName) {
 							profileTableBody.appendChild(row);
 						}
 						
-						if(profile.socialHandlers)
-						{
-							row = document.createElement('tr');
-							
-								cell = document.createElement('td');
-								cell.innerText = 'Social Media';
-								row.appendChild(cell);
-							
-							profileTableBody.appendChild(row);
-							
-							row = document.createElement('tr');
-							
-								cell = document.createElement('td');
-								
-									cellDiv = document.createElement('div');
-									cellDiv.id = 'profile-social';
-									
-									if(profile.socialHandlers.twitter)
-									{
-										let twitterSpan = document.createElement('a');
-										twitterSpan.href = 'https://twitter.com/' + profile.socialHandlers.twitter;
-										twitterSpan.target = '_blank';
-										twitterSpan.title = profile.socialHandlers.twitter;
-										// twitterSpan.innerText = 'Twitter';
-										
-										let twitterIcon = document.createElement('i');
-										twitterIcon.classList.add('bi');
-										twitterIcon.classList.add('bi-twitter');
-										twitterSpan.appendChild(twitterIcon);
-										
-										cellDiv.appendChild(twitterSpan);
-									}
-									
-									if(profile.socialHandlers.instagram)
-									{
-										let instagramSpan = document.createElement('a');
-										instagramSpan.href = 'https://www.instagram.com/' + profile.socialHandlers.instagram;
-										instagramSpan.target = '_blank';
-										instagramSpan.title = profile.socialHandlers.instagram;
-										// instagramSpan.innerText = 'Instagram';
-										
-										let instagramIcon = document.createElement('i');
-										instagramIcon.classList.add('bi');
-										instagramIcon.classList.add('bi-instagram');
-										instagramSpan.appendChild(instagramIcon);
-										
-										cellDiv.appendChild(instagramSpan);
-									}
-									
-									if(profile.socialHandlers.youtube)
-									{
-										let youtubeSpan = document.createElement('a');
-										youtubeSpan.href = 'https://www.youtube.com/c/' + profile.socialHandlers.youtube;
-										youtubeSpan.target = '_blank';
-										youtubeSpan.title = profile.socialHandlers.youtube;
-										// youtubeSpan.innerText = 'YouTube';
-										
-										let youtubeIcon = document.createElement('i');
-										youtubeIcon.classList.add('bi');
-										youtubeIcon.classList.add('bi-youtube');
-										youtubeSpan.appendChild(youtubeIcon);
-										
-										cellDiv.appendChild(youtubeSpan);
-									}
-									
-									cell.appendChild(cellDiv);
-									
-								row.appendChild(cell);
-							
-							profileTableBody.appendChild(row);
-						}
+					}
+					
+					if(!friendMode && profile.socialHandlers)
+					{
+						row = document.createElement('tr');
 						
+							cell = document.createElement('td');
+							cell.innerText = 'Social Media';
+							row.appendChild(cell);
+						
+						profileTableBody.appendChild(row);
+						
+						row = document.createElement('tr');
+						
+							cell = document.createElement('td');
+							
+								cellDiv = document.createElement('div');
+								cellDiv.id = 'profile-social';
+								
+								if(profile.socialHandlers.twitter)
+								{
+									let twitterSpan = document.createElement('a');
+									twitterSpan.href = 'https://twitter.com/' + profile.socialHandlers.twitter;
+									twitterSpan.target = '_blank';
+									twitterSpan.title = profile.socialHandlers.twitter;
+									// twitterSpan.innerText = 'Twitter';
+									
+									let twitterIcon = document.createElement('i');
+									twitterIcon.classList.add('bi');
+									twitterIcon.classList.add('bi-twitter');
+									twitterSpan.appendChild(twitterIcon);
+									
+									cellDiv.appendChild(twitterSpan);
+								}
+								
+								if(profile.socialHandlers.instagram)
+								{
+									let instagramSpan = document.createElement('a');
+									instagramSpan.href = 'https://www.instagram.com/' + profile.socialHandlers.instagram;
+									instagramSpan.target = '_blank';
+									instagramSpan.title = profile.socialHandlers.instagram;
+									// instagramSpan.innerText = 'Instagram';
+									
+									let instagramIcon = document.createElement('i');
+									instagramIcon.classList.add('bi');
+									instagramIcon.classList.add('bi-instagram');
+									instagramSpan.appendChild(instagramIcon);
+									
+									cellDiv.appendChild(instagramSpan);
+								}
+								
+								if(profile.socialHandlers.youtube)
+								{
+									let youtubeSpan = document.createElement('a');
+									youtubeSpan.href = 'https://www.youtube.com/c/' + profile.socialHandlers.youtube;
+									youtubeSpan.target = '_blank';
+									youtubeSpan.title = profile.socialHandlers.youtube;
+									// youtubeSpan.innerText = 'YouTube';
+									
+									let youtubeIcon = document.createElement('i');
+									youtubeIcon.classList.add('bi');
+									youtubeIcon.classList.add('bi-youtube');
+									youtubeSpan.appendChild(youtubeIcon);
+									
+									cellDiv.appendChild(youtubeSpan);
+								}
+								
+								cell.appendChild(cellDiv);
+								
+							row.appendChild(cell);
+						
+						profileTableBody.appendChild(row);
 					}
 					
 				profileTable.appendChild(profileTableBody);
