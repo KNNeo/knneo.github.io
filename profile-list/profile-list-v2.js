@@ -3,17 +3,21 @@ const spacer = 'https://knneo.github.io/resources/spacer.gif';
 let isExternal = window.location.href.includes('://knneo.github.io');
 let smallScreen = window.innerWidth <= 640;
 let friendList = [];
-let profileList;
+let profileList = [];
+let defaultProfile = {};
 if(profileListJson.length == 0) {
 	let xmlhttp = new XMLHttpRequest();
 	xmlhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
 			profileListJson = JSON.parse(this.responseText);
 			profileList = profileListJson.filter( function(n) {
-				return n.category != 'friendList';
+				return n.category != 'friendList' && n.category != 'default';
 			});
 			friendList = profileListJson.filter( function(n) {
 				return n.category == 'friendList';
+			});
+			defaultProfile = profileListJson.find( function(n) {
+				return n.category == 'default';
 			});
 			//code here
 			//if(profileList != null && generateProfileListFromJSON(profileList)) renderProfileBox();
@@ -27,10 +31,13 @@ if(profileListJson.length == 0) {
 else {
 	console.log('Using test json');
 	profileList = profileListJson.filter( function(n) {
-				return n.category != 'friendList';
+				return n.category != 'friendList' && n.category != 'default';
 			});
 	friendList = profileListJson.filter( function(n) {
 		return n.category == 'friendList';
+	});
+	defaultProfile = profileListJson.find( function(n) {
+		return n.category == 'default';
 	});
 	renderWantedList();
 }

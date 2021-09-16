@@ -348,9 +348,9 @@ function addStatusPopUps() {
 function createDOBlist(list, minAge, maxAge) {
 	let listOfDOB = new Array();
 	listOfDOB.push({
-		category: 'default',
-		date: myDOB,
-		name: "Me"
+		category: defaultProfile.category,
+		date: defaultProfile.dob,
+		name: defaultProfile.name
 	});
 	for(let profile of list) {
 		let targetId = profile.name;
