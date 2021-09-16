@@ -146,7 +146,7 @@ imgArray = [
 [12,'https://cdn.suruga-ya.jp/database/pics_light/game/gg576078.jpg' ,'portrait','夏川椎菜','雑誌「声優グランプリ 2020年10月号」ゲーマーズ特典ブロマイド','2020/09/10'],
 [13,'https://cdn.suruga-ya.jp/database/pics_light/game/gg589429.jpg' ,'portrait','夏川椎菜','CD「アンチテーゼ」アニメイト特典ブロマイド','2020/09/09'],
 [14,'https://cdn.suruga-ya.jp/database/pics_light/game/gg589433.jpg' ,'portrait','夏川椎菜','CD「アンチテーゼ」TOWER RECORDS特典ブロマイド','2020/09/09'],
-[1,'https://cdn.suruga-ya.jp/database/pics_light/game/gg589441.jpg' ,'portrait','雨宮天 ','CD「Paint it，BLUE」アニメイト特典ブロマイド','2020/09/02'],
+[1,'https://cdn.suruga-ya.jp/database/pics_light/game/gg589441.jpg' ,'portrait','雨宮天','CD「Paint it，BLUE」アニメイト特典ブロマイド','2020/09/02'],
 [2,'https://cdn.suruga-ya.jp/database/pics_light/game/gg548877.jpg' ,'portrait','高橋李依','雑誌「声優グランプリ 2020年9月号」アニメイト特典ブロマイド','2020/08/06'],
 [3,'https://cdn.suruga-ya.jp/database/pics_light/game/gg548881.jpg' ,'portrait','高橋李依','雑誌「声優グランプリ 2020年9月号」ゲーマーズ・とらのあな・HMV＆BOOKS・セブンネット特典ブロマイド','2020/08/06'],
 [4,'https://cdn.suruga-ya.jp/database/pics_light/game/gg548879.jpg' ,'portrait','悠木碧','雑誌「声優グランプリ 2020年9月号」ゲーマーズ・とらのあな・HMV＆BOOKS・セブンネット特典ブロマイド','2020/08/06'],
