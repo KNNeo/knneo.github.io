@@ -11,7 +11,7 @@ if(profileListJson.length == 0) {
 		if (this.readyState == 4 && this.status == 200) {
 			profileListJson = JSON.parse(this.responseText);
 			profileList = profileListJson.filter( function(n) {
-				return n.category != 'friendList' && n.category != 'default';
+				return n.category == 'seiyuu';
 			});
 			friendList = profileListJson.filter( function(n) {
 				return n.category == 'friendList';
@@ -31,8 +31,8 @@ if(profileListJson.length == 0) {
 else {
 	console.log('Using test json');
 	profileList = profileListJson.filter( function(n) {
-				return n.category != 'friendList' && n.category != 'default';
-			});
+		return n.category == 'seiyuu';
+	});
 	friendList = profileListJson.filter( function(n) {
 		return n.category == 'friendList';
 	});

@@ -5,7 +5,8 @@
 		"name": "Me"
 	},
 	{
-		"category":"seiyuu0",
+		"category":"seiyuu",
+		"subCategory":"seiyuu0",
 		"id":"BabaFumika",
 		"image":"https://knneo.webs.com/babafumika.jpg",
 		"landscapes":[
@@ -47,7 +48,8 @@
 		}
 	},
 	{
-		"category":"seiyuu0",
+		"category":"seiyuu",
+		"subCategory":"seiyuu0",
 		"id":"TachibanaHaru",
 		"image":"https://knneo.webs.com/tachibanaharu.jpg",
 		"landscapes":[
@@ -95,7 +97,8 @@
 		}
 	},
 	{
-		"category":"seiyuu1",
+		"category":"seiyuu",
+		"subCategory":"seiyuu1",
 		"id":"HanazawaKana",
 		"image":"https://knneo.webs.com/hanazawakana.jpg",
 		"landscapes":[
@@ -136,7 +139,8 @@
 		}
 	},
 	{
-		"category":"seiyuu1",
+		"category":"seiyuu",
+		"subCategory":"seiyuu1",
 		"id":"HikasaYouko",
 		"image":"https://knneo.webs.com/hikasayouko.jpg",
 		"landscapes":[
@@ -168,7 +172,8 @@
 		]
 	},
 	{
-		"category":"seiyuu1",
+		"category":"seiyuu",
+		"subCategory":"seiyuu1",
 		"id":"HorieYui",
 		"image":"https://knneo.webs.com/horieyui.jpg",
 		"landscapes":[
@@ -204,7 +209,8 @@
 		}
 	},
 	{
-		"category":"seiyuu1",
+		"category":"seiyuu",
+		"subCategory":"seiyuu1",
 		"id":"KayanoAi",
 		"image":"https://knneo.webs.com/kayanoai.jpg",
 		"landscapes":[
@@ -238,7 +244,8 @@
 		}
 	},
 	{
-		"category":"seiyuu1",
+		"category":"seiyuu",
+		"subCategory":"seiyuu1",
 		"id":"KomatsuMikako",
 		"image":"https://knneo.webs.com/komatsumikako.jpg",
 		"landscapes":[
@@ -286,7 +293,8 @@
 		}
 	},
 	{
-		"category":"seiyuu1",
+		"category":"seiyuu",
+		"subCategory":"seiyuu1",
 		"id":"KotobukiMinako",
 		"image":"https://knneo.webs.com/kotobukiminako.jpg",
 		"landscapes":[
@@ -322,7 +330,8 @@
 		}
 	},
 	{
-		"category":"seiyuu1",
+		"category":"seiyuu",
+		"subCategory":"seiyuu1",
 		"id":"OokuboRumi",
 		"image":"https://knneo.webs.com/ookuborumi.jpg",
 		"landscapes":[
@@ -356,7 +365,8 @@
 		}
 	},
 	{
-		"category":"seiyuu1",
+		"category":"seiyuu",
+		"subCategory":"seiyuu1",
 		"id":"SatouSatomi",
 		"image":"https://knneo.webs.com/satousatomi.jpg",
 		"landscapes":[
@@ -389,7 +399,8 @@
 		}
 	},
 	{
-		"category":"seiyuu1",
+		"category":"seiyuu",
+		"subCategory":"seiyuu1",
 		"id":"TaketatsuAyana",
 		"image":"https://knneo.webs.com/taketatsuayana.jpg",
 		"landscapes":[
@@ -427,7 +438,8 @@
 		}
 	},
 	{
-		"category":"seiyuu1",
+		"category":"seiyuu",
+		"subCategory":"seiyuu1",
 		"id":"TomatsuHaruka",
 		"image":"https://knneo.webs.com/tomatsuharuka.jpg",
 		"landscapes":[
@@ -461,7 +473,8 @@
 		]
 	},
 	{
-		"category":"seiyuu1",
+		"category":"seiyuu",
+		"subCategory":"seiyuu1",
 		"id":"ToyosakiAki",
 		"image":"https://knneo.webs.com/toyosakiaki.jpg",
 		"landscapes":[
@@ -502,7 +515,8 @@
 		]
 	},
 	{
-		"category":"seiyuu1",
+		"category":"seiyuu",
+		"subCategory":"seiyuu1",
 		"id":"YuukiAoi",
 		"image":"https://knneo.webs.com/yuukiaoi.jpg",
 		"landscapes":[
@@ -541,7 +555,8 @@
 		}
 	},
 	{
-		"category":"seiyuu2",
+		"category":"seiyuu",
+		"subCategory":"seiyuu2",
 		"id":"AmamiyaSora",
 		"image":"https://knneo.webs.com/amamiyasora.jpg",
 		"landscapes":[
@@ -579,7 +594,8 @@
 		}
 	},
 	{
-		"category":"seiyuu2",
+		"category":"seiyuu",
+		"subCategory":"seiyuu2",
 		"id":"AsakuraMomo",
 		"image":"https://knneo.webs.com/asakuramomo.jpg",
 		"landscapes":[
@@ -623,7 +639,8 @@
 		}
 	},
 	{
-		"category":"seiyuu2",
+		"category":"seiyuu",
+		"subCategory":"seiyuu2",
 		"id":"EndouYurika",
 		"image":"https://knneo.webs.com/endouyurika.jpg",
 		"landscapes":[],
@@ -651,7 +668,8 @@
 		}
 	},
 	{
-		"category":"seiyuu2",
+		"category":"seiyuu",
+		"subCategory":"seiyuu2",
 		"id":"HidakaRina",
 		"image":"https://knneo.webs.com/hidakarina.jpg",
 		"landscapes":[
@@ -693,7 +711,8 @@
 		}
 	},
 	{
-		"category":"seiyuu2",
+		"category":"seiyuu",
+		"subCategory":"seiyuu2",
 		"id":"KounoMarika",
 		"image":"https://knneo.webs.com/kounomarika.jpg",
 		"landscapes":[
@@ -744,7 +763,8 @@
 		}
 	},
 	{
-		"category":"seiyuu2",
+		"category":"seiyuu",
+		"subCategory":"seiyuu2",
 		"id":"MinaseInori",
 		"image":"https://knneo.webs.com/minaseinori.jpg",
 		"landscapes":[
@@ -797,7 +817,8 @@
 		}
 	},
 	{
-		"category":"seiyuu2",
+		"category":"seiyuu",
+		"subCategory":"seiyuu2",
 		"id":"NatsukawaShiina",
 		"image":"https://knneo.webs.com/natsukawashiina.jpg",
 		"landscapes":[
@@ -837,7 +858,8 @@
 		}
 	},
 	{
-		"category":"seiyuu2",
+		"category":"seiyuu",
+		"subCategory":"seiyuu2",
 		"id":"NumakuraManami",
 		"image":"https://knneo.webs.com/numakuramanami.jpg",
 		"landscapes":[],
@@ -868,7 +890,8 @@
 		}
 	},
 	{
-		"category":"seiyuu2",
+		"category":"seiyuu",
+		"subCategory":"seiyuu2",
 		"id":"TachibanaRika",
 		"image":"https://knneo.webs.com/tachibanarika.jpg",
 		"landscapes":[
@@ -901,7 +924,8 @@
 		}
 	},
 	{
-		"category":"seiyuu2",
+		"category":"seiyuu",
+		"subCategory":"seiyuu2",
 		"id":"TakahashiRie",
 		"image":"https://knneo.webs.com/takahashirie.jpg",
 		"landscapes":[
@@ -945,7 +969,8 @@
 		}
 	},
 	{
-		"category":"seiyuu2",
+		"category":"seiyuu",
+		"subCategory":"seiyuu2",
 		"id":"TouyamaNao",
 		"image":"https://knneo.webs.com/touyamanao.jpg",
 		"landscapes":[
@@ -1000,7 +1025,8 @@
 		}
 	},
 	{
-		"category":"seiyuu2",
+		"category":"seiyuu",
+		"subCategory":"seiyuu2",
 		"id":"UesakaSumire",
 		"image":"https://knneo.webs.com/uesakasumire.jpg",
 		"landscapes":[
@@ -1043,7 +1069,8 @@
 		}
 	},
 	{
-		"category":"seiyuu3",
+		"category":"seiyuu",
+		"subCategory":"seiyuu3",
 		"id":"AnzaiChika",
 		"image":"https://knneo.webs.com/anzaichika.jpg",
 		"landscapes":[
@@ -1078,7 +1105,8 @@
 		}
 	},
 	{
-		"category":"seiyuu3",
+		"category":"seiyuu",
+		"subCategory":"seiyuu3",
 		"id":"FuchigamiMai",
 		"image":"https://knneo.webs.com/fuchigamimai.jpg",
 		"landscapes":[
@@ -1117,7 +1145,8 @@
 		}
 	},
 	{
-		"category":"seiyuu3",
+		"category":"seiyuu",
+		"subCategory":"seiyuu3",
 		"id":"HondoKaede",
 		"image":"https://knneo.webs.com/hondokaede.jpg",
 		"landscapes":[
@@ -1157,7 +1186,8 @@
 		}
 	},
 	{
-		"category":"seiyuu3",
+		"category":"seiyuu",
+		"subCategory":"seiyuu3",
 		"id":"IsobeKarin",
 		"image":"https://knneo.webs.com/isobekarin.jpg",
 		"landscapes":[
@@ -1197,7 +1227,8 @@
 		}
 	},
 	{
-		"category":"seiyuu3",
+		"category":"seiyuu",
+		"subCategory":"seiyuu3",
 		"id":"KidoIbuki",
 		"image":"https://knneo.webs.com/kidoibuki.jpg",
 		"landscapes":[
@@ -1243,7 +1274,8 @@
 		}
 	},
 	{
-		"category":"seiyuu3",
+		"category":"seiyuu",
+		"subCategory":"seiyuu3",
 		"id":"KitouAkari",
 		"image":"https://knneo.webs.com/kitouakari.jpg",
 		"landscapes":[
@@ -1286,7 +1318,8 @@
 		}
 	},
 	{
-		"category":"seiyuu3",
+		"category":"seiyuu",
+		"subCategory":"seiyuu3",
 		"id":"KogaAoi",
 		"image":"https://knneo.webs.com/kogaaoi.jpg",
 		"landscapes":[],
@@ -1319,7 +1352,8 @@
 		}
 	},
 	{
-		"category":"seiyuu3",
+		"category":"seiyuu",
+		"subCategory":"seiyuu3",
 		"id":"KoharaKonomi",
 		"image":"https://knneo.webs.com/koharakonomi.jpg",
 		"landscapes":[
@@ -1350,7 +1384,8 @@
 		}
 	},
 	{
-		"category":"seiyuu3",
+		"category":"seiyuu",
+		"subCategory":"seiyuu3",
 		"id":"Lynn",
 		"image":"https://knneo.webs.com/lynn.jpg",
 		"landscapes":[
@@ -1394,7 +1429,8 @@
 		}
 	},
 	{
-		"category":"seiyuu3",
+		"category":"seiyuu",
+		"subCategory":"seiyuu3",
 		"id":"NagaeRika",
 		"image":"https://knneo.webs.com/nagaerika.jpg",
 		"landscapes":[
@@ -1434,7 +1470,8 @@
 		}
 	},
 	{
-		"category":"seiyuu3",
+		"category":"seiyuu",
+		"subCategory":"seiyuu3",
 		"id":"NagatsumaJuuri",
 		"image":"https://knneo.webs.com/nagatsumajuuri.jpg",
 		"landscapes":[
@@ -1469,7 +1506,8 @@
 		}
 	},
 	{
-		"category":"seiyuu3",
+		"category":"seiyuu",
+		"subCategory":"seiyuu3",
 		"id":"OmigawaChiaki",
 		"image":"https://knneo.webs.com/omigawachiaki.jpg",
 		"landscapes":[
@@ -1507,7 +1545,8 @@
 		}
 	},
 	{
-		"category":"seiyuu3",
+		"category":"seiyuu",
+		"subCategory":"seiyuu3",
 		"id":"OonishiSaori",
 		"image":"https://knneo.webs.com/oonishisaori.jpg",
 		"landscapes":[
@@ -1543,7 +1582,8 @@
 		]
 	},
 	{
-		"category":"seiyuu3",
+		"category":"seiyuu",
+		"subCategory":"seiyuu3",
 		"id":"OonoYuuko",
 		"image":"https://knneo.webs.com/oonoyuuko.jpg",
 		"landscapes":[
@@ -1578,7 +1618,8 @@
 		}
 	},
 	{
-		"category":"seiyuu3",
+		"category":"seiyuu",
+		"subCategory":"seiyuu3",
 		"id":"OozoraNaomi",
 		"image":"https://knneo.webs.com/oozoranaomi.jpg",
 		"landscapes":[
@@ -1616,7 +1657,8 @@
 		}
 	},
 	{
-		"category":"seiyuu3",
+		"category":"seiyuu",
+		"subCategory":"seiyuu3",
 		"id":"ToyotaMoe",
 		"image":"https://knneo.webs.com/toyotamoe.jpg",
 		"landscapes":[
@@ -1656,7 +1698,8 @@
 		}
 	},
 	{
-		"category":"seiyuu3",
+		"category":"seiyuu",
+		"subCategory":"seiyuu3",
 		"id":"WakiAzumi",
 		"image":"https://knneo.webs.com/wakiazumi.jpg",
 		"landscapes":[
@@ -1705,7 +1748,8 @@
 		}
 	},
 	{
-		"category":"seiyuu3",
+		"category":"seiyuu",
+		"subCategory":"seiyuu3",
 		"id":"YoshimuraHaruka",
 		"image":"https://knneo.webs.com/yoshimuraharuka.jpg",
 		"landscapes":[],
@@ -1733,7 +1777,8 @@
 		}
 	},
 	{
-		"category":"seiyuu4",
+		"category":"seiyuu",
+		"subCategory":"seiyuu4",
 		"id":"KannoMai",
 		"image":"https://pbs.twimg.com/media/EwsPdF5VIAIan-R?format=jpg&name=small",
 		"landscapes":[
@@ -1768,7 +1813,8 @@
 		}
 	},
 	{
-		"category":"seiyuu4",
+		"category":"seiyuu",
+		"subCategory":"seiyuu4",
 		"id":"TomitaMiyu",
 		"image":"https://pbs.twimg.com/media/Ema9F-eVcAEAuKz?format=jpg&name=small",
 		"landscapes":[
@@ -1809,7 +1855,8 @@
 		}
 	},
 	{
-		"category":"seiyuu4",
+		"category":"seiyuu",
+		"subCategory":"seiyuu4",
 		"id":"SasakiNao",
 		"image":"https://pbs.twimg.com/media/EoyZsPjUUAAf97l?format=jpg&name=small",
 		"landscapes":[
