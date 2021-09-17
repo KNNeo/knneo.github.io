@@ -322,6 +322,7 @@ function generateWantedList(profileLink) {
 
 function addStatusPopUp() {
 	if(statusPopup == '') return;
+	if(document.getElementsByClassName("turning-point").length < 1) return;
 	document.getElementsByClassName("turning-point")[0].addEventListener("mouseover", function(d) {
 		d.target.innerHTML = statusPopup + d.target.innerHTML;
 	});

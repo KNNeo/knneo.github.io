@@ -738,7 +738,8 @@ function generateWantedListEntry(id) {
 	friendLink.innerText = profileFromId.name;
 	
 	//wanted list processing
-	friendLink.addEventListener("click", function() {
+	friendLink.addEventListener("click", function(e) {		
+		e.preventDefault();
 		generateProfileFromJSON(this.innerText.replace(" ", ""));
 		renderProfileBox();
 		addStatusPopUp();
