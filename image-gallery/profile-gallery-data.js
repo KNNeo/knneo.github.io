@@ -47,8 +47,9 @@ function preProcessProfileList(inputList) {
 	
 	//processing to fit image-gallery
 	let profiles = inputList.filter( function(n) {
-					return n.category != 'friendList';
-				});
+				return n.category == 'seiyuu';
+			});
+			
 	for(let profile of profiles)
 	{
 		if(profile.landscapes == undefined) profile.landscapes = [];
