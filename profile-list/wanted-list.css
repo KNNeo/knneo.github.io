@@ -173,6 +173,9 @@ html {
 .profile-box tr:nth-child(odd), .profile-box-comments {
  text-align: left;
 }
+.profile-box-comments {
+    padding: 3px;
+}
 .profile-box tr:nth-child(odd) td {
 font-size: 70%;
 }
@@ -193,7 +196,7 @@ font-size: 70%;
   color: #00e4ff;
   text-decoration: underline solid #00e4ff;
 }
-#wantedList a:hover, #profile-friends a:hover, #profile-social a:hover {
+#wantedList li:hover a, a:hover {
   color: white;
   text-decoration: underline solid white;
 }
