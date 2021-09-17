@@ -565,15 +565,17 @@ function generateProfileFromJSON(profileName) {
 						
 					}
 					
-					if(!friendMode && profile.socialHandlers)
+					if(profile.socialHandlers)
 					{
-						row = document.createElement('tr');
-						
-							cell = document.createElement('td');
-							cell.innerText = 'Social Media';
-							row.appendChild(cell);
-						
-						profileTableBody.appendChild(row);
+						if(!friendMode && !simplified) {
+							row = document.createElement('tr');
+							
+								cell = document.createElement('td');
+								cell.innerText = 'Social Media';
+								row.appendChild(cell);
+							
+							profileTableBody.appendChild(row);
+						}
 						
 						row = document.createElement('tr');
 						
@@ -581,6 +583,10 @@ function generateProfileFromJSON(profileName) {
 							
 								cellDiv = document.createElement('div');
 								cellDiv.id = 'profile-social';
+								if(friendMode) {
+									cellDiv.style.textAlign = 'left';
+									cellDiv.style.position = 'absolute';
+								}
 								
 								if(profile.socialHandlers.twitter)
 								{
@@ -588,7 +594,6 @@ function generateProfileFromJSON(profileName) {
 									twitterSpan.href = 'https://twitter.com/' + profile.socialHandlers.twitter;
 									twitterSpan.target = '_blank';
 									twitterSpan.title = profile.socialHandlers.twitter;
-									// twitterSpan.innerText = 'Twitter';
 									
 									let twitterIcon = document.createElement('i');
 									twitterIcon.classList.add('bi');
@@ -604,7 +609,6 @@ function generateProfileFromJSON(profileName) {
 									instagramSpan.href = 'https://www.instagram.com/' + profile.socialHandlers.instagram;
 									instagramSpan.target = '_blank';
 									instagramSpan.title = profile.socialHandlers.instagram;
-									// instagramSpan.innerText = 'Instagram';
 									
 									let instagramIcon = document.createElement('i');
 									instagramIcon.classList.add('bi');
@@ -620,7 +624,6 @@ function generateProfileFromJSON(profileName) {
 									youtubeSpan.href = 'https://www.youtube.com/c/' + profile.socialHandlers.youtube;
 									youtubeSpan.target = '_blank';
 									youtubeSpan.title = profile.socialHandlers.youtube;
-									// youtubeSpan.innerText = 'YouTube';
 									
 									let youtubeIcon = document.createElement('i');
 									youtubeIcon.classList.add('bi');
@@ -631,6 +634,59 @@ function generateProfileFromJSON(profileName) {
 								}
 								
 								cell.appendChild(cellDiv);
+								
+								if(friendMode) {				
+									cellDiv = document.createElement('div');
+									cellDiv.id = 'currentProfile-social';
+									cellDiv.style.textAlign = 'right';
+									
+									if(currentProfile.socialHandlers.twitter)
+									{
+										let twitterSpan = document.createElement('a');
+										twitterSpan.href = 'https://twitter.com/' + currentProfile.socialHandlers.twitter;
+										twitterSpan.target = '_blank';
+										twitterSpan.title = currentProfile.socialHandlers.twitter;
+										
+										let twitterIcon = document.createElement('i');
+										twitterIcon.classList.add('bi');
+										twitterIcon.classList.add('bi-twitter');
+										twitterSpan.appendChild(twitterIcon);
+										
+										cellDiv.appendChild(twitterSpan);
+									}
+									
+									if(currentProfile.socialHandlers.instagram)
+									{
+										let instagramSpan = document.createElement('a');
+										instagramSpan.href = 'https://www.instagram.com/' + currentProfile.socialHandlers.instagram;
+										instagramSpan.target = '_blank';
+										instagramSpan.title = currentProfile.socialHandlers.instagram;
+										
+										let instagramIcon = document.createElement('i');
+										instagramIcon.classList.add('bi');
+										instagramIcon.classList.add('bi-instagram');
+										instagramSpan.appendChild(instagramIcon);
+										
+										cellDiv.appendChild(instagramSpan);
+									}
+									
+									if(currentProfile.socialHandlers.youtube)
+									{
+										let youtubeSpan = document.createElement('a');
+										youtubeSpan.href = 'https://www.youtube.com/c/' + currentProfile.socialHandlers.youtube;
+										youtubeSpan.target = '_blank';
+										youtubeSpan.title = currentProfile.socialHandlers.youtube;
+										
+										let youtubeIcon = document.createElement('i');
+										youtubeIcon.classList.add('bi');
+										youtubeIcon.classList.add('bi-youtube');
+										youtubeSpan.appendChild(youtubeIcon);
+										
+										cellDiv.appendChild(youtubeSpan);
+									}
+									
+									cell.appendChild(cellDiv);
+								}
 								
 							row.appendChild(cell);
 						
