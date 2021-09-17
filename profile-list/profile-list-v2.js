@@ -567,7 +567,7 @@ function generateProfileFromJSON(profileName) {
 					
 					if(profile.socialHandlers)
 					{
-						if(!friendMode && !simplified) {
+						if(!friendMode) {
 							row = document.createElement('tr');
 							
 								cell = document.createElement('td');
