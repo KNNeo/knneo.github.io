@@ -490,20 +490,51 @@ function setCalendarColour(categoryId) {
 
 function addCalendarLegend() {
 	let categories = ['alterna','doaxvv','seiyuu','vtuber'];
-	document.getElementById('calendar-legend').innerHTML = '';
-	for(let category of categories) {
-		let legendColor = document.createElement('div');
-		legendColor.style.backgroundColor = setCalendarColour(category.toLowerCase());
-		legendColor.style.display = 'inline-block';
-		legendColor.style.height = '10px';
-		legendColor.style.width = '10px';
-		document.getElementById('calendar-legend').appendChild(legendColor);
+	let calendarLegend = document.getElementById('calendar-legend');
+	calendarLegend.innerHTML = '';
+	for(let category of categories) {		
+		let id = 'label-' + category;
+		let label = document.createElement('label');
 		
-		let legend = document.createElement('span');
-		legend.style.padding = '0 5px';
-		legend.innerText = category.substring(0,1).toUpperCase() + category.substring(1);
-		document.getElementById('calendar-legend').appendChild(legend);
+			let legend = document.createElement('input');
+			legend.id = id;
+			legend.type = 'checkbox';
+			legend.name = category;
+			legend.checked = true;
+			label.appendChild(legend);
+			
+			let box = document.createElement('span');
+			box.classList.add('legend');
+			box.style.backgroundColor = setCalendarColour(category.toLowerCase());
+			label.appendChild(box);
+					
+			let description = document.createElement('span');
+			description.style.padding = '0 5px';
+			description.title = category;
+			description.addEventListener('click',toggleCalendarLegend);
+			description.innerText = category.substring(0,1).toUpperCase() + category.substring(1);
+			label.appendChild(description);
+		
+		calendarLegend.appendChild(label);
 	}
+}
+
+function toggleCalendarLegend() {
+	this.previousElementSibling.style.backgroundColor = this.previousElementSibling.previousElementSibling.checked ? 'transparent' :setCalendarColour(this.title.toLowerCase());
+	setTimeout(function() {
+		filterCalendar();
+		createCalendar(DateTime.fromISO(DateTime.now(), {zone: timezone}).month-1, calendarDOBlist);
+	}, 10);
+}
+
+function filterCalendar() {
+	let checkedCategories = Array.from(document.getElementById('calendar-legend').getElementsByTagName('input')).filter(i => i.checked == true).map(i => i.name);
+	calendarDOBlist = createDOBlist(profileList, 0, 50);
+	calendarDOBlist = calendarDOBlist.concat(createDOBlist(birthdayListJson, 0, 50));
+	calendarDOBlist = calendarDOBlist.filter(c => c.name != 'Me' && 
+	(checkedCategories.indexOf(c.category) >= 0 || 
+	(checkedCategories.indexOf('seiyuu') >= 0 && c.category.startsWith('seiyuu')))
+	);
 }
 
 //to shift position of knots if overlap with previous

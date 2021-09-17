@@ -102,7 +102,7 @@ function friendCheck() {
 function exportCalendar() {
 	let textOutput = '"Subject","Start date","All Day Event","Description","Private"';
 	// title, MM/dd/yyyy, true, description, true
-	for(let profile of calendarDOBlist.filter(c => c.name != 'Me'))
+	for(let profile of calendarDOBlist)
 	{
 		textOutput += '\n';
 		let formatDate = profile.date.substring(5,7) + '/' + profile.date.substring(8,10) + '/' + DateTime.now().year;
