@@ -583,7 +583,7 @@ function generateProfileFromJSON(profileName) {
 							
 								cellDiv = document.createElement('div');
 								cellDiv.id = 'profile-social';
-								if(friendMode) {
+								if(friendMode && currentProfile.socialHandlers) {
 									cellDiv.style.textAlign = 'left';
 									cellDiv.style.position = 'absolute';
 								}
@@ -635,7 +635,7 @@ function generateProfileFromJSON(profileName) {
 								
 								cell.appendChild(cellDiv);
 								
-								if(friendMode) {				
+								if(friendMode && currentProfile.socialHandlers) {				
 									cellDiv = document.createElement('div');
 									cellDiv.id = 'currentProfile-social';
 									cellDiv.style.textAlign = 'right';
