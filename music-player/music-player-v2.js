@@ -373,8 +373,7 @@ function toggleHover(cell) {
 	let supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
 	let isDarked = document.getElementsByTagName('html')[0].classList.contains('darked');
 	let cellColor = 'transparent';
-	if(supportDarkMode) cellColor = isDarked ? 'lightgray' : 'gray';
-	else cellColor = isDarked ? 'gray' : 'lightgray';
+	cellColor = isDarked ? 'gray' : 'lightgray';
 	cell.style.backgroundColor = cell.style.backgroundColor == cellColor ? '' : cellColor;
 }
 
