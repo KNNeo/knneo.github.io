@@ -6,7 +6,7 @@ let isDarkMode = true;		// initial value if enableDarkMode is false, ignored if 
 
 //--SYSTEM VARIABLES: DO NOT EDIT--//
 let isWidescreen = false;
-window.onload = startup();
+window.addEventListener('load', startup);
 window.addEventListener('resize', startup);
 
 function startup() {
@@ -117,7 +117,7 @@ function generateLayoutPlayer() {
 	
 	let player = document.createElement('div');
 	player.id = 'player';
-	player.style.height = playerHeight + 'px';
+	// player.style.height = playerHeight + 'px';
 	mainTableRow2Cell1.appendChild(player);
 	
 	let mainTableRow3 = document.createElement('tr');
@@ -251,8 +251,8 @@ function generatePlayer() {
 }
 
 function generatePlayerByURL(url) {
-	// if(0.5*window.innerHeight < playerHeight)
-		// playerHeight = 0.5*window.innerHeight;
+	if(0.5*window.innerHeight < playerHeight)
+		playerHeight = 0.5*window.innerHeight;
     if (url.includes('music.apple.com')) {
         //process itunes embed
         return '<iframe allow="autoplay *; encrypted-media *;" frameborder="0" height="'+ playerHeight +'" sandbox="allow-modals allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation" src="' +
