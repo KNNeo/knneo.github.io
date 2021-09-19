@@ -1,9 +1,11 @@
 //--VARIABLES--//
-let playerWidth = 660;
-let playerHeight = 400;
-let isDarkMode = true;//document.getElementsByTagName('html')[0].classList.contains('darked');
-let enableDarkMode = false;
+let playerWidth = 660;		// in px only
+let playerHeight = 400;		// in px only
+let enableDarkMode = true;	// displays dark mode toggle
+let isDarkMode = true;		// initial value if enableDarkMode is false, ignored if enableDarkMode is true
 
+//--SYSTEM VARIABLES: DO NOT EDIT--//
+let isWidescreen = false;
 window.onload = startup();
 window.addEventListener('resize', startup);
 
@@ -19,16 +21,19 @@ function startup() {
 		}
 	}
 	if(enableDarkMode && document.getElementById('darkmode') != null) {
+		isDarkMode = document.getElementsByTagName('html')[0].classList.contains('darked');
 		document.getElementById('darkmode').addEventListener('click', toggleDarkMode);
+		document.getElementById('darkmode').addEventListener('click', function() { isDarkMode = !isDarkMode; });
 		document.getElementById('darkmode').addEventListener('click', startup);
 	}
 }
 
 function generateLayout() {
-	if(window.innerWidth < 800)
-		generateVerticalLayout(); // top player and menu, bottom covers
-	else
+	isWidescreen = window.innerWidth > 800;
+	if(isWidescreen)
 		generateHorizontalLayout(); // left player and menu, right covers
+	else
+		generateVerticalLayout(); // top player and menu, bottom covers
 }
 
 function generateVerticalLayout() {
@@ -38,106 +43,14 @@ function generateVerticalLayout() {
 	let bodyTableBody = document.createElement('tbody');
 	
 	let bodyTableRow1 = document.createElement('tr');
-	
-	let bodyTableRow1Cell1 = document.createElement('td');
-	bodyTableRow1Cell1.classList.add('jukebox-column');
-	bodyTableRow1Cell1.style.width = '50%';
-	bodyTableRow1Cell1.style.verticalAlign = 'baseline';
-	bodyTableRow1Cell1.style.textAlign = 'center';
-	
-	let main = document.createElement('div');
-	main.id = 'main';
-	main.style.height = '90vh';
-	let mainTable = document.createElement('table');
-	mainTable.style.width = '100%';
-	mainTable.style.height = '100%';	
-	
-	let mainTableBody = document.createElement('tbody');
-	
-	let mainTableRow1 = document.createElement('tr');
-	
-	let mainTableRow1Cell1 = document.createElement('td');
-	mainTableRow1Cell1.classList.add('jukebox-column');
-	
-	let title = document.createElement('h1');
-	title.innerText = 'Music Jukebox';
-	title.onclick = startup;
-	title.style.cursor = 'pointer';
-	
-	let description = document.createElement('h5');
-	description.innerText = 'Click on album cover to play preview';
-	
-	let disclaimer = document.createElement('h6');
-	disclaimer.innerText = 'Album covers (c) respective music labels';
-	
-	mainTableRow1Cell1.appendChild(title);
-	mainTableRow1Cell1.appendChild(description);
-	mainTableRow1Cell1.appendChild(disclaimer);
-	
-	let mainTableRow2 = document.createElement('tr');
-	
-	let mainTableRow2Cell1 = document.createElement('td');
-	mainTableRow2Cell1.classList.add('jukebox-column');
-	
-	let player = document.createElement('div');
-	player.id = 'player';
-	mainTableRow2Cell1.appendChild(player);
-	
-	let mainTableRow3 = document.createElement('tr');
-	
-	let mainTableRow3Cell1 = document.createElement('td');
-	mainTableRow3Cell1.classList.add('jukebox-column');
-	
-	let settings = document.createElement('h3');
-	settings.id = 'settings';
-	settings.classList.add('settings');
-	
-	if(enableDarkMode) {
-		let darkmode = document.createElement('a');
-		darkmode.id = 'darkmode';
-		darkmode.classList.add('material-icons');
-		darkmode.href = 'javascript:void(0);';
-		darkmode.innerText = 'brightness_high';
-		settings.appendChild(darkmode);
-	}
-
-	let back = document.createElement('a');
-	back.style.padding = '0 10px';
-	back.style.verticalAlign = 'top';
-	back.href = '../index.html';
-	back.innerText = 'Back';
-	settings.appendChild(back);
-	
-	mainTableRow3Cell1.appendChild(settings);
-	
-	mainTableRow1.appendChild(mainTableRow1Cell1);
-	mainTableRow2.appendChild(mainTableRow2Cell1);
-	mainTableRow3.appendChild(mainTableRow3Cell1);
-	mainTableBody.appendChild(mainTableRow1);
-	mainTableBody.appendChild(mainTableRow2);
-	mainTableBody.appendChild(mainTableRow3);
-	mainTable.appendChild(mainTableBody);
-	main.appendChild(mainTable);
-	bodyTableRow1Cell1.appendChild(main);
+	bodyTableRow1.appendChild(generateLayoutPlayer());
 	
 	let bodyTableRow2 = document.createElement('tr');
+	bodyTableRow2.appendChild(generateLayoutJukebox());
 	
-	let bodyTableRow2Cell1 = document.createElement('td');
-	bodyTableRow2Cell1.classList.add('jukebox-column');
-	bodyTableRow2Cell1.style.width = '50%';
-	
-	let mosaic = document.createElement('div');
-	mosaic.id = 'mosaic';
-	
-	let grid = generateGrid();
-	mosaic.appendChild(grid);
-	
-	bodyTableRow2Cell1.appendChild(mosaic);
-	bodyTableRow2.appendChild(bodyTableRow2Cell1);
-	
-	bodyTableRow1.appendChild(bodyTableRow1Cell1);
 	bodyTableBody.appendChild(bodyTableRow1);
 	bodyTableBody.appendChild(bodyTableRow2);
+	
 	bodyTable.appendChild(bodyTableBody);
 	document.body.innerHTML = '';
 	document.body.appendChild(bodyTable);
@@ -150,16 +63,26 @@ function generateHorizontalLayout() {
 	let bodyTableBody = document.createElement('tbody');
 	
 	let bodyTableRow1 = document.createElement('tr');
+	bodyTableRow1.appendChild(generateLayoutPlayer());
+	bodyTableRow1.appendChild(generateLayoutJukebox());
 	
-	let bodyTableRowCell1 = document.createElement('td');
-	bodyTableRowCell1.classList.add('jukebox-column');
-	bodyTableRowCell1.style.width = playerWidth + 'px';
-	bodyTableRowCell1.style.verticalAlign = 'baseline';
-	bodyTableRowCell1.style.textAlign = 'center';
+	bodyTableBody.appendChild(bodyTableRow1);
+	
+	bodyTable.appendChild(bodyTableBody);
+	document.body.innerHTML = '';
+	document.body.appendChild(bodyTable);
+}
+
+function generateLayoutPlayer() {
+	let bodyTablePlayerCell = document.createElement('td');
+	bodyTablePlayerCell.classList.add('jukebox-cell');
+	bodyTablePlayerCell.style.width = playerWidth + 'px';
+	bodyTablePlayerCell.style.verticalAlign = 'baseline';
+	bodyTablePlayerCell.style.textAlign = 'center';
 	
 	let main = document.createElement('div');
 	main.id = 'main';
-	main.style.height = '99vh';
+	main.style.height = isWidescreen ? '99vh' : '90vh';
 	let mainTable = document.createElement('table');
 	mainTable.style.width = '100%';
 	mainTable.style.height = '100%';
@@ -169,7 +92,7 @@ function generateHorizontalLayout() {
 	let mainTableRow1 = document.createElement('tr');
 	
 	let mainTableRow1Cell1 = document.createElement('td');
-	mainTableRow1Cell1.classList.add('jukebox-column');
+	mainTableRow1Cell1.classList.add('jukebox-cell');
 	
 	let title = document.createElement('h1');
 	title.innerText = 'Music Jukebox';
@@ -190,7 +113,7 @@ function generateHorizontalLayout() {
 	let mainTableRow2 = document.createElement('tr');
 	
 	let mainTableRow2Cell1 = document.createElement('td');
-	mainTableRow2Cell1.classList.add('jukebox-column');
+	mainTableRow2Cell1.classList.add('jukebox-cell');
 	
 	let player = document.createElement('div');
 	player.id = 'player';
@@ -200,7 +123,7 @@ function generateHorizontalLayout() {
 	let mainTableRow3 = document.createElement('tr');
 	
 	let mainTableRow3Cell1 = document.createElement('td');
-	mainTableRow3Cell1.classList.add('jukebox-column');
+	mainTableRow3Cell1.classList.add('jukebox-cell');
 	
 	let settings = document.createElement('h3');
 	settings.id = 'settings';
@@ -232,33 +155,29 @@ function generateHorizontalLayout() {
 	mainTableBody.appendChild(mainTableRow3);
 	mainTable.appendChild(mainTableBody);
 	main.appendChild(mainTable);
-	bodyTableRowCell1.appendChild(main);
-	
-	let bodyTableRowCell2 = document.createElement('td');
-	bodyTableRowCell2.classList.add('jukebox-column');
-	// bodyTableRowCell2.style.width = '50%';
-	
+	bodyTablePlayerCell.appendChild(main);
+
+	return bodyTablePlayerCell;	
+}
+
+function generateLayoutJukebox() {
+	let bodyTableJukeboxCell = document.createElement('td');
+	bodyTableJukeboxCell.classList.add('jukebox-cell');
+
 	let mosaic = document.createElement('div');
 	mosaic.id = 'mosaic';
 	
 	let grid = generateGrid();
 	mosaic.appendChild(grid);
-	bodyTableRowCell2.appendChild(mosaic);
-	
-	bodyTableRow1.appendChild(bodyTableRowCell1);
-	bodyTableRow1.appendChild(bodyTableRowCell2);
-	bodyTableBody.appendChild(bodyTableRow1);
-	bodyTable.appendChild(bodyTableBody);
-	document.body.innerHTML = '';
-	document.body.appendChild(bodyTable);
-	
+	bodyTableJukeboxCell.appendChild(mosaic);
+
+	return bodyTableJukeboxCell;
 }
 
 function generateGrid() {
-	let grid = document.createElement('div');
-	grid.classList.add('grid');
-	
 	let year = 0;
+	let grid = document.createElement('div');
+	grid.classList.add('grid');	
 	
 	for(let item of mosaicArray.sort(function(a,b){return a[3]-b[3]})) {
 		let imageUrl = item[0];
@@ -305,7 +224,7 @@ function generateMosaic() {
 				let code = generatePlayerByURL(url);
 				document.getElementById('player').innerHTML = code;
 				document.getElementById('player').title = releaseId;
-				if(window.innerWidth < 800)
+				if(!isWidescreen)
 					goToTop();
 			});
 		}
@@ -332,8 +251,8 @@ function generatePlayer() {
 }
 
 function generatePlayerByURL(url) {
-	if(0.5*window.innerHeight < playerHeight)
-		playerHeight = 0.5*window.innerHeight;
+	// if(0.5*window.innerHeight < playerHeight)
+		// playerHeight = 0.5*window.innerHeight;
     if (url.includes('music.apple.com')) {
         //process itunes embed
         return '<iframe allow="autoplay *; encrypted-media *;" frameborder="0" height="'+ playerHeight +'" sandbox="allow-modals allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation" src="' +
@@ -341,7 +260,7 @@ function generatePlayerByURL(url) {
             '" style="background: transparent; max-width: ' + playerWidth + 'px; overflow: hidden; width: 100%;"></iframe>';
     }
 	if(url.includes('open.spotify.com')) {
-		return '<iframe src="' + url + '" width="' + (window.innerWidth < playerWidth ? window.innerWidth-50 : playerWidth) +'" height="' + playerHeight + '" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>';
+		return '<iframe src="' + url + '" width="' + (window.innerWidth < playerWidth ? window.innerWidth-50 : playerWidth-10) +'" height="' + playerHeight + '" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>';
 	}
 }
 
