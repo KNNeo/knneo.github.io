@@ -1,4 +1,5 @@
 //--VARIABLES--//
+let playerWidth = 660;
 let playerHeight = 400;
 let isDarkMode = true;//document.getElementsByTagName('html')[0].classList.contains('darked');
 let enableDarkMode = false;
@@ -152,7 +153,7 @@ function generateHorizontalLayout() {
 	
 	let bodyTableRowCell1 = document.createElement('td');
 	bodyTableRowCell1.classList.add('jukebox-column');
-	bodyTableRowCell1.style.width = '50%';
+	bodyTableRowCell1.style.width = playerWidth + 'px';
 	bodyTableRowCell1.style.verticalAlign = 'baseline';
 	bodyTableRowCell1.style.textAlign = 'center';
 	
@@ -161,7 +162,7 @@ function generateHorizontalLayout() {
 	main.style.height = '99vh';
 	let mainTable = document.createElement('table');
 	mainTable.style.width = '100%';
-	mainTable.style.height = '100%';	
+	mainTable.style.height = '100%';
 	
 	let mainTableBody = document.createElement('tbody');
 	
@@ -193,7 +194,7 @@ function generateHorizontalLayout() {
 	
 	let player = document.createElement('div');
 	player.id = 'player';
-	player.style.height = '400px';
+	player.style.height = playerHeight + 'px';
 	mainTableRow2Cell1.appendChild(player);
 	
 	let mainTableRow3 = document.createElement('tr');
@@ -235,7 +236,7 @@ function generateHorizontalLayout() {
 	
 	let bodyTableRowCell2 = document.createElement('td');
 	bodyTableRowCell2.classList.add('jukebox-column');
-	bodyTableRowCell2.style.width = '50%';
+	// bodyTableRowCell2.style.width = '50%';
 	
 	let mosaic = document.createElement('div');
 	mosaic.id = 'mosaic';
@@ -337,10 +338,10 @@ function generatePlayerByURL(url) {
         //process itunes embed
         return '<iframe allow="autoplay *; encrypted-media *;" frameborder="0" height="'+ playerHeight +'" sandbox="allow-modals allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation" src="' +
             url.replace('music.apple.com', 'embed.music.apple.com') +
-            '" style="background: transparent; max-width: 660px; overflow: hidden; width: 100%;"></iframe>';
+            '" style="background: transparent; max-width: ' + playerWidth + 'px; overflow: hidden; width: 100%;"></iframe>';
     }
 	if(url.includes('open.spotify.com')) {
-		return '<iframe src="' + url + '" width="' + (window.innerWidth < 660 ? window.innerWidth-50 : 660) +'" height="' + playerHeight + '" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>';
+		return '<iframe src="' + url + '" width="' + (window.innerWidth < playerWidth ? window.innerWidth-50 : playerWidth) +'" height="' + playerHeight + '" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>';
 	}
 }
 
