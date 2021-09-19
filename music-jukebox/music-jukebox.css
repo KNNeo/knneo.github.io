@@ -69,40 +69,29 @@ body {
 
 #mosaic {
   overflow-x: hidden;
-  /* overflow-y: scroll; */
   white-space: nowrap;
-  /* height: 100vh; */
 }
 
 .grid-item {
   float: left;
-  /* border: 2px solid hsla(0, 0%, 0%, 0.5); */
-  /* border: 2px solid transparent; */
-  /* max-height: 200px; */
   max-width: 200px;
   background-color: white;
   border: 1px solid lightgray;
-  /* box-shadow: 3px 3px; */
-  /* padding: 3px; */
-  /* margin: 3px 0; */
 }
-
-/* .grid-item:active { */
-  /* box-shadow: 1px 1px; */
-  /* transform: translate(2px,2px);  */
-/* } */
 
 .static-banner {
   position: absolute;
   left: 5px;
   top: 5px;
   padding: 5px 10px;
-  color: white;
-  background: #A2C;
   font-size: 22px;
+  color: white;
+  background: black;
   border: 1px solid white;
-  /* box-shadow: 3px 3px; */
   z-index: 2;
+}
+
+.darked .static-banner {
 }
 
 .darked .grid-item {
