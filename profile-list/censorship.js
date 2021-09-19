@@ -1,7 +1,7 @@
 /*Objective: To create a seaprate function to run on Github to censor all unrelated data to display*/
 let tableCensorFromRow = 10;
 function censorData() {
-	//remove all content besides first four rows of each profile box table
+	//remove all extra content in simplified view
 	let profileBoxes = document.getElementsByClassName("profile-box");
 	for (var profileBox of profileBoxes) {
 		for(let p = tableCensorFromRow; p < profileBox.getElementsByTagName("table")[0].getElementsByTagName("tr").length; p++) {
