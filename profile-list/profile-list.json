@@ -102,11 +102,13 @@
 		"id":"HanazawaKana",
 		"image":"https://knneo.webs.com/hanazawakana.jpg",
 		"landscapes":[
+			"https://pbs.twimg.com/media/E_z23hDUcAwSCNI?format=jpg&name=small",
 			"https://img2.animatetimes.com/2021/01/600eb320dae43_0a77a89a54bdfb1495e76be2c6bf8da6.jpg",
 			"https://d1uzk9o9cg136f.cloudfront.net/f/16782943/rc/2020/11/22/152db223296396f75b91723a5a684b4c8f17a7fa_large.jpg",
 			"https://realsound.jp/wp-content/uploads/2019/11/20191127-hanazawa-shin.jpg"			
 		],
 		"portraits":[
+			"https://pbs.twimg.com/media/E_zrkj5VUAkaCGv?format=jpg&name=small",
 			"https://pbs.twimg.com/media/E0ETC4iVEAIC7G8?format=jpg&name=small",
 			"https://pbs.twimg.com/media/ExJgOZpVoAM96t2?format=jpg&name=small",
 			"https://img2.animatetimes.com/2020/12/5feb22d3c23c2_1e1e80fe7cc6a1f1239b555bce284588.jpg",
@@ -1719,6 +1721,7 @@
 			"https://pbs.twimg.com/media/Edf6cXOUYAEwpNm?format=jpg&name=small"
 		],
 		"portraits":[
+			"https://pbs.twimg.com/media/E_zS_jkUYAQ-7NW?format=jpg&name=small",
 			"https://pbs.twimg.com/media/E9Y4VXcVgAEg7DV?format=jpg&name=small",
 			"https://pbs.twimg.com/media/E6Q3qQsVoAgxO3q?format=jpg&name=small",
 			"https://pbs.twimg.com/media/E4Avc8aVcAE_WYQ?format=jpg&name=small",
@@ -2152,6 +2155,10 @@
 			{
 				"image":"https://pbs.twimg.com/media/E_pKcboUcAYX5GJ?format=jpg&name=small",
 				"id":"KannoMai-SasakiNao"
+			},
+			{
+				"image":"https://pbs.twimg.com/media/E_z1TnRVIAURvdq?format=jpg&name=small",
+				"id":"HidakaRina-TaketatsuAyana"
 			}
 		]
 	}
