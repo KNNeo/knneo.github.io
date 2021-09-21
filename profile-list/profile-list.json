@@ -1333,10 +1333,13 @@
 		"subCategory":"seiyuu3",
 		"id":"KogaAoi",
 		"image":"https://knneo.webs.com/kogaaoi.jpg",
-		"landscapes":[],
+		"landscapes":[
+			"https://pbs.twimg.com/media/E_QALsdXMAsYQo-?format=jpg&name=small"
+		],
 		"portraits":[
+			"https://pbs.twimg.com/media/E4uSeeFVEAIC_2O?format=jpg&name=small",
+			"https://pbs.twimg.com/media/E4P25f0VIAsu9vi?format=jpg&name=small",
 			"https://pbs.twimg.com/media/ElPQxrcUwAAUcR4?format=jpg&name=small",
-			"https://pbs.twimg.com/media/Ef3zm9uUYAAK1UT?format=jpg&name=small",
 			"https://pbs.twimg.com/media/Ep7dMo5VgAEfJi2?format=jpg&name=small"
 		],
 		"name":"Koga Aoi",
