@@ -412,6 +412,7 @@ function togglePairs() {
 function createCalendar(monthNo, DOBlist) {
 	let calendarArray = new Array();
 	let dayOfMonth = 1;
+	// render days of month as fixed array
 	for (let week = 0; week < 6; week++) {
 		let weekList = ['', '', '', '', '', '', ''];
 		for (let day = 0; day < 7; day++) {
@@ -424,7 +425,16 @@ function createCalendar(monthNo, DOBlist) {
 		}
 		calendarArray.push(weekList);
 	}
-	let htmlString = "<table style=\"margin:auto;border: 1px solid white;position:relative;\"><tbody><tr><td id=\"prevMonth\">\<\<</td><td colspan=\"5\">" + month[monthNo] + " " + new Date().getFullYear() + "</td><td id=\"nextMonth\">\>\></td></tr><tr><td>Sun</td><td>Mon</td><td>Tue</td><td>Wed</td><td>Thu</td><td>Fri</td><td>Sat</td></tr>";
+	
+	let htmlString = "<table><tbody><tr><td>" + 
+	(monthNo+1 > 1 ? "<i id=\"prevMonth\" class=\"bi bi-arrow-left\"></i>" : "") + 
+	"</td><td colspan=\"5\">" + 
+	month[monthNo] + " " + new Date().getFullYear() + 
+	"</td><td>" + 
+	(monthNo+1 < 12 ? "<i id=\"nextMonth\" class=\"bi bi-arrow-right\"></i>" : "") + 
+	"</td></tr><tr><td>Sun</td><td>Mon</td><td>Tue</td><td>Wed</td><td>Thu</td><td>Fri</td><td>Sat</td></tr>";
+	
+	// render array as table
 	for (let week = 0; week < 6; week++) {
 		htmlString += "<tr>";
 		let weekList = calendarArray[week];
@@ -434,6 +444,8 @@ function createCalendar(monthNo, DOBlist) {
 		htmlString += "</tr>";
 	}
 	htmlString += "</tbody></table>";
+	
+	// replace cells in table with relevant dates
 	for (let item of DOBlist) {
 		//calculate if birthday this year has passed
 		let currentYear = '2021';
@@ -451,27 +463,41 @@ function createCalendar(monthNo, DOBlist) {
 		else if (IsBirthdayOver) thisAge = item.currentAge;
 		else thisAge = item.currentAge + 1;
 		// console.log(item.name + "|" + item.currentAge);
-		if (thisAge == '??' && htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1 && htmlString.indexOf("<td>" + birthdayInYear.getDate() + "</td>") > -1 && item.name != "Me") //if no age
-			htmlString = htmlString.replace("<td>" + birthdayInYear.getDate() + "</td>", "<td style=\"background-color: " + setCalendarColour(item.category) + "; color: black;\"><div class=\"popitem\" style=\"padding: 1px;\">Happy Birthday <b>" + item.name + "</b>!!</div>" + birthdayInYear.getDate() + "</td>");
-		else if (htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1 && htmlString.indexOf("<td>" + birthdayInYear.getDate() + "</td>") > -1 && item.name != "Me") //normal
-			htmlString = htmlString.replace("<td>" + birthdayInYear.getDate() + "</td>", "<td style=\"background-color: " + setCalendarColour(item.category) + "; color: black;\"><div class=\"popitem\" style=\"padding: 1px;\"><b>" + item.name + "</b> turns " + thisAge + " (" + birthdayInYear.getDate() + " " + month[birthdayInYear.getMonth()].substring(0, 3) + ")</div>" + birthdayInYear.getDate() + "</td>");	
-		else if (thisAge == '??' && htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1) //overlap DOBs, if no age
-			htmlString = htmlString.replace("</div>" + birthdayInYear.getDate() + "</td>", "<br />Happy Birthday <b>" + item.name + "</b>!!</div>" + birthdayInYear.getDate() + "</td>");
+		if (thisAge == '??' && 
+		htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1 && 
+		htmlString.indexOf("<td>" + birthdayInYear.getDate() + "</td>") > -1 && 
+		item.name != "Me") //if no age
+			htmlString = htmlString.replace("<td>" + birthdayInYear.getDate() + "</td>", 
+			"<td style=\"background-color: " + setCalendarColour(item.category) + "; color: black;\"><div class=\"popitem\" style=\"padding: 1px;\">Happy Birthday <b>" + item.name + "</b>!!</div>" + birthdayInYear.getDate() + "</td>");
+		else if (htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1 && 
+		htmlString.indexOf("<td>" + birthdayInYear.getDate() + "</td>") > -1 && 
+		item.name != "Me") //normal
+			htmlString = htmlString.replace("<td>" + birthdayInYear.getDate() + "</td>", 
+			"<td style=\"background-color: " + setCalendarColour(item.category) + "; color: black;\"><div class=\"popitem\" style=\"padding: 1px;\"><b>" + item.name + "</b> turns " + thisAge + " (" + birthdayInYear.getDate() + " " + month[birthdayInYear.getMonth()].substring(0, 3) + ")</div>" + birthdayInYear.getDate() + "</td>");	
+		else if (thisAge == '??' && 
+		htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1) //overlap DOBs, if no age
+			htmlString = htmlString.replace("</div>" + birthdayInYear.getDate() + "</td>", 
+			"<br />Happy Birthday <b>" + item.name + "</b>!!</div>" + birthdayInYear.getDate() + "</td>");
 		else if (htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1) //overlap DOBs
-			htmlString = htmlString.replace("</div>" + birthdayInYear.getDate() + "</td>", "<br /><b>" + item.name + "</b> turns " + thisAge + "</b> (" + birthdayInYear.getDate() + " " + month[birthdayInYear.getMonth()].substring(0, 3) + ")</div>" + birthdayInYear.getDate() + "</td>");
+			htmlString = htmlString.replace("</div>" + birthdayInYear.getDate() + "</td>", 
+			"<br /><b>" + item.name + "</b> turns " + thisAge + "</b> (" + birthdayInYear.getDate() + " " + month[birthdayInYear.getMonth()].substring(0, 3) + ")</div>" + birthdayInYear.getDate() + "</td>");
 	}
+	
 	document.getElementById("calendar").innerHTML = htmlString;
+	// document.getElementById("prevMonth").style.opacity = 1;
+	// document.getElementById("nextMonth").style.opacity = 1;
+	
+	//global variable for month navigation
+	//events for month buttons
 	currentMonth = monthNo;
-	document.getElementById("prevMonth").style.opacity = 1;
-	document.getElementById("nextMonth").style.opacity = 1;
 	if (currentMonth > 0) document.getElementById("prevMonth").addEventListener("click", function() {
 		createCalendar(--currentMonth, calendarDOBlist);
 	});
-	else document.getElementById("prevMonth").style.opacity = 0;
+	// else document.getElementById("prevMonth").style.opacity = 0;
 	if (currentMonth < 11) document.getElementById("nextMonth").addEventListener("click", function() {
 		createCalendar(++currentMonth, calendarDOBlist);
 	});
-	else document.getElementById("nextMonth").style.opacity = 0;
+	// else document.getElementById("nextMonth").style.opacity = 0;
 	return monthNo;
 }
 

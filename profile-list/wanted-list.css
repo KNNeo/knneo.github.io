@@ -228,6 +228,14 @@ text-align: center;
 	color: white;
 }
 #calendar td:hover .popitem { display: block; }
+#calendar table {
+	margin: auto;
+	border: 1px solid white;
+	position:relative;
+}
+#prevMonth, #nextMonth {
+	cursor: pointer;
+}
 
 #tp-description {
     display: block;
