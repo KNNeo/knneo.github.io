@@ -281,6 +281,7 @@ function generateExtraColumns(table) {
 }
 
 function filterPage() {
+	pageNo = 1;
 	maxRows = document.getElementById('dbPageSelect').value;
 	loadTableFromCSV();
 }
