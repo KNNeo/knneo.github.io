@@ -43,7 +43,8 @@ table {
 
 td, th { 
 	border: 0;
-	padding: 2px 4px; 
+	padding: 0;
+	/* padding: 2px 4px;  */
 	/* font-size: 0.9em; */
 	/* border: 1px solid black;  */
 }
@@ -80,8 +81,6 @@ body {
 
 .grid-image {
   cursor: pointer;
-  width: 200px;
-  height: 200px;
   background-size: cover;
   background-position: center;
 }

@@ -199,6 +199,9 @@ function generateGrid() {
 		
 		let gridImage = document.createElement('div');
 		gridImage.classList.add('grid-image');
+		let imageSize = (isWidescreen ? 200 : 150) + 'px';
+		gridImage.style.width = imageSize;
+		gridImage.style.height = imageSize;
 		gridImage.style.backgroundImage = addUrlClause(imageUrl || 'https://knneo.github.io/resources/spacer.gif');
 		
 		gridItem.appendChild(gridImage);
