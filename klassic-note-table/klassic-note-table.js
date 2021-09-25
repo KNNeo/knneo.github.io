@@ -1,12 +1,25 @@
 //--VARIABLES--//
-let firstLoad = true;
-let activePreset = [];
-let presetAllArray = ["SongID", "KNID", "KNJAPAN", "KNJPOP", "KNYEAR", "Filename", "SongTitle", "ArtistTitle", "ParentArtist", "ReleaseTitle", "ReleaseArtistTitle", "ReleaseYear", "ReleaseDate", "Rating", "Genre", "DateCreated", "VocalCode", "LanguageCode", "InAppleMusic", "LyricsURL", "SongTitleAlt", "ArtistTitleAlt", "ReleaseTitleAlt", "ReleaseArtistTitleAlt", "ArtistCode", "Reference"];
-let preset1Array = ["KNID", "KNYEAR", "SongTitle", "ArtistTitle", "ReleaseTitle", "ReleaseArtistTitle"];
-let preset2Array = ["KNID", "KNYEAR", "SongTitleAlt", "ArtistTitleAlt", "ReleaseTitleAlt", "ReleaseArtistTitleAlt"];
-let preset3Array = ["KNID", "SongTitle", "ArtistTitle", "LyricsURL", "AddToTimeline"];
 let maxRows = 100;
 let pageNo = 1;
+//presets: based on query table columns, else will ignore
+let presets = [
+	{
+		presetName: 'All',
+		columns: ["SongID", "KNID", "KNJAPAN", "KNJPOP", "KNYEAR", "Filename", "SongTitle", "ArtistTitle", "ParentArtist", "ReleaseTitle", "ReleaseArtistTitle", "ReleaseYear", "ReleaseDate", "Rating", "Genre", "DateCreated", "VocalCode", "LanguageCode", "InAppleMusic", "LyricsURL", "SongTitleAlt", "ArtistTitleAlt", "ReleaseTitleAlt", "ReleaseArtistTitleAlt", "ArtistCode", "Reference", "InMonth", "FindArtist", "AddToTimeline"],
+	},
+	{
+		presetName: 'English Only',
+		columns: ["KNID", "KNYEAR", "SongTitle", "ArtistTitle", "ReleaseTitle", "ReleaseArtistTitle"],
+	},
+	{
+		presetName: 'Native Only',
+		columns: ["KNID", "KNYEAR", "SongTitleAlt", "ArtistTitleAlt", "ReleaseTitleAlt", "ReleaseArtistTitleAlt"],
+	},
+	{
+		presetName: 'Lyrics Only',
+		columns: ["KNID", "SongTitle", "ArtistTitle", "LyricsURL", "AddToTimeline"],
+	},
+];
 //columns on demand: query table based on row column generated
 let exColumns = [
 	{
@@ -26,7 +39,7 @@ let exColumns = [
 		refColumn: 'KNID',
 		timelineFooter1: 'SongTitle',
 		timelineFooter2: 'ArtistTitle',
-	}
+	},
 ];
 let refTable;
 
@@ -179,36 +192,59 @@ function resetSearch() {
 } */
 
 //--PRESET RADIO INPUTS--//
-/* function generatePresets() {
-	if(document.getElementById('table-preset-ticks').style.display == 'block') return;
-	document.getElementById('table-preset-ticks').style.display = 'block';
-} */
+function generatePresets() {
+	let presetDiv = document.getElementById('table-preset-ticks');
+	presetDiv.innerHTML = '';
+	
+	let presetTitle = document.createElement('h4');
+	presetTitle.innerText = 'Presets';
+	presetDiv.appendChild(presetTitle);
+	
+	for(let p = 0; p < presets.length; p++)
+	{
+		let preset = presets[p];
+		
+		let presetLabel = document.createElement('label');
+		presetLabel.innerText = preset.presetName;
+		
+		let presetItem = document.createElement('input');
+		presetItem.id = 'preset' + preset.presetName.replace(' ','');
+		presetItem.type = 'radio';
+		presetItem.name = presetItem.id;
+		presetItem.value = preset.presetName;
+		presetItem.addEventListener('click', function() { generateSearchOnPreset(this); });
+		presetItem.checked = p == 0;
+		
+		presetLabel.insertBefore(presetItem, presetLabel.childNodes[0]);
+		presetDiv.appendChild(presetLabel);
+	}	
+}
 
 function resetPresets() {
 	for(let preset of document.getElementById('table-preset-ticks').getElementsByTagName('input'))
 	{
-		preset.checked = preset.name == "presetAll";
+		preset.checked = preset.name == "All";
 	}
 
 }
 
 //event
 function generateSearchOnPreset(radioInput) {
-	let radioId = radioInput.id;
 	for (let radio of document.getElementById('table-preset-ticks').getElementsByTagName('input'))
 	{
-		if(radio.id != radioId)
+		if(radio.id != radioInput.id)
 			radio.checked = false;
 	}
-	for (let column of document.getElementsByClassName('tickbox-column'))
-	{
-		//list of arrays for each preset to search
-		if(radioId == 'presetAll') column.checked = presetAllArray.indexOf(column.value) >= 0;
-		if(radioId == 'preset1') column.checked = preset1Array.indexOf(column.value) >= 0;
-		if(radioId == 'preset2') column.checked = preset2Array.indexOf(column.value) >= 0;
-		if(radioId == 'preset3') column.checked = preset3Array.indexOf(column.value) >= 0;
+	let presetColumns = presets.filter(function(p) { return p.presetName == radioInput.value; });
+	if(presetColumns != null && presetColumns.length == 1) {
+		let columns = presetColumns[0].columns;
+		for (let column of document.getElementsByClassName('tickbox-column'))
+		{
+			//list of arrays for each preset to search
+			column.checked = columns.indexOf(column.value) >= 0;
+		}
+		loadTableFromCSV();
 	}
-	loadTableFromCSV();
 }
 
 //--FUNCTIONS--//
@@ -219,6 +255,7 @@ function resetTable() {
 	resetFilters();
 	resetSearch();
 	resetTimeline();
+	generatePresets();
 	loadTableFromCSV();
 }
 
@@ -543,7 +580,7 @@ function createTable(table) {
 	//assign
 	document.getElementById("database-table").innerHTML = '';
 	document.getElementById("database-table").appendChild(knTable);	
-	//generatePresets();
+	// generatePresets();
 	
 	//disable input until load complete
 	if(table.columns == 0) {
