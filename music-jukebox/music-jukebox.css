@@ -74,9 +74,20 @@ body {
 
 .grid-item {
   float: left;
-  max-width: 200px;
   background-color: white;
   border: 1px solid lightgray;
+}
+
+.grid-image {
+  cursor: pointer;
+  width: 200px;
+  height: 200px;
+  background-size: cover;
+  background-position: center;
+}
+
+.grid-image:hover {
+    background-size: 250px;
 }
 
 .static-banner {
@@ -100,10 +111,6 @@ body {
 }
 
 .grid-item img {
-  display: block;
-  width: 30vw;
-  max-width: 100%;
-  cursor: pointer;
 }
 
 #settings {

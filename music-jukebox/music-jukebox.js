@@ -197,24 +197,29 @@ function generateGrid() {
 			year = item[3];
 		}
 		
-		let image = document.createElement('img');
-		image.src = imageUrl || 'https://knneo.github.io/resources/spacer.gif';
+		let gridImage = document.createElement('div');
+		gridImage.classList.add('grid-image');
+		gridImage.style.backgroundImage = addUrlClause(imageUrl || 'https://knneo.github.io/resources/spacer.gif');
 		
-		gridItem.appendChild(image);
+		gridItem.appendChild(gridImage);
 		grid.appendChild(gridItem);
 		
 	}
 	return grid;
 }
 
+function addUrlClause(url) {
+	return "url('" + url + "')";
+}
+
 function generateMosaic() {
 	// build grid
 	let mosaic = document.getElementById('mosaic');
 	if(mosaic != null) {
-		let images = mosaic.getElementsByTagName('img');
+		let images = mosaic.getElementsByClassName('grid-image');
 		for(let image of images) {
 			image.addEventListener('click', function() {
-				for(let image of document.getElementById('mosaic').getElementsByTagName('img')) {
+				for(let image of document.getElementById('mosaic').getElementsByClassName('grid-image')) {
 					image.style.visibility = '';
 				}
 				this.style.visibility = 'hidden';
