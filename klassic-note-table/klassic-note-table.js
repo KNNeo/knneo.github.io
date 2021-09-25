@@ -5,7 +5,7 @@ let presetAllArray = ["SongID", "KNID", "KNJAPAN", "KNJPOP", "KNYEAR", "Filename
 let preset1Array = ["KNID", "KNYEAR", "SongTitle", "ArtistTitle", "ReleaseTitle", "ReleaseArtistTitle"];
 let preset2Array = ["KNID", "KNYEAR", "SongTitleAlt", "ArtistTitleAlt", "ReleaseTitleAlt", "ReleaseArtistTitleAlt"];
 let preset3Array = ["KNID", "SongTitle", "ArtistTitle", "LyricsURL", "AddToTimeline"];
-let maxRows = isMobile() ? 100 : 500;
+let maxRows = 100;
 let pageNo = 1;
 //columns on demand: query table based on row column generated
 let exColumns = [
@@ -31,6 +31,7 @@ let exColumns = [
 let refTable;
 
 //--FIRST TIME CALLS
+document.getElementById('dbPageSelect').value = maxRows;
 document.getElementById('tickboxAll').addEventListener("click", function() {
 	let count = 0;
 	for(let tickbox of document.getElementById('table-column-ticks').getElementsByTagName('input'))
@@ -120,7 +121,7 @@ function generateSearch(filters) {
 			columnInput.type = 'text';
 			columnInput.placeholder = column;
 			columnInput.title = 'search';
-			if(isMobile()) columnInput.style.width = '33%';
+			// if(isMobile()) columnInput.style.width = '33%';
 			columnInput.style.display = document.getElementById('tickbox' + column) != null && !document.getElementById('tickbox' + column).checked ? 'none' : '';
 			
 			columnInput.addEventListener('keyup', function(event) {
@@ -213,7 +214,7 @@ function generateSearchOnPreset(radioInput) {
 //--FUNCTIONS--//
 function resetTable() {
 	pageNo = 1;
-	maxRows = isMobile() ? 100 : 500;
+	maxRows = document.getElementById('dbPageSelect').value;
 	resetPresets();
 	resetFilters();
 	resetSearch();
@@ -279,6 +280,10 @@ function generateExtraColumns(table) {
 	
 }
 
+function filterPage() {
+	maxRows = document.getElementById('dbPageSelect').value;
+	loadTableFromCSV();
+}
 
 function prevPage() {
 	pageNo--;
@@ -295,7 +300,7 @@ function nextPage() {
 function toggleTimeline() {
 	let body = document.body;
 	let timeline = document.getElementById("timeline");
-	body.style.paddingLeft = timeline.style.display == 'none'? '200px' : '0';
+	// body.style.paddingLeft = timeline.style.display == 'none'? '200px' : '0';
 	timeline.style.display = timeline.style.display == 'none'? '' : 'none';
 	let chart = document.getElementById("chart");
 	if(chart == null) loadTimeline();
@@ -397,7 +402,7 @@ function createTable(table) {
 						let array = [];
 						let exColumn = exColumns.filter(e => e.title == 'AddToTimeline')[0];
 						
-						for(let item of document.getElementById('dbTable').getElementsByTagName('tr')) {
+						for(let item of document.getElementById('database-table').getElementsByTagName('tr')) {
 							if(item.getElementsByTagName('td').length == 0) continue;
 							let row = refTable[parseInt(item.getElementsByTagName('td')[0].innerText) - 1];
 							let data = {
@@ -535,13 +540,13 @@ function createTable(table) {
 	knTable.appendChild(knTableBody);
 	
 	//assign
-	document.getElementById("dbTable").innerHTML = '';
-	document.getElementById("dbTable").appendChild(knTable);	
+	document.getElementById("database-table").innerHTML = '';
+	document.getElementById("database-table").appendChild(knTable);	
 	//generatePresets();
 	
 	//disable input until load complete
 	if(table.columns == 0) {
-		document.getElementById("dbTable").innerHTML = '';
+		document.getElementById("database-table").innerHTML = '';
 		document.getElementById("table-result").innerText = "All has been deselected. Check something to display results";
 		return;
 	}
