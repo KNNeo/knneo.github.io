@@ -351,12 +351,11 @@ function createDOBlist(list, minAge, maxAge) {
 	if(defaultProfile) {
 		listOfDOB.push({
 			category: defaultProfile.category,
-			date: defaultProfile.dob,
+			date: defaultProfile.dob.replace(".", "-").replace(".", "-").substring(0, 10),
 			name: defaultProfile.name
 		});
 	}
 	for(let profile of list) {
-		let targetId = profile.name;
 		let targetDOB = profile.dob; //document.getElementById(targetId.replace(" ", "")).getElementsByClassName("DOB");
 		if (targetDOB.length > 0) {
 			let birthDate = new Date(Date.parse(targetDOB.replace(".", "-").replace(".", "-").substring(0, 10)));
@@ -365,7 +364,7 @@ function createDOBlist(list, minAge, maxAge) {
 				listOfDOB.push({
 					category: profile.category,
 					date: targetDOB.replace(".", "-").replace(".", "-").substring(0, 10),
-					name: targetId,
+					name: profile.name,
 					currentAge: age
 				});
 		}
@@ -468,12 +467,12 @@ function createCalendar(monthNo, DOBlist) {
 		htmlString.indexOf("<td>" + birthdayInYear.getDate() + "</td>") > -1 && 
 		item.name != "Me") //if no age
 			htmlString = htmlString.replace("<td>" + birthdayInYear.getDate() + "</td>", 
-			"<td style=\"background-color: " + setCalendarColour(item.category) + "; color: black;\"><div class=\"popitem\" style=\"padding: 1px;\">Happy Birthday <b>" + item.name + "</b>!!</div>" + birthdayInYear.getDate() + "</td>");
+			"<td style=\"background-color: " + setCalendarColour(item.category) + "; color: black;\"><div class=\"popitem\">Happy Birthday <b>" + item.name + "</b>!!</div>" + birthdayInYear.getDate() + "</td>");
 		else if (htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1 && 
 		htmlString.indexOf("<td>" + birthdayInYear.getDate() + "</td>") > -1 && 
 		item.name != "Me") //normal
 			htmlString = htmlString.replace("<td>" + birthdayInYear.getDate() + "</td>", 
-			"<td style=\"background-color: " + setCalendarColour(item.category) + "; color: black;\"><div class=\"popitem\" style=\"padding: 1px;\"><b>" + item.name + "</b> turns " + thisAge + " (" + birthdayInYear.getDate() + " " + month[birthdayInYear.getMonth()].substring(0, 3) + ")</div>" + birthdayInYear.getDate() + "</td>");	
+			"<td style=\"background-color: " + setCalendarColour(item.category) + "; color: black;\"><div class=\"popitem\"><b>" + item.name + "</b> turns " + thisAge + " (" + birthdayInYear.getDate() + " " + month[birthdayInYear.getMonth()].substring(0, 3) + ")</div>" + birthdayInYear.getDate() + "</td>");	
 		else if (thisAge == '??' && 
 		htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1) //overlap DOBs, if no age
 			htmlString = htmlString.replace("</div>" + birthdayInYear.getDate() + "</td>", 
