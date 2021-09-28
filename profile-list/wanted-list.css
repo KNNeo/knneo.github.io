@@ -11,7 +11,7 @@ body {
   max-width: 960px;
   margin: auto;
 }
-a {
+a, button {
 	color: cyan;
 	cursor: pointer;
 }
