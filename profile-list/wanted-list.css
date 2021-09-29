@@ -236,9 +236,10 @@ text-align: center;
 #prevMonth, #nextMonth {
 	cursor: pointer;
 }
-
+.turning-point {
+	position: relative;
+}
 #tp-description {
-    display: block;
     position: absolute;
     background: black;
     border: 1px solid white;
