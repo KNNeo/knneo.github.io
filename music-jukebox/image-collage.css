@@ -137,6 +137,13 @@ tr:hover > td {
     background-color: transparent;
 }
 
+#main {
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
 
 #viewer {
 	z-index: 9;
