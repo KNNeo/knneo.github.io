@@ -14,6 +14,7 @@ window.addEventListener('load', startup);
 window.addEventListener('resize', startup);
 
 function startup() {
+	searchCriteria = '';
 	generateLayout();
 	generateMosaic();
 	if(!enableDarkMode) {
@@ -102,7 +103,9 @@ function generateLayoutPlayer() {
 	mainTableRow1Cell1.classList.add('jukebox-cell');
 	
 	let title = document.createElement('h1');
+	title.classList.add('title');
 	title.innerText = 'Image Collage';
+	title.addEventListener('click', startup);
 	// title.onclick = startup;
 	// title.style.cursor = 'pointer';
 	
@@ -302,12 +305,13 @@ function generateGrid() {
 	
 	let screenWidth = window.innerWidth - 15;
 	let searchArray = searchCriteria.split('|');
-	console.log(searchArray);
-	for(let item of mosaicArray
-	.filter(m => searchCriteria == '' || searchArray.filter(s => m.includes(s)).length == searchArray.length)
+	// console.log(searchArray);
+	let filterArray = mosaicArray
+	.filter(m => searchCriteria.length == 0 || searchArray.filter(s => m.includes(s)).length == searchArray.length)
 	.sort(function(a,b) {
 		return a.localeCompare(b, 'ja');
-	})) {
+	});
+	for(let item of filterArray) {
 		let imageUrl = item;
 		
 		let gridItem = document.createElement('div');
@@ -343,15 +347,17 @@ function generateGrid() {
 		let fullImageUrl = addUrlClause((folderName + imageUrl)).replace('.jpg','_thumbnail.jpg');
 		gridImage.style.backgroundImage = fullImageUrl || 'https://knneo.github.io/resources/spacer.gif';
 		
-		//pre-loading
-		let preload = new Image();
-		preload.src = folderName + imageUrl;
-		preloads.push(preload);
+		//pre-loading: will cause animation lag
+		if(preloads.length >= mosaicArray.length) {
+			let preload = new Image();
+			preload.src = folderName + imageUrl;
+			preloads.push(preload);
+		}
 		
 		gridItem.appendChild(gridImage);
 		grid.appendChild(gridItem);		
 	}
-	console.log('screenWidth',screenWidth);
+	// console.log('screenWidth',screenWidth);
 	return grid;
 }
 

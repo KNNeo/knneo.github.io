@@ -37,6 +37,10 @@ td, th {
 	padding: 0;
 }
 
+.title {
+	cursor: pointer;
+}
+
 .tags {
 }
 
