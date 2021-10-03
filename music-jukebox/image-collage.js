@@ -176,6 +176,18 @@ function generateLayoutPlayer() {
 			
 			generateMosaic();
 		});
+		tag.addEventListener('contextmenu',function() {
+			event.preventDefault();
+			searchCriteria = this.value;
+			
+			document.getElementById('search').value = searchCriteria;
+			
+			let grid = generateGrid();		
+			document.getElementById('mosaic').innerHTML = '';
+			document.getElementById('mosaic').appendChild(grid);
+			
+			generateMosaic();
+		});
 		tags.appendChild(tag);
 	}
 	
