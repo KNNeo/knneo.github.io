@@ -348,7 +348,7 @@ function generateGrid() {
 		gridImage.style.backgroundImage = fullImageUrl || 'https://knneo.github.io/resources/spacer.gif';
 		
 		//pre-loading: will cause animation lag
-		if(preloads.length >= mosaicArray.length) {
+		if(preloads.length < mosaicArray.length) {
 			let preload = new Image();
 			preload.src = folderName + imageUrl;
 			preloads.push(preload);
