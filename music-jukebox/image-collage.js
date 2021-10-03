@@ -124,6 +124,7 @@ function generateLayoutPlayer() {
 	
 	let search = document.createElement('input');
 	search.id = 'search';
+	search.style.height = '20px';
 	search.addEventListener('input',function() {
 		searchCriteria += document.getElementById('search').value;
 		
@@ -268,6 +269,7 @@ function generateLayoutJukebox() {
 
 	let mosaic = document.createElement('div');
 	mosaic.id = 'mosaic';
+	mosaic.style.height = (window.innerHeight - 300) + 'px';
 
 	let grid = generateGrid();
 	mosaic.appendChild(grid);
