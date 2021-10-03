@@ -125,7 +125,7 @@ function generateLayoutPlayer() {
 	let search = document.createElement('input');
 	search.id = 'search';
 	search.addEventListener('input',function() {
-		searchCriteria = document.getElementById('search').value;
+		searchCriteria += document.getElementById('search').value;
 		
 		let grid = generateGrid();		
 		document.getElementById('mosaic').innerHTML = '';
@@ -147,8 +147,18 @@ function generateLayoutPlayer() {
 		tag.value = button;
 		tag.innerText = button;
 		tag.addEventListener('click',function() {
-			searchCriteria = this.value;
-			document.getElementById('search').value = this.value;
+			if(searchCriteria.includes(this.value)) {
+				searchCriteria = searchCriteria.replace(this.value,'');
+				if(searchCriteria.startsWith('|')) searchCriteria = searchCriteria.substring(1);
+				this.style.border = '';
+				this.style.color = '';
+			}
+			else {
+				searchCriteria += (searchCriteria.length > 0 ? '|' : '') + this.value;
+				this.style.border = '1px solid gray';
+				this.style.color = 'gray';
+			}
+			document.getElementById('search').value = searchCriteria;
 			
 			let grid = generateGrid();		
 			document.getElementById('mosaic').innerHTML = '';
@@ -267,8 +277,10 @@ function generateGrid() {
 	grid.appendChild(gridSizer);
 	
 	let screenWidth = window.innerWidth - 15;
+	let searchArray = searchCriteria.split('|');
+	console.log(searchArray);
 	for(let item of mosaicArray
-	.filter(m => searchCriteria == '' || m.includes(searchCriteria))
+	.filter(m => searchCriteria == '' || searchArray.filter(s => m.includes(s)).length == searchArray.length)
 	.sort(function(a,b) {
 		return a.localeCompare(b, 'ja');
 	})) {

@@ -106,7 +106,7 @@ td, th {
 	top: 0;
 	position: -webkit-sticky;
 	position: sticky;
-	height: 30vh;
+	height: 32vh;
 }
 
 #main:hover {
@@ -115,7 +115,7 @@ td, th {
 
 #mosaic {
   overflow: auto;
-  height: 70vh;
+  height: 68vh;
   white-space: nowrap;
 }
 
