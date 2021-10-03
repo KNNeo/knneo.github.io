@@ -137,6 +137,15 @@ function generateLayoutPlayer() {
 	
 	let tags = document.createElement('div');
 	tags.classList.add('tags');
+	if(isMobile()) {
+		tags.style.width = '100vw';
+		tags.style.overflowX = 'auto';
+		tags.style.whiteSpace = 'nowrap';
+	}
+	else {
+		tags.style.maxHeight = '2em';
+		tags.style.overflowY = 'auto';
+	}
 	
 	generateButtonArrayIfEmpty();
 	
@@ -148,8 +157,7 @@ function generateLayoutPlayer() {
 		tag.innerText = button;
 		tag.addEventListener('click',function() {
 			if(searchCriteria.includes(this.value)) {
-				searchCriteria = searchCriteria.replace(this.value,'');
-				if(searchCriteria.startsWith('|')) searchCriteria = searchCriteria.substring(1);
+				searchCriteria = searchCriteria.replace('|' + this.value,'').replace(this.value,'');
 				this.style.border = '';
 				this.style.color = '';
 			}

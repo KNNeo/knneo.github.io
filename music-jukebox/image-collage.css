@@ -38,8 +38,10 @@ td, th {
 }
 
 .tags {
-	max-height: 2em;
-	overflow-y: auto;
+}
+
+.tags::-webkit-scrollbar { 
+  height: 0;
 }
 
 .tag {
