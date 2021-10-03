@@ -158,6 +158,7 @@ function generateLayoutPlayer() {
 		tag.addEventListener('click',function() {
 			if(searchCriteria.includes(this.value)) {
 				searchCriteria = searchCriteria.replace('|' + this.value,'').replace(this.value,'');
+				if(searchCriteria.startsWith('|')) searchCriteria = searchCriteria.substring(1);
 				this.style.border = '';
 				this.style.color = '';
 			}
