@@ -534,7 +534,7 @@ function loadPage(pageName) {
 	if(pageName == 'bromide-gallery') {
 		passCode = prompt('Enter code:');
 		console.log(passCode);
-		if(passCode == '') passCode = 'C:/Users/KAINENG/OneDrive/Pictures/SELFSCAN';
+		if(passCode == '') passCode = 'file://C:/Users/KAINENG/OneDrive/Pictures/SELFSCAN';
 		else passCode = 'https://' + passCode;
 	}
 	if(runSlideshow != null) stopSlideshow();
