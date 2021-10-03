@@ -69,13 +69,11 @@ td, th {
 
 .grid-image {
   cursor: pointer;
-  /* background-size: 200px; */
   background-position: center;
   transition: background-size 0.1s ease;
 }
 
 .grid-image:hover {
-    background-size: 200px;
 }
 
 .static-banner {

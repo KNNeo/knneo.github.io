@@ -333,6 +333,13 @@ function generateGrid() {
 		// let totalWidth = window.innerWidth % screenWidth;
 		gridImage.style.width = screenWidth + 'px';
 		gridImage.style.height = (screenWidth*9/16) + 'px';
+		gridImage.style.backgroundSize = gridImage.style.width;
+		gridImage.addEventListener('mouseover',function() {
+			this.style.backgroundSize = (1.2*this.offsetWidth) + 'px';
+		});
+		gridImage.addEventListener('mouseout',function() {
+			this.style.backgroundSize = this.offsetWidth + 'px';
+		});
 		let fullImageUrl = addUrlClause((folderName + imageUrl)).replace('.jpg','_thumbnail.jpg');
 		gridImage.style.backgroundImage = fullImageUrl || 'https://knneo.github.io/resources/spacer.gif';
 		
