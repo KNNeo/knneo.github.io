@@ -3,6 +3,7 @@ let minWidth = 160;
 let enableDarkMode = false;	// displays dark mode toggle
 let isDarkMode = true;		// initial value if enableDarkMode is false, ignored if enableDarkMode is true
 let folderName = 'C:/Users/KAINENG/OneDrive/Pictures/DOAX-VenusVacation/Bromides/';
+let buttonArray = true;
 let mosaicArray = 
 ['うすかわたけのこ（あやね）.jpg','うすかわたけのこ（ルナ）.jpg','おせちのあさり（ヒトミ）.jpg','おつまみシュリンプ（あやね）.jpg','おつまみシュリンプ（パティ）.jpg','おつまみシュリンプ（フィオナ）.jpg','おまつりきんぎょ（こころ）.jpg','くつろぎニット（あやね）.jpg','こもれびハミング（モニカ）.jpg','すずかぜロマンチカ（さゆり）.jpg','すずかぜロマンチカ（ロベリア）.jpg','そよかぜのロンド（マリー・ローズ）.jpg','そよかぜロンド（カンナ）.jpg','たまゆら花火（みさき）.jpg','ぬくもりマフラー（こころ）.jpg','のりまき（レイファン）.jpg','はいからブルーマー（紅葉）.jpg','はいからプロッザム（フィオナ）.jpg','はじけるチャップス（つくし）.jpg','はじけるチャップス（ほのか）.jpg','ふわものフォーム（ほのか）.jpg','ほしぞらきんぎょ（如天狗）.jpg','まじかるヴィーナス（こころ）.jpg','ゆるふわパーカー（ほのか）.jpg','ゆるふわパーカー（フィオナ）.jpg','アクア・キャビア（かすみ）.jpg','アクア・キャビア（ヒトミ）.jpg','エンドルフィン・スカイ（みさき）.jpg','エンドルフィン・ハート（パティ）.jpg','コード・ルージュ（パティ）.jpg','サンセットフィッシュ（なぎさ）.jpg','サンセットフィッシュ（ヒトミ）.jpg','サンセットフィッシュ（レイファン）.jpg','シクレット・レポート（エレナ）.jpg','シクレット・レポート（ロベリア）.jpg','シャノワール（なぎさ）.jpg','シークレットクラス（たまき）.jpg','シークレットクラス（なぎさ）.jpg','シークレットクラス（モニカ）.jpg','スイートスポット（フィオナ）.jpg','スイートビターベリー（マリー・ローズ）.jpg','スネグールか（ルナ）.jpg','スパークリングブルー（ななみ）.jpg','スパークリングブルー（ヒトミ）.jpg','スマイルポップ（ほのか）.jpg','ソレイユクーシャン（エレナ）.jpg','ソレイユクーシャン（ルナ）.jpg','ダークプリズン（みさき）.jpg','トワイライトフィッシュ（こころ）.jpg','トワイライトフィッシュ（マリー・ローズ）.jpg','ネイキッドサマー（フィオナ）.jpg','ノエル・シャルマン（モニカ）.jpg','パステルスイート（つくし）.jpg','パステルスイート（ルナ）.jpg','ピュア・コンチェルト（フィオナ）.jpg','ピンキー・プラム（パティ）.jpg','プラチナ・スターパーカー（みさき）.jpg','プラチナ・リープラ（ヒトミ）.jpg','プルミエ・ランデブー（ルナ）.jpg','プルミエ・ランデブー（紅葉）.jpg','プレミア・ナイト（パティ）.jpg','ベルベットタイム・ローズ（ほのか）.jpg','ベルベットタイム・ローズ（エレナ）.jpg','ホライズン（ほのか）.jpg','ミスティック・フォレスト（ルナ）.jpg','ミステー・リリー（あやね）.jpg','ミステー・リリー（つくし）.jpg','メヂィカル・エックス（ほのか）.jpg','ラビットショーカー（かすみ）.jpg','リナライトプリズム（たまき）.jpg','レイズザセイル（みさき）.jpg','レイズザセイル（エレナ）.jpg','レイズザセイル（ヒトミ）.jpg','レイズザセイル（フィオナ）.jpg','レイズザセイル（レイファン）.jpg','レイニーフロッグ（みさき）.jpg','ロゼライトプリズム（紅葉）.jpg','ワイルドウインド（パティ）.jpg','ワイルドウインド（マリー・ローズ）.jpg','ヴィーナス・ケージ（かすみ）.jpg','巫女舞（みさき）.jpg','巫女舞（ヒトミ）.jpg','幻燈朱雀（みさき）.jpg','恋風天舞・緋（あやね）.jpg','振袖・墨彩（なぎさ）.jpg','旗袍・青龍（たまき）.jpg','星砂のスリットワンピ（こころ）.jpg','星砂のスリットワンピ（つくし）.jpg','星砂のスリットワンピ（ほのか）.jpg','星砂のスリットワンピ（みさき）.jpg','星砂のスリットワンピ（カンナ）.jpg','星砂のスリットワンピ（ヒトミ）.jpg','春彩のスクールウェア（あやね）.jpg','春彩のスクールウェア（カンナ）.jpg','桃宴桜舞（こころ）.jpg','桃宴桜舞（なぎさ）.jpg','桃宴桜舞（ほのか）.jpg','桃宴桜舞（みさき）.jpg','桃宴桜舞（フィオナ）.jpg','桃宴桜舞（マリー・ローズ）.jpg','桃宴桜舞（ロベリア）.jpg','永遠のクラテル（ヒトミ）.jpg','深紅のスリットワンピ（たまき）.jpg','深紅のスリットワンピ（エレナ）.jpg','深紅のスリットワンピ（レイファン）.jpg','秋麗のスクールウェア（こころ）.jpg','秋麗のスクールウェア（つくし）.jpg','秋麗のスクールウェア（みさき）.jpg','秋麗のスクールウェア（パティ）.jpg','秋麗のスクールウェア（フィオナ）.jpg','秋麗のスクールウェア（ルナ）.jpg','空色のスリットワンピ（あやね）.jpg','空色のスリットワンピ（かすみ）.jpg','空色のスリットワンピ（さゆり）.jpg','空色のスリットワンピ（ロベリア）.jpg','純白のスリットワンピ（たまき）.jpg','純白のスリットワンピ（たまき）（覚醒）.jpg','純白のスリットワンピ（なぎさ）.jpg','純白のスリットワンピ（パティ）.jpg','純白のスリットワンピ（マリー・ローズ）.jpg','黒炎のラビリンス（つくし）.jpg','黒炎のラビリンス（ほのか）.jpg'];
 
@@ -102,8 +103,8 @@ function generateLayoutPlayer() {
 	
 	let title = document.createElement('h1');
 	title.innerText = 'Image Collage';
-	title.onclick = startup;
-	title.style.cursor = 'pointer';
+	// title.onclick = startup;
+	// title.style.cursor = 'pointer';
 	
 	let description = document.createElement('h5');
 	description.innerText = 'Click on thumbnail to see larger image';
@@ -123,7 +124,7 @@ function generateLayoutPlayer() {
 	
 	let search = document.createElement('input');
 	search.id = 'search';
-	search.addEventListener('input',function(c) {
+	search.addEventListener('input',function() {
 		searchCriteria = document.getElementById('search').value;
 		
 		let grid = generateGrid();		
@@ -133,6 +134,32 @@ function generateLayoutPlayer() {
 		generateMosaic();
 	});
 	mainTableRow2Cell1.appendChild(search);
+	
+	let tags = document.createElement('div');
+	tags.classList.add('tags');
+	
+	generateButtonArrayIfEmpty();
+	
+	for(let button of buttonArray) {
+		if(button == '') continue;
+		let tag = document.createElement('button');
+		tag.classList.add('tag');
+		tag.value = button;
+		tag.innerText = button;
+		tag.addEventListener('click',function() {
+			searchCriteria = this.value;
+			document.getElementById('search').value = this.value;
+			
+			let grid = generateGrid();		
+			document.getElementById('mosaic').innerHTML = '';
+			document.getElementById('mosaic').appendChild(grid);
+			
+			generateMosaic();
+		});
+		tags.appendChild(tag);
+	}
+	
+	mainTableRow2Cell1.appendChild(tags);
 	
 	let mainTableRow3 = document.createElement('tr');
 	
@@ -172,6 +199,48 @@ function generateLayoutPlayer() {
 	bodyTablePlayerCell.appendChild(main);
 
 	return bodyTablePlayerCell;	
+}
+
+function generateButtonArrayIfEmpty() {
+	if(typeof buttonArray == 'boolean') {
+		let val = buttonArray;
+		buttonArray = [];
+		if(!val) return;
+	}
+	if(buttonArray.length > 0)
+		return;
+	
+	//generate tags by design
+	buttonArray = mosaicArray.join('')
+	.replace(/.jpg/g,'')
+	.replace(/）/g,'（')
+	.replace(/ /g,'')
+	.split('（')
+	.reduce(function(total, current, index, array) {
+		let updated = total;
+		if(total.filter(a => a.value == current).length > 0) {
+			let nonUpdated = total.filter(a => a.value == current)[0];
+			let oldCount = nonUpdated.count;
+			
+			updated = total.filter(a => a.value != current);
+			updated.push({
+				value: current,
+				count: oldCount + 1,
+			});
+		}
+		else {
+			updated.push({
+				value: current,
+				count: 1,
+			});
+		}		
+		return updated;
+	},[])
+	.sort(function(a,b) {
+		return b.count - a.count;
+	})
+	.map(m => m.value);
+	// console.log(buttonArray);
 }
 
 function generateLayoutJukebox() {

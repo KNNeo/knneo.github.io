@@ -50,6 +50,16 @@ td, th {
 	padding: 0;
 }
 
+.tags {
+	max-height: 2em;
+	overflow-y: auto;
+}
+
+.tag {
+	margin: 3px;
+	cursor: pointer;
+}
+
 .empty td {
 	border: 1px solid transparent;
 }
