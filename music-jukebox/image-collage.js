@@ -278,6 +278,7 @@ function generateLayoutJukebox() {
 	return bodyTableJukeboxCell;
 }
 
+let preloads = [];
 function generateGrid() {
 	let prevValue = '';
 	let grid = document.createElement('div');
@@ -322,6 +323,11 @@ function generateGrid() {
 		gridImage.style.height = (screenWidth*9/16) + 'px';
 		let fullImageUrl = addUrlClause((folderName + imageUrl)).replace('.jpg','_thumbnail.jpg');
 		gridImage.style.backgroundImage = fullImageUrl || 'https://knneo.github.io/resources/spacer.gif';
+		
+		//pre-loading
+		let preload = new Image();
+		preload.src = folderName + imageUrl;
+		preloads.push(preload);
 		
 		gridItem.appendChild(gridImage);
 		grid.appendChild(gridItem);		
