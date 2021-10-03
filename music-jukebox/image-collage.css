@@ -145,6 +145,7 @@ tr:hover > td {
 	height: 100%;
 	padding-top: 0;
 	display: none;
+	text-align: center;
 }
 #viewer-prev {
 	background-color: transparent;

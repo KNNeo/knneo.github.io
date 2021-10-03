@@ -63,6 +63,7 @@ h4, h5 {
 	width: 100%;
 	height: 100%;
 	padding-top: 0;
+	text-align: center;
 	display: none;
 }
 #viewer-prev {
