@@ -1,0 +1,175 @@
+html {
+	/* background-color: white; */
+	font-family: Open Sans;
+	overflow: hidden;
+}
+
+body {
+	margin: 0;
+}
+
+ /* Hide scrollbar for Chrome, Safari and Opera */
+#sidebar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+#sidebar {
+	overflow-x: scroll;
+	overflow-y: hidden;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.centered {
+	max-width: 640px;
+	margin: auto;
+	padding: 2px 8px;
+}
+
+.list tr:hover > td {
+	background-color: transparent;
+}
+
+.darked tr:hover > td {
+	background-color: transparent;
+}
+
+h1 {
+	margin: 20px 0;
+	margin-bottom: 0;
+}
+
+table {
+	border: 0;
+	border-collapse: collapse;
+}
+
+td, th { 
+	border: 0;
+	padding: 0;
+}
+
+.empty td {
+	border: 1px solid transparent;
+}
+
+.darked td, .darked th {
+	border: 0;
+}
+
+.grid-sizer {
+  width: 20%;
+}
+
+.grid-item {
+  float: left;
+  background-color: white;
+  border: 1px solid lightgray;
+}
+
+.grid-image {
+  cursor: pointer;
+  /* background-size: 200px; */
+  background-position: center;
+  transition: background-size 0.1s ease;
+}
+
+.grid-image:hover {
+    background-size: 200px;
+}
+
+.static-banner {
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  padding: 5px 10px;
+  font-size: 12px;
+  color: white;
+  background: black;
+  border: 1px solid white;
+  z-index: 2;
+}
+
+.darked .static-banner {
+}
+
+.darked .grid-item {
+  border: 1px solid white;
+	
+}
+
+.grid-item img {
+}
+
+#settings {
+}
+
+#main {
+	top: 0;
+	position: -webkit-sticky;
+	position: sticky;
+	height: 30vh;
+}
+
+#main:hover {
+	background-color: initial;
+}
+
+#mosaic {
+  overflow: auto;
+  height: 70vh;
+  white-space: nowrap;
+}
+
+#player {
+	/* height: 400px; */
+	text-align: center;
+	top: 0;
+	bottom: 0;
+}
+
+.darked tr:hover {
+    background-color: transparent;
+}
+
+tr:hover > td {
+    background-color: transparent;
+}
+
+
+#viewer {
+	z-index: 9;
+	position: fixed;
+	background-color: black;
+	width: 100%;
+	height: 100%;
+	padding-top: 0;
+	display: none;
+}
+#viewer-prev {
+	background-color: transparent;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 25%;
+	height: 100%;
+	z-index: 11;
+}
+#viewer-next {
+	background-color: transparent;
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 25%;
+	height: 100%;
+	z-index: 11;
+}
+#viewer-next:active {
+	opacity: 0.4;
+	background-image: linear-gradient(to left, white, transparent);
+}
+#viewer-prev:active {
+	opacity: 0.4;
+	background-image: linear-gradient(to right, white, transparent);
+}
