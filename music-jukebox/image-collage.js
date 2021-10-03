@@ -266,6 +266,7 @@ function generateGrid() {
 	gridSizer.classList.add('grid-sizer');
 	grid.appendChild(gridSizer);
 	
+	let screenWidth = window.innerWidth - 15;
 	for(let item of mosaicArray
 	.filter(m => searchCriteria == '' || m.includes(searchCriteria))
 	.sort(function(a,b) {
@@ -288,12 +289,12 @@ function generateGrid() {
 		gridImage.tabIndex = 0;
 		gridImage.classList.add('grid-image');
 		gridImage.title = imageUrl.replace('.jpg','');
-		let screenWidth = window.innerWidth - 15;
 		while(screenWidth > minWidth) {
 			screenWidth = screenWidth - minWidth;
-			// console.log('screenWidth',screenWidth);
 		}
-		let totalWidth = window.innerWidth % screenWidth;
+		let defaultWidth = 160;
+		if(screenWidth < 0.75*defaultWidth || screenWidth > 0.95*defaultWidth) screenWidth = defaultWidth;
+		// let totalWidth = window.innerWidth % screenWidth;
 		gridImage.style.width = screenWidth + 'px';
 		gridImage.style.height = (screenWidth*9/16) + 'px';
 		let fullImageUrl = addUrlClause((folderName + imageUrl)).replace('.jpg','_thumbnail.jpg');
@@ -302,6 +303,7 @@ function generateGrid() {
 		gridItem.appendChild(gridImage);
 		grid.appendChild(gridItem);		
 	}
+	console.log('screenWidth',screenWidth);
 	return grid;
 }
 
