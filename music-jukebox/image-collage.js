@@ -258,7 +258,7 @@ function generateButtonArrayIfEmpty() {
 			let nonUpdated = total.filter(a => a.value == current)[0];
 			let oldCount = nonUpdated.count;
 			
-			updated = total.filter(a => a.value != current);
+			updated = total.filter(a => a.value.toLowerCase() != current.toLowerCase());
 			updated.push({
 				value: current,
 				count: oldCount + 1,
