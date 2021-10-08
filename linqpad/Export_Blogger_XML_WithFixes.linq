@@ -31,6 +31,7 @@
  * [ok]	remove add href to hashtags script
  * []	remove wallpaper images cache linked from facebook
  * []	fix primary and secondary colours to variables
+ * []	export list of images from latest
  */
  
 public class MatchItem
@@ -57,6 +58,8 @@ void Main()
 {
     bool WriteTitleOnConsole = true;
 	int maxLatestPost = 10;
+	int maxImageExport = 100;
+	string imageExport = "[\"\"";
     Console.WriteLine("WriteTitleOnConsole is " + WriteTitleOnConsole);
     Console.WriteLine("*Post with changes will appear here");
     string folderpath = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\";
@@ -449,7 +452,16 @@ void Main()
         content = content.Replace(oldStyle, newStyle);
 		#endregion
         
-        
+        #region export list of images from latest
+        expression = @"(<img)(.*?)(src="")(.*?)("")";
+        match = Regex.Match(content, expression);
+        while(match.Success)
+        {
+			imageExport += ",\"" + match.Groups[4].Value + "\"";
+        	match = match.NextMatch();
+        };
+        if(match.Success) count++;
+        #endregion
         
         //Add to debug
         if(matchItems.Count() > 0)
@@ -563,5 +575,9 @@ void Main()
     string fileString = File.ReadAllText(blogpath + "\\blog_template.html");
     fileString = fileString.Replace("<div id=\"blog-archive-list\"></div>", ("<div id=\"blog-archive-list\">" + textString + "</div>"));
     File.WriteAllText(blogpath + "\\blog.html", fileString);
+	
+	//Export list of images with limit
+    imageExport = "var mosaicArray = " + imageExport.Replace("[\"\",", "[") + "];";
+    File.WriteAllText(blogpath + "\\blog_images.js", imageExport);
     
 }
