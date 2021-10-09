@@ -113,11 +113,11 @@ function generateLayoutPlayer() {
 	// title.style.cursor = 'pointer';
 	
 	let description = document.createElement('h5');
-	description.innerText = 'Click on thumbnail to see larger image';
+	description.innerText = 'サムネをタップすると拡大画像が表示されます';
 	
 	let disclaimer = document.createElement('h6');
-	disclaimer.innerText += 'Powered by Masonry JS';
-	disclaimer.innerText += '\n©コーエーテクモゲームス All rights reserved.';
+	disclaimer.innerHTML += '<div>Powered by <a href="https://masonry.desandro.com/">Masonry JS</a></div>';
+	disclaimer.innerHTML += '<div>©コーエーテクモゲームス All rights reserved.</div>';
 	
 	mainTableRow1Cell1.appendChild(title);
 	mainTableRow1Cell1.appendChild(description);
