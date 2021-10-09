@@ -132,7 +132,7 @@ function generateLayoutPlayer() {
 	search.id = 'search';
 	search.style.height = '20px';
 	search.addEventListener('input',function() {
-		searchCriteria += document.getElementById('search').value;
+		searchCriteria = document.getElementById('search').value;
 		
 		let grid = generateGrid();		
 		document.getElementById('mosaic').innerHTML = '';
