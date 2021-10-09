@@ -74,13 +74,13 @@ body {
 
 .grid-image {
   cursor: pointer;
-  background-size: 200px;
+  /* background-size: 200px; */
   background-position: center;
   transition: background-size 0.5s ease;
 }
 
 .grid-image:hover {
-    background-size: 250px;
+    /* background-size: 250px; */
 }
 
 .static-banner {

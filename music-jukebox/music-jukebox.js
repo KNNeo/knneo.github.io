@@ -1,6 +1,7 @@
 //--VARIABLES--//
 let playerWidth = 660;		// in px only
 let playerHeight = 660;		// in px only
+let maxImageSize = 300;		// in px only
 let enableDarkMode = true;	// displays dark mode toggle
 let isDarkMode = true;		// initial value if enableDarkMode is false, ignored if enableDarkMode is true
 
@@ -223,10 +224,18 @@ function generateGrid() {
 		
 		let gridImage = document.createElement('div');
 		gridImage.classList.add('grid-image');
-		let imageSize = (isWidescreen ? 200 : 150) + 'px';
+		let imageSize = (isWidescreen ? 0.15*window.innerWidth : 0.3*window.innerWidth) + 'px';
+		if(imageSize > maxImageSize) imageSize = maxImageSize + 'px';
 		gridImage.style.width = imageSize;
 		gridImage.style.height = imageSize;
+		gridImage.style.backgroundSize = imageSize;
 		gridImage.style.backgroundImage = addUrlClause(imageUrl || 'https://knneo.github.io/resources/spacer.gif');
+		gridImage.addEventListener('mouseout',function() {
+			this.style.backgroundSize = this.offsetWidth + 'px';
+		});
+		gridImage.addEventListener('mouseover',function() {
+			this.style.backgroundSize = (1.2*this.offsetWidth) + 'px';
+		});
 		
 		gridItem.appendChild(gridImage);
 		grid.appendChild(gridItem);
