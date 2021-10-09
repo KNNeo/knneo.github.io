@@ -106,7 +106,8 @@ body {
 .grid-item img {
 }
 
-#settings {
+#settings a {
+	padding: 0 5px;
 }
 
 #main {

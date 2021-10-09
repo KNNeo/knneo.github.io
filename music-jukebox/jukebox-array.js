@@ -1,6 +1,6 @@
 //ARRAY HERE//
-let mosaicArray = 
-// ['imgURL', 'appleMusicId', 'spotifyId', 'label', 2019],
+mosaicArray = 
+// ['imgURL', 'appleMusicId', 'spotifyId', 'label'],
 [
 ['https://is3-ssl.mzstatic.com/image/thumb/Music124/v4/c7/a1/c7/c7a1c7b8-c697-2509-40a2-23b08a64fbad/PCCG_01967_A.jpg/500x500cc.jpeg', 
 '1562664393', '32CKhuDhSINttWOAdUNfeT', 2021],

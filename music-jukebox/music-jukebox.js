@@ -6,7 +6,8 @@ let isDarkMode = true;		// initial value if enableDarkMode is false, ignored if 
 
 //--SYSTEM VARIABLES: DO NOT EDIT--//
 let isWidescreen = false;
-window.addEventListener('load', startup);
+let mosaicArray = [];
+window.addEventListener('load', loadPage('jukebox'));
 window.addEventListener('resize', startup);
 
 function startup() {
@@ -137,9 +138,32 @@ function generateLayoutPlayer() {
 		darkmode.innerText = 'brightness_high';
 		settings.appendChild(darkmode);		
 	}
+	
+	let viewmode = document.createElement('a');
+	viewmode.id = 'viewmode';
+	viewmode.classList.add('material-icons');
+	viewmode.href = 'javascript:void(0);';
+	switch(document.body.id) {
+			case 'collections':
+				viewmode.innerText = 'collections_bookmark';
+				viewmode.addEventListener('click', function() {
+					enableDarkMode = !enableDarkMode;
+					loadPage('jukebox');
+				});
+				break;
+			default:
+				viewmode.innerText = 'library_music';
+				viewmode.addEventListener('click', function() {
+					enableDarkMode = !enableDarkMode;
+					loadPage('collections');
+				});
+				break;
+		}
+	
+	settings.appendChild(viewmode);		
 
 	let back = document.createElement('a');
-	back.style.padding = '0 10px';
+	// back.style.padding = '0 10px';
 	back.style.verticalAlign = 'top';
 	back.href = '../index.html';
 	back.innerText = 'Back';
@@ -227,7 +251,7 @@ function generateMosaic() {
 				}
 				this.style.visibility = 'hidden';
 				let releaseId = this.parentElement.id;
-				let url = (isDarkMode ? "https://music.apple.com/jp/album/" : "https://open.spotify.com/embed/album/") + releaseId;
+				let url = (isDarkMode ? "https://music.apple.com/jp/" + (releaseId.includes('pl.u') ? 'playlist' : 'album') + "/" : "https://open.spotify.com/embed/album/") + releaseId;
 				
 				let code = generatePlayerByURL(url);
 				document.getElementById('player').innerHTML = code;
@@ -265,7 +289,7 @@ function generatePlayerByURL(url) {
         //process itunes embed
         return '<iframe allow="autoplay *; encrypted-media *;" frameborder="0" height="'+ playerHeight +'" sandbox="allow-modals allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation" src="' +
             url.replace('music.apple.com', 'embed.music.apple.com') +
-            '" style="background: transparent; max-width: ' + playerWidth + 'px; overflow: hidden; width: 100%;"></iframe>';
+            '" style="background: transparent; max-width: ' + (playerWidth-10) + 'px; overflow: hidden; width: 100%;"></iframe>';
     }
 	if(url.includes('open.spotify.com')) {
 		return '<iframe src="' + url + '" width="' + (window.innerWidth < playerWidth ? window.innerWidth-50 : playerWidth-10) +'" height="' + playerHeight + '" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>';
@@ -275,4 +299,59 @@ function generatePlayerByURL(url) {
 function goToTop() {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
+}
+
+//--SCRIPT LOADER--//
+function loadPage(pageName) {
+	unloadCurrentScripts();
+	loadDataScript(pageName);
+}
+
+function loadData(pageName) {
+	// reloadDarkmodeStyle();
+	document.body.id = pageName;
+	startup();
+}
+
+function reloadDarkmodeStyle() {
+	let url = 'darkmode';
+	for(let darked of document.getElementsByClassName('darked'))
+	{
+		darked.classList.remove('darked');
+	}
+	if(document.getElementById(url + '-css') != null)
+		document.getElementById(url + '-css').parentNode.removeChild(document.getElementById(url + '-css'));
+	let css = document.createElement('link');
+	css.id = url + '-css';
+	css.href = '../' + url + '.css';
+	css.type = 'text/css';
+	css.rel = 'stylesheet'
+	document.head.appendChild(css);
+	
+	//if dark mode is disabled, defaults to light
+	// if(!enableDarkMode && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)
+	// {
+		// toggleDarkMode();
+	// }
+}
+
+function loadDataScript(pageName) {
+	let dataScript = document.createElement('script');
+	dataScript.id = pageName + '-array'
+	dataScript.src = dataScript.id + '.js';
+	dataScript.type = "text/javascript";
+	dataScript.charset = 'utf-8';
+	dataScript.onreadystatechange = function() { loadData(pageName); };
+    dataScript.onload = function() { loadData(pageName); };
+	document.head.appendChild(dataScript);
+}
+
+function unloadCurrentScripts() {
+	let currentPageName = document.body.id;
+	let currentDataScript = currentPageName + '-array';
+	let currentProcessScript = currentPageName + '-temp';
+	if(document.getElementById(currentDataScript) != null)
+		document.getElementById(currentDataScript).parentNode.removeChild(document.getElementById(currentDataScript));
+	if(document.getElementById(currentProcessScript) != null)
+		document.getElementById(currentProcessScript).parentNode.removeChild(document.getElementById(currentProcessScript));
 }
