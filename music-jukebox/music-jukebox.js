@@ -148,14 +148,17 @@ function generateLayoutPlayer() {
 			case 'collections':
 				viewmode.innerText = 'collections_bookmark';
 				viewmode.addEventListener('click', function() {
-					enableDarkMode = !enableDarkMode;
+					enableDarkMode = true;
+					isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+					if(!isDarkMode) document.getElementsByTagName('html')[0].classList.remove('darked');
 					loadPage('jukebox');
 				});
 				break;
 			default:
 				viewmode.innerText = 'library_music';
 				viewmode.addEventListener('click', function() {
-					enableDarkMode = !enableDarkMode;
+					enableDarkMode = false;
+					isDarkMode = true;
 					loadPage('collections');
 				});
 				break;
