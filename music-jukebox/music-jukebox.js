@@ -1,6 +1,6 @@
 //--VARIABLES--//
 let playerWidth = 660;		// in px only
-let playerHeight = 400;		// in px only
+let playerHeight = 660;		// in px only
 let enableDarkMode = true;	// displays dark mode toggle
 let isDarkMode = true;		// initial value if enableDarkMode is false, ignored if enableDarkMode is true
 
@@ -265,8 +265,8 @@ function generateMosaic() {
 		var grid = document.querySelector('.grid');
 		var msnry = new Masonry( grid, {
 		  // options
-		  itemSelector: '.grid-item',
-		  percentPosition: true
+		  itemSelector: '.grid-item'
+		  // percentPosition: true
 		  // columnWidth: 300,
 		  // stagger: 100
 		});
