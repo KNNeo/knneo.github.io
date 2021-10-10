@@ -459,12 +459,12 @@ function openImageInViewer(image) {
 	viewerNext.id = 'viewer-next';
 	viewerNext.classList.add('viewer-nav');
 	let thumbnail = image.cloneNode(true);
-	let linkable = document.createElement('a');
-	linkable.tabIndex = 1000;
-	linkable.href = 'javascript:void(0);';
+	// let linkable = document.createElement('a');
+	// linkable.tabIndex = 1000;
+	// linkable.href = 'javascript:void(0);';
 	let img = document.createElement('img');
 	img.id = thumbnail.id;
-	img.classList = thumbnail.classList;
+	// img.classList = thumbnail.classList;
 	img.src = processImageSourceForViewer(thumbnail);
 	img.title = thumbnail.title;
 	if(window.innerHeight > window.innerWidth && img.getBoundingClientRect().width >= window.innerWidth)
@@ -477,8 +477,8 @@ function openImageInViewer(image) {
 	viewer.style.paddingTop = '0';
 	if(imgNo-1 >= 0) viewer.appendChild(viewerPrev);
 	if(imgNo+1 < linkedImgList.length) viewer.appendChild(viewerNext);
-	linkable.appendChild(img);
-	viewer.appendChild(linkable);
+	// linkable.appendChild(img);
+	viewer.appendChild(img);
 	viewer.focus();
 	
 	if(imgNo-1 >= 0) {
@@ -495,7 +495,7 @@ function openImageInViewer(image) {
 			return false;
 		}, false);
 	}
-	linkable.addEventListener('click', closeViewer);
+	img.addEventListener('click', closeViewer);
 	
 	adjustViewerMargin();
 }
