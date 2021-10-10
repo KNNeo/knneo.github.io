@@ -296,7 +296,7 @@ function generatePlayer() {
 
 function generatePlayerByURL(url) {
 	let embedHeight = playerHeight;
-	if(0.5*window.innerHeight > embedHeight)
+	if(0.75*window.innerHeight < embedHeight)
 		embedHeight = 0.5*window.innerHeight;
     if (url.includes('music.apple.com')) {
         //process itunes embed
