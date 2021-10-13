@@ -31,7 +31,8 @@
  * [ok]	remove add href to hashtags script
  * []	remove wallpaper images cache linked from facebook
  * []	fix primary and secondary colours to variables
- * []	export list of images from latest
+ * [ok]	export list of images from latest
+ * []	replace common phrases with emoji
  */
  
 public class MatchItem
@@ -461,6 +462,16 @@ void Main()
         	match = match.NextMatch();
         };
         if(match.Success) count++;
+        #endregion
+		
+        #region replace common phrases with emoji
+        var phrases = new string[]{"laughs", "giggles", "sob", "silence"};
+        var emojis = new string[]{"😆", "🤭", "😢", "😐"};
+		
+		for(var e = 0; e < emojis.Length; e++)
+		{
+	        content = content.Replace("*" + phrases[e] + "*", emojis[e]);
+		}
         #endregion
         
         //Add to debug
