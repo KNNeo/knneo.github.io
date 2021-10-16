@@ -1,0 +1,110 @@
+html {
+	/* background-color: white; */
+	font-family: Open Sans;
+}
+
+ /* Hide scrollbar for Chrome, Safari and Opera */
+#sidebar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+#sidebar {
+	overflow-x: scroll;
+	overflow-y: hidden;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+} 
+
+.centered {
+	max-width: 640px;
+	margin: auto;
+	padding: 2px 8px;
+}
+
+.list tr:hover > td {
+	background-color: transparent;
+}
+
+.darked tr:hover > td {
+	background-color: transparent;
+}
+
+h1 {
+	margin: 20px 0;
+	margin-bottom: 0;
+}
+
+table {
+	border-collapse: collapse;
+	font-size: 0.9em;
+}
+
+td, th { 
+	padding: 2px 4px; 
+	font-size: 0.9em;
+	border: 1px solid black; 
+}
+
+.empty td {
+	border: 1px solid transparent;
+}
+
+.darked td, .darked th {
+	border: 1px solid white;
+}
+
+.year {
+	padding: 5px;
+	cursor: pointer;
+}
+
+.player, .list {
+	width: 100%;
+}
+
+.left, .right {
+  float: left;
+  width: 30%;
+}
+.main {
+  float: left;
+  width: 40%;
+}
+
+.result-box {
+	border: 1px solid gray;
+	display: block;
+	width: auto;
+	height: auto;
+	padding: 5px;
+	margin: 5px;
+
+}
+.show-result, .input-box {
+	padding: 10px;
+}
+
+.flexi-input {
+	margin: 0 5px;
+	border: 0;
+	border-bottom: 1px solid;
+	text-align: center;
+}
+
+@media only screen
+   and (min-device-width : 320px)
+   and (max-device-width : 960px)
+{
+	
+}
+
+/* @media (prefers-color-scheme: dark) {
+	td, th { 
+		border: 1px solid white; 
+	}
+
+	.darked td, .darked th {
+		border: 1px solid black; 
+	}
+} */
