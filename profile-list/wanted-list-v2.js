@@ -698,6 +698,7 @@ function openCommentLinksInNew() {
 		{
 			let url = link.href;
 			if(!isExternal && url.includes('knwebreports.blogspot')) continue;
+			if(url.includes('knneo.github.io')) continue;
 			link.href = 'javascript:void(0)';
 			link.addEventListener('click', function () { window.open(url, '_blank'); } );
 		}
