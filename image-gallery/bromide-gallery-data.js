@@ -492,6 +492,17 @@ imgArray = [
 [492,'{domain}/CCI_000017_1.jpg','portrait','Toyosaki Aki','Event "AKI TOYOSAKI CONCERT 2021 Camel Back Hall" Postcard Set'],
 [493,'{domain}/CCI_000017_2.jpg','portrait','Toyosaki Aki','Event "AKI TOYOSAKI CONCERT 2021 Camel Back Hall" Postcard Set'],
 [494,'{domain}/CCI_000018_1.jpg','landscape','Toyosaki Aki','Event "AKI TOYOSAKI CONCERT 2021 Camel Back Hall" Postcard Set'],
+[501,'{domain}/CCI_20211016_000021_1.jpg','portrait','Minase Inori','Event "Inori Minase LIVE TOUR 2021 HELLO HORIZON" Bromide Set A'],
+[502,'{domain}/CCI_20211016_000021_2.jpg','portrait','Minase Inori','Event "Inori Minase LIVE TOUR 2021 HELLO HORIZON" Bromide Set A'],
+[503,'{domain}/CCI_20211016_000021_3.jpg','portrait','Minase Inori','Event "Inori Minase LIVE TOUR 2021 HELLO HORIZON" Bromide Set A'],
+[504,'{domain}/CCI_20211016_000022_1.jpg','portrait','Minase Inori','Event "Inori Minase LIVE TOUR 2021 HELLO HORIZON" Bromide Set B'],
+[505,'{domain}/CCI_20211016_000022_2.jpg','portrait','Minase Inori','Event "Inori Minase LIVE TOUR 2021 HELLO HORIZON" Bromide Set B'],
+[506,'{domain}/CCI_20211016_000022_3.jpg','portrait','Minase Inori','Event "Inori Minase LIVE TOUR 2021 HELLO HORIZON" Bromide Set B'],
+[507,'{domain}/CCI_20211016_000023_1.jpg','portrait','Kotobuki Minako','Book "Jiffy" Gamers Bonus'],
+[508,'{domain}/CCI_20211016_000023_2.jpg','portrait','Komatsu Mikako','CD "Kuyashii Kotoba wa Kettobase" Animate Bonus'],
+[509,'{domain}/CCI_20211016_000023_3.jpg','portrait','Amamiya Sora','Book "My Girl vol.30" Animate Bonus'],
+[510,'{domain}/CCI_20211016_000024_1.jpg','landscape','Kouno Marika','CD "New story" Animate Special Campaign Bromide'],
+[510,'{domain}/CCI_20211016_000024_2.jpg','landscape','Tomita Miyu','CD "Prologue" Gamers Bonus'],
 
 
 
