@@ -702,8 +702,8 @@ function generateProfileFromJSON(profileName) {
 				let commentBox = document.createElement('div');
 				commentBox.classList.add('profile-box-comments');
 				commentBox.innerHTML = profile.comments.join('<br/>');
-				if(window.location.href.includes('knneo.github.io'))
-					commentBox.innerHTML = commentBox.innerHTML.replace('https://knwebreports.blogspot.com/', '../../knneo.github.io/blogspot/blog/');
+				if(isExternal)
+					commentBox.innerHTML = commentBox.innerHTML.replace('knwebreports.blogspot.com/', 'knneo.github.io/blogspot/blog/');
 				//exclusions
 				commentBox.innerHTML = commentBox.innerHTML.replace('1976.09.20', '<span id=\'HocchanAge\' class=\'DOB\'>1976.09.20</span>');
 				
