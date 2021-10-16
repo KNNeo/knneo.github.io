@@ -37,11 +37,14 @@ let imageNo = 0;
 let linkedImgList = [];
 for(let img of document.getElementsByTagName('img'))
 {
-	if(img.parentElement.tagName.toUpperCase() == 'A' && !img.parentElement.href.includes('#'))
+	if(img.parentElement.tagName.toUpperCase() == 'A' && 
+	!img.parentElement.href.includes('#') && 
+	!img.parentElement.href.includes('knneo.github.io'))
 	{
 		linkedImgList.push(img.parentElement);
 	}
 }
+console.log('linkedImgList', linkedImgList.length);
 
 function updateImageNo(image) {
 	imageNo = 0;
@@ -81,12 +84,13 @@ function openImageInViewer(image) {
 	img.style.visibility = 'hidden';
 	if(viewer.childNodes.length > 0) viewer.innerHTML = '';
 	viewer.style.paddingTop = '0';
-	viewer.appendChild(viewerPrev);
-	viewer.appendChild(viewerNext);
+	if(imgNo-1 >= 0) viewer.appendChild(viewerPrev);
+	if(imgNo+1 < linkedImgList.length) viewer.appendChild(viewerNext);
 	viewer.appendChild(img);
 	adjustViewerMargin();
 	img.style.visibility = '';
 	
+	console.log('imgNo', imgNo);
 	if(imgNo-1 >= 0)
 		document.getElementById('viewer-prev').addEventListener('click', function(e) {
 			openImageInViewer(linkedImgList[imgNo-1]);
@@ -118,13 +122,15 @@ function closeViewer() {
 }
 
 //any image with url will open in new tab
-for (let image of document.getElementsByTagName('img'))
+for (let img of document.getElementsByTagName('img'))
 {
-	if(image.parentElement.tagName.toUpperCase() == 'A' && !image.parentElement.href.includes('#'))
+	if(img.parentElement.tagName.toUpperCase() == 'A' && 
+	!img.parentElement.href.includes('#') && 
+	!img.parentElement.href.includes('knneo.github.io'))
 	{
-		image.parentElement.addEventListener('click', function(e) {
+		img.parentElement.addEventListener('click', function(e) {
 			e.preventDefault();
 		});
-		image.parentElement.addEventListener('click', openViewer);
+		img.parentElement.addEventListener('click', openViewer);
 	}
 }
