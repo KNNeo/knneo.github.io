@@ -465,8 +465,8 @@ void Main()
         #endregion
 		
         #region replace common phrases with emoji
-        var phrases = new string[]{"laughs", "giggles", "sob", "silence"};
-        var emojis = new string[]{"😆", "🤭", "😢", "😐"};
+        var phrases = new string[]{"laughs", "giggles", "sob", "silence", "pukes", "ugh"};
+        var emojis = new string[]{"😆", "🤭", "😢", "😐", "🤮", "🙄"};
 		
 		for(var e = 0; e < emojis.Length; e++)
 		{
