@@ -202,6 +202,7 @@ async function generateRelated(contents) {
 	let columnIndexKNID = contents.columns.indexOf('KNID');
 	let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
 	let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
+	//max 5 related to artist, rest same KNYEAR
 	let query = "SELECT * FROM (SELECT * FROM Song WHERE KNID <> " + row[columnIndexKNID] + " AND ArtistTitle = '" + row[columnIndexArtistTitle] + "'";
 	query += " ORDER BY DateCreated DESC LIMIT 5)";
 	query += " UNION ALL SELECT * FROM (SELECT * FROM Song WHERE KNYEAR = '" + row[columnIndexKNYEAR] + "'";
