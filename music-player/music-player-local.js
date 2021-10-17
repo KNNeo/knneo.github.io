@@ -1,13 +1,16 @@
 //--CONFIG--//
 let directory = 'file://C:/Users/KAINENG/OneDrive/Music/'; //for audio player, in {directory}/{knyear}/{filename}.mp3
 
+
+//----------------------------//
 //--VARIABLES: DO NOT TOUCH!--//
 let timer;
 
 
-//--FUNCTIONS--//
+//--STARTUP--//
 window.addEventListener('load', startup);
 
+//--FUNCTIONS--//
 async function queryDb(query, callback) {
 	//for webassembly file
 	const SQL = await initSqlJs({
@@ -142,11 +145,17 @@ random.addEventListener('click', async function() {
 function generateLayout(contents) {
 	// console.log('generateLayout', contents);
 	generatePlayer(contents);
-	generateTable(contents);
+	generateSongInfo(contents);
+	generateRelated(contents);
 }
 
-function generateTable(contents) {
-	document.getElementById('table').innerHTML = '';
+function generateSongInfo(contents) {
+	document.getElementById('songinfo').innerHTML = '';
+	
+	let header = document.createElement('h4');
+	header.classList.add('centered');
+	header.innerText = 'Song Info';
+	document.getElementById('songinfo').appendChild(header);	
 	
 	let columns = contents.columns;
 	let rows = contents.values;
@@ -182,7 +191,69 @@ function generateTable(contents) {
 	}
 		
 	table.appendChild(tbody);
-	document.getElementById('table').appendChild(table);
+	document.getElementById('songinfo').appendChild(table);
+}
+
+
+async function generateRelated(contents) {
+	let columns = contents.columns;
+	let rows = contents.values;
+	let row = rows[0];
+	let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
+	let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
+	let query = "SELECT * FROM (SELECT * FROM Song WHERE ArtistTitle = '" + row[columnIndexArtistTitle] + "'";
+	query += " ORDER BY DateCreated DESC)";
+	query += " UNION ALL SELECT * FROM (SELECT * FROM Song WHERE KNYEAR = '" + row[columnIndexKNYEAR] + "'";
+	query += " AND KNID NOT IN (SELECT KNID FROM Song WHERE ArtistTitle = '" + row[columnIndexArtistTitle] + "')";
+	query += " ORDER BY DateCreated DESC)  LIMIT 10";
+	console.log('generateRelated', query);
+	await queryDb(query, generateRelatedSongs);
+}
+
+function generateRelatedSongs(contents) {
+	document.getElementById('relatedsongs').innerHTML = '';
+	
+	let header = document.createElement('h4');
+	header.classList.add('centered');
+	header.innerText = 'Related Songs';
+	document.getElementById('relatedsongs').appendChild(header);	
+	
+	let columns = contents.columns;
+	let rows = contents.values;
+	
+	let table = document.createElement('table');
+	// table.id = 'table';
+	table.classList.add('list');
+	table.classList.add('centered');
+	table.classList.add('content-box');
+	
+	let tbody = document.createElement('tbody');
+	
+	//header
+	for(let row of rows)
+	{
+		let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
+		let columnIndexSongTitle = contents.columns.indexOf('SongTitle');
+		let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
+		
+		let tr = document.createElement('tr');
+	
+		let tc = document.createElement('td');
+		tc.innerText = row[columnIndexKNYEAR] + ' - ' + row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle];
+		tr.appendChild(tc);
+		
+		//click to play
+		// let td = document.createElement('td');
+		// td.innerText = rowVal;
+		// if(rowVal.toString().includes('://'))
+			// td.innerHTML = '<a target="_blank" href="' + rowVal + '">' + rowVal + '</a>';
+		// tr.appendChild(td);
+		
+		tbody.appendChild(tr);	
+	}
+		
+	table.appendChild(tbody);
+	document.getElementById('relatedsongs').appendChild(table);
 }
 
 function hoverOnRow() {

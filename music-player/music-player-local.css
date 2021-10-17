@@ -56,6 +56,10 @@ html {
 	padding: 2px 8px;
 }
 
+.module {
+	padding: 5px 10px;
+}
+
 .list tr:hover > td {
 	background-color: transparent;
 }
