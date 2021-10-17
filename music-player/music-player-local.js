@@ -199,14 +199,15 @@ async function generateRelated(contents) {
 	let columns = contents.columns;
 	let rows = contents.values;
 	let row = rows[0];
+	let columnIndexKNID = contents.columns.indexOf('KNID');
 	let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
 	let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
-	let query = "SELECT * FROM (SELECT * FROM Song WHERE ArtistTitle = '" + row[columnIndexArtistTitle] + "'";
-	query += " ORDER BY DateCreated DESC)";
+	let query = "SELECT * FROM (SELECT * FROM Song WHERE KNID <> " + row[columnIndexKNID] + " AND ArtistTitle = '" + row[columnIndexArtistTitle] + "'";
+	query += " ORDER BY DateCreated DESC LIMIT 5)";
 	query += " UNION ALL SELECT * FROM (SELECT * FROM Song WHERE KNYEAR = '" + row[columnIndexKNYEAR] + "'";
-	query += " AND KNID NOT IN (SELECT KNID FROM Song WHERE ArtistTitle = '" + row[columnIndexArtistTitle] + "')";
-	query += " ORDER BY DateCreated DESC)  LIMIT 10";
-	console.log('generateRelated', query);
+	query += " AND KNID <> " + row[columnIndexKNID] + " AND KNID NOT IN (SELECT KNID FROM Song WHERE ArtistTitle = '" + row[columnIndexArtistTitle] + "')";
+	query += " ORDER BY DateCreated DESC) LIMIT 10";
+	// console.log('generateRelated', query);
 	await queryDb(query, generateRelatedSongs);
 }
 
@@ -232,6 +233,7 @@ function generateRelatedSongs(contents) {
 	//header
 	for(let row of rows)
 	{
+		let columnIndexKNID = contents.columns.indexOf('KNID');
 		let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
 		let columnIndexSongTitle = contents.columns.indexOf('SongTitle');
 		let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
@@ -239,7 +241,20 @@ function generateRelatedSongs(contents) {
 		let tr = document.createElement('tr');
 	
 		let tc = document.createElement('td');
+		tc.style.cursor = 'pointer';
+		tc.setAttribute('data-id', row[columnIndexKNID]);
 		tc.innerText = row[columnIndexKNYEAR] + ' - ' + row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle];
+		tc.addEventListener('click', async function() {
+			let id = this.getAttribute('data-id');
+			let query = "SELECT * FROM Song";
+			// console.log('query', query);
+			await queryDb(query, updateOptions);
+			setTimeout(function() {
+				document.getElementById('options').value = id;
+				document.getElementById('options').dispatchEvent(new Event('change'));
+			}, 200);
+			
+		});
 		tr.appendChild(tc);
 		
 		//click to play
