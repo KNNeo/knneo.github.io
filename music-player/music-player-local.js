@@ -13,7 +13,7 @@ async function queryDb(query, callback) {
 	const SQL = await initSqlJs({
 	  // Required to load the wasm binary asynchronously. Of course, you can host it wherever you want
 	  // You can omit locateFile completely when running in node
-	  locateFile: file => `https://knneo.github.io/music-player/sql-wasm.wasm`
+	  locateFile: file => 'https://knneo.github.io/music-player/sql-wasm.wasm'
 	});
 
 	// for sqlite db
@@ -35,7 +35,7 @@ async function queryDb(query, callback) {
 	xhr.send();
 }
 
-function startup() {
+async function startup() {
 	// timestamps = timestamps.sort((a,b) => a[1] - b[1]);
 	// if(document.getElementById('sidebar') != undefined) 
 	// {
@@ -45,6 +45,7 @@ function startup() {
 	// generateTable(tableID);
 	
 	generateFilters();
+	await queryDb("SELECT * FROM Song", updateOptions);
 }
 
 function generateFilters() {
@@ -126,20 +127,17 @@ function updateOptions(contents) {
 
 let random = document.getElementById('random');
 random.addEventListener('click', async function() {
-	//update tables
-	// console.log('queryOption', document.getElementById('options').value);
-	await queryDb("SELECT * FROM Song", randomSong);
-	//probably can multiple query for multiple tables, by semicolon
+	document.getElementById('search').value = '';
+	let query = "SELECT * FROM Song";
+	// console.log('query', query);
+	await queryDb(query, updateOptions);
+	let total = document.getElementById('options').length - 1;
+	let random = Math.floor((Math.random() * total));
+	setTimeout(function() {
+		document.getElementById('options').value = random;
+		document.getElementById('options').dispatchEvent(new Event('change'));
+	}, 200);
 });
-
-function randomSong(contents) {
-	let rows = contents.values;
-	let random = Math.floor((Math.random() * rows.length));
-	generateLayout({
-		columns: contents.columns,
-		values: [rows[random]],
-	});
-}
 
 function generateLayout(contents) {
 	// console.log('generateLayout', contents);
