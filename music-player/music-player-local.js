@@ -25,7 +25,7 @@ async function queryDb(query, callback) {
 	  const uInt8Array = new Uint8Array(xhr.response);
 	  const db = new SQL.Database(uInt8Array);
 	  const contents = db.exec(query);
-	  console.log('queryDb',contents);
+	  // console.log('queryDb',contents);
 	  if(contents && contents.length > 0)
 		  callback(contents[0]);
 	  else if(contents)
@@ -53,20 +53,23 @@ function generateFilters() {
 	
 	let search = document.createElement('input');
 	search.id = 'search';
-	search.placeholder = 'Search by Song Title';
+	search.placeholder = 'Song Title, Artist Title, KNYEAR';
 	search.addEventListener('input', async function() {
 		// update options
-		console.log('querySelect', document.getElementById('search').value);
-		await queryDb("SELECT * FROM Song WHERE SongTitle LIKE '%" + document.getElementById('search').value + "%'", updateOptions);
+		// console.log('querySelect', document.getElementById('search').value);
+		let query = "SELECT * FROM Song WHERE SongTitle LIKE '%" + document.getElementById('search').value + "%'";
+		query += " OR ArtistTitle LIKE '%" + document.getElementById('search').value + "%'";
+		query += " OR KNYEAR LIKE '%" + document.getElementById('search').value + "%'";
+		// console.log('query', query);
+		await queryDb(query, updateOptions);
 	});
 	filters.appendChild(search);
 	
 	let options = document.createElement('select');
 	options.id = 'options';
-	options.style.width = '100%';
 	options.addEventListener('change', async function() {
 		//update tables
-		console.log('queryOption', document.getElementById('options').value);
+		// console.log('queryOption', document.getElementById('options').value);
 		if(document.getElementById('options').value > 0)
 			await queryDb("SELECT * FROM Song WHERE KNID = " + document.getElementById('options').value, generateLayout);
 		//probably can multiple query for multiple tables, by semicolon
@@ -80,7 +83,7 @@ function generateFilters() {
 }
 
 function updateOptions(contents) {
-	console.log('updateOptions', contents);
+	// console.log('updateOptions', contents);
 	let options = document.getElementById('options');
 	options.innerHTML = '';
 	let newOptions = [];
@@ -118,7 +121,7 @@ function updateOptions(contents) {
 		
 		options.appendChild(opt);
 	}
-	console.log('newOptions', newOptions);
+	// console.log('newOptions', newOptions);
 }
 
 function generateLayout(contents) {
