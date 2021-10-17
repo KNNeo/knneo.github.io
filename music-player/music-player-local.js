@@ -228,7 +228,14 @@ function generatePlayer(contents) {
 	// audio.addEventListener('suspend', function() {
 		// document.getElementById('overlay').classList.add('visible');
 	// });
+	audio.addEventListener('load', function() {
+		setTimeout(function() {
+			if(document.getElementById('player').readyState == 0)
+				document.getElementById('overlay').style.visibility = 'visible';
+		}, 200);
+	});
 	audio.controls = true;
+	audio.autoplay = true;
 	audio.volume = 0.5;
 	audio.controlsList = 'nodownload';
 	
@@ -240,10 +247,7 @@ function generatePlayer(contents) {
 	audio.appendChild(source);
 	document.getElementById('music').appendChild(audio);
 	
-	setTimeout(function() {
-		if(document.getElementById('player').readyState == 0)
-			document.getElementById('overlay').style.visibility = 'visible';
-	}, 200);
+	
 }
 
 //for side menu, add all tables to have list class, use ids to generate
