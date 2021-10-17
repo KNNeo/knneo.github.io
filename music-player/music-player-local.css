@@ -14,7 +14,20 @@ html {
 	overflow-y: hidden;
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
-} 
+}
+
+#overlay {
+	text-align: center;
+    position: absolute;
+    z-index: 99;
+    opacity: 0.5;
+    color: black;
+    background-color: transparent;
+    width: 100%;
+	visibility: hidden;
+    left: 0;
+    right: 0;
+}
 
 .centered {
 	max-width: 640px;

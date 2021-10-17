@@ -1,45 +1,11 @@
-//timestamp display for audio player
-let tableID = '2020';
-let playerID = tableID + 'Player';
-let domain = 'https://klassicnoteawards.webs.com/';
+//--CONFIG--//
+let directory = 'file://C:/Users/KAINENG/OneDrive/Music/'; //for audio player, in {directory}/{knyear}/{filename}.mp3
+
+//--VARIABLES: DO NOT TOUCH!--//
 let timer;
-let directory = 'file://C:/Users/KAINENG/OneDrive/Music/';
-let musicList = [
-//{'category','directory','title','artist','album','genre','date'},
-//{'KNYEAR','filename','SISSOU','Yogee New Waves','WINDORGAN','JRock','2021-10-13'},
-
-];
-let timestamps = new Array();
-//title_string,table_row,time_in_seconds,rank_till_time
-//for ranks with more than 1 result, order is same as order of push not table_row
-
-
-//--BASE--//
-// timestamps.push(['year', 20,  0, 20, '', '']);
-// timestamps.push(['year', 18,  0, 19, '', '']);
-// timestamps.push(['year', 19,  0, 18, '', '']);
-// timestamps.push(['year', 17,  0, 17, '', '']);
-// timestamps.push(['year', 16,  0, 16, '', '']);
-// timestamps.push(['year', 15,  0, 15, '', '']);
-// timestamps.push(['year', 14,  0, 14, '', '']);
-// timestamps.push(['year', 13,  0, 13, '', '']);
-// timestamps.push(['year', 12,  0, 12, '', '']);
-// timestamps.push(['year', 11,  0, 11, '', '']);
-// timestamps.push(['year', 10,  0, 10, '', '']);
-// timestamps.push(['year',  9,  0,  9, '', '']);
-// timestamps.push(['year',  8,  0,  8, '', '']);
-// timestamps.push(['year',  7,  0,  7, '', '']);
-// timestamps.push(['year',  5,  0,  6, '', '']);
-// timestamps.push(['year',  6,  0,  5, '', '']);
-// timestamps.push(['year',  4,  0,  4, '', '']);
-// timestamps.push(['year',  3,  0,  3, '', '']);
-// timestamps.push(['year',  2,  0,  2, '', '']);
-// timestamps.push(['year',  1,  0,  1, '', '']);
-//--------//
 
 
 //--FUNCTIONS--//
-let pageContent;
 window.addEventListener('load', startup);
 
 async function queryDb(query, callback) {
@@ -59,22 +25,17 @@ async function queryDb(query, callback) {
 	  const uInt8Array = new Uint8Array(xhr.response);
 	  const db = new SQL.Database(uInt8Array);
 	  const contents = db.exec(query);
+	  console.log('queryDb',contents);
 	  if(contents && contents.length > 0)
-	  {
 		  callback(contents[0]);
-	  }
+	  else if(contents)
+		  callback(contents);
 	  // contents is now [{columns:['col1','col2',...], values:[[first row], [second row], ...]}]
-	  
-		// generateTable(tableID, contents[0]);
 	};
 	xhr.send();
 }
 
-function startup() {	
-
-	// queryDb("SELECT * from Song WHERE KNYEAR = '2021'");
-	// queryDb("SELECT * from Song WHERE KNYEAR = '2008'");
-	
+function startup() {
 	// timestamps = timestamps.sort((a,b) => a[1] - b[1]);
 	// if(document.getElementById('sidebar') != undefined) 
 	// {
@@ -88,6 +49,7 @@ function startup() {
 
 function generateFilters() {
 	let filters = document.getElementById('filters');
+	filters.classList.add('centered');
 	
 	let search = document.createElement('input');
 	search.id = 'search';
@@ -97,28 +59,11 @@ function generateFilters() {
 		console.log('querySelect', document.getElementById('search').value);
 		await queryDb("SELECT * FROM Song WHERE SongTitle LIKE '%" + document.getElementById('search').value + "%'", updateOptions);
 	});
-/* 	search.addEventListener('keyup', function () {
-		//update options
-		if (event.keyCode === 13) { // "Enter"
-			event.preventDefault();
-			document.getElementById("submit").click();
-		}
-	}); */
 	filters.appendChild(search);
-	
-/* 	let submitBtn = document.createElement('button');
-	submitBtn.type = 'submit';
-	submitBtn.id = 'submitBtn';
-	submitBtn.innerText = 'Submit';
-	submitBtn.addEventListener('click ', async function() {
-		//update options
-		console.log('query',document.getElementById('search').value);
-		await queryDb("SELECT * FROM Song WHERE SongTitle LIKE '%" + document.getElementById('search').value + "%'", updateOptions);
-	});
-	filters.appendChild(submitBtn); */
 	
 	let options = document.createElement('select');
 	options.id = 'options';
+	options.style.width = '100%';
 	options.addEventListener('change', async function() {
 		//update tables
 		console.log('queryOption', document.getElementById('options').value);
@@ -126,35 +71,45 @@ function generateFilters() {
 			await queryDb("SELECT * FROM Song WHERE KNID = " + document.getElementById('options').value, generateLayout);
 		//probably can multiple query for multiple tables, by semicolon
 	});	
+	
+		let opt = document.createElement('option');
+		opt.innerText = '===';		
+		options.appendChild(opt);
+		
 	filters.appendChild(options);
 }
 
 function updateOptions(contents) {
 	console.log('updateOptions', contents);
 	let options = document.getElementById('options');
+	options.innerHTML = '';
 	let newOptions = [];
 	
-	let columnIndexKNID = contents.columns.indexOf('KNID');
-	let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
-	let columnIndexSongTitle = contents.columns.indexOf('SongTitle');
-	let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
-	//default empty
+	//default
 	newOptions.push({
 		id: 0,
-		optionString: '===' + contents.values.length + ' options==='
+		optionString: '===' + (contents?.values?.length || 0) + ' options==='
 	});
-	for(let row of contents.values) {
-		let id = row[columnIndexKNID];
-		let knyear = row[columnIndexKNYEAR];
-		let title = row[columnIndexSongTitle];
-		let artist = row[columnIndexArtistTitle];
-		newOptions.push({
-			id,
-			optionString: knyear + ' - ' + artist +  ' - ' + title
-		});
+	
+	if(contents.values && contents.values.length > 0)
+	{
+		let columnIndexKNID = contents.columns.indexOf('KNID');
+		let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
+		let columnIndexSongTitle = contents.columns.indexOf('SongTitle');
+		let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
+		for(let row of contents.values) {
+			let id = row[columnIndexKNID];
+			let knyear = row[columnIndexKNYEAR];
+			let title = row[columnIndexSongTitle];
+			let artist = row[columnIndexArtistTitle];
+			newOptions.push({
+				id,
+				optionString: knyear + ' - ' + artist +  ' - ' + title
+			});
+		}
+		
 	}
 	
-	options.innerHTML = '';
 	for(let newOption of newOptions)
 	{
 		let opt = document.createElement('option');
@@ -163,6 +118,7 @@ function updateOptions(contents) {
 		
 		options.appendChild(opt);
 	}
+	console.log('newOptions', newOptions);
 }
 
 function generateLayout(contents) {
@@ -184,64 +140,42 @@ function generateTable(contents) {
 	let tbody = document.createElement('tbody');
 	
 	//header
-	let th = document.createElement('tr');
-	for(let column of columns) 
+	let row = rows[0];
+	for(let r = 0; r < columns.length; r++)
 	{
+		let rowVal = row[r];
+		if(!rowVal || rowVal.length == 0) continue;
 		
-		let td1 = document.createElement('th');
-		// td1.width = 35;
-		td1.innerText = column;
-		th.appendChild(td1);
-		
-	}
-	tbody.appendChild(th);
-	
-	for(let row of rows)
-	{
 		let tr = document.createElement('tr');
-		tr.style.cursor = 'pointer';
-		// tr.setAttribute('seek',stamps[0][2]);
-		tr.addEventListener('click', function() { generateSeek(this.getAttribute('seek')); });
-		tr.addEventListener('mouseover', hoverOnRow);
-		tr.addEventListener('mouseout', hoverOnRow);
-		for(let rowVal of row)
-		{
-			let td1 = document.createElement('td');
-			// td1.style.textAlign = 'right';
-			// td1.setAttribute('rowspan', 2);
-			td1.innerText = rowVal;
-			tr.appendChild(td1);			
-		}
-		tbody.appendChild(tr);
-	}
 	
-	//footer
-	// while(tbody.getElementsByTagName('tr').length < 25)
-	// {
-		// let tf = document.createElement('tr');
-		// tf.classList.add('empty');
-		// tf.style.visibility = 'hidden';
+		let tc = document.createElement('td');
+		tc.innerText = columns[r];
+		tr.appendChild(tc);
 		
-		// let td = document.createElement('td');
-		// td.setAttribute('colspan', 3);
-		// td.innerText = '_';			
-		// tf.appendChild(td);
+		let td = document.createElement('td');
+		td.innerText = rowVal;
+		if(rowVal.toString().includes('://'))
+			td.innerHTML = '<a target="_blank" href="' + rowVal + '">' + rowVal + '</a>';
+		tr.appendChild(td);
 		
-		// tbody.appendChild(tf);
-	// }
+		tbody.appendChild(tr);	
+	}
 		
 	table.appendChild(tbody);
 	document.getElementById('table').appendChild(table);
 }
 
 function hoverOnRow() {
-	let cells = this.getElementsByTagName('td');
-	let prevCells = this.previousSibling.getElementsByTagName('td');
-	if(prevCells.length == 3 && cells.length == 2 && prevCells[0].rowSpan != undefined)
-		toggleHover(prevCells[0]);//.style.visibility = 'hidden';
-	toggleHover(cells[0]);//.style.visibility = 'hidden';
-	toggleHover(cells[1]);//.style.visibility = 'hidden';
-	if(cells.length > 2) toggleHover(cells[2]);//.style.visibility = 'hidden';
+	if(false) {
+		let cells = this.getElementsByTagName('td');
+		let prevCells = this.previousSibling.getElementsByTagName('td');
+		if(prevCells.length == 3 && cells.length == 2 && prevCells[0].rowSpan != undefined)
+			toggleHover(prevCells[0]);//.style.visibility = 'hidden';
+		toggleHover(cells[0]);//.style.visibility = 'hidden';
+		toggleHover(cells[1]);//.style.visibility = 'hidden';
+		if(cells.length > 2) toggleHover(cells[2]);//.style.visibility = 'hidden';
+	}
+	toggleHover(this);
 }
 
 function toggleHover(cell) {
@@ -268,25 +202,44 @@ function generatePlayer(contents) {
 	let knyear = row[columnIndexKNYEAR];
 	
 	document.getElementById('music').innerHTML = '';
-		
+	if(!document.getElementById('music').classList.contains('centered'))
+		document.getElementById('music').classList.add('centered');
+	
+	let audioOverlay = document.createElement('div');
+	audioOverlay.id = 'overlay';
+	audioOverlay.innerText = 'Preview not available';
+	document.getElementById('music').appendChild(audioOverlay);
+	
 	let audio = document.createElement('audio');
-	audio.id = tableID + 'Player';
+	audio.id = 'player';
 	audio.classList.add('player');
 	// audio.addEventListener('playing', runTimestamp);
 	// audio.addEventListener('seeking', clearTimestamps);
+	// audio.addEventListener('stalled', function() {
+		// document.getElementById('overlay').classList.add('visible');
+	// });
+	// audio.addEventListener('error', function() {
+		// document.getElementById('overlay').classList.add('visible');
+	// });
+	// audio.addEventListener('suspend', function() {
+		// document.getElementById('overlay').classList.add('visible');
+	// });
 	audio.controls = true;
 	audio.volume = 0.5;
 	audio.controlsList = 'nodownload';
 	
 	let source = document.createElement('source');
-	// if(tableID == '2018') source.src = domain + 'awardrankings2018-1.mp3';
-	// else source.src = domain + 'awardrankings' + tableID + '.mp3';
-	source.src = directory + knyear + '/' + filename + '.mp3';
+	source.src = directory  + '/' + filename + '.mp3';
 	source.type = 'audio/mpeg';
 	source.innerText = '[You\'ll need a newer browser that supports HTML5 to listen to this.]';
 	
 	audio.appendChild(source);
 	document.getElementById('music').appendChild(audio);
+	
+	setTimeout(function() {
+		if(document.getElementById('player').readyState == 0)
+			document.getElementById('overlay').style.visibility = 'visible';
+	}, 200);
 }
 
 //for side menu, add all tables to have list class, use ids to generate
@@ -333,7 +286,7 @@ function hideIrrelevant() {
 	}
 }
 
-//actual timestamp run event when playing
+//actual timestamp run event when playing - NOT IN USE HERE//
 function runTimestamp() {
     timer = setInterval(checkTimestamps, 1000);
 }
