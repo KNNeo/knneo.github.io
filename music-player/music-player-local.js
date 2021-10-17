@@ -136,6 +136,7 @@ function generateTable(contents) {
 	// table.id = 'table';
 	table.classList.add('list');
 	table.classList.add('centered');
+	table.classList.add('content-box');
 	
 	let tbody = document.createElement('tbody');
 	
@@ -229,7 +230,7 @@ function generatePlayer(contents) {
 	audio.controlsList = 'nodownload';
 	
 	let source = document.createElement('source');
-	source.src = directory  + '/' + filename + '.mp3';
+	source.src = directory + knyear + '/' + filename + '.mp3';
 	source.type = 'audio/mpeg';
 	source.innerText = '[You\'ll need a newer browser that supports HTML5 to listen to this.]';
 	

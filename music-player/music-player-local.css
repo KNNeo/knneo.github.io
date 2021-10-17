@@ -29,6 +29,22 @@ html {
     right: 0;
 }
 
+.content-box {
+  border: 1px solid lightgray;
+  box-shadow: 3px 3px;
+  padding: 4px;
+  white-space: normal;
+}
+
+.darked .content-box {
+  border: 1px solid white;
+	
+}
+/* .content-box:active {
+  box-shadow: 1px 1px;
+  transform: translate(2px,2px);
+} */
+
 .centered {
 	max-width: 640px;
 	margin: auto;
@@ -56,7 +72,7 @@ table {
 td, th { 
 	padding: 2px 4px; 
 	font-size: 0.9em;
-	border: 1px solid black; 
+	/* border: 1px solid black;  */
 }
 
 .empty td {
@@ -64,7 +80,7 @@ td, th {
 }
 
 .darked td, .darked th {
-	border: 1px solid white;
+	/* border: 1px solid white; */
 }
 
 .year {
