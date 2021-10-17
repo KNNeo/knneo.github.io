@@ -73,7 +73,7 @@ function generateFilters() {
 		if(document.getElementById('options').value > 0)
 			await queryDb("SELECT * FROM Song WHERE KNID = " + document.getElementById('options').value, generateLayout);
 		//probably can multiple query for multiple tables, by semicolon
-	});	
+	});
 	
 		let opt = document.createElement('option');
 		opt.innerText = '===';		
@@ -124,7 +124,25 @@ function updateOptions(contents) {
 	// console.log('newOptions', newOptions);
 }
 
+let random = document.getElementById('random');
+random.addEventListener('click', async function() {
+	//update tables
+	// console.log('queryOption', document.getElementById('options').value);
+	await queryDb("SELECT * FROM Song", randomSong);
+	//probably can multiple query for multiple tables, by semicolon
+});
+
+function randomSong(contents) {
+	let rows = contents.values;
+	let random = Math.floor((Math.random() * rows.length));
+	generateLayout({
+		columns: contents.columns,
+		values: [rows[random]],
+	});
+}
+
 function generateLayout(contents) {
+	// console.log('generateLayout', contents);
 	generatePlayer(contents);
 	generateTable(contents);
 }
