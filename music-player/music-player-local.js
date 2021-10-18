@@ -142,11 +142,18 @@ random.addEventListener('click', async function() {
 	}, 200);
 });
 
-function generateLayout(contents) {
+async function generateLayout(contents) {
 	// console.log('generateLayout', contents);
 	generatePlayer(contents);
-	generateSongInfo(contents);
-	generateRelated(contents);
+	setTimeout(generateSongInfo(contents), 100);
+	setTimeout(generateRelated(contents), 100);
+	scrollToTop();
+}
+
+function scrollToTop() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+	window.location.hash = "";
 }
 
 function generateSongInfo(contents) {
