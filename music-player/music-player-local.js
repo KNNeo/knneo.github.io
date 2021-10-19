@@ -58,24 +58,24 @@ function generateFilters() {
 	let search = document.createElement('input');
 	search.id = 'search';
 	search.placeholder = 'Song Title, Artist Title, KNYEAR';
-	search.addEventListener('input', async function() {
+	search.addEventListener('input', function() {
 		// update options
 		// console.log('querySelect', document.getElementById('search').value);
 		let query = "SELECT * FROM Song WHERE SongTitle LIKE '%" + document.getElementById('search').value + "%'";
 		query += " OR ArtistTitle LIKE '%" + document.getElementById('search').value + "%'";
 		query += " OR KNYEAR LIKE '%" + document.getElementById('search').value + "%'";
 		// console.log('query', query);
-		await queryDb(query, updateOptions);
+		queryDb(query, updateOptions);
 	});
 	filters.appendChild(search);
 	
 	let options = document.createElement('select');
 	options.id = 'options';
-	options.addEventListener('change', async function() {
+	options.addEventListener('change', function() {
 		//update tables
 		// console.log('queryOption', document.getElementById('options').value);
 		if(document.getElementById('options').value > 0)
-			await queryDb("SELECT * FROM Song WHERE KNID = " + document.getElementById('options').value, generateLayout);
+			queryDb("SELECT * FROM Song WHERE KNID = " + document.getElementById('options').value, generateLayout);
 		//probably can multiple query for multiple tables, by semicolon
 	});
 	
@@ -203,7 +203,7 @@ function generateSongInfo(contents) {
 }
 
 
-async function generateRelated(contents) {
+function generateRelated(contents) {
 	let columns = contents.columns;
 	let rows = contents.values;
 	let row = rows[0];
@@ -217,7 +217,7 @@ async function generateRelated(contents) {
 	query += " AND KNID <> " + row[columnIndexKNID] + " AND KNID NOT IN (SELECT KNID FROM Song WHERE ArtistTitle = '" + row[columnIndexArtistTitle] + "')";
 	query += " ORDER BY DateCreated DESC) LIMIT 10";
 	// console.log('generateRelated', query);
-	await queryDb(query, generateRelatedSongs);
+	queryDb(query, generateRelatedSongs);
 }
 
 function generateRelatedSongs(contents) {
