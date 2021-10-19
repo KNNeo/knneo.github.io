@@ -256,7 +256,7 @@ async function generateRelatedSongs(contents) {
 		tc.innerText = row[columnIndexKNYEAR] + ' - ' + row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle];
 		tc.addEventListener('click', async function() {
 			let id = this.getAttribute('data-id');
-			let query = "SELECT * FROM Song";
+			let query = "SELECT * FROM Song WHERE KNID = " + row[columnIndexKNID];
 			// console.log('query', query);
 			await queryDb(query, updateOptions);
 			setTimeout(function() {
