@@ -356,7 +356,7 @@ function generatePlayer(contents) {
 	// });
 	audio.addEventListener('load', function() {
 		setTimeout(function() {
-			if(!document.getElementById('player').readyState || document.getElementById('player').readyState == 0)
+			if(!document.getElementById('music').readyState || document.getElementById('music').readyState == 0)
 				document.getElementById('overlay').style.visibility = 'visible';
 		}, 200);
 	});
@@ -371,7 +371,11 @@ function generatePlayer(contents) {
 	source.innerText = '[You\'ll need a newer browser that supports HTML5 to listen to this.]';
 	
 	audio.appendChild(source);
-	document.getElementById('music').appendChild(audio);	
+	document.getElementById('music').appendChild(audio);
+	setTimeout(function() {
+		if(!document.getElementById('music').readyState || document.getElementById('music').readyState == 0)
+			document.getElementById('overlay').style.visibility = 'visible';
+	}, 200);
 }
 
 //for side menu, add all tables to have list class, use ids to generate
