@@ -220,7 +220,7 @@ function generateRelated(contents) {
 	queryDb(query, generateRelatedSongs);
 }
 
-function generateRelatedSongs(contents) {
+async function generateRelatedSongs(contents) {
 	document.getElementById('relatedsongs').innerHTML = '';
 	
 	let header = document.createElement('h4');
