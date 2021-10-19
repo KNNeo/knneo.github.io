@@ -29,7 +29,7 @@ html {
     color: black;
     background-color: transparent;
     width: 100%;
-	visibility: hidden;
+	/* visibility: hidden; */
     left: 0;
     right: 0;
 }
@@ -49,6 +49,10 @@ html {
   box-shadow: 1px 1px;
   transform: translate(2px,2px);
 } */
+
+.hidden {
+	visibility: hidden;
+}
 
 .centered {
 	max-width: 640px;

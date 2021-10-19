@@ -343,22 +343,8 @@ function generatePlayer(contents) {
 	let audio = document.createElement('audio');
 	audio.id = 'player';
 	audio.classList.add('player');
-	// audio.addEventListener('playing', runTimestamp);
-	// audio.addEventListener('seeking', clearTimestamps);
-	// audio.addEventListener('stalled', function() {
-		// document.getElementById('overlay').classList.add('visible');
-	// });
-	audio.addEventListener('error', function() {
-		document.getElementById('overlay').classList.add('visible');
-	});
-	// audio.addEventListener('suspend', function() {
-		// document.getElementById('overlay').classList.add('visible');
-	// });
-	audio.addEventListener('load', function() {
-		setTimeout(function() {
-			if(!document.getElementById('music').readyState || document.getElementById('music').readyState == 0)
-				document.getElementById('overlay').style.visibility = 'visible';
-		}, 200);
+	audio.addEventListener('canplay', function() {
+		document.getElementById('overlay').classList.add('hidden');
 	});
 	audio.controls = true;
 	audio.autoplay = true;
@@ -372,10 +358,6 @@ function generatePlayer(contents) {
 	
 	audio.appendChild(source);
 	document.getElementById('music').appendChild(audio);
-	setTimeout(function() {
-		if(!document.getElementById('music').readyState || document.getElementById('music').readyState == 0)
-			document.getElementById('overlay').style.visibility = 'visible';
-	}, 200);
 }
 
 //for side menu, add all tables to have list class, use ids to generate
