@@ -137,9 +137,14 @@ random.addEventListener('click', async function() {
 	await queryDb(query, updateOptions);
 	let total = document.getElementById('options').length - 1;
 	let random = Math.floor((Math.random() * total));
-	setTimeout(function() {
-		document.getElementById('options').value = random;
-		document.getElementById('options').dispatchEvent(new Event('change'));
+	setTimeout(async function() {
+		let optQuery = query + " WHERE KNID = " + random;
+		// console.log('optQuery', optQuery);
+		await queryDb(query + " WHERE KNID = " + random, updateOptions);
+		setTimeout(function() {
+			document.getElementById('options').value = random;
+			document.getElementById('options').dispatchEvent(new Event('change'));
+		},200);
 	}, 200);
 });
 
@@ -174,6 +179,7 @@ function generateSongInfo(contents) {
 	table.classList.add('list');
 	table.classList.add('centered');
 	table.classList.add('content-box');
+	table.classList.add('no-highlight');
 	
 	let tbody = document.createElement('tbody');
 	
@@ -237,6 +243,7 @@ async function generateRelatedSongs(contents) {
 	table.classList.add('list');
 	table.classList.add('centered');
 	table.classList.add('content-box');
+	table.classList.add('not-selectable');
 	
 	let tbody = document.createElement('tbody');
 	
