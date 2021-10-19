@@ -145,6 +145,7 @@ random.addEventListener('click', async function() {
 async function generateLayout(contents) {
 	// console.log('generateLayout', contents);
 	generatePlayer(contents);
+	// generateCoverArt();
 	setTimeout(generateSongInfo(contents), 100);
 	setTimeout(generateRelated(contents), 100);
 	scrollToTop();
@@ -306,6 +307,21 @@ function generateSeek(time) {
 	player.play();
 }
 
+function generateCoverArt() {
+	//base64 string of jpg image
+	var imageString = "";
+	let audio = document.getElementById('music');
+	let audioHeight = audio.offsetHeight || 100;
+	audio.style.paddingLeft = (audioHeight + 5) + 'px';
+	console.log('audioHeight',audioHeight);
+	let cover = document.getElementById("cover");
+	cover.style.position = 'absolute';
+	cover.style.width  = audioHeight + 'px';
+	cover.style.height = audioHeight + 'px';
+	cover.style.backgroundImage = 'url(data:image/jpg;base64,' + imageString + ')';
+	cover.style.backgroundSize = audioHeight + 'px';
+}
+
 function generatePlayer(contents) {
 	if(contents.values.length > 1) return;
 	let row = contents.values[0];
@@ -332,15 +348,15 @@ function generatePlayer(contents) {
 	// audio.addEventListener('stalled', function() {
 		// document.getElementById('overlay').classList.add('visible');
 	// });
-	// audio.addEventListener('error', function() {
-		// document.getElementById('overlay').classList.add('visible');
-	// });
+	audio.addEventListener('error', function() {
+		document.getElementById('overlay').classList.add('visible');
+	});
 	// audio.addEventListener('suspend', function() {
 		// document.getElementById('overlay').classList.add('visible');
 	// });
 	audio.addEventListener('load', function() {
 		setTimeout(function() {
-			if(document.getElementById('player').readyState == 0)
+			if(!document.getElementById('player').readyState || document.getElementById('player').readyState == 0)
 				document.getElementById('overlay').style.visibility = 'visible';
 		}, 200);
 	});
@@ -355,9 +371,7 @@ function generatePlayer(contents) {
 	source.innerText = '[You\'ll need a newer browser that supports HTML5 to listen to this.]';
 	
 	audio.appendChild(source);
-	document.getElementById('music').appendChild(audio);
-	
-	
+	document.getElementById('music').appendChild(audio);	
 }
 
 //for side menu, add all tables to have list class, use ids to generate
