@@ -48,7 +48,8 @@ async function startup() {
 	// generateTable(tableID);
 	
 	generateFilters();
-	await queryDb("SELECT * FROM Song", updateOptions);
+	if(!isMobile())
+		queryDb("SELECT * FROM Song", updateOptions);
 }
 
 function generateFilters() {
