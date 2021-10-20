@@ -60,6 +60,10 @@ html {
 	padding: 2px 8px;
 }
 
+.centered-text {
+	text-align: center;
+}
+
 .module {
 	padding: 5px 10px;
 }
@@ -89,15 +93,18 @@ table {
 td, th { 
 	padding: 2px 4px; 
 	font-size: 0.9em;
-	/* border: 1px solid black;  */
 }
 
 .empty td {
 	border: 1px solid transparent;
 }
 
-.darked td, .darked th {
-	/* border: 1px solid white; */
+.bordered td {
+	border: 1px solid black;
+}
+
+.darked .bordered td, .darked .bordered th {
+	border: 1px solid white;
 }
 
 .year {

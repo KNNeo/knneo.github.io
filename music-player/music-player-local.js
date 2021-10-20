@@ -3,8 +3,6 @@ let directory = 'file://C:/Users/KAINENG/OneDrive/Music/'; //for audio player, i
 
 //----------------------------//
 //--VARIABLES: DO NOT TOUCH!--//
-let timer;
-
 
 //--STARTUP--//
 window.addEventListener('load', startup);
@@ -26,7 +24,13 @@ function randomSong() {
 };
 
 function hoverOnRow() {
-	toggleHover(this);
+	let cells = this.getElementsByTagName('td');
+	let prevCells = this.previousSibling.getElementsByTagName('td');
+	if(prevCells.length == 3 && cells.length == 2 && prevCells[0].rowSpan != undefined)
+		toggleHover(prevCells[0]);//.style.visibility = 'hidden';
+	toggleHover(cells[0]);//.style.visibility = 'hidden';
+	toggleHover(cells[1]);//.style.visibility = 'hidden';
+	if(cells.length > 2) toggleHover(cells[2]);//.style.visibility = 'hidden';
 }
 
 function toggleHover(cell) {
@@ -53,6 +57,7 @@ function startup() {
 }
 
 async function queryDb(query, callback) {
+	let time = Date.now();
 	//for webassembly file
 	const SQL = await initSqlJs({
 	  // Required to load the wasm binary asynchronously. Of course, you can host it wherever you want
@@ -77,6 +82,7 @@ async function queryDb(query, callback) {
 	  // contents is now [{columns:['col1','col2',...], values:[[first row], [second row], ...]}]
 	};
 	xhr.send();
+	// console.log('queryDb took', Date.now() - time, 'ms');
 }
 
 function generateFilters() {
@@ -179,7 +185,8 @@ function generateLayout(contents) {
 	generatePlayer(contents);
 	// generateCoverArt();
 	setTimeout(generateSongInfo(contents), 100);
-	setTimeout(queryRelated(contents), 100);
+	setTimeout(queryRelated(contents), 200);
+	setTimeout(queryRanking(contents), 300);
 	scrollToTop();
 }
 
@@ -284,10 +291,10 @@ function queryRelated(contents) {
 	query += " AND KNID <> " + row[columnIndexKNID] + " AND KNID NOT IN (SELECT KNID FROM Song WHERE ArtistTitle = '" + row[columnIndexArtistTitle] + "')";
 	query += " ORDER BY RANDOM() DESC) LIMIT 10";
 	// console.log('queryRelated', query);
-	queryDb(query, queryRelatedSongs);
+	queryDb(query, generateRelatedSongs);
 }
 
-function queryRelatedSongs(contents) {
+function generateRelatedSongs(contents) {
 	document.getElementById('relatedsongs').innerHTML = '';
 	
 	let header = document.createElement('h4');
@@ -346,6 +353,107 @@ function queryRelatedSongs(contents) {
 		
 	table.appendChild(tbody);
 	document.getElementById('relatedsongs').appendChild(table);
+}
+
+function queryRanking(contents) {
+	let columns = contents.columns;
+	let rows = contents.values;
+	let row = rows[0];
+	let columnIndexKNID = contents.columns.indexOf('KNID');
+	//select ranking of that year of song
+	let query = "SELECT s.KNID, r.KNYEAR, r.RankNo, r.SortOrder, s.SongTitle, s.ArtistTitle FROM Ranking r JOIN Song s on r.KNID = s.KNID WHERE r.KNYEAR = (SELECT KNYEAR FROM Ranking WHERE KNID = " + row[columnIndexKNID] + ") ORDER BY r.KNYEAR, r.RankNo, r.SortOrder";
+	// console.log('queryRelated', query);
+	queryDb(query, generateRanking);
+}
+
+function generateRanking(contents) {
+	document.getElementById('yearranking').innerHTML = '';
+	let columns = contents.columns;
+	let rows = contents.values;
+	if(contents.length == 0) return;
+	
+	let header = document.createElement('h4');
+	header.classList.add('centered');
+	header.innerText = 'Song Rankings';
+	document.getElementById('yearranking').appendChild(header);	
+	
+	let table = document.createElement('table');
+	// table.id = 'table';
+	table.classList.add('list');
+	table.classList.add('centered');
+	table.classList.add('content-box');
+	table.classList.add('not-selectable');
+	
+	let tbody = document.createElement('tbody');
+	
+	//header
+	let tr = document.createElement('tr');
+	for(let column of columns)
+	{
+		if(['RankNo','SongTitle','ArtistTitle'].indexOf(column) >= 0)
+		{
+			let th = document.createElement('th');
+			th.innerText = column;
+			tr.appendChild(th);
+		}
+	}
+	tbody.appendChild(tr);	
+	
+	//rows
+	let rank = 0;
+	for(let row of rows)
+	{
+		let columnIndexKNID = contents.columns.indexOf('KNID');
+		let columnIndexRankNo = contents.columns.indexOf('RankNo');
+		let columnIndexSortOrder = contents.columns.indexOf('SortOrder');
+		let columnIndexSongTitle = contents.columns.indexOf('SongTitle');
+		let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
+		
+		let tr = document.createElement('tr');
+		tr.setAttribute('data-id', row[columnIndexKNID]);
+		tr.style.cursor = 'pointer';
+		tr.addEventListener('click', async function() {
+			let id = this.getAttribute('data-id');
+			let query = "SELECT * FROM Song WHERE KNID = " + row[columnIndexKNID];
+			// console.log('query', query);
+			await queryDb(query, updateOptions);
+			setTimeout(function() {
+				document.getElementById('options').value = id;
+				document.getElementById('options').dispatchEvent(new Event('change'));
+			}, 200);
+			
+		});
+		tr.addEventListener('mouseover', hoverOnRow);
+		tr.addEventListener('mouseout', hoverOnRow);
+	
+		//rank no
+		if(row[columnIndexRankNo] != rank)
+		{
+			let span = rows.filter(r => r[columnIndexRankNo] == rank + 1).length;
+			let tc = document.createElement('td');
+			tc.classList.add('centered-text');
+			tc.setAttribute('rowspan', span);
+			tc.innerText = row[columnIndexRankNo];
+			tr.appendChild(tc);
+		}
+		
+		//song
+		let td = document.createElement('td');
+		td.innerText = row[columnIndexSongTitle];
+		tr.appendChild(td);
+		
+		//artist
+		let te = document.createElement('td');
+		te.innerText = row[columnIndexArtistTitle];
+		tr.appendChild(te);
+		
+		tbody.appendChild(tr);
+		
+		rank = row[columnIndexRankNo];
+	}
+		
+	table.appendChild(tbody);
+	document.getElementById('yearranking').appendChild(table);
 }
 
 //unavailable: requires base64 image store in db
