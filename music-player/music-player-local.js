@@ -99,12 +99,12 @@ function updateOptions(contents) {
 		optionString: '===' + (contents?.values?.length || 0) + ' options==='
 	});
 	
+	let columnIndexKNID = contents.columns.indexOf('KNID');
+	let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
+	let columnIndexSongTitle = contents.columns.indexOf('SongTitle');
+	let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
 	if(contents.values && contents.values.length > 0)
 	{
-		let columnIndexKNID = contents.columns.indexOf('KNID');
-		let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
-		let columnIndexSongTitle = contents.columns.indexOf('SongTitle');
-		let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
 		for(let row of contents.values) {
 			let id = row[columnIndexKNID];
 			let knyear = row[columnIndexKNYEAR];
@@ -127,26 +127,29 @@ function updateOptions(contents) {
 		options.appendChild(opt);
 	}
 	// console.log('newOptions', newOptions);
-}
-
-let random = document.getElementById('random');
-random.addEventListener('click', async function() {
-	document.getElementById('search').value = '';
-	let query = "SELECT * FROM Song";
-	// console.log('query', query);
-	await queryDb(query, updateOptions);
-	let total = document.getElementById('options').length - 1;
-	let random = Math.floor((Math.random() * total));
-	setTimeout(async function() {
-		let optQuery = query + " WHERE KNID = " + random;
-		// console.log('optQuery', optQuery);
-		await queryDb(query + " WHERE KNID = " + random, updateOptions);
+	if(newOptions.length == 2) //1 result with default
+	{
 		setTimeout(function() {
-			document.getElementById('options').value = random;
+			document.getElementById('options').value = contents.values[0][columnIndexKNID];
 			document.getElementById('options').dispatchEvent(new Event('change'));
 		},200);
-	}, 200);
-});
+	}
+}
+
+async function randomSong() {
+	document.getElementById('search').value = '';
+	let query = "SELECT COUNT(*) FROM Song";
+	// console.log('query', query);
+	queryDb(query, function(content) {
+		// console.log('content', content);
+		let total = content.values[0][0];
+		let random = Math.floor((Math.random() * total));
+		let optQuery = "SELECT * FROM Song WHERE KNID = " + random;
+		// console.log('optQuery', optQuery);
+		queryDb(optQuery, updateOptions);
+
+	});
+};
 
 async function generateLayout(contents) {
 	// console.log('generateLayout', contents);
