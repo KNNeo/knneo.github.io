@@ -222,10 +222,10 @@ function generateRelated(contents) {
 	let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
 	//max 5 related to artist, rest same KNYEAR
 	let query = "SELECT * FROM (SELECT * FROM Song WHERE KNID <> " + row[columnIndexKNID] + " AND ArtistTitle = '" + row[columnIndexArtistTitle] + "'";
-	query += " ORDER BY DateCreated DESC LIMIT 5)";
+	query += " ORDER BY RANDOM() DESC LIMIT 5)";
 	query += " UNION ALL SELECT * FROM (SELECT * FROM Song WHERE KNYEAR = '" + row[columnIndexKNYEAR] + "'";
 	query += " AND KNID <> " + row[columnIndexKNID] + " AND KNID NOT IN (SELECT KNID FROM Song WHERE ArtistTitle = '" + row[columnIndexArtistTitle] + "')";
-	query += " ORDER BY DateCreated DESC) LIMIT 10";
+	query += " ORDER BY RANDOM() DESC) LIMIT 10";
 	// console.log('generateRelated', query);
 	queryDb(query, generateRelatedSongs);
 }
@@ -357,9 +357,12 @@ function generatePlayer(contents) {
 	audio.addEventListener('canplay', function() {
 		document.getElementById('overlay').classList.add('hidden');
 	});
+	audio.addEventListener('volumechange', function() {
+		localStorage.setItem('volume', document.getElementById('player').volume);
+	});
 	audio.controls = true;
 	audio.autoplay = true;
-	audio.volume = 0.5;
+	audio.volume = localStorage.getItem('volume')|| 0.5;
 	audio.controlsList = 'nodownload';
 	
 	let source = document.createElement('source');
