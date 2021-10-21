@@ -13,6 +13,11 @@ html, div {
     border: 1px solid lightgray;
 }
 
+.darked button:disabled {
+    color: gray;
+    border: 1px solid gray;
+}
+
 .darked a,
 .darked a:visited {
 	color: #00e4ff;
