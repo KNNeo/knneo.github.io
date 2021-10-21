@@ -85,6 +85,24 @@ async function queryDb(query, callback) {
 	// console.log('queryDb took', Date.now() - time, 'ms');
 }
 
+function generateTabs() {
+	document.getElementById('tab-list').innerHTML = '';
+	
+	let tabs = document.getElementsByClassName('tab');
+	for(let tab of tabs)
+	{
+		let tabItem = document.createElement('button');
+		tabItem.id = 'button-' + tab.id;
+		tabItem.innerText = tab.getAttribute('data-name');
+		// tabItem.style.cursor = 'pointer';
+		tabItem.addEventListener('click', function() {
+			showTab(tab.id);
+		});
+		
+		document.getElementById('tab-list').appendChild(tabItem);
+	}	
+}
+
 function generateFilters() {
 	let filters = document.getElementById('filters');
 	filters.classList.add('centered');
@@ -184,9 +202,14 @@ function generateLayout(contents) {
 	// console.log('generateLayout', contents);
 	generatePlayer(contents);
 	// generateCoverArt();
+	generateTabs();
 	setTimeout(generateSongInfo(contents), 100);
 	setTimeout(queryRelated(contents), 200);
 	setTimeout(queryRanking(contents), 300);
+	setTimeout(function() {
+		setTabs();
+		showTab('tab-info');
+	}, 400);
 	scrollToTop();
 }
 
@@ -232,12 +255,12 @@ function generatePlayer(contents) {
 }
 
 function generateSongInfo(contents) {
-	document.getElementById('songinfo').innerHTML = '';
+	document.getElementById('song-info').innerHTML = '';
 	
 	let header = document.createElement('h4');
 	header.classList.add('centered');
 	header.innerText = 'Song Info';
-	document.getElementById('songinfo').appendChild(header);	
+	document.getElementById('song-info').appendChild(header);	
 	
 	let columns = contents.columns;
 	let rows = contents.values;
@@ -274,7 +297,7 @@ function generateSongInfo(contents) {
 	}
 		
 	table.appendChild(tbody);
-	document.getElementById('songinfo').appendChild(table);
+	document.getElementById('song-info').appendChild(table);
 }
 
 function queryRelated(contents) {
@@ -291,16 +314,16 @@ function queryRelated(contents) {
 	query += " AND KNID <> " + row[columnIndexKNID] + " AND KNID NOT IN (SELECT KNID FROM Song WHERE ArtistTitle = '" + row[columnIndexArtistTitle] + "')";
 	query += " ORDER BY RANDOM() DESC) LIMIT 10";
 	// console.log('queryRelated', query);
-	queryDb(query, generateRelatedSongs);
+	queryDb(query, generaterRelatedSongs);
 }
 
-function generateRelatedSongs(contents) {
-	document.getElementById('relatedsongs').innerHTML = '';
+function generaterRelatedSongs(contents) {
+	document.getElementById('related-songs').innerHTML = '';
 	
 	let header = document.createElement('h4');
 	header.classList.add('centered');
 	header.innerText = 'Related Songs';
-	document.getElementById('relatedsongs').appendChild(header);	
+	document.getElementById('related-songs').appendChild(header);	
 	
 	let columns = contents.columns;
 	let rows = contents.values;
@@ -352,7 +375,7 @@ function generateRelatedSongs(contents) {
 	}
 		
 	table.appendChild(tbody);
-	document.getElementById('relatedsongs').appendChild(table);
+	document.getElementById('related-songs').appendChild(table);
 }
 
 function queryRanking(contents) {
@@ -367,7 +390,7 @@ function queryRanking(contents) {
 }
 
 function generateRanking(contents) {
-	document.getElementById('yearranking').innerHTML = '';
+	document.getElementById('year-ranking').innerHTML = '';
 	let columns = contents.columns;
 	let rows = contents.values;
 	if(contents.length == 0) return;
@@ -375,7 +398,7 @@ function generateRanking(contents) {
 	let header = document.createElement('h4');
 	header.classList.add('centered');
 	header.innerText = 'Song Rankings';
-	document.getElementById('yearranking').appendChild(header);	
+	document.getElementById('year-ranking').appendChild(header);	
 	
 	let table = document.createElement('table');
 	// table.id = 'table';
@@ -453,7 +476,24 @@ function generateRanking(contents) {
 	}
 		
 	table.appendChild(tbody);
-	document.getElementById('yearranking').appendChild(table);
+	document.getElementById('year-ranking').appendChild(table);
+}
+
+function setTabs() {
+	for(let tab of document.getElementsByClassName('tab'))
+	{
+		let hasModules = Array.from(tab.childNodes).filter(c => c.childNodes.length > 0).length > 0;
+		let button = document.getElementById('button-' + tab.id);
+		button.style.cursor = hasModules ? 'pointer' : '';
+		button.disabled = !hasModules;
+	}
+}
+
+function showTab(activeTab) {
+	for(let tab of document.getElementsByClassName('tab'))
+	{
+		tab.style.display = (tab.id == activeTab ? 'block' : 'none');
+	}
 }
 
 //unavailable: requires base64 image store in db

@@ -54,6 +54,10 @@ html {
 	visibility: hidden;
 }
 
+.tab {
+	display: none;
+}
+
 .centered {
 	max-width: 640px;
 	margin: auto;
