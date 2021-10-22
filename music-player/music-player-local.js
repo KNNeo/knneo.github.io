@@ -370,17 +370,7 @@ function generaterSongsRelated(contents) {
 		tc.style.cursor = 'pointer';
 		tc.setAttribute('data-id', row[columnIndexKNID]);
 		tc.innerText = row[columnIndexKNYEAR] + ' - ' + row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle];
-		tc.addEventListener('click', async function() {
-			let id = this.getAttribute('data-id');
-			let query = "SELECT * FROM Song WHERE KNID = " + row[columnIndexKNID];
-			// console.log('query', query);
-			await queryDb(query, updateOptions);
-			setTimeout(function() {
-				document.getElementById('options').value = id;
-				document.getElementById('options').dispatchEvent(new Event('change'));
-			}, 200);
-			
-		});
+		tc.addEventListener('click', updateSong);
 		tr.appendChild(tc);
 		
 		//click to play
@@ -430,17 +420,7 @@ function generateArtistRelated(contents) {
 		tc.style.cursor = 'pointer';
 		tc.setAttribute('data-id', row[columnIndexKNID]);
 		tc.innerText = row[columnIndexKNYEAR] + ' - ' + row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle];
-		tc.addEventListener('click', async function() {
-			let id = this.getAttribute('data-id');
-			let query = "SELECT * FROM Song WHERE KNID = " + row[columnIndexKNID];
-			// console.log('query', query);
-			await queryDb(query, updateOptions);
-			setTimeout(function() {
-				document.getElementById('options').value = id;
-				document.getElementById('options').dispatchEvent(new Event('change'));
-			}, 200);
-			
-		});
+		tc.addEventListener('click', updateSong);
 		tr.appendChild(tc);
 		
 		//click to play
@@ -464,7 +444,7 @@ function generateReleaseRelated(contents) {
 	
 	let header = document.createElement('h4');
 	header.classList.add('centered');
-	header.innerText = 'Songs from ' + rows[0][contents.columns.indexOf('ReleaseTitle')];
+	header.innerText = 'Songs from "' + rows[0][contents.columns.indexOf('ReleaseTitle')] + '"';
 	document.getElementById('release-related').appendChild(header);	
 	
 	let table = document.createElement('table');
@@ -490,17 +470,7 @@ function generateReleaseRelated(contents) {
 		tc.style.cursor = 'pointer';
 		tc.setAttribute('data-id', row[columnIndexKNID]);
 		tc.innerText = row[columnIndexKNYEAR] + ' - ' + row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle];
-		tc.addEventListener('click', async function() {
-			let id = this.getAttribute('data-id');
-			let query = "SELECT * FROM Song WHERE KNID = " + row[columnIndexKNID];
-			// console.log('query', query);
-			await queryDb(query, updateOptions);
-			setTimeout(function() {
-				document.getElementById('options').value = id;
-				document.getElementById('options').dispatchEvent(new Event('change'));
-			}, 200);
-			
-		});
+		tc.addEventListener('click', updateSong);
 		tr.appendChild(tc);
 		
 		//click to play
@@ -575,17 +545,7 @@ function generateRanking(contents) {
 		let tr = document.createElement('tr');
 		tr.setAttribute('data-id', row[columnIndexKNID]);
 		tr.style.cursor = 'pointer';
-		tr.addEventListener('click', async function() {
-			let id = this.getAttribute('data-id');
-			let query = "SELECT * FROM Song WHERE KNID = " + row[columnIndexKNID];
-			// console.log('query', query);
-			await queryDb(query, updateOptions);
-			setTimeout(function() {
-				document.getElementById('options').value = id;
-				document.getElementById('options').dispatchEvent(new Event('change'));
-			}, 200);
-			
-		});
+		tr.addEventListener('click', updateSong);
 		tr.addEventListener('mouseover', hoverOnRow);
 		tr.addEventListener('mouseout', hoverOnRow);
 	
@@ -617,6 +577,18 @@ function generateRanking(contents) {
 		
 	table.appendChild(tbody);
 	document.getElementById('year-ranking').appendChild(table);
+}
+
+function updateSong() {
+	let id = this.getAttribute('data-id');
+	let query = "SELECT * FROM Song WHERE KNID = " + id;
+	// console.log('query', query);
+	queryDb(query, updateOptions);
+	
+	document.getElementById('options').value = id;
+	document.getElementById('options').dispatchEvent(new Event('change'));
+	// setTimeout(function() {
+	// }, 200);
 }
 
 function setTabs() {
