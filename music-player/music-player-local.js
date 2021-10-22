@@ -173,7 +173,7 @@ function updateOptions(contents) {
 		{
 			let opt = document.createElement('option');
 			opt.value = newOption.id;
-			opt.innerHTML = newOption.optionString.replace(criteria, '<b>' + criteria + '</b>');
+			opt.innerHTML = newOption.optionString.replace(criteria, '<span style="font-weight: bold;">' + criteria + '</span>');
 			
 			options.appendChild(opt);
 		}
