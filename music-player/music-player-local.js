@@ -138,6 +138,7 @@ function generateFilters() {
 
 function updateOptions(contents) {
 	// console.log('updateOptions', contents);
+	let criteria = document.getElementById('search').value;
 	let options = document.getElementById('options');
 	options.innerHTML = '';
 	let newOptions = [];
@@ -172,7 +173,7 @@ function updateOptions(contents) {
 		{
 			let opt = document.createElement('option');
 			opt.value = newOption.id;
-			opt.innerText = newOption.optionString;
+			opt.innerHTML = newOption.optionString.replace(criteria, '<b>' + criteria + '</b>');
 			
 			options.appendChild(opt);
 		}
