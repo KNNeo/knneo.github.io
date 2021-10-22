@@ -73,11 +73,11 @@ html {
 }
 
 .list tr:hover > td {
-	background-color: transparent;
+	background-color: lightgray;
 }
 
 .darked tr:hover > td {
-	background-color: transparent;
+	background-color: gray;
 }
 
 h1 {
