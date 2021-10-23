@@ -39,6 +39,7 @@ html {
   box-shadow: 3px 3px;
   padding: 4px;
   white-space: normal;
+  width: 100%;
 }
 
 .darked .content-box {
@@ -56,8 +57,12 @@ html {
 
 .tab {
 	display: none;
-    height: 60vh;
+    /* height: 60vh; */
     overflow-y: auto;
+}
+
+.tab-view {
+	vertical-align: top;
 }
 
 .centered {
@@ -175,10 +180,8 @@ td, th {
 }
 
 @media only screen
-   and (min-device-width : 320px)
-   and (max-device-width : 960px)
+   and (min-device-width : 960px)
 {
-	
 }
 
 /* @media (prefers-color-scheme: dark) {

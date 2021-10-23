@@ -9,6 +9,7 @@ let altMode = false; //will switch between titles and alt titles [TODO]
 
 //--STARTUP--//
 window.addEventListener('load', startup);
+window.addEventListener('resize', setTabs);
 
 //--EVENTS--//
 function randomSong() {
@@ -55,19 +56,36 @@ function scrollToTop() {
 }
 
 function setTabs() {
+	let totalModules = 0;
+	let isWidescreen = window.innerWidth >= 960;
 	for(let tab of document.getElementsByClassName('tab'))
 	{
 		let hasModules = Array.from(tab.childNodes).filter(c => c.childNodes.length > 0).length > 0;
 		let button = document.getElementById('button-' + tab.id);
 		button.style.cursor = hasModules ? 'pointer' : '';
 		button.disabled = !hasModules;
+		if(hasModules) totalModules++;
+		
 	}
+	
+	console.log('totalModules', totalModules);
+	document.getElementById('tab-buttons').style.display = isWidescreen ? 'none' : '';
+	for(let tab of document.getElementsByClassName('tab'))
+	{
+		if(isWidescreen && !tab.classList.contains('tab-view')) tab.classList.add('tab-view');
+		if(!isWidescreen && tab.classList.contains('tab-view')) tab.classList.remove('tab-view');
+		
+		tab.style.display = isWidescreen ? 'inline-block' : '';
+		tab.style.width = isWidescreen ? ((window.innerWidth / totalModules) - 45) + 'px' : '';
+	}
+	if(!isWidescreen) showTab('tab-info');
 }
 
 function showTab(activeTab) {
 	for(let tab of document.getElementsByClassName('tab'))
 	{
-		tab.style.display = (tab.id == activeTab ? 'block' : 'none');
+		tab.style.display = tab.id == activeTab ? 'block' : 'none';
+		if(tab.classList.contains('tab-view')) tab.style.display = 'inline-block';
 	}
 }
 
@@ -123,7 +141,7 @@ function queryDb(query, callback) {
 }
 
 function generateTabs() {
-	document.getElementById('tab-list').innerHTML = '';
+	document.getElementById('tab-buttons').innerHTML = '';
 	
 	let tabs = document.getElementsByClassName('tab');
 	for(let tab of tabs)
@@ -136,7 +154,7 @@ function generateTabs() {
 			showTab(tab.id);
 		});
 		
-		document.getElementById('tab-list').appendChild(tabItem);
+		document.getElementById('tab-buttons').appendChild(tabItem);
 	}	
 }
 
@@ -256,6 +274,7 @@ function generatePlayer(contents) {
 	if(contents.values.length > 1) return;
 	let row = contents.values[0];
 	
+	let columnIndexKNID = contents.columns.indexOf('KNID');
 	let columnIndexFilename = contents.columns.indexOf('Filename');
 	let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
 	let filename = row[columnIndexFilename];
@@ -272,6 +291,7 @@ function generatePlayer(contents) {
 	
 	let audio = document.createElement('audio');
 	audio.id = 'player';
+	audio.setAttribute('data-id', row[columnIndexKNID]);
 	audio.classList.add('player');
 	audio.addEventListener('canplay', function() {
 		document.getElementById('overlay').classList.add('hidden');
