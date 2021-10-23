@@ -82,11 +82,11 @@ html {
 	background-color: gray;
 }
 
-.list .highlight > td {
+.list .highlight {
 	background-color: lightgray;
 }
 
-.darked .highlight > td {
+.darked .highlight {
 	background-color: gray;
 }
 

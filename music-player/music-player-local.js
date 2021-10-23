@@ -4,7 +4,8 @@ let directory = 'file://C:/Users/KAINENG/OneDrive/Music/'; //for audio player, i
 //----------------------------//
 //--VARIABLES: DO NOT TOUCH!--//
 let db;
-let debugMode = false;
+let debugMode = false; //will show all available logging on console
+let altMode = false; //will switch between titles and alt titles [TODO]
 
 //--STARTUP--//
 window.addEventListener('load', startup);
@@ -25,22 +26,26 @@ function randomSong() {
 	});
 };
 
-function hoverOnRow() {
+function hoverOnRankingRow() {
 	let cells = this.getElementsByTagName('td');
 	let prevCells = this.previousSibling.getElementsByTagName('td');
 	if(prevCells.length == 3 && cells.length == 2 && prevCells[0].rowSpan != undefined)
-		toggleHover(prevCells[0]);//.style.visibility = 'hidden';
-	toggleHover(cells[0]);//.style.visibility = 'hidden';
-	toggleHover(cells[1]);//.style.visibility = 'hidden';
-	if(cells.length > 2) toggleHover(cells[2]);//.style.visibility = 'hidden';
+		toggleHover(prevCells[0]);
+	toggleHover(cells[0]);
+	toggleHover(cells[1]);
+	if(cells.length > 2) toggleHover(cells[2]);
 }
 
 function toggleHover(cell) {
-	let supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-	let isDarked = document.getElementsByTagName('html')[0].classList.contains('darked');
-	let cellColor = 'transparent';
-	cellColor = isDarked ? 'gray' : 'lightgray';
-	cell.style.backgroundColor = cell.style.backgroundColor == cellColor ? '' : cellColor;
+	// let supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+	// let isDarked = document.getElementsByTagName('html')[0].classList.contains('darked');
+	// let cellColor = 'transparent';
+	if(cell.classList.contains('highlight'))
+		cell.classList.remove('highlight');
+	else
+		cell.classList.add('highlight');
+		
+	// cell.style.backgroundColor = cell.style.backgroundColor == cellColor ? '' : cellColor;
 }
 
 function scrollToTop() {
@@ -76,7 +81,7 @@ function startup() {
 }
 
 async function callDb(query, callback) {
-	let time = Date.now();
+	const time = Date.now();
 	//for webassembly file
 	const SQL = await initSqlJs({
 	  // Required to load the wasm binary asynchronously. Of course, you can host it wherever you want
@@ -101,17 +106,20 @@ async function callDb(query, callback) {
 	  // contents is now [{columns:['col1','col2',...], values:[[first row], [second row], ...]}]
 	};
 	xhr.send();
-	// console.log('callDb took', Date.now() - time, 'ms');
+	
+	if(debugMode) console.log('callDb took', Date.now() - time, 'ms');
 }
 
 function queryDb(query, callback) {
-	  const contents = db.exec(query);
-	  // console.log('queryDb',contents);
-	  if(contents && contents.length > 0)
-		  return callback(contents[0]);
-	  else if(contents)
-		  return callback(contents);
-	// console.log('callDb took', Date.now() - time, 'ms');
+	const time = Date.now();	
+	const contents = db.exec(query);
+	// console.log('queryDb',contents);
+	if(contents && contents.length > 0)
+	  return callback(contents[0]);
+	else if(contents)
+	  return callback(contents);
+  
+	if(debugMode) console.log('queryDb took', Date.now() - time, 'ms');
 }
 
 function generateTabs() {
@@ -141,9 +149,9 @@ function generateFilters() {
 	search.placeholder = 'Song Title, Artist Title, KNYEAR';
 	search.addEventListener('input', function() {
 		// console.log('querySelect', document.getElementById('search').value);
-		let query = "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song WHERE SongTitle LIKE '%" + document.getElementById('search').value + "%'";
-		query += " OR ArtistTitle LIKE '%" + document.getElementById('search').value + "%'";
-		query += " OR KNYEAR LIKE '%" + document.getElementById('search').value + "%'";
+		let query = "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song WHERE SongTitle LIKE '%" + reduceQueryInString(document.getElementById('search').value) + "%'";
+		query += " OR ArtistTitle LIKE '%" + reduceQueryInString(document.getElementById('search').value) + "%'";
+		query += " OR KNYEAR LIKE '%" + reduceQueryInString(document.getElementById('search').value) + "%'";
 		// console.log('query', query);
 		queryDb(query, updateOptions);
 	});
@@ -350,29 +358,29 @@ function queryRelated(contents) {
 	query = "SELECT * FROM Song WHERE KNID <> " + row[columnIndexKNID];
 	query += " AND ReleaseYear = '" + row[columnIndexReleaseYear] + "'";
 	query += " ORDER BY RANDOM() DESC LIMIT 10";
-	// console.log('queryRelated', query);
-	queryDb(query, generaterSongsRelated);
+	if(debugMode) console.log('querySongsRelated', query);
+	queryDb(query, generateSongRelated);
 	
 	//max 10 related to artist
 	document.getElementById('artist-related').innerHTML = '';
 	query = "SELECT * FROM Song WHERE KNID <> " + row[columnIndexKNID];
-	query += " AND ArtistTitle = '" + row[columnIndexArtistTitle] + "'";
+	query += " AND ArtistTitle = '" + reduceQueryInString(row[columnIndexArtistTitle]) + "'";
 	query += " ORDER BY RANDOM() DESC LIMIT 10";
-	// console.log('queryRelated', query);
+	if(debugMode) console.log('queryArtistRelated', query);
 	queryDb(query, generateArtistRelated);
 	
 	//max 10 related to release
 	document.getElementById('release-related').innerHTML = '';
 	query = "SELECT * FROM Song WHERE KNID <> " + row[columnIndexKNID];
 	query += " AND ReleaseTitle LIKE '%" + reduceReleaseTitle(row[columnIndexReleaseTitle]) + "%'";
-	query += " AND ReleaseArtistTitle = '" + row[columnIndexReleaseArtistTitle] + "'";
+	query += " AND ReleaseArtistTitle = '" + reduceQueryInString(row[columnIndexReleaseArtistTitle]) + "'";
 	query += " ORDER BY RANDOM() DESC LIMIT 10";
-	// console.log('queryRelated', query);
+	if(debugMode) console.log('queryReleaseRelated', query);
 	queryDb(query, generateReleaseRelated);
 }
 
-function generaterSongsRelated(contents) {
-	if(debugMode) console.log('generaterSongsRelated', contents);
+function generateSongRelated(contents) {
+	if(debugMode) console.log('generateSongRelated', contents);
 	if(!contents.columns || !contents.values) return;
 	
 	let columns = contents.columns;
@@ -595,14 +603,14 @@ function generateRanking(contents) {
 		let selected = document.getElementById('options').value;
 		tr.setAttribute('data-id', row[columnIndexKNID]);
 		if(selected == row[columnIndexKNID]) {
-			tr.classList.add('highlight');
 			tr.classList.add('not-selectable');
+			tr.addEventListener('active', hoverOnRankingRow);
 		}
 		else {
 			tr.style.cursor = 'pointer';
 			tr.addEventListener('click', updateSong);
-			tr.addEventListener('mouseover', hoverOnRow);
-			tr.addEventListener('mouseout', hoverOnRow);
+			tr.addEventListener('mouseover', hoverOnRankingRow);
+			tr.addEventListener('mouseout', hoverOnRankingRow);
 		}
 	
 		//rank no
@@ -633,6 +641,11 @@ function generateRanking(contents) {
 		
 	table.appendChild(tbody);
 	document.getElementById('year-ranking').appendChild(table);
+	
+	for(let selected of document.getElementsByClassName('not-selectable'))
+	{
+		selected.dispatchEvent(new Event('active'));
+	}
 }
 
 
@@ -666,7 +679,12 @@ function updateSong() {
 	// }, 200);
 }
 
+function reduceQueryInString(query) {
+	//fix query in single quotes contains single quotes, see also reduceReleaseTitle
+	return query.replace("'","''");
+}
+
 function reduceReleaseTitle(release) {
 	//exception list to group multiple disc releases (data consistency required in db)
-	return release.replace('Disc 1','').replace('Disc 2','').replace('Disc 3','').trim();
+	return release.replace("'","''").replace('Disc 1','').replace('Disc 2','').replace('Disc 3','').trim();
 }
