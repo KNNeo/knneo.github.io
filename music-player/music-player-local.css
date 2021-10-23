@@ -82,6 +82,14 @@ html {
 	background-color: gray;
 }
 
+.list .highlight > td {
+	background-color: lightgray;
+}
+
+.darked .highlight > td {
+	background-color: gray;
+}
+
 h1 {
 	margin: 20px 0;
 	margin-bottom: 0;

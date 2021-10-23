@@ -3,6 +3,7 @@ let directory = 'file://C:/Users/KAINENG/OneDrive/Music/'; //for audio player, i
 
 //----------------------------//
 //--VARIABLES: DO NOT TOUCH!--//
+let db;
 
 //--STARTUP--//
 window.addEventListener('load', startup);
@@ -47,16 +48,33 @@ function scrollToTop() {
 	window.location.hash = "";
 }
 
+function setTabs() {
+	for(let tab of document.getElementsByClassName('tab'))
+	{
+		let hasModules = Array.from(tab.childNodes).filter(c => c.childNodes.length > 0).length > 0;
+		let button = document.getElementById('button-' + tab.id);
+		button.style.cursor = hasModules ? 'pointer' : '';
+		button.disabled = !hasModules;
+	}
+}
+
+function showTab(activeTab) {
+	for(let tab of document.getElementsByClassName('tab'))
+	{
+		tab.style.display = (tab.id == activeTab ? 'block' : 'none');
+	}
+}
+
 //--FUNCTIONS--//
 function startup() {
 	generateFilters();
 	let query = "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song";
 	if(isMobile())
 		query += " LIMIT 100";
-	queryDb(query, updateOptions);
+	callDb(query, updateOptions);
 }
 
-async function queryDb(query, callback) {
+async function callDb(query, callback) {
 	let time = Date.now();
 	//for webassembly file
 	const SQL = await initSqlJs({
@@ -72,9 +90,9 @@ async function queryDb(query, callback) {
 
 	xhr.onload = e => {
 	  const uInt8Array = new Uint8Array(xhr.response);
-	  const db = new SQL.Database(uInt8Array);
+	  db = new SQL.Database(uInt8Array);
 	  const contents = db.exec(query);
-	  // console.log('queryDb',contents);
+	  // console.log('callDb',contents);
 	  if(contents && contents.length > 0)
 		  callback(contents[0]);
 	  else if(contents)
@@ -82,7 +100,17 @@ async function queryDb(query, callback) {
 	  // contents is now [{columns:['col1','col2',...], values:[[first row], [second row], ...]}]
 	};
 	xhr.send();
-	// console.log('queryDb took', Date.now() - time, 'ms');
+	// console.log('callDb took', Date.now() - time, 'ms');
+}
+
+function queryDb(query, callback) {
+	  const contents = db.exec(query);
+	  // console.log('queryDb',contents);
+	  if(contents && contents.length > 0)
+		  return callback(contents[0]);
+	  else if(contents)
+		  return callback(contents);
+	// console.log('callDb took', Date.now() - time, 'ms');
 }
 
 function generateTabs() {
@@ -179,6 +207,7 @@ function updateOptions(contents) {
 		}
 		if(newOptions.length == 2) //1 result with default
 		{
+			document.getElementById('search').blur();
 			setTimeout(function() {
 				document.getElementById('options').value = contents.values[0][columnIndexKNID];
 				document.getElementById('options').dispatchEvent(new Event('change'));
@@ -209,7 +238,7 @@ function generateLayout(contents) {
 	queryRanking(contents);
 	setTimeout(function() {
 		setTabs();
-		showTab('tab-info');
+		showTab('tab-related');
 	}, 100);
 	scrollToTop();
 }
@@ -311,6 +340,8 @@ function queryRelated(contents) {
 	let columnIndexReleaseTitle = contents.columns.indexOf('ReleaseTitle');
 	let columnIndexReleaseArtistTitle = contents.columns.indexOf('ReleaseArtistTitle');
 	
+	selected = rows[0][columnIndexKNID];
+	
 	//max 10 related same year
 	document.getElementById('songs-related').innerHTML = '';
 	query = "SELECT * FROM Song WHERE KNID <> " + row[columnIndexKNID];
@@ -330,7 +361,7 @@ function queryRelated(contents) {
 	//max 10 related to release
 	document.getElementById('release-related').innerHTML = '';
 	query = "SELECT * FROM Song WHERE KNID <> " + row[columnIndexKNID];
-	query += " AND ReleaseTitle = '" + row[columnIndexReleaseTitle] + "'";
+	query += " AND ReleaseTitle LIKE '%" + reduceReleaseTitle(row[columnIndexReleaseTitle]) + "%'";
 	query += " AND ReleaseArtistTitle = '" + row[columnIndexReleaseArtistTitle] + "'";
 	query += " ORDER BY RANDOM() DESC LIMIT 10";
 	// console.log('queryRelated', query);
@@ -442,9 +473,12 @@ function generateReleaseRelated(contents) {
 	let columns = contents.columns;
 	let rows = contents.values;
 	
+	if(rows.length < 1) return;
+	if(rows[0][contents.columns.indexOf('ReleaseTitle')].length < 1) return;
+	
 	let header = document.createElement('h4');
 	header.classList.add('centered');
-	header.innerText = 'Songs from "' + rows[0][contents.columns.indexOf('ReleaseTitle')] + '"';
+	header.innerText = 'Songs from "' + reduceReleaseTitle(rows[0][contents.columns.indexOf('ReleaseTitle')]) + '"';
 	document.getElementById('release-related').appendChild(header);	
 	
 	let table = document.createElement('table');
@@ -465,7 +499,7 @@ function generateReleaseRelated(contents) {
 		let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
 		
 		let tr = document.createElement('tr');
-	
+
 		let tc = document.createElement('td');
 		tc.style.cursor = 'pointer';
 		tc.setAttribute('data-id', row[columnIndexKNID]);
@@ -543,11 +577,18 @@ function generateRanking(contents) {
 		let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
 		
 		let tr = document.createElement('tr');
+		let selected = document.getElementById('options').value;
 		tr.setAttribute('data-id', row[columnIndexKNID]);
-		tr.style.cursor = 'pointer';
-		tr.addEventListener('click', updateSong);
-		tr.addEventListener('mouseover', hoverOnRow);
-		tr.addEventListener('mouseout', hoverOnRow);
+		if(selected == row[columnIndexKNID]) {
+			tr.classList.add('highlight');
+			tr.classList.add('not-selectable');
+		}
+		else {
+			tr.style.cursor = 'pointer';
+			tr.addEventListener('click', updateSong);
+			tr.addEventListener('mouseover', hoverOnRow);
+			tr.addEventListener('mouseout', hoverOnRow);
+		}
 	
 		//rank no
 		if(row[columnIndexRankNo] != rank)
@@ -579,34 +620,6 @@ function generateRanking(contents) {
 	document.getElementById('year-ranking').appendChild(table);
 }
 
-function updateSong() {
-	let id = this.getAttribute('data-id');
-	let query = "SELECT * FROM Song WHERE KNID = " + id;
-	// console.log('query', query);
-	queryDb(query, updateOptions);
-	
-	document.getElementById('options').value = id;
-	document.getElementById('options').dispatchEvent(new Event('change'));
-	// setTimeout(function() {
-	// }, 200);
-}
-
-function setTabs() {
-	for(let tab of document.getElementsByClassName('tab'))
-	{
-		let hasModules = Array.from(tab.childNodes).filter(c => c.childNodes.length > 0).length > 0;
-		let button = document.getElementById('button-' + tab.id);
-		button.style.cursor = hasModules ? 'pointer' : '';
-		button.disabled = !hasModules;
-	}
-}
-
-function showTab(activeTab) {
-	for(let tab of document.getElementsByClassName('tab'))
-	{
-		tab.style.display = (tab.id == activeTab ? 'block' : 'none');
-	}
-}
 
 //unavailable: requires base64 image store in db
 function generateCoverArt() {
@@ -622,4 +635,23 @@ function generateCoverArt() {
 	cover.style.height = audioHeight + 'px';
 	cover.style.backgroundImage = 'url(data:image/jpg;base64,' + imageString + ')';
 	cover.style.backgroundSize = audioHeight + 'px';
+}
+
+//--HELPER FUNCTIONS--//
+
+function updateSong() {
+	let id = this.getAttribute('data-id');
+	let query = "SELECT * FROM Song WHERE KNID = " + id;
+	// console.log('query', query);
+	queryDb(query, updateOptions);
+	
+	document.getElementById('options').value = id;
+	document.getElementById('options').dispatchEvent(new Event('change'));
+	// setTimeout(function() {
+	// }, 200);
+}
+
+function reduceReleaseTitle(release) {
+	//exception list to group multiple disc releases (data consistency required in db)
+	return release.replace('Disc 1','').replace('Disc 2','').replace('Disc 3','').trim();
 }
