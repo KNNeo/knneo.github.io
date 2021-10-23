@@ -4,6 +4,7 @@ let directory = 'file://C:/Users/KAINENG/OneDrive/Music/'; //for audio player, i
 //----------------------------//
 //--VARIABLES: DO NOT TOUCH!--//
 let db;
+let debugMode = false;
 
 //--STARTUP--//
 window.addEventListener('load', startup);
@@ -238,7 +239,7 @@ function generateLayout(contents) {
 	queryRanking(contents);
 	setTimeout(function() {
 		setTabs();
-		showTab('tab-related');
+		showTab('tab-info');
 	}, 100);
 	scrollToTop();
 }
@@ -287,6 +288,9 @@ function generatePlayer(contents) {
 function generateSongInfo(contents) {
 	document.getElementById('song-info').innerHTML = '';
 	
+	if(debugMode) console.log('generateSongInfo', contents);
+	if(!contents.columns || !contents.values) return;
+	
 	let header = document.createElement('h4');
 	header.classList.add('centered');
 	header.innerText = 'Song Info';
@@ -296,7 +300,6 @@ function generateSongInfo(contents) {
 	let rows = contents.values;
 	
 	let table = document.createElement('table');
-	// table.id = 'table';
 	table.classList.add('list');
 	table.classList.add('centered');
 	table.classList.add('content-box');
@@ -369,9 +372,14 @@ function queryRelated(contents) {
 }
 
 function generaterSongsRelated(contents) {
+	if(debugMode) console.log('generaterSongsRelated', contents);
+	if(!contents.columns || !contents.values) return;
 	
 	let columns = contents.columns;
 	let rows = contents.values;
+	
+	if(rows.length < 1) return;
+	if(rows[0][contents.columns.indexOf('ReleaseYear')].length < 1) return;
 	
 	let header = document.createElement('h4');
 	header.classList.add('centered');
@@ -419,9 +427,14 @@ function generaterSongsRelated(contents) {
 }
 
 function generateArtistRelated(contents) {
+	if(debugMode) console.log('generateArtistRelated', contents);
+	if(!contents.columns || !contents.values) return;
 	
 	let columns = contents.columns;
 	let rows = contents.values;
+	
+	if(rows.length < 1) return;
+	if(rows[0][contents.columns.indexOf('ArtistTitle')].length < 1) return;
 	
 	let header = document.createElement('h4');
 	header.classList.add('centered');
@@ -469,6 +482,8 @@ function generateArtistRelated(contents) {
 }
 
 function generateReleaseRelated(contents) {
+	if(debugMode) console.log('generateReleaseRelated', contents);
+	if(!contents.columns || !contents.values) return;
 	
 	let columns = contents.columns;
 	let rows = contents.values;
