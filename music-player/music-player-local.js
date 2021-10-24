@@ -427,7 +427,6 @@ function generateSongRelated(contents) {
 	for(let row of rows)
 	{
 		let columnIndexKNID = contents.columns.indexOf('KNID');
-		let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
 		let columnIndexSongTitle = contents.columns.indexOf('SongTitle');
 		let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
 		
@@ -436,7 +435,7 @@ function generateSongRelated(contents) {
 		let tc = document.createElement('td');
 		tc.style.cursor = 'pointer';
 		tc.setAttribute('data-id', row[columnIndexKNID]);
-		tc.innerText = row[columnIndexKNYEAR] + ' - ' + row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle];
+		tc.innerText = row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle];
 		tc.addEventListener('click', updateSong);
 		tr.appendChild(tc);
 		
@@ -484,14 +483,13 @@ function generateArtistRelated(contents) {
 		let columnIndexKNID = contents.columns.indexOf('KNID');
 		let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
 		let columnIndexSongTitle = contents.columns.indexOf('SongTitle');
-		let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
 		
 		let tr = document.createElement('tr');
 	
 		let tc = document.createElement('td');
 		tc.style.cursor = 'pointer';
 		tc.setAttribute('data-id', row[columnIndexKNID]);
-		tc.innerText = row[columnIndexKNYEAR] + ' - ' + row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle];
+		tc.innerText = row[columnIndexKNYEAR] + ' - ' + row[columnIndexSongTitle];
 		tc.addEventListener('click', updateSong);
 		tr.appendChild(tc);
 		
@@ -695,6 +693,8 @@ function updateSong() {
 	
 	document.getElementById('options').value = id;
 	document.getElementById('options').dispatchEvent(new Event('change'));
+	
+	document.getElementById('search').value = '';
 	// setTimeout(function() {
 	// }, 200);
 }
