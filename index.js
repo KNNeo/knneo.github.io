@@ -20,3 +20,28 @@ function toggleDarkMode() {
 	else
 		document.getElementsByTagName('html')[0].classList.add('darked');
 }
+
+//*tracking prevention*//
+/*
+let keys = 0;
+if(new Date().getSeconds() % 10 > 0)
+	document.getElementById("landing-cover").style.display = 'none';
+//if mobile, tap 10 times
+document.addEventListener('touchstart', function(event) {
+	console.log(keys++);
+	if (keys >= 10) {
+		document.getElementById("landing-cover").style.display = 'none';
+	}
+	
+});
+//if desktop, hit 10 keys within 1 second
+document.addEventListener('keyup', function(event) {
+	event.preventDefault();
+	console.log(keys++);
+	if (keys >= 10) {
+		document.getElementById("landing-cover").style.display = 'none';
+	}
+	
+	setTimeout(function() { keys = 0; }, 1000);
+});
+*/
