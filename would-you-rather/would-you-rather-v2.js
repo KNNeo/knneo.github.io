@@ -27,6 +27,74 @@ const situations = [
 				queryTitle: 'Hair',
 				queryString: "Would you prefer long-haired {name} or short-haired {name}?",
 			},
+			{
+				queryTitle: 'Last Round',
+				queryString: "It the last round of a board game. Who would you rather let win? {name} or {name}? (Assume both are tied)",
+			},
+			{
+				queryTitle: 'Bump',
+				queryString: "Would you rather do a chest bump with {name} or {name}?",
+			},
+			{
+				queryTitle: 'Sweet Talk',
+				queryString: "Would you rather say sweet nothings all day with {name} or {name}?",
+			},
+			{
+				queryTitle: 'Meal',
+				queryString: "Would you rather treat {name} to a meal at the restaurant or have a cheap takeaway meal with {name}?",
+			},
+			{
+				queryTitle: 'Housewife',
+				queryString: "If {name} came to you after your work from home and asked \"Would you rather have dinner, have a bath or me?\", what would you prefer?",
+			},
+			{
+				queryTitle: 'Day/Night',
+				queryString: "Would you rather spend the day with {name} or spend the night with {name}?",
+			},
+			{
+				queryTitle: 'Minutes/Seconds',
+				queryString: "Would you rather have 2 minutes with {name} or spend 2 seconds with {name}?",
+			},
+			{
+				queryTitle: 'BFF',
+				queryString: "Would you rather be BFFs with {name} (and never be able to marry her) and/or marry {name} (and let her be your sole partner forever)?",
+			},
+			{
+				queryTitle: 'Kidnap',
+				queryString: "Who would you rather be kidnap for 24 hours and do anything with but nothing will be remembered? {name} or {name}?",
+			},
+			{
+				queryTitle: 'Betrayal',
+				queryString: "Would you rather stay with your current date {name} or betray her and go date {name}?",
+			},
+			{
+				queryTitle: 'Harem',
+				queryString: "It's a harem!! Would you rather date {name} who is your childhood friend, or {name} who is your long lost step sibling, or {name} who landed on top of you by accident, or {name} who suddenly asked you out to confess to you?",
+			},
+			{
+				queryTitle: 'Affair',
+				queryString: "Would you rather {name} be your wife while you have an affair with {name}? Or vice versa?",
+			},
+			{
+				queryTitle: 'Island',
+				queryString: "You and {name} are stuck in an uninhabited island. Would you rather escape in a lifeboat only enough for one, try to call for rescue while waiting together, or procreate and start a new life?",
+			},
+			{
+				queryTitle: 'Hug/Kiss',
+				queryString: "Would you rather receive a hug from {name} or receive a kiss on the cheek from {name}?",
+			},
+			{
+				queryTitle: 'Morning',
+				queryString: "You were drunk last night and ended up on a bed naked in a hotel room the next morning. Would you rather {name} or {name} to be sleeping beside you?",
+			},
+			{
+				queryTitle: 'Confessed',
+				queryString: "Would you rather be more surprised if {name} or {name} ended up liking you in the first place, way before you could've confessed to them?",
+			},
+			{
+				queryTitle: 'BDSM',
+				queryString: "You are in a middle of a BDSM situation. Would you rather {name} be the sadist to you and {name} be the masochist or vice versa?",
+			},
 		],
 	},
 ];
@@ -92,11 +160,10 @@ let newList = [];
 function getResultFromNames(module) {
 	let moduleName = module.target.name;
 	let categoryName = module.target.innerHTML;
-    let text = document.getElementById("inputList").value.trim();
+    let text = document.getElementById("input-list").value.trim();
 	let result = document.getElementById("nameResultBox");
 	nameList = text.split("\n");
 	if(!result.innerHTML.includes('flexi-input')) result.innerHTML = "";
-	//if(document.getElementById("inputList").name !== "Load People Name Preset") result.innerHTML = "Wrong list loaded!";
 	if(nameList.length < 4) result.innerHTML = "List is too short! Minimum 4 names!";
 	else if(text.length > 0)
 	{
@@ -157,53 +224,9 @@ function getResultFromNames(module) {
 function displayOutput(categoryName) {
 	switch(categoryName)
 	{
-		// case "Dating":
-			// return "Would you rather go on a date with {name} or {name}?";
-		// case "F**k Marry Kill":
-			// return "Who would you rather f**k, marry or kill: {name}, {name} or {name}?";
-		// case "Save":
-			// return "Who would you rather save first when both of them fell into the river {name} or {name}? (Assume both cannot swim)";
 		case "Mirror":
 			let mirrorFeature = mirrorFeatures[Math.floor(Math.random() * mirrorFeatures.length)];
 			return "Mirror, mirror, on the wall; Who is the " + mirrorFeature + " of them all? {name} or {name} or {name}?";
-		// case "Messager":
-			// return "Would you rather exchange numbers and message every day with {name} or {name}?";
-		// case "Hair":
-			// return "Would you prefer long-haired {name} or short-haired {name}?";
-		case "Last Round":
-			return "It the last round of a board game. Who would you rather let win? {name} or {name}? (Assume both are tied)";
-		case "Bump":
-			return "Would you rather do a chest bump with {name} or {name}?";
-		case "Sweet Talk":
-			return "Would you rather say sweet nothings all day with {name} or {name}?";
-		case "Meal":
-			return "Would you rather treat {name} to a meal at the restaurant or have a cheap takeaway meal with {name}?";
-		case "Housewife":
-			return "If {name} came to you after your work from home and asked \"Would you rather have dinner, have a bath or me?\", what would you prefer?";
-		case "Day/Night":
-			return "Would you rather spend the day with {name} or spend the night with {name}?";
-		case "Minutes/Seconds":
-			return "Would you rather have 2 minutes with {name} or spend 2 seconds with {name}?";
-		case "BFF":
-			return "Would you rather be BFFs with {name} (and never be able to marry her) and/or marry {name} (and let her be your sole partner forever)?";
-		case "Kidnap":
-			return "Who would you rather be kidnap for 24 hours and do anything with but nothing will be remembered? {name} or {name}?";
-		case "Betrayal":
-			return "Would you rather stay with your current date {name} or betray her and go date {name}?";
-		case "Harem":
-			return "It a harem!! Would you rather date {name} who is your childhood friend, or {name} who is your long lost step sibling, or {name} who landed on top of you by accident, or {name} who suddenly asked you out to confess to you?";
-		case "Affair":
-			return "Would you rather {name} be your wife while you have an affair with {name}? Or vice versa?";
-		case "Island":
-			return "You and {name} are stuck in an uninhabited island. Would you rather escape in a lifeboat only enough for one, try to call for rescue while waiting together, or procreate and start a new life?";
-		case "Hug/Kiss":
-			return "Would you rather receive a hug from {name} or receive a kiss on the cheek from {name}?";
-		case "Morning":
-			return "You were drunk last night and ended up on a bed naked in a hotel room the next morning. Would you rather {name} or {name} to be sleeping beside you?";
-		case "Confessed":
-			return "Would you rather be more surprised if {name} or {name} ended up liking you in the first place, way before you could've confessed to them?";
-		case "BDSM":
-			return "You are in a middle of a BDSM situation. Would you rather {name} be the sadist to you and {name} be the masochist or vice versa?";
 		default:
 			return "{name} or {name}?";
 	}
@@ -233,11 +256,11 @@ function toggleCensor() {
 
 function getResultFromTitles(module) {
 	let categoryName = module.innerHTML;
-    let text = document.getElementById("inputList").value.trim();
+    let text = document.getElementById("input-list").value.trim();
 	nameList = text.split("\n");
 	let result = document.getElementById("result2");
 	result.innerHTML = "";
-	if(document.getElementById("inputList").name !== "Load Show Titles Preset") result.innerHTML = "Wrong list loaded!";
+	if(document.getElementById("input-list").name !== "Load Show Titles Preset") result.innerHTML = "Wrong list loaded!";
 	else if(text.length > 0)
 	{
 		let name1 = nameList[Math.floor(Math.random() * nameList.length)];
@@ -259,7 +282,7 @@ function getResultFromTitles(module) {
 
 function loadPreset(module) {
 	var categoryName = module.target.id;
-    var text = document.getElementById("inputList");
+    var text = document.getElementById("input-list");
 	var loadedText = "";
 	
 	if(categoryName == "peopleSortRankingInput")
@@ -270,7 +293,6 @@ function loadPreset(module) {
 	text.value = loadedText.replace(/,/g,'\n');
 	text.name = module.target.innerText;
 }
-
 
 //--GENERATE HTML--//
 window.onload = startup();
@@ -287,7 +309,7 @@ function startup() {
 	inputBox.classList.add('input-box');
 	
 	let textInput = document.createElement('textarea');
-	textInput.id = 'inputList';
+	textInput.id = 'input-list';
 	textInput.rows = 10;
 	textInput.cols = 50;
 	textInput.placeholder = 'Input list of names here...';
