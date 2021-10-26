@@ -112,6 +112,10 @@ function displayOutput(categoryName) {
 			return "Would you rather receive a hug from {name} or receive a kiss on the cheek from {name}?";
 		case "Morning":
 			return "You were drunk last night and ended up on a bed naked in a hotel room the next morning. Would you rather {name} or {name} to be sleeping beside you?";
+		case "Confessed":
+			return "Would you rather be more surprised if {name} or {name} ended up liking you in the first place, way before you could've confessed to them?";
+		case "BDSM":
+			return "You are in a middle of a BDSM situation. Would you rather {name} be the sadist to you and {name} be the masochist or vice versa?";
 		default:
 			return "{name} or {name}?";
 	}
