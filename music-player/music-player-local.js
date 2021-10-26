@@ -10,6 +10,7 @@ let altMode = false; //will switch between titles and alt titles [TODO]
 //--STARTUP--//
 window.addEventListener('load', startup);
 window.addEventListener('resize', setTabs);
+window.addEventListener('keyup', setKeyCommand);
 
 //--EVENTS--//
 function randomSong() {
@@ -87,6 +88,17 @@ function showTab(activeTab) {
 		tab.style.display = tab.id == activeTab ? 'block' : 'none';
 		if(tab.classList.contains('tab-view')) tab.style.display = 'inline-block';
 	}
+}
+
+function setKeyCommand() {
+	if (event.keyCode === 32 && document.getElementById('player') != null) {
+		event.preventDefault();
+		if(document.getElementById('player').paused)
+			document.getElementById('player').play();
+		else
+			document.getElementById('player').pause();
+	}
+	return false;
 }
 
 //--FUNCTIONS--//
