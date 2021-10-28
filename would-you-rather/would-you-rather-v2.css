@@ -59,3 +59,8 @@ button:active {
 	border-bottom: 1px solid;
 	text-align: center;
 }
+
+.setting {
+	display: block;
+	padding: 5px;
+}

@@ -2,7 +2,7 @@
 const headerTitle = 'Would you rather...?';
 const situations = [
 	{
-		moduleId: 'name',
+		moduleId: 'name', //unique id, also used to identify term in each queryString in categories
 		moduleTitle: 'Load People Name Preset', //used for button to load this as list
 		categoryTitle: 'People Names', //to group all category buttons below
 		categories: [
@@ -95,6 +95,10 @@ const situations = [
 				queryTitle: 'BDSM',
 				queryString: "You are in a middle of a BDSM situation. Would you rather {name} be the sadist to you and {name} be the masochist or vice versa?",
 			},
+			{
+				queryTitle: 'Blanket',
+				queryString: "It was a chilly and thunderous night. Would you rather wait up to see {name} or {name} snug under your blanket on your bed?",
+			},
 		],
 	},
 ];
@@ -157,7 +161,7 @@ let mirrorFeatures = ["cutest","coolest","most beautiful","funniest","sexiest"];
 let nameList = [];
 let newList = [];
 
-function getResultFromNames(module) {
+function getResultFromTerm(module) {
 	let moduleName = module.target.name;
 	let categoryName = module.target.innerHTML;
     let text = document.getElementById("input-list").value.trim();
@@ -171,8 +175,8 @@ function getResultFromNames(module) {
 		if(categoryName == "Custom")
 		{
 			if(result.innerHTML.includes('flexi-name')) {
-				result.getElementsByClassName('flexi-name')[0].innerText = generateName();
-				result.getElementsByClassName('flexi-name')[1].innerText = generateName();
+				result.getElementsByClassName('flexi-name')[0].innerText = generateTerm();
+				result.getElementsByClassName('flexi-name')[1].innerText = generateTerm();
 			}
 			else {				
 				let holder = document.createElement('div');
@@ -187,7 +191,7 @@ function getResultFromNames(module) {
 				
 				let randomName1 = document.createElement('span');
 				randomName1.classList.add('flexi-name');
-				randomName1.innerText = generateName();
+				randomName1.innerText = generateTerm();
 				holder.appendChild(randomName1);
 							
 				let text2 = document.createElement('span');
@@ -200,7 +204,7 @@ function getResultFromNames(module) {
 				
 				let randomName2 = document.createElement('span');
 				randomName2.classList.add('flexi-name');
-				randomName2.innerText = generateName();
+				randomName2.innerText = generateTerm();
 				holder.appendChild(randomName2);
 				
 				let text3 = document.createElement('span');
@@ -212,10 +216,10 @@ function getResultFromNames(module) {
 		}
 		else
 			result.innerHTML = module.target.value
-								.replace("{name}", generateName())
-								.replace("{name}", generateName())
-								.replace("{name}", generateName())
-								.replace("{name}", generateName());
+								.replace("{name}", generateTerm())
+								.replace("{name}", generateTerm())
+								.replace("{name}", generateTerm())
+								.replace("{name}", generateTerm());
 	}
 	else
 		result.innerHTML = "Please key in something!";
@@ -232,7 +236,7 @@ function displayOutput(categoryName) {
 	}
 }
 
-function generateName() {
+function generateTerm() {
 	let newName = nameList[Math.floor(Math.random() * nameList.length)];
 	
 	while(newList.indexOf(newName) > -1)
@@ -252,32 +256,6 @@ function censor(name) {
 
 function toggleCensor() {
 	let checkbox = document.getElementById('censorName');	
-}
-
-function getResultFromTitles(module) {
-	let categoryName = module.innerHTML;
-    let text = document.getElementById("input-list").value.trim();
-	nameList = text.split("\n");
-	let result = document.getElementById("result2");
-	result.innerHTML = "";
-	if(document.getElementById("input-list").name !== "Load Show Titles Preset") result.innerHTML = "Wrong list loaded!";
-	else if(text.length > 0)
-	{
-		let name1 = nameList[Math.floor(Math.random() * nameList.length)];
-		let name2 = nameList[Math.floor(Math.random() * nameList.length)];
-		while(name2 == name1)
-			name2 = nameList[Math.floor(Math.random() * nameList.length)];
-		if(categoryName == "Forever")
-			result.innerHTML = "What show would you rather watch for the rest of your life: \"" + name1 + "\" or \"" + name2 + "\"?";
-		else if(categoryName == "Plot")
-			result.innerHTML = "Which show has the best plot? \"" + name1 + "\" or \"" + name2 + "\"?";
-		else if(categoryName == "Character")
-			result.innerHTML = "Which show has the best characters? \"" + name1 + "\" or \"" + name2 + "\"?";
-		else if(categoryName == "Cast")
-			result.innerHTML = "Which show has the best cast of voice actors? \"" + name1 + "\" or \"" + name2 + "\"?";
-	}
-	else
-		result.innerHTML = "Please key in something!";
 }
 
 function loadPreset(module) {
@@ -359,7 +337,7 @@ function startup() {
 			resultCategory.value = 'Submit';
 			resultCategory.innerText = situation.queryTitle;
 			resultCategory.value = situation.queryString;
-			resultCategory.addEventListener('click', getResultFromNames);
+			resultCategory.addEventListener('click', getResultFromTerm);
 			showResult.appendChild(resultCategory);			
 		}
 		
@@ -371,8 +349,6 @@ function startup() {
 		resultComponent.appendChild(showResult);
 	}
 	
-	
-	
 	inputModule.appendChild(resultComponent);
 	
 	document.body.appendChild(inputModule);
@@ -382,6 +358,7 @@ function startup() {
 	settings.classList.add('settings');
 		
 		let back = document.createElement('a');
+		back.classList.add('setting');
 		back.href = '../index.html';
 		back.innerText = 'Back';
 		settings.appendChild(back);
@@ -390,6 +367,7 @@ function startup() {
 		darkmode.id = 'darkmode';
 		darkmode.title = 'Toggle Dark Mode';
 		darkmode.classList.add('material-icons');
+		darkmode.classList.add('setting');
 		darkmode.innerText = 'brightness_high';
 		darkmode.href = 'javascript:void(0);';
 		darkmode.addEventListener('click', toggleDarkMode);
