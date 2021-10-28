@@ -314,16 +314,25 @@ function convertStringArrayToHistogram(chartData, chartLabel) {
 	return histogramData;
 }
 
+function closestClass(inputElement, targetClassName) {
+    while (inputElement.className != targetClassName && inputElement.parentNode.tagName.toUpperCase() != "BODY") {
+        inputElement = inputElement.parentNode;
+    }
+    return inputElement;
+}
+
 function scrollToNextPage() {
-	this.parentElement.parentElement.nextElementSibling.scrollIntoView();
+	if(closestClass(this, 'section').nextElementSibling != null)
+		closestClass(this, 'section').nextElementSibling.scrollIntoView();
 }
 
 function scrollToPrevPage() {
-	this.parentElement.parentElement.previousElementSibling.scrollIntoView();
+	if(closestClass(this, 'section').previousElementSibling != null)
+		closestClass(this, 'section').previousElementSibling.scrollIntoView();
 }
 
 function scrollToMainPage(firstLoad) {
-	console.log(firstLoad);
+	// console.log(firstLoad);
 	document.getElementsByClassName('page')[0].firstElementChild.scrollIntoView();
 	if(firstLoad == true && document.getElementById('main') != null)
 		document.getElementById('main').scrollIntoView();
@@ -565,8 +574,8 @@ function loadTimeline(sectionNo, chartContents) {
 		options: {
 			indexAxis: 'y',
 			responsive: true,
-			maintainAspectRatio: true,
-			// aspectRatio: 0.5,
+			maintainAspectRatio: false,
+			aspectRatio: 0.5,
 			datasets: {
 				bar: {
 					barPercentage: 1
@@ -611,8 +620,8 @@ function loadTimeline(sectionNo, chartContents) {
 		options: {
 			indexAxis: chartContents.type == 'bar' ? (chartContents.chartBarOrientation || 'y') : undefined,
 			responsive: true,
-			maintainAspectRatio: true,
-			// aspectRatio: 0.5,
+			maintainAspectRatio: false,
+			aspectRatio: 0.5,
 			datasets: {
 				bar: {
 					barPercentage: 1
