@@ -1,9 +1,5 @@
 //--CONFIG--//
 let directory = 'file://C:/Users/KAINENG/OneDrive/Music/'; //for audio player, in {directory}/{knyear}/{filename}.mp3
-
-//----------------------------//
-//--VARIABLES: DO NOT TOUCH!--//
-let db;
 let debugMode = false; //will show all available logging on console
 let altMode = false; //will switch between titles and alt titles [TODO]
 
@@ -91,6 +87,7 @@ function showTab(activeTab) {
 }
 
 function setKeyCommand() {
+	// space: play/pause
 	if (event.keyCode === 32 && document.getElementById('player') != null) {
 		event.preventDefault();
 		if(document.getElementById('player').paused)
@@ -103,11 +100,17 @@ function setKeyCommand() {
 
 //--FUNCTIONS--//
 function startup() {
+	renderVariables();
 	generateFilters();
 	let query = "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song";
 	if(isMobile())
 		query += " LIMIT 100";
 	callDb(query, updateOptions);
+}
+
+function renderVariables() {
+	// to allow multiple instances of charts based on data, in format 'container<no>'
+	window['db'] = null;
 }
 
 async function callDb(query, callback) {
@@ -126,8 +129,8 @@ async function callDb(query, callback) {
 
 	xhr.onload = e => {
 	  const uInt8Array = new Uint8Array(xhr.response);
-	  db = new SQL.Database(uInt8Array);
-	  const contents = db.exec(query);
+	  window['db'] = new SQL.Database(uInt8Array);
+	  const contents = window['db'].exec(query);
 	  // console.log('callDb',contents);
 	  if(contents && contents.length > 0)
 		  callback(contents[0]);
@@ -142,7 +145,7 @@ async function callDb(query, callback) {
 
 function queryDb(query, callback) {
 	const time = Date.now();	
-	const contents = db.exec(query);
+	const contents = window['db'].exec(query);
 	// console.log('queryDb',contents);
 	if(contents && contents.length > 0)
 	  return callback(contents[0]);
