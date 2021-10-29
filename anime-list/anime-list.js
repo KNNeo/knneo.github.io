@@ -451,7 +451,7 @@ function inverseRadio(val) {
 let h3height = document.getElementsByTagName('h3')[0].getBoundingClientRect().height;
 let headerHeight = document.getElementById('header').offsetHeight;
 let footerHeight = document.getElementById('footer').offsetHeight;
-document.getElementById('anime-list').style.height = (window.innerHeight - h3height - headerHeight - footerHeight - 0.2*window.innerHeight) + 'px';	
+document.getElementById('anime-list').style.height = (window.innerHeight - h3height - headerHeight - footerHeight - 0.2*window.innerHeight - 20) + 'px';	
 
 //click season/series to scroll to timeline first box
 function enableSelectTitle() {
