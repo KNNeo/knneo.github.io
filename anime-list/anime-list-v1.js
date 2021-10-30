@@ -189,7 +189,7 @@ function generateList(categoryId, categoryTitle, filterList) {
 	currentList.id = categoryId;
 	currentList.classList.add('category');
 	
-		let block = document.createElement('blockquote');
+		let block = document.createElement('h4');
 		block.classList.add('tr_bq');
 		
 			let title = document.createElement('span');
