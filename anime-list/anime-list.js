@@ -128,6 +128,10 @@ let customArray = [
 { sortOrder:126, year:2021, season: 'Summer', length:1, seriesTitle: '', type:'TV', title:'Shinigami Bocchan to Kuro Maid', altTitle:'死神坊ちゃんと黒メイド', handle:'bocchan_anime', imgURL:'https://pbs.twimg.com/profile_images/1377637066184351750/EDzqxnRR_400x400.jpg' },
 { sortOrder:127, year:2021, season: 'Summer', length:1, seriesTitle: '', type:'TV', title:'Sonny Boy', altTitle:'', handle:'sonnyboy_anime', imgURL:'https://pbs.twimg.com/profile_images/1415738208835407872/qdHMoMo3.jpg' },
 { sortOrder:128, year:2021, season: 'Summer', length:1, seriesTitle: '', type:'TV', title:'Tantei wa Mou, Shindeiru.', altTitle:'探偵はもう、死んでいる。', handle:'tanteiwamou_', imgURL:'https://pbs.twimg.com/profile_images/1245369835896229889/JDG3Y_Wo.png' },
+{ sortOrder:129, year:2021, season: 'Autumn', length:1, seriesTitle: '', type:'TV', title:'Komi-san wa, Komyushou Desu.', altTitle:'古見さんは、コミュ症です。', handle:'comisanvote', imgURL:'https://pbs.twimg.com/profile_images/1383659174643470342/CllYIDt4.jpg' },
+{ sortOrder:130, year:2021, season: 'Autumn', length:1, seriesTitle: '', type:'TV', title:'Taishou Otome Otogibanashi', altTitle:'大正オトメ御伽話', handle:'otome_otogi', imgURL:'https://pbs.twimg.com/profile_images/1430472102310596612/2GvhVjP-.jpg' },
+{ sortOrder:131, year:2021, season: 'Autumn', length:1, seriesTitle: '', type:'TV', title:'Senpai ga Uzai Kouhai no Hanashi', altTitle:'先輩がうざい後輩の話', handle:'uzai_anime', imgURL:'https://pbs.twimg.com/profile_images/1425399770781130753/aE3OW1Lt.jpg' },
+
 
 ];
 
