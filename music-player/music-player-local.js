@@ -385,16 +385,27 @@ function queryRelated(contents) {
 	let columnIndexReleaseYear = contents.columns.indexOf('ReleaseYear');
 	let columnIndexReleaseTitle = contents.columns.indexOf('ReleaseTitle');
 	let columnIndexReleaseArtistTitle = contents.columns.indexOf('ReleaseArtistTitle');
+	let columnIndexReleaseDateCreated = contents.columns.indexOf('DateCreated');
+
+	//max 10 related within 1 month
+	document.getElementById('songs-related-date').innerHTML = '';
+	let convertDate = "replace(DateCreated,'.','-')";
+	let currentDate = "(select date("+convertDate+") from Song where KNID = "+row[columnIndexKNID]+")";
+	let dateRange = "date("+convertDate+") between date("+currentDate+",'-1 months') and date("+currentDate+",'+1 months')";
 	
-	selected = rows[0][columnIndexKNID];
+	query = "SELECT * FROM Song WHERE KNID <> " + row[columnIndexKNID];
+	query += " AND " + dateRange;
+	query += " ORDER BY RANDOM() DESC LIMIT 10";
+	if(debugMode) console.log('generateSongRelatedByDate', query);
+	queryDb(query, generateSongRelatedByDate);
 	
 	//max 10 related same year
-	document.getElementById('songs-related').innerHTML = '';
+	document.getElementById('songs-related-year').innerHTML = '';
 	query = "SELECT * FROM Song WHERE KNID <> " + row[columnIndexKNID];
 	query += " AND ReleaseYear = '" + row[columnIndexReleaseYear] + "'";
 	query += " ORDER BY RANDOM() DESC LIMIT 10";
-	if(debugMode) console.log('querySongsRelated', query);
-	queryDb(query, generateSongRelated);
+	if(debugMode) console.log('generateSongRelatedByYear', query);
+	queryDb(query, generateSongRelatedByYear);
 	
 	//max 10 related to artist
 	document.getElementById('artist-related').innerHTML = '';
@@ -414,8 +425,8 @@ function queryRelated(contents) {
 	queryDb(query, generateReleaseRelated);
 }
 
-function generateSongRelated(contents) {
-	if(debugMode) console.log('generateSongRelated', contents);
+function generateSongRelatedByDate(contents) {
+	if(debugMode) console.log('generateSongRelatedByDate', contents);
 	if(!contents.columns || !contents.values) return;
 	
 	let columns = contents.columns;
@@ -426,8 +437,8 @@ function generateSongRelated(contents) {
 	
 	let header = document.createElement('h4');
 	header.classList.add('centered');
-	header.innerText = 'Songs from ' + rows[0][contents.columns.indexOf('ReleaseYear')];
-	document.getElementById('songs-related').appendChild(header);	
+	header.innerText = 'Songs within 3 months';
+	document.getElementById('songs-related-date').appendChild(header);	
 	
 	let table = document.createElement('table');
 	// table.id = 'table';
@@ -465,7 +476,61 @@ function generateSongRelated(contents) {
 	}
 		
 	table.appendChild(tbody);
-	document.getElementById('songs-related').appendChild(table);
+	document.getElementById('songs-related-date').appendChild(table);
+}
+
+function generateSongRelatedByYear(contents) {
+	if(debugMode) console.log('generateSongRelatedByYear', contents);
+	if(!contents.columns || !contents.values) return;
+	
+	let columns = contents.columns;
+	let rows = contents.values;
+	
+	if(rows.length < 1) return;
+	if(rows[0][contents.columns.indexOf('ReleaseYear')].length < 1) return;
+	
+	let header = document.createElement('h4');
+	header.classList.add('centered');
+	header.innerText = 'Songs from ' + rows[0][contents.columns.indexOf('ReleaseYear')];
+	document.getElementById('songs-related-year').appendChild(header);	
+	
+	let table = document.createElement('table');
+	// table.id = 'table';
+	table.classList.add('list');
+	table.classList.add('centered');
+	table.classList.add('content-box');
+	table.classList.add('not-selectable');
+	
+	let tbody = document.createElement('tbody');
+	
+	//header
+	for(let row of rows)
+	{
+		let columnIndexKNID = contents.columns.indexOf('KNID');
+		let columnIndexSongTitle = contents.columns.indexOf('SongTitle');
+		let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
+		
+		let tr = document.createElement('tr');
+	
+		let tc = document.createElement('td');
+		tc.style.cursor = 'pointer';
+		tc.setAttribute('data-id', row[columnIndexKNID]);
+		tc.innerText = row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle];
+		tc.addEventListener('click', updateSong);
+		tr.appendChild(tc);
+		
+		//click to play
+		// let td = document.createElement('td');
+		// td.innerText = rowVal;
+		// if(rowVal.toString().includes('://'))
+			// td.innerHTML = '<a target="_blank" href="' + rowVal + '">' + rowVal + '</a>';
+		// tr.appendChild(td);
+		
+		tbody.appendChild(tr);	
+	}
+		
+	table.appendChild(tbody);
+	document.getElementById('songs-related-year').appendChild(table);
 }
 
 function generateArtistRelated(contents) {
