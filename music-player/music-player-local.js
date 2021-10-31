@@ -1,4 +1,5 @@
 //--CONFIG--//
+let defaultTitle = 'Klassic Note Web';
 let directory = 'file://C:/Users/KAINENG/OneDrive/Music/'; //for audio player, in {directory}/{knyear}/{filename}.mp3
 let debugMode = false; //will show all available logging on console
 let altMode = false; //will switch between titles and alt titles [TODO]
@@ -58,14 +59,16 @@ function setTabs() {
 	for(let tab of document.getElementsByClassName('tab'))
 	{
 		let hasModules = Array.from(tab.childNodes).filter(c => c.childNodes.length > 0).length > 0;
-		let button = document.getElementById('button-' + tab.id);
-		button.style.cursor = hasModules ? 'pointer' : '';
-		button.disabled = !hasModules;
-		if(hasModules) totalModules++;
-		
+		let tabButton = document.getElementById('button-' + tab.id);
+		if(tabButton != null)
+		{
+			tabButton.style.cursor = hasModules ? 'pointer' : '';
+			tabButton.disabled = !hasModules;
+			if(hasModules) totalModules++;
+		}
 	}
 	
-	console.log('totalModules', totalModules);
+	// console.log('totalModules', totalModules);
 	document.getElementById('tab-buttons').style.display = isWidescreen ? 'none' : '';
 	for(let tab of document.getElementsByClassName('tab'))
 	{
@@ -292,6 +295,9 @@ function generatePlayer(contents) {
 	let columnIndexKNID = contents.columns.indexOf('KNID');
 	let columnIndexFilename = contents.columns.indexOf('Filename');
 	let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
+	let columnIndexSongTitle = contents.columns.indexOf('SongTitle');
+	let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
+	let columnIndexReleaseTitle = contents.columns.indexOf('ReleaseTitle');
 	let filename = row[columnIndexFilename];
 	let knyear = row[columnIndexKNYEAR];
 	
@@ -308,6 +314,12 @@ function generatePlayer(contents) {
 	audio.id = 'player';
 	audio.setAttribute('data-id', row[columnIndexKNID]);
 	audio.classList.add('player');
+	audio.addEventListener('play', function() {
+		document.title = row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle] + ' - ' + defaultTitle;
+	});
+	audio.addEventListener('pause', function() {
+		document.title = defaultTitle;
+	});
 	audio.addEventListener('canplay', function() {
 		document.getElementById('overlay').classList.add('hidden');
 	});
@@ -326,6 +338,16 @@ function generatePlayer(contents) {
 	
 	audio.appendChild(source);
 	document.getElementById('music').appendChild(audio);
+	
+	//update MediaSession API
+	if ('mediaSession' in navigator) {
+		navigator.mediaSession.metadata = new MediaMetadata({
+			title: row[columnIndexSongTitle],
+			artist: row[columnIndexArtistTitle],
+			album: row[columnIndexReleaseTitle]
+		});
+		if(debugMode) console.log('metadata', navigator.mediaSession.metadata.toString());
+	}
 }
 
 function generateSongInfo(contents) {
