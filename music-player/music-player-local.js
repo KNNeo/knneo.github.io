@@ -15,6 +15,11 @@ function randomSong() {
 	document.getElementById('search').value = '';
 	let query = "SELECT COUNT(*) FROM Song";
 	// console.log('query', query);
+	if(document.getElementById('player') != null && document.getElementById('player').buffered.length < 1) 
+	{
+		window['playlist'] = [];
+		document.getElementById('random-count').innerText = '';
+	}
 	queryDb(query, function(content) {
 		// console.log('content', content);
 		let total = content.values[0][0];
@@ -23,8 +28,11 @@ function randomSong() {
 		let random = 0;
 		do {
 			random = Math.floor((Math.random() * total));
-			window['playlist'].push(random);
-			songsToQueue--;
+			if(window['playlist'].indexOf(random) < 0)
+			{
+				window['playlist'].push(random);
+				songsToQueue--;
+			}
 		}while(songsToQueue > 0);
 		// console.log('playlist',window['playlist']);
 		updateQueueCount();
