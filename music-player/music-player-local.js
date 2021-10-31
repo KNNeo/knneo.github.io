@@ -35,6 +35,15 @@ function randomSong() {
 	});
 };
 
+function clearQueue() {
+	event.preventDefault();
+	window['playlist'] = [];
+	document.getElementById('random-count').innerText = 'Queue cleared';
+	setTimeout(function() {
+		document.getElementById('random-count').innerText = '';
+	}, 2000);
+}
+
 function hoverOnRankingRow() {
 	let cells = this.getElementsByTagName('td');
 	let prevCells = this.previousSibling.getElementsByTagName('td');
