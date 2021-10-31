@@ -7,7 +7,8 @@ let altMode = false; //will switch between titles and alt titles [TODO]
 //--STARTUP--//
 window.addEventListener('load', startup);
 window.addEventListener('resize', setTabs);
-window.addEventListener('keyup', setKeyCommand);
+window.addEventListener('keyup', setKeyUp);
+window.addEventListener('keydown', setKeyDown);
 
 //--EVENTS--//
 function randomSong() {
@@ -17,11 +18,20 @@ function randomSong() {
 	queryDb(query, function(content) {
 		// console.log('content', content);
 		let total = content.values[0][0];
-		let random = Math.floor((Math.random() * total));
-		let optQuery = "SELECT * FROM Song WHERE KNID = " + random;
+		
+		let songsToQueue = window['shifted'] ? 10 : 1;
+		let random = 0;
+		do {
+			random = Math.floor((Math.random() * total));
+			window['playlist'].push(random);
+			songsToQueue--;
+		}while(songsToQueue > 0);
+		// console.log('playlist',window['playlist']);
+		updateQueueCount();
+		let optQuery = "SELECT * FROM Song WHERE KNID = " + window['playlist'][0];
 		// console.log('optQuery', optQuery);
-		queryDb(optQuery, updateOptions);
-
+		if(document.getElementById('player') == null || document.getElementById('player').paused)
+			queryDb(optQuery, updateOptions);
 	});
 };
 
@@ -79,6 +89,9 @@ function setTabs() {
 		tab.style.width = isWidescreen ? ((window.innerWidth / totalModules) - 45) + 'px' : '';
 	}
 	if(!isWidescreen) showTab('tab-info');
+	
+	document.getElementById('tab-list').style.height = window.innerHeight - Array.from(document.getElementsByClassName('calc')).reduce((total, current) => { return total + current.offsetHeight; }, 40) + 'px';
+	if (debugMode) console.log('containerHeight', document.getElementById('tab-list').style.height);
 }
 
 function showTab(activeTab) {
@@ -89,7 +102,7 @@ function showTab(activeTab) {
 	}
 }
 
-function setKeyCommand() {
+function setKeyUp() {
 	// space: play/pause
 	if (event.keyCode === 32 && document.getElementById('player') != null) {
 		event.preventDefault();
@@ -98,13 +111,30 @@ function setKeyCommand() {
 		else
 			document.getElementById('player').pause();
 	}
+	// shift: combine with shuffle to add 10 songs to queue
+	if (event.keyCode === 16) {
+		event.preventDefault();
+		window['shifted'] = false;
+	}
+	return false;
+}
+
+function setKeyDown() {
+	// shift: combine with shuffle to add 10 songs to queue
+	if (event.keyCode === 16) {
+		event.preventDefault();
+		window['shifted'] = true;
+	}
 	return false;
 }
 
 //--FUNCTIONS--//
 function startup() {
+	document.getElementById('title').innerText = defaultTitle;
+	document.title = defaultTitle;
 	renderVariables();
 	generateFilters();
+	window['playlist'] = [];
 	let query = "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song";
 	if(isMobile())
 		query += " LIMIT 100";
@@ -326,6 +356,20 @@ function generatePlayer(contents) {
 	audio.addEventListener('volumechange', function() {
 		localStorage.setItem('volume', document.getElementById('player').volume);
 	});
+	audio.addEventListener('ended', function() {
+		if(window['playlist'] != null && window['playlist'].length > 1 && window['playlist'][0] == this.getAttribute('data-id'))
+		{
+			//remove first which is current, query next
+			window['playlist'].shift();
+			// console.log('ended', window['playlist']);
+			setTimeout(function() {
+				let optQuery = "SELECT * FROM Song WHERE KNID = " + window['playlist'][0];
+				// console.log('optQuery', optQuery);
+				queryDb(optQuery, updateOptions);
+				updateQueueCount();
+			},200);
+		}
+	});
 	audio.controls = true;
 	audio.autoplay = true;
 	audio.volume = localStorage.getItem('volume')|| 0.5;
@@ -348,6 +392,11 @@ function generatePlayer(contents) {
 		});
 		if(debugMode) console.log('metadata', navigator.mediaSession.metadata.toString());
 	}
+}
+
+function updateQueueCount() {
+	let queued = window['playlist'].length - 1;
+	document.getElementById('random-count').innerText = queued > 0 ? (queued + ' song' + (queued > 1 ? 's' : '') + ' queued') : '';
 }
 
 function generateSongInfo(contents) {
