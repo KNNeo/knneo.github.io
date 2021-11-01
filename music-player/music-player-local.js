@@ -121,7 +121,7 @@ function showTab(activeTab) {
 
 function setKeyUp() {
 	// space: play/pause
-	if (event.keyCode === 32 && document.getElementById('player') != null) {
+	if (event.keyCode === 32 && document.getElementById('player') != null && document.getElementById('search') != document.activeElement) {
 		event.preventDefault();
 		if(document.getElementById('player').paused)
 			document.getElementById('player').play();
@@ -322,6 +322,7 @@ function updateOptions(contents) {
 //load layout
 function generateLayout(contents) {
 	// console.log('generateLayout', contents);
+	updateSearch(contents);
 	generatePlayer(contents);
 	// generateCoverArt();
 	generateTabs();
@@ -333,6 +334,16 @@ function generateLayout(contents) {
 		showTab('tab-info');
 	}, 100);
 	scrollToTop();
+}
+
+function updateSearch(contents) {
+	if(contents.values.length > 1) return;
+	let row = contents.values[0];
+	
+	let columnIndexSongTitle = contents.columns.indexOf('SongTitle');
+	let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
+	
+	document.getElementById('search').value = row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle];
 }
 
 function generatePlayer(contents) {
