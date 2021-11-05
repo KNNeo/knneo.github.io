@@ -503,6 +503,17 @@ imgArray = [
 [509,'{domain}/CCI_20211016_000023_3.jpg','portrait','Amamiya Sora','Book "My Girl vol.30" Animate Bonus'],
 [510,'{domain}/CCI_20211016_000024_1.jpg','landscape','Kouno Marika','CD "New story" Animate Special Campaign Bromide'],
 [510,'{domain}/CCI_20211016_000024_2.jpg','landscape','Tomita Miyu','CD "Prologue" Gamers Bonus'],
+[511,'{domain}/CCI_20211016_000024_2.jpg','landscape','Tomita Miyu','CD "Prologue" Gamers Bonus'],
+[512,'{domain}/CCI_20211105_0001_1.jpg','landscape','Uesaka Sumire','Event "Uesaka Sumire no PROPAGANDA CITY 2021" Bromide Set A'],
+[513,'{domain}/CCI_20211105_0001_2.jpg','portrait','Uesaka Sumire','Event "Uesaka Sumire no PROPAGANDA CITY 2021" Bromide Set A'],
+[514,'{domain}/CCI_20211105_0001_3.jpg','portrait','Uesaka Sumire','Event "Uesaka Sumire no PROPAGANDA CITY 2021" Bromide Set A'],
+[515,'{domain}/CCI_20211105_0002_1.jpg','portrait','Uesaka Sumire','Event "Uesaka Sumire no PROPAGANDA CITY 2021" Bromide Set B'],
+[516,'{domain}/CCI_20211105_0002_2.jpg','portrait','Uesaka Sumire','Event "Uesaka Sumire no PROPAGANDA CITY 2021" Bromide Set B'],
+[517,'{domain}/CCI_20211105_0002_3.jpg','portrait','Uesaka Sumire','Event "Uesaka Sumire no PROPAGANDA CITY 2021" Bromide Set B'],
+[518,'{domain}/CCI_20211105_0003_1.jpg','landscape','Amamiya Sora','Book "Seiyuu Grand Prix May 2021" Toranoana/SevenNet/Melonbooks/Amimega x Sofmap Bonus'],
+[519,'{domain}/CCI_20211105_0003_2.jpg','portrait','Amamiya Sora','Book "Seiyuu Grand Prix May 2021" HMV Bonus'],
+[520,'{domain}/CCI_20211105_0003_3.jpg','portrait','Amamiya Sora','CD "Freesia" Animate Bonus'],
+[521,'{domain}/CCI_20211105_0003_4.jpg','landscape','Amamiya Sora','Book "Seiyuu Grand Prix May 2021" Animate Bonus'],
 
 
 
