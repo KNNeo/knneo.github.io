@@ -468,7 +468,8 @@ function renderPopup() {
 		window.instgrm.Embeds.process(); // to render instagram embed
 	}
 	catch(err) {
-	  return;
+		console.error(err);
+		return;
 	}
 
     this.outerHTML = thumbnail.outerHTML;
