@@ -230,6 +230,7 @@ function generateFilters() {
 	let search = document.createElement('input');
 	search.id = 'search';
 	search.placeholder = 'Song Title, Artist Title, KNYEAR';
+	search.addEventListener('focus', selectAll);
 	search.addEventListener('input', function() {
 		// console.log('querySelect', document.getElementById('search').value);
 		let query = "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song WHERE SongTitle LIKE '%" + reduceQueryInString(document.getElementById('search').value) + "%'";
@@ -245,7 +246,14 @@ function generateFilters() {
 	options.addEventListener('change', function() {
 		// console.log('queryOption', document.getElementById('options').value);
 		if(document.getElementById('options').value > 0)
+		{
+			if(window['playlist'] == null || window['playlist'].length < 2)
+			{
+				window['playlist'] = [parseInt(document.getElementById('options').value)];
+				document.getElementById('random-count').innerText = '';
+			}
 			queryDb("SELECT * FROM Song WHERE KNID = " + document.getElementById('options').value, generateLayout);
+		}
 		//probably can multiple query for multiple tables, by semicolon
 	});
 	
@@ -254,6 +262,10 @@ function generateFilters() {
 		options.appendChild(opt);
 		
 	filters.appendChild(options);
+}
+
+function selectAll() {
+	this.setSelectionRange(0, this.value.length);
 }
 
 function updateOptions(contents) {
