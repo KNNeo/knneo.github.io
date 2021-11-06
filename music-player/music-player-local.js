@@ -33,7 +33,7 @@ function randomSong() {
 				window['playlist'].push(random);
 				songsToQueue--;
 			}
-		}while(songsToQueue > 0);
+		} while (songsToQueue > 0);
 		// console.log('playlist',window['playlist']);
 		updateQueueCount();
 		let optQuery = "SELECT * FROM Song WHERE KNID = " + window['playlist'][0];
@@ -42,6 +42,12 @@ function randomSong() {
 			queryDb(optQuery, updateOptions);
 	});
 };
+
+function skipSong() {
+	if(document.getElementById('random-count').innerText.length > 0)
+		document.getElementById('player').dispatchEvent(new Event('ended'));
+	updateQueueCount();
+}
 
 function clearQueue() {
 	event.preventDefault();
@@ -148,6 +154,7 @@ function setKeyDown() {
 //--FUNCTIONS--//
 function startup() {
 	document.getElementById('title').innerText = defaultTitle;
+	document.getElementById('skip').style.display = 'none';
 	document.title = defaultTitle;
 	renderVariables();
 	generateFilters();
@@ -243,25 +250,28 @@ function generateFilters() {
 	
 	let options = document.createElement('select');
 	options.id = 'options';
-	options.addEventListener('change', function() {
-		// console.log('queryOption', document.getElementById('options').value);
-		if(document.getElementById('options').value > 0)
-		{
-			if(window['playlist'] == null || window['playlist'].length < 2)
-			{
-				window['playlist'] = [parseInt(document.getElementById('options').value)];
-				document.getElementById('random-count').innerText = '';
-			}
-			queryDb("SELECT * FROM Song WHERE KNID = " + document.getElementById('options').value, generateLayout);
-		}
-		//probably can multiple query for multiple tables, by semicolon
-	});
+	options.addEventListener('change', onChangeOption);
 	
 		let opt = document.createElement('option');
 		opt.innerText = '===';		
 		options.appendChild(opt);
 		
 	filters.appendChild(options);
+}
+
+function onChangeOption() {
+	let id = parseInt(document.getElementById('options').value);
+	console.log('queryOption', id);
+	if(id > 0)
+	{
+		if(window['playlist'].length < 2 || window['playlist'][0] != id)
+		{
+			window['playlist'] = [id];
+			document.getElementById('random-count').innerText = '';
+		}
+		queryDb("SELECT * FROM Song WHERE KNID = " + id, generateLayout);
+	}
+	//probably can multiple query for multiple tables, by semicolon
 }
 
 function selectAll() {
@@ -437,6 +447,7 @@ function generatePlayer(contents) {
 function updateQueueCount() {
 	let queued = window['playlist'].length - 1;
 	document.getElementById('random-count').innerText = queued > 0 ? (queued + ' song' + (queued > 1 ? 's' : '') + ' queued') : '';
+	document.getElementById('skip').style.display = queued > 0 ? '' : 'none';
 }
 
 function generateSongInfo(contents) {
@@ -879,13 +890,13 @@ function generateCoverArt() {
 function updateSong() {
 	let id = this.getAttribute('data-id');
 	let query = "SELECT * FROM Song WHERE KNID = " + id;
-	// console.log('query', query);
+	console.log('updateSong', query);
 	queryDb(query, updateOptions);
 	
-	document.getElementById('options').value = id;
-	document.getElementById('options').dispatchEvent(new Event('change'));
+	// document.getElementById('options').value = id;
+	// document.getElementById('options').dispatchEvent(new Event('change'));
 	
-	document.getElementById('search').value = '';
+	// document.getElementById('search').value = '';
 	// setTimeout(function() {
 	// }, 200);
 }

@@ -11,11 +11,15 @@ body {
 	overflow: auto;
 }
 
-#random-count {
+.absolute {
 	position: absolute;
 	padding: 0 5px;
+}
+
+#random-count {
 	font-weight: normal;
 	font-size: small;
+    vertical-align: text-top;
 }
 
 #search, #options {

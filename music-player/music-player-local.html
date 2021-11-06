@@ -37,7 +37,10 @@
 		<p style="text-align: center;"><a href="../index.html">Back</a></p>
 		<a id="darkmode" title="Toggle Dark Mode" class="material-icons" href="javascript:void(0);">brightness_high</a>
 		<a id="random" title="Queue Random Song" class="material-icons" href="javascript:void(0);" onclick="randomSong()" oncontextmenu="clearQueue()">shuffle</a>
-		<span id="random-count"></span>
+		<span class="absolute">
+			<a id="skip" title="Skip To Next Song In Queue" class="material-icons" href="javascript:void(0);" onclick="skipSong()">skip_next</a>
+			<span id="random-count"></span>
+		</span>
 	</h3>
 </body>
 <script src="../index.js"></script>
