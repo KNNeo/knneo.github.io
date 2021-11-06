@@ -160,12 +160,12 @@ a:hover {
 }
 
 /*By Class*/
-.tr-caption-container {
+table.tr-caption-container {
     padding: 4px;
     margin-bottom: .5em;
 }
 
-.tr-caption {
+td.tr-caption {
     font-size: 11px;
 }
 
