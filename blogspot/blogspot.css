@@ -2,10 +2,14 @@ body {
 	display: block;
 	color: white;
 	background-color: black;
-    font: normal normal 13px Open Sans;
+    font: normal normal 16px Open Sans;
 	padding: 0 10px;
     max-width: 900px;
 	margin: auto;
+}
+
+td.tr-caption {
+    font-size: 13px;
 }
 
 .latest-post {
@@ -30,6 +34,11 @@ body {
 @media only screen and (min-width: 320px) and (max-width: 1040px) {
   body {
     max-width: auto !important;
+    font-size: 14px;
+  }
+  
+  td.tr-caption {
+	font-size: 11px;
   }
 }
 
