@@ -4,7 +4,7 @@ let directory = 'file://C:/Users/KAINENG/OneDrive/Music/'; //for audio player, i
 let debugMode = false; //will show all available logging on console
 let altMode = false; //will switch between titles and alt titles [TODO]
 let autoplayOnSelect = false; //disable player autoplay, will affect queue
-let widescreenMinModuleSize = 480; //on wide screen widths, minimum tab width for content
+let widescreenAverageModuleSize = 480; //on wide screen widths, tab width for content (responsive)
 
 //--STARTUP--//
 window.addEventListener('load', startup);
@@ -111,10 +111,10 @@ function setTabs() {
 		}
 	}
 	
-	if((window.innerWidth / totalModules) < widescreenMinModuleSize)
-		totalModules = (window.innerWidth / widescreenMinModuleSize);
-	
+	//responsive module display
+	totalModules = Math.round(window.innerWidth / widescreenAverageModuleSize);
 	// console.log('totalModules', totalModules);
+	
 	document.getElementById('tab-buttons').style.display = isWidescreen ? 'none' : '';
 	for(let tab of document.getElementsByClassName('filled'))
 	{
@@ -122,7 +122,7 @@ function setTabs() {
 		if(!isWidescreen && tab.classList.contains('tab-view')) tab.classList.remove('tab-view');
 		
 		tab.style.display = isWidescreen ? 'inline-block' : '';
-		tab.style.width = isWidescreen ? ((window.innerWidth / totalModules) - 45) + 'px' : '';
+		tab.style.width = isWidescreen ? ((window.innerWidth / totalModules) - 20) + 'px' : ''; //exclude horizontal padding
 	}
 	if(!isWidescreen) showTab('tab-info');
 	
@@ -274,7 +274,7 @@ function generateFilters() {
 
 function onChangeOption() {
 	let id = parseInt(document.getElementById('options').value);
-	console.log('queryOption', id);
+	// console.log('queryOption', id);
 	if(id > 0)
 	{
 		if(window['playlist'].length < 2 || window['playlist'][0] != id)
@@ -1126,6 +1126,7 @@ function generateSOTD(contents) {
 	let table = document.createElement('table');
 	// table.id = 'table';
 	table.classList.add('list');
+	table.classList.add('centered');
 	table.classList.add('centered-text');
 	table.classList.add('content-box');
 	table.classList.add('not-selectable');
