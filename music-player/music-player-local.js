@@ -3,7 +3,7 @@ let defaultTitle = 'Klassic Note Web';
 let directory = 'file://C:/Users/KAINENG/OneDrive/Music/'; //for audio player, in {directory}/{knyear}/{filename}.mp3
 let debugMode = false; //will show all available logging on console
 let altMode = false; //will switch between titles and alt titles [TODO]
-let autoplayOnSelect = true; //disable player autoplay, will affect queue
+let autoplayOnSelect = false; //disable player autoplay, will affect queue
 let widescreenMinModuleSize = 480; //on wide screen widths, minimum tab width for content
 
 //--STARTUP--//
@@ -832,15 +832,17 @@ function generateAwards(contents) {
 			let columnIndexIsWinner = contents.columns.indexOf('IsWinner');
 			
 			let tr = document.createElement('tr');
-			tr.style.position = 'relative';
-			tr.classList.add('not-selectable');
 			
 			if(r == 0)
 			{
 				let tb = document.createElement('th');
 				tb.innerText = awardRows[r][columnIndexAwardTitle];
-				tbody.appendChild(tb);
+				tr.appendChild(tb);
+				tbody.appendChild(tr);
 			}
+			
+			tr = document.createElement('tr');
+			tr.style.position = 'relative';
 			
 			let selected = document.getElementById('options').value;
 			let tc = document.createElement('td');
@@ -883,11 +885,6 @@ function generateAwards(contents) {
 		
 		document.getElementById('song-awards').appendChild(document.createElement('br'));
 	}
-	
-	for(let selected of document.getElementsByClassName('not-selectable'))
-	{
-		selected.dispatchEvent(new Event('active'));
-	}
 }
 
 function queryRankings(contents) {
@@ -923,6 +920,7 @@ function generateRanking(contents) {
 	
 	//header
 	let tr = document.createElement('tr');
+	tr.classList.add('no-highlight');
 	for(let column of columns)
 	{
 		if(['RankNo','SongTitle','ArtistTitle'].indexOf(column) >= 0)
@@ -945,11 +943,9 @@ function generateRanking(contents) {
 		let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
 		
 		let tr = document.createElement('tr');
-		let selected = document.getElementById('options').value;
 		tr.setAttribute('data-id', row[columnIndexKNID]);
-		if(selected == row[columnIndexKNID]) {
+		if(document.getElementById('options').value == row[columnIndexKNID]) {
 			tr.classList.add('not-selectable');
-			tr.classList.add('highlight');
 			tr.addEventListener('active', hoverOnRankingRow);
 		}
 		else {
@@ -1067,13 +1063,10 @@ function generateCompilations(contents) {
 		if(selected == row[columnIndexKNID]) {
 			tr.classList.add('not-selectable');
 			tr.classList.add('highlight');
-			// tr.addEventListener('active', hoverOnRankingRow);
 		}
 		else {
 			tr.style.cursor = 'pointer';
 			tr.addEventListener('click', updateSong);
-			// tr.addEventListener('mouseover', hoverOnRankingRow);
-			// tr.addEventListener('mouseout', hoverOnRankingRow);
 		}
 	
 		//track no
@@ -1097,11 +1090,6 @@ function generateCompilations(contents) {
 		
 	table.appendChild(tbody);
 	document.getElementById('song-compilation').appendChild(table);
-	
-	for(let selected of document.getElementsByClassName('not-selectable'))
-	{
-		selected.dispatchEvent(new Event('active'));
-	}
 }
 
 //unavailable: requires base64 image store in db

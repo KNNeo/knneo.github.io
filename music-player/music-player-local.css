@@ -173,6 +173,7 @@ td, th {
 .no-highlight tr:hover > td {
 	background-color: initial;
 }
+
 .darked .no-highlight tr:hover {
 	background-color: initial;
 }
