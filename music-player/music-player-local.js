@@ -3,7 +3,8 @@ let defaultTitle = 'Klassic Note Web';
 let directory = 'file://C:/Users/KAINENG/OneDrive/Music/'; //for audio player, in {directory}/{knyear}/{filename}.mp3
 let debugMode = false; //will show all available logging on console
 let altMode = false; //will switch between titles and alt titles [TODO]
-let autoplayOnSelect = false;
+let autoplayOnSelect = true; //disable player autoplay, will affect queue
+let widescreenMinModuleSize = 480; //on wide screen widths, minimum tab width for content
 
 //--STARTUP--//
 window.addEventListener('load', startup);
@@ -109,6 +110,9 @@ function setTabs() {
 			}
 		}
 	}
+	
+	if((window.innerWidth / totalModules) < widescreenMinModuleSize)
+		totalModules = (window.innerWidth / widescreenMinModuleSize);
 	
 	// console.log('totalModules', totalModules);
 	document.getElementById('tab-buttons').style.display = isWidescreen ? 'none' : '';
@@ -360,7 +364,8 @@ function generateLayout(contents) {
 	generateSongInfo(contents);
 	queryRelated(contents);
 	queryAwards(contents);
-	queryRanking(contents);
+	queryRankings(contents);
+	queryCompilations(contents);
 	setTimeout(function() {
 		setTabs();
 		showTab('tab-info');
@@ -781,16 +786,16 @@ function queryAwards(contents) {
 	let rows = contents.values;
 	let row = rows[0];
 	let columnIndexKNID = contents.columns.indexOf('KNID');
-	//select ranking of that year of song
+	//select awards of that song regardless of year
 	let query = "SELECT a.* FROM Award a JOIN Song s ON s.KNID = a.KNID JOIN (SELECT ar.* FROM Award ar WHERE ar.KNID = " 
 	query += row[columnIndexKNID] + ") aref ON aref.KNYEAR = a.KNYEAR AND aref.AwardCode = a.AwardCode " 
 	query += "ORDER BY a.KNYEAR, a.AwardID, a.SortOrder";
-	// console.log('queryRelated', query);
+	// console.log('queryAwards', query);
 	queryDb(query, generateAwards);
 }
 
 function generateAwards(contents) {
-	document.getElementById('year-awards').innerHTML = '';
+	document.getElementById('song-awards').innerHTML = '';
 	let columns = contents.columns;
 	let rows = contents.values;
 	if(contents.length == 0) return;
@@ -798,15 +803,15 @@ function generateAwards(contents) {
 	let header = document.createElement('h4');
 	header.classList.add('centered');
 	header.innerText = 'Awards';
-	document.getElementById('year-awards').appendChild(header);
+	document.getElementById('song-awards').appendChild(header);
 	
 	let columnIndexAwardTitle = contents.columns.indexOf('AwardTitle');
 	let awardTitles = rows.map(s => s[columnIndexAwardTitle]).filter((sa, ind, arr) => arr.indexOf(sa) == ind);
-	console.log('awardTitles', awardTitles);
+	// console.log('awardTitles', awardTitles);
 	for(let award of awardTitles)
 	{
 		let awardRows = rows.filter(r => r[columnIndexAwardTitle] == award);
-		console.log('awardRows', awardRows);
+		// console.log('awardRows', awardRows);
 		
 		let table = document.createElement('table');
 		// table.id = 'table';
@@ -874,9 +879,9 @@ function generateAwards(contents) {
 		}
 		
 		table.appendChild(tbody);
-		document.getElementById('year-awards').appendChild(table);
+		document.getElementById('song-awards').appendChild(table);
 		
-		document.getElementById('year-awards').appendChild(document.createElement('br'));
+		document.getElementById('song-awards').appendChild(document.createElement('br'));
 	}
 	
 	for(let selected of document.getElementsByClassName('not-selectable'))
@@ -885,7 +890,7 @@ function generateAwards(contents) {
 	}
 }
 
-function queryRanking(contents) {
+function queryRankings(contents) {
 	let columns = contents.columns;
 	let rows = contents.values;
 	let row = rows[0];
@@ -897,7 +902,7 @@ function queryRanking(contents) {
 }
 
 function generateRanking(contents) {
-	document.getElementById('year-ranking').innerHTML = '';
+	document.getElementById('song-ranking').innerHTML = '';
 	let columns = contents.columns;
 	let rows = contents.values;
 	if(contents.length == 0) return;
@@ -905,7 +910,7 @@ function generateRanking(contents) {
 	let header = document.createElement('h4');
 	header.classList.add('centered');
 	header.innerText = 'Song Rankings';
-	document.getElementById('year-ranking').appendChild(header);	
+	document.getElementById('song-ranking').appendChild(header);	
 	
 	let table = document.createElement('table');
 	// table.id = 'table';
@@ -944,6 +949,7 @@ function generateRanking(contents) {
 		tr.setAttribute('data-id', row[columnIndexKNID]);
 		if(selected == row[columnIndexKNID]) {
 			tr.classList.add('not-selectable');
+			tr.classList.add('highlight');
 			tr.addEventListener('active', hoverOnRankingRow);
 		}
 		else {
@@ -980,7 +986,7 @@ function generateRanking(contents) {
 	}
 		
 	table.appendChild(tbody);
-	document.getElementById('year-ranking').appendChild(table);
+	document.getElementById('song-ranking').appendChild(table);
 	
 	for(let selected of document.getElementsByClassName('not-selectable'))
 	{
@@ -988,6 +994,115 @@ function generateRanking(contents) {
 	}
 }
 
+function queryCompilations(contents) {
+	let columns = contents.columns;
+	let rows = contents.values;
+	let row = rows[0];
+	let columnIndexKNID = contents.columns.indexOf('KNID');
+	//select compilations of that song regardless of year
+	let query = "SELECT c.* FROM Compilation c JOIN Song s ON s.KNID = c.KNID JOIN (SELECT cp.* FROM Compilation cp WHERE cp.KNID = " 
+	query += row[columnIndexKNID] + ") cref ON cref.KNYEAR = c.KNYEAR AND cref.SeriesTitle = c.SeriesTitle " 
+	query += "ORDER BY c.KNYEAR, c.SeriesTitle, c.TrackNumber";
+	// console.log('queryCompilations', query);
+	queryDb(query, generateCompilations);
+}
+
+function generateCompilations(contents) {
+	document.getElementById('song-compilation').innerHTML = '';
+	let columns = contents.columns;
+	let rows = contents.values;
+	if(contents.length == 0) return;
+	
+	let header = document.createElement('h4');
+	header.classList.add('centered');
+	header.innerText = 'Compilations';
+	document.getElementById('song-compilation').appendChild(header);	
+	
+	let table = document.createElement('table');
+	// table.id = 'table';
+	table.classList.add('list');
+	table.classList.add('centered');
+	table.classList.add('content-box');
+	table.classList.add('not-selectable');
+	
+	let tbody = document.createElement('tbody');
+	
+	//title	
+	let columnIndexCompilationTitle = contents.columns.indexOf('CompilationTitle');
+	let compilationTitle = rows[0][columnIndexCompilationTitle];
+	let ttr = document.createElement('tr');
+	
+	let th = document.createElement('th');
+	th.setAttribute('colspan', 3);
+	th.innerText = compilationTitle;
+	ttr.appendChild(th);
+	
+	tbody.appendChild(ttr);
+	
+	//header
+	let tr = document.createElement('tr');
+	for(let column of columns)
+	{
+		if(['TrackNumber','SongTitle','ArtistTitle'].indexOf(column) >= 0)
+		{
+			let th = document.createElement('th');
+			th.innerText = column;
+			tr.appendChild(th);
+		}
+	}
+	tbody.appendChild(tr);
+	
+	//rows
+	for(let row of rows)
+	{
+		let columnIndexKNID = contents.columns.indexOf('KNID');
+		let columnIndexTrackNumber = contents.columns.indexOf('TrackNumber');
+		let columnIndexSongTitle = contents.columns.indexOf('SongTitle');
+		let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
+		
+		let tr = document.createElement('tr');
+		let selected = document.getElementById('options').value;
+		tr.setAttribute('data-id', row[columnIndexKNID]);
+		tr.classList.add('not-selectable');
+		if(selected == row[columnIndexKNID]) {
+			tr.classList.add('not-selectable');
+			tr.classList.add('highlight');
+			// tr.addEventListener('active', hoverOnRankingRow);
+		}
+		else {
+			tr.style.cursor = 'pointer';
+			tr.addEventListener('click', updateSong);
+			// tr.addEventListener('mouseover', hoverOnRankingRow);
+			// tr.addEventListener('mouseout', hoverOnRankingRow);
+		}
+	
+		//track no
+		let tc = document.createElement('td');
+		tc.classList.add('centered-text');
+		tc.innerText = row[columnIndexTrackNumber];
+		tr.appendChild(tc);
+		
+		//song
+		let td = document.createElement('td');
+		td.innerText = row[columnIndexSongTitle];
+		tr.appendChild(td);
+		
+		//artist
+		let te = document.createElement('td');
+		te.innerText = row[columnIndexArtistTitle];
+		tr.appendChild(te);
+		
+		tbody.appendChild(tr);
+	}
+		
+	table.appendChild(tbody);
+	document.getElementById('song-compilation').appendChild(table);
+	
+	for(let selected of document.getElementsByClassName('not-selectable'))
+	{
+		selected.dispatchEvent(new Event('active'));
+	}
+}
 
 //unavailable: requires base64 image store in db
 function generateCoverArt() {
