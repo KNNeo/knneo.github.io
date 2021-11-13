@@ -366,6 +366,7 @@ function generateLayout(contents) {
 	queryAwards(contents);
 	queryRankings(contents);
 	queryCompilations(contents);
+	querySOTD(contents);
 	setTimeout(function() {
 		setTabs();
 		showTab('tab-info');
@@ -1090,6 +1091,78 @@ function generateCompilations(contents) {
 		
 	table.appendChild(tbody);
 	document.getElementById('song-compilation').appendChild(table);
+}
+
+function querySOTD(contents) {
+	let columns = contents.columns;
+	let rows = contents.values;
+	let row = rows[0];
+	let columnIndexKNID = contents.columns.indexOf('KNID');
+	//select song of the day mentions of that song regardless of year
+	let query = "SELECT SUBSTR(t.Date, 1, 4) as 'Year', COUNT(SUBSTR(t.Date, 1, 4)) AS 'Count' FROM SOTD t "
+	query += "JOIN Song s ON s.KNID = t.KNID ";
+	query += "JOIN (SELECT td.* FROM SOTD td WHERE td.KNID = " + row[columnIndexKNID] + ") tref ON tref.SOTDID = t.SOTDID ";
+	query += "GROUP BY SUBSTR(t.Date, 1, 4)";
+	// console.log('querySOTD', query);
+	queryDb(query, generateSOTD);
+	
+	//select awards of that song regardless of year
+	query = "";
+	// console.log('querySOTM', query);
+	// queryDb(query, generateSOTM);
+}
+
+function generateSOTD(contents) {
+	document.getElementById('song-sotd').innerHTML = '';
+	let columns = contents.columns;
+	let rows = contents.values;
+	if(contents.length == 0) return;
+	
+	let header = document.createElement('h4');
+	header.classList.add('centered');
+	header.innerText = 'Song Mentions';
+	document.getElementById('song-sotd').appendChild(header);
+	
+	let table = document.createElement('table');
+	// table.id = 'table';
+	table.classList.add('list');
+	table.classList.add('centered-text');
+	table.classList.add('content-box');
+	table.classList.add('not-selectable');
+	
+	let tbody = document.createElement('tbody');
+
+	//header
+	let tr = document.createElement('tr');
+	for(let column of columns)
+	{
+		let th = document.createElement('th');
+		th.innerText = column;
+		tr.appendChild(th);
+	}
+	tbody.appendChild(tr);
+	
+	//rows
+	for(let r = 0; r < rows.length; r++)
+	{
+		let columnIndexYear = contents.columns.indexOf('Year');
+		let columnIndexCount = contents.columns.indexOf('Count');
+		
+		let tr = document.createElement('tr');
+		
+		let ty = document.createElement('td');
+		ty.innerText = rows[r][columnIndexYear];
+		tr.appendChild(ty);
+		
+		let tc = document.createElement('td');
+		tc.innerText = rows[r][columnIndexCount];
+		tr.appendChild(tc);
+		
+		tbody.appendChild(tr);
+	}
+	
+	table.appendChild(tbody);
+	document.getElementById('song-sotd').appendChild(table);
 }
 
 //unavailable: requires base64 image store in db
