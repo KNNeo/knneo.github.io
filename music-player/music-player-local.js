@@ -89,8 +89,11 @@ function scrollToTop() {
 }
 
 function setTabs() {
-	let totalModules = 0;
 	let isWidescreen = window.innerWidth >= 960;
+	//responsive module display	
+	let totalModules = Math.round(window.innerWidth / widescreenAverageModuleSize);
+	// console.log('totalModules', totalModules);
+	
 	for(let tab of document.getElementsByClassName('tab'))
 	{
 		let hasModules = Array.from(tab.childNodes).filter(c => c.childNodes.length > 0).length > 0;
@@ -99,31 +102,16 @@ function setTabs() {
 		{
 			tabButton.style.cursor = hasModules ? 'pointer' : '';
 			tabButton.disabled = !hasModules;
-			if(hasModules) 
-			{
-				if(!tab.classList.contains('filled'))tab.classList.add('filled');
-				totalModules++;
-			}
-			if(!hasModules && tab.classList.contains('filled')) 
-			{
-				tab.classList.remove('filled');
-			}
 		}
-	}
-	
-	//responsive module display
-	totalModules = Math.round(window.innerWidth / widescreenAverageModuleSize);
-	// console.log('totalModules', totalModules);
-	
-	document.getElementById('tab-buttons').style.display = isWidescreen ? 'none' : '';
-	for(let tab of document.getElementsByClassName('filled'))
-	{
+		
 		if(isWidescreen && !tab.classList.contains('tab-view')) tab.classList.add('tab-view');
 		if(!isWidescreen && tab.classList.contains('tab-view')) tab.classList.remove('tab-view');
 		
 		tab.style.display = isWidescreen ? 'inline-block' : '';
-		tab.style.width = isWidescreen ? ((window.innerWidth / totalModules) - 20) + 'px' : ''; //exclude horizontal padding
+		tab.style.width = isWidescreen && hasModules ? ((window.innerWidth / totalModules) - 20) + 'px' : ''; //exclude horizontal padding
 	}
+	
+	document.getElementById('tab-buttons').style.display = isWidescreen ? 'none' : '';
 	if(!isWidescreen) showTab('tab-info');
 	
 	document.getElementById('tab-list').style.height = window.innerHeight - Array.from(document.getElementsByClassName('calc')).reduce((total, current) => { return total + current.offsetHeight; }, 40) + 'px';
@@ -367,10 +355,7 @@ function generateLayout(contents) {
 	queryRankings(contents);
 	queryCompilations(contents);
 	querySOTD(contents);
-	setTimeout(function() {
-		setTabs();
-		showTab('tab-info');
-	}, 100);
+	setTabs();
 	scrollToTop();
 }
 
@@ -1197,15 +1182,8 @@ function generateCoverArt() {
 function updateSong() {
 	let id = this.getAttribute('data-id');
 	let query = "SELECT * FROM Song WHERE KNID = " + id;
-	console.log('updateSong', query);
+	// console.log('updateSong', query);
 	queryDb(query, updateOptions);
-	
-	// document.getElementById('options').value = id;
-	// document.getElementById('options').dispatchEvent(new Event('change'));
-	
-	// document.getElementById('search').value = '';
-	// setTimeout(function() {
-	// }, 200);
 }
 
 function reduceQueryInString(query) {
