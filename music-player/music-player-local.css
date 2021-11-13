@@ -124,7 +124,7 @@ td, th {
 	border: 1px solid transparent;
 }
 
-.bordered td {
+.bordered td, .bordered th {
 	border: 1px solid black;
 }
 
