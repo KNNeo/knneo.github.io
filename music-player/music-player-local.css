@@ -185,6 +185,12 @@ td, th {
   user-select: none;
 }
 
+.award-winner {
+	position: absolute;
+	right: 0;
+	font-size: 20px;
+}
+
 @media only screen
    and (min-device-width : 960px)
 {

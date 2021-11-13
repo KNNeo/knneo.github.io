@@ -3,6 +3,7 @@ let defaultTitle = 'Klassic Note Web';
 let directory = 'file://C:/Users/KAINENG/OneDrive/Music/'; //for audio player, in {directory}/{knyear}/{filename}.mp3
 let debugMode = false; //will show all available logging on console
 let altMode = false; //will switch between titles and alt titles [TODO]
+let autoplayOnSelect = false;
 
 //--STARTUP--//
 window.addEventListener('load', startup);
@@ -97,13 +98,21 @@ function setTabs() {
 		{
 			tabButton.style.cursor = hasModules ? 'pointer' : '';
 			tabButton.disabled = !hasModules;
-			if(hasModules) totalModules++;
+			if(hasModules) 
+			{
+				if(!tab.classList.contains('filled'))tab.classList.add('filled');
+				totalModules++;
+			}
+			if(!hasModules && tab.classList.contains('filled')) 
+			{
+				tab.classList.remove('filled');
+			}
 		}
 	}
 	
 	// console.log('totalModules', totalModules);
 	document.getElementById('tab-buttons').style.display = isWidescreen ? 'none' : '';
-	for(let tab of document.getElementsByClassName('tab'))
+	for(let tab of document.getElementsByClassName('filled'))
 	{
 		if(isWidescreen && !tab.classList.contains('tab-view')) tab.classList.add('tab-view');
 		if(!isWidescreen && tab.classList.contains('tab-view')) tab.classList.remove('tab-view');
@@ -350,6 +359,7 @@ function generateLayout(contents) {
 	generateTabs();
 	generateSongInfo(contents);
 	queryRelated(contents);
+	queryAwards(contents);
 	queryRanking(contents);
 	setTimeout(function() {
 		setTabs();
@@ -421,7 +431,7 @@ function generatePlayer(contents) {
 		}
 	});
 	audio.controls = true;
-	audio.autoplay = true;
+	audio.autoplay = autoplayOnSelect; //for shuffle to work this must be set as true
 	audio.volume = localStorage.getItem('volume')|| 0.5;
 	audio.controlsList = 'nodownload';
 	
@@ -763,6 +773,116 @@ function generateReleaseRelated(contents) {
 	table.appendChild(tbody);
 	document.getElementById('release-related').appendChild(table);
 	
+}
+
+
+function queryAwards(contents) {
+	let columns = contents.columns;
+	let rows = contents.values;
+	let row = rows[0];
+	let columnIndexKNID = contents.columns.indexOf('KNID');
+	//select ranking of that year of song
+	let query = "SELECT a.* FROM Award a JOIN Song s ON s.KNID = a.KNID JOIN (SELECT ar.* FROM Award ar WHERE ar.KNID = " 
+	query += row[columnIndexKNID] + ") aref ON aref.KNYEAR = a.KNYEAR AND aref.AwardCode = a.AwardCode " 
+	query += "ORDER BY a.KNYEAR, a.AwardID, a.SortOrder";
+	// console.log('queryRelated', query);
+	queryDb(query, generateAwards);
+}
+
+function generateAwards(contents) {
+	document.getElementById('year-awards').innerHTML = '';
+	let columns = contents.columns;
+	let rows = contents.values;
+	if(contents.length == 0) return;
+	
+	let header = document.createElement('h4');
+	header.classList.add('centered');
+	header.innerText = 'Awards';
+	document.getElementById('year-awards').appendChild(header);
+	
+	let columnIndexAwardTitle = contents.columns.indexOf('AwardTitle');
+	let awardTitles = rows.map(s => s[columnIndexAwardTitle]).filter((sa, ind, arr) => arr.indexOf(sa) == ind);
+	console.log('awardTitles', awardTitles);
+	for(let award of awardTitles)
+	{
+		let awardRows = rows.filter(r => r[columnIndexAwardTitle] == award);
+		console.log('awardRows', awardRows);
+		
+		let table = document.createElement('table');
+		// table.id = 'table';
+		table.classList.add('list');
+		table.classList.add('centered');
+		table.classList.add('content-box');
+		table.classList.add('not-selectable');
+		
+		let tbody = document.createElement('tbody');
+
+		//header
+		for(let r = 0; r < awardRows.length; r++)
+		{
+			let columnIndexKNID = contents.columns.indexOf('KNID');
+			let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
+			let columnIndexRecipientTitle = contents.columns.indexOf('RecipientTitle');
+			let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
+			let columnIndexIsWinner = contents.columns.indexOf('IsWinner');
+			
+			let tr = document.createElement('tr');
+			tr.style.position = 'relative';
+			tr.classList.add('not-selectable');
+			
+			if(r == 0)
+			{
+				let tb = document.createElement('th');
+				tb.innerText = awardRows[r][columnIndexAwardTitle];
+				tbody.appendChild(tb);
+			}
+			
+			let selected = document.getElementById('options').value;
+			let tc = document.createElement('td');
+			if(awardRows[r][columnIndexKNID] == selected)
+			{
+				tc.classList.add('highlight');
+			}
+			// tc.style.fontWeight = awardRows[r][columnIndexIsWinner] > 0 ? 'bold' : 'normal';
+			tc.setAttribute('data-id', awardRows[r][columnIndexKNID]);
+			// tc.innerText = awardRows[r][columnIndexArtistTitle] + ' - ' + awardRows[r][columnIndexRecipientTitle];
+			if(awardRows[r][columnIndexKNID] != selected)
+			{
+				tc.style.cursor = 'pointer';
+				tc.addEventListener('click', updateSong);
+			}
+			
+			// tc.classList.add('highlight');
+			let tt = document.createElement('span');
+			tt.innerText = awardRows[r][columnIndexArtistTitle] + ' - ' + awardRows[r][columnIndexRecipientTitle];
+			tc.appendChild(tt);
+			
+			if(awardRows[r][columnIndexIsWinner] > 0)
+			{
+				// tc.classList.add('highlight');
+				let ta = document.createElement('span');
+				ta.title = 'Winner';
+				ta.classList.add('material-icons');
+				ta.classList.add('award-winner');
+				ta.innerText = 'emoji_events';
+				tc.appendChild(ta);
+			}
+			
+			tr.appendChild(tc);
+						
+			tbody.appendChild(tr);
+		}
+		
+		table.appendChild(tbody);
+		document.getElementById('year-awards').appendChild(table);
+		
+		document.getElementById('year-awards').appendChild(document.createElement('br'));
+	}
+	
+	for(let selected of document.getElementsByClassName('not-selectable'))
+	{
+		selected.dispatchEvent(new Event('active'));
+	}
 }
 
 function queryRanking(contents) {
