@@ -83,7 +83,7 @@ function toggleHover(cell) {
 }
 
 function scrollToTop() {
-    document.body.scrollTop = 0;
+    document.getElementById('tab-list').scrollTop = 0;
     document.documentElement.scrollTop = 0;
 	window.location.hash = "";
 }
