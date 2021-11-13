@@ -32,10 +32,10 @@ html, div {
 }
 
 tr:hover > td {
-	background-color: gray;
+	background-color: lightgray;
 }
 .darked tr:hover {
-	background-color: lightgray;
+	background-color: gray;
 }
 	
 .settings {
