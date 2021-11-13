@@ -31,7 +31,7 @@ html, div {
   background: #444444;
 }
 
-tr:hover > td {
+tr:hover {
 	background-color: lightgray;
 }
 .darked tr:hover {
