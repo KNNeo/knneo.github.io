@@ -31,8 +31,8 @@
  * [ok]	remove add href to hashtags script
  * []	remove wallpaper images cache linked from facebook
  * []	fix primary and secondary colours to variables
- * [ok]	export list of images from latest
- * []	replace common phrases with emoji
+ * []	export list of images from latest
+ * [ok]	replace common phrases with emoji
  */
  
 public class MatchItem
@@ -454,14 +454,14 @@ void Main()
 		#endregion
         
         #region export list of images from latest
-        expression = @"(<img)(.*?)(src="")(.*?)("")";
-        match = Regex.Match(content, expression);
-        while(match.Success)
-        {
-			imageExport += ",\"" + match.Groups[4].Value + "\"";
-        	match = match.NextMatch();
-        };
-        if(match.Success) count++;
+//        expression = @"(<img)(.*?)(src="")(.*?)("")";
+//        match = Regex.Match(content, expression);
+//        while(match.Success)
+//        {
+//			imageExport += ",\"" + match.Groups[4].Value + "\"";
+//        	match = match.NextMatch();
+//        };
+//        if(match.Success) count++;
         #endregion
 		
         #region replace common phrases with emoji
@@ -588,7 +588,7 @@ void Main()
     File.WriteAllText(blogpath + "\\blog.html", fileString);
 	
 	//Export list of images with limit
-    imageExport = "var mosaicArray = " + imageExport.Replace("[\"\",", "[") + "];";
-    File.WriteAllText(blogpath + "\\blog_images.js", imageExport);
+    //imageExport = "var mosaicArray = " + imageExport.Replace("[\"\",", "[") + "];";
+    //File.WriteAllText(blogpath + "\\blog_images.js", imageExport);
     
 }
