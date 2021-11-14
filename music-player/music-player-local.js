@@ -1094,17 +1094,19 @@ function querySOTD(contents) {
 	let row = rows[0];
 	let columnIndexKNID = contents.columns.indexOf('KNID');
 	//select song of the day mentions of that song regardless of year
-	let query = "SELECT SUBSTR(t.Date, 1, 4) as 'Year', COUNT(SUBSTR(t.Date, 1, 4)) AS 'Count' FROM SOTD t "
-	query += "JOIN Song s ON s.KNID = t.KNID ";
+	let query = "SELECT t.* FROM SOTD t "
+	query += "JOIN Song s ON s.KNID = t.KNID "
 	query += "JOIN (SELECT td.* FROM SOTD td WHERE td.KNID = " + row[columnIndexKNID] + ") tref ON tref.SOTDID = t.SOTDID ";
-	query += "GROUP BY SUBSTR(t.Date, 1, 4)";
+	query += "ORDER BY t.Date, t.TimeOfDay, t.SortOrder";
 	// console.log('querySOTD', query);
 	queryDb(query, generateSOTD);
 	
 	//select awards of that song regardless of year
-	query = "";
+	query = "SELECT m.KNYEAR as 'Year', m.Month, m.SongTitle, m.ArtistTitle, m.Count, m.KNID FROM SOTM m "
+	query += "JOIN Song s ON s.KNID = m.KNID "
+	query += "JOIN (SELECT tm.* FROM SOTM tm WHERE tm.KNID = " + row[columnIndexKNID] + ") mref ON mref.KNYEAR = m.KNYEAR";
 	// console.log('querySOTM', query);
-	// queryDb(query, generateSOTM);
+	queryDb(query, generateSOTM);
 }
 
 function generateSOTD(contents) {
@@ -1130,7 +1132,7 @@ function generateSOTD(contents) {
 
 	//header
 	let tr = document.createElement('tr');
-	for(let column of columns)
+	for(let column of ['Year','Time Period','Count'])
 	{
 		let th = document.createElement('th');
 		th.innerText = column;
@@ -1139,16 +1141,109 @@ function generateSOTD(contents) {
 	tbody.appendChild(tr);
 	
 	//rows
-	for(let r = 0; r < rows.length; r++)
+	let columnIndexDate = contents.columns.indexOf('Date');
+	let years = rows.map(s => s[columnIndexDate].toString().substring(0, 4)).filter((sa, ind, arr) => arr.indexOf(sa) == ind);
+	for(let year of years)
 	{
-		let columnIndexYear = contents.columns.indexOf('Year');
-		let columnIndexCount = contents.columns.indexOf('Count');
+		let dateRows = rows.filter(r => r[columnIndexDate].toString().substring(0, 4) == year);
 		
-		let tr = document.createElement('tr');
+		let columnIndexCount = contents.columns.indexOf('Count');
+		let earliestDate = dateRows[0][columnIndexDate];
+		let latestDate = dateRows[dateRows.length - 1][columnIndexDate];
+		
+		tr = document.createElement('tr');
 		
 		let ty = document.createElement('td');
-		ty.innerText = rows[r][columnIndexYear];
-		tr.appendChild(ty);
+		ty.innerText = earliestDate.toString().substring(0, 4);
+		tr.appendChild(ty);	
+		
+		let td = document.createElement('td');
+		td.innerText = earliestDate == latestDate ? earliestDate : earliestDate + ' - ' + latestDate;
+		tr.appendChild(td);
+		
+		let tc = document.createElement('td');
+		tc.innerText = dateRows.length;
+		tr.appendChild(tc);
+		
+		tbody.appendChild(tr);
+	}
+	
+	table.appendChild(tbody);
+	document.getElementById('song-sotd').appendChild(table);
+}
+
+function generateSOTM(contents) {
+	document.getElementById('song-sotm').innerHTML = '';
+	let columns = contents.columns;
+	let rows = contents.values;
+	if(contents.length == 0) return;
+	
+	let header = document.createElement('h4');
+	header.classList.add('centered');
+	header.innerText = 'Monthly Mentions';
+	document.getElementById('song-sotm').appendChild(header);
+	
+	let table = document.createElement('table');
+	// table.id = 'table';
+	table.classList.add('list');
+	table.classList.add('centered');
+	table.classList.add('centered-text');
+	table.classList.add('content-box');
+	table.classList.add('not-selectable');
+	
+	let tbody = document.createElement('tbody');
+	
+	let tr = document.createElement('tr');
+	
+	let ty = document.createElement('td');
+	let columnIndexYear = contents.columns.indexOf('Year');
+	ty.setAttribute('colspan', 4);
+	ty.style.fontWeight = 'bold';
+	ty.innerText = rows[0][columnIndexYear];
+	tr.appendChild(ty);
+	
+	tbody.appendChild(tr);
+
+	//header
+	tr = document.createElement('tr');
+	for(let column of columns)
+	{
+		if(['Month','SongTitle','ArtistTitle','Count'].indexOf(column) >= 0)
+		{
+			let th = document.createElement('th');
+			th.innerText = column;
+			tr.appendChild(th);
+		}
+	}
+	tbody.appendChild(tr);
+	
+	//rows
+	for(let r = 0; r < rows.length; r++)
+	{
+		let columnIndexMonth = contents.columns.indexOf('Month');
+		let columnIndexSongTitle = contents.columns.indexOf('SongTitle');
+		let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
+		let columnIndexCount = contents.columns.indexOf('Count');
+		let columnIndexKNID = contents.columns.indexOf('KNID');
+		
+		
+		let tr = document.createElement('tr');
+		if(rows[r][columnIndexKNID] == document.getElementById('options').value)
+		{
+			tr.classList.add('highlight');
+		}
+		
+		let tm = document.createElement('td');
+		tm.innerText = rows[r][columnIndexMonth];
+		tr.appendChild(tm);
+		
+		let ts = document.createElement('td');
+		ts.innerText = rows[r][columnIndexSongTitle];
+		tr.appendChild(ts);
+		
+		let ta = document.createElement('td');
+		ta.innerText = rows[r][columnIndexArtistTitle];
+		tr.appendChild(ta);
 		
 		let tc = document.createElement('td');
 		tc.innerText = rows[r][columnIndexCount];
@@ -1158,7 +1253,7 @@ function generateSOTD(contents) {
 	}
 	
 	table.appendChild(tbody);
-	document.getElementById('song-sotd').appendChild(table);
+	document.getElementById('song-sotm').appendChild(table);
 }
 
 //unavailable: requires base64 image store in db
