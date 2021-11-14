@@ -107,13 +107,20 @@ function setTabs() {
 	for(let tab of document.getElementsByClassName('tab'))
 	{
 		let hasModules = Array.from(tab.childNodes).filter(c => c.childNodes.length > 0).length > 0;
+		if(debugMode) console.log('hasModules', tab.id, hasModules);
 		let tabButton = document.getElementById('button-' + tab.id);
-		if(tabButton != null)
+		if(tabButton != null) //button controls on mobile
 		{
 			tabButton.style.cursor = hasModules ? 'pointer' : '';
 			tabButton.disabled = !hasModules;
 		}
 		
+		for(let module of tab.getElementsByClassName('module')) //remove padding if no elements
+		{
+			module.style.padding = hasModules ? '' : 0;
+		}
+		
+		//mobile alignments
 		if(isWidescreen && !tab.classList.contains('tab-view')) tab.classList.add('tab-view');
 		if(!isWidescreen && tab.classList.contains('tab-view')) tab.classList.remove('tab-view');
 		
