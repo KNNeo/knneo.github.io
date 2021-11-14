@@ -63,7 +63,17 @@ function clearQueue() {
 function hoverOnRankingRow() {
 	let cells = this.getElementsByTagName('td');
 	let prevCells = this.previousSibling.getElementsByTagName('td');
-	if(prevCells.length == 3 && cells.length == 2 && prevCells[0].rowSpan != undefined)
+	hoverOnRow(cells, prevCells, 3);
+}
+
+function hoverOnSOTMRow() {
+	let cells = this.getElementsByTagName('td');
+	let prevCells = this.previousSibling.getElementsByTagName('td');
+	hoverOnRow(cells, prevCells, 4);
+}
+
+function hoverOnRow(cells, prevCells, columns) {
+	if(prevCells.length == columns && cells.length == columns-1 && prevCells[0].rowSpan != undefined)
 		toggleHover(prevCells[0]);
 	toggleHover(cells[0]);
 	toggleHover(cells[1]);
@@ -1226,16 +1236,25 @@ function generateSOTM(contents) {
 		let columnIndexCount = contents.columns.indexOf('Count');
 		let columnIndexKNID = contents.columns.indexOf('KNID');
 		
-		
 		let tr = document.createElement('tr');
-		if(rows[r][columnIndexKNID] == document.getElementById('options').value)
-		{
-			tr.classList.add('highlight');
+		tr.setAttribute('data-id', rows[r][columnIndexKNID]);
+		if(document.getElementById('options').value == rows[r][columnIndexKNID]) {
+			tr.classList.add('not-selectable');
+			tr.addEventListener('active', hoverOnSOTMRow);
+		}
+		else {
+			tr.style.cursor = 'pointer';
+			tr.addEventListener('click', updateSong);
+			tr.addEventListener('mouseover', hoverOnSOTMRow);
+			tr.addEventListener('mouseout', hoverOnSOTMRow);
 		}
 		
 		let tm = document.createElement('td');
+		if(r < rows.length-1 && rows[r][columnIndexMonth] == rows[r+1][columnIndexMonth])
+			tm.setAttribute('rowspan',2);
 		tm.innerText = rows[r][columnIndexMonth];
-		tr.appendChild(tm);
+		if(r == 0 || rows[r][columnIndexMonth] != rows[r-1][columnIndexMonth])
+			tr.appendChild(tm);
 		
 		let ts = document.createElement('td');
 		ts.innerText = rows[r][columnIndexSongTitle];
@@ -1254,6 +1273,11 @@ function generateSOTM(contents) {
 	
 	table.appendChild(tbody);
 	document.getElementById('song-sotm').appendChild(table);
+
+	for(let selected of document.getElementsByClassName('not-selectable'))
+	{
+		selected.dispatchEvent(new Event('active'));
+	}
 }
 
 //unavailable: requires base64 image store in db
