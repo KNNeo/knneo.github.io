@@ -18,10 +18,28 @@ if(!isLocal)
 }
 
 function toggleDarkMode() {
-	if(document.getElementsByTagName('html')[0].classList.contains('darked'))
-		document.getElementsByTagName('html')[0].classList.remove('darked');
+	let theme = Array.from(document.getElementsByTagName('meta')).filter(m => m.name == 'theme-color');
+	if(theme && theme.length > 0)
+	{
+		let themeColor = theme[0];
+		if(document.getElementsByTagName('html')[0].classList.contains('darked'))
+		{
+			document.getElementsByTagName('html')[0].classList.remove('darked'); //parent class of each page
+			themeColor.content = 'white';			
+		}
+		else
+		{
+			document.getElementsByTagName('html')[0].classList.add('darked'); //parent class of each page
+			themeColor.content = 'black';
+		}
+	}
 	else
-		document.getElementsByTagName('html')[0].classList.add('darked');
+	{
+		let themeColor = document.createElement('meta');
+		themeColor.name = 'theme-color';
+		themeColor.content = document.getElementsByTagName('html')[0].classList.contains('darked') ? 'white' : 'black';
+		document.head.appendChild(themeColor);
+	}
 }
 
 //*tracking prevention*//
