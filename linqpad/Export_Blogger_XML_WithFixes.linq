@@ -9,7 +9,8 @@
  * (2) Create blogpath since did not do checking for directory exist
  * (3) Change domainLink to desired domain as exported
  * (4) FIX POST ATTRIBUTES and FIX POST CONTENT can be removed as desired
- * (5) [Status] List of Cases
+ * (5) If edit from Blogger img tags will be missing self-enclosing slash, format on web version to fix
+ * [Status] List of Cases
  * [ok]	fix twitter embed
  * [ok]	fix youtube iframe size
  * []	remove embed styles for thumbnail normal/hover (ignore posts with sp-thumbnail)
@@ -62,7 +63,8 @@ void Main()
 	int maxImageExport = 100;
 	string imageExport = "[\"\"";
     Console.WriteLine("WriteTitleOnConsole is " + WriteTitleOnConsole);
-    Console.WriteLine("*Post with changes will appear here");
+    Console.WriteLine("\tPost with changes will appear here");
+	Console.WriteLine("\tIf edit from Blogger img tags will be missing self-enclosing slash, format on web version to fix");
     string folderpath = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\";
     string blogpath = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blogspot\";
     string filepath = "";
@@ -544,6 +546,7 @@ void Main()
             output.WriteLine("<script src=\"../../../blog.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
             output.WriteLine("<script src=\"../../../blog-fixes.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
             output.WriteLine("</html>");
+			
         }
         
         // Process home page
@@ -580,6 +583,8 @@ void Main()
         }
         else
             textString += "<div"+classes+"><span>"+published.ToString("yyyy.MM.dd")+" </span>"+title+"</div>\n";
+			
+			
     }
     
     //Write into home page
