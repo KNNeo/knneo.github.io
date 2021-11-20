@@ -254,6 +254,7 @@ function generateFilters() {
 	
 	let search = document.createElement('input');
 	search.id = 'search';
+	search.disabled = true;
 	search.placeholder = 'Song Title, Artist Title, KNYEAR';
 	search.addEventListener('focus', selectAll);
 	search.addEventListener('input', function() {
@@ -298,7 +299,7 @@ function selectAll() {
 
 function updateOptions(contents) {
 	// console.log('updateOptions', contents);
-	let criteria = document.getElementById('search').value;
+	let search = document.getElementById('search');
 	let options = document.getElementById('options');
 	options.innerHTML = '';
 	let newOptions = [];
@@ -333,18 +334,21 @@ function updateOptions(contents) {
 		{
 			let opt = document.createElement('option');
 			opt.value = newOption.id;
-			opt.innerHTML = newOption.optionString.replace(criteria, '<span style="font-weight: bold;">' + criteria + '</span>');
+			opt.innerHTML = newOption.optionString.replace(search.value, '<span style="font-weight: bold;">' + search.value + '</span>');
 			
 			options.appendChild(opt);
 		}
 		if(newOptions.length == 2) //1 result with default
 		{
-			document.getElementById('search').blur();
+			search.blur();
 			setTimeout(function() {
 				document.getElementById('options').value = contents.values[0][columnIndexKNID];
 				document.getElementById('options').dispatchEvent(new Event('change'));
 			},200);
 		}
+		
+		options.disabled = newOptions.length == 2;
+		search.disabled = false;
 	}
 	else {
 		for(let newOption of newOptions)
