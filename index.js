@@ -6,7 +6,7 @@ const isMobile = function() {
 };
 
 //*dark mode check*//
-window.addEventListener('onpageshow', function() {
+window.addEventListener('load', function() {
 	setDarkMode();
 	addDarkModeEvents();
 	showLocal();
