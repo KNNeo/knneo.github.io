@@ -150,7 +150,7 @@ window.addEventListener('load', startup);
 function startup() {
 	generateAnimeList();
 	addImagesError();
-	document.getElementById("showAll").click();
+	// document.getElementById("showAll").click();
 }
 
 function generateAnimeList() {
