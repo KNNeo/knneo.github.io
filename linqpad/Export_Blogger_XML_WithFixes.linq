@@ -472,7 +472,8 @@ void Main()
 		
 		for(var e = 0; e < emojis.Length; e++)
 		{
-	        content = content.Replace("*" + phrases[e] + "*", emojis[e]);
+			var initial = "*" + phrases[e] + "*";
+	        content = content.Replace(initial, "<span title=\"" + initial + "\">" + emojis[e] + "</span>");
 		}
         #endregion
         
