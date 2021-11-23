@@ -288,7 +288,7 @@ function onChangeOption() {
 			window['playlist'] = [id];
 			document.getElementById('random-count').innerText = '';
 		}
-		queryDb("SELECT * FROM Song WHERE KNID = " + id, generateLayout);
+		queryDb("SELECT KNID, KNYEAR, Filename, SongTitle, ArtistTitle, ParentArtist, ReleaseTitle, ReleaseArtistTitle, ReleaseYear, Rating, Genre, DateCreated, VocalCode, LanguageCode, LyricsURL, SongTitleAlt, ArtistID, ReleaseID FROM Song WHERE KNID = " + id, generateLayout);
 	}
 	//probably can multiple query for multiple tables, by semicolon
 }
@@ -478,15 +478,15 @@ function queryInfo(contents) {
 	let columns = contents.columns;
 	let rows = contents.values;
 	let row = rows[0];
-	let columnIndexArtistID = contents.columns.indexOf('ArtistID');
-	let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
+	let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
 	let columnIndexReleaseID = contents.columns.indexOf('ReleaseID');
 	
-	let query = "SELECT * FROM Artist WHERE ArtistID = " + row[columnIndexArtistID];
+	let query = "SELECT ArtistTitle, GROUP_CONCAT(ParentArtist, ', ') AS ParentArtists, ArtistCode, DisbandYear, ArtistTitleAlt FROM Artist WHERE ArtistTitle = '" + row[columnIndexArtistTitle] + "' ";
+	query += "GROUP BY ArtistTitle, ArtistCode, DisbandYear, ArtistTitleAlt";
 	if(debugMode) console.log('generateArtistInfo', query);
 	queryDb(query, generateArtistInfo);
 	
-	query = "SELECT * FROM Release WHERE KNYEAR = " + row[columnIndexKNYEAR] + " AND ReleaseID = " + row[columnIndexReleaseID];
+	query = "SELECT KNYEAR, Category, Type, ReleaseTitle, ReleaseArtistTitle, TracksSelected || '/' || TracksTotal AS TracksReviewed, ReleaseYear || SUBSTR('0000' || ReleaseDate, -4, 4) AS ReleaseDate, ReleaseTitleAlt, ReleaseArtistTitleAlt FROM Release WHERE ReleaseID = " + row[columnIndexReleaseID];
 	if(debugMode) console.log('generateReleaseInfo', query);
 	queryDb(query, generateReleaseInfo);
 }
@@ -580,7 +580,7 @@ function generateArtistInfo(contents) {
 			td.innerHTML = '<a target="_blank" href="' + rowVal + '">' + rowVal + '</a>';
 		tr.appendChild(td);
 		
-		tbody.appendChild(tr);	
+		tbody.appendChild(tr);
 	}
 		
 	table.appendChild(tbody);
