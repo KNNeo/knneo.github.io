@@ -13,7 +13,6 @@ window.addEventListener('load', function() {
 });
 
 function setDarkMode() {
-	if(window.matchMedia('(prefers-color-scheme: dark)').matches) toggleDarkMode();
 	
 	let theme = Array.from(document.getElementsByTagName('meta')).filter(m => m.name == 'theme-color');
 	let themeColor = document.createElement('meta');
@@ -28,6 +27,7 @@ function setDarkMode() {
 		document.head.appendChild(themeColor);
 	}
 	
+	if(window.matchMedia('(prefers-color-scheme: dark)').matches) toggleDarkMode();
 	themeColor.content = document.getElementsByTagName('html')[0].classList.contains('darked') ? 'black' : 'white';
 }
 
