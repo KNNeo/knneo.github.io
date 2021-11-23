@@ -370,7 +370,7 @@ function generateLayout(contents) {
 	generatePlayer(contents);
 	// generateCoverArt();
 	generateTabs();
-	generateSongInfo(contents);
+	queryInfo(contents);
 	queryRelated(contents);
 	queryAwards(contents);
 	queryRankings(contents);
@@ -472,6 +472,25 @@ function updateQueueCount() {
 	document.getElementById('skip').style.display = queued > 0 ? '' : 'none';
 }
 
+function queryInfo(contents) {
+	generateSongInfo(contents);
+	
+	let columns = contents.columns;
+	let rows = contents.values;
+	let row = rows[0];
+	let columnIndexArtistID = contents.columns.indexOf('ArtistID');
+	let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
+	let columnIndexReleaseID = contents.columns.indexOf('ReleaseID');
+	
+	let query = "SELECT * FROM Artist WHERE ArtistID = " + row[columnIndexArtistID];
+	if(debugMode) console.log('generateArtistInfo', query);
+	queryDb(query, generateArtistInfo);
+	
+	query = "SELECT * FROM Release WHERE KNYEAR = " + row[columnIndexKNYEAR] + " AND ReleaseID = " + row[columnIndexReleaseID];
+	if(debugMode) console.log('generateReleaseInfo', query);
+	queryDb(query, generateReleaseInfo);
+}
+
 function generateSongInfo(contents) {
 	document.getElementById('song-info').innerHTML = '';
 	
@@ -480,7 +499,7 @@ function generateSongInfo(contents) {
 	
 	let header = document.createElement('h4');
 	header.classList.add('centered');
-	header.innerText = 'Song Info';
+	header.innerText = 'Song Information';
 	document.getElementById('song-info').appendChild(header);	
 	
 	let columns = contents.columns;
@@ -518,6 +537,102 @@ function generateSongInfo(contents) {
 		
 	table.appendChild(tbody);
 	document.getElementById('song-info').appendChild(table);
+}
+
+function generateArtistInfo(contents) {
+	document.getElementById('artist-info').innerHTML = '';
+	
+	if(debugMode) console.log('generateSongInfo', contents);
+	if(!contents.columns || !contents.values) return;
+	
+	let header = document.createElement('h4');
+	header.classList.add('centered');
+	header.innerText = 'Artist Information';
+	document.getElementById('artist-info').appendChild(header);	
+	
+	let columns = contents.columns;
+	let rows = contents.values;
+	
+	let table = document.createElement('table');
+	table.classList.add('list');
+	table.classList.add('centered');
+	table.classList.add('content-box');
+	table.classList.add('no-highlight');
+	
+	let tbody = document.createElement('tbody');
+	
+	//header
+	let row = rows[0];
+	for(let r = 0; r < columns.length; r++)
+	{
+		let rowVal = row[r];
+		if(!rowVal || rowVal.length == 0) continue;
+		
+		let tr = document.createElement('tr');
+	
+		let tc = document.createElement('td');
+		tc.innerText = columns[r];
+		tr.appendChild(tc);
+		
+		let td = document.createElement('td');
+		td.innerText = rowVal;
+		if(rowVal.toString().includes('://'))
+			td.innerHTML = '<a target="_blank" href="' + rowVal + '">' + rowVal + '</a>';
+		tr.appendChild(td);
+		
+		tbody.appendChild(tr);	
+	}
+		
+	table.appendChild(tbody);
+	document.getElementById('artist-info').appendChild(table);
+}
+
+function generateReleaseInfo(contents) {
+	document.getElementById('release-info').innerHTML = '';
+	
+	if(debugMode) console.log('generateSongInfo', contents);
+	if(!contents.columns || !contents.values) return;
+	
+	let header = document.createElement('h4');
+	header.classList.add('centered');
+	header.innerText = 'Release Information';
+	document.getElementById('release-info').appendChild(header);	
+	
+	let columns = contents.columns;
+	let rows = contents.values;
+	
+	let table = document.createElement('table');
+	table.classList.add('list');
+	table.classList.add('centered');
+	table.classList.add('content-box');
+	table.classList.add('no-highlight');
+	
+	let tbody = document.createElement('tbody');
+	
+	//header
+	let row = rows[0];
+	for(let r = 0; r < columns.length; r++)
+	{
+		let rowVal = row[r];
+		if(!rowVal || rowVal.length == 0) continue;
+		
+		let tr = document.createElement('tr');
+	
+		let tc = document.createElement('td');
+		tc.innerText = columns[r];
+		tr.appendChild(tc);
+		
+		let td = document.createElement('td');
+		td.innerText = rowVal;
+		if(rowVal.toString().includes('://'))
+			td.innerHTML = '<a target="_blank" href="' + rowVal + '">' + rowVal + '</a>';
+		tr.appendChild(td);
+		
+		tbody.appendChild(tr);	
+	}
+		
+	table.appendChild(tbody);
+	document.getElementById('release-info').appendChild(table);
 }
 
 function queryRelated(contents) {
