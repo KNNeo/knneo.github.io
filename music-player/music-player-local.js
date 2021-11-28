@@ -3,7 +3,6 @@ let defaultTitle = 'Klassic Note Web';
 let directory = 'file://C:/Users/KAINENG/OneDrive/Music/'; //for audio player, in {directory}/{knyear}/{filename}.mp3
 let debugMode = false; //will show all available logging on console
 let altMode = false; //will switch between titles and alt titles [TODO]
-let autoplayOnSelect = false; //disable player autoplay, will affect queue
 let widescreenAverageModuleSize = 480; //on wide screen widths, tab width for content (responsive)
 
 //--STARTUP--//
@@ -138,7 +137,6 @@ function setTabs() {
 function showTab(activeTab) {
 	for(let tab of document.getElementsByClassName('tab'))
 	{
-		tab.style.display = tab.id == activeTab ? 'block' : 'none';
 		if(tab.classList.contains('tab-view')) tab.style.display = 'inline-block';
 	}
 }
@@ -245,6 +243,14 @@ function generateTabs() {
 		});
 		
 		document.getElementById('tab-buttons').appendChild(tabItem);
+		
+		if(tabNames.indexOf(tabItem.innerText) >= 0)
+		{
+			console.error('duplicate tab name exists: ' + tabItem.innerText);
+			break;
+		}
+		else
+			tabNames.push(tabItem.innerText);
 	}	
 }
 
@@ -481,7 +487,7 @@ function queryInfo(contents) {
 	let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
 	let columnIndexReleaseID = contents.columns.indexOf('ReleaseID');
 	
-	let query = "SELECT ArtistTitle, GROUP_CONCAT(ParentArtist, ', ') AS ParentArtists, ArtistCode, DisbandYear, ArtistTitleAlt FROM Artist WHERE ArtistTitle = '" + row[columnIndexArtistTitle] + "' ";
+	let query = "SELECT ArtistTitle, GROUP_CONCAT(ParentArtist, ', ') AS ParentArtists, ArtistCode, DisbandYear, ArtistTitleAlt FROM Artist WHERE ArtistTitle = '" + reduceQueryInString(row[columnIndexArtistTitle]) + "' ";
 	query += "GROUP BY ArtistTitle, ArtistCode, DisbandYear, ArtistTitleAlt";
 	if(debugMode) console.log('generateArtistInfo', query);
 	queryDb(query, generateArtistInfo);
