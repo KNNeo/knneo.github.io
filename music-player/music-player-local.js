@@ -4,6 +4,7 @@ let directory = 'file://C:/Users/KAINENG/OneDrive/Music/'; //for audio player, i
 let debugMode = false; //will show all available logging on console
 let altMode = false; //will switch between titles and alt titles [TODO]
 let widescreenAverageModuleSize = 480; //on wide screen widths, tab width for content (responsive)
+let autoplayOnSelect = false; //disable player autoplay, will affect queue
 
 //--STARTUP--//
 window.addEventListener('load', startup);
@@ -137,6 +138,7 @@ function setTabs() {
 function showTab(activeTab) {
 	for(let tab of document.getElementsByClassName('tab'))
 	{
+		tab.style.display = tab.id == activeTab ? 'block' : 'none';
 		if(tab.classList.contains('tab-view')) tab.style.display = 'inline-block';
 	}
 }
@@ -232,6 +234,7 @@ function generateTabs() {
 	document.getElementById('tab-buttons').innerHTML = '';
 	
 	let tabs = document.getElementsByClassName('tab');
+	let tabNames = [];
 	for(let tab of tabs)
 	{
 		let tabItem = document.createElement('button');
