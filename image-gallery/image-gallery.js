@@ -47,7 +47,7 @@ let settingsLoaded = false;
 //on startup
 let windowHeight = window.innerHeight;
 let windowWidth = window.innerWidth;
-window.onload = loadPage('surugaya-gallery');
+window.addEventListener('load', loadPage('surugaya-gallery'));
 window.addEventListener('resize',function () {
 	if(window.innerHeight == windowHeight || window.innerWidth != windowWidth) renderFilter(undefined);
 	else {
