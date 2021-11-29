@@ -276,6 +276,16 @@ function generateFilters() {
 	});
 	filters.appendChild(search);
 	
+	let tc = document.createElement('a');
+	tc.id = 'copy';
+	tc.style.display = 'none';
+	tc.title = 'Copy Search as Table';
+	tc.classList.add('material-icons');
+	tc.href = 'javascript:void(0);';
+	tc.addEventListener('click', copySearch);
+	tc.innerText = 'content_copy';
+	filters.appendChild(tc);
+		
 	let options = document.createElement('select');
 	options.id = 'options';
 	options.addEventListener('change', onChangeOption);
@@ -285,6 +295,16 @@ function generateFilters() {
 		options.appendChild(opt);
 		
 	filters.appendChild(options);
+}
+
+function copySearch() {
+	navigator.clipboard.writeText(document.getElementById('search').value.replace(' - ', '\t'));
+	document.getElementById('copy').innerText = 'done';
+	document.getElementById('copy').style.cursor = 'none';
+	setTimeout( function() { 
+		document.getElementById('copy').innerText = 'content_copy'; 
+		document.getElementById('copy').style.cursor = '';
+	}, 2000);
 }
 
 function onChangeOption() {
@@ -397,6 +417,8 @@ function updateSearch(contents) {
 	let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
 	
 	document.getElementById('search').value = row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle];
+	document.getElementById('search').style.width = '96%';
+	document.getElementById('copy').style.display = '';
 }
 
 function generatePlayer(contents) {
@@ -1447,5 +1469,5 @@ function reduceQueryInString(query) {
 
 function reduceReleaseTitle(release) {
 	//exception list to group multiple disc releases (data consistency required in db)
-	return release.replace("'","''").replace('Disc 1','').replace('Disc 2','').replace('Disc 3','').trim();
+	return release.replace(/'/g,"''").replace('Disc 1','').replace('Disc 2','').replace('Disc 3','').trim();
 }

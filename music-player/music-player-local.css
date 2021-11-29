@@ -192,6 +192,18 @@ td, th {
 	font-size: 20px;
 }
 
+.material-icons {
+	font-size: 20px;
+	vertical-align: bottom;
+	cursor: pointer;
+	text-decoration: none;
+	color: black;
+}
+
+.darked .material-icons {
+	color: white;
+}
+
 @media only screen
    and (min-device-width : 960px)
 {
