@@ -133,6 +133,9 @@ function setTabs() {
 	
 	document.getElementById('tab-list').style.height = window.innerHeight - Array.from(document.getElementsByClassName('calc')).reduce((total, current) => { return total + current.offsetHeight; }, 40) + 'px';
 	if (debugMode) console.log('containerHeight', document.getElementById('tab-list').style.height);
+	
+	document.getElementById('search').style.width = (document.getElementById('options').getBoundingClientRect().width - 20) + 'px';
+	document.getElementById('copy').style.display = '';
 }
 
 function showTab(activeTab) {
@@ -417,8 +420,6 @@ function updateSearch(contents) {
 	let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
 	
 	document.getElementById('search').value = row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle];
-	document.getElementById('search').style.width = '96%';
-	document.getElementById('copy').style.display = '';
 }
 
 function generatePlayer(contents) {
