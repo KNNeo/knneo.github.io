@@ -10,7 +10,9 @@ window.addEventListener('load', function() {
 	setDarkMode();
 	addDarkModeEvents();
 	showLocal();
+	showDimensions();
 });
+window.addEventListener('resize', showDimensions);
 
 function setDarkMode() {
 	
@@ -61,6 +63,13 @@ function showLocal() {
 			local.style.display = 'none';
 		}
 	}	
+}
+
+function showDimensions() {
+	if(document.getElementById('dimensions') != null)
+	{
+		document.getElementById('dimensions').innerText = window.innerWidth + 'px by ' + window.innerHeight + 'px';
+	}
 }
 
 //*tracking prevention*//
