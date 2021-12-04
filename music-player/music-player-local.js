@@ -714,6 +714,15 @@ function queryRelated(contents) {
 	query += " ORDER BY RANDOM() DESC LIMIT 10";
 	if(debugMode) console.log('queryReleaseRelated', query);
 	queryDb(query, generateReleaseRelated);
+	
+	//artist featured in
+	document.getElementById('songs-related-collab').innerHTML = '';
+	query = "select a.ParentArtist, s.KNID, s.KNYEAR, s.SongTitle, s.ArtistTitle from Artist a ";
+	query += "join Song s on a.ArtistID = s.ArtistID "
+	query += "where a.ParentArtist <> a.ArtistTitle and a.ParentArtist = '" + reduceQueryInString(row[columnIndexArtistTitle]) + "' ";
+	query += "ORDER BY RANDOM() DESC LIMIT 5";
+	if(debugMode) console.log('generateSongFeaturedByArtist', query);
+	queryDb(query, generateSongFeaturedByArtist);
 }
 
 function generateSongRelatedByDate(contents) {
@@ -934,6 +943,54 @@ function generateReleaseRelated(contents) {
 	
 }
 
+function generateSongFeaturedByArtist(contents) {
+	if(debugMode) console.log('generateSongFeaturedByArtist', contents);
+	if(!contents.columns || !contents.values) return;
+	
+	let columns = contents.columns;
+	let rows = contents.values;
+	
+	if(rows.length < 1) return;
+	
+	let columnIndexKNID = contents.columns.indexOf('KNID');
+	let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
+	let columnIndexSongTitle = contents.columns.indexOf('SongTitle');
+	let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
+	let columnIndexParentArtist = contents.columns.indexOf('ParentArtist');
+	
+	let header = document.createElement('h4');
+	header.classList.add('centered');
+	header.innerText = 'Songs featuring ' + rows[0][columnIndexParentArtist];
+	document.getElementById('songs-related-collab').appendChild(header);	
+	
+	let table = document.createElement('table');
+	// table.id = 'table';
+	table.classList.add('list');
+	table.classList.add('centered');
+	table.classList.add('content-box');
+	table.classList.add('not-selectable');
+	
+	let tbody = document.createElement('tbody');
+	
+	//header
+	for(let row of rows)
+	{
+		
+		let tr = document.createElement('tr');
+	
+		let tc = document.createElement('td');
+		tc.style.cursor = 'pointer';
+		tc.setAttribute('data-id', row[columnIndexKNID]);
+		tc.innerText = row[columnIndexKNYEAR] + ' - ' + row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle];
+		tc.addEventListener('click', updateSong);
+		tr.appendChild(tc);
+		
+		tbody.appendChild(tr);	
+	}
+		
+	table.appendChild(tbody);
+	document.getElementById('songs-related-collab').appendChild(table);
+}
 
 function queryAwards(contents) {
 	let columns = contents.columns;
