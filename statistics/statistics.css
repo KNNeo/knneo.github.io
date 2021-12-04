@@ -63,11 +63,11 @@ html {
 
 @media only screen and (max-width: 960px) {
 	.container {
-		 width: 100%;
+		 width: 99%;
 		 margin: 0;
 	}
 	.landing {
-		display: block;
+		/* display: block; */
 	}
 	table {
 		font-size: 0.6rem;
