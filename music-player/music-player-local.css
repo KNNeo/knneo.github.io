@@ -204,6 +204,11 @@ td, th {
 	color: white;
 }
 
+.tab-buttons button {
+	padding: 6px 12px;
+	text-transform: uppercase;
+}
+
 @media only screen
    and (min-device-width : 960px)
 {
