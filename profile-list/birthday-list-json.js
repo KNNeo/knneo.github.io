@@ -671,6 +671,36 @@ let birthdayListJson =
 		"id":"MurasakiShion",
 		"name":"Murasaki Shion",
 		"dob":"????.12.08"
+	},
+	{
+		"category":"vtuber",
+		"id":":LaplusDarkness",
+		"name":"La+ Darknesss",
+		"dob":"????.05.25"
+	},
+	{
+		"category":"vtuber",
+		"id":"TakaneLui",
+		"name":"Takane Lui",
+		"dob":"????.06.11"
+	},
+	{
+		"category":"vtuber",
+		"id":"HakuiKoyori",
+		"name":"Hakui Koyori",
+		"dob":"????.03.15"
+	},
+	{
+		"category":"vtuber",
+		"id":"SakamataChloe",
+		"name":"Sakamata Chloe",
+		"dob":"????.05.18"
+	},
+	{
+		"category":"vtuber",
+		"id":"KazamaIroha",
+		"name":"Kazama Iroha",
+		"dob":"????.06.18"
 	}
 ]
 
