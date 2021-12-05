@@ -301,7 +301,15 @@ function generateFilters() {
 }
 
 function copySearch() {
-	navigator.clipboard.writeText(document.getElementById('search').value.replace(' - ', '\t'));
+	let search = document.getElementById('search').value.split(' - ');
+	if(search.length == 2)
+	{
+		navigator.clipboard.writeText(search[1] + '\t' + search[0]);
+	}
+	else
+	{
+		navigator.clipboard.writeText(search[0]);
+	}
 	document.getElementById('copy').innerText = 'done';
 	document.getElementById('copy').style.cursor = 'none';
 	setTimeout( function() { 
