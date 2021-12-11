@@ -277,7 +277,7 @@ let pageElements = [
 		]
 	}
 ];
-// convertStringArrayToHistogram();
+
 function convertStringArrayToHistogram(chartData, chartLabel) {
 	/*
 	input: [
@@ -355,6 +355,7 @@ function renderMain(sectionNo) {
 			let prevDiv = document.createElement('div');
 			prevDiv.classList.add('page-prev');
 			let prevButton = document.createElement('a');
+			prevButton.classList.add('not-selectable');
 			prevButton.title = 'Previous';
 			prevButton.style.visibility = main.previousElementSibling != null ? 'visible' : 'hidden';
 			prevButton.addEventListener('click',scrollToPrevPage);
@@ -383,6 +384,7 @@ function renderMain(sectionNo) {
 			let nextDiv = document.createElement('div');
 			nextDiv.classList.add('page-next');
 			let nextButton = document.createElement('a');
+			nextButton.classList.add('not-selectable');
 			nextButton.title = 'Next';
 			nextButton.style.visibility = main.nextElementSibling != null ? 'visible' : 'hidden';
 			nextButton.addEventListener('click',scrollToNextPage);
@@ -483,9 +485,9 @@ function renderSection(sectionNo, mainSectionNo) {
 		};
 		loadTimeline(sectionNo, chartContents);
 	}
-	else {
-		console.warn('chartTitle is empty: ', content);
-	}
+	// else {
+		// console.log('chartTitle is empty: ', content);
+	// }
 	
 	// if(section.nextElementSibling != null) {
 		let nextDiv = document.createElement('div');
@@ -575,7 +577,7 @@ function loadTimeline(sectionNo, chartContents) {
 			indexAxis: 'y',
 			responsive: true,
 			maintainAspectRatio: false,
-			aspectRatio: 0.5,
+			aspectRatio: isMobile() ? 1 : 0.5,
 			datasets: {
 				bar: {
 					barPercentage: 1
@@ -621,7 +623,7 @@ function loadTimeline(sectionNo, chartContents) {
 			indexAxis: chartContents.type == 'bar' ? (chartContents.chartBarOrientation || 'y') : undefined,
 			responsive: true,
 			maintainAspectRatio: false,
-			aspectRatio: 0.5,
+			aspectRatio: isMobile() ? 1 : 0.5,
 			datasets: {
 				bar: {
 					barPercentage: 1
@@ -761,8 +763,11 @@ function toggleGoToTopBtn() {
 }
 
 // startup
-renderVariables();
-renderPage();
-renderButtons();
-if(document.body.clientWidth > 960) 
+window.addEventListener('load', startup);
+window.addEventListener('resize', function() { location.reload(); });
+function startup() {
+	renderVariables();
+	renderPage();
+	renderButtons();
 	scrollToMainPage(true);
+}
