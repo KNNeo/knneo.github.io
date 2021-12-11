@@ -322,13 +322,23 @@ function closestClass(inputElement, targetClassName) {
 }
 
 function scrollToNextPage() {
-	if(closestClass(this, 'section').nextElementSibling != null)
-		closestClass(this, 'section').nextElementSibling.scrollIntoView();
+	let nextPage = closestClass(this, 'section').nextElementSibling;
+	if(nextPage != null)
+	{
+		setTimeout(function() {
+			nextPage.scrollIntoView();
+		}, 150);
+	}
 }
 
 function scrollToPrevPage() {
-	if(closestClass(this, 'section').previousElementSibling != null)
-		closestClass(this, 'section').previousElementSibling.scrollIntoView();
+	let prevPage = closestClass(this, 'section').previousElementSibling;
+	if(prevPage != null)
+	{
+		setTimeout(function() {
+			prevPage.scrollIntoView();
+		}, 150);
+	}
 }
 
 function scrollToMainPage(firstLoad) {
@@ -354,12 +364,12 @@ function renderMain(sectionNo) {
 		// if(main.previousElementSibling != null) {
 			let prevDiv = document.createElement('div');
 			prevDiv.classList.add('page-prev');
+			prevDiv.classList.add('not-selectable');
 			let prevButton = document.createElement('a');
-			prevButton.classList.add('not-selectable');
 			prevButton.title = 'Previous';
 			prevButton.style.visibility = main.previousElementSibling != null ? 'visible' : 'hidden';
-			prevButton.addEventListener('click',scrollToPrevPage);
-			prevButton.addEventListener('touchstart',scrollToPrevPage);
+			prevButton.addEventListener('click', scrollToPrevPage);
+			prevButton.addEventListener('touchstart', scrollToPrevPage);
 			let prevButtonIcon = document.createElement('i');
 			prevButtonIcon.classList.add('material-icons');
 			prevButtonIcon.innerText = 'keyboard_arrow_up';
@@ -383,12 +393,12 @@ function renderMain(sectionNo) {
 		// if(main.nextElementSibling != null) {
 			let nextDiv = document.createElement('div');
 			nextDiv.classList.add('page-next');
+			nextDiv.classList.add('not-selectable');
 			let nextButton = document.createElement('a');
-			nextButton.classList.add('not-selectable');
 			nextButton.title = 'Next';
 			nextButton.style.visibility = main.nextElementSibling != null ? 'visible' : 'hidden';
-			nextButton.addEventListener('click',scrollToNextPage);
-			nextButton.addEventListener('touchstart',scrollToNextPage);
+			nextButton.addEventListener('click', scrollToNextPage);
+			nextButton.addEventListener('touchstart', scrollToNextPage);
 			let nextButtonIcon = document.createElement('i');
 			nextButtonIcon.classList.add('material-icons');
 			nextButtonIcon.innerText = 'keyboard_arrow_down';
