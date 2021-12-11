@@ -417,6 +417,7 @@ function renderSection(sectionNo, mainSectionNo) {
 	// if(section.previousElementSibling != null) {
 		let prevDiv = document.createElement('div');
 		prevDiv.classList.add('page-prev');
+		prevDiv.classList.add('not-selectable');
 		let prevButton = document.createElement('a');
 		prevButton.title = 'Previous';
 		prevButton.style.visibility = section.previousElementSibling != null ? 'visible' : 'hidden';
@@ -502,6 +503,7 @@ function renderSection(sectionNo, mainSectionNo) {
 	// if(section.nextElementSibling != null) {
 		let nextDiv = document.createElement('div');
 		nextDiv.classList.add('page-next');
+		nextDiv.classList.add('not-selectable');
 		let nextButton = document.createElement('a');
 		nextButton.title = 'Next';
 		nextButton.style.visibility = section.nextElementSibling != null ? 'visible' : 'hidden';
@@ -741,6 +743,7 @@ function renderButtons() {
 	topButton.title = 'Back To Top';
 	let topButtonIcon = document.createElement('i');
 	topButtonIcon.classList.add('material-icons');
+	topButtonIcon.classList.add('not-selectable');
 	topButtonIcon.innerText = 'arrow_upward';
 	topButton.appendChild(topButtonIcon);
 	document.body.appendChild(topButton);
@@ -752,6 +755,7 @@ function renderButtons() {
 	closeButton.title = 'Close Popup';
 	let closeButtonIcon = document.createElement('i');
 	closeButtonIcon.classList.add('material-icons');
+	closeButtonIcon.classList.add('not-selectable');
 	closeButtonIcon.innerText = 'close';
 	closeButton.appendChild(closeButtonIcon);
 	document.body.appendChild(closeButton);
