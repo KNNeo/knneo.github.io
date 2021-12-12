@@ -172,18 +172,30 @@ function setKeyDown() {
 	return false;
 }
 
+function toggleAutoplay() {
+	autoplayOnSelect = !autoplayOnSelect;
+	document.getElementById('autoplay').innerText = autoplayOnSelect ? 'music_note' : 'music_off';
+}
+
 //--FUNCTIONS--//
 function startup() {
 	document.getElementById('title').innerText = defaultTitle;
-	document.getElementById('skip').style.display = 'none';
 	document.title = defaultTitle;
+	renderSettings();
 	renderVariables();
 	generateFilters();
 	window['playlist'] = [];
+	
+	//initial query for options
 	let query = "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song";
 	if(isMobile())
 		query += " LIMIT 100";
 	callDb(query, updateOptions);
+}
+
+function renderSettings() {
+	document.getElementById('skip').style.display = 'none';
+	document.getElementById('autoplay').innerText = autoplayOnSelect ? 'music_note' : 'music_off';
 }
 
 function renderVariables() {
