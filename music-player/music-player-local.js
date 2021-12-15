@@ -36,12 +36,18 @@ function randomSong() {
 				songsToQueue--;
 			}
 		} while (songsToQueue > 0);
-		// console.log('playlist',window['playlist']);
+		if(debugMode) console.log('playlist',window['playlist']);
 		updateQueueCount();
-		let optQuery = "SELECT * FROM Song WHERE KNID = " + window['playlist'][0];
-		// console.log('optQuery', optQuery);
 		if(document.getElementById('player') == null || document.getElementById('player').paused)
+		{
+			// when autoplay is off
+			if(window['playlist'].length == 2)
+				window['playlist'] = window['playlist'].slice(1);
+			let optQuery = "SELECT * FROM Song WHERE KNID = ";
+			optQuery += window['playlist'][0];
+			if(debugMode) console.log('optQuery', optQuery);
 			queryDb(optQuery, updateOptions);
+		}
 	});
 };
 
@@ -430,6 +436,7 @@ function generateLayout(contents) {
 	querySOTD(contents);
 	setTabs();
 	scrollToTop();
+	updateQueueCount();
 }
 
 function updateSearch(contents) {
