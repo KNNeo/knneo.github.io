@@ -741,6 +741,7 @@
 		"id":"KounoMarika",
 		"image":"https://knneo.webs.com/kounomarika.jpg",
 		"landscapes":[
+			"https://pbs.twimg.com/media/FG20H5GakAEadBN?format=jpg&name=small",
 			"https://pbs.twimg.com/media/E-CLqKjVgAcdSvo?format=jpg&name=small",
 			"https://res.cloudinary.com/gsjebzejhjubm/image/private/s--vsrRfdK9--/c_scale,dpr_2,f_auto,t_article_image,w_664/v1629025643/210720FRI0315_vjcxpk.jpg",
 			"https://res.cloudinary.com/gsjebzejhjubm/image/private/s--QypXd6JI--/c_scale,dpr_2,f_auto,t_article_image,w_664/v1629025637/210720FRI0120_snijxb.jpg",
@@ -1061,6 +1062,7 @@
 		"id":"UesakaSumire",
 		"image":"https://knneo.webs.com/uesakasumire.jpg",
 		"landscapes":[
+			"https://pbs.twimg.com/media/FGyXi0HagAInQEu?format=jpg&name=small",
 			"https://webnewtype.com/rsz/S1/1050081/10470524.jpg",
 			"https://webnewtype.com/rsz/S1/1050081/10470513.jpg",
 			"https://assets.st-note.com/production/uploads/images/49888583/picture_pc_7cb915975024a685c0bf0df99f6deddd.jpg?width=800",
@@ -1070,6 +1072,9 @@
 			"https://pbs.twimg.com/media/EmJT16NU0AE97XU?format=jpg&name=small"
 		],
 		"portraits":[
+			"https://pbs.twimg.com/media/FGKFKuXUcAk0TBS?format=jpg&name=small",
+			"https://pbs.twimg.com/media/FFlSa4PVEAQkfQY?format=jpg&name=small",
+			"https://pbs.twimg.com/media/FDRnv0jacAAspW7?format=jpg&name=small",
 			"https://qjweb.jp/wp-content/uploads/2021/10/TL_6521.jpg",
 			"https://pbs.twimg.com/media/FB1P7LFVkAkDBGS?format=jpg&name=small",
 			"https://webnewtype.com/rsz/S1/1050081/10470512.jpg",
@@ -1197,6 +1202,7 @@
 			"https://pbs.twimg.com/media/EfczABaWAAA3zuy?format=jpg&name=small"	
 		],
 		"portraits":[
+			"https://pbs.twimg.com/media/FG4bUSpacAkcwLn?format=jpg&name=small",
 			"https://img2.animatetimes.com/2021/04/606fd86704fb6_5c485362b5ad3620bd0801930e5c7644.jpg",
 			"https://pbs.twimg.com/media/EwCvyKaVcAcfbkV?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EvT-NK5U4AAAy7O?format=jpg&name=small",
@@ -1230,6 +1236,8 @@
 		"id":"IsobeKarin",
 		"image":"https://knneo.webs.com/isobekarin.jpg",
 		"landscapes":[
+			"https://pbs.twimg.com/media/FGVH9uOVcAUg-HQ?format=jpg&name=small",
+			"https://pbs.twimg.com/media/FFmbxCyUYAAcjKZ?format=jpg&name=small",
 			"https://pbs.twimg.com/media/FEopdJZUcAE5AEa?format=jpg&name=small",
 			"https://pbs.twimg.com/media/E-cEcz_UYAYlWMP?format=jpg&name=small",
 			"https://pbs.twimg.com/media/E0OQHLbVUAUckPl?format=jpg&name=small",
@@ -1321,6 +1329,7 @@
 		"id":"KitouAkari",
 		"image":"https://knneo.webs.com/kitouakari.jpg",
 		"landscapes":[
+			"https://pbs.twimg.com/media/FG28wF3XwAIlh5X?format=jpg&name=small",
 			"https://www.asahicom.jp/articles/images/AS20210901001938_comm.jpg",
 			"https://pbs.twimg.com/media/EvXJVI3UcAQTv6p?format=jpg&name=small",
 			"https://img2.animatetimes.com/2020/12/5fead62c08f24_f31c4efc0ffa58adb2ca234aa74621f9.jpg",
@@ -1768,6 +1777,7 @@
 			"https://pbs.twimg.com/media/Edf6cXOUYAEwpNm?format=jpg&name=small"
 		],
 		"portraits":[
+			"https://pbs.twimg.com/media/FGz0lMaaIAMJsl3?format=jpg&name=small",
 			"https://pbs.twimg.com/media/E_zS_jkUYAQ-7NW?format=jpg&name=small",
 			"https://pbs.twimg.com/media/E9Y4VXcVgAEg7DV?format=jpg&name=small",
 			"https://pbs.twimg.com/media/E6Q3qQsVoAgxO3q?format=jpg&name=small",
@@ -2222,6 +2232,10 @@
 			{
 				"image":"https://animeanime.jp/imgs/p/ypfYP8UGHHv1ocFz1cgmQGihmaytrq_oqaqr/441839.jpg",
 				"id":"TomatsuHaruka-MinaseInori"
+			},
+			{
+				"image":"https://obs.line-scdn.net/0hl69KRxSsMxkEMiTDtCRMTkxvNXZ9USkRbkokI3FkOTdxXiQZbEglJ3tiL3lhXC4RJCABd1RtFnxpcncbMQ5_IV5SbX9dRwlJUCg6IVdOb3suHnRIOlx1fCQ0bC0pCiYdO1F0fWQzOX4hVnFNOA/small",
+				"id":"HikasaYouko-KayanoAi"
 			}
 		]
 	}
