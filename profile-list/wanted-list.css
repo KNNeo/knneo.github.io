@@ -192,11 +192,15 @@ font-size: 70%;
   margin: 2px;
   cursor: pointer;
 }
-#wantedList a {
+#wantedList a,
+.friend-link,
+.profile-box-comments a {
   color: #00e4ff;
   text-decoration: underline solid #00e4ff;
 }
-#wantedList li:hover a, a:hover {
+#wantedList a:hover,
+.friend-link:hover,
+.profile-box-comments a:hover {
   color: white;
   text-decoration: underline solid white;
 }
