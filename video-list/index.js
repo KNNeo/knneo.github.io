@@ -30,8 +30,6 @@ xmlhttp.send();
 
 //--FUNCTIONS--//
 function renderList() {
-	let videoList = document.querySelector('.list');
-	
 	for(let v of list)
 	{
 		let video = document.createElement('div');
@@ -63,11 +61,9 @@ function renderList() {
 				
 				title.appendChild(channel);
 				
-			video.appendChild(title);
-			
+			video.appendChild(title);			
 		
-		videoList.appendChild(video);
-		
+		document.querySelector('.list').appendChild(video);		
 	}
 }
 function addUrlClause(url) {
