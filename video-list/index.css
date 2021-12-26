@@ -1,0 +1,87 @@
+html {
+  font-family: Open Sans;
+  scroll-behavior: smooth;
+}
+body > * {
+  margin: auto;
+  text-align: center;
+  overflow-x: hidden;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+input {
+	margin: 10px;
+}
+.material-icons {
+	cursor: pointer;
+	padding: 5px;
+}
+.navigation-item {
+	display: inline-block;
+	padding: 5px 10px;
+	vertical-align: bottom;
+	cursor: pointer;
+}
+.closed {
+	display: none;
+}
+.snap {
+	scroll-snap-type: x mandatory !important;
+}
+.profile-category {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+  padding-bottom: 5px;
+}
+.profile-box {
+	display: inline-block;
+	margin: 5px;
+	vertical-align: top;
+	scroll-snap-align: center;
+	white-space: normal;
+	touch-action: manipulation;
+	line-height: 0;
+}
+.profile-box-img img {
+  max-width: 90vw;
+  max-height: 40vh;
+}
+.shadowed {
+  border: 1px solid lightgray;
+  box-shadow: 3px 3px;
+}
+.shadowed:active {
+  box-shadow: 1px 1px;
+  transform: translate(2px,2px);
+}
+.unshadowed {
+	filter: opacity(100%);
+	transition: filter 1s;
+}
+.unshadowed:active {
+	filter: opacity(50%);
+	transition: filter 0s;
+}
+.profile-category::-webkit-scrollbar { 
+  z-index: 0;
+  height: 12px;
+}
+.profile-category::-webkit-scrollbar-thumb {
+  background: black;
+}
+.profile-category::-webkit-scrollbar-track {
+  background: #dddddd;
+}
+
+@media only screen and (max-width : 1040px) {
+/*scrollbars for top and bottom labels only on desktop*/
+html { font-size: 100%; }
+div { scrollbar-width: 0 !important; }
+div::-webkit-scrollbar { width: 0 !important }
+/*snap on touch is better on mobile than on desktop*/
+.profile-box { scroll-snap-align: center; }
+}
