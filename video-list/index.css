@@ -13,24 +13,12 @@ body > * {
   -ms-user-select: none;
   user-select: none;
 }
-input {
-	margin: 10px;
-}
 .material-icons {
 	cursor: pointer;
 	padding: 5px;
 }
-.navigation-item {
-	display: inline-block;
-	padding: 5px 10px;
-	vertical-align: bottom;
-	cursor: pointer;
-}
 .closed {
 	display: none;
-}
-.snap {
-	scroll-snap-type: x mandatory !important;
 }
 .box {
 	margin: 5px;
@@ -50,20 +38,6 @@ input {
 .unshadowed {
 	filter: opacity(100%);
 	transition: filter 1s;
-}
-.unshadowed:active {
-	filter: opacity(50%);
-	transition: filter 0s;
-}
-.profile-category::-webkit-scrollbar { 
-  z-index: 0;
-  height: 12px;
-}
-.profile-category::-webkit-scrollbar-thumb {
-  background: black;
-}
-.profile-category::-webkit-scrollbar-track {
-  background: #dddddd;
 }
 
 @media only screen and (max-width : 1040px) {
