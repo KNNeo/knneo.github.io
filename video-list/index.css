@@ -3,6 +3,7 @@ html {
   scroll-behavior: smooth;
 }
 body > * {
+  max-width: 640px;
   margin: auto;
   text-align: center;
   overflow-x: hidden;
@@ -31,24 +32,12 @@ input {
 .snap {
 	scroll-snap-type: x mandatory !important;
 }
-.profile-category {
-  overflow-x: scroll;
-  overflow-y: hidden;
-  white-space: nowrap;
-  padding-bottom: 5px;
-}
-.profile-box {
-	display: inline-block;
+.box {
 	margin: 5px;
 	vertical-align: top;
 	scroll-snap-align: center;
 	white-space: normal;
 	touch-action: manipulation;
-	line-height: 0;
-}
-.profile-box-img img {
-  max-width: 90vw;
-  max-height: 40vh;
 }
 .shadowed {
   border: 1px solid lightgray;

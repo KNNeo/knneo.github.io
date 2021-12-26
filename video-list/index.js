@@ -30,11 +30,12 @@ xmlhttp.send();
 
 //--FUNCTIONS--//
 function renderList() {
-	let videoList = document.getElementById('list');
+	let videoList = document.querySelector('.list');
 	
 	for(let v of list)
 	{
 		let video = document.createElement('div');
+		video.classList.add('box');
 		video.classList.add('shadowed');
 		video.id = v.id;
 		
@@ -43,6 +44,10 @@ function renderList() {
 			thumbnail.style.backgroundRepeat = 'no-repeat';
 			thumbnail.style.backgroundPosition = 'center';
 			thumbnail.style.backgroundImage = addUrlClause(v.thumbnail);
+			thumbnail.style.width = '100%';
+			thumbnail.style.height = '100px';
+			
+			video.appendChild(thumbnail);
 			
 			let title = document.createElement('div');
 			
@@ -53,12 +58,13 @@ function renderList() {
 			
 				title.appendChild(titleLink);
 				
+				let channel = document.createElement('div');
+				channel.innerText = v.channel;
+				
+				title.appendChild(channel);
+				
 			video.appendChild(title);
 			
-			let channel = document.createElement('div');
-			channel.innerText = v.channel;
-			
-			video.appendChild(channel);
 		
 		videoList.appendChild(video);
 		
