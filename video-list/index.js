@@ -31,8 +31,8 @@ xmlhttp.send();
 //--FUNCTIONS--//
 function renderList() {
 	let videoList = document.getElementById('list');
-		
-	for(let v of videoList)
+	
+	for(let v of list)
 	{
 		let video = document.createElement('div');
 		video.classList.add('shadowed');
