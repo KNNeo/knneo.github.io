@@ -30,6 +30,8 @@ xmlhttp.send();
 
 //--FUNCTIONS--//
 function renderList() {
+	document.querySelector('.list').innerHTML = '';
+	
 	for(let v of list)
 	{
 		let video = document.createElement('div');
