@@ -1,0 +1,268 @@
+/*Github Page Only Controls*/
+html {
+  font-family: Open Sans;
+  overflow-x: hidden;
+  font-size: 13px;
+}
+body {
+  /*padding: 5px;*/
+  background-color: black;
+  color: white;
+  max-width: 960px;
+  margin: auto;
+}
+a, button {
+	color: cyan;
+	cursor: pointer;
+}
+p {
+	padding: 0 10px;
+}
+.page-align {
+	text-align: center;
+	max-width: 800px;
+	margin: auto;
+}
+.page-align li, .page-align a {
+  line-height: 1.5;
+}
+.profile-box > table {
+	/*border-bottom: 1px dashed white; */
+	width: 100%;
+}
+.profile-box {
+	touch-action: manipulation;
+}
+#isMarried {
+	padding-top: 10px;
+	visibility: hidden;
+}
+#marriedCouple:hover #isMarried {
+	visibility: visible;
+}
+.bordered {
+	width: 90%;
+	height: 300px;
+	overflow-x: auto;
+	overflow-y: hidden;
+	border: 1px solid white;
+	padding: 5px;
+}
+#profile {
+	top: 38px;
+	background-color: black;
+}
+tr:hover > td {
+	background-color: transparent;
+}
+.darked tr:hover {
+	background-color: transparent;
+}
+@media only screen and (max-width : 1040px) {
+  html { font-size: 0.8em; }
+}
+.legend {
+	display: inline-block;
+	height: 10px;
+	width: 10px;
+	border: 1px solid white;
+    vertical-align: middle;
+    margin-bottom: 3px;
+}
+#calendar-legend label {	
+	cursor: pointer;
+}
+#calendar-legend input {
+	opacity: 0;
+	height: 0;
+	width: 0;
+}
+
+/*Multi-image thumbnail (Refer to js for logic)*/
+.thumbnail {
+  display: block;
+}
+.thumbnail-initial {
+  position: absolute;
+  text-align: center;
+  left: 0;
+  right: 0;
+  background-color: black;
+}
+.thumbnail-normal {
+  position: initial;
+  text-align: center;
+  left: 0;
+  right: 0;
+}
+.thumbnail-pop {
+  visibility: hidden;
+  padding: 0 20px;
+}
+.thumbnail-initial * img {
+  border: 1px solid transparent;
+  animation: imgblink 3s infinite;
+  -webkit-animation: imgblink 3s infinite;
+  -moz-animation: imgblink 3s infinite;
+}
+.thumbnail .popup:hover .pop img {
+  animation: none;
+}
+.thumbnail-toggle {
+	background-image: linear-gradient(black, transparent);
+	position: sticky;
+	top: 0;
+	right: 0;
+	left: 0;
+}
+.material-icons {
+	font-size: 40px !important;
+}
+.friend-link {
+  text-decoration: underline solid #00e4ff;
+  /*padding-left: 5px;
+  cursor: pointer;*/
+}
+.bi {
+	font-size: 20px;
+	padding: 3px;
+}
+
+
+/*End Github*/
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.profile-box-img {
+  margin: auto;
+}
+.profile-category {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+  padding-bottom: 5px;
+  scroll-snap-type: x mandatory;
+}
+.profile-category > div {
+  display: inline-block;
+  width: 98%;
+  max-width: 640px;
+  margin: 3px;
+  vertical-align: top;
+  padding-right: 5px;
+  scroll-snap-align: center;
+}
+.profile-box {
+  border-radius: 8px;
+  border: 1px solid white;
+  box-shadow: 3px 3px;
+  padding: 4px;
+  white-space: normal;
+}
+.profile-box:active {
+  box-shadow: 1px 1px;
+  transform: translate(2px,2px);
+}
+.profile-box tr:nth-child(odd), .profile-box-comments {
+ text-align: left;
+}
+.profile-box-comments {
+    padding: 3px;
+}
+.profile-box tr:nth-child(odd) td {
+font-size: 70%;
+}
+.profile-box tr:nth-child(even) {
+ text-align: right;
+}
+#wantedList {
+  list-style-type: none;
+  padding: 5px;
+}
+#wantedList li, #wantedList a, #profile-friends a, #profile-social a {
+  display: inline-block;
+  white-space: nowrap;
+  margin: 2px;
+  cursor: pointer;
+}
+#wantedList a,
+.friend-link,
+.profile-box-comments a {
+  color: #00e4ff;
+  text-decoration: underline solid #00e4ff;
+}
+#wantedList a:hover,
+.friend-link:hover,
+.profile-box-comments a:hover {
+  color: white;
+  text-decoration: underline solid white;
+}
+
+#isMarried {
+text-align: center;
+}
+
+#marriedCheckbox {
+    vertical-align: bottom;
+}
+
+#timeline::-webkit-scrollbar, .profile-category::-webkit-scrollbar { 
+  z-index: 0;
+  height: 10px;
+}
+#timeline::-webkit-scrollbar-thumb, .profile-category::-webkit-scrollbar-thumb {
+  background: white;
+}
+#timeline::-webkit-scrollbar-track, .profile-category::-webkit-scrollbar-track {
+  background: #444444;
+}
+.popitem {
+    position: absolute;
+    background-color: black;
+    right: 0;
+    left: 0;
+    display: none;
+	color: white;
+}
+#calendar td:hover .popitem { display: block; }
+#calendar table {
+	margin: auto;
+	border: 1px solid white;
+	position:relative;
+}
+#prevMonth, #nextMonth {
+	cursor: pointer;
+}
+.turning-point {
+	position: relative;
+}
+#tp-description {
+    position: absolute;
+    background: black;
+    border: 1px solid white;
+    padding: 5px 8px;
+    font-size: 1.3em;
+    margin-top: 13px;
+	z-index: 10;
+	text-align: left;
+}
+#calendar td {
+    width: 30px;
+    height: 20px;
+}
+#HocchanAge { color: #444444; }
+#HocchanAge:hover { color: white; }
+
+/*scrollbars for top and bottom labels only on desktop*/
+@media only screen and (max-width : 1040px) {
+div { scrollbar-width: 0 !important; }
+div::-webkit-scrollbar { width: 0 !important }
+html { scroll-behavior: auto; }
+}

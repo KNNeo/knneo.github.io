@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html class="darked" lang="en-SG">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+	<meta name="theme-color" content="black">
+    <link rel="stylesheet" type="text/css" href="../darkmode.css">
+    <link href="profile-quiz.css"rel="stylesheet" type="text/css">
+	<script src="../wanted-list/luxon.min.js"></script>
+	<script src="../wanted-list/d3.v2.min.js"></script>
+	<script src="../wanted-list/timeknots.js"></script>
+	<!-- <script src="../wanted-list/moment.min.js"></script> -->
+	<!-- <script src="../wanted-list/moment-timezone-with-data-10-year-range.min.js"></script> -->
+	<link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'/>
+	<!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <title>Profile Quiz</title>
+</head>
+<body>
+<h1 class="title page-align" onclick="location.reload()">女性プロフィールクイズ</h1>
+<div class="question instructions results bordered page-align"></div>
+<br />
+<div class="choices page-align">
+	<span class="page-align"><button id="option1" class="page-align" onclick="onOptionClick(this)"></button></span>
+	<span class="page-align"><button id="option2" class="page-align" onclick="onOptionClick(this)"></button></span>
+	<span class="page-align"><button id="option3" class="page-align" onclick="onOptionClick(this)"></button></span>
+</div>
+<br />
+<div class="timer page-align"></div>
+<div class="stage page-align"></div>
+<br />
+<div>
+<h3 id="settings" class="settings">
+	<p style="text-align: center;"><a href="./profile-list-v2.html">Back</a></p>
+</h3>
+</div>
+<script src="profile-list-json.js"></script>
+<script src="profile-quiz.js"></script>
+</body>
+</html>
