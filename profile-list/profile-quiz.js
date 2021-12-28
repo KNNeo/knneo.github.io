@@ -145,6 +145,7 @@ function startQuiz() {
 		
 		if(timeChallenge)
 		{
+			preloads = [];
 			let preload = new Image();
 			preload.src = imageList[index].image;
 			preloads.push(preload);
@@ -234,20 +235,28 @@ function showResults() {
 	document.querySelector('.results').appendChild(result);
 	if(timeChallenge)
 	{
+		let timeTaken = parseFloat(document.querySelector('.timer').innerText.replace('s',''));
+		
 		let time = document.createElement('h5');
-		time.innerText = 'in ' + document.querySelector('.timer').innerText + ' seconds';
+		time.innerText = 'in ' + timeTaken + ' seconds';
 		document.querySelector('.results').appendChild(time);
 		
-		let highScore = document.createElement('h1');
-		highScore.innerText = 'You beat your high score!';
-		let timeTaken = parseFloat(document.querySelector('.timer').innerText.replace('s',''));
-		if(debugMode) console.log('highScore', window['highScore'], score);
+		if(window['highScore'] && window['highTime'])
+		{
+			let highScore = document.createElement('h4');
+			highScore.innerText = 'High score: ' + window['highScore'] + '/' + totalQns + ' in ' + window['highTime'] + ' seconds';
+			document.querySelector('.results').appendChild(highScore);
+		}
+		
+		let newHighScore = document.createElement('h2');
+		newHighScore.innerText = 'You beat your high score!';
+		if(debugMode) console.log('newHighScore', window['highScore'], score);
 		if(debugMode) console.log('highTime', window['highTime'], timeTaken);
 		if(window['highScore'] < score || (window['highTime'] > timeTaken && window['highScore'] <= score))
 		{
 			window['highScore'] = score;
 			window['highTime'] = timeTaken;
-			document.querySelector('.results').appendChild(highScore);
+			document.querySelector('.results').appendChild(newHighScore);
 		}
 		if(!window['highScore'] || !window['highTime'])
 		{
