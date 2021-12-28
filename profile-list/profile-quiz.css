@@ -12,6 +12,7 @@ body {
   margin: auto;
 }
 a, button {
+	font-family: Open Sans;
 	color: cyan;
 	cursor: pointer;
 }
@@ -22,9 +23,10 @@ p {
 	height: 20px;
 }
 .option {
-	height: 52px;
-	width: 30%;
-	padding: 8px;
+    height: 60px;
+    width: 30%;
+    padding: 10px;
+    vertical-align: middle;
 }
 .page-align {
 	text-align: center;
