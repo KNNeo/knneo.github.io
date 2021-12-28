@@ -1,6 +1,6 @@
 //--SETTING--//
 const debugMode = false; //shows logs
-const friendsMode = true; //allows images of friends to be included
+const friendsMode = false; //allows images of friends to be included
 const timeChallenge = true; //if true will preload images first, adds timer to quiz
 const totalQns = 10; //questions to show, cannot be more than provided list
 const instructions = `
@@ -154,7 +154,7 @@ function startQuiz() {
 		initialiseTimer();
 	}
 	
-	//populate n questions
+	//populate questions
 	quiz = [];
 	let randomArr = [];
 	let q = totalQns;
@@ -203,23 +203,19 @@ function nextQuestion() {
 	let current = quiz[qNo];
 	document.querySelector('.question').setAttribute('data-id', current.id);
 	
-	let image = document.createElement('img');
+	let image = document.createElement('div');
 	image.classList.add('image');
 	image.style.height = '100%';
-	image.src = current.image;
-	// if(debugMode) console.log('current.image',current.image);
-	image.addEventListener('error', function() {
-		if(debugMode) console.log('image not found, generating new question');
-		nextQuestion();
-	});
+	image.style.backgroundImage = addUrlClause(current.image);
+	// image.addEventListener('error', function() {
+		// if(debugMode) console.log('image not found, generating new question');
+		// nextQuestion();
+	// });
+	image.style.backgroundSize = 'contain';
+	image.style.backgroundRepeat = 'no-repeat';
+	image.style.backgroundPosition = 'center';
 	
-	document.querySelector('.question').appendChild(image);
-	
-	// document.querySelector('.question').style.backgroundSize = 'contain';
-	// document.querySelector('.question').style.backgroundRepeat = 'no-repeat';
-	// document.querySelector('.question').style.backgroundPosition = 'center';
-	// document.querySelector('.question').style.backgroundImage = addUrlClause(current.image);
-	
+	document.querySelector('.question').appendChild(image);	
 	
 	//set options
 	document.querySelector('#option1').style.display = '';
