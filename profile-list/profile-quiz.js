@@ -1,5 +1,6 @@
 //--SETTING--//
 const debugMode = false; //shows logs
+const friendsMode = true; //allows images of friends to be included
 const timeChallenge = true; //if true will preload images first, adds timer to quiz
 const totalQns = 10; //questions to show, cannot be more than provided list
 const instructions = `
@@ -54,28 +55,52 @@ let quiz = [];
 let qNo = 0;
 let score = 0;
 let startTime;
-function defineNameList() {	
+function defineNameList() {
+	
+	if(friendsMode)
+	{
+		for(let friend of friendList) {
+			let allImages = friend.friends;
+			let id = friend.id;
+			
+			allImages.map(function (i, index, arr) {
+				let names = i.id.split('-');
+				imageList.push({
+					image: i.image,
+					name: profileList.filter(pl => names.includes(pl.id)).map(p => p.name),
+					id: i.id,
+				});
+			});
+		}	
+	}
+	
 	for(let profile of profileList) {
 			let allImages = profile.landscapes.concat(profile.portraits);
 			let name = profile.name;
 			let id = profile.id;
 			
-			allImages.map(function (i, index, arr) {
-				imageList.push({
-					image: i,
-					name,
-					id,
+			if(!friendsMode)
+				allImages.map(function (i, index, arr) {
+					imageList.push({
+						image: i,
+						name,
+						id,
+					});
 				});
-			});
+				
 			nameList.push(name);
 			
 	}
-	// if(debugMode) console.log(imageList);
+	
+	if(debugMode) console.log(imageList);
+	if(debugMode) console.log(nameList);
 }
 
 function renderQuiz(isFirstLoad) {
-	//option2 button is start
-	
+	if(isFirstLoad)
+		document.querySelector('.title').innerText = friendsMode ? '女性プロフィール友達クイズ' : '女性プロフィールクイズ';
+
+	//option2 button is start	
 	document.querySelector('#option1').style.display = 'none';
 	document.querySelector('#option2').style.display = '';
 	document.querySelector('#option2').innerText = isFirstLoad ? 'Start' : 'Restart';
@@ -93,8 +118,14 @@ function renderQuiz(isFirstLoad) {
 function onOptionClick(mode) {
 	//option must have data-id to add score
 	let answer = document.querySelector('.question').getAttribute('data-id');
-	if(mode.getAttribute('data-id') != null && mode.getAttribute('data-id') == answer)
+	if(!friendsMode && mode.getAttribute('data-id') != null && mode.getAttribute('data-id') == answer)
 	{
+		if(debugMode) console.log('score', mode.getAttribute('data-id'), answer);
+		score++;
+	}
+	if(friendsMode && mode.getAttribute('data-id') != null && mode.getAttribute('data-id').includes(answer))
+	{
+		if(debugMode) console.log('score', mode.getAttribute('data-id'), answer);
 		score++;
 	}
 	
@@ -204,6 +235,20 @@ function nextQuestion() {
 	document.querySelector('#option2').innerText = answer == 2 ? current.name : otherOptions[1];
 	document.querySelector('#option3').setAttribute('data-id', answer == 3 ? current.id : 0);
 	document.querySelector('#option3').innerText = answer == 3 ? current.name : otherOptions[2];
+	
+	document.querySelector('.friend-question').innerText = friendsMode ? 'Who is in this photo?' : '';
+	if(friendsMode)
+	{
+		let ids = current.id.split('-');
+		let options = profileList.filter(pl => ids.includes(pl.id)).map(p => p.name)
+		.sort((a,b) => { return (Math.random() * 1) - 1; });
+		let otherOptions = nameList
+		.filter((name) => !options.includes(name))
+		.sort((a,b) => { return (Math.random() * 2) - 1; });
+		document.querySelector('#option1').innerText = answer == 1 ? options[0] : otherOptions[0];
+		document.querySelector('#option2').innerText = answer == 2 ? options[0] : otherOptions[1];
+		document.querySelector('#option3').innerText = answer == 3 ? options[0] : otherOptions[2];		
+	}
 }
 function addUrlClause(url) {
 	return "url('" + url + "')";
@@ -212,6 +257,7 @@ function addUrlClause(url) {
 function endQuiz() {
 	document.querySelector('.question').setAttribute('data-id', null);
 	document.querySelector('.question').style.backgroundImage = '';
+	document.querySelector('.friend-question').innerText = '';
 	startTime = null;
 	
 	showResults();
