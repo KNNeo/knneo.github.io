@@ -816,7 +816,6 @@
 			"https://pbs.twimg.com/media/Ex3_xUgU8AMOHYW?format=jpg&name=small",
 			"https://pbs.twimg.com/media/Ew7BEIIVIAU4Qkm?format=jpg&name=small",
 			"https://storage.mantan-web.jp/images/2021/03/16/20210316dog00m200058000c/002_size6.jpg",
-			"https://d2wi3xvhr3qrd7.cloudfront.net/wp/wp-content/uploads/2020/10/08192735/MAT00652-516x344.jpg",
 			"https://akiba-souken.k-img.com/assets/images/article/000/877/t640_877184.jpg",
 			"https://pbs.twimg.com/media/EgujiTlU0AEAX6H?format=jpg&name=small"			
 		],
@@ -1021,6 +1020,7 @@
 		"id":"TouyamaNao",
 		"image":"https://knneo.webs.com/touyamanao.jpg",
 		"landscapes":[
+			"https://pbs.twimg.com/media/FHxd4avagAAML77?format=jpg&name=small",
 			"https://img2.animatetimes.com/2021/01/600fce52e8271_128c2e3209ec644211b4892267d1c4eb.jpg",
 			"https://img2.animatetimes.com/2021/01/5ff556032a041_a51e58816f20370ec75a265452cc3935.jpg"
 		],
@@ -1866,7 +1866,7 @@
 		"category":"seiyuu",
 		"subCategory":"seiyuu4",
 		"id":"KannoMai",
-		"image":"https://pbs.twimg.com/media/EwsPdF5VIAIan-R?format=jpg&name=small",
+		"image":"https://knneo.webs.com/kannomai.jpg",
 		"landscapes":[
 			"https://pbs.twimg.com/media/FCEXsaYWEAcldzl?format=jpg&name=small",
 			"https://pbs.twimg.com/media/Ew_v-R5VgAQr3cS?format=jpg&name=small",
@@ -1905,7 +1905,7 @@
 		"category":"seiyuu",
 		"subCategory":"seiyuu4",
 		"id":"TomitaMiyu",
-		"image":"https://pbs.twimg.com/media/Ema9F-eVcAEAuKz?format=jpg&name=small",
+		"image":"https://knneo.webs.com/tomitamiyu.jpg",
 		"landscapes":[
 			"https://images.entamenext.com/articles_photos/13000/13448/478x850/f8ea5e7eb6088856f98ad8ce5feb7d7a.jpg",
 			"https://images.entamenext.com/articles_photos/13000/13448/478x850/c1a070ccb1cf89d373434eb684ae35bf.jpg",
@@ -1952,7 +1952,7 @@
 		"category":"seiyuu",
 		"subCategory":"seiyuu4",
 		"id":"SasakiNao",
-		"image":"https://pbs.twimg.com/media/EoyZsPjUUAAf97l?format=jpg&name=small",
+		"image":"https://knneo.webs.com/sasakinao.jpg",
 		"landscapes":[
 			"https://pbs.twimg.com/media/ExexyJMVIAESKm2?format=jpg&name=small",
 			"https://pbs.twimg.com/media/EqoO9I1VQAA0oLA?format=jpg&name=small",
