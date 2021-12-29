@@ -95,6 +95,17 @@ function defineNameList() {
 	
 	if(debugMode) console.log(imageList);
 	if(debugMode) console.log(nameList);
+	
+	if(!timeChallenge)
+	{
+		for(let img of imageList)
+		{
+			preloads = [];
+			let preload = new Image();
+			preload.src = img.image;
+			preloads.push(preload);
+		}
+	}
 }
 
 function renderQuiz(isFirstLoad) {
