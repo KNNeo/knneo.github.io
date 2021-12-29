@@ -126,7 +126,6 @@ tr:hover > td {
 	left: 0;
 }
 .material-icons {
-	font-size: 40px !important;
 }
 .friend-link {
   text-decoration: underline solid #00e4ff;
@@ -137,7 +136,10 @@ tr:hover > td {
 	font-size: 20px;
 	padding: 3px;
 }
-
+.darked a, .darked a:visited {
+    color: white;
+	text-decoration: none;
+}
 
 /*End Github*/
 
@@ -192,47 +194,6 @@ font-size: 70%;
 .profile-box tr:nth-child(even) {
  text-align: right;
 }
-#wantedList {
-  list-style-type: none;
-  padding: 5px;
-}
-#wantedList li, #wantedList a, #profile-friends a, #profile-social a {
-  display: inline-block;
-  white-space: nowrap;
-  margin: 2px;
-  cursor: pointer;
-}
-#wantedList a,
-.friend-link,
-.profile-box-comments a {
-  color: #00e4ff;
-  text-decoration: underline solid #00e4ff;
-}
-#wantedList a:hover,
-.friend-link:hover,
-.profile-box-comments a:hover {
-  color: white;
-  text-decoration: underline solid white;
-}
-
-#isMarried {
-text-align: center;
-}
-
-#marriedCheckbox {
-    vertical-align: bottom;
-}
-
-#timeline::-webkit-scrollbar, .profile-category::-webkit-scrollbar { 
-  z-index: 0;
-  height: 10px;
-}
-#timeline::-webkit-scrollbar-thumb, .profile-category::-webkit-scrollbar-thumb {
-  background: white;
-}
-#timeline::-webkit-scrollbar-track, .profile-category::-webkit-scrollbar-track {
-  background: #444444;
-}
 .popitem {
     position: absolute;
     background-color: black;
@@ -241,35 +202,9 @@ text-align: center;
     display: none;
 	color: white;
 }
-#calendar td:hover .popitem { display: block; }
-#calendar table {
-	margin: auto;
-	border: 1px solid white;
-	position:relative;
-}
-#prevMonth, #nextMonth {
-	cursor: pointer;
-}
 .turning-point {
 	position: relative;
 }
-#tp-description {
-    position: absolute;
-    background: black;
-    border: 1px solid white;
-    padding: 5px 8px;
-    font-size: 1.3em;
-    margin-top: 13px;
-	z-index: 10;
-	text-align: left;
-}
-#calendar td {
-    width: 30px;
-    height: 20px;
-}
-#HocchanAge { color: #444444; }
-#HocchanAge:hover { color: white; }
-
 /*scrollbars for top and bottom labels only on desktop*/
 @media only screen and (max-width : 1040px) {
 div { scrollbar-width: 0 !important; }

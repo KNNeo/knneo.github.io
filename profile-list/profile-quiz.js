@@ -1,7 +1,6 @@
 //--SETTING--//
 const debugMode = false; //shows logs
 const friendsMode = false; //allows images of friends to be included
-const timeChallenge = true; //if true will preload images first, adds timer to quiz
 const totalQns = 10; //questions to show, cannot be more than provided list
 const instructions = `
 Instructions:
@@ -9,6 +8,8 @@ Instructions:
 `;
 
 //--VARIABLE--//
+let timeChallenge = false; //if true will preload images first, adds timer to quiz
+let easyMode = true;
 let friendList = [];
 let profileList = [];
 //--READ JSON--//
@@ -98,7 +99,11 @@ function defineNameList() {
 
 function renderQuiz(isFirstLoad) {
 	if(isFirstLoad)
+	{
 		document.querySelector('.title').innerText = friendsMode ? '女性プロフィール友達クイズ' : '女性プロフィールクイズ';
+		easyMode = localStorage.getItem('easyMode') == 'true';
+		timeChallenge = !easyMode;
+	}
 
 	//option2 button is start	
 	document.querySelector('#option1').style.display = 'none';
@@ -116,20 +121,33 @@ function renderQuiz(isFirstLoad) {
 }
 
 function onOptionClick(mode) {
+	if(easyMode)
+		mode.style.display = 'none';
 	//option must have data-id to add score
 	let answer = document.querySelector('.question').getAttribute('data-id');
 	if(!friendsMode && mode.getAttribute('data-id') != null && mode.getAttribute('data-id') == answer)
 	{
 		if(debugMode) console.log('score', mode.getAttribute('data-id'), answer);
 		score++;
+		if(easyMode)
+		{
+			quizStep(mode.innerText);
+			return;
+		}
 	}
 	if(friendsMode && mode.getAttribute('data-id') != null && mode.getAttribute('data-id').includes(answer))
 	{
 		if(debugMode) console.log('score', mode.getAttribute('data-id'), answer);
 		score++;
+		if(easyMode)
+		{
+			quizStep(mode.innerText);
+			return;
+		}
 	}
 	
-	quizStep(mode.innerText);
+	if(timeChallenge || mode.innerText.toLowerCase().includes('start'))
+		quizStep(mode.innerText);
 }
 
 function quizStep(mode) {
@@ -147,11 +165,10 @@ function quizStep(mode) {
 
 }
 
-function startQuiz() {	
+function startQuiz() {
 	if(timeChallenge)
 	{
 		document.querySelector('.instructions').innerText = 'Loading...';
-		initialiseTimer();
 	}
 	
 	//populate questions
@@ -184,6 +201,10 @@ function startQuiz() {
 	}
 	
 	nextQuestion();
+	if(timeChallenge)
+	{
+		initialiseTimer();
+	}
 }
 
 function nextQuestion() {
@@ -322,4 +343,43 @@ function updateTimer() {
 		setTimeout(updateTimer, 200);
 	else
 		document.querySelector('.timer').innerText = '';
+}
+
+function toggleSettings() {
+	if(document.querySelector('.settings') != null)
+	{
+		document.querySelector('.setting-icon').innerText = 'settings';
+		let container = document.querySelector('.settings');
+		container.classList.remove('settings');
+		container.innerHTML = '';
+		renderQuiz(true);
+	}
+	else
+	{
+		document.querySelector('.setting-icon').innerText = 'home';
+		let container = document.querySelector('.instructions');
+		container.classList.add('settings');
+		container.innerHTML = '';
+		
+		let easyMode = document.createElement('div');
+		easyMode.innerText = 'Easy Mode';
+		
+		let easyModeCheckbox = document.createElement('input');
+		easyModeCheckbox.type = 'checkbox';
+		easyModeCheckbox.checked = localStorage.getItem('easyMode') == 'true';
+		easyModeCheckbox.onclick = function(e) {
+			if(localStorage.getItem('easyMode') == null)
+				localStorage.setItem('easyMode', easyMode);
+			let val = localStorage.getItem('easyMode') == 'true';
+			localStorage.setItem('easyMode', !val);
+			
+			easyMode = !val;
+			timeChallenge = !easyMode;
+		};
+		
+		easyMode.appendChild(easyModeCheckbox);
+		
+		container.appendChild(easyMode);
+	}
+	
 }
