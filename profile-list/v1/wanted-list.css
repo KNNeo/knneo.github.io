@@ -33,6 +33,10 @@ p {
 .profile-box {
 	touch-action: manipulation;
 }
+.superscript {
+	vertical-align: super;
+	font-size: 0.8em;
+}
 #isMarried {
 	padding-top: 10px;
 	visibility: hidden;

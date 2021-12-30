@@ -4,6 +4,7 @@ let isExternal = window.location.href.includes('://knneo.github.io'); //if not i
 let smallScreen = window.innerWidth <= 640;
 let friendList = [];
 let profileList = [];
+let calendarList = [];
 let defaultProfile = {};
 if(profileListJson.length == 0) {
 	let xmlhttp = new XMLHttpRequest();
@@ -11,10 +12,13 @@ if(profileListJson.length == 0) {
 		if (this.readyState == 4 && this.status == 200) {
 			profileListJson = JSON.parse(this.responseText);
 			profileList = profileListJson.filter( function(n) {
-				return n.category == 'seiyuu';
+				return n.category == 'profile' || n.category == 'seiyuu';
 			});
+			calendarList = profileList.concat(profileListJson.filter( function(n) {
+				return n.category == 'alterna' || n.category == 'doaxvv' || n.category == 'hololive';
+			}));
 			friendList = profileListJson.filter( function(n) {
-				return n.category == 'friendList';
+				return n.category == 'friends';
 			});
 			defaultProfile = profileListJson.find( function(n) {
 				return n.category == 'default';
@@ -31,10 +35,13 @@ if(profileListJson.length == 0) {
 else {
 	console.log('Using test json');
 	profileList = profileListJson.filter( function(n) {
-		return n.category == 'seiyuu';
+		return n.category == 'profile' || n.category == 'seiyuu';
 	});
+	calendarList = profileList.concat(profileListJson.filter( function(n) {
+		return n.category == 'alterna' || n.category == 'doaxvv' || n.category == 'hololive';
+	}));
 	friendList = profileListJson.filter( function(n) {
-		return n.category == 'friendList';
+		return n.category == 'friends';
 	});
 	defaultProfile = profileListJson.find( function(n) {
 		return n.category == 'default';
@@ -45,16 +52,16 @@ else {
 function friendCheck() {
 	console.log('Friend check!');
 	
-	if(friendList.length == 1 && friendList[0].friends.length > 0)
+	if(friendList.length == 1 && friendList.length > 0)
 	{		
-		friendList[0].friends.sort( function(a,b) {
+		friendList.sort( function(a,b) {
 			return a.id.localeCompare(b.id)
 		});
 		
 		//check duplicate ids
-		for(let pair of friendList[0].friends)
+		for(let pair of friendList)
 		{
-			let result = friendList[0].friends.filter( function(f) {
+			let result = friendList.filter( function(f) {
 				return f.id == pair.id;
 			});
 			if(result != undefined && result.length > 1)
@@ -62,10 +69,10 @@ function friendCheck() {
 		}
 		
 		//check ids but of different positions
-		for(let pair of friendList[0].friends)
+		for(let pair of friendList)
 		{
 			let splits = pair.id.split('-');
-			let result = friendList[0].friends.filter( function(f) {
+			let result = friendList.filter( function(f) {
 				return f.id == (splits[1] + '-' + splits[0]);
 			});
 			if(result != undefined && result.length > 0)
@@ -128,7 +135,7 @@ function generateProfileFromJSON(profileName) {
 		})[0];
 		
 		
-		let friendFound = friendList[0].friends.find( function(p) {
+		let friendFound = friendList.find( function(p) {
 					return p.id == currentProfile.id + "-" + profile.id ||
 					p.id == profile.id + "-" + currentProfile.id;
 		}) != undefined;
@@ -174,7 +181,7 @@ function generateProfileFromJSON(profileName) {
 			let friendImage = '';
 			if(friendMode)
 			{
-				let friend = friendList[0].friends.find( function(p) {
+				let friend = friendList.find( function(p) {
 					return p.id == currentProfile.id + '-' + profile.id || 
 						p.id == profile.id + '-' + currentProfile.id;
 				});
@@ -228,7 +235,7 @@ function generateProfileFromJSON(profileName) {
 					{
 						let cell = document.createElement('td');
 						if(friendMode) cell.style.textAlign = 'center';
-						cell.innerText = 'Name ' + (!simplified ? '' : '(Nickname)');
+						cell.innerText = 'Name ' + (simplified ? '' : '(Nickname)');
 						row.appendChild(cell);
 					}
 					
@@ -240,7 +247,7 @@ function generateProfileFromJSON(profileName) {
 						let cellDiv = document.createElement('div');
 						if(friendMode) cellDiv.style.textAlign = 'left';
 						if(friendMode) cellDiv.style.position = 'absolute';
-						if(!friendMode && !simplified) cellDiv.innerText = ' (' + profile.nickname + ')';
+						if(!friendMode && !simplified) cellDiv.innerHTML = ' (' + superscriptText(profile.nickname) + ')';
 						
 							let span = document.createElement(friendMode ? 'a' : 'span');
 							span.classList.add('profile-name');
@@ -314,10 +321,13 @@ function generateProfileFromJSON(profileName) {
 								let DOBspan = document.createElement('span');
 								DOBspan.classList.add('DOB');
 								//DOBspan.innerText = profile.dob;
-								DOBspan.innerText = profile.dob + (!isExternal && !friendMode && !simplified && profile.dobComment != '' ? (' (' + profile.dobComment + ')') : '');
-								if(DOBspan.innerText.includes('????')) {
+								console.log(profile.dob);
+								DOBspan.innerHTML = profile.dob + (!isExternal && !friendMode && !simplified && profile.dobComment ? (' (' + profile.dobComment + ')') : '');
+								if(DOBspan.innerHTML.includes('????')) {
 									let dateOnly = new Date(1990,profile.dob.substring(5,2),profile.dob.substring(8,2),0,0,0,0);
-									DOBspan.innerText = month[parseInt(profile.dob.substring(5,7))-1] + ' ' + parseInt(profile.dob.substring(8,10)) + (!isExternal && !friendMode && !simplified && profile.dobComment != '' ? (' (' + profile.dobComment + ')') : '');
+									DOBspan.innerHTML = month[parseInt(profile.dob.substring(5,7))-1] + ' ' + parseInt(profile.dob.substring(8,10)) + (!isExternal && !friendMode && !simplified && profile.dobComment ? (' (' + profile.dobComment + ')') : '');
+									if(profile.dob.substring(10).length === 3)
+										DOBspan.innerHTML += superscriptText(profile.dob.substring(10));
 								}
 								cellDiv.appendChild(DOBspan);
 							
@@ -329,7 +339,7 @@ function generateProfileFromJSON(profileName) {
 							
 								DOBspan = document.createElement('span');
 								DOBspan.classList.add('DOB');
-								DOBspan.innerText = currentProfile.dob + (!isExternal && !friendMode && !simplified && currentProfile.dobComment != '' ? (' (' + currentProfile.dobComment + ')') : '');
+								DOBspan.innerHTML = currentProfile.dob + (!isExternal && !friendMode && !simplified && currentProfile.dobComment != '' ? (' (' + currentProfile.dobComment + ')') : '');
 								cellDiv.appendChild(DOBspan);
 							
 								cell.appendChild(cellDiv);
@@ -391,11 +401,11 @@ function generateProfileFromJSON(profileName) {
 								if(friendMode) cellDiv.style.textAlign = 'left';
 								if(friendMode) cellDiv.style.position = 'absolute';
 								if(!isExternal && !friendMode && !simplified) 
-									cellDiv.innerText = profile.turningPoint.soloDebut 
-												+ "|" + profile.turningPoint.swimsuitPhotobook 
-												+ "|" + profile.turningPoint.isMarried;
+									cellDiv.innerHTML = superscriptText(profile.turningPoint.soloDebut)
+												+ "|" + superscriptText(profile.turningPoint.swimsuitPhotobook)
+												+ "|" + superscriptText(profile.turningPoint.isMarried);
 								else
-									cellDiv.innerText = processTurningPoint(profile.turningPoint.soloDebut, false)
+									cellDiv.innerHTML = processTurningPoint(profile.turningPoint.soloDebut, false)
 												+ "|" + processTurningPoint(profile.turningPoint.swimsuitPhotobook, false) 
 												+ "|" + processTurningPoint(profile.turningPoint.isMarried, false);
 									
@@ -404,7 +414,7 @@ function generateProfileFromJSON(profileName) {
 							if(friendMode)
 							{
 								cellDiv = document.createElement('div');
-								cellDiv.innerText = processTurningPoint(currentProfile.turningPoint.soloDebut, false)
+								cellDiv.innerHTML = processTurningPoint(currentProfile.turningPoint.soloDebut, false)
 											+ "|" + processTurningPoint(currentProfile.turningPoint.swimsuitPhotobook, false) 
 											+ "|" + processTurningPoint(currentProfile.turningPoint.isMarried, false);
 								cell.appendChild(cellDiv);
@@ -444,7 +454,7 @@ function generateProfileFromJSON(profileName) {
 						row = document.createElement('tr');
 						
 							cell = document.createElement('td');
-							cell.innerText = profile.description;
+							cell.innerHTML = superscriptText(profile.description);
 							row.appendChild(cell);
 						
 						profileTableBody.appendChild(row);
@@ -460,12 +470,13 @@ function generateProfileFromJSON(profileName) {
 						row = document.createElement('tr');
 						
 							cell = document.createElement('td');
-							cell.innerText = profile.wantedLevel + addBrackets(profile.wantedLevelComment, true);
+							// cell.innerText = ratingAsStars(profile.rating, 5);
+							cell.appendChild(ratingAsStars(profile.rating, 5));
 							row.appendChild(cell);
 						
 						profileTableBody.appendChild(row);
 						
-						let profileFriendsList = friendList[0].friends.filter( function(p) {
+						let profileFriendsList = friendList.filter( function(p) {
 							return p.id.endsWith(profile.id) || p.id.startsWith(profile.id);
 						});
 						if(profileFriendsList.length > 0)
@@ -531,17 +542,17 @@ function generateProfileFromJSON(profileName) {
 							
 								cellDiv = document.createElement('div');
 								cellDiv.id = 'profile-social';
-								if(friendMode && currentProfile.socialHandlers) {
+								if(friendMode && currentProfile.social) {
 									cellDiv.style.textAlign = 'left';
 									cellDiv.style.position = 'absolute';
 								}
 								
-								if(profile.socialHandlers.twitter)
+								if(profile.social.twitter)
 								{
 									let twitterSpan = document.createElement('a');
-									twitterSpan.href = 'https://twitter.com/' + profile.socialHandlers.twitter;
+									twitterSpan.href = 'https://twitter.com/' + profile.social.twitter;
 									twitterSpan.target = '_blank';
-									twitterSpan.title = profile.socialHandlers.twitter;
+									twitterSpan.title = profile.social.twitter;
 									
 									let twitterIcon = document.createElement('i');
 									twitterIcon.classList.add('bi');
@@ -551,12 +562,12 @@ function generateProfileFromJSON(profileName) {
 									cellDiv.appendChild(twitterSpan);
 								}
 								
-								if(profile.socialHandlers.instagram)
+								if(profile.social.instagram)
 								{
 									let instagramSpan = document.createElement('a');
-									instagramSpan.href = 'https://www.instagram.com/' + profile.socialHandlers.instagram;
+									instagramSpan.href = 'https://www.instagram.com/' + profile.social.instagram;
 									instagramSpan.target = '_blank';
-									instagramSpan.title = profile.socialHandlers.instagram;
+									instagramSpan.title = profile.social.instagram;
 									
 									let instagramIcon = document.createElement('i');
 									instagramIcon.classList.add('bi');
@@ -566,12 +577,12 @@ function generateProfileFromJSON(profileName) {
 									cellDiv.appendChild(instagramSpan);
 								}
 								
-								if(profile.socialHandlers.youtube)
+								if(profile.social.youtube)
 								{
 									let youtubeSpan = document.createElement('a');
-									youtubeSpan.href = 'https://www.youtube.com/c/' + profile.socialHandlers.youtube;
+									youtubeSpan.href = 'https://www.youtube.com/channel/' + profile.social.youtube;
 									youtubeSpan.target = '_blank';
-									youtubeSpan.title = profile.socialHandlers.youtube;
+									youtubeSpan.title = profile.social.youtube;
 									
 									let youtubeIcon = document.createElement('i');
 									youtubeIcon.classList.add('bi');
@@ -583,17 +594,17 @@ function generateProfileFromJSON(profileName) {
 								
 								cell.appendChild(cellDiv);
 								
-								if(friendMode && currentProfile.socialHandlers) {				
+								if(friendMode && currentProfile.social) {				
 									cellDiv = document.createElement('div');
 									cellDiv.id = 'currentProfile-social';
 									cellDiv.style.textAlign = 'right';
 									
-									if(currentProfile.socialHandlers.twitter)
+									if(currentProfile.social.twitter)
 									{
 										let twitterSpan = document.createElement('a');
-										twitterSpan.href = 'https://twitter.com/' + currentProfile.socialHandlers.twitter;
+										twitterSpan.href = 'https://twitter.com/' + currentProfile.social.twitter;
 										twitterSpan.target = '_blank';
-										twitterSpan.title = currentProfile.socialHandlers.twitter;
+										twitterSpan.title = currentProfile.social.twitter;
 										
 										let twitterIcon = document.createElement('i');
 										twitterIcon.classList.add('bi');
@@ -603,12 +614,12 @@ function generateProfileFromJSON(profileName) {
 										cellDiv.appendChild(twitterSpan);
 									}
 									
-									if(currentProfile.socialHandlers.instagram)
+									if(currentProfile.social.instagram)
 									{
 										let instagramSpan = document.createElement('a');
-										instagramSpan.href = 'https://www.instagram.com/' + currentProfile.socialHandlers.instagram;
+										instagramSpan.href = 'https://www.instagram.com/' + currentProfile.social.instagram;
 										instagramSpan.target = '_blank';
-										instagramSpan.title = currentProfile.socialHandlers.instagram;
+										instagramSpan.title = currentProfile.social.instagram;
 										
 										let instagramIcon = document.createElement('i');
 										instagramIcon.classList.add('bi');
@@ -618,12 +629,12 @@ function generateProfileFromJSON(profileName) {
 										cellDiv.appendChild(instagramSpan);
 									}
 									
-									if(currentProfile.socialHandlers.youtube)
+									if(currentProfile.social.youtube)
 									{
 										let youtubeSpan = document.createElement('a');
-										youtubeSpan.href = 'https://www.youtube.com/channel/' + currentProfile.socialHandlers.youtube;
+										youtubeSpan.href = 'https://www.youtube.com/channel/' + currentProfile.social.youtube;
 										youtubeSpan.target = '_blank';
-										youtubeSpan.title = currentProfile.socialHandlers.youtube;
+										youtubeSpan.title = currentProfile.social.youtube;
 										
 										let youtubeIcon = document.createElement('i');
 										youtubeIcon.classList.add('bi');
@@ -649,10 +660,10 @@ function generateProfileFromJSON(profileName) {
 			{
 				let commentBox = document.createElement('div');
 				commentBox.classList.add('profile-box-comments');
-				commentBox.innerHTML = profile.comments.join('<br/>');
+				commentBox.innerHTML = processComments(profile.comments, profile.links);
 				if(window.location.href.includes('knneo.github.io'))
-					commentBox.innerHTML = commentBox.innerHTML.replace('knwebreports.blogspot.com/', 'knneo.github.io/blogspot/blog/');
-				//exclusions
+					commentBox.innerHTML = commentBox.innerHTML.replace(/knwebreports.blogspot.com/gi, 'knneo.github.io/blogspot/blog');
+				//special case
 				commentBox.innerHTML = commentBox.innerHTML.replace('1976.09.20', '<span id=\'HocchanAge\' class=\'DOB\'>1976.09.20</span>');
 				
 				profileBox.appendChild(commentBox);
@@ -669,13 +680,57 @@ function generateProfileFromJSON(profileName) {
 	return true;
 }
 
-function getWantedLevelComment(profile) { return console.log(profile.name + '\n' + profile.wantedLevel + '\n' + profile.wantedLevelComment); }
+function ratingAsStars(rating, total) {
+	let stars = document.createElement('div');
+	stars.title = rating + '/' + total;
+	for(s = 0; s < total; s++)
+	{
+		let star = document.createElement('i');
+		star.classList.add('bi');
+		star.classList.add('bi-star' + (rating - s > 0 ? '-fill' : ''))
+		stars.appendChild(star);
+		// stars += rating - s > 0 ? '★' : '☆';
+	}
+	return stars;
+}
 function addBrackets(content, startWithWhitespace) { return (startWithWhitespace ? ' ' : '') + '(' + content + ')'; }
 function processTurningPoint(option, returnBool) {
 	if(returnBool)
 		return option.includes('Yes') ? true : false;
-	return option.split('*').join('');
+	return superscriptText(option);
 }
+function processComments(comments, refs) {
+	if(refs && refs.length > 0)
+	{
+		let commentArr = [];
+		for(let comment of comments)
+		{
+			let added = false;
+			for(let ref of refs)
+			{
+				let refText = ref.substring(0, ref.indexOf('}')+1);
+				let refLink = ref.replace(refText, '');
+				let replaced = comment.replace(refText, '<a target="_blank" href="' + refLink + '">' + refText + '</a>');
+				console.log(replaced, comment);
+				if(replaced != comment)
+				{
+					commentArr.push(replaced.replace('{','').replace('}',''));
+					added = true;
+				}
+			}
+			if(!added)
+				commentArr.push(comment);
+		}
+		return superscriptText(commentArr.join('<br/>'));
+	}
+	return superscriptText(comments.join('<br/>'));
+}
+function superscriptText(input) {
+	return input.replace('[1]',addSuperscript('[1]'))
+		.replace('[2]',addSuperscript('[2]'))
+		.replace('[3]',addSuperscript('[3]'));
+}
+function addSuperscript(input) { return '<span class="superscript">' + input + '</span>'; }
 function randomProfileImg(images) {
 	return images[Math.floor(Math.random()*(images.length-1))];
 }
@@ -846,8 +901,7 @@ function renderWantedList() {
 	generateWantedList();
 	timelineDOBlist = createDOBlist(profileList, 1, 35);
 	loadTimeline(2500);
-	calendarDOBlist = createDOBlist(profileList, 0, 50);
-	calendarDOBlist = calendarDOBlist.concat(createDOBlist(birthdayListJson, 0, 50));
+	calendarDOBlist = createDOBlist(calendarList, 0, 50);
 	currentMonth = createCalendar(DateTime.fromISO(DateTime.now(), {zone: timezone}).month-1, calendarDOBlist);
 	addCalendarLegend();
 	setThumbnails();
@@ -1173,15 +1227,18 @@ function setCalendarColour(categoryId) {
 			return 'pink';
 		case 'doaxvv':
 			return 'lime';
-		case 'vtuber':
+		case 'hololive':
 			return 'gold';
-		default:
+		case 'seiyuu':
 			return 'cyan';
+		default:
+			return 'lightgray';
 	}
 }
 
 function addCalendarLegend() {
-	let categories = ['alterna','doaxvv','seiyuu','vtuber'];
+	let categories = calendarList.filter((val, index, arr) => arr.map(a => a.category).indexOf(val.category) === index).map(p => p.category); // ['alterna','doaxvv','seiyuu','vtuber'];
+	// console.log(categories);
 	let calendarLegend = document.getElementById('calendar-legend');
 	calendarLegend.innerHTML = '';
 	for(let category of categories) {		
@@ -1221,11 +1278,11 @@ function toggleCalendarLegend() {
 
 function filterCalendar() {
 	let checkedCategories = Array.from(document.getElementById('calendar-legend').getElementsByTagName('input')).filter(i => i.checked == true).map(i => i.name);
-	calendarDOBlist = createDOBlist(profileList, 0, 50);
-	calendarDOBlist = calendarDOBlist.concat(createDOBlist(birthdayListJson, 0, 50));
+	calendarDOBlist = createDOBlist(calendarList, 0, 50);
 	calendarDOBlist = calendarDOBlist.filter(c => c.name != 'Me' && 
-	(checkedCategories.indexOf(c.category) >= 0 || 
-	(checkedCategories.indexOf('seiyuu') >= 0 && c.category.startsWith('seiyuu')))
+	(checkedCategories.indexOf(c.category) >= 0 
+	// || (checkedCategories.indexOf('seiyuu') >= 0 && c.category.startsWith('seiyuu'))
+	)
 	);
 }
 
