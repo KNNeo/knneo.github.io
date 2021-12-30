@@ -1,8 +1,8 @@
 //generate from json file
 const spacer = 'https://knneo.github.io/resources/spacer.gif';
-const isExternal = window.location.href.includes('://knneo.github.io'); //if not in local
-const smallScreen = window.innerWidth <= 640;
 const maxRating = 5;
+const smallScreen = window.innerWidth <= 640;
+let isExternal = window.location.href.includes('://knneo.github.io'); //if not in local
 let friendList = [];
 let profileList = [];
 let calendarList = [];
