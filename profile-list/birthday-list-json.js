@@ -560,8 +560,8 @@ let birthdayListJson =
 	},
 	{
 		"category":"vtuber",
-		"id":"NekomataOkayu",
-		"name":"Nekomata Okayu",
+		"id":"UruhaRushia",
+		"name":"Uruha Rushia",
 		"dob":"????.01.22"
 	},
 	{
