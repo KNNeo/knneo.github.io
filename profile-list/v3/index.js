@@ -1,7 +1,8 @@
 //generate from json file
 const spacer = 'https://knneo.github.io/resources/spacer.gif';
-let isExternal = window.location.href.includes('://knneo.github.io'); //if not in local
-let smallScreen = window.innerWidth <= 640;
+const isExternal = window.location.href.includes('://knneo.github.io'); //if not in local
+const smallScreen = window.innerWidth <= 640;
+const maxRating = 5;
 let friendList = [];
 let profileList = [];
 let calendarList = [];
@@ -471,7 +472,7 @@ function generateProfileFromJSON(profileName) {
 						
 							cell = document.createElement('td');
 							// cell.innerText = ratingAsStars(profile.rating, 5);
-							cell.appendChild(ratingAsStars(profile.rating, 5));
+							cell.appendChild(ratingAsStars(profile.rating, maxRating));
 							row.appendChild(cell);
 						
 						profileTableBody.appendChild(row);
