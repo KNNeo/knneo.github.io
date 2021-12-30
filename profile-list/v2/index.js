@@ -277,7 +277,7 @@ function generateProfileFromJSON(profileName) {
 					{
 						let cell = document.createElement('td');
 						if(friendMode) cell.style.textAlign = 'center';
-						cell.innerText = 'Name ' + (!simplified ? '' : '(Nickname)');
+						cell.innerText = 'Name ' + (simplified ? '' : '(Nickname)');
 						row.appendChild(cell);
 					}
 					
