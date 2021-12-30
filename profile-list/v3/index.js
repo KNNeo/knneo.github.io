@@ -20,8 +20,8 @@ if(profileListJson.length == 0) {
 				return n.category == 'default';
 			});
 			//code here
-			//if(profileList != null && generateProfileListFromJSON(profileList)) renderProfileBox();
-			if(profileList != null) renderWantedList();
+			if(profileList != null)
+				renderWantedList();
 			
 		}
 	};
@@ -155,7 +155,6 @@ function generateProfileFromJSON(profileName) {
 	
 	let idBox = document.createElement('div');
 	idBox.id = profile.id;
-	//idBox.style.padding = '20px 0';
 	idBox.style.width = '90%';
 	idBox.style.maxWidth = simplified || friendMode ? '440px' : '640px';
 	idBox.style.margin = 'auto';
@@ -215,32 +214,7 @@ function generateProfileFromJSON(profileName) {
 			profileBoxImg.style.backgroundRepeat = 'no-repeat';
 			profileBoxImg.style.backgroundPosition = 'center';
 			profileBoxImg.style.backgroundImage = addUrlClause(image1Source);
-			profileBoxImg.setAttribute('alt', friendMode ? image2Source : addUrlClause(image2Source));			
-					
-				/* let image1 = document.createElement('img');
-				image1.src = spacer;
-				image1.src = friendMode ? friendImage : randomProfileImg(profile.images);
-				profileBoxImg.appendChild(image1);
-				
-				if(friendMode)
-				{
-					//image2 = document.createElement('img');
-					//image2.src = spacer;
-					//image2.alt = profile.images.length > 1 ? profile.images[profile.images.length-1] : randomProfileImg(profile.images);
-					//profileBoxImg.appendChild(image2);
-					
-					image2 = document.createElement('img');
-					image2.src = spacer;
-					image2.alt = currentProfile.images.length > 1 ? currentProfile.images[currentProfile.images.length-1] : randomProfileImg(currentProfile.images);
-					profileBoxImg.appendChild(image2);
-				}
-				else if(profile.images.length > 1)
-				{
-					let image2 = document.createElement('img');
-					image2.src = spacer;
-					image2.alt = profile.images[profile.images.length-1];
-					profileBoxImg.appendChild(image2);
-				} */
+			profileBoxImg.setAttribute('alt', friendMode ? image2Source : addUrlClause(image2Source));
 		
 			profileBox.appendChild(profileBoxImg);
 			
@@ -298,7 +272,6 @@ function generateProfileFromJSON(profileName) {
 						if(friendMode)
 						{
 							cellDiv = document.createElement('div');
-							// cellDiv.innerText = ' (' + currentProfile.nickname + ')';
 							
 								span = document.createElement('a');
 								span.classList.add('profile-name');
@@ -356,7 +329,6 @@ function generateProfileFromJSON(profileName) {
 							
 								DOBspan = document.createElement('span');
 								DOBspan.classList.add('DOB');
-								//DOBspan.innerText = profile.dob;
 								DOBspan.innerText = currentProfile.dob + (!isExternal && !friendMode && !simplified && currentProfile.dobComment != '' ? (' (' + currentProfile.dobComment + ')') : '');
 								cellDiv.appendChild(DOBspan);
 							
@@ -512,7 +484,6 @@ function generateProfileFromJSON(profileName) {
 								
 									cellDiv = document.createElement('div');
 									cellDiv.id = 'profile-friends';
-									//sorting only works on firefox
 									
 									let profileFriends = [];
 									for(let friend1 of profileFriendsList)
@@ -542,7 +513,7 @@ function generateProfileFromJSON(profileName) {
 						
 					}
 					
-					if(profile.socialHandlers)
+					if(profile.social)
 					{
 						if(!friendMode) {
 							row = document.createElement('tr');
@@ -749,14 +720,9 @@ function setThumbnails() {
         let popHeight = allThumbnails[i].getElementsByClassName('thumbnail-pop')[0].offsetHeight;
         allThumbnails[i].style.height = Math.max(initialHeight, popHeight) + 'px';
 		allThumbnails[i].getElementsByClassName('thumbnail-toggle')[0].addEventListener('click', function() {
-			//switchThumbnails(closestClass(this, "thumbnail"));
-			//setTimeout(switchThumbnails(this.parentElement.parentElement), 200);
 		});
 		allThumbnails[i].getElementsByClassName('thumbnail-toggle')[1].addEventListener('click', function() {
-			//switchThumbnails(closestClass(this, "thumbnail"));
-			//setTimeout(switchThumbnails(this.parentElement.parentElement), 200);
 		});
-		//document.getElementById('isMarried').style.visibility = 'hidden';
     }
 }
 
@@ -790,23 +756,8 @@ function switchThumbnails(tn) {
 function adjustThumbnailHeight(tn) {
 	let initialHeight = tn.getElementsByClassName('thumbnail-initial')[0].offsetHeight;
 	let popHeight = tn.getElementsByClassName('thumbnail-pop')[0].offsetHeight;
-	//if(popHeight - initialHeight > 100 || popHeight - initialHeight < -100)
 	tn.style.height = (tn.getElementsByClassName('thumbnail-initial')[0].style.visibility == 'hidden' ? popHeight : initialHeight) + 'px';
 }
-
-//--right click to toggle censor--//
-/*function invertCensor() {
-	for(let link of document.getElementById('wantedList').getElementsByTagName('a'))
-	{
-		link.addEventListener('contextmenu', function(e) {
-			e.preventDefault();
-			isExternal = !isExternal;
-			this.click();
-			addStatusPopUp();
-			isExternal = !isExternal;
-		}, false);
-	}
-}*/
 
 //--not dependent on render--//
 function navigateToProfile(e) {
@@ -879,7 +830,6 @@ document.getElementById('profile').addEventListener("contextmenu", function(e) {
 });
 
 //--variables--//
-let myDOB = '1993-02-19'; // format: yyyy-MM-dd
 let loadedImages = 0;
 let timelineDOBlist = [];
 let calendarDOBlist = [];
@@ -893,7 +843,6 @@ let DateTime = luxon.DateTime;
 
 //--dependent on render, as functions to call on render--//
 function renderWantedList() {
-	//toggleInitialThumbnailLayout();
 	generateWantedList();
 	timelineDOBlist = createDOBlist(profileList, 1, 35);
 	loadTimeline(2500);
@@ -902,7 +851,6 @@ function renderWantedList() {
 	currentMonth = createCalendar(DateTime.fromISO(DateTime.now(), {zone: timezone}).month-1, calendarDOBlist);
 	addCalendarLegend();
 	setThumbnails();
-	// addStatusPopUps();
 	initialiseTime();
 	friendCheck();
 }
@@ -913,8 +861,6 @@ function initialiseTime() {
 }
 
 function updateTime() {
-	// let offsetMinutes = moment().utcOffset() - moment.tz(timezone).utcOffset();
-	// document.getElementById('time').innerText = moment().subtract(offsetMinutes, 'minutes').format("yyyy.MM.DD HH:mm:ss");
 	var now = DateTime.local().setZone(timezone);
 	document.getElementById('time').innerText = now.toFormat("yyyy.MM.dd HH:mm:ss");
 	
@@ -939,15 +885,11 @@ function toggleInitialThumbnailLayout() {
 
 function renderProfileBox() {
 	document.getElementById('profile').style.display = '';
-	//reloadImages();
 	addProfileBoxClick();
 	addProfileBoxImgOnError();
 	switchProfileBoxImage();
 	addAgeAfterDOB();
-	//addStatusPopUps();
 	openCommentLinksInNew();
-	//invertCensor();
-	if(isExternal) censorData(); //ONLY FOR GITHUB
 	setTimeout(reloadImages, 300);
 }
 
@@ -963,14 +905,12 @@ function daysFromMe() {
 		let DOB = other.date;
 		let myDateStr = me.date.replace(".", "-").replace(".", "-"); //yyyy.MM.dd -> yyyy-MM-dd
 		let myDate = myDateStr.substring(0, 10);
-		let birthDateStr = DOB.replace(".", "-").replace(".", "-"); //yyyy.MM.dd -> yyyy-MM-dd
+		let birthDateStr = DOB.replace(".", "-").replace(".", "-");
 		let birthDate = birthDateStr.substring(0, 10);
-		//return Math.floor((new Date().getTime() - birthDate) / 31556952000);
-		// let offsetMinutes = moment().utcOffset() - moment.tz(timezone).utcOffset();
 		let diff = DateTime.fromISO(myDate).setZone(timezone).diff(DateTime.fromISO(birthDate), 'days').days;
 		awway.push({
 			name: other.name,
-			daysAway: Math.abs(diff) // Math.abs(Math.round(moment.duration(diff).subtract(offsetMinutes, 'minutes').asDays(),0))
+			daysAway: Math.abs(diff)
 			});
 	}
 	
@@ -983,14 +923,13 @@ function addAgeAfterDOB() {
 	let profile = profileList.filter(p => p.id === document.getElementById('profile').firstChild.id)[0];
 	let DOBspan = document.getElementById(profile.id).getElementsByClassName('DOB')[0];
 	let age = profile.dob.includes('????') ? 0 : parseInt(getAge(profile.dob));
-	//if(checkBirthdayPassed(profile.dob)) age++;
 	if (age != undefined && age > 0)
 		DOBspan.innerHTML = DOBspan.innerHTML.concat(" [").concat(age.toString()).concat(" years ago]");
 }
 
 function getAge(DOB) {
 	let birthDateStr = DOB.replace(".", "-").replace(".", "-"); //yyyy.MM.dd -> yyyy-MM-dd
-	let birthDate = DateTime.fromISO(birthDateStr.substring(0, 10), {zone: timezone}); // birthDateStr.substring(0, 10);
+	let birthDate = DateTime.fromISO(birthDateStr.substring(0, 10), {zone: timezone});
 	let today = DateTime.fromISO(DateTime.now(), {zone: timezone});
 	// console.log(today.diff(birthDate, ['years','months','days','hours','minutes','seconds']));
 	return today.diff(birthDate, 'years').years;
@@ -1006,8 +945,6 @@ function checkBirthdayPassed(DOB) {
 //generate wanted list
 function generateWantedList(profileLink) {
 	let wantedListString = "";
-	//let friendMode = document.getElementById("pairsCheckbox").checked;
-	//let excludeMarried = document.getElementById("marriedCheckbox").checked;
 	let wantedList = document.getElementById("wantedList");
 
 	//create name array from static profile boxes
@@ -1045,9 +982,7 @@ function generateWantedList(profileLink) {
 			renderProfileBox();
 			addStatusPopUp();
 			generateWantedList(this);
-			//document.documentElement.scrollTop = 0;
 			document.getElementById('profile').scrollIntoView();
-			//if(!smallScreen) switchThumbnails(document.getElementsByClassName('thumbnail')[0]);
 		});
 		wantedList.getElementsByTagName("a")[id].addEventListener("contextmenu", function(e) {
 			e.preventDefault();
@@ -1055,9 +990,7 @@ function generateWantedList(profileLink) {
 			generateProfileFromJSON(this.innerText.replace(" ", ""));
 			renderProfileBox();
 			generateWantedList(this);
-			//document.documentElement.scrollTop = 0;
 			document.getElementById('profile').scrollIntoView();
-			//if(!smallScreen) switchThumbnails(document.getElementsByClassName('thumbnail')[0]);
 			isExternal = !isExternal;
 		}, false);
 	}
@@ -1099,7 +1032,7 @@ function createDOBlist(list, minAge, maxAge) {
 		});
 	}
 	for(let profile of list) {
-		let targetDOB = profile.dob; //document.getElementById(targetId.replace(" ", "")).getElementsByClassName("DOB");
+		let targetDOB = profile.dob;
 		if (targetDOB.length > 0) {
 			let birthDate = new Date(Date.parse(targetDOB.replace(".", "-").replace(".", "-").substring(0, 10)));
 			let age = targetDOB.includes('?') ? 0 : parseInt(getAge(targetDOB));
@@ -1143,10 +1076,7 @@ function togglePairs() {
 	{
 		let profileNode = document.createElement('div');
 		profileNode.innerText = document.getElementById('profile').childNodes[0].id;
-		
 		generateWantedList(profileNode);
-		//document.getElementById("profile").style.display = 'none';
-		//document.getElementById("profile").innerHTML = '';
 	}
 }
 
@@ -1194,9 +1124,6 @@ function createCalendar(monthNo, DOBlist) {
 		let birthdayInYear = new Date(new Date().getFullYear(), new Date(item.date.replace('????', currentYear)).getMonth(), new Date(item.date.replace('????', currentYear)).getDate());
 		
 		let DOB = currentYear + item.date.substring(4);
-		// let offsetMinutes = moment().utcOffset() - moment.tz(timezone).utcOffset();
-		// let difference = moment().diff(moment(DOB));
-		// let timeDiff = moment.duration(difference).subtract(offsetMinutes, 'minutes');
 		let IsBirthdayOver = checkBirthdayPassed(DOB);
 		// console.log(item.name, timeDiff.days(), timeDiff.hours(), timeDiff.minutes(), timeDiff.seconds(), timeDiff.milliseconds());
 		
@@ -1226,8 +1153,6 @@ function createCalendar(monthNo, DOBlist) {
 	}
 	
 	document.getElementById("calendar").innerHTML = htmlString;
-	// document.getElementById("prevMonth").style.opacity = 1;
-	// document.getElementById("nextMonth").style.opacity = 1;
 	
 	//global variable for month navigation
 	//events for month buttons
@@ -1235,11 +1160,9 @@ function createCalendar(monthNo, DOBlist) {
 	if (currentMonth > 0) document.getElementById("prevMonth").addEventListener("click", function() {
 		createCalendar(--currentMonth, calendarDOBlist);
 	});
-	// else document.getElementById("prevMonth").style.opacity = 0;
 	if (currentMonth < 11) document.getElementById("nextMonth").addEventListener("click", function() {
 		createCalendar(++currentMonth, calendarDOBlist);
 	});
-	// else document.getElementById("nextMonth").style.opacity = 0;
 	return monthNo;
 }
 
@@ -1318,15 +1241,10 @@ function adjustKnots() {
 //double click profile box go up to list of names
 function addProfileBoxClick() {
 	for (let profBox of document.getElementsByClassName("profile-box")) profBox.addEventListener("dblclick", function() {
-		//if (window.innerWidth < 780) {
-			document.getElementById("profile").style.display = 'none';
-			document.getElementById("profile").innerHTML = '';
-			//return;
-		//}
+		document.getElementById("profile").style.display = 'none';
+		document.getElementById("profile").innerHTML = '';
 		document.body.scrollTop = 0; // For Safari
 		document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-		//switchThumbnails(document.getElementsByClassName('thumbnail')[0]);
-		//adjustThumbnailHeight(document.getElementsByClassName('thumbnail')[0]);
 	});
 }
 
@@ -1340,7 +1258,6 @@ function addProfileBoxImgOnError() {
 			if (this.nextElementSibling.nextElementSibling != null) this.nextElementSibling.nextElementSibling.style.display = "";
 			this.remove();
 		});
-		//if (profileBoxImg[i].nextElementSibling == null && profileBoxImg[i].previousElementSibling != null)
 		if (profileBoxImg[i].previousElementSibling != null)
 			profileBoxImg[i].style.display = "none";
 
@@ -1351,24 +1268,6 @@ function addProfileBoxImgOnError() {
 function switchProfileBoxImage() {
 	let profileBoxImgList = document.getElementsByClassName("profile-box");
 	for (let i = 0; i < profileBoxImgList.length; i++) {
-		/* profileBoxImgList[i].addEventListener("click", function() {
-			if (this.getElementsByTagName("img")[0] == null && this.getElementsByTagName("img")[1] == null) return;
-			if (this.getElementsByTagName("img")[1] == null) return;
-			
-			for(let image of this.getElementsByTagName("img"))
-			{
-				if(image != null) image.style.display = image.style.display == "" ? "none" : "";
-			}
-			
-			if(document.getElementsByClassName('profile-box-img')[0].offsetHeight > 325)
-			{
-				for(let image of this.getElementsByTagName("img"))
-				{
-					if(image != null) image.style.display = image.style.display == "" ? "none" : "";
-				}
-			}
-		});*/
-		
 		profileBoxImgList[i].addEventListener("click", function() {
 			let boxImg = this.getElementsByClassName('profile-box-img')[0];
 			if(boxImg.style.backgroundImage == boxImg.getAttribute('alt')) return;
@@ -1420,8 +1319,6 @@ function resizeAllProfileBoxImg() {
 	{
 		resizeProfileBoxImg(image);
 	}
-	
-	//adjustThumbnailHeight(document.getElementsByClassName('thumbnail')[0]);
 }
 
 function resizeProfileBoxImg(image) {
