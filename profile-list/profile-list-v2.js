@@ -673,7 +673,7 @@ function generateProfileFromJSON(profileName) {
 									if(currentProfile.socialHandlers.youtube)
 									{
 										let youtubeSpan = document.createElement('a');
-										youtubeSpan.href = 'https://www.youtube.com/c/' + currentProfile.socialHandlers.youtube;
+										youtubeSpan.href = 'https://www.youtube.com/channel/' + currentProfile.socialHandlers.youtube;
 										youtubeSpan.target = '_blank';
 										youtubeSpan.title = currentProfile.socialHandlers.youtube;
 										
