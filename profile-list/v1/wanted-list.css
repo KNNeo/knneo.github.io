@@ -37,6 +37,9 @@ p {
 	vertical-align: super;
 	font-size: 0.8em;
 }
+.profile-box-comments .superscript {
+	padding-right: 3px;
+}
 #isMarried {
 	padding-top: 10px;
 	visibility: hidden;

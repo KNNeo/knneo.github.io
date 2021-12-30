@@ -323,7 +323,7 @@ function generateProfileFromJSON(profileName) {
 								DOBspan.classList.add('DOB');
 								//DOBspan.innerText = profile.dob;
 								console.log(profile.dob);
-								DOBspan.innerHTML = profile.dob + (!isExternal && !friendMode && !simplified && profile.dobComment ? (' (' + profile.dobComment + ')') : '');
+								DOBspan.innerHTML = superscriptText(profile.dob) + (!isExternal && !friendMode && !simplified && profile.dobComment ? (' (' + profile.dobComment + ')') : '');
 								if(DOBspan.innerHTML.includes('????')) {
 									let dateOnly = new Date(1990,profile.dob.substring(5,2),profile.dob.substring(8,2),0,0,0,0);
 									DOBspan.innerHTML = month[parseInt(profile.dob.substring(5,7))-1] + ' ' + parseInt(profile.dob.substring(8,10)) + (!isExternal && !friendMode && !simplified && profile.dobComment ? (' (' + profile.dobComment + ')') : '');
@@ -439,7 +439,7 @@ function generateProfileFromJSON(profileName) {
 						row = document.createElement('tr');
 						
 							cell = document.createElement('td');
-							cell.innerText = profile.intro;
+							cell.innerHTML = superscriptText(profile.intro);
 							row.appendChild(cell);
 						
 						profileTableBody.appendChild(row);
