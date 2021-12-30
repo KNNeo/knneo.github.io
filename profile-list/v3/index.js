@@ -698,7 +698,7 @@ function addBrackets(content, startWithWhitespace) { return (startWithWhitespace
 function processTurningPoint(option, returnBool) {
 	if(returnBool)
 		return option.includes('Yes') ? true : false;
-	return superscriptText(option);
+	return option.replace('[1]','').replace('[2]','').replace('[3]','');
 }
 function processComments(comments, refs) {
 	if(refs && refs.length > 0)
