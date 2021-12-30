@@ -101,7 +101,7 @@
 		"order": 2
 	},
 	{
-		"category": "profile",
+		"category": "seiyuu",
 		"id": "HanazawaKana",
 		"image": "https://knneo.webs.com/hanazawakana.jpg",
 		"landscapes": [
@@ -148,7 +148,7 @@
 		"order": 101
 	},
 	{
-		"category": "profile",
+		"category": "seiyuu",
 		"id": "HikasaYouko",
 		"image": "https://knneo.webs.com/hikasayouko.jpg",
 		"landscapes": [
@@ -182,7 +182,7 @@
 		"order": 102
 	},
 	{
-		"category": "profile",
+		"category": "seiyuu",
 		"id": "HorieYui",
 		"image": "https://knneo.webs.com/horieyui.jpg",
 		"landscapes": [
@@ -220,7 +220,7 @@
 		"order": 103
 	},
 	{
-		"category": "profile",
+		"category": "seiyuu",
 		"id": "KayanoAi",
 		"image": "https://knneo.webs.com/kayanoai.jpg",
 		"landscapes": [
@@ -256,7 +256,7 @@
 		"order": 104
 	},
 	{
-		"category": "profile",
+		"category": "seiyuu",
 		"id": "KomatsuMikako",
 		"image": "https://knneo.webs.com/komatsumikako.jpg",
 		"landscapes": [
@@ -308,7 +308,7 @@
 		"order": 105
 	},
 	{
-		"category": "profile",
+		"category": "seiyuu",
 		"id": "KotobukiMinako",
 		"image": "https://knneo.webs.com/kotobukiminako.jpg",
 		"landscapes": [
@@ -349,7 +349,7 @@
 		"order": 106
 	},
 	{
-		"category": "profile",
+		"category": "seiyuu",
 		"id": "OokuboRumi",
 		"image": "https://knneo.webs.com/ookuborumi.jpg",
 		"landscapes": [
@@ -383,7 +383,7 @@
 		"order": 107
 	},
 	{
-		"category": "profile",
+		"category": "seiyuu",
 		"id": "SatouSatomi",
 		"image": "https://knneo.webs.com/satousatomi.jpg",
 		"landscapes": [
@@ -416,7 +416,7 @@
 		"order": 108
 	},
 	{
-		"category": "profile",
+		"category": "seiyuu",
 		"id": "TaketatsuAyana",
 		"image": "https://knneo.webs.com/taketatsuayana.jpg",
 		"landscapes": [
@@ -457,7 +457,7 @@
 		"order": 109
 	},
 	{
-		"category": "profile",
+		"category": "seiyuu",
 		"id": "TomatsuHaruka",
 		"image": "https://knneo.webs.com/tomatsuharuka.jpg",
 		"landscapes": [
@@ -497,7 +497,7 @@
 		"order": 110
 	},
 	{
-		"category": "profile",
+		"category": "seiyuu",
 		"id": "ToyosakiAki",
 		"image": "https://knneo.webs.com/toyosakiaki.jpg",
 		"landscapes": [
@@ -541,7 +541,7 @@
 		"order": 111
 	},
 	{
-		"category": "profile",
+		"category": "seiyuu",
 		"id": "YuukiAoi",
 		"image": "https://knneo.webs.com/yuukiaoi.jpg",
 		"landscapes": [
@@ -579,7 +579,7 @@
 		"order": 112
 	},
 	{
-		"category": "profile",
+		"category": "seiyuu",
 		"id": "AmamiyaSora",
 		"image": "https://knneo.webs.com/amamiyasora.jpg",
 		"landscapes": [
@@ -621,7 +621,7 @@
 		"order": 201
 	},
 	{
-		"category": "profile",
+		"category": "seiyuu",
 		"id": "AsakuraMomo",
 		"image": "https://knneo.webs.com/asakuramomo.jpg",
 		"landscapes": [
@@ -676,7 +676,7 @@
 		"order": 202
 	},
 	{
-		"category": "profile",
+		"category": "seiyuu",
 		"id": "EndouYurika",
 		"image": "https://knneo.webs.com/endouyurika.jpg",
 		"landscapes": [],
@@ -704,7 +704,7 @@
 		"order": 203
 	},
 	{
-		"category": "profile",
+		"category": "seiyuu",
 		"id": "HidakaRina",
 		"image": "https://knneo.webs.com/hidakarina.jpg",
 		"landscapes": [
@@ -748,7 +748,7 @@
 		"order": 204
 	},
 	{
-		"category": "profile",
+		"category": "seiyuu",
 		"id": "KounoMarika",
 		"image": "https://knneo.webs.com/kounomarika.jpg",
 		"landscapes": [
@@ -805,7 +805,7 @@
 		"order": 205
 	},
 	{
-		"category": "profile",
+		"category": "seiyuu",
 		"id": "MinaseInori",
 		"image": "https://knneo.webs.com/minaseinori.jpg",
 		"landscapes": [
@@ -863,7 +863,7 @@
 		"order": 206
 	},
 	{
-		"category": "profile",
+		"category": "seiyuu",
 		"id": "NatsukawaShiina",
 		"image": "https://knneo.webs.com/natsukawashiina.jpg",
 		"landscapes": [
@@ -908,7 +908,7 @@
 		"order": 207
 	},
 	{
-		"category": "profile",
+		"category": "seiyuu",
 		"id": "NumakuraManami",
 		"image": "https://knneo.webs.com/numakuramanami.jpg",
 		"landscapes": [],
@@ -941,7 +941,7 @@
 		"order": 208
 	},
 	{
-		"category": "profile",
+		"category": "seiyuu",
 		"id": "TachibanaRika",
 		"image": "https://knneo.webs.com/tachibanarika.jpg",
 		"landscapes": [
@@ -974,7 +974,7 @@
 		"order": 209
 	},
 	{
-		"category": "profile",
+		"category": "seiyuu",
 		"id": "TakahashiRie",
 		"image": "https://knneo.webs.com/takahashirie.jpg",
 		"landscapes": [
@@ -1021,7 +1021,7 @@
 		"order": 210
 	},
 	{
-		"category": "profile",
+		"category": "seiyuu",
 		"id": "TouyamaNao",
 		"image": "https://knneo.webs.com/touyamanao.jpg",
 		"landscapes": [
@@ -1080,7 +1080,7 @@
 		"order": 211
 	},
 	{
-		"category": "profile",
+		"category": "seiyuu",
 		"id": "UesakaSumire",
 		"image": "https://knneo.webs.com/uesakasumire.jpg",
 		"landscapes": [
@@ -1134,7 +1134,7 @@
 		"order": 212
 	},
 	{
-		"category": "profile",
+		"category": "seiyuu",
 		"id": "AnzaiChika",
 		"image": "https://knneo.webs.com/anzaichika.jpg",
 		"landscapes": [
@@ -1173,7 +1173,7 @@
 		"order": 301
 	},
 	{
-		"category": "profile",
+		"category": "seiyuu",
 		"id": "FuchigamiMai",
 		"image": "https://knneo.webs.com/fuchigamimai.jpg",
 		"landscapes": [
@@ -1214,7 +1214,7 @@
 		"order": 302
 	},
 	{
-		"category": "profile",
+		"category": "seiyuu",
 		"id": "HondoKaede",
 		"image": "https://knneo.webs.com/hondokaede.jpg",
 		"landscapes": [
@@ -1256,7 +1256,7 @@
 		"order": 303
 	},
 	{
-		"category": "profile",
+		"category": "seiyuu",
 		"id": "IsobeKarin",
 		"image": "https://knneo.webs.com/isobekarin.jpg",
 		"landscapes": [
@@ -1299,7 +1299,7 @@
 		"order": 304
 	},
 	{
-		"category": "profile",
+		"category": "seiyuu",
 		"id": "KidoIbuki",
 		"image": "https://knneo.webs.com/kidoibuki.jpg",
 		"landscapes": [
@@ -1349,7 +1349,7 @@
 		"order": 305
 	},
 	{
-		"category": "profile",
+		"category": "seiyuu",
 		"id": "KitouAkari",
 		"image": "https://knneo.webs.com/kitouakari.jpg",
 		"landscapes": [
@@ -1397,7 +1397,7 @@
 		"order": 306
 	},
 	{
-		"category": "profile",
+		"category": "seiyuu",
 		"id": "KogaAoi",
 		"image": "https://knneo.webs.com/kogaaoi.jpg",
 		"landscapes": [
@@ -1439,7 +1439,7 @@
 		"order": 307
 	},
 	{
-		"category": "profile",
+		"category": "seiyuu",
 		"id": "KoharaKonomi",
 		"image": "https://knneo.webs.com/koharakonomi.jpg",
 		"landscapes": [
@@ -1472,7 +1472,7 @@
 		"order": 308
 	},
 	{
-		"category": "profile",
+		"category": "seiyuu",
 		"id": "Lynn",
 		"image": "https://knneo.webs.com/lynn.jpg",
 		"landscapes": [
@@ -1521,7 +1521,7 @@
 		"order": 309
 	},
 	{
-		"category": "profile",
+		"category": "seiyuu",
 		"id": "NagaeRika",
 		"image": "https://knneo.webs.com/nagaerika.jpg",
 		"landscapes": [
@@ -1565,7 +1565,7 @@
 		"order": 310
 	},
 	{
-		"category": "profile",
+		"category": "seiyuu",
 		"id": "NagatsumaJuuri",
 		"image": "https://knneo.webs.com/nagatsumajuuri.jpg",
 		"landscapes": [
@@ -1602,7 +1602,7 @@
 		"order": 311
 	},
 	{
-		"category": "profile",
+		"category": "seiyuu",
 		"id": "OmigawaChiaki",
 		"image": "https://knneo.webs.com/omigawachiaki.jpg",
 		"landscapes": [
@@ -1642,7 +1642,7 @@
 		"order": 312
 	},
 	{
-		"category": "profile",
+		"category": "seiyuu",
 		"id": "OonishiSaori",
 		"image": "https://knneo.webs.com/oonishisaori.jpg",
 		"landscapes": [
@@ -1679,7 +1679,7 @@
 		"order": 313
 	},
 	{
-		"category": "profile",
+		"category": "seiyuu",
 		"id": "OonoYuuko",
 		"image": "https://knneo.webs.com/oonoyuuko.jpg",
 		"landscapes": [
@@ -1715,7 +1715,7 @@
 		"order": 314
 	},
 	{
-		"category": "profile",
+		"category": "seiyuu",
 		"id": "OozoraNaomi",
 		"image": "https://knneo.webs.com/oozoranaomi.jpg",
 		"landscapes": [
@@ -1755,7 +1755,7 @@
 		"order": 315
 	},
 	{
-		"category": "profile",
+		"category": "seiyuu",
 		"id": "ToyotaMoe",
 		"image": "https://knneo.webs.com/toyotamoe.jpg",
 		"landscapes": [
@@ -1798,7 +1798,7 @@
 		"order": 316
 	},
 	{
-		"category": "profile",
+		"category": "seiyuu",
 		"id": "WakiAzumi",
 		"image": "https://knneo.webs.com/wakiazumi.jpg",
 		"landscapes": [
@@ -1851,7 +1851,7 @@
 		"order": 317
 	},
 	{
-		"category": "profile",
+		"category": "seiyuu",
 		"id": "YoshimuraHaruka",
 		"image": "https://knneo.webs.com/yoshimuraharuka.jpg",
 		"landscapes": [],
@@ -1879,7 +1879,7 @@
 		"order": 318
 	},
 	{
-		"category": "profile",
+		"category": "seiyuu",
 		"id": "KannoMai",
 		"image": "https://knneo.webs.com/kannomai.jpg",
 		"landscapes": [
@@ -1920,7 +1920,7 @@
 		"order": 401
 	},
 	{
-		"category": "profile",
+		"category": "seiyuu",
 		"id": "TomitaMiyu",
 		"image": "https://knneo.webs.com/tomitamiyu.jpg",
 		"landscapes": [
@@ -1969,7 +1969,7 @@
 		"order": 402
 	},
 	{
-		"category": "profile",
+		"category": "seiyuu",
 		"id": "SasakiNao",
 		"image": "https://knneo.webs.com/sasakinao.jpg",
 		"landscapes": [
