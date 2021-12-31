@@ -1,12 +1,14 @@
 //generate from json file
-const spacer = 'https://knneo.github.io/resources/spacer.gif';
 const maxRating = 5;
 const smallScreen = window.innerWidth <= 640;
-let isExternal = window.location.href.includes('://knneo.github.io'); //if not in local
-let friendList = [];
-let profileList = [];
-let calendarList = [];
-let defaultProfile = {};
+const categoryColor = //mapping for category, see profile-list.json
+{
+	"alterna":"pink",
+	"doaxvv":"lime",
+	"hololive":"gold",
+	"seiyuu":"cyan",
+	"profile":"lightgray"
+};
 if(profileListJson.length == 0) {
 	let xmlhttp = new XMLHttpRequest();
 	xmlhttp.onreadystatechange = function() {
@@ -340,7 +342,7 @@ function generateProfileFromJSON(profileName) {
 							
 								DOBspan = document.createElement('span');
 								DOBspan.classList.add('DOB');
-								DOBspan.innerHTML = currentProfile.dob + (!isExternal && !friendMode && !simplified && currentProfile.dobComment != '' ? (' (' + currentProfile.dobComment + ')') : '');
+								DOBspan.innerHTML = processOption(currentProfile.dob, false) + (!isExternal && !friendMode && !simplified && currentProfile.dobComment != '' ? (' (' + currentProfile.dobComment + ')') : '');
 								cellDiv.appendChild(DOBspan);
 							
 								cell.appendChild(cellDiv);
@@ -406,18 +408,18 @@ function generateProfileFromJSON(profileName) {
 												+ "|" + superscriptText(profile.turningPoint.swimsuitPhotobook)
 												+ "|" + superscriptText(profile.turningPoint.isMarried);
 								else
-									cellDiv.innerHTML = processTurningPoint(profile.turningPoint.soloDebut, false)
-												+ "|" + processTurningPoint(profile.turningPoint.swimsuitPhotobook, false) 
-												+ "|" + processTurningPoint(profile.turningPoint.isMarried, false);
+									cellDiv.innerHTML = processOption(profile.turningPoint.soloDebut, false)
+												+ "|" + processOption(profile.turningPoint.swimsuitPhotobook, false) 
+												+ "|" + processOption(profile.turningPoint.isMarried, false);
 									
 							cell.appendChild(cellDiv);
 										
 							if(friendMode)
 							{
 								cellDiv = document.createElement('div');
-								cellDiv.innerHTML = processTurningPoint(currentProfile.turningPoint.soloDebut, false)
-											+ "|" + processTurningPoint(currentProfile.turningPoint.swimsuitPhotobook, false) 
-											+ "|" + processTurningPoint(currentProfile.turningPoint.isMarried, false);
+								cellDiv.innerHTML = processOption(currentProfile.turningPoint.soloDebut, false)
+											+ "|" + processOption(currentProfile.turningPoint.swimsuitPhotobook, false) 
+											+ "|" + processOption(currentProfile.turningPoint.isMarried, false);
 								cell.appendChild(cellDiv);
 							}
 						
@@ -695,7 +697,7 @@ function ratingAsStars(rating, total) {
 	return stars;
 }
 function addBrackets(content, startWithWhitespace) { return (startWithWhitespace ? ' ' : '') + '(' + content + ')'; }
-function processTurningPoint(option, returnBool) {
+function processOption(option, returnBool) {
 	if(returnBool)
 		return option.includes('Yes') ? true : false;
 	return option.replace('[1]','').replace('[2]','').replace('[3]','');
@@ -768,53 +770,6 @@ function addUrlClause(url) {
 	return "url('" + url + "')";
 }
 
-//Multi-image thumbnail: Define caption height, onclick event
-function setThumbnails() {
-    let allThumbnails = document.body.getElementsByClassName("thumbnail");
-    for (let i = 0; i < allThumbnails.length; i++) {
-        let initialHeight = allThumbnails[i].getElementsByClassName('thumbnail-initial')[0].offsetHeight;
-        let popHeight = allThumbnails[i].getElementsByClassName('thumbnail-pop')[0].offsetHeight;
-        allThumbnails[i].style.height = Math.max(initialHeight, popHeight) + 'px';
-		allThumbnails[i].getElementsByClassName('thumbnail-toggle')[0].addEventListener('click', function() {
-		});
-		allThumbnails[i].getElementsByClassName('thumbnail-toggle')[1].addEventListener('click', function() {
-		});
-    }
-}
-
-function closestClass(inputElement, targetClassName) {
-    while (inputElement.className != targetClassName) {
-        inputElement = inputElement.parentNode;
-    }
-    return inputElement;
-}
-
-function switchThumbnails(tn) {
-    let tc = tn.getElementsByClassName("thumbnail-initial");
-    let initialVisible = true;
-    if (tc[0].style.visibility == "hidden") {
-        tc[0].style.visibility = "visible";
-        tc[1].style.visibility = "hidden";
-    } else if (tc[0].style.visibility == "" || tc[1].style.visibility == "") {
-        tc[0].style.visibility = "hidden";
-        tc[1].style.visibility = "visible";
-		initialVisible = false;
-    } else {
-        tc[0].style.visibility = "hidden";
-        tc[1].style.visibility = "visible";
-		initialVisible = false;
-    }
-
-	document.documentElement.scrollTop = 0;
-    return false;
-}
-
-function adjustThumbnailHeight(tn) {
-	let initialHeight = tn.getElementsByClassName('thumbnail-initial')[0].offsetHeight;
-	let popHeight = tn.getElementsByClassName('thumbnail-pop')[0].offsetHeight;
-	tn.style.height = (tn.getElementsByClassName('thumbnail-initial')[0].style.visibility == 'hidden' ? popHeight : initialHeight) + 'px';
-}
-
 //--not dependent on render--//
 function navigateToProfile(e) {
 	event.preventDefault();
@@ -856,11 +811,6 @@ document.getElementById("timeline").addEventListener("wheel", function(e) {
 	loadTimeline(origWidth);
 });
 
-//refresh images on resize to avoid image fitting errors
-window.addEventListener('resize', function () {
-	resizeAllProfileBoxImg();
-});
-
 function loadTimeline(width) {
 	TimeKnots.draw("#timeline", timelineDOBlist, {
 		horizontalLayout: true,
@@ -886,7 +836,11 @@ document.getElementById('profile').addEventListener("contextmenu", function(e) {
 });
 
 //--variables--//
-let loadedImages = 0;
+let isExternal = window.location.href.includes('://knneo.github.io'); //if not in local
+let friendList = [];
+let profileList = [];
+let calendarList = [];
+let defaultProfile = {};
 let timelineDOBlist = [];
 let calendarDOBlist = [];
 let currentMonth = 0;
@@ -905,7 +859,6 @@ function renderWantedList() {
 	calendarDOBlist = createDOBlist(calendarList, 0, 50);
 	currentMonth = createCalendar(DateTime.fromISO(DateTime.now(), {zone: timezone}).month-1, calendarDOBlist);
 	addCalendarLegend();
-	setThumbnails();
 	initialiseTime();
 	friendCheck();
 }
@@ -920,22 +873,6 @@ function updateTime() {
 	document.getElementById('time').innerText = now.toFormat("yyyy.MM.dd HH:mm:ss");
 	
 	setTimeout(updateTime, 1000);
-}
-
-function toggleInitialThumbnailLayout() {
-	if(!smallScreen)
-	{
-		let thumbnail = document.getElementsByClassName('thumbnail')[0];
-		let thumbnailInitial = thumbnail.getElementsByClassName('thumbnail-initial')[0];
-		let thumbnailPop = thumbnail.getElementsByClassName('thumbnail-pop')[0];
-		let marriedCouple = document.getElementById('marriedCouple').cloneNode(true);
-		document.getElementById('marriedCouple').remove();
-		let profile = document.getElementById('profile').cloneNode(true);
-		document.getElementById('profile').remove();
-		thumbnailPop.appendChild(profile);
-		thumbnailInitial.appendChild(marriedCouple);
-		document.getElementById('pairSearch').remove();
-	}
 }
 
 function renderProfileBox() {
@@ -998,41 +935,36 @@ function checkBirthdayPassed(DOB) {
 function generateWantedList(profileLink) {
 	let wantedListString = "";
 	let wantedList = document.getElementById("wantedList");
+	wantedList.innerHTML = '';
 
 	//create name array from static profile boxes
 	let profileNamesList = [];
 	for (let profileName of profileList) {
-		// if (excludeMarried && processTurningPoint(profileName.turningPoint.isMarried, true)) continue;
-		if (friendMode && friendList.filter( function(n) {
-					return (n.friend1 == profileName.id) || 
-						   (n.friend2 == profileName.id)
-				}).length == 0) continue;
 		profileNamesList.push(profileName);
-
 	}
 	profileNamesList.sort(function(a,b) {
 		return a.name.localeCompare(b.name);
 	});
 
 	//create wanted list from list of names
-	let currentProfileName = profileLink != undefined ? profileLink.innerText.replace(' ','') : '';
 	for (let profile of profileNamesList) {
-		let married = excludeMarried && processTurningPoint(profile.turningPoint.isMarried, true);
-		wantedListString += "<li><" + (married ? "span" : "a") + (married ? " style=\"margin:5px;color:gray;\"" : "") + ">" + profile.name + "</" + (married ? "span" : "a") + "></li>";
-	}
-	wantedList.innerHTML = wantedListString;
-
-	//wanted list processing
-	for (let id = 0; id < wantedList.getElementsByTagName("a").length; id++) {
-		wantedList.getElementsByTagName("a")[id].style.margin = '5px';
-		wantedList.getElementsByTagName("a")[id].addEventListener("click", function() {
+		let married = excludeMarried && processOption(profile.turningPoint.isMarried, true);
+		
+		let list = document.createElement('li');
+		
+		let wanted = document.createElement((married ? 'span' : 'a'));
+		wanted.style.margin = '5px';
+		if(married)
+			wanted.style.color = 'gray';
+		wanted.innerText = profile.name;
+		wanted.addEventListener("click", function() {
 			generateProfileFromJSON(this.innerText.replace(" ", ""));
 			renderProfileBox();
 			addStatusPopUp();
 			generateWantedList(this);
 			document.getElementById('profile').scrollIntoView();
 		});
-		wantedList.getElementsByTagName("a")[id].addEventListener("contextmenu", function(e) {
+		wanted.addEventListener("contextmenu", function(e) {
 			e.preventDefault();
 			isExternal = !isExternal;
 			generateProfileFromJSON(this.innerText.replace(" ", ""));
@@ -1041,6 +973,9 @@ function generateWantedList(profileLink) {
 			document.getElementById('profile').scrollIntoView();
 			isExternal = !isExternal;
 		}, false);
+		
+		list.appendChild(wanted);
+		wantedList.appendChild(list);
 	}
 }
 
@@ -1051,20 +986,6 @@ function addStatusPopUp() {
 		d.target.innerHTML = statusPopup + d.target.innerHTML;
 	});
 	document.getElementsByClassName("turning-point")[0].addEventListener("mouseout", function() {
-		if (document.getElementById("tp-description") != null) document.getElementById("tp-description").remove();
-	});
-}
-
-function addStatusPopUps() {
-	for (let statusPopOut of document.getElementsByClassName("turning-point")) {
-		statusPopOut.addEventListener("mouseover", function(d) {
-			d.target.innerHTML = statusPopup + d.target.innerHTML;
-		});
-		statusPopOut.addEventListener("mouseout", function() {
-			if (document.getElementById("tp-description") != null) document.getElementById("tp-description").remove();
-		});
-	}
-	document.addEventListener("touchmove", function() {
 		if (document.getElementById("tp-description") != null) document.getElementById("tp-description").remove();
 	});
 }
@@ -1102,30 +1023,11 @@ function createDOBlist(list, minAge, maxAge) {
 
 function toggleMarried() {
 	excludeMarried = document.getElementById("marriedCheckbox").checked;
-	if(excludeMarried && friendMode) 
-	{
-		document.getElementById("pairsCheckbox").checked = false;
-		togglePairs();
-	}
 	generateWantedList();
-	timelineDOBlist = createDOBlist(profileList, 1, 35);
+	let marriedList = profileList.filter(profile => excludeMarried ? !processOption(profile.turningPoint.isMarried, true) : true);
+	timelineDOBlist = createDOBlist(marriedList, 1, 35);
 	document.getElementById("timeline").innerHTML = "";
 	loadTimeline(2500);
-}
-
-function togglePairs() {
-	//generate wanted list again, but all disable (grayscale too?), only those who have friends
-	//clicking on first link will store first value as variable
-	//this variable is then used to light up all wanted list again on generate, to available pair
-	//clicking on second link will now go to pair view (call generate profile twice will do)
-	//generateWantedList(document.getElementById("marriedCheckbox").checked);
-	friendMode = document.getElementById("pairsCheckbox").checked;
-	if(document.getElementById('profile').childElementCount > 0) 
-	{
-		let profileNode = document.createElement('div');
-		profileNode.innerText = document.getElementById('profile').childNodes[0].id;
-		generateWantedList(profileNode);
-	}
 }
 
 //generate calendar from profile boxes
@@ -1185,12 +1087,12 @@ function createCalendar(monthNo, DOBlist) {
 		htmlString.indexOf("<td>" + birthdayInYear.getDate() + "</td>") > -1 && 
 		item.name != "Me") //if no age
 			htmlString = htmlString.replace("<td>" + birthdayInYear.getDate() + "</td>", 
-			"<td style=\"background-color: " + setCalendarColour(item.category) + "; color: black;\"><div class=\"popitem\">Happy Birthday <b>" + item.name + "</b>!!</div>" + birthdayInYear.getDate() + "</td>");
+			"<td style=\"background-color: " + categoryColor[item.category] + "; color: black;\"><div class=\"popitem\">Happy Birthday <b>" + item.name + "</b>!!</div>" + birthdayInYear.getDate() + "</td>");
 		else if (htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1 && 
 		htmlString.indexOf("<td>" + birthdayInYear.getDate() + "</td>") > -1 && 
 		item.name != "Me") //normal
 			htmlString = htmlString.replace("<td>" + birthdayInYear.getDate() + "</td>", 
-			"<td style=\"background-color: " + setCalendarColour(item.category) + "; color: black;\"><div class=\"popitem\"><b>" + item.name + "</b> turns " + thisAge + " (" + birthdayInYear.getDate() + " " + month[birthdayInYear.getMonth()].substring(0, 3) + ")</div>" + birthdayInYear.getDate() + "</td>");	
+			"<td style=\"background-color: " + categoryColor[item.category] + "; color: black;\"><div class=\"popitem\"><b>" + item.name + "</b> turns " + thisAge + " (" + birthdayInYear.getDate() + " " + month[birthdayInYear.getMonth()].substring(0, 3) + ")</div>" + birthdayInYear.getDate() + "</td>");	
 		else if (thisAge == '??' && 
 		htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1) //overlap DOBs, if no age
 			htmlString = htmlString.replace("</div>" + birthdayInYear.getDate() + "</td>", 
@@ -1214,22 +1116,6 @@ function createCalendar(monthNo, DOBlist) {
 	return monthNo;
 }
 
-function setCalendarColour(categoryId) {
-	//default list always first, so overlap is default color
-	switch(categoryId) {
-		case 'alterna':
-			return 'pink';
-		case 'doaxvv':
-			return 'lime';
-		case 'hololive':
-			return 'gold';
-		case 'seiyuu':
-			return 'cyan';
-		default:
-			return 'lightgray';
-	}
-}
-
 function addCalendarLegend() {
 	let categories = calendarList.filter((val, index, arr) => arr.map(a => a.category).indexOf(val.category) === index).map(p => p.category); // ['alterna','doaxvv','seiyuu','vtuber'];
 	// console.log(categories);
@@ -1248,7 +1134,7 @@ function addCalendarLegend() {
 			
 			let box = document.createElement('span');
 			box.classList.add('legend');
-			box.style.backgroundColor = setCalendarColour(category.toLowerCase());
+			box.style.backgroundColor = categoryColor[category.toLowerCase()];
 			label.appendChild(box);
 					
 			let description = document.createElement('span');
@@ -1263,7 +1149,7 @@ function addCalendarLegend() {
 }
 
 function toggleCalendarLegend() {
-	this.previousElementSibling.style.backgroundColor = this.previousElementSibling.previousElementSibling.checked ? 'transparent' :setCalendarColour(this.title.toLowerCase());
+	this.previousElementSibling.style.backgroundColor = this.previousElementSibling.previousElementSibling.checked ? 'transparent' :categoryColor[this.title.toLowerCase()];
 	setTimeout(function() {
 		filterCalendar();
 		createCalendar(DateTime.fromISO(DateTime.now(), {zone: timezone}).month-1, calendarDOBlist);
