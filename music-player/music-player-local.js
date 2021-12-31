@@ -289,9 +289,11 @@ function generateFilters() {
 	search.addEventListener('focus', selectAll);
 	search.addEventListener('input', function() {
 		// console.log('querySelect', document.getElementById('search').value);
-		let query = "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song WHERE SongTitle LIKE '%" + reduceQueryInString(document.getElementById('search').value) + "%'";
+		let query = "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song";
+		query += " WHERE SongTitle LIKE '%" + reduceQueryInString(document.getElementById('search').value) + "%'";
 		query += " OR ArtistTitle LIKE '%" + reduceQueryInString(document.getElementById('search').value) + "%'";
 		query += " OR KNYEAR LIKE '%" + reduceQueryInString(document.getElementById('search').value) + "%'";
+		query += " OR (ArtistTitle || ' ' || SongTitle) LIKE '%" + reduceQueryInString(document.getElementById('search').value) + "%'";
 		// console.log('query', query);
 		queryDb(query, updateOptions);
 	});
