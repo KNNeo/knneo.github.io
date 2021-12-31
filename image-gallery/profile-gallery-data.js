@@ -34,7 +34,7 @@ runSlideshow.onreadystatechange = function() {
 		preProcessProfileList(JSON.parse(this.responseText));		
 	}
 };
-runSlideshow.open("GET", "https://knneo.github.io/profile-list/profile-list.json", false);
+runSlideshow.open("GET", "https://knneo.github.io/profile-list/profile-list-new.json", false);
 runSlideshow.send();
 runSlideshow = null;
 
@@ -52,9 +52,7 @@ function preProcessProfileList(inputList) {
 			
 	for(let profile of profiles)
 	{
-		if(profile.landscapes == undefined) profile.landscapes = [];
-		if(profile.portraits == undefined) profile.portraits = [];
-		let allImages = profile.landscapes.concat(profile.portraits).concat(profile.image);
+		let allImages = (profile.landscapes || []).concat(profile.portraits || []);
 		for(let image of allImages)
 		{
 			if(image.includes('knneo.webs.com')) continue;
@@ -63,21 +61,18 @@ function preProcessProfileList(inputList) {
 			imgArray.push([1, image, 'portrait', profileNames.join("|"), '']);
 		}
 	}
-	for(let friendList of inputList.filter( function(n) {
-					return n.category == 'friendList';
+	for(let friend of inputList.filter( function(n) {
+					return n.category == 'friends';
 				}))
 	{
-		for(let friend of friendList.friends)
+		let friendIds = friend.id.split('-');
+		let friendNames = ['*Twoshots Only'];
+		for(let f of friendIds)
 		{
-			let friendIds = friend.id.split('-');
-			let friendNames = ['*Twoshots Only'];
-			for(let f of friendIds)
-			{
-				friendNames.push(profiles.filter( function(n) {
-					return f == n.id;
-				})[0].name);
-			}
-			imgArray.push([1, friend.image, 'portrait', friendNames.join("|"), '']);
+			friendNames.push(profiles.filter( function(n) {
+				return f == n.id;
+			})[0].name);
 		}
+		imgArray.push([1, friend.image, 'portrait', friendNames.join("|"), '']);
 	}
 }

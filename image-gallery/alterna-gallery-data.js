@@ -27,12 +27,18 @@ landscapeTitle = 'Landscape';
 tagRightClickTitle = 'Right Click to Select This Only';
 loaderTextPrefix = 'Images Loaded: ';
 
-//array containing all gallery info, tags delimiter "|"
-if(birthdayListJson != null) 
-	preProcessProfileList();
+//json deserialisation based on profile-list
+runSlideshow = new XMLHttpRequest();
+runSlideshow.onreadystatechange = function() {
+	if (this.readyState == 4 && this.status == 200) {
+		preProcessProfileList(JSON.parse(this.responseText));		
+	}
+};
+runSlideshow.open("GET", "https://knneo.github.io/profile-list/profile-list-new.json", false);
+runSlideshow.send();
+runSlideshow = null;
 
-function preProcessProfileList() {
-	let inputList = birthdayListJson;
+function preProcessProfileList(inputList) {
 	
 	imgArray = [
 	// [0,'FILENAME','ORIENTATION','TAG','DETAIL']
@@ -44,10 +50,10 @@ function preProcessProfileList() {
 				});
 	for(let profile of profiles)
 	{
-		for(let image of profile.images)
+		for(let image of profile.portraits)
 		{
 			let profileNames = [profile.name];
-			let imageUrl = 'https://pbs.twimg.com/media/' + image + '?format=jpg&name=small';
+			let imageUrl = image;
 			imgArray.push([1, imageUrl, 'portrait', profileNames.join("|"), '']);
 		}
 	}
