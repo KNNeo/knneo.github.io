@@ -917,12 +917,14 @@ function generateTickboxAction(noneSelected) {
 	});
 	for (let tickbox of document.getElementById('filter').getElementsByTagName('label'))
 	{
-		tickbox.addEventListener('click', function() { renderFilter(undefined); });
+		tickbox.addEventListener('click', function() { 
+			if(runSlideshow == null) renderFilter(undefined); 
+		});
 		if(tickbox.innerText == selectAllTag) continue;
 		if(tickbox.parentElement.id == 'orientation') continue;
 		tickbox.addEventListener('contextmenu', function(e) { 
 			e.preventDefault();
-			renderFilter(this);
+			if(runSlideshow == null) renderFilter(this);
 			if(enableCollapseFilterOnSelect) document.getElementById('toggler').click();
 		});
 	}
@@ -1092,7 +1094,17 @@ function switchButtons() {
 	document.getElementById('ssstop').style.display = document.getElementById('ssstop').style.display == 'none' ? '' : 'none';
 	document.getElementById('inViewer').disabled = document.getElementById('inViewer').disabled ? false : true;
 	document.getElementById('isFullscreen').disabled = document.getElementById('isFullscreen').disabled ? false : true;
+	
+	for(let checkbox of document.querySelectorAll("input[type='checkbox']"))
+	{
+		checkbox.disabled = !checkbox.disabled;
+	}
 }
+
+function preventDefault() {
+	e.preventDefault();
+}
+
 
 function randomImg() {
 	document.getElementsByClassName('profile-category')[0].classList.add('snap');
