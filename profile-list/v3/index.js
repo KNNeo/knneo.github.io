@@ -88,18 +88,19 @@ function friendCheck() {
 
 function exportCalendar() {
 	let textOutput = '"Subject","Start date","All Day Event","Description","Private"';
+	let nowYear = DateTime.fromISO(DateTime.now(), {zone: timezone}).year;
 	// title, MM/dd/yyyy, true, description, true
 	for(let profile of calendarDOBlist)
 	{
 		textOutput += '\n';
-		let formatDate = profile.date.substring(5,7) + '/' + profile.date.substring(8,10) + '/' + DateTime.now().year;
+		let formatDate = profile.date.substring(5,7) + '/' + profile.date.substring(8,10) + '/' + nowYear;
 		
 		//follow wanted-list-v2.js
-		let birthdayInYear = new Date(new Date().getFullYear(), new Date(profile.date.replace('????', '2021')).getMonth(), new Date(profile.date.replace('????', '2021')).getDate());
-		let DOB = '2021' + profile.date.substring(4);
+		let birthdayInYear = new Date(new Date().getFullYear(), new Date(profile.date.replace('????', nowYear)).getMonth(), new Date(profile.date.replace('????', nowYear)).getDate());
+		let DOB = nowYear + profile.date.substring(4);
 		let IsBirthdayOver = checkBirthdayPassed(DOB);
 		
-		let line = '"'+profile.name+'\'s Birthday'+(profile.date.includes('?') ? '' : ' ('+(IsBirthdayOver ? getAge(profile.date) : getAge(profile.date)+1)+')')+'","'+formatDate+'","true","'+(profile.date.includes('?') ? '' : ('Born ' + profile.date))+'","true"';
+		let line = '"'+profile.name+'\'s Birthday'+(profile.date.includes('?') ? '' : ' ('+(IsBirthdayOver ? parseInt(getAge(profile.date)) : parseInt(getAge(profile.date))+1)+')')+'","'+formatDate+'","true","'+(profile.date.includes('?') ? '' : ('Born ' + profile.date))+'","true"';
 		textOutput += line;
 	}
 	
