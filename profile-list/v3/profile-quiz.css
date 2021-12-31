@@ -156,6 +156,9 @@ html {
   margin: auto;
 }
 .profile-category {
+	margin: 3px 0;
+}
+/* .profile-category {
   overflow-x: scroll;
   overflow-y: hidden;
   white-space: nowrap;
@@ -170,7 +173,7 @@ html {
   vertical-align: top;
   padding-right: 5px;
   scroll-snap-align: center;
-}
+} */
 .profile-box {
   border-radius: 8px;
   border: 1px solid white;

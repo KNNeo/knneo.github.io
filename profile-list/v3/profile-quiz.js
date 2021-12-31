@@ -1,6 +1,5 @@
 //--SETTING--//
-const debugMode = false; //shows logs
-const friendsMode = false; //allows images of friends to be included
+const debugMode = true; //shows logs
 const totalQns = 10; //questions to show, cannot be more than provided list
 const instructions = `
 Instructions:
@@ -8,8 +7,10 @@ Instructions:
 `;
 
 //--VARIABLE--//
-let timeChallenge = false; //if true will preload images first, adds timer to quiz
-let easyMode = true;
+let easyMode = localStorage.getItem('easyMode') == 'true';
+let timeChallenge = !easyMode; //if true will preload images first, adds timer to quiz
+let profileCategory = localStorage.getItem('profileCategory'); //category to filter profile list
+let friendsMode = profileCategory == 'friends'; //allows images of friends to be included
 let friendList = [];
 let profileList = [];
 //--READ JSON--//
@@ -19,10 +20,10 @@ if(profileListJson.length == 0) {
 		if (this.readyState == 4 && this.status == 200) {
 			profileListJson = JSON.parse(this.responseText);
 			profileList = profileListJson.filter( function(n) {
-				return n.category == 'seiyuu';
+				return friendsMode || n.category == profileCategory;
 			});
 			friendList = profileListJson.filter( function(n) {
-				return n.category == 'friendList';
+				return n.category == 'friends';
 			});
 
 			//code here
@@ -39,11 +40,12 @@ if(profileListJson.length == 0) {
 else {
 	if(debugMode) console.log('Using test json');
 	profileList = profileListJson.filter( function(n) {
-		return n.category == 'seiyuu';
+		return n.category == profileCategory;
 	});
 	friendList = profileListJson.filter( function(n) {
-		return n.category == 'friendList';
+		return n.category == 'friends';
 	});
+			
 	defineNameList();
 	renderQuiz(true);
 }
@@ -61,22 +63,17 @@ function defineNameList() {
 	if(friendsMode)
 	{
 		for(let friend of friendList) {
-			let allImages = friend.friends;
-			let id = friend.id;
-			
-			allImages.map(function (i, index, arr) {
-				let names = i.id.split('-');
-				imageList.push({
-					image: i.image,
-					name: profileList.filter(pl => names.includes(pl.id)).map(p => p.name),
-					id: i.id,
-				});
+			let names = friend.id.split('-');
+			imageList.push({
+				image:friend.image,
+				name: profileList.filter(pl => names.includes(pl.id)).map(p => p.name),
+				id: friend.id,
 			});
 		}	
 	}
 	
 	for(let profile of profileList) {
-			let allImages = profile.landscapes.concat(profile.portraits);
+			let allImages = (profile.landscapes || []).concat(profile.portraits || []);
 			let name = profile.name;
 			let id = profile.id;
 			
@@ -88,8 +85,9 @@ function defineNameList() {
 						id,
 					});
 				});
-				
-			nameList.push(name);
+			
+			if(allImages.length > 0)
+				nameList.push(name);
 			
 	}
 	
@@ -112,8 +110,6 @@ function renderQuiz(isFirstLoad) {
 	if(isFirstLoad)
 	{
 		document.querySelector('.title').innerText = friendsMode ? '女性プロフィール友達クイズ' : '女性プロフィールクイズ';
-		easyMode = localStorage.getItem('easyMode') == 'true';
-		timeChallenge = !easyMode;
 	}
 
 	//option2 button is start	
@@ -177,6 +173,11 @@ function quizStep(mode) {
 }
 
 function startQuiz() {
+	if(imageList.length == 0)
+	{
+		console.error('Unable to start quiz: no values in imageList');
+		return;
+	}
 	if(timeChallenge)
 	{
 		document.querySelector('.instructions').innerText = 'Loading...';
@@ -372,8 +373,9 @@ function toggleSettings() {
 		container.classList.add('settings');
 		container.innerHTML = '';
 		
+		//easy mode: if true removes time challenge, high score, removes option if wrong answer
 		let easyMode = document.createElement('div');
-		easyMode.innerText = 'Easy Mode';
+		easyMode.innerText = 'Easy Mode ';
 		
 		let easyModeCheckbox = document.createElement('input');
 		easyModeCheckbox.type = 'checkbox';
@@ -384,13 +386,38 @@ function toggleSettings() {
 			let val = localStorage.getItem('easyMode') == 'true';
 			localStorage.setItem('easyMode', !val);
 			
-			easyMode = !val;
-			timeChallenge = !easyMode;
+			// easyMode = !val;
+			// timeChallenge = !easyMode;
+			location.reload();
 		};
 		
 		easyMode.appendChild(easyModeCheckbox);
-		
 		container.appendChild(easyMode);
+		
+		//profile category: selection of dataset
+		let profileCategory = document.createElement('div');
+		profileCategory.innerText = 'Dataset Category ';
+		
+		let categories = profileListJson.filter(val => val.image || val.portraits || val.landscapes).filter((val, index, arr) => arr.map(a => a.category).indexOf(val.category) === index).map(p => p.category);
+		for(let category of categories)
+		{
+			let profileCategoryCheckbox = document.createElement('button');
+			profileCategoryCheckbox.classList.add('profile-category');
+			profileCategoryCheckbox.innerText = category;
+			if(localStorage.getItem('profileCategory') == category)
+				profileCategoryCheckbox.disabled = true;
+			profileCategoryCheckbox.addEventListener('click', function(e) {
+				if(localStorage.getItem('profileCategory') == null)
+					localStorage.setItem('profileCategory', 'profile');
+				localStorage.setItem('profileCategory', this.innerText);
+				
+				location.reload();
+			});
+			profileCategory.appendChild(profileCategoryCheckbox);
+		}
+
+		container.appendChild(profileCategory);
+		
 	}
 	
 }
