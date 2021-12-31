@@ -197,7 +197,6 @@ font-size: 70%;
   display: inline-block;
   white-space: nowrap;
   margin: 2px;
-  cursor: pointer;
 }
 #wantedList a,
 .friend-link,
@@ -210,6 +209,10 @@ font-size: 70%;
 .profile-box-comments a:hover {
   color: white;
   text-decoration: underline solid white;
+}
+
+#profile-social a:hover {
+  color: white;
 }
 
 #isMarried {
