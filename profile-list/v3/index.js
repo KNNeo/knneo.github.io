@@ -322,7 +322,7 @@ function generateProfileFromJSON(profileName) {
 								let DOBspan = document.createElement('span');
 								DOBspan.classList.add('DOB');
 								//DOBspan.innerText = profile.dob;
-								console.log(profile.dob);
+								// console.log(profile.dob);
 								DOBspan.innerHTML = superscriptText(profile.dob) + (!isExternal && !friendMode && !simplified && profile.dobComment ? (' (' + profile.dobComment + ')') : '');
 								if(DOBspan.innerHTML.includes('????')) {
 									let dateOnly = new Date(1990,profile.dob.substring(5,2),profile.dob.substring(8,2),0,0,0,0);
@@ -712,7 +712,7 @@ function processComments(comments, refs) {
 				let refText = ref.substring(0, ref.indexOf('}')+1);
 				let refLink = ref.replace(refText, '');
 				let replaced = comment.replace(refText, '<a target="_blank" href="' + refLink + '">' + refText + '</a>');
-				console.log(replaced, comment);
+				// console.log(replaced, comment);
 				if(replaced != comment)
 				{
 					commentArr.push(replaced.replace('{','').replace('}',''));
@@ -941,11 +941,8 @@ function toggleInitialThumbnailLayout() {
 function renderProfileBox() {
 	document.getElementById('profile').style.display = '';
 	addProfileBoxClick();
-	addProfileBoxImgOnError();
 	switchProfileBoxImage();
 	addAgeAfterDOB();
-	openCommentLinksInNew();
-	setTimeout(reloadImages, 300);
 }
 
 //--functions--//
@@ -953,7 +950,7 @@ function daysFromMe() {
 	let me = timelineDOBlist.filter(t => t.name == "Me")[0];
 	let others = timelineDOBlist.filter(t => t.name != "Me");
 	console.log('with respect to ' + me.date + ':');
-	let awway = new Array();
+	let away = new Array();
 	for(let other of others)
 	{
 		if(other.date.includes('????')) continue;
@@ -963,13 +960,13 @@ function daysFromMe() {
 		let birthDateStr = DOB.replace(".", "-").replace(".", "-");
 		let birthDate = birthDateStr.substring(0, 10);
 		let diff = DateTime.fromISO(myDate).setZone(timezone).diff(DateTime.fromISO(birthDate), 'days').days;
-		awway.push({
+		away.push({
 			name: other.name,
 			daysAway: Math.abs(diff)
 			});
 	}
 	
-	console.log(awway.sort((a,b) => a.daysAway - b.daysAway));
+	console.log(away.sort((a,b) => a.daysAway - b.daysAway));
 }
 
 //add age after DOB span
@@ -1003,29 +1000,25 @@ function generateWantedList(profileLink) {
 	let wantedList = document.getElementById("wantedList");
 
 	//create name array from static profile boxes
-	let profileNamesList = new Array();
+	let profileNamesList = [];
 	for (let profileName of profileList) {
-		if (excludeMarried && processTurningPoint(profileName.turningPoint.isMarried, true)) continue;
+		// if (excludeMarried && processTurningPoint(profileName.turningPoint.isMarried, true)) continue;
 		if (friendMode && friendList.filter( function(n) {
 					return (n.friend1 == profileName.id) || 
 						   (n.friend2 == profileName.id)
 				}).length == 0) continue;
-		profileNamesList.push(profileName.name);
+		profileNamesList.push(profileName);
 
 	}
-	profileNamesList.sort();
+	profileNamesList.sort(function(a,b) {
+		return a.name.localeCompare(b.name);
+	});
 
 	//create wanted list from list of names
 	let currentProfileName = profileLink != undefined ? profileLink.innerText.replace(' ','') : '';
-	for (let profileName of profileNamesList) {
-		wantedListString += "<li><a" + 
-		(friendMode && friendList.filter( function(n) {
-					return (n.friend1 == currentProfileName && n.friend2 == profileName.replace(' ','')) || 
-						   (n.friend2 == currentProfileName && n.friend1 == profileName.replace(' ',''))
-				}).length == 0
-									? " style=\"filter: grayscale(100);\"" 
-									: ""
-						) + ">" + profileName + "</a></li>";
+	for (let profile of profileNamesList) {
+		let married = excludeMarried && processTurningPoint(profile.turningPoint.isMarried, true);
+		wantedListString += "<li><" + (married ? "span" : "a") + (married ? " style=\"margin:5px;color:gray;\"" : "") + ">" + profile.name + "</" + (married ? "span" : "a") + "></li>";
 	}
 	wantedList.innerHTML = wantedListString;
 
@@ -1278,13 +1271,12 @@ function toggleCalendarLegend() {
 }
 
 function filterCalendar() {
-	let checkedCategories = Array.from(document.getElementById('calendar-legend').getElementsByTagName('input')).filter(i => i.checked == true).map(i => i.name);
+	let checkedCategories = Array
+		.from(document.getElementById('calendar-legend').getElementsByTagName('input'))
+		.filter(i => i.checked == true)
+		.map(i => i.name);
 	calendarDOBlist = createDOBlist(calendarList, 0, 50);
-	calendarDOBlist = calendarDOBlist.filter(c => c.name != 'Me' && 
-	(checkedCategories.indexOf(c.category) >= 0 
-	// || (checkedCategories.indexOf('seiyuu') >= 0 && c.category.startsWith('seiyuu'))
-	)
-	);
+	calendarDOBlist = calendarDOBlist.filter(c => c.name != 'Me' && (checkedCategories.indexOf(c.category) >= 0));
 }
 
 //to shift position of knots if overlap with previous
@@ -1305,22 +1297,6 @@ function addProfileBoxClick() {
 		document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 	});
 }
-
-//add event listener for image switch
-//consider changing to detect 1st image error, move src or 2nd image up, remove 2nd image, use while loop to allow as many images but only switch 1st two images
-function addProfileBoxImgOnError() {
-	let profileBoxImg = document.getElementsByTagName("img");
-	for (let i = 0; i < profileBoxImg.length; i++) {
-		profileBoxImg[i].addEventListener("error", function() {
-			if (this.nextElementSibling != null) this.nextElementSibling.style.display = "";
-			if (this.nextElementSibling.nextElementSibling != null) this.nextElementSibling.nextElementSibling.style.display = "";
-			this.remove();
-		});
-		if (profileBoxImg[i].previousElementSibling != null)
-			profileBoxImg[i].style.display = "none";
-
-	}
-};
 
 //add event listener for image switch but through clicking on profile box
 function switchProfileBoxImage() {
@@ -1348,47 +1324,6 @@ function switchProfileBoxImage() {
 	} 
 }
 
-//allow reload in case of initial fail, on slower networks
-function reloadImages() {
-	let profileBoxImg = document.getElementsByTagName("img");
-	for (let image of profileBoxImg) {
-		if (image.alt != '')
-		{
-			image.src = image.alt;
-			image.removeAttribute('alt');
-		}
-	}
-	for (let i = 0; i < profileBoxImg.length; i++) {
-		if (profileBoxImg[i].complete) {
-			resizeProfileBoxImg(profileBoxImg[i]);
-			loadedImages++;
-		}
-	}
-
-	if (loadedImages != profileBoxImg.length) setTimeout(reloadImages, 200);
-	else resizeAllProfileBoxImg();
-
-}
-
-//resize images on load
-function resizeAllProfileBoxImg() {
-	loadedImages = 0;
-	for(let image of document.getElementsByTagName('img'))
-	{
-		resizeProfileBoxImg(image);
-	}
-}
-
-function resizeProfileBoxImg(image) {
-	let isPortrait = image.height >= image.width;
-	image.style.height = "320px";
-	if (smallScreen && !isPortrait) {
-		image.style.height = "";
-		image.style.maxHeight = "100%";
-		image.style.maxWidth = "95%";
-	}
-}
-
 function openCommentLinksInNew() {
 	for(let comments of document.getElementsByClassName('profile-box-comments'))
 	{
@@ -1401,19 +1336,4 @@ function openCommentLinksInNew() {
 			link.addEventListener('click', function () { window.open(url, '_blank'); } );
 		}
 	}
-}
-
-function checkDuplicateImages() {
-	for(let profile of profileList)
-	{
-		let duplicates = duplicates(profile.landscapes.concat(profile.portraits));
-		if(duplicates.length > 0)
-			console.log(profile.id, duplicates);
-	}
-}
-
-function duplicates(array) {
-	let duplicates = [];
-	let uniqueIndexes = array.filter((item, index) => array.indexOf(item) == index).map((item, index) => index);
-	return array.filter((item, index) => uniqueIndexes.indexOf(index) < 0);
 }
