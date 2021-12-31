@@ -1,5 +1,5 @@
 //timestamp display for audio player
-let tableID = '2020';
+let tableID = '2019';
 let playerID = tableID + 'Player';
 let domain = 'https://klassicnoteawards.webs.com/';
 let timer;
@@ -238,6 +238,14 @@ function startup() {
 		generateSidemenu();
 		hideIrrelevant();
 	}
+	
+	//read from table div, for blogger
+	if(document.getElementById('table').getAttribute('data-id') != null)
+	{
+		tableID = document.getElementById('table').getAttribute('data-id');
+		playerID = tableID + 'Player';
+	}
+	
 	generateTable(tableID);
 	generatePlayer(tableID);
 }
