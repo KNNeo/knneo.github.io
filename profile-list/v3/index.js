@@ -953,26 +953,29 @@ function generateWantedList(profileLink) {
 		let list = document.createElement('li');
 		
 		let wanted = document.createElement((married ? 'span' : 'a'));
+		wanted.innerText = profile.name;
 		wanted.style.margin = '5px';
 		if(married)
 			wanted.style.color = 'gray';
-		wanted.innerText = profile.name;
-		wanted.addEventListener("click", function() {
-			generateProfileFromJSON(this.innerText.replace(" ", ""));
-			renderProfileBox();
-			addStatusPopUp();
-			generateWantedList(this);
-			document.getElementById('profile').scrollIntoView();
-		});
-		wanted.addEventListener("contextmenu", function(e) {
-			e.preventDefault();
-			isExternal = !isExternal;
-			generateProfileFromJSON(this.innerText.replace(" ", ""));
-			renderProfileBox();
-			generateWantedList(this);
-			document.getElementById('profile').scrollIntoView();
-			isExternal = !isExternal;
-		}, false);
+		if(!married)
+		{
+			wanted.addEventListener("click", function() {
+				generateProfileFromJSON(this.innerText.replace(" ", ""));
+				renderProfileBox();
+				addStatusPopUp();
+				generateWantedList(this);
+				document.getElementById('profile').scrollIntoView();
+			});
+			wanted.addEventListener("contextmenu", function(e) {
+				e.preventDefault();
+				isExternal = !isExternal;
+				generateProfileFromJSON(this.innerText.replace(" ", ""));
+				renderProfileBox();
+				generateWantedList(this);
+				document.getElementById('profile').scrollIntoView();
+				isExternal = !isExternal;
+			}, false);
+		}
 		
 		list.appendChild(wanted);
 		wantedList.appendChild(list);
