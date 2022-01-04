@@ -28,7 +28,7 @@
  * []	all table styles to be within post
  * [ok]	remove hashtags on post level
  * [ok]	alternate links detection for new popups (youtu.be)
- * []	any link not referenced within blog to open on new tab
+ * [disabled, error]	any link not referenced within blog to open on new tab
  * [ok]	remove add href to hashtags script
  * []	remove wallpaper images cache linked from facebook
  * []	fix primary and secondary colours to variables
@@ -59,6 +59,7 @@ string UpdateRegexContent(string content, Match loosematch, Match strictMatch, s
 void Main()
 {
     bool WriteTitleOnConsole = true;
+	bool TraceMode = false;
 	int maxLatestPost = 10;
 	int maxImageExport = 100;
 	string imageExport = "[\"\"";
@@ -71,15 +72,18 @@ void Main()
     string domainLink = "https://knwebreports.blogspot.com/";
     string[] xmls = Directory.GetFiles(Path.GetDirectoryName(folderpath), "blog-*.xml");
     if(xmls.Length == 1)
+	{
+        if(TraceMode) Console.WriteLine("File found");
         filepath = xmls[0];
+	}
     else if(xmls.Length == 0)
     {
-        Console.WriteLine("No xml files found");
+        if(TraceMode) Console.WriteLine("No xml files found");
         return;
     }
     else
     {
-        Console.WriteLine("More than 1 xml files found");
+        if(TraceMode) Console.WriteLine("More than 1 xml files found");
         return;
     }
     string text = File.ReadAllText(filepath);
@@ -133,6 +137,7 @@ void Main()
         // [2] Replace String According to Expression (simple without format, or simple with format, or complex use UpdateRegexContent)
         
         #region fix twitter embed
+		if(TraceMode) Console.WriteLine("fix twitter embed");
         var twitterScript = "\"//platform.twitter.com/widgets.js\"";
         if(content.Contains(twitterScript)) count++;
         content = content.Replace(twitterScript, "\"https://platform.twitter.com/widgets.js\"");
@@ -144,6 +149,7 @@ void Main()
         #endregion
         
         #region fix youtube iframe size
+		if(TraceMode) Console.WriteLine("fix youtube iframe size");
         var youtubeHeight = @"height=""315""";
         var youtubeWidth = @"width=""560""";
         if(content.Contains(youtubeHeight) || content.Contains(youtubeWidth)) count++;
@@ -182,6 +188,7 @@ void Main()
         #endregion
         
         #region div popup table => new thumbnail
+		if(TraceMode) Console.WriteLine("div popup table => new thumbnail");
         expression = @"(<div class=""popup""><span class=""initial"">)(.*?)(</span><span class=""pop"" style=""margin: 0; position: initial;"">)(.*?)(</span></div>)";
         //matchExpression = @"(?<=<div class=""popup""><span class=""initial"">)(.*?)(</span><span class=""pop"" style=""margin: 0; position: initial;"">)(.*?)(?=</span></div>)";
         
@@ -199,7 +206,8 @@ void Main()
         };
         #endregion
         
-        #region span popup table => new thumbnail		
+        #region span popup table => new thumbnail
+		if(TraceMode) Console.WriteLine("span popup table => new thumbnail");
         expression = @"(<span class=""popup""><span class=""initial"">)(.*?)(</span><span class=""pop"" style=""margin: 0; position: initial;"">)(.*?)(</span></span>)";
         //matchExpression = @"(?<=<div class=""popup""><span class=""initial"">)(.*?)(</span><span class=""pop"" style=""margin: 0; position: initial;"">)(.*?)(?=</span></div>)";
         
@@ -355,6 +363,7 @@ void Main()
         #endregion
         
         #region remove hashtags on post level
+		if(TraceMode) Console.WriteLine("remove hashtags on post level");
         // only remove those without old hiddenTags span comma seaprated list
         expression = @"(<script>)(.*?)(var hashtags)(.*?)(</script>)";
         match = Regex.Match(content, expression);
@@ -367,6 +376,7 @@ void Main()
         #endregion
         
         #region alternate links detection for new popups (youtu.be)
+		if(TraceMode) Console.WriteLine("alternate links detection for new popups (youtu.be)");
         var youTubeLink = @"https://youtu.be";
         if(content.Contains(youTubeLink)) count++;
         content = content.Replace(youTubeLink, @"https://www.youtube.com/watch?v=");
@@ -377,6 +387,7 @@ void Main()
         #endregion
         
         #region any link not referenced within blog to open on new tab
+		/*if(TraceMode) Console.WriteLine("any link not referenced within blog to open on new tab");
         content = content.Replace("       >", ">").Replace("        <", " <").Replace("     ", " ").Replace("a   >", "a>");
         expression = @"(<a )(.*?)(?<=href="")(.*?)(?="")(.*?)(>)(.*?)(</a>)";
         
@@ -387,7 +398,7 @@ void Main()
         while(match.Success)
         {
             if(!(match.Value.Contains("target=\"_blank\"") || match.Value.Contains("name='more'")) && 
-            !(match.Groups[3].Value.Contains("blogspot") || match.Groups[3].Value.Contains("#") || match.Groups[3].Value.Contains("https://www.blogger.com/null")) && 
+            !(match.Groups[3].Value.Contains("blogspot") || match.Groups[3].Value.Contains("https://www.blogger.com/null")) && 
             !match.Groups[6].Value.Contains("<img"))
             {
                 //Add to debug
@@ -410,10 +421,11 @@ void Main()
             }
             
             match = match.NextMatch();
-        };
+        };*/
         #endregion
         
         #region remove add href to hashtags script
+		if(TraceMode) Console.WriteLine("remove add href to hashtags script");
         var childDivScript = "<script>var childDivs = document.getElementById('hashtags').getElementsByTagName('a'); for( i=0; i< childDivs.length; i++ ) {  var childDiv = childDivs[i];  childDiv.href = '/search?q=' + childDiv.text.substring(1); } </script>";
         if(content.Contains(childDivScript)) count++;
         content = content.Replace(childDivScript, "");
@@ -434,6 +446,7 @@ void Main()
         #endregion
         
         #region fix primary and secondary colours to variables
+		if(TraceMode) Console.WriteLine("fix primary and secondary colours to variables");
         var primaryColour = "#00e4ff";
         var headerPrefixColour = "#00b8cc";
         var headerPrefixColourRgb = "rgb(0, 184, 204)";
@@ -444,6 +457,7 @@ void Main()
         #endregion
 		
 		#region (entertainment news) convert inline styles migrated to blog.css
+		if(TraceMode) Console.WriteLine("(entertainment news) convert inline styles migrated to blog.css");
         var oldStyle = @"<div id=""news-thumbnail"" style=""display: none;"">";
         var newStyle = @"<div class=""news-thumbnail"">";
         if(content.Contains(oldStyle)) count++;
@@ -467,6 +481,7 @@ void Main()
         #endregion
 		
         #region replace common phrases with emoji
+		if(TraceMode) Console.WriteLine("replace common phrases with emoji");
         var phrases = new string[]{"laughs", "giggles", "sob", "silence", "pukes", "ugh", "wink"};
         var emojis = new string[]{"😆", "🤭", "😢", "😐", "🤮", "🙄", "😉"};
 		
@@ -475,6 +490,14 @@ void Main()
 			var initial = "*" + phrases[e] + "*";
 	        content = content.Replace(initial, "<span title=\"" + initial + "\">" + emojis[e] + "</span>");
 		}
+        #endregion
+		
+        #region check image without ending tag
+		if(TraceMode) Console.WriteLine("check image without ending tag");
+//        expression = @"(<img)(.*?)(/>)";
+//        match = Regex.Match(content, expression);
+//        Console.WriteLine(match);
+//        if(match.Success) count++;
         #endregion
         
         //Add to debug
@@ -505,7 +528,7 @@ void Main()
         // Exclude entries that don't have a child like <category term="...#post"/>
         .Where(e => !e.Attribute("term").ToString().Contains("#post")).Select(q => q.Attribute("term").Value).ToList();
         
-        if(WriteTitleOnConsole)
+        if(WriteTitleOnConsole || TraceMode)
             Console.WriteLine((title != "" ? title : "A Random Statement") + (count > 0 ? "\t[" + count + " change(s)]" : ""));
                 
         // Write output file (partial HTML for Jekyll)
@@ -549,8 +572,12 @@ void Main()
             output.WriteLine("</html>");
 			
         }
+		
+		if(TraceMode && title == "The Entertainment News 2022 Edition Issue #01")
+			continue;
         
         // Process home page
+		if (TraceMode) Console.WriteLine("Process home page");
         var tagList = string.Join("-",tags).Replace(" ","").Replace("-"," ");
         var classes = " class=\"Post "+tagList+"\"";
         foreach(var tag in tags)
@@ -564,11 +591,13 @@ void Main()
             if(title != "")
 			{
 		        // Find first image for home page, if any
+				if (TraceMode) Console.WriteLine("Find first image for home page, if any");
 		        var thumbnailUrl = "";
 				if(latestPostCount++ < maxLatestPost)
 				{
 			        expression = @"(.*?)<img(.*?)src=""(.*?)""(.*?)/>(.*?)";
 			        match = Regex.Match(content, expression);
+					//Console.WriteLine(content);
 			        if(match.Success)
 			            thumbnailUrl = match.Groups[3].Value;
 			        if(thumbnailUrl.Contains("scontent-sin.xx.fbcdn.net"))
