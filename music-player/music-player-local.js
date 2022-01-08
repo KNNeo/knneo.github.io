@@ -349,7 +349,7 @@ function onChangeOption() {
 			window['playlist'] = [id];
 			document.getElementById('random-count').innerText = '';
 		}
-		queryDb("SELECT KNID as ID, KNYEAR, Filename, SongTitle as 'Song Title', ArtistTitle as 'Artist Title', ParentArtist as 'Parent Artist (if any)', ReleaseTitle as 'Release Title', ReleaseArtistTitle as 'Release Artist', ReleaseYear as 'Year', Rating, Genre, DateCreated as 'Date Added', VocalCode as 'Vocal Code', LanguageCode as 'Language', LyricsURL as 'Lyrics', SongTitleAlt as 'Song Title (Japanese)', ArtistID, ReleaseID FROM Song WHERE KNID = " + id, generateLayout);
+		queryDb("SELECT KNID as ID, KNYEAR, Filename, SongTitle as 'Song Title', ArtistTitle as 'Artist Title', ReleaseTitle as 'Release Title', ReleaseArtistTitle as 'Release Artist', ReleaseYear as 'Year', Rating, Genre, DateCreated as 'Date Added', VocalCode as 'Vocal Code', LanguageCode as 'Language', LyricsURL as 'Lyrics', SongTitleAlt as 'Song Title (Japanese)', ArtistID, ReleaseID FROM Song WHERE KNID = " + id, generateLayout);
 	}
 	//probably can multiple query for multiple tables, by semicolon
 }
@@ -543,7 +543,7 @@ function queryInfo(contents) {
 	let columnIndexArtistTitle = contents.columns.indexOf('Artist Title');
 	let columnIndexReleaseID = contents.columns.indexOf('ReleaseID');
 	
-	let query = "SELECT ArtistTitle as 'Name', GROUP_CONCAT(ParentArtist, ', ') AS 'Parent Artists (if any)', ArtistCode as 'Artist Type', DisbandYear as 'Year Disbaneded (if any)', ArtistTitleAlt as 'Name (Japanese)', (SELECT COUNT(*) FROM Song WHERE ArtistTitle = '" + reduceQueryInString(row[columnIndexArtistTitle]) + "') as 'Songs In Library' FROM Artist WHERE ArtistTitle = '" + reduceQueryInString(row[columnIndexArtistTitle]) + "' ";
+	let query = "SELECT ArtistTitle as 'Name', GROUP_CONCAT(ParentArtist, '<br/>') AS 'Tags (if any)', ArtistCode as 'Artist Type', DisbandYear as 'Year Disbaneded (if any)', ArtistTitleAlt as 'Name (Japanese)', (SELECT COUNT(*) FROM Song WHERE ArtistTitle = '" + reduceQueryInString(row[columnIndexArtistTitle]) + "') as 'Songs In Library' FROM Artist WHERE ArtistTitle = '" + reduceQueryInString(row[columnIndexArtistTitle]) + "' ";
 	query += "GROUP BY ArtistTitle, ArtistCode, DisbandYear, ArtistTitleAlt";
 	if(debugMode) console.log('generateArtistInfo', query);
 	queryDb(query, generateArtistInfo);
@@ -637,7 +637,7 @@ function generateArtistInfo(contents) {
 		tr.appendChild(tc);
 		
 		let td = document.createElement('td');
-		td.innerText = rowVal;
+		td.innerHTML = rowVal;
 		if(rowVal.toString().includes('://'))
 			td.innerHTML = '<a target="_blank" href="' + rowVal + '">' + rowVal + '</a>';
 		tr.appendChild(td);
