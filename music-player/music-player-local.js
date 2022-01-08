@@ -349,7 +349,7 @@ function onChangeOption() {
 			window['playlist'] = [id];
 			document.getElementById('random-count').innerText = '';
 		}
-		queryDb("SELECT KNID, KNYEAR, Filename, SongTitle, ArtistTitle, ParentArtist, ReleaseTitle, ReleaseArtistTitle, ReleaseYear, Rating, Genre, DateCreated, VocalCode, LanguageCode, LyricsURL, SongTitleAlt, ArtistID, ReleaseID FROM Song WHERE KNID = " + id, generateLayout);
+		queryDb("SELECT KNID as ID, KNYEAR, Filename, SongTitle as 'Song Title', ArtistTitle as 'Artist Title', ParentArtist as 'Parent Artist (if any)', ReleaseTitle as 'Release Title', ReleaseArtistTitle as 'Release Artist', ReleaseYear as 'Year', Rating, Genre, DateCreated as 'Date Added', VocalCode as 'Vocal Code', LanguageCode as 'Language', LyricsURL as 'Lyrics', SongTitleAlt as 'Song Title (Japanese)', ArtistID, ReleaseID FROM Song WHERE KNID = " + id, generateLayout);
 	}
 	//probably can multiple query for multiple tables, by semicolon
 }
@@ -446,8 +446,8 @@ function updateSearch(contents) {
 	if(contents.values.length > 1) return;
 	let row = contents.values[0];
 	
-	let columnIndexSongTitle = contents.columns.indexOf('SongTitle');
-	let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
+	let columnIndexSongTitle = contents.columns.indexOf('Song Title');
+	let columnIndexArtistTitle = contents.columns.indexOf('Artist Title');
 	
 	document.getElementById('search').value = row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle];
 }
@@ -456,12 +456,12 @@ function generatePlayer(contents) {
 	if(contents.values.length > 1) return;
 	let row = contents.values[0];
 	
-	let columnIndexKNID = contents.columns.indexOf('KNID');
+	let columnIndexKNID = contents.columns.indexOf('ID');
 	let columnIndexFilename = contents.columns.indexOf('Filename');
 	let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
-	let columnIndexSongTitle = contents.columns.indexOf('SongTitle');
-	let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
-	let columnIndexReleaseTitle = contents.columns.indexOf('ReleaseTitle');
+	let columnIndexSongTitle = contents.columns.indexOf('Song Title');
+	let columnIndexArtistTitle = contents.columns.indexOf('Artist Title');
+	let columnIndexReleaseTitle = contents.columns.indexOf('Release Title');
 	let filename = row[columnIndexFilename];
 	let knyear = row[columnIndexKNYEAR];
 	
@@ -540,15 +540,15 @@ function queryInfo(contents) {
 	let columns = contents.columns;
 	let rows = contents.values;
 	let row = rows[0];
-	let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
+	let columnIndexArtistTitle = contents.columns.indexOf('Artist Title');
 	let columnIndexReleaseID = contents.columns.indexOf('ReleaseID');
 	
-	let query = "SELECT ArtistTitle, GROUP_CONCAT(ParentArtist, ', ') AS ParentArtists, ArtistCode, DisbandYear, ArtistTitleAlt FROM Artist WHERE ArtistTitle = '" + reduceQueryInString(row[columnIndexArtistTitle]) + "' ";
+	let query = "SELECT ArtistTitle as 'Name', GROUP_CONCAT(ParentArtist, ', ') AS 'Parent Artists (if any)', ArtistCode as 'Artist Type', DisbandYear as 'Year Disbaneded (if any)', ArtistTitleAlt as 'Name (Japanese)', (SELECT COUNT(*) FROM Song WHERE ArtistTitle = '" + reduceQueryInString(row[columnIndexArtistTitle]) + "') as 'Songs In Library' FROM Artist WHERE ArtistTitle = '" + reduceQueryInString(row[columnIndexArtistTitle]) + "' ";
 	query += "GROUP BY ArtistTitle, ArtistCode, DisbandYear, ArtistTitleAlt";
 	if(debugMode) console.log('generateArtistInfo', query);
 	queryDb(query, generateArtistInfo);
 	
-	query = "SELECT KNYEAR, Category, Type, ReleaseTitle, ReleaseArtistTitle, TracksSelected || '/' || TracksTotal AS TracksReviewed, ReleaseYear || SUBSTR('0000' || ReleaseDate, -4, 4) AS ReleaseDate, ReleaseTitleAlt, ReleaseArtistTitleAlt FROM Release WHERE ReleaseID = " + row[columnIndexReleaseID];
+	query = "SELECT KNYEAR, Category, Type, ReleaseTitle as 'Release Title', ReleaseArtistTitle as 'Release Artist', TracksSelected || '/' || TracksTotal AS 'Tracks In Library', ReleaseYear || SUBSTR('0000' || ReleaseDate, -4, 4) AS 'Release Date', ReleaseTitleAlt as 'Release Title (Japanese)', ReleaseArtistTitleAlt as 'Release Artist (Japanese)' FROM Release WHERE ReleaseID = " + row[columnIndexReleaseID];
 	if(debugMode) console.log('generateReleaseInfo', query);
 	queryDb(query, generateReleaseInfo);
 }
@@ -604,7 +604,7 @@ function generateSongInfo(contents) {
 function generateArtistInfo(contents) {
 	document.getElementById('artist-info').innerHTML = '';
 	
-	if(debugMode) console.log('generateSongInfo', contents);
+	if(debugMode) console.log('generateArtistInfo', contents);
 	if(!contents.columns || !contents.values) return;
 	
 	let header = document.createElement('h4');
@@ -652,7 +652,7 @@ function generateArtistInfo(contents) {
 function generateReleaseInfo(contents) {
 	document.getElementById('release-info').innerHTML = '';
 	
-	if(debugMode) console.log('generateSongInfo', contents);
+	if(debugMode) console.log('generateReleaseInfo', contents);
 	if(!contents.columns || !contents.values) return;
 	
 	let header = document.createElement('h4');
@@ -701,12 +701,12 @@ function queryRelated(contents) {
 	let columns = contents.columns;
 	let rows = contents.values;
 	let row = rows[0];
-	let columnIndexKNID = contents.columns.indexOf('KNID');
-	let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
-	let columnIndexReleaseYear = contents.columns.indexOf('ReleaseYear');
-	let columnIndexReleaseTitle = contents.columns.indexOf('ReleaseTitle');
-	let columnIndexReleaseArtistTitle = contents.columns.indexOf('ReleaseArtistTitle');
-	let columnIndexReleaseDateCreated = contents.columns.indexOf('DateCreated');
+	let columnIndexKNID = contents.columns.indexOf('ID');
+	let columnIndexArtistTitle = contents.columns.indexOf('Artist Title');
+	let columnIndexReleaseYear = contents.columns.indexOf('Year');
+	let columnIndexReleaseTitle = contents.columns.indexOf('Release Title');
+	let columnIndexReleaseArtistTitle = contents.columns.indexOf('Release Artist');
+	let columnIndexReleaseDateCreated = contents.columns.indexOf('Date Added');
 
 	//max 10 related within 1 month
 	document.getElementById('songs-related-date').innerHTML = '';
@@ -1026,7 +1026,7 @@ function queryAwards(contents) {
 	let columns = contents.columns;
 	let rows = contents.values;
 	let row = rows[0];
-	let columnIndexKNID = contents.columns.indexOf('KNID');
+	let columnIndexKNID = contents.columns.indexOf('ID');
 	//select awards of that song regardless of year
 	let query = "SELECT a.* FROM Award a JOIN Song s ON s.KNID = a.KNID JOIN (SELECT ar.* FROM Award ar WHERE ar.KNID = " 
 	query += row[columnIndexKNID] + ") aref ON aref.KNYEAR = a.KNYEAR AND aref.AwardCode = a.AwardCode " 
@@ -1132,7 +1132,7 @@ function queryRankings(contents) {
 	let columns = contents.columns;
 	let rows = contents.values;
 	let row = rows[0];
-	let columnIndexKNID = contents.columns.indexOf('KNID');
+	let columnIndexKNID = contents.columns.indexOf('ID');
 	//select ranking of that year of song
 	let query = "SELECT s.KNID, r.KNYEAR, r.RankNo, r.SortOrder, s.SongTitle, s.ArtistTitle FROM Ranking r JOIN Song s on r.KNID = s.KNID WHERE r.KNYEAR = (SELECT KNYEAR FROM Ranking WHERE KNID = " + row[columnIndexKNID] + ") ORDER BY r.KNYEAR, r.RankNo, r.SortOrder";
 	// console.log('queryRelated', query);
@@ -1235,7 +1235,7 @@ function queryCompilations(contents) {
 	let columns = contents.columns;
 	let rows = contents.values;
 	let row = rows[0];
-	let columnIndexKNID = contents.columns.indexOf('KNID');
+	let columnIndexKNID = contents.columns.indexOf('ID');
 	//select compilations of that song regardless of year
 	let query = "SELECT c.* FROM Compilation c JOIN Song s ON s.KNID = c.KNID JOIN (SELECT cp.* FROM Compilation cp WHERE cp.KNID = " 
 	query += row[columnIndexKNID] + ") cref ON cref.CompilationTitle = c.CompilationTitle " 
@@ -1347,7 +1347,7 @@ function querySOTD(contents) {
 	let columns = contents.columns;
 	let rows = contents.values;
 	let row = rows[0];
-	let columnIndexKNID = contents.columns.indexOf('KNID');
+	let columnIndexKNID = contents.columns.indexOf('ID');
 	//select song of the day mentions of that song regardless of year
 	let query = "SELECT t.* FROM SOTD t "
 	query += "JOIN Song s ON s.KNID = t.KNID "
