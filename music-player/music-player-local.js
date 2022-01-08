@@ -294,6 +294,7 @@ function generateFilters() {
 		query += " OR ArtistTitle LIKE '%" + reduceQueryInString(document.getElementById('search').value) + "%'";
 		query += " OR KNYEAR LIKE '%" + reduceQueryInString(document.getElementById('search').value) + "%'";
 		query += " OR (ArtistTitle || ' ' || SongTitle) LIKE '%" + reduceQueryInString(document.getElementById('search').value) + "%'";
+		query += " OR (SongTitle || ' ' || ArtistTitle) LIKE '%" + reduceQueryInString(document.getElementById('search').value) + "%'";
 		// console.log('query', query);
 		queryDb(query, updateOptions);
 	});
