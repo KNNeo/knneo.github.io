@@ -1,6 +1,6 @@
 //--CONFIG--//
 let defaultTitle = 'Klassic Note Web';
-let altTitleTag = 'Japanese';
+let altTitleTag = 'Original';
 let directory = 'file://C:/Users/KAINENG/OneDrive/Music/'; //for audio player, in {directory}/{knyear}/{filename}.mp3
 let debugMode = false; //will show all available logging on console
 let altMode = false; //will switch between titles and alt titles [TODO]
@@ -350,7 +350,7 @@ function onChangeOption() {
 			window['playlist'] = [id];
 			document.getElementById('random-count').innerText = '';
 		}
-		queryDb("SELECT KNID as ID, KNYEAR, Filename, SongTitle as 'Song Title', ArtistTitle as 'Artist Title', ReleaseTitle as 'Release Title', ReleaseArtistTitle as 'Release Artist', ReleaseYear as 'Year', Rating, Genre, DateCreated as 'Date Added', VocalCode as 'Vocal Code', LanguageCode as 'Language', LyricsURL as 'Lyrics', SongTitleAlt as 'Song Title (" + altTitleTag + ")', ArtistID, ReleaseID FROM Song WHERE KNID = " + id, generateLayout);
+		queryDb("SELECT KNID as ID, KNYEAR, Filename, SongTitle as 'Song Title', ArtistTitle as 'Artist Title', ReleaseTitle as 'Release Title', ReleaseArtistTitle as 'Release Artist', ReleaseYear as 'Year', Rating, Genre, DateCreated as 'Date Added', VocalCode as 'Vocal Code', LanguageCode as 'Language', LyricsURL as 'Lyrics', SongTitleAlt as '" + altTitleTag + " Song Title', ArtistID, ReleaseID FROM Song WHERE KNID = " + id, generateLayout);
 	}
 	//probably can multiple query for multiple tables, by semicolon
 }
@@ -544,12 +544,12 @@ function queryInfo(contents) {
 	let columnIndexArtistTitle = contents.columns.indexOf('Artist Title');
 	let columnIndexReleaseID = contents.columns.indexOf('ReleaseID');
 	
-	let query = "SELECT ArtistTitle as 'Name', GROUP_CONCAT(ParentArtist, '<br/>') AS 'Tags (if any)', ArtistCode as 'Artist Type', DisbandYear as 'Year Disbaneded (if any)', ArtistTitleAlt as 'Name (" + altTitleTag + ")', (SELECT COUNT(*) FROM Song WHERE ArtistTitle = '" + reduceQueryInString(row[columnIndexArtistTitle]) + "') as 'Songs In Library' FROM Artist WHERE ArtistTitle = '" + reduceQueryInString(row[columnIndexArtistTitle]) + "' ";
+	let query = "SELECT ArtistTitle as 'Name', GROUP_CONCAT(ParentArtist, '<br/>') AS 'Tags (if any)', ArtistCode as 'Artist Type', DisbandYear as 'Year Disbaneded (if any)', ArtistTitleAlt as '" + altTitleTag + " Name', (SELECT COUNT(*) FROM Song WHERE ArtistTitle = '" + reduceQueryInString(row[columnIndexArtistTitle]) + "') as 'Songs In Library' FROM Artist WHERE ArtistTitle = '" + reduceQueryInString(row[columnIndexArtistTitle]) + "' ";
 	query += "GROUP BY ArtistTitle, ArtistCode, DisbandYear, ArtistTitleAlt";
 	if(debugMode) console.log('generateArtistInfo', query);
 	queryDb(query, generateArtistInfo);
 	
-	query = "SELECT KNYEAR, Category, Type, ReleaseTitle as 'Release Title', ReleaseArtistTitle as 'Release Artist', TracksSelected || '/' || TracksTotal AS 'Tracks In Library', ReleaseYear || SUBSTR('0000' || ReleaseDate, -4, 4) AS 'Release Date', ReleaseTitleAlt as 'Release Title (" + altTitleTag + ")', ReleaseArtistTitleAlt as 'Release Artist (" + altTitleTag + ")' FROM Release WHERE ReleaseID = " + row[columnIndexReleaseID];
+	query = "SELECT KNYEAR, Category, Type, ReleaseTitle as 'Release Title', ReleaseArtistTitle as 'Release Artist', TracksSelected || '/' || TracksTotal AS 'Tracks In Library', ReleaseYear || SUBSTR('0000' || ReleaseDate, -4, 4) AS 'Release Date', ReleaseTitleAlt as '" + altTitleTag + " Release Title', ReleaseArtistTitleAlt as '" + altTitleTag + " Release Artist' FROM Release WHERE ReleaseID = " + row[columnIndexReleaseID];
 	if(debugMode) console.log('generateReleaseInfo', query);
 	queryDb(query, generateReleaseInfo);
 }
