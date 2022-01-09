@@ -1,5 +1,5 @@
 // Single onLoad event control: put all functions in sequence
-window.onpageshow = function() {
+window.addEventListener('load', function() {
 	// To be in sequence unless otherwise
 	loadExternal();
 	addObjects();
@@ -23,7 +23,7 @@ window.onpageshow = function() {
 	window.onscroll = displayFAB;
 	window.onresize = windowOnResize;
 	setTimeout(scrollToSectionByUrl, 1);
-};
+});
 
 // FUNCTIONS, in above order //
 // Add custom scripts to only add this script on layout
