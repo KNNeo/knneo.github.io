@@ -217,7 +217,8 @@ function reduceResults() {
 			
 			let latestPostSummary = document.createElement('div');
 			latestPostSummary.classList.add('latest-post-summary');
-			latestPostSummary.innerHTML = (title == undefined ? '' : snippet.innerText.trim().substring(0,380));
+			let excerpt = snippet.innerText.trim();
+			latestPostSummary.innerHTML = (title == undefined ? '' : excerpt.substring(0, excerpt.substring(380, 450).indexOf(' ') + 380);
 			
 			let contents = document.createElement('div');
 			if(link != undefined && thumb != undefined) contents.appendChild(thumbDiv);
