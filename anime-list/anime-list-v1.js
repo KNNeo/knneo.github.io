@@ -8,6 +8,7 @@ let showsArray = [
 { sortOrder:7, year:2019, season: '', length:0, seriesTitle: '', type:'Movie', title:'Kimi no Suizou wo Tabetai', altTitle:'君の膵臓をたべたい', handle:'kimisui_anime', imgURL:'https://pbs.twimg.com/profile_images/952554383174021121/YIXzh_IK.jpg' },
 { sortOrder:8, year:2020, season: '', length:0, seriesTitle: '', type:'Movie', title:'Nakitai Watashi wa Neko wo Kaburu', altTitle:'泣きたい私は猫をかぶる', handle:'nakineko_movie', imgURL:'https://pbs.twimg.com/profile_images/1221927862279667712/X9VsQDhl.jpg' },
 { sortOrder:9, year:2021, season: '', length:0, seriesTitle: '', type:'Movie', title:'Eden', altTitle:'エデン', handle:'', imgURL:'' },
+{ sortOrder:10, year:2022, season: '', length:0, seriesTitle: '', type:'Movie', title:'Josee to Tora to Sakana-tachi', altTitle:'ジョゼと虎と魚たち', handle:'joseetora_movie', imgURL:'https://pbs.twimg.com/profile_images/1201574758883741696/Bi73xBlm.jpg' },
 { sortOrder:1, year:2008, season: '', length:16, seriesTitle: '', type:'TV', title:'BLEACH', altTitle:'ブリーチー', handle:'BLEACHanimation', imgURL:'' },
 { sortOrder:2, year:2008, season: '', length:0, seriesTitle: '', type:'TV', title:'Love Hina', altTitle:'ラブ　ひな', handle:'', imgURL:'' },
 { sortOrder:3, year:2008, season: '', length:0, seriesTitle: '', type:'TV', title:'Kekkaishi', altTitle:'結界師', handle:'', imgURL:'' },
@@ -139,12 +140,16 @@ let showsArray = [
 { sortOrder:129, year:2021, season: 'Autumn', length:1, seriesTitle: '', type:'TV', title:'Komi-san wa, Komyushou Desu.', altTitle:'古見さんは、コミュ症です。', handle:'comisanvote', imgURL:'https://pbs.twimg.com/profile_images/1383659174643470342/CllYIDt4.jpg' },
 { sortOrder:130, year:2021, season: 'Autumn', length:1, seriesTitle: '', type:'TV', title:'Taishou Otome Otogibanashi', altTitle:'大正オトメ御伽話', handle:'otome_otogi', imgURL:'https://pbs.twimg.com/profile_images/1430472102310596612/2GvhVjP-.jpg' },
 { sortOrder:131, year:2021, season: 'Autumn', length:1, seriesTitle: '', type:'TV', title:'Senpai ga Uzai Kouhai no Hanashi', altTitle:'先輩がうざい後輩の話', handle:'uzai_anime', imgURL:'https://pbs.twimg.com/profile_images/1425399770781130753/aE3OW1Lt.jpg' },
+{ sortOrder:132, year:2022, season: 'Winter', length:1, seriesTitle: '', type:'TV', title:'Karakai Jouzu no Takagi-san 3', altTitle:'からかい上手の高木さん３', handle:'kisekoi_anime', imgURL:'https://pbs.twimg.com/profile_images/1468958582213283841/vvU-lWWO.jpg' },
+{ sortOrder:133, year:2022, season: 'Winter', length:1, seriesTitle: '', type:'TV', title:'Sono Bisque Doll wa Koi wo Suru', altTitle:'その着せ替え人形は恋をする', handle:'takagi3_anime', imgURL:'https://pbs.twimg.com/profile_images/1448810796130004993/nlkBB4Ph.png' },
+{ sortOrder:134, year:2022, season: 'Winter', length:1, seriesTitle: '', type:'TV', title:'Shingeki no Kyojin The Final Season Part 2', altTitle:'進撃の巨人 The Final Season', handle:'anime_shingeki', imgURL:'https://pbs.twimg.com/profile_images/1459830616351178757/IGExRnNj.jpg' },
+
 
 
 ];
 
-let currentYear = 2021;
-let currentSeason = 'Autumn';
+let currentYear = 2022;
+let currentSeason = 'Winter';
 window.addEventListener('load', startup);
 
 function startup() {
