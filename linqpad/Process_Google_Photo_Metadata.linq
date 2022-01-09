@@ -27,7 +27,7 @@ void Main()
 	var nameList = new List<string>();
 	var peopleList = new List<string>();
 	var namePeopleList = new List<string>();
-		namePeopleList.Add("Tag | Description | Time");
+		namePeopleList.Add("Tag | Description | Time" + (analysisMode ? " | Filename" : ""));
 	
 	//foreach json file
 	foreach(var f in files)
@@ -52,7 +52,7 @@ void Main()
 					nameList.Add(person.name);
 					peopleList.Add(person.name);
 					if(!jsonObj.description.Trim().Contains(person.name.Trim())) {
-						namePeopleList.Add(person.name + " | " + jsonObj.description + " | " + ParseGooglePhotosDateTime(jsonObj.photoTakenTime.formatted));
+						namePeopleList.Add(person.name + " | " + jsonObj.description + " | " + ParseGooglePhotosDateTime(jsonObj.photoTakenTime.formatted) + (analysisMode ? " | " + jsonObj.title : ""));
 					}
 				}
 			}
