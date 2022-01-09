@@ -146,6 +146,10 @@ body {
   background-color: #444444;
 }
 
+blockquote {
+	margin: 1em;
+}
+
 a {
   color: var(--primary);
 }
