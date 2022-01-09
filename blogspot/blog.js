@@ -20,8 +20,8 @@ window.addEventListener('load', function() {
 	// videoifyGIFs();
 
 	// Window events
-	window.onscroll = displayFAB;
-	window.onresize = windowOnResize;
+	window.addEventListener('scroll', displayFAB);
+	window.addEventListener('resize', windowOnResize);
 	setTimeout(scrollToSectionByUrl, 1);
 });
 
