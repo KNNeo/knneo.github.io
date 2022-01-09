@@ -16,6 +16,7 @@
 void Main()
 {
 	//variables
+	var fullMode = false;
 	var analysisMode = true;
 	
 	//read
@@ -67,7 +68,7 @@ void Main()
 	foreach(var name in nameList)
 	{
 		if(names.Where(n => n.Tag == name).Count() > 0) continue;
-		else
+		else if(name.Length > 0)
 		{
 			names.Add(new Names{
 				Tag = name,
@@ -89,11 +90,11 @@ void Main()
 	}
 	
 	//views
-	if(!analysisMode) {
+	if(fullMode) {
 		Console.WriteLine("All Items");
 		Console.WriteLine(jsonList);
 	}
-	else {	
+	if(analysisMode) {	
 		Console.WriteLine("Items, description different from tag");
 		var exceptionList = new string[]{"TrySail", "sphere"};
 		Console.WriteLine(namePeopleList);
@@ -104,7 +105,7 @@ void Main()
 		Console.WriteLine("Items, ordered by tag name count");
 		Console.WriteLine(people.OrderByDescending(n => n.Count).ToList());
 		
-		Console.WriteLine("Items without face identified");
+		Console.WriteLine("Items without face identified (fix not required)");
 		Console.WriteLine(jsonList.Where(n => n.people == null && n.photoTakenTime != null).OrderByDescending(n => n.photoTakenTime.timestamp).Select(n =>
 			new {
 				Description = n.description,
