@@ -42,6 +42,7 @@ let runSlideshow = null;
 let descriptionClosed = false;
 let passCode = '';
 let settingsLoaded = false;
+let slideshowInterval = 5;
 
 //--COMMON EVENTS--//
 //on startup
@@ -1114,7 +1115,7 @@ function randomImg() {
 	selected.scrollIntoView();
 	if(viewer.style.display == 'block') openImageInViewer(selected.getElementsByTagName('img')[0]);
 	document.getElementsByClassName('profile-category')[0].classList.remove('snap');
-	runSlideshow = setTimeout(randomImg, 3000);
+	runSlideshow = setTimeout(randomImg, slideshowInterval);
 	return select;
 }
 
