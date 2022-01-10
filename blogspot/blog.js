@@ -26,7 +26,6 @@ function startup() {
 	window.addEventListener('resize', windowOnResize);
 	window.addEventListener('resize', reloadThumbnails);
 	setTimeout(scrollToSectionByUrl, 1);
-	setTimeout(reloadThumbnails, 500);
 }
 
 function reloadThumbnails() {
@@ -150,6 +149,9 @@ function preloadSequence() {
 	if(!window.location.href.includes("knneo.github.io")) document.getElementById("SearchBtn").style.display = 'block';
 	if (window.innderWidth < 1040)
 		document.getElementById("SidebarBtn").style.display = 'block';
+	
+	//pre-load images to prevent thumbnail height check fail
+	preloadImages();
 }
 
 // For search, collapse all results
@@ -772,6 +774,15 @@ function fixExternalFrame(thumbnail) {
 		let thumbnailTable = closestTag(thumbnail, 'TABLE');
 		if (thumbnailTable != thumbnail)
 			thumbnailTable.style.width = '100%';
+	}
+}
+
+let preloads = [];
+function preloadImages() {
+	for(let image of document.getElementsByTagName("img")) {
+		let preload = new Image();
+		preload.src = image.src;
+		preloads.push(preload);		
 	}
 }
 
