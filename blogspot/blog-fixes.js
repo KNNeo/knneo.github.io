@@ -44,7 +44,7 @@ for(let img of document.getElementsByTagName('img'))
 		linkedImgList.push(img.parentElement);
 	}
 }
-console.log('linkedImgList', linkedImgList.length);
+// console.log('linkedImgList', linkedImgList.length);
 
 function updateImageNo(image) {
 	imageNo = 0;
