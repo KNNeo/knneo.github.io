@@ -1,5 +1,7 @@
 // Single onLoad event control: put all functions in sequence
-window.addEventListener('load', function() {
+window.addEventListener('load', startup);
+
+function startup() {
 	// To be in sequence unless otherwise
 	loadExternal();
 	addObjects();
@@ -22,10 +24,17 @@ window.addEventListener('load', function() {
 	// Window events
 	window.addEventListener('scroll', displayFAB);
 	window.addEventListener('resize', windowOnResize);
+	window.addEventListener('resize', reloadThumbnails);
+	setTimeout(reloadThumbnails, 1);
 	setTimeout(scrollToSectionByUrl, 1);
-});
+}
 
-// FUNCTIONS, in above order //
+function reloadThumbnails() {
+	setThumbnails();
+	resizeImg();
+}
+
+// FUNCTIONS, in startup order //
 // Add custom scripts to only add this script on layout
 function loadExternal() {
 	if(window.location.href.includes('knneo.github.io')) return;
