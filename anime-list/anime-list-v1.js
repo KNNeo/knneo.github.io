@@ -1,4 +1,5 @@
 let showsArray = [
+
 { sortOrder:1, year:2009, season: '', length:0, seriesTitle: '', type:'Movie', title:'Kara no Kyoukai', altTitle:'空の境界', handle:'', imgURL:'' },
 { sortOrder:2, year:2011, season: '', length:0, seriesTitle: '', type:'Movie', title:'Cat Shit One – THE ANIMATED SERIES', altTitle:'', handle:'', imgURL:'' },
 { sortOrder:3, year:2011, season: '', length:0, seriesTitle: '', type:'Movie', title:'Koi*Sento', altTitle:'コイ☆セント', handle:'', imgURL:'' },
@@ -140,8 +141,8 @@ let showsArray = [
 { sortOrder:129, year:2021, season: 'Autumn', length:1, seriesTitle: '', type:'TV', title:'Komi-san wa, Komyushou Desu.', altTitle:'古見さんは、コミュ症です。', handle:'comisanvote', imgURL:'https://pbs.twimg.com/profile_images/1383659174643470342/CllYIDt4.jpg' },
 { sortOrder:130, year:2021, season: 'Autumn', length:1, seriesTitle: '', type:'TV', title:'Taishou Otome Otogibanashi', altTitle:'大正オトメ御伽話', handle:'otome_otogi', imgURL:'https://pbs.twimg.com/profile_images/1430472102310596612/2GvhVjP-.jpg' },
 { sortOrder:131, year:2021, season: 'Autumn', length:1, seriesTitle: '', type:'TV', title:'Senpai ga Uzai Kouhai no Hanashi', altTitle:'先輩がうざい後輩の話', handle:'uzai_anime', imgURL:'https://pbs.twimg.com/profile_images/1425399770781130753/aE3OW1Lt.jpg' },
-{ sortOrder:132, year:2022, season: 'Winter', length:1, seriesTitle: '', type:'TV', title:'Karakai Jouzu no Takagi-san 3', altTitle:'からかい上手の高木さん３', handle:'kisekoi_anime', imgURL:'https://pbs.twimg.com/profile_images/1468958582213283841/vvU-lWWO.jpg' },
-{ sortOrder:133, year:2022, season: 'Winter', length:1, seriesTitle: '', type:'TV', title:'Sono Bisque Doll wa Koi wo Suru', altTitle:'その着せ替え人形は恋をする', handle:'takagi3_anime', imgURL:'https://pbs.twimg.com/profile_images/1448810796130004993/nlkBB4Ph.png' },
+{ sortOrder:132, year:2022, season: 'Winter', length:1, seriesTitle: '', type:'TV', title:'Karakai Jouzu no Takagi-san 3', altTitle:'からかい上手の高木さん３', handle:'takagi3_anime', imgURL:'https://pbs.twimg.com/profile_images/1468958582213283841/vvU-lWWO.jpg' },
+{ sortOrder:133, year:2022, season: 'Winter', length:1, seriesTitle: '', type:'TV', title:'Sono Bisque Doll wa Koi wo Suru', altTitle:'その着せ替え人形は恋をする', handle:'kisekoi_anime', imgURL:'https://pbs.twimg.com/profile_images/1448810796130004993/nlkBB4Ph.png' },
 { sortOrder:134, year:2022, season: 'Winter', length:1, seriesTitle: '', type:'TV', title:'Shingeki no Kyojin The Final Season Part 2', altTitle:'進撃の巨人 The Final Season', handle:'anime_shingeki', imgURL:'https://pbs.twimg.com/profile_images/1459830616351178757/IGExRnNj.jpg' },
 
 
