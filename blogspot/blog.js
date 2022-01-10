@@ -25,7 +25,8 @@ function startup() {
 	window.addEventListener('scroll', displayFAB);
 	window.addEventListener('resize', windowOnResize);
 	window.addEventListener('resize', reloadThumbnails);
-	setTimeout(scrollToSectionByUrl, 1);
+	setTimeout(reloadThumbnails, 200);
+	setTimeout(scrollToSectionByUrl, 250);
 }
 
 function reloadThumbnails() {
