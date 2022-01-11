@@ -11,7 +11,7 @@ enableSlideshow = true; //enable slideshow button
 enableFullscreenSlideshow = true; //enable fullscreen button for slideshow, for browser only not viewer
 enableShadows = true; //removes shadows and borders in images
 enableDarkMode = true; //no button to toggle, when load always white background
-
+defaultDirectory = 'file://C:/Users/KAINENG/OneDrive/Pictures/SELFSCAN';
 
 //localization
 pageTitle = 'GALLERY'; //for tab, and top of page
@@ -29,6 +29,7 @@ tagRightClickTitle = 'Right Click to Select This Only';
 loaderTextPrefix = 'Images Loaded: ';
 
 //array containing all gallery info, tags delimiter "|"
+//use {domain} to add common domain, local or remote
 imgArray = [
 [0,'FILENAME','ORIENTATION','TAG','DETAIL'],
 [1,'{domain}/SELFSCAN_20140111_0002.jpg','portrait','Kotobuki Minako','CD "pretty fever" Animate Bonus'],

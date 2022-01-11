@@ -1,4 +1,4 @@
-//ADD LINKS TO FILENAMES HERE//
+//ADD LINKS TO FILENAMES HERE, IN ORDER//
 let links = ['bromide-gallery','amiiboCards-gallery','surugaya-gallery','profile-gallery','alterna-gallery']; 
 let linkTitles = ['GALLERY','amiibo Cards','ギャラリー','Profiles','オルタナ']; 
 
@@ -11,6 +11,7 @@ let enableFullscreenSlideshow = true; //enable fullscreen button for slideshow, 
 let enableShadows = true; //removes shadows and borders in images
 let enableDarkMode = true; //no button to toggle, when load always white background
 let enableCollapseFilterOnSelect = window.innerWidth <= 640; //right click any tag will collapse filter
+let defaultDirectory = null;
 let pageDescription = 'To add gallery:\n- Copy and fill in image-gallery-data, filename to end with \'-data.js\'\n- Add to links variable in image-gallery.js new filename\n- Tada!\n\n(Note: Loading speed dependent on size and number of images; To avoid slowness, set defaultTag)'; //hides on load with images loaded
 
 //localization
@@ -40,7 +41,6 @@ let highestHeight = 0;
 let imgArray = [];
 let runSlideshow = null;
 let descriptionClosed = false;
-let passCode = '';
 let settingsLoaded = false;
 let slideshowInterval = 5; //in seconds
 
@@ -531,13 +531,6 @@ function closeViewer() {
 
 //--FUNCTIONS--//
 function loadPage(pageName) {
-	let code = 'knneo.webs.com';
-	if(pageName == 'bromide-gallery') {
-		passCode = prompt('Enter code:');
-		console.log(passCode);
-		if(passCode == '') passCode = 'file://C:/Users/KAINENG/OneDrive/Pictures/SELFSCAN';
-		else passCode = 'https://' + passCode;
-	}
 	if(runSlideshow != null) stopSlideshow();
 	//unloadCurrentStyle();
 	//loadStyle(pageName);
@@ -590,9 +583,9 @@ function calculateGalleryHeight() {
 }
 
 function loadData(pageName) {
-	if(pageName == 'bromide-gallery') {
+	if(defaultDirectory) {
 		for(let img of imgArray) {
-			img[1] = img[1].replace('{domain}', passCode);
+			img[1] = img[1].replace('{domain}', defaultDirectory);
 		}
 	}
 	reloadDarkmodeStyle();
