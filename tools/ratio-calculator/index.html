@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en-SG">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+    <link id="index-css" rel="stylesheet" type="text/css" href="index.css">
+	<link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'/>
+    <title>RATIO CALCULATOR</title>
+</head>
+<body>
+	<h3>RATIO CALCULATOR</h3>
+	<h6>Just because I don't want to use a calculator for this as I have to visualize this out</h6>
+	<div id="inputs">
+		<div>
+			<label><input id="divisor" class="input" title="divisor" type="number" /><span class="unit"></span></label>
+			<span> => </span>
+			<label><input id="initial" class="input" title="intiial" type="number" /><span class="unit"></span></label>
+		</div>
+		<div>
+			<label><input id="multiplier" class="input" title="multiplier" type="number" /><span class="unit"></span></label>
+			<span> => </span>
+			<label><input id="result" class="input" title="result" type="number" disabled /><span class="unit"></span></label>
+		</div>
+	</div>
+	<div id="actions">
+		<input id="calculate" type="button" onclick="calculate()" value="Calculate" />
+		<div id="status" type="text" disabled></div>
+	</div>
+	<h3 id="settings" class="settings">
+		<p style="text-align: center;"><a href="../../index.html">Back</a></p>
+	</h3>
+</body>
+<script src="index.js" type="application/javascript" charset="utf-8"></script>
+</html>

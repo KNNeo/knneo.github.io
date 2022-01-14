@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en-SG">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+    <link id="index-css" rel="stylesheet" type="text/css" href="index.css">
+	<link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'/>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>BOUNTY HUNTER CALCULATOR</title>
+</head>
+<body>
+<h3>BOUNTY HUNTER CALCULATOR</h3>
+<h6>[Source: <a href="https://www.reddit.com/r/RedDeadOnline/comments/e4mwj9/bounty_hunter_payouts_and_tips/">https://www.reddit.com/r/RedDeadOnline/comments/e4mwj9/bounty_hunter_payouts_and_tips/</a>]</h6>
+<div id="inputs">
+	<div>Targets:<input id="targets" type="number" name="targets" value="1" disabled /></div>
+	<div id="tiers">Tier:
+		<label><input id="tier1" type="radio" name="tier" checked />$</label>
+		<label><input id="tier2" type="radio" name="tier" />$$</label>
+		<label><input id="tier3" type="radio" name="tier" />$$$</label></div>
+	<div>Condition:
+		<label><input id="condition1" type="radio" name="condition" />Escaped</label>
+		<label><input id="condition2" type="radio" name="condition" />Dead</label>
+		<label><input id="condition3" type="radio" name="condition" checked />Alive</label></div>
+	<div>Time:
+		<label id="minute" >00</label>
+		:
+		<label id="second" >00</label>
+	</div>
+	<div>
+</div>
+<input id="start" type="button" onclick="startTimer()" value="START" />
+<input id="stop" type="button" onclick="stopTimer()" value="STOP" disabled />
+</div>
+<div>Based on 600 base XP, $30 base cash</div>
+<div>(Time based on whole mission length)</div>
+<div>XP: <span id="xp">0</span>XP</div>
+<div>Cash: $<span id="cash">0</span></div>
+<div>Gold: <span id="gold">0</span> Gold</div>
+<h3 id="settings" class="settings">
+	<p style="text-align: center;"><a href="../../index.html">Back</a></p>
+</h3>
+</body>
+<script src="index.js" type="application/javascript" charset="utf-8"></script>
+</html>

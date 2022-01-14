@@ -1,0 +1,32 @@
+html {
+  font-family: Open Sans;
+  font-size: 95%;
+  scroll-behavior: smooth;
+}
+body > * {
+  margin: auto;
+  text-align: center;
+  overflow-x: hidden;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  max-width: 640px;
+}
+input {
+	margin: 10px;
+}
+
+.module {
+	padding: 10px;
+}
+
+#result1 {
+	border-style: double;
+}
+
+.history {
+	padding: 5px;
+	border: 1px solid black;
+}

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en-SG">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+    <link id="index-css" rel="stylesheet" type="text/css" href="index.css">
+	<link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'/>
+    <title>RANDOM SELECTOR</title>
+</head>
+<body>
+	<h2>RANDOM SELECTOR</h2>
+	<h5>Think of something if you don't want to use this xD</h5>
+	<div id="inputs" class="module">
+		<textarea id="locations" rows="10" cols="50" name="" placeholder="Input list of items here..."></textarea>
+		<div><button type="button" name="locations" onclick="loadPreset(this)">Load Preset</button></div>
+	</div>
+	<div id="actions" class="module">
+		<input type="button" onclick="generate(this)" name="locations" value="Generate" />
+		<div id="result1"></div>
+		<div id="results">
+			<div>OR</div>
+			<div id="result2"></div>
+		</div>
+	</div>
+	<div class="history">
+		<h4>History</h4>
+		<div id="history">No data</div>
+		<input type="button" onclick="reset(this)" name="locations" value="Reset" />
+	</div>
+</body>
+<script src="index.js" type="application/javascript" charset="utf-8"></script>
+</html>

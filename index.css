@@ -20,6 +20,18 @@ html, body {
 	filter: contrast(20%);
 }
 
+.expander {
+	cursor: pointer;
+}
+
+.tools {
+	display: none;
+}
+
+.expander:hover > .tools {
+	display: block;
+}
+
 /* .darked {
 		background-color: black;
 		color: white;
