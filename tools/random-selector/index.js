@@ -16,6 +16,7 @@ let list = [
 
 //--FUNCTIONS--//
 window.addEventListener('load', function() {
+	document.getElementById('locations').value = localStorage.getItem('list');
 	document.getElementById('results').style.display = 'none';
 	document.getElementById('result1').style.display = 'none';
 	document.getElementById('history').innerText = localStorage.getItem('history') != null ? localStorage.getItem('history') : 'No Data';
@@ -23,9 +24,12 @@ window.addEventListener('load', function() {
 
 function loadPreset(textbox) {
 	document.getElementById(textbox.name).value = list.join('\n');
+	localStorage.setItem('list', document.getElementById(textbox.name).value); 
 }
 
 function generate(button) {
+	localStorage.setItem('list', document.getElementById('locations').value); 
+	
     let input = document.getElementById(button.name).value;
 	let list = input.split('\n');
 	let histories = document.getElementById('history').innerText.split('\n');

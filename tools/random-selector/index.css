@@ -29,9 +29,11 @@ input {
 
 #result1 {
 	border-style: double;
+	padding: 20px;
+    font-weight: bold;
 }
 
 .history {
-	padding: 5px;
-	border: 1px solid black;
+	padding: 1px;
+	/* border: 1px solid black; */
 }
