@@ -13,13 +13,14 @@ let list = [
 'Yu Cun',
 'Subway'
 ];
+let emptyText = '>>No Data<<';
 
 //--FUNCTIONS--//
 window.addEventListener('load', function() {
 	document.getElementById('locations').value = localStorage.getItem('list');
 	document.getElementById('results').style.display = 'none';
 	document.getElementById('result1').style.display = 'none';
-	document.getElementById('history').innerText = localStorage.getItem('history') != null ? localStorage.getItem('history') : 'No Data';
+	document.getElementById('history').innerText = localStorage.getItem('history') != null ? localStorage.getItem('history') : emptyText;
 });
 
 function loadPreset(textbox) {
@@ -34,8 +35,8 @@ function generate(button) {
 	let list = input.split('\n');
 	let histories = document.getElementById('history').innerText.split('\n');
 	if(histories.length == list.length)
-		document.getElementById('history').innerText = 'No Data';
-	if(document.getElementById('history').innerText == 'No Data')
+		document.getElementById('history').innerText = emptyText;
+	if(document.getElementById('history').innerText == emptyText)
 		histories = [];
 	
 	let selected = list[Math.floor(list.length * Math.random())];
@@ -47,7 +48,7 @@ function generate(button) {
 
 	document.getElementById('result1').innerText = selected;
 	document.getElementById('result1').style.display = document.getElementById('result1').innerText.length > 0 ? '' : 'none';
-	let newVal = document.getElementById('history').innerText == 'No Data' 
+	let newVal = document.getElementById('history').innerText == emptyText 
 	? document.getElementById('result1').innerText 
 	: document.getElementById('result1').innerText + '\n' + document.getElementById('history').innerText;
 	document.getElementById('history').innerText = newVal;
@@ -55,6 +56,6 @@ function generate(button) {
 }
 
 function reset(button) {
-	document.getElementById('history').innerText = 'No Data';
+	document.getElementById('history').innerText = emptyText;
 	localStorage.setItem('history', document.getElementById('history').innerText);
 }
