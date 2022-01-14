@@ -14,6 +14,11 @@ body > * {
   user-select: none;
   max-width: 640px;
 }
+
+#locations {
+  width: 100%;
+}
+
 input {
 	margin: 10px;
 }

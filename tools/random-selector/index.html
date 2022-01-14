@@ -11,8 +11,8 @@
 <body>
 	<h2>RANDOM SELECTOR</h2>
 	<h5>Think of something if you don't want to use this xD</h5>
-	<div id="inputs" class="module">
-		<textarea id="locations" rows="10" cols="50" name="" placeholder="Input list of items here..."></textarea>
+	<div class="module">
+		<div id="input"><textarea id="locations" rows="10" cols="50" name="" placeholder="Input list of items here..."></textarea></div>
 		<div><button type="button" name="locations" onclick="loadPreset(this)">Load Preset</button></div>
 	</div>
 	<div id="actions" class="module">
@@ -28,6 +28,9 @@
 		<div id="history">No data</div>
 		<input type="button" onclick="reset(this)" name="locations" value="Reset" />
 	</div>
+	<h3 id="settings" class="settings">
+		<p style="text-align: center;"><a href="../../index.html">Back</a></p>
+	</h3>
 </body>
 <script src="index.js" type="application/javascript" charset="utf-8"></script>
 </html>
