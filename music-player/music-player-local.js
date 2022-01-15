@@ -1560,3 +1560,52 @@ function reduceReleaseTitle(release) {
 	//exception list to group multiple disc releases (data consistency required in db)
 	return release.replace(/'/g,"''").replace('Disc 1','').replace('Disc 2','').replace('Disc 3','').trim();
 }
+
+let score = 0;
+let total = 0;
+let errors = [];
+let timeout = 200;
+function testPlayer() {
+	//to test if filename is corresponding to database
+	//loop all songs in dropdown trigger event, log player status
+	let options = document.getElementById('options');
+	let optionList = options.getElementsByTagName('option');
+	score = 0;
+	total = optionList.length;
+	
+	setTimeout(function () {
+		setNextOption(parseInt(optionList[0].value)+1);
+	}, timeout);
+}
+
+function setNextOption(id) {
+	console.log('setNextOption',id);
+	document.getElementById('options').value = id;
+	document.getElementById('options').dispatchEvent(new Event('change'));
+		
+	setTimeout(updateTestPlayer, timeout);
+}
+
+function updateTestPlayer() {
+	let player = document.getElementById('player');
+	let id = player.getAttribute('data-id');
+	let overlay = document.querySelector('.hidden');
+	if(overlay != null)
+		score++;
+	else
+		errors.push(id);
+	
+	console.log('updateTestPlayer', id);
+	console.log('score', score + '/' + total);
+	if(id >= total)
+		endTestPlayer();
+	else
+		setTimeout(function () {
+			setNextOption(parseInt(id)+1);
+		}, timeout);
+}
+
+function endTestPlayer() {	
+	console.log('testPlayer', score + '/' + total + ' ok');
+	console.log('errors', errors);
+}
