@@ -153,7 +153,7 @@ h4, h5 {
 	line-height: 0;
 }
 .profile-box-img img {
-  max-width: calc(100vw - 60px);
+  max-width: 90vw;
   /* max-height: 60vh; */
 }
 .shadowed {
@@ -193,7 +193,7 @@ h4, h5 {
 	/*snap on touch is better on mobile than on desktop*/
 	.profile-box { scroll-snap-align: center; }
 
-	/* .profile-box-img img {
+	.profile-box-img img {
 	  max-height: 60vh;
-	} */
+	}
 }

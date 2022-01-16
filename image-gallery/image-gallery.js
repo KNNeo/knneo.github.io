@@ -828,12 +828,10 @@ function reloadImages(array) {
 
 function resizeImageHeights() {
 	let galleryHeight = calculateGalleryHeight();
-	let portrait = document.querySelector('input[name="columnPortrait"]');
-	let landscape = document.querySelector('input[name="columnLandscape"]');
 	for(var image of document.getElementById('imgGallery').getElementsByTagName("img"))
 	{
 		if(image.height <= 10) continue;
-		if(window.innerWidth > 1040 || (portrait && landscape && portrait.checked && !landscape.checked)) //resize to lowest height
+		if(window.innerWidth > 1040) //resize to lowest height
 			image.style.height = galleryHeight + 'px'; //fallback to default if height too low
 		else //if(image.height > lowestHeight)
 			image.height = lowestHeight; //if small screen hit css maxHeight
