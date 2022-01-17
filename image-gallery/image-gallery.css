@@ -15,7 +15,9 @@ body {
 h4, h5 { 
 	margin: 0;
 }
-
+hr {
+	margin-top: 0;
+}
 #title, #options, #credit {
   max-width: 800px;
   margin: auto;	
@@ -34,6 +36,9 @@ h4, h5 {
 	margin: auto;
 	max-width: 1040px;
 	padding: 10px;
+	padding-bottom: 0;
+	max-height: 40vh;
+	overflow-y: scroll;
 }
 #filter label {
 	padding: 5px;
@@ -116,6 +121,7 @@ h4, h5 {
 .material-icons {
 	cursor: pointer;
 	padding: 5px;
+	background-color: white;
 }
 .navigation-item {
 	display: inline-block;
@@ -130,7 +136,9 @@ h4, h5 {
 	background-color: black	;
 	color: white;
 }
-
+.darked .material-icons {
+	background-color: black;
+}
 .closed {
 	display: none;
 }
