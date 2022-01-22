@@ -125,6 +125,11 @@ function renderQuiz(isFirstLoad) {
 		document.querySelector('#option2').style.display = 'none';
 		document.querySelector('.instructions').innerText = 'List provided is more than quiz length';
 	}
+	if(profileList.length < 1)
+	{
+		document.querySelector('#option2').style.display = 'none';
+		document.querySelector('.instructions').innerText = 'Select a category in settings';
+	}
 }
 
 function onOptionClick(mode) {
