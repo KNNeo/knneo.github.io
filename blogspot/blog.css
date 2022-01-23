@@ -382,7 +382,7 @@ table.tr-caption-container {
 
 .tabs-inner .widget li span {
   line-height: initial;
-  margin: 12px 20px;
+  /* margin: 12px 20px; */
   display: block;
 }
 
