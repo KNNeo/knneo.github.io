@@ -1197,7 +1197,7 @@ function generateRanking(contents) {
 		if(document.getElementById('options').value == row[columnIndexKNID]) {
 			tr.classList.add('highlight');
 			tr.classList.add('not-selectable');
-			// tr.addEventListener('active', hoverOnRankingRow);
+			tr.addEventListener('active', hoverOnRankingRow);
 		}
 		else {
 			tr.style.cursor = 'pointer';
