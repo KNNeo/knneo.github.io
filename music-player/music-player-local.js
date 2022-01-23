@@ -82,9 +82,11 @@ function hoverOnSOTMRow() {
 function hoverOnRow(cells, prevCells, columns) {
 	if(prevCells.length == columns && cells.length == columns-1 && prevCells[0].rowSpan != undefined)
 		toggleHover(prevCells[0]);
-	toggleHover(cells[0]);
-	toggleHover(cells[1]);
-	if(cells.length > 2) toggleHover(cells[2]);
+	
+	for(let cell of cells)
+	{
+		toggleHover(cell);
+	}
 }
 
 function toggleHover(cell) {
@@ -441,6 +443,12 @@ function generateLayout(contents) {
 	setTabs();
 	scrollToTop();
 	updateQueueCount();
+	
+	for(let selected of document.getElementsByClassName('not-selectable'))
+	{
+		selected.dispatchEvent(new Event('active'));
+	}
+
 }
 
 function updateSearch(contents) {
@@ -1187,8 +1195,9 @@ function generateRanking(contents) {
 		let tr = document.createElement('tr');
 		tr.setAttribute('data-id', row[columnIndexKNID]);
 		if(document.getElementById('options').value == row[columnIndexKNID]) {
+			tr.classList.add('highlight');
 			tr.classList.add('not-selectable');
-			tr.addEventListener('active', hoverOnRankingRow);
+			// tr.addEventListener('active', hoverOnRankingRow);
 		}
 		else {
 			tr.style.cursor = 'pointer';
@@ -1225,11 +1234,6 @@ function generateRanking(contents) {
 		
 	table.appendChild(tbody);
 	document.getElementById('song-ranking').appendChild(table);
-	
-	for(let selected of document.getElementsByClassName('not-selectable'))
-	{
-		selected.dispatchEvent(new Event('active'));
-	}
 }
 
 function queryCompilations(contents) {
@@ -1308,7 +1312,7 @@ function generateCompilations(contents) {
 			let tr = document.createElement('tr');
 			let selected = document.getElementById('options').value;
 			tr.setAttribute('data-id', row[columnIndexKNID]);
-			tr.classList.add('not-selectable');
+			// tr.classList.add('not-selectable');
 			if(selected == row[columnIndexKNID]) {
 				tr.classList.add('not-selectable');
 				tr.classList.add('highlight');
@@ -1519,11 +1523,6 @@ function generateSOTM(contents) {
 	
 	table.appendChild(tbody);
 	document.getElementById('song-sotm').appendChild(table);
-
-	for(let selected of document.getElementsByClassName('not-selectable'))
-	{
-		selected.dispatchEvent(new Event('active'));
-	}
 }
 
 //unavailable: requires base64 image store in db
