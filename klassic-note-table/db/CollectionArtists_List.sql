@@ -1,2 +1,2 @@
-select parentartist, count(parentartist) as Count, min(datecreated) as Started from song group by parentartist having count(parentartist) >= 10 order by count(*) desc
+select artisttitle, count(artisttitle) as Count, min(datecreated) as Started from song group by artisttitle having count(artisttitle) >= 10 order by count(*) desc
 --need to include artist/collabartist table to check parentartist? song parentartist field not enough for collab songs
