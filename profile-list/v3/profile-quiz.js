@@ -75,7 +75,9 @@ function defineNameList() {
 	}
 	
 	for(let profile of profileList) {
-			let allImages = (profile.landscapes.slice(0,imageLimit) || []).concat(profile.portraits.slice(0,imageLimit) || []);
+			let landscapes = profile.landscapes ? profile.landscapes.slice(0,imageLimit) : [];
+			let portraits = profile.portraits ? profile.portraits.slice(0,imageLimit) : [];
+			let allImages = landscapes.concat(portraits);
 			let name = profile.name;
 			let id = profile.id;
 			
