@@ -86,6 +86,15 @@ function friendCheck() {
 	console.log('Done.');
 }
 
+function showProfilesImageCount() {
+	let threshold = 10;
+	for(let profile of profileList)
+	{
+		if(profile.landscapes.length > threshold || profile.portraits.length > threshold)
+			console.log(profile.name, profile.landscapes.length + ' landscapes', profile.portraits.length + ' portraits');
+	}
+}
+
 function exportCalendar() {
 	let textOutput = '"Subject","Start date","All Day Event","Description","Private"';
 	let nowYear = DateTime.fromISO(DateTime.now(), {zone: timezone}).year;
