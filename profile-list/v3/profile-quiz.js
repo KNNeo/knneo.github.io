@@ -1,5 +1,5 @@
 //--SETTING--//
-const debugMode = true; //shows logs
+const debugMode = false; //shows logs
 const totalQns = 10; //questions to show, cannot be more than provided list
 const instructions = `
 Instructions:
@@ -11,6 +11,7 @@ let easyMode = localStorage.getItem('easyMode') == 'true';
 let timeChallenge = !easyMode; //if true will preload images first, adds timer to quiz
 let profileCategory = localStorage.getItem('profileCategory'); //category to filter profile list
 let friendsMode = profileCategory == 'friends'; //allows images of friends to be included
+let imageLimit = 10; //max images per profile to include, reads first x images in landscapes, portraits
 let friendList = [];
 let profileList = [];
 //--READ JSON--//
@@ -52,6 +53,7 @@ else {
 
 //--FUNCTION--//
 let preloads = [];
+let preloaded = 0;
 let imageList = [];
 let nameList = [];
 let quiz = [];
@@ -73,7 +75,7 @@ function defineNameList() {
 	}
 	
 	for(let profile of profileList) {
-			let allImages = (profile.landscapes || []).concat(profile.portraits || []);
+			let allImages = (profile.landscapes.slice(0,imageLimit) || []).concat(profile.portraits.slice(0,imageLimit) || []);
 			let name = profile.name;
 			let id = profile.id;
 			
@@ -93,17 +95,6 @@ function defineNameList() {
 	
 	if(debugMode) console.log(imageList);
 	if(debugMode) console.log(nameList);
-	
-	if(!timeChallenge)
-	{
-		for(let img of imageList)
-		{
-			preloads = [];
-			let preload = new Image();
-			preload.src = img.image;
-			preloads.push(preload);
-		}
-	}
 }
 
 function renderQuiz(isFirstLoad) {
@@ -189,6 +180,8 @@ function startQuiz() {
 	}
 	
 	//populate questions
+	preloaded = 0;
+	preloads = [];
 	quiz = [];
 	let randomArr = [];
 	let q = totalQns;
@@ -205,22 +198,36 @@ function startQuiz() {
 	if(debugMode) console.log('randomArr',randomArr);
 	
 	for(let index of randomArr)
-	{	
+	{
 		quiz.push(imageList[index]);
 		
-		if(timeChallenge)
-		{
-			preloads = [];
-			let preload = new Image();
-			preload.src = imageList[index].image;
-			preloads.push(preload);
-		}
+		let preload = new Image();
+		preload.src = imageList[index].image;
+		preload.addEventListener('load', function() {
+			preloaded++;
+		});
+		preloads.push(preload);
 	}
 	
-	nextQuestion();
-	if(timeChallenge)
+	awaitNextQuestion();
+}
+
+function awaitNextQuestion()
+{
+	if(debugMode) console.log('awaitNextQuestion', preloaded, preloads.length);
+	document.querySelector('#option2').disabled = true;
+	if(preloaded >= preloads.length)
 	{
-		initialiseTimer();
+		document.querySelector('#option2').disabled = false;
+		if(timeChallenge)
+		{
+			initialiseTimer();
+		}
+		nextQuestion();
+	}
+	else
+	{
+		setTimeout(awaitNextQuestion, 200);
 	}
 }
 
