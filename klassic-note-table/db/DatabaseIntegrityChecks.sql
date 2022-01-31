@@ -13,6 +13,10 @@ replace(Song.ReleaseTitle,' Disc 3','') = Release.ReleaseTitle
 )
 and Song.ReleaseArtistTitle = Release.ReleaseArtistTitle 
 where Release.ReleaseID is NULL order by Song.KNYEAR, Song.ReleaseArtistTitle;
+----Using ReleaseID from Song
+select distinct Song.KNYEAR, Song.ReleaseArtistTitle, Song.ReleaseTitle from Song left join Release on 
+Song.ReleaseID = Release.ReleaseID
+where Release.ReleaseID is NULL order by Song.KNYEAR, Song.ReleaseArtistTitle;
 ----Releases with multiple discs: to know what to replace
 select distinct ReleaseTitle from Song where lower(ReleaseTitle) like '%disc %';
 
