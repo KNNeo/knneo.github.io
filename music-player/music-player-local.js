@@ -143,7 +143,8 @@ function setTabs() {
 	document.getElementById('tab-list').style.height = window.innerHeight - Array.from(document.getElementsByClassName('calc')).reduce((total, current) => { return total + current.offsetHeight; }, 40) + 'px';
 	if (debugMode) console.log('containerHeight', document.getElementById('tab-list').style.height);
 	
-	document.getElementById('search').style.width = (document.getElementById('options').getBoundingClientRect().width - 20) + 'px';
+	document.getElementById('search').style.width = (document.getElementById('options').getBoundingClientRect().width - 40) + 'px';
+	document.getElementById('clear').style.display = '';
 	document.getElementById('copy').style.display = '';
 }
 
@@ -200,6 +201,8 @@ function startup() {
 	if(isMobile())
 		query += " LIMIT 100";
 	callDb(query, updateOptions);
+	
+	renderHomepage();
 }
 
 function renderSettings() {
@@ -210,6 +213,67 @@ function renderSettings() {
 function renderVariables() {
 	// to allow multiple instances of charts based on data, in format 'container<no>'
 	window['db'] = null;
+}
+
+function renderHomepage() {
+	let recent = localStorage.getItem('recent');
+	recent = (recent == null || recent.length == 0) ? JSON.parse('[]') : JSON.parse(recent);
+	
+	let query = "";
+	for(let id of recent)
+	{
+		query += "UNION ALL ";
+		if(query == "UNION ALL ") query = "";
+		query += "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song WHERE KNID = " + id.toString() + " ";
+	}
+	if(debugMode) console.log('generateSearchHistory', query);
+	callDb(query, generateSearchHistory);
+}
+
+function generateSearchHistory(contents) {
+	document.getElementById('search-history').innerHTML = '';
+	
+	if(debugMode) console.log('generateSongInfo', contents);
+	if(!contents.columns || !contents.values) return;
+	
+	let header = document.createElement('h4');
+	header.classList.add('centered');
+	header.innerText = 'Recently Searched';
+	document.getElementById('search-history').appendChild(header);	
+	
+	let columns = contents.columns;
+	let rows = contents.values;
+	
+	let table = document.createElement('table');
+	table.classList.add('list');
+	table.classList.add('centered');
+	table.classList.add('content-box');
+	// table.classList.add('no-highlight');
+	
+	let tbody = document.createElement('tbody');
+	
+	//header
+	for(let row of rows)
+	{
+		let columnIndexKNID = contents.columns.indexOf('KNID');
+		let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
+		let columnIndexSongTitle = contents.columns.indexOf('SongTitle');
+		let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
+		
+		let tr = document.createElement('tr');
+	
+		let tc = document.createElement('td');
+		tc.style.cursor = 'pointer';
+		tc.setAttribute('data-id', row[columnIndexKNID]);
+		tc.innerText = row[columnIndexKNYEAR] + ' - ' + row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle];
+		tc.addEventListener('click', updateSong);
+		tr.appendChild(tc);
+		
+		tbody.appendChild(tr);	
+	}
+		
+	table.appendChild(tbody);
+	document.getElementById('search-history').appendChild(table);
 }
 
 async function callDb(query, callback) {
@@ -303,6 +367,19 @@ function generateFilters() {
 	});
 	filters.appendChild(search);
 	
+	let searchButtons = document.createElement('span');
+	searchButtons.id = 'search-buttons';
+	
+	let tcl = document.createElement('a');
+	tcl.id = 'clear';
+	tcl.style.display = 'none';
+	tcl.title = 'Clear Search';
+	tcl.classList.add('material-icons');
+	tcl.href = 'javascript:void(0);';
+	tcl.addEventListener('click', clearSearch);
+	tcl.innerText = 'clear';
+	searchButtons.appendChild(tcl);
+	
 	let tc = document.createElement('a');
 	tc.id = 'copy';
 	tc.style.display = 'none';
@@ -311,7 +388,9 @@ function generateFilters() {
 	tc.href = 'javascript:void(0);';
 	tc.addEventListener('click', copySearch);
 	tc.innerText = 'content_copy';
-	filters.appendChild(tc);
+	searchButtons.appendChild(tc);
+	
+	filters.appendChild(searchButtons);
 		
 	let options = document.createElement('select');
 	options.id = 'options';
@@ -340,6 +419,19 @@ function copySearch() {
 		document.getElementById('copy').innerText = 'content_copy'; 
 		document.getElementById('copy').style.cursor = '';
 	}, 2000);
+}
+
+function clearSearch() {
+	document.getElementById('search').value = '';
+	document.getElementById('tab-homepage').style.display = '';
+	for(let tab of document.getElementsByClassName('module'))
+	{
+		tab.innerHTML = '';
+	}
+	for(let tab of document.getElementsByClassName('tab'))
+	{
+		tab.classList.add('hidden');
+	}
 }
 
 function onChangeOption() {
@@ -430,6 +522,8 @@ function updateOptions(contents) {
 //load layout
 function generateLayout(contents) {
 	// console.log('generateLayout', contents);
+	document.getElementById('tab-homepage').style.display = 'none';
+	
 	updateSearch(contents);
 	generatePlayer(contents);
 	// generateCoverArt();
@@ -449,16 +543,37 @@ function generateLayout(contents) {
 		selected.dispatchEvent(new Event('active'));
 	}
 
+	for(let tab of document.getElementsByClassName('tab'))
+	{
+		tab.classList.remove('hidden');
+	}
 }
 
 function updateSearch(contents) {
 	if(contents.values.length > 1) return;
 	let row = contents.values[0];
 	
+	let columnIndexKNID = contents.columns.indexOf('ID');
 	let columnIndexSongTitle = contents.columns.indexOf('Song Title');
 	let columnIndexArtistTitle = contents.columns.indexOf('Artist Title');
 	
 	document.getElementById('search').value = row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle];
+	
+	let recent = localStorage.getItem('recent');
+	recent = (recent == null || recent.length == 0) ? JSON.parse('[]') : JSON.parse(recent);
+	if(recent.length > 0)
+	{
+		recent = recent.filter(r => r != row[columnIndexKNID]);
+		recent.unshift(row[columnIndexKNID])
+		if(recent.length > 10)
+			recent = recent.slice(0,10);
+	}
+	else
+	{
+		recent.push(row[columnIndexKNID]);
+	}
+	
+	localStorage.setItem('recent', JSON.stringify(recent));
 }
 
 function generatePlayer(contents) {

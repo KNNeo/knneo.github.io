@@ -9,6 +9,7 @@ body {
 
 #tab-list {
 	overflow: auto;
+	padding: 3px;
 }
 
 .absolute {
