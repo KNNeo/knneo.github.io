@@ -143,7 +143,8 @@ function setTabs() {
 	document.getElementById('tab-list').style.height = window.innerHeight - Array.from(document.getElementsByClassName('calc')).reduce((total, current) => { return total + current.offsetHeight; }, 50) + 'px';
 	if (debugMode) console.log('containerHeight', document.getElementById('tab-list').style.height);
 	
-	document.getElementById('search').style.width = (document.getElementById('options').getBoundingClientRect().width - 40) + 'px';
+	document.getElementById('search').style.width = 
+	document.getElementById('tab-homepage').style.display == '' ? '100%' : (document.getElementById('options').getBoundingClientRect().width - 40) + 'px';
 	document.getElementById('clear').style.display = '';
 	document.getElementById('copy').style.display = '';
 }
@@ -425,7 +426,8 @@ function clearSearch() {
 	document.getElementById('search').value = '';
 	document.getElementById('tab-homepage').style.display = '';
 	document.getElementById('search-buttons').style.display = 'none';
-	document.getElementById('tab-buttons').style.display = 'none';
+	document.getElementById('search').style.width = '100%';
+	document.getElementById('tab-buttons').innerHTML = '';
 	for(let tab of document.getElementsByClassName('module'))
 	{
 		tab.innerHTML = '';
@@ -435,7 +437,6 @@ function clearSearch() {
 		tab.classList.add('hidden');
 	}
 	renderHomepage();
-	document.getElementById('search').style.width = '100%';
 }
 
 function onChangeOption() {
@@ -527,7 +528,6 @@ function updateOptions(contents) {
 function generateLayout(contents) {
 	// console.log('generateLayout', contents);
 	document.getElementById('tab-homepage').style.display = 'none';
-	document.getElementById('tab-buttons').style.display = '';
 	document.getElementById('search-buttons').style.display = '';
 	
 	updateSearch(contents);
