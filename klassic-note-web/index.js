@@ -145,8 +145,7 @@ function setTabs() {
 	
 	document.getElementById('search').style.width = 
 	document.getElementById('tab-homepage').style.display == '' ? '100%' : (document.getElementById('options').getBoundingClientRect().width - 40) + 'px';
-	document.getElementById('clear').style.display = '';
-	document.getElementById('copy').style.display = '';
+	document.getElementById('search-buttons').style.display = document.getElementById('tab-homepage').style.display == '' ? 'none' : '';
 }
 
 function showTab(activeTab) {
@@ -370,10 +369,10 @@ function generateFilters() {
 	
 	let searchButtons = document.createElement('span');
 	searchButtons.id = 'search-buttons';
+	searchButtons.style.display = 'none';
 	
 	let tcl = document.createElement('a');
 	tcl.id = 'clear';
-	tcl.style.display = 'none';
 	tcl.title = 'Clear Search';
 	tcl.classList.add('material-icons');
 	tcl.href = 'javascript:void(0);';
@@ -383,7 +382,6 @@ function generateFilters() {
 	
 	let tc = document.createElement('a');
 	tc.id = 'copy';
-	tc.style.display = 'none';
 	tc.title = 'Copy Search as Table';
 	tc.classList.add('material-icons');
 	tc.href = 'javascript:void(0);';
