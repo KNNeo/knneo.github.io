@@ -14,59 +14,6 @@ window.addEventListener('keyup', setKeyUp);
 window.addEventListener('keydown', setKeyDown);
 
 //--EVENTS--//
-function randomSong() {
-	document.getElementById('search').value = '';
-	let query = "SELECT COUNT(*) FROM Song";
-	// console.log('query', query);
-	if(document.getElementById('player') != null && document.getElementById('player').buffered.length < 1) 
-	{
-		window['playlist'] = [];
-		document.getElementById('random-count').innerText = '';
-	}
-	queryDb(query, function(content) {
-		// console.log('content', content);
-		let total = content.values[0][0];
-		
-		let songsToQueue = window['shifted'] ? 10 : 1;
-		let random = 0;
-		do {
-			random = Math.floor((Math.random() * total));
-			if(window['playlist'].indexOf(random) < 0)
-			{
-				window['playlist'].push(random);
-				songsToQueue--;
-			}
-		} while (songsToQueue > 0);
-		if(debugMode) console.log('playlist',window['playlist']);
-		updateQueueCount();
-		if(document.getElementById('player') == null || document.getElementById('player').paused)
-		{
-			// when autoplay is off
-			if(window['playlist'].length == 2)
-				window['playlist'] = window['playlist'].slice(1);
-			let optQuery = "SELECT * FROM Song WHERE KNID = ";
-			optQuery += window['playlist'][0];
-			if(debugMode) console.log('optQuery', optQuery);
-			queryDb(optQuery, updateOptions);
-		}
-	});
-};
-
-function skipSong() {
-	if(document.getElementById('random-count').innerText.length > 0)
-		document.getElementById('player').dispatchEvent(new Event('ended'));
-	updateQueueCount();
-}
-
-function clearQueue() {
-	event.preventDefault();
-	window['playlist'] = [];
-	document.getElementById('random-count').innerText = 'Queue cleared';
-	setTimeout(function() {
-		document.getElementById('random-count').innerText = '';
-	}, 2000);
-}
-
 function hoverOnRankingRow() {
 	let cells = this.getElementsByTagName('td');
 	let prevCells = this.previousSibling.getElementsByTagName('td');
@@ -99,12 +46,6 @@ function toggleHover(cell) {
 		cell.classList.add('highlight');
 		
 	// cell.style.backgroundColor = cell.style.backgroundColor == cellColor ? '' : cellColor;
-}
-
-function scrollToTop() {
-    document.getElementById('tab-list').scrollTop = 0;
-    document.documentElement.scrollTop = 0;
-	window.location.hash = "";
 }
 
 function setTabs() {
@@ -182,12 +123,142 @@ function setKeyDown() {
 	return false;
 }
 
+function copySearch() {
+	let search = document.getElementById('search').value.split(' - ');
+	if(search.length == 2)
+	{
+		navigator.clipboard.writeText(search[1] + '\t' + search[0]);
+	}
+	else
+	{
+		navigator.clipboard.writeText(search[0]);
+	}
+	document.getElementById('copy').innerText = 'done';
+	document.getElementById('copy').style.cursor = 'none';
+	setTimeout( function() { 
+		document.getElementById('copy').innerText = 'content_copy'; 
+		document.getElementById('copy').style.cursor = '';
+	}, 2000);
+}
+
+function clearSearch() {
+	document.getElementById('search').value = '';
+	document.getElementById('tab-homepage').style.display = '';
+	document.getElementById('search-buttons').style.display = 'none';
+	document.getElementById('search').style.width = '100%';
+	document.getElementById('tab-buttons').innerHTML = '';
+	for(let tab of document.getElementsByClassName('module'))
+	{
+		tab.innerHTML = '';
+	}
+	for(let tab of document.getElementsByClassName('tab'))
+	{
+		tab.classList.add('hidden');
+	}
+	generateHomepage();
+}
+
 function toggleAutoplay() {
 	autoplayOnSelect = !autoplayOnSelect;
 	document.getElementById('autoplay').innerText = autoplayOnSelect ? 'music_note' : 'music_off';
 }
 
+function randomSong() {
+	document.getElementById('search').value = '';
+	let query = "SELECT COUNT(*) FROM Song";
+	// console.log('query', query);
+	if(document.getElementById('player') != null && document.getElementById('player').buffered.length < 1) 
+	{
+		window['playlist'] = [];
+		document.getElementById('random-count').innerText = '';
+	}
+	queryDb(query, function(content) {
+		// console.log('content', content);
+		let total = content.values[0][0];
+		
+		let songsToQueue = window['shifted'] ? 10 : 1;
+		let random = 0;
+		do {
+			random = Math.floor((Math.random() * total));
+			if(window['playlist'].indexOf(random) < 0)
+			{
+				window['playlist'].push(random);
+				songsToQueue--;
+			}
+		} while (songsToQueue > 0);
+		if(debugMode) console.log('playlist',window['playlist']);
+		updateQueueCount();
+		if(document.getElementById('player') == null || document.getElementById('player').paused)
+		{
+			// when autoplay is off
+			if(window['playlist'].length == 2)
+				window['playlist'] = window['playlist'].slice(1);
+			let optQuery = "SELECT * FROM Song WHERE KNID = ";
+			optQuery += window['playlist'][0];
+			if(debugMode) console.log('optQuery', optQuery);
+			queryDb(optQuery, updateOptions);
+		}
+	});
+};
+
+function skipSong() {
+	if(document.getElementById('random-count').innerText.length > 0)
+		document.getElementById('player').dispatchEvent(new Event('ended'));
+	updateQueueCount();
+}
+
+function clearQueue() {
+	event.preventDefault();
+	window['playlist'] = [];
+	document.getElementById('random-count').innerText = 'Queue cleared';
+	setTimeout(function() {
+		document.getElementById('random-count').innerText = '';
+	}, 2000);
+}
+
 //--FUNCTIONS--//
+async function callDb(query, callback) {
+	const time = Date.now();
+	//for webassembly file
+	const SQL = await initSqlJs({
+	  // Required to load the wasm binary asynchronously. Of course, you can host it wherever you want
+	  // You can omit locateFile completely when running in node
+	  locateFile: file => 'https://knneo.github.io/klassic-note-web/sql-wasm.wasm'
+	});
+
+	// for sqlite db
+	const xhr = new XMLHttpRequest();
+	xhr.open('GET', 'https://knneo.github.io/klassic-note-table/db/KlassicNote.db', true);
+	xhr.responseType = 'arraybuffer';
+
+	xhr.onload = e => {
+	  const uInt8Array = new Uint8Array(xhr.response);
+	  window['db'] = new SQL.Database(uInt8Array);
+	  const contents = window['db'].exec(query);
+	  // console.log('callDb',contents);
+	  if(contents && contents.length > 0)
+		  callback(contents[0]);
+	  else if(contents)
+		  callback(contents);
+	  // contents is now [{columns:['col1','col2',...], values:[[first row], [second row], ...]}]
+	};
+	xhr.send();
+	
+	if(debugMode) console.log('callDb took', Date.now() - time, 'ms');
+}
+
+function queryDb(query, callback) {
+	const time = Date.now();	
+	const contents = window['db'].exec(query);
+	// console.log('queryDb',contents);
+	if(contents && contents.length > 0)
+	  return callback(contents[0]);
+	else if(contents)
+	  return callback(contents);
+  
+	if(debugMode) console.log('queryDb took', Date.now() - time, 'ms');
+}
+
 function startup() {
 	document.getElementById('title').innerText = defaultTitle;
 	document.title = defaultTitle;
@@ -202,7 +273,7 @@ function startup() {
 		query += " LIMIT 100";
 	callDb(query, updateOptions);
 	
-	renderHomepage();
+	generateHomepage();
 }
 
 function renderSettings() {
@@ -215,7 +286,7 @@ function renderVariables() {
 	window['db'] = null;
 }
 
-function renderHomepage() {
+function generateHomepage() {
 	let recent = localStorage.getItem('recent');
 	recent = (recent == null || recent.length == 0) ? JSON.parse('[]') : JSON.parse(recent);
 	
@@ -274,48 +345,6 @@ function generateSearchHistory(contents) {
 		
 	table.appendChild(tbody);
 	document.getElementById('search-history').appendChild(table);
-}
-
-async function callDb(query, callback) {
-	const time = Date.now();
-	//for webassembly file
-	const SQL = await initSqlJs({
-	  // Required to load the wasm binary asynchronously. Of course, you can host it wherever you want
-	  // You can omit locateFile completely when running in node
-	  locateFile: file => 'https://knneo.github.io/klassic-note-web/sql-wasm.wasm'
-	});
-
-	// for sqlite db
-	const xhr = new XMLHttpRequest();
-	xhr.open('GET', 'https://knneo.github.io/klassic-note-table/db/KlassicNote.db', true);
-	xhr.responseType = 'arraybuffer';
-
-	xhr.onload = e => {
-	  const uInt8Array = new Uint8Array(xhr.response);
-	  window['db'] = new SQL.Database(uInt8Array);
-	  const contents = window['db'].exec(query);
-	  // console.log('callDb',contents);
-	  if(contents && contents.length > 0)
-		  callback(contents[0]);
-	  else if(contents)
-		  callback(contents);
-	  // contents is now [{columns:['col1','col2',...], values:[[first row], [second row], ...]}]
-	};
-	xhr.send();
-	
-	if(debugMode) console.log('callDb took', Date.now() - time, 'ms');
-}
-
-function queryDb(query, callback) {
-	const time = Date.now();	
-	const contents = window['db'].exec(query);
-	// console.log('queryDb',contents);
-	if(contents && contents.length > 0)
-	  return callback(contents[0]);
-	else if(contents)
-	  return callback(contents);
-  
-	if(debugMode) console.log('queryDb took', Date.now() - time, 'ms');
 }
 
 function generateTabs() {
@@ -402,41 +431,6 @@ function generateFilters() {
 	filters.appendChild(options);
 }
 
-function copySearch() {
-	let search = document.getElementById('search').value.split(' - ');
-	if(search.length == 2)
-	{
-		navigator.clipboard.writeText(search[1] + '\t' + search[0]);
-	}
-	else
-	{
-		navigator.clipboard.writeText(search[0]);
-	}
-	document.getElementById('copy').innerText = 'done';
-	document.getElementById('copy').style.cursor = 'none';
-	setTimeout( function() { 
-		document.getElementById('copy').innerText = 'content_copy'; 
-		document.getElementById('copy').style.cursor = '';
-	}, 2000);
-}
-
-function clearSearch() {
-	document.getElementById('search').value = '';
-	document.getElementById('tab-homepage').style.display = '';
-	document.getElementById('search-buttons').style.display = 'none';
-	document.getElementById('search').style.width = '100%';
-	document.getElementById('tab-buttons').innerHTML = '';
-	for(let tab of document.getElementsByClassName('module'))
-	{
-		tab.innerHTML = '';
-	}
-	for(let tab of document.getElementsByClassName('tab'))
-	{
-		tab.classList.add('hidden');
-	}
-	renderHomepage();
-}
-
 function onChangeOption() {
 	let id = parseInt(document.getElementById('options').value);
 	// console.log('queryOption', id);
@@ -520,6 +514,12 @@ function updateOptions(contents) {
 		}		
 	}
 	// console.log('newOptions', newOptions);
+}
+
+function scrollToTop() {
+    document.getElementById('tab-list').scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+	window.location.hash = "";
 }
 
 //load layout
@@ -1476,6 +1476,7 @@ function querySOTD(contents) {
 	let query = "SELECT t.* FROM SOTD t "
 	query += "JOIN Song s ON s.KNID = t.KNID "
 	query += "JOIN (SELECT td.* FROM SOTD td WHERE td.KNID = " + row[columnIndexKNID] + ") tref ON tref.SOTDID = t.SOTDID ";
+	query += "WHERE t.IsShortPreview = 0 ";
 	query += "ORDER BY t.Date, t.TimeOfDay, t.SortOrder";
 	// console.log('querySOTD', query);
 	queryDb(query, generateSOTD);
@@ -1483,7 +1484,7 @@ function querySOTD(contents) {
 	//select awards of that song regardless of year
 	query = "SELECT m.KNYEAR as 'Year', m.Month, m.SongTitle, m.ArtistTitle, m.Count, m.KNID FROM SOTM m "
 	query += "JOIN Song s ON s.KNID = m.KNID "
-	query += "JOIN (SELECT tm.* FROM SOTM tm WHERE tm.KNID = " + row[columnIndexKNID] + ") mref ON mref.KNYEAR = m.KNYEAR";
+	query += "JOIN (SELECT tm.* FROM SOTM tm WHERE tm.KNID = " + row[columnIndexKNID] + ") mref ON mref.KNYEAR = m.KNYEAR ";
 	// console.log('querySOTM', query);
 	queryDb(query, generateSOTM);
 }
@@ -1661,7 +1662,6 @@ function generateCoverArt() {
 }
 
 //--HELPER FUNCTIONS--//
-
 function updateSong() {
 	let id = this.getAttribute('data-id');
 	let query = "SELECT * FROM Song WHERE KNID = " + id;
