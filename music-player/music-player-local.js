@@ -140,7 +140,7 @@ function setTabs() {
 	document.getElementById('tab-buttons').style.display = isWidescreen ? 'none' : '';
 	if(!isWidescreen) showTab('tab-info');
 	
-	document.getElementById('tab-list').style.height = window.innerHeight - Array.from(document.getElementsByClassName('calc')).reduce((total, current) => { return total + current.offsetHeight; }, 40) + 'px';
+	document.getElementById('tab-list').style.height = window.innerHeight - Array.from(document.getElementsByClassName('calc')).reduce((total, current) => { return total + current.offsetHeight; }, 50) + 'px';
 	if (debugMode) console.log('containerHeight', document.getElementById('tab-list').style.height);
 	
 	document.getElementById('search').style.width = (document.getElementById('options').getBoundingClientRect().width - 40) + 'px';
@@ -432,6 +432,7 @@ function clearSearch() {
 	{
 		tab.classList.add('hidden');
 	}
+	renderHomepage();
 }
 
 function onChangeOption() {

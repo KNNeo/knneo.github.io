@@ -41,6 +41,10 @@ body {
     right: 0;
 }
 
+#tab-homepage {
+  padding: 4px;
+}
+
 .content-box {
   border: 1px solid lightgray;
   box-shadow: 3px 3px;
