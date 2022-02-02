@@ -424,6 +424,7 @@ function copySearch() {
 function clearSearch() {
 	document.getElementById('search').value = '';
 	document.getElementById('tab-homepage').style.display = '';
+	document.getElementById('tab-buttons').style.display = 'none';
 	for(let tab of document.getElementsByClassName('module'))
 	{
 		tab.innerHTML = '';
@@ -524,6 +525,7 @@ function updateOptions(contents) {
 function generateLayout(contents) {
 	// console.log('generateLayout', contents);
 	document.getElementById('tab-homepage').style.display = 'none';
+	document.getElementById('tab-buttons').style.display = '';
 	
 	updateSearch(contents);
 	generatePlayer(contents);
