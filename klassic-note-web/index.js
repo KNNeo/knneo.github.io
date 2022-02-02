@@ -282,7 +282,7 @@ async function callDb(query, callback) {
 	const SQL = await initSqlJs({
 	  // Required to load the wasm binary asynchronously. Of course, you can host it wherever you want
 	  // You can omit locateFile completely when running in node
-	  locateFile: file => 'https://knneo.github.io/music-player/sql-wasm.wasm'
+	  locateFile: file => 'https://knneo.github.io/klassic-note-web/sql-wasm.wasm'
 	});
 
 	// for sqlite db
