@@ -14,38 +14,27 @@ window.addEventListener('keyup', setKeyUp);
 window.addEventListener('keydown', setKeyDown);
 
 //--EVENTS--//
-function hoverOnRankingRow() {
-	let cells = this.getElementsByTagName('td');
-	let prevCells = this.previousSibling.getElementsByTagName('td');
-	hoverOnRow(cells, prevCells, 3);
-}
-
-function hoverOnSOTMRow() {
-	let cells = this.getElementsByTagName('td');
-	let prevCells = this.previousSibling.getElementsByTagName('td');
-	hoverOnRow(cells, prevCells, 4);
-}
-
-function hoverOnRow(cells, prevCells, columns) {
-	if(prevCells.length == columns && cells.length == columns-1 && prevCells[0].rowSpan != undefined)
-		toggleHover(prevCells[0]);
+function hoverOnTableRow() {
+	let columns = this.parentNode.getElementsByTagName('th').length;
+	let rowCells = this.getElementsByTagName('td');
+	let spanCells = findSpanSibling(this, columns).getElementsByTagName('td');
 	
-	for(let cell of cells)
+	if(rowCells.length + 1 == spanCells.length && spanCells[0].rowSpan != undefined)
+		spanCells[0].classList.toggle('highlight');
+	
+	for(let cell of rowCells)
 	{
-		toggleHover(cell);
+		cell.classList.toggle('highlight');
 	}
 }
 
-function toggleHover(cell) {
-	// let supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-	// let isDarked = document.getElementsByTagName('html')[0].classList.contains('darked');
-	// let cellColor = 'transparent';
-	if(cell.classList.contains('highlight'))
-		cell.classList.remove('highlight');
-	else
-		cell.classList.add('highlight');
-		
-	// cell.style.backgroundColor = cell.style.backgroundColor == cellColor ? '' : cellColor;
+function findSpanSibling(row, columns) {
+	let returnRow = row;
+	while(returnRow.childNodes.length < columns && returnRow.childNodes.length <= row.childNodes.length)
+	{
+		returnRow = returnRow.previousSibling;
+	}
+	return returnRow;
 }
 
 function setTabs() {
@@ -79,8 +68,11 @@ function setTabs() {
 	}
 	
 	document.getElementById('tab-buttons').style.display = isWidescreen ? 'none' : '';
-	if(!isWidescreen && !window['year-mode']) showTab('tab-info');
-	if(!isWidescreen && window['year-mode']) showTab('tab-year');
+	if(!isWidescreen)
+	{
+		if(window['mode'] == 'song') showTab('tab-info');
+		if(window['mode'] == 'year') showTab('tab-year');
+	}
 	
 	document.getElementById('tab-list').style.height = window.innerHeight - Array.from(document.getElementsByClassName('calc')).reduce((total, current) => { return total + current.offsetHeight; }, 50) + 'px';
 	if (debugMode) console.log('containerHeight', document.getElementById('tab-list').style.height);
@@ -266,7 +258,6 @@ function startup() {
 	renderSettings();
 	renderVariables();
 	generateFilters();
-	window['playlist'] = [];
 	
 	//initial query for options
 	let query = "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song";
@@ -283,8 +274,10 @@ function renderSettings() {
 }
 
 function renderVariables() {
-	// to allow multiple instances of charts based on data, in format 'container<no>'
+	// set variables here, do not define above
 	window['db'] = null;
+	window['playlist'] = [];
+	window['mode'] = 'song';
 }
 
 function generateHomepage() {
@@ -397,28 +390,19 @@ function generateYears(contents) {
 		
 	// table.appendChild(tbody);
 	document.getElementById('award-years').appendChild(table);
-	
-	window['year-mode'] = false;
 }
 
-function updateYear() {
-	window['year-mode'] = true;
-	
-	let year = this.getAttribute('data-year');
-	let query = "SELECT DISTINCT KNYEAR FROM SongAwardsPeriod WHERE KNYEAR = " + year;
-	if(debugMode) console.log('updateYear', query);
-	queryDb(query, generateLayout);
-}
-
-function generateTabs(yearMode) {
+function generateTabs() {
 	document.getElementById('tab-buttons').innerHTML = '';
 	
-	let tabs = document.getElementsByClassName('tab');
 	let tabNames = [];
-	for(let tab of tabs)
+	for(let tab of document.getElementsByClassName('tab'))
 	{
-		if(yearMode && tab.id == 'tab-info' || !yearMode && tab.id == 'tab-year') continue;
-		if(yearMode && tab.id == 'tab-related') continue;
+		//show different info tab
+		if(window['mode'] == 'year' && tab.id == 'tab-info') continue;
+		if(window['mode'] == 'song' && tab.id == 'tab-year') continue;
+		//toggle related tab
+		if(window['mode'] == 'year' && tab.id == 'tab-related') continue;
 		
 		let tabItem = document.createElement('button');
 		tabItem.id = 'button-' + tab.id;
@@ -507,7 +491,7 @@ function onChangeOption() {
 			window['playlist'] = [id];
 			document.getElementById('random-count').innerText = '';
 		}
-		window['year-mode'] = false;
+		window['mode'] = 'song';
 		queryDb("SELECT KNID as ID, KNYEAR, Filename, SongTitle as 'Song Title', ArtistTitle as 'Artist Title', ReleaseTitle as 'Release Title', ReleaseArtistTitle as 'Release Artist', ReleaseYear as 'Year', Rating, Genre, DateCreated as 'Date Added', VocalCode as 'Vocal Code', LanguageCode as 'Language', LyricsURL as 'Lyrics', SongTitleAlt as '" + altTitlePrefix + " Song Title', ArtistID, ReleaseID FROM Song WHERE KNID = " + id, generateLayout);
 	}
 	//probably can multiple query for multiple tables, by semicolon
@@ -590,30 +574,30 @@ function scrollToTop() {
 }
 
 //load layout
+//flow is generally generateLayout -> query-prefixed functions -> generate-prefixed functions
 function generateLayout(contents) {
 	// console.log('generateLayout', contents);
 	document.getElementById('tab-homepage').style.display = 'none';
 	document.getElementById('search-buttons').style.display = '';
 	
-	let yearMode = window['year-mode'] || false;
-	
-	if(yearMode)
+	if(window['mode'] == 'year')
 	{
 		queryYearInfo(contents);
 		querySongList(contents); //SOTD is here
-		generateTabs(yearMode);
+		generateTabs();
 		queryAwardsByYear(contents);
 		queryRankingsByYear(contents);
 		queryCompilationsByYear(contents);
 	}
-	else
+	
+	if(window['mode'] == 'song')
 	{
 		updateSearch(contents);
 		generatePlayer(contents);
 		// generateCoverArt();
 		queryInfo(contents);
 		queryRelated(contents);
-		generateTabs(yearMode);
+		generateTabs();
 		queryAwards(contents);
 		queryRankings(contents);
 		queryCompilations(contents);
@@ -929,7 +913,7 @@ function queryYearInfo(contents) {
 function generateYearInfo(contents) {
 	document.getElementById('year-info').innerHTML = '';
 	
-	if(debugMode) console.log('generateSongInfo', contents);
+	if(debugMode) console.log('generateYearInfo', contents);
 	if(!contents.columns || !contents.values) return;
 	
 	let header = document.createElement('h4');
@@ -1548,13 +1532,13 @@ function generateRanking(contents) {
 		if(document.getElementById('options').value == row[columnIndexKNID]) {
 			tr.classList.add('highlight');
 			tr.classList.add('not-selectable');
-			tr.addEventListener('active', hoverOnRankingRow);
+			tr.addEventListener('active', hoverOnTableRow);
 		}
 		else {
 			tr.style.cursor = 'pointer';
 			tr.addEventListener('click', updateSong);
-			tr.addEventListener('mouseover', hoverOnRankingRow);
-			tr.addEventListener('mouseout', hoverOnRankingRow);
+			tr.addEventListener('mouseover', hoverOnTableRow);
+			tr.addEventListener('mouseout', hoverOnTableRow);
 		}
 	
 		//rank no
@@ -1861,8 +1845,8 @@ function generateTopSOTD(contents) {
 		tr.setAttribute('data-id', row[columnIndexKNID]);
 		tr.style.cursor = 'pointer';
 		tr.addEventListener('click', updateSong);
-		// tr.addEventListener('mouseover', hoverOnRankingRow);
-		// tr.addEventListener('mouseout', hoverOnRankingRow);
+		tr.addEventListener('mouseover', hoverOnTableRow);
+		tr.addEventListener('mouseout', hoverOnTableRow);
 	
 		//rank no
 		if(row[columnIndexRankNo] != rank)
@@ -1953,13 +1937,13 @@ function generateSOTM(contents) {
 		tr.setAttribute('data-id', rows[r][columnIndexKNID]);
 		if(document.getElementById('options').value == rows[r][columnIndexKNID]) {
 			tr.classList.add('not-selectable');
-			tr.addEventListener('active', hoverOnSOTMRow);
+			tr.addEventListener('active', hoverOnTableRow);
 		}
 		else {
 			tr.style.cursor = 'pointer';
 			tr.addEventListener('click', updateSong);
-			tr.addEventListener('mouseover', hoverOnSOTMRow);
-			tr.addEventListener('mouseout', hoverOnSOTMRow);
+			tr.addEventListener('mouseover', hoverOnTableRow);
+			tr.addEventListener('mouseout', hoverOnTableRow);
 		}
 		
 		let tm = document.createElement('td');
@@ -2006,12 +1990,26 @@ function generateCoverArt() {
 
 //--HELPER FUNCTIONS--//
 function updateSong() {
-	window['year-mode'] = false;
+	window['mode'] = 'song';
+	for(let tab of document.getElementsByClassName('module'))
+	{
+		tab.innerHTML = '';
+	}
+
 	
 	let id = this.getAttribute('data-id');
 	let query = "SELECT * FROM Song WHERE KNID = " + id;
 	if(debugMode) console.log('updateSong', query);
 	queryDb(query, updateOptions);
+}
+
+function updateYear() {
+	window['mode'] = 'year';
+	
+	let year = this.getAttribute('data-year');
+	let query = "SELECT DISTINCT KNYEAR FROM SongAwardsPeriod WHERE KNYEAR = " + year;
+	if(debugMode) console.log('updateYear', query);
+	queryDb(query, generateLayout);
 }
 
 function reduceQueryInString(query) {
