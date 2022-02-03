@@ -258,13 +258,6 @@ function startup() {
 	renderSettings();
 	renderVariables();
 	generateFilters();
-	
-	//initial query for options
-	let query = "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song";
-	if(isMobile())
-		query += " LIMIT 100";
-	callDb(query, updateOptions);
-	
 	generateHomepage();
 }
 
@@ -281,10 +274,16 @@ function renderVariables() {
 }
 
 function generateHomepage() {
+	//initial query for options
+	let query = "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song";
+	if(isMobile())
+		query += " LIMIT 100";
+	callDb(query, updateOptions);
+	
 	let recent = localStorage.getItem('recent');
 	recent = (recent == null || recent.length == 0) ? JSON.parse('[]') : JSON.parse(recent);
 	
-	let query = "";
+	query = "";
 	for(let id of recent)
 	{
 		query += "UNION ALL ";
@@ -2005,11 +2004,19 @@ function updateSong() {
 
 function updateYear() {
 	window['mode'] = 'year';
+	document.getElementById('search').value = '';
+	document.getElementById('options').value = '';
 	
 	let year = this.getAttribute('data-year');
 	let query = "SELECT DISTINCT KNYEAR FROM SongAwardsPeriod WHERE KNYEAR = " + year;
 	if(debugMode) console.log('updateYear', query);
 	queryDb(query, generateLayout);
+	
+	//initial query for options
+	query = "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song WHERE KNYEAR = " + year;
+	if(isMobile())
+		query += " LIMIT 100";
+	callDb(query, updateOptions);
 }
 
 function reduceQueryInString(query) {
