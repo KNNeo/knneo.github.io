@@ -42,7 +42,8 @@ body {
 }
 
 #tab-homepage {
-  padding: 4px;
+	max-width: 96%;
+	padding: 4px;
 }
 
 .content-box {
