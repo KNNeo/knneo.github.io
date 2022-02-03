@@ -221,7 +221,7 @@ async function callDb(query, callback) {
 
 	// for sqlite db
 	const xhr = new XMLHttpRequest();
-	xhr.open('GET', 'https://knneo.github.io/klassic-note-table/db/KlassicNote.db', true);
+	xhr.open('GET', 'https://knneo.github.io/klassic-note-web/db/KlassicNote.db', true);
 	xhr.responseType = 'arraybuffer';
 
 	xhr.onload = e => {
