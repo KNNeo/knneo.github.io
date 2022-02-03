@@ -14,27 +14,30 @@ window.addEventListener('keyup', setKeyUp);
 window.addEventListener('keydown', setKeyDown);
 
 //--EVENTS--//
-function hoverOnTableRow() {
-	let columns = this.parentNode.getElementsByTagName('th').length;
-	let rowCells = this.getElementsByTagName('td');
-	let spanCells = findSpanSibling(this, columns).getElementsByTagName('td');
-	
-	if(rowCells.length + 1 == spanCells.length && spanCells[0].rowSpan != undefined)
-		spanCells[0].classList.toggle('highlight');
-	
-	for(let cell of rowCells)
-	{
-		cell.classList.toggle('highlight');
+function setKeyUp() {
+	// space: play/pause
+	if (event.keyCode === 32 && document.getElementById('player') != null && document.getElementById('search') != document.activeElement) {
+		event.preventDefault();
+		if(document.getElementById('player').paused)
+			document.getElementById('player').play();
+		else
+			document.getElementById('player').pause();
 	}
+	// shift: combine with shuffle to add 10 songs to queue
+	if (event.keyCode === 16) {
+		event.preventDefault();
+		window['shifted'] = false;
+	}
+	return false;
 }
 
-function findSpanSibling(row, columns) {
-	let returnRow = row;
-	while(returnRow.childNodes.length < columns && returnRow.childNodes.length <= row.childNodes.length)
-	{
-		returnRow = returnRow.previousSibling;
+function setKeyDown() {
+	// shift: combine with shuffle to add 10 songs to queue
+	if (event.keyCode === 16) {
+		event.preventDefault();
+		window['shifted'] = true;
 	}
-	return returnRow;
+	return false;
 }
 
 function setTabs() {
@@ -90,30 +93,27 @@ function showTab(activeTab) {
 	}
 }
 
-function setKeyUp() {
-	// space: play/pause
-	if (event.keyCode === 32 && document.getElementById('player') != null && document.getElementById('search') != document.activeElement) {
-		event.preventDefault();
-		if(document.getElementById('player').paused)
-			document.getElementById('player').play();
-		else
-			document.getElementById('player').pause();
+function hoverOnTableRow() {
+	let columns = this.parentNode.getElementsByTagName('th').length;
+	let rowCells = this.getElementsByTagName('td');
+	let spanCells = findSpanSibling(this, columns).getElementsByTagName('td');
+	
+	if(rowCells.length + 1 == spanCells.length && spanCells[0].rowSpan != undefined)
+		spanCells[0].classList.toggle('highlight');
+	
+	for(let cell of rowCells)
+	{
+		cell.classList.toggle('highlight');
 	}
-	// shift: combine with shuffle to add 10 songs to queue
-	if (event.keyCode === 16) {
-		event.preventDefault();
-		window['shifted'] = false;
-	}
-	return false;
 }
 
-function setKeyDown() {
-	// shift: combine with shuffle to add 10 songs to queue
-	if (event.keyCode === 16) {
-		event.preventDefault();
-		window['shifted'] = true;
+function findSpanSibling(row, columns) {
+	let returnRow = row;
+	while(returnRow.childNodes.length < columns && returnRow.childNodes.length <= row.childNodes.length)
+	{
+		returnRow = returnRow.previousSibling;
 	}
-	return false;
+	return returnRow;
 }
 
 function copySearch() {
