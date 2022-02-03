@@ -53,6 +53,27 @@ body {
   width: 100%;
 }
 
+.tags {
+	display: flex;
+	flex-wrap: wrap;
+	flex-wrap: wrap;
+}
+
+.tags .tag {
+	width: auto;
+	
+}
+
+.tags .tag:hover {
+	background-color: lightgray;
+	
+}
+
+.darked .tags .tag:hover {
+	background-color: gray;
+	
+}
+
 .darked .content-box {
   border: 1px solid white;
 	
@@ -94,7 +115,7 @@ body {
 	background-color: lightgray;
 }
 
-.darked tr:hover > td {
+.darked .list tr:hover > td {
 	background-color: gray;
 }
 
@@ -102,7 +123,7 @@ body {
 	background-color: lightgray;
 }
 
-.darked .highlight {
+.darked .list .highlight {
 	background-color: gray;
 }
 
