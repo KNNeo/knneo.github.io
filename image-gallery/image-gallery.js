@@ -583,10 +583,9 @@ function calculateGalleryHeight() {
 }
 
 function loadData(pageName) {
-	if(defaultDirectory) {
-		for(let img of imgArray) {
-			img[1] = img[1].replace('{domain}', defaultDirectory);
-		}
+	for(let img of imgArray) {
+		if(defaultDirectory) img[1] = img[1].replace('{domain}', defaultDirectory);
+		if(img[2] == null || img[2].length < 1) img[2] = 'portrait';
 	}
 	reloadDarkmodeStyle();
 	renderPage(pageName);
