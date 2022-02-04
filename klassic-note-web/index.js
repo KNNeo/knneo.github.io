@@ -97,7 +97,8 @@ function showTab(activeTab) {
 }
 
 function hoverOnTableRow() {
-	let columns = this.parentNode.getElementsByTagName('th').length;
+	let titleCells = this.parentNode.getElementsByClassName('table-title').length;
+	let columns = this.parentNode.getElementsByTagName('th').length - (titleCells > 0 ? titleCells : 0); //estimate
 	let rowCells = this.getElementsByTagName('td');
 	let spanRow = findSpanSibling(this, columns);
 	let spanCells = spanRow.getElementsByTagName('td');
@@ -316,7 +317,7 @@ function generateSearchHistory(contents) {
 	table.classList.add('list');
 	table.classList.add('centered');
 	table.classList.add('content-box');
-	// table.classList.add('no-highlight');
+	
 	
 	let tbody = document.createElement('tbody');
 	
@@ -363,7 +364,7 @@ function generateYears(contents) {
 	table.classList.add('centered');
 	table.classList.add('tags');
 	// table.classList.add('content-box');
-	// table.classList.add('no-highlight');
+	
 	
 	// let tbody = document.createElement('tbody');
 	
@@ -762,7 +763,6 @@ function generateSongInfo(contents) {
 	table.classList.add('list');
 	table.classList.add('centered');
 	table.classList.add('content-box');
-	table.classList.add('no-highlight');
 	
 	let tbody = document.createElement('tbody');
 	
@@ -810,7 +810,6 @@ function generateArtistInfo(contents) {
 	table.classList.add('list');
 	table.classList.add('centered');
 	table.classList.add('content-box');
-	table.classList.add('no-highlight');
 	
 	let tbody = document.createElement('tbody');
 	
@@ -858,7 +857,6 @@ function generateReleaseInfo(contents) {
 	table.classList.add('list');
 	table.classList.add('centered');
 	table.classList.add('content-box');
-	table.classList.add('no-highlight');
 	
 	let tbody = document.createElement('tbody');
 	
@@ -926,7 +924,7 @@ function generateYearInfo(contents) {
 	table.classList.add('list');
 	table.classList.add('centered');
 	table.classList.add('content-box');
-	table.classList.add('no-highlight');
+	
 	
 	let tbody = document.createElement('tbody');
 	
@@ -1375,6 +1373,7 @@ function generateAwards(contents) {
 		table.classList.add('list');
 		table.classList.add('centered');
 		table.classList.add('content-box');
+		table.classList.add('content-table');
 		table.classList.add('not-selectable');
 		
 		let tbody = document.createElement('tbody');
@@ -1495,6 +1494,7 @@ function generateRanking(contents) {
 	table.classList.add('list');
 	table.classList.add('centered');
 	table.classList.add('content-box');
+	table.classList.add('content-table');
 	table.classList.add('not-selectable');
 	
 	let tbody = document.createElement('tbody');
@@ -1616,6 +1616,7 @@ function generateCompilations(contents) {
 		table.classList.add('list');
 		table.classList.add('centered');
 		table.classList.add('content-box');
+		table.classList.add('content-table');
 		table.classList.add('not-selectable');
 		
 		let tbody = document.createElement('tbody');
@@ -1624,6 +1625,7 @@ function generateCompilations(contents) {
 		let ttr = document.createElement('tr');
 		
 		let th = document.createElement('th');
+		th.classList.add('table-title');
 		th.setAttribute('colspan', 3);
 		th.innerText = compilationTitle;
 		ttr.appendChild(th);
@@ -1750,6 +1752,7 @@ function generateSOTD(contents) {
 	table.classList.add('centered');
 	table.classList.add('centered-text');
 	table.classList.add('content-box');
+	table.classList.add('content-table');
 	table.classList.add('not-selectable');
 	
 	let tbody = document.createElement('tbody');
@@ -1813,6 +1816,7 @@ function generateTopSOTD(contents) {
 	table.classList.add('centered');
 	table.classList.add('centered-text');
 	table.classList.add('content-box');
+	table.classList.add('content-table');
 	table.classList.add('not-selectable');
 	
 	let tbody = document.createElement('tbody');
@@ -1891,16 +1895,18 @@ function generateSOTM(contents) {
 	table.classList.add('centered');
 	table.classList.add('centered-text');
 	table.classList.add('content-box');
+	table.classList.add('content-table');
 	table.classList.add('not-selectable');
 	
 	let tbody = document.createElement('tbody');
 	
 	let tr = document.createElement('tr');
 	
-	let ty = document.createElement('td');
 	let columnIndexYear = contents.columns.indexOf('Year');
+	let ty = document.createElement('th');
+	ty.classList.add('table-title');
 	ty.setAttribute('colspan', 4);
-	ty.style.fontWeight = 'bold';
+	ty.style.backgroundColor = 'initial'; //special case
 	ty.innerText = rows[0][columnIndexYear];
 	tr.appendChild(ty);
 	

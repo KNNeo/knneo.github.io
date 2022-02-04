@@ -81,6 +81,14 @@ body {
   border: 1px solid white;
 }
 
+.content-table {
+	
+}
+
+.content-table tr:hover {
+	background-color: initial;
+}
+
 .module {
 	padding: 5px 10px;
 }
@@ -116,7 +124,6 @@ body {
 .darked .list .highlight {
 	background-color: gray;
 }
-
 .header-element {
 	margin: 20px 0;
 	margin-bottom: 0;
@@ -142,7 +149,7 @@ body {
 	color: white;
 }
 
-.no-highlight tr:hover > td {
+.no-highlight tr:hover {
 	background-color: initial;
 }
 
