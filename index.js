@@ -15,7 +15,6 @@ window.addEventListener('load', function() {
 window.addEventListener('resize', showDimensions);
 
 function setDarkMode() {
-	
 	let theme = Array.from(document.getElementsByTagName('meta')).filter(m => m.name == 'theme-color');
 	let themeColor = document.createElement('meta');
 	if(theme && theme.length > 0)
