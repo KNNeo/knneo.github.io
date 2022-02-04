@@ -330,7 +330,13 @@ function renderPage(pageName) {
 			else {
 				darkmode.style.display = '';
 				if(getSetting("enableDarkMode") == "true")
+				{
 					document.getElementsByTagName('html')[0].classList.add('darked');
+					
+					let theme = Array.from(document.getElementsByTagName('meta')).filter(m => m.name == 'theme-color');
+					let themeColor = theme[0];
+					themeColor.content = 'black';
+				}
 			}
 		}
 		else if(darkmode != null) {
