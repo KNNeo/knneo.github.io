@@ -42,6 +42,8 @@ function setKeyDown() {
 
 function setTabs() {
 	let isWidescreen = window.innerWidth >= 960;
+	let homePageVisible = document.getElementById('tab-homepage').style.display != 'none';
+	
 	//responsive module display	
 	let totalModules = Math.round(window.innerWidth / widescreenAverageModuleSize);
 	if(debugMode) console.log('totalModules', totalModules);
@@ -56,7 +58,7 @@ function setTabs() {
 			tabButton.style.cursor = hasModules ? 'pointer' : '';
 			tabButton.disabled = !hasModules;
 		}
-				
+
 		for(let module of tab.getElementsByClassName('module')) //remove padding if no elements
 		{
 			module.style.padding = hasModules ? '' : 0;
@@ -66,23 +68,24 @@ function setTabs() {
 		if(isWidescreen && !tab.classList.contains('tab-view')) tab.classList.add('tab-view');
 		if(!isWidescreen && tab.classList.contains('tab-view')) tab.classList.remove('tab-view');
 		
+		//hide if homepage
+		tab.style.display = homePageVisible ? 'none' : '';
 		tab.style.display = isWidescreen ? 'inline-block' : '';
 		tab.style.width = isWidescreen && hasModules ? ((window.innerWidth / totalModules) - 20) + 'px' : ''; //exclude horizontal padding
 	}
 	
-	document.getElementById('tab-buttons').style.display = isWidescreen ? 'none' : '';
 	if(!isWidescreen)
 	{
 		if(window['mode'] == 'song') showTab('tab-info');
 		if(window['mode'] == 'year') showTab('tab-year');
 	}
 	
+	document.getElementById('tab-buttons').style.display = isWidescreen ? 'none' : '';
 	document.getElementById('tab-list').style.height = window.innerHeight - Array.from(document.getElementsByClassName('calc')).reduce((total, current) => { return total + current.offsetHeight; }, 50) + 'px';
 	if (debugMode) console.log('containerHeight', document.getElementById('tab-list').style.height);
 	
-	document.getElementById('search').style.width = 
-	document.getElementById('tab-homepage').style.display == '' ? '100%' : (document.getElementById('options').getBoundingClientRect().width - 40) + 'px';
-	document.getElementById('search-buttons').style.display = document.getElementById('tab-homepage').style.display == '' ? 'none' : '';
+	document.getElementById('search').style.width = homePageVisible ? '100%' : (document.getElementById('options').getBoundingClientRect().width - 40) + 'px';
+	document.getElementById('search-buttons').style.display = homePageVisible ? 'none' : '';
 }
 
 function showTab(activeTab) {
@@ -96,9 +99,10 @@ function showTab(activeTab) {
 function hoverOnTableRow() {
 	let columns = this.parentNode.getElementsByTagName('th').length;
 	let rowCells = this.getElementsByTagName('td');
-	let spanCells = findSpanSibling(this, columns).getElementsByTagName('td');
+	let spanRow = findSpanSibling(this, columns);
+	let spanCells = spanRow.getElementsByTagName('td');
 	
-	if(rowCells.length + 1 == spanCells.length && spanCells[0].rowSpan != undefined)
+	if(rowCells.length + 1 == spanCells.length && spanCells[0].rowSpan != undefined && !spanRow.classList.contains('not-selectable'))
 		spanCells[0].classList.toggle('highlight');
 	
 	for(let cell of rowCells)
@@ -143,10 +147,6 @@ function clearSearch() {
 	for(let tab of document.getElementsByClassName('module'))
 	{
 		tab.innerHTML = '';
-	}
-	for(let tab of document.getElementsByClassName('tab'))
-	{
-		tab.classList.add('hidden');
 	}
 	generateHomepage();
 }
@@ -405,6 +405,7 @@ function generateTabs() {
 		
 		let tabItem = document.createElement('button');
 		tabItem.id = 'button-' + tab.id;
+		tabItem.classList.add('tab-button');
 		tabItem.innerText = tab.getAttribute('data-name');
 		// tabItem.style.cursor = 'pointer';
 		tabItem.addEventListener('click', function() {
@@ -613,10 +614,6 @@ function generateLayout(contents) {
 		selected.dispatchEvent(new Event('active'));
 	}
 
-	for(let tab of document.getElementsByClassName('tab'))
-	{
-		tab.classList.remove('hidden');
-	}
 }
 
 function updateSearch(contents) {
@@ -679,7 +676,7 @@ function generatePlayer(contents) {
 		document.title = defaultTitle;
 	});
 	audio.addEventListener('canplay', function() {
-		document.getElementById('overlay').classList.add('hidden');
+		document.getElementById('overlay').classList.add('invisible');
 	});
 	audio.addEventListener('volumechange', function() {
 		localStorage.setItem('volume', document.getElementById('player').volume);
@@ -1466,7 +1463,7 @@ function queryRankings(contents) {
 	let row = rows[0];
 	let columnIndexKNID = contents.columns.indexOf('ID');
 	//select ranking of that year of song
-	let query = "SELECT s.KNID, r.KNYEAR, r.RankNo, r.SortOrder, s.SongTitle, s.ArtistTitle FROM Ranking r JOIN Song s on r.KNID = s.KNID WHERE r.KNYEAR = (SELECT KNYEAR FROM Ranking WHERE KNID = " + row[columnIndexKNID] + ") ORDER BY r.KNYEAR, r.RankNo, r.SortOrder";
+	let query = "SELECT s.KNID, r.KNYEAR, r.RankNo AS 'Rank #', r.SortOrder, s.SongTitle AS 'Song Title', s.ArtistTitle AS 'Artist Title' FROM Ranking r JOIN Song s on r.KNID = s.KNID WHERE r.KNYEAR = (SELECT KNYEAR FROM Ranking WHERE KNID = " + row[columnIndexKNID] + ") ORDER BY r.KNYEAR, r.RankNo, r.SortOrder";
 	if(debugMode) console.log('queryRankings', query);
 	queryDb(query, generateRanking);
 }
@@ -1477,7 +1474,7 @@ function queryRankingsByYear(contents) {
 	let row = rows[0];
 	let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
 	//select ranking of that year of song
-	let query = "SELECT s.KNID, r.KNYEAR, r.RankNo, r.SortOrder, s.SongTitle, s.ArtistTitle FROM Ranking r JOIN Song s on r.KNID = s.KNID WHERE r.KNYEAR = " + row[columnIndexKNYEAR] + " ORDER BY r.KNYEAR, r.RankNo, r.SortOrder";
+	let query = "SELECT s.KNID, r.KNYEAR, r.RankNo AS 'Rank #', r.SortOrder, s.SongTitle AS 'Song Title', s.ArtistTitle AS 'Artist Title' FROM Ranking r JOIN Song s on r.KNID = s.KNID WHERE r.KNYEAR = " + row[columnIndexKNYEAR] + " ORDER BY r.KNYEAR, r.RankNo, r.SortOrder";
 	if(debugMode) console.log('queryRankingsByYear', query);
 	queryDb(query, generateRanking);
 }
@@ -1507,7 +1504,7 @@ function generateRanking(contents) {
 	tr.classList.add('no-highlight');
 	for(let column of columns)
 	{
-		if(['RankNo','SongTitle','ArtistTitle'].indexOf(column) >= 0)
+		if(['Rank #','Song Title','Artist Title'].indexOf(column) >= 0)
 		{
 			let th = document.createElement('th');
 			th.innerText = column;
@@ -1521,10 +1518,9 @@ function generateRanking(contents) {
 	for(let row of rows)
 	{
 		let columnIndexKNID = contents.columns.indexOf('KNID');
-		let columnIndexRankNo = contents.columns.indexOf('RankNo');
-		let columnIndexSortOrder = contents.columns.indexOf('SortOrder');
-		let columnIndexSongTitle = contents.columns.indexOf('SongTitle');
-		let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
+		let columnIndexRankNo = contents.columns.indexOf('Rank #');
+		let columnIndexSongTitle = contents.columns.indexOf('Song Title');
+		let columnIndexArtistTitle = contents.columns.indexOf('Artist Title');
 		
 		let tr = document.createElement('tr');
 		tr.setAttribute('data-id', row[columnIndexKNID]);
@@ -1709,8 +1705,8 @@ function querySOTD(contents) {
 	queryDb(query, generateSOTD);
 	
 	//select awards of that song regardless of year
-	query = "SELECT m.KNYEAR as 'Year', m.Month, m.SongTitle, m.ArtistTitle, m.Count, m.KNID FROM SOTM m "
-	query += "JOIN Song s ON s.KNID = m.KNID "
+	query = "SELECT m.KNYEAR AS 'Year', m.Month, m.SongTitle AS 'Song Title', m.ArtistTitle AS 'Artist Title', m.Count, m.KNID "
+	query += "FROM SOTM m JOIN Song s ON s.KNID = m.KNID "
 	query += "JOIN (SELECT tm.* FROM SOTM tm WHERE tm.KNID = " + row[columnIndexKNID] + ") mref ON mref.KNYEAR = m.KNYEAR ";
 	if(debugMode) console.log('querySOTM', query);
 	queryDb(query, generateSOTM);
@@ -1731,8 +1727,8 @@ function querySOTDByYear(contents) {
 	queryDb(query, generateTopSOTD);
 	
 	//select awards of that song regardless of year
-	query = "SELECT m.KNYEAR as 'Year', m.Month, m.SongTitle, m.ArtistTitle, m.Count, m.KNID FROM SOTM m "
-	query += "JOIN Song s ON s.KNID = m.KNID WHERE m.KNYEAR = " + KNYEAR;
+	query = "SELECT m.KNYEAR AS 'Year', m.Month, m.SongTitle AS 'Song Title', m.ArtistTitle AS 'Artist Title', m.Count, m.KNID "
+	query += "FROM SOTM m JOIN Song s ON s.KNID = m.KNID WHERE m.KNYEAR = " + KNYEAR;
 	if(debugMode) console.log('querySOTMByYear', query);
 	queryDb(query, generateSOTM);
 }
@@ -1914,7 +1910,7 @@ function generateSOTM(contents) {
 	tr = document.createElement('tr');
 	for(let column of columns)
 	{
-		if(['Month','SongTitle','ArtistTitle','Count'].indexOf(column) >= 0)
+		if(['Month', 'Song Title', 'Artist Title', 'Count'].indexOf(column) >= 0)
 		{
 			let th = document.createElement('th');
 			th.innerText = column;
@@ -1927,8 +1923,8 @@ function generateSOTM(contents) {
 	for(let r = 0; r < rows.length; r++)
 	{
 		let columnIndexMonth = contents.columns.indexOf('Month');
-		let columnIndexSongTitle = contents.columns.indexOf('SongTitle');
-		let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
+		let columnIndexSongTitle = contents.columns.indexOf('Song Title');
+		let columnIndexArtistTitle = contents.columns.indexOf('Artist Title');
 		let columnIndexCount = contents.columns.indexOf('Count');
 		let columnIndexKNID = contents.columns.indexOf('KNID');
 		
@@ -2057,7 +2053,7 @@ function setNextOption(id) {
 function updateTestPlayer() {
 	let player = document.getElementById('player');
 	let id = player.getAttribute('data-id');
-	let overlay = document.querySelector('.hidden');
+	let overlay = document.querySelector('.invisible');
 	if(overlay != null)
 		score++;
 	else
