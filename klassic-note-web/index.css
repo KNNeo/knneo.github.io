@@ -97,6 +97,10 @@ body {
 	font-size: 0.9em;
 }
 
+.list th {
+    white-space: nowrap;	
+}
+
 .list tr:hover > td {
 	background-color: lightgray;
 }
