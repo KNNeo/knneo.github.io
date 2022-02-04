@@ -7,27 +7,6 @@ body {
 	margin: 0;
 }
 
-#tab-list {
-	overflow: auto;
-	padding: 3px;
-}
-
-.absolute {
-	position: absolute;
-	padding: 0 5px;
-}
-
-#random-count {
-	font-weight: normal;
-	font-size: small;
-    vertical-align: text-top;
-}
-
-#search, #options {
-    width: 100%;
-	box-sizing: border-box;
-}
-
 #overlay {
 	text-align: center;
     position: absolute;
@@ -41,61 +20,43 @@ body {
     right: 0;
 }
 
+#random-count {
+	font-weight: normal;
+	font-size: small;
+    vertical-align: text-top;
+}
+
+#search, #options {
+    width: 100%;
+	box-sizing: border-box;
+}
+
 #tab-homepage {
-	max-width: 96%;
 	padding: 4px;
 }
 
-.content-box {
-  border: 1px solid lightgray;
-  box-shadow: 3px 3px;
-  padding: 4px;
-  white-space: normal;
-  width: 100%;
+#tab-list {
+	overflow: auto;
+	padding: 3px;
 }
 
-.tags {
-	display: flex;
-	flex-wrap: wrap;
-	flex-wrap: wrap;
+.absolute {
+	position: absolute;
+	padding: 0 5px;
 }
 
-.tags .tag {
-	width: auto;
-	
+.award-winner {
+	position: absolute;
+	right: 0;
+	font-size: 20px;
 }
 
-.tags .tag:hover {
-	background-color: lightgray;
-	
+.bordered td, .bordered th {
+	border: 1px solid black;
 }
 
-.darked .tags .tag:hover {
-	background-color: gray;
-	
-}
-
-.darked .content-box {
-  border: 1px solid white;
-	
-}
-/* .content-box:active {
-  box-shadow: 1px 1px;
-  transform: translate(2px,2px);
-} */
-
-.hidden {
-	visibility: hidden;
-}
-
-.tab {
-	display: none;
-    /* height: 60vh; */
-    overflow-y: auto;
-}
-
-.tab-view {
-	vertical-align: top;
+.darked .bordered td, .darked .bordered th {
+	border: 1px solid white;
 }
 
 .centered {
@@ -108,8 +69,32 @@ body {
 	text-align: center;
 }
 
+.content-box {
+  border: 1px solid lightgray;
+  box-shadow: 3px 3px;
+  padding: 4px;
+  white-space: normal;
+  width: 100%;
+}
+
+.darked .content-box {
+  border: 1px solid white;
+}
+
 .module {
 	padding: 5px 10px;
+}
+
+.list {
+	border-collapse: collapse;
+	font-size: 0.9em;
+	width: 98%;
+}
+
+.list td, 
+.list th {
+	padding: 2px 4px; 
+	font-size: 0.9em;
 }
 
 .list tr:hover > td {
@@ -128,73 +113,29 @@ body {
 	background-color: gray;
 }
 
-h1 {
-	margin: 20px 0;
-	margin-bottom: 0;
-}
-h1, h6 {
+.header-element {
 	margin: 20px 0;
 	margin-bottom: 0;
 }
 
-table {
-	border-collapse: collapse;
-	font-size: 0.9em;
+.hidden {
+	display: none;
 }
 
-td, th { 
-	padding: 2px 4px; 
-	font-size: 0.9em;
+.invisible {
+	visibility: hidden;
 }
 
-.empty td {
-	border: 1px solid transparent;
-}
-
-.bordered td, .bordered th {
-	border: 1px solid black;
-}
-
-.darked .bordered td, .darked .bordered th {
-	border: 1px solid white;
-}
-
-.year {
-	padding: 5px;
+.material-icons {
+	font-size: 20px;
+	vertical-align: bottom;
 	cursor: pointer;
+	text-decoration: none;
+	color: black;
 }
 
-.player, .list {
-	width: 100%;
-}
-
-.left, .right {
-  float: left;
-  width: 30%;
-}
-.main {
-  float: left;
-  width: 40%;
-}
-
-.result-box {
-	border: 1px solid gray;
-	display: block;
-	width: auto;
-	height: auto;
-	padding: 5px;
-	margin: 5px;
-
-}
-.show-result, .input-box {
-	padding: 10px;
-}
-
-.flexi-input {
-	margin: 0 5px;
-	border: 0;
-	border-bottom: 1px solid;
-	text-align: center;
+.darked .material-icons {
+	color: white;
 }
 
 .no-highlight tr:hover > td {
@@ -213,44 +154,51 @@ td, th {
   user-select: none;
 }
 
-.award-winner {
-	position: absolute;
-	right: 0;
-	font-size: 20px;
+.tab {
+	display: none;
+    overflow-y: auto;
 }
 
-.material-icons {
-	font-size: 20px;
-	vertical-align: bottom;
-	cursor: pointer;
-	text-decoration: none;
-	color: black;
-}
-
-.darked .material-icons {
-	color: white;
-}
-
-.tab-buttons button {
+.tab-button {
 	padding: 6px 12px;
 	text-transform: uppercase;
+}
+
+.tab-view {
+	vertical-align: top;
+}
+
+.tags {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.tags .tag {
+	width: auto;
+}
+
+.tags .tag:hover {
+	background-color: lightgray;
+}
+
+.darked .tags .tag:hover {
+	background-color: gray;
+}
+
+.player {
+	width: 100%;
 }
 
 .settings .material-icons {
 	font-size: 24px;
 }
 
+.year {
+	padding: 5px;
+	cursor: pointer;
+}
+
 @media only screen
    and (min-device-width : 960px)
 {
 }
-
-/* @media (prefers-color-scheme: dark) {
-	td, th { 
-		border: 1px solid white; 
-	}
-
-	.darked td, .darked th {
-		border: 1px solid black; 
-	}
-} */
