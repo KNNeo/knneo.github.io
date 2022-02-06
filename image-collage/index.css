@@ -107,11 +107,6 @@ td, th {
 }
 
 #main {
-	top: 0;
-	position: -webkit-sticky;
-	position: sticky;
-	/* height: 32vh; */
-	height: 300px;
 }
 
 #main:hover {
