@@ -595,6 +595,11 @@ function createTable(table) {
 }
 
 //--P5.JS MAIN FUNCTION--//
+const isMobile = function() {
+    const match = window.matchMedia('(pointer:coarse)');
+    return (match && match.matches);
+};
+
 function setup() {
 	// loadTable(
 		// 'https://knneo.github.io/klassic-note-table/klassic-note-database-song-table.csv', 
@@ -604,12 +609,55 @@ function setup() {
 	// button to load table
 	// button = createButton('Load Table');
 	// button.mousePressed(loadTableFromCSV);
+	setDarkMode();
+	addDarkModeEvents();
 	if(isMobile) document.getElementById('table-filter').removeAttribute('position');
 	resetTable();
 }
 
 function loadReferenceTable(table) {
 	refTable = table.getObject();
+}
+
+function setDarkMode() {
+	let theme = Array.from(document.getElementsByTagName('meta')).filter(m => m.name == 'theme-color');
+	let themeColor = document.createElement('meta');
+	if(theme && theme.length > 0)
+	{
+		themeColor = theme[0];
+	}
+	else
+	{
+		themeColor = document.createElement('meta');
+		themeColor.name = 'theme-color';
+		document.head.appendChild(themeColor);
+	}
+	
+	if(window.matchMedia('(prefers-color-scheme: dark)').matches) toggleDarkMode();
+	themeColor.content = document.getElementsByTagName('html')[0].classList.contains('darked') ? 'black' : 'white';
+}
+
+function addDarkModeEvents() {
+	//assume supports dark mode
+	window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', toggleDarkMode);
+	//assume page has button with id = darkmode
+	if(document.getElementById('darkmode') != null)
+		document.getElementById('darkmode').addEventListener('click', toggleDarkMode);
+}
+
+function toggleDarkMode() {
+	let theme = Array.from(document.getElementsByTagName('meta')).filter(m => m.name == 'theme-color');
+	let themeColor = theme[0];
+	if(document.getElementsByTagName('html')[0].classList.contains('darked')) //parent class of each page
+	{
+		document.getElementsByTagName('html')[0].classList.remove('darked');
+		themeColor.content = 'white';
+	}
+	else
+	{
+		document.getElementsByTagName('html')[0].classList.add('darked');
+		themeColor.content = 'black';
+	}
 }
 
 //--KLASSIC NOTE TIMELINE--//
@@ -655,14 +703,22 @@ function loadTimeline() {
 		scales: {
 		  x: {
 			min: -0.5,
-			max: 1.5,     
+			max: 1.5, 
+			grid: {
+				drawBorder: false,
+				display: false,
+			},
 			ticks: {
-				display: false
+				display: false,
 			}
 		  },
 		  y: {
 			// min: new Date('2007-12-01'),
 			// max: new Date('2021-12-31'),
+			grid: {
+				drawBorder: false,
+				display: false,
+			},
 			ticks: {
 				callback: function(value, index, values) {
 					return new Date(value).toDateString().substring(3);
@@ -717,8 +773,8 @@ function addData(data) {
 } 
 
 function setColors() {
-	let isDarked = document.getElementsByTagName('html')[0].classList.contains('darked');
-	timelineChart.options.scales.y.ticks.color = isDarked ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)';
+	let initialDarked = document.getElementsByTagName('html')[0].classList.contains('darked');
+	timelineChart.options.scales.y.ticks.color = initialDarked ? 'rgb(0, 0, 0)' : 'rgb(255, 255, 255)';
 	timelineChart.update();
 }
 
