@@ -20,6 +20,7 @@ function startup() {
 	initializeVariables();
 	generateLayout();
 	generateMosaic();
+	document.getElementById('mosaic').addEventListener('scroll', onScroll);
 	if(!enableDarkMode) {
 		if(isDarkMode) {
 			document.getElementsByTagName('html')[0].classList.add('darked');
@@ -33,6 +34,33 @@ function startup() {
 		document.getElementById('darkmode').addEventListener('click', toggleDarkMode);
 		document.getElementById('darkmode').addEventListener('click', function() { isDarkMode = !isDarkMode; });
 		document.getElementById('darkmode').addEventListener('click', startup);
+	}
+}
+
+function onScroll() {
+	let main = document.getElementById('main');
+	let threshold = 0.75 * window.innerHeight;
+	if(document.getElementById('mosaic').scrollTop > threshold)
+	{
+		main.style.height = 0;
+	}
+	else
+	{
+		main.style.height = 'initial';
+	}
+	
+	let mosaic = document.getElementById('mosaic');
+	mosaic.style.height = (window.innerHeight) + 'px';
+	for(let node of document.getElementsByClassName('jukebox-cell'))
+	{
+		if(mosaic.scrollTop > threshold)
+		{
+			node.style.display = 'none';
+		}
+		else
+		{
+			node.style.display = '';
+		}
 	}
 }
 
@@ -299,7 +327,7 @@ function generateButtonArrayIfEmpty() {
 
 function generateLayoutJukebox() {
 	let bodyTableJukeboxCell = document.createElement('td');
-	bodyTableJukeboxCell.classList.add('jukebox-cell');
+	// bodyTableJukeboxCell.classList.add('jukebox-cell');
 
 	let mosaic = document.createElement('div');
 	mosaic.id = 'mosaic';
