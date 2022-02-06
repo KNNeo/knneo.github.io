@@ -4,7 +4,7 @@
 //--VARIABLES--//
 let minWidth = 180;			// minimum width for thumbnails
 let minColumns = 3;			// minimum columns to show thumbnails, will override minWidth
-let enableDarkMode = false;	// displays dark mode toggle
+let enableDarkMode = true;	// displays dark mode toggle
 let isDarkMode = true;		// initial value if enableDarkMode is false, ignored if enableDarkMode is true
 let folderName = 'file://C:/Users/KAINENG/OneDrive/Pictures/DOAX-VenusVacation/Bromides/';
 let buttonArray = true;		// displays tag array based on underscore separated filename eg. image_item.jpg has 2 tags: image, item

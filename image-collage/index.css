@@ -131,11 +131,15 @@ td, th {
 	bottom: 0;
 }
 
-.darked tr:hover {
-    background-color: transparent;
+tr:hover {
+	background-color: transparent;
 }
 
 tr:hover > td {
+    background-color: transparent;
+}
+
+.darked tr:hover {
     background-color: transparent;
 }
 
