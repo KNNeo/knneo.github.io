@@ -39,28 +39,17 @@ function startup() {
 
 function onScroll() {
 	let main = document.getElementById('main');
-	let threshold = minWidth;
-	if(document.getElementById('mosaic').scrollTop > threshold)
+	let mosaic = document.getElementById('mosaic');
+	let threshold = 300;
+	
+	let newMainHeight = threshold - mosaic.scrollTop;
+	
+	main.style.height = newMainHeight + 'px';
+	mosaic.style.height = window.innerHeight + 'px';
+	
+	if(mosaic.scrollTop > threshold)
 	{
 		main.style.height = 0;
-	}
-	else
-	{
-		main.style.height = 'initial';
-	}
-	
-	let mosaic = document.getElementById('mosaic');
-	mosaic.style.height = (window.innerHeight) + 'px';
-	for(let node of document.getElementsByClassName('jukebox-cell'))
-	{
-		if(mosaic.scrollTop > threshold)
-		{
-			node.style.display = 'none';
-		}
-		else
-		{
-			node.style.display = '';
-		}
 	}
 }
 
