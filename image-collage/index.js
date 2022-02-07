@@ -39,7 +39,7 @@ function startup() {
 
 function onScroll() {
 	let main = document.getElementById('main');
-	let threshold = 0.75 * window.innerHeight;
+	let threshold = minWidth;
 	if(document.getElementById('mosaic').scrollTop > threshold)
 	{
 		main.style.height = 0;
