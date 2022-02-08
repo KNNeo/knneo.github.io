@@ -50,15 +50,15 @@ function onScroll(e) {
 }
 
 function onTouchStart(e) {
-	window['touchY'] = e.originalEvent.touches[0].clientY;
+	window['touchY'] = e.touches[0].clientY;
 }
 
 function onTouchMove(e) {
 	let main = document.getElementById('main');
 	let mosaic = document.getElementById('mosaic');
 	
-	main.style.display = window['touchY'] > e.originalEvent.touches[0].clientY ? 'none' : '';
-	mosaic.style.height = window['touchY'] > e.originalEvent.touches[0].clientY ? window.innerHeight + 'px' : (window.innerHeight - 300) + 'px';
+	main.style.display = window['touchY'] > e.touches[0].clientY ? 'none' : '';
+	mosaic.style.height = window['touchY'] > e.touches[0].clientY ? window.innerHeight + 'px' : (window.innerHeight - 300) + 'px';
 }
 
 function togglePreset() {
