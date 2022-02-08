@@ -20,7 +20,10 @@ function startup() {
 	initializeVariables();
 	generateLayout();
 	generateMosaic();
-	document.getElementById('mosaic').addEventListener('scroll', onScroll);
+	let mousewheelEvent = isFirefox ? "DOMMouseScroll" : "mousewheel";
+	document.getElementById('mosaic').addEventListener(mousewheelEvent, onScroll);
+	document.getElementById('mosaic').addEventListener('touchstart', onTouchStart);
+	document.getElementById('mosaic').addEventListener('touchmove', onTouchMove);
 	if(!enableDarkMode) {
 		if(isDarkMode) {
 			document.getElementsByTagName('html')[0].classList.add('darked');
@@ -37,13 +40,25 @@ function startup() {
 	}
 }
 
-function onScroll() {
+function onScroll(e) {
 	let main = document.getElementById('main');
 	let mosaic = document.getElementById('mosaic');
-	let threshold = 1;
+	let scrollDelta = isFirefox ? -e.detail*100 : e.wheelDelta
 	
-	main.style.display = mosaic.scrollTop > threshold ? 'none' : '';
-	mosaic.style.height = mosaic.scrollTop > threshold ? window.innerHeight + 'px' : (window.innerHeight - 1) + 'px';
+	main.style.display = scrollDelta < 0 ? 'none' : '';
+	mosaic.style.height = scrollDelta < 0 ? window.innerHeight + 'px' : (window.innerHeight - 300) + 'px';
+}
+
+function onTouchStart(e) {
+	window['touchY'] = e.originalEvent.touches[0].clientY;
+}
+
+function onTouchMove(e) {
+	let main = document.getElementById('main');
+	let mosaic = document.getElementById('mosaic');
+	
+	main.style.display = window['touchY'] > e.originalEvent.touches[0].clientY ? 'none' : '';
+	mosaic.style.height = window['touchY'] > e.originalEvent.touches[0].clientY ? window.innerHeight + 'px' : (window.innerHeight - 300) + 'px';
 }
 
 function togglePreset() {
@@ -75,6 +90,7 @@ function togglePreset() {
 }
 
 function initializeVariables() {
+	if(!window['isFirefox']) window['isFirefox'] = (/Firefox/i.test(navigator.userAgent));
 	if(!window['searchCriteria']) window['searchCriteria'] = '';
 	if(!window['excluded']) window['excluded'] = [];
 	if(!window['preset']) window['preset'] = 'photo_size_select_small';
