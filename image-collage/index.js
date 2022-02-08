@@ -51,22 +51,21 @@ function togglePreset() {
 	{	
 	  case 'photo_size_select_actual':
 		document.getElementById('preset').innerText = 'photo_size_select_small';
-		window['preset'] = 'small';
 		window['thumbWidth'] = presetWidths[0];
 		break
 	  case 'photo_size_select_small':
 		document.getElementById('preset').innerText = 'photo_size_select_large';
-		window['preset'] = 'medium';
 		window['thumbWidth'] = presetWidths[1];
 		break;
 	  case 'photo_size_select_large':
 		document.getElementById('preset').innerText = 'photo_size_select_actual';
-		window['preset'] = 'large';
 		window['thumbWidth'] = presetWidths[2];
 		break;
 	  default:
 		break;
 	}
+	
+	window['preset'] = document.getElementById('preset').innerText;
 	
 	let grid = generateGrid();		
 	document.getElementById('mosaic').innerHTML = '';
@@ -76,10 +75,10 @@ function togglePreset() {
 }
 
 function initializeVariables() {
-	window['searchCriteria'] = '';
-	window['excluded'] = [];
-	window['preset'] = 'small';
-	window['thumbWidth'] = presetWidths[0];
+	if(!window['searchCriteria']) window['searchCriteria'] = '';
+	if(!window['excluded']) window['excluded'] = [];
+	if(!window['preset']) window['preset'] = 'photo_size_select_small';
+	if(!window['thumbWidth']) window['thumbWidth'] = presetWidths[0];
 }
 
 function generateLayout() {
@@ -270,7 +269,7 @@ function generateLayoutPlayer() {
 		preset.style.padding = '0 5px';
 		preset.classList.add('material-icons');
 		preset.href = 'javascript:void(0);';
-		preset.innerText = 'photo_size_select_small';
+		preset.innerText = window['preset'];
 		preset.addEventListener('click', togglePreset);
 		settings.appendChild(preset);
 	}
