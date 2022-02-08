@@ -77,7 +77,7 @@ function togglePreset() {
 function initializeVariables() {
 	if(!window['searchCriteria']) window['searchCriteria'] = '';
 	if(!window['excluded']) window['excluded'] = [];
-	if(!window['preset']) window['preset'] = 'photo_size_select_small';
+	if(!window['preset']) window['preset'] = 'small';
 	if(!window['thumbWidth']) window['thumbWidth'] = presetWidths[0];
 }
 
