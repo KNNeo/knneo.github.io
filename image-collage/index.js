@@ -40,10 +40,10 @@ function startup() {
 function onScroll() {
 	let main = document.getElementById('main');
 	let mosaic = document.getElementById('mosaic');
-	let threshold = 300;
+	let threshold = 1;
 	
 	main.style.display = mosaic.scrollTop > threshold ? 'none' : '';
-	mosaic.style.height = mosaic.scrollTop > threshold ? window.innerHeight + 'px' : (window.innerHeight - 300) + 'px';
+	mosaic.style.height = mosaic.scrollTop > threshold ? window.innerHeight + 'px' : (window.innerHeight - 1) + 'px';
 }
 
 function togglePreset() {
