@@ -15,9 +15,10 @@ window.addEventListener('keydown', setKeyDown);
 
 //--EVENTS--//
 function setKeyUp() {
-	// space: play/pause
-	if (event.keyCode === 32 && document.getElementById('player') != null && document.getElementById('search') != document.activeElement) {
-		event.preventDefault();
+	event.preventDefault();
+	// space: play/pause when not focus on player
+	if (event.keyCode === 32 && document.getElementById('player') != null 
+	&& ['player', 'search'].indexOf(document.activeElement.id) < 0) {
 		if(document.getElementById('player').paused)
 			document.getElementById('player').play();
 		else
@@ -25,7 +26,6 @@ function setKeyUp() {
 	}
 	// shift: combine with shuffle to add 10 songs to queue
 	if (event.keyCode === 16) {
-		event.preventDefault();
 		window['shifted'] = false;
 	}
 	return false;
@@ -37,6 +37,10 @@ function setKeyDown() {
 		event.preventDefault();
 		window['shifted'] = true;
 	}
+	// space: play/pause and prevent scroll
+	if(document.activeElement == document.body)
+		event.preventDefault();
+		
 	return false;
 }
 
