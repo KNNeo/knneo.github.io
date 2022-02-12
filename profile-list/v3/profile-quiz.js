@@ -30,7 +30,8 @@ if(profileListJson.length == 0) {
 			//code here
 			if(profileList != null) {
 				defineNameList();
-				renderQuiz(true);
+				if(localStorage.getItem('mode') == 'By Name') renderQuiz(true);
+				if(localStorage.getItem('mode') == 'By Attributes') renderWordle(true);
 			}
 			
 		}
@@ -48,7 +49,8 @@ else {
 	});
 			
 	defineNameList();
-	renderQuiz(true);
+	if(localStorage.getItem('mode') == 'By Name') renderQuiz(true);
+	if(localStorage.getItem('mode') == 'By Attributes') renderWordle(true);
 }
 
 //--FUNCTION--//
@@ -60,6 +62,99 @@ let quiz = [];
 let qNo = 0;
 let score = 0;
 let startTime;
+function toggleSettings() {
+	if(document.querySelector('.settings') != null)
+	{
+		document.querySelector('.setting-icon').innerText = 'settings';
+		let container = document.querySelector('.settings');
+		container.classList.remove('settings');
+		container.innerHTML = '';
+		renderQuiz(true);
+	}
+	else
+	{
+		document.querySelector('.setting-icon').innerText = 'home';
+		let container = document.querySelector('.instructions');
+		container.classList.add('settings');
+		container.innerHTML = '';
+		
+		//easy mode: if true removes time challenge, high score, removes option if wrong answer
+		let easyMode = document.createElement('div');
+		easyMode.innerText = 'Easy Mode ';
+		
+		let easyModeCheckbox = document.createElement('input');
+		easyModeCheckbox.type = 'checkbox';
+		easyModeCheckbox.checked = localStorage.getItem('easyMode') == 'true';
+		easyModeCheckbox.onclick = function(e) {
+			if(localStorage.getItem('easyMode') == null)
+				localStorage.setItem('easyMode', easyMode);
+			let val = localStorage.getItem('easyMode') == 'true';
+			localStorage.setItem('easyMode', !val);
+			
+			// easyMode = !val;
+			// timeChallenge = !easyMode;
+			location.reload();
+		};
+		
+		easyMode.appendChild(easyModeCheckbox);
+		container.appendChild(easyMode);
+		
+		//profile category: selection of dataset
+		let profileCategory = document.createElement('div');
+		profileCategory.innerText = 'Dataset Category ';
+		
+		let categories = profileListJson.filter(val => val.image || val.portraits || val.landscapes).filter((val, index, arr) => arr.map(a => a.category).indexOf(val.category) === index).map(p => p.category);
+		for(let category of categories)
+		{
+			let profileCategoryCheckbox = document.createElement('button');
+			profileCategoryCheckbox.classList.add('profile-category');
+			profileCategoryCheckbox.innerText = category;
+			if(localStorage.getItem('profileCategory') == category)
+				profileCategoryCheckbox.disabled = true;
+			profileCategoryCheckbox.addEventListener('click', function(e) {
+				if(localStorage.getItem('profileCategory') == null)
+					localStorage.setItem('profileCategory', 'profile');
+				localStorage.setItem('profileCategory', this.innerText);
+				localStorage.setItem('mode', 'By Name');
+				
+				location.reload();
+			});
+			profileCategory.appendChild(profileCategoryCheckbox);
+		}
+
+		container.appendChild(profileCategory);
+		
+		if(localStorage.getItem('profileCategory') == 'seiyuu')
+		{
+			//mode: identification by profile name, based on profile attributes
+			let modeDiv = document.createElement('div');
+			modeDiv.innerText = 'Mode ';
+			
+			let modes = ['By Name', 'By Attributes'];
+			for(let mode of modes)
+			{
+				let profileCategoryCheckbox = document.createElement('button');
+				profileCategoryCheckbox.classList.add('profile-category');
+				profileCategoryCheckbox.innerText = mode;
+				if(localStorage.getItem('mode') == mode)
+					profileCategoryCheckbox.disabled = true;
+				profileCategoryCheckbox.addEventListener('click', function(e) {
+					if(localStorage.getItem('mode') == null)
+						localStorage.setItem('mode', 'By Name');
+					localStorage.setItem('mode', this.innerText);
+					
+					location.reload();
+				});
+				modeDiv.appendChild(profileCategoryCheckbox);
+			}
+
+			container.appendChild(modeDiv);
+		}
+		
+	}
+	
+}
+
 function defineNameList() {
 	
 	if(friendsMode)
@@ -99,6 +194,7 @@ function defineNameList() {
 	if(debugMode) console.log(nameList);
 }
 
+//-- QUIZ MODE--//
 function renderQuiz(isFirstLoad) {
 	if(isFirstLoad)
 	{
@@ -126,6 +222,12 @@ function renderQuiz(isFirstLoad) {
 }
 
 function onOptionClick(mode) {
+	if(localStorage.getItem('mode') == 'By Attributes')
+	{
+		onGuessClick(mode);
+		return;
+	}
+	
 	if(easyMode)
 		mode.style.display = 'none';
 	//option must have data-id to add score
@@ -214,8 +316,7 @@ function startQuiz() {
 	awaitNextQuestion();
 }
 
-function awaitNextQuestion()
-{
+function awaitNextQuestion() {
 	if(debugMode) console.log('awaitNextQuestion', preloaded, preloads.length);
 	document.querySelector('#option2').disabled = true;
 	if(preloaded >= preloads.length)
@@ -293,6 +394,7 @@ function nextQuestion() {
 		document.querySelector('#option3').innerText = answer == 3 ? options[0] : otherOptions[2];		
 	}
 }
+
 function addUrlClause(url) {
 	return "url('" + url + "')";
 }
@@ -306,7 +408,6 @@ function endQuiz() {
 	showResults();
 	renderQuiz();
 }
-
 
 function showStage() {
 	document.querySelector('.stage').innerText = (qNo+1) + '/' + totalQns;
@@ -371,67 +472,225 @@ function updateTimer() {
 		document.querySelector('.timer').innerText = '';
 }
 
-function toggleSettings() {
-	if(document.querySelector('.settings') != null)
+//-- WORDLE MODE --//
+function renderWordle(isFirstLoad) {
+	if(isFirstLoad)
 	{
-		document.querySelector('.setting-icon').innerText = 'settings';
-		let container = document.querySelector('.settings');
-		container.classList.remove('settings');
-		container.innerHTML = '';
-		renderQuiz(true);
+		document.querySelector('.title').innerText = 'WORDLE';
 	}
-	else
+
+	//option2 button is start	
+	document.querySelector('#option1').style.display = 'none';
+	document.querySelector('#option2').style.display = '';
+	document.querySelector('#option2').innerText = 'Guess';
+	document.querySelector('#option3').style.display = 'none';
+	
+	// if(isFirstLoad)
+		// document.querySelector('.instructions').innerText = instructions;
+	
+	if(isFirstLoad && localStorage.getItem('wordle') == null)
 	{
-		document.querySelector('.setting-icon').innerText = 'home';
-		let container = document.querySelector('.instructions');
-		container.classList.add('settings');
-		container.innerHTML = '';
+		localStorage.setItem('wordle', JSON.stringify([
+			['year', 'month', 'singer', 'swimsuit', 'married', 'guess'],
+			[null,null,null,null,null,null],
+			[null,null,null,null,null,null],
+			[null,null,null,null,null,null],
+			[null,null,null,null,null,null],
+			[null,null,null,null,null,null],
+			[null,null,null,null,null,null]
+		]));
+	}
+	
+	//generate grid
+	let [table, ended] = generateGrid();
+	document.querySelector('.question').appendChild(table);
+	
+	let input = document.createElement('select');
+	input.id = 'guess';
+	
+		let option = document.createElement('option');
+		option.value = '';
 		
-		//easy mode: if true removes time challenge, high score, removes option if wrong answer
-		let easyMode = document.createElement('div');
-		easyMode.innerText = 'Easy Mode ';
-		
-		let easyModeCheckbox = document.createElement('input');
-		easyModeCheckbox.type = 'checkbox';
-		easyModeCheckbox.checked = localStorage.getItem('easyMode') == 'true';
-		easyModeCheckbox.onclick = function(e) {
-			if(localStorage.getItem('easyMode') == null)
-				localStorage.setItem('easyMode', easyMode);
-			let val = localStorage.getItem('easyMode') == 'true';
-			localStorage.setItem('easyMode', !val);
-			
-			// easyMode = !val;
-			// timeChallenge = !easyMode;
-			location.reload();
-		};
-		
-		easyMode.appendChild(easyModeCheckbox);
-		container.appendChild(easyMode);
-		
-		//profile category: selection of dataset
-		let profileCategory = document.createElement('div');
-		profileCategory.innerText = 'Dataset Category ';
-		
-		let categories = profileListJson.filter(val => val.image || val.portraits || val.landscapes).filter((val, index, arr) => arr.map(a => a.category).indexOf(val.category) === index).map(p => p.category);
-		for(let category of categories)
+		for(let profile of profileList.sort((a,b) => { return a.name.localeCompare(b.name); }))
 		{
-			let profileCategoryCheckbox = document.createElement('button');
-			profileCategoryCheckbox.classList.add('profile-category');
-			profileCategoryCheckbox.innerText = category;
-			if(localStorage.getItem('profileCategory') == category)
-				profileCategoryCheckbox.disabled = true;
-			profileCategoryCheckbox.addEventListener('click', function(e) {
-				if(localStorage.getItem('profileCategory') == null)
-					localStorage.setItem('profileCategory', 'profile');
-				localStorage.setItem('profileCategory', this.innerText);
-				
-				location.reload();
-			});
-			profileCategory.appendChild(profileCategoryCheckbox);
+			option = document.createElement('option');
+			option.value = profile.id;
+			option.innerText = profile.name;
+			input.appendChild(option);
+		}
+	
+	document.querySelector('.selection').appendChild(input);
+	
+	if(isFirstLoad)
+	{
+		if(localStorage.getItem('played') != new Date().getDay())
+			localStorage.setItem('played', null);
+			
+		if(localStorage.getItem('played') == null || localStorage.getItem('answer') == null)
+		{
+			setAnswer();
+			localStorage.setItem('played', new Date().getDay());
 		}
 
-		container.appendChild(profileCategory);
-		
+		document.querySelector('#guess').value = document.querySelector('option').value;
 	}
+	
+	if(ended)
+		endGuess();
+}
+
+let statuses = {
+	"R": "gray",
+	"Y": "yellow",
+	"G": "green"
+};
+function generateGrid() {
+	let grid = JSON.parse(localStorage.getItem('wordle'));
+	
+	let ended = false;
+	
+	let table = document.createElement('table');
+	table.id = 'grid';
+	table.style.margin = 'auto';
+	table.style.left = '0';
+	table.style.right = '0';
+	
+	let body = document.createElement('tbody');
+	
+	for(let col = 0; col < 7; col++)
+	{
+		let tr = document.createElement('tr');
+		for(let row = 0; row < 6; row++)
+		{
+			let td = document.createElement(col > 0 ? 'td' : 'th');
+			td.style.width = '60px';
+			td.style.height = '35px';
+			td.style.border = '1px solid white';
+			if(col == 0 || row == 5) td.innerText = grid[col][row];
+			else if(col > 0) td.style.backgroundColor = statuses[grid[col][row] || 'transparent'];
+			
+			tr.appendChild(td);
+		}
+		body.appendChild(tr);
+		
+		if(grid[col][0] == 'G' && grid[col][1] == 'G' && grid[col][2] == 'G' && grid[col][3] == 'G' && grid[col][4] == 'G')
+			ended = true;
+		else if(grid[col][0] != null && col == 6)
+			ended = true;
+	}
+	table.appendChild(body);
+	
+	return [table, ended];
+}
+
+function onGuessClick(mode) {
+	// let cells = document.querySelector('#grid').querySelectorAll('td');
+	let selection = document.querySelector('#guess').value;
+	let selectionProfile = profileList.find(p => p.id == selection);
+	let answer = localStorage.getItem('answer');
+	let answerProfile = profileList.find(p => p.id == answer);
+	//if(debugMode) 
+		// console.log(selectionProfile, answerProfile);
+	
+	let grid = JSON.parse(localStorage.getItem('wordle'));
+	let newGrid = grid;
+	
+	let answered = 0;
+	let category = [];
+	for(let col = 0; col < 7; col++)
+	{
+		for(let row = 0; row < 6; row++)
+		{
+			if(col == 0)
+			{
+				category.push(grid[col][row]);
+				continue;
+			}
+			if(newGrid[col][row] != null) break;
+			if(answered > 0 && answered != col) break;
+			
+			answered = col;
+			
+			if(category[row] == 'year')
+			{
+				if(selectionProfile.dob.substring(0, 4) == answerProfile.dob.substring(0, 4))
+					newGrid[col][row] = "G";
+				else
+					newGrid[col][row] = "R";
+					
+			}
+			
+			if(category[row] == 'month')
+			{
+				if(selectionProfile.dob.substring(5, 7) == answerProfile.dob.substring(5, 7))
+					newGrid[col][row] = "G";
+				else
+					newGrid[col][row] = "R";
+					
+			}
+			
+			if(category[row] == 'singer')
+			{
+				if(processOption(selectionProfile.turningPoint.soloDebut, true) == processOption(answerProfile.turningPoint.soloDebut, true))
+					newGrid[col][row] = "G";
+				else
+					newGrid[col][row] = "R";
+			}
+			
+			if(category[row] == 'swimsuit')
+			{
+				if(processOption(selectionProfile.turningPoint.swimsuitPhotobook, true) == processOption(answerProfile.turningPoint.swimsuitPhotobook, true))
+					newGrid[col][row] = "G";
+				else
+					newGrid[col][row] = "R";
+			}
+			
+			if(category[row] == 'married')
+			{
+				if(processOption(selectionProfile.turningPoint.isMarried, true) == processOption(answerProfile.turningPoint.isMarried, true))
+					newGrid[col][row] = "G";
+				else
+					newGrid[col][row] = "R";
+			}
+			
+			if(newGrid[col][row] == null && row == 5) newGrid[col][row] = selectionProfile.name;
+			if(newGrid[col][row] == null) newGrid[col][row] = "R";
+		}
+	}
+	
+	localStorage.setItem('wordle', JSON.stringify(newGrid));
+	
+	//generate grid
+	document.querySelector('.question').innerHTML = '';
+	let [table, ended] = generateGrid();
+	document.querySelector('.question').appendChild(table);
+	
+	if(ended)
+		endGuess();
+}
+
+function endGuess() {
+	// localStorage.setItem('played', new Date().getDay());
+	document.querySelector('.stage').innerText = 'Try again tomorrow! Hours remaining: ' + (24 - new Date().getHours());
+	document.querySelector('#option2').style.display = 'none';
+	document.querySelector('#guess').value = localStorage.getItem('answer');
+	document.querySelector('#guess').disabled = true;
+}
+
+function setAnswer() {
+	let no = Math.floor(Math.random() * profileList.length);
+	localStorage.setItem('answer', profileList[no].id);
+}
+
+function processOption(option, returnBool) {
+	if(returnBool)
+		return option.includes('Yes') ? true : false;
+	return option.replace('[1]','').replace('[2]','').replace('[3]','');
+}
+
+function resetGuess() {
+	localStorage.removeItem('wordle');
+	localStorage.removeItem('played');
+	localStorage.removeItem('answer');
 	
 }
