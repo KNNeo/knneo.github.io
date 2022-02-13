@@ -1291,9 +1291,11 @@ function generateFinal() {
 		default:
 			break;
 	}
+	if(window.innerWidth > 960) maxColumns *= 3;
+	else if(window.innerWidth > 640) maxColumns *= 2;
 	
-	let thumbWidth = ((window.innerWidth - 40) / maxColumns) + 'px';
-	let origWidth = (window.innerWidth - 40) + 'px';
+	let thumbWidth = Math.floor((window.innerWidth - 40) / maxColumns) + 'px';
+	let origWidth = Math.floor(window.innerWidth - 40) + 'px';
 
 	for(let item of mosaicArrayOnline)
 	{
