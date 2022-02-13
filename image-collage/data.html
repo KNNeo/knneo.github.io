@@ -1308,6 +1308,7 @@ function generateFinal() {
 			this.src = this.alt;
 			this.alt = original;
 			image.style.width = image.style.width == thumbWidth ? origWidth : thumbWidth;
+			this.scrollIntoView();
 		});
 		document.getElementById('final').appendChild(image);
 	}
