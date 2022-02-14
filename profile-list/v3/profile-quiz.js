@@ -473,6 +473,19 @@ function updateTimer() {
 }
 
 //-- WORDLE MODE --//
+let statuses = {
+	"R": "gray",
+	"Y": "yellow",
+	"G": "green"
+};
+let columns = [
+	"birth month",
+	"birth day",
+	"singer",
+	"swimsuit",
+	"married"
+];
+
 function renderWordle(isFirstLoad) {
 	if(isFirstLoad)
 	{
@@ -504,7 +517,7 @@ function renderWordle(isFirstLoad) {
 	if(isFirstLoad && localStorage.getItem('wordle') == '')
 	{
 		localStorage.setItem('wordle', JSON.stringify([
-			['year', 'month', 'singer', 'swimsuit', 'married', 'guess'],
+			columns,
 			[null,null,null,null,null,null],
 			[null,null,null,null,null,null],
 			[null,null,null,null,null,null],
@@ -539,11 +552,6 @@ function renderWordle(isFirstLoad) {
 		endGuess();
 }
 
-let statuses = {
-	"R": "gray",
-	"Y": "yellow",
-	"G": "green"
-};
 function generateGrid() {
 	let grid = JSON.parse(localStorage.getItem('wordle'));
 	
@@ -611,16 +619,7 @@ function onGuessClick(mode) {
 			
 			answered = col;
 			
-			if(category[row] == 'year')
-			{
-				if(selectionProfile.dob.substring(0, 4) == answerProfile.dob.substring(0, 4))
-					newGrid[col][row] = "G";
-				else
-					newGrid[col][row] = "R";
-					
-			}
-			
-			if(category[row] == 'month')
+			if(category[row] == columns[0])
 			{
 				if(selectionProfile.dob.substring(5, 7) == answerProfile.dob.substring(5, 7))
 					newGrid[col][row] = "G";
@@ -629,7 +628,16 @@ function onGuessClick(mode) {
 					
 			}
 			
-			if(category[row] == 'singer')
+			if(category[row] == columns[1])
+			{
+				if(selectionProfile.dob.substring(8) == answerProfile.dob.substring(8))
+					newGrid[col][row] = "G";
+				else
+					newGrid[col][row] = "R";
+					
+			}
+			
+			if(category[row] == columns[2])
 			{
 				if(processOption(selectionProfile.turningPoint.soloDebut, true) == processOption(answerProfile.turningPoint.soloDebut, true))
 					newGrid[col][row] = "G";
@@ -637,7 +645,7 @@ function onGuessClick(mode) {
 					newGrid[col][row] = "R";
 			}
 			
-			if(category[row] == 'swimsuit')
+			if(category[row] == columns[3])
 			{
 				if(processOption(selectionProfile.turningPoint.swimsuitPhotobook, true) == processOption(answerProfile.turningPoint.swimsuitPhotobook, true))
 					newGrid[col][row] = "G";
@@ -645,7 +653,7 @@ function onGuessClick(mode) {
 					newGrid[col][row] = "R";
 			}
 			
-			if(category[row] == 'married')
+			if(category[row] == columns[4])
 			{
 				if(processOption(selectionProfile.turningPoint.isMarried, true) == processOption(answerProfile.turningPoint.isMarried, true))
 					newGrid[col][row] = "G";
