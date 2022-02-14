@@ -488,7 +488,19 @@ function renderWordle(isFirstLoad) {
 	// if(isFirstLoad)
 		// document.querySelector('.instructions').innerText = instructions;
 	
-	if(isFirstLoad && localStorage.getItem('wordle') == null)
+	if(isFirstLoad)
+	{
+		if(localStorage.getItem('played') != new Date().getDay())
+			localStorage.setItem('played', '');
+			
+		{
+			setAnswer();
+			localStorage.setItem('played', new Date().getDay());
+		}
+
+	}
+	
+	if(isFirstLoad && localStorage.getItem('wordle') == '')
 	{
 		localStorage.setItem('wordle', JSON.stringify([
 			['year', 'month', 'singer', 'swimsuit', 'married', 'guess'],
@@ -520,20 +532,7 @@ function renderWordle(isFirstLoad) {
 		}
 	
 	document.querySelector('.selection').appendChild(input);
-	
-	if(isFirstLoad)
-	{
-		if(localStorage.getItem('played') != new Date().getDay())
-			localStorage.setItem('played', null);
-			
-		if(localStorage.getItem('played') == null || localStorage.getItem('answer') == null)
-		{
-			setAnswer();
-			localStorage.setItem('played', new Date().getDay());
-		}
-
-		document.querySelector('#guess').value = document.querySelector('option').value;
-	}
+	document.querySelector('#guess').value = document.querySelector('option').value;
 	
 	if(ended)
 		endGuess();
@@ -680,6 +679,7 @@ function endGuess() {
 function setAnswer() {
 	let no = Math.floor(Math.random() * profileList.length);
 	localStorage.setItem('answer', profileList[no].id);
+	localStorage.setItem('wordle', '');
 }
 
 function processOption(option, returnBool) {
