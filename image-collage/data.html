@@ -1302,6 +1302,7 @@ function generateFinal() {
 	for(let item of mosaicArrayOnline)
 	{
 		let image = document.createElement('img');
+		image.title = item['filename'].replace('.jpg','').replace(/_/gi, '\n');
 		image.alt = item['og'];
 		image.src = item[thumbs];
 		image.style.width = thumbWidth;
