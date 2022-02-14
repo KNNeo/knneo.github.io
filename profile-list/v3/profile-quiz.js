@@ -493,6 +493,7 @@ function renderWordle(isFirstLoad) {
 		if(localStorage.getItem('played') != new Date().getDay())
 			localStorage.setItem('played', '');
 			
+		if(localStorage.getItem('played') == '' || localStorage.getItem('answer') == '')
 		{
 			setAnswer();
 			localStorage.setItem('played', new Date().getDay());
