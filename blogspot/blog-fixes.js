@@ -90,7 +90,7 @@ function openImageInViewer(image) {
 	adjustViewerMargin();
 	img.style.visibility = '';
 	
-	console.log('imgNo', imgNo);
+	// console.log('imgNo', imgNo);
 	if(imgNo-1 >= 0)
 		document.getElementById('viewer-prev').addEventListener('click', function(e) {
 			openImageInViewer(linkedImgList[imgNo-1]);

@@ -423,6 +423,7 @@ function togglePopup() {
         this.classList.add('new-thumbnail');
 		switchToButton('CloseBtn');
 		fixExternalFrame(this);
+		renderEmbedProcess();
     }
 	
 	toggleOverlay(false);
@@ -476,14 +477,7 @@ function renderPopup() {
     thumbnail.appendChild(initial);
     thumbnail.appendChild(focus);
 	
-	try {
-		twttr.widgets.load(); // to render twitter embed
-		window.instgrm.Embeds.process(); // to render instagram embed
-	}
-	catch(err) {
-		console.error(err);
-		return;
-	}
+	renderEmbedProcess();
 
     this.outerHTML = thumbnail.outerHTML;
     addHoverForPopups();
@@ -499,6 +493,18 @@ function renderPopup() {
 		closeButton.appendChild(closeButtonIcon);
 	if(document.getElementById('CloseBtn') != undefined) document.getElementById('CloseBtn').remove();
 	document.body.appendChild(closeButton);
+}
+
+function renderEmbedProcess() {
+	try {
+		twttr.widgets.load(); // to render twitter embed
+		window.instgrm.Embeds.process(); // to render instagram embed
+		return true;
+	}
+	catch(err) {
+		console.error(err);
+		return false;
+	}
 }
 
 function generatePopupContent(url) {
