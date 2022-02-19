@@ -780,8 +780,13 @@ function toggleGoToTopBtn() {
 window.addEventListener('load', startup);
 window.addEventListener('resize', function() { location.reload(); });
 function startup() {
+	renderButtons();
+	if(document.body.getBoundingClientRect().width <= 400) 
+	{
+		document.querySelector('.landing').style.display = 'block';
+		return;
+	}
 	renderVariables();
 	renderPage();
-	renderButtons();
 	scrollToMainPage(true);
 }

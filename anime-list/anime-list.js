@@ -146,7 +146,10 @@ let seasons = ['','Winter','Spring','Summer','Autumn'];
 let seasonArray = new Array();
 let seriesArray = new Array();
 
-generateAnimeList(false);
+window.addEventListener('load', function() {
+	generateAnimeList(false);
+	addGroupByEvents();
+});
 function generateAnimeList(isGroupBySeries) {
 	//create series array if needed
 	if(isGroupBySeries && seriesArray.length == 0)
@@ -441,8 +444,11 @@ function generateAnimeList(isGroupBySeries) {
 
 //[2] generate labels
 //add event for radio buttons
-document.getElementsByClassName('selection')[1].addEventListener('click', function() { inverseRadio(1); });
-document.getElementsByClassName('selection')[0].addEventListener('click', function() { inverseRadio(0); });
+function addGroupByEvents() {
+	document.getElementsByClassName('selection')[1].addEventListener('click', function() { inverseRadio(1); });
+	document.getElementsByClassName('selection')[0].addEventListener('click', function() { inverseRadio(0); });
+}
+
 function inverseRadio(val) {
 		isGroupBySeries = !isGroupBySeries;
 		document.getElementsByClassName('selection')[1].checked = isGroupBySeries;
@@ -455,7 +461,7 @@ function inverseRadio(val) {
 let h3height = document.getElementsByTagName('h3')[0].getBoundingClientRect().height;
 let headerHeight = document.getElementById('header').offsetHeight;
 let footerHeight = document.getElementById('footer').offsetHeight;
-document.getElementById('anime-list').style.height = (window.innerHeight - h3height - headerHeight - footerHeight - 0.2*window.innerHeight - 20) + 'px';	
+document.getElementById('anime-list').style.height = (window.innerHeight - h3height - headerHeight - footerHeight - 0.2*window.innerHeight - 20) + 'px';
 
 //click season/series to scroll to timeline first box
 function enableSelectTitle() {

@@ -75,23 +75,26 @@ function showDimensions() {
 function addPreviewOnHover() {	
 	document.addEventListener('mousemove', function(e) {
 		let el = e.target;
-		let overlay = document.querySelector('.overlay');
-		overlay.style.left = e.offsetX + 'px';
-		overlay.style.top = (el.getBoundingClientRect().y + e.offsetY) + 'px';
-		// console.log(el);
-		
-		if(el.classList.contains('subset') && window['target'] != el.href)
+		let overlay = document.querySelector('.preview');
+		if(overlay != null)
 		{
-			window['target'] = el.href;
-			overlay.style.display = 'block';
-			overlay.src = window['target'];
+			overlay.style.left = e.offsetX + 'px';
+			overlay.style.top = (el.getBoundingClientRect().y + e.offsetY) + 'px';
+			// console.log(el);
+			
+			if(el.classList.contains('subset') && window['target'] != el.href)
+			{
+				window['target'] = el.href;
+				overlay.style.display = 'block';
+				overlay.src = window['target'];
+			}
+			else if(!el.classList.contains('subset'))
+			{
+				window['target'] = '';
+				overlay.style.display = 'none';
+				overlay.src = window['target'];
+			}		
 		}
-		else if(!el.classList.contains('subset'))
-		{
-			window['target'] = '';
-			overlay.style.display = 'none';
-			overlay.src = window['target'];
-		}		
 	});
 }
 

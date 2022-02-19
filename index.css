@@ -32,17 +32,13 @@ html, body {
 	display: block;
 }
 
-.overlay {
+.preview {
 	display: none;
 	position: fixed;
-	width: 30vw;
-	height: 30vh;
+	width: 360px;
+	height: 360px;
 	margin: 10px;
 	background-color: white;
-}
-
-.subset:hover .overlay {
-	display: block;
 }
 
 /* .darked {
