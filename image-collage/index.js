@@ -288,14 +288,21 @@ function generateLayoutPlayer() {
 		settings.appendChild(preset);
 	}
 
+	let archive = document.createElement('a');
+	archive.id = 'archive';
+	archive.style.padding = '0 5px';
+	archive.classList.add('material-icons');
+	archive.href = 'data.html';
+	archive.innerText = 'inventory';
+	settings.appendChild(archive);
+		
 	let back = document.createElement('a');
 	back.style.padding = '0 5px';
 	back.style.verticalAlign = 'top';
 	back.href = '../index.html';
 	back.innerText = 'Back';
 	settings.appendChild(back);
-	
-	
+		
 	mainTableRow3Cell1.appendChild(settings);
 	
 	let counter = document.createElement('h6');
