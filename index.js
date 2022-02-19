@@ -4,6 +4,7 @@ const isMobile = function() {
     const match = window.matchMedia('(pointer:coarse)');
     return (match && match.matches);
 };
+const isFirefox = (/Firefox/i.test(navigator.userAgent));
 
 //*dark mode check*//
 window.addEventListener('load', function() {
@@ -78,7 +79,7 @@ function addPreviewOnHover() {
 		let overlay = document.querySelector('.preview');
 		if(overlay != null)
 		{
-			overlay.style.left = e.offsetX + 'px';
+			overlay.style.left = (isFirefox ? (el.getBoundingClientRect().x + e.offsetX) : e.offsetX) + 'px';
 			overlay.style.top = (el.getBoundingClientRect().y + e.offsetY) + 'px';
 			// console.log(el);
 			
