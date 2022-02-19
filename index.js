@@ -11,6 +11,7 @@ window.addEventListener('load', function() {
 	addDarkModeEvents();
 	showLocal();
 	showDimensions();
+	addPreviewOnHover();
 });
 window.addEventListener('resize', showDimensions);
 
@@ -69,6 +70,29 @@ function showDimensions() {
 	{
 		document.getElementById('dimensions').innerText = window.innerWidth + 'px by ' + window.innerHeight + 'px';
 	}
+}
+
+function addPreviewOnHover() {	
+	document.addEventListener('mousemove', function(e) {
+		let el = e.target;
+		let overlay = document.querySelector('.overlay');
+		overlay.style.left = e.offsetX + 'px';
+		overlay.style.top = (el.getBoundingClientRect().y + e.offsetY) + 'px';
+		// console.log(el);
+		
+		if(el.classList.contains('subset') && window['target'] != el.href)
+		{
+			window['target'] = el.href;
+			overlay.style.display = 'block';
+			overlay.src = window['target'];
+		}
+		else if(!el.classList.contains('subset'))
+		{
+			window['target'] = '';
+			overlay.style.display = 'none';
+			overlay.src = window['target'];
+		}		
+	});
 }
 
 //*tracking prevention*//

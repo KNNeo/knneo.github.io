@@ -32,8 +32,17 @@ html, body {
 	display: block;
 }
 
-.disabled {
-	pointer-events: none;
+.overlay {
+	display: none;
+	position: fixed;
+	width: 30vw;
+	height: 30vh;
+	margin: 10px;
+	background-color: white;
+}
+
+.subset:hover .overlay {
+	display: block;
 }
 
 /* .darked {
