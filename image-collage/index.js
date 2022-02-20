@@ -15,7 +15,34 @@ let debugMode = false;		  // shows console log values on render
 window.addEventListener('load', startup);
 window.addEventListener('resize', startup);
 
+let excluded = ['覚醒'];
+function generateStats() {
+	let filtered = mosaicArray
+	.reduce(function(total, current, arr) {
+		let names = current.replace('.jpg', '').split('_');
+		for(let name of names)
+		{
+			if(excluded.includes(name))
+				continue;
+			if(total[name] == undefined)
+				total[name] = 1;
+			else
+				total[name] += 1;
+		}
+		return total;
+	}, {});
+	
+	let countArray = [];
+	for(let item of Object.keys(filtered))
+	{
+		countArray.push([item, filtered[item]]);
+	}
+	
+	console.log(countArray.sort(function(a,b) { return b[1] - a[1];	}));
+}
+
 function startup() {
+	if(debugMode) console.log(mosaicArray);
 	initializeVariables();
 	generateLayout();
 	generateMosaic();
