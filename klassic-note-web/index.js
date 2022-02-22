@@ -367,32 +367,22 @@ function generateYears(contents) {
 	table.classList.add('list');
 	table.classList.add('centered');
 	table.classList.add('tags');
-	// table.classList.add('content-box');
-	
-	
-	// let tbody = document.createElement('tbody');
 	
 	//header
 	for(let row of rows)
 	{
 		let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
 		
-		// let tr = document.createElement('tr');
-	
 		let tc = document.createElement('span');
 		tc.classList.add('content-box');
 		tc.classList.add('tag');
-		tc.style.margin = '5px';
-		tc.style.cursor = 'pointer';
 		tc.setAttribute('data-year', row[columnIndexKNYEAR]);
 		tc.innerText = row[columnIndexKNYEAR];
 		tc.addEventListener('click', updateYear);
 		table.appendChild(tc);
 		
-		// tbody.appendChild(tr);	
 	}
-		
-	// table.appendChild(tbody);
+	
 	document.getElementById('award-years').appendChild(table);
 }
 

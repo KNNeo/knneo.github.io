@@ -186,6 +186,10 @@ body {
 
 .tags .tag {
 	width: auto;
+	margin: 5px;
+	cursor: pointer;
+	flex-basis: 15%;
+	text-align: center;
 }
 
 .tags .tag:hover {
