@@ -1,26 +1,20 @@
 //--DEFAULT SETTINGS--//
 
 
-//--VARIABLES--//
-let startTime;
-let endTime;
-let timer;
-
-
 //--COMMON EVENTS--//
 //on startup
-let windowHeight = window.innerHeight;
-let windowWidth = window.innerWidth;
+const windowHeight = window.innerHeight;
+const windowWidth = window.innerWidth;
 //generate from json file
 const spacer = 'https://knneo.github.io/resources/spacer.gif';
-let smallScreen = window.innerWidth <= 640;
+const smallScreen = window.innerWidth <= 640;
 let list = [];
 let xmlhttp = new XMLHttpRequest();
 xmlhttp.onreadystatechange = function() {
 	if (this.readyState == 4 && this.status == 200) {
-		list = JSON.parse(this.responseText);
+		window['list'] = JSON.parse(this.responseText);
 		//code here
-		if(list != null) renderList();
+		if(window['list'] != null) startup();
 		
 	}
 };
@@ -29,6 +23,48 @@ xmlhttp.send();
 
 
 //--FUNCTIONS--//
+function startup() {
+	list = Array.from(window['list']);
+	renderMenu();
+	renderList();
+}
+
+function renderMenu() {
+	document.querySelector('.menu').innerHTML = '';
+	
+	let sort = document.createElement('a');
+	sort.classList.add('material-icons');
+	sort.title = 'Sort by Video Title';
+	sort.innerText = 'swap_vert';
+	sort.addEventListener('click', toggleSort);
+		
+	document.querySelector('.menu').appendChild(sort);
+}
+
+function toggleSort(event) {
+	switch(event.target.innerText) {
+		case 'swap_vert':
+			event.target.innerText = 'south';
+			list.sort(function(a,b) {
+				return a.title.localeCompare(b.title, 'ja');
+			});
+			break;
+		case 'south':
+			event.target.innerText = 'north';
+			list.sort(function(a,b) {
+				return b.title.localeCompare(a.title, 'ja');
+			});
+			break;
+		case 'north':
+			event.target.innerText = 'swap_vert';
+			list = Array.from(window['list']);
+			break;
+		default:
+			break;
+	}
+	renderList();
+}
+
 function renderList() {
 	document.querySelector('.list').innerHTML = '';
 	

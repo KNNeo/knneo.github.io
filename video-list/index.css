@@ -15,7 +15,7 @@ body > * {
 }
 .material-icons {
 	cursor: pointer;
-	padding: 5px;
+	padding: 10px;
 }
 .closed {
 	display: none;
