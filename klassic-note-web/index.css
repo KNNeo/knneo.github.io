@@ -186,9 +186,9 @@ body {
 
 .tags .tag {
 	width: auto;
-	margin: 5px;
+	margin: 5px 5px 5px 0;
 	cursor: pointer;
-	flex-basis: 15%;
+	flex-basis: 16%;
 	text-align: center;
 }
 
