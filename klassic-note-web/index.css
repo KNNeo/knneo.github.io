@@ -32,7 +32,7 @@ body {
 }
 
 #tab-homepage {
-	padding: 4px;
+	/* padding: 4px; */
 }
 
 #tab-list {
@@ -96,7 +96,7 @@ body {
 .list {
 	border-collapse: collapse;
 	font-size: 0.9em;
-	width: 98%;
+	width: 95%;
 }
 
 .list td, 
@@ -188,7 +188,7 @@ body {
 	width: auto;
 	margin: 5px 5px 5px 0;
 	cursor: pointer;
-	flex-basis: 16%;
+	flex-basis: 15%;
 	text-align: center;
 }
 
