@@ -8,21 +8,22 @@ const windowWidth = window.innerWidth;
 //generate from json file
 const spacer = 'https://knneo.github.io/resources/spacer.gif';
 const smallScreen = window.innerWidth <= 640;
+
+
+//--FUNCTIONS--//
 let list = [];
+
 let xmlhttp = new XMLHttpRequest();
 xmlhttp.onreadystatechange = function() {
 	if (this.readyState == 4 && this.status == 200) {
 		window['list'] = JSON.parse(this.responseText);
 		//code here
 		if(window['list'] != null) startup();
-		
 	}
 };
 xmlhttp.open("GET", "https://knneo.github.io/video-list/list.json", true);
 xmlhttp.send();
 
-
-//--FUNCTIONS--//
 function startup() {
 	list = Array.from(window['list']);
 	renderMenu();
