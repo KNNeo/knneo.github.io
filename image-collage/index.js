@@ -116,7 +116,8 @@ function togglePreset() {
 
 function initializeVariables() {
 	if(!window['isFirefox']) window['isFirefox'] = (/Firefox/i.test(navigator.userAgent));
-	if(!window['searchCriteria']) window['searchCriteria'] = '';
+	if(!window['includeCriteria']) window['includeCriteria'] = '';
+	if(!window['excludeCriteria']) window['excludeCriteria'] = '';
 	if(!window['excluded']) window['excluded'] = [];
 	if(!window['preset']) window['preset'] = 'photo_size_select_small';
 	if(!window['thumbWidth']) window['thumbWidth'] = presetWidths[0];
@@ -213,11 +214,12 @@ function generateLayoutPlayer() {
 	let mainTableRow2Cell1 = document.createElement('td');
 	mainTableRow2Cell1.classList.add('jukebox-cell');
 	
-	let search = document.createElement('input');
-	search.id = 'search';
-	search.style.height = '20px';
-	search.addEventListener('input',function() {
-		window['searchCriteria'] = document.getElementById('search').value;
+	let include = document.createElement('input');
+	include.id = 'include';
+	include.style.height = '20px';
+	include.placeholder = '以内の…';
+	include.addEventListener('input',function() {
+		window['includeCriteria'] = document.getElementById('include').value;
 		
 		let grid = generateGrid();		
 		document.getElementById('mosaic').innerHTML = '';
@@ -225,7 +227,22 @@ function generateLayoutPlayer() {
 		
 		generateMosaic();
 	});
-	mainTableRow2Cell1.appendChild(search);
+	mainTableRow2Cell1.appendChild(include);
+	
+	let exclude = document.createElement('input');
+	exclude.id = 'exclude';
+	exclude.style.height = '20px';
+	exclude.placeholder = '以外の…';
+	exclude.addEventListener('input',function() {
+		window['excludeCriteria'] = document.getElementById('exclude').value;
+		
+		let grid = generateGrid();		
+		document.getElementById('mosaic').innerHTML = '';
+		document.getElementById('mosaic').appendChild(grid);
+		
+		generateMosaic();
+	});
+	mainTableRow2Cell1.appendChild(exclude);
 	
 	let tags = document.createElement('div');
 	tags.classList.add('tags');
@@ -248,18 +265,18 @@ function generateLayoutPlayer() {
 		tag.value = button;
 		tag.innerText = button;
 		tag.addEventListener('click',function() {
-			if(window['searchCriteria'].includes(this.value)) {
-				window['searchCriteria'] = window['searchCriteria'].replace('|' + this.value,'').replace(this.value,'');
-				if(window['searchCriteria'].startsWith('|')) window['searchCriteria'] = window['searchCriteria'].substring(1);
+			if(window['includeCriteria'].includes(this.value)) {
+				window['includeCriteria'] = window['includeCriteria'].replace('|' + this.value,'').replace(this.value,'');
+				if(window['includeCriteria'].startsWith('|')) window['includeCriteria'] = window['includeCriteria'].substring(1);
 				this.style.border = '';
 				this.style.color = '';
 			}
 			else {
-				window['searchCriteria'] += (window['searchCriteria'].length > 0 ? '|' : '') + this.value;
+				window['includeCriteria'] += (window['includeCriteria'].length > 0 ? '|' : '') + this.value;
 				this.style.border = '1px solid gray';
 				this.style.color = 'gray';
 			}
-			document.getElementById('search').value = window['searchCriteria'];
+			document.getElementById('include').value = window['includeCriteria'];
 			
 			let grid = generateGrid();		
 			document.getElementById('mosaic').innerHTML = '';
@@ -269,9 +286,18 @@ function generateLayoutPlayer() {
 		});
 		tag.addEventListener('contextmenu',function() {
 			event.preventDefault();
-			window['searchCriteria'] = this.value;
-			
-			document.getElementById('search').value = window['searchCriteria'];
+			if(window['excludeCriteria'].includes(this.value)) {
+				window['excludeCriteria'] = window['excludeCriteria'].replace('|' + this.value,'').replace(this.value,'');
+				if(window['excludeCriteria'].startsWith('|')) window['excludeCriteria'] = window['excludeCriteria'].substring(1);
+				this.style.border = '';
+				this.style.color = '';
+			}
+			else {
+				window['excludeCriteria'] += (window['excludeCriteria'].length > 0 ? '|' : '') + this.value;
+				this.style.border = '1px solid gray';
+				this.style.color = 'gray';
+			}
+			document.getElementById('exclude').value = window['excludeCriteria'];
 			
 			let grid = generateGrid();		
 			document.getElementById('mosaic').innerHTML = '';
@@ -423,13 +449,15 @@ function generateGrid() {
 	gridSizer.classList.add('grid-sizer');
 	grid.appendChild(gridSizer);
 	
-	let searchArray = window['searchCriteria'].split('|');
-	let excludeArray = window['excluded'];
-	if(debugMode) console.log(searchArray);
+	let includeArray = window['includeCriteria'].split('|');
+	let excludeArray = window['excludeCriteria'].split('|');
+	if(debugMode) console.log('included', includeArray);
+	if(debugMode) console.log('excluded', excludeArray);
 	let filterArray = mosaicArray
-	.filter(m => (window['searchCriteria'].length == 0 || 
-	searchArray.filter(s => m.includes(s)).length == searchArray.length) && 
-	!excludeArray.includes(m))
+	.filter(m => 
+		(window['includeCriteria'].length == 0 || includeArray.filter(s => m.includes(s)).length == includeArray.length) && 
+		(window['excludeCriteria'].length == 0 || excludeArray.filter(s => !m.includes(s)).length == excludeArray.length)
+	)
 	.sort(function(a,b) {
 		return a.localeCompare(b, 'ja');
 	});
