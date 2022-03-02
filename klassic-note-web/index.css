@@ -182,13 +182,14 @@ body {
 .tags {
 	display: flex;
 	flex-wrap: wrap;
+    justify-content: center;
 }
 
 .tags .tag {
 	width: auto;
-	margin: 5px;
+	margin: 4px;
 	cursor: pointer;
-	flex-basis: 14%;
+	flex-basis: 15%;
 	text-align: center;
 }
 
