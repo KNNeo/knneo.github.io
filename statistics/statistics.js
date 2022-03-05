@@ -9,10 +9,10 @@ const BlueTeal20 = ['#bce4d8', '#aedcd5', '#a1d5d2', '#95cecf', '#89c8cc', '#7ec
 const ColorBlind10 = ['#1170aa', '#fc7d0b', '#a3acb9', '#57606c', '#5fa2ce', '#c85200', '#7b848f', '#a3cce9', '#ffbc79', '#c8d0d9']
 
 let pageElements = [
-	{
-		title: 'POWERED BY CHART.JS',
-		description: '(To show main page as after first page: all fields are optional, chart- defined parameters depend on chartData)'		
-	},
+	// {
+		// title: 'POWERED BY CHART.JS',
+		// description: '(To show main page as after first page: all fields are optional, chart- defined parameters depend on chartData)'		
+	// },
 	{
 		isMain: true,
 		prefix: 'Klassic Note Song Awards presents',
