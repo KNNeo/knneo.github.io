@@ -2025,20 +2025,21 @@ function reduceReleaseTitle(release) {
 	return release.replace(/'/g,"''").replace('Disc 1','').replace('Disc 2','').replace('Disc 3','').trim();
 }
 
-let score = 0;
-let total = 0;
-let errors = [];
-let timeout = 200;
+const timeout = 200;
 function testPlayer() {
+	window['test-score'] = 0;
+	window['test-count'] = 1;
+	window['test-total'] = 0;
+	window['test-errors'] = [];
+	
 	//to test if filename is corresponding to database
 	//loop all songs in dropdown trigger event, log player status
 	let options = document.getElementById('options');
-	let optionList = options.getElementsByTagName('option');
-	score = 0;
-	total = optionList.length;
+	window['option_list'] = options.getElementsByTagName('option');
+	window['test-total'] = window['option_list'].length - 1;
 	
 	setTimeout(function () {
-		setNextOption(parseInt(optionList[0].value)+1);
+		setNextOption(parseInt(window['option_list'][1].value));
 	}, timeout);
 }
 
@@ -2046,7 +2047,7 @@ function setNextOption(id) {
 	console.log('setNextOption',id);
 	document.getElementById('options').value = id;
 	document.getElementById('options').dispatchEvent(new Event('change'));
-		
+
 	setTimeout(updateTestPlayer, timeout);
 }
 
@@ -2055,21 +2056,24 @@ function updateTestPlayer() {
 	let id = player.getAttribute('data-id');
 	let overlay = document.querySelector('.invisible');
 	if(overlay != null)
-		score++;
+		window['test-score'] += 1;
 	else
 		errors.push(id);
 	
 	console.log('updateTestPlayer', id);
-	console.log('score', score + '/' + total);
-	if(id >= total)
+	console.log('score', window['test-score'] + '/' + window['test-total']);
+	window['test-count'] += 1;
+	if(window['test-count'] > window['test-total'])
 		endTestPlayer();
 	else
+	{
 		setTimeout(function () {
-			setNextOption(parseInt(id)+1);
+			setNextOption(parseInt(window['option_list'][window['test-count']].value));
 		}, timeout);
+	}
 }
 
 function endTestPlayer() {	
-	console.log('testPlayer', score + '/' + total + ' ok');
-	console.log('errors', errors);
+	console.log('testPlayer', window['test-score'] + '/' + window['test-total'] + ' ok');
+	console.log('errors', window['test-errors']);
 }
