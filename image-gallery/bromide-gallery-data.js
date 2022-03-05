@@ -569,6 +569,19 @@ imgArray = [
 [573,'{domain}/CCI_20211226_000016_3.jpg','landscape','Hanazawa Kana','Event "HANAZAWA KANA Showcase Live 2021 Moonlight Magic" Bromides'],
 [574,'{domain}/CCI_20211226_000016_4.jpg','landscape','Hanazawa Kana','Event "HANAZAWA KANA Showcase Live 2021 Moonlight Magic" Bromides'],
 [575,'{domain}/CCI_20211226_000017_1.jpg','landscape','Hanazawa Kana','Event "HANAZAWA KANA Showcase Live 2021 Moonlight Magic" Bromides'],
+[589,'{domain}/CCI_20220216_000027_1.jpg','portrait','Amamiya Sora','CD "VIPER" ANIPLEX+ Bonus'],
+[590,'{domain}/CCI_20220216_000027_2.jpg','portrait','Asakura Momo','Book "Seiyuu Animedia 2019 June" Animate/Gamers Bonus'],
+[591,'{domain}/CCI_20220216_000027_3.jpg','portrait','Asakura Momo','CD "Agapanthus" HMV Bonus'],
+[592,'{domain}/CCI_20220216_000028_1.jpg','landscape','Tachibana Rika','Event "Tachibana Rika 2nd LIVE -colorful mixer-" Bromide B'],
+[593,'{domain}/CCI_20220216_000028_2.jpg','portrait','Tomita Miyu','CD "Tsubasa to Kokuhaku" Gamers Bonus'],
+[594,'{domain}/CCI_20220216_000028_3.jpg','portrait','Hanazawa Kana','Book "Seiyuu Grand Prix 2021 October" Animate Bonus'],
+[595,'{domain}/CCI_20220216_000028_4.jpg','portrait','Tachibana Rika','Event "Tachibana Rika 3rd LIVE-Heart shaker-" Bromide'],
+[596,'{domain}/CCI_20220216_000029_1.jpg','landscape','Kido Ibuki','Event "Hekomachikoroibuki Talk ~LOVE &PEACE~" Kido Ibuk Photoi Set Hiru no Bu'],
+[597,'{domain}/CCI_20220216_000029_2.jpg','landscape','Kido Ibuki','Event "Hekomachikoroibuki Talk ~LOVE &PEACE~" Kido Ibuk Photoi Set Hiru no Bu'],
+[598,'{domain}/CCI_20220216_000029_3.jpg','landscape','Kido Ibuki','Event "Hekomachikoroibuki Talk ~LOVE &PEACE~" Kido Ibuk Photoi Set Hiru no Bu'],
+[599,'{domain}/CCI_20220216_000030_1.jpg','portrait','Kido Ibuki','Event "Hekomachikoroibuki Talk ~LOVE &PEACE~" Kido Ibuk Photoi Set Yoru no Bu'],
+[600,'{domain}/CCI_20220216_000030_2.jpg','landscape','Kido Ibuki','Event "Hekomachikoroibuki Talk ~LOVE &PEACE~" Kido Ibuk Photoi Set Yoru no Bu'],
+[601,'{domain}/CCI_20220216_000030_3.jpg','landscape','Kido Ibuki','Event "Hekomachikoroibuki Talk ~LOVE &PEACE~" Kido Ibuk Photoi Set Yoru no Bu'],
 
 
 
