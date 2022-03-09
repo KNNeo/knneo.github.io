@@ -77,10 +77,12 @@ function renderList() {
 		video.id = v.id;
 		
 			let thumbnail = document.createElement('div');
+			thumbnail.classList.add('thumbnail');
+			thumbnail.setAttribute('data-image', addUrlClause(v.thumbnail));
 			thumbnail.style.backgroundSize = 'contain';
 			thumbnail.style.backgroundRepeat = 'no-repeat';
 			thumbnail.style.backgroundPosition = 'center';
-			thumbnail.style.backgroundImage = addUrlClause(v.thumbnail);
+			// thumbnail.style.backgroundImage = addUrlClause(v.thumbnail);
 			thumbnail.style.width = '100%';
 			thumbnail.style.height = '100px';
 			
@@ -102,9 +104,19 @@ function renderList() {
 				
 			video.appendChild(title);			
 		
-		document.querySelector('.list').appendChild(video);		
+		document.querySelector('.list').appendChild(video);
+	}
+	
+	setTimeout(loadImages, 200);
+}
+
+function loadImages() {
+	for(let image of document.querySelectorAll('.thumbnail'))
+	{
+		image.style.backgroundImage = image.getAttribute('data-image');
 	}
 }
+
 function addUrlClause(url) {
 	return "url('" + url + "')";
 }
