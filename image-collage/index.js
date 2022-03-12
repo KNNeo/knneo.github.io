@@ -194,7 +194,10 @@ function generateLayoutPlayer() {
 	let title = document.createElement('h1');
 	title.classList.add('title');
 	title.innerText = 'Image Collage';
-	title.addEventListener('click', startup);
+	title.addEventListener('click', function() {
+		window['archive'] = true;
+		startup();
+	});
 	// title.onclick = startup;
 	// title.style.cursor = 'pointer';
 	
@@ -341,13 +344,16 @@ function generateLayoutPlayer() {
 		settings.appendChild(preset);
 	}
 
-	let archive = document.createElement('a');
-	archive.id = 'archive';
-	archive.style.padding = '0 5px';
-	archive.classList.add('material-icons');
-	archive.href = 'data.html';
-	archive.innerText = 'inventory';
-	settings.appendChild(archive);
+	if(window['archive'])
+	{
+		let archive = document.createElement('a');
+		archive.id = 'archive';
+		archive.style.padding = '0 5px';
+		archive.classList.add('material-icons');
+		archive.href = 'data.html';
+		archive.innerText = 'inventory';
+		settings.appendChild(archive);
+	}
 		
 	let back = document.createElement('a');
 	back.style.padding = '0 5px';
