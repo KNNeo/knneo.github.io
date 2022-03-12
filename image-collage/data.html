@@ -1317,15 +1317,14 @@ function generateFinal() {
 		image.src = item[thumbs];
 		image.style.width = thumbWidth + 'px';
 		image.addEventListener('click', function() {
+			let toOpen = this.style.position == '';
+			if(toOpen) this.scrollIntoView();
 			let original = this.alt;
-			this.style.position = this.style.position == '' ? 'sticky' : '';
-			this.style.top = this.style.top == '' ? '0' : '';
+			this.style.position = toOpen ? 'sticky' : '';
+			this.style.top = toOpen ? '0' : '';
 			this.src = this.alt;
 			this.alt = original;
-			image.style.width = (image.style.width == thumbWidth + 'px' ? totalWidth : thumbWidth) + 'px';
-		});
-		image.addEventListener('dblclick', function(e) {
-			this.scrollIntoView();
+			image.style.width = (toOpen ? totalWidth : thumbWidth) + 'px';
 		});
 		document.getElementById('final').appendChild(image);
 	}
