@@ -7,6 +7,9 @@
 	<link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'/>
 </head>
 <style>
+.image {
+  transition: width 0.5s, height 0.5s;
+}
 </style>
 <body>
 <div id="thumbs">
@@ -1250,31 +1253,37 @@ function toggleThumbnailSize(event) {
 }
 
 function generateObject() {
-	let mosaicObject = [];
-	let sortedMosaicArray = mosaicArray.sort(function(a,b) {
-		return a.localeCompare(b, 'ja');
-	});
+	<!-- let mosaicObject = []; -->
+	<!-- let sortedMosaicArray = mosaicArray.sort(function(a,b) { -->
+		<!-- return a.localeCompare(b, 'ja'); -->
+	<!-- }); -->
+	if(!mosaicArrayOnline)
+		console.error('ref not found');
 
-	let ogImages = document.querySelectorAll('#original img');
+	let ogImages = Array.from(document.querySelectorAll('#original img')).map((current, index) => {
+		return {
+			filename: current.title,
+			index: index,
+		};
+	});
+	<!-- document.querySelectorAll('#original img'); -->
 	let smImages = document.querySelectorAll('#small img');
 	let mdImages = document.querySelectorAll('#medium img');
 	let lgImages = document.querySelectorAll('#large img');
-	if(ogImages.length == sortedMosaicArray.length &&
-	smImages.length == sortedMosaicArray.length)
+	if(ogImages.length > 0 && smImages.length > 0 && mosaicArrayOnline.length > 0)
 	{
-		for(let i = 0; i < sortedMosaicArray.length; i++)
+		for(let i = 0; i < mosaicArrayOnline.length; i++)
 		{
-			mosaicObject.push({
-				"filename": sortedMosaicArray[i],
-				"sm": smImages[i].title,
-				"md": mdImages[i].title,
-				"lg": lgImages[i].title,
-				"og": ogImages[i].title
-			});
+			let og = ogImages.filter(og => og.filename.includes(mosaicArrayOnline[i].id))[0];
+			mosaicArrayOnline[i].sm = smImages[og.index].title;
+			mosaicArrayOnline[i].md = mdImages[og.index].title;
+			mosaicArrayOnline[i].lg = lgImages[og.index].title;
+			mosaicArrayOnline[i].og = og.filename;
 		}
 		document.getElementById('thumbs').innerHTML = '';
 	}
-	console.log(mosaicObject);
+	<!-- mosaicArrayOnline = mosaicObject; -->
+	<!-- console.log('mosaicArrayOnline',mosaicArrayOnline); -->
 	generateFinal();
 }
 
@@ -1296,21 +1305,26 @@ function generateFinal() {
 	if(window.innerWidth > 960) maxColumns *= 3;
 	else if(window.innerWidth > 640) maxColumns *= 2;
 	
-	let thumbWidth = Math.floor((window.innerWidth - 40) / maxColumns) + 'px';
-	let origWidth = Math.floor(window.innerWidth - 40) + 'px';
+	let thumbWidth = Math.floor((window.innerWidth - 40) / maxColumns);
+	let totalWidth = thumbWidth * maxColumns;
 
 	for(let item of mosaicArrayOnline)
 	{
 		let image = document.createElement('img');
+		image.classList.add('image');
 		image.title = item['filename'].replace('.jpg','').replace(/_/gi, '\n');
 		image.alt = item['og'];
 		image.src = item[thumbs];
-		image.style.width = thumbWidth;
+		image.style.width = thumbWidth + 'px';
 		image.addEventListener('click', function() {
 			let original = this.alt;
+			this.style.position = this.style.position == '' ? 'sticky' : '';
+			this.style.top = this.style.top == '' ? '0' : '';
 			this.src = this.alt;
 			this.alt = original;
-			image.style.width = image.style.width == thumbWidth ? origWidth : thumbWidth;
+			image.style.width = (image.style.width == thumbWidth + 'px' ? totalWidth : thumbWidth) + 'px';
+		});
+		image.addEventListener('dblclick', function(e) {
 			this.scrollIntoView();
 		});
 		document.getElementById('final').appendChild(image);
