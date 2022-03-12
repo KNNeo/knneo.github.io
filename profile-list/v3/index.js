@@ -1083,7 +1083,7 @@ function createCalendar(monthNo, DOBlist) {
 	// replace cells in table with relevant dates
 	for (let item of DOBlist) {
 		//calculate if birthday this year has passed
-		let currentYear = '2021';
+		let currentYear = new Date().getFullYear();
 		let birthdayInYear = new Date(new Date().getFullYear(), new Date(item.date.replace('????', currentYear)).getMonth(), new Date(item.date.replace('????', currentYear)).getDate());
 		
 		let DOB = currentYear + item.date.substring(4);
