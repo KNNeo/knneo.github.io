@@ -1,6 +1,5 @@
 //--VARIABLES--//
 let maxRows = 100;
-let pageNo = 1;
 //presets: based on query table columns, else will ignore
 let presets = [
 	{
@@ -41,28 +40,6 @@ let exColumns = [
 		timelineFooter2: 'ArtistTitle',
 	},
 ];
-let refTable;
-
-//--FIRST TIME CALLS
-document.getElementById('dbPageSelect').value = maxRows;
-document.getElementById('tickboxAll').addEventListener('click', function() {
-	let count = 0;
-	for(let tickbox of document.getElementById('table-column-ticks').getElementsByTagName('input'))
-	{
-		tickbox.checked = this.checked;
-		if(tickbox.checked) count++;
-	}
-	
-	for(let searchbox of document.getElementById('table-filter').getElementsByTagName('input'))
-	{
-		searchbox.style.display = this.checked ? '' : 'none';
-	}
-	
-	if(this.checked) resetPresets();
-});
-// timeline.style.display = 'none';
-if(document.getElementById('darkmode') != null)
-	document.getElementById('darkmode').addEventListener('click', setColors);
 
 //COLUMN TICKBOXES--//
 function generateFilters(filters) {
@@ -164,33 +141,6 @@ function resetSearch() {
 	}
 }
 
-//event
-/* function generateSearchFromFilters(filters) {
-	let tableFilters = document.getElementById('table-filter');
-	
-	tableFilters.innerHTML = '';
-	for (let column of filters.columns)
-	{
-		let columnInput = document.createElement('input');
-		columnInput.id = 'dbInput' + column.replace(' ','');
-		columnInput.type = 'text';
-		columnInput.placeholder = column;
-		columnInput.title = 'search';
-		
-		columnInput.addEventListener('keyup', function(event) {
-			// Number 13 is the 'Enter' key on the keyboard
-			if (event.keyCode === 13) {
-				// Cancel the default action, if needed
-				event.preventDefault();
-				// Trigger the button element with a click
-				document.getElementById('dbSubmitButton').click(this);
-			}
-		});
-		
-		tableFilters.appendChild(columnInput);
-	}
-} */
-
 //--PRESET RADIO INPUTS--//
 function generatePresets() {
 	let presetDiv = document.getElementById('table-preset-ticks');
@@ -220,15 +170,6 @@ function generatePresets() {
 	}	
 }
 
-function resetPresets() {
-	for(let preset of document.getElementById('table-preset-ticks').getElementsByTagName('input'))
-	{
-		preset.checked = preset.name == 'All';
-	}
-
-}
-
-//event
 function generateSearchOnPreset(radioInput) {
 	for (let radio of document.getElementById('table-preset-ticks').getElementsByTagName('input'))
 	{
@@ -247,103 +188,34 @@ function generateSearchOnPreset(radioInput) {
 	}
 }
 
-//--FUNCTIONS--//
-function resetTable() {
-	pageNo = 1;
-	maxRows = document.getElementById('dbPageSelect').value;
-	resetPresets();
-	resetFilters();
-	resetSearch();
-	resetTimeline();
-	generatePresets();
-	loadTableFromCSV();
-}
-
-function filterRows(table) {
-	let filtersWithInput = [];
-	for(let column of document.getElementById('table-filter').getElementsByTagName('input'))
+function resetPresets() {
+	for(let preset of document.getElementById('table-preset-ticks').getElementsByTagName('input'))
 	{
-		if(column.value != '')
-			filtersWithInput.push({
-				columnNo: column.placeholder,
-				columnValue: column.value.toUpperCase().trim()
-			});
+		preset.checked = preset.name == 'All';
 	}
 
-	// let strictMode = inputSongTitle != '' && inputArtistTitle != '' && inputReleaseYear != ''&& inputArtistCode != '';
-	
-	//if all search are empty, return table, else filter
-	if (filtersWithInput.length == table.columns.length || filtersWithInput.length == 0) return table;
-	else {
-		let newTable = new p5.Table(); //(Note: table is mutable variable!)
-		newTable.columns = table.columns; //to change in filterColumns
-		for (let r = 0; r < table.getRows().length; r++) {
-			let validInput = 0;
-			let validRows = 0;
-			
-			//filter per row
-			//have to filter by type: if is int then getInt, else below
-			for(let v = 0; v < filtersWithInput.length; v++)
-			{
-				if(table.getString(r, filtersWithInput[v].columnNo) != '' &&
-				table.getString(r, filtersWithInput[v].columnNo).toUpperCase().includes(filtersWithInput[v].columnValue))
-					validRows++;
-			}
-
-			if (validRows >= filtersWithInput.length) newTable.addRow(table.getRow(r));
-			//console.log(r);
-		}
-		return newTable;
-	}
 }
 
-function filterColumns(table) {
-	let presetTicks = 0;	
-	let columnTicks = document.getElementById('table-column-ticks').getElementsByTagName('input');
-	for (let tick of columnTicks) {
-		if (!tick.checked) table.removeColumn(tick.value);
-	}
-	
-	return table;
-}
-
-function generateExtraColumns(table) {
-	for(let column of exColumns) {
-		if(document.getElementById('tickbox' + column.title) == null)
-			table.addColumn(column.title);
-		else if(document.getElementById('tickbox' + column.title).checked)
-			table.addColumn(column.title);
-	}
-	
-}
-
+//--EVENTS--//
 function filterPage() {
-	pageNo = 1;
+	window['pageNo'] = 1;
 	maxRows = document.getElementById('dbPageSelect').value;
 	loadTableFromCSV();
 }
 
 function prevPage() {
-	pageNo--;
-	if(pageNo > 0)
+	window['pageNo']--;
+	if(window['pageNo'] > 0)
 		loadTableFromCSV();
 }
 
 function nextPage() {
-	pageNo++;
-	if(!document.getElementById('table-result').innerText.endsWith(pageNo * maxRows))
+	window['pageNo']++;
+	if(!document.getElementById('table-result').innerText.endsWith(window['pageNo'] * maxRows))
 		loadTableFromCSV();
 }
 
-function toggleTimeline() {
-	let body = document.body;
-	let timeline = document.getElementById('timeline');
-	timeline.style.width = timeline.style.width == '' ? '0px' : '';
-	timeline.style.borderRight = timeline.style.borderRight == '' ? '0' : '';
-	if(document.getElementById('chart') == null) loadTimeline();
-}
-
-//--P5 JS SPECIFIC FUNCTIONS--//
+//--P5 JS FUNCTION--//
 function loadTableFromCSV() {
 	// button.hide();
 	document.getElementById('table-result').innerText = 'Loading...';
@@ -352,11 +224,11 @@ function loadTableFromCSV() {
 		'https://knneo.github.io/klassic-note-table/klassic-note-database-song-table.csv', 
 		'csv',
 		'header',
-		createTable);
+		generateTable);
 }
 
-//--CALLBACK FUNCTION--//
-function createTable(table) {
+//--CALLBACK--//
+function generateTable(table) {
 	const refTable = JSON.parse(JSON.stringify(table.getObject()));
 	
 	let start = Date.now();
@@ -379,23 +251,23 @@ function createTable(table) {
 	
 	//set pagination
 	let onePageResults = table.getRowCount() < maxRows;
-	if(pageNo < 1) pageNo = 1;
-	document.getElementById('dbPrevButton').disabled = pageNo < 2 || onePageResults;
+	if(window['pageNo'] < 1) window['pageNo'] = 1;
+	document.getElementById('dbPrevButton').disabled = window['pageNo'] < 2 || onePageResults;
 	
 	let maxPages = Math.ceil(table.getRowCount() / maxRows);
-	if(pageNo >= maxPages) pageNo = maxPages;
-	document.getElementById('dbNextButton').disabled = pageNo >= maxPages || onePageResults;
-	// console.log(maxPages, pageNo);
+	if(window['pageNo'] >= maxPages) window['pageNo'] = maxPages;
+	document.getElementById('dbNextButton').disabled = window['pageNo'] >= maxPages || onePageResults;
+	// console.log(maxPages, window['pageNo']);
 	
 	//display row count
-	let maxRow = pageNo * maxRows > table.getRowCount() ? table.getRowCount() : pageNo * maxRows;
+	let maxRow = window['pageNo'] * maxRows > table.getRowCount() ? table.getRowCount() : window['pageNo'] * maxRows;
 	// table.getRowCount() > maxRows ? maxRows : table.getRowCount();
 	document.getElementById('table-result').innerText = 
 		table.getRowCount() + ' result' + (table.getRowCount() != 1 ? 's' : '') + ' found';
 	// if (table.getRowCount() > maxRow)
 		// document.getElementById('table-result').innerText += '; Displaying first '+maxRow+' results';
 	
-	let minRow = pageNo >= maxPages ? ((maxPages-1) * maxRows) : maxRow - maxRows;
+	let minRow = window['pageNo'] >= maxPages ? ((maxPages-1) * maxRows) : maxRow - maxRows;
 	document.getElementById('table-result').innerText += onePageResults ? '' : ('; Displaying ' + (minRow + 1) + ' - '+ maxRow);
 	
 
@@ -441,7 +313,7 @@ function createTable(table) {
 						
 						for(let item of document.getElementById('database-table').getElementsByTagName('tr')) {
 							if(item.getElementsByTagName('td').length == 0) continue;
-							let row = refTable[parseInt(item.getElementsByTagName('td')[0].innerText) - 1];
+							let row = refTable[parseInt(item.getElementsByTagName('td')[0].innerText) + 1];
 							let data = {
 								id: row[exColumn.refColumn],
 								songTitle: row[exColumn.timelineFooter1],
@@ -453,7 +325,7 @@ function createTable(table) {
 							};
 							addData(data);
 						}
-						timelineChart.update();
+						window['chart'].update();
 						this.innerText = 'Add To Timeline';
 						this.parentElement.classList.add('all-added');
 					});
@@ -543,7 +415,7 @@ function createTable(table) {
 								};
 								// console.log(data);
 								addData(data);
-								timelineChart.update();
+								window['chart'].update();
 								this.innerText = '';
 							}
 						}
@@ -593,31 +465,108 @@ function createTable(table) {
 	//document.getElementById('timeline').innerHTML = '';	
 }
 
-//--P5.JS MAIN FUNCTION--//
-const isMobile = function() {
-    const match = window.matchMedia('(pointer:coarse)');
-    return (match && match.matches);
-};
+function filterRows(table) {
+	let filtersWithInput = [];
+	for(let column of document.getElementById('table-filter').getElementsByTagName('input'))
+	{
+		if(column.value != '')
+			filtersWithInput.push({
+				columnNo: column.placeholder,
+				columnValue: column.value.toUpperCase().trim()
+			});
+	}
 
+	// let strictMode = inputSongTitle != '' && inputArtistTitle != '' && inputReleaseYear != ''&& inputArtistCode != '';
+	
+	//if all search are empty, return table, else filter
+	if (filtersWithInput.length == table.columns.length || filtersWithInput.length == 0) return table;
+	else {
+		let newTable = new p5.Table(); //(Note: table is mutable variable!)
+		newTable.columns = table.columns; //to change in filterColumns
+		for (let r = 0; r < table.getRows().length; r++) {
+			let validInput = 0;
+			let validRows = 0;
+			
+			//filter per row
+			//have to filter by type: if is int then getInt, else below
+			for(let v = 0; v < filtersWithInput.length; v++)
+			{
+				if(table.getString(r, filtersWithInput[v].columnNo) != '' &&
+				table.getString(r, filtersWithInput[v].columnNo).toUpperCase().includes(filtersWithInput[v].columnValue))
+					validRows++;
+			}
+
+			if (validRows >= filtersWithInput.length) newTable.addRow(table.getRow(r));
+			//console.log(r);
+		}
+		return newTable;
+	}
+}
+
+function filterColumns(table) {
+	let presetTicks = 0;	
+	let columnTicks = document.getElementById('table-column-ticks').getElementsByTagName('input');
+	for (let tick of columnTicks) {
+		if (!tick.checked) table.removeColumn(tick.value);
+	}
+	
+	return table;
+}
+
+function generateExtraColumns(table) {
+	for(let column of exColumns) {
+		if(document.getElementById('tickbox' + column.title) == null)
+			table.addColumn(column.title);
+		else if(document.getElementById('tickbox' + column.title).checked)
+			table.addColumn(column.title);
+	}
+	
+}
+
+function resetTable() {
+	window['pageNo'] = 1;
+	maxRows = document.getElementById('dbPageSelect').value;
+	resetPresets();
+	resetFilters();
+	resetSearch();
+	resetTimeline();
+	generatePresets();
+	loadTableFromCSV();
+}
+
+//--STARTUP--//
 function setup() {
-	// loadTable(
-		// 'https://knneo.github.io/klassic-note-table/klassic-note-database-song-table.csv', 
-		// 'csv',
-		// 'header',
-		// loadReferenceTable);
-	// button to load table
-	// button = createButton('Load Table');
-	// button.mousePressed(loadTableFromCSV);
+	initialize();
 	setDarkMode();
-	addDarkModeEvents();
-	if(isMobile) document.getElementById('table-filter').removeAttribute('position');
+	addDarkModeEvents();	
 	resetTable();
 }
 
-function loadReferenceTable(table) {
-	refTable = table.getObject();
+function initialize() {
+	window['pageNo'] = 1;
+	
+    const match = window.matchMedia('(pointer:coarse)');
+	if (match && match.matches) document.getElementById('table-filter').removeAttribute('position');
+	
+	document.getElementById('dbPageSelect').value = maxRows;
+	document.getElementById('tickboxAll').addEventListener('click', function() {
+		let count = 0;
+		for(let tickbox of document.getElementById('table-column-ticks').getElementsByTagName('input'))
+		{
+			tickbox.checked = this.checked;
+			if(tickbox.checked) count++;
+		}
+		
+		for(let searchbox of document.getElementById('table-filter').getElementsByTagName('input'))
+		{
+			searchbox.style.display = this.checked ? '' : 'none';
+		}
+		
+		if(this.checked) resetPresets();
+	});
 }
 
+//--DARK MODE--//
 function setDarkMode() {
 	let theme = Array.from(document.getElementsByTagName('meta')).filter(m => m.name == 'theme-color');
 	let themeColor = document.createElement('meta');
@@ -642,6 +591,8 @@ function addDarkModeEvents() {
 	//assume page has button with id = darkmode
 	if(document.getElementById('darkmode') != null)
 		document.getElementById('darkmode').addEventListener('click', toggleDarkMode);
+	if(document.getElementById('darkmode') != null)
+		document.getElementById('darkmode').addEventListener('click', setColors);
 }
 
 function toggleDarkMode() {
@@ -659,11 +610,10 @@ function toggleDarkMode() {
 	}
 }
 
-//--KLASSIC NOTE TIMELINE--//
-let timelineChart;
+//--TIMELINE--//
 function loadTimeline() {
 	let isDarked = document.getElementsByTagName('html')[0].classList.contains('darked');
-	let timeline = timelineChart;
+	let timeline = window['chart'];
 	if(document.getElementById('chart') == undefined) {
 		let canvas = document.createElement('canvas');
 		canvas.id = 'chart';
@@ -731,7 +681,7 @@ function loadTimeline() {
 	  }
 	};
 	
-	timelineChart = new Chart(timeline, config);
+	window['chart'] = new Chart(timeline, config);
 }
 
 function resetTimeline() {
@@ -745,7 +695,7 @@ function addData(data) {
 	if(document.getElementById('timeline') && document.getElementById('timeline').style.width != '')
 		toggleTimeline();
 	
-    timelineChart.data.datasets.forEach((dataset) => {
+    window['chart'].data.datasets.forEach((dataset) => {
 		let sameDateVals = dataset.data.filter(d => d.y.valueOf() == data.y.valueOf()).length; // still hardcoded object key
 		if(sameDateVals > 0) {
 			data.x = data.x + sameDateVals * 0.1;
@@ -762,8 +712,8 @@ function addData(data) {
 			
 			if(min <= new Date('2008-01-01')) min = new Date('2007-12-01');
 			if(max >= new Date('2021-01-01')) max = new Date('2021-12-31');
-			timelineChart.options.scales.y.min = min;
-			timelineChart.options.scales.y.max = max;
+			window['chart'].options.scales.y.min = min;
+			window['chart'].options.scales.y.max = max;
 		}
     });
 	//update chart based on calling function
@@ -771,8 +721,15 @@ function addData(data) {
 
 function setColors() {
 	let initialDarked = document.getElementsByTagName('html')[0].classList.contains('darked');
-	timelineChart.options.scales.y.ticks.color = initialDarked ? 'rgb(0, 0, 0)' : 'rgb(255, 255, 255)';
-	timelineChart.update();
+	window['chart'].options.scales.y.ticks.color = initialDarked ? 'rgb(0, 0, 0)' : 'rgb(255, 255, 255)';
+	window['chart'].update();
+}
+
+function toggleTimeline() {
+	let timeline = document.getElementById('timeline');
+	timeline.style.width = timeline.style.width == '' ? '0px' : '';
+	timeline.style.borderRight = timeline.style.borderRight == '' ? '0' : '';
+	if(document.getElementById('chart') == null) loadTimeline();
 }
 
 //TODO:
