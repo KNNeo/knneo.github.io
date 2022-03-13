@@ -313,7 +313,9 @@ function generateTable(table) {
 						
 						for(let item of document.getElementById('database-table').getElementsByTagName('tr')) {
 							if(item.getElementsByTagName('td').length == 0) continue;
-							let row = refTable[parseInt(item.getElementsByTagName('td')[0].innerText) + 1];
+							let id = parseInt(item.getElementsByTagName('td')[0].innerText) - 1;
+							let row = refTable[id];
+							// console.log(id, row);
 							let data = {
 								id: row[exColumn.refColumn],
 								songTitle: row[exColumn.timelineFooter1],
