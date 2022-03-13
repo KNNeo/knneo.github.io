@@ -5,19 +5,19 @@ let pageNo = 1;
 let presets = [
 	{
 		presetName: 'All',
-		columns: ["SongID", "KNID", "KNJAPAN", "KNJPOP", "KNYEAR", "Filename", "SongTitle", "ArtistTitle", "ParentArtist", "ReleaseTitle", "ReleaseArtistTitle", "ReleaseYear", "ReleaseDate", "Rating", "Genre", "DateCreated", "VocalCode", "LanguageCode", "InAppleMusic", "LyricsURL", "SongTitleAlt", "ArtistTitleAlt", "ReleaseTitleAlt", "ReleaseArtistTitleAlt", "ArtistCode", "Reference", "InMonth", "FindArtist", "AddToTimeline"],
+		columns: ['SongID', 'KNID', 'KNJAPAN', 'KNJPOP', 'KNYEAR', 'Filename', 'SongTitle', 'ArtistTitle', 'ParentArtist', 'ReleaseTitle', 'ReleaseArtistTitle', 'ReleaseYear', 'ReleaseDate', 'Rating', 'Genre', 'DateCreated', 'VocalCode', 'LanguageCode', 'InAppleMusic', 'LyricsURL', 'SongTitleAlt', 'ArtistTitleAlt', 'ReleaseTitleAlt', 'ReleaseArtistTitleAlt', 'ArtistCode', 'Reference', 'InMonth', 'FindArtist', 'AddToTimeline'],
 	},
 	{
 		presetName: 'English Only',
-		columns: ["KNID", "KNYEAR", "SongTitle", "ArtistTitle", "ReleaseTitle", "ReleaseArtistTitle"],
+		columns: ['KNID', 'KNYEAR', 'SongTitle', 'ArtistTitle', 'ReleaseTitle', 'ReleaseArtistTitle'],
 	},
 	{
 		presetName: 'Native Only',
-		columns: ["KNID", "KNYEAR", "SongTitleAlt", "ArtistTitleAlt", "ReleaseTitleAlt", "ReleaseArtistTitleAlt"],
+		columns: ['KNID', 'KNYEAR', 'SongTitleAlt', 'ArtistTitleAlt', 'ReleaseTitleAlt', 'ReleaseArtistTitleAlt'],
 	},
 	{
 		presetName: 'Lyrics Only',
-		columns: ["KNID", "SongTitle", "ArtistTitle", "LyricsURL", "AddToTimeline"],
+		columns: ['KNID', 'SongTitle', 'ArtistTitle', 'LyricsURL', 'AddToTimeline'],
 	},
 ];
 //columns on demand: query table based on row column generated
@@ -45,7 +45,7 @@ let refTable;
 
 //--FIRST TIME CALLS
 document.getElementById('dbPageSelect').value = maxRows;
-document.getElementById('tickboxAll').addEventListener("click", function() {
+document.getElementById('tickboxAll').addEventListener('click', function() {
 	let count = 0;
 	for(let tickbox of document.getElementById('table-column-ticks').getElementsByTagName('input'))
 	{
@@ -60,7 +60,7 @@ document.getElementById('tickboxAll').addEventListener("click", function() {
 	
 	if(this.checked) resetPresets();
 });
-timeline.style.display = 'none';
+// timeline.style.display = 'none';
 if(document.getElementById('darkmode') != null)
 	document.getElementById('darkmode').addEventListener('click', setColors);
 
@@ -68,7 +68,7 @@ if(document.getElementById('darkmode') != null)
 function generateFilters(filters) {
 	if(filters.columns.length == 0) return;
 	
-	document.getElementById("table-columns").innerHTML = '';
+	document.getElementById('table-columns').innerHTML = '';
 	for (let column of filters.allColumns)
 	{
 		let isExtra = exColumns.map(e => e.title).includes(column);
@@ -111,8 +111,8 @@ function generateFilters(filters) {
 
 function resetFilters() {
 	document.getElementById('tickboxAll').checked = true;
-	for (let input of document.getElementsByTagName("input")) {
-		if (input.type == "checkbox") input.checked = true;
+	for (let input of document.getElementsByTagName('input')) {
+		if (input.type == 'checkbox') input.checked = true;
 	}
 }
 
@@ -138,13 +138,13 @@ function generateSearch(filters) {
 			columnInput.style.display = document.getElementById('tickbox' + column) != null && !document.getElementById('tickbox' + column).checked ? 'none' : '';
 			
 			columnInput.addEventListener('keyup', function(event) {
-				if (event.keyCode === 13) { // "Enter"
+				if (event.keyCode === 13) { // 'Enter'
 					event.preventDefault();
-					document.getElementById("dbSubmitButton").click(this);
+					document.getElementById('dbSubmitButton').click(this);
 				}
-				if (event.keyCode === 27) { // "Esc"
+				if (event.keyCode === 27) { // 'Esc'
 					event.preventDefault();
-					document.getElementById("dbClearButton").click(this);
+					document.getElementById('dbClearButton').click(this);
 				}
 			});
 			
@@ -158,8 +158,8 @@ function generateSearch(filters) {
 }
 
 function resetSearch() {
-	for (let input of document.getElementsByTagName("input")) {
-		if (input.title == "search") input.value = "";
+	for (let input of document.getElementsByTagName('input')) {
+		if (input.title == 'search') input.value = '';
 		input.style.textAlign = '';
 	}
 }
@@ -178,12 +178,12 @@ function resetSearch() {
 		columnInput.title = 'search';
 		
 		columnInput.addEventListener('keyup', function(event) {
-			// Number 13 is the "Enter" key on the keyboard
+			// Number 13 is the 'Enter' key on the keyboard
 			if (event.keyCode === 13) {
 				// Cancel the default action, if needed
 				event.preventDefault();
 				// Trigger the button element with a click
-				document.getElementById("dbSubmitButton").click(this);
+				document.getElementById('dbSubmitButton').click(this);
 			}
 		});
 		
@@ -223,7 +223,7 @@ function generatePresets() {
 function resetPresets() {
 	for(let preset of document.getElementById('table-preset-ticks').getElementsByTagName('input'))
 	{
-		preset.checked = preset.name == "All";
+		preset.checked = preset.name == 'All';
 	}
 
 }
@@ -299,7 +299,7 @@ function filterRows(table) {
 
 function filterColumns(table) {
 	let presetTicks = 0;	
-	let columnTicks = document.getElementById("table-column-ticks").getElementsByTagName("input");
+	let columnTicks = document.getElementById('table-column-ticks').getElementsByTagName('input');
 	for (let tick of columnTicks) {
 		if (!tick.checked) table.removeColumn(tick.value);
 	}
@@ -331,24 +331,23 @@ function prevPage() {
 
 function nextPage() {
 	pageNo++;
-	if(!document.getElementById("table-result").innerText.endsWith(pageNo * maxRows))
+	if(!document.getElementById('table-result').innerText.endsWith(pageNo * maxRows))
 		loadTableFromCSV();
 }
 
 function toggleTimeline() {
 	let body = document.body;
-	let timeline = document.getElementById("timeline");
-	// body.style.paddingLeft = timeline.style.display == 'none'? '200px' : '0';
-	timeline.style.display = timeline.style.display == 'none'? '' : 'none';
-	let chart = document.getElementById("chart");
-	if(chart == null) loadTimeline();
+	let timeline = document.getElementById('timeline');
+	timeline.style.width = timeline.style.width == '' ? '0px' : '';
+	timeline.style.borderRight = timeline.style.borderRight == '' ? '0' : '';
+	if(document.getElementById('chart') == null) loadTimeline();
 }
 
 //--P5 JS SPECIFIC FUNCTIONS--//
 function loadTableFromCSV() {
 	// button.hide();
-	document.getElementById("table-result").innerText = "Loading...";
-	//table is comma separated value "csv" and has a header specifying the columns labels
+	document.getElementById('table-result').innerText = 'Loading...';
+	//table is comma separated value 'csv' and has a header specifying the columns labels
 	let table = loadTable(
 		'https://knneo.github.io/klassic-note-table/klassic-note-database-song-table.csv', 
 		'csv',
@@ -391,13 +390,13 @@ function createTable(table) {
 	//display row count
 	let maxRow = pageNo * maxRows > table.getRowCount() ? table.getRowCount() : pageNo * maxRows;
 	// table.getRowCount() > maxRows ? maxRows : table.getRowCount();
-	document.getElementById("table-result").innerText = 
-		table.getRowCount() + " result" + (table.getRowCount() != 1 ? "s" : "") + " found";
+	document.getElementById('table-result').innerText = 
+		table.getRowCount() + ' result' + (table.getRowCount() != 1 ? 's' : '') + ' found';
 	// if (table.getRowCount() > maxRow)
-		// document.getElementById("table-result").innerText += "; Displaying first "+maxRow+" results";
+		// document.getElementById('table-result').innerText += '; Displaying first '+maxRow+' results';
 	
 	let minRow = pageNo >= maxPages ? ((maxPages-1) * maxRows) : maxRow - maxRows;
-	document.getElementById("table-result").innerText += onePageResults ? "" : ("; Displaying " + (minRow + 1) + " - "+ maxRow);
+	document.getElementById('table-result').innerText += onePageResults ? '' : ('; Displaying ' + (minRow + 1) + ' - '+ maxRow);
 	
 
 	//reset search according to columns selected
@@ -511,7 +510,7 @@ function createTable(table) {
 							let targetVal = row[exColumn.sourceColumn]; //object based column
 							document.getElementById('dbInput' + exColumn.sourceColumn).value = targetVal.substring(0,7); //custom logic here
 							
-							document.getElementById("dbSubmitButton").click(this);
+							document.getElementById('dbSubmitButton').click(this);
 							document.body.scrollIntoView();
 						}
 						if(table.columns[j] == 'FindArtist') {
@@ -523,7 +522,7 @@ function createTable(table) {
 							let targetVal = row[exColumn.sourceColumn]; //object based column
 							document.getElementById('dbInput' + exColumn.sourceColumn).value = targetVal;
 							
-							document.getElementById("dbSubmitButton").click(this);
+							document.getElementById('dbSubmitButton').click(this);
 							document.body.scrollIntoView();
 						}
 						if(table.columns[j] == 'AddToTimeline') {							
@@ -578,14 +577,14 @@ function createTable(table) {
 	knTable.appendChild(knTableBody);
 	
 	//assign
-	document.getElementById("database-table").innerHTML = '';
-	document.getElementById("database-table").appendChild(knTable);	
+	document.getElementById('database-table').innerHTML = '';
+	document.getElementById('database-table').appendChild(knTable);	
 	// generatePresets();
 	
 	//disable input until load complete
 	if(table.columns == 0) {
-		document.getElementById("database-table").innerHTML = '';
-		document.getElementById("table-result").innerText = "All has been deselected. Check something to display results";
+		document.getElementById('database-table').innerHTML = '';
+		document.getElementById('table-result').innerText = 'All has been deselected. Check something to display results';
 		return;
 	}
 	// console.log(Date.now() - start);
@@ -736,16 +735,14 @@ function loadTimeline() {
 }
 
 function resetTimeline() {
-	let body = document.body;
-	let timeline = document.getElementById("timeline");
-	body.style.paddingLeft = '0';
-	timeline.style.display = 'none';
-	if(document.getElementById("chart") != null) timeline.innerHTML = '';
-	loadTimeline();
+	if(document.getElementById('chart'))
+		document.getElementById('timeline').innerHTML = '';
+	if(document.getElementById('timeline') && document.getElementById('timeline').style.width == '')
+		toggleTimeline();
 }
 
 function addData(data) {
-	if(document.getElementById("timeline").style.display == 'none')
+	if(document.getElementById('timeline') && document.getElementById('timeline').style.width != '')
 		toggleTimeline();
 	
     timelineChart.data.datasets.forEach((dataset) => {
