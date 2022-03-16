@@ -31,10 +31,10 @@ html, div {
   background: #444444;
 }
 
-tr:hover {
+.highlight tr:hover {
 	background-color: lightgray;
 }
-.darked tr:hover {
+.darked .highlight tr:hover {
 	background-color: gray;
 }
 	
