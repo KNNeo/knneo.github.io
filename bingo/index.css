@@ -1,0 +1,63 @@
+html {
+  font-family: Open Sans;
+  scroll-behavior: smooth;
+}
+body > * {
+  max-width: 640px;
+  margin: auto;
+  text-align: center;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.material-icons {
+	cursor: pointer;
+	padding: 10px;
+}
+.closed {
+	display: none;
+}
+.padded {
+	padding: 10px;
+}
+.box {
+	margin: 5px;
+	vertical-align: top;
+	scroll-snap-align: center;
+	white-space: normal;
+	touch-action: manipulation;
+	text-align: center;
+}
+.shadowed {
+  border: 1px solid lightgray;
+  box-shadow: 3px 3px;
+}
+.shadowed:active {
+  box-shadow: 1px 1px;
+  transform: translate(2px,2px);
+}
+.unshadowed {
+	filter: opacity(100%);
+	transition: filter 1s;
+}
+.list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.square {
+	width: 80px;
+	height: 80px;
+	font-size: 2em;
+}
+
+@media only screen and (max-width : 1040px) {
+/*scrollbars for top and bottom labels only on desktop*/
+html { font-size: 100%; }
+div { scrollbar-width: 0 !important; }
+div::-webkit-scrollbar { width: 0 !important }
+/*snap on touch is better on mobile than on desktop*/
+.profile-box { scroll-snap-align: center; }
+}
