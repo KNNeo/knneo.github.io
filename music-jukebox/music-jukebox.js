@@ -134,6 +134,7 @@ function generateLayoutPlayer() {
 	if(enableDarkMode) {
 		let darkmode = document.createElement('a');
 		darkmode.id = 'darkmode';
+		darkmode.classList.add('darkmode');
 		darkmode.classList.add('material-icons');
 		darkmode.href = 'javascript:void(0);';
 		darkmode.innerText = 'brightness_high';
@@ -142,6 +143,7 @@ function generateLayoutPlayer() {
 	
 	let viewmode = document.createElement('a');
 	viewmode.id = 'viewmode';
+	viewmode.classList.add('viewmode');
 	viewmode.classList.add('material-icons');
 	viewmode.href = 'javascript:void(0);';
 	switch(document.body.id) {
@@ -167,7 +169,7 @@ function generateLayoutPlayer() {
 	settings.appendChild(viewmode);		
 
 	let back = document.createElement('a');
-	// back.style.padding = '0 10px';
+	back.classList.add('back');
 	back.style.verticalAlign = 'top';
 	back.href = '../index.html';
 	back.innerText = 'Back';

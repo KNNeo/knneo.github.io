@@ -158,7 +158,7 @@ function clearSearch() {
 
 function toggleAutoplay() {
 	autoplayOnSelect = !autoplayOnSelect;
-	document.getElementById('autoplay').innerText = autoplayOnSelect ? 'music_note' : 'music_off';
+	document.querySelector('.autoplay').innerText = autoplayOnSelect ? 'music_note' : 'music_off';
 }
 
 function randomSong() {
@@ -168,7 +168,7 @@ function randomSong() {
 	if(document.getElementById('player') != null && document.getElementById('player').buffered.length < 1) 
 	{
 		window['playlist'] = [];
-		document.getElementById('random-count').innerText = '';
+		document.querySelector('.random-count').innerText = '';
 	}
 	queryDb(query, function(content) {
 		// console.log('content', content);
@@ -200,7 +200,7 @@ function randomSong() {
 };
 
 function skipSong() {
-	if(document.getElementById('random-count').innerText.length > 0)
+	if(document.querySelector('.random-count').innerText.length > 0)
 		document.getElementById('player').dispatchEvent(new Event('ended'));
 	updateQueueCount();
 }
@@ -208,9 +208,9 @@ function skipSong() {
 function clearQueue() {
 	event.preventDefault();
 	window['playlist'] = [];
-	document.getElementById('random-count').innerText = 'Queue cleared';
+	document.querySelector('.random-count').innerText = 'Queue cleared';
 	setTimeout(function() {
-		document.getElementById('random-count').innerText = '';
+		document.querySelector('.random-count').innerText = '';
 	}, 2000);
 }
 
@@ -267,8 +267,8 @@ function startup() {
 }
 
 function renderSettings() {
-	document.getElementById('skip').style.display = 'none';
-	document.getElementById('autoplay').innerText = autoplayOnSelect ? 'music_note' : 'music_off';
+	document.querySelector('.skip').style.display = 'none';
+	document.querySelector('.autoplay').innerText = autoplayOnSelect ? 'music_note' : 'music_off';
 }
 
 function renderVariables() {
@@ -484,7 +484,7 @@ function onChangeOption() {
 		if(window['playlist'].length < 2 || window['playlist'][0] != id)
 		{
 			window['playlist'] = [id];
-			document.getElementById('random-count').innerText = '';
+			document.querySelector('.random-count').innerText = '';
 		}
 		window['mode'] = 'song';
 		queryDb("SELECT KNID as ID, KNYEAR, Filename, SongTitle as 'Song Title', ArtistTitle as 'Artist Title', ReleaseTitle as 'Release Title', ReleaseArtistTitle as 'Release Artist', ReleaseYear as 'Year', Rating, Genre, DateCreated as 'Date Added', VocalCode as 'Vocal Code', LanguageCode as 'Language', LyricsURL as 'Lyrics', SongTitleAlt as '" + altTitlePrefix + " Song Title', ArtistID, ReleaseID FROM Song WHERE KNID = " + id, generateLayout);
@@ -716,8 +716,8 @@ function generatePlayer(contents) {
 
 function updateQueueCount() {
 	let queued = window['playlist'].length - 1;
-	document.getElementById('random-count').innerText = queued > 0 ? (queued + ' song' + (queued > 1 ? 's' : '') + ' queued') : '';
-	document.getElementById('skip').style.display = queued > 0 ? '' : 'none';
+	document.querySelector('.random-count').innerText = queued > 0 ? (queued + ' song' + (queued > 1 ? 's' : '') + ' queued') : '';
+	document.querySelector('.skip').style.display = queued > 0 ? '' : 'none';
 }
 
 function queryInfo(contents) {

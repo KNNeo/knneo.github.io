@@ -354,20 +354,21 @@ function startup() {
 	document.body.appendChild(inputModule);
 	
 	let settings = document.createElement('h3');
-	settings.id = 'settings';
 	settings.classList.add('settings');
 		
 		let back = document.createElement('a');
-		back.classList.add('setting');
 		back.href = '../index.html';
 		back.innerText = 'Back';
 		settings.appendChild(back);
+		
+		let spacer = document.createElement('div');
+		spacer.classList.add('spacer');
+		settings.appendChild(spacer);
 	
 		let darkmode = document.createElement('a');
 		darkmode.id = 'darkmode';
 		darkmode.title = 'Toggle Dark Mode';
 		darkmode.classList.add('material-icons');
-		darkmode.classList.add('setting');
 		darkmode.innerText = 'brightness_high';
 		darkmode.href = 'javascript:void(0);';
 		darkmode.addEventListener('click', toggleDarkMode);

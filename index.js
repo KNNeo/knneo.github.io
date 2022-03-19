@@ -10,6 +10,7 @@ const isFirefox = (/Firefox/i.test(navigator.userAgent));
 window.addEventListener('load', function() {
 	setDarkMode();
 	addDarkModeEvents();
+	renderElements();
 	showLocal();
 	showDimensions();
 	addPreviewOnHover();
@@ -38,8 +39,8 @@ function addDarkModeEvents() {
 	//assume supports dark mode
 	window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', toggleDarkMode);
 	//assume page has button with id = darkmode
-	if(document.getElementById('darkmode') != null)
-		document.getElementById('darkmode').addEventListener('click', toggleDarkMode);
+	if(document.querySelector('.darkmode') != null)
+		document.querySelector('.darkmode').addEventListener('click', toggleDarkMode);
 }
 
 function toggleDarkMode() {
@@ -57,6 +58,49 @@ function toggleDarkMode() {
 	}
 }
 
+function renderElements() {
+	if(document.querySelector('.data'))
+	{
+		let pageElements = JSON.parse(document.querySelector('.data').textContent);
+		let pageList = document.querySelector('.page-list');
+		if(pageList != null)
+		{
+			pageList.innerHTML = '';
+		}
+		
+		for(let page of pageElements)
+		{
+			let group = page.group;
+			let item = document.getElementById(group);
+			if(item == null)
+			{
+				item = document.createElement('h3');
+				item.id = group;
+				
+			}
+			else
+			{
+				let spacer = document.createElement('span');
+				spacer.innerText = ' ';
+				item.appendChild(spacer);
+			}
+			
+			let url = document.createElement('a');
+			url.classList.add('subset');
+			url.classList.add('box');
+			url.classList.add('shadowed');
+			if(page.isLocal) 
+				url.classList.add('local');
+			url.href = page.url;
+			url.innerText = page.title;
+			
+			item.appendChild(url);
+			
+			pageList.appendChild(item);
+		}
+	}
+}
+
 function showLocal() {
 	if(!isLocal)
 	{
@@ -67,9 +111,9 @@ function showLocal() {
 }
 
 function showDimensions() {
-	if(document.getElementById('dimensions') != null)
+	if(document.querySelector('.dimensions') != null)
 	{
-		document.getElementById('dimensions').innerText = window.innerWidth + 'px by ' + window.innerHeight + 'px';
+		document.querySelector('.dimensions').innerText = window.innerWidth + 'px by ' + window.innerHeight + 'px';
 	}
 }
 

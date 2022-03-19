@@ -14,60 +14,120 @@
 	<title>Welcome</title>
 </head>
 <body>
+<div class="page">
 <iframe class="preview" title="Preview" scrolling="no"></iframe>
 <h1>DEMOS</h1>
-<h6>All DIY unless otherwise stated</h6>
-<h6>[Your screen is <span id="dimensions"></span>]</h6>
-<h3>Would You Rather? 
-	<a class="subset" href="./would-you-rather/would-you-rather.html">v1</a>
-	<a class="subset" href="./would-you-rather/would-you-rather-v2.html">v2</a>
-</h3>
-<h3>Profile List 
-	<a class="subset local" href="./profile-list/v1/index.html">v1</a>
-	<a class="subset" href="./profile-list/v2/index.html">v2</a>
-	<a class="subset" href="./profile-list/v3/index.html">v3</a>
-</h3>
-<h3>
-	<a class="subset" href="./klassic-note-table/klassic-note-table.html">Music Library</a>
-</h3>
-<h3>
-	<a class="subset" href="./image-gallery/image-gallery.html">Image Gallery</a>
-</h3>
-<h3>Anime List 
-	<a class="subset" href="./anime-list/anime-list-v1.html">v1</a>
-	<a class="subset" href="./anime-list/anime-list.html">v2</a>
-</h3>
-<h3>
-	<a class="subset" href="./music-player/music-player.html">Music Player</a> 
-	<a class="subset" href="./klassic-note-web/index.html">Web</a>
-</h3>
-<h3>
-	<a class="subset" href="./music-jukebox/music-jukebox.html">Music Jukebox</a>
-	<a class="subset" style="padding-left: 5px;" href="./image-collage/index.html">Image Collage</a>
-</h3>
-<h3>
-	<a class="subset" href="./statistics/statistics.html">Statistics</a>
-</h3>
-<h3>Checklist 
-	<a class="subset" href="./check-list/check-list.html">v1</a> 
-	<a class="subset" href="./check-list/check-list-v2.html">v2</a>
-</h3>
-<h3>
-	<a class="subset" href="./video-list/index.html">Video Playlist</a>
-</h3>
-<h3>Tools
-	<h3><a class="subset" href="./tools/bounty-hunter-calculator/index.html">Bounty Hunter Calculator</a></h3>
-	<h3><a class="subset" href="./tools/ratio-calculator/index.html">Ratio Calculator</a></h3>
-	<h3><a class="subset" href="./tools/random-selector/index.html">Random Selector</a></h3>
-</h3>
+<h5>All DIY unless otherwise stated</h5>
+<h6>[Your screen is <span class="dimensions"></span>]</h6>
+<div class="page-list"></div>
 <hr/>
 <h5>
 	<a href="./blogspot/blog.html">BLOG</a>
 </h5>
-<h3 id="settings" class="settings">
-	<a id="darkmode" title="Toggle Dark Mode" class="material-icons" href="javascript:void(0);">brightness_high</a>
+<h3 class="settings">
+	<a title="Toggle Dark Mode" class="darkmode material-icons" href="javascript:void(0);">brightness_high</a>
 </h3>
 </div>
 </body>
+<script class="data" type="application/json">
+[
+	{
+		"group": "would-you-rather",
+		"title": "Would You Rather?",
+		"url": "./would-you-rather/would-you-rather-v2.html",
+		"isLocal": false
+	},
+	{
+		"group": "profile-list",
+		"title": "Profile List",
+		"url": "./profile-list/v3/index.html",
+		"isLocal": false
+	},
+	{
+		"group": "music-library",
+		"title": "Music Library",
+		"url": "./klassic-note-table/klassic-note-table.html",
+		"isLocal": false
+	},
+	{
+		"group": "image-gallery",
+		"title": "Image Gallery",
+		"url": "./image-gallery/image-gallery.html",
+		"isLocal": false
+	},
+	{
+		"group": "anime-list",
+		"title": "Anime List",
+		"url": "./anime-list/anime-list-v1.html",
+		"isLocal": false
+	},
+	{
+		"group": "anime-list",
+		"title": "Anime Timeline",
+		"url": "./anime-list/anime-list.html",
+		"isLocal": false
+	},
+	{
+		"group": "music-player",
+		"title": "Music Player",
+		"url": "./music-player/music-player.html",
+		"isLocal": false
+	},
+	{
+		"group": "music-db",
+		"title": "Music Database",
+		"url": "./klassic-note-web/index.html",
+		"isLocal": false
+	},
+	{
+		"group": "music-jukebox",
+		"title": "Streaming Jukebox",
+		"url": "./music-jukebox/music-jukebox.html",
+		"isLocal": false
+	},
+	{
+		"group": "image-collage",
+		"title": "Image Collage",
+		"url": "./image-collage/index.html",
+		"isLocal": false
+	},
+	{
+		"group": "statistics",
+		"title": "Statistics",
+		"url": "./statistics/statistics.html",
+		"isLocal": false
+	},
+	{
+		"group": "check-list",
+		"title": "Checklist",
+		"url": "./check-list/check-list-v2.html",
+		"isLocal": false
+	},
+	{
+		"group": "video-list",
+		"title": "Video Playlist",
+		"url": "./video-list/index.html",
+		"isLocal": false
+	},
+	{
+		"group": "tools",
+		"title": "Bounty Hunter Calculator",
+		"url": "./tools/bounty-hunter-calculator/index.html",
+		"isLocal": false
+	},
+	{
+		"group": "tools",
+		"title": "Ratio Calculator",
+		"url": "./tools/ratio-calculator/index.html",
+		"isLocal": false
+	},
+	{
+		"group": "tools",
+		"title": "Random Selector",
+		"url": "./tools/random-selector/index.html",
+		"isLocal": false
+	}
+]
+</script>
 <script src="index.js"></script>
 </html>

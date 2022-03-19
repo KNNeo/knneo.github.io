@@ -1,5 +1,5 @@
 /*when not in dark mode*/
-html, div {
+html {
 	background-color: white;
 	color: black;
 }
@@ -23,12 +23,8 @@ html, div {
 	color: #00e4ff;
 }
 
-.darked .profile-category::-webkit-scrollbar-thumb {
-  background: white;
-}
-
-.darked .profile-category::-webkit-scrollbar-track {
-  background: #444444;
+.darked .settings > a {
+    color: white;
 }
 
 .highlight tr:hover {
@@ -36,20 +32,4 @@ html, div {
 }
 .darked .highlight tr:hover {
 	background-color: gray;
-}
-	
-.settings {
-	text-align: center;
-}
-
-.settings a {
-	-webkit-user-select: none; 
-	-ms-user-select: none; 
-	user-select: none;
-	color: black;
-    text-decoration: none;	
-}
-
-.darked .settings a  {
-	color: white;
 }

@@ -326,6 +326,7 @@ function generateLayoutPlayer() {
 		let darkmode = document.createElement('a');
 		darkmode.id = 'darkmode';
 		darkmode.style.padding = '0 5px';
+		darkmode.classList.add('darkmode');
 		darkmode.classList.add('material-icons');
 		darkmode.href = 'javascript:void(0);';
 		darkmode.innerText = 'brightness_high';
@@ -337,6 +338,7 @@ function generateLayoutPlayer() {
 		let preset = document.createElement('a');
 		preset.id = 'preset';
 		preset.style.padding = '0 5px';
+		preset.classList.add('preset');
 		preset.classList.add('material-icons');
 		preset.href = 'javascript:void(0);';
 		preset.innerText = window['preset'];
@@ -349,6 +351,7 @@ function generateLayoutPlayer() {
 		let archive = document.createElement('a');
 		archive.id = 'archive';
 		archive.style.padding = '0 5px';
+		archive.classList.add('archive');
 		archive.classList.add('material-icons');
 		archive.href = 'data.html';
 		archive.innerText = 'inventory';
@@ -356,6 +359,7 @@ function generateLayoutPlayer() {
 	}
 		
 	let back = document.createElement('a');
+	back.classList.add('back');
 	back.style.padding = '0 5px';
 	back.style.verticalAlign = 'top';
 	back.href = '../index.html';

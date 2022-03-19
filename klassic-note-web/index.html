@@ -4,10 +4,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
 	<meta content="utf-8" http-equiv="encoding">
-	<link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'/>
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../index.css">
     <link rel="stylesheet" type="text/css" href="../darkmode.css">
     <link rel="stylesheet" type="text/css" href="index.css">
+	<link href="https://fonts.googleapis.com/css?family=Open Sans" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
 	<div id="header" class="calc centered">
@@ -55,14 +56,15 @@
 		</div>
 	</div>
 	<h3 id="settings" class="calc settings">
-		<p style="text-align: center;"><a href="../index.html">Back</a></p>
-		<a id="autoplay" title="Toggle Autoplay" class="material-icons" href="javascript:void(0);" onclick="toggleAutoplay()">music_note</a>
-		<a id="darkmode" title="Toggle Dark Mode" class="material-icons" href="javascript:void(0);">brightness_high</a>
-		<a id="random" title="Queue Random Song" class="material-icons" href="javascript:void(0);" onclick="randomSong()" oncontextmenu="clearQueue()">shuffle</a>
+		<a id="autoplay" title="Toggle Autoplay" class="autoplay material-icons" href="javascript:void(0);" onclick="toggleAutoplay()">music_note</a>
+		<a id="darkmode" title="Toggle Dark Mode" class="darkmode material-icons" href="javascript:void(0);">brightness_high</a>
+		<a id="random" title="Queue Random Song" class="random material-icons" href="javascript:void(0);" onclick="randomSong()" oncontextmenu="clearQueue()">shuffle</a>
 		<span class="absolute">
-			<a id="skip" title="Skip To Next Song In Queue" class="material-icons" href="javascript:void(0);" onclick="skipSong()">skip_next</a>
-			<span id="random-count"></span>
+			<a id="skip" title="Skip To Next Song In Queue" class="skip material-icons" href="javascript:void(0);" onclick="skipSong()">skip_next</a>
+			<span id="random-count" class="random-count"></span>
 		</span>
+		<div class="spacer"> </div>
+		<a href="../index.html">Back</a>
 	</h3>
 </body>
 <script src="../index.js"></script>

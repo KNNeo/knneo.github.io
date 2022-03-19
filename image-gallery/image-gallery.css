@@ -191,6 +191,17 @@ hr {
   background: #dddddd;
 }
 
+.darked .profile-category::-webkit-scrollbar-thumb {
+  background: white;
+}
+.darked .profile-category::-webkit-scrollbar-track {
+  background: #444444;
+}
+
+.back {
+	text-decoration: none;
+}
+
 @media only screen and (max-width : 1040px) {
 	/*scrollbars for top and bottom labels only on desktop*/
 	html { font-size: 100%; }

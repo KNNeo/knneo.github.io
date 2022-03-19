@@ -310,116 +310,107 @@ function renderPage(pageName) {
 	}, false);
 	frame.appendChild(imgGallery);
 	
-	let settingsDiv = document.createElement('h3');
-	settingsDiv.id = 'settings';
+	let settingsDiv = document.querySelector('.settings');
 		
-		let darkmode = document.getElementById('darkmode');
-		if(!settingsLoaded)
+		let darkmode = document.querySelector('.darkmode');
+		if(darkmode == null) {
+			darkmode = document.createElement('i');
+			darkmode.classList.add('darkmode');
+			darkmode.classList.add('material-icons');
+			darkmode.title = 'Toggle Dark Mode';
+			darkmode.innerText = 'brightness_high';
 			darkmode.addEventListener('click', toggleDarkMode);
-		if(enableDarkMode)
-		{
-			if(darkmode == null) {
-				darkmode = document.createElement('i');
-				darkmode.id = 'darkmode';
-				darkmode.title = 'Toggle Dark Mode';
-				darkmode.classList.add('material-icons');
-				darkmode.innerText = 'brightness_high';
-				darkmode.addEventListener('click', toggleDarkMode);
-				settingsDiv.appendChild(darkmode);
-			}
-			else {
-				darkmode.style.display = '';
-				if(getSetting("enableDarkMode") == "true")
-				{
-					document.getElementsByTagName('html')[0].classList.add('darked');
-					
-					let theme = Array.from(document.getElementsByTagName('meta')).filter(m => m.name == 'theme-color');
-					let themeColor = theme[0];
-					themeColor.content = 'black';
-				}
+			settingsDiv.appendChild(darkmode);
+		}
+		if(darkmode != null) {
+			darkmode.style.display = '';
+			if(getSetting("enableDarkMode") == "true")
+			{
+				document.getElementsByTagName('html')[0].classList.add('darked');
+				
+				let theme = Array.from(document.getElementsByTagName('meta')).filter(m => m.name == 'theme-color');
+				let themeColor = theme[0];
+				themeColor.content = 'black';
 			}
 		}
-		else if(darkmode != null) {
+		if(!enableDarkMode && darkmode != null) {
 			darkmode.style.display = 'none';
 		}
+		// if(!settingsLoaded && darkmode != null)
+			// darkmode.addEventListener('click', toggleDarkMode);
 		
-		let viewing = document.getElementById('enable-viewer');	
-		if(!settingsLoaded)
+		let viewing = document.querySelector('.enable-viewer');
+		if(viewing == null) {
+			viewing = document.createElement('i');
+			viewing.classList.add('enable-viewer');
+			viewing.classList.add('material-icons');
+			viewing.title = 'Toggle Viewer';
+			viewing.innerText = getSetting("enableViewer") == "true" ? 'view_carousel' : 'view_column';
 			viewing.addEventListener('click', function() {
 				setSetting("enableViewer", getSetting("enableViewer") == "true" ? false : true);
 				loadPage(body.id);
 			});
-		if(enableViewer)
-		{
-			if(viewing == null) {
-				viewing = document.createElement('i');
-				viewing.id = 'enable-viewer';
-				viewing.title = 'Toggle Viewer';
-				viewing.classList.add('material-icons');
-				viewing.innerText = getSetting("enableViewer") == "true" ? 'view_carousel' : 'view_column';
-				viewing.addEventListener('click', function() {
-					setSetting("enableViewer", getSetting("enableViewer") == "true" ? false : true);
-					loadPage(body.id);
-				});
-				settingsDiv.appendChild(viewing);
-			}
-			else {
-				viewing.style.display = '';
-				viewing.innerText = getSetting("enableViewer") == "true" ? 'view_carousel' : 'view_column';
-			}
+			settingsDiv.appendChild(viewing);
 		}
-		else if(viewing != null) {
+		if(viewing != null) {
+			viewing.style.display = '';
+			viewing.innerText = getSetting("enableViewer") == "true" ? 'view_carousel' : 'view_column';
+		}
+		if(!enableViewer && viewing != null) {
 			viewing.style.display = 'none';
-			// if(getSetting("enableViewer") == "true") {
-				// setSetting("enableViewer", false);
-				// loadPage(body.id);
-			// }
 		}
+		// if(!settingsLoaded && viewing != null)
+			// viewing.addEventListener('click', function() {
+				// setSetting("enableViewer", getSetting("enableViewer") == "true" ? false : true);
+				// loadPage(body.id);
+			// });
 		
-		let shadows = document.getElementById('enable-shadows');
-		if(!settingsLoaded)
+		let shadows = document.querySelector('.enable-shadows');
+		if(shadows == null) {
+			shadows = document.createElement('i');
+			shadows.classList.add('enable-shadows');
+			shadows.classList.add('material-icons');
+			shadows.title = 'Toggle Shadows';
+			shadows.style.transform = 'scaleX(-1)';
+			shadows.innerText = getSetting("enableShadows") == "true" ? 'filter' : 'crop_original';
 			shadows.addEventListener('click', function() {
 				setSetting("enableShadows", getSetting("enableShadows") == "true" ? false : true);
 				loadPage(body.id);
 			});
-		if(enableShadows)
-		{
-			if(shadows == null) {
-				shadows = document.createElement('i');
-				shadows.id = 'enable-shadows';
-				shadows.title = 'Toggle Shadows';
-				shadows.classList.add('material-icons');
-				shadows.style.transform = 'scaleX(-1)';
-				shadows.innerText = getSetting("enableShadows") == "true" ? 'filter' : 'crop_original';
-				shadows.addEventListener('click', function() {
-					setSetting("enableShadows", getSetting("enableShadows") == "true" ? false : true);
-					loadPage(body.id);
-				});
-				settingsDiv.appendChild(shadows);
-			}
-			else {
-				shadows.style.display = '';
-				shadows.innerText = getSetting("enableShadows") == "true" ? 'filter' : 'crop_original';
-			}
+			settingsDiv.appendChild(shadows);
 		}
-		else if(shadows != null) {
+		if(shadows != null) {
+			shadows.style.display = '';
+			shadows.innerText = getSetting("enableShadows") == "true" ? 'filter' : 'crop_original';
+		}
+		if(!enableShadows && shadows != null) {
 			shadows.style.display = 'none';
 			// if(getSetting("enableShadows") == "true") {
 				// setSetting("enableShadows", false);
 				// loadPage(body.id);
 			// }
 		}
+		// if(!settingsLoaded && shadows != null)
+			// shadows.addEventListener('click', function() {
+				// setSetting("enableShadows", getSetting("enableShadows") == "true" ? false : true);
+				// loadPage(body.id);
+			// });
 	
 	settingsLoaded = true;
 	// frame.appendChild(settingsDiv);
 	
-	let back = document.createElement('h4');
-	back.id = 'footer';
-		let backLink = document.createElement('a');
-		backLink.href = '../index.html';
-		backLink.innerText = 'Back';
-	back.appendChild(backLink);
-	// frame.appendChild(back);
+	let back = document.querySelector('.back');
+	if(back == null) {
+		let spacer = document.createElement('div');
+		spacer.style.height = '15px';
+		settingsDiv.appendChild(spacer);
+	
+		let back = document.createElement('a');
+		back.classList.add('back');
+		back.href = '../index.html';
+		back.innerText = 'Back';
+		settingsDiv.appendChild(back);
+	}	
 	
 	body.innerHTML = '';
 	body.appendChild(frame);
