@@ -297,7 +297,7 @@ function generatePlayer() {
 }
 
 function generatePlayerByURL(url) {
-	let embedHeight = playerHeight;
+	let embedHeight = 450;
 	if(0.75*window.innerHeight < embedHeight)
 		embedHeight = 0.5*window.innerHeight;
     if (url.includes('music.apple.com')) {
