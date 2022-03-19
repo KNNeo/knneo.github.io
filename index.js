@@ -80,6 +80,19 @@ function renderElements() {
 			}
 			else
 			{
+				let group = item.querySelector('.title');
+				if(group == null)
+				{
+					group = document.createElement('span');
+					group.classList.add('title');
+					group.innerText = page.group;
+					item.insertBefore(group, item.children[0]);	
+					
+					let spacer = document.createElement('span');
+					spacer.innerText = ' ';
+					item.insertBefore(spacer, item.children[1]);
+				}
+				
 				let spacer = document.createElement('span');
 				spacer.innerText = ' ';
 				item.appendChild(spacer);
