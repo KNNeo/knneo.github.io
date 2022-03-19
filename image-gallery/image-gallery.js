@@ -152,7 +152,7 @@ function renderPage(pageName) {
 	frame.appendChild(title);
 	
 	let description = document.createElement('div');
-	description.id = 'description';
+	description.classList.add('description');
 	descriptionClosed = localStorage.getItem("descriptionClosed") == "true";
 	if(descriptionClosed) description.classList.add('closed');
 		let descriptionCloser = document.createElement('i');
@@ -174,6 +174,7 @@ function renderPage(pageName) {
 
 	let options = document.createElement('div');
 	options.id = 'options';	
+	options.classList.add('options');
 	
 		let loader = writeLoadedCount();
 		options.appendChild(loader);

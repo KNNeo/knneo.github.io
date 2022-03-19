@@ -45,7 +45,17 @@ hr {
 	display: inline-block;
 	white-space: nowrap;
 }
-#description {
+.options, .description {
+	background-color: white;
+	border: 1px solid lightgray;	
+}
+.darked .options,
+.darked .description {
+	background-color: black;
+	border: 1px solid white;
+	color: white;
+}
+.description {
 	position: absolute;
 	left: 0;
 	right: 0;
