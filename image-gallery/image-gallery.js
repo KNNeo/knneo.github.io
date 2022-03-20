@@ -36,6 +36,10 @@ let excludedPopupText = 'Image will be excluded. Proceed for all?';
 let body = document.getElementById('contents');
 let spacerURL = 'https://knneo.github.io/resources/spacer.gif';
 let isFirefox = (/Firefox/i.test(navigator.userAgent));
+let isMobile = function() {
+    const match = window.matchMedia('(pointer:coarse)');
+    return (match && match.matches);
+};
 let lowestHeight = 9999;
 let highestHeight = 0;
 let imgArray = [];
@@ -671,7 +675,7 @@ function renderGallery(array) {
 	let totalCount = 0;
 	let profileCategoryHTML = document.createElement('DIV');
 	profileCategoryHTML.classList.add('profile-category');
-	if(isFirefox) profileCategoryHTML.classList.add('snap');
+	// if(isFirefox) profileCategoryHTML.classList.add('snap');
 	for(let img of array)
 	{
 		if(img[0] == 0 || img[0] == 999) continue;
@@ -1010,15 +1014,16 @@ function renderGalleryScroll() {
 		let scrollDelta = isFirefox ? -e.detail*100 : e.wheelDelta
 		document.getElementsByClassName('profile-category')[0].scrollLeft -= scrollDelta;
 		
-		if(new Date() - time < 400 && ((scrollDelta/2) > 30 || (scrollDelta/2) < -30)) //conditions to prevent immediate snap
-		{
-			reSnap();
-		}
+		// if(new Date() - time < 400 && ((scrollDelta/2) > 30 || (scrollDelta/2) < -30)) //conditions to prevent immediate snap
+		// {
+			// reSnap();
+		// }
 	});
 	
-	document.getElementById("imgGallery").addEventListener("touchmove", function(e) {
+	// document.getElementById("imgGallery").addEventListener("touchmove", function(e) {
+	if(isMobile() && document.getElementsByClassName('profile-category').length > 0)
 		document.getElementsByClassName('profile-category')[0].classList.add('snap');
-	});
+	// });
 }
 
 function reSnap() {
