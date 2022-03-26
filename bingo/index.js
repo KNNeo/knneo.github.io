@@ -1,8 +1,8 @@
 //--SETTINGS--//
-const debugMode = true;
+const debugMode = false;
 const cardsGenerated = 3;
 const interval = 5000;
-const labels = ['B', 'I', 'N', 'G', 'O'];
+const labels = ['B','I','N','G','O'];
 const combinations = [
 	{
 		"name": "W",
@@ -13,9 +13,47 @@ const combinations = [
 		"selected": [2,3,4,7,12,13,14,17,22,23,24],
 	},
 	{
-		"name": "All",
-		"selected": [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25],
+		"name": "N",
+		"selected": [1,5,6,7,10,11,13,15,16,19,20,21,25],
 	},
+	{
+		"name": "4 Corners",
+		"selected": [1,5,21,25],
+	},
+	{
+		"name": "4 Stamps",
+		"selected": [1,2,4,5,6,7,9,10,13,16,17,19,20,21,22,24,25],
+	},
+	{
+		"name": "Number 3",
+		"selected": [1,2,3,4,5,10,11,12,13,14,15,20,21,22,23,24,25],
+	},
+	{
+		"name": "Number 5",
+		"selected": [1,2,3,4,5,6,11,12,13,14,20,21,22,23,24],
+	},
+	{
+		"name": "Lucky 13",
+		"selected": [1,3,4,5,6,10,11,13,14,15,16,20,21,23,24,25],
+	},
+	{
+		"name": "Pretzel",
+		"selected": [1,2,3,6,8,11,12,13,14,15,18,20,23,24,25],
+	},
+	// {
+		// "name": "Any Horizontal",
+		// "selected": [
+			// [1,2,3,4,5],
+			// [6,7,8,9,10],
+			// [11,12,13,14,15],
+			// [16,17,18,19,20],
+			// [21,22,23,24,25],
+		// ],
+	// },
+	// {
+		// "name": "Blackout",
+		// "selected": [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25],
+	// },
 ];
 const smallScreen = function() {
     return window.innerWidth <= 640;
@@ -26,9 +64,11 @@ window.addEventListener('load', startup);
 window.addEventListener('resize', startup);
 
 function startup() {
+	window['daub'] = localStorage.getItem('daub');
 	window['ended'] = true;
 	window['combination'] = null;
 	window['cards'] = isMobile() || smallScreen() ? 1 : cardsGenerated;
+	renderTitle(true);
 	renderDisplay();
 	renderCards();
 	renderActions();
@@ -36,6 +76,13 @@ function startup() {
 }
 
 //--FUNCTIONS--//
+function renderTitle(firstLoad) {
+	let maxStyles = 3;
+	if(!firstLoad) window['daub'] = (window['daub'] + 1 > maxStyles) ? 1 : window['daub'] + 1;
+	document.querySelector('.title').classList = 'title daub' + window['daub'];
+	localStorage.setItem('daub', window['daub']);
+}
+
 function renderDisplay() {
 	document.querySelector('.display').innerHTML = '';
 	//three sections: pattern, board, call
@@ -114,6 +161,11 @@ function generatePattern(shape) {
 	
 	let header = document.createElement('div');
 	header.innerText = 'PATTERN';
+	header.addEventListener('click', function() {
+		let index = combinations.indexOf(window['combination']);
+		window['combination'] = combinations[index > combinations.length ? 0 : index + 1];
+		generatePattern(window['combination']);
+	});
 	div.appendChild(header);
 	
 	let pattern = document.createElement('div');
@@ -164,7 +216,6 @@ function generateBoard() {
 			td.classList.add('square-md');
 			td.setAttribute('data-id', m*15+n+1);
 			td.innerText = numbers[m*15+n];
-			// td.classList.add('highlighted');
 			tr.appendChild(td);
 		}
 		tbody.appendChild(tr);
@@ -202,11 +253,11 @@ function renderCards() {
 		let table = generateCard(a,b);
 		div.appendChild(table);	
 		
-		document.querySelector('.list').appendChild(div);
-		
 		let away = document.createElement('div');
 		away.classList.add('away');
 		div.appendChild(away);
+		
+		document.querySelector('.list').appendChild(div);
 	}
 	
 }
@@ -271,15 +322,19 @@ function generateCard(numbers, selected) {
 				td.setAttribute('data-id', m*5+n+1);
 				td.innerText = numbers && numbers[m*5+n] || '';
 				td.addEventListener('click', function() {
-					this.classList.toggle('selected');
-					onCellClicked();
+					if(!window['ended'])
+					{
+						this.classList.toggle('daub' + window['daub']);
+						this.classList.toggle('selected');
+						onCellClicked();
+					}
 				});
 			}
 			else
 			{
 				td.classList.add('square-sm');
 				if(selected[m*5+n] == true)
-					td.classList.add('highlighted');
+					td.classList.add('selected');
 			}
 			tr.appendChild(td);
 		}
@@ -331,6 +386,11 @@ function onGenerateClicked() {
 			let newCard = generateCard(a,b);
 			document.querySelectorAll('.card')[id].innerHTML = '';
 			document.querySelectorAll('.card')[id].appendChild(newCard);
+			
+			let away = document.createElement('div');
+			away.classList.add('away');
+			document.querySelectorAll('.card')[id].appendChild(away);
+			
 			break;
 		case 'Bingo':
 			if(checkBingo(id) == true)
