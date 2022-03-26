@@ -3,17 +3,22 @@ html {
 	scroll-behavior: smooth;
 }
 body > * {
-	max-width: 640px;
 	margin: auto;
-	text-align: center;
+	text-align: center;	
 	-webkit-user-select: none;
 	-khtml-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
 }
+.menu {
+	max-width: 640px;
+}
 .large-font {
 	font-size: 2em;
+}
+.huge-font {
+	font-size: 4em;
 }
 .material-icons {
 	cursor: pointer;
@@ -46,15 +51,43 @@ body > * {
   justify-content: center;
   align-items: center;
 }
-.square {
+.square-hg {
+	width: 120px;
+	height: 120px;
+}
+.square-lg {
 	width: 80px;
 	height: 80px;
+}
+.square-md {
+	width: 40px;
+	height: 40px;
+}
+.square-sm {
+	width: 20px;
+	height: 20px;
 }
 .selected {
 	background-color: lightgray;
 }
 .darked .selected {
 	background-color: gray;
+}
+
+.highlighted {
+	background-color: blue;
+}
+.darked .highlighted {
+	background-color: cyan;
+}
+
+.latest {
+	margin: 0 10px;
+}
+
+.label,
+.away {
+	padding: 5px;
 }
 
 @media only screen and (max-width : 1040px) {
