@@ -1522,6 +1522,7 @@
 		"id": "KoharaKonomi",
 		"image": "https://knneo.webs.com/koharakonomi.jpg",
 		"landscapes": [
+			"https://storage.mantan-web.jp/images/2022/03/29/20220329dog00m200019000c/001_size6.jpg",
 			"https://ogre.natalie.mu/media/pp/static/comic/teslanote03/g_kohara01.jpg",
 			"https://storage.mantan-web.jp/images/2021/01/14/20210114dog00m200009000c/002_size6.jpg"
 		],
@@ -2679,13 +2680,6 @@
 		"name": "Usada Pekora",
 		"dob": "????.01.06",
 		"sortOrder": 1
-	},
-	{
-		"category": "hololive",
-		"id": "UruhaRushia",
-		"name": "Uruha Rushia",
-		"dob": "????.01.22",
-		"sortOrder": 2
 	},
 	{
 		"category": "hololive",
