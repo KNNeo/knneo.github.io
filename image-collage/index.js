@@ -10,6 +10,8 @@ let isDarkMode = true;		  // initial value if enableDarkMode is false, ignored i
 let folderName = 'file://C:/Users/KAINENG/OneDrive/Pictures/DOAX-VenusVacation/Bromides/';
 let buttonArray = true;		  // displays tag array based on underscore separated filename eg. image_item.jpg has 2 tags: image, item
 let debugMode = false;		  // shows console log values on render
+let isWidescreen = window.innerWidth > 800;
+let horizontalScreenRatio = 0.5; // for gallery, with respect to screen width, 0~1
 
 //--SYSTEM VARIABLES: DO NOT EDIT--//
 window.addEventListener('load', startup);
@@ -47,9 +49,12 @@ function startup() {
 	generateLayout();
 	generateMosaic();
 	let mousewheelEvent = isFirefox ? "DOMMouseScroll" : "mousewheel";
-	document.getElementById('mosaic').addEventListener(mousewheelEvent, onScroll);
-	document.getElementById('mosaic').addEventListener('touchstart', onTouchStart);
-	document.getElementById('mosaic').addEventListener('touchmove', onTouchMove);
+	if(!isWidescreen)
+	{
+		document.getElementById('mosaic').addEventListener(mousewheelEvent, onScroll);
+		document.getElementById('mosaic').addEventListener('touchstart', onTouchStart);
+		document.getElementById('mosaic').addEventListener('touchmove', onTouchMove);
+	}
 	if(!enableDarkMode) {
 		if(isDarkMode) {
 			document.getElementsByTagName('html')[0].classList.add('darked');
@@ -126,7 +131,10 @@ function initializeVariables() {
 function generateLayout() {
 	document.body.innerHTML = '';
 	generateViewer();
-	generateVerticalLayout();
+	if(isWidescreen)
+		generateHorizontalLayout(); // left player and menu, right covers
+	else
+		generateVerticalLayout(); // top player and menu, bottom covers
 	
 }
 
@@ -152,6 +160,22 @@ function generateViewer() {
 	document.body.appendChild(viewer);
 }
 
+function generateHorizontalLayout() {
+	let bodyTable = document.createElement('table');
+	bodyTable.style.width = '100%';
+	
+	let bodyTableBody = document.createElement('tbody');
+	
+	let bodyTableRow1 = document.createElement('tr');
+	bodyTableRow1.appendChild(generateLayoutPlayer(true));
+	bodyTableRow1.appendChild(generateLayoutJukebox(true));
+	
+	bodyTableBody.appendChild(bodyTableRow1);
+	
+	bodyTable.appendChild(bodyTableBody);
+	document.body.appendChild(bodyTable);
+}
+
 function generateVerticalLayout() {
 	let bodyTable = document.createElement('table');
 	bodyTable.style.width = '100%';
@@ -171,17 +195,18 @@ function generateVerticalLayout() {
 	document.body.appendChild(bodyTable);
 }
 
-function generateLayoutPlayer() {
+function generateLayoutPlayer(isHorizontal) {
 	let bodyTablePlayerCell = document.createElement('td');
 	bodyTablePlayerCell.classList.add('jukebox-cell');
-	bodyTablePlayerCell.style.width = '100%';
+	// bodyTablePlayerCell.style.width = '100%';
 	bodyTablePlayerCell.style.verticalAlign = 'baseline';
 	bodyTablePlayerCell.style.textAlign = 'center';
 	
 	let main = document.createElement('div');
 	main.id = 'main';
 	let mainTable = document.createElement('table');
-	mainTable.style.width = '100%';
+	if(isHorizontal) mainTable.style.width = ((1-horizontalScreenRatio) * window.innerWidth) + 'px';
+	else mainTable.style.width = '100%';
 	mainTable.style.height = '100%';
 	
 	let mainTableBody = document.createElement('tbody');
@@ -255,7 +280,8 @@ function generateLayoutPlayer() {
 		tags.style.whiteSpace = 'nowrap';
 	}
 	else {
-		tags.style.maxHeight = '2em';
+		if(isWidescreen) tags.style.maxHeight = (0.7 * window.innerHeight) + 'px';
+		else tags.style.maxHeight = '2em';
 		tags.style.overflowY = 'auto';
 	}
 	
@@ -434,13 +460,14 @@ function generateButtonArrayIfEmpty() {
 	if(debugMode) console.log(buttonArray);
 }
 
-function generateLayoutJukebox() {
+function generateLayoutJukebox(isHorizontal) {
 	let bodyTableJukeboxCell = document.createElement('td');
 	// bodyTableJukeboxCell.classList.add('jukebox-cell');
 
 	let mosaic = document.createElement('div');
 	mosaic.id = 'mosaic';
-	mosaic.style.height = (window.innerHeight - 300) + 'px';
+	if(isHorizontal) mosaic.style.width = ((horizontalScreenRatio) * window.innerWidth) + 'px';
+	mosaic.style.height = (window.innerHeight) + 'px';
 
 	let grid = generateGrid();
 	mosaic.appendChild(grid);
