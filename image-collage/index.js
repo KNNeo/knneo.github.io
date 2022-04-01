@@ -10,7 +10,7 @@ let isDarkMode = true;		  // initial value if enableDarkMode is false, ignored i
 let folderName = 'file://C:/Users/KAINENG/OneDrive/Pictures/DOAX-VenusVacation/Bromides/';
 let buttonArray = true;		  // displays tag array based on underscore separated filename eg. image_item.jpg has 2 tags: image, item
 let debugMode = false;		  // shows console log values on render
-let isWidescreen = window.innerWidth > 800;
+let isWidescreen = function() { return window.innerWidth > 800; }
 let horizontalScreenRatio = 0.5; // for gallery, with respect to screen width, 0~1
 
 //--SYSTEM VARIABLES: DO NOT EDIT--//
@@ -49,7 +49,7 @@ function startup() {
 	generateLayout();
 	generateMosaic();
 	let mousewheelEvent = isFirefox ? "DOMMouseScroll" : "mousewheel";
-	if(!isWidescreen)
+	if(!isWidescreen())
 	{
 		document.getElementById('mosaic').addEventListener(mousewheelEvent, onScroll);
 		document.getElementById('mosaic').addEventListener('touchstart', onTouchStart);
@@ -131,7 +131,7 @@ function initializeVariables() {
 function generateLayout() {
 	document.body.innerHTML = '';
 	generateViewer();
-	if(isWidescreen)
+	if(isWidescreen())
 		generateHorizontalLayout(); // left player and menu, right covers
 	else
 		generateVerticalLayout(); // top player and menu, bottom covers
@@ -280,7 +280,7 @@ function generateLayoutPlayer(isHorizontal) {
 		tags.style.whiteSpace = 'nowrap';
 	}
 	else {
-		if(isWidescreen) tags.style.maxHeight = (0.7 * window.innerHeight) + 'px';
+		if(isWidescreen()) tags.style.maxHeight = (0.7 * window.innerHeight) + 'px';
 		else tags.style.maxHeight = '2em';
 		tags.style.overflowY = 'auto';
 	}
