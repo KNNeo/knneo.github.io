@@ -4,6 +4,11 @@ html {
 	color: black;
 }
 
+button {
+	background-color: white;
+    border: 1px solid gray;
+}
+
 .darked, .darked button, .darked textarea, .darked div {
 	background-color: black;
 	color: white;

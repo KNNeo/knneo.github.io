@@ -138,6 +138,26 @@ tr:hover > td {
     background-color: transparent;
 }
 
+.button-active {
+	color: lightgray;
+	border: 1px solid lightgray;
+}
+
+.darked .button-active {
+	color: gray;
+	border: 1px solid gray;	
+}
+
+.button-inactive {
+	color: lightgray;
+	border: 1px solid lightgray;
+}
+
+.darked .button-inactive {
+	color: gray;
+	border: 1px solid gray;	
+}
+
 #main {
   -webkit-user-select: none;
   -khtml-user-select: none;
