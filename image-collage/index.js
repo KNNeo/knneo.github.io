@@ -3,28 +3,29 @@
 //Thumbnail filenames to be in format 'size_<sm/md/lg>_<filename>' according to presetWidth
 //Data in data.js, variable mosaicArray
 //--VARIABLES--//
-let presetWidths = [160, 320, 480]; // small, medium, large; subject to alignment of columns
-let minColumns = 3;			  // minimum columns to show thumbnails, will override minWidth
-let enableDarkMode = true;	  // displays dark mode toggle
-let isDarkMode = true;		  // initial value if enableDarkMode is false, ignored if enableDarkMode is true
-let folderName = 'file://C:/Users/KAINENG/OneDrive/Pictures/DOAX-VenusVacation/Bromides/';
-let buttonArray = true;		  // displays tag array based on underscore separated filename eg. image_item.jpg has 2 tags: image, item
-let debugMode = false;		  // shows console log values on render
-let isWidescreen = function() { return window.innerWidth > 800; }
-let horizontalScreenRatio = 0.5; // for gallery, with respect to screen width, 0~1
+const presetWidths = [160, 320, 480]; 	// small, medium, large; subject to alignment of columns
+const minColumns = 3;			  		// minimum columns to show thumbnails, will override minWidth
+const enableDarkMode = true;	  	// displays dark mode toggle
+const isDarkMode = true;		  	// initial value if enableDarkMode is false, ignored if enableDarkMode is true
+const folderName = 'file://C:/Users/KAINENG/OneDrive/Pictures/DOAX-VenusVacation/Bromides/';
+const buttonArray = false;		  	// displays tag array based on underscore separated filename eg. image_item.jpg has 2 tags: image, item
+const debugMode = false;		  	// shows console log values on render
+const isWidescreen = function() { return window.innerWidth > 800; }
+const horizontalScreenRatio = 0.5; 	// for gallery, with respect to screen width, 0~1
+const excludedTags = ['覚醒'];
+const minTagCount = 10;				// anything more than or equal to this will be included in tags
 
 //--SYSTEM VARIABLES: DO NOT EDIT--//
 window.addEventListener('load', startup);
 window.addEventListener('resize', startup);
 
-let excluded = ['覚醒'];
 function generateStats() {
 	let filtered = mosaicArray
 	.reduce(function(total, current, arr) {
 		let names = current.replace('.jpg', '').split('_');
 		for(let name of names)
 		{
-			if(excluded.includes(name))
+			if(excludedTags.includes(name))
 				continue;
 			if(total[name] == undefined)
 				total[name] = 1;
@@ -37,7 +38,9 @@ function generateStats() {
 	let countArray = [];
 	for(let item of Object.keys(filtered))
 	{
-		countArray.push([item, filtered[item]]);
+		console.log(filtered[item]);
+		if(filtered[item] >= minTagCount)
+			countArray.push([item, filtered[item]]);
 	}
 	
 	console.log(countArray.sort(function(a,b) { return b[1] - a[1];	}));
@@ -56,7 +59,7 @@ function startup() {
 		document.getElementById('mosaic').addEventListener('touchmove', onTouchMove);
 	}
 	if(!enableDarkMode) {
-		if(isDarkMode) {
+		if(isDarkMode || window['darkMode'] == true) {
 			document.getElementsByTagName('html')[0].classList.add('darked');
 		}
 		else {
@@ -64,9 +67,9 @@ function startup() {
 		}
 	}
 	if(enableDarkMode && document.getElementById('darkmode') != null) {
-		isDarkMode = document.getElementsByTagName('html')[0].classList.contains('darked');
+		window['darkMode'] = document.getElementsByTagName('html')[0].classList.contains('darked');
 		document.getElementById('darkmode').addEventListener('click', toggleDarkMode);
-		document.getElementById('darkmode').addEventListener('click', function() { isDarkMode = !isDarkMode; });
+		document.getElementById('darkmode').addEventListener('click', function() { window['darkMode'] = !window['darkMode']; });
 	}
 }
 
@@ -131,7 +134,8 @@ function initializeVariables() {
 function generateLayout() {
 	document.body.innerHTML = '';
 	generateViewer();
-	if(isWidescreen())
+	generateButtonArrayIfEmpty();
+	if(isWidescreen() && window['buttonArray'].length > 0)
 		generateHorizontalLayout(); // left player and menu, right covers
 	else
 		generateVerticalLayout(); // top player and menu, bottom covers
@@ -285,9 +289,7 @@ function generateLayoutPlayer(isHorizontal) {
 		tags.style.overflowY = 'auto';
 	}
 	
-	generateButtonArrayIfEmpty();
-	
-	for(let button of buttonArray) {
+	for(let button of window['buttonArray']) {
 		if(button == '') continue;
 		let tag = document.createElement('button');
 		tag.classList.add('tag');
@@ -422,14 +424,14 @@ function generateLayoutPlayer(isHorizontal) {
 function generateButtonArrayIfEmpty() {
 	if(typeof buttonArray == 'boolean') {
 		let val = buttonArray;
-		buttonArray = [];
+		window['buttonArray'] = [];
 		if(!val) return;
 	}
 	if(buttonArray.length > 0)
 		return;
 	
 	//generate tags by design
-	buttonArray = mosaicArray.join('')
+	window['buttonArray'] = mosaicArray.join('')
 	.replace(/ /g,'')
 	.replace(/.jpg/g,'_')
 	.split('_')
@@ -457,7 +459,7 @@ function generateButtonArrayIfEmpty() {
 		return b.count - a.count;
 	})
 	.map(m => m.value);
-	if(debugMode) console.log(buttonArray);
+	if(debugMode) console.log(window['buttonArray']);
 }
 
 function generateLayoutJukebox(isHorizontal) {
