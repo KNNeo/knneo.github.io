@@ -301,10 +301,10 @@ function generateLayoutPlayer() {
 		tags.style.whiteSpace = 'nowrap';
 	}
 	else {
-		if(isWidescreen()) tags.style.maxHeight = (0.7 * window.innerHeight) + 'px';
-		else tags.style.maxHeight = '2em';
+		tags.style.maxHeight = '2em';
 		tags.style.overflowY = 'auto';
 	}
+	if(isWidescreen()) tags.style.maxHeight = (0.7 * window.innerHeight) + 'px';
 	if(window['archive']) tags.style.height = 0;
 	
 	for(let button of window['buttonArray']) {
