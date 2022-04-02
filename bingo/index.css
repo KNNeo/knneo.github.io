@@ -51,6 +51,10 @@ body > * {
   justify-content: center;
   align-items: center;
 }
+.square-board {
+	width: 40px;
+	aspect-ratio: 1 / 1;
+}
 .square-hg {
 	width: 120px;
 	height: 120px;

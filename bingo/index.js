@@ -213,7 +213,7 @@ function generateBoard() {
 			let td = document.createElement('td');
 			td.classList.add('board' + (m*15+n+1));
 			td.classList.add('shadowed');
-			td.classList.add('square-md');
+			td.classList.add('square-board');
 			td.setAttribute('data-id', m*15+n+1);
 			td.innerText = numbers[m*15+n];
 			tr.appendChild(td);
