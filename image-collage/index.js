@@ -295,16 +295,16 @@ function generateLayoutPlayer() {
 	let tags = document.createElement('div');
 	tags.classList.add('tags');
 	tags.addEventListener('hover', function() { this.focus(); });
-	if(isMobile()) {
+	if(window['isHorizontal']) {
+		tags.style.height = (0.7 * window.innerHeight) + 'px';
+		tags.style.overflowY = 'auto';
+	}
+	else {
 		tags.style.width = '100vw';
+		tags.style.maxHeight = '2em';
 		tags.style.overflowX = 'auto';
 		tags.style.whiteSpace = 'nowrap';
 	}
-	else {
-		tags.style.maxHeight = '2em';
-		tags.style.overflowY = 'auto';
-	}
-	if(window['isHorizontal']) tags.style.maxHeight = (0.7 * window.innerHeight) + 'px';
 	if(window['archive']) tags.style.height = 0;
 	
 	for(let button of window['buttonArray']) {
