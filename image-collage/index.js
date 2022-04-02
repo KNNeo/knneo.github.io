@@ -1,9 +1,13 @@
 //--NOTES--//
+//Default separator is '_' (underscore) unless stated in settings
 //Filenames of images to be in the format of <tag>_<tag>_...jpg
-//Thumbnail filenames to be in format 'size_<sm/md/lg>_<filename>' according to presetWidth
+//Thumbnail filenames to be in format '<prefix>_<filename>' according to preset; original has no prefix
 //Data in data.js, variable mosaicArray
-//--VARIABLES--//
+
+//--SETTINGS--//
 const presetWidths = [160, 320, 480]; 	// small, medium, large; subject to alignment of columns
+const presetPrefix = ['size_sm_', 'size_md_', 'size_lg_']; 	// small, medium, large; subject to alignment of columns
+const filenameSeparator = '_';			// filename to be separator delimited tags excluding file format
 const minColumns = 3;			  		// minimum columns to show thumbnails, will override minWidth
 const enableDarkMode = true;	  		// shows dark mode toggle
 const isDarkMode = true;		  		// initial value if enableDarkMode is false, ignored if enableDarkMode is true
@@ -15,14 +19,14 @@ const horizontalMenuWidth = 500; 		// for not gallery, in pixels
 const excludedTags = ['覚醒'];			// tags excluded, only if buttonArray is true
 const minTagCount = 2;					// anything more than or equal to this will be included in tags
 
-//--SYSTEM VARIABLES: DO NOT EDIT--//
+//--VARIABLES--//
 window.addEventListener('load', startup);
 window.addEventListener('resize', startup);
 
 function generateStats() {
 	let filtered = mosaicArray
 	.reduce(function(total, current, arr) {
-		let names = current.replace('.jpg', '').split('_');
+		let names = current.substring(0, current.lastIndexOf('.')).split(filenameSeparator);
 		for(let name of names)
 		{
 			if(excludedTags.includes(name))
@@ -38,7 +42,7 @@ function generateStats() {
 	let countArray = [];
 	for(let item of Object.keys(filtered))
 	{
-		console.log(filtered[item]);
+		// console.log(filtered[item]);
 		if(filtered[item] >= minTagCount)
 			countArray.push([item, filtered[item]]);
 	}
@@ -96,7 +100,7 @@ function onTouchMove(e) {
 
 function togglePreset() {
 	switch(this.innerText)
-	{	
+	{
 	  case 'photo_size_select_actual':
 		document.getElementById('preset').innerText = 'photo_size_select_small';
 		window['thumbWidth'] = presetWidths[0];
@@ -438,10 +442,13 @@ function generateButtonArrayIfEmpty() {
 	
 	//generate tags by design
 	window['buttonArray'] = mosaicArray
-	.join('')
-	.replace(/ /g,'')
-	.replace(/.jpg/g,'_')
-	.split('_')
+	.map(function(filename) {
+		return filename.substring(0, filename.lastIndexOf('.'));
+	})
+	.join(filenameSeparator)
+	.replace(/ /g, '')
+	// .replace(/.jpg/g, filenameSeparator)
+	.split(filenameSeparator)
 	.reduce(function(total, current, index, array) {
 		let updated = total;
 		if(total.filter(a => a.value == current).length > 0) {
@@ -532,7 +539,7 @@ function generateGrid() {
 		gridImage.id = imageUrl;
 		gridImage.tabIndex = 0;
 		gridImage.classList.add('grid-image');
-		gridImage.title = imageUrl.replace('.jpg','').replace(/_/gi,'\n');
+		gridImage.title = imageUrl.substring(0, imageUrl.lastIndexOf('.'));
 		gridImage.style.width = window['thumbWidth'] + 'px';
 		gridImage.style.height = (window['thumbWidth']*9/16) + 'px';
 		gridImage.style.backgroundSize = gridImage.style.width;
@@ -573,13 +580,13 @@ function getThumbnailPrefix() {
 	switch(window['preset'])
 	{
 	  case 'photo_size_select_small':
-		prefix = 'size_sm_';
+		prefix = presetPrefix[0];
 		break;
 	  case 'photo_size_select_large':
-		prefix = 'size_md_';
+		prefix = presetPrefix[1];
 		break;
 	  case 'photo_size_select_actual':
-		prefix = 'size_lg_';
+		prefix = presetPrefix[2];
 	  default:
 		break;
 	}
