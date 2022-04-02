@@ -1,4 +1,4 @@
-let mosaicArray = 
+const mosaicArray = 
 [
 "いたずらキューピッド_マリー・ローズ.jpg"
 ,"いなば_ルナ.jpg"
@@ -326,7 +326,7 @@ Array.from(document.querySelectorAll('.filesTable .jsName')).map((current) => {
 3. this id will align against images placed in order for #original tag
 */
 
-let mosaicArrayOnline = [
+const mosaicArrayOnline = [
     {
         "filename": "アクア・キャビア_かすみ.jpg",
         "id": "DxnYE5qHiq"
