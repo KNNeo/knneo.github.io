@@ -5,15 +5,15 @@
 //--VARIABLES--//
 const presetWidths = [160, 320, 480]; 	// small, medium, large; subject to alignment of columns
 const minColumns = 3;			  		// minimum columns to show thumbnails, will override minWidth
-const enableDarkMode = true;	  	// displays dark mode toggle
-const isDarkMode = true;		  	// initial value if enableDarkMode is false, ignored if enableDarkMode is true
+const enableDarkMode = true;	  		// shows dark mode toggle
+const isDarkMode = true;		  		// initial value if enableDarkMode is false, ignored if enableDarkMode is true
 const folderName = 'file://C:/Users/KAINENG/OneDrive/Pictures/DOAX-VenusVacation/Bromides/';
-const buttonArray = true;		  	// displays tag array based on underscore separated filename eg. image_item.jpg has 2 tags: image, item
-const debugMode = false;		  	// shows console log values on render
-const isWidescreen = function() { return window.innerWidth > 800; }
-const horizontalScreenRatio = 0.5; 	// for gallery, with respect to screen width, 0~1
-const excludedTags = ['覚醒'];
-const minTagCount = 10;				// anything more than or equal to this will be included in tags
+const buttonArray = true;		  		// shows tag array based on underscore separated filename eg. image_item.jpg has tags: image, item
+const debugMode = false;		  		// shows console log values on render
+const isWidescreen = function() { return window.innerWidth > 800; } // function to detect wider screen layout
+const horizontalMenuWidth = 500; 		// for not gallery, in pixels
+const excludedTags = ['覚醒'];			// tags excluded, only if buttonArray is true
+const minTagCount = 2;					// anything more than or equal to this will be included in tags
 
 //--SYSTEM VARIABLES: DO NOT EDIT--//
 window.addEventListener('load', startup);
@@ -209,7 +209,7 @@ function generateLayoutPlayer(isHorizontal) {
 	let main = document.createElement('div');
 	main.id = 'main';
 	let mainTable = document.createElement('table');
-	if(isHorizontal) mainTable.style.width = ((1-horizontalScreenRatio) * window.innerWidth) + 'px';
+	if(isHorizontal) mainTable.style.width = (horizontalMenuWidth) + 'px';
 	else mainTable.style.width = '100%';
 	mainTable.style.height = '100%';
 	
@@ -432,7 +432,8 @@ function generateButtonArrayIfEmpty() {
 		return;
 	
 	//generate tags by design
-	window['buttonArray'] = mosaicArray.join('')
+	window['buttonArray'] = mosaicArray
+	.join('')
 	.replace(/ /g,'')
 	.replace(/.jpg/g,'_')
 	.split('_')
@@ -456,6 +457,9 @@ function generateButtonArrayIfEmpty() {
 		}		
 		return updated;
 	},[])
+	.filter(function(item) {
+		return item.count >= minTagCount;
+	})
 	.sort(function(a,b) {
 		return b.count - a.count;
 	})
@@ -469,7 +473,7 @@ function generateLayoutJukebox(isHorizontal) {
 
 	let mosaic = document.createElement('div');
 	mosaic.id = 'mosaic';
-	if(isHorizontal) mosaic.style.width = ((horizontalScreenRatio) * window.innerWidth) + 'px';
+	if(isHorizontal) mosaic.style.width = (window.innerWidth - horizontalMenuWidth) + 'px';
 	mosaic.style.height = (window.innerHeight) + 'px';
 	mosaic.addEventListener('hover', function() { this.focus(); });
 
