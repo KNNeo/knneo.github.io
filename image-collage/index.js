@@ -14,7 +14,7 @@ const isDarkMode = true;		  		// initial value if enableDarkMode is false, ignor
 const folderName = 'file://C:/Users/KAINENG/OneDrive/Pictures/DOAX-VenusVacation/Bromides/';
 const buttonArray = true;		  		// shows tag array based on underscore separated filename eg. image_item.jpg has tags: image, item
 const debugMode = false;		  		// shows console log values on render
-const isWidescreen = function() { return window.innerWidth > 800; } // function to detect wider screen layout
+const isWidescreen = function() { return false;}//window.innerWidth > 800; } // function to detect wider screen layout
 const horizontalMenuWidth = 500; 		// for not gallery, in pixels
 const excludedTags = ['覚醒'];			// tags excluded, only if buttonArray is true
 const minTagCount = 2;					// anything more than or equal to this will be included in tags
@@ -228,7 +228,7 @@ function generateLayoutPlayer() {
 	let mainTable = document.createElement('table');
 	if(window['isHorizontal']) mainTable.style.width = (horizontalMenuWidth) + 'px';
 	else mainTable.style.width = '100%';
-	mainTable.style.height = '100%';
+	if(window['isHorizontal']) mainTable.style.height = '100%';
 	
 	let mainTableBody = document.createElement('tbody');
 	
