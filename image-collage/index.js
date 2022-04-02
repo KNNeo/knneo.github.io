@@ -52,11 +52,11 @@ function generateStats() {
 
 function startup() {
 	if(debugMode) console.log(mosaicArray);
-	initializeVariables();
+	initializeVariables();	
 	generateLayout();
 	generateMosaic();
 	let mousewheelEvent = isFirefox ? "DOMMouseScroll" : "mousewheel";
-	if(!isWidescreen())
+	if(!isWidescreen() && document.getElementById('mosaic') != null)
 	{
 		document.getElementById('mosaic').addEventListener(mousewheelEvent, onScroll);
 		document.getElementById('mosaic').addEventListener('touchstart', onTouchStart);
@@ -126,6 +126,11 @@ function togglePreset() {
 	generateMosaic();	
 }
 
+function toggleArchive() {
+	window['archive'] = !window['archive'];
+	startup();
+}
+
 function initializeVariables() {
 	if(!window['isFirefox']) window['isFirefox'] = (/Firefox/i.test(navigator.userAgent));
 	if(!window['includeCriteria']) window['includeCriteria'] = '';
@@ -133,6 +138,7 @@ function initializeVariables() {
 	if(!window['excluded']) window['excluded'] = [];
 	if(!window['preset']) window['preset'] = 'photo_size_select_small';
 	if(!window['thumbWidth']) window['thumbWidth'] = presetWidths[0];
+	if(!window['archive']) window['archive'] = false;
 }
 
 function generateLayout() {
@@ -177,7 +183,10 @@ function generateHorizontalLayout() {
 	
 	let bodyTableRow1 = document.createElement('tr');
 	bodyTableRow1.appendChild(generateLayoutPlayer());
-	bodyTableRow1.appendChild(generateLayoutJukebox());
+	if(window['archive'])
+		bodyTableRow1.appendChild(generateArchive());
+	else
+		bodyTableRow1.appendChild(generateLayoutJukebox());
 	
 	bodyTableBody.appendChild(bodyTableRow1);
 	
@@ -195,7 +204,10 @@ function generateVerticalLayout() {
 	bodyTableRow1.appendChild(generateLayoutPlayer());
 	
 	let bodyTableRow2 = document.createElement('tr');
-	bodyTableRow2.appendChild(generateLayoutJukebox());
+	if(window['archive'])
+		bodyTableRow2.appendChild(generateArchive());
+	else
+		bodyTableRow2.appendChild(generateLayoutJukebox());
 	
 	bodyTableBody.appendChild(bodyTableRow1);
 	bodyTableBody.appendChild(bodyTableRow2);
@@ -208,7 +220,7 @@ function generateLayoutPlayer() {
 	let bodyTablePlayerCell = document.createElement('td');
 	bodyTablePlayerCell.classList.add('jukebox-cell');
 	// bodyTablePlayerCell.style.width = '100%';
-	bodyTablePlayerCell.style.verticalAlign = 'baseline';
+	// bodyTablePlayerCell.style.verticalAlign = 'baseline';
 	bodyTablePlayerCell.style.textAlign = 'center';
 	
 	let main = document.createElement('div');
@@ -229,7 +241,6 @@ function generateLayoutPlayer() {
 	title.classList.add('title');
 	title.innerText = 'Image Collage';
 	title.addEventListener('click', function() {
-		window['archive'] = true;
 		startup();
 	});
 	// title.onclick = startup;
@@ -317,11 +328,14 @@ function generateLayoutPlayer() {
 			}
 			document.getElementById('include').value = window['includeCriteria'];
 			
-			let grid = generateGrid();		
-			document.getElementById('mosaic').innerHTML = '';
-			document.getElementById('mosaic').appendChild(grid);
+			let grid = generateGrid();
+			if(document.getElementById('mosaic') != null)
+			{
+				document.getElementById('mosaic').innerHTML = '';
+				document.getElementById('mosaic').appendChild(grid);
+				generateMosaic();
+			}
 			
-			generateMosaic();
 		});
 		tag.addEventListener('contextmenu',function() {
 			event.preventDefault();
@@ -340,11 +354,13 @@ function generateLayoutPlayer() {
 			}
 			document.getElementById('exclude').value = window['excludeCriteria'];
 			
-			let grid = generateGrid();		
-			document.getElementById('mosaic').innerHTML = '';
-			document.getElementById('mosaic').appendChild(grid);
-			
-			generateMosaic();
+			let grid = generateGrid();
+			if(document.getElementById('mosaic') != null)
+			{
+				document.getElementById('mosaic').innerHTML = '';
+				document.getElementById('mosaic').appendChild(grid);
+				generateMosaic();
+			}
 		});
 		tags.appendChild(tag);
 	}
@@ -384,17 +400,16 @@ function generateLayoutPlayer() {
 		settings.appendChild(preset);
 	}
 
-	if(window['archive'])
-	{
-		let archive = document.createElement('a');
-		archive.id = 'archive';
-		archive.style.padding = '0 5px';
-		archive.classList.add('archive');
-		archive.classList.add('material-icons');
-		archive.href = 'data.html';
-		archive.innerText = 'inventory';
-		settings.appendChild(archive);
-	}
+	let archive = document.createElement('a');
+	archive.id = 'archive';
+	archive.style.padding = '0 5px';
+	archive.classList.add('archive');
+	archive.classList.add('material-icons');
+	archive.style.cursor = 'pointer';
+	// archive.href = 'data.html';
+	archive.addEventListener('click', toggleArchive);
+	archive.innerText = 'inventory';
+	settings.appendChild(archive);
 		
 	let back = document.createElement('a');
 	back.classList.add('back');
@@ -432,7 +447,7 @@ function generateLayoutPlayer() {
 }
 
 function generateButtonArrayIfEmpty() {
-	if(typeof buttonArray == 'boolean') {
+	if(typeof buttonArray == 'boolean' || window['archive']) {
 		let val = buttonArray;
 		window['buttonArray'] = [];
 		if(!val) return;
@@ -494,6 +509,17 @@ function generateLayoutJukebox() {
 	bodyTableJukeboxCell.appendChild(mosaic);
 
 	return bodyTableJukeboxCell;
+}
+
+function generateArchive() {
+	let archive = document.createElement('iframe');
+	archive.src = './data.html';
+	archive.title = '';
+	archive.style.border = 0;
+	archive.style.width = window['isHorizontal'] ? (window.innerWidth - horizontalMenuWidth) + 'px' : '100%';
+	archive.style.height = (window.innerHeight) + 'px';
+	
+	return archive;
 }
 
 let preloads = [];
@@ -663,6 +689,10 @@ function generateMosaic() {
 			percentPosition: true
 		  });
 		});
+	}
+	else
+	{
+		document.getElementById('counter').parentElement.innerHTML = '';
 	}
 }
 
