@@ -8,7 +8,7 @@ const minColumns = 3;			  		// minimum columns to show thumbnails, will override
 const enableDarkMode = true;	  	// displays dark mode toggle
 const isDarkMode = true;		  	// initial value if enableDarkMode is false, ignored if enableDarkMode is true
 const folderName = 'file://C:/Users/KAINENG/OneDrive/Pictures/DOAX-VenusVacation/Bromides/';
-const buttonArray = false;		  	// displays tag array based on underscore separated filename eg. image_item.jpg has 2 tags: image, item
+const buttonArray = true;		  	// displays tag array based on underscore separated filename eg. image_item.jpg has 2 tags: image, item
 const debugMode = false;		  	// shows console log values on render
 const isWidescreen = function() { return window.innerWidth > 800; }
 const horizontalScreenRatio = 0.5; 	// for gallery, with respect to screen width, 0~1
@@ -278,6 +278,7 @@ function generateLayoutPlayer(isHorizontal) {
 	
 	let tags = document.createElement('div');
 	tags.classList.add('tags');
+	tags.addEventListener('hover', function() { this.focus(); });
 	if(isMobile()) {
 		tags.style.width = '100vw';
 		tags.style.overflowX = 'auto';
@@ -470,6 +471,7 @@ function generateLayoutJukebox(isHorizontal) {
 	mosaic.id = 'mosaic';
 	if(isHorizontal) mosaic.style.width = ((horizontalScreenRatio) * window.innerWidth) + 'px';
 	mosaic.style.height = (window.innerHeight) + 'px';
+	mosaic.addEventListener('hover', function() { this.focus(); });
 
 	let grid = generateGrid();
 	mosaic.appendChild(grid);
