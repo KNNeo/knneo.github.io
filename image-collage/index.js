@@ -135,7 +135,8 @@ function generateLayout() {
 	document.body.innerHTML = '';
 	generateViewer();
 	generateButtonArrayIfEmpty();
-	if(isWidescreen() && window['buttonArray'].length > 0)
+	window['isHorizontal'] = isWidescreen() && window['buttonArray'].length > 0
+	if(window['isHorizontal'])
 		generateHorizontalLayout(); // left player and menu, right covers
 	else
 		generateVerticalLayout(); // top player and menu, bottom covers
@@ -171,8 +172,8 @@ function generateHorizontalLayout() {
 	let bodyTableBody = document.createElement('tbody');
 	
 	let bodyTableRow1 = document.createElement('tr');
-	bodyTableRow1.appendChild(generateLayoutPlayer(true));
-	bodyTableRow1.appendChild(generateLayoutJukebox(true));
+	bodyTableRow1.appendChild(generateLayoutPlayer());
+	bodyTableRow1.appendChild(generateLayoutJukebox());
 	
 	bodyTableBody.appendChild(bodyTableRow1);
 	
@@ -199,7 +200,7 @@ function generateVerticalLayout() {
 	document.body.appendChild(bodyTable);
 }
 
-function generateLayoutPlayer(isHorizontal) {
+function generateLayoutPlayer() {
 	let bodyTablePlayerCell = document.createElement('td');
 	bodyTablePlayerCell.classList.add('jukebox-cell');
 	// bodyTablePlayerCell.style.width = '100%';
@@ -209,7 +210,7 @@ function generateLayoutPlayer(isHorizontal) {
 	let main = document.createElement('div');
 	main.id = 'main';
 	let mainTable = document.createElement('table');
-	if(isHorizontal) mainTable.style.width = (horizontalMenuWidth) + 'px';
+	if(window['isHorizontal']) mainTable.style.width = (horizontalMenuWidth) + 'px';
 	else mainTable.style.width = '100%';
 	mainTable.style.height = '100%';
 	
@@ -467,13 +468,13 @@ function generateButtonArrayIfEmpty() {
 	if(debugMode) console.log(window['buttonArray']);
 }
 
-function generateLayoutJukebox(isHorizontal) {
+function generateLayoutJukebox() {
 	let bodyTableJukeboxCell = document.createElement('td');
 	// bodyTableJukeboxCell.classList.add('jukebox-cell');
 
 	let mosaic = document.createElement('div');
 	mosaic.id = 'mosaic';
-	if(isHorizontal) mosaic.style.width = (window.innerWidth - horizontalMenuWidth) + 'px';
+	if(window['isHorizontal']) mosaic.style.width = (window.innerWidth - horizontalMenuWidth) + 'px';
 	mosaic.style.height = (window.innerHeight) + 'px';
 	mosaic.addEventListener('hover', function() { this.focus(); });
 
@@ -507,8 +508,8 @@ function generateGrid() {
 		return a.localeCompare(b, 'ja');
 	});
 	
-	let thumbnailSize = calculateThumbnailSize();
-	if(debugMode) console.log('thumbnailSize', thumbnailSize);
+	calculateThumbnailSize();
+	if(debugMode) console.log('thumbnailSize', window['thumbWidth']);
 	for(let item of filterArray) {
 		let imageUrl = item;
 		
@@ -528,8 +529,8 @@ function generateGrid() {
 		gridImage.tabIndex = 0;
 		gridImage.classList.add('grid-image');
 		gridImage.title = imageUrl.replace('.jpg','').replace(/_/gi,'\n');
-		gridImage.style.width = thumbnailSize + 'px';
-		gridImage.style.height = (thumbnailSize*9/16) + 'px';
+		gridImage.style.width = window['thumbWidth'] + 'px';
+		gridImage.style.height = (window['thumbWidth']*9/16) + 'px';
 		gridImage.style.backgroundSize = gridImage.style.width;
 		gridImage.addEventListener('mouseover',function() {
 			this.style.backgroundSize = (1.2*this.offsetWidth) + 'px';
@@ -583,9 +584,9 @@ function getThumbnailPrefix() {
 }
 
 function calculateThumbnailSize() {		
-	let screenWidth = window.innerWidth - 15;
-	let minThreshold = window['thumbWidth'];
-	let maxThreshold = screenWidth;
+	let screenWidth = window.innerWidth - 15 - (window['isHorizontal'] ? horizontalMenuWidth : 0);
+	// let minThreshold = window['thumbWidth'];
+	// let maxThreshold = screenWidth;
 	
 	let columns = 0;
 	let remainder = screenWidth;
@@ -600,7 +601,8 @@ function calculateThumbnailSize() {
 	let defaultRemainder = 20;
 	if(columns < minColumns)
 	{
-		return screenWidth / minColumns;
+		window['thumbWidth'] = screenWidth / minColumns;
+		return;
 	}
 	if(remainder > defaultRemainder)
 	{
@@ -608,8 +610,9 @@ function calculateThumbnailSize() {
 		return calculateThumbnailSize();
 	}
 	
-	if(debugMode) console.log('calculateThumbnailSize', window['thumbWidth']);
-	return window['thumbWidth'];
+	if(debugMode)
+		console.log('calculateThumbnailSize', window['thumbWidth']);
+	return;
 }
 
 function addUrlClause(url) {
