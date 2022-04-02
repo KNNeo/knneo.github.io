@@ -305,6 +305,7 @@ function generateLayoutPlayer() {
 		else tags.style.maxHeight = '2em';
 		tags.style.overflowY = 'auto';
 	}
+	if(window['archive']) tags.style.height = 0;
 	
 	for(let button of window['buttonArray']) {
 		if(button == '') continue;
@@ -376,7 +377,7 @@ function generateLayoutPlayer() {
 	settings.id = 'settings';
 	settings.classList.add('settings');
 	
-	if(enableDarkMode) {
+	if(enableDarkMode && !window['archive']) {
 		let darkmode = document.createElement('a');
 		darkmode.id = 'darkmode';
 		darkmode.style.padding = '0 5px';
@@ -387,7 +388,7 @@ function generateLayoutPlayer() {
 		settings.appendChild(darkmode);		
 	}
 	
-	if(presetWidths && presetWidths.length == 3)
+	if(presetWidths && presetWidths.length == 3 && !window['archive'])
 	{
 		let preset = document.createElement('a');
 		preset.id = 'preset';
@@ -512,6 +513,8 @@ function generateLayoutJukebox() {
 }
 
 function generateArchive() {
+	let archiveDiv = document.createElement('td');
+	
 	let archive = document.createElement('iframe');
 	archive.src = './data.html';
 	archive.title = '';
@@ -519,7 +522,8 @@ function generateArchive() {
 	archive.style.width = window['isHorizontal'] ? (window.innerWidth - horizontalMenuWidth) + 'px' : '100%';
 	archive.style.height = (window.innerHeight) + 'px';
 	
-	return archive;
+	archiveDiv.appendChild(archive);
+	return archiveDiv;
 }
 
 let preloads = [];
