@@ -1,3 +1,9 @@
+/*Variables*/
+:root {
+  --primary: #1400cc; 	/*when background is white*/
+  --secondary: #00e4ff; /*when background is black*/
+}
+
 /*when not in dark mode*/
 html {
 	background-color: white;
@@ -25,7 +31,7 @@ button {
 
 .darked a,
 .darked a:visited {
-	color: #00e4ff;
+	color: var(--secondary);
 }
 
 .darked .settings > a {
@@ -35,6 +41,7 @@ button {
 .highlight tr:hover {
 	background-color: lightgray;
 }
+
 .darked .highlight tr:hover {
 	background-color: gray;
 }

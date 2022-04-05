@@ -1,3 +1,4 @@
+/*Components*/
 html {
 	font-family: Open Sans;
 	-webkit-user-select: none; /* Safari */
@@ -7,15 +8,8 @@ html {
 	padding: 0;
 }
 
-#darkmode {
-	cursor: pointer;
-}
-
-#landing-cover {
-	position: fixed;
-	width: 100%;
-	height: 100%;
-	filter: contrast(20%);
+a {
+	color: var(--primary);	
 }
 
 .page {
@@ -29,7 +23,6 @@ html {
 }
 
 .subset {
-	color: blue;
     white-space: nowrap;
 }
 
@@ -47,6 +40,7 @@ html {
 }
 
 .settings a {
+	cursor: pointer;
 	-webkit-user-select: none; 
 	-ms-user-select: none; 
 	user-select: none;
@@ -56,8 +50,4 @@ html {
 
 .spacer {
 	height: 10px;
-}
-
-.back {
-	text-decoration: none;
 }
