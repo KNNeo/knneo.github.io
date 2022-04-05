@@ -23,9 +23,9 @@ function startup() {
 	// Window events
 	window.addEventListener('scroll', displayFAB);
 	window.addEventListener('resize', windowOnResize);
-	window.addEventListener('resize', resizeImg);
+	window.addEventListener('resize', resizeImages);
 	setTimeout(scrollToSectionByUrl, 1);
-	setTimeout(resizeImg, 500);
+	setTimeout(resizeImages, 500);
 }
 
 // FUNCTIONS, in startup order //
