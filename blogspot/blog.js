@@ -16,22 +16,16 @@ function startup() {
     addHashtags();
     addHoverForLinks();
     addHoverOnExpander();
-    setThumbnails();
-    resizeImg();
+	resizeImages();
 	// hideImagesOnError();
 	// videoifyGIFs();
 
 	// Window events
 	window.addEventListener('scroll', displayFAB);
 	window.addEventListener('resize', windowOnResize);
-	window.addEventListener('resize', reloadThumbnails);
+	window.addEventListener('resize', resizeImg);
 	setTimeout(scrollToSectionByUrl, 1);
-	setTimeout(reloadThumbnails, 500);
-}
-
-function reloadThumbnails() {
-	setThumbnails();
-	resizeImg();
+	setTimeout(resizeImg, 500);
 }
 
 // FUNCTIONS, in startup order //
@@ -771,7 +765,7 @@ function windowOnResize() {
 	if(document.getElementById('Overlay') != null && document.getElementById('Overlay').style.display != 'none')
 		closePopups();
 	
-	resizeImg();
+	resizeImages();
 };
 
 function fixExternalFrame(thumbnail) {
@@ -908,7 +902,7 @@ function calcMinMaxThumbHeight(thumbnailClass) {
 }
 
 // Responsive image resizing based on screen dimensions
-function resizeImg() {
+function resizeImages() {
     //current issues
     /*
     ~Exclusion list for class lists to avoid on parent element eg. when parent element in post div
