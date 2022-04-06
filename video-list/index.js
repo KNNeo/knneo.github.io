@@ -40,6 +40,14 @@ function renderMenu() {
 	sort.addEventListener('click', toggleSort);
 		
 	document.querySelector('.menu').appendChild(sort);
+	
+	let shuffle = document.createElement('a');
+	shuffle.classList.add('material-icons');
+	shuffle.title = 'Play Random Video';
+	shuffle.innerText = 'shuffle';
+	shuffle.addEventListener('click', randomVideo);
+		
+	document.querySelector('.menu').appendChild(shuffle);
 }
 
 function toggleSort(event) {
@@ -64,6 +72,11 @@ function toggleSort(event) {
 			break;
 	}
 	renderList();
+}
+
+function randomVideo(event) {
+	let random = list[Math.floor(Math.random() * list.length)];
+	window.open(random.link);
 }
 
 function renderList() {
