@@ -52,7 +52,6 @@ body {
 .award-winner {
 	position: absolute;
 	right: 0;
-	font-size: 20px;
 }
 
 .bordered td, .bordered th {
@@ -146,7 +145,6 @@ body {
 	vertical-align: bottom;
 	cursor: pointer;
 	text-decoration: none;
-	color: black;
 }
 
 .darked .material-icons {
