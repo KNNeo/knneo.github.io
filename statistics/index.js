@@ -247,20 +247,16 @@ function toggleGoToTopBtn() {
 	}
 }
 
-function renderLandingPage() {
-	if(document.body.getBoundingClientRect().width <= 400 && document.querySelector('.landing') != null) 
-	{
-		document.querySelector('.landing').style.display = 'block';
-		return;
-	}
-}
-
 // startup
 window.addEventListener('load', startup);
 window.addEventListener('resize', function() { location.reload(); });
 function startup() {
 	renderButtons();
-	renderLandingPage();
+	if(document.body.getBoundingClientRect().width <= 400 && document.querySelector('.landing') != null) 
+	{
+		document.querySelector('.landing').style.display = 'block';
+		return;
+	}
 	renderVariables();
 	renderPage();
 	scrollToMainPage(true);
