@@ -49,9 +49,13 @@ html {
 	scroll-snap-align: start;
 }
 
-.container {
+.container, .box {
 	 width: 80vw;
 	 margin: 0 auto;
+}
+
+.container {
+	 height: 80vh;	
 }
 
 .page-next {
@@ -110,7 +114,7 @@ html {
   border-radius: 7px;
 }
 
-.container,
+.box,
 #GoToTopBtn,
 #CloseBtn {	
   border: 1px solid lightgray;
@@ -151,78 +155,7 @@ a:hover {
 p {
 	padding: 20px;
 }
-/* h1, p { */
-  /* max-width: 800px; */
-  /* margin: auto;	 */
-/* } */
 
 .circle-icon img {
 	border-radius: 50%;
-}
-
-table, tr, td { border-collapse: collapse; }
-
-td { white-space: nowrap; }
-th { padding: 0 5px; }
-tr { border-bottom: 1px solid #444444; } 
-
-tr:hover > td {
-	background-color: black;
-}
-
-.darked tr:hover > td {
-	background-color: white;
-}
-
-td.active-period {
-	background-color: black;
-}
-
-.darked td.active-period {
-	background-color: white;
-}
-
-tr:first-child > th {
-    position: sticky;
-    position: webkit-sticky;
-	top: 0;
-	left: 0;
-    background-color: white;
-}
-
-.darked tr:first-child > th {
-    background-color: black;
-}
-
-tr:first-child > th:first-child {
-	z-index: 1;
-    background-color: white;
-}
-
-.darked tr:first-child > th:first-child {
-    background-color: black;
-}
-
-tr > td:first-child, tr > th:first-child {
-    position: sticky;
-    position: webkit-sticky;
-	left: 0;
-    background-color: white;
-	border-right: 1px solid #444444;
-	transition: background-color 1s;
-	cursor: pointer;
-}
-
-.darked tr > td:first-child, tr > th:first-child {
-    background-color: black;
-}
-
-tr > td:first-child:active {
-    background-color: black;
-	transition: background-color 0s;
-}
-
-.darked tr > td:first-child:active {
-    background-color: white;
-	transition: background-color 0s;
 }
