@@ -37,7 +37,6 @@ html {
 	margin: 0 auto;
 }
 
-#main,
 .section {
 	height: 100vh;
 	display: flex;
@@ -46,7 +45,6 @@ html {
 	text-align: center;
 }
 
-#main:active,
 .section:active {
 	scroll-snap-align: start;
 }

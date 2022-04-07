@@ -8,7 +8,7 @@ const Classic20 = ['#1f77b4', '#aec7e8', '#ff7f0e', '#ffbb78', '#2ca02c', '#98df
 const BlueTeal20 = ['#bce4d8', '#aedcd5', '#a1d5d2', '#95cecf', '#89c8cc', '#7ec1ca', '#72bac6', '#66b2c2', '#59acbe', '#4ba5ba', '#419eb6', '#3b96b2', '#358ead', '#3586a7', '#347ea1', '#32779b', '#316f96', '#2f6790', '#2d608a', '#2c5985']
 const ColorBlind10 = ['#1170aa', '#fc7d0b', '#a3acb9', '#57606c', '#5fa2ce', '#c85200', '#7b848f', '#a3cce9', '#ffbc79', '#c8d0d9']
 
-let pageElements = [
+const pageElements = [
 	// {
 		// title: 'POWERED BY CHART.JS',
 		// description: '(To show main page as after first page: all fields are optional, chart- defined parameters depend on chartData)'		
@@ -344,8 +344,8 @@ function scrollToPrevPage() {
 function scrollToMainPage(firstLoad) {
 	// console.log(firstLoad);
 	document.getElementsByClassName('page')[0].firstElementChild.scrollIntoView();
-	if(firstLoad == true && document.getElementById('main') != null)
-		document.getElementById('main').scrollIntoView();
+	if(firstLoad == true && document.querySelector('#main') != null)
+		document.querySelector('#main').scrollIntoView();
 }
 
 function renderVariables() {
@@ -358,8 +358,8 @@ function renderVariables() {
 
 function renderMain(sectionNo) {
 	let content = pageElements[sectionNo];
-	if(document.getElementById('main') != null) {
-		let main = document.getElementById('main');
+	if(document.querySelector('#main') != null) {
+		let main = document.querySelector('#main');
 		
 		// if(main.previousElementSibling != null) {
 			let prevDiv = document.createElement('div');
