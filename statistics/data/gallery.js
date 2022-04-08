@@ -556,7 +556,7 @@ const pageElements = [
 		type: 'grid',
 		columns: 2,
 		rows: 2,
-		image: 'https://blogger.googleusercontent.com/img/a/AVvXsEiJNwtrR5laoi7qMVeO3Fy6Vu-5Wpzm2VINO6ii1yyKy_pqioRyw4ICE6n9JVJHsvBZlmYjKTvyyqUur4SNoN5ndZftXMFkkXIwteL2e9hzZ7NpCTNobDkUNt32ze5RpsaNqbeok4UpmgmeBoO6LLVEgNKGmTrjzT9IezNAMY3FyUM-5_tB6LjMyNUR=s320',
+		image: 'https://otherbooks.carrd.co/assets/images/gallery06/e5b0dbf5.jpg',
 		text: '',
 		componentData: [
 			{
@@ -569,26 +569,26 @@ const pageElements = [
 				type: 'image',
 				rows: 2,
 				tooltip: '',
-				thumbnail: 'https://blogger.googleusercontent.com/img/a/AVvXsEgvK_rt2AUDse35yD11suZMgSDc1xOJhdOx1mJwcnPACk-r7J-3fU40yKQfJf-t9KG7aIeDlgn2YBR7ceLw5QL_aRL8I0JRhFvoyJNDMvCx5ilXPE1SFBxNP5B3vItac1HjO1FXaZekKkUWq7QZb4DRE_IRGOVHER4i5711BOjfhZBLieOOTxaGfcy7=s320',
-				source: 'https://blogger.googleusercontent.com/img/a/AVvXsEgvK_rt2AUDse35yD11suZMgSDc1xOJhdOx1mJwcnPACk-r7J-3fU40yKQfJf-t9KG7aIeDlgn2YBR7ceLw5QL_aRL8I0JRhFvoyJNDMvCx5ilXPE1SFBxNP5B3vItac1HjO1FXaZekKkUWq7QZb4DRE_IRGOVHER4i5711BOjfhZBLieOOTxaGfcy7=s1600',
+				thumbnail: 'https://otherbooks.carrd.co/assets/images/image15.jpg',
+				source: 'https://otherbooks.carrd.co/assets/images/image15.jpg',
 			},
 			{
 				type: 'gallery',
 				datas: [
 					{
 						tooltip: '',
-						thumbnail: 'https://blogger.googleusercontent.com/img/a/AVvXsEh4MVuf-blCKvrVVzGsTU7g5tKjAkB5tNHnqUeBxgbJuvN2s8cX9YVwcWnrjJowKXwrFBQhj6_nmivmelFmi11YqNHFDHVmadpVy9YIln6PWWDoEJSp4cYCUGbN1-dESFPvgeyuD_gT9LNn57jkKfL-IgIe0F4OorPLr6T9MEiwN-K_0WsMnFYOfTsu=s320',
-						source: 'https://blogger.googleusercontent.com/img/a/AVvXsEh4MVuf-blCKvrVVzGsTU7g5tKjAkB5tNHnqUeBxgbJuvN2s8cX9YVwcWnrjJowKXwrFBQhj6_nmivmelFmi11YqNHFDHVmadpVy9YIln6PWWDoEJSp4cYCUGbN1-dESFPvgeyuD_gT9LNn57jkKfL-IgIe0F4OorPLr6T9MEiwN-K_0WsMnFYOfTsu=s1600'
+						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery16/1b3edbc0.jpg',
+						source: 'https://otherbooks.carrd.co/assets/images/gallery16/1b3edbc0.jpg'
 					},
 					{
 						tooltip: '',
-						thumbnail: 'https://blogger.googleusercontent.com/img/a/AVvXsEiJNwtrR5laoi7qMVeO3Fy6Vu-5Wpzm2VINO6ii1yyKy_pqioRyw4ICE6n9JVJHsvBZlmYjKTvyyqUur4SNoN5ndZftXMFkkXIwteL2e9hzZ7NpCTNobDkUNt32ze5RpsaNqbeok4UpmgmeBoO6LLVEgNKGmTrjzT9IezNAMY3FyUM-5_tB6LjMyNUR=s320',
-						source: 'https://blogger.googleusercontent.com/img/a/AVvXsEiJNwtrR5laoi7qMVeO3Fy6Vu-5Wpzm2VINO6ii1yyKy_pqioRyw4ICE6n9JVJHsvBZlmYjKTvyyqUur4SNoN5ndZftXMFkkXIwteL2e9hzZ7NpCTNobDkUNt32ze5RpsaNqbeok4UpmgmeBoO6LLVEgNKGmTrjzT9IezNAMY3FyUM-5_tB6LjMyNUR=s1600'
+						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery16/29ca2e97.jpg',
+						source: 'https://otherbooks.carrd.co/assets/images/gallery16/29ca2e97.jpg'
 					},
 					{
 						tooltip: '',
-						thumbnail: 'https://blogger.googleusercontent.com/img/a/AVvXsEh0LLh6DOQ_fHNCQTbOTSL7qh0uToOrQpymCIqsOiy-aMK9qCPZYDob7hSPDmQ9MGYfZ0E_Qe8sXmLK6KVsGcEEHvzHljaVQEXCEKU8S8DZtRxMWd-oRJfCJmDOfMtPlaivjPDT7pi3-wlaeYO8omWvHZkoLoRqag4dXQ2br0aYRI-KiFmbcFbmZZTp=s320',
-						source: 'https://blogger.googleusercontent.com/img/a/AVvXsEh0LLh6DOQ_fHNCQTbOTSL7qh0uToOrQpymCIqsOiy-aMK9qCPZYDob7hSPDmQ9MGYfZ0E_Qe8sXmLK6KVsGcEEHvzHljaVQEXCEKU8S8DZtRxMWd-oRJfCJmDOfMtPlaivjPDT7pi3-wlaeYO8omWvHZkoLoRqag4dXQ2br0aYRI-KiFmbcFbmZZTp=s1600'
+						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery16/7a8a597a.jpg',
+						source: 'https://otherbooks.carrd.co/assets/images/gallery16/7a8a597a.jpg'
 					},
 				],
 			},

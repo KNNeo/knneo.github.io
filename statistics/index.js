@@ -77,17 +77,20 @@ function renderMain(sectionNo) {
 		if(content.prefix)
 		{
 			let mainPre = document.createElement('h3');
+			mainPre.style.padding = '5px';
 			mainPre.innerText = content.prefix;
 			main.appendChild(mainPre);
 		}
 		
 		let mainTitle = document.createElement('h1');
+		mainTitle.style.padding = '5px';
 		mainTitle.innerText = content.title;
 		main.appendChild(mainTitle);
 		
 		if(content.suffix)
 		{
 			let mainPost = document.createElement('h5');
+			mainPost.style.padding = '5px';
 			mainPost.innerText = content.suffix;
 			main.appendChild(mainPost);
 		}
@@ -97,6 +100,8 @@ function renderMain(sectionNo) {
 			let contentList = document.createElement('div');
 			contentList.classList.add('contents');
 			contentList.style.display = 'flex';
+			contentList.style.flexWrap = 'wrap';
+			contentList.style.padding = '5px';
 			contentList.style.justifyContent = 'center';
 			contentList.style.alignItems = 'flex-start';
 			
@@ -107,8 +112,8 @@ function renderMain(sectionNo) {
 					if(section == sectionNo)
 						continue;
 					let contentItem = document.createElement('div');
-					contentItem.style.width = '100px';
-					contentItem.style.height = '100px';
+					contentItem.style.width = '10vh';
+					contentItem.style.height = '10vh';
 					contentItem.style.borderRadius = '50%';
 					contentItem.style.cursor = 'pointer';
 					contentItem.style.backgroundSize = 'contain';

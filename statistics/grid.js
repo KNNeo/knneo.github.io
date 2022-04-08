@@ -7,11 +7,24 @@ function renderGrid(sectionNo, content) {
 	
 	let tbody = document.createElement('tbody');
 	
+	//for mobile, stack all elements in one column
+	if(window.innerWidth <= 800 && window.innerHeight >= 800)
+	{
+		let totalComponents = content.rows + content.columns;
+		content.columns = 1;
+		content.rows = totalComponents;
+		for(let c = 0; c < content.componentData.length; c++)
+		{
+			content.componentData[c].columns = 1;
+		}
+	}
+	// console.log(content);
+	
 	//render table
 	let count = 0;
 	let cellSkip = [];
 	for(let row = 0; row < (content.rows || 1); row++)
-	{		
+	{
 		let tr = document.createElement('tr');
 		for(let col = 0; col < (content.columns || 1); col++)
 		{
@@ -69,7 +82,7 @@ function renderGrid(sectionNo, content) {
 		let comp = document.getElementById('section'+sectionNo+'cell'+index);
 		if(component.type == 'title')
 		{
-			comp.style.verticalAlign = 'bottom';
+			comp.style.verticalAlign = 'center';
 			
 			if(component.prefix)
 			{
@@ -111,7 +124,7 @@ function renderGrid(sectionNo, content) {
 			gallery.style.display = 'flex';
 			// gallery.style.flexDirection = 'row';
 			gallery.style.justifyContent = 'center';
-			gallery.style.alignItems = 'flex-start';
+			gallery.style.alignItems = 'center';
 			// gallery.style.alignContent = 'space-between';
 			
 			for(let data of component.datas)
