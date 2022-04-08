@@ -133,4 +133,3 @@ function renderGrid(sectionNo, content) {
 	
 }
 
-function addBackgroundUrlClause(url) { return "url('" + url + "')"; }

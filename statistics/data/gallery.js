@@ -10,8 +10,8 @@ const pageElements = [
 		type: 'grid',
 		columns: 2,
 		rows: 2,
-		sectionImage: '',
-		sectionText: '',
+		image: 'https://otherbooks.carrd.co/assets/images/gallery06/8384096d.jpg',
+		text: '',
 		componentData: [
 			{
 				type: 'image',
@@ -52,6 +52,8 @@ const pageElements = [
 		type: 'grid',
 		columns: 2,
 		rows: 2,
+		image: 'https://otherbooks.carrd.co/assets/images/gallery06/cc2fe75f.jpg',
+		text: '',
 		componentData: [
 			{
 				type: 'title',
@@ -92,6 +94,8 @@ const pageElements = [
 		type: 'grid',
 		columns: 2,
 		rows: 2,
+		image: 'https://otherbooks.carrd.co/assets/images/gallery06/b02490b4.jpg',
+		text: '',
 		componentData: [
 			{
 				type: 'image',
@@ -132,6 +136,8 @@ const pageElements = [
 		type: 'grid',
 		columns: 2,
 		rows: 2,
+		image: 'https://otherbooks.carrd.co/assets/images/gallery06/567ec9f0.jpg',
+		text: '',
 		componentData: [
 			{
 				type: 'title',
@@ -172,6 +178,8 @@ const pageElements = [
 		type: 'grid',
 		columns: 2,
 		rows: 2,
+		image: 'https://otherbooks.carrd.co/assets/images/gallery06/1fa05b18.jpg',
+		text: '',
 		componentData: [
 			{
 				type: 'image',
@@ -212,6 +220,8 @@ const pageElements = [
 		type: 'grid',
 		columns: 2,
 		rows: 2,
+		image: 'https://otherbooks.carrd.co/assets/images/gallery06/d9d9307d.jpg',
+		text: '',
 		componentData: [
 			{
 				type: 'title',
@@ -252,6 +262,8 @@ const pageElements = [
 		type: 'grid',
 		columns: 2,
 		rows: 2,
+		image: 'https://otherbooks.carrd.co/assets/images/gallery06/9c46308f.jpg',
+		text: '',
 		componentData: [
 			{
 				type: 'image',
@@ -292,6 +304,8 @@ const pageElements = [
 		type: 'grid',
 		columns: 2,
 		rows: 2,
+		image: 'https://otherbooks.carrd.co/assets/images/gallery06/8ec3c978.jpg',
+		text: '',
 		componentData: [
 			{
 				type: 'title',
@@ -332,13 +346,15 @@ const pageElements = [
 		type: 'grid',
 		columns: 2,
 		rows: 2,
+		image: 'https://otherbooks.carrd.co/assets/images/gallery06/2824209d.jpg',
+		text: '',
 		componentData: [
 			{
 				type: 'image',
 				rows: 2,
 				tooltip: '',
-				thumbnail: 'https://otherbooks.carrd.co/assets/images/image12.jpg?v=8114dea8',
-				source: 'https://otherbooks.carrd.co/assets/images/image12.jpg?v=8114dea8',
+				thumbnail: 'https://otherbooks.carrd.co/assets/images/image12.jpg',
+				source: 'https://otherbooks.carrd.co/assets/images/image12.jpg',
 			},
 			{
 				type: 'title',
@@ -351,18 +367,18 @@ const pageElements = [
 				datas: [
 					{
 						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery13/dd0522a8.jpg?v=8114dea8',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery13/dd0522a8.jpg?v=8114dea8'
+						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery13/dd0522a8.jpg',
+						source: 'https://otherbooks.carrd.co/assets/images/gallery13/dd0522a8.jpg'
 					},
 					{
 						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery13/20f76a4f.jpg?v=8114dea8',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery13/20f76a4f.jpg?v=8114dea8'
+						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery13/20f76a4f.jpg',
+						source: 'https://otherbooks.carrd.co/assets/images/gallery13/20f76a4f.jpg'
 					},
 					{
 						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery13/804dfe63.jpg?v=8114dea8',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery13/804dfe63.jpg?v=8114dea8'
+						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery13/804dfe63.jpg',
+						source: 'https://otherbooks.carrd.co/assets/images/gallery13/804dfe63.jpg'
 					},
 				],
 			},
@@ -372,6 +388,8 @@ const pageElements = [
 		type: 'grid',
 		columns: 2,
 		rows: 2,
+		image: 'https://otherbooks.carrd.co/assets/images/gallery06/820b4d03.jpg',
+		text: '',
 		componentData: [
 			{
 				type: 'title',
@@ -383,26 +401,26 @@ const pageElements = [
 				type: 'image',
 				rows: 2,
 				tooltip: '',
-				thumbnail: 'https://otherbooks.carrd.co/assets/images/image11.jpg?v=8114dea8',
-				source: 'https://otherbooks.carrd.co/assets/images/image11.jpg?v=8114dea8',
+				thumbnail: 'https://otherbooks.carrd.co/assets/images/image11.jpg',
+				source: 'https://otherbooks.carrd.co/assets/images/image11.jpg',
 			},
 			{
 				type: 'gallery',
 				datas: [
 					{
 						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery12/36a0ba40.jpg?v=8114dea8',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery12/36a0ba40.jpg?v=8114dea8'
+						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery12/36a0ba40.jpg',
+						source: 'https://otherbooks.carrd.co/assets/images/gallery12/36a0ba40.jpg'
 					},
 					{
 						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery12/dfff3bbd.jpg?v=8114dea8',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery12/dfff3bbd.jpg?v=8114dea8'
+						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery12/dfff3bbd.jpg',
+						source: 'https://otherbooks.carrd.co/assets/images/gallery12/dfff3bbd.jpg'
 					},
 					{
 						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery12/594ff109.jpg?v=8114dea8',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery12/594ff109.jpg?v=8114dea8'
+						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery12/594ff109.jpg',
+						source: 'https://otherbooks.carrd.co/assets/images/gallery12/594ff109.jpg'
 					},
 				],
 			},
@@ -412,13 +430,15 @@ const pageElements = [
 		type: 'grid',
 		columns: 2,
 		rows: 2,
+		image: 'https://otherbooks.carrd.co/assets/images/gallery06/01df7ca2.jpg',
+		text: '',
 		componentData: [
 			{
 				type: 'image',
 				rows: 2,
 				tooltip: '',
-				thumbnail: 'https://otherbooks.carrd.co/assets/images/image13.jpg?v=8114dea8',
-				source: 'https://otherbooks.carrd.co/assets/images/image13.jpg?v=8114dea8',
+				thumbnail: 'https://otherbooks.carrd.co/assets/images/image13.jpg',
+				source: 'https://otherbooks.carrd.co/assets/images/image13.jpg',
 			},
 			{
 				type: 'title',
@@ -431,18 +451,18 @@ const pageElements = [
 				datas: [
 					{
 						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery14/7fa6afef.jpg?v=8114dea8',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery14/7fa6afef.jpg?v=8114dea8'
+						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery14/7fa6afef.jpg',
+						source: 'https://otherbooks.carrd.co/assets/images/gallery14/7fa6afef.jpg'
 					},
 					{
 						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery14/d21c8935.jpg?v=8114dea8',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery14/d21c8935.jpg?v=8114dea8'
+						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery14/d21c8935.jpg',
+						source: 'https://otherbooks.carrd.co/assets/images/gallery14/d21c8935.jpg'
 					},
 					{
 						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery14/aa669c8e.jpg?v=8114dea8',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery14/aa669c8e.jpg?v=8114dea8'
+						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery14/aa669c8e.jpg',
+						source: 'https://otherbooks.carrd.co/assets/images/gallery14/aa669c8e.jpg'
 					},
 				],
 			},
@@ -452,6 +472,8 @@ const pageElements = [
 		type: 'grid',
 		columns: 2,
 		rows: 2,
+		image: 'https://otherbooks.carrd.co/assets/images/gallery06/f5877728.jpg',
+		text: '',
 		componentData: [
 			{
 				type: 'title',
@@ -463,26 +485,26 @@ const pageElements = [
 				type: 'image',
 				rows: 2,
 				tooltip: '',
-				thumbnail: 'https://otherbooks.carrd.co/assets/images/image14.jpg?v=8114dea8',
-				source: 'https://otherbooks.carrd.co/assets/images/image14.jpg?v=8114dea8',
+				thumbnail: 'https://otherbooks.carrd.co/assets/images/image14.jpg',
+				source: 'https://otherbooks.carrd.co/assets/images/image14.jpg',
 			},
 			{
 				type: 'gallery',
 				datas: [
 					{
 						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery15/c461f555.jpg?v=8114dea8',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery15/c461f555.jpg?v=8114dea8'
+						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery15/c461f555.jpg',
+						source: 'https://otherbooks.carrd.co/assets/images/gallery15/c461f555.jpg'
 					},
 					{
 						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery15/0ec155f1.jpg?v=8114dea8',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery15/0ec155f1.jpg?v=8114dea8'
+						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery15/0ec155f1.jpg',
+						source: 'https://otherbooks.carrd.co/assets/images/gallery15/0ec155f1.jpg'
 					},
 					{
 						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery15/60f191a6.jpg?v=8114dea8',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery15/60f191a6.jpg?v=8114dea8'
+						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery15/60f191a6.jpg',
+						source: 'https://otherbooks.carrd.co/assets/images/gallery15/60f191a6.jpg'
 					},
 				],
 			},
@@ -492,13 +514,15 @@ const pageElements = [
 		type: 'grid',
 		columns: 2,
 		rows: 2,
+		image: 'https://otherbooks.carrd.co/assets/images/gallery06/5edb3059.jpg',
+		text: '',
 		componentData: [
 			{
 				type: 'image',
 				rows: 2,
 				tooltip: '',
-				thumbnail: 'https://otherbooks.carrd.co/assets/images/image01.jpg?v=8114dea8',
-				source: 'https://otherbooks.carrd.co/assets/images/image01.jpg?v=8114dea8',
+				thumbnail: 'https://otherbooks.carrd.co/assets/images/image01.jpg',
+				source: 'https://otherbooks.carrd.co/assets/images/image01.jpg',
 			},
 			{
 				type: 'title',
@@ -511,18 +535,18 @@ const pageElements = [
 				datas: [
 					{
 						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery01/8232a337.jpg?v=8114dea8',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery01/8232a337.jpg?v=8114dea8'
+						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery01/8232a337.jpg',
+						source: 'https://otherbooks.carrd.co/assets/images/gallery01/8232a337.jpg'
 					},
 					{
 						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery01/2d5d0678.jpg?v=8114dea8',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery01/2d5d0678.jpg?v=8114dea8'
+						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery01/2d5d0678.jpg',
+						source: 'https://otherbooks.carrd.co/assets/images/gallery01/2d5d0678.jpg'
 					},
 					{
 						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery01/c5fcf4ca.jpg?v=8114dea8',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery01/c5fcf4ca.jpg?v=8114dea8'
+						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery01/c5fcf4ca.jpg',
+						source: 'https://otherbooks.carrd.co/assets/images/gallery01/c5fcf4ca.jpg'
 					},
 				],
 			},
@@ -532,6 +556,8 @@ const pageElements = [
 		type: 'grid',
 		columns: 2,
 		rows: 2,
+		image: 'https://blogger.googleusercontent.com/img/a/AVvXsEiJNwtrR5laoi7qMVeO3Fy6Vu-5Wpzm2VINO6ii1yyKy_pqioRyw4ICE6n9JVJHsvBZlmYjKTvyyqUur4SNoN5ndZftXMFkkXIwteL2e9hzZ7NpCTNobDkUNt32ze5RpsaNqbeok4UpmgmeBoO6LLVEgNKGmTrjzT9IezNAMY3FyUM-5_tB6LjMyNUR=s320',
+		text: '',
 		componentData: [
 			{
 				type: 'title',

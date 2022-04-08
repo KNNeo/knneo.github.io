@@ -92,6 +92,45 @@ function renderMain(sectionNo) {
 			main.appendChild(mainPost);
 		}
 		
+		if(window['elements'].filter(el => el.type == 'grid').length > 0)
+		{
+			let contentList = document.createElement('div');
+			contentList.classList.add('contents');
+			contentList.style.display = 'flex';
+			contentList.style.justifyContent = 'center';
+			contentList.style.alignItems = 'flex-start';
+			
+			if(window['elements'].length >= window['elements'].filter(el => el.type == 'grid' && el.image && el.image.length > 0).length)
+			{
+				for(let section = 0; section < window['elements'].length; section++)
+				{
+					if(section == sectionNo)
+						continue;
+					let contentItem = document.createElement('div');
+					contentItem.style.width = '100px';
+					contentItem.style.height = '100px';
+					contentItem.style.borderRadius = '50%';
+					contentItem.style.cursor = 'pointer';
+					contentItem.style.backgroundSize = 'contain';
+					contentItem.style.backgroundRepeat = 'no-repeat';
+					contentItem.style.backgroundPosition = 'center';
+					contentItem.addEventListener('click', function() {
+						document.getElementsByClassName('section')[section].scrollIntoView();
+					});
+					contentItem.style.backgroundImage = addBackgroundUrlClause(window['elements'][section].image);
+					contentList.appendChild(contentItem);
+				}
+			}
+			
+			if(window['elements'].length == window['elements'].filter(el => el.type == 'grid' && el.text && el.text.length > 0).length)
+			{
+				
+			}
+			
+			main.appendChild(contentList);
+		}
+		
+		
 		// if(main.nextElementSibling != null) {
 			let nextDiv = document.createElement('div');
 			nextDiv.classList.add('page-next');
@@ -121,7 +160,7 @@ function renderSection(sectionNo, mainSectionNo) {
 	prevDiv.classList.add('not-selectable');
 	let prevButton = document.createElement('a');
 	prevButton.title = 'Previous';
-	prevButton.style.visibility = section.previousElementSibling != null ? 'visible' : 'hidden';
+	prevButton.style.visibility = section.previousElementSibling != null && section.previousElementSibling.classList.contains('section') ? 'visible' : 'hidden';
 	prevButton.addEventListener('click',scrollToPrevPage);
 	prevButton.addEventListener('touchstart',scrollToPrevPage);
 	let prevButtonIcon = document.createElement('i');
@@ -168,7 +207,7 @@ function renderSection(sectionNo, mainSectionNo) {
 	nextDiv.classList.add('not-selectable');
 	let nextButton = document.createElement('a');
 	nextButton.title = 'Next';
-	nextButton.style.visibility = section.nextElementSibling != null ? 'visible' : 'hidden';
+	nextButton.style.visibility = section.nextElementSibling != null && section.nextElementSibling.classList.contains('section') ? 'visible' : 'hidden';
 	nextButton.addEventListener('click',scrollToNextPage);
 	nextButton.addEventListener('touchstart',scrollToNextPage);
 	let nextButtonIcon = document.createElement('i');
@@ -255,6 +294,8 @@ function toggleGoToTopBtn() {
 		document.getElementById('GoToTopBtn').style.visibility = '';
 	}
 }
+
+function addBackgroundUrlClause(url) { return "url('" + url + "')"; }
 
 // startup
 window.addEventListener('load', startup);
