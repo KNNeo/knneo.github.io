@@ -11,7 +11,7 @@ function scrollToNextPage() {
 	{
 		setTimeout(function() {
 			nextPage.scrollIntoView();
-		}, 150);
+		}, 100);
 	}
 }
 
@@ -21,7 +21,7 @@ function scrollToPrevPage() {
 	{
 		setTimeout(function() {
 			prevPage.scrollIntoView();
-		}, 150);
+		}, 100);
 	}
 }
 
@@ -198,6 +198,8 @@ function renderPage() {
 			// renderSection(sectionNo, mainSectionNo);
 		}
 	}
+
+	renderFooter();
 	
 	for(let sectionNo = 0; sectionNo < window['elements'].length; sectionNo++) {
 		if(window['elements'][sectionNo].isMain) {
@@ -207,6 +209,13 @@ function renderPage() {
 			renderSection(sectionNo, mainSectionNo);
 		}
 	}
+}
+
+function renderFooter() {
+	let footer = document.createElement('div');
+	footer.classList.add('footer');
+	footer.innerText = '(c) Klassic Note';
+	document.getElementsByClassName('page')[0].appendChild(footer);
 }
 
 function renderButtons() {

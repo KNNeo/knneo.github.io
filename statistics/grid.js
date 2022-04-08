@@ -92,7 +92,7 @@ function renderGrid(sectionNo, content) {
 		else if(component.type == 'image')
 		{
 			let img = document.createElement('div');
-			img.title = component.tooltip;
+			if(component.tooltip && component.tooltip.length > 0) img.title = component.tooltip;
 			img.style.backgroundImage = addBackgroundUrlClause(component.source);
 			img.style.width = '100%';
 			img.style.height = '80%';
@@ -117,10 +117,11 @@ function renderGrid(sectionNo, content) {
 			for(let data of component.datas)
 			{
 				let img = document.createElement('div');
-				img.title = data.tooltip;
+				if(data.tooltip && data.tooltip.length > 0) img.title = data.tooltip;
 				img.style.backgroundImage = addBackgroundUrlClause(data.source);
 				img.style.width = '80%';
 				img.style.height = '80%';
+				img.style.margin = '5px';
 				img.style.backgroundSize = 'contain';
 				img.style.backgroundRepeat = 'no-repeat';
 				img.style.backgroundPosition = 'center';

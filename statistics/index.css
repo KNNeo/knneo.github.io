@@ -71,6 +71,14 @@ html {
 	font-size: 48px;
 }
 
+.footer {
+	display: flex;
+	padding: 20px;
+	justify-content: center;
+	margin: auto;
+	font-size: 0.7em;
+}
+
 @media only screen and (max-width: 960px) {
 	.container {
 		 width: 99%;
@@ -147,11 +155,20 @@ h1 {
 	text-align: center;
 }
 a {
-  cursor: pointer;
+	cursor: pointer;
 }
 a:hover {
-	color: cyan;
+	color: var(--secondary);
 }
+.darked a,
+.darked a:visited {
+	color: white;
+}
+
+.darked a:hover {
+	color: var(--secondary);
+}
+
 p {
 	padding: 20px;
 }
