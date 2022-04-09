@@ -5,24 +5,18 @@ function closestClass(inputElement, targetClassName) {
     return inputElement;
 }
 
-function scrollToNextPage() {
+function scrollToNextPage(e) {
+	e.preventDefault();
 	let nextPage = closestClass(this, 'section').nextElementSibling;
 	if(nextPage != null)
-	{
-		setTimeout(function() {
-			nextPage.scrollIntoView();
-		}, 100);
-	}
+		nextPage.scrollIntoView();
 }
 
-function scrollToPrevPage() {
+function scrollToPrevPage(e) {
+	e.preventDefault();
 	let prevPage = closestClass(this, 'section').previousElementSibling;
 	if(prevPage != null)
-	{
-		setTimeout(function() {
-			prevPage.scrollIntoView();
-		}, 100);
-	}
+		prevPage.scrollIntoView();
 }
 
 function scrollToMainPage(firstLoad) {
@@ -119,10 +113,12 @@ function renderMain(sectionNo) {
 					contentItem.style.backgroundSize = 'contain';
 					contentItem.style.backgroundRepeat = 'no-repeat';
 					contentItem.style.backgroundPosition = 'center';
-					contentItem.addEventListener('click', function() {
+					contentItem.addEventListener('click', function(e) {
+						e.preventDefault();
 						document.getElementsByClassName('section')[section].scrollIntoView();
 					});
-					contentItem.addEventListener('touchstart', function() {
+					contentItem.addEventListener('touchstart', function(e) {
+						e.preventDefault();
 						document.getElementsByClassName('section')[section].scrollIntoView();
 					});
 					contentItem.style.backgroundImage = addBackgroundUrlClause(window['elements'][section].image);
