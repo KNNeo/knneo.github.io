@@ -122,6 +122,9 @@ function renderMain(sectionNo) {
 					contentItem.addEventListener('click', function() {
 						document.getElementsByClassName('section')[section].scrollIntoView();
 					});
+					contentItem.addEventListener('touchstart', function() {
+						document.getElementsByClassName('section')[section].scrollIntoView();
+					});
 					contentItem.style.backgroundImage = addBackgroundUrlClause(window['elements'][section].image);
 					contentList.appendChild(contentItem);
 				}
