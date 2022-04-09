@@ -8,7 +8,7 @@ function renderGrid(sectionNo, content) {
 	let tbody = document.createElement('tbody');
 	
 	//for mobile, stack all elements in one column
-	if(window.innerWidth <= 800 && window.innerHeight >= 800)
+	if(window.innerWidth <= 800)
 	{
 		let totalComponents = content.rows + content.columns;
 		content.columns = 1;
