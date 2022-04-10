@@ -70,6 +70,7 @@ const pageElements = [
 			},
 			{
 				type: 'gallery',
+				caption: '',
 				datas: [
 					{
 						tooltip: '',
@@ -112,6 +113,7 @@ const pageElements = [
 			},
 			{
 				type: 'gallery',
+				caption: '',
 				datas: [
 					{
 						tooltip: '',
@@ -154,6 +156,7 @@ const pageElements = [
 			},
 			{
 				type: 'gallery',
+				caption: '',
 				datas: [
 					{
 						tooltip: '',
@@ -196,6 +199,7 @@ const pageElements = [
 			},
 			{
 				type: 'gallery',
+				caption: '',
 				datas: [
 					{
 						tooltip: '',
@@ -238,6 +242,7 @@ const pageElements = [
 			},
 			{
 				type: 'gallery',
+				caption: '',
 				datas: [
 					{
 						tooltip: '',
@@ -280,6 +285,7 @@ const pageElements = [
 			},
 			{
 				type: 'gallery',
+				caption: '',
 				datas: [
 					{
 						tooltip: '',
@@ -322,6 +328,7 @@ const pageElements = [
 			},
 			{
 				type: 'gallery',
+				caption: '',
 				datas: [
 					{
 						tooltip: '',
@@ -364,6 +371,7 @@ const pageElements = [
 			},
 			{
 				type: 'gallery',
+				caption: '',
 				datas: [
 					{
 						tooltip: '',
@@ -406,6 +414,7 @@ const pageElements = [
 			},
 			{
 				type: 'gallery',
+				caption: '',
 				datas: [
 					{
 						tooltip: '',
@@ -448,6 +457,7 @@ const pageElements = [
 			},
 			{
 				type: 'gallery',
+				caption: '',
 				datas: [
 					{
 						tooltip: '',
@@ -490,6 +500,7 @@ const pageElements = [
 			},
 			{
 				type: 'gallery',
+				caption: '',
 				datas: [
 					{
 						tooltip: '',
@@ -532,6 +543,7 @@ const pageElements = [
 			},
 			{
 				type: 'gallery',
+				caption: '',
 				datas: [
 					{
 						tooltip: '',
@@ -574,6 +586,7 @@ const pageElements = [
 			},
 			{
 				type: 'gallery',
+				caption: '',
 				datas: [
 					{
 						tooltip: '',

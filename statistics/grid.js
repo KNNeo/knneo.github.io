@@ -86,7 +86,8 @@ function renderGrid(sectionNo, content) {
 			
 			if(component.prefix)
 			{
-				let pre = document.createElement('h3');
+				let pre = document.createElement('div');
+				pre.classList.add('caption');
 				pre.innerText = component.prefix;
 				comp.appendChild(pre);
 			}
@@ -97,7 +98,7 @@ function renderGrid(sectionNo, content) {
 			
 			if(component.suffix)
 			{
-				let post = document.createElement('h5');
+				let post = document.createElement('div');
 				post.innerText = component.suffix;
 				comp.appendChild(post);
 			}
@@ -118,28 +119,40 @@ function renderGrid(sectionNo, content) {
 		else if(component.type == 'gallery')
 		{
 			let gallery = document.createElement('div');
-			gallery.style.width = '80%';
-			gallery.style.height = '100%';
-			gallery.style.margin = 'auto';
-			gallery.style.display = 'flex';
+			gallery.style.width = '100%';
+			// gallery.style.height = '100%';
+			// gallery.style.margin = 'auto';
+			// gallery.style.display = 'flex';
 			// gallery.style.flexDirection = 'row';
-			gallery.style.justifyContent = 'center';
-			gallery.style.alignItems = 'center';
-			// gallery.style.alignContent = 'space-between';
+			// gallery.style.justifyContent = 'center';
+			// gallery.style.alignItems = 'center';
 			
 			for(let data of component.datas)
 			{
 				let img = document.createElement('div');
 				if(data.tooltip && data.tooltip.length > 0) img.title = data.tooltip;
 				img.style.backgroundImage = addBackgroundUrlClause(data.source);
-				img.style.width = '80%';
-				img.style.height = '80%';
+				img.style.width = '8em';
+				img.style.height = '8em';
 				img.style.margin = '5px';
+				img.style.display = 'inline-block';
 				img.style.backgroundSize = 'contain';
 				img.style.backgroundRepeat = 'no-repeat';
 				img.style.backgroundPosition = 'center';
 				gallery.appendChild(img);
 			}
+			
+			if(component.caption && component.caption.length > 0)
+			{		
+				let caption = document.createElement('div');
+				caption.classList.add('caption');
+				caption.innerText = component.caption;
+				caption.style.width = '100%';
+				// caption.style.height = '20%';
+				caption.style.margin = '5px';
+				gallery.appendChild(caption);
+			}
+			
 			comp.appendChild(gallery);
 		}
 	}

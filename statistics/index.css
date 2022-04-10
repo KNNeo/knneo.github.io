@@ -8,9 +8,6 @@ html {
 	user-select: none;
 }
 
-.not-selectable {
-}
-
 .landing {
 	width: 100vw;
 	height: 100vh;
@@ -71,6 +68,10 @@ html {
 	font-size: 48px;
 }
 
+.caption {
+	font-size: 0.7em;
+}
+
 .footer {
 	display: flex;
 	padding: 20px;
@@ -83,9 +84,6 @@ html {
 	.container {
 		 width: 99%;
 		 margin: 0;
-	}
-	.landing {
-		/* display: block; */
 	}
 	table {
 		font-size: 0.6rem;
