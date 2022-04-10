@@ -122,16 +122,6 @@ html {
   border-radius: 7px;
 }
 
-/* .box,
-#GoToTopBtn,
-#CloseBtn {	
-  border: 1px solid lightgray;
-  background-color: #000000;
-  box-shadow: 3px 3px;
-  border-radius: 8px;
-}
- */
- 
 /* .page-element:active,
 #GoToTopBtn:active,
 #CloseBtn:active {
@@ -140,6 +130,28 @@ html {
 }
  */
 
+.box {	
+	border: 1px solid gray;
+	background-color: white;
+	box-shadow: 3px 3px;
+	/* border-radius: 8px; */
+	display: flex;
+	justify-ontent: center;
+	align-items: center;
+	font-size: 0.8em;
+	word-wrap: break-word;
+}
+
+.box:active,
+.page-element:active {
+  box-shadow: 1px 1px;
+  transform: translate(2px, 2px);
+}
+
+.darked .box {	
+  border: 1px solid lightgray;
+  background-color: black;
+}
 
 /*Github Page Only Controls*/
 html {

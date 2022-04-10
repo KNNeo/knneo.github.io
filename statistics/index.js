@@ -97,9 +97,10 @@ function renderMain(sectionNo) {
 			contentList.style.flexWrap = 'wrap';
 			contentList.style.padding = '5px';
 			contentList.style.justifyContent = 'center';
-			contentList.style.alignItems = 'flex-start';
 			
-			if(window['elements'].length >= window['elements'].filter(el => el.type == 'grid' && el.image && el.image.length > 0).length)
+			let elements = window['elements'].filter(el => !el.isMain && el.type == 'grid');
+			
+			if(elements.length == window['elements'].filter(el => el.type == 'grid' && el.image && el.image.length > 0).length)
 			{
 				for(let section = 0; section < window['elements'].length; section++)
 				{
@@ -122,13 +123,34 @@ function renderMain(sectionNo) {
 						document.getElementsByClassName('section')[section].scrollIntoView();
 					});
 					contentItem.style.backgroundImage = addBackgroundUrlClause(window['elements'][section].image);
+					if(window['elements'][section].text)
+						contentItem.title = window['elements'][section].text;
 					contentList.appendChild(contentItem);
 				}
 			}
-			
-			if(window['elements'].length == window['elements'].filter(el => el.type == 'grid' && el.text && el.text.length > 0).length)
+			else if(elements.length == window['elements'].filter(el => el.type == 'grid' && el.text && el.text.length > 0).length)
 			{
-				
+				for(let section = 0; section < window['elements'].length; section++)
+				{
+					if(section == sectionNo)
+						continue;
+					let contentItem = document.createElement('div');
+					contentItem.classList.add('box');
+					contentItem.style.width = '10vh';
+					contentItem.style.height = '10vh';
+					contentItem.style.cursor = 'pointer';
+					contentItem.style.margin = 'auto';
+					contentItem.innerText = window['elements'][section].text;
+					contentItem.addEventListener('click', function(e) {
+						e.preventDefault();
+						document.getElementsByClassName('section')[section].scrollIntoView();
+					});
+					contentItem.addEventListener('touchstart', function(e) {
+						e.preventDefault();
+						document.getElementsByClassName('section')[section].scrollIntoView();
+					});
+					contentList.appendChild(contentItem);
+				}				
 			}
 			
 			main.appendChild(contentList);
