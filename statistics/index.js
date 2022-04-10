@@ -313,7 +313,7 @@ function goBack() {
 }
 
 function toggleGoToTopBtn() {
-	// When the user scrolls down to half of viewport from the top of the document, change floating action button
+	// When the user scrolls down to viewport from the top of the document, change floating action button
 	if (document.getElementsByClassName('page')[0].scrollTop >= document.body.clientHeight) {
 		document.getElementById('GoToTopBtn').style.visibility = 'visible';
 	} else {
