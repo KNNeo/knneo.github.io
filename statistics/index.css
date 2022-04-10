@@ -22,6 +22,11 @@ html {
     text-align: center;
 }
 
+.header {
+	z-index: 5;
+	max-height: 50vh;
+}
+
 .page {
 	max-height: 100vh;
 	overflow-y: scroll;
@@ -39,7 +44,8 @@ html {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	text-align: center;
+	text-align: center;	
+	transition: opacity 1s;
 }
 
 .section:active {
@@ -149,6 +155,15 @@ html {
 .darked .box {	
   border: 1px solid lightgray;
   background-color: black;
+}
+
+@keyframes fadeInOpacity {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
 }
 
 /*Github Page Only Controls*/

@@ -19,6 +19,21 @@ function scrollToPrevPage(e) {
 		prevPage.scrollIntoView();
 }
 
+function scrollToPage(sectionNo, isSinglePage = false) {
+	if(isSinglePage)
+	{
+		for(let section of document.getElementsByClassName('section'))
+		{
+			section.style.opacity = 0;
+		}
+		document.getElementsByClassName('section')[sectionNo].style.opacity = 1;
+	}
+	else
+	{
+		document.getElementsByClassName('section')[sectionNo].scrollIntoView();
+	}
+}
+
 function scrollToMainPage(firstLoad) {
 	// console.log(firstLoad);
 	document.getElementsByClassName('page')[0].firstElementChild.scrollIntoView();
@@ -46,10 +61,67 @@ function renderVariables() {
 	}
 }
 
+function renderPage() {	
+	let mainSectionNo = 0;
+	for(let sectionNo = 0; sectionNo < window['elements'].length; sectionNo++) {
+		if(window['elements'][sectionNo].isMain) {
+			let newMain = document.createElement('div');
+			newMain.id = 'main';
+			newMain.classList.add('section');
+			document.getElementsByClassName('page')[0].appendChild(newMain);
+			mainSectionNo = sectionNo;
+			// renderMain(sectionNo);
+		}
+		else {
+			let newSection = document.createElement('div');
+			newSection.classList.add('section');
+			document.getElementsByClassName('page')[0].appendChild(newSection);
+			// console.log(mainSectionNo);
+			// renderSection(sectionNo, mainSectionNo);
+		}
+	}
+
+	if(window['elements'][mainSectionNo].isSinglePage)
+	{
+		renderHeader();
+		setTimeout(function() {
+			let headerHeight = document.querySelector('.header').getBoundingClientRect().height;
+			document.getElementsByClassName('page')[0].style.maxHeight = (window.innerHeight - headerHeight) + 'px';
+		}, 50);
+	}
+	
+	renderFooter(window['elements'][mainSectionNo].isSinglePage);
+	
+	for(let sectionNo = 0; sectionNo < window['elements'].length; sectionNo++) {
+		if(window['elements'][sectionNo].isMain) {
+			renderMain(sectionNo);
+		}
+		else {
+			renderSection(sectionNo, mainSectionNo);
+		}
+	}
+	
+	if(window['elements'][mainSectionNo].isSinglePage)
+	{
+		scrollToPage(mainSectionNo, window['elements'][mainSectionNo].isSinglePage);
+	}
+}
+
 function renderMain(sectionNo) {
 	let content = window['elements'][sectionNo];
+	
 	if(document.querySelector('#main') != null) {
 		let main = document.querySelector('#main');
+		
+		if(content.isSinglePage)
+		{
+			main.style.position = 'absolute';
+			main.style.width = '100%';
+			setTimeout(function() {
+				let headerHeight = document.querySelector('.header').getBoundingClientRect().height;
+				main.style.maxHeight = (window.innerHeight - headerHeight) + 'px';
+			}, 50);
+		}
 		
 		// if(main.previousElementSibling != null) {
 			let prevDiv = document.createElement('div');
@@ -57,7 +129,7 @@ function renderMain(sectionNo) {
 			prevDiv.classList.add('not-selectable');
 			let prevButton = document.createElement('a');
 			prevButton.title = 'Previous';
-			prevButton.style.visibility = main.previousElementSibling != null ? 'visible' : 'hidden';
+			prevButton.style.visibility = !content.isSinglePage && main.previousElementSibling != null ? 'visible' : 'hidden';
 			prevButton.addEventListener('click', scrollToPrevPage);
 			prevButton.addEventListener('touchstart', scrollToPrevPage);
 			let prevButtonIcon = document.createElement('i');
@@ -98,6 +170,33 @@ function renderMain(sectionNo) {
 			contentList.style.padding = '5px';
 			contentList.style.justifyContent = 'center';
 			
+			let iconSize = content.isSinglePage ? '6vh' : '8vh';
+			
+			if(content.isSinglePage)
+			{
+				let contentItem = document.createElement('div');
+				contentItem.classList.add('material-icons');
+				contentItem.style.width = iconSize;
+				contentItem.style.height = iconSize;
+				contentItem.style.borderRadius = '50%';
+				contentItem.style.cursor = 'pointer';
+				contentItem.style.backgroundSize = 'contain';
+				contentItem.style.backgroundRepeat = 'no-repeat';
+				contentItem.style.backgroundPosition = 'center';
+				contentItem.style.fontSize = '3.5rem';
+				contentItem.style.padding = '4px 0';
+				contentItem.innerText = 'home';
+				contentItem.addEventListener('click', function(e) {
+					e.preventDefault();
+					scrollToPage(sectionNo, content.isSinglePage);
+				});
+				contentItem.addEventListener('touchstart', function(e) {
+					e.preventDefault();
+					scrollToPage(sectionNo, content.isSinglePage);
+				});
+				contentList.appendChild(contentItem);
+			}
+			
 			let elements = window['elements'].filter(el => !el.isMain && el.type == 'grid');
 			
 			if(elements.length == window['elements'].filter(el => el.type == 'grid' && el.image && el.image.length > 0).length)
@@ -107,8 +206,8 @@ function renderMain(sectionNo) {
 					if(section == sectionNo)
 						continue;
 					let contentItem = document.createElement('div');
-					contentItem.style.width = '10vh';
-					contentItem.style.height = '10vh';
+					contentItem.style.width = iconSize;
+					contentItem.style.height = iconSize;
 					contentItem.style.borderRadius = '50%';
 					contentItem.style.cursor = 'pointer';
 					contentItem.style.backgroundSize = 'contain';
@@ -116,11 +215,11 @@ function renderMain(sectionNo) {
 					contentItem.style.backgroundPosition = 'center';
 					contentItem.addEventListener('click', function(e) {
 						e.preventDefault();
-						document.getElementsByClassName('section')[section].scrollIntoView();
+						scrollToPage(section, content.isSinglePage);
 					});
 					contentItem.addEventListener('touchstart', function(e) {
 						e.preventDefault();
-						document.getElementsByClassName('section')[section].scrollIntoView();
+						scrollToPage(section, content.isSinglePage);
 					});
 					contentItem.style.backgroundImage = addBackgroundUrlClause(window['elements'][section].image);
 					if(window['elements'][section].text)
@@ -136,24 +235,31 @@ function renderMain(sectionNo) {
 						continue;
 					let contentItem = document.createElement('div');
 					contentItem.classList.add('box');
-					contentItem.style.width = '10vh';
-					contentItem.style.height = '10vh';
+					contentItem.style.width = iconSize;
+					contentItem.style.height = iconSize;
 					contentItem.style.cursor = 'pointer';
 					contentItem.style.margin = 'auto';
 					contentItem.innerText = window['elements'][section].text;
 					contentItem.addEventListener('click', function(e) {
 						e.preventDefault();
-						document.getElementsByClassName('section')[section].scrollIntoView();
+						scrollToPage(section, content.isSinglePage);
 					});
 					contentItem.addEventListener('touchstart', function(e) {
 						e.preventDefault();
-						document.getElementsByClassName('section')[section].scrollIntoView();
+						scrollToPage(section, content.isSinglePage);
 					});
 					contentList.appendChild(contentItem);
 				}				
 			}
 			
-			main.appendChild(contentList);
+			if(content.isSinglePage)
+			{
+				document.querySelector('.header').appendChild(contentList);
+			}
+			else
+			{
+				main.appendChild(contentList);
+			}
 		}
 		
 		
@@ -163,7 +269,7 @@ function renderMain(sectionNo) {
 			nextDiv.classList.add('not-selectable');
 			let nextButton = document.createElement('a');
 			nextButton.title = 'Next';
-			nextButton.style.visibility = main.nextElementSibling != null ? 'visible' : 'hidden';
+			nextButton.style.visibility = !content.isSinglePage && main.nextElementSibling != null ? 'visible' : 'hidden';
 			nextButton.addEventListener('click', scrollToNextPage);
 			nextButton.addEventListener('touchstart', scrollToNextPage);
 			let nextButtonIcon = document.createElement('i');
@@ -179,14 +285,25 @@ function renderMain(sectionNo) {
 
 function renderSection(sectionNo, mainSectionNo) {
 	let section = document.getElementsByClassName('section')[sectionNo];// > mainSectionNo ? sectionNo - mainSectionNo : sectionNo];
+	let main = window['elements'][mainSectionNo];
 	let content = window['elements'][sectionNo];	
+	
+	if(main.isSinglePage)
+	{
+		section.style.position = 'absolute';
+		section.style.width = '100%';
+		setTimeout(function() {
+			let headerHeight = document.querySelector('.header').getBoundingClientRect().height;
+			section.style.maxHeight = (window.innerHeight - headerHeight) + 'px';
+		}, 50);
+	}
 	
 	let prevDiv = document.createElement('div');
 	prevDiv.classList.add('page-prev');
 	prevDiv.classList.add('not-selectable');
 	let prevButton = document.createElement('a');
 	prevButton.title = 'Previous';
-	prevButton.style.visibility = section.previousElementSibling != null && section.previousElementSibling.classList.contains('section') ? 'visible' : 'hidden';
+	prevButton.style.visibility = !main.isSinglePage && section.previousElementSibling != null && section.previousElementSibling.classList.contains('section') ? 'visible' : 'hidden';
 	prevButton.addEventListener('click',scrollToPrevPage);
 	prevButton.addEventListener('touchstart',scrollToPrevPage);
 	let prevButtonIcon = document.createElement('i');
@@ -233,7 +350,7 @@ function renderSection(sectionNo, mainSectionNo) {
 	nextDiv.classList.add('not-selectable');
 	let nextButton = document.createElement('a');
 	nextButton.title = 'Next';
-	nextButton.style.visibility = section.nextElementSibling != null && section.nextElementSibling.classList.contains('section') ? 'visible' : 'hidden';
+	nextButton.style.visibility = !main.isSinglePage && section.nextElementSibling != null && section.nextElementSibling.classList.contains('section') ? 'visible' : 'hidden';
 	nextButton.addEventListener('click',scrollToNextPage);
 	nextButton.addEventListener('touchstart',scrollToNextPage);
 	let nextButtonIcon = document.createElement('i');
@@ -244,41 +361,21 @@ function renderSection(sectionNo, mainSectionNo) {
 	section.appendChild(nextDiv);
 }
 
-function renderPage() {
-	let mainSectionNo = 0;
-	for(let sectionNo = 0; sectionNo < window['elements'].length; sectionNo++) {
-		if(window['elements'][sectionNo].isMain) {
-			let newMain = document.createElement('div');
-			newMain.id = 'main';
-			newMain.classList.add('section');
-			document.getElementsByClassName('page')[0].appendChild(newMain);
-			mainSectionNo = sectionNo;
-			// renderMain(sectionNo);
-		}
-		else {
-			let newSection = document.createElement('div');
-			newSection.classList.add('section');
-			document.getElementsByClassName('page')[0].appendChild(newSection);
-			// console.log(mainSectionNo);
-			// renderSection(sectionNo, mainSectionNo);
-		}
-	}
-
-	renderFooter();
-	
-	for(let sectionNo = 0; sectionNo < window['elements'].length; sectionNo++) {
-		if(window['elements'][sectionNo].isMain) {
-			renderMain(sectionNo);
-		}
-		else {
-			renderSection(sectionNo, mainSectionNo);
-		}
-	}
+function renderHeader() {
+	let header = document.createElement('div');
+	header.classList.add('header');
+	document.body.insertBefore(header, document.getElementsByClassName('page')[0]);
 }
 
-function renderFooter() {
+function renderFooter(isSinglePage) {
 	let footer = document.createElement('div');
 	footer.classList.add('footer');
+	if(isSinglePage)
+	{
+		footer.style.width = '100%';
+		footer.style.position = 'fixed';
+		footer.style.bottom = 0;
+	}
 	footer.innerText = '(c) Klassic Note';
 	document.getElementsByClassName('page')[0].appendChild(footer);
 }
