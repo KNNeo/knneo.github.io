@@ -101,8 +101,8 @@ html {
   right: 25px;
   z-index: 7;
   outline: none;
-  background-color: black;
-  color: white;
+  /* background-color: black; */
+  /* color: white; */
   cursor: pointer;
   padding: 8px 6px 6px 6px;
   border-radius: 7px;
@@ -115,29 +115,30 @@ html {
   right: 25px;
   z-index: 9;
   outline: none;
-  background-color: black;
-  color: white;
+  /* background-color: black; */
+  /* color: white; */
   cursor: pointer;
   padding: 8px 6px 6px 6px;
   border-radius: 7px;
 }
 
-.box,
+/* .box,
 #GoToTopBtn,
 #CloseBtn {	
   border: 1px solid lightgray;
-  /* background-color: #000000; */
+  background-color: #000000;
   box-shadow: 3px 3px;
   border-radius: 8px;
 }
-
-.page-element:active,
+ */
+ 
+/* .page-element:active,
 #GoToTopBtn:active,
 #CloseBtn:active {
   box-shadow: 1px 1px;
   transform: translate(2px, 2px);
 }
-
+ */
 
 
 /*Github Page Only Controls*/
