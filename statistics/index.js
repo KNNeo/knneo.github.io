@@ -80,17 +80,16 @@ function renderPage() {
 			// renderSection(sectionNo, mainSectionNo);
 		}
 	}
+	
+	renderFooter(window['elements'][mainSectionNo].isSinglePage);
 
 	if(window['elements'][mainSectionNo].isSinglePage)
 	{
-		renderHeader();
 		setTimeout(function() {
 			let headerHeight = document.querySelector('.header').getBoundingClientRect().height;
 			document.getElementsByClassName('page')[0].style.maxHeight = (window.innerHeight - headerHeight) + 'px';
-		}, 50);
+		}, 10);
 	}
-	
-	renderFooter(window['elements'][mainSectionNo].isSinglePage);
 	
 	for(let sectionNo = 0; sectionNo < window['elements'].length; sectionNo++) {
 		if(window['elements'][sectionNo].isMain) {
@@ -120,7 +119,7 @@ function renderMain(sectionNo) {
 			setTimeout(function() {
 				let headerHeight = document.querySelector('.header').getBoundingClientRect().height;
 				main.style.maxHeight = (window.innerHeight - headerHeight) + 'px';
-			}, 50);
+			}, 10);
 		}
 		
 		// if(main.previousElementSibling != null) {
@@ -165,10 +164,7 @@ function renderMain(sectionNo) {
 		{
 			let contentList = document.createElement('div');
 			contentList.classList.add('contents');
-			contentList.style.display = 'flex';
-			contentList.style.flexWrap = 'wrap';
 			contentList.style.padding = '5px';
-			contentList.style.justifyContent = 'center';
 			
 			let iconSize = content.isSinglePage ? '6vh' : '8vh';
 			
@@ -238,7 +234,7 @@ function renderMain(sectionNo) {
 					contentItem.style.width = iconSize;
 					contentItem.style.height = iconSize;
 					contentItem.style.cursor = 'pointer';
-					contentItem.style.margin = 'auto';
+					// contentItem.style.margin = 'auto';
 					contentItem.innerText = window['elements'][section].text;
 					contentItem.addEventListener('click', function(e) {
 						e.preventDefault();
@@ -254,7 +250,7 @@ function renderMain(sectionNo) {
 			
 			if(content.isSinglePage)
 			{
-				document.querySelector('.header').appendChild(contentList);
+				document.querySelector('.menu').appendChild(contentList);
 			}
 			else
 			{
@@ -295,7 +291,7 @@ function renderSection(sectionNo, mainSectionNo) {
 		setTimeout(function() {
 			let headerHeight = document.querySelector('.header').getBoundingClientRect().height;
 			section.style.maxHeight = (window.innerHeight - headerHeight) + 'px';
-		}, 50);
+		}, 10);
 	}
 	
 	let prevDiv = document.createElement('div');
@@ -361,10 +357,12 @@ function renderSection(sectionNo, mainSectionNo) {
 	section.appendChild(nextDiv);
 }
 
-function renderHeader() {
+function renderMenu() {
 	let header = document.createElement('div');
-	header.classList.add('header');
-	document.body.insertBefore(header, document.getElementsByClassName('page')[0]);
+	header.classList.add('menu');
+	// document.body.insertBefore(header, document.getElementsByClassName('page')[0]);
+	// document.body.appendChild(header);
+	return header;
 }
 
 function renderFooter(isSinglePage) {
@@ -374,10 +372,11 @@ function renderFooter(isSinglePage) {
 	{
 		footer.style.width = '100%';
 		footer.style.position = 'fixed';
-		footer.style.bottom = 0;
+		// footer.style.bottom = 0;
 	}
 	footer.innerText = '(c) Klassic Note';
 	document.getElementsByClassName('page')[0].appendChild(footer);
+	document.getElementsByClassName('page')[0].appendChild(renderMenu());
 }
 
 function renderButtons() {

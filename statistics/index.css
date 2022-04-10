@@ -22,9 +22,11 @@ html {
     text-align: center;
 }
 
-.header {
+.menu {
 	z-index: 5;
 	max-height: 50vh;
+	bottom: 0;
+	position: fixed;
 }
 
 .page {
@@ -40,6 +42,7 @@ html {
 }
 
 .section {
+	/* bottom: 0; */
 	height: 100vh;
 	display: flex;
 	flex-direction: column;
@@ -81,9 +84,77 @@ html {
 .footer {
 	display: flex;
 	padding: 20px;
-	justify-content: center;
-	margin: auto;
+	justify-content: flex-end;
+	/* margin: auto; */
 	font-size: 0.7em;
+	bottom: 0;
+	right: 0;
+}
+.box {	
+	border: 1px solid gray;
+	background-color: white;
+	box-shadow: 3px 3px;
+	/* border-radius: 8px; */
+	display: flex;
+	font-size: 0.8em;
+	word-wrap: break-word;
+	align-items: center;
+	justify-content: center;
+}
+
+.box:active,
+.page-element:active {
+  box-shadow: 1px 1px;
+  transform: translate(2px, 2px);
+}
+
+.darked .box {	
+  border: 1px solid lightgray;
+  background-color: black;
+}
+
+.contents {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+}
+
+/*Github Page Only Controls*/
+html {
+  font-family: Open Sans;
+}
+body {
+  margin: auto;
+  display: flex;
+  overflow: auto;
+  flex: none;
+  flex-flow: column nowrap;
+}
+h1 {
+	text-align: center;
+}
+a {
+	cursor: pointer;
+}
+a:hover {
+	color: var(--secondary);
+}
+.darked a,
+.darked a:visited {
+	color: white;
+}
+
+.darked a:hover {
+	color: var(--secondary);
+}
+
+p {
+	padding: 20px;
+}
+
+.circle-icon img {
+	border-radius: 50%;
 }
 
 @media only screen and (max-width: 960px) {
@@ -93,6 +164,9 @@ html {
 	}
 	table {
 		font-size: 0.6rem;
+	}
+	.footer {
+		visibility: hidden;
 	}
 }
 
@@ -133,72 +207,3 @@ html {
   transform: translate(2px, 2px);
 }
  */
-
-.box {	
-	border: 1px solid gray;
-	background-color: white;
-	box-shadow: 3px 3px;
-	/* border-radius: 8px; */
-	display: flex;
-	justify-ontent: center;
-	align-items: center;
-	font-size: 0.8em;
-	word-wrap: break-word;
-}
-
-.box:active,
-.page-element:active {
-  box-shadow: 1px 1px;
-  transform: translate(2px, 2px);
-}
-
-.darked .box {	
-  border: 1px solid lightgray;
-  background-color: black;
-}
-
-@keyframes fadeInOpacity {
-	from {
-		opacity: 0;
-	}
-	to {
-		opacity: 1;
-	}
-}
-
-/*Github Page Only Controls*/
-html {
-  font-family: Open Sans;
-}
-body {
-  margin: auto;
-  display: flex;
-  overflow: auto;
-  flex: none;
-  flex-flow: column nowrap;
-}
-h1 {
-	text-align: center;
-}
-a {
-	cursor: pointer;
-}
-a:hover {
-	color: var(--secondary);
-}
-.darked a,
-.darked a:visited {
-	color: white;
-}
-
-.darked a:hover {
-	color: var(--secondary);
-}
-
-p {
-	padding: 20px;
-}
-
-.circle-icon img {
-	border-radius: 50%;
-}

@@ -109,7 +109,7 @@ function renderGrid(sectionNo, content) {
 			if(component.tooltip && component.tooltip.length > 0) img.title = component.tooltip;
 			img.style.backgroundImage = addBackgroundUrlClause(component.source);
 			img.style.width = '100%';
-			img.style.height = '80%';
+			img.style.height = component.rows > 1 ? '80%' : '100%';
 			img.style.margin = 'auto';
 			img.style.backgroundSize = 'contain';
 			img.style.backgroundRepeat = 'no-repeat';

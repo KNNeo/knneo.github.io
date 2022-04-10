@@ -11,39 +11,40 @@ const pageElements = [
 		type: 'grid',
 		columns: 2,
 		rows: 2,
-		image: 'https://otherbooks.carrd.co/assets/images/gallery06/8384096d.jpg',
-		text: '',
+		image: '',
+		text: 'THREE',
 		componentData: [
 			{
 				type: 'image',
 				rows: 2,
 				tooltip: '',
-				thumbnail: 'https://otherbooks.carrd.co/assets/images/image04.jpg',
-				source: 'https://otherbooks.carrd.co/assets/images/image04.jpg',
+				thumbnail: 'https://knbooks.carrd.co/assets/images/gallery11/dbd8c4be.jpg',
+				source: 'https://knbooks.carrd.co/assets/images/gallery11/dbd8c4be.jpg',
 			},
 			{
 				type: 'title',
-				prefix: 'PAMPHLET',
-				title: 'Asakura Momo Live Tour 2020 "Agapanthus"',
-				suffix: 'May 2020',
+				prefix: 'MARCH 2019',
+				title: 'Three Books Worth of Photos: That “F**k, Marry, Kill” Question',
+				suffix: 'The beginning of all beginnings, on a specific birthday, coinciding with someone’s first photobook totally made by herself. Her two fellow members of the same idol group were complimented for this celebration.',
 			},
 			{
 				type: 'gallery',
+				caption: '(From left to right: Natsukawa Shiina “Nukegara”, Amamiya Sora “10 looks”, Asakura Momo “pleasant”)',
 				datas: [
 					{
 						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery04/6a7eb9c5.jpg',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery04/6a7eb9c5.jpg'
+						thumbnail: 'https://knbooks.carrd.co/assets/images/gallery10/a8f7efe3.jpg',
+						source: 'https://knbooks.carrd.co/assets/images/gallery10/a8f7efe3.jpg'
 					},
 					{
 						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery04/1b76b4d7.jpg',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery04/1b76b4d7.jpg'
+						thumbnail: 'https://knbooks.carrd.co/assets/images/gallery10/6297e75b.jpg',
+						source: 'https://knbooks.carrd.co/assets/images/gallery10/6297e75b.jpg'
 					},
 					{
 						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery04/933e0575.jpg',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery04/933e0575.jpg'
+						thumbnail: 'https://knbooks.carrd.co/assets/images/gallery10/a76c4e88.jpg',
+						source: 'https://knbooks.carrd.co/assets/images/gallery10/a76c4e88.jpg'
 					},
 				],
 			},
@@ -53,40 +54,40 @@ const pageElements = [
 		type: 'grid',
 		columns: 2,
 		rows: 2,
-		image: 'https://otherbooks.carrd.co/assets/images/gallery06/cc2fe75f.jpg',
-		text: '',
+		image: '',
+		text: 'FOURTH',
 		componentData: [
-			{
-				type: 'title',
-				prefix: 'PAMPHLET',
-				title: 'KITO AKARI 1st LIVE TOUR "Colorful Closet"',
-				suffix: 'Oct 2020',
-			},
 			{
 				type: 'image',
 				rows: 2,
 				tooltip: '',
-				thumbnail: 'https://otherbooks.carrd.co/assets/images/image05.jpg',
-				source: 'https://otherbooks.carrd.co/assets/images/image05.jpg',
+				thumbnail: 'https://knbooks.carrd.co/assets/images/image03.jpg',
+				source: 'https://knbooks.carrd.co/assets/images/image03.jpg',
+			},
+			{
+				type: 'title',
+				prefix: 'MARCH 2019',
+				title: 'Fourth Book Worth of Photos: What Happened To Summer??',
+				suffix: 'It’s a birthday gift from a fellow friend who likes her too, and it’s her boldest work yet. It was indeed the last and best summer of the Heisei Era.',
 			},
 			{
 				type: 'gallery',
-				caption: '',
+				caption: '(From Kouno Marika “Marinka”)',
 				datas: [
 					{
 						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery05/3b5cd762.jpg',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery05/3b5cd762.jpg'
+						thumbnail: 'https://knbooks.carrd.co/assets/images/gallery03/b7b6543b.jpg',
+						source: 'https://knbooks.carrd.co/assets/images/gallery03/b7b6543b.jpg'
 					},
 					{
 						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery05/8c94fbc1.jpg',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery05/8c94fbc1.jpg'
+						thumbnail: 'https://knbooks.carrd.co/assets/images/gallery03/3fd15167.jpg',
+						source: 'https://knbooks.carrd.co/assets/images/gallery03/3fd15167.jpg'
 					},
 					{
 						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery05/ee84caf7.jpg',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery05/ee84caf7.jpg'
+						thumbnail: 'https://knbooks.carrd.co/assets/images/gallery03/7d07927d.jpg',
+						source: 'https://knbooks.carrd.co/assets/images/gallery03/7d07927d.jpg'
 					},
 				],
 			},
@@ -96,40 +97,40 @@ const pageElements = [
 		type: 'grid',
 		columns: 2,
 		rows: 2,
-		image: 'https://otherbooks.carrd.co/assets/images/gallery06/b02490b4.jpg',
-		text: '',
+		image: '',
+		text: 'FIFTH',
 		componentData: [
 			{
 				type: 'image',
 				rows: 2,
 				tooltip: '',
-				thumbnail: 'https://otherbooks.carrd.co/assets/images/image06.jpg',
-				source: 'https://otherbooks.carrd.co/assets/images/image06.jpg',
+				thumbnail: 'https://knbooks.carrd.co/assets/images/image04.jpg',
+				source: 'https://knbooks.carrd.co/assets/images/image04.jpg',
 			},
 			{
 				type: 'title',
-				prefix: 'PAMPHLET',
-				title: '"Toyota Moe Birthday Party 2020" Visual Photo Book',
-				suffix: 'Oct 2020',
+				prefix: 'MAY 2019',
+				title: 'Fifth Book Worth of Photos: The Tsundere Who Grew Up Well',
+				suffix: 'She’s young, she’s cute, and she’s left an impression. The confession after all these years cannot express how lovely she has grown up to be.',
 			},
 			{
 				type: 'gallery',
-				caption: '',
+				caption: '(From Kido Ibuki “breath”)',
 				datas: [
 					{
 						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery07/426f70be.jpg',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery07/426f70be.jpg'
+						thumbnail: 'https://knbooks.carrd.co/assets/images/gallery04/8045d162.jpg',
+						source: 'https://knbooks.carrd.co/assets/images/gallery04/8045d162.jpg'
 					},
 					{
 						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery07/02b393aa.jpg',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery07/02b393aa.jpg'
+						thumbnail: 'https://knbooks.carrd.co/assets/images/gallery04/a48fe7d6.jpg',
+						source: 'https://knbooks.carrd.co/assets/images/gallery04/a48fe7d6.jpg'
 					},
 					{
 						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery07/3cafa1aa.jpg',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery07/3cafa1aa.jpg'
+						thumbnail: 'https://knbooks.carrd.co/assets/images/gallery04/4ecf8433.jpg',
+						source: 'https://knbooks.carrd.co/assets/images/gallery04/4ecf8433.jpg'
 					},
 				],
 			},
@@ -139,40 +140,40 @@ const pageElements = [
 		type: 'grid',
 		columns: 2,
 		rows: 2,
-		image: 'https://otherbooks.carrd.co/assets/images/gallery06/567ec9f0.jpg',
-		text: '',
+		image: '',
+		text: 'SIXTH',
 		componentData: [
-			{
-				type: 'title',
-				prefix: 'PAMPHLET',
-				title: 'Haru Tachibana x Yuji Fukushima Photo Exhibition Official Catalog',
-				suffix: 'Nov 2020',
-			},
 			{
 				type: 'image',
 				rows: 2,
 				tooltip: '',
-				thumbnail: 'https://otherbooks.carrd.co/assets/images/image02.jpg',
-				source: 'https://otherbooks.carrd.co/assets/images/image02.jpg',
+				thumbnail: 'https://knbooks.carrd.co/assets/images/image05.jpg',
+				source: 'https://knbooks.carrd.co/assets/images/image05.jpg',
+			},
+			{
+				type: 'title',
+				prefix: 'SEPTEMBER 2019',
+				title: 'Sixth Book Worth of Photos: The Cosplayer On Vacation',
+				suffix: 'She’s the only cosplayer in the list, and her cheerfulness shines through the horizon. And in her last photobook for Comiket, she goes all out.',
 			},
 			{
 				type: 'gallery',
-				caption: '',
+				caption: '(From Tachibana Haru “Last.”)',
 				datas: [
 					{
 						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery02/7b8f1fb9.jpg',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery02/7b8f1fb9.jpg'
+						thumbnail: 'https://knbooks.carrd.co/assets/images/gallery05/4f82cc2a.jpg',
+						source: 'https://knbooks.carrd.co/assets/images/gallery05/4f82cc2a.jpg'
 					},
 					{
 						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery02/8b84e825.jpg',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery02/8b84e825.jpg'
+						thumbnail: 'https://knbooks.carrd.co/assets/images/gallery05/9681d34b.jpg',
+						source: 'https://knbooks.carrd.co/assets/images/gallery05/9681d34b.jpg'
 					},
 					{
 						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery02/275b6028.jpg',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery02/275b6028.jpg'
+						thumbnail: 'https://knbooks.carrd.co/assets/images/gallery05/88782a8c.jpg',
+						source: 'https://knbooks.carrd.co/assets/images/gallery05/88782a8c.jpg'
 					},
 				],
 			},
@@ -182,40 +183,40 @@ const pageElements = [
 		type: 'grid',
 		columns: 2,
 		rows: 2,
-		image: 'https://otherbooks.carrd.co/assets/images/gallery06/1fa05b18.jpg',
-		text: '',
+		image: '',
+		text: 'SEVENTH',
 		componentData: [
 			{
 				type: 'image',
 				rows: 2,
 				tooltip: '',
-				thumbnail: 'https://otherbooks.carrd.co/assets/images/image07.jpg',
-				source: 'https://otherbooks.carrd.co/assets/images/image07.jpg',
+				thumbnail: 'https://knbooks.carrd.co/assets/images/image06.jpg',
+				source: 'https://knbooks.carrd.co/assets/images/image06.jpg',
 			},
 			{
 				type: 'title',
-				prefix: 'PAMPHLET',
-				title: 'Touyama Nao "Special Thanks! Festival" Official Pamphlet',
-				suffix: 'Dec 2020',
+				prefix: 'NOVEMBER 2019',
+				title: 'Seventh Book Worth of Photos: Top Beauty Down Under',
+				suffix: 'She’s the only gravure idol in the list, and with the photobook under her control, this introvert decides to take a trip to Australia.',
 			},
 			{
 				type: 'gallery',
-				caption: '',
+				caption: '(From Baba Fumika “Babatabi”)',
 				datas: [
 					{
 						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery08/2a5406e9.jpg',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery08/2a5406e9.jpg'
+						thumbnail: 'https://knbooks.carrd.co/assets/images/gallery06/f525fa7a.jpg',
+						source: 'https://knbooks.carrd.co/assets/images/gallery06/f525fa7a.jpg'
 					},
 					{
 						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery08/54d9ee9d.jpg',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery08/54d9ee9d.jpg'
+						thumbnail: 'https://knbooks.carrd.co/assets/images/gallery06/0d2c946b.jpg',
+						source: 'https://knbooks.carrd.co/assets/images/gallery06/0d2c946b.jpg'
 					},
 					{
 						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery08/6e0e92cd.jpg',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery08/6e0e92cd.jpg'
+						thumbnail: 'https://knbooks.carrd.co/assets/images/gallery06/fb5944cb.jpg',
+						source: 'https://knbooks.carrd.co/assets/images/gallery06/fb5944cb.jpg'
 					},
 				],
 			},
@@ -225,40 +226,40 @@ const pageElements = [
 		type: 'grid',
 		columns: 2,
 		rows: 2,
-		image: 'https://otherbooks.carrd.co/assets/images/gallery06/d9d9307d.jpg',
-		text: '',
+		image: '',
+		text: 'EIGHTH',
 		componentData: [
-			{
-				type: 'title',
-				prefix: 'PAMPHLET',
-				title: 'Amamiya Sora Live Tour 2020 Paint it, SKY Pamphlet',
-				suffix: 'Jan 2021',
-			},
 			{
 				type: 'image',
 				rows: 2,
 				tooltip: '',
-				thumbnail: 'https://otherbooks.carrd.co/assets/images/image08.jpg',
-				source: 'https://otherbooks.carrd.co/assets/images/image08.jpg',
+				thumbnail: 'https://knbooks.carrd.co/assets/images/image07.jpg',
+				source: 'https://knbooks.carrd.co/assets/images/image07.jpg',
+			},
+			{
+				type: 'title',
+				prefix: 'DECEMBER 2019',
+				title: 'Eighth Book Worth of Photos: Her Biggest Birthday Present',
+				suffix: 'She is all but a normal voice actress but hidden inside a body of unbelievable proportions, and finally she bares them all in her boldest attempt yet.',
 			},
 			{
 				type: 'gallery',
-				caption: '',
+				caption: '(From Uesaka Sumire “Sumireiro”)',
 				datas: [
 					{
 						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery09/19e4ba76.jpg',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery09/19e4ba76.jpg'
+						thumbnail: 'https://knbooks.carrd.co/assets/images/gallery07/545238b2.jpg',
+						source: 'https://knbooks.carrd.co/assets/images/gallery07/545238b2.jpg'
 					},
 					{
 						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery09/f8f932b9.jpg',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery09/f8f932b9.jpg'
+						thumbnail: 'https://knbooks.carrd.co/assets/images/gallery07/5c29c1e5.jpg',
+						source: 'https://knbooks.carrd.co/assets/images/gallery07/5c29c1e5.jpg'
 					},
 					{
 						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery09/65c32ed5.jpg',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery09/65c32ed5.jpg'
+						thumbnail: 'https://knbooks.carrd.co/assets/images/gallery07/9d51d84c.jpg',
+						source: 'https://knbooks.carrd.co/assets/images/gallery07/9d51d84c.jpg'
 					},
 				],
 			},
@@ -268,40 +269,40 @@ const pageElements = [
 		type: 'grid',
 		columns: 2,
 		rows: 2,
-		image: 'https://otherbooks.carrd.co/assets/images/gallery06/9c46308f.jpg',
-		text: '',
+		image: '',
+		text: 'NINTH',
 		componentData: [
 			{
 				type: 'image',
 				rows: 2,
 				tooltip: '',
-				thumbnail: 'https://otherbooks.carrd.co/assets/images/image09.jpg',
-				source: 'https://otherbooks.carrd.co/assets/images/image09.jpg',
+				thumbnail: 'https://knbooks.carrd.co/assets/images/image08.jpg',
+				source: 'https://knbooks.carrd.co/assets/images/image08.jpg',
 			},
 			{
 				type: 'title',
-				prefix: 'PAMPHLET',
-				title: 'Natsukawa Shiina Zepp Live Tour 2020-2021 Pre-2nd Pamphlet',
-				suffix: 'Jan 2021',
+				prefix: 'DECEMBER 2019',
+				title: 'Ninth Book Worth of Photos: Once In An Anime Lifetime',
+				suffix: 'It’s the most unique one I’ve reviewed thus far, with themes focusing on a voice actress who dedicated her life to the Anime industry without being well-known.',
 			},
 			{
 				type: 'gallery',
-				caption: '',
+				caption: '(From Anzai Chika “Ichi’go Ichi’e”)',
 				datas: [
 					{
 						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery10/b39e2439.jpg',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery10/b39e2439.jpg'
+						thumbnail: 'https://knbooks.carrd.co/assets/images/gallery08/bb708e97.jpg',
+						source: 'https://knbooks.carrd.co/assets/images/gallery08/bb708e97.jpg'
 					},
 					{
 						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery10/f6fd945b.jpg',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery10/f6fd945b.jpg'
+						thumbnail: 'https://knbooks.carrd.co/assets/images/gallery08/b9c2109e.jpg',
+						source: 'https://knbooks.carrd.co/assets/images/gallery08/b9c2109e.jpg'
 					},
 					{
 						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery10/49073fb8.jpg',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery10/49073fb8.jpg'
+						thumbnail: 'https://knbooks.carrd.co/assets/images/gallery08/afb61978.jpg',
+						source: 'https://knbooks.carrd.co/assets/images/gallery08/afb61978.jpg'
 					},
 				],
 			},
@@ -311,40 +312,40 @@ const pageElements = [
 		type: 'grid',
 		columns: 2,
 		rows: 2,
-		image: 'https://otherbooks.carrd.co/assets/images/gallery06/8ec3c978.jpg',
-		text: '',
+		image: '',
+		text: 'TENTH',
 		componentData: [
-			{
-				type: 'title',
-				prefix: 'PAMPHLET',
-				title: 'TrySail\'s Tryangle Harmony Catalog 2020',
-				suffix: 'Jun 2021',
-			},
 			{
 				type: 'image',
 				rows: 2,
 				tooltip: '',
-				thumbnail: 'https://otherbooks.carrd.co/assets/images/image10.jpg',
-				source: 'https://otherbooks.carrd.co/assets/images/image10.jpg',
+				thumbnail: 'https://knbooks.carrd.co/assets/images/image01.jpg',
+				source: 'https://knbooks.carrd.co/assets/images/image01.jpg',
+			},
+			{
+				type: 'title',
+				prefix: 'FEBRUARY 2020',
+				title: 'Tenth Book Worth of Photos: The Route to Love, From The End and Beyond',
+				suffix: 'Ending with a bang, a literal dating simulator featuring a new generation voice actress, shows us what it is like to fall in love with her.',
 			},
 			{
 				type: 'gallery',
-				caption: '',
+				caption: '(From Kitou Akari “Love Route”)',
 				datas: [
 					{
 						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery11/7a326ae0.jpg',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery11/7a326ae0.jpg'
+						thumbnail: 'https://knbooks.carrd.co/assets/images/gallery01/0353c383.jpg',
+						source: 'https://knbooks.carrd.co/assets/images/gallery01/0353c383.jpg'
 					},
 					{
 						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery11/5f1e1a71.jpg',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery11/5f1e1a71.jpg'
+						thumbnail: 'https://knbooks.carrd.co/assets/images/gallery01/6487c223.jpg',
+						source: 'https://knbooks.carrd.co/assets/images/gallery01/6487c223.jpg'
 					},
 					{
 						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery11/98656598.jpg',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery11/98656598.jpg'
+						thumbnail: 'https://knbooks.carrd.co/assets/images/gallery01/eef64252.jpg',
+						source: 'https://knbooks.carrd.co/assets/images/gallery01/eef64252.jpg'
 					},
 				],
 			},
@@ -354,40 +355,50 @@ const pageElements = [
 		type: 'grid',
 		columns: 2,
 		rows: 2,
-		image: 'https://otherbooks.carrd.co/assets/images/gallery06/2824209d.jpg',
-		text: '',
+		image: '',
+		text: '11VS12',
 		componentData: [
 			{
 				type: 'image',
-				rows: 2,
 				tooltip: '',
-				thumbnail: 'https://otherbooks.carrd.co/assets/images/image12.jpg',
-				source: 'https://otherbooks.carrd.co/assets/images/image12.jpg',
+				thumbnail: 'https://knbooks.carrd.co/assets/images/gallery09/28e472c9.jpg',
+				source: 'https://knbooks.carrd.co/assets/images/gallery09/28e472c9.jpg',
 			},
 			{
 				type: 'title',
-				prefix: 'PAMPHLET',
-				title: 'Recital Drama "Chijin no Ai" Photobook',
-				suffix: 'Jun 2021',
+				prefix: 'MARCH 2021',
+				title: 'The Eleventh Book VS Twelfth Book Worth of Photos: The Valentine Birthday Showdown!',
+				suffix: 'With everyone prepared for Valentine\'s Day, it will be hard to decide who hits the best impression from the new generation.',
+			},
+			{
+				type: 'image',
+				tooltip: '',
+				thumbnail: 'https://knbooks.carrd.co/assets/images/gallery09/1c31253b.jpg',
+				source: 'https://knbooks.carrd.co/assets/images/gallery09/1c31253b.jpg',
 			},
 			{
 				type: 'gallery',
-				caption: '',
+				caption: '(From left to right: Waki Azumi "AZU YOU", Koga Aoi "Aoiro.")',
 				datas: [
 					{
 						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery13/dd0522a8.jpg',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery13/dd0522a8.jpg'
+						thumbnail: 'https://knbooks.carrd.co/assets/images/gallery02/1fcc5db6.jpg',
+						source: 'https://knbooks.carrd.co/assets/images/gallery02/1fcc5db6.jpg'
 					},
 					{
 						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery13/20f76a4f.jpg',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery13/20f76a4f.jpg'
+						thumbnail: 'https://knbooks.carrd.co/assets/images/gallery02/cc64ec61.jpg',
+						source: 'https://knbooks.carrd.co/assets/images/gallery02/cc64ec61.jpg'
 					},
 					{
 						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery13/804dfe63.jpg',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery13/804dfe63.jpg'
+						thumbnail: 'https://knbooks.carrd.co/assets/images/gallery02/1d83fd63.jpg',
+						source: 'https://knbooks.carrd.co/assets/images/gallery02/1d83fd63.jpg'
+					},
+					{
+						tooltip: '',
+						thumbnail: 'https://knbooks.carrd.co/assets/images/gallery02/ade15c6c.jpg',
+						source: 'https://knbooks.carrd.co/assets/images/gallery02/ade15c6c.jpg'
 					},
 				],
 			},
@@ -397,40 +408,40 @@ const pageElements = [
 		type: 'grid',
 		columns: 2,
 		rows: 2,
-		image: 'https://otherbooks.carrd.co/assets/images/gallery06/820b4d03.jpg',
-		text: '',
+		image: '',
+		text: '13TH',
 		componentData: [
-			{
-				type: 'title',
-				prefix: 'PAMPHLET',
-				title: 'Waki Azumi 1st LIVE -Chou Kakumeiteki Koisuru Ongakukai- Pamphlet',
-				suffix: 'Jul 2021',
-			},
 			{
 				type: 'image',
 				rows: 2,
 				tooltip: '',
-				thumbnail: 'https://otherbooks.carrd.co/assets/images/image11.jpg',
-				source: 'https://otherbooks.carrd.co/assets/images/image11.jpg',
+				thumbnail: '',
+				source: '',
+			},
+			{
+				type: 'title',
+				prefix: 'JANUARY 2022',
+				title: 'The Thirteenth Book Worth of Photos: Long Matured Trip Alone',
+				suffix: '',
 			},
 			{
 				type: 'gallery',
-				caption: '',
+				caption: '(From Kotobuki Minako "Cuppa")',
 				datas: [
 					{
 						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery12/36a0ba40.jpg',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery12/36a0ba40.jpg'
+						thumbnail: '',
+						source: ''
 					},
 					{
 						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery12/dfff3bbd.jpg',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery12/dfff3bbd.jpg'
+						thumbnail: '',
+						source: ''
 					},
 					{
 						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery12/594ff109.jpg',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery12/594ff109.jpg'
+						thumbnail: '',
+						source: ''
 					},
 				],
 			},
@@ -440,40 +451,40 @@ const pageElements = [
 		type: 'grid',
 		columns: 2,
 		rows: 2,
-		image: 'https://otherbooks.carrd.co/assets/images/gallery06/01df7ca2.jpg',
-		text: '',
+		image: '',
+		text: '14TH',
 		componentData: [
 			{
 				type: 'image',
 				rows: 2,
 				tooltip: '',
-				thumbnail: 'https://otherbooks.carrd.co/assets/images/image13.jpg',
-				source: 'https://otherbooks.carrd.co/assets/images/image13.jpg',
+				thumbnail: '',
+				source: '',
 			},
 			{
 				type: 'title',
-				prefix: 'PAMPHLET',
-				title: 'AKI TOYOSAKI CONCERT 2021 Camel Back Hall "CBH 1st Issue" Pamphlet',
-				suffix: 'Jul 2021',
+				prefix: 'MARCH 2022',
+				title: 'The Fourteenth Book Worth of Photos: Desire For Change',
+				suffix: '',
 			},
 			{
 				type: 'gallery',
-				caption: '',
+				caption: '(From Hondo Kaede "MUTE")',
 				datas: [
 					{
 						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery14/7fa6afef.jpg',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery14/7fa6afef.jpg'
+						thumbnail: '',
+						source: ''
 					},
 					{
 						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery14/d21c8935.jpg',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery14/d21c8935.jpg'
+						thumbnail: '',
+						source: ''
 					},
 					{
 						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery14/aa669c8e.jpg',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery14/aa669c8e.jpg'
+						thumbnail: '',
+						source: ''
 					},
 				],
 			},
@@ -483,129 +494,48 @@ const pageElements = [
 		type: 'grid',
 		columns: 2,
 		rows: 2,
-		image: 'https://otherbooks.carrd.co/assets/images/gallery06/f5877728.jpg',
-		text: '',
+		image: '',
+		text: '15VS16',
 		componentData: [
-			{
-				type: 'title',
-				prefix: 'PAMPHLET',
-				title: 'Inori Minase LIVE TOUR 2021 HELLO HORIZON Pamphlet',
-				suffix: 'Sep 2021',
-			},
 			{
 				type: 'image',
 				rows: 2,
 				tooltip: '',
-				thumbnail: 'https://otherbooks.carrd.co/assets/images/image14.jpg',
-				source: 'https://otherbooks.carrd.co/assets/images/image14.jpg',
+				thumbnail: '',
+				source: '',
+			},
+			{
+				type: 'title',
+				prefix: '2022',
+				title: 'The Fifteenth VS Sixteenth Book Worth of Photos: From First To Best',
+				suffix: '',
 			},
 			{
 				type: 'gallery',
-				caption: '',
+				caption: '(From left to right: Lynn "Rin", Sano Hinako "BE WITH ME")',
 				datas: [
 					{
 						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery15/c461f555.jpg',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery15/c461f555.jpg'
+						thumbnail: '',
+						source: ''
 					},
 					{
 						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery15/0ec155f1.jpg',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery15/0ec155f1.jpg'
+						thumbnail: '',
+						source: ''
 					},
 					{
 						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery15/60f191a6.jpg',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery15/60f191a6.jpg'
+						thumbnail: '',
+						source: ''
+					},
+					{
+						tooltip: '',
+						thumbnail: '',
+						source: ''
 					},
 				],
 			},
 		],
 	},
-	{
-		type: 'grid',
-		columns: 2,
-		rows: 2,
-		image: 'https://otherbooks.carrd.co/assets/images/gallery06/5edb3059.jpg',
-		text: '',
-		componentData: [
-			{
-				type: 'image',
-				rows: 2,
-				tooltip: '',
-				thumbnail: 'https://otherbooks.carrd.co/assets/images/image01.jpg',
-				source: 'https://otherbooks.carrd.co/assets/images/image01.jpg',
-			},
-			{
-				type: 'title',
-				prefix: 'PAMPHLET',
-				title: 'Uesaka Sumire no PROPAGANDA CITY 2021 Pamphlet',
-				suffix: 'Oct 2021',
-			},
-			{
-				type: 'gallery',
-				caption: '',
-				datas: [
-					{
-						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery01/8232a337.jpg',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery01/8232a337.jpg'
-					},
-					{
-						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery01/2d5d0678.jpg',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery01/2d5d0678.jpg'
-					},
-					{
-						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery01/c5fcf4ca.jpg',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery01/c5fcf4ca.jpg'
-					},
-				],
-			},
-		],
-	},
-	{
-		type: 'grid',
-		columns: 2,
-		rows: 2,
-		image: 'https://otherbooks.carrd.co/assets/images/gallery06/e5b0dbf5.jpg',
-		text: '',
-		componentData: [
-			{
-				type: 'title',
-				prefix: 'PAMPHLET',
-				title: 'Kouno Marika 1st LIVE ~Yume Mitai, Demo Yume Janai~ Pamphlet',
-				suffix: 'Mar 2022',
-			},
-			{
-				type: 'image',
-				rows: 2,
-				tooltip: '',
-				thumbnail: 'https://otherbooks.carrd.co/assets/images/image15.jpg',
-				source: 'https://otherbooks.carrd.co/assets/images/image15.jpg',
-			},
-			{
-				type: 'gallery',
-				caption: '',
-				datas: [
-					{
-						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery16/1b3edbc0.jpg',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery16/1b3edbc0.jpg'
-					},
-					{
-						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery16/29ca2e97.jpg',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery16/29ca2e97.jpg'
-					},
-					{
-						tooltip: '',
-						thumbnail: 'https://otherbooks.carrd.co/assets/images/gallery16/7a8a597a.jpg',
-						source: 'https://otherbooks.carrd.co/assets/images/gallery16/7a8a597a.jpg'
-					},
-				],
-			},
-		],
-	}
 ];
