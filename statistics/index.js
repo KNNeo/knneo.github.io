@@ -167,7 +167,6 @@ function renderMain(sectionNo) {
 			let contentList = document.createElement('div');
 			contentList.classList.add('contents');
 			contentList.style.padding = '5px';
-			contentList.style.flexWrap = 'nowrap';
 			
 			let iconSize = content.isSinglePage ? '6vh' : '8vh';
 			
