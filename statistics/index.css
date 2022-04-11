@@ -1,12 +1,29 @@
-/* Newly added */
 html {
-	overflow: hidden;
+	font-family: Open Sans;
+	/* overflow: hidden; */
 	-webkit-user-select: none;
 	-khtml-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
 	height: 100%;
+}
+
+body {
+	height: 100%;
+	margin: auto;
+	display: flex;
+	overflow: auto;
+	flex: none;
+	flex-flow: column nowrap;
+}
+
+a {
+	cursor: pointer;
+}
+
+a:hover {
+	color: var(--secondary);
 }
 
 .landing {
@@ -85,7 +102,7 @@ html {
 .footer {
 	display: flex;
 	padding: 20px;
-	justify-content: flex-end;
+	justify-content: center;
 	/* margin: auto; */
 	font-size: 0.7em;
 	bottom: 0;
@@ -121,27 +138,6 @@ html {
 	justify-content: center;
 }
 
-/*Github Page Only Controls*/
-html {
-  font-family: Open Sans;
-}
-body {
-height: 100%;
-  margin: auto;
-  display: flex;
-  overflow: auto;
-  flex: none;
-  flex-flow: column nowrap;
-}
-h1 {
-	text-align: center;
-}
-a {
-	cursor: pointer;
-}
-a:hover {
-	color: var(--secondary);
-}
 .darked a,
 .darked a:visited {
 	color: white;
@@ -151,28 +147,10 @@ a:hover {
 	color: var(--secondary);
 }
 
-p {
-	padding: 20px;
-}
-
 .circle-icon img {
 	border-radius: 50%;
 }
 
-@media only screen and (max-width: 960px) {
-	.container {
-		 width: 99%;
-		 margin: 0;
-	}
-	table {
-		font-size: 0.6rem;
-	}
-	.footer {
-		visibility: hidden;
-	}
-}
-
-/* Copied from others */
 #GoToTopBtn {
   position: fixed;
   display: block;
@@ -202,10 +180,12 @@ p {
   border-radius: 7px;
 }
 
-/* .page-element:active,
-#GoToTopBtn:active,
-#CloseBtn:active {
-  box-shadow: 1px 1px;
-  transform: translate(2px, 2px);
+@media only screen and (max-width: 960px) {
+	.container {
+		 width: 99%;
+		 margin: 0;
+	}
+	.footer {
+		visibility: hidden;
+	}
 }
- */

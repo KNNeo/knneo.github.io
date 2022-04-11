@@ -201,7 +201,6 @@ function renderMain(sectionNo) {
 				{
 					if(section == sectionNo)
 						continue;
-					let contentItem = document.createElement('div');
 					contentItem.style.width = iconSize;
 					contentItem.style.height = iconSize;
 					contentItem.style.borderRadius = '50%';
@@ -373,6 +372,7 @@ function renderFooter(isSinglePage) {
 		footer.style.width = '100%';
 		footer.style.position = 'fixed';
 		// footer.style.bottom = 0;
+		footer.style.justifyContent = 'flex-end';
 	}
 	footer.innerText = '(c) Klassic Note';
 	document.getElementsByClassName('page')[0].appendChild(footer);
