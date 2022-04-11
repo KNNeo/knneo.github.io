@@ -83,13 +83,13 @@ function renderPage() {
 	
 	renderFooter(window['elements'][mainSectionNo].isSinglePage);
 
-	if(window['elements'][mainSectionNo].isSinglePage)
-	{
-		setTimeout(function() {
-			let headerHeight = document.querySelector('.header').getBoundingClientRect().height;
-			document.getElementsByClassName('page')[0].style.maxHeight = (window.innerHeight - headerHeight) + 'px';
-		}, 10);
-	}
+	// if(window['elements'][mainSectionNo].isSinglePage)
+	// {
+		// setTimeout(function() {
+			// let headerHeight = document.querySelector('.header').getBoundingClientRect().height;
+			// document.getElementsByClassName('page')[0].style.maxHeight = (window.innerHeight - headerHeight) + 'px';
+		// }, 10);
+	// }
 	
 	for(let sectionNo = 0; sectionNo < window['elements'].length; sectionNo++) {
 		if(window['elements'][sectionNo].isMain) {
@@ -104,6 +104,8 @@ function renderPage() {
 	{
 		scrollToPage(mainSectionNo, window['elements'][mainSectionNo].isSinglePage);
 	}
+	
+	renderButtons(window['elements'][mainSectionNo].isSinglePage);
 }
 
 function renderMain(sectionNo) {
@@ -116,10 +118,10 @@ function renderMain(sectionNo) {
 		{
 			main.style.position = 'absolute';
 			main.style.width = '100%';
-			setTimeout(function() {
-				let headerHeight = document.querySelector('.header').getBoundingClientRect().height;
-				main.style.maxHeight = (window.innerHeight - headerHeight) + 'px';
-			}, 10);
+			// setTimeout(function() {
+				// let headerHeight = document.querySelector('.header').getBoundingClientRect().height;
+				// main.style.maxHeight = (window.innerHeight - headerHeight) + 'px';
+			// }, 10);
 		}
 		
 		// if(main.previousElementSibling != null) {
@@ -165,6 +167,7 @@ function renderMain(sectionNo) {
 			let contentList = document.createElement('div');
 			contentList.classList.add('contents');
 			contentList.style.padding = '5px';
+			contentList.style.flexWrap = 'nowrap';
 			
 			let iconSize = content.isSinglePage ? '6vh' : '8vh';
 			
@@ -201,6 +204,7 @@ function renderMain(sectionNo) {
 				{
 					if(section == sectionNo)
 						continue;
+					let contentItem = document.createElement('img');
 					contentItem.style.width = iconSize;
 					contentItem.style.height = iconSize;
 					contentItem.style.borderRadius = '50%';
@@ -216,7 +220,7 @@ function renderMain(sectionNo) {
 						e.preventDefault();
 						scrollToPage(section, content.isSinglePage);
 					});
-					contentItem.style.backgroundImage = addBackgroundUrlClause(window['elements'][section].image);
+					contentItem.src = (window['elements'][section].image);
 					if(window['elements'][section].text)
 						contentItem.title = window['elements'][section].text;
 					contentList.appendChild(contentItem);
@@ -287,10 +291,10 @@ function renderSection(sectionNo, mainSectionNo) {
 	{
 		section.style.position = 'absolute';
 		section.style.width = '100%';
-		setTimeout(function() {
-			let headerHeight = document.querySelector('.header').getBoundingClientRect().height;
-			section.style.maxHeight = (window.innerHeight - headerHeight) + 'px';
-		}, 10);
+		// setTimeout(function() {
+			// let headerHeight = document.querySelector('.header').getBoundingClientRect().height;
+			// section.style.maxHeight = (window.innerHeight - headerHeight) + 'px';
+		// }, 10);
 	}
 	
 	let prevDiv = document.createElement('div');
@@ -379,7 +383,7 @@ function renderFooter(isSinglePage) {
 	document.getElementsByClassName('page')[0].appendChild(renderMenu());
 }
 
-function renderButtons() {
+function renderButtons(isSinglePage) {
 	let topButton = document.createElement('a');
 	topButton.id = 'GoToTopBtn';
 	topButton.title = 'Back To Top';
@@ -395,6 +399,7 @@ function renderButtons() {
 	let closeButton = document.createElement('a');
 	closeButton.id = 'CloseBtn';
 	closeButton.title = 'Close Popup';
+	if(isSinglePage) closeButton.style.right = '10px';
 	let closeButtonIcon = document.createElement('i');
 	closeButtonIcon.classList.add('material-icons');
 	closeButtonIcon.classList.add('not-selectable');
@@ -423,7 +428,6 @@ function addBackgroundUrlClause(url) { return "url('" + url + "')"; }
 window.addEventListener('load', startup);
 window.addEventListener('resize', function() { location.reload(); });
 function startup() {
-	renderButtons();
 	if(document.body.getBoundingClientRect().width <= 400 && document.querySelector('.landing') != null) 
 	{
 		document.querySelector('.landing').style.display = 'block';
