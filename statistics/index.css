@@ -82,13 +82,13 @@ a:hover {
 	 height: 80vh;	
 }
 
-.page-next {
+/* .page-next {
 	padding-top: 20px;
 }
 
 .page-prev {
 	padding-bottom: 10px;
-}
+} */
 
 .page-next .material-icons,
 .page-prev .material-icons {

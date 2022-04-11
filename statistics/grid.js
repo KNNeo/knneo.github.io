@@ -1,6 +1,7 @@
 //main function to render detachable component
 function renderGrid(sectionNo, content) {
 	let section = document.getElementById('section'+sectionNo);
+	section.innerHTML = '';
 	
 	let table = document.createElement('table');
 	table.classList.add('container');
@@ -48,7 +49,7 @@ function renderGrid(sectionNo, content) {
 			
 			let item = content.componentData[count];
 			// td.innerText = item.type;
-			if(item.rows != undefined)
+			if(item && item.rows != undefined)
 			{
 				td.setAttribute('rowspan', item.rows);
 				for(let r = 1; r < item.rows; r++)
@@ -57,7 +58,7 @@ function renderGrid(sectionNo, content) {
 				}
 			}
 			
-			if(item.columns != undefined)
+			if(item && item.columns != undefined)
 			{
 				td.setAttribute('colspan', item.columns);
 				for(let c = 1; c < item.columns; c++)
@@ -132,8 +133,8 @@ function renderGrid(sectionNo, content) {
 				let img = document.createElement('div');
 				if(data.tooltip && data.tooltip.length > 0) img.title = data.tooltip;
 				img.style.backgroundImage = addBackgroundUrlClause(data.source);
-				img.style.width = '8em';
-				img.style.height = '8em';
+				img.style.width = '20%';
+				img.style.height = '7em';
 				img.style.margin = '5px';
 				img.style.display = 'inline-block';
 				img.style.backgroundSize = 'contain';

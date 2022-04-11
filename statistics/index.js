@@ -41,9 +41,7 @@ function scrollToMainPage(firstLoad) {
 		document.querySelector('#main').scrollIntoView();
 }
 
-function renderVariables() {
-	window['elements'] = pageElements;
-	
+function renderVariables() {	
 	//check for extension js files here
 	if(typeof renderChart != 'function')
 	{
@@ -61,7 +59,10 @@ function renderVariables() {
 	}
 }
 
-function renderPage() {	
+function renderPage() {
+	document.getElementsByClassName('page')[0].innerHTML = '';
+	window['elements'] = JSON.parse(JSON.stringify(pageElements));
+	
 	let mainSectionNo = 0;
 	for(let sectionNo = 0; sectionNo < window['elements'].length; sectionNo++) {
 		if(window['elements'][sectionNo].isMain) {
@@ -425,7 +426,7 @@ function addBackgroundUrlClause(url) { return "url('" + url + "')"; }
 
 // startup
 window.addEventListener('load', startup);
-window.addEventListener('resize', function() { location.reload(); });
+window.addEventListener('resize', renderPage);
 function startup() {
 	if(document.body.getBoundingClientRect().width <= 400 && document.querySelector('.landing') != null) 
 	{
