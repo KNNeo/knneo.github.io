@@ -126,6 +126,7 @@ html {
   font-family: Open Sans;
 }
 body {
+height: 100%;
   margin: auto;
   display: flex;
   overflow: auto;
