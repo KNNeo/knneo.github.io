@@ -12,10 +12,10 @@ html {
 body {
 	height: 100%;
 	margin: auto;
-	display: flex;
+/* 	display: flex;
 	overflow: auto;
 	flex: none;
-	flex-flow: column nowrap;
+	flex-flow: column nowrap; */
 }
 
 a {
@@ -40,19 +40,19 @@ a:hover {
     text-align: center;
 }
 
-.menu {
-	z-index: 5;
-	max-height: 50vh;
-	bottom: 0;
-	position: fixed;
-}
-
 .page {
 	max-height: 100vh;
 	overflow-y: scroll;
 	scroll-behavior: smooth;
 	scroll-snap-type: y mandatory;
 	scroll-snap-points-y: repeat(3rem);
+}
+
+.menu {
+	z-index: 5;
+	max-height: 50vh;
+	bottom: 0;
+	position: fixed;
 }
 
 .page-title {

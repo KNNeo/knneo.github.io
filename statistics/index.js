@@ -387,6 +387,7 @@ function renderButtons(isSinglePage) {
 	let topButton = document.createElement('a');
 	topButton.id = 'GoToTopBtn';
 	topButton.title = 'Back To Top';
+	if(isMobile()) topButton.style.right = '10px';
 	let topButtonIcon = document.createElement('i');
 	topButtonIcon.classList.add('material-icons');
 	topButtonIcon.classList.add('not-selectable');
@@ -399,7 +400,7 @@ function renderButtons(isSinglePage) {
 	let closeButton = document.createElement('a');
 	closeButton.id = 'CloseBtn';
 	closeButton.title = 'Close Popup';
-	if(isSinglePage) closeButton.style.right = '10px';
+	if(isSinglePage || isMobile()) closeButton.style.right = '10px';
 	let closeButtonIcon = document.createElement('i');
 	closeButtonIcon.classList.add('material-icons');
 	closeButtonIcon.classList.add('not-selectable');
