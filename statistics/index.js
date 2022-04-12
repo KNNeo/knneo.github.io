@@ -70,6 +70,7 @@ function renderPage() {
 			let newMain = document.createElement('div');
 			newMain.id = 'main';
 			newMain.classList.add('section');
+			newMain.style.height = '100vh';
 			document.getElementsByClassName('page')[0].appendChild(newMain);
 			mainSectionNo = sectionNo;
 			// renderMain(sectionNo);
@@ -77,6 +78,7 @@ function renderPage() {
 		else {
 			let newSection = document.createElement('div');
 			newSection.classList.add('section');
+			newSection.style.height = '100vh';
 			document.getElementsByClassName('page')[0].appendChild(newSection);
 			// console.log(mainSectionNo);
 			// renderSection(sectionNo, mainSectionNo);
