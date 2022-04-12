@@ -2,7 +2,7 @@
 const pageElements = [
 	{
 		isMain: true,
-		isSinglePage: true,
+		isSinglePage: false,
 		prefix: '',
 		title: 'THE BOOKS WORTH OF PHOTOS',
 		suffix: 'A Klassic Note Web Reports series where I review photobooks',
@@ -415,14 +415,14 @@ const pageElements = [
 				type: 'image',
 				rows: 2,
 				tooltip: '',
-				thumbnail: '',
-				source: '',
+				thumbnail: 'https://knbooks.carrd.co/assets/images/gallery12/6bf8331b_original.jpg',
+				source: 'https://knbooks.carrd.co/assets/images/gallery12/6bf8331b_original.jpg',
 			},
 			{
 				type: 'title',
 				prefix: 'JANUARY 2022',
 				title: 'The Thirteenth Book Worth of Photos: Long Matured Trip Alone',
-				suffix: '',
+				suffix: 'Living away from home in pursuit of education isn\'t exactly easy considering it lasted 2 years, but the voice actress shows us how one can grow up freely.',
 			},
 			{
 				type: 'gallery',
@@ -430,18 +430,18 @@ const pageElements = [
 				datas: [
 					{
 						tooltip: '',
-						thumbnail: '',
-						source: ''
+						thumbnail: 'https://knbooks.carrd.co/assets/images/gallery12/2f71dc4b.jpg',
+						source: 'https://knbooks.carrd.co/assets/images/gallery12/2f71dc4b.jpg'
 					},
 					{
 						tooltip: '',
-						thumbnail: '',
-						source: ''
+						thumbnail: 'https://knbooks.carrd.co/assets/images/gallery12/99f005b1.jpg',
+						source: 'https://knbooks.carrd.co/assets/images/gallery12/99f005b1.jpg'
 					},
 					{
 						tooltip: '',
-						thumbnail: '',
-						source: ''
+						thumbnail: 'https://knbooks.carrd.co/assets/images/gallery12/7c9b0cb9.jpg',
+						source: 'https://knbooks.carrd.co/assets/images/gallery12/7c9b0cb9.jpg'
 					},
 				],
 			},
@@ -458,14 +458,14 @@ const pageElements = [
 				type: 'image',
 				rows: 2,
 				tooltip: '',
-				thumbnail: '',
-				source: '',
+				thumbnail: 'https://knbooks.carrd.co/assets/images/gallery12/730e96c0_original.jpg',
+				source: 'https://knbooks.carrd.co/assets/images/gallery12/730e96c0_original.jpg',
 			},
 			{
 				type: 'title',
 				prefix: 'MARCH 2022',
 				title: 'The Fourteenth Book Worth of Photos: Desire For Change',
-				suffix: '',
+				suffix: 'On her first for everything, from releasing a photobook to getting a short haircut, she bares all without revealing any of her voice acting skills.',
 			},
 			{
 				type: 'gallery',
@@ -473,18 +473,18 @@ const pageElements = [
 				datas: [
 					{
 						tooltip: '',
-						thumbnail: '',
-						source: ''
+						thumbnail: 'https://knbooks.carrd.co/assets/images/gallery12/cb79399a.jpg',
+						source: 'https://knbooks.carrd.co/assets/images/gallery12/cb79399a.jpg'
 					},
 					{
 						tooltip: '',
-						thumbnail: '',
-						source: ''
+						thumbnail: 'https://knbooks.carrd.co/assets/images/gallery12/940ae0d5.jpg',
+						source: 'https://knbooks.carrd.co/assets/images/gallery12/940ae0d5.jpg'
 					},
 					{
 						tooltip: '',
-						thumbnail: '',
-						source: ''
+						thumbnail: 'https://knbooks.carrd.co/assets/images/gallery12/a2523d78.jpg',
+						source: 'https://knbooks.carrd.co/assets/images/gallery12/a2523d78.jpg'
 					},
 				],
 			},
