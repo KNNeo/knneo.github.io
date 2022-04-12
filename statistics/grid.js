@@ -115,6 +115,7 @@ function renderGrid(sectionNo, content) {
 			img.style.backgroundSize = 'contain';
 			img.style.backgroundRepeat = 'no-repeat';
 			img.style.backgroundPosition = 'center';
+			img.addEventListener('contextmenu', function(e) { e.preventDefault(); });
 			comp.appendChild(img);
 		}
 		else if(component.type == 'gallery')
@@ -140,6 +141,7 @@ function renderGrid(sectionNo, content) {
 				img.style.backgroundSize = 'contain';
 				img.style.backgroundRepeat = 'no-repeat';
 				img.style.backgroundPosition = 'center';
+				img.addEventListener('contextmenu', function(e) { e.preventDefault(); });
 				gallery.appendChild(img);
 			}
 			
