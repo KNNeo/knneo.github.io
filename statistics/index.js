@@ -42,14 +42,15 @@ function scrollToMainPage(firstLoad) {
 }
 
 function renderVariables() {	
+	// window['elements'] = JSON.parse(JSON.stringify(pageElements));
 	//check for extension js files here
 	if(typeof renderChart != 'function')
 	{
-		window['elements'] = pageElements.filter(pe => pe.type != 'chart');
+		window['elements'] = window['elements'].filter(pe => pe.type != 'chart');
 	}
 	if(typeof renderGrid != 'function')
 	{
-		window['elements'] = pageElements.filter(pe => pe.type != 'grid');
+		window['elements'] = window['elements'].filter(pe => pe.type != 'grid');
 	}
 	
 	// to allow multiple instances of charts based on data, in format 'container<no>'
@@ -61,7 +62,7 @@ function renderVariables() {
 
 function renderPage() {
 	document.getElementsByClassName('page')[0].innerHTML = '';
-	window['elements'] = JSON.parse(JSON.stringify(pageElements));
+	// window['elements'] = JSON.parse(JSON.stringify(pageElements));
 	
 	let mainSectionNo = 0;
 	for(let sectionNo = 0; sectionNo < window['elements'].length; sectionNo++) {
@@ -408,6 +409,10 @@ function renderButtons(isSinglePage) {
 	closeButton.appendChild(closeButtonIcon);
 	document.body.appendChild(closeButton);
 	document.getElementById('CloseBtn').addEventListener('click', goBack);
+	document.getElementById('CloseBtn').addEventListener('contextmenu', function(e) {
+		e.preventDefault();
+		getJson("https://knneo.github.io/statistics/data/books.json", setPageElements);
+	});
 }
 
 function goBack() {
@@ -425,6 +430,13 @@ function toggleGoToTopBtn() {
 
 function addBackgroundUrlClause(url) { return "url('" + url + "')"; }
 
+function setPageElements(content) {
+	window['elements'] = JSON.parse(JSON.stringify(content));
+	renderVariables();
+	renderPage();
+	scrollToMainPage(true);
+}
+
 // startup
 window.addEventListener('load', startup);
 window.addEventListener('resize', renderPage);
@@ -434,7 +446,5 @@ function startup() {
 		document.querySelector('.landing').style.display = 'block';
 		return;
 	}
-	renderVariables();
-	renderPage();
-	scrollToMainPage(true);
+	getJson("https://knneo.github.io/statistics/data/gallery.json", setPageElements);
 }
