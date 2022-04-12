@@ -70,7 +70,7 @@ function renderPage() {
 			let newMain = document.createElement('div');
 			newMain.id = 'main';
 			newMain.classList.add('section');
-			newMain.style.height = '100vh';
+			newMain.style.height = window.innerHeight;
 			document.getElementsByClassName('page')[0].appendChild(newMain);
 			mainSectionNo = sectionNo;
 			// renderMain(sectionNo);
@@ -78,7 +78,7 @@ function renderPage() {
 		else {
 			let newSection = document.createElement('div');
 			newSection.classList.add('section');
-			newSection.style.height = '100vh';
+			newSection.style.height = window.innerHeight;
 			document.getElementsByClassName('page')[0].appendChild(newSection);
 			// console.log(mainSectionNo);
 			// renderSection(sectionNo, mainSectionNo);
@@ -387,34 +387,40 @@ function renderFooter(isSinglePage) {
 }
 
 function renderButtons(isSinglePage) {
-	let topButton = document.createElement('a');
-	topButton.id = 'GoToTopBtn';
-	topButton.title = 'Back To Top';
-	if(isMobile()) topButton.style.right = '10px';
-	let topButtonIcon = document.createElement('i');
-	topButtonIcon.classList.add('material-icons');
-	topButtonIcon.classList.add('not-selectable');
-	topButtonIcon.innerText = 'arrow_upward';
-	topButton.appendChild(topButtonIcon);
-	document.body.appendChild(topButton);
-	document.getElementById('GoToTopBtn').addEventListener('click', scrollToMainPage);
-	document.getElementsByClassName('page')[0].addEventListener('scroll', toggleGoToTopBtn);
+	if(document.getElementById('GoToTopBtn') == null)
+	{
+		let topButton = document.createElement('a');
+		topButton.id = 'GoToTopBtn';
+		topButton.title = 'Back To Top';
+		if(isMobile()) topButton.style.right = '10px';
+		let topButtonIcon = document.createElement('i');
+		topButtonIcon.classList.add('material-icons');
+		topButtonIcon.classList.add('not-selectable');
+		topButtonIcon.innerText = 'arrow_upward';
+		topButton.appendChild(topButtonIcon);
+		document.body.appendChild(topButton);
+		document.getElementById('GoToTopBtn').addEventListener('click', scrollToMainPage);
+		document.getElementById('GoToTopBtn').addEventListener('contextmenu', function(e) {
+			e.preventDefault();
+			getJson("https://knneo.github.io/statistics/data/books.json", setPageElements);
+		});
+		document.getElementsByClassName('page')[0].addEventListener('scroll', toggleGoToTopBtn);
+	}
 
-	let closeButton = document.createElement('a');
-	closeButton.id = 'CloseBtn';
-	closeButton.title = 'Close Popup';
-	if(isSinglePage || isMobile()) closeButton.style.right = '10px';
-	let closeButtonIcon = document.createElement('i');
-	closeButtonIcon.classList.add('material-icons');
-	closeButtonIcon.classList.add('not-selectable');
-	closeButtonIcon.innerText = 'close';
-	closeButton.appendChild(closeButtonIcon);
-	document.body.appendChild(closeButton);
-	document.getElementById('CloseBtn').addEventListener('click', goBack);
-	document.getElementById('CloseBtn').addEventListener('contextmenu', function(e) {
-		e.preventDefault();
-		getJson("https://knneo.github.io/statistics/data/books.json", setPageElements);
-	});
+	if(document.getElementById('CloseBtn') == null)
+	{
+		let closeButton = document.createElement('a');
+		closeButton.id = 'CloseBtn';
+		closeButton.title = 'Close Popup';
+		if(isSinglePage || isMobile()) closeButton.style.right = '10px';
+		let closeButtonIcon = document.createElement('i');
+		closeButtonIcon.classList.add('material-icons');
+		closeButtonIcon.classList.add('not-selectable');
+		closeButtonIcon.innerText = 'close';
+		closeButton.appendChild(closeButtonIcon);
+		document.body.appendChild(closeButton);
+		document.getElementById('CloseBtn').addEventListener('click', goBack);
+	}
 }
 
 function goBack() {
