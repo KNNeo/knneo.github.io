@@ -8,17 +8,28 @@
    },
    {
       "type":"grid",
-      "columns":2,
+      "columns":3,
       "rows":2,
       "image":"",
       "text":"THREE",
       "componentData":[
          {
             "type":"image",
-            "rows":2,
             "tooltip":"",
             "thumbnail":"https://knbooks.carrd.co/assets/images/gallery11/dbd8c4be.jpg",
             "source":"https://knbooks.carrd.co/assets/images/gallery11/dbd8c4be.jpg"
+         },
+         {
+            "type":"image",
+            "tooltip":"",
+            "thumbnail":"https://knbooks.carrd.co/assets/images/gallery11/fb89fb26.jpg",
+            "source":"https://knbooks.carrd.co/assets/images/gallery11/fb89fb26.jpg"
+         },
+         {
+            "type":"image",
+            "tooltip":"",
+            "thumbnail":"https://knbooks.carrd.co/assets/images/gallery11/37e0c0ae.jpg",
+            "source":"https://knbooks.carrd.co/assets/images/gallery11/37e0c0ae.jpg"
          },
          {
             "type":"title",
