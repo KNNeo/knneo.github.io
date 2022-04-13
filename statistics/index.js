@@ -70,7 +70,7 @@ function renderPage() {
 			let newMain = document.createElement('div');
 			newMain.id = 'main';
 			newMain.classList.add('section');
-			newMain.style.height = window.innerHeight;
+			newMain.style.height = '100vh';
 			document.getElementsByClassName('page')[0].appendChild(newMain);
 			mainSectionNo = sectionNo;
 			// renderMain(sectionNo);
@@ -78,7 +78,7 @@ function renderPage() {
 		else {
 			let newSection = document.createElement('div');
 			newSection.classList.add('section');
-			newSection.style.height = window.innerHeight;
+			newSection.style.height = '100vh';
 			document.getElementsByClassName('page')[0].appendChild(newSection);
 			// console.log(mainSectionNo);
 			// renderSection(sectionNo, mainSectionNo);
@@ -172,10 +172,14 @@ function renderMain(sectionNo) {
 			contentList.classList.add('contents');
 			contentList.style.padding = '5px';
 			
-			let iconSize = content.isSinglePage ? '6vh' : '8vh';
+			let iconSize = '8vw';
+			if(content.isSinglePage || window.innerWidth <= 800) iconSize = '7vh';
+			if(content.isSinglePage && window.innerWidth <= 800) iconSize = '11vw';
 			
 			if(content.isSinglePage)
 			{
+				let homeSize = '4.5rem';
+				if(window.innerWidth <= 800) homeSize = '3.5rem';
 				let contentItem = document.createElement('div');
 				contentItem.classList.add('material-icons');
 				contentItem.style.width = iconSize;
@@ -185,7 +189,7 @@ function renderMain(sectionNo) {
 				contentItem.style.backgroundSize = 'contain';
 				contentItem.style.backgroundRepeat = 'no-repeat';
 				contentItem.style.backgroundPosition = 'center';
-				contentItem.style.fontSize = '3.5rem';
+				contentItem.style.fontSize = homeSize;
 				contentItem.style.padding = '4px 0';
 				contentItem.innerText = 'home';
 				contentItem.addEventListener('click', function(e) {
@@ -440,6 +444,7 @@ function addBackgroundUrlClause(url) { return "url('" + url + "')"; }
 
 function setPageElements(content) {
 	window['elements'] = JSON.parse(JSON.stringify(content));
+	// window['elements'][0].isSinglePage = true;
 	renderVariables();
 	renderPage();
 	scrollToMainPage(true);

@@ -124,10 +124,10 @@ function renderGrid(sectionNo, content) {
 			gallery.style.width = '100%';
 			// gallery.style.height = '100%';
 			// gallery.style.margin = 'auto';
-			// gallery.style.display = 'flex';
-			// gallery.style.flexDirection = 'row';
-			// gallery.style.justifyContent = 'center';
-			// gallery.style.alignItems = 'center';
+			gallery.style.display = 'flex';
+			gallery.style.flexDirection = 'row';
+			gallery.style.justifyContent = 'center';
+			gallery.style.alignItems = 'center';
 			
 			for(let data of component.datas)
 			{
@@ -137,7 +137,7 @@ function renderGrid(sectionNo, content) {
 				img.style.width = '20%';
 				img.style.height = '7em';
 				img.style.margin = '5px';
-				img.style.display = 'inline-block';
+				img.style.display = 'flex';
 				img.style.backgroundSize = 'contain';
 				img.style.backgroundRepeat = 'no-repeat';
 				img.style.backgroundPosition = 'center';
