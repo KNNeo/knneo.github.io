@@ -33,13 +33,13 @@
 			},
 			{
 				"type": "title",
+				"columns": 2,
 				"prefix": "MARCH 2019",
 				"title": "Three Books Worth of Photos: That “F**k, Marry, Kill” Question",
 				"suffix": "The beginning of all beginnings, on a specific birthday, coinciding with someone’s first photobook totally made by herself. Her two fellow members of the same idol group were complimented for this celebration."
 			},
 			{
 				"type": "gallery",
-				"columns": 2,
 				"caption": "(From left to right: Natsukawa Shiina “Nukegara”, Amamiya Sora “10 looks”, Asakura Momo “pleasant”)",
 				"datas": [
 					{
