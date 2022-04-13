@@ -404,10 +404,6 @@ function renderButtons(isSinglePage) {
 		topButton.appendChild(topButtonIcon);
 		document.body.appendChild(topButton);
 		document.getElementById('GoToTopBtn').addEventListener('click', scrollToMainPage);
-		document.getElementById('GoToTopBtn').addEventListener('contextmenu', function(e) {
-			e.preventDefault();
-			getJson("https://knneo.github.io/statistics/data/books.json", setPageElements);
-		});
 		document.getElementsByClassName('page')[0].addEventListener('scroll', toggleGoToTopBtn);
 	}
 
@@ -424,6 +420,10 @@ function renderButtons(isSinglePage) {
 		closeButton.appendChild(closeButtonIcon);
 		document.body.appendChild(closeButton);
 		document.getElementById('CloseBtn').addEventListener('click', goBack);
+		document.getElementById('CloseBtn').addEventListener('contextmenu', function(e) {
+			e.preventDefault();
+			getJson("https://knneo.github.io/statistics/data/books.json", setPageElements);
+		});
 	}
 }
 
