@@ -207,7 +207,7 @@ function renderMain(sectionNo) {
 				{
 					if(section == sectionNo)
 						continue;
-					let contentItem = document.createElement('img');
+					let contentItem = document.createElement('div');
 					contentItem.style.width = iconSize;
 					contentItem.style.height = iconSize;
 					contentItem.style.borderRadius = '50%';
@@ -223,7 +223,7 @@ function renderMain(sectionNo) {
 						e.preventDefault();
 						scrollToPage(section, content.isSinglePage);
 					});
-					contentItem.src = (window['elements'][section].image);
+					contentItem.style.backgroundImage = addBackgroundUrlClause(window['elements'][section].image);
 					if(window['elements'][section].text)
 						contentItem.title = window['elements'][section].text;
 					contentList.appendChild(contentItem);
@@ -240,7 +240,7 @@ function renderMain(sectionNo) {
 					contentItem.style.width = iconSize;
 					contentItem.style.height = iconSize;
 					contentItem.style.cursor = 'pointer';
-					// contentItem.style.margin = 'auto';
+					contentItem.style.margin = '0';
 					contentItem.innerText = window['elements'][section].text;
 					contentItem.addEventListener('click', function(e) {
 						e.preventDefault();
