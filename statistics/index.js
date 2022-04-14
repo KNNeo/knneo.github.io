@@ -459,5 +459,13 @@ function startup() {
 		document.querySelector('.landing').style.display = 'block';
 		return;
 	}
-	getJson("https://knneo.github.io/statistics/data/gallery.json", setPageElements);
+	
+	if(typeof getJson == 'function')
+	{
+		getJson("https://knneo.github.io/statistics/data/gallery.json", setPageElements);
+	}
+	else
+	{
+		setPageElements(pageElements);
+	}
 }
