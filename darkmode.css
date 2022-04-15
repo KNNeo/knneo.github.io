@@ -38,10 +38,10 @@ button {
     color: white;
 }
 
-.highlight tr:hover {
+.highlight:hover {
 	background-color: lightgray;
 }
 
-.darked .highlight tr:hover {
+.darked .highlight:hover {
 	background-color: gray;
 }
