@@ -85,6 +85,8 @@ function renderPage() {
 		}
 	}
 	
+	window['elements'][mainSectionNo].isSinglePage = window['single'] || false;
+	
 	renderFooter(window['elements'][mainSectionNo].isSinglePage);
 
 	// if(window['elements'][mainSectionNo].isSinglePage)
@@ -122,6 +124,7 @@ function renderMain(sectionNo) {
 		{
 			main.style.position = 'absolute';
 			main.style.width = '100%';
+			if(window.innerHeight < 800) main.style.height = 'initial';
 			// setTimeout(function() {
 				// let headerHeight = document.querySelector('.header').getBoundingClientRect().height;
 				// main.style.maxHeight = (window.innerHeight - headerHeight) + 'px';
@@ -298,6 +301,7 @@ function renderSection(sectionNo, mainSectionNo) {
 	{
 		section.style.position = 'absolute';
 		section.style.width = '100%';
+		section.style.height = 'initial';
 		// setTimeout(function() {
 			// let headerHeight = document.querySelector('.header').getBoundingClientRect().height;
 			// section.style.maxHeight = (window.innerHeight - headerHeight) + 'px';
@@ -427,7 +431,8 @@ function renderButtons(isSinglePage) {
 		document.getElementById('CloseBtn').addEventListener('click', goBack);
 		document.getElementById('CloseBtn').addEventListener('contextmenu', function(e) {
 			e.preventDefault();
-			getJson("https://knneo.github.io/statistics/data/books.json", setPageElements);
+			window['single'] = window['single'] != undefined ? !window['single'] : true;
+			getJson(document.getElementById('data-id').src, setPageElements);
 		});
 	}
 }
@@ -465,12 +470,17 @@ function startup() {
 		return;
 	}
 	
-	if(typeof getJson == 'function')
+	if(typeof getJson == 'function' && document.getElementById('data-id') != null)
 	{
-		getJson("https://knneo.github.io/statistics/data/gallery.json", setPageElements);
+		let source = document.getElementById('data-id').src;
+		getJson(source, setPageElements);
+	}
+	else if(pageElements)
+	{
+		setPageElements(pageElements);
 	}
 	else
 	{
-		setPageElements(pageElements);
+		console.error('no data source found');
 	}
 }

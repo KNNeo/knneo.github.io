@@ -19,7 +19,7 @@ function renderGrid(sectionNo, content) {
 			content.componentData[c].columns = 1;
 		}
 	}
-	console.log(content.rows, content.columns);
+	// console.log(content.rows, content.columns);
 	
 	//render table
 	let count = 0;
