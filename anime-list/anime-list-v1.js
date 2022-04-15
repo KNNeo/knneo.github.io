@@ -171,6 +171,13 @@ function generateAnimeList() {
 	let moviesList = showsArray.filter(s => s.type == 'Movie');
 	document.getElementById('anime-list').appendChild(generateOVAMovies(moviesList));
 	
+	let calendarBlock = generateAnimeCalendar(showsArray.filter(s => s.type == 'TV' && s.year >= 2008 && s.season.length > 0));
+	document.getElementById('anime-list').appendChild(calendarBlock);
+}
+
+function generateAnimeCalendar(list) {	
+	let calendarBlock = document.createElement('div');
+	
 	let block = document.createElement('h4');
 	block.classList.add('tr_bq');
 	// block.style.gridColumn = '1 / span 5';
@@ -180,19 +187,37 @@ function generateAnimeList() {
 		title.innerText = 'Directory';
 	
 	block.appendChild(title);
-	document.getElementById('anime-list').appendChild(block);
 	
-	let calendar = generateAnimeCalendar(showsArray.filter(s => s.type == 'TV' && s.year >= 2008 && s.season.length > 0));
-	document.getElementById('anime-list').appendChild(calendar);
+		let filter = document.createElement('input');
+		filter.style.marginLeft = '10px';
+		filter.placeholder = 'Filter show name..';
+		filter.value = window['filter'] || '';
+		filter.addEventListener('input', function() {
+			generateCalendarBox(showsArray.filter(s => s.type == 'TV' && s.year >= 2008 && s.season.length > 0 && s.title.toLowerCase().includes(this.value.toLowerCase())));
+		});
+		
+	block.appendChild(filter);
+	
+	calendarBlock.appendChild(block);
+	
+	calendarBlock.appendChild(generateCalendarBox(list));
+	
+	return calendarBlock;
 }
 
-function generateAnimeCalendar(list) {
-	let calendarBox = document.createElement('div');
-	calendarBox.style.display = 'relative';
-	
-	let calendarDiv = document.createElement('div');
-	calendarDiv.classList.add('calendar');
-	calendarDiv.style.gridTemplateColumns = 'auto auto auto auto auto';	
+function generateCalendarBox(list) {
+	let calendarDiv = document.getElementById('calendar');
+	if(document.getElementById('calendar') == null)
+	{
+		calendarDiv = document.createElement('div');
+		calendarDiv.id = 'calendar';
+		calendarDiv.classList.add('calendar');
+		calendarDiv.style.gridTemplateColumns = 'auto auto auto auto auto';	
+	}
+	else
+	{
+		calendarDiv.innerHTML = '';
+	}
 	
 	//headers
 	let seasons = [
@@ -278,9 +303,7 @@ function generateAnimeCalendar(list) {
 		calendarDiv.appendChild(i);
 	}
 	
-	calendarBox.appendChild(calendarDiv);
-	
-	return calendarBox;
+	return calendarDiv;
 }
 
 function generateAnimeArchive(filterList) {
