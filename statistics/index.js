@@ -492,6 +492,11 @@ function setPageElements(content) {
 	renderVariables();
 	renderPage();
 	scrollToMainPage(true);
+	if(window['no-editor'])
+	{
+		document.getElementById('EditorBtn').style.display = 'none';
+		localStorage.removeItem('elements');
+	}
 }
 
 function toggleEditor() {
@@ -551,6 +556,7 @@ function startup() {
 	}
 	else if(pageElements)
 	{
+		window['no-editor'] = true;
 		setPageElements(pageElements);
 	}
 	else
