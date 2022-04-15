@@ -85,7 +85,7 @@ function renderPage() {
 		}
 	}
 	
-	window['elements'][mainSectionNo].isSinglePage = window['single'] || false;
+	// window['elements'][mainSectionNo].isSinglePage = window['single'] || false;
 	
 	renderFooter(window['elements'][mainSectionNo].isSinglePage);
 
@@ -175,7 +175,7 @@ function renderMain(sectionNo) {
 			contentList.classList.add('contents');
 			contentList.style.padding = '5px';
 			
-			let iconSize = '8vw';
+			let iconSize = '7vw';
 			if(content.isSinglePage || window.innerWidth <= 800) iconSize = '7vh';
 			if(content.isSinglePage && window.innerWidth <= 800) iconSize = '11vw';
 			
@@ -400,33 +400,60 @@ function renderFooter(isSinglePage) {
 }
 
 function renderButtons(isSinglePage) {
+	let topButton = document.createElement('a');
+	topButton.id = 'GoToTopBtn';
+	topButton.title = 'Back To Top';
+	if(isMobile()) topButton.style.right = '10px';
+	let topButtonIcon = document.createElement('i');
+	topButtonIcon.classList.add('material-icons');
+	topButtonIcon.classList.add('not-selectable');
+	topButtonIcon.innerText = 'arrow_upward';
+	topButton.appendChild(topButtonIcon);
 	if(document.getElementById('GoToTopBtn') == null)
 	{
-		let topButton = document.createElement('a');
-		topButton.id = 'GoToTopBtn';
-		topButton.title = 'Back To Top';
-		if(isMobile()) topButton.style.right = '10px';
-		let topButtonIcon = document.createElement('i');
-		topButtonIcon.classList.add('material-icons');
-		topButtonIcon.classList.add('not-selectable');
-		topButtonIcon.innerText = 'arrow_upward';
-		topButton.appendChild(topButtonIcon);
 		document.body.appendChild(topButton);
 		document.getElementById('GoToTopBtn').addEventListener('click', scrollToMainPage);
 		document.getElementsByClassName('page')[0].addEventListener('scroll', toggleGoToTopBtn);
 	}
+	else
+	{
+		if(isMobile()) document.getElementById('GoToTopBtn').style.right = '10px';
+		else document.getElementById('GoToTopBtn').style.right = null;
+		
+	}
 
+	let editorButton = document.createElement('a');
+	editorButton.id = 'EditorBtn';
+	editorButton.title = 'Back To Top';
+	if(isSinglePage || isMobile()) editorButton.style.right = '10px';
+	let editorButtonIcon = document.createElement('i');
+	editorButtonIcon.classList.add('material-icons');
+	editorButtonIcon.classList.add('not-selectable');
+	editorButtonIcon.innerText = 'code';
+	if(document.getElementById('EditorBtn') == null)
+	{
+		editorButton.appendChild(editorButtonIcon);
+		document.body.appendChild(editorButton);
+		document.getElementById('EditorBtn').addEventListener('click', toggleEditor);
+	}
+	else
+	{
+		if(isMobile()) document.getElementById('EditorBtn').style.right = '10px';
+		else document.getElementById('EditorBtn').style.right = null;
+		
+	}
+	
+	let closeButton = document.createElement('a');
+	closeButton.id = 'CloseBtn';
+	closeButton.title = 'Close Popup';
+	if(isSinglePage || isMobile()) closeButton.style.right = '10px';
+	let closeButtonIcon = document.createElement('i');
+	closeButtonIcon.classList.add('material-icons');
+	closeButtonIcon.classList.add('not-selectable');
+	closeButtonIcon.innerText = 'close';
+	closeButton.appendChild(closeButtonIcon);
 	if(document.getElementById('CloseBtn') == null)
 	{
-		let closeButton = document.createElement('a');
-		closeButton.id = 'CloseBtn';
-		closeButton.title = 'Close Popup';
-		if(isSinglePage || isMobile()) closeButton.style.right = '10px';
-		let closeButtonIcon = document.createElement('i');
-		closeButtonIcon.classList.add('material-icons');
-		closeButtonIcon.classList.add('not-selectable');
-		closeButtonIcon.innerText = 'close';
-		closeButton.appendChild(closeButtonIcon);
 		document.body.appendChild(closeButton);
 		document.getElementById('CloseBtn').addEventListener('click', goBack);
 		document.getElementById('CloseBtn').addEventListener('contextmenu', function(e) {
@@ -434,6 +461,12 @@ function renderButtons(isSinglePage) {
 			window['single'] = window['single'] != undefined ? !window['single'] : true;
 			getJson(document.getElementById('data-id').src, setPageElements);
 		});
+	}
+	else
+	{
+		if(isSinglePage || isMobile()) document.getElementById('CloseBtn').style.right = '10px';
+		else document.getElementById('CloseBtn').style.right = null;
+		
 	}
 }
 
@@ -453,11 +486,48 @@ function toggleGoToTopBtn() {
 function addBackgroundUrlClause(url) { return "url('" + url + "')"; }
 
 function setPageElements(content) {
-	window['elements'] = JSON.parse(JSON.stringify(content));
+	if(content != null) localStorage.setItem('elements', JSON.stringify(content, null, '\t'));
+	window['elements'] = JSON.parse(localStorage.getItem('elements'));
 	// window['elements'][0].isSinglePage = true;
 	renderVariables();
 	renderPage();
 	scrollToMainPage(true);
+}
+
+function toggleEditor() {
+	if(document.getElementById('editor') != null)
+	{
+		let isClosing = document.getElementById('editor').style.display == 'block'; //previous state	
+		document.getElementById('editor').style.display = isClosing ? 'none' : 'block';
+		localStorage.setItem('elements', document.getElementById('editor-area').value);
+		document.getElementById('editor').value = isClosing ? '' : localStorage.getItem('elements');
+		if(isClosing) setPageElements();
+	}
+	else
+	{
+		let editor = document.createElement('div');
+		editor.id = 'editor';
+		editor.classList.add('box');
+		editor.style.height = '100%';
+		editor.style.width = '100%';
+		editor.style.display = 'block';
+		editor.style.position = 'absolute';
+		editor.style.border = '0';
+		editor.style.top = '0';
+		editor.style.zIndex = 10;
+		
+		let editorArea = document.createElement('textarea');
+		editorArea.id = 'editor-area';
+		editorArea.style.height = '95%';
+		editorArea.style.width = '90%';
+		editorArea.style.display = 'block';
+		editorArea.style.marginLeft = 'auto';
+		editorArea.style.marginRight = 'auto';
+		editorArea.value = localStorage.getItem('elements');
+		editor.appendChild(editorArea);
+		
+		document.body.appendChild(editor);
+	}
 }
 
 // startup
@@ -470,7 +540,11 @@ function startup() {
 		return;
 	}
 	
-	if(typeof getJson == 'function' && document.getElementById('data-id') != null)
+	if(localStorage.getItem('elements') != null)
+	{
+		setPageElements();
+	}
+	else if(typeof getJson == 'function' && document.getElementById('data-id') != null)
 	{
 		let source = document.getElementById('data-id').src;
 		getJson(source, setPageElements);

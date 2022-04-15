@@ -166,6 +166,20 @@ a:hover {
   border-radius: 7px;
 }
 
+#EditorBtn {
+  position: fixed;
+  display: block;
+  top: 40px;
+  right: 25px;
+  z-index: 11;
+  outline: none;
+  /* background-color: black; */
+  /* color: white; */
+  cursor: pointer;
+  padding: 8px 6px 6px 6px;
+  border-radius: 7px;
+}
+
 #CloseBtn {
   position: fixed;
   display: block;
