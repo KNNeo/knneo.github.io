@@ -304,20 +304,23 @@ function renderSection(sectionNo, mainSectionNo) {
 		// }, 10);
 	}
 	
-	let prevDiv = document.createElement('div');
-	prevDiv.classList.add('page-prev');
-	prevDiv.classList.add('not-selectable');
-	let prevButton = document.createElement('a');
-	prevButton.title = 'Previous';
-	prevButton.style.visibility = !main.isSinglePage && section.previousElementSibling != null && section.previousElementSibling.classList.contains('section') ? 'visible' : 'hidden';
-	prevButton.addEventListener('click',scrollToPrevPage);
-	prevButton.addEventListener('touchstart',scrollToPrevPage);
-	let prevButtonIcon = document.createElement('i');
-	prevButtonIcon.classList.add('material-icons');
-	prevButtonIcon.innerText = 'keyboard_arrow_up';
-	prevButton.appendChild(prevButtonIcon);
-	prevDiv.appendChild(prevButton);
-	section.appendChild(prevDiv);
+	if(!main.isSinglePage)
+	{
+		let prevDiv = document.createElement('div');
+		prevDiv.classList.add('page-prev');
+		prevDiv.classList.add('not-selectable');
+		let prevButton = document.createElement('a');
+		prevButton.title = 'Previous';
+		prevButton.style.visibility = !main.isSinglePage && section.previousElementSibling != null && section.previousElementSibling.classList.contains('section') ? 'visible' : 'hidden';
+		prevButton.addEventListener('click',scrollToPrevPage);
+		prevButton.addEventListener('touchstart',scrollToPrevPage);
+		let prevButtonIcon = document.createElement('i');
+		prevButtonIcon.classList.add('material-icons');
+		prevButtonIcon.innerText = 'keyboard_arrow_up';
+		prevButton.appendChild(prevButtonIcon);
+		prevDiv.appendChild(prevButton);
+		section.appendChild(prevDiv);
+	}
 	
 	if(content.title) {
 		let title = document.createElement('h2');
@@ -350,21 +353,23 @@ function renderSection(sectionNo, mainSectionNo) {
 		renderGrid(sectionNo, content);
 	}
 	
-	
-	let nextDiv = document.createElement('div');
-	nextDiv.classList.add('page-next');
-	nextDiv.classList.add('not-selectable');
-	let nextButton = document.createElement('a');
-	nextButton.title = 'Next';
-	nextButton.style.visibility = !main.isSinglePage && section.nextElementSibling != null && section.nextElementSibling.classList.contains('section') ? 'visible' : 'hidden';
-	nextButton.addEventListener('click',scrollToNextPage);
-	nextButton.addEventListener('touchstart',scrollToNextPage);
-	let nextButtonIcon = document.createElement('i');
-	nextButtonIcon.classList.add('material-icons');
-	nextButtonIcon.innerText = 'keyboard_arrow_down';
-	nextButton.appendChild(nextButtonIcon);
-	nextDiv.appendChild(nextButton);
-	section.appendChild(nextDiv);
+	if(!main.isSinglePage)
+	{
+		let nextDiv = document.createElement('div');
+		nextDiv.classList.add('page-next');
+		nextDiv.classList.add('not-selectable');
+		let nextButton = document.createElement('a');
+		nextButton.title = 'Next';
+		nextButton.style.visibility = !main.isSinglePage && section.nextElementSibling != null && section.nextElementSibling.classList.contains('section') ? 'visible' : 'hidden';
+		nextButton.addEventListener('click',scrollToNextPage);
+		nextButton.addEventListener('touchstart',scrollToNextPage);
+		let nextButtonIcon = document.createElement('i');
+		nextButtonIcon.classList.add('material-icons');
+		nextButtonIcon.innerText = 'keyboard_arrow_down';
+		nextButton.appendChild(nextButtonIcon);
+		nextDiv.appendChild(nextButton);
+		section.appendChild(nextDiv);
+	}
 }
 
 function renderMenu() {

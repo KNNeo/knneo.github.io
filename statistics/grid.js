@@ -9,7 +9,7 @@ function renderGrid(sectionNo, content) {
 	let tbody = document.createElement('tbody');
 	
 	//for mobile, stack all elements in one column
-	if(window.innerWidth <= 800)
+	if(window.innerWidth <= 800 && content.columns > 1)
 	{
 		let totalComponents = content.rows + content.columns;
 		content.columns = 1;
@@ -19,7 +19,7 @@ function renderGrid(sectionNo, content) {
 			content.componentData[c].columns = 1;
 		}
 	}
-	// console.log(content);
+	console.log(content.rows, content.columns);
 	
 	//render table
 	let count = 0;
@@ -44,8 +44,8 @@ function renderGrid(sectionNo, content) {
 			
 			let td = document.createElement('td');
 			td.id = 'section'+sectionNo+'cell'+count;
-			td.style.width = (100 / content.columns) + '%';
-			td.style.height = (100 / content.rows) + '%';
+			td.style.width = content.columns > 1 ? (100 / content.columns) + '%' : '100%';
+			td.style.height = content.rows > 1 ? (100 / content.rows) + '%' : '100%';
 			
 			let item = content.componentData[count];
 			// td.innerText = item.type;
