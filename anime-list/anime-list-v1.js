@@ -170,6 +170,117 @@ function generateAnimeList() {
 	
 	let moviesList = showsArray.filter(s => s.type == 'Movie');
 	document.getElementById('anime-list').appendChild(generateOVAMovies(moviesList));
+	
+	let block = document.createElement('h4');
+	block.classList.add('tr_bq');
+	// block.style.gridColumn = '1 / span 5';
+	
+		let title = document.createElement('span');
+		title.classList.add('category-title');
+		title.innerText = 'Directory';
+	
+	block.appendChild(title);
+	document.getElementById('anime-list').appendChild(block);
+	
+	let calendar = generateAnimeCalendar(showsArray.filter(s => s.type == 'TV' && s.year >= 2008 && s.season.length > 0));
+	document.getElementById('anime-list').appendChild(calendar);
+}
+
+function generateAnimeCalendar(list) {
+	let calendarBox = document.createElement('div');
+	calendarBox.style.display = 'relative';
+	
+	let calendarDiv = document.createElement('div');
+	calendarDiv.classList.add('calendar');
+	calendarDiv.style.gridTemplateColumns = 'auto auto auto auto auto';	
+	
+	//headers
+	let seasons = [
+		{
+			title:'Winter',
+			altTitle:''
+		},
+		{
+			title:'Spring',
+			altTitle:''
+		},
+		{
+			title:'Summer',
+			altTitle:''
+		},
+		{
+			title:'Autumn',
+			altTitle:''
+		},
+	];
+	
+	let z = document.createElement('div');
+	z.classList.add('calendar-header');
+	z.innerText = 'Year';
+	calendarDiv.appendChild(z);
+	
+	for(let season of seasons)
+	{
+		let s = document.createElement('div');
+		s.classList.add('calendar-header');
+		s.innerText = season.title;
+		calendarDiv.appendChild(s);
+	}
+	
+	//cells
+	for(let y = 2008; y <= 2022; y++)
+	{
+		let t = document.createElement('div');
+		t.classList.add('year');
+		t.style.paddingRight = '3px';
+		t.style.gridRow = (2+((y-2008)*5)) + '/ span 5';
+		t.innerText = y;
+		calendarDiv.appendChild(t);
+		
+		let yearShows = {};
+		yearShows['Winter'] = list.filter(l => l.year == y && l.season == 'Winter');
+		yearShows['Spring'] = list.filter(l => l.year == y && l.season == 'Spring');
+		yearShows['Summer'] = list.filter(l => l.year == y && l.season == 'Summer');
+		yearShows['Autumn'] = list.filter(l => l.year == y && l.season == 'Autumn');
+		
+		for(let s of seasons)
+		{
+			while(yearShows[s.title].length < 5)
+			{
+				yearShows[s.title].push({ year: y, season: s.title, title: '' });
+			}
+		}
+		// console.log(yearShows);
+		
+		for(let count = 0; count < 5; count++)
+		{
+			for(let s of seasons)
+			{
+				let show = yearShows[s.title][count];
+				// console.log(show);
+				
+				let i = document.createElement('div');
+				if(show.title) i.classList.add('highlight');
+				if(show.title) i.style.border = '1px solid';
+				i.style.margin = '1px';
+				i.style.padding = '2px';
+				i.innerText = show.title;
+				calendarDiv.appendChild(i);
+			}
+		}
+		
+	}
+	
+	//content
+	for(let item of list)
+	{
+		let i = document.createElement('div');
+		calendarDiv.appendChild(i);
+	}
+	
+	calendarBox.appendChild(calendarDiv);
+	
+	return calendarBox;
 }
 
 function generateAnimeArchive(filterList) {
@@ -208,42 +319,46 @@ function generateList(categoryId, categoryTitle, filterList) {
 	
 	for(let item of filterList)
 	{
-		let row = document.createElement('div');
-		row.classList.add('new-anime-row');
-		
-		if(item.handle.length > 0)
-		{
-			let handler = document.createElement('a');
-			handler.href = 'https://twitter.com/' + item.handle;
-			handler.title = '@' + item.handle;
-			handler.setAttribute('target', '_blank');
-			
-			if(item.imgURL.length > 0)
-			{
-				let img = document.createElement('img');
-				img.src = 'https://knneo.github.io/resources/spacer.gif';
-				img.alt = item.imgURL;
-				if(item.year > 2017 ||
-				(item.year == 2017 && ['Autumn', 'Winter'].indexOf(item.season) >= 0))
-					img.style.borderRadius = '50%';
-					
-				handler.appendChild(img);
-			}
-			row.appendChild(handler);
-		}
-		
-		let rowText = document.createElement('span');
-		rowText.innerText = formatRowText(item.title, item.altTitle);
-		row.appendChild(rowText);
-		
-		currentList.appendChild(row);
+		currentList.appendChild(generateAnimeRow(item));
 	}
 	
 	return currentList;
 }
 
+function generateAnimeRow(item) {
+	let row = document.createElement('div');
+	row.classList.add('new-anime-row');
+	
+	if(item.handle && item.handle.length > 0)
+	{
+		let handler = document.createElement('a');
+		handler.href = 'https://twitter.com/' + item.handle;
+		handler.title = '@' + item.handle;
+		handler.setAttribute('target', '_blank');
+		
+		if(item.imgURL && item.imgURL.length > 0)
+		{
+			let img = document.createElement('img');
+			img.src = 'https://knneo.github.io/resources/spacer.gif';
+			img.alt = item.imgURL;
+			if(item.year > 2017 ||
+			(item.year == 2017 && ['Autumn', 'Winter'].indexOf(item.season) >= 0))
+				img.style.borderRadius = '50%';
+				
+			handler.appendChild(img);
+		}
+		row.appendChild(handler);
+	}
+	
+	let rowText = document.createElement('span');
+	rowText.innerText = formatRowText(item.title, item.altTitle);
+	row.appendChild(rowText);
+	
+	return row;
+}
+
 function formatRowText(title, altTitle) {
-	if(altTitle.length > 0)
+	if(altTitle && altTitle.length > 0)
 		return title + ' [' + altTitle + ']';
 	return title;
 }
