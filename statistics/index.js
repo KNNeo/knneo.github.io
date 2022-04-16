@@ -438,7 +438,7 @@ function renderButtons(isSinglePage) {
 	}
 	else
 	{
-		if(isMobile()) document.getElementById('EditorBtn').style.right = '10px';
+		if(isSinglePage || isMobile()) document.getElementById('EditorBtn').style.right = '10px';
 		else document.getElementById('EditorBtn').style.right = null;
 		
 	}
