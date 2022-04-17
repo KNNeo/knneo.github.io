@@ -126,7 +126,8 @@ function togglePreset() {
 	generateMosaic();	
 }
 
-function toggleArchive() {
+function toggleArchive(e) {
+	e.preventDefault();
 	window['archive'] = !window['archive'];
 	startup();
 }
@@ -407,7 +408,7 @@ function generateLayoutPlayer() {
 	archive.classList.add('archive');
 	archive.classList.add('material-icons');
 	archive.style.cursor = 'pointer';
-	// archive.href = 'data.html';
+	archive.href = 'data.html';
 	archive.addEventListener('click', toggleArchive);
 	archive.innerText = 'inventory';
 	settings.appendChild(archive);
