@@ -39,7 +39,7 @@ function setKeyDown() {
 		window['shifted'] = true;
 	}
 	// space: play/pause and prevent scroll
-	if(document.activeElement == document.body)
+	if(event.keyCode === 32 && document.activeElement == document.body)
 		event.preventDefault();
 		
 	return false;
@@ -286,6 +286,10 @@ function generateHomepage() {
 		query += " LIMIT 100";
 	callDb(query, updateOptions);
 	
+	query = "SELECT DISTINCT KNYEAR FROM SongAwardsPeriod";
+	if(debugMode) console.log('generateYears', query);
+	callDb(query, generateYears);
+	
 	let recent = localStorage.getItem('recent');
 	recent = (recent == null || recent.length == 0) ? JSON.parse('[]') : JSON.parse(recent);
 	
@@ -299,55 +303,11 @@ function generateHomepage() {
 	if(debugMode) console.log('generateSearchHistory', query);
 	callDb(query, generateSearchHistory);
 	
-	query = "SELECT DISTINCT KNYEAR FROM SongAwardsPeriod";
-	if(debugMode) console.log('generateYears', query);
-	callDb(query, generateYears);
-}
-
-function generateSearchHistory(contents) {
-	document.getElementById('search-history').innerHTML = '';
-	
-	if(debugMode) console.log('generateSearchHistory', contents);
-	if(!contents.columns || !contents.values) return;
-	
-	let header = document.createElement('h4');
-	header.classList.add('centered');
-	header.innerText = 'Recently Searched';
-	document.getElementById('search-history').appendChild(header);	
-	
-	let columns = contents.columns;
-	let rows = contents.values;
-	
-	let table = document.createElement('table');
-	table.classList.add('list');
-	table.classList.add('centered');
-	table.classList.add('content-box');
-	
-	
-	let tbody = document.createElement('tbody');
-	
-	//header
-	for(let row of rows)
-	{
-		let columnIndexKNID = contents.columns.indexOf('KNID');
-		let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
-		let columnIndexSongTitle = contents.columns.indexOf('SongTitle');
-		let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
-		
-		let tr = document.createElement('tr');
-	
-		let tc = document.createElement('td');
-		tc.style.cursor = 'pointer';
-		tc.setAttribute('data-id', row[columnIndexKNID]);
-		tc.innerText = row[columnIndexKNYEAR] + ' - ' + row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle];
-		tc.addEventListener('click', updateSong);
-		tr.appendChild(tc);
-		
-		tbody.appendChild(tr);	
-	}
-		
-	table.appendChild(tbody);
-	document.getElementById('search-history').appendChild(table);
+	query = "SELECT Category, ReleaseTitle, ReleaseArtistTitle, KNYEAR, substr('0000'||ReleaseDate,-4) as ReleaseDate FROM Release ";
+	query += "WHERE KNYEAR = strftime('%Y','now') ";
+	query += "AND ReleaseDate >= cast(strftime('%m%d','now') as integer) ORDER BY ReleaseDate, ReleaseArtistTitle, ReleaseTitle LIMIT 10";
+	if(debugMode) console.log('generateUpcomingReleases', query);
+	callDb(query, generateUpcomingReleases);
 }
 
 function generateYears(contents) {
@@ -385,6 +345,95 @@ function generateYears(contents) {
 	}
 	
 	document.getElementById('award-years').appendChild(table);
+}
+
+function generateSearchHistory(contents) {
+	document.getElementById('search-history').innerHTML = '';
+	
+	if(debugMode) console.log('generateSearchHistory', contents);
+	if(!contents.columns || !contents.values) return;
+	
+	let header = document.createElement('h4');
+	header.classList.add('centered');
+	header.innerText = 'Recently Searched';
+	document.getElementById('search-history').appendChild(header);	
+	
+	let columns = contents.columns;
+	let rows = contents.values;
+	
+	let table = document.createElement('table');
+	table.classList.add('list');
+	table.classList.add('centered');
+	table.classList.add('content-box');	
+	
+	let tbody = document.createElement('tbody');
+	
+	//header
+	for(let row of rows)
+	{
+		let columnIndexKNID = contents.columns.indexOf('KNID');
+		let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
+		let columnIndexSongTitle = contents.columns.indexOf('SongTitle');
+		let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
+		
+		let tr = document.createElement('tr');
+	
+		let tc = document.createElement('td');
+		tc.style.cursor = 'pointer';
+		tc.setAttribute('data-id', row[columnIndexKNID]);
+		tc.innerText = row[columnIndexKNYEAR] + ' - ' + row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle];
+		tc.addEventListener('click', updateSong);
+		tr.appendChild(tc);
+		
+		tbody.appendChild(tr);	
+	}
+		
+	table.appendChild(tbody);
+	document.getElementById('search-history').appendChild(table);
+}
+
+function generateUpcomingReleases(contents) {
+	document.getElementById('upcoming-releases').innerHTML = '';
+	
+	if(debugMode) console.log('generateUpcomingReleases', contents);
+	if(!contents.columns || !contents.values) return;
+	
+	let header = document.createElement('h4');
+	header.classList.add('centered');
+	header.innerText = 'Upcoming Releases';
+	document.getElementById('upcoming-releases').appendChild(header);	
+	
+	let columns = contents.columns;
+	let rows = contents.values;
+	
+	let table = document.createElement('table');
+	table.classList.add('list');
+	table.classList.add('centered');
+	table.classList.add('content-box');	
+	
+	let tbody = document.createElement('tbody');
+	
+	//header
+	for(let row of rows)
+	{
+		let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
+		let columnIndexCategory = contents.columns.indexOf('Category');
+		let columnIndexReleaseTitle = contents.columns.indexOf('ReleaseTitle');
+		let columnIndexReleaseArtistTitle = contents.columns.indexOf('ReleaseArtistTitle');
+		let columnIndexReleaseDate = contents.columns.indexOf('ReleaseDate');
+		
+		let tr = document.createElement('tr');
+	
+		let tc = document.createElement('td');
+		// tc.style.cursor = 'pointer';
+		tc.innerText = row[columnIndexKNYEAR] + row[columnIndexReleaseDate] + ' - [' + row[columnIndexCategory].toUpperCase() + '] '+ row[columnIndexReleaseArtistTitle] + ' - ' + row[columnIndexReleaseTitle];
+		tr.appendChild(tc);
+		
+		tbody.appendChild(tr);	
+	}
+		
+	table.appendChild(tbody);
+	document.getElementById('upcoming-releases').appendChild(table);
 }
 
 function generateTabs() {
