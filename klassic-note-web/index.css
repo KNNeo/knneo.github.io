@@ -146,6 +146,7 @@ body {
 	vertical-align: bottom;
 	cursor: pointer;
 	text-decoration: none;
+	color: black;
 }
 
 .darked .material-icons {
