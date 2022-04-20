@@ -15,10 +15,10 @@ window.addEventListener('keydown', setKeyDown);
 
 //--EVENTS--//
 function setKeyUp() {
-	event.preventDefault();
 	// space: play/pause when not focus on player
 	if (event.keyCode === 32 && document.getElementById('player') != null 
 	&& ['player', 'search'].indexOf(document.activeElement.id) < 0) {
+		event.preventDefault();
 		if(document.getElementById('player').paused)
 			document.getElementById('player').play();
 		else
@@ -26,6 +26,7 @@ function setKeyUp() {
 	}
 	// shift: combine with shuffle to add 10 songs to queue
 	if (event.keyCode === 16) {
+		event.preventDefault();
 		window['shifted'] = false;
 	}
 	return false;
