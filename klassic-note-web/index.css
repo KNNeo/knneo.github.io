@@ -93,6 +93,24 @@ body {
 	background-color: initial;
 }
 
+.drop-area {
+	position: fixed;
+	top: 0;
+	left: 0;
+	overflow: hidden;
+	width: 100vw;
+	height: 100vh;
+	z-index: 1;
+	background-color: white;
+	opacity: 1;
+	display: none;
+}
+
+.drop-fade {
+	opacity: 0.2;
+	display: block;
+}
+
 .module {
 	padding: 5px 10px;
 }
