@@ -1,18 +1,21 @@
 --ANY QUERY BELOW MUST RETURN EMPTY TABLE IN ORDER TO PASS--
 --PATCHING TO BE DONE ON SONG TABLE FIRST UNLESS STATED OTHERWISE--
+-----------------------------------------------
+--CURRENT YEAR SONGS TO BE EXCLUDED IN CHECKS--
+-----------------------------------------------
 ---------------------------------------------------------------
 --Every Song must have an associated Artist, with details to map
-select distinct Song.ArtistTitle from Song left join Artist on Song.ArtistTitle = Artist.ArtistTitle where Artist.ArtistID is NULL order by Song.ArtistTitle;
+select distinct Song.KNYEAR, Song.ArtistTitle from Song left join Artist on Song.ArtistTitle = Artist.ArtistTitle where Artist.ArtistID is NULL order by Song.ArtistTitle;
 
 --Every Song must have an associated Release, with details to map
-select distinct Song.KNYEAR, Song.ReleaseArtistTitle, Song.ReleaseTitle from Song left join Release on 
+select distinct Song.KNYEAR, Song.SongTitle, Song.ReleaseArtistTitle, Song.ReleaseTitle from Song left join Release on 
 (
 replace(Song.ReleaseTitle,' Disc 1','') = Release.ReleaseTitle or
 replace(Song.ReleaseTitle,' Disc 2','') = Release.ReleaseTitle or
 replace(Song.ReleaseTitle,' Disc 3','') = Release.ReleaseTitle
 )
 and Song.ReleaseArtistTitle = Release.ReleaseArtistTitle 
-where Release.ReleaseID is NULL order by Song.KNYEAR, Song.ReleaseArtistTitle;
+where Release.ReleaseID is NULL order by Song.KNYEAR desc, Song.ReleaseArtistTitle;
 ----Using ReleaseID from Song
 select distinct Song.KNYEAR, Song.ReleaseArtistTitle, Song.ReleaseTitle from Song left join Release on 
 Song.ReleaseID = Release.ReleaseID
