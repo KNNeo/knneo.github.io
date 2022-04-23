@@ -811,12 +811,13 @@ function generateSongInfo(contents) {
 	
 	let tbody = document.createElement('tbody');
 	
-	//header
+	let excludedColumns = ['ArtistID', 'ReleaseID'];
 	let row = rows[0];
 	for(let r = 0; r < columns.length; r++)
 	{
 		let rowVal = row[r];
 		if(!rowVal || rowVal.length == 0) continue;
+		if(excludedColumns.includes(columns[r])) continue;
 		
 		let tr = document.createElement('tr');
 	
