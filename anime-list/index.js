@@ -1,4 +1,5 @@
 let showsArray = [
+
 { sortOrder:1, year:2009, season: '', length:0, seriesTitle: '', type:'Movie', title:'Kara no Kyoukai', altTitle:'空の境界', handle:'', imgURL:'', circular:false },
 { sortOrder:2, year:2011, season: '', length:0, seriesTitle: '', type:'Movie', title:'Cat Shit One – THE ANIMATED SERIES', altTitle:'', handle:'', imgURL:'', circular:false },
 { sortOrder:3, year:2011, season: '', length:0, seriesTitle: '', type:'Movie', title:'Koi*Sento', altTitle:'コイ☆セント', handle:'', imgURL:'', circular:false },
@@ -9,9 +10,9 @@ let showsArray = [
 { sortOrder:8, year:2020, season: '', length:0, seriesTitle: '', type:'Movie', title:'Nakitai Watashi wa Neko wo Kaburu', altTitle:'泣きたい私は猫をかぶる', handle:'nakineko_movie', imgURL:'https://pbs.twimg.com/profile_images/1221927862279667712/X9VsQDhl.jpg', circular:true },
 { sortOrder:9, year:2021, season: '', length:0, seriesTitle: '', type:'Movie', title:'Eden', altTitle:'エデン', handle:'', imgURL:'', circular:true },
 { sortOrder:10, year:2022, season: '', length:0, seriesTitle: '', type:'Movie', title:'Josee to Tora to Sakana-tachi', altTitle:'ジョゼと虎と魚たち', handle:'joseetora_movie', imgURL:'https://pbs.twimg.com/profile_images/1201574758883741696/Bi73xBlm.jpg', circular:true },
-{ sortOrder:1, year:2008, season: '', length:16, seriesTitle: '', type:'TV', title:'BLEACH', altTitle:'ブリーチー', handle:'BLEACHanimation', imgURL:'https://pbs.twimg.com/profile_images/1472136299931119616/8KQcn8-T.jpg', circular:true },
-{ sortOrder:2, year:2008, season: '', length:0, seriesTitle: '', type:'TV', title:'Love Hina', altTitle:'ラブ　ひな', handle:'', imgURL:'', circular:false },
-{ sortOrder:3, year:2008, season: '', length:0, seriesTitle: '', type:'TV', title:'Kekkaishi', altTitle:'結界師', handle:'', imgURL:'', circular:false },
+{ sortOrder:1, year:2008, season: '', length:17, seriesTitle: '', type:'TV', title:'BLEACH', altTitle:'ブリーチー', handle:'BLEACHanimation', imgURL:'https://pbs.twimg.com/profile_images/1472136299931119616/8KQcn8-T.jpg', circular:true },
+{ sortOrder:2, year:2008, season: '', length:1, seriesTitle: '', type:'TV', title:'Love Hina', altTitle:'ラブ　ひな', handle:'', imgURL:'', circular:false },
+{ sortOrder:3, year:2008, season: '', length:1, seriesTitle: '', type:'TV', title:'Kekkaishi', altTitle:'結界師', handle:'', imgURL:'', circular:false },
 { sortOrder:4, year:2008, season: 'Autumn', length:2, seriesTitle: '', type:'TV', title:'Toradora!', altTitle:'とらドラ！', handle:'', imgURL:'', circular:false },
 { sortOrder:5, year:2008, season: 'Autumn', length:2, seriesTitle: 'Kuroshitsuji', type:'TV', title:'Kuroshitsuji', altTitle:'黒執事', handle:'kuroshitsuji2', imgURL:'', circular:false },
 { sortOrder:6, year:2009, season: 'Spring', length:1, seriesTitle: '', type:'TV', title:'Hatsukoi Limited.', altTitle:'初恋限定。', handle:'', imgURL:'', circular:false },
@@ -143,15 +144,17 @@ let showsArray = [
 { sortOrder:132, year:2022, season: 'Winter', length:1, seriesTitle: 'Karakai Jouzu no Takagi-san ', type:'TV', title:'Karakai Jouzu no Takagi-san 3', altTitle:'からかい上手の高木さん３', handle:'takagi3_anime', imgURL:'https://pbs.twimg.com/profile_images/1468958582213283841/vvU-lWWO.jpg', circular:true },
 { sortOrder:133, year:2022, season: 'Winter', length:1, seriesTitle: '', type:'TV', title:'Sono Bisque Doll wa Koi wo Suru', altTitle:'その着せ替え人形は恋をする', handle:'kisekoi_anime', imgURL:'https://pbs.twimg.com/profile_images/1448810796130004993/nlkBB4Ph.png', circular:true },
 { sortOrder:134, year:2022, season: 'Winter', length:1, seriesTitle: 'Shingeki no Kyojin', type:'TV', title:'Shingeki no Kyojin The Final Season Part 2', altTitle:'進撃の巨人 The Final Season', handle:'anime_shingeki', imgURL:'https://pbs.twimg.com/profile_images/1459830616351178757/IGExRnNj.jpg', circular:true },
-{ sortOrder:135, year:2022, season: 'Spring', length:0, seriesTitle: 'Rikei ga Koi ni Ochita no de Shoumei Shite Mita.', type:'TV', title:'Rikei ga Koi ni Ochita no de Shoumei Shite Mita. Heart', altTitle:'理系が恋に落ちたので証明してみた。r=1-sinθ（ハート）', handle:'rikeigakoini', imgURL:'https://pbs.twimg.com/profile_images/1197753575834652672/ANH_2P3h.jpg', circular:true },
-{ sortOrder:136, year:2022, season: 'Spring', length:0, seriesTitle: '', type:'TV', title:'Aharen-san wa Hakarenai', altTitle:'阿波連さんははかれない', handle:'aharen_pr', imgURL:'https://pbs.twimg.com/profile_images/1421485317022883849/tQh5oyb0.jpg', circular:true },
-{ sortOrder:137, year:2022, season: 'Spring', length:0, seriesTitle: 'Kaguya-sama wa Kokurasetai', type:'TV', title:'Kaguya-sama wa Kokurasetai: Ultra Romantic', altTitle:'かぐや様は告らせたい-ウルトラロマンティック-', handle:'anime_kaguya', imgURL:'https://pbs.twimg.com/profile_images/1509869806001872897/SmQyyzqI.png', circular:true },
-{ sortOrder:138, year:2022, season: 'Spring', length:0, seriesTitle: 'Komi-san wa, Komyushou Desu.', type:'TV', title:'Komi-san wa, Komyushou Desu. (2022)', altTitle:'古見さんは、コミュ症です。', handle:'comisanvote', imgURL:'https://pbs.twimg.com/profile_images/1383659174643470342/CllYIDt4.jpg', circular:true },
+{ sortOrder:135, year:2022, season: 'Spring', length:1, seriesTitle: 'Rikei ga Koi ni Ochita no de Shoumei Shite Mita.', type:'TV', title:'Rikei ga Koi ni Ochita no de Shoumei Shite Mita. Heart', altTitle:'理系が恋に落ちたので証明してみた。r=1-sinθ（ハート）', handle:'rikeigakoini', imgURL:'https://pbs.twimg.com/profile_images/1197753575834652672/ANH_2P3h.jpg', circular:true },
+{ sortOrder:136, year:2022, season: 'Spring', length:1, seriesTitle: '', type:'TV', title:'Aharen-san wa Hakarenai', altTitle:'阿波連さんははかれない', handle:'aharen_pr', imgURL:'https://pbs.twimg.com/profile_images/1421485317022883849/tQh5oyb0.jpg', circular:true },
+{ sortOrder:137, year:2022, season: 'Spring', length:1, seriesTitle: 'Kaguya-sama wa Kokurasetai', type:'TV', title:'Kaguya-sama wa Kokurasetai: Ultra Romantic', altTitle:'かぐや様は告らせたい-ウルトラロマンティック-', handle:'anime_kaguya', imgURL:'https://pbs.twimg.com/profile_images/1509869806001872897/SmQyyzqI.png', circular:true },
+{ sortOrder:138, year:2022, season: 'Spring', length:1, seriesTitle: 'Komi-san wa, Komyushou Desu.', type:'TV', title:'Komi-san wa, Komyushou Desu. (2022)', altTitle:'古見さんは、コミュ症です。', handle:'comisanvote', imgURL:'https://pbs.twimg.com/profile_images/1383659174643470342/CllYIDt4.jpg', circular:true },
+{ sortOrder:139, year:2022, season: 'Spring', length:1, seriesTitle: '', type:'TV', title:'Kawaii Dake ja Nai Shikimori-san', altTitle:'可愛いだけじゃない式守さん', handle:'anime_shikimori', imgURL:'https://pbs.twimg.com/profile_images/1512380058589007875/jvo1sVPQ.jpg', circular:true },
+
 
 ];
 
 let currentYear = 2022;
-let currentSeason = 'Winter';
+let currentSeason = 'Spring';
 window.addEventListener('load', startup);
 
 function startup() {
