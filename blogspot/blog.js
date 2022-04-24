@@ -923,6 +923,7 @@ function resizeImages() {
         if (p.id == "news-thumbnail" || 
 			p.parentElement.tagName == "ABBR" || 
 			p.parentElement.className == "anime-row" ||
+			p.parentElement.className == "new-anime-row" ||
 			p.parentElement.className == "profile-box-img" || 
 			p.parentElement.parentElement.className == "popup" || 
 			p.parentElement.parentElement.parentElement.id == "anime-list" ||
