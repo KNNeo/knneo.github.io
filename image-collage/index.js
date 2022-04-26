@@ -276,7 +276,9 @@ function generateLayoutPlayer() {
 		
 		generateMosaic();
 	});
-	mainTableRow2Cell1.appendChild(include);
+	
+	if(!window['archive'])
+		mainTableRow2Cell1.appendChild(include);
 	
 	let exclude = document.createElement('input');
 	exclude.id = 'exclude';
@@ -291,7 +293,9 @@ function generateLayoutPlayer() {
 		
 		generateMosaic();
 	});
-	mainTableRow2Cell1.appendChild(exclude);
+	
+	if(!window['archive'])
+		mainTableRow2Cell1.appendChild(exclude);
 	
 	let tags = document.createElement('div');
 	tags.classList.add('tags');
