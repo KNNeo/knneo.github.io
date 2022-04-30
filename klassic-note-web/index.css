@@ -236,6 +236,12 @@ body {
 	cursor: pointer;
 }
 
+.clear {
+	position: absolute;
+	right: 18px;
+	top: 7px;
+}
+
 @media only screen
    and (min-device-width : 960px)
 {

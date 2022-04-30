@@ -354,10 +354,29 @@ function generateSearchHistory(contents) {
 	if(debugMode) console.log('generateSearchHistory', contents);
 	if(!contents.columns || !contents.values) return;
 	
+	// let headerDiv = document.createElement('h4');
+	// headerDiv.classList.add('centered');
+	document.getElementById('search-history').style.position = 'relative';
+	document.getElementById('search-history').style.maxWidth = '680px';
+	document.getElementById('search-history').style.margin = 'auto';
+	
 	let header = document.createElement('h4');
 	header.classList.add('centered');
 	header.innerText = 'Recently Searched';
 	document.getElementById('search-history').appendChild(header);	
+	
+	let clear = document.createElement('h6');
+	clear.classList.add('centered');
+	clear.classList.add('clear');
+	clear.style.cursor = 'pointer';
+	clear.innerText = 'Clear All';
+	clear.addEventListener('click', function() {
+		localStorage.removeItem('recent');
+		generateSearchHistory();
+	});
+	document.getElementById('search-history').appendChild(clear);	
+	
+	// document.getElementById('search-history').appendChild(headerDiv);	
 	
 	let columns = contents.columns;
 	let rows = contents.values;
