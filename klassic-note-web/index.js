@@ -1,11 +1,12 @@
 //--CONFIG--//
-let defaultTitle = 'Klassic Note Web';
-let altTitlePrefix = 'Original';
-let directory = 'file://C:/Users/KAINENG/OneDrive/Music/'; //for audio player, in {directory}/{knyear}/{filename}.mp3
-let debugMode = false; //will show all available logging on console
-let altMode = false; //will switch between titles and alt titles [TODO]
-let widescreenAverageModuleSize = 480; //on wide screen widths, tab width for content (responsive)
-let autoplayOnSelect = false; //disable player autoplay, will affect queue
+const defaultTitle = 'Klassic Note Web';
+const altTitlePrefix = 'Original';
+const databaseFilename = 'https://knneo.github.io/klassic-note-web/db/KlassicNote.db';
+const directory = 'file://C:/Users/KAINENG/OneDrive/Music/'; //for audio player, in {directory}/{knyear}/{filename}.mp3
+const debugMode = false; //will show all available logging on console
+const altMode = false; //will switch between titles and alt titles [TODO]
+const widescreenAverageModuleSize = 480; //on wide screen widths, tab width for content (responsive)
+const autoplayOnSelect = false; //disable player autoplay, will affect queue
 
 //--STARTUP--//
 window.addEventListener('load', startup);
@@ -227,7 +228,7 @@ async function callDb(query, callback) {
 
 	// for sqlite db
 	const xhr = new XMLHttpRequest();
-	xhr.open('GET', 'https://knneo.github.io/klassic-note-web/db/KlassicNote.db', true);
+	xhr.open('GET', databaseFilename, true);
 	xhr.responseType = 'arraybuffer';
 
 	xhr.onload = e => {
@@ -540,7 +541,7 @@ function generateFilters() {
 	options.addEventListener('change', onChangeOption);
 	
 		let opt = document.createElement('option');
-		opt.innerText = '===';		
+		opt.innerText = '===';
 		options.appendChild(opt);
 		
 	filters.appendChild(options);
