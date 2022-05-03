@@ -1,12 +1,12 @@
 //--CONFIG--//
-const defaultTitle = 'Klassic Note Web';
-const altTitlePrefix = 'Original';
-const databaseFilename = 'https://knneo.github.io/klassic-note-web/db/KlassicNote.db';
-const directory = 'file://C:/Users/KAINENG/OneDrive/Music/'; //for audio player, in {directory}/{knyear}/{filename}.mp3
-const debugMode = false; //will show all available logging on console
-const altMode = false; //will switch between titles and alt titles [TODO]
-const widescreenAverageModuleSize = 480; //on wide screen widths, tab width for content (responsive)
-const autoplayOnSelect = false; //disable player autoplay, will affect queue
+let defaultTitle = 'Klassic Note Web';
+let altTitlePrefix = 'Original';
+let databaseFilename = 'https://knneo.github.io/klassic-note-web/db/KlassicNote.db';
+let directory = 'file://C:/Users/KAINENG/OneDrive/Music/'; //for audio player, in {directory}/{knyear}/{filename}.mp3
+let debugMode = false; //will show all available logging on console
+let altMode = false; //will switch between titles and alt titles [TODO]
+let widescreenAverageModuleSize = 480; //on wide screen widths, tab width for content (responsive)
+let autoplayOnSelect = false; //disable player autoplay, will affect queue
 
 //--STARTUP--//
 window.addEventListener('load', startup);
