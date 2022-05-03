@@ -3,10 +3,11 @@ let defaultTitle = 'Klassic Note Web';
 let altTitlePrefix = 'Original';
 let databaseFilename = 'https://knneo.github.io/klassic-note-web/db/KlassicNote.db';
 let directory = 'file://C:/Users/KAINENG/OneDrive/Music/'; //for audio player, in {directory}/{knyear}/{filename}.mp3
-let debugMode = false; //will show all available logging on console
+let debugMode = true; //will show all available logging on console
 let altMode = false; //will switch between titles and alt titles [TODO]
 let widescreenAverageModuleSize = 480; //on wide screen widths, tab width for content (responsive)
 let autoplayOnSelect = false; //disable player autoplay, will affect queue
+let randomSongOnSelect = false; //shuffle button will follow search results, not full list in db
 
 //--STARTUP--//
 window.addEventListener('load', startup);
@@ -172,33 +173,70 @@ function randomSong() {
 		window['playlist'] = [];
 		document.querySelector('.random-count').innerText = '';
 	}
-	queryDb(query, function(content) {
-		// console.log('content', content);
-		let total = content.values[0][0];
+	
+	if(randomSongOnSelect)
+	{
+		let content = Array.from(document.querySelectorAll('#options option')).filter(c => c.value > 0).map(val => val.value);
+		let total = content.length;
 		
-		let songsToQueue = window['shifted'] ? 10 : 1;
+		let songsToQueue = window['shifted'] ? Math.min(10, total) : 1;
 		let random = 0;
-		do {
-			random = Math.floor((Math.random() * total));
+		while (songsToQueue > 0) {
+			random = content[Math.floor((Math.random() * total))];
 			if(window['playlist'].indexOf(random) < 0)
 			{
 				window['playlist'].push(random);
 				songsToQueue--;
 			}
-		} while (songsToQueue > 0);
+			if(random == document.getElementById('options').value)
+			{
+				songsToQueue--;
+			}
+		};
+		
 		if(debugMode) console.log('playlist',window['playlist']);
 		updateQueueCount();
 		if(document.getElementById('player') == null || document.getElementById('player').paused)
 		{
 			// when autoplay is off
-			if(window['playlist'].length == 2)
-				window['playlist'] = window['playlist'].slice(1);
+			// if(!autoplayOnSelect && window['playlist'].length == 2)
+				// window['playlist'].shift();
 			let optQuery = "SELECT * FROM Song WHERE KNID = ";
 			optQuery += window['playlist'][0];
 			if(debugMode) console.log('optQuery', optQuery);
 			queryDb(optQuery, updateOptions);
 		}
-	});
+	}
+	else
+	{
+		queryDb(query, function(content) {
+			// console.log('content', content);
+			let total = content.values[0][0];
+			
+			let songsToQueue = window['shifted'] ? 10 : 1;
+			let random = 0;
+			do {
+				random = Math.floor((Math.random() * total));
+				if(window['playlist'].indexOf(random) < 0)
+				{
+					window['playlist'].push(random);
+					songsToQueue--;
+				}
+			} while (songsToQueue > 0);
+			if(debugMode) console.log('playlist',window['playlist']);
+			updateQueueCount();
+			if(document.getElementById('player') == null || document.getElementById('player').paused)
+			{
+				// when autoplay is off
+				if(window['playlist'].length == 2)
+					window['playlist'] = window['playlist'].slice(1);
+				let optQuery = "SELECT * FROM Song WHERE KNID = ";
+				optQuery += window['playlist'][0];
+				if(debugMode) console.log('optQuery', optQuery);
+				queryDb(optQuery, updateOptions);
+			}
+		});
+	}	
 };
 
 function skipSong() {
@@ -787,6 +825,7 @@ function generatePlayer(contents) {
 
 function updateQueueCount() {
 	let queued = window['playlist'].length - 1;
+	if(debugMode) console.log('queued', queued);
 	document.querySelector('.random-count').innerText = queued > 0 ? (queued + ' song' + (queued > 1 ? 's' : '') + ' queued') : '';
 	document.querySelector('.skip').style.display = queued > 0 ? '' : 'none';
 }
