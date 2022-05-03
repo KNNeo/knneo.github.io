@@ -97,7 +97,11 @@ const situations = [
 			},
 			{
 				queryTitle: 'Blanket',
-				queryString: "It was a chilly and thunderous night. Would you rather wait up to see {name} or {name} snug under your blanket on your bed?",
+				queryString: "It was a chilly and thunderous night. Would you rather {name} or {name} be sleeping under the same blanket with you on the bed?",
+			},
+			{
+				queryTitle: 'Pick-up',
+				queryString: "You were suddenly teleported away into someone's way home. Would you rather {name} or {name} pick you up when you were lost and had no way home?",
 			},
 		],
 	},
@@ -152,6 +156,8 @@ const presets = [
 			"Sasaki Nao",
 			"Horie Yui",
 			"Nagae Rika",
+			"Tomiya Miyu",
+			"Kanno Mai",
 		],
 	},
 ];
