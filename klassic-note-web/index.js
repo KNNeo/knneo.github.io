@@ -704,6 +704,7 @@ function generateLayout(contents) {
 		queryAwardsByYear(contents);
 		queryRankingsByYear(contents);
 		queryCompilationsByYear(contents);
+		queryAnalysis(contents);
 	}
 	
 	if(window['mode'] == 'song')
@@ -2090,6 +2091,207 @@ function generateSOTM(contents) {
 	
 	table.appendChild(tbody);
 	document.getElementById('song-sotm').appendChild(table);
+}
+
+function queryAnalysis(contents) {
+	let columns = contents.columns;
+	let rows = contents.values;
+	let columnIndexData = contents.columns.indexOf('KNYEAR');
+	let KNYEAR = rows[0][columnIndexData];
+	//select song of the day mentions of that song regardless of year
+	let query = "SELECT 'All' as 'Category', COUNT(VocalCode) as 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " AND VocalCode <> '' ";
+	query += "UNION ALL SELECT 'Male Solo' as 'Category', COUNT(VocalCode) as 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " AND VocalCode = 'M' ";
+	query += "UNION ALL SELECT 'Female Solo' as 'Category', COUNT(VocalCode) as 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " AND VocalCode = 'F' ";
+	query += "UNION ALL SELECT 'Male Duo' as 'Category', COUNT(VocalCode) as 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " AND VocalCode = 'MM' ";
+	query += "UNION ALL SELECT 'Female Duo' as 'Category', COUNT(VocalCode) as 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " AND VocalCode = 'FF' ";
+	query += "UNION ALL SELECT 'Combined Duo' as 'Category', COUNT(VocalCode) as 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " AND (VocalCode = 'MF' or VocalCode = 'FM') ";
+	query += "UNION ALL SELECT 'Trio' as 'Category', COUNT(VocalCode) as 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " AND (VocalCode = 'MMM' or VocalCode = 'FFF') ";
+	query += "UNION ALL SELECT 'Quartet or More' as 'Category', COUNT(VocalCode) as 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " AND LENGTH(VocalCode) > 3 ";
+
+	if(debugMode) console.log('generateVocalPopularity', query);
+	queryDb(query, generateVocalPopularity);
+	
+	//select song of the day mentions of that song regardless of year
+	query = "SELECT 'All' AS 'Language', COUNT(LanguageCode) as 'Count (%)' from Song WHERE KNYEAR = " + KNYEAR + " ";
+	query += "UNION ALL SELECT 'English' AS 'Language', COUNT(LanguageCode) as 'Count (%)' from Song WHERE KNYEAR = " + KNYEAR + " AND LanguageCode = 'EN' ";
+	query += "UNION ALL SELECT 'Chinese' AS 'Language', COUNT(LanguageCode) as 'Count (%)' from Song WHERE KNYEAR = " + KNYEAR + " AND LanguageCode = 'CH' ";
+	query += "UNION ALL SELECT 'Japanese' AS 'Language', COUNT(LanguageCode) as 'Count (%)' from Song WHERE KNYEAR = " + KNYEAR + " AND LanguageCode = 'JP' ";
+
+	if(debugMode) console.log('generateSongLaguage', query);
+	queryDb(query, generateSongLaguage);
+	
+	//select song of the day mentions of that song regardless of year
+	query = "SELECT 'All' AS 'ReleaseYear', COUNT(ReleaseYear) AS 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " ";
+	query += "UNION ALL SELECT MIN(ReleaseYear) || '-' || MAX(ReleaseYear) AS 'ReleaseYear', COUNT(ReleaseYear) AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear < " + KNYEAR + " - 3 ";
+	query += "UNION ALL SELECT MIN(ReleaseYear) || '-' || MAX(ReleaseYear) AS 'ReleaseYear', COUNT(ReleaseYear) AS 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = " + KNYEAR + " - 3 ";
+	query += "UNION ALL SELECT MIN(ReleaseYear) || '-' || MAX(ReleaseYear) AS 'ReleaseYear', COUNT(ReleaseYear) AS 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = " + KNYEAR + " - 2 ";
+	query += "UNION ALL SELECT MIN(ReleaseYear) || '-' || MAX(ReleaseYear) AS 'ReleaseYear', COUNT(ReleaseYear) AS 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = " + KNYEAR + " - 1 ";
+	query += "UNION ALL SELECT MIN(ReleaseYear) || '-' || MAX(ReleaseYear) AS 'ReleaseYear', COUNT(ReleaseYear) AS 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = " + KNYEAR + " ";
+
+	if(debugMode) console.log('generateYearOfRelease', query);
+	queryDb(query, generateYearOfRelease);
+}
+
+function generateVocalPopularity(contents) {
+	document.getElementById('vocal-popularity').innerHTML = '';
+	
+	let columns = contents.columns;
+	let rows = contents.values;
+	if(contents.length == 0) return;
+	
+	let header = document.createElement('h4');
+	header.classList.add('centered');
+	header.innerText = 'Vocal Types';
+	document.getElementById('vocal-popularity').appendChild(header);
+	
+	let table = document.createElement('table');
+	table.classList.add('list');
+	table.classList.add('centered');
+	table.classList.add('content-box');
+	
+	let tbody = document.createElement('tbody');
+	
+	let tr = document.createElement('tr');
+	for(let column of columns)
+	{
+		let th = document.createElement('th');
+		th.innerText = column;
+		tr.appendChild(th);
+	}
+	tbody.appendChild(tr);
+	
+	let excludedColumns = [];
+	let total = rows[0][1];
+	for(let r = 0; r < rows.length; r++)
+	{
+		// let rowVal = row[r];
+		// if(!rowVal || rowVal.length == 0) continue;
+		// if(excludedColumns.includes(columns[r])) continue;
+		
+		let tr = document.createElement('tr');
+	
+		let tc = document.createElement('td');
+		tc.innerText = rows[r][0];
+		tr.appendChild(tc);
+		
+		let td = document.createElement('td');
+		td.innerText = r == 0 ? total + ' Songs' : rows[r][1] + ' (' + (100 * rows[r][1] / total).toFixed(2) + '%)';
+		tr.appendChild(td);
+		
+		tbody.appendChild(tr);	
+	}
+		
+	table.appendChild(tbody);
+	document.getElementById('vocal-popularity').appendChild(table);
+}
+
+function generateSongLaguage(contents) {
+	document.getElementById('song-language').innerHTML = '';
+	
+	let columns = contents.columns;
+	let rows = contents.values;
+	if(contents.length == 0) return;
+	
+	let header = document.createElement('h4');
+	header.classList.add('centered');
+	header.innerText = 'Languages';
+	document.getElementById('song-language').appendChild(header);
+	
+	let table = document.createElement('table');
+	table.classList.add('list');
+	table.classList.add('centered');
+	table.classList.add('content-box');
+	
+	let tbody = document.createElement('tbody');
+	
+	let tr = document.createElement('tr');
+	for(let column of columns)
+	{
+		let th = document.createElement('th');
+		th.innerText = column;
+		tr.appendChild(th);
+	}
+	tbody.appendChild(tr);
+	
+	let excludedColumns = [];
+	let total = rows[0][1];
+	for(let r = 0; r < rows.length; r++)
+	{
+		// let rowVal = row[r];
+		// if(!rowVal || rowVal.length == 0) continue;
+		// if(excludedColumns.includes(columns[r])) continue;
+		
+		let tr = document.createElement('tr');
+	
+		let tc = document.createElement('td');
+		tc.innerText = rows[r][0];
+		tr.appendChild(tc);
+		
+		let td = document.createElement('td');
+		td.innerText = r == 0 ? total + ' Songs' : rows[r][1] + ' (' + (100 * rows[r][1] / total).toFixed(2) + '%)';
+		tr.appendChild(td);
+		
+		tbody.appendChild(tr);	
+	}
+		
+	table.appendChild(tbody);
+	document.getElementById('song-language').appendChild(table);
+}
+
+function generateYearOfRelease(contents) {
+	document.getElementById('release-year').innerHTML = '';
+	
+	let columns = contents.columns;
+	let rows = contents.values;
+	if(contents.length == 0) return;
+	
+	let header = document.createElement('h4');
+	header.classList.add('centered');
+	header.innerText = 'Release Year';
+	document.getElementById('release-year').appendChild(header);
+	
+	let table = document.createElement('table');
+	table.classList.add('list');
+	table.classList.add('centered');
+	table.classList.add('content-box');
+	
+	let tbody = document.createElement('tbody');
+	
+	let tr = document.createElement('tr');
+	for(let column of columns)
+	{
+		let th = document.createElement('th');
+		th.innerText = column;
+		tr.appendChild(th);
+	}
+	tbody.appendChild(tr);
+	
+	let excludedColumns = [];
+	let total = rows[0][1];
+	for(let r = 0; r < rows.length; r++)
+	{
+		// let rowVal = row[r];
+		// if(!rowVal || rowVal.length == 0) continue;
+		// if(excludedColumns.includes(columns[r])) continue;
+		
+		let tr = document.createElement('tr');
+	
+		let tc = document.createElement('td');
+		let ranged = rows[r][0].indexOf('-') > 0;
+		let start = ranged ? rows[r][0].substring(0,rows[r][0].indexOf('-')) : rows[r][0];
+		let end = ranged ? rows[r][0].substring(rows[r][0].indexOf('-') + 1) : rows[r][0];
+		tc.innerText = start == end ? start : rows[r][0];
+		tr.appendChild(tc);
+		
+		let td = document.createElement('td');
+		td.innerText = r == 0 ? total + ' Songs' : rows[r][1] + ' (' + (100 * rows[r][1] / total).toFixed(2) + '%)';
+		tr.appendChild(td);
+		
+		tbody.appendChild(tr);	
+	}
+		
+	table.appendChild(tbody);
+	document.getElementById('release-year').appendChild(table);
 }
 
 //unavailable: requires base64 image store in db
