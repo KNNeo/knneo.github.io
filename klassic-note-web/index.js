@@ -2123,10 +2123,10 @@ function queryAnalysis(contents) {
 	//select song of the day mentions of that song regardless of year
 	query = "SELECT 'All' AS 'ReleaseYear', COUNT(ReleaseYear) AS 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " ";
 	query += "UNION ALL SELECT MIN(ReleaseYear) || '-' || MAX(ReleaseYear) AS 'ReleaseYear', COUNT(ReleaseYear) AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear < " + KNYEAR + " - 3 ";
-	query += "UNION ALL SELECT MIN(ReleaseYear) || '-' || MAX(ReleaseYear) AS 'ReleaseYear', COUNT(ReleaseYear) AS 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = " + KNYEAR + " - 3 ";
-	query += "UNION ALL SELECT MIN(ReleaseYear) || '-' || MAX(ReleaseYear) AS 'ReleaseYear', COUNT(ReleaseYear) AS 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = " + KNYEAR + " - 2 ";
-	query += "UNION ALL SELECT MIN(ReleaseYear) || '-' || MAX(ReleaseYear) AS 'ReleaseYear', COUNT(ReleaseYear) AS 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = " + KNYEAR + " - 1 ";
-	query += "UNION ALL SELECT MIN(ReleaseYear) || '-' || MAX(ReleaseYear) AS 'ReleaseYear', COUNT(ReleaseYear) AS 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = " + KNYEAR + " ";
+	query += "UNION ALL SELECT " + KNYEAR + " - 3 AS 'ReleaseYear', COUNT(ReleaseYear) AS 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = " + KNYEAR + " - 3 ";
+	query += "UNION ALL SELECT " + KNYEAR + " - 2 AS 'ReleaseYear', COUNT(ReleaseYear) AS 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = " + KNYEAR + " - 2 ";
+	query += "UNION ALL SELECT " + KNYEAR + " - 1 AS 'ReleaseYear', COUNT(ReleaseYear) AS 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = " + KNYEAR + " - 1 ";
+	query += "UNION ALL SELECT " + KNYEAR + " AS 'ReleaseYear', COUNT(ReleaseYear) AS 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = " + KNYEAR + " ";
 
 	if(debugMode) console.log('generateYearOfRelease', query);
 	queryDb(query, generateYearOfRelease);
@@ -2277,7 +2277,7 @@ function generateYearOfRelease(contents) {
 		let tr = document.createElement('tr');
 	
 		let tc = document.createElement('td');
-		let ranged = rows[r][0].indexOf('-') > 0;
+		let ranged = rows[r][0].toString().indexOf('-') > 0;
 		let start = ranged ? rows[r][0].substring(0,rows[r][0].indexOf('-')) : rows[r][0];
 		let end = ranged ? rows[r][0].substring(rows[r][0].indexOf('-') + 1) : rows[r][0];
 		tc.innerText = start == end ? start : rows[r][0];
