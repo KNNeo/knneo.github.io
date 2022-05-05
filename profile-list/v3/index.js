@@ -101,7 +101,7 @@ function renderWantedList() {
 function loadTimeline(width) {
 	if(document.getElementById("timeline") == null) return;
 	document.getElementById("timeline").innerHTML = "";
-	TimeKnots.draw("#timeline", timelineDOBlist, {
+	TimeKnots.draw("#timeline", timelineDOBlist.filter(prof => !prof.date.startsWith('????')), {
 		horizontalLayout: true,
 		width: width,
 		height: 100,
