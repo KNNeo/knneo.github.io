@@ -59,10 +59,13 @@
 	<h3 id="settings" class="calc settings">
 		<a id="autoplay" title="Toggle Autoplay" class="autoplay material-icons" href="javascript:void(0);" onclick="toggleAutoplay()">music_note</a>
 		<a id="darkmode" title="Toggle Dark Mode" class="darkmode material-icons" href="javascript:void(0);">brightness_high</a>
-		<a id="random" title="Queue Random Song" class="random material-icons" href="javascript:void(0);" onclick="randomSong()" oncontextmenu="clearQueue()">shuffle</a>
+		<span style="border-left: 3px solid; padding: 0 3px;"></span>
+		<a id="queue-random-song" title="Queue Song" class="material-icons" href="javascript:void(0);" onclick="randomSong(false)">queue_music</a>
+		<a id="queue-random-selection" title="Queue Selection" class="material-icons" href="javascript:void(0);" onclick="randomSong(true)">playlist_add</a>
 		<span class="absolute">
-			<a id="skip" title="Skip To Next Song In Queue" class="skip material-icons" href="javascript:void(0);" onclick="skipSong()">skip_next</a>
-			<span id="random-count" class="random-count"></span>
+			<a id="queue-skip" title="Next Song" class="material-icons" href="javascript:void(0);" onclick="skipSong()">playlist_play</a>
+			<a id="queue-clear" title="Clear Queue" class="material-icons" href="javascript:void(0);" onclick="clearQueue()">playlist_remove</a>
+			<span id="random-count"></span>
 		</span>
 		<div class="spacer"> </div>
 		<a href="../index.html">Back</a>

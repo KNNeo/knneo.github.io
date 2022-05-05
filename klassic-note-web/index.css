@@ -23,7 +23,7 @@ body {
 #random-count {
 	font-weight: normal;
 	font-size: small;
-    vertical-align: text-top;
+    /* vertical-align: text-top; */
 }
 
 #search, #options {
@@ -162,7 +162,7 @@ body {
 .material-icons {
 	font-size: 20px;
 	vertical-align: bottom;
-	cursor: pointer;
+	/* cursor: pointer; */
 	text-decoration: none;
 	color: black;
 }
