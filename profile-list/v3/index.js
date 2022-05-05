@@ -68,13 +68,13 @@ function initializeVariables() {
 }
 
 function loadProfileLists() {
-		window['profileList'] = profileListJson.filter(n => n.rating);
-		window['calendarList'] = profileListJson.filter(n => Object.keys(calendarCategoryColors).includes(n.category));
-		window['friendList'] = profileListJson.filter(n => n.category == 'friends');
-		window['defaultProfile'] = profileListJson.find( function(n) {
-			return n.category == 'default';
-		});
-		renderWantedList();
+	window['profileList'] = profileListJson.filter(n => n.rating);
+	window['calendarList'] = profileListJson.filter(n => Object.keys(calendarCategoryColors).includes(n.category));
+	window['friendList'] = profileListJson.filter(n => n.category == 'friends');
+	window['defaultProfile'] = profileListJson.find( function(n) {
+		return n.category == 'default';
+	});
+	renderWantedList();
 }
 
 function renderWantedList() {
