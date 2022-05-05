@@ -4,12 +4,15 @@ const smallScreen = window.innerWidth <= 640;
 const maxRating = 5;
 const categoryColor = //mapping for category, see profile-list.json
 {
-	'alterna': 'pink',
+	'profile': 'lightgray',
+	'seiyuu': 'cyan',
 	'doaxvv': 'lime',
 	'hololive': 'gold',
-	'seiyuu': 'cyan',
-	'profile': 'lightgray'
+	'idolypride': 'pink',
+	'alterna': 'pink',
 };
+const profileCategories = ['profile', 'seiyuu']; //what to filter for wanted list, timeline
+const calendarCategories = ['doaxvv', 'hololive', 'idolypride']; //what to filter for calendar
 const nameLabel = 'Name';
 const nameWithNicknameLabel = 'Name (Nickname)';
 const dobLabel = 'Date Of Birth';
@@ -23,6 +26,7 @@ const socialLabel = 'Social Media';
 const statusPopup = "As answered haphazardly by Uesaka Sumire (and expanded on by me) the three \"turning points\" of a voice actress (but applicable to all):<br/>~ Singer Debut (The exhibition of their unique voices in singing)<br/>~ Swimsuit Photobook (The display of their figure to the extent of being half-naked)<br/>~ Married (The declaration of the end of idolism?)";
 const timezone = 'Asia/Tokyo';
 const month = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
 
 //--STARTUP--//
 window.addEventListener('load', startup);
@@ -69,10 +73,10 @@ function initializeEvents() {
 
 function loadProfileList() {
 		profileList = profileListJson.filter( function(n) {
-			return n.category == 'profile' || n.category == 'seiyuu';
+			return profileCategories ? profileCategories.includes(n.category) : true;
 		});
 		calendarList = profileList.concat(profileListJson.filter( function(n) {
-			return n.category == 'doaxvv' || n.category == 'hololive';
+			return calendarCategories ? calendarCategories.includes(n.category) : true;
 		}));
 		friendList = profileListJson.filter( function(n) {
 			return n.category == 'friends';
@@ -234,19 +238,19 @@ function createCalendar(monthNo, DOBlist) {
 		htmlString.indexOf("<td>" + birthdayInYear.getDate() + "</td>") > -1 && 
 		item.name != "Me") //if no age
 			htmlString = htmlString.replace("<td>" + birthdayInYear.getDate() + "</td>", 
-			"<td style=\"background-color: " + categoryColor[item.category] + "; color: black;\"><div class=\"popitem\">Happy Birthday <b>" + item.name + "</b>!!</div>" + birthdayInYear.getDate() + "</td>");
+			"<td style=\"background-color: " + categoryColor[item.category] + "; color: black;\"><div class=\"popitem\">Happy Birthday <b style=\"color: " + categoryColor[item.category] + ";\">" + item.name + "</b>!!</div>" + birthdayInYear.getDate() + "</td>");
 		else if (htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1 && 
 		htmlString.indexOf("<td>" + birthdayInYear.getDate() + "</td>") > -1 && 
 		item.name != "Me") //normal
 			htmlString = htmlString.replace("<td>" + birthdayInYear.getDate() + "</td>", 
-			"<td style=\"background-color: " + categoryColor[item.category] + "; color: black;\"><div class=\"popitem\"><b>" + item.name + "</b> turns " + thisAge + " (" + birthdayInYear.getDate() + " " + month[birthdayInYear.getMonth()].substring(0, 3) + ")</div>" + birthdayInYear.getDate() + "</td>");	
+			"<td style=\"background-color: " + categoryColor[item.category] + "; color: black;\"><div class=\"popitem\"><b style=\"color: " + categoryColor[item.category] + ";\">" + item.name + "</b> turns " + thisAge + " (" + birthdayInYear.getDate() + " " + month[birthdayInYear.getMonth()].substring(0, 3) + ")</div>" + birthdayInYear.getDate() + "</td>");
 		else if (thisAge == '??' && 
 		htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1) //overlap DOBs, if no age
 			htmlString = htmlString.replace("</div>" + birthdayInYear.getDate() + "</td>", 
-			"<br />Happy Birthday <b>" + item.name + "</b>!!</div>" + birthdayInYear.getDate() + "</td>");
+			"<br />Happy Birthday <b style=\"color: " + categoryColor[item.category] + ";\">" + item.name + "</b>!!</div>" + birthdayInYear.getDate() + "</td>");
 		else if (htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1) //overlap DOBs
 			htmlString = htmlString.replace("</div>" + birthdayInYear.getDate() + "</td>", 
-			"<br /><b>" + item.name + "</b> turns " + thisAge + "</b> (" + birthdayInYear.getDate() + " " + month[birthdayInYear.getMonth()].substring(0, 3) + ")</div>" + birthdayInYear.getDate() + "</td>");
+			"<br /><b style=\"color: " + categoryColor[item.category] + ";\">" + item.name + "</b> turns " + thisAge + "</b> (" + birthdayInYear.getDate() + " " + month[birthdayInYear.getMonth()].substring(0, 3) + ")</div>" + birthdayInYear.getDate() + "</td>");
 	}
 	
 	document.getElementById("calendar").innerHTML = htmlString;
