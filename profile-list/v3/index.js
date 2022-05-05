@@ -1058,11 +1058,7 @@ function processComments(comments, refs) {
 	}
 	return superscriptText(comments.join('<br/>'));
 }
-function processOption(option, returnBool) {
-	if(returnBool)
-		return option.includes('Yes') ? true : false;
-	return option.replace('[1]','').replace('[2]','').replace('[3]','');
-}
+function processOption(option, returnBool) { return returnBool ? option.includes('Yes') : option.replace('[1]','').replace('[2]','').replace('[3]',''); }
 function randomArrayItem(array) { return array[Math.floor(Math.random()*(array.length-1))]; }
 function ratingAsStars(rating, total) {
 	let stars = document.createElement('div');
@@ -1077,12 +1073,8 @@ function ratingAsStars(rating, total) {
 	}
 	return stars;
 }
-function superscriptText(input) {
-	return input.replace('[1]',superscriptTextAsHTML('[1]'))
-		.replace('[2]',superscriptTextAsHTML('[2]'))
-		.replace('[3]',superscriptTextAsHTML('[3]'));
-}
-function superscriptTextAsHTML(input) { return '<span class="superscript">' + input + '</span>'; }
+function superscriptText(input) { return input.replace('[1]',superscriptHTML('[1]')).replace('[2]',superscriptHTML('[2]')).replace('[3]',superscriptHTML('[3]')); }
+function superscriptHTML(input) { return '<span class="superscript">' + input + '</span>'; }
 
 ////CHECK////
 function daysFromMe() {
