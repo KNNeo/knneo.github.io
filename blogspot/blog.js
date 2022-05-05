@@ -210,6 +210,8 @@ function reduceResults() {
 			let thumbDiv = document.createElement('div');
 			if(counter > 0) thumbDiv.style.float = 'left';
 			
+			if(thumb.length > 0)
+			{
 				let homeThumb = document.createElement('div');
 				homeThumb.classList.add('home-thumb');
 				if(counter == 0) {
@@ -219,10 +221,11 @@ function reduceResults() {
 				}
 				homeThumb.style.backgroundImage = 'url(\'' + (thumb || '') + '\')';
 				
-			thumbDiv.appendChild(homeThumb);
+				thumbDiv.appendChild(homeThumb);
+			}
 			
 			let latestPostSummary = document.createElement('div');
-			latestPostSummary.classList.add('latest-post-summary');
+			// latestPostSummary.classList.add('latest-post-summary');
 			let excerpt = snippet.innerText.trim();
 			latestPostSummary.innerHTML = (title == undefined ? '' : excerpt.substring(0, excerpt.substring(380, 450).indexOf(' ') + 380) + '...');
 			
