@@ -72,7 +72,7 @@ function loadProfileList() {
 			return n.category == 'profile' || n.category == 'seiyuu';
 		});
 		calendarList = profileList.concat(profileListJson.filter( function(n) {
-			return n.category == 'alterna' || n.category == 'doaxvv' || n.category == 'hololive';
+			return n.category == 'doaxvv' || n.category == 'hololive';
 		}));
 		friendList = profileListJson.filter( function(n) {
 			return n.category == 'friends';
