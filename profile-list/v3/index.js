@@ -2,16 +2,15 @@
 const isExternal = window.location.href.includes('://knneo.github.io'); //if not in local
 const smallScreen = window.innerWidth <= 640;
 const maxRating = 5;
-const categoryColor = //mapping for category, see profile-list.json
+const calendarCategoryColors = //what to filter for calendar, mapping for category, see profile-list.json
 {
 	'profile': 'lightgray',
 	'seiyuu': 'cyan',
 	'doaxvv': 'lime',
 	'hololive': 'gold',
 	'idolypride': 'pink',
-	'alterna': 'pink',
+	// 'alterna': 'pink',
 };
-const calendarCategories = ['seiyuu','doaxvv','hololive','idolypride']; //what to filter for calendar
 const nameLabel = 'Name';
 const nameWithNicknameLabel = 'Name (Nickname)';
 const dobLabel = 'Date Of Birth';
@@ -70,7 +69,7 @@ function initializeVariables() {
 
 function loadProfileLists() {
 		window['profileList'] = profileListJson.filter(n => n.rating);
-		window['calendarList'] = profileListJson.filter(n => calendarCategories.includes(n.category));
+		window['calendarList'] = profileListJson.filter(n => Object.keys(calendarCategoryColors).includes(n.category));
 		window['friendList'] = profileListJson.filter(n => n.category == 'friends');
 		window['defaultProfile'] = profileListJson.find( function(n) {
 			return n.category == 'default';
@@ -223,25 +222,25 @@ function createCalendar(monthNo, DOBlist) {
 		else if (IsBirthdayOver) thisAge = item.currentAge;
 		else thisAge = item.currentAge + 1;
 		// console.log(item.name + "|" + item.currentAge);
-		if(categoryColor[item.category] == null) continue;
+		if(calendarCategoryColors[item.category] == null) continue;
 		if (thisAge == '??' && 
 		htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1 && 
 		htmlString.indexOf("<td>" + birthdayInYear.getDate() + "</td>") > -1 && 
 		item.name != "Me") //if no age
 			htmlString = htmlString.replace("<td>" + birthdayInYear.getDate() + "</td>", 
-			"<td style=\"background-color: " + categoryColor[item.category] + "; color: black;\"><div class=\"popitem\">Happy Birthday <b style=\"color: " + categoryColor[item.category] + ";\">" + item.name + "</b>!!</div>" + birthdayInYear.getDate() + "</td>");
+			"<td style=\"background-color: " + calendarCategoryColors[item.category] + "; color: black;\"><div class=\"popitem\">Happy Birthday <b style=\"color: " + calendarCategoryColors[item.category] + ";\">" + item.name + "</b>!!</div>" + birthdayInYear.getDate() + "</td>");
 		else if (htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1 && 
 		htmlString.indexOf("<td>" + birthdayInYear.getDate() + "</td>") > -1 && 
 		item.name != "Me") //normal
 			htmlString = htmlString.replace("<td>" + birthdayInYear.getDate() + "</td>", 
-			"<td style=\"background-color: " + categoryColor[item.category] + "; color: black;\"><div class=\"popitem\"><b style=\"color: " + categoryColor[item.category] + ";\">" + item.name + "</b> turns " + thisAge + " (" + birthdayInYear.getDate() + " " + month[birthdayInYear.getMonth()].substring(0, 3) + ")</div>" + birthdayInYear.getDate() + "</td>");
+			"<td style=\"background-color: " + calendarCategoryColors[item.category] + "; color: black;\"><div class=\"popitem\"><b style=\"color: " + calendarCategoryColors[item.category] + ";\">" + item.name + "</b> turns " + thisAge + " (" + birthdayInYear.getDate() + " " + month[birthdayInYear.getMonth()].substring(0, 3) + ")</div>" + birthdayInYear.getDate() + "</td>");
 		else if (thisAge == '??' && 
 		htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1) //overlap DOBs, if no age
 			htmlString = htmlString.replace("</div>" + birthdayInYear.getDate() + "</td>", 
-			"<br />Happy Birthday <b style=\"color: " + categoryColor[item.category] + ";\">" + item.name + "</b>!!</div>" + birthdayInYear.getDate() + "</td>");
+			"<br />Happy Birthday <b style=\"color: " + calendarCategoryColors[item.category] + ";\">" + item.name + "</b>!!</div>" + birthdayInYear.getDate() + "</td>");
 		else if (htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1) //overlap DOBs
 			htmlString = htmlString.replace("</div>" + birthdayInYear.getDate() + "</td>", 
-			"<br /><b style=\"color: " + categoryColor[item.category] + ";\">" + item.name + "</b> turns " + thisAge + "</b> (" + birthdayInYear.getDate() + " " + month[birthdayInYear.getMonth()].substring(0, 3) + ")</div>" + birthdayInYear.getDate() + "</td>");
+			"<br /><b style=\"color: " + calendarCategoryColors[item.category] + ";\">" + item.name + "</b> turns " + thisAge + "</b> (" + birthdayInYear.getDate() + " " + month[birthdayInYear.getMonth()].substring(0, 3) + ")</div>" + birthdayInYear.getDate() + "</td>");
 	}
 	
 	document.getElementById("calendar").innerHTML = htmlString;
@@ -276,14 +275,14 @@ function addCalendarLegend() {
 			
 			let box = document.createElement('span');
 			box.classList.add('legend');
-			box.style.backgroundColor = categoryColor[category.toLowerCase()] || 'lightgray';
+			box.style.backgroundColor = calendarCategoryColors[category.toLowerCase()] || 'lightgray';
 			label.appendChild(box);
 					
 			let description = document.createElement('span');
 			description.style.padding = '0 5px';
 			description.title = category;
 			description.addEventListener('click', function() {
-				this.previousElementSibling.style.backgroundColor = this.previousElementSibling.previousElementSibling.checked ? 'transparent' :categoryColor[this.title.toLowerCase()] || 'lightgray';
+				this.previousElementSibling.style.backgroundColor = this.previousElementSibling.previousElementSibling.checked ? 'transparent' :calendarCategoryColors[this.title.toLowerCase()] || 'lightgray';
 				setTimeout(function() {
 					filterCalendar();
 					createCalendar(luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: timezone}).month-1, window['calendarDOBlist']);
