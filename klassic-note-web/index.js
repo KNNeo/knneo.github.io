@@ -2098,7 +2098,7 @@ function queryAnalysis(contents) {
 	let rows = contents.values;
 	let columnIndexData = contents.columns.indexOf('KNYEAR');
 	let KNYEAR = rows[0][columnIndexData];
-	//select song of the day mentions of that song regardless of year
+
 	let query = "SELECT 'All' as 'Category', COUNT(VocalCode) as 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " AND VocalCode <> '' ";
 	query += "UNION ALL SELECT 'Male Solo' as 'Category', COUNT(VocalCode) as 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " AND VocalCode = 'M' ";
 	query += "UNION ALL SELECT 'Female Solo' as 'Category', COUNT(VocalCode) as 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " AND VocalCode = 'F' ";
@@ -2111,7 +2111,7 @@ function queryAnalysis(contents) {
 	if(debugMode) console.log('generateVocalPopularity', query);
 	queryDb(query, generateVocalPopularity);
 	
-	//select song of the day mentions of that song regardless of year
+
 	query = "SELECT 'All' AS 'Language', COUNT(LanguageCode) as 'Count (%)' from Song WHERE KNYEAR = " + KNYEAR + " ";
 	query += "UNION ALL SELECT 'English' AS 'Language', COUNT(LanguageCode) as 'Count (%)' from Song WHERE KNYEAR = " + KNYEAR + " AND LanguageCode = 'EN' ";
 	query += "UNION ALL SELECT 'Chinese' AS 'Language', COUNT(LanguageCode) as 'Count (%)' from Song WHERE KNYEAR = " + KNYEAR + " AND LanguageCode = 'CH' ";
@@ -2120,7 +2120,7 @@ function queryAnalysis(contents) {
 	if(debugMode) console.log('generateSongLaguage', query);
 	queryDb(query, generateSongLaguage);
 	
-	//select song of the day mentions of that song regardless of year
+
 	query = "SELECT 'All' AS 'ReleaseYear', COUNT(ReleaseYear) AS 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " ";
 	query += "UNION ALL SELECT MIN(ReleaseYear) || '-' || MAX(ReleaseYear) AS 'ReleaseYear', COUNT(ReleaseYear) AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear < " + KNYEAR + " - 3 ";
 	query += "UNION ALL SELECT " + KNYEAR + " - 3 AS 'ReleaseYear', COUNT(ReleaseYear) AS 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = " + KNYEAR + " - 3 ";
@@ -2130,6 +2130,15 @@ function queryAnalysis(contents) {
 
 	if(debugMode) console.log('generateYearOfRelease', query);
 	queryDb(query, generateYearOfRelease);
+	
+
+	query = "SELECT 'All' AS 'SongType', COUNT(s.VocalCode) AS 'Count (%)' FROM Song s WHERE s.KNYEAR = " + KNYEAR + " AND s.VocalCode <> '' ";
+	query += "UNION ALL SELECT 'Anime Songs' AS 'SongType', COUNT(ts.SongType) AS 'Count (%)' FROM Song s JOIN ThemeSong ts on s.KNID = ts.KNID WHERE s.KNYEAR = " + KNYEAR + " AND s.Genre IN ('Anime','Soundtrack','Game') ";
+	query += "UNION ALL SELECT 'Anime Theme Songs' AS 'SongType', COUNT(ts.SongType) AS 'Count (%)' FROM Song s JOIN ThemeSong ts on s.KNID = ts.KNID WHERE s.KNYEAR = " + KNYEAR + " AND s.Genre IN ('Anime','Soundtrack','Game') AND (ts.SongType = 'Opening' OR ts.SongType = 'Ending' OR ts.SongType = 'Theme') ";
+	query += "UNION ALL SELECT 'Anime Character/Insert Songs' AS 'SongType', COUNT(ts.SongType) AS 'Count (%)' FROM Song s JOIN ThemeSong ts on s.KNID = ts.KNID WHERE s.KNYEAR = " + KNYEAR + " AND s.Genre IN ('Anime','Soundtrack','Game') AND (ts.SongType <> 'Opening' AND ts.SongType <> 'Ending' AND ts.SongType <> 'Theme') ";
+
+	if(debugMode) console.log('generateAnimeSongs', query);
+	queryDb(query, generateAnimeSongs);
 }
 
 function generateVocalPopularity(contents) {
@@ -2239,6 +2248,62 @@ function generateSongLaguage(contents) {
 }
 
 function generateYearOfRelease(contents) {
+	document.getElementById('release-year').innerHTML = '';
+	
+	let columns = contents.columns;
+	let rows = contents.values;
+	if(contents.length == 0) return;
+	
+	let header = document.createElement('h4');
+	header.classList.add('centered');
+	header.innerText = 'Release Year';
+	document.getElementById('release-year').appendChild(header);
+	
+	let table = document.createElement('table');
+	table.classList.add('list');
+	table.classList.add('centered');
+	table.classList.add('content-box');
+	
+	let tbody = document.createElement('tbody');
+	
+	let tr = document.createElement('tr');
+	for(let column of columns)
+	{
+		let th = document.createElement('th');
+		th.innerText = column;
+		tr.appendChild(th);
+	}
+	tbody.appendChild(tr);
+	
+	let excludedColumns = [];
+	let total = rows[0][1];
+	for(let r = 0; r < rows.length; r++)
+	{
+		// let rowVal = row[r];
+		// if(!rowVal || rowVal.length == 0) continue;
+		// if(excludedColumns.includes(columns[r])) continue;
+		
+		let tr = document.createElement('tr');
+	
+		let tc = document.createElement('td');
+		let ranged = rows[r][0].toString().indexOf('-') > 0;
+		let start = ranged ? rows[r][0].substring(0,rows[r][0].indexOf('-')) : rows[r][0];
+		let end = ranged ? rows[r][0].substring(rows[r][0].indexOf('-') + 1) : rows[r][0];
+		tc.innerText = start == end ? start : rows[r][0];
+		tr.appendChild(tc);
+		
+		let td = document.createElement('td');
+		td.innerText = r == 0 ? total + ' Songs' : rows[r][1] + ' (' + (100 * rows[r][1] / total).toFixed(2) + '%)';
+		tr.appendChild(td);
+		
+		tbody.appendChild(tr);	
+	}
+		
+	table.appendChild(tbody);
+	document.getElementById('release-year').appendChild(table);
+}
+
+function generateAnimeSongs(contents) {
 	document.getElementById('release-year').innerHTML = '';
 	
 	let columns = contents.columns;
