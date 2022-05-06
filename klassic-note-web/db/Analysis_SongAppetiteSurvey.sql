@@ -1,8 +1,23 @@
---input year
-select 'Male Solo' as 'Category', count(VocalCode) as 'Count' from Song where KNYEAR = 2021 and VocalCode = 'M'
-union all select 'Female Solo' as 'Category', count(VocalCode) as 'Count' from Song where KNYEAR = 2021 and VocalCode = 'F'
-union all select 'Male Duo' as 'Category', count(VocalCode) as 'Count' from Song where KNYEAR = 2021 and VocalCode = 'MM'
-union all select 'Female Duo' as 'Category', count(VocalCode) as 'Count' from Song where KNYEAR = 2021 and VocalCode = 'FF'
-union all select 'Combined Duo' as 'Category', count(VocalCode) as 'Count' from Song where KNYEAR = 2021 and (VocalCode = 'MF' or VocalCode = 'FM')
-union all select 'Trio' as 'Category', count(VocalCode) as 'Count' from Song where KNYEAR = 2021 and (VocalCode = 'MMM' or VocalCode = 'FFF')
-union all select 'Quartet or More' as 'Category', count(VocalCode) as 'Count' from Song where KNYEAR = 2021 and length(VocalCode) > 3
+SELECT 'Jan' AS 'Month', COUNT(SongID) AS 'Count' FROM Song WHERE KNYEAR = 2021 AND DateCreated LIKE '2021.01.%'
+UNION ALL
+SELECT 'Feb' AS 'Month', COUNT(SongID) AS 'Count' FROM Song WHERE KNYEAR = 2021 AND DateCreated LIKE '2021.02.%'
+UNION ALL
+SELECT 'Mar' AS 'Month', COUNT(SongID) AS 'Count' FROM Song WHERE KNYEAR = 2021 AND DateCreated LIKE '2021.03.%'
+UNION ALL
+SELECT 'Apr' AS 'Month', COUNT(SongID) AS 'Count' FROM Song WHERE KNYEAR = 2021 AND DateCreated LIKE '2021.04.%'
+UNION ALL
+SELECT 'May' AS 'Month', COUNT(SongID) AS 'Count' FROM Song WHERE KNYEAR = 2021 AND DateCreated LIKE '2021.05.%'
+UNION ALL
+SELECT 'Jun' AS 'Month', COUNT(SongID) AS 'Count' FROM Song WHERE KNYEAR = 2021 AND DateCreated LIKE '2021.06.%'
+UNION ALL
+SELECT 'Jul' AS 'Month', COUNT(SongID) AS 'Count' FROM Song WHERE KNYEAR = 2021 AND DateCreated LIKE '2021.07.%'
+UNION ALL
+SELECT 'Aug' AS 'Month', COUNT(SongID) AS 'Count' FROM Song WHERE KNYEAR = 2021 AND DateCreated LIKE '2021.08.%'
+UNION ALL
+SELECT 'Sep' AS 'Month', COUNT(SongID) AS 'Count' FROM Song WHERE KNYEAR = 2021 AND DateCreated LIKE '2021.09.%'
+UNION ALL
+SELECT 'Oct' AS 'Month', COUNT(SongID) AS 'Count' FROM Song WHERE KNYEAR = 2021 AND DateCreated LIKE '2021.10.%'
+UNION ALL
+SELECT 'Nov' AS 'Month', COUNT(SongID) AS 'Count' FROM Song WHERE KNYEAR = 2021 AND DateCreated LIKE '2021.11.%'
+UNION ALL
+SELECT 'Dec' AS 'Month', COUNT(SongID) AS 'Count' FROM Song WHERE KNYEAR = 2021 AND DateCreated LIKE '2021.12.%'
