@@ -2231,7 +2231,7 @@ function generateBSide(contents) {
 	
 	let header = document.createElement('h4');
 	header.classList.add('centered');
-	header.innerText = 'Vocal Types';
+	header.innerText = 'Singles B-side Reviews';
 	
 	let table = document.createElement('table');
 	table.classList.add('list');
@@ -2558,7 +2558,6 @@ function reduceReleaseTitle(release) {
 	return release.replace(/'/g,"''").replace('Disc 1','').replace('Disc 2','').replace('Disc 3','').trim();
 }
 
-const timeout = 200;
 function testPlayer() {
 	window['test-score'] = 0;
 	window['test-count'] = 1;
@@ -2573,7 +2572,7 @@ function testPlayer() {
 	
 	setTimeout(function () {
 		setNextOption(parseInt(window['option_list'][1].value));
-	}, timeout);
+	}, 200); //set timeout to where processor comfortable
 }
 
 function setNextOption(id) {
@@ -2621,7 +2620,6 @@ function addDragAndDrop() {
 	document.querySelector('.drop-area').addEventListener('dragleave', onDragLeave, false); //revert
 	document.querySelector('.drop-area').addEventListener('dragover', onDragEnter, false);
 	document.querySelector('.drop-area').addEventListener('drop', onDrop, false); //actual event that does stuff
-	
 }
 
 function onDragEnter(e) {
