@@ -53,7 +53,11 @@ void Main()
 					nameList.Add(person.name);
 					peopleList.Add(person.name);
 					if(!jsonObj.description.Trim().Contains(person.name.Trim())) {
-						namePeopleList.Add(person.name + " | " + jsonObj.description + " | " + ParseGooglePhotosDateTime(jsonObj.photoTakenTime.formatted) + (analysisMode ? " | " + jsonObj.title : ""));
+						namePeopleList.Add(
+						person.name + " | " + 
+						jsonObj.description + " | " + 
+						ParseGooglePhotosDateTime(jsonObj.photoTakenTime.formatted) + 
+						(analysisMode ? " | " + jsonObj.title : ""));
 					}
 				}
 			}
@@ -106,7 +110,9 @@ void Main()
 		Console.WriteLine(people.OrderByDescending(n => n.Count).ToList());
 		
 		Console.WriteLine("Items without face identified (fix not required)");
-		Console.WriteLine(jsonList.Where(n => n.people == null && n.photoTakenTime != null).OrderByDescending(n => n.photoTakenTime.timestamp).Select(n =>
+		Console.WriteLine(jsonList
+		.Where(n => n.people == null && n.photoTakenTime != null)
+		.OrderByDescending(n => n.photoTakenTime.timestamp).Select(n =>
 			new {
 				Description = n.description,
 				Time = ParseGooglePhotosDateTime(n.photoTakenTime.formatted)
