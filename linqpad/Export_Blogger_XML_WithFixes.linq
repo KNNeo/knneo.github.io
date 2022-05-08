@@ -593,7 +593,7 @@ void Main()
 		        // Find first image for home page, if any
 				if (TraceMode) Console.WriteLine("Find first image for home page, if any");
 		        var thumbnailUrl = "";
-				if(latestPostCount++ < maxLatestPost)
+				if(latestPostCount < maxLatestPost)
 				{
 			        expression = @"(.*?)<img(.*?)src=""(.*?)""(.*?)/>(.*?)";
 			        match = Regex.Match(content, expression);
@@ -604,9 +604,11 @@ void Main()
 			            thumbnailUrl = "";
 				}
 				
-				var thumbnailDiv = "<div"+classes.Replace("Post", "Post latest-post")+"><span>"+published.ToString("yyyy.MM.dd")+" </span><a href=\"" + pageLink + "\"><div><h4>" + title + "</h4><div><div><div class=\"home-thumb\" style=\"background-image: url(" + thumbnailUrl + ");\"></div></div></div></div></a></div>\n";
+				var thumbnailDiv = "<div"+classes.Replace("Post", "Post latest-post")+"><span>"+published.ToString("yyyy.MM.dd")+" </span><a href=\"" + pageLink + "\"><div><h4>" + title + "</h4><div><div><div class=\"" + (thumbnailUrl == "" ? "" : "home-thumb") + "\" style=\"background-image: url(" + thumbnailUrl + ");\"></div></div></div></div></a></div>\n";
             
-                textString += thumbnailUrl == "" ? "<div"+classes+"><span>"+published.ToString("yyyy.MM.dd")+" </span><a href=\""+pageLink+"\">"+title+"</a></div>\n" : thumbnailDiv;
+                textString += latestPostCount >= maxLatestPost ? "<div"+classes+"><span>"+published.ToString("yyyy.MM.dd")+" </span><a href=\""+pageLink+"\">"+title+"</a></div>\n" : thumbnailDiv;
+				
+				latestPostCount++;
 			}
             else
                 textString += "<div"+classes.Replace("Post ","Post TheStatement")+"><span>"+published.ToString("yyyy.MM.dd")+" </span><a href=\""+pageLink+"\">A Random Statement</a></div>\n";				
