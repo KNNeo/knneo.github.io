@@ -2,7 +2,7 @@
 const isLocal = window.location.href.includes('file://');
 const isMobile = function() {
     const match = window.matchMedia('(pointer:coarse)');
-    return (match && match.matches);
+    return (match && match.matches && window.innerWidth <= 480);
 };
 const isFirefox = (/Firefox/i.test(navigator.userAgent));
 
