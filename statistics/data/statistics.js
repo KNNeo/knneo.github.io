@@ -20,45 +20,6 @@ const pageElements = [
 		suffix: 'JAPANESE CATEGORY',
 	},
 	{
-		title: 'Klassic Note Participants (Artists)',
-		description: '(FROM NUMBER OF ARTISTS REVIEWED IN KLASSIC NOTE CIRCA 2007; INCLUDES LISTED ARTISTS FOR ULTIMATE COLLECTION)',
-		type: 'chart',
-		chartTitle: 'Artist Participation/Growth',
-		chartType: 'line-bar',
-		chartColors: Tableau20,
-		chartLabel: [2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020],
-		chartData: [
-			["New Artists (% Change)",null,null,35,21,29,19,15,14,9,12,13,6,4,8  ],
-			["Total Artists Participated",27,52,80,101,142,175,207,241,266,303,347,370,386,415  ],
-		],
-		chartAsPercentage: true,
-		chartAsPercentageAxis: 'A',
-	},
-	{
-		title: 'List of Japanese Artists',
-		description: 'FROM FIRST YEAR ARTIST PARTICIPATION IN KLASSIC NOTE, IN NO PARTICULAR ORDER',
-		type: 'chart',
-		chartType: 'histogram',
-		chartColors: [...Classic20,...Tableau20,...Classic20,...Tableau20,...Classic20,...Tableau20,...Classic20,...Tableau20],
-		chartLabel: [2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020],
-		chartData: [
-			["2007 (26)","UVERworld","Rie fu","Younha","HIGH and MIGHTY COLOR","Horie Yui","YUI","Aqua Timez","Takacha","Kishidan","Koda Kumi","Hoshimura Mai","ASIAN KUNG-FU GENERATION","BEAT CRUSADERS","Chatmonchy","HOME MADE Kazoku","Ikimonogakari","JUNE","ORANGE RANGE","Ore Ska Band","Skoop On Somebody","SunSet Swish","Tsuji Ayano","Hirose Koumi","Kimura Yumi","GUMI","Hayashibara Megumi"  ],
-			["2008 (21)","KELUN","KOTOKO","Kawada Mami","Lil’B aka MIE&AILA","Sakamoto Maaya","pe’zmoku","RSP","RYTHEM","Sambomaster","THYME","VELTPUNCH","SID","STEREOPONY","Tainaka Sachi","Porno Graffitti","Aya Kamiki","Gojo Mayumi","Kitahara Aiko","Uura Saeka","Kojima Megumi","SPECIAL OTHERS"  ],
-			["2009 (12)","sphere","Flat Three","Kalafina","marble","OGRE YOU ASSHOLE","Primary","SCANDAL","Nakagawa Shoko","Tomatsu Haruka","Asai Kenichi","Toyosaki Aki","Tsuji Shion"  ],
-			["2010 (13)","PE’Z","angela","ClariS","Diggy-MO'","miwa","SPYAIR","T.M.Revolution","The GazettE","universe","Kotobuki Minako","Kimura Kaela","Matsushita Yuuya","Tamura Yukari"  ],
-			["2011 (18)","Aimer","ALTIMA","fumika","LAMA","LITTLE CREATURES","NICO Touches The Wall","ROOKiEZ is PUNK'D","School Food Punishment","UNLIMITS","ViViD","Tokumaru Shugo","Natural High","NEGOTO","Hyadain","Sasaki Sayaka","Kawano Marina","Isobe Masafumi","AZUMA HITOMI",  ],
-			["2012 (22)","ChouCho","Dr.DOWNER","QUATTRO","sunday morning bell","YUKI","Hata Motohiro","Taketatsu Ayana","Hanazawa Kana","Kugimiya Rie","AiRI","Kodama Saori","Piko","HAPPY BIRTHDAY","ALTERNATIVE MEDICINE","SECONDWALL","Team.Nekokan [Neko]","9nine","deepNow","mouse on the keys","PHONO TONES","eufonius"  ],
-			["2013 (26)","MINAMI NiNE","room free fall","CLIFF EDGE","Neat’s","yucat","Teshima Aoi","Annabel","Hikasa Youko","Linked Horizon","Komatsu Mikako","Imai Masaki","Iwasaki Ai","Aso Natsuko","Kitamura Eri","cinema staff","Kuso Iinkai","sasakure.UK","tacica","Ray","fhana","earthmind","yanaginagi","Base Ball Bear","Mary days story","mpi","STEREO DIVE FOUNDATION"  ],
-			["2014 (27)","[Alexdndros]","FictionJunction","Yuuki Aoi","Goose house","FLOW","tic tac case","Pretaporter","Kon Natsumi","Tsuzuri Zukuri","Gotch","Ai (ex. RSP)","Shiritsu Ebisu Chuugaku","Good Morning America","TOKYO SKA PARADISE ORCHESTRA","iki","BIGNOUN","nano.RIPE","AKIRA","Takagaki Ayahi","FLOWER FLOWER","Larval Stage Planning","wacci",".lady.","d-iZe","Satou Satomi","Takebuchi Kei","Amamiya Sora",  ],
-			["2015 (25)","KANA-BOON","moumoon","Coalamode.","7!!","TWEEDEES","THE ORAL CIGARETTES","Sasaki Eri","Imai Asami","AyumiKurikaMaki","Kiriku to Majou","PURPLE HUMPTY","Tokyo Karan Koron","SpecialThanks","Yoru no Honki Dance","Uchuu Club","Earphones","amazarashi","Sayuri","Scenarioart","Bentham","Saitou Johnny","TrySail","SCOTT GOES FOR","Asakamidori","Cocoro Auction"  ],
-			["2016 (26)","Silent Siren","Miyawaki Shion","MICHI","metro polica","Takezawa Migiwa","Mrs. GREEN APPLE","GRANRODEO","Minase Inori","Light Palette","titilulu","The Floor","chocol8 syndrome","Sayaka","Mizuki Nana","LILI LIMIT","Shin Rizumu","SHISHAMO","AOP","Cocco","plenty","SWANKY DANK","Fujifabric","SCREEN mode","BUMP of CHICKEN","Numakura Manami","Asakura Momo"  ],
-			["2017 (28)","GENNARI","ONE III NOTES","Sangatsu no Phantasia","Yuuki Aira","96neko","Natsukawa Shiina","Shinsei Kamatte-chan","ORESAMA","toi toy toi","Touyama Nao","※-come-","mol-74","vivid undress","Uesaka Sumire","Ogura Yui","UNISON SQUARE GARDEN","Ryokuoushoku Shakai","G-FREAK FACTORY","ADAM at","Frederic","H ZETTRIO","Suchmos","Shishido Kavka","a flood of circle","YURiKA","GLIM SPANKY","Roys","Sunrise in My Attache Case"  ],
-			["2018 (23)","Oohara Yuiko","Friends","Awesome City Club","RUANN","Hayami Saori","SOROR","sumika","Endou Yurika","Ooishi Masayoshi","DENIMS","Komagata Yuri","Niitsu Yui","FINLANDS","MIYAVI x Shishido Kavka","Cider Girl","Survive Said The Prophet","Kuraki Mai","King Gnu","SIX LOUNGE","Polkadot Stingray","SHE’S","TWICE","BLUE ENCOUNT"  ],
-			["2019 (16)","Fuchigami Mai","halca","Suzuki Masayuki","MaRuRi to Ryuga","Takigawa Alisa","Ghost Sense","FIVE NEW OLD","AIMI","Edoga Sullivan","Spira.Spica","amatsuuni","Nisshoku Natsuko","Kitou Akari","Tomita Miyu","Aoyama Sachiko","ONIGAWARA"  ],
-			["2020 (29)","Play.Goose","Liyuu","Tachibana Rika","Waki Azumi","Uso to Chameleon","Suzuki Aina","Nanawo Akari","yourness","MOSHIMO","flumpool","Eve","uminecosounds","Ootaki Eiichi","Fukuhara Haruka","yorushika","YuNi","the peggies","Tsuki no Michikake","Kano","Mishima Souhei","Yunomi","Kanoerana","Pyxis","Ueda Reina","THE BAWDIES","Co shu Nie"  ]
-		]
-	},
-	{
 		title: 'Klassic Note Participants (Songs)',
 		description: 'FROM NUMBER OF SONGS IN KLASSIC NOTE FROM CIRCA 2007; ALL CHARTS TO FOLLOW “KLASSIC NOTE”)',
 		type: 'chart',
@@ -121,6 +82,21 @@ const pageElements = [
 		],
 		xAxisLabel: 'Mentioned in Year',
 		yAxisLabel: 'No. of Songs'
+	},
+	{
+		title: 'Klassic Note Participants (Artists)',
+		description: '(FROM NUMBER OF ARTISTS REVIEWED IN KLASSIC NOTE CIRCA 2007; INCLUDES LISTED ARTISTS FOR ULTIMATE COLLECTION)',
+		type: 'chart',
+		chartTitle: 'Artist Participation/Growth',
+		chartType: 'line-bar',
+		chartColors: Tableau20,
+		chartLabel: [2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020],
+		chartData: [
+			["New Artists (% Change)",null,null,35,21,29,19,15,14,9,12,13,6,4,8  ],
+			["Total Artists Participated",27,52,80,101,142,175,207,241,266,303,347,370,386,415  ],
+		],
+		chartAsPercentage: true,
+		chartAsPercentageAxis: 'A',
 	},
 	{
 		title: 'Klassic Note Participants (Artists)',
@@ -195,6 +171,30 @@ const pageElements = [
 			["THE ORAL CIGARETTES",null,null,null,null,null,null,null,null,3,5,11,14,17,21,21,21  ],
 			["Amamiya Sora",null,null,null,null,null,null,null,2,null,5,8,12,14,18,18,18  ],
 			["Komatsu Mikako",null,null,null,null,null,null,1,8,8,11,15,17,17,17,18,18  ]
+		]
+	},
+	{
+		title: 'List of Japanese Artists',
+		description: 'FROM FIRST YEAR ARTIST PARTICIPATION IN KLASSIC NOTE, IN NO PARTICULAR ORDER',
+		type: 'chart',
+		chartType: 'histogram',
+		chartColors: [...Classic20,...Tableau20,...Classic20,...Tableau20,...Classic20,...Tableau20,...Classic20,...Tableau20],
+		chartLabel: [2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020],
+		chartData: [
+			["2007 (26)","UVERworld","Rie fu","Younha","HIGH and MIGHTY COLOR","Horie Yui","YUI","Aqua Timez","Takacha","Kishidan","Koda Kumi","Hoshimura Mai","ASIAN KUNG-FU GENERATION","BEAT CRUSADERS","Chatmonchy","HOME MADE Kazoku","Ikimonogakari","JUNE","ORANGE RANGE","Ore Ska Band","Skoop On Somebody","SunSet Swish","Tsuji Ayano","Hirose Koumi","Kimura Yumi","GUMI","Hayashibara Megumi"  ],
+			["2008 (21)","KELUN","KOTOKO","Kawada Mami","Lil’B aka MIE&AILA","Sakamoto Maaya","pe’zmoku","RSP","RYTHEM","Sambomaster","THYME","VELTPUNCH","SID","STEREOPONY","Tainaka Sachi","Porno Graffitti","Aya Kamiki","Gojo Mayumi","Kitahara Aiko","Uura Saeka","Kojima Megumi","SPECIAL OTHERS"  ],
+			["2009 (12)","sphere","Flat Three","Kalafina","marble","OGRE YOU ASSHOLE","Primary","SCANDAL","Nakagawa Shoko","Tomatsu Haruka","Asai Kenichi","Toyosaki Aki","Tsuji Shion"  ],
+			["2010 (13)","PE’Z","angela","ClariS","Diggy-MO'","miwa","SPYAIR","T.M.Revolution","The GazettE","universe","Kotobuki Minako","Kimura Kaela","Matsushita Yuuya","Tamura Yukari"  ],
+			["2011 (18)","Aimer","ALTIMA","fumika","LAMA","LITTLE CREATURES","NICO Touches The Wall","ROOKiEZ is PUNK'D","School Food Punishment","UNLIMITS","ViViD","Tokumaru Shugo","Natural High","NEGOTO","Hyadain","Sasaki Sayaka","Kawano Marina","Isobe Masafumi","AZUMA HITOMI",  ],
+			["2012 (22)","ChouCho","Dr.DOWNER","QUATTRO","sunday morning bell","YUKI","Hata Motohiro","Taketatsu Ayana","Hanazawa Kana","Kugimiya Rie","AiRI","Kodama Saori","Piko","HAPPY BIRTHDAY","ALTERNATIVE MEDICINE","SECONDWALL","Team.Nekokan [Neko]","9nine","deepNow","mouse on the keys","PHONO TONES","eufonius"  ],
+			["2013 (26)","MINAMI NiNE","room free fall","CLIFF EDGE","Neat’s","yucat","Teshima Aoi","Annabel","Hikasa Youko","Linked Horizon","Komatsu Mikako","Imai Masaki","Iwasaki Ai","Aso Natsuko","Kitamura Eri","cinema staff","Kuso Iinkai","sasakure.UK","tacica","Ray","fhana","earthmind","yanaginagi","Base Ball Bear","Mary days story","mpi","STEREO DIVE FOUNDATION"  ],
+			["2014 (27)","[Alexdndros]","FictionJunction","Yuuki Aoi","Goose house","FLOW","tic tac case","Pretaporter","Kon Natsumi","Tsuzuri Zukuri","Gotch","Ai (ex. RSP)","Shiritsu Ebisu Chuugaku","Good Morning America","TOKYO SKA PARADISE ORCHESTRA","iki","BIGNOUN","nano.RIPE","AKIRA","Takagaki Ayahi","FLOWER FLOWER","Larval Stage Planning","wacci",".lady.","d-iZe","Satou Satomi","Takebuchi Kei","Amamiya Sora",  ],
+			["2015 (25)","KANA-BOON","moumoon","Coalamode.","7!!","TWEEDEES","THE ORAL CIGARETTES","Sasaki Eri","Imai Asami","AyumiKurikaMaki","Kiriku to Majou","PURPLE HUMPTY","Tokyo Karan Koron","SpecialThanks","Yoru no Honki Dance","Uchuu Club","Earphones","amazarashi","Sayuri","Scenarioart","Bentham","Saitou Johnny","TrySail","SCOTT GOES FOR","Asakamidori","Cocoro Auction"  ],
+			["2016 (26)","Silent Siren","Miyawaki Shion","MICHI","metro polica","Takezawa Migiwa","Mrs. GREEN APPLE","GRANRODEO","Minase Inori","Light Palette","titilulu","The Floor","chocol8 syndrome","Sayaka","Mizuki Nana","LILI LIMIT","Shin Rizumu","SHISHAMO","AOP","Cocco","plenty","SWANKY DANK","Fujifabric","SCREEN mode","BUMP of CHICKEN","Numakura Manami","Asakura Momo"  ],
+			["2017 (28)","GENNARI","ONE III NOTES","Sangatsu no Phantasia","Yuuki Aira","96neko","Natsukawa Shiina","Shinsei Kamatte-chan","ORESAMA","toi toy toi","Touyama Nao","※-come-","mol-74","vivid undress","Uesaka Sumire","Ogura Yui","UNISON SQUARE GARDEN","Ryokuoushoku Shakai","G-FREAK FACTORY","ADAM at","Frederic","H ZETTRIO","Suchmos","Shishido Kavka","a flood of circle","YURiKA","GLIM SPANKY","Roys","Sunrise in My Attache Case"  ],
+			["2018 (23)","Oohara Yuiko","Friends","Awesome City Club","RUANN","Hayami Saori","SOROR","sumika","Endou Yurika","Ooishi Masayoshi","DENIMS","Komagata Yuri","Niitsu Yui","FINLANDS","MIYAVI x Shishido Kavka","Cider Girl","Survive Said The Prophet","Kuraki Mai","King Gnu","SIX LOUNGE","Polkadot Stingray","SHE’S","TWICE","BLUE ENCOUNT"  ],
+			["2019 (16)","Fuchigami Mai","halca","Suzuki Masayuki","MaRuRi to Ryuga","Takigawa Alisa","Ghost Sense","FIVE NEW OLD","AIMI","Edoga Sullivan","Spira.Spica","amatsuuni","Nisshoku Natsuko","Kitou Akari","Tomita Miyu","Aoyama Sachiko","ONIGAWARA"  ],
+			["2020 (29)","Play.Goose","Liyuu","Tachibana Rika","Waki Azumi","Uso to Chameleon","Suzuki Aina","Nanawo Akari","yourness","MOSHIMO","flumpool","Eve","uminecosounds","Ootaki Eiichi","Fukuhara Haruka","yorushika","YuNi","the peggies","Tsuki no Michikake","Kano","Mishima Souhei","Yunomi","Kanoerana","Pyxis","Ueda Reina","THE BAWDIES","Co shu Nie"  ]
 		]
 	},
 	{
