@@ -1,14 +1,11 @@
 //--DEFAULT SETTINGS--//
 
-
 //--COMMON EVENTS--//
 //on startup
 const windowHeight = window.innerHeight;
 const windowWidth = window.innerWidth;
 //generate from json file
 const spacer = 'https://knneo.github.io/resources/spacer.gif';
-const smallScreen = window.innerWidth <= 640;
-
 
 //--FUNCTIONS--//
 let list = [];
@@ -28,6 +25,23 @@ function startup() {
 	list = Array.from(window['list']);
 	renderMenu();
 	renderList();
+	window.addEventListener('scroll', fadeIn); 
+}
+
+function fadeIn() {
+	let boxes = document.querySelectorAll(".tile");
+    for (let elem of boxes) {
+        // let elem = boxes[i]
+        let distInViewFromTop = elem.getBoundingClientRect().top - window.innerHeight + 20;
+        if (distInViewFromTop < 0) {
+            elem.classList.add("tile-view");
+            setTimeout(function() { elem.classList.add("no-delay"); }, 500);
+        }
+		else {
+            elem.classList.remove("tile-view");
+            elem.classList.remove("no-delay");
+        }
+    }
 }
 
 function renderMenu() {
@@ -86,18 +100,22 @@ function renderList() {
 	{
 		let video = document.createElement('div');
 		video.classList.add('box');
+		video.classList.add('tile');
 		video.classList.add('shadowed');
 		video.id = v.id;
 		
-			let thumbnail = document.createElement('div');
+			let thumbnail = document.createElement('img');
 			thumbnail.classList.add('thumbnail');
-			thumbnail.setAttribute('data-image', addUrlClause(v.thumbnail));
+			thumbnail.setAttribute('data-image', v.thumbnail);
 			thumbnail.style.backgroundSize = 'contain';
 			thumbnail.style.backgroundRepeat = 'no-repeat';
 			thumbnail.style.backgroundPosition = 'center';
 			// thumbnail.style.backgroundImage = addUrlClause(v.thumbnail);
-			thumbnail.style.width = '100%';
-			thumbnail.style.height = '100px';
+			thumbnail.style.width = '120px';
+			// thumbnail.style.height = '150px';
+			thumbnail.addEventListener('click', function() {
+				window.open(v.link);
+			});
 			
 			video.appendChild(thumbnail);
 			
@@ -121,12 +139,13 @@ function renderList() {
 	}
 	
 	setTimeout(loadImages, 200);
+	fadeIn();
 }
 
 function loadImages() {
 	for(let image of document.querySelectorAll('.thumbnail'))
 	{
-		image.style.backgroundImage = image.getAttribute('data-image');
+		image.src = image.getAttribute('data-image');
 	}
 }
 

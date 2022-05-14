@@ -3,7 +3,7 @@ html {
   scroll-behavior: smooth;
 }
 body > * {
-  max-width: 640px;
+  max-width: 480px;
   margin: auto;
   text-align: center;
   overflow-x: hidden;
@@ -27,6 +27,33 @@ body > * {
 	white-space: normal;
 	touch-action: manipulation;
 }
+.tile {
+    /* -webkit-transform: translateY(50px); */
+    /* transform: translateY(50px) translateZ(0); */
+    -webkit-transition-delay: .3s;
+    -o-transition-delay: .3s;
+    transition-delay: .3s;
+    -webkit-transition: .5s;
+    -o-transition: .5s;
+    transition: .5s;
+    opacity: 0;
+}
+
+.tile-view {
+    /* -webkit-transform: translateY(0px); */
+    /* transform: translateY(0px) */
+    opacity: 1;
+}
+
+.no-delay {
+    -webkit-transition-delay: unset;
+    -o-transition-delay: unset;
+    transition-delay: unset;
+    -webkit-transition: unset;
+    -o-transition: unset;
+    transition: unset;
+}
+
 .shadowed {
   border: 1px solid lightgray;
   box-shadow: 3px 3px;
