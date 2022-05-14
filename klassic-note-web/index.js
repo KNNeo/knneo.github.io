@@ -1167,6 +1167,7 @@ function generateSongRelatedByDate(contents) {
 		tc.setAttribute('data-id', row[columnIndexKNID]);
 		tc.innerText = row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle];
 		tc.addEventListener('click', updateSong);
+		tc.addEventListener('contextmenu', showContextMenu);
 		tr.appendChild(tc);
 		
 		//click to play
@@ -1221,6 +1222,7 @@ function generateSongRelatedByYear(contents) {
 		tc.setAttribute('data-id', row[columnIndexKNID]);
 		tc.innerText = row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle];
 		tc.addEventListener('click', updateSong);
+		tc.addEventListener('contextmenu', showContextMenu);
 		tr.appendChild(tc);
 		
 		//click to play
@@ -1275,6 +1277,7 @@ function generateArtistRelated(contents) {
 		tc.setAttribute('data-id', row[columnIndexKNID]);
 		tc.innerText = row[columnIndexKNYEAR] + ' - ' + row[columnIndexSongTitle];
 		tc.addEventListener('click', updateSong);
+		tc.addEventListener('contextmenu', showContextMenu);
 		tr.appendChild(tc);
 		
 		//click to play
@@ -1330,6 +1333,7 @@ function generateReleaseRelated(contents) {
 		tc.setAttribute('data-id', row[columnIndexKNID]);
 		tc.innerText = row[columnIndexKNYEAR] + ' - ' + row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle];
 		tc.addEventListener('click', updateSong);
+		tc.addEventListener('contextmenu', showContextMenu);
 		tr.appendChild(tc);
 		
 		//click to play
@@ -1387,6 +1391,7 @@ function generateSongFeaturedByArtist(contents) {
 		tc.setAttribute('data-id', row[columnIndexKNID]);
 		tc.innerText = row[columnIndexKNYEAR] + ' - ' + row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle];
 		tc.addEventListener('click', updateSong);
+		tc.addEventListener('contextmenu', showContextMenu);
 		tr.appendChild(tc);
 		
 		tbody.appendChild(tr);	
@@ -2608,6 +2613,54 @@ function updateTestPlayer() {
 function endTestPlayer() {	
 	console.log('testPlayer', window['test-score'] + '/' + window['test-total'] + ' ok');
 	console.log('errors', window['test-errors']);
+}
+
+function showContextMenu() {
+	event.preventDefault();
+	let id = this.getAttribute('data-id');
+	
+	let box = document.body.getBoundingClientRect();
+    let x = event.clientX - box.left;
+    let y = event.clientY - box.top;
+	
+	let menu = document.querySelector('.context');
+    menu.style.top = y + 'px';
+    menu.style.left = x + 'px';
+    menu.classList.remove('hidden');	
+	menu.innerHTML = '';
+	
+	let submenu = document.createElement('div');
+	
+	let playNext = document.createElement('div');
+	playNext.classList.add('tag');
+	playNext.innerText = 'Play Next';
+	playNext.addEventListener('click', function() {
+		window['playlist'][1] = id;
+		updateQueueCount();
+	});
+	submenu.appendChild(playNext);
+	
+	let playLater = document.createElement('div');
+	playLater.classList.add('tag');
+	playLater.innerText = 'Add To Queue';
+	playLater.addEventListener('click', function() {
+		window['playlist'][window['playlist'].length] = id;
+		updateQueueCount();		
+	});
+	submenu.appendChild(playLater);
+		
+	menu.appendChild(submenu);
+	
+    document.getElementById('tab-list').addEventListener('click', hideContextMenu);	
+    document.getElementById('tab-list').addEventListener('wheel', hideContextMenu);	
+}
+
+function hideContextMenu() {
+	let menu = document.querySelector('.context');
+    if (!menu.contains(event.target)) menu.classList.add('hidden');
+
+	document.getElementById('tab-list').removeEventListener('click', hideContextMenu);
+    document.getElementById('tab-list').removeEventListener('wheel', hideContextMenu);	
 }
 
 //drag and drop

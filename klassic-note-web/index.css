@@ -151,10 +151,6 @@ body {
 	margin-bottom: 0;
 }
 
-.hidden {
-	display: none;
-}
-
 .invisible {
 	visibility: hidden;
 }
@@ -240,6 +236,16 @@ body {
 	position: absolute;
 	right: 18px;
 	top: 7px;
+}
+
+.context {
+	font-size: 0.9em;
+	position: fixed;
+	width: auto;
+}
+
+.hidden {
+	display: none;
 }
 
 @media only screen
