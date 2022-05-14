@@ -166,6 +166,8 @@ function toggleAutoplay() {
 }
 
 function randomSong(randomSongOnSelect) {
+	event.preventDefault();
+	
 	document.getElementById('search').value = '';
 	let query = "SELECT COUNT(*) FROM Song";
 	// console.log('query', query);
