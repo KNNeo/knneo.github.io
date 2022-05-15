@@ -554,12 +554,12 @@ function generateFilters() {
 	search.addEventListener('input', function() {
 		// console.log('querySelect', document.getElementById('search').value);
 		let query = "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song";
-		query += " WHERE LOWER(SongTitle) LIKE '%" + reduceQueryInString(document.getElementById('search').value) + "%'";
-		query += " OR LOWER(ArtistTitle) LIKE '%" + reduceQueryInString(document.getElementById('search').value) + "%'";
-		query += " OR KNYEAR LIKE '%" + reduceQueryInString(document.getElementById('search').value) + "%'";
-		query += " OR LOWER(ArtistTitle || ' ' || SongTitle) LIKE '%" + reduceQueryInString(document.getElementById('search').value) + "%'";
-		query += " OR LOWER(SongTitle || ' ' || ArtistTitle) LIKE '%" + reduceQueryInString(document.getElementById('search').value) + "%'";
-		// console.log('query', query);
+		query += " WHERE LOWER(" + removeCharacterInSQLProperty("SongTitle") + ") LIKE '%" + addQuotationInSQLString(document.getElementById('search').value) + "%'";
+		query += " OR LOWER(" + removeCharacterInSQLProperty("ArtistTitle") + ") LIKE '%" + addQuotationInSQLString(document.getElementById('search').value) + "%'";
+		query += " OR KNYEAR LIKE '%" + addQuotationInSQLString(document.getElementById('search').value) + "%'";
+		query += " OR LOWER(" + removeCharacterInSQLProperty("ArtistTitle || ' ' || SongTitle") + ") LIKE '%" + addQuotationInSQLString(document.getElementById('search').value) + "%'";
+		query += " OR LOWER(" + removeCharacterInSQLProperty("SongTitle || ' ' || ArtistTitle") + ") LIKE '%" + addQuotationInSQLString(document.getElementById('search').value) + "%'";
+		if(debugMode) console.log('search', query);
 		queryDb(query, updateOptions);
 	});
 	filters.appendChild(search);
@@ -856,7 +856,7 @@ function queryInfo(contents) {
 	let columnIndexArtistTitle = contents.columns.indexOf('Artist Title');
 	let columnIndexReleaseID = contents.columns.indexOf('ReleaseID');
 	
-	let query = "SELECT ArtistTitle as 'Name', GROUP_CONCAT(ParentArtist, '<br/>') AS 'Tags (if any)', ArtistCode as 'Artist Type', DisbandYear as 'Year Disbaneded (if any)', ArtistTitleAlt as '" + altTitlePrefix + " Name', (SELECT COUNT(*) FROM Song WHERE ArtistTitle = '" + reduceQueryInString(row[columnIndexArtistTitle]) + "') as 'Songs In Library' FROM Artist WHERE ArtistTitle = '" + reduceQueryInString(row[columnIndexArtistTitle]) + "' ";
+	let query = "SELECT ArtistTitle as 'Name', GROUP_CONCAT(ParentArtist, '<br/>') AS 'Tags (if any)', ArtistCode as 'Artist Type', DisbandYear as 'Year Disbaneded (if any)', ArtistTitleAlt as '" + altTitlePrefix + " Name', (SELECT COUNT(*) FROM Song WHERE ArtistTitle = '" + addQuotationInSQLString(row[columnIndexArtistTitle]) + "') as 'Songs In Library' FROM Artist WHERE ArtistTitle = '" + addQuotationInSQLString(row[columnIndexArtistTitle]) + "' ";
 	query += "GROUP BY ArtistTitle, ArtistCode, DisbandYear, ArtistTitleAlt";
 	if(debugMode) console.log('generateArtistInfo', query);
 	queryDb(query, generateArtistInfo);
@@ -1107,7 +1107,7 @@ function queryRelated(contents) {
 	//max 10 related to artist
 	document.getElementById('artist-related').innerHTML = '';
 	query = "SELECT * FROM Song WHERE KNID <> " + row[columnIndexKNID];
-	query += " AND ArtistTitle = '" + reduceQueryInString(row[columnIndexArtistTitle]) + "'";
+	query += " AND ArtistTitle = '" + addQuotationInSQLString(row[columnIndexArtistTitle]) + "'";
 	query += " ORDER BY RANDOM() DESC LIMIT 10";
 	if(debugMode) console.log('queryArtistRelated', query);
 	queryDb(query, generateArtistRelated);
@@ -1116,7 +1116,7 @@ function queryRelated(contents) {
 	document.getElementById('release-related').innerHTML = '';
 	query = "SELECT * FROM Song WHERE KNID <> " + row[columnIndexKNID];
 	query += " AND ReleaseTitle LIKE '%" + reduceReleaseTitle(row[columnIndexReleaseTitle]) + "%'";
-	query += " AND ReleaseArtistTitle = '" + reduceQueryInString(row[columnIndexReleaseArtistTitle]) + "'";
+	query += " AND ReleaseArtistTitle = '" + addQuotationInSQLString(row[columnIndexReleaseArtistTitle]) + "'";
 	query += " ORDER BY RANDOM() DESC LIMIT 10";
 	if(debugMode) console.log('queryReleaseRelated', query);
 	queryDb(query, generateReleaseRelated);
@@ -1125,7 +1125,7 @@ function queryRelated(contents) {
 	document.getElementById('songs-related-collab').innerHTML = '';
 	query = "select a.ParentArtist, s.KNID, s.KNYEAR, s.SongTitle, s.ArtistTitle from Artist a ";
 	query += "join Song s on a.ArtistID = s.ArtistID "
-	query += "where a.ParentArtist <> a.ArtistTitle and a.ParentArtist = '" + reduceQueryInString(row[columnIndexArtistTitle]) + "' ";
+	query += "where a.ParentArtist <> a.ArtistTitle and a.ParentArtist = '" + addQuotationInSQLString(row[columnIndexArtistTitle]) + "' ";
 	query += "ORDER BY RANDOM() DESC LIMIT 5";
 	if(debugMode) console.log('generateSongFeaturedByArtist', query);
 	queryDb(query, generateSongFeaturedByArtist);
@@ -2555,9 +2555,14 @@ function updateYear() {
 	callDb(query, updateOptions);
 }
 
-function reduceQueryInString(query) {
+function addQuotationInSQLString(query) {
 	//fix query in single quotes contains single quotes, see also reduceReleaseTitle
 	return query.replace(/'/g,"''");
+}
+
+function removeCharacterInSQLProperty(property) {
+	//fix query in single quotes contains single quotes, see also reduceReleaseTitle
+	return "REPLACE(" + property + ", '.', '')";
 }
 
 function reduceReleaseTitle(release) {
@@ -2705,7 +2710,7 @@ function onDrop(e) {
 		document.getElementById('search').dispatchEvent(new Event('input'));
 		
 		let query = "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song";
-		query += " WHERE SongTitle = '" + reduceQueryInString(document.getElementById('search').value) + "'";
+		query += " WHERE SongTitle = '" + addQuotationInSQLString(document.getElementById('search').value) + "'";
 		// console.log('query', query);
 		queryDb(query, updateOptions);
 	}
