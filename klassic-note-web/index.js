@@ -554,11 +554,11 @@ function generateFilters() {
 	search.addEventListener('input', function() {
 		// console.log('querySelect', document.getElementById('search').value);
 		let query = "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song";
-		query += " WHERE SongTitle LIKE '%" + reduceQueryInString(document.getElementById('search').value) + "%'";
-		query += " OR ArtistTitle LIKE '%" + reduceQueryInString(document.getElementById('search').value) + "%'";
+		query += " WHERE LOWER(SongTitle) LIKE '%" + reduceQueryInString(document.getElementById('search').value) + "%'";
+		query += " OR LOWER(ArtistTitle) LIKE '%" + reduceQueryInString(document.getElementById('search').value) + "%'";
 		query += " OR KNYEAR LIKE '%" + reduceQueryInString(document.getElementById('search').value) + "%'";
-		query += " OR (ArtistTitle || ' ' || SongTitle) LIKE '%" + reduceQueryInString(document.getElementById('search').value) + "%'";
-		query += " OR (SongTitle || ' ' || ArtistTitle) LIKE '%" + reduceQueryInString(document.getElementById('search').value) + "%'";
+		query += " OR LOWER(ArtistTitle || ' ' || SongTitle) LIKE '%" + reduceQueryInString(document.getElementById('search').value) + "%'";
+		query += " OR LOWER(SongTitle || ' ' || ArtistTitle) LIKE '%" + reduceQueryInString(document.getElementById('search').value) + "%'";
 		// console.log('query', query);
 		queryDb(query, updateOptions);
 	});
@@ -2557,7 +2557,7 @@ function updateYear() {
 
 function reduceQueryInString(query) {
 	//fix query in single quotes contains single quotes, see also reduceReleaseTitle
-	return query.replace("'","''");
+	return query.replace(/'/g,"''");
 }
 
 function reduceReleaseTitle(release) {
