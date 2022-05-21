@@ -470,7 +470,8 @@
 				"rows": 2,
 				"tooltip": "",
 				"thumbnail": "https://knbooks.carrd.co/assets/images/gallery12/730e96c0_original.jpg",
-				"source": "https://knbooks.carrd.co/assets/images/gallery12/730e96c0_original.jpg"
+				"source": "https://knbooks.carrd.co/assets/images/gallery12/730e96c0_original.jpg",
+				"link": "https://knneo.github.io/blogspot/blog/2022/03/the-fourteenth-book-worth-of-photos.html"
 			},
 			{
 				"type": "title",
@@ -496,54 +497,6 @@
 						"tooltip": "",
 						"thumbnail": "https://knbooks.carrd.co/assets/images/gallery12/a2523d78.jpg",
 						"source": "https://knbooks.carrd.co/assets/images/gallery12/a2523d78.jpg"
-					}
-				]
-			}
-		]
-	},
-	{
-		"type": "grid",
-		"columns": 2,
-		"rows": 2,
-		"image": "",
-		"text": "15VS16",
-		"componentData": [
-			{
-				"type": "image",
-				"rows": 2,
-				"tooltip": "",
-				"thumbnail": "",
-				"source": ""
-			},
-			{
-				"type": "title",
-				"prefix": "2022",
-				"title": "The Fifteenth VS Sixteenth Book Worth of Photos: From First To Best",
-				"suffix": ""
-			},
-			{
-				"type": "gallery",
-				"caption": "(From left to right: Lynn \"Rin\", Sano Hinako \"BE WITH ME\")",
-				"datas": [
-					{
-						"tooltip": "",
-						"thumbnail": "",
-						"source": ""
-					},
-					{
-						"tooltip": "",
-						"thumbnail": "",
-						"source": ""
-					},
-					{
-						"tooltip": "",
-						"thumbnail": "",
-						"source": ""
-					},
-					{
-						"tooltip": "",
-						"thumbnail": "",
-						"source": ""
 					}
 				]
 			}

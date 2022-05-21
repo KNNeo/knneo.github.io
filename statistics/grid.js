@@ -116,7 +116,18 @@ function renderGrid(sectionNo, content) {
 			img.style.backgroundRepeat = 'no-repeat';
 			img.style.backgroundPosition = 'center';
 			img.addEventListener('contextmenu', function(e) { e.preventDefault(); });
-			comp.appendChild(img);
+			
+			if(component.link)
+			{
+				let url = document.createElement('a');
+				url.href = component.link;
+				url.appendChild(img);
+				comp.appendChild(url);
+			}
+			else
+			{
+				comp.appendChild(img);
+			}			
 		}
 		else if(component.type == 'gallery')
 		{
