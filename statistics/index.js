@@ -25,8 +25,10 @@ function scrollToPage(sectionNo, isSinglePage = false) {
 		for(let section of document.getElementsByClassName('section'))
 		{
 			section.style.opacity = 0;
+			section.style.zIndex = 0;
 		}
 		document.getElementsByClassName('section')[sectionNo].style.opacity = 1;
+		document.getElementsByClassName('section')[sectionNo].style.zIndex = 1;
 	}
 	else
 	{

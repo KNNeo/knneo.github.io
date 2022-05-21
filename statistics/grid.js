@@ -117,10 +117,11 @@ function renderGrid(sectionNo, content) {
 			img.style.backgroundPosition = 'center';
 			img.addEventListener('contextmenu', function(e) { e.preventDefault(); });
 			
-			if(component.link)
+			if(component.link && component.link.length > 0)
 			{
 				let url = document.createElement('a');
 				url.href = component.link;
+				url.setAttribute('target', '_blank');
 				url.appendChild(img);
 				comp.appendChild(url);
 			}
@@ -131,6 +132,8 @@ function renderGrid(sectionNo, content) {
 		}
 		else if(component.type == 'gallery')
 		{
+			if(typeof generateViewer == 'function') generateViewer();
+			
 			let gallery = document.createElement('div');
 			gallery.style.width = '100%';
 			// gallery.style.height = '100%';
@@ -144,7 +147,8 @@ function renderGrid(sectionNo, content) {
 			{
 				let img = document.createElement('div');
 				if(data.tooltip && data.tooltip.length > 0) img.title = data.tooltip;
-				img.style.backgroundImage = addBackgroundUrlClause(data.source);
+				img.style.backgroundImage = addBackgroundUrlClause(data.thumbnail);
+				img.setAttribute('data-src', data.source);
 				img.style.width = '20%';
 				img.style.height = '7em';
 				img.style.margin = '5px';
@@ -152,6 +156,7 @@ function renderGrid(sectionNo, content) {
 				img.style.backgroundSize = 'contain';
 				img.style.backgroundRepeat = 'no-repeat';
 				img.style.backgroundPosition = 'center';
+				img.addEventListener('click', function(e) { openImageUrlInViewer(this.getAttribute('data-src')); });
 				img.addEventListener('contextmenu', function(e) { e.preventDefault(); });
 				gallery.appendChild(img);
 			}
