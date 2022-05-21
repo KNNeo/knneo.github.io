@@ -512,7 +512,7 @@ function toggleEditor() {
 	{
 		let editor = document.createElement('div');
 		editor.id = 'editor';
-		editor.classList.add('box');
+		// editor.classList.add('box');
 		editor.style.height = '100%';
 		editor.style.width = '100%';
 		editor.style.display = 'block';
@@ -545,7 +545,12 @@ function startup() {
 		return;
 	}
 	
-	if(localStorage.getItem('elements') != null)
+	if(typeof pageElements != 'undefined')
+	{
+		window['no-editor'] = true;
+		setPageElements(pageElements);
+	}
+	else if(localStorage.getItem('elements') != null)
 	{
 		setPageElements();
 	}
@@ -553,11 +558,6 @@ function startup() {
 	{
 		let source = document.getElementById('data-id').src;
 		getJson(source, setPageElements);
-	}
-	else if(pageElements)
-	{
-		window['no-editor'] = true;
-		setPageElements(pageElements);
 	}
 	else
 	{
