@@ -586,5 +586,42 @@ imgArray = [
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+[618,'{domain}/CCI_20220402_0005_1.jpg','portrait','Kouno Marika','Event "Kouno Marika 1st LIVE Yume Mitai, Demo Yume Janai" Bromides'],
+[619,'{domain}/CCI_20220402_0005_2.jpg','landscape','Kouno Marika','Event "Kouno Marika 1st LIVE Yume Mitai, Demo Yume Janai" Bromides'],
+[620,'{domain}/CCI_20220402_0005_3.jpg','portrait','Kouno Marika','Event "Kouno Marika 1st LIVE Yume Mitai, Demo Yume Janai" Bromides'],
+[621,'{domain}/CCI_20220402_0006_1.jpg','portrait','Kouno Marika','Event "Kouno Marika 1st LIVE Yume Mitai, Demo Yume Janai" Bromides'],
+[622,'{domain}/CCI_20220402_0006_2.jpg','landscape','Kouno Marika','Event "Kouno Marika 1st LIVE Yume Mitai, Demo Yume Janai" Bromides'],
+[623,'{domain}/CCI_20220402_0006_3.jpg','portrait','Kouno Marika','Event "Kouno Marika 1st LIVE Yume Mitai, Demo Yume Janai" Bromides'],
+[624,'{domain}/CCI_20220402_0007_1.jpg','portrait','Hondo Kaede','Book "MUTE" Animate Bonus'],
+[625,'{domain}/CCI_20220402_0007_2.jpg','portrait','Touyama Nao','Book "Now loadnig…" Gamers Bonus'],
+[626,'{domain}/CCI_20220521_0001_1.jpg','landscape','Itou Miku','CD "Ao 100 Shoku" Animate Bonus'],
+[627,'{domain}/CCI_20220521_0001_2.jpg','landscape','Kitou Akari','Event "smile giving day vol.2" Bromide Set A'],
+[628,'{domain}/CCI_20220521_0001_3.jpg','landscape','Kitou Akari','Event "smile giving day vol.2" Bromide Set A'],
+[629,'{domain}/CCI_20220521_0001_4.jpg','landscape','Kitou Akari','Event "smile giving day vol.2" Bromide Set A'],
+[630,'{domain}/CCI_20220521_0002_1.jpg','landscape','Kitou Akari','Event "smile giving day vol.2" Bromide Set B'],
+[631,'{domain}/CCI_20220521_0002_2.jpg','landscape','Kitou Akari','Event "smile giving day vol.2" Bromide Set B'],
+[632,'{domain}/CCI_20220521_0002_3.jpg','landscape','Kitou Akari','Event "smile giving day vol.2" Bromide Set B'],
+[633,'{domain}/CCI_20220521_0003_1.jpg','landscape','Kitou Akari','Event "smile giving day vol.2" CD Blu-Ray Purchase Bonus'],
+[634,'{domain}/CCI_20220521_0003_2.jpg','portrait','Tomatsu Haruka','CD "Resolution" Gamers Bonus'],
+[635,'{domain}/CCI_20220521_0003_3.jpg','portrait','Tomatsu Haruka','CD "Q&A Retical!" Gamers Bonus'],
+[636,'{domain}/CCI_20220521_0003_4.jpg','portrait','Asakura Momo','CD "Stained Glass" Animate Bonus'],
+[637,'{domain}/CCI_20220521_0004_1.jpg','portrait','Amamiya Sora','Book "My Girl vol.34" Animate Bonus'],
+[638,'{domain}/CCI_20220521_0004_2.jpg','portrait','Ookubo Rumi','CD "Progression" Toranoana Bonus'],
+[639,'{domain}/CCI_20220521_0004_3.jpg','portrait','Asakura Momo','Book "Seiyuu Grand Prix 2022 April" Toranoana Rakuten Books Bonus'],
+[640,'{domain}/CCI_20220521_0004_4.jpg','portrait','Hanazawa Kana','Book "My Girl vol.8 VOICE ACTRESS EDITION" Animate Bonus'],
+
+
 [999,'','','']
 ];
