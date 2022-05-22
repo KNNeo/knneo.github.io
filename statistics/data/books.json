@@ -384,6 +384,7 @@
 		"componentData": [
 			{
 				"type": "image",
+				"fixed": true,
 				"tooltip": "",
 				"thumbnail": "https://knbooks.carrd.co/assets/images/gallery09/28e472c9.jpg",
 				"source": "https://knbooks.carrd.co/assets/images/gallery09/28e472c9.jpg",
@@ -397,6 +398,7 @@
 			},
 			{
 				"type": "image",
+				"fixed": true,
 				"tooltip": "",
 				"thumbnail": "https://knbooks.carrd.co/assets/images/gallery09/1c31253b.jpg",
 				"source": "https://knbooks.carrd.co/assets/images/gallery09/1c31253b.jpg",
