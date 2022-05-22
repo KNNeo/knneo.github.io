@@ -178,23 +178,22 @@ function renderMain(sectionNo) {
 			contentList.style.padding = '5px';
 			
 			let iconSize = '7vw';
-			if(content.isSinglePage || window.innerWidth <= 800) iconSize = '7vh';
-			if(content.isSinglePage && window.innerWidth <= 800) iconSize = '11vw';
-			
+			if(content.isSinglePage || window.innerWidth <= 800) iconSize = '7vh';			
 			if(content.isSinglePage)
 			{
-				let homeSize = '4.5rem';
-				if(window.innerWidth <= 800) homeSize = '3.5rem';
+				// let homeSize = '4.5rem';
+				// if(window.innerWidth <= 800) homeSize = '3.5rem';
 				let contentItem = document.createElement('div');
 				contentItem.classList.add('material-icons');
-				contentItem.style.width = iconSize;
-				contentItem.style.height = iconSize;
+				// contentItem.style.width = iconSize;
+				// contentItem.style.height = iconSize;
+				contentItem.style.fontSize = iconSize;
 				contentItem.style.borderRadius = '50%';
 				contentItem.style.cursor = 'pointer';
 				contentItem.style.backgroundSize = 'contain';
 				contentItem.style.backgroundRepeat = 'no-repeat';
 				contentItem.style.backgroundPosition = 'center';
-				contentItem.style.fontSize = homeSize;
+				// contentItem.style.fontSize = homeSize;
 				contentItem.style.padding = '4px 0';
 				contentItem.innerText = 'home';
 				contentItem.addEventListener('click', function(e) {
