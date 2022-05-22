@@ -65,7 +65,7 @@ a:hover {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	text-align: center;	
+	text-align: center;
 	transition: opacity 1s;
 }
 
@@ -202,8 +202,9 @@ a:hover {
 	width: 100%;
 	height: 100%;
 	padding-top: 0;
-	display: none;
+	visibility: hidden;
 	text-align: center;
+	transition: opacity 0.5s, visibility 0.5s;
 }
 
 @media only screen and (max-width: 960px) {

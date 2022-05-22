@@ -5,6 +5,8 @@ function generateViewer() {
 	{
 		let viewer = document.createElement('div');
 		viewer.id = 'viewer';
+		viewer.style.visibility = '';
+		viewer.style.opacity = '0';
 		viewer.addEventListener('click', closeViewer);
 		viewer.addEventListener('contextmenu', function(e) {
 			e.preventDefault();
@@ -49,7 +51,8 @@ function createLinkedList() {
 function openImageUrlInViewer(url) {	
 	let viewer = document.getElementById('viewer');
 	viewer.tabIndex = 999;
-	if(viewer.style.display != 'block') viewer.style.display = 'block';
+	if(viewer.style.visibility != 'visible') viewer.style.visibility = 'visible';
+	if(viewer.style.opacity != '1') viewer.style.opacity = '1';
 	let img = document.createElement('img');
 	img.src = url;
 	if(window.innerHeight > window.innerWidth && img.getBoundingClientRect().width >= window.innerWidth)
@@ -76,6 +79,7 @@ function adjustViewerMargin() {
 
 function closeViewer() {
 	let viewer = document.getElementById('viewer');
-	viewer.style.display = 'none';
+	viewer.style.visibility = '';
+	viewer.style.opacity = '0';
 	viewer.innerHTML = '';
 }
