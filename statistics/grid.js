@@ -121,7 +121,7 @@ function renderGrid(sectionNo, content) {
 			{
 				let url = document.createElement('a');
 				url.href = component.link;
-				url.setAttribute('target', '_blank');
+				// url.setAttribute('target', '_blank');
 				url.appendChild(img);
 				comp.appendChild(url);
 			}
