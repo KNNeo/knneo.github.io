@@ -93,7 +93,7 @@ function renderGrid(sectionNo, content) {
 				comp.appendChild(pre);
 			}
 			
-			let title = document.createElement('h1');
+			let title = document.createElement(window.innerWidth <= 800 ? 'h2' : 'h1');
 			title.innerText = component.title;
 			comp.appendChild(title);
 			
@@ -130,6 +130,53 @@ function renderGrid(sectionNo, content) {
 				comp.appendChild(img);
 			}			
 		}
+		else if(component.type == 'images')
+		{
+			if(typeof generateViewer == 'function') generateViewer();
+			
+			let gallery = document.createElement('div');
+			gallery.style.width = '100%';
+			
+			for(let data of component.datas)
+			{
+				let url = document.createElement('a');
+				
+				let img = document.createElement('img');
+				if(data.tooltip && data.tooltip.length > 0) img.title = data.tooltip;
+				img.src = data.thumbnail;
+				img.setAttribute('data-src', data.source);
+				if(component.columns > 0) 
+					img.style.width = (100 / (component.datas.length + 1)) + '%';
+				if(component.rows > 0)
+				{
+					img.style.width = (100 / (component.datas.length + (window.innerWidth < 800 ? 1 : 0))) + '%';
+					img.style.height = (100 / (component.datas.length + 1)) + '%';
+				}
+				img.style.margin = '5px';
+				img.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+				
+				if(data.link)
+					url.href = data.link;
+				else
+					img.addEventListener('click', function(e) { openImageUrlInViewer(this.getAttribute('data-src')); });
+				
+				url.appendChild(img);
+				gallery.appendChild(url);
+			}
+			
+			if(component.caption && component.caption.length > 0)
+			{		
+				let caption = document.createElement('div');
+				caption.classList.add('caption');
+				caption.innerText = component.caption;
+				caption.style.width = '100%';
+				// caption.style.height = '20%';
+				caption.style.margin = '5px';
+				gallery.appendChild(caption);
+			}
+			
+			comp.appendChild(gallery);
+		}
 		else if(component.type == 'gallery')
 		{
 			if(typeof generateViewer == 'function') generateViewer();
@@ -156,6 +203,7 @@ function renderGrid(sectionNo, content) {
 				img.style.backgroundSize = 'contain';
 				img.style.backgroundRepeat = 'no-repeat';
 				img.style.backgroundPosition = 'center';
+				img.style.cursor = 'pointer';
 				img.addEventListener('click', function(e) { openImageUrlInViewer(this.getAttribute('data-src')); });
 				img.addEventListener('contextmenu', function(e) { e.preventDefault(); });
 				gallery.appendChild(img);

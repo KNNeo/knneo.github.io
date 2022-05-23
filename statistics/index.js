@@ -538,7 +538,7 @@ function toggleEditor() {
 
 // startup
 window.addEventListener('load', startup);
-window.addEventListener('resize', renderPage);
+window.addEventListener('resize', startup);
 function startup() {
 	if(document.body.getBoundingClientRect().width <= 400 && document.querySelector('.landing') != null) 
 	{
