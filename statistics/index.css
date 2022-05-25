@@ -194,17 +194,21 @@ a:hover {
   border-radius: 7px;
 }
 
-#viewer {
+.viewer {
 	z-index: 999;
 	position: fixed;
 	/* background-color: black; */
-	background: rgba(0, 0, 0, 0.6);
+	background: rgba(255, 255, 255, 0.6);
 	width: 100%;
 	height: 100%;
 	padding-top: 0;
 	visibility: hidden;
 	text-align: center;
 	transition: opacity 0.5s, visibility 0.5s;
+}
+
+.darked .viewer {
+	background: rgba(0, 0, 0, 0.6);	
 }
 
 @media only screen and (max-width: 960px) {

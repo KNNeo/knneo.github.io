@@ -1,10 +1,10 @@
 function generateViewer() {
 	initializeVariablesForViewer();
 	
-	if(document.getElementById('viewer') == null)
+	if(document.querySelector('.viewer') == null)
 	{
 		let viewer = document.createElement('div');
-		viewer.id = 'viewer';
+		viewer.classList.add('viewer');
 		viewer.style.visibility = '';
 		viewer.style.opacity = '0';
 		viewer.addEventListener('click', closeViewer);
@@ -49,7 +49,7 @@ function createLinkedList() {
 }
 
 function openImageUrlInViewer(url) {	
-	let viewer = document.getElementById('viewer');
+	let viewer = document.querySelector('.viewer');
 	viewer.tabIndex = 999;
 	if(viewer.style.visibility != 'visible') viewer.style.visibility = 'visible';
 	if(viewer.style.opacity != '1') viewer.style.opacity = '1';
@@ -69,7 +69,7 @@ function openImageUrlInViewer(url) {
 }
 
 function adjustViewerMargin() {
-	let viewer = document.getElementById('viewer');
+	let viewer = document.querySelector('.viewer');
 	if(viewer.childElementCount == 0) return;
 	viewer.style.paddingTop = '0';
 	let image = viewer.getElementsByTagName('img')[0];
@@ -78,7 +78,7 @@ function adjustViewerMargin() {
 }
 
 function closeViewer() {
-	let viewer = document.getElementById('viewer');
+	let viewer = document.querySelector('.viewer');
 	viewer.style.visibility = '';
 	viewer.style.opacity = '0';
 	viewer.innerHTML = '';
