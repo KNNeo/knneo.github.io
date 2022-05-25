@@ -543,7 +543,7 @@ function startup() {
 	if(document.body.getBoundingClientRect().width <= 400 && document.querySelector('.landing') != null) 
 	{
 		document.querySelector('.landing').style.display = 'block';
-		localStorage.setItem('elements', null);
+		localStorage.clear();
 		return;
 	}
 	
