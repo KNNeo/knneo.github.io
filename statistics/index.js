@@ -87,8 +87,6 @@ function renderPage() {
 		}
 	}
 	
-	// window['elements'][mainSectionNo].isSinglePage = window['single'] || false;
-	
 	renderFooter(window['elements'][mainSectionNo].isSinglePage);
 
 	// if(window['elements'][mainSectionNo].isSinglePage)
@@ -111,6 +109,10 @@ function renderPage() {
 	if(window['elements'][mainSectionNo].isSinglePage)
 	{
 		scrollToPage(mainSectionNo, window['elements'][mainSectionNo].isSinglePage);
+	}
+	else
+	{
+		document.getElementsByClassName('page')[0].style.position = 'absolute';
 	}
 	
 	renderButtons(window['elements'][mainSectionNo].isSinglePage);
