@@ -41,6 +41,7 @@ a:hover {
 }
 
 .page {
+    position: absolute;
 	max-height: 100vh;
 	overflow-y: scroll;
 	scroll-behavior: smooth;
