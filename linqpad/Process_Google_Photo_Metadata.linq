@@ -97,6 +97,16 @@ void Main()
 	if(fullMode) {
 		Console.WriteLine("All Items");
 		Console.WriteLine(jsonList);
+		
+		//Console.WriteLine("All Items: file name and date only");
+		//Console.WriteLine(jsonList
+		//.Where(n => n.photoTakenTime != null && n.title.StartsWith("IMG"))
+		//.OrderByDescending(n => n.photoTakenTime.timestamp).Select(n =>
+		//	new {
+		//		Title = n.title,
+		//		Time = ParseGooglePhotosDateTime(n.photoTakenTime.formatted)
+		//	}
+		//).ToList());
 	}
 	if(analysisMode) {	
 		Console.WriteLine("Items, description different from tag");
