@@ -31,7 +31,7 @@
  * [disabled, error]	any link not referenced within blog to open on new tab
  * [ok]	remove add href to hashtags script
  * []	remove wallpaper images cache linked from facebook
- * []	fix primary and secondary colours to variables
+ * [ok]	fix primary and secondary colours to variables
  * []	export list of images from latest
  * [ok]	replace common phrases with emoji
  */
@@ -450,10 +450,12 @@ void Main()
         var primaryColour = "#00e4ff";
         var headerPrefixColour = "#00b8cc";
         var headerPrefixColourRgb = "rgb(0, 184, 204)";
-        if(content.Contains(primaryColour) || content.Contains(headerPrefixColour) ||content.Contains(headerPrefixColourRgb)) count++;
+		var whiteBorder = "1px solid white;";
+        if(content.Contains(primaryColour) || content.Contains(headerPrefixColour) ||content.Contains(headerPrefixColourRgb) || content.Contains(whiteBorder)) count++;
         content = content.Replace(primaryColour, "var(--primary)");
         content = content.Replace(headerPrefixColour, "var(--secondary)");
         content = content.Replace(headerPrefixColourRgb, "var(--secondary)");
+        content = content.Replace(whiteBorder, "1px solid var(--foreground);");
         #endregion
 		
 		#region (entertainment news) convert inline styles migrated to blog.css
