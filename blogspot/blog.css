@@ -2,6 +2,8 @@
 :root {
   --primary: #00e4ff;
   --secondary: #00b8cc;
+  --background: #000000;
+  --foreground: #ffffff;
 }
 
 
@@ -26,8 +28,8 @@
   left: 20px;
   z-index: 9;
   outline: none;
-  background-color: black;
-  color: white;
+  background-color: var(--background);
+  color: var(--foreground);
   cursor: pointer;
   padding: 8px 6px 6px 6px;
   border-radius: 7px;
@@ -41,8 +43,8 @@
   right: 20px;
   z-index: 7;
   outline: none;
-  background-color: black;
-  color: white;
+  background-color: var(--background);
+  color: var(--foreground);
   cursor: pointer;
   padding: 8px 6px 6px 6px;
   border-radius: 7px;
@@ -56,8 +58,8 @@
   right: 20px;
   z-index: 7;
   outline: none;
-  background-color: black;
-  color: white;
+  background-color: var(--background);
+  color: var(--foreground);
   cursor: pointer;
   padding: 8px 6px 6px 6px;
   border-radius: 7px;
@@ -71,8 +73,8 @@
   right: 20px;
   z-index: 9;
   outline: none;
-  background-color: black;
-  color: white;
+  background-color: var(--background);
+  color: var(--foreground);
   cursor: pointer;
   padding: 8px 6px 6px 6px;
   border-radius: 7px;
@@ -107,9 +109,9 @@
 #GoToTopBtn,
 #SearchBtn,
 #CloseBtn {
-  border: 1px solid lightgray;
-  background-color: #000000;
-  box-shadow: 3px 3px;
+  border: 1px solid var(--foreground);
+  background-color: var(--background);
+  box-shadow: 3px 3px var(--foreground);
   border-radius: 8px;
 }
 
@@ -183,7 +185,7 @@ table.tr-caption-container {
 }
 
 .custom-table th, .custom-table td {
-	border: 1px solid white;
+	border: 1px solid var(--foreground);
 	padding: 2px 4px;
 }  
 
@@ -216,7 +218,7 @@ table.tr-caption-container {
 .post-title a,
 .post-title.entry-title {
   font: normal bold 22px 'Trebuchet MS', Trebuchet, sans-serif;
-  background-color: black;
+  background-color: var(--background);
 }
 
 .content-outer {
@@ -320,8 +322,8 @@ table.tr-caption-container {
 }
 
 .latest-post {
-	box-shadow: 3px 3px white;
-	border: 1px solid white;
+	box-shadow: 3px 3px var(--foreground);
+	border: 1px solid var(--foreground);
 	margin: 12px auto;
 	border-radius: 8px;
 	vertical-align: middle;
@@ -331,7 +333,7 @@ table.tr-caption-container {
 
 .latest-post a, 
 .latest-post-summary {
-	color: white;
+	color: var(--foreground);
 }
 
 .latest-post:hover h3 {
@@ -388,8 +390,8 @@ table.tr-caption-container {
 
 .tabs-inner .widget li,
 .footer-inner .widget li {
-  box-shadow: 3px 3px white;
-  border: 1px solid white;
+  box-shadow: 3px 3px var(--foreground);
+  border: 1px solid var(--foreground);
   margin: 3px 0 3px 15px;
   border-radius: 8px;
 }
@@ -419,7 +421,7 @@ div#sidebar-left-1 ul {
 
 div#PageList1 div ul li:first-child a {
   font: normal bold 14px Open Sans;
-  color: white;
+  color: var(--foreground);
 }
 
 div#sidebar-left-1.sidebar.section {
@@ -461,7 +463,7 @@ input.gsc-input {
   #blog-pager-older-link>a:visited,
   #blog-pager-newer-link>a,
   #blog-pager-newer-link>a:visited {
-    color: white;
+    color: var(--foreground);
   }
   #blog-pager-older-link>a:hover,
   #blog-pager-newer-link>a:hover {
@@ -529,13 +531,13 @@ input.gsc-input {
     text-decoration: none;
   }
   .footer-inner .widget a:hover {
-    color: white;
+    color: var(--foreground);
     text-decoration: none;
   }
   /*Fix post newer older post links*/
   .blog-mobile-link,
   a.home-link {
-    color: white;
+    color: var(--foreground);
 	/* position: absolute; */
     /* left: 0; */
     /* right: 0; */
@@ -604,10 +606,10 @@ input.gsc-input {
   .sidebar .widget a:hover,
   .footer-inner .widget a:hover {
     text-decoration: none;
-    color: white;
+    color: var(--foreground);
   }
   .footer-outer {
-    background-color: black;
+    background-color: var(--background);
     padding-bottom: 18px;
   }
 }
@@ -786,7 +788,7 @@ abbr.imgpop:hover img {
 	color: var(--primary);
 }
 .new-thumbnail {
-	border-bottom: 2px solid white;
+	border-bottom: 2px solid var(--foreground);
 }
 .new-thumbnail .new-thumbnail-focus {
 	position: absolute;
@@ -816,7 +818,7 @@ abbr.imgpop:hover img {
 /*Blink animation (Time is 10x blink sequence)*/
 @keyframes txtblink {
   0% {
-    color: #ffffff;
+    color: var(--foreground);
   }
   5% {
     color: var(--primary);
@@ -825,7 +827,7 @@ abbr.imgpop:hover img {
     color: var(--primary);
   }
   25% {
-    color: #ffffff;
+    color: var(--foreground);
   }
 }
 
