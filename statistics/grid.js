@@ -80,28 +80,28 @@ function renderGrid(sectionNo, content) {
 	for(let index = 0; index < content.componentData.length; index++)
 	{
 		let component = content.componentData[index];
-		let comp = document.getElementById('section'+sectionNo+'cell'+index);
+		let elem = document.getElementById('section'+sectionNo+'cell'+index);
 		if(component.type == 'title')
 		{
-			comp.style.verticalAlign = 'center';
+			elem.style.verticalAlign = 'center';
 			
 			if(component.prefix)
 			{
 				let pre = document.createElement('div');
 				pre.classList.add('caption');
 				pre.innerText = component.prefix;
-				comp.appendChild(pre);
+				elem.appendChild(pre);
 			}
 			
 			let title = document.createElement(window.innerWidth <= 800 ? 'h2' : 'h1');
 			title.innerText = component.title;
-			comp.appendChild(title);
+			elem.appendChild(title);
 			
 			if(component.suffix)
 			{
 				let post = document.createElement('div');
 				post.innerText = component.suffix;
-				comp.appendChild(post);
+				elem.appendChild(post);
 			}
 		}
 		else if(component.type == 'image')
@@ -123,11 +123,11 @@ function renderGrid(sectionNo, content) {
 				url.href = component.link;
 				// url.setAttribute('target', '_blank');
 				url.appendChild(img);
-				comp.appendChild(url);
+				elem.appendChild(url);
 			}
 			else
 			{
-				comp.appendChild(img);
+				elem.appendChild(img);
 			}			
 		}
 		else if(component.type == 'images')
@@ -146,11 +146,27 @@ function renderGrid(sectionNo, content) {
 				img.src = data.thumbnail;
 				img.setAttribute('data-src', data.source);
 				if(component.columns > 0) 
-					img.style.width = (100 / (component.datas.length + 1)) + '%';
+				{
+					if(window.innerWidth < 800)
+					{
+						img.style.width = (100 / (component.datas.length + 1)) + '%';
+					}
+					else
+					{
+						img.style.height = (window.innerHeight / (content.rows)) + 'px';
+					}
+				}
 				if(component.rows > 0)
 				{
-					img.style.width = (100 / (component.datas.length + (window.innerWidth < 800 ? 1 : 0))) + '%';
-					img.style.height = (100 / (component.datas.length + 1)) + '%';
+					if(window.innerWidth < 800)
+					{
+						img.style.width = (100 / (component.datas.length + 1)) + '%';
+					}
+					else
+					{
+						gallery.style.width = (window.innerWidth / (content.columns + 1)) + 'px';
+						img.style.height = (window.innerHeight * 0.8 / (component.datas.length)) + 'px';
+					}
 				}
 				img.style.margin = '5px';
 				img.addEventListener('contextmenu', function(e) { e.preventDefault(); });
@@ -175,7 +191,7 @@ function renderGrid(sectionNo, content) {
 				gallery.appendChild(caption);
 			}
 			
-			comp.appendChild(gallery);
+			elem.appendChild(gallery);
 		}
 		else if(component.type == 'gallery')
 		{
@@ -220,7 +236,7 @@ function renderGrid(sectionNo, content) {
 				gallery.appendChild(caption);
 			}
 			
-			comp.appendChild(gallery);
+			elem.appendChild(gallery);
 		}
 	}
 	
