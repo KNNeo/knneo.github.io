@@ -521,5 +521,64 @@
 				]
 			}
 		]
+	},
+	{
+		"type": "grid",
+		"columns": 2,
+		"rows": 2,
+		"image": "",
+		"text": "15&16",
+		"componentData": [
+			{
+				"type": "images",
+				"columns": 2,
+				"datas": [
+					{
+						"tooltip": "",
+						"thumbnail": "https://knbooks.carrd.co/assets/images/gallery12/054b54a7_original.jpg",
+						"source": "https://knbooks.carrd.co/assets/images/gallery12/054b54a7_original.jpg",
+						"link": "https://knneo.github.io/blogspot/blog/2022/05/the-fifteenth-and-sixteenth-book-worth.html"
+					},
+					{
+						"tooltip": "",
+						"thumbnail": "https://knbooks.carrd.co/assets/images/gallery12/8bac8f98_original.jpg",
+						"source": "https://knbooks.carrd.co/assets/images/gallery12/8bac8f98_original.jpg",
+						"link": "https://knneo.github.io/blogspot/blog/2022/05/the-fifteenth-and-sixteenth-book-worth.html"
+					}
+				]
+			},
+			{
+				"type": "title",
+				"prefix": "MAY 2022",
+				"title": "The Fifteenth And Sixteenth Book Worth of Photos: First And Best Place On Earth",
+				"suffix": "Extremes may be first or for the experienced, but with the same location, things can still look very different for all of them."
+			},
+			{
+				"type": "gallery",
+				"caption": "(From left to right: Lynn \"Rin\", Sano Hinako \"BE WITH ME\")",
+				"datas": [
+					{
+						"tooltip": "",
+						"thumbnail": "https://knbooks.carrd.co/assets/images/gallery12/b94b8ce3.jpg",
+						"source": "https://knbooks.carrd.co/assets/images/gallery12/b94b8ce3_original.jpg"
+					},
+					{
+						"tooltip": "",
+						"thumbnail": "https://knbooks.carrd.co/assets/images/gallery12/ef653b50.jpg",
+						"source": "https://knbooks.carrd.co/assets/images/gallery12/ef653b50_original.jpg"
+					},
+					{
+						"tooltip": "",
+						"thumbnail": "https://knbooks.carrd.co/assets/images/gallery12/307bf201.jpg",
+						"source": "https://knbooks.carrd.co/assets/images/gallery12/307bf201_original.jpg"
+					},
+					{
+						"tooltip": "",
+						"thumbnail": "https://knbooks.carrd.co/assets/images/gallery12/13dfa19b.jpg",
+						"source": "https://knbooks.carrd.co/assets/images/gallery12/13dfa19b_original.jpg"
+					}
+				]
+			}
+		]
 	}
 ]
