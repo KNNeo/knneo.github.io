@@ -449,12 +449,18 @@ void Main()
 		if(TraceMode) Console.WriteLine("fix primary and secondary colours to variables");
         var primaryColour = "#00e4ff";
         var headerPrefixColour = "#00b8cc";
-        var headerPrefixColourRgb = "rgb(0, 184, 204)";
+        var headerPrefixColourRgb1 = "rgb(0, 184, 204)";
+        var headerPrefixColourRgb2 = "rgb(9, 165, 184)";
 		var whiteBorder = "1px solid white;";
-        if(content.Contains(primaryColour) || content.Contains(headerPrefixColour) ||content.Contains(headerPrefixColourRgb) || content.Contains(whiteBorder)) count++;
+        if(content.Contains(primaryColour) || 
+		content.Contains(headerPrefixColour) || 
+		content.Contains(headerPrefixColourRgb1) || 
+		content.Contains(headerPrefixColourRgb2) || 
+		content.Contains(whiteBorder)) count++;
         content = content.Replace(primaryColour, "var(--primary)");
         content = content.Replace(headerPrefixColour, "var(--secondary)");
-        content = content.Replace(headerPrefixColourRgb, "var(--secondary)");
+        content = content.Replace(headerPrefixColourRgb1, "var(--secondary)");
+        content = content.Replace(headerPrefixColourRgb2, "var(--secondary)");
         content = content.Replace(whiteBorder, "1px solid var(--foreground);");
         #endregion
 		
