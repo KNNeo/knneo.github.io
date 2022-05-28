@@ -59,8 +59,8 @@ function openImageUrlInViewer(url) {
 		img.style.width = 'inherit'; //portrait
 	if(window.innerHeight <= window.innerWidth && img.getBoundingClientRect().height >= window.innerHeight)
 		img.style.height = 'inherit'; //landscape
-	img.style.maxHeight = '100%';
-	img.style.maxWidth = '100%';
+	img.style.maxHeight = '80vh';
+	img.style.maxWidth = '80vw';
 	if(viewer.childNodes.length > 0) viewer.innerHTML = '';
 	viewer.style.paddingTop = '0';
 	viewer.appendChild(img);
