@@ -112,6 +112,7 @@ function renderPage() {
 	}
 	else
 	{
+		document.getElementsByClassName('page')[0].style.width = '100vw';
 		document.getElementsByClassName('page')[0].style.position = 'absolute';
 	}
 	
