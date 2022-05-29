@@ -107,6 +107,7 @@ function renderGrid(sectionNo, content) {
 		else if(component.type == 'image')
 		{
 			let img = document.createElement('div');
+			img.classList.add(component.type);
 			if(component.tooltip && component.tooltip.length > 0) img.title = component.tooltip;
 			img.style.backgroundImage = addBackgroundUrlClause(component.source);
 			img.style.width = '100%';
@@ -135,6 +136,7 @@ function renderGrid(sectionNo, content) {
 			if(typeof generateViewer == 'function') generateViewer();
 			
 			let gallery = document.createElement('div');
+			gallery.classList.add(component.type);
 			gallery.style.width = '100%';
 			
 			for(let data of component.datas)
@@ -198,6 +200,7 @@ function renderGrid(sectionNo, content) {
 			if(typeof generateViewer == 'function') generateViewer();
 			
 			let gallery = document.createElement('div');
+			gallery.classList.add(component.type);
 			gallery.style.width = '100%';
 			// gallery.style.height = '100%';
 			// gallery.style.margin = 'auto';
@@ -208,12 +211,16 @@ function renderGrid(sectionNo, content) {
 			
 			for(let data of component.datas)
 			{
-				let img = document.createElement('div');
+				let img = document.createElement('img');
 				if(data.tooltip && data.tooltip.length > 0) img.title = data.tooltip;
-				img.style.backgroundImage = addBackgroundUrlClause(data.thumbnail);
+				img.src = data.thumbnail;
 				img.setAttribute('data-src', data.source);
-				img.style.width = '20%';
-				img.style.height = '7em';
+				if(window.innerWidth < 800) 
+				{
+					img.style.height = (100 / (component.datas.length + 1)) + 'vw';
+					// img.style.maxHeight = '33vw';
+				}
+				else img.style.height = '7em';
 				img.style.margin = '5px';
 				img.style.display = 'inline-block';
 				img.style.backgroundSize = 'contain';
