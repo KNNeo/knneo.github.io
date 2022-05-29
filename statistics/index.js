@@ -181,7 +181,9 @@ function renderMain(sectionNo) {
 			contentList.style.padding = '5px';
 			
 			let iconSize = '7vw';
-			if(content.isSinglePage || window.innerWidth <= 800) iconSize = '7vh';			
+			if (content.isSinglePage || window.innerWidth <= 800) iconSize = '7vh';
+
+			//home icon
 			if(content.isSinglePage)
 			{
 				// let homeSize = '4.5rem';
@@ -214,6 +216,7 @@ function renderMain(sectionNo) {
 			
 			if(elements.length == window['elements'].filter(el => el.type == 'grid' && el.image && el.image.length > 0).length)
 			{
+				//image icons
 				for(let section = 0; section < window['elements'].length; section++)
 				{
 					if(section == sectionNo)
@@ -242,6 +245,7 @@ function renderMain(sectionNo) {
 			}
 			else if(elements.length == window['elements'].filter(el => el.type == 'grid' && el.text && el.text.length > 0).length)
 			{
+				//text icons
 				for(let section = 0; section < window['elements'].length; section++)
 				{
 					if(section == sectionNo)
