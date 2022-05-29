@@ -155,7 +155,7 @@ function renderGrid(sectionNo, content) {
 					}
 					else
 					{
-						img.style.height = (window.innerHeight / (content.rows)) + 'px';
+						img.style.height = ((window.innerHeight / (content.rows)) - (20 * component.datas.length)) + 'px';
 					}
 				}
 				if(component.rows > 0)
