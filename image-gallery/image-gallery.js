@@ -129,7 +129,7 @@ function renderPage(pageName) {
 		
 		if(pageName.includes(link)) continue;
 		let newLink = document.createElement('a');
-		newLink.href = 'javascript:void(0);';
+		// newLink.href = 'javascript:void(0);';
 		newLink.classList.add('navigation-item');
 		newLink.classList.add('shadowed');
 		newLink.addEventListener('click', function() { loadPage(link); });
@@ -466,7 +466,8 @@ function openImageInViewer(image) {
 	let thumbnail = image.cloneNode(true);
 	let linkable = document.createElement('a');
 	linkable.tabIndex = 1000;
-	linkable.href = 'javascript:void(0);';
+	// linkable.href = 'javascript:void(0);';
+	linkable.style.cursor = 'pointer';
 	let img = document.createElement('img');
 	img.id = thumbnail.id;
 	img.classList = thumbnail.classList;
@@ -686,7 +687,8 @@ function renderGallery(array) {
 			let profileBoxImgHTML = document.createElement('DIV');
 			profileBoxImgHTML.classList.add('profile-box-img');
 				let imgWrapHTML = document.createElement('A');
-				imgWrapHTML.href = 'javascript:void(0);';
+				// imgWrapHTML.href = 'javascript:void(0);';
+				imgWrapHTML.style.cursor = 'pointer';
 					let imgHTML = document.createElement('IMG');
 					imgHTML.id = img[1].substring(img[1].lastIndexOf('/')+1).replace('.jpg','');
 					imgHTML.classList.add(img[2]);
