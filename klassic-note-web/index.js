@@ -3,6 +3,7 @@ let defaultTitle = 'Klassic Note Web';
 let altTitlePrefix = 'Original';
 let databaseFilename = 'https://knneo.github.io/klassic-note-web/db/KlassicNote.db';
 let directory = 'file://C:/Users/KAINENG/OneDrive/Music/'; //for audio player, in {directory}/{knyear}/{filename}.mp3
+let coverArtDirectory = 'file://C:/Users/KAINENG/OneDrive/Music/'; //for cover art, in {directory}/{knyear}/{filename}
 let debugMode = false; //will show all available logging on console
 let altMode = false; //will switch between titles and alt titles [TODO]
 let widescreenAverageModuleSize = 480; //on wide screen widths, tab width for content (responsive)
@@ -152,6 +153,7 @@ function clearSearch() {
 	document.getElementById('search-buttons').style.display = 'none';
 	document.getElementById('search').style.width = '100%';
 	document.getElementById('tab-buttons').innerHTML = '';
+	document.getElementById('cover').style.display = 'none';
 	for(let tab of document.getElementsByClassName('module'))
 	{
 		tab.innerHTML = '';
@@ -610,7 +612,10 @@ function onChangeOption() {
 			document.querySelector('#random-count').innerText = '';
 		}
 		window['mode'] = 'song';
-		queryDb("SELECT KNID as ID, KNYEAR, Filename, SongTitle as 'Song Title', ArtistTitle as 'Artist Title', ReleaseTitle as 'Release Title', ReleaseArtistTitle as 'Release Artist', ReleaseYear as 'Year', Rating, Genre, DateCreated as 'Date Added', VocalCode as 'Vocal Code', LanguageCode as 'Language', LyricsURL as 'Lyrics', SongTitleAlt as '" + altTitlePrefix + " Song Title', ArtistID, ReleaseID FROM Song WHERE KNID = " + id, generateLayout);
+		let query = "SELECT KNID as ID, KNYEAR, Filename, SongTitle as 'Song Title', ArtistTitle as 'Artist Title', ReleaseTitle as 'Release Title', ReleaseArtistTitle as 'Release Artist', ReleaseYear as 'Year', Rating, Genre, DateCreated as 'Date Added', VocalCode as 'Vocal Code', LanguageCode as 'Language', LyricsURL as 'Lyrics', SongTitleAlt as '" + altTitlePrefix + " Song Title', ArtistID, ReleaseID FROM Song WHERE KNID = " + id;
+		if(debugMode)
+			console.log('query', query);
+		queryDb(query, generateLayout);
 	}
 	//probably can multiple query for multiple tables, by semicolon
 }
@@ -694,7 +699,7 @@ function scrollToTop() {
 //load layout
 //flow is generally generateLayout -> query-prefixed functions -> generate-prefixed functions
 function generateLayout(contents) {
-	// console.log('generateLayout', contents);
+	console.log('generateLayout', contents);
 	document.getElementById('tab-homepage').style.display = 'none';
 	document.getElementById('search-buttons').style.display = '';
 	
@@ -713,7 +718,7 @@ function generateLayout(contents) {
 	{
 		updateSearch(contents);
 		generatePlayer(contents);
-		// generateCoverArt();
+		queryCoverArt(contents);
 		queryInfo(contents);
 		queryRelated(contents);
 		generateTabs();
@@ -775,8 +780,8 @@ function generatePlayer(contents) {
 	let knyear = row[columnIndexKNYEAR];
 	
 	document.getElementById('music').innerHTML = '';
-	if(!document.getElementById('music').classList.contains('centered'))
-		document.getElementById('music').classList.add('centered');
+	// if(!document.getElementById('music').classList.contains('centered'))
+		// document.getElementById('music').classList.add('centered');
 	
 	let audioOverlay = document.createElement('div');
 	audioOverlay.id = 'overlay';
@@ -2508,20 +2513,41 @@ function generateSongAppetite(contents) {
 	document.getElementById('song-appetite').appendChild(table);
 }
 
-//unavailable: requires base64 image store in db
-function generateCoverArt() {
-	//base64 string of jpg image
-	var imageString = "";
-	let audio = document.getElementById('music');
-	let audioHeight = audio.offsetHeight || 100;
-	audio.style.paddingLeft = (audioHeight + 5) + 'px';
-	// console.log('audioHeight',audioHeight);
-	let cover = document.getElementById("cover");
-	cover.style.position = 'absolute';
-	cover.style.width  = audioHeight + 'px';
-	cover.style.height = audioHeight + 'px';
-	cover.style.backgroundImage = 'url(data:image/jpg;base64,' + imageString + ')';
-	cover.style.backgroundSize = audioHeight + 'px';
+function queryCoverArt(contents) {
+	let columns = contents.columns;
+	let rows = contents.values;
+	let row = rows[0];
+	let columnIndexReleaseID = contents.columns.indexOf('ReleaseID');
+	if(parseInt(columnIndexReleaseID) > 0)
+	{
+		let query = "SELECT KNYEAR, CoverArt FROM Release WHERE ReleaseID = " + row[columnIndexReleaseID];
+		if(debugMode) 
+			console.log('generateCoverArt', query);
+		queryDb(query, generateCoverArt);
+	}
+}
+
+function generateCoverArt(contents) {
+	//position: by title, right hand corner of header
+	let columns = contents.columns;
+	let rows = contents.values;
+	let row = rows[0];
+	let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
+	let columnIndexCoverArt = contents.columns.indexOf('CoverArt');
+	
+	let cover = document.getElementById('cover');
+	cover.innerHTML = '';
+	cover.style.display = 'initial';
+	let coverHeight = document.getElementById('header').getBoundingClientRect().height - 15;
+	
+	let art = document.createElement('img');
+	art.classList.add('content-box');
+	art.src = coverArtDirectory + row[columnIndexKNYEAR] + '/' + row[columnIndexCoverArt];
+	art.style.height = coverHeight + 'px';
+	art.addEventListener('error', function() {
+		document.getElementById('cover').style.display = 'none';		
+	});
+	cover.appendChild(art);
 }
 
 //--HELPER FUNCTIONS--//

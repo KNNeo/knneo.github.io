@@ -45,6 +45,14 @@ body {
 	padding: 3px;
 }
 
+#cover {
+	display: none;
+	position: absolute;
+	right: 0;
+	top: 0;
+	
+}
+
 .absolute {
 	position: absolute;
 	padding: 0 5px;
