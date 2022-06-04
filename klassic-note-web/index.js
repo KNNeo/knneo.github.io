@@ -88,7 +88,7 @@ function setTabs() {
 	}
 	
 	document.getElementById('tab-buttons').style.display = isWidescreen ? 'none' : '';
-	document.getElementById('tab-list').style.height = window.innerHeight - Array.from(document.getElementsByClassName('calc')).reduce((total, current) => { return total + current.offsetHeight; }, 50) + 'px';
+	document.getElementById('tab-list').style.height = window.innerHeight - Array.from(document.getElementsByClassName('calc')).reduce((total, current) => { return total + current.offsetHeight; }, 100) + 'px';
 	if (debugMode) console.log('containerHeight', document.getElementById('tab-list').style.height);
 	
 	document.getElementById('search').style.width = homePageVisible ? '100%' : (document.getElementById('options').getBoundingClientRect().width - 40) + 'px';
