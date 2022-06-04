@@ -221,6 +221,7 @@ body {
 
 .player {
 	width: 100%;
+	display: none;
 }
 
 .settings .material-icons {

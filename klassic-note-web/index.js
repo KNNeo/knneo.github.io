@@ -782,6 +782,7 @@ function generatePlayer(contents) {
 	audioOverlay.id = 'overlay';
 	audioOverlay.innerText = 'Preview not available';
 	document.getElementById('music').appendChild(audioOverlay);
+		document.getElementById('overlay').classList.add('invisible');
 	
 	let audio = document.createElement('audio');
 	audio.id = 'player';
@@ -794,7 +795,7 @@ function generatePlayer(contents) {
 		document.title = defaultTitle;
 	});
 	audio.addEventListener('canplay', function() {
-		document.getElementById('overlay').classList.add('invisible');
+		this.style.display = 'block';
 	});
 	audio.addEventListener('volumechange', function() {
 		localStorage.setItem('volume', document.getElementById('player').volume);
