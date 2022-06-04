@@ -2528,6 +2528,7 @@ function queryCoverArt(contents) {
 }
 
 function generateCoverArt(contents) {
+	if(contents.values.length < 1) return;
 	//position: by title, right hand corner of header
 	let columns = contents.columns;
 	let rows = contents.values;
