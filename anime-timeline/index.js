@@ -316,28 +316,16 @@ function generateAnimeList(isGroupBySeries) {
 							if(series.imgURL != '')
 							{
 								let animeTableContentOverlayImageContainer = document.createElement('div');
-								if(series.handle.startsWith('http'))
+								if(series.handle != '')
 								{
 									let animeTableContentOverlayImageLink = document.createElement('a');
-									animeTableContentOverlayImageLink.href = series.handle;
+									animeTableContentOverlayImageLink.href = (!series.handle.startsWith('http') ? 'https://twitter.com/' : '') + series.handle;
 									animeTableContentOverlayImageLink.setAttribute("target", "_blank")
 									
 										let animeTableContentOverlayImage = document.createElement('img');
 										animeTableContentOverlayImage.src = series.imgURL;
-												
-										animeTableContentOverlayImageLink.appendChild(animeTableContentOverlayImage);
-										
-									animeTableContentOverlayImageContainer.appendChild(animeTableContentOverlayImageLink);
-								}
-								else if(series.handle != '')
-								{
-									let animeTableContentOverlayImageLink = document.createElement('a');
-									animeTableContentOverlayImageLink.href = 'https://twitter.com/' + series.handle;
-									animeTableContentOverlayImageLink.setAttribute("target", "_blank")
-									
-										let animeTableContentOverlayImage = document.createElement('img');
-										animeTableContentOverlayImage.src = series.imgURL;
-										if(series.circular) animeTableContentOverlayImage.style.borderRadius = '50%';
+										if(series.circular && !series.handle.startsWith('http'))
+											animeTableContentOverlayImage.style.borderRadius = '50%';
 												
 										animeTableContentOverlayImageLink.appendChild(animeTableContentOverlayImage);
 										
@@ -449,12 +437,13 @@ function generateAnimeList(isGroupBySeries) {
 						if(anime.handle != '')
 						{
 							let animeTableContentOverlayImageLink = document.createElement('a');
-							animeTableContentOverlayImageLink.href = 'https://twitter.com/' + anime.handle;
+							animeTableContentOverlayImageLink.href = (!anime.handle.startsWith('http') ? 'https://twitter.com/' : '') + anime.handle;
 							animeTableContentOverlayImageLink.setAttribute("target", "_blank")
 							
 								let animeTableContentOverlayImage = document.createElement('img');
 								animeTableContentOverlayImage.src = anime.imgURL;
-								if(anime.circular) animeTableContentOverlayImage.style.borderRadius = '50%';
+								if(anime.circular && !anime.handle.startsWith('http'))
+									animeTableContentOverlayImage.style.borderRadius = '50%';
 										
 								animeTableContentOverlayImageLink.appendChild(animeTableContentOverlayImage);
 								
