@@ -219,7 +219,7 @@ function generateAnimeList(isGroupBySeries) {
 
 		let animeTableHeaderRow = document.createElement('th');
 		animeTableHeaderRow.id = 'animeTitle';
-		animeTableHeaderRow.innerText = 'Series Title' + (isSortByTitleAsc == true ? ' (asc)' : '') + (isSortByTitleAsc == false ? ' (dsc)' : '');
+		animeTableHeaderRow.innerText = 'Series Title' + (isSortByTitleAsc == true ? ' 🔼' : '') + (isSortByTitleAsc == false ? ' 🔽' : '');
 		animeTableHeader.appendChild(animeTableHeaderRow);
 
 		for(let y = startYear; y <= endYear; y++)
@@ -228,7 +228,8 @@ function generateAnimeList(isGroupBySeries) {
 			{
 				animeTableHeaderRow = document.createElement('th');
 				if(y == currentYear && seasons[s] == currentSeason) animeTableHeaderRow.style.backgroundColor = '#444444'; //current season
-				animeTableHeaderRow.innerHTML = y + "<br>" + seasons[s];
+				animeTableHeaderRow.innerHTML = y + "<br>" + formatSeasonText(seasons[s]);
+				animeTableHeaderRow.title = y + "\n" + seasons[s];
 				animeTableHeader.appendChild(animeTableHeaderRow);
 			}
 		}
@@ -351,7 +352,7 @@ function generateAnimeList(isGroupBySeries) {
 
 		let animeTableHeaderRow = document.createElement('th');
 		animeTableHeaderRow.id = 'animeTitle';
-		animeTableHeaderRow.innerText = 'Anime Title' + (isSortByTitleAsc == true ? ' (asc)' : '') + (isSortByTitleAsc == false ? ' (dsc)' : '');
+		animeTableHeaderRow.innerText = 'Anime Title' + (isSortByTitleAsc == true ? ' 🔼' : '') + (isSortByTitleAsc == false ? ' 🔽' : '');
 		animeTableHeader.appendChild(animeTableHeaderRow);
 
 		for(let y = startYear; y <= endYear; y++)
@@ -360,7 +361,8 @@ function generateAnimeList(isGroupBySeries) {
 			{
 				animeTableHeaderRow = document.createElement('th');
 				if(y == currentYear && seasons[s] == currentSeason) animeTableHeaderRow.style.backgroundColor = '#444444'; //current season
-				animeTableHeaderRow.innerHTML = y + "<br>" + seasons[s];
+				animeTableHeaderRow.innerHTML = y + "<br>" + formatSeasonText(seasons[s]);
+				animeTableHeaderRow.title = y + "\n" + seasons[s];
 				animeTableHeader.appendChild(animeTableHeaderRow);
 			}
 		}
@@ -552,4 +554,25 @@ function addAnimeTitleSort() {
 		}
 		generateAnimeList(isGroupBySeries);
 	});
+}
+
+function formatSeasonText(s) {
+	switch(s) {
+	  case seasons[1]:
+		s = '❄️';
+		break;
+	  case seasons[2]:
+		s = '🌸';
+		break;
+	  case seasons[3]:
+		s = '☀️';
+		break;
+	  case seasons[4]:
+		s = '🍂';
+		break;
+	  default:
+		s = s;
+		break;
+	}
+	return s;
 }
