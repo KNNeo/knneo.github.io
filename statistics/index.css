@@ -50,9 +50,10 @@ a:hover {
 
 .menu {
 	z-index: 5;
-	max-height: 50vh;
+	max-height: 9vh;
 	bottom: 0;
 	position: fixed;
+	overflow-y: auto;
 }
 
 .page-title {
