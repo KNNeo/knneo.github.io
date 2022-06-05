@@ -42,12 +42,12 @@ td { white-space: nowrap; }
 th { padding: 0 5px; }
 tr { border-bottom: 1px solid #444444; } 
 
-tr:hover > td {
-	background-color: black;
+tr:hover {
+	border-bottom: 1px solid black;
 }
 
-.darked tr:hover > td {
-	background-color: white;
+.darked tr:hover {
+	border-bottom: 1px solid white;
 }
 
 td.active-period {
