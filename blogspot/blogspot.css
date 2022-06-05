@@ -1,3 +1,18 @@
+/*Variables*/
+:root {
+  --primary: #0065ff;
+  --secondary: #609fff;
+  --background: #fff;
+  --foreground: #000;
+}
+
+.darked:root {
+  --primary: #00e4ff;
+  --secondary: #00abbf;
+  --background: #000;
+  --foreground: #fff;
+}
+
 body {
 	display: block;
     font: normal normal 16px Open Sans;

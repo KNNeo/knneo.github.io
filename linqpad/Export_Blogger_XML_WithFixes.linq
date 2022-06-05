@@ -66,6 +66,7 @@ void Main()
     Console.WriteLine("WriteTitleOnConsole is " + WriteTitleOnConsole);
     Console.WriteLine("\tPost with changes will appear here");
 	Console.WriteLine("\tIf edit from Blogger img tags will be missing self-enclosing slash, format on web version to fix");
+	Console.WriteLine("==================================================================================================");
     string folderpath = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\";
     string blogpath = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blogspot\";
     string filepath = "";
@@ -572,16 +573,18 @@ void Main()
             if(tags.Count > 0)
                 output.Write("<h4>#" + string.Join(" #",tags) + "</h4>");
             output.Write("<br>");
-            output.Write("<h5 style=\"text-align: center;\">Copyright (c) 2014-2021 Klassic Note Web Reports</h5>");
+            output.Write("<h5 style=\"text-align: center;\">Copyright (c) 2014-" + DateTime.Now.Year + " Klassic Note Web Reports</h5>");
             output.Write("<br>");
             output.WriteLine("</div>");
             output.WriteLine("</body>");
+            output.WriteLine("<script src=\"../../../darkmode.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
             output.WriteLine("<script src=\"../../../blog.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
             output.WriteLine("<script src=\"../../../blog-fixes.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
             output.WriteLine("</html>");
 			
         }
 		
+		//check post
 		if(TraceMode && title == "The Entertainment News 2022 Edition Issue #01")
 			continue;
         

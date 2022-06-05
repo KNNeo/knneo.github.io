@@ -1,4 +1,5 @@
 window.onpageshow = filterByTag();
+
 function filterByTag(sourceFilter) {
 	let tag = sourceFilter || window.location.hash.replace('#','');
 	let isAll = tag == "All" || tag == "";
