@@ -133,6 +133,7 @@ function renderGrid(sectionNo, content) {
 		}
 		else if(component.type == 'images')
 		{
+			elem.style.height = '100%';
 			if(typeof generateViewer == 'function') generateViewer();
 			
 			let gallery = document.createElement('div');
