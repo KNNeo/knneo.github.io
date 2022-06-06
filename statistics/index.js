@@ -178,14 +178,34 @@ function renderMain(sectionNo) {
 		{
 			let contentList = document.createElement('div');
 			contentList.classList.add('contents');
-			contentList.style.padding = '5px';
 			
 			let iconSize = '7vw';
 			if (content.isSinglePage || window.innerWidth <= 800) iconSize = '7vh';
 
-			//home icon
+			//drawer, home icon
 			if(content.isSinglePage)
 			{
+				if(window.innerWidth <= 800)
+				{
+					let contentItem = document.createElement('div');
+					contentItem.classList.add('material-icons');
+					contentItem.style.width = '100%';
+					contentItem.style.cursor = 'pointer';
+					contentItem.style.flexBasis = '100%';
+					contentItem.style.display = 'flex';
+					contentItem.style.justifyContent = 'center';
+					contentItem.innerText = 'drag_handle';
+					contentItem.addEventListener('click', function(e) {
+						e.preventDefault();
+						document.querySelector('.menu').style.maxHeight = document.querySelector('.menu').style.maxHeight == 'initial' ? '' : 'initial';
+					});
+					contentItem.addEventListener('touchstart', function(e) {
+						e.preventDefault();
+						document.querySelector('.menu').style.maxHeight = document.querySelector('.menu').style.maxHeight == 'initial' ? '' : 'initial';
+					});
+					contentList.appendChild(contentItem);
+				}
+				
 				// let homeSize = '4.5rem';
 				// if(window.innerWidth <= 800) homeSize = '3.5rem';
 				let contentItem = document.createElement('div');
@@ -232,10 +252,12 @@ function renderMain(sectionNo) {
 					contentItem.addEventListener('click', function(e) {
 						e.preventDefault();
 						scrollToPage(section, content.isSinglePage);
+						document.querySelector('.menu').style.maxHeight = '';
 					});
 					contentItem.addEventListener('touchstart', function(e) {
 						e.preventDefault();
 						scrollToPage(section, content.isSinglePage);
+						document.querySelector('.menu').style.maxHeight = '';
 					});
 					contentItem.style.backgroundImage = addBackgroundUrlClause(window['elements'][section].image);
 					if(window['elements'][section].text)
@@ -260,10 +282,12 @@ function renderMain(sectionNo) {
 					contentItem.addEventListener('click', function(e) {
 						e.preventDefault();
 						scrollToPage(section, content.isSinglePage);
+						document.querySelector('.menu').style.maxHeight = '';
 					});
 					contentItem.addEventListener('touchstart', function(e) {
 						e.preventDefault();
 						scrollToPage(section, content.isSinglePage);
+						document.querySelector('.menu').style.maxHeight = '';
 					});
 					contentList.appendChild(contentItem);
 				}				

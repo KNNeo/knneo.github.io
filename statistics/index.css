@@ -50,10 +50,10 @@ a:hover {
 
 .menu {
 	z-index: 5;
-	max-height: 9vh;
 	bottom: 0;
 	position: fixed;
-	overflow-y: auto;
+	background-color: white;
+	max-height: 12vh;
 }
 
 .page-title {
@@ -109,11 +109,11 @@ a:hover {
 	bottom: 0;
 	right: 0;
 }
+
 .box {	
 	border: 1px solid gray;
 	background-color: white;
 	box-shadow: 3px 3px;
-	/* border-radius: 8px; */
 	display: flex;
 	font-size: 0.8em;
 	word-wrap: break-word;
@@ -137,6 +137,7 @@ a:hover {
 	flex-wrap: wrap;
 	align-items: center;
 	justify-content: center;
+	padding: 5px 0;
 }
 
 .darked a,
