@@ -286,6 +286,15 @@ function renderMain(sectionNo) {
 					});
 					contentItem.addEventListener('touchstart', function(e) {
 						e.preventDefault();
+						contentItem.style.boxShadow = '1px 1px';
+						contentItem.style.transform = 'translate(2px, 2px)';
+						scrollToPage(section, content.isSinglePage);
+						document.querySelector('.menu').style.maxHeight = '';
+					});
+					contentItem.addEventListener('touchend', function(e) {
+						e.preventDefault();
+						contentItem.style.boxShadow = '';
+						contentItem.style.transform = '';
 						scrollToPage(section, content.isSinglePage);
 						document.querySelector('.menu').style.maxHeight = '';
 					});
