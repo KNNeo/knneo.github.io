@@ -81,14 +81,14 @@ function openImageInViewer(image) {
 	img.title = thumbnail.title;
 	img.style.maxHeight = '100%';
 	img.style.maxWidth = '100%';
-	img.style.visibility = 'hidden';
+	// img.style.visibility = 'hidden';
 	if(viewer.childNodes.length > 0) viewer.innerHTML = '';
 	viewer.style.paddingTop = '0';
 	if(imgNo-1 >= 0) viewer.appendChild(viewerPrev);
 	if(imgNo+1 < linkedImgList.length) viewer.appendChild(viewerNext);
 	viewer.appendChild(img);
 	adjustViewerMargin();
-	img.style.visibility = '';
+	// img.style.visibility = '';
 	
 	// console.log('imgNo', imgNo);
 	if(imgNo-1 >= 0)
@@ -103,6 +103,10 @@ function openImageInViewer(image) {
 		}, false);
 		
 	img.addEventListener('click', closeViewer);
+	
+	viewer.style.opacity = 1;
+	viewer.style.visibility = 'visible';
+	if(viewer.parentElement) viewer.parentElement.style.overflow = 'hidden';
 
 }
 
@@ -117,8 +121,11 @@ function adjustViewerMargin() {
 
 function closeViewer() {
 	let viewer = document.getElementById('viewer');
-	viewer.style.display = 'none';
+	// viewer.style.display = 'none';
+	viewer.style.opacity = '';
+	viewer.style.visibility = '';
 	viewer.innerHTML = '';
+	if(viewer.parentElement) viewer.parentElement.style.overflow = '';
 }
 
 //any image with url will open in new tab

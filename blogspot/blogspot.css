@@ -152,7 +152,9 @@ table.tr-caption-container {
 	top: 0;
 	left: 0;
 	right: 0;
-	display: none;
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 0.5s, visibility 0.5s;
 }
 
 #viewer-prev {
