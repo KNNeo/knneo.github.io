@@ -547,7 +547,7 @@ void Main()
             output.WriteLine("<head>");
             output.WriteLine("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>");
             output.WriteLine("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
-            output.WriteLine("<meta name=\"theme-color\" content=\"black\">");
+            output.WriteLine("<meta name=\"theme-color\" content=\"white\">");
             output.WriteLine("<meta name=\"apple-mobile-web-app-capable\" content=\"yes\">");
             output.WriteLine("<meta name=\"mobile-web-app-capable\" content=\"yes\">");
             output.WriteLine("<link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet' />");
