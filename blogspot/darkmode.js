@@ -1,7 +1,7 @@
-window.onpageshow = function() {
+window.addEventListener('load', function() {
 	setDarkMode();
 	addDarkModeEvents();
-};
+});
 
 function setDarkMode() {
 	let theme = Array.from(document.getElementsByTagName('meta')).filter(m => m.name == 'theme-color');
