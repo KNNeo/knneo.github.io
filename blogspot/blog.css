@@ -766,7 +766,7 @@ abbr.imgpop:hover img {
 
 .thumbnail-initial * img,
 .thumbnail-initial * video {
-  border: 1px solid transparent;
+  border: 2px solid transparent;
   animation: imgblink 3s infinite;
   -webkit-animation: imgblink 3s infinite;
   -moz-animation: imgblink 3s infinite;
@@ -833,16 +833,16 @@ abbr.imgpop:hover img {
 
 @keyframes imgblink {
   50% {
-    border: 1px solid transparent;
+    border: 2px solid transparent;
   }
   55% {
-    border: 1px solid var(--primary);
+    border: 2px solid var(--primary);
   }
   65% {
-    border: 1px solid var(--primary);
+    border: 2px solid var(--primary);
   }
   70% {
-    border: 1px solid transparent;
+    border: 2px solid transparent;
   }
 }
 
