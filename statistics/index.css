@@ -53,6 +53,7 @@ a:hover {
 	bottom: 0;
 	position: fixed;
 	background-color: white;
+	min-height: 12vh;
 	max-height: 12vh;
 }
 
