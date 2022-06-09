@@ -8,6 +8,10 @@ function renderGrid(sectionNo, content) {
 	
 	let tbody = document.createElement('tbody');
 	
+	content.componentData.sort(function(a,b) {
+		return a.sortOrder - b.sortOrder;
+	});
+	
 	//for mobile, stack all elements in one column
 	if(window.innerWidth <= 800 && content.columns > 1)
 	{
@@ -18,6 +22,9 @@ function renderGrid(sectionNo, content) {
 		{
 			content.componentData[c].columns = 1;
 		}
+		content.componentData.sort(function(a,b) {
+			return a.mobileSortOrder - b.mobileSortOrder;
+		});	
 	}
 	// console.log(content.rows, content.columns);
 	
