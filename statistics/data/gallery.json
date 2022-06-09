@@ -58,14 +58,16 @@
 				"type": "title",
 				"prefix": "PAMPHLET",
 				"title": "KITO AKARI 1st LIVE TOUR \"Colorful Closet\"",
-				"suffix": "Oct 2020"
+				"suffix": "Oct 2020",
+				"mobileSortOrder": 2
 			},
 			{
 				"type": "image",
 				"rows": 2,
 				"tooltip": "",
 				"thumbnail": "https://otherbooks.carrd.co/assets/images/image05.jpg",
-				"source": "https://otherbooks.carrd.co/assets/images/image05.jpg"
+				"source": "https://otherbooks.carrd.co/assets/images/image05.jpg",
+				"mobileSortOrder": 1
 			},
 			{
 				"type": "gallery",
@@ -86,7 +88,8 @@
 						"thumbnail": "https://otherbooks.carrd.co/assets/images/gallery05/ee84caf7.jpg",
 						"source": "https://otherbooks.carrd.co/assets/images/gallery05/ee84caf7.jpg"
 					}
-				]
+				],
+				"mobileSortOrder": 3
 			}
 		]
 	},
@@ -144,14 +147,16 @@
 				"type": "title",
 				"prefix": "PAMPHLET",
 				"title": "Haru Tachibana x Yuji Fukushima Photo Exhibition Official Catalog",
-				"suffix": "Nov 2020"
+				"suffix": "Nov 2020",
+				"mobileSortOrder": 2
 			},
 			{
 				"type": "image",
 				"rows": 2,
 				"tooltip": "",
 				"thumbnail": "https://otherbooks.carrd.co/assets/images/image02.jpg",
-				"source": "https://otherbooks.carrd.co/assets/images/image02.jpg"
+				"source": "https://otherbooks.carrd.co/assets/images/image02.jpg",
+				"mobileSortOrder": 1
 			},
 			{
 				"type": "gallery",
@@ -172,7 +177,8 @@
 						"thumbnail": "https://otherbooks.carrd.co/assets/images/gallery02/275b6028.jpg",
 						"source": "https://otherbooks.carrd.co/assets/images/gallery02/275b6028.jpg"
 					}
-				]
+				],
+				"mobileSortOrder": 3
 			}
 		]
 	},
@@ -230,14 +236,16 @@
 				"type": "title",
 				"prefix": "PAMPHLET",
 				"title": "Amamiya Sora Live Tour 2020 Paint it, SKY Pamphlet",
-				"suffix": "Jan 2021"
+				"suffix": "Jan 2021",
+				"mobileSortOrder": 2
 			},
 			{
 				"type": "image",
 				"rows": 2,
 				"tooltip": "",
 				"thumbnail": "https://otherbooks.carrd.co/assets/images/image08.jpg",
-				"source": "https://otherbooks.carrd.co/assets/images/image08.jpg"
+				"source": "https://otherbooks.carrd.co/assets/images/image08.jpg",
+				"mobileSortOrder": 1
 			},
 			{
 				"type": "gallery",
@@ -258,7 +266,8 @@
 						"thumbnail": "https://otherbooks.carrd.co/assets/images/gallery09/65c32ed5.jpg",
 						"source": "https://otherbooks.carrd.co/assets/images/gallery09/65c32ed5.jpg"
 					}
-				]
+				],
+				"mobileSortOrder": 3
 			}
 		]
 	},
@@ -316,14 +325,16 @@
 				"type": "title",
 				"prefix": "PAMPHLET",
 				"title": "TrySail's Tryangle Harmony Catalog 2020",
-				"suffix": "Jun 2021"
+				"suffix": "Jun 2021",
+				"mobileSortOrder": 2
 			},
 			{
 				"type": "image",
 				"rows": 2,
 				"tooltip": "",
 				"thumbnail": "https://otherbooks.carrd.co/assets/images/image10.jpg",
-				"source": "https://otherbooks.carrd.co/assets/images/image10.jpg"
+				"source": "https://otherbooks.carrd.co/assets/images/image10.jpg",
+				"mobileSortOrder": 1
 			},
 			{
 				"type": "gallery",
@@ -344,7 +355,8 @@
 						"thumbnail": "https://otherbooks.carrd.co/assets/images/gallery11/98656598.jpg",
 						"source": "https://otherbooks.carrd.co/assets/images/gallery11/98656598.jpg"
 					}
-				]
+				],
+				"mobileSortOrder": 3
 			}
 		]
 	},
@@ -402,14 +414,16 @@
 				"type": "title",
 				"prefix": "PAMPHLET",
 				"title": "Waki Azumi 1st LIVE -Chou Kakumeiteki Koisuru Ongakukai- Pamphlet",
-				"suffix": "Jul 2021"
+				"suffix": "Jul 2021",
+				"mobileSortOrder": 2
 			},
 			{
 				"type": "image",
 				"rows": 2,
 				"tooltip": "",
 				"thumbnail": "https://otherbooks.carrd.co/assets/images/image11.jpg",
-				"source": "https://otherbooks.carrd.co/assets/images/image11.jpg"
+				"source": "https://otherbooks.carrd.co/assets/images/image11.jpg",
+				"mobileSortOrder": 1
 			},
 			{
 				"type": "gallery",
@@ -430,7 +444,8 @@
 						"thumbnail": "https://otherbooks.carrd.co/assets/images/gallery12/594ff109.jpg",
 						"source": "https://otherbooks.carrd.co/assets/images/gallery12/594ff109.jpg"
 					}
-				]
+				],
+				"mobileSortOrder": 3
 			}
 		]
 	},
@@ -488,14 +503,16 @@
 				"type": "title",
 				"prefix": "PAMPHLET",
 				"title": "Inori Minase LIVE TOUR 2021 HELLO HORIZON Pamphlet",
-				"suffix": "Sep 2021"
+				"suffix": "Sep 2021",
+				"mobileSortOrder": 2
 			},
 			{
 				"type": "image",
 				"rows": 2,
 				"tooltip": "",
 				"thumbnail": "https://otherbooks.carrd.co/assets/images/image14.jpg",
-				"source": "https://otherbooks.carrd.co/assets/images/image14.jpg"
+				"source": "https://otherbooks.carrd.co/assets/images/image14.jpg",
+				"mobileSortOrder": 1
 			},
 			{
 				"type": "gallery",
@@ -516,7 +533,8 @@
 						"thumbnail": "https://otherbooks.carrd.co/assets/images/gallery15/60f191a6.jpg",
 						"source": "https://otherbooks.carrd.co/assets/images/gallery15/60f191a6.jpg"
 					}
-				]
+				],
+				"mobileSortOrder": 3
 			}
 		]
 	},
@@ -574,14 +592,16 @@
 				"type": "title",
 				"prefix": "PAMPHLET",
 				"title": "Kouno Marika 1st LIVE ~Yume Mitai, Demo Yume Janai~ Pamphlet",
-				"suffix": "Mar 2022"
+				"suffix": "Mar 2022",
+				"mobileSortOrder": 2
 			},
 			{
 				"type": "image",
 				"rows": 2,
 				"tooltip": "",
 				"thumbnail": "https://otherbooks.carrd.co/assets/images/image16.jpg",
-				"source": "https://otherbooks.carrd.co/assets/images/image16.jpg"
+				"source": "https://otherbooks.carrd.co/assets/images/image16.jpg",
+				"mobileSortOrder": 1
 			},
 			{
 				"type": "gallery",
@@ -602,7 +622,8 @@
 						"thumbnail": "https://otherbooks.carrd.co/assets/images/gallery17/7a8a597a.jpg",
 						"source": "https://otherbooks.carrd.co/assets/images/gallery17/7a8a597a.jpg"
 					}
-				]
+				],
+				"mobileSortOrder": 3
 			}
 		]
 	},
