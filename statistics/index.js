@@ -180,7 +180,14 @@ function renderMain(sectionNo) {
 			contentList.classList.add('contents');
 			
 			let iconSize = '7vw';
+			let drawerHeight = '12vh';
 			if (content.isSinglePage || window.innerWidth <= 800) iconSize = '7vh';
+			if (content.isSinglePage && window.innerWidth <= 800)
+			{
+				document.querySelector('.menu').style.minHeight = drawerHeight;
+				document.querySelector('.menu').style.maxHeight = drawerHeight;
+			}
+			
 
 			//drawer, home icon
 			if(content.isSinglePage)
@@ -197,7 +204,7 @@ function renderMain(sectionNo) {
 					contentItem.innerText = 'drag_handle';
 					contentItem.addEventListener('click', function(e) {
 						e.preventDefault();
-						document.querySelector('.menu').style.maxHeight = document.querySelector('.menu').style.maxHeight == 'initial' ? '' : 'initial';
+						document.querySelector('.menu').style.maxHeight = document.querySelector('.menu').style.maxHeight == 'initial' ? drawerHeight : 'initial';
 					});
 					contentItem.addEventListener('touchmove', function(e) {
 						e.preventDefault();
@@ -252,12 +259,12 @@ function renderMain(sectionNo) {
 					contentItem.addEventListener('click', function(e) {
 						e.preventDefault();
 						scrollToPage(section, content.isSinglePage);
-						document.querySelector('.menu').style.maxHeight = '';
+						document.querySelector('.menu').style.maxHeight = drawerHeight;
 					});
 					contentItem.addEventListener('touchstart', function(e) {
 						e.preventDefault();
 						scrollToPage(section, content.isSinglePage);
-						document.querySelector('.menu').style.maxHeight = '';
+						document.querySelector('.menu').style.maxHeight = drawerHeight;
 					});
 					contentItem.style.backgroundImage = addBackgroundUrlClause(window['elements'][section].image);
 					if(window['elements'][section].text)
@@ -282,21 +289,21 @@ function renderMain(sectionNo) {
 					contentItem.addEventListener('click', function(e) {
 						e.preventDefault();
 						scrollToPage(section, content.isSinglePage);
-						document.querySelector('.menu').style.maxHeight = '';
+						document.querySelector('.menu').style.maxHeight = drawerHeight;
 					});
 					contentItem.addEventListener('touchstart', function(e) {
 						e.preventDefault();
 						contentItem.style.boxShadow = '1px 1px';
 						contentItem.style.transform = 'translate(2px, 2px)';
 						scrollToPage(section, content.isSinglePage);
-						document.querySelector('.menu').style.maxHeight = '';
+						document.querySelector('.menu').style.maxHeight = drawerHeight;
 					});
 					contentItem.addEventListener('touchend', function(e) {
 						e.preventDefault();
 						contentItem.style.boxShadow = '';
 						contentItem.style.transform = '';
 						scrollToPage(section, content.isSinglePage);
-						document.querySelector('.menu').style.maxHeight = '';
+						document.querySelector('.menu').style.maxHeight = drawerHeight;
 					});
 					contentList.appendChild(contentItem);
 				}				
