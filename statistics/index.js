@@ -550,11 +550,22 @@ function setPageElements(content) {
 function toggleEditor() {
 	if(document.getElementById('editor') != null)
 	{
+		let editorText = document.getElementById('editor-area').value;
 		let isClosing = document.getElementById('editor').style.display == 'block'; //previous state	
 		document.getElementById('editor').style.display = isClosing ? 'none' : 'block';
-		localStorage.setItem('elements', document.getElementById('editor-area').value);
+		localStorage.setItem('elements', editorText);
 		document.getElementById('editor').value = isClosing ? '' : localStorage.getItem('elements');
-		if(isClosing) setPageElements();
+		if(isClosing)
+		{
+			if(editorText.trim().startsWith('http') && editorText.trim().endsWith('.json')) // if address of json is in editor
+			{
+				getJson(editorText, setPageElements);
+			}
+			else // raw json text
+			{
+				setPageElements();
+			}
+		}
 	}
 	else
 	{
@@ -594,16 +605,16 @@ function startup() {
 		return;
 	}
 	
-	if(typeof pageElements != 'undefined')
+	if(typeof pageElements != 'undefined') // if not tied to js file with pageElements
 	{
 		window['no-editor'] = true;
 		setPageElements(pageElements);
 	}
-	else if(localStorage.getItem('elements') != null)
+	else if(localStorage.getItem('elements') != null) // if have storage
 	{
 		setPageElements();
 	}
-	else if(typeof getJson == 'function' && document.getElementById('data-id') != null)
+	else if(typeof getJson == 'function' && document.getElementById('data-id') != null) // if index.js exists
 	{
 		let source = document.getElementById('data-id').src;
 		getJson(source, setPageElements);
