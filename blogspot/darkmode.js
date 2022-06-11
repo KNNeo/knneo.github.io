@@ -1,7 +1,5 @@
-window.addEventListener('load', function() {
-	setDarkMode();
-	addDarkModeEvents();
-});
+setDarkMode();
+addDarkModeEvents();
 
 function setDarkMode() {
 	let theme = Array.from(document.getElementsByTagName('meta')).filter(m => m.name == 'theme-color');
