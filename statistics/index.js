@@ -537,7 +537,8 @@ function setPageElements(content) {
 	if(content != null)
 	{
 		localStorage.setItem('elements', JSON.stringify(content, null, '\t'));
-		document.getElementById('editor-area').value = localStorage.getItem('elements');
+		if(document.getElementById('editor-area') != null)
+			document.getElementById('editor-area').value = localStorage.getItem('elements');
 		
 	}
 	window['elements'] = JSON.parse(localStorage.getItem('elements'));
