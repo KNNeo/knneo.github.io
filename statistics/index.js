@@ -534,7 +534,12 @@ function toggleGoToTopBtn() {
 function addBackgroundUrlClause(url) { return "url('" + url + "')"; }
 
 function setPageElements(content) {
-	if(content != null) localStorage.setItem('elements', JSON.stringify(content, null, '\t'));
+	if(content != null)
+	{
+		localStorage.setItem('elements', JSON.stringify(content, null, '\t'));
+		document.getElementById('editor-area').value = localStorage.getItem('elements');
+		
+	}
 	window['elements'] = JSON.parse(localStorage.getItem('elements'));
 	// window['elements'][0].isSinglePage = true;
 	renderVariables();
