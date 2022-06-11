@@ -1,5 +1,7 @@
 //--SETTINGS--//
-const isExternal = window.location.href.includes('://knneo.github.io'); //if not in local
+const showExpanded = function() {
+	return !window.location.href.includes('://knneo.github.io');
+}; //will only show name, dob, profile, turning point, social media
 const smallScreen = window.innerWidth <= 640;
 const maxRating = 5;
 const calendarCategoryColors = //what to filter for calendar, mapping for category, see profile-list.json
@@ -65,6 +67,7 @@ function initializeVariables() {
 	window['friendList'] = [];	
 	window['timelineDOBlist'] = [];
 	window['calendarDOBlist'] = [];
+	window['expanded'] = showExpanded();
 }
 
 function loadProfileLists() {
@@ -342,7 +345,7 @@ function generateProfileFromJSON(profileName) {
         return n.id == profileName;
     })[0];
 	//for if only mandatory field are filled
-	let simplified = profile.intro == undefined || isExternal;
+	let simplified = profile.intro == undefined || !window['expanded'];
 
 	//previous profile
 	let currentProfile = null;
@@ -485,12 +488,12 @@ function generateProfileFromJSON(profileName) {
 								});
 								span.addEventListener("contextmenu", function(e) {
 									e.preventDefault();
-									isExternal = !isExternal;
+									window['expanded'] = !window['expanded'];
 									generateProfileFromJSON(this.innerText.replace(" ", ""));
 									renderProfileBox();
 									addStatusPopUp();
 									document.getElementById('profile').scrollIntoView();
-									isExternal = !isExternal;
+									window['expanded'] = !window['expanded'];
 								}, false);
 							}
 							cellDiv.insertBefore(span, cellDiv.childNodes[0]);
@@ -544,10 +547,10 @@ function generateProfileFromJSON(profileName) {
 								DOBspan.classList.add('DOB');
 								//DOBspan.innerText = profile.dob;
 								// console.log(profile.dob);
-								DOBspan.innerHTML = superscriptText(profile.dob) + (!isExternal && !window['friendMode'] && !simplified && profile.dobComment ? (' (' + profile.dobComment + ')') : '');
+								DOBspan.innerHTML = superscriptText(profile.dob) + (window['expanded'] && !window['friendMode'] && !simplified && profile.dobComment ? (' (' + profile.dobComment + ')') : '');
 								if(DOBspan.innerHTML.includes('????')) {
 									let dateOnly = new Date(1990,profile.dob.substring(5,2),profile.dob.substring(8,2),0,0,0,0);
-									DOBspan.innerHTML = month[parseInt(profile.dob.substring(5,7))-1] + ' ' + parseInt(profile.dob.substring(8,10)) + (!isExternal && !window['friendMode'] && !simplified && profile.dobComment ? (' (' + profile.dobComment + ')') : '');
+									DOBspan.innerHTML = month[parseInt(profile.dob.substring(5,7))-1] + ' ' + parseInt(profile.dob.substring(8,10)) + (window['expanded'] && !window['friendMode'] && !simplified && profile.dobComment ? (' (' + profile.dobComment + ')') : '');
 									if(profile.dob.substring(10).length === 3)
 										DOBspan.innerHTML += superscriptText(profile.dob.substring(10));
 								}
@@ -561,7 +564,7 @@ function generateProfileFromJSON(profileName) {
 							
 								DOBspan = document.createElement('span');
 								DOBspan.classList.add('DOB');
-								DOBspan.innerHTML = processOption(currentProfile.dob, false) + (!isExternal && !window['friendMode'] && !simplified && currentProfile.dobComment != '' ? (' (' + currentProfile.dobComment + ')') : '');
+								DOBspan.innerHTML = processOption(currentProfile.dob, false) + (window['expanded'] && !window['friendMode'] && !simplified && currentProfile.dobComment != '' ? (' (' + currentProfile.dobComment + ')') : '');
 								cellDiv.appendChild(DOBspan);
 							
 								cell.appendChild(cellDiv);
@@ -622,7 +625,7 @@ function generateProfileFromJSON(profileName) {
 								cellDiv = document.createElement('div');
 								if(window['friendMode']) cellDiv.style.textAlign = 'left';
 								if(window['friendMode']) cellDiv.style.position = 'absolute';
-								if(!isExternal && !window['friendMode'] && !simplified)
+								if(window['expanded'] && !window['friendMode'] && !simplified)
 									cellDiv.innerHTML = Object.keys(profile.turningPoint).map((item, i, arr) => {
 										return superscriptText(profile.turningPoint[item]);
 									}).join('|'); 
@@ -984,12 +987,12 @@ function generateWantedList(profileLink) {
 			});
 			wanted.addEventListener("contextmenu", function(e) {
 				e.preventDefault();
-				isExternal = !isExternal;
+				window['expanded'] = !window['expanded'];
 				generateProfileFromJSON(this.innerText.replace(" ", ""));
 				renderProfileBox();
 				generateWantedList(this);
 				document.getElementById('profile').scrollIntoView();
-				isExternal = !isExternal;
+				window['expanded'] = !window['expanded'];
 			}, false);
 		}
 		
@@ -1017,12 +1020,12 @@ function generateWantedListEntry(id) {
 	});
 	friendLink.addEventListener("contextmenu", function(e) {
 		e.preventDefault();
-		isExternal = !isExternal;
+		window['expanded'] = !window['expanded'];
 		generateProfileFromJSON(this.innerText.replace(" ", ""));
 		renderProfileBox();
 		addStatusPopUp();
 		document.getElementById('profile').scrollIntoView();
-		isExternal = !isExternal;
+		window['expanded'] = !window['expanded'];
 	}, false);
 	
 	return friendLink;
