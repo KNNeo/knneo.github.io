@@ -620,10 +620,10 @@ function startup() {
 		window['no-editor'] = true;
 		setPageElements(pageElements);
 	}
-	else if(localStorage.getItem('elements') != null) // if have storage
-	{
-		setPageElements();
-	}
+	// else if(localStorage.getItem('elements') != null) // if have storage
+	// {
+		// setPageElements();
+	// }
 	else if(typeof getJson == 'function' && document.getElementById('data-id') != null) // if index.js exists
 	{
 		let source = document.getElementById('data-id').src;
