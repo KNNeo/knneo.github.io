@@ -36,14 +36,18 @@ function scrollToPage(sectionNo, isSinglePage = false) {
 	}
 }
 
-function scrollToMainPage(firstLoad) {
+function scrollToMainPage(el, onLoad) {
 	// console.log(firstLoad);
-	document.getElementsByClassName('page')[0].firstElementChild.scrollIntoView();
-	if(firstLoad == true && document.querySelector('#main') != null)
-		document.querySelector('#main').scrollIntoView();
+	if(!window['loaded'] || !onLoad)
+	{
+		if(document.querySelector('#main') != null)
+			document.querySelector('#main').scrollIntoView();
+		else
+			document.getElementsByClassName('page')[0].firstElementChild.scrollIntoView();
+	}
 }
 
-function renderVariables() {	
+function renderVariables() {
 	// window['elements'] = JSON.parse(JSON.stringify(pageElements));
 	//check for extension js files here
 	if(typeof renderChart != 'function')
@@ -545,7 +549,7 @@ function setPageElements(content) {
 	// window['elements'][0].isSinglePage = true;
 	renderVariables();
 	renderPage();
-	scrollToMainPage(true);
+	scrollToMainPage(this, true);
 	if(window['no-editor'])
 	{
 		document.getElementById('EditorBtn').style.display = 'none';
@@ -629,4 +633,5 @@ function startup() {
 	{
 		console.error('no data source found');
 	}
+	window['loaded'] = true;
 }
