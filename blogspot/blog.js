@@ -970,7 +970,10 @@ function resizeImages() {
             if (p.parentElement.parentElement.tagName == "TR" && p.parentElement.parentElement.getElementsByTagName("td").length > 1) //in table
                 p.classList.add('img-width-fit');
             else if (p.parentElement.parentElement.parentElement.tagName == "TR" && p.parentElement.parentElement.parentElement.getElementsByTagName("td").length > 1 && p.parentElement.tagName == "A") //in table, with link
-                p.classList.add('img-width-fit');
+			{
+				if(!p.parentElement.parentElement.style.width)
+					p.classList.add('img-width-fit');
+			}
             else if (p.width + 20 >= window.outerWidth) //see #main and .separator
                 p.classList.add('img-width-fit');
             else if (p.width < imgWidth)
@@ -985,7 +988,10 @@ function resizeImages() {
             if (p.parentElement.parentElement.tagName == "TR" && p.parentElement.parentElement.getElementsByTagName("td").length > 1) //in table
                 p.classList.add('img-width-fit');
             else if (p.parentElement.parentElement.parentElement.tagName == "TR" && p.parentElement.parentElement.parentElement.getElementsByTagName("td").length > 1 && p.parentElement.tagName == "A") //in table, with link
-                p.classList.add('img-width-fit');
+			{
+				if(!p.parentElement.parentElement.style.width)
+					p.classList.add('img-width-fit');
+			}
             else if (p.width + 20 >= window.outerWidth) //see #main and .separator
                 p.classList.add('img-width-fit');
             else if (p.width >= imgWidth)
