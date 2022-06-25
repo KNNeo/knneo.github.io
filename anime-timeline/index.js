@@ -155,6 +155,7 @@ let customArray = [
 
 let isGroupBySeries = false;
 let isSortByTitleAsc;
+let isSortByGenreCountAsc;
 let startYear = 2008;
 let startSeason = 'Autumn';
 let currentYear = 2022;
@@ -165,12 +166,34 @@ let seasonArray = new Array();
 let seriesArray = new Array();
 
 window.addEventListener('load', function() {
+	let genres = showsRef.reduce((total, current, index, arr) => {
+		for(let genre of current.seriesGenre)
+		{
+			// let key = genre.replace(/ /g,'');
+			let item = total.filter(g => g.genre == genre);
+			if(item.length > 0)
+			{
+				item[0].count += 1;
+			}
+			else
+			{
+				total.push({
+					genre,
+					count: 1,
+				});
+			}
+		}
+		return total;
+	}, []).sort((a,b) => b.count - a.count);
+	
 	customArray = customArray.map(ca => {
 		let ref = showsRef.filter(s => s.id == ca.MAL);
+		let topGenre = genres.filter(g => ref[0].seriesGenre.includes(g.genre))[0];
 		return {
 			...ca,
 			handle: ref[0].seriesURL,
 			imgURL: ref[0].seriesImage,
+			genreCount: topGenre.count,
 		}
 	})
 	generateAnimeList(false);
@@ -390,6 +413,14 @@ function generateAnimeList(isGroupBySeries) {
 				if (a.title.toLowerCase() < b.title.toLowerCase()) return 1;
 				if (a.title.toLowerCase() > b.title.toLowerCase()) return -1;
 				return 0;
+			}
+			if(isSortByGenreCountAsc == true)
+			{
+				return a.genreCount - b.genreCount;
+			}
+			if(isSortByGenreCountAsc == false)
+			{
+				return b.genreCount - a.genreCount;				
 			}
 			return a.sortOrder - b.sortOrder;
 		}))
