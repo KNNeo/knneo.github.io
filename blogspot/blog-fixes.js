@@ -106,7 +106,7 @@ function openImageInViewer(image) {
 	
 	viewer.style.opacity = 1;
 	viewer.style.visibility = 'visible';
-	if(viewer.parentElement) viewer.parentElement.style.overflow = 'hidden';
+	// if(viewer.parentElement) viewer.parentElement.style.overflow = 'hidden';
 
 }
 
