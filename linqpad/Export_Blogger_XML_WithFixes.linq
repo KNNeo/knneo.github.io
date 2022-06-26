@@ -118,9 +118,27 @@ void Main()
 	var latestPostCount = 0;
     var textString = "";
     textString += "<div class=\"Count\">" + posts.ToList().Count + " published posts found</div>\n";
+	
+	// Linked list for all page links to find navigation
+	var postList = new List<string>();
+	foreach(var entry in posts)
+	{
+        DateTime published = DateTime.Parse(entry.Element(_+"published").Value);
+        string type = entry.Element(_+"content").Attribute("type").Value ?? "html";
+        XElement empty = new XElement("empty");
+        XAttribute emptA = new XAttribute("empty","");
+        string originalLink = ((entry.Elements(_+"link")
+            .FirstOrDefault(e => e.Attribute("rel").Value == "alternate") ?? empty)
+            .Attribute("href") ?? emptA).Value;
+        var pageLink = "./" + Path.GetFileNameWithoutExtension(filepath.Replace(filepath, "blog")) + "/" + published.Year.ToString("0000") + "/"  + published.Month.ToString("00") + "/"  + Path.GetFileNameWithoutExtension(originalLink) + "." + type;
+		postList.Add(pageLink);
+	}	
+	
     // Process XML content per post
-    foreach (var entry in posts)
+    for (var p = 0; p < posts.Count(); p++)
     {
+		var entry = posts.ElementAt(p);
+	
         //FIX POST ATTRIBUTES
         //fix url of ent news, by year except 2014
         
@@ -539,7 +557,10 @@ void Main()
         
         if(WriteTitleOnConsole || TraceMode)
             Console.WriteLine((title != "" ? title : "A Random Statement") + (count > 0 ? "\t[" + count + " change(s)]" : ""));
-                
+        
+        var pageLink = "./" + Path.GetFileNameWithoutExtension(filepath.Replace(filepath, "blog")) + "/" + published.Year.ToString("0000") + "/"  + published.Month.ToString("00") + "/"  + Path.GetFileNameWithoutExtension(originalLink) + "." + type;
+        var pageIndex = postList.IndexOf(pageLink);
+		
         // Write output file (partial HTML for Jekyll)
         using (StreamWriter output = File.CreateText(outPath)) {
             output.WriteLine("<!DOCTYPE html>");
@@ -560,11 +581,12 @@ void Main()
 			output.WriteLine("<script src=\"https://www.instagram.com/embed.js\" type=\"text/javascript\" charset=\"utf-8\" async></script>");
             output.WriteLine("<link rel=\"icon\" href=\"../../../storytime.ico\" />");
             output.WriteLine("<title>" + title + "</title>");
+			if(postList.IndexOf(pageLink) == 0)  output.WriteLine("<a id='BackBtn' href='../../../blog.html' title='Go Back'><i class='material-icons'>arrow_back</i></a>");
+            if(postList.IndexOf(pageLink) > 0) output.WriteLine("<a id='LeftBtn' href='" + postList[postList.IndexOf(pageLink) - 1].Replace("./", "../../../") + "' title='Newer Post'><i class='material-icons'>arrow_back</i></a>");
+            if(postList.IndexOf(pageLink) + 1 < postList.Count) output.WriteLine("<a id='RightBtn' href='" + postList[postList.IndexOf(pageLink) + 1].Replace("./", "../../../") + "' title='Older Post'><i class='material-icons'>arrow_forward</i></a>");
             output.WriteLine("<body class=\"post-body entry-content\">");
             output.WriteLine("<div id=\"viewer\" style=\"display: none;\"></div>");
-            output.WriteLine("<div id=\"contents\">");
-            output.WriteLine("<a id='BackBtn' onclick='goBack()' title='Go Back'><i class='material-icons'>arrow_back</i></a>");
-            if (originalLink != "")
+            output.WriteLine("<div id=\"contents\">");if (originalLink != "")
                 output.WriteLine("<small style=\"text-align: center;\"><p><i>This post was imported from "+
                  "<a href=\"{0}\">Blogger</a></i></p></small>", originalLink);				 
             output.WriteLine("<small class=\"published\">"+published.ToString("dddd, dd MMMM yyyy")+"</small>");
@@ -573,8 +595,10 @@ void Main()
             output.Write("<hr>");
             if(tags.Count > 0)
                 output.Write("<h4>#" + string.Join(" #",tags) + "</h4>");
+            output.Write("<h6 style=\"text-align: center;\">Copyright (c) 2014-" + DateTime.Now.Year + " Klassic Note Web Reports</h6>");
             output.Write("<br>");
-            output.Write("<h5 style=\"text-align: center;\">Copyright (c) 2014-" + DateTime.Now.Year + " Klassic Note Web Reports</h5>");
+            output.Write("<br>");
+            output.Write("<br>");
             output.Write("<br>");
             output.WriteLine("</div>");
             output.WriteLine("</body>");
@@ -598,9 +622,7 @@ void Main()
         }
         
         if (originalLink != "")
-        {
-            var pageLink = "./" + Path.GetFileNameWithoutExtension(filepath.Replace(filepath, "blog")) + "/" + published.Year.ToString("0000") + "/"  + published.Month.ToString("00") + "/"  + Path.GetFileNameWithoutExtension(originalLink) + "." + type;
-            if(title != "")
+        {if(title != "")
 			{
 		        // Find first image for home page, if any
 				if (TraceMode) Console.WriteLine("Find first image for home page, if any");

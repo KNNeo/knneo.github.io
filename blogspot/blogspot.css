@@ -91,7 +91,7 @@ td.tr-caption {
 	white-space: nowrap;
 }
 
-a#BackBtn {
+#BackBtn {
 	position: fixed;
 	display: block;
 	visibility: visible;
@@ -113,7 +113,54 @@ a#BackBtn {
 	border-radius: 8px;
 }
 
-#BackBtn:active {
+#LeftBtn {
+	position: fixed;
+	display: block;
+	visibility: visible;
+	bottom: 20px;
+	left: 20px;
+	z-index: 8;
+	outline: none;
+	color: var(--foreground);
+	cursor: pointer;
+	padding: 8px 6px 6px 6px;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	border: 1px solid var(--foreground);
+	background-color: var(--background);
+	box-shadow: 3px 3px var(--foreground);
+	border-radius: 8px;
+}
+
+#RightBtn {
+	position: fixed;
+	display: block;
+	visibility: visible;
+	bottom: 20px;
+	left: 80px;
+	z-index: 8;
+	outline: none;
+	color: var(--foreground);
+	cursor: pointer;
+	padding: 8px 6px 6px 6px;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	border: 1px solid var(--foreground);
+	background-color: var(--background);
+	box-shadow: 3px 3px var(--foreground);
+	border-radius: 8px;
+}
+
+
+#BackBtn:active,
+#LeftBtn:active,
+#RightBtn:active {
 	box-shadow: 1px 1px;
 	transform: translate(2px, 2px);
 }
