@@ -153,8 +153,6 @@ let showsArray = [
 	let ref = showsRef.filter(s => s.id == ca.MAL);
 	return {
 		...ca,
-		handle: ref[0].seriesURL,
-		imgURL: ref[0].seriesImage,
 		genres: ref[0].seriesGenre,
 	}
 });
