@@ -164,6 +164,8 @@ let currentSeason = 'Spring';
 window.addEventListener('load', startup);
 
 function startup() {
+	window['filter'] = '';
+	window['genre'] = '';
 	generateAnimeList();
 	addImagesError();
 	// document.getElementById("showAll").click();
@@ -274,7 +276,7 @@ function generateAnimeCalendar(list) {
 		genreOption.value = '';
 		genreSelect.appendChild(genreOption);
 			
-		for(let genre of genres)
+		for(let genre of genres.filter(g => g.count > 2))
 		{
 			let genreOption = document.createElement('option');
 			genreOption.innerText = genre.genre;
@@ -372,9 +374,11 @@ function generateCalendarBox(list) {
 				
 				let i = document.createElement('div');
 				if(show.title) i.classList.add('highlight');
-				if(show.title) i.style.border = '1px solid';
-				i.style.margin = '1px';
-				i.style.padding = '2px';
+				if(show.title || (window['filter'] == '' && window['genre'] == ''))
+				{
+					i.style.margin = '1px';
+					i.style.padding = '2px';
+				}
 				i.innerText = show.title;
 				calendarDiv.appendChild(i);
 			}

@@ -129,6 +129,10 @@ body {
 	color: #00e4ff;
 }
 
+.highlight {
+	border: 1px solid;
+}
+
 @media only screen and (min-device-width: 320px) and (max-device-width: 960px) {
 	.anime-row,
 	.new-anime-row,
