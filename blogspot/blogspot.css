@@ -23,6 +23,7 @@ body {
 	background-color: var(--background);
 }
 
+/*
 body::-webkit-scrollbar {
 	width: 0 !important;
 } // Safari and Chrome
@@ -30,6 +31,7 @@ body::-webkit-scrollbar {
 body {
 	scrollbar-width: 0 !important;
 } //Firefox
+*/
 
 a:hover {
   color: var(--foreground);
