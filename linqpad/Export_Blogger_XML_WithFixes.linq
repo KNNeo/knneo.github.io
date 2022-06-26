@@ -71,6 +71,31 @@ void Main()
     string blogpath = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blogspot\";
     string filepath = "";
     string domainLink = "https://knwebreports.blogspot.com/";
+	
+	string sourcepath = @"C:\Users\KAINENG\Downloads\";
+    string[] sources = Directory.GetFiles(sourcepath, "blog-*.xml");
+    if(sources.Length == 1)
+	{
+        if(TraceMode) Console.WriteLine("Source found; Moving to folderpath");
+		
+	    string[] dests = Directory.GetFiles(Path.GetDirectoryName(folderpath), "blog-*.xml");
+	    if(dests.Length == 1)
+		{
+	        if(TraceMode) Console.WriteLine("Destination file found; Moving to archive");
+        	File.Move(dests[0], dests[0].Replace(folderpath, folderpath + @"archive\"));
+		}
+		
+        File.Move(sources[0], sources[0].Replace(sourcepath,folderpath));
+	}
+    else if(sources.Length == 0)
+    {
+        if(TraceMode) Console.WriteLine("No xml source found; proceed in folderpath");
+    }
+    else
+    {
+        if(TraceMode) Console.WriteLine("More than 1 source files found; proceed in folderpath");
+    }
+	
     string[] xmls = Directory.GetFiles(Path.GetDirectoryName(folderpath), "blog-*.xml");
     if(xmls.Length == 1)
 	{
