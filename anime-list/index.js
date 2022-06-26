@@ -199,7 +199,7 @@ function generateAnimeCalendar(list) {
 	block.appendChild(title);
 	
 		let filter = document.createElement('input');
-		filter.style.marginLeft = '10px';
+		filter.classList.add('filter');
 		filter.placeholder = 'Filter show name..';
 		filter.value = window['filter'] || '';
 		filter.addEventListener('input', function() {
@@ -245,8 +245,7 @@ function generateAnimeCalendar(list) {
 		}, []).sort((a,b) => b.count - a.count);
 	
 		let genreSelect = document.createElement('select');
-		genreSelect.classList.add('genre');
-		genreSelect.style.marginLeft = '10px';
+		genreSelect.classList.add('filter');
 		genreSelect.placeholder = 'Genre';
 		genreSelect.value = window['genre'] || '';
 		genreSelect.addEventListener('input', function() {

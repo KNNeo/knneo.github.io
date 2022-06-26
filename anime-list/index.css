@@ -133,6 +133,12 @@ body {
 	border: 1px solid;
 }
 
+.filter {
+	margin-left: 10px;
+	font-size: 0.8em;
+    padding: 2px;
+}
+
 @media only screen and (min-device-width: 320px) and (max-device-width: 960px) {
 	.anime-row,
 	.new-anime-row,
