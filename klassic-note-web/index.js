@@ -671,6 +671,7 @@ function updateOptions(contents) {
 			setTimeout(function() {
 				document.getElementById('options').value = contents.values[0][columnIndexKNID];
 				document.getElementById('options').dispatchEvent(new Event('change'));
+				search.focus();
 			},200);
 		}
 		
