@@ -148,6 +148,7 @@ function copySearch() {
 }
 
 function clearSearch() {
+	document.getElementById('music').innerHTML = '';
 	document.getElementById('search').value = '';
 	document.getElementById('tab-homepage').style.display = '';
 	document.getElementById('search-buttons').style.display = 'none';
