@@ -671,7 +671,7 @@ function updateOptions(contents) {
 			setTimeout(function() {
 				document.getElementById('options').value = contents.values[0][columnIndexKNID];
 				document.getElementById('options').dispatchEvent(new Event('change'));
-				search.focus();
+				// search.focus();
 			},200);
 		}
 		
@@ -700,7 +700,7 @@ function scrollToTop() {
 //load layout
 //flow is generally generateLayout -> query-prefixed functions -> generate-prefixed functions
 function generateLayout(contents) {
-	console.log('generateLayout', contents);
+	if(debugMode) console.log('generateLayout', contents);
 	document.getElementById('tab-homepage').style.display = 'none';
 	document.getElementById('search-buttons').style.display = '';
 	
@@ -868,7 +868,7 @@ function queryInfo(contents) {
 	if(debugMode) console.log('generateArtistInfo', query);
 	queryDb(query, generateArtistInfo);
 	
-	query = "SELECT KNYEAR, Category, Type, ReleaseTitle as 'Release Title', ReleaseArtistTitle as 'Release Artist', TracksSelected || ' / ' || TracksTotal AS 'Tracks In Library', (SELECT COUNT(*) FROM Song s WHERE s.ReleaseTitle = r.ReleaseTitle) || ' / ' || TracksSelected AS 'New Tracks', ReleaseYear || SUBSTR('0000' || ReleaseDate, -4, 4) AS 'Release Date', ReleaseTitleAlt as '" + altTitlePrefix + " Release Title', ReleaseArtistTitleAlt as '" + altTitlePrefix + " Release Artist' FROM Release r WHERE ReleaseID = " + row[columnIndexReleaseID];
+	query = "SELECT KNYEAR, Category, Type, ReleaseTitle as 'Release Title', ReleaseArtistTitle as 'Release Artist', TracksSelected || ' / ' || TracksTotal AS 'Tracks In Library', (SELECT COUNT(*) FROM Song s WHERE s.ReleaseTitle = r.ReleaseTitle AND s.ReleaseArtistTitle = r.ReleaseArtistTitle) || ' / ' || TracksSelected AS 'New Tracks', ReleaseYear || SUBSTR('0000' || ReleaseDate, -4, 4) AS 'Release Date', ReleaseTitleAlt as '" + altTitlePrefix + " Release Title', ReleaseArtistTitleAlt as '" + altTitlePrefix + " Release Artist' FROM Release r WHERE ReleaseID = " + row[columnIndexReleaseID];
 	if(debugMode) console.log('generateReleaseInfo', query);
 	queryDb(query, generateReleaseInfo);
 }
