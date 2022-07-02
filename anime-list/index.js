@@ -224,7 +224,8 @@ function generateAnimeCalendar(list) {
 		
 	block.appendChild(filter);
 	
-		let genres = showsRef.reduce((total, current, index, arr) => {
+		let listGenres = showsArray.filter(sr => sr.season.length > 0).map(sa => sa.MAL);
+		let genres = showsRef.filter(sr => listGenres.includes(sr.id)).reduce((total, current, index, arr) => {
 			for(let genre of current.seriesGenre)
 			{
 				// let key = genre.replace(/ /g,'');
@@ -273,11 +274,11 @@ function generateAnimeCalendar(list) {
 		genreOption.value = '';
 		genreSelect.appendChild(genreOption);
 			
-		for(let genre of genres.filter(g => g.count > 2))
+		for(let g of genres.filter(g => g.count > 2))
 		{
 			let genreOption = document.createElement('option');
-			genreOption.innerText = genre.genre;
-			genreOption.value = genre.genre;
+			genreOption.innerText = g.genre + ' (' + g.count + ')';
+			genreOption.value = g.genre;
 			genreSelect.appendChild(genreOption);
 		}
 		
