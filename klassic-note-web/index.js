@@ -871,7 +871,7 @@ function queryInfo(contents) {
 	if(debugMode) console.log('generateArtistInfo', query);
 	queryDb(query, generateArtistInfo);
 	
-	query = "SELECT KNYEAR, Category, Type, ReleaseTitle as 'Release Title', ReleaseArtistTitle as 'Release Artist', TracksSelected || ' / ' || TracksTotal AS 'Tracks In Library', (SELECT COUNT(*) FROM Song s WHERE s.ReleaseTitle = r.ReleaseTitle AND s.ReleaseArtistTitle = r.ReleaseArtistTitle AND s.KNYEAR <= r.KNYEAR) || ' / ' || TracksSelected AS 'New Tracks', ReleaseYear || SUBSTR('0000' || ReleaseDate, -4, 4) AS 'Release Date', ReleaseTitleAlt as '" + altTitlePrefix + " Release Title', ReleaseArtistTitleAlt as '" + altTitlePrefix + " Release Artist' FROM Release r WHERE ReleaseID = (SELECT MAX(ReleaseID) FROM Release WHERE ReleaseTitle = '" + row[columnIndexReleaseTitle] + "' AND ReleaseArtistTitle = '" + row[columnIndexReleaseArtistTitle] + "')";
+	query = "SELECT KNYEAR, Category, Type, ReleaseTitle as 'Release Title', ReleaseArtistTitle as 'Release Artist', TracksSelected || ' / ' || TracksTotal AS 'Tracks In Library', (SELECT COUNT(*) FROM Song s WHERE s.ReleaseTitle = r.ReleaseTitle AND s.ReleaseArtistTitle = r.ReleaseArtistTitle AND s.KNYEAR <= r.KNYEAR) || ' / ' || TracksSelected AS 'New Tracks', ReleaseYear || SUBSTR('0000' || ReleaseDate, -4, 4) AS 'Release Date', ReleaseTitleAlt as '" + altTitlePrefix + " Release Title', ReleaseArtistTitleAlt as '" + altTitlePrefix + " Release Artist' FROM Release r WHERE ReleaseID = (SELECT MAX(ReleaseID) FROM Release WHERE ReleaseTitle = '" + reduceReleaseTitle(row[columnIndexReleaseTitle]) + "' AND ReleaseArtistTitle = '" + addQuotationInSQLString(row[columnIndexReleaseArtistTitle]) + "')";
 	if(debugMode) 
 		console.log('generateReleaseInfo', query);
 	queryDb(query, generateReleaseInfo);
@@ -1126,7 +1126,10 @@ function queryRelated(contents) {
 	//max 10 related to release
 	document.getElementById('release-related').innerHTML = '';
 	query = "SELECT * FROM Song WHERE KNID <> " + row[columnIndexKNID];
-	query += " AND ReleaseTitle LIKE '%" + reduceReleaseTitle(row[columnIndexReleaseTitle]) + "%'";
+	if(reduceReleaseTitle(row[columnIndexReleaseTitle]).includes('Disc '))
+		query += " AND ReleaseTitle LIKE '%" + reduceReleaseTitle(row[columnIndexReleaseTitle]) + "%'";
+	else
+		query += " AND ReleaseTitle = '" + reduceReleaseTitle(row[columnIndexReleaseTitle]) + "'";		
 	query += " AND ReleaseArtistTitle = '" + addQuotationInSQLString(row[columnIndexReleaseArtistTitle]) + "'";
 	query += " ORDER BY RANDOM() DESC LIMIT 10";
 	if(debugMode) console.log('queryReleaseRelated', query);
