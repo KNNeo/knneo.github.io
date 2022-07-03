@@ -164,8 +164,8 @@ function clearSearch() {
 }
 
 function toggleAutoplay() {
-	autoplayOnSelect = !autoplayOnSelect;
-	document.querySelector('.autoplay').innerText = autoplayOnSelect ? 'music_note' : 'music_off';
+	window['autoplay-select'] = !window['autoplay-select'];
+	document.querySelector('.autoplay').innerText = window['autoplay-select'] ? 'music_note' : 'music_off';
 }
 
 function randomSong(randomSongOnSelect) {
@@ -205,7 +205,7 @@ function randomSong(randomSongOnSelect) {
 		// if(document.getElementById('player') == null || document.getElementById('player').paused)
 		// {
 			// when autoplay is off
-			// if(!autoplayOnSelect && window['playlist'].length == 2)
+			// if(!window['autoplay-select'] && window['playlist'].length == 2)
 				// window['playlist'].shift();
 			// let optQuery = "SELECT * FROM Song WHERE KNID = ";
 			// optQuery += window['playlist'][0];
@@ -326,11 +326,12 @@ function startup() {
 function renderSettings() {
 	document.querySelector('#queue-skip').style.display = 'none';
 	document.querySelector('#queue-clear').style.display = 'none';
-	document.querySelector('.autoplay').innerText = autoplayOnSelect ? 'music_note' : 'music_off';
+	document.querySelector('.autoplay').innerText = window['autoplay-select'] ? 'music_note' : 'music_off';
 }
 
 function renderVariables() {
 	// set variables here, do not define above
+	window['autoplay-select'] = autoplayOnSelect;
 	window['db'] = null;
 	window['playlist'] = [];
 	window['mode'] = 'song';
@@ -822,7 +823,7 @@ function generatePlayer(contents) {
 		}
 	});
 	audio.controls = true;
-	audio.autoplay = autoplayOnSelect; //for shuffle to work this must be set as true
+	audio.autoplay = window['autoplay-select']; //for shuffle to work this must be set as true
 	audio.volume = localStorage.getItem('volume')|| 0.5;
 	audio.controlsList = 'nodownload';
 	
@@ -862,15 +863,17 @@ function queryInfo(contents) {
 	let rows = contents.values;
 	let row = rows[0];
 	let columnIndexArtistTitle = contents.columns.indexOf('Artist Title');
-	let columnIndexReleaseID = contents.columns.indexOf('ReleaseID');
+	let columnIndexReleaseTitle = contents.columns.indexOf('Release Title');
+	let columnIndexReleaseArtistTitle = contents.columns.indexOf('Release Artist');
 	
 	let query = "SELECT ArtistTitle as 'Name', GROUP_CONCAT(ParentArtist, '<br/>') AS 'Tags (if any)', ArtistCode as 'Artist Type', DisbandYear as 'Year Disbaneded (if any)', ArtistTitleAlt as '" + altTitlePrefix + " Name', (SELECT COUNT(*) FROM Song WHERE ArtistTitle = '" + addQuotationInSQLString(row[columnIndexArtistTitle]) + "') as 'Songs In Library' FROM Artist WHERE ArtistTitle = '" + addQuotationInSQLString(row[columnIndexArtistTitle]) + "' ";
 	query += "GROUP BY ArtistTitle, ArtistCode, DisbandYear, ArtistTitleAlt";
 	if(debugMode) console.log('generateArtistInfo', query);
 	queryDb(query, generateArtistInfo);
 	
-	query = "SELECT KNYEAR, Category, Type, ReleaseTitle as 'Release Title', ReleaseArtistTitle as 'Release Artist', TracksSelected || ' / ' || TracksTotal AS 'Tracks In Library', (SELECT COUNT(*) FROM Song s WHERE s.ReleaseTitle = r.ReleaseTitle AND s.ReleaseArtistTitle = r.ReleaseArtistTitle) || ' / ' || TracksSelected AS 'New Tracks', ReleaseYear || SUBSTR('0000' || ReleaseDate, -4, 4) AS 'Release Date', ReleaseTitleAlt as '" + altTitlePrefix + " Release Title', ReleaseArtistTitleAlt as '" + altTitlePrefix + " Release Artist' FROM Release r WHERE ReleaseID = " + row[columnIndexReleaseID];
-	if(debugMode) console.log('generateReleaseInfo', query);
+	query = "SELECT KNYEAR, Category, Type, ReleaseTitle as 'Release Title', ReleaseArtistTitle as 'Release Artist', TracksSelected || ' / ' || TracksTotal AS 'Tracks In Library', (SELECT COUNT(*) FROM Song s WHERE s.ReleaseTitle = r.ReleaseTitle AND s.ReleaseArtistTitle = r.ReleaseArtistTitle AND s.KNYEAR <= r.KNYEAR) || ' / ' || TracksSelected AS 'New Tracks', ReleaseYear || SUBSTR('0000' || ReleaseDate, -4, 4) AS 'Release Date', ReleaseTitleAlt as '" + altTitlePrefix + " Release Title', ReleaseArtistTitleAlt as '" + altTitlePrefix + " Release Artist' FROM Release r WHERE ReleaseID = (SELECT MAX(ReleaseID) FROM Release WHERE ReleaseTitle = '" + row[columnIndexReleaseTitle] + "' AND ReleaseArtistTitle = '" + row[columnIndexReleaseArtistTitle] + "')";
+	if(debugMode) 
+		console.log('generateReleaseInfo', query);
 	queryDb(query, generateReleaseInfo);
 }
 
