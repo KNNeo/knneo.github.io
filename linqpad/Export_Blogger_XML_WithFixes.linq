@@ -82,6 +82,7 @@ void Main()
 	    if(dests.Length == 1)
 		{
 	        if(TraceMode) Console.WriteLine("Destination file found; Moving to archive");
+        	File.Delete(dests[0].Replace(folderpath, folderpath + @"archive\"));
         	File.Move(dests[0], dests[0].Replace(folderpath, folderpath + @"archive\"));
 		}
 		
