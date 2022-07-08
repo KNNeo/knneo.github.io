@@ -580,5 +580,49 @@
 				]
 			}
 		]
+	},
+	{
+		"type": "grid",
+		"columns": 2,
+		"rows": 2,
+		"image": "",
+		"text": "17TH",
+		"componentData": [
+			{
+				"type": "image",
+				"rows": 2,
+				"tooltip": "",
+				"thumbnail": "https://knbooks.carrd.co/assets/images/gallery14/c1d1a562_original.jpg",
+				"source": "https://knbooks.carrd.co/assets/images/gallery14/c1d1a562_original.jpg",
+				"link": "https://knneo.github.io/blogspot/blog/2022/07/the-seventeenth-book-worth-of-photos.html"
+			},
+			{
+				"type": "title",
+				"prefix": "JULY 2022",
+				"title": "The Seventeenth Book Worth of Photos: Through Four Seasons, In Style",
+				"suffix": "Time flies when you are enjoying yourself, though the experience can be better if done with style."
+			},
+			{
+				"type": "gallery",
+				"caption": "(From Kohara Konomi \"Mujoku Muji\")",
+				"datas": [
+					{
+						"tooltip": "",
+						"thumbnail": "https://knbooks.carrd.co/assets/images/gallery14/43f63a41.jpg",
+						"source": "https://knbooks.carrd.co/assets/images/gallery14/43f63a41_original.jpg"
+					},
+					{
+						"tooltip": "",
+						"thumbnail": "https://knbooks.carrd.co/assets/images/gallery14/bc9a5be9.jpg",
+						"source": "https://knbooks.carrd.co/assets/images/gallery14/bc9a5be9_original.jpg"
+					},
+					{
+						"tooltip": "",
+						"thumbnail": "https://knbooks.carrd.co/assets/images/gallery14/9aba6c69.jpg",
+						"source": "https://knbooks.carrd.co/assets/images/gallery14/9aba6c69_original.jpg"
+					}
+				]
+			}
+		]
 	}
 ]
