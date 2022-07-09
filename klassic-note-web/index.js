@@ -2155,21 +2155,21 @@ function queryAnalysis(contents) {
 	queryDb(query, generateSongLaguage);
 	
 	//Year of Release Survey
-	query = "SELECT 'All' AS 'ReleaseYear', COUNT(ReleaseYear) AS 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " ";
-	query += "UNION ALL SELECT MIN(ReleaseYear) || '-' || MAX(ReleaseYear) AS 'ReleaseYear', COUNT(ReleaseYear) AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear < " + KNYEAR + " - 3 ";
-	query += "UNION ALL SELECT " + KNYEAR + " - 3 AS 'ReleaseYear', COUNT(ReleaseYear) AS 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = " + KNYEAR + " - 3 ";
-	query += "UNION ALL SELECT " + KNYEAR + " - 2 AS 'ReleaseYear', COUNT(ReleaseYear) AS 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = " + KNYEAR + " - 2 ";
-	query += "UNION ALL SELECT " + KNYEAR + " - 1 AS 'ReleaseYear', COUNT(ReleaseYear) AS 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = " + KNYEAR + " - 1 ";
-	query += "UNION ALL SELECT " + KNYEAR + " AS 'ReleaseYear', COUNT(ReleaseYear) AS 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = " + KNYEAR + " ";
+	query = "SELECT 'All' AS 'Release Year', COUNT(ReleaseYear) AS 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " ";
+	query += "UNION ALL SELECT MIN(ReleaseYear) || '-' || MAX(ReleaseYear) AS 'Release Year', COUNT(ReleaseYear) AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear < " + KNYEAR + " - 3 ";
+	query += "UNION ALL SELECT " + KNYEAR + " - 3 AS 'Release Year', COUNT(ReleaseYear) AS 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = " + KNYEAR + " - 3 ";
+	query += "UNION ALL SELECT " + KNYEAR + " - 2 AS 'Release Year', COUNT(ReleaseYear) AS 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = " + KNYEAR + " - 2 ";
+	query += "UNION ALL SELECT " + KNYEAR + " - 1 AS 'Release Year', COUNT(ReleaseYear) AS 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = " + KNYEAR + " - 1 ";
+	query += "UNION ALL SELECT " + KNYEAR + " AS 'Release Year', COUNT(ReleaseYear) AS 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = " + KNYEAR + " ";
 
 	if(debugMode) console.log('generateYearOfRelease', query);
 	queryDb(query, generateYearOfRelease);
 	
 	//Anime Song Survey
-	query = "SELECT 'All' AS 'SongType', COUNT(s.VocalCode) AS 'Count (%)' FROM Song s WHERE s.KNYEAR = " + KNYEAR + " AND s.VocalCode <> '' ";
-	query += "UNION ALL SELECT 'Anime Songs' AS 'SongType', COUNT(ts.SongType) AS 'Count (%)' FROM Song s JOIN ThemeSong ts on s.KNID = ts.KNID WHERE s.KNYEAR = " + KNYEAR + " AND s.Genre IN ('Anime','Soundtrack','Game') ";
-	query += "UNION ALL SELECT 'Anime Theme Songs' AS 'SongType', COUNT(ts.SongType) AS 'Count (%)' FROM Song s JOIN ThemeSong ts on s.KNID = ts.KNID WHERE s.KNYEAR = " + KNYEAR + " AND s.Genre IN ('Anime','Soundtrack','Game') AND (ts.SongType = 'Opening' OR ts.SongType = 'Ending' OR ts.SongType = 'Theme') ";
-	query += "UNION ALL SELECT 'Anime Character/Insert Songs' AS 'SongType', COUNT(ts.SongType) AS 'Count (%)' FROM Song s JOIN ThemeSong ts on s.KNID = ts.KNID WHERE s.KNYEAR = " + KNYEAR + " AND s.Genre IN ('Anime','Soundtrack','Game') AND (ts.SongType <> 'Opening' AND ts.SongType <> 'Ending' AND ts.SongType <> 'Theme') ";
+	query = "SELECT 'All' AS 'Song Type', COUNT(s.VocalCode) AS 'Count (%)' FROM Song s WHERE s.KNYEAR = " + KNYEAR + " AND s.VocalCode <> '' ";
+	query += "UNION ALL SELECT 'Anime Songs' AS 'Song Type', COUNT(ts.SongType) AS 'Count (%)' FROM Song s JOIN ThemeSong ts on s.KNID = ts.KNID WHERE s.KNYEAR = " + KNYEAR + " AND s.Genre IN ('Anime','Soundtrack','Game') ";
+	query += "UNION ALL SELECT 'Anime Theme Songs' AS 'Song Type', COUNT(ts.SongType) AS 'Count (%)' FROM Song s JOIN ThemeSong ts on s.KNID = ts.KNID WHERE s.KNYEAR = " + KNYEAR + " AND s.Genre IN ('Anime','Soundtrack','Game') AND (ts.SongType = 'Opening' OR ts.SongType = 'Ending' OR ts.SongType = 'Theme') ";
+	query += "UNION ALL SELECT 'Anime Character/Insert Songs' AS 'Song Type', COUNT(ts.SongType) AS 'Count (%)' FROM Song s JOIN ThemeSong ts on s.KNID = ts.KNID WHERE s.KNYEAR = " + KNYEAR + " AND s.Genre IN ('Anime','Soundtrack','Game') AND (ts.SongType <> 'Opening' AND ts.SongType <> 'Ending' AND ts.SongType <> 'Theme') ";
 
 	if(debugMode) console.log('generateAnimeSongs', query);
 	queryDb(query, generateAnimeSongs);
@@ -2248,7 +2248,8 @@ function generateVocalPopularity(contents) {
 function generateBSide(contents) {	
 	let columns = contents.columns;
 	let rows = contents.values;
-	if(contents.length == 0) return;
+	let total = rows[0][1];
+	if(contents.length == 0 || total == 0) return;
 	
 	let header = document.createElement('h4');
 	header.classList.add('centered');
@@ -2271,7 +2272,6 @@ function generateBSide(contents) {
 	tbody.appendChild(tr);
 	
 	let excludedColumns = [];
-	let total = rows[0][1];
 	for(let r = 0; r < rows.length; r++)
 	{
 		// let rowVal = row[r];
@@ -2507,7 +2507,7 @@ function generateSongAppetite(contents) {
 		tr.appendChild(tc);
 		
 		let td = document.createElement('td');
-		td.innerText = cumulative + rows[r][1];
+		td.innerText = rows[r][1] == 0 ? '-' : cumulative + rows[r][1];
 		cumulative += rows[r][1];
 		tr.appendChild(td);
 		
