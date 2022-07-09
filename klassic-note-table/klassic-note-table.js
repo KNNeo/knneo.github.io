@@ -31,14 +31,14 @@ let exColumns = [
 		cellText: 'Find Artist',
 		sourceColumn: 'ArtistTitle'
 	},
-	{
-		title: 'AddToTimeline',
-		cellText: 'Add To Timeline',
-		sourceColumn: 'DateCreated',
-		refColumn: 'KNID',
-		timelineFooter1: 'SongTitle',
-		timelineFooter2: 'ArtistTitle',
-	},
+	// {
+		// title: 'AddToTimeline',
+		// cellText: 'Add To Timeline',
+		// sourceColumn: 'DateCreated',
+		// refColumn: 'KNID',
+		// timelineFooter1: 'SongTitle',
+		// timelineFooter2: 'ArtistTitle',
+	// },
 ];
 
 //COLUMN TICKBOXES--//
@@ -733,6 +733,53 @@ function toggleTimeline() {
 	timeline.style.borderRight = timeline.style.borderRight == '' ? '0' : '';
 	if(document.getElementById('chart') == null) loadTimeline();
 }
+
+//--DRAG N DROP--//
+function addDragAndDrop() {
+	let dropArea = document.createElement('div');
+	dropArea.classList.add('drop-area');
+	document.body.appendChild(dropArea);
+
+	document.body.addEventListener('dragenter', onDragEnter, false); //show fade
+	document.querySelector('.drop-area').addEventListener('dragleave', onDragLeave, false); //revert
+	document.querySelector('.drop-area').addEventListener('dragover', onDragEnter, false);
+	document.querySelector('.drop-area').addEventListener('drop', onDrop, false); //actual event that does stuff
+}
+
+function onDragEnter(e) {
+	e.preventDefault();
+	e.stopPropagation();
+	let dropArea = document.querySelector('.drop-area');
+	if (!dropArea.classList.contains('drop-fade')) dropArea.classList.add('drop-fade');
+}
+
+function onDragLeave(e) {
+	e.preventDefault();
+	e.stopPropagation();
+	let dropArea = document.querySelector('.drop-area');
+	if (dropArea.classList.contains('drop-fade')) dropArea.classList.remove('drop-fade');
+}
+
+function onDrop(e) {
+	e.preventDefault();
+	e.stopPropagation();
+	let dropArea = document.querySelector('.drop-area');
+	if (dropArea.classList.contains('drop-fade')) dropArea.classList.remove('drop-fade');
+	
+	var file = e.dataTransfer.files[0];
+	// console.log('file', file.name, file.type);
+	if(file.type == 'audio/mpeg')
+	{
+		document.getElementById('search').value = file.name.replace('.mp3','');
+		document.getElementById('search').dispatchEvent(new Event('input'));
+		
+		let query = "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song";
+		query += " WHERE SongTitle = '" + addQuotationInSQLString(document.getElementById('search').value) + "'";
+		// console.log('query', query);
+		queryDb(query, updateOptions);
+	}
+}
+
 
 //TODO:
 //Revamp rendering of table such that original table is never mutated, and filters are done after getArray/getObject (prefer latter?)
