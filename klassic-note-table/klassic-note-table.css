@@ -76,28 +76,33 @@ td > a {
 	user-select: none;
 }
 #title, #subtitle {
-	display: inline-block;
+	/* display: inline-block; */
 	padding: 0;
     text-align: center;
-    width: 100%;
+    /* width: 100%; */
 }
 #title {
 	display: inline;
 }
 #container {
-	overflow: scroll;
-	height: 99vh;
-	width: auto;
-	padding: 5px;
+	/* overflow: scroll; */
+	/* height: 99vh; */
+	/* width: auto; */
+	/* padding: 5px; */
 }
 #table-filter-ticks {
-	width: 95%;
+	width: 100%;
 	max-width: 100vw;
 	padding-bottom: 10px;
 	top: 0;
 }
 #table-filter > input {
 	max-width: 150px;
+}
+#table-box {
+	overflow: auto;
+	width: 100vw;
+	/* height: 100vh; */
 }
 #timeline {
 	float: left;
@@ -130,11 +135,15 @@ td > a {
 	display: block;
     font-weight: bold;
 }
+
 .filter-section {
 	left: 0;
 	position: -webkit-sticky;
 	position: sticky;
-	
+}
+
+.filter-section {
+	z-index: 1;
 }
 
 .landing {

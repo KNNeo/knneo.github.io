@@ -453,6 +453,7 @@ function generateTable(table) {
 	//assign
 	document.getElementById('database-table').innerHTML = '';
 	document.getElementById('database-table').appendChild(knTable);	
+	resize();
 	// generatePresets();
 	
 	//disable input until load complete
@@ -542,6 +543,12 @@ function setup() {
 	setDarkMode();
 	addDarkModeEvents();	
 	resetTable();
+	window.addEventListener('resize', resize);
+}
+
+function resize() {
+	if(window.innerWidth > 480)
+		document.getElementById('table-box').style.height = window.innerHeight - 3 - Array.from(document.getElementsByClassName('filter-section')).reduce((sum, fs) => sum + fs.getBoundingClientRect().height, 0) + 'px';
 }
 
 function initialize() {
