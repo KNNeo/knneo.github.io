@@ -248,6 +248,7 @@ body {
 }
 
 .context {
+	background-color: white;
 	font-size: 0.9em;
 	position: fixed;
 	width: auto;
