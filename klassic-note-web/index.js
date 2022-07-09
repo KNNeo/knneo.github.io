@@ -185,7 +185,7 @@ function randomSong(randomSongOnSelect) {
 	if(randomSongOnSelect && content.length == 1) {
 		randomSongOnSelect = false;
 	};
-	let songsToQueue = window['shifted'] ? total : 1;
+	let songsToQueue = 1; //window['shifted'] ? total : 1;
 	
 	if(randomSongOnSelect)
 	{
