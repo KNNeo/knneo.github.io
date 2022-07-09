@@ -127,9 +127,7 @@ td > a {
 .darked a, .darked a:visited {
 	color: white;
 }
-.p5Canvas {
-	display: none;
-}
+
 .filter-title {
     padding: 5px 0;
 	display: block;
@@ -159,6 +157,25 @@ td > a {
     padding: 0;
     text-align: center;
 }
+
+.drop-area {
+	position: fixed;
+	top: 0;
+	left: 0;
+	overflow: hidden;
+	width: 100vw;
+	height: 100vh;
+	z-index: 1;
+	background-color: white;
+	opacity: 1;
+	display: none;
+}
+
+.drop-fade {
+	opacity: 0.2;
+	display: block;
+}
+
 @media only screen and (max-device-width : 480px)
 {
 	#darkmode, #back {

@@ -1,4 +1,5 @@
 //--VARIABLES--//
+let fileUrl = 'https://knneo.github.io/klassic-note-table/klassic-note-database-song-table.csv';
 let maxRows = 100;
 //presets: based on query table columns, else will ignore
 let presets = [
@@ -98,7 +99,7 @@ function generateSearch(filters) {
 	let tableFilters = document.getElementById('table-filter');
 	let extraColumns = exColumns.map(e => e.title);
 	
-	//tableFilters.innerHTML = '';
+	tableFilters.innerHTML = '';
 	for (let column of filters.allColumns)
 	{
 		let columnInput = document.getElementById('dbInput' + column.replace(' ',''));
@@ -145,6 +146,8 @@ function resetSearch() {
 function generatePresets() {
 	let presetDiv = document.getElementById('table-preset-ticks');
 	presetDiv.innerHTML = '';
+	
+	if(window['isData']) return;
 	
 	let presetTitle = document.createElement('h4');
 	presetTitle.innerText = 'Presets';
@@ -221,7 +224,7 @@ function loadTableFromCSV() {
 	document.getElementById('table-result').innerText = 'Loading...';
 	//table is comma separated value 'csv' and has a header specifying the columns labels
 	let table = loadTable(
-		'https://knneo.github.io/klassic-note-table/klassic-note-database-song-table.csv', 
+		window['url'], 
 		'csv',
 		'header',
 		generateTable);
@@ -543,8 +546,27 @@ function setup() {
 	setDarkMode();
 	addDarkModeEvents();	
 	resetTable();
+	addDragAndDrop();
 	window.addEventListener('resize', resize);
+
 }
+
+function gotFile(f) {  
+	if (f.name.endsWith('.csv'))
+	{
+		let dropArea = document.querySelector('.drop-area');
+		if (dropArea.classList.contains('drop-fade')) dropArea.classList.remove('drop-fade');
+	
+		window['isData'] = true;
+		exColumns = [];
+		window['url'] = 'data:text/csv;charset=utf-8,' + encodeURIComponent(f.data);
+		resetTable();
+		return;
+	}
+
+	alert("Not CSV file!");
+}
+
 
 function resize() {
 	if(window.innerWidth > 480)
@@ -553,6 +575,7 @@ function resize() {
 
 function initialize() {
 	window['pageNo'] = 1;
+	window['url'] = fileUrl;
 	
     const match = window.matchMedia('(pointer:coarse)');
 	if (match && match.matches) document.getElementById('table-filter').removeAttribute('position');
@@ -750,7 +773,10 @@ function addDragAndDrop() {
 	document.body.addEventListener('dragenter', onDragEnter, false); //show fade
 	document.querySelector('.drop-area').addEventListener('dragleave', onDragLeave, false); //revert
 	document.querySelector('.drop-area').addEventListener('dragover', onDragEnter, false);
-	document.querySelector('.drop-area').addEventListener('drop', onDrop, false); //actual event that does stuff
+	
+	let c = createCanvas(window.innerWidth, window.innerHeight);
+	c.drop(gotFile);
+	c.parent(document.querySelector('.drop-area'));
 }
 
 function onDragEnter(e) {
@@ -766,27 +792,6 @@ function onDragLeave(e) {
 	let dropArea = document.querySelector('.drop-area');
 	if (dropArea.classList.contains('drop-fade')) dropArea.classList.remove('drop-fade');
 }
-
-function onDrop(e) {
-	e.preventDefault();
-	e.stopPropagation();
-	let dropArea = document.querySelector('.drop-area');
-	if (dropArea.classList.contains('drop-fade')) dropArea.classList.remove('drop-fade');
-	
-	var file = e.dataTransfer.files[0];
-	// console.log('file', file.name, file.type);
-	if(file.type == 'audio/mpeg')
-	{
-		document.getElementById('search').value = file.name.replace('.mp3','');
-		document.getElementById('search').dispatchEvent(new Event('input'));
-		
-		let query = "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song";
-		query += " WHERE SongTitle = '" + addQuotationInSQLString(document.getElementById('search').value) + "'";
-		// console.log('query', query);
-		queryDb(query, updateOptions);
-	}
-}
-
 
 //TODO:
 //Revamp rendering of table such that original table is never mutated, and filters are done after getArray/getObject (prefer latter?)
