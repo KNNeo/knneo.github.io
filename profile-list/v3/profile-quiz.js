@@ -30,8 +30,7 @@ if(profileListJson.length == 0) {
 			//code here
 			if(profileList != null) {
 				defineNameList();
-				if(localStorage.getItem('mode') == 'By Name') renderQuiz(true);
-				if(localStorage.getItem('mode') == 'By Attributes') renderWordle(true);
+				render();
 			}
 			
 		}
@@ -62,6 +61,12 @@ let quiz = [];
 let qNo = 0;
 let score = 0;
 let startTime;
+function render()
+{
+	if(localStorage.getItem('mode') == 'By Name') renderQuiz(true);
+	if(localStorage.getItem('mode') == 'By Attributes') renderWordle(true);
+}
+
 function toggleSettings() {
 	if(document.querySelector('.settings') != null)
 	{
@@ -69,7 +74,7 @@ function toggleSettings() {
 		let container = document.querySelector('.settings');
 		container.classList.remove('settings');
 		container.innerHTML = '';
-		renderQuiz(true);
+		render();
 	}
 	else
 	{
@@ -406,7 +411,7 @@ function endQuiz() {
 	startTime = null;
 	
 	showResults();
-	renderQuiz();
+	render();
 }
 
 function showStage() {
@@ -531,7 +536,7 @@ function renderWordle(isFirstLoad) {
 	let [table, ended] = generateGrid();
 	document.querySelector('.question').appendChild(table);
 	
-	let input = document.createElement('select');
+	let input = document.querySelector('#guess') ?? document.createElement('select');
 	input.id = 'guess';
 	
 		let option = document.createElement('option');
