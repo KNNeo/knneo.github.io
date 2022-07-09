@@ -409,7 +409,7 @@ function generateSearchHistory(contents) {
 	document.getElementById('search-history').innerHTML = '';
 	
 	if(debugMode) console.log('generateSearchHistory', contents);
-	if(!contents.columns || !contents.values) return;
+	if(!contents || !contents.columns || !contents.values) return;
 	
 	// let headerDiv = document.createElement('h4');
 	// headerDiv.classList.add('centered');
