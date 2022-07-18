@@ -181,11 +181,11 @@ function randomSong(randomSongOnSelect) {
 	}
 	
 	let content = Array.from(document.querySelectorAll('#options option')).filter(c => c.value > 0).map(val => val.value);
-	let total = content.length;
-	if(randomSongOnSelect && content.length == 1) {
+	let total = 10; // content.length;
+	// if(randomSongOnSelect && content.length == 1) {
 		randomSongOnSelect = false;
-	};
-	let songsToQueue = 1; //window['shifted'] ? total : 1;
+	// };
+	let songsToQueue = window['shifted'] ? total : 1;
 	
 	if(randomSongOnSelect)
 	{
@@ -200,7 +200,7 @@ function randomSong(randomSongOnSelect) {
 		};
 		
 		if(debugMode) console.log('playlist',window['playlist']);
-		updateQueueCount();
+		updateQueueButtons();
 		// window['playlist'].shift();
 		// if(document.getElementById('player') == null || document.getElementById('player').paused)
 		// {
@@ -228,8 +228,9 @@ function randomSong(randomSongOnSelect) {
 					songsToQueue--;
 				}
 			} while (songsToQueue > 0);
-			if(debugMode) console.log('playlist',window['playlist']);
-			updateQueueCount();
+			if(debugMode) console.log('playlist', window['playlist']);
+			updateQueueButtons();
+			/*
 			if(document.getElementById('player') == null || document.getElementById('player').paused)
 			{
 				// when autoplay is off
@@ -239,12 +240,13 @@ function randomSong(randomSongOnSelect) {
 				optQuery += window['playlist'][0];
 				if(debugMode) console.log('optQuery', optQuery);
 				queryDb(optQuery, updateOptions);
-			}
+			}*/
 		});
 	}	
 };
 
 function skipSong() {
+	if(window['playing'] == null) window['playing'] = 0;
 	if(document.getElementById('player') == null)
 	{
 		let optQuery = "SELECT * FROM Song WHERE KNID = ";
@@ -252,9 +254,9 @@ function skipSong() {
 		if(debugMode) console.log('optQuery', optQuery);
 		queryDb(optQuery, updateOptions);
 	}
-	else if(document.querySelector('#random-count').innerText.length > 0)
+	else// if(document.querySelector('#random-count').innerText.length > 0)
 		document.getElementById('player').dispatchEvent(new Event('ended'));
-	updateQueueCount();
+	// updateQueue();
 }
 
 function clearQueue() {
@@ -266,6 +268,7 @@ function clearQueue() {
 
 function resetQueueView() {
 	document.querySelector('#random-count').innerText = '';
+	window['playlist'] = [];
 	document.querySelector('#queue-skip').style.display = 'none';
 	document.querySelector('#queue-clear').style.display = 'none';
 }
@@ -335,6 +338,7 @@ function renderVariables() {
 	window['db'] = null;
 	window['playlist'] = [];
 	window['mode'] = 'song';
+	window['playing'] = null;
 }
 
 function generateHomepage() {
@@ -608,11 +612,11 @@ function onChangeOption() {
 	// console.log('queryOption', id);
 	if(id > 0)
 	{
-		if(window['playlist'].length < 2 || window['playlist'][0] != id)
-		{
-			window['playlist'] = [id];
-			document.querySelector('#random-count').innerText = '';
-		}
+		// if(window['playlist'].length < 2 || window['playlist'][0] != id)
+		// {
+			// window['playlist'] = [id];
+			// document.querySelector('#random-count').innerText = '';
+		// }
 		window['mode'] = 'song';
 		let query = "SELECT KNID as ID, KNYEAR, Filename, SongTitle as 'Song Title', ArtistTitle as 'Artist Title', ReleaseTitle as 'Release Title', ReleaseArtistTitle as 'Release Artist', ReleaseYear as 'Year', Rating, Genre, DateCreated as 'Date Added', VocalCode as 'Vocal Code', LanguageCode as 'Language', LyricsURL as 'Lyrics', SongTitleAlt as '" + altTitlePrefix + " Song Title', ArtistID, ReleaseID FROM Song WHERE KNID = " + id;
 		if(debugMode)
@@ -734,7 +738,7 @@ function generateLayout(contents) {
 	
 	setTabs();
 	scrollToTop();
-	updateQueueCount();
+	updateQueueButtons();
 	
 	for(let selected of document.getElementsByClassName('not-selectable'))
 	{
@@ -809,16 +813,22 @@ function generatePlayer(contents) {
 		localStorage.setItem('volume', document.getElementById('player').volume);
 	});
 	audio.addEventListener('ended', function() {
-		if(window['playlist'] != null && window['playlist'].length > 1 && window['playlist'][0] == this.getAttribute('data-id'))
+		if(window['playlist'] != null)// && window['playlist'].length > 1 && window['playlist'][0] == this.getAttribute('data-id'))
 		{
-			//remove first which is current, query next
-			window['playlist'].shift();
+			//find out which is current, query next
+			let next = window['playing'] + 1;
+			if(next >= window['playlist'].length)
+			{
+				console.log('End of playlist reached');
+				return;
+			}
 			// console.log('ended', window['playlist']);
 			setTimeout(function() {
-				let optQuery = "SELECT * FROM Song WHERE KNID = " + window['playlist'][0];
+				let optQuery = "SELECT * FROM Song WHERE KNID = " + (window['playlist'][next]);
 				// console.log('optQuery', optQuery);
 				queryDb(optQuery, updateOptions);
-				updateQueueCount();
+				updateQueue();
+				updateQueueButtons();
 			},200);
 		}
 	});
@@ -846,14 +856,19 @@ function generatePlayer(contents) {
 	}
 }
 
-function updateQueueCount() {
-	let queued = window['playlist'].length - ((document.getElementById('player') == null) ? 0 : 1);
+function updateQueue(next) {
+	// let queued = window['playlist'].length - ((document.getElementById('player') == null) ? 0 : 1);
+	if(window['playing'] == null) window['playing'] = 0;
+	else window['playing'] = next ?? window['playing'] + 1;
 	if(debugMode) console.log('queued', queued);
-	let queueText = queued > 0 ? (queued + ' song' + (queued > 1 ? 's' : '') + ' in queue') : '';
-	document.querySelector('#random-count').title = queueText;
-	document.querySelector('#random-count').innerText = queueText;
-	document.querySelector('#queue-skip').style.display = queued > 0 ? '' : 'none';
-	document.querySelector('#queue-clear').style.display = queued > 0 ? '' : 'none';
+	// let queueText = queued > 0 ? (queued + ' song' + (queued > 1 ? 's' : '') + ' in queue') : '';
+	// document.querySelector('#random-count').title = queueText;
+	// document.querySelector('#random-count').innerText = queueText;
+}
+
+function updateQueueButtons() {
+	document.querySelector('#queue-skip').style.display = window['playing'] == null || window['playing'] < window['playlist'].length - 1 ? '' : 'none';
+	document.querySelector('#queue-clear').style.display = window['playlist'].length > 0 ? '' : 'none';	
 }
 
 function queryInfo(contents) {
@@ -868,7 +883,7 @@ function queryInfo(contents) {
 	
 	let query = "SELECT ArtistTitle AS 'Name', GROUP_CONCAT(ParentArtist, '<br/>') AS 'Tags (if any)', CASE WHEN ArtistCode = 'BD' THEN 'Independent Band' WHEN ArtistCode = 'ID' THEN 'Idol Group' WHEN ArtistCode = 'AG' THEN 'Anime Voice Actor Group' WHEN ArtistCode = 'AS' THEN 'Anime Voice Actor(s)' WHEN ArtistCode = 'CL' THEN 'Collaboration' WHEN ArtistCode = 'SS' THEN 'Singer-Songwriter' WHEN ArtistCode = 'SL' THEN 'Solo Artist' ELSE 'Unknown' END AS 'Artist Type', DisbandYear AS 'Year Disbaneded (if any)', ArtistTitleAlt AS '" + altTitlePrefix + " Name', (SELECT COUNT(*) FROM Song WHERE ArtistTitle = '" + addQuotationInSQLString(row[columnIndexArtistTitle]) + "') AS 'Songs In Library' FROM Artist WHERE ArtistTitle = '" + addQuotationInSQLString(row[columnIndexArtistTitle]) + "' ";
 	query += "GROUP BY ArtistTitle, ArtistCode, DisbandYear, ArtistTitleAlt";
-	// if(debugMode) 
+	if(debugMode) 
 		console.log('generateArtistInfo', query);
 	queryDb(query, generateArtistInfo);
 	
@@ -1182,6 +1197,7 @@ function generateSongRelatedByDate(contents) {
 		let tc = document.createElement('td');
 		tc.style.cursor = 'pointer';
 		tc.setAttribute('data-id', row[columnIndexKNID]);
+		tc.setAttribute('context', 'related');
 		tc.innerText = row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle];
 		tc.addEventListener('click', updateSong);
 		tc.addEventListener('contextmenu', showContextMenu);
@@ -1237,6 +1253,7 @@ function generateSongRelatedByYear(contents) {
 		let tc = document.createElement('td');
 		tc.style.cursor = 'pointer';
 		tc.setAttribute('data-id', row[columnIndexKNID]);
+		tc.setAttribute('context', 'related');
 		tc.innerText = row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle];
 		tc.addEventListener('click', updateSong);
 		tc.addEventListener('contextmenu', showContextMenu);
@@ -1292,6 +1309,7 @@ function generateArtistRelated(contents) {
 		let tc = document.createElement('td');
 		tc.style.cursor = 'pointer';
 		tc.setAttribute('data-id', row[columnIndexKNID]);
+		tc.setAttribute('context', 'related');
 		tc.innerText = row[columnIndexKNYEAR] + ' - ' + row[columnIndexSongTitle];
 		tc.addEventListener('click', updateSong);
 		tc.addEventListener('contextmenu', showContextMenu);
@@ -1348,6 +1366,7 @@ function generateReleaseRelated(contents) {
 		let tc = document.createElement('td');
 		tc.style.cursor = 'pointer';
 		tc.setAttribute('data-id', row[columnIndexKNID]);
+		tc.setAttribute('context', 'related');
 		tc.innerText = row[columnIndexKNYEAR] + ' - ' + row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle];
 		tc.addEventListener('click', updateSong);
 		tc.addEventListener('contextmenu', showContextMenu);
@@ -1406,6 +1425,7 @@ function generateSongFeaturedByArtist(contents) {
 		let tc = document.createElement('td');
 		tc.style.cursor = 'pointer';
 		tc.setAttribute('data-id', row[columnIndexKNID]);
+		tc.setAttribute('context', 'related');
 		tc.innerText = row[columnIndexKNYEAR] + ' - ' + row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle];
 		tc.addEventListener('click', updateSong);
 		tc.addEventListener('contextmenu', showContextMenu);
@@ -2563,11 +2583,11 @@ function generateCoverArt(contents) {
 //--HELPER FUNCTIONS--//
 function updateSong() {
 	window['mode'] = 'song';
+	hideContextMenus();
 	for(let tab of document.getElementsByClassName('module'))
 	{
 		tab.innerHTML = '';
 	}
-
 	
 	let id = this.getAttribute('data-id');
 	let query = "SELECT * FROM Song WHERE KNID = " + id;
@@ -2661,7 +2681,9 @@ function endTestPlayer() {
 
 function showContextMenu() {
 	event.preventDefault();
-	let id = this.getAttribute('data-id');
+	event.stopPropagation();
+    document.addEventListener('click', hideContextMenus);
+    document.addEventListener('wheel', hideContextMenus);
 	
 	let box = document.body.getBoundingClientRect();
     let x = event.clientX - box.left;
@@ -2670,17 +2692,36 @@ function showContextMenu() {
 	let menu = document.querySelector('.context');
     menu.style.top = y + 'px';
     menu.style.left = x + 'px';
-    menu.classList.remove('hidden');	
+	menu.classList.remove('hidden');	
 	menu.innerHTML = '';
+		
+	// console.log(event.target.getAttribute('context'));
+	switch(event.target.getAttribute('context'))
+	{
+		case 'related':
+			menu.appendChild(showAddQueueContextMenu(this.getAttribute('data-id')));
+			break;
+		case 'playlist':
+			menu.appendChild(showPlaylist());
+			break;
+	}
 	
+	if(y + menu.getBoundingClientRect().height >= window.innerHeight)
+	{
+		menu.style.top = (y - menu.getBoundingClientRect().height) + 'px';
+	}
+	
+}
+
+function showAddQueueContextMenu(is) {
 	let submenu = document.createElement('div');
 	
 	let playNext = document.createElement('div');
 	playNext.classList.add('tag');
 	playNext.innerText = 'Play Next';
 	playNext.addEventListener('click', function() {
-		window['playlist'][1] = id;
-		updateQueueCount();
+		window['playlist'].splice(0, 1, id);
+		// updateQueue();
 	});
 	submenu.appendChild(playNext);
 	
@@ -2688,23 +2729,68 @@ function showContextMenu() {
 	playLater.classList.add('tag');
 	playLater.innerText = 'Add To Queue';
 	playLater.addEventListener('click', function() {
-		window['playlist'][window['playlist'].length] = id;
-		updateQueueCount();		
+		window['playlist'].push(id);
+		// updateQueue();
 	});
 	submenu.appendChild(playLater);
 		
-	menu.appendChild(submenu);
-	
-    document.getElementById('tab-list').addEventListener('click', hideContextMenu);	
-    document.getElementById('tab-list').addEventListener('wheel', hideContextMenu);	
+	return submenu;
 }
 
-function hideContextMenu() {
+function showPlaylist() {
+	let submenu = document.createElement('div');
+	
+	if(window['playlist'].length > 0)
+	{
+		let baseQuery = "SELECT KNID, ArtistTitle || ' - ' || SongTitle AS 'DisplayValue' FROM Song";
+		
+		let query = '';
+		for(let p = 0; p < window['playlist'].length; p++)
+		{
+			query += baseQuery;
+			query += " WHERE KNID = '" + window['playlist'][p] + "'";
+			if(p < window['playlist'].length - 1) query += " UNION ALL ";
+		}
+		if(debugMode) console.log('showPlaylist', query);
+		return queryDb(query, renderPlaylistItems);
+	}
+	else if(window['playlist'].length == 0)
+	{
+		let item = document.createElement('div');
+		item.classList.add('tag');
+		item.innerText = 'No items';
+		submenu.appendChild(item);
+	}
+	
+	return submenu;
+}
+
+function renderPlaylistItems(list) {
+	let submenu = document.createElement('div');
+	
+	for(let listItem of list.values)
+	{
+		let item = document.createElement('div');
+		item.classList.add('tag');
+		item.setAttribute('data-id', listItem[0]);
+		if(window['playlist'][window['playing']] == listItem[0]) item.style.fontWeight = 'bold';
+		item.innerText = listItem[1];
+		item.addEventListener('click', updateSong);
+		item.addEventListener('click', function() {
+			window['playing'] = window['playlist'].indexOf(this.getAttribute('data-id'));
+			document.querySelector('.context').classList.add('hidden');
+		});
+		submenu.appendChild(item);
+	}
+	return submenu;
+}
+
+function hideContextMenus() {
 	let menu = document.querySelector('.context');
     if (!menu.contains(event.target)) menu.classList.add('hidden');
 
-	document.getElementById('tab-list').removeEventListener('click', hideContextMenu);
-    document.getElementById('tab-list').removeEventListener('wheel', hideContextMenu);	
+	document.removeEventListener('click', hideContextMenus);
+    document.removeEventListener('wheel', hideContextMenus);	
 }
 
 //drag and drop

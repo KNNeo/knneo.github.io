@@ -252,6 +252,9 @@ body {
 	font-size: 0.9em;
 	position: fixed;
 	width: auto;
+	max-width: 40vw;
+	max-height: 80vh;
+	overflow-y: auto;
 }
 
 .hidden {
