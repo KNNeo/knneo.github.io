@@ -32,6 +32,10 @@ body > * {
 	padding-top: 80px;
 }
 
+.thumbnail {
+	cursor: pointer;
+}
+
 .material-icons {
 	cursor: pointer;
 	padding: 10px;
