@@ -111,9 +111,9 @@ function renderList() {
 			let thumbnail = document.createElement('img');
 			thumbnail.classList.add('thumbnail');
 			thumbnail.setAttribute('data-image', v.thumbnail);
-			thumbnail.style.backgroundSize = 'contain';
-			thumbnail.style.backgroundRepeat = 'no-repeat';
-			thumbnail.style.backgroundPosition = 'center';
+			// thumbnail.style.backgroundSize = 'contain';
+			// thumbnail.style.backgroundRepeat = 'no-repeat';
+			// thumbnail.style.backgroundPosition = 'center';
 			thumbnail.style.width = '120px';
 			thumbnail.addEventListener('click', function() {
 				window.open(v.link);
