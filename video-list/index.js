@@ -33,7 +33,11 @@ function fadeIn() {
     for (let elem of boxes) {
         // let elem = boxes[i]
         let distInViewFromTop = elem.getBoundingClientRect().top - window.innerHeight + 20;
-        if (distInViewFromTop < 0) {
+        let distInViewFromBottom = elem.getBoundingClientRect().bottom + window.innerHeight - 20;
+		let inView = distInViewFromTop <= 0 && distInViewFromBottom > window.innerHeight;
+		let thumbnail = elem.querySelector('img');
+        if (thumbnail.complete && inView) {
+			thumbnail.src = thumbnail.getAttribute('data-image');
             elem.classList.add("tile-view");
             setTimeout(function() { elem.classList.add("no-delay"); }, 500);
         }
@@ -45,7 +49,7 @@ function fadeIn() {
 }
 
 function renderMenu() {
-	document.querySelector('.menu').innerHTML = '';
+	// document.querySelector('.menu').innerHTML = '';
 	
 	let sort = document.createElement('a');
 	sort.classList.add('material-icons');
@@ -110,9 +114,7 @@ function renderList() {
 			thumbnail.style.backgroundSize = 'contain';
 			thumbnail.style.backgroundRepeat = 'no-repeat';
 			thumbnail.style.backgroundPosition = 'center';
-			// thumbnail.style.backgroundImage = addUrlClause(v.thumbnail);
 			thumbnail.style.width = '120px';
-			// thumbnail.style.height = '150px';
 			thumbnail.addEventListener('click', function() {
 				window.open(v.link);
 			});
@@ -138,8 +140,7 @@ function renderList() {
 		document.querySelector('.list').appendChild(video);
 	}
 	
-	setTimeout(loadImages, 200);
-	fadeIn();
+	setTimeout(fadeIn, 200);
 }
 
 function loadImages() {
