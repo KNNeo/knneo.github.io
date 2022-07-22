@@ -84,7 +84,7 @@ body {
 .content-box {
   border: 1px solid lightgray;
   box-shadow: 3px 3px;
-  padding: 4px;
+  /* padding: 4px; */
   white-space: normal;
   width: 100%;
 }
@@ -217,6 +217,7 @@ body {
 	cursor: pointer;
 	flex-basis: 14%;
 	text-align: center;
+	padding: 4px;
 }
 
 .tags .tag:hover {
