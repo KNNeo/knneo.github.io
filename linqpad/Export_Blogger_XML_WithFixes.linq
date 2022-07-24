@@ -28,7 +28,7 @@
  * []	all table styles to be within post
  * [ok]	remove hashtags on post level
  * [ok]	alternate links detection for new popups (youtu.be)
- * [disabled, error]	any link not referenced within blog to open on new tab
+ * [ok]	any link not referenced within blog to open on new tab
  * [ok]	remove add href to hashtags script
  * []	remove wallpaper images cache linked from facebook
  * [ok]	fix primary and secondary colours to variables
@@ -170,6 +170,7 @@ void Main()
         
         // FIX POST CONTENT
         int count = 0;
+        string origContent = entry.Element(_+"content").Value;
         string content = entry.Element(_+"content").Value;
         string expression, matchExpression;
         Match match, matchExp;
@@ -432,41 +433,26 @@ void Main()
         #endregion
         
         #region any link not referenced within blog to open on new tab
-		/*if(TraceMode) Console.WriteLine("any link not referenced within blog to open on new tab");
-        content = content.Replace("       >", ">").Replace("        <", " <").Replace("     ", " ").Replace("a   >", "a>");
-        expression = @"(<a )(.*?)(?<=href="")(.*?)(?="")(.*?)(>)(.*?)(</a>)";
-        
-        match = Regex.Match(content, expression);
         prefix = @"<a href=""";
-        midfix = @""" target=""_blank"">";
-        suffix = "</a>";
-        while(match.Success)
-        {
-            if(!(match.Value.Contains("target=\"_blank\"") || match.Value.Contains("name='more'")) && 
-            !(match.Groups[3].Value.Contains("blogspot") || match.Groups[3].Value.Contains("https://www.blogger.com/null")) && 
-            !match.Groups[6].Value.Contains("<img"))
-            {
-                //Add to debug
-                //if(match.Success && !match.Value.Contains("twitter.com")) matchItems.Add(new MatchItem {
-                //	Title = "external link",
-                //	Item = match.Value
-                //});
-                if(match.Success) count++;
-                var replacement = prefix + match.Groups[3].Value + midfix + match.Groups[6].Value + suffix;
+        midfix = @""" target=""_blank""";
+        suffix = ">";
+        expression = @"(<a)(.*?)(href="")(.*?)("")(.*?)(>)";        
+        match = Regex.Match(content, expression);
+        while(match.Success) {
+			var url = match.Groups[4].Value;
+			if(!match.Groups[6].Value.Contains("_blank")
+			&& !url.StartsWith("#")
+			&& !url.Contains("twitter.")
+			&& !url.Contains("t.co")
+			&& !url.Contains("blogger.")
+			&& !url.Contains("blogspot.com")
+			) {
+				count++;
+                var replacement = prefix + url + midfix + match.Groups[6].Value + suffix;
                 content = content.Replace(match.Value, replacement);
-            }
-            else if(match.Groups[3].Value.Contains("knwebreports"))
-            {
-                //Add to debug
-                //if(match.Success) matchItems.Add(new MatchItem {
-                //	Title = "link within blog",
-                //	Item = match.Value
-                //});
-                content = content.Replace(match.Value, match.Value.Replace("target=\"_blank\"", ""));
-            }
-            
+			}
             match = match.NextMatch();
-        };*/
+        };
         #endregion
         
         #region remove add href to hashtags script
