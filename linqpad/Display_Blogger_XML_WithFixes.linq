@@ -4,20 +4,6 @@
   <Namespace>System.Windows.Forms</Namespace>
 </Query>
 
-string UpdateRegexContent(string content, Match loosematch, Match strictMatch, string replacementPrefix, string replacementSuffix)
-{
-	var newContent = content;
-	while(loosematch.Success)
-	{
-		var replacement = replacementPrefix + strictMatch.Value + replacementSuffix;
-		newContent = newContent.Replace(loosematch.Value, replacement);
-		loosematch = loosematch.NextMatch();
-		strictMatch = strictMatch.NextMatch();
-	};
-	
-	return newContent;
-}
-
 void Main()
 {
 	string folderpath = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\";
@@ -39,8 +25,6 @@ void Main()
 	string text = File.ReadAllText(filepath);
 	XDocument doc = XDocument.Parse(text);
 	
-	// Use XNamespaces to deal with those pesky "xmlns" attributes.
-	// The underscore represents the default namespace.
 	var _ = XNamespace.Get("http://www.w3.org/2005/Atom");
 	var app = XNamespace.Get("http://purl.org/atom/app#");
 	
@@ -53,18 +37,14 @@ void Main()
 		// Exclude any entries with an <app:draft> element except <app:draft>no</app:draft>
 		.Where(entry => !entry.Descendants(app+"draft").Any(draft => draft.Value != "no"));
 	
-	#region Only For Export
-	
-	#endregion
-	
 	var postCount = 0;
-	List<int> includeIndex = new List<int> { 14 }; //INDEXES HERE//
+	List<int> includeIndex = new List<int> { 18 }; //INDEXES HERE//
 	if(includeIndex.Count > 0) Console.WriteLine("[SELECTIVE_CHECKS_ACTIVATED]");
 		
 	/* [ID] List of Cases:		
 	 * [01]	fix twitter embed
 	 * [02]	fix youtube iframe size
-	 * []	remove embed styles for thumbnail normal/hover (ignore posts with sp-thumbnail)
+	 * [03]	remove embed styles for thumbnail normal/hover (posts with sp-thumbnail will be ignored)
 	 * [04]	thumbnail normal table => new thumbnail
 	 * [05]	thumbnail hover table => new thumbnail
      * [06]	sp-thumbnail active => new thumbnail
@@ -76,7 +56,7 @@ void Main()
 	 * []	div popup normal pop (images) => div new-thumbnail
 	 * []	adjust ent news headers
 	 * []	add class to header prefix for styling
-	 * [14]	set all link directory to current blog
+	 * [14]	old blog link to current blog
 	 * []	all table styles to be within post
 	 * [16]	remove hashtags on post level
 	 * [17]	alternate links detection for new popups (youtu.be)
@@ -158,14 +138,26 @@ void Main()
 		}
 		#endregion
 		
+        #region 03 remove embed styles for thumbnail normal/hover (posts with sp-thumbnail will be ignored)
+		if(includeIndex.Count() == 0 || includeIndex.Contains(3))
+		{
+	        expression = @"(<style)(.*?)(.thumbnail .hover)(.*?)(</style>)";
+	        match = Regex.Match(content, expression);
+	        while(match.Success) {
+	            fixes.Add(new MatchItem() {
+						match = match,
+						description = "[03] embed styles for thumbnail found"
+					});
+	            match = match.NextMatch();
+	        };
+		}
+        #endregion
+		
         #region 04 thumbnail => new thumbnail
 		if(includeIndex.Count() == 0 || includeIndex.Contains(4))
 		{
         	expression = @"(<div class=""thumbnail"">)(.*?)(<span class=""normal"">)(.*?)(<span class=""hover"">)(.*?)(</div>)";      
 	        match = Regex.Match(content, expression);
-	        prefix = @"<div class=""thumbnail""><div class=""thumbnail-initial hover-hidden"">";
-	        midfix = @"</div><div class=""thumbnail-initial thumbnail-pop hover-visible"">";
-	        suffix = @"</div></div>";
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
 						match = match,
@@ -185,9 +177,6 @@ void Main()
 		{
         	expression = @"(<div class=""sp-thumbnail"">)(.*?)(<span class=""normal"">)(.*?)(<span class=""clicker"">)(.*?)(<span class=""hover"">)(.*?)(</div>)";      
 	        match = Regex.Match(content, expression);
-	        prefix = @"<div class=""thumbnail""><div class=""thumbnail-initial hover-hidden"">";
-	        midfix = @"</div><div class=""thumbnail-initial thumbnail-pop hover-visible"">";
-	        suffix = @"</div></div>";
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
 						match = match,
@@ -203,9 +192,6 @@ void Main()
 		{
 	        expression = @"(<div class=""popup""><span class=""initial"">)(.*?)(</span><span class=""pop"" style=""margin: 0; position: initial;"">)(.*?)(</span></div>)";        
 	        match = Regex.Match(content, expression);
-	        prefix = @"<div class=""thumbnail""><div class=""thumbnail-initial hover-hidden"">";
-	        midfix = @"</div><div class=""thumbnail-initial thumbnail-pop hover-visible"">";
-	        suffix = @"</div></div>";
 	        while(match.Success && match.Groups[2].Value.Contains("<table") && match.Groups[4].Value.Contains("<table")) {
 	            fixes.Add(new MatchItem() {
 						match = match,
@@ -221,9 +207,6 @@ void Main()
 		{
 	        expression = @"(<span class=""popup""><span class=""initial"">)(.*?)(</span><span class=""pop"" style=""margin: 0; position: initial;"">)(.*?)(</span></span>)";        
 	        match = Regex.Match(content, expression);
-	        prefix = @"<div class=""thumbnail""><div class=""thumbnail-initial hover-hidden"">";
-	        midfix = @"</div><div class=""thumbnail-initial thumbnail-pop hover-visible"">";
-	        suffix = @"</div></div>";
 	        while(match.Success && match.Groups[2].Value.Contains("<table") && match.Groups[4].Value.Contains("<table")) {
 	            fixes.Add(new MatchItem() {
 						match = match,
@@ -234,7 +217,7 @@ void Main()
 		}
         #endregion
 		
-        #region 14 set all link directory to current blog
+        #region 14 old blog link to current blog
 		if(includeIndex.Count() == 0 || includeIndex.Contains(14))
 		{
 	        expression = @"(href=""https://knwebreports2014.blogspot.com/)(.*?)(target=""_blank"")(.*?)(>)";
@@ -299,9 +282,9 @@ void Main()
 				if(!match.Groups[6].Value.Contains("_blank")
 				&& !url.StartsWith("#")
 				&& !url.Contains("twitter.")
-				&& !url.Contains("t.co")
+				&& !url.Contains("t.co/")
 				&& !url.Contains("blogger.")
-				&& !url.Contains("blogspot.com")
+				&& !url.Contains("bp.blogspot.com")
 				&& !url.Contains("../../")
 				&& !url.Contains(domainLink)
 				) {
@@ -390,7 +373,6 @@ void Main()
 public class Result {
 	public string title { get; set; }
 	public List<MatchItem> fixes { get; set; }
-	//public List<string> content { get; set; }
 }
 
 public class MatchItem {

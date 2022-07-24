@@ -13,7 +13,7 @@
  * [Status] List of Cases
  * [ok]	fix twitter embed
  * [ok]	fix youtube iframe size
- * []	remove embed styles for thumbnail normal/hover (ignore posts with sp-thumbnail)
+ * [ok]	remove embed styles for thumbnail normal/hover (posts with sp-thumbnail will be ignored)
  * [ok]	thumbnail normal table => new thumbnail
  * []	thumbnail hover table => new thumbnail
  * [ok]	sp-thumbnail active => new thumbnail
@@ -25,7 +25,7 @@
  * []	div popup normal pop (images) => div new-thumbnail
  * []	adjust ent news headers
  * []	add class to header prefix for styling
- * []	set all link directory to current blog
+ * [ok]	old blog link to current blog
  * []	all table styles to be within post
  * [ok]	remove hashtags on post level
  * [ok]	alternate links detection for new popups (youtu.be)
@@ -228,12 +228,16 @@ void Main()
 		}
 		#endregion
         
-        #region remove embed styles for thumbnail normal/hover (ignore posts with sp-thumbnail)
-        //var thumbnailStyle = ".thumbnail .hover {       display:none;     }     .thumbnail:hover .normal {       display:none;     }     .thumbnail:hover .hover {       display:inline;  /* CHANGE IF FOR BLOCK ELEMENTS */     } ";
-        //if(content.Contains(thumbnailStyle)) count++;
-        //content = content.Replace(thumbnailStyle, "");
-		
-		//alternatively consider changing sp-thumbnail as part of new thumbnail
+        #region 03 remove embed styles for thumbnail normal/hover (posts with sp-thumbnail will be ignored)
+		if(includeIndex.Count() == 0 || includeIndex.Contains(3))
+		{
+	        expression = @"(<style)(.*?)(.thumbnail .hover)(.*?)(</style>)";
+	        match = Regex.Match(content, expression);
+	        while(match.Success) {
+				content = content.Replace(match.Value, "");
+	            match = match.NextMatch();
+	        };
+		}
         #endregion
         
         #region 04 thumbnail => new thumbnail
@@ -429,7 +433,7 @@ void Main()
         //content = content.Replace(animeHeaderPrefix, @"<span class=""head-prefix"">");
         #endregion
         
-        #region 14 set all link directory to current blog
+        #region 14 old blog link to current blog
 		if(includeIndex.Count() == 0 || includeIndex.Contains(14))
 		{
 	        expression = @"(href=""https://knwebreports2014.blogspot.com/)(.*?)(target=""_blank"")(.*?)(>)";
@@ -485,7 +489,7 @@ void Main()
 		}
         #endregion
         
-        #region any link not referenced within blog to open on new tab
+        #region 18 any link not referenced within blog to open on new tab
         prefix = @"<a href=""";
         midfix = @""" target=""_blank""";
         suffix = ">";
@@ -494,13 +498,13 @@ void Main()
         while(match.Success) {
 			var url = match.Groups[4].Value;
 			if(!match.Groups[6].Value.Contains("_blank")
-			&& !url.StartsWith("#")
+			//&& !url.StartsWith("#")
 			&& !url.Contains("twitter.")
-			&& !url.Contains("t.co")
+			&& !url.Contains("t.co/")
 			&& !url.Contains("blogger.")
-			&& !url.Contains("blogspot.com")
+			&& !url.Contains("bp.blogspot.com")
 			&& !url.Contains("../../")
-			&& !url.StartsWith(domainLink)
+			&& !url.Contains(domainLink)
 			) {
 				count++;
                 var replacement = prefix + url + midfix + match.Groups[6].Value + suffix;
