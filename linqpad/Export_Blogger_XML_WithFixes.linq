@@ -32,6 +32,7 @@
  * [ok]	remove add href to hashtags script
  * []	remove wallpaper images cache linked from facebook
  * [ok]	fix primary and secondary colours to variables
+ * [ok] (entertainment news) convert inline styles migrated to blog.css
  * []	export list of images from latest
  * [ok]	replace common phrases with emoji
  */
