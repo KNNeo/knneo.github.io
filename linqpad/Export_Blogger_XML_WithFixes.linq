@@ -161,6 +161,7 @@ void Main()
 	}	
 	
     // Process XML content per post
+	List<int> includeIndex = new List<int> { };
     for (var p = 0; p < posts.Count(); p++)
     {
 		var entry = posts.ElementAt(p);
@@ -182,7 +183,6 @@ void Main()
         // [1] Define Regex Expression (loose and strict)
         // [2] Replace String According to Expression (simple without format, or simple with format, or complex use UpdateRegexContent)
         
-		List<int> includeIndex = new List<int> { };
 		
 		#region 01 fix twitter embed
 		if(includeIndex.Count() == 0 || includeIndex.Contains(1))
@@ -432,16 +432,15 @@ void Main()
         #endregion
         
         #region remove hashtags on post level
-		if(TraceMode) Console.WriteLine("remove hashtags on post level");
-        // only remove those without old hiddenTags span comma seaprated list
-        expression = @"(<script>)(.*?)(var hashtags)(.*?)(</script>)";
-        match = Regex.Match(content, expression);
-        while(match.Success)
-        {
-            content = content.Replace(match.Value, "");
-            match = match.NextMatch();
-        };
-        if(match.Success) count++;
+		if(includeIndex.Count() == 0 || includeIndex.Contains(16))
+		{
+	        expression = @"(<script>)(.*?)(var hashtags)(.*?)(</script>)";
+	        match = Regex.Match(content, expression);
+	        while(match.Success) {
+				content = content.Replace(match.Value, "");
+	            match = match.NextMatch();
+	        };
+		}
         #endregion
         
         #region alternate links detection for new popups (youtu.be)
