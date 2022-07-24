@@ -58,7 +58,7 @@ void Main()
 	#endregion
 	
 	var postCount = 0;
-	List<int> includeIndex = new List<int> { 4 }; //INDEXES HERE//
+	List<int> includeIndex = new List<int> { 14 }; //INDEXES HERE//
 	if(includeIndex.Count > 0) Console.WriteLine("[SELECTIVE_CHECKS_ACTIVATED]");
 		
 	/* [ID] List of Cases:		
@@ -76,7 +76,7 @@ void Main()
 	 * []	div popup normal pop (images) => div new-thumbnail
 	 * []	adjust ent news headers
 	 * []	add class to header prefix for styling
-	 * []	set all link directory to current blog
+	 * [14]	set all link directory to current blog
 	 * []	all table styles to be within post
 	 * [16]	remove hashtags on post level
 	 * [17]	alternate links detection for new popups (youtu.be)
@@ -234,6 +234,21 @@ void Main()
 		}
         #endregion
 		
+        #region 14 set all link directory to current blog
+		if(includeIndex.Count() == 0 || includeIndex.Contains(14))
+		{
+	        expression = @"(href=""https://knwebreports2014.blogspot.com/)(.*?)(target=""_blank"")(.*?)(>)";
+	        match = Regex.Match(content, expression);
+	        while(match.Success) {
+	            fixes.Add(new MatchItem() {
+						match = match,
+						description = "[14] old blog link found"
+					});
+	            match = match.NextMatch();
+	        };
+		}
+        #endregion
+        
         #region 16 remove hashtags on post level
 		if(includeIndex.Count() == 0 || includeIndex.Contains(16))
 		{

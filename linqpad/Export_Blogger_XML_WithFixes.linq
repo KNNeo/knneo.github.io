@@ -429,7 +429,17 @@ void Main()
         //content = content.Replace(animeHeaderPrefix, @"<span class=""head-prefix"">");
         #endregion
         
-        #region set all link directory to current blog
+        #region 14 set all link directory to current blog
+		if(includeIndex.Count() == 0 || includeIndex.Contains(14))
+		{
+	        expression = @"(href=""https://knwebreports2014.blogspot.com/)(.*?)(target=""_blank"")(.*?)(>)";
+	        match = Regex.Match(content, expression);
+	        while(match.Success) {
+	            var replacement = match.Value.Replace("target=\"_blank\"", "").Replace("https://knwebreports2014.blogspot.com/", "../../");
+	            content = content.Replace(match.Value, replacement);
+	            match = match.NextMatch();
+	        };
+		}
         //var oldDomainLink = "https://knwebreports2014.blogspot.com/";
         //content = content.Replace(oldDomainLink, domainLink);
         //if(content.Contains(oldDomainLink)) count++;
