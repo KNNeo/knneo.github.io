@@ -170,7 +170,7 @@ void Main()
         
         // FIX POST CONTENT
         int count = 0;
-        string origContent = entry.Element(_+"content").Value;
+        string oldContent = entry.Element(_+"content").Value;
         string content = entry.Element(_+"content").Value;
         string expression, matchExpression;
         Match match, matchExp;
@@ -182,26 +182,49 @@ void Main()
         // [1] Define Regex Expression (loose and strict)
         // [2] Replace String According to Expression (simple without format, or simple with format, or complex use UpdateRegexContent)
         
-        #region fix twitter embed
-		if(TraceMode) Console.WriteLine("fix twitter embed");
-        var twitterScript = "\"//platform.twitter.com/widgets.js\"";
-        if(content.Contains(twitterScript)) count++;
-        content = content.Replace(twitterScript, "\"https://platform.twitter.com/widgets.js\"");
-        
-        var unalignedTweetClass = "class=\"twitter-tweet";
-        content = content.Replace(unalignedTweetClass, "class=\"twitter-tweet tw-align-center");
-        if(content.Contains("class=\"twitter-tweet tw-align-center tw-align-center")) count++;
-        content = content.Replace("class=\"twitter-tweet tw-align-center tw-align-center", "class=\"twitter-tweet tw-align-center");
-        #endregion
-        
-        #region fix youtube iframe size
-		if(TraceMode) Console.WriteLine("fix youtube iframe size");
-        var youtubeHeight = @"height=""315""";
-        var youtubeWidth = @"width=""560""";
-        if(content.Contains(youtubeHeight) || content.Contains(youtubeWidth)) count++;
-        content = content.Replace(youtubeHeight, "");
-        content = content.Replace(youtubeWidth, "");
-        #endregion
+		List<int> includeIndex = new List<int> { };
+		
+		#region 01 fix twitter embed
+		if(includeIndex.Count() == 0 || includeIndex.Contains(1))
+		{
+	        expression = @"(""//platform.twitter.com)";
+	        match = Regex.Match(content, expression);
+	        while(match.Success) {
+				//Console.WriteLine(title);
+				//Console.WriteLine(match);
+				content = content.Replace(match.Value, match.Value.Replace("//platform.twitter.com", "https://platform.twitter.com"));
+	            match = match.NextMatch();
+	        };
+			
+	        expression = @"(<blockquote)(.*?)(?<=class=""twitter-tweet)(.*?)(>)";
+	        match = Regex.Match(content, expression);
+	        while(match.Success && match.Groups[2].Value.EndsWith("twitter-tweet") && !match.Groups[3].Value.Contains("tw-align-center")) {
+				//Console.WriteLine(title);
+				Console.WriteLine(match);
+				content = content.Replace(match.Value, match.Value.Replace("twitter-tweet", "twitter-tweet tw-align-center"));
+	            match = match.NextMatch();
+	        };
+		}
+		#endregion
+		
+		#region 02 fix youtube iframe size
+		if(includeIndex.Count() == 0 || includeIndex.Contains(2))
+		{
+	        expression = @"(height=""315"")";
+	        match = Regex.Match(content, expression);
+	        while(match.Success) {
+				content = content.Replace(match.Value, match.Value.Replace("height=\"315\"", ""));
+	            match = match.NextMatch();
+	        };
+			
+	        expression = @"(width=""560"")";
+	        match = Regex.Match(content, expression);
+	        while(match.Success) {
+				content = content.Replace(match.Value, match.Value.Replace("width=\"560\"", ""));
+	            match = match.NextMatch();
+	        };
+		}
+		#endregion
         
         #region remove embed styles for thumbnail normal/hover (ignore posts with sp-thumbnail)
         //var thumbnailStyle = ".thumbnail .hover {       display:none;     }     .thumbnail:hover .normal {       display:none;     }     .thumbnail:hover .hover {       display:inline;  /* CHANGE IF FOR BLOCK ELEMENTS */     } ";
