@@ -58,6 +58,9 @@ void Main()
 	#endregion
 	
 	var postCount = 0;
+	List<int> includeIndex = new List<int> { 23 };
+	if(includeIndex.Count > 0) Console.WriteLine("[SELECTIVE_CHECKS_ACTIVATED]");
+	
 	// Process XML content per post
 	foreach (var entry in posts)
 	{
@@ -67,7 +70,6 @@ void Main()
 		// FIX POST CONTENT
 		string title = entry.Element(_+"title").Value;
 		if(title.Length == 0) title = "A Random Statement";
-		Console.WriteLine(title);
 		
 		string oldContent = entry.Element(_+"content").Value;
 		string content = entry.Element(_+"content").Value;
@@ -76,7 +78,6 @@ void Main()
 		string prefix, midfix, suffix;
 		List<MatchItem> fixes = new List<MatchItem>();
 		
-		List<int> includeIndex = new List<int> { 2 };
 		
 		/* [ID] List of Cases:		
 		 * [01]	fix twitter embed
@@ -100,14 +101,15 @@ void Main()
 		 * [19]	remove add href to hashtags script
 		 * []	remove wallpaper images cache linked from facebook
 		 * [21]	fix primary and secondary colours to variables
+		 * [22] (entertainment news) convert inline styles migrated to blog.css
 		 * []	export list of images from latest
-		 * [23]	replace common phrases with emoji
+		 * [24]	replace common phrases with emoji
 		 */
 		
 		#region 01 fix twitter embed
 		if(includeIndex.Count() == 0 || includeIndex.Contains(1))
 		{
-	        expression = @"(""//platform.twitter.com)";
+	        expression = @"(<script)(.*?)(""//platform.twitter.com)(.*?)(>)";
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
@@ -210,19 +212,25 @@ void Main()
         #region 17 alternate links detection for new popups (youtu.be)
 		if(includeIndex.Count() == 0 || includeIndex.Contains(17))
 		{
-        var youTubeLink = @"https://youtu.be";
-        if(content.Contains(youTubeLink)) 
-            fixes.Add(new MatchItem() {
-					match = null,
-					description = "[17] youtube https redirect link found"
-				});
-        
-        youTubeLink = @"http://youtu.be";
-        if(content.Contains(youTubeLink)) 
-            fixes.Add(new MatchItem() {
-					match = null,
-					description = "[17] youtube http redirect link found"
-				});
+	        expression = @"(href=""https://youtu.be)(.*?)(>)";
+	        match = Regex.Match(content, expression);
+	        while(match.Success) {
+	            fixes.Add(new MatchItem() {
+						match = match,
+						description = "[17] youtube https redirect link found"
+					});
+	            match = match.NextMatch();
+	        };
+			
+	        expression = @"(href=""http://youtu.be)(.*?)(>)";
+	        match = Regex.Match(content, expression);
+	        while(match.Success) {
+	            fixes.Add(new MatchItem() {
+						match = match,
+						description = "[17] youtube http redirect link found"
+					});
+	            match = match.NextMatch();
+	        };
 		}
         #endregion
         
@@ -250,6 +258,53 @@ void Main()
 		}
         #endregion
 		
+        #region 19 remove add href to hashtags script
+		if(includeIndex.Count() == 0 || includeIndex.Contains(19))
+		{
+	        expression = @"(<script>)(.*?)(var childDivs)(.*?)(</script>)";
+	        match = Regex.Match(content, expression);
+	        while(match.Success) {
+	            fixes.Add(new MatchItem() {
+						match = match,
+						description = "[19] hashtag script tag found"
+					});
+	            match = match.NextMatch();
+	        };
+		}
+        #endregion
+                
+        #region 21 fix primary and secondary colours to variables
+		//GENERIC REPLACE, CHECK NOT REQUIRED
+        #endregion
+		
+		#region 23 (entertainment news) convert inline styles migrated to blog.css
+		if(includeIndex.Count() == 0 || includeIndex.Contains(23))
+		{
+	        expression = @"(<div)(.*?)(id=""news-thumbnail"" style=""display: none;"")(.*?)(>)";
+	        match = Regex.Match(content, expression);
+	        while(match.Success) {
+	            fixes.Add(new MatchItem() {
+						match = match,
+						description = "[23] news-thumbnail with display none found"
+					});
+	            match = match.NextMatch();
+	        };
+			
+	        expression = @"(<div)(.*?)(id=""hashtags"" style=""color: #bbbbbb; font-size: 0.8em;"")(.*?)(>)";
+	        match = Regex.Match(content, expression);
+	        while(match.Success) {
+	            fixes.Add(new MatchItem() {
+						match = match,
+						description = "[23] hashtags with fixed style found"
+					});
+	            match = match.NextMatch();
+	        };
+		}
+		#endregion
+		
+        #region 24 replace common phrases with emoji
+		//GENERIC REPLACE, CHECK NOT REQUIRED
+        #endregion
 		
 		
 		
@@ -259,13 +314,13 @@ void Main()
 		var count = fixes.Count();
 		if(fixes.Count() > 0)
 		{
+			Console.WriteLine(title + " [" + count + " issue(s)]");
 			Console.WriteLine(new Result {
 				title = title,
 				fixes = fixes,
 				//content = new List<string>() { oldContent },
 				//newContent = content
 			});
-			Console.WriteLine(title + " [" + count + " issue(s)]");
 			postCount++;
 		}
 		//count++;
