@@ -202,7 +202,7 @@ void Main()
 	        match = Regex.Match(content, expression);
 	        while(match.Success && match.Groups[2].Value.EndsWith("twitter-tweet") && !match.Groups[3].Value.Contains("tw-align-center")) {
 				//Console.WriteLine(title);
-				Console.WriteLine(match);
+				//Console.WriteLine(match);
 				content = content.Replace(match.Value, match.Value.Replace("twitter-tweet", "twitter-tweet tw-align-center"));
 	            match = match.NextMatch();
 	        };
@@ -440,9 +440,6 @@ void Main()
 	            match = match.NextMatch();
 	        };
 		}
-        //var oldDomainLink = "https://knwebreports2014.blogspot.com/";
-        //content = content.Replace(oldDomainLink, domainLink);
-        //if(content.Contains(oldDomainLink)) count++;
         #endregion
         
         #region all table styles to be within post
@@ -457,7 +454,7 @@ void Main()
         //	Console.WriteLine(match.Value);
         #endregion
         
-        #region remove hashtags on post level
+        #region 16 remove hashtags on post level
 		if(includeIndex.Count() == 0 || includeIndex.Contains(16))
 		{
 	        expression = @"(<script>)(.*?)(var hashtags)(.*?)(</script>)";
@@ -469,7 +466,7 @@ void Main()
 		}
         #endregion
         
-        #region alternate links detection for new popups (youtu.be)
+        #region 17 alternate links detection for new popups (youtu.be)
 		if(includeIndex.Count() == 0 || includeIndex.Contains(17))
 		{
 	        expression = @"(href=""https://youtu.be)(.*?)(>)";
@@ -502,6 +499,8 @@ void Main()
 			&& !url.Contains("t.co")
 			&& !url.Contains("blogger.")
 			&& !url.Contains("blogspot.com")
+			&& !url.Contains("../../")
+			&& !url.StartsWith(domainLink)
 			) {
 				count++;
                 var replacement = prefix + url + midfix + match.Groups[6].Value + suffix;
@@ -594,7 +593,7 @@ void Main()
 //        Console.WriteLine(match);
 //        if(match.Success) count++;
         #endregion
-        
+		
         //Add to debug
         if(matchItems.Count() > 0)
             Console.WriteLine(matchItems);

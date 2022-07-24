@@ -302,6 +302,8 @@ void Main()
 				&& !url.Contains("t.co")
 				&& !url.Contains("blogger.")
 				&& !url.Contains("blogspot.com")
+				&& !url.Contains("../../")
+				&& !url.Contains(domainLink)
 				) {
 					fixes.Add(new MatchItem() {
 						match = match,
