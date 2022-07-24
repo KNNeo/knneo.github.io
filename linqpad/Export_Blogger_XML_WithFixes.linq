@@ -445,14 +445,22 @@ void Main()
         #endregion
         
         #region alternate links detection for new popups (youtu.be)
-		if(TraceMode) Console.WriteLine("alternate links detection for new popups (youtu.be)");
-        var youTubeLink = @"https://youtu.be";
-        if(content.Contains(youTubeLink)) count++;
-        content = content.Replace(youTubeLink, @"https://www.youtube.com/watch?v=");
-        
-        youTubeLink = @"http://youtu.be";
-        if(content.Contains(youTubeLink)) count++;
-        content = content.Replace(youTubeLink, @"https://www.youtube.com/watch?v=");
+		if(includeIndex.Count() == 0 || includeIndex.Contains(17))
+		{
+	        expression = @"(href=""https://youtu.be)(.*?)(>)";
+	        match = Regex.Match(content, expression);
+	        while(match.Success) {
+				content = content.Replace(match.Value, match.Value.Replace("https://youtu.be", "https://www.youtube.com/watch?v="));
+	            match = match.NextMatch();
+	        };
+			
+	        expression = @"(href=""http://youtu.be)(.*?)(>)";
+	        match = Regex.Match(content, expression);
+	        while(match.Success) {
+				content = content.Replace(match.Value, match.Value.Replace("http://youtu.be", "https://www.youtube.com/watch?v="));
+	            match = match.NextMatch();
+	        };
+		}
         #endregion
         
         #region any link not referenced within blog to open on new tab
