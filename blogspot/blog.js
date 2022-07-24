@@ -450,13 +450,13 @@ function renderPopup() {
     //if(link.childElementCount == 0)
     event.preventDefault();
 
-    if ((this.href.includes('blogspot.com') || this.href.includes('blogger.googleusercontent.com')) && this.target == '') return; //exclusion for blogger
+	
+    if ((this.href.includes('blogspot.com') || this.href.includes('blogger.googleusercontent.com')) && this.target == '') return //exclusion for blogger	
+    if (this.target == '') return; //exclusion for if target is not _blank
     //if(link.childElementCount > 0) return; //exclusion class
     if (this.classList.contains('opt-out')) return; //exclusion class
     let newContent = generatePopupContent(this.href);
-    if (newContent == null) {
-        return; //if not compatible for any design
-    }
+    if (newContent == null) return; //if not compatible for any design
     let thumbnail = document.createElement('div');
     //thumbnail.classList.add('new-thumbnail');
     thumbnail.classList.add('new-t');
