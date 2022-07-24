@@ -14,8 +14,9 @@
  * [ok]	fix twitter embed
  * [ok]	fix youtube iframe size
  * []	remove embed styles for thumbnail normal/hover (ignore posts with sp-thumbnail)
- * []	thumbnail normal table => new thumbnail
+ * [ok]	thumbnail normal table => new thumbnail
  * []	thumbnail hover table => new thumbnail
+ * [ok]	sp-thumbnail active => new thumbnail
  * [ok]	div popup table => new thumbnail
  * [ok]	span popup table => new thumbnail
  * []	any gif img tag should not have enclosing a tag
@@ -231,31 +232,45 @@ void Main()
         //var thumbnailStyle = ".thumbnail .hover {       display:none;     }     .thumbnail:hover .normal {       display:none;     }     .thumbnail:hover .hover {       display:inline;  /* CHANGE IF FOR BLOCK ELEMENTS */     } ";
         //if(content.Contains(thumbnailStyle)) count++;
         //content = content.Replace(thumbnailStyle, "");
+		
+		//alternatively consider changing sp-thumbnail as part of new thumbnail
         #endregion
         
-        #region thumbnail normal => new thumbnail
-        //expression = @"(<div class=""thumbnail""><span class=""normal""><table)(.*?)(</table></span>)";
-        //matchExpression = @"(?<=<div class=""thumbnail""><span class=""normal""><table)(.*?)(?=</table></span>)";
-        //
-        //match = Regex.Match(content, expression);
-        //matchExp = Regex.Match(content, matchExpression);
-        //prefix = @"<div class=""thumbnail""><div class=""thumbnail-initial hover-hidden""><table";
-        //suffix = "</table></div>";
-        //content = UpdateRegexContent(content, match, matchExp, prefix, suffix);
-        //if(match.Success) count++;
+        #region 04 thumbnail => new thumbnail
+		if(includeIndex.Count() == 0 || includeIndex.Contains(4))
+		{
+        	expression = @"(<div class=""thumbnail"">)(.*?)(<span class=""normal"">)(.*?)(<span class=""hover"">)(.*?)(</div>)";      
+	        match = Regex.Match(content, expression);
+	        prefix = @"<div class=""thumbnail""><div class=""thumbnail-initial hover-hidden"">";
+	        midfix = @"</div><div class=""thumbnail-initial thumbnail-pop hover-visible"">";
+	        suffix = @"</div></div>";
+	        while(match.Success) {
+	            var replacement = prefix + match.Groups[4].Value + midfix + match.Groups[6].Value + suffix;
+	            content = content.Replace(match.Value, replacement);
+	            match = match.NextMatch();
+	        };
+		}
         #endregion
         
-        #region thumbnail hover => new thumbnail
-        //expression = @"(</table></div><span class=""hover""><table)(.*?)(</table></span>)";
-        //matchExpression = @"(?<=</table></div><span class=""hover""><table)(.*?)(?=</table></span>)";
-        //
-        //match = Regex.Match(content, expression);
-        //matchExp = Regex.Match(content, matchExpression);
-        //prefix = @"</table></div><div class=""thumbnail-initial thumbnail-pop hover-visible""><table";
-        //suffix = "</table></div>";
-        //content = UpdateRegexContent(content, match, matchExp, prefix, suffix);
-        //if(match.Success) count++;
+        #region 05 thumbnail hover => new thumbnail
+		// SEE 04
         #endregion
+		
+        #region 06 sp-thumbnail active => new thumbnail
+		if(includeIndex.Count() == 0 || includeIndex.Contains(6))
+		{
+        	expression = @"(<div class=""sp-thumbnail"">)(.*?)(<span class=""normal"">)(.*?)(<span class=""clicker"">)(.*?)(<span class=""hover"">)(.*?)(</div>)";      
+	        match = Regex.Match(content, expression);
+	        prefix = @"<div class=""thumbnail""><div class=""thumbnail-initial hover-hidden"">";
+	        midfix = @"</div><div class=""thumbnail-initial thumbnail-pop hover-visible"">";
+	        suffix = @"</div></div>";
+	        while(match.Success) {
+	            var replacement = prefix + match.Groups[4].Value + midfix + match.Groups[6].Value + midfix + match.Groups[8].Value + suffix;
+	            content = content.Replace(match.Value, replacement);
+	            match = match.NextMatch();
+	        };
+		}
+        #endregion       
         
         #region div popup table => new thumbnail
 		if(TraceMode) Console.WriteLine("div popup table => new thumbnail");

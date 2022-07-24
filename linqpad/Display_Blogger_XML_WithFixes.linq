@@ -58,8 +58,36 @@ void Main()
 	#endregion
 	
 	var postCount = 0;
-	List<int> includeIndex = new List<int> { 23 };
+	List<int> includeIndex = new List<int> { 4 }; //INDEXES HERE//
 	if(includeIndex.Count > 0) Console.WriteLine("[SELECTIVE_CHECKS_ACTIVATED]");
+		
+	/* [ID] List of Cases:		
+	 * [01]	fix twitter embed
+	 * [02]	fix youtube iframe size
+	 * []	remove embed styles for thumbnail normal/hover (ignore posts with sp-thumbnail)
+	 * [04]	thumbnail normal table => new thumbnail
+	 * [05]	thumbnail hover table => new thumbnail
+     * [06]	sp-thumbnail active => new thumbnail
+	 * [07]	div popup table => new thumbnail
+	 * [08]	span popup table => new thumbnail
+	 * []	any gif img tag should not have enclosing a tag
+	 * []	abbr imgpop => div popup normal pop
+	 * []	span popup normal pop => div popup normal pop
+	 * []	div popup normal pop (images) => div new-thumbnail
+	 * []	adjust ent news headers
+	 * []	add class to header prefix for styling
+	 * []	set all link directory to current blog
+	 * []	all table styles to be within post
+	 * [16]	remove hashtags on post level
+	 * [17]	alternate links detection for new popups (youtu.be)
+	 * [18]	any link not referenced within blog to open on new tab
+	 * [19]	remove add href to hashtags script
+	 * []	remove wallpaper images cache linked from facebook
+	 * [21]	fix primary and secondary colours to variables
+	 * [22] (entertainment news) convert inline styles migrated to blog.css
+	 * []	export list of images from latest
+	 * [24]	replace common phrases with emoji
+	 */
 	
 	// Process XML content per post
 	foreach (var entry in posts)
@@ -77,34 +105,6 @@ void Main()
 		Match match, matchExp;
 		string prefix, midfix, suffix;
 		List<MatchItem> fixes = new List<MatchItem>();
-		
-		
-		/* [ID] List of Cases:		
-		 * [01]	fix twitter embed
-		 * [02]	fix youtube iframe size
-		 * []	remove embed styles for thumbnail normal/hover (ignore posts with sp-thumbnail)
-		 * []	thumbnail normal table => new thumbnail
-		 * []	thumbnail hover table => new thumbnail
-		 * [06]	div popup table => new thumbnail
-		 * [07]	span popup table => new thumbnail
-		 * []	any gif img tag should not have enclosing a tag
-		 * []	abbr imgpop => div popup normal pop
-		 * []	span popup normal pop => div popup normal pop
-		 * []	div popup normal pop (images) => div new-thumbnail
-		 * []	adjust ent news headers
-		 * []	add class to header prefix for styling
-		 * []	set all link directory to current blog
-		 * []	all table styles to be within post
-		 * [16]	remove hashtags on post level
-		 * [17]	alternate links detection for new popups (youtu.be)
-		 * [18]	any link not referenced within blog to open on new tab
-		 * [19]	remove add href to hashtags script
-		 * []	remove wallpaper images cache linked from facebook
-		 * [21]	fix primary and secondary colours to variables
-		 * [22] (entertainment news) convert inline styles migrated to blog.css
-		 * []	export list of images from latest
-		 * [24]	replace common phrases with emoji
-		 */
 		
 		#region 01 fix twitter embed
 		if(includeIndex.Count() == 0 || includeIndex.Contains(1))
@@ -158,8 +158,48 @@ void Main()
 		}
 		#endregion
 		
-        #region 06 div popup table => new thumbnail	
+        #region 04 thumbnail => new thumbnail
+		if(includeIndex.Count() == 0 || includeIndex.Contains(4))
+		{
+        	expression = @"(<div class=""thumbnail"">)(.*?)(<span class=""normal"">)(.*?)(<span class=""hover"">)(.*?)(</div>)";      
+	        match = Regex.Match(content, expression);
+	        prefix = @"<div class=""thumbnail""><div class=""thumbnail-initial hover-hidden"">";
+	        midfix = @"</div><div class=""thumbnail-initial thumbnail-pop hover-visible"">";
+	        suffix = @"</div></div>";
+	        while(match.Success) {
+	            fixes.Add(new MatchItem() {
+						match = match,
+						description = "[04] thumbnail found"
+					});
+	            match = match.NextMatch();
+	        };
+		}
+        #endregion
+        
+        #region 05 thumbnail hover => new thumbnail
+		// SEE 04
+        #endregion
+		
+        #region 06 sp-thumbnail active => new thumbnail
 		if(includeIndex.Count() == 0 || includeIndex.Contains(6))
+		{
+        	expression = @"(<div class=""sp-thumbnail"">)(.*?)(<span class=""normal"">)(.*?)(<span class=""clicker"">)(.*?)(<span class=""hover"">)(.*?)(</div>)";      
+	        match = Regex.Match(content, expression);
+	        prefix = @"<div class=""thumbnail""><div class=""thumbnail-initial hover-hidden"">";
+	        midfix = @"</div><div class=""thumbnail-initial thumbnail-pop hover-visible"">";
+	        suffix = @"</div></div>";
+	        while(match.Success) {
+	            fixes.Add(new MatchItem() {
+						match = match,
+						description = "[06] sp-thumbnail found"
+					});
+	            match = match.NextMatch();
+	        };
+		}
+        #endregion
+		
+        #region 07 div popup table => new thumbnail	
+		if(includeIndex.Count() == 0 || includeIndex.Contains(7))
 		{
 	        expression = @"(<div class=""popup""><span class=""initial"">)(.*?)(</span><span class=""pop"" style=""margin: 0; position: initial;"">)(.*?)(</span></div>)";        
 	        match = Regex.Match(content, expression);
@@ -176,8 +216,8 @@ void Main()
 		}
         #endregion
         
-        #region 07 span popup table => new thumbnail
-		if(includeIndex.Count() == 0 || includeIndex.Contains(7))
+        #region 08 span popup table => new thumbnail
+		if(includeIndex.Count() == 0 || includeIndex.Contains(8))
 		{
 	        expression = @"(<span class=""popup""><span class=""initial"">)(.*?)(</span><span class=""pop"" style=""margin: 0; position: initial;"">)(.*?)(</span></span>)";        
 	        match = Regex.Match(content, expression);
