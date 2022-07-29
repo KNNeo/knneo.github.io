@@ -743,37 +743,39 @@ abbr.imgpop:hover img {
 /*Multi-image thumbnail (Refer to js for logic)*/
 
 .thumbnail {
-  display: block;
+	display: block;
 }
 
 .thumbnail-initial {
-  position: absolute;
-  text-align: center;
-  left: 0;
-  right: 0;
+	margin: 0 10px;
+	position: absolute;
+	text-align: center;
+	left: 0;
+	right: 0;
 }
 
 .thumbnail-normal {
-  position: initial;
-  text-align: center;
-  left: 0;
-  right: 0;
+	margin: 0 10px;
+	position: initial;
+	text-align: center;
+	left: 0;
+	right: 0;
 }
 
 .thumbnail-pop {
-  visibility: hidden;
+	visibility: hidden;
 }
 
 .thumbnail-initial * img,
 .thumbnail-initial * video {
-  border: 2px solid transparent;
-  animation: imgblink 3s infinite;
-  -webkit-animation: imgblink 3s infinite;
-  -moz-animation: imgblink 3s infinite;
+	border: 2px solid transparent;
+	animation: imgblink 3s infinite;
+	-webkit-animation: imgblink 3s infinite;
+	-moz-animation: imgblink 3s infinite;
 }
 
 .thumbnail .popup:hover .pop img {
-  animation: none;
+	animation: none;
 }
 
 /*EXPERIMENTAL - all prefixed with new for now*/
