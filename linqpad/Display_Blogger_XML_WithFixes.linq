@@ -38,9 +38,10 @@ void Main()
 		.Where(entry => !entry.Descendants(app+"draft").Any(draft => draft.Value != "no"));
 	
 	var postCount = 0;
-	List<int> includeIndex = new List<int> { 18 }; //INDEXES HERE//
+	var showResults = false;
+	List<int> includeIndex = new List<int> { 9 }; //INDEXES HERE//
 	if(includeIndex.Count > 0) Console.WriteLine("[SELECTIVE_CHECKS_ACTIVATED]");
-		
+	
 	/* [ID] List of Cases:		
 	 * [01]	fix twitter embed
 	 * [02]	fix youtube iframe size
@@ -50,6 +51,7 @@ void Main()
      * [06]	sp-thumbnail active => new thumbnail
 	 * [07]	div popup table => new thumbnail
 	 * [08]	span popup table => new thumbnail
+	 * [09] div popup normal pop image => new new popup	
 	 * []	any gif img tag should not have enclosing a tag
 	 * []	abbr imgpop => div popup normal pop
 	 * []	span popup normal pop => div popup normal pop
@@ -195,7 +197,7 @@ void Main()
 	        while(match.Success && match.Groups[2].Value.Contains("<table") && match.Groups[4].Value.Contains("<table")) {
 	            fixes.Add(new MatchItem() {
 						match = match,
-						description = "[06] div popup table found"
+						description = "[07] div popup table found"
 					});
 	            match = match.NextMatch();
 	        };
@@ -210,13 +212,28 @@ void Main()
 	        while(match.Success && match.Groups[2].Value.Contains("<table") && match.Groups[4].Value.Contains("<table")) {
 	            fixes.Add(new MatchItem() {
 						match = match,
-						description = "[07] span popup table found"
+						description = "[08] span popup table found"
 					});
 	            match = match.NextMatch();
 	        };
 		}
         #endregion
 		
+        #region 09 div popup normal pop image => new new popup	
+		if(includeIndex.Count() == 0 || includeIndex.Contains(9))
+		{
+	        expression = @"(<div class=""popup""><span class=""normal"">)(.*?)(</span>)(<span class=""pop"">)(.*?)(src="")(.*?)("")(.*?)(</span></div>)";        
+	        match = Regex.Match(content, expression);
+	        while(match.Success && !match.Groups[2].Value.Contains("<table") && match.Groups[5].Value.Contains("<img")) {
+	            fixes.Add(new MatchItem() {
+						match = match,
+						description = "[09] div popup image found"
+					});
+	            match = match.NextMatch();
+	        };
+		}
+        #endregion
+        
         #region 14 old blog link to current blog
 		if(includeIndex.Count() == 0 || includeIndex.Contains(14))
 		{
@@ -355,12 +372,13 @@ void Main()
 		if(fixes.Count() > 0)
 		{
 			Console.WriteLine(title + " [" + count + " issue(s)]");
-			Console.WriteLine(new Result {
-				title = title,
-				fixes = fixes,
-				//content = new List<string>() { oldContent },
-				//newContent = content
-			});
+			if(showResults)
+				Console.WriteLine(new Result {
+					title = title,
+					fixes = fixes,
+					//content = new List<string>() { oldContent },
+					//newContent = content
+				});
 			postCount++;
 		}
 		//count++;

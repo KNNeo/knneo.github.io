@@ -19,6 +19,7 @@
  * [ok]	sp-thumbnail active => new thumbnail
  * [ok]	div popup table => new thumbnail
  * [ok]	span popup table => new thumbnail
+ * []	div popup normal pop image => new new popup	
  * []	any gif img tag should not have enclosing a tag
  * []	abbr imgpop => div popup normal pop
  * []	span popup normal pop => div popup normal pop
@@ -276,42 +277,62 @@ void Main()
 		}
         #endregion       
         
-        #region div popup table => new thumbnail
-		if(TraceMode) Console.WriteLine("div popup table => new thumbnail");
-        expression = @"(<div class=""popup""><span class=""initial"">)(.*?)(</span><span class=""pop"" style=""margin: 0; position: initial;"">)(.*?)(</span></div>)";
-        //matchExpression = @"(?<=<div class=""popup""><span class=""initial"">)(.*?)(</span><span class=""pop"" style=""margin: 0; position: initial;"">)(.*?)(?=</span></div>)";
-        
-        match = Regex.Match(content, expression);
-        //matchExp = Regex.Match(content, matchExpression);
-        prefix = @"<div class=""thumbnail""><div class=""thumbnail-initial hover-hidden"">";
-        midfix = @"</div><div class=""thumbnail-initial thumbnail-pop hover-visible"">";
-        suffix = @"</div></div>";
-        while(match.Success && match.Groups[2].Value.Contains("<table") && match.Groups[4].Value.Contains("<table"))
-        {
-            var replacement = prefix + match.Groups[2].Value + midfix + match.Groups[4].Value + suffix;
-            content = content.Replace(match.Value, replacement);
-            match = match.NextMatch();
-            //matchExp = matchExp.NextMatch();
-        };
+        #region 07 div popup table => new thumbnail
+		if(includeIndex.Count() == 0 || includeIndex.Contains(7))
+		{
+	        expression = @"(<div class=""popup""><span class=""initial"">)(.*?)(</span><span class=""pop"" style=""margin: 0; position: initial;"">)(.*?)(</span></div>)";
+	        //matchExpression = @"(?<=<div class=""popup""><span class=""initial"">)(.*?)(</span><span class=""pop"" style=""margin: 0; position: initial;"">)(.*?)(?=</span></div>)";
+	        
+	        match = Regex.Match(content, expression);
+	        //matchExp = Regex.Match(content, matchExpression);
+	        prefix = @"<div class=""thumbnail""><div class=""thumbnail-initial hover-hidden"">";
+	        midfix = @"</div><div class=""thumbnail-initial thumbnail-pop hover-visible"">";
+	        suffix = @"</div></div>";
+	        while(match.Success && match.Groups[2].Value.Contains("<table") && match.Groups[4].Value.Contains("<table"))
+	        {
+	            var replacement = prefix + match.Groups[2].Value + midfix + match.Groups[4].Value + suffix;
+	            content = content.Replace(match.Value, replacement);
+	            match = match.NextMatch();
+	            //matchExp = matchExp.NextMatch();
+	        };
+		}
         #endregion
         
-        #region span popup table => new thumbnail
-		if(TraceMode) Console.WriteLine("span popup table => new thumbnail");
-        expression = @"(<span class=""popup""><span class=""initial"">)(.*?)(</span><span class=""pop"" style=""margin: 0; position: initial;"">)(.*?)(</span></span>)";
-        //matchExpression = @"(?<=<div class=""popup""><span class=""initial"">)(.*?)(</span><span class=""pop"" style=""margin: 0; position: initial;"">)(.*?)(?=</span></div>)";
+        #region 08 span popup table => new thumbnail
+		if(includeIndex.Count() == 0 || includeIndex.Contains(8))
+		{
+	        expression = @"(<span class=""popup""><span class=""initial"">)(.*?)(</span><span class=""pop"" style=""margin: 0; position: initial;"">)(.*?)(</span></span>)";
+	        //matchExpression = @"(?<=<div class=""popup""><span class=""initial"">)(.*?)(</span><span class=""pop"" style=""margin: 0; position: initial;"">)(.*?)(?=</span></div>)";
+	        
+	        match = Regex.Match(content, expression);
+	        //matchExp = Regex.Match(content, matchExpression);
+	        prefix = @"<div class=""thumbnail""><div class=""thumbnail-initial hover-hidden"">";
+	        midfix = @"</div><div class=""thumbnail-initial thumbnail-pop hover-visible"">";
+	        suffix = @"</div></div>";
+	        while(match.Success && match.Groups[2].Value.Contains("<table") && match.Groups[4].Value.Contains("<table"))
+	        {
+	            var replacement = prefix + match.Groups[2].Value + midfix + match.Groups[4].Value + suffix;
+	            content = content.Replace(match.Value, replacement);
+	            match = match.NextMatch();
+	            //matchExp = matchExp.NextMatch();
+	        };
+		}
+        #endregion
         
-        match = Regex.Match(content, expression);
-        //matchExp = Regex.Match(content, matchExpression);
-        prefix = @"<div class=""thumbnail""><div class=""thumbnail-initial hover-hidden"">";
-        midfix = @"</div><div class=""thumbnail-initial thumbnail-pop hover-visible"">";
-        suffix = @"</div></div>";
-        while(match.Success && match.Groups[2].Value.Contains("<table") && match.Groups[4].Value.Contains("<table"))
-        {
-            var replacement = prefix + match.Groups[2].Value + midfix + match.Groups[4].Value + suffix;
-            content = content.Replace(match.Value, replacement);
-            match = match.NextMatch();
-            //matchExp = matchExp.NextMatch();
-        };
+        #region 09 div popup normal pop image => new popup
+		if(includeIndex.Count() == 0 || includeIndex.Contains(9))
+		{
+	        expression = @"(<div class=""popup""><span class=""normal"">)(.*?)(</span>)(<span class=""pop"">)(.*?)(src="")(.*?)("")(.*?)(</span></div>)";
+	        match = Regex.Match(content, expression);
+	        prefix = @"<a href=""";
+	        midfix = @""" target=""_blank"">";
+	        suffix = @"</a>";			
+	        while(match.Success && !match.Groups[2].Value.Contains("<table") && match.Groups[5].Value.Contains("<img")) {
+	            var replacement = prefix + match.Groups[7].Value + midfix + match.Groups[2].Value + suffix;
+	            content = content.Replace(match.Value, replacement);
+	            match = match.NextMatch();
+	        };
+		}
         #endregion
         
         #region any gif img tag should not have enclosing a tag (should try to manual fix)
