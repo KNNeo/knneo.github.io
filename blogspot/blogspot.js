@@ -33,6 +33,22 @@ function filterByTag(sourceFilter) {
 	}
 	document.getElementsByClassName("Count")[0].innerText = count + " published posts " + (tag == "TheStatement" ? "hidden" : "found");
 }
+
+function randomPost() {
+	let classes = [".TheEntertainmentNews", ".TheEverydayLife", ".TheKlassicNote"];
+	let urls = [];
+	
+	for(let c of classes)
+	{
+		for(let post of document.querySelectorAll(c))
+		{
+			urls.push(post.querySelector('a').href);
+		}
+	}
+	
+	window.location.href = urls[Math.floor(Math.random() * urls.length)];
+}
+
 function goBack() {
 	window.location.href = '../index.html';
 }
