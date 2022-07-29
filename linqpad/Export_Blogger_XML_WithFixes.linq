@@ -498,7 +498,7 @@ void Main()
         while(match.Success) {
 			var url = match.Groups[4].Value;
 			if(!match.Groups[6].Value.Contains("_blank")
-			//&& !url.StartsWith("#")
+			&& !url.StartsWith("#")
 			&& !url.Contains("twitter.")
 			&& !url.Contains("t.co/")
 			&& !url.Contains("blogger.")
