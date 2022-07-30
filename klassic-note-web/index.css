@@ -262,6 +262,10 @@ body {
 	display: none;
 }
 
+.playlist .tag {
+	text-align: initial;
+}
+
 @media only screen
    and (min-device-width : 960px)
 {

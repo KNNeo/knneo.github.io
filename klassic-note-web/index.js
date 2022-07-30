@@ -94,6 +94,8 @@ function setTabs() {
 	
 	document.getElementById('search').style.width = homePageVisible ? '100%' : (document.getElementById('options').getBoundingClientRect().width - 40) + 'px';
 	document.getElementById('search-buttons').style.display = homePageVisible ? 'none' : '';
+	
+	hideContextMenus(true);
 }
 
 function showTab(activeTab) {
@@ -2583,7 +2585,7 @@ function generateCoverArt(contents) {
 //--HELPER FUNCTIONS--//
 function updateSong() {
 	window['mode'] = 'song';
-	hideContextMenus();
+	hideContextMenus(true);
 	for(let tab of document.getElementsByClassName('module'))
 	{
 		tab.innerHTML = '';
@@ -2702,7 +2704,10 @@ function showContextMenu() {
 			menu.appendChild(showAddQueueContextMenu(this.getAttribute('data-id')));
 			break;
 		case 'playlist':
-			menu.appendChild(showPlaylist());
+			if(document.querySelector('.playlist') != null)
+				hideContextMenus(true);
+			else
+				menu.appendChild(showPlaylist());
 			break;
 	}
 	
@@ -2720,7 +2725,8 @@ function showAddQueueContextMenu(id) {
 	playNext.classList.add('tag');
 	playNext.innerText = 'Play Next';
 	playNext.addEventListener('click', function() {
-		window['playlist'].splice(window['playing'] + 1, 1, id);
+		window['playlist'].splice(window['playing'] + 1, 0, id);
+		hideContextMenus(true);
 		// updateQueue();
 	});
 	submenu.appendChild(playNext);
@@ -2730,6 +2736,7 @@ function showAddQueueContextMenu(id) {
 	playLater.innerText = 'Add To Queue';
 	playLater.addEventListener('click', function() {
 		window['playlist'].push(id);
+		hideContextMenus(true);
 		// updateQueue();
 	});
 	submenu.appendChild(playLater);
@@ -2739,6 +2746,7 @@ function showAddQueueContextMenu(id) {
 
 function showPlaylist() {
 	let submenu = document.createElement('div');
+	submenu.classList.add('playlist');
 	
 	if(window['playlist'].length > 0)
 	{
@@ -2767,6 +2775,7 @@ function showPlaylist() {
 
 function renderPlaylistItems(list) {
 	let submenu = document.createElement('div');
+	submenu.classList.add('playlist');
 	
 	for(let listItem of list.values)
 	{
@@ -2785,9 +2794,10 @@ function renderPlaylistItems(list) {
 	return submenu;
 }
 
-function hideContextMenus() {
+function hideContextMenus(forced) {
 	let menu = document.querySelector('.context');
-    if (!menu.contains(event.target)) menu.classList.add('hidden');
+	if (typeof forced == 'boolean' && forced == true) menu.classList.add('hidden');
+    else if (!menu.contains(event.target)) menu.classList.add('hidden');
 
 	document.removeEventListener('click', hideContextMenus);
     document.removeEventListener('wheel', hideContextMenus);	
