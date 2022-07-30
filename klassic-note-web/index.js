@@ -2713,14 +2713,14 @@ function showContextMenu() {
 	
 }
 
-function showAddQueueContextMenu(is) {
+function showAddQueueContextMenu(id) {
 	let submenu = document.createElement('div');
 	
 	let playNext = document.createElement('div');
 	playNext.classList.add('tag');
 	playNext.innerText = 'Play Next';
 	playNext.addEventListener('click', function() {
-		window['playlist'].splice(0, 1, id);
+		window['playlist'].splice(window['playing'] + 1, 1, id);
 		// updateQueue();
 	});
 	submenu.appendChild(playNext);
