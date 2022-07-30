@@ -59,14 +59,32 @@ a:hover {
 	margin: 0 auto;
 }
 
+.title {
+	padding: 5px;
+}
+
 .section {
-	/* bottom: 0; */
-	/* height: 100vh; */
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	text-align: center;
 	transition: opacity 1s;
+}
+
+.one .section {
+	/* bottom: 0; */
+	height: 100vh;
+}
+
+.one .page {
+	width: 100vw;
+	position: absolute;
+}
+
+.single .section {
+	position: absolute;
+	width: 100%;
+	height: initial;
 }
 
 .section:active {
@@ -81,6 +99,33 @@ a:hover {
 .container {
 	 height: 80vh;	
 }
+
+.handle {
+	width: 100%;
+	cursor: pointer;
+	display: flex;
+	flex-basis: 100%;
+	justify-content: center;
+}
+
+.contents .icon {
+	border-radius: 50%;
+	cursor: pointer;
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+	
+}
+
+.contents .text {
+	margin: 0;
+	cursor: pointer;
+}
+
+.contents .home {
+	padding: 4px 0;
+}
+
 
 /* .page-next {
 	padding-top: 20px;
@@ -107,6 +152,12 @@ a:hover {
 	font-size: 0.7em;
 	bottom: 0;
 	right: 0;
+}
+
+.single .footer {
+	width: 100%;
+	position: fixed;
+	justify-content: flex-end;
 }
 
 .box {	
@@ -152,7 +203,7 @@ a:hover {
 	border-radius: 50%;
 }
 
-#GoToTopBtn {
+.button-top {
   position: fixed;
   display: block;
   visibility: hidden;
@@ -167,7 +218,7 @@ a:hover {
   border-radius: 7px;
 }
 
-#EditorBtn {
+.button-editor {
   position: fixed;
   display: block;
   top: 40px;
@@ -181,7 +232,7 @@ a:hover {
   border-radius: 7px;
 }
 
-#CloseBtn {
+.button-close {
   position: fixed;
   display: block;
   top: 10px;
@@ -210,6 +261,24 @@ a:hover {
 
 .darked .viewer {
 	background: rgba(0, 0, 0, 0.6);	
+}
+
+.editor {
+	height: 100%;
+	width: 100%;
+	display: block;
+	position: absolute;
+	border: 0;
+	top: 0;
+	z-index: 10;
+}
+
+.editor-area {
+	height: 95%;
+	width: 90%;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 @media only screen and (max-width: 960px) {

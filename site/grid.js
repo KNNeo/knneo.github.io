@@ -1,6 +1,6 @@
 //main function to render detachable component
 function renderGrid(sectionNo, content) {
-	let section = document.getElementById('section'+sectionNo);
+	let section = document.querySelector('#section'+sectionNo);
 	section.innerHTML = '';
 	
 	let table = document.createElement('table');
@@ -87,7 +87,7 @@ function renderGrid(sectionNo, content) {
 	for(let index = 0; index < content.componentData.length; index++)
 	{
 		let component = content.componentData[index];
-		let elem = document.getElementById('section'+sectionNo+'cell'+index);
+		let elem = document.querySelector('#section'+sectionNo+'cell'+index);
 		if(component.type == 'title')
 		{
 			elem.style.verticalAlign = 'center';

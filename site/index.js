@@ -1,5 +1,6 @@
 function closestClass(inputElement, targetClassName) {
-    while (inputElement.className != targetClassName && inputElement.parentNode.tagName.toUpperCase() != "BODY") {
+    while ((inputElement.classList.length == 0 || !inputElement.classList.contains(targetClassName)) 
+		&& inputElement.parentNode.tagName.toUpperCase() != "BODY") {
         inputElement = inputElement.parentNode;
     }
     return inputElement;
@@ -22,17 +23,17 @@ function scrollToPrevPage(e) {
 function scrollToPage(sectionNo, isSinglePage = false) {
 	if(isSinglePage)
 	{
-		for(let section of document.getElementsByClassName('section'))
+		for(let section of document.querySelectorAll('.section'))
 		{
 			section.style.opacity = 0;
 			section.style.zIndex = 0;
 		}
-		document.getElementsByClassName('section')[sectionNo].style.opacity = 1;
-		document.getElementsByClassName('section')[sectionNo].style.zIndex = 1;
+		document.querySelectorAll('.section')[sectionNo].style.opacity = 1;
+		document.querySelectorAll('.section')[sectionNo].style.zIndex = 1;
 	}
 	else
 	{
-		document.getElementsByClassName('section')[sectionNo].scrollIntoView();
+		document.querySelectorAll('.section')[sectionNo].scrollIntoView();
 	}
 }
 
@@ -40,10 +41,10 @@ function scrollToMainPage(el, onLoad) {
 	// console.log(firstLoad);
 	if(!window['loaded'] || !onLoad)
 	{
-		if(document.querySelector('#main') != null)
-			document.querySelector('#main').scrollIntoView();
+		if(document.querySelector('.main') != null)
+			document.querySelector('.main').scrollIntoView();
 		else
-			document.getElementsByClassName('page')[0].firstElementChild.scrollIntoView();
+			document.querySelector('.page').firstElementChild.scrollIntoView();
 	}
 }
 
@@ -67,25 +68,26 @@ function renderVariables() {
 }
 
 function renderPage() {
-	document.getElementsByClassName('page')[0].innerHTML = '';
+	document.querySelector('.page').innerHTML = '';
 	// window['elements'] = JSON.parse(JSON.stringify(pageElements));
 	
+	let type = '';
 	let mainSectionNo = 0;
 	for(let sectionNo = 0; sectionNo < window['elements'].length; sectionNo++) {
 		if(window['elements'][sectionNo].isMain) {
 			let newMain = document.createElement('div');
-			newMain.id = 'main';
+			newMain.classList.add('main');
 			newMain.classList.add('section');
-			newMain.style.height = '100vh';
-			document.getElementsByClassName('page')[0].appendChild(newMain);
+			// newMain.style.height = '100vh'; // not in css because of single page
+			document.querySelector('.page').appendChild(newMain);
 			mainSectionNo = sectionNo;
 			// renderMain(sectionNo);
 		}
 		else {
 			let newSection = document.createElement('div');
 			newSection.classList.add('section');
-			newSection.style.height = '100vh';
-			document.getElementsByClassName('page')[0].appendChild(newSection);
+			// newSection.style.height = '100vh';
+			document.querySelector('.page').appendChild(newSection);
 			// console.log(mainSectionNo);
 			// renderSection(sectionNo, mainSectionNo);
 		}
@@ -97,7 +99,7 @@ function renderPage() {
 	// {
 		// setTimeout(function() {
 			// let headerHeight = document.querySelector('.header').getBoundingClientRect().height;
-			// document.getElementsByClassName('page')[0].style.maxHeight = (window.innerHeight - headerHeight) + 'px';
+			// document.querySelector('.page').style.maxHeight = (window.innerHeight - headerHeight) + 'px';
 		// }, 10);
 	// }
 	
@@ -110,14 +112,17 @@ function renderPage() {
 		}
 	}
 	
+	document.body.className = '';
 	if(window['elements'][mainSectionNo].isSinglePage)
 	{
+		document.body.classList.add('single');
 		scrollToPage(mainSectionNo, window['elements'][mainSectionNo].isSinglePage);
 	}
 	else
 	{
-		document.getElementsByClassName('page')[0].style.width = '100vw';
-		document.getElementsByClassName('page')[0].style.position = 'absolute';
+		document.body.classList.add('one');
+		// document.querySelector('.page').style.width = '100vw';
+		// document.querySelector('.page').style.position = 'absolute';
 	}
 	
 	renderButtons(window['elements'][mainSectionNo].isSinglePage);
@@ -126,13 +131,13 @@ function renderPage() {
 function renderMain(sectionNo) {
 	let content = window['elements'][sectionNo];
 	
-	if(document.querySelector('#main') != null) {
-		let main = document.querySelector('#main');
+	if(document.querySelector('.main') != null) {
+		let main = document.querySelector('.main');
 		
 		if(content.isSinglePage)
 		{
-			main.style.position = 'absolute';
-			main.style.width = '100%';
+			// main.style.position = 'absolute';
+			// main.style.width = '100%';
 			// if(window.innerHeight < 800) main.style.height = 'initial';
 			// setTimeout(function() {
 				// let headerHeight = document.querySelector('.header').getBoundingClientRect().height;
@@ -160,20 +165,23 @@ function renderMain(sectionNo) {
 		if(content.prefix)
 		{
 			let mainPre = document.createElement('h3');
-			mainPre.style.padding = '5px';
+			mainPre.classList.add('title');
+			// mainPre.style.padding = '5px';
 			mainPre.innerText = content.prefix;
 			main.appendChild(mainPre);
 		}
 		
 		let mainTitle = document.createElement('h1');
-		mainTitle.style.padding = '5px';
+		mainTitle.classList.add('title');
+		// mainTitle.style.padding = '5px';
 		mainTitle.innerText = content.title;
 		main.appendChild(mainTitle);
 		
 		if(content.suffix)
 		{
 			let mainPost = document.createElement('h5');
-			mainPost.style.padding = '5px';
+			mainPost.classList.add('title');
+			// mainPost.style.padding = '5px';
 			mainPost.innerText = content.suffix;
 			main.appendChild(mainPost);
 		}
@@ -190,8 +198,7 @@ function renderMain(sectionNo) {
 			{
 				document.querySelector('.menu').style.minHeight = drawerHeight;
 				document.querySelector('.menu').style.maxHeight = drawerHeight;
-			}
-			
+			}			
 
 			//drawer, home icon
 			if(content.isSinglePage)
@@ -199,12 +206,13 @@ function renderMain(sectionNo) {
 				if(window.innerWidth <= 800)
 				{
 					let contentItem = document.createElement('div');
+					contentItem.classList.add('handle');
 					contentItem.classList.add('material-icons');
-					contentItem.style.width = '100%';
-					contentItem.style.cursor = 'pointer';
-					contentItem.style.flexBasis = '100%';
-					contentItem.style.display = 'flex';
-					contentItem.style.justifyContent = 'center';
+					// contentItem.style.width = '100%';
+					// contentItem.style.cursor = 'pointer';
+					// contentItem.style.flexBasis = '100%';
+					// contentItem.style.display = 'flex';
+					// contentItem.style.justifyContent = 'center';
 					contentItem.innerText = 'drag_handle';
 					contentItem.addEventListener('click', function(e) {
 						e.preventDefault();
@@ -221,16 +229,17 @@ function renderMain(sectionNo) {
 				// if(window.innerWidth <= 800) homeSize = '3.5rem';
 				let contentItem = document.createElement('div');
 				contentItem.classList.add('material-icons');
+				contentItem.classList.add('home');
 				// contentItem.style.width = iconSize;
 				// contentItem.style.height = iconSize;
 				contentItem.style.fontSize = iconSize;
-				contentItem.style.borderRadius = '50%';
-				contentItem.style.cursor = 'pointer';
-				contentItem.style.backgroundSize = 'contain';
-				contentItem.style.backgroundRepeat = 'no-repeat';
-				contentItem.style.backgroundPosition = 'center';
+				// contentItem.style.borderRadius = '50%';
+				// contentItem.style.cursor = 'pointer';
+				// contentItem.style.backgroundSize = 'contain';
+				// contentItem.style.backgroundRepeat = 'no-repeat';
+				// contentItem.style.backgroundPosition = 'center';
 				// contentItem.style.fontSize = homeSize;
-				contentItem.style.padding = '4px 0';
+				// contentItem.style.padding = '4px 0';
 				contentItem.innerText = 'home';
 				contentItem.addEventListener('click', function(e) {
 					e.preventDefault();
@@ -253,13 +262,15 @@ function renderMain(sectionNo) {
 					if(section == sectionNo)
 						continue;
 					let contentItem = document.createElement('div');
+					contentItem.classList.add('icon');
 					contentItem.style.width = iconSize;
 					contentItem.style.height = iconSize;
-					contentItem.style.borderRadius = '50%';
-					contentItem.style.cursor = 'pointer';
-					contentItem.style.backgroundSize = 'contain';
-					contentItem.style.backgroundRepeat = 'no-repeat';
-					contentItem.style.backgroundPosition = 'center';
+					contentItem.style.backgroundImage = addBackgroundUrlClause(window['elements'][section].image);
+					// contentItem.style.borderRadius = '50%';
+					// contentItem.style.cursor = 'pointer';
+					// contentItem.style.backgroundSize = 'contain';
+					// contentItem.style.backgroundRepeat = 'no-repeat';
+					// contentItem.style.backgroundPosition = 'center';
 					contentItem.addEventListener('click', function(e) {
 						e.preventDefault();
 						scrollToPage(section, content.isSinglePage);
@@ -270,7 +281,6 @@ function renderMain(sectionNo) {
 						scrollToPage(section, content.isSinglePage);
 						document.querySelector('.menu').style.maxHeight = drawerHeight;
 					});
-					contentItem.style.backgroundImage = addBackgroundUrlClause(window['elements'][section].image);
 					if(window['elements'][section].text)
 						contentItem.title = window['elements'][section].text;
 					contentList.appendChild(contentItem);
@@ -285,10 +295,11 @@ function renderMain(sectionNo) {
 						continue;
 					let contentItem = document.createElement('div');
 					contentItem.classList.add('box');
+					contentItem.classList.add('text');
 					contentItem.style.width = iconSize;
 					contentItem.style.height = iconSize;
-					contentItem.style.cursor = 'pointer';
-					contentItem.style.margin = '0';
+					// contentItem.style.cursor = 'pointer';
+					// contentItem.style.margin = '0';
 					contentItem.innerText = window['elements'][section].text;
 					contentItem.addEventListener('click', function(e) {
 						e.preventDefault();
@@ -345,15 +356,15 @@ function renderMain(sectionNo) {
 }
 
 function renderSection(sectionNo, mainSectionNo) {
-	let section = document.getElementsByClassName('section')[sectionNo];// > mainSectionNo ? sectionNo - mainSectionNo : sectionNo];
+	let section = document.querySelectorAll('.section')[sectionNo];// > mainSectionNo ? sectionNo - mainSectionNo : sectionNo];
 	let main = window['elements'][mainSectionNo];
 	let content = window['elements'][sectionNo];	
 	
 	if(main.isSinglePage)
 	{
-		section.style.position = 'absolute';
-		section.style.width = '100%';
-		section.style.height = 'initial';
+		// section.style.position = 'absolute';
+		// section.style.width = '100%';
+		// section.style.height = 'initial';
 		// setTimeout(function() {
 			// let headerHeight = document.querySelector('.header').getBoundingClientRect().height;
 			// section.style.maxHeight = (window.innerHeight - headerHeight) + 'px';
@@ -431,7 +442,7 @@ function renderSection(sectionNo, mainSectionNo) {
 function renderMenu() {
 	let header = document.createElement('div');
 	header.classList.add('menu');
-	// document.body.insertBefore(header, document.getElementsByClassName('page')[0]);
+	// document.body.insertBefore(header, document.querySelector('.page'));
 	// document.body.appendChild(header);
 	return header;
 }
@@ -441,83 +452,92 @@ function renderFooter(isSinglePage) {
 	footer.classList.add('footer');
 	if(isSinglePage)
 	{
-		footer.style.width = '100%';
-		footer.style.position = 'fixed';
+		// footer.style.width = '100%';
+		// footer.style.position = 'fixed';
 		// footer.style.bottom = 0;
-		footer.style.justifyContent = 'flex-end';
+		// footer.style.justifyContent = 'flex-end';
 	}
 	footer.innerText = '(c) Klassic Note';
-	document.getElementsByClassName('page')[0].appendChild(footer);
-	document.getElementsByClassName('page')[0].appendChild(renderMenu());
+	document.querySelector('.page').appendChild(footer);
+	document.querySelector('.page').appendChild(renderMenu());
 }
 
 function renderButtons(isSinglePage) {
 	let topButton = document.createElement('a');
-	topButton.id = 'GoToTopBtn';
+	// topButton.id = 'GoToTopBtn';
+	topButton.classList.add('button-top');
 	topButton.title = 'Back To Top';
-	if(isMobile()) topButton.style.right = '10px';
+	// if(isMobile()) topButton.style.right = '10px';
 	let topButtonIcon = document.createElement('i');
 	topButtonIcon.classList.add('material-icons');
 	topButtonIcon.classList.add('not-selectable');
 	topButtonIcon.innerText = 'arrow_upward';
 	topButton.appendChild(topButtonIcon);
-	if(document.getElementById('GoToTopBtn') == null)
+	if(document.querySelector('.button-top') == null)
 	{
 		document.body.appendChild(topButton);
-		document.getElementById('GoToTopBtn').addEventListener('click', scrollToMainPage);
-		document.getElementsByClassName('page')[0].addEventListener('scroll', toggleGoToTopBtn);
+		document.querySelector('.button-top').addEventListener('click', scrollToMainPage);
+		document.querySelector('.page').addEventListener('scroll', toggleGoToTopBtn);
 	}
 	else
 	{
-		if(isMobile()) document.getElementById('GoToTopBtn').style.right = '10px';
-		else document.getElementById('GoToTopBtn').style.right = null;
+		// if(isMobile()) document.querySelector('.button-top').style.right = '10px';
+		// else document.querySelector('.button-top').style.right = null;
 		
 	}
 
 	let editorButton = document.createElement('a');
-	editorButton.id = 'EditorBtn';
+	// editorButton.id = 'EditorBtn';
+	editorButton.classList.add('button-editor');
 	editorButton.title = 'Back To Top';
-	if(isSinglePage || isMobile()) editorButton.style.right = '10px';
+	if(isSinglePage || isMobile())
+		editorButton.style.right = '10px';
 	let editorButtonIcon = document.createElement('i');
 	editorButtonIcon.classList.add('material-icons');
 	editorButtonIcon.classList.add('not-selectable');
 	editorButtonIcon.innerText = 'code';
-	if(document.getElementById('EditorBtn') == null)
+	if(document.querySelector('.button-editor') == null)
 	{
 		editorButton.appendChild(editorButtonIcon);
 		document.body.appendChild(editorButton);
-		document.getElementById('EditorBtn').addEventListener('click', toggleEditor);
+		document.querySelector('.button-editor').addEventListener('click', toggleEditor);
 	}
 	else
 	{
-		if(isSinglePage || isMobile()) document.getElementById('EditorBtn').style.right = '10px';
-		else document.getElementById('EditorBtn').style.right = null;
+		if(isSinglePage || isMobile()) 
+			document.querySelector('.button-editor').style.right = '10px';
+		else 
+			document.querySelector('.button-editor').style.right = null;
 		
 	}
 	
 	let closeButton = document.createElement('a');
-	closeButton.id = 'CloseBtn';
+	// closeButton.id = 'CloseBtn';
+	closeButton.classList.add('button-close');
 	closeButton.title = 'Close Popup';
-	if(isSinglePage || isMobile()) closeButton.style.right = '10px';
+	if(isSinglePage || isMobile()) 
+		closeButton.style.right = '10px';
 	let closeButtonIcon = document.createElement('i');
 	closeButtonIcon.classList.add('material-icons');
 	closeButtonIcon.classList.add('not-selectable');
 	closeButtonIcon.innerText = 'close';
 	closeButton.appendChild(closeButtonIcon);
-	if(document.getElementById('CloseBtn') == null)
+	if(document.querySelector('.button-close') == null)
 	{
 		document.body.appendChild(closeButton);
-		document.getElementById('CloseBtn').addEventListener('click', goBack);
-		document.getElementById('CloseBtn').addEventListener('contextmenu', function(e) {
+		document.querySelector('.button-close').addEventListener('click', goBack);
+		document.querySelector('.button-close').addEventListener('contextmenu', function(e) {
 			e.preventDefault();
 			window['single'] = window['single'] != undefined ? !window['single'] : true;
-			getJson(document.getElementById('data-id').src, setPageElements);
+			getJson(document.querySelector('#data-id').src, setPageElements);
 		});
 	}
 	else
 	{
-		if(isSinglePage || isMobile()) document.getElementById('CloseBtn').style.right = '10px';
-		else document.getElementById('CloseBtn').style.right = null;
+		if(isSinglePage || isMobile()) 
+			document.querySelector('.button-close').style.right = '10px';
+		else 
+			document.querySelector('.button-close').style.right = null;
 		
 	}
 }
@@ -528,10 +548,10 @@ function goBack() {
 
 function toggleGoToTopBtn() {
 	// When the user scrolls down to viewport from the top of the document, change floating action button
-	if (document.getElementsByClassName('page')[0].scrollTop >= document.body.clientHeight) {
-		document.getElementById('GoToTopBtn').style.visibility = 'visible';
+	if (document.querySelector('.page').scrollTop >= document.body.clientHeight) {
+		document.querySelector('.button-top').style.visibility = 'visible';
 	} else {
-		document.getElementById('GoToTopBtn').style.visibility = '';
+		document.querySelector('.button-top').style.visibility = '';
 	}
 }
 
@@ -541,8 +561,8 @@ function setPageElements(content) {
 	if(content != null)
 	{
 		localStorage.setItem('elements', JSON.stringify(content, null, '\t'));
-		if(document.getElementById('editor-area') != null)
-			document.getElementById('editor-area').value = localStorage.getItem('elements');
+		if(document.querySelector('.editor-area') != null)
+			document.querySelector('.editor-area').value = localStorage.getItem('elements');
 		
 	}
 	window['elements'] = JSON.parse(localStorage.getItem('elements'));
@@ -552,19 +572,19 @@ function setPageElements(content) {
 	scrollToMainPage(this, true);
 	if(window['no-editor'])
 	{
-		document.getElementById('EditorBtn').style.display = 'none';
+		document.querySelector('.button-editor').style.display = 'none';
 		localStorage.removeItem('elements');
 	}
 }
 
 function toggleEditor() {
-	if(document.getElementById('editor') != null)
+	if(document.querySelector('.editor') != null)
 	{
-		let editorText = document.getElementById('editor-area').value;
-		let isClosing = document.getElementById('editor').style.display == 'block'; //previous state	
-		document.getElementById('editor').style.display = isClosing ? 'none' : 'block';
+		let editorText = document.querySelector('.editor-area').value;
+		let isClosing = document.querySelector('.editor').style.display == 'block'; //previous state	
+		document.querySelector('.editor').style.display = isClosing ? 'none' : 'block';
 		localStorage.setItem('elements', editorText);
-		document.getElementById('editor').value = isClosing ? '' : localStorage.getItem('elements');
+		document.querySelector('.editor').value = isClosing ? '' : localStorage.getItem('elements');
 		if(isClosing)
 		{
 			if(editorText.trim().startsWith('http') && editorText.trim().endsWith('.json')) // if address of json is in editor
@@ -580,23 +600,24 @@ function toggleEditor() {
 	else
 	{
 		let editor = document.createElement('div');
-		editor.id = 'editor';
-		// editor.classList.add('box');
-		editor.style.height = '100%';
-		editor.style.width = '100%';
-		editor.style.display = 'block';
-		editor.style.position = 'absolute';
-		editor.style.border = '0';
-		editor.style.top = '0';
-		editor.style.zIndex = 10;
+		// editor.id = 'editor';
+		editor.classList.add('editor');
+		// editor.style.height = '100%';
+		// editor.style.width = '100%';
+		// editor.style.display = 'block';
+		// editor.style.position = 'absolute';
+		// editor.style.border = '0';
+		// editor.style.top = '0';
+		// editor.style.zIndex = 10;
 		
 		let editorArea = document.createElement('textarea');
-		editorArea.id = 'editor-area';
-		editorArea.style.height = '95%';
-		editorArea.style.width = '90%';
-		editorArea.style.display = 'block';
-		editorArea.style.marginLeft = 'auto';
-		editorArea.style.marginRight = 'auto';
+		// editorArea.id = 'editor-area';
+		editorArea.classList.add('editor-area');
+		// editorArea.style.height = '95%';
+		// editorArea.style.width = '90%';
+		// editorArea.style.display = 'block';
+		// editorArea.style.marginLeft = 'auto';
+		// editorArea.style.marginRight = 'auto';
 		editorArea.value = localStorage.getItem('elements');
 		editor.appendChild(editorArea);
 		
@@ -624,9 +645,9 @@ function startup() {
 	// {
 		// setPageElements();
 	// }
-	else if(typeof getJson == 'function' && document.getElementById('data-id') != null) // if index.js exists
+	else if(typeof getJson == 'function' && document.querySelector('#data-id') != null) // if index.js exists
 	{
-		let source = document.getElementById('data-id').src;
+		let source = document.querySelector('#data-id').src;
 		getJson(source, setPageElements);
 	}
 	else
