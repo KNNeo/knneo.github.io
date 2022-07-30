@@ -39,7 +39,7 @@ void Main()
 	
 	var postCount = 0;
 	var showResults = false;
-	List<int> includeIndex = new List<int> { 9 }; //INDEXES HERE//
+	List<int> includeIndex = new List<int> { 14 }; //INDEXES HERE//
 	if(includeIndex.Count > 0) Console.WriteLine("[SELECTIVE_CHECKS_ACTIVATED]");
 	
 	/* [ID] List of Cases:		
@@ -237,12 +237,22 @@ void Main()
         #region 14 old blog link to current blog
 		if(includeIndex.Count() == 0 || includeIndex.Contains(14))
 		{
-	        expression = @"(href=""https://knwebreports2014.blogspot.com/)(.*?)(target=""_blank"")(.*?)(>)";
+	        expression = @"(href=""https://knwebreports2014.blogspot.com/)(.*?)(>)";
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
 						match = match,
-						description = "[14] old blog link found"
+						description = "[14] old blog link https found"
+					});
+	            match = match.NextMatch();
+	        };
+			
+	        expression = @"(href=""http://knwebreports2014.blogspot.com/)(.*?)(>)";
+	        match = Regex.Match(content, expression);
+	        while(match.Success) {
+	            fixes.Add(new MatchItem() {
+						match = match,
+						description = "[14] old blog link http found"
 					});
 	            match = match.NextMatch();
 	        };

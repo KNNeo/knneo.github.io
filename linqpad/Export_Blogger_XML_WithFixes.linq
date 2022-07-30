@@ -457,10 +457,18 @@ void Main()
         #region 14 old blog link to current blog
 		if(includeIndex.Count() == 0 || includeIndex.Contains(14))
 		{
-	        expression = @"(href=""https://knwebreports2014.blogspot.com/)(.*?)(target=""_blank"")(.*?)(>)";
+	        expression = @"(href=""https://knwebreports2014.blogspot.com/)(.*?)(>)";
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 	            var replacement = match.Value.Replace("target=\"_blank\"", "").Replace("https://knwebreports2014.blogspot.com/", "../../");
+	            content = content.Replace(match.Value, replacement);
+	            match = match.NextMatch();
+	        };
+			
+	        expression = @"(href=""http://knwebreports2014.blogspot.com/)(.*?)(>)";
+	        match = Regex.Match(content, expression);
+	        while(match.Success) {
+	            var replacement = match.Value.Replace("target=\"_blank\"", "").Replace("http://knwebreports2014.blogspot.com/", "../../");
 	            content = content.Replace(match.Value, replacement);
 	            match = match.NextMatch();
 	        };
