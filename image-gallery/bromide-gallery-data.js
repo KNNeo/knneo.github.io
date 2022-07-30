@@ -631,6 +631,22 @@ imgArray = [
 [648,'{domain}/CCI_20220530_000003_1.jpg','landscape','Horie Yui','Event "Horie Yui LIVE TOUR 2022 Bungaku Shoujo Club II ~Houkago Repeat~" Bromide Set C'],
 [649,'{domain}/CCI_20220530_000003_2.jpg','portrait','Horie Yui','Event "Horie Yui LIVE TOUR 2022 Bungaku Shoujo Club II ~Houkago Repeat~" Bromide Set C'],
 [650,'{domain}/CCI_20220530_000003_3.jpg','landscape','Horie Yui','Event "Horie Yui LIVE TOUR 2022 Bungaku Shoujo Club II ~Houkago Repeat~" Bromide Set C'],
+[651,'{domain}/CCI_20220709_000001_1.jpg','portrait','Isobe Karin','AMUSE VOICE ACTORS CHANNEL Fan Meeting Print Bromides'],
+[652,'{domain}/CCI_20220709_000001_2.jpg','portrait','Isobe Karin','AMUSE VOICE ACTORS CHANNEL Fan Meeting Print Bromides'],
+[653,'{domain}/CCI_20220709_000001_3.jpg','landscape','Tomita Miyu','AMUSE VOICE ACTORS CHANNEL Fan Meeting Print Bromides'],
+[654,'{domain}/CCI_20220709_000001_4.jpg','portrait','Tomita Miyu','AMUSE VOICE ACTORS CHANNEL Fan Meeting Print Bromides'],
+[655,'{domain}/CCI_20220709_000002_1.jpg','portrait','Isobe Karin','AMUSE VOICE ACTORS CHANNEL Fan Meeting Print Bromides'],
+[656,'{domain}/CCI_20220709_000002_2.jpg','portrait','Isobe Karin','AMUSE VOICE ACTORS CHANNEL Fan Meeting Print Bromides'],
+[657,'{domain}/CCI_20220709_000002_3.jpg','portrait','Isobe Karin','AMUSE VOICE ACTORS CHANNEL Fan Meeting Print Bromides'],
+[658,'{domain}/CCI_20220709_000002_4.jpg','portrait','Tomita Miyu','AMUSE VOICE ACTORS CHANNEL Fan Meeting Print Bromides'],
+[659,'{domain}/CCI_20220709_000003_1.jpg','portrait','Tomita Miyu','AMUSE VOICE ACTORS CHANNEL Fan Meeting Print Bromides'],
+[660,'{domain}/CCI_20220709_000003_2.jpg','portrait','Tomita Miyu','AMUSE VOICE ACTORS CHANNEL Fan Meeting Print Bromides'],
+[661,'{domain}/CCI_20220709_000003_3.jpg','landscape','TrySail','CD "Hakarenai Kyori" Animate Bonus'],
+[662,'{domain}/CCI_20220709_000004_1.jpg','portrait','marupi','marupi Special On-Site Photo Win Raffle'],
+[663,'{domain}/CCI_20220709_000004_2.jpg','portrait','marupi','marupi Special On-Site Photo Win Raffle'],
+[664,'{domain}/CCI_20220709_000004_3.jpg','portrait','marupi','marupi Special On-Site Photo Win Raffle'],
+[665,'{domain}/CCI_20220709_000004_4.jpg','portrait','marupi','marupi Special On-Site Photo Win Raffle'],
+[666,'{domain}/CCI_20220709_000005_1.jpg','portrait','marupi','marupi Special On-Site Photo Win Raffle 10-Roll Bonus'],
 
 
 [999,'','','']
