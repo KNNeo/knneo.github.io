@@ -1,46 +1,9 @@
 let showsRef = [
     {
-        "seriesTitle": "Aharen-san wa Hakarenai",
-        "seriesURL": "https://myanimelist.net/anime/49520/Aharen-san_wa_Hakarenai",
+        "seriesTitle": "Engage Kiss",
+        "seriesURL": "https://myanimelist.net/anime/51417/Engage_Kiss",
         "seriesType": "TV",
-        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1612/120636.webp?s=a1ec846df26b11c858e174afc04c0433",
-        "seriesAirSeason": [],
-        "seriesGenre": [
-            "Comedy"
-        ],
-        "seriesDemographic": "Shounen",
-        "tags": [
-            "Minase Inori",
-            "M.A.O",
-            "Nagae Rika",
-            "Hanazawa Kana"
-        ],
-        "id": 49520
-    },
-    {
-        "seriesTitle": "Kaguya-sama wa Kokurasetai: Ultra Romantic",
-        "seriesURL": "https://myanimelist.net/anime/43608/Kaguya-sama_wa_Kokurasetai__Ultra_Romantic",
-        "seriesType": "TV",
-        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1160/122627.webp?s=7a46339343cb0837bda229693a2e80d8",
-        "seriesAirSeason": [],
-        "seriesGenre": [
-            "Comedy",
-            "Suspense"
-        ],
-        "seriesDemographic": "Seinen",
-        "tags": [
-            "Koga Aoi",
-            "Kohara Konomi",
-            "Tomita Miyu",
-            "Hidaka Rina"
-        ],
-        "id": 43608
-    },
-    {
-        "seriesTitle": "Kawaii dake ja Nai Shikimori-san",
-        "seriesURL": "https://myanimelist.net/anime/45613/Kawaii_dake_ja_Nai_Shikimori-san",
-        "seriesType": "TV",
-        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1995/121695.webp?s=6ffdb8568a02f0abd8537ab26ea0f7c6",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1549/125495.webp?s=a11bdcd275fcde90867bbcac3a5aa69a",
         "seriesAirSeason": [],
         "seriesGenre": [
             "Comedy",
@@ -48,46 +11,76 @@ let showsRef = [
         ],
         "seriesDemographic": "",
         "tags": [
-            "Oonishi Saori",
-            "Hidaka Rina"
+            "Aizawa Saya",
+            "Lynn",
+            "Ookubo Rumi"
         ],
-        "id": 45613
+        "id": 51417
     },
     {
-        "seriesTitle": "Komi-san wa, Comyushou desu. 2nd Season",
-        "seriesURL": "https://myanimelist.net/anime/50631/Komi-san_wa_Comyushou_desu_2nd_Season",
+        "seriesTitle": "Kanojo, Okarishimasu 2nd Season",
+        "seriesURL": "https://myanimelist.net/anime/42963/Kanojo_Okarishimasu_2nd_Season",
         "seriesType": "TV",
-        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1108/121157.webp?s=e35cc6c034013d0121d8b7e477ddcaa6",
-        "seriesAirSeason": [],
-        "seriesGenre": [
-            "Comedy"
-        ],
-        "seriesDemographic": "Shounen",
-        "tags": [
-            "Koga Aoi",
-            "Hidaka Rina",
-            "Ookubo Rumi",
-            "Uchida Maaya"
-        ],
-        "id": 50631
-    },
-    {
-        "seriesTitle": "Rikei ga Koi ni Ochita no de Shoumei shitemita. Heart",
-        "seriesURL": "https://myanimelist.net/anime/43470/Rikei_ga_Koi_ni_Ochita_no_de_Shoumei_shitemita_Heart",
-        "seriesType": "TV",
-        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1109/118948.webp?s=66831e4421f93fa0b1516f4ae23582cd",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1070/124592.webp?s=b831a0178ef97462a409c24f4e37faab",
         "seriesAirSeason": [],
         "seriesGenre": [
             "Comedy",
             "Romance"
         ],
-        "seriesDemographic": "",
+        "seriesDemographic": "Shounen",
         "tags": [
             "Amamiya Sora",
-            "Hara Natsuko",
-            "Asakura Momo"
+            "Yuuki Aoi",
+            "Touyama Nao",
+            "Takahashi Rie"
         ],
-        "id": 43470
+        "id": 42963
+    },
+    {
+        "seriesTitle": "Lycoris Recoil",
+        "seriesURL": "https://myanimelist.net/anime/50709/Lycoris_Recoil",
+        "seriesType": "TV",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1392/124401.webp?s=a3002f33f55e4c3777d27e123c6a8be1",
+        "seriesAirSeason": [],
+        "seriesGenre": [
+            "Action"
+        ],
+        "seriesDemographic": "",
+        "tags": [
+            "Anzai Chika"
+        ],
+        "id": 50709
+    },
+    {
+        "seriesTitle": "Mamahaha no Tsurego ga Motokano datta",
+        "seriesURL": "https://myanimelist.net/anime/49470/Mamahaha_no_Tsurego_ga_Motokano_datta",
+        "seriesType": "TV",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1708/123281.webp?s=03915606d110b1f5bec3aeadbbc9cee9",
+        "seriesAirSeason": [],
+        "seriesGenre": [
+            "Comedy",
+            "Romance"
+        ],
+        "seriesDemographic": "",
+        "tags": [
+            "Hidaka Rina"
+        ],
+        "id": 49470
+    },
+    {
+        "seriesTitle": "Warau Arsnotoria Sun!",
+        "seriesURL": "https://myanimelist.net/anime/51923/Warau_Arsnotoria_Sun",
+        "seriesType": "TV",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1823/124696.webp?s=501fe0ad857066371d6e1b812a208688",
+        "seriesAirSeason": [],
+        "seriesGenre": [
+            "Action"
+        ],
+        "seriesDemographic": "",
+        "tags": [
+            "Yukimura Eri"
+        ],
+        "id": 51923
     },
     {
         "seriesTitle": "3-gatsu no Lion",
@@ -227,6 +220,24 @@ let showsRef = [
             "Nabatame Hitomi"
         ],
         "id": 16273
+    },
+    {
+        "seriesTitle": "Aharen-san wa Hakarenai",
+        "seriesURL": "https://myanimelist.net/anime/49520/Aharen-san_wa_Hakarenai",
+        "seriesType": "TV",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1612/120636.webp?s=a1ec846df26b11c858e174afc04c0433",
+        "seriesAirSeason": [],
+        "seriesGenre": [
+            "Comedy"
+        ],
+        "seriesDemographic": "Shounen",
+        "tags": [
+            "Minase Inori",
+            "M.A.O",
+            "Nagae Rika",
+            "Hanazawa Kana"
+        ],
+        "id": 49520
     },
     {
         "seriesTitle": "Aho Girl",
@@ -1501,6 +1512,25 @@ let showsRef = [
         "id": 43609
     },
     {
+        "seriesTitle": "Kaguya-sama wa Kokurasetai: Ultra Romantic",
+        "seriesURL": "https://myanimelist.net/anime/43608/Kaguya-sama_wa_Kokurasetai__Ultra_Romantic",
+        "seriesType": "TV",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1160/122627.webp?s=7a46339343cb0837bda229693a2e80d8",
+        "seriesAirSeason": [],
+        "seriesGenre": [
+            "Comedy",
+            "Suspense"
+        ],
+        "seriesDemographic": "Seinen",
+        "tags": [
+            "Koga Aoi",
+            "Kohara Konomi",
+            "Tomita Miyu",
+            "Hidaka Rina"
+        ],
+        "id": 43608
+    },
+    {
         "seriesTitle": "Kaguya-sama wa Kokurasetai? Tensai-tachi no Renai Zunousen",
         "seriesURL": "https://myanimelist.net/anime/40591/Kaguya-sama_wa_Kokurasetai_Tensai-tachi_no_Renai_Zunousen",
         "seriesType": "TV",
@@ -1844,6 +1874,23 @@ let showsRef = [
         "id": 49721
     },
     {
+        "seriesTitle": "Kawaii dake ja Nai Shikimori-san",
+        "seriesURL": "https://myanimelist.net/anime/45613/Kawaii_dake_ja_Nai_Shikimori-san",
+        "seriesType": "TV",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1995/121695.webp?s=6ffdb8568a02f0abd8537ab26ea0f7c6",
+        "seriesAirSeason": [],
+        "seriesGenre": [
+            "Comedy",
+            "Romance"
+        ],
+        "seriesDemographic": "",
+        "tags": [
+            "Oonishi Saori",
+            "Hidaka Rina"
+        ],
+        "id": 45613
+    },
+    {
         "seriesTitle": "Kaze Tachinu",
         "seriesURL": "https://myanimelist.net/anime/16662/Kaze_Tachinu",
         "seriesType": "Movie",
@@ -1980,6 +2027,24 @@ let showsRef = [
             "Uchida Maaya"
         ],
         "id": 48926
+    },
+    {
+        "seriesTitle": "Komi-san wa, Comyushou desu. 2nd Season",
+        "seriesURL": "https://myanimelist.net/anime/50631/Komi-san_wa_Comyushou_desu_2nd_Season",
+        "seriesType": "TV",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1108/121157.webp?s=e35cc6c034013d0121d8b7e477ddcaa6",
+        "seriesAirSeason": [],
+        "seriesGenre": [
+            "Comedy"
+        ],
+        "seriesDemographic": "Shounen",
+        "tags": [
+            "Koga Aoi",
+            "Hidaka Rina",
+            "Ookubo Rumi",
+            "Uchida Maaya"
+        ],
+        "id": 50631
     },
     {
         "seriesTitle": "Kono Bijutsubu ni wa Mondai ga Aru!",
@@ -2561,6 +2626,24 @@ let showsRef = [
             "Asakura Momo"
         ],
         "id": 38992
+    },
+    {
+        "seriesTitle": "Rikei ga Koi ni Ochita no de Shoumei shitemita. Heart",
+        "seriesURL": "https://myanimelist.net/anime/43470/Rikei_ga_Koi_ni_Ochita_no_de_Shoumei_shitemita_Heart",
+        "seriesType": "TV",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1109/118948.webp?s=66831e4421f93fa0b1516f4ae23582cd",
+        "seriesAirSeason": [],
+        "seriesGenre": [
+            "Comedy",
+            "Romance"
+        ],
+        "seriesDemographic": "",
+        "tags": [
+            "Amamiya Sora",
+            "Hara Natsuko",
+            "Asakura Momo"
+        ],
+        "id": 43470
     },
     {
         "seriesTitle": "Ryuugajou Nanana no Maizoukin (TV)",
@@ -3667,7 +3750,7 @@ let showsRef = [
         "seriesTitle": "Yojouhan Shinwa Taikei",
         "seriesURL": "https://myanimelist.net/anime/7785/Yojouhan_Shinwa_Taikei",
         "seriesType": "TV",
-        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/10/50457.webp?s=2a5b5dcc9d66022e198c721bb471ed55",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1633/123689.webp?s=2d168a6f71c486ad23e84bc45e1ee9fc",
         "seriesAirSeason": [],
         "seriesGenre": [
             "Comedy",
@@ -3938,10 +4021,26 @@ let showsRef = [
         "id": 48680
     },
     {
+        "seriesTitle": "Yofukashi no Uta",
+        "seriesURL": "https://myanimelist.net/anime/50346/Yofukashi_no_Uta",
+        "seriesType": "TV",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1045/123711.webp?s=aded9214dd7b9a2b9616b05fdb317142",
+        "seriesAirSeason": [],
+        "seriesGenre": [
+            "Romance",
+            "Supernatural"
+        ],
+        "seriesDemographic": "Shounen",
+        "tags": [
+            "Amamiya Sora"
+        ],
+        "id": 50346
+    },
+    {
         "seriesTitle": "Bleach: Sennen Kessen-hen",
         "seriesURL": "https://myanimelist.net/anime/41467/Bleach__Sennen_Kessen-hen",
         "seriesType": "TV",
-        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1256/120125.webp?s=0f54f424e5baa56f6d38472ee3346202",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1959/124973.webp?s=0940402294734f2a5a7eb692ba8f6fd3",
         "seriesAirSeason": [],
         "seriesGenre": [
             "Action",
@@ -3988,20 +4087,19 @@ let showsRef = [
         "id": 49738
     },
     {
-        "seriesTitle": "Kanojo, Okarishimasu 2nd Season",
-        "seriesURL": "https://myanimelist.net/anime/42963/Kanojo_Okarishimasu_2nd_Season",
+        "seriesTitle": "Isekai Yakkyoku",
+        "seriesURL": "https://myanimelist.net/anime/49438/Isekai_Yakkyoku",
         "seriesType": "TV",
-        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1427/120522.webp?s=1466398483285d62dfbb037a5fbee784",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1120/124644.webp?s=b9987117a56696f0bab720a46e8732c6",
         "seriesAirSeason": [],
         "seriesGenre": [
-            "Comedy",
-            "Romance"
+            "Fantasy"
         ],
-        "seriesDemographic": "Shounen",
+        "seriesDemographic": "",
         "tags": [
             ""
         ],
-        "id": 42963
+        "id": 49438
     },
     {
         "seriesTitle": "Karakai Jouzu no Takagi-san Movie",
@@ -4010,7 +4108,7 @@ let showsRef = [
         "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1376/123398.webp?s=bd4ae342216290549ceaaa7c25ff7ef9",
         "seriesAirSeason": [],
         "seriesGenre": [
-            "Comedy"
+            ""
         ],
         "seriesDemographic": "Shounen",
         "tags": [
@@ -4022,7 +4120,7 @@ let showsRef = [
         "seriesTitle": "Kyokou Suiri 2nd Season",
         "seriesURL": "https://myanimelist.net/anime/44204/Kyokou_Suiri_2nd_Season",
         "seriesType": "TV",
-        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1415/121211.webp?s=9ecc07cb10e29bc9645faa37626d196e",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1940/125910.webp?s=72f8fbbf731f21fdf97091d90277f310",
         "seriesAirSeason": [],
         "seriesGenre": [
             "Mystery",
@@ -4084,10 +4182,28 @@ let showsRef = [
         "id": 49858
     },
     {
+        "seriesTitle": "Tantei wa Mou, Shindeiru. Season 2",
+        "seriesURL": "https://myanimelist.net/anime/52480/Tantei_wa_Mou_Shindeiru_Season_2",
+        "seriesType": "TV",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1766/125819.webp?s=356f17f0bf6a1283449c5f0e227bc371",
+        "seriesAirSeason": [],
+        "seriesGenre": [
+            "Comedy",
+            "Drama",
+            "Mystery",
+            "Romance"
+        ],
+        "seriesDemographic": "",
+        "tags": [
+            ""
+        ],
+        "id": 52480
+    },
+    {
         "seriesTitle": "Tonikaku Kawaii 2nd Season",
         "seriesURL": "https://myanimelist.net/anime/50307/Tonikaku_Kawaii_2nd_Season",
         "seriesType": "TV",
-        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1239/119262.webp?s=5de9e79ff16e10a193ffee1bf93a10cb",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1404/125912.webp?s=3f5d8ea8e3864a744421db189d7ba9da",
         "seriesAirSeason": [],
         "seriesGenre": [
             "Comedy",
@@ -4133,10 +4249,10 @@ let showsRef = [
         "id": 50710
     },
     {
-        "seriesTitle": "Uzaki-chan wa Asobitai! 2nd Season",
-        "seriesURL": "https://myanimelist.net/anime/42962/Uzaki-chan_wa_Asobitai_2nd_Season",
+        "seriesTitle": "Uzaki-chan wa Asobitai! Double",
+        "seriesURL": "https://myanimelist.net/anime/42962/Uzaki-chan_wa_Asobitai_Double",
         "seriesType": "TV",
-        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1009/116986.webp?s=94151a926caff697ee323851faa6c524",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1361/124715.webp?s=414ea86ee50913d978e24d3a797d02a8",
         "seriesAirSeason": [],
         "seriesGenre": [
             "Comedy",
@@ -4164,31 +4280,16 @@ let showsRef = [
         "id": 38349
     },
     {
-        "seriesTitle": "Yofukashi no Uta",
-        "seriesURL": "https://myanimelist.net/anime/50346/Yofukashi_no_Uta",
-        "seriesType": "TV",
-        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1045/123711.webp?s=aded9214dd7b9a2b9616b05fdb317142",
-        "seriesAirSeason": [],
-        "seriesGenre": [
-            "Romance",
-            "Supernatural"
-        ],
-        "seriesDemographic": "Shounen",
-        "tags": [
-            "Amamiya Sora"
-        ],
-        "id": 50346
-    },
-    {
         "seriesTitle": "Yojouhan Time Machine Blues",
         "seriesURL": "https://myanimelist.net/anime/49590/Yojouhan_Time_Machine_Blues",
-        "seriesType": "Unknown",
-        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1594/117146.webp?s=cf28f1cefe76855fa3259b40278d7a03",
+        "seriesType": "ONA",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1583/126128.webp?s=1ca0b727304dd799cfe93625c43b456e",
         "seriesAirSeason": [],
         "seriesGenre": [
             "Comedy",
             "Mystery",
-            "Romance"
+            "Romance",
+            "Suspense"
         ],
         "seriesDemographic": "",
         "tags": [
@@ -4199,25 +4300,27 @@ let showsRef = [
 ];
 
 //CODE TO EXTRACT DATA FROM MYANIMELIST ANIME LIST PAGE
-// let animes = [];
-// for(let item of Array.from(document.querySelectorAll('.list-item')))
-// {
-    // animes.push({
-        // seriesTitle: item.querySelector('.title .link').innerText,
-        // seriesURL: item.querySelector('.title .link').href,
-        // seriesType: item.querySelector('.type').innerText,
-        // seriesImage: item.querySelector('.image .image').src,
-        // seriesAirSeason: item.querySelector('.season').innerText.split(' ').reduce((s, current, index) => {
-            // if(index == 0)
-                // s.season = current;
-            // if(index == 1)
-                // s.year = current;
-            // return s;
-        // },[]),
-        // seriesGenre: item.querySelector('.genre').innerText.split(', '),
-        // seriesDemographic: item.querySelector('.demographic').innerText,
-        // tags: item.querySelector('.tags').innerText.replace('Edit','').replace('\n','').split(', '),
-        // id: parseInt(item.querySelector('.tags').id.replace('tags-',''))
-    // });
-// }
-// console.log(animes);
+function extractData() {
+	let animes = [];
+	for(let item of Array.from(document.querySelectorAll('.list-item')))
+	{
+		animes.push({
+			seriesTitle: item.querySelector('.title .link').innerText,
+			seriesURL: item.querySelector('.title .link').href,
+			seriesType: item.querySelector('.type').innerText,
+			seriesImage: item.querySelector('.image .image').src,
+			seriesAirSeason: item.querySelector('.season').innerText.split(' ').reduce((s, current, index) => {
+				if(index == 0)
+					s.season = current;
+				if(index == 1)
+					s.year = current;
+				return s;
+			},[]),
+			seriesGenre: item.querySelector('.genre').innerText.split(', '),
+			seriesDemographic: item.querySelector('.demographic').innerText,
+			tags: item.querySelector('.tags').innerText.replace('Edit','').replace('\n','').split(', '),
+			id: parseInt(item.querySelector('.tags').id.replace('tags-',''))
+		});
+	}
+	return animes;
+}

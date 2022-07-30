@@ -1,6 +1,5 @@
 //[1] array containing all gallery info
 let customArray = [
-
 { sortOrder:1, year:2009, season: '', length:0, seriesTitle: '', type:'Movie', title:'Kara no Kyoukai', altTitle:'空の境界', handle:'', imgURL:'', circular:false, MAL:2593 },
 { sortOrder:2, year:2011, season: '', length:0, seriesTitle: '', type:'Movie', title:'Cat Shit One – THE ANIMATED SERIES', altTitle:'', handle:'', imgURL:'', circular:false, MAL:6280 },
 { sortOrder:3, year:2011, season: '', length:0, seriesTitle: '', type:'Movie', title:'Koi*Sento', altTitle:'コイ☆セント', handle:'', imgURL:'', circular:false, MAL:9333 },
@@ -126,7 +125,7 @@ let customArray = [
 { sortOrder:113, year:2020, season: 'Spring', length:1, seriesTitle: 'Kaguya-sama wa Kokurasetai', type:'TV', title:'Kaguya-sama wa Kokurasetai?', altTitle:'かぐや様は告らせたい～天才たちの恋愛頭脳戦？～', handle:'anime_kaguya', imgURL:'https://pbs.twimg.com/profile_images/1082000976964333573/vlZMd2Z7.jpg', circular:true, MAL:40591 },
 { sortOrder:114, year:2020, season: 'Summer', length:2, seriesTitle: '', type:'TV', title:'GREAT PRETENDER', altTitle:'', handle:'GrePre_anime', imgURL:'https://pbs.twimg.com/profile_images/1220648780011167745/QMKboWCS.jpg', circular:true, MAL:40052 },
 { sortOrder:115, year:2020, season: 'Summer', length:1, seriesTitle: '', type:'TV', title:'Uzaki-chan wa Asobitai!', altTitle:'宇崎ちゃんは遊びたい！', handle:'uzakichan_asobi', imgURL:'https://pbs.twimg.com/profile_images/1147099341858824192/pL6QoWt7.png', circular:true, MAL:41226 },
-{ sortOrder:116, year:2020, season: 'Summer', length:1, seriesTitle: '', type:'TV', title:'Kanojo, Okarishimasu', altTitle:'彼女、お借りします', handle:'kanokari_anime', imgURL:'https://pbs.twimg.com/profile_images/1264535167755931648/AUajKJKz.jpg', circular:true, MAL:40839 },
+{ sortOrder:116, year:2020, season: 'Summer', length:1, seriesTitle: 'Kanojo, Okarishimasu', type:'TV', title:'Kanojo, Okarishimasu', altTitle:'彼女、お借りします', handle:'kanokari_anime', imgURL:'https://pbs.twimg.com/profile_images/1264535167755931648/AUajKJKz.jpg', circular:true, MAL:40839 },
 { sortOrder:117, year:2020, season: 'Autumn', length:1, seriesTitle: '', type:'TV', title:'Tonikaku Kawaii', altTitle:'トニカクカワイイ', handle:'tonikawa_anime', imgURL:'https://pbs.twimg.com/profile_images/1456916236831723520/2j8nUeJQ.jpg', circular:true, MAL:41389 },
 { sortOrder:118, year:2020, season: 'Autumn', length:1, seriesTitle: '', type:'TV', title:'Majou no Tabitabi', altTitle:'魔女の旅々', handle:'majotabi_PR', imgURL:'https://pbs.twimg.com/profile_images/1185540696037421056/njCjSwao.png', circular:true, MAL:40571 },
 { sortOrder:119, year:2020, season: 'Autumn', length:2, seriesTitle: 'Shingeki no Kyojin', type:'TV', title:'Shingeki no Kyojin The Final Season', altTitle:'進撃の巨人 The Final Season', handle:'anime_shingeki', imgURL:'https://pbs.twimg.com/profile_images/1309025164139663360/cbRKqHxk.jpg', circular:true, MAL:40028 },
@@ -148,8 +147,13 @@ let customArray = [
 { sortOrder:135, year:2022, season: 'Spring', length:1, seriesTitle: 'Rikei ga Koi ni Ochita no de Shoumei Shite Mita.', type:'TV', title:'Rikei ga Koi ni Ochita no de Shoumei Shite Mita. Heart', altTitle:'理系が恋に落ちたので証明してみた。r=1-sinθ（ハート）', handle:'rikeigakoini', imgURL:'https://pbs.twimg.com/profile_images/1197753575834652672/ANH_2P3h.jpg', circular:true, MAL:43470 },
 { sortOrder:136, year:2022, season: 'Spring', length:1, seriesTitle: '', type:'TV', title:'Aharen-san wa Hakarenai', altTitle:'阿波連さんははかれない', handle:'aharen_pr', imgURL:'https://pbs.twimg.com/profile_images/1421485317022883849/tQh5oyb0.jpg', circular:true, MAL:49520 },
 { sortOrder:137, year:2022, season: 'Spring', length:1, seriesTitle: 'Kaguya-sama wa Kokurasetai', type:'TV', title:'Kaguya-sama wa Kokurasetai: Ultra Romantic', altTitle:'かぐや様は告らせたい-ウルトラロマンティック-', handle:'anime_kaguya', imgURL:'https://pbs.twimg.com/profile_images/1509869806001872897/SmQyyzqI.png', circular:true, MAL:43608 },
-{ sortOrder:138, year:2022, season: 'Spring', length:1, seriesTitle: 'Komi-san wa, Komyushou Desu.', type:'TV', title:'Komi-san wa, Komyushou Desu. (2022)', altTitle:'古見さんは、コミュ症です。', handle:'comisanvote', imgURL:'https://pbs.twimg.com/profile_images/1383659174643470342/CllYIDt4.jpg', circular:true, MAL:50631 },
+{ sortOrder:138, year:2022, season: 'Spring', length:1, seriesTitle: 'Komi-san wa, Komyushou Desu.', type:'TV', title:'Komi-san wa, Komyushou Desu.', altTitle:'古見さんは、コミュ症です。', handle:'comisanvote', imgURL:'https://pbs.twimg.com/profile_images/1383659174643470342/CllYIDt4.jpg', circular:true, MAL:50631 },
 { sortOrder:139, year:2022, season: 'Spring', length:1, seriesTitle: '', type:'TV', title:'Kawaii Dake ja Nai Shikimori-san', altTitle:'可愛いだけじゃない式守さん', handle:'anime_shikimori', imgURL:'https://pbs.twimg.com/profile_images/1524903746542903299/FwBxp70p.jpg', circular:true, MAL:45613 },
+{ sortOrder:140, year:2022, season: 'Summer', length:1, seriesTitle: 'Kanojo, Okarishimasu', type:'TV', title:'Kanojo, Okarishimasu', altTitle:'彼女、お借りします', handle:'kanokari_anime', imgURL:'https://pbs.twimg.com/profile_images/1264535167755931648/AUajKJKz.jpg', circular:true, MAL:42963 },
+{ sortOrder:141, year:2022, season: 'Summer', length:1, seriesTitle: '', type:'TV', title:'Lycoris Recoil', altTitle:'リコリス・リコイル', handle:'lycoris_recoil', imgURL:'https://pbs.twimg.com/profile_images/1476909381061320708/bKmQgcMT.png', circular:true, MAL:50709 },
+{ sortOrder:142, year:2022, season: 'Summer', length:1, seriesTitle: '', type:'TV', title:'Engage Kiss', altTitle:'', handle:'engage_kiss', imgURL:'https://pbs.twimg.com/profile_images/1507536637550419971/IiEiGvfN.jpg', circular:true, MAL:51417 },
+{ sortOrder:143, year:2022, season: 'Summer', length:1, seriesTitle: '', type:'TV', title:'Mamahaha no Tsurego ga Motokano Datta', altTitle:'継母の連れ子が元カノだった', handle:'tsurekano', imgURL:'https://pbs.twimg.com/profile_images/1544574872181174272/zMDoDLPg.jpg', circular:true, MAL:49470 },
+{ sortOrder:144, year:2022, season: 'Summer', length:1, seriesTitle: '', type:'TV', title:'Warau Arsnotoria Sun!', altTitle:'咲う アルスノトリア すんっ！', handle:'arsno_anime', imgURL:'https://pbs.twimg.com/profile_images/1529390632304660480/agcmmW_X.jpg', circular:true, MAL:51923 },
 
 ];
 
@@ -554,10 +558,11 @@ function fixOverlayPosition() {
 			let x = this.getBoundingClientRect().x;			
 			let y = this.getBoundingClientRect().y;
 			let w = this.getElementsByClassName('show-overlay')[0].getBoundingClientRect().width;
-			this.getElementsByClassName('show-overlay')[0].style.left = x + 'px';
-			if(x + w > window.outerWidth)
-				this.getElementsByClassName('show-overlay')[0].style.left = (x - (x+w-window.outerWidth) - 3) + 'px';
-			this.getElementsByClassName('show-overlay')[0].style.top = y + 'px';
+			this.getElementsByClassName('show-overlay')[0].style.left = (x + 32) + 'px';
+			console.log(x, y, w, window.outerWidth);
+			if((x + w + 48) >= window.innerWidth)
+				this.getElementsByClassName('show-overlay')[0].style.left = (x - w) + 'px';
+			this.getElementsByClassName('show-overlay')[0].style.top = (y + 22) + 'px';
 		});
 	}
 }
