@@ -103,6 +103,14 @@ const situations = [
 				queryTitle: 'Pick-up',
 				queryString: "You were suddenly teleported away into someone's way home. Would you rather {name} or {name} pick you up when you were lost and had no way home?",
 			},
+			{
+				queryTitle: 'Siblings',
+				queryString: "Your single parent has remarried with someone else's single parent. Would you rather your new step sibling be {name}, {name} or {name}?",
+			},
+			{
+				queryTitle: 'Home',
+				queryString: "You reached home after a day's work, and {name} welcomes you back. Would you rather have a bath, have dinner, or have...?",
+			},
 		],
 	},
 ];
