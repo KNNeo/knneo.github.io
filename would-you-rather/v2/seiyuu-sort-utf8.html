@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="ja"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-
 <meta http-equiv="Content-Style-Type" content="text/css">
 <meta http-equiv="Content-Script-Type" content="text/javascript">
+<link rel="stylesheet" type="text/css" href="../../index.css">
+<link rel="stylesheet" type="text/css" href="../../darkmode.css">
+<script src="../../index.js"></script>
 <title>Voice Actress Sort 女性声優ソート</title>
-
 <script type="text/javascript">
 <!--
 //*********************************************************
@@ -247,10 +248,10 @@ function showResult() {
 	var i;
 
 	str += "<table style=\"width:200px; font-size:12px; line-height:120%; margin-left:auto; margin-right:auto; border:1px solid #000; border-collapse:collapse\" align=\"center\">";
-	str += "<tr><td style=\"color:#ffffff; background-color:#000; text-align:center;\">順位<br>[Rank]<\/td><td style=\"color:#ffffff; background-color:#000; text-align:center;\">名前<br>[Name]<\/td><\/tr>";
+	str += "<tr><td class=\"result\" style=\"color:#ffffff; background-color:#000; text-align:center;\">順位<br>[Rank]<\/td><td class=\"result\" style=\"color:#ffffff; background-color:#000; text-align:center;\">名前<br>[Name]<\/td><\/tr>";
 
 	for (i=0; i<namMember.length; i++) {
-		str += "<tr><td style=\"border:1px solid #000; text-align:right; padding-right:5px;\">"+ranking+"<\/td><td style=\"border:1px solid #000; padding-left:5px;\">"+namMember[lstMember[0][i]]+"<\/td><\/tr>";
+		str += "<tr><td class=\"result\" style=\"text-align:right; padding-right:5px;\">"+ranking+"<\/td><td class=\"result\" style=\"padding-left:5px;\">"+namMember[lstMember[0][i]]+"<\/td><\/tr>";
 		if (i<namMember.length-1) {
 			if (equal[lstMember[0][i]]==lstMember[0][i+1]) {
 				sameRank++;
@@ -320,7 +321,6 @@ function shuffle(array) {
 //-->
 </script>
 <style type="text/css">
-<!--
 /**********************************************************
  表のスタイルを変更する場合はここを編集してください。
 **********************************************************/
@@ -333,51 +333,50 @@ function shuffle(array) {
 	margin-right: auto;
 	border-collapse: separate;
 	border-spacing: 10px 5px;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
-#leftField{
+.field{
 	width: 120px;
 	height: 150px;
 	border: 1px solid #000;
 }
-#rightField{
-	width: 120px;
-	height: 150px;
-	border: 1px solid #000;
-}
-.middleField{
+.middleField {
 	width: 60px;
 	height: 70px;
+	border: 1px solid #000;
+}
+.result {
 	border: 1px solid #000;
 }
 body {
 	cursor: default;
 }
-td {
+td.field {
 	cursor: pointer;
 }
-//-->
-#mainTable {
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+</style>
+<style type="text/css">
+.darked .field,
+.darked .result {
+	border: 1px solid white;
 }
 </style>
 </head>
-
-
 <body style="">
 <table id="mainTable" align="center">
 	<tbody><tr>
 		<td id="battleNumber" colspan="3" style="padding-bottom: 10px;">Battle No.1<br>0% sorted.</td>
 	</tr>
 	<tr>
-		<td id="leftField" onclick="if(finishFlag==0)sortList(-1);" rowspan="2"></td>
-		<td class="middleField" onclick="if(finishFlag==0)sortList(0);">
+		<td id="leftField" class="field" onclick="if(finishFlag==0)sortList(-1);" rowspan="2"></td>
+		<td class="middleField field" onclick="if(finishFlag==0)sortList(0);">
 			引き分け<br>[Draw]
 		</td>
-		<td id="rightField" onclick="if(finishFlag==0)sortList(1);" rowspan="2"></td>
+		<td id="rightField" class="field" onclick="if(finishFlag==0)sortList(1);" rowspan="2"></td>
 	</tr>
 	<!--<tr>
 		<td class="middleField" onclick="if(finishFlag==0)sortList(0);">
@@ -389,7 +388,7 @@ td {
 <div id="resultField" style="text-align: center;">Choose the one you like more. <br><br> This page is not related to the voice actresses or their talent companies in any way.
 </div>
 </div>
-<p style="text-align: center;"><a href="would-you-rather-v2.html">Back</a></p>
+<p style="text-align: center;"><a href="index.html">Back</a></p>
 <script type="text/javascript"><!--
 	initList();
 	showImage();

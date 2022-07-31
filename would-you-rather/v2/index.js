@@ -371,7 +371,7 @@ function startup() {
 	settings.classList.add('settings');
 		
 		let back = document.createElement('a');
-		back.href = '../index.html';
+		back.href = '../../index.html';
 		back.innerText = 'Back';
 		settings.appendChild(back);
 		
