@@ -38,8 +38,9 @@ void Main()
 		.Where(entry => !entry.Descendants(app+"draft").Any(draft => draft.Value != "no"));
 	
 	var postCount = 0;
-	var showResults = false;
-	List<int> includeIndex = new List<int> { 14 }; //INDEXES HERE//
+	var showResults = true;
+	var showMatches = false;
+	List<int> includeIndex = new List<int> { 24 }; //INDEXES HERE//
 	if(includeIndex.Count > 0) Console.WriteLine("[SELECTIVE_CHECKS_ACTIVATED]");
 	
 	/* [ID] List of Cases:		
@@ -370,7 +371,22 @@ void Main()
 		#endregion
 		
         #region 24 replace common phrases with emoji
-		//GENERIC REPLACE, CHECK NOT REQUIRED
+        var phrases = new string[]{"laughs", "giggles", "sob", "silence", "pukes", "ugh", "wink", "dabs", "thumbs up"};
+		if(includeIndex.Count() == 0 || includeIndex.Contains(24))
+		{
+			foreach(var phrase in phrases)
+			{
+		        expression = @"(\*{phrase}\*)".Replace("{phrase}", phrase);
+		        match = Regex.Match(content, expression);
+		        while(match.Success) {
+		            fixes.Add(new MatchItem() {
+							match = showMatches ? match : null,
+							description = "[24] emoji " + phrase + " found"
+						});
+		            match = match.NextMatch();
+		        };				
+			}
+		}
         #endregion
 		
 		
