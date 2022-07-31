@@ -38,26 +38,6 @@
  * []	export list of images from latest
  * [ok]	replace common phrases with emoji
  */
- 
-public class MatchItem
-{
-    public string Title { get; set; }
-    public string Item { get; set; }
-}
-
-string UpdateRegexContent(string content, Match loosematch, Match strictMatch, string replacementPrefix, string replacementSuffix)
-{
-    var newContent = content;
-    while(loosematch.Success)
-    {
-        var replacement = replacementPrefix + strictMatch.Value + replacementSuffix;
-        newContent = newContent.Replace(loosematch.Value, replacement);
-        loosematch = loosematch.NextMatch();
-        strictMatch = strictMatch.NextMatch();
-    };
-    
-    return newContent;
-}
 
 void Main()
 {
@@ -762,4 +742,24 @@ void Main()
     //imageExport = "var mosaicArray = " + imageExport.Replace("[\"\",", "[") + "];";
     //File.WriteAllText(blogpath + "\\blog_images.js", imageExport);
     
+}
+
+public class MatchItem
+{
+    public string Title { get; set; }
+    public string Item { get; set; }
+}
+
+string UpdateRegexContent(string content, Match loosematch, Match strictMatch, string replacementPrefix, string replacementSuffix)
+{
+    var newContent = content;
+    while(loosematch.Success)
+    {
+        var replacement = replacementPrefix + strictMatch.Value + replacementSuffix;
+        newContent = newContent.Replace(loosematch.Value, replacement);
+        loosematch = loosematch.NextMatch();
+        strictMatch = strictMatch.NextMatch();
+    };
+    
+    return newContent;
 }
