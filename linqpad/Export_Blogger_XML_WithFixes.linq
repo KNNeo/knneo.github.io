@@ -114,12 +114,9 @@ void Main()
         .Where(entry => !entry.Descendants(app+"draft").Any(draft => draft.Value != "no"));
     
     #region Only For Export
-    foreach(var folder in Directory.GetDirectories(blogpath))
-    {
-        if(folder.Contains("blog"))
-            Directory.Delete(folder, true);
-    }
     var outfolder = Path.Combine(blogpath, "blog\\");
+    if(Directory.Exists(outfolder))
+        Directory.Delete(outfolder, true);
     Directory.CreateDirectory(outfolder);	
     var allTags = new List<string>();
     #endregion
