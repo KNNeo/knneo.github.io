@@ -8,10 +8,20 @@ function unique(current, index, all) {
 function generateArchive() {
 	if(typeof mosaicArray == 'object')
 	{
-		var list = document.querySelector('#contents');
+		let list = document.querySelector('#contents');
 		
+		let title = '';
 		for(let mosaic of mosaicArray.filter(unique))
 		{
+			if(title != mosaic.title)
+			{
+				let titleDiv = document.createElement('h4');
+				titleDiv.innerText = mosaic.title;
+				list.appendChild(titleDiv);				
+			}
+
+			title = mosaic.title;
+
 			let imageDiv = document.createElement('div');
 			imageDiv.classList.add('tile');
 			
@@ -22,6 +32,11 @@ function generateArchive() {
 				imageSpan.addEventListener('click', function() {
 					this.style.maxWidth = this.style.maxWidth == '200px' ? '100vw' : '200px';
 					this.style.maxHeight = this.style.maxHeight == '200px' ? '100vh' : '200px';
+				});
+				imageSpan.addEventListener('load', function() {
+					if(!this.classList.contains('loaded'))
+						document.querySelector('#counter').innerText = 1 + parseInt(document.querySelector('#counter').innerText);
+					this.classList.add('loaded');
 				});
 				
 				imageDiv.appendChild(imageSpan);
@@ -34,15 +49,12 @@ function generateArchive() {
 }
 
 function fadeIn() {
-	let boxes = document.querySelectorAll(".tile");
-    for (let elem of boxes) {
-        // let elem = boxes[i]
+    for (let elem of document.querySelectorAll(".tile")) {
         let distInViewFromTop = elem.getBoundingClientRect().top - window.innerHeight + 20;
         let distInViewFromBottom = elem.getBoundingClientRect().bottom + window.innerHeight - 20;
 		let inView = distInViewFromTop <= 0 && distInViewFromBottom > window.innerHeight;
 		let thumbnail = elem.querySelector('img');
         if (inView) {
-			thumbnail.src = thumbnail.getAttribute('data-image');
             elem.classList.add("tile-view");
             setTimeout(function() { elem.classList.add("no-delay"); }, 500);
         }
@@ -51,5 +63,9 @@ function fadeIn() {
             elem.classList.remove("no-delay");
         }
     }
-	document.querySelector('#counter').innerText = document.querySelectorAll('.tile-view').length;
+	
+    for (let elem of document.querySelectorAll('.tile-view')) {
+		let thumbnail = elem.querySelector('img');
+		thumbnail.src = thumbnail.getAttribute('data-image');
+    }
 }
