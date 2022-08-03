@@ -634,6 +634,40 @@ void Main()
 		}
         #endregion
 		
+		#region [beta] 26 find hashtag to set id for anime blockquote 
+		content = content.Replace(@"style=""background: #00b8cc; border-radius: 5px; padding: 3px 5px; text-align: center; vertical-align: text-bottom;""", @"class=""head-prefix""");
+		content = content.Replace(@"style=""background: rgb(0, 184, 204); border-radius: 5px; padding: 3px 5px; text-align: center; vertical-align: text-bottom;""", @"class=""head-prefix""");
+		content = content.Replace(@"style=""background: var(--secondary); border-radius: 5px; padding: 3px 5px; text-align: center; vertical-align: text-bottom;""", @"class=""head-prefix""");
+		if(includeIndex.Count() == 0 || includeIndex.Contains(26))
+		{
+	        expression = @"(<blockquote class=""tr_bq""><div style=""text-align: center;""><span class=""head-prefix""><b>アニメ</b></span><span style=""font-size: large;"">)(.*?)(</span></div></blockquote>)(.*?)(\(#)(.*?)(\))";
+	        match = Regex.Match(content, expression);
+	        while(match.Success) {
+				if(!match.Groups[2].Value.Contains("Preview")
+				) {
+					count++;
+					var replacement = match.Groups[1].Value.Replace(@"class=""tr_bq""", @"class=""tr_bq anime"" id=""" + match.Groups[6].Value + @"""");
+					content = content.Replace(match.Value, replacement + match.Groups[2].Value + match.Groups[3].Value + match.Groups[4].Value + match.Groups[5].Value + match.Groups[6].Value + match.Groups[7].Value);
+				}
+	            match = match.NextMatch();
+	        };
+			
+	        expression = @"(<blockquote class=""tr_bq""><div style=""text-align: center;""><span class=""head-prefix""><b>映画</b></span><span style=""font-size: large;"">)(.*?)(</span></div></blockquote>)(.*?)(\(#)(.*?)(\))";
+	        match = Regex.Match(content, expression);
+	        while(match.Success) {
+				if(!match.Groups[2].Value.Contains("Preview")
+				) {
+					count++;
+					var replacement = match.Groups[1].Value.Replace(@"class=""tr_bq""", @"class=""tr_bq anime"" id=""" + match.Groups[6].Value + @"01""");
+					content = content.Replace(match.Value, replacement + match.Groups[2].Value + match.Groups[3].Value + match.Groups[4].Value + match.Groups[5].Value + match.Groups[6].Value + match.Groups[7].Value);
+				}
+	            match = match.NextMatch();
+	        };
+		}
+        #endregion
+		
+		
+		
         //Add to debug
         if(matchItems.Count() > 0)
             Console.WriteLine(matchItems);

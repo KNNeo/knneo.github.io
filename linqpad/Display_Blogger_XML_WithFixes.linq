@@ -40,7 +40,7 @@ void Main()
 	var postCount = 0;
 	var showResults = true;
 	var showMatches = true;
-	List<int> includeIndex = new List<int> { 18 }; //INDEXES HERE//
+	List<int> includeIndex = new List<int> { 26 }; //INDEXES HERE//
 	if(includeIndex.Count > 0) Console.WriteLine("[SELECTIVE_CHECKS_ACTIVATED]");
 	
 	/* [ID] List of Cases:		
@@ -70,6 +70,8 @@ void Main()
 	 * [22] (entertainment news) convert inline styles migrated to blog.css
 	 * []	export list of images from latest
 	 * [24]	replace common phrases with emoji
+	 * [25]	remove hidden tags to generate hashtags
+	 * [26]	find hashtag to set id for anime blockquote 
 	 */
 	
 	// Process XML content per post
@@ -406,6 +408,54 @@ void Main()
 		}
         #endregion
 		
+        #region 25 remove hidden tags to generate hashtags
+		if(includeIndex.Count() == 0 || includeIndex.Contains(25))
+		{
+	        expression = @"(<div id=""hiddenTags"")(.*?)(>)(.*?)(</div>)";
+	        match = Regex.Match(content, expression);
+	        while(match.Success) {
+	            fixes.Add(new MatchItem() {
+						match = showMatches ? match : null,
+						description = "[25] hiddenTags found"
+					});
+	            match = match.NextMatch();
+	        };
+		}
+        #endregion
+		
+		#region [beta] 26 find hashtag to set id for anime blockquote 
+		content = content.Replace(@"style=""background: #00b8cc; border-radius: 5px; padding: 3px 5px; text-align: center; vertical-align: text-bottom;""", @"class=""head-prefix""");
+		content = content.Replace(@"style=""background: rgb(0, 184, 204); border-radius: 5px; padding: 3px 5px; text-align: center; vertical-align: text-bottom;""", @"class=""head-prefix""");
+		content = content.Replace(@"style=""background: var(--secondary); border-radius: 5px; padding: 3px 5px; text-align: center; vertical-align: text-bottom;""", @"class=""head-prefix""");
+		if(includeIndex.Count() == 0 || includeIndex.Contains(26))
+		{
+	        expression = @"(<blockquote class=""tr_bq""><div style=""text-align: center;""><span class=""head-prefix""><b>アニメ</b></span><span style=""font-size: large;"">)(.*?)(</span></div></blockquote>)(.*?)(\(#)(.*?)(\))";
+	        match = Regex.Match(content, expression);
+	        while(match.Success) {
+				if(!match.Groups[2].Value.Contains("Preview")
+				) {
+		            fixes.Add(new MatchItem() {
+							match = showMatches ? match : null,
+							description = "[26] anime header without id found"
+						});
+				}
+	            match = match.NextMatch();
+	        };
+			
+//	        expression = @"(<blockquote class=""tr_bq""><div style=""text-align: center;""><span class=""head-prefix""><b>映画</b></span><span style=""font-size: large;"">)(.*?)(</span></div></blockquote>)";
+//	        match = Regex.Match(content, expression);
+//	        while(match.Success) {
+//				if(!match.Groups[2].Value.Contains("Preview")
+//				) {
+//		            fixes.Add(new MatchItem() {
+//							match = showMatches ? match : null,
+//							description = "[26] movie header without id found"
+//						});
+//				}
+//	            match = match.NextMatch();
+//	        };
+		}
+        #endregion
 		
 		
 	
