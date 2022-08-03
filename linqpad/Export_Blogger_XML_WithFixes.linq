@@ -516,6 +516,22 @@ void Main()
                 var replacement = prefix + url + midfix + match.Groups[6].Value + suffix;
                 content = content.Replace(match.Value, replacement);
 			}
+            match = match.NextMatch();			
+        };
+		
+        expression = @"(<div class=""thumbnail"")(.*?)(<a )(.*?)(href="")(.*?)("")(.*?)(>)(.*?)(</a)(.*?)(/div>)";        
+        match = Regex.Match(content, expression);
+        while(match.Success) {
+			var url = match.Groups[6].Value;
+			if(!match.Groups[8].Value.Contains("_blank")
+			&& !match.Groups[10].Value.Contains("<")
+			&& !match.Groups[10].Value.Contains(">")
+			&& (url.Contains("blogger.") || url.Contains("bp.blogspot.com"))
+			) {
+				count++;
+                var replacement = match.Groups[1].Value + match.Groups[2].Value + prefix + url + midfix + match.Groups[8].Value + suffix + match.Groups[10].Value + match.Groups[11].Value + match.Groups[12].Value + match.Groups[13].Value;
+				content = content.Replace(match.Value, replacement);
+			}
             match = match.NextMatch();
         };
         #endregion

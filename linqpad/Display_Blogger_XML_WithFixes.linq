@@ -323,6 +323,23 @@ void Main()
 				}
 	            match = match.NextMatch();
 	        };
+			
+	        expression = @"(<div class=""thumbnail"")(.*?)(<a )(.*?)(href="")(.*?)("")(.*?)(>)(.*?)(</a)(.*?)(/div>)";        
+	        match = Regex.Match(content, expression);
+	        while(match.Success) {
+				var url = match.Groups[6].Value;
+				if(!match.Groups[8].Value.Contains("_blank")
+				&& !match.Groups[10].Value.Contains("<")
+				&& !match.Groups[10].Value.Contains(">")
+				&& (url.Contains("blogger.") || url.Contains("bp.blogspot.com"))
+				) {
+					fixes.Add(new MatchItem() {
+						match = match,
+						description = "[18] thumbnail: any link without new tab but is a caption (text only)"
+					});
+				}
+	            match = match.NextMatch();
+	        };
 		}
         #endregion
 		
