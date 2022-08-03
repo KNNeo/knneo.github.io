@@ -37,6 +37,7 @@
  * [ok] (entertainment news) convert inline styles migrated to blog.css
  * []	export list of images from latest
  * [ok]	replace common phrases with emoji
+ * []	remove hidden tags to generate hashtags
  */
 
 void Main()
@@ -618,6 +619,19 @@ void Main()
 //        match = Regex.Match(content, expression);
 //        Console.WriteLine(match);
 //        if(match.Success) count++;
+        #endregion
+		
+        #region 25 remove hidden tags to generate hashtags
+		if(includeIndex.Count() == 0 || includeIndex.Contains(25))
+		{
+	        expression = @"(<div id=""hiddenTags"")(.*?)(>)(.*?)(</div>)";
+	        match = Regex.Match(content, expression);
+	        while(match.Success) {
+				count++;
+				content = content.Replace(match.Value, "");
+	            match = match.NextMatch();
+	        };
+		}
         #endregion
 		
         //Add to debug
