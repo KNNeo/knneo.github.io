@@ -499,7 +499,7 @@ void Main()
         prefix = @"<a href=""";
         midfix = @""" target=""_blank""";
         suffix = ">";
-        expression = @"(<a)(.*?)(href="")(.*?)("")(.*?)(>)";        
+        expression = @"(<a )(.*?)(href="")(.*?)("")(.*?)(>)";        
         match = Regex.Match(content, expression);
         while(match.Success) {
 			var url = match.Groups[4].Value;

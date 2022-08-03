@@ -39,8 +39,8 @@ void Main()
 	
 	var postCount = 0;
 	var showResults = true;
-	var showMatches = false;
-	List<int> includeIndex = new List<int> { 24 }; //INDEXES HERE//
+	var showMatches = true;
+	List<int> includeIndex = new List<int> { 18 }; //INDEXES HERE//
 	if(includeIndex.Count > 0) Console.WriteLine("[SELECTIVE_CHECKS_ACTIVATED]");
 	
 	/* [ID] List of Cases:		
@@ -303,7 +303,7 @@ void Main()
         #region 18 any link not referenced within blog to open on new tab
 		if(includeIndex.Count() == 0 || includeIndex.Contains(18))
 		{
-	        expression = @"(<a)(.*?)(href="")(.*?)("")(.*?)(>)";        
+	        expression = @"(<a )(.*?)(href="")(.*?)("")(.*?)(>)";        
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 				var url = match.Groups[4].Value;
