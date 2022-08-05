@@ -1,3 +1,12 @@
+//constants
+const notBlogger = function() {
+	return window.location.href.includes('knneo.github.io');
+};
+const isMobile = function() {
+    const match = window.matchMedia('(pointer:coarse)');
+    return (match && match.matches && window.innerWidth <= 480);
+};
+
 // Single onLoad event control: put all functions in sequence
 window.addEventListener('load', startup);
 
@@ -31,7 +40,7 @@ function startup() {
 // FUNCTIONS, in startup order //
 // Add custom scripts to only add this script on layout
 function loadExternal() {
-	if(window.location.href.includes('knneo.github.io')) return;
+	if(notBlogger()) return;
 	
 	let viewport = document.createElement('meta');
 	viewport.setAttribute('name','viewport');
@@ -155,7 +164,7 @@ function reduceResults() {
     if ((window.location.href.includes(window.location.origin + '/20') && window.location.href.includes('.html')) || 
 		window.location.href.includes(window.location.origin + '/b/blog-preview') || 
 		window.location.href.includes(window.location.origin + '/p/') ||
-		window.location.href.includes('knneo.github.io'))
+		notBlogger())
 		return;
 	//Remove content
 	for (var footer of document.getElementsByClassName('post-footer-line-2')) {
@@ -422,6 +431,7 @@ function togglePopup() {
 		switchToButton('CloseBtn');
 		fixExternalFrame(this);
 		renderEmbedProcess();
+		if(isMobile()) document.querySelector('html').scrollTop += this.getBoundingClientRect().top;
     }
 	
 	toggleOverlay(false);
@@ -449,16 +459,18 @@ function closePopups() {
 function renderPopup() {
     //if(link.childElementCount == 0)
     event.preventDefault();
-
 	
-    if ((this.href.includes('blogspot.com') || this.href.includes('blogger.googleusercontent.com')) && this.target == '') return //exclusion for blogger	
-    if (this.target == '') return; //exclusion for if target is not _blank
-    //if(link.childElementCount > 0) return; //exclusion class
-    if (this.classList.contains('opt-out')) return; //exclusion class
+	//exclusion for blogger	images
+    if ((this.href.includes('blogspot.com') || this.href.includes('blogger.googleusercontent.com')) && this.target == '') return;
+	//exclusion for if target is not _blank
+    if (this.target == '') return;
+	//exclusion class
+    //if(link.childElementCount > 0) return;
+    if (this.classList.contains('opt-out')) return;
+	//if not compatible for any design
     let newContent = generatePopupContent(this.href);
-    if (newContent == null) return; //if not compatible for any design
+    if (newContent == null) return;
     let thumbnail = document.createElement('div');
-    //thumbnail.classList.add('new-thumbnail');
     thumbnail.classList.add('new-t');
 
     let initial = document.createElement('div');
@@ -705,7 +717,7 @@ function toggleSidebar() {
     let aside = outer.getElementsByTagName('aside')[0];
     aside.style.display = toggleDisplay(aside, 'block');
 	
-    if (window.innerHeight <= 480)
+    if (isMobile())
 		document.getElementById('LinkList1').style.display = toggleDisplay(document.getElementById('LinkList1'), 'none');
     if (window.innerHeight <= 960)
 		document.getElementById('BlogArchive1').style.display = toggleDisplay(document.getElementById('BlogArchive1'), 'none');
