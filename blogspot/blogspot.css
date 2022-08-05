@@ -41,7 +41,17 @@ td.tr-caption {
     font-size: 13px;
 }
 
+.Post {
+	padding: 2px;
+}
+
+.Post .home-thumb {
+	width: 150px;
+	/* height: 150px; */
+}
+
 .latest-post {
+	padding: 12px;
 	width: 150px;
 	display: inline-block;
     margin: 6px auto;
@@ -53,11 +63,6 @@ td.tr-caption {
 
 .latest-post a {
     color: var(--primary);
-}
-
-.Post .home-thumb {
-	width: 150px;
-	height: 150px;
 }
 
 @media only screen and (min-width: 320px) and (max-width: 1040px) {

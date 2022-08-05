@@ -45,7 +45,7 @@ void Main()
 {
     bool WriteTitleOnConsole = true;
 	bool TraceMode = false;
-	int maxLatestPost = 5;
+	int maxLatestPost = 4;
 	int maxImageExport = 100;
 	string imageExport = "[\"\"";
     Console.WriteLine("WriteTitleOnConsole is " + WriteTitleOnConsole);
