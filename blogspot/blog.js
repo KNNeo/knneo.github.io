@@ -28,6 +28,7 @@ function startup() {
 	resizeImages();
 	// hideImagesOnError();
 	// videoifyGIFs();
+	displayFAB();
 
 	// Window events
 	window.addEventListener('scroll', displayFAB);
