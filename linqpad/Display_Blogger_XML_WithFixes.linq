@@ -40,7 +40,7 @@ void Main()
 	var postCount = 0;
 	var showResults = true;
 	var showMatches = true;
-	List<int> includeIndex = new List<int> { 26 }; //INDEXES HERE//
+	List<int> includeIndex = new List<int> { 27 }; //INDEXES HERE//
 	if(includeIndex.Count > 0) Console.WriteLine("[SELECTIVE_CHECKS_ACTIVATED]");
 	
 	/* [ID] List of Cases:		
@@ -72,6 +72,7 @@ void Main()
 	 * [24]	replace common phrases with emoji
 	 * [25]	remove hidden tags to generate hashtags
 	 * [26]	find hashtag to set id for anime blockquote 
+	 * [27] link in images of thumbnails to be removed
 	 */
 	
 	// Process XML content per post
@@ -457,6 +458,38 @@ void Main()
 		}
         #endregion
 		
+        #region 27 link in images of thumbnails to be removed [MANUAL FIX!]
+		//false positive with multiple thumbnails before
+		if(includeIndex.Count() == 0 || includeIndex.Contains(27))
+		{
+			var excludedTitles = new List<string>() { 
+				"The Entertainment News 2020 Edition Issue #31", 
+				"The Entertainment News 2020 Edition Issue #11",
+				"The Entertainment News 2020 Edition Issue #9",
+				"The Entertainment News 2019 Edition Issue #32"
+			};
+			
+	        expression = @"(<div class=""thumbnail-initial hover-hidden""><table)(.*?)(<a)(.*?)(>)(<img)(.*?)(></a>)(.*?)(</table></div>)";
+	        match = Regex.Match(content, expression);
+	        while(match.Success && !excludedTitles.Contains(title)) {
+	            fixes.Add(new MatchItem() {
+						match = null,
+						description = "[27] link in image of thumbnail first div found"
+					});
+	            match = match.NextMatch();
+	        };
+			
+	        expression = @"(<div class=""thumbnail-initial thumbnail-pop hover-visible""><table)(.*?)(<a)(.*?)(>)(<img)(.*?)(></a>)(.*?)(</table></div>)";
+	        match = Regex.Match(content, expression);
+	        while(match.Success && !excludedTitles.Contains(title)) {
+	            fixes.Add(new MatchItem() {
+						match = null,
+						description = "[27] link in image of thumbnail not first div found"
+					});
+	            match = match.NextMatch();
+	        };
+		}
+        #endregion
 		
 	
 		//===================================================================================//

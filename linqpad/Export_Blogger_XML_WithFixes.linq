@@ -38,6 +38,7 @@
  * []	export list of images from latest
  * [ok]	replace common phrases with emoji
  * []	remove hidden tags to generate hashtags
+ * [manual] link in images of thumbnails to be removed
  */
 
 void Main()
