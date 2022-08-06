@@ -205,20 +205,18 @@ font-size: 70%;
   padding: 5px;
 }
 #wantedList li, #wantedList a, #profile-friends a, #profile-social a {
-  color: var(--primary);
-  text-decoration: underline solid var(--primary);
   display: inline-block;
   white-space: nowrap;
   margin: 2px;
 }
 #wantedList a,
-.friend-link,
+#profile-friends a,
 .profile-box-comments a {
   color: var(--primary);
   text-decoration: underline solid var(--primary);
 }
 #wantedList a:hover,
-.friend-link:hover,
+#profile-friends a:hover,
 .profile-box-comments a:hover {
   color: var(--foreground);
   text-decoration: underline solid var(--foreground);
