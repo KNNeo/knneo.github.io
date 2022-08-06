@@ -1,10 +1,3 @@
-/*Variables*/
-:root {
-  --primary: #0065ff; 	/*when background is white*/
-  --secondary: #00e4ff; /*when background is black*/
-}
-
-/*when not in dark mode*/
 html {
 	background-color: white;
 	color: black;
@@ -31,7 +24,7 @@ button {
 
 .darked a,
 .darked a:visited {
-	color: var(--secondary);
+	color: var(--primary);
 }
 
 .darked .settings > a {
