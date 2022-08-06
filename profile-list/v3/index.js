@@ -4,15 +4,8 @@ const showExpanded = function() {
 }; //will only show name, dob, profile, turning point, social media
 const smallScreen = window.innerWidth <= 640;
 const maxRating = 5;
-const calendarCategoryColors = //what to filter for calendar, mapping for category, see profile-list.json
-{
-	'profile': 'lightgray',
-	'seiyuu': 'cyan',
-	'doaxvv': 'lime',
-	'hololive': 'gold',
-	'idolypride': 'pink',
-	// 'alterna': 'pink',
-};
+const calendarCategories = ['profile', 'seiyuu', 'doaxvv', 'hololive', 'idolypride'];
+//what to filter for calendar, mapping for category, see profile-list.json
 const nameLabel = 'Name';
 const nameWithNicknameLabel = 'Name (Nickname)';
 const dobLabel = 'Date Of Birth';
@@ -26,7 +19,7 @@ const socialLabel = 'Social Media';
 const statusPopup = "As answered haphazardly by Uesaka Sumire (and expanded on by me) the three \"turning points\" of a voice actress (but applicable to all):<br/>~ Singer Debut (The exhibition of their unique voices in singing)<br/>~ Swimsuit Photobook (The display of their figure to the extent of being half-naked)<br/>~ Married (The declaration of the end of idolism?)";
 const timezone = 'Asia/Tokyo';
 const month = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-
+const source = 'https://knneo.github.io/profile-list/profile-list-new.json';
 
 //--STARTUP--//
 window.addEventListener('load', startup);
@@ -36,24 +29,14 @@ window.addEventListener('load', startup);
 function startup() {
 	initializeVariables();
 	if(profileListJson && profileListJson.length == 0) {
-		let xmlhttp = new XMLHttpRequest();
-		xmlhttp.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
-				profileListJson = JSON.parse(this.responseText);
-				loadProfileLists();
-				//code here
-				if(window['profileList'] != null)
-					renderWantedList();
-				
-			}
-		};
-		xmlhttp.open("GET", "https://knneo.github.io/profile-list/profile-list-new.json", true);
-		xmlhttp.send();
+		getJson(source, function(response) {
+			profileListJson = response;
+			loadProfileLists();
+		});
 	}
 	else {
 		console.log('Using test json');
 		loadProfileLists();
-		renderWantedList();
 	}
 }
 
@@ -64,7 +47,7 @@ function initializeVariables() {
 	window['currentMonth'] = 0;	
 	window['profileList'] = [];
 	window['calendarList'] = [];
-	window['friendList'] = [];	
+	window['friendList'] = [];
 	window['timelineDOBlist'] = [];
 	window['calendarDOBlist'] = [];
 	window['expanded'] = showExpanded();
@@ -72,29 +55,82 @@ function initializeVariables() {
 
 function loadProfileLists() {
 	window['profileList'] = profileListJson.filter(n => n.rating);
-	window['calendarList'] = profileListJson.filter(n => Object.keys(calendarCategoryColors).includes(n.category));
+	window['calendarList'] = profileListJson.filter(n => calendarCategories.includes(n.category));
 	window['friendList'] = profileListJson.filter(n => n.category == 'friends');
-	window['defaultProfile'] = profileListJson.find( function(n) {
-		return n.category == 'default';
-	});
+	window['defaultProfile'] = profileListJson.find(n => n.category == 'default');
+	window['timelineDOBlist'] = createDOBlist(window['profileList'], 1, 35);
+	window['calendarDOBlist'] = createDOBlist(window['calendarList'], 0, 50);
 	renderWantedList();
 }
 
 function renderWantedList() {
 	generateWantedList();
-	window['timelineDOBlist'] = createDOBlist(window['profileList'], 1, 35);
-	loadTimeline(2500);
-	window['calendarDOBlist'] = createDOBlist(window['calendarList'], 0, 50);
-	window['currentMonth'] = createCalendar(luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: timezone}).month-1, window['calendarDOBlist']);
-	addCalendarLegend();
+	loadTimeline();
+	createCalendar(luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: timezone}).month-1, window['calendarDOBlist'], true);
 	updateTime();
 }
 
+////WANTED LIST////
+function generateWantedList() {
+	let wantedList = document.querySelector(".list");
+	wantedList.innerHTML = '';
+
+	//create array
+	let profileNamesList = [];
+	for (let profileName of window['profileList']) {
+		profileNamesList.push(profileName);
+	}
+	profileNamesList.sort(function(a,b) {
+		return a.name.localeCompare(b.name);
+	});
+
+	//create wanted list
+	for (let profile of profileNamesList) {
+		let list = document.createElement('li');
+		list.appendChild(generateWantedListEntry(profile.id));			
+		wantedList.appendChild(list);
+	}
+}
+
+function generateWantedListEntry(id) {
+	let profile = window['profileList'].find( function(n) {
+		return n.id == id
+	});
+	let married = window['excludeMarried'] && processOption(profile.turningPoint.isMarried, true);
+
+	let wanted = document.createElement(married ? 'span' : 'a');
+	wanted.classList.add('item');
+	wanted.innerText = profile.name;
+	if (married)
+		wanted.classList.add('married');
+	else
+	{
+		wanted.addEventListener("click", function() {
+			generateProfileFromJSON(this);
+			// renderProfileBox();
+			// addStatusPopUp();
+			// generateWantedList(this);
+			document.querySelector('#profile').scrollIntoView();
+		});
+		wanted.addEventListener("contextmenu", function(e) {
+			e.preventDefault();
+			window['expanded'] = !window['expanded'];
+			generateProfileFromJSON(this);
+			// renderProfileBox();
+			// generateWantedList(this);
+			document.querySelector('#profile').scrollIntoView();
+			window['expanded'] = !window['expanded'];
+		}, false);
+	}
+	
+	return wanted;
+}
+
 ////TIMELINE////
-function loadTimeline(width) {
-	if(document.getElementById("timeline") == null) return;
-	document.getElementById("timeline").innerHTML = "";
-	TimeKnots.draw("#timeline", window['timelineDOBlist'].filter(prof => !prof.date.startsWith('????')), {
+function loadTimeline(width = 2500) {
+	if(document.querySelector('#timeline') == null) return;
+	document.querySelector('#timeline').innerHTML = '';
+	TimeKnots.draw('#timeline', window['timelineDOBlist'].filter(prof => !prof.date.startsWith('????')), {
 		horizontalLayout: true,
 		width: width,
 		height: 100,
@@ -102,64 +138,66 @@ function loadTimeline(width) {
 		showLabels: true,
 		labelFormat: "%Y"
 	});
-	adjustKnots();
+	adjustKnots(20);
 	addTimelineEvents();
+}
+
+function adjustKnots(knotSize) {
+	//to shift position of knots if overlap with previous
+	let circleList = document.querySelectorAll('circle');
+	for (let i = 0; i < circleList.length - 1; i++) {
+		let oldCX = parseInt(circleList[i].getAttribute('cx'));
+		if (circleList[i + 1].getAttribute("cx") - oldCX <= knotSize) circleList[i + 1].setAttribute('cx', oldCX + knotSize);
+	}
 }
 
 function addTimelineEvents() {
 	//on timeline double click shrink timeline
-	document.getElementById("timeline").addEventListener("dblclick", function() {
-		let origWidth = this.getElementsByTagName("svg")[0].width.baseVal.value / 2;
-		loadTimeline(origWidth < 1000 ? 1000 : origWidth);
+	document.querySelector('#timeline').addEventListener('dblclick', function() {
+		let newWidth = this.querySelector('svg').width.baseVal.value / 2;
+		if (newWidth < 1000) newWidth = 1000;
+		else if (newWidth > 10000) newWidth > 10000;
+		else loadTimeline(newWidth);
 	});
 
 	//on timeline wheel scroll adjust timeline length ie. redraw
-	document.getElementById("timeline").addEventListener("wheel", function(e) {
+	document.querySelector('#timeline').addEventListener('wheel', function(e) {
 		e.preventDefault();
 		if (!e.shiftKey) {
 			this.scrollLeft -= e.wheelDelta / 2;
 			return;
 		}
-		let origWidth = this.getElementsByTagName("svg")[0].width.baseVal.value + e.wheelDelta;
-		if (origWidth < 1000) origWidth = 1000;
-		else if (origWidth > 10000) origWidth > 10000;
-		else loadTimeline(origWidth);
+		let newWidth = this.querySelector('svg').width.baseVal.value + e.wheelDelta;
+		if (newWidth < 1000) newWidth = 1000;
+		else if (newWidth > 10000) newWidth > 10000;
+		else loadTimeline(newWidth);
 	});
 	
 	//on scroll turn off all overlays in timeline and calendar
-	window.addEventListener("scroll", function() {
-		if (document.getElementById("timeline").getElementsByTagName("div").length > 0)
-			document.getElementById("timeline").getElementsByTagName("div")[0].style.opacity = "0";
+	window.addEventListener('scroll', function() {
+		if (document.querySelector('#timeline').querySelectorAll('div').length > 0)
+			document.querySelector('#timeline').querySelector('div').style.opacity = "0";
 	});
 }
 
-//to shift position of knots if overlap with previous
-function adjustKnots() {
-	let circleList = document.getElementsByTagName("circle");
-	for (let i = 0; i < circleList.length - 1; i++) {
-		let oldCX = parseInt(circleList[i].getAttribute("cx"));
-		if (circleList[i + 1].getAttribute("cx") - oldCX <= 20) circleList[i + 1].setAttribute("cx", oldCX + 20);
-	}
-}
-
 ////CALENDAR////
-//create array of objects with DOB info, parameter: age (range inclusive)
-function createDOBlist(list, minAge, maxAge) {
-	let listOfDOB = new Array();
+function createDOBlist(profiles, minAge, maxAge) {
+	//create array with DOB info, age range inclusive
+	let list = new Array();
 	if(window['defaultProfile']) {
-		listOfDOB.push({
+		list.push({
 			category: window['defaultProfile'].category,
-			date: window['defaultProfile'].dob.replace(".", "-").replace(".", "-").substring(0, 10),
+			date: window['defaultProfile'].dob.replace('.', '-').replace('.', '-').substring(0, 10),
 			name: window['defaultProfile'].name
 		});
 	}
-	for(let profile of list) {
+	for(let profile of profiles) {
 		let targetDOB = profile.dob;
 		if (targetDOB.length > 0) {
 			let birthDate = new Date(Date.parse(targetDOB.replace(".", "-").replace(".", "-").substring(0, 10)));
-			let age = targetDOB.includes('?') ? 0 : parseInt(getAge(targetDOB));
+			let age = getAge(targetDOB);
 			if (!birthDate.toUTCString().includes(NaN) && age >= minAge && age <= maxAge)
-				listOfDOB.push({
+				list.push({
 					category: profile.category,
 					date: targetDOB.replace(".", "-").replace(".", "-").substring(0, 10),
 					name: profile.name,
@@ -168,82 +206,85 @@ function createDOBlist(list, minAge, maxAge) {
 		}
 	}
 	//to sort the above so oldest is added first in timeline
-	listOfDOB.sort(function(a, b) {
+	list.sort(function(a, b) {
 		return Date.parse(a.date) - Date.parse(b.date)
 	});
-	return listOfDOB;
+	return list;
 }
-//generate calendar from profile boxes
-function createCalendar(monthNo, DOBlist) {
+
+function createCalendar(monthNo, DOBlist, legend = false) {
+	//generate calendar from DOBlist
+	//monthNo is 0-based, actual is monthNo + 1
+	//legend will generate legend, if .calendar-legend is found
 	let calendarArray = new Array();
 	let dayOfMonth = 1;
 	// render days of month as fixed array
 	for (let week = 0; week < 6; week++) {
-		let weekList = ['', '', '', '', '', '', ''];
+		let weekDays = ['', '', '', '', '', '', ''];
 		for (let day = 0; day < 7; day++) {
 			if (new Date(new Date().getFullYear(), monthNo, dayOfMonth).getDay() == day) {
 				//add to array
 				if (dayOfMonth > new Date(new Date().getFullYear(), monthNo, dayOfMonth).getDate()) break;
-				weekList[day] = dayOfMonth;
+				weekDays[day] = dayOfMonth;
 				dayOfMonth++;
 			}
 		}
-		calendarArray.push(weekList);
+		calendarArray.push(weekDays);
 	}
 	
-	let htmlString = "<table><tbody><tr><td>" + 
-	(monthNo+1 > 1 ? "<i id=\"prevMonth\" class=\"bi bi-arrow-left\"></i>" : "") + 
-	"</td><td colspan=\"5\">" + 
-	month[monthNo] + " " + new Date().getFullYear() + 
-	"</td><td>" + 
-	(monthNo+1 < 12 ? "<i id=\"nextMonth\" class=\"bi bi-arrow-right\"></i>" : "") + 
-	"</td></tr><tr><td>Sun</td><td>Mon</td><td>Tue</td><td>Wed</td><td>Thu</td><td>Fri</td><td>Sat</td></tr>";
+	let week = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+	// render table
+	let htmlString = '<table><tbody><tr><td>' + 
+	(monthNo+1 > 1 ? '<i id="prevMonth" class="bi bi-arrow-left"></i>' : '') + 
+	'</td><td colspan="5">' + 
+	month[monthNo] + ' ' + new Date().getFullYear() + 
+	'</td><td>'	+ 
+	(monthNo+1 < 12 ? '<i id="nextMonth" class="bi bi-arrow-right"></i>' : '') + 
+	'</td></tr><tr>' + week.map(w => '<td>' + w + '</td>').join('') + '</tr>';
 	
-	// render array as table
 	for (let week = 0; week < 6; week++) {
-		htmlString += "<tr>";
-		let weekList = calendarArray[week];
+		htmlString += '<tr>';
+		let weekDays = calendarArray[week];
 		for (let day = 0; day < 7; day++) {
-			htmlString += "<td>" + weekList[day] + "</td>";
+			htmlString += '<td>' + weekDays[day] + '</td>';
 		}
-		htmlString += "</tr>";
+		htmlString += '</tr>';
 	}
-	htmlString += "</tbody></table>";
+	htmlString += '</tbody></table>';
 	
 	// replace cells in table with relevant dates
 	for (let item of DOBlist) {
 		//calculate if birthday this year has passed
 		let currentYear = new Date().getFullYear();
 		let birthdayInYear = new Date(new Date().getFullYear(), new Date(item.date.replace('????', currentYear)).getMonth(), new Date(item.date.replace('????', currentYear)).getDate());
-		
-		let DOB = currentYear + item.date.substring(4);
-		let IsBirthdayOver = isBirthdayPassed(DOB);
-		// console.log(item.name, timeDiff.days(), timeDiff.hours(), timeDiff.minutes(), timeDiff.seconds(), timeDiff.milliseconds());
-		
+				
 		let thisAge;
+		//define thisAge
 		if (item.currentAge <= 1) thisAge = '??';
-		else if (IsBirthdayOver) thisAge = item.currentAge;
+		else if (isBirthdayPassed(currentYear + item.date.substring(4))) thisAge = item.currentAge;
 		else thisAge = item.currentAge + 1;
-		// console.log(item.name + "|" + item.currentAge);
-		if(calendarCategoryColors[item.category] == null) continue;
-		if (thisAge == '??' && 
-		htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1 && 
-		htmlString.indexOf("<td>" + birthdayInYear.getDate() + "</td>") > -1 && 
-		item.name != "Me") //if no age
-			htmlString = htmlString.replace("<td>" + birthdayInYear.getDate() + "</td>", 
-			"<td style=\"background-color: " + calendarCategoryColors[item.category] + "; color: black;\"><div class=\"popitem\">Happy Birthday <b style=\"color: " + calendarCategoryColors[item.category] + ";\">" + item.name + "</b>!!</div>" + birthdayInYear.getDate() + "</td>");
-		else if (htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1 && 
-		htmlString.indexOf("<td>" + birthdayInYear.getDate() + "</td>") > -1 && 
-		item.name != "Me") //normal
-			htmlString = htmlString.replace("<td>" + birthdayInYear.getDate() + "</td>", 
-			"<td style=\"background-color: " + calendarCategoryColors[item.category] + "; color: black;\"><div class=\"popitem\"><b style=\"color: " + calendarCategoryColors[item.category] + ";\">" + item.name + "</b> turns " + thisAge + " (" + birthdayInYear.getDate() + " " + month[birthdayInYear.getMonth()].substring(0, 3) + ")</div>" + birthdayInYear.getDate() + "</td>");
-		else if (thisAge == '??' && 
-		htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1) //overlap DOBs, if no age
-			htmlString = htmlString.replace("</div>" + birthdayInYear.getDate() + "</td>", 
-			"<br />Happy Birthday <b style=\"color: " + calendarCategoryColors[item.category] + ";\">" + item.name + "</b>!!</div>" + birthdayInYear.getDate() + "</td>");
-		else if (htmlString.indexOf(month[birthdayInYear.getMonth()]) > -1) //overlap DOBs
-			htmlString = htmlString.replace("</div>" + birthdayInYear.getDate() + "</td>", 
-			"<br /><b style=\"color: " + calendarCategoryColors[item.category] + ";\">" + item.name + "</b> turns " + thisAge + "</b> (" + birthdayInYear.getDate() + " " + month[birthdayInYear.getMonth()].substring(0, 3) + ")</div>" + birthdayInYear.getDate() + "</td>");
+		// console.log(item.category + '|' + item.name + '|' + item.currentAge);
+		if (calendarCategories == null) continue;
+		
+		//replace html based on thisAge
+		let dateCell = '<td>' + birthdayInYear.getDate() + '</td>';
+		let monthId = month[birthdayInYear.getMonth()];
+		let message = '<b class="color-' + item.category + '">' + item.name + '</b> turns ' + thisAge + '</b> (' + birthdayInYear.getDate() + ' ' + monthId.substring(0, 3) + ')';
+		if (thisAge == '??')
+			message = 'Happy Birthday <b class="color-' + item.category + '">' + item.name + '</b>!!';
+		
+		if (thisAge == '??' && htmlString.indexOf(monthId) > -1 && htmlString.indexOf(dateCell) > -1 && item.name != 'Me') //no age
+			htmlString = htmlString.replace(dateCell, 
+			'<td class="bg-' + item.category + '"><div class="popitem">' + message + '</div>' + birthdayInYear.getDate() + '</td>');
+		else if (htmlString.indexOf(monthId) > -1 && htmlString.indexOf(dateCell) > -1 && item.name != "Me") //with age
+			htmlString = htmlString.replace(dateCell, 
+			'<td class="bg-' + item.category + '"><div class="popitem">' + message + '</div>' + birthdayInYear.getDate() + '</td>');
+		else if (thisAge == '??' && htmlString.indexOf(monthId) > -1) //append DOB, no age
+			htmlString = htmlString.replace('</div>' + birthdayInYear.getDate() + '</td>', 
+			'<br />' + message + '</div>' + birthdayInYear.getDate() + '</td>');
+		else if (htmlString.indexOf(monthId) > -1) //append DOB, with age
+			htmlString = htmlString.replace('</div>' + birthdayInYear.getDate() + '</td>', 
+			'<br />' + message + '</div>' + birthdayInYear.getDate() + '</td>');
 	}
 	
 	document.getElementById("calendar").innerHTML = htmlString;
@@ -257,13 +298,16 @@ function createCalendar(monthNo, DOBlist) {
 	if (window['currentMonth'] < 11) document.getElementById("nextMonth").addEventListener("click", function() {
 		createCalendar(++window['currentMonth'], window['calendarDOBlist']);
 	});
-	return monthNo;
+	
+	if(legend)		
+		addCalendarLegend();
 }
 
 function addCalendarLegend() {
-	let categories = window['calendarList'].filter((val, index, arr) => arr.map(a => a.category).indexOf(val.category) === index).map(p => p.category); // ['alterna','doaxvv','seiyuu','vtuber'];
+	if(document.querySelector('.calendar-legend') == null) return;
+	let categories = window['calendarList'].filter((val, index, arr) => arr.map(a => a.category).indexOf(val.category) === index).map(p => p.category);
 	// console.log(categories);
-	let calendarLegend = document.getElementById('calendar-legend');
+	let calendarLegend = document.querySelector('.calendar-legend');
 	calendarLegend.innerHTML = '';
 	for(let category of categories) {		
 		let id = 'label-' + category;
@@ -278,14 +322,33 @@ function addCalendarLegend() {
 			
 			let box = document.createElement('span');
 			box.classList.add('legend');
-			box.style.backgroundColor = calendarCategoryColors[category.toLowerCase()] || 'lightgray';
+			box.classList.add('bg-' + category.toLowerCase());
+			box.setAttribute('data-id', 'bg-' + category.toLowerCase());
+			// box.style.backgroundColor = 'lightgray';
+			box.addEventListener('click', function() {
+				// this.previousElementSibling.style.backgroundColor = this.previousElementSibling.previousElementSibling.checked ? 'transparent' :calendarCategories[this.title.toLowerCase()] || 'lightgray';
+				let id = this.getAttribute('data-id');
+				if(this.classList.contains(id))
+					this.classList.remove(id);
+				else
+					this.classList.add(id);					
+				setTimeout(function() {
+					filterCalendar();
+					createCalendar(luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: timezone}).month-1, window['calendarDOBlist']);
+				}, 10);
+			});
 			label.appendChild(box);
 					
 			let description = document.createElement('span');
 			description.style.padding = '0 5px';
 			description.title = category;
 			description.addEventListener('click', function() {
-				this.previousElementSibling.style.backgroundColor = this.previousElementSibling.previousElementSibling.checked ? 'transparent' :calendarCategoryColors[this.title.toLowerCase()] || 'lightgray';
+				// this.previousElementSibling.style.backgroundColor = this.previousElementSibling.previousElementSibling.checked ? 'transparent' :calendarCategories[this.title.toLowerCase()] || 'lightgray';
+				let id = this.previousElementSibling.getAttribute('data-id');
+				if(this.previousElementSibling.classList.contains(id))
+					this.previousElementSibling.classList.remove(id);
+				else
+					this.previousElementSibling.classList.add(id);					
 				setTimeout(function() {
 					filterCalendar();
 					createCalendar(luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: timezone}).month-1, window['calendarDOBlist']);
@@ -300,11 +363,10 @@ function addCalendarLegend() {
 
 function filterCalendar() {
 	let checkedCategories = Array
-		.from(document.getElementById('calendar-legend').getElementsByTagName('input'))
+		.from(document.querySelectorAll('.calendar-legend input'))
 		.filter(i => i.checked == true)
 		.map(i => i.name);
-	window['calendarDOBlist'] = createDOBlist(window['calendarList'], 0, 50);
-	window['calendarDOBlist'] = window['calendarDOBlist'].filter(c => c.name != 'Me' && (checkedCategories.indexOf(c.category) >= 0));
+	window['calendarDOBlist'] = createDOBlist(window['calendarList'], 0, 50).filter(c => c.name != 'Me' && (checkedCategories.indexOf(c.category) >= 0));
 }
 
 function exportCalendar() {
@@ -321,7 +383,7 @@ function exportCalendar() {
 		let DOB = nowYear + profile.date.substring(4);
 		let IsBirthdayOver = isBirthdayPassed(DOB);
 		
-		let line = '"'+profile.name+'\'s Birthday'+(profile.date.includes('?') ? '' : ' ('+(IsBirthdayOver ? parseInt(getAge(profile.date)) : parseInt(getAge(profile.date))+1)+')')+'","'+formatDate+'","true","'+(profile.date.includes('?') ? '' : ('Born ' + profile.date))+'","true"';
+		let line = '"'+profile.name+'\'s Birthday'+(profile.date.includes('?') ? '' : ' ('+(IsBirthdayOver ? getAge(profile.date) : getAge(profile.date)+1)+')')+'","'+formatDate+'","true","'+(profile.date.includes('?') ? '' : ('Born ' + profile.date))+'","true"';
 		textOutput += line;
 	}
 	
@@ -340,6 +402,7 @@ function exportCalendar() {
 
 ////PROFILE////
 function generateProfileFromJSON(profileName) {
+	//check parameter
 	if(typeof profileName == 'object')
 		profileName = profileName.innerText;
 	if(profileName.indexOf(' ') >= 0)
@@ -347,55 +410,53 @@ function generateProfileFromJSON(profileName) {
 	if(profileName.indexOf(' ') >= 0)
 		profileName = profileName.substring(0, profileName.indexOf(' '));
 	
-	//the profile selected
-	let profile = window['profileList'].filter( function(n) {
+	//select profile from id
+	let profile = window['profileList'].find( function(n) {
         return n.id == profileName;
-    })[0];
-	//for if only mandatory field are filled
-	let simplified = profile.intro == undefined || !window['expanded'];
-
-	//previous profile
+    });
+	if(profile == null) return;
+	
 	let currentProfile = null;
-	
-	if(profile == null || profile.length == 0) return;
-	
-	if(document.getElementById('profile').childElementCount > 0)
+	let profiles = document.querySelectorAll('#profile div');
+	if(profiles.length > 0)
 	{
-		let currentProfileName = document.getElementById('profile').getElementsByTagName('div')[0].id;
+		let currentProfileName = profiles[0].id;
 		currentProfile = window['profileList'].filter( function(n) {
 			return n.id == currentProfileName;
 		})[0];
-		
-		
+
 		let friendFound = window['friendList'].find( function(p) {
-					return p.id == currentProfile.id + "-" + profile.id ||
-					p.id == profile.id + "-" + currentProfile.id;
+			return p.id == (currentProfile.id + '-' + profile.id) || p.id == (profile.id + '-' + currentProfile.id);
 		}) != undefined;
 		
 		//if(friendFound)
 		//	console.log('Friend found! ' + currentProfile.name + ' x ' + profile.name);
 		
-		//update based on friend found, desktop only for now
 		window['friendMode'] = friendFound && window.innerWidth > 360;
-		//IN FRIEND MODE: left is profile, right is currentProfile
+		//FRIEND MODE: left is profile, right is currentProfile
 	}
 	
-	if(document.getElementById('profile').classList.contains('friend-mode'))
+	//remove friend mode if detected before add class
+	if(document.querySelector('#profile').classList.contains('friend-mode'))
 		window['friendMode'] = false;
-		
-	document.getElementById('profile').innerHTML = '';
 	
-	//if in friend mode and has friend in next friend call, show single mode first
-	//if(window['friendMode']) document.getElementById('profile').classList.add('friend-mode');
-	//else if(document.getElementById('profile').classList.contains('friend-mode'))
-	//	document.getElementById('profile').classList.remove('friend-mode');
+	//friend: selected found and has pairing with current
+	let friend = window['friendList'].find( function(p) {
+		if(currentProfile == null) return false;
+		return p.id == (currentProfile.id + '-' + profile.id) || p.id == (profile.id + '-' + currentProfile.id);
+	});
+				
+	document.querySelector('#profile').innerHTML = '';
 	
-	//console.log(profile);
+	//if mandatory fields filled or by setting
+	let simplified = profile.intro == undefined || !window['expanded'];
+	//if friend found
+	let friendMode = window['friendMode'];
 	
 	let idBox = document.createElement('div');
 	idBox.id = profile.id;
 	idBox.style.width = '90%';
-	idBox.style.maxWidth = simplified || window['friendMode'] ? '440px' : '640px';
+	idBox.style.maxWidth = simplified || friendMode ? '440px' : '640px';
 	idBox.style.margin = 'auto';
 	idBox.style.padding = '3px';
 	
@@ -404,30 +465,18 @@ function generateProfileFromJSON(profileName) {
 	
 			let profileBoxImg = document.createElement('div');
 			profileBoxImg.classList.add('profile-box-img');
-			profileBoxImg.style.clear = 'both';
-			profileBoxImg.style.textAlign = 'center';
-			profileBoxImg.style.width = '100%';
-			profileBoxImg.style.height = '320px';
-				
-			//pre processing for friend image to flip profiles order
+
 			let friendImage = '';
-			if(window['friendMode'])
+			if(friendMode && friend != undefined)
 			{
-				let friend = window['friendList'].find( function(p) {
-					return p.id == currentProfile.id + '-' + profile.id || 
-						p.id == profile.id + '-' + currentProfile.id;
-				});
-				
-				if(friend != undefined)
+				friendImage = friend.image;
+				if(friend.id !== (profile.id + '-' + currentProfile.id))
 				{
-					friendImage = friend.image;
-					
-					if(friend.id !== (profile.id + '-' + currentProfile.id))
-					{
-						let tempProfile = currentProfile;
-						currentProfile = profile;
-						profile = tempProfile;
-					}
+					//flip profiles order by friend id
+					//FRIEND MODE: left is original currentProfile, right is profile
+					let tempProfile = currentProfile;
+					currentProfile = profile;
+					profile = tempProfile;
 				}
 			}
 			
@@ -435,25 +484,24 @@ function generateProfileFromJSON(profileName) {
 			if(profile.portraits == undefined) profile.portraits = [];
 			let allImages = profile.landscapes.concat(profile.portraits);
 			
+			//if one image, either from profileName, or friend if friend mode
 			let image1Source = profile.image;
 			if(allImages.length > 0) image1Source = randomArrayItem(allImages);
-			if(window['friendMode']) image1Source = friendImage;
+			if(friendMode) image1Source = friendImage;
 			
+			//second image is friend mode only
 			let image2Source = profile.image;
-			if(window['friendMode'])
+			if(friendMode)
 			{
 				if(currentProfile.landscapes == undefined) currentProfile.landscapes = [];
 				if(profile.portraits.length == 0) profile.portraits.push(profile.image);
 				if(currentProfile.portraits == undefined) currentProfile.portraits = [];
 				if(currentProfile.portraits.length == 0) currentProfile.portraits.push(currentProfile.image);
-				image2Source = addBackgroundUrlClause(randomArrayItem(profile.portraits)) + ", " + addBackgroundUrlClause(randomArrayItem(currentProfile.portraits));
+				image2Source = addBackgroundUrlClause(randomArrayItem(profile.portraits)) + ', ' + addBackgroundUrlClause(randomArrayItem(currentProfile.portraits));
 			}
 			
-			profileBoxImg.style.backgroundSize = 'contain';
-			profileBoxImg.style.backgroundRepeat = 'no-repeat';
-			profileBoxImg.style.backgroundPosition = 'center';
 			profileBoxImg.style.backgroundImage = addBackgroundUrlClause(image1Source);
-			profileBoxImg.setAttribute('alt', window['friendMode'] ? image2Source : addBackgroundUrlClause(image2Source));
+			profileBoxImg.setAttribute('alt', friendMode ? image2Source : addBackgroundUrlClause(image2Source));
 		
 			profileBox.appendChild(profileBoxImg);
 			
@@ -463,67 +511,74 @@ function generateProfileFromJSON(profileName) {
 				
 					let row = document.createElement('tr');
 					
-					if(!window['friendMode'])
+					//--NAME LABEL--//
+					//name label not present in friend mode
+					if(!friendMode)
 					{
 						let cell = document.createElement('td');
-						if(window['friendMode']) cell.style.textAlign = 'center';
+						if(friendMode) cell.style.textAlign = 'center';
 						cell.innerText = simplified ? nameLabel : nameWithNicknameLabel;
 						row.appendChild(cell);
 					}
 					
 					profileTableBody.appendChild(row);
 					
+					//--NAME VALUE--//
 					row = document.createElement('tr');
 					
 						cell = document.createElement('td');
-						if(window['friendMode']) cell.id = 'profile-friends';
-						let cellDiv = document.createElement('div');
-						if(window['friendMode']) cellDiv.style.textAlign = 'left';
-						if(window['friendMode']) cellDiv.style.position = 'absolute';
-						if(!window['friendMode'] && !simplified) cellDiv.innerHTML = ' (' + superscriptText(profile.nickname) + ')';
+						if(friendMode)
+							cell.classList.add('profile-friends');
 						
-							let span = document.createElement(window['friendMode'] ? 'a' : 'span');
-							span.classList.add('profile-name');
-							span.innerText = profile.name;
-							if(window['friendMode']) 
-							{	
-								span.href = 'javascript:void(0)';
-								span.addEventListener("click", function() {
-									generateProfileFromJSON(this);
-									renderProfileBox();
-									addStatusPopUp();
-									document.getElementById('profile').scrollIntoView();
-								});
-								span.addEventListener("contextmenu", function(e) {
-									e.preventDefault();
-									window['expanded'] = !window['expanded'];
-									generateProfileFromJSON(this);
-									renderProfileBox();
-									addStatusPopUp();
-									document.getElementById('profile').scrollIntoView();
-									window['expanded'] = !window['expanded'];
-								}, false);
-							}
-							cellDiv.insertBefore(span, cellDiv.childNodes[0]);
+							let cellDiv = document.createElement('div');
+							//shift first value left in friend mode
+							if(friendMode)
+								cellDiv.classList.add('shift-left');
 							
-						cell.appendChild(cellDiv);
+							//nickname not present in friend mode
+							if(!friendMode && !simplified)
+								cellDiv.innerHTML = ' (' + superscriptText(profile.nickname) + ')';
+								
+								//name clickable if friend mode
+								let span = document.createElement(friendMode ? 'a' : 'span');
+								span.classList.add('profile-name');
+								span.innerText = profile.name;
+								if(friendMode) 
+								{	
+									span.href = 'javascript:void(0)';
+									span.addEventListener("click", function() {
+										generateProfileFromJSON(this);
+										document.querySelector('#profile').scrollIntoView();
+									});
+									span.addEventListener("contextmenu", function(e) {
+										e.preventDefault();
+										window['expanded'] = !window['expanded'];
+										generateProfileFromJSON(this);
+										document.querySelector('#profile').scrollIntoView();
+										window['expanded'] = !window['expanded'];
+									}, false);
+								}
+								cellDiv.insertBefore(span, cellDiv.childNodes[0]);
+								
+							cell.appendChild(cellDiv);
+							
 						row.appendChild(cell);
 						
-						if(window['friendMode'])
+						//shift second value right in friend mode
+						if(friendMode)
 						{
 							cellDiv = document.createElement('div');
+							cellDiv.classList.add('shift-right');
 							
 								span = document.createElement('a');
 								span.classList.add('profile-name');
 								span.innerText = currentProfile.name;
 								span.href = 'javascript:void(0)';
-								span.addEventListener("click", function() {
+								span.addEventListener('click', function() {
 									generateProfileFromJSON(this);
-									renderProfileBox();
-									addStatusPopUp();
-									document.getElementById('profile').scrollIntoView();
+									document.querySelector('#profile').scrollIntoView();
 								});
-								cellDiv.insertBefore(span, cellDiv.childNodes[0]);
+								cellDiv.appendChild(span);
 								
 							cell.appendChild(cellDiv);
 							row.appendChild(cell);
@@ -532,33 +587,37 @@ function generateProfileFromJSON(profileName) {
 					profileTableBody.appendChild(row);
 					
 					row = document.createElement('tr');
-						
-					if(!window['friendMode'])
+					
+					//--DOB LABEL--//
+					if(!friendMode)
 					{
 						cell = document.createElement('td');
-						if(window['friendMode']) cell.style.textAlign = 'center';
+						if(friendMode) cell.style.textAlign = 'center';
 						cell.innerText = dobLabel;
 						row.appendChild(cell);
 					}
 					
 					profileTableBody.appendChild(row);
 					
+					//--DOB VALUE--//
 					row = document.createElement('tr');
 					
 						cell = document.createElement('td');
 						
 							cellDiv = document.createElement('div');
-							if(window['friendMode']) cellDiv.style.textAlign = 'left';
-							if(window['friendMode']) cellDiv.style.position = 'absolute';
+							//shift first value left in friend mode
+							if(friendMode)
+								cellDiv.classList.add('shift-left');
 							
 								let DOBspan = document.createElement('span');
 								DOBspan.classList.add('DOB');
-								//DOBspan.innerText = profile.dob;
-								// console.log(profile.dob);
-								DOBspan.innerHTML = superscriptText(profile.dob) + (window['expanded'] && !window['friendMode'] && !simplified && profile.dobComment ? (' (' + profile.dobComment + ')') : '');
+								//dob comment only appears if single profile
+								DOBspan.innerHTML = superscriptText(profile.dob) + (!friendMode && !simplified && profile.dobComment ? (' (' + profile.dobComment + ')') : '');
+								
+								//if dob is not in full, show as date
 								if(DOBspan.innerHTML.includes('????')) {
-									let dateOnly = new Date(1990,profile.dob.substring(5,2),profile.dob.substring(8,2),0,0,0,0);
-									DOBspan.innerHTML = month[parseInt(profile.dob.substring(5,7))-1] + ' ' + parseInt(profile.dob.substring(8,10)) + (window['expanded'] && !window['friendMode'] && !simplified && profile.dobComment ? (' (' + profile.dobComment + ')') : '');
+									// let dateOnly = new Date(1990,profile.dob.substring(5,2),profile.dob.substring(8,2),0,0,0,0);
+									DOBspan.innerHTML = month[parseInt(profile.dob.substring(5,7))-1] + ' ' + parseInt(profile.dob.substring(8,10)) + (!friendMode && !simplified && profile.dobComment ? (' (' + profile.dobComment + ')') : '');
 									if(profile.dob.substring(10).length === 3)
 										DOBspan.innerHTML += superscriptText(profile.dob.substring(10));
 								}
@@ -566,13 +625,15 @@ function generateProfileFromJSON(profileName) {
 							
 							cell.appendChild(cellDiv);
 							
-							if(window['friendMode'])
+							//shift second value right in friend mode
+							if(friendMode)
 							{
 								cellDiv = document.createElement('div');
+								cellDiv.classList.add('shift-right');
 							
 								DOBspan = document.createElement('span');
 								DOBspan.classList.add('DOB');
-								DOBspan.innerHTML = processOption(currentProfile.dob, false) + (window['expanded'] && !window['friendMode'] && !simplified && currentProfile.dobComment != '' ? (' (' + currentProfile.dobComment + ')') : '');
+								DOBspan.innerHTML = processOption(currentProfile.dob, false) + (!friendMode && !simplified && currentProfile.dobComment != '' ? (' (' + currentProfile.dobComment + ')') : '');
 								cellDiv.appendChild(DOBspan);
 							
 								cell.appendChild(cellDiv);
@@ -582,90 +643,88 @@ function generateProfileFromJSON(profileName) {
 					
 					profileTableBody.appendChild(row);
 					
-					
-					if(!window['friendMode'])
+					if(!friendMode)
 					{
+						//--PROFILE LABEL--//
 						row = document.createElement('tr');
 						
 							cell = document.createElement('td');
-							if(window['friendMode']) cell.style.textAlign = 'center';
+							// if(friendMode) cell.style.textAlign = 'center';
 							cell.innerText = profileLabel;
 							row.appendChild(cell);
 						
 						profileTableBody.appendChild(row);
 						
+						//--PROFILE VALUE--//
 						row = document.createElement('tr');
 						
 							cell = document.createElement('td');
 							
 								cellDiv = document.createElement('div');
-								if(window['friendMode']) cellDiv.style.textAlign = 'left';
-								if(window['friendMode']) cellDiv.style.position = 'absolute';
+								// if(friendMode)
+									// cellDiv.classList.add('shift-left');
 								cellDiv.innerText = profile.profile;
 								cell.appendChild(cellDiv);
 								
-								if(window['friendMode'])
-								{
-									cellDiv = document.createElement('div');
-									cellDiv.innerText = profile.profile;
-									cell.appendChild(cellDiv);
-								}
+								// if(friendMode)
+								// {
+									// cellDiv = document.createElement('div');
+									// cellDiv.innerText = profile.profile;
+									// cell.appendChild(cellDiv);
+								// }
 								
 							row.appendChild(cell);
 						
 						profileTableBody.appendChild(row);
-					
+						
+						//--POINTS LABEL--//
 						row = document.createElement('tr');
 						
 							cell = document.createElement('td');
 							cell.classList.add('tr-caption');
-							cell.classList.add('turning-point');
-							if(window['friendMode']) cell.style.textAlign = 'center';
+							cell.classList.add('points');
+							// if(friendMode) cell.style.textAlign = 'center';
 							cell.innerText = turningPointLabel;
 							row.appendChild(cell);
 						
 						profileTableBody.appendChild(row);
-					
+						
+						//--POINTS VALUE--//
 						row = document.createElement('tr');
 							
 							cell = document.createElement('td');
 								
 								cellDiv = document.createElement('div');
-								if(window['friendMode']) cellDiv.style.textAlign = 'left';
-								if(window['friendMode']) cellDiv.style.position = 'absolute';
-								if(window['expanded'] && !window['friendMode'] && !simplified)
-									cellDiv.innerHTML = Object.keys(profile.turningPoint).map((item, i, arr) => {
-										return superscriptText(profile.turningPoint[item]);
-									}).join('|'); 
-									// cellDiv.innerHTML = superscriptText(profile.turningPoint.soloDebut)
-												// + "|" + superscriptText(profile.turningPoint.swimsuitPhotobook)
-												// + "|" + superscriptText(profile.turningPoint.isMarried);
-								else
+								// if(friendMode)
+									// cellDiv.classList.add('shift-left');
+								// if(!friendMode && !simplified)
+									// cellDiv.innerHTML = Object.keys(profile.turningPoint).map((item, i, arr) => {
+										// return superscriptText(profile.turningPoint[item]);
+									// }).join('|'); 
+								// else
 									cellDiv.innerHTML = Object.keys(profile.turningPoint).map((item, arr) => {
 										return processOption(profile.turningPoint[item], false);
 									}).join('|');
-									// cellDiv.innerHTML = processOption(profile.turningPoint.soloDebut, false)
-												// + "|" + processOption(profile.turningPoint.swimsuitPhotobook, false) 
-												// + "|" + processOption(profile.turningPoint.isMarried, false);
 									
 							cell.appendChild(cellDiv);
 										
-							if(window['friendMode'])
-							{
-								cellDiv = document.createElement('div');
-								cellDiv.innerHTML = processOption(currentProfile.turningPoint.soloDebut, false)
-											+ "|" + processOption(currentProfile.turningPoint.swimsuitPhotobook, false) 
-											+ "|" + processOption(currentProfile.turningPoint.isMarried, false);
-								cell.appendChild(cellDiv);
-							}
+							// if(friendMode)
+							// {
+								// cellDiv = document.createElement('div');
+								// cellDiv.innerHTML = processOption(currentProfile.turningPoint.soloDebut, false)
+											// + "|" + processOption(currentProfile.turningPoint.swimsuitPhotobook, false) 
+											// + "|" + processOption(currentProfile.turningPoint.isMarried, false);
+								// cell.appendChild(cellDiv);
+							// }
 						
 							row.appendChild(cell);
 							
 						profileTableBody.appendChild(row);
 					}
 					
-					if(!window['friendMode'] && !simplified)
+					if(!friendMode && !simplified)
 					{
+						//--INTRO LABEL--//
 						row = document.createElement('tr');
 						
 							cell = document.createElement('td');
@@ -674,6 +733,7 @@ function generateProfileFromJSON(profileName) {
 						
 						profileTableBody.appendChild(row);
 						
+						//--INTRO VALUE--//
 						row = document.createElement('tr');
 						
 							cell = document.createElement('td');
@@ -682,6 +742,7 @@ function generateProfileFromJSON(profileName) {
 						
 						profileTableBody.appendChild(row);
 						
+						//--DESCRIPTION LABEL--//
 						row = document.createElement('tr');
 						
 							cell = document.createElement('td');
@@ -690,6 +751,7 @@ function generateProfileFromJSON(profileName) {
 						
 						profileTableBody.appendChild(row);
 						
+						//--DESCRIPTION VALUE--//
 						row = document.createElement('tr');
 						
 							cell = document.createElement('td');
@@ -698,6 +760,7 @@ function generateProfileFromJSON(profileName) {
 						
 						profileTableBody.appendChild(row);
 						
+						//--RATING LABEL--//
 						row = document.createElement('tr');
 						
 							cell = document.createElement('td');
@@ -706,6 +769,7 @@ function generateProfileFromJSON(profileName) {
 						
 						profileTableBody.appendChild(row);
 						
+						//--RATING VALUE--//
 						row = document.createElement('tr');
 						
 							cell = document.createElement('td');
@@ -715,11 +779,13 @@ function generateProfileFromJSON(profileName) {
 						
 						profileTableBody.appendChild(row);
 						
+						//any friends with one profile from selected
 						let profileFriendsList = window['friendList'].filter( function(p) {
 							return p.id.endsWith(profile.id) || p.id.startsWith(profile.id);
 						});
 						if(profileFriendsList.length > 0)
 						{
+							//--FRIENDS LABEL--//
 							row = document.createElement('tr');
 							
 								cell = document.createElement('td');
@@ -728,14 +794,16 @@ function generateProfileFromJSON(profileName) {
 							
 							profileTableBody.appendChild(row);
 							
+							//--FRIENDS VALUE--//
 							row = document.createElement('tr');
 							
 								cell = document.createElement('td')
 								
 									cellDiv = document.createElement('div');
-									cellDiv.id = 'profile-friends';
+									cellDiv.classList.add('profile-friends');
 									
 									let profileFriends = [];
+									//create name array and sort
 									for(let friend1 of profileFriendsList)
 									{
 										let splits = friend1.id.split('-');
@@ -759,36 +827,37 @@ function generateProfileFromJSON(profileName) {
 								row.appendChild(cell);
 							
 							profileTableBody.appendChild(row);
-						}
-						
+						}						
 					}
 					
 					if(profile.social)
 					{
-						if(!window['friendMode']) {
+						
+						//--SOCIAL LABEL--//
+						if(!friendMode) {
 							row = document.createElement('tr');
-							
-								cell = document.createElement('td');
-								cell.innerText = socialLabel;
-								row.appendChild(cell);
+						
+							cell = document.createElement('td');
+							cell.innerText = socialLabel;
+							row.appendChild(cell);
 							
 							profileTableBody.appendChild(row);
 						}
 						
+						//--SOCIAL VALUE--//
 						row = document.createElement('tr');
 						
 							cell = document.createElement('td');
-							cell.id = 'profile-social';
 							
 								cellDiv = document.createElement('div');
-								if(window['friendMode'] && currentProfile.social) {
-									cellDiv.style.textAlign = 'left';
-									cellDiv.style.position = 'absolute';
-								}
+								//shift first value left in friend mode
+								if(friendMode && currentProfile.social)
+									cellDiv.classList.add('shift-left');
 								
 								if(profile.social.twitter)
 								{
 									let twitterSpan = document.createElement('a');
+									twitterSpan.classList.add('profile-social');
 									twitterSpan.href = 'https://twitter.com/' + profile.social.twitter;
 									twitterSpan.target = '_blank';
 									twitterSpan.title = profile.social.twitter;
@@ -804,6 +873,7 @@ function generateProfileFromJSON(profileName) {
 								if(profile.social.instagram)
 								{
 									let instagramSpan = document.createElement('a');
+									instagramSpan.classList.add('profile-social');
 									instagramSpan.href = 'https://www.instagram.com/' + profile.social.instagram;
 									instagramSpan.target = '_blank';
 									instagramSpan.title = profile.social.instagram;
@@ -819,6 +889,7 @@ function generateProfileFromJSON(profileName) {
 								if(profile.social.youtube)
 								{
 									let youtubeSpan = document.createElement('a');
+									youtubeSpan.classList.add('profile-social');
 									youtubeSpan.href = 'https://www.youtube.com/channel/' + profile.social.youtube;
 									youtubeSpan.target = '_blank';
 									youtubeSpan.title = profile.social.youtube;
@@ -833,10 +904,11 @@ function generateProfileFromJSON(profileName) {
 								
 								cell.appendChild(cellDiv);
 								
-								if(window['friendMode'] && currentProfile.social) {				
+								//shift second value right in friend mode	
+								if(friendMode && currentProfile.social) {		
 									cellDiv = document.createElement('div');
-									cellDiv.id = 'currentProfile-social';
-									cellDiv.style.textAlign = 'right';
+									// cellDiv.id = 'currentProfile-social';
+									cellDiv.classList.add('shift-right');
 									
 									if(currentProfile.social.twitter)
 									{
@@ -895,7 +967,7 @@ function generateProfileFromJSON(profileName) {
 			
 			profileBox.appendChild(profileTable);
 			
-			if(!window['friendMode'] && !simplified)
+			if(!friendMode && !simplified)
 			{
 				let commentBox = document.createElement('div');
 				commentBox.classList.add('profile-box-comments');
@@ -910,19 +982,17 @@ function generateProfileFromJSON(profileName) {
 	
 		idBox.appendChild(profileBox);
 	
-	if(!window['friendMode'])
-		document.getElementById('profile').classList.remove('friend-mode');
+	if(!friendMode)
+		document.querySelector('#profile').classList.remove('friend-mode');
 	else
-		document.getElementById('profile').classList.add('friend-mode')
-	document.getElementById('profile').appendChild(idBox);
+		document.querySelector('#profile').classList.add('friend-mode');
 	
-	return true;
-}
-
-function renderProfileBox() {
-	document.getElementById('profile').style.display = '';
+	document.querySelector('#profile').appendChild(idBox);	
+	document.querySelector('#profile').style.display = '';
+	
 	addProfileEvents();
 	addAgeAfterDOB();
+	addStatusPopUp();
 }
 
 function addProfileEvents() {
@@ -956,87 +1026,6 @@ function addProfileEvents() {
 		document.body.scrollTop = 0; // For Safari
 		document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 	});
-}
-
-////WANTED LIST////
-function generateWantedList(profileLink) {
-	let wantedListString = "";
-	let wantedList = document.getElementById("wantedList");
-	wantedList.innerHTML = '';
-
-	//create name array from static profile boxes
-	let profileNamesList = [];
-	for (let profileName of window['profileList']) {
-		profileNamesList.push(profileName);
-	}
-	profileNamesList.sort(function(a,b) {
-		return a.name.localeCompare(b.name);
-	});
-
-	//create wanted list from list of names
-	for (let profile of profileNamesList) {
-		let married = window['excludeMarried'] && processOption(profile.turningPoint.isMarried, true);
-		
-		let list = document.createElement('li');
-		
-		let wanted = document.createElement((married ? 'span' : 'a'));
-		wanted.innerText = profile.name;
-		wanted.style.margin = '5px';
-		if(married)
-			wanted.style.color = 'gray';
-		if(!married)
-		{
-			wanted.addEventListener("click", function() {
-				generateProfileFromJSON(this);
-				renderProfileBox();
-				addStatusPopUp();
-				generateWantedList(this);
-				document.getElementById('profile').scrollIntoView();
-			});
-			wanted.addEventListener("contextmenu", function(e) {
-				e.preventDefault();
-				window['expanded'] = !window['expanded'];
-				generateProfileFromJSON(this);
-				renderProfileBox();
-				generateWantedList(this);
-				document.getElementById('profile').scrollIntoView();
-				window['expanded'] = !window['expanded'];
-			}, false);
-		}
-		
-		list.appendChild(wanted);
-		wantedList.appendChild(list);
-	}
-}
-
-function generateWantedListEntry(id) {
-	let profileFromId = window['profileList'].find( function(n) {
-		return n.id == id
-	});
-	
-	let friendLink = document.createElement('a');
-	friendLink.classList.add('friend-link');
-	friendLink.innerText = profileFromId.name;
-	
-	//wanted list processing
-	friendLink.addEventListener("click", function(e) {		
-		e.preventDefault();
-		generateProfileFromJSON(this);
-		renderProfileBox();
-		addStatusPopUp();
-		document.getElementById('profile').scrollIntoView();
-	});
-	friendLink.addEventListener("contextmenu", function(e) {
-		e.preventDefault();
-		window['expanded'] = !window['expanded'];
-		generateProfileFromJSON(this);
-		renderProfileBox();
-		addStatusPopUp();
-		document.getElementById('profile').scrollIntoView();
-		window['expanded'] = !window['expanded'];
-	}, false);
-	
-	return friendLink;
 }
 
 ////HELPER////
@@ -1103,8 +1092,9 @@ function daysFromMe() {
 		let diff = luxon.DateTime.fromISO(myDate).setZone(timezone).diff(luxon.DateTime.fromISO(birthDate), 'days').days;
 		away.push({
 			name: other.name,
-			daysAway: Math.abs(diff)
-			});
+			days: Math.abs(diff),
+			dob: other.date,
+		});
 	}
 	
 	console.log(away.sort((a,b) => a.daysAway - b.daysAway));
@@ -1156,31 +1146,33 @@ function showProfilesImageCount(threshold) {
 ////UNCATEGORIZED////
 function addStatusPopUp() {
 	if(statusPopup.length == 0) return;
-	if(document.getElementsByClassName("turning-point").length < 1) return;
-	document.getElementsByClassName("turning-point")[0].addEventListener("mouseover", function(d) {
-		d.target.innerHTML = '<div id=\"tp-description\">' + statusPopup + '</div>' + d.target.innerHTML;
+	if(document.querySelector('.points') == null) return;
+	document.querySelector('.points').addEventListener('mouseover', function(event) {
+		event.target.innerHTML = '<div class=\"points-note\">' + statusPopup + '</div>' + event.target.innerHTML;
 	});
-	document.getElementsByClassName("turning-point")[0].addEventListener("mouseout", function() {
-		if (document.getElementById("tp-description") != null) document.getElementById("tp-description").remove();
+	document.querySelector('.points').addEventListener('mouseout', function(event) {
+		if (event.target.querySelector('.points-note') != null) event.target.querySelector('.points-note').remove();
 	});
 }
 
 //add age after DOB span
-function addAgeAfterDOB() {
-	if(document.getElementById('profile').classList.contains('friend-mode')) return;
-	let profile = window['profileList'].filter(p => p.id === document.getElementById('profile').firstChild.id)[0];
+function addAgeAfterDOB(suffix = 'years ago') {
+	if(document.querySelector('#profile').classList.contains('friend-mode')) return;
+	let profile = window['profileList'].filter(p => p.id === document.querySelector('#profile').firstChild.id)[0];
 	let DOBspan = document.getElementById(profile.id).getElementsByClassName('DOB')[0];
-	let age = profile.dob.includes('????') ? 0 : parseInt(getAge(profile.dob));
+	let age = getAge(profile.dob);
 	if (age != undefined && age > 0)
-		DOBspan.innerHTML = DOBspan.innerHTML.concat(" [").concat(age.toString()).concat(" years ago]");
+		DOBspan.innerHTML = DOBspan.innerHTML.concat(' [').concat(age.toString()).concat(' ' + suffix + ']');
 }
 
 function getAge(DOB) {
-	let birthDateStr = DOB.replace(".", "-").replace(".", "-"); //yyyy.MM.dd -> yyyy-MM-dd
+	//support for date types: yyyy.MM.dd, ????.MM.dd, ????.??.??
+	if(DOB.includes('?')) return 0;
+	let birthDateStr = DOB.replace('.', '-').replace('.', '-');
 	let birthDate = luxon.DateTime.fromISO(birthDateStr.substring(0, 10), {zone: timezone});
 	let today = luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: timezone});
 	// console.log(today.diff(birthDate, ['years','months','days','hours','minutes','seconds']));
-	return today.diff(birthDate, 'years').years;
+	return parseInt(today.diff(birthDate, 'years').years);
 }
 
 function isBirthdayPassed(DOB) {

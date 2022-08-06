@@ -25,7 +25,7 @@ body {
   margin: auto;
 }
 a, button {
-	color: var(--primary);
+	/* color: var(--foreground); */
 	cursor: pointer;
 }
 p {
@@ -72,9 +72,9 @@ p {
 	top: 38px;
 	background-color: var(--background);
 }
-tr:hover > td {
-	background-color: transparent;
-}
+/* tr:hover > td { */
+	/* background-color: transparent; */
+/* } */
 .darked tr:hover {
 	background-color: transparent;
 }
@@ -89,16 +89,13 @@ tr:hover > td {
     vertical-align: middle;
     margin-bottom: 3px;
 }
-#calendar-legend label {	
+.calendar-legend label {	
 	cursor: pointer;
 }
-#calendar-legend input {
+.calendar-legend input {
 	opacity: 0;
 	height: 0;
 	width: 0;
-}
-#profile-social a {
-	color: var(--foreground);
 }
 
 /*Multi-image thumbnail (Refer to js for logic)*/
@@ -160,6 +157,13 @@ html {
 }
 .profile-box-img {
   margin: auto;
+  clear: both;
+  text-align: center;
+  width: 100%;
+  height: 320px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 .profile-category {
   overflow-x: scroll;
@@ -200,29 +204,59 @@ font-size: 70%;
 .profile-box tr:nth-child(even) {
  text-align: right;
 }
-#wantedList {
+.list {
   list-style-type: none;
   padding: 5px;
 }
-#wantedList li, #wantedList a, #profile-friends a, #profile-social a {
-  display: inline-block;
-  white-space: nowrap;
-  margin: 2px;
+ .profile-friends a, .profile-social a {
+	display: inline-block;
+	white-space: nowrap;
+	margin: 2px;
 }
-#wantedList a,
-#profile-friends a,
+
+.profile-friends a,
 .profile-box-comments a {
   color: var(--primary);
   text-decoration: underline solid var(--primary);
 }
-#wantedList a:hover,
-#profile-friends a:hover,
+
+.profile-friends a:hover,
 .profile-box-comments a:hover {
   color: var(--foreground);
   text-decoration: underline solid var(--foreground);
 }
 
-#profile-social a:hover {
+.list li,
+.item {
+	display: inline-block;
+}
+
+.item,
+.darked .item {
+	color: var(--primary);
+	text-decoration: underline solid var(--primary);
+	white-space: nowrap;
+	margin: 5px;
+}
+
+.item:hover,
+.darked .item:hover {
+  color: var(--foreground);
+  text-decoration: underline solid var(--foreground);
+}
+
+.married,
+.married:hover {
+	text-decoration: none;
+	color: gray;
+}
+
+.profile-social {
+	color: var(--primary);
+}
+
+.profile-social:hover,
+.darked .profile-social:hover {
   color: var(--foreground);
 }
 
@@ -261,10 +295,10 @@ text-align: center;
 #prevMonth, #nextMonth {
 	cursor: pointer;
 }
-.turning-point {
+.points {
 	position: relative;
 }
-#tp-description {
+.points-note {
     position: absolute;
     background: var(--background);
     border: 1px solid var(--foreground);
@@ -280,6 +314,56 @@ text-align: center;
 }
 #HocchanAge { color: #444444; }
 #HocchanAge:hover { color: var(--foreground); }
+
+.color-profile {
+	color: lightgray;
+}
+.bg-profile {
+	background-color: lightgray;
+	color: black;
+}
+
+.color-seiyuu {
+	color: cyan;	
+}
+.bg-seiyuu {
+	background-color: cyan;
+	color: black;
+}
+
+.color-doaxvv {
+	color: lime;	
+}
+.bg-doaxvv {
+	background-color: lime;
+	color: black;
+}
+
+.color-hololive {
+	color: gold;	
+}
+.bg-hololive {
+	background-color: gold;
+	color: black;
+}
+
+.color-idolypride {
+	color: pink;	
+}
+.bg-idolypride {
+	background-color: pink;
+	color: black;
+}
+
+.shift-left {
+	text-align: left;
+	position: absolute;
+}
+
+.shift-right {
+	text-align: right;
+}
+
 
 /*scrollbars for top and bottom labels only on desktop*/
 @media only screen and (max-width : 1040px) {
