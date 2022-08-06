@@ -476,6 +476,7 @@ function generateProfileFromJSON(profileName) {
 					row = document.createElement('tr');
 					
 						cell = document.createElement('td');
+						if(window['friendMode']) cell.id = 'profile-friends';
 						let cellDiv = document.createElement('div');
 						if(window['friendMode']) cellDiv.style.textAlign = 'left';
 						if(window['friendMode']) cellDiv.style.position = 'absolute';
@@ -777,9 +778,9 @@ function generateProfileFromJSON(profileName) {
 						row = document.createElement('tr');
 						
 							cell = document.createElement('td');
+							cell.id = 'profile-social';
 							
 								cellDiv = document.createElement('div');
-								cellDiv.id = 'profile-social';
 								if(window['friendMode'] && currentProfile.social) {
 									cellDiv.style.textAlign = 'left';
 									cellDiv.style.position = 'absolute';

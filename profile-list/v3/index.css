@@ -141,11 +141,6 @@ tr:hover > td {
 .material-icons {
 	font-size: 40px !important;
 }
-.friend-link {
-  text-decoration: underline solid var(--primary);
-  /*padding-left: 5px;
-  cursor: pointer;*/
-}
 .bi {
 	font-size: 20px;
 	padding: 3px;
@@ -210,6 +205,8 @@ font-size: 70%;
   padding: 5px;
 }
 #wantedList li, #wantedList a, #profile-friends a, #profile-social a {
+  color: var(--primary);
+  text-decoration: underline solid var(--primary);
   display: inline-block;
   white-space: nowrap;
   margin: 2px;
