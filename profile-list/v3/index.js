@@ -340,6 +340,13 @@ function exportCalendar() {
 
 ////PROFILE////
 function generateProfileFromJSON(profileName) {
+	if(typeof profileName == 'object')
+		profileName = profileName.innerText;
+	if(profileName.indexOf(' ') >= 0)
+		profileName = profileName.replace(' ', '');
+	if(profileName.indexOf(' ') >= 0)
+		profileName = profileName.substring(0, profileName.indexOf(' '));
+	
 	//the profile selected
 	let profile = window['profileList'].filter( function(n) {
         return n.id == profileName;
@@ -481,7 +488,7 @@ function generateProfileFromJSON(profileName) {
 							{	
 								span.href = 'javascript:void(0)';
 								span.addEventListener("click", function() {
-									generateProfileFromJSON(this.innerText.replace(" ", ""));
+									generateProfileFromJSON(this);
 									renderProfileBox();
 									addStatusPopUp();
 									document.getElementById('profile').scrollIntoView();
@@ -489,7 +496,7 @@ function generateProfileFromJSON(profileName) {
 								span.addEventListener("contextmenu", function(e) {
 									e.preventDefault();
 									window['expanded'] = !window['expanded'];
-									generateProfileFromJSON(this.innerText.replace(" ", ""));
+									generateProfileFromJSON(this);
 									renderProfileBox();
 									addStatusPopUp();
 									document.getElementById('profile').scrollIntoView();
@@ -510,7 +517,7 @@ function generateProfileFromJSON(profileName) {
 								span.innerText = currentProfile.name;
 								span.href = 'javascript:void(0)';
 								span.addEventListener("click", function() {
-									generateProfileFromJSON(this.innerText.replace(" ", ""));
+									generateProfileFromJSON(this);
 									renderProfileBox();
 									addStatusPopUp();
 									document.getElementById('profile').scrollIntoView();
@@ -979,7 +986,7 @@ function generateWantedList(profileLink) {
 		if(!married)
 		{
 			wanted.addEventListener("click", function() {
-				generateProfileFromJSON(this.innerText.replace(" ", ""));
+				generateProfileFromJSON(this);
 				renderProfileBox();
 				addStatusPopUp();
 				generateWantedList(this);
@@ -988,7 +995,7 @@ function generateWantedList(profileLink) {
 			wanted.addEventListener("contextmenu", function(e) {
 				e.preventDefault();
 				window['expanded'] = !window['expanded'];
-				generateProfileFromJSON(this.innerText.replace(" ", ""));
+				generateProfileFromJSON(this);
 				renderProfileBox();
 				generateWantedList(this);
 				document.getElementById('profile').scrollIntoView();
@@ -1013,7 +1020,7 @@ function generateWantedListEntry(id) {
 	//wanted list processing
 	friendLink.addEventListener("click", function(e) {		
 		e.preventDefault();
-		generateProfileFromJSON(this.innerText.replace(" ", ""));
+		generateProfileFromJSON(this);
 		renderProfileBox();
 		addStatusPopUp();
 		document.getElementById('profile').scrollIntoView();
@@ -1021,7 +1028,7 @@ function generateWantedListEntry(id) {
 	friendLink.addEventListener("contextmenu", function(e) {
 		e.preventDefault();
 		window['expanded'] = !window['expanded'];
-		generateProfileFromJSON(this.innerText.replace(" ", ""));
+		generateProfileFromJSON(this);
 		renderProfileBox();
 		addStatusPopUp();
 		document.getElementById('profile').scrollIntoView();

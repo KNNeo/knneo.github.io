@@ -33,7 +33,7 @@ var TimeKnots = {
     .style("position", "fixed")
     .style("font-family", "Open Sans")
     .style("font-weight", "300")
-    .style("background","rgba(0,0,0,0.5)")
+    .style("background","rgba(0,0,0,0)")
     .style("color", "white")
     .style("padding", "2px 5px")
     .style("margin", "2px 5px")
@@ -163,7 +163,7 @@ var TimeKnots = {
       if(cfg.dateDimension){
         var format = d3.time.format(cfg.dateFormat);
         var datetime = format(new Date(d.date));
-        var dateValue = (datetime != "")?(d.name == "Me"?"<small>" +d.name+" ("+datetime+")</small>":"<a title=\""+d.name.replace(' ','')+"\" href=\"#" +d.name.replace(' ','')+ "\" onclick=\"navigateToProfile(this)\"><small>" +d.name+" ("+datetime+")</small></a>"):d.name;
+        var dateValue = (datetime != "")?(d.name == "Me"?"<small>" +d.name+" ("+datetime+")</small>":"<a title=\""+d.name.replace(' ','')+"\" onclick=\"generateProfileFromJSON(this)\"><small>" +d.name+" ("+datetime+")</small></a>"):d.name;
       }else{
         var format = function(d){return d}; // TODO
         var datetime = d.value;
@@ -193,7 +193,7 @@ var TimeKnots = {
       if(cfg.dateDimension){
         var format = d3.time.format(cfg.dateFormat);
         var datetime = format(new Date(d.date));
-        var dateValue = (datetime != "")?(d.name == "Me"?"<small>" +d.name+" ("+datetime+")</small>":"<a title=\""+d.name.replace(' ','')+"\"  href=\"#" +d.name.replace(' ','')+ "\" onclick=\"navigateToProfile(this)\"><small>" +d.name+" ("+datetime+")</small></a>"):d.name;
+        var dateValue = (datetime != "")?(d.name == "Me"?"<small>" +d.name+" ("+datetime+")</small>":"<a title=\""+d.name.replace(' ','')+"\" onclick=\"generateProfileFromJSON(this))\"><small>" +d.name+" ("+datetime+")</small></a>"):d.name;
       }else{
         var format = function(d){return d}; // TODO
         var datetime = d.value;
