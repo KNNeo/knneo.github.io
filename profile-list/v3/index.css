@@ -97,6 +97,9 @@ tr:hover > td {
 	height: 0;
 	width: 0;
 }
+#profile-social a {
+	color: var(--foreground);
+}
 
 /*Multi-image thumbnail (Refer to js for logic)*/
 .thumbnail {
