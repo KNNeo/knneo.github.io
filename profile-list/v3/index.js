@@ -99,25 +99,20 @@ function generateWantedListEntry(id) {
 	let married = window['excludeMarried'] && processOption(profile.turningPoint.isMarried, true);
 
 	let wanted = document.createElement(married ? 'span' : 'a');
-	wanted.classList.add('item');
 	wanted.innerText = profile.name;
 	if (married)
 		wanted.classList.add('married');
 	else
 	{
+		wanted.classList.add('item');
 		wanted.addEventListener("click", function() {
 			generateProfileFromJSON(this);
-			// renderProfileBox();
-			// addStatusPopUp();
-			// generateWantedList(this);
 			document.querySelector('#profile').scrollIntoView();
 		});
 		wanted.addEventListener("contextmenu", function(e) {
 			e.preventDefault();
 			window['expanded'] = !window['expanded'];
 			generateProfileFromJSON(this);
-			// renderProfileBox();
-			// generateWantedList(this);
 			document.querySelector('#profile').scrollIntoView();
 			window['expanded'] = !window['expanded'];
 		}, false);
@@ -287,7 +282,7 @@ function createCalendar(monthNo, DOBlist, legend = false) {
 			'<br />' + message + '</div>' + birthdayInYear.getDate() + '</td>');
 	}
 	
-	document.getElementById("calendar").innerHTML = htmlString;
+	document.querySelector('.calendar').innerHTML = htmlString;
 	
 	//global variable for month navigation
 	//events for month buttons
@@ -1185,11 +1180,10 @@ function isBirthdayPassed(DOB) {
 function toggleMarried() {
 	if(window['excludeMarried'] != null)
 	{
-		window['excludeMarried'] = document.getElementById("marriedCheckbox").checked;
-		generateWantedList();
+		window['excludeMarried'] = document.querySelector('#cb-married').checked;
 		let marriedList = window['profileList'].filter(profile => window['excludeMarried'] ? !processOption(profile.turningPoint.isMarried, true) : true);
 		window['timelineDOBlist'] = createDOBlist(marriedList, 1, 35);
-		loadTimeline(2500);
+		renderWantedList();
 	}
 }
 

@@ -13,10 +13,16 @@
   --foreground: #fff;
 }
 
-/*Github Page Only Controls*/
 html {
   font-family: Open Sans;
   font-size: 13px;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 body {
   background-color: var(--background);
@@ -28,67 +34,27 @@ a, button {
 	/* color: var(--foreground); */
 	cursor: pointer;
 }
-p {
-	padding: 0 10px;
+.bi {
+	font-size: 20px;
+	padding: 3px;
 }
-.page-align {
-	text-align: center;
-	max-width: 800px;
-	margin: auto;
-}
-.page-align li, .page-align a {
-  line-height: 1.5;
-}
-.profile-box > table {
-	/*border-bottom: 1px dashed var(--foreground); */
-	width: 100%;
-}
-.profile-box {
-	touch-action: manipulation;
-}
-.superscript {
-	vertical-align: super;
-	font-size: 0.8em;
-}
-.profile-box-comments .superscript {
-	padding-right: 3px;
-}
-#isMarried {
+.box-married label {
 	padding-top: 10px;
 	visibility: hidden;
 }
-#marriedCouple:hover #isMarried {
+.box-married:hover label {
 	visibility: visible;
 }
-#timeline {
-	width: 90%;
-	height: 110px;
-	overflow-x: auto;
-	overflow-y: hidden;
+.calendar table {
+	margin: auto;
 	border: 1px solid var(--foreground);
-	padding: 5px;
+	position:relative;
 }
-#profile {
-	top: 38px;
-	background-color: var(--background);
+.calendar td {
+    width: 30px;
+    height: 20px;
 }
-/* tr:hover > td { */
-	/* background-color: transparent; */
-/* } */
-.darked tr:hover {
-	background-color: transparent;
-}
-@media only screen and (max-width : 1040px) {
-  html { font-size: 0.8em; }
-}
-.legend {
-	display: inline-block;
-	height: 10px;
-	width: 10px;
-	border: 1px solid var(--foreground);
-    vertical-align: middle;
-    margin-bottom: 3px;
-}
+.calendar td:hover .popitem { display: block; }
 .calendar-legend label {	
 	cursor: pointer;
 }
@@ -97,142 +63,9 @@ p {
 	height: 0;
 	width: 0;
 }
-
-/*Multi-image thumbnail (Refer to js for logic)*/
-.thumbnail {
-  display: block;
-}
-.thumbnail-initial {
-  position: absolute;
-  text-align: center;
-  left: 0;
-  right: 0;
-  background-color: var(--background);
-}
-.thumbnail-normal {
-  position: initial;
-  text-align: center;
-  left: 0;
-  right: 0;
-}
-.thumbnail-pop {
-  visibility: hidden;
-  padding: 0 20px;
-}
-.thumbnail-initial * img {
-  border: 1px solid transparent;
-  animation: imgblink 3s infinite;
-  -webkit-animation: imgblink 3s infinite;
-  -moz-animation: imgblink 3s infinite;
-}
-.thumbnail .popup:hover .pop img {
-  animation: none;
-}
-.thumbnail-toggle {
-	background-image: linear-gradient(var(--background), transparent);
-	position: sticky;
-	top: 0;
-	right: 0;
-	left: 0;
-}
-.material-icons {
-	font-size: 40px !important;
-}
-.bi {
-	font-size: 20px;
-	padding: 3px;
-}
-
-
-/*End Github*/
-
-html {
-  scroll-behavior: smooth;
-  overflow-x: hidden;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-.profile-box-img {
-  margin: auto;
-  clear: both;
-  text-align: center;
-  width: 100%;
-  height: 320px;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-.profile-category {
-  overflow-x: scroll;
-  overflow-y: hidden;
-  white-space: nowrap;
-  padding-bottom: 5px;
-  scroll-snap-type: x mandatory;
-}
-.profile-category > div {
-  display: inline-block;
-  width: 98%;
-  max-width: 640px;
-  margin: 3px;
-  vertical-align: top;
-  padding-right: 5px;
-  scroll-snap-align: center;
-}
-.profile-box {
-  border-radius: 8px;
-  border: 1px solid var(--foreground);
-  box-shadow: 3px 3px;
-  padding: 4px;
-  white-space: normal;
-}
-.profile-box:active {
-  box-shadow: 1px 1px;
-  transform: translate(2px,2px);
-}
-.profile-box tr:nth-child(odd), .profile-box-comments {
- text-align: left;
-}
-.profile-box-comments {
-    padding: 3px;
-}
-.profile-box tr:nth-child(odd) td {
-font-size: 70%;
-}
-.profile-box tr:nth-child(even) {
- text-align: right;
-}
-.list {
-  list-style-type: none;
-  padding: 5px;
-}
- .profile-friends a, .profile-social a {
-	display: inline-block;
-	white-space: nowrap;
-	margin: 2px;
-}
-
-.profile-friends a,
-.profile-box-comments a {
-  color: var(--primary);
-  text-decoration: underline solid var(--primary);
-}
-
-.profile-friends a:hover,
-.profile-box-comments a:hover {
-  color: var(--foreground);
-  text-decoration: underline solid var(--foreground);
-}
-
-.list li,
-.item {
-	display: inline-block;
-}
-
 .item,
 .darked .item {
+	display: inline-block;
 	color: var(--primary);
 	text-decoration: underline solid var(--primary);
 	white-space: nowrap;
@@ -244,56 +77,37 @@ font-size: 70%;
   color: var(--foreground);
   text-decoration: underline solid var(--foreground);
 }
-
+.legend {
+	display: inline-block;
+	height: 10px;
+	width: 10px;
+	border: 1px solid var(--foreground);
+    vertical-align: middle;
+    margin-bottom: 3px;
+}
+.list {
+	list-style-type: none;
+	padding: 5px;
+}
+.list li{
+	display: inline-block;
+}
 .married,
 .married:hover {
+	margin: 5px;
 	text-decoration: none;
 	color: gray;
 }
-
-.profile-social {
-	color: var(--primary);
+.material-icons {
+	font-size: 40px !important;
 }
-
-.profile-social:hover,
-.darked .profile-social:hover {
-  color: var(--foreground);
-}
-
-#isMarried {
-text-align: center;
-}
-
-#marriedCheckbox {
-    vertical-align: bottom;
-}
-
-#timeline::-webkit-scrollbar, .profile-category::-webkit-scrollbar { 
-  z-index: 0;
-  height: 10px;
-}
-#timeline::-webkit-scrollbar-thumb, .profile-category::-webkit-scrollbar-thumb {
-  background: var(--foreground);
-}
-#timeline::-webkit-scrollbar-track, .profile-category::-webkit-scrollbar-track {
-  background: #444444;
-}
-.popitem {
-    position: absolute;
-    background-color: var(--background);
-    right: 0;
-    left: 0;
-    display: none;
-	color: var(--foreground);
-}
-#calendar td:hover .popitem { display: block; }
-#calendar table {
+.page-align {
+	text-align: center;
+	max-width: 800px;
 	margin: auto;
-	border: 1px solid var(--foreground);
-	position:relative;
 }
-#prevMonth, #nextMonth {
-	cursor: pointer;
+.page-align li, .page-align a {
+  line-height: 1.5;
 }
 .points {
 	position: relative;
@@ -308,13 +122,124 @@ text-align: center;
 	z-index: 10;
 	text-align: left;
 }
-#calendar td {
-    width: 30px;
-    height: 20px;
+.popitem {
+    position: absolute;
+    background-color: var(--background);
+    right: 0;
+    left: 0;
+    display: none;
+	color: var(--foreground);
 }
+.profile-box {
+	border-radius: 8px;
+	border: 1px solid var(--foreground);
+	box-shadow: 3px 3px;
+	padding: 4px;
+	white-space: normal;
+	touch-action: manipulation;
+}
+.profile-box > table {
+	/*border-bottom: 1px dashed var(--foreground); */
+	width: 100%;
+}
+.profile-box:active {
+  box-shadow: 1px 1px;
+  transform: translate(2px,2px);
+}
+.profile-box tr:nth-child(odd), .profile-box-comments {
+	text-align: left;
+}
+.profile-box tr:nth-child(odd) td {
+	font-size: 70%;
+}
+.profile-box tr:nth-child(even) {
+	text-align: right;
+}
+.profile-box-comments {
+    padding: 3px;
+}
+.profile-box-comments .superscript {
+	padding-right: 3px;
+}
+.profile-box-img {
+  margin: auto;
+  clear: both;
+  text-align: center;
+  width: 100%;
+  height: 320px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.profile-friends a, .profile-social a {
+	display: inline-block;
+	white-space: nowrap;
+	margin: 2px;
+}
+.profile-friends a,
+.profile-box-comments a {
+  color: var(--primary);
+  text-decoration: underline solid var(--primary);
+}
+.profile-friends a:hover,
+.profile-box-comments a:hover {
+  color: var(--foreground);
+  text-decoration: underline solid var(--foreground);
+}
+.profile-social {
+	color: var(--primary);
+}
+.profile-social:hover,
+.darked .profile-social:hover {
+  color: var(--foreground);
+}
+.shift-left {
+	text-align: left;
+	position: absolute;
+}
+.shift-right {
+	text-align: right;
+}
+.superscript {
+	vertical-align: super;
+	font-size: 0.8em;
+}
+
+/*DARK MODE SETTINGS*/
+.darked tr:hover {
+	background-color: transparent;
+}
+
 #HocchanAge { color: #444444; }
 #HocchanAge:hover { color: var(--foreground); }
+#prevMonth, #nextMonth {
+	cursor: pointer;
+}
+#profile {
+	top: 38px;
+	background-color: var(--background);
+}
+#timeline {
+	width: 90%;
+	height: 110px;
+	overflow-x: auto;
+	overflow-y: hidden;
+	border: 1px solid var(--foreground);
+	padding: 5px;
+}
+#timeline::-webkit-scrollbar, .profile-category::-webkit-scrollbar { 
+  z-index: 0;
+  height: 10px;
+}
+#timeline::-webkit-scrollbar-thumb, .profile-category::-webkit-scrollbar-thumb {
+  background: var(--foreground);
+}
+#timeline::-webkit-scrollbar-track, .profile-category::-webkit-scrollbar-track {
+  background: #444444;
+}
 
+
+/*CUSTOMIZE CALENDAR CATEGORY LABELS*/
 .color-profile {
 	color: lightgray;
 }
@@ -355,19 +280,11 @@ text-align: center;
 	color: black;
 }
 
-.shift-left {
-	text-align: left;
-	position: absolute;
-}
-
-.shift-right {
-	text-align: right;
-}
-
 
 /*scrollbars for top and bottom labels only on desktop*/
 @media only screen and (max-width : 1040px) {
-div { scrollbar-width: 0 !important; }
-div::-webkit-scrollbar { width: 0 !important }
-html { scroll-behavior: auto; }
+	html { font-size: 0.8em; }
+	div { scrollbar-width: 0 !important; }
+	div::-webkit-scrollbar { width: 0 !important }
+	html { scroll-behavior: auto; }
 }
