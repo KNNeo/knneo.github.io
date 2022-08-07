@@ -367,7 +367,7 @@ function generateHomepage() {
 	if(debugMode) console.log('generateSearchHistory', query);
 	callDb(query, generateSearchHistory);
 	
-	query = "SELECT Category, ReleaseTitle, ReleaseArtistTitle, KNYEAR, substr('0000'||ReleaseDate,-4) as ReleaseDate FROM Release ";
+	query = "SELECT Type, Category, ReleaseTitle, ReleaseArtistTitle, KNYEAR, substr('0000'||ReleaseDate,-4) as ReleaseDate FROM Release ";
 	query += "WHERE KNYEAR = strftime('%Y','now') ";
 	query += "AND ReleaseDate >= cast(strftime('%m%d','now') as integer) ORDER BY ReleaseDate, ReleaseArtistTitle, ReleaseTitle LIMIT 10";
 	if(debugMode) console.log('generateUpcomingReleases', query);
@@ -500,6 +500,7 @@ function generateUpcomingReleases(contents) {
 	for(let row of rows)
 	{
 		let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
+		let columnIndexType = contents.columns.indexOf('Type');
 		let columnIndexCategory = contents.columns.indexOf('Category');
 		let columnIndexReleaseTitle = contents.columns.indexOf('ReleaseTitle');
 		let columnIndexReleaseArtistTitle = contents.columns.indexOf('ReleaseArtistTitle');
@@ -509,7 +510,7 @@ function generateUpcomingReleases(contents) {
 	
 		let tc = document.createElement('td');
 		// tc.style.cursor = 'pointer';
-		tc.innerText = row[columnIndexKNYEAR] + row[columnIndexReleaseDate] + ' - [' + row[columnIndexCategory].toUpperCase() + '] '+ row[columnIndexReleaseArtistTitle] + ' - ' + row[columnIndexReleaseTitle];
+		tc.innerText = row[columnIndexKNYEAR] + row[columnIndexReleaseDate] + ' - [' + row[columnIndexType] + ' ' + row[columnIndexCategory] + '] '+ row[columnIndexReleaseArtistTitle] + ' - ' + row[columnIndexReleaseTitle];
 		tr.appendChild(tc);
 		
 		tbody.appendChild(tr);	
