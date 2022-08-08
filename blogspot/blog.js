@@ -638,7 +638,7 @@ function addHashtags() {
 	{
 		let newItem = document.createElement('a');
 		newItem.title = item.target.includes("/search") ? "" : item.target;
-		newItem.style.paddingRight = '3px';
+		// newItem.style.paddingRight = '3px';
 		newItem.innerText = '#' + item.tag;
 		newItem.href = item.target.includes("/search") && !window.location.href.includes("knneo.github.io") ? item.target : 'javascript:void(0);';
 		if(!item.target.includes("/search"))
