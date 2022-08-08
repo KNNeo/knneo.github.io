@@ -713,6 +713,12 @@ function generateLayout(contents) {
 	document.getElementById('tab-homepage').style.display = 'none';
 	document.getElementById('search-buttons').style.display = '';
 	
+	//clear modules
+	for(let module of document.getElementsByClassName('module'))
+	{
+		module.innerHTML = '';
+	}
+	
 	if(window['mode'] == 'year')
 	{
 		queryYearInfo(contents);
