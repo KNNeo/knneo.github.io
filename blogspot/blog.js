@@ -432,7 +432,7 @@ function togglePopup() {
 		switchToButton('CloseBtn');
 		fixExternalFrame(this);
 		renderEmbedProcess();
-		if(isMobile()) document.querySelector('html').scrollTop += this.getBoundingClientRect().top;
+		// if(isMobile()) document.querySelector('html').scrollTop += this.getBoundingClientRect().top;
     }
 	
 	toggleOverlay(false);
