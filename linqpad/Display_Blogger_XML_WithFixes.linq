@@ -40,7 +40,7 @@ void Main()
 	var postCount = 0;
 	var showResults = true;
 	var showMatches = true;
-	List<int> includeIndex = new List<int> { 27 }; //INDEXES HERE//
+	List<int> includeIndex = new List<int> { -1 }; //INDEXES HERE//
 	if(includeIndex.Count > 0) Console.WriteLine("[SELECTIVE_CHECKS_ACTIVATED]");
 	
 	/* [ID] List of Cases:		
@@ -91,6 +91,35 @@ void Main()
 		Match match, matchExp;
 		string prefix, midfix, suffix;
 		List<MatchItem> fixes = new List<MatchItem>();
+		
+		#region M1 
+		if(includeIndex.Count() == 0 || includeIndex.Contains(-1))
+		{
+	        XElement empty = new XElement("empty");
+	        XAttribute emptA = new XAttribute("empty","");
+	        string originalLink = ((entry.Elements(_+"link")
+	            .FirstOrDefault(e => e.Attribute("rel").Value == "alternate") ?? empty)
+	            .Attribute("href") ?? emptA).Value;
+				
+			//int position = 40;
+			string titleUrl = "[M1] " + title + ": " + originalLink;
+			if(originalLink.Contains("TheEntertainmentNews"))
+				Console.WriteLine(titleUrl);
+				
+			//Consider removing all references to local blog with such post titles
+			
+			//string asciiOnly = Regex.Replace(title.ToLower(), @"[^a-zA-Z0-9\s]", "").Replace(" ", "-");
+			//Console.WriteLine(asciiOnly.IndexOf(" ", position));
+			//string cropped = asciiOnly.Length >= position ? asciiOnly : asciiOnly;
+			//Console.WriteLine(">> New Title: " + cropped);
+			//Console.WriteLine();
+//            fixes.Add(new MatchItem() {
+//					match = null,
+//					description = titleUrl
+//				});
+
+		}
+		#endregion
 		
 		#region 01 fix twitter embed
 		if(includeIndex.Count() == 0 || includeIndex.Contains(1))
