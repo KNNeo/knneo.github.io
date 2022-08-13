@@ -1,0 +1,125 @@
+[
+	{
+		"type": "grid",
+		"columns": 1,
+		"rows": 4,
+		"image": "https://otherbooks.carrd.co/assets/images/gallery06/8384096d.jpg",
+		"text": "",
+		"componentData": [
+			{
+				"type": "title",
+				"prefix": "",
+				"title": "",
+				"suffix": "2022"
+			},
+			{
+				"type": "gallery",
+				"rows": 3,
+				"datas": [
+					{
+						"tooltip": "",
+						"thumbnail": "https://st.cdjapan.co.jp/pictures/l/00/20/TYCT-30128.jpg",
+						"source": "https://st.cdjapan.co.jp/pictures/l/00/20/TYCT-30128.jpg",
+						"grid": {
+							"type": "grid",
+							"columns": 2,
+							"rows": 3,
+							"componentData": [
+								{
+									"type": "image",
+									"rows": 3,
+									"tooltip": "",
+									"thumbnail": "https://st.cdjapan.co.jp/pictures/l/00/20/TYCT-30128.jpg",
+									"source": "https://st.cdjapan.co.jp/pictures/l/00/20/TYCT-30128.jpg"
+								},
+								{
+									"type": "title",
+									"prefix": "RELEASED 2022.03.02",
+									"title": "Blue Thermal",
+									"suffix": "SHE'S"
+								},
+								{
+									"type": "title",
+									"prefix": "",
+									"title": "",
+									"suffix": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla tincidunt, leo ac posuere cursus, lectus elit suscipit leo, ut imperdiet sem est in erat. Nam ornare mi ut massa congue accumsan at quis ex. Vestibulum volutpat magna id sapien consequat vestibulum. Nullam pellentesque pellentesque magna, sed auctor dolor lacinia in. Vivamus luctus, sem a lacinia porta, nibh nisl ultrices lorem, ut fringilla est lorem eget justo. Praesent in massa ac nibh tincidunt consequat quis in justo. Aliquam blandit nisi orci, rutrum aliquam nunc luctus nec. Vestibulum euismod suscipit sem, ac tempor sapien suscipit porttitor. Mauris at lacinia massa, vitae gravida arcu. Duis dui erat, elementum quis risus quis, faucibus posuere felis. Praesent facilisis semper leo, et porta diam sagittis a. Etiam non diam ultrices, tempus velit vel, consectetur ipsum. Pellentesque leo mauris, suscipit vitae rutrum sit amet, euismod sed metus."
+								},
+								{
+									"type": "gallery",
+									"datas": [
+										{
+											"tooltip": "",
+											"thumbnail": "https://blogger.googleusercontent.com/img/a/AVvXsEg_vVuP4twfCg888iEqEZfjZUiQzOnUrvliYGjJ9IVypufdltO6iY4G385rK5TUGQQF1I-mmHwgfcau46YOdPvXpXZhieXcvhk0AQAzN-awzDS1BvcLvdX2un744pfVxE3UwKcmP7ACyYsYQo-FEOqYvIyRkSmCWNdlnVW9q4T3e0bmPNZLFzvN57_U=s320",
+											"source": "https://blogger.googleusercontent.com/img/a/AVvXsEg_vVuP4twfCg888iEqEZfjZUiQzOnUrvliYGjJ9IVypufdltO6iY4G385rK5TUGQQF1I-mmHwgfcau46YOdPvXpXZhieXcvhk0AQAzN-awzDS1BvcLvdX2un744pfVxE3UwKcmP7ACyYsYQo-FEOqYvIyRkSmCWNdlnVW9q4T3e0bmPNZLFzvN57_U=s320"
+										},
+										{
+											"tooltip": "",
+											"thumbnail": "https://blogger.googleusercontent.com/img/a/AVvXsEj5P_YI6GDThERDS52cqWdbAtn77zcl21M2GcSRi3otdsjCPTxSr7eIHvxDfOgVBK_4Y2K20I5DC0f7qCHUt_CLdN7YscxleICGP3DGz7GTBlTNHFI0fqzjBhdC5qHuTAuphHNR6NQH2QTAK677tHeGN6WXk2qd_r73btVbfuFW3_mkKqyrcU9fdbvI=s320",
+											"source": "https://blogger.googleusercontent.com/img/a/AVvXsEj5P_YI6GDThERDS52cqWdbAtn77zcl21M2GcSRi3otdsjCPTxSr7eIHvxDfOgVBK_4Y2K20I5DC0f7qCHUt_CLdN7YscxleICGP3DGz7GTBlTNHFI0fqzjBhdC5qHuTAuphHNR6NQH2QTAK677tHeGN6WXk2qd_r73btVbfuFW3_mkKqyrcU9fdbvI=s320"
+										},
+										{
+											"tooltip": "",
+											"thumbnail": "https://blogger.googleusercontent.com/img/a/AVvXsEgbmT6IR5PcOoiN_qhX19lnd8gwxpnCsvDCPEPE0ILm5viL8XygSmAeJqiPJb73GaIXh6IXbOme7MfBhUqSVlIKxdY8rCagK7bkV3KS5mD_G8NhT4pb1auxXgj-m_jojcJnteEdJKCG6uHGRIF2lHN8RwuypGMB6wJNLLWM2OoTPzBUFdPLsbG6LxN-=s320",
+											"source": "https://blogger.googleusercontent.com/img/a/AVvXsEgbmT6IR5PcOoiN_qhX19lnd8gwxpnCsvDCPEPE0ILm5viL8XygSmAeJqiPJb73GaIXh6IXbOme7MfBhUqSVlIKxdY8rCagK7bkV3KS5mD_G8NhT4pb1auxXgj-m_jojcJnteEdJKCG6uHGRIF2lHN8RwuypGMB6wJNLLWM2OoTPzBUFdPLsbG6LxN-=s320"
+										}
+									]
+								}
+							]
+						}
+					},
+					{
+						"tooltip": "",
+						"thumbnail": "https://st.cdjapan.co.jp/pictures/l/00/18/KSCL-3308.jpg",
+						"source": "https://st.cdjapan.co.jp/pictures/l/00/18/KSCL-3308.jpg",
+						"grid": {
+							"type": "grid",
+							"columns": 2,
+							"rows": 3,
+							"componentData": [
+								{
+									"type": "image",
+									"rows": 3,
+									"tooltip": "",
+									"thumbnail": "https://st.cdjapan.co.jp/pictures/l/00/18/KSCL-3308.jpg",
+									"source": "https://st.cdjapan.co.jp/pictures/l/00/18/KSCL-3308.jpg"
+								},
+								{
+									"type": "title",
+									"prefix": "RELEASED 2021.08.04",
+									"title": "Empathy",
+									"suffix": "ASIAN KUNG-FU GENERATION"
+								},
+								{
+									"type": "title",
+									"prefix": "",
+									"title": "",
+									"suffix": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla tincidunt, leo ac posuere cursus, lectus elit suscipit leo, ut imperdiet sem est in erat. Nam ornare mi ut massa congue accumsan at quis ex. Vestibulum volutpat magna id sapien consequat vestibulum. Nullam pellentesque pellentesque magna, sed auctor dolor lacinia in."
+								},
+								{
+									"type": "gallery",
+									"datas": [
+										{
+											"tooltip": "",
+											"thumbnail": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiIj8sTLch0wWCJmoMymOx-AxqExktLQ8WfFFS2R4cB97Hn7DKBni8pIOn5WZ6k8X2N4fbpNb54pXPT04LpLMUnWktVVErsSU_LNnjyn_07kSq-eQNtQPrrGufco9oKKG7KZY0cXttRQ8H03k1cnUhxtI5-TvkLxkNhfWBsOpkJ89XnO5B2l5L_OJUC/w240-h320/PXL_20220421_122209466.jpg",
+											"source": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiIj8sTLch0wWCJmoMymOx-AxqExktLQ8WfFFS2R4cB97Hn7DKBni8pIOn5WZ6k8X2N4fbpNb54pXPT04LpLMUnWktVVErsSU_LNnjyn_07kSq-eQNtQPrrGufco9oKKG7KZY0cXttRQ8H03k1cnUhxtI5-TvkLxkNhfWBsOpkJ89XnO5B2l5L_OJUC/w240-h320/PXL_20220421_122209466.jpg"
+										},
+										{
+											"tooltip": "",
+											"thumbnail": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgrn_C2ITpLXucppmzIUwrAcedC0Csf8NdDNsENjgJSvpqg-24aP4xw2qsE0iSGmPD0TVg6S-YYt_mPrEy_KPsU6IildlI_ArNTuJuCsm6kf22sSuhEIGKiWBMv3rU1mxCM5VYWpusjUwq7uvU3TRzH7Aux-Im8Ikw41ODdMj7E-7jDYHE2-zAsKiQX/s320/PXL_20220421_122343338.jpg",
+											"source": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgrn_C2ITpLXucppmzIUwrAcedC0Csf8NdDNsENjgJSvpqg-24aP4xw2qsE0iSGmPD0TVg6S-YYt_mPrEy_KPsU6IildlI_ArNTuJuCsm6kf22sSuhEIGKiWBMv3rU1mxCM5VYWpusjUwq7uvU3TRzH7Aux-Im8Ikw41ODdMj7E-7jDYHE2-zAsKiQX/s320/PXL_20220421_122343338.jpg"
+										},
+										{
+											"tooltip": "",
+											"thumbnail": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhKVFvxHIR9xIaHLeo_qyARyPt5CqX8iCt87ePkl48naXwcbazNdzw_aHXLPhx-hqpk3UIN6lJdyhlYWFFZrccptWvRWGdwjSUMLnpiwvR0k1Rg8XQ-iHHT4uj7z3hLSo6-fYwxBVHJAg-p2qyqTQqXyafiZANe9jPqN7N6u-fay9ETBFc-Bf0a9PbA/s320/PXL_20220421_122252659.jpg",
+											"source": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhKVFvxHIR9xIaHLeo_qyARyPt5CqX8iCt87ePkl48naXwcbazNdzw_aHXLPhx-hqpk3UIN6lJdyhlYWFFZrccptWvRWGdwjSUMLnpiwvR0k1Rg8XQ-iHHT4uj7z3hLSo6-fYwxBVHJAg-p2qyqTQqXyafiZANe9jPqN7N6u-fay9ETBFc-Bf0a9PbA/s320/PXL_20220421_122252659.jpg"
+										}
+									]
+								}
+							]
+						}
+					}
+				]
+			}
+		]
+	}
+]
