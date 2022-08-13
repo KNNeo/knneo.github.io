@@ -3,7 +3,7 @@ let defaultTitle = 'Klassic Note Web';
 let altTitlePrefix = 'Original';
 let databaseFilename = 'https://knneo.github.io/klassic-note-web/db/KlassicNote.db';
 let directory = 'file://C:/Users/KAINENG/OneDrive/Music/'; //for audio player, in {directory}/{knyear}/{filename}.mp3
-let coverArtDirectory = 'file://C:/Users/KAINENG/OneDrive/Music/'; //for cover art, in {directory}/{knyear}/{filename}
+let coverArtDirectory = 'file://F:/RBKN/Pictures/ART/ALBUMART/'; //for cover art, in {directory}/{knyear}/{filename}
 let debugMode = false; //will show all available logging on console
 let altMode = false; //will switch between titles and alt titles [TODO]
 let widescreenAverageModuleSize = 480; //on wide screen widths, tab width for content (responsive)
@@ -560,16 +560,18 @@ function generateFilters() {
 	let search = document.createElement('input');
 	search.id = 'search';
 	search.disabled = true;
-	search.placeholder = 'Song Title, Artist Title, KNYEAR';
+	search.placeholder = 'Song Title, Artist Title, KNYEAR...';
 	search.addEventListener('focus', selectAll);
 	search.addEventListener('input', function() {
 		// console.log('querySelect', document.getElementById('search').value);
-		let query = "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song";
-		query += " WHERE LOWER(" + removeCharacterInSQLProperty("SongTitle") + ") LIKE '%" + addQuotationInSQLString(document.getElementById('search').value) + "%'";
-		query += " OR LOWER(" + removeCharacterInSQLProperty("ArtistTitle") + ") LIKE '%" + addQuotationInSQLString(document.getElementById('search').value) + "%'";
-		query += " OR KNYEAR LIKE '%" + addQuotationInSQLString(document.getElementById('search').value) + "%'";
-		query += " OR LOWER(" + removeCharacterInSQLProperty("ArtistTitle || ' ' || SongTitle") + ") LIKE '%" + addQuotationInSQLString(document.getElementById('search').value) + "%'";
-		query += " OR LOWER(" + removeCharacterInSQLProperty("SongTitle || ' ' || ArtistTitle") + ") LIKE '%" + addQuotationInSQLString(document.getElementById('search').value) + "%'";
+		let searchFields = ['SongTitle','ArtistTitle','KNYEAR'].join(" || ");
+		let query = "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song WHERE TRUE ";
+		query += addQuotationInSQLString(document.getElementById('search').value).split(' ').map(v => "AND " + searchFields + " LIKE '%" + v + "%'").join('');
+		
+		// query += " LOWER(" + removeCharacterInSQLProperty("SongTitle") + ") LIKE '%" + term + "%'";
+		// query += " OR LOWER(" + removeCharacterInSQLProperty("ArtistTitle") + ") LIKE '%" + term + "%'";
+		// query += " OR LOWER(" + removeCharacterInSQLProperty("ArtistTitle || ' ' || SongTitle") + ") LIKE '%" + term + "%'";
+		// query += " OR LOWER(" + removeCharacterInSQLProperty("SongTitle || ' ' || ArtistTitle") + ") LIKE '%" + term + "%'";
 		if(debugMode) console.log('search', query);
 		queryDb(query, updateOptions);
 	});
