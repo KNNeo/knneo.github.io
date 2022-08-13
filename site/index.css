@@ -281,6 +281,16 @@ a:hover {
 	margin-right: auto;
 }
 
+.section-viewer {
+	border: 2px solid;
+	background-color: white;
+	max-width: 80vw;
+	max-height: 80vh;
+	left: 0;
+	right: 0;
+	margin: auto;
+}
+
 @media only screen and (max-width: 960px) {
 	.container {
 		 width: 99%;

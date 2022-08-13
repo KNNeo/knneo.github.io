@@ -217,12 +217,20 @@ function renderGrid(sectionNo, content) {
 			// gallery.style.justifyContent = 'center';
 			// gallery.style.alignItems = 'center';
 			
-			for(let data of component.datas)
+			for(let galleryIndex = 0; galleryIndex < component.datas.length; galleryIndex++)
 			{
+				let data = component.datas[galleryIndex];
 				let img = document.createElement('img');
 				if(data.tooltip && data.tooltip.length > 0) img.title = data.tooltip;
-				img.src = data.thumbnail;
-				img.setAttribute('data-src', data.source);
+				img.src = data.thumbnail;		
+				if(data.grid)
+				{
+					img.setAttribute('data-section', sectionNo);
+					img.setAttribute('data-component', index);
+					img.setAttribute('data-gallery', galleryIndex);
+				}
+				else img.setAttribute('data-src', data.source);
+				if(data.componentData)
 				if(window.innerWidth < 800) 
 				{
 					img.style.height = (100 / (component.datas.length + 1)) + 'vw';
@@ -235,7 +243,13 @@ function renderGrid(sectionNo, content) {
 				img.style.backgroundRepeat = 'no-repeat';
 				img.style.backgroundPosition = 'center';
 				img.style.cursor = 'pointer';
-				img.addEventListener('click', function(e) { openImageUrlInViewer(this.getAttribute('data-src')); });
+				img.addEventListener('click', function(e) {
+					console.log(this.getAttribute('data-src'));
+					if(this.getAttribute('data-src') != null && typeof openImageUrlInViewer == 'function')
+						return openImageUrlInViewer(this.getAttribute('data-src'));
+					if(typeof openGridInViewer == 'function')
+						return openGridInViewer(this.getAttribute('data-section'), this.getAttribute('data-component'), this.getAttribute('data-gallery'));
+				});
 				img.addEventListener('contextmenu', function(e) { e.preventDefault(); });
 				gallery.appendChild(img);
 			}
@@ -254,6 +268,27 @@ function renderGrid(sectionNo, content) {
 			elem.appendChild(gallery);
 		}
 	}
+	
+}
+
+function openGridInViewer(sectionIndex, componentIndex, galleryIndex) {
+	let galleryData = window['elements'][sectionIndex]['componentData'][componentIndex]['datas'][galleryIndex].grid;
+	
+	let viewer = document.querySelector('.viewer');
+	viewer.tabIndex = 999;
+	if(viewer.style.visibility != 'visible') viewer.style.visibility = 'visible';
+	if(viewer.style.opacity != '1') viewer.style.opacity = '1';
+
+		let component = document.createElement('div');
+		component.id = 'section' + (sectionIndex + 1) + 'viewer';
+		component.classList.add('section-viewer');
+		viewer.appendChild(component);
+
+	viewer.appendChild(component);
+	viewer.focus();	
+	
+	renderGrid((sectionIndex + 1) + 'viewer', galleryData);	
+	adjustViewerMargin();
 	
 }
 
