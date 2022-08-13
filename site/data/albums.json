@@ -22,28 +22,28 @@
 						"grid": {
 							"type": "grid",
 							"columns": 2,
-							"rows": 3,
+							"rows": 6,
 							"componentData": [
 								{
+									"type": "spacer",
+									"columns": 2
+								},
+								{
 									"type": "image",
-									"rows": 3,
+									"rows": 4,
 									"tooltip": "",
 									"source": "https://st.cdjapan.co.jp/pictures/l/00/20/TYCT-30128.jpg"
 								},
 								{
 									"type": "title",
+									"rows": 2,
 									"prefix": "RELEASED 2022.03.02",
 									"title": "Blue Thermal",
 									"suffix": "SHE'S"
 								},
 								{
-									"type": "title",
-									"prefix": "",
-									"title": "",
-									"suffix": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla tincidunt, leo ac posuere cursus, lectus elit suscipit leo, ut imperdiet sem est in erat. Nam ornare mi ut massa congue accumsan at quis ex. Vestibulum volutpat magna id sapien consequat vestibulum. Nullam pellentesque pellentesque magna, sed auctor dolor lacinia in. Vivamus luctus, sem a lacinia porta, nibh nisl ultrices lorem, ut fringilla est lorem eget justo. Praesent in massa ac nibh tincidunt consequat quis in justo. Aliquam blandit nisi orci, rutrum aliquam nunc luctus nec. Vestibulum euismod suscipit sem, ac tempor sapien suscipit porttitor. Mauris at lacinia massa, vitae gravida arcu. Duis dui erat, elementum quis risus quis, faucibus posuere felis. Praesent facilisis semper leo, et porta diam sagittis a. Etiam non diam ultrices, tempus velit vel, consectetur ipsum. Pellentesque leo mauris, suscipit vitae rutrum sit amet, euismod sed metus."
-								},
-								{
 									"type": "gallery",
+									"rows": 2,
 									"datas": [
 										{
 											"tooltip": "",
@@ -68,28 +68,28 @@
 						"grid": {
 							"type": "grid",
 							"columns": 2,
-							"rows": 3,
+							"rows": 6,
 							"componentData": [
 								{
+									"type": "spacer",
+									"columns": 2
+								},
+								{
 									"type": "image",
-									"rows": 3,
+									"rows": 4,
 									"tooltip": "",
 									"source": "https://st.cdjapan.co.jp/pictures/l/00/18/KSCL-3308.jpg"
 								},
 								{
 									"type": "title",
+									"rows": 2,
 									"prefix": "RELEASED 2021.08.04",
 									"title": "Empathy",
 									"suffix": "ASIAN KUNG-FU GENERATION"
 								},
 								{
-									"type": "title",
-									"prefix": "",
-									"title": "",
-									"suffix": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla tincidunt, leo ac posuere cursus, lectus elit suscipit leo, ut imperdiet sem est in erat. Nam ornare mi ut massa congue accumsan at quis ex. Vestibulum volutpat magna id sapien consequat vestibulum. Nullam pellentesque pellentesque magna, sed auctor dolor lacinia in."
-								},
-								{
 									"type": "gallery",
+									"rows": 2,
 									"datas": [
 										{
 											"tooltip": "",
@@ -104,6 +104,58 @@
 											"thumbnail": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhKVFvxHIR9xIaHLeo_qyARyPt5CqX8iCt87ePkl48naXwcbazNdzw_aHXLPhx-hqpk3UIN6lJdyhlYWFFZrccptWvRWGdwjSUMLnpiwvR0k1Rg8XQ-iHHT4uj7z3hLSo6-fYwxBVHJAg-p2qyqTQqXyafiZANe9jPqN7N6u-fay9ETBFc-Bf0a9PbA/s320/PXL_20220421_122252659.jpg"
 										}
 									]
+								},
+								{
+									"type": "spacer"
+								}
+							]
+						}
+					},
+					{
+						"tooltip": "",
+						"thumbnail": "https://st.cdjapan.co.jp/pictures/l/04/25/COCC-17970.jpg",
+						"grid": {
+							"type": "grid",
+							"columns": 2,
+							"rows": 6,
+							"componentData": [
+								{
+									"type": "spacer",
+									"columns": 2
+								},
+								{
+									"type": "image",
+									"rows": 4,
+									"tooltip": "",
+									"source": "https://st.cdjapan.co.jp/pictures/l/04/25/COCC-17970.jpg"
+								},
+								{
+									"type": "title",
+									"rows": 2,
+									"prefix": "RELEASED 2022.04.06",
+									"title": "Ao 100 Shoku",
+									"suffix": "Itou Miku"
+								},
+								{
+									"type": "gallery",
+									"rows": 2,
+									"datas": [
+										{
+											"tooltip": "",
+											"thumbnail": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj57ySdWOu3zbPzXAcJSZ1hoQm9FmkaRtdybrRAvGYrvKWrWhbcbfGPL_GQ69zQMX5C7u9ciUsu72aF-H-buFgMM2e6qMHMEyBmC4wzA8H6WnnHzCVHDXDn7Cw2VhQAFPa_25vIXWugLZzkMLHj2XwBnEjWPd22K-vfHvCT6373k-kNLu5bQOYyDED3/s320/PXL_20220519_121812630.jpg"
+										},
+										{
+											"tooltip": "",
+											"thumbnail": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiRr6jwh2MqFmPLavr45BMPc-KwSn_TZ2Zd_0XJHMLpOM_N_8dRKi6FyjfvMnwy4ehBaoMeZ8JeerDXOGXWTLUEW2l36vUXrKiUi33d99L117f5PK2q6Eyq_tq_NYJ5r7Oh5eEaYz-n2u1GzR__bfuRyhlCv4It2TSSFwNBJRmP_n4XcwcRa2Nd-Izd/s320/PXL_20220519_121942808.jpg"
+										},
+										{
+											"tooltip": "",
+											"thumbnail": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhsU4dsgCepIqIhzfjxtQ5G7tqIv8iBgFp498SmYeVi0X5tEwiPisuIn-xbovcAshwVtP1IxZBPRVJBlPSXr-6paT6V8nWZYDDinqVZC1NQUpX9607LixHo8XnecinFYfDtWpm1oMGOzm0EK0bfUZP5TDCAZ9H6gBz8PJjP9lsfBu_JkbSaVSBiXKA0/s320/PXL_20220519_122019742.jpg"
+										}
+									]
+								},
+								{
+									"type": "spacer"
 								}
 							]
 						}
