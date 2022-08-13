@@ -72,9 +72,9 @@ function adjustViewerMargin() {
 	let viewer = document.querySelector('.viewer');
 	if(viewer.childElementCount == 0) return;
 	viewer.style.paddingTop = '0';
-	let image = viewer.getElementsByTagName('img')[0];
-	if(!image.complete) setTimeout(adjustViewerMargin, 100);
-	viewer.style.paddingTop = (viewer.getBoundingClientRect().height - image.height)/2 + 'px';
+	let image = viewer.firstElementChild;
+	if(image.tagName.toLowerCase() == 'img' && !image.complete) setTimeout(adjustViewerMargin, 100);
+	viewer.style.paddingTop = (viewer.getBoundingClientRect().height - image.getBoundingClientRect().height)/2 + 'px';
 }
 
 function closeViewer() {
