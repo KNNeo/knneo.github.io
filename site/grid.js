@@ -15,6 +15,7 @@ function renderGrid(sectionNo, content) {
 	//for mobile, stack all elements in one column
 	if(window.innerWidth <= 800 && content.columns > 1)
 	{
+		content.componentData = content.componentData.filter(cd => cd.type && cd.type != 'spacer');
 		let totalCells = content.componentData.length;
 		content.columns = 1;
 		content.rows = totalCells;
