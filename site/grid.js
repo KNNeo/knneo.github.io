@@ -15,12 +15,13 @@ function renderGrid(sectionNo, content) {
 	//for mobile, stack all elements in one column
 	if(window.innerWidth <= 800 && content.columns > 1)
 	{
-		let totalComponents = content.rows + content.columns;
+		let totalCells = content.componentData.length;
 		content.columns = 1;
-		content.rows = totalComponents;
+		content.rows = totalCells;
 		for(let c = 0; c < content.componentData.length; c++)
 		{
 			content.componentData[c].columns = 1;
+			content.componentData[c].rows = 1;
 		}
 		content.componentData.sort(function(a,b) {
 			return a.mobileSortOrder - b.mobileSortOrder;
@@ -230,7 +231,7 @@ function renderGrid(sectionNo, content) {
 					img.setAttribute('data-gallery', galleryIndex);
 				}
 				else img.setAttribute('data-src', data.source);
-				if(window.innerWidth < 800) 
+				if(window.innerWidth < 800)
 				{
 					img.style.height = (100 / (component.datas.length + 1)) + 'vw';
 					// img.style.maxHeight = '33vw';
@@ -242,12 +243,13 @@ function renderGrid(sectionNo, content) {
 				img.style.backgroundRepeat = 'no-repeat';
 				img.style.backgroundPosition = 'center';
 				img.style.cursor = 'pointer';
-				img.addEventListener('click', function(e) {
-					if(this.getAttribute('data-src') != null && typeof openImageUrlInViewer == 'function')
-						return openImageUrlInViewer(this.getAttribute('data-src'));
-					if(typeof openGridInViewer == 'function')
-						return openGridInViewer(this.getAttribute('data-section'), this.getAttribute('data-component'), this.getAttribute('data-gallery'));
-				});
+				if(data.grid || data.source)
+					img.addEventListener('click', function(e) {
+						if(this.getAttribute('data-src') != null && typeof openImageUrlInViewer == 'function')
+							return openImageUrlInViewer(this.getAttribute('data-src'));
+						if(typeof openGridInViewer == 'function')
+							return openGridInViewer(this.getAttribute('data-section'), this.getAttribute('data-component'), this.getAttribute('data-gallery'));
+					});
 				img.addEventListener('contextmenu', function(e) { e.preventDefault(); });
 				gallery.appendChild(img);
 			}
@@ -276,7 +278,7 @@ function openGridInViewer(sectionIndex, componentIndex, galleryIndex) {
 	if(viewer.style.opacity != '1') viewer.style.opacity = '1';
 
 		let component = document.createElement('div');
-		component.id = 'section' + (sectionIndex + 1) + 'viewer';
+		component.id = 'section' + (sectionIndex) + 'viewer';
 		component.classList.add('section-viewer');
 		viewer.appendChild(component);
 
@@ -284,7 +286,7 @@ function openGridInViewer(sectionIndex, componentIndex, galleryIndex) {
 	viewer.focus();	
 	
 	let galleryData = window['elements'][sectionIndex]['componentData'][componentIndex]['datas'][galleryIndex].grid;
-	renderGrid((sectionIndex + 1) + 'viewer', galleryData);	
+	renderGrid((sectionIndex) + 'viewer', galleryData);	
 	adjustViewerMargin();
 	
 }
