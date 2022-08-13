@@ -672,7 +672,7 @@ function generateProfileFromJSON(profileName) {
 						
 						profileTableBody.appendChild(row);
 						
-						//--POINTS LABEL--//
+						//--POINTERS LABEL--//
 						row = document.createElement('tr');
 						
 							cell = document.createElement('td');
@@ -684,7 +684,7 @@ function generateProfileFromJSON(profileName) {
 						
 						profileTableBody.appendChild(row);
 						
-						//--POINTS VALUE--//
+						//--POINTERS VALUE--//
 						row = document.createElement('tr');
 							
 							cell = document.createElement('td');
@@ -698,7 +698,7 @@ function generateProfileFromJSON(profileName) {
 									// }).join('|'); 
 								// else
 									cellDiv.innerHTML = Object.keys(profile.turningPoint).map((item, arr) => {
-										return processOption(profile.turningPoint[item], false);
+										return simplified ? processOption(profile.turningPoint[item], false) : superscriptText(profile.turningPoint[item]);
 									}).join('|');
 									
 							cell.appendChild(cellDiv);
@@ -1156,7 +1156,8 @@ function addAgeAfterDOB(suffix = 'years ago') {
 	let profile = window['profileList'].filter(p => p.id === document.querySelector('#profile').firstChild.id)[0];
 	let DOBspan = document.getElementById(profile.id).getElementsByClassName('DOB')[0];
 	let age = getAge(profile.dob);
-	if (age != undefined && age > 0)
+	let simplified = profile.intro == undefined || !window['expanded'];
+	if (age != undefined && age > 0 && !simplified)
 		DOBspan.innerHTML = DOBspan.innerHTML.concat(' [').concat(age.toString()).concat(' ' + suffix + ']');
 }
 
