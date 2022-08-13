@@ -230,7 +230,6 @@ function renderGrid(sectionNo, content) {
 					img.setAttribute('data-gallery', galleryIndex);
 				}
 				else img.setAttribute('data-src', data.source);
-				if(data.componentData)
 				if(window.innerWidth < 800) 
 				{
 					img.style.height = (100 / (component.datas.length + 1)) + 'vw';
@@ -244,7 +243,6 @@ function renderGrid(sectionNo, content) {
 				img.style.backgroundPosition = 'center';
 				img.style.cursor = 'pointer';
 				img.addEventListener('click', function(e) {
-					console.log(this.getAttribute('data-src'));
 					if(this.getAttribute('data-src') != null && typeof openImageUrlInViewer == 'function')
 						return openImageUrlInViewer(this.getAttribute('data-src'));
 					if(typeof openGridInViewer == 'function')
@@ -272,8 +270,6 @@ function renderGrid(sectionNo, content) {
 }
 
 function openGridInViewer(sectionIndex, componentIndex, galleryIndex) {
-	let galleryData = window['elements'][sectionIndex]['componentData'][componentIndex]['datas'][galleryIndex].grid;
-	
 	let viewer = document.querySelector('.viewer');
 	viewer.tabIndex = 999;
 	if(viewer.style.visibility != 'visible') viewer.style.visibility = 'visible';
@@ -287,6 +283,7 @@ function openGridInViewer(sectionIndex, componentIndex, galleryIndex) {
 	viewer.appendChild(component);
 	viewer.focus();	
 	
+	let galleryData = window['elements'][sectionIndex]['componentData'][componentIndex]['datas'][galleryIndex].grid;
 	renderGrid((sectionIndex + 1) + 'viewer', galleryData);	
 	adjustViewerMargin();
 	
