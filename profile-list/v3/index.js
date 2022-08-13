@@ -608,14 +608,13 @@ function generateProfileFromJSON(profileName) {
 								let DOBspan = document.createElement('span');
 								DOBspan.classList.add('DOB');
 								//dob comment only appears if single profile
-								DOBspan.innerHTML = superscriptText(profile.dob) + (!friendMode && !simplified && profile.dobComment ? (' (' + profile.dobComment + ')') : '');
+								DOBspan.innerHTML = (simplified ? processOption(profile.dob, false) : superscriptText(profile.dob)) + (!friendMode && !simplified && profile.dobComment ? (' (' + profile.dobComment + ')') : '');
 								
-								//if dob is not in full, show as date
+								//if dob is not in full, show as <dd MMM>
 								if(DOBspan.innerHTML.includes('????')) {
-									// let dateOnly = new Date(1990,profile.dob.substring(5,2),profile.dob.substring(8,2),0,0,0,0);
 									DOBspan.innerHTML = month[parseInt(profile.dob.substring(5,7))-1] + ' ' + parseInt(profile.dob.substring(8,10)) + (!friendMode && !simplified && profile.dobComment ? (' (' + profile.dobComment + ')') : '');
 									if(profile.dob.substring(10).length === 3)
-										DOBspan.innerHTML += superscriptText(profile.dob.substring(10));
+										DOBspan.innerHTML += simplified ? processOption(profile.dob.substring(10), false) : superscriptText(profile.dob.substring(10));
 								}
 								cellDiv.appendChild(DOBspan);
 							
