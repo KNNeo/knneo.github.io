@@ -236,7 +236,7 @@ function renderGrid(sectionNo, content) {
 					img.style.height = (100 / (component.datas.length + 1)) + 'vw';
 					// img.style.maxHeight = '33vw';
 				}
-				else img.style.height = '10em';
+				else img.style.height = '7em';
 				img.style.margin = '5px';
 				img.style.display = 'inline-block';
 				img.style.backgroundSize = 'contain';
