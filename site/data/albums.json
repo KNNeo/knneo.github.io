@@ -23,7 +23,7 @@
 						"grid": {
 							"type": "grid",
 							"columns": 2,
-							"rows": 4,
+							"rows": 3,
 							"componentData": [
 								{
 									"type": "image",
@@ -46,7 +46,6 @@
 								},
 								{
 									"type": "gallery",
-									"rows": 2,
 									"datas": [
 										{
 											"tooltip": "",
@@ -75,7 +74,7 @@
 						"grid": {
 							"type": "grid",
 							"columns": 2,
-							"rows": 4,
+							"rows": 3,
 							"componentData": [
 								{
 									"type": "image",
@@ -98,7 +97,6 @@
 								},
 								{
 									"type": "gallery",
-									"rows": 2,
 									"datas": [
 										{
 											"tooltip": "",
