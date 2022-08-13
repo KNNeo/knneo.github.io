@@ -209,6 +209,7 @@ function renderPage(pageName) {
 			this.parentElement.style.position = this.parentElement.style.position == 'absolute' ? 'inherit' : 'absolute';
 		toggleFilter();
 		resizeImageHeights();
+		if(window['focused']) document.getElementById(window['focused']).click();
 	} );
 	toggler.appendChild(togglerButton);
 	frame.appendChild(toggler);
@@ -695,6 +696,7 @@ function renderGallery(array) {
 					imgHTML.setAttribute('alt', img[1]);
 					imgHTML.setAttribute('src', spacerURL);
 					imgHTML.title = img[4] == "" ? img[3] : img[4];
+					imgHTML.addEventListener('click', function() { window['focused'] = this.id; });
 					imgWrapHTML.appendChild(imgHTML);
 				profileBoxImgHTML.appendChild(imgWrapHTML);
 			profileBoxHTML.appendChild(profileBoxImgHTML);
