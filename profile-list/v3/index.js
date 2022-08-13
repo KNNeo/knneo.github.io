@@ -58,7 +58,7 @@ function loadProfileLists() {
 	window['calendarList'] = profileListJson.filter(n => calendarCategories.includes(n.category));
 	window['friendList'] = profileListJson.filter(n => n.category == 'friends');
 	window['defaultProfile'] = profileListJson.find(n => n.category == 'default');
-	window['timelineDOBlist'] = createDOBlist(window['profileList'], 1, 35);
+	window['timelineDOBlist'] = createDOBlist(window['profileList'], 1, 35, true);
 	window['calendarDOBlist'] = createDOBlist(window['calendarList'], 0, 50);
 	renderWantedList();
 }
@@ -176,7 +176,7 @@ function addTimelineEvents() {
 }
 
 ////CALENDAR////
-function createDOBlist(profiles, minAge, maxAge) {
+function createDOBlist(profiles, minAge, maxAge, sort = false) {
 	//create array with DOB info, age range inclusive
 	let list = new Array();
 	if(window['defaultProfile']) {
@@ -201,9 +201,10 @@ function createDOBlist(profiles, minAge, maxAge) {
 		}
 	}
 	//to sort the above so oldest is added first in timeline
-	list.sort(function(a, b) {
-		return Date.parse(a.date) - Date.parse(b.date)
-	});
+	if(sort)
+		list.sort(function(a, b) {
+			return Date.parse(a.date) - Date.parse(b.date)
+		});
 	return list;
 }
 
@@ -1182,7 +1183,7 @@ function toggleMarried() {
 	{
 		window['excludeMarried'] = document.querySelector('#cb-married').checked;
 		let marriedList = window['profileList'].filter(profile => window['excludeMarried'] ? !processOption(profile.turningPoint.isMarried, true) : true);
-		window['timelineDOBlist'] = createDOBlist(marriedList, 1, 35);
+		window['timelineDOBlist'] = createDOBlist(marriedList, 1, 35, true);
 		renderWantedList();
 	}
 }
