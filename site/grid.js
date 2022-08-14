@@ -93,6 +93,7 @@ function renderGrid(sectionNo, content) {
 		if(component.type == 'title')
 		{
 			elem.style.verticalAlign = 'center';
+			elem.style.textAlign = component.align || 'center';
 			
 			if(component.prefix)
 			{
