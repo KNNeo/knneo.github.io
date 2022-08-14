@@ -244,7 +244,7 @@ function renderGrid(sectionNo, content) {
 				img.style.backgroundSize = 'contain';
 				img.style.backgroundRepeat = 'no-repeat';
 				img.style.backgroundPosition = 'center';
-				img.style.cursor = 'pointer';
+				if(data.source) img.style.cursor = 'pointer';
 				if(data.grid || data.source)
 					img.addEventListener('click', function(e) {
 						if(this.getAttribute('data-src') != null && typeof openImageUrlInViewer == 'function')
