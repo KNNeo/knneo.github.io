@@ -267,6 +267,10 @@ body {
 }
 
 @media only screen
-   and (min-device-width : 960px)
+   and (max-device-width : 480px)
 {
+	.list td, 
+	.list th {
+		line-height: 1.5;
+	}
 }
