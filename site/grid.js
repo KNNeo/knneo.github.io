@@ -225,7 +225,8 @@ function renderGrid(sectionNo, content) {
 				let data = component.datas[galleryIndex];
 				let img = document.createElement('img');
 				if(data.tooltip && data.tooltip.length > 0) img.title = data.tooltip;
-				img.src = data.thumbnail;		
+				img.src = data.thumbnail;
+				img.alt = data.tooltip;
 				if(data.grid)
 				{
 					img.setAttribute('data-section', sectionNo);
@@ -235,16 +236,17 @@ function renderGrid(sectionNo, content) {
 				else img.setAttribute('data-src', data.source);
 				if(window.innerWidth < 800)
 				{
-					img.style.height = (100 / (component.datas.length + 1)) + 'vw';
+					let ratio = component.datas.length > 4 ? 4 : component.datas.length;
+					img.style.height = (100 / (ratio + 1)) + 'vw';
 					// img.style.maxHeight = '33vw';
 				}
 				else if (component.size && component.size == 'lg') img.style.height = '11em';
 				else img.style.height = '7em';
 				img.style.margin = '5px';
-				img.style.display = 'inline-block';
-				img.style.backgroundSize = 'contain';
-				img.style.backgroundRepeat = 'no-repeat';
-				img.style.backgroundPosition = 'center';
+				// img.style.display = 'inline-block';
+				// img.style.backgroundSize = 'contain';
+				// img.style.backgroundRepeat = 'no-repeat';
+				// img.style.backgroundPosition = 'center';
 				if(data.source) img.style.cursor = 'pointer';
 				if(data.grid || data.source)
 					img.addEventListener('click', function(e) {
