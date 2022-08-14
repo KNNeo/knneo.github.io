@@ -39,8 +39,8 @@ a:hover {
 }
 
 .Post .home-thumb {
-	width: 150px;
-	/* height: 150px; */
+	width: auto;
+	height: 100px;
 }
 
 .latest-post {
