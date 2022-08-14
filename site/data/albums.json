@@ -19,6 +19,78 @@
 				"datas": [
 					{
 						"tooltip": "",
+						"thumbnail": "https://st.cdjapan.co.jp/pictures/l/13/12/SMCL-606.jpg",
+						"source": "https://st.cdjapan.co.jp/pictures/l/13/12/SMCL-606.jpg",
+						"grid": {
+							"type": "grid",
+							"columns": 2,
+							"rows": 6,
+							"componentData": [
+								{
+									"columns": 2
+								},
+								{
+									"type": "image",
+									"rows": 4,
+									"tooltip": "",
+									"source": "https://st.cdjapan.co.jp/pictures/l/13/12/SMCL-606.jpg",
+									"link": "https://knneo.github.io/blogspot/blog/2022/02/the-klassic-note-review-202202.html"
+								},
+								{
+									"type": "title",
+									"rows": 2,
+									"prefix": "RELEASED 2019.07.10",
+									"title": "VIPER",
+									"suffix": "Amamiya Sora"
+								},
+								{
+									"type": "title",
+									"rows": 2,
+									"prefix": "TRACKLIST",
+									"title": "",
+									"suffix": "1. VIPER\n2. Merry-go-round"
+								}
+							]
+						}
+					},
+					{
+						"tooltip": "",
+						"thumbnail": "https://st.cdjapan.co.jp/pictures/l/03/33/ESCL-5548.jpg",
+						"source": "https://st.cdjapan.co.jp/pictures/l/03/33/ESCL-5548.jpg",
+						"grid": {
+							"type": "grid",
+							"columns": 2,
+							"rows": 6,
+							"componentData": [
+								{
+									"columns": 2
+								},
+								{
+									"type": "image",
+									"rows": 4,
+									"tooltip": "",
+									"source": "https://st.cdjapan.co.jp/pictures/l/03/33/ESCL-5548.jpg",
+									"link": "https://knneo.github.io/blogspot/blog/2022/02/the-klassic-note-review-202202.html"
+								},
+								{
+									"type": "title",
+									"rows": 2,
+									"prefix": "RELEASED 2021.08.25",
+									"title": "LITMUS",
+									"suffix": "Ryokuoushoku Shakai"
+								},
+								{
+									"type": "title",
+									"rows": 2,
+									"prefix": "TRACKLIST",
+									"title": "",
+									"suffix": "1. LITMUS\n2. Are You Ready\n3. Korekara no Koto, Sorekara no Koto"
+								}
+							]
+						}
+					},
+					{
+						"tooltip": "",
 						"thumbnail": "https://st.cdjapan.co.jp/pictures/l/00/20/TYCT-30128.jpg",
 						"source": "https://st.cdjapan.co.jp/pictures/l/00/20/TYCT-30128.jpg",
 						"grid": {
@@ -44,22 +116,11 @@
 									"suffix": "SHE'S"
 								},
 								{
-									"type": "gallery",
+									"type": "title",
 									"rows": 2,
-									"datas": [
-										{
-											"tooltip": "",
-											"thumbnail": "https://blogger.googleusercontent.com/img/a/AVvXsEg_vVuP4twfCg888iEqEZfjZUiQzOnUrvliYGjJ9IVypufdltO6iY4G385rK5TUGQQF1I-mmHwgfcau46YOdPvXpXZhieXcvhk0AQAzN-awzDS1BvcLvdX2un744pfVxE3UwKcmP7ACyYsYQo-FEOqYvIyRkSmCWNdlnVW9q4T3e0bmPNZLFzvN57_U=s320"
-										},
-										{
-											"tooltip": "",
-											"thumbnail": "https://blogger.googleusercontent.com/img/a/AVvXsEj5P_YI6GDThERDS52cqWdbAtn77zcl21M2GcSRi3otdsjCPTxSr7eIHvxDfOgVBK_4Y2K20I5DC0f7qCHUt_CLdN7YscxleICGP3DGz7GTBlTNHFI0fqzjBhdC5qHuTAuphHNR6NQH2QTAK677tHeGN6WXk2qd_r73btVbfuFW3_mkKqyrcU9fdbvI=s320"
-										},
-										{
-											"tooltip": "",
-											"thumbnail": "https://blogger.googleusercontent.com/img/a/AVvXsEgbmT6IR5PcOoiN_qhX19lnd8gwxpnCsvDCPEPE0ILm5viL8XygSmAeJqiPJb73GaIXh6IXbOme7MfBhUqSVlIKxdY8rCagK7bkV3KS5mD_G8NhT4pb1auxXgj-m_jojcJnteEdJKCG6uHGRIF2lHN8RwuypGMB6wJNLLWM2OoTPzBUFdPLsbG6LxN-=s320"
-										}
-									]
+									"prefix": "TRACKLIST",
+									"title": "",
+									"suffix": "1. Blue Thermal\n2. Beautiful Bird"
 								}
 							]
 						}
@@ -91,22 +152,11 @@
 									"suffix": "ASIAN KUNG-FU GENERATION"
 								},
 								{
-									"type": "gallery",
+									"type": "title",
 									"rows": 2,
-									"datas": [
-										{
-											"tooltip": "",
-											"thumbnail": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiIj8sTLch0wWCJmoMymOx-AxqExktLQ8WfFFS2R4cB97Hn7DKBni8pIOn5WZ6k8X2N4fbpNb54pXPT04LpLMUnWktVVErsSU_LNnjyn_07kSq-eQNtQPrrGufco9oKKG7KZY0cXttRQ8H03k1cnUhxtI5-TvkLxkNhfWBsOpkJ89XnO5B2l5L_OJUC/w240-h320/PXL_20220421_122209466.jpg"
-										},
-										{
-											"tooltip": "",
-											"thumbnail": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgrn_C2ITpLXucppmzIUwrAcedC0Csf8NdDNsENjgJSvpqg-24aP4xw2qsE0iSGmPD0TVg6S-YYt_mPrEy_KPsU6IildlI_ArNTuJuCsm6kf22sSuhEIGKiWBMv3rU1mxCM5VYWpusjUwq7uvU3TRzH7Aux-Im8Ikw41ODdMj7E-7jDYHE2-zAsKiQX/s320/PXL_20220421_122343338.jpg"
-										},
-										{
-											"tooltip": "",
-											"thumbnail": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhKVFvxHIR9xIaHLeo_qyARyPt5CqX8iCt87ePkl48naXwcbazNdzw_aHXLPhx-hqpk3UIN6lJdyhlYWFFZrccptWvRWGdwjSUMLnpiwvR0k1Rg8XQ-iHHT4uj7z3hLSo6-fYwxBVHJAg-p2qyqTQqXyafiZANe9jPqN7N6u-fay9ETBFc-Bf0a9PbA/s320/PXL_20220421_122252659.jpg"
-										}
-									]
+									"prefix": "TRACKLIST",
+									"title": "",
+									"suffix": "1. Empathy\n2. Flowers\n3. Furetai Tashikametai (Seiho Mix)"
 								}
 							]
 						}
@@ -138,22 +188,191 @@
 									"suffix": "Itou Miku"
 								},
 								{
-									"type": "gallery",
+									"type": "title",
 									"rows": 2,
-									"datas": [
-										{
-											"tooltip": "",
-											"thumbnail": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj57ySdWOu3zbPzXAcJSZ1hoQm9FmkaRtdybrRAvGYrvKWrWhbcbfGPL_GQ69zQMX5C7u9ciUsu72aF-H-buFgMM2e6qMHMEyBmC4wzA8H6WnnHzCVHDXDn7Cw2VhQAFPa_25vIXWugLZzkMLHj2XwBnEjWPd22K-vfHvCT6373k-kNLu5bQOYyDED3/s320/PXL_20220519_121812630.jpg"
-										},
-										{
-											"tooltip": "",
-											"thumbnail": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiRr6jwh2MqFmPLavr45BMPc-KwSn_TZ2Zd_0XJHMLpOM_N_8dRKi6FyjfvMnwy4ehBaoMeZ8JeerDXOGXWTLUEW2l36vUXrKiUi33d99L117f5PK2q6Eyq_tq_NYJ5r7Oh5eEaYz-n2u1GzR__bfuRyhlCv4It2TSSFwNBJRmP_n4XcwcRa2Nd-Izd/s320/PXL_20220519_121942808.jpg"
-										},
-										{
-											"tooltip": "",
-											"thumbnail": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhsU4dsgCepIqIhzfjxtQ5G7tqIv8iBgFp498SmYeVi0X5tEwiPisuIn-xbovcAshwVtP1IxZBPRVJBlPSXr-6paT6V8nWZYDDinqVZC1NQUpX9607LixHo8XnecinFYfDtWpm1oMGOzm0EK0bfUZP5TDCAZ9H6gBz8PJjP9lsfBu_JkbSaVSBiXKA0/s320/PXL_20220519_122019742.jpg"
-										}
-									]
+									"prefix": "TRACKLIST",
+									"title": "",
+									"suffix": "1. Ao 100 Shoku\n2.La-Pa-Pa Cream Puff"
+								}
+							]
+						}
+					},
+					{
+						"tooltip": "",
+						"thumbnail": "https://st.cdjapan.co.jp/pictures/l/03/35/ESCL-5662.jpg",
+						"source": "https://st.cdjapan.co.jp/pictures/l/03/35/ESCL-5662.jpg",
+						"grid": {
+							"type": "grid",
+							"columns": 2,
+							"rows": 6,
+							"componentData": [
+								{
+									"columns": 2
+								},
+								{
+									"type": "image",
+									"rows": 4,
+									"tooltip": "",
+									"source": "https://st.cdjapan.co.jp/pictures/l/03/35/ESCL-5662.jpg",
+									"link": "https://knneo.github.io/blogspot/blog/2022/06/the-klassic-note-review-202206-part-1.html"
+								},
+								{
+									"type": "title",
+									"rows": 2,
+									"prefix": "RELEASED 2022.06.08",
+									"title": "GIRI GIRI feat. Suu",
+									"suffix": "Suzuki Masayuki"
+								},
+								{
+									"type": "title",
+									"rows": 2,
+									"prefix": "TRACKLIST",
+									"title": "",
+									"suffix": "1. GIRI GIRI feat. Suu"
+								}
+							]
+						}
+					},
+					{
+						"tooltip": "",
+						"thumbnail": "https://st.cdjapan.co.jp/pictures/l/03/40/ESCL-5659.jpg",
+						"source": "https://st.cdjapan.co.jp/pictures/l/03/40/ESCL-5659.jpg",
+						"grid": {
+							"type": "grid",
+							"columns": 2,
+							"rows": 6,
+							"componentData": [
+								{
+									"columns": 2
+								},
+								{
+									"type": "image",
+									"rows": 4,
+									"tooltip": "",
+									"source": "https://st.cdjapan.co.jp/pictures/l/03/40/ESCL-5659.jpg",
+									"link": "https://knneo.github.io/blogspot/blog/2022/06/the-klassic-note-review-202206-part-1.html"
+								},
+								{
+									"type": "title",
+									"rows": 2,
+									"prefix": "RELEASED 2022.06.01",
+									"title": "Heart wa Oteage",
+									"suffix": "Suzuki Airi"
+								},
+								{
+									"type": "title",
+									"rows": 2,
+									"prefix": "TRACKLIST",
+									"title": "",
+									"suffix": "1. Heart wa Oteage"
+								}
+							]
+						}
+					},
+					{
+						"tooltip": "",
+						"thumbnail": "https://st.cdjapan.co.jp/pictures/l/13/28/SMCL-766.jpg",
+						"source": "https://st.cdjapan.co.jp/pictures/l/13/28/SMCL-766.jpg",
+						"grid": {
+							"type": "grid",
+							"columns": 2,
+							"rows": 6,
+							"componentData": [
+								{
+									"columns": 2
+								},
+								{
+									"type": "image",
+									"rows": 4,
+									"tooltip": "",
+									"source": "https://st.cdjapan.co.jp/pictures/l/13/28/SMCL-766.jpg",
+									"link": "https://knneo.github.io/blogspot/blog/2022/06/the-klassic-note-review-202206-part-2.html"
+								},
+								{
+									"type": "title",
+									"rows": 2,
+									"prefix": "RELEASED 2022.05.18",
+									"title": "Bibitto Love",
+									"suffix": "CHiCO with HoneyWorks meets Mafumafu"
+								},
+								{
+									"type": "title",
+									"rows": 2,
+									"prefix": "TRACKLIST",
+									"title": "",
+									"suffix": "1. Bibitto Love\n2. Soreike! Salaryman"
+								}
+							]
+						}
+					},
+					{
+						"tooltip": "",
+						"thumbnail": "https://st.cdjapan.co.jp/pictures/l/13/42/GNCA-674.jpg",
+						"source": "https://st.cdjapan.co.jp/pictures/l/13/42/GNCA-674.jpg",
+						"grid": {
+							"type": "grid",
+							"columns": 2,
+							"rows": 6,
+							"componentData": [
+								{
+									"columns": 2
+								},
+								{
+									"type": "image",
+									"rows": 4,
+									"tooltip": "",
+									"source": "https://st.cdjapan.co.jp/pictures/l/13/42/GNCA-674.jpg",
+									"link": "https://knneo.github.io/blogspot/blog/2022/06/the-klassic-note-review-202206-part-2.html"
+								},
+								{
+									"type": "title",
+									"rows": 2,
+									"prefix": "RELEASED 2022.05.25",
+									"title": "Honey Jetcoaster",
+									"suffix": "nasuo"
+								},
+								{
+									"type": "title",
+									"rows": 2,
+									"prefix": "TRACKLIST",
+									"title": "",
+									"suffix": "1. Honey Jetcoaster"
+								}
+							]
+						}
+					},
+					{
+						"tooltip": "",
+						"thumbnail": "https://st.cdjapan.co.jp/pictures/l/14/20/VVCL-2055.jpg",
+						"source": "https://st.cdjapan.co.jp/pictures/l/14/20/VVCL-2055.jpg",
+						"grid": {
+							"type": "grid",
+							"columns": 2,
+							"rows": 6,
+							"componentData": [
+								{
+									"columns": 2
+								},
+								{
+									"type": "image",
+									"rows": 4,
+									"tooltip": "",
+									"source": "https://st.cdjapan.co.jp/pictures/l/14/20/VVCL-2055.jpg",
+									"link": "https://knneo.github.io/blogspot/blog/2022/06/the-klassic-note-review-202206-part-2.html"
+								},
+								{
+									"type": "title",
+									"rows": 2,
+									"prefix": "RELEASED 2022.06.08",
+									"title": "Hakarenai Kyori",
+									"suffix": "TrySail"
+								},
+								{
+									"type": "title",
+									"rows": 2,
+									"prefix": "TRACKLIST",
+									"title": "",
+									"suffix": "1. Hakarenai Kyori\n2. Etoile"
 								}
 							]
 						}
