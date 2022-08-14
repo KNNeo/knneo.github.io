@@ -163,7 +163,7 @@ let isSortByGenreCountAsc;
 let startYear = 2008;
 let startSeason = 'Autumn';
 let currentYear = 2022;
-let currentSeason = 'Spring';
+let currentSeason = 'Summer';
 let endYear = 2022;
 let seasons = ['','Winter','Spring','Summer','Autumn'];
 let seasonArray = new Array();
