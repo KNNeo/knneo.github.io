@@ -20,6 +20,7 @@
 					{
 						"tooltip": "",
 						"thumbnail": "https://st.cdjapan.co.jp/pictures/l/00/20/TYCT-30128.jpg",
+						"source": "https://st.cdjapan.co.jp/pictures/l/00/20/TYCT-30128.jpg",
 						"grid": {
 							"type": "grid",
 							"columns": 2,
@@ -65,6 +66,7 @@
 					{
 						"tooltip": "",
 						"thumbnail": "https://st.cdjapan.co.jp/pictures/l/00/18/KSCL-3308.jpg",
+						"source": "https://st.cdjapan.co.jp/pictures/l/00/18/KSCL-3308.jpg",
 						"grid": {
 							"type": "grid",
 							"columns": 2,
@@ -110,6 +112,7 @@
 					{
 						"tooltip": "",
 						"thumbnail": "https://st.cdjapan.co.jp/pictures/l/04/25/COCC-17970.jpg",
+						"source": "https://st.cdjapan.co.jp/pictures/l/04/25/COCC-17970.jpg",
 						"grid": {
 							"type": "grid",
 							"columns": 2,
