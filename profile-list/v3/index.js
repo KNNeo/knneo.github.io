@@ -87,9 +87,45 @@ function generateWantedList() {
 	//create wanted list
 	for (let profile of profileNamesList) {
 		let list = document.createElement('li');
-		list.appendChild(generateWantedListEntry(profile.id));			
+		// list.appendChild(generateWantedListIcon(profile.id));
+		list.appendChild(generateWantedListEntry(profile.id));
 		wantedList.appendChild(list);
 	}
+}
+
+function generateWantedListIcon(id) {
+	let profile = window['profileList'].find( function(n) {
+		return n.id == id
+	});
+	let married = window['excludeMarried'] && processOption(profile.turningPoint.isMarried, true);
+
+	let wanted = document.createElement('span');
+	wanted.style.backgroundImage = addBackgroundUrlClause(profile.image);
+	wanted.style.backgroundSize = '40px auto';
+	wanted.style.backgroundPosition = 'center top';
+	wanted.style.backgroundRepeat = 'no-repeat';
+	wanted.style.width = '20px';
+	wanted.style.height = '20px';
+	// wanted.innerText = profile.name;
+	if (married)
+		wanted.classList.add('married');
+	else
+	{
+		wanted.classList.add('item');
+		wanted.addEventListener("click", function() {
+			generateProfileFromJSON(this);
+			document.querySelector('#profile').scrollIntoView();
+		});
+		wanted.addEventListener("contextmenu", function(e) {
+			e.preventDefault();
+			window['expanded'] = !window['expanded'];
+			generateProfileFromJSON(this);
+			document.querySelector('#profile').scrollIntoView();
+			window['expanded'] = !window['expanded'];
+		}, false);
+	}
+	
+	return wanted;
 }
 
 function generateWantedListEntry(id) {
