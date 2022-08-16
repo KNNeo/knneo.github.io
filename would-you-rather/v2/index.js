@@ -117,76 +117,27 @@ const situations = [
 const presets = [
 	{
 		moduleId: 'name',
-		moduleList: [
-			"Hikasa Youko",
-			"Yoshimura Haruka",
-			"Satou Satomi",
-			"Toyosaki Aki",
-			"Tachibana Rika",
-			"Fuchigami Mai",
-			"Kayano Ai",
-			"Numakura Manami",
-			"Nagatsuma Juuri",
-			"Komatsu Mikako",
-			"Oozora Naomi",
-			"Hanazawa Kana",
-			"Taketatsu Ayana",
-			"Ookubo Rumi",
-			"Omigawa Chiaki",
-			"Tomatsu Haruka",
-			"Anzai Chika",
-			"Kotobuki Minako",
-			"Uesaka Sumire",
-			"Touyama Nao",
-			"Yuuki Aoi",
-			"Lynn",
-			"Kohara Konomi",
-			"Oonishi Saori",
-			"Koga Aoi",
-			"Amamiya Sora",
-			"Oono Yuuko",
-			"Kouno Marika",
-			"Takahashi Rie",
-			"Isobe Karin",
-			"Hidaka Rina",
-			"Asakura Momo",
-			"Waki Azumi",
-			"Kitou Akari",
-			"Tachibana Haru",
-			"Toyota Moe",
-			"Baba Fumika",
-			"Minase Inori",
-			"Hondo Kaede",
-			"Natsukawa Shiina",
-			"Kido Ibuki",
-			"Kanno Mai",
-			"Tomita Miyu",
-			"Sasaki Nao",
-			"Horie Yui",
-			"Nagae Rika",
-			"Tomiya Miyu",
-			"Kanno Mai",
-		],
+		moduleList: ['Baba Fumika', 'Tachibana Haru', 'Hanazawa Kana', 'Hikasa Youko', 'Horie Yui', 'Kayano Ai', 'Komatsu Mikako', 'Kotobuki Minako', 'Ookubo Rumi', 'Satou Satomi', 'Taketatsu Ayana', 'Tomatsu Haruka', 'Toyosaki Aki', 'Yuuki Aoi', 'Amamiya Sora', 'Asakura Momo', 'Endou Yurika', 'Hidaka Rina', 'Kouno Marika', 'Minase Inori', 'Natsukawa Shiina', 'Numakura Manami', 'Tachibana Rika', 'Takahashi Rie', 'Touyama Nao', 'Uesaka Sumire', 'Anzai Chika', 'Fuchigami Mai', 'Hondo Kaede', 'Isobe Karin', 'Kido Ibuki', 'Kitou Akari', 'Koga Aoi', 'Kohara Konomi', 'Lynn', 'Nagae Rika', 'Nagatsuma Juuri', 'Omigawa Chiaki', 'Oonishi Saori', 'Oono Yuuko', 'Oozora Naomi', 'Toyota Moe', 'Waki Azumi', 'Yoshimura Haruka', 'Aizawa Saya', 'Kanno Mai', 'Naganawa Maria', 'Tomita Miyu', 'Sasaki Nao'],
 	},
 ];
 
 //--VARIABLES: DO NOT DELETE!--//
-let mirrorFeatures = ["cutest","coolest","most beautiful","funniest","sexiest"];
+let mirrorFeatures = ['cutest', 'coolest', 'most beautiful', 'funniest', 'sexiest'];
 let nameList = [];
 let newList = [];
 
 function getResultFromTerm(module) {
 	let moduleName = module.target.name;
 	let categoryName = module.target.innerHTML;
-    let text = document.getElementById("input-list").value.trim();
-	let result = document.getElementById("nameResultBox");
-	nameList = text.split("\n");
-	if(!result.innerHTML.includes('flexi-input')) result.innerHTML = "";
-	if(nameList.length < 4) result.innerHTML = "List is too short! Minimum 4 names!";
+    let text = document.getElementById('input-list').value.trim();
+	let result = document.getElementById('nameResultBox');
+	nameList = text.split('\n');
+	if(!result.innerHTML.includes('flexi-input')) result.innerHTML = '';
+	if(nameList.length < 4) result.innerHTML = 'List is too short! Minimum 4 names!';
 	else if(text.length > 0)
 	{
 		newList = [];
-		if(categoryName == "Custom")
+		if(categoryName == 'Custom')
 		{
 			if(result.innerHTML.includes('flexi-name')) {
 				result.getElementsByClassName('flexi-name')[0].innerText = generateTerm();
@@ -196,7 +147,7 @@ function getResultFromTerm(module) {
 				let holder = document.createElement('div');
 				
 				let text1 = document.createElement('span');
-				text1.innerText = "Would you rather";
+				text1.innerText = 'Would you rather';
 				holder.appendChild(text1);
 				
 				let input1 = document.createElement('input');
@@ -209,7 +160,7 @@ function getResultFromTerm(module) {
 				holder.appendChild(randomName1);
 							
 				let text2 = document.createElement('span');
-				text2.innerText = " or";
+				text2.innerText = ' or';
 				holder.appendChild(text2);
 				
 				let input2 = document.createElement('input');
@@ -222,7 +173,7 @@ function getResultFromTerm(module) {
 				holder.appendChild(randomName2);
 				
 				let text3 = document.createElement('span');
-				text3.innerText = "?";
+				text3.innerText = '?';
 				holder.appendChild(text3);
 				
 				result.appendChild(holder);
@@ -230,23 +181,23 @@ function getResultFromTerm(module) {
 		}
 		else
 			result.innerHTML = module.target.value
-								.replace("{name}", generateTerm())
-								.replace("{name}", generateTerm())
-								.replace("{name}", generateTerm())
-								.replace("{name}", generateTerm());
+								.replace('{name}', generateTerm())
+								.replace('{name}', generateTerm())
+								.replace('{name}', generateTerm())
+								.replace('{name}', generateTerm());
 	}
 	else
-		result.innerHTML = "Please key in something!";
+		result.innerHTML = 'Please key in something!';
 }
 
 function displayOutput(categoryName) {
 	switch(categoryName)
 	{
-		case "Mirror":
+		case 'Mirror':
 			let mirrorFeature = mirrorFeatures[Math.floor(Math.random() * mirrorFeatures.length)];
-			return "Mirror, mirror, on the wall; Who is the " + mirrorFeature + " of them all? {name} or {name} or {name}?";
+			return 'Mirror, mirror, on the wall; Who is the ' + mirrorFeature + ' of them all? {name} or {name} or {name}?';
 		default:
-			return "{name} or {name}?";
+			return '{name} or {name}?';
 	}
 }
 
@@ -259,7 +210,7 @@ function generateTerm() {
 	}
 	
 	newList.push(newName);
-	return "\"" + censor(newName) + "\"";
+	return '\'' + censor(newName) + '\'';
 }
 
 function censor(name) {
@@ -274,11 +225,11 @@ function toggleCensor() {
 
 function loadPreset(module) {
 	var categoryName = module.target.id;
-    var text = document.getElementById("input-list");
-	var loadedText = "";
+    var text = document.getElementById('input-list');
+	var loadedText = '';
 	
-	if(categoryName == "peopleSortRankingInput")
-		window.location.href = "seiyuu-sort-utf8.html";
+	if(categoryName == 'peopleSortRankingInput')
+		window.location.href = 'seiyuu-sort-utf8.html';
 	else 
 		loadedText = presets.filter(p => p.moduleId == categoryName.replace('Input',''))[0].moduleList.toString();
 	
