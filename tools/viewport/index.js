@@ -18,7 +18,7 @@ let reader = new FileReader();
 function startup() {
 	addDragAndDrop();
 	document.querySelector('.selector').addEventListener('change', onSelect);
-	document.querySelector('.viewport').addEventListener('click', onClear);
+	document.querySelector('.screen').addEventListener('click', onClear);
 }
 
 function onBrowse(e) {
@@ -35,8 +35,8 @@ function onClear(e) {
 	list = [];
 	reader = new FileReader();
 	if(mobile) closeFullscreen();
-	document.querySelector('.viewport').classList.remove('loaded');
-	document.querySelector('.viewport').style.backgroundImage = '';
+	document.querySelector('.screen').classList.remove('loaded');
+	document.querySelector('.screen').style.backgroundImage = '';
 }
 
 function readFile(file) {
@@ -44,8 +44,8 @@ function readFile(file) {
     reader.onload = function (e) {
 		console.log('load', e.target.result);
 		if(mobile) openFullscreen();
-		document.querySelector('.viewport').classList.add('loaded');
-		document.querySelector('.viewport').style.backgroundImage = 'url(' + e.target.result + ')';
+		document.querySelector('.screen').classList.add('loaded');
+		document.querySelector('.screen').style.backgroundImage = 'url(' + e.target.result + ')';
 	};
     reader.readAsDataURL(file);
 }

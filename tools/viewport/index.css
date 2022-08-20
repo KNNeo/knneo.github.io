@@ -32,13 +32,13 @@ body > * {
 	opacity: 0.2;
 	display: block;
 }
-.viewport {
+.screen {
 	position: fixed;
 	top: 0;
 	left: 0;
 	z-index: 2;
     margin: 0;
-	background-size: 100% auto;
+	background-size: auto 100%;
 	background-repeat: no-repeat;
 	background-position: center;
 }
