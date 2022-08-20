@@ -29,7 +29,7 @@ const situations = [
 			},
 			{
 				queryTitle: 'Last Round',
-				queryString: "It the last round of a board game. Who would you rather let win? {name} or {name}? (Assume both are tied)",
+				queryString: "It the last round of a board game. Who would you rather let win? {name} or {name}? (Assume the game at this point is a tie)",
 			},
 			{
 				queryTitle: 'Bump',
@@ -41,11 +41,11 @@ const situations = [
 			},
 			{
 				queryTitle: 'Meal',
-				queryString: "Would you rather treat {name} to a meal at the restaurant or have a cheap takeaway meal with {name}?",
+				queryString: "Would you rather treat {name} to a meal at a fancy restaurant or have a cheap takeaway meal by the street with {name}?",
 			},
 			{
 				queryTitle: 'Housewife',
-				queryString: "If {name} came to you after your work from home and asked \"Would you rather have dinner, have a bath or me?\", what would you prefer?",
+				queryString: "You reached home after a day's work, and {name} welcomes you back. Would you rather have a bath, have dinner, or...?",
 			},
 			{
 				queryTitle: 'Day/Night',
@@ -57,11 +57,11 @@ const situations = [
 			},
 			{
 				queryTitle: 'BFF',
-				queryString: "Would you rather be BFFs with {name} (and never be able to marry her) and/or marry {name} (and let her be your sole partner forever)?",
+				queryString: "Would you rather be BFFs with {name} (and never be able to marry her) and marry {name} (and let her be your sole partner forever), or vice versa?",
 			},
 			{
 				queryTitle: 'Kidnap',
-				queryString: "Who would you rather be kidnap for 24 hours and do anything with but nothing will be remembered? {name} or {name}?",
+				queryString: "Who would you rather kidnap for 24 hours and do anything with but nothing will be remembered? {name} or {name}?",
 			},
 			{
 				queryTitle: 'Betrayal',
@@ -106,10 +106,6 @@ const situations = [
 			{
 				queryTitle: 'Siblings',
 				queryString: "Your single parent has remarried with someone else's single parent. Would you rather your new step sibling be {name}, {name} or {name}?",
-			},
-			{
-				queryTitle: 'Home',
-				queryString: "You reached home after a day's work, and {name} welcomes you back. Would you rather have a bath, have dinner, or have...?",
 			},
 		],
 	},
