@@ -9,6 +9,7 @@ const mobile = window.innerWidth < 640;
 //generate from json file
 const spacer = 'https://knneo.github.io/resources/spacer.gif';
 window.addEventListener('load', startup);
+window.addEventListener('resize', startup);
 
 //--FUNCTIONS--//
 let list = [];
@@ -17,8 +18,14 @@ let reader = new FileReader();
 
 function startup() {
 	addDragAndDrop();
+	resize();
 	document.querySelector('.selector').addEventListener('change', onSelect);
 	document.querySelector('.screen').addEventListener('click', onClear);
+}
+
+function resize() {
+	document.querySelector('.dev-spec').innerText = screen.width + ' x ' + screen.height + 'px';
+	document.querySelector('.screen').style.backgroundSize = 'auto ' + screen.height + 'px';	
 }
 
 function onBrowse(e) {
@@ -27,24 +34,24 @@ function onBrowse(e) {
 
 function onSelect(e) {
 	list = e.target.files;
-	console.log('onSelect', list[0].name, list[0].type);
-	readFile(list[0]);
+	// console.log('onSelect', list[0].name, list[0].type);
+	if(list && list.length > 0)
+		readFile(list[0]);
 }
 
 function onClear(e) {
-	list = [];
 	reader = new FileReader();
 	if(mobile) closeFullscreen();
-	document.querySelector('.screen').classList.remove('loaded');
+	document.querySelector('.screen').style.height = '';
 	document.querySelector('.screen').style.backgroundImage = '';
 }
 
 function readFile(file) {
 	reader = new FileReader();
     reader.onload = function (e) {
-		console.log('load', e.target.result);
+		// console.log('load', e.target.result);
 		if(mobile) openFullscreen();
-		document.querySelector('.screen').classList.add('loaded');
+		document.querySelector('.screen').style.height = screen.height + 'px';
 		document.querySelector('.screen').style.backgroundImage = 'url(' + e.target.result + ')';
 	};
     reader.readAsDataURL(file);
@@ -83,11 +90,9 @@ function onDrop(e) {
 	if (dropArea.classList.contains('drop-fade')) dropArea.classList.remove('drop-fade');
 	
 	list = e.dataTransfer.files;
-	console.log('onDrop', list[0].name, list[0].type);
-	if(list.length > 0)
-	{
+	// console.log('onDrop', list[0].name, list[0].type);
+	if(list && list.length > 0)
 		readFile(list[0]);
-	}
 }
 
 //allow document to fullscreen
