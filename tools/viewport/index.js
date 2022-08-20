@@ -19,7 +19,7 @@ let reader = new FileReader();
 function startup() {
 	addDragAndDrop();
 	resize();
-	document.querySelector('.selector').addEventListener('change', onSelect);
+	document.querySelector('#selector').addEventListener('change', onSelect);
 	document.querySelector('.screen').addEventListener('click', onClear);
 }
 
@@ -43,7 +43,7 @@ function onClear(e) {
 	reader = new FileReader();
 	if(mobile) closeFullscreen();
 	document.querySelector('.screen').style.height = '';
-	document.querySelector('.screen').style.backgroundImage = '';
+	document.querySelector('.screen').src = '';
 }
 
 function readFile(file) {
@@ -52,7 +52,7 @@ function readFile(file) {
 		// console.log('load', e.target.result);
 		if(mobile) openFullscreen();
 		document.querySelector('.screen').style.height = screen.height + 'px';
-		document.querySelector('.screen').style.backgroundImage = 'url(' + e.target.result + ')';
+		document.querySelector('.screen').src = e.target.result;
 	};
     reader.readAsDataURL(file);
 }
