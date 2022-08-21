@@ -107,6 +107,10 @@ const situations = [
 				queryTitle: 'Siblings',
 				queryString: "Your single parent has remarried with someone else's single parent. Would you rather your new step sibling be {name}, {name} or {name}?",
 			},
+			{
+				queryTitle: 'Food',
+				queryString: "You can only afford a single serving of snacks for the you and {name}. Would you rather take a bite first (and watch them take a bite) or later (after they took one)?",
+			},
 		],
 	},
 ];
