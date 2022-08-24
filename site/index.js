@@ -145,7 +145,7 @@ function renderMain(sectionNo) {
 			// }, 10);
 		}
 		
-		// if(main.previousElementSibling != null) {
+		if(window['elements'].length > 1) {
 			let prevDiv = document.createElement('div');
 			prevDiv.classList.add('page-prev');
 			prevDiv.classList.add('not-selectable');
@@ -160,7 +160,7 @@ function renderMain(sectionNo) {
 			prevButton.appendChild(prevButtonIcon);
 			prevDiv.appendChild(prevButton);
 			main.appendChild(prevDiv);
-		// }
+		}
 		
 		if(content.prefix)
 		{
@@ -335,7 +335,7 @@ function renderMain(sectionNo) {
 		}
 		
 		
-		// if(main.nextElementSibling != null) {
+		if(window['elements'].length > 1) {
 			let nextDiv = document.createElement('div');
 			nextDiv.classList.add('page-next');
 			nextDiv.classList.add('not-selectable');
@@ -350,7 +350,7 @@ function renderMain(sectionNo) {
 			nextButton.appendChild(nextButtonIcon);
 			nextDiv.appendChild(nextButton);
 			main.appendChild(nextDiv);
-		// }
+		}
 	}
 
 }
