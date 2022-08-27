@@ -79,6 +79,10 @@ function renderWantedList() {
 }
 
 function resetProfile() {
+	document.querySelector('.profile').style.display = 'none';
+	document.querySelector('.profile').innerHTML = '';
+	document.body.scrollTop = 0; // For Safari
+	document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 	window['profiles'] = [];
 	window['friendMode'] = false;
 }
@@ -1164,13 +1168,7 @@ function addProfileEvents() {
 	});
 	
 	//double click profile box go up to list of names
-	 profileBox.addEventListener('dblclick', function() {
-		document.querySelector('.profile').style.display = 'none';
-		document.querySelector('.profile').innerHTML = '';
-		document.body.scrollTop = 0; // For Safari
-		document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-		resetProfile();
-	});
+	 profileBox.addEventListener('dblclick', resetProfile);
 }
 
 ////HELPER////
@@ -1335,6 +1333,7 @@ function toggleMarried() {
 		let marriedList = window['profileList'].filter(profile => window['excludeMarried'] ? !processOption(profile.turningPoint.married, true) : true);
 		window['timelineDOBlist'] = createDOBlist(marriedList, 1, 35, true);
 		renderWantedList();
+		resetProfile();
 	}
 }
 
