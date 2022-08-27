@@ -9,6 +9,7 @@ const calendarCategories = ['profile', 'seiyuu', 'doaxvv', 'hololive', 'idolypri
 const nameLabel = 'Name';
 const nameWithNicknameLabel = 'Name (Nickname)';
 const dobLabel = 'Date Of Birth';
+const ageSuffix = 'years ago';
 const profileLabel = 'Profile';
 const turningPointLabel = 'Status (Singer Debut|Swimsuit Photobook|Married)';
 const introLabel = 'How I came to know of her';
@@ -16,7 +17,7 @@ const descriptionLabel = 'Why would she be "wanted" by me';
 const ratingLabel = 'Wanted Level';
 const friendsLabel = 'Known Acquaintances';
 const socialLabel = 'Social Media';
-const statusPopup = "As answered haphazardly by Uesaka Sumire (and expanded on by me) the three \"turning points\" of a voice actress (but applicable to all):<br/>~ Singer Debut (The exhibition of their unique voices in singing)<br/>~ Swimsuit Photobook (The display of their figure to the extent of being half-naked)<br/>~ Married (The declaration of the end of idolism?)";
+const statusPopup = 'As answered haphazardly by Uesaka Sumire (and expanded on by me) the three "turning points" of a voice actress (but applicable to all):<br/>~ Singer Debut (The exhibition of their unique voices in singing)<br/>~ Swimsuit Photobook (The display of their figure to the extent of being half-naked)<br/>~ Married (The declaration of the end of idolism?)';
 const timezone = 'Asia/Tokyo';
 const month = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const source = 'https://knneo.github.io/profile-list/profile-list-new.json';
@@ -41,6 +42,8 @@ function startup() {
 }
 
 function initializeVariables() {
+	window['profiles'] = [];
+	window['simple'] = false;
 	window['defaultProfile'] = {};	
 	window['excludeMarried'] = false;
 	window['friendMode'] = false;	
@@ -72,7 +75,7 @@ function renderWantedList() {
 
 ////WANTED LIST////
 function generateWantedList() {
-	let wantedList = document.querySelector(".list");
+	let wantedList = document.querySelector('.list');
 	wantedList.innerHTML = '';
 
 	//create array
@@ -112,15 +115,15 @@ function generateWantedListIcon(id) {
 	else
 	{
 		wanted.classList.add('item');
-		wanted.addEventListener("click", function() {
+		wanted.addEventListener('click', function() {
 			generateProfileFromJSON(this);
-			document.querySelector('#profile').scrollIntoView();
+			document.querySelector('.profile').scrollIntoView();
 		});
-		wanted.addEventListener("contextmenu", function(e) {
+		wanted.addEventListener('contextmenu', function(e) {
 			e.preventDefault();
 			window['expanded'] = !window['expanded'];
 			generateProfileFromJSON(this);
-			document.querySelector('#profile').scrollIntoView();
+			document.querySelector('.profile').scrollIntoView();
 			window['expanded'] = !window['expanded'];
 		}, false);
 	}
@@ -141,15 +144,15 @@ function generateWantedListEntry(id) {
 	else
 	{
 		wanted.classList.add('item');
-		wanted.addEventListener("click", function() {
+		wanted.addEventListener('click', function() {
 			generateProfileFromJSON(this);
-			document.querySelector('#profile').scrollIntoView();
+			document.querySelector('.profile').scrollIntoView();
 		});
-		wanted.addEventListener("contextmenu", function(e) {
+		wanted.addEventListener('contextmenu', function(e) {
 			e.preventDefault();
 			window['expanded'] = !window['expanded'];
 			generateProfileFromJSON(this);
-			document.querySelector('#profile').scrollIntoView();
+			document.querySelector('.profile').scrollIntoView();
 			window['expanded'] = !window['expanded'];
 		}, false);
 	}
@@ -165,9 +168,9 @@ function loadTimeline(width = 2500) {
 		horizontalLayout: true,
 		width: width,
 		height: 100,
-		dateFormat: "%Y.%m.%d",
+		dateFormat: '%Y.%m.%d',
 		showLabels: true,
-		labelFormat: "%Y"
+		labelFormat: '%Y'
 	});
 	adjustKnots(20);
 	addTimelineEvents();
@@ -178,7 +181,7 @@ function adjustKnots(knotSize) {
 	let circleList = document.querySelectorAll('circle');
 	for (let i = 0; i < circleList.length - 1; i++) {
 		let oldCX = parseInt(circleList[i].getAttribute('cx'));
-		if (circleList[i + 1].getAttribute("cx") - oldCX <= knotSize) circleList[i + 1].setAttribute('cx', oldCX + knotSize);
+		if (circleList[i + 1].getAttribute('cx') - oldCX <= knotSize) circleList[i + 1].setAttribute('cx', oldCX + knotSize);
 	}
 }
 
@@ -207,7 +210,7 @@ function addTimelineEvents() {
 	//on scroll turn off all overlays in timeline and calendar
 	window.addEventListener('scroll', function() {
 		if (document.querySelector('#timeline').querySelectorAll('div').length > 0)
-			document.querySelector('#timeline').querySelector('div').style.opacity = "0";
+			document.querySelector('#timeline').querySelector('div').style.opacity = '0';
 	});
 }
 
@@ -225,12 +228,12 @@ function createDOBlist(profiles, minAge, maxAge, sort = false) {
 	for(let profile of profiles) {
 		let targetDOB = profile.dob;
 		if (targetDOB.length > 0) {
-			let birthDate = new Date(Date.parse(targetDOB.replace(".", "-").replace(".", "-").substring(0, 10)));
+			let birthDate = new Date(Date.parse(targetDOB.replace('.', '-').replace('.', '-').substring(0, 10)));
 			let age = getAge(targetDOB);
 			if (!birthDate.toUTCString().includes(NaN) && age >= minAge && age <= maxAge)
 				list.push({
 					category: profile.category,
-					date: targetDOB.replace(".", "-").replace(".", "-").substring(0, 10),
+					date: targetDOB.replace('.', '-').replace('.', '-').substring(0, 10),
 					name: profile.name,
 					currentAge: age
 				});
@@ -324,10 +327,10 @@ function createCalendar(monthNo, DOBlist, legend = false) {
 	//global variable for month navigation
 	//events for month buttons
 	window['currentMonth'] = monthNo;
-	if (window['currentMonth'] > 0) document.getElementById("prevMonth").addEventListener("click", function() {
+	if (window['currentMonth'] > 0) document.getElementById('prevMonth').addEventListener('click', function() {
 		createCalendar(--window['currentMonth'], window['calendarDOBlist']);
 	});
-	if (window['currentMonth'] < 11) document.getElementById("nextMonth").addEventListener("click", function() {
+	if (window['currentMonth'] < 11) document.getElementById('nextMonth').addEventListener('click', function() {
 		createCalendar(++window['currentMonth'], window['calendarDOBlist']);
 	});
 	
@@ -432,6 +435,17 @@ function exportCalendar() {
 	document.getElementById('exportBtn').setAttribute('disabled','');
 }
 
+function findFriendIdByProfile(friends) {
+	if(typeof friends == 'object' && friends.length > 1)
+		return window['friendList'].find( function(p) {
+				return (p.id.includes(friends[0] + '-') || p.id.includes('-' + friends[0] + '-') || p.id.includes('-' + friends[0]))
+				&& (p.id.includes(friends[1] + '-') || p.id.includes('-' + friends[1] + '-') || p.id.includes('-' + friends[1]))
+				&& (friends.length < 3 || 
+				(friends.length >= 3 && (p.id.includes(friends[2] + '-') || p.id.includes('-' + friends[2] + '-') || p.id.includes('-' + friends[2])))); //if 3 friends then include 3rd in search
+			});
+	return null;
+}
+
 ////PROFILE////
 function generateProfileFromJSON(profileName) {
 	//check parameter
@@ -447,9 +461,11 @@ function generateProfileFromJSON(profileName) {
         return n.id == profileName;
     });
 	if(profile == null) return;
+	window['profiles'].unshift(profile);
+	if(window['profiles'].length > 3) window['profiles'] = window['profiles'].slice(0,3);
 	
 	let currentProfile = null;
-	let profiles = document.querySelectorAll('#profile div');
+	let profiles = document.querySelectorAll('.profile div');
 	if(profiles.length > 0)
 	{
 		let currentProfileName = profiles[0].id;
@@ -457,355 +473,128 @@ function generateProfileFromJSON(profileName) {
 			return n.id == currentProfileName;
 		})[0];
 
-		let friendFound = window['friendList'].find( function(p) {
-			return p.id == (currentProfile.id + '-' + profile.id) || p.id == (profile.id + '-' + currentProfile.id);
-		}) != undefined;
+		let friendFound = findFriendIdByProfile([currentProfile.id, profile.id]) != null;
+		// window['friendList'].find( function(p) {
+			// return p.id == (currentProfile.id + '-' + profile.id) || p.id == (profile.id + '-' + currentProfile.id);
+		// }) != undefined;
 		
-		//if(friendFound)
-		//	console.log('Friend found! ' + currentProfile.name + ' x ' + profile.name);
+		// if(friendFound)
+			// console.log('Friend found! ' + findFriendIdByProfile([currentProfile.id, profile.id]).id);
 		
 		window['friendMode'] = friendFound && window.innerWidth > 360;
 		//FRIEND MODE: left is profile, right is currentProfile
 	}
 	
 	//remove friend mode if detected before add class
-	if(document.querySelector('#profile').classList.contains('friend-mode'))
+	if(document.querySelector('.profile').classList.contains('friend-mode'))
 		window['friendMode'] = false;
-	
-	//friend: selected found and has pairing with current
-	let friend = window['friendList'].find( function(p) {
-		if(currentProfile == null) return false;
-		return p.id == (currentProfile.id + '-' + profile.id) || p.id == (profile.id + '-' + currentProfile.id);
-	});
-				
-	document.querySelector('#profile').innerHTML = '';
-	
-	//if mandatory fields filled or by setting
-	let simplified = profile.intro == undefined || !window['expanded'];
 	//if friend found
 	let friendMode = window['friendMode'];
 	
+	//friend: selected found and has pairing with current
+	let friend = findFriendIdByProfile([currentProfile?.id, profile.id]);
+
+	document.querySelector('.profile').innerHTML = '';
+
+	//if mandatory fields filled or by setting
+	window['simple'] = profile.intro == undefined || !window['expanded'];
+
 	let idBox = document.createElement('div');
-	idBox.id = profile.id;
+	idBox.id = window['profiles'][0].id;
 	idBox.style.width = '90%';
-	idBox.style.maxWidth = simplified || friendMode ? '440px' : '640px';
+	idBox.style.maxWidth = window['simple'] || friendMode ? '440px' : '640px';
 	idBox.style.margin = 'auto';
 	idBox.style.padding = '3px';
 	
 		let profileBox = document.createElement('div');
 		profileBox.classList.add('profile-box');
-	
-			let profileBoxImg = document.createElement('div');
-			profileBoxImg.classList.add('profile-box-img');
-
-			let friendImage = '';
-			if(friendMode && friend != undefined)
-			{
-				friendImage = friend.image;
-				if(friend.id !== (profile.id + '-' + currentProfile.id))
-				{
-					//flip profiles order by friend id
-					//FRIEND MODE: left is original currentProfile, right is profile
-					let tempProfile = currentProfile;
-					currentProfile = profile;
-					profile = tempProfile;
-				}
-			}
-			
-			if(profile.landscapes == undefined) profile.landscapes = [];
-			if(profile.portraits == undefined) profile.portraits = [];
-			let allImages = profile.landscapes.concat(profile.portraits);
-			
-			//if one image, either from profileName, or friend if friend mode
-			let image1Source = profile.image;
-			if(allImages.length > 0) image1Source = randomArrayItem(allImages);
-			if(friendMode) image1Source = friendImage;
-			
-			//second image is friend mode only
-			let image2Source = profile.image;
-			if(friendMode)
-			{
-				if(currentProfile.landscapes == undefined) currentProfile.landscapes = [];
-				if(profile.portraits.length == 0) profile.portraits.push(profile.image);
-				if(currentProfile.portraits == undefined) currentProfile.portraits = [];
-				if(currentProfile.portraits.length == 0) currentProfile.portraits.push(currentProfile.image);
-				image2Source = addBackgroundUrlClause(randomArrayItem(profile.portraits)) + ', ' + addBackgroundUrlClause(randomArrayItem(currentProfile.portraits));
-			}
-			
-			profileBoxImg.style.backgroundImage = addBackgroundUrlClause(image1Source);
-			profileBoxImg.setAttribute('alt', friendMode ? image2Source : addBackgroundUrlClause(image2Source));
 		
-			profileBox.appendChild(profileBoxImg);
+			profileBox.appendChild(generateProfileImage(window['profiles'], friend));
 			
 			let profileTable = document.createElement('table');
 			
 				let profileTableBody = document.createElement('tbody');
 				
+					//--NAME--//
 					let row = document.createElement('tr');
 					
-					//--NAME LABEL--//
-					//name label not present in friend mode
-					if(!friendMode)
-					{
 						let cell = document.createElement('td');
-						if(friendMode) cell.style.textAlign = 'center';
-						cell.innerText = simplified ? nameLabel : nameWithNicknameLabel;
+						
+							cell.appendChild(generateProfileName(window['profiles']));
+						
 						row.appendChild(cell);
-					}
 					
 					profileTableBody.appendChild(row);
 					
-					//--NAME VALUE--//
+					//--DOB--//
 					row = document.createElement('tr');
 					
 						cell = document.createElement('td');
-						if(friendMode)
-							cell.classList.add('profile-friends');
 						
-							let cellDiv = document.createElement('div');
-							//shift first value left in friend mode
-							if(friendMode)
-								cellDiv.classList.add('shift-left');
-							
-							//nickname not present in friend mode
-							if(!friendMode && !simplified)
-								cellDiv.innerHTML = ' (' + superscriptText(profile.nickname) + ')';
-								
-								//name clickable if friend mode
-								let span = document.createElement(friendMode ? 'a' : 'span');
-								span.classList.add('profile-name');
-								span.innerText = profile.name;
-								if(friendMode) 
-								{	
-									span.href = 'javascript:void(0)';
-									span.addEventListener("click", function() {
-										generateProfileFromJSON(this);
-										document.querySelector('#profile').scrollIntoView();
-									});
-									span.addEventListener("contextmenu", function(e) {
-										e.preventDefault();
-										window['expanded'] = !window['expanded'];
-										generateProfileFromJSON(this);
-										document.querySelector('#profile').scrollIntoView();
-										window['expanded'] = !window['expanded'];
-									}, false);
-								}
-								cellDiv.insertBefore(span, cellDiv.childNodes[0]);
-								
-							cell.appendChild(cellDiv);
-							
+							cell.appendChild(generateProfileDob(window['profiles']));
+						
 						row.appendChild(cell);
-						
-						//shift second value right in friend mode
-						if(friendMode)
-						{
-							cellDiv = document.createElement('div');
-							cellDiv.classList.add('shift-right');
-							
-								span = document.createElement('a');
-								span.classList.add('profile-name');
-								span.innerText = currentProfile.name;
-								span.href = 'javascript:void(0)';
-								span.addEventListener('click', function() {
-									generateProfileFromJSON(this);
-									document.querySelector('#profile').scrollIntoView();
-								});
-								cellDiv.appendChild(span);
-								
-							cell.appendChild(cellDiv);
-							row.appendChild(cell);
-						}
 					
 					profileTableBody.appendChild(row);
 					
-					row = document.createElement('tr');
-					
-					//--DOB LABEL--//
+					//--PROFILE--//
 					if(!friendMode)
 					{
-						cell = document.createElement('td');
-						if(friendMode) cell.style.textAlign = 'center';
-						cell.innerText = dobLabel;
-						row.appendChild(cell);
+						row = document.createElement('tr');
+						
+							cell = document.createElement('td');
+							
+								cell.appendChild(generateProfileWithInnerHTML(window['profiles'], profileLabel, 'profile'));
+							
+							row.appendChild(cell);
+						
+						profileTableBody.appendChild(row);
 					}
-					
-					profileTableBody.appendChild(row);
-					
-					//--DOB VALUE--//
-					row = document.createElement('tr');
-					
-						cell = document.createElement('td');
-						
-							cellDiv = document.createElement('div');
-							//shift first value left in friend mode
-							if(friendMode)
-								cellDiv.classList.add('shift-left');
-							
-								let DOBspan = document.createElement('span');
-								DOBspan.classList.add('DOB');
-								//dob comment only appears if single profile
-								DOBspan.innerHTML = (simplified ? processOption(profile.dob, false) : superscriptText(profile.dob)) + (!friendMode && !simplified && profile.dobComment ? (' (' + profile.dobComment + ')') : '');
-								
-								//if dob is not in full, show as <dd MMM>
-								if(DOBspan.innerHTML.includes('????')) {
-									DOBspan.innerHTML = month[parseInt(profile.dob.substring(5,7))-1] + ' ' + parseInt(profile.dob.substring(8,10)) + (!friendMode && !simplified && profile.dobComment ? (' (' + profile.dobComment + ')') : '');
-									if(profile.dob.substring(10).length === 3)
-										DOBspan.innerHTML += simplified ? processOption(profile.dob.substring(10), false) : superscriptText(profile.dob.substring(10));
-								}
-								cellDiv.appendChild(DOBspan);
-							
-							cell.appendChild(cellDiv);
-							
-							//shift second value right in friend mode
-							if(friendMode)
-							{
-								cellDiv = document.createElement('div');
-								cellDiv.classList.add('shift-right');
-							
-								DOBspan = document.createElement('span');
-								DOBspan.classList.add('DOB');
-								DOBspan.innerHTML = processOption(currentProfile.dob, false) + (!friendMode && !simplified && currentProfile.dobComment != '' ? (' (' + currentProfile.dobComment + ')') : '');
-								cellDiv.appendChild(DOBspan);
-							
-								cell.appendChild(cellDiv);
-							}
-						
-						row.appendChild(cell);
-					
-					profileTableBody.appendChild(row);
 					
 					if(!friendMode)
 					{
-						//--PROFILE LABEL--//
-						row = document.createElement('tr');
-						
-							cell = document.createElement('td');
-							// if(friendMode) cell.style.textAlign = 'center';
-							cell.innerText = profileLabel;
-							row.appendChild(cell);
-						
-						profileTableBody.appendChild(row);
-						
-						//--PROFILE VALUE--//
 						row = document.createElement('tr');
 						
 							cell = document.createElement('td');
 							
-								cellDiv = document.createElement('div');
-								// if(friendMode)
-									// cellDiv.classList.add('shift-left');
-								cellDiv.innerText = profile.profile;
-								cell.appendChild(cellDiv);
-								
-								// if(friendMode)
-								// {
-									// cellDiv = document.createElement('div');
-									// cellDiv.innerText = profile.profile;
-									// cell.appendChild(cellDiv);
-								// }
-								
-							row.appendChild(cell);
-						
-						profileTableBody.appendChild(row);
-						
-						//--POINTERS LABEL--//
-						row = document.createElement('tr');
-						
-							cell = document.createElement('td');
-							cell.classList.add('tr-caption');
-							cell.classList.add('points');
-							// if(friendMode) cell.style.textAlign = 'center';
-							cell.innerText = turningPointLabel;
-							row.appendChild(cell);
-						
-						profileTableBody.appendChild(row);
-						
-						//--POINTERS VALUE--//
-						row = document.createElement('tr');
+								cell.appendChild(generateProfilePointers(window['profiles']));
 							
-							cell = document.createElement('td');
-								
-								cellDiv = document.createElement('div');
-								// if(friendMode)
-									// cellDiv.classList.add('shift-left');
-								// if(!friendMode && !simplified)
-									// cellDiv.innerHTML = Object.keys(profile.turningPoint).map((item, i, arr) => {
-										// return superscriptText(profile.turningPoint[item]);
-									// }).join('|'); 
-								// else
-									cellDiv.innerHTML = Object.keys(profile.turningPoint).map((item, arr) => {
-										return simplified ? processOption(profile.turningPoint[item], false) : superscriptText(profile.turningPoint[item]);
-									}).join('|');
-									
-							cell.appendChild(cellDiv);
-										
-							// if(friendMode)
-							// {
-								// cellDiv = document.createElement('div');
-								// cellDiv.innerHTML = processOption(currentProfile.turningPoint.soloDebut, false)
-											// + "|" + processOption(currentProfile.turningPoint.swimsuitPhotobook, false) 
-											// + "|" + processOption(currentProfile.turningPoint.isMarried, false);
-								// cell.appendChild(cellDiv);
-							// }
-						
 							row.appendChild(cell);
-							
+						
 						profileTableBody.appendChild(row);
 					}
 					
-					if(!friendMode && !simplified)
+					if(!friendMode && !window['simple'])
 					{
-						//--INTRO LABEL--//
+						//--INTRO--//
 						row = document.createElement('tr');
 						
 							cell = document.createElement('td');
-							cell.innerText = introLabel;
+							
+								cell.appendChild(generateProfileWithInnerHTML(window['profiles'], introLabel, 'intro'));
+							
+							row.appendChild(cell);
+						
+						profileTableBody.appendChild(row);
+
+						//--DESCRIPTION--//
+						row = document.createElement('tr');
+						
+							cell = document.createElement('td');
+							
+								cell.appendChild(generateProfileWithInnerHTML(window['profiles'], descriptionLabel, 'description'));
+							
 							row.appendChild(cell);
 						
 						profileTableBody.appendChild(row);
 						
-						//--INTRO VALUE--//
+						//--RATING--//
 						row = document.createElement('tr');
 						
 							cell = document.createElement('td');
-							cell.innerHTML = superscriptText(profile.intro);
-							row.appendChild(cell);
-						
-						profileTableBody.appendChild(row);
-						
-						//--DESCRIPTION LABEL--//
-						row = document.createElement('tr');
-						
-							cell = document.createElement('td');
-							cell.innerText = descriptionLabel;
-							row.appendChild(cell);
-						
-						profileTableBody.appendChild(row);
-						
-						//--DESCRIPTION VALUE--//
-						row = document.createElement('tr');
-						
-							cell = document.createElement('td');
-							cell.innerHTML = superscriptText(profile.description);
-							row.appendChild(cell);
-						
-						profileTableBody.appendChild(row);
-						
-						//--RATING LABEL--//
-						row = document.createElement('tr');
-						
-							cell = document.createElement('td');
-							cell.innerText = ratingLabel;
-							row.appendChild(cell);
-						
-						profileTableBody.appendChild(row);
-						
-						//--RATING VALUE--//
-						row = document.createElement('tr');
-						
-							cell = document.createElement('td');
-							// cell.innerText = ratingAsStars(profile.rating, 5);
-							cell.appendChild(ratingAsStars(profile.rating, maxRating));
+							
+								cell.appendChild(generateProfileRating(window['profiles']));
+							
 							row.appendChild(cell);
 						
 						profileTableBody.appendChild(row);
@@ -816,45 +605,13 @@ function generateProfileFromJSON(profileName) {
 						});
 						if(profileFriendsList.length > 0)
 						{
-							//--FRIENDS LABEL--//
+							//--FRIENDS--//
 							row = document.createElement('tr');
 							
 								cell = document.createElement('td');
-								cell.innerText = friendsLabel;
-								row.appendChild(cell);
-							
-							profileTableBody.appendChild(row);
-							
-							//--FRIENDS VALUE--//
-							row = document.createElement('tr');
-							
-								cell = document.createElement('td')
 								
-									cellDiv = document.createElement('div');
-									cellDiv.classList.add('profile-friends');
-									
-									let profileFriends = [];
-									//create name array and sort
-									for(let friend1 of profileFriendsList)
-									{
-										let splits = friend1.id.split('-');
-										for(let item of splits)
-										{
-											if(item != profile.id)
-												profileFriends.push(item);
-										}
-									}
-									
-									for(let friend of profileFriends.sort())
-									{
-										let span = document.createElement('span');
-										span.innerText = ' ';
-										cellDiv.appendChild(span);
-										cellDiv.appendChild(generateWantedListEntry(friend));
-									}
-									
-									cell.appendChild(cellDiv);
-									
+									cell.appendChild(generateProfileFriends(window['profiles'], profileFriendsList));
+								
 								row.appendChild(cell);
 							
 							profileTableBody.appendChild(row);
@@ -863,197 +620,451 @@ function generateProfileFromJSON(profileName) {
 					
 					if(profile.social)
 					{
-						
-						//--SOCIAL LABEL--//
-						if(!friendMode) {
-							row = document.createElement('tr');
-						
-							cell = document.createElement('td');
-							cell.innerText = socialLabel;
-							row.appendChild(cell);
-							
-							profileTableBody.appendChild(row);
-						}
-						
-						//--SOCIAL VALUE--//
+						//--SOCIAL--//
 						row = document.createElement('tr');
 						
 							cell = document.createElement('td');
 							
-								cellDiv = document.createElement('div');
-								//shift first value left in friend mode
-								if(friendMode && currentProfile.social)
-									cellDiv.classList.add('shift-left');
-								
-								if(profile.social.twitter)
-								{
-									let twitterSpan = document.createElement('a');
-									twitterSpan.classList.add('profile-social');
-									twitterSpan.href = 'https://twitter.com/' + profile.social.twitter;
-									twitterSpan.target = '_blank';
-									twitterSpan.title = profile.social.twitter;
-									
-									let twitterIcon = document.createElement('i');
-									twitterIcon.classList.add('bi');
-									twitterIcon.classList.add('bi-twitter');
-									twitterSpan.appendChild(twitterIcon);
-									
-									cellDiv.appendChild(twitterSpan);
-								}
-								
-								if(profile.social.instagram)
-								{
-									let instagramSpan = document.createElement('a');
-									instagramSpan.classList.add('profile-social');
-									instagramSpan.href = 'https://www.instagram.com/' + profile.social.instagram;
-									instagramSpan.target = '_blank';
-									instagramSpan.title = profile.social.instagram;
-									
-									let instagramIcon = document.createElement('i');
-									instagramIcon.classList.add('bi');
-									instagramIcon.classList.add('bi-instagram');
-									instagramSpan.appendChild(instagramIcon);
-									
-									cellDiv.appendChild(instagramSpan);
-								}
-								
-								if(profile.social.youtube)
-								{
-									let youtubeSpan = document.createElement('a');
-									youtubeSpan.classList.add('profile-social');
-									youtubeSpan.href = 'https://www.youtube.com/channel/' + profile.social.youtube;
-									youtubeSpan.target = '_blank';
-									youtubeSpan.title = profile.social.youtube;
-									
-									let youtubeIcon = document.createElement('i');
-									youtubeIcon.classList.add('bi');
-									youtubeIcon.classList.add('bi-youtube');
-									youtubeSpan.appendChild(youtubeIcon);
-									
-									cellDiv.appendChild(youtubeSpan);
-								}
-								
-								cell.appendChild(cellDiv);
-								
-								//shift second value right in friend mode	
-								if(friendMode && currentProfile.social) {		
-									cellDiv = document.createElement('div');
-									// cellDiv.id = 'currentProfile-social';
-									cellDiv.classList.add('shift-right');
-									
-									if(currentProfile.social.twitter)
-									{
-										let twitterSpan = document.createElement('a');
-										twitterSpan.href = 'https://twitter.com/' + currentProfile.social.twitter;
-										twitterSpan.target = '_blank';
-										twitterSpan.title = currentProfile.social.twitter;
-										
-										let twitterIcon = document.createElement('i');
-										twitterIcon.classList.add('bi');
-										twitterIcon.classList.add('bi-twitter');
-										twitterSpan.appendChild(twitterIcon);
-										
-										cellDiv.appendChild(twitterSpan);
-									}
-									
-									if(currentProfile.social.instagram)
-									{
-										let instagramSpan = document.createElement('a');
-										instagramSpan.href = 'https://www.instagram.com/' + currentProfile.social.instagram;
-										instagramSpan.target = '_blank';
-										instagramSpan.title = currentProfile.social.instagram;
-										
-										let instagramIcon = document.createElement('i');
-										instagramIcon.classList.add('bi');
-										instagramIcon.classList.add('bi-instagram');
-										instagramSpan.appendChild(instagramIcon);
-										
-										cellDiv.appendChild(instagramSpan);
-									}
-									
-									if(currentProfile.social.youtube)
-									{
-										let youtubeSpan = document.createElement('a');
-										youtubeSpan.href = 'https://www.youtube.com/channel/' + currentProfile.social.youtube;
-										youtubeSpan.target = '_blank';
-										youtubeSpan.title = currentProfile.social.youtube;
-										
-										let youtubeIcon = document.createElement('i');
-										youtubeIcon.classList.add('bi');
-										youtubeIcon.classList.add('bi-youtube');
-										youtubeSpan.appendChild(youtubeIcon);
-										
-										cellDiv.appendChild(youtubeSpan);
-									}
-									
-									cell.appendChild(cellDiv);
-								}
-								
+								cell.appendChild(generateProfileSocial(window['profiles']));
+							
 							row.appendChild(cell);
 						
-						profileTableBody.appendChild(row);
+						profileTableBody.appendChild(row);						
 					}
 					
 				profileTable.appendChild(profileTableBody);
 			
 			profileBox.appendChild(profileTable);
 			
-			if(!friendMode && !simplified)
+			if(!friendMode && !window['simple'])
 			{
-				let commentBox = document.createElement('div');
-				commentBox.classList.add('profile-box-comments');
-				commentBox.innerHTML = processComments(profile.comments, profile.links);
-				if(window.location.href.includes('knneo.github.io'))
-					commentBox.innerHTML = commentBox.innerHTML.replace(/knwebreports.blogspot.com/gi, 'knneo.github.io/blogspot/blog');
-				//special case
-				commentBox.innerHTML = commentBox.innerHTML.replace('1976.09.20', '<span id=\'HocchanAge\' class=\'DOB\'>1976.09.20</span>');
-				
-				profileBox.appendChild(commentBox);
+				profileBox.appendChild(generateProfileComments(window['profiles']));
 			}
 	
 		idBox.appendChild(profileBox);
 	
 	if(!friendMode)
-		document.querySelector('#profile').classList.remove('friend-mode');
+		document.querySelector('.profile').classList.remove('friend-mode');
 	else
-		document.querySelector('#profile').classList.add('friend-mode');
+		document.querySelector('.profile').classList.add('friend-mode');
 	
-	document.querySelector('#profile').appendChild(idBox);	
-	document.querySelector('#profile').style.display = '';
+	document.querySelector('.profile').appendChild(idBox);	
+	document.querySelector('.profile').style.display = '';
 	
 	addProfileEvents();
-	addAgeAfterDOB();
+	addAgeAfterDOB(ageSuffix);
 	addStatusPopUp();
+}
+
+function generateProfileImage([profile, currentProfile]) {
+	let friend = findFriendIdByProfile([profile.id, currentProfile?.id]);
+	let profileBoxImg = document.createElement('div');
+	profileBoxImg.classList.add('profile-box-img');
+
+	let friendImage = '';
+	if(window['friendMode'] && friend != undefined)
+	{
+		friendImage = friend.image;
+	}
+	
+	if(profile.landscapes == undefined) profile.landscapes = [];
+	if(profile.portraits == undefined) profile.portraits = [];
+	let allImages = profile.landscapes.concat(profile.portraits);
+	
+	//if one image, either from profileName, or friend if friend mode
+	let image1Source = profile.image;
+	if(allImages.length > 0) image1Source = randomArrayItem(allImages);
+	if(window['friendMode']) image1Source = friendImage;
+	
+	//second image is friend mode only
+	let image2Source = profile.image;
+	if(window['friendMode'])
+	{
+		if(currentProfile.landscapes == undefined) currentProfile.landscapes = [];
+		if(profile.portraits.length == 0) profile.portraits.push(profile.image);
+		if(currentProfile.portraits == undefined) currentProfile.portraits = [];
+		if(currentProfile.portraits.length == 0) currentProfile.portraits.push(currentProfile.image);
+		image2Source = addBackgroundUrlClause(randomArrayItem(profile.portraits)) + ', ' + addBackgroundUrlClause(randomArrayItem(currentProfile.portraits));
+	}
+	
+	profileBoxImg.style.backgroundImage = addBackgroundUrlClause(image1Source);
+	profileBoxImg.setAttribute('alt', window['friendMode'] ? image2Source : addBackgroundUrlClause(image2Source));
+	
+	return profileBoxImg;
+}
+
+function generateProfileName([profile, currentProfile]) {
+	let friend = findFriendIdByProfile([profile.id, currentProfile?.id]);
+	if(friendMode && friend.id != (profile.id + '-' + currentProfile.id))
+	{
+		//flip profiles order by friend id
+		//FRIEND MODE: left is original currentProfile, right is profile
+		let tempProfile = currentProfile;
+		currentProfile = profile;
+		profile = tempProfile;
+	}
+	
+	let cell = document.createElement('div');
+
+	//--NAME LABEL--//
+	//name label not present in friend mode
+	if(!window['friendMode'])
+	{
+		let cellDiv = document.createElement('div');
+		cellDiv.classList.add('profile-box-label');
+		cellDiv.innerText = window['simple'] ? nameLabel : nameWithNicknameLabel;
+		cell.appendChild(cellDiv);
+	}
+	
+	//--NAME VALUE--//						
+	let cellDiv = document.createElement('div');
+	//shift first value left in friend mode
+	if(window['friendMode'])
+		cellDiv.classList.add('shift-left');
+	else
+		cellDiv.classList.add('shift-right');
+	
+	//nickname not present in friend mode
+	if(!window['friendMode'] && !window['simple'])
+		cellDiv.innerHTML = ' (' + superscriptText(profile.nickname) + ')';
+		
+		//name clickable if friend mode
+		let span = document.createElement(window['friendMode'] ? 'a' : 'span');
+		span.classList.add('profile-name');
+		span.innerText = profile.name;
+		if(window['friendMode']) 
+		{	
+			span.href = 'javascript:void(0)';
+			span.addEventListener('click', function() {
+				generateProfileFromJSON(this);
+				document.querySelector('.profile').scrollIntoView();
+			});
+			span.addEventListener('contextmenu', function(e) {
+				e.preventDefault();
+				window['expanded'] = !window['expanded'];
+				generateProfileFromJSON(this);
+				document.querySelector('.profile').scrollIntoView();
+				window['expanded'] = !window['expanded'];
+			}, false);
+		}
+		cellDiv.insertBefore(span, cellDiv.childNodes[0]);
+		
+	cell.appendChild(cellDiv);
+								
+	//shift second value right in friend mode
+	if(window['friendMode'])
+	{
+		cellDiv = document.createElement('div');
+		cellDiv.classList.add('shift-right');
+		
+			span = document.createElement('a');
+			span.classList.add('profile-name');
+			span.innerText = currentProfile.name;
+			span.href = 'javascript:void(0)';
+			span.addEventListener('click', function() {
+				generateProfileFromJSON(this);
+				document.querySelector('.profile').scrollIntoView();
+			});
+			cellDiv.appendChild(span);
+			
+		cell.appendChild(cellDiv);
+	}
+	
+	return cell;
+}
+
+function generateProfileDob([profile, currentProfile]) {
+	let friend = findFriendIdByProfile([profile.id, currentProfile?.id]);
+	if(friendMode && friend.id != (profile.id + '-' + currentProfile.id))
+	{
+		//flip profiles order by friend id
+		//FRIEND MODE: left is original currentProfile, right is profile
+		let tempProfile = currentProfile;
+		currentProfile = profile;
+		profile = tempProfile;
+	}
+	
+	let cell = document.createElement('div');
+	
+	//--DOB LABEL--//
+	if(!window['friendMode'])
+	{
+		let cellDiv = document.createElement('div');
+		cellDiv.classList.add('profile-box-label');
+		cellDiv.innerText = dobLabel;
+		cell.appendChild(cellDiv);
+	}
+										
+	//--DOB VALUE--//
+	let cellDiv = document.createElement('div');
+	//shift first value left in friend mode
+	if(window['friendMode'])
+		cellDiv.classList.add('shift-left');
+	else
+		cellDiv.classList.add('shift-right');
+	
+	let DOBspan = document.createElement('span');
+	DOBspan.classList.add('DOB');
+	//dob comment only appears if single profile
+	DOBspan.innerHTML = (window['simple'] ? processOption(profile.dob, false) : superscriptText(profile.dob)) + (!window['friendMode'] && !window['simple'] && profile.dobComment ? (' (' + profile.dobComment + ')') : '');
+	
+	//if dob is not in full, show as <dd MMM>
+	if(DOBspan.innerHTML.includes('????')) {
+		DOBspan.innerHTML = month[parseInt(profile.dob.substring(5,7))-1] + ' ' + parseInt(profile.dob.substring(8,10)) + (!window['friendMode'] && !window['simple'] && profile.dobComment ? (' (' + profile.dobComment + ')') : '');
+		if(profile.dob.substring(10).length === 3)
+			DOBspan.innerHTML += window['simple'] ? processOption(profile.dob.substring(10), false) : superscriptText(profile.dob.substring(10));
+	}
+	cellDiv.appendChild(DOBspan);
+	cell.appendChild(cellDiv);
+								
+	//shift second value right in friend mode
+	if(window['friendMode'])
+	{
+		cellDiv = document.createElement('div');
+		cellDiv.classList.add('shift-right');
+	
+		DOBspan = document.createElement('span');
+		DOBspan.classList.add('DOB');
+		DOBspan.innerHTML = processOption(currentProfile.dob, false) + (!window['friendMode'] && !window['simple'] && currentProfile.dobComment != '' ? (' (' + currentProfile.dobComment + ')') : '');
+		cellDiv.appendChild(DOBspan);
+		cell.appendChild(cellDiv);
+	
+	}
+
+	return cell;
+}
+
+function generateProfileWithInnerHTML([profile], label, property) {
+	let cell = document.createElement('div');
+	
+	//--LABEL--//
+	let cellDiv = document.createElement('div');
+	cellDiv.classList.add('profile-box-label');
+	cellDiv.innerText = label;
+	cell.appendChild(cellDiv);
+	
+	//--VALUE--//
+	cellDiv = document.createElement('div');
+	cellDiv.classList.add('shift-right');
+	cellDiv.innerHTML = superscriptText(profile[property]);
+	cell.appendChild(cellDiv);
+
+	return cell;
+}
+
+function generateProfilePointers([profile]) {
+	let cell = document.createElement('div');
+
+	//--POINTERS LABEL--//
+	cellDiv = document.createElement('div');
+	cellDiv.classList.add('profile-box-label');
+	cellDiv.classList.add('tr-caption');
+	cellDiv.classList.add('points');
+	cellDiv.innerText = turningPointLabel;
+	cell.appendChild(cellDiv);
+
+	//--POINTERS VALUE--//
+	cellDiv = document.createElement('div');
+	cellDiv.classList.add('shift-right');
+	cellDiv.innerHTML = Object.keys(profile.turningPoint).map((item, arr) => {
+		return window['simple'] ? processOption(profile.turningPoint[item], false) : superscriptText(profile.turningPoint[item]);
+	}).join('|');
+		
+	cell.appendChild(cellDiv);
+										
+	return cell;		
+}
+
+function generateProfileRating([profile]) {
+	let cell = document.createElement('div');
+	
+	//--RATING LABEL--//
+	let cellDiv = document.createElement('div');
+	cellDiv.classList.add('profile-box-label');
+	cellDiv.innerText = ratingLabel;
+	cell.appendChild(cellDiv);
+	
+	//--RATING VALUE--//
+	cellDiv = document.createElement('div');
+	cellDiv.classList.add('shift-right');
+	cellDiv.appendChild(ratingAsStars(profile.rating, maxRating));
+	cell.appendChild(cellDiv);
+
+	return cell;
+}
+
+function generateProfileFriends([profile], friends) {
+	let cell = document.createElement('div');
+	
+	//--FRIENDS LABEL--//
+	let cellDiv = document.createElement('div');
+	cellDiv.classList.add('profile-box-label');
+	cellDiv.innerText = friendsLabel;
+	cell.appendChild(cellDiv);
+	
+	//--FRIENDS VALUE--//
+	cellDiv = document.createElement('div');
+	cellDiv.classList.add('profile-friends');
+	cellDiv.classList.add('shift-right');
+	
+	let friendsList = [];
+	//create name array and sort
+	for(let friend of friends)
+	{
+		let splits = friend.id.split('-');
+		for(let item of splits)
+		{
+			if(item != profile.id)
+				friendsList.push(item);
+		}
+	}
+	
+	for(let friend of friendsList.sort())
+	{
+		let span = document.createElement('span');
+		span.innerText = ' ';
+		cellDiv.appendChild(span);
+		cellDiv.appendChild(generateWantedListEntry(friend));
+	}
+	
+	cell.appendChild(cellDiv);
+			
+	return cell;
+}
+
+function generateProfileSocial([profile, currentProfile]) {
+	let friend = findFriendIdByProfile([profile.id, currentProfile?.id]);
+	if(window['friendMode'] && friend.id != (profile.id + '-' + currentProfile.id))
+	{
+		//flip profiles order by friend id
+		//FRIEND MODE: left is original currentProfile, right is profile
+		let tempProfile = currentProfile;
+		currentProfile = profile;
+		profile = tempProfile;
+	}
+	
+	let cell = document.createElement('div');
+
+	//--SOCIAL LABEL--//
+	if(!window['friendMode']) {	
+		let cellDiv = document.createElement('div');
+		cellDiv.classList.add('profile-box-label');
+		cellDiv.innerText = socialLabel;
+		cell.appendChild(cellDiv);		
+	}
+	
+	//--SOCIAL VALUE--//	
+	if(window['friendMode'] && currentProfile.social)
+	{
+		//shift second value right in friend mode
+		cell.appendChild(generateProfileSocialIcons(currentProfile.social, false));
+		cell.appendChild(generateProfileSocialIcons(profile.social, true));
+	}
+	else
+		cell.appendChild(generateProfileSocialIcons(profile.social));
+	
+	return cell;
+}
+
+function generateProfileSocialIcons(social, alignRight = true) {	
+	let cellDiv = document.createElement('div');
+	//shift first value left in friend mode
+	if(!alignRight)
+		cellDiv.classList.add('shift-left');
+	else
+		cellDiv.classList.add('shift-right');
+	
+	if(social.twitter)
+	{
+		let twitterSpan = document.createElement('a');
+		twitterSpan.classList.add('profile-social');
+		twitterSpan.href = 'https://twitter.com/' + social.twitter;
+		twitterSpan.target = '_blank';
+		twitterSpan.title = social.twitter;
+		
+		let twitterIcon = document.createElement('i');
+		twitterIcon.classList.add('bi');
+		twitterIcon.classList.add('bi-twitter');
+		twitterSpan.appendChild(twitterIcon);
+		
+		cellDiv.appendChild(twitterSpan);
+	}
+	
+	if(social.instagram)
+	{
+		let instagramSpan = document.createElement('a');
+		instagramSpan.classList.add('profile-social');
+		instagramSpan.href = 'https://www.instagram.com/' + social.instagram;
+		instagramSpan.target = '_blank';
+		instagramSpan.title = social.instagram;
+		
+		let instagramIcon = document.createElement('i');
+		instagramIcon.classList.add('bi');
+		instagramIcon.classList.add('bi-instagram');
+		instagramSpan.appendChild(instagramIcon);
+		
+		cellDiv.appendChild(instagramSpan);
+	}
+	
+	if(social.youtube)
+	{
+		let youtubeSpan = document.createElement('a');
+		youtubeSpan.classList.add('profile-social');
+		youtubeSpan.href = 'https://www.youtube.com/channel/' + social.youtube;
+		youtubeSpan.target = '_blank';
+		youtubeSpan.title = social.youtube;
+		
+		let youtubeIcon = document.createElement('i');
+		youtubeIcon.classList.add('bi');
+		youtubeIcon.classList.add('bi-youtube');
+		youtubeSpan.appendChild(youtubeIcon);
+		
+		cellDiv.appendChild(youtubeSpan);
+	}
+	return cellDiv;
+}
+
+function generateProfileComments([profile]) {
+	let cellDiv = document.createElement('div');
+	cellDiv.classList.add('profile-box-comments');
+	cellDiv.innerHTML = processComments(profile.comments, profile.links);
+	
+	//special cases
+	cellDiv.innerHTML = cellDiv.innerHTML.replace('1976.09.20', '<span id=\'HocchanAge\' class=\'DOB\'>1976.09.20</span>');
+	if(window.location.href.includes('knneo.github.io'))
+		cellDiv.innerHTML = cellDiv.innerHTML.replace(/knwebreports.blogspot.com/gi, 'knneo.github.io/blogspot/blog');
+	
+	return cellDiv;
 }
 
 function addProfileEvents() {
 	let profileBox = document.querySelector('.profile-box');
 	
 	//add event listener for image switch but through clicking on profile box
-	profileBox.addEventListener("click", function() {
-			let boxImg = this.getElementsByClassName('profile-box-img')[0];
-			if(boxImg.style.backgroundImage == boxImg.getAttribute('alt')) return;
-			let temp = boxImg.getAttribute('alt');//boxImg.style.backgroundImage;
-			boxImg.setAttribute('alt', boxImg.style.backgroundImage);
-			boxImg.style.backgroundImage = temp;
-			if(temp.split('url(').length - 1 > 1) 
-			{
-				boxImg.style.backgroundRepeat = 'no-repeat';
-				boxImg.style.backgroundSize = '50% auto';
-				boxImg.style.backgroundPosition = 'left, right';
-			}
-			else
-			{
-				boxImg.style.backgroundSize = 'contain';
-				boxImg.style.backgroundRepeat = 'no-repeat';
-				boxImg.style.backgroundPosition = 'center';
-			}
-		});
+	profileBox.addEventListener('click', function() {
+		let boxImg = this.getElementsByClassName('profile-box-img')[0];
+		if(boxImg.style.backgroundImage == boxImg.getAttribute('alt')) return;
+		let temp = boxImg.getAttribute('alt');//boxImg.style.backgroundImage;
+		boxImg.setAttribute('alt', boxImg.style.backgroundImage);
+		boxImg.style.backgroundImage = temp;
+		if(temp.split('url(').length - 1 > 1) 
+		{
+			boxImg.style.backgroundRepeat = 'no-repeat';
+			boxImg.style.backgroundSize = '50% auto';
+			boxImg.style.backgroundPosition = 'left, right';
+		}
+		else
+		{
+			boxImg.style.backgroundSize = 'contain';
+			boxImg.style.backgroundRepeat = 'no-repeat';
+			boxImg.style.backgroundPosition = 'center';
+		}
+	});
 	
 	//double click profile box go up to list of names
-	 profileBox.addEventListener("dblclick", function() {
-		document.getElementById("profile").style.display = 'none';
-		document.getElementById("profile").innerHTML = '';
+	 profileBox.addEventListener('dblclick', function() {
+		document.querySelector('.profile').style.display = 'none';
+		document.querySelector('.profile').innerHTML = '';
 		document.body.scrollTop = 0; // For Safari
 		document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 	});
@@ -1108,17 +1119,17 @@ function superscriptHTML(input) { return '<span class="superscript">' + input + 
 
 ////CHECK////
 function daysFromMe() {
-	let me = window['timelineDOBlist'].filter(t => t.name == "Me")[0];
-	let others = window['timelineDOBlist'].filter(t => t.name != "Me");
+	let me = window['timelineDOBlist'].filter(t => t.name == 'Me')[0];
+	let others = window['timelineDOBlist'].filter(t => t.name != 'Me');
 	console.log('with respect to ' + me.date + ':');
 	let away = new Array();
 	for(let other of others)
 	{
 		if(other.date.includes('????')) continue;
 		let DOB = other.date;
-		let myDateStr = me.date.replace(".", "-").replace(".", "-"); //yyyy.MM.dd -> yyyy-MM-dd
+		let myDateStr = me.date.replace('.', '-').replace('.', '-'); //yyyy.MM.dd -> yyyy-MM-dd
 		let myDate = myDateStr.substring(0, 10);
-		let birthDateStr = DOB.replace(".", "-").replace(".", "-");
+		let birthDateStr = DOB.replace('.', '-').replace('.', '-');
 		let birthDate = birthDateStr.substring(0, 10);
 		let diff = luxon.DateTime.fromISO(myDate).setZone(timezone).diff(luxon.DateTime.fromISO(birthDate), 'days').days;
 		away.push({
@@ -1147,7 +1158,7 @@ function friendCheck() {
 				return f.id == pair.id;
 			});
 			if(result != undefined && result.length > 1)
-				console.log(pair.id + " has exact duplicates");
+				console.log(pair.id + ' has exact duplicates');
 		}
 		
 		//check ids but of different positions
@@ -1158,7 +1169,7 @@ function friendCheck() {
 				return f.id == (splits[1] + '-' + splits[0]);
 			});
 			if(result != undefined && result.length > 0)
-				console.log(pair.id + " has duplicates of different positions");
+				console.log(pair.id + ' has duplicates of different positions');
 		}
 	}
 	
@@ -1187,14 +1198,14 @@ function addStatusPopUp() {
 }
 
 //add age after DOB span
-function addAgeAfterDOB(suffix = 'years ago') {
-	if(document.querySelector('#profile').classList.contains('friend-mode')) return;
-	let profile = window['profileList'].filter(p => p.id === document.querySelector('#profile').firstChild.id)[0];
+function addAgeAfterDOB(suffix) {
+	if(document.querySelector('.profile').classList.contains('friend-mode')) return;
+	let profile = window['profileList'].filter(p => p.id === document.querySelector('.profile').firstChild.id)[0];
 	let DOBspan = document.getElementById(profile.id).getElementsByClassName('DOB')[0];
 	let age = getAge(profile.dob);
-	let simplified = profile.intro == undefined || !window['expanded'];
-	if (age != undefined && age > 0 && !simplified)
-		DOBspan.innerHTML = DOBspan.innerHTML.concat(' [').concat(age.toString()).concat(' ' + suffix + ']');
+	window['simple'] = profile.intro == undefined || !window['expanded'];
+	if (age != undefined && age > 0 && !window['simple'])
+		DOBspan.innerHTML = DOBspan.innerHTML.concat(' [').concat(age.toString()).concat(' ' + (suffix || 'years old') + ']');
 }
 
 function getAge(DOB) {
@@ -1208,7 +1219,7 @@ function getAge(DOB) {
 }
 
 function isBirthdayPassed(DOB) {
-	let birthDateStr = DOB.replace(".", "-").replace(".", "-"); //yyyy.MM.dd -> yyyy-MM-dd
+	let birthDateStr = DOB.replace('.', '-').replace('.', '-'); //yyyy.MM.dd -> yyyy-MM-dd
 	let birthDate = luxon.DateTime.fromISO(birthDateStr.substring(0, 10), {zone: timezone}); 
 	let today = luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: timezone});
 	return today.diff(birthDate, 'days').days >= 0;
@@ -1228,7 +1239,7 @@ function updateTime() {
 	if(document.getElementById('time') != null)
 	{
 		var now = luxon.DateTime.local().setZone(timezone);
-		document.getElementById('time').innerText = now.toFormat("yyyy.MM.dd HH:mm:ss");	
+		document.getElementById('time').innerText = now.toFormat('yyyy.MM.dd HH:mm:ss');	
 		setTimeout(updateTime, 1000);
 	}
 }

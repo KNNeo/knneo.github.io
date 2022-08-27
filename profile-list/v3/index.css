@@ -147,19 +147,24 @@ a, button {
   transform: translate(2px,2px);
 }
 .profile-box tr:nth-child(odd), .profile-box-comments {
-	text-align: left;
+	/* text-align: left; */
 }
 .profile-box tr:nth-child(odd) td {
-	font-size: 70%;
+	/* font-size: 70%; */
 }
 .profile-box tr:nth-child(even) {
-	text-align: right;
+	/* text-align: right; */
 }
 .profile-box-comments {
+	text-align: left;
     padding: 3px;
 }
 .profile-box-comments .superscript {
 	padding-right: 3px;
+}
+.profile-box-label {
+	text-align: left;
+	font-size: 70%;	
 }
 .profile-box-img {
   margin: auto;
@@ -215,7 +220,7 @@ a, button {
 #prevMonth, #nextMonth {
 	cursor: pointer;
 }
-#profile {
+.profile {
 	top: 38px;
 	background-color: var(--background);
 }
