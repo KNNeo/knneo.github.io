@@ -717,6 +717,7 @@ function generateLayout(contents) {
 	if(debugMode) console.log('generateLayout', contents);
 	document.getElementById('tab-homepage').style.display = 'none';
 	document.getElementById('search-buttons').style.display = '';
+	document.getElementById('music').innerHTML = '';
 	document.getElementById('cover').style.display = 'none';
 	
 	//clear modules
@@ -751,7 +752,6 @@ function generateLayout(contents) {
 	if(window['mode'] == 'artist')
 	{
 		queryArtistInfo(contents); //uses same generateArtistInfo
-		// queryArtistSongList(contents); //same as querySongList but by artist
 		//related songs: songs within 5, 10, 15 years? songs featured eg. collab
 		//awards that artist won? and nominated
 		//rankings entered? maybe not list all but summary?
@@ -1160,6 +1160,79 @@ function queryArtistInfo(contents) {
 	if(debugMode)
 		console.log('generateArtistInfo', query);
 	queryDb(query, generateArtistInfo);
+	
+	query = "SELECT KNYEAR as 'Year', Category, Type, ReleaseTitle AS 'Release Title', TracksSelected || ' / ' || TracksTotal AS 'Tracks In Library', (SELECT COUNT(*) FROM Song s WHERE s.ReleaseTitle = r.ReleaseTitle AND s.ReleaseArtistTitle = r.ReleaseArtistTitle AND s.KNYEAR <= r.KNYEAR) || ' / ' || TracksSelected AS 'New Tracks', ReleaseYear || SUBSTR('0000' || ReleaseDate, -4, 4) AS 'Release Date', ReleaseTitleAlt AS '" + altTitlePrefix + " Release Title', ReleaseArtistTitleAlt AS '" + altTitlePrefix + " Release Artist' FROM Release r WHERE ReleaseArtistTitle = '" + addQuotationInSQLString(row[columnIndexArtistTitle]) + "' ORDER BY KNYEAR, ReleaseYear || SUBSTR('0000' || ReleaseDate, -4, 4)";
+	if(debugMode) 
+		console.log('generateReleaseInfo', query);
+	queryDb(query, generateArtistReleaseInfo);
+}
+
+function generateArtistReleaseInfo(contents) {
+	document.getElementById('artist-release').innerHTML = '';
+	
+	if(debugMode) console.log('generateArtistReleaseInfo', contents);
+	if(!contents.columns || !contents.values) return;
+	
+	let header = document.createElement('h4');
+	header.classList.add('centered');
+	header.innerText = 'Artist Releases';
+	document.getElementById('artist-release').appendChild(header);	
+	
+	let columns = contents.columns;
+	let rows = contents.values;
+	let columnIndexKNYEAR = contents.columns.indexOf('Year');
+	let columnIndexCategory = contents.columns.indexOf('Category');
+	let columnIndexReleaseTitle = contents.columns.indexOf('Release Title');
+	
+	let table = document.createElement('table');
+	table.classList.add('list');
+	table.classList.add('centered');
+	table.classList.add('content-box');
+	table.classList.add('bordered');
+	
+	let tbody = document.createElement('tbody');
+	
+	//header
+	let tr = document.createElement('tr');
+	tr.classList.add('no-highlight');
+	for(let column of columns)
+	{
+		if(['Year','Category','Release Title'].indexOf(column) >= 0)
+		{
+			let th = document.createElement('th');
+			th.innerText = column;
+			tr.appendChild(th);
+		}
+	}
+	tbody.appendChild(tr);	
+	
+	//rows
+	for(let r = 0; r < rows.length; r++)
+	{
+		let rowVal = rows[r];
+		if(!rowVal || rowVal.length == 0) continue;
+		
+		let tr = document.createElement('tr');
+	
+		let tc = document.createElement('td');
+		tc.classList.add('centered-text');
+		tc.innerText = rowVal[columnIndexKNYEAR];
+		tr.appendChild(tc);
+		
+		let td = document.createElement('td');
+		td.classList.add('centered-text');
+		td.innerText = rowVal[columnIndexCategory];
+		tr.appendChild(td);
+		
+		let te = document.createElement('td');
+		te.innerText = rowVal[columnIndexReleaseTitle];
+		tr.appendChild(te);
+		
+		tbody.appendChild(tr);	
+	}
+		
+	table.appendChild(tbody);
+	document.getElementById('artist-release').appendChild(table);
 }
 
 function queryRelated(contents) {
@@ -1509,11 +1582,11 @@ function querySongList(contents) {
 	
 	let query = "SELECT * FROM Song WHERE KNYEAR = " + year + " ORDER BY RANDOM() LIMIT 30";
 	if(debugMode) console.log('generateSongList', query);
-	queryDb(query, generateSongList);	
+	queryDb(query, generateSongList);
 }
 
 function generateSongList(contents) {
-	if(debugMode) console.log('generateSongRelatedByYear', contents);
+	if(debugMode) console.log('generateSongList', contents);
 	if(!contents.columns || !contents.values) return;
 	
 	document.getElementById('song-list').innerHTML = '';
