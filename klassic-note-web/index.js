@@ -86,6 +86,7 @@ function setTabs() {
 	{
 		if(window['mode'] == 'song') showTab('tab-info');
 		if(window['mode'] == 'year') showTab('tab-year');
+		if(window['mode'] == 'artist') showTab('tab-info');
 	}
 	
 	document.getElementById('tab-buttons').style.display = isWidescreen ? 'none' : '';
@@ -529,7 +530,8 @@ function generateTabs() {
 		//show different info tab
 		if(window['mode'] == 'year' && tab.id == 'tab-info') continue;
 		if(window['mode'] == 'song' && tab.id == 'tab-year') continue;
-		//toggle related tab
+		if(window['mode'] == 'artist' && tab.id == 'tab-info') continue;
+		//hide unused tabs
 		if(window['mode'] == 'year' && tab.id == 'tab-related') continue;
 		
 		let tabItem = document.createElement('button');
@@ -550,7 +552,8 @@ function generateTabs() {
 		}
 		else
 			tabNames.push(tabItem.innerText);
-	}	
+	}
+	setTabs();
 }
 
 function generateFilters() {
@@ -714,6 +717,7 @@ function generateLayout(contents) {
 	if(debugMode) console.log('generateLayout', contents);
 	document.getElementById('tab-homepage').style.display = 'none';
 	document.getElementById('search-buttons').style.display = '';
+	document.getElementById('cover').style.display = 'none';
 	
 	//clear modules
 	for(let module of document.getElementsByClassName('module'))
@@ -725,7 +729,6 @@ function generateLayout(contents) {
 	{
 		queryYearInfo(contents);
 		querySongList(contents); //SOTD is here
-		generateTabs();
 		queryAwardsByYear(contents);
 		queryRankingsByYear(contents);
 		queryCompilationsByYear(contents);
@@ -739,15 +742,29 @@ function generateLayout(contents) {
 		queryCoverArt(contents);
 		queryInfo(contents);
 		queryRelated(contents);
-		generateTabs();
 		queryAwards(contents);
 		queryRankings(contents);
 		queryCompilations(contents);
-		querySOTD(contents);
+		querySOTD(contents);	
+	}
+	
+	if(window['mode'] == 'artist')
+	{
+		queryArtistInfo(contents); //uses same generateArtistInfo
+		// queryArtistSongList(contents); //same as querySongList but by artist
+		//related songs: songs within 5, 10, 15 years? songs featured eg. collab
+		//awards that artist won? and nominated
+		//rankings entered? maybe not list all but summary?
+		//compilation: artist collection, if any?
+		//sotd? song mentions by group by song?
+		//analysis: 
+		//*song popularity rank by weight, top 10 max, ?? min
+		//*b-side reviews - klassic note reviews?
+		//*song count by year
 		
 	}
 	
-	setTabs();
+	generateTabs();
 	scrollToTop();
 	updateQueueButtons();
 	
@@ -990,6 +1007,27 @@ function generateArtistInfo(contents) {
 		td.innerHTML = rowVal;
 		if(rowVal.toString().includes('://'))
 			td.innerHTML = '<a target="_blank" href="' + rowVal + '">' + rowVal + '</a>';
+		
+		if(window['mode'] != 'artist' && columns[r] == 'Name')
+		{
+			let tda = document.createElement('span');
+			tda.style.position = 'relative';
+			
+				let ta = document.createElement('span');
+				ta.title = 'Winner';
+				ta.classList.add('material-icons');
+				// ta.classList.add('award-winner');
+				ta.style.position = 'absolute';
+				ta.style.cursor = 'pointer';
+				ta.innerText = 'launch';
+				ta.setAttribute('data-artist', rowVal);
+				ta.addEventListener('click', updateArtist);
+				
+				tda.appendChild(ta);
+				
+			td.appendChild(tda);
+		}
+		
 		tr.appendChild(td);
 		
 		tbody.appendChild(tr);
@@ -1109,6 +1147,19 @@ function generateYearInfo(contents) {
 		
 	table.appendChild(tbody);
 	document.getElementById('year-info').appendChild(table);
+}
+
+function queryArtistInfo(contents) {
+	let columns = contents.columns;
+	let rows = contents.values;
+	let row = rows[0];
+	let columnIndexArtistTitle = contents.columns.indexOf('Artist Title');
+	
+	let query = "SELECT ArtistTitle AS 'Name', GROUP_CONCAT(ParentArtist, '<br/>') AS 'Tags (if any)', CASE WHEN ArtistCode = 'BD' THEN 'Independent Band' WHEN ArtistCode = 'ID' THEN 'Idol Group' WHEN ArtistCode = 'AG' THEN 'Anime Voice Actor Group' WHEN ArtistCode = 'AS' THEN 'Anime Voice Actor(s)' WHEN ArtistCode = 'CL' THEN 'Collaboration' WHEN ArtistCode = 'SS' THEN 'Singer-Songwriter' WHEN ArtistCode = 'SL' THEN 'Solo Artist' ELSE 'Unknown' END AS 'Artist Type', DisbandYear AS 'Year Disbaneded (if any)', ArtistTitleAlt AS '" + altTitlePrefix + " Name', (SELECT COUNT(*) FROM Song WHERE ArtistTitle = '" + addQuotationInSQLString(row[columnIndexArtistTitle]) + "') AS 'Songs In Library' FROM Artist WHERE ArtistTitle = '" + addQuotationInSQLString(row[columnIndexArtistTitle]) + "' ";
+	query += "GROUP BY ArtistTitle, ArtistCode, DisbandYear, ArtistTitleAlt";
+	if(debugMode)
+		console.log('generateArtistInfo', query);
+	queryDb(query, generateArtistInfo);
 }
 
 function queryRelated(contents) {
@@ -2618,6 +2669,23 @@ function updateYear() {
 	
 	//initial query for options
 	query = "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song WHERE KNYEAR = " + year;
+	if(isMobile())
+		query += " LIMIT 100";
+	callDb(query, updateOptions);
+}
+
+function updateArtist() {
+	window['mode'] = 'artist';
+	document.getElementById('search').value = '';
+	document.getElementById('options').value = '';
+	
+	let artist = this.getAttribute('data-artist');
+	let query = "SELECT ArtistTitle AS 'Artist Title' FROM Artist WHERE ArtistTitle = '" + artist + "'";
+	if(debugMode) console.log('updateArtist', query);
+	queryDb(query, generateLayout);
+	
+	//initial query for options
+	query = "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song WHERE ArtistTitle = '" + artist + "'";
 	if(isMobile())
 		query += " LIMIT 100";
 	callDb(query, updateOptions);
