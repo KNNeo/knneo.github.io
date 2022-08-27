@@ -270,11 +270,11 @@ function createCalendar(monthNo, DOBlist, legend = false) {
 	let week = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 	// render table
 	let htmlString = '<table><tbody><tr><td>' + 
-	(monthNo+1 > 1 ? '<i id="prevMonth" class="bi bi-arrow-left"></i>' : '') + 
+	(monthNo+1 > 1 ? '<i class="prev-month bi bi-arrow-left"></i>' : '') + 
 	'</td><td colspan="5">' + 
 	month[monthNo] + ' ' + new Date().getFullYear() + 
 	'</td><td>'	+ 
-	(monthNo+1 < 12 ? '<i id="nextMonth" class="bi bi-arrow-right"></i>' : '') + 
+	(monthNo+1 < 12 ? '<i class="next-month bi bi-arrow-right"></i>' : '') + 
 	'</td></tr><tr>' + week.map(w => '<td>' + w + '</td>').join('') + '</tr>';
 	
 	for (let week = 0; week < 6; week++) {
@@ -327,10 +327,10 @@ function createCalendar(monthNo, DOBlist, legend = false) {
 	//global variable for month navigation
 	//events for month buttons
 	window['currentMonth'] = monthNo;
-	if (window['currentMonth'] > 0) document.getElementById('prevMonth').addEventListener('click', function() {
+	if (window['currentMonth'] > 0) document.querySelector('.prev-month').addEventListener('click', function() {
 		createCalendar(--window['currentMonth'], window['calendarDOBlist']);
 	});
-	if (window['currentMonth'] < 11) document.getElementById('nextMonth').addEventListener('click', function() {
+	if (window['currentMonth'] < 11) document.querySelector('.next-month').addEventListener('click', function() {
 		createCalendar(++window['currentMonth'], window['calendarDOBlist']);
 	});
 	
@@ -1031,7 +1031,7 @@ function generateProfileComments([profile]) {
 	cellDiv.innerHTML = processComments(profile.comments, profile.links);
 	
 	//special cases
-	cellDiv.innerHTML = cellDiv.innerHTML.replace('1976.09.20', '<span id=\'HocchanAge\' class=\'DOB\'>1976.09.20</span>');
+	cellDiv.innerHTML = cellDiv.innerHTML.replace('1976.09.20', '<span class=\'disguise\' class=\'DOB\'>1976.09.20</span>');
 	if(window.location.href.includes('knneo.github.io'))
 		cellDiv.innerHTML = cellDiv.innerHTML.replace(/knwebreports.blogspot.com/gi, 'knneo.github.io/blogspot/blog');
 	

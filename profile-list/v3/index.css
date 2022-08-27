@@ -55,6 +55,7 @@ a, button {
     height: 20px;
 }
 .calendar td:hover .popitem { display: block; }
+.prev-month, .next-month,
 .calendar-legend label {	
 	cursor: pointer;
 }
@@ -209,17 +210,15 @@ a, button {
 	vertical-align: super;
 	font-size: 0.8em;
 }
+.disguise { color: #dddddd; }
+.disguise:hover { color: var(--foreground); }
 
 /*DARK MODE SETTINGS*/
 .darked tr:hover {
 	background-color: transparent;
 }
+.darked .disguise { color: #444444; }
 
-#HocchanAge { color: #444444; }
-#HocchanAge:hover { color: var(--foreground); }
-#prevMonth, #nextMonth {
-	cursor: pointer;
-}
 .profile {
 	top: 38px;
 	background-color: var(--background);
@@ -285,11 +284,9 @@ a, button {
 	color: black;
 }
 
-
 /*scrollbars for top and bottom labels only on desktop*/
 @media only screen and (max-width : 1040px) {
-	html { font-size: 0.8em; }
+	html { font-size: 0.8em; scroll-behavior: auto; }
 	div { scrollbar-width: 0 !important; }
 	div::-webkit-scrollbar { width: 0 !important }
-	html { scroll-behavior: auto; }
 }
