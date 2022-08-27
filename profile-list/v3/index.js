@@ -42,6 +42,7 @@ function startup() {
 }
 
 function initializeVariables() {
+	window['debug'] = false;
 	window['profiles'] = [];
 	window['simple'] = false;
 	window['defaultProfile'] = {};	
@@ -59,7 +60,11 @@ function initializeVariables() {
 function loadProfileLists() {
 	window['profileList'] = profileListJson.filter(n => n.rating);
 	window['calendarList'] = profileListJson.filter(n => calendarCategories.includes(n.category));
-	window['friendList'] = profileListJson.filter(n => n.category == 'friends');
+	window['friendList'] = profileListJson
+		.filter(n => n.category == 'friends')
+		.sort(function(a,b) { 
+			return b.id.split('-').length - a.id.split('-').length;
+		}); // 3-friend id on top of list regardless of sort order
 	window['defaultProfile'] = profileListJson.find(n => n.category == 'default');
 	window['timelineDOBlist'] = createDOBlist(window['profileList'], 1, 35, true);
 	window['calendarDOBlist'] = createDOBlist(window['calendarList'], 0, 50);
@@ -71,6 +76,11 @@ function renderWantedList() {
 	loadTimeline();
 	createCalendar(luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: timezone}).month-1, window['calendarDOBlist'], true);
 	updateTime();
+}
+
+function resetProfile() {
+	window['profiles'] = [];
+	window['friendMode'] = false;
 }
 
 ////WANTED LIST////
@@ -131,10 +141,11 @@ function generateWantedListIcon(id) {
 	return wanted;
 }
 
-function generateWantedListEntry(id) {
+function generateWantedListEntry(id, autoAdd = []) {
 	let profile = window['profileList'].find( function(n) {
 		return n.id == id
 	});
+						
 	let married = window['excludeMarried'] && processOption(profile.turningPoint.married, true);
 
 	let wanted = document.createElement(married ? 'span' : 'a');
@@ -144,8 +155,14 @@ function generateWantedListEntry(id) {
 	else
 	{
 		wanted.classList.add('item');
+		if(autoAdd.length > 0) wanted.setAttribute('auto-add', autoAdd.join(','));
 		wanted.addEventListener('click', function() {
 			generateProfileFromJSON(this);
+			if(this.getAttribute('auto-add') != null)
+				for(let add of this.getAttribute('auto-add').split(','))
+				{
+					generateProfileFromJSON(add);
+				}
 			document.querySelector('.profile').scrollIntoView();
 		});
 		wanted.addEventListener('contextmenu', function(e) {
@@ -437,25 +454,37 @@ function exportCalendar() {
 
 ////GROUP MODE////
 function findFriendIdByProfile(friends) {
-	if(typeof friends == 'object' && friends.length > 1)
+	if(window['debug']) console.log('findFriendIdByProfile', friends[1], friends[2]);
+	if(typeof friends == 'object' && friends[1] != undefined)
 		return window['friendList'].find( function(p) {
-				return (p.id.includes(friends[0] + '-') || p.id.includes('-' + friends[0] + '-') || p.id.includes('-' + friends[0]))
-				&& (p.id.includes(friends[1] + '-') || p.id.includes('-' + friends[1] + '-') || p.id.includes('-' + friends[1]))
-				&& (friends.length < 3 || 
-				(friends.length >= 3 && (p.id.includes(friends[2] + '-') || p.id.includes('-' + friends[2] + '-') || p.id.includes('-' + friends[2])))); //if 3 friends then include 3rd in search
+				let count = p.id.split('-').length;
+				let check0 = (p.id.includes(friends[0].id + '-') || p.id.includes('-' + friends[0].id + '-') || p.id.includes('-' + friends[0].id));
+				let check1 = (p.id.includes(friends[1].id + '-') || p.id.includes('-' + friends[1].id + '-') || p.id.includes('-' + friends[1].id));
+				let check2 = (friends[2] != undefined && (p.id.includes(friends[2].id + '-') || p.id.includes('-' + friends[2].id + '-') || p.id.includes('-' + friends[2].id)));
+				if(window['debug']) console.log(p.id, count, check0, check1, check2);
+				return (count == 2 && check0 && check1) || (count == 3 && check0 && check1 && check2);
+				//if 3 friends then include 3rd in search
 			});
 	return null;
 }
 
 function setProfileOrderByFriend(list, friend) {
-	let newList = JSON.parse(JSON.stringify(list));
-	if(window['friendMode'] && friend.id != (list[0].id + '-' + list[1].id))
+	let newList = [];
+	if(window['friendMode'])
 	{
-		//flip profiles order by friend id
-		//FRIEND MODE: index 1 is previously selected (align right), index 0 is current (align left)
-		newList[0] = list[1];
-		newList[1] = list[0];
+		let ids = friend.id.split('-');
+		if(window['debug']) console.log('members',ids);
+		for(let i = 0; i < ids.length; i++)
+		{
+			let f = list[list.map(l => l?.id).indexOf(ids[i])];
+			if(window['debug']) console.log('find',f);
+			newList.push(f);
+		}
 	}
+	else
+		newList = list;
+	
+	if(window['debug']) console.log('setProfileOrderByFriend', list, newList);
 	return newList;
 }
 
@@ -474,6 +503,10 @@ function generateProfileFromJSON(profileName) {
         return n.id == profileName;
     });
 	if(profile == null) return;
+	//remove friend mode if add to history before
+	if(window['profiles'].map(p => p.id).includes(profile.id))
+		resetProfile();
+	//add selected to first in list: array order will be [profile, currentProfile, previousProfile]
 	window['profiles'].unshift(profile);
 	if(window['profiles'].length > 3) window['profiles'] = window['profiles'].slice(0,3);
 	
@@ -486,7 +519,7 @@ function generateProfileFromJSON(profileName) {
 			return n.id == currentProfileName;
 		})[0];
 
-		let friendFound = findFriendIdByProfile([currentProfile.id, profile.id]) != null;
+		let friendFound = findFriendIdByProfile(window['profiles']) != null;
 		// window['friendList'].find( function(p) {
 			// return p.id == (currentProfile.id + '-' + profile.id) || p.id == (profile.id + '-' + currentProfile.id);
 		// }) != undefined;
@@ -496,18 +529,13 @@ function generateProfileFromJSON(profileName) {
 		
 		window['friendMode'] = friendFound && window.innerWidth > 360;
 		//FRIEND MODE: left is profile, right is currentProfile
-	}
-	
-	//remove friend mode if detected before add class
-	if(document.querySelector('.profile').classList.contains('friend-mode'))
-		window['friendMode'] = false;
-	//if friend found
-	let friendMode = window['friendMode'];
+	}	
 	
 	//friend: selected found and has pairing with current
-	let friend = findFriendIdByProfile([currentProfile?.id, profile.id]);
-
-	document.querySelector('.profile').innerHTML = '';
+	let friend = findFriendIdByProfile(window['profiles']);
+	if(window['debug']) console.log('friend', friend);
+	//if friend found
+	let friendMode = window['friendMode'];
 
 	//if mandatory fields filled or by setting
 	window['simple'] = profile.intro == undefined || !window['expanded'];
@@ -615,8 +643,9 @@ function generateProfileFromJSON(profileName) {
 						
 						//any friends with one profile from selected
 						let profileFriendsList = window['friendList'].filter( function(p) {
-							return p.id.endsWith(profile.id) || p.id.startsWith(profile.id);
+							return p.id.includes(profile.id);
 						});
+						if(window['debug']) console.log('profile.friends', profileFriendsList);
 						if(profileFriendsList.length > 0)
 						{
 							//--FRIENDS--//
@@ -629,7 +658,7 @@ function generateProfileFromJSON(profileName) {
 								row.appendChild(cell);
 							
 							profileTableBody.appendChild(row);
-						}						
+						}
 					}
 					
 					if(profile.social)
@@ -662,6 +691,7 @@ function generateProfileFromJSON(profileName) {
 	else
 		document.querySelector('.profile').classList.add('friend-mode');
 	
+	document.querySelector('.profile').innerHTML = '';
 	document.querySelector('.profile').appendChild(idBox);	
 	document.querySelector('.profile').style.display = '';
 	
@@ -670,46 +700,62 @@ function generateProfileFromJSON(profileName) {
 	addStatusPopUp();
 }
 
-function generateProfileImage([profile, currentProfile]) {
-	let friend = findFriendIdByProfile([profile.id, currentProfile?.id]);
+function generateProfileImage([profile, currentProfile, previousProfile]) {
+	if(window['debug']) console.log('generateProfileImage');
+	let friend = findFriendIdByProfile([profile, currentProfile, previousProfile]);
+	[profile, currentProfile, previousProfile] = setProfileOrderByFriend([profile, currentProfile, previousProfile], friend);
+
 	let profileBoxImg = document.createElement('div');
 	profileBoxImg.classList.add('profile-box-img');
 
-	let friendImage = '';
-	if(window['friendMode'] && friend != undefined)
-	{
-		friendImage = friend.image;
-	}
+	//if one image, either from profile, or friend if friend mode
+	//subsequent images are friend mode only, portraits only
 	
+	let image1Source = profile.image;
 	if(profile.landscapes == undefined) profile.landscapes = [];
 	if(profile.portraits == undefined) profile.portraits = [];
 	let allImages = profile.landscapes.concat(profile.portraits);
+	image1Source = window['friendMode'] ? friend.image : randomArrayItem(allImages);
 	
-	//if one image, either from profileName, or friend if friend mode
-	let image1Source = profile.image;
-	if(allImages.length > 0) image1Source = randomArrayItem(allImages);
-	if(window['friendMode']) image1Source = friendImage;
-	
-	//second image is friend mode only
-	let image2Source = profile.image;
+	let altSource = [];
 	if(window['friendMode'])
 	{
-		if(currentProfile.landscapes == undefined) currentProfile.landscapes = [];
-		if(profile.portraits.length == 0) profile.portraits.push(profile.image);
-		if(currentProfile.portraits == undefined) currentProfile.portraits = [];
-		if(currentProfile.portraits.length == 0) currentProfile.portraits.push(currentProfile.image);
-		image2Source = addBackgroundUrlClause(randomArrayItem(profile.portraits)) + ', ' + addBackgroundUrlClause(randomArrayItem(currentProfile.portraits));
+		let image2Source = profile.image;
+		let image3Source = profile.image;
+		//right most
+		if((previousProfile || currentProfile) != undefined)
+		{
+			let right = (previousProfile || currentProfile);
+			if(right.portraits == undefined) right.portraits = [];
+			if(right.portraits.length == 0) right.portraits.push(right.image);
+			image3Source = addBackgroundUrlClause(randomArrayItem(right.portraits));
+			altSource = [addBackgroundUrlClause(randomArrayItem(profile.portraits)), image3Source];
+		}
+		
+		//center
+		if(previousProfile != undefined && currentProfile != undefined)
+		{
+			if(currentProfile.portraits == undefined) currentProfile.portraits = [];
+			if(currentProfile.portraits.length == 0) currentProfile.portraits.push(currentProfile.image);
+			image2Source = addBackgroundUrlClause(randomArrayItem(currentProfile.portraits));
+			altSource = [addBackgroundUrlClause(randomArrayItem(profile.portraits)), image2Source, image3Source];
+		}
+		
+		if(window['debug']) console.log('imageSource', image1Source, image2Source, image3Source);
 	}
 	
 	profileBoxImg.style.backgroundImage = addBackgroundUrlClause(image1Source);
-	profileBoxImg.setAttribute('alt', window['friendMode'] ? image2Source : addBackgroundUrlClause(image2Source));
-	
+	//alt stores list of profile images by friend list if friend mode
+	//alt stores another image of profile if not friend mode
+	profileBoxImg.setAttribute('alt', window['friendMode'] ? altSource.join(', ') : addBackgroundUrlClause(profile.image));
+
 	return profileBoxImg;
 }
 
-function generateProfileName([profile, currentProfile]) {
-	let friend = findFriendIdByProfile([profile.id, currentProfile?.id]);
-	[profile, currentProfile] = setProfileOrderByFriend([profile, currentProfile], friend);
+function generateProfileName([profile, currentProfile, previousProfile]) {
+	if(window['debug']) console.log('generateProfileName');
+	let friend = findFriendIdByProfile([profile, currentProfile, previousProfile]);
+	[profile, currentProfile, previousProfile] = setProfileOrderByFriend([profile, currentProfile, previousProfile], friend);
 	
 	let cell = document.createElement('div');
 
@@ -757,32 +803,57 @@ function generateProfileName([profile, currentProfile]) {
 		cellDiv.insertBefore(span, cellDiv.childNodes[0]);
 		
 	cell.appendChild(cellDiv);
-								
-	//shift second value right in friend mode
+	
 	if(window['friendMode'])
 	{
-		cellDiv = document.createElement('div');
-		cellDiv.classList.add('shift-right');
-		
-			span = document.createElement('a');
-			span.classList.add('profile-name');
-			span.innerText = currentProfile.name;
-			span.href = 'javascript:void(0)';
-			span.addEventListener('click', function() {
-				generateProfileFromJSON(this);
-				document.querySelector('.profile').scrollIntoView();
-			});
-			cellDiv.appendChild(span);
+		//shift second value right in friend mode
+		if((previousProfile || currentProfile) != undefined)
+		{
+			cellDiv = document.createElement('div');
+			cellDiv.classList.add('shift-right');
 			
-		cell.appendChild(cellDiv);
+				span = document.createElement('a');
+				span.classList.add('profile-name');
+				span.innerText = (previousProfile || currentProfile).name;
+				span.href = 'javascript:void(0)';
+				span.addEventListener('click', function() {
+					generateProfileFromJSON(this);
+					document.querySelector('.profile').scrollIntoView();
+				});
+				cellDiv.appendChild(span);
+				
+			cell.appendChild(cellDiv);
+		}
+		
+		if(previousProfile != undefined && currentProfile != undefined)
+		{
+			cellDiv = document.createElement('div');
+			cellDiv.style.position = 'reltive';
+			
+				span = document.createElement('a');
+				span.classList.add('profile-name');
+				span.style.position = 'absolute';
+				span.style.left = '0';
+				span.style.right = '0';
+				span.innerText = currentProfile.name;
+				span.href = 'javascript:void(0)';
+				span.addEventListener('click', function() {
+					generateProfileFromJSON(this);
+					document.querySelector('.profile').scrollIntoView();
+				});
+				cellDiv.appendChild(span);
+				
+			cell.appendChild(cellDiv);
+		}
 	}
 	
 	return cell;
 }
 
-function generateProfileDob([profile, currentProfile]) {
-	let friend = findFriendIdByProfile([profile.id, currentProfile?.id]);
-	[profile, currentProfile] = setProfileOrderByFriend([profile, currentProfile], friend);
+function generateProfileDob([profile, currentProfile, previousProfile]) {
+	if(window['debug']) console.log('generateProfileDob');
+	let friend = findFriendIdByProfile([profile, currentProfile, previousProfile]);
+	[profile, currentProfile, previousProfile] = setProfileOrderByFriend([profile, currentProfile, previousProfile], friend);
 	
 	let cell = document.createElement('div');
 	
@@ -820,14 +891,34 @@ function generateProfileDob([profile, currentProfile]) {
 	//shift second value right in friend mode
 	if(window['friendMode'])
 	{
-		cellDiv = document.createElement('div');
-		cellDiv.classList.add('shift-right');
-	
-		DOBspan = document.createElement('span');
-		DOBspan.classList.add('DOB');
-		DOBspan.innerHTML = processOption(currentProfile.dob, false) + (!window['friendMode'] && !window['simple'] && currentProfile.dobComment != '' ? (' (' + currentProfile.dobComment + ')') : '');
-		cellDiv.appendChild(DOBspan);
-		cell.appendChild(cellDiv);
+		if((previousProfile || currentProfile) != undefined)
+		{
+			cellDiv = document.createElement('div');
+			cellDiv.classList.add('shift-right');
+		
+			DOBspan = document.createElement('span');
+			DOBspan.classList.add('DOB');
+			DOBspan.innerHTML = processOption(currentProfile.dob, false) + (!window['friendMode'] && !window['simple'] && currentProfile.dobComment != '' ? (' (' + currentProfile.dobComment + ')') : '');
+			cellDiv.appendChild(DOBspan);
+			cell.appendChild(cellDiv);
+		}
+		
+		if(previousProfile != undefined && currentProfile != undefined)
+		{
+			cellDiv = document.createElement('div');
+			cellDiv.style.textAlign = 'center';
+			// cellDiv.style.position = 'reltive';
+			
+				DOBspan = document.createElement('span');
+				DOBspan.classList.add('DOB');
+				// DOBspan.style.position = 'absolute';
+				// DOBspan.style.left = '0';
+				// DOBspan.style.right = '0';
+				DOBspan.innerHTML = processOption(previousProfile.dob, false) + (!window['friendMode'] && !window['simple'] && previousProfile.dobComment != '' ? (' (' + previousProfile.dobComment + ')') : '');
+				cellDiv.appendChild(DOBspan);
+				
+			cell.appendChild(cellDiv);
+		}
 	
 	}
 
@@ -894,6 +985,7 @@ function generateProfileRating([profile]) {
 }
 
 function generateProfileFriends([profile], friends) {
+	if(window['debug']) console.log('generateProfileFriends');
 	let cell = document.createElement('div');
 	
 	//--FRIENDS LABEL--//
@@ -914,17 +1006,32 @@ function generateProfileFriends([profile], friends) {
 		let splits = friend.id.split('-');
 		for(let item of splits)
 		{
-			if(item != profile.id)
+			if(item != profile.id && friendsList.indexOf(item) < 0)
 				friendsList.push(item);
 		}
 	}
+	if(window['debug']) console.log('friendsList', friendsList);
 	
 	for(let friend of friendsList.sort())
 	{
+		if(window['debug']) console.log('friend', friend);
 		let span = document.createElement('span');
 		span.innerText = ' ';
 		cellDiv.appendChild(span);
-		cellDiv.appendChild(generateWantedListEntry(friend));
+	
+		let entry = window['friendList'].filter( function(p) {
+			return p.id.includes(profile.id) && p.id.includes(friend);
+		});
+		if(window['debug']) console.log('entry', entry);
+		
+		let remaining = [];
+		if(entry.length == 1)
+			remaining = entry[0].id.replace(profile.id, '').replace(friend, '').split('-').filter( function(p) {
+				return p != '';
+			}) || [];
+		if(window['debug']) console.log('remaining', remaining);
+
+		cellDiv.appendChild(generateWantedListEntry(friend, remaining));
 	}
 	
 	cell.appendChild(cellDiv);
@@ -932,9 +1039,10 @@ function generateProfileFriends([profile], friends) {
 	return cell;
 }
 
-function generateProfileSocial([profile, currentProfile]) {
-	let friend = findFriendIdByProfile([profile.id, currentProfile?.id]);
-	[profile, currentProfile] = setProfileOrderByFriend([profile, currentProfile], friend);
+function generateProfileSocial([profile, currentProfile, previousProfile]) {
+	if(window['debug']) console.log('generateProfileSocial');
+	let friend = findFriendIdByProfile([profile, currentProfile, previousProfile]);
+	[profile, currentProfile] = setProfileOrderByFriend([profile, currentProfile, previousProfile], friend);
 	
 	let cell = document.createElement('div');
 
@@ -947,19 +1055,18 @@ function generateProfileSocial([profile, currentProfile]) {
 	}
 	
 	//--SOCIAL VALUE--//	
-	if(window['friendMode'] && currentProfile.social)
-	{
-		//shift second value right in friend mode
-		cell.appendChild(generateProfileSocialIcons(currentProfile.social, false));
-		cell.appendChild(generateProfileSocialIcons(profile.social, true));
-	}
-	else
+	// if(window['friendMode'] && profile.social && currentProfile.social)
+	// {
+		// cell.appendChild(generateProfileSocialIcons(profile.social, false));
+		// cell.appendChild(generateProfileSocialIcons(currentProfile.social, true));
+	// }
+	if(!window['friendMode'])
 		cell.appendChild(generateProfileSocialIcons(profile.social));
 	
 	return cell;
 }
 
-function generateProfileSocialIcons(social, alignRight = true) {	
+function generateProfileSocialIcons(social, alignRight = true) {
 	let cellDiv = document.createElement('div');
 	//shift first value left in friend mode
 	if(!alignRight)
@@ -1035,16 +1142,18 @@ function addProfileEvents() {
 	
 	//add event listener for image switch but through clicking on profile box
 	profileBox.addEventListener('click', function() {
-		let boxImg = this.getElementsByClassName('profile-box-img')[0];
-		if(boxImg.style.backgroundImage == boxImg.getAttribute('alt')) return;
+		let boxImg = this.querySelector('.profile-box-img');
 		let temp = boxImg.getAttribute('alt');//boxImg.style.backgroundImage;
+		let count = temp.split('url(').length - 1;
+		if(boxImg.style.backgroundImage == temp) return;
 		boxImg.setAttribute('alt', boxImg.style.backgroundImage);
 		boxImg.style.backgroundImage = temp;
-		if(temp.split('url(').length - 1 > 1) 
+		if(window['debug']) console.log('addProfileEvents.click',temp);
+		if(count > 1) 
 		{
 			boxImg.style.backgroundRepeat = 'no-repeat';
-			boxImg.style.backgroundSize = '50% auto';
-			boxImg.style.backgroundPosition = 'left, right';
+			boxImg.style.backgroundSize = Math.floor(100/count) + '% auto';
+			boxImg.style.backgroundPosition = 'left, ' + (count > 2 ? 'center, ' : '') + 'right';
 		}
 		else
 		{
@@ -1060,6 +1169,7 @@ function addProfileEvents() {
 		document.querySelector('.profile').innerHTML = '';
 		document.body.scrollTop = 0; // For Safari
 		document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+		resetProfile();
 	});
 }
 
@@ -1078,7 +1188,7 @@ function processComments(comments, refs) {
 				let refText = ref.substring(0, ref.indexOf('}')+1);
 				let refLink = ref.replace(refText, '');
 				let replaced = comment.replace(refText, '<a target="_blank" href="' + refLink + '">' + refText + '</a>');
-				// console.log(replaced, comment);
+				if(window['debug']) console.log('processComments', replaced, comment);
 				if(replaced != comment)
 				{
 					commentArr.push(replaced.replace('{','').replace('}',''));
@@ -1207,7 +1317,7 @@ function getAge(DOB) {
 	let birthDateStr = DOB.replace('.', '-').replace('.', '-');
 	let birthDate = luxon.DateTime.fromISO(birthDateStr.substring(0, 10), {zone: timezone});
 	let today = luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: timezone});
-	// console.log(today.diff(birthDate, ['years','months','days','hours','minutes','seconds']));
+	if(window['debug']) console.log('getAge', today, birthDate);
 	return parseInt(today.diff(birthDate, 'years').years);
 }
 
