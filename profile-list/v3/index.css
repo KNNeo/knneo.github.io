@@ -5,14 +5,12 @@
   --background: #fff;
   --foreground: #000;
 }
-
 .darked:root {
   --primary: #00e4ff;
   --secondary: #00abbf;
   --background: #000;
   --foreground: #fff;
 }
-
 html {
   font-family: Open Sans;
   font-size: 13px;
@@ -31,8 +29,25 @@ body {
   margin: auto;
 }
 a, button {
-	/* color: var(--foreground); */
 	cursor: pointer;
+}
+#timeline {
+	width: 90%;
+	height: 110px;
+	overflow-x: auto;
+	overflow-y: hidden;
+	border: 1px solid var(--foreground);
+	padding: 5px;
+}
+#timeline::-webkit-scrollbar, .profile-category::-webkit-scrollbar { 
+  z-index: 0;
+  height: 10px;
+}
+#timeline::-webkit-scrollbar-thumb, .profile-category::-webkit-scrollbar-thumb {
+  background: var(--foreground);
+}
+#timeline::-webkit-scrollbar-track, .profile-category::-webkit-scrollbar-track {
+  background: #444444;
 }
 .bi {
 	font-size: 20px;
@@ -54,7 +69,9 @@ a, button {
     width: 30px;
     height: 20px;
 }
-.calendar td:hover .popitem { display: block; }
+.calendar td:hover .popitem {
+	display: block;
+}
 .prev-month, .next-month,
 .calendar-legend label {	
 	cursor: pointer;
@@ -72,7 +89,6 @@ a, button {
 	white-space: nowrap;
 	margin: 5px;
 }
-
 .item:hover,
 .darked .item:hover {
   color: var(--foreground);
@@ -98,9 +114,6 @@ a, button {
 	margin: 5px;
 	text-decoration: none;
 	color: gray;
-}
-.material-icons {
-	font-size: 40px !important;
 }
 .page-align {
 	text-align: center;
@@ -140,21 +153,11 @@ a, button {
 	touch-action: manipulation;
 }
 .profile-box > table {
-	/*border-bottom: 1px dashed var(--foreground); */
 	width: 100%;
 }
 .profile-box:active {
   box-shadow: 1px 1px;
   transform: translate(2px,2px);
-}
-.profile-box tr:nth-child(odd), .profile-box-comments {
-	/* text-align: left; */
-}
-.profile-box tr:nth-child(odd) td {
-	/* font-size: 70%; */
-}
-.profile-box tr:nth-child(even) {
-	/* text-align: right; */
 }
 .profile-box-comments {
 	text-align: left;
@@ -210,38 +213,19 @@ a, button {
 	vertical-align: super;
 	font-size: 0.8em;
 }
-.disguise { color: #dddddd; }
-.disguise:hover { color: var(--foreground); }
-
-/*DARK MODE SETTINGS*/
-.darked tr:hover {
-	background-color: transparent;
+.disguise {
+	color: #dddddd;
 }
-.darked .disguise { color: #444444; }
-
+.darked .disguise {
+	color: #444444;
+}
+.disguise:hover {
+	color: var(--foreground);
+}
 .profile {
 	top: 38px;
 	background-color: var(--background);
 }
-#timeline {
-	width: 90%;
-	height: 110px;
-	overflow-x: auto;
-	overflow-y: hidden;
-	border: 1px solid var(--foreground);
-	padding: 5px;
-}
-#timeline::-webkit-scrollbar, .profile-category::-webkit-scrollbar { 
-  z-index: 0;
-  height: 10px;
-}
-#timeline::-webkit-scrollbar-thumb, .profile-category::-webkit-scrollbar-thumb {
-  background: var(--foreground);
-}
-#timeline::-webkit-scrollbar-track, .profile-category::-webkit-scrollbar-track {
-  background: #444444;
-}
-
 
 /*CUSTOMIZE CALENDAR CATEGORY LABELS*/
 .color-profile {

@@ -435,6 +435,7 @@ function exportCalendar() {
 	document.getElementById('exportBtn').setAttribute('disabled','');
 }
 
+////GROUP MODE////
 function findFriendIdByProfile(friends) {
 	if(typeof friends == 'object' && friends.length > 1)
 		return window['friendList'].find( function(p) {
@@ -444,6 +445,18 @@ function findFriendIdByProfile(friends) {
 				(friends.length >= 3 && (p.id.includes(friends[2] + '-') || p.id.includes('-' + friends[2] + '-') || p.id.includes('-' + friends[2])))); //if 3 friends then include 3rd in search
 			});
 	return null;
+}
+
+function setProfileOrderByFriend(list, friend) {
+	let newList = JSON.parse(JSON.stringify(list));
+	if(window['friendMode'] && friend.id != (list[0].id + '-' + list[1].id))
+	{
+		//flip profiles order by friend id
+		//FRIEND MODE: index 1 is previously selected (align right), index 0 is current (align left)
+		newList[0] = list[1];
+		newList[1] = list[0];
+	}
+	return newList;
 }
 
 ////PROFILE////
@@ -696,14 +709,7 @@ function generateProfileImage([profile, currentProfile]) {
 
 function generateProfileName([profile, currentProfile]) {
 	let friend = findFriendIdByProfile([profile.id, currentProfile?.id]);
-	if(friendMode && friend.id != (profile.id + '-' + currentProfile.id))
-	{
-		//flip profiles order by friend id
-		//FRIEND MODE: left is original currentProfile, right is profile
-		let tempProfile = currentProfile;
-		currentProfile = profile;
-		profile = tempProfile;
-	}
+	[profile, currentProfile] = setProfileOrderByFriend([profile, currentProfile], friend);
 	
 	let cell = document.createElement('div');
 
@@ -776,14 +782,7 @@ function generateProfileName([profile, currentProfile]) {
 
 function generateProfileDob([profile, currentProfile]) {
 	let friend = findFriendIdByProfile([profile.id, currentProfile?.id]);
-	if(friendMode && friend.id != (profile.id + '-' + currentProfile.id))
-	{
-		//flip profiles order by friend id
-		//FRIEND MODE: left is original currentProfile, right is profile
-		let tempProfile = currentProfile;
-		currentProfile = profile;
-		profile = tempProfile;
-	}
+	[profile, currentProfile] = setProfileOrderByFriend([profile, currentProfile], friend);
 	
 	let cell = document.createElement('div');
 	
@@ -935,14 +934,7 @@ function generateProfileFriends([profile], friends) {
 
 function generateProfileSocial([profile, currentProfile]) {
 	let friend = findFriendIdByProfile([profile.id, currentProfile?.id]);
-	if(window['friendMode'] && friend.id != (profile.id + '-' + currentProfile.id))
-	{
-		//flip profiles order by friend id
-		//FRIEND MODE: left is original currentProfile, right is profile
-		let tempProfile = currentProfile;
-		currentProfile = profile;
-		profile = tempProfile;
-	}
+	[profile, currentProfile] = setProfileOrderByFriend([profile, currentProfile], friend);
 	
 	let cell = document.createElement('div');
 
