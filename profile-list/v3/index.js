@@ -100,7 +100,7 @@ function generateWantedListIcon(id) {
 	let profile = window['profileList'].find( function(n) {
 		return n.id == id
 	});
-	let married = window['excludeMarried'] && processOption(profile.turningPoint.isMarried, true);
+	let married = window['excludeMarried'] && processOption(profile.turningPoint.married, true);
 
 	let wanted = document.createElement('span');
 	wanted.style.backgroundImage = addBackgroundUrlClause(profile.image);
@@ -135,7 +135,7 @@ function generateWantedListEntry(id) {
 	let profile = window['profileList'].find( function(n) {
 		return n.id == id
 	});
-	let married = window['excludeMarried'] && processOption(profile.turningPoint.isMarried, true);
+	let married = window['excludeMarried'] && processOption(profile.turningPoint.married, true);
 
 	let wanted = document.createElement(married ? 'span' : 'a');
 	wanted.innerText = profile.name;
@@ -498,11 +498,12 @@ function generateProfileFromJSON(profileName) {
 
 	//if mandatory fields filled or by setting
 	window['simple'] = profile.intro == undefined || !window['expanded'];
+	let simple = window['simple'];
 
 	let idBox = document.createElement('div');
 	idBox.id = window['profiles'][0].id;
 	idBox.style.width = '90%';
-	idBox.style.maxWidth = window['simple'] || friendMode ? '440px' : '640px';
+	idBox.style.maxWidth = simple || friendMode ? '440px' : '640px';
 	idBox.style.margin = 'auto';
 	idBox.style.padding = '3px';
 	
@@ -564,7 +565,7 @@ function generateProfileFromJSON(profileName) {
 						profileTableBody.appendChild(row);
 					}
 					
-					if(!friendMode && !window['simple'])
+					if(!friendMode && !simple)
 					{
 						//--INTRO--//
 						row = document.createElement('tr');
@@ -636,7 +637,7 @@ function generateProfileFromJSON(profileName) {
 			
 			profileBox.appendChild(profileTable);
 			
-			if(!friendMode && !window['simple'])
+			if(!friendMode && !simple)
 			{
 				profileBox.appendChild(generateProfileComments(window['profiles']));
 			}
@@ -1229,7 +1230,7 @@ function toggleMarried() {
 	if(window['excludeMarried'] != null)
 	{
 		window['excludeMarried'] = document.querySelector('#cb-married').checked;
-		let marriedList = window['profileList'].filter(profile => window['excludeMarried'] ? !processOption(profile.turningPoint.isMarried, true) : true);
+		let marriedList = window['profileList'].filter(profile => window['excludeMarried'] ? !processOption(profile.turningPoint.married, true) : true);
 		window['timelineDOBlist'] = createDOBlist(marriedList, 1, 35, true);
 		renderWantedList();
 	}
