@@ -1161,7 +1161,7 @@ function queryArtistInfo(contents) {
 		console.log('generateArtistInfo', query);
 	queryDb(query, generateArtistInfo);
 	
-	query = "SELECT DISTINCT ReleaseYear as 'Year', Category, Type, ReleaseTitle AS 'Release Title', ReleaseYear || SUBSTR('0000' || ReleaseDate, -4, 4) AS 'Release Date', ReleaseTitleAlt AS '" + altTitlePrefix + " Release Title', ReleaseArtistTitleAlt AS '" + altTitlePrefix + " Release Artist' FROM Release r WHERE ReleaseArtistTitle = '" + addQuotationInSQLString(row[columnIndexArtistTitle]) + "' ORDER BY ReleaseYear, SUBSTR('0000' || ReleaseDate, -4, 4)";
+	query = "SELECT DISTINCT ReleaseYear as 'Year', Category, Type, ReleaseTitle AS 'Release Title', ReleaseYear || SUBSTR('0000' || ReleaseDate, -4, 4) AS 'Release Date', ReleaseTitleAlt AS '" + altTitlePrefix + " Release Title', ReleaseArtistTitleAlt AS '" + altTitlePrefix + " Release Artist' FROM Release r WHERE ReleaseArtistTitle = '" + addQuotationInSQLString(row[columnIndexArtistTitle]) + "' GROUP BY ReleaseTitle ORDER BY ReleaseYear, SUBSTR('0000' || ReleaseDate, -4, 4)";
 	if(debugMode) 
 		console.log('generateReleaseInfo', query);
 	queryDb(query, generateArtistReleaseInfo);
