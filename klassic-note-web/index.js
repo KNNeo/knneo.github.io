@@ -1269,8 +1269,7 @@ function queryArtistInfo(contents) {
 function generateArtistReleaseInfo(contents) {
 	document.getElementById('artist-release').innerHTML = '';
 	
-	// if(debugMode) 
-		console.log('generateArtistReleaseInfo', contents);
+	if(debugMode) console.log('generateArtistReleaseInfo', contents);
 	if(!contents.columns || !contents.values) return;
 	
 	let header = document.createElement('h4');
