@@ -4,7 +4,7 @@ let altTitlePrefix = 'Original';
 let databaseFilename = 'https://knneo.github.io/klassic-note-web/db/KlassicNote.db';
 let directory = 'file://C:/Users/KAINENG/OneDrive/Music/'; //for audio player, in {directory}/{knyear}/{filename}.mp3
 let coverArtDirectory = 'file://F:/RBKN/Pictures/ART/ALBUMART/'; //for cover art, in {directory}/{knyear}/{filename}
-let debugMode = true; //will show all available logging on console
+let debugMode = false; //will show all available logging on console
 let altMode = false; //will switch between titles and alt titles [TODO]
 let widescreenAverageModuleSize = 480; //on wide screen widths, tab width for content (responsive)
 let autoplayOnSelect = false; //disable player autoplay, will affect queue
@@ -1647,7 +1647,7 @@ function queryArtistRelated(contents) {
 	// let currentDate = "(select date("+convertDate+") from Song where KNID = "+row[columnIndexKNID]+")";
 	let dateRange = "date("+convertDate+") between date(date(),'-5 years') and date()";
 	
-	query = "SELECT * FROM Song WHERE ArtistTitle = '" + row[columnIndexArtistTitle] + "'";
+	query = "SELECT * FROM Song WHERE ArtistTitle = '" + addQuotationInSQLString(row[columnIndexArtistTitle]) + "'";
 	query += " AND " + dateRange;
 	query += " ORDER BY RANDOM() DESC LIMIT 10";
 	if(debugMode) console.log('queryArtistSongs5Years', query);
@@ -1658,7 +1658,7 @@ function queryArtistRelated(contents) {
 	// let currentDate = "(select date("+convertDate+") from Song where KNID = "+row[columnIndexKNID]+")";
 	dateRange = "date("+convertDate+") between date(date(),'-10 years') and date(date(),'-5 years')";
 	
-	query = "SELECT * FROM Song WHERE ArtistTitle = '" + row[columnIndexArtistTitle] + "'";
+	query = "SELECT * FROM Song WHERE ArtistTitle = '" + addQuotationInSQLString(row[columnIndexArtistTitle]) + "'";
 	query += " AND " + dateRange;
 	query += " ORDER BY RANDOM() DESC LIMIT 10";
 	if(debugMode) console.log('queryArtistSongs10Years', query);
@@ -2963,12 +2963,12 @@ function updateArtist() {
 	document.getElementById('options').value = '';
 	
 	let artist = this.getAttribute('data-artist');
-	let query = "SELECT ArtistTitle AS 'Artist Title' FROM Artist WHERE ArtistTitle = '" + artist + "'";
+	let query = "SELECT ArtistTitle AS 'Artist Title' FROM Artist WHERE ArtistTitle = '" + addQuotationInSQLString(artist) + "'";
 	if(debugMode) console.log('updateArtist', query);
 	queryDb(query, generateLayout);
 	
 	//initial query for options
-	query = "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song WHERE ArtistTitle = '" + artist + "'";
+	query = "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song WHERE ArtistTitle = '" + addQuotationInSQLString(artist) + "'";
 	if(isMobile())
 		query += " LIMIT 100";
 	callDb(query, updateOptions);
