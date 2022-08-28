@@ -4,7 +4,7 @@ let altTitlePrefix = 'Original';
 let databaseFilename = 'https://knneo.github.io/klassic-note-web/db/KlassicNote.db';
 let directory = 'file://C:/Users/KAINENG/OneDrive/Music/'; //for audio player, in {directory}/{knyear}/{filename}.mp3
 let coverArtDirectory = 'file://F:/RBKN/Pictures/ART/ALBUMART/'; //for cover art, in {directory}/{knyear}/{filename}
-let debugMode = false; //will show all available logging on console
+let debugMode = true; //will show all available logging on console
 let altMode = false; //will switch between titles and alt titles [TODO]
 let widescreenAverageModuleSize = 480; //on wide screen widths, tab width for content (responsive)
 let autoplayOnSelect = false; //disable player autoplay, will affect queue
@@ -530,9 +530,11 @@ function generateTabs() {
 		//show different info tab
 		if(window['mode'] == 'year' && tab.id == 'tab-info') continue;
 		if(window['mode'] == 'song' && tab.id == 'tab-year') continue;
-		if(window['mode'] == 'artist' && tab.id == 'tab-info') continue;
+		if(window['mode'] == 'artist' && tab.id == 'tab-year') continue;
 		//hide unused tabs
+		if(window['mode'] == 'song' && tab.id == 'tab-artist') continue;
 		if(window['mode'] == 'year' && tab.id == 'tab-related') continue;
+		if(window['mode'] == 'artist' && tab.id == 'tab-related') continue;
 		
 		let tabItem = document.createElement('button');
 		tabItem.id = 'button-' + tab.id;
@@ -752,7 +754,7 @@ function generateLayout(contents) {
 	if(window['mode'] == 'artist')
 	{
 		queryArtistInfo(contents); //uses same generateArtistInfo
-		//related songs: songs within 5, 10, 15 years? songs featured eg. collab
+		queryArtistRelated(contents);//related songs: songs within 5, 10, 15 years? songs featured eg. collab
 		//awards that artist won? and nominated
 		//rankings entered? maybe not list all but summary?
 		//compilation: artist collection, if any?
@@ -1147,6 +1149,66 @@ function generateYearInfo(contents) {
 		
 	table.appendChild(tbody);
 	document.getElementById('year-info').appendChild(table);
+}
+
+function querySongList(contents) {
+	let columns = contents.columns;
+	let rows = contents.values;
+	let row = rows[0];
+	let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
+	let year = row[columnIndexKNYEAR];
+	
+	let query = "SELECT * FROM Song WHERE KNYEAR = " + year + " ORDER BY RANDOM() LIMIT 30";
+	if(debugMode) console.log('generateSongList', query);
+	queryDb(query, generateSongList);
+}
+
+function generateSongList(contents) {
+	if(debugMode) console.log('generateSongList', contents);
+	if(!contents.columns || !contents.values) return;
+	
+	document.getElementById('song-list').innerHTML = '';
+	
+	let columns = contents.columns;
+	let rows = contents.values;
+	
+	if(rows.length < 1) return;
+	
+	let header = document.createElement('h4');
+	header.classList.add('centered');
+	header.innerText = 'Songs from ' + rows[0][contents.columns.indexOf('KNYEAR')];
+	document.getElementById('song-list').appendChild(header);	
+	
+	let table = document.createElement('table');
+	// table.id = 'table';
+	table.classList.add('list');
+	table.classList.add('centered');
+	table.classList.add('content-box');
+	table.classList.add('not-selectable');
+	
+	let tbody = document.createElement('tbody');
+	
+	//header
+	for(let row of rows)
+	{
+		let columnIndexKNID = contents.columns.indexOf('KNID');
+		let columnIndexSongTitle = contents.columns.indexOf('SongTitle');
+		let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
+		
+		let tr = document.createElement('tr');
+	
+		let tc = document.createElement('td');
+		tc.style.cursor = 'pointer';
+		tc.setAttribute('data-id', row[columnIndexKNID]);
+		tc.innerText = row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle];
+		tc.addEventListener('click', updateSong);
+		tr.appendChild(tc);
+		
+		tbody.appendChild(tr);
+	}
+		
+	table.appendChild(tbody);
+	document.getElementById('song-list').appendChild(table);	
 }
 
 function queryArtistInfo(contents) {
@@ -1573,33 +1635,60 @@ function generateSongFeaturedByArtist(contents) {
 	document.getElementById('songs-related-collab').appendChild(table);
 }
 
-function querySongList(contents) {
+function queryArtistRelated(contents) {
 	let columns = contents.columns;
 	let rows = contents.values;
 	let row = rows[0];
-	let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
-	let year = row[columnIndexKNYEAR];
+	let columnIndexKNID = contents.columns.indexOf('ID');
+	let columnIndexArtistTitle = contents.columns.indexOf('Artist Title');
 	
-	let query = "SELECT * FROM Song WHERE KNYEAR = " + year + " ORDER BY RANDOM() LIMIT 30";
-	if(debugMode) console.log('generateSongList', query);
-	queryDb(query, generateSongList);
+	//max 10 related within 5 years
+	let convertDate = "replace(DateCreated,'.','-')";
+	// let currentDate = "(select date("+convertDate+") from Song where KNID = "+row[columnIndexKNID]+")";
+	let dateRange = "date("+convertDate+") between date(date(),'-5 years') and date()";
+	
+	query = "SELECT * FROM Song WHERE ArtistTitle = '" + row[columnIndexArtistTitle] + "'";
+	query += " AND " + dateRange;
+	query += " ORDER BY RANDOM() DESC LIMIT 10";
+	if(debugMode) console.log('queryArtistSongs5Years', query);
+	queryDb(query, queryArtistSongs5Years);
+	
+	//max 10 related within 10 years
+	// convertDate = "replace(DateCreated,'.','-')";
+	// let currentDate = "(select date("+convertDate+") from Song where KNID = "+row[columnIndexKNID]+")";
+	dateRange = "date("+convertDate+") between date(date(),'-10 years') and date(date(),'-5 years')";
+	
+	query = "SELECT * FROM Song WHERE ArtistTitle = '" + row[columnIndexArtistTitle] + "'";
+	query += " AND " + dateRange;
+	query += " ORDER BY RANDOM() DESC LIMIT 10";
+	if(debugMode) console.log('queryArtistSongs10Years', query);
+	queryDb(query, queryArtistSongs10Years);
+	
+	//artist featured in
+	document.getElementById('songs-related-collab').innerHTML = '';
+	query = "select a.ParentArtist, s.KNID, s.KNYEAR, s.SongTitle, s.ArtistTitle from Artist a ";
+	query += "join Song s on a.ArtistID = s.ArtistID "
+	query += "where a.ParentArtist <> a.ArtistTitle and a.ParentArtist = '" + addQuotationInSQLString(row[columnIndexArtistTitle]) + "' ";
+	query += "ORDER BY RANDOM() DESC LIMIT 5";
+	if(debugMode) console.log('generateArtistFeatured', query);
+	queryDb(query, generateArtistFeatured);
 }
 
-function generateSongList(contents) {
-	if(debugMode) console.log('generateSongList', contents);
+function queryArtistSongs5Years(contents) {
+	if(debugMode) console.log('queryArtistSongs5Years', contents);
+	document.getElementById('artist-songs-5y').innerHTML = '';
 	if(!contents.columns || !contents.values) return;
-	
-	document.getElementById('song-list').innerHTML = '';
 	
 	let columns = contents.columns;
 	let rows = contents.values;
 	
 	if(rows.length < 1) return;
+	if(rows[0][contents.columns.indexOf('ReleaseYear')].length < 1) return;
 	
 	let header = document.createElement('h4');
 	header.classList.add('centered');
-	header.innerText = 'Songs from ' + rows[0][contents.columns.indexOf('KNYEAR')];
-	document.getElementById('song-list').appendChild(header);	
+	header.innerText = 'Songs within 5 years';
+	document.getElementById('artist-songs-5y').appendChild(header);	
 	
 	let table = document.createElement('table');
 	// table.id = 'table';
@@ -1614,6 +1703,7 @@ function generateSongList(contents) {
 	for(let row of rows)
 	{
 		let columnIndexKNID = contents.columns.indexOf('KNID');
+		let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
 		let columnIndexSongTitle = contents.columns.indexOf('SongTitle');
 		let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
 		
@@ -1622,16 +1712,136 @@ function generateSongList(contents) {
 		let tc = document.createElement('td');
 		tc.style.cursor = 'pointer';
 		tc.setAttribute('data-id', row[columnIndexKNID]);
-		tc.innerText = row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle];
+		tc.setAttribute('context', 'related');
+		tc.innerText = row[columnIndexKNYEAR] + ' - ' + row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle];
 		tc.addEventListener('click', updateSong);
+		tc.addEventListener('contextmenu', showContextMenu);
 		tr.appendChild(tc);
 		
-		tbody.appendChild(tr);
+		//click to play
+		// let td = document.createElement('td');
+		// td.innerText = rowVal;
+		// if(rowVal.toString().includes('://'))
+			// td.innerHTML = '<a target="_blank" href="' + rowVal + '">' + rowVal + '</a>';
+		// tr.appendChild(td);
+		
+		tbody.appendChild(tr);	
 	}
 		
 	table.appendChild(tbody);
-	document.getElementById('song-list').appendChild(table);	
+	document.getElementById('artist-songs-5y').appendChild(table);
 }
+
+function queryArtistSongs10Years(contents) {
+	if(debugMode) console.log('queryArtistSongs10Years', contents);
+	document.getElementById('artist-songs-10y').innerHTML = '';
+	if(!contents.columns || !contents.values) return;
+	
+	let columns = contents.columns;
+	let rows = contents.values;
+	
+	if(rows.length < 1) return;
+	if(rows[0][contents.columns.indexOf('ReleaseYear')].length < 1) return;
+	
+	let header = document.createElement('h4');
+	header.classList.add('centered');
+	header.innerText = 'Songs within 10 years';
+	document.getElementById('artist-songs-10y').appendChild(header);	
+	
+	let table = document.createElement('table');
+	// table.id = 'table';
+	table.classList.add('list');
+	table.classList.add('centered');
+	table.classList.add('content-box');
+	table.classList.add('not-selectable');
+	
+	let tbody = document.createElement('tbody');
+	
+	//header
+	for(let row of rows)
+	{
+		let columnIndexKNID = contents.columns.indexOf('KNID');
+		let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
+		let columnIndexSongTitle = contents.columns.indexOf('SongTitle');
+		let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
+		
+		let tr = document.createElement('tr');
+	
+		let tc = document.createElement('td');
+		tc.style.cursor = 'pointer';
+		tc.setAttribute('data-id', row[columnIndexKNID]);
+		tc.setAttribute('context', 'related');
+		tc.innerText = row[columnIndexKNYEAR] + ' - ' + row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle];
+		tc.addEventListener('click', updateSong);
+		tc.addEventListener('contextmenu', showContextMenu);
+		tr.appendChild(tc);
+		
+		//click to play
+		// let td = document.createElement('td');
+		// td.innerText = rowVal;
+		// if(rowVal.toString().includes('://'))
+			// td.innerHTML = '<a target="_blank" href="' + rowVal + '">' + rowVal + '</a>';
+		// tr.appendChild(td);
+		
+		tbody.appendChild(tr);	
+	}
+		
+	table.appendChild(tbody);
+	document.getElementById('artist-songs-10y').appendChild(table);
+}
+
+function generateArtistFeatured(contents) {
+	if(debugMode) console.log('generateArtistFeatured', contents);
+	document.getElementById('artist-featured').innerHTML = '';
+	if(!contents.columns || !contents.values) return;
+	
+	let columns = contents.columns;
+	let rows = contents.values;
+	
+	if(rows.length < 1) return;
+	
+	let columnIndexKNID = contents.columns.indexOf('KNID');
+	let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
+	let columnIndexSongTitle = contents.columns.indexOf('SongTitle');
+	let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
+	let columnIndexParentArtist = contents.columns.indexOf('ParentArtist');
+	
+	let header = document.createElement('h4');
+	header.classList.add('centered');
+	header.innerText = 'Songs featuring ' + rows[0][columnIndexParentArtist];
+	document.getElementById('artist-featured').appendChild(header);	
+	
+	let table = document.createElement('table');
+	// table.id = 'table';
+	table.classList.add('list');
+	table.classList.add('centered');
+	table.classList.add('content-box');
+	table.classList.add('not-selectable');
+	
+	let tbody = document.createElement('tbody');
+	
+	//header
+	for(let row of rows)
+	{
+		
+		let tr = document.createElement('tr');
+	
+		let tc = document.createElement('td');
+		tc.style.cursor = 'pointer';
+		tc.setAttribute('data-id', row[columnIndexKNID]);
+		tc.setAttribute('context', 'related');
+		tc.innerText = row[columnIndexKNYEAR] + ' - ' + row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle];
+		tc.addEventListener('click', updateSong);
+		tc.addEventListener('contextmenu', showContextMenu);
+		tr.appendChild(tc);
+		
+		tbody.appendChild(tr);	
+	}
+		
+	table.appendChild(tbody);
+	document.getElementById('artist-featured').appendChild(table);
+}
+
 
 function queryAwards(contents) {
 	let columns = contents.columns;
