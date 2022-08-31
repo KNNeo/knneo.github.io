@@ -7,7 +7,7 @@
 
 void Main()
 {
-	List<string> includedDomains = new List<string>() { ".ggpht.com", "bp.blogspot.com", "blogger.googleusercontent.com" };
+	List<string> includedDomains = new List<string>() { "ggpht.com", "bp.blogspot.com", "blogger.googleusercontent.com" };
     bool WriteTitleOnConsole = true;
 	bool TraceMode = false;
 	string imageExport = "[\"\"";
@@ -15,7 +15,7 @@ void Main()
     Console.WriteLine("\tPost with changes will appear here");
 	Console.WriteLine("\tIf edit from Blogger img tags will be missing self-enclosing slash, format on web version to fix");
 	Console.WriteLine("==================================================================================================");
-	Console.WriteLine("Image domains to detect are:\n*." + string.Join("\n*.", includedDomains));
+	Console.WriteLine("Image domains to detect are:\n*" + string.Join("\n*", includedDomains));
 	Console.WriteLine("==================================================================================================");
     string folderpath = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\";
     string blogpath = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blogspot\";
@@ -75,9 +75,10 @@ void Main()
         #region export list of images from latest
         expression = @"(<img)(.*?)(src="")(.*?)("")";
         match = Regex.Match(content, expression);
-        while(match.Success && includedDomains.Any(id => match.Groups[4].Value.Contains(id)))
+        while(match.Success)// && includedDomains.Any(id => match.Groups[4].Value.Contains(id)))
         {
-			imageExport += ",{\"title\":\"" + title.Replace("\"", "\\\"") + "\", \"url\":\"" + match.Groups[4].Value + "\"}";
+			if(includedDomains.Any(id => match.Groups[4].Value.Contains(id)))
+				imageExport += ",{\"title\":\"" + title.Replace("\"", "\\\"") + "\", \"url\":\"" + match.Groups[4].Value + "\"}";
         	match = match.NextMatch();
         };
         if(match.Success) count++;
