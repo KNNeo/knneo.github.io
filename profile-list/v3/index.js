@@ -902,7 +902,7 @@ function generateProfileDob([profile, currentProfile, previousProfile]) {
 		
 			DOBspan = document.createElement('span');
 			DOBspan.classList.add('DOB');
-			DOBspan.innerHTML = processOption(currentProfile.dob, false) + (!window['friendMode'] && !window['simple'] && currentProfile.dobComment != '' ? (' (' + currentProfile.dobComment + ')') : '');
+			DOBspan.innerHTML = processOption((previousProfile || currentProfile).dob, false) + (!window['friendMode'] && !window['simple'] && (previousProfile || currentProfile).dobComment != '' ? (' (' + (previousProfile || currentProfile).dobComment + ')') : '');
 			cellDiv.appendChild(DOBspan);
 			cell.appendChild(cellDiv);
 		}
@@ -918,7 +918,7 @@ function generateProfileDob([profile, currentProfile, previousProfile]) {
 				// DOBspan.style.position = 'absolute';
 				// DOBspan.style.left = '0';
 				// DOBspan.style.right = '0';
-				DOBspan.innerHTML = processOption(previousProfile.dob, false) + (!window['friendMode'] && !window['simple'] && previousProfile.dobComment != '' ? (' (' + previousProfile.dobComment + ')') : '');
+				DOBspan.innerHTML = processOption(currentProfile.dob, false) + (!window['friendMode'] && !window['simple'] && currentProfile.dobComment != '' ? (' (' + currentProfile.dobComment + ')') : '');
 				cellDiv.appendChild(DOBspan);
 				
 			cell.appendChild(cellDiv);
