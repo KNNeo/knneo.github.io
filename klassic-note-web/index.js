@@ -15,8 +15,20 @@ window.addEventListener('load', startup);
 window.addEventListener('resize', setTabs);
 window.addEventListener('keyup', setKeyUp);
 window.addEventListener('keydown', setKeyDown);
+window.addEventListener('mousedown', setInput);
+window.addEventListener('touchstart', setInput);
 
 //--EVENTS--//
+function setInput() {
+	// if(debugMode)
+		console.log(event.type);
+	if(event.type == 'mousedown')
+		document.querySelector('html').classList.remove('touchable');
+	if(event.type == 'touchstart')
+		document.querySelector('html').classList.add('touchable');
+}
+
+
 function setKeyUp() {
 	if (debugMode) 
 		console.log(event.keyCode);

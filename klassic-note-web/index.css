@@ -266,6 +266,10 @@ body {
 	text-align: initial;
 }
 
+.touchable .list > td {
+	line-height: 2;
+}
+
 @media only screen
    and (max-device-width : 480px)
 {
