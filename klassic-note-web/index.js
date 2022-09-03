@@ -22,18 +22,18 @@ window.addEventListener('click', setInput);
 function setInput() {
 	event.preventDefault();
 	
-	if(debugMode)
-		console.log(event.type, event.target.outerHTML);
+	// if(debugMode)
+		console.log(event.type, new Date() - window['last-input']);
 	let list = document.querySelector('html').classList;
 	if(event.type == 'touchstart' && !list.contains('touchable'))
 	{
 		document.querySelector('html').classList.add('touchable');
 	}
-	else if(event.type == 'click' && window['last-input'] != event.target.outerHTML && list.contains('touchable'))
+	else if(event.type == 'click' && new Date() - window['last-input'] > 200 && list.contains('touchable'))
 	{
 		document.querySelector('html').classList.remove('touchable');
 	}
-	window['last-input'] = event.target.outerHTML;
+	window['last-input'] = new Date();
 }
 
 
