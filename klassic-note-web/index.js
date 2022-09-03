@@ -18,6 +18,8 @@ window.addEventListener('keydown', setKeyDown);
 
 //--EVENTS--//
 function setKeyUp() {
+	if (debugMode) 
+		console.log(event.keyCode);
 	// space: play/pause when not focus on player
 	if (event.keyCode === 32 && document.getElementById('player') != null 
 	&& ['player', 'search'].indexOf(document.activeElement.id) < 0) {
@@ -27,24 +29,52 @@ function setKeyUp() {
 		else
 			document.getElementById('player').pause();
 	}
-	// shift: combine with shuffle to add 10 songs to queue
+	if (event.keyCode === 67 && window['ctrled'] && document.getElementById('copy') != null) {
+		event.preventDefault();
+		document.getElementById('copy').click();
+	}
+	// shift: combine with click playlist to add 10 songs to queue
 	if (event.keyCode === 16) {
 		event.preventDefault();
 		window['shifted'] = false;
+	}
+	// ctrl: combine with c to copy search content
+	if (event.keyCode === 17) {
+		event.preventDefault();
+		window['ctrled'] = false;
+	}
+	if (event.keyCode === 38 && document.getElementById('player').volume < 1) {
+		event.preventDefault();
+		document.getElementById('player').volume = document.getElementById('player').volume + 0.1;
+		if(document.getElementById('player').volume > 0.99) // prevent js rounding issue
+			document.getElementById('player').volume = 1;
+	}
+	if (event.keyCode === 40 && document.getElementById('player').volume > 0) {
+		event.preventDefault();
+		document.getElementById('player').volume = document.getElementById('player').volume - 0.1;
+		if(document.getElementById('player').volume < 0.01) // prevent js rounding issue
+			document.getElementById('player').volume = 0;
 	}
 	return false;
 }
 
 function setKeyDown() {
-	// shift: combine with shuffle to add 10 songs to queue
+	if (debugMode) 
+		console.log(event.keyCode);
+	// space: prevent scroll when play/pause
+	if(event.keyCode === 32 && document.activeElement == document.body)
+		event.preventDefault();
+		
+	// shift: combine with click playlist to add 10 songs to queue
 	if (event.keyCode === 16) {
 		event.preventDefault();
 		window['shifted'] = true;
 	}
-	// space: play/pause and prevent scroll
-	if(event.keyCode === 32 && document.activeElement == document.body)
+	// ctrl: combine with c to copy search content
+	if (event.keyCode === 17) {
 		event.preventDefault();
-		
+		window['ctrled'] = true;
+	}
 	return false;
 }
 
@@ -841,8 +871,12 @@ function generatePlayer(contents) {
 	
 	let audio = document.createElement('audio');
 	audio.id = 'player';
-	audio.setAttribute('data-id', row[columnIndexKNID]);
 	audio.classList.add('player');
+	audio.setAttribute('data-id', row[columnIndexKNID]);
+	audio.controls = true;
+	audio.autoplay = window['autoplay-select']; //for shuffle to work this must be set as true
+	audio.volume = localStorage.getItem('volume')|| 0.5;
+	audio.controlsList = 'nodownload';
 	audio.addEventListener('play', function() {
 		document.title = row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle] + ' - ' + defaultTitle;
 	});
@@ -875,10 +909,6 @@ function generatePlayer(contents) {
 			},200);
 		}
 	});
-	audio.controls = true;
-	audio.autoplay = window['autoplay-select']; //for shuffle to work this must be set as true
-	audio.volume = localStorage.getItem('volume')|| 0.5;
-	audio.controlsList = 'nodownload';
 	
 	let source = document.createElement('source');
 	source.src = directory + knyear + '/' + filename + '.mp3';
