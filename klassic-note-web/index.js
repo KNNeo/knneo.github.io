@@ -15,17 +15,25 @@ window.addEventListener('load', startup);
 window.addEventListener('resize', setTabs);
 window.addEventListener('keyup', setKeyUp);
 window.addEventListener('keydown', setKeyDown);
-window.addEventListener('mousedown', setInput);
 window.addEventListener('touchstart', setInput);
+window.addEventListener('click', setInput);
 
 //--EVENTS--//
 function setInput() {
-	// if(debugMode)
-		console.log(event.type);
-	if(event.type == 'mousedown')
-		document.querySelector('html').classList.remove('touchable');
-	if(event.type == 'touchstart')
+	event.preventDefault();
+	
+	if(debugMode)
+		console.log(event.type, event.target.outerHTML);
+	let list = document.querySelector('html').classList;
+	if(event.type == 'touchstart' && !list.contains('touchable'))
+	{
 		document.querySelector('html').classList.add('touchable');
+	}
+	else if(event.type == 'click' && window['last-input'] != event.target.outerHTML && list.contains('touchable'))
+	{
+		document.querySelector('html').classList.remove('touchable');
+	}
+	window['last-input'] = event.target.outerHTML;
 }
 
 

@@ -266,11 +266,12 @@ body {
 	text-align: initial;
 }
 
-.touchable .list > td {
-	line-height: 2;
+.touchable .list td, 
+.touchable .list th {
+	padding: 8px 4px;
 }
 
-@media only screen
+/* @media only screen
    and (max-device-width : 480px)
 {
 	.list td, 
@@ -278,3 +279,4 @@ body {
 		line-height: 1.5;
 	}
 }
+ */
