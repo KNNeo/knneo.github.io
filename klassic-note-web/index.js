@@ -210,6 +210,7 @@ function clearSearch() {
 	document.getElementById('search').style.width = '100%';
 	document.getElementById('tab-buttons').innerHTML = '';
 	document.getElementById('cover').style.display = 'none';
+	document.getElementById('cover').classList = [];
 	for(let tab of document.getElementsByClassName('module'))
 	{
 		tab.innerHTML = '';
@@ -974,7 +975,7 @@ function generateCoverArt(contents) {
 	
 	let cover = document.getElementById('cover');
 	cover.innerHTML = '';
-	cover.style.display = 'initial';
+	cover.style.display = 'none';
 	let coverHeight = document.getElementById('header').getBoundingClientRect().height - 15;
 	
 	let art = document.createElement('img');
@@ -982,9 +983,29 @@ function generateCoverArt(contents) {
 	art.src = coverArtDirectory + row[columnIndexKNYEAR] + '/' + row[columnIndexCoverArt];
 	art.style.height = coverHeight + 'px';
 	art.addEventListener('error', function() {
-		document.getElementById('cover').style.display = 'none';		
+		if(debugMode)
+			console.log('cover error');
+		document.getElementById('cover').classList.add('error');
 	});
 	cover.appendChild(art);
+	
+	displayCoverIfComplete();
+}
+
+function displayCoverIfComplete() {
+	let cover = document.getElementById('cover');
+	if(cover.classList.contains('error')) return;
+	if(cover.getElementsByTagName('img')[0].complete && !cover.classList.contains('error'))
+	{
+		if(debugMode)
+			console.log('cover loaded');
+		cover.style.display = 'initial';
+		return;
+	}
+
+	if(debugMode)
+		console.log('cover loading');
+	setTimeout(displayCoverIfComplete, 100);
 }
 
 function queryInfo(contents) {
