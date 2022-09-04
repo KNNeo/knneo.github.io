@@ -22,7 +22,7 @@ window.addEventListener('click', setInput);
 function setInput() {
 	event.preventDefault();
 	
-	// if(debugMode)
+	if(debugMode)
 		console.log(event.type, new Date() - window['last-input']);
 	let list = document.querySelector('html').classList;
 	if(event.type == 'touchstart' && !list.contains('touchable'))
@@ -35,7 +35,6 @@ function setInput() {
 	}
 	window['last-input'] = new Date();
 }
-
 
 function setKeyUp() {
 	if (debugMode) 
@@ -1694,7 +1693,7 @@ function generateReleaseRelated(contents) {
 		tc.style.cursor = 'pointer';
 		tc.setAttribute('data-id', row[columnIndexKNID]);
 		tc.setAttribute('context', 'related');
-		tc.innerText = row[columnIndexKNYEAR] + ' - ' + row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle];
+		tc.innerText = row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle];
 		tc.addEventListener('click', updateSong);
 		tc.addEventListener('contextmenu', showContextMenu);
 		tr.appendChild(tc);
@@ -3022,9 +3021,15 @@ function queryArtistAnalysis(contents) {
 	let columnIndexData = contents.columns.indexOf('Artist Title');
 	let artist = rows[0][columnIndexData];
 
+	//Song Count by Year
+	let query = "select KNYEAR as 'Year', count(*) as 'Count' from Song where ArtistTitle = '"+addQuotationInSQLString(artist)+"' group by KNYEAR";
+
+	if(debugMode) console.log('generateSongCountByYear', query);
+	queryDb(query, generateSongCountByYear);
+	
 	//Most Popular Songs
-	let query = "select KNYEAR as 'Year', SongTitle as 'Song Title' from ( ";
-	query += "select s.SongTitle, s.KNYEAR ";
+	query = "select KNID as 'ID', KNYEAR as 'Year', SongTitle as 'Song Title' from ( ";
+	query += "select s.KNID, s.SongTitle, s.KNYEAR ";
 	query += ", (select count(*) from SOTD where sotd.KNID = s.KNID) as 'SOTD Mentions' ";
 	query += ", (select count(*) from SOTM where sotm.KNID = s.KNID) as 'SOTM Mentions' ";
 	query += ", (select count(*) from Award aw where aw.KNID = s.KNID) as 'Awards Nominated' ";
@@ -3047,12 +3052,6 @@ function queryArtistAnalysis(contents) {
 
 	if(debugMode) console.log('generatePopularSongs', query);
 	queryDb(query, generatePopularSongs);
-	
-	//Song Count by Year
-	query = "select KNYEAR as 'Year', count(*) as 'Count' from Song where ArtistTitle = '"+addQuotationInSQLString(artist)+"' group by KNYEAR";
-
-	if(debugMode) console.log('generateSongCountByYear', query);
-	queryDb(query, generateSongCountByYear);
 }
 
 function generatePopularSongs(contents) {	
@@ -3072,7 +3071,7 @@ function generatePopularSongs(contents) {
 	let tbody = document.createElement('tbody');
 	
 	let tr = document.createElement('tr');
-	for(let column of columns)
+	for(let column of ['Rank', 'Song Title'])
 	{
 		let th = document.createElement('th');
 		th.innerText = column;
@@ -3081,6 +3080,7 @@ function generatePopularSongs(contents) {
 	tbody.appendChild(tr);
 	
 	let excludedColumns = [];
+	let columnIndexKNID = contents.columns.indexOf('ID');
 	let columnIndexKNYEAR = contents.columns.indexOf('Year');
 	let columnIndexSongTitle = contents.columns.indexOf('Song Title');
 	for(let r = 0; r < rows.length; r++)
@@ -3089,13 +3089,16 @@ function generatePopularSongs(contents) {
 		
 		let ty = document.createElement('td');
 		ty.classList.add('centered-text');
-		ty.innerText = rows[r][columnIndexKNYEAR];
+		ty.innerText = r+1;
 		tr.appendChild(ty);
-	
+		
 		let tc = document.createElement('td');
 		tc.classList.add('centered-text');
-		tc.innerText = rows[r][columnIndexSongTitle];
-		tr.appendChild(tc);	
+		tc.style.cursor = 'pointer';
+		tc.setAttribute('data-id', rows[r][columnIndexKNID]);
+		tc.innerText = rows[r][columnIndexSongTitle] + ' (' + rows[r][columnIndexKNYEAR] + ')';
+		tc.addEventListener('click', updateSong);
+		tr.appendChild(tc);
 		
 		tbody.appendChild(tr);
 	}
