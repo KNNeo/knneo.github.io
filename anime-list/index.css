@@ -121,12 +121,21 @@ body {
 	transform: translate(2px, 2px);
 }
 
-.year-display {
+.year-display,
+.calendar-cell {
 	cursor: pointer;
 }
 
 .year-display:hover {
 	color: #00e4ff;
+}
+
+.calendar-cell:hover {
+	color: #444444;
+}
+
+.darked .calendar-cell:hover {
+	color: #dddddd;
 }
 
 .highlight {

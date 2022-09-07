@@ -374,15 +374,18 @@ function generateCalendarBox(list) {
 			for(let s of seasons)
 			{
 				let show = yearShows[s.title][count];
-				// console.log(show);
+				let ref = showsRef.filter(r => r.id == show.MAL);
+				// console.log(show, ref[0]);
 				
 				let i = document.createElement('div');
+				i.classList.add('calendar-cell');
 				if(show.title) i.classList.add('highlight');
 				if(show.title || (window['filter'] == '' && window['genre'] == ''))
 				{
 					i.style.margin = '1px';
 					i.style.padding = '2px';
 				}
+				i.addEventListener('click', function() { window.open(ref[0].seriesURL, '_blank'); });
 				i.innerText = show.title;
 				calendarDiv.appendChild(i);
 			}
