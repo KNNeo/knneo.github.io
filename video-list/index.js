@@ -223,7 +223,7 @@ function renderList() {
 			
 				let titleLink = document.createElement('a');
 				titleLink.href = v.link;
-				titleLink.innerText = v.title;			
+				titleLink.innerText = v.title;
 				titleLink.setAttribute('target','_blank');
 			
 				title.appendChild(titleLink);
@@ -232,14 +232,17 @@ function renderList() {
 			
 			let channel = document.createElement('div');
 
-				let channelLink = document.createElement('span');
+				let channelLink = document.createElement('a');
 				channelLink.innerText = v.channel;
 				if(channels[v.channel])
 				{
-					channelLink.style.cursor = 'pointer';
-					channelLink.addEventListener('click', function() {
-						window.open(channels[v.channel]);
-					});
+					channelLink.classList.add('video-link');
+					channelLink.href = channels[v.channel];
+					channelLink.setAttribute('target','_blank');
+					// channelLink.style.cursor = 'pointer';
+					// channelLink.addEventListener('click', function() {
+						// window.open();
+					// });
 				}
 				
 				channel.appendChild(channelLink);
