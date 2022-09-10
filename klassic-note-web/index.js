@@ -20,8 +20,6 @@ window.addEventListener('click', setInput);
 
 //--EVENTS--//
 function setInput() {
-	event.preventDefault();
-	
 	if(debugMode)
 		console.log(event.type, new Date() - window['last-input']);
 	let list = document.querySelector('html').classList;
