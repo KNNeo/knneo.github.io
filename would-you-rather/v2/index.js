@@ -243,7 +243,7 @@ window.onload = startup();
 function startup() {
 	let header = document.createElement('h1');
 	header.innerText = headerTitle;
-	document.body.appendChild(header);
+	document.querySelector('.content').appendChild(header);
 	
 	let inputModule = document.createElement('div');
 	inputModule.id = 'input-module';
@@ -316,28 +316,5 @@ function startup() {
 	
 	inputModule.appendChild(resultComponent);
 	
-	document.body.appendChild(inputModule);
-	
-	let settings = document.createElement('h3');
-	settings.classList.add('settings');
-		
-		let back = document.createElement('a');
-		back.href = '../../index.html';
-		back.innerText = 'Back';
-		settings.appendChild(back);
-		
-		let spacer = document.createElement('div');
-		spacer.classList.add('spacer');
-		settings.appendChild(spacer);
-	
-		let darkmode = document.createElement('a');
-		darkmode.id = 'darkmode';
-		darkmode.title = 'Toggle Dark Mode';
-		darkmode.classList.add('material-icons');
-		darkmode.innerText = 'brightness_high';
-		darkmode.href = 'javascript:void(0);';
-		darkmode.addEventListener('click', toggleDarkMode);
-		settings.appendChild(darkmode);
-	
-	document.body.appendChild(settings);
+	document.querySelector('.content').appendChild(inputModule);
 }

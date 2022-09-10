@@ -40,6 +40,29 @@ body > * {
 	background-color: white;
 }
 
+.settings {
+	margin: auto;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: 2;
+	background-color: white;
+}
+
+.settings a {
+    cursor: pointer;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    color: black;
+    text-decoration: none;
+}
+
+.settings h3 {
+	margin-top: 0;
+}
+
 .title {
 	margin: 3px 0;
 }
