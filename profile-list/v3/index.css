@@ -228,8 +228,8 @@ a, button {
 }
 .view {
 	max-width: 640px;
+	height: 45em;
 	margin: auto;
-	height: 50em;
 	display: flex;
 }
 
