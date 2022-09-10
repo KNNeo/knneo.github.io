@@ -376,6 +376,78 @@
 								}
 							]
 						}
+					},
+					{
+						"tooltip": "",
+						"thumbnail": "https://pbs.twimg.com/media/FVIBCg3acAICbKy?format=jpg&name=medium",
+						"source": "https://pbs.twimg.com/media/FVIBCg3acAICbKy?format=jpg&name=medium",
+						"grid": {
+							"type": "grid",
+							"columns": 2,
+							"rows": 6,
+							"componentData": [
+								{
+									"columns": 2
+								},
+								{
+									"type": "image",
+									"rows": 4,
+									"tooltip": "",
+									"source": "https://pbs.twimg.com/media/FVIBCg3acAICbKy?format=jpg&name=medium",
+									"link": "https://knneo.github.io/blogspot/blog/2022/08/the-klassic-note-review-202208.html#Abracadaboo"
+								},
+								{
+									"type": "title",
+									"rows": 2,
+									"prefix": "RELEASED 2022.08.03",
+									"title": "Abracada-Boo",
+									"suffix": "Ishihara Kaori"
+								},
+								{
+									"type": "title",
+									"rows": 2,
+									"prefix": "TRACKLIST",
+									"title": "",
+									"suffix": "1. Abracada-Boo\n2. Aimai Shinkirou"
+								}
+							]
+						}
+					},
+					{
+						"tooltip": "",
+						"thumbnail": "https://st.cdjapan.co.jp/pictures/l/13/25/SMCL-755.jpg",
+						"source": "https://st.cdjapan.co.jp/pictures/l/13/25/SMCL-755.jpg",
+						"grid": {
+							"type": "grid",
+							"columns": 2,
+							"rows": 6,
+							"componentData": [
+								{
+									"columns": 2
+								},
+								{
+									"type": "image",
+									"rows": 4,
+									"tooltip": "",
+									"source": "https://st.cdjapan.co.jp/pictures/l/13/25/SMCL-755.jpg",
+									"link": "https://knneo.github.io/blogspot/blog/2022/08/the-klassic-note-review-202208.html#StainedGlass"
+								},
+								{
+									"type": "title",
+									"rows": 2,
+									"prefix": "RELEASED 2022.03.02",
+									"title": "Stained Glass",
+									"suffix": "Asakura Momo"
+								},
+								{
+									"type": "title",
+									"rows": 2,
+									"prefix": "TRACKLIST",
+									"title": "",
+									"suffix": "1. Stained Glass\n2. Nemui Kedo"
+								}
+							]
+						}
 					}
 				]
 			}
