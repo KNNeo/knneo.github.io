@@ -117,7 +117,6 @@ a, button {
 }
 .page-align {
 	text-align: center;
-	max-width: 800px;
 	margin: auto;
 }
 .page-align li, .page-align a {
@@ -144,18 +143,20 @@ a, button {
     display: none;
 	color: var(--foreground);
 }
-.profile-box {
-	border-radius: 8px;
+.profile {
+	width: 90%;
+	overflow-y: auto;
 	border: 1px solid var(--foreground);
 	box-shadow: 3px 3px;
-	padding: 4px;
+}
+.profile-box {
 	white-space: normal;
 	touch-action: manipulation;
 }
 .profile-box > table {
 	width: 100%;
 }
-.profile-box:active {
+.profile:active {
   box-shadow: 1px 1px;
   transform: translate(2px,2px);
 }
@@ -222,9 +223,14 @@ a, button {
 .disguise:hover {
 	color: var(--foreground);
 }
-.profile {
-	top: 38px;
-	background-color: var(--background);
+.hidden {
+	display: none;
+}
+.view {
+	max-width: 640px;
+	margin: auto;
+	height: 50em;
+	display: flex;
 }
 
 /*CUSTOMIZE CALENDAR CATEGORY LABELS*/
@@ -269,7 +275,7 @@ a, button {
 }
 
 /*scrollbars for top and bottom labels only on desktop*/
-@media only screen and (max-width : 1040px) {
+@media only screen and (max-width : 480px) {
 	html { font-size: 0.8em; scroll-behavior: auto; }
 	div { scrollbar-width: 0 !important; }
 	div::-webkit-scrollbar { width: 0 !important }

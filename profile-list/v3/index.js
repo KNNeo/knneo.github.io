@@ -79,12 +79,22 @@ function renderWantedList() {
 }
 
 function resetProfile() {
-	document.querySelector('.profile').style.display = 'none';
 	document.querySelector('.profile').innerHTML = '';
 	document.body.scrollTop = 0; // For Safari
 	document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 	window['profiles'] = [];
 	window['friendMode'] = false;
+	toggleView(1);
+}
+
+function toggleView(id) {
+	//change page
+	let isSelect = typeof pageClass == 'string';
+	for(let page of document.querySelectorAll('.page'))
+	{
+		page.classList.add('hidden');
+	}
+	document.querySelectorAll('.page')[id-1].classList.remove('hidden');
 }
 
 ////WANTED LIST////
@@ -547,8 +557,6 @@ function generateProfileFromJSON(profileName) {
 
 	let idBox = document.createElement('div');
 	idBox.id = window['profiles'][0].id;
-	idBox.style.width = '90%';
-	idBox.style.maxWidth = simple || friendMode ? '440px' : '640px';
 	idBox.style.margin = 'auto';
 	idBox.style.padding = '3px';
 	
@@ -697,11 +705,13 @@ function generateProfileFromJSON(profileName) {
 	
 	document.querySelector('.profile').innerHTML = '';
 	document.querySelector('.profile').appendChild(idBox);	
-	document.querySelector('.profile').style.display = '';
+	document.querySelector('.profile').style.height = simple || friendMode ? '' : '100%';
+	document.querySelector('.profile').style.maxWidth = simple || friendMode ? '440px' : '640px';
 	
 	addProfileEvents();
 	addAgeAfterDOB(ageSuffix);
 	addStatusPopUp();
+	toggleView(3);
 }
 
 function generateProfileImage([profile, currentProfile, previousProfile]) {

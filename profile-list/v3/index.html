@@ -17,25 +17,33 @@
 </head>
 <body>
 <h1 class="page-align" onclick="location.reload()">女性プロフィールまとめ</h1>
-<div id="stats" class="page-align">
-<div id="timeline" class="page-align"></div>
-<h6 style="text-align: center; margin-top: 0;">Timeline powered by timeknots at GitHub</h6>
-<div>
-	<span class="calendar-legend page-align"></span>
-	<span style="text-align: center;"><button id="exportBtn" style="text-align: center;" onclick="exportCalendar()">Export</button></span>
-</div>
-<br />
-<div class="calendar page-align"></div>
-<br />
-<div class="profile page-align" oncontextmenu="return false"></div>
-</div>
-<div class="page-align">
-<div class="box-married">
-<ul class="list page-align">
-Loading...
-</ul>
-<div><label for="cb-married"><input type="checkbox" id="cb-married" onclick="toggleMarried()">Show Not Married</label></div>
-</div>
+<div class="view">
+	<div class="page wanted-list page-align">
+		<ul class="list page-align">Loading...</ul>
+		<div>
+			<label for="cb-married">
+				<input type="checkbox" id="cb-married" onclick="toggleMarried()">Show Not Married
+			</label>
+		</div>
+	</div>
+	<div class="page page-align hidden">
+		<div class="calendar-box">
+			<div>
+				<span class="calendar-legend page-align"></span>
+				<span style="text-align: center;">
+					<button id="exportBtn" style="text-align: center;" onclick="exportCalendar()">Export</button>
+				</span>
+			</div>
+			<br />
+			<div class="calendar page-align"></div>
+		</div>
+		<br />
+		<div class="timeline-box">
+			<div id="timeline" class="page-align"></div>
+			<h6 style="text-align: center; margin-top: 0;">Timeline powered by timeknots at GitHub</h6>
+		</div>
+	</div>
+	<div class="page profile page-align hidden" oncontextmenu="return false"></div>
 </div>
 <br />
 <div id="time" class="page-align"></div>
@@ -43,6 +51,8 @@ Loading...
 <div style="text-align: center;"><a href="./profile-quiz.html"><button id="quizBtn" style="text-align: center;">Quiz</button></a></div>
 <div>
 <h3 id="settings" class="settings">
+	<a title="Wanted Level" class="bi bi-person-square" href="javascript:void(0);" onclick="toggleView(1)"></a>
+	<a title="Calendar" class="bi bi-calendar" href="javascript:void(0);" onclick="toggleView(2)"></a>
 	<a id="darkmode" title="Toggle Dark Mode" class="darkmode bi bi-brightness-high-fill" href="javascript:void(0);"></a>
 	<a class="bi bi-backspace" href="../../index.html"></a>
 </h3>
