@@ -636,7 +636,12 @@ function startup() {
 		return;
 	}
 	
-	if(typeof pageElements != 'undefined') // if not tied to js file with pageElements
+	if (typeof testJson == 'object' && testJson.length > 0) // test json
+	{
+		console.log('using test json');
+		setPageElements(testJson);
+	}
+	else if(typeof pageElements != 'undefined') // if not tied to js file with pageElements
 	{
 		window['no-editor'] = true;
 		setPageElements(pageElements);
