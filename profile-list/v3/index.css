@@ -279,4 +279,5 @@ a, button {
 	html { font-size: 0.8em; scroll-behavior: auto; }
 	div { scrollbar-width: 0 !important; }
 	div::-webkit-scrollbar { width: 0 !important }
+	.bi { font-size: 28px; }
 }
