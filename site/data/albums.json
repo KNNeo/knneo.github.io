@@ -1,10 +1,218 @@
 [
 	{
+		"isMain": true,
+		"prefix": "",
+		"title": "The Klassic Note Review",
+		"suffix": "A Klassic Note series"
+	},
+	{
 		"type": "grid",
 		"columns": 1,
 		"rows": 4,
-		"image": "https://otherbooks.carrd.co/assets/images/gallery06/8384096d.jpg",
-		"text": "",
+		"image": "",
+		"text": "2021",
+		"componentData": [
+			{
+				"type": "title",
+				"prefix": "",
+				"title": "2021",
+				"suffix": ""
+			},	
+			{
+				"type": "gallery",
+				"size": "lg",
+				"rows": 3,
+				"datas": [
+					{
+						"tooltip": "",
+						"thumbnail": "https://columbia.jp/kohnomarika/images/COCC-17858.jpg",
+						"source": "https://columbia.jp/kohnomarika/images/COCC-17858.jpg",
+						"grid": {
+							"type": "grid",
+							"columns": 2,
+							"rows": 6,
+							"componentData": [
+								{
+									"columns": 2
+								},
+								{
+									"type": "image",
+									"rows": 4,
+									"tooltip": "",
+									"source": "https://columbia.jp/kohnomarika/images/COCC-17858.jpg",
+									"link": "https://knneo.github.io/blogspot/blog/2021/03/the-klassic-note-review-202103.html"
+								},
+								{
+									"type": "title",
+									"rows": 2,
+									"prefix": "RELEASED 2021.02.24",
+									"title": "Yume Mitai, Demo Yume Janai",
+									"suffix": "Kouno Marika"
+								},
+								{
+									"type": "title",
+									"rows": 2,
+									"prefix": "TRACKLIST",
+									"title": "",
+									"suffix": "1. Yume Mitai, Demo Yume Janai\n2. I tie U"
+								}
+							]
+						}
+					},
+					{
+						"tooltip": "",
+						"thumbnail": "https://scandal-4.sakura.ne.jp/scandal/wp-content/uploads/2021/01/unnamed.jpg",
+						"source": "https://scandal-4.sakura.ne.jp/scandal/wp-content/uploads/2021/01/unnamed.jpg",
+						"grid": {
+							"type": "grid",
+							"columns": 2,
+							"rows": 6,
+							"componentData": [
+								{
+									"columns": 2
+								},
+								{
+									"type": "image",
+									"rows": 4,
+									"tooltip": "",
+									"source": "https://scandal-4.sakura.ne.jp/scandal/wp-content/uploads/2021/01/unnamed.jpg",
+									"link": "https://knneo.github.io/blogspot/blog/2021/03/the-klassic-note-review-202103.html"
+								},
+								{
+									"type": "title",
+									"rows": 2,
+									"prefix": "RELEASED 2021.03.03",
+									"title": "eternal",
+									"suffix": "SCANDAL"
+								},
+								{
+									"type": "title",
+									"rows": 2,
+									"prefix": "TRACKLIST",
+									"title": "",
+									"suffix": "1. eternal"
+								}
+							]
+						}
+					},
+					{
+						"tooltip": "",
+						"thumbnail": "https://scandal-4.sakura.ne.jp/scandal/wp-content/uploads/2021/05/CD-1024x1024.jpg",
+						"source": "https://scandal-4.sakura.ne.jp/scandal/wp-content/uploads/2021/05/CD-1024x1024.jpg",
+						"grid": {
+							"type": "grid",
+							"columns": 2,
+							"rows": 6,
+							"componentData": [
+								{
+									"columns": 2
+								},
+								{
+									"type": "image",
+									"rows": 4,
+									"tooltip": "",
+									"source": "https://scandal-4.sakura.ne.jp/scandal/wp-content/uploads/2021/05/CD-1024x1024.jpg",
+									"link": "https://knneo.github.io/blogspot/blog/2021/06/the-klassic-note-review-202106.html"
+								},
+								{
+									"type": "title",
+									"rows": 2,
+									"prefix": "RELEASED 2021.06.16",
+									"title": "Ivory",
+									"suffix": "SCANDAL"
+								},
+								{
+									"type": "title",
+									"rows": 2,
+									"prefix": "TRACKLIST",
+									"title": "",
+									"suffix": "1. Ivory"
+								}
+							]
+						}
+					},
+					{
+						"tooltip": "",
+						"thumbnail": "https://ayanataketatsu.jp/images/disc/008/j_02.jpg",
+						"source": "https://ayanataketatsu.jp/images/disc/008/j_02.jpg",
+						"grid": {
+							"type": "grid",
+							"columns": 2,
+							"rows": 6,
+							"componentData": [
+								{
+									"columns": 2
+								},
+								{
+									"type": "image",
+									"rows": 4,
+									"tooltip": "",
+									"source": "https://ayanataketatsu.jp/images/disc/008/j_02.jpg",
+									"link": "https://knneo.github.io/blogspot/blog/2021/10/the-klassic-note-review-202109.html"
+								},
+								{
+									"type": "title",
+									"rows": 2,
+									"prefix": "RELEASED 2013.12.04",
+									"title": "Shuumatsu Cinderella",
+									"suffix": "Taketatsu Ayana"
+								},
+								{
+									"type": "title",
+									"rows": 2,
+									"prefix": "TRACKLIST",
+									"title": "",
+									"suffix": "1. Shuumatsu Cinderella\n2.Marshmallow"
+								}
+							]
+						}
+					},
+					{
+						"tooltip": "",
+						"thumbnail": "https://st.cdjapan.co.jp/pictures/l/01/40/COCA-17926.jpg",
+						"source": "https://st.cdjapan.co.jp/pictures/l/01/40/COCA-17926.jpg",
+						"grid": {
+							"type": "grid",
+							"columns": 2,
+							"rows": 6,
+							"componentData": [
+								{
+									"columns": 2
+								},
+								{
+									"type": "image",
+									"rows": 4,
+									"tooltip": "",
+									"source": "https://st.cdjapan.co.jp/pictures/l/01/40/COCA-17926.jpg",
+									"link": "https://knneo.github.io/blogspot/blog/2021/12/the-klassic-note-review-202112.html"
+								},
+								{
+									"type": "title",
+									"rows": 2,
+									"prefix": "RELEASED 2021.11.17",
+									"title": "Hikare Inochi",
+									"suffix": "Kitri"
+								},
+								{
+									"type": "title",
+									"rows": 2,
+									"prefix": "TRACKLIST",
+									"title": "",
+									"suffix": "1. Hikare Inochi\n2.Sympathy"
+								}
+							]
+						}
+					},
+				]
+			}
+		]
+	},
+	{
+		"type": "grid",
+		"columns": 1,
+		"rows": 4,
+		"image": "",
+		"text": "2022",
 		"componentData": [
 			{
 				"type": "title",
