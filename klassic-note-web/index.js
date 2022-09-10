@@ -746,7 +746,7 @@ function updateOptions(contents) {
 			
 			options.appendChild(opt);
 		}
-		if(newOptions.length == 2) //1 result with default
+		if(newOptions.length == 2 && window['mode'] != 'artist') //1 result with default
 		{
 			search.blur();
 			setTimeout(function() {

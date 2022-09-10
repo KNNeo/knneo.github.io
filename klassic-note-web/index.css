@@ -1,5 +1,19 @@
+/*Variables*/
+:root {
+  --primary: #0065ff;
+  --secondary: #609fff;
+  --background: #fff;
+  --foreground: #000;
+}
+
+.darked:root {
+  --primary: #00e4ff;
+  --secondary: #00abbf;
+  --background: #000;
+  --foreground: #fff;
+}
+
 html {
-	/* background-color: white; */
 	font-family: Open Sans;
 }
 
@@ -12,10 +26,9 @@ body {
     position: absolute;
     z-index: 99;
     opacity: 0.5;
-    color: black;
+    color: var(--foreground);
     background-color: transparent;
     width: 100%;
-	/* visibility: hidden; */
     left: 0;
     right: 0;
 }
@@ -23,7 +36,6 @@ body {
 #random-count {
 	font-weight: normal;
 	font-size: small;
-    /* vertical-align: text-top; */
 }
 
 #search, #options {
@@ -36,7 +48,6 @@ body {
 }
 
 #tab-homepage {
-	/* padding: 4px; */
 }
 
 #tab-list {
@@ -49,8 +60,7 @@ body {
 	display: none;
 	position: absolute;
 	right: 0;
-	top: 0;
-	
+	top: 0;	
 }
 
 .absolute {
@@ -64,11 +74,11 @@ body {
 }
 
 .bordered td, .bordered th {
-	border: 1px solid black;
+	border: 1px solid gray;
 }
 
 .darked .bordered td, .darked .bordered th {
-	border: 1px solid white;
+	border: 1px solid var(--foreground);
 }
 
 .centered {
@@ -82,7 +92,7 @@ body {
 }
 
 .content-box {
-  border: 1px solid lightgray;
+  border: 1px solid gray;
   box-shadow: 3px 3px;
   /* padding: 4px; */
   white-space: normal;
@@ -90,7 +100,7 @@ body {
 }
 
 .darked .content-box {
-  border: 1px solid white;
+  border: 1px solid var(--foreground);
 }
 
 .content-table {
@@ -109,7 +119,7 @@ body {
 	width: 100vw;
 	height: 100vh;
 	z-index: 1;
-	background-color: white;
+	background-color: var(--background);
 	opacity: 1;
 	display: none;
 }
@@ -168,11 +178,11 @@ body {
 	vertical-align: bottom;
 	/* cursor: pointer; */
 	text-decoration: none;
-	color: black;
+	color: var(--foreground);
 }
 
 .darked .material-icons {
-	color: white;
+	color: var(--foreground);
 }
 
 .no-highlight tr:hover {
@@ -249,7 +259,7 @@ body {
 }
 
 .context {
-	background-color: white;
+	background-color: var(--background);
 	font-size: 0.9em;
 	position: fixed;
 	width: auto;
@@ -270,13 +280,3 @@ body {
 .touchable .list th {
 	padding: 8px 4px;
 }
-
-/* @media only screen
-   and (max-device-width : 480px)
-{
-	.list td, 
-	.list th {
-		line-height: 1.5;
-	}
-}
- */
