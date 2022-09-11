@@ -76,6 +76,7 @@ function renderWantedList() {
 	loadTimeline();
 	createCalendar(luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: timezone}).month-1, window['calendarDOBlist'], true);
 	updateTime();
+	toggleView(2);
 }
 
 function resetProfile() {
