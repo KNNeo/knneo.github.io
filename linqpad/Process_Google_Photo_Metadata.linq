@@ -71,24 +71,26 @@ void Main()
 	//foreach name, count
 	foreach(var name in nameList)
 	{
-		if(names.Where(n => n.Tag == name).Count() > 0) continue;
+		if(names.Where(n => n.tag == name).Count() > 0) continue;
 		else if(name.Length > 0)
 		{
 			names.Add(new Names{
-				Tag = name,
-				Count = nameList.Where(n => n == name).Count()
+				tag = name,
+				count = nameList.Where(n => n == name).Count(),
+				first = jsonList.Where(n => n.description == name)?.OrderBy(d => d.photoTakenTime.timestamp).First().photoTakenTime.formatted,
 			});
 		}
 	}
 	
 	foreach(var name in peopleList)
 	{
-		if(people.Where(n => n.Tag == name).Count() > 0) continue;
+		if(people.Where(n => n.tag == name).Count() > 0) continue;
 		else
 		{
 			people.Add(new Names{
-				Tag = name,
-				Count = nameList.Where(n => n == name).Count()
+				tag = name,
+				count = nameList.Where(n => n == name).Count(),
+				first = "",
 			});
 		}
 	}
@@ -110,14 +112,14 @@ void Main()
 	}
 	if(analysisMode) {	
 		Console.WriteLine("Items, description different from tag");
-		var exceptionList = new string[]{"TrySail", "sphere"};
+		var exceptionList = new string[]{"TrySail", "sphere", "TOMOMI", "miwa", "Fujita Akane", "Endou Yurika"};
 		Console.WriteLine(namePeopleList);
 		
 		Console.WriteLine("Items, ordered by description count");
-		Console.WriteLine(names.OrderByDescending(n => n.Count).ToList());
+		Console.WriteLine(names.Where(s => !exceptionList.Contains(s.tag)).OrderByDescending(n => n.count).ToList());
 		
 		Console.WriteLine("Items, ordered by tag name count");
-		Console.WriteLine(people.OrderByDescending(n => n.Count).ToList());
+		Console.WriteLine(people.OrderByDescending(n => n.count).Select(s => new { tag = s.tag, count = s.count }).ToList());
 		
 		Console.WriteLine("Items without face identified (fix not required)");
 		Console.WriteLine(jsonList
@@ -144,8 +146,9 @@ string ParseGooglePhotosDateTime(string input) {
 // Define other methods and classes here
 public class Names
 {
-	public string Tag { get; set; }
-	public int Count { get; set; }
+	public string tag { get; set; }
+	public int count { get; set; }
+	public string first { get; set; }
 }
 
 public class GooglePhotosMetadata 
