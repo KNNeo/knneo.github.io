@@ -77,7 +77,7 @@ void Main()
 			names.Add(new Names{
 				tag = name,
 				count = nameList.Where(n => n == name).Count(),
-				first = jsonList.Where(n => n.description == name)?.OrderBy(d => d.photoTakenTime.timestamp).First().photoTakenTime.formatted,
+				first = ParseGooglePhotosDateTime(jsonList.Where(n => n.description == name)?.OrderBy(d => d.photoTakenTime.timestamp).First().photoTakenTime.formatted),
 			});
 		}
 	}
@@ -112,7 +112,7 @@ void Main()
 	}
 	if(analysisMode) {	
 		Console.WriteLine("Items, description different from tag");
-		var exceptionList = new string[]{"TrySail", "sphere", "TOMOMI", "miwa", "Fujita Akane", "Endou Yurika"};
+		var exceptionList = new string[]{"TrySail", "sphere", "TOMOMI", "miwa", "Fujita Akane", "Endou Yurika", "Takebuchi Kei", "Ray"};
 		Console.WriteLine(namePeopleList);
 		
 		Console.WriteLine("Items, ordered by description count");
@@ -121,7 +121,7 @@ void Main()
 		Console.WriteLine("Items, ordered by tag name count");
 		Console.WriteLine(people.OrderByDescending(n => n.count).Select(s => new { tag = s.tag, count = s.count }).ToList());
 		
-		Console.WriteLine("Items without face identified (fix not required)");
+		Console.WriteLine("Items without face identified");
 		Console.WriteLine(jsonList
 		.Where(n => n.people == null && n.photoTakenTime != null)
 		.OrderByDescending(n => n.photoTakenTime.timestamp).Select(n =>
@@ -140,7 +140,7 @@ string ParseGooglePhotosDateTime(string input) {
 				"d MMM yyyy, HH:mm:ss %K", 
 				CultureInfo.InvariantCulture.DateTimeFormat, 
 				DateTimeStyles.AllowWhiteSpaces
-			).AddHours(8).ToString("dd MMM yyyy, HH:mm:ss") + " SGT";
+			).AddHours(8).ToString("yyyy.MM.dd HH:mm:ss") + " SGT";
 }
 
 // Define other methods and classes here
