@@ -341,6 +341,30 @@ function resetQueueView() {
 	document.querySelector('#queue-clear').style.display = 'none';
 }
 
+function runLoader() {
+	switch(document.querySelector('.loader').innerText)
+	{
+		case 'hourglass_full': 
+			document.querySelector('.loader').innerText = 'hourglass_empty';
+			break;
+		case 'hourglass_empty': 
+			document.querySelector('.loader').innerText = 'hourglass_bottom';
+			break;
+		case 'hourglass_bottom': 
+			document.querySelector('.loader').innerText = 'hourglass_full';
+			break;
+		default:
+			document.querySelector('.loader').innerText = 'hourglass_empty';
+			break;
+	}
+	if(window['loading']) setTimeout(runLoader, 500);
+}
+
+function stopLoader() {
+	window['loading'] = false;
+	document.querySelector('.loader').classList.add('hidden');
+}
+
 //--FUNCTIONS--//
 async function callDb(query, callback) {
 	const time = Date.now();
@@ -390,6 +414,7 @@ function startup() {
 	renderSettings();
 	renderVariables();
 	generateFilters();
+	runLoader();
 	generateHomepage();
 	addDragAndDrop();
 }
@@ -407,6 +432,7 @@ function renderVariables() {
 	window['playlist'] = [];
 	window['mode'] = 'song';
 	window['playing'] = null;
+	window['loading'] = true;
 }
 
 function generateHomepage() {
@@ -442,6 +468,7 @@ function generateHomepage() {
 
 function generateYears(contents) {
 	document.getElementById('award-years').innerHTML = '';
+	stopLoader();
 	
 	if(debugMode) console.log('generateYears', contents);
 	if(!contents.columns || !contents.values) return;
