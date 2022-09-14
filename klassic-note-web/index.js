@@ -805,6 +805,122 @@ function scrollToTop() {
 	window.location.hash = "";
 }
 
+function generateTable(contents, id, title, excludedColumns = []) {	
+	document.getElementById(id).innerHTML = '';
+	
+	if(debugMode) console.log('generateTable', id);
+	if(!id || !contents.columns || !contents.values) return;
+	
+	let header = document.createElement('h4');
+	header.classList.add('centered');
+	header.innerText = title || '';
+	document.getElementById(id).appendChild(header);	
+	
+	let columns = contents.columns;
+	let rows = contents.values;
+	
+	let table = document.createElement('table');
+	table.classList.add('list');
+	table.classList.add('centered');
+	table.classList.add('content-box');
+	
+	let tbody = document.createElement('tbody');
+	
+	let row = rows[0];
+	for(let r = 0; r < columns.length; r++)
+	{
+		let rowVal = row[r];
+		if(!rowVal || rowVal.length == 0) continue;
+		if(excludedColumns.includes(columns[r])) continue;
+		
+		let tr = document.createElement('tr');
+	
+		let tc = document.createElement('td');
+		tc.innerText = columns[r];
+		tr.appendChild(tc);
+		
+		let td = document.createElement('td');
+		td.innerText = rowVal;
+		if(rowVal.toString().includes('https://') || rowVal.toString().includes('http://'))
+			td.innerHTML = '<a target="_blank" href="' + rowVal + '">' + rowVal + '</a>';
+		tr.appendChild(td);
+		
+		tbody.appendChild(tr);	
+	}
+		
+	table.appendChild(tbody);
+	document.getElementById(id).appendChild(table);
+}
+
+function generateSingleRowTableByFormat(contents, id, title, rowFormat, onClick, onContextMenu, context) {
+	document.getElementById(id).innerHTML = '';
+	
+	if(debugMode) console.log('generateSingleRowTableByFormat', id);
+	if(!id || !rowFormat || !contents.columns || !contents.values) return;
+	
+	let columns = contents.columns;
+	let rows = contents.values;
+	
+	if(rows.length < 1) return;
+	if(rows[0][contents.columns.indexOf('ReleaseYear')].length < 1) return;
+	
+	let header = document.createElement('h4');
+	header.classList.add('centered');
+	header.innerText = title;
+	document.getElementById(id).appendChild(header);	
+	
+	let table = document.createElement('table');
+	table.classList.add('list');
+	table.classList.add('centered');
+	table.classList.add('content-box');
+	table.classList.add('not-selectable');
+	
+	let tbody = document.createElement('tbody');
+	
+	
+	//header
+	for(let row of rows)
+	{
+		let columnIndexKNID = contents.columns.indexOf('KNID');
+		if(columnIndexKNID < 0) return;
+		
+		let parts = [];
+		for(let format of rowFormat)
+		{
+			parts.push(row[contents.columns.indexOf(format)]);
+		}
+	
+		let tr = document.createElement('tr');
+	
+		let tc = document.createElement('td');
+		tc.style.cursor = 'pointer';
+		tc.setAttribute('data-id', row[columnIndexKNID]);
+		tc.addEventListener('click', onClick);
+		tc.setAttribute('context', context);
+		tc.addEventListener('contextmenu', onContextMenu);
+		tc.innerText = parts.join(' - ');
+		tr.appendChild(tc);
+
+		tbody.appendChild(tr);	
+	}
+		
+	table.appendChild(tbody);
+	document.getElementById(id).appendChild(table);
+}
+
+function generateTableWithHeader(contents) {
+	//generateSingleRowTableByFormat but with:
+	/*
+	1. header
+	2. select row
+	3. icon at end (award)	
+	*/
+}
+
+function generateHistogramRow(contents) {
+	
+}
+
 //load layout
 //flow is generally generateLayout -> query-prefixed functions -> generate-prefixed functions
 function generateLayout(contents) {
@@ -1055,51 +1171,8 @@ function queryInfo(contents) {
 }
 
 function generateSongInfo(contents) {
-	document.getElementById('song-info').innerHTML = '';
-	
 	if(debugMode) console.log('generateSongInfo', contents);
-	if(!contents.columns || !contents.values) return;
-	
-	let header = document.createElement('h4');
-	header.classList.add('centered');
-	header.innerText = 'Song Information';
-	document.getElementById('song-info').appendChild(header);	
-	
-	let columns = contents.columns;
-	let rows = contents.values;
-	
-	let table = document.createElement('table');
-	table.classList.add('list');
-	table.classList.add('centered');
-	table.classList.add('content-box');
-	
-	let tbody = document.createElement('tbody');
-	
-	let excludedColumns = ['ArtistID', 'ReleaseID'];
-	let row = rows[0];
-	for(let r = 0; r < columns.length; r++)
-	{
-		let rowVal = row[r];
-		if(!rowVal || rowVal.length == 0) continue;
-		if(excludedColumns.includes(columns[r])) continue;
-		
-		let tr = document.createElement('tr');
-	
-		let tc = document.createElement('td');
-		tc.innerText = columns[r];
-		tr.appendChild(tc);
-		
-		let td = document.createElement('td');
-		td.innerText = rowVal;
-		if(rowVal.toString().includes('://'))
-			td.innerHTML = '<a target="_blank" href="' + rowVal + '">' + rowVal + '</a>';
-		tr.appendChild(td);
-		
-		tbody.appendChild(tr);	
-	}
-		
-	table.appendChild(tbody);
-	document.getElementById('song-info').appendChild(table);
+	generateTable(contents, 'song-info', 'Song Information', ['ArtistID', 'ReleaseID']);
 }
 
 function generateArtistInfo(contents) {
@@ -1149,7 +1222,6 @@ function generateArtistInfo(contents) {
 				let ta = document.createElement('span');
 				ta.title = 'Winner';
 				ta.classList.add('material-icons');
-				// ta.classList.add('award-winner');
 				ta.style.position = 'absolute';
 				ta.style.cursor = 'pointer';
 				ta.style.left = '2px';
@@ -1172,50 +1244,8 @@ function generateArtistInfo(contents) {
 }
 
 function generateReleaseInfo(contents) {
-	document.getElementById('release-info').innerHTML = '';
-	
 	if(debugMode) console.log('generateReleaseInfo', contents);
-	if(!contents.columns || !contents.values) return;
-	
-	let header = document.createElement('h4');
-	header.classList.add('centered');
-	header.innerText = 'Release Information';
-	document.getElementById('release-info').appendChild(header);	
-	
-	let columns = contents.columns;
-	let rows = contents.values;
-	
-	let table = document.createElement('table');
-	table.classList.add('list');
-	table.classList.add('centered');
-	table.classList.add('content-box');
-	
-	let tbody = document.createElement('tbody');
-	
-	//header
-	let row = rows[0];
-	for(let r = 0; r < columns.length; r++)
-	{
-		let rowVal = row[r];
-		if(!rowVal || rowVal.length == 0) continue;
-		
-		let tr = document.createElement('tr');
-	
-		let tc = document.createElement('td');
-		tc.innerText = columns[r];
-		tr.appendChild(tc);
-		
-		let td = document.createElement('td');
-		td.innerText = rowVal;
-		if(rowVal.toString().includes('://'))
-			td.innerHTML = '<a target="_blank" href="' + rowVal + '">' + rowVal + '</a>';
-		tr.appendChild(td);
-		
-		tbody.appendChild(tr);	
-	}
-		
-	table.appendChild(tbody);
-	document.getElementById('release-info').appendChild(table);
+	generateTable(contents, 'release-info', 'Release Information', []);
 }
 
 function queryYearInfo(contents) {
@@ -1514,170 +1544,43 @@ function queryRelated(contents) {
 
 function generateSongRelatedByDate(contents) {
 	if(debugMode) console.log('generateSongRelatedByDate', contents);
-	if(!contents.columns || !contents.values) return;
-	
-	let columns = contents.columns;
-	let rows = contents.values;
-	
-	if(rows.length < 1) return;
-	if(rows[0][contents.columns.indexOf('ReleaseYear')].length < 1) return;
-	
-	let header = document.createElement('h4');
-	header.classList.add('centered');
-	header.innerText = 'Songs within 3 months';
-	document.getElementById('songs-related-date').appendChild(header);	
-	
-	let table = document.createElement('table');
-	// table.id = 'table';
-	table.classList.add('list');
-	table.classList.add('centered');
-	table.classList.add('content-box');
-	table.classList.add('not-selectable');
-	
-	let tbody = document.createElement('tbody');
-	
-	//header
-	for(let row of rows)
-	{
-		let columnIndexKNID = contents.columns.indexOf('KNID');
-		let columnIndexSongTitle = contents.columns.indexOf('SongTitle');
-		let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
-		
-		let tr = document.createElement('tr');
-	
-		let tc = document.createElement('td');
-		tc.style.cursor = 'pointer';
-		tc.setAttribute('data-id', row[columnIndexKNID]);
-		tc.setAttribute('context', 'related');
-		tc.innerText = row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle];
-		tc.addEventListener('click', updateSong);
-		tc.addEventListener('contextmenu', showContextMenu);
-		tr.appendChild(tc);
-		
-		//click to play
-		// let td = document.createElement('td');
-		// td.innerText = rowVal;
-		// if(rowVal.toString().includes('://'))
-			// td.innerHTML = '<a target="_blank" href="' + rowVal + '">' + rowVal + '</a>';
-		// tr.appendChild(td);
-		
-		tbody.appendChild(tr);	
-	}
-		
-	table.appendChild(tbody);
-	document.getElementById('songs-related-date').appendChild(table);
+	generateSingleRowTableByFormat(
+		contents, 
+		'songs-related-date', 
+		'Songs within 3 months', 
+		['ArtistTitle', 'SongTitle'], 
+		updateSong, 
+		showContextMenu, 
+		'related'
+	);
 }
 
 function generateSongRelatedByYear(contents) {
 	if(debugMode) console.log('generateSongRelatedByYear', contents);
-	if(!contents.columns || !contents.values) return;
-	
-	let columns = contents.columns;
 	let rows = contents.values;
-	
-	if(rows.length < 1) return;
-	if(rows[0][contents.columns.indexOf('ReleaseYear')].length < 1) return;
-	
-	let header = document.createElement('h4');
-	header.classList.add('centered');
-	header.innerText = 'Songs from ' + rows[0][contents.columns.indexOf('ReleaseYear')];
-	document.getElementById('songs-related-year').appendChild(header);	
-	
-	let table = document.createElement('table');
-	// table.id = 'table';
-	table.classList.add('list');
-	table.classList.add('centered');
-	table.classList.add('content-box');
-	table.classList.add('not-selectable');
-	
-	let tbody = document.createElement('tbody');
-	
-	//header
-	for(let row of rows)
-	{
-		let columnIndexKNID = contents.columns.indexOf('KNID');
-		let columnIndexSongTitle = contents.columns.indexOf('SongTitle');
-		let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
-		
-		let tr = document.createElement('tr');
-	
-		let tc = document.createElement('td');
-		tc.style.cursor = 'pointer';
-		tc.setAttribute('data-id', row[columnIndexKNID]);
-		tc.setAttribute('context', 'related');
-		tc.innerText = row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle];
-		tc.addEventListener('click', updateSong);
-		tc.addEventListener('contextmenu', showContextMenu);
-		tr.appendChild(tc);
-		
-		//click to play
-		// let td = document.createElement('td');
-		// td.innerText = rowVal;
-		// if(rowVal.toString().includes('://'))
-			// td.innerHTML = '<a target="_blank" href="' + rowVal + '">' + rowVal + '</a>';
-		// tr.appendChild(td);
-		
-		tbody.appendChild(tr);	
-	}
-		
-	table.appendChild(tbody);
-	document.getElementById('songs-related-year').appendChild(table);
+	generateSingleRowTableByFormat(
+		contents, 
+		'songs-related-year', 
+		'Songs from ' + rows[0][contents.columns.indexOf('ReleaseYear')], 
+		['ArtistTitle', 'SongTitle'], 
+		updateSong, 
+		showContextMenu, 
+		'related'
+	);
 }
 
 function generateArtistRelated(contents) {
 	if(debugMode) console.log('generateArtistRelated', contents);
-	if(!contents.columns || !contents.values) return;
-	
-	let columns = contents.columns;
 	let rows = contents.values;
-	
-	if(rows.length < 1) return;
-	if(rows[0][contents.columns.indexOf('ArtistTitle')].length < 1) return;
-	
-	let header = document.createElement('h4');
-	header.classList.add('centered');
-	header.innerText = 'Songs from ' + rows[0][contents.columns.indexOf('ArtistTitle')];
-	document.getElementById('artist-related').appendChild(header);	
-	
-	let table = document.createElement('table');
-	// table.id = 'table';
-	table.classList.add('list');
-	table.classList.add('centered');
-	table.classList.add('content-box');
-	table.classList.add('not-selectable');
-	
-	let tbody = document.createElement('tbody');
-	
-	//header
-	for(let row of rows)
-	{
-		let columnIndexKNID = contents.columns.indexOf('KNID');
-		let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
-		let columnIndexSongTitle = contents.columns.indexOf('SongTitle');
-		
-		let tr = document.createElement('tr');
-	
-		let tc = document.createElement('td');
-		tc.style.cursor = 'pointer';
-		tc.setAttribute('data-id', row[columnIndexKNID]);
-		tc.setAttribute('context', 'related');
-		tc.innerText = row[columnIndexKNYEAR] + ' - ' + row[columnIndexSongTitle];
-		tc.addEventListener('click', updateSong);
-		tc.addEventListener('contextmenu', showContextMenu);
-		tr.appendChild(tc);
-		
-		//click to play
-		// let td = document.createElement('td');
-		// td.innerText = rowVal;
-		// if(rowVal.toString().includes('://'))
-			// td.innerHTML = '<a target="_blank" href="' + rowVal + '">' + rowVal + '</a>';
-		// tr.appendChild(td);
-		
-		tbody.appendChild(tr);	
-	}
-		
-	table.appendChild(tbody);
-	document.getElementById('artist-related').appendChild(table);
+	generateSingleRowTableByFormat(
+		contents, 
+		'artist-related', 
+		'Songs from ' + rows[0][contents.columns.indexOf('ArtistTitle')], 
+		['KNYEAR', 'SongTitle'], 
+		updateSong, 
+		showContextMenu, 
+		'related'
+	);
 }
 
 function generateReleaseRelated(contents) {
