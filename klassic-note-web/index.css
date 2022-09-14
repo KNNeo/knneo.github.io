@@ -59,7 +59,7 @@ body {
 #cover {
 	display: none;
 	position: absolute;
-	right: 0;
+	right: 5px;
 	top: 0;	
 }
 
@@ -286,4 +286,8 @@ body {
 .touchable .list td, 
 .touchable .list th {
 	padding: 8px 4px;
+}
+
+.touchable .tab-button {
+	padding: 10px;
 }
