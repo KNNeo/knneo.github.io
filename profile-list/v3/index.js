@@ -29,6 +29,7 @@ window.addEventListener('load', startup);
 ////STARTUP////
 function startup() {
 	initializeVariables();
+	runLoader();
 	if(profileListJson && profileListJson.length == 0) {
 		getJson(source, function(response) {
 			profileListJson = response;
@@ -55,6 +56,7 @@ function initializeVariables() {
 	window['timelineDOBlist'] = [];
 	window['calendarDOBlist'] = [];
 	window['expanded'] = showExpanded();
+	window['loading'] = true;
 }
 
 function loadProfileLists() {
@@ -68,6 +70,8 @@ function loadProfileLists() {
 	window['defaultProfile'] = profileListJson.find(n => n.category == 'default');
 	window['timelineDOBlist'] = createDOBlist(window['profileList'], 1, 35, true);
 	window['calendarDOBlist'] = createDOBlist(window['calendarList'], 0, 50);
+	
+	stopLoader();
 	renderWantedList();
 }
 
@@ -97,6 +101,33 @@ function toggleView(id) {
 	}
 	document.querySelectorAll('.page')[id-1].classList.remove('hidden');
 }
+
+function runLoader() {
+	if(document.querySelector('.loader').classList.length < 3 ||
+		document.querySelector('.loader').classList.contains('bi-hourglass-top'))
+	{
+		document.querySelector('.loader').classList.remove('bi-hourglass-top');
+		document.querySelector('.loader').classList.add('bi-hourglass-split');
+	}
+	else if(document.querySelector('.loader').classList.contains('bi-hourglass-split'))
+	{
+		document.querySelector('.loader').classList.remove('bi-hourglass-split');
+		document.querySelector('.loader').classList.add('bi-hourglass-bottom');
+	}
+	else if(document.querySelector('.loader').classList.contains('bi-hourglass-bottom'))
+	{
+		document.querySelector('.loader').classList.remove('bi-hourglass-bottom');
+		document.querySelector('.loader').classList.add('bi-hourglass-top');
+	}
+	
+	if(window['loading']) setTimeout(runLoader, 500);
+}
+
+function stopLoader() {
+	window['loading'] = false;
+	document.querySelector('.loader').classList.add('hidden');
+}
+
 
 ////WANTED LIST////
 function generateWantedList() {
