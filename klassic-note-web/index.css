@@ -243,6 +243,10 @@ body {
 	display: none;
 }
 
+.settings {
+	padding: 20px 0;
+}
+
 .settings .material-icons {
 	font-size: 24px;
 }

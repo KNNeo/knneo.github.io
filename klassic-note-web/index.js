@@ -106,8 +106,7 @@ function setTabs() {
 	for(let tab of document.getElementsByClassName('tab'))
 	{
 		let hasModules = Array.from(tab.childNodes).filter(c => c.childNodes.length > 0).length > 0;
-		if(debugMode) 
-			console.log('hasModules', tab.id, hasModules);
+		if(debugMode) console.log('hasModules', tab.id, hasModules);
 		let tabButton = document.getElementById('button-' + tab.id);
 		if(tabButton != null) //button controls on mobile
 		{
@@ -139,13 +138,20 @@ function setTabs() {
 	}
 	
 	document.getElementById('tab-buttons').style.display = isWidescreen ? 'none' : '';
-	document.getElementById('tab-list').style.height = window.innerHeight - Array.from(document.getElementsByClassName('calc')).reduce((total, current) => { return total + current.offsetHeight; }, 100) + 'px';
+	let tabHeight = window.innerHeight - Array.from(document.getElementsByClassName('calc')).reduce((total, current) => { return total + current.offsetHeight; }, 10) + 'px';
 	if (debugMode) console.log('containerHeight', document.getElementById('tab-list').style.height);
 	
 	document.getElementById('search').style.width = homePageVisible ? '100%' : (document.getElementById('options').getBoundingClientRect().width - 40) + 'px';
 	document.getElementById('search-buttons').style.display = homePageVisible ? 'none' : '';
 	
 	hideContextMenus(true);
+	
+	if(debugMode) console.log(tabHeight, document.getElementById('tab-list').style.height);
+	if(tabHeight != document.getElementById('tab-list').style.height)
+	{
+		document.getElementById('tab-list').style.height = tabHeight;
+		setTimeout(setTabs, 100);
+	}
 }
 
 function showTab(activeTab) {
@@ -415,6 +421,7 @@ function startup() {
 	renderVariables();
 	generateFilters();
 	runLoader();
+	setTabs();
 	generateHomepage();
 	addDragAndDrop();
 }
@@ -647,7 +654,6 @@ function generateTabs() {
 		else
 			tabNames.push(tabItem.innerText);
 	}
-	setTabs();
 }
 
 function generateFilters() {
@@ -971,6 +977,7 @@ function generateLayout(contents) {
 	}
 	
 	generateTabs();
+	setTabs();
 	scrollToTop();
 	updateQueueButtons();
 	
