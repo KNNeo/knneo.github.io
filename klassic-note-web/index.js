@@ -665,19 +665,19 @@ function generateFilters() {
 	search.placeholder = 'Song Title, Artist Title, KNYEAR...';
 	search.addEventListener('focus', selectAll);
 	search.addEventListener('input', function() {
+		let searchFields = [].join(" || ");
+		let query = "";
 		// console.log('querySelect', document.querySelector('#search').value);
-		let searchFields = ['SongTitle','ArtistTitle','KNYEAR'].join(" || ");
-		let query = "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song WHERE TRUE ";
-		query += addQuotationInSQLString(document.querySelector('#search').value).split(' ').map(v => "AND " + searchFields + " LIKE '%" + v + "%'").join('');
-		query += " UNION ALL ";
+		
 		searchFields = ['ArtistTitle'].join(" || ");
 		query += "SELECT ArtistID AS KNID, '' AS KNYEAR, '' AS SongTitle, ArtistTitle FROM Artist WHERE TRUE "
-		query += addQuotationInSQLString(document.querySelector('#search').value).split(' ').map(v => "AND " + searchFields + " LIKE '%" + v + "%'").join('');		
+		query += addQuotationInSQLString(document.querySelector('#search').value).split(' ').map(v => "AND " + searchFields + " LIKE '%" + v + "%'").join('');
+		query += " UNION ALL ";
 		
-		// query += " LOWER(" + removeCharacterInSQLProperty("SongTitle") + ") LIKE '%" + term + "%'";
-		// query += " OR LOWER(" + removeCharacterInSQLProperty("ArtistTitle") + ") LIKE '%" + term + "%'";
-		// query += " OR LOWER(" + removeCharacterInSQLProperty("ArtistTitle || ' ' || SongTitle") + ") LIKE '%" + term + "%'";
-		// query += " OR LOWER(" + removeCharacterInSQLProperty("SongTitle || ' ' || ArtistTitle") + ") LIKE '%" + term + "%'";
+		searchFields = ['SongTitle','ArtistTitle','KNYEAR'].join(" || ");
+		query += "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song WHERE TRUE ";
+		query += addQuotationInSQLString(document.querySelector('#search').value).split(' ').map(v => "AND " + searchFields + " LIKE '%" + v + "%'").join('');
+		
 		if(debugMode) console.log('search', query);
 		queryDb(query, updateOptions);
 	});
@@ -1073,6 +1073,7 @@ function generateLayout(contents) {
 	
 	if(window['mode'] == 'artist')
 	{
+		document.querySelector('#search').value = contents.values[0][contents.columns.indexOf('Artist Title')];
 		queryArtistInfo(contents);
 		queryArtistRelated(contents);
 		//awards that artist won? and nominated
