@@ -923,7 +923,7 @@ function generateTableList(contents, id, title, rowFormat, onClick, onContextMen
 	document.getElementById(id).appendChild(table);
 }
 
-function generateTableByDataWithHeader(contents, id, skipClear = false, title, skipTitle = false, excludedColumns = [], dataId = 'KNID', groupColumn = 'Rank #', titleColumn) {	
+function generateTableByDataWithHeader(contents, id, skipClear, title, skipTitle, excludedColumns = [], dataId = 'KNID', groupColumn = 'Rank #', titleColumn) {	
 	if(!skipClear) document.getElementById(id).innerHTML = '';
 	let columns = contents.columns;
 	let rows = contents.values;
@@ -1279,7 +1279,7 @@ function queryInfo(contents) {
 		console.log('generateArtistInfo', query);
 	queryDb(query, generateArtistInfo);
 	
-	query = "SELECT KNYEAR, Category, Type, ReleaseTitle AS 'Release Title', ReleaseArtistTitle AS 'Release Artist', TracksSelected || ' / ' || TracksTotal AS 'Tracks In Library', (SELECT COUNT(*) FROM Song s WHERE s.ReleaseTitle like r.ReleaseTitle || '%' AND s.ReleaseArtistTitle = r.ReleaseArtistTitle AND s.KNYEAR <= r.KNYEAR) || ' / ' || TracksSelected AS 'New Tracks', ReleaseYear || SUBSTR('0000' || ReleaseDate, -4, 4) AS 'Release Date', ReleaseTitleAlt AS '" + altTitlePrefix + " Release Title', ReleaseArtistTitleAlt AS '" + altTitlePrefix + " Release Artist' FROM Release r WHERE ReleaseID = (SELECT MAX(ReleaseID) FROM Release WHERE ReleaseTitle = '" + reduceReleaseTitle(row[columnIndexReleaseTitle]) + "' AND ReleaseArtistTitle = '" + addQuotationInSQLString(row[columnIndexReleaseArtistTitle]) + "')";
+	query = "SELECT KNYEAR, Category, Type, ReleaseTitle AS 'Release Title', ReleaseArtistTitle AS 'Release Artist', TracksSelected || ' / ' || TracksTotal AS 'Tracks In Library', (SELECT COUNT(*) FROM Song s WHERE s.ReleaseTitle like r.ReleaseTitle || '%' AND s.ReleaseArtistTitle = r.ReleaseArtistTitle AND s.KNYEAR <= r.KNYEAR) || ' / ' || TracksSelected AS 'New Tracks', ReleaseYear || '.' || SUBSTR('00' || SUBSTR(ReleaseDate, 0, 2), -2, 2) || '.' || SUBSTR('00' || ReleaseDate, -2, 2) AS 'Release Date', ReleaseTitleAlt AS '" + altTitlePrefix + " Release Title', ReleaseArtistTitleAlt AS '" + altTitlePrefix + " Release Artist' FROM Release r WHERE ReleaseID = (SELECT MAX(ReleaseID) FROM Release WHERE ReleaseTitle = '" + reduceReleaseTitle(row[columnIndexReleaseTitle]) + "' AND ReleaseArtistTitle = '" + addQuotationInSQLString(row[columnIndexReleaseArtistTitle]) + "')";
 	if(debugMode) 
 		console.log('generateReleaseInfo', query);
 	queryDb(query, generateReleaseInfo);
@@ -1291,71 +1291,8 @@ function generateSongInfo(contents) {
 }
 
 function generateArtistInfo(contents) {
-	document.querySelector('#artist-info').innerHTML = '';
-	
 	if(debugMode) console.log('generateArtistInfo', contents);
-	if(!contents.columns || !contents.values) return;
-	
-	let header = document.createElement('h4');
-	header.classList.add('centered');
-	header.innerText = 'Artist Information';
-	document.querySelector('#artist-info').appendChild(header);	
-	
-	let columns = contents.columns;
-	let rows = contents.values;
-	
-	let table = document.createElement('table');
-	table.classList.add('list');
-	table.classList.add('centered');
-	table.classList.add('content-box');
-	
-	let tbody = document.createElement('tbody');
-	
-	//header
-	let row = rows[0];
-	for(let r = 0; r < columns.length; r++)
-	{
-		let rowVal = row[r];
-		if(!rowVal || rowVal.length == 0) continue;
-		
-		let tr = document.createElement('tr');
-	
-		let tc = document.createElement('td');
-		tc.innerText = columns[r];
-		tr.appendChild(tc);
-		
-		let td = document.createElement('td');
-		td.innerHTML = rowVal;
-		if(rowVal.toString().includes('://'))
-			td.innerHTML = '<a target="_blank" href="' + rowVal + '">' + rowVal + '</a>';
-		
-		if(window['mode'] != 'artist' && columns[r] == 'Name')
-		{
-			let tda = document.createElement('span');
-			tda.style.position = 'relative';
-			
-				let ta = document.createElement('span');
-				ta.title = 'Winner';
-				ta.classList.add('material-icons');
-				ta.style.position = 'absolute';
-				ta.style.cursor = 'pointer';
-				ta.style.left = '2px';
-				ta.innerText = 'launch';
-				ta.setAttribute('data-artist', rowVal);
-				ta.addEventListener('click', updateArtist);
-				
-				tda.appendChild(ta);
-				
-			td.appendChild(tda);
-		}
-		
-		tr.appendChild(td);
-		
-		tbody.appendChild(tr);
-	}
-		
-	table.appendChild(tbody);
-	document.querySelector('#artist-info').appendChild(table);
+	generateTableByData(contents, 'artist-info', 'Artist Information', []);
 }
 
 function generateReleaseInfo(contents) {
