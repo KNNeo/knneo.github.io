@@ -924,7 +924,7 @@ function generateTableList(contents, id, title, rowFormat, onClick, onContextMen
 	document.getElementById(id).appendChild(table);
 }
 
-function generateTableByDataWithHeader(contents, id, skipClear, title, skipTitle, excludedColumns = [], dataId = 'KNID', groupColumn = 'Rank #', titleColumn, centerContent = false) {	
+function generateTableByDataWithHeader(contents, id, skipClear, title, skipTitle, excludedColumns = [], dataId = 'KNID', groupColumn = 'Rank #', titleColumn, centerContent = false, iconColumnName = '', iconValueColumnName = '', iconId = '') {	
 	if(!skipClear) document.getElementById(id).innerHTML = '';
 	let columns = contents.columns;
 	let rows = contents.values;
@@ -946,6 +946,7 @@ function generateTableByDataWithHeader(contents, id, skipClear, title, skipTitle
 	table.classList.add('content-box');
 	table.classList.add('content-table');
 	table.classList.add('not-selectable');
+	table.classList.add('bordered');
 	
 	let tbody = document.createElement('tbody');
 	
@@ -986,7 +987,7 @@ function generateTableByDataWithHeader(contents, id, skipClear, title, skipTitle
 		let columnIndexRankNo = contents.columns.indexOf(groupColumn);
 		
 		let tr = document.createElement('tr');
-		tr.setAttribute('data-id', row[columnIndexKNID]);
+		tr.setAttribute('data-id', row[columnIndexKNID] ?? 0);
 		if(document.querySelector('#options').value == row[columnIndexKNID]) {
 			tr.classList.add('highlight');
 			tr.classList.add('not-selectable');
@@ -1020,7 +1021,7 @@ function generateTableByDataWithHeader(contents, id, skipClear, title, skipTitle
 				else
 				{
 					let td = document.createElement('td');
-					td.innerText = row[contents.columns.indexOf(columnName)];
+					td.appendChild(columnName == iconColumnName ? generateCellValue(columns, row, columnName, iconValueColumnName, iconId) : generateCellValue(columns, row, columnName));
 					tr.appendChild(td);
 				}
 			}
@@ -1041,6 +1042,35 @@ function generateHistogramTableByData(contents, id, title, icon, excludedColumns
 	1. one column change to icon
 	2. icon defined by bi-icon name
 	 */
+}
+
+function generateCellValue(columns, row, textColumn, iconColumn, iconId) {	
+	let cell = document.createElement('div');
+	cell.style.backgroundColor = 'transparent';
+	
+	let cellValue = row[columns.indexOf(textColumn)];
+	let iconValue = row[columns.indexOf(iconColumn)];
+	
+	let textSpan = document.createElement('span');
+	textSpan.innerText = cellValue;	
+	cell.appendChild(textSpan);
+	
+	if(parseInt(iconValue))
+	{
+		let iconSpan = document.createElement('span');
+		
+		for(let i = 0; i < parseInt(iconValue); i++)
+		{
+			let icon = document.createElement('span');
+			icon.classList.add('material-icons');
+			icon.innerText = iconId;
+			iconSpan.appendChild(icon);
+		}
+		
+		cell.appendChild(iconSpan);
+	}
+	
+	return cell;
 }
 
 //load layout
@@ -1358,100 +1388,29 @@ function queryArtistInfo(contents) {
 		console.log('generateArtistInfo', query);
 	queryDb(query, generateArtistInfo);
 	
-	query = "SELECT DISTINCT r.ReleaseYear as 'Year', r.Category, r.Type, r.ReleaseTitle AS 'Release Title', r.ReleaseYear || SUBSTR('0000' || r.ReleaseDate, -4, 4) AS 'Release Date', r.ReleaseTitleAlt AS '" + altTitlePrefix + " Release Title', r.ReleaseArtistTitleAlt AS '" + altTitlePrefix + " Release Artist', w.ReviewID FROM Release r LEFT JOIN Review w ON r.ReleaseID = w.ReleaseID WHERE r.ReleaseArtistTitle = '" + addQuotationInSQLString(row[columnIndexArtistTitle]) + "' GROUP BY r.ReleaseTitle ORDER BY r.ReleaseYear, SUBSTR('0000' || r.ReleaseDate, -4, 4)";
+	query = "SELECT DISTINCT r.ReleaseYear as 'Year', r.Category, r.Type, r.ReleaseTitle AS 'Release Title', r.ReleaseYear || SUBSTR('0000' || r.ReleaseDate, -4, 4) AS 'Release Date', r.ReleaseTitleAlt AS '" + altTitlePrefix + " Release Title', r.ReleaseArtistTitleAlt AS '" + altTitlePrefix + " Release Artist', CAST(w.ReviewID > 0 as INT) as 'ReviewID' FROM Release r LEFT JOIN Review w ON r.ReleaseID = w.ReleaseID WHERE r.ReleaseArtistTitle = '" + addQuotationInSQLString(row[columnIndexArtistTitle]) + "' GROUP BY r.ReleaseTitle ORDER BY r.ReleaseYear, SUBSTR('0000' || r.ReleaseDate, -4, 4)";
 	if(debugMode)
 		console.log('generateReleaseInfo', query);
 	queryDb(query, generateArtistReleaseInfo);
 }
 
 function generateArtistReleaseInfo(contents) {
-	document.querySelector('#artist-release').innerHTML = '';
-	
 	if(debugMode) console.log('generateArtistReleaseInfo', contents);
-	if(!contents.columns || !contents.values) return;
-	
-	let header = document.createElement('h4');
-	header.classList.add('centered');
-	header.innerText = 'Artist Releases';
-	document.querySelector('#artist-release').appendChild(header);	
-	
-	let columns = contents.columns;
-	let rows = contents.values;
-	let columnIndexKNYEAR = contents.columns.indexOf('Year');
-	let columnIndexCategory = contents.columns.indexOf('Category');
-	let columnIndexReleaseTitle = contents.columns.indexOf('Release Title');
-	let columnIndexReviewID = contents.columns.indexOf('ReviewID');
-	
-	let table = document.createElement('table');
-	table.classList.add('list');
-	table.classList.add('centered');
-	table.classList.add('content-box');
-	table.classList.add('bordered');
-	
-	let tbody = document.createElement('tbody');
-	
-	//header
-	let tr = document.createElement('tr');
-	tr.classList.add('no-highlight');
-	for(let column of columns)
-	{
-		if(['Year','Category','Release Title'].indexOf(column) >= 0)
-		{
-			let th = document.createElement('th');
-			th.innerText = column;
-			tr.appendChild(th);
-		}
-	}
-	tbody.appendChild(tr);	
-	
-	//rows
-	for(let r = 0; r < rows.length; r++)
-	{
-		let row = rows[r];
-		if(!row || row.length == 0) continue;
-		
-		let tr = document.createElement('tr');
-	
-		let tc = document.createElement('td');
-		tc.classList.add('centered-text');
-		tc.innerText = row[columnIndexKNYEAR];
-		tr.appendChild(tc);
-		
-		let td = document.createElement('td');
-		td.classList.add('centered-text');
-		td.innerText = row[columnIndexCategory];
-		tr.appendChild(td);
-		
-		let te = document.createElement('td');
-		
-			let teDiv = document.createElement('span');
-			teDiv.innerText = row[columnIndexReleaseTitle];
-			te.appendChild(teDiv);
-			
-			if(row[columnIndexReviewID] != null)
-			{
-				let tda = document.createElement('span');
-				tda.style.position = 'relative';
-				
-					let ta = document.createElement('span');
-					ta.title = 'Reviewed';
-					ta.classList.add('material-icons');
-					ta.style.position = 'absolute';
-					ta.style.left = '2px';
-					ta.innerText = 'reviews';
-					
-					tda.appendChild(ta);
-					
-				te.appendChild(tda);
-			}
-		
-		tr.appendChild(te);
-		
-		tbody.appendChild(tr);	
-	}
-		
-	table.appendChild(tbody);
-	document.querySelector('#artist-release').appendChild(table);
+	generateTableByDataWithHeader(
+		contents, 
+		'artist-release', 
+		false,
+		'Artist Releases', 
+		false,
+		['Type', 'Release Date', 'Original Release Title', 'Original Release Artist', 'ReviewID'], 
+		null,
+		null,
+		null,
+		true,
+		'Release Title',
+		'ReviewID',
+		'music_note'
+	);
 }
 
 function queryRelated(contents) {
@@ -2184,7 +2143,8 @@ function generatePopularSongs(contents) {
 		'ID',
 		null,
 		null,
-		true
+		true,
+		'Song Title'
 	);
 }
 
