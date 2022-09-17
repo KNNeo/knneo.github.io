@@ -669,6 +669,10 @@ function generateFilters() {
 		let searchFields = ['SongTitle','ArtistTitle','KNYEAR'].join(" || ");
 		let query = "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song WHERE TRUE ";
 		query += addQuotationInSQLString(document.querySelector('#search').value).split(' ').map(v => "AND " + searchFields + " LIKE '%" + v + "%'").join('');
+		query += " UNION ALL ";
+		searchFields = ['ArtistTitle'].join(" || ");
+		query += "SELECT ArtistID AS KNID, '' AS KNYEAR, '' AS SongTitle, ArtistTitle FROM Artist WHERE TRUE "
+		query += addQuotationInSQLString(document.querySelector('#search').value).split(' ').map(v => "AND " + searchFields + " LIKE '%" + v + "%'").join('');		
 		
 		// query += " LOWER(" + removeCharacterInSQLProperty("SongTitle") + ") LIKE '%" + term + "%'";
 		// query += " OR LOWER(" + removeCharacterInSQLProperty("ArtistTitle") + ") LIKE '%" + term + "%'";
@@ -715,22 +719,29 @@ function generateFilters() {
 }
 
 function onChangeOption() {
-	let id = parseInt(document.querySelector('#options').value);
-	// console.log('queryOption', id);
-	if(id > 0)
+	let id = document.querySelector('#options').value;
+	if(debugMode) console.log('onChangeOption', id);
+	//select by id value format
+	if(id.startsWith('A'))
 	{
-		// if(window['playlist'].length < 2 || window['playlist'][0] != id)
-		// {
-			// window['playlist'] = [id];
-			// document.querySelector('#random-count').innerText = '';
-		// }
+		window['mode'] = 'artist';
+		
+		let query = "SELECT ArtistTitle AS 'Artist Title' FROM Artist WHERE ArtistID = " + id.replace('A','');
+		if(debugMode) console.log('query', query);
+		queryDb(query, generateLayout);
+		
+		query = "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song WHERE ArtistID = " + id.replace('A','');
+		if(isMobile())
+			query += " LIMIT 100";
+		callDb(query, updateOptions);
+	}
+	else if(parseInt(id) > 0)
+	{
 		window['mode'] = 'song';
 		let query = "SELECT KNID as ID, KNYEAR, Filename, SongTitle as 'Song Title', ArtistTitle as 'Artist Title', ReleaseTitle as 'Release Title', ReleaseArtistTitle as 'Release Artist', ReleaseYear as 'Year', Rating, Genre, DateCreated as 'Date Added', VocalCode as 'Vocal Code', LanguageCode as 'Language', LyricsURL as 'Lyrics', SongTitleAlt as '" + altTitlePrefix + " Song Title', ArtistID, ReleaseID FROM Song WHERE KNID = " + id;
-		if(debugMode)
-			console.log('query', query);
+		if(debugMode) console.log('query', query);
 		queryDb(query, generateLayout);
 	}
-	//probably can multiple query for multiple tables, by semicolon
 }
 
 function selectAll() {
@@ -773,7 +784,7 @@ function updateOptions(contents) {
 		for(let newOption of newOptions)
 		{
 			let opt = document.createElement('option');
-			opt.value = newOption.id;
+			opt.value = (newOption.optionString.startsWith(' - ') ? 'A' : '') + newOption.id;
 			opt.innerHTML = newOption.optionString.replace(search.value, '<span style="font-weight: bold;">' + search.value + '</span>');
 			
 			options.appendChild(opt);
