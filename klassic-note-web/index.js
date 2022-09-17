@@ -924,7 +924,7 @@ function generateTableList(contents, id, title, rowFormat, onClick, onContextMen
 	document.getElementById(id).appendChild(table);
 }
 
-function generateTableByDataWithHeader(contents, id, skipClear, title, skipTitle, excludedColumns = [], dataId = 'KNID', groupColumn = 'Rank #', titleColumn, centerContent = false, iconColumnName = '', iconValueColumnName = '', iconId = '') {	
+function generateTableByDataWithHeader(contents, id, skipClear, title, skipTitle, excludedColumns = [], dataId = 'KNID', groupColumn = 'Rank #', titleColumn, centerContent = false, iconColumnName = '', iconValueColumnName = '', iconId = '', iconTooltip = '') {	
 	if(!skipClear) document.getElementById(id).innerHTML = '';
 	let columns = contents.columns;
 	let rows = contents.values;
@@ -1021,6 +1021,7 @@ function generateTableByDataWithHeader(contents, id, skipClear, title, skipTitle
 				else
 				{
 					let td = document.createElement('td');
+					if(iconTooltip) td.title = iconTooltip;
 					td.appendChild(columnName == iconColumnName ? generateCellValue(columns, row, columnName, iconValueColumnName, iconId) : generateCellValue(columns, row, columnName));
 					tr.appendChild(td);
 				}
@@ -1050,9 +1051,11 @@ function generateCellValue(columns, row, textColumn, iconColumn, iconId) {
 	
 	let cellValue = row[columns.indexOf(textColumn)];
 	let iconValue = row[columns.indexOf(iconColumn)];
+	let iconOnly = textColumn == iconColumn;
 	
 	let textSpan = document.createElement('span');
-	textSpan.innerText = cellValue;	
+	textSpan.style.paddingRight = '3px';
+	if(!iconOnly) textSpan.innerText = cellValue;	
 	cell.appendChild(textSpan);
 	
 	if(parseInt(iconValue))
@@ -1409,7 +1412,8 @@ function generateArtistReleaseInfo(contents) {
 		true,
 		'Release Title',
 		'ReviewID',
-		'music_note'
+		'reviews',
+		'Reviewed'
 	);
 }
 
@@ -2149,58 +2153,22 @@ function generatePopularSongs(contents) {
 }
 
 function generateSongCountByYear(contents) {
-	let columns = contents.columns;
-	let rows = contents.values;
-	if(contents.length == 0) return;
-	
-	let header = document.createElement('h4');
-	header.classList.add('centered');
-	header.innerText = 'Song Count by Year';
-	
-	let table = document.createElement('table');
-	table.classList.add('list');
-	table.classList.add('centered');
-	table.classList.add('content-box');
-	
-	let tbody = document.createElement('tbody');
-	
-	let tr = document.createElement('tr');
-	for(let column of columns)
-	{
-		let th = document.createElement('th');
-		th.innerText = column;
-		tr.appendChild(th);
-	}
-	tbody.appendChild(tr);
-	
-	let excludedColumns = [];
-	let columnIndexKNYEAR = contents.columns.indexOf('Year');
-	let columnIndexCount = contents.columns.indexOf('Count');
-	for(let r = 0; r < rows.length; r++)
-	{
-		let tr = document.createElement('tr');
-		
-		let ty = document.createElement('td');
-		ty.classList.add('centered-text');
-		ty.innerText = rows[r][columnIndexKNYEAR];
-		tr.appendChild(ty);
-	
-		let tc = document.createElement('td');
-		tc.innerHTML = '';
-		for(c = 0; c < parseInt(rows[r][columnIndexCount]); c++)
-		{
-			tc.innerHTML += '<span class="material-icons">music_note</span>';
-		}
-		tr.appendChild(tc);	
-		
-		tbody.appendChild(tr);
-	}
-		
-	table.appendChild(tbody);
-	
-	document.querySelector('#song-appetite').innerHTML = '';
-	document.querySelector('#song-appetite').appendChild(header);
-	document.querySelector('#song-appetite').appendChild(table);
+	if(debugMode) console.log('generateArtistReleaseInfo', contents);
+	generateTableByDataWithHeader(
+		contents, 
+		'song-appetite', 
+		false,
+		'Song Count by Year', 
+		false,
+		[], 
+		null,
+		null,
+		null,
+		true,
+		'Count',
+		'Count',
+		'music_note'
+	);
 }
 
 
