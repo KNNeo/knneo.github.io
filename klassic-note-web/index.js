@@ -1275,13 +1275,11 @@ function queryInfo(contents) {
 	
 	let query = "SELECT ArtistTitle AS 'Name', GROUP_CONCAT(ParentArtist, '<br/>') AS 'Tags (if any)', CASE WHEN ArtistCode = 'BD' THEN 'Independent Band' WHEN ArtistCode = 'ID' THEN 'Idol Group' WHEN ArtistCode = 'AG' THEN 'Anime Voice Actor Group' WHEN ArtistCode = 'AS' THEN 'Anime Voice Actor(s)' WHEN ArtistCode = 'CL' THEN 'Collaboration' WHEN ArtistCode = 'SS' THEN 'Singer-Songwriter' WHEN ArtistCode = 'SL' THEN 'Solo Artist' ELSE 'Unknown' END AS 'Artist Type', DisbandYear AS 'Year Disbanded (if any)', ArtistTitleAlt AS '" + altTitlePrefix + " Name', (SELECT COUNT(*) FROM Song WHERE ArtistTitle = '" + addQuotationInSQLString(row[columnIndexArtistTitle]) + "') AS 'Songs In Library' FROM Artist WHERE ArtistTitle = '" + addQuotationInSQLString(row[columnIndexArtistTitle]) + "' ";
 	query += "GROUP BY ArtistTitle, ArtistCode, DisbandYear, ArtistTitleAlt";
-	if(debugMode) 
-		console.log('generateArtistInfo', query);
+	if(debugMode) console.log('generateArtistInfo', query);
 	queryDb(query, generateArtistInfo);
 	
 	query = "SELECT KNYEAR, Category, Type, ReleaseTitle AS 'Release Title', ReleaseArtistTitle AS 'Release Artist', TracksSelected || ' / ' || TracksTotal AS 'Tracks In Library', (SELECT COUNT(*) FROM Song s WHERE s.ReleaseTitle like r.ReleaseTitle || '%' AND s.ReleaseArtistTitle = r.ReleaseArtistTitle AND s.KNYEAR <= r.KNYEAR) || ' / ' || TracksSelected AS 'New Tracks', ReleaseYear || '.' || SUBSTR('00' || SUBSTR(ReleaseDate, 0, 2), -2, 2) || '.' || SUBSTR('00' || ReleaseDate, -2, 2) AS 'Release Date', ReleaseTitleAlt AS '" + altTitlePrefix + " Release Title', ReleaseArtistTitleAlt AS '" + altTitlePrefix + " Release Artist' FROM Release r WHERE ReleaseID = (SELECT MAX(ReleaseID) FROM Release WHERE ReleaseTitle = '" + reduceReleaseTitle(row[columnIndexReleaseTitle]) + "' AND ReleaseArtistTitle = '" + addQuotationInSQLString(row[columnIndexReleaseArtistTitle]) + "')";
-	if(debugMode) 
-		console.log('generateReleaseInfo', query);
+	if(debugMode) console.log('generateReleaseInfo', query);
 	queryDb(query, generateReleaseInfo);
 }
 
@@ -1307,62 +1305,16 @@ function queryYearInfo(contents) {
 	let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
 	let year = row[columnIndexKNYEAR];
 	
-	let query = "SELECT 'KNYEAR' as Category, KNYEAR AS Data FROM SongAwardsPeriod WHERE KNYEAR = " + year + " AND Category = 'SONGLIST' ";
-	query += "UNION ALL SELECT 'Song Awards Start Date' as Category, StartDate AS Data FROM SongAwardsPeriod WHERE KNYEAR = " + year + " AND Category = 'SONGLIST' ";
-	query += "UNION ALL SELECT 'Song Awards End Date' as Category, EndDate AS Data FROM SongAwardsPeriod WHERE KNYEAR = " + year + " AND Category = 'SONGLIST' ";
-	query += "UNION ALL SELECT 'Song Count' as Category, COUNT(SongID) AS Data FROM Song WHERE KNYEAR = " + year + " ";
-	query += "UNION ALL SELECT 'Total Artists' as Category, COUNT(DISTINCT ArtistID) AS Data FROM Song WHERE KNYEAR = " + year + " ";
-	query += "UNION ALL SELECT 'Total Releases' as Category, COUNT(DISTINCT ReleaseID) AS Data FROM Song WHERE KNYEAR = " + year + " ";
+	let query = "SELECT KNYEAR, StartDate AS 'Song Awards Start Date', EndDate AS 'Song Awards End Date', (SELECT COUNT(SongID) FROM Song WHERE KNYEAR = " + year + ") AS 'Song Count', (SELECT COUNT(DISTINCT ArtistID) FROM Song WHERE KNYEAR = " + year + ") AS 'Total Artists', (SELECT COUNT(DISTINCT ReleaseID) FROM Song WHERE KNYEAR = " + year + ") AS 'Total Releases' FROM SongAwardsPeriod WHERE KNYEAR = " + year + " AND Category = 'SONGLIST' ";
 	if(debugMode) console.log('generateYearInfo', query);
 	queryDb(query, generateYearInfo);
 	queryDb(query, querySOTDByYear);
 }
 
 function generateYearInfo(contents) {
-	document.querySelector('#year-info').innerHTML = '';
-	
 	if(debugMode) console.log('generateYearInfo', contents);
-	if(!contents.columns || !contents.values) return;
-	
-	let header = document.createElement('h4');
-	header.classList.add('centered');
-	header.innerText = 'Song Awards Information';
-	document.querySelector('#year-info').appendChild(header);	
-	
-	let columns = contents.columns;
-	let rows = contents.values;
-	let columnIndexCategory = contents.columns.indexOf('Category');
-	let columnIndexData = contents.columns.indexOf('Data');
-	
-	let table = document.createElement('table');
-	table.classList.add('list');
-	table.classList.add('centered');
-	table.classList.add('content-box');
-	
-	
-	let tbody = document.createElement('tbody');
-	
-	//header
-	for(let r = 0; r < rows.length; r++)
-	{
-		let rowVal = rows[r];
-		if(!rowVal || rowVal.length == 0) continue;
-		
-		let tr = document.createElement('tr');
-	
-		let tc = document.createElement('td');
-		tc.innerText = rowVal[columnIndexCategory];
-		tr.appendChild(tc);
-		
-		let td = document.createElement('td');
-		td.innerText = rowVal[columnIndexData];
-		tr.appendChild(td);
-		
-		tbody.appendChild(tr);	
-	}
-		
-	table.appendChild(tbody);
-	document.querySelector('#year-info').appendChild(table);
+	generateTableByData(contents, 'year-info', 'Song Awards Information', []);
+	return;
 }
 
 function querySongList(contents) {
@@ -2177,10 +2129,12 @@ function querySOTD(contents) {
 function querySOTDByYear(contents) {
 	let columns = contents.columns;
 	let rows = contents.values;
-	let columnIndexData = contents.columns.indexOf('Data');
-	let KNYEAR = rows[0][columnIndexData];
-	let startDate = rows[1][columnIndexData];
-	let endDate = rows[2][columnIndexData];
+	let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
+	let columnIndexStartDate = contents.columns.indexOf('Song Awards Start Date');
+	let columnIndexEndDate = contents.columns.indexOf('Song Awards End Date');
+	let KNYEAR = rows[0][columnIndexKNYEAR];
+	let startDate = rows[0][columnIndexStartDate];
+	let endDate = rows[0][columnIndexEndDate];
 	//select song of the day mentions of that song regardless of year
 	let query = "SELECT t.SongTitle AS 'Song Title', t.ArtistTitle AS 'Artist Title', t.KNID, COUNT(*) AS 'Rank' FROM SOTD t JOIN Song s ON s.KNID = t.KNID ";
 	query += "WHERE t.Date BETWEEN " + startDate + " AND " + endDate + " AND t.IsShortPreview = 0 ";
