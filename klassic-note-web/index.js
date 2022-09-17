@@ -875,9 +875,7 @@ function generateTableList(contents, id, title, rowFormat, onClick, onContextMen
 	
 	let columns = contents.columns;
 	let rows = contents.values;
-	
 	if(rows.length < 1) return;
-	if(rows[0][contents.columns.indexOf('ReleaseYear')].length < 1) return;
 	
 	let header = document.createElement('h4');
 	header.classList.add('centered');
@@ -902,7 +900,10 @@ function generateTableList(contents, id, title, rowFormat, onClick, onContextMen
 		let parts = [];
 		for(let format of rowFormat)
 		{
-			parts.push(row[contents.columns.indexOf(format)]);
+			if(contents.columns.indexOf(format) >= 0)
+				parts.push(row[contents.columns.indexOf(format)]);
+			else
+				parts.push(format);
 		}
 	
 		let tr = document.createElement('tr');
@@ -913,7 +914,7 @@ function generateTableList(contents, id, title, rowFormat, onClick, onContextMen
 		tc.addEventListener('click', onClick);
 		tc.setAttribute('context', context);
 		tc.addEventListener('contextmenu', onContextMenu);
-		tc.innerText = parts.join(' - ');
+		tc.innerText = parts.join('');
 		tr.appendChild(tc);
 
 		tbody.appendChild(tr);	
@@ -923,7 +924,7 @@ function generateTableList(contents, id, title, rowFormat, onClick, onContextMen
 	document.getElementById(id).appendChild(table);
 }
 
-function generateTableByDataWithHeader(contents, id, skipClear, title, skipTitle, excludedColumns = [], dataId = 'KNID', groupColumn = 'Rank #', titleColumn) {	
+function generateTableByDataWithHeader(contents, id, skipClear, title, skipTitle, excludedColumns = [], dataId = 'KNID', groupColumn = 'Rank #', titleColumn, centerContent = false) {	
 	if(!skipClear) document.getElementById(id).innerHTML = '';
 	let columns = contents.columns;
 	let rows = contents.values;
@@ -941,6 +942,7 @@ function generateTableByDataWithHeader(contents, id, skipClear, title, skipTitle
 	// table.id = 'table';
 	table.classList.add('list');
 	table.classList.add('centered');
+	if(centerContent) table.classList.add('centered-text');
 	table.classList.add('content-box');
 	table.classList.add('content-table');
 	table.classList.add('not-selectable');
@@ -977,9 +979,9 @@ function generateTableByDataWithHeader(contents, id, skipClear, title, skipTitle
 	tbody.appendChild(tr);	
 	
 	//rows
-	let rank = 0;
+	let rank = undefined;
 	for(let row of rows)
-	{
+	{		
 		let columnIndexKNID = contents.columns.indexOf(dataId);
 		let columnIndexRankNo = contents.columns.indexOf(groupColumn);
 		
@@ -990,7 +992,7 @@ function generateTableByDataWithHeader(contents, id, skipClear, title, skipTitle
 			tr.classList.add('not-selectable');
 			tr.addEventListener('active', hoverOnTableRow);
 		}
-		else {
+		else if(row[columnIndexKNID]) {
 			tr.style.cursor = 'pointer';
 			tr.addEventListener('click', updateSong);
 			tr.addEventListener('mouseover', hoverOnTableRow);
@@ -1007,7 +1009,7 @@ function generateTableByDataWithHeader(contents, id, skipClear, title, skipTitle
 				{
 					if(row[columnIndexRankNo] != rank)
 					{
-						let span = rows.filter(r => r[columnIndexRankNo] == rank + 1).length;
+						let span = rows.filter(r => r[columnIndexRankNo] == row[columnIndexRankNo]).length;
 						let tc = document.createElement('td');
 						tc.classList.add('centered-text');
 						tc.setAttribute('rowspan', span);
@@ -1033,8 +1035,12 @@ function generateTableByDataWithHeader(contents, id, skipClear, title, skipTitle
 	document.getElementById(id).appendChild(table);
 }
 
-function generateHistogramRow(contents) {
-	
+function generateHistogramTableByData(contents, id, title, icon, excludedColumns = []) {
+	/*
+	same as generateTableByData but:
+	1. one column change to icon
+	2. icon defined by bi-icon name
+	 */
 }
 
 //load layout
@@ -1331,50 +1337,13 @@ function querySongList(contents) {
 
 function generateSongList(contents) {
 	if(debugMode) console.log('generateSongList', contents);
-	if(!contents.columns || !contents.values) return;
-	
-	document.querySelector('#song-list').innerHTML = '';
-	
-	let columns = contents.columns;
-	let rows = contents.values;
-	
-	if(rows.length < 1) return;
-	
-	let header = document.createElement('h4');
-	header.classList.add('centered');
-	header.innerText = 'Songs from ' + rows[0][contents.columns.indexOf('KNYEAR')];
-	document.querySelector('#song-list').appendChild(header);	
-	
-	let table = document.createElement('table');
-	// table.id = 'table';
-	table.classList.add('list');
-	table.classList.add('centered');
-	table.classList.add('content-box');
-	table.classList.add('not-selectable');
-	
-	let tbody = document.createElement('tbody');
-	
-	//header
-	for(let row of rows)
-	{
-		let columnIndexKNID = contents.columns.indexOf('KNID');
-		let columnIndexSongTitle = contents.columns.indexOf('SongTitle');
-		let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
-		
-		let tr = document.createElement('tr');
-	
-		let tc = document.createElement('td');
-		tc.style.cursor = 'pointer';
-		tc.setAttribute('data-id', row[columnIndexKNID]);
-		tc.innerText = row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle];
-		tc.addEventListener('click', updateSong);
-		tr.appendChild(tc);
-		
-		tbody.appendChild(tr);
-	}
-		
-	table.appendChild(tbody);
-	document.querySelector('#song-list').appendChild(table);	
+	generateTableList(
+		contents, 
+		'song-list', 
+		'Songs from ' + contents.values[0][contents.columns.indexOf('KNYEAR')],
+		['ArtistTitle', 'SongTitle'], 
+		updateSong
+	);
 }
 
 function queryArtistInfo(contents) {
@@ -1497,7 +1466,7 @@ function queryRelated(contents) {
 	let columnIndexReleaseDateCreated = contents.columns.indexOf('Date Added');
 
 	//max 10 related within 1 month
-	document.querySelector('#songs-related-date').innerHTML = '';
+	// document.querySelector('#songs-related-date').innerHTML = '';
 	let convertDate = "replace(DateCreated,'.','-')";
 	let currentDate = "(select date("+convertDate+") from Song where KNID = "+row[columnIndexKNID]+")";
 	let dateRange = "date("+convertDate+") between date("+currentDate+",'-1 months') and date("+currentDate+",'+1 months')";
@@ -1509,7 +1478,7 @@ function queryRelated(contents) {
 	queryDb(query, generateSongRelatedByDate);
 	
 	//max 10 related same year
-	document.querySelector('#songs-related-year').innerHTML = '';
+	// document.querySelector('#songs-related-year').innerHTML = '';
 	query = "SELECT * FROM Song WHERE KNID <> " + row[columnIndexKNID];
 	query += " AND ReleaseYear = '" + row[columnIndexReleaseYear] + "'";
 	query += " ORDER BY RANDOM() DESC LIMIT 10";
@@ -1517,7 +1486,7 @@ function queryRelated(contents) {
 	queryDb(query, generateSongRelatedByYear);
 	
 	//max 10 related to artist
-	document.querySelector('#artist-related').innerHTML = '';
+	// document.querySelector('#artist-related').innerHTML = '';
 	query = "SELECT * FROM Song WHERE KNID <> " + row[columnIndexKNID];
 	query += " AND ArtistTitle = '" + addQuotationInSQLString(row[columnIndexArtistTitle]) + "'";
 	query += " ORDER BY RANDOM() DESC LIMIT 10";
@@ -1525,7 +1494,7 @@ function queryRelated(contents) {
 	queryDb(query, generateArtistRelated);
 	
 	//max 10 related to release
-	document.querySelector('#release-related').innerHTML = '';
+	// document.querySelector('#release-related').innerHTML = '';
 	query = "SELECT * FROM Song WHERE KNID <> " + row[columnIndexKNID];
 	if(reduceReleaseTitle(row[columnIndexReleaseTitle]).includes('Disc '))
 		query += " AND ReleaseTitle LIKE '%" + reduceReleaseTitle(row[columnIndexReleaseTitle]) + "%'";
@@ -1537,7 +1506,7 @@ function queryRelated(contents) {
 	queryDb(query, generateReleaseRelated);
 	
 	//artist featured in
-	document.querySelector('#songs-related-collab').innerHTML = '';
+	// document.querySelector('#songs-related-collab').innerHTML = '';
 	query = "select a.ParentArtist, s.KNID, s.KNYEAR, s.SongTitle, s.ArtistTitle from Artist a ";
 	query += "join Song s on a.ArtistID = s.ArtistID "
 	query += "where a.ParentArtist <> a.ArtistTitle and a.ParentArtist = '" + addQuotationInSQLString(row[columnIndexArtistTitle]) + "' ";
@@ -1552,7 +1521,7 @@ function generateSongRelatedByDate(contents) {
 		contents, 
 		'songs-related-date', 
 		'Songs within 3 months', 
-		['ArtistTitle', 'SongTitle'], 
+		['ArtistTitle', ' - ', 'SongTitle'], 
 		updateSong, 
 		showContextMenu, 
 		'related'
@@ -1561,12 +1530,12 @@ function generateSongRelatedByDate(contents) {
 
 function generateSongRelatedByYear(contents) {
 	if(debugMode) console.log('generateSongRelatedByYear', contents);
-	let rows = contents.values;
+	if(contents.values.length == 0) return;
 	generateTableList(
 		contents, 
 		'songs-related-year', 
-		'Songs from ' + rows[0][contents.columns.indexOf('ReleaseYear')], 
-		['ArtistTitle', 'SongTitle'], 
+		'Songs from ' + contents.values[0][contents.columns.indexOf('ReleaseYear')],
+		['ArtistTitle', ' - ', 'SongTitle'], 
 		updateSong, 
 		showContextMenu, 
 		'related'
@@ -1575,12 +1544,12 @@ function generateSongRelatedByYear(contents) {
 
 function generateArtistRelated(contents) {
 	if(debugMode) console.log('generateArtistRelated', contents);
-	let rows = contents.values;
+	if(contents.values.length == 0) return;
 	generateTableList(
 		contents, 
 		'artist-related', 
-		'Songs from ' + rows[0][contents.columns.indexOf('ArtistTitle')], 
-		['KNYEAR', 'SongTitle'], 
+		'Songs from ' + contents.values[0][contents.columns.indexOf('ArtistTitle')], 
+		['KNYEAR', ' - ', 'SongTitle'], 
 		updateSong, 
 		showContextMenu, 
 		'related'
@@ -1589,111 +1558,30 @@ function generateArtistRelated(contents) {
 
 function generateReleaseRelated(contents) {
 	if(debugMode) console.log('generateReleaseRelated', contents);
-	if(!contents.columns || !contents.values) return;
-	
-	let columns = contents.columns;
-	let rows = contents.values;
-	
-	if(rows.length < 1) return;
-	if(rows[0][contents.columns.indexOf('ReleaseTitle')].length < 1) return;
-	
-	let header = document.createElement('h4');
-	header.classList.add('centered');
-	header.innerText = 'Songs from "' + reduceReleaseTitle(rows[0][contents.columns.indexOf('ReleaseTitle')]) + '"';
-	document.querySelector('#release-related').appendChild(header);	
-	
-	let table = document.createElement('table');
-	// table.id = 'table';
-	table.classList.add('list');
-	table.classList.add('centered');
-	table.classList.add('content-box');
-	table.classList.add('not-selectable');
-	
-	let tbody = document.createElement('tbody');
-	
-	//header
-	for(let row of rows)
-	{
-		let columnIndexKNID = contents.columns.indexOf('KNID');
-		let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
-		let columnIndexSongTitle = contents.columns.indexOf('SongTitle');
-		let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
-		
-		let tr = document.createElement('tr');
-
-		let tc = document.createElement('td');
-		tc.style.cursor = 'pointer';
-		tc.setAttribute('data-id', row[columnIndexKNID]);
-		tc.setAttribute('context', 'related');
-		tc.innerText = row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle];
-		tc.addEventListener('click', updateSong);
-		tc.addEventListener('contextmenu', showContextMenu);
-		tr.appendChild(tc);
-		
-		//click to play
-		// let td = document.createElement('td');
-		// td.innerText = rowVal;
-		// if(rowVal.toString().includes('://'))
-			// td.innerHTML = '<a target="_blank" href="' + rowVal + '">' + rowVal + '</a>';
-		// tr.appendChild(td);
-		
-		tbody.appendChild(tr);	
-	}
-		
-	table.appendChild(tbody);
-	document.querySelector('#release-related').appendChild(table);
-	
+	if(contents.values.length == 0) return;
+	generateTableList(
+		contents, 
+		'release-related', 
+		'Songs from "' + reduceReleaseTitle(contents.values[0][contents.columns.indexOf('ReleaseTitle')]) + '"',
+		['ArtistTitle', ' - ', 'SongTitle'], 
+		updateSong, 
+		showContextMenu, 
+		'related'
+	);
 }
 
 function generateSongFeaturedByArtist(contents) {
 	if(debugMode) console.log('generateSongFeaturedByArtist', contents);
-	if(!contents.columns || !contents.values) return;
-	
-	let columns = contents.columns;
-	let rows = contents.values;
-	
-	if(rows.length < 1) return;
-	
-	let columnIndexKNID = contents.columns.indexOf('KNID');
-	let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
-	let columnIndexSongTitle = contents.columns.indexOf('SongTitle');
-	let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
-	let columnIndexParentArtist = contents.columns.indexOf('ParentArtist');
-	
-	let header = document.createElement('h4');
-	header.classList.add('centered');
-	header.innerText = 'Songs featuring ' + rows[0][columnIndexParentArtist];
-	document.querySelector('#songs-related-collab').appendChild(header);	
-	
-	let table = document.createElement('table');
-	// table.id = 'table';
-	table.classList.add('list');
-	table.classList.add('centered');
-	table.classList.add('content-box');
-	table.classList.add('not-selectable');
-	
-	let tbody = document.createElement('tbody');
-	
-	//header
-	for(let row of rows)
-	{
-		
-		let tr = document.createElement('tr');
-	
-		let tc = document.createElement('td');
-		tc.style.cursor = 'pointer';
-		tc.setAttribute('data-id', row[columnIndexKNID]);
-		tc.setAttribute('context', 'related');
-		tc.innerText = row[columnIndexKNYEAR] + ' - ' + row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle];
-		tc.addEventListener('click', updateSong);
-		tc.addEventListener('contextmenu', showContextMenu);
-		tr.appendChild(tc);
-		
-		tbody.appendChild(tr);	
-	}
-		
-	table.appendChild(tbody);
-	document.querySelector('#songs-related-collab').appendChild(table);
+	if(contents.values.length == 0) return;
+	generateTableList(
+		contents, 
+		'songs-related-collab', 
+		'Songs featuring ' + contents.values[0][contents.columns.indexOf('ParentArtist')],
+		['KNYEAR', ' - ', 'ArtistTitle', ' - ', 'SongTitle'],
+		updateSong, 
+		showContextMenu, 
+		'related'
+	);
 }
 
 function queryArtistRelated(contents) {
@@ -1737,170 +1625,42 @@ function queryArtistRelated(contents) {
 
 function queryArtistSongs5Years(contents) {
 	if(debugMode) console.log('queryArtistSongs5Years', contents);
-	document.querySelector('#artist-songs-5y').innerHTML = '';
-	if(!contents.columns || !contents.values) return;
-	
-	let columns = contents.columns;
-	let rows = contents.values;
-	
-	if(rows.length < 1) return;
-	if(rows[0][contents.columns.indexOf('ReleaseYear')].length < 1) return;
-	
-	let header = document.createElement('h4');
-	header.classList.add('centered');
-	header.innerText = 'Songs within 5 years';
-	document.querySelector('#artist-songs-5y').appendChild(header);	
-	
-	let table = document.createElement('table');
-	// table.id = 'table';
-	table.classList.add('list');
-	table.classList.add('centered');
-	table.classList.add('content-box');
-	table.classList.add('not-selectable');
-	
-	let tbody = document.createElement('tbody');
-	
-	//header
-	for(let row of rows)
-	{
-		let columnIndexKNID = contents.columns.indexOf('KNID');
-		let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
-		let columnIndexSongTitle = contents.columns.indexOf('SongTitle');
-		let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
-		
-		let tr = document.createElement('tr');
-	
-		let tc = document.createElement('td');
-		tc.style.cursor = 'pointer';
-		tc.setAttribute('data-id', row[columnIndexKNID]);
-		tc.setAttribute('context', 'related');
-		tc.innerText = row[columnIndexKNYEAR] + ' - ' + row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle];
-		tc.addEventListener('click', updateSong);
-		tc.addEventListener('contextmenu', showContextMenu);
-		tr.appendChild(tc);
-		
-		//click to play
-		// let td = document.createElement('td');
-		// td.innerText = rowVal;
-		// if(rowVal.toString().includes('://'))
-			// td.innerHTML = '<a target="_blank" href="' + rowVal + '">' + rowVal + '</a>';
-		// tr.appendChild(td);
-		
-		tbody.appendChild(tr);	
-	}
-		
-	table.appendChild(tbody);
-	document.querySelector('#artist-songs-5y').appendChild(table);
+	generateTableList(
+		contents, 
+		'artist-songs-5y', 
+		'Songs within 5 years',
+		['KNYEAR', ' - ', 'ArtistTitle', ' - ', 'SongTitle'], 
+		updateSong, 
+		showContextMenu, 
+		'related'
+	);
 }
 
 function queryArtistSongs10Years(contents) {
 	if(debugMode) console.log('queryArtistSongs10Years', contents);
-	document.querySelector('#artist-songs-10y').innerHTML = '';
-	if(!contents.columns || !contents.values) return;
-	
-	let columns = contents.columns;
-	let rows = contents.values;
-	
-	if(rows.length < 1) return;
-	if(rows[0][contents.columns.indexOf('ReleaseYear')].length < 1) return;
-	
-	let header = document.createElement('h4');
-	header.classList.add('centered');
-	header.innerText = 'Songs within 10 years';
-	document.querySelector('#artist-songs-10y').appendChild(header);	
-	
-	let table = document.createElement('table');
-	// table.id = 'table';
-	table.classList.add('list');
-	table.classList.add('centered');
-	table.classList.add('content-box');
-	table.classList.add('not-selectable');
-	
-	let tbody = document.createElement('tbody');
-	
-	//header
-	for(let row of rows)
-	{
-		let columnIndexKNID = contents.columns.indexOf('KNID');
-		let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
-		let columnIndexSongTitle = contents.columns.indexOf('SongTitle');
-		let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
-		
-		let tr = document.createElement('tr');
-	
-		let tc = document.createElement('td');
-		tc.style.cursor = 'pointer';
-		tc.setAttribute('data-id', row[columnIndexKNID]);
-		tc.setAttribute('context', 'related');
-		tc.innerText = row[columnIndexKNYEAR] + ' - ' + row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle];
-		tc.addEventListener('click', updateSong);
-		tc.addEventListener('contextmenu', showContextMenu);
-		tr.appendChild(tc);
-		
-		//click to play
-		// let td = document.createElement('td');
-		// td.innerText = rowVal;
-		// if(rowVal.toString().includes('://'))
-			// td.innerHTML = '<a target="_blank" href="' + rowVal + '">' + rowVal + '</a>';
-		// tr.appendChild(td);
-		
-		tbody.appendChild(tr);	
-	}
-		
-	table.appendChild(tbody);
-	document.querySelector('#artist-songs-10y').appendChild(table);
+	generateTableList(
+		contents, 
+		'artist-songs-10y', 
+		'Songs within 10 years',
+		['KNYEAR', ' - ', 'ArtistTitle', ' - ', 'SongTitle'],
+		updateSong, 
+		showContextMenu, 
+		'related'
+	);
 }
 
 function generateArtistFeatured(contents) {
 	if(debugMode) console.log('generateArtistFeatured', contents);
-	document.querySelector('#artist-featured').innerHTML = '';
-	if(!contents.columns || !contents.values) return;
-	
-	let columns = contents.columns;
-	let rows = contents.values;
-	
-	if(rows.length < 1) return;
-	
-	let columnIndexKNID = contents.columns.indexOf('KNID');
-	let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
-	let columnIndexSongTitle = contents.columns.indexOf('SongTitle');
-	let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
-	let columnIndexParentArtist = contents.columns.indexOf('ParentArtist');
-	
-	let header = document.createElement('h4');
-	header.classList.add('centered');
-	header.innerText = 'Songs featuring ' + rows[0][columnIndexParentArtist];
-	document.querySelector('#artist-featured').appendChild(header);	
-	
-	let table = document.createElement('table');
-	// table.id = 'table';
-	table.classList.add('list');
-	table.classList.add('centered');
-	table.classList.add('content-box');
-	table.classList.add('not-selectable');
-	
-	let tbody = document.createElement('tbody');
-	
-	//header
-	for(let row of rows)
-	{
-		
-		let tr = document.createElement('tr');
-	
-		let tc = document.createElement('td');
-		tc.style.cursor = 'pointer';
-		tc.setAttribute('data-id', row[columnIndexKNID]);
-		tc.setAttribute('context', 'related');
-		tc.innerText = row[columnIndexKNYEAR] + ' - ' + row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle];
-		tc.addEventListener('click', updateSong);
-		tc.addEventListener('contextmenu', showContextMenu);
-		tr.appendChild(tc);
-		
-		tbody.appendChild(tr);	
-	}
-		
-	table.appendChild(tbody);
-	document.querySelector('#artist-featured').appendChild(table);
+	if(contents.values.length == 0) return;
+	generateTableList(
+		contents, 
+		'artist-featured', 
+		'Songs featuring ' + contents.values[0][contents.columns.indexOf('ParentArtist')],
+		['KNYEAR', ' - ', 'ArtistTitle', ' - ', 'SongTitle'],
+		updateSong, 
+		showContextMenu, 
+		'related'
+	);
 }
 
 function queryAwards(contents) {
@@ -2047,7 +1807,16 @@ function queryRankingsByYear(contents) {
 
 function generateRanking(contents) {
 	if(debugMode) console.log('generateRanking', contents);
-	generateTableByDataWithHeader(contents, 'song-ranking', false, 'Song Rankings', false, ['KNID', 'SortOrder', 'KNYEAR'], 'KNID', 'Rank #');
+	generateTableByDataWithHeader(
+		contents, 
+		'song-ranking', 
+		false, 
+		'Song Rankings', 
+		false, 
+		['KNID', 'SortOrder', 'KNYEAR'], 
+		'KNID', 
+		'Rank #'
+	);
 }
 
 function queryCompilations(contents) {
@@ -2077,6 +1846,7 @@ function queryCompilationsByYear(contents) {
 
 function generateCompilations(contents) {
 	document.getElementById('song-compilation').innerHTML = '';
+	
 	let columns = contents.columns;
 	let rows = contents.values;
 	if(contents.length == 0) return;
@@ -2084,21 +1854,28 @@ function generateCompilations(contents) {
 	let header = document.createElement('h4');
 	header.classList.add('centered');
 	header.innerText = 'Compilations';
-	document.querySelector('#song-compilation').appendChild(header);
+	document.getElementById('song-compilation').appendChild(header);
 	
 	let columnIndexCompilationTitle = contents.columns.indexOf('CompilationTitle');
 	let compilationTitles = rows.map(s => s[columnIndexCompilationTitle]).filter((sa, ind, arr) => arr.indexOf(sa) == ind);
-	// console.log('compilationTitles', compilationTitles);
+	if(debugMode) console.log('compilationTitles', compilationTitles);
 	
 	for(let compilationTitle of compilationTitles)
 	{
 		let compilationRows = rows.filter(r => r[columnIndexCompilationTitle] == compilationTitle);
-		// console.log('compilationRows', { columns, values: compilationRows });
+		if(debugMode) console.log('compilationRows', { columns, values: compilationRows });
 		
-		generateTableByDataWithHeader({
-			columns,
-			values: compilationRows,
-		}, 'song-compilation', true, 'Compilations', true, ['CompilationTitle', 'KNID'], 'KNID', 'Track #', 'CompilationTitle');
+		generateTableByDataWithHeader(
+			{ columns, values: compilationRows }, 
+			'song-compilation', 
+			true, 
+			'Compilations', 
+			true, 
+			['CompilationTitle', 'KNID'], 
+			'KNID', 
+			'Track #', 
+			'CompilationTitle'
+		);
 		
 		document.getElementById('song-compilation').appendChild(document.createElement('br'));
 	}
@@ -2110,11 +1887,7 @@ function querySOTD(contents) {
 	let row = rows[0];
 	let columnIndexKNID = contents.columns.indexOf('ID');
 	//select song of the day mentions of that song regardless of year
-	let query = "SELECT t.* FROM SOTD t "
-	query += "JOIN Song s ON s.KNID = t.KNID "
-	query += "JOIN (SELECT td.* FROM SOTD td WHERE td.KNID = " + row[columnIndexKNID] + ") tref ON tref.SOTDID = t.SOTDID ";
-	query += "WHERE t.IsShortPreview = 0 ";
-	query += "ORDER BY t.Date, t.TimeOfDay, t.SortOrder";
+	let query = "SELECT SUBSTR(a.Date, 1, 4) AS 'Year', case when MIN(a.Date) = MAX(a.Date) THEN MIN(a.Date) ELSE MIN(a.Date) || ' - ' || MAX(a.Date) END AS 'Time Period', COUNT(*) AS 'Count' FROM (SELECT t.* FROM SOTD t JOIN Song s ON s.KNID = t.KNID WHERE t.KNID = " + row[columnIndexKNID] + " AND t.IsShortPreview = 0 ORDER BY t.Date, t.TimeOfDay, t.SortOrder) a GROUP BY SUBSTR(a.Date, 1,4)";
 	if(debugMode) console.log('querySOTD', query);
 	queryDb(query, generateSOTD);
 	
@@ -2122,6 +1895,7 @@ function querySOTD(contents) {
 	query = "SELECT m.KNYEAR AS 'Year', m.Month, m.SongTitle AS 'Song Title', m.ArtistTitle AS 'Artist Title', m.Count, m.KNID "
 	query += "FROM SOTM m JOIN Song s ON s.KNID = m.KNID "
 	query += "JOIN (SELECT tm.* FROM SOTM tm WHERE tm.KNID = " + row[columnIndexKNID] + ") mref ON mref.KNYEAR = m.KNYEAR ";
+
 	if(debugMode) console.log('querySOTM', query);
 	queryDb(query, generateSOTM);
 }
@@ -2136,7 +1910,7 @@ function querySOTDByYear(contents) {
 	let startDate = rows[0][columnIndexStartDate];
 	let endDate = rows[0][columnIndexEndDate];
 	//select song of the day mentions of that song regardless of year
-	let query = "SELECT t.SongTitle AS 'Song Title', t.ArtistTitle AS 'Artist Title', t.KNID, COUNT(*) AS 'Rank' FROM SOTD t JOIN Song s ON s.KNID = t.KNID ";
+	let query = "SELECT COUNT(*) AS 'Rank', t.SongTitle AS 'Song Title', t.ArtistTitle AS 'Artist Title', t.KNID FROM SOTD t JOIN Song s ON s.KNID = t.KNID ";
 	query += "WHERE t.Date BETWEEN " + startDate + " AND " + endDate + " AND t.IsShortPreview = 0 ";
 	query += "GROUP BY t.SongTitle, t.ArtistTitle, t.KNID ORDER BY COUNT(*) DESC LIMIT 20";
 	if(debugMode) console.log('querySOTDByYear', query);
@@ -2150,241 +1924,51 @@ function querySOTDByYear(contents) {
 }
 
 function generateSOTD(contents) {
-	document.querySelector('#song-sotd').innerHTML = '';
-	let columns = contents.columns;
-	let rows = contents.values;
-	if(contents.length == 0) return;
-	
-	let header = document.createElement('h4');
-	header.classList.add('centered');
-	header.innerText = 'Song Mentions';
-	document.querySelector('#song-sotd').appendChild(header);
-	
-	let table = document.createElement('table');
-	// table.id = 'table';
-	table.classList.add('list');
-	table.classList.add('centered');
-	table.classList.add('centered-text');
-	table.classList.add('content-box');
-	table.classList.add('content-table');
-	table.classList.add('not-selectable');
-	
-	let tbody = document.createElement('tbody');
-
-	//header
-	let tr = document.createElement('tr');
-	for(let column of ['Year','Time Period','Count'])
-	{
-		let th = document.createElement('th');
-		th.innerText = column;
-		tr.appendChild(th);
-	}
-	tbody.appendChild(tr);
-	
-	//rows
-	let columnIndexDate = contents.columns.indexOf('Date');
-	let years = rows.map(s => s[columnIndexDate].toString().substring(0, 4)).filter((sa, ind, arr) => arr.indexOf(sa) == ind);
-	for(let year of years)
-	{
-		let dateRows = rows.filter(r => r[columnIndexDate].toString().substring(0, 4) == year);
-		
-		let columnIndexCount = contents.columns.indexOf('Count');
-		let earliestDate = dateRows[0][columnIndexDate];
-		let latestDate = dateRows[dateRows.length - 1][columnIndexDate];
-		
-		tr = document.createElement('tr');
-		
-		let ty = document.createElement('td');
-		ty.innerText = earliestDate.toString().substring(0, 4);
-		tr.appendChild(ty);	
-		
-		let td = document.createElement('td');
-		td.innerText = earliestDate == latestDate ? earliestDate : earliestDate + ' - ' + latestDate;
-		tr.appendChild(td);
-		
-		let tc = document.createElement('td');
-		tc.innerText = dateRows.length;
-		tr.appendChild(tc);
-		
-		tbody.appendChild(tr);
-	}
-	
-	table.appendChild(tbody);
-	document.querySelector('#song-sotd').appendChild(table);
+	if(debugMode) console.log('generateSOTD', contents);	
+	generateTableByDataWithHeader(
+		contents, 
+		'song-sotd', 
+		false, 
+		'Song Mentions', 
+		false, 
+		['CompilationTitle', 'KNID'], 
+		'KNID', 
+		'Track #',
+		'Year',
+		true
+	);
 }
 
 function generateTopSOTD(contents) {
-	document.querySelector('#song-sotd').innerHTML = '';
-	let columns = contents.columns;
-	let rows = contents.values;
-	if(contents.length == 0) return;
-	
-	let header = document.createElement('h4');
-	header.classList.add('centered');
-	header.innerText = 'Song of the Day Top Rankings';
-	document.querySelector('#song-sotd').appendChild(header);
-	
-	let table = document.createElement('table');
-	// table.id = 'table';
-	table.classList.add('list');
-	table.classList.add('centered');
-	table.classList.add('centered-text');
-	table.classList.add('content-box');
-	table.classList.add('content-table');
-	table.classList.add('not-selectable');
-	
-	let tbody = document.createElement('tbody');
-
-	//header
-	let tr = document.createElement('tr');
-	for(let column of ['Rank', 'Song Title', 'Artist Title'])
-	{
-		let th = document.createElement('th');
-		th.innerText = column;
-		tr.appendChild(th);
-	}
-	tbody.appendChild(tr);
-	
-	//rows
-	let rank = 0;
-	for(let row of rows)
-	{
-		let columnIndexKNID = contents.columns.indexOf('KNID');
-		let columnIndexRankNo = contents.columns.indexOf('Rank');
-		let columnIndexSongTitle = contents.columns.indexOf('Song Title');
-		let columnIndexArtistTitle = contents.columns.indexOf('Artist Title');
-		
-		let tr = document.createElement('tr');
-		tr.setAttribute('data-id', row[columnIndexKNID]);
-		tr.style.cursor = 'pointer';
-		tr.addEventListener('click', updateSong);
-		tr.addEventListener('mouseover', hoverOnTableRow);
-		tr.addEventListener('mouseout', hoverOnTableRow);
-	
-		//rank no
-		if(row[columnIndexRankNo] != rank)
-		{
-			let span = rows.filter(r => r[columnIndexRankNo] == row[columnIndexRankNo]).length;
-			let tc = document.createElement('td');
-			tc.classList.add('centered-text');
-			tc.setAttribute('rowspan', span);
-			tc.innerText = row[columnIndexRankNo];
-			tr.appendChild(tc);
-		}
-		
-		//song
-		let td = document.createElement('td');
-		td.innerText = row[columnIndexSongTitle];
-		tr.appendChild(td);
-		
-		//artist
-		let te = document.createElement('td');
-		te.innerText = row[columnIndexArtistTitle];
-		tr.appendChild(te);
-		
-		tbody.appendChild(tr);
-		
-		rank = row[columnIndexRankNo];
-	}
-	
-	table.appendChild(tbody);
-	document.querySelector('#song-sotd').appendChild(table);
-
+	if(debugMode) console.log('generateTopSOTD', contents);	
+	generateTableByDataWithHeader(
+		contents, 
+		'song-sotd', 
+		false, 
+		'Song of the Day Top Rankings',
+		false, 
+		['Year', 'KNID'], 
+		'KNID', 
+		'Rank',
+		null,
+		true
+	);
 }
 
 function generateSOTM(contents) {
-	document.querySelector('#song-sotm').innerHTML = '';
-	let columns = contents.columns;
-	let rows = contents.values;
-	if(contents.length == 0) return;
-	
-	let header = document.createElement('h4');
-	header.classList.add('centered');
-	header.innerText = 'Monthly Mentions';
-	document.querySelector('#song-sotm').appendChild(header);
-	
-	let table = document.createElement('table');
-	// table.id = 'table';
-	table.classList.add('list');
-	table.classList.add('centered');
-	table.classList.add('centered-text');
-	table.classList.add('content-box');
-	table.classList.add('content-table');
-	table.classList.add('not-selectable');
-	
-	let tbody = document.createElement('tbody');
-	
-	let tr = document.createElement('tr');
-	
-	let columnIndexYear = contents.columns.indexOf('Year');
-	let ty = document.createElement('th');
-	ty.classList.add('table-title');
-	ty.setAttribute('colspan', 4);
-	ty.style.backgroundColor = 'initial'; //special case
-	ty.innerText = rows[0][columnIndexYear];
-	tr.appendChild(ty);
-	
-	tbody.appendChild(tr);
-
-	//header
-	tr = document.createElement('tr');
-	for(let column of columns)
-	{
-		if(['Month', 'Song Title', 'Artist Title', 'Count'].indexOf(column) >= 0)
-		{
-			let th = document.createElement('th');
-			th.innerText = column;
-			tr.appendChild(th);
-		}
-	}
-	tbody.appendChild(tr);
-	
-	//rows
-	for(let r = 0; r < rows.length; r++)
-	{
-		let columnIndexMonth = contents.columns.indexOf('Month');
-		let columnIndexSongTitle = contents.columns.indexOf('Song Title');
-		let columnIndexArtistTitle = contents.columns.indexOf('Artist Title');
-		let columnIndexCount = contents.columns.indexOf('Count');
-		let columnIndexKNID = contents.columns.indexOf('KNID');
-		
-		let tr = document.createElement('tr');
-		tr.setAttribute('data-id', rows[r][columnIndexKNID]);
-		if(document.querySelector('#options').value == rows[r][columnIndexKNID]) {
-			tr.classList.add('not-selectable');
-			tr.addEventListener('active', hoverOnTableRow);
-		}
-		else {
-			tr.style.cursor = 'pointer';
-			tr.addEventListener('click', updateSong);
-			tr.addEventListener('mouseover', hoverOnTableRow);
-			tr.addEventListener('mouseout', hoverOnTableRow);
-		}
-		
-		let tm = document.createElement('td');
-		if(r < rows.length-1 && rows[r][columnIndexMonth] == rows[r+1][columnIndexMonth])
-			tm.setAttribute('rowspan',2);
-		tm.innerText = rows[r][columnIndexMonth];
-		if(r == 0 || rows[r][columnIndexMonth] != rows[r-1][columnIndexMonth])
-			tr.appendChild(tm);
-		
-		let ts = document.createElement('td');
-		ts.innerText = rows[r][columnIndexSongTitle];
-		tr.appendChild(ts);
-		
-		let ta = document.createElement('td');
-		ta.innerText = rows[r][columnIndexArtistTitle];
-		tr.appendChild(ta);
-		
-		let tc = document.createElement('td');
-		tc.innerText = rows[r][columnIndexCount];
-		tr.appendChild(tc);
-		
-		tbody.appendChild(tr);
-	}
-	
-	table.appendChild(tbody);
-	document.querySelector('#song-sotm').appendChild(table);
+	if(debugMode) console.log('generateSOTM', contents);	
+	generateTableByDataWithHeader(
+		contents, 
+		'song-sotm', 
+		false, 
+		'Monthly Mentions', 
+		false, 
+		['Year', 'KNID'], 
+		'KNID', 
+		'Month',
+		null,
+		true
+	);
 }
 
 function queryAnalysis(contents) {
@@ -2394,15 +1978,8 @@ function queryAnalysis(contents) {
 	let KNYEAR = rows[0][columnIndexData];
 
 	//Vocal Popularity Survey
-	let query = "SELECT 'All' as 'Category', COUNT(VocalCode) as 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " AND VocalCode <> '' ";
-	query += "UNION ALL SELECT 'Male Solo' as 'Category', COUNT(VocalCode) as 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " AND VocalCode = 'M' ";
-	query += "UNION ALL SELECT 'Female Solo' as 'Category', COUNT(VocalCode) as 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " AND VocalCode = 'F' ";
-	query += "UNION ALL SELECT 'Male Duo' as 'Category', COUNT(VocalCode) as 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " AND VocalCode = 'MM' ";
-	query += "UNION ALL SELECT 'Female Duo' as 'Category', COUNT(VocalCode) as 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " AND VocalCode = 'FF' ";
-	query += "UNION ALL SELECT 'Combined Duo' as 'Category', COUNT(VocalCode) as 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " AND (VocalCode = 'MF' or VocalCode = 'FM') ";
-	query += "UNION ALL SELECT 'Trio' as 'Category', COUNT(VocalCode) as 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " AND (VocalCode = 'MMM' or VocalCode = 'FFF') ";
-	query += "UNION ALL SELECT 'Quartet or More' as 'Category', COUNT(VocalCode) as 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " AND LENGTH(VocalCode) > 3 ";
-
+	let query = "SELECT 'All' as 'Category', COUNT(VocalCode) || ' Songs' as 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " AND VocalCode <> '' UNION ALL SELECT res.Category, res.Count || ' (' || printf('%.2f', (100.00 * res.Count / (SELECT COUNT(VocalCode) as 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND VocalCode <> ''))) || '%)' AS 'Count (%)' FROM (SELECT 'Male Solo' as 'Category', COUNT(VocalCode) as 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND VocalCode = 'M' UNION ALL SELECT 'Female Solo' as 'Category', COUNT(VocalCode) as 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND VocalCode = 'F' UNION ALL SELECT 'Male Duo' as 'Category', COUNT(VocalCode) as 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND VocalCode = 'MM' UNION ALL SELECT 'Female Duo' as 'Category', COUNT(VocalCode) as 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND VocalCode = 'FF' UNION ALL SELECT 'Combined Duo' as 'Category', COUNT(VocalCode) as 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND (VocalCode = 'MF' or VocalCode = 'FM') UNION ALL SELECT 'Trio' as 'Category', COUNT(VocalCode) as 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND (VocalCode = 'MMM' or VocalCode = 'FFF') UNION ALL SELECT 'Quartet or More' as 'Category', COUNT(VocalCode) as 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND LENGTH(VocalCode) > 3) res";
+	
 	if(debugMode) console.log('generateVocalPopularity', query);
 	queryDb(query, generateVocalPopularity);
 	
@@ -2414,108 +1991,45 @@ function queryAnalysis(contents) {
 	query += "UNION ALL SELECT '2 Tracks (B-side)' AS 'Category', COUNT(ReleaseID) AS 'Count' FROM Release WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = KNYEAR AND Category = 'SINGLE' AND IsReviewed = 1 AND TracksTotal = 2 AND TracksSelected > 1 ";
 	query += "UNION ALL SELECT '3 Tracks (B-side)' AS 'Category', COUNT(ReleaseID) AS 'Count' FROM Release WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = KNYEAR AND Category = 'SINGLE' AND IsReviewed = 1 AND TracksTotal > 2 AND TracksSelected > 1 ";
 	query += "UNION ALL SELECT 'Singles Reviewed' AS 'Category', COUNT(ReviewID) AS 'Count' FROM Review WHERE KNYEAR = " + KNYEAR + " ";
-
+	
 	if(debugMode) console.log('generateBSide', query);
 	queryDb(query, generateBSide);
 	
 	//Song Language Survey
-	query = "SELECT 'All' AS 'Language', COUNT(LanguageCode) as 'Count (%)' from Song WHERE KNYEAR = " + KNYEAR + " ";
-	query += "UNION ALL SELECT 'English' AS 'Language', COUNT(LanguageCode) as 'Count (%)' from Song WHERE KNYEAR = " + KNYEAR + " AND LanguageCode = 'EN' ";
-	query += "UNION ALL SELECT 'Chinese' AS 'Language', COUNT(LanguageCode) as 'Count (%)' from Song WHERE KNYEAR = " + KNYEAR + " AND LanguageCode = 'CH' ";
-	query += "UNION ALL SELECT 'Japanese' AS 'Language', COUNT(LanguageCode) as 'Count (%)' from Song WHERE KNYEAR = " + KNYEAR + " AND LanguageCode = 'JP' ";
+	query = "SELECT 'All' AS 'Language', COUNT(LanguageCode) || ' Songs' as 'Count (%)' from Song WHERE KNYEAR = " + KNYEAR + " UNION ALL SELECT res.Language, res.Count || ' (' || printf('%.2f', (100.00 * res.Count / (SELECT COUNT(LanguageCode) as 'Count (%)' from Song WHERE KNYEAR = " + KNYEAR + "))) || '%)' as 'Count (%)' FROM (SELECT 'English' AS 'Language', COUNT(LanguageCode) as 'Count' from Song WHERE KNYEAR = " + KNYEAR + " AND LanguageCode = 'EN' UNION ALL SELECT 'Chinese' AS 'Language', COUNT(LanguageCode) as 'Count' from Song WHERE KNYEAR = " + KNYEAR + " AND LanguageCode = 'CH' UNION ALL SELECT 'Japanese' AS 'Language', COUNT(LanguageCode) as 'Count' from Song WHERE KNYEAR = " + KNYEAR + " AND LanguageCode = 'JP') res";
 
 	if(debugMode) console.log('generateSongLaguage', query);
 	queryDb(query, generateSongLaguage);
 	
 	//Year of Release Survey
-	query = "SELECT 'All' AS 'Release Year', COUNT(ReleaseYear) AS 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " ";
-	query += "UNION ALL SELECT MIN(ReleaseYear) || '-' || MAX(ReleaseYear) AS 'Release Year', COUNT(ReleaseYear) AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear < " + KNYEAR + " - 3 ";
-	query += "UNION ALL SELECT " + KNYEAR + " - 3 AS 'Release Year', COUNT(ReleaseYear) AS 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = " + KNYEAR + " - 3 ";
-	query += "UNION ALL SELECT " + KNYEAR + " - 2 AS 'Release Year', COUNT(ReleaseYear) AS 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = " + KNYEAR + " - 2 ";
-	query += "UNION ALL SELECT " + KNYEAR + " - 1 AS 'Release Year', COUNT(ReleaseYear) AS 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = " + KNYEAR + " - 1 ";
-	query += "UNION ALL SELECT " + KNYEAR + " AS 'Release Year', COUNT(ReleaseYear) AS 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = " + KNYEAR + " ";
+	query = "SELECT 'All' AS 'Release Year', COUNT(ReleaseYear) || ' Songs' AS 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " UNION ALL SELECT res.ReleaseYear AS 'Release Year', res.Count || ' (' || printf('%.2f', (100.00 * res.Count / (SELECT COUNT(ReleaseYear) AS 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + "))) || '%)' AS 'Count (%)' FROM (SELECT MIN(ReleaseYear) || '-' || MAX(ReleaseYear) AS 'ReleaseYear', COUNT(ReleaseYear) AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear < " + KNYEAR + " - 3 UNION ALL SELECT " + KNYEAR + " - 3 AS 'ReleaseYear', COUNT(ReleaseYear) AS 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = " + KNYEAR + " - 3 UNION ALL SELECT " + KNYEAR + " - 2 AS 'ReleaseYear', COUNT(ReleaseYear) AS 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = " + KNYEAR + " - 2 UNION ALL SELECT " + KNYEAR + " - 1 AS 'ReleaseYear', COUNT(ReleaseYear) AS 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = " + KNYEAR + " - 1 UNION ALL SELECT " + KNYEAR + " AS 'ReleaseYear', COUNT(ReleaseYear) AS 'Count (%)' FROM Song WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = " + KNYEAR + ") res";
 
 	if(debugMode) console.log('generateYearOfRelease', query);
 	queryDb(query, generateYearOfRelease);
 	
 	//Anime Song Survey
-	query = "SELECT 'All' AS 'Song Type', COUNT(s.VocalCode) AS 'Count (%)' FROM Song s WHERE s.KNYEAR = " + KNYEAR + " AND s.VocalCode <> '' ";
-	query += "UNION ALL SELECT 'Anime Songs' AS 'Song Type', COUNT(ts.SongType) AS 'Count (%)' FROM Song s JOIN ThemeSong ts on s.KNID = ts.KNID WHERE s.KNYEAR = " + KNYEAR + " AND s.Genre IN ('Anime','Soundtrack','Game') ";
-	query += "UNION ALL SELECT 'Anime Theme Songs' AS 'Song Type', COUNT(ts.SongType) AS 'Count (%)' FROM Song s JOIN ThemeSong ts on s.KNID = ts.KNID WHERE s.KNYEAR = " + KNYEAR + " AND s.Genre IN ('Anime','Soundtrack','Game') AND (ts.SongType = 'Opening' OR ts.SongType = 'Ending' OR ts.SongType = 'Theme') ";
-	query += "UNION ALL SELECT 'Anime Character/Insert Songs' AS 'Song Type', COUNT(ts.SongType) AS 'Count (%)' FROM Song s JOIN ThemeSong ts on s.KNID = ts.KNID WHERE s.KNYEAR = " + KNYEAR + " AND s.Genre IN ('Anime','Soundtrack','Game') AND (ts.SongType <> 'Opening' AND ts.SongType <> 'Ending' AND ts.SongType <> 'Theme') ";
+	query = "SELECT 'All' AS 'Song Type', COUNT(s.VocalCode) || ' Songs' AS 'Count (%)' FROM Song s WHERE s.KNYEAR = " + KNYEAR + " AND s.VocalCode <> '' UNION ALL SELECT res.SongType AS 'Song Type', res.Count || ' (' || printf('%.2f', (100.00 * res.Count / (SELECT COUNT(s.VocalCode) AS 'Count (%)' FROM Song s WHERE s.KNYEAR = " + KNYEAR + " AND s.VocalCode <> ''))) || '%)' AS 'Count (%)' FROM (SELECT 'Anime Songs' AS 'SongType', COUNT(ts.SongType) AS 'Count' FROM Song s JOIN ThemeSong ts on s.KNID = ts.KNID WHERE s.KNYEAR = " + KNYEAR + " AND s.Genre IN ('Anime','Soundtrack','Game') UNION ALL SELECT 'Anime Theme Songs' AS 'SongType', COUNT(ts.SongType) AS 'Count' FROM Song s JOIN ThemeSong ts on s.KNID = ts.KNID WHERE s.KNYEAR = " + KNYEAR + " AND s.Genre IN ('Anime','Soundtrack','Game') AND (ts.SongType = 'Opening' OR ts.SongType = 'Ending' OR ts.SongType = 'Theme') UNION ALL SELECT 'Anime Character/Insert Songs' AS 'SongType', COUNT(ts.SongType) AS 'Count' FROM Song s JOIN ThemeSong ts on s.KNID = ts.KNID WHERE s.KNYEAR = " + KNYEAR + " AND s.Genre IN ('Anime','Soundtrack','Game') AND (ts.SongType <> 'Opening' AND ts.SongType <> 'Ending' AND ts.SongType <> 'Theme')) res";
 
 	if(debugMode) console.log('generateAnimeSongs', query);
 	queryDb(query, generateAnimeSongs);
 	
 	//Song Appetite Survey
-	query = "SELECT 'Jan' AS 'Month', COUNT(SongID) AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND DateCreated LIKE '" + KNYEAR + ".01.%' ";
-	query += "UNION ALL SELECT 'Feb' AS 'Month', COUNT(SongID) AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND DateCreated LIKE '" + KNYEAR + ".02.%' ";
-	query += "UNION ALL SELECT 'Mar' AS 'Month', COUNT(SongID) AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND DateCreated LIKE '" + KNYEAR + ".03.%' ";
-	query += "UNION ALL SELECT 'Apr' AS 'Month', COUNT(SongID) AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND DateCreated LIKE '" + KNYEAR + ".04.%' ";
-	query += "UNION ALL SELECT 'May' AS 'Month', COUNT(SongID) AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND DateCreated LIKE '" + KNYEAR + ".05.%' ";
-	query += "UNION ALL SELECT 'Jun' AS 'Month', COUNT(SongID) AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND DateCreated LIKE '" + KNYEAR + ".06.%' ";
-	query += "UNION ALL SELECT 'Jul' AS 'Month', COUNT(SongID) AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND DateCreated LIKE '" + KNYEAR + ".07.%' ";
-	query += "UNION ALL SELECT 'Aug' AS 'Month', COUNT(SongID) AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND DateCreated LIKE '" + KNYEAR + ".08.%' ";
-	query += "UNION ALL SELECT 'Sep' AS 'Month', COUNT(SongID) AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND DateCreated LIKE '" + KNYEAR + ".09.%' ";
-	query += "UNION ALL SELECT 'Oct' AS 'Month', COUNT(SongID) AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND DateCreated LIKE '" + KNYEAR + ".10.%' ";
-	query += "UNION ALL SELECT 'Nov' AS 'Month', COUNT(SongID) AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND DateCreated LIKE '" + KNYEAR + ".11.%' ";
-	query += "UNION ALL SELECT 'Dec' AS 'Month', COUNT(SongID) AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND DateCreated LIKE '" + KNYEAR + ".12.%' ";
+	query = "SELECT 'January' AS 'Month', COUNT(SongID) AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND CAST(REPLACE(DateCreated, '.', '') AS INT) < " + KNYEAR + "0201 UNION ALL SELECT 'February' AS 'Month', COUNT(SongID) || ' (+' || (SELECT COUNT(SongID) FROM Song WHERE KNYEAR = " + KNYEAR + " AND DateCreated LIKE '" + KNYEAR + ".02.%') || ')' AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND CAST(REPLACE(DateCreated, '.', '') AS INT) < " + KNYEAR + "0301 UNION ALL SELECT 'March' AS 'Month', COUNT(SongID) || ' (+' || (SELECT COUNT(SongID) FROM Song WHERE KNYEAR = " + KNYEAR + " AND DateCreated LIKE '" + KNYEAR + ".03.%') || ')' AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND CAST(REPLACE(DateCreated, '.', '') AS INT) < " + KNYEAR + "0401 UNION ALL SELECT 'April' AS 'Month', COUNT(SongID) || ' (+' || (SELECT COUNT(SongID) FROM Song WHERE KNYEAR = " + KNYEAR + " AND DateCreated LIKE '" + KNYEAR + ".04.%') || ')' AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND CAST(REPLACE(DateCreated, '.', '') AS INT) < " + KNYEAR + "0501 UNION ALL SELECT 'May' AS 'Month', COUNT(SongID) || ' (+' || (SELECT COUNT(SongID) FROM Song WHERE KNYEAR = " + KNYEAR + " AND DateCreated LIKE '" + KNYEAR + ".05.%') || ')' AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND CAST(REPLACE(DateCreated, '.', '') AS INT) < " + KNYEAR + "0601 UNION ALL SELECT 'June' AS 'Month', COUNT(SongID) || ' (+' || (SELECT COUNT(SongID) FROM Song WHERE KNYEAR = " + KNYEAR + " AND DateCreated LIKE '" + KNYEAR + ".06.%') || ')' AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND CAST(REPLACE(DateCreated, '.', '') AS INT) < " + KNYEAR + "0701 UNION ALL SELECT 'July' AS 'Month', COUNT(SongID) || ' (+' || (SELECT COUNT(SongID) FROM Song WHERE KNYEAR = " + KNYEAR + " AND DateCreated LIKE '" + KNYEAR + ".07.%') || ')' AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND CAST(REPLACE(DateCreated, '.', '') AS INT) < " + KNYEAR + "0801 UNION ALL SELECT 'August' AS 'Month', COUNT(SongID) || ' (+' || (SELECT COUNT(SongID) FROM Song WHERE KNYEAR = " + KNYEAR + " AND DateCreated LIKE '" + KNYEAR + ".08.%') || ')' AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND CAST(REPLACE(DateCreated, '.', '') AS INT) < " + KNYEAR + "0901 UNION ALL SELECT 'September' AS 'Month', COUNT(SongID) || ' (+' || (SELECT COUNT(SongID) FROM Song WHERE KNYEAR = " + KNYEAR + " AND DateCreated LIKE '" + KNYEAR + ".09.%') || ')' AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND CAST(REPLACE(DateCreated, '.', '') AS INT) < " + KNYEAR + "1001 UNION ALL SELECT 'October' AS 'Month', COUNT(SongID) || ' (+' || (SELECT COUNT(SongID) FROM Song WHERE KNYEAR = " + KNYEAR + " AND DateCreated LIKE '" + KNYEAR + ".10.%') || ')' AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND CAST(REPLACE(DateCreated, '.', '') AS INT) < " + KNYEAR + "1101 UNION ALL SELECT 'November' AS 'Month', COUNT(SongID) || ' (+' || (SELECT COUNT(SongID) FROM Song WHERE KNYEAR = " + KNYEAR + " AND DateCreated LIKE '" + KNYEAR + ".11.%') || ')' AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND CAST(REPLACE(DateCreated, '.', '') AS INT) < " + KNYEAR + "1201 UNION ALL SELECT 'December' AS 'Month', COUNT(SongID) || ' (+' || (SELECT COUNT(SongID) FROM Song WHERE KNYEAR = " + KNYEAR + " AND DateCreated LIKE '" + KNYEAR + ".12.%') || ')' AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + "";
 
 	if(debugMode) console.log('generateSongAppetite', query);
 	queryDb(query, generateSongAppetite);
 }
 
 function generateVocalPopularity(contents) {	
-	let columns = contents.columns;
-	let rows = contents.values;
-	if(contents.length == 0) return;
-	
-	let header = document.createElement('h4');
-	header.classList.add('centered');
-	header.innerText = 'Vocal Types';
-	
-	let table = document.createElement('table');
-	table.classList.add('list');
-	table.classList.add('centered');
-	table.classList.add('content-box');
-	
-	let tbody = document.createElement('tbody');
-	
-	let tr = document.createElement('tr');
-	for(let column of columns)
-	{
-		let th = document.createElement('th');
-		th.innerText = column;
-		tr.appendChild(th);
-	}
-	tbody.appendChild(tr);
-	
-	let excludedColumns = [];
-	let total = rows[0][1];
-	for(let r = 0; r < rows.length; r++)
-	{
-		// let rowVal = row[r];
-		// if(!rowVal || rowVal.length == 0) continue;
-		// if(excludedColumns.includes(columns[r])) continue;
-		
-		let tr = document.createElement('tr');
-	
-		let tc = document.createElement('td');
-		tc.innerText = rows[r][0];
-		tr.appendChild(tc);
-		
-		let td = document.createElement('td');
-		td.innerText = r == 0 ? total + ' Songs' : rows[r][1] + ' (' + (100 * rows[r][1] / total).toFixed(2) + '%)';
-		tr.appendChild(td);
-		
-		tbody.appendChild(tr);	
-	}
-		
-	table.appendChild(tbody);
-	
-	document.querySelector('#vocal-popularity').innerHTML = '';
-	document.querySelector('#vocal-popularity').appendChild(header);
-	document.querySelector('#vocal-popularity').appendChild(table);
+	if(debugMode) console.log('generateVocalPopularity', contents);	
+	generateTableByDataWithHeader(
+		contents, 
+		'vocal-popularity', 
+		false, 
+		'Vocal Types', 
+		false, 
+		[]
+	);
 }
 
 function generateBSide(contents) {	
@@ -2571,227 +2085,52 @@ function generateBSide(contents) {
 	document.querySelector('#single-bside').appendChild(table);
 }
 
-function generateSongLaguage(contents) {	
-	let columns = contents.columns;
-	let rows = contents.values;
-	if(contents.length == 0) return;
-	
-	let header = document.createElement('h4');
-	header.classList.add('centered');
-	header.innerText = 'Languages';
-	
-	let table = document.createElement('table');
-	table.classList.add('list');
-	table.classList.add('centered');
-	table.classList.add('content-box');
-	
-	let tbody = document.createElement('tbody');
-	
-	let tr = document.createElement('tr');
-	for(let column of columns)
-	{
-		let th = document.createElement('th');
-		th.innerText = column;
-		tr.appendChild(th);
-	}
-	tbody.appendChild(tr);
-	
-	let excludedColumns = [];
-	let total = rows[0][1];
-	for(let r = 0; r < rows.length; r++)
-	{
-		// let rowVal = row[r];
-		// if(!rowVal || rowVal.length == 0) continue;
-		// if(excludedColumns.includes(columns[r])) continue;
-		
-		let tr = document.createElement('tr');
-	
-		let tc = document.createElement('td');
-		tc.innerText = rows[r][0];
-		tr.appendChild(tc);
-		
-		let td = document.createElement('td');
-		td.innerText = r == 0 ? total + ' Songs' : rows[r][1] + ' (' + (100 * rows[r][1] / total).toFixed(2) + '%)';
-		tr.appendChild(td);
-		
-		tbody.appendChild(tr);	
-	}
-		
-	table.appendChild(tbody);
-	
-	document.querySelector('#song-language').innerHTML = '';
-	document.querySelector('#song-language').appendChild(header);
-	document.querySelector('#song-language').appendChild(table);
+function generateSongLaguage(contents) {
+	if(debugMode) console.log('generateSongLaguage', contents);	
+	generateTableByDataWithHeader(
+		contents, 
+		'song-language', 
+		false, 
+		'Languages', 
+		false, 
+		[]
+	);
 }
 
-function generateYearOfRelease(contents) {	
-	let columns = contents.columns;
-	let rows = contents.values;
-	if(contents.length == 0) return;
-	
-	let header = document.createElement('h4');
-	header.classList.add('centered');
-	header.innerText = 'Release Year';
-	
-	let table = document.createElement('table');
-	table.classList.add('list');
-	table.classList.add('centered');
-	table.classList.add('content-box');
-	
-	let tbody = document.createElement('tbody');
-	
-	let tr = document.createElement('tr');
-	for(let column of columns)
-	{
-		let th = document.createElement('th');
-		th.innerText = column;
-		tr.appendChild(th);
-	}
-	tbody.appendChild(tr);
-	
-	let excludedColumns = [];
-	let total = rows[0][1];
-	for(let r = 0; r < rows.length; r++)
-	{
-		// let rowVal = row[r];
-		// if(!rowVal || rowVal.length == 0) continue;
-		// if(excludedColumns.includes(columns[r])) continue;
-		
-		let tr = document.createElement('tr');
-	
-		let tc = document.createElement('td');
-		let ranged = rows[r][0].toString().indexOf('-') > 0;
-		let start = ranged ? rows[r][0].substring(0,rows[r][0].indexOf('-')) : rows[r][0];
-		let end = ranged ? rows[r][0].substring(rows[r][0].indexOf('-') + 1) : rows[r][0];
-		tc.innerText = start == end ? start : rows[r][0];
-		tr.appendChild(tc);
-		
-		let td = document.createElement('td');
-		td.innerText = r == 0 ? total + ' Songs' : rows[r][1] + ' (' + (100 * rows[r][1] / total).toFixed(2) + '%)';
-		tr.appendChild(td);
-		
-		tbody.appendChild(tr);	
-	}
-		
-	table.appendChild(tbody);
-	
-	document.querySelector('#release-year').innerHTML = '';
-	document.querySelector('#release-year').appendChild(header);
-	document.querySelector('#release-year').appendChild(table);
+function generateYearOfRelease(contents) {
+	if(debugMode) console.log('generateYearOfRelease', contents);	
+	generateTableByDataWithHeader(
+		contents, 
+		'release-year', 
+		false, 
+		'Release Year', 
+		false, 
+		[]
+	);
 }
 
 function generateAnimeSongs(contents) {	
-	let columns = contents.columns;
-	let rows = contents.values;
-	if(contents.length == 0) return;
-	
-	let header = document.createElement('h4');
-	header.classList.add('centered');
-	header.innerText = 'Anime Songs';
-	
-	let table = document.createElement('table');
-	table.classList.add('list');
-	table.classList.add('centered');
-	table.classList.add('content-box');
-	
-	let tbody = document.createElement('tbody');
-	
-	let tr = document.createElement('tr');
-	for(let column of columns)
-	{
-		let th = document.createElement('th');
-		th.innerText = column;
-		tr.appendChild(th);
-	}
-	tbody.appendChild(tr);
-	
-	let excludedColumns = [];
-	let total = rows[0][1];
-	for(let r = 0; r < rows.length; r++)
-	{
-		// let rowVal = row[r];
-		// if(!rowVal || rowVal.length == 0) continue;
-		// if(excludedColumns.includes(columns[r])) continue;
-		
-		let tr = document.createElement('tr');
-	
-		let tc = document.createElement('td');
-		let ranged = rows[r][0].toString().indexOf('-') > 0;
-		let start = ranged ? rows[r][0].substring(0,rows[r][0].indexOf('-')) : rows[r][0];
-		let end = ranged ? rows[r][0].substring(rows[r][0].indexOf('-') + 1) : rows[r][0];
-		tc.innerText = start == end ? start : rows[r][0];
-		tr.appendChild(tc);
-		
-		let td = document.createElement('td');
-		td.innerText = r == 0 ? total + ' Songs' : rows[r][1] + ' (' + (100 * rows[r][1] / total).toFixed(2) + '%)';
-		tr.appendChild(td);
-		
-		tbody.appendChild(tr);	
-	}
-		
-	table.appendChild(tbody);
-	
-	document.querySelector('#anime-songs').innerHTML = '';
-	document.querySelector('#anime-songs').appendChild(header);
-	document.querySelector('#anime-songs').appendChild(table);
+	if(debugMode) console.log('generateAnimeSongs', contents);	
+	generateTableByDataWithHeader(
+		contents, 
+		'anime-songs', 
+		false, 
+		'Anime Songs',
+		false, 
+		[]
+	);
 }
 
-function generateSongAppetite(contents) {	
-	let columns = contents.columns;
-	let rows = contents.values;
-	if(contents.length == 0) return;
-	
-	let header = document.createElement('h4');
-	header.classList.add('centered');
-	header.innerText = 'Song Count by Month';
-	
-	let table = document.createElement('table');
-	table.classList.add('list');
-	table.classList.add('centered');
-	table.classList.add('content-box');
-	
-	let tbody = document.createElement('tbody');
-	
-	let tr = document.createElement('tr');
-	for(let column of columns)
-	{
-		let th = document.createElement('th');
-		th.innerText = column;
-		tr.appendChild(th);
-	}
-	tbody.appendChild(tr);
-	
-	let excludedColumns = [];
-	let total = rows[0][1];
-	let cumulative = 0;
-	for(let r = 0; r < rows.length; r++)
-	{
-		// let rowVal = row[r];
-		// if(!rowVal || rowVal.length == 0) continue;
-		// if(excludedColumns.includes(columns[r])) continue;
-		
-		let tr = document.createElement('tr');
-	
-		let tc = document.createElement('td');
-		let ranged = rows[r][0].toString().indexOf('-') > 0;
-		let start = ranged ? rows[r][0].substring(0,rows[r][0].indexOf('-')) : rows[r][0];
-		let end = ranged ? rows[r][0].substring(rows[r][0].indexOf('-') + 1) : rows[r][0];
-		tc.innerText = start == end ? start : rows[r][0];
-		tr.appendChild(tc);
-		
-		let td = document.createElement('td');
-		td.innerText = rows[r][1] == 0 ? '-' : cumulative + rows[r][1];
-		cumulative += rows[r][1];
-		tr.appendChild(td);
-		
-		tbody.appendChild(tr);	
-	}
-		
-	table.appendChild(tbody);
-	
-	document.querySelector('#song-appetite').innerHTML = '';
-	document.querySelector('#song-appetite').appendChild(header);
-	document.querySelector('#song-appetite').appendChild(table);
+function generateSongAppetite(contents) {
+	if(debugMode) console.log('generateSongAppetite', contents);	
+	generateTableByDataWithHeader(
+		contents, 
+		'song-appetite', 
+		false, 
+		'Song Count by Month',
+		false, 
+		[]
+	);
 }
 
 function queryArtistAnalysis(contents) {
@@ -2807,7 +2146,7 @@ function queryArtistAnalysis(contents) {
 	queryDb(query, generateSongCountByYear);
 	
 	//Most Popular Songs
-	query = "select KNID as 'ID', KNYEAR as 'Year', SongTitle as 'Song Title' from ( ";
+	query = "select ROW_NUMBER() OVER (ORDER BY Total) AS 'Rank', KNYEAR as 'Year', KNID AS 'ID', SongTitle as 'Song Title' from ( ";
 	query += "select s.KNID, s.SongTitle, s.KNYEAR ";
 	query += ", (select count(*) from SOTD where sotd.KNID = s.KNID) as 'SOTD Mentions' ";
 	query += ", (select count(*) from SOTM where sotm.KNID = s.KNID) as 'SOTM Mentions' ";
@@ -2833,63 +2172,23 @@ function queryArtistAnalysis(contents) {
 	queryDb(query, generatePopularSongs);
 }
 
-function generatePopularSongs(contents) {	
-	let columns = contents.columns;
-	let rows = contents.values;
-	if(contents.length == 0) return;
-	
-	let header = document.createElement('h4');
-	header.classList.add('centered');
-	header.innerText = 'Most Popular Songs';
-	
-	let table = document.createElement('table');
-	table.classList.add('list');
-	table.classList.add('centered');
-	table.classList.add('content-box');
-	
-	let tbody = document.createElement('tbody');
-	
-	let tr = document.createElement('tr');
-	for(let column of ['Rank', 'Song Title'])
-	{
-		let th = document.createElement('th');
-		th.innerText = column;
-		tr.appendChild(th);
-	}
-	tbody.appendChild(tr);
-	
-	let excludedColumns = [];
-	let columnIndexKNID = contents.columns.indexOf('ID');
-	let columnIndexKNYEAR = contents.columns.indexOf('Year');
-	let columnIndexSongTitle = contents.columns.indexOf('Song Title');
-	for(let r = 0; r < rows.length; r++)
-	{
-		let tr = document.createElement('tr');
-		
-		let ty = document.createElement('td');
-		ty.classList.add('centered-text');
-		ty.innerText = r+1;
-		tr.appendChild(ty);
-		
-		let tc = document.createElement('td');
-		tc.classList.add('centered-text');
-		tc.style.cursor = 'pointer';
-		tc.setAttribute('data-id', rows[r][columnIndexKNID]);
-		tc.innerText = rows[r][columnIndexSongTitle] + ' (' + rows[r][columnIndexKNYEAR] + ')';
-		tc.addEventListener('click', updateSong);
-		tr.appendChild(tc);
-		
-		tbody.appendChild(tr);
-	}
-		
-	table.appendChild(tbody);
-	
-	document.querySelector('#popular-songs').innerHTML = '';
-	document.querySelector('#popular-songs').appendChild(header);
-	document.querySelector('#popular-songs').appendChild(table);
+function generatePopularSongs(contents) {
+	if(debugMode) console.log('generatePopularSongs', contents);
+	generateTableByDataWithHeader(
+		contents, 
+		'popular-songs', 
+		false,
+		'Most Popular Songs', 
+		false,
+		['ID'], 
+		'ID',
+		null,
+		null,
+		true
+	);
 }
 
-function generateSongCountByYear(contents) {	
+function generateSongCountByYear(contents) {
 	let columns = contents.columns;
 	let rows = contents.values;
 	if(contents.length == 0) return;
@@ -2931,7 +2230,7 @@ function generateSongCountByYear(contents) {
 		for(c = 0; c < parseInt(rows[r][columnIndexCount]); c++)
 		{
 			tc.innerHTML += '<span class="material-icons">music_note</span>';
-		}		
+		}
 		tr.appendChild(tc);	
 		
 		tbody.appendChild(tr);
