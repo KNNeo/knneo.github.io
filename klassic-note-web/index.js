@@ -215,10 +215,7 @@ function clearSearch() {
 	document.querySelector('#tab-buttons').innerHTML = '';
 	document.querySelector('#cover').style.display = 'none';
 	document.querySelector('#cover').classList = [];
-	for(let tab of document.getElementsByClassName('module'))
-	{
-		tab.innerHTML = '';
-	}
+	clearModules();
 	resetQueueView();
 	generateHomepage();
 	setTabs();
@@ -939,11 +936,7 @@ function generateLayout(contents) {
 	document.querySelector('#cover').style.display = 'none';
 	
 	//clear modules
-	for(let module of document.getElementsByClassName('module'))
-	{
-		module.innerHTML = '';
-	}
-	
+	clearModules();	
 	if(window['mode'] == 'year')
 	{
 		queryYearInfo(contents);
@@ -3105,15 +3098,19 @@ function generateSongCountByYear(contents) {
 
 
 //--HELPER FUNCTIONS--//
-function updateSong() {
-	window['mode'] = 'song';
-	hideContextMenus(true);
+function clearModules() {
 	for(let tab of document.getElementsByClassName('module'))
 	{
 		tab.innerHTML = '';
 	}
+}
+
+function updateSong() {	
+	window['mode'] = 'song';
+	hideContextMenus(true);
+	clearModules();
 	
-	let id = this.getAttribute('data-id');
+	let id = parseInt(this.getAttribute('data-id'));
 	let query = "SELECT * FROM Song WHERE KNID = " + id;
 	if(debugMode) console.log('updateSong', query);
 	queryDb(query, updateOptions);
