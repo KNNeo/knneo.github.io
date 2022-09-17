@@ -923,13 +923,114 @@ function generateTableList(contents, id, title, rowFormat, onClick, onContextMen
 	document.getElementById(id).appendChild(table);
 }
 
-function generateTableWithHeader(contents) {
-	//generateSingleRowTableByFormat but with:
-	/*
-	1. header
-	2. select row
-	3. icon at end (award)	
-	*/
+function generateTableByDataWithHeader(contents, id, skipClear = false, title, skipTitle = false, excludedColumns = [], dataId = 'KNID', groupColumn = 'Rank #', titleColumn) {	
+	if(!skipClear) document.getElementById(id).innerHTML = '';
+	let columns = contents.columns;
+	let rows = contents.values;
+	if(contents.length == 0) return;
+	
+	if(!skipTitle)
+	{
+		let header = document.createElement('h4');
+		header.classList.add('centered');
+		header.innerText = title;
+		document.getElementById(id).appendChild(header);
+	}
+	
+	let table = document.createElement('table');
+	// table.id = 'table';
+	table.classList.add('list');
+	table.classList.add('centered');
+	table.classList.add('content-box');
+	table.classList.add('content-table');
+	table.classList.add('not-selectable');
+	
+	let tbody = document.createElement('tbody');
+	
+	//title
+	if(titleColumn)
+	{
+		let ttr = document.createElement('tr');
+		
+		let th = document.createElement('th');
+		th.classList.add('table-title');
+		th.setAttribute('colspan', columns.length - excludedColumns.length);
+		th.innerText = rows[0][contents.columns.indexOf(titleColumn)];
+		ttr.appendChild(th);
+		
+		tbody.appendChild(ttr);
+		
+	}
+	
+	//header
+	let tr = document.createElement('tr');
+	tr.classList.add('no-highlight');
+	for(let column of columns)
+	{
+		if(excludedColumns.indexOf(column) < 0)
+		{
+			let th = document.createElement('th');
+			th.innerText = column;
+			tr.appendChild(th);
+		}
+	}
+	tbody.appendChild(tr);	
+	
+	//rows
+	let rank = 0;
+	for(let row of rows)
+	{
+		let columnIndexKNID = contents.columns.indexOf(dataId);
+		let columnIndexRankNo = contents.columns.indexOf(groupColumn);
+		
+		let tr = document.createElement('tr');
+		tr.setAttribute('data-id', row[columnIndexKNID]);
+		if(document.querySelector('#options').value == row[columnIndexKNID]) {
+			tr.classList.add('highlight');
+			tr.classList.add('not-selectable');
+			tr.addEventListener('active', hoverOnTableRow);
+		}
+		else {
+			tr.style.cursor = 'pointer';
+			tr.addEventListener('click', updateSong);
+			tr.addEventListener('mouseover', hoverOnTableRow);
+			tr.addEventListener('mouseout', hoverOnTableRow);
+		}
+		
+		for(let col = 0; col < columns.length ; col++)
+		{
+			let columnName = columns[col];
+			if(excludedColumns.indexOf(columnName) < 0)
+			{
+				// if grouping, need to follow row index
+				if(columnName == groupColumn)
+				{
+					if(row[columnIndexRankNo] != rank)
+					{
+						let span = rows.filter(r => r[columnIndexRankNo] == rank + 1).length;
+						let tc = document.createElement('td');
+						tc.classList.add('centered-text');
+						tc.setAttribute('rowspan', span);
+						tc.innerText = row[contents.columns.indexOf(columnName)];
+						tr.appendChild(tc);
+					}
+				}
+				else
+				{
+					let td = document.createElement('td');
+					td.innerText = row[contents.columns.indexOf(columnName)];
+					tr.appendChild(td);
+				}
+			}
+		}
+		
+		tbody.appendChild(tr);
+		
+		rank = row[columnIndexRankNo];
+	}
+		
+	table.appendChild(tbody);
+	document.getElementById(id).appendChild(table);
 }
 
 function generateHistogramRow(contents) {
@@ -2055,91 +2156,8 @@ function queryRankingsByYear(contents) {
 }
 
 function generateRanking(contents) {
-	document.querySelector('#song-ranking').innerHTML = '';
-	let columns = contents.columns;
-	let rows = contents.values;
-	if(contents.length == 0) return;
-	
-	let header = document.createElement('h4');
-	header.classList.add('centered');
-	header.innerText = 'Song Rankings';
-	document.querySelector('#song-ranking').appendChild(header);	
-	
-	let table = document.createElement('table');
-	// table.id = 'table';
-	table.classList.add('list');
-	table.classList.add('centered');
-	table.classList.add('content-box');
-	table.classList.add('content-table');
-	table.classList.add('not-selectable');
-	
-	let tbody = document.createElement('tbody');
-	
-	//header
-	let tr = document.createElement('tr');
-	tr.classList.add('no-highlight');
-	for(let column of columns)
-	{
-		if(['Rank #','Song Title','Artist Title'].indexOf(column) >= 0)
-		{
-			let th = document.createElement('th');
-			th.innerText = column;
-			tr.appendChild(th);
-		}
-	}
-	tbody.appendChild(tr);	
-	
-	//rows
-	let rank = 0;
-	for(let row of rows)
-	{
-		let columnIndexKNID = contents.columns.indexOf('KNID');
-		let columnIndexRankNo = contents.columns.indexOf('Rank #');
-		let columnIndexSongTitle = contents.columns.indexOf('Song Title');
-		let columnIndexArtistTitle = contents.columns.indexOf('Artist Title');
-		
-		let tr = document.createElement('tr');
-		tr.setAttribute('data-id', row[columnIndexKNID]);
-		if(document.querySelector('#options').value == row[columnIndexKNID]) {
-			tr.classList.add('highlight');
-			tr.classList.add('not-selectable');
-			tr.addEventListener('active', hoverOnTableRow);
-		}
-		else {
-			tr.style.cursor = 'pointer';
-			tr.addEventListener('click', updateSong);
-			tr.addEventListener('mouseover', hoverOnTableRow);
-			tr.addEventListener('mouseout', hoverOnTableRow);
-		}
-	
-		//rank no
-		if(row[columnIndexRankNo] != rank)
-		{
-			let span = rows.filter(r => r[columnIndexRankNo] == rank + 1).length;
-			let tc = document.createElement('td');
-			tc.classList.add('centered-text');
-			tc.setAttribute('rowspan', span);
-			tc.innerText = row[columnIndexRankNo];
-			tr.appendChild(tc);
-		}
-		
-		//song
-		let td = document.createElement('td');
-		td.innerText = row[columnIndexSongTitle];
-		tr.appendChild(td);
-		
-		//artist
-		let te = document.createElement('td');
-		te.innerText = row[columnIndexArtistTitle];
-		tr.appendChild(te);
-		
-		tbody.appendChild(tr);
-		
-		rank = row[columnIndexRankNo];
-	}
-		
-	table.appendChild(tbody);
-	document.querySelector('#song-ranking').appendChild(table);
+	if(debugMode) console.log('generateRanking', contents);
+	generateTableByDataWithHeader(contents, 'song-ranking', false, 'Song Rankings', false, ['KNID', 'SortOrder', 'KNYEAR'], 'KNID', 'Rank #');
 }
 
 function queryCompilations(contents) {
@@ -2168,7 +2186,7 @@ function queryCompilationsByYear(contents) {
 }
 
 function generateCompilations(contents) {
-	document.querySelector('#song-compilation').innerHTML = '';
+	document.getElementById('song-compilation').innerHTML = '';
 	let columns = contents.columns;
 	let rows = contents.values;
 	if(contents.length == 0) return;
@@ -2176,7 +2194,7 @@ function generateCompilations(contents) {
 	let header = document.createElement('h4');
 	header.classList.add('centered');
 	header.innerText = 'Compilations';
-	document.querySelector('#song-compilation').appendChild(header);	
+	document.querySelector('#song-compilation').appendChild(header);
 	
 	let columnIndexCompilationTitle = contents.columns.indexOf('CompilationTitle');
 	let compilationTitles = rows.map(s => s[columnIndexCompilationTitle]).filter((sa, ind, arr) => arr.indexOf(sa) == ind);
@@ -2185,87 +2203,15 @@ function generateCompilations(contents) {
 	for(let compilationTitle of compilationTitles)
 	{
 		let compilationRows = rows.filter(r => r[columnIndexCompilationTitle] == compilationTitle);
-		// console.log('compilationRows', compilationRows);
+		// console.log('compilationRows', { columns, values: compilationRows });
 		
-		let table = document.createElement('table');
-		// table.id = 'table';
-		table.classList.add('list');
-		table.classList.add('centered');
-		table.classList.add('content-box');
-		table.classList.add('content-table');
-		table.classList.add('not-selectable');
+		generateTableByDataWithHeader({
+			columns,
+			values: compilationRows,
+		}, 'song-compilation', true, 'Compilations', true, ['CompilationTitle', 'KNID'], 'KNID', 'Track #', 'CompilationTitle');
 		
-		let tbody = document.createElement('tbody');
-		
-		//title
-		let ttr = document.createElement('tr');
-		
-		let th = document.createElement('th');
-		th.classList.add('table-title');
-		th.setAttribute('colspan', 3);
-		th.innerText = compilationTitle;
-		ttr.appendChild(th);
-		
-		tbody.appendChild(ttr);
-		
-		//header
-		let tr = document.createElement('tr');
-		for(let column of columns)
-		{
-			if(['Track #','Song Title','Artist Title'].indexOf(column) >= 0)
-			{
-				let th = document.createElement('th');
-				th.innerText = column;
-				tr.appendChild(th);
-			}
-		}
-		tbody.appendChild(tr);
-		
-		//rows
-		for(let row of compilationRows)
-		{
-			let columnIndexKNID = contents.columns.indexOf('KNID');
-			let columnIndexTrackNumber = contents.columns.indexOf('Track #');
-			let columnIndexSongTitle = contents.columns.indexOf('Song Title');
-			let columnIndexArtistTitle = contents.columns.indexOf('Artist Title');
-			
-			let tr = document.createElement('tr');
-			let selected = document.querySelector('#options').value;
-			tr.setAttribute('data-id', row[columnIndexKNID]);
-			// tr.classList.add('not-selectable');
-			if(selected == row[columnIndexKNID]) {
-				tr.classList.add('not-selectable');
-				tr.classList.add('highlight');
-			}
-			else {
-				tr.style.cursor = 'pointer';
-				tr.addEventListener('click', updateSong);
-			}
-		
-			//track no
-			let tc = document.createElement('td');
-			tc.classList.add('centered-text');
-			tc.innerText = row[columnIndexTrackNumber];
-			tr.appendChild(tc);
-			
-			//song
-			let td = document.createElement('td');
-			td.innerText = row[columnIndexSongTitle];
-			tr.appendChild(td);
-			
-			//artist
-			let te = document.createElement('td');
-			te.innerText = row[columnIndexArtistTitle];
-			tr.appendChild(te);
-			
-			tbody.appendChild(tr);
-		}
-			
-		table.appendChild(tbody);
-		document.querySelector('#song-compilation').appendChild(table);
-		
-		document.querySelector('#song-compilation').appendChild(document.createElement('br'));
-	}	
+		document.getElementById('song-compilation').appendChild(document.createElement('br'));
+	}
 }
 
 function querySOTD(contents) {
