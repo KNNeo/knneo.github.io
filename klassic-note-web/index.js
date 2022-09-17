@@ -795,7 +795,6 @@ function updateOptions(contents) {
 			setTimeout(function() {
 				document.querySelector('#options').value = contents.values[0][columnIndexKNID];
 				document.querySelector('#options').dispatchEvent(new Event('change'));
-				// search.focus();
 			},200);
 		}
 		
@@ -821,10 +820,10 @@ function scrollToTop() {
 	window.location.hash = "";
 }
 
-function generateTable(contents, id, title, excludedColumns = []) {	
+function generateTableByData(contents, id, title, excludedColumns = []) {
 	document.getElementById(id).innerHTML = '';
 	
-	if(debugMode) console.log('generateTable', id);
+	if(debugMode) console.log('generateTableByData', id);
 	if(!id || !contents.columns || !contents.values) return;
 	
 	let header = document.createElement('h4');
@@ -868,10 +867,10 @@ function generateTable(contents, id, title, excludedColumns = []) {
 	document.getElementById(id).appendChild(table);
 }
 
-function generateSingleRowTableByFormat(contents, id, title, rowFormat, onClick, onContextMenu, context) {
+function generateTableList(contents, id, title, rowFormat, onClick, onContextMenu, context) {
 	document.getElementById(id).innerHTML = '';
 	
-	if(debugMode) console.log('generateSingleRowTableByFormat', id);
+	if(debugMode) console.log('generateTableList', id);
 	if(!id || !rowFormat || !contents.columns || !contents.values) return;
 	
 	let columns = contents.columns;
@@ -1186,7 +1185,7 @@ function queryInfo(contents) {
 
 function generateSongInfo(contents) {
 	if(debugMode) console.log('generateSongInfo', contents);
-	generateTable(contents, 'song-info', 'Song Information', ['ArtistID', 'ReleaseID']);
+	generateTableByData(contents, 'song-info', 'Song Information', ['ArtistID', 'ReleaseID']);
 }
 
 function generateArtistInfo(contents) {
@@ -1259,7 +1258,7 @@ function generateArtistInfo(contents) {
 
 function generateReleaseInfo(contents) {
 	if(debugMode) console.log('generateReleaseInfo', contents);
-	generateTable(contents, 'release-info', 'Release Information', []);
+	generateTableByData(contents, 'release-info', 'Release Information', []);
 }
 
 function queryYearInfo(contents) {
@@ -1558,7 +1557,7 @@ function queryRelated(contents) {
 
 function generateSongRelatedByDate(contents) {
 	if(debugMode) console.log('generateSongRelatedByDate', contents);
-	generateSingleRowTableByFormat(
+	generateTableList(
 		contents, 
 		'songs-related-date', 
 		'Songs within 3 months', 
@@ -1572,7 +1571,7 @@ function generateSongRelatedByDate(contents) {
 function generateSongRelatedByYear(contents) {
 	if(debugMode) console.log('generateSongRelatedByYear', contents);
 	let rows = contents.values;
-	generateSingleRowTableByFormat(
+	generateTableList(
 		contents, 
 		'songs-related-year', 
 		'Songs from ' + rows[0][contents.columns.indexOf('ReleaseYear')], 
@@ -1586,7 +1585,7 @@ function generateSongRelatedByYear(contents) {
 function generateArtistRelated(contents) {
 	if(debugMode) console.log('generateArtistRelated', contents);
 	let rows = contents.values;
-	generateSingleRowTableByFormat(
+	generateTableList(
 		contents, 
 		'artist-related', 
 		'Songs from ' + rows[0][contents.columns.indexOf('ArtistTitle')], 
