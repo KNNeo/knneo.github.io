@@ -1,5 +1,20 @@
+/*Variables*/
+:root {
+  --primary: #0065ff;
+  --secondary: #609fff;
+  --background: #fff;
+  --foreground: #000;
+}
+
+.darked:root {
+  --primary: #00e4ff;
+  --secondary: #00abbf;
+  --background: #000;
+  --foreground: #fff;
+}
+
 html {
-	/* background-color: white; */
+	/* background-color: var(--background); */
 	font-family: Open Sans;
 	overflow: hidden;
 }
@@ -41,7 +56,9 @@ td, th {
 	cursor: pointer;
 }
 
-.tags {
+.tags { 
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .tags::-webkit-scrollbar { 
@@ -67,7 +84,7 @@ td, th {
 
 .grid-item {
   float: left;
-  background-color: white;
+  background-color: var(--background);
   border: 1px solid lightgray;
 }
 
@@ -88,9 +105,9 @@ td, th {
   top: 0;
   padding: 5px 8px;
   font-size: 12px;
-  color: white;
-  background: black;
-  border: 1px solid white;
+  color: var(--foreground);
+  background: var(--background);
+  border: 1px solid var(--foreground);
   border-left: 0;
   border-top: 0;
   z-index: 2;
@@ -100,7 +117,7 @@ td, th {
 }
 
 .darked .grid-item {
-  border: 1px solid white;	
+  border: 1px solid var(--background);	
 }
 
 #settings {
@@ -169,7 +186,7 @@ tr:hover > td {
 #viewer {
 	z-index: 9;
 	position: fixed;
-	background-color: black;
+	background-color: var(--background);
 	width: 100%;
 	height: 100%;
 	padding-top: 0;
@@ -198,11 +215,11 @@ tr:hover > td {
 }
 #viewer-next:active {
 	opacity: 0.4;
-	background-image: linear-gradient(to left, white, transparent);
+	background-image: linear-gradient(to left, var(--background), transparent);
 }
 #viewer-prev:active {
 	opacity: 0.4;
-	background-image: linear-gradient(to right, white, transparent);
+	background-image: linear-gradient(to right, var(--background), transparent);
 }
 
 #viewer img {
