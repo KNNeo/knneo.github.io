@@ -174,7 +174,7 @@ tr:hover > td {
 	height: 100%;
 	padding-top: 0;
 	text-align: center;
-	transition: opacity 0.5s, visibility 0.5s;
+	transition: opacity 0.3s, visibility 0.3s;
 }
 #viewer-prev {
 	cursor: pointer;
@@ -203,4 +203,8 @@ tr:hover > td {
 #viewer-prev:active {
 	opacity: 0.4;
 	background-image: linear-gradient(to right, white, transparent);
+}
+
+#viewer img {
+	transition: transform 0.2s;
 }
