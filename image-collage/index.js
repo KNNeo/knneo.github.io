@@ -133,9 +133,9 @@ function toggleArchive(e) {
 }
 
 function initializeVariables() {
+	window['includeCriteria'] = '';
+	window['excludeCriteria'] = '';
 	if(!window['isFirefox']) window['isFirefox'] = (/Firefox/i.test(navigator.userAgent));
-	if(!window['includeCriteria']) window['includeCriteria'] = '';
-	if(!window['excludeCriteria']) window['excludeCriteria'] = '';
 	if(!window['excluded']) window['excluded'] = [];
 	if(!window['preset']) window['preset'] = 'photo_size_select_small';
 	if(!window['thumbWidth']) window['thumbWidth'] = presetWidths[0];
