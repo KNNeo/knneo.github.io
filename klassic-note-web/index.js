@@ -915,6 +915,7 @@ function generateTableList(contents, id, title, rowFormat, onClick, onContextMen
 		tc.setAttribute('context', context);
 		tc.addEventListener('contextmenu', onContextMenu);
 		tc.innerText = parts.join('');
+		
 		tr.appendChild(tc);
 
 		tbody.appendChild(tr);	
@@ -1046,7 +1047,7 @@ function generateHistogramTableByData(contents, id, title, icon, excludedColumns
 }
 
 function generateCellValue(columns, row, textColumn, iconColumn, iconId) {	
-	let cell = document.createElement('div');
+	let cell = document.createElement('span');
 	cell.style.backgroundColor = 'transparent';
 	
 	let cellValue = row[columns.indexOf(textColumn)];
@@ -1632,7 +1633,7 @@ function queryAwards(contents) {
 	let row = rows[0];
 	let columnIndexKNID = contents.columns.indexOf('ID');
 	//select awards of that song regardless of year
-	let query = "SELECT a.* FROM Award a JOIN Song s ON s.KNID = a.KNID JOIN (SELECT ar.* FROM Award ar WHERE ar.KNID = " 
+	let query = "SELECT a.KNYEAR, a.AwardTitle, a.ArtistTitle AS 'Artist Title', a.RecipientTitle AS 'Song Title', a.KNID, a.IsWinner AS 'Won' FROM Award a JOIN Song s ON s.KNID = a.KNID JOIN (SELECT ar.* FROM Award ar WHERE ar.KNID = " 
 	query += row[columnIndexKNID] + ") aref ON aref.KNYEAR = a.KNYEAR AND aref.AwardCode = a.AwardCode " 
 	query += "ORDER BY a.KNYEAR, a.AwardID, a.SortOrder";
 	if(debugMode) console.log('queryAwards', query);
@@ -1640,6 +1641,8 @@ function queryAwards(contents) {
 }
 
 function generateAwards(contents) {
+	if(debugMode) console.log('generateAwards', contents);
+	
 	document.querySelector('#song-awards').innerHTML = '';
 	let columns = contents.columns;
 	let rows = contents.values;
@@ -1652,83 +1655,28 @@ function generateAwards(contents) {
 	
 	let columnIndexAwardTitle = contents.columns.indexOf('AwardTitle');
 	let awardTitles = rows.map(s => s[columnIndexAwardTitle]).filter((sa, ind, arr) => arr.indexOf(sa) == ind);
-	// console.log('awardTitles', awardTitles);
+	if(debugMode) console.log('awardTitles', awardTitles);
 	for(let award of awardTitles)
 	{
 		let awardRows = rows.filter(r => r[columnIndexAwardTitle] == award);
-		// console.log('awardRows', awardRows);
+		if(debugMode) console.log('awardRows', { columns, values: awardRows });
 		
-		let table = document.createElement('table');
-		// table.id = 'table';
-		table.classList.add('list');
-		table.classList.add('centered');
-		table.classList.add('content-box');
-		table.classList.add('content-table');
-		table.classList.add('not-selectable');
-		
-		let tbody = document.createElement('tbody');
-
-		//header
-		for(let r = 0; r < awardRows.length; r++)
-		{
-			let columnIndexKNID = contents.columns.indexOf('KNID');
-			let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
-			let columnIndexRecipientTitle = contents.columns.indexOf('RecipientTitle');
-			let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
-			let columnIndexIsWinner = contents.columns.indexOf('IsWinner');
-			
-			let tr = document.createElement('tr');
-			
-			if(r == 0)
-			{
-				let tb = document.createElement('th');
-				tb.innerText = awardRows[r][columnIndexAwardTitle];
-				tr.appendChild(tb);
-				tbody.appendChild(tr);
-			}
-			
-			tr = document.createElement('tr');
-			tr.style.position = 'relative';
-			
-			let selected = document.querySelector('#options').value;
-			let tc = document.createElement('td');
-			if(awardRows[r][columnIndexKNID] == selected)
-			{
-				tc.classList.add('highlight');
-			}
-			// tc.style.fontWeight = awardRows[r][columnIndexIsWinner] > 0 ? 'bold' : 'normal';
-			tc.setAttribute('data-id', awardRows[r][columnIndexKNID]);
-			// tc.innerText = awardRows[r][columnIndexArtistTitle] + ' - ' + awardRows[r][columnIndexRecipientTitle];
-			if(awardRows[r][columnIndexKNID] != selected)
-			{
-				tc.style.cursor = 'pointer';
-				tc.addEventListener('click', updateSong);
-			}
-			
-			// tc.classList.add('highlight');
-			let tt = document.createElement('span');
-			tt.innerText = awardRows[r][columnIndexArtistTitle] + ' - ' + awardRows[r][columnIndexRecipientTitle];
-			tc.appendChild(tt);
-			
-			if(awardRows[r][columnIndexIsWinner] > 0)
-			{
-				// tc.classList.add('highlight');
-				let ta = document.createElement('span');
-				ta.title = 'Winner';
-				ta.classList.add('material-icons');
-				ta.classList.add('award-winner');
-				ta.innerText = 'emoji_events';
-				tc.appendChild(ta);
-			}
-			
-			tr.appendChild(tc);
-						
-			tbody.appendChild(tr);
-		}
-		
-		table.appendChild(tbody);
-		document.querySelector('#song-awards').appendChild(table);
-		
+		generateTableByDataWithHeader(
+			{ columns, values: awardRows }, 
+			'song-awards', 
+			true, 
+			'Awards', 
+			true, 
+			['KNYEAR', 'AwardTitle', 'KNID'],
+			'KNID',
+			null, 
+			'AwardTitle', 
+			true,
+			'Won',
+			'Won',
+			'emoji_events',
+			'Winner'
+		);
 		document.querySelector('#song-awards').appendChild(document.createElement('br'));
 	}
 }
