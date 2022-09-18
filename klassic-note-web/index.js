@@ -1129,16 +1129,13 @@ function generateLayout(contents) {
 	
 	if(window['mode'] == 'artist')
 	{
-		document.querySelector('#search').value = contents.values[0][contents.columns.indexOf('Artist Title')];
+		updateSearch(contents);		
 		queryArtistInfo(contents);
 		queryArtistRelated(contents);
 		queryAwardsByArtist(contents);
 		queryRankingsByArtist(contents);
 		queryCompilationsByArtist(contents);
 		queryCollection(contents);
-		//awards that artist won? and nominated
-		//rankings entered? maybe not list all but summary?
-		//compilation: artist collection, if any?
 		//sotd? song mentions by group by song?
 		queryArtistAnalysis(contents);
 	}
@@ -1157,28 +1154,34 @@ function generateLayout(contents) {
 function updateSearch(contents) {
 	if(contents.values.length > 1) return;
 	let row = contents.values[0];
-	
 	let columnIndexKNID = contents.columns.indexOf('ID');
 	let columnIndexSongTitle = contents.columns.indexOf('Song Title');
 	let columnIndexArtistTitle = contents.columns.indexOf('Artist Title');
 	
-	document.querySelector('#search').value = row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle];
-	
-	let recent = localStorage.getItem('recent');
-	recent = (recent == null || recent.length == 0) ? JSON.parse('[]') : JSON.parse(recent);
-	if(recent.length > 0)
+	if(window['mode'] == 'song')
 	{
-		recent = recent.filter(r => r != row[columnIndexKNID]);
-		recent.unshift(row[columnIndexKNID])
-		if(recent.length > 10)
-			recent = recent.slice(0,10);
+		document.querySelector('#search').value = row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle];
+		
+		let recent = localStorage.getItem('recent');
+		recent = (recent == null || recent.length == 0) ? JSON.parse('[]') : JSON.parse(recent);
+		if(recent.length > 0)
+		{
+			recent = recent.filter(r => r != row[columnIndexKNID]);
+			recent.unshift(row[columnIndexKNID])
+			if(recent.length > 10)
+				recent = recent.slice(0,10);
+		}
+		else
+		{
+			recent.push(row[columnIndexKNID]);
+		}
+		
+		localStorage.setItem('recent', JSON.stringify(recent));
 	}
-	else
+	if(window['mode'] == 'artist')
 	{
-		recent.push(row[columnIndexKNID]);
+		document.querySelector('#search').value = contents.values[0][columnIndexArtistTitle];
 	}
-	
-	localStorage.setItem('recent', JSON.stringify(recent));
 }
 
 function generatePlayer(contents) {
