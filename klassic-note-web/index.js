@@ -350,14 +350,14 @@ function resetQueueView() {
 function runLoader() {
 	switch(document.querySelector('.loader').innerText)
 	{
-		case 'hourglass_top': 
+		case 'hourglass_full': 
 			document.querySelector('.loader').innerText = 'hourglass_empty';
 			break;
 		case 'hourglass_empty': 
 			document.querySelector('.loader').innerText = 'hourglass_bottom';
 			break;
 		case 'hourglass_bottom': 
-			document.querySelector('.loader').innerText = 'hourglass_top';
+			document.querySelector('.loader').innerText = 'hourglass_full';
 			break;
 		default:
 			document.querySelector('.loader').innerText = 'hourglass_empty';
@@ -1011,7 +1011,7 @@ function generateTableByDataWithHeader(contents, id, skipClear, title, skipTitle
 		
 		let tr = document.createElement('tr');
 		tr.setAttribute('data-id', row[columnIndexKNID] ?? 0);
-		if(document.querySelector('#options').value == row[columnIndexKNID]) {
+		if(document.querySelector('#options').value.replace(categoryIcons[2], '') == row[columnIndexKNID]) {
 			tr.classList.add('highlight');
 			tr.classList.add('not-selectable');
 			tr.addEventListener('active', hoverOnTableRow);
