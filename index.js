@@ -13,7 +13,7 @@ window.addEventListener('load', function() {
 	renderElements();
 	showLocal();
 	showDimensions();
-	addPreviewOnHover();
+	// addPreviewOnHover();
 });
 window.addEventListener('resize', showDimensions);
 
