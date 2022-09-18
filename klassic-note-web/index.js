@@ -1706,7 +1706,7 @@ function queryAwardsByYear(contents) {
 	let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
 	
 	//select awards of that song regardless of year
-	let query = "SELECT a.* FROM Award a JOIN Song s ON s.KNID = a.KNID WHERE a.KNYEAR = " + row[columnIndexKNYEAR] + " "; 
+	let query = "SELECT a.KNYEAR, a.AwardTitle, a.ArtistTitle AS 'Artist Title', a.RecipientTitle AS 'Song Title', a.KNID, a.IsWinner AS 'Won' FROM Award a JOIN Song s ON s.KNID = a.KNID WHERE a.KNYEAR = " + row[columnIndexKNYEAR] + " "; 
 	query += "ORDER BY a.KNYEAR, a.AwardID, a.SortOrder";
 	if(debugMode) console.log('queryAwardsByYear', query);
 	queryDb(query, generateAwards);
