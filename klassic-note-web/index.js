@@ -715,9 +715,9 @@ function querySelect() {
 	if(debugMode) console.log('querySelect', this.value);
 	
 	searchFields = ['ArtistTitle'].join(" || ");
-	query += "SELECT DISTINCT MIN(ArtistID) AS KNID, '' AS KNYEAR, '' AS SongTitle, ArtistTitle FROM Artist WHERE TRUE "
+	query += "SELECT MIN(ArtistID) AS KNID, '' AS KNYEAR, '' AS SongTitle, ArtistTitle FROM Artist WHERE TRUE "
 	query += addQuotationInSQLString(this.value).split(' ').map(v => "AND " + searchFields + " LIKE '%" + v + "%'").join('');
-	query += " UNION ALL ";
+	query += " GROUP BY ArtistTitle UNION ALL ";
 	
 	searchFields = ['SongTitle','ArtistTitle','KNYEAR'].join(" || ");
 	query += "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song WHERE TRUE ";
@@ -1946,8 +1946,8 @@ function generateSOTD(contents) {
 		false, 
 		['CompilationTitle', 'KNID'], 
 		'KNID', 
-		'Track #',
 		'Year',
+		null,
 		true
 	);
 }
