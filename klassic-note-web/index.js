@@ -1,14 +1,14 @@
 //--CONFIG--//
-let defaultTitle = 'Klassic Note Web';
-let altTitlePrefix = 'Original';
-let databaseFilename = 'https://knneo.github.io/klassic-note-web/db/KlassicNote.db';
-let directory = 'file://C:/Users/KAINENG/OneDrive/Music/'; //for audio player, in {directory}/{knyear}/{filename}.mp3
-let coverArtDirectory = 'file://F:/RBKN/Pictures/ART/ALBUMART/'; //for cover art, in {directory}/{knyear}/{filename}
-let debugMode = false; //will show all available logging on console
-let altMode = false; //will switch between titles and alt titles [TODO]
-let widescreenAverageModuleSize = 480; //on wide screen widths, tab width for content (responsive)
-let autoplayOnSelect = false; //disable player autoplay, will affect queue
-let categoryIcons = ['🧑', '💽', '🎵']; //in order: artist, release, song; will appear in search results
+const defaultTitle = 'Klassic Note Web';
+const altTitlePrefix = 'Original';
+const databaseFilename = 'https://knneo.github.io/klassic-note-web/db/KlassicNote.db';
+const directory = 'file://C:/Users/KAINENG/OneDrive/Music/'; //for audio player, in {directory}/{knyear}/{filename}.mp3
+const coverArtDirectory = 'file://F:/RBKN/Pictures/ART/ALBUMART/'; //for cover art, in {directory}/{knyear}/{filename}
+const debugMode = false; //will show all available logging on console
+const altMode = false; //will switch between titles and alt titles [TODO]
+const widescreenAverageModuleSize = 480; //on wide screen widths, tab width for content (responsive)
+const autoplayOnSelect = false; //disable player autoplay, will affect queue
+const categoryIcons = ['🧑', '💽', '🎵']; //in order: artist, release, song; will appear in search results
 
 
 //--STARTUP--//
@@ -415,10 +415,9 @@ function queryDb(query, callback) {
 }
 
 function startup() {
-	document.querySelector('#title').innerText = defaultTitle;
-	document.title = defaultTitle;
 	renderSettings();
 	renderVariables();
+	renderTitle();
 	generateFilters();
 	runLoader();
 	generateHomepage();
@@ -440,6 +439,12 @@ function renderVariables() {
 	window['mode'] = 'song';
 	window['playing'] = null;
 	window['loading'] = true;
+	window['title'] = defaultTitle;
+}
+
+function renderTitle() {
+	document.querySelector('#title').innerText = defaultTitle;
+	document.title = window['title'];
 }
 
 function generateHomepage() {
@@ -1204,10 +1209,12 @@ function generatePlayer(contents) {
 	audio.volume = localStorage.getItem('volume')|| 0.5;
 	audio.controlsList = 'nodownload';
 	audio.addEventListener('play', function() {
-		document.title = row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle] + ' - ' + defaultTitle;
+		window['title'] = row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle] + ' - ' + defaultTitle;
+		renderTitle();
 	});
 	audio.addEventListener('pause', function() {
-		document.title = defaultTitle;
+		window['title'] = defaultTitle;
+		renderTitle();
 	});
 	audio.addEventListener('canplay', function() {
 		this.style.display = 'block';
