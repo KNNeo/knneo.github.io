@@ -350,14 +350,14 @@ function resetQueueView() {
 function runLoader() {
 	switch(document.querySelector('.loader').innerText)
 	{
-		case 'hourglass_full': 
+		case 'hourglass_top': 
 			document.querySelector('.loader').innerText = 'hourglass_empty';
 			break;
 		case 'hourglass_empty': 
 			document.querySelector('.loader').innerText = 'hourglass_bottom';
 			break;
 		case 'hourglass_bottom': 
-			document.querySelector('.loader').innerText = 'hourglass_full';
+			document.querySelector('.loader').innerText = 'hourglass_top';
 			break;
 		default:
 			document.querySelector('.loader').innerText = 'hourglass_empty';
@@ -714,7 +714,7 @@ function querySelect() {
 	if(debugMode) console.log('querySelect', this.value);
 	
 	searchFields = ['ArtistTitle'].join(" || ");
-	query += "SELECT ArtistID AS KNID, '' AS KNYEAR, '' AS SongTitle, ArtistTitle FROM Artist WHERE TRUE "
+	query += "SELECT DISTINCT MIN(ArtistID) AS KNID, '' AS KNYEAR, '' AS SongTitle, ArtistTitle FROM Artist WHERE TRUE "
 	query += addQuotationInSQLString(this.value).split(' ').map(v => "AND " + searchFields + " LIKE '%" + v + "%'").join('');
 	query += " UNION ALL ";
 	
@@ -735,7 +735,10 @@ function onChangeOption() {
 		window['mode'] = 'song';
 		let input = id.replace(categoryIcons[2], '');
 		
-		let query = "SELECT KNID as ID, KNYEAR, Filename, SongTitle as 'Song Title', ArtistTitle as 'Artist Title', ReleaseTitle as 'Release Title', ReleaseArtistTitle as 'Release Artist', ReleaseYear as 'Year', Rating, Genre, DateCreated as 'Date Added', VocalCode as 'Vocal Code', LanguageCode as 'Language', LyricsURL as 'Lyrics', SongTitleAlt as '" + altTitlePrefix + " Song Title', ArtistID, ReleaseID FROM Song WHERE KNID = " + input;
+		let query = "SELECT KNID AS ID, KNYEAR, Filename, SongTitle AS 'Song Title', ArtistTitle AS 'Artist Title', ReleaseTitle AS 'Release Title', ReleaseArtistTitle AS 'Release Artist', ReleaseYear AS 'Year', Rating, Genre, DateCreated AS 'Date Added', ";
+		query += "CASE WHEN VocalCode = 'F' THEN 'Solo Female' WHEN VocalCode = 'M' THEN 'Solo Male' WHEN VocalCode = 'MM' THEN 'Male Duet' WHEN VocalCode = 'FF' THEN 'Female Duet' WHEN VocalCode IN ('MF', 'FM') THEN 'Mixed Duet' WHEN LENGTH(VocalCode) = 3 THEN 'Triplet' WHEN LENGTH(VocalCode) >= 4 THEN 'Quartet or More (' || LENGTH(VocalCode) || ')' END AS 'Vocal Code', ";
+		query += "CASE LanguageCode WHEN 'JP' THEN 'Japanese' WHEN 'EN' THEN 'English' WHEN 'CH' THEN 'Chinese' WHEN 'FR' THEN 'French' END AS 'Language', ";
+		query += "LyricsURL AS 'Lyrics', SongTitleAlt AS '" + altTitlePrefix + " Song Title', ArtistID, ReleaseID FROM Song WHERE KNID = " + input;
 		if(debugMode) console.log('query', query);
 		queryDb(query, generateLayout);
 	}
@@ -869,11 +872,11 @@ function generateTableByData(contents, id, title, excludedColumns = []) {
 		let tr = document.createElement('tr');
 	
 		let tc = document.createElement('td');
-		tc.innerText = columns[r];
+		tc.innerHTML = columns[r];
 		tr.appendChild(tc);
 		
 		let td = document.createElement('td');
-		td.innerText = rowVal;
+		td.innerHTML = rowVal;
 		if(rowVal.toString().includes('https://') || rowVal.toString().includes('http://'))
 			td.innerHTML = '<a target="_blank" href="' + rowVal + '">' + rowVal + '</a>';
 		tr.appendChild(td);
@@ -1054,14 +1057,6 @@ function generateTableByDataWithHeader(contents, id, skipClear, title, skipTitle
 		
 	table.appendChild(tbody);
 	document.getElementById(id).appendChild(table);
-}
-
-function generateHistogramTableByData(contents, id, title, icon, excludedColumns = []) {
-	/*
-	same as generateTableByData but:
-	1. one column change to icon
-	2. icon defined by bi-icon name
-	 */
 }
 
 function generateCellValue(columns, row, textColumn, iconColumn, iconId) {	
