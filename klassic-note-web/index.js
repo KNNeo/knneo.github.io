@@ -106,22 +106,22 @@ function setTabs() {
 	let totalModules = Math.round(window.innerWidth / widescreenAverageModuleSize);
 	if(debugMode) console.log('totalModules', totalModules);
 	
-	for(let tab of document.getElementsByClassName('tab'))
+	for(let tab of document.querySelectorAll('.tab'))
 	{
 		let hasModules = Array.from(tab.childNodes).filter(c => c.childNodes.length > 0).length > 0;
 		if(debugMode) console.log('hasModules', tab.id, hasModules);
 		let tabButton = document.querySelector('#button-' + tab.id);
-		if(tabButton != null) //button controls on mobile
+		//enable tab button controls if have content
+		if(tabButton != null)
 		{
 			tabButton.style.cursor = hasModules ? 'pointer' : '';
 			tabButton.disabled = !hasModules;
 		}
 
 		//remove padding if no elements
-		for(let module of tab.getElementsByClassName('module'))
+		for(let module of tab.querySelectorAll('.module'))
 		{
-			let hasComponents = Array.from(module.childNodes).filter(c => c.childNodes.length > 0).length > 0;
-			module.style.padding = hasComponents ? '' : 0;
+			module.style.padding = Array.from(module.childNodes).filter(c => c.childNodes.length > 0).length > 0 ? '' : 0;
 		}
 		
 		//mobile alignments
@@ -150,7 +150,7 @@ function setTabs() {
 	hideContextMenus(true);
 	
 	//adjust content height
-	let tabHeight = window.innerHeight - Array.from(document.getElementsByClassName('calc')).reduce((total, current) => { return total + current.offsetHeight; }, 10) + 'px';
+	let tabHeight = window.innerHeight - Array.from(document.querySelectorAll('.calc')).reduce((total, current) => { return total + current.offsetHeight; }, 10) + 'px';
 	if(debugMode) console.log('containerHeight', tabHeight, document.querySelector('#tab-list').style.height);
 	if(tabHeight != document.querySelector('#tab-list').style.height)
 	{
