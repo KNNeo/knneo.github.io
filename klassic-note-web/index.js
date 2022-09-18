@@ -1133,6 +1133,8 @@ function generateLayout(contents) {
 		queryArtistInfo(contents);
 		queryArtistRelated(contents);
 		queryAwardsByArtist(contents);
+		queryCompilationsByArtist(contents);
+		queryCollection(contents);
 		//awards that artist won? and nominated
 		//rankings entered? maybe not list all but summary?
 		//compilation: artist collection, if any?
@@ -1681,8 +1683,7 @@ function queryAwardsByArtist(contents) {
 	//select awards of that song regardless of year
 	let query = "SELECT a.KNYEAR, a.AwardTitle, a.ArtistTitle AS 'Artist Title', a.RecipientTitle AS 'Song Title', a.KNID, a.IsWinner AS 'Won' FROM Award a JOIN Song s ON s.KNID = a.KNID WHERE a.ArtistTitle = '" + row[columnIndexArtistTitle] + "'"; 
 	query += "ORDER BY a.KNYEAR, a.AwardID, a.SortOrder";
-	// if(debugMode) 
-		console.log('queryAwardsByArtist', query);
+	if(debugMode) console.log('queryAwardsByArtist', query);
 	queryDb(query, generateAwards);
 }
 
@@ -1788,6 +1789,18 @@ function queryCompilationsByYear(contents) {
 	queryDb(query, generateCompilations);
 }
 
+function queryCompilationsByArtist(contents) {
+	let columns = contents.columns;
+	let rows = contents.values;
+	let row = rows[0];
+	let columnIndexArtistTitle = contents.columns.indexOf('Artist Title');
+	//select compilations of that song regardless of year
+	let query = "SELECT c.CompilationTitle, c.TrackNumber AS 'Track #', c.SongTitle AS 'Song Title', c.ArtistTitle AS 'Artist Title', c.KNID FROM Compilation c JOIN Song s ON s.KNID = c.KNID WHERE c.ArtistTitle = '" + row[columnIndexArtistTitle] + "'";
+	query += "ORDER BY c.KNYEAR, c.CompilationTitle, c.TrackNumber";
+	if(debugMode) console.log('queryCompilationsByArtist', query);
+	queryDb(query, generateCompilations);
+}
+
 function generateCompilations(contents) {
 	document.getElementById('song-compilation').innerHTML = '';
 	
@@ -1823,6 +1836,33 @@ function generateCompilations(contents) {
 		
 		document.getElementById('song-compilation').appendChild(document.createElement('br'));
 	}
+}
+
+function queryCollection(contents) {
+	let columns = contents.columns;
+	let rows = contents.values;
+	let row = rows[0];
+	let columnIndexArtistTitle = contents.columns.indexOf('Artist Title');
+	//select compilations of that song regardless of year
+	let query = "SELECT c.CollectionTitle, c.TrackNumber AS 'Track #', s.KNID, s.SongTitle AS 'Song Title' FROM UltimateCollection c JOIN Song s on c.KNID = s.KNID WHERE c.Folder = '" + row[columnIndexArtistTitle] + "' ORDER BY c.TrackNumber";
+	if(debugMode) console.log('queryCollection', query);
+	queryDb(query, generateCollection);
+}
+
+function generateCollection(contents) {
+	if(debugMode) console.log('generateCollection', contents);
+	generateTableByDataWithHeader(
+		contents, 
+		'ultimate-collection', 
+		false, 
+		'Artist Collection', 
+		false, 
+		['KNID', 'CollectionTitle'], 
+		'KNID', 
+		null,
+		'CollectionTitle',
+		true
+	);
 }
 
 function querySOTD(contents) {
