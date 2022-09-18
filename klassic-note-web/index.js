@@ -34,17 +34,18 @@ function setInput() {
 }
 
 function setKeyUp() {
-	if (debugMode) 
-		console.log(event.keyCode);
+	if (debugMode) console.log('setKeyUp', event.keyCode);
 	// space: play/pause when not focus on player
 	if (event.keyCode === 32 && document.querySelector('#player') != null 
 	&& ['player', 'search'].indexOf(document.activeElement.id) < 0) {
 		event.preventDefault();
-		if(document.querySelector('#player').paused)
-			document.querySelector('#player').play();
+		let player = document.querySelector('#player');
+		if(player.paused)
+			player.play();
 		else
-			document.querySelector('#player').pause();
+			player.pause();
 	}
+	// ctrl + c: copy search content
 	if (event.keyCode === 67 && window['ctrled'] && document.querySelector('#copy') != null) {
 		event.preventDefault();
 		document.querySelector('#copy').click();
@@ -59,24 +60,27 @@ function setKeyUp() {
 		event.preventDefault();
 		window['ctrled'] = false;
 	}
+	// up: increases volume of player
 	if (event.keyCode === 38 && document.querySelector('#player').volume < 1) {
 		event.preventDefault();
-		document.querySelector('#player').volume = document.querySelector('#player').volume + 0.1;
-		if(document.querySelector('#player').volume > 0.99) // prevent js rounding issue
-			document.querySelector('#player').volume = 1;
+		let player = document.querySelector('#player');
+		player.volume = player.volume + 0.1;
+		if(player.volume > 0.99) // prevent js rounding issue
+			player.volume = 1;
 	}
+	// down: decreases volume of player
 	if (event.keyCode === 40 && document.querySelector('#player').volume > 0) {
 		event.preventDefault();
-		document.querySelector('#player').volume = document.querySelector('#player').volume - 0.1;
-		if(document.querySelector('#player').volume < 0.01) // prevent js rounding issue
-			document.querySelector('#player').volume = 0;
+		let player = document.querySelector('#player');
+		player.volume = player.volume - 0.1;
+		if(player.volume < 0.01) // prevent js rounding issue
+			player.volume = 0;
 	}
 	return false;
 }
 
 function setKeyDown() {
-	if (debugMode) 
-		console.log(event.keyCode);
+	if (debugMode) console.log('setKeyDown', event.keyCode);
 	// space: prevent scroll when play/pause
 	if(event.keyCode === 32 && document.activeElement == document.body)
 		event.preventDefault();
@@ -113,7 +117,8 @@ function setTabs() {
 			tabButton.disabled = !hasModules;
 		}
 
-		for(let module of tab.getElementsByClassName('module')) //remove padding if no elements
+		//remove padding if no elements
+		for(let module of tab.getElementsByClassName('module'))
 		{
 			let hasComponents = Array.from(module.childNodes).filter(c => c.childNodes.length > 0).length > 0;
 			module.style.padding = hasComponents ? '' : 0;
@@ -123,12 +128,13 @@ function setTabs() {
 		if(isWidescreen && !tab.classList.contains('tab-view')) tab.classList.add('tab-view');
 		if(!isWidescreen && tab.classList.contains('tab-view')) tab.classList.remove('tab-view');
 		
-		//hide if homepage
+		//hide tab if is homepage
 		tab.style.display = homePageVisible ? 'none' : '';
 		tab.style.display = isWidescreen ? 'inline-block' : '';
 		tab.style.width = isWidescreen && hasModules ? ((window.innerWidth / totalModules) - 20) + 'px' : ''; //exclude horizontal padding
 	}
 	
+	//display tab when mobile, depending on mode
 	if(!isWidescreen)
 	{
 		if(window['mode'] == 'song') showTab('tab-info');
@@ -136,17 +142,16 @@ function setTabs() {
 		if(window['mode'] == 'artist') showTab('tab-info');
 	}
 	
-	document.querySelector('#tab-buttons').style.display = isWidescreen ? 'none' : '';
-	let tabHeight = window.innerHeight - Array.from(document.getElementsByClassName('calc')).reduce((total, current) => { return total + current.offsetHeight; }, 10) + 'px';
-	if (debugMode) console.log('containerHeight', document.querySelector('#tab-list').style.height);
-	
+	//toggle search buttons
 	document.querySelector('#search').style.width = homePageVisible ? '100%' : (document.querySelector('#options').getBoundingClientRect().width - 48) + 'px';
 	document.querySelector('#search-buttons').style.display = homePageVisible ? 'none' : '';
+	document.querySelector('#tab-buttons').style.display = isWidescreen ? 'none' : '';
 	
 	hideContextMenus(true);
 	
-	//adjust height
-	if(debugMode) console.log(tabHeight, document.querySelector('#tab-list').style.height);
+	//adjust content height
+	let tabHeight = window.innerHeight - Array.from(document.getElementsByClassName('calc')).reduce((total, current) => { return total + current.offsetHeight; }, 10) + 'px';
+	if(debugMode) console.log('containerHeight', tabHeight, document.querySelector('#tab-list').style.height);
 	if(tabHeight != document.querySelector('#tab-list').style.height)
 	{
 		document.querySelector('#tab-list').style.height = tabHeight;
