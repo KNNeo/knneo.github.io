@@ -8,6 +8,7 @@ let debugMode = false; //will show all available logging on console
 let altMode = false; //will switch between titles and alt titles [TODO]
 let widescreenAverageModuleSize = 480; //on wide screen widths, tab width for content (responsive)
 let autoplayOnSelect = false; //disable player autoplay, will affect queue
+let categoryIcons = ['🧑', '💽', '🎵']; //in order: artist, release, song; will appear in search results
 
 
 //--STARTUP--//
@@ -667,16 +668,16 @@ function generateFilters() {
 	search.addEventListener('input', function() {
 		let searchFields = [].join(" || ");
 		let query = "";
-		// console.log('querySelect', document.querySelector('#search').value);
+		if(debugMode) console.log('querySelect', this.value);
 		
 		searchFields = ['ArtistTitle'].join(" || ");
 		query += "SELECT ArtistID AS KNID, '' AS KNYEAR, '' AS SongTitle, ArtistTitle FROM Artist WHERE TRUE "
-		query += addQuotationInSQLString(document.querySelector('#search').value).split(' ').map(v => "AND " + searchFields + " LIKE '%" + v + "%'").join('');
+		query += addQuotationInSQLString(this.value).split(' ').map(v => "AND " + searchFields + " LIKE '%" + v + "%'").join('');
 		query += " UNION ALL ";
 		
 		searchFields = ['SongTitle','ArtistTitle','KNYEAR'].join(" || ");
 		query += "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song WHERE TRUE ";
-		query += addQuotationInSQLString(document.querySelector('#search').value).split(' ').map(v => "AND " + searchFields + " LIKE '%" + v + "%'").join('');
+		query += addQuotationInSQLString(this.value).split(' ').map(v => "AND " + searchFields + " LIKE '%" + v + "%'").join('');
 		
 		if(debugMode) console.log('search', query);
 		queryDb(query, updateOptions);
@@ -722,25 +723,28 @@ function onChangeOption() {
 	let id = document.querySelector('#options').value;
 	if(debugMode) console.log('onChangeOption', id);
 	//select by id value format
-	if(id.startsWith('A'))
+	if(id.startsWith(categoryIcons[2]))
+	{
+		window['mode'] = 'song';
+		let input = id.replace(categoryIcons[2], '');
+		
+		let query = "SELECT KNID as ID, KNYEAR, Filename, SongTitle as 'Song Title', ArtistTitle as 'Artist Title', ReleaseTitle as 'Release Title', ReleaseArtistTitle as 'Release Artist', ReleaseYear as 'Year', Rating, Genre, DateCreated as 'Date Added', VocalCode as 'Vocal Code', LanguageCode as 'Language', LyricsURL as 'Lyrics', SongTitleAlt as '" + altTitlePrefix + " Song Title', ArtistID, ReleaseID FROM Song WHERE KNID = " + input;
+		if(debugMode) console.log('query', query);
+		queryDb(query, generateLayout);
+	}
+	else if(id.startsWith(categoryIcons[0]))
 	{
 		window['mode'] = 'artist';
+		let input = id.replace(categoryIcons[0], '');
 		
-		let query = "SELECT ArtistTitle AS 'Artist Title' FROM Artist WHERE ArtistID = " + id.replace('A','');
+		let query = "SELECT ArtistTitle AS 'Artist Title' FROM Artist WHERE ArtistID = " + input;
 		if(debugMode) console.log('query', query);
 		queryDb(query, generateLayout);
 		
-		query = "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song WHERE ArtistID = " + id.replace('A','');
+		query = "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song WHERE ArtistID = " + input;
 		if(isMobile())
 			query += " LIMIT 100";
 		callDb(query, updateOptions);
-	}
-	else if(parseInt(id) > 0)
-	{
-		window['mode'] = 'song';
-		let query = "SELECT KNID as ID, KNYEAR, Filename, SongTitle as 'Song Title', ArtistTitle as 'Artist Title', ReleaseTitle as 'Release Title', ReleaseArtistTitle as 'Release Artist', ReleaseYear as 'Year', Rating, Genre, DateCreated as 'Date Added', VocalCode as 'Vocal Code', LanguageCode as 'Language', LyricsURL as 'Lyrics', SongTitleAlt as '" + altTitlePrefix + " Song Title', ArtistID, ReleaseID FROM Song WHERE KNID = " + id;
-		if(debugMode) console.log('query', query);
-		queryDb(query, generateLayout);
 	}
 }
 
@@ -749,7 +753,7 @@ function selectAll() {
 }
 
 function updateOptions(contents) {
-	// console.log('updateOptions', contents);
+	if(debugMode) console.log('updateOptions', contents);
 	let search = document.querySelector('#search');
 	let options = document.querySelector('#options');
 	options.innerHTML = '';
@@ -773,10 +777,17 @@ function updateOptions(contents) {
 				let knyear = row[columnIndexKNYEAR];
 				let title = row[columnIndexSongTitle];
 				let artist = row[columnIndexArtistTitle];
-				newOptions.push({
-					id,
-					optionString: knyear + ' - ' + artist +  ' - ' + title
-				});
+				
+				if(title)
+					newOptions.push({
+						id: categoryIcons[2] + id,
+						optionString: categoryIcons[2] + knyear + ' - ' + artist +  ' - ' + title
+					});
+				else if (artist)
+					newOptions.push({
+						id: categoryIcons[0] + id,
+						optionString: categoryIcons[0] + artist
+					});					
 			}
 			
 		}
@@ -1392,7 +1403,7 @@ function queryArtistInfo(contents) {
 		console.log('generateArtistInfo', query);
 	queryDb(query, generateArtistInfo);
 	
-	query = "SELECT DISTINCT r.ReleaseYear as 'Year', r.Category, r.Type, r.ReleaseTitle AS 'Release Title', r.ReleaseYear || SUBSTR('0000' || r.ReleaseDate, -4, 4) AS 'Release Date', r.ReleaseTitleAlt AS '" + altTitlePrefix + " Release Title', r.ReleaseArtistTitleAlt AS '" + altTitlePrefix + " Release Artist', CAST(w.ReviewID > 0 as INT) as 'ReviewID' FROM Release r LEFT JOIN Review w ON r.ReleaseID = w.ReleaseID WHERE r.ReleaseArtistTitle = '" + addQuotationInSQLString(row[columnIndexArtistTitle]) + "' GROUP BY r.ReleaseTitle ORDER BY r.ReleaseYear, SUBSTR('0000' || r.ReleaseDate, -4, 4)";
+	query = "SELECT DISTINCT r.ReleaseYear as 'Year', r.Category, r.Type, r.ReleaseTitle AS 'Release Title', r.ReleaseYear || SUBSTR('0000' || r.ReleaseDate, -4, 4) AS 'Release Date', r.ReleaseTitleAlt AS '" + altTitlePrefix + " Release Title', r.ReleaseArtistTitleAlt AS '" + altTitlePrefix + " Release Artist', CAST(w.ReviewID > 0 as INT) as 'Reviewed' FROM Release r LEFT JOIN Review w ON r.ReleaseID = w.ReleaseID WHERE r.ReleaseArtistTitle = '" + addQuotationInSQLString(row[columnIndexArtistTitle]) + "' GROUP BY r.ReleaseTitle ORDER BY r.ReleaseYear, SUBSTR('0000' || r.ReleaseDate, -4, 4)";
 	if(debugMode)
 		console.log('generateReleaseInfo', query);
 	queryDb(query, generateArtistReleaseInfo);
@@ -1406,13 +1417,13 @@ function generateArtistReleaseInfo(contents) {
 		false,
 		'Artist Releases', 
 		false,
-		['Type', 'Release Date', 'Original Release Title', 'Original Release Artist', 'ReviewID'], 
+		['Type', 'Release Date', 'Original Release Title', 'Original Release Artist', 'Reviewed'], 
 		null,
 		null,
 		null,
 		true,
 		'Release Title',
-		'ReviewID',
+		'Reviewed',
 		'reviews',
 		'Reviewed'
 	);
