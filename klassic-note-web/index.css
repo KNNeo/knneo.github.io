@@ -158,11 +158,11 @@ body {
 	background-color: gray;
 }
 
-.list .highlight {
+.highlight {
 	background-color: lightgray;
 }
 
-.darked .list .highlight {
+.darked .highlight {
 	background-color: gray;
 }
 .header-element {
