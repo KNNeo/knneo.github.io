@@ -458,36 +458,28 @@ function querySelect() {
 	queryDb(query, updateOptions);
 }
 
-function onChangeOption() {
-	let id = document.querySelector('#options').value;
-	if(debugMode) console.log('onChangeOption', id);
-	//select by id value format
-	if(id.startsWith(categoryIcons[2]))
+function runLoader() {
+	switch(document.querySelector('.loader').innerText)
 	{
-		window['mode'] = 'song';
-		let input = id.replace(categoryIcons[2], '');
-		
-		let query = "SELECT KNID AS ID, KNYEAR, Filename, SongTitle AS 'Song Title', ArtistTitle AS 'Artist Title', ReleaseTitle AS 'Release Title', ReleaseArtistTitle AS 'Release Artist', ReleaseYear AS 'Year', Rating, Genre, DateCreated AS 'Date Added', ";
-		query += "CASE WHEN VocalCode = 'F' THEN 'Solo Female' WHEN VocalCode = 'M' THEN 'Solo Male' WHEN VocalCode = 'MM' THEN 'Male Duet' WHEN VocalCode = 'FF' THEN 'Female Duet' WHEN VocalCode IN ('MF', 'FM') THEN 'Mixed Duet' WHEN LENGTH(VocalCode) = 3 THEN 'Triplet' WHEN LENGTH(VocalCode) >= 4 THEN 'Quartet or More (' || LENGTH(VocalCode) || ')' END AS 'Vocals', ";
-		query += "CASE LanguageCode WHEN 'JP' THEN 'Japanese' WHEN 'EN' THEN 'English' WHEN 'CH' THEN 'Chinese' WHEN 'FR' THEN 'French' END AS 'Language', ";
-		query += "LyricsURL AS 'Lyrics', SongTitleAlt AS '" + altTitlePrefix + " Song Title', ArtistID, ReleaseID FROM Song WHERE KNID = " + input;
-		if(debugMode) console.log('query', query);
-		queryDb(query, generateModules);
+		case 'hourglass_full': 
+			document.querySelector('.loader').innerText = 'hourglass_empty';
+			break;
+		case 'hourglass_empty': 
+			document.querySelector('.loader').innerText = 'hourglass_bottom';
+			break;
+		case 'hourglass_bottom': 
+			document.querySelector('.loader').innerText = 'hourglass_full';
+			break;
+		default:
+			document.querySelector('.loader').innerText = 'hourglass_empty';
+			break;
 	}
-	else
-	{
-		window['mode'] = 'artist';
-		let input = id.replace(categoryIcons[0], '');
-		
-		let query = "SELECT ArtistTitle AS 'Artist Title' FROM Artist WHERE ArtistID = " + input;
-		if(debugMode) console.log('query', query);
-		queryDb(query, generateModules);
-		
-		query = "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song WHERE ArtistID = " + input;
-		if(isMobile())
-			query += " LIMIT 100";
-		callDb(query, updateOptions);
-	}
+	if(window['loading']) setTimeout(runLoader, 500);
+}
+
+function stopLoader() {
+	window['loading'] = false;
+	document.querySelector('.loader').classList.add('hidden');
 }
 
 function selectAll() {
@@ -567,34 +559,36 @@ function updateOptions(contents) {
 	// console.log('newOptions', newOptions);
 }
 
-function scrollToTop() {
-    document.querySelector('#tab-list').scrollTop = 0;
-    document.documentElement.scrollTop = 0;
-	window.location.hash = "";
-}
-
-function runLoader() {
-	switch(document.querySelector('.loader').innerText)
+function onChangeOption() {
+	let id = document.querySelector('#options').value;
+	if(debugMode) console.log('onChangeOption', id);
+	//select by id value format
+	if(id.startsWith(categoryIcons[2]))
 	{
-		case 'hourglass_full': 
-			document.querySelector('.loader').innerText = 'hourglass_empty';
-			break;
-		case 'hourglass_empty': 
-			document.querySelector('.loader').innerText = 'hourglass_bottom';
-			break;
-		case 'hourglass_bottom': 
-			document.querySelector('.loader').innerText = 'hourglass_full';
-			break;
-		default:
-			document.querySelector('.loader').innerText = 'hourglass_empty';
-			break;
+		window['mode'] = 'song';
+		let input = id.replace(categoryIcons[2], '');
+		
+		let query = "SELECT KNID AS ID, KNYEAR, Filename, SongTitle AS 'Song Title', ArtistTitle AS 'Artist Title', ReleaseTitle AS 'Release Title', ReleaseArtistTitle AS 'Release Artist', ReleaseYear AS 'Year', Rating, Genre, DateCreated AS 'Date Added', ";
+		query += "CASE WHEN VocalCode = 'F' THEN 'Solo Female' WHEN VocalCode = 'M' THEN 'Solo Male' WHEN VocalCode = 'MM' THEN 'Male Duet' WHEN VocalCode = 'FF' THEN 'Female Duet' WHEN VocalCode IN ('MF', 'FM') THEN 'Mixed Duet' WHEN LENGTH(VocalCode) = 3 THEN 'Triplet' WHEN LENGTH(VocalCode) >= 4 THEN 'Quartet or More (' || LENGTH(VocalCode) || ')' END AS 'Vocals', ";
+		query += "CASE LanguageCode WHEN 'JP' THEN 'Japanese' WHEN 'EN' THEN 'English' WHEN 'CH' THEN 'Chinese' WHEN 'FR' THEN 'French' END AS 'Language', ";
+		query += "LyricsURL AS 'Lyrics', SongTitleAlt AS '" + altTitlePrefix + " Song Title', ArtistID, ReleaseID FROM Song WHERE KNID = " + input;
+		if(debugMode) console.log('query', query);
+		queryDb(query, generateModules);
 	}
-	if(window['loading']) setTimeout(runLoader, 500);
-}
-
-function stopLoader() {
-	window['loading'] = false;
-	document.querySelector('.loader').classList.add('hidden');
+	else
+	{
+		window['mode'] = 'artist';
+		let input = id.replace(categoryIcons[0], '');
+		
+		let query = "SELECT ArtistTitle AS 'Artist Title' FROM Artist WHERE ArtistID = " + input;
+		if(debugMode) console.log('query', query);
+		queryDb(query, generateModules);
+		
+		query = "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song WHERE ArtistID = " + input;
+		if(isMobile())
+			query += " LIMIT 100";
+		callDb(query, updateOptions);
+	}
 }
 
 function generateTableByData(contents, id, title, excludedColumns = []) {
@@ -2441,6 +2435,13 @@ function findSpanSibling(row, columns) {
 	}
 	return returnRow;
 }
+
+function scrollToTop() {
+    document.querySelector('#tab-list').scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+	window.location.hash = "";
+}
+
 
 //drag and drop
 function addDragAndDrop() {
