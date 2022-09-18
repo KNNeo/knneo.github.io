@@ -1400,7 +1400,7 @@ function generateSongList(contents) {
 		contents, 
 		'song-list', 
 		'Songs from ' + contents.values[0][contents.columns.indexOf('KNYEAR')],
-		['ArtistTitle', 'SongTitle'], 
+		['ArtistTitle', ' - ', 'SongTitle'], 
 		updateSong
 	);
 }
