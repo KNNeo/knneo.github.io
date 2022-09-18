@@ -668,6 +668,7 @@ function generateFilters() {
 	let search = document.createElement('input');
 	search.id = 'search';
 	search.disabled = true;
+	search.setAttribute('autocomplete', 'off');
 	search.placeholder = 'Song Title, Artist Title, KNYEAR...';
 	search.addEventListener('focus', selectAll);
 	search.addEventListener('input', querySelect);
