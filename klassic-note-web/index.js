@@ -670,23 +670,7 @@ function generateFilters() {
 	search.disabled = true;
 	search.placeholder = 'Song Title, Artist Title, KNYEAR...';
 	search.addEventListener('focus', selectAll);
-	search.addEventListener('input', function() {
-		let searchFields = [].join(" || ");
-		let query = "";
-		if(debugMode) console.log('querySelect', this.value);
-		
-		searchFields = ['ArtistTitle'].join(" || ");
-		query += "SELECT ArtistID AS KNID, '' AS KNYEAR, '' AS SongTitle, ArtistTitle FROM Artist WHERE TRUE "
-		query += addQuotationInSQLString(this.value).split(' ').map(v => "AND " + searchFields + " LIKE '%" + v + "%'").join('');
-		query += " UNION ALL ";
-		
-		searchFields = ['SongTitle','ArtistTitle','KNYEAR'].join(" || ");
-		query += "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song WHERE TRUE ";
-		query += addQuotationInSQLString(this.value).split(' ').map(v => "AND " + searchFields + " LIKE '%" + v + "%'").join('');
-		
-		if(debugMode) console.log('search', query);
-		queryDb(query, updateOptions);
-	});
+	search.addEventListener('input', querySelect);
 	filters.appendChild(search);
 	
 	let searchButtons = document.createElement('span');
@@ -722,6 +706,24 @@ function generateFilters() {
 		options.appendChild(opt);
 		
 	filters.appendChild(options);
+}
+
+function querySelect() {
+	let searchFields = [].join(" || ");
+	let query = "";
+	if(debugMode) console.log('querySelect', this.value);
+	
+	searchFields = ['ArtistTitle'].join(" || ");
+	query += "SELECT ArtistID AS KNID, '' AS KNYEAR, '' AS SongTitle, ArtistTitle FROM Artist WHERE TRUE "
+	query += addQuotationInSQLString(this.value).split(' ').map(v => "AND " + searchFields + " LIKE '%" + v + "%'").join('');
+	query += " UNION ALL ";
+	
+	searchFields = ['SongTitle','ArtistTitle','KNYEAR'].join(" || ");
+	query += "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song WHERE TRUE ";
+	query += addQuotationInSQLString(this.value).split(' ').map(v => "AND " + searchFields + " LIKE '%" + v + "%'").join('');
+	
+	if(debugMode) console.log('querySelect', query);
+	queryDb(query, updateOptions);
 }
 
 function onChangeOption() {
@@ -1216,7 +1218,7 @@ function generatePlayer(contents) {
 	audio.volume = localStorage.getItem('volume')|| 0.5;
 	audio.controlsList = 'nodownload';
 	audio.addEventListener('play', function() {
-		window['title'] = row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle] + ' - ' + defaultTitle;
+		window['title'] = row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle] + ' | ' + defaultTitle;
 		renderTitle();
 	});
 	audio.addEventListener('pause', function() {
