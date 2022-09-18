@@ -1132,6 +1132,7 @@ function generateLayout(contents) {
 		document.querySelector('#search').value = contents.values[0][contents.columns.indexOf('Artist Title')];
 		queryArtistInfo(contents);
 		queryArtistRelated(contents);
+		queryAwardsByArtist(contents);
 		//awards that artist won? and nominated
 		//rankings entered? maybe not list all but summary?
 		//compilation: artist collection, if any?
@@ -1658,6 +1659,33 @@ function queryAwards(contents) {
 	queryDb(query, generateAwards);
 }
 
+function queryAwardsByYear(contents) {
+	let columns = contents.columns;
+	let rows = contents.values;
+	let row = rows[0];
+	let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
+	
+	//select awards of that song regardless of year
+	let query = "SELECT a.KNYEAR, a.AwardTitle, a.ArtistTitle AS 'Artist Title', a.RecipientTitle AS 'Song Title', a.KNID, a.IsWinner AS 'Won' FROM Award a JOIN Song s ON s.KNID = a.KNID WHERE a.KNYEAR = " + row[columnIndexKNYEAR] + " "; 
+	query += "ORDER BY a.KNYEAR, a.AwardID, a.SortOrder";
+	if(debugMode) console.log('queryAwardsByYear', query);
+	queryDb(query, generateAwards);
+}
+
+function queryAwardsByArtist(contents) {
+	let columns = contents.columns;
+	let rows = contents.values;
+	let row = rows[0];
+	let columnIndexArtistTitle = contents.columns.indexOf('Artist Title');
+	
+	//select awards of that song regardless of year
+	let query = "SELECT a.KNYEAR, a.AwardTitle, a.ArtistTitle AS 'Artist Title', a.RecipientTitle AS 'Song Title', a.KNID, a.IsWinner AS 'Won' FROM Award a JOIN Song s ON s.KNID = a.KNID WHERE a.ArtistTitle = '" + row[columnIndexArtistTitle] + "'"; 
+	query += "ORDER BY a.KNYEAR, a.AwardID, a.SortOrder";
+	// if(debugMode) 
+		console.log('queryAwardsByArtist', query);
+	queryDb(query, generateAwards);
+}
+
 function generateAwards(contents) {
 	if(debugMode) console.log('generateAwards', contents);
 	
@@ -1697,19 +1725,6 @@ function generateAwards(contents) {
 		);
 		document.querySelector('#song-awards').appendChild(document.createElement('br'));
 	}
-}
-
-function queryAwardsByYear(contents) {
-	let columns = contents.columns;
-	let rows = contents.values;
-	let row = rows[0];
-	let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
-	
-	//select awards of that song regardless of year
-	let query = "SELECT a.KNYEAR, a.AwardTitle, a.ArtistTitle AS 'Artist Title', a.RecipientTitle AS 'Song Title', a.KNID, a.IsWinner AS 'Won' FROM Award a JOIN Song s ON s.KNID = a.KNID WHERE a.KNYEAR = " + row[columnIndexKNYEAR] + " "; 
-	query += "ORDER BY a.KNYEAR, a.AwardID, a.SortOrder";
-	if(debugMode) console.log('queryAwardsByYear', query);
-	queryDb(query, generateAwards);
 }
 
 function queryRankings(contents) {
