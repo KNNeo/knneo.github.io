@@ -1133,6 +1133,7 @@ function generateLayout(contents) {
 		queryArtistInfo(contents);
 		queryArtistRelated(contents);
 		queryAwardsByArtist(contents);
+		queryRankingsByArtist(contents);
 		queryCompilationsByArtist(contents);
 		queryCollection(contents);
 		//awards that artist won? and nominated
@@ -1750,6 +1751,17 @@ function queryRankingsByYear(contents) {
 	queryDb(query, generateRanking);
 }
 
+function queryRankingsByArtist(contents) {
+	let columns = contents.columns;
+	let rows = contents.values;
+	let row = rows[0];
+	let columnIndexArtistTitle = contents.columns.indexOf('Artist Title');
+	//select ranking of that year of song
+	let query = "SELECT s.KNID, r.KNYEAR, r.RankNo AS 'Rank #', r.SortOrder, s.SongTitle AS 'Song Title', s.ArtistTitle AS 'Artist Title' FROM Ranking r JOIN Song s on r.KNID = s.KNID WHERE s.ArtistTitle = '" + row[columnIndexArtistTitle] + "' ORDER BY r.KNYEAR, r.RankNo, r.SortOrder";
+	if(debugMode) console.log('queryRankingsByArtist', query);
+	queryDb(query, generateRankingByArtist);
+}
+
 function generateRanking(contents) {
 	if(debugMode) console.log('generateRanking', contents);
 	generateTableByDataWithHeader(
@@ -1761,6 +1773,22 @@ function generateRanking(contents) {
 		['KNID', 'SortOrder', 'KNYEAR'], 
 		'KNID', 
 		'Rank #'
+	);
+}
+
+function generateRankingByArtist(contents) {
+	if(debugMode) console.log('generateRankingByArtist', contents);
+	generateTableByDataWithHeader(
+		contents, 
+		'song-ranking', 
+		false, 
+		'Song Rankings', 
+		false, 
+		['KNID', 'SortOrder', 'Artist Title'],
+		'KNID', 
+		'KNYEAR',
+		null,
+		true
 	);
 }
 
