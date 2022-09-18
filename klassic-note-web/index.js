@@ -732,7 +732,7 @@ function onChangeOption() {
 		if(debugMode) console.log('query', query);
 		queryDb(query, generateLayout);
 	}
-	else if(id.startsWith(categoryIcons[0]))
+	else
 	{
 		window['mode'] = 'artist';
 		let input = id.replace(categoryIcons[0], '');
@@ -804,7 +804,7 @@ function updateOptions(contents) {
 		{
 			search.blur();
 			setTimeout(function() {
-				document.querySelector('#options').value = contents.values[0][columnIndexKNID];
+				document.querySelector('#options').value = categoryIcons[2] + contents.values[0][columnIndexKNID];
 				document.querySelector('#options').dispatchEvent(new Event('change'));
 			},200);
 		}
