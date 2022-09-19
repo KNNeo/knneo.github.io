@@ -133,14 +133,13 @@ function toggleArchive(e) {
 }
 
 function initializeVariables() {
-	window['archive'] = true;
 	window['includeCriteria'] = '';
 	window['excludeCriteria'] = '';
 	if(!window['isFirefox']) window['isFirefox'] = (/Firefox/i.test(navigator.userAgent));
 	if(!window['excluded']) window['excluded'] = [];
 	if(!window['preset']) window['preset'] = 'photo_size_select_small';
 	if(!window['thumbWidth']) window['thumbWidth'] = presetWidths[0];
-	if(!window['archive']) window['archive'] = false;
+	if(window['archive'] == undefined) window['archive'] = true;
 }
 
 function generateLayout() {
@@ -546,10 +545,7 @@ function generateGrid() {
 	let excludeArray = window['excludeCriteria'].split('|');
 	if(debugMode) console.log('included', includeArray);
 	if(debugMode) console.log('excluded', excludeArray);
-	let filterArray = window['archive'] ? mosaicArrayOnline
-	.map(function(filename) {
-		return { original: filename.og, thumb: filename.md };
-	}) : mosaicArray
+	let filterArray = window['archive'] ? mosaicArrayOnline : mosaicArray
 	.filter(m => 
 		(window['includeCriteria'].length == 0 || includeArray.filter(s => m.includes(s)).length == includeArray.length) && 
 		(window['excludeCriteria'].length == 0 || excludeArray.filter(s => !m.includes(s)).length == excludeArray.length)
@@ -579,7 +575,7 @@ function generateGrid() {
 		gridImage.tabIndex = 0;
 		gridImage.classList.add('grid-image');
 		if(!window['archive']) gridImage.title = imageUrl.substring(0, imageUrl.lastIndexOf('.'));
-		if(window['archive']) gridImage.setAttribute('alt', imageUrl.original);
+		if(window['archive']) gridImage.setAttribute('alt', imageUrl.lg);
 		gridImage.style.width = window['thumbWidth'] + 'px';
 		gridImage.style.height = (window['thumbWidth']*9/16) + 'px';
 		gridImage.style.backgroundSize = gridImage.style.width;
@@ -597,7 +593,7 @@ function generateGrid() {
 			exclude(this);
 			return false;
 		}, false);
-		let fullImageUrl = addUrlClause(window['archive'] ? imageUrl.thumb : folderName + getThumbnailPrefix() + imageUrl);
+		let fullImageUrl = addUrlClause(window['archive'] ? imageUrl.sm : folderName + getThumbnailPrefix() + imageUrl);
 		gridImage.style.backgroundImage = fullImageUrl || 'https://knneo.github.io/resources/spacer.gif';
 		
 		//pre-loading: will cause animation lag
