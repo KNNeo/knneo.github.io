@@ -133,6 +133,7 @@ function toggleArchive(e) {
 }
 
 function initializeVariables() {
+	window['archive'] = true;
 	window['includeCriteria'] = '';
 	window['excludeCriteria'] = '';
 	if(!window['isFirefox']) window['isFirefox'] = (/Firefox/i.test(navigator.userAgent));
@@ -184,9 +185,9 @@ function generateHorizontalLayout() {
 	
 	let bodyTableRow1 = document.createElement('tr');
 	bodyTableRow1.appendChild(generateLayoutPlayer());
-	if(window['archive'])
-		bodyTableRow1.appendChild(generateArchive());
-	else
+	// if(window['archive'])
+		// bodyTableRow1.appendChild(generateArchive());
+	// else
 		bodyTableRow1.appendChild(generateLayoutJukebox());
 	
 	bodyTableBody.appendChild(bodyTableRow1);
@@ -205,9 +206,9 @@ function generateVerticalLayout() {
 	bodyTableRow1.appendChild(generateLayoutPlayer());
 	
 	let bodyTableRow2 = document.createElement('tr');
-	if(window['archive'])
-		bodyTableRow2.appendChild(generateArchive());
-	else
+	// if(window['archive'])
+		// bodyTableRow2.appendChild(generateArchive());
+	// else
 		bodyTableRow2.appendChild(generateLayoutJukebox());
 	
 	bodyTableBody.appendChild(bodyTableRow1);
@@ -545,7 +546,10 @@ function generateGrid() {
 	let excludeArray = window['excludeCriteria'].split('|');
 	if(debugMode) console.log('included', includeArray);
 	if(debugMode) console.log('excluded', excludeArray);
-	let filterArray = mosaicArray
+	let filterArray = window['archive'] ? mosaicArrayOnline
+	.map(function(filename) {
+		return { original: filename.og, thumb: filename.md };
+	}) : mosaicArray
 	.filter(m => 
 		(window['includeCriteria'].length == 0 || includeArray.filter(s => m.includes(s)).length == includeArray.length) && 
 		(window['excludeCriteria'].length == 0 || excludeArray.filter(s => !m.includes(s)).length == excludeArray.length)
@@ -562,7 +566,7 @@ function generateGrid() {
 		let gridItem = document.createElement('div');
 		gridItem.classList.add('grid-item');
 		
-		if(prevValue != imageUrl[0]) {
+		if(prevValue != imageUrl[0] && !window['archive']) {
 			let overlay = document.createElement('div');
 			overlay.classList.add('static-banner');
 			overlay.innerText = imageUrl[0];
@@ -574,7 +578,8 @@ function generateGrid() {
 		gridImage.id = imageUrl;
 		gridImage.tabIndex = 0;
 		gridImage.classList.add('grid-image');
-		gridImage.title = imageUrl.substring(0, imageUrl.lastIndexOf('.'));
+		if(!window['archive']) gridImage.title = imageUrl.substring(0, imageUrl.lastIndexOf('.'));
+		if(window['archive']) gridImage.setAttribute('alt', imageUrl.original);
 		gridImage.style.width = window['thumbWidth'] + 'px';
 		gridImage.style.height = (window['thumbWidth']*9/16) + 'px';
 		gridImage.style.backgroundSize = gridImage.style.width;
@@ -592,13 +597,13 @@ function generateGrid() {
 			exclude(this);
 			return false;
 		}, false);
-		let fullImageUrl = addUrlClause(folderName + getThumbnailPrefix() + imageUrl);
+		let fullImageUrl = addUrlClause(window['archive'] ? imageUrl.thumb : folderName + getThumbnailPrefix() + imageUrl);
 		gridImage.style.backgroundImage = fullImageUrl || 'https://knneo.github.io/resources/spacer.gif';
 		
 		//pre-loading: will cause animation lag
 		if(preloads.length < mosaicArray.length) {
 			let preload = new Image();
-			preload.src = folderName + imageUrl;
+			preload.src = folderName + (window['archive'] ? imageUrl.thumb : imageUrl);
 			preloads.push(preload);
 		}
 		
@@ -755,7 +760,7 @@ function openImageInViewer(image) {
 	let img = document.createElement('img');
 	img.id = thumbnail.id;
 	img.src = processImageSourceForViewer(thumbnail);
-	img.title = thumbnail.title;
+	img.title = window['archive'] ? thumbnail.title : '';
 	if(window.innerHeight > window.innerWidth && img.getBoundingClientRect().width >= window.innerWidth)
 		img.style.width = 'inherit'; //portrait
 	if(window.innerHeight <= window.innerWidth && img.getBoundingClientRect().height >= window.innerHeight)
@@ -764,10 +769,7 @@ function openImageInViewer(image) {
 	img.style.maxWidth = '100%';
 	img.style.transform = 'scale(0.8)';
 	img.addEventListener('load', function() {
-		if(viewer.style.visibility != 'visible') viewer.style.visibility = 'visible';
-		if(viewer.style.opacity != '1') viewer.style.opacity = '1';
 		if(img.style.transform != 'scale(1)') img.style.transform = 'scale(1)';
-		setTimeout(adjustViewerMargin, 50);
 	});
 	if(viewer.childNodes.length > 0) viewer.innerHTML = '';
 	if(imgNo-1 >= 0) viewer.appendChild(viewerPrev);
@@ -787,10 +789,15 @@ function openImageInViewer(image) {
 			return false;
 		}, false);
 	}
-	img.addEventListener('click', closeViewer);	
+	img.addEventListener('click', closeViewer);
+	
+	if(viewer.style.visibility != 'visible') viewer.style.visibility = 'visible';
+	if(viewer.style.opacity != '1') viewer.style.opacity = '1';
+	setTimeout(adjustViewerMargin, 50);
 }
 
-function processImageSourceForViewer(thumbnail) {	
+function processImageSourceForViewer(thumbnail) {
+	if(window['archive']) return removeUrlClause(thumbnail.getAttribute('alt'));
 	let url = removeUrlClause(thumbnail.style.backgroundImage);
 	return url.replace(getThumbnailPrefix(),'');
 }
