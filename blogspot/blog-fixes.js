@@ -168,6 +168,9 @@ function generateHeader() {
 		for(let hashtag of document.querySelectorAll('#hashtags a'))
 		{
 			let clone = hashtag.cloneNode(true);
+			clone.addEventListener('click', function() {
+				document.getElementById(this.title).scrollIntoView();
+			});
 			hashtags.appendChild(clone);
 		}
 		header.appendChild(hashtags);
