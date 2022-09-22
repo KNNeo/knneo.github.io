@@ -137,9 +137,7 @@ function setTabs() {
 	//display tab when mobile, depending on mode
 	if(!isWidescreen)
 	{
-		if(window['mode'] == 'song') showTab('tab-info');
-		if(window['mode'] == 'year') showTab('tab-year');
-		if(window['mode'] == 'artist') showTab('tab-info');
+		showTab('tab-info');
 	}
 	
 	//toggle search buttons
@@ -1324,7 +1322,7 @@ function generateSongList(contents) {
 	if(debugMode) console.log('generateSongList', contents);
 	generateTableList(
 		contents, 
-		'song-list', 
+		'year-list', 
 		'Songs from ' + contents.values[0][contents.columns.indexOf('KNYEAR')],
 		['ArtistTitle', ' - ', 'SongTitle'], 
 		updateSong
@@ -1490,7 +1488,7 @@ function generateSongFeaturedByArtist(contents) {
 	if(contents.values.length == 0) return;
 	generateTableList(
 		contents, 
-		'songs-related-collab', 
+		'artist-featured', 
 		'Songs featuring ' + contents.values[0][contents.columns.indexOf('ParentArtist')],
 		['KNYEAR', ' - ', 'ArtistTitle', ' - ', 'SongTitle'],
 		updateSong, 
@@ -1529,7 +1527,7 @@ function queryArtistRelated(contents) {
 	queryDb(query, queryArtistSongs10Years);
 	
 	//artist featured in
-	document.querySelector('#songs-related-collab').innerHTML = '';
+	// document.querySelector('#songs-related-collab').innerHTML = '';
 	query = "select a.ParentArtist, s.KNID, s.KNYEAR, s.SongTitle, s.ArtistTitle from Artist a ";
 	query += "join Song s on a.ArtistID = s.ArtistID "
 	query += "where a.ParentArtist <> a.ArtistTitle and a.ParentArtist = '" + addQuotationInSQLString(row[columnIndexArtistTitle]) + "' ";
@@ -2155,15 +2153,6 @@ function generateTabs() {
 	let tabNames = [];
 	for(let tab of document.getElementsByClassName('tab'))
 	{
-		//show different info tab
-		if(window['mode'] == 'year' && tab.id == 'tab-info') continue;
-		if(window['mode'] == 'song' && tab.id == 'tab-year') continue;
-		if(window['mode'] == 'artist' && tab.id == 'tab-year') continue;
-		//hide unused tabs
-		if(window['mode'] == 'song' && tab.id == 'tab-artist') continue;
-		if(window['mode'] == 'year' && tab.id == 'tab-related') continue;
-		if(window['mode'] == 'artist' && tab.id == 'tab-related') continue;
-		
 		let tabItem = document.createElement('button');
 		tabItem.id = 'button-' + tab.id;
 		tabItem.classList.add('tab-button');
