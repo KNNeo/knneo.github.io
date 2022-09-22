@@ -221,7 +221,7 @@ function toggleAutoplay() {
 
 function randomSong(onSelect) {
 	event.preventDefault();	
-	document.querySelector('#search').value = '';
+	// document.querySelector('#search').value = '';
 	
 	let query = "SELECT COUNT(*) FROM Song";
 	if(document.querySelector('#player') != null && document.querySelector('#player').buffered.length < 1) 
