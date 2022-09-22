@@ -732,7 +732,8 @@ void Main()
                 output.WriteLine("<small style=\"text-align: center;\"><p><i>This post was imported from "+
                  "<a href=\"{0}\">Blogger</a></i></p></small>", originalLink);				 
             output.WriteLine("<small class=\"published\">"+published.ToString("dddd, dd MMMM yyyy")+"</small>");
-            output.WriteLine("<h2>"+title+"</h2>");
+            output.WriteLine("<h2 class=\"title\">"+title+"</h2>");
+            output.WriteLine("<div class=\"header\"></div>");
             output.Write(content);
             output.Write("<hr>");
             if(tags.Count > 0)
