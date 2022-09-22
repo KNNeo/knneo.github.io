@@ -29,6 +29,7 @@ function startup() {
 	// hideImagesOnError();
 	// videoifyGIFs();
 	displayFAB();
+	if(typeof generateHeader == 'function') generateHeader();
 
 	// Window events
 	window.addEventListener('scroll', displayFAB);

@@ -141,3 +141,37 @@ for (let img of document.getElementsByTagName('img'))
 		img.parentElement.addEventListener('click', openViewer);
 	}
 }
+
+window.addEventListener('scroll', displayHeader);
+
+function displayHeader() {
+	// When the user scrolls down to half of viewport from the top of the document, change floating action button
+	if (document.body.scrollTop > document.documentElement.clientHeight || 
+		document.documentElement.scrollTop > document.documentElement.clientHeight) {
+		document.querySelector('.header').style.opacity = 1;
+	}
+	else {
+		document.querySelector('.header').style.opacity = 0;
+	}
+}
+
+function generateHeader() {
+	let header = document.createElement('div');
+	
+	if(document.querySelector('.title') != null)
+		header.appendChild(document.querySelector('.title').cloneNode(true));
+	
+	if(document.querySelector('#hashtags') != null)
+	{
+		let hashtags = document.createElement('div');
+		hashtags.classList.add('hashtags');
+		for(let hashtag of document.querySelectorAll('#hashtags a'))
+		{
+			let clone = hashtag.cloneNode(true);
+			hashtags.appendChild(clone);
+		}
+		header.appendChild(hashtags);
+	}
+	
+	document.querySelector('.header').appendChild(header);
+}

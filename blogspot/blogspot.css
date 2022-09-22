@@ -23,7 +23,29 @@ body {
 	background-color: var(--background);
 }
 
+.header {
+	width: 100%;
+	position: fixed;
+	padding: 5px 0;
+	top: 0;
+	z-index: 1;
+	background-color: var(--background);
+	transition: opacity 0.5s;
+	opacity: 0;
+}
 
+.header .hashtags a {
+	padding: 0 3px;
+    display: inline-block;
+	white-space: nowrap;
+}
+
+@media only screen and (min-width: 320px) and (max-width: 1024px) {
+	.header .hashtags a {
+		/* padding: 3px; */
+		font-size: 0.9em;
+	}
+}
 
 a:hover {
   color: var(--foreground);
