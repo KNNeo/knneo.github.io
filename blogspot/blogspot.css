@@ -33,6 +33,7 @@ body {
 	background-color: var(--background);
 	transition: opacity 0.5s;
 	opacity: 0;
+    white-space: break-spaces;
 }
 
 .header .hashtags a {
