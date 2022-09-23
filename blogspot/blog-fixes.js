@@ -145,9 +145,9 @@ for (let img of document.getElementsByTagName('img'))
 window.addEventListener('scroll', displayHeader);
 
 function displayHeader() {
-	// When the user scrolls down to half of viewport from the top of the document, change floating action button
-	if (document.body.scrollTop > document.documentElement.clientHeight || 
-		document.documentElement.scrollTop > document.documentElement.clientHeight) {
+	// When the user scrolls down from the top of the document, show header
+	if (document.body.scrollTop > 0.2*document.documentElement.clientHeight || 
+		document.documentElement.scrollTop > 0.2*document.documentElement.clientHeight) {
 		document.querySelector('.header').style.opacity = 1;
 	}
 	else {
@@ -169,7 +169,8 @@ function generateHeader() {
 		{
 			let clone = hashtag.cloneNode(true);
 			clone.addEventListener('click', function() {
-				document.getElementById(this.title).scrollIntoView();
+				window.location.hash = this.title;
+				// scrollToSectionByUrl();
 			});
 			hashtags.appendChild(clone);
 		}

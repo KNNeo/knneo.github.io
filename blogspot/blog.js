@@ -35,6 +35,7 @@ function startup() {
 	window.addEventListener('scroll', displayFAB);
 	window.addEventListener('resize', windowOnResize);
 	window.addEventListener('resize', resizeImages);
+	window.addEventListener('hashchange', scrollToSectionByUrl);
 	setTimeout(scrollToSectionByUrl, 1);
 	setTimeout(resizeImages, 500);
 }
@@ -644,17 +645,21 @@ function addHashtags() {
 		newItem.href = item.target.includes("/search") && !window.location.href.includes("knneo.github.io") ? item.target : 'javascript:void(0);';
 		if(!item.target.includes("/search"))
 			newItem.addEventListener('click', function() {
-				document.getElementById(this.title).scrollIntoView();
+				window.location.hash = this.title;
+				// scrollToSectionByUrl();
 			});
 		hashTag.appendChild(newItem);
 	}
 }
 
 function scrollToSectionByUrl() {
-	let hash = window.location.hash;
-	let target = hash.length > 0 ? document.querySelector(hash) : null;
-	if(target != null)
-		target.scrollIntoView();
+	if(window.location.hash.length > 0)
+	{
+		// let hash = window.location.hash;
+		// let target = hash.length > 0 ? document.querySelector(hash) : null;
+		let newPos = document.documentElement.scrollTop + (document.querySelector(window.location.hash)?.getBoundingClientRect().top || 0) - (document.querySelector('.header')?.getBoundingClientRect().height || 0);
+		document.documentElement.scrollTop = newPos;
+	}
 }
 
 // Floating action button events
@@ -743,7 +748,7 @@ function switchToButton(id) {
 function goToTop() {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
-	window.location.hash = "";
+	history.replaceState(null, null, ' ');
 }
 
 function hideImagesOnError() {
