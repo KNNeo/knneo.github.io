@@ -40,7 +40,7 @@ void Main()
 	var postCount = 0;
 	var showResults = true;
 	var showMatches = true;
-	List<int> includeIndex = new List<int> { -1 }; //INDEXES HERE//
+	List<int> includeIndex = new List<int> { 0 }; //INDEXES HERE//
 	if(includeIndex.Count > 0) Console.WriteLine("[SELECTIVE_CHECKS_ACTIVATED]");
 	
 	/* [ID] List of Cases:		
@@ -118,6 +118,21 @@ void Main()
 //					description = titleUrl
 //				});
 
+		}
+		#endregion
+		
+		#region 00 custom search
+		if(includeIndex.Contains(0))
+		{
+	        expression = @"(name='more')";
+	        match = Regex.Match(content, expression);
+	        while(match.Success) {
+	            fixes.Add(new MatchItem() {
+						match = match,
+						description = "[00] custom search"
+					});
+	            match = match.NextMatch();
+	        };		
 		}
 		#endregion
 		
