@@ -143,7 +143,7 @@ void Main()
 	}	
 	
     // Process XML content per post
-	List<int> includeIndex = new List<int> { };
+	List<int> includeIndex = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26 };
     for (var p = 0; p < posts.Count(); p++)
     {
 		var entry = posts.ElementAt(p);
@@ -498,51 +498,54 @@ void Main()
         #endregion
         
         #region 18 any link not referenced within blog to open on new tab
-        prefix = @"<a href=""";
-        midfix = @""" target=""_blank""";
-        suffix = ">";
-        expression = @"(<a )(.*?)(href="")(.*?)("")(.*?)(>)";        
-        match = Regex.Match(content, expression);
-        while(match.Success) {
-			var url = match.Groups[4].Value;
-			if(!match.Groups[6].Value.Contains("_blank")
-			&& !url.StartsWith("#")
-			//&& !url.Contains("twitter.") //raw code will have link if not render as embed
-			&& !url.Contains("t.co/")
-			&& !url.Contains("blogger.")
-			&& !url.Contains("bp.blogspot.com")
-			&& !url.Contains("../../")
-			&& !url.Contains(domainLink)
-			) {
-				count++;
-                var replacement = prefix + url + midfix + match.Groups[6].Value + suffix;
-                content = content.Replace(match.Value, replacement);
-			}
-            match = match.NextMatch();			
-        };
-		
-        expression = @"(<div class=""thumbnail"")(.*?)(<a )(.*?)(href="")(.*?)("")(.*?)(>)(.*?)(</a)(.*?)(/div>)";        
-        match = Regex.Match(content, expression);
-        while(match.Success) {
-			var url = match.Groups[6].Value;
-			if(!match.Groups[8].Value.Contains("_blank")
-			&& !match.Groups[10].Value.Contains("<")
-			&& !match.Groups[10].Value.Contains(">")
-			&& (url.Contains("blogger.") || url.Contains("bp.blogspot.com"))
-			) {
-				count++;
-                var replacement = match.Groups[1].Value + match.Groups[2].Value + prefix + url + midfix + match.Groups[8].Value + suffix + match.Groups[10].Value + match.Groups[11].Value + match.Groups[12].Value + match.Groups[13].Value;
-				content = content.Replace(match.Value, replacement);
-			}
-            match = match.NextMatch();
-        };
-        #endregion
-        
-        #region remove add href to hashtags script
-		if(TraceMode) Console.WriteLine("remove add href to hashtags script");
-        var childDivScript = "<script>var childDivs = document.getElementById('hashtags').getElementsByTagName('a'); for( i=0; i< childDivs.length; i++ ) {  var childDiv = childDivs[i];  childDiv.href = '/search?q=' + childDiv.text.substring(1); } </script>";
-        if(content.Contains(childDivScript)) count++;
-        content = content.Replace(childDivScript, "");
+		if(includeIndex.Count() == 0 || includeIndex.Contains(18))
+		{
+	        prefix = @"<a href=""";
+	        midfix = @""" target=""_blank""";
+	        suffix = ">";
+	        expression = @"(<a )(.*?)(href="")(.*?)("")(.*?)(>)";        
+	        match = Regex.Match(content, expression);
+	        while(match.Success) {
+				var url = match.Groups[4].Value;
+				if(!match.Groups[6].Value.Contains("_blank")
+				&& !url.StartsWith("#")
+				//&& !url.Contains("twitter.") //raw code will have link if not render as embed
+				&& !url.Contains("t.co/")
+				&& !url.Contains("blogger.")
+				&& !url.Contains("bp.blogspot.com")
+				&& !url.Contains("../../")
+				&& !url.Contains(domainLink)
+				) {
+					count++;
+	                var replacement = prefix + url + midfix + match.Groups[6].Value + suffix;
+	                content = content.Replace(match.Value, replacement);
+				}
+	            match = match.NextMatch();			
+	        };
+			
+	        expression = @"(<div class=""thumbnail"")(.*?)(<a )(.*?)(href="")(.*?)("")(.*?)(>)(.*?)(</a)(.*?)(/div>)";        
+	        match = Regex.Match(content, expression);
+	        while(match.Success) {
+				var url = match.Groups[6].Value;
+				if(!match.Groups[8].Value.Contains("_blank")
+				&& !match.Groups[10].Value.Contains("<")
+				&& !match.Groups[10].Value.Contains(">")
+				&& (url.Contains("blogger.") || url.Contains("bp.blogspot.com"))
+				) {
+					count++;
+	                var replacement = match.Groups[1].Value + match.Groups[2].Value + prefix + url + midfix + match.Groups[8].Value + suffix + match.Groups[10].Value + match.Groups[11].Value + match.Groups[12].Value + match.Groups[13].Value;
+					content = content.Replace(match.Value, replacement);
+				}
+	            match = match.NextMatch();
+	        };
+	        #endregion
+	        
+	        #region remove add href to hashtags script
+			if(TraceMode) Console.WriteLine("remove add href to hashtags script");
+	        var childDivScript = "<script>var childDivs = document.getElementById('hashtags').getElementsByTagName('a'); for( i=0; i< childDivs.length; i++ ) {  var childDiv = childDivs[i];  childDiv.href = '/search?q=' + childDiv.text.substring(1); } </script>";
+	        if(content.Contains(childDivScript)) count++;
+	        content = content.Replace(childDivScript, "");
+		}
         #endregion
         
         #region remove wallpaper images cache linked from facebook
