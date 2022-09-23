@@ -25,7 +25,8 @@ body {
 
 .header {
 	width: 100%;
-	position: sticky;
+	max-width: 680px;
+	position: fixed;
 	padding: 5px 0;
 	top: 0;
 	z-index: 1;
