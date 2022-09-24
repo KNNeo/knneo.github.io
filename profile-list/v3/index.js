@@ -24,6 +24,7 @@ const source = 'https://knneo.github.io/profile-list/profile-list-new.json';
 
 //--STARTUP--//
 window.addEventListener('load', startup);
+window.addEventListener('resize', startup);
 
 //--FUNCTIONS--//
 ////STARTUP////
@@ -730,20 +731,26 @@ function generateProfileFromJSON(profileName) {
 	
 		idBox.appendChild(profileBox);
 	
-	if(!friendMode)
-		document.querySelector('.profile').classList.remove('friend-mode');
-	else
-		document.querySelector('.profile').classList.add('friend-mode');
-	
 	document.querySelector('.profile').innerHTML = '';
 	document.querySelector('.profile').appendChild(idBox);	
 	document.querySelector('.profile').style.height = simple || friendMode ? '' : '100%';
 	document.querySelector('.profile').style.maxWidth = simple || friendMode ? '440px' : '640px';
+	document.querySelector('.view').style.display = '';
 	
 	addProfileEvents();
 	addAgeAfterDOB(ageSuffix);
 	addStatusPopUp();
 	toggleView(3);
+	
+	if(!friendMode)
+		document.querySelector('.profile').classList.remove('friend-mode');
+	else {
+		document.querySelector('.profile').classList.add('friend-mode');
+		if(!isMobile()) {
+			document.querySelector('.wanted-list').classList.remove('hidden');
+			document.querySelector('.view').style.display = 'block';
+		}
+	}
 }
 
 function generateProfileImage([profile, currentProfile, previousProfile]) {
