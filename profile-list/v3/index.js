@@ -738,8 +738,6 @@ function generateProfileFromJSON(profileName) {
 	document.querySelector('.view').style.display = '';
 	
 	addProfileEvents();
-	addAgeAfterDOB(ageSuffix);
-	addStatusPopUp();
 	toggleView(3);
 	
 	if(!friendMode)
@@ -751,6 +749,9 @@ function generateProfileFromJSON(profileName) {
 			document.querySelector('.view').style.display = 'block';
 		}
 	}
+	
+	addAgeAfterDOB(ageSuffix);
+	addStatusPopUp();
 }
 
 function generateProfileImage([profile, currentProfile, previousProfile]) {
