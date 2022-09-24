@@ -78,6 +78,10 @@ function renderPage() {
 			let newMain = document.createElement('div');
 			newMain.classList.add('main');
 			newMain.classList.add('section');
+			newMain.addEventListener('click', function() {
+				e.preventDefault();
+				scrollToPage(sectionNo, window['elements'][mainSectionNo].isSinglePage);
+			});
 			// newMain.style.height = '100vh'; // not in css because of single page
 			document.querySelector('.page').appendChild(newMain);
 			mainSectionNo = sectionNo;
@@ -86,6 +90,10 @@ function renderPage() {
 		else {
 			let newSection = document.createElement('div');
 			newSection.classList.add('section');
+			newSection.addEventListener('click', function() {
+				e.preventDefault();
+				scrollToPage(sectionNo, window['elements'][mainSectionNo].isSinglePage);
+			});
 			// newSection.style.height = '100vh';
 			document.querySelector('.page').appendChild(newSection);
 			// console.log(mainSectionNo);

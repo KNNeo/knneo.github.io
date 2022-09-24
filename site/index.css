@@ -88,7 +88,7 @@ a:hover {
 }
 
 .section:active {
-	scroll-snap-align: start;
+	/* scroll-snap-align: start; */
 }
 
 .container, .box {
