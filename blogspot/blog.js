@@ -739,10 +739,10 @@ function switchToButton(id) {
 	let buttons = ['GoToTopBtn','SearchBtn'];
 	for(let button of buttons)
 	{
-		if(document.getElementById(button) != null) document.getElementById(button).style.visibility = 'hidden';
+		if(document.getElementById(button) != null) document.getElementById(button).style.opacity = 0;
 	}
-	if(id != 'SearchBtn') document.getElementById(id).style.visibility = 'visible';
-	else if (window.location.href.includes("knwebreports.blogspot")) document.getElementById('SearchBtn').style.visibility = 'visible';
+	if(id != 'SearchBtn') document.getElementById(id).style.opacity = 1;
+	else if (window.location.href.includes("knwebreports.blogspot")) document.getElementById('SearchBtn').style.opacity = 1;
 }
 
 function goToTop() {
