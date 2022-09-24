@@ -502,6 +502,7 @@ input.gsc-input {
   }
   #SidebarBtn {
     display: block;
+	left: 15px;
   }
   #hashtags a {
 	/* padding: 3px; */
