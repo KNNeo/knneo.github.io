@@ -7,14 +7,14 @@ function closestClass(inputElement, targetClassName) {
 }
 
 function scrollToNextPage(e) {
-	e.preventDefault();
+	event.preventDefault();
 	let nextPage = closestClass(this, 'section').nextElementSibling;
 	if(nextPage != null)
 		nextPage.scrollIntoView();
 }
 
 function scrollToPrevPage(e) {
-	e.preventDefault();
+	event.preventDefault();
 	let prevPage = closestClass(this, 'section').previousElementSibling;
 	if(prevPage != null)
 		prevPage.scrollIntoView();
@@ -79,7 +79,7 @@ function renderPage() {
 			newMain.classList.add('main');
 			newMain.classList.add('section');
 			newMain.addEventListener('click', function() {
-				e.preventDefault();
+				event.preventDefault();
 				scrollToPage(sectionNo, window['elements'][mainSectionNo].isSinglePage);
 			});
 			// newMain.style.height = '100vh'; // not in css because of single page
@@ -91,7 +91,7 @@ function renderPage() {
 			let newSection = document.createElement('div');
 			newSection.classList.add('section');
 			newSection.addEventListener('click', function() {
-				e.preventDefault();
+				event.preventDefault();
 				scrollToPage(sectionNo, window['elements'][mainSectionNo].isSinglePage);
 			});
 			// newSection.style.height = '100vh';
@@ -222,12 +222,12 @@ function renderMain(sectionNo) {
 					// contentItem.style.display = 'flex';
 					// contentItem.style.justifyContent = 'center';
 					contentItem.innerText = 'drag_handle';
-					contentItem.addEventListener('click', function(e) {
-						e.preventDefault();
+					contentItem.addEventListener('click', function() {
+						event.preventDefault();
 						document.querySelector('.menu').style.maxHeight = document.querySelector('.menu').style.maxHeight == 'initial' ? drawerHeight : 'initial';
 					});
-					contentItem.addEventListener('touchmove', function(e) {
-						e.preventDefault();
+					contentItem.addEventListener('touchmove', function() {
+						event.preventDefault();
 						document.querySelector('.menu').style.maxHeight = (window.innerHeight - e.touches[0].clientY + 20) + 'px';
 					});
 					contentList.appendChild(contentItem);
@@ -249,12 +249,12 @@ function renderMain(sectionNo) {
 				// contentItem.style.fontSize = homeSize;
 				// contentItem.style.padding = '4px 0';
 				contentItem.innerText = 'home';
-				contentItem.addEventListener('click', function(e) {
-					e.preventDefault();
+				contentItem.addEventListener('click', function() {
+					event.preventDefault();
 					scrollToPage(sectionNo, content.isSinglePage);
 				});
-				contentItem.addEventListener('touchstart', function(e) {
-					e.preventDefault();
+				contentItem.addEventListener('touchstart', function() {
+					event.preventDefault();
 					scrollToPage(sectionNo, content.isSinglePage);
 				});
 				contentList.appendChild(contentItem);
@@ -279,13 +279,13 @@ function renderMain(sectionNo) {
 					// contentItem.style.backgroundSize = 'contain';
 					// contentItem.style.backgroundRepeat = 'no-repeat';
 					// contentItem.style.backgroundPosition = 'center';
-					contentItem.addEventListener('click', function(e) {
-						e.preventDefault();
+					contentItem.addEventListener('click', function() {
+						event.preventDefault();
 						scrollToPage(section, content.isSinglePage);
 						document.querySelector('.menu').style.maxHeight = drawerHeight;
 					});
-					contentItem.addEventListener('touchstart', function(e) {
-						e.preventDefault();
+					contentItem.addEventListener('touchstart', function() {
+						event.preventDefault();
 						scrollToPage(section, content.isSinglePage);
 						document.querySelector('.menu').style.maxHeight = drawerHeight;
 					});
@@ -309,20 +309,20 @@ function renderMain(sectionNo) {
 					// contentItem.style.cursor = 'pointer';
 					// contentItem.style.margin = '0';
 					contentItem.innerText = window['elements'][section].text;
-					contentItem.addEventListener('click', function(e) {
-						e.preventDefault();
+					contentItem.addEventListener('click', function() {
+						event.preventDefault();
 						scrollToPage(section, content.isSinglePage);
 						document.querySelector('.menu').style.maxHeight = drawerHeight;
 					});
-					contentItem.addEventListener('touchstart', function(e) {
-						e.preventDefault();
+					contentItem.addEventListener('touchstart', function() {
+						event.preventDefault();
 						contentItem.style.boxShadow = '1px 1px';
 						contentItem.style.transform = 'translate(2px, 2px)';
 						scrollToPage(section, content.isSinglePage);
 						document.querySelector('.menu').style.maxHeight = drawerHeight;
 					});
-					contentItem.addEventListener('touchend', function(e) {
-						e.preventDefault();
+					contentItem.addEventListener('touchend', function() {
+						event.preventDefault();
 						contentItem.style.boxShadow = '';
 						contentItem.style.transform = '';
 						scrollToPage(section, content.isSinglePage);
@@ -534,8 +534,8 @@ function renderButtons(isSinglePage) {
 	{
 		document.body.appendChild(closeButton);
 		document.querySelector('.button-close').addEventListener('click', goBack);
-		document.querySelector('.button-close').addEventListener('contextmenu', function(e) {
-			e.preventDefault();
+		document.querySelector('.button-close').addEventListener('contextmenu', function() {
+			event.preventDefault();
 			window['single'] = window['single'] != undefined ? !window['single'] : true;
 			getJson(document.querySelector('#data-id').src, setPageElements);
 		});
