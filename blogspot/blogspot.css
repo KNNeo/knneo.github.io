@@ -24,7 +24,7 @@ body {
 }
 
 .header {
-	/* width: 100%; */
+	width: 100%;
 	max-width: 680px;
 	position: fixed;
     padding: 5px 5px 0 0;
@@ -43,10 +43,6 @@ body {
 }
 
 @media only screen and (min-width: 320px) and (max-width: 1024px) {
-	.header .hashtags a {
-		/* padding: 3px; */
-		font-size: 0.9em;
-	}
 }
 
 a:hover {
@@ -99,13 +95,22 @@ a:hover {
 	.tr-caption {
 		font-size: 11px;
 	}
-	
+
 	.Post span {
 	display: block;
+	}
+	
+	.header .hashtags a {
+		/* padding: 3px; */
+		font-size: 0.9em;
 	}
 }
 
 @media only screen and (max-width: 480px) {
+	
+	.header {
+		width: initial;
+	}
 }
 
 #blog-archive-list {
