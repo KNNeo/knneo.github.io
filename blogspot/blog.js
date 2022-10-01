@@ -671,7 +671,7 @@ function scrollToSectionByUrl() {
 	{
 		// let hash = window.location.hash;
 		// let target = hash.length > 0 ? document.querySelector(hash) : null;
-		let newPos = document.documentElement.scrollTop + (document.querySelector(window.location.hash)?.getBoundingClientRect().top || 0) - (document.querySelector('.header')?.getBoundingClientRect().height || 0);
+		let newPos = document.documentElement.scrollTop + (document.querySelector(window.location.hash)?.getBoundingClientRect().top || 0) - (document.querySelector('.header')?.getBoundingClientRect().height || 0) - 5;
 		document.documentElement.scrollTop = newPos;
 	}
 }
