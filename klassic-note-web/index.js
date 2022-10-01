@@ -708,16 +708,16 @@ function generateTableByDataWithHeader(contents, parameters) {
 		title, 
 		skipTitle, 
 		excludedColumns = [], 
-		dataId = 'KNID', 
+		dataId = 'KNID',
 		groupColumn = 'Rank #', 
 		titleFormat = [], 
-		centerContent = false, 
-		iconColumnName = '', 
-		iconValueColumnName = '', 
-		iconId = '', 
-		iconTooltip = '', 
-		actionTitle = '', 
-		actionFunc = null,
+		centerContent, 
+		iconColumnName, 
+		iconValueColumnName, 
+		iconId, 
+		iconTooltip, 
+		actionTitle, 
+		actionFunc = null, 
 	} = parameters
 	if(!skipClear) document.getElementById(id).innerHTML = '';
 	let columns = contents.columns;
@@ -732,7 +732,7 @@ function generateTableByDataWithHeader(contents, parameters) {
 		document.getElementById(id).appendChild(header);
 	}
 	
-	if(actionTitle.length > 0)
+	if(actionTitle != null && actionTitle.length > 0)
 	{
 		document.getElementById(id).style.position = 'relative';
 		document.getElementById(id).style.maxWidth = '680px';
@@ -742,7 +742,8 @@ function generateTableByDataWithHeader(contents, parameters) {
 		action.classList.add('action');
 		action.style.cursor = 'pointer';
 		action.innerText = actionTitle;
-		action.addEventListener('click', actionFunc);
+		if(actionFunc != null && typeof actionFunc == 'function')
+			action.addEventListener('click', actionFunc);
 		
 		if(document.querySelector('#' + id + ' .action') == null)
 			document.getElementById(id).appendChild(action);
