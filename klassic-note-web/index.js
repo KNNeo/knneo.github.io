@@ -166,6 +166,7 @@ function showTab(activeTab) {
 }
 
 function hoverOnTableRow() {
+	if(document.querySelector('html').classList.contains('touchable')) return;
 	let titleCells = this.parentNode.getElementsByClassName('table-title').length;
 	let columns = this.parentNode.getElementsByTagName('th').length - (titleCells > 0 ? titleCells : 0); //estimate
 	let rowCells = this.getElementsByTagName('td');
