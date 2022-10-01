@@ -129,6 +129,19 @@ function addObjects() {
 		document.body.appendChild(searchButton);
 	}
 	
+	if(window.location.href.includes("knneo.github.io"))
+	{
+		let darkButton = document.createElement('a');
+		darkButton.id = 'DarkModeBtn';
+		darkButton.title = 'Toggle Dark Mode';
+			let darkButtonIcon = document.createElement('i');
+			darkButtonIcon.classList.add('material-icons');
+			darkButtonIcon.innerText = 'brightness_high';
+			darkButton.appendChild(darkButtonIcon);
+		if(document.getElementById('DarkModeBtn') != undefined) document.getElementById('DarkModeBtn').remove();
+		document.body.appendChild(darkButton);
+	}
+	
 	let sidebarButton = document.createElement('a');
 	sidebarButton.id = 'SidebarBtn';
 	sidebarButton.title = 'Toggle Sidebar';
@@ -142,6 +155,7 @@ function addObjects() {
 	document.getElementById('GoToTopBtn').addEventListener('click', goToTop);
 	if(!window.location.href.includes("knneo.github.io")) document.getElementById('SearchBtn').addEventListener('click', toggleSearch);
 	document.getElementById('SidebarBtn').addEventListener('click', toggleSidebar);
+	document.getElementById('DarkModeBtn').addEventListener('click', toggleDarkMode);
 }
 
 // Reload based on first visit: if no 'm=0/1' add, if m=0 edit older posts and newer posts URL
@@ -736,13 +750,13 @@ function toggleDisplay(element, defaultValue) {
 
 function switchToButton(id) {
 	if(id == '') return;
-	let buttons = ['GoToTopBtn','SearchBtn'];
+	let buttons = ['GoToTopBtn','SearchBtn','DarkModeBtn'];
 	for(let button of buttons)
 	{
-		if(document.getElementById(button) != null) document.getElementById(button).style.opacity = 0;
+		if(document.getElementById(button) != null) document.getElementById(button).style.display = 'none';
 	}
-	if(id != 'SearchBtn') document.getElementById(id).style.opacity = 1;
-	else if (window.location.href.includes("knwebreports.blogspot")) document.getElementById('SearchBtn').style.opacity = 1;
+	if(id != 'SearchBtn') document.getElementById(id).style.display = 'block';
+	else if (window.location.href.includes("knwebreports.blogspot")) document.getElementById('SearchBtn').style.display = 'block';
 }
 
 function goToTop() {
@@ -771,7 +785,8 @@ function displayFAB() {
 		document.documentElement.scrollTop > document.documentElement.clientHeight) {
 		switchToButton('GoToTopBtn');
 	} else {
-		switchToButton('SearchBtn');
+		if(window.location.href.includes("knneo.github.io")) switchToButton('DarkModeBtn');
+		else switchToButton('SearchBtn');
 	}
 }
 

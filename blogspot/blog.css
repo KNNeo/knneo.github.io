@@ -39,7 +39,7 @@
 #GoToTopBtn {
   position: fixed;
   display: block;
-  opacity: 0;
+  /* opacity: 0; */
   bottom: 20px;
   right: 20px;
   z-index: 7;
