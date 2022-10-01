@@ -694,7 +694,7 @@ function generateTableList(contents, id, title, rowFormat, onClick, onContextMen
 	document.getElementById(id).appendChild(table);
 }
 
-function generateTableByDataWithHeader(contents, id, skipClear, title, skipTitle, excludedColumns = [], dataId = 'KNID', groupColumn = 'Rank #', titleColumn, centerContent = false, iconColumnName = '', iconValueColumnName = '', iconId = '', iconTooltip = '') {	
+function generateTableByDataWithHeader(contents, id, skipClear, title, skipTitle, excludedColumns = [], dataId = 'KNID', groupColumn = 'Rank #', titleFormat = [], centerContent = false, iconColumnName = '', iconValueColumnName = '', iconId = '', iconTooltip = '') {	
 	if(!skipClear) document.getElementById(id).innerHTML = '';
 	let columns = contents.columns;
 	let rows = contents.values;
@@ -721,14 +721,23 @@ function generateTableByDataWithHeader(contents, id, skipClear, title, skipTitle
 	let tbody = document.createElement('tbody');
 	
 	//title
-	if(titleColumn)
+	if(titleFormat != null && titleFormat.length > 0)
 	{
+		let parts = [];
+		for(let format of titleFormat)
+		{
+			if(contents.columns.indexOf(format) >= 0)
+				parts.push(rows[0][contents.columns.indexOf(format)]);
+			else
+				parts.push(format);
+		}
+		
 		let ttr = document.createElement('tr');
 		
 		let th = document.createElement('th');
 		th.classList.add('table-title');
 		th.setAttribute('colspan', columns.length - excludedColumns.length);
-		th.innerText = rows[0][contents.columns.indexOf(titleColumn)];
+		th.innerText = parts.join(' - ');
 		ttr.appendChild(th);
 		
 		tbody.appendChild(ttr);
@@ -1645,7 +1654,7 @@ function generateAwards(contents) {
 			['KNYEAR', 'AwardTitle', 'KNID'],
 			'KNID',
 			null, 
-			'AwardTitle', 
+			['KNYEAR', 'AwardTitle'], 
 			true,
 			'Won',
 			'Won',
@@ -1725,7 +1734,7 @@ function queryCompilations(contents) {
 	let row = rows[0];
 	let columnIndexKNID = contents.columns.indexOf('ID');
 	//select compilations of that song regardless of year
-	let query = "SELECT c.CompilationTitle, c.TrackNumber AS 'Track #', c.SongTitle AS 'Song Title', c.ArtistTitle AS 'Artist Title', c.KNID FROM Compilation c JOIN Song s ON s.KNID = c.KNID JOIN (SELECT cp.* FROM Compilation cp WHERE cp.KNID = " 
+	let query = "SELECT c.CompilationTitle, c.TrackNumber AS 'Track #', c.SongTitle AS 'Song Title', c.ArtistTitle AS 'Artist Title', c.KNYEAR, c.KNID FROM Compilation c JOIN Song s ON s.KNID = c.KNID JOIN (SELECT cp.* FROM Compilation cp WHERE cp.KNID = " 
 	query += row[columnIndexKNID] + ") cref ON cref.CompilationTitle = c.CompilationTitle " 
 	query += "ORDER BY c.KNYEAR, c.CompilationTitle, c.TrackNumber";
 	if(debugMode) console.log('queryCompilations', query);
@@ -1786,7 +1795,7 @@ function generateCompilations(contents) {
 			['CompilationTitle', 'KNID'], 
 			'KNID', 
 			'Track #', 
-			'CompilationTitle'
+			['KNYEAR', 'CompilationTitle']
 		);
 		
 		document.getElementById('song-compilation').appendChild(document.createElement('br'));
