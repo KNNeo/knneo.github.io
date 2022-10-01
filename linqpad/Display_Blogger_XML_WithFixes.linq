@@ -40,7 +40,8 @@ void Main()
 	var postCount = 0;
 	var showResults = true;
 	var showMatches = true;
-	List<int> includeIndex = new List<int> { 0 }; //INDEXES HERE//
+	 //----------INDEXES HERE----------//
+	List<int> includeIndex = new List<int> { 28 };
 	if(includeIndex.Count > 0) Console.WriteLine("[SELECTIVE_CHECKS_ACTIVATED]");
 	
 	/* [ID] List of Cases:		
@@ -73,6 +74,7 @@ void Main()
 	 * [25]	remove hidden tags to generate hashtags
 	 * [26]	find hashtag to set id for anime blockquote 
 	 * [27] link in images of thumbnails to be removed
+	 * [28]	links to current blog to remove for migration
 	 */
 	
 	// Process XML content per post
@@ -535,6 +537,31 @@ void Main()
 		}
         #endregion
 		
+        #region 28 links to current blog to remove for migration
+		if(includeIndex.Count() == 0 || includeIndex.Contains(28))
+		{
+	        expression = @"(href=""https://knwebreports.blogspot.com/)(.*?)(>)";
+	        match = Regex.Match(content, expression);
+	        while(match.Success) {
+	            fixes.Add(new MatchItem() {
+						match = match,
+						description = "[14] old blog link https found"
+					});
+	            match = match.NextMatch();
+	        };
+			
+	        expression = @"(href=""http://knwebreports.blogspot.com/)(.*?)(>)";
+	        match = Regex.Match(content, expression);
+	        while(match.Success) {
+	            fixes.Add(new MatchItem() {
+						match = match,
+						description = "[14] old blog link http found"
+					});
+	            match = match.NextMatch();
+	        };
+		}
+        #endregion
+        
 	
 		//===================================================================================//
 		//Display Result
