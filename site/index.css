@@ -64,6 +64,7 @@ a:hover {
 }
 
 .section {
+	border: 1px solid black;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -152,6 +153,11 @@ a:hover {
 	font-size: 0.7em;
 	bottom: 0;
 	right: 0;
+	color: black;
+}
+
+.darked .footer {
+	color: white;
 }
 
 .single .footer {
