@@ -155,7 +155,7 @@ function addObjects() {
 	document.getElementById('GoToTopBtn').addEventListener('click', goToTop);
 	if(!window.location.href.includes("knneo.github.io")) document.getElementById('SearchBtn').addEventListener('click', toggleSearch);
 	document.getElementById('SidebarBtn').addEventListener('click', toggleSidebar);
-	document.getElementById('DarkModeBtn').addEventListener('click', toggleDarkMode);
+	if(window.location.href.includes("knneo.github.io")) document.getElementById('DarkModeBtn').addEventListener('click', toggleDarkMode);
 }
 
 // Reload based on first visit: if no 'm=0/1' add, if m=0 edit older posts and newer posts URL
