@@ -55,6 +55,7 @@ body {
 	resize: vertical;
 	overflow: auto;
 	padding: 3px;
+	margin: auto;
 }
 
 #cover {
@@ -83,7 +84,7 @@ body {
 }
 
 .centered {
-	max-width: 640px;
+	/* max-width: 640px; */
 	margin: auto;
 	padding: 2px 8px;
 }
