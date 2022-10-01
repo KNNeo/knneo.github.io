@@ -1785,7 +1785,7 @@ function queryCompilationsByYear(contents) {
 	let row = rows[0];
 	let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
 	//select compilations of that song regardless of year
-	let query = "SELECT c.CompilationTitle, c.TrackNumber AS 'Track #', c.SongTitle AS 'Song Title', c.ArtistTitle AS 'Artist Title', c.KNID FROM Compilation c JOIN Song s ON s.KNID = c.KNID WHERE c.KNYEAR = " + row[columnIndexKNYEAR] + " ";
+	let query = "SELECT c.CompilationTitle, c.TrackNumber AS 'Track #', c.SongTitle AS 'Song Title', c.ArtistTitle AS 'Artist Title', c.KNYEAR, c.KNID FROM Compilation c JOIN Song s ON s.KNID = c.KNID WHERE c.KNYEAR = " + row[columnIndexKNYEAR] + " ";
 	query += "ORDER BY c.KNYEAR, c.CompilationTitle, c.TrackNumber";
 	if(debugMode) console.log('queryCompilationsByYear', query);
 	queryDb(query, generateCompilations);
@@ -1797,7 +1797,7 @@ function queryCompilationsByArtist(contents) {
 	let row = rows[0];
 	let columnIndexArtistTitle = contents.columns.indexOf('Artist Title');
 	//select compilations of that song regardless of year
-	let query = "SELECT c.CompilationTitle, c.TrackNumber AS 'Track #', c.SongTitle AS 'Song Title', c.ArtistTitle AS 'Artist Title', c.KNID FROM Compilation c JOIN Song s ON s.KNID = c.KNID WHERE c.ArtistTitle = '" + row[columnIndexArtistTitle] + "'";
+	let query = "SELECT c.CompilationTitle, c.TrackNumber AS 'Track #', c.SongTitle AS 'Song Title', c.ArtistTitle AS 'Artist Title', c.KNYEAR, c.KNID FROM Compilation c JOIN Song s ON s.KNID = c.KNID WHERE c.ArtistTitle = '" + row[columnIndexArtistTitle] + "'";
 	query += "ORDER BY c.KNYEAR, c.CompilationTitle, c.TrackNumber";
 	if(debugMode) console.log('queryCompilationsByArtist', query);
 	queryDb(query, generateCompilations);
@@ -1831,8 +1831,8 @@ function generateCompilations(contents) {
 			true, 
 			'Compilations', 
 			true, 
-			['CompilationTitle', 'KNID'], 
-			'KNID', 
+			['CompilationTitle', 'KNID', 'KNYEAR'],
+			'KNID',
 			'Track #', 
 			['KNYEAR', 'CompilationTitle'],
 		);
