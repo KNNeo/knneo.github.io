@@ -596,10 +596,11 @@ function onChangeOption() {
 	}
 }
 
-function generateTableByData(contents, id, title, skipColumns = []) {
+function generateTableAsColumnRows(contents, parameters) {
+	let { id, title, skipColumns = []} = parameters
 	document.getElementById(id).innerHTML = '';
 	
-	if(debugMode) console.log('generateTableByData', id);
+	if(debugMode) console.log('generateTableAsColumnRows', id);
 	if(!id || !contents.columns || !contents.values) return;
 	
 	let header = document.createElement('h4');
@@ -643,7 +644,8 @@ function generateTableByData(contents, id, title, skipColumns = []) {
 	document.getElementById(id).appendChild(table);
 }
 
-function generateTableList(contents, id, title, rowFormat, onClick, onContextMenu, context) {
+function generateTableList(contents, parameters) {
+	let { id, title, rowFormat, clickFunc, rightClickFunc, rightClickContext } = parameters
 	document.getElementById(id).innerHTML = '';
 	
 	if(debugMode) console.log('generateTableList', id);
@@ -687,9 +689,9 @@ function generateTableList(contents, id, title, rowFormat, onClick, onContextMen
 		let tc = document.createElement('td');
 		tc.style.cursor = 'pointer';
 		tc.setAttribute('data-id', row[columnIndexKNID]);
-		tc.addEventListener('click', onClick);
-		tc.setAttribute('context', context);
-		tc.addEventListener('contextmenu', onContextMenu);
+		tc.addEventListener('click', clickFunc);
+		tc.setAttribute('context', rightClickContext);
+		tc.addEventListener('contextmenu', rightClickFunc);
 		tc.innerText = parts.join('');
 		
 		tr.appendChild(tc);
@@ -1322,17 +1324,29 @@ function queryInfo(contents) {
 
 function generateSongInfo(contents) {
 	if(debugMode) console.log('generateSongInfo', contents);
-	generateTableByData(contents, 'song-info', 'Song Information', ['ArtistID', 'ReleaseID']);
+	generateTableAsColumnRows(contents, {
+		id: 'song-info', 
+		title: 'Song Information', 
+		skipColumns: ['ArtistID', 'ReleaseID'],
+	});
 }
 
 function generateArtistInfo(contents) {
 	if(debugMode) console.log('generateArtistInfo', contents);
-	generateTableByData(contents, 'artist-info', 'Artist Information', []);
+	generateTableAsColumnRows(contents, {
+		id: 'artist-info', 
+		title: 'Artist Information', 
+		skipColumns: [],
+	});
 }
 
 function generateReleaseInfo(contents) {
 	if(debugMode) console.log('generateReleaseInfo', contents);
-	generateTableByData(contents, 'release-info', 'Release Information', []);
+	generateTableAsColumnRows(contents, {
+		id: 'release-info', 
+		title: 'Release Information', 
+		skipColumns: [],
+	});
 }
 
 function queryYearInfo(contents) {
@@ -1350,8 +1364,11 @@ function queryYearInfo(contents) {
 
 function generateYearInfo(contents) {
 	if(debugMode) console.log('generateYearInfo', contents);
-	generateTableByData(contents, 'year-info', 'Song Awards Information', []);
-	return;
+	generateTableAsColumnRows(contents, {
+		id: 'year-info', 
+		title: 'Song Awards Information', 
+		skipColumns: [],
+	});
 }
 
 function querySongList(contents) {
@@ -1369,12 +1386,12 @@ function querySongList(contents) {
 function generateSongList(contents) {
 	if(debugMode) console.log('generateSongList', contents);
 	generateTableList(
-		contents, 
-		'year-list', 
-		'Songs from ' + contents.values[0][contents.columns.indexOf('KNYEAR')],
-		['ArtistTitle', ' - ', 'SongTitle'], 
-		updateSong
-	);
+		contents, {
+		id: 'year-list', 
+		title: 'Songs from ' + contents.values[0][contents.columns.indexOf('KNYEAR')],
+		rowFormat: ['ArtistTitle', ' - ', 'SongTitle'], 
+		clickFunc: updateSong,
+	});
 }
 
 function queryArtistInfo(contents) {
@@ -1479,70 +1496,70 @@ function queryRelated(contents) {
 function generateSongRelatedByDate(contents) {
 	if(debugMode) console.log('generateSongRelatedByDate', contents);
 	generateTableList(
-		contents, 
-		'songs-related-date', 
-		'Songs within 3 months', 
-		['ArtistTitle', ' - ', 'SongTitle'], 
-		updateSong, 
-		showContextMenu, 
-		'related'
-	);
+		contents, {
+		id: 'songs-related-date', 
+		title: 'Songs within 3 months', 
+		rowFormat: ['ArtistTitle', ' - ', 'SongTitle'], 
+		clickFunc: updateSong, 
+		rightClickFunc: showContextMenu, 
+		rightClickContext: 'related',
+	});
 }
 
 function generateSongRelatedByYear(contents) {
 	if(debugMode) console.log('generateSongRelatedByYear', contents);
 	if(contents.values.length == 0) return;
 	generateTableList(
-		contents, 
-		'songs-related-year', 
-		'Songs from ' + contents.values[0][contents.columns.indexOf('ReleaseYear')],
-		['ArtistTitle', ' - ', 'SongTitle'], 
-		updateSong, 
-		showContextMenu, 
-		'related'
-	);
+		contents, {
+		id: 'songs-related-year', 
+		title: 'Songs from ' + contents.values[0][contents.columns.indexOf('ReleaseYear')],
+		rowFormat: ['ArtistTitle', ' - ', 'SongTitle'], 
+		clickFunc: updateSong, 
+		rightClickFunc: showContextMenu, 
+		rightClickContext: 'related',
+	});
 }
 
 function generateArtistRelated(contents) {
 	if(debugMode) console.log('generateArtistRelated', contents);
 	if(contents.values.length == 0) return;
 	generateTableList(
-		contents, 
-		'artist-related', 
-		'Songs from ' + contents.values[0][contents.columns.indexOf('ArtistTitle')], 
-		['KNYEAR', ' - ', 'SongTitle'], 
-		updateSong, 
-		showContextMenu, 
-		'related'
-	);
+		contents, {
+		id: 'artist-related', 
+		title: 'Songs from ' + contents.values[0][contents.columns.indexOf('ArtistTitle')], 
+		rowFormat: ['KNYEAR', ' - ', 'SongTitle'], 
+		clickFunc: updateSong, 
+		rightClickFunc: showContextMenu, 
+		rightClickContext: 'related',
+	});
 }
 
 function generateReleaseRelated(contents) {
 	if(debugMode) console.log('generateReleaseRelated', contents);
 	if(contents.values.length == 0) return;
 	generateTableList(
-		contents, 
-		'release-related', 
-		'Songs from "' + reduceReleaseTitle(contents.values[0][contents.columns.indexOf('ReleaseTitle')]) + '"',
-		['ArtistTitle', ' - ', 'SongTitle'], 
-		updateSong, 
-		showContextMenu, 
-		'related'
-	);
+		contents, {
+		id: 'release-related', 
+		title: 'Songs from "' + reduceReleaseTitle(contents.values[0][contents.columns.indexOf('ReleaseTitle')]) + '"',
+		rowFormat: ['ArtistTitle', ' - ', 'SongTitle'], 
+		clickFunc: updateSong, 
+		rightClickFunc: showContextMenu, 
+		rightClickContext: 'related',
+	});
 }
 
 function generateSongFeaturedByArtist(contents) {
 	if(debugMode) console.log('generateSongFeaturedByArtist', contents);
 	if(contents.values.length == 0) return;
 	generateTableList(
-		contents, 
-		'artist-featured', 
-		'Songs featuring ' + contents.values[0][contents.columns.indexOf('ParentArtist')],
-		['KNYEAR', ' - ', 'ArtistTitle', ' - ', 'SongTitle'],
-		updateSong, 
-		showContextMenu, 
-		'related'
-	);
+		contents, {
+		id: 'artist-featured', 
+		title: 'Songs featuring ' + contents.values[0][contents.columns.indexOf('ParentArtist')],
+		rowFormat: ['KNYEAR', ' - ', 'ArtistTitle', ' - ', 'SongTitle'],
+		clickFunc: updateSong, 
+		rightClickFunc: showContextMenu, 
+		rightClickContext: 'related',
+	});
 }
 
 function queryArtistRelated(contents) {
@@ -1587,41 +1604,41 @@ function queryArtistRelated(contents) {
 function queryArtistSongs5Years(contents) {
 	if(debugMode) console.log('queryArtistSongs5Years', contents);
 	generateTableList(
-		contents, 
-		'artist-songs-5y', 
-		'Songs within 5 years',
-		['KNYEAR', ' - ', 'ArtistTitle', ' - ', 'SongTitle'], 
-		updateSong, 
-		showContextMenu, 
-		'related'
-	);
+		contents, {
+		id: 'artist-songs-5y', 
+		title: 'Songs within 5 years',
+		rowFormat: ['KNYEAR', ' - ', 'ArtistTitle', ' - ', 'SongTitle'], 
+		clickFunc: updateSong, 
+		rightClickFunc: showContextMenu, 
+		rightClickContext: 'related',
+	});
 }
 
 function queryArtistSongs10Years(contents) {
 	if(debugMode) console.log('queryArtistSongs10Years', contents);
 	generateTableList(
-		contents, 
-		'artist-songs-10y', 
-		'Songs within 10 years',
-		['KNYEAR', ' - ', 'ArtistTitle', ' - ', 'SongTitle'],
-		updateSong, 
-		showContextMenu, 
-		'related'
-	);
+		contents, {
+		id: 'artist-songs-10y', 
+		title: 'Songs within 10 years',
+		rowFormat: ['KNYEAR', ' - ', 'ArtistTitle', ' - ', 'SongTitle'],
+		clickFunc: updateSong, 
+		rightClickFunc: showContextMenu, 
+		rightClickContext: 'related',
+	});
 }
 
 function generateArtistFeatured(contents) {
 	if(debugMode) console.log('generateArtistFeatured', contents);
 	if(contents.values.length == 0) return;
 	generateTableList(
-		contents, 
-		'artist-featured', 
-		'Songs featuring ' + contents.values[0][contents.columns.indexOf('ParentArtist')],
-		['KNYEAR', ' - ', 'ArtistTitle', ' - ', 'SongTitle'],
-		updateSong, 
-		showContextMenu, 
-		'related'
-	);
+		contents, {
+		id: 'artist-featured', 
+		title: 'Songs featuring ' + contents.values[0][contents.columns.indexOf('ParentArtist')],
+		rowFormat: ['KNYEAR', ' - ', 'ArtistTitle', ' - ', 'SongTitle'],
+		clickFunc: updateSong, 
+		rightClickFunc: showContextMenu, 
+		rightClickContext: 'related',
+	});
 }
 
 function queryAwards(contents) {
