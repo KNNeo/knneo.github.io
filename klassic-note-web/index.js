@@ -596,7 +596,7 @@ function onChangeOption() {
 	}
 }
 
-function generateTableByData(contents, id, title, excludedColumns = []) {
+function generateTableByData(contents, id, title, skipColumns = []) {
 	document.getElementById(id).innerHTML = '';
 	
 	if(debugMode) console.log('generateTableByData', id);
@@ -622,7 +622,7 @@ function generateTableByData(contents, id, title, excludedColumns = []) {
 	{
 		let rowVal = row[r];
 		if(!rowVal || rowVal.length == 0) continue;
-		if(excludedColumns.includes(columns[r])) continue;
+		if(skipColumns.includes(columns[r])) continue;
 		
 		let tr = document.createElement('tr');
 	
@@ -707,7 +707,7 @@ function generateTableByDataWithHeader(contents, parameters) {
 		skipClear, 
 		title, 
 		skipTitle, 
-		excludedColumns = [], 
+		skipColumns = [], 
 		dataId = 'KNID',
 		groupColumn = 'Rank #', 
 		titleFormat = [], 
@@ -775,7 +775,7 @@ function generateTableByDataWithHeader(contents, parameters) {
 		
 		let th = document.createElement('th');
 		th.classList.add('table-title');
-		th.setAttribute('colspan', columns.length - excludedColumns.length);
+		th.setAttribute('colspan', columns.length - skipColumns.length);
 		th.innerText = parts.join(' - ');
 		ttr.appendChild(th);
 		
@@ -788,7 +788,7 @@ function generateTableByDataWithHeader(contents, parameters) {
 	tr.classList.add('no-highlight');
 	for(let column of columns)
 	{
-		if(excludedColumns.indexOf(column) < 0)
+		if(skipColumns.indexOf(column) < 0)
 		{
 			let th = document.createElement('th');
 			th.innerText = column;
@@ -821,7 +821,7 @@ function generateTableByDataWithHeader(contents, parameters) {
 		for(let col = 0; col < columns.length ; col++)
 		{
 			let columnName = columns[col];
-			if(excludedColumns.indexOf(columnName) < 0)
+			if(skipColumns.indexOf(columnName) < 0)
 			{
 				// if grouping, need to follow row index
 				if(columnName == groupColumn)
@@ -1403,7 +1403,7 @@ function generateArtistReleaseInfo(contents) {
 		skipClear: false,
 		title: 'Artist Releases', 
 		skipTitle: false,
-		excludedColumns: ['Type', 'Release Date', 'Original Release Title', 'Original Release Artist', 'Reviewed'], 
+		skipColumns: ['Type', 'Release Date', 'Original Release Title', 'Original Release Artist', 'Reviewed'], 
 		dataId: null,
 		groupColumn: null,
 		titleFormat: null,
@@ -1690,7 +1690,7 @@ function generateAwards(contents) {
 			skipClear: true, 
 			title: 'Awards', 
 			skipTitle: true, 
-			excludedColumns: ['KNYEAR', 'AwardTitle', 'KNID'],
+			skipColumns: ['KNYEAR', 'AwardTitle', 'KNID'],
 			dataId: 'KNID',
 			groupColumn: null, 
 			titleFormat: ['KNYEAR', 'AwardTitle'], 
@@ -1745,7 +1745,7 @@ function generateRanking(contents) {
 		skipClear: false, 
 		title: 'Song Rankings', 
 		skipTitle: false, 
-		excludedColumns: ['KNID', 'SortOrder', 'KNYEAR'], 
+		skipColumns: ['KNID', 'SortOrder', 'KNYEAR'], 
 		dataId: 'KNID', 
 		groupColumn: 'Rank #',
 		titleFormat: null,
@@ -1776,7 +1776,7 @@ function generateRankingByArtist(contents) {
 		skipClear: false, 
 		title: 'Song Rankings', 
 		skipTitle: false, 
-		excludedColumns: ['KNID', 'SortOrder', 'Artist Title'],
+		skipColumns: ['KNID', 'SortOrder', 'Artist Title'],
 		dataId: 'KNID', 
 		groupColumn: 'KNYEAR',
 		titleFormat: null,
@@ -1849,7 +1849,7 @@ function generateCompilations(contents) {
 			skipClear: true, 
 			title: 'Compilations', 
 			skipTitle: true, 
-			excludedColumns: ['CompilationTitle', 'KNID', 'KNYEAR'],
+			skipColumns: ['CompilationTitle', 'KNID', 'KNYEAR'],
 			dataId: 'KNID',
 			groupColumn: 'Track #', 
 			titleFormat: ['KNYEAR', 'CompilationTitle'],
@@ -1878,7 +1878,7 @@ function generateCollection(contents) {
 		skipClear: false, 
 		title: 'Artist Collection', 
 		skipTitle: false, 
-		excludedColumns: ['KNID', 'CollectionTitle'], 
+		skipColumns: ['KNID', 'CollectionTitle'], 
 		dataId: 'KNID', 
 		groupColumn: null,
 		titleFormat: ['CollectionTitle'],
@@ -1936,7 +1936,7 @@ function generateSOTD(contents) {
 		skipClear: false, 
 		title: 'Song Mentions', 
 		skipTitle: false, 
-		excludedColumns: ['CompilationTitle', 'KNID'], 
+		skipColumns: ['CompilationTitle', 'KNID'], 
 		dataId: 'KNID', 
 		groupColumn: 'Year',
 		titleFormat: null,
@@ -1952,7 +1952,7 @@ function generateTopSOTD(contents) {
 		skipClear: false, 
 		title: 'Song of the Day Top Rankings',
 		skipTitle: false, 
-		excludedColumns: ['Year', 'KNID'], 
+		skipColumns: ['Year', 'KNID'], 
 		dataId: 'KNID', 
 		groupColumn: 'Rank',
 		titleFormat: null,
@@ -1968,7 +1968,7 @@ function generateSOTM(contents) {
 		skipClear: false, 
 		title: 'Monthly Mentions', 
 		skipTitle: false, 
-		excludedColumns: ['Year', 'KNID'], 
+		skipColumns: ['Year', 'KNID'], 
 		dataId: 'KNID', 
 		groupColumn: 'Month',
 		titleFormat: null,
@@ -2039,7 +2039,7 @@ function generateVocalPopularity(contents) {
 		skipClear: false, 
 		title: 'Vocal Types', 
 		skipTitle: false, 
-		excludedColumns: [],
+		skipColumns: [],
 	});
 }
 
@@ -2069,12 +2069,12 @@ function generateBSide(contents) {
 	}
 	tbody.appendChild(tr);
 	
-	let excludedColumns = [];
+	let skipColumns = [];
 	for(let r = 0; r < rows.length; r++)
 	{
 		// let rowVal = row[r];
 		// if(!rowVal || rowVal.length == 0) continue;
-		// if(excludedColumns.includes(columns[r])) continue;
+		// if(skipColumns.includes(columns[r])) continue;
 		
 		let tr = document.createElement('tr');
 	
@@ -2104,7 +2104,7 @@ function generateSongLaguage(contents) {
 		skipClear: false, 
 		title: 'Languages', 
 		skipTitle: false, 
-		excludedColumns: [],
+		skipColumns: [],
 	});
 }
 
@@ -2116,7 +2116,7 @@ function generateYearOfRelease(contents) {
 		skipClear: false, 
 		title: 'Release Year', 
 		skipTitle: false, 
-		excludedColumns: [],
+		skipColumns: [],
 	});
 }
 
@@ -2128,7 +2128,7 @@ function generateAnimeSongs(contents) {
 		skipClear: false, 
 		title: 'Anime Songs',
 		skipTitle: false, 
-		excludedColumns: [],
+		skipColumns: [],
 	});
 }
 
@@ -2140,7 +2140,7 @@ function generateSongAppetite(contents) {
 		skipClear: false, 
 		title: 'Song Count by Month',
 		skipTitle: false, 
-		excludedColumns: [],
+		skipColumns: [],
 	});
 }
 
@@ -2152,7 +2152,7 @@ function generateReleaseByArtistType(contents) {
 		skipClear: false, 
 		title: 'Release By Artist Type',
 		skipTitle: false, 
-		excludedColumns: [],
+		skipColumns: [],
 	});
 }
 
@@ -2203,7 +2203,7 @@ function generatePopularSongs(contents) {
 		skipClear: false, 
 		title: 'Most Popular Songs', 
 		skipTitle: false, 
-		excludedColumns: ['ID'],
+		skipColumns: ['ID'],
 		dataId: 'ID',
 		groupColumn: null,
 		titleFormat: null,
@@ -2219,7 +2219,7 @@ function generateSongCountByYear(contents) {
 		skipClear: false, 
 		title: 'Song Count by Year', 
 		skipTitle: false, 
-		excludedColumns: [],
+		skipColumns: [],
 		dataId: null,
 		groupColumn: null,
 		titleFormat: null,
