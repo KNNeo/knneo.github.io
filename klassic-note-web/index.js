@@ -272,6 +272,12 @@ function randomSong(onSelect) {
 	}	
 };
 
+function queueSongs(ids) {
+	window['playlist'] = ids;
+	if(!window['autoplay-select']) document.querySelector('.autoplay').click();
+	skipSong();
+}
+
 function skipSong() {
 	if(window['playing'] == null) window['playing'] = 0;
 	if(document.querySelector('#player') == null)
@@ -695,7 +701,7 @@ function generateTableList(contents, id, title, rowFormat, onClick, onContextMen
 	document.getElementById(id).appendChild(table);
 }
 
-function generateTableByDataWithHeader(contents, id, skipClear, title, skipTitle, excludedColumns = [], dataId = 'KNID', groupColumn = 'Rank #', titleFormat = [], centerContent = false, iconColumnName = '', iconValueColumnName = '', iconId = '', iconTooltip = '') {	
+function generateTableByDataWithHeader(contents, id, skipClear, title, skipTitle, excludedColumns = [], dataId = 'KNID', groupColumn = 'Rank #', titleFormat = [], centerContent = false, iconColumnName = '', iconValueColumnName = '', iconId = '', iconTooltip = '', actionTitle = '', actionFunc = null) {	
 	if(!skipClear) document.getElementById(id).innerHTML = '';
 	let columns = contents.columns;
 	let rows = contents.values;
@@ -707,6 +713,22 @@ function generateTableByDataWithHeader(contents, id, skipClear, title, skipTitle
 		header.classList.add('centered');
 		header.innerText = title;
 		document.getElementById(id).appendChild(header);
+	}
+	
+	if(actionTitle.length > 0)
+	{
+		document.getElementById(id).style.position = 'relative';
+		document.getElementById(id).style.maxWidth = '680px';
+		document.getElementById(id).style.margin = 'auto';
+		let action = document.createElement('h6');
+		action.classList.add('centered');
+		action.classList.add('action');
+		action.style.cursor = 'pointer';
+		action.innerText = actionTitle;
+		action.addEventListener('click', actionFunc);
+		
+		if(document.querySelector('#' + id + ' .action') == null)
+			document.getElementById(id).appendChild(action);
 	}
 	
 	let table = document.createElement('table');
@@ -935,7 +957,7 @@ function generateSearchHistory(contents) {
 	
 	let clear = document.createElement('h6');
 	clear.classList.add('centered');
-	clear.classList.add('clear');
+	clear.classList.add('action');
 	clear.style.cursor = 'pointer';
 	clear.innerText = 'Clear All';
 	clear.addEventListener('click', function() {
@@ -1707,7 +1729,24 @@ function generateRanking(contents) {
 		false, 
 		['KNID', 'SortOrder', 'KNYEAR'], 
 		'KNID', 
-		'Rank #'
+		'Rank #',
+		null,
+		false,
+		null,
+		null,
+		null,
+		null,
+		'Play All',
+		function() {
+			let rows = this.parentElement.querySelectorAll('tr');
+			let ids = Array.from(rows).reduce(function (all, current) {
+				let id = current.getAttribute('data-id');
+				if(id != null)
+					all.push(id);
+				return all;
+			},[]);
+			queueSongs(ids);
+		},
 	);
 }
 
@@ -1776,6 +1815,7 @@ function generateCompilations(contents) {
 	header.innerText = 'Compilations';
 	document.getElementById('song-compilation').appendChild(header);
 	
+	let columnIndexKNID = contents.columns.indexOf('KNID');
 	let columnIndexCompilationTitle = contents.columns.indexOf('CompilationTitle');
 	let compilationTitles = rows.map(s => s[columnIndexCompilationTitle]).filter((sa, ind, arr) => arr.indexOf(sa) == ind);
 	if(debugMode) console.log('compilationTitles', compilationTitles);
@@ -1794,7 +1834,7 @@ function generateCompilations(contents) {
 			['CompilationTitle', 'KNID'], 
 			'KNID', 
 			'Track #', 
-			['KNYEAR', 'CompilationTitle']
+			['KNYEAR', 'CompilationTitle'],
 		);
 		
 		document.getElementById('song-compilation').appendChild(document.createElement('br'));

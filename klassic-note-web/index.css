@@ -257,10 +257,10 @@ body {
 	cursor: pointer;
 }
 
-.clear {
+.action {
 	position: absolute;
-	right: 18px;
-	top: 7px;
+	right: 20px;
+	top: 10px;
 }
 
 .context {
