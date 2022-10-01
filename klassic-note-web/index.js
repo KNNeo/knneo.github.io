@@ -1964,6 +1964,12 @@ function queryAnalysis(contents) {
 
 	if(debugMode) console.log('generateSongAppetite', query);
 	queryDb(query, generateSongAppetite);
+	
+	//Release by Artist Type
+	query = "SELECT CASE ArtistCode WHEN 'BD' THEN 'Independent Band' WHEN 'ID' THEN 'Idol Group' WHEN 'AG' THEN 'Anime Voice Actor Group' WHEN 'AS' THEN 'Anime Voice Actor(s)' WHEN 'CL' THEN 'Collaboration' WHEN 'SS' THEN 'Singer-Songwriter' WHEN 'SL' THEN 'Solo Artist' ELSE 'Unknown' END AS 'Artist Type', Count(a.ArtistCode) AS 'Count' FROM Release s JOIN Artist a ON s.ReleaseArtistTitle = a.ArtistTitle WHERE s.KNYEAR = " + KNYEAR + " AND a.ArtistCode <> '' GROUP BY a.ArtistCode ORDER BY Count(a.ArtistCode) DESC";
+
+	if(debugMode) console.log('generateReleaseByArtistType', query);
+	queryDb(query, generateReleaseByArtistType);
 }
 
 function generateVocalPopularity(contents) {	
@@ -2074,6 +2080,18 @@ function generateSongAppetite(contents) {
 		'song-appetite', 
 		false, 
 		'Song Count by Month',
+		false, 
+		[]
+	);
+}
+
+function generateReleaseByArtistType(contents) {
+	if(debugMode) console.log('generateReleaseByArtistType', contents);	
+	generateTableByDataWithHeader(
+		contents, 
+		'release-artisttype', 
+		false, 
+		'Release By Artist Type',
 		false, 
 		[]
 	);
