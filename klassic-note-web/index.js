@@ -728,8 +728,6 @@ function generateTableByDataWithHeader(contents, id, skipClear, title, skipTitle
 		{
 			if(contents.columns.indexOf(format) >= 0)
 				parts.push(rows[0][contents.columns.indexOf(format)]);
-			else
-				parts.push(format);
 		}
 		
 		let ttr = document.createElement('tr');
@@ -1824,7 +1822,7 @@ function generateCollection(contents) {
 		['KNID', 'CollectionTitle'], 
 		'KNID', 
 		null,
-		'CollectionTitle',
+		['CollectionTitle'],
 		true
 	);
 }
