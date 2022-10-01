@@ -149,9 +149,11 @@ function displayHeader() {
 	if (document.body.scrollTop > 0.2*document.documentElement.clientHeight || 
 		document.documentElement.scrollTop > 0.2*document.documentElement.clientHeight) {
 		document.querySelector('.header').style.opacity = 1;
+		document.querySelector('.header').style.zIndex = '';
 	}
 	else {
 		document.querySelector('.header').style.opacity = 0;
+		document.querySelector('.header').style.zIndex = -1;
 	}
 }
 
