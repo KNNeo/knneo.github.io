@@ -296,7 +296,7 @@ a:hover {
 		 width: 99%;
 		 margin: 0;
 	}
-	.footer {
+	.single .footer {
 		visibility: hidden;
 	}
 }
