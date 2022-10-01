@@ -30,6 +30,7 @@ function startup() {
 	// videoifyGIFs();
 	displayFAB();
 	if(typeof generateHeader == 'function') generateHeader();
+	if(typeof generateReadTime == 'function') generateReadTime();
 
 	// Window events
 	window.addEventListener('scroll', displayFAB);
