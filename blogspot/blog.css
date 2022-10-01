@@ -70,8 +70,8 @@
 
 #CloseBtn {
   position: fixed;
-  display: block;
-  opacity: 0;
+  display: none;
+  /* opacity: 0; */
   top: 20px;
   right: 20px;
   z-index: 9;

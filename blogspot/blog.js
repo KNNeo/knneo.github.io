@@ -435,7 +435,7 @@ function togglePopup() {
 		//hide
         this.classList.remove('new-thumbnail');
 		switchToButton('GoToTopBtn');
-		if(document.getElementById('CloseBtn') != null) document.getElementById('CloseBtn').style.visibility = 'hidden';
+		if(document.getElementById('CloseBtn') != null) document.getElementById('CloseBtn').style.display = 'block';
 	}
     else {
 		//display
@@ -461,7 +461,7 @@ function closePopups() {
 		}
 	}
 	if(document.getElementById('CloseBtn') != null)
-		document.getElementById('CloseBtn').style.visibility = 'hidden';
+		document.getElementById('CloseBtn').style.display = 'none';
 	
 	displayFAB();
 	
