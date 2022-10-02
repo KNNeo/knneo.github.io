@@ -981,6 +981,7 @@ function generateProfileDob([profile, currentProfile, previousProfile]) {
 
 function generateProfileWithInnerHTML([profile], label, property) {
 	let cell = document.createElement('div');
+	if(profile[property] == undefined || profile[property].length == 0) return cell;
 	
 	//--LABEL--//
 	let cellDiv = document.createElement('div');
