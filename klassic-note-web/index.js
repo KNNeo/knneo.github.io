@@ -413,7 +413,7 @@ function generateFilters() {
 	search.disabled = true;
 	search.setAttribute('autocomplete', 'off');
 	search.placeholder = 'Song Title, Artist Title, KNYEAR...';
-	search.addEventListener('focus', selectAll);
+	// search.addEventListener('focus', selectAll);
 	search.addEventListener('input', querySelect);
 	filters.appendChild(search);
 	
