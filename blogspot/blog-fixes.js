@@ -180,6 +180,7 @@ function generateHeader() {
 	}
 	
 	document.querySelector('.header').appendChild(header);
+	displayHeader();
 }
 
 function generateReadTime() {
