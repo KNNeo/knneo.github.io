@@ -220,7 +220,7 @@ a:hover {
 	border-radius: 8px;
 }
 
-
+#DarkModeBtn:active,
 #BackBtn:active,
 #LeftBtn:active,
 #RightBtn:active {

@@ -185,7 +185,7 @@ function generateHeader() {
 function generateReadTime() {
 	let contents = document.querySelector('#contents');
 	let text = contents.innerText;
-	let wpm = 225;
+	let wpm = 200;
 	let words = text.trim().split(/\s+/).length;
 	let time = Math.ceil(words / wpm);
 	
