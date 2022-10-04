@@ -54,7 +54,7 @@ body {
 #tab-list {
 	resize: vertical;
 	overflow: auto;
-	padding: 3px;
+	/* padding: 3px; */
 	margin: auto;
 }
 
