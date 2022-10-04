@@ -142,7 +142,7 @@ function renderMain(sectionNo) {
 	if(document.querySelector('.main') != null) {
 		let main = document.querySelector('.main');
 				
-		if(window['elements'].length > 1) {
+		if(sectionNo > 0) {
 			let prevDiv = document.createElement('div');
 			prevDiv.classList.add('page-prev');
 			prevDiv.classList.add('not-selectable');
