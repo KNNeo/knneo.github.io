@@ -8,6 +8,7 @@ const debugMode = false;	//will show all available logging on console
 const widescreenAverageModuleSize = 480; //on wide screens, (responsive) tab width for modules
 const autoplayOnSelect = false; //disable player autoplay on select song in any table
 const categoryIcons = ['🧑', '💽', '🎵']; //in order: artist, release, song; will appear in each search result
+const coverArtStyle = 'overlay'; //options: default, overlay
 
 //--STARTUP--//
 window.addEventListener('load', startup);
@@ -1269,6 +1270,7 @@ function queryCoverArt(contents) {
 
 function generateCoverArt(contents) {
 	if(contents.values.length < 1) return;
+	let isOverlay = coverArtStyle.toLowerCase() == 'overlay';
 	//position: by title, right hand corner of header
 	let columns = contents.columns;
 	let rows = contents.values;
@@ -1278,27 +1280,34 @@ function generateCoverArt(contents) {
 	
 	let cover = document.querySelector('#cover');
 	cover.innerHTML = '';
-	cover.style.display = 'none';
-	let coverHeight = document.querySelector('#header').getBoundingClientRect().height - 15;
+	let headerWidth = document.querySelector('#header').getBoundingClientRect().width;// - 15;
+	let headerHeight = document.querySelector('#header').getBoundingClientRect().height - (isOverlay ? -6 : 6);// - 15;
 	
-	let art = document.createElement('img');
-	art.classList.add('content-box');
-	art.src = coverArtDirectory + row[columnIndexKNYEAR] + '/' + row[columnIndexCoverArt];
-	art.style.height = coverHeight + 'px';
-	art.addEventListener('error', function() {
-		if(debugMode)
-			console.log('cover error');
-		document.querySelector('#cover').classList.add('error');
-	});
-	cover.appendChild(art);
-	
+	let art = document.createElement(isOverlay ? 'div' : 'img');
+	art.style.width = (isOverlay ? headerWidth : headerHeight) + 'px';
+	art.style.height = headerHeight + 'px';
+	if (isOverlay) {
+		cover.style.display = 'initial';
+		art.classList.add('overlay-background');
+		art.style.backgroundImage = 'linear-gradient(transparent 75%, var(--background)), url(' + coverArtDirectory + row[columnIndexKNYEAR] + '/' + row[columnIndexCoverArt] + ')';
+	} else {
+		art.classList.add('content-box');
+		// art.classList.add('overlay-right');
+		art.src = coverArtDirectory + row[columnIndexKNYEAR] + '/' + row[columnIndexCoverArt];
+		art.addEventListener('error', function() {
+			if(debugMode)
+				console.log('cover error');
+			document.querySelector('#cover').classList.add('error');
+		});
+	}
+	cover.appendChild(art);	
 	displayCoverIfComplete();
 }
 
 function displayCoverIfComplete() {
 	let cover = document.getElementById('cover');
-	if(cover.classList.contains('error')) return;
-	if(cover.getElementsByTagName('img')[0].complete && !cover.classList.contains('error'))
+	if(cover.classList.contains('error') || cover.getElementsByTagName('img').length == 0) return;
+	if(cover.getElementsByTagName('img').length > 0 && cover.getElementsByTagName('img')[0].complete && !cover.classList.contains('error'))
 	{
 		if(debugMode)
 			console.log('cover loaded');

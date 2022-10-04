@@ -58,12 +58,29 @@ body {
 	margin: auto;
 }
 
+#header {
+	background-color: transparent;
+}
+
 #cover {
 	display: none;
 	position: absolute;
 	right: 5px;
-	top: 0;	
+	top: 0;
+	z-index: -1;
 }
+
+.overlay-background {
+    filter: opacity(50%);
+    background-repeat: no-repeat;
+    background-size: 50%;
+    background-position: top right;
+}
+
+.darked .overlay-background {
+    filter: opacity(75%);
+}
+
 
 .absolute {
 	position: absolute;
