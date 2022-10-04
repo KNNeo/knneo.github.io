@@ -101,7 +101,7 @@ function renderPage() {
 		}
 	}
 	
-	// renderFooter(window['elements'][mainSectionNo].isSinglePage);
+	renderFooter(window['elements'][mainSectionNo].isSinglePage);
 
 	// if(window['elements'][mainSectionNo].isSinglePage)
 	// {
