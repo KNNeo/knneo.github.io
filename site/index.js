@@ -554,8 +554,10 @@ function setPageElements(content) {
 	window['elements'] = JSON.parse(localStorage.getItem('elements'));
 	// window['elements'][0].isSinglePage = true;
 	renderVariables();
-	renderPage();
-	scrollToMainPage(this, true);
+	setTimeout(renderPage, 1);
+	setTimeout(function () {
+		scrollToMainPage(this, true);
+	}, 500);
 	if(window['no-editor'])
 	{
 		document.querySelector('.button-editor').style.display = 'none';
