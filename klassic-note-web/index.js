@@ -99,7 +99,7 @@ function setKeyDown() {
 }
 
 function setTabs() {
-	let isWidescreen = window.innerWidth >= widescreenAverageModuleSize;
+	let isWidescreen = window.innerWidth > 1.5*widescreenAverageModuleSize;
 	let homePageVisible = document.querySelector('#tab-homepage').style.display != 'none';
 	
 	//responsive module display	
