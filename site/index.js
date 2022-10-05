@@ -6,15 +6,15 @@ function closestClass(inputElement, targetClassName) {
     return inputElement;
 }
 
-function scrollToNextPage(e) {
-	event.preventDefault();
+function scrollToNextPage() {
+	event.stopPropagation();
 	let nextPage = closestClass(this, 'section').nextElementSibling;
 	if(nextPage != null)
 		nextPage.scrollIntoView();
 }
 
-function scrollToPrevPage(e) {
-	event.preventDefault();
+function scrollToPrevPage() {
+	event.stopPropagation();
 	let prevPage = closestClass(this, 'section').previousElementSibling;
 	if(prevPage != null)
 		prevPage.scrollIntoView();
@@ -79,7 +79,7 @@ function renderPage() {
 			newMain.classList.add('main');
 			newMain.classList.add('section');
 			newMain.addEventListener('click', function() {
-				event.preventDefault();
+				event.stopPropagation();
 				scrollToPage(sectionNo, window['elements'][mainSectionNo].isSinglePage);
 			});
 			// newMain.style.height = '100vh'; // not in css because of single page
@@ -91,7 +91,7 @@ function renderPage() {
 			let newSection = document.createElement('div');
 			newSection.classList.add('section');
 			newSection.addEventListener('click', function() {
-				event.preventDefault();
+				event.stopPropagation();
 				scrollToPage(sectionNo, window['elements'][mainSectionNo].isSinglePage);
 			});
 			// newSection.style.height = '100vh';
@@ -212,11 +212,11 @@ function renderMain(sectionNo) {
 					// contentItem.style.justifyContent = 'center';
 					contentItem.innerText = 'drag_handle';
 					contentItem.addEventListener('click', function() {
-						event.preventDefault();
+						event.stopPropagation();
 						document.querySelector('.menu').style.maxHeight = document.querySelector('.menu').style.maxHeight == 'initial' ? drawerHeight : 'initial';
 					});
 					contentItem.addEventListener('touchmove', function() {
-						event.preventDefault();
+						event.stopPropagation();
 						document.querySelector('.menu').style.maxHeight = (window.innerHeight - e.touches[0].clientY + 20) + 'px';
 					});
 					contentList.appendChild(contentItem);
@@ -239,11 +239,11 @@ function renderMain(sectionNo) {
 				// contentItem.style.padding = '4px 0';
 				contentItem.innerText = 'home';
 				contentItem.addEventListener('click', function() {
-					event.preventDefault();
+					event.stopPropagation();
 					scrollToPage(sectionNo, content.isSinglePage);
 				});
 				contentItem.addEventListener('touchstart', function() {
-					event.preventDefault();
+					event.stopPropagation();
 					scrollToPage(sectionNo, content.isSinglePage);
 				});
 				contentList.appendChild(contentItem);
@@ -269,12 +269,12 @@ function renderMain(sectionNo) {
 					// contentItem.style.backgroundRepeat = 'no-repeat';
 					// contentItem.style.backgroundPosition = 'center';
 					contentItem.addEventListener('click', function() {
-						event.preventDefault();
+						event.stopPropagation();
 						scrollToPage(section, content.isSinglePage);
 						document.querySelector('.menu').style.maxHeight = drawerHeight;
 					});
 					contentItem.addEventListener('touchstart', function() {
-						event.preventDefault();
+						event.stopPropagation();
 						scrollToPage(section, content.isSinglePage);
 						document.querySelector('.menu').style.maxHeight = drawerHeight;
 					});
@@ -299,19 +299,19 @@ function renderMain(sectionNo) {
 					// contentItem.style.margin = '0';
 					contentItem.innerText = window['elements'][section].text;
 					contentItem.addEventListener('click', function() {
-						event.preventDefault();
+						event.stopPropagation();
 						scrollToPage(section, content.isSinglePage);
 						document.querySelector('.menu').style.maxHeight = drawerHeight;
 					});
 					contentItem.addEventListener('touchstart', function() {
-						event.preventDefault();
+						event.stopPropagation();
 						contentItem.style.boxShadow = '1px 1px';
 						contentItem.style.transform = 'translate(2px, 2px)';
 						scrollToPage(section, content.isSinglePage);
 						document.querySelector('.menu').style.maxHeight = drawerHeight;
 					});
 					contentItem.addEventListener('touchend', function() {
-						event.preventDefault();
+						event.stopPropagation();
 						contentItem.style.boxShadow = '';
 						contentItem.style.transform = '';
 						scrollToPage(section, content.isSinglePage);

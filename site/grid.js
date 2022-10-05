@@ -187,7 +187,10 @@ function renderGrid(sectionNo, content) {
 				if(data.link)
 					url.href = data.link;
 				else
-					img.addEventListener('click', function(e) { openImageUrlInViewer(this.getAttribute('data-src')); });
+					img.addEventListener('click', function() {						
+						event.stopPropagation();
+						openImageUrlInViewer(this.getAttribute('data-src')); 
+					});
 				
 				url.appendChild(img);
 				gallery.appendChild(url);
@@ -249,7 +252,8 @@ function renderGrid(sectionNo, content) {
 				// img.style.backgroundPosition = 'center';
 				if(data.source) img.style.cursor = 'pointer';
 				if(data.grid || data.source)
-					img.addEventListener('click', function(e) {
+					img.addEventListener('click', function() {
+						event.stopPropagation();
 						if(this.getAttribute('data-src') != null && typeof openImageUrlInViewer == 'function')
 							return openImageUrlInViewer(this.getAttribute('data-src'));
 						if(typeof openGridInViewer == 'function')
