@@ -109,7 +109,7 @@ a:hover {
 @media only screen and (max-width: 480px) {
 	
 	.header {
-		width: initial;
+		/* width: initial; */
 	}
 }
 
