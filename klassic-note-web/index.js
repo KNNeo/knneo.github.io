@@ -654,7 +654,7 @@ function generateTableAsColumnRows(contents, parameters) {
 }
 
 function generateTableList(contents, parameters) {
-	let { id, title, rowFormat, clickFunc, rightClickFunc, rightClickContext, scrollable = false } = parameters
+	let { id, title, rowFormat, clickFunc, rightClickFunc, rightClickContext, scrollable, actionTitle, actionFunc } = parameters
 	document.getElementById(id).innerHTML = '';
 	if(debugMode) console.log('generateTableList', id);
 	if(!id || !rowFormat || !contents.columns || !contents.values) return;
@@ -668,6 +668,23 @@ function generateTableList(contents, parameters) {
 	header.classList.add('centered');
 	header.innerText = title;
 	document.getElementById(id).appendChild(header);	
+	
+	if(actionTitle != null && actionTitle.length > 0)
+	{
+		document.getElementById(id).style.position = 'relative';
+		document.getElementById(id).style.maxWidth = '680px';
+		document.getElementById(id).style.margin = 'auto';
+		let action = document.createElement('h6');
+		action.classList.add('centered');
+		action.classList.add('action');
+		action.style.cursor = 'pointer';
+		action.innerText = actionTitle;
+		if(actionFunc != null && typeof actionFunc == 'function')
+			action.addEventListener('click', actionFunc);
+		
+		if(document.querySelector('#' + id + ' .action') == null)
+			document.getElementById(id).appendChild(action);
+	}
 	
 	//table
 	let container = document.createElement('div');
@@ -1402,7 +1419,7 @@ function querySongList(contents) {
 	let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
 	let year = row[columnIndexKNYEAR];
 	
-	let query = "SELECT * FROM Song WHERE KNYEAR = " + year + " ORDER BY RANDOM() LIMIT 10";
+	let query = "SELECT * FROM Song WHERE KNYEAR = " + year + " ORDER BY SongTitle LIMIT 10";
 	if(debugMode) console.log('generateSongList', query);
 	queryDb(query, generateSongList);
 }
@@ -1415,6 +1432,22 @@ function generateSongList(contents) {
 		title: 'Songs from ' + contents.values[0][contents.columns.indexOf('KNYEAR')],
 		rowFormat: ['ArtistTitle', ' - ', 'SongTitle'], 
 		clickFunc: updateSong,
+		actionTitle: 'Show All',
+		actionFunc: function() {
+			this.style.maxHeight = this.getBoundingClientRect().height;
+			let query = "SELECT * FROM Song WHERE KNYEAR = " + contents.values[0][contents.columns.indexOf('KNYEAR')] + " ORDER BY SongTitle";
+			if(debugMode) console.log('generateSongList', query);
+			queryDb(query, function(contents) {
+				generateTableList(
+					contents, {
+					id: 'year-list', 
+					title: 'Songs from ' + contents.values[0][contents.columns.indexOf('KNYEAR')],
+					rowFormat: ['ArtistTitle', ' - ', 'SongTitle'], 
+					clickFunc: updateSong,
+					scrollable: true,
+				});
+			});
+		},
 	});
 }
 

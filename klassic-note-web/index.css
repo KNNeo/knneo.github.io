@@ -243,7 +243,7 @@ body {
 .tags {
 	display: flex;
 	flex-wrap: wrap;
-    justify-content: center;
+    /* justify-content: center; */
 }
 
 .tags .tag {
@@ -321,8 +321,8 @@ body {
 	padding: 10px;
 }
 
-.scrollable {    
-	line-height: 1.2em;
-    max-height: 7.2em; /*x1.4em*/
+.scrollable {
+	line-height: 1.1rem;
+    max-height: 16rem;
 	overflow-y: auto;
 }
