@@ -162,6 +162,7 @@ body {
 	border-collapse: collapse;
 	font-size: 0.9em;
 	width: 100%;
+	line-height: 1,1rem;
 }
 
 .list td, 
@@ -322,7 +323,6 @@ body {
 }
 
 .scrollable {
-	line-height: 1.1rem;
-    max-height: 16rem;
+    max-height: 14rem;
 	overflow-y: auto;
 }
