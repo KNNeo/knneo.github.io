@@ -421,7 +421,7 @@ function generateLayoutPlayer() {
 	back.classList.add('back');
 	back.style.padding = '0 5px';
 	back.style.verticalAlign = 'top';
-	back.href = '../index.html';
+	back.href = '../../index.html';
 	back.innerText = 'Back';
 	settings.appendChild(back);
 		
