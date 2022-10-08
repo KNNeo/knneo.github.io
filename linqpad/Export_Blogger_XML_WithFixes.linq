@@ -726,8 +726,9 @@ void Main()
 			output.WriteLine("<script src=\"https://www.instagram.com/embed.js\" type=\"text/javascript\" charset=\"utf-8\" async></script>");
             output.WriteLine("<link rel=\"icon\" href=\"../../../storytime.ico\" />");
             output.WriteLine("<title>" + title + "</title>");
-			if(postList.IndexOf(pageLink) == 0)  output.WriteLine("<a id='BackBtn' href='../../../blog.html' title='Go Back'><i class='material-icons'>arrow_back</i></a>");
-            if(postList.IndexOf(pageLink) > 0) output.WriteLine("<a id='LeftBtn' href='" + postList[postList.IndexOf(pageLink) - 1].Replace("./", "../../../") + "' title='Newer Post'><i class='material-icons'>arrow_back</i></a>");
+			//if(postList.IndexOf(pageLink) == 0)  
+			output.WriteLine("<a id='BackBtn' href='../../../blog.html' title='Go Back'><i class='material-icons'>arrow_back</i></a>");
+//            if(postList.IndexOf(pageLink) > 0) output.WriteLine("<a id='LeftBtn' href='" + postList[postList.IndexOf(pageLink) - 1].Replace("./", "../../../") + "' title='Newer Post'><i class='material-icons'>arrow_back</i></a>");
             if(postList.IndexOf(pageLink) + 1 < postList.Count) output.WriteLine("<a id='RightBtn' href='" + postList[postList.IndexOf(pageLink) + 1].Replace("./", "../../../") + "' title='Older Post'><i class='material-icons'>arrow_forward</i></a>");
             output.WriteLine("<body class=\"post-body entry-content\">");
             output.WriteLine("<div id=\"viewer\" style=\"display: none;\"></div>");
