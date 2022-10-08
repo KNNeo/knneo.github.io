@@ -9,6 +9,7 @@ const widescreenAverageModuleSize = 480; //on wide screens, (responsive) tab wid
 const autoplayOnSelect = false; //disable player autoplay on select song in any table
 const categoryIcons = ['🧑', '💽', '🎵']; //in order: artist, release, song; will appear in each search result
 const coverArtStyle = 'overlay'; //options: default, overlay
+const hideHomepage = false;
 
 //--STARTUP--//
 window.addEventListener('load', startup);
@@ -653,9 +654,8 @@ function generateTableAsColumnRows(contents, parameters) {
 }
 
 function generateTableList(contents, parameters) {
-	let { id, title, rowFormat, clickFunc, rightClickFunc, rightClickContext } = parameters
+	let { id, title, rowFormat, clickFunc, rightClickFunc, rightClickContext, scrollable = false } = parameters
 	document.getElementById(id).innerHTML = '';
-	
 	if(debugMode) console.log('generateTableList', id);
 	if(!id || !rowFormat || !contents.columns || !contents.values) return;
 	
@@ -663,21 +663,24 @@ function generateTableList(contents, parameters) {
 	let rows = contents.values;
 	if(rows.length < 1) return;
 	
+	//header
 	let header = document.createElement('h4');
 	header.classList.add('centered');
 	header.innerText = title;
 	document.getElementById(id).appendChild(header);	
 	
+	//table
+	let container = document.createElement('div');
+	if(scrollable) 
+		container.classList.add('scrollable');
+	container.classList.add('content-box');
+	
 	let table = document.createElement('table');
 	table.classList.add('list');
-	table.classList.add('centered');
-	table.classList.add('content-box');
 	table.classList.add('not-selectable');
 	
 	let tbody = document.createElement('tbody');
 	
-	
-	//header
 	for(let row of rows)
 	{
 		let columnIndexKNID = contents.columns.indexOf('KNID');
@@ -708,7 +711,8 @@ function generateTableList(contents, parameters) {
 	}
 		
 	table.appendChild(tbody);
-	document.getElementById(id).appendChild(table);
+	container.appendChild(table);
+	document.getElementById(id).appendChild(container);
 }
 
 function generateTableByDataWithHeader(contents, parameters) {
@@ -909,6 +913,8 @@ function generateHomepage() {
 	query = "SELECT DISTINCT KNYEAR FROM SongAwardsPeriod";
 	if(debugMode) console.log('generateYears', query);
 	callDb(query, generateYears);
+	
+	if(hideHomepage) return;
 	
 	let recent = localStorage.getItem('recent');
 	recent = (recent == null || recent.length == 0) ? JSON.parse('[]') : JSON.parse(recent);

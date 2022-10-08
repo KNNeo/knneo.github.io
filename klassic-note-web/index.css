@@ -161,7 +161,7 @@ body {
 .list {
 	border-collapse: collapse;
 	font-size: 0.9em;
-	width: 95%;
+	width: 100%;
 }
 
 .list td, 
@@ -319,4 +319,10 @@ body {
 
 .touchable .tab-button {
 	padding: 10px;
+}
+
+.scrollable {    
+	line-height: 1.2em;
+    max-height: 7.2em; /*x1.4em*/
+	overflow-y: auto;
 }
