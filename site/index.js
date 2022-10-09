@@ -150,7 +150,7 @@ function renderMain(sectionNo) {
 			prevButton.title = 'Previous';
 			prevButton.style.visibility = !content.isSinglePage && main.previousElementSibling != null ? 'visible' : 'hidden';
 			prevButton.addEventListener('click', scrollToPrevPage);
-			prevButton.addEventListener('touchstart', scrollToPrevPage);
+			// prevButton.addEventListener('touchstart', scrollToPrevPage);
 			let prevButtonIcon = document.createElement('i');
 			prevButtonIcon.classList.add('material-icons');
 			prevButtonIcon.innerText = 'keyboard_arrow_up';
@@ -217,7 +217,7 @@ function renderMain(sectionNo) {
 					});
 					contentItem.addEventListener('touchmove', function() {
 						event.stopPropagation();
-						document.querySelector('.menu').style.maxHeight = (window.innerHeight - e.touches[0].clientY + 20) + 'px';
+						document.querySelector('.menu').style.maxHeight = (window.innerHeight - event.touches[0].clientY + 20) + 'px';
 					});
 					contentList.appendChild(contentItem);
 				}
@@ -242,10 +242,10 @@ function renderMain(sectionNo) {
 					event.stopPropagation();
 					scrollToPage(sectionNo, content.isSinglePage);
 				});
-				contentItem.addEventListener('touchstart', function() {
-					event.stopPropagation();
-					scrollToPage(sectionNo, content.isSinglePage);
-				});
+				// contentItem.addEventListener('touchstart', function() {
+					// event.stopPropagation();
+					// scrollToPage(sectionNo, content.isSinglePage);
+				// });
 				contentList.appendChild(contentItem);
 			}
 			
@@ -273,11 +273,11 @@ function renderMain(sectionNo) {
 						scrollToPage(section, content.isSinglePage);
 						document.querySelector('.menu').style.maxHeight = drawerHeight;
 					});
-					contentItem.addEventListener('touchstart', function() {
-						event.stopPropagation();
-						scrollToPage(section, content.isSinglePage);
-						document.querySelector('.menu').style.maxHeight = drawerHeight;
-					});
+					// contentItem.addEventListener('touchstart', function() {
+						// event.stopPropagation();
+						// scrollToPage(section, content.isSinglePage);
+						// document.querySelector('.menu').style.maxHeight = drawerHeight;
+					// });
 					if(window['elements'][section].text)
 						contentItem.title = window['elements'][section].text;
 					contentList.appendChild(contentItem);
@@ -303,20 +303,20 @@ function renderMain(sectionNo) {
 						scrollToPage(section, content.isSinglePage);
 						document.querySelector('.menu').style.maxHeight = drawerHeight;
 					});
-					contentItem.addEventListener('touchstart', function() {
-						event.stopPropagation();
-						contentItem.style.boxShadow = '1px 1px';
-						contentItem.style.transform = 'translate(2px, 2px)';
-						scrollToPage(section, content.isSinglePage);
-						document.querySelector('.menu').style.maxHeight = drawerHeight;
-					});
-					contentItem.addEventListener('touchend', function() {
-						event.stopPropagation();
-						contentItem.style.boxShadow = '';
-						contentItem.style.transform = '';
-						scrollToPage(section, content.isSinglePage);
-						document.querySelector('.menu').style.maxHeight = drawerHeight;
-					});
+					// contentItem.addEventListener('touchstart', function() {
+						// event.stopPropagation();
+						// contentItem.style.boxShadow = '1px 1px';
+						// contentItem.style.transform = 'translate(2px, 2px)';
+						// scrollToPage(section, content.isSinglePage);
+						// document.querySelector('.menu').style.maxHeight = drawerHeight;
+					// });
+					// contentItem.addEventListener('touchend', function() {
+						// event.stopPropagation();
+						// contentItem.style.boxShadow = '';
+						// contentItem.style.transform = '';
+						// scrollToPage(section, content.isSinglePage);
+						// document.querySelector('.menu').style.maxHeight = drawerHeight;
+					// });
 					contentList.appendChild(contentItem);
 				}				
 			}
@@ -340,7 +340,7 @@ function renderMain(sectionNo) {
 			nextButton.title = 'Next';
 			nextButton.style.visibility = !content.isSinglePage && main.nextElementSibling != null ? 'visible' : 'hidden';
 			nextButton.addEventListener('click', scrollToNextPage);
-			nextButton.addEventListener('touchstart', scrollToNextPage);
+			// nextButton.addEventListener('touchstart', scrollToNextPage);
 			let nextButtonIcon = document.createElement('i');
 			nextButtonIcon.classList.add('material-icons');
 			nextButtonIcon.innerText = 'keyboard_arrow_down';
@@ -366,7 +366,7 @@ function renderSection(sectionNo, mainSectionNo) {
 		prevButton.title = 'Previous';
 		prevButton.style.visibility = !main.isSinglePage && section.previousElementSibling != null && section.previousElementSibling.classList.contains('section') ? 'visible' : 'hidden';
 		prevButton.addEventListener('click',scrollToPrevPage);
-		prevButton.addEventListener('touchstart',scrollToPrevPage);
+		// prevButton.addEventListener('touchstart',scrollToPrevPage);
 		let prevButtonIcon = document.createElement('i');
 		prevButtonIcon.classList.add('material-icons');
 		prevButtonIcon.innerText = 'keyboard_arrow_up';
@@ -415,7 +415,7 @@ function renderSection(sectionNo, mainSectionNo) {
 		nextButton.title = 'Next';
 		nextButton.style.visibility = !main.isSinglePage && section.nextElementSibling != null && section.nextElementSibling.classList.contains('section') ? 'visible' : 'hidden';
 		nextButton.addEventListener('click',scrollToNextPage);
-		nextButton.addEventListener('touchstart',scrollToNextPage);
+		// nextButton.addEventListener('touchstart',scrollToNextPage);
 		let nextButtonIcon = document.createElement('i');
 		nextButtonIcon.classList.add('material-icons');
 		nextButtonIcon.innerText = 'keyboard_arrow_down';
