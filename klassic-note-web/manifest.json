@@ -7,7 +7,7 @@
   "orientation": "any",
   "scope": "/",
   "short_name": "Klassic Note",
-  "start_url": "/",
+  "start_url": "../klassic-note-web/index.html",
   "theme_color": "#ffffff",
   "categories": [
     "music"
