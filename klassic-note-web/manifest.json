@@ -7,7 +7,7 @@
   "orientation": "any",
   "scope": "/",
   "short_name": "Klassic Note",
-  "start_url": "../klassic-note-web/index.html",
+  "start_url": "https://knneo.github.io/klassic-note-web/index.html",
   "theme_color": "#ffffff",
   "categories": [
     "music"
