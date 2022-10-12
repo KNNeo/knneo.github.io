@@ -388,6 +388,10 @@ function renderSettings() {
 	document.querySelector('#queue-skip').style.display = 'none';
 	document.querySelector('#queue-clear').style.display = 'none';
 	document.querySelector('.autoplay').innerText = window['autoplay-select'] ? 'music_note' : 'music_off';
+	if(isMobile())
+	{
+		document.querySelector('html').classList.add('touchable');
+	}
 }
 
 function renderVariables() {
