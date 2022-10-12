@@ -36,7 +36,8 @@
     },
     {
       "src": "android/android-launchericon-48-48.png",
-      "sizes": "any"
+      "sizes": "48x48",
+	  "purpose": "any"
     }
   ],
   "shortcuts": [],
