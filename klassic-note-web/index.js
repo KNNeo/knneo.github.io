@@ -21,6 +21,11 @@ window.addEventListener('click', setInput);
 
 //--EVENTS--//
 function setInput() {
+	if(isMobile())
+	{
+		document.querySelector('html').classList.add('touchable');
+		return;
+	}
 	if(debugMode)
 		console.log(event.type, new Date() - window['last-input']);
 	let list = document.querySelector('html').classList;
@@ -374,6 +379,7 @@ function queryDb(query, callback) {
 }
 
 function startup() {
+	setInput();
 	renderSettings();
 	renderVariables();
 	renderTitle();
@@ -388,10 +394,6 @@ function renderSettings() {
 	document.querySelector('#queue-skip').style.display = 'none';
 	document.querySelector('#queue-clear').style.display = 'none';
 	document.querySelector('.autoplay').innerText = window['autoplay-select'] ? 'music_note' : 'music_off';
-	if(isMobile())
-	{
-		document.querySelector('html').classList.add('touchable');
-	}
 }
 
 function renderVariables() {
@@ -1114,7 +1116,8 @@ function generateModules(contents) {
 	document.querySelector('#cover').style.display = 'none';
 	
 	//clear modules
-	clearModules();	
+	clearModules();
+	setInput();
 	if(window['mode'] == 'year')
 	{
 		queryYearInfo(contents);
