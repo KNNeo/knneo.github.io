@@ -262,6 +262,7 @@ function renderMain(sectionNo) {
 					contentItem.classList.add('icon');
 					contentItem.style.width = iconSize;
 					contentItem.style.height = iconSize;
+					contentItem.title = window['elements'][section].text || '';
 					contentItem.style.backgroundImage = addBackgroundUrlClause(window['elements'][section].image);
 					// contentItem.style.borderRadius = '50%';
 					// contentItem.style.cursor = 'pointer';
@@ -298,6 +299,7 @@ function renderMain(sectionNo) {
 					// contentItem.style.cursor = 'pointer';
 					// contentItem.style.margin = '0';
 					contentItem.innerText = window['elements'][section].text;
+					contentItem.title = contentItem.innerText || '';
 					contentItem.addEventListener('click', function() {
 						event.stopPropagation();
 						scrollToPage(section, content.isSinglePage);
@@ -647,5 +649,7 @@ function startup() {
 	{
 		console.error('no data source found');
 	}
+	let firstLoad = window['loaded'] != true;
 	window['loaded'] = true;
+	if(firstLoad) startup();
 }

@@ -122,7 +122,6 @@ a:hover {
 	padding: 4px 0;
 }
 
-
 /* .page-next {
 	padding-top: 20px;
 }
@@ -181,6 +180,14 @@ a:hover {
 .darked .box {	
   border: 1px solid lightgray;
   background-color: black;
+}
+
+.single .text {
+	font-size: 0.9em;
+}
+
+.one .text {
+	font-size: 2vw;
 }
 
 .contents {
@@ -296,6 +303,10 @@ a:hover {
 	.container {
 		 width: 99%;
 		 margin: 0;
+	}
+	.single .text,
+	.one .text {
+		font-size: 0.8em;
 	}
 	.single .footer {
 		visibility: hidden;
