@@ -317,7 +317,7 @@ function updateQueue(next) {
 }
 
 function updateQueueButtons() {
-	document.querySelector('#queue-skip').style.display = window['playing'] == null || window['playing'] < window['playlist'].length - 1 ? '' : 'none';
+	document.querySelector('#queue-skip').style.display = window['playing'] != null || window['playing'] < window['playlist'].length - 1 ? '' : 'none';
 	document.querySelector('#queue-clear').style.display = window['playlist'].length > 0 ? '' : 'none';	
 }
 
