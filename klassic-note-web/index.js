@@ -353,7 +353,7 @@ function skipSong() {
 			if(nextOption == 'artist') query += " AND ArtistID = " + window['artist-id'] + "";
 			if(nextOption == 'release') query += " AND ReleaseID = " + window['release-id'] + "";
 			queryDb(query, function(content) {
-				console.log(content.values);
+				if(debugMode) console.log('nextOption', window['song-id'], content.values);
 				let total = content.values.length;
 				if(total == 0 || (total == 1 && window['playlist'].indexOf(content.values[0][0].toString()) >= 0))
 				{
