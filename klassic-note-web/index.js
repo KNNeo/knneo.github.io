@@ -384,13 +384,10 @@ function skipSong() {
 }
 
 function updateQueue(next) {
-	// let queued = window['playlist'].length - ((document.querySelector('#player') == null) ? 0 : 1);
 	if(window['playing'] == null) window['playing'] = 0;
 	else window['playing'] = next ?? window['playing'] + 1;
-	if(debugMode) console.log('queued', queued);
-	// let queueText = queued > 0 ? (queued + ' song' + (queued > 1 ? 's' : '') + ' in queue') : '';
-	// document.querySelector('#random-count').title = queueText;
-	// document.querySelector('#random-count').innerText = queueText;
+	if(window['playing'] >= window['playlist'].length) window['playing'] = window['playlist'].length - 1;
+	if(debugMode) console.log('updateQueue', window['playing']);
 }
 
 function updateQueueButtons() {
@@ -1259,7 +1256,7 @@ function generateModules(contents) {
 	generateTabs();
 	setTabs();
 	scrollToTop();
-	updateQueue();
+	// updateQueue();
 	updateQueueButtons();
 	
 	for(let selected of document.getElementsByClassName('not-selectable'))
@@ -1363,7 +1360,7 @@ function generatePlayer(contents) {
 				if(window['queue-mode'] != 'shuffle')
 					return;
 				else
-					next = window['playlist'].length - 1;
+					skipSong();
 			}
 			// console.log('ended', window['playlist']);
 			setTimeout(function() {
