@@ -44,10 +44,10 @@ a, button {
   height: 10px;
 }
 #timeline::-webkit-scrollbar-thumb, .profile-category::-webkit-scrollbar-thumb {
-  background: var(--foreground);
+  background: var(--secondary);
 }
 #timeline::-webkit-scrollbar-track, .profile-category::-webkit-scrollbar-track {
-  background: #444444;
+  background: var(--foreground);
 }
 .bi {
 	font-size: 20px;
