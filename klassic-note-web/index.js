@@ -352,6 +352,7 @@ function skipSong() {
 			let query = "SELECT KNID FROM Song WHERE KNID <> " + window['song-id'];
 			if(nextOption == 'artist') query += " AND ArtistID = " + window['artist-id'] + "";
 			if(nextOption == 'release') query += " AND ReleaseID = " + window['release-id'] + "";
+			if(nextOption == 'year') query += " AND KNYEAR = " + window['year'] + "";
 			queryDb(query, function(content) {
 				if(debugMode) console.log('nextOption', window['song-id'], content.values);
 				let total = content.values.length;
@@ -495,6 +496,7 @@ function renderVariables() {
 	window['title'] = defaultTitle;
 	window['release-id'] = 0;
 	window['artist-id'] = 0;
+	window['year'] = '';
 }
 
 function renderTitle() {
@@ -1275,6 +1277,7 @@ function updateSearch(contents) {
 	if(contents.values.length > 1) return;
 	let row = contents.values[0];
 	let columnIndexKNID = contents.columns.indexOf('ID');
+	let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
 	let columnIndexSongTitle = contents.columns.indexOf('Song Title');
 	let columnIndexArtistTitle = contents.columns.indexOf('Artist Title');
 	let columnIndexArtistID = contents.columns.indexOf('ArtistID');
@@ -1286,6 +1289,7 @@ function updateSearch(contents) {
 		window['artist-id'] = row[columnIndexArtistID];
 		window['release-id'] = row[columnIndexReleaseID];
 		window['song-id'] = row[columnIndexKNID];
+		window['year'] = row[columnIndexKNYEAR];
 		
 		let recent = localStorage.getItem('recent');
 		recent = (recent == null || recent.length == 0) ? JSON.parse('[]') : JSON.parse(recent);
