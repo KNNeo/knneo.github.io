@@ -649,8 +649,14 @@ function updateOptions(contents) {
 		{
 			search.blur();
 			setTimeout(function() {
-				document.querySelector('#options').value = categoryIcons[2] + contents.values[0][columnIndexKNID];
+				let newId = contents.values[0][columnIndexKNID];
+				document.querySelector('#options').value = categoryIcons[2] + newId;
 				document.querySelector('#options').dispatchEvent(new Event('change'));
+				if(window['playlist'][window['playlist'].length - 1] != newId)
+				{
+					window['playlist'].push(newId.toString());
+					updateQueue();
+				}
 			},200);
 		}
 		
@@ -2478,7 +2484,7 @@ function updateSong() {
 	let query = "SELECT * FROM Song WHERE KNID = " + id;
 	if(debugMode) console.log('updateSong', query);
 	queryDb(query, updateOptions);
-	window['playlist'].push(id.toString());
+	// window['playlist'].push(id.toString());
 }
 
 function updateYear() {
