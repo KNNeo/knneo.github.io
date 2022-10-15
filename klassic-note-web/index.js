@@ -559,7 +559,7 @@ function querySelect() {
 	if(debugMode) console.log('querySelect', this.value);
 	
 	searchFields = ['ArtistTitle'].join(" || ");
-	query += "SELECT MIN(ArtistID) AS KNID, '' AS KNYEAR, '' AS SongTitle, ArtistTitle, ArtistID FROM Artist WHERE TRUE "
+	query += "SELECT MIN(ArtistID) AS KNID, '' AS KNYEAR, '' AS SongTitle, ArtistTitle, ArtistID, null as ReleaseID FROM Artist WHERE TRUE "
 	query += addQuotationInSQLString(this.value).split(' ').map(v => "AND " + searchFields + " LIKE '%" + v + "%'").join('');
 	query += " GROUP BY ArtistTitle UNION ALL ";
 	
@@ -567,7 +567,8 @@ function querySelect() {
 	query += "SELECT KNID, KNYEAR, SongTitle, ArtistTitle, ArtistID, ReleaseID FROM Song WHERE TRUE ";
 	query += addQuotationInSQLString(this.value).split(' ').map(v => "AND " + searchFields + " LIKE '%" + v + "%'").join('');
 	
-	if(debugMode) console.log('querySelect', query);
+	// if(debugMode) 
+		console.log('querySelect', query);
 	queryDb(query, updateOptions);
 }
 
