@@ -355,7 +355,12 @@ function skipSong() {
 			queryDb(query, function(content) {
 				if(debugMode) console.log('nextOption', window['song-id'], content.values);
 				let total = content.values.length;
-				if(total == 0 || (total == 1 && window['playlist'].indexOf(content.values[0][0].toString()) >= 0))
+				let inPlaylist = content.values.reduce(function(total, c) {
+					total += window['playlist'].indexOf(c[0].toString()) >= 0 ? 1 : 0;
+					return total;
+				}, 0);
+				//if next option not available ie. will get current song (excluded in query), random
+				if(total == 0 || (inPlaylist >= total))
 				{
 					randomSong();
 					return;
@@ -1354,8 +1359,10 @@ function generatePlayer(contents) {
 			if(next >= window['playlist'].length)
 			{
 				console.log('End of playlist reached');
-				if(window['queue-mode'] == 'shuffle') skipSong();
-				return;
+				if(window['queue-mode'] != 'shuffle')
+					return;
+				else
+					next = window['playlist'].length - 1;
 			}
 			// console.log('ended', window['playlist']);
 			setTimeout(function() {
