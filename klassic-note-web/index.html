@@ -78,11 +78,11 @@
 		<a id="autoplay" title="Toggle Autoplay" class="autoplay material-icons" href="javascript:void(0);" onclick="toggleAutoplay()">music_note</a>
 		<a id="darkmode" title="Toggle Dark Mode" class="darkmode material-icons" href="javascript:void(0);">brightness_high</a>
 		<span style="border-left: 3px solid; padding: 0 3px;"></span>
-		<a id="queue-random-song" title="Toggle Playlist" class="material-icons" href="javascript:void(0);" onclick="showContextMenu()" context="playlist">queue_music</a>
-		<a id="queue-random-selection" title="Queue Song(s)" class="material-icons" href="javascript:void(0);" onclick="randomSong(true)">playlist_add</a>
+		<a id="queue-random-song" title="Toggle Playlist" class="material-icons" href="javascript:void(0);" onclick="showContextMenu()" context="playlist">format_list_bulleted</a>
+		<a id="queue-random-selection" title="Queue Song" class="material-icons" href="javascript:void(0);" data-count="1" onclick="randomSong(this)" oncontextmenu="changeRandomMode(this)">replay</a>
 		<span class="absolute">
-			<a id="queue-skip" title="Next Song" class="material-icons" href="javascript:void(0);" onclick="skipSong()">playlist_play</a>
-			<a id="queue-clear" title="Clear Queue" class="material-icons" href="javascript:void(0);" onclick="clearSearch()">playlist_remove</a>
+			<a id="queue-skip" title="Next Song" class="material-icons" href="javascript:void(0);" onclick="skipSong()">play_circle_outline</a>
+			<a id="queue-clear" title="Clear Queue" class="material-icons" href="javascript:void(0);" onclick="clearSearch()">clear</a>
 			<span id="random-count"></span>
 		</span>
 		<div class="spacer"> </div>

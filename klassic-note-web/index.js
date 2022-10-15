@@ -68,7 +68,8 @@ function setKeyUp() {
 		window['ctrled'] = false;
 	}
 	// up: increases volume of player
-	if (event.keyCode === 38 && document.querySelector('#player').volume < 1) {
+	if (event.keyCode === 38 && document.querySelector('#player') != null 
+	&& document.querySelector('#player').volume < 1) {
 		event.preventDefault();
 		let player = document.querySelector('#player');
 		player.volume = player.volume + 0.1;
@@ -76,7 +77,8 @@ function setKeyUp() {
 			player.volume = 1;
 	}
 	// down: decreases volume of player
-	if (event.keyCode === 40 && document.querySelector('#player').volume > 0) {
+	if (event.keyCode === 40 && document.querySelector('#player') != null 
+	&& document.querySelector('#player').volume > 0) {
 		event.preventDefault();
 		let player = document.querySelector('#player');
 		player.volume = player.volume - 0.1;
@@ -234,7 +236,7 @@ function toggleAutoplay() {
 	document.querySelector('.autoplay').innerText = window['autoplay-select'] ? 'music_note' : 'music_off';
 }
 
-function randomSong(onSelect) {
+function randomSong(mode) {
 	event.preventDefault();	
 	// document.querySelector('#search').value = '';
 	
@@ -246,29 +248,29 @@ function randomSong(onSelect) {
 	}
 	
 	let content = Array.from(document.querySelectorAll('#options option')).filter(c => c.value > 0).map(val => val.value);
-	let toQueue = window['shifted'] ? 10 : 1;
+	let toQueue = parseInt(event.target.getAttribute('data-count')); //window['shifted'] ? 10 : 1;
 	//queue from options disabled for now, TODO
 	// if(onSelect && content.length == 1) {
-		onSelect = false;
+		// onSelect = false;
 	// };
 	
-	if(onSelect)
-	{
-		let random = '0';
-		while (toQueue > 0) {
-			random = content[Math.floor((Math.random() * total))].toString();
-			if(window['playlist'].indexOf(random) < 0)
-			{
-				window['playlist'].push(random);
-				toQueue--;
-			}
-		};
+	// if(onSelect)
+	// {
+		// let random = '0';
+		// while (toQueue > 0) {
+			// random = content[Math.floor((Math.random() * total))].toString();
+			// if(window['playlist'].indexOf(random) < 0)
+			// {
+				// window['playlist'].push(random);
+				// toQueue--;
+			// }
+		// };
 		
-		if(debugMode) console.log('playlist',window['playlist']);
-		updateQueueButtons();
-	}
-	else
-	{
+		// if(debugMode) console.log('playlist',window['playlist']);
+		// updateQueueButtons();
+	// }
+	// else
+	// {
 		queryDb(query, function(content) {
 			let total = content.values[0][0];			
 			let random = '0';
@@ -283,8 +285,26 @@ function randomSong(onSelect) {
 			if(debugMode) console.log('playlist', window['playlist']);
 			updateQueueButtons();
 		});
-	}	
+	// }	
 };
+
+function changeRandomMode() {
+	event.preventDefault();
+	switch (parseInt(event.target.getAttribute('data-count')))
+	{
+		case 1:
+			event.target.setAttribute('data-count', 10);
+			event.target.innerText = 'replay_10';
+			event.target.title = 'Queue Songs';
+			break;
+		default:
+			event.target.setAttribute('data-count', 1);
+			event.target.innerText = 'replay';
+			event.target.title = 'Queue Song';
+			break;
+	}
+	return false;
+}
 
 function queueSongs(ids) {
 	window['playlist'] = ids;
@@ -317,7 +337,8 @@ function updateQueue(next) {
 }
 
 function updateQueueButtons() {
-	document.querySelector('#queue-skip').style.display = window['playing'] != null || window['playing'] < window['playlist'].length - 1 ? '' : 'none';
+	let playing = document.querySelector('#player') != null ? document.querySelector('#player').getAttribute('data-id') : 0;
+	document.querySelector('#queue-skip').style.display = playing != window['playlist'][window['playlist'].length - 1] ? '' : 'none';
 	document.querySelector('#queue-clear').style.display = window['playlist'].length > 0 ? '' : 'none';	
 }
 
