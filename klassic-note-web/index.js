@@ -758,16 +758,20 @@ function generateTableList(contents, parameters) {
 	if(rows.length < 1) return;
 	
 	//header
+	let headerDiv = document.createElement('div');
+	if(actionTitle != null && actionTitle.length > 0)
+		headerDiv.style.height = '1.5em';
+	
 	let header = document.createElement('h4');
 	header.classList.add('centered');
 	header.innerText = title;
-	document.getElementById(id).appendChild(header);	
+	headerDiv.appendChild(header);
 	
 	if(actionTitle != null && actionTitle.length > 0)
 	{
-		document.getElementById(id).style.position = 'relative';
-		document.getElementById(id).style.maxWidth = '680px';
-		document.getElementById(id).style.margin = 'auto';
+		headerDiv.style.position = 'relative';
+		headerDiv.style.maxWidth = '680px';
+		headerDiv.style.margin = 'auto';
 		let action = document.createElement('h6');
 		action.classList.add('centered');
 		action.classList.add('action');
@@ -776,9 +780,11 @@ function generateTableList(contents, parameters) {
 		if(actionFunc != null && typeof actionFunc == 'function')
 			action.addEventListener('click', actionFunc);
 		
-		if(document.querySelector('#' + id + ' .action') == null)
-			document.getElementById(id).appendChild(action);
+		// if(document.querySelector('#' + id + ' .action') == null)
+			headerDiv.appendChild(action);
 	}
+	
+	document.getElementById(id).appendChild(headerDiv);
 	
 	//table
 	let container = document.createElement('div');
@@ -849,19 +855,20 @@ function generateTableByDataWithHeader(contents, parameters) {
 	let rows = contents.values;
 	if(contents.length == 0) return;
 	
-	if(!skipTitle)
-	{
-		let header = document.createElement('h4');
-		header.classList.add('centered');
-		header.innerText = title;
-		document.getElementById(id).appendChild(header);
-	}
+	let headerDiv = document.createElement('div');
+	if(!skipTitle || (actionTitle != null && actionTitle.length > 0))
+		headerDiv.style.height = '1.5em';
+	
+	let header = document.createElement('h4');
+	header.classList.add('centered');
+	header.innerText = skipTitle ? '' : title;
+	headerDiv.appendChild(header);
 	
 	if(actionTitle != null && actionTitle.length > 0)
 	{
-		document.getElementById(id).style.position = 'relative';
-		document.getElementById(id).style.maxWidth = '680px';
-		document.getElementById(id).style.margin = 'auto';
+		headerDiv.style.position = 'relative';
+		headerDiv.style.maxWidth = '680px';
+		headerDiv.style.margin = 'auto';
 		let action = document.createElement('h6');
 		action.classList.add('centered');
 		action.classList.add('action');
@@ -870,12 +877,13 @@ function generateTableByDataWithHeader(contents, parameters) {
 		if(actionFunc != null && typeof actionFunc == 'function')
 			action.addEventListener('click', actionFunc);
 		
-		if(document.querySelector('#' + id + ' .action') == null)
-			document.getElementById(id).appendChild(action);
+		// if(document.querySelector('#' + id + ' .action') == null)
+			headerDiv.appendChild(action);
 	}
 	
+	document.getElementById(id).appendChild(headerDiv);
+	
 	let table = document.createElement('table');
-	// table.id = 'table';
 	table.classList.add('list');
 	table.classList.add('centered');
 	if(centerContent) table.classList.add('centered-text');
@@ -1932,7 +1940,8 @@ function generateRanking(contents) {
 		iconTooltip: null,
 		actionTitle: 'Play All',
 		actionFunc: function() {
-			let rows = this.parentElement.querySelectorAll('tr');
+			let table = this.parentElement.nextSibling;
+			let rows = table.querySelectorAll('tr');
 			let ids = Array.from(rows).reduce(function (all, current) {
 				let id = current.getAttribute('data-id');
 				if(id != null)
@@ -2004,16 +2013,17 @@ function generateCompilations(contents) {
 	let rows = contents.values;
 	if(contents.length == 0) return;
 	
-	let header = document.createElement('h4');
-	header.classList.add('centered');
-	header.innerText = 'Compilations';
-	document.getElementById('song-compilation').appendChild(header);
+	// let header = document.createElement('h4');
+	// header.classList.add('centered');
+	// header.innerText = 'Compilations';
+	// document.getElementById('song-compilation').appendChild(header);
 	
 	let columnIndexKNID = contents.columns.indexOf('KNID');
 	let columnIndexCompilationTitle = contents.columns.indexOf('CompilationTitle');
 	let compilationTitles = rows.map(s => s[columnIndexCompilationTitle]).filter((sa, ind, arr) => arr.indexOf(sa) == ind);
 	if(debugMode) console.log('compilationTitles', compilationTitles);
 	
+	let index = 0;
 	for(let compilationTitle of compilationTitles)
 	{
 		let compilationRows = rows.filter(r => r[columnIndexCompilationTitle] == compilationTitle);
@@ -2024,14 +2034,27 @@ function generateCompilations(contents) {
 			id: 'song-compilation', 
 			skipClear: true, 
 			title: 'Compilations', 
-			skipTitle: true, 
+			skipTitle: index > 0, 
 			skipColumns: ['CompilationTitle', 'KNID', 'KNYEAR'],
 			dataId: 'KNID',
 			groupColumn: 'Track #', 
 			titleFormat: ['KNYEAR', 'CompilationTitle'],
+			actionTitle: 'Play All',
+			actionFunc: function() {
+				let table = this.parentElement.nextSibling;
+				let rows = table.querySelectorAll('tr');
+				let ids = Array.from(rows).reduce(function (all, current) {
+					let id = current.getAttribute('data-id');
+					if(id != null)
+						all.push(id);
+					return all;
+				},[]);
+				queueSongs(ids);
+			},
 			});
 		
 		document.getElementById('song-compilation').appendChild(document.createElement('br'));
+		index++;
 	}
 }
 
