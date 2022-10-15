@@ -63,6 +63,7 @@ let score = 0;
 let startTime;
 function render()
 {
+	if(localStorage.getItem('mode') == null) localStorage.setItem('mode', 'By Name');
 	if(localStorage.getItem('mode') == 'By Name') renderQuiz(true);
 	if(localStorage.getItem('mode') == 'By Attributes') renderWordle(true);
 }
