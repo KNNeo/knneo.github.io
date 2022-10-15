@@ -232,14 +232,14 @@ var TimeKnots = {
       }
 	  var labelMargin = 25;
       svg.append("text")
-         .text(startString).style("font-size", "70%").style("fill", "white").style("font-family", "Open Sans")
+         .text(startString).attr("class", "timeline-text")
 		 .attr("x", labelMargin/4)
 		 .attr("y", cfg.height/2 + labelMargin);
          //.attr("x", function(d){if(cfg.horizontalLayout){return d3.max([0, (margin-this.getBBox().width/2)])} return Math.floor(this.getBBox().width/2)})
          //.attr("y", function(d){if(cfg.horizontalLayout){return Math.floor(cfg.height/2+(margin+this.getBBox().height))}return margin+this.getBBox().height/2+10});
 
       svg.append("text")
-         .text(endString).style("font-size", "70%").style("fill", "white").style("font-family", "Open Sans")
+         .text(endString).attr("class", "timeline-text")
 		 .attr("x", cfg.width - labelMargin*2)
 		 .attr("y", cfg.height/2 + labelMargin)
          //.attr("x", function(d){if(cfg.horizontalLayout){return  cfg.width-20 -  d3.max([this.getBBox().width, (margin+this.getBBox().width/2)])} return Math.floor(this.getBBox().width/2)})

@@ -238,6 +238,10 @@ a, button {
 	margin: auto;
 	display: flex;
 }
+.timeline-text {
+	font-size: 80%;
+	fill: var(--foreground);
+}
 
 /*CUSTOMIZE CALENDAR CATEGORY LABELS*/
 .color-profile {

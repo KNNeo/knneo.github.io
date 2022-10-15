@@ -236,16 +236,28 @@ function loadTimeline(width = 2500) {
 		showLabels: true,
 		labelFormat: '%Y'
 	});
-	adjustKnots(20);
+	adjustKnots(20, width);
 	addTimelineEvents();
 }
 
-function adjustKnots(knotSize) {
-	//to shift position of knots if overlap with previous
+function adjustKnots(knotSize, maxValue) {
 	let circleList = document.querySelectorAll('circle');
-	for (let i = 0; i < circleList.length - 1; i++) {
+	for (let i = 0; i < circleList.length; i++) {
 		let oldCX = parseInt(circleList[i].getAttribute('cx'));
-		if (circleList[i + 1].getAttribute('cx') - oldCX <= knotSize) circleList[i + 1].setAttribute('cx', oldCX + knotSize);
+		//shift position of next knot to the right if overlap with previous
+		if (i + 1 < circleList.length && circleList[i + 1].getAttribute('cx') - oldCX <= knotSize)
+			circleList[i + 1].setAttribute('cx', oldCX + knotSize);
+		// shift position of previous knot to the left, shift back current knot into timeline if exceed timeline dimension
+		if (oldCX + (1.5*knotSize) >= maxValue)
+		{
+			circleList[i].setAttribute('cx', circleList[i].getAttribute('cx') - knotSize);
+			for (let j = i; i > 0; j--) {
+				if(circleList[j].getAttribute('cx') - circleList[j - 1].getAttribute('cx') <= knotSize)
+					circleList[j - 1].setAttribute('cx', circleList[j - 1].getAttribute('cx') - knotSize);
+				else
+					break;
+			}
+		}
 	}
 }
 
