@@ -76,6 +76,10 @@ body {
 	z-index: -1;
 }
 
+#queue-options {
+	height: 2em;
+}
+
 .overlay-background {
     filter: opacity(50%);
     background-repeat: no-repeat;
