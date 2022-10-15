@@ -79,10 +79,16 @@
 		<a id="darkmode" title="Toggle Dark Mode" class="darkmode material-icons" href="javascript:void(0);">brightness_high</a>
 		<span style="border-left: 3px solid; padding: 0 3px;"></span>
 		<a id="queue-random-song" title="Toggle Queue" class="material-icons" href="javascript:void(0);" onclick="showContextMenu()" context="playlist">format_list_bulleted</a>
-		<a id="queue-random-selection" title="Queue Song" class="material-icons" href="javascript:void(0);" data-count="1" onclick="randomSong(this)" oncontextmenu="changeRandomMode(this)">replay</a>
-		<span class="absolute">
+		<a id="queue-mode" title="Switch to Shuffle Mode" class="material-icons" href="javascript:void(0);" data-mode="queue" onclick="changeQueueMode()">shuffle</a>
+		<span class="controls">
+			<a id="queue-random-selection" title="Queue Song" class="material-icons" href="javascript:void(0);" data-count="1" onclick="randomSong(this)" oncontextmenu="changeRandomMode(this)">replay</a>
 			<a id="queue-skip" title="Next Song" class="material-icons" href="javascript:void(0);" onclick="skipSong()">play_circle_outline</a>
 			<a id="queue-clear" title="Clear Queue" class="material-icons" href="javascript:void(0);" onclick="clearSearch()">clear</a>
+			<span id="random-count"></span>
+			<select id="queue-options">
+				<option value="artist">Same Artist</option>
+				<option value="release">Same Release</option>
+			</select>
 			<span id="random-count"></span>
 		</span>
 		<div class="spacer"> </div>

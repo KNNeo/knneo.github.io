@@ -248,7 +248,7 @@ function randomSong(mode) {
 	}
 	
 	let content = Array.from(document.querySelectorAll('#options option')).filter(c => c.value > 0).map(val => val.value);
-	let toQueue = parseInt(event.target.getAttribute('data-count')); //window['shifted'] ? 10 : 1;
+	let toQueue = parseInt(event.target.getAttribute('data-count')) || 1; //window['shifted'] ? 10 : 1;
 	//queue from options disabled for now, TODO
 	// if(onSelect && content.length == 1) {
 		// onSelect = false;
@@ -271,21 +271,21 @@ function randomSong(mode) {
 	// }
 	// else
 	// {
-		queryDb(query, function(content) {
-			let total = content.values[0][0];			
-			let random = '0';
-			do {
-				random = Math.floor((Math.random() * total)).toString();
-				if(window['playlist'].indexOf(random) < 0)
-				{
-					window['playlist'].push(random);
-					toQueue--;
-				}
-			} while (toQueue > 0);
-			if(debugMode) console.log('playlist', window['playlist']);
-			updateQueueButtons();
-		});
-	// }	
+	// }
+	queryDb(query, function(content) {
+		let total = content.values[0][0];			
+		let random = '0';
+		do {
+			random = Math.floor((Math.random() * total)).toString();
+			if(window['playlist'].indexOf(random) < 0)
+			{
+				window['playlist'].push(random);
+				toQueue--;
+			}
+		} while (toQueue > 0);
+		if(debugMode) console.log('playlist', window['playlist']);
+		updateQueueButtons();
+	});
 };
 
 function changeRandomMode() {
@@ -306,6 +306,24 @@ function changeRandomMode() {
 	return false;
 }
 
+function changeQueueMode() {
+	switch (event.target.getAttribute('data-mode'))
+	{
+		case 'shuffle':
+			event.target.setAttribute('data-mode', 'queue');
+			event.target.title = 'Switch to Shuffle Mode';
+			event.target.innerText = 'shuffle';
+			break;
+		default:
+			event.target.setAttribute('data-mode', 'shuffle');
+			event.target.title = 'Switch to Queue Mode';
+			event.target.innerText = 'shuffle_on';
+			break;
+	}
+	window['queue-mode'] = event.target.getAttribute('data-mode');
+	return updateQueueButtons();
+}
+
 function queueSongs(ids) {
 	window['playlist'] = ids;
 	if(!window['autoplay-select']) document.querySelector('.autoplay').click();
@@ -314,6 +332,11 @@ function queueSongs(ids) {
 
 function skipSong() {
 	if(window['playing'] == null) window['playing'] = 0;
+	if(window['playlist'] == null || window['playlist'].length == 0)
+	{
+		randomSong();
+		// return;
+	}
 	if(document.querySelector('#player') == null)
 	{
 		let optQuery = "SELECT * FROM Song WHERE KNID = ";
@@ -321,9 +344,38 @@ function skipSong() {
 		if(debugMode) console.log('optQuery', optQuery);
 		queryDb(optQuery, updateOptions);
 	}
-	else// if(document.querySelector('#random-count').innerText.length > 0)
+	else 
+	{
+		if(window['queue-mode'] == 'shuffle')
+		{
+			let nextOption = document.querySelector('#queue-options').value;
+			let query = "SELECT KNID FROM Song WHERE KNID <> " + window['song-id'];
+			if(nextOption == 'artist') query += " AND ArtistID = " + window['artist-id'] + "";
+			if(nextOption == 'release') query += " AND ReleaseID = " + window['release-id'] + "";
+			queryDb(query, function(content) {
+				console.log(content.values);
+				let total = content.values.length;
+				if(total == 0 || (total == 1 && window['playlist'].indexOf(content.values[0][0].toString()) >= 0))
+				{
+					randomSong();
+					return;
+				}
+				let toQueue = 1;
+				let random = '0';
+				do {
+					random = content.values[Math.floor((Math.random() * total))][0].toString();
+					if(window['playlist'].indexOf(random) < 0)
+					{
+						window['playlist'].push(random);
+						toQueue--;
+					}
+				} while (toQueue > 0);
+				if(debugMode) console.log('playlist', window['playlist']);
+				updateQueueButtons();
+			});
+		}
 		document.querySelector('#player').dispatchEvent(new Event('ended'));
-	// updateQueue();
+	}
 }
 
 function updateQueue(next) {
@@ -338,8 +390,21 @@ function updateQueue(next) {
 
 function updateQueueButtons() {
 	let playing = document.querySelector('#player') != null ? document.querySelector('#player').getAttribute('data-id') : 0;
-	document.querySelector('#queue-skip').style.display = playing != window['playlist'][window['playlist'].length - 1] ? '' : 'none';
-	document.querySelector('#queue-clear').style.display = window['playlist'].length > 0 ? '' : 'none';	
+	let mode = document.querySelector('#queue-mode').getAttribute('data-mode');
+	if(mode == 'queue')
+	{
+		document.querySelector('#queue-random-selection').style.display = '';	
+		document.querySelector('#queue-skip').style.display = window['playlist'].length > 0 && playing != window['playlist'][window['playlist'].length - 1] ? '' : 'none';
+		document.querySelector('#queue-clear').style.display = window['playlist'].length > 0 ? '' : 'none';	
+		document.querySelector('#queue-options').style.display = 'none';	
+	}
+	if(mode == 'shuffle')
+	{
+		document.querySelector('#queue-random-selection').style.display = 'none';	
+		document.querySelector('#queue-skip').style.display = '';
+		document.querySelector('#queue-clear').style.display = 'none';	
+		document.querySelector('#queue-options').style.display = '';	
+	}
 }
 
 function clearQueue() {
@@ -401,8 +466,8 @@ function queryDb(query, callback) {
 
 function startup() {
 	setInput();
-	renderSettings();
 	renderVariables();
+	renderSettings();
 	renderTitle();
 	generateFilters();
 	runLoader();
@@ -412,9 +477,8 @@ function startup() {
 }
 
 function renderSettings() {
-	document.querySelector('#queue-skip').style.display = 'none';
-	document.querySelector('#queue-clear').style.display = 'none';
 	document.querySelector('.autoplay').innerText = window['autoplay-select'] ? 'music_note' : 'music_off';
+	updateQueueButtons();
 }
 
 function renderVariables() {
@@ -422,10 +486,13 @@ function renderVariables() {
 	window['autoplay-select'] = autoplayOnSelect;
 	window['db'] = null;
 	window['playlist'] = [];
+	window['queue-mode'] = 'queue';
 	window['mode'] = 'song';
 	window['playing'] = null;
 	window['loading'] = true;
 	window['title'] = defaultTitle;
+	window['release-id'] = 0;
+	window['artist-id'] = 0;
 }
 
 function renderTitle() {
@@ -487,12 +554,12 @@ function querySelect() {
 	if(debugMode) console.log('querySelect', this.value);
 	
 	searchFields = ['ArtistTitle'].join(" || ");
-	query += "SELECT MIN(ArtistID) AS KNID, '' AS KNYEAR, '' AS SongTitle, ArtistTitle FROM Artist WHERE TRUE "
+	query += "SELECT MIN(ArtistID) AS KNID, '' AS KNYEAR, '' AS SongTitle, ArtistTitle, ArtistID FROM Artist WHERE TRUE "
 	query += addQuotationInSQLString(this.value).split(' ').map(v => "AND " + searchFields + " LIKE '%" + v + "%'").join('');
 	query += " GROUP BY ArtistTitle UNION ALL ";
 	
 	searchFields = ['SongTitle','ArtistTitle','KNYEAR'].join(" || ");
-	query += "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song WHERE TRUE ";
+	query += "SELECT KNID, KNYEAR, SongTitle, ArtistTitle, ArtistID, ReleaseID FROM Song WHERE TRUE ";
 	query += addQuotationInSQLString(this.value).split(' ').map(v => "AND " + searchFields + " LIKE '%" + v + "%'").join('');
 	
 	if(debugMode) console.log('querySelect', query);
@@ -1178,6 +1245,7 @@ function generateModules(contents) {
 	generateTabs();
 	setTabs();
 	scrollToTop();
+	updateQueue();
 	updateQueueButtons();
 	
 	for(let selected of document.getElementsByClassName('not-selectable'))
@@ -1192,10 +1260,15 @@ function updateSearch(contents) {
 	let columnIndexKNID = contents.columns.indexOf('ID');
 	let columnIndexSongTitle = contents.columns.indexOf('Song Title');
 	let columnIndexArtistTitle = contents.columns.indexOf('Artist Title');
+	let columnIndexArtistID = contents.columns.indexOf('ArtistID');
+	let columnIndexReleaseID = contents.columns.indexOf('ReleaseID');
 	
 	if(window['mode'] == 'song')
 	{
 		document.querySelector('#search').value = row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle];
+		window['artist-id'] = row[columnIndexArtistID];
+		window['release-id'] = row[columnIndexReleaseID];
+		window['song-id'] = row[columnIndexKNID];
 		
 		let recent = localStorage.getItem('recent');
 		recent = (recent == null || recent.length == 0) ? JSON.parse('[]') : JSON.parse(recent);
@@ -1273,6 +1346,7 @@ function generatePlayer(contents) {
 			if(next >= window['playlist'].length)
 			{
 				console.log('End of playlist reached');
+				if(window['queue-mode'] == 'shuffle') skipSong();
 				return;
 			}
 			// console.log('ended', window['playlist']);
@@ -2376,6 +2450,7 @@ function updateSong() {
 	let query = "SELECT * FROM Song WHERE KNID = " + id;
 	if(debugMode) console.log('updateSong', query);
 	queryDb(query, updateOptions);
+	window['playlist'].push(id.toString());
 }
 
 function updateYear() {
