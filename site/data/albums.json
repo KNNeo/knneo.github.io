@@ -94,6 +94,114 @@
 								}
 							]
 						}
+					},
+					{
+						"tooltip": "tacica - aranami [Single]",
+						"thumbnail": "https://st.cdjapan.co.jp/pictures/l/05/39/SECL-2566.jpg",
+						"source": "https://st.cdjapan.co.jp/pictures/l/05/39/SECL-2566.jpg",
+						"grid": {
+							"type": "grid",
+							"columns": 2,
+							"rows": 6,
+							"componentData": [
+								{
+									"columns": 2
+								},
+								{
+									"type": "image",
+									"rows": 4,
+									"tooltip": "",
+									"source": "https://st.cdjapan.co.jp/pictures/l/05/39/SECL-2566.jpg",
+									"link": "https://knneo.github.io/blogspot/blog/2020/06/the-klassic-note-review-202006-issue-1.html"
+								},
+								{
+									"type": "title",
+									"rows": 2,
+									"prefix": "RELEASED 2020.06.03",
+									"title": "aranami",
+									"suffix": "tacica"
+								},
+								{
+									"type": "title",
+									"rows": 2,
+									"prefix": "TRACKLIST",
+									"title": "",
+									"suffix": "1. aranami\n2. Zouge no Tou"
+								}
+							]
+						}
+					},
+					{
+						"tooltip": "Minase Inori - Kokoro Somari [Single]",
+						"thumbnail": "https://st.cdjapan.co.jp/pictures/l/08/29/KICM-2029.jpg",
+						"source": "https://st.cdjapan.co.jp/pictures/l/08/29/KICM-2029.jpg",
+						"grid": {
+							"type": "grid",
+							"columns": 2,
+							"rows": 6,
+							"componentData": [
+								{
+									"columns": 2
+								},
+								{
+									"type": "image",
+									"rows": 4,
+									"tooltip": "",
+									"source": "https://st.cdjapan.co.jp/pictures/l/08/29/KICM-2029.jpg",
+									"link": "https://knneo.github.io/blogspot/blog/2020/08/the-klassic-note-review-202008-issue-1.html"
+								},
+								{
+									"type": "title",
+									"rows": 2,
+									"prefix": "RELEASED 2020.02.05",
+									"title": "Kokoro Somari",
+									"suffix": "Minase Inori"
+								},
+								{
+									"type": "title",
+									"rows": 2,
+									"prefix": "TRACKLIST",
+									"title": "",
+									"suffix": "1. Kokoro Somari\n2. Bokura wa Ima\n3. Well Wishing Word"
+								}
+							]
+						}
+					},
+					{
+						"tooltip": "Earphones - churata churaha [Single]",
+						"thumbnail": "https://kingeshop.jp/img/goods/L/KICM-1955.jpg",
+						"source": "hhttps://kingeshop.jp/img/goods/L/KICM-1955.jpg",
+						"grid": {
+							"type": "grid",
+							"columns": 2,
+							"rows": 6,
+							"componentData": [
+								{
+									"columns": 2
+								},
+								{
+									"type": "image",
+									"rows": 4,
+									"tooltip": "",
+									"source": "https://kingeshop.jp/img/goods/L/KICM-1955.jpg",
+									"link": "https://knneo.github.io/blogspot/blog/2020/08/the-klassic-note-review-202008-issue-1.html"
+								},
+								{
+									"type": "title",
+									"rows": 2,
+									"prefix": "RELEASED 2019.07.03",
+									"title": "churata churaha",
+									"suffix": "Earphones"
+								},
+								{
+									"type": "title",
+									"rows": 2,
+									"prefix": "TRACKLIST",
+									"title": "",
+									"suffix": "1. churata churaha\n2. Wagamama na Allegory"
+								}
+							]
+						}
 					}
 				]
 			}
