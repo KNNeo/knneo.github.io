@@ -10,6 +10,64 @@
 		"columns": 1,
 		"rows": 4,
 		"image": "",
+		"text": "2020",
+		"componentData": [
+			{
+				"type": "title",
+				"prefix": "",
+				"title": "2020",
+				"suffix": ""
+			},
+			{
+				"type": "gallery",
+				"size": "lg",
+				"rows": 3,
+				"datas": [
+					{
+						"tooltip": "Liyuu - Magic Words [Single]",
+						"thumbnail": "https://st.cdjapan.co.jp/pictures/l/03/45/LACM-14927.jpg",
+						"source": "https://st.cdjapan.co.jp/pictures/l/03/45/LACM-14927.jpg",
+						"grid": {
+							"type": "grid",
+							"columns": 2,
+							"rows": 6,
+							"componentData": [
+								{
+									"columns": 2
+								},
+								{
+									"type": "image",
+									"rows": 4,
+									"tooltip": "",
+									"source": "https://st.cdjapan.co.jp/pictures/l/03/45/LACM-14927.jpg",
+									"link": "https://knneo.github.io/blogspot/blog/2020/02/the-klassic-note-review-202002-issue-1.html"
+								},
+								{
+									"type": "title",
+									"rows": 2,
+									"prefix": "RELEASED 2020.01.22",
+									"title": "Magic Words",
+									"suffix": "Liyuu"
+								},
+								{
+									"type": "title",
+									"rows": 2,
+									"prefix": "TRACKLIST",
+									"title": "",
+									"suffix": "1. Magic Words\n2. Mahou to Gum to Yuuki"
+								}
+							]
+						}
+					}
+				]
+			}
+		]
+	},
+	{
+		"type": "grid",
+		"columns": 1,
+		"rows": 4,
+		"image": "",
 		"text": "2021",
 		"componentData": [
 			{
