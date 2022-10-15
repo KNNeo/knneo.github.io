@@ -21,7 +21,7 @@
 			{
 				"type": "gallery",
 				"size": "lg",
-				"rows": 3,
+				"rows": 2,
 				"datas": [
 					{
 						"tooltip": "Liyuu - Magic Words [Single]",
@@ -58,6 +58,42 @@
 								}
 							]
 						}
+					},
+					{
+						"tooltip": "SID - delete [Single]",
+						"thumbnail": "https://st.cdjapan.co.jp/pictures/l/00/19/KSCL-3237.jpg",
+						"source": "https://st.cdjapan.co.jp/pictures/l/00/19/KSCL-3237.jpg",
+						"grid": {
+							"type": "grid",
+							"columns": 2,
+							"rows": 6,
+							"componentData": [
+								{
+									"columns": 2
+								},
+								{
+									"type": "image",
+									"rows": 4,
+									"tooltip": "",
+									"source": "https://st.cdjapan.co.jp/pictures/l/00/19/KSCL-3237.jpg",
+									"link": "https://knneo.github.io/blogspot/blog/2020/03/the-klassic-note-review-202003-issue-1.html"
+								},
+								{
+									"type": "title",
+									"rows": 2,
+									"prefix": "RELEASED 2020.03.04",
+									"title": "delete",
+									"suffix": "SID"
+								},
+								{
+									"type": "title",
+									"rows": 2,
+									"prefix": "TRACKLIST",
+									"title": "",
+									"suffix": "1. delete"
+								}
+							]
+						}
 					}
 				]
 			}
@@ -82,7 +118,7 @@
 				"rows": 3,
 				"datas": [
 					{
-						"tooltip": "",
+						"tooltip": "Kouno Marika - Yume Mitai, Demo Yume Janai [Single]",
 						"thumbnail": "https://columbia.jp/kohnomarika/images/COCC-17858.jpg",
 						"source": "https://columbia.jp/kohnomarika/images/COCC-17858.jpg",
 						"grid": {
@@ -118,7 +154,7 @@
 						}
 					},
 					{
-						"tooltip": "",
+						"tooltip": "SCANDAL - eternal [Single]",
 						"thumbnail": "https://scandal-4.sakura.ne.jp/scandal/wp-content/uploads/2021/01/unnamed.jpg",
 						"source": "https://scandal-4.sakura.ne.jp/scandal/wp-content/uploads/2021/01/unnamed.jpg",
 						"grid": {
@@ -154,7 +190,7 @@
 						}
 					},
 					{
-						"tooltip": "",
+						"tooltip": "SCANDAL - Ivory [Single]",
 						"thumbnail": "https://scandal-4.sakura.ne.jp/scandal/wp-content/uploads/2021/05/CD-1024x1024.jpg",
 						"source": "https://scandal-4.sakura.ne.jp/scandal/wp-content/uploads/2021/05/CD-1024x1024.jpg",
 						"grid": {
@@ -190,7 +226,7 @@
 						}
 					},
 					{
-						"tooltip": "",
+						"tooltip": "Taketatsu Ayana - Shuumatsu Cinderella [Single]",
 						"thumbnail": "https://ayanataketatsu.jp/images/disc/008/j_02.jpg",
 						"source": "https://ayanataketatsu.jp/images/disc/008/j_02.jpg",
 						"grid": {
@@ -226,7 +262,7 @@
 						}
 					},
 					{
-						"tooltip": "",
+						"tooltip": "Kitri - Hikare Inochi [Single]",
 						"thumbnail": "https://st.cdjapan.co.jp/pictures/l/01/40/COCA-17926.jpg",
 						"source": "https://st.cdjapan.co.jp/pictures/l/01/40/COCA-17926.jpg",
 						"grid": {
@@ -284,7 +320,7 @@
 				"rows": 3,
 				"datas": [
 					{
-						"tooltip": "",
+						"tooltip": "Amamiya Sora - VIPER [Single]",
 						"thumbnail": "https://st.cdjapan.co.jp/pictures/l/13/12/SMCL-606.jpg",
 						"source": "https://st.cdjapan.co.jp/pictures/l/13/12/SMCL-606.jpg",
 						"grid": {
@@ -320,7 +356,7 @@
 						}
 					},
 					{
-						"tooltip": "",
+						"tooltip": "Ryokuoushoku Shakai - LITMUS [Single]",
 						"thumbnail": "https://st.cdjapan.co.jp/pictures/l/03/33/ESCL-5548.jpg",
 						"source": "https://st.cdjapan.co.jp/pictures/l/03/33/ESCL-5548.jpg",
 						"grid": {
@@ -356,7 +392,7 @@
 						}
 					},
 					{
-						"tooltip": "",
+						"tooltip": "SHE'S - Blue Thermal [Single]",
 						"thumbnail": "https://st.cdjapan.co.jp/pictures/l/00/20/TYCT-30128.jpg",
 						"source": "https://st.cdjapan.co.jp/pictures/l/00/20/TYCT-30128.jpg",
 						"grid": {
@@ -392,7 +428,7 @@
 						}
 					},
 					{
-						"tooltip": "",
+						"tooltip": "ASIAN KUNG-FU GENERATION - Empathy [Single]",
 						"thumbnail": "https://st.cdjapan.co.jp/pictures/l/00/18/KSCL-3308.jpg",
 						"source": "https://st.cdjapan.co.jp/pictures/l/00/18/KSCL-3308.jpg",
 						"grid": {
@@ -428,7 +464,7 @@
 						}
 					},
 					{
-						"tooltip": "",
+						"tooltip": "Itou Miku - Ao 100 Shoku [Single]",
 						"thumbnail": "https://st.cdjapan.co.jp/pictures/l/04/25/COCC-17970.jpg",
 						"source": "https://st.cdjapan.co.jp/pictures/l/04/25/COCC-17970.jpg",
 						"grid": {
@@ -464,7 +500,7 @@
 						}
 					},
 					{
-						"tooltip": "",
+						"tooltip": "Suzuki Masayuki - GIRI GIRI feat. Suu [Single]",
 						"thumbnail": "https://st.cdjapan.co.jp/pictures/l/03/35/ESCL-5662.jpg",
 						"source": "https://st.cdjapan.co.jp/pictures/l/03/35/ESCL-5662.jpg",
 						"grid": {
@@ -500,7 +536,7 @@
 						}
 					},
 					{
-						"tooltip": "",
+						"tooltip": "Suzuki Airi - Heart wa Oteage [Single]",
 						"thumbnail": "https://st.cdjapan.co.jp/pictures/l/03/40/ESCL-5659.jpg",
 						"source": "https://st.cdjapan.co.jp/pictures/l/03/40/ESCL-5659.jpg",
 						"grid": {
@@ -536,7 +572,7 @@
 						}
 					},
 					{
-						"tooltip": "",
+						"tooltip": "CHiCO with HoneyWorks meets Mafumafu - Bibitto Love [Single]",
 						"thumbnail": "https://st.cdjapan.co.jp/pictures/l/13/28/SMCL-766.jpg",
 						"source": "https://st.cdjapan.co.jp/pictures/l/13/28/SMCL-766.jpg",
 						"grid": {
@@ -572,7 +608,7 @@
 						}
 					},
 					{
-						"tooltip": "",
+						"tooltip": "nasuo - Honey Jetcoaster [Single]",
 						"thumbnail": "https://st.cdjapan.co.jp/pictures/l/13/42/GNCA-674.jpg",
 						"source": "https://st.cdjapan.co.jp/pictures/l/13/42/GNCA-674.jpg",
 						"grid": {
@@ -608,7 +644,7 @@
 						}
 					},
 					{
-						"tooltip": "",
+						"tooltip": "TrySail - Hakarenai Kyori [Single]",
 						"thumbnail": "https://st.cdjapan.co.jp/pictures/l/14/20/VVCL-2055.jpg",
 						"source": "https://st.cdjapan.co.jp/pictures/l/14/20/VVCL-2055.jpg",
 						"grid": {
@@ -644,7 +680,7 @@
 						}
 					},
 					{
-						"tooltip": "",
+						"tooltip": "Ishihara Kaori - Abracada-Boo [Single]",
 						"thumbnail": "https://pbs.twimg.com/media/FVIBCg3acAICbKy?format=jpg&name=medium",
 						"source": "https://pbs.twimg.com/media/FVIBCg3acAICbKy?format=jpg&name=medium",
 						"grid": {
@@ -680,7 +716,7 @@
 						}
 					},
 					{
-						"tooltip": "",
+						"tooltip": "Asakura Momo - Stained Glass [Single]",
 						"thumbnail": "https://st.cdjapan.co.jp/pictures/l/13/25/SMCL-755.jpg",
 						"source": "https://st.cdjapan.co.jp/pictures/l/13/25/SMCL-755.jpg",
 						"grid": {
