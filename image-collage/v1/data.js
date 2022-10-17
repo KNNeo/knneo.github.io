@@ -364,15 +364,8 @@ const mosaicArray =
 ];
 
 /*
-1. 4shared "view all images"
-2. run on console the following:
-Array.from(document.querySelectorAll('.filesTable .jsName')).map((current) => {
-	return {
-		filename: current.innerText,
-		id: current.parentElement.parentElement.id.replace('ml_file_','')
-	};
-});
-3. this id will align against images placed in order for #original tag
+to form full array:
+mosaicArray.map(function(m) { return { filename: m, sm: folderName + 'size_sm_' + m, md: folderName + 'size_md_' + m, lg: folderName + 'size_lg_' + m, og: folderName + m,};})
 */
 
 const mosaicArrayOnline = [
@@ -2777,3 +2770,15 @@ const mosaicArrayOnline = [
         "og": "https://www.4shared.com/img/O01hpxM9ea/s25/17ef1705938/__online"
     }
 ];
+
+/*
+1. 4shared "view all images"
+2. run on console the following:
+Array.from(document.querySelectorAll('.filesTable .jsName')).map((current) => {
+	return {
+		filename: current.innerText,
+		id: current.parentElement.parentElement.id.replace('ml_file_','')
+	};
+});
+3. this id will align against images placed in order for #original tag
+*/
