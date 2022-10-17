@@ -1,3 +1,7 @@
+/* TO INPUT DATA:
+filename should contain underscore (_) delimited segments to be included as tags, extension excluded
+sm, md, lg contains thumbnail sizes of og url of full file size
+*/
 const mosaicArray = [
     {
         "filename": "アクア・キャビア_かすみ.jpg",
