@@ -524,7 +524,7 @@ function generateGrid() {
 		}
 		
 		let gridImage = document.createElement('div');
-		gridImage.id = item.id;
+		gridImage.id = Date.now();
 		gridImage.tabIndex = 0;
 		gridImage.classList.add('grid-image');
 		gridImage.title = getFilenameInfo(imageUrl).filename;
