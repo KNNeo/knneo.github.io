@@ -363,10 +363,8 @@ const mosaicArray =
 
 ];
 
-/*
-to form full array:
-mosaicArray.map(function(m) { return { filename: m, sm: folderName + 'size_sm_' + m, md: folderName + 'size_md_' + m, lg: folderName + 'size_lg_' + m, og: folderName + m,};})
-*/
+const folder = 'file://C:/Users/KAINENG/OneDrive/Pictures/DOAX-VenusVacation/Bromides/';
+const mArray = mosaicArray.map(function(m) { return { filename: m, sm: folder + 'size_sm_' + m, md: folder + 'size_md_' + m, lg: folder + 'size_lg_' + m, og: folder + m,};});
 
 const mosaicArrayOnline = [
     {
