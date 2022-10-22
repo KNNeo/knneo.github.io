@@ -115,7 +115,7 @@ xmlhttp.onreadystatechange = function() {
 		if(window['list'] != null) startup();
 	}
 };
-xmlhttp.open("GET", "https://knneo.github.io/video-list/list.json", true);
+xmlhttp.open("GET", "https://knneo.github.io/video-list/v1/list.json", true);
 xmlhttp.send();
 
 function startup() {
