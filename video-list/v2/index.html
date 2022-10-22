@@ -8,12 +8,16 @@
     <link id="index-css" rel="stylesheet" type="text/css" href="index.css">
 	<link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'/>
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<script src="https://apis.google.com/js/api.js"></script>
     <title>Video Playlist</title>
 </head>
 <body>
 <div class="menu">
 	<h3 class="title">Video Playlist</h3>
-	<h6 class="title">[Source: <a href="https://www.youtube.com/playlist?list=PL_jWj0Wl8TG-UlSmo4HG3kDtTJYBO4UgB">KlassicNote@YouTube</a>]</h6>
+	<h6 class="title">[Source: <a href="https://www.youtube.com/playlist?list=PL_jWj0Wl8TG-UlSmo4HG3kDtTJYBO4UgB">KlassicNote@YouTube</a>]
+	<button onclick="authenticate().then(loadClient)">authorize and load</button>
+	<button onclick="execute()">execute</button>
+</h6>
 </div>
 <div class="list">Loading...</div>
 <div class="settings">
@@ -22,6 +26,5 @@
 </div>
 </body>
 <script src="../../index.js" type="application/javascript" charset="utf-8"></script>
-<script src="https://apis.google.com/js/api.js"></script>
 <script src="index.js" type="application/javascript" charset="utf-8"></script>
 </html>

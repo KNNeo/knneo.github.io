@@ -51,7 +51,7 @@ gapi.auth2.init({client_id: clientId()});
 });
 
 function startup() {
-	authenticate().then(loadClient);
+	// authenticate().then(loadClient);
 	console.log('authenticated');
 	list = Array.from(window['list']);
 	renderMenu();
