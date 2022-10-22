@@ -1,5 +1,11 @@
 //--DEFAULT SETTINGS--//
 const channels = [];
+const playlistId = 'PL_jWj0Wl8TG-UlSmo4HG3kDtTJYBO4UgB';
+const apiKey = function() {
+	// contains method to obtain YouTube API v3 key to query
+	return localStorage.getItem('apiKey');
+};
+// to load api, run the following on console: localStorage.setItem('apiKey', 'YOUR_API_KEY');
 
 //--COMMON EVENTS--//
 //on startup
@@ -7,40 +13,12 @@ const windowHeight = window.innerHeight;
 const windowWidth = window.innerWidth;
 //generate from json file
 const spacer = 'https://knneo.github.io/resources/spacer.gif';
+//do not touch
+let list = [];
+window.addEventListener('load', openRequest);
+window.addEventListener('scroll', fadeIn); 
 
 //--FUNCTIONS--//
-let list = [];
-let playlistId = 'PL_jWj0Wl8TG-UlSmo4HG3kDtTJYBO4UgB';
-let apiKey = function() {
-	// contains method to obtain YouTube API v3 key to query
-	return localStorage.getItem('apiKey');
-};
-
-let xmlhttp = new XMLHttpRequest();
-xmlhttp.onreadystatechange = function() {
-	if (this.readyState == 4 && this.status == 200) {
-		window['list'] = JSON.parse(this.responseText);
-		console.log('loaded');
-		//code here
-		// if(window['list'] != null) startup();
-	}
-};
-xmlhttp.open("GET", 
-	"https://youtube.googleapis.com/youtube/v3/playlistItems?part=contentDetails&playlistId=" + 
-	playlistId + 
-	"&key=" + 
-	apiKey(), 
-	true);
-xmlhttp.send();
-
-function startup() {
-	list = Array.from(window['list']);
-	renderMenu();
-	renderList();
-	window.addEventListener('scroll', fadeIn); 
-	window.scrollTo(0,0);
-}
-
 function fadeIn() {
 	let boxes = document.querySelectorAll(".tile");
     for (let elem of boxes) {
@@ -61,9 +39,103 @@ function fadeIn() {
     }
 }
 
+function checkLastUpdated(check) {
+	// console.log(check, localStorage.getItem('etag'));
+	let lastTag = localStorage.getItem('etag') || '';
+	let nowTag = check;
+	return lastTag == nowTag;
+}
+
+function openRequest() {
+	initializeVariables();
+	runLoader();
+	renderMenu();
+	getJson("https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50" +
+		"&playlistId=" + playlistId + 
+		"&key=" + apiKey(), onLoadJson);
+}
+
+function onLoadJson(response) {
+	if(response != null) 
+	{
+		// console.log('response available', response);
+		if(response.nextPageToken)
+		{
+			if(checkLastUpdated(response.etag))
+			{
+				console.log('no change: load from storage');
+				window['list'] = JSON.parse(localStorage.getItem('list'));
+				startup();
+			}
+			else
+			{
+				if(!window['connected'])
+					localStorage.setItem('etag', response.etag);
+				// console.log('next token available', response.nextPageToken);
+				window['list'] = window['list'].concat(response.items);
+				// console.log(response.items);
+				window['connected'] = true;
+				getJson("https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50" +
+					"&pageToken=" + response.nextPageToken + 
+					"&playlistId=" + playlistId + 
+					"&key=" + apiKey(), onLoadJson);
+			}
+		}
+		else 
+		{
+			window['list'] = window['list'].concat(response.items);
+			// console.log(response.items);
+			window['list'] = window['list'].map(res => {
+				return {
+					video: {
+						id: res.snippet.resourceId.videoId,
+						title: res.snippet.title,
+						thumbnail: res.snippet.thumbnails.default.url,
+						url: 'https://www.youtube.com/watch?v='
+						+ res.snippet.resourceId.videoId,
+						
+					},
+					channel: {
+						id: res.snippet.videoOwnerChannelId,
+						title: res.snippet.videoOwnerChannelTitle,
+						url: 'https://www.youtube.com/channel/'
+						+ res.snippet.videoOwnerChannelId,
+					},
+				};
+			});
+			// console.log('done', window['list']);
+			localStorage.setItem('list', JSON.stringify(window['list']));
+			startup();
+		}
+	}
+}
+
+function initializeVariables() {
+	window['list'] = [];
+	window['loading'] = true;
+	window['connected'] = false;
+}
+
+function startup() {
+	list = Array.from(window['list']);
+	stopLoader();
+	renderList();
+	window.scrollTo(0,0);
+}
+
 function renderMenu() {
-	// document.querySelector('.menu').innerHTML = '';
+	let description = document.createElement('h6');
+	description.classList.add('title');
 	
+		let descriptionSource = document.createElement('a');
+		descriptionSource.href = 'https://www.youtube.com/playlist?list=' + playlistId;
+		descriptionSource.innerText = 'Go To YouTube Playlist';
+		descriptionSource.setAttribute('target','_blank');
+		
+		description.appendChild(descriptionSource);
+	
+	document.querySelector('.menu').appendChild(description);
+
 	let sort = document.createElement('a');
 	sort.classList.add('material-icons');
 	sort.title = 'Sort by Video Title';
@@ -105,9 +177,9 @@ function toggleSort(event) {
 	renderList();
 }
 
-function randomVideo(event) {
+function randomVideo() {
 	let random = list[Math.floor(Math.random() * list.length)];
-	window.open(random.link);
+	window.open(random.video.url);
 }
 
 function renderList() {
@@ -119,17 +191,17 @@ function renderList() {
 		video.classList.add('box');
 		video.classList.add('tile');
 		video.classList.add('shadowed');
-		video.id = v.id;
+		video.id = v.video.id;
 		
 			let thumbnail = document.createElement('img');
 			thumbnail.classList.add('thumbnail');
-			thumbnail.setAttribute('data-image', v.thumbnail);
+			thumbnail.setAttribute('data-image', v.video.thumbnail);
 			// thumbnail.style.backgroundSize = 'contain';
 			// thumbnail.style.backgroundRepeat = 'no-repeat';
 			// thumbnail.style.backgroundPosition = 'center';
 			thumbnail.style.width = '120px';
 			thumbnail.addEventListener('click', function() {
-				window.open(v.link);
+				window.open(v.video.url);
 			});
 			
 			video.appendChild(thumbnail);
@@ -137,8 +209,8 @@ function renderList() {
 			let title = document.createElement('div');
 			
 				let titleLink = document.createElement('a');
-				titleLink.href = v.link;
-				titleLink.innerText = v.title;
+				titleLink.href = v.video.url;
+				titleLink.innerText = v.video.title;
 				titleLink.setAttribute('target','_blank');
 			
 				title.appendChild(titleLink);
@@ -148,17 +220,10 @@ function renderList() {
 			let channel = document.createElement('div');
 
 				let channelLink = document.createElement('a');
-				channelLink.innerText = v.channel;
-				if(channels[v.channel])
-				{
-					channelLink.classList.add('video-link');
-					channelLink.href = channels[v.channel];
-					channelLink.setAttribute('target','_blank');
-					// channelLink.style.cursor = 'pointer';
-					// channelLink.addEventListener('click', function() {
-						// window.open();
-					// });
-				}
+				channelLink.innerText = v.channel.title;
+				channelLink.classList.add('video-link');
+				channelLink.href = v.channel.url;
+				channelLink.setAttribute('target','_blank');
 				
 				channel.appendChild(channelLink);
 				
@@ -170,13 +235,26 @@ function renderList() {
 	setTimeout(fadeIn, 200);
 }
 
-function loadImages() {
-	for(let image of document.querySelectorAll('.thumbnail'))
+function runLoader() {
+	switch(document.querySelector('.loader').innerText)
 	{
-		image.src = image.getAttribute('data-image');
+		case 'hourglass_full': 
+			document.querySelector('.loader').innerText = 'hourglass_empty';
+			break;
+		case 'hourglass_empty': 
+			document.querySelector('.loader').innerText = 'hourglass_bottom';
+			break;
+		case 'hourglass_bottom': 
+			document.querySelector('.loader').innerText = 'hourglass_full';
+			break;
+		default:
+			document.querySelector('.loader').innerText = 'hourglass_empty';
+			break;
 	}
+	if(window['loading']) setTimeout(runLoader, 500);
 }
 
-function addUrlClause(url) {
-	return "url('" + url + "')";
+function stopLoader() {
+	window['loading'] = false;
+	document.querySelector('.loader').classList.add('hidden');
 }
