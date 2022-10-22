@@ -647,6 +647,18 @@ imgArray = [
 [664,'{domain}/CCI_20220709_000004_3.jpg','portrait','marupi','marupi Special On-Site Photo Win Raffle'],
 [665,'{domain}/CCI_20220709_000004_4.jpg','portrait','marupi','marupi Special On-Site Photo Win Raffle'],
 [666,'{domain}/CCI_20220709_000005_1.jpg','portrait','marupi','marupi Special On-Site Photo Win Raffle 10-Roll Bonus'],
+[667,'{domain}/CCI_20220910_0001_1.jpg','portrait','Ishihara Kaori','CD "Abracada-Boo" Gamers Bonus'],
+[668,'{domain}/CCI_20220910_0001_2.jpg','portrait','Asakura Momo','CD "Stained Glass" ANIPLEX+ Bonus'],
+[669,'{domain}/CCI_20221001_0001_1.jpg','landscape','Minase Inori','Event "Inori Minase LIVE TOUR 2022 glow" Bromide Set A'],
+[670,'{domain}/CCI_20221001_0001_2.jpg','portrait','Minase Inori','Event "Inori Minase LIVE TOUR 2022 glow" Bromide Set A'],
+[671,'{domain}/CCI_20221001_0001_3.jpg','portrait','Minase Inori','Event "Inori Minase LIVE TOUR 2022 glow" Bromide Set A'],
+[672,'{domain}/CCI_20221001_0002_1.jpg','portrait','Minase Inori','Event "Inori Minase LIVE TOUR 2022 glow" Bromide Set B'],
+[673,'{domain}/CCI_20221001_0002_2.jpg','landscape','Minase Inori','Event "Inori Minase LIVE TOUR 2022 glow" Bromide Set B'],
+[674,'{domain}/CCI_20221001_0002_3.jpg','portrait','Minase Inori','Event "Inori Minase LIVE TOUR 2022 glow" Bromide Set B'],
+[675,'{domain}/CCI_20221001_0003_1.jpg','landscape','Tomita Miyu','Assault Lily Summer LIVE voller Blüte Big Bromide Set Tomita Miyu'],
+[676,'{domain}/CCI_20221001_0003_2.jpg','portrait','Tomita Miyu','Assault Lily Summer LIVE voller Blüte Big Bromide Set Tomita Miyu'],
+[677,'{domain}/CCI_20221001_0004_1.jpg','portrait','Isobe Karin','Assault Lily Summer LIVE voller Blüte Big Bromide Set Isobe Karin'],
+[678,'{domain}/CCI_20221001_0004_2.jpg','portrait','Isobe Karin','Assault Lily Summer LIVE voller Blüte Big Bromide Set Isobe Karin'],
 
 
 [999,'','','']
