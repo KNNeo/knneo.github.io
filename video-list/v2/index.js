@@ -11,48 +11,29 @@ const spacer = 'https://knneo.github.io/resources/spacer.gif';
 //--FUNCTIONS--//
 let list = [];
 let playlistId = 'PL_jWj0Wl8TG-UlSmo4HG3kDtTJYBO4UgB';
-let clientId = function() {
-	return localStorage.getItem('clientId');
-};
 let apiKey = function() {
 	// contains method to obtain YouTube API v3 key to query
 	return localStorage.getItem('apiKey');
 };
 
-function authenticate() {
-return gapi.auth2.getAuthInstance()
-	.signIn({scope: "https://www.googleapis.com/auth/youtube.readonly"})
-	.then(function() { console.log("Sign-in successful"); },
-		  function(err) { console.error("Error signing in", err); });
-}
-function loadClient() {
-gapi.client.setApiKey(apiKey());
-return gapi.client.load("https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest")
-	.then(function() { console.log("GAPI client loaded for API"); },
-		  function(err) { console.error("Error loading GAPI client for API", err); });
-}
-// Make sure the client is loaded and sign-in is complete before calling this method.
-function execute() {
-return gapi.client.youtube.playlistItems.list({
-  "part": [
-	"contentDetails"
-  ],
-  "playlistId": playlistId,
-})
-	.then(function(response) {
-			// Handle the results here (response.result has the parsed body).
-			console.log("Response", response);
-			window['list'] = response;
-		  },
-		  function(err) { console.error("Execute error", err); });
-}
-gapi.load("client:auth2", function() {
-gapi.auth2.init({client_id: clientId()});
-});
+let xmlhttp = new XMLHttpRequest();
+xmlhttp.onreadystatechange = function() {
+	if (this.readyState == 4 && this.status == 200) {
+		window['list'] = JSON.parse(this.responseText);
+		console.log('loaded');
+		//code here
+		// if(window['list'] != null) startup();
+	}
+};
+xmlhttp.open("GET", 
+	"https://youtube.googleapis.com/youtube/v3/playlistItems?part=contentDetails&playlistId=" + 
+	playlistId + 
+	"&key=" + 
+	apiKey(), 
+	true);
+xmlhttp.send();
 
 function startup() {
-	// authenticate().then(loadClient);
-	console.log('authenticated');
 	list = Array.from(window['list']);
 	renderMenu();
 	renderList();
