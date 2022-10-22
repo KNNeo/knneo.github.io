@@ -108,6 +108,11 @@ function onLoadJson(response) {
 			startup();
 		}
 	}
+	else
+	{
+		stopLoader();
+		document.querySelector('#key').innerText = 'key_off';
+	}
 }
 
 function initializeVariables() {
@@ -257,4 +262,13 @@ function runLoader() {
 function stopLoader() {
 	window['loading'] = false;
 	document.querySelector('.loader').classList.add('hidden');
+}
+
+function setInput(id) {
+	let input = prompt('Enter ' + id);
+
+	if (input != null) {
+		localStorage.setItem('apiKey', input);
+		location.reload();
+	}
 }
