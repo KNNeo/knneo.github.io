@@ -30,7 +30,7 @@ if(profileListJson.length == 0) {
 			//code here
 			if(profileList != null) {
 				defineNameList();
-				render();
+				render(true);
 			}
 			
 		}
@@ -61,11 +61,11 @@ let quiz = [];
 let qNo = 0;
 let score = 0;
 let startTime;
-function render()
+function render(isFirstLoad)
 {
 	if(localStorage.getItem('mode') == null) localStorage.setItem('mode', 'By Name');
-	if(localStorage.getItem('mode') == 'By Name') renderQuiz(true);
-	if(localStorage.getItem('mode') == 'By Attributes') renderWordle(true);
+	if(localStorage.getItem('mode') == 'By Name') renderQuiz(isFirstLoad);
+	if(localStorage.getItem('mode') == 'By Attributes') renderWordle(isFirstLoad);
 }
 
 function toggleSettings() {
@@ -75,7 +75,7 @@ function toggleSettings() {
 		let container = document.querySelector('.settings');
 		container.classList.remove('settings');
 		container.innerHTML = '';
-		render();
+		render(true);
 	}
 	else
 	{
@@ -412,7 +412,7 @@ function endQuiz() {
 	startTime = null;
 	
 	showResults();
-	render();
+	render(false);
 }
 
 function showStage() {
