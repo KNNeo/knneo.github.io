@@ -1,0 +1,153 @@
+/*Variables*/
+:root {
+  --primary: #0065ff;
+  --secondary: #609fff;
+  --background: #fff;
+  --foreground: #000;
+}
+
+.darked:root {
+  --primary: #00e4ff;
+  --secondary: #00abbf;
+  --background: #000;
+  --foreground: #fff;
+}
+
+html {
+  font-family: Open Sans;
+  scroll-behavior: smooth;
+}
+
+body > * {
+  max-width: 480px;
+  margin: auto;
+  text-align: center;
+  overflow-x: hidden;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.menu {
+	margin: auto;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 2;
+	background-color: white;
+}
+
+.settings {
+	margin: auto;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: 2;
+	background-color: white;
+}
+
+.settings a {
+    cursor: pointer;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    color: black;
+    text-decoration: none;
+}
+
+.settings h3 {
+	margin-top: 0;
+}
+
+.title {
+	margin: 3px 0;
+}
+
+.list {
+	padding-top: 80px;
+}
+
+.thumbnail {
+	cursor: pointer;
+}
+
+.material-icons {
+	cursor: pointer;
+	padding: 10px;
+}
+.closed {
+	display: none;
+}
+.box {
+	margin: 5px;
+	vertical-align: top;
+	scroll-snap-align: center;
+	white-space: normal;
+	touch-action: manipulation;
+}
+.tile {
+    /* -webkit-transform: translateY(50px); */
+    /* transform: translateY(50px) translateZ(0); */
+    -webkit-transition-delay: .3s;
+    -o-transition-delay: .3s;
+    transition-delay: .3s;
+    -webkit-transition: .5s;
+    -o-transition: .5s;
+    transition: .5s;
+    opacity: 0;
+}
+
+.tile-view {
+    /* -webkit-transform: translateY(0px); */
+    /* transform: translateY(0px) */
+    opacity: 1;
+}
+
+.no-delay {
+    -webkit-transition-delay: unset;
+    -o-transition-delay: unset;
+    transition-delay: unset;
+    -webkit-transition: unset;
+    -o-transition: unset;
+    transition: unset;
+}
+
+.shadowed {
+  border: 1px solid lightgray;
+  box-shadow: 3px 3px;
+}
+.shadowed:active {
+  box-shadow: 1px 1px;
+  transform: translate(2px,2px);
+}
+.unshadowed {
+	filter: opacity(100%);
+	transition: filter 1s;
+}
+
+.video-link,
+.video-link:visited {
+	color: var(--foreground);
+	text-decoration: none;
+}
+.darked .video-link,
+.darked .video-link:visited {
+	color: var(--foreground);
+	text-decoration: none;	
+}
+.video-link:hover {
+	text-decoration: revert;
+}
+
+@media only screen and (max-width : 1040px) {
+/*scrollbars for top and bottom labels only on desktop*/
+html { font-size: 100%; }
+div { scrollbar-width: 0 !important; }
+div::-webkit-scrollbar { width: 0 !important }
+/*snap on touch is better on mobile than on desktop*/
+.profile-box { scroll-snap-align: center; }
+}
