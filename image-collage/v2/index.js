@@ -75,6 +75,12 @@ function startup() {
 		document.getElementById('darkmode').addEventListener('click', toggleDarkMode);
 		document.getElementById('darkmode').addEventListener('click', function() { window['darkMode'] = !window['darkMode']; });
 	}
+	setTimeout(function() {
+		let grid = generateGrid();
+		document.getElementById('mosaic').innerHTML = '';
+		document.getElementById('mosaic').appendChild(grid);		
+		generateMosaic();
+	}, 200);
 }
 
 function onScroll(e) {
@@ -123,7 +129,7 @@ function togglePreset() {
 	document.getElementById('mosaic').innerHTML = '';
 	document.getElementById('mosaic').appendChild(grid);
 	
-	generateMosaic();	
+	generateMosaic();
 }
 
 function initializeVariables() {
@@ -550,11 +556,11 @@ function generateGrid() {
 		gridImage.style.backgroundImage = fullImageUrl || 'https://knneo.github.io/resources/spacer.gif';
 		
 		//pre-loading: will cause animation lag
-		if(preloads.length < mosaicArray.length) {
-			let preload = new Image();
-			preload.src = item['og'];
-			preloads.push(preload);
-		}
+		// if(preloads.length < mosaicArray.length) {
+			// let preload = new Image();
+			// preload.src = item['og'];
+			// preloads.push(preload);
+		// }
 		
 		gridItem.appendChild(gridImage);
 		grid.appendChild(gridItem);		
@@ -583,32 +589,55 @@ function getThumbnailPrefix() {
 	return prefix;
 }
 
-function calculateThumbnailSize() {		
-	let screenWidth = window.innerWidth - 25 - (window['isHorizontal'] ? horizontalMenuWidth : 0);
-	// let minThreshold = window['thumbWidth'];
-	// let maxThreshold = screenWidth;
-	
+//TODO: create algorithm to determine column size based on image size provided
+function calculateColumns() {
 	let columns = 0;
-	let remainder = screenWidth;
-	while(remainder > window['thumbWidth'])
+	switch(window['preset'])
 	{
-		remainder -= window['thumbWidth'];
-		columns++;
-		if(debugMode) console.log('remainder', remainder);
-		if(debugMode) console.log('columns', columns);
+	  case 'photo_size_select_small':
+		columns = presetWidths[0];
+		break;
+	  case 'photo_size_select_large':
+		columns = presetWidths[1];
+		break;
+	  case 'photo_size_select_actual':
+		columns = presetWidths[2];
+	  default:
+		break;
 	}
+	columns = Math.floor((window.innerWidth - (window['isHorizontal'] ? horizontalMenuWidth : 0)) / columns);
+	return columns < minColumns ? minColumns : columns;
+}
 
-	let defaultRemainder = 20;
-	if(columns < minColumns)
-	{
-		window['thumbWidth'] = screenWidth / minColumns;
-		return;
-	}
-	if(remainder > defaultRemainder)
-	{
-		window['thumbWidth'] = window['thumbWidth'] + 1;
-		return calculateThumbnailSize();
-	}
+//ALSO TODO: see if mosaic can be updated for each item width instead of rendering whole grid again
+function calculateThumbnailSize() {	
+	
+	let remainder = 0;//screenWidth;
+	// while(remainder > window['thumbWidth'])
+	// {
+		// remainder -= window['thumbWidth'];
+		// columns++;
+		// if(debugMode) console.log('remainder', remainder);
+		// if(debugMode) console.log('columns', columns);
+	// }
+
+	let defaultRemainder = 20;	
+	let grid = document.querySelector('#mosaic');
+	let gridChild = grid?.firstChild;
+	let columns = calculateColumns();
+	let screenWidth = window.innerWidth - (grid != null && gridChild != null ? grid.getBoundingClientRect().width - gridChild.getBoundingClientRect().width + (columns*2) : 30) - (window['isHorizontal'] ? horizontalMenuWidth : 0);
+	console.log(grid, gridChild);
+	window['thumbWidth'] = screenWidth / columns;
+	// if(columns < minColumns)
+	// {
+		// window['thumbWidth'] = screenWidth / minColumns;
+		// return;
+	// }
+	// if(remainder > defaultRemainder)
+	// {
+		// window['thumbWidth'] = window['thumbWidth'] + 1;
+		// return calculateThumbnailSize();
+	// }
 	
 	if(debugMode)
 		console.log('calculateThumbnailSize', window['thumbWidth']);
