@@ -2,22 +2,23 @@
 const showExpanded = function() {
 	return !window.location.href.includes('://knneo.github.io');
 }; //will only show name, dob, profile, turning point, social media
-const smallScreen = window.innerWidth <= 640;
 const maxRating = 5;
 const calendarCategories = ['profile', 'seiyuu', 'doaxvv', 'hololive', 'idolypride'];
 //what to filter for calendar, mapping for category, see profile-list.json
-const nameLabel = 'Name';
-const nameWithNicknameLabel = 'Name (Nickname)';
-const dobLabel = 'Date Of Birth';
-const ageSuffix = 'years ago';
-const profileLabel = 'Profile';
-const turningPointLabel = 'Status (Singer Debut|Swimsuit Photobook|Married)';
-const introLabel = 'How I came to know of her';
-const descriptionLabel = 'Why would she be "wanted" by me';
-const ratingLabel = 'Wanted Level';
-const friendsLabel = 'Known Acquaintances';
-const socialLabel = 'Social Media';
-const statusPopup = 'As answered haphazardly by Uesaka Sumire (and expanded on by me) the three "turning points" of a voice actress (but applicable to all):<br/>~ Singer Debut (The exhibition of their unique voices in singing)<br/>~ Swimsuit Photobook (The display of their figure to the extent of being half-naked)<br/>~ Married (The declaration of the end of idolism?)';
+const labels = {
+	name: 'Name',
+	nameWithNickname: 'Name (Nickname)',
+	dob: 'Date of Birth',
+	ageSuffix: 'years ago',
+	profile: 'Profile',
+	turningPoint: 'Status (Singer Debut|Swimsuit Photobook|Married)',
+	statusPopup: 'As answered haphazardly by Uesaka Sumire (and expanded on by me) the three "turning points" of a voice actress (but applicable to all):<br/>~ Singer Debut (The exhibition of their unique voices in singing)<br/>~ Swimsuit Photobook (The display of their figure to the extent of being half-naked)<br/>~ Married (The declaration of the end of idolism?)',
+	intro: 'How I came to know of her',
+	description: 'Why would she be "wanted" by me',
+	rating: 'Wanted Level',
+	friends: 'Known Acquaintances',
+	social: 'Social Media',
+};
 const timezone = 'Asia/Tokyo';
 const month = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const source = 'https://knneo.github.io/profile-list/profile-list-new.json';
@@ -643,7 +644,7 @@ function generateProfileFromJSON(profileName) {
 						
 							cell = document.createElement('td');
 							
-								cell.appendChild(generateProfileWithInnerHTML(window['profiles'], profileLabel, 'profile'));
+								cell.appendChild(generateProfileWithInnerHTML(window['profiles'], labels.profile, 'profile'));
 							
 							row.appendChild(cell);
 						
@@ -670,7 +671,7 @@ function generateProfileFromJSON(profileName) {
 						
 							cell = document.createElement('td');
 							
-								cell.appendChild(generateProfileWithInnerHTML(window['profiles'], introLabel, 'intro'));
+								cell.appendChild(generateProfileWithInnerHTML(window['profiles'], labels.intro, 'intro'));
 							
 							row.appendChild(cell);
 						
@@ -681,7 +682,7 @@ function generateProfileFromJSON(profileName) {
 						
 							cell = document.createElement('td');
 							
-								cell.appendChild(generateProfileWithInnerHTML(window['profiles'], descriptionLabel, 'description'));
+								cell.appendChild(generateProfileWithInnerHTML(window['profiles'], labels.description, 'description'));
 							
 							row.appendChild(cell);
 						
@@ -762,8 +763,8 @@ function generateProfileFromJSON(profileName) {
 		}
 	}
 	
-	addAgeAfterDOB(ageSuffix);
-	addStatusPopUp();
+	addAgeAfterDOB(labels.ageSuffix);
+	addStatusPopup();
 }
 
 function generateProfileImage([profile, currentProfile, previousProfile]) {
@@ -781,6 +782,7 @@ function generateProfileImage([profile, currentProfile, previousProfile]) {
 	if(profile.landscapes == undefined) profile.landscapes = [];
 	if(profile.portraits == undefined) profile.portraits = [];
 	let allImages = profile.landscapes.concat(profile.portraits);
+	if(allImages.length < 1) allImages = [image1Source];
 	image1Source = window['friendMode'] ? friend.image : randomArrayItem(allImages);
 	
 	let altSource = [];
@@ -831,7 +833,7 @@ function generateProfileName([profile, currentProfile, previousProfile]) {
 	{
 		let cellDiv = document.createElement('div');
 		cellDiv.classList.add('profile-box-label');
-		cellDiv.innerText = window['simple'] ? nameLabel : nameWithNicknameLabel;
+		cellDiv.innerText = window['simple'] ? labels.name : labels.nameWithNickname;
 		cell.appendChild(cellDiv);
 	}
 	
@@ -928,7 +930,7 @@ function generateProfileDob([profile, currentProfile, previousProfile]) {
 	{
 		let cellDiv = document.createElement('div');
 		cellDiv.classList.add('profile-box-label');
-		cellDiv.innerText = dobLabel;
+		cellDiv.innerText = labels.dob;
 		cell.appendChild(cellDiv);
 	}
 										
@@ -1018,7 +1020,7 @@ function generateProfilePointers([profile]) {
 	cellDiv.classList.add('profile-box-label');
 	cellDiv.classList.add('tr-caption');
 	cellDiv.classList.add('points');
-	cellDiv.innerText = turningPointLabel;
+	cellDiv.innerText = labels.turningPoint;
 	cell.appendChild(cellDiv);
 
 	//--POINTERS VALUE--//
@@ -1039,7 +1041,7 @@ function generateProfileRating([profile]) {
 	//--RATING LABEL--//
 	let cellDiv = document.createElement('div');
 	cellDiv.classList.add('profile-box-label');
-	cellDiv.innerText = ratingLabel;
+	cellDiv.innerText = labels.rating;
 	cell.appendChild(cellDiv);
 	
 	//--RATING VALUE--//
@@ -1058,7 +1060,7 @@ function generateProfileFriends([profile], friends) {
 	//--FRIENDS LABEL--//
 	let cellDiv = document.createElement('div');
 	cellDiv.classList.add('profile-box-label');
-	cellDiv.innerText = friendsLabel;
+	cellDiv.innerText = labels.friends;
 	cell.appendChild(cellDiv);
 	
 	//--FRIENDS VALUE--//
@@ -1117,7 +1119,7 @@ function generateProfileSocial([profile, currentProfile, previousProfile]) {
 	if(!window['friendMode']) {	
 		let cellDiv = document.createElement('div');
 		cellDiv.classList.add('profile-box-label');
-		cellDiv.innerText = socialLabel;
+		cellDiv.innerText = labels.social;
 		cell.appendChild(cellDiv);		
 	}
 	
@@ -1350,11 +1352,11 @@ function showProfilesImageCount(threshold) {
 }
 
 ////UNCATEGORIZED////
-function addStatusPopUp() {
-	if(statusPopup.length == 0) return;
+function addStatusPopup() {
+	if(labels.statusPopup.length == 0) return;
 	if(document.querySelector('.points') == null) return;
 	document.querySelector('.points').addEventListener('mouseover', function(event) {
-		event.target.innerHTML = '<div class=\"points-note\">' + statusPopup + '</div>' + event.target.innerHTML;
+		event.target.innerHTML = '<div class=\"points-note\">' + labels.statusPopup + '</div>' + event.target.innerHTML;
 	});
 	document.querySelector('.points').addEventListener('mouseout', function(event) {
 		if (event.target.querySelector('.points-note') != null) event.target.querySelector('.points-note').remove();
