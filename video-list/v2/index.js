@@ -11,6 +11,9 @@ const spacer = 'https://knneo.github.io/resources/spacer.gif';
 //--FUNCTIONS--//
 let list = [];
 let playlistId = 'PL_jWj0Wl8TG-UlSmo4HG3kDtTJYBO4UgB';
+let clientId = function() {
+	return localStorage.getItem('clientId');
+};
 let apiKey = function() {
 	// contains method to obtain YouTube API v3 key to query
 	return localStorage.getItem('apiKey');
@@ -44,7 +47,7 @@ return gapi.client.youtube.playlistItems.list({
 		  function(err) { console.error("Execute error", err); });
 }
 gapi.load("client:auth2", function() {
-gapi.auth2.init({client_id: "YOUR_CLIENT_ID"});
+gapi.auth2.init({client_id: clientId});
 });
 
 function startup() {
