@@ -165,10 +165,10 @@ function setTabs() {
 	
 	//adjust content height
 	let tabHeight = window.innerHeight - Array.from(document.querySelectorAll('.calc')).reduce((total, current) => { return total + current.offsetHeight; }, 10) + 'px';
-	if(debugMode) console.log('containerHeight', tabHeight, document.querySelector('#tab-list').style.height);
-	if(tabHeight != document.querySelector('#tab-list').style.height)
+	if(debugMode) console.log('containerHeight', tabHeight, document.querySelector('#tab-list').style.maxHeight);
+	if(tabHeight != document.querySelector('#tab-list').style.maxHeight)
 	{
-		document.querySelector('#tab-list').style.height = tabHeight;
+		document.querySelector('#tab-list').style.maxHeight = tabHeight;
 		setTimeout(setTabs, 100);
 	}
 }
