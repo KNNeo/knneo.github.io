@@ -163,13 +163,13 @@ function toggleSort(event) {
 		case 'swap_vert':
 			event.target.innerText = 'south';
 			list.sort(function(a,b) {
-				return a.title.localeCompare(b.title, 'ja');
+				return a.video.title.localeCompare(b.video.title, 'ja');
 			});
 			break;
 		case 'south':
 			event.target.innerText = 'north';
 			list.sort(function(a,b) {
-				return b.title.localeCompare(a.title, 'ja');
+				return b.video.title.localeCompare(a.video.title, 'ja');
 			});
 			break;
 		case 'north':
