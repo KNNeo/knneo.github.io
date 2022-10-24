@@ -141,6 +141,14 @@ function renderMenu() {
 	
 	document.querySelector('.menu').appendChild(description);
 
+	let search = document.createElement('a');
+	search.classList.add('material-icons');
+	search.title = 'Search Video/Channel';
+	search.innerText = 'search';
+	search.addEventListener('click', toggleSearch);
+
+	document.querySelector('.menu').appendChild(search);
+	
 	let sort = document.createElement('a');
 	sort.classList.add('material-icons');
 	sort.title = 'Sort by Video Title';
@@ -182,6 +190,15 @@ function toggleSort(event) {
 	renderList();
 }
 
+function toggleSearch(event) {
+	let input = prompt('Enter search term (case-insensitive):\n[Empty to reset, stored in memory]');
+
+	if (input != null) {
+		localStorage.setItem('search', input || '');
+		renderList();
+	}	
+}
+
 function randomVideo() {
 	let random = list[Math.floor(Math.random() * list.length)];
 	window.open(random.video.url);
@@ -190,7 +207,12 @@ function randomVideo() {
 function renderList() {
 	document.querySelector('.list').innerHTML = '';
 	
-	for(let v of list)
+	for(let v of list.filter(l => 
+		l.video.title.toLowerCase()
+		.includes((localStorage.getItem('search') || '').toLowerCase()) ||
+		l.channel.title.toLowerCase()
+		.includes((localStorage.getItem('search') || '').toLowerCase())
+		))
 	{
 		let video = document.createElement('div');
 		video.classList.add('box');
