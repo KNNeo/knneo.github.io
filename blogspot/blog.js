@@ -436,7 +436,7 @@ function togglePopup() {
 		//hide
         this.classList.remove('new-thumbnail');
 		switchToButton('GoToTopBtn');
-		if(document.getElementById('CloseBtn') != null) document.getElementById('CloseBtn').style.display = 'block';
+		if(document.getElementById('CloseBtn') != null) document.getElementById('CloseBtn').style.display = 'none';
 	}
     else {
 		//display
