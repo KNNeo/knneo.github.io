@@ -659,6 +659,20 @@ imgArray = [
 [676,'{domain}/CCI_20221001_0003_2.jpg','portrait','Tomita Miyu','Assault Lily Summer LIVE voller Blüte Big Bromide Set Tomita Miyu'],
 [677,'{domain}/CCI_20221001_0004_1.jpg','portrait','Isobe Karin','Assault Lily Summer LIVE voller Blüte Big Bromide Set Isobe Karin'],
 [678,'{domain}/CCI_20221001_0004_2.jpg','portrait','Isobe Karin','Assault Lily Summer LIVE voller Blüte Big Bromide Set Isobe Karin'],
+[679,'{domain}/CCI_20221026_0001_1.jpg','portrait','marupi','marupi Special On-Site Photo Win Raffle'],
+[680,'{domain}/CCI_20221026_0001_2.jpg','portrait','marupi','marupi Special On-Site Photo Win Raffle'],
+[681,'{domain}/CCI_20221026_0001_3.jpg','portrait','marupi','marupi Special On-Site Photo Win Raffle'],
+[682,'{domain}/CCI_20221026_0002_1.jpg','portrait','marupi','marupi Special On-Site Photo Win Raffle 10-Roll Bonus'],
+[683,'{domain}/CCI_20221026_0003_1.jpg','portrait','Hanazawa Kana','HANAZAWA KANA Live 2022 "blossom" Bromide'],
+[684,'{domain}/CCI_20221026_0003_2.jpg','landscape','Hanazawa Kana','HANAZAWA KANA Live 2022 "blossom" Bromide'],
+[685,'{domain}/CCI_20221026_0003_3.jpg','portrait','Hanazawa Kana','HANAZAWA KANA Live 2022 "blossom" Bromide'],
+[686,'{domain}/CCI_20221026_0003_4.jpg','landscape','Hanazawa Kana','HANAZAWA KANA Live 2022 "blossom" Bromide'],
+[687,'{domain}/CCI_20221026_0004_1.jpg','portrait','Hanazawa Kana','HANAZAWA KANA Live 2022 "blossom" Bromide'],
+[688,'{domain}/CCI_20221026_0004_2.jpg','landscape','Hanazawa Kana','CD "Kakehiki wa Poker Face" Animate Bonus'],
+[689,'{domain}/CCI_20221026_0004_3.jpg','portrait','Amamiya Sora','CD "Love-Evidence" Animate Bonus'],
+[690,'{domain}/CCI_20221026_0004_4.jpg','portrait','Amamiya Sora','CD "Love-Evidence" Gamers Bonus'],
+[691,'{domain}/CCI_20221026_0005_1.jpg','landscape','Natsukawa Shiina','CD "Composite" Animate Bonus'],
+[692,'{domain}/CCI_20221026_0005_2.jpg','landscape','Natsukawa Shiina','CD "Composite" Gamers Bonus'],
 
 
 [999,'','','']
