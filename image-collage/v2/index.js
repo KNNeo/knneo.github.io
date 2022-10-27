@@ -75,12 +75,7 @@ function startup() {
 		document.getElementById('darkmode').addEventListener('click', toggleDarkMode);
 		document.getElementById('darkmode').addEventListener('click', function() { window['darkMode'] = !window['darkMode']; });
 	}
-	setTimeout(function() {
-		let grid = generateGrid();
-		document.getElementById('mosaic').innerHTML = '';
-		document.getElementById('mosaic').appendChild(grid);		
-		generateMosaic();
-	}, 200);
+	setTimeout(setMosaic, 100);
 }
 
 function onScroll(e) {
@@ -318,14 +313,7 @@ function generateLayoutPlayer() {
 			}
 			document.getElementById('include').value = window['includeCriteria'];
 			
-			let grid = generateGrid();
-			if(document.getElementById('mosaic') != null)
-			{
-				document.getElementById('mosaic').innerHTML = '';
-				document.getElementById('mosaic').appendChild(grid);
-				generateMosaic();
-			}
-			
+			setTimeout(setMosaic, 100);
 		});
 		tag.addEventListener('contextmenu',function() {
 			event.preventDefault();
@@ -344,13 +332,7 @@ function generateLayoutPlayer() {
 			}
 			document.getElementById('exclude').value = window['excludeCriteria'];
 			
-			let grid = generateGrid();
-			if(document.getElementById('mosaic') != null)
-			{
-				document.getElementById('mosaic').innerHTML = '';
-				document.getElementById('mosaic').appendChild(grid);
-				generateMosaic();
-			}
+			setTimeout(setMosaic, 100);
 		});
 		tags.appendChild(tag);
 	}
@@ -665,6 +647,12 @@ function exclude(image) {
 		// layout remaining item elements
 		window['msnry'].layout();
 	}
+}
+
+function setMosaic() {
+	document.getElementById('mosaic').innerHTML = '';
+	document.getElementById('mosaic').appendChild(generateGrid());		
+	generateMosaic();
 }
 
 function generateMosaic() {
