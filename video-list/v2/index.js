@@ -1,4 +1,5 @@
 //--DEFAULT SETTINGS--//
+const pageTitle = 'Video Playlist';
 const channels = [];
 const playlistId = 'PL_jWj0Wl8TG-UlSmo4HG3kDtTJYBO4UgB';
 const apiKey = function() {
@@ -48,8 +49,8 @@ function checkLastUpdated(check) {
 
 function openRequest() {
 	initializeVariables();
-	runLoader();
 	renderMenu();
+	runLoader();
 	getJson("https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50" +
 		"&playlistId=" + playlistId + 
 		"&key=" + apiKey(), onLoadJson);
@@ -129,6 +130,20 @@ function startup() {
 }
 
 function renderMenu() {
+	let title = document.createElement('h3');
+	title.classList.add('title');
+	title.innerText = pageTitle;
+	title.style.cursor = 'pointer';
+	title.addEventListener('click', startup);
+	
+	document.querySelector('.menu').appendChild(title);
+	
+	let loader = document.createElement('div');
+	loader.classList.add('loader');
+	loader.classList.add('material-icons');
+	
+	document.querySelector('.menu').appendChild(loader);
+	
 	let description = document.createElement('h6');
 	description.classList.add('title');
 	
@@ -142,9 +157,14 @@ function renderMenu() {
 	document.querySelector('.menu').appendChild(description);
 
 	let search = document.createElement('a');
+	search.classList.add('search');
 	search.classList.add('material-icons');
 	search.title = 'Search Video/Channel';
 	search.innerText = 'search';
+	if(localStorage.getItem('search')?.length > 0) {
+		search.innerText = 'saved_search';
+		search.style.color = 'var(--foreground)';
+	}
 	search.addEventListener('click', toggleSearch);
 
 	document.querySelector('.menu').appendChild(search);
@@ -190,13 +210,25 @@ function toggleSort(event) {
 	renderList();
 }
 
-function toggleSearch(event) {
-	let input = prompt('Enter search term (case-insensitive):\n[Empty to reset, stored in memory]');
-
-	if (input != null) {
-		localStorage.setItem('search', input || '');
-		renderList();
-	}	
+function toggleSearch(event) {	
+	switch(event.target.innerText) {
+		case 'search':
+			let input = prompt('Enter search term (case-insensitive):\n[Empty to reset, stored in memory]');
+			if (input != null) {
+				event.target.innerText = 'saved_search';
+				event.target.style.color = 'var(--foreground)';
+				localStorage.setItem('search', input || '');
+			}
+			break;
+		case 'saved_search':
+			event.target.innerText = 'search';
+			event.target.style.color = '';
+			localStorage.setItem('search', '');
+			break;
+		default:
+			break;
+	}
+	renderList();
 }
 
 function randomVideo() {
