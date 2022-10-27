@@ -326,6 +326,7 @@ function changeQueueMode() {
 
 function queueSongs(ids) {
 	window['playlist'] = ids;
+	window['playing'] = -1;
 	if(!window['autoplay-select']) document.querySelector('.autoplay').click();
 	skipSong();
 }
@@ -654,11 +655,11 @@ function updateOptions(contents) {
 				let newId = contents.values[0][columnIndexKNID];
 				document.querySelector('#options').value = categoryIcons[2] + newId;
 				document.querySelector('#options').dispatchEvent(new Event('change'));
-				if(window['playlist'][window['playlist'].length - 1] != newId)
-				{
-					window['playlist'].push(newId.toString());
-					updateQueue();
-				}
+				// if(window['playlist'][window['playlist'].length - 1] != newId)
+				// {
+					// window['playlist'].push(newId.toString());
+				// }
+				// updateQueue();
 			},200);
 		}
 		
@@ -2409,6 +2410,11 @@ function updateSong() {
 	if(debugMode) console.log('updateSong', query);
 	queryDb(query, updateOptions);
 	// window['playlist'].push(id.toString());
+	if(window['playlist'][window['playlist'].length - 1] != id)
+	{
+		window['playlist'].push(id.toString());
+	}
+	updateQueue(window['playlist'].length - 1);
 }
 
 function updateYear() {
