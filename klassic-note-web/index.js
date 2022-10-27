@@ -153,7 +153,7 @@ function setTabs() {
 	document.querySelector('#search').style.width = homePageVisible ? '100%' : (document.querySelector('#options').getBoundingClientRect().width - 48) + 'px';
 	document.querySelector('#search-buttons').style.display = homePageVisible ? 'none' : '';
 	document.querySelector('#tab-buttons').style.display = isWidescreen ? 'none' : '';
-	document.querySelector('#tab-list').style.maxWidth = isWidescreen ? '' : widescreenAverageModuleSize + 'px';
+	document.querySelector('#tab-list').style.maxWidth = isWidescreen && !homePageVisible ? '' : widescreenAverageModuleSize + 'px';
 	
 	for(let module of document.querySelectorAll('.centered'))
 	{
@@ -164,7 +164,7 @@ function setTabs() {
 	hideContextMenus(true);
 	
 	//adjust content height
-	let tabHeight = window.innerHeight - Array.from(document.querySelectorAll('.calc')).reduce((total, current) => { return total + current.offsetHeight; }, 20) + 'px';
+	let tabHeight = window.innerHeight - Array.from(document.querySelectorAll('.calc')).reduce((total, current) => { return total + current.offsetHeight; }, 15) + 'px';
 	if(debugMode) console.log('containerHeight', tabHeight, document.querySelector('#tab-list').style.height);
 	if(tabHeight != document.querySelector('#tab-list').style.height)
 	{
