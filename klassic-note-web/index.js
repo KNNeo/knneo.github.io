@@ -1033,6 +1033,7 @@ function generateCellValue(columns, row, textColumn, iconColumn, iconId) {
 }
 
 //--HOMEPAGE--//
+//flow is generally generateHomepage -> query-prefixed functions -> generate-prefixed functions
 function generateHomepage() {
 	//initial query for options
 	let query = "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song";
