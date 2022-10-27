@@ -289,8 +289,8 @@ body {
 
 .action {
 	position: absolute;
-	right: 0;
-	top: 5px;
+    right: 5px;
+    top: 5px;
 }
 
 .context {

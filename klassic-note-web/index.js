@@ -164,11 +164,11 @@ function setTabs() {
 	hideContextMenus(true);
 	
 	//adjust content height
-	let tabHeight = window.innerHeight - Array.from(document.querySelectorAll('.calc')).reduce((total, current) => { return total + current.offsetHeight; }, 10) + 'px';
-	if(debugMode) console.log('containerHeight', tabHeight, document.querySelector('#tab-list').style.maxHeight);
-	if(tabHeight != document.querySelector('#tab-list').style.maxHeight)
+	let tabHeight = window.innerHeight - Array.from(document.querySelectorAll('.calc')).reduce((total, current) => { return total + current.offsetHeight; }, 20) + 'px';
+	if(debugMode) console.log('containerHeight', tabHeight, document.querySelector('#tab-list').style.height);
+	if(tabHeight != document.querySelector('#tab-list').style.height)
 	{
-		document.querySelector('#tab-list').style.maxHeight = tabHeight;
+		document.querySelector('#tab-list').style.height = tabHeight;
 		setTimeout(setTabs, 100);
 	}
 }
@@ -762,7 +762,7 @@ function generateTableList(contents, parameters) {
 	let { id, title, rowFormat, clickFunc, rightClickFunc, rightClickContext, scrollable, actionTitle, actionFunc } = parameters
 	document.getElementById(id).innerHTML = '';
 	if(debugMode) console.log('generateTableList', id);
-	if(!id || !rowFormat || !contents.columns || !contents.values) return;
+	if(!id || !rowFormat || !contents?.columns || !contents?.values) return;
 	
 	let columns = contents.columns;
 	let rows = contents.values;
@@ -826,7 +826,7 @@ function generateTableList(contents, parameters) {
 		let tr = document.createElement('tr');
 	
 		let tc = document.createElement('td');
-		tc.style.cursor = 'pointer';
+		if(clickFunc) tc.style.cursor = 'pointer';
 		tc.setAttribute('data-id', row[columnIndexKNID]);
 		tc.addEventListener('click', clickFunc);
 		tc.setAttribute('context', rightClickContext);
@@ -1059,7 +1059,7 @@ function generateHomepage() {
 	if(debugMode) console.log('generateSearchHistory', query);
 	callDb(query, generateSearchHistory);
 	
-	query = "SELECT Type, Category, ReleaseTitle, ReleaseArtistTitle, KNYEAR, substr('0000'||ReleaseDate,-4) as ReleaseDate FROM Release ";
+	query = "SELECT ReleaseID as KNID, Type, Category, ReleaseTitle, ReleaseArtistTitle, KNYEAR, substr('0000'||ReleaseDate,-4) as ReleaseDate FROM Release ";
 	query += "WHERE KNYEAR = strftime('%Y','now') ";
 	query += "AND ReleaseDate >= cast(strftime('%m%d','now') as integer) ORDER BY ReleaseDate, ReleaseArtistTitle, ReleaseTitle LIMIT 10";
 	if(debugMode) console.log('generateUpcomingReleases', query);
@@ -1104,113 +1104,32 @@ function generateYears(contents) {
 	document.querySelector('#award-years').appendChild(table);
 }
 
-function generateSearchHistory(contents) {
-	document.querySelector('#search-history').innerHTML = '';
-	
+function generateSearchHistory(contents) {	
 	if(debugMode) console.log('generateSearchHistory', contents);
-	if(!contents || !contents.columns || !contents.values) return;
-	
-	// let headerDiv = document.createElement('h4');
-	document.querySelector('#search-history').classList.add('centered');
-	document.querySelector('#search-history').style.position = 'relative';
-	// document.querySelector('#search-history').style.maxWidth = '680px';
-	// document.querySelector('#search-history').style.margin = 'auto';
-	
-	let header = document.createElement('h4');
-	header.classList.add('centered');
-	header.innerText = 'Recently Searched';
-	document.querySelector('#search-history').appendChild(header);	
-	
-	let clear = document.createElement('h6');
-	clear.classList.add('centered');
-	clear.classList.add('action');
-	clear.style.cursor = 'pointer';
-	clear.innerText = 'Clear All';
-	clear.addEventListener('click', function() {
-		localStorage.removeItem('recent');
-		generateSearchHistory();
+	document.querySelector('#search-history').classList.remove('hidden');
+	generateTableList(
+		contents, {
+		id: 'search-history', 
+		title: 'Recently Saearched',
+		rowFormat: ['KNYEAR', ' - ', 'ArtistTitle', ' - ', 'SongTitle'], 
+		clickFunc: updateSong,
+		actionTitle: 'Clear All',
+		actionFunc: function() {
+			localStorage.removeItem('recent');
+			generateSearchHistory();
+			document.querySelector('#search-history').classList.add('hidden');
+		},
 	});
-	document.querySelector('#search-history').appendChild(clear);	
-	
-	// document.querySelector('#search-history').appendChild(headerDiv);	
-	
-	let columns = contents.columns;
-	let rows = contents.values;
-	
-	let table = document.createElement('table');
-	table.classList.add('list');
-	table.classList.add('centered');
-	table.classList.add('content-box');	
-	
-	let tbody = document.createElement('tbody');
-	
-	//header
-	for(let row of rows)
-	{
-		let columnIndexKNID = contents.columns.indexOf('KNID');
-		let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
-		let columnIndexSongTitle = contents.columns.indexOf('SongTitle');
-		let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
-		
-		let tr = document.createElement('tr');
-	
-		let tc = document.createElement('td');
-		tc.style.cursor = 'pointer';
-		tc.setAttribute('data-id', row[columnIndexKNID]);
-		tc.innerText = row[columnIndexKNYEAR] + ' - ' + row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle];
-		tc.addEventListener('click', updateSong);
-		tr.appendChild(tc);
-		
-		tbody.appendChild(tr);	
-	}
-		
-	table.appendChild(tbody);
-	document.querySelector('#search-history').appendChild(table);
 }
 
-function generateUpcomingReleases(contents) {
-	document.querySelector('#upcoming-releases').innerHTML = '';
-	
+function generateUpcomingReleases(contents) {	
 	if(debugMode) console.log('generateUpcomingReleases', contents);
-	if(!contents.columns || !contents.values) return;
-	
-	let header = document.createElement('h4');
-	header.classList.add('centered');
-	header.innerText = 'Upcoming Releases';
-	document.querySelector('#upcoming-releases').appendChild(header);	
-	
-	let columns = contents.columns;
-	let rows = contents.values;
-	
-	let table = document.createElement('table');
-	table.classList.add('list');
-	table.classList.add('centered');
-	table.classList.add('content-box');	
-	
-	let tbody = document.createElement('tbody');
-	
-	//header
-	for(let row of rows)
-	{
-		let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
-		let columnIndexType = contents.columns.indexOf('Type');
-		let columnIndexCategory = contents.columns.indexOf('Category');
-		let columnIndexReleaseTitle = contents.columns.indexOf('ReleaseTitle');
-		let columnIndexReleaseArtistTitle = contents.columns.indexOf('ReleaseArtistTitle');
-		let columnIndexReleaseDate = contents.columns.indexOf('ReleaseDate');
-		
-		let tr = document.createElement('tr');
-	
-		let tc = document.createElement('td');
-		// tc.style.cursor = 'pointer';
-		tc.innerText = row[columnIndexKNYEAR] + row[columnIndexReleaseDate] + ' - [' + row[columnIndexType] + ' ' + row[columnIndexCategory] + '] '+ row[columnIndexReleaseArtistTitle] + ' - ' + row[columnIndexReleaseTitle];
-		tr.appendChild(tc);
-		
-		tbody.appendChild(tr);	
-	}
-		
-	table.appendChild(tbody);
-	document.querySelector('#upcoming-releases').appendChild(table);
+	generateTableList(
+		contents, {
+		id: 'upcoming-releases', 
+		title: 'Upcoming Releases',
+		rowFormat: ['KNYEAR', 'ReleaseDate', ' - [', 'Type', ' ', 'Category', '] ' , 'ReleaseArtistTitle', ' - ', 'ReleaseTitle'], 
+	});
 }
 
 //--MODULES--//
