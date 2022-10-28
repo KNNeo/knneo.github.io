@@ -291,7 +291,7 @@ body {
 .action {
 	text-decoration: underline;
 	position: absolute;
-    right: 5px;
+    right: 0;
     top: 5px;
 }
 
