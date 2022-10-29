@@ -2018,6 +2018,18 @@ function generateCollection(contents) {
 		groupColumn: null,
 		titleFormat: ['CollectionTitle'],
 		centerContent: true,
+		actionTitle: 'Play All',
+		actionFunc: function() {
+			let table = this.parentElement.nextSibling;
+			let rows = table.querySelectorAll('tr');
+			let ids = Array.from(rows).reduce(function (all, current) {
+				let id = current.getAttribute('data-id');
+				if(id != null)
+					all.push(id);
+				return all;
+			},[]);
+			queueSongs(ids);
+		},
 	});
 }
 
