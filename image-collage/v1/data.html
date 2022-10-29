@@ -3,7 +3,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
 	<meta content="utf-8" http-equiv="encoding">
-    <link rel="stylesheet" type="text/css" href="../darkmode.css">
+    <link rel="stylesheet" type="text/css" href="../../darkmode.css">
 	<link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'/>
 </head>
 <style>
@@ -1225,7 +1225,7 @@
 </div>
 </body>
 <script src="data.js"></script>
-<script src="../index.js"></script>
+<script src="../../index.js"></script>
 <script>
 let thumbs = 'sm';
 window.addEventListener('load', generateObject);
@@ -1288,7 +1288,8 @@ function generateObject() {
 }
 
 function generateFinal() {
-	document.getElementById('final').innerHTML = '';
+	document.getElementById('final').innerHTML = '404: not found';
+	return; // kill generation
 	
 	let maxColumns = 3;
 	switch(thumbs) {
