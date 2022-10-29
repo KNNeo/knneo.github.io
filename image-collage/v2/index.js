@@ -16,8 +16,10 @@ const enableButtonArray = true;		// shows tag array based on underscore separate
 const debugMode = false;		  		// shows console log values on render
 const isWidescreen = function() { return window.innerWidth > 1024; } // function to detect wider screen layout
 const horizontalMenuWidth = 500; 		// for not gallery, in pixels
-const excludedTags = ['覚醒'];			// tags excluded, only if buttonArray is true
-const minTagCount = 2;					// anything more than or equal to this will be included in tags
+const minTagCount = 2;					// anything more than or equal to this will be included in tags, default 1
+const maxTagCount = 999;				// anything less than or equal to this will be included in tags, default 999
+const defaultTitle = 'Image Collage';
+const defaultDescription = 'Gallery based on tag separated filenames\n\n©コーエーテクモゲームス All rights reserved.';
 
 //--VARIABLES--//
 window.addEventListener('load', startup);
@@ -29,8 +31,6 @@ function generateStats() {
 		let names = current.substring(0, current.lastIndexOf('.')).split(filenameSeparator);
 		for(let name of names)
 		{
-			if(excludedTags.includes(name))
-				continue;
 			if(total[name] == undefined)
 				total[name] = 1;
 			else
@@ -43,7 +43,7 @@ function generateStats() {
 	for(let item of Object.keys(filtered))
 	{
 		// console.log(filtered[item]);
-		if(filtered[item] >= minTagCount)
+		if(filtered[item] >= minTagCount && filtered[item] <= maxTagCount)
 			countArray.push([item, filtered[item]]);
 	}
 	
@@ -54,7 +54,7 @@ function startup() {
 	if(debugMode) console.log(mosaicArray);
 	initializeVariables();	
 	generateLayout();
-	generateMosaic();
+	// generateMosaic();
 	let mousewheelEvent = isFirefox ? "DOMMouseScroll" : "mousewheel";
 	if(!isWidescreen() && document.getElementById('mosaic') != null)
 	{
@@ -120,11 +120,7 @@ function togglePreset() {
 	
 	window['preset'] = document.getElementById('preset').innerText;
 	
-	let grid = generateGrid();		
-	document.getElementById('mosaic').innerHTML = '';
-	document.getElementById('mosaic').appendChild(grid);
-	
-	generateMosaic();
+	setTimeout(setMosaic, 100);
 }
 
 function initializeVariables() {
@@ -138,8 +134,7 @@ function initializeVariables() {
 
 function generateLayout() {
 	document.body.innerHTML = '';
-	document.title = title;
-	document.querySelector('title').innerText = title;
+	document.title = defaultTitle;
 	generateViewer();
 	generateButtonArrayIfEmpty();
 	window['isHorizontal'] = isWidescreen() && window['buttonArray'].length > 0
@@ -147,7 +142,6 @@ function generateLayout() {
 		generateHorizontalLayout(); // left player and menu, right covers
 	else
 		generateVerticalLayout(); // top player and menu, bottom covers
-	
 }
 
 function generateViewer() {	
@@ -228,17 +222,14 @@ function generateLayoutPlayer() {
 	
 	let title = document.createElement('h1');
 	title.classList.add('title');
-	title.innerText = 'Image Collage';
-	title.addEventListener('click', function() {
-		startup();
-	});
+	title.innerText = defaultTitle;
+	title.addEventListener('click', startup);
 	
 	let description = document.createElement('h5');
-	description.innerText = 'サムネをタップすると拡大画像が表示されます';
+	description.innerText = defaultDescription;
 	
 	let disclaimer = document.createElement('h6');
 	disclaimer.innerHTML += '<div>Powered by <a href="https://masonry.desandro.com/">Masonry JS</a></div>';
-	disclaimer.innerHTML += '<div>©コーエーテクモゲームス All rights reserved.</div>';
 	
 	mainTableRow1Cell1.appendChild(title);
 	mainTableRow1Cell1.appendChild(description);
@@ -256,12 +247,7 @@ function generateLayoutPlayer() {
 		include.placeholder = '以内の…';
 		include.addEventListener('input',function() {
 			window['includeCriteria'] = document.getElementById('include').value;
-			
-			let grid = generateGrid();		
-			document.getElementById('mosaic').innerHTML = '';
-			document.getElementById('mosaic').appendChild(grid);
-			
-			generateMosaic();
+			setTimeout(setMosaic, 100);
 		});
 		mainTableRow2Cell1.appendChild(include);
 		
@@ -270,13 +256,8 @@ function generateLayoutPlayer() {
 		exclude.style.height = '20px';
 		exclude.placeholder = '以外の…';
 		exclude.addEventListener('input',function() {
-			window['excludeCriteria'] = document.getElementById('exclude').value;
-			
-			let grid = generateGrid();		
-			document.getElementById('mosaic').innerHTML = '';
-			document.getElementById('mosaic').appendChild(grid);
-			
-			generateMosaic();
+			window['excludeCriteria'] = document.getElementById('exclude').value;			
+			setTimeout(setMosaic, 100);
 		});
 		mainTableRow2Cell1.appendChild(exclude);
 	}
@@ -312,7 +293,6 @@ function generateLayoutPlayer() {
 				this.classList.toggle('button-active');
 			}
 			document.getElementById('include').value = window['includeCriteria'];
-			
 			setTimeout(setMosaic, 100);
 		});
 		tag.addEventListener('contextmenu',function() {
@@ -331,7 +311,6 @@ function generateLayoutPlayer() {
 				// this.style.color = 'gray';
 			}
 			document.getElementById('exclude').value = window['excludeCriteria'];
-			
 			setTimeout(setMosaic, 100);
 		});
 		tags.appendChild(tag);
@@ -446,7 +425,7 @@ function generateButtonArrayIfEmpty() {
 		return updated;
 	},[])
 	.filter(function(item) {
-		return item.count >= minTagCount;
+		return item.count >= minTagCount && item.count <= maxTagCount;
 	})
 	.sort(function(a,b) {
 		return b.count - a.count;
@@ -463,10 +442,10 @@ function generateLayoutJukebox() {
 	mosaic.id = 'mosaic';
 	if(window['isHorizontal']) mosaic.style.width = (window.innerWidth - horizontalMenuWidth) + 'px';
 	mosaic.style.height = (window.innerHeight) + 'px';
-	mosaic.addEventListener('hover', function() { this.focus(); });
+	// mosaic.addEventListener('hover', function() { this.focus(); });
 
-	let grid = generateGrid();
-	mosaic.appendChild(grid);
+	// let grid = generateGrid();
+	// mosaic.appendChild(grid);
 	bodyTableJukeboxCell.appendChild(mosaic);
 
 	return bodyTableJukeboxCell;
@@ -489,7 +468,7 @@ function generateGrid() {
 	let filterArray = mosaicArray
 	.filter(m => 
 		(window['includeCriteria'].length == 0 || includeArray.filter(s => m.filename.includes(s)).length == includeArray.length) && 
-		(window['excludeCriteria'].length == 0 || excludeArray.filter(s => !m.filename.includes(s)).length == excludeArray.length)
+		(window['excludeCriteria'].length == 0 || excludeArray.filter(s => !m.filename.includes(s)).length == excludeArray.length) 
 	)
 	.sort(function(a,b) {
 		return a.filename.localeCompare(b.filename, 'ja');
@@ -650,8 +629,9 @@ function exclude(image) {
 }
 
 function setMosaic() {
+	let grid = generateGrid();
 	document.getElementById('mosaic').innerHTML = '';
-	document.getElementById('mosaic').appendChild(generateGrid());		
+	document.getElementById('mosaic').appendChild(grid);
 	generateMosaic();
 }
 
