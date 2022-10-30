@@ -709,7 +709,11 @@ function toggleOverlay(fromSidebar) {
 	if(fromSidebar) {
 		document.body.style.overflow = document.body.style.overflow == '' ? 'hidden' : '';
 	}
-	else {
+	else if(document.getElementById('BackBtn') != null) {
+		document.getElementById('BackBtn').style.display = toggleDisplay(document.getElementById('BackBtn'), 'none');
+		document.getElementById('RightBtn').style.display = toggleDisplay(document.getElementById('RightBtn'), 'none');
+	}
+	else if(document.getElementById('SidebarBtn') != null) {
 		document.getElementById('SidebarBtn').style.display = toggleDisplay(document.getElementById('SidebarBtn'), 'none');
 	}
 }
