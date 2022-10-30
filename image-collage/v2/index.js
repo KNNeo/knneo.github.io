@@ -663,6 +663,16 @@ function openImageInViewer(image) {
 		}, false);
 	}
 	img.addEventListener('click', closeViewer);
+	img.addEventListener('contextmenu', function() {
+		// let viewer = document.getElementById('viewer');
+		// viewer.style.height = viewer.getBoundingClientRect().height;
+		// viewer.style.paddingTop = 0;
+		// viewer.style.display = 'flex';
+		// viewer.style.overflow = 'auto';
+		
+		// this.style.maxWidth = '';
+		toggleZoom();
+	});
 	
 	if(viewer.style.visibility != 'visible') viewer.style.visibility = 'visible';
 	if(viewer.style.opacity != '1') viewer.style.opacity = '1';
@@ -681,10 +691,31 @@ function closeViewer() {
 	let viewer = document.getElementById('viewer');
 	viewer.style.opacity = 0;
 	viewer.style.visibility = 'hidden';
+	viewer.style.height = '';
+	viewer.style.display = '';
+	viewer.style.overflow = '';
 	
 	let img = viewer.querySelector('img');
 	img.style.transform = 'scale(0.8)';
 	img.style.opacity = 0;
+}
+
+function toggleZoom(value) {
+	let viewer = document.getElementById('viewer');
+	let viewerPrev = document.getElementById('viewer-prev');
+	let viewerNext = document.getElementById('viewer-next');
+	let viewerImage = viewer.querySelector('img');
+	if(value == undefined)
+		value = viewer.style.display == 'flex';
+
+	viewerPrev.style.display = value ? '' : 'none';
+	viewerNext.style.display = value ? '' : 'none';
+	
+	viewer.style.display = value ? '' : 'flex';
+	viewer.style.overflow = value ? '' : 'auto';
+	viewerImage.style.maxWidth = value ? '100%' : '';
+	viewer.style.height = value ? '' : viewer.getBoundingClientRect().height;
+	viewer.style.paddingTop = value ? adjustViewerMargin() : 0;
 }
 
 function getFilenameInfo(url) {
