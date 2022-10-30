@@ -9,7 +9,7 @@ const defaultTitle = 'Image Collage';
 const defaultDescription = 'Gallery based on tag separated filenames\n\n©コーエーテクモゲームス All rights reserved.';
 const defaultIncludePlaceholder = '以内の…';
 const defaultExcludePlaceholder = '以外の…';
-const defaultSortLocale = 'ja';				//based on BCP 47 language tag
+const defaultSortLocale = 'ja';				// based on BCP 47 language tag
 const presetWidths = [160, 320, 480]; 		// small, medium, large; subject to alignment of columns
 const presetPrefix = ['sm', 'md', 'lg']; 	// small, medium, large; property to point to for each object
 const filenameSeparator = '_';				// filename to be separator delimited tags excluding file format
@@ -24,19 +24,22 @@ const isWidescreen = function() {
 const horizontalMenuWidth = 500; 			// for not gallery, in pixels
 const minTagCount = 2;						// anything more than or equal to this will be included in tags, default 1
 const maxTagCount = 999;					// anything less than or equal to this will be included in tags, default 999
+const excludedTags = ['覚醒'];					// tags will be excluded from stats, filenames in data will be filtered
 
 //--VARIABLES--//
 window.addEventListener('load', startup);
 window.addEventListener('resize', startup);
 
 function startup() {
-	if(debugMode) console.log(mosaicArray);
-	initializeVariables();	
+	initializeVariables();
+	generateButtonArray();
 	generateLayout();
 	generateGrid();
+	generateViewer();
 	let mousewheelEvent = isFirefox ? 'DOMMouseScroll' : 'mousewheel';
 	let mosaic = document.getElementById('mosaic');
 	if(!isWidescreen() && mosaic != null)
+	if(!window['horizontal'] && mosaic != null)
 	{
 		mosaic.addEventListener(mousewheelEvent, onScroll);
 		mosaic.addEventListener('touchstart', onTouchStart);
@@ -62,22 +65,19 @@ function startup() {
 }
 
 function initializeVariables() {
-	window['screenWidth'] = null;
+	window['isFirefox'] = (/Firefox/i.test(navigator.userAgent));
 	window['includeCriteria'] = '';
 	window['excludeCriteria'] = '';
-	if(!window['isFirefox']) window['isFirefox'] = (/Firefox/i.test(navigator.userAgent));
-	if(!window['excluded']) window['excluded'] = [];
-	if(!window['preset']) window['preset'] = 'photo_size_select_small';
-	if(!window['thumbWidth']) window['thumbWidth'] = presetWidths[0];
+	window['horizontal'] = isWidescreen();
+	window['preset'] = 'photo_size_select_small';
+	window['screenWidth'] = null;
+	window['thumbWidth'] = presetWidths[0];
 }
 
 function generateLayout() {
 	document.body.innerHTML = '';
 	document.title = defaultTitle;
-	generateViewer();
-	generateButtonArrayIfEmpty();
-	window['isHorizontal'] = isWidescreen() && window['buttonArray'].length > 0
-	if(window['isHorizontal'])
+	if(window['horizontal'])
 		generateHorizontalLayout(); // left menu, right grid
 	else
 		generateVerticalLayout(); // top menu, bottom grid
@@ -105,7 +105,7 @@ function generateViewer() {
 	document.body.appendChild(viewer);
 }
 
-function generateButtonArrayIfEmpty() {
+function generateButtonArray() {
 	if(typeof enableButtonArray == 'boolean') {
 		let val = enableButtonArray;
 		window['buttonArray'] = [];
@@ -113,7 +113,7 @@ function generateButtonArrayIfEmpty() {
 	}
 	
 	//generate tags by design
-	window['buttonArray'] = mosaicArray
+	window['buttonArray'] = generateFiltered()
 	.map(function(file) {
 		let filenameIndex = file.filename.includes('/') ? file.filename.lastIndexOf('/') : -1;
 		return getFilenameInfo(file.filename).filename;
@@ -154,7 +154,7 @@ function generateHorizontalLayout() {
 	let bodyTable = document.createElement('div');
 	bodyTable.classList.add('table');
 	bodyTable.style.width = '100%';
-	if(!isWidescreen()) bodyTable.style.flexDirection = 'column';
+	if(!window['horizontal']) bodyTable.style.flexDirection = 'column';
 	
 	let bodyTableRow1 = document.createElement('div');
 	bodyTable.appendChild(generateLayoutMenu());
@@ -167,7 +167,7 @@ function generateVerticalLayout() {
 	let bodyTable = document.createElement('div');
 	bodyTable.classList.add('table');
 	bodyTable.style.width = '100%';
-	if(!isWidescreen()) bodyTable.style.flexDirection = 'column';
+	if(!window['horizontal']) bodyTable.style.flexDirection = 'column';
 	
 	let bodyTableRow1 = document.createElement('div');
 	bodyTable.appendChild(generateLayoutMenu());
@@ -186,9 +186,9 @@ function generateLayoutMenu() {
 	let mainTable = document.createElement('div');
 	mainTable.id = 'main';
 	mainTable.style.textAlign = 'center';
-	if(window['isHorizontal']) mainTable.style.width = (horizontalMenuWidth) + 'px';
+	if(window['horizontal']) mainTable.style.width = (horizontalMenuWidth) + 'px';
 	else mainTable.style.width = '100%';
-	if(window['isHorizontal']) mainTable.style.height = '100%';
+	if(window['horizontal']) mainTable.style.height = '100%';
 	
 	let mainTableBody = document.createElement('div');
 	
@@ -239,7 +239,7 @@ function generateLayoutMenu() {
 	let tags = document.createElement('div');
 	tags.classList.add('tags');
 	tags.addEventListener('hover', function() { this.focus(); });
-	if(window['isHorizontal']) {
+	if(window['horizontal']) {
 		tags.style.height = (0.7 * window.innerHeight) + 'px';
 		tags.style.overflowY = 'auto';
 	}
@@ -357,7 +357,7 @@ function generateLayoutMenu() {
 }
 
 function generateStats() {
-	let filtered = mosaicArray
+	let filtered = generateFiltered(mosaicArray)
 	.reduce(function(total, current, arr) {
 		let names = current.filename.substring(0, current.filename.lastIndexOf('.')).split(filenameSeparator);
 		for(let name of names)
@@ -384,7 +384,7 @@ function generateStats() {
 function generateLayoutCollage() {
 	let mosaic = document.createElement('div');
 	mosaic.id = 'mosaic';
-	if(window['isHorizontal']) mosaic.style.width = (window.innerWidth - horizontalMenuWidth) + 'px';
+	if(window['horizontal']) mosaic.style.width = (window.innerWidth - horizontalMenuWidth) + 'px';
 	mosaic.style.height = (window.innerHeight) + 'px';
 
 	let grid = document.createElement('div');
@@ -395,23 +395,14 @@ function generateLayoutCollage() {
 	return mosaic;
 }
 
-function generateGrid() {	
+function generateGrid() {
 	let prevValue = '';
 	let grid = document.getElementById('grid');
 	let columns = calculateColumns();
 	calculateThumbnailSize();
 	grid.innerHTML = '';
 	
-	let includeArray = window['includeCriteria'].split('|');
-	let excludeArray = window['excludeCriteria'].split('|');
-	if(debugMode) console.log('included', includeArray);
-	if(debugMode) console.log('excluded', excludeArray);
-	let filterArray = mosaicArray
-	.filter(m => 
-		(window['includeCriteria'].length == 0 || includeArray.filter(s => m.filename.includes(s)).length == includeArray.length) && 
-		(window['excludeCriteria'].length == 0 || excludeArray.filter(s => !m.filename.includes(s)).length == excludeArray.length) 
-	)
-	.sort(function(a,b) {
+	let filterArray = generateFiltered().sort(function(a,b) {
 		return a.filename.localeCompare(b.filename, defaultSortLocale);
 	});
 	
@@ -462,6 +453,18 @@ function generateGrid() {
 	return grid;
 }
 
+function generateFiltered() {
+	let includeArray = window['includeCriteria'].split('|');
+	let excludeArray = window['excludeCriteria'].split('|');
+	if(debugMode) console.log('included', includeArray);
+	if(debugMode) console.log('excluded', excludeArray);
+	return mosaicArray.filter(m => 
+		(window['includeCriteria'].length == 0 || includeArray.filter(s => m.filename.includes(s)).length == includeArray.length) && 
+		(window['excludeCriteria'].length == 0 || excludeArray.filter(s => !m.filename.includes(s)).length == excludeArray.length) &&
+		excludedTags.filter(f => m.filename.includes(f)).length < 1
+	);
+}
+
 function getThumbnailPrefix() {
 	let prefix = '';
 	
@@ -497,7 +500,7 @@ function calculateColumns() {
 	  default:
 		break;
 	}
-	columns = Math.floor((window.innerWidth - (window['isHorizontal'] ? horizontalMenuWidth : 0)) / columns);
+	columns = Math.floor((window.innerWidth - (window['horizontal'] ? horizontalMenuWidth : 0)) / columns);
 	return columns < minColumns ? minColumns : columns;
 }
 
