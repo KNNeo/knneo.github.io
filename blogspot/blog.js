@@ -693,7 +693,7 @@ function toggleSearch() {
 	}
 }
 
-function toggleOverlay(fromSidebar) {
+function toggleOverlay() {
 	let body = document.body;
     if (document.getElementById('Overlay') == undefined) {
 		let overlay = document.createElement('div');
