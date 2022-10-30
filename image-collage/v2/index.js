@@ -708,14 +708,16 @@ function toggleZoom(value) {
 	if(value == undefined)
 		value = viewer.style.display == 'flex';
 
-	viewerPrev.style.display = value ? '' : 'none';
-	viewerNext.style.display = value ? '' : 'none';
+	if(viewerPrev != null) viewerPrev.style.display = value ? '' : 'none';
+	if(viewerNext != null) viewerNext.style.display = value ? '' : 'none';
 	
 	viewer.style.display = value ? '' : 'flex';
 	viewer.style.overflow = value ? '' : 'auto';
 	viewerImage.style.maxWidth = value ? '100%' : '';
 	viewer.style.height = value ? '' : viewer.getBoundingClientRect().height;
 	viewer.style.paddingTop = value ? adjustViewerMargin() : 0;
+	
+	document.getElementById('viewer').scrollLeft = document.querySelector('#viewer img').getBoundingClientRect().width*0.5 - window.innerWidth*0.5;
 }
 
 function getFilenameInfo(url) {
