@@ -28,7 +28,7 @@ window.addEventListener('resize', startup);
 function generateStats() {
 	let filtered = mosaicArray
 	.reduce(function(total, current, arr) {
-		let names = current.substring(0, current.lastIndexOf('.')).split(filenameSeparator);
+		let names = current.filename.substring(0, current.filename.lastIndexOf('.')).split(filenameSeparator);
 		for(let name of names)
 		{
 			if(total[name] == undefined)
@@ -47,7 +47,7 @@ function generateStats() {
 			countArray.push([item, filtered[item]]);
 	}
 	
-	console.log(countArray.sort(function(a,b) { return b[1] - a[1];	}));
+	alert(countArray.sort(function(a,b) { return b[1] - a[1]; }).map(m => m[0] + ' - ' + m[1]).join('\n'));
 }
 
 function startup() {
@@ -81,10 +81,12 @@ function startup() {
 function onScroll(e) {
 	let main = document.getElementById('main');
 	let mosaic = document.getElementById('mosaic');
+	let tags = document.querySelector('.tags');
 	let scrollDelta = isFirefox ? -e.detail*100 : e.wheelDelta
 	
-	main.style.display = scrollDelta < 0 ? 'none' : '';
-	mosaic.style.height = scrollDelta < 0 ? window.innerHeight + 'px' : (window.innerHeight - 300) + 'px';
+	main.style.height = scrollDelta < 0 ? 0 : '';
+	tags.style.height = main.style.height;
+	mosaic.style.height = scrollDelta < 0 ? window.innerHeight + 'px' : (window.innerHeight - main.getBoundingClientRect().height) + 'px';
 }
 
 function onTouchStart(e) {
@@ -94,9 +96,11 @@ function onTouchStart(e) {
 function onTouchMove(e) {
 	let main = document.getElementById('main');
 	let mosaic = document.getElementById('mosaic');
+	let tags = document.querySelector('.tags');
 	
-	main.style.display = window['touchY'] > e.touches[0].clientY ? 'none' : '';
-	mosaic.style.height = window['touchY'] > e.touches[0].clientY ? window.innerHeight + 'px' : (window.innerHeight - 300) + 'px';
+	main.style.height = window['touchY'] > e.touches[0].clientY ? 0 : '';
+	tags.style.height = main.style.height;
+	mosaic.style.height = window['touchY'] > e.touches[0].clientY ? window.innerHeight + 'px' : (window.innerHeight - main.getBoundingClientRect().height) + 'px';
 }
 
 function togglePreset() {
@@ -277,11 +281,12 @@ function generateLayoutPlayer() {
 	}
 	
 	for(let button of window['buttonArray']) {
-		if(button == '') continue;
+		if(button.value == '') continue;
 		let tag = document.createElement('button');
 		tag.classList.add('tag');
-		tag.value = button;
-		tag.innerText = button;
+		tag.value = button.value;
+		tag.title = button.value + ' (' + button.count + ')';
+		tag.innerText = button.value;
 		tag.addEventListener('click',function() {
 			if(window['includeCriteria'].includes(this.value)) {
 				window['includeCriteria'] = window['includeCriteria'].replace('|' + this.value,'').replace(this.value,'');
@@ -351,13 +356,22 @@ function generateLayoutPlayer() {
 		preset.addEventListener('click', togglePreset);
 		settings.appendChild(preset);
 	}
+	
+	let stats = document.createElement('a');
+	stats.id = 'stats';
+	stats.style.padding = '0 5px';
+	stats.classList.add('material-icons');
+	stats.href = 'javascript:void(0);';
+	stats.innerText = 'analytics';
+	stats.addEventListener('click', generateStats);
+	settings.appendChild(stats);
 		
 	let back = document.createElement('a');
 	back.classList.add('back');
 	back.style.padding = '0 5px';
 	back.style.verticalAlign = 'top';
 	back.href = '../../index.html';
-	back.innerText = 'Back';
+	back.innerText = 'knneo.github.io';
 	settings.appendChild(back);
 		
 	mainTableRow3Cell1.appendChild(settings);
@@ -429,8 +443,8 @@ function generateButtonArrayIfEmpty() {
 	})
 	.sort(function(a,b) {
 		return b.count - a.count;
-	})
-	.map(m => m.value);
+	});
+	// .map(m => m.value);
 	if(debugMode) console.log(window['buttonArray']);
 }
 
@@ -587,7 +601,7 @@ function calculateThumbnailSize() {
 	let gridChild = grid?.firstChild;
 	let columns = calculateColumns();
 	let screenWidth = window.innerWidth - (grid != null && gridChild != null ? grid.getBoundingClientRect().width - gridChild.getBoundingClientRect().width + (columns*2) : 30) - (window['isHorizontal'] ? horizontalMenuWidth : 0);
-	console.log(grid, gridChild);
+	// console.log(grid, gridChild);
 	window['thumbWidth'] = screenWidth / columns;
 	// if(columns < minColumns)
 	// {

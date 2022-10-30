@@ -177,6 +177,11 @@ tr:hover > td {
     z-index: 11;
 }
 
+.back {
+	display: block;
+	font-size: 0.9em;
+}
+
 #main {
   -webkit-user-select: none;
   -khtml-user-select: none;
