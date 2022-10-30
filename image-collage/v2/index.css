@@ -13,41 +13,14 @@
   --foreground: #fff;
 }
 
-html {
+body {
+	margin: 0;
 	font-family: Open Sans;
 	overflow: hidden;
 }
 
-body {
-	margin: 0;
-}
-
-.centered {
-	max-width: 640px;
-	margin: auto;
-	padding: 2px 8px;
-}
-
-.list tr:hover > td {
-	background-color: transparent;
-}
-
-.darked tr:hover > td {
-	background-color: transparent;
-}
-
 h1, h6 {
 	margin: 10px 0;
-}
-
-table {
-	border: 0;
-	border-collapse: collapse;
-}
-
-td, th { 
-	border: 0;
-	padding: 0;
 }
 
 .title {
@@ -68,25 +41,16 @@ td, th {
 	cursor: pointer;
 }
 
-.empty td {
-	border: 1px solid transparent;
-}
-
-.darked td, .darked th {
-	border: 0;
-}
-
-.grid-sizer {
-  width: 20%;
+.grid {
+	width: 100%;
+	display: flex;
+    flex-wrap: wrap;
 }
 
 .grid-item {
-  float: left;
+  position: relative;
   background-color: var(--foreground);
   border: 1px solid lightgray;
-}
-
-.grid-image {
   cursor: pointer;
   background-position: center;
   transition: background-size 0.1s ease;
@@ -109,41 +73,6 @@ td, th {
   border-left: 0;
   border-top: 0;
   z-index: 2;
-}
-
-#settings {
-}
-
-#main {
-}
-
-#main:hover {
-	background-color: initial;
-}
-
-#mosaic {
-  overflow: auto;
-  /* height: 68vh; */
-  white-space: nowrap;
-}
-
-#player {
-	/* height: 400px; */
-	text-align: center;
-	top: 0;
-	bottom: 0;
-}
-
-tr:hover {
-	background-color: transparent;
-}
-
-tr:hover > td {
-    background-color: transparent;
-}
-
-.darked tr:hover {
-    background-color: transparent;
 }
 
 .button-active {
@@ -180,6 +109,28 @@ tr:hover > td {
 .back {
 	display: block;
 	font-size: 0.9em;
+}
+
+.table {
+	display: flex;
+}
+
+.counter {
+	padding: 0 5px;
+	text-align: left;
+	vertical-align: top;
+	display: inline-block;
+	width: 40px;
+	font-size: 0.9em;
+}
+
+.settings-icon {
+	padding: 0 5px;	
+}
+
+#mosaic {
+  overflow: auto;
+  white-space: nowrap;
 }
 
 #main {

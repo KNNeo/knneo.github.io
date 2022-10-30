@@ -5,62 +5,42 @@
 //Data in data.js, variable mosaicArray
 
 //--SETTINGS--//
-const title = 'Image Collage';
-const presetWidths = [160, 320, 480]; 	// small, medium, large; subject to alignment of columns
-const presetPrefix = ['sm', 'md', 'lg']; 	// small, medium, large; property to point to for each object
-const filenameSeparator = '_';			// filename to be separator delimited tags excluding file format
-const minColumns = 3;			  		// minimum columns to show thumbnails, will override minWidth
-const enableDarkMode = true;	  		// shows dark mode toggle
-const isDarkMode = true;		  		// initial value if enableDarkMode is false, ignored if enableDarkMode is true
-const enableButtonArray = true;		// shows tag array based on underscore separated filename eg. image_item.jpg has tags: image, item
-const debugMode = false;		  		// shows console log values on render
-const isWidescreen = function() { return window.innerWidth > 1024; } // function to detect wider screen layout
-const horizontalMenuWidth = 500; 		// for not gallery, in pixels
-const minTagCount = 2;					// anything more than or equal to this will be included in tags, default 1
-const maxTagCount = 999;				// anything less than or equal to this will be included in tags, default 999
 const defaultTitle = 'Image Collage';
 const defaultDescription = 'Gallery based on tag separated filenames\n\n©コーエーテクモゲームス All rights reserved.';
+const defaultIncludePlaceholder = '以内の…';
+const defaultExcludePlaceholder = '以外の…';
+const defaultSortLocale = 'ja';				//based on BCP 47 language tag
+const presetWidths = [160, 320, 480]; 		// small, medium, large; subject to alignment of columns
+const presetPrefix = ['sm', 'md', 'lg']; 	// small, medium, large; property to point to for each object
+const filenameSeparator = '_';				// filename to be separator delimited tags excluding file format
+const minColumns = 3;			  			// minimum no. of columns to show thumbnails
+const enableDarkMode = true;	  			// shows dark mode toggle
+const isDarkMode = true;		  			// initial value if enableDarkMode is false, ignored if enableDarkMode is true
+const enableButtonArray = true;				// shows tag array based on filename split by filenameSeparator
+const debugMode = false;		  			// shows console log values on render
+const isWidescreen = function() { 
+	return window.innerWidth > 1024; 
+} 											// function to detect wider screen layout
+const horizontalMenuWidth = 500; 			// for not gallery, in pixels
+const minTagCount = 2;						// anything more than or equal to this will be included in tags, default 1
+const maxTagCount = 999;					// anything less than or equal to this will be included in tags, default 999
 
 //--VARIABLES--//
 window.addEventListener('load', startup);
 window.addEventListener('resize', startup);
 
-function generateStats() {
-	let filtered = mosaicArray
-	.reduce(function(total, current, arr) {
-		let names = current.filename.substring(0, current.filename.lastIndexOf('.')).split(filenameSeparator);
-		for(let name of names)
-		{
-			if(total[name] == undefined)
-				total[name] = 1;
-			else
-				total[name] += 1;
-		}
-		return total;
-	}, {});
-	
-	let countArray = [];
-	for(let item of Object.keys(filtered))
-	{
-		// console.log(filtered[item]);
-		if(filtered[item] >= minTagCount && filtered[item] <= maxTagCount)
-			countArray.push([item, filtered[item]]);
-	}
-	
-	alert(countArray.sort(function(a,b) { return b[1] - a[1]; }).map(m => m[0] + ' - ' + m[1]).join('\n'));
-}
-
 function startup() {
 	if(debugMode) console.log(mosaicArray);
 	initializeVariables();	
 	generateLayout();
-	// generateMosaic();
-	let mousewheelEvent = isFirefox ? "DOMMouseScroll" : "mousewheel";
-	if(!isWidescreen() && document.getElementById('mosaic') != null)
+	generateGrid();
+	let mousewheelEvent = isFirefox ? 'DOMMouseScroll' : 'mousewheel';
+	let mosaic = document.getElementById('mosaic');
+	if(!isWidescreen() && mosaic != null)
 	{
-		document.getElementById('mosaic').addEventListener(mousewheelEvent, onScroll);
-		document.getElementById('mosaic').addEventListener('touchstart', onTouchStart);
-		document.getElementById('mosaic').addEventListener('touchmove', onTouchMove);
+		mosaic.addEventListener(mousewheelEvent, onScroll);
+		mosaic.addEventListener('touchstart', onTouchStart);
+		mosaic.addEventListener('touchmove', onTouchMove);
 	}
 	if(!enableDarkMode) {
 		if(isDarkMode || window['darkMode'] == true) {
@@ -70,64 +50,19 @@ function startup() {
 			document.getElementsByTagName('html')[0].classList.remove('darked');
 		}
 	}
-	if(enableDarkMode && document.getElementById('darkmode') != null) {
+	let darkmode = document.getElementById('darkmode');
+	if(enableDarkMode && darkmode != null) {
 		window['darkMode'] = document.getElementsByTagName('html')[0].classList.contains('darked');
-		document.getElementById('darkmode').addEventListener('click', toggleDarkMode);
-		document.getElementById('darkmode').addEventListener('click', function() { window['darkMode'] = !window['darkMode']; });
-	}
-	setTimeout(setMosaic, 100);
-}
-
-function onScroll(e) {
-	let main = document.getElementById('main');
-	let mosaic = document.getElementById('mosaic');
-	let tags = document.querySelector('.tags');
-	let scrollDelta = isFirefox ? -e.detail*100 : e.wheelDelta
-	
-	main.style.height = scrollDelta < 0 ? 0 : '';
-	tags.style.height = main.style.height;
-	mosaic.style.height = scrollDelta < 0 ? window.innerHeight + 'px' : (window.innerHeight - main.getBoundingClientRect().height) + 'px';
-}
-
-function onTouchStart(e) {
-	window['touchY'] = e.touches[0].clientY;
-}
-
-function onTouchMove(e) {
-	let main = document.getElementById('main');
-	let mosaic = document.getElementById('mosaic');
-	let tags = document.querySelector('.tags');
-	
-	main.style.height = window['touchY'] > e.touches[0].clientY ? 0 : '';
-	tags.style.height = main.style.height;
-	mosaic.style.height = window['touchY'] > e.touches[0].clientY ? window.innerHeight + 'px' : (window.innerHeight - main.getBoundingClientRect().height) + 'px';
-}
-
-function togglePreset() {
-	switch(this.innerText)
-	{
-	  case 'photo_size_select_actual':
-		document.getElementById('preset').innerText = 'photo_size_select_small';
-		window['thumbWidth'] = presetWidths[0];
-		break
-	  case 'photo_size_select_small':
-		document.getElementById('preset').innerText = 'photo_size_select_large';
-		window['thumbWidth'] = presetWidths[1];
-		break;
-	  case 'photo_size_select_large':
-		document.getElementById('preset').innerText = 'photo_size_select_actual';
-		window['thumbWidth'] = presetWidths[2];
-		break;
-	  default:
-		break;
+		darkmode.addEventListener('click', toggleDarkMode);
+		darkmode.addEventListener('click', function() { window['darkMode'] = !window['darkMode']; });
 	}
 	
-	window['preset'] = document.getElementById('preset').innerText;
-	
-	setTimeout(setMosaic, 100);
+	window['screenWidth'] = calculateThumbnailSize();
+	generateGrid();
 }
 
 function initializeVariables() {
+	window['screenWidth'] = null;
 	window['includeCriteria'] = '';
 	window['excludeCriteria'] = '';
 	if(!window['isFirefox']) window['isFirefox'] = (/Firefox/i.test(navigator.userAgent));
@@ -143,9 +78,9 @@ function generateLayout() {
 	generateButtonArrayIfEmpty();
 	window['isHorizontal'] = isWidescreen() && window['buttonArray'].length > 0
 	if(window['isHorizontal'])
-		generateHorizontalLayout(); // left player and menu, right covers
+		generateHorizontalLayout(); // left menu, right grid
 	else
-		generateVerticalLayout(); // top player and menu, bottom covers
+		generateVerticalLayout(); // top menu, bottom grid
 }
 
 function generateViewer() {	
@@ -170,59 +105,97 @@ function generateViewer() {
 	document.body.appendChild(viewer);
 }
 
+function generateButtonArrayIfEmpty() {
+	if(typeof enableButtonArray == 'boolean') {
+		let val = enableButtonArray;
+		window['buttonArray'] = [];
+		if(!val) return;
+	}
+	
+	//generate tags by design
+	window['buttonArray'] = mosaicArray
+	.map(function(file) {
+		let filenameIndex = file.filename.includes('/') ? file.filename.lastIndexOf('/') : -1;
+		return getFilenameInfo(file.filename).filename;
+	})
+	.join(filenameSeparator)
+	.replace(/ /g, '')
+	.split(filenameSeparator)
+	.reduce(function(total, current, index, array) {
+		let updated = total;
+		if(total.filter(a => a.value == current).length > 0) {
+			let nonUpdated = total.filter(a => a.value == current)[0];
+			let oldCount = nonUpdated.count;
+			
+			updated = total.filter(a => a.value.toLowerCase() != current.toLowerCase());
+			updated.push({
+				value: current,
+				count: oldCount + 1,
+			});
+		}
+		else {
+			updated.push({
+				value: current,
+				count: 1,
+			});
+		}		
+		return updated;
+	},[])
+	.filter(function(item) {
+		return item.count >= minTagCount && item.count <= maxTagCount;
+	})
+	.sort(function(a,b) {
+		return b.count - a.count;
+	});
+	if(debugMode) console.log(window['buttonArray']);
+}
+
 function generateHorizontalLayout() {
-	let bodyTable = document.createElement('table');
+	let bodyTable = document.createElement('div');
+	bodyTable.classList.add('table');
 	bodyTable.style.width = '100%';
+	if(!isWidescreen()) bodyTable.style.flexDirection = 'column';
 	
-	let bodyTableBody = document.createElement('tbody');
-	
-	let bodyTableRow1 = document.createElement('tr');
-	bodyTableRow1.appendChild(generateLayoutPlayer());
-	bodyTableRow1.appendChild(generateLayoutJukebox());
-	
-	bodyTableBody.appendChild(bodyTableRow1);
-	
-	bodyTable.appendChild(bodyTableBody);
+	let bodyTableRow1 = document.createElement('div');
+	bodyTable.appendChild(generateLayoutMenu());
+	bodyTable.appendChild(generateLayoutCollage());
+
 	document.body.appendChild(bodyTable);
 }
 
 function generateVerticalLayout() {
-	let bodyTable = document.createElement('table');
+	let bodyTable = document.createElement('div');
+	bodyTable.classList.add('table');
 	bodyTable.style.width = '100%';
+	if(!isWidescreen()) bodyTable.style.flexDirection = 'column';
 	
-	let bodyTableBody = document.createElement('tbody');
+	let bodyTableRow1 = document.createElement('div');
+	bodyTable.appendChild(generateLayoutMenu());
 	
-	let bodyTableRow1 = document.createElement('tr');
-	bodyTableRow1.appendChild(generateLayoutPlayer());
+	let bodyTableRow2 = document.createElement('div');
+	bodyTable.appendChild(generateLayoutCollage());
 	
-	let bodyTableRow2 = document.createElement('tr');
-	bodyTableRow2.appendChild(generateLayoutJukebox());
-	
-	bodyTableBody.appendChild(bodyTableRow1);
-	bodyTableBody.appendChild(bodyTableRow2);
-	
-	bodyTable.appendChild(bodyTableBody);
 	document.body.appendChild(bodyTable);
 }
 
-function generateLayoutPlayer() {
-	let bodyTablePlayerCell = document.createElement('td');
-	bodyTablePlayerCell.classList.add('jukebox-cell');
+function generateLayoutMenu() {
+	let bodyTablePlayerCell = document.createElement('div');
+	bodyTablePlayerCell.classList.add('menu-div');
 	bodyTablePlayerCell.style.textAlign = 'center';
 	
-	let main = document.createElement('div');
-	main.id = 'main';
-	let mainTable = document.createElement('table');
+	let mainTable = document.createElement('div');
+	mainTable.id = 'main';
+	mainTable.style.textAlign = 'center';
 	if(window['isHorizontal']) mainTable.style.width = (horizontalMenuWidth) + 'px';
 	else mainTable.style.width = '100%';
 	if(window['isHorizontal']) mainTable.style.height = '100%';
 	
-	let mainTableBody = document.createElement('tbody');
+	let mainTableBody = document.createElement('div');
 	
-	let mainTableRow1 = document.createElement('tr');
+	let mainTableRow1 = document.createElement('div');
 	
-	let mainTableRow1Cell1 = document.createElement('td');
-	mainTableRow1Cell1.classList.add('jukebox-cell');
+	let mainTableRow1Cell1 = document.createElement('div');
+	mainTableRow1Cell1.classList.add('menu');
 	
 	let title = document.createElement('h1');
 	title.classList.add('title');
@@ -232,36 +205,33 @@ function generateLayoutPlayer() {
 	let description = document.createElement('h5');
 	description.innerText = defaultDescription;
 	
-	let disclaimer = document.createElement('h6');
-	disclaimer.innerHTML += '<div>Powered by <a href="https://masonry.desandro.com/">Masonry JS</a></div>';
-	
 	mainTableRow1Cell1.appendChild(title);
 	mainTableRow1Cell1.appendChild(description);
-	mainTableRow1Cell1.appendChild(disclaimer);
 	
-	let mainTableRow2 = document.createElement('tr');
+	let mainTableRow2 = document.createElement('div');
 	
-	let mainTableRow2Cell1 = document.createElement('td');
-	mainTableRow2Cell1.classList.add('jukebox-cell');
+	let mainTableRow2Cell1 = document.createElement('div');
 	
 	if(typeof enableButtonArray == 'boolean' && enableButtonArray == true) {
 		let include = document.createElement('input');
 		include.id = 'include';
-		include.style.height = '20px';
-		include.placeholder = '以内の…';
+		include.style.fontSize = '1em';
+		include.style.maxWidth = '45%';
+		include.placeholder = defaultIncludePlaceholder;
 		include.addEventListener('input',function() {
 			window['includeCriteria'] = document.getElementById('include').value;
-			setTimeout(setMosaic, 100);
+			generateGrid();
 		});
 		mainTableRow2Cell1.appendChild(include);
 		
 		let exclude = document.createElement('input');
 		exclude.id = 'exclude';
-		exclude.style.height = '20px';
-		exclude.placeholder = '以外の…';
+		exclude.style.fontSize = '1em';
+		exclude.style.maxWidth = '45%';
+		exclude.placeholder = defaultExcludePlaceholder;
 		exclude.addEventListener('input',function() {
 			window['excludeCriteria'] = document.getElementById('exclude').value;			
-			setTimeout(setMosaic, 100);
+			generateGrid();
 		});
 		mainTableRow2Cell1.appendChild(exclude);
 	}
@@ -298,7 +268,7 @@ function generateLayoutPlayer() {
 				this.classList.toggle('button-active');
 			}
 			document.getElementById('include').value = window['includeCriteria'];
-			setTimeout(setMosaic, 100);
+			generateGrid();
 		});
 		tag.addEventListener('contextmenu',function() {
 			event.preventDefault();
@@ -306,27 +276,23 @@ function generateLayoutPlayer() {
 				window['excludeCriteria'] = window['excludeCriteria'].replace('|' + this.value,'').replace(this.value,'');
 				if(window['excludeCriteria'].startsWith('|')) window['excludeCriteria'] = window['excludeCriteria'].substring(1);
 				this.classList.toggle('button-inactive');
-				// this.style.border = '';
-				// this.style.color = '';
 			}
 			else {
 				window['excludeCriteria'] += (window['excludeCriteria'].length > 0 ? '|' : '') + this.value;
 				this.classList.toggle('button-inactive');
-				// this.style.border = '1px solid gray';
-				// this.style.color = 'gray';
 			}
 			document.getElementById('exclude').value = window['excludeCriteria'];
-			setTimeout(setMosaic, 100);
+			generateGrid();
 		});
 		tags.appendChild(tag);
 	}
 	
 	mainTableRow2Cell1.appendChild(tags);
 	
-	let mainTableRow3 = document.createElement('tr');
+	let mainTableRow3 = document.createElement('div');
 	
-	let mainTableRow3Cell1 = document.createElement('td');
-	mainTableRow3Cell1.classList.add('jukebox-cell');
+	let mainTableRow3Cell1 = document.createElement('div');
+	mainTableRow3Cell1.classList.add('menu');
 	
 	let settings = document.createElement('h3');
 	settings.id = 'settings';
@@ -336,8 +302,8 @@ function generateLayoutPlayer() {
 	{
 		let darkmode = document.createElement('a');
 		darkmode.id = 'darkmode';
-		darkmode.style.padding = '0 5px';
 		darkmode.classList.add('darkmode');
+		darkmode.classList.add('settings-icon');
 		darkmode.classList.add('material-icons');
 		darkmode.href = 'javascript:void(0);';
 		darkmode.innerText = 'brightness_high';
@@ -348,23 +314,29 @@ function generateLayoutPlayer() {
 	{
 		let preset = document.createElement('a');
 		preset.id = 'preset';
-		preset.style.padding = '0 5px';
 		preset.classList.add('preset');
+		preset.classList.add('settings-icon');
 		preset.classList.add('material-icons');
 		preset.href = 'javascript:void(0);';
 		preset.innerText = window['preset'];
-		preset.addEventListener('click', togglePreset);
+		preset.addEventListener('click', onTogglePreset);
 		settings.appendChild(preset);
 	}
 	
 	let stats = document.createElement('a');
 	stats.id = 'stats';
-	stats.style.padding = '0 5px';
+	stats.classList.add('stats');
+	stats.classList.add('settings-icon');
 	stats.classList.add('material-icons');
 	stats.href = 'javascript:void(0);';
 	stats.innerText = 'analytics';
 	stats.addEventListener('click', generateStats);
 	settings.appendChild(stats);
+	
+	let counter = document.createElement('span');
+	counter.classList.add('counter');
+	counter.innerText = 0;
+	settings.appendChild(counter);
 		
 	let back = document.createElement('a');
 	back.classList.add('back');
@@ -376,104 +348,59 @@ function generateLayoutPlayer() {
 		
 	mainTableRow3Cell1.appendChild(settings);
 	
-	let counter = document.createElement('h6');
-	let count = document.createElement('span');
-	count.id = 'counter';
-	count.innerText = 0;
-	counter.appendChild(count);
-	
-	let suffix = document.createElement('span');
-	suffix.innerText = ' 画像';
-	counter.appendChild(suffix);
-	
-	mainTableRow3Cell1.appendChild(counter);
-	
-	mainTableRow1.appendChild(mainTableRow1Cell1);
-	mainTableRow2.appendChild(mainTableRow2Cell1);
-	mainTableRow3.appendChild(mainTableRow3Cell1);
-	mainTableBody.appendChild(mainTableRow1);
-	mainTableBody.appendChild(mainTableRow2);
-	mainTableBody.appendChild(mainTableRow3);
-	mainTable.appendChild(mainTableBody);
-	main.appendChild(mainTable);
-	bodyTablePlayerCell.appendChild(main);
+	mainTable.appendChild(mainTableRow1Cell1);
+	mainTable.appendChild(mainTableRow2Cell1);
+	mainTable.appendChild(mainTableRow3Cell1);
+	bodyTablePlayerCell.appendChild(mainTable);
 
-	return bodyTablePlayerCell;	
+	return mainTable;	
 }
 
-function generateButtonArrayIfEmpty() {
-	if(typeof enableButtonArray == 'boolean') {
-		let val = enableButtonArray;
-		window['buttonArray'] = [];
-		if(!val) return;
+function generateStats() {
+	let filtered = mosaicArray
+	.reduce(function(total, current, arr) {
+		let names = current.filename.substring(0, current.filename.lastIndexOf('.')).split(filenameSeparator);
+		for(let name of names)
+		{
+			if(total[name] == undefined)
+				total[name] = 1;
+			else
+				total[name] += 1;
+		}
+		return total;
+	}, {});
+	
+	let countArray = [];
+	for(let item of Object.keys(filtered))
+	{
+		// console.log(filtered[item]);
+		if(filtered[item] >= minTagCount && filtered[item] <= maxTagCount)
+			countArray.push([item, filtered[item]]);
 	}
 	
-	//generate tags by design
-	window['buttonArray'] = mosaicArray
-	.map(function(file) {
-		let filenameIndex = file.filename.includes('/') ? file.filename.lastIndexOf('/') : -1;
-		return getFilenameInfo(file.filename).filename;
-	})
-	.join(filenameSeparator)
-	.replace(/ /g, '')
-	// .replace(/.jpg/g, filenameSeparator)
-	.split(filenameSeparator)
-	.reduce(function(total, current, index, array) {
-		let updated = total;
-		if(total.filter(a => a.value == current).length > 0) {
-			let nonUpdated = total.filter(a => a.value == current)[0];
-			let oldCount = nonUpdated.count;
-			
-			updated = total.filter(a => a.value.toLowerCase() != current.toLowerCase());
-			updated.push({
-				value: current,
-				count: oldCount + 1,
-			});
-		}
-		else {
-			updated.push({
-				value: current,
-				count: 1,
-			});
-		}		
-		return updated;
-	},[])
-	.filter(function(item) {
-		return item.count >= minTagCount && item.count <= maxTagCount;
-	})
-	.sort(function(a,b) {
-		return b.count - a.count;
-	});
-	// .map(m => m.value);
-	if(debugMode) console.log(window['buttonArray']);
+	alert(countArray.sort(function(a,b) { return b[1] - a[1]; }).map(m => m[0] + ' - ' + m[1]).join('\n'));
 }
 
-function generateLayoutJukebox() {
-	let bodyTableJukeboxCell = document.createElement('td');
-	// bodyTableJukeboxCell.classList.add('jukebox-cell');
-
+function generateLayoutCollage() {
 	let mosaic = document.createElement('div');
 	mosaic.id = 'mosaic';
 	if(window['isHorizontal']) mosaic.style.width = (window.innerWidth - horizontalMenuWidth) + 'px';
 	mosaic.style.height = (window.innerHeight) + 'px';
-	// mosaic.addEventListener('hover', function() { this.focus(); });
 
-	// let grid = generateGrid();
-	// mosaic.appendChild(grid);
-	bodyTableJukeboxCell.appendChild(mosaic);
+	let grid = document.createElement('div');
+	grid.id = 'grid';
+	grid.classList.add('grid');
+	mosaic.appendChild(grid);
 
-	return bodyTableJukeboxCell;
+	return mosaic;
 }
 
-let preloads = [];
-function generateGrid() {
+function generateGrid() {	
 	let prevValue = '';
-	let grid = document.createElement('div');
-	grid.classList.add('grid');	
-	
-	let gridSizer = document.createElement('div');
-	gridSizer.classList.add('grid-sizer');
-	grid.appendChild(gridSizer);
+	let grid = document.getElementById('grid');
+	let columns = calculateColumns();
+	calculateThumbnailSize();
+	grid.innerHTML = '';
 	
 	let includeArray = window['includeCriteria'].split('|');
 	let excludeArray = window['excludeCriteria'].split('|');
@@ -485,11 +412,14 @@ function generateGrid() {
 		(window['excludeCriteria'].length == 0 || excludeArray.filter(s => !m.filename.includes(s)).length == excludeArray.length) 
 	)
 	.sort(function(a,b) {
-		return a.filename.localeCompare(b.filename, 'ja');
+		return a.filename.localeCompare(b.filename, defaultSortLocale);
 	});
 	
-	calculateThumbnailSize();
-	if(debugMode) console.log('thumbnailSize', window['thumbWidth']);
+	if(debugMode) console.log("window['thumbWidth']", window['thumbWidth']);
+	let itemWidth = window['thumbWidth'] + 'px';
+	let itemHeight = (window['thumbWidth']*9/16) + 'px';
+	grid.style.gridTemplateColumns = (itemWidth + ' ').repeat(columns);
+	
 	for(let item of filterArray) {
 		let imageUrl = item.filename;
 		
@@ -504,43 +434,31 @@ function generateGrid() {
 			prevValue = imageUrl[0];
 		}
 		
-		let gridImage = document.createElement('div');
-		gridImage.id = Date.now();
-		gridImage.tabIndex = 0;
-		gridImage.classList.add('grid-image');
-		gridImage.title = getFilenameInfo(imageUrl).filename;
-		gridImage.setAttribute('alt', item['og']);
-		gridImage.style.width = window['thumbWidth'] + 'px';
-		gridImage.style.height = (window['thumbWidth']*9/16) + 'px';
-		gridImage.style.backgroundSize = gridImage.style.width;
-		gridImage.addEventListener('mouseover',function() {
+		gridItem.title = getFilenameInfo(imageUrl).filename;
+		gridItem.setAttribute('alt', item['og']);
+		gridItem.style.width = itemWidth;
+		gridItem.style.height = itemHeight;
+		gridItem.style.backgroundSize = itemWidth;
+		gridItem.addEventListener('mouseover',function() {
 			this.style.backgroundSize = (1.2*this.offsetWidth) + 'px';
 		});
-		gridImage.addEventListener('mouseout',function() {
+		gridItem.addEventListener('mouseout',function() {
 			this.style.backgroundSize = this.offsetWidth + 'px';
 		});
-		gridImage.addEventListener('click', function() {
+		gridItem.addEventListener('click', function() {
 			openViewer(this);
 		});
-		gridImage.addEventListener('contextmenu', function(e) {
+		gridItem.addEventListener('contextmenu', function(e) {
 			e.preventDefault();
-			exclude(this);
 			return false;
 		}, false);
 		let fullImageUrl = addUrlClause(item[getThumbnailPrefix()]);
-		gridImage.style.backgroundImage = fullImageUrl || 'https://knneo.github.io/resources/spacer.gif';
-		
-		//pre-loading: will cause animation lag
-		// if(preloads.length < mosaicArray.length) {
-			// let preload = new Image();
-			// preload.src = item['og'];
-			// preloads.push(preload);
-		// }
-		
-		gridItem.appendChild(gridImage);
+		gridItem.style.backgroundImage = fullImageUrl || 'https://knneo.github.io/resources/spacer.gif';
+				
 		grid.appendChild(gridItem);		
 	}
 
+	document.querySelector('.counter').innerText = filterArray.length;
 	return grid;
 }
 
@@ -564,7 +482,6 @@ function getThumbnailPrefix() {
 	return prefix;
 }
 
-//TODO: create algorithm to determine column size based on image size provided
 function calculateColumns() {
 	let columns = 0;
 	switch(window['preset'])
@@ -584,99 +501,72 @@ function calculateColumns() {
 	return columns < minColumns ? minColumns : columns;
 }
 
-//ALSO TODO: see if mosaic can be updated for each item width instead of rendering whole grid again
-function calculateThumbnailSize() {	
-	
-	let remainder = 0;//screenWidth;
-	// while(remainder > window['thumbWidth'])
-	// {
-		// remainder -= window['thumbWidth'];
-		// columns++;
-		// if(debugMode) console.log('remainder', remainder);
-		// if(debugMode) console.log('columns', columns);
-	// }
-
-	let defaultRemainder = 20;	
-	let grid = document.querySelector('#mosaic');
+function calculateThumbnailSize() {
+	let grid = document.getElementById('grid');
 	let gridChild = grid?.firstChild;
 	let columns = calculateColumns();
-	let screenWidth = window.innerWidth - (grid != null && gridChild != null ? grid.getBoundingClientRect().width - gridChild.getBoundingClientRect().width + (columns*2) : 30) - (window['isHorizontal'] ? horizontalMenuWidth : 0);
-	// console.log(grid, gridChild);
+	let screenWidth = window['screenWidth'] ?? grid.getBoundingClientRect().width - (2*columns);
 	window['thumbWidth'] = screenWidth / columns;
-	// if(columns < minColumns)
-	// {
-		// window['thumbWidth'] = screenWidth / minColumns;
-		// return;
-	// }
-	// if(remainder > defaultRemainder)
-	// {
-		// window['thumbWidth'] = window['thumbWidth'] + 1;
-		// return calculateThumbnailSize();
-	// }
 	
-	if(debugMode)
+	if(debugMode) {
+		console.log('screenWidth', screenWidth);
+		console.log('columns', columns);
 		console.log('calculateThumbnailSize', window['thumbWidth']);
-	return;
-}
-
-function addUrlClause(url) {
-	return url ? "url('" + url + "')" : url;
-}
-
-function removeUrlClause(property) {
-	return property.replace('url("','').replace('")','');
-}
-
-function exclude(image) {
-	if(!window['excluded'].includes(image.id))
-		window['excluded'].push(image.id);
-
-	if(debugMode) console.log('exclude', window['excluded']);
-			
-	// only click on grid-items
-	if (matchesSelector(image.parentElement, '.grid-item')) {
-		// remove clicked element
-		window['msnry'].remove(image.parentElement);
-		// layout remaining item elements
-		window['msnry'].layout();
 	}
+	return screenWidth;
 }
 
-function setMosaic() {
-	let grid = generateGrid();
-	document.getElementById('mosaic').innerHTML = '';
-	document.getElementById('mosaic').appendChild(grid);
-	generateMosaic();
-}
-
-function generateMosaic() {
-	// build grid
+//EVENTS//
+function onScroll(e) {
+	let main = document.getElementById('main');
 	let mosaic = document.getElementById('mosaic');
-	if(mosaic != null) {
-		document.getElementById('counter').innerText = mosaic.getElementsByClassName('grid-image').length;
-		
-		var grid = document.querySelector('.grid');
-		imagesLoaded( grid, function() {
-			// init Isotope after all images have loaded
-			window['msnry'] = new Masonry( grid, {
-				itemSelector: '.grid-item',
-				percentPosition: true
-			});
-			window['msnry'].layout();
-		});
-	}
-	else
+	let tags = document.querySelector('.tags');
+	let scrollDelta = isFirefox ? -e.detail*100 : e.wheelDelta
+	
+	main.style.height = scrollDelta < 0 ? 0 : '';
+	tags.style.height = main.style.height;
+	mosaic.style.height = scrollDelta < 0 ? window.innerHeight + 'px' : (window.innerHeight - main.getBoundingClientRect().height) + 'px';
+}
+
+function onTouchStart(e) {
+	window['touchY'] = e.touches[0].clientY;
+}
+
+function onTouchMove(e) {
+	let main = document.getElementById('main');
+	let mosaic = document.getElementById('mosaic');
+	let tags = document.querySelector('.tags');
+	
+	main.style.height = window['touchY'] > e.touches[0].clientY ? 0 : '';
+	tags.style.height = main.style.height;
+	mosaic.style.height = window['touchY'] > e.touches[0].clientY ? window.innerHeight + 'px' : (window.innerHeight - main.getBoundingClientRect().height) + 'px';
+}
+
+function onTogglePreset() {
+	switch(this.innerText)
 	{
-		document.getElementById('counter').parentElement.innerHTML = '';
+	  case 'photo_size_select_actual':
+		document.getElementById('preset').innerText = 'photo_size_select_small';
+		window['thumbWidth'] = presetWidths[0];
+		break
+	  case 'photo_size_select_small':
+		document.getElementById('preset').innerText = 'photo_size_select_large';
+		window['thumbWidth'] = presetWidths[1];
+		break;
+	  case 'photo_size_select_large':
+		document.getElementById('preset').innerText = 'photo_size_select_actual';
+		window['thumbWidth'] = presetWidths[2];
+		break;
+	  default:
+		break;
 	}
+	
+	window['preset'] = document.getElementById('preset').innerText;
+	
+	generateGrid();
 }
 
-function goToTop() {
-    document.body.scrollTop = 0;
-    document.documentElement.scrollTop = 0;
-}
-
-//viewer
+//VIEWER//
 let imageNo = 0;
 let linkedImgList = [];
 function createLinkedList() {
@@ -802,6 +692,7 @@ function getFilenameInfo(url) {
 	return {filename, extension};
 }
 
+//LOADER//
 function runLoader() {
 	for(let loader of document.querySelectorAll('.loader'))
 	{
@@ -829,4 +720,13 @@ function runLoader() {
 			loader.parentElement.removeChild(loader);
 		}
 	}
+}
+
+//HELPERS//
+function addUrlClause(url) {
+	return url ? "url('" + url + "')" : url;
+}
+
+function removeUrlClause(property) {
+	return property.replace('url("','').replace('")','');
 }
