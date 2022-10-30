@@ -706,10 +706,10 @@ function toggleOverlay() {
 	document.getElementById('Overlay').style.backgroundColor = 'black';
 	document.getElementById('Overlay').style.zIndex = '8';
 	
-	if(fromSidebar) {
-		document.body.style.overflow = document.body.style.overflow == '' ? 'hidden' : '';
-	}
-	else {
+	// if(fromSidebar) {
+		// document.body.style.overflow = document.body.style.overflow == '' ? 'hidden' : '';
+	// }
+	if(document.getElementById('SidebarBtn') != null) {
 		document.getElementById('SidebarBtn').style.display = toggleDisplay(document.getElementById('SidebarBtn'), 'none');
 	}
 }
