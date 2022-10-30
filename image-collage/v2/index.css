@@ -150,6 +150,7 @@ h1, h6 {
 	padding-top: 0;
 	text-align: center;
 	transition: opacity 0.3s, visibility 0.3s;
+	top: 0;
 }
 #viewer-prev {
 	cursor: pointer;
