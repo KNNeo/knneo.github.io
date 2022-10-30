@@ -703,8 +703,8 @@ function toggleOverlay(fromSidebar) {
 		body.appendChild(overlay);
 	}
 	document.getElementById('Overlay').style.display = toggleDisplay(document.getElementById('Overlay'), 'none');
-	document.getElementById('Overlay').style.backgroundColor = fromSidebar ? 'black' : 'transparent';
-	document.getElementById('Overlay').style.zIndex = fromSidebar ? '8' : '0';
+	document.getElementById('Overlay').style.backgroundColor = 'black';
+	document.getElementById('Overlay').style.zIndex = '8';
 	
 	if(fromSidebar) {
 		document.body.style.overflow = document.body.style.overflow == '' ? 'hidden' : '';
