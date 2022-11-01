@@ -680,6 +680,11 @@ function adjustViewerMargin() {
 
 function closeViewer() {
 	let viewer = document.getElementById('viewer');
+	if(viewer.style.display == 'flex') {
+		toggleZoom();
+		return;
+	}
+	
 	viewer.style.opacity = 0;
 	viewer.style.visibility = 'hidden';
 	viewer.style.height = '';
