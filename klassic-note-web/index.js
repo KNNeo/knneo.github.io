@@ -397,6 +397,10 @@ function skipSong() {
 				updateQueueButtons();
 			});
 		}
+		if(!window['shuffle-mode'])
+		{
+			randomSong();
+		}
 		document.querySelector('#player').dispatchEvent(new Event('ended'));
 	}
 }
@@ -413,16 +417,17 @@ function updateQueueButtons() {
 	let shuffle = window['shuffle-mode'];
 	if(shuffle) //to disable
 	{
-		document.querySelector('#queue-random-selection').style.display = 'none';	
+		document.querySelector('#queue-random-selection').style.display = 'none';
 		document.querySelector('#queue-skip').style.display = '';
 		document.querySelector('#queue-clear').style.display = 'none';	
 		document.querySelector('#queue-options').style.display = '';	
 	}
 	if(!shuffle) //to enable
 	{
-		document.querySelector('#queue-random-selection').style.display = '';	
-		document.querySelector('#queue-skip').style.display = window['playlist'].length > 0 && playing != window['playlist'][window['playlist'].length - 1] ? '' : 'none';
-		document.querySelector('#queue-clear').style.display = window['playlist'].length > 0 ? '' : 'none';	
+		document.querySelector('#queue-random-selection').style.display = 'none';
+		// document.querySelector('#queue-skip').style.display = window['playlist'].length > 0 && playing != window['playlist'][window['playlist'].length - 1] ? '' : 'none';
+		// document.querySelector('#queue-clear').style.display = window['playlist'].length > 0 ? '' : 'none';	
+		document.querySelector('#queue-clear').style.display = 'none';	
 		document.querySelector('#queue-options').style.display = 'none';	
 	}
 }
