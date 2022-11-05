@@ -231,10 +231,26 @@ function clearSearch() {
 	setTabs();
 }
 
-function toggleAutoplay() {
-	window['autoplay-select'] = !window['autoplay-select'];
-	document.querySelector('.autoplay').innerText = window['autoplay-select'] ? 'music_note' : 'music_off';
+function toggleButton() {
+	window[this.id] = !window[this.id];
+	
+	let temp = document.getElementById(this.id).innerText;
+	document.getElementById(this.id).innerText = this.getAttribute('data-alt');
+	this.setAttribute('data-alt', temp);
+	
+	if(this.getAttribute('data-title'))
+	{
+		let tempTitle = document.getElementById(this.id).title;
+		document.getElementById(this.id).title = this.getAttribute('data-title');
+		this.setAttribute('data-title', tempTitle);
+	}
+	updateQueueButtons();
 }
+
+// function toggleAutoplay() {
+	// window['autoplay'] = !window['autoplay'];
+	// document.querySelector('.autoplay').innerText = window['autoplay'] ? 'music_note' : 'music_off';
+// }
 
 function randomSong(mode) {
 	event.preventDefault();	
@@ -306,28 +322,28 @@ function changeRandomMode() {
 	return false;
 }
 
-function changeQueueMode() {
-	switch (event.target.getAttribute('data-mode'))
-	{
-		case 'shuffle':
-			event.target.setAttribute('data-mode', 'queue');
-			event.target.title = 'Switch to Shuffle Mode';
-			event.target.innerText = 'shuffle';
-			break;
-		default:
-			event.target.setAttribute('data-mode', 'shuffle');
-			event.target.title = 'Switch to Queue Mode';
-			event.target.innerText = 'shuffle_on';
-			break;
-	}
-	window['queue-mode'] = event.target.getAttribute('data-mode');
-	return updateQueueButtons();
-}
+// function changeQueueMode() {
+	// switch (event.target.getAttribute('data-mode'))
+	// {
+		// case 'shuffle':
+			// event.target.setAttribute('data-mode', 'queue');
+			// event.target.title = 'Switch to Shuffle Mode';
+			// event.target.innerText = 'shuffle';
+			// break;
+		// default:
+			// event.target.setAttribute('data-mode', 'shuffle');
+			// event.target.title = 'Switch to Queue Mode';
+			// event.target.innerText = 'shuffle_on';
+			// break;
+	// }
+	// window['shuffle-mode'] = event.target.getAttribute('data-mode');
+	// return updateQueueButtons();
+// }
 
 function queueSongs(ids) {
 	window['playlist'] = ids;
 	window['playing'] = -1;
-	if(!window['autoplay-select']) document.querySelector('.autoplay').click();
+	if(!window['autoplay']) document.querySelector('.autoplay').click();
 	skipSong();
 }
 
@@ -347,7 +363,7 @@ function skipSong() {
 	}
 	else 
 	{
-		if(window['queue-mode'] == 'shuffle')
+		if(window['shuffle-mode'])
 		{
 			let nextOption = document.querySelector('#queue-options').value;
 			let query = "SELECT KNID FROM Song WHERE KNID <> " + window['song-id'];
@@ -394,20 +410,20 @@ function updateQueue(next) {
 
 function updateQueueButtons() {
 	let playing = document.querySelector('#player') != null ? document.querySelector('#player').getAttribute('data-id') : 0;
-	let mode = document.querySelector('#queue-mode').getAttribute('data-mode');
-	if(mode == 'queue')
-	{
-		document.querySelector('#queue-random-selection').style.display = '';	
-		document.querySelector('#queue-skip').style.display = window['playlist'].length > 0 && playing != window['playlist'][window['playlist'].length - 1] ? '' : 'none';
-		document.querySelector('#queue-clear').style.display = window['playlist'].length > 0 ? '' : 'none';	
-		document.querySelector('#queue-options').style.display = 'none';	
-	}
-	if(mode == 'shuffle')
+	let shuffle = window['shuffle-mode'];
+	if(shuffle) //to disable
 	{
 		document.querySelector('#queue-random-selection').style.display = 'none';	
 		document.querySelector('#queue-skip').style.display = '';
 		document.querySelector('#queue-clear').style.display = 'none';	
 		document.querySelector('#queue-options').style.display = '';	
+	}
+	if(!shuffle) //to enable
+	{
+		document.querySelector('#queue-random-selection').style.display = '';	
+		document.querySelector('#queue-skip').style.display = window['playlist'].length > 0 && playing != window['playlist'][window['playlist'].length - 1] ? '' : 'none';
+		document.querySelector('#queue-clear').style.display = window['playlist'].length > 0 ? '' : 'none';	
+		document.querySelector('#queue-options').style.display = 'none';	
 	}
 }
 
@@ -481,16 +497,21 @@ function startup() {
 }
 
 function renderSettings() {
-	document.querySelector('.autoplay').innerText = window['autoplay-select'] ? 'music_note' : 'music_off';
+	for(let setting of document.querySelectorAll('.setting'))
+	{
+		setting.addEventListener('click', toggleButton);
+	}
+	if(autoplayOnSelect)
+		document.getElementById('autoplay').click();
 	updateQueueButtons();
 }
 
 function renderVariables() {
 	// set variables here, do not define above
-	window['autoplay-select'] = autoplayOnSelect;
+	window['autoplay'] = autoplayOnSelect;
 	window['db'] = null;
 	window['playlist'] = [];
-	window['queue-mode'] = 'queue';
+	window['shuffle-mode'] = false;
 	window['mode'] = 'song';
 	window['playing'] = null;
 	window['loading'] = true;
@@ -830,7 +851,7 @@ function generateTableList(contents, parameters) {
 		if(clickFunc) tc.style.cursor = 'pointer';
 		tc.setAttribute('data-id', row[columnIndexKNID]);
 		tc.addEventListener('click', clickFunc);
-		tc.setAttribute('context', rightClickContext);
+		tc.setAttribute('data-context', rightClickContext);
 		tc.addEventListener('contextmenu', rightClickFunc);
 		tc.innerText = parts.join('');
 		
@@ -1262,7 +1283,7 @@ function generatePlayer(contents) {
 	audio.classList.add('player');
 	audio.setAttribute('data-id', row[columnIndexKNID]);
 	audio.controls = true;
-	audio.autoplay = window['autoplay-select']; //for shuffle to work this must be set as true
+	audio.autoplay = window['autoplay']; //for shuffle to work this must be set as true
 	audio.volume = localStorage.getItem('volume')|| 0.5;
 	audio.controlsList = 'nodownload';
 	audio.addEventListener('play', function() {
@@ -1288,7 +1309,7 @@ function generatePlayer(contents) {
 			if(next >= window['playlist'].length)
 			{
 				console.log('End of playlist reached');
-				if(window['queue-mode'] != 'shuffle')
+				if(!window['shuffle-mode'])
 					return;
 				else
 					skipSong();
@@ -2547,7 +2568,7 @@ function showContextMenu() {
 	menu.innerHTML = '';
 		
 	// console.log(event.target.getAttribute('context'));
-	switch(event.target.getAttribute('context'))
+	switch(event.target.getAttribute('data-context'))
 	{
 		case 'related':
 			menu.appendChild(showAddQueueContextMenu(this.getAttribute('data-id')));

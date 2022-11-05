@@ -75,11 +75,11 @@
 		</div>
 	</div>
 	<div id="settings" class="calc centered settings">
-		<a id="autoplay" title="Toggle Autoplay" class="autoplay material-icons" href="javascript:void(0);" onclick="toggleAutoplay()">music_note</a>
+		<a id="autoplay" class="autoplay setting material-icons" href="javascript:void(0);" data-alt="music_note" title="Toggle Autoplay">music_off</a>
 		<a id="darkmode" title="Toggle Dark Mode" class="darkmode material-icons" href="javascript:void(0);">brightness_high</a>
 		<span style="border-left: 3px solid; padding: 0 3px;"></span>
-		<a id="song-queue" title="Toggle Queue" class="material-icons" href="javascript:void(0);" onclick="showContextMenu()" context="playlist">format_list_bulleted</a>
-		<a id="queue-mode" title="Switch to Shuffle Mode" class="material-icons" href="javascript:void(0);" data-mode="queue" onclick="changeQueueMode()">shuffle</a>
+		<a id="song-queue" title="Toggle Queue" class="material-icons" href="javascript:void(0);" onclick="showContextMenu()" data-context="playlist">format_list_bulleted</a>
+		<a id="shuffle-mode" title="Switch to Shuffle Mode" class="setting material-icons" data-alt="shuffle_on" data-title="Switch to Queue Mode" href="javascript:void(0);">shuffle</a>
 		<span class="controls">
 			<a id="queue-random-selection" title="Queue Song" class="material-icons" href="javascript:void(0);" data-count="1" onclick="randomSong(this)" oncontextmenu="changeRandomMode(this)">replay</a>
 			<a id="queue-skip" title="Next Song" class="material-icons" style="vertical-align: text-top;" href="javascript:void(0);" onclick="skipSong()">play_circle_outline</a>
@@ -90,7 +90,6 @@
 				<option value="release">Same Release</option>
 				<option value="year">Same Year</option>
 			</select>
-			<span id="random-count"></span>
 		</span>
 		<div class="spacer"> </div>
 		<a href="../index.html"><b>knneo.github.io</b></a>
