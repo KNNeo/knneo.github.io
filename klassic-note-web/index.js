@@ -8,7 +8,7 @@ const debugMode = false;	//will show all available logging on console
 const widescreenAverageModuleSize = 480; //on wide screens, (responsive) tab width for modules
 const autoplayOnSelect = false; //disable player autoplay on select song in any table
 const categoryIcons = ['🧑', '💽', '🎵']; //in order: artist, release, song; will appear in each search result
-const coverArtStyle = 'overlay'; //options: default, overlay
+const coverArtStyle = 'default'; //options: default, overlay
 const hideHomepage = false;
 
 //--STARTUP--//
@@ -1386,7 +1386,7 @@ function generateCoverArt(contents) {
 		art.classList.add('overlay-background');
 		art.style.backgroundImage = 'linear-gradient(transparent 75%, var(--background)), url(' + coverArtDirectory + row[columnIndexKNYEAR] + '/' + row[columnIndexCoverArt] + ')';
 	} else {
-		art.classList.add('content-box');
+		// art.classList.add('content-box');
 		// art.classList.add('overlay-right');
 		art.src = coverArtDirectory + row[columnIndexKNYEAR] + '/' + row[columnIndexCoverArt];
 		art.addEventListener('error', function() {
