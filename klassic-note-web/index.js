@@ -371,12 +371,14 @@ function skipSong() {
 			if(nextOption == 'release') query += " AND ReleaseID = " + window['release-id'] + "";
 			if(nextOption == 'year') query += " AND KNYEAR = " + window['year'] + "";
 			queryDb(query, function(content) {
-				if(debugMode) console.log('nextOption', window['song-id'], content.values);
+				if(debugMode) console.log('nextOption', window['song-id'], content);
 				let total = content.values.length;
-				let inPlaylist = content.values.reduce(function(total, c) {
-					total += window['playlist'].indexOf(c[0].toString()) >= 0 ? 1 : 0;
-					return total;
-				}, 0);
+				let inPlaylist = 0;
+				if(typeof content.values == 'object') 
+					inPlaylist = content.values.reduce(function(total, c) {
+						total += window['playlist'].indexOf(c[0].toString()) >= 0 ? 1 : 0;
+						return total;
+					}, 0);
 				//if next option not available ie. will get current song (excluded in query), random
 				if(total == 0 || (inPlaylist >= total))
 				{
