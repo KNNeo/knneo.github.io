@@ -34,6 +34,7 @@ function scrollToPage(sectionNo, isSinglePage = false) {
 	else
 	{
 		document.querySelectorAll('.section')[sectionNo].scrollIntoView();
+		document.querySelectorAll('.section')[sectionNo].focus();
 	}
 }
 
@@ -90,6 +91,7 @@ function renderPage() {
 		else {
 			let newSection = document.createElement('div');
 			newSection.classList.add('section');
+			newSection.classList.add('focusable');
 			newSection.addEventListener('click', function() {
 				event.stopPropagation();
 				scrollToPage(sectionNo, window['elements'][mainSectionNo].isSinglePage);
@@ -134,6 +136,15 @@ function renderPage() {
 	}
 	
 	renderButtons(window['elements'][mainSectionNo].isSinglePage);
+	
+	for(let focusable of document.querySelectorAll('.focusable'))
+	{
+		focusable.tabIndex = 0;
+		focusable.addEventListener('keyup', function() {
+			if(event.keyCode == 13)
+				this.click();
+		});
+	}
 }
 
 function renderMain(sectionNo) {
@@ -147,6 +158,7 @@ function renderMain(sectionNo) {
 			prevDiv.classList.add('page-prev');
 			prevDiv.classList.add('not-selectable');
 			let prevButton = document.createElement('a');
+			prevButton.classList.add('focusable');
 			prevButton.title = 'Previous';
 			prevButton.style.visibility = !content.isSinglePage && main.previousElementSibling != null ? 'visible' : 'hidden';
 			prevButton.addEventListener('click', scrollToPrevPage);
@@ -205,6 +217,7 @@ function renderMain(sectionNo) {
 					let contentItem = document.createElement('div');
 					contentItem.classList.add('handle');
 					contentItem.classList.add('material-icons');
+					contentItem.classList.add('focusable');
 					// contentItem.style.width = '100%';
 					// contentItem.style.cursor = 'pointer';
 					// contentItem.style.flexBasis = '100%';
@@ -227,6 +240,7 @@ function renderMain(sectionNo) {
 				let contentItem = document.createElement('div');
 				contentItem.classList.add('material-icons');
 				contentItem.classList.add('home');
+				contentItem.classList.add('focusable');
 				// contentItem.style.width = iconSize;
 				// contentItem.style.height = iconSize;
 				contentItem.style.fontSize = iconSize;
@@ -260,6 +274,7 @@ function renderMain(sectionNo) {
 						continue;
 					let contentItem = document.createElement('div');
 					contentItem.classList.add('icon');
+					contentItem.classList.add('focusable');
 					contentItem.style.width = iconSize;
 					contentItem.style.height = iconSize;
 					contentItem.title = window['elements'][section].text || '';
@@ -294,6 +309,7 @@ function renderMain(sectionNo) {
 					let contentItem = document.createElement('div');
 					contentItem.classList.add('box');
 					contentItem.classList.add('text');
+					contentItem.classList.add('focusable');
 					contentItem.style.width = iconSize;
 					contentItem.style.height = iconSize;
 					// contentItem.style.cursor = 'pointer';
@@ -339,6 +355,7 @@ function renderMain(sectionNo) {
 			nextDiv.classList.add('page-next');
 			nextDiv.classList.add('not-selectable');
 			let nextButton = document.createElement('a');
+			nextButton.classList.add('focusable');
 			nextButton.title = 'Next';
 			nextButton.style.visibility = !content.isSinglePage && main.nextElementSibling != null ? 'visible' : 'hidden';
 			nextButton.addEventListener('click', scrollToNextPage);
@@ -365,6 +382,7 @@ function renderSection(sectionNo, mainSectionNo) {
 		prevDiv.classList.add('page-prev');
 		prevDiv.classList.add('not-selectable');
 		let prevButton = document.createElement('a');
+		prevButton.classList.add('focusable');
 		prevButton.title = 'Previous';
 		prevButton.style.visibility = !main.isSinglePage && section.previousElementSibling != null && section.previousElementSibling.classList.contains('section') ? 'visible' : 'hidden';
 		prevButton.addEventListener('click',scrollToPrevPage);
@@ -395,6 +413,7 @@ function renderSection(sectionNo, mainSectionNo) {
 		let canvas = document.createElement('div');
 		canvas.id = 'section' + sectionNo;
 		canvas.classList.add('box');
+		canvas.classList.add('focusable');
 		section.appendChild(canvas);
 		
 		renderChart(sectionNo, content);
@@ -414,6 +433,7 @@ function renderSection(sectionNo, mainSectionNo) {
 		nextDiv.classList.add('page-next');
 		nextDiv.classList.add('not-selectable');
 		let nextButton = document.createElement('a');
+		nextButton.classList.add('focusable');
 		nextButton.title = 'Next';
 		nextButton.style.visibility = !main.isSinglePage && section.nextElementSibling != null && section.nextElementSibling.classList.contains('section') ? 'visible' : 'hidden';
 		nextButton.addEventListener('click',scrollToNextPage);

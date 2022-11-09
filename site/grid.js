@@ -138,6 +138,7 @@ function renderGrid(sectionNo, content) {
 			}
 			else
 			{
+				img.classList.add('focusable');
 				elem.appendChild(img);
 			}			
 		}
@@ -186,11 +187,13 @@ function renderGrid(sectionNo, content) {
 				
 				if(data.link)
 					url.href = data.link;
-				else
+				else {
+					img.classList.add('focusable');	
 					img.addEventListener('click', function() {						
 						event.stopPropagation();
 						openImageUrlInViewer(this.getAttribute('data-src')); 
 					});
+				}
 				
 				url.appendChild(img);
 				gallery.appendChild(url);
@@ -200,6 +203,7 @@ function renderGrid(sectionNo, content) {
 			{		
 				let caption = document.createElement('div');
 				caption.classList.add('caption');
+				caption.classList.add('focusable');
 				caption.innerText = component.caption;
 				caption.style.width = '100%';
 				// caption.style.height = '20%';
@@ -228,6 +232,7 @@ function renderGrid(sectionNo, content) {
 				let data = component.datas[galleryIndex];
 				let img = document.createElement('img');
 				if(data.tooltip && data.tooltip.length > 0) img.title = data.tooltip;
+				img.classList.add('focusable');
 				img.src = data.thumbnail;
 				img.alt = data.tooltip;
 				if(data.grid)
@@ -282,7 +287,7 @@ function renderGrid(sectionNo, content) {
 
 function openGridInViewer(sectionIndex, componentIndex, galleryIndex) {
 	let viewer = document.querySelector('.viewer');
-	viewer.tabIndex = 999;
+	viewer.tabIndex = 0;
 	if(viewer.style.visibility != 'visible') viewer.style.visibility = 'visible';
 	if(viewer.style.opacity != '1') viewer.style.opacity = '1';
 
@@ -298,5 +303,20 @@ function openGridInViewer(sectionIndex, componentIndex, galleryIndex) {
 	renderGrid((sectionIndex) + 'viewer', galleryData);	
 	adjustViewerMargin();
 	
+	for(let focusable of document.querySelectorAll('.focusable'))
+	{
+		if(focusable == document.activeElement)
+			window['active'] = focusable;
+		focusable.tabIndex = -1;
+	}
+	
+	for(let focusable of document.querySelectorAll('.viewer .focusable'))
+	{
+		focusable.tabIndex = 0;
+		focusable.addEventListener('keyup', function() {
+			if(event.keyCode == 13)
+				this.click();
+		});
+	}
 }
 

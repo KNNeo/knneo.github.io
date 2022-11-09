@@ -5,13 +5,18 @@ function generateViewer() {
 	{
 		let viewer = document.createElement('div');
 		viewer.classList.add('viewer');
+		viewer.tabIndex = 0;
 		viewer.style.visibility = '';
 		viewer.style.opacity = '0';
 		viewer.addEventListener('click', closeViewer);
 		viewer.addEventListener('contextmenu', function(e) {
 			e.preventDefault();
 			return false;
-		}, false);			
+		}, false);
+		document.addEventListener('keyup', function() {
+			if(event.keyCode == 27)
+				closeViewer();
+		});
 		document.body.appendChild(viewer);
 	}
 }
@@ -50,7 +55,6 @@ function createLinkedList() {
 
 function openImageUrlInViewer(url) {	
 	let viewer = document.querySelector('.viewer');
-	viewer.tabIndex = 999;
 	if(viewer.style.visibility != 'visible') viewer.style.visibility = 'visible';
 	if(viewer.style.opacity != '1') viewer.style.opacity = '1';
 	let img = document.createElement('img');
@@ -64,7 +68,7 @@ function openImageUrlInViewer(url) {
 	if(viewer.childNodes.length > 0) viewer.innerHTML = '';
 	viewer.style.paddingTop = '0';
 	viewer.appendChild(img);
-	viewer.focus();	
+	viewer.focus();
 	adjustViewerMargin();
 }
 
@@ -82,4 +86,10 @@ function closeViewer() {
 	viewer.style.visibility = '';
 	viewer.style.opacity = '0';
 	viewer.innerHTML = '';
+	
+	for(let focusable of document.querySelectorAll('.focusable'))
+	{
+		focusable.tabIndex = 0;
+	}
+	window['active'].focus();
 }
