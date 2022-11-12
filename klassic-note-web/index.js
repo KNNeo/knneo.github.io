@@ -582,9 +582,10 @@ function generateFilters() {
 }
 
 function querySelect() {
+	if(debugMode) console.log('querySelect', this.value);
+	if(this.value.length < 3) return;
 	let searchFields = [].join(" || ");
 	let query = "";
-	if(debugMode) console.log('querySelect', this.value);
 	
 	searchFields = ['ArtistTitle'].join(" || ");
 	query += "SELECT MIN(ArtistID) AS KNID, '' AS KNYEAR, '' AS SongTitle, ArtistTitle, ArtistID, null as ReleaseID FROM Artist WHERE TRUE "
@@ -595,7 +596,7 @@ function querySelect() {
 	query += "SELECT KNID, KNYEAR, SongTitle, ArtistTitle, ArtistID, ReleaseID FROM Song WHERE TRUE ";
 	query += addQuotationInSQLString(this.value).split(' ').map(v => "AND " + searchFields + " LIKE '%" + v + "%'").join('');
 	
-	// if(debugMode) 
+	if(debugMode) 
 		console.log('querySelect', query);
 	queryDb(query, updateOptions);
 }
