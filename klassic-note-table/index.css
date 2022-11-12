@@ -2,6 +2,10 @@ html {
 	font-family: Open Sans;
 	font-size: 12px;
 	margin: auto;
+	color-scheme: light;
+}
+html.darked {
+	color-scheme: dark;	
 }
 body {
 	width: 100%;
