@@ -67,23 +67,27 @@ function setKeyUp() {
 		event.preventDefault();
 		window['ctrled'] = false;
 	}
-	// up: increases volume of player
+	// up: increases volume of player, combine with shift to adjust without player focus
 	if (event.keyCode === 38 && document.querySelector('#player') != null 
-	&& document.querySelector('#player').volume < 1) {
+	&& document.querySelector('#player').volume < 1
+	&& (document.querySelector('#player') == document.activeElement || window['shifted'])) {
 		event.preventDefault();
 		let player = document.querySelector('#player');
-		player.volume = player.volume + 0.1;
-		if(player.volume > 0.99) // prevent js rounding issue
-			player.volume = 1;
+		let volume = player.volume + 0.1;
+		if(volume > 0.99) // prevent js rounding issue
+			volume = 1;
+		player.volume = volume;
 	}
-	// down: decreases volume of player
+	// down: decreases volume of player, combine with shift to adjust without player focus
 	if (event.keyCode === 40 && document.querySelector('#player') != null 
-	&& document.querySelector('#player').volume > 0) {
+	&& document.querySelector('#player').volume > 0
+	&& (document.querySelector('#player') == document.activeElement || window['shifted'])) {
 		event.preventDefault();
 		let player = document.querySelector('#player');
-		player.volume = player.volume - 0.1;
-		if(player.volume < 0.01) // prevent js rounding issue
-			player.volume = 0;
+		let volume = player.volume - 0.1;
+		if(volume < 0.01) // prevent js rounding issue
+			volume = 0;
+		player.volume = volume;
 	}
 	return false;
 }
@@ -91,7 +95,7 @@ function setKeyUp() {
 function setKeyDown() {
 	if (debugMode) console.log('setKeyDown', event.keyCode);
 	// space: prevent scroll when play/pause
-	if(event.keyCode === 32 && document.activeElement == document.body)
+	if(event.keyCode === 32)
 		event.preventDefault();
 		
 	// shift: combine with click playlist to add 10 songs to queue
