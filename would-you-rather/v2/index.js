@@ -117,7 +117,7 @@ const situations = [
 const presets = [
 	{
 		moduleId: 'name',
-		moduleList: ['Baba Fumika', 'Tachibana Haru', 'Hanazawa Kana', 'Hikasa Youko', 'Horie Yui', 'Kayano Ai', 'Komatsu Mikako', 'Kotobuki Minako', 'Ookubo Rumi', 'Satou Satomi', 'Taketatsu Ayana', 'Tomatsu Haruka', 'Toyosaki Aki', 'Yuuki Aoi', 'Amamiya Sora', 'Asakura Momo', 'Endou Yurika', 'Hidaka Rina', 'Kouno Marika', 'Minase Inori', 'Natsukawa Shiina', 'Numakura Manami', 'Tachibana Rika', 'Takahashi Rie', 'Touyama Nao', 'Uesaka Sumire', 'Anzai Chika', 'Fuchigami Mai', 'Hondo Kaede', 'Isobe Karin', 'Kido Ibuki', 'Kitou Akari', 'Koga Aoi', 'Kohara Konomi', 'Lynn', 'Nagae Rika', 'Nagatsuma Juuri', 'Omigawa Chiaki', 'Oonishi Saori', 'Oono Yuuko', 'Oozora Naomi', 'Toyota Moe', 'Waki Azumi', 'Yoshimura Haruka', 'Aizawa Saya', 'Kanno Mai', 'Naganawa Maria', 'Tomita Miyu', 'Sasaki Nao'],
+		moduleList: ['Baba Fumika', 'Tachibana Haru', 'marupi', 'Hanazawa Kana', 'Hikasa Youko', 'Horie Yui', 'Kayano Ai', 'Komatsu Mikako', 'Kotobuki Minako', 'Ookubo Rumi', 'Satou Satomi', 'Taketatsu Ayana', 'Tomatsu Haruka', 'Toyosaki Aki', 'Yuuki Aoi', 'Amamiya Sora', 'Asakura Momo', 'Hidaka Rina', 'Kouno Marika', 'Minase Inori', 'Natsukawa Shiina', 'Numakura Manami', 'Tachibana Rika', 'Takahashi Rie', 'Touyama Nao', 'Uesaka Sumire', 'Anzai Chika', 'Fuchigami Mai', 'Hondo Kaede', 'Isobe Karin', 'Kido Ibuki', 'Kitou Akari', 'Koga Aoi', 'Kohara Konomi', 'Lynn', 'Nagae Rika', 'Nagatsuma Juuri', 'Omigawa Chiaki', 'Oonishi Saori', 'Oono Yuuko', 'Oozora Naomi', 'Toyota Moe', 'Waki Azumi', 'Yoshimura Haruka', 'Aizawa Saya', 'Kanno Mai', 'Naganawa Maria', 'Tomita Miyu', 'Sasaki Nao'],
 	},
 ];
 
