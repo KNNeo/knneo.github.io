@@ -24,7 +24,8 @@ const isWidescreen = function() {
 const horizontalMenuWidth = 500; 			// for not gallery, in pixels
 const minTagCount = 2;						// anything more than or equal to this will be included in tags, default 1
 const maxTagCount = 999;					// anything less than or equal to this will be included in tags, default 999
-const excludedTags = ['覚醒'];					// tags will be excluded from stats, filenames in data will be filtered
+const excludedTags = ['覚醒'];				// tags will be excluded from stats, filenames in data will be filtered
+const thumbnailRatio = 9/16;				// standard thumbnail image ratio, can be math expression or number
 
 //--VARIABLES--//
 window.addEventListener('load', startup);
@@ -408,7 +409,7 @@ function generateGrid() {
 	
 	if(debugMode) console.log("window['thumbWidth']", window['thumbWidth']);
 	let itemWidth = window['thumbWidth'] + 'px';
-	let itemHeight = (window['thumbWidth']*9/16) + 'px';
+	let itemHeight = (window['thumbWidth']*thumbnailRatio) + 'px';
 	grid.style.gridTemplateColumns = (itemWidth + ' ').repeat(columns);
 	
 	for(let item of filterArray) {
