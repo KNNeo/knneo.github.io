@@ -35,13 +35,15 @@ void Main()
 	{
 		//if(!f.Contains(".json")) continue;
 		var file = new FileInfo(f);
-		var filename = Path.Combine(file.DirectoryName, file.Name);
+		var fileName = Path.Combine(file.DirectoryName, file.Name);
+		var thumbnailName = Path.Combine(file.DirectoryName, "thumbnail_" + file.Name);
 		string text = File.ReadAllText(f);
 		
 		if(text.Length > 0)
 		{		
 			var jsonObj = JsonConvert.DeserializeObject<GooglePhotosMetadata>(text);
-			jsonObj.title = filename;
+			jsonObj.title = fileName;
+			jsonObj.thumbnail = thumbnailName;
 			jsonList.Add(jsonObj);
 		}
 	}
@@ -55,12 +57,13 @@ void Main()
 		foreach(var json in jsonList)
 		{
 			var fileLocation = json.title.Replace(@"\","/").Replace(".json","");
-			if(!File.Exists(fileLocation))
+			var thumbnailLocation = json.thumbnail.Replace(@"\","/").Replace(".json","");
+			if(!File.Exists(thumbnailLocation))
 				continue;
 			
 			Console.WriteLine("{");
 			Console.WriteLine($"\t\t\"filename\": \"{json.description}.jpg\",");
-			Console.WriteLine($"\t\t\"sm\": \"file://{fileLocation}\",");
+			Console.WriteLine($"\t\t\"sm\": \"file://{thumbnailLocation}\",");
 			Console.WriteLine($"\t\t\"md\": \"file://{fileLocation}\",");
 			Console.WriteLine($"\t\t\"lg\": \"file://{fileLocation}\",");
 			Console.WriteLine($"\t\t\"og\": \"file://{fileLocation}\",");
@@ -90,7 +93,8 @@ public class Names
 
 public class GooglePhotosMetadata 
 {
-	public string title { get; set; } // used as full file name
+	public string title { get; set; } // used as og file name
+	public string thumbnail { get; set; } // used as sm file name
 	public string description { get; set; }
 	public List<GooglePhotosMetadataPeople> people { get; set; } // used as tag list
 	public GooglePhotosMetadataCreationTime photoTakenTime { get; set; }
