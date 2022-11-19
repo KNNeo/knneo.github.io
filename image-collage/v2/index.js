@@ -119,7 +119,7 @@ function generateButtonArray() {
 		return getFilenameInfo(file.filename).filename;
 	})
 	.join(filenameSeparator)
-	.replace(/ /g, '')
+	// .replace(/ /g, '')
 	.split(filenameSeparator)
 	.reduce(function(total, current, index, array) {
 		let updated = total;
