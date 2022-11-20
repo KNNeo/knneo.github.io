@@ -1,7 +1,7 @@
 //--CONFIG--//
 const defaultTitle = 'Klassic Note Web'; //title of browser and page, will be appended with song info when playing
 const altTitlePrefix = 'Original'; //to be placed before song, release, artist title headers
-const databaseFilename = 'https://knneo.github.io/klassic-note-web/db/KlassicNoteTest.db'; //location of database, url only
+const databaseFilename = 'https://knneo.github.io/klassic-note-web/db/KlassicNote.db'; //location of database, url only
 const directory = 'file://C:/Users/KAINENG/OneDrive/Music/'; 		//for audio player, in {directory}/{KNYEAR}/{Filename}
 const coverArtDirectory = 'file://F:/RBKN/Pictures/ART/ALBUMART/'; 	//for cover art, in {coverArtDirectory}/{KNYEAR}/{Filename}
 const debugMode = false;	//will show all available logging on console
@@ -251,11 +251,6 @@ function toggleButton() {
 	updateQueueButtons();
 }
 
-// function toggleAutoplay() {
-	// window['autoplay'] = !window['autoplay'];
-	// document.querySelector('.autoplay').innerText = window['autoplay'] ? 'music_note' : 'music_off';
-// }
-
 function randomSong(mode) {
 	event.preventDefault();	
 	// document.querySelector('#search').value = '';
@@ -325,24 +320,6 @@ function changeRandomMode() {
 	}
 	return false;
 }
-
-// function changeQueueMode() {
-	// switch (event.target.getAttribute('data-mode'))
-	// {
-		// case 'shuffle':
-			// event.target.setAttribute('data-mode', 'queue');
-			// event.target.title = 'Switch to Shuffle Mode';
-			// event.target.innerText = 'shuffle';
-			// break;
-		// default:
-			// event.target.setAttribute('data-mode', 'shuffle');
-			// event.target.title = 'Switch to Queue Mode';
-			// event.target.innerText = 'shuffle_on';
-			// break;
-	// }
-	// window['shuffle-mode'] = event.target.getAttribute('data-mode');
-	// return updateQueueButtons();
-// }
 
 function queueSongs(ids) {
 	window['playlist'] = ids;
@@ -592,12 +569,12 @@ function querySelect() {
 	let query = "";
 	
 	searchFields = ['ArtistTitle'].join(" || ");
-	query += "SELECT MIN(ArtistID) AS KNID, '' AS KNYEAR, '' AS SongTitle, ArtistTitle, ArtistID, null as ReleaseID FROM Artist WHERE TRUE "
+	query += "SELECT MIN(ID) AS KNID, '' AS KNYEAR, '' AS SongTitle, ArtistTitle, ID AS ArtistID, null as ReleaseID FROM Artist WHERE TRUE "
 	query += addQuotationInSQLString(this.value).split(' ').map(v => "AND " + searchFields + " LIKE '%" + v + "%'").join('');
 	query += " GROUP BY ArtistTitle UNION ALL ";
 	
 	searchFields = ['SongTitle','ArtistTitle','KNYEAR'].join(" || ");
-	query += "SELECT KNID, KNYEAR, SongTitle, ArtistTitle, ArtistID, ReleaseID FROM Song WHERE TRUE ";
+	query += "SELECT ID AS KNID, KNYEAR, SongTitle, ArtistTitle, ArtistID, ReleaseID FROM Song WHERE TRUE ";
 	query += addQuotationInSQLString(this.value).split(' ').map(v => "AND " + searchFields + " LIKE '%" + v + "%'").join('');
 	
 	if(debugMode) 
@@ -721,7 +698,7 @@ function onChangeOption() {
 		window['mode'] = 'song';
 		let input = id.replace(categoryIcons[2], '');
 		
-		let query = "SELECT KNID AS ID, KNYEAR, Filename, SongTitle AS 'Song Title', ArtistTitle AS 'Artist Title', ReleaseTitle AS 'Release Title', ReleaseArtistTitle AS 'Release Artist', ReleaseYear AS 'Year', Rating, Genre, DateCreated AS 'Date Added', ";
+		let query = "SELECT ID, KNYEAR, Filename, SongTitle AS 'Song Title', ArtistTitle AS 'Artist Title', ReleaseTitle AS 'Release Title', ReleaseArtistTitle AS 'Release Artist', ReleaseYear AS 'Year', Rating, Genre, DateCreated AS 'Date Added', ";
 		query += "CASE WHEN VocalCode = 'F' THEN 'Solo Female' WHEN VocalCode = 'M' THEN 'Solo Male' WHEN VocalCode = 'MM' THEN 'Male Duet' WHEN VocalCode = 'FF' THEN 'Female Duet' WHEN VocalCode IN ('MF', 'FM') THEN 'Mixed Duet' WHEN LENGTH(VocalCode) = 3 THEN 'Triplet' WHEN LENGTH(VocalCode) >= 4 THEN 'Quartet or More (' || LENGTH(VocalCode) || ')' END AS 'Vocals', ";
 		query += "CASE LanguageCode WHEN 'JP' THEN 'Japanese' WHEN 'EN' THEN 'English' WHEN 'CH' THEN 'Chinese' WHEN 'FR' THEN 'French' END AS 'Language', ";
 		query += "LyricsURL AS 'Lyrics', SongTitleAlt AS '" + altTitlePrefix + " Song Title', ArtistID, ReleaseID FROM Song WHERE KNID = " + input;
@@ -733,11 +710,11 @@ function onChangeOption() {
 		window['mode'] = 'artist';
 		let input = id.replace(categoryIcons[0], '');
 		
-		let query = "SELECT ArtistTitle AS 'Artist Title' FROM Artist WHERE ArtistID = " + input;
+		let query = "SELECT ArtistTitle AS 'Artist Title' FROM Artist WHERE ID = " + input;
 		if(debugMode) console.log('query', query);
 		queryDb(query, generateModules);
 		
-		query = "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song WHERE ArtistID = " + input;
+		query = "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song WHERE ID = " + input;
 		if(isMobile())
 			query += " LIMIT 100";
 		callDb(query, updateOptions);
@@ -1094,7 +1071,7 @@ function generateHomepage() {
 	if(debugMode) console.log('generateSearchHistory', query);
 	callDb(query, generateSearchHistory);
 	
-	query = "SELECT ReleaseID as KNID, Type, Category, ReleaseTitle, ReleaseArtistTitle, KNYEAR, substr('0000'||ReleaseDate,-4) as ReleaseDate FROM Release ";
+	query = "SELECT ID as KNID, Type, Category, ReleaseTitle, ReleaseArtistTitle, KNYEAR, substr('0000'||ReleaseDate,-4) as ReleaseDate FROM Release ";
 	query += "WHERE KNYEAR = strftime('%Y','now') ";
 	query += "AND ReleaseDate >= cast(strftime('%m%d','now') as integer) ORDER BY ReleaseDate, ReleaseArtistTitle, ReleaseTitle LIMIT 10";
 	if(debugMode) console.log('generateUpcomingReleases', query);
@@ -1363,7 +1340,7 @@ function queryCoverArt(contents) {
 	let columnIndexReleaseID = contents.columns.indexOf('ReleaseID');
 	if(parseInt(columnIndexReleaseID) > 0)
 	{
-		let query = "SELECT KNYEAR, CoverArt FROM Release WHERE ReleaseID = " + row[columnIndexReleaseID];
+		let query = "SELECT KNYEAR, CoverArt FROM Release WHERE ID = " + row[columnIndexReleaseID];
 		if(debugMode) 
 			console.log('generateCoverArt', query);
 		queryDb(query, generateCoverArt);
@@ -1437,7 +1414,7 @@ function queryInfo(contents) {
 	if(debugMode) console.log('generateArtistInfo', query);
 	queryDb(query, generateArtistInfo);
 	
-	query = "SELECT KNYEAR, Category, Type, ReleaseTitle AS 'Release Title', ReleaseArtistTitle AS 'Release Artist', TracksSelected || ' / ' || TracksTotal AS 'Tracks In Library', (SELECT COUNT(*) FROM Song s WHERE s.ReleaseTitle like r.ReleaseTitle || '%' AND s.ReleaseArtistTitle = r.ReleaseArtistTitle AND s.KNYEAR <= r.KNYEAR) || ' / ' || TracksSelected AS 'New Tracks', ReleaseYear || '.' || SUBSTR('00' || SUBSTR(ReleaseDate, 0, 2), -2, 2) || '.' || SUBSTR('00' || ReleaseDate, -2, 2) AS 'Release Date', ReleaseTitleAlt AS '" + altTitlePrefix + " Release Title', ReleaseArtistTitleAlt AS '" + altTitlePrefix + " Release Artist' FROM Release r WHERE ReleaseID = (SELECT MAX(ReleaseID) FROM Release WHERE ReleaseTitle = '" + reduceReleaseTitle(row[columnIndexReleaseTitle]) + "' AND ReleaseArtistTitle = '" + addQuotationInSQLString(row[columnIndexReleaseArtistTitle]) + "')";
+	query = "SELECT KNYEAR, Category, Type, ReleaseTitle AS 'Release Title', ReleaseArtistTitle AS 'Release Artist', TracksSelected || ' / ' || TracksTotal AS 'Tracks In Library', (SELECT COUNT(*) FROM Song s WHERE s.ReleaseTitle like r.ReleaseTitle || '%' AND s.ReleaseArtistTitle = r.ReleaseArtistTitle AND s.KNYEAR <= r.KNYEAR) || ' / ' || TracksSelected AS 'New Tracks', ReleaseYear || '.' || SUBSTR('00' || SUBSTR(ReleaseDate, 0, 2), -2, 2) || '.' || SUBSTR('00' || ReleaseDate, -2, 2) AS 'Release Date', ReleaseTitleAlt AS '" + altTitlePrefix + " Release Title', ReleaseArtistTitleAlt AS '" + altTitlePrefix + " Release Artist' FROM Release r WHERE ID = (SELECT MAX(ID) FROM Release WHERE ReleaseTitle = '" + reduceReleaseTitle(row[columnIndexReleaseTitle]) + "' AND ReleaseArtistTitle = '" + addQuotationInSQLString(row[columnIndexReleaseArtistTitle]) + "')";
 	if(debugMode) console.log('generateReleaseInfo', query);
 	queryDb(query, generateReleaseInfo);
 }
@@ -1476,7 +1453,7 @@ function queryYearInfo(contents) {
 	let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
 	let year = row[columnIndexKNYEAR];
 	
-	let query = "SELECT KNYEAR, StartDate AS 'Song Awards Start Date', EndDate AS 'Song Awards End Date', (SELECT COUNT(SongID) FROM Song WHERE KNYEAR = " + year + ") AS 'Song Count', (SELECT COUNT(DISTINCT ArtistID) FROM Song WHERE KNYEAR = " + year + ") AS 'Total Artists', (SELECT COUNT(DISTINCT ReleaseID) FROM Song WHERE KNYEAR = " + year + ") AS 'Total Releases' FROM SongAwardsPeriod WHERE KNYEAR = " + year + " AND Category = 'SONGLIST' ";
+	let query = "SELECT KNYEAR, StartDate AS 'Song Awards Start Date', EndDate AS 'Song Awards End Date', (SELECT COUNT(ID) FROM Song WHERE KNYEAR = " + year + ") AS 'Song Count', (SELECT COUNT(DISTINCT ArtistID) FROM Song WHERE KNYEAR = " + year + ") AS 'Total Artists', (SELECT COUNT(DISTINCT ReleaseID) FROM Song WHERE KNYEAR = " + year + ") AS 'Total Releases' FROM SongAwardsPeriod WHERE KNYEAR = " + year + " AND Category = 'SONGLIST' ";
 	if(debugMode) console.log('generateYearInfo', query);
 	queryDb(query, generateYearInfo);
 	queryDb(query, querySOTDByYear);
@@ -1542,7 +1519,7 @@ function queryArtistInfo(contents) {
 		console.log('generateArtistInfo', query);
 	queryDb(query, generateArtistInfo);
 	
-	query = "SELECT DISTINCT r.ReleaseYear as 'Year', r.Category, r.Type, r.ReleaseTitle AS 'Release Title', r.ReleaseYear || SUBSTR('0000' || r.ReleaseDate, -4, 4) AS 'Release Date', r.ReleaseTitleAlt AS '" + altTitlePrefix + " Release Title', r.ReleaseArtistTitleAlt AS '" + altTitlePrefix + " Release Artist', CAST(w.ReviewID > 0 as INT) as 'Reviewed' FROM Release r LEFT JOIN Review w ON r.ReleaseID = w.ReleaseID WHERE r.ReleaseArtistTitle = '" + addQuotationInSQLString(row[columnIndexArtistTitle]) + "' GROUP BY r.ReleaseTitle ORDER BY r.ReleaseYear, SUBSTR('0000' || r.ReleaseDate, -4, 4)";
+	query = "SELECT DISTINCT r.ReleaseYear as 'Year', r.Category, r.Type, r.ReleaseTitle AS 'Release Title', r.ReleaseYear || SUBSTR('0000' || r.ReleaseDate, -4, 4) AS 'Release Date', r.ReleaseTitleAlt AS '" + altTitlePrefix + " Release Title', r.ReleaseArtistTitleAlt AS '" + altTitlePrefix + " Release Artist', CAST(w.ID > 0 as INT) as 'Reviewed' FROM Release r LEFT JOIN Review w ON r.ID = w.ReleaseID WHERE r.ReleaseArtistTitle = '" + addQuotationInSQLString(row[columnIndexArtistTitle]) + "' GROUP BY r.ReleaseTitle ORDER BY r.ReleaseYear, SUBSTR('0000' || r.ReleaseDate, -4, 4)";
 	if(debugMode)
 		console.log('generateReleaseInfo', query);
 	queryDb(query, generateArtistReleaseInfo);
@@ -1622,7 +1599,7 @@ function queryRelated(contents) {
 	//artist featured in
 	// document.querySelector('#songs-related-collab').innerHTML = '';
 	query = "select a.ParentArtist, s.KNID, s.KNYEAR, s.SongTitle, s.ArtistTitle from Artist a ";
-	query += "join Song s on a.ArtistID = s.ArtistID "
+	query += "join Song s on a.ID = s.ArtistID "
 	query += "where a.ParentArtist <> a.ArtistTitle and a.ParentArtist = '" + addQuotationInSQLString(row[columnIndexArtistTitle]) + "' ";
 	query += "ORDER BY RANDOM() DESC LIMIT 5";
 	if(debugMode) console.log('generateSongFeaturedByArtist', query);
@@ -1730,7 +1707,7 @@ function queryArtistRelated(contents) {
 	//artist featured in
 	// document.querySelector('#songs-related-collab').innerHTML = '';
 	query = "select a.ParentArtist, s.KNID, s.KNYEAR, s.SongTitle, s.ArtistTitle from Artist a ";
-	query += "join Song s on a.ArtistID = s.ArtistID "
+	query += "join Song s on a.ID = s.ArtistID "
 	query += "where a.ParentArtist <> a.ArtistTitle and a.ParentArtist = '" + addQuotationInSQLString(row[columnIndexArtistTitle]) + "' ";
 	query += "ORDER BY RANDOM() DESC LIMIT 5";
 	if(debugMode) console.log('generateArtistFeatured', query);
@@ -1783,9 +1760,9 @@ function queryAwards(contents) {
 	let row = rows[0];
 	let columnIndexKNID = contents.columns.indexOf('ID');
 	//select awards of that song regardless of year
-	let query = "SELECT a.KNYEAR, a.AwardTitle, a.ArtistTitle AS 'Artist Title', a.RecipientTitle AS 'Song Title', a.KNID, a.IsWinner AS 'Won' FROM Award a JOIN Song s ON s.KNID = a.KNID JOIN (SELECT ar.* FROM Award ar WHERE ar.KNID = " 
+	let query = "SELECT a.KNYEAR, a.AwardTitle, a.ArtistTitle AS 'Artist Title', a.RecipientTitle AS 'Song Title', s.KNID, a.IsWinner AS 'Won' FROM Award a JOIN Song s ON s.ID = a.SongID JOIN (SELECT ar.* FROM Award ar WHERE ar.SongID = " 
 	query += row[columnIndexKNID] + ") aref ON aref.KNYEAR = a.KNYEAR AND aref.AwardCode = a.AwardCode " 
-	query += "ORDER BY a.KNYEAR, a.AwardID, a.SortOrder";
+	query += "ORDER BY a.KNYEAR, a.ID, a.SortOrder";
 	if(debugMode) console.log('queryAwards', query);
 	queryDb(query, generateAwards);
 }
@@ -1797,8 +1774,8 @@ function queryAwardsByYear(contents) {
 	let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
 	
 	//select awards of that song regardless of year
-	let query = "SELECT a.KNYEAR, a.AwardTitle, a.ArtistTitle AS 'Artist Title', a.RecipientTitle AS 'Song Title', a.KNID, a.IsWinner AS 'Won' FROM Award a JOIN Song s ON s.KNID = a.KNID WHERE a.KNYEAR = " + row[columnIndexKNYEAR] + " "; 
-	query += "ORDER BY a.KNYEAR, a.AwardID, a.SortOrder";
+	let query = "SELECT a.KNYEAR, a.AwardTitle, a.ArtistTitle AS 'Artist Title', a.RecipientTitle AS 'Song Title', a.SongID AS KNID, a.IsWinner AS 'Won' FROM Award a JOIN Song s ON s.ID = a.SongID WHERE a.KNYEAR = " + row[columnIndexKNYEAR] + " "; 
+	query += "ORDER BY a.KNYEAR, a.ID, a.SortOrder";
 	if(debugMode) console.log('queryAwardsByYear', query);
 	queryDb(query, generateAwards);
 }
@@ -1810,8 +1787,8 @@ function queryAwardsByArtist(contents) {
 	let columnIndexArtistTitle = contents.columns.indexOf('Artist Title');
 	
 	//select awards of that song regardless of year
-	let query = "SELECT a.KNYEAR, a.AwardTitle, a.ArtistTitle AS 'Artist Title', a.RecipientTitle AS 'Song Title', a.KNID, a.IsWinner AS 'Won' FROM Award a JOIN Song s ON s.KNID = a.KNID WHERE a.ArtistTitle = '" + row[columnIndexArtistTitle] + "'"; 
-	query += "ORDER BY a.KNYEAR, a.AwardID, a.SortOrder";
+	let query = "SELECT a.KNYEAR, a.AwardTitle, a.ArtistTitle AS 'Artist Title', a.RecipientTitle AS 'Song Title', a.SongID, a.IsWinner AS 'Won' FROM Award a JOIN Song s ON s.ID = a.SongID WHERE a.ArtistTitle = '" + row[columnIndexArtistTitle] + "'"; 
+	query += "ORDER BY a.KNYEAR, a.ID, a.SortOrder";
 	if(debugMode) console.log('queryAwardsByArtist', query);
 	queryDb(query, generateAwards);
 }
@@ -1863,7 +1840,7 @@ function queryRankings(contents) {
 	let row = rows[0];
 	let columnIndexKNID = contents.columns.indexOf('ID');
 	//select ranking of that year of song
-	let query = "SELECT s.KNID, r.KNYEAR, r.RankNo AS 'Rank #', r.SortOrder, s.SongTitle AS 'Song Title', s.ArtistTitle AS 'Artist Title' FROM Ranking r JOIN Song s on r.KNID = s.KNID WHERE r.KNYEAR = (SELECT KNYEAR FROM Ranking WHERE KNID = " + row[columnIndexKNID] + ") ORDER BY r.KNYEAR, r.RankNo, r.SortOrder";
+	let query = "SELECT s.ID AS KNID, r.KNYEAR, r.RankNo AS 'Rank #', r.SortOrder, s.SongTitle AS 'Song Title', s.ArtistTitle AS 'Artist Title' FROM Ranking r JOIN Song s on r.SongID = s.ID WHERE r.KNYEAR = (SELECT KNYEAR FROM Ranking WHERE SongID = " + row[columnIndexKNID] + ") ORDER BY r.KNYEAR, r.RankNo, r.SortOrder";
 	if(debugMode) console.log('queryRankings', query);
 	queryDb(query, generateRanking);
 }
@@ -1874,7 +1851,7 @@ function queryRankingsByYear(contents) {
 	let row = rows[0];
 	let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
 	//select ranking of that year of song
-	let query = "SELECT s.KNID, r.KNYEAR, r.RankNo AS 'Rank #', r.SortOrder, s.SongTitle AS 'Song Title', s.ArtistTitle AS 'Artist Title' FROM Ranking r JOIN Song s on r.KNID = s.KNID WHERE r.KNYEAR = " + row[columnIndexKNYEAR] + " ORDER BY r.KNYEAR, r.RankNo, r.SortOrder";
+	let query = "SELECT s.ID AS KNID, r.KNYEAR, r.RankNo AS 'Rank #', r.SortOrder, s.SongTitle AS 'Song Title', s.ArtistTitle AS 'Artist Title' FROM Ranking r JOIN Song s on r.SongID = s.ID WHERE r.KNYEAR = " + row[columnIndexKNYEAR] + " ORDER BY r.KNYEAR, r.RankNo, r.SortOrder";
 	if(debugMode) console.log('queryRankingsByYear', query);
 	queryDb(query, generateRanking);
 }
@@ -1885,7 +1862,7 @@ function queryRankingsByArtist(contents) {
 	let row = rows[0];
 	let columnIndexArtistTitle = contents.columns.indexOf('Artist Title');
 	//select ranking of that year of song
-	let query = "SELECT s.KNID, r.KNYEAR, r.RankNo AS 'Rank #', r.SortOrder, s.SongTitle AS 'Song Title', s.ArtistTitle AS 'Artist Title' FROM Ranking r JOIN Song s on r.KNID = s.KNID WHERE s.ArtistTitle = '" + row[columnIndexArtistTitle] + "' ORDER BY r.KNYEAR, r.RankNo, r.SortOrder";
+	let query = "SELECT s.ID AS KNID, r.KNYEAR, r.RankNo AS 'Rank #', r.SortOrder, s.SongTitle AS 'Song Title', s.ArtistTitle AS 'Artist Title' FROM Ranking r JOIN Song s on r.SongID = s.ID WHERE s.ArtistTitle = '" + row[columnIndexArtistTitle] + "' ORDER BY r.KNYEAR, r.RankNo, r.SortOrder";
 	if(debugMode) console.log('queryRankingsByArtist', query);
 	queryDb(query, generateRankingByArtist);
 }
@@ -1944,7 +1921,7 @@ function queryCompilations(contents) {
 	let row = rows[0];
 	let columnIndexKNID = contents.columns.indexOf('ID');
 	//select compilations of that song regardless of year
-	let query = "SELECT c.CompilationTitle, c.TrackNumber AS 'Track #', c.SongTitle AS 'Song Title', c.ArtistTitle AS 'Artist Title', c.KNYEAR, c.KNID FROM Compilation c JOIN Song s ON s.KNID = c.KNID JOIN (SELECT cp.* FROM Compilation cp WHERE cp.KNID = " 
+	let query = "SELECT c.CompilationTitle, c.TrackNumber AS 'Track #', c.SongTitle AS 'Song Title', c.ArtistTitle AS 'Artist Title', c.KNYEAR, c.SongID AS KNID FROM Compilation c JOIN Song s ON s.ID = c.SongID JOIN (SELECT cp.* FROM Compilation cp WHERE cp.SongID = " 
 	query += row[columnIndexKNID] + ") cref ON cref.CompilationTitle = c.CompilationTitle " 
 	query += "ORDER BY c.KNYEAR, c.CompilationTitle, c.TrackNumber";
 	if(debugMode) console.log('queryCompilations', query);
@@ -1957,7 +1934,7 @@ function queryCompilationsByYear(contents) {
 	let row = rows[0];
 	let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
 	//select compilations of that song regardless of year
-	let query = "SELECT c.CompilationTitle, c.TrackNumber AS 'Track #', c.SongTitle AS 'Song Title', c.ArtistTitle AS 'Artist Title', c.KNYEAR, c.KNID FROM Compilation c JOIN Song s ON s.KNID = c.KNID WHERE c.KNYEAR = " + row[columnIndexKNYEAR] + " ";
+	let query = "SELECT c.CompilationTitle, c.TrackNumber AS 'Track #', c.SongTitle AS 'Song Title', c.ArtistTitle AS 'Artist Title', c.KNYEAR, c.SongID AS KNID FROM Compilation c JOIN Song s ON s.ID = c.SongID WHERE c.KNYEAR = " + row[columnIndexKNYEAR] + " ";
 	query += "ORDER BY c.KNYEAR, c.CompilationTitle, c.TrackNumber";
 	if(debugMode) console.log('queryCompilationsByYear', query);
 	queryDb(query, generateCompilations);
@@ -1969,7 +1946,7 @@ function queryCompilationsByArtist(contents) {
 	let row = rows[0];
 	let columnIndexArtistTitle = contents.columns.indexOf('Artist Title');
 	//select compilations of that song regardless of year
-	let query = "SELECT c.CompilationTitle, c.TrackNumber AS 'Track #', c.SongTitle AS 'Song Title', c.ArtistTitle AS 'Artist Title', c.KNYEAR, c.KNID FROM Compilation c JOIN Song s ON s.KNID = c.KNID WHERE c.ArtistTitle = '" + row[columnIndexArtistTitle] + "'";
+	let query = "SELECT c.CompilationTitle, c.TrackNumber AS 'Track #', c.SongTitle AS 'Song Title', c.ArtistTitle AS 'Artist Title', c.KNYEAR, c.SongID AS KNID FROM Compilation c JOIN Song s ON s.ID = c.SongID WHERE c.ArtistTitle = '" + row[columnIndexArtistTitle] + "'";
 	query += "ORDER BY c.KNYEAR, c.CompilationTitle, c.TrackNumber";
 	if(debugMode) console.log('queryCompilationsByArtist', query);
 	queryDb(query, generateCompilations);
@@ -2033,7 +2010,7 @@ function queryCollection(contents) {
 	let row = rows[0];
 	let columnIndexArtistTitle = contents.columns.indexOf('Artist Title');
 	//select compilations of that song regardless of year
-	let query = "SELECT c.CollectionTitle, c.TrackNumber AS 'Track #', s.KNID, s.SongTitle AS 'Song Title' FROM UltimateCollection c JOIN Song s on c.KNID = s.KNID WHERE c.Folder = '" + row[columnIndexArtistTitle] + "' ORDER BY c.TrackNumber";
+	let query = "SELECT c.CollectionTitle, c.TrackNumber AS 'Track #', s.ID AS KNID, s.SongTitle AS 'Song Title' FROM UltimateCollection c JOIN Song s on c.SongID = s.ID WHERE c.Folder = '" + row[columnIndexArtistTitle] + "' ORDER BY c.TrackNumber";
 	if(debugMode) console.log('queryCollection', query);
 	queryDb(query, generateCollection);
 }
@@ -2072,14 +2049,14 @@ function querySOTD(contents) {
 	let row = rows[0];
 	let columnIndexKNID = contents.columns.indexOf('ID');
 	//select song of the day mentions of that song regardless of year
-	let query = "SELECT SUBSTR(a.Date, 1, 4) AS 'Year', case when MIN(a.Date) = MAX(a.Date) THEN MIN(a.Date) ELSE MIN(a.Date) || ' - ' || MAX(a.Date) END AS 'Time Period', COUNT(*) AS 'Count' FROM (SELECT t.* FROM SOTD t JOIN Song s ON s.KNID = t.KNID WHERE t.KNID = " + row[columnIndexKNID] + " AND t.IsShortPreview = 0 ORDER BY t.Date, t.TimeOfDay, t.SortOrder) a GROUP BY SUBSTR(a.Date, 1,4)";
+	let query = "SELECT SUBSTR(a.Date, 1, 4) AS 'Year', case when MIN(a.Date) = MAX(a.Date) THEN MIN(a.Date) ELSE MIN(a.Date) || ' - ' || MAX(a.Date) END AS 'Time Period', COUNT(*) AS 'Count' FROM (SELECT t.* FROM SOTD t JOIN Song s ON s.ID = t.SongID WHERE t.SongID = " + row[columnIndexKNID] + " AND t.IsShortPreview = 0 ORDER BY t.Date, t.TimeOfDay, t.SortOrder) a GROUP BY SUBSTR(a.Date, 1,4)";
 	if(debugMode) console.log('querySOTD', query);
 	queryDb(query, generateSOTD);
 	
 	//select awards of that song regardless of year
-	query = "SELECT m.KNYEAR AS 'Year', m.Month, m.SongTitle AS 'Song Title', m.ArtistTitle AS 'Artist Title', m.Count, m.KNID "
-	query += "FROM SOTM m JOIN Song s ON s.KNID = m.KNID "
-	query += "JOIN (SELECT tm.* FROM SOTM tm WHERE tm.KNID = " + row[columnIndexKNID] + ") mref ON mref.KNYEAR = m.KNYEAR ";
+	query = "SELECT m.KNYEAR AS 'Year', m.Month, m.SongTitle AS 'Song Title', m.ArtistTitle AS 'Artist Title', m.Count, m.SongID as KNID "
+	query += "FROM SOTM m JOIN Song s ON s.ID = m.SongID "
+	query += "JOIN (SELECT tm.* FROM SOTM tm WHERE tm.SongID = " + row[columnIndexKNID] + ") mref ON mref.KNYEAR = m.KNYEAR ";
 
 	if(debugMode) console.log('querySOTM', query);
 	queryDb(query, generateSOTM);
@@ -2095,15 +2072,15 @@ function querySOTDByYear(contents) {
 	let startDate = rows[0][columnIndexStartDate];
 	let endDate = rows[0][columnIndexEndDate];
 	//select song of the day mentions of that song regardless of year
-	let query = "SELECT COUNT(*) AS 'Rank', t.SongTitle AS 'Song Title', t.ArtistTitle AS 'Artist Title', t.KNID FROM SOTD t JOIN Song s ON s.KNID = t.KNID ";
+	let query = "SELECT COUNT(*) AS 'Rank', t.SongTitle AS 'Song Title', t.ArtistTitle AS 'Artist Title', t.SongID AS KNID FROM SOTD t JOIN Song s ON s.ID = t.SongID ";
 	query += "WHERE t.Date BETWEEN " + startDate + " AND " + endDate + " AND t.IsShortPreview = 0 ";
-	query += "GROUP BY t.SongTitle, t.ArtistTitle, t.KNID ORDER BY COUNT(*) DESC LIMIT 20";
+	query += "GROUP BY t.SongTitle, t.ArtistTitle, t.SongID ORDER BY COUNT(*) DESC LIMIT 20";
 	if(debugMode) console.log('querySOTDByYear', query);
 	queryDb(query, generateTopSOTD);
 	
 	//select awards of that song regardless of year
-	query = "SELECT m.KNYEAR AS 'Year', m.Month, m.SongTitle AS 'Song Title', m.ArtistTitle AS 'Artist Title', m.Count, m.KNID "
-	query += "FROM SOTM m JOIN Song s ON s.KNID = m.KNID WHERE m.KNYEAR = " + KNYEAR;
+	query = "SELECT m.KNYEAR AS 'Year', m.Month, m.SongTitle AS 'Song Title', m.ArtistTitle AS 'Artist Title', m.Count, m.SongID AS KNID "
+	query += "FROM SOTM m JOIN Song s ON s.ID = m.SongID WHERE m.KNYEAR = " + KNYEAR;
 	if(debugMode) console.log('querySOTMByYear', query);
 	queryDb(query, generateSOTM);
 }
@@ -2169,13 +2146,13 @@ function queryAnalysis(contents) {
 	queryDb(query, generateVocalPopularity);
 	
 	//Singles B-side Survey
-	query = "SELECT 'All Singles' AS 'Category', COUNT(ReleaseID) AS 'Count' FROM Release WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = KNYEAR AND Category = 'SINGLE' AND IsReviewed = 1 ";
-	query += "UNION ALL SELECT '1 Track' AS 'Category', COUNT(ReleaseID) AS 'Count' FROM Release WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = KNYEAR AND Category = 'SINGLE' AND IsReviewed = 1 AND TracksTotal = 1 ";
-	query += "UNION ALL SELECT '2 Tracks' AS 'Category', COUNT(ReleaseID) AS 'Count' FROM Release WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = KNYEAR AND Category = 'SINGLE' AND IsReviewed = 1 AND TracksTotal = 2 ";
-	query += "UNION ALL SELECT '3 Tracks' AS 'Category', COUNT(ReleaseID) AS 'Count' FROM Release WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = KNYEAR AND Category = 'SINGLE' AND IsReviewed = 1 AND TracksTotal > 2 ";
-	query += "UNION ALL SELECT '2 Tracks (B-side)' AS 'Category', COUNT(ReleaseID) AS 'Count' FROM Release WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = KNYEAR AND Category = 'SINGLE' AND IsReviewed = 1 AND TracksTotal = 2 AND TracksSelected > 1 ";
-	query += "UNION ALL SELECT '3 Tracks (B-side)' AS 'Category', COUNT(ReleaseID) AS 'Count' FROM Release WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = KNYEAR AND Category = 'SINGLE' AND IsReviewed = 1 AND TracksTotal > 2 AND TracksSelected > 1 ";
-	query += "UNION ALL SELECT 'Singles Reviewed' AS 'Category', COUNT(ReviewID) AS 'Count' FROM Review WHERE KNYEAR = " + KNYEAR + " ";
+	query = "SELECT 'All Singles' AS 'Category', COUNT(ID) AS 'Count' FROM Release WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = KNYEAR AND Category = 'SINGLE' AND IsReviewed = 1 ";
+	query += "UNION ALL SELECT '1 Track' AS 'Category', COUNT(ID) AS 'Count' FROM Release WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = KNYEAR AND Category = 'SINGLE' AND IsReviewed = 1 AND TracksTotal = 1 ";
+	query += "UNION ALL SELECT '2 Tracks' AS 'Category', COUNT(ID) AS 'Count' FROM Release WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = KNYEAR AND Category = 'SINGLE' AND IsReviewed = 1 AND TracksTotal = 2 ";
+	query += "UNION ALL SELECT '3 Tracks' AS 'Category', COUNT(ID) AS 'Count' FROM Release WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = KNYEAR AND Category = 'SINGLE' AND IsReviewed = 1 AND TracksTotal > 2 ";
+	query += "UNION ALL SELECT '2 Tracks (B-side)' AS 'Category', COUNT(ID) AS 'Count' FROM Release WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = KNYEAR AND Category = 'SINGLE' AND IsReviewed = 1 AND TracksTotal = 2 AND TracksSelected > 1 ";
+	query += "UNION ALL SELECT '3 Tracks (B-side)' AS 'Category', COUNT(ID) AS 'Count' FROM Release WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = KNYEAR AND Category = 'SINGLE' AND IsReviewed = 1 AND TracksTotal > 2 AND TracksSelected > 1 ";
+	query += "UNION ALL SELECT 'Singles Reviewed' AS 'Category', COUNT(ID) AS 'Count' FROM Review WHERE KNYEAR = " + KNYEAR + " ";
 	
 	if(debugMode) console.log('generateBSide', query);
 	queryDb(query, generateBSide);
@@ -2193,13 +2170,13 @@ function queryAnalysis(contents) {
 	queryDb(query, generateYearOfRelease);
 	
 	//Anime Song Survey
-	query = "SELECT 'All' AS 'Song Type', COUNT(s.VocalCode) || ' Songs' AS 'Count (%)' FROM Song s WHERE s.KNYEAR = " + KNYEAR + " AND s.VocalCode <> '' UNION ALL SELECT res.SongType AS 'Song Type', res.Count || ' (' || printf('%.2f', (100.00 * res.Count / (SELECT COUNT(s.VocalCode) AS 'Count (%)' FROM Song s WHERE s.KNYEAR = " + KNYEAR + " AND s.VocalCode <> ''))) || '%)' AS 'Count (%)' FROM (SELECT 'Anime Songs' AS 'SongType', COUNT(ts.SongType) AS 'Count' FROM Song s JOIN ThemeSong ts on s.KNID = ts.KNID WHERE s.KNYEAR = " + KNYEAR + " AND s.Genre IN ('Anime','Soundtrack','Game') UNION ALL SELECT 'Anime Theme Songs' AS 'SongType', COUNT(ts.SongType) AS 'Count' FROM Song s JOIN ThemeSong ts on s.KNID = ts.KNID WHERE s.KNYEAR = " + KNYEAR + " AND s.Genre IN ('Anime','Soundtrack','Game') AND (ts.SongType = 'Opening' OR ts.SongType = 'Ending' OR ts.SongType = 'Theme') UNION ALL SELECT 'Anime Character/Insert Songs' AS 'SongType', COUNT(ts.SongType) AS 'Count' FROM Song s JOIN ThemeSong ts on s.KNID = ts.KNID WHERE s.KNYEAR = " + KNYEAR + " AND s.Genre IN ('Anime','Soundtrack','Game') AND (ts.SongType <> 'Opening' AND ts.SongType <> 'Ending' AND ts.SongType <> 'Theme')) res";
+	query = "SELECT 'All' AS 'Song Type', COUNT(s.VocalCode) || ' Songs' AS 'Count (%)' FROM Song s WHERE s.KNYEAR = " + KNYEAR + " AND s.VocalCode <> '' UNION ALL SELECT res.SongType AS 'Song Type', res.Count || ' (' || printf('%.2f', (100.00 * res.Count / (SELECT COUNT(s.VocalCode) AS 'Count (%)' FROM Song s WHERE s.KNYEAR = " + KNYEAR + " AND s.VocalCode <> ''))) || '%)' AS 'Count (%)' FROM (SELECT 'Anime Songs' AS 'SongType', COUNT(ts.Type) AS 'Count' FROM Song s JOIN Credit ts on s.ID = ts.SongID WHERE s.KNYEAR = " + KNYEAR + " AND s.Genre IN ('Anime','Soundtrack','Game') UNION ALL SELECT 'Anime Theme Songs' AS 'SongType', COUNT(ts.Type) AS 'Count' FROM Song s JOIN Credit ts on s.ID = ts.SongID WHERE s.KNYEAR = " + KNYEAR + " AND s.Genre IN ('Anime','Soundtrack','Game') AND (ts.Type = 'Opening' OR ts.Type = 'Ending' OR ts.Type = 'Theme') UNION ALL SELECT 'Anime Character/Insert Songs' AS 'SongType', COUNT(ts.Type) AS 'Count' FROM Song s JOIN Credit ts on s.ID = ts.SongID WHERE s.KNYEAR = " + KNYEAR + " AND s.Genre IN ('Anime','Soundtrack','Game') AND (ts.Type <> 'Opening' AND ts.Type <> 'Ending' AND ts.Type <> 'Theme')) res";
 
 	if(debugMode) console.log('generateAnimeSongs', query);
 	queryDb(query, generateAnimeSongs);
 	
 	//Song Appetite Survey
-	query = "SELECT 'January' AS 'Month', COUNT(SongID) AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND CAST(REPLACE(DateCreated, '.', '') AS INT) < " + KNYEAR + "0201 UNION ALL SELECT 'February' AS 'Month', COUNT(SongID) || ' (+' || (SELECT COUNT(SongID) FROM Song WHERE KNYEAR = " + KNYEAR + " AND DateCreated LIKE '" + KNYEAR + ".02.%') || ')' AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND CAST(REPLACE(DateCreated, '.', '') AS INT) < " + KNYEAR + "0301 UNION ALL SELECT 'March' AS 'Month', COUNT(SongID) || ' (+' || (SELECT COUNT(SongID) FROM Song WHERE KNYEAR = " + KNYEAR + " AND DateCreated LIKE '" + KNYEAR + ".03.%') || ')' AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND CAST(REPLACE(DateCreated, '.', '') AS INT) < " + KNYEAR + "0401 UNION ALL SELECT 'April' AS 'Month', COUNT(SongID) || ' (+' || (SELECT COUNT(SongID) FROM Song WHERE KNYEAR = " + KNYEAR + " AND DateCreated LIKE '" + KNYEAR + ".04.%') || ')' AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND CAST(REPLACE(DateCreated, '.', '') AS INT) < " + KNYEAR + "0501 UNION ALL SELECT 'May' AS 'Month', COUNT(SongID) || ' (+' || (SELECT COUNT(SongID) FROM Song WHERE KNYEAR = " + KNYEAR + " AND DateCreated LIKE '" + KNYEAR + ".05.%') || ')' AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND CAST(REPLACE(DateCreated, '.', '') AS INT) < " + KNYEAR + "0601 UNION ALL SELECT 'June' AS 'Month', COUNT(SongID) || ' (+' || (SELECT COUNT(SongID) FROM Song WHERE KNYEAR = " + KNYEAR + " AND DateCreated LIKE '" + KNYEAR + ".06.%') || ')' AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND CAST(REPLACE(DateCreated, '.', '') AS INT) < " + KNYEAR + "0701 UNION ALL SELECT 'July' AS 'Month', COUNT(SongID) || ' (+' || (SELECT COUNT(SongID) FROM Song WHERE KNYEAR = " + KNYEAR + " AND DateCreated LIKE '" + KNYEAR + ".07.%') || ')' AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND CAST(REPLACE(DateCreated, '.', '') AS INT) < " + KNYEAR + "0801 UNION ALL SELECT 'August' AS 'Month', COUNT(SongID) || ' (+' || (SELECT COUNT(SongID) FROM Song WHERE KNYEAR = " + KNYEAR + " AND DateCreated LIKE '" + KNYEAR + ".08.%') || ')' AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND CAST(REPLACE(DateCreated, '.', '') AS INT) < " + KNYEAR + "0901 UNION ALL SELECT 'September' AS 'Month', COUNT(SongID) || ' (+' || (SELECT COUNT(SongID) FROM Song WHERE KNYEAR = " + KNYEAR + " AND DateCreated LIKE '" + KNYEAR + ".09.%') || ')' AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND CAST(REPLACE(DateCreated, '.', '') AS INT) < " + KNYEAR + "1001 UNION ALL SELECT 'October' AS 'Month', COUNT(SongID) || ' (+' || (SELECT COUNT(SongID) FROM Song WHERE KNYEAR = " + KNYEAR + " AND DateCreated LIKE '" + KNYEAR + ".10.%') || ')' AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND CAST(REPLACE(DateCreated, '.', '') AS INT) < " + KNYEAR + "1101 UNION ALL SELECT 'November' AS 'Month', COUNT(SongID) || ' (+' || (SELECT COUNT(SongID) FROM Song WHERE KNYEAR = " + KNYEAR + " AND DateCreated LIKE '" + KNYEAR + ".11.%') || ')' AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND CAST(REPLACE(DateCreated, '.', '') AS INT) < " + KNYEAR + "1201 UNION ALL SELECT 'December' AS 'Month', COUNT(SongID) || ' (+' || (SELECT COUNT(SongID) FROM Song WHERE KNYEAR = " + KNYEAR + " AND DateCreated LIKE '" + KNYEAR + ".12.%') || ')' AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + "";
+	query = "SELECT 'January' AS 'Month', COUNT(ID) AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND CAST(REPLACE(DateCreated, '.', '') AS INT) < " + KNYEAR + "0201 UNION ALL SELECT 'February' AS 'Month', COUNT(ID) || ' (+' || (SELECT COUNT(ID) FROM Song WHERE KNYEAR = " + KNYEAR + " AND DateCreated LIKE '" + KNYEAR + ".02.%') || ')' AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND CAST(REPLACE(DateCreated, '.', '') AS INT) < " + KNYEAR + "0301 UNION ALL SELECT 'March' AS 'Month', COUNT(ID) || ' (+' || (SELECT COUNT(ID) FROM Song WHERE KNYEAR = " + KNYEAR + " AND DateCreated LIKE '" + KNYEAR + ".03.%') || ')' AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND CAST(REPLACE(DateCreated, '.', '') AS INT) < " + KNYEAR + "0401 UNION ALL SELECT 'April' AS 'Month', COUNT(ID) || ' (+' || (SELECT COUNT(ID) FROM Song WHERE KNYEAR = " + KNYEAR + " AND DateCreated LIKE '" + KNYEAR + ".04.%') || ')' AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND CAST(REPLACE(DateCreated, '.', '') AS INT) < " + KNYEAR + "0501 UNION ALL SELECT 'May' AS 'Month', COUNT(ID) || ' (+' || (SELECT COUNT(ID) FROM Song WHERE KNYEAR = " + KNYEAR + " AND DateCreated LIKE '" + KNYEAR + ".05.%') || ')' AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND CAST(REPLACE(DateCreated, '.', '') AS INT) < " + KNYEAR + "0601 UNION ALL SELECT 'June' AS 'Month', COUNT(ID) || ' (+' || (SELECT COUNT(ID) FROM Song WHERE KNYEAR = " + KNYEAR + " AND DateCreated LIKE '" + KNYEAR + ".06.%') || ')' AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND CAST(REPLACE(DateCreated, '.', '') AS INT) < " + KNYEAR + "0701 UNION ALL SELECT 'July' AS 'Month', COUNT(ID) || ' (+' || (SELECT COUNT(ID) FROM Song WHERE KNYEAR = " + KNYEAR + " AND DateCreated LIKE '" + KNYEAR + ".07.%') || ')' AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND CAST(REPLACE(DateCreated, '.', '') AS INT) < " + KNYEAR + "0801 UNION ALL SELECT 'August' AS 'Month', COUNT(ID) || ' (+' || (SELECT COUNT(ID) FROM Song WHERE KNYEAR = " + KNYEAR + " AND DateCreated LIKE '" + KNYEAR + ".08.%') || ')' AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND CAST(REPLACE(DateCreated, '.', '') AS INT) < " + KNYEAR + "0901 UNION ALL SELECT 'September' AS 'Month', COUNT(ID) || ' (+' || (SELECT COUNT(ID) FROM Song WHERE KNYEAR = " + KNYEAR + " AND DateCreated LIKE '" + KNYEAR + ".09.%') || ')' AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND CAST(REPLACE(DateCreated, '.', '') AS INT) < " + KNYEAR + "1001 UNION ALL SELECT 'October' AS 'Month', COUNT(ID) || ' (+' || (SELECT COUNT(ID) FROM Song WHERE KNYEAR = " + KNYEAR + " AND DateCreated LIKE '" + KNYEAR + ".10.%') || ')' AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND CAST(REPLACE(DateCreated, '.', '') AS INT) < " + KNYEAR + "1101 UNION ALL SELECT 'November' AS 'Month', COUNT(ID) || ' (+' || (SELECT COUNT(ID) FROM Song WHERE KNYEAR = " + KNYEAR + " AND DateCreated LIKE '" + KNYEAR + ".11.%') || ')' AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + " AND CAST(REPLACE(DateCreated, '.', '') AS INT) < " + KNYEAR + "1201 UNION ALL SELECT 'December' AS 'Month', COUNT(ID) || ' (+' || (SELECT COUNT(ID) FROM Song WHERE KNYEAR = " + KNYEAR + " AND DateCreated LIKE '" + KNYEAR + ".12.%') || ')' AS 'Count' FROM Song WHERE KNYEAR = " + KNYEAR + "";
 
 	if(debugMode) console.log('generateSongAppetite', query);
 	queryDb(query, generateSongAppetite);
@@ -2349,23 +2326,23 @@ function queryArtistAnalysis(contents) {
 	queryDb(query, generateSongCountByYear);
 	
 	//Most Popular Songs
-	query = "select ROW_NUMBER() OVER (ORDER BY Total) AS 'Rank', KNYEAR as 'Year', KNID AS 'ID', SongTitle as 'Song Title' from ( ";
-	query += "select s.KNID, s.SongTitle, s.KNYEAR ";
-	query += ", (select count(*) from SOTD where sotd.KNID = s.KNID) as 'SOTD Mentions' ";
-	query += ", (select count(*) from SOTM where sotm.KNID = s.KNID) as 'SOTM Mentions' ";
-	query += ", (select count(*) from Award aw where aw.KNID = s.KNID) as 'Awards Nominated' ";
-	query += ", (select count(*) from Award aw where aw.KNID = s.KNID and aw.isWinner = 1) as 'Awards Won' ";
-	query += ", (select count(*) from Ranking r where r.KNID = s.KNID) as 'Ranking Top 20' ";
-	query += ", (select count(*) from Ranking r where r.KNID = s.KNID and r.RankNo = 1) as 'Ranking Top 1' ";
-	query += ", (select count(*) from Compilation c where c.KNID = s.KNID and c.CompilationTitle <> 'GOLD') as 'Compilations Featured' ";
+	query = "select ROW_NUMBER() OVER (ORDER BY Total) AS 'Rank', KNYEAR as 'Year', ID, SongTitle as 'Song Title' from ( ";
+	query += "select s.ID, s.SongTitle, s.KNYEAR ";
+	query += ", (select count(*) from SOTD where sotd.SongID = s.ID) as 'SOTD Mentions' ";
+	query += ", (select count(*) from SOTM where sotm.SongID = s.ID) as 'SOTM Mentions' ";
+	query += ", (select count(*) from Award aw where aw.SongID = s.ID) as 'Awards Nominated' ";
+	query += ", (select count(*) from Award aw where aw.SongID = s.ID and aw.isWinner = 1) as 'Awards Won' ";
+	query += ", (select count(*) from Ranking r where r.SongID = s.ID) as 'Ranking Top 20' ";
+	query += ", (select count(*) from Ranking r where r.SongID = s.ID and r.RankNo = 1) as 'Ranking Top 1' ";
+	query += ", (select count(*) from Compilation c where c.SongID = s.ID and c.CompilationTitle <> 'GOLD') as 'Compilations Featured' ";
 	query += ", ( ";
-	query += "(select count(*) from SOTD where sotd.KNID = s.KNID) + ";
-	query += "(select count(*) from SOTM where sotm.KNID = s.KNID) + ";
-	query += "(select count(*) from Award aw where aw.KNID = s.KNID) + ";
-	query += "(select count(*) from Award aw where aw.KNID = s.KNID and aw.isWinner = 1) + ";
-	query += "(select count(*) from Ranking r where r.KNID = s.KNID) + ";
-	query += "(select count(*) from Ranking r where r.KNID = s.KNID and r.RankNo = 1) + ";
-	query += "(select count(*) from Compilation c where c.KNID = s.KNID and c.CompilationTitle <> 'GOLD') ";
+	query += "(select count(*) from SOTD where sotd.SongID = s.ID) + ";
+	query += "(select count(*) from SOTM where sotm.SongID = s.ID) + ";
+	query += "(select count(*) from Award aw where aw.SongID = s.ID) + ";
+	query += "(select count(*) from Award aw where aw.SongID = s.ID and aw.isWinner = 1) + ";
+	query += "(select count(*) from Ranking r where r.SongID = s.ID) + ";
+	query += "(select count(*) from Ranking r where r.SongID = s.ID and r.RankNo = 1) + ";
+	query += "(select count(*) from Compilation c where c.SongID = s.ID and c.CompilationTitle <> 'GOLD') ";
 	query += ") as 'Total' ";
 	query += "from Song s ";
 	query += "where s.ArtistTitle = '"+addQuotationInSQLString(artist)+"' and Total > 0 order by Total desc limit 5 ";
@@ -2451,7 +2428,7 @@ function updateSong() {
 	clearModules();
 	
 	let id = parseInt(this.getAttribute('data-id'));
-	let query = "SELECT * FROM Song WHERE KNID = " + id;
+	let query = "SELECT * FROM Song WHERE ID = " + id;
 	if(debugMode) console.log('updateSong', query);
 	queryDb(query, updateOptions);
 	// window['playlist'].push(id.toString());
