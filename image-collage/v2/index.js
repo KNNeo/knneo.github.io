@@ -9,6 +9,8 @@ const defaultTitle = 'Image Collage';
 const defaultDescription = 'Gallery based on tag separated filenames\n\n©コーエーテクモゲームス All rights reserved.';
 const defaultIncludePlaceholder = '以内の…';
 const defaultExcludePlaceholder = '以外の…';
+const showBanner = false;					// will show first character of sort property
+const defaultSortOrder = 'asc';				// options: asc, desc; defaults to asc
 const defaultSortLocale = 'ja';				// based on BCP 47 language tag
 const presetWidths = [160, 320, 480]; 		// small, medium, large; subject to alignment of columns
 const presetPrefix = ['sm', 'md', 'lg']; 	// small, medium, large; property to point to for each object
@@ -404,7 +406,9 @@ function generateGrid() {
 	grid.innerHTML = '';
 	
 	let filterArray = generateFiltered().sort(function(a,b) {
-		return a.filename.localeCompare(b.filename, defaultSortLocale);
+		if(defaultSortOrder == 'desc')
+			return b.sort.localeCompare(a.sort, defaultSortLocale);
+		return a.sort.localeCompare(b.sort, defaultSortLocale);
 	});
 	
 	if(debugMode) console.log("window['thumbWidth']", window['thumbWidth']);
@@ -418,7 +422,7 @@ function generateGrid() {
 		let gridItem = document.createElement('div');
 		gridItem.classList.add('grid-item');
 		
-		if(prevValue != imageUrl[0]) {
+		if(showBanner && prevValue != imageUrl[0]) {
 			let overlay = document.createElement('div');
 			overlay.classList.add('static-banner');
 			overlay.innerText = imageUrl[0];
