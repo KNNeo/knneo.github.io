@@ -406,6 +406,8 @@ function generateGrid() {
 	grid.innerHTML = '';
 	
 	let filterArray = generateFiltered().sort(function(a,b) {
+		if(!a.sort || !b.sort)
+			return 0;
 		if(defaultSortOrder == 'desc')
 			return b.sort.localeCompare(a.sort, defaultSortLocale);
 		return a.sort.localeCompare(b.sort, defaultSortLocale);
