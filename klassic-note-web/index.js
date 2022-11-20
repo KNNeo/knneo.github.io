@@ -1,7 +1,7 @@
 //--CONFIG--//
 const defaultTitle = 'Klassic Note Web'; //title of browser and page, will be appended with song info when playing
 const altTitlePrefix = 'Original'; //to be placed before song, release, artist title headers
-const databaseFilename = 'https://knneo.github.io/klassic-note-web/db/KlassicNote.db'; //location of database, url only
+const databaseFilename = 'https://knneo.github.io/klassic-note-web/db/KlassicNoteTest.db'; //location of database, url only
 const directory = 'file://C:/Users/KAINENG/OneDrive/Music/'; 		//for audio player, in {directory}/{KNYEAR}/{Filename}
 const coverArtDirectory = 'file://F:/RBKN/Pictures/ART/ALBUMART/'; 	//for cover art, in {coverArtDirectory}/{KNYEAR}/{Filename}
 const debugMode = false;	//will show all available logging on console
