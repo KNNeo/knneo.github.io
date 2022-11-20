@@ -58,15 +58,23 @@ void Main()
 		{
 			var fileLocation = json.title.Replace(@"\","/").Replace(".json","");
 			var thumbnailLocation = json.thumbnail.Replace(@"\","/").Replace(".json","");
+			var time = json.photoTakenTime?.formatted.ToString();
 			if(!File.Exists(thumbnailLocation))
 				continue;
 			
 			Console.WriteLine("{");
-			Console.WriteLine($"\t\t\"filename\": \"{json.description}.jpg\",");
+			if(time != null)
+			{
+				var dateTime = DateTime.ParseExact(time.Replace("Sept", "Sep"), "d MMM yyyy, HH:mm:ss UTC", CultureInfo.InvariantCulture);
+				Console.WriteLine($"\t\t\"filename\": \"{json.description}_{dateTime.Year}.jpg\",");
+			}
+			else
+				Console.WriteLine($"\t\t\"filename\": \"{json.description}.jpg\",");
 			Console.WriteLine($"\t\t\"sm\": \"file://{thumbnailLocation}\",");
 			Console.WriteLine($"\t\t\"md\": \"file://{fileLocation}\",");
 			Console.WriteLine($"\t\t\"lg\": \"file://{fileLocation}\",");
 			Console.WriteLine($"\t\t\"og\": \"file://{fileLocation}\",");
+			Console.WriteLine($"\t\t\"sort\": \"{json.photoTakenTime.timestamp}\",");
 			Console.WriteLine("},");
 		}
 		Console.WriteLine("];");
