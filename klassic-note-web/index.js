@@ -95,7 +95,7 @@ function setKeyUp() {
 function setKeyDown() {
 	if (debugMode) console.log('setKeyDown', event.keyCode);
 	// space: prevent scroll when play/pause
-	if(event.keyCode === 32)
+	if(event.keyCode === 32 && ['player', 'search'].indexOf(document.activeElement.id) < 0)
 		event.preventDefault();
 		
 	// shift: combine with click playlist to add 10 songs to queue
