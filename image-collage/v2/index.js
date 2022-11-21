@@ -423,6 +423,8 @@ function generateGrid() {
 		
 		let gridItem = document.createElement('div');
 		gridItem.classList.add('grid-item');
+		gridItem.style.width = itemWidth;
+		gridItem.style.height = itemHeight;
 		
 		if(showBanner && prevValue != imageUrl[0]) {
 			let overlay = document.createElement('div');
@@ -432,28 +434,31 @@ function generateGrid() {
 			prevValue = imageUrl[0];
 		}
 		
-		gridItem.title = getFilenameInfo(imageUrl).filename.split(filenameSeparator).join('\n');
-		gridItem.setAttribute('alt', item['og']);
-		gridItem.style.width = itemWidth;
-		gridItem.style.height = itemHeight;
-		gridItem.style.backgroundSize = itemWidth;
-		gridItem.addEventListener('mouseover',function() {
-			this.style.backgroundSize = (1.2*this.offsetWidth) + 'px';
-		});
-		gridItem.addEventListener('mouseout',function() {
-			this.style.backgroundSize = this.offsetWidth + 'px';
-		});
-		gridItem.addEventListener('click', function() {
-			openViewer(this);
-		});
-		gridItem.addEventListener('contextmenu', function(e) {
-			e.preventDefault();
-			return false;
-		}, false);
-		let fullImageUrl = addUrlClause(item[getThumbnailPrefix()]);
-		gridItem.style.backgroundImage = fullImageUrl || 'https://knneo.github.io/resources/spacer.gif';
-				
-		grid.appendChild(gridItem);		
+			let gridItemImage = document.createElement('img');
+		
+			gridItemImage.title = getFilenameInfo(imageUrl).filename.split(filenameSeparator).join('\n');
+			gridItemImage.setAttribute('alt', item['og']);
+			// gridItemImage.style.backgroundSize = itemWidth;
+			// gridItemImage.style.objectFit = 'cover';
+			// gridItemImage.addEventListener('mouseover',function() {
+				// this.style.backgroundSize = (1.2*this.offsetWidth) + 'px';
+			// });
+			// gridItemImage.addEventListener('mouseout',function() {
+				// this.style.backgroundSize = this.offsetWidth + 'px';
+			// });
+			gridItemImage.addEventListener('click', function() {
+				openViewer(this);
+			});
+			gridItemImage.addEventListener('contextmenu', function(e) {
+				e.preventDefault();
+				return false;
+			}, false);
+			// let fullImageUrl = addUrlClause(item[getThumbnailPrefix()]);
+			gridItemImage.src = item[getThumbnailPrefix()] || 'https://knneo.github.io/resources/spacer.gif';
+			
+			gridItem.appendChild(gridItemImage);
+			
+		grid.appendChild(gridItem);
 	}
 
 	document.querySelector('.counter').innerText = filterArray.length;
