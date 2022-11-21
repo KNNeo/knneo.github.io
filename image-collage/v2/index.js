@@ -21,7 +21,7 @@ const isDarkMode = true;		  			// initial value if enableDarkMode is false, igno
 const enableButtonArray = true;				// shows tag array based on filename split by filenameSeparator
 const debugMode = false;		  			// shows console log values on render
 const isWidescreen = function() { 
-	return window.innerWidth > 1024; 
+	return matchMedia('all and (orientation:landscape)').matches; 
 } 											// function to detect wider screen layout
 const horizontalMenuWidth = 500; 			// for not gallery, in pixels
 const minTagCount = 2;						// anything more than or equal to this will be included in tags, default 1
@@ -41,7 +41,6 @@ function startup() {
 	generateViewer();
 	let mousewheelEvent = isFirefox ? 'DOMMouseScroll' : 'mousewheel';
 	let mosaic = document.getElementById('mosaic');
-	if(!isWidescreen() && mosaic != null)
 	if(!window['horizontal'] && mosaic != null)
 	{
 		mosaic.addEventListener(mousewheelEvent, onScroll);
@@ -189,8 +188,10 @@ function generateLayoutMenu() {
 	let mainTable = document.createElement('div');
 	mainTable.id = 'main';
 	mainTable.style.textAlign = 'center';
-	if(window['horizontal']) mainTable.style.width = (horizontalMenuWidth) + 'px';
-	else mainTable.style.width = '100%';
+	if(window['horizontal']) 
+		mainTable.style.width = (horizontalMenuWidth >= 0.5*window.innerWidth ? 0.5*window.innerWidth : horizontalMenuWidth) + 'px';
+	else 
+		mainTable.style.width = '100%';
 	if(window['horizontal']) mainTable.style.height = '100%';
 	
 	let mainTableBody = document.createElement('div');
@@ -210,9 +211,7 @@ function generateLayoutMenu() {
 	
 	mainTableRow1Cell1.appendChild(title);
 	mainTableRow1Cell1.appendChild(description);
-	
-	let mainTableRow2 = document.createElement('div');
-	
+		
 	let mainTableRow2Cell1 = document.createElement('div');
 	
 	if(typeof enableButtonArray == 'boolean' && enableButtonArray == true) {
@@ -241,7 +240,6 @@ function generateLayoutMenu() {
 	
 	let tags = document.createElement('div');
 	tags.classList.add('tags');
-	tags.addEventListener('hover', function() { this.focus(); });
 	if(window['horizontal']) {
 		tags.style.height = (0.7 * window.innerHeight) + 'px';
 		tags.style.overflowY = 'auto';
@@ -387,7 +385,8 @@ function generateStats() {
 function generateLayoutCollage() {
 	let mosaic = document.createElement('div');
 	mosaic.id = 'mosaic';
-	if(window['horizontal']) mosaic.style.width = (window.innerWidth - horizontalMenuWidth) + 'px';
+	if(window['horizontal']) 
+		mosaic.style.width = (horizontalMenuWidth >= 0.5*window.innerWidth ? 0.5*window.innerWidth : window.innerWidth - horizontalMenuWidth) + 'px';
 	mosaic.style.height = (window.innerHeight) + 'px';
 
 	let grid = document.createElement('div');

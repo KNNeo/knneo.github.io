@@ -19,10 +19,6 @@ body {
 	overflow: hidden;
 }
 
-h1, h6 {
-	margin: 10px 0;
-}
-
 .title {
 	cursor: pointer;
 }
@@ -125,8 +121,8 @@ h1, h6 {
 
 .table {
 	display: flex;
+	width: 100%;
 }
-
 .counter {
 	padding: 0 5px;
 	text-align: left;
@@ -140,10 +136,6 @@ h1, h6 {
 	padding: 0 5px;	
 }
 
-#mosaic {
-  overflow: auto;
-  white-space: nowrap;
-}
 
 #main {
   -webkit-user-select: none;
@@ -151,6 +143,17 @@ h1, h6 {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  text-align: center;
+}
+
+#main h1,
+#main h6 {
+	margin: 10px 0;
+}
+
+#mosaic {
+  overflow: auto;
+  white-space: nowrap;
 }
 
 #viewer {
