@@ -446,7 +446,7 @@ function generateGrid() {
 				// this.style.backgroundSize = this.offsetWidth + 'px';
 			// });
 			gridItemImage.addEventListener('click', function() {
-				openViewer(this);
+				openViewer(this.parentElement);
 			});
 			gridItemImage.addEventListener('contextmenu', function(e) {
 				e.preventDefault();
@@ -581,9 +581,9 @@ function onTogglePreset() {
 }
 
 //VIEWER//
-function createLinkedList(className) {
+function createLinkedList(selector) {
 	window['viewer-list'] = [];
-	for(let img of document.getElementsByClassName(className))
+	for(let img of document.querySelectorAll(selector))
 	{
 		window['viewer-list'].push(img);
 	}
@@ -593,7 +593,7 @@ function updateImageNo(image) {
 	let imageNo = 0;
 	for(let img of window['viewer-list'])
 	{
-		if(img.style.backgroundImage == image.style.backgroundImage)
+		if(img.src == image.src)
 		{
 			return imageNo;
 		}
@@ -603,8 +603,8 @@ function updateImageNo(image) {
 }
 
 function openViewer(image) {
-	createLinkedList('grid-item');
-	openImageInViewer(image);
+	createLinkedList('.grid-item img');
+	openImageInViewer(image.querySelector('img'));
 	runLoader();
 }
 
@@ -631,7 +631,7 @@ function openImageInViewer(image) {
 	let thumbnail = image.cloneNode(true);
 	let img = document.createElement('img');
 	img.id = thumbnail.id;
-	img.src = removeUrlClause(thumbnail.getAttribute('alt'));
+	img.src = thumbnail.getAttribute('alt');
 	img.title = thumbnail.title;
 	if(window.innerHeight > window.innerWidth && img.getBoundingClientRect().width >= window.innerWidth)
 		img.style.width = 'inherit'; //portrait
