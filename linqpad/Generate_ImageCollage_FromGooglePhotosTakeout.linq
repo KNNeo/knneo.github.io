@@ -66,7 +66,7 @@ void Main()
 			if(time != null)
 			{
 				var dateTime = DateTime.ParseExact(time.Replace("Sept", "Sep"), "d MMM yyyy, HH:mm:ss UTC", CultureInfo.InvariantCulture);
-				Console.WriteLine($"\t\t\"filename\": \"{json.description}_{dateTime.Year}.jpg\",");
+				Console.WriteLine($"\t\t\"filename\": \"{dateTime.Date.ToString("yyyy.MM.dd")}_{json.description}_{dateTime.Year}.jpg\",");
 			}
 			else
 				Console.WriteLine($"\t\t\"filename\": \"{json.description}.jpg\",");
