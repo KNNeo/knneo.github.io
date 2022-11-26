@@ -1,5 +1,4 @@
-const mosaicArray = 
-[
+const mosaicArray = [
 "いたずらキューピッド_なぎさ.jpg"
 ,"いたずらキューピッド_マリー・ローズ.jpg"
 ,"いなば_ルナ.jpg"
@@ -248,9 +247,9 @@ const mosaicArray =
 ,"レイズザセイル_ほのか.jpg"
 ,"レイズザセイル_みさき.jpg"
 ,"レイズザセイル_エレナ.jpg"
-,"レイズザセイル_ヒトミ.jpg"
 ,"レイズザセイル_フィオナ.jpg"
 ,"レイズザセイル_レイファン.jpg"
+,"レイズザセイル_レイファン_覚醒.jpg"
 ,"レイニードロップ_かすみ.jpg"
 ,"レイニードロップ_こはる.jpg"
 ,"レイニーフロッグ_みさき.jpg"
@@ -374,7 +373,6 @@ const mosaicArray =
 ,"藍孔雀_たまき.jpg"
 ,"黒炎のラビリンス_つくし.jpg"
 ,"黒炎のラビリンス_ほのか.jpg"
-
 ];
 
 const folder = 'file://C:/Users/KAINENG/OneDrive/Pictures/DOAX-VenusVacation/Bromides/';
