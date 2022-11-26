@@ -53,7 +53,8 @@ function setKeyUp() {
 			player.pause();
 	}
 	// ctrl + c: copy search content
-	if (event.keyCode === 67 && window['ctrled'] && document.querySelector('#copy') != null) {
+	if (event.keyCode === 67 && window['ctrled'] && document.querySelector('#copy') != null
+	&& ['search'].indexOf(document.activeElement.id) < 0) {
 		event.preventDefault();
 		document.querySelector('#copy').click();
 	}
