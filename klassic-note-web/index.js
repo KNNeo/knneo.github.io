@@ -2587,8 +2587,10 @@ function showContextMenu() {
 		case 'playlist':
 			if(document.querySelector('.playlist') != null)
 				hideContextMenus(true);
-			else
+			else {
 				menu.appendChild(showPlaylist());
+				document.querySelector('.playlist .highlight')?.scrollIntoView();
+			}
 			break;
 	}
 	
