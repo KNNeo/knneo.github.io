@@ -153,6 +153,10 @@ let showsArray = [
 { sortOrder:142, year:2022, season: 'Summer', length:1, seriesTitle: '', type:'TV', title:'Engage Kiss', altTitle:'', handle:'engage_kiss', imgURL:'https://pbs.twimg.com/profile_images/1507536637550419971/IiEiGvfN.jpg', circular:true, MAL:51417 },
 { sortOrder:143, year:2022, season: 'Summer', length:1, seriesTitle: '', type:'TV', title:'Mamahaha no Tsurego ga Motokano Datta', altTitle:'継母の連れ子が元カノだった', handle:'tsurekano', imgURL:'https://pbs.twimg.com/profile_images/1544574872181174272/zMDoDLPg.jpg', circular:true, MAL:49470 },
 { sortOrder:144, year:2022, season: 'Summer', length:1, seriesTitle: '', type:'TV', title:'Warau Arsnotoria Sun!', altTitle:'咲う アルスノトリア すんっ！', handle:'arsno_anime', imgURL:'https://pbs.twimg.com/profile_images/1529390632304660480/agcmmW_X.jpg', circular:true, MAL:51923 },
+{ sortOrder:145, year:2022, season: 'Autumn', length:1, seriesTitle: '', type:'TV', title:'Uzaki-chan wa Asobitai! Double', altTitle:'宇崎ちゃんは遊びたい！Ω', handle:'uzakichan_asobi', imgURL:'https://pbs.twimg.com/profile_images/1147099341858824192/pL6QoWt7.png', circular:true, MAL:42962 },
+{ sortOrder:146, year:2022, season: 'Autumn', length:1, seriesTitle: 'BLEACH', type:'TV', title:'Bleach: Sennen Kessen-hen', altTitle:'BLEACH 千年血戦篇', handle:'BLEACHanimation', imgURL:'https://pbs.twimg.com/profile_images/1556527498644815872/lTiDIt2G.jpg', circular:true, MAL:41467 },
+{ sortOrder:147, year:2022, season: 'Autumn', length:1, seriesTitle: '', type:'TV', title:'Koukyuu no Karasu', altTitle:'後宮の烏', handle:'kokyu_anime', imgURL:'https://pbs.twimg.com/profile_images/1516841738437939202/utooJ7Gr.jpg', circular:true, MAL:50590 },
+
 
 ].map(ca => {
 	let ref = showsRef.filter(s => s.id == ca.MAL);
@@ -164,7 +168,7 @@ let showsArray = [
 });
 
 let currentYear = 2022;
-let currentSeason = 'Summer';
+let currentSeason = 'Autumn';
 window.addEventListener('load', startup);
 
 function startup() {
