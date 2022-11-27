@@ -157,7 +157,6 @@ let showsArray = [
 { sortOrder:146, year:2022, season: 'Autumn', length:1, seriesTitle: 'BLEACH', type:'TV', title:'Bleach: Sennen Kessen-hen', altTitle:'BLEACH 千年血戦篇', handle:'BLEACHanimation', imgURL:'https://pbs.twimg.com/profile_images/1556527498644815872/lTiDIt2G.jpg', circular:true, MAL:41467 },
 { sortOrder:147, year:2022, season: 'Autumn', length:1, seriesTitle: '', type:'TV', title:'Koukyuu no Karasu', altTitle:'後宮の烏', handle:'kokyu_anime', imgURL:'https://pbs.twimg.com/profile_images/1516841738437939202/utooJ7Gr.jpg', circular:true, MAL:50590 },
 
-
 ].map(ca => {
 	let ref = showsRef.filter(s => s.id == ca.MAL);
 	if(ref.length == 0) return ca;
@@ -185,14 +184,15 @@ function generateAnimeList() {
 	let currentList = showsArray.filter(s => s.type == 'TV' && s.year == currentYear && s.season == currentSeason);
 	document.getElementById('anime-list').appendChild(generateAnimeCurrent(currentList));
 	
+	let calendarBlock = generateAnimeCalendar(showsArray.filter(s => s.type == 'TV' && s.year >= 2008 && s.season.length > 0 && s.MAL > 0));
+	document.getElementById('anime-list').appendChild(calendarBlock);
+	
 	let archiveList = showsArray.filter(s => s.type == 'TV' && (s.year != currentYear || s.season != currentSeason)).sort((a, b) => b.sortOrder - a.sortOrder);
 	document.getElementById('anime-list').appendChild(generateAnimeArchive(archiveList));
 	
 	let moviesList = showsArray.filter(s => s.type == 'Movie');
 	document.getElementById('anime-list').appendChild(generateOVAMovies(moviesList));
 	
-	let calendarBlock = generateAnimeCalendar(showsArray.filter(s => s.type == 'TV' && s.year >= 2008 && s.season.length > 0 && s.MAL > 0));
-	document.getElementById('anime-list').appendChild(calendarBlock);
 }
 
 function generateAnimeCalendar(list) {	
@@ -379,10 +379,10 @@ function generateCalendarBox(list) {
 			{
 				let show = yearShows[s.title][count];
 				let ref = showsRef.filter(r => r.id == show.MAL);
-				// console.log(show, ref[0]);
+				// console.log(show, ref);
 				
 				let i = document.createElement('div');
-				i.classList.add('calendar-cell');
+				if(ref.length > 0) i.classList.add('calendar-cell');
 				if(show.title) i.classList.add('highlight');
 				if(show.title || (window['filter'] == '' && window['genre'] == ''))
 				{
