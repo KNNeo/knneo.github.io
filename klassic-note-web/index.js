@@ -174,7 +174,28 @@ function setTabs() {
 	if(tabHeight != document.querySelector('#tab-list').style.height)
 	{
 		document.querySelector('#tab-list').style.height = tabHeight;
-		setTimeout(setTabs, 100);
+		if (tabHeight > 0 && !window['mini-height']) setTimeout(setTabs, 100);
+	}
+	
+	toggleMiniMode();
+}
+
+function toggleMiniMode() {
+	let minHeight = 10;
+	if(document.querySelector('#player') == null) return;
+	
+	console.log('toggleMiniMode', document.querySelector('#tab-list').getBoundingClientRect().height);
+	if (document.querySelector('html').classList.contains('mini') && 
+	window.innerHeight > window['mini-height'])
+	{
+		window['mini-height'] = null;
+		document.querySelector('html').classList.remove('mini');
+	}
+	if (!document.querySelector('html').classList.contains('mini') && 
+	document.querySelector('#tab-list').getBoundingClientRect().height <= minHeight)
+	{
+		window['mini-height'] = window.innerHeight;
+		document.querySelector('html').classList.add('mini');
 	}
 }
 
@@ -2548,7 +2569,7 @@ function showContextMenu() {
     document.addEventListener('wheel', hideContextMenus);
 	
 	let box = document.body.getBoundingClientRect();
-    let x = event.clientX - box.left;
+    let x = event.clientX - box.left + document.querySelector('#song-queue').getBoundingClientRect().width;
     let y = event.clientY - box.top;
 	
 	let menu = document.querySelector('.context');
@@ -2574,6 +2595,8 @@ function showContextMenu() {
 	if(y + menu.getBoundingClientRect().height >= window.innerHeight)
 	{
 		menu.style.top = (y - menu.getBoundingClientRect().height) + 'px';
+		if(y - menu.getBoundingClientRect().height < 0)
+			menu.style.top = 0;
 	}
 	
 }

@@ -333,3 +333,19 @@ body {
     max-height: 14rem;
 	overflow-y: auto;
 }
+
+.mini #tab-list {
+	display: none;
+}
+
+.mini #search {
+	display: none;
+}
+
+.mini #search-buttons {
+	display: none;
+}
+
+.mini #tab-buttons {
+	display: none;
+}
