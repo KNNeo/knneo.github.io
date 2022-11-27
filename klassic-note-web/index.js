@@ -2566,7 +2566,7 @@ function showContextMenu() {
 	event.preventDefault();
 	event.stopPropagation();
     document.addEventListener('click', hideContextMenus);
-    document.addEventListener('wheel', hideContextMenus);
+    // document.addEventListener('wheel', hideContextMenus);
 	
 	let box = document.body.getBoundingClientRect();
     let x = event.clientX - box.left + document.querySelector('#song-queue').getBoundingClientRect().width;
