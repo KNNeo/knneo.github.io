@@ -19,6 +19,7 @@ void Main()
 	//variables
 	var fullMode = true;
 	var analysisMode = true;
+	var timezone = 8; // with respect to UTC
 	var separator = "_";
 	string folderpath = @"C:\Users\KAINENG\Documents\LINQPad Queries\photos-takeout\Takeout";
 	var files = Directory.GetFiles(folderpath, "*.json", SearchOption.AllDirectories);
@@ -65,8 +66,8 @@ void Main()
 			Console.WriteLine("{");
 			if(time != null)
 			{
-				var dateTime = DateTime.ParseExact(time.Replace("Sept", "Sep"), "d MMM yyyy, HH:mm:ss UTC", CultureInfo.InvariantCulture);
-				Console.WriteLine($"\t\t\"filename\": \"{dateTime.Date.ToString("yyyy.MM.dd")}_{json.description}_{dateTime.Year}.jpg\",");
+				var dateTime = DateTime.ParseExact(time.Replace("Sept", "Sep"), "d MMM yyyy, HH:mm:ss UTC", CultureInfo.InvariantCulture).AddHours(timezone);
+				Console.WriteLine($"\t\t\"filename\": \"{dateTime.Date.ToString("yyyy.MM.dd")}{separator}{json.description}{separator}{dateTime.Year}.jpg\",");
 			}
 			else
 				Console.WriteLine($"\t\t\"filename\": \"{json.description}.jpg\",");
