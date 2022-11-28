@@ -1370,6 +1370,42 @@
 								}
 							]
 						}
+					},
+					{
+						"tooltip": "Natsukawa Shiina - Sasakure [Single]",
+						"thumbnail": "https://www.sonymusic.co.jp/adm_image/common/artist_image/70007000/70007955/jacket_image/263018__800_800_0.jpg",
+						"source": "https://www.sonymusic.co.jp/adm_image/common/artist_image/70007000/70007955/jacket_image/263018__800_800_0.jpg",
+						"grid": {
+							"type": "grid",
+							"columns": 2,
+							"rows": 6,
+							"componentData": [
+								{
+									"columns": 2
+								},
+								{
+									"type": "image",
+									"rows": 4,
+									"tooltip": "",
+									"source": "https://www.sonymusic.co.jp/adm_image/common/artist_image/70007000/70007955/jacket_image/263018__800_800_0.jpg",
+									"link": "https://knneo.github.io/blogspot/blog/2022/11/the-klassic-note-review-202211.html"
+								},
+								{
+									"type": "title",
+									"rows": 2,
+									"prefix": "RELEASED 2022.11.09",
+									"title": "Sasakure",
+									"suffix": "Natsukawa Shiina"
+								},
+								{
+									"type": "title",
+									"rows": 2,
+									"prefix": "TRACKLIST",
+									"title": "",
+									"suffix": "1. Sasakure\n2. passable :("
+								}
+							]
+						}
 					}
 				]
 			}
