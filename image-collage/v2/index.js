@@ -10,7 +10,7 @@ const defaultDescription = 'Gallery based on tag separated filenames\n\n©コー
 const defaultIncludePlaceholder = '以内の…';
 const defaultExcludePlaceholder = '以外の…';
 const showBanner = true;					// will show first character of sort property
-const bannerPrefixLength = 1;				// show number of prefix characters, more than 0
+const bannerPrefixLength = 1;				// show number of prefix characters
 const defaultSortOrder = 'asc';			// options: asc, desc; defaults to asc
 const defaultSortLocale = 'ja';				// based on BCP 47 language tag
 const presetWidths = [160, 320, 480]; 		// small, medium, large; subject to alignment of columns
@@ -25,7 +25,7 @@ const isWidescreen = function() {
 	return matchMedia('all and (orientation:landscape)').matches; 
 } 											// function to detect wider screen layout
 const horizontalMenuWidth = 500; 			// for not gallery, in pixels
-const minTagCount = 3;						// anything more than or equal to this will be included in tags, default 1
+const minTagCount = 2;						// anything more than or equal to this will be included in tags, default 1
 const maxTagCount = 9999;					// anything less than or equal to this will be included in tags, default 999
 const excludedTags = ['覚醒'];				// tags will be excluded from stats, filenames in data will be filtered
 const thumbnailRatio = 9/16;				// standard thumbnail image ratio, can be math expression or number
