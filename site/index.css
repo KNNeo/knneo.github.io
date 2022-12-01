@@ -1,6 +1,5 @@
 html {
 	font-family: Open Sans;
-	/* overflow: hidden; */
 	-webkit-user-select: none;
 	-khtml-user-select: none;
 	-moz-user-select: none;
@@ -10,12 +9,7 @@ html {
 }
 
 body {
-	/* height: 100%; */
 	margin: 0;
-}
-
-a {
-	cursor: pointer;
 }
 
 a:hover {
@@ -80,7 +74,7 @@ a:hover {
 .single .section {
 	position: absolute;
 	width: 100%;
-	height: initial;
+	height: 88vh;
 }
 
 .section:active {
@@ -122,17 +116,32 @@ a:hover {
 	padding: 4px 0;
 }
 
-/* .page-next {
-	padding-top: 20px;
+.page-next {
+	/* padding-top: 20px; */
+	opacity: 0;
+	transition: opacity 0.5s;
 }
 
 .page-prev {
-	padding-bottom: 10px;
-} */
+	/* padding-bottom: 10px; */
+	opacity: 0;
+	transition: opacity 0.5s;
+}
+
+.section:hover .page-prev,
+.page-prev:active {
+	opacity: 1;
+}
+
+.section:hover .page-next,
+.page-next:active {
+	opacity: 1;	
+	opacity: 1;	
+}
 
 .page-next .material-icons,
 .page-prev .material-icons {
-	font-size: 48px;
+	font-size: 3rem;
 }
 
 .caption {
@@ -212,18 +221,22 @@ a:hover {
 }
 
 .button-top {
-  position: fixed;
-  display: block;
-  visibility: hidden;
-  bottom: 10px;
-  right: 25px;
-  z-index: 7;
-  outline: none;
-  /* background-color: black; */
-  /* color: white; */
-  cursor: pointer;
-  padding: 8px 6px 6px 6px;
-  border-radius: 7px;
+	position: fixed;
+	display: block;
+	visibility: hidden;
+	bottom: 10px;
+	right: 25px;
+	z-index: 7;
+	outline: none;
+	/* background-color: black; */
+	/* color: white; */
+	cursor: pointer;
+	padding: 8px 6px 6px 6px;
+	border-radius: 7px;
+}
+
+.button-top .material-icons {
+	font-size: 2rem;
 }
 
 .button-editor {

@@ -70,7 +70,6 @@ function renderVariables() {
 
 function renderPage() {
 	document.querySelector('.page').innerHTML = '';
-	// window['elements'] = JSON.parse(JSON.stringify(pageElements));
 	
 	let type = '';
 	let mainSectionNo = 0;
@@ -104,17 +103,10 @@ function renderPage() {
 	}
 	
 	renderFooter(window['elements'][mainSectionNo].isSinglePage);
-
-	// if(window['elements'][mainSectionNo].isSinglePage)
-	// {
-		// setTimeout(function() {
-			// let headerHeight = document.querySelector('.header').getBoundingClientRect().height;
-			// document.querySelector('.page').style.maxHeight = (window.innerHeight - headerHeight) + 'px';
-		// }, 10);
-	// }
 	
 	for(let sectionNo = 0; sectionNo < window['elements'].length; sectionNo++) {
 		if(window['elements'][sectionNo].isMain) {
+			document.body.appendChild(renderMenu());
 			renderMain(sectionNo);
 		}
 		else {
@@ -131,8 +123,6 @@ function renderPage() {
 	else
 	{
 		document.body.classList.add('one');
-		// document.querySelector('.page').style.width = '100vw';
-		// document.querySelector('.page').style.position = 'absolute';
 	}
 	
 	renderButtons(window['elements'][mainSectionNo].isSinglePage);
@@ -160,12 +150,15 @@ function renderMain(sectionNo) {
 			let prevButton = document.createElement('a');
 			prevButton.classList.add('focusable');
 			prevButton.title = 'Previous';
-			prevButton.style.visibility = !content.isSinglePage && main.previousElementSibling != null ? 'visible' : 'hidden';
+			if(content.isSinglePage || main.previousElementSibling == null)
+				nextButton.style.opacity = '0';
+			else
+				nextButton.href = 'javascript:void(0)';
 			prevButton.addEventListener('click', scrollToPrevPage);
 			// prevButton.addEventListener('touchstart', scrollToPrevPage);
 			let prevButtonIcon = document.createElement('i');
 			prevButtonIcon.classList.add('material-icons');
-			prevButtonIcon.innerText = 'keyboard_arrow_up';
+			prevButtonIcon.innerText = 'arrow_drop_up';
 			prevButton.appendChild(prevButtonIcon);
 			prevDiv.appendChild(prevButton);
 			main.appendChild(prevDiv);
@@ -200,29 +193,21 @@ function renderMain(sectionNo) {
 			let contentList = document.createElement('div');
 			contentList.classList.add('contents');
 			
-			let iconSize = '7vw';
+			let iconSize = '6rem';
 			let drawerHeight = '12vh';
-			if (content.isSinglePage || window.innerWidth <= 800) iconSize = '7vh';
-			if (content.isSinglePage && window.innerWidth <= 800)
-			{
-				document.querySelector('.menu').style.minHeight = drawerHeight;
-				document.querySelector('.menu').style.maxHeight = drawerHeight;
-			}			
+			if (content.isSinglePage || window.innerWidth <= 760) iconSize = '7vh';
+			document.querySelector('.menu').style.minHeight = content.isSinglePage && window.innerWidth <= 760 ? drawerHeight : '';
+			document.querySelector('.menu').style.maxHeight = content.isSinglePage && window.innerWidth <= 760 ? drawerHeight : '';
 
 			//drawer, home icon
 			if(content.isSinglePage)
 			{
-				if(window.innerWidth <= 800)
+				if(window.innerWidth <= 760)
 				{
 					let contentItem = document.createElement('div');
 					contentItem.classList.add('handle');
 					contentItem.classList.add('material-icons');
 					contentItem.classList.add('focusable');
-					// contentItem.style.width = '100%';
-					// contentItem.style.cursor = 'pointer';
-					// contentItem.style.flexBasis = '100%';
-					// contentItem.style.display = 'flex';
-					// contentItem.style.justifyContent = 'center';
 					contentItem.innerText = 'drag_handle';
 					contentItem.addEventListener('click', function() {
 						event.stopPropagation();
@@ -235,22 +220,11 @@ function renderMain(sectionNo) {
 					contentList.appendChild(contentItem);
 				}
 				
-				// let homeSize = '4.5rem';
-				// if(window.innerWidth <= 800) homeSize = '3.5rem';
 				let contentItem = document.createElement('div');
 				contentItem.classList.add('material-icons');
 				contentItem.classList.add('home');
 				contentItem.classList.add('focusable');
-				// contentItem.style.width = iconSize;
-				// contentItem.style.height = iconSize;
 				contentItem.style.fontSize = iconSize;
-				// contentItem.style.borderRadius = '50%';
-				// contentItem.style.cursor = 'pointer';
-				// contentItem.style.backgroundSize = 'contain';
-				// contentItem.style.backgroundRepeat = 'no-repeat';
-				// contentItem.style.backgroundPosition = 'center';
-				// contentItem.style.fontSize = homeSize;
-				// contentItem.style.padding = '4px 0';
 				contentItem.innerText = 'home';
 				contentItem.addEventListener('click', function() {
 					event.stopPropagation();
@@ -279,11 +253,6 @@ function renderMain(sectionNo) {
 					contentItem.style.height = iconSize;
 					contentItem.title = window['elements'][section].text || '';
 					contentItem.style.backgroundImage = addBackgroundUrlClause(window['elements'][section].image);
-					// contentItem.style.borderRadius = '50%';
-					// contentItem.style.cursor = 'pointer';
-					// contentItem.style.backgroundSize = 'contain';
-					// contentItem.style.backgroundRepeat = 'no-repeat';
-					// contentItem.style.backgroundPosition = 'center';
 					contentItem.addEventListener('click', function() {
 						event.stopPropagation();
 						scrollToPage(section, content.isSinglePage);
@@ -341,6 +310,7 @@ function renderMain(sectionNo) {
 			
 			if(content.isSinglePage)
 			{
+				document.querySelector('.menu').innerHTML = '';
 				document.querySelector('.menu').appendChild(contentList);
 			}
 			else
@@ -357,12 +327,15 @@ function renderMain(sectionNo) {
 			let nextButton = document.createElement('a');
 			nextButton.classList.add('focusable');
 			nextButton.title = 'Next';
-			nextButton.style.visibility = !content.isSinglePage && main.nextElementSibling != null ? 'visible' : 'hidden';
+			if(content.isSinglePage || main.nextElementSibling == null)
+				nextButton.style.opacity = '0';
+			else
+				nextButton.href = 'javascript:void(0)';
 			nextButton.addEventListener('click', scrollToNextPage);
 			// nextButton.addEventListener('touchstart', scrollToNextPage);
 			let nextButtonIcon = document.createElement('i');
 			nextButtonIcon.classList.add('material-icons');
-			nextButtonIcon.innerText = 'keyboard_arrow_down';
+			nextButtonIcon.innerText = 'arrow_drop_down';
 			nextButton.appendChild(nextButtonIcon);
 			nextDiv.appendChild(nextButton);
 			main.appendChild(nextDiv);
@@ -384,12 +357,15 @@ function renderSection(sectionNo, mainSectionNo) {
 		let prevButton = document.createElement('a');
 		prevButton.classList.add('focusable');
 		prevButton.title = 'Previous';
-		prevButton.style.visibility = !main.isSinglePage && section.previousElementSibling != null && section.previousElementSibling.classList.contains('section') ? 'visible' : 'hidden';
+		if(main.isSinglePage || section.previousElementSibling == null || !section.previousElementSibling.classList.contains('section'))
+			prevButton.style.opacity = '0';
+		else
+			prevButton.href = 'javascript:void(0)';
 		prevButton.addEventListener('click',scrollToPrevPage);
 		// prevButton.addEventListener('touchstart',scrollToPrevPage);
 		let prevButtonIcon = document.createElement('i');
 		prevButtonIcon.classList.add('material-icons');
-		prevButtonIcon.innerText = 'keyboard_arrow_up';
+		prevButtonIcon.innerText = 'arrow_drop_up';
 		prevButton.appendChild(prevButtonIcon);
 		prevDiv.appendChild(prevButton);
 		section.appendChild(prevDiv);
@@ -435,12 +411,15 @@ function renderSection(sectionNo, mainSectionNo) {
 		let nextButton = document.createElement('a');
 		nextButton.classList.add('focusable');
 		nextButton.title = 'Next';
-		nextButton.style.visibility = !main.isSinglePage && section.nextElementSibling != null && section.nextElementSibling.classList.contains('section') ? 'visible' : 'hidden';
+		if(main.isSinglePage || section.nextElementSibling == null || !section.nextElementSibling.classList.contains('section')) 	
+			nextButton.style.opacity = '0';
+		else
+			nextButton.href = 'javascript:void(0)';
 		nextButton.addEventListener('click',scrollToNextPage);
 		// nextButton.addEventListener('touchstart',scrollToNextPage);
 		let nextButtonIcon = document.createElement('i');
 		nextButtonIcon.classList.add('material-icons');
-		nextButtonIcon.innerText = 'keyboard_arrow_down';
+		nextButtonIcon.innerText = 'arrow_drop_down';
 		nextButton.appendChild(nextButtonIcon);
 		nextDiv.appendChild(nextButton);
 		section.appendChild(nextDiv);
@@ -450,24 +429,15 @@ function renderSection(sectionNo, mainSectionNo) {
 function renderMenu() {
 	let header = document.createElement('div');
 	header.classList.add('menu');
-	// document.body.insertBefore(header, document.querySelector('.page'));
-	// document.body.appendChild(header);
 	return header;
 }
 
 function renderFooter(isSinglePage) {
 	let footer = document.createElement('div');
 	footer.classList.add('footer');
-	if(isSinglePage)
-	{
-		// footer.style.width = '100%';
-		// footer.style.position = 'fixed';
-		// footer.style.bottom = 0;
-		// footer.style.justifyContent = 'flex-end';
-	}
 	footer.innerText = '(c) Klassic Note';
 	document.querySelector('.page').appendChild(footer);
-	document.querySelector('.page').appendChild(renderMenu());
+	if(!isSinglePage) document.querySelector('.page').appendChild(renderMenu());
 }
 
 function renderButtons(isSinglePage) {
@@ -479,7 +449,7 @@ function renderButtons(isSinglePage) {
 	let topButtonIcon = document.createElement('i');
 	topButtonIcon.classList.add('material-icons');
 	topButtonIcon.classList.add('not-selectable');
-	topButtonIcon.innerText = 'arrow_upward';
+	topButtonIcon.innerText = 'north';
 	topButton.appendChild(topButtonIcon);
 	if(document.querySelector('.button-top') == null)
 	{
