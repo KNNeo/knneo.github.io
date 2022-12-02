@@ -668,54 +668,62 @@
 				"datas": [
 					{
 						"tooltip": "",
-						"thumbnail": "https://otherbooks.carrd.co/assets/images/gallery16/f5147f31.jpg",
-						"source": "https://otherbooks.carrd.co/assets/images/gallery16/f5147f31_original.jpg",
-						"grid": {
-							"type": "grid",
-							"columns": 2,
-							"rows": 2,
-							"image": "https://otherbooks.carrd.co/assets/images/gallery06/c2b7adf4.jpg",
-							"text": "",
-							"componentData": [
-								{
-									"type": "image",
-									"rows": 2,
-									"tooltip": "",
-									"thumbnail": "https://st.cdjapan.co.jp/pictures/l/12/47/KICS-4059.jpg",
-									"source": "https://st.cdjapan.co.jp/pictures/l/12/47/KICS-4059.jpg"
-								},
-								{
-									"type": "title",
-									"prefix": "Released 2022.07.20",
-									"title": "glow",
-									"suffix": "Minase Inori"
-								},
-								{
-									"type": "gallery",
-									"caption": "",
-									"datas": [
-										{
-											"tooltip": "",
-											"thumbnail": "https://st.cdjapan.co.jp/pictures/l/12/47/KICS-4059.jpg"
-										},
-										{
-											"tooltip": "",
-											"thumbnail": "https://st.cdjapan.co.jp/pictures/l/11/07/KICS-94059.jpg"
-										}
-									]
-								}
-							]
-						}
+						"thumbnail": "https://otherbooks.carrd.co/assets/images/gallery18/f5147f31.jpg",
+						"source": "https://otherbooks.carrd.co/assets/images/gallery18/f5147f31_original.jpg"
 					},
 					{
 						"tooltip": "",
-						"thumbnail": "https://otherbooks.carrd.co/assets/images/gallery16/aab0de36.jpg",
-						"source": "https://otherbooks.carrd.co/assets/images/gallery16/aab0de36_original.jpg"
+						"thumbnail": "https://otherbooks.carrd.co/assets/images/gallery18/aab0de36.jpg",
+						"source": "https://otherbooks.carrd.co/assets/images/gallery18/aab0de36_original.jpg"
 					},
 					{
 						"tooltip": "",
-						"thumbnail": "https://otherbooks.carrd.co/assets/images/gallery16/5e7a1966.jpg",
-						"source": "https://otherbooks.carrd.co/assets/images/gallery16/5e7a1966_original.jpg"
+						"thumbnail": "https://otherbooks.carrd.co/assets/images/gallery18/5e7a1966.jpg",
+						"source": "https://otherbooks.carrd.co/assets/images/gallery18/5e7a1966_original.jpg"
+					}
+				]
+			}
+		]
+	},
+	{
+		"type": "grid",
+		"columns": 2,
+		"rows": 2,
+		"image": "https://otherbooks.carrd.co/assets/images/gallery06/3523a2e5.jpg",
+		"text": "",
+		"componentData": [
+			{
+				"type": "title",
+				"prefix": "PAMPHLET",
+				"title": "HANAZAWA KANA Live 2022 \"Pokerface\" Pamphlet",
+				"suffix": "October 2022"
+			},
+			{
+				"type": "image",
+				"rows": 2,
+				"tooltip": "",
+				"thumbnail": "https://otherbooks.carrd.co/assets/images/image15.jpg",
+				"source": "https://otherbooks.carrd.co/assets/images/image15.jpg",
+				"link": "https://knneo.github.io/blogspot/blog/2022/05/klassic-note-welfare-package-june-2022.html#bookgirlclub2"
+			},
+			{
+				"type": "gallery",
+				"caption": "",
+				"datas": [
+					{
+						"tooltip": "",
+						"thumbnail": "https://otherbooks.carrd.co/assets/images/gallery16/b8d451af.jpg",
+						"source": "https://otherbooks.carrd.co/assets/images/gallery16/b8d451af_original.jpg"
+					},
+					{
+						"tooltip": "",
+						"thumbnail": "https://otherbooks.carrd.co/assets/images/gallery16/3f408b86.jpg",
+						"source": "https://otherbooks.carrd.co/assets/images/gallery16/3f408b86_original.jpg"
+					},
+					{
+						"tooltip": "",
+						"thumbnail": "https://otherbooks.carrd.co/assets/images/gallery16/e9f80467.jpg",
+						"source": "https://otherbooks.carrd.co/assets/images/gallery16/e9f80467_original.jpg"
 					}
 				]
 			}
