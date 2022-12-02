@@ -1,3 +1,18 @@
+/*Variables*/
+:root {
+  --primary: #0065ff;
+  --secondary: #609fff;
+  --background: #fff;
+  --foreground: #000;
+}
+
+.darked:root {
+  --primary: #00e4ff;
+  --secondary: #00abbf;
+  --background: #000;
+  --foreground: #fff;
+}
+
 html {
 	font-family: Open Sans;
 	-webkit-user-select: none;
@@ -10,10 +25,6 @@ html {
 
 body {
 	margin: 0;
-}
-
-a:hover {
-	color: var(--secondary);
 }
 
 .landing {
@@ -142,6 +153,7 @@ a:hover {
 .page-next .material-icons,
 .page-prev .material-icons {
 	font-size: 3rem;
+	color: var(--foreground);
 }
 
 .caption {
