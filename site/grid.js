@@ -103,7 +103,10 @@ function renderGrid(sectionNo, content) {
 				elem.appendChild(pre);
 			}
 			
-			let title = document.createElement(window.innerWidth <= 800 ? 'h2' : 'h1');
+			let titleType = 'h1';
+			if(window.innerWidth < 800) titleType = 'h2';
+			if(window.innerHeight < 800) titleType = 'h3';
+			let title = document.createElement(titleType);
 			title.innerText = component.title;
 			elem.appendChild(title);
 			

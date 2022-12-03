@@ -102,7 +102,7 @@ function renderPage() {
 		}
 	}
 	
-	renderFooter(window['elements'][mainSectionNo].isSinglePage);
+	renderFooter(window['elements'][mainSectionNo].isSinglePage, window['elements'][mainSectionNo].footer);
 	
 	for(let sectionNo = 0; sectionNo < window['elements'].length; sectionNo++) {
 		if(window['elements'][sectionNo].isMain) {
@@ -194,15 +194,20 @@ function renderMain(sectionNo) {
 			contentList.classList.add('contents');
 			
 			let iconSize = '6rem';
-			let drawerHeight = '12vh';
-			if (content.isSinglePage || window.innerWidth <= 760) iconSize = '5rem';
-			document.querySelector('.menu').style.minHeight = content.isSinglePage && window.innerWidth <= 760 ? drawerHeight : '';
-			document.querySelector('.menu').style.maxHeight = content.isSinglePage && window.innerWidth <= 760 ? drawerHeight : '';
+			let drawerHeight = '13vh';
+			if (window.innerHeight < 760) {
+				iconSize = '4rem';
+				drawerHeight = '30px';
+			}
+			if (content.isSinglePage) iconSize = '5rem';
+			document.querySelector('.menu').style.minHeight = content.isSinglePage && window.innerWidth < 760 ? drawerHeight : '';
+			document.querySelector('.menu').style.maxHeight = content.isSinglePage && window.innerWidth < 760 ? drawerHeight : '';
 
 			//drawer, home icon
 			if(content.isSinglePage)
 			{
-				if(window.innerWidth <= 760)
+				// add drag handle if mobile, or low screen height
+				if(window.innerWidth < 760 || window.innerHeight < 760)
 				{
 					let contentItem = document.createElement('div');
 					contentItem.classList.add('handle');
@@ -218,6 +223,9 @@ function renderMain(sectionNo) {
 						document.querySelector('.menu').style.maxHeight = (window.innerHeight - event.touches[0].clientY + 20) + 'px';
 					});
 					contentList.appendChild(contentItem);
+					
+					if(window.innerHeight < 760)
+						document.querySelector('.menu').style.maxHeight = drawerHeight;
 				}
 				
 				let contentItem = document.createElement('div');
@@ -228,6 +236,7 @@ function renderMain(sectionNo) {
 				contentItem.innerText = 'home';
 				contentItem.addEventListener('click', function() {
 					event.stopPropagation();
+						document.querySelector('.menu').style.maxHeight = document.querySelector('.menu').style.maxHeight == 'initial' ? drawerHeight : 'initial';
 					scrollToPage(sectionNo, content.isSinglePage);
 				});
 				// contentItem.addEventListener('touchstart', function() {
@@ -256,7 +265,8 @@ function renderMain(sectionNo) {
 					contentItem.addEventListener('click', function() {
 						event.stopPropagation();
 						scrollToPage(section, content.isSinglePage);
-						document.querySelector('.menu').style.maxHeight = drawerHeight;
+						if(window.innerWidth < 760 || window.innerHeight < 760)
+							document.querySelector('.menu').style.maxHeight = drawerHeight;
 					});
 					// contentItem.addEventListener('touchstart', function() {
 						// event.stopPropagation();
@@ -288,7 +298,8 @@ function renderMain(sectionNo) {
 					contentItem.addEventListener('click', function() {
 						event.stopPropagation();
 						scrollToPage(section, content.isSinglePage);
-						document.querySelector('.menu').style.maxHeight = drawerHeight;
+						if(window.innerWidth < 760 || window.innerHeight < 760)
+							document.querySelector('.menu').style.maxHeight = drawerHeight;
 					});
 					// contentItem.addEventListener('touchstart', function() {
 						// event.stopPropagation();
@@ -432,10 +443,10 @@ function renderMenu() {
 	return header;
 }
 
-function renderFooter(isSinglePage) {
+function renderFooter(isSinglePage, footerText) {
 	let footer = document.createElement('div');
 	footer.classList.add('footer');
-	footer.innerText = '(c) Klassic Note';
+	footer.innerText = footerText ?? '';
 	document.querySelector('.page').appendChild(footer);
 	if(!isSinglePage) document.querySelector('.page').appendChild(renderMenu());
 }
@@ -467,7 +478,7 @@ function renderButtons(isSinglePage) {
 	let editorButton = document.createElement('a');
 	editorButton.classList.add('button');
 	editorButton.classList.add('button-editor');
-	editorButton.title = 'Back To Top';
+	editorButton.title = 'Toggle Editor';
 	if(isSinglePage || isMobile())
 		editorButton.style.right = '10px';
 	let editorButtonIcon = document.createElement('i');
