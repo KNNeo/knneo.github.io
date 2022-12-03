@@ -120,8 +120,8 @@ function renderGrid(sectionNo, content) {
 			img.classList.add(component.type);
 			if(component.tooltip && component.tooltip.length > 0) img.title = component.tooltip;
 			img.style.backgroundImage = addBackgroundUrlClause(component.source);
-			img.style.width = '100%';
-			img.style.height = component.rows > 1 ? '80%' : '100%';
+			img.style.width = component.rows > 1 ? '80%' : '100%';
+			img.style.height = '100%';
 			img.style.margin = 'auto';
 			img.style.backgroundSize = 'contain';
 			img.style.backgroundRepeat = 'no-repeat';
@@ -130,11 +130,17 @@ function renderGrid(sectionNo, content) {
 			
 			if(component.link && component.link.length > 0)
 			{
-				let url = document.createElement('a');
-				url.href = component.link;
-				// url.setAttribute('target', '_blank');
-				url.appendChild(img);
-				elem.appendChild(url);
+				let linkContainer = document.createElement('div');
+				linkContainer.style.width = '100%';
+				linkContainer.style.height = '100%';
+				linkContainer.style.verticalAlign = 'center';
+
+					let url = document.createElement('a');
+					url.href = component.link;
+					url.appendChild(img);
+					
+				linkContainer.appendChild(url);
+				elem.appendChild(linkContainer);
 			}
 			else
 			{
@@ -206,7 +212,6 @@ function renderGrid(sectionNo, content) {
 				caption.classList.add('focusable');
 				caption.innerText = component.caption;
 				caption.style.width = '100%';
-				// caption.style.height = '20%';
 				caption.style.margin = '5px';
 				gallery.appendChild(caption);
 			}
@@ -220,12 +225,6 @@ function renderGrid(sectionNo, content) {
 			let gallery = document.createElement('div');
 			gallery.classList.add(component.type);
 			gallery.style.width = '100%';
-			// gallery.style.height = '100%';
-			// gallery.style.margin = 'auto';
-			// gallery.style.display = 'flex';
-			// gallery.style.flexDirection = 'row';
-			// gallery.style.justifyContent = 'center';
-			// gallery.style.alignItems = 'center';
 			
 			for(let galleryIndex = 0; galleryIndex < component.datas.length; galleryIndex++)
 			{
@@ -244,17 +243,11 @@ function renderGrid(sectionNo, content) {
 				else img.setAttribute('data-src', data.source);
 				if(window.innerWidth < 800)
 				{
-					let ratio = component.datas.length > 4 ? 4 : component.datas.length;
-					img.style.height = (100 / (ratio + 1)) + 'vw';
-					// img.style.maxHeight = '33vw';
+					img.style.height = '20vw';
 				}
-				else if (component.size && component.size == 'lg') img.style.height = '11em';
-				else img.style.height = '7em';
+				else if (component.size && component.size == 'lg') img.style.height = '12vw';
+				else img.style.height = '7vw';
 				img.style.margin = '5px';
-				// img.style.display = 'inline-block';
-				// img.style.backgroundSize = 'contain';
-				// img.style.backgroundRepeat = 'no-repeat';
-				// img.style.backgroundPosition = 'center';
 				if(data.source) img.style.cursor = 'pointer';
 				if(data.grid || data.source)
 					img.addEventListener('click', function() {

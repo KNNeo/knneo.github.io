@@ -195,7 +195,7 @@ function renderMain(sectionNo) {
 			
 			let iconSize = '6rem';
 			let drawerHeight = '12vh';
-			if (content.isSinglePage || window.innerWidth <= 760) iconSize = '7vh';
+			if (content.isSinglePage || window.innerWidth <= 760) iconSize = '5rem';
 			document.querySelector('.menu').style.minHeight = content.isSinglePage && window.innerWidth <= 760 ? drawerHeight : '';
 			document.querySelector('.menu').style.maxHeight = content.isSinglePage && window.innerWidth <= 760 ? drawerHeight : '';
 
@@ -442,10 +442,9 @@ function renderFooter(isSinglePage) {
 
 function renderButtons(isSinglePage) {
 	let topButton = document.createElement('a');
-	// topButton.id = 'GoToTopBtn';
+	topButton.classList.add('button');
 	topButton.classList.add('button-top');
 	topButton.title = 'Back To Top';
-	// if(isMobile()) topButton.style.right = '10px';
 	let topButtonIcon = document.createElement('i');
 	topButtonIcon.classList.add('material-icons');
 	topButtonIcon.classList.add('not-selectable');
@@ -459,13 +458,14 @@ function renderButtons(isSinglePage) {
 	}
 	else
 	{
-		// if(isMobile()) document.querySelector('.button-top').style.right = '10px';
-		// else document.querySelector('.button-top').style.right = null;
-		
+		if(isSinglePage || isMobile()) 
+			document.querySelector('.button-top').style.right = '10px';
+		else 
+			document.querySelector('.button-top').style.right = null;		
 	}
 
 	let editorButton = document.createElement('a');
-	// editorButton.id = 'EditorBtn';
+	editorButton.classList.add('button');
 	editorButton.classList.add('button-editor');
 	editorButton.title = 'Back To Top';
 	if(isSinglePage || isMobile())
@@ -490,7 +490,7 @@ function renderButtons(isSinglePage) {
 	}
 	
 	let closeButton = document.createElement('a');
-	// closeButton.id = 'CloseBtn';
+	closeButton.classList.add('button');
 	closeButton.classList.add('button-close');
 	closeButton.title = 'Close Popup';
 	if(isSinglePage || isMobile()) 
@@ -544,7 +544,7 @@ function setPageElements(content) {
 		
 	}
 	window['elements'] = JSON.parse(localStorage.getItem('elements'));
-	// window['elements'][0].isSinglePage = true;
+
 	renderVariables();
 	setTimeout(renderPage, 1);
 	setTimeout(function () {
@@ -642,4 +642,6 @@ function startup() {
 	let firstLoad = window['loaded'] != true;
 	window['loaded'] = true;
 	if(firstLoad) startup();
+	
+	closeViewer();
 }
