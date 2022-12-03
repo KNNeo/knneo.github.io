@@ -80,6 +80,7 @@ function openImageUrlInViewer(url) {
 			img.style.opacity = 1;
 			window['loading'] = false;
 			runLoader();
+			adjustViewerMargin();
 		}, 100);
 	});	
 	if(viewer.childNodes.length > 0) viewer.innerHTML = '';
@@ -96,9 +97,9 @@ function adjustViewerMargin() {
 	let viewer = document.querySelector('.viewer');
 	if(viewer.childElementCount == 0) return;
 	viewer.style.paddingTop = '0';
-	let image = viewer.querySelector('img');
-	if(!image.complete) setTimeout(adjustViewerMargin, 200);
-	viewer.style.paddingTop = (window.innerHeight - image.height)/2 + 'px';
+	let image = viewer.lastElementChild;
+	// if(!image.complete) setTimeout(adjustViewerMargin, 200);
+	viewer.style.paddingTop = (window.innerHeight - image.getBoundingClientRect().height)/2 + 'px';
 }
 
 function closeViewer() {
