@@ -4,7 +4,8 @@
 		"isSinglePage": true,
 		"prefix": "",
 		"title": "THE BOOKS WORTH OF PHOTOS",
-		"suffix": "A Klassic Note Web Reports series where I review photobooks"
+		"suffix": "A Klassic Note Web Reports series where I review photobooks",
+		"footer": "(c) Klassic Note"
 	},
 	{
 		"type": "grid",

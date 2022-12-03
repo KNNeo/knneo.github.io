@@ -3,7 +3,8 @@
 		"isMain": true,
 		"prefix": "",
 		"title": "The Klassic Note Review",
-		"suffix": "A Klassic Note series"
+		"suffix": "A Klassic Note series",
+		"footer": "(c) Klassic Note"
 	},
 	{
 		"type": "grid",

@@ -3,7 +3,8 @@
 		"isMain": true,
 		"prefix": "",
 		"title": "OTHER BOOKS WORTH OF PHOTOS",
-		"suffix": "(From Klassic Note Web Reports)"
+		"suffix": "(From Klassic Note Web Reports)",
+		"footer": "(c) Klassic Note"
 	},
 	{
 		"type": "grid",
