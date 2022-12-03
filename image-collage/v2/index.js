@@ -208,6 +208,7 @@ function generateLayoutMenu() {
 	title.addEventListener('click', startup);
 	
 	let description = document.createElement('h5');
+	description.classList.add('description');
 	description.innerText = defaultDescription;
 	
 	mainTableRow1Cell1.appendChild(title);
@@ -242,7 +243,7 @@ function generateLayoutMenu() {
 	let tags = document.createElement('div');
 	tags.classList.add('tags');
 	if(window['horizontal']) {
-		tags.style.height = (0.7 * window.innerHeight) + 'px';
+		tags.style.height = 'calc(100vh - 260px)';
 		tags.style.overflowY = 'auto';
 	}
 	else {

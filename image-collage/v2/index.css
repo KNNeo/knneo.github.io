@@ -23,6 +23,11 @@ body {
 	cursor: pointer;
 }
 
+.description {
+	height: 60px;
+	overflow: auto;
+}
+
 .tags { 
   -ms-overflow-style: none;
   scrollbar-width: none;
