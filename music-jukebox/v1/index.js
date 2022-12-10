@@ -171,8 +171,8 @@ function generateLayoutPlayer() {
 	let back = document.createElement('a');
 	back.classList.add('back');
 	back.style.verticalAlign = 'top';
-	back.href = '../index.html';
-	back.innerText = 'Back';
+	back.href = '../../index.html';
+	back.innerText = 'knneo.github.io';
 	settings.appendChild(back);
 	
 	mainTableRow3Cell1.appendChild(settings);
@@ -353,7 +353,7 @@ function reloadDarkmodeStyle() {
 function loadDataScript(pageName) {
 	let dataScript = document.createElement('script');
 	dataScript.id = pageName + '-array'
-	dataScript.src = dataScript.id + '.js';
+	dataScript.src = '../' + dataScript.id + '.js';
 	dataScript.type = "text/javascript";
 	dataScript.charset = 'utf-8';
 	dataScript.onreadystatechange = function() { loadData(pageName); };

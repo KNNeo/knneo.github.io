@@ -139,3 +139,6 @@ tr:hover > td {
     background-color: transparent;
 }
 
+.back {
+	display: block;
+}
