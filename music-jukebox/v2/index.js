@@ -77,6 +77,8 @@ function generateLayout() {
 }
 
 function generateHorizontalLayout() {
+	document.body.style.overflow = 'hidden';
+	
 	let bodyTable = document.createElement('div');
 	bodyTable.classList.add('table');
 	bodyTable.style.width = '100%';
@@ -148,7 +150,7 @@ function generateLayoutMenu() {
 	}
 	else {
 		tags.style.width = '100vw';
-		tags.style.maxHeight = 'calc(100vh - 260px)';
+		// tags.style.maxHeight = 'calc(100vh - 260px)';
 		tags.style.overflowX = 'auto';
 		tags.style.whiteSpace = 'nowrap';
 	}
@@ -248,9 +250,10 @@ function generateLayoutMenu() {
 function generateLayoutCollage() {
 	let mosaic = document.createElement('div');
 	mosaic.id = 'mosaic';
-	if(window['horizontal']) 
+	if(window['horizontal']) {
 		mosaic.style.width = (window.innerWidth - (window['horizontal'] ? processCssValue(menuWidth) : 0)) + 'px';
-	mosaic.style.height = (window.innerHeight) + 'px';
+		mosaic.style.height = (window.innerHeight) + 'px';
+	}
 
 	let grid = document.createElement('div');
 	grid.id = 'grid';
@@ -397,6 +400,11 @@ function calculateThumbnailSize() {
 }
 
 //EVENTS//
+function goToTop() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+}
+
 function onScroll(e) {
 	let main = document.getElementById('main');
 	let mosaic = document.getElementById('mosaic');
@@ -404,9 +412,9 @@ function onScroll(e) {
 	let scrollDelta = isFirefox ? -e.detail*100 : e.wheelDelta
 	
 	//scrollDelta < 0 => scroll down
-	main.style.height = scrollDelta < 0 ? 0 : '';
+	// main.style.height = scrollDelta < 0 ? 0 : '';
 	// tags.style.height = main.style.height;
-	mosaic.style.height = scrollDelta < 0 ? window.innerHeight + 'px' : (window.innerHeight - main.getBoundingClientRect().height) + 'px';
+	// mosaic.style.height = scrollDelta < 0 ? window.innerHeight + 'px' : (window.innerHeight - main.getBoundingClientRect().height) + 'px';
 }
 
 function onTouchStart(e) {
@@ -418,9 +426,9 @@ function onTouchMove(e) {
 	let mosaic = document.getElementById('mosaic');
 	// let tags = document.querySelector('.tags');
 	
-	main.style.height = window['touchY'] > e.touches[0].clientY ? 0 : '';
+	// main.style.height = window['touchY'] > e.touches[0].clientY ? 0 : '';
 	// tags.style.height = main.style.height;
-	mosaic.style.height = window['touchY'] > e.touches[0].clientY ? window.innerHeight + 'px' : (window.innerHeight - main.getBoundingClientRect().height) + 'px';
+	// mosaic.style.height = window['touchY'] > e.touches[0].clientY ? window.innerHeight + 'px' : (window.innerHeight - main.getBoundingClientRect().height) + 'px';
 }
 
 function onTogglePreset() {
@@ -462,13 +470,14 @@ function onClickGridItem() {
 	
 	if(!window['horizontal'])
 	{
-		this.scrollIntoView();
+		// this.scrollIntoView();
+		goToTop();
 		
 		let main = document.getElementById('main');
 		let mosaic = document.getElementById('mosaic');
 		main.style.height = '';
 		// tags.style.height = main.style.height;
-		mosaic.style.height = (window.innerHeight - main.getBoundingClientRect().height) + 'px';
+		// mosaic.style.height = (window.innerHeight - main.getBoundingClientRect().height) + 'px';
 
 	}
 }
@@ -476,7 +485,7 @@ function onClickGridItem() {
 function generatePlayerByURL(url) {
 	let embedHeight = 450; // as per apple documentation, fixed
 	// let url = (isDarkMode ? "https://music.apple.com/jp/" + (releaseId.includes('pl.u') ? 'playlist' : 'album') + "/" : "https://open.spotify.com/embed/album/") + releaseId;
-	// if(0.75*window.innerHeight < widgetHeight)
+	// if(!window['horizontal'] && 0.5*window.innerHeight < embedHeight)
 		// embedHeight = 0.5*window.innerHeight;
     if (url.includes('music.apple.com')) {
         //process itunes embed

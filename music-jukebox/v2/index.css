@@ -16,7 +16,7 @@
 body {
 	margin: 0;
 	font-family: Open Sans;
-	overflow: hidden;
+	/* overflow: hidden; */
 }
 
 .title {
