@@ -416,10 +416,10 @@ function onTouchStart(e) {
 function onTouchMove(e) {
 	let main = document.getElementById('main');
 	let mosaic = document.getElementById('mosaic');
-	let tags = document.querySelector('.tags');
+	// let tags = document.querySelector('.tags');
 	
 	main.style.height = window['touchY'] > e.touches[0].clientY ? 0 : '';
-	tags.style.height = main.style.height;
+	// tags.style.height = main.style.height;
 	mosaic.style.height = window['touchY'] > e.touches[0].clientY ? window.innerHeight + 'px' : (window.innerHeight - main.getBoundingClientRect().height) + 'px';
 }
 
