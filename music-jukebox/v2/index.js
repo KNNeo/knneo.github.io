@@ -474,7 +474,7 @@ function onClickGridItem() {
 }
 
 function generatePlayerByURL(url) {
-	let embedHeight = 450;
+	let embedHeight = 450; // as per apple documentation, fixed
 	// let url = (isDarkMode ? "https://music.apple.com/jp/" + (releaseId.includes('pl.u') ? 'playlist' : 'album') + "/" : "https://open.spotify.com/embed/album/") + releaseId;
 	// if(0.75*window.innerHeight < widgetHeight)
 		// embedHeight = 0.5*window.innerHeight;

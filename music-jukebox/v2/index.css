@@ -136,14 +136,6 @@ body {
 	display: flex;
 	width: 100%;
 }
-.counter {
-	padding: 0 5px;
-	text-align: left;
-	vertical-align: top;
-	display: inline-block;
-	width: 40px;
-	font-size: 0.9em;
-}
 
 .settings-icon {
 	padding: 0 5px;	
@@ -168,48 +160,4 @@ body {
   overflow: auto;
   white-space: nowrap;
   z-index: 2;
-}
-
-#viewer {
-	z-index: 9;
-	position: fixed;
-	background-color: var(--background);
-	width: 100%;
-	height: 100%;
-	padding-top: 0;
-	text-align: center;
-	transition: opacity 0.3s, visibility 0.3s;
-	top: 0;
-}
-#viewer-prev {
-	cursor: pointer;
-	background-color: transparent;
-	position: absolute;
-	left: 0;
-	top: 0;
-	width: 25%;
-	height: 100%;
-	z-index: 11;
-}
-#viewer-next {
-	cursor: pointer;
-	background-color: transparent;
-	position: absolute;
-	right: 0;
-	top: 0;
-	width: 25%;
-	height: 100%;
-	z-index: 11;
-}
-#viewer-next:active {
-	opacity: 0.4;
-	background-image: linear-gradient(to left, var(--background), transparent);
-}
-#viewer-prev:active {
-	opacity: 0.4;
-	background-image: linear-gradient(to right, var(--background), transparent);
-}
-
-#viewer img {
-	transition: transform 0.2s;
 }
