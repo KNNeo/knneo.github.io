@@ -30,21 +30,39 @@ void Main()
 	var peopleList = new List<string>();
 	var namePeopleList = new List<string>();
 		namePeopleList.Add("Tag | Description | Time" + (analysisMode ? " | Filename" : ""));
+	var formatList = new List<string>();
 	
 	//foreach json file
 	foreach(var f in files)
 	{
+		var fInfo = new FileInfo(f);
+		//if(fInfo.Name == "metadata.json") continue;
 		//if(!f.Contains(".json")) continue;
-		var file = new FileInfo(f);
-		var fileName = Path.Combine(file.DirectoryName, file.Name);
-		var thumbnailName = Path.Combine(file.DirectoryName, "thumbnail_" + file.Name);
+		//var fileName = Path.Combine(file.DirectoryName, file.Name).Replace(@"\","/").Replace(".json","");
+		//if(fileName.EndsWith(".jp"))
+		//	fileName = fileName.Replace(".jp", ".jpg");
+		//var thumbnailName = Path.Combine(file.DirectoryName, "thumbnail_" + file.Name.Substring(0, file.Name.IndexOf('.')) + ".jpg").Replace(@"\","/").Replace(".json","");
+		//if(thumbnailName.EndsWith(".jp"))
+		//	thumbnailName = thumbnailName.Replace(".jp", ".jpg");
 		string text = File.ReadAllText(f);
 		
 		if(text.Length > 0)
-		{		
+		{
 			var jsonObj = JsonConvert.DeserializeObject<GooglePhotosMetadata>(text);
-			jsonObj.title = fileName;
-			jsonObj.thumbnail = thumbnailName;
+			if(jsonObj.title.Length > 40) //filename max length crop
+				jsonObj.title = jsonObj.title.Substring(0, 40);
+			//Console.WriteLine(fInfo.DirectoryName);
+			var fileString = fInfo.DirectoryName + "\\" + jsonObj.title;
+			var fileName = Path.GetFileNameWithoutExtension(fInfo.DirectoryName + "\\" + jsonObj.title).Replace("%", "_").Replace("\u0026", "_");
+			//Console.WriteLine(fileName);
+			
+			//try to find file in directory based on shorter filename match from json?
+			var actualFile = Directory.GetFiles(fInfo.DirectoryName, fileName + "*").FirstOrDefault(fil => !fil.EndsWith(".json"));
+			if(actualFile == null) continue;
+			var actualFileInfo = new FileInfo(actualFile);
+			var actualFileName = Path.GetFileNameWithoutExtension(actualFile);
+			jsonObj.title = fInfo.DirectoryName.Replace(@"\","/") + "/" + actualFileInfo.Name;
+			jsonObj.thumbnail = fInfo.DirectoryName.Replace(@"\","/") + "/thumbnail_" + actualFileName + ".jpg";
 			jsonList.Add(jsonObj);
 		}
 	}
@@ -57,11 +75,11 @@ void Main()
 		Console.WriteLine("const mosaicArray = [");
 		foreach(var json in jsonList)
 		{
-			var fileLocation = json.title.Replace(@"\","/").Replace(".json","");
-			var thumbnailLocation = json.thumbnail.Replace(@"\","/").Replace(".json","");
+			var fileLocation = json.title;
+			var thumbnailLocation = json.thumbnail;
 			var time = json.photoTakenTime?.formatted.ToString();
-			if(!File.Exists(thumbnailLocation))
-				continue;
+			//if(!File.Exists(thumbnailLocation))
+				//continue;
 			
 			Console.WriteLine("{");
 			if(time != null)
@@ -75,7 +93,8 @@ void Main()
 			Console.WriteLine($"\t\t\"md\": \"file://{fileLocation}\",");
 			Console.WriteLine($"\t\t\"lg\": \"file://{fileLocation}\",");
 			Console.WriteLine($"\t\t\"og\": \"file://{fileLocation}\",");
-			Console.WriteLine($"\t\t\"sort\": \"{json.photoTakenTime.timestamp}\",");
+			if(json.photoTakenTime != null)
+				Console.WriteLine($"\t\t\"sort\": \"{json.photoTakenTime.timestamp}\",");
 			Console.WriteLine("},");
 		}
 		Console.WriteLine("];");
