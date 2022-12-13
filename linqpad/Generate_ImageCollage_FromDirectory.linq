@@ -25,6 +25,7 @@ void Main()
 	var prefixLg = "size" + separator + "lg" + separator;
 	
 	string folderpath = @"C:\Users\KAINENG\OneDrive\Pictures\DOAX-VenusVacation\Bromides\"; // ends with backslash
+	string destination = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\image-collage\v2\data.js"; // ends with backslash
 	var files = Directory.GetFiles(folderpath, "*.jpg", SearchOption.AllDirectories)?.Select(f => f.Replace(folderpath, ""));
 	//Console.WriteLine(files);
 	
@@ -63,16 +64,20 @@ void Main()
 	switch(generateObjectAs)
 	{
 		case "string":
-			Console.WriteLine("const mosaicArray = [");
+			var sb = new StringBuilder();
+			sb.AppendLine("const mosaicArray = [");
 			foreach(var line in output)
 			{
-				Console.WriteLine(JsonConvert.SerializeObject(line) + ",");
+				sb.AppendLine(JsonConvert.SerializeObject(line) + ",");
 			}
-			Console.WriteLine("];");
+			sb.AppendLine("];");
+			File.WriteAllText(destination, sb.ToString());
+			Console.WriteLine("Done.");
 			break;
 		default:
 			Console.WriteLine(output);
 			break;
+		
 	}
 }
 
