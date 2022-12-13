@@ -22,6 +22,7 @@ void Main()
 	var timezone = 8; // with respect to UTC
 	var separator = "_";
 	string folderpath = @"C:\Users\KAINENG\Documents\LINQPad Queries\photos-takeout\Takeout";
+	string destination = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\image-collage\v2\data.js"; // ends with backslash
 	var files = Directory.GetFiles(folderpath, "*.json", SearchOption.AllDirectories);
 	//Console.WriteLine(files);
 	
@@ -36,14 +37,6 @@ void Main()
 	foreach(var f in files)
 	{
 		var fInfo = new FileInfo(f);
-		//if(fInfo.Name == "metadata.json") continue;
-		//if(!f.Contains(".json")) continue;
-		//var fileName = Path.Combine(file.DirectoryName, file.Name).Replace(@"\","/").Replace(".json","");
-		//if(fileName.EndsWith(".jp"))
-		//	fileName = fileName.Replace(".jp", ".jpg");
-		//var thumbnailName = Path.Combine(file.DirectoryName, "thumbnail_" + file.Name.Substring(0, file.Name.IndexOf('.')) + ".jpg").Replace(@"\","/").Replace(".json","");
-		//if(thumbnailName.EndsWith(".jp"))
-		//	thumbnailName = thumbnailName.Replace(".jp", ".jpg");
 		string text = File.ReadAllText(f);
 		
 		if(text.Length > 0)
@@ -67,37 +60,35 @@ void Main()
 		}
 	}
 	
-	//views
 	if(fullMode) {
-		//Console.WriteLine("All Items");
-		//Console.WriteLine(jsonList);
-		
-		Console.WriteLine("const mosaicArray = [");
+		var sb = new StringBuilder();
+		sb.AppendLine("const mosaicArray = [");
 		foreach(var json in jsonList)
 		{
 			var fileLocation = json.title;
 			var thumbnailLocation = json.thumbnail;
 			var time = json.photoTakenTime?.formatted.ToString();
-			//if(!File.Exists(thumbnailLocation))
-				//continue;
 			
-			Console.WriteLine("{");
+			sb.AppendLine("{");
 			if(time != null)
 			{
 				var dateTime = DateTime.ParseExact(time.Replace("Sept", "Sep"), "d MMM yyyy, HH:mm:ss UTC", CultureInfo.InvariantCulture).AddHours(timezone);
-				Console.WriteLine($"\t\t\"filename\": \"{dateTime.Date.ToString("yyyy.MM.dd")}{separator}{json.description}{separator}{dateTime.Year}.jpg\",");
+				sb.AppendLine($"\t\t\"filename\": \"{dateTime.Date.ToString("yyyy.MM.dd")}{separator}{json.description}{separator}{dateTime.Year}.jpg\",");
 			}
 			else
-				Console.WriteLine($"\t\t\"filename\": \"{json.description}.jpg\",");
-			Console.WriteLine($"\t\t\"sm\": \"file://{thumbnailLocation}\",");
-			Console.WriteLine($"\t\t\"md\": \"file://{fileLocation}\",");
-			Console.WriteLine($"\t\t\"lg\": \"file://{fileLocation}\",");
-			Console.WriteLine($"\t\t\"og\": \"file://{fileLocation}\",");
+				sb.AppendLine($"\t\t\"filename\": \"{json.description}.jpg\",");
+			sb.AppendLine($"\t\t\"sm\": \"file://{thumbnailLocation}\",");
+			sb.AppendLine($"\t\t\"md\": \"file://{fileLocation}\",");
+			sb.AppendLine($"\t\t\"lg\": \"file://{fileLocation}\",");
+			sb.AppendLine($"\t\t\"og\": \"file://{fileLocation}\",");
 			if(json.photoTakenTime != null)
-				Console.WriteLine($"\t\t\"sort\": \"{json.photoTakenTime.timestamp}\",");
-			Console.WriteLine("},");
+				sb.AppendLine($"\t\t\"sort\": \"{json.photoTakenTime.timestamp}\",");
+			sb.AppendLine("},");
 		}
-		Console.WriteLine("];");
+		sb.AppendLine("];");
+		
+		File.WriteAllText(destination, sb.ToString());
+		Console.WriteLine("Done.");
 	}
 }
 
