@@ -254,6 +254,14 @@ table.tr-caption-container {
 	font-size: 36px;
 }
 
+.inverted {
+  filter: invert(1);
+}
+
+.darked .inverted {
+  filter: invert(0);
+}
+
 @media only screen and (max-width: 780px) {
   #BackBtn,
   #LeftBtn {
