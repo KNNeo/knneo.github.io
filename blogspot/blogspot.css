@@ -262,6 +262,14 @@ table.tr-caption-container {
   filter: invert(0);
 }
 
+.custom-table tr:hover > td {
+	background-color: lightgray;
+}
+
+.darked .custom-table tr:hover > td {
+	background-color: gray;
+}
+
 @media only screen and (max-width: 780px) {
   #BackBtn,
   #LeftBtn {
