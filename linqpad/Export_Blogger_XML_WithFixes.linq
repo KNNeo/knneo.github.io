@@ -43,7 +43,7 @@
 
 void Main()
 {
-    bool WriteTitleOnConsole = true;
+    bool WriteTitleOnConsole = false;
 	bool TraceMode = false;
 	int maxLatestPost = 4;
 	int maxImageExport = 100;
@@ -670,8 +670,6 @@ void Main()
 		}
         #endregion
 		
-		
-		
         //Add to debug
         if(matchItems.Count() > 0)
             Console.WriteLine(matchItems);
@@ -702,6 +700,10 @@ void Main()
         
         if(WriteTitleOnConsole || TraceMode)
             Console.WriteLine((title != "" ? title : "A Random Statement") + (count > 0 ? "\t[" + count + " change(s)]" : ""));
+		else if(p % 100 == 99)
+            Console.WriteLine("|");
+		else
+            Console.Write("|");
         
         var pageLink = "./" + Path.GetFileNameWithoutExtension(filepath.Replace(filepath, "blog")) + "/" + published.Year.ToString("0000") + "/"  + published.Month.ToString("00") + "/"  + Path.GetFileNameWithoutExtension(originalLink) + "." + type;
         var pageIndex = postList.IndexOf(pageLink);
