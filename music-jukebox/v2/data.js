@@ -536,5 +536,13 @@ const mosaicArray = [
         "lg": "https://is4-ssl.mzstatic.com/image/thumb/Music112/v4/14/64/6b/14646b5b-1c3d-9c47-8a77-8b5b8e5b7e92/PA00108509_0_157859_jacket.jpg/316x316bb.webp",
         "og": "https://music.apple.com/jp/album/1655049849"
     },
+    {
+        "filename": "2022KlassicNote@AppleMusicJP",
+        "sort": "2022_2022KlassicNote@AppleMusicJP",
+        "sm": "https://is3-ssl.mzstatic.com/image/thumb/ItpENF2Vb3ygdNJivUm_KQ/305x305cc.webp",
+        "md": "hhttps://is3-ssl.mzstatic.com/image/thumb/ItpENF2Vb3ygdNJivUm_KQ/305x305cc.webp",
+        "lg": "https://is3-ssl.mzstatic.com/image/thumb/ItpENF2Vb3ygdNJivUm_KQ/305x305cc.webp",
+        "og": "https://music.apple.com/jp/playlist/pl.u-WabZzxVUR9boM4B"
+    },
 ];
 
