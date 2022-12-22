@@ -1008,13 +1008,13 @@ function recoverOrientationIfEmpty(array) {
 function renderGalleryScroll() {
 	//allow scroll on desktop
 	let mousewheelEvent = isFirefox ? "DOMMouseScroll" : "mousewheel"
-	let scrollList = new Array();
-	let time = new Date();
+	// let scrollList = new Array();
+	// let time = new Date();
 	document.getElementById("imgGallery").addEventListener(mousewheelEvent, function(e) {
 		e.preventDefault();
 		//document.getElementsByClassName('profile-category')[0].classList.remove('snap');
 		//console.log(new Date() - time);
-		time = new Date();
+		// time = new Date();
 		let scrollDelta = isFirefox ? -e.detail*100 : e.wheelDelta
 		document.getElementsByClassName('profile-category')[0].scrollLeft -= scrollDelta;
 		
