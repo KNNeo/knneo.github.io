@@ -149,7 +149,7 @@ function generateLayoutMenu() {
 		tags.style.overflowY = 'auto';
 	}
 	else {
-		tags.style.width = '100vw';
+		tags.style.width = '100%';
 		// tags.style.maxHeight = 'calc(100vh - 260px)';
 		tags.style.overflowX = 'auto';
 		tags.style.whiteSpace = 'nowrap';
