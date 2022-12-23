@@ -140,7 +140,9 @@ function generateLayoutMenu() {
 	mainTableRow1Cell1.appendChild(description);
 		
 	let mainTableRow2Cell1 = document.createElement('div');
+	mainTableRow2Cell1.classList.add('player-container');
 	mainTableRow2Cell1.style.position = 'relative';
+	mainTableRow2Cell1.style.overflow = 'hidden';
 		
 	let tags = document.createElement('div');
 	tags.classList.add('player');
