@@ -18,10 +18,10 @@ const minColumns = 3;			  			// minimum no. of columns to show thumbnails
 const enableDarkMode = true;	  			// shows dark mode toggle
 const isDarkMode = true;		  			// initial value if enableDarkMode is false, ignored if enableDarkMode is true
 const debugMode = false;		  			// shows console log values on render
-const menuWidth = '800px'; 					// when in horizontal layout, in [px, vw, vh]
+const menuWidth = '50em'; 					// when in horizontal layout, in [px, vw, vh]
 const thumbnailRatio = 1;					// standard thumbnail image ratio, can be math expression or number
 const isWidescreen = function() { 
-	return matchMedia('all and (orientation:landscape)').matches; 
+	return false; //matchMedia('all and (orientation:landscape)').matches; 
 } 											// function to detect wider screen layout
 
 //--VARIABLES--//
@@ -115,7 +115,7 @@ function generateLayoutMenu() {
 	mainTable.id = 'main';
 	mainTable.style.textAlign = 'center';
 	if(window['horizontal']) 
-		mainTable.style.width = menuWidth;
+		mainTable.style.width = processCssValue(menuWidth);
 	else 
 		mainTable.style.width = '100%';
 	if(window['horizontal']) mainTable.style.height = '100%';
@@ -143,6 +143,9 @@ function generateLayoutMenu() {
 	mainTableRow2Cell1.classList.add('player-container');
 	mainTableRow2Cell1.style.position = 'relative';
 	mainTableRow2Cell1.style.overflow = 'hidden';
+	mainTableRow2Cell1.addEventListener('click', function() {
+		this.scrollIntoView();
+	});
 		
 	let tags = document.createElement('div');
 	tags.classList.add('player');
@@ -383,7 +386,7 @@ function processCssValue(val) {
 		return parseInt(val) * window.innerWidth;
 	if(val.includes('vh'))
 		return parseInt(val) * window.innerHeight;
-	return parseInt(val);
+	return val;
 }
 
 function calculateThumbnailSize() {
@@ -493,11 +496,11 @@ function generatePlayerByURL(url) {
         //process itunes embed
         return '<iframe allow="autoplay *; encrypted-media *;" frameborder="0" height="'+ embedHeight +'" sandbox="allow-modals allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation" src="' +
             url.replace('music.apple.com', 'embed.music.apple.com') +
-            '" style="background: transparent; overflow: hidden; width: 100%; padding: 10px;" onload="stopLoader()"></iframe>';
+            '" style="background: transparent; overflow: hidden; width: ' + processCssValue(menuWidth) + '; padding: 10px;" onload="stopLoader()"></iframe>';
     }
 	if(url.includes('open.spotify.com')) {
         //process spotify embed
-		return '<iframe src="' + url + '" height="' + embedHeight + '" frameborder="0" allowtransparency="true" allow="encrypted-media" style="background: transparent; overflow: hidden; width: 100%; padding: 10px;" onload="stopLoader()"></iframe>';
+		return '<iframe src="' + url + '" height="' + embedHeight + '" frameborder="0" allowtransparency="true" allow="encrypted-media" style="background: transparent; overflow: hidden; width: ' + processCssValue(menuWidth) + '; padding: 10px;" onload="stopLoader()"></iframe>';
 	}
 }
 
