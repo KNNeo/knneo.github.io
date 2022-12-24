@@ -33,7 +33,7 @@ let excludedPopupText = 'Image will be excluded. Proceed for all?';
 
 
 //--VARIABLES--//
-let body = document.getElementById('contents');
+let body = document.querySelector('#contents');
 let spacerURL = 'https://knneo.github.io/resources/spacer.gif';
 let isFirefox = (/Firefox/i.test(navigator.userAgent));
 let isMobile = function() {
@@ -59,7 +59,7 @@ window.addEventListener('resize',function () {
 		windowHeight = window.innerHeight;
 		windowWidth = window.innerWidth
 	}
-	if(document.getElementById('filter').classList.contains('closed')) toggleFilter();
+	if(document.querySelector('#filter').classList.contains('closed')) toggleFilter();
 	closeViewer();
 });
 window.addEventListener('keydown', function(event) {
@@ -98,18 +98,18 @@ function renderPage(pageName) {
 	//frame.id = pageName;
 
 	let viewer = document.createElement('div');
-	viewer.id = 'viewer';
+	viewer.classList.add('viewer');
 	//viewer.addEventListener('click', closeViewer);
 	viewer.addEventListener('contextmenu', function(e) {
 		e.preventDefault();
 		return false;
 	}, false);		
 	viewer.addEventListener('keyup', function(e) {
-		if (event.keyCode === 37 && document.getElementById('viewer-prev') != null) {
-			document.getElementById('viewer-prev').click();
+		if (event.keyCode === 37 && document.querySelector('.viewer-prev') != null) {
+			document.querySelector('.viewer-prev').click();
 		}
-		if (event.keyCode === 39 && document.getElementById('viewer-next') != null) {
-			document.getElementById('viewer-next').click();
+		if (event.keyCode === 39 && document.querySelector('.viewer-next') != null) {
+			document.querySelector('.viewer-next').click();
 		}
 		return false;
 	}, false);
@@ -202,14 +202,19 @@ function renderPage(pageName) {
 	togglerButton.title = collapseFilterIconTitle;
 	togglerButton.innerText = 'blur_linear';
 	togglerButton.addEventListener('click', function() { 
-		let isClosed = document.getElementById('filter').classList.contains('closed');
+		let isClosed = document.querySelector('#filter').classList.contains('closed');
 		this.title = isClosed ? collapseFilterIconTitle : expandFilterIconTitle; 
 		//this.innerText = isClosed ? 'maximize': 'blur_linear'; 
 		if(enableOrientation)
 			this.parentElement.style.position = this.parentElement.style.position == 'absolute' ? 'inherit' : 'absolute';
 		toggleFilter();
 		resizeImageHeights();
-		if(window['focused']) document.getElementById(window['focused']).click();
+		if(window['focused']) 
+			document.getElementById(window['focused'])
+				.scrollIntoView({
+					behavior: "smooth",
+					inline: "center"
+				});;
 	} );
 	toggler.appendChild(togglerButton);
 	frame.appendChild(toggler);
@@ -448,21 +453,21 @@ function updateImageNo(image) {
 
 function openViewer(image) {
 	if(getSetting("enableViewer") != "true") return;
-	document.getElementById('viewer').style.display = 'block';
+	document.querySelector('.viewer').style.display = 'block';
 	openImageInViewer(image);
 }
 
 function openImageInViewer(image) {	
 	let imgNo = updateImageNo(image);
 	
-	let viewer = document.getElementById('viewer');
+	let viewer = document.querySelector('.viewer');
 	viewer.tabIndex = 999;
 	if(viewer.style.display != 'block') viewer.style.display = 'block';
 	let viewerPrev = document.createElement('a');
-	viewerPrev.id = 'viewer-prev';
+	viewerPrev.classList.add('viewer-prev');
 	viewerPrev.classList.add('viewer-nav');
 	let viewerNext = document.createElement('a');
-	viewerNext.id = 'viewer-next';
+	viewerNext.classList.add('viewer-next');
 	viewerNext.classList.add('viewer-nav');
 	let thumbnail = image.cloneNode(true);
 	let linkable = document.createElement('a');
@@ -489,14 +494,14 @@ function openImageInViewer(image) {
 	viewer.focus();
 	
 	if(imgNo-1 >= 0) {
-		document.getElementById('viewer-prev').addEventListener('click', function(e) {
+		document.querySelector('.viewer-prev').addEventListener('click', function(e) {
 			if(runSlideshow != null) return;
 			openImageInViewer(linkedImgList[imgNo-1]);
 			return false;
 		}, false);
 	}
 	if(imgNo+1 < linkedImgList.length) {
-		document.getElementById('viewer-next').addEventListener('click', function(e) {
+		document.querySelector('.viewer-next').addEventListener('click', function(e) {
 			if(runSlideshow != null) return;
 			openImageInViewer(linkedImgList[imgNo+1]);
 			return false;
@@ -519,7 +524,7 @@ function processImageSourceForViewer(url) {
 }
 
 function adjustViewerMargin() {
-	let viewer = document.getElementById('viewer');
+	let viewer = document.querySelector('.viewer');
 	if(viewer.childElementCount == 0) return;
 	viewer.style.paddingTop = '0';
 	let image = viewer.getElementsByTagName('img')[0];
@@ -528,7 +533,7 @@ function adjustViewerMargin() {
 }
 
 function closeViewer() {
-	let viewer = document.getElementById('viewer');
+	let viewer = document.querySelector('.viewer');
 	viewer.style.display = 'none';
 	viewer.innerHTML = '';
 }
@@ -669,28 +674,28 @@ function setupGallery() {
 //generate profile category based on array
 function renderGallery(array) {
 	//disable relevant elements
-	document.getElementById('options').classList.remove('closed');
-	document.getElementById('ssstart').setAttribute('disabled','');
-	document.getElementById('inViewer').setAttribute('disabled','');
-	document.getElementById('isFullscreen').setAttribute('disabled','');
+	document.querySelector('#options').classList.remove('closed');
+	document.querySelector('#ssstart').setAttribute('disabled','');
+	document.querySelector('#inViewer').setAttribute('disabled','');
+	document.querySelector('#isFullscreen').setAttribute('disabled','');
 	
 	let totalCount = 0;
-	let profileCategoryHTML = document.createElement('DIV');
+	let profileCategoryHTML = document.createElement('div');
 	profileCategoryHTML.classList.add('profile-category');
 	// if(isFirefox) profileCategoryHTML.classList.add('snap');
 	for(let img of array)
 	{
 		if(img[0] == 0 || img[0] == 999) continue;
-		let profileBoxHTML = document.createElement('DIV');
+		let profileBoxHTML = document.createElement('div');
 		profileBoxHTML.classList.add('profile-box');
 		if(enableShadows && getSetting("enableShadows") == "true") profileBoxHTML.classList.add('shadowed');
 		else if(getSetting("enableShadows") != "true") profileBoxHTML.classList.add('unshadowed');
-			let profileBoxImgHTML = document.createElement('DIV');
+			let profileBoxImgHTML = document.createElement('div');
 			profileBoxImgHTML.classList.add('profile-box-img');
-				let imgWrapHTML = document.createElement('A');
+				let imgWrapHTML = document.createElement('a');
 				// imgWrapHTML.href = 'javascript:void(0);';
 				imgWrapHTML.style.cursor = 'pointer';
-					let imgHTML = document.createElement('IMG');
+					let imgHTML = document.createElement('img');
 					imgHTML.id = img[1].substring(img[1].lastIndexOf('/')+1).replace('.jpg','');
 					imgHTML.classList.add(img[2]);
 					imgHTML.setAttribute('alt', img[1]);
@@ -703,34 +708,30 @@ function renderGallery(array) {
 		profileCategoryHTML.appendChild(profileBoxHTML);
 		totalCount++;
 	}
-	if(document.getElementById('imgGallery').childNodes.length > 0) document.getElementById('imgGallery').innerHTML = '';
-	document.getElementById('imgGallery').appendChild(profileCategoryHTML);
+	if(document.querySelector('#imgGallery').childNodes.length > 0) document.querySelector('#imgGallery').innerHTML = '';
+	document.querySelector('#imgGallery').appendChild(profileCategoryHTML);
 	
 	let excludes = [];
 	if(getSetting('excludedImages') != null) excludes = JSON.parse(getSetting('excludedImages'));
-	for(let image of document.getElementById('imgGallery').getElementsByTagName("img"))
+	for(let image of document.querySelector('#imgGallery').getElementsByTagName('img'))
 	{
 		image.src = image.alt;
 		image.removeAttribute('alt');
 		image.parentElement.addEventListener('focus', function() {
-			if(getSetting("enableViewer") != "true")
+			// if(getSetting("enableViewer") != "true")
 				this.scrollIntoView({
 					behavior: "smooth",
 					inline: "center"
 				});
 		});
 		image.parentElement.addEventListener('click', function() {
+			if(getSetting("enableViewer") == "true")
+				openViewer(image);
 			this.scrollIntoView({
 				behavior: "smooth",
 				inline: "center"
 			});
 		});
-		// image.parentElement.addEventListener('contextmenu', function() {
-			// this.scrollIntoView({
-				// behavior: "smooth",
-				// inline: "center"
-			// });
-		// });
 		image.addEventListener('contextmenu', excludeSelectedImage);
 		image.addEventListener('error', function() {
 			image.parentElement.parentElement.parentElement.style.display = 'none';
@@ -740,19 +741,10 @@ function renderGallery(array) {
 		if(excludes.includes(image.id)) excludeImage(image);
 	}
 	
-	document.getElementById('loaderCount').innerText = 0;
+	document.querySelector('.loader-count').innerText = 0;
 	// lowestHeight = 9999;
 	// highestHeight = 0;
 	setTimeout( function() { reloadImages(array); }, 500);
-	
-	//add event listener when click on image
-	if(getSetting("enableViewer") == "true")
-	{
-		for (let i = 0 ; i < document.getElementById('imgGallery').getElementsByTagName('img').length ; i++)
-		{
-			document.getElementById('imgGallery').getElementsByTagName('img')[i].parentElement.addEventListener('click', function() { openViewer(document.getElementById('imgGallery').getElementsByTagName('img')[i]); });
-		}
-	}
 	
 	//update linked list for viewer
 	createLinkedList();
@@ -760,7 +752,7 @@ function renderGallery(array) {
 }
 
 function excludeSelectedImage() {
-	if(this.tagName.toUpperCase() != 'IMG') return;
+	if(this.tagName.toUpperCase() != 'img') return;
 	if(getSetting('excludedPopupDecision') == null)
 		setSetting('excludedPopupDecision', confirm(excludedPopupText));
 	if(getSetting('excludedPopupDecision') == 'false')  {
@@ -796,7 +788,7 @@ function reloadImages(array) {
 		}
 		if(image.complete)
 		{
-			document.getElementById('loaderCount').innerText = ++loadedImages;
+			document.querySelector('.loader-count').innerText = ++loadedImages;
 			if(image.width >= image.height && !image.classList.contains('landscape')) //if landscape
 			{
 				image.classList.remove('portrait');
@@ -824,16 +816,16 @@ function reloadImages(array) {
 	if(totalImages >= array.length - 1) 
 	{
 		resizeImageHeights();
-		document.getElementById('ssstart').removeAttribute('disabled');
-		document.getElementById('inViewer').removeAttribute('disabled');
-		document.getElementById('isFullscreen').removeAttribute('disabled');
-		setTimeout(function () { document.getElementById('options').classList.add('closed') }, 1000);
+		document.querySelector('#ssstart').removeAttribute('disabled');
+		document.querySelector('#inViewer').removeAttribute('disabled');
+		document.querySelector('#isFullscreen').removeAttribute('disabled');
+		setTimeout(function () { document.querySelector('#options').classList.add('closed') }, 1000);
 	}
 }
 
 function resizeImageHeights() {
 	let galleryHeight = calculateGalleryHeight();
-	for(var image of document.getElementById('imgGallery').getElementsByTagName("img"))
+	for(var image of document.querySelector('#imgGallery').getElementsByTagName('img'))
 	{
 		if(image.height <= 10) continue;
 		if(window.innerWidth > 1040) //resize to lowest height
@@ -889,7 +881,7 @@ function generateTickboxFilter(labelArray) {
 		}
 		if(inputHTML.checked) noneSelected = true;
 		labelHTML.insertBefore(inputHTML,labelHTML.childNodes[0]);
-		document.getElementById('name').appendChild(labelHTML);
+		document.querySelector('#name').appendChild(labelHTML);
 	}
 	
 	return noneSelected;	
@@ -897,24 +889,24 @@ function generateTickboxFilter(labelArray) {
 
 function generateTickboxAction(noneSelected) {
 	//add event listeners to tickboxes
-	document.getElementById('SelectAll').addEventListener('click', function () {
-		if(document.getElementById('SelectAll').checked == true)
+	document.querySelector('#SelectAll').addEventListener('click', function () {
+		if(document.querySelector('#SelectAll').checked == true)
 		{
-			for (let label of document.getElementById('name').getElementsByTagName('input'))
+			for (let label of document.querySelector('#name').getElementsByTagName('input'))
 			{
 				label.checked = true;
 			}
 		}
 		else
 		{
-			for (let label of document.getElementById('name').getElementsByTagName('input'))
+			for (let label of document.querySelector('#name').getElementsByTagName('input'))
 			{
 				label.checked = false;
 			}
 		}
 		renderFilter();
 	});
-	for (let tickbox of document.getElementById('filter').getElementsByTagName('label'))
+	for (let tickbox of document.querySelector('#filter').getElementsByTagName('label'))
 	{
 		tickbox.addEventListener('click', function() { 
 			if(runSlideshow == null) renderFilter(undefined); 
@@ -924,18 +916,18 @@ function generateTickboxAction(noneSelected) {
 		tickbox.addEventListener('contextmenu', function(e) { 
 			e.preventDefault();
 			if(runSlideshow == null) renderFilter(this);
-			if(enableCollapseFilterOnSelect) document.getElementById('toggler').click();
+			if(enableCollapseFilterOnSelect) document.querySelector('#toggler').click();
 		});
 	}
-	if(!noneSelected && !document.getElementById('SelectAll').checked) {
+	if(!noneSelected && !document.querySelector('#SelectAll').checked) {
 		console.error('defaultTag is not in list or in specified format: All is selected');
-		document.getElementById('SelectAll').click();
+		document.querySelector('#SelectAll').click();
 	}
 }
 
 function renderFilter(element) {
 	let orientationArray = new Array();
-	for (let label of document.getElementById('orientation').getElementsByTagName('input'))
+	for (let label of document.querySelector('#orientation').getElementsByTagName('input'))
 	{
 		if(label.checked == true || element != null)
 			orientationArray.push(label.value);
@@ -946,13 +938,13 @@ function renderFilter(element) {
 	let nameArray = new Array();
 	if(element != undefined) //select all
 	{
-		for (let label of document.getElementById('name').getElementsByTagName('input'))
+		for (let label of document.querySelector('#name').getElementsByTagName('input'))
 		{
 			label.checked = false;
 			if(element.innerText == label.parentElement.innerText) label.checked = true;
 		}
 	}
-	for (let label of document.getElementById('name').getElementsByTagName('input'))
+	for (let label of document.querySelector('#name').getElementsByTagName('input'))
 	{
 		if(label.checked == true)
 			nameArray.push(label.value);
@@ -985,7 +977,7 @@ function recoverOrientationIfEmpty(array) {
 	//to write back orientation if found no values
 	//find in array, if at least one empty, update
 	let orientationArray = new Array();
-	for (let label of document.getElementById('orientation').getElementsByTagName('input'))
+	for (let label of document.querySelector('#orientation').getElementsByTagName('input'))
 	{
 		if(label.checked == true)
 			orientationArray.push(label.value);
@@ -1058,16 +1050,16 @@ function toggleDarkMode() {
 }
 
 function writeLoadedCount(number) {	
-	let oldNumber = document.getElementById('loaderCount') == undefined ? -1 : parseInt(document.getElementById('loaderCount').innerText);
-	if(oldNumber >= 0 && number < oldNumber) return document.getElementById('loader');
+	let oldNumber = document.querySelector('.loader-count') == undefined ? -1 : parseInt(document.querySelector('.loader-count').innerText);
+	if(oldNumber >= 0 && number < oldNumber) return document.querySelector('.loader');
 
 	let loader = document.createElement('h5');
-	loader.id = 'loader';
+	loader.classList.add('loader');
 	let loaderPrefix = document.createElement('span');
 	loaderPrefix.innerText = '[' + loaderTextPrefix;
 	loader.appendChild(loaderPrefix);
 	let loaderSpan = document.createElement('span');
-	loaderSpan.id = 'loaderCount';
+	loaderSpan.classList.add('loader-count');
 	loaderSpan.innerText = number ?? 0;
 	loader.appendChild(loaderSpan);
 	let loaderSuffix = document.createElement('span');
@@ -1079,15 +1071,15 @@ function writeLoadedCount(number) {
 
 //start slideshow
 function startSlideshow() {
-	//document.getElementById('description').classList.add('closed');
+	//document.querySelector('#description').classList.add('closed');
 	switchButtons();
 	setTimeout(openFullscreen, 200);
-	if(document.getElementById('inViewer').checked)
+	if(document.querySelector('#inViewer').checked)
 		setTimeout(function() {
-			openViewer(document.getElementById('imgGallery').getElementsByTagName('img')[randomImg()]);
+			openViewer(document.querySelector('#imgGallery').getElementsByTagName('img')[randomImg()]);
 		}, 500);
 	else
-		document.getElementById('imgGallery').getElementsByTagName('img')[randomImg()].scrollIntoView();
+		document.querySelector('#imgGallery').getElementsByTagName('img')[randomImg()].scrollIntoView();
 }
 //stop slideshow
 function stopSlideshow() {
@@ -1098,10 +1090,10 @@ function stopSlideshow() {
 }
 
 function switchButtons() {
-	document.getElementById('ssstart').style.display = document.getElementById('ssstart').style.display == 'none' ? '' : 'none';
-	document.getElementById('ssstop').style.display = document.getElementById('ssstop').style.display == 'none' ? '' : 'none';
-	document.getElementById('inViewer').disabled = document.getElementById('inViewer').disabled ? false : true;
-	document.getElementById('isFullscreen').disabled = document.getElementById('isFullscreen').disabled ? false : true;
+	document.querySelector('#ssstart').style.display = document.querySelector('#ssstart').style.display == 'none' ? '' : 'none';
+	document.querySelector('#ssstop').style.display = document.querySelector('#ssstop').style.display == 'none' ? '' : 'none';
+	document.querySelector('#inViewer').disabled = document.querySelector('#inViewer').disabled ? false : true;
+	document.querySelector('#isFullscreen').disabled = document.querySelector('#isFullscreen').disabled ? false : true;
 	
 	for(let checkbox of document.querySelectorAll("input[type='checkbox']"))
 	{
@@ -1128,7 +1120,7 @@ function randomImg() {
 
 //allow document to fullscreen
 function openFullscreen() {
-if(!document.getElementById('isFullscreen').checked) return;
+if(!document.querySelector('#isFullscreen').checked) return;
 let elem = document.documentElement;
   if (elem.requestFullscreen) {
     elem.requestFullscreen();
@@ -1156,10 +1148,10 @@ if(document.fullscreenElement == null) return;
 }
 
 function toggleFilter() {
-	if(document.getElementById('filter').classList.contains('closed')) document.getElementById('filter').classList.remove('closed');
-	else document.getElementById('filter').classList.add('closed');
-	if(document.getElementById('midline').classList.contains('closed')) document.getElementById('midline').classList.remove('closed');
-	else document.getElementById('midline').classList.add('closed');
+	if(document.querySelector('#filter').classList.contains('closed')) document.querySelector('#filter').classList.remove('closed');
+	else document.querySelector('#filter').classList.add('closed');
+	if(document.querySelector('#midline').classList.contains('closed')) document.querySelector('#midline').classList.remove('closed');
+	else document.querySelector('#midline').classList.add('closed');
 }
 
 function checkDuplicates() {
