@@ -473,8 +473,8 @@ function generateFiltered() {
 	if(debugMode) console.log('included', includeArray);
 	if(debugMode) console.log('excluded', excludeArray);
 	return mosaicArray.filter(m => 
-		(window['includeCriteria'].length == 0 || includeArray.filter(s => m.filename.includes(s)).length == includeArray.length) && 
-		(window['excludeCriteria'].length == 0 || excludeArray.filter(s => !m.filename.includes(s)).length == excludeArray.length) &&
+		(window['includeCriteria'].length == 0 || includeArray.filter(s => m.filename.toLowerCase().includes(s)).length == includeArray.length) && 
+		(window['excludeCriteria'].length == 0 || excludeArray.filter(s => !m.filename.toLowerCase().includes(s)).length == excludeArray.length) &&
 		excludedTags.filter(f => m.filename.includes(f)).length < 1
 	);
 }
