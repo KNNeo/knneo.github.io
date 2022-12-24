@@ -1,6 +1,14 @@
 //ADD LINKS TO FILENAMES HERE, IN ORDER//
-let links = ['bromide-gallery','amiiboCards-gallery','surugaya-gallery','profile-gallery','alterna-gallery']; 
-let linkTitles = ['GALLERY','amiibo Cards','ギャラリー','Profiles','オルタナ']; 
+// id: file ending with '-data.js'
+// title: name to put on navigation bar
+// isLocal: if gallery items point to local directory, can be hidden if online domain
+const galleries = [
+	{ id: 'bromide-gallery', title: 'GALLERY', isLocal: true },
+	{ id: 'surugaya-gallery', title: 'ギャラリー' },
+	{ id: 'amiiboCards-gallery', title: 'amiibo Cards' },
+	{ id: 'profile-gallery', title: 'Profiles' },
+	{ id: 'alterna-gallery', title: 'オルタナ' },
+];
 
 
 //--DEFAULT SETTINGS--//
@@ -40,13 +48,11 @@ let isMobile = function() {
     const match = window.matchMedia('(pointer:coarse)');
     return (match && match.matches);
 };
-let lowestHeight = 9999;
-let highestHeight = 0;
 let imgArray = [];
 let runSlideshow = null;
 let descriptionClosed = false;
 let settingsLoaded = false;
-let slideshowInterval = 5; //in seconds
+let slideshowInterval = 3; //in seconds
 
 //--COMMON EVENTS--//
 //on startup
@@ -60,7 +66,7 @@ window.addEventListener('resize',function () {
 		windowWidth = window.innerWidth
 	}
 	if(document.querySelector('#filter').classList.contains('closed')) toggleFilter();
-	closeViewer();
+	// closeViewer();
 });
 window.addEventListener('keydown', function(event) {
 	if ([33,34,35,36].indexOf(event.keyCode) >= 0)
@@ -123,22 +129,17 @@ function renderPage(pageName) {
 	navigation.style.paddingBottom = '10px';
 	navigation.style.lineHeight = '2';
 
-	for(let link of links)
+	for(let link of galleries)
 	{
-		//if(link == links[0] && window.location.href.includes('//knneo.github.io')) continue;
+		if(link.isLocal && !window.location.href.startsWith('file://')) continue;
 		
-		if(pageName.includes(link)) continue;
+		if(pageName.includes(link.id)) continue;
 		let newLink = document.createElement('a');
 		// newLink.href = 'javascript:void(0);';
 		newLink.classList.add('navigation-item');
 		newLink.classList.add('shadowed');
-		newLink.addEventListener('click', function() { loadPage(link); });
-		
-		if(link == links[0]) newLink.innerText = 'GALLERY';
-		if(link == links[1]) newLink.innerText = 'amiibo Cards';
-		if(link == links[2]) newLink.innerText = 'ギャラリー';
-		if(link == links[3]) newLink.innerText = 'Profiles';
-		if(link == links[4]) newLink.innerText = 'オルタナ';
+		newLink.addEventListener('click', function() { loadPage(link.id); });
+		newLink.innerText = link.title;
 		
 		navigation.appendChild(newLink);
 	}
@@ -209,12 +210,6 @@ function renderPage(pageName) {
 			this.parentElement.style.position = this.parentElement.style.position == 'absolute' ? 'inherit' : 'absolute';
 		toggleFilter();
 		resizeImageHeights();
-		if(window['focused']) 
-			document.getElementById(window['focused'])
-				.scrollIntoView({
-					behavior: "smooth",
-					inline: "center"
-				});;
 	} );
 	toggler.appendChild(togglerButton);
 	frame.appendChild(toggler);
@@ -279,14 +274,14 @@ function renderPage(pageName) {
 	let ssDiv = document.createElement('div');
 	ssDiv.id = 'slideshow';
 		let ssStartSpan = document.createElement('button');
-		ssStartSpan.id = 'ssstart';
+		ssStartSpan.id = 'ss-start';
 		ssStartSpan.type = 'button';
 		ssStartSpan.style.display = enableSlideshow ? '' : 'none';
 		ssStartSpan.innerText = 'Slideshow';
 		ssStartSpan.addEventListener('click', startSlideshow);
 		ssDiv.appendChild(ssStartSpan);
 		let ssStopSpan = document.createElement('button');
-		ssStopSpan.id = 'ssstop';
+		ssStopSpan.id = 'ss-stop';
 		ssStartSpan.type = 'button';
 		ssStopSpan.style.display = 'none';
 		ssStopSpan.innerText = 'Stop';
@@ -296,7 +291,7 @@ function renderPage(pageName) {
 		inViewer.style.display = getSetting("enableViewer") == "true" ? '' : 'none';
 		inViewer.innerText = 'In Viewer';
 			let inViewerCheckbox = document.createElement('input');
-			inViewerCheckbox.id = 'inViewer';
+			inViewerCheckbox.id = 'ss-viewer';
 			inViewerCheckbox.type = 'checkbox';
 			inViewerCheckbox.name = 'inViewer';
 		inViewer.insertBefore(inViewerCheckbox, inViewer.childNodes[0]);
@@ -305,7 +300,7 @@ function renderPage(pageName) {
 		fullscreen.style.display = getSetting("enableViewer") == "true" && enableFullscreenSlideshow ? '' : 'none';
 		fullscreen.innerText = 'Fullscreen';
 			let fullscreenCheckbox = document.createElement('input');
-			fullscreenCheckbox.id = 'isFullscreen';
+			fullscreenCheckbox.id = 'ss-fullscreen';
 			fullscreenCheckbox.type = 'checkbox';
 			fullscreenCheckbox.name = 'fullscreen';
 		fullscreen.insertBefore(fullscreenCheckbox, fullscreen.childNodes[0]);
@@ -359,7 +354,17 @@ function renderPage(pageName) {
 			viewing.innerText = getSetting("enableViewer") == "true" ? 'view_carousel' : 'view_column';
 			viewing.addEventListener('click', function() {
 				setSetting("enableViewer", getSetting("enableViewer") == "true" ? false : true);
-				loadPage(body.id);
+				viewing.innerText = getSetting("enableViewer") == "true" ? 'view_carousel' : 'view_column';
+				document.querySelector('#ss-viewer').parentElement.style.display = getSetting("enableViewer") == "true" ? '' : 'none';
+				document.querySelector('#ss-fullscreen').parentElement.style.display = getSetting("enableViewer") == "true" && enableFullscreenSlideshow ? '' : 'none';
+				// loadPage(body.id);
+				// for(let image of document.querySelectorAll('#imgGallery img'))
+				// {
+					// if(getSetting("enableViewer") == "true")
+						// image.parentElement.parentElement.classList.add('shadowed');
+					// else
+						// image.parentElement.parentElement.classList.remove('shadowed');
+				// }
 			});
 			settingsDiv.appendChild(viewing);
 		}
@@ -386,7 +391,17 @@ function renderPage(pageName) {
 			shadows.innerText = getSetting("enableShadows") == "true" ? 'filter' : 'crop_original';
 			shadows.addEventListener('click', function() {
 				setSetting("enableShadows", getSetting("enableShadows") == "true" ? false : true);
-				loadPage(body.id);
+				shadows.innerText = getSetting("enableShadows") == "true" ? 'filter' : 'crop_original';
+				// loadPage(body.id);
+				for(let box of document.querySelectorAll('.profile-box'))
+				{
+					box.classList.remove('shadowed');
+					box.classList.remove('unshadowed');
+					if(getSetting("enableShadows") == "true")
+						box.classList.add('shadowed');
+					else
+						box.classList.add('unshadowed');
+				}
 			});
 			settingsDiv.appendChild(shadows);
 		}
@@ -497,6 +512,7 @@ function openImageInViewer(image) {
 		document.querySelector('.viewer-prev').addEventListener('click', function(e) {
 			if(runSlideshow != null) return;
 			openImageInViewer(linkedImgList[imgNo-1]);
+			linkedImgList[imgNo-1].scrollIntoView({ inline: 'center' });
 			return false;
 		}, false);
 	}
@@ -504,12 +520,15 @@ function openImageInViewer(image) {
 		document.querySelector('.viewer-next').addEventListener('click', function(e) {
 			if(runSlideshow != null) return;
 			openImageInViewer(linkedImgList[imgNo+1]);
+			linkedImgList[imgNo+1].scrollIntoView({ inline: 'center' });
 			return false;
 		}, false);
 	}
 	linkable.addEventListener('click', closeViewer);
 	
 	adjustViewerMargin();
+	
+	setSetting('focused', image.id);
 }
 
 function processImageSourceForViewer(url) {
@@ -536,6 +555,7 @@ function closeViewer() {
 	let viewer = document.querySelector('.viewer');
 	viewer.style.display = 'none';
 	viewer.innerHTML = '';
+	stopSlideshow();
 }
 
 //--FUNCTIONS--//
@@ -675,9 +695,9 @@ function setupGallery() {
 function renderGallery(array) {
 	//disable relevant elements
 	document.querySelector('#options').classList.remove('closed');
-	document.querySelector('#ssstart').setAttribute('disabled','');
-	document.querySelector('#inViewer').setAttribute('disabled','');
-	document.querySelector('#isFullscreen').setAttribute('disabled','');
+	document.querySelector('#ss-start').setAttribute('disabled','');
+	document.querySelector('#ss-viewer').setAttribute('disabled','');
+	document.querySelector('#ss-fullscreen').setAttribute('disabled','');
 	
 	let totalCount = 0;
 	let profileCategoryHTML = document.createElement('div');
@@ -701,7 +721,7 @@ function renderGallery(array) {
 					imgHTML.setAttribute('alt', img[1]);
 					imgHTML.setAttribute('src', spacerURL);
 					imgHTML.title = img[4] == "" ? img[3] : img[4];
-					imgHTML.addEventListener('click', function() { window['focused'] = this.id; });
+					imgHTML.addEventListener('click', function() { setSetting('focused', this.id); });
 					imgWrapHTML.appendChild(imgHTML);
 				profileBoxImgHTML.appendChild(imgWrapHTML);
 			profileBoxHTML.appendChild(profileBoxImgHTML);
@@ -742,8 +762,8 @@ function renderGallery(array) {
 	}
 	
 	document.querySelector('.loader-count').innerText = 0;
-	// lowestHeight = 9999;
-	// highestHeight = 0;
+	// window['min-height'] = 9999;
+	// window['max-height'] = 0;
 	setTimeout( function() { reloadImages(array); }, 500);
 	
 	//update linked list for viewer
@@ -775,6 +795,9 @@ function excludeImage(image) {
 }
 
 function reloadImages(array) {
+	if(!window['min-height']) window['min-height'] = 9999;
+	if(!window['max-height']) window['max-height'] = 0;
+
 	let loadedImages = 0;
 	let failedImages = 0;
 	for(var img of array)
@@ -804,10 +827,10 @@ function reloadImages(array) {
 		}
 		
 		//benchmarking for resizeImageHeights()
-		if(window.innerWidth >= 640 && image.height > highestHeight && image.height > 1)
-			highestHeight = image.height;
-		else if (image.height < lowestHeight && image.height > 1)
-			lowestHeight = image.height;
+		if(window.innerWidth >= 640 && image.height > window['max-height'] && image.height > 1)
+			window['max-height'] = image.height;
+		else if (image.height < window['min-height'] && image.height > 1)
+			window['min-height'] = image.height;
 	}
 	recoverOrientationIfEmpty(array);
 	resizeImageHeights();
@@ -816,9 +839,9 @@ function reloadImages(array) {
 	if(totalImages >= array.length - 1) 
 	{
 		resizeImageHeights();
-		document.querySelector('#ssstart').removeAttribute('disabled');
-		document.querySelector('#inViewer').removeAttribute('disabled');
-		document.querySelector('#isFullscreen').removeAttribute('disabled');
+		document.querySelector('#ss-start').removeAttribute('disabled');
+		document.querySelector('#ss-viewer').removeAttribute('disabled');
+		document.querySelector('#ss-fullscreen').removeAttribute('disabled');
 		setTimeout(function () { document.querySelector('#options').classList.add('closed') }, 1000);
 	}
 }
@@ -830,9 +853,16 @@ function resizeImageHeights() {
 		if(image.height <= 10) continue;
 		if(window.innerWidth > 1040) //resize to lowest height
 			image.style.height = galleryHeight + 'px'; //fallback to default if height too low
-		else //if(image.height > lowestHeight)
-			image.height = lowestHeight; //if small screen hit css maxHeight
+		else //if(image.height > window['min-height'])
+			image.height = window['min-height']; //if small screen hit css maxHeight
 	}
+	
+	if(getSetting('focused'))
+		document.getElementById(getSetting('focused'))
+			.scrollIntoView({
+				behavior: "smooth",
+				inline: "center"
+			});
 }
 
 
@@ -862,7 +892,7 @@ function generateTickboxFilter(labelArray) {
 	//generate tickboxes
 	for(let label of labelArray)
 	{
-		let labelHTML = document.createElement('LABEL');
+		let labelHTML = document.createElement('label');
 		labelHTML.title = tagRightClickTitle;
 		labelHTML.innerText = label;
 		let inputHTML = document.createElement('input');
@@ -1072,32 +1102,33 @@ function writeLoadedCount(number) {
 //start slideshow
 function startSlideshow() {
 	//document.querySelector('#description').classList.add('closed');
-	switchButtons();
+	switchButtons(true);
 	setTimeout(openFullscreen, 200);
-	if(document.querySelector('#inViewer').checked)
+	let selected = randomImg();
+	if(document.querySelector('#ss-viewer').checked)
 		setTimeout(function() {
-			openViewer(document.querySelector('#imgGallery').getElementsByTagName('img')[randomImg()]);
+			openViewer(selected);
 		}, 500);
 	else
-		document.querySelector('#imgGallery').getElementsByTagName('img')[randomImg()].scrollIntoView();
+		selected.scrollIntoView({ inline: 'center' });
 }
 //stop slideshow
 function stopSlideshow() {
 	closeFullscreen();
-	switchButtons();
+	switchButtons(false);
 	clearTimeout(runSlideshow);
 	runSlideshow = null;
 }
 
-function switchButtons() {
-	document.querySelector('#ssstart').style.display = document.querySelector('#ssstart').style.display == 'none' ? '' : 'none';
-	document.querySelector('#ssstop').style.display = document.querySelector('#ssstop').style.display == 'none' ? '' : 'none';
-	document.querySelector('#inViewer').disabled = document.querySelector('#inViewer').disabled ? false : true;
-	document.querySelector('#isFullscreen').disabled = document.querySelector('#isFullscreen').disabled ? false : true;
+function switchButtons(slideshow) {
+	document.querySelector('#ss-start').style.display = !slideshow ? '' : 'none';
+	document.querySelector('#ss-stop').style.display = slideshow ? '' : 'none';
+	document.querySelector('#ss-viewer').disabled = slideshow;
+	document.querySelector('#ss-fullscreen').disabled = slideshow;
 	
 	for(let checkbox of document.querySelectorAll("input[type='checkbox']"))
 	{
-		checkbox.disabled = !checkbox.disabled;
+		checkbox.disabled = slideshow;
 	}
 }
 
@@ -1107,20 +1138,20 @@ function preventDefault() {
 
 
 function randomImg() {
-	document.getElementsByClassName('profile-category')[0].classList.add('snap');
-	let images = document.getElementsByClassName('profile-box');
-	let select = Math.floor(Math.random()*images.length);
-	let selected = images[select];
-	selected.scrollIntoView();
-	if(viewer.style.display == 'block') openImageInViewer(selected.getElementsByTagName('img')[0]);
-	document.getElementsByClassName('profile-category')[0].classList.remove('snap');
+	// document.getElementsByClassName('profile-category')[0].classList.add('snap');
+	let images = document.querySelectorAll('.profile-box img');
+	let index = Math.floor(Math.random()*images.length);
+	let selected = images[index];
+	selected.scrollIntoView({ inline: 'center' });
+	if(document.querySelector('.viewer').style.display == 'block') openImageInViewer(selected);
+	// document.getElementsByClassName('profile-category')[0].classList.remove('snap');
 	runSlideshow = setTimeout(randomImg, slideshowInterval * 1000);
-	return select;
+	return selected;
 }
 
 //allow document to fullscreen
 function openFullscreen() {
-if(!document.querySelector('#isFullscreen').checked) return;
+if(!document.querySelector('#ss-fullscreen').checked) return;
 let elem = document.documentElement;
   if (elem.requestFullscreen) {
     elem.requestFullscreen();

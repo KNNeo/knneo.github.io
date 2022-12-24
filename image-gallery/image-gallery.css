@@ -22,7 +22,7 @@ hr {
   max-width: 800px;
   margin: auto;	
 }
-#ssstart, #ssstop, #description, #options {
+#ss-start, #ss-stop, #description, #options {
 	padding: 5px;
 	border-radius: 8px;
 	border: 1px solid gray;
@@ -121,7 +121,7 @@ hr {
 #slideshow label {
 	vertical-align: middle;
 }
-#ssstop {
+#ss-stop {
 	background-color: white;
 	color: black;
 }
