@@ -21,7 +21,7 @@ const enableDarkMode = true;	  			// shows dark mode toggle
 const isDarkMode = true;		  			// initial value if enableDarkMode is false, ignored if enableDarkMode is true
 const enableButtonArray = true;				// shows tag array based on filename split by filenameSeparator
 const enableSlideshow = true;				// will show random images on viewer
-const slideshowInterval = 3;				// only if enableSlideshow is true, in seconds
+const slideshowInterval = 5;				// only if enableSlideshow is true, in seconds
 const debugMode = false;		  			// shows console log values on render
 const isWidescreen = function() { 
 	return matchMedia('all and (orientation:landscape)').matches; 
