@@ -805,7 +805,7 @@ function runLoader() {
 				break;
 		}
 	}
-	if(window['loading']) setTimeout(runLoader, 500);
+	if(window['loading']) setTimeout(runLoader, 200);
 	else
 	{
 		for(let loader of document.querySelectorAll('.loader'))
