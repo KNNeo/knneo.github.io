@@ -20,6 +20,8 @@ const minColumns = 3;			  			// minimum no. of columns to show thumbnails
 const enableDarkMode = true;	  			// shows dark mode toggle
 const isDarkMode = true;		  			// initial value if enableDarkMode is false, ignored if enableDarkMode is true
 const enableButtonArray = true;				// shows tag array based on filename split by filenameSeparator
+const enableSlideshow = true;				// will show random images on viewer
+const slideshowInterval = 3;				// only if enableSlideshow is true, in seconds
 const debugMode = false;		  			// shows console log values on render
 const isWidescreen = function() { 
 	return matchMedia('all and (orientation:landscape)').matches; 
@@ -75,6 +77,7 @@ function initializeVariables() {
 	window['preset'] = 'photo_size_select_small';
 	window['screenWidth'] = null;
 	window['thumbWidth'] = presetWidths[0];
+	window['slideshow'] = null;
 }
 
 function generateLayout() {
@@ -324,6 +327,19 @@ function generateLayoutMenu() {
 		preset.innerText = window['preset'];
 		preset.addEventListener('click', onTogglePreset);
 		settings.appendChild(preset);
+	}
+	
+	if(enableSlideshow)
+	{
+		let slideshow = document.createElement('a');
+		slideshow.id = 'slideshow';
+		slideshow.classList.add('slideshow');
+		slideshow.classList.add('settings-icon');
+		slideshow.classList.add('material-icons');
+		slideshow.href = 'javascript:void(0);';
+		slideshow.innerText = 'slideshow';
+		slideshow.addEventListener('click', startSlideshow);
+		settings.appendChild(slideshow);
 	}
 	
 	let stats = document.createElement('a');
@@ -593,14 +609,14 @@ function createLinkedList(selector) {
 }
 
 function updateImageNo(image) {
-	let imageNo = 0;
+	let imageNo = -1;
 	for(let img of window['viewer-list'])
 	{
+		imageNo++;
 		if(img.src == image.src)
 		{
 			return imageNo;
 		}
-		imageNo++;
 	}
 	return imageNo;
 }
@@ -653,14 +669,16 @@ function openImageInViewer(image) {
 		}, 250);
 	});
 	if(viewer.childNodes.length > 0) viewer.innerHTML = '';
-	if(imgNo-1 >= 0) viewer.appendChild(viewerPrev);
-	if(imgNo+1 < window['viewer-list'].length) viewer.appendChild(viewerNext);
+	if(imgNo-1 >= 0 && window['slideshow'] == null)
+		viewer.appendChild(viewerPrev);
+	if(imgNo+1 < window['viewer-list'].length && window['slideshow'] == null)
+		viewer.appendChild(viewerNext);
 	viewer.appendChild(loader);
 	viewer.appendChild(img);
 	viewer.focus();
 	window['loading'] = true;
 	
-	if(imgNo-1 >= 0) {
+	if(imgNo-1 >= 0 && window['slideshow'] == null) {
 		document.getElementById('viewer-prev').addEventListener('click', function(e) {
 			openImageInViewer(window['viewer-list'][imgNo-1]);
 			window['loading'] = true;
@@ -668,7 +686,7 @@ function openImageInViewer(image) {
 			return false;
 		}, false);
 	}
-	if(imgNo+1 < window['viewer-list'].length) {
+	if(imgNo+1 < window['viewer-list'].length && window['slideshow'] == null) {
 		document.getElementById('viewer-next').addEventListener('click', function(e) {
 			openImageInViewer(window['viewer-list'][imgNo+1]);
 			window['loading'] = true;
@@ -699,6 +717,8 @@ function closeViewer() {
 		return;
 	}
 	
+	stopSlideshow();
+	
 	viewer.style.opacity = 0;
 	viewer.style.visibility = 'hidden';
 	viewer.style.height = '';
@@ -708,6 +728,7 @@ function closeViewer() {
 	let img = viewer.querySelector('img');
 	img.style.transform = 'scale(0.8)';
 	img.style.opacity = 0;
+	
 }
 
 function toggleZoom() {	
@@ -735,6 +756,33 @@ function getFilenameInfo(url) {
 	let filename = url.substring(url.lastIndexOf('/')+1, url.lastIndexOf('.'));
 	let extension = url.substring(url.lastIndexOf('.')+1);
 	return {filename, extension};
+}
+
+//SLIDESHOW//
+function startSlideshow() {
+	createLinkedList('.grid-item img');
+	window['slideshow'] = -1;
+	runSlideshow();
+}
+
+function runSlideshow() {
+	if(window['slideshow'] != null)
+	{
+		let images = generateFiltered();
+		let image = images[Math.floor(Math.random()*images.length)];
+		openImageInViewer(document.querySelector('img[alt="' + image.og + '"]'));
+		window['loading'] = true;
+		runLoader();
+		window['slideshow'] = setTimeout(runSlideshow, slideshowInterval * 1000);	
+	}
+}
+
+function stopSlideshow() {
+	if(window['slideshow'] != null)
+	{
+		clearTimeout(runSlideshow);
+		window['slideshow'] = null;	
+	}
 }
 
 //LOADER//
