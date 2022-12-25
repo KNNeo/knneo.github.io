@@ -701,9 +701,9 @@ void Main()
         if(WriteTitleOnConsole || TraceMode)
             Console.WriteLine((title != "" ? title : "A Random Statement") + (count > 0 ? "\t[" + count + " change(s)]" : ""));
 		else if(p % 100 == 99)
-            Console.WriteLine("|");
+            Console.WriteLine(".");
 		else
-            Console.Write("|");
+            Console.Write(".");
         
         var pageLink = "./" + Path.GetFileNameWithoutExtension(filepath.Replace(filepath, "blog")) + "/" + published.Year.ToString("0000") + "/"  + published.Month.ToString("00") + "/"  + Path.GetFileNameWithoutExtension(originalLink) + "." + type;
         var pageIndex = postList.IndexOf(pageLink);
