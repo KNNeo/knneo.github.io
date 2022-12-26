@@ -194,7 +194,7 @@ function renderMain(sectionNo) {
 			contentList.classList.add('contents');
 			
 			let iconSize = '6rem';
-			let drawerHeight = '13vh';
+			let drawerHeight = '15vh';
 			if (window.innerHeight < 760) {
 				iconSize = '4rem';
 				drawerHeight = '30px';
