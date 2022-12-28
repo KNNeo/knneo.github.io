@@ -32,6 +32,7 @@ const maxTagCount = 9999;					// anything less than or equal to this will be inc
 const excludedTags = ['覚醒'];				// tags will be excluded from stats, filenames in data will be filtered
 const thumbnailRatio = 9/16;				// standard thumbnail image ratio, can be math expression or number
 const hiddenTags = ['2014','2015','2016','2017','2018','2019','2020','2021','2022'];
+const hiddenTags = ['2013','2014','2015','2016','2017','2018','2019','2020','2021','2022'];
 // tags will be hidden from selection, filenames in data will NOT be filtered
 
 //--VARIABLES--//
@@ -150,7 +151,7 @@ function generateButtonArray() {
 		return updated;
 	},[])
 	.filter(function(item) {
-		return item.count >= minTagCount && item.count <= maxTagCount && !hiddenTags.includes(item.value);
+		return item.count >= minTagCount && item.count <= maxTagCount && hiddenTags.filter(t => item.value.includes(t)).length < 1;
 	})
 	.sort(function(a,b) {
 		return b.count - a.count;
