@@ -2474,8 +2474,8 @@ function updateYear() {
 	
 	//initial query for options
 	query = "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song WHERE KNYEAR = " + year;
-	if(isMobile())
-		query += " LIMIT 100";
+	// if(isMobile())
+		// query += " LIMIT 100";
 	callDb(query, updateOptions);
 }
 
