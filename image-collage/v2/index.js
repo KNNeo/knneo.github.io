@@ -31,6 +31,8 @@ const minTagCount = 2;						// anything more than or equal to this will be inclu
 const maxTagCount = 9999;					// anything less than or equal to this will be included in tags, default 999
 const excludedTags = ['覚醒'];				// tags will be excluded from stats, filenames in data will be filtered
 const thumbnailRatio = 9/16;				// standard thumbnail image ratio, can be math expression or number
+const hiddenTags = ['2014','2015','2016','2017','2018','2019','2020','2021','2022'];
+// tags will be hidden from selection, filenames in data will NOT be filtered
 
 //--VARIABLES--//
 window.addEventListener('load', startup);
@@ -148,7 +150,7 @@ function generateButtonArray() {
 		return updated;
 	},[])
 	.filter(function(item) {
-		return item.count >= minTagCount && item.count <= maxTagCount;
+		return item.count >= minTagCount && item.count <= maxTagCount && !hiddenTags.includes(item.value);
 	})
 	.sort(function(a,b) {
 		return b.count - a.count;
@@ -489,8 +491,8 @@ function generateFiltered() {
 	if(debugMode) console.log('included', includeArray);
 	if(debugMode) console.log('excluded', excludeArray);
 	return mosaicArray.filter(m => 
-		(window['includeCriteria'].length == 0 || includeArray.filter(s => m.filename.toLowerCase().includes(s)).length == includeArray.length) && 
-		(window['excludeCriteria'].length == 0 || excludeArray.filter(s => !m.filename.toLowerCase().includes(s)).length == excludeArray.length) &&
+		(window['includeCriteria'].length == 0 || includeArray.filter(s => m.filename.toLowerCase().includes(s.toLowerCase())).length == includeArray.length) && 
+		(window['excludeCriteria'].length == 0 || excludeArray.filter(s => !m.filename.toLowerCase().includes(s.toLowerCase())).length == excludeArray.length) &&
 		excludedTags.filter(f => m.filename.includes(f)).length < 1
 	);
 }
