@@ -1997,6 +1997,7 @@ function generateCompilations(contents) {
 	{
 		let compilationRows = rows.filter(r => r[columnIndexCompilationTitle] == compilationTitle);
 		if(debugMode) console.log('compilationRows', { columns, values: compilationRows });
+		let isArtist = window['mode'] == 'artist';
 		
 		generateTableByDataWithHeader(
 			{ columns, values: compilationRows }, {
@@ -2008,8 +2009,8 @@ function generateCompilations(contents) {
 			dataId: 'KNID',
 			groupColumn: 'Track #', 
 			titleFormat: ['KNYEAR', 'CompilationTitle'],
-			actionTitle: 'Play All',
-			actionFunc: function() {
+			actionTitle: isArtist ? null : 'Play All',
+			actionFunc: isArtist ? null : function() {
 				let table = this.parentElement.nextSibling;
 				let rows = table.querySelectorAll('tr');
 				let ids = Array.from(rows).reduce(function (all, current) {
