@@ -1424,6 +1424,7 @@ function displayCoverIfComplete() {
 
 function queryInfo(contents) {
 	generateSongInfo(contents);
+	queryYouTubeInfo(contents);
 	
 	let columns = contents.columns;
 	let rows = contents.values;
@@ -1449,6 +1450,35 @@ function generateSongInfo(contents) {
 		title: 'Song Information', 
 		skipColumns: ['ArtistID', 'ReleaseID'],
 	});
+}
+
+function queryYouTubeInfo(contents) {
+	let columns = contents.columns;
+	let rows = contents.values;
+	let row = rows[0];
+	let columnIndexID = contents.columns.indexOf('ID');
+	
+	let query = "SELECT y.Identifier FROM Song s JOIN YouTube y on s.ID = y.SongID WHERE y.SongID = " + row[columnIndexID];
+	if(debugMode) console.log('queryYouTubeInfo', query);
+	queryDb(query, generateYouTubeInfo);
+}
+
+function generateYouTubeInfo(contents) {
+	if(!contents.columns || !contents.values) return;
+	let value = 'https://youtu.be/' + contents.values[contents.columns.indexOf('Identifier')];
+	let info = document.querySelector('#song-info tbody');
+	
+	let videoRow = document.createElement('tr');
+	
+	let videoCell1 = document.createElement('td');
+	videoCell1.innerText = 'Music Video';
+	videoRow.appendChild(videoCell1);
+	
+	let videoCell2 = document.createElement('td');
+	videoCell2.innerHTML = '<a target="_blank" href="' + value + '">' + value + '</a>';
+	videoRow.appendChild(videoCell2);
+	
+	info.appendChild(videoRow);
 }
 
 function generateArtistInfo(contents) {
