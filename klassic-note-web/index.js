@@ -185,7 +185,7 @@ function toggleMiniMode() {
 	let minHeight = 10;
 	if(document.querySelector('#player') == null) return;
 	
-	console.log('toggleMiniMode', document.querySelector('#tab-list').getBoundingClientRect().height);
+	// console.log('toggleMiniMode', document.querySelector('#tab-list').getBoundingClientRect().height);
 	if (document.querySelector('html').classList.contains('mini') && 
 	window.innerHeight > window['mini-height'])
 	{
