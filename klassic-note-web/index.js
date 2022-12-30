@@ -1280,70 +1280,85 @@ function generatePlayer(contents) {
 	let filename = row[columnIndexFilename];
 	let knyear = row[columnIndexKNYEAR];
 	
-	document.querySelector('#music').innerHTML = '';
-	// if(!document.querySelector('#music').classList.contains('centered'))
-		// document.querySelector('#music').classList.add('centered');
-	
-	let audioOverlay = document.createElement('div');
-	audioOverlay.id = 'overlay';
-	audioOverlay.innerText = 'Preview not available';
-	document.querySelector('#music').appendChild(audioOverlay);
-	document.querySelector('#overlay').classList.add('invisible');
-	
-	let audio = document.createElement('audio');
-	audio.id = 'player';
-	audio.classList.add('player');
-	audio.setAttribute('data-id', row[columnIndexKNID]);
-	audio.controls = true;
-	audio.autoplay = window['autoplay']; //for shuffle to work this must be set as true
-	audio.volume = localStorage.getItem('volume')|| 0.5;
-	audio.controlsList = 'nodownload';
-	audio.addEventListener('play', function() {
-		window['title'] = row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle] + ' | ' + defaultTitle;
-		renderTitle();
-	});
-	audio.addEventListener('pause', function() {
-		window['title'] = defaultTitle;
-		renderTitle();
-	});
-	audio.addEventListener('canplay', function() {
-		this.style.display = 'block';
-		setTabs();
-	});
-	audio.addEventListener('volumechange', function() {
-		localStorage.setItem('volume', document.querySelector('#player').volume);
-	});
-	audio.addEventListener('ended', function() {
-		if(window['playlist'] != null)// && window['playlist'].length > 1 && window['playlist'][0] == this.getAttribute('data-id'))
-		{
-			//find out which is current, query next
-			let next = window['playing'] + 1;
-			if(next >= window['playlist'].length)
+	if(window.location.href.startsWith('file://'))
+	{
+		document.querySelector('#music').innerHTML = '';
+		let audioOverlay = document.createElement('div');
+		audioOverlay.id = 'overlay';
+		audioOverlay.innerText = 'Preview not available';
+		document.querySelector('#music').appendChild(audioOverlay);
+		document.querySelector('#overlay').classList.add('invisible');
+		
+		let audio = document.createElement('audio');
+		audio.id = 'player';
+		audio.classList.add('player');
+		audio.setAttribute('data-id', row[columnIndexKNID]);
+		audio.controls = true;
+		audio.autoplay = window['autoplay']; //for shuffle to work this must be set as true
+		audio.volume = localStorage.getItem('volume')|| 0.5;
+		audio.controlsList = 'nodownload';
+		audio.addEventListener('play', function() {
+			window['title'] = row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle] + ' | ' + defaultTitle;
+			renderTitle();
+		});
+		audio.addEventListener('pause', function() {
+			window['title'] = defaultTitle;
+			renderTitle();
+		});
+		audio.addEventListener('canplay', function() {
+			this.style.display = 'block';
+			setTabs();
+		});
+		audio.addEventListener('volumechange', function() {
+			localStorage.setItem('volume', document.querySelector('#player').volume);
+		});
+		audio.addEventListener('ended', function() {
+			if(window['playlist'] != null)// && window['playlist'].length > 1 && window['playlist'][0] == this.getAttribute('data-id'))
 			{
-				console.log('End of playlist reached');
-				if(!window['shuffle-mode'])
-					return;
-				else
-					skipSong();
+				//find out which is current, query next
+				let next = window['playing'] + 1;
+				if(next >= window['playlist'].length)
+				{
+					console.log('End of playlist reached');
+					if(!window['shuffle-mode'])
+						return;
+					else
+						skipSong();
+				}
+				// console.log('ended', window['playlist']);
+				setTimeout(function() {
+					let optQuery = "SELECT * FROM Song WHERE KNID = " + (window['playlist'][next]);
+					// console.log('optQuery', optQuery);
+					queryDb(optQuery, updateOptions);
+					updateQueue();
+					updateQueueButtons();
+				},200);
 			}
-			// console.log('ended', window['playlist']);
-			setTimeout(function() {
-				let optQuery = "SELECT * FROM Song WHERE KNID = " + (window['playlist'][next]);
-				// console.log('optQuery', optQuery);
-				queryDb(optQuery, updateOptions);
-				updateQueue();
-				updateQueueButtons();
-			},200);
-		}
-	});
+		});
+		
+		let source = document.createElement('source');
+		source.src = directory + knyear + '/' + filename + '.mp3';
+		source.type = 'audio/mpeg';
+		source.innerText = '[You\'ll need a newer browser that supports HTML5 to listen to this.]';
+		
+		audio.appendChild(source);
+		document.querySelector('#music').appendChild(audio);
+	}
+	else
+	{
+		//testing
+		let query = 'https://itunes.apple.com/search?term=' + encodeURIComponent('負けるなチャンプ H ZETTRIO トリオピック  〜激闘の記録〜') + '&entity=song';
+		console.log(query);
+		
+		let result = getJson(query, function(res) {
+			console.log(res);
+		});
+		let url = 'https://music.apple.com/jp/album/1653055066?i=1653055069&l=en';
+		document.querySelector('#music').innerHTML = '<iframe allow="autoplay; encrypted-media *;" frameborder="0" height="'+ (!url.includes('i=') ? '450' : '150') +'" sandbox="allow-modals allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation" src="' +
+				url.replace('music.apple.com', 'embed.music.apple.com') +
+				'" style="background: transparent; max-width: 660px; overflow: hidden; width: 100%;"></iframe>';
+	}
 	
-	let source = document.createElement('source');
-	source.src = directory + knyear + '/' + filename + '.mp3';
-	source.type = 'audio/mpeg';
-	source.innerText = '[You\'ll need a newer browser that supports HTML5 to listen to this.]';
-	
-	audio.appendChild(source);
-	document.querySelector('#music').appendChild(audio);
 	
 	//update MediaSession API
 	if ('mediaSession' in navigator) {
