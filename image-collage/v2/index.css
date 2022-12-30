@@ -29,12 +29,24 @@ body {
 }
 
 .tags { 
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+	-ms-overflow-style: none;
+	scrollbar-width: none;
 }
 
 .tags::-webkit-scrollbar { 
-  height: 0;
+	height: 0;
+}
+
+.horizontal {
+	height: calc(100vh - 260px);
+	overflow-y: auto;
+}
+
+.vertical {
+	width: 100vw;
+	max-height: 2em;
+	overflow-x: auto;
+	white-space: nowrap;
 }
 
 .tag {

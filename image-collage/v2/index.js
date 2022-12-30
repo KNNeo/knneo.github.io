@@ -11,7 +11,7 @@ const defaultIncludePlaceholder = '以内の…';
 const defaultExcludePlaceholder = '以外の…';
 const showBanner = true;					// will show first character of sort property
 const bannerPrefixLength = 1;				// show number of prefix characters
-const defaultSortOrder = 'asc';			// options: asc, desc; defaults to asc
+const defaultSortOrder = 'desc';			// options: asc, desc; defaults to asc
 const defaultSortLocale = 'ja';				// based on BCP 47 language tag
 const presetWidths = [160, 320, 480]; 		// small, medium, large; subject to alignment of columns
 const presetPrefix = ['sm', 'md', 'lg']; 	// small, medium, large; property to point to for each object
@@ -30,9 +30,9 @@ const horizontalMenuWidth = 500; 			// for not gallery, in pixels
 const minTagCount = 2;						// anything more than or equal to this will be included in tags, default 1
 const maxTagCount = 9999;					// anything less than or equal to this will be included in tags, default 999
 const excludedTags = ['覚醒'];				// tags will be excluded from stats, filenames in data will be filtered
-const thumbnailRatio = 9/16;				// standard thumbnail image ratio, can be math expression or number
 const hiddenTags = ['2013','2014','2015','2016','2017','2018','2019','2020','2021','2022'];
 // tags will be hidden from selection, filenames in data will NOT be filtered
+const thumbnailRatio = 9/16;				// standard thumbnail image ratio, can be math expression or number
 
 //--VARIABLES--//
 window.addEventListener('load', startup);
@@ -248,14 +248,16 @@ function generateLayoutMenu() {
 	let tags = document.createElement('div');
 	tags.classList.add('tags');
 	if(window['horizontal']) {
-		tags.style.height = 'calc(100vh - 260px)';
-		tags.style.overflowY = 'auto';
+		tags.classList.add('horizontal');
+		// tags.style.height = 'calc(100vh - 260px)';
+		// tags.style.overflowY = 'auto';
 	}
 	else {
-		tags.style.width = '100vw';
-		tags.style.maxHeight = '2em';
-		tags.style.overflowX = 'auto';
-		tags.style.whiteSpace = 'nowrap';
+		tags.classList.add('vertical');
+		// tags.style.width = '100vw';
+		// tags.style.maxHeight = '2em';
+		// tags.style.overflowX = 'auto';
+		// tags.style.whiteSpace = 'nowrap';
 	}
 	
 	for(let button of window['buttonArray']) {
@@ -306,6 +308,19 @@ function generateLayoutMenu() {
 	settings.id = 'settings';
 	settings.classList.add('settings');
 	
+	if(!window['horizontal'])
+	{
+		let expander = document.createElement('a');
+		expander.classList.add('expander');
+		expander.classList.add('settings-icon');
+		expander.classList.add('material-icons');
+		expander.title = 'Expand Tags';
+		expander.href = 'javascript:void(0);';
+		expander.innerText = 'unfold_more';
+		expander.addEventListener('click', onToggleExpander);
+		settings.appendChild(expander);		
+	}
+	
 	if(enableDarkMode)
 	{
 		let darkmode = document.createElement('a');
@@ -313,6 +328,7 @@ function generateLayoutMenu() {
 		darkmode.classList.add('darkmode');
 		darkmode.classList.add('settings-icon');
 		darkmode.classList.add('material-icons');
+		darkmode.title = 'Toggle Dark Mode';
 		darkmode.href = 'javascript:void(0);';
 		darkmode.innerText = 'brightness_high';
 		settings.appendChild(darkmode);		
@@ -325,6 +341,7 @@ function generateLayoutMenu() {
 		preset.classList.add('preset');
 		preset.classList.add('settings-icon');
 		preset.classList.add('material-icons');
+		preset.title = 'Toggle Thumbnail Presets';
 		preset.href = 'javascript:void(0);';
 		preset.innerText = window['preset'];
 		preset.addEventListener('click', onTogglePreset);
@@ -338,6 +355,7 @@ function generateLayoutMenu() {
 		slideshow.classList.add('slideshow');
 		slideshow.classList.add('settings-icon');
 		slideshow.classList.add('material-icons');
+		slideshow.title = 'Start Slideshow';
 		slideshow.href = 'javascript:void(0);';
 		slideshow.innerText = 'slideshow';
 		slideshow.addEventListener('click', startSlideshow);
@@ -349,6 +367,7 @@ function generateLayoutMenu() {
 	stats.classList.add('stats');
 	stats.classList.add('settings-icon');
 	stats.classList.add('material-icons');
+	stats.title = 'Show Statistics';
 	stats.href = 'javascript:void(0);';
 	stats.innerText = 'analytics';
 	stats.addEventListener('click', generateStats);
@@ -356,6 +375,7 @@ function generateLayoutMenu() {
 	
 	let counter = document.createElement('span');
 	counter.classList.add('counter');
+	counter.title = 'Number of items displayed';
 	counter.innerText = 0;
 	settings.appendChild(counter);
 		
@@ -591,6 +611,32 @@ function onTogglePreset() {
 	  case 'photo_size_select_large':
 		document.getElementById('preset').innerText = 'photo_size_select_actual';
 		window['thumbWidth'] = presetWidths[2];
+		break;
+	  default:
+		break;
+	}
+	
+	window['preset'] = document.getElementById('preset').innerText;
+	
+	generateGrid();
+}
+
+function onToggleExpander() {
+	switch(this.innerText)
+	{
+	  case 'unfold_more':
+		document.querySelector('.expander').innerText = 'unfold_less';
+		document.querySelector('.expander').title = 'Close Tags';
+		let toMore = document.querySelector('.vertical');
+		toMore.classList.remove('vertical');
+		toMore.classList.add('horizontal');
+		break
+	  case 'unfold_less':
+		document.querySelector('.expander').innerText = 'unfold_more';
+		document.querySelector('.expander').title = 'Expand Tags';
+		let toLess = document.querySelector('.horizontal');
+		toLess.classList.remove('horizontal');
+		toLess.classList.add('vertical');
 		break;
 	  default:
 		break;
