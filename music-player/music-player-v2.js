@@ -6,6 +6,29 @@ let timer;
 let timestamps = new Array();
 //title_string,table_row,time_in_seconds,rank_till_time
 //for ranks with more than 1 result, order is same as order of push not table_row
+timestamps.push(['2022', 22,   0, 20, 'Scenarioart', 'Aiminor']);
+timestamps.push(['2022', 21,  45, 19, 'ORESKABAND', 'ARCO']);
+timestamps.push(['2022', 20,  96, 18, 'Natsukawa Shiina', 'Sasakure']);
+timestamps.push(['2022', 19, 144, 17, 'nano.RIPE', 'Trickster']);
+timestamps.push(['2022', 18, 179, 16, 'Sangatsu no Phantasia', 'Ivy Dance']);
+timestamps.push(['2022', 16, 218, 15, 'Kouno Marika', 'Hitotsu']);
+timestamps.push(['2022', 17, 261, 15, 'Minase Inori', 'REAL-EYES']);
+timestamps.push(['2022', 15, 312, 14, 'ClariS x TrySail', 'Orgel']);
+timestamps.push(['2022', 14, 364, 13, 'Creepy Nuts', '2way nice guy']);
+timestamps.push(['2022', 13, 407, 12, 'miwa', 'Sparkle']);
+timestamps.push(['2022', 12, 455, 11, 'Sayuri', 'Hana no Tou']);
+timestamps.push(['2022', 11, 508, 10, 'Kitani Tatsuya', 'Scar']);
+timestamps.push(['2022', 10, 558,  9, 'Asakura Momo', 'Stained Glass']);
+timestamps.push(['2022',  8, 602,  8, 'Kami wa Saikoro wo Furanai', 'Meguru Meguru']);
+timestamps.push(['2022',  9, 649,  8, 'Kroi', 'Juden']);
+timestamps.push(['2022',  7, 694,  7, 'Genie High', 'Eclair']);
+timestamps.push(['2022',  6, 741,  6, 'CHiCO with HoneyWorks meets Mafumafu', 'Bibitto Love']);
+timestamps.push(['2022',  5, 788,  5, 'amazarashi', 'Kuuhaku no Shasou Kara']);
+timestamps.push(['2022',  4, 831,  4, 'harmoe', 'Futari Pinocchio']);
+timestamps.push(['2022',  3, 873,  3, 'SHE\'S', 'Blue Thermal']);
+timestamps.push(['2022',  2, 922,  2, 'Ryokuoushoku Shakai', 'Character']);
+timestamps.push(['2022',  1, 971,  1, 'mol-74', 'Renew']);
+
 timestamps.push(['2021', 23,   0, 20, 'Sisters In The Velvet', 'Love, Massacre']);
 timestamps.push(['2021', 22,  48, 19, 'Toyosaki Aki', 'TONE']);
 timestamps.push(['2021', 21,  86, 18, 'Hanazawa Kana', 'Moonlight Magic']);
