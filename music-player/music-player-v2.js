@@ -426,7 +426,7 @@ function hoverOnRow() {
 
 function toggleHover(cell) {
 	let supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-	let isDarked = document.getElementsByTagName('html')[0].classList.contains('darked');
+	let isDarked = document.querySelector('.darked') != null;
 	let cellColor = 'transparent';
 	cellColor = isDarked ? 'gray' : 'lightgray';
 	cell.style.backgroundColor = cell.style.backgroundColor == cellColor ? '' : cellColor;
