@@ -2200,12 +2200,12 @@ function queryAnalysis(contents) {
 	queryDb(query, generateVocalPopularity);
 	
 	//Singles B-side Survey
-	query = "SELECT 'All Singles' AS 'Category', COUNT(ID) AS 'Count' FROM Release WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = KNYEAR AND Category = 'SINGLE' AND IsReviewed = 1 ";
-	query += "UNION ALL SELECT '1 Track' AS 'Category', COUNT(ID) AS 'Count' FROM Release WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = KNYEAR AND Category = 'SINGLE' AND IsReviewed = 1 AND TracksTotal = 1 ";
-	query += "UNION ALL SELECT '2 Tracks' AS 'Category', COUNT(ID) AS 'Count' FROM Release WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = KNYEAR AND Category = 'SINGLE' AND IsReviewed = 1 AND TracksTotal = 2 ";
-	query += "UNION ALL SELECT '3 Tracks' AS 'Category', COUNT(ID) AS 'Count' FROM Release WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = KNYEAR AND Category = 'SINGLE' AND IsReviewed = 1 AND TracksTotal > 2 ";
-	query += "UNION ALL SELECT '2 Tracks (B-side)' AS 'Category', COUNT(ID) AS 'Count' FROM Release WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = KNYEAR AND Category = 'SINGLE' AND IsReviewed = 1 AND TracksTotal = 2 AND TracksSelected > 1 ";
-	query += "UNION ALL SELECT '3 Tracks (B-side)' AS 'Category', COUNT(ID) AS 'Count' FROM Release WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = KNYEAR AND Category = 'SINGLE' AND IsReviewed = 1 AND TracksTotal > 2 AND TracksSelected > 1 ";
+	query = "SELECT 'All Singles' AS 'Category', COUNT(ID) AS 'Count' FROM Release WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = KNYEAR AND UPPER(Category) = 'SINGLE' AND IsReviewed = 1 ";
+	query += "UNION ALL SELECT '1 Track' AS 'Category', COUNT(ID) AS 'Count' FROM Release WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = KNYEAR AND UPPER(Category) = 'SINGLE' AND IsReviewed = 1 AND TracksTotal = 1 ";
+	query += "UNION ALL SELECT '2 Tracks' AS 'Category', COUNT(ID) AS 'Count' FROM Release WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = KNYEAR AND UPPER(Category) = 'SINGLE' AND IsReviewed = 1 AND TracksTotal = 2 ";
+	query += "UNION ALL SELECT '3 Tracks' AS 'Category', COUNT(ID) AS 'Count' FROM Release WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = KNYEAR AND UPPER(Category) = 'SINGLE' AND IsReviewed = 1 AND TracksTotal > 2 ";
+	query += "UNION ALL SELECT '2 Tracks (B-side)' AS 'Category', COUNT(ID) AS 'Count' FROM Release WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = KNYEAR AND UPPER(Category) = 'SINGLE' AND IsReviewed = 1 AND TracksTotal = 2 AND TracksSelected > 1 ";
+	query += "UNION ALL SELECT '3 Tracks (B-side)' AS 'Category', COUNT(ID) AS 'Count' FROM Release WHERE KNYEAR = " + KNYEAR + " AND ReleaseYear = KNYEAR AND UPPER(Category) = 'SINGLE' AND IsReviewed = 1 AND TracksTotal > 2 AND TracksSelected > 1 ";
 	query += "UNION ALL SELECT 'Singles Reviewed' AS 'Category', COUNT(ID) AS 'Count' FROM Review WHERE KNYEAR = " + KNYEAR + " ";
 	
 	if(debugMode) console.log('generateBSide', query);
