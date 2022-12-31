@@ -782,7 +782,7 @@ function generateTableAsColumnRows(contents, parameters) {
 		let td = document.createElement('td');
 		td.innerHTML = rowVal;
 		if(rowVal.toString().includes('https://') || rowVal.toString().includes('http://'))
-			td.innerHTML = '<a target="_blank" href="' + rowVal + '">' + rowVal + '</a>';
+			td.innerHTML = '<a target="_blank" href="' + rowVal + '">' + getDomainViaUrl(rowVal) + '</a>';
 		tr.appendChild(td);
 		
 		tbody.appendChild(tr);	
@@ -1448,7 +1448,7 @@ function generateSongInfo(contents) {
 	generateTableAsColumnRows(contents, {
 		id: 'song-info', 
 		title: 'Song Information', 
-		skipColumns: ['ArtistID', 'ReleaseID'],
+		skipColumns: ['ArtistID', 'ReleaseID', 'Filename'],
 	});
 }
 
@@ -1475,10 +1475,12 @@ function generateYouTubeInfo(contents) {
 	videoRow.appendChild(videoCell1);
 	
 	let videoCell2 = document.createElement('td');
-	videoCell2.innerHTML = '<a target="_blank" href="' + value + '">' + value + '</a>';
-	videoRow.appendChild(videoCell2);
+	videoCell2.innerHTML = '<a target="_blank" href="' + value + '">' + getDomainViaUrl(value) + '</a>';
 	
-	info.appendChild(videoRow);
+	videoRow.appendChild(videoCell2);
+		
+	info.insertBefore(videoRow, info.children[info.children.length - 1]);
+	// info.appendChild(videoRow);
 }
 
 function generateArtistInfo(contents) {
@@ -2733,6 +2735,17 @@ function scrollToTop() {
     document.querySelector('#tab-list').scrollTop = 0;
     document.documentElement.scrollTop = 0;
 	window.location.hash = "";
+}
+
+function getDomainViaUrl(url) {
+	if(url)
+	{
+		if(url.toLowerCase().includes('uta-net.com')) return 'Uta-Net';
+		if(url.toLowerCase().includes('utaten.com')) return 'UtaTen';
+		if(url.toLowerCase().includes('youtube.com')) return 'YouTube';
+		if(url.toLowerCase().includes('youtu.be')) return 'YouTube';
+	}
+	return url;
 }
 
 
