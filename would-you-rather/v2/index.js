@@ -3,8 +3,9 @@ const headerTitle = 'Would you rather...?';
 const situations = [
 	{
 		moduleId: 'name', //unique id, also used to identify term in each queryString in categories
-		moduleTitle: 'Load People Name Preset', //used for button to load this as list
-		categoryTitle: 'People Names', //to group all category buttons below
+		moduleTitle: 'Load Names Preset', //used for button to load this as list
+		moduleList: ['Kasumi','Honoka','Marie Rose','Ayane','Kokoro','Hitomi','Momiji','Helena','Misaki','Luna','Tamaki','Leifan','Fiona','Nagisa','Monica','Sayuri','Patty','Tsukushi','Loberia','Nanami','Elise','Koharu','Tina','Amy','Shandy'], //preloaded list
+		categoryTitle: 'Names', //to group all category buttons below
 		categories: [
 			{
 				queryTitle: 'Dating', //button title
@@ -114,29 +115,33 @@ const situations = [
 		],
 	},
 ];
-const presets = [
-	{
-		moduleId: 'name',
-		moduleList: ['Baba Fumika', 'Tachibana Haru', 'marupi', 'Hanazawa Kana', 'Hikasa Youko', 'Horie Yui', 'Kayano Ai', 'Komatsu Mikako', 'Kotobuki Minako', 'Ookubo Rumi', 'Satou Satomi', 'Taketatsu Ayana', 'Tomatsu Haruka', 'Toyosaki Aki', 'Yuuki Aoi', 'Amamiya Sora', 'Asakura Momo', 'Hidaka Rina', 'Kouno Marika', 'Minase Inori', 'Natsukawa Shiina', 'Numakura Manami', 'Tachibana Rika', 'Takahashi Rie', 'Touyama Nao', 'Uesaka Sumire', 'Anzai Chika', 'Fuchigami Mai', 'Hondo Kaede', 'Isobe Karin', 'Kido Ibuki', 'Kitou Akari', 'Koga Aoi', 'Kohara Konomi', 'Lynn', 'Nagae Rika', 'Nagatsuma Juuri', 'Omigawa Chiaki', 'Oonishi Saori', 'Oono Yuuko', 'Oozora Naomi', 'Toyota Moe', 'Waki Azumi', 'Yoshimura Haruka', 'Aizawa Saya', 'Kanno Mai', 'Naganawa Maria', 'Tomita Miyu', 'Sasaki Nao'],
-	},
-];
 
-//--VARIABLES: DO NOT DELETE!--//
-let mirrorFeatures = ['cutest', 'coolest', 'most beautiful', 'funniest', 'sexiest'];
-let nameList = [];
-let newList = [];
+//--FUNCTIONS--//
+function onInputClick(module) {
+	var categoryName = module.target.id;
+    var text = document.getElementById('input-list');
+	var loadedText = '';
+	
+	if(categoryName == 'peopleSortRankingInput')
+		window.location.href = 'seiyuu-sort-utf8.html';
+	else 
+		loadedText = situations.filter(p => p.moduleId == categoryName.replace('Input',''))[0].moduleList.toString();
+	
+	text.value = loadedText.replace(/,/g,'\n');
+	text.name = module.target.innerText;
+}
 
-function getResultFromTerm(module) {
+function onResultClick(module) {
 	let moduleName = module.target.name;
 	let categoryName = module.target.innerHTML;
     let text = document.getElementById('input-list').value.trim();
 	let result = document.getElementById('nameResultBox');
-	nameList = text.split('\n');
+	window['name-list'] = text.split('\n');
 	if(!result.innerHTML.includes('flexi-input')) result.innerHTML = '';
-	if(nameList.length < 4) result.innerHTML = 'List is too short! Minimum 4 names!';
+	if(window['name-list'].length < 4) result.innerHTML = 'List is too short! Minimum 4 names!';
 	else if(text.length > 0)
 	{
-		newList = [];
+		window['temp'] = [];
 		if(categoryName == 'Custom')
 		{
 			if(result.innerHTML.includes('flexi-name')) {
@@ -190,57 +195,31 @@ function getResultFromTerm(module) {
 		result.innerHTML = 'Please key in something!';
 }
 
-function displayOutput(categoryName) {
-	switch(categoryName)
-	{
-		case 'Mirror':
-			let mirrorFeature = mirrorFeatures[Math.floor(Math.random() * mirrorFeatures.length)];
-			return 'Mirror, mirror, on the wall; Who is the ' + mirrorFeature + ' of them all? {name} or {name} or {name}?';
-		default:
-			return '{name} or {name}?';
-	}
-}
-
 function generateTerm() {
-	let newName = nameList[Math.floor(Math.random() * nameList.length)];
+	let newName = window['name-list'][Math.floor(Math.random() * window['name-list'].length)];
 	
-	while(newList.indexOf(newName) > -1)
+	while(window['temp'].indexOf(newName) > -1)
 	{
-		newName = nameList[Math.floor(Math.random() * nameList.length)];
+		newName = window['name-list'][Math.floor(Math.random() * window['name-list'].length)];
 	}
 	
-	newList.push(newName);
-	return '\'' + censor(newName) + '\'';
+	window['temp'].push(newName);
+	return '\"' + newName + '\"';
 }
 
-function censor(name) {
-	let checkbox = document.getElementById('censorName');
-	if(checkbox != null && checkbox.checked) return name[0] + name.slice(1).replace(/.(?=\S)/g, '*');
-	return name;
+//--STARTUP--//
+window.addEventListener('load', function() {
+	initializeVariables();
+	generateContent();
+});
+
+function initializeVariables() {
+	window['name-list'] = [];
 }
 
-function toggleCensor() {
-	let checkbox = document.getElementById('censorName');	
-}
-
-function loadPreset(module) {
-	var categoryName = module.target.id;
-    var text = document.getElementById('input-list');
-	var loadedText = '';
+function generateContent() {
+	document.querySelector('.content').innerHTML = '';
 	
-	if(categoryName == 'peopleSortRankingInput')
-		window.location.href = 'seiyuu-sort-utf8.html';
-	else 
-		loadedText = presets.filter(p => p.moduleId == categoryName.replace('Input',''))[0].moduleList.toString();
-	
-	text.value = loadedText.replace(/,/g,'\n');
-	text.name = module.target.innerText;
-}
-
-//--GENERATE HTML--//
-window.onload = startup();
-
-function startup() {
 	let header = document.createElement('h1');
 	header.innerText = headerTitle;
 	document.querySelector('.content').appendChild(header);
@@ -265,7 +244,7 @@ function startup() {
 		button.type = 'button';
 		button.value = 'Submit';
 		button.innerText = preset.moduleTitle;
-		button.addEventListener('click', loadPreset);
+		button.addEventListener('click', onInputClick);
 		inputBox.appendChild(button);
 	}
 	
@@ -277,7 +256,7 @@ function startup() {
 	button.type = 'button';
 	button.value = 'Submit';
 	button.innerText = 'Load People Sort Ranking';
-	button.addEventListener('click', loadPreset);
+	button.addEventListener('click', onInputClick);
 	inputBox.appendChild(button);
 	
 	inputModule.appendChild(inputBox);
@@ -302,7 +281,7 @@ function startup() {
 			resultCategory.value = 'Submit';
 			resultCategory.innerText = situation.queryTitle;
 			resultCategory.value = situation.queryString;
-			resultCategory.addEventListener('click', getResultFromTerm);
+			resultCategory.addEventListener('click', onResultClick);
 			showResult.appendChild(resultCategory);			
 		}
 		
