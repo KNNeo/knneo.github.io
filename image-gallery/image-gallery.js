@@ -752,7 +752,7 @@ function renderGallery(array) {
 				inline: "center"
 			});
 		});
-		image.addEventListener('contextmenu', excludeSelectedImage);
+		// image.addEventListener('contextmenu', excludeSelectedImage);
 		image.addEventListener('error', function() {
 			image.parentElement.parentElement.parentElement.style.display = 'none';
 			image.classList.add('failed');
@@ -772,7 +772,7 @@ function renderGallery(array) {
 }
 
 function excludeSelectedImage() {
-	if(this.tagName.toUpperCase() != 'img') return;
+	if(this.tagName.toLowerCase() != 'img') return;
 	if(getSetting('excludedPopupDecision') == null)
 		setSetting('excludedPopupDecision', confirm(excludedPopupText));
 	if(getSetting('excludedPopupDecision') == 'false')  {
@@ -1195,6 +1195,16 @@ function checkDuplicates() {
 		else
 			console.log('Duplicate URL found: ', image[1]);
 	}
+}
+
+function hashString(str) {
+    let hash = 0;
+    for (let i = 0, len = str.length; i < len; i++) {
+        let chr = str.charCodeAt(i);
+        hash = (hash << 5) - hash + chr;
+        hash |= 0; // Convert to 32bit integer
+    }
+    return hash;
 }
 
 //settings
