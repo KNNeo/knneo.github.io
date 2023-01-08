@@ -47,6 +47,7 @@ void Main()
 	bool TraceMode = false;
 	int maxLatestPost = 4;
 	int maxImageExport = 100;
+	string defaultFont = "Noto Sans";
 	string imageExport = "[\"\"";
     Console.WriteLine("WriteTitleOnConsole is " + WriteTitleOnConsole);
     Console.WriteLine("\tPost with changes will appear here");
@@ -718,7 +719,8 @@ void Main()
             output.WriteLine("<meta name=\"theme-color\" content=\"white\">");
             output.WriteLine("<meta name=\"apple-mobile-web-app-capable\" content=\"yes\">");
             output.WriteLine("<meta name=\"mobile-web-app-capable\" content=\"yes\">");
-            output.WriteLine("<link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet' />");
+            output.WriteLine("<link href='https://fonts.googleapis.com/css?family=" + defaultFont + "' rel='stylesheet' />");
+			// cursive font for menu use
             if(content.Contains("Dancing Script")) output.WriteLine("<link href='https://fonts.googleapis.com/css?family=Dancing Script' rel='stylesheet' />");
             output.WriteLine("<link href=\"https://fonts.googleapis.com/icon?family=Material+Icons\" rel=\"stylesheet\" />");
             output.WriteLine("<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../blog.css\" />");
@@ -734,7 +736,8 @@ void Main()
             if(postList.IndexOf(pageLink) + 1 < postList.Count) output.WriteLine("<a id='RightBtn' href='" + postList[postList.IndexOf(pageLink) + 1].Replace("./", "../../../") + "' title='Older Post'><i class='material-icons'>arrow_forward</i></a>");
             output.WriteLine("<body class=\"post-body entry-content\">");
             output.WriteLine("<div id=\"viewer\" style=\"display: none;\"></div>");
-            output.WriteLine("<div id=\"contents\">");if (originalLink != "")
+            output.WriteLine("<div id=\"contents\" style=\"font-family: " + defaultFont + ";\">");
+			if (originalLink != "")
                 output.WriteLine("<small style=\"text-align: center;\"><p><i>This post was imported from "+
                  "<a href=\"{0}\">Blogger</a></i></p></small>", originalLink);				 
             output.WriteLine("<small class=\"published\">"+published.ToString("dddd, dd MMMM yyyy")+"</small>");
@@ -804,7 +807,7 @@ void Main()
     
     //Write into home page
     string fileString = File.ReadAllText(blogpath + "\\blog_template.html");
-    fileString = fileString.Replace("<div id=\"blog-archive-list\"></div>", ("<div id=\"blog-archive-list\">" + textString + "</div>"));
+    fileString = fileString.Replace("<div id=\"blog-archive-list\"></div>", ("<div id=\"blog-archive-list\">" + textString + "</div>")).Replace("_FONT_", defaultFont);
     File.WriteAllText(blogpath + "\\blog.html", fileString);
 	
 	//Export list of images with limit
