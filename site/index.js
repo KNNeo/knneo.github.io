@@ -34,7 +34,9 @@ function scrollToPage(sectionNo, isSinglePage = false) {
 	else
 	{
 		document.querySelectorAll('.section')[sectionNo].scrollIntoView();
-		document.querySelectorAll('.section')[sectionNo].focus();
+		setTimeout(function() {
+			document.querySelectorAll('.section')[sectionNo].focus()
+		}, 500);
 	}
 }
 
