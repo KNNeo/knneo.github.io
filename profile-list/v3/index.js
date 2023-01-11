@@ -1305,7 +1305,7 @@ function daysFromMe() {
 		});
 	}
 	
-	console.log(away.sort((a,b) => a.daysAway - b.daysAway));
+	console.log(away.sort((a,b) => a.days - b.days));
 }
 
 function friendCheck() {
