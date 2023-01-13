@@ -1830,8 +1830,6 @@ function queryAwardsByYear(contents) {
 	
 	//select awards of that song regardless of year
 	let query = "SELECT a.KNYEAR, a.AwardType, a.AwardTitle, a.ArtistTitle AS 'Artist Title', CASE WHEN AwardType = 'Release' THEN a.RecipientTitle ELSE NULL END AS 'Release Title', CASE WHEN AwardType = 'Song' THEN a.RecipientTitle ELSE NULL END AS 'Song Title', a.SongID, a.IsWinner AS 'Won' FROM Award a WHERE a.KNYEAR = " + row[columnIndexKNYEAR] + " ORDER BY a.KNYEAR, a.ID, a.SortOrder";
-	// let query = "SELECT a.KNYEAR, a.AwardTitle, a.ArtistTitle AS 'Artist Title', a.RecipientTitle AS 'Song Title', a.SongID, a.IsWinner AS 'Won' FROM Award a JOIN Song s ON s.ID = a.SongID WHERE a.KNYEAR = " + row[columnIndexKNYEAR] + " "; 
-	// query += "ORDER BY a.KNYEAR, a.ID, a.SortOrder";
 	if(debugMode) console.log('queryAwardsByYear', query);
 	queryDb(query, generateAwards);
 }
@@ -1843,8 +1841,7 @@ function queryAwardsByArtist(contents) {
 	let columnIndexArtistTitle = contents.columns.indexOf('Artist Title');
 	
 	//select awards of that song regardless of year
-	let query = "SELECT a.KNYEAR, a.AwardTitle, a.ArtistTitle AS 'Artist Title', a.RecipientTitle AS 'Song Title', a.SongID, a.IsWinner AS 'Won' FROM Award a JOIN Song s ON s.ID = a.SongID WHERE a.ArtistTitle = '" + row[columnIndexArtistTitle] + "'"; 
-	query += "ORDER BY a.KNYEAR, a.ID, a.SortOrder";
+	let query = "SELECT a.KNYEAR, a.AwardType, a.AwardTitle, a.ArtistTitle AS 'Artist Title', CASE WHEN AwardType = 'Release' THEN a.RecipientTitle ELSE NULL END AS 'Release Title', CASE WHEN AwardType = 'Song' THEN a.RecipientTitle ELSE NULL END AS 'Song Title', a.SongID, a.IsWinner AS 'Won' FROM Award a WHERE a.ArtistTitle = '" + row[columnIndexArtistTitle] + "' ORDER BY a.KNYEAR, a.ID, a.SortOrder";
 	if(debugMode) console.log('queryAwardsByArtist', query);
 	queryDb(query, generateAwards);
 }
