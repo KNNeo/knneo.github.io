@@ -2242,6 +2242,12 @@ function queryAnalysis(contents) {
 
 	if(debugMode) console.log('generateReleaseByArtistType', query);
 	queryDb(query, generateReleaseByArtistType);
+
+	//Release by Release Type
+	query = "SELECT r.Type || ' ' || r.Category AS 'Release Type', COUNT(r.Type) AS 'Count' FROM Release r WHERE r.ID IN (SELECT DISTINCT ReleaseID FROM Song WHERE KNYEAR = " + KNYEAR + ") GROUP BY r.Category, r.Type";
+
+	if(debugMode) console.log('generateReleaseByReleaseType', query);
+	queryDb(query, generateReleaseByReleaseType);
 }
 
 function generateVocalPopularity(contents) {	
@@ -2364,6 +2370,18 @@ function generateReleaseByArtistType(contents) {
 		id: 'release-artisttype', 
 		skipClear: false, 
 		title: 'Release By Artist Type',
+		skipTitle: false, 
+		skipColumns: [],
+	});
+}
+
+function generateReleaseByReleaseType(contents) {
+	if(debugMode) console.log('generateReleaseByReleaseType', contents);	
+	generateTableByDataWithHeader(
+		contents, {
+		id: 'release-releasetype', 
+		skipClear: false, 
+		title: 'Release By Type',
 		skipTitle: false, 
 		skipColumns: [],
 	});
