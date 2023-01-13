@@ -1829,8 +1829,9 @@ function queryAwardsByYear(contents) {
 	let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
 	
 	//select awards of that song regardless of year
-	let query = "SELECT a.KNYEAR, a.AwardTitle, a.ArtistTitle AS 'Artist Title', a.RecipientTitle AS 'Song Title', a.SongID, a.IsWinner AS 'Won' FROM Award a JOIN Song s ON s.ID = a.SongID WHERE a.KNYEAR = " + row[columnIndexKNYEAR] + " "; 
-	query += "ORDER BY a.KNYEAR, a.ID, a.SortOrder";
+	let query = "SELECT a.KNYEAR, a.AwardType, a.AwardTitle, a.ArtistTitle AS 'Artist Title', CASE WHEN AwardType = 'Release' THEN a.RecipientTitle ELSE NULL END AS 'Release Title', CASE WHEN AwardType = 'Song' THEN a.RecipientTitle ELSE NULL END AS 'Song Title', a.SongID, a.IsWinner AS 'Won' FROM Award a WHERE a.KNYEAR = " + row[columnIndexKNYEAR] + " ORDER BY a.KNYEAR, a.ID, a.SortOrder";
+	// let query = "SELECT a.KNYEAR, a.AwardTitle, a.ArtistTitle AS 'Artist Title', a.RecipientTitle AS 'Song Title', a.SongID, a.IsWinner AS 'Won' FROM Award a JOIN Song s ON s.ID = a.SongID WHERE a.KNYEAR = " + row[columnIndexKNYEAR] + " "; 
+	// query += "ORDER BY a.KNYEAR, a.ID, a.SortOrder";
 	if(debugMode) console.log('queryAwardsByYear', query);
 	queryDb(query, generateAwards);
 }
@@ -1867,7 +1868,15 @@ function generateAwards(contents) {
 	for(let award of awardTitles)
 	{
 		let awardRows = rows.filter(r => r[columnIndexAwardTitle] == award);
+		let columnIndexAwardType = columns.indexOf('AwardType');
+		let type = awardRows[0][columnIndexAwardType];
 		if(debugMode) console.log('awardRows', { columns, values: awardRows });
+		
+		let skipColumns = ['KNYEAR', 'AwardType', 'AwardTitle', 'SongID'];
+		if(type == 'Artist' || type == 'Song')
+			skipColumns.push('Release Title');
+		if(type == 'Artist' || type == 'Release')
+			skipColumns.push('Song Title');
 		
 		generateTableByDataWithHeader(
 			{ columns, values: awardRows }, {
@@ -1875,7 +1884,7 @@ function generateAwards(contents) {
 			skipClear: true, 
 			title: 'Awards', 
 			skipTitle: true, 
-			skipColumns: ['KNYEAR', 'AwardTitle', 'SongID'],
+			skipColumns,
 			dataId: 'SongID',
 			groupColumn: null, 
 			titleFormat: ['KNYEAR', 'AwardTitle'], 
