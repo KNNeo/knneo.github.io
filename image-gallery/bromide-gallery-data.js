@@ -673,6 +673,23 @@ imgArray = [
 [690,'{domain}/CCI_20221026_0004_4.jpg','portrait','Amamiya Sora','CD "Love-Evidence" Gamers Bonus'],
 [691,'{domain}/CCI_20221026_0005_1.jpg','landscape','Natsukawa Shiina','CD "Composite" Animate Bonus'],
 [692,'{domain}/CCI_20221026_0005_2.jpg','landscape','Natsukawa Shiina','CD "Composite" Gamers Bonus'],
+[693,'{domain}/CCI_20221120_000001_1.jpg','portrait','Kouno Marika','Event "Kouno Marika 2nd LIVE ~LOVE&MOON~" Bromide'],
+[694,'{domain}/CCI_20221120_000001_2.jpg','portrait','Kouno Marika','Event "Kouno Marika 2nd LIVE ~LOVE&MOON~" Bromide'],
+[695,'{domain}/CCI_20221120_000001_3.jpg','portrait','Kouno Marika','Event "Kouno Marika 2nd LIVE ~LOVE&MOON~" Bromide'],
+[696,'{domain}/CCI_20221120_000001_4.jpg','portrait','Kouno Marika','Event "Kouno Marika 2nd LIVE ~LOVE&MOON~" Bromide'],
+[697,'{domain}/CCI_20221120_000002_1.jpg','portrait','Kouno Marika','Event "Kouno Marika 2nd LIVE ~LOVE&MOON~" Bromide'],
+[698,'{domain}/CCI_20221120_000002_2.jpg','portrait','Natsukawa Shiina','CD "Sasakure" Animate Bonus'],
+[699,'{domain}/CCI_20230108_000001_1.jpg','portrait','marupi','marupi Special On-Site Photo Win Raffle'],
+[700,'{domain}/CCI_20230108_000002_1.jpg','portrait','Toyota Moe','Goods "Toyota Moe 2023 Calendar" Animate Bonus'],
+[701,'{domain}/CCI_20230108_000002_2.jpg','portrait','marupi','marupi Special On-Site Photo Win Raffle'],
+[702,'{domain}/CCI_20230108_000002_3.jpg','portrait','marupi','marupi Special On-Site Photo Win Raffle'],
+[703,'{domain}/CCI_20230108_000002_4.jpg','portrait','marupi','marupi Special On-Site Photo Win Raffle'],
+[704,'{domain}/CCI_20230108_000003_1.jpg','portrait','marupi','marupi Special On-Site Photo Win Raffle 10-Roll Bonus'],
+[705,'{domain}/CCI_20230108_000003_2.jpg','portrait','Tomita Miyu','Event "Assault Lily Last Bullet Presents Idol Lily Stage" Trading Bromide'],
+[706,'{domain}/CCI_20230108_000003_3.jpg','portrait','Tomita Miyu','Event "Assault Lily Last Bullet Presents Idol Lily Stage" Trading Bromide'],
+[707,'{domain}/CCI_20230108_000004_1.jpg','portrait','Waki Azumi','Event "Starlight 3rd Star Live "Starry Diamond"" Bromide'],
+[708,'{domain}/CCI_20230108_000004_2.jpg','portrait','Touyama Nao','Book "Seiyuu Grand Prix 2022 October" Animate Bonus'],
+[709,'{domain}/CCI_20230108_000004_3.jpg','portrait','Amamiya Sora','CD "Freesia" Gamers Bonus'],
 
 
 [999,'','','']
