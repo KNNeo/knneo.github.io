@@ -621,9 +621,9 @@ input.gsc-input {
 
 /*Middle Screen Width (Responsive)*/
 @media only screen and (max-width: 780px) {
-  * {
-    scrollbar-width: 0 !important;
-  } //Firefox
+  /* * { */
+    /* scrollbar-width: 0 !important; */
+  /* } //Firefox */
   a#SidebarBtn{
     left: 15px;
   }

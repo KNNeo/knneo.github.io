@@ -83,13 +83,13 @@ a:hover {
 		font-size: 14px;
 	}
 	
-	body {
-		scrollbar-width: 0 !important;
-	} //Firefox
+	/* body { */
+		/* scrollbar-width: 0 !important; */
+	/* } //Firefox */
 
-	body::-webkit-scrollbar {
-		width: 0 !important;
-	} // Safari and Chrome
+	/* body::-webkit-scrollbar { */
+		/* width: 0 !important; */
+	/* } // Safari and Chrome */
 
 	.tr-caption {
 		font-size: 11px;
