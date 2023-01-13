@@ -2238,7 +2238,7 @@ function queryAnalysis(contents) {
 	queryDb(query, generateSongAppetite);
 	
 	//Release by Artist Type
-	query = "SELECT CASE ArtistCode WHEN 'BD' THEN 'Independent Band' WHEN 'ID' THEN 'Idol Group' WHEN 'AG' THEN 'Anime Voice Actor Group' WHEN 'AS' THEN 'Anime Voice Actor(s)' WHEN 'CL' THEN 'Collaboration' WHEN 'SS' THEN 'Singer-Songwriter' WHEN 'SL' THEN 'Solo Artist' ELSE 'Unknown' END AS 'Artist Type', Count(a.ArtistCode) AS 'Count' FROM Release s JOIN Artist a ON s.ReleaseArtistTitle = a.ArtistTitle WHERE s.KNYEAR = " + KNYEAR + " AND a.ArtistCode <> '' GROUP BY a.ArtistCode ORDER BY Count(a.ArtistCode) DESC";
+	query = "SELECT DISTINCT CASE ArtistCode WHEN 'BD' THEN 'Independent Band' WHEN 'ID' THEN 'Idol Group' WHEN 'AG' THEN 'Anime Voice Actor Group' WHEN 'AS' THEN 'Anime Voice Actor(s)' WHEN 'CL' THEN 'Collaboration' WHEN 'SS' THEN 'Singer-Songwriter' WHEN 'SL' THEN 'Solo Artist' ELSE 'Unknown' END AS 'Artist Type', Count(a.ArtistCode) AS 'Count' FROM Release s JOIN (SELECT DISTINCT ArtistTitle, ArtistCode from Artist) a ON s.ReleaseArtistTitle = a.ArtistTitle WHERE s.KNYEAR = " + KNYEAR + " AND a.ArtistCode <> '' GROUP BY a.ArtistCode ORDER BY Count(a.ArtistCode) DESC";
 
 	if(debugMode) console.log('generateReleaseByArtistType', query);
 	queryDb(query, generateReleaseByArtistType);
