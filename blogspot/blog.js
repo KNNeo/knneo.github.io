@@ -29,6 +29,7 @@ function startup() {
 	// hideImagesOnError();
 	// videoifyGIFs();
 	displayFAB();
+	if(typeof generateViewer == 'function') generateViewer();
 	if(typeof generateHeader == 'function') generateHeader();
 	if(typeof generateReadTime == 'function') generateReadTime();
 

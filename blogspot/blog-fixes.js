@@ -27,28 +27,48 @@ function goBack() {
 }
 
 //add viewer in place of lightbox
-let viewer = document.getElementById('viewer');
-viewer.addEventListener('contextmenu', function(e) {
-	e.preventDefault();
-	return false;
-}, false);
-
-let imageNo = 0;
-let linkedImgList = [];
-for(let img of document.getElementsByTagName('img'))
-{
-	if(img.parentElement.tagName.toUpperCase() == 'A' && 
-	!img.parentElement.href.includes('#') && 
-	!img.parentElement.href.includes('knneo.github.io'))
+function generateViewer() {
+	let viewer = document.getElementById('viewer');
+	if(viewer != null)
 	{
-		linkedImgList.push(img.parentElement);
+		viewer.addEventListener('contextmenu', function(e) {
+			e.preventDefault();
+			return false;
+		}, false);
+	}
+
+	let imageNo = 0;
+	window['viewer-list'] = [];
+	for(let img of document.getElementsByTagName('img'))
+	{
+		if(img.parentElement.tagName.toUpperCase() == 'A' && 
+		!img.parentElement.href.includes('#') && 
+		!img.parentElement.href.includes('knneo.github.io'))
+		{
+			window['viewer-list'].push(img.parentElement);
+		}
+	}
+	// console.log('viewer-list', window['viewer-list'].length);
+	
+	//any image with url will open in new tab
+	for (let img of document.getElementsByTagName('img'))
+	{
+		if(img.parentElement.tagName.toUpperCase() == 'A' && 
+		!img.parentElement.href.includes('#') && 
+		!img.parentElement.href.includes('knneo.github.io'))
+		{
+			img.parentElement.addEventListener('click', function(e) {
+				e.preventDefault();
+			});
+			img.parentElement.addEventListener('click', openViewer);
+		}
 	}
 }
-// console.log('linkedImgList', linkedImgList.length);
+
 
 function updateImageNo(image) {
 	imageNo = 0;
-	for(let img of linkedImgList)
+	for(let img of window['viewer-list'])
 	{
 		if(img.href == image.href)
 		{
@@ -85,7 +105,7 @@ function openImageInViewer(image) {
 	if(viewer.childNodes.length > 0) viewer.innerHTML = '';
 	viewer.style.paddingTop = '0';
 	if(imgNo-1 >= 0) viewer.appendChild(viewerPrev);
-	if(imgNo+1 < linkedImgList.length) viewer.appendChild(viewerNext);
+	if(imgNo+1 < window['viewer-list'].length) viewer.appendChild(viewerNext);
 	viewer.appendChild(img);
 	adjustViewerMargin();
 	// img.style.visibility = '';
@@ -93,12 +113,12 @@ function openImageInViewer(image) {
 	// console.log('imgNo', imgNo);
 	if(imgNo-1 >= 0)
 		document.getElementById('viewer-prev').addEventListener('click', function(e) {
-			openImageInViewer(linkedImgList[imgNo-1]);
+			openImageInViewer(window['viewer-list'][imgNo-1]);
 			return false;
 		}, false);
-	if(imgNo+1 < linkedImgList.length)
+	if(imgNo+1 < window['viewer-list'].length)
 		document.getElementById('viewer-next').addEventListener('click', function(e) {
-			openImageInViewer(linkedImgList[imgNo+1]);
+			openImageInViewer(window['viewer-list'][imgNo+1]);
 			return false;
 		}, false);
 		
@@ -127,22 +147,6 @@ function closeViewer() {
 	viewer.innerHTML = '';
 	if(viewer.parentElement) viewer.parentElement.style.overflow = '';
 }
-
-//any image with url will open in new tab
-for (let img of document.getElementsByTagName('img'))
-{
-	if(img.parentElement.tagName.toUpperCase() == 'A' && 
-	!img.parentElement.href.includes('#') && 
-	!img.parentElement.href.includes('knneo.github.io'))
-	{
-		img.parentElement.addEventListener('click', function(e) {
-			e.preventDefault();
-		});
-		img.parentElement.addEventListener('click', openViewer);
-	}
-}
-
-window.addEventListener('scroll', displayHeader);
 
 function displayHeader() {
 	// When the user scrolls down from the top of the document, show header
@@ -179,16 +183,23 @@ function generateHeader() {
 		header.appendChild(hashtags);
 	}
 	
-	document.querySelector('.header').appendChild(header);
-	displayHeader();
+	if(document.querySelector('.header') != null) {
+		document.querySelector('.header').appendChild(header);
+		window.addEventListener('scroll', displayHeader);
+		displayHeader();
+	}
 }
 
 function generateReadTime() {
 	let contents = document.querySelector('#contents');
-	let text = contents.innerText;
-	let wpm = 200;
-	let words = text.trim().split(/\s+/).length;
-	let time = Math.ceil(words / wpm);
-	
-	document.querySelector('.published').innerText += ' - ' + time + ' min read';
+	if(contents != null)
+	{
+		let text = contents.innerText;
+		let wpm = 200;
+		let words = text.trim().split(/\s+/).length;
+		let time = Math.ceil(words / wpm);
+		
+		if(document.querySelector('.published') != null)
+			document.querySelector('.published').innerText += ' - ' + time + ' min read';
+	}
 }
