@@ -140,5 +140,12 @@ h2, h3, .labels {
 	}
 	.row-title {
 		padding: 5px 1px;
+		max-width: 60vw;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+	}
+	.show-overlay {
+		white-space: normal;		
 	}
 }
