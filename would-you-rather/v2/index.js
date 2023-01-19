@@ -112,6 +112,10 @@ const situations = [
 				queryTitle: 'Food',
 				queryString: "You can only afford a single serving of snacks for the you and {name}. Would you rather take a bite first (and watch them take a bite) or later (after they took one)?",
 			},
+			{
+				queryTitle: 'Breakup',
+				queryString: "You have been dating with two people right now, it's due time before something happens. Would you rather breakup with {name} or {name}?",
+			},
 		],
 	},
 ];
