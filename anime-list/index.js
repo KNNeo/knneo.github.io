@@ -181,7 +181,7 @@ function generateCalendarBox(list) {
 	}
 	
 	//cells
-	for(let y = 2008; y <= 2022; y++)
+	for(let y = 2008; y <= currentYear; y++)
 	{
 		let t = document.createElement('div');
 		t.classList.add('year');
