@@ -39,6 +39,7 @@
  * [ok]	replace common phrases with emoji
  * []	remove hidden tags to generate hashtags
  * [manual] link in images of thumbnails to be removed
+ * []	reduce resolution of uploaded images (from 4032 -> 2048 pixels)
  */
 
 void Main()
@@ -144,7 +145,7 @@ void Main()
 	}	
 	
     // Process XML content per post
-	List<int> includeIndex = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26 };
+	List<int> includeIndex = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 29 };
     for (var p = 0; p < posts.Count(); p++)
     {
 		var entry = posts.ElementAt(p);
@@ -668,6 +669,13 @@ void Main()
 				}
 	            match = match.NextMatch();
 	        };
+		}
+        #endregion
+		
+		#region 29 reduce resolution of uploaded images (from 4032 -> 2048 pixels)
+		if(includeIndex.Count() == 0 || includeIndex.Contains(29))
+		{
+			content = content.Replace(@"/s4032/", @"/s2048/");
 		}
         #endregion
 		

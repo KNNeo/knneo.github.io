@@ -41,7 +41,7 @@ void Main()
 	var showResults = true;
 	var showMatches = true;
 	 //----------INDEXES HERE----------//
-	List<int> includeIndex = new List<int> { 28 };
+	List<int> includeIndex = new List<int> { 29 };
 	if(includeIndex.Count > 0) Console.WriteLine("[SELECTIVE_CHECKS_ACTIVATED]");
 	
 	/* [ID] List of Cases:		
@@ -562,6 +562,24 @@ void Main()
 		}
         #endregion
         
+		#region 29 reduce resolution of uploaded images (from 4032 -> 2048 pixels)
+		if(includeIndex.Count() == 0 || includeIndex.Contains(29))
+		{
+	        expression = @"(<a)(.*?)(href="")(.*?)(/s4032/)(.*?)("")";
+	        match = Regex.Match(content, expression);
+	        while(match.Success) {
+				//if(!match.Groups[2].Value.Contains("Preview")
+				//) {
+		            fixes.Add(new MatchItem() {
+							match = showMatches ? match : null,
+							description = "[29] high res blogger image found"
+						});
+				//}
+	            match = match.NextMatch();
+	        };
+			//content = content.Replace(@"style=""background: #00b8cc; border-radius: 5px; padding: 3px 5px; text-align: center; vertical-align: text-bottom;""", @"class=""head-prefix""");
+		}
+		#endregion
 	
 		//===================================================================================//
 		//Display Result
