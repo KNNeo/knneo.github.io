@@ -406,7 +406,9 @@ function cleanupLightbox() {
 function addHoverForLinks() {
 	if(document.getElementsByClassName('post-body entry-content').length == 0) return;
     for (let link of document.getElementsByClassName('post-body entry-content')[0].getElementsByTagName('a')) {
-        link.addEventListener('mouseover', renderPopup);
+        // link.addEventListener('mouseover', renderPopup);
+		if(typeof generateViewer == 'function' && link.target != '')
+			link.addEventListener('click', openItemInViewer);
     }
 }
 
@@ -522,6 +524,8 @@ function renderPopup() {
 		closeButton.appendChild(closeButtonIcon);
 	if(document.getElementById('CloseBtn') != undefined) document.getElementById('CloseBtn').remove();
 	document.body.appendChild(closeButton);
+	
+	return thumbnail;
 }
 
 function renderEmbedProcess() {
@@ -576,7 +580,7 @@ function generatePopupContent(url) {
     if (url.includes('jisho.org/search/')) {
         //process page as iframe
         return '<iframe id="myFrame" src="' +
-            url + '" style="height:60vh;width:98%"></iframe>';
+            url + '" style="height:100%;width:100%"></iframe>';
     }
     return null;
 }
@@ -625,7 +629,7 @@ function addHashtags() {
 	}
 	
 	//add anime
-	for(var topic of document.getElementsByClassName("anime"))
+	for(var topic of document.querySelectorAll("#contents .anime"))
 	{
 		//if last 2 characters do not render a number, do not add
 		var numeric = parseInt(topic.id.slice(-2)) || -1;
@@ -638,7 +642,7 @@ function addHashtags() {
 	
 	//add klassic note
 	let klassicNoteSpan = '';
-	for(let span of document.body.getElementsByTagName("span")) {
+	for(let span of document.querySelectorAll("#contents span")) {
 		if(span.innerText == "This Week on Klassic Note") {
 			//set id on class
 			span.id = "KlassicNote";
