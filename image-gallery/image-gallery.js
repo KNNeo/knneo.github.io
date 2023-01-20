@@ -150,8 +150,8 @@ function renderPage(pageName) {
 	title.id = 'title';
 	title.innerText = pageTitle;
 	title.addEventListener('click', function() {
-		setSetting('excludedImages', '[]');
-		purgeSetting('excludedPopupDecision');
+		setLocalSetting('excludedImages', '[]');
+		deleteLocalSetting('excludedPopupDecision');
 		loadPage(pageName);
 	});
 	frame.appendChild(title);
@@ -288,7 +288,7 @@ function renderPage(pageName) {
 		ssStopSpan.addEventListener('click', stopSlideshow);
 		ssDiv.appendChild(ssStopSpan);
 		let inViewer = document.createElement('label');
-		inViewer.style.display = getSetting("enableViewer") == "true" ? '' : 'none';
+		inViewer.style.display = getLocalSetting("enableViewer") == "true" ? '' : 'none';
 		inViewer.innerText = 'In Viewer';
 			let inViewerCheckbox = document.createElement('input');
 			inViewerCheckbox.id = 'ss-viewer';
@@ -297,7 +297,7 @@ function renderPage(pageName) {
 		inViewer.insertBefore(inViewerCheckbox, inViewer.childNodes[0]);
 		ssDiv.appendChild(inViewer);
 		let fullscreen = document.createElement('label');
-		fullscreen.style.display = getSetting("enableViewer") == "true" && enableFullscreenSlideshow ? '' : 'none';
+		fullscreen.style.display = getLocalSetting("enableViewer") == "true" && enableFullscreenSlideshow ? '' : 'none';
 		fullscreen.innerText = 'Fullscreen';
 			let fullscreenCheckbox = document.createElement('input');
 			fullscreenCheckbox.id = 'ss-fullscreen';
@@ -330,7 +330,7 @@ function renderPage(pageName) {
 		}
 		if(darkmode != null) {
 			darkmode.style.display = '';
-			if(getSetting("enableDarkMode") == "true")
+			if(getLocalSetting("enableDarkMode") == "true")
 			{
 				document.getElementsByTagName('html')[0].classList.add('darked');
 				
@@ -351,16 +351,16 @@ function renderPage(pageName) {
 			viewing.classList.add('enable-viewer');
 			viewing.classList.add('material-icons');
 			viewing.title = 'Toggle Viewer';
-			viewing.innerText = getSetting("enableViewer") == "true" ? 'view_carousel' : 'view_column';
+			viewing.innerText = getLocalSetting("enableViewer") == "true" ? 'view_carousel' : 'view_column';
 			viewing.addEventListener('click', function() {
-				setSetting("enableViewer", getSetting("enableViewer") == "true" ? false : true);
-				viewing.innerText = getSetting("enableViewer") == "true" ? 'view_carousel' : 'view_column';
-				document.querySelector('#ss-viewer').parentElement.style.display = getSetting("enableViewer") == "true" ? '' : 'none';
-				document.querySelector('#ss-fullscreen').parentElement.style.display = getSetting("enableViewer") == "true" && enableFullscreenSlideshow ? '' : 'none';
+				setLocalSetting("enableViewer", getLocalSetting("enableViewer") == "true" ? false : true);
+				viewing.innerText = getLocalSetting("enableViewer") == "true" ? 'view_carousel' : 'view_column';
+				document.querySelector('#ss-viewer').parentElement.style.display = getLocalSetting("enableViewer") == "true" ? '' : 'none';
+				document.querySelector('#ss-fullscreen').parentElement.style.display = getLocalSetting("enableViewer") == "true" && enableFullscreenSlideshow ? '' : 'none';
 				// loadPage(body.id);
 				// for(let image of document.querySelectorAll('#imgGallery img'))
 				// {
-					// if(getSetting("enableViewer") == "true")
+					// if(getLocalSetting("enableViewer") == "true")
 						// image.parentElement.parentElement.classList.add('shadowed');
 					// else
 						// image.parentElement.parentElement.classList.remove('shadowed');
@@ -370,14 +370,14 @@ function renderPage(pageName) {
 		}
 		if(viewing != null) {
 			viewing.style.display = '';
-			viewing.innerText = getSetting("enableViewer") == "true" ? 'view_carousel' : 'view_column';
+			viewing.innerText = getLocalSetting("enableViewer") == "true" ? 'view_carousel' : 'view_column';
 		}
 		if(!enableViewer && viewing != null) {
 			viewing.style.display = 'none';
 		}
 		// if(!settingsLoaded && viewing != null)
 			// viewing.addEventListener('click', function() {
-				// setSetting("enableViewer", getSetting("enableViewer") == "true" ? false : true);
+				// setLocalSetting("enableViewer", getLocalSetting("enableViewer") == "true" ? false : true);
 				// loadPage(body.id);
 			// });
 		
@@ -388,16 +388,16 @@ function renderPage(pageName) {
 			shadows.classList.add('material-icons');
 			shadows.title = 'Toggle Shadows';
 			shadows.style.transform = 'scaleX(-1)';
-			shadows.innerText = getSetting("enableShadows") == "true" ? 'filter' : 'crop_original';
+			shadows.innerText = getLocalSetting("enableShadows") == "true" ? 'filter' : 'crop_original';
 			shadows.addEventListener('click', function() {
-				setSetting("enableShadows", getSetting("enableShadows") == "true" ? false : true);
-				shadows.innerText = getSetting("enableShadows") == "true" ? 'filter' : 'crop_original';
+				setLocalSetting("enableShadows", getLocalSetting("enableShadows") == "true" ? false : true);
+				shadows.innerText = getLocalSetting("enableShadows") == "true" ? 'filter' : 'crop_original';
 				// loadPage(body.id);
 				for(let box of document.querySelectorAll('.profile-box'))
 				{
 					box.classList.remove('shadowed');
 					box.classList.remove('unshadowed');
-					if(getSetting("enableShadows") == "true")
+					if(getLocalSetting("enableShadows") == "true")
 						box.classList.add('shadowed');
 					else
 						box.classList.add('unshadowed');
@@ -407,18 +407,18 @@ function renderPage(pageName) {
 		}
 		if(shadows != null) {
 			shadows.style.display = '';
-			shadows.innerText = getSetting("enableShadows") == "true" ? 'filter' : 'crop_original';
+			shadows.innerText = getLocalSetting("enableShadows") == "true" ? 'filter' : 'crop_original';
 		}
 		if(!enableShadows && shadows != null) {
 			shadows.style.display = 'none';
-			// if(getSetting("enableShadows") == "true") {
-				// setSetting("enableShadows", false);
+			// if(getLocalSetting("enableShadows") == "true") {
+				// setLocalSetting("enableShadows", false);
 				// loadPage(body.id);
 			// }
 		}
 		// if(!settingsLoaded && shadows != null)
 			// shadows.addEventListener('click', function() {
-				// setSetting("enableShadows", getSetting("enableShadows") == "true" ? false : true);
+				// setLocalSetting("enableShadows", getLocalSetting("enableShadows") == "true" ? false : true);
 				// loadPage(body.id);
 			// });
 	
@@ -467,7 +467,7 @@ function updateImageNo(image) {
 }
 
 function openViewer(image) {
-	if(getSetting("enableViewer") != "true") return;
+	if(getLocalSetting("enableViewer") != "true") return;
 	document.querySelector('.viewer').style.display = 'block';
 	openImageInViewer(image);
 }
@@ -528,7 +528,7 @@ function openImageInViewer(image) {
 	
 	adjustViewerMargin();
 	
-	setSetting('focused', image.id);
+	setSessionSetting('focused', image.id);
 }
 
 function processImageSourceForViewer(url) {
@@ -569,25 +569,25 @@ function loadPage(pageName) {
 }
 
 function loadSettings() {
-	descriptionClosed = getSetting("descriptionClosed") == "true";
-	if(descriptionClosed == null) setSetting("descriptionClosed", false);
+	descriptionClosed = getLocalSetting("descriptionClosed") == "true";
+	if(descriptionClosed == null) setLocalSetting("descriptionClosed", false);
 	
-	if(!enableDarkMode) setSetting("enableDarkMode", enableDarkMode);
+	if(!enableDarkMode) setLocalSetting("enableDarkMode", enableDarkMode);
 	else {
-		enableDarkMode = getSetting("enableDarkMode") == "true";
-		if(enableDarkMode == null) setSetting("enableDarkMode", enableDarkMode);		
+		enableDarkMode = getLocalSetting("enableDarkMode") == "true";
+		if(enableDarkMode == null) setLocalSetting("enableDarkMode", enableDarkMode);		
 	}
 	
-	if(!enableViewer) setSetting("enableViewer", enableViewer);
+	if(!enableViewer) setLocalSetting("enableViewer", enableViewer);
 	else {
-		enableViewer = getSetting("enableViewer") == "true";
-		if(enableViewer == null) setSetting("enableViewer", enableViewer);		
+		enableViewer = getLocalSetting("enableViewer") == "true";
+		if(enableViewer == null) setLocalSetting("enableViewer", enableViewer);		
 	}
 	
-	if(!enableShadows) setSetting("enableShadows", enableShadows);
+	if(!enableShadows) setLocalSetting("enableShadows", enableShadows);
 	else {
-		enableShadows = getSetting("enableShadows") == "true";
-		if(enableShadows == null) setSetting("enableShadows", enableShadows);
+		enableShadows = getLocalSetting("enableShadows") == "true";
+		if(enableShadows == null) setLocalSetting("enableShadows", enableShadows);
 	}
 }
 
@@ -708,8 +708,8 @@ function renderGallery(array) {
 		if(img[0] == 0 || img[0] == 999) continue;
 		let profileBoxHTML = document.createElement('div');
 		profileBoxHTML.classList.add('profile-box');
-		if(enableShadows && getSetting("enableShadows") == "true") profileBoxHTML.classList.add('shadowed');
-		else if(getSetting("enableShadows") != "true") profileBoxHTML.classList.add('unshadowed');
+		if(enableShadows && getLocalSetting("enableShadows") == "true") profileBoxHTML.classList.add('shadowed');
+		else if(getLocalSetting("enableShadows") != "true") profileBoxHTML.classList.add('unshadowed');
 			let profileBoxImgHTML = document.createElement('div');
 			profileBoxImgHTML.classList.add('profile-box-img');
 				let imgWrapHTML = document.createElement('a');
@@ -721,7 +721,7 @@ function renderGallery(array) {
 					imgHTML.setAttribute('alt', img[1]);
 					imgHTML.setAttribute('src', spacerURL);
 					imgHTML.title = img[4] == "" ? img[3] : img[4];
-					imgHTML.addEventListener('click', function() { setSetting('focused', this.id); });
+					imgHTML.addEventListener('click', function() { setSessionSetting('focused', this.id); });
 					imgWrapHTML.appendChild(imgHTML);
 				profileBoxImgHTML.appendChild(imgWrapHTML);
 			profileBoxHTML.appendChild(profileBoxImgHTML);
@@ -732,20 +732,20 @@ function renderGallery(array) {
 	document.querySelector('#imgGallery').appendChild(profileCategoryHTML);
 	
 	let excludes = [];
-	if(getSetting('excludedImages') != null) excludes = JSON.parse(getSetting('excludedImages'));
+	if(getLocalSetting('excludedImages') != null) excludes = JSON.parse(getLocalSetting('excludedImages'));
 	for(let image of document.querySelector('#imgGallery').getElementsByTagName('img'))
 	{
 		image.src = image.alt;
 		image.removeAttribute('alt');
 		image.parentElement.addEventListener('focus', function() {
-			// if(getSetting("enableViewer") != "true")
+			// if(getLocalSetting("enableViewer") != "true")
 				this.scrollIntoView({
 					behavior: "smooth",
 					inline: "center"
 				});
 		});
 		image.parentElement.addEventListener('click', function() {
-			if(getSetting("enableViewer") == "true")
+			if(getLocalSetting("enableViewer") == "true")
 				openViewer(image);
 			this.scrollIntoView({
 				behavior: "smooth",
@@ -773,20 +773,20 @@ function renderGallery(array) {
 
 function excludeSelectedImage() {
 	if(this.tagName.toLowerCase() != 'img') return;
-	if(getSetting('excludedPopupDecision') == null)
-		setSetting('excludedPopupDecision', confirm(excludedPopupText));
-	if(getSetting('excludedPopupDecision') == 'false')  {
-		setSetting('excludedImages', '[]');
+	if(getLocalSetting('excludedPopupDecision') == null)
+		setLocalSetting('excludedPopupDecision', confirm(excludedPopupText));
+	if(getLocalSetting('excludedPopupDecision') == 'false')  {
+		setLocalSetting('excludedImages', '[]');
 		return;
 	}
 	//get list
 	let excludes = [];
-	if(getSetting('excludedImages') != null) excludes = JSON.parse(getSetting('excludedImages'));
+	if(getLocalSetting('excludedImages') != null) excludes = JSON.parse(getLocalSetting('excludedImages'));
 	if(!excludes.includes(this.id)) excludes.push(this.id);
 	excludeImage(this);
 	
 	//push back list
-	setSetting('excludedImages', JSON.stringify(excludes));
+	setLocalSetting('excludedImages', JSON.stringify(excludes));
 }
 
 function excludeImage(image) {
@@ -857,8 +857,8 @@ function resizeImageHeights() {
 			image.height = window['min-height']; //if small screen hit css maxHeight
 	}
 	
-	if(getSetting('focused'))
-		document.getElementById(getSetting('focused'))
+	if(getSessionSetting('focused'))
+		document.getElementById(getSessionSetting('focused'))
 			.scrollIntoView({
 				behavior: "smooth",
 				inline: "center"
@@ -1076,7 +1076,7 @@ function toggleDarkMode() {
 		document.getElementsByTagName('html')[0].classList.add('darked');
 		themeColor.content = 'black';
 	}
-	toggleSetting("enableDarkMode");
+	toggleLocalSetting("enableDarkMode");
 }
 
 function writeLoadedCount(number) {	
@@ -1208,18 +1208,26 @@ function hashString(str) {
 }
 
 //settings
-function getSetting(settingName) {
+function getLocalSetting(settingName) {
 	return localStorage.getItem(body.id + "_" + settingName);
 }
 
-function setSetting(settingName, settingValue) {
+function setLocalSetting(settingName, settingValue) {
 	localStorage.setItem(body.id + "_" + settingName, settingValue);
 }
 
-function purgeSetting(settingName) {
+function deleteLocalSetting(settingName) {
 	localStorage.removeItem(body.id + "_" + settingName);
 }
 
-function toggleSetting(settingName, settingValue) {
+function toggleLocalSetting(settingName, settingValue) {
 	localStorage.setItem(body.id + "_" + settingName, localStorage.getItem(body.id + "_" + settingName) == "true" ? false : true);
+}
+
+function getSessionSetting(settingName) {
+	return sessionStorage.getItem(body.id + "_" + settingName);
+}
+
+function setSessionSetting(settingName, settingValue) {
+	sessionStorage.setItem(body.id + "_" + settingName, settingValue);
 }
