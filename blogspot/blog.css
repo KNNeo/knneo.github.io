@@ -330,7 +330,6 @@ table.tr-caption-container {
 	border: 1px solid var(--foreground);
 	margin: 12px auto;
 	border-radius: 8px;
-	vertical-align: middle;
 	padding: 12px;
 	overflow: hidden;
 }
