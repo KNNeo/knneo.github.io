@@ -10,7 +10,7 @@
 void Main()
 {
 	string folderpath = @"C:\Users\KAINENG\OneDrive\Pictures\DOAX-VenusVacation\Bromides\"; // ends with backslash
-	string destination = @"C:\Users\KAINENG\OneDrive\Pictures\DOAX-VenusVacation\Bromides\Thumbnails\"; // ends with backslash
+	string destination = @"C:\Users\KAINENG\Pictures\DOAX-VenusVacation\BROMIDES\thumbs\"; // ends with backslash
 	
 	var files = Directory.GetFiles(folderpath, "*.jpg", SearchOption.AllDirectories);
 	foreach(var file in files)
