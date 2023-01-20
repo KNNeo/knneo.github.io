@@ -25,6 +25,7 @@ void Main()
 	var prefixLg = "size" + separator + "lg" + separator;
 	
 	string folderpath = @"C:\Users\KAINENG\OneDrive\Pictures\DOAX-VenusVacation\Bromides\"; // ends with backslash
+	string thumbpath = @"C:\Users\KAINENG\Pictures\DOAX-VenusVacation\BROMIDES\thumbs\"; // ends with backslash
 	string destination = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\image-collage\v2\data.js"; // ends with backslash
 	var files = Directory.GetFiles(folderpath, "*.jpg", SearchOption.AllDirectories)?.Select(f => f.Replace(folderpath, ""));
 	//Console.WriteLine(files);
@@ -35,11 +36,11 @@ void Main()
 		{
 			if(file.StartsWith(prefixSm) || file.StartsWith(prefixMd) || file.StartsWith(prefixLg))
 				continue;
-			if(!File.Exists(folderpath + prefixSm + file))
+			if(!File.Exists(thumbpath + prefixSm + file))
 				throw new Exception("small thumbnail \"" + prefixSm + file + "\" does not exist");
-			if(!File.Exists(folderpath + prefixMd + file))
+			if(!File.Exists(thumbpath + prefixMd + file))
 				throw new Exception("medium thumbnail " + prefixMd + file + "\" does not exist");
-			if(!File.Exists(folderpath + prefixLg + file))
+			if(!File.Exists(thumbpath + prefixLg + file))
 				throw new Exception("large thumbnail " + prefixLg + file + "\" does not exist");
 		}
 		
@@ -54,9 +55,9 @@ void Main()
 			continue;
 		var item = new ImageCollageItem();
 		item.filename = file;
-		item.sm = "file://" + (folderpath + prefixSm + file).Replace("\\", "/");
-		item.md = "file://" + (folderpath + prefixMd + file).Replace("\\", "/");
-		item.lg = "file://" + (folderpath + prefixLg + file).Replace("\\", "/");
+		item.sm = "file://" + (thumbpath + prefixSm + file).Replace("\\", "/");
+		item.md = "file://" + (thumbpath + prefixMd + file).Replace("\\", "/");
+		item.lg = "file://" + (thumbpath + prefixLg + file).Replace("\\", "/");
 		item.og = "file://" + (folderpath + file).Replace("\\", "/");
 		output.Add(item);
 	}
