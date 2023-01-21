@@ -1,12 +1,11 @@
 //--DEFAULT SETTINGS--//
 const pageTitle = 'Video Playlist';
-const channels = [];
 const playlistId = 'PL_jWj0Wl8TG-UlSmo4HG3kDtTJYBO4UgB';
 const apiKey = function() {
 	// contains method to obtain YouTube API v3 key to query
 	return localStorage.getItem('apiKey');
 };
-// to load api, run the following on console: localStorage.setItem('apiKey', 'YOUR_API_KEY');
+const version = '20230121';
 
 //--COMMON EVENTS--//
 //on startup
@@ -47,7 +46,17 @@ function checkLastUpdated(check) {
 	return lastTag == nowTag;
 }
 
+function checkVer() {
+	//for any changes to local storage, can wipe remotely if number not tally
+	if(localStorage.getItem('ver') != version)
+	{
+		localStorage.clear();
+		localStorage.setItem('ver', version);
+	}
+}
+
 function openRequest() {
+	checkVer();
 	initializeVariables();
 	renderMenu();
 	runLoader();
@@ -60,21 +69,28 @@ function onLoadJson(response) {
 	if(response != null) 
 	{
 		// console.log('response available', response);
+		
+		//process the rest
+		let items = response.items.filter(l => l.snippet.thumbnails.default != null);
 		if(response.nextPageToken)
 		{
+			// console.log('next token available', response.nextPageToken);
+			//if fetch same tag, then take from storage, skip load response
 			if(checkLastUpdated(response.etag))
 			{
-				console.log('no change: load from storage');
+				console.log('no change to playlist: load from storage');
 				window['list'] = JSON.parse(localStorage.getItem('list'));
+				window['deleted'] = JSON.parse(localStorage.getItem('deleted'));
 				startup();
 			}
-			else
+			else //load response, get next response via token
 			{
 				if(!window['connected'])
 					localStorage.setItem('etag', response.etag);
-				// console.log('next token available', response.nextPageToken);
-				window['list'] = window['list'].concat(response.items);
-				// console.log(response.items);
+				
+				// console.log(items);
+				window['list'] = window['list'].concat(items);
+				window['deleted'] = window['deleted'].concat(response.items.filter(l => l.snippet.thumbnails.default == null));
 				window['connected'] = true;
 				getJson("https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50" +
 					"&pageToken=" + response.nextPageToken + 
@@ -82,10 +98,11 @@ function onLoadJson(response) {
 					"&key=" + apiKey(), onLoadJson);
 			}
 		}
-		else 
+		else //load last response, start render
 		{
-			window['list'] = window['list'].concat(response.items);
-			// console.log(response.items);
+			// console.log(items);
+			window['list'] = window['list'].concat(items);
+			window['deleted'] = window['deleted'].concat(response.items.filter(l => l.snippet.thumbnails.default == null));
 			window['list'] = window['list'].map(res => {
 				return {
 					video: {
@@ -106,6 +123,7 @@ function onLoadJson(response) {
 			});
 			// console.log('done', window['list']);
 			localStorage.setItem('list', JSON.stringify(window['list']));
+			localStorage.setItem('deleted', JSON.stringify(window['deleted']));
 			startup();
 		}
 	}
@@ -118,6 +136,7 @@ function onLoadJson(response) {
 
 function initializeVariables() {
 	window['list'] = [];
+	window['deleted'] = [];
 	window['loading'] = true;
 	window['connected'] = false;
 }
@@ -127,6 +146,8 @@ function startup() {
 	stopLoader();
 	renderList();
 	window.scrollTo(0,0);
+	if(window['deleted'].length > 0)
+		console.log(window['deleted'].length + ' deleted video(s) detected');
 }
 
 function renderMenu() {
