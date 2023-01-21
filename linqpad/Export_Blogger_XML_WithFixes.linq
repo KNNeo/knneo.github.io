@@ -47,9 +47,7 @@ void Main()
     bool WriteTitleOnConsole = false;
 	bool TraceMode = false;
 	int maxLatestPost = 4;
-	int maxImageExport = 100;
 	string defaultFont = "Noto Sans";
-	string imageExport = "[\"\"";
     Console.WriteLine("WriteTitleOnConsole is " + WriteTitleOnConsole);
     Console.WriteLine("\tPost with changes will appear here");
 	Console.WriteLine("\tIf edit from Blogger img tags will be missing self-enclosing slash, format on web version to fix");
@@ -769,8 +767,8 @@ void Main()
         }
 		
 		//check post
-		if(TraceMode && title == "The Entertainment News 2022 Edition Issue #01")
-			continue;
+		//if(TraceMode && title == "The Entertainment News 2022 Edition Issue #01")
+			//continue;
         
         // Process home page
 		if (TraceMode) Console.WriteLine("Process home page");
@@ -817,11 +815,6 @@ void Main()
     string fileString = File.ReadAllText(blogpath + "\\blog_template.html");
     fileString = fileString.Replace("<div id=\"blog-archive-list\"></div>", ("<div id=\"blog-archive-list\">" + textString + "</div>")).Replace("_FONT_", defaultFont);
     File.WriteAllText(blogpath + "\\blog.html", fileString);
-	
-	//Export list of images with limit
-    //imageExport = "var mosaicArray = " + imageExport.Replace("[\"\",", "[") + "];";
-    //File.WriteAllText(blogpath + "\\blog_images.js", imageExport);
-    
 }
 
 public class MatchItem
