@@ -609,8 +609,8 @@ void Main()
 		
         #region replace common phrases with emoji
 		if(TraceMode) Console.WriteLine("replace common phrases with emoji");
-        var phrases = new string[]{"laughs", "giggles", "sob", "silence", "pukes", "ugh", "wink", "dabs", "thumbs up", "sigh", "blessed", "shrugs"};
-        var emojis = new string[]{"😆", "🤭", "😢", "😐", "🤮", "🙄", "😉", "😎", "👍", "😩", "🥰", "🤷"};
+        var phrases = new string[]{"laughs", "giggles", "sob", "silence", "pukes", "ugh", "wink", "dabs", "thumbs up", "sigh", "blessed", "shrugs", "cringe"};
+        var emojis = new string[]{"😆", "🤭", "😢", "😐", "🤮", "🙄", "😉", "😎", "👍", "😩", "🥰", "🤷", "😬"};
 		
 		for(var e = 0; e < emojis.Length; e++)
 		{
