@@ -87,7 +87,7 @@ function openViewer() {
 function openItemInViewer(link) {
 	//render popup first
 	let item = generatePopupContent(link.target.href);
-	console.log(item);
+	// console.log(item);
 	if(item == null) return;
 	event.preventDefault();
 	
@@ -196,9 +196,19 @@ function adjustViewerMargin() {
 	let viewer = document.getElementById('viewer');
 	if(viewer.childElementCount == 0) return;
 	viewer.style.paddingTop = '0';
-	let image = viewer.getElementsByTagName('img')[0];
-	if(!image.complete) setTimeout(adjustViewerMargin, 200);
-	else viewer.style.paddingTop = (viewer.getBoundingClientRect().height - image.height)/2 + 'px';
+	if(viewer.querySelector('img') != null)
+	{
+		let image = viewer.querySelector('img');		
+		if(!image.complete) setTimeout(adjustViewerMargin, 200);
+		else viewer.style.paddingTop = (viewer.getBoundingClientRect().height - image.height)/2 + 'px';
+	}
+	else if (viewer.querySelector('iframe') != null)
+	{
+		let iframe = viewer.querySelector('iframe');
+		let iframeDoc = iframe.contentWindow;
+		if(iframeDoc == null) setTimeout(adjustViewerMargin, 1000);
+		else viewer.style.paddingTop = (viewer.getBoundingClientRect().height - viewer.querySelector('div').getBoundingClientRect().height)/2 + 'px';
+	}
 }
 
 function closeViewer() {
