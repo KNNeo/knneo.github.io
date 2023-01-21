@@ -19,7 +19,7 @@ void Main()
 		var fileInfo = new FileInfo(file);
 		ResizeImageToNew(file, Path.Combine(destination, "size_sm_" + fileInfo.Name), 200, 0);
 		ResizeImageToNew(file, Path.Combine(destination, "size_md_" + fileInfo.Name), 400, 0);
-		ResizeImageToNew(file, Path.Combine(destination, "size_lg_" + fileInfo.Name), 600, 0);
+		ResizeImageToNew(file, Path.Combine(destination, "size_lg_" + fileInfo.Name), 800, 0);
 	}
 }
 
