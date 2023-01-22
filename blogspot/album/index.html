@@ -14,8 +14,11 @@
 <link rel="icon" href="../storytime.ico" />
 <title>Album Archive</title>
 <body>
-<div class="banner"><span id="counter">0</span> images loaded</div>
-<div id="viewer" style="display: none;"></div>
+<div class="banner">
+<div><span id="counter">0</span> images loaded</div>
+<input id="term" placeholder="Filter by Filename" oninput="onFilterInput()"></input>
+</div>
+<!-- <div id="viewer" style="display: none;"></div> -->
 <div id="contents">
 
 </div>

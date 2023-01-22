@@ -5,13 +5,20 @@ function unique(current, index, all) {
   return all.map(a => a.url).indexOf(current.url) === index;
 }
 
+function onFilterInput() {
+	// console.log(event.target.value);
+	window['filter'] = event.target.value;
+	generateArchive();
+}
+
 function generateArchive() {
 	if(typeof mosaicArray == 'object')
 	{
 		let list = document.querySelector('#contents');
+		list.innerHTML = '';
 		
 		let title = '';
-		for(let mosaic of mosaicArray.filter(unique))
+		for(let mosaic of mosaicArray.filter(unique).filter(m => m.url.includes(window['filter'] || '')))
 		{
 			if(title != mosaic.title)
 			{
