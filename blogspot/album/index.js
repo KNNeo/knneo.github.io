@@ -26,12 +26,11 @@ function generateArchive() {
 			imageDiv.classList.add('tile');
 			
 				let imageSpan = document.createElement('img');
-				imageSpan.style.maxWidth = '200px';
-				imageSpan.style.maxHeight = '200px';
+				imageSpan.classList.add('tile-image');
 				imageSpan.setAttribute('data-image', mosaic.url);
 				imageSpan.addEventListener('click', function() {
-					this.style.maxWidth = this.style.maxWidth == '200px' ? '100vw' : '200px';
-					this.style.maxHeight = this.style.maxHeight == '200px' ? '100vh' : '200px';
+					this.style.maxWidth = this.style.maxWidth == '' ? '100vw' : '';
+					this.style.maxHeight = this.style.maxHeight == '' ? '100vh' : '';
 				});
 				imageSpan.addEventListener('load', function() {
 					if(!this.classList.contains('loaded'))

@@ -41,9 +41,11 @@ body > * {
 	cursor: pointer;
 	padding: 10px;
 }
+
 .closed {
 	display: none;
 }
+
 .box {
 	margin: 5px;
 	vertical-align: top;
@@ -51,6 +53,7 @@ body > * {
 	white-space: normal;
 	touch-action: manipulation;
 }
+
 .tile {
     /* -webkit-transform: translateY(50px); */
     /* transform: translateY(50px) translateZ(0); */
@@ -67,6 +70,10 @@ body > * {
     /* -webkit-transform: translateY(0px); */
     /* transform: translateY(0px) */
     opacity: 1;
+}
+
+.tile-image {
+	max-width: 33%;
 }
 
 .no-delay {
