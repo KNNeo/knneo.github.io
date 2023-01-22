@@ -406,7 +406,8 @@ function cleanupLightbox() {
 function addHoverForLinks() {
 	if(document.getElementsByClassName('post-body entry-content').length == 0) return;
     for (let link of document.getElementsByClassName('post-body entry-content')[0].getElementsByTagName('a')) {
-		if(typeof generateViewer == 'function' && link.target != '')
+		if(typeof generateViewer == 'function' && link.target != '' && 
+		(link.href.includes('twitter.com') || link.href.includes('instagram.com')))
 			link.addEventListener('click', openItemInViewer);
 		else if(link.target != '')
 			link.addEventListener('mouseover', renderPopup);
