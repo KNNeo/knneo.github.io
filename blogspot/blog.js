@@ -543,6 +543,7 @@ function renderEmbedProcess() {
 }
 
 function generatePopupContent(url) {
+	if (!url) return null;
     if (url.includes('.jpg') || url.includes('.png') || url.includes('.gif') || url.includes('blogger.googleusercontent.com')) {
         //process image
         return '<div class="separator"><img style="max-height: 360px; max-width: 100%;" src="' + url + '" /></div>';
