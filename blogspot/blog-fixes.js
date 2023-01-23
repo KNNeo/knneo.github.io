@@ -209,6 +209,8 @@ function adjustViewerMargin() {
 		if(iframeDoc == null) setTimeout(adjustViewerMargin, 1000);
 		else viewer.style.paddingTop = (viewer.getBoundingClientRect().height - viewer.querySelector('div').getBoundingClientRect().height)/2 + 'px';
 	}
+	
+	document.body.style.overflow = 'hidden';
 }
 
 function closeViewer() {
@@ -219,6 +221,8 @@ function closeViewer() {
 	viewer.innerHTML = '';
 	if(viewer.parentElement) viewer.parentElement.style.overflow = '';
 	if(document.getElementById('CloseBtn') != undefined) document.getElementById('CloseBtn').remove();
+	
+	document.body.style.overflow = '';
 }
 
 function displayHeader() {
