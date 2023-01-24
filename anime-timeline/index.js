@@ -403,7 +403,7 @@ function fixOverlayPosition() {
 			console.log(x, y, w, window.outerWidth);
 			if((x + w + 48) >= window.innerWidth)
 				this.getElementsByClassName('show-overlay')[0].style.left = (x - w) + 'px';
-			this.getElementsByClassName('show-overlay')[0].style.top = (y + 22) + 'px';
+			this.getElementsByClassName('show-overlay')[0].style.top = (y) + 'px';
 		});
 	}
 }
