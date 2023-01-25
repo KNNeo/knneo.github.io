@@ -1,3 +1,29 @@
+function readFile(file) {
+	if(file.name.toLowerCase().endsWith('.xml'))
+	{
+		reader = new FileReader();
+		reader.onload = function (e) {
+			let parser = new DOMParser();
+			processXml(parser.parseFromString(e.target.result, 'text/xml'));
+		};
+		reader.readAsText(file);
+		if(document.querySelector('.selector') != null)
+			document.querySelector('.selector').remove();
+	}
+	else
+	{
+		alert('wrong file input');
+	}
+}
+
+function onSelect(e) {
+	var list = e.target.files;
+	// console.log('onSelect', list[0].name, list[0].type);
+	if(list && list.length > 0) {
+		readFile(list[0]);
+	}
+}
+
 function getXml(source, callback) {
 	try
 	{
@@ -22,44 +48,11 @@ function getXml(source, callback) {
 	}
 }
 
-function processXml(doc)
-{
+function processXml(doc) {
 	// console.log(doc);
 	window['doc'] = doc;
-	window['loading'] = false;
-	runLoader();
 	createIndex();
 	generateHomepage();
-}
-
-function runLoader() {
-	if(window['loading'] == undefined) window['loading'] = true;
-	for(let loader of document.querySelectorAll('.loader'))
-	{
-		switch(document.querySelector('.loader').innerText)
-		{
-			case 'hourglass_full': 
-				document.querySelector('.loader').innerText = 'hourglass_empty';
-				break;
-			case 'hourglass_empty': 
-				document.querySelector('.loader').innerText = 'hourglass_bottom';
-				break;
-			case 'hourglass_bottom': 
-				document.querySelector('.loader').innerText = 'hourglass_full';
-				break;
-			default:
-				document.querySelector('.loader').innerText = 'hourglass_empty';
-				break;
-		}
-	}
-	if(window['loading']) setTimeout(runLoader, 200);
-	else
-	{
-		for(let loader of document.querySelectorAll('.loader'))
-		{
-			loader.parentElement.removeChild(loader);
-		}
-	}
 }
 
 function generateHomepage() {
@@ -262,7 +255,6 @@ function createFrame(entry) {
 }
 
 function renderEntry(entry, index, position) {
-	
 	//actual post
 	let contentMain = document.createElement('div');
 	contentMain.id = 'contents-' + position;
@@ -362,7 +354,11 @@ function toggleFrame() {
 }
 
 window.addEventListener('load', function() {
-	runLoader();
-	getXml('https://knneo.github.io/blogspot/blog.xml', processXml);
+	let selector = document.createElement('input');
+	selector.classList.add('selector');
+	selector.type = 'file';
+	selector.accept = 'application/xml';
+	selector.addEventListener('change', onSelect);
+	document.body.appendChild(selector);
 });
 

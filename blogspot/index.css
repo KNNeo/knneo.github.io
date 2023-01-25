@@ -28,7 +28,8 @@
 	display: none;
 }
 
-.content {
+.content,
+.selector {
 	max-width: 760px;
 	margin: auto;
 	background: var(--background);
@@ -78,7 +79,8 @@
     color: var(--primary);
 }
 
-.loader {
+.loader,
+.selector {
     display: flex;
 	height: 100vh;
 	justify-content: center;
