@@ -17,6 +17,7 @@ function readFile(file) {
 }
 
 function onSelect(e) {
+	runLoader();
 	var list = e.target.files;
 	// console.log('onSelect', list[0].name, list[0].type);
 	if(list && list.length > 0) {
@@ -51,6 +52,8 @@ function getXml(source, callback) {
 function processXml(doc) {
 	// console.log(doc);
 	window['doc'] = doc;
+	window['loading'] = false;
+	runLoader();
 	createIndex();
 	generateHomepage();
 }
@@ -89,7 +92,7 @@ function generateHomepage() {
 	content.classList.add('post-body');
 	content.classList.add('entry-content');
 	document.body.appendChild(content);
-	
+		
 	generatePages();
 }
 
@@ -353,7 +356,42 @@ function toggleFrame() {
 	}
 }
 
-window.addEventListener('load', function() {
+function runLoader() {
+	if(window['loading'] == undefined) window['loading'] = true;
+	for(let loader of document.querySelectorAll('.loader'))
+	{
+		switch(document.querySelector('.loader').innerText)
+		{
+			case 'hourglass_full': 
+				document.querySelector('.loader').innerText = 'hourglass_empty';
+				break;
+			case 'hourglass_empty': 
+				document.querySelector('.loader').innerText = 'hourglass_bottom';
+				break;
+			case 'hourglass_bottom': 
+				document.querySelector('.loader').innerText = 'hourglass_full';
+				break;
+			default:
+				document.querySelector('.loader').innerText = 'hourglass_empty';
+				break;
+		}
+	}
+	if(window['loading']) setTimeout(runLoader, 200);
+	else
+	{
+		for(let loader of document.querySelectorAll('.loader'))
+		{
+			loader.remove();
+		}
+	}
+}
+
+window.addEventListener('load', function() {	
+	let loader = document.createElement('div');
+	loader.classList.add('loader');
+	loader.classList.add('material-icons');
+	document.body.appendChild(loader);
+	
 	let selector = document.createElement('input');
 	selector.classList.add('selector');
 	selector.type = 'file';
