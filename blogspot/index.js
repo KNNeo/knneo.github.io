@@ -8,7 +8,7 @@ function getXml(source, callback) {
 				callback(parser.parseFromString(this.responseText, 'text/xml'));			
 			}
 			else if(this.status != 0 && this.status != 200) {
-				console.error('getJson:', this.status);
+				console.error('getXml:', this.status);
 				callback(null);
 			}
 		};
@@ -17,7 +17,7 @@ function getXml(source, callback) {
 	}
 	catch(e)
 	{
-		console.error('getJson: ' + e.message);
+		console.error('getXml: ' + e.message);
 		callback(null);
 	}
 }
@@ -26,8 +26,40 @@ function processXml(doc)
 {
 	// console.log(doc);
 	window['doc'] = doc;
+	window['loading'] = false;
+	runLoader();
 	createIndex();
 	generateHomepage();
+}
+
+function runLoader() {
+	if(window['loading'] == undefined) window['loading'] = true;
+	for(let loader of document.querySelectorAll('.loader'))
+	{
+		switch(document.querySelector('.loader').innerText)
+		{
+			case 'hourglass_full': 
+				document.querySelector('.loader').innerText = 'hourglass_empty';
+				break;
+			case 'hourglass_empty': 
+				document.querySelector('.loader').innerText = 'hourglass_bottom';
+				break;
+			case 'hourglass_bottom': 
+				document.querySelector('.loader').innerText = 'hourglass_full';
+				break;
+			default:
+				document.querySelector('.loader').innerText = 'hourglass_empty';
+				break;
+		}
+	}
+	if(window['loading']) setTimeout(runLoader, 200);
+	else
+	{
+		for(let loader of document.querySelectorAll('.loader'))
+		{
+			loader.parentElement.removeChild(loader);
+		}
+	}
 }
 
 function generateHomepage() {
@@ -37,7 +69,8 @@ function generateHomepage() {
 	document.body.appendChild(home);
 	
 	let homeTitle = document.createElement('h1');
-	homeTitle.innerText = document.title;
+	homeTitle.innerText = 'BLOG';
+	document.title = window['doc'].querySelector('title').textContent;
 	document.querySelector('.home').appendChild(homeTitle);
 	
 	let prelude = document.createElement('p');
@@ -48,7 +81,7 @@ function generateHomepage() {
 	
 	let preLink = document.createElement('a');
 	preLink.href = 'https://knwebreports.blogspot.com/';
-	preLink.innerText = 'Klassic Note Web Reports';
+	preLink.innerText = window['doc'].querySelector('title').textContent;
 	preLink.setAttribute('target', '_blank');
 	
 	preText.appendChild(preLink);
@@ -178,7 +211,7 @@ function createFrame(entry) {
 	let index = window['list'].find(l => l.url == entry.querySelector('link[rel=alternate]').getAttribute('href').replace('https://knwebreports.blogspot.com/', './blog/'))?.id;
 	
 	let listIndex = window['list'].map(l => l.id).indexOf(index);
-	console.log('listIndex', listIndex);
+	// console.log('listIndex', listIndex);
 	
 	//outside div
 	let contentContainer = document.createElement('div');
@@ -328,4 +361,8 @@ function toggleFrame() {
 	}
 }
 
-window.onload = getXml('https://knneo.github.io/blogspot/blog.xml', processXml);
+window.addEventListener('load', function() {
+	runLoader();
+	getXml('https://knneo.github.io/blogspot/blog.xml', processXml);
+});
+

@@ -77,3 +77,10 @@
 .latest a {
     color: var(--primary);
 }
+
+.loader {
+    display: flex;
+	height: 100vh;
+	justify-content: center;
+	align-items: center;
+}
