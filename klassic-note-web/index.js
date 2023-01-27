@@ -1363,7 +1363,7 @@ function queryCoverArt(contents) {
 	let columnIndexReleaseID = contents.columns.indexOf('ReleaseID');
 	if(parseInt(columnIndexReleaseID) > 0)
 	{
-		let query = "SELECT KNYEAR, CoverArt FROM Release WHERE ID = " + row[columnIndexReleaseID];
+		let query = "SELECT KNYEAR, CoverArt FROM Release r WHERE r.ID = " + row[columnIndexReleaseID] + " and r.CoverArt is not null";
 		if(debugMode) 
 			console.log('generateCoverArt', query);
 		queryDb(query, generateCoverArt);
