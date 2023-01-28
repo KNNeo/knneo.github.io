@@ -376,7 +376,8 @@ function runLoader() {
 				break;
 		}
 	}
-	if(window['loading']) setTimeout(runLoader, 200);
+	if(window['loading'] && document.querySelectorAll('.loader').length > 0)
+		setTimeout(runLoader, 500);
 	else
 	{
 		for(let loader of document.querySelectorAll('.loader'))
