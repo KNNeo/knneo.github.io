@@ -115,6 +115,12 @@ function closeViewer() {
 	{
 		focusable.tabIndex = 0;
 	}
+	
+	for(let loader of document.querySelectorAll('.loader'))
+	{
+		loader.remove();
+	}
+	
 	window['active']?.focus();
 }
 
@@ -138,12 +144,13 @@ function runLoader() {
 				break;
 		}
 	}
-	if(window['loading']) setTimeout(runLoader, 500);
+	if(window['loading'] && document.querySelectorAll('.loader').length > 0)
+		setTimeout(runLoader, 500);
 	else
 	{
 		for(let loader of document.querySelectorAll('.loader'))
 		{
-			loader.parentElement.removeChild(loader);
+			loader.remove();
 		}
 	}
 }
