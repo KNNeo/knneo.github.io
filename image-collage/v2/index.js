@@ -828,11 +828,8 @@ function runSlideshow() {
 }
 
 function stopSlideshow() {
-	if(window['slideshow'] != null)
-	{
-		clearTimeout(runSlideshow);
-		window['slideshow'] = null;	
-	}
+	clearTimeout(window['slideshow']);
+	window['slideshow'] = null;
 }
 
 //LOADER//
