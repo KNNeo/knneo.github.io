@@ -425,8 +425,8 @@ const mosaicArray = [
         "og": "https://open.spotify.com/embed/album/2NntpzUApyESbWpuylSP31"
     },
     {
-        "filename": "2012_19jZH4MZhFvICMKIiaxtiT",
-        "sort": "2012_19jZH4MZhFvICMKIiaxtiT",
+        "filename": "2012_capital",
+        "sort": "2012_capital",
         "sm": "https://is4-ssl.mzstatic.com/image/thumb/Music/v4/ab/a8/4e/aba84e3d-4105-819f-756e-63aa2454925c/NIW82.jpg/500x500bb.jpg",
         "md": "https://is4-ssl.mzstatic.com/image/thumb/Music/v4/ab/a8/4e/aba84e3d-4105-819f-756e-63aa2454925c/NIW82.jpg/500x500bb.jpg",
         "lg": "https://is4-ssl.mzstatic.com/image/thumb/Music/v4/ab/a8/4e/aba84e3d-4105-819f-756e-63aa2454925c/NIW82.jpg/500x500bb.jpg",
@@ -540,9 +540,41 @@ const mosaicArray = [
         "filename": "2022KlassicNote@AppleMusicJP",
         "sort": "2022_2022KlassicNote@AppleMusicJP",
         "sm": "https://is3-ssl.mzstatic.com/image/thumb/ItpENF2Vb3ygdNJivUm_KQ/305x305cc.webp",
-        "md": "hhttps://is3-ssl.mzstatic.com/image/thumb/ItpENF2Vb3ygdNJivUm_KQ/305x305cc.webp",
+        "md": "https://is3-ssl.mzstatic.com/image/thumb/ItpENF2Vb3ygdNJivUm_KQ/305x305cc.webp",
         "lg": "https://is3-ssl.mzstatic.com/image/thumb/ItpENF2Vb3ygdNJivUm_KQ/305x305cc.webp",
         "og": "https://music.apple.com/jp/playlist/pl.u-WabZzxVUR9boM4B"
+    },
+    {
+        "filename": "2023KlassicNote@AppleMusicJP",
+        "sort": "2023_2022KlassicNote@AppleMusicJP",
+        "sm": "https://is4-ssl.mzstatic.com/image/thumb/P3WOFFKt_3cq0VhzaHfAJQ/305x305cc.webp",
+        "md": "https://is4-ssl.mzstatic.com/image/thumb/P3WOFFKt_3cq0VhzaHfAJQ/305x305cc.webp",
+        "lg": "https://is4-ssl.mzstatic.com/image/thumb/P3WOFFKt_3cq0VhzaHfAJQ/305x305cc.webp",
+        "og": "https://music.apple.com/jp/playlist/pl.u-gxblvj7IxJqepBN"
+    },
+    {
+        "filename": "2021_caravan",
+        "sort": "2021_caravan",
+        "sm": "https://is3-ssl.mzstatic.com/image/thumb/Music125/v4/18/07/3d/18073d11-510f-05b7-f9f9-e57834c52846/4580074475271.jpg/316x316bb.webp",
+        "md": "https://is3-ssl.mzstatic.com/image/thumb/Music125/v4/18/07/3d/18073d11-510f-05b7-f9f9-e57834c52846/4580074475271.jpg/316x316bb.webp",
+        "lg": "https://is3-ssl.mzstatic.com/image/thumb/Music125/v4/18/07/3d/18073d11-510f-05b7-f9f9-e57834c52846/4580074475271.jpg/316x316bb.webp",
+        "og": "https://music.apple.com/jp/album/1572625035"
+    },
+    {
+        "filename": "2012_1536266360",
+        "sort": "2012_1536266360",
+        "sm": "https://is2-ssl.mzstatic.com/image/thumb/Music124/v4/19/da/dd/19dadd8c-52b3-2c8e-b668-c0420461f0a1/jacket_ESCL03816B00Z_550.jpg/316x316bb.webp",
+        "md": "https://is2-ssl.mzstatic.com/image/thumb/Music124/v4/19/da/dd/19dadd8c-52b3-2c8e-b668-c0420461f0a1/jacket_ESCL03816B00Z_550.jpg/316x316bb.webp",
+        "lg": "https://is2-ssl.mzstatic.com/image/thumb/Music124/v4/19/da/dd/19dadd8c-52b3-2c8e-b668-c0420461f0a1/jacket_ESCL03816B00Z_550.jpg/316x316bb.webp",
+        "og": "https://music.apple.com/jp/album/1536266360"
+    },
+    {
+        "filename": "2015_oao",
+        "sort": "2015_oao",
+        "sm": "https://is3-ssl.mzstatic.com/image/thumb/Music1/v4/bc/04/5a/bc045ad4-58d4-02d6-acb2-b5a65e432c2c/4582241312471_cover.jpg/316x316bb.webp",
+        "md": "https://is3-ssl.mzstatic.com/image/thumb/Music1/v4/bc/04/5a/bc045ad4-58d4-02d6-acb2-b5a65e432c2c/4582241312471_cover.jpg/316x316bb.webp",
+        "lg": "https://is3-ssl.mzstatic.com/image/thumb/Music1/v4/bc/04/5a/bc045ad4-58d4-02d6-acb2-b5a65e432c2c/4582241312471_cover.jpg/316x316bb.webp",
+        "og": "https://open.spotify.com/embed/album/2boy6RHkfQfamuqUgw7AYO"
     },
 ];
 
