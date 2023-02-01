@@ -467,7 +467,7 @@ function onTogglePreset() {
 function onClickGridItem() {
 	if (event.keyCode != 13)
 	{
-		event.preventDefault();
+		// event.preventDefault();
 		return;
 	}
 	
