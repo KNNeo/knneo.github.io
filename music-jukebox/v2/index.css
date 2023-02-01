@@ -70,6 +70,7 @@ body {
   -ms-interpolation-mode: nearest-neighbor;   /* IE (non-standard property) */
 }
 
+.grid-item img:focus,
 .grid-item img:hover {
   transform: scale(1.2);
 }

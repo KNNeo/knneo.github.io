@@ -213,6 +213,7 @@ function generateLayoutMenu() {
 	{
 		let darkmode = document.createElement('a');
 		darkmode.id = 'darkmode';
+		darkmode.title = 'Toggle Dark Mode';
 		darkmode.classList.add('darkmode');
 		darkmode.classList.add('settings-icon');
 		darkmode.classList.add('material-icons');
@@ -225,6 +226,7 @@ function generateLayoutMenu() {
 	{
 		let preset = document.createElement('a');
 		preset.id = 'preset';
+		preset.title = 'Toggle Thumbnail Sizes';
 		preset.classList.add('preset');
 		preset.classList.add('settings-icon');
 		preset.classList.add('material-icons');
@@ -307,8 +309,10 @@ function generateGrid() {
 		
 			let gridItemImage = document.createElement('img');
 		
-			gridItemImage.title = itemName.split(filenameSeparator).join('\n');
+			gridItemImage.tabIndex = '0';
+			gridItemImage.title = itemName.split(filenameSeparator).join('\n') + '\n' + '[Play: Click or press Enter]';
 			gridItemImage.setAttribute('alt', item['og']);
+			gridItemImage.addEventListener('keyup', onClickGridItem);
 			gridItemImage.addEventListener('click', onClickGridItem);
 			gridItemImage.addEventListener('contextmenu', function(e) {
 				e.preventDefault();
@@ -461,6 +465,12 @@ function onTogglePreset() {
 }
 
 function onClickGridItem() {
+	if (event.keyCode != 13)
+	{
+		event.preventDefault();
+		return;
+	}
+	
 	// add loader
 	let player = document.querySelector('.player');
 	let loader = document.createElement('div');
