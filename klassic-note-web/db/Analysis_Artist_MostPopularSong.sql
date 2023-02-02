@@ -8,24 +8,24 @@
 --Compilations Featured
 ------------
 
-select SongTitle from (
-select s.SongTitle
-, (select count(*) from SOTD where sotd.KNID = s.KNID) as 'SOTD Mentions'
-, (select count(*) from SOTM where sotm.KNID = s.KNID) as 'SOTM Mentions'
-, (select count(*) from Award aw where aw.KNID = s.KNID) as 'Awards Nominated'
-, (select count(*) from Award aw where aw.KNID = s.KNID and aw.isWinner = 1) as 'Awards Won'
-, (select count(*) from Ranking r where r.KNID = s.KNID) as 'Ranking Top 20'
-, (select count(*) from Ranking r where r.KNID = s.KNID and r.RankNo = 1) as 'Ranking Top 1'
-, (select count(*) from Compilation c where c.KNID = s.KNID and c.CompilationTitle <> 'GOLD') as 'Compilations Featured'
+select ROW_NUMBER() OVER (ORDER BY Total desc) AS 'Rank', KNYEAR as 'Year', ID, SongTitle as 'Song Title' from (
+select s.ID, s.SongTitle, s.KNYEAR 
+, (select count(*) from SOTD where sotd.SongID = s.ID) as 'SOTD Mentions (x1)'
+, (select 2*count(*) from SOTM where sotm.SongID = s.ID) as 'SOTM Mentions (x2)'
+, (select 3*count(*) from Award aw where aw.SongID = s.ID and aw.isWinner = 0) as 'Awards Nominated (x3)'
+, (select 5*count(*) from Award aw where aw.SongID = s.ID and aw.isWinner = 1) as 'Awards Won (x5)'
+, (select 10*count(*) from Ranking r where r.SongID = s.ID) as 'Ranking Top 20 (x10)'
+, (select 20*count(*) from Ranking r where r.SongID = s.ID and r.RankNo = 1) as 'Ranking Top 1 (x20)'
+, (select 3*count(*) from Compilation c where c.SongID = s.ID and c.SeriesTitle <> 'GOLD') as 'Compilations Featured (x3)'
 , (
-(select count(*) from SOTD where sotd.KNID = s.KNID) +
-(select count(*) from SOTM where sotm.KNID = s.KNID) +
-(select count(*) from Award aw where aw.KNID = s.KNID) +
-(select count(*) from Award aw where aw.KNID = s.KNID and aw.isWinner = 1) +
-(select count(*) from Ranking r where r.KNID = s.KNID) +
-(select count(*) from Ranking r where r.KNID = s.KNID and r.RankNo = 1) +
-(select count(*) from Compilation c where c.KNID = s.KNID and c.CompilationTitle <> 'GOLD')
+(select count(*) from SOTD where sotd.SongID = s.ID) +
+(select 2*count(*) from SOTM where sotm.SongID = s.ID) +
+(select 3*count(*) from Award aw where aw.SongID = s.ID and aw.isWinner = 0) +
+(select 5*count(*) from Award aw where aw.SongID = s.ID and aw.isWinner = 1) +
+(select 10*count(*) from Ranking r where r.SongID = s.ID) +
+(select 20*count(*) from Ranking r where r.SongID = s.ID and r.RankNo = 1) +
+(select 3*count(*) from Compilation c where c.SongID = s.ID and c.SeriesTitle <> 'GOLD')
 ) as 'Total'
 from Song s
-where s.ArtistTitle = 'Ikimonogakari' and Total > 0 order by Total desc
+where s.ArtistTitle = 'Ikimonogakari' and Total > 0 order by Total desc, KNYEAR desc
 )
