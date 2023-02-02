@@ -2406,26 +2406,26 @@ function queryArtistAnalysis(contents) {
 	queryDb(query, generateSongCountByYear);
 	
 	//Most Popular Songs
-	query = "select ROW_NUMBER() OVER (ORDER BY Total) AS 'Rank', KNYEAR as 'Year', ID, SongTitle as 'Song Title' from ( ";
+	query = "select ROW_NUMBER() OVER (ORDER BY Total desc) AS 'Rank', KNYEAR as 'Year', ID, SongTitle as 'Song Title' from ( ";
 	query += "select s.ID, s.SongTitle, s.KNYEAR ";
-	query += ", (select count(*) from SOTD where sotd.SongID = s.ID) as 'SOTD Mentions' ";
-	query += ", (select count(*) from SOTM where sotm.SongID = s.ID) as 'SOTM Mentions' ";
-	query += ", (select count(*) from Award aw where aw.SongID = s.ID) as 'Awards Nominated' ";
-	query += ", (select count(*) from Award aw where aw.SongID = s.ID and aw.isWinner = 1) as 'Awards Won' ";
-	query += ", (select count(*) from Ranking r where r.SongID = s.ID) as 'Ranking Top 20' ";
-	query += ", (select count(*) from Ranking r where r.SongID = s.ID and r.RankNo = 1) as 'Ranking Top 1' ";
-	query += ", (select count(*) from Compilation c where c.SongID = s.ID and c.CompilationTitle <> 'GOLD') as 'Compilations Featured' ";
+	query += ", (select count(*) from SOTD where sotd.SongID = s.ID) as 'SOTD Mentions (x1)' ";
+	query += ", (select 2*count(*) from SOTM where sotm.SongID = s.ID) as 'SOTM Mentions (x2)' ";
+	query += ", (select 3*count(*) from Award aw where aw.SongID = s.ID and aw.isWinner = 0) as 'Awards Nominated (x3)' ";
+	query += ", (select 5*count(*) from Award aw where aw.SongID = s.ID and aw.isWinner = 1) as 'Awards Won (x5)' ";
+	query += ", (select 10*count(*) from Ranking r where r.SongID = s.ID) as 'Ranking Top 20 (x10)' ";
+	query += ", (select 20*count(*) from Ranking r where r.SongID = s.ID and r.RankNo = 1) as 'Ranking Top 1 (x20)' ";
+	query += ", (select 3*count(*) from Compilation c where c.SongID = s.ID and c.SeriesTitle <> 'GOLD') as 'Compilations Featured (x3)' ";
 	query += ", ( ";
 	query += "(select count(*) from SOTD where sotd.SongID = s.ID) + ";
-	query += "(select count(*) from SOTM where sotm.SongID = s.ID) + ";
-	query += "(select count(*) from Award aw where aw.SongID = s.ID) + ";
-	query += "(select count(*) from Award aw where aw.SongID = s.ID and aw.isWinner = 1) + ";
-	query += "(select count(*) from Ranking r where r.SongID = s.ID) + ";
-	query += "(select count(*) from Ranking r where r.SongID = s.ID and r.RankNo = 1) + ";
-	query += "(select count(*) from Compilation c where c.SongID = s.ID and c.CompilationTitle <> 'GOLD') ";
+	query += "(select 2*count(*) from SOTM where sotm.SongID = s.ID) + ";
+	query += "(select 3*count(*) from Award aw where aw.SongID = s.ID and aw.isWinner = 0) + ";
+	query += "(select 5*count(*) from Award aw where aw.SongID = s.ID and aw.isWinner = 1) + ";
+	query += "(select 10*count(*) from Ranking r where r.SongID = s.ID) + ";
+	query += "(select 20*count(*) from Ranking r where r.SongID = s.ID and r.RankNo = 1) + ";
+	query += "(select 3*count(*) from Compilation c where c.SongID = s.ID and c.SeriesTitle <> 'GOLD') ";
 	query += ") as 'Total' ";
 	query += "from Song s ";
-	query += "where s.ArtistTitle = '"+addQuotationInSQLString(artist)+"' and Total > 0 order by Total desc limit 5 ";
+	query += "where s.ArtistTitle = '"+addQuotationInSQLString(artist)+"' and Total > 0 order by Total desc, KNYEAR desc limit 5 ";
 	query += ")";
 
 	if(debugMode) console.log('generatePopularSongs', query);
