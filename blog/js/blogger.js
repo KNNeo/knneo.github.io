@@ -89,7 +89,7 @@ function reduceResults() {
 			innerPostLink.href = link?.href ?? './search/label/The%20Statement';
 			
 			let latestPostTitle = document.createElement('h3');
-			latestPostTitle.innerText = title?.getElementsByTagName('a')[0]?.innerText title ?? statement[0].innerText;
+			latestPostTitle.innerText = title?.getElementsByTagName('a')[0]?.innerText ?? statement[0].innerText;
 			
 			let thumbDiv = document.createElement('div');
 			if(counter > 0) thumbDiv.style.float = 'left';
