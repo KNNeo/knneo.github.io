@@ -66,7 +66,7 @@ function reduceResults() {
 		{
 			//definition and preprocessing
 			let footer = post.getElementsByClassName('post-footer')[0];
-			footer.parentElement.removeChild(footer);
+			if(footer) footer.parentElement.removeChild(footer);
 			let title = post.getElementsByClassName('post-title')[0];
 			let link = title != undefined ? title.getElementsByTagName('a')[0] : undefined;
 			let snippet = post.getElementsByClassName('post-body')[0];
@@ -86,10 +86,10 @@ function reduceResults() {
 			latestPost.classList.add('latest-post');
 							
 			let innerPostLink = document.createElement('a');
-			innerPostLink.href = link != undefined ? link.href : './search/label/The%20Statement';
+			innerPostLink.href = link?.href ?? './search/label/The%20Statement';
 			
 			let latestPostTitle = document.createElement('h3');
-			latestPostTitle.innerText = title != undefined ? title.innerText : statement[0].innerText;
+			latestPostTitle.innerText = title?.getElementsByTagName('a')[0]?.innerText title ?? statement[0].innerText;
 			
 			let thumbDiv = document.createElement('div');
 			if(counter > 0) thumbDiv.style.float = 'left';
