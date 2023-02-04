@@ -13,6 +13,7 @@ window.addEventListener('load', startup);
 function startup() {
 	// To be run async unless otherwise, dependents in with parent functions
 	if(!notBlogger()) addSearchBar();
+	if(!notBlogger()) addMetadata();
 	addObjects();
     if(!notBlogger()) preloadSequence();
     if(!notBlogger()) reduceResults();
@@ -56,6 +57,13 @@ function addSearchBar() {
 		if(document.getElementsByClassName('header-outer').length > 0)
 			document.getElementsByClassName('header-outer')[0].appendChild(search);
 	}
+}
+
+function addMetadata() {	
+	let viewport = document.createElement('meta');
+	viewport.setAttribute('name','viewport');
+	viewport.setAttribute('content','width=device-width,initial-scale=1.0');
+	document.head.appendChild(viewport);
 }
 
 // Add FABs
@@ -683,7 +691,7 @@ function toggleSidebar() {
 	
     if (isMobile())
 		document.getElementById('LinkList1').style.display = toggleDisplay(document.getElementById('LinkList1'), 'none');
-    if (window.innerHeight <= 960)
+    if (window.innerHeight <= 640)
 		document.getElementById('BlogArchive1').style.display = toggleDisplay(document.getElementById('BlogArchive1'), 'none');
 }
 
