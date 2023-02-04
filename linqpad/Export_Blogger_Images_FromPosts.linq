@@ -89,6 +89,6 @@ void Main()
 	//Export list of images with limit
     imageExport = "const mosaicArray = " + imageExport.Replace("[\"\",", "[") + "];";
 	//Console.WriteLine(imageExport);
-    File.WriteAllText(blogpath + "\\blog_images.js", imageExport);
+    File.WriteAllText(blogpath + "\\album\\images.js", imageExport);
     
 }
