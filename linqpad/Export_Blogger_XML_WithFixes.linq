@@ -722,9 +722,9 @@ void Main()
             output.WriteLine("<head>");
             output.WriteLine("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>");
             output.WriteLine("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
-            output.WriteLine("<meta name=\"theme-color\" content=\"white\">");
             output.WriteLine("<meta name=\"apple-mobile-web-app-capable\" content=\"yes\">");
             output.WriteLine("<meta name=\"mobile-web-app-capable\" content=\"yes\">");
+            output.WriteLine("<meta name=\"theme-color\" content=\"white\">");
             output.WriteLine("<link href='https://fonts.googleapis.com/css?family=" + defaultFont + "' rel='stylesheet' />");
 			// cursive font for menu use
             if(content.Contains("Dancing Script")) output.WriteLine("<link href='https://fonts.googleapis.com/css?family=Dancing Script' rel='stylesheet' />");
@@ -732,8 +732,8 @@ void Main()
             output.WriteLine("<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../blog.css\" />");
             output.WriteLine("<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../blogspot.css\" />");
             output.WriteLine("<script src=\"../../../darkmode.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
-			output.WriteLine("<script src=\"https://platform.twitter.com/widgets.js\" type=\"text/javascript\" charset=\"utf-8\" async></script>");
-			output.WriteLine("<script src=\"https://www.instagram.com/embed.js\" type=\"text/javascript\" charset=\"utf-8\" async></script>");
+			//output.WriteLine("<script src=\"https://platform.twitter.com/widgets.js\" type=\"text/javascript\" charset=\"utf-8\" async></script>");
+			//output.WriteLine("<script src=\"https://www.instagram.com/embed.js\" type=\"text/javascript\" charset=\"utf-8\" async></script>");
             output.WriteLine("<link rel=\"icon\" href=\"../../../storytime.ico\" />");
             output.WriteLine("<title>" + title + "</title>");
 			//if(postList.IndexOf(pageLink) == 0)  
