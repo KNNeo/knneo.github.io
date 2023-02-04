@@ -394,7 +394,7 @@ function runLoader() {
 window.addEventListener('load', function() {	
 	let loader = document.createElement('div');
 	loader.classList.add('loader');
-	loader.classList.add('material-icons');
+	// loader.classList.add('material-icons');
 	document.body.appendChild(loader);
 	
 	let selector = document.createElement('input');
