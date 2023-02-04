@@ -761,7 +761,7 @@ void Main()
             output.WriteLine("</div>");
             output.WriteLine("</body>");
             output.WriteLine("<script src=\"../../../blog.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
-            output.WriteLine("<script src=\"../../../blog-fixes.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
+            output.WriteLine("<script src=\"../../../blogspot.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
             output.WriteLine("</html>");
 			
         }

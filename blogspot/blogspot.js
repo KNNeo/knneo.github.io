@@ -1,54 +1,43 @@
-window.onpageshow = filterByTag();
-
-function filterByTag(sourceFilter) {
-	let tag = sourceFilter || window.location.hash.replace('#','');
-	let isAll = tag == "All" || tag == "";
-	window.location.hash = !isAll ? '#' + tag : "";
-	let blogList = document.getElementById("blog-archive-list");
-	let posts = blogList.getElementsByClassName("Post");
-	let count = 0;
-	for(let post of posts)
+//fix urls disable if search on blog
+function redirectInternalUrls() {
+	for(let url of document.getElementsByTagName('a'))
 	{
-		if(post.classList.length == 0 && !isAll)
-		{
-			post.style.display = 'none';
-			post.style.height = 0;
-		}
-		else if(!post.classList.contains(tag) && !isAll)
-		{
-			post.style.display = 'none';
-			post.style.height = 0;
-		}
-		else if(post.classList.contains('TheStatement') && isAll)
-		{
-			post.style.display = 'none';
-			post.style.height = 0;
-		}
-		else
-		{
-			post.style.display = '';
-			post.style.height = '';
-			count++;
-		}
+		if(!url.href.includes('https://knwebreports.blogspot.com/')) continue;
+		if(url.href.includes('search?q=')) url.href = 'javascript:void(0)';
+		if(url.innerText != "Blogger")
+			url.href = url.href.replace('https://knwebreports.blogspot.com/', '../../');
 	}
-	document.getElementsByClassName("Count")[0].innerText = count + " published posts " + (tag == "TheStatement" ? "hidden" : "found");
 }
 
-function randomPost() {
-	let classes = [".TheEntertainmentNews", ".TheEverydayLife", ".TheKlassicNote"];
-	let urls = [];
-	
-	for(let c of classes)
-	{
-		for(let post of document.querySelectorAll(c))
-		{
-			urls.push(post.querySelector('a').href);
-		}
-	}
-	
-	window.location.href = urls[Math.floor(Math.random() * urls.length)];
+//fix image width adjustment breaking contents width
+function removeContentDimensions() {
+	document.getElementById('contents').style.maxWidth = '';
+	document.getElementById('contents').style.maxHeight = '';
+	document.body.style.maxWidth = '';
+	document.body.style.maxHeight = '';
+	if(document.getElementById('contents').style.maxWidth != ''
+	|| document.getElementById('contents').style.maxHeight != ''
+	|| document.body.style.maxWidth != ''
+	|| document.body.style.maxHeight != '')
+		setTimeout(removeContentDimensions, 200);
 }
 
+//add back button to each page
 function goBack() {
-	window.location.href = '../index.html';
+	closePopups();
+	window.history.back();
+}
+
+function generateReadTime() {
+	let contents = document.querySelector('#contents-main');
+	if(contents != null)
+	{
+		let text = contents.innerText;
+		let wpm = 200;
+		let words = text.trim().split(/\s+/).length;
+		let time = Math.ceil(words / wpm);
+		
+		if(document.querySelector('.published') != null)
+			document.querySelector('.published').innerText += ' - ' + time + ' min read';
+	}
 }
