@@ -80,6 +80,10 @@ body > div {
   background: #dddddd;
 }
 
+.settings a {
+	text-decoration: none;
+}
+
 @media only screen and (max-width : 1040px) {
 /*scrollbars for top and bottom labels only on desktop*/
 html { font-size: 100%; }
