@@ -1,4 +1,4 @@
-window.addEventListener("pageshow", filterByTag);
+window.onpageshow = filterByTag();
 
 function filterByTag(sourceFilter) {
 	let tag = sourceFilter || window.location.hash.replace('#','');
