@@ -979,7 +979,7 @@ function resizeImages() {
 			}
             else if (p.width + 20 >= window.outerWidth) //see #main and .separator
                 p.classList.add('img-width-fit');
-            else if (p.width >= imgWidth)
+            else if (p.width < imgWidth)
                 p.classList.add('img-width-auto');
             else
                 p.style.width = imgWidth + 'px';
