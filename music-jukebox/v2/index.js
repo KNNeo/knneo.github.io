@@ -27,6 +27,7 @@ const isWidescreen = function() {
 //--VARIABLES--//
 window.addEventListener('load', startup);
 window.addEventListener('resize', startup);
+if(window.matchMedia('(prefers-color-scheme: dark)').matches) toggleDarkMode();
 
 function startup() {
 	initializeVariables();
@@ -57,6 +58,21 @@ function startup() {
 	
 	window['screenWidth'] = calculateThumbnailSize();
 	generateGrid();
+}
+
+function toggleDarkMode() {
+	let theme = Array.from(document.getElementsByTagName('meta')).filter(m => m.name == 'theme-color');
+	let themeColor = theme[0];
+	if(document.getElementsByTagName('html')[0].classList.contains('darked')) //parent class of each page
+	{
+		document.getElementsByTagName('html')[0].classList.remove('darked');
+		themeColor.content = 'white';
+	}
+	else
+	{
+		document.getElementsByTagName('html')[0].classList.add('darked');
+		themeColor.content = 'black';
+	}
 }
 
 function initializeVariables() {
