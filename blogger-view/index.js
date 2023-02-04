@@ -92,7 +92,7 @@ function generateHomepage() {
 	content.classList.add('post-body');
 	content.classList.add('entry-content');
 	document.body.appendChild(content);
-		
+	
 	generatePages();
 }
 
@@ -242,19 +242,17 @@ function createFrame(entry) {
 			document.querySelector('#contents-right').style.visibility = document.querySelector('#contents-right').getBoundingClientRect().width < 320 ? 'hidden' : '';
 	});
 	
-	setTimeout(startup, 1000);
-	
-	//FABs
-	let back = document.createElement('a');
-	back.id = 'BackBtn';
-	back.title = 'Back';
-		let backIcon = document.createElement('i');
-		backIcon.classList.add('material-icons');
-		backIcon.innerText = 'arrow_back';
-		back.addEventListener('click', toggleFrame);
-		back.appendChild(backIcon);
-	if(document.getElementById('BackBtn') != undefined) document.getElementById('BackBtn').remove();
-	document.body.appendChild(back);	
+	//FAB to close
+	let closeButton = document.createElement('a');
+	closeButton.id = 'CloseBtn';
+	closeButton.title = 'Close Popup';
+	closeButton.addEventListener('click', toggleFrame);
+		let closeButtonIcon = document.createElement('span');
+		// closeButtonIcon.classList.add('material-icons');
+		closeButtonIcon.innerText = 'X';
+		closeButton.appendChild(closeButtonIcon);
+	if(document.getElementById('CloseBtn') != undefined) document.getElementById('CloseBtn').remove();
+	document.body.appendChild(closeButton);	
 }
 
 function renderEntry(entry, index, position) {
@@ -348,12 +346,18 @@ function toggleFrame() {
 		block.classList.toggle('inactive');
 	}
 	goToTop();
-	if(document.getElementById('BackBtn') != undefined) {
+	if(document.getElementById('CloseBtn') != undefined) {
 		
 		document.querySelector('#contents-left')?.remove();
 		document.querySelector('#contents-right')?.remove();
-		document.getElementById('BackBtn').remove();
+		document.getElementById('CloseBtn').remove();
 	}
+}
+
+function goToTop() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+	history.replaceState(null, null, ' ');
 }
 
 function runLoader() {
@@ -362,17 +366,17 @@ function runLoader() {
 	{
 		switch(document.querySelector('.loader').innerText)
 		{
-			case 'hourglass_full': 
-				document.querySelector('.loader').innerText = 'hourglass_empty';
+			case 'Loading.': 
+				document.querySelector('.loader').innerText = 'Loading..';
 				break;
-			case 'hourglass_empty': 
-				document.querySelector('.loader').innerText = 'hourglass_bottom';
+			case 'Loading..': 
+				document.querySelector('.loader').innerText = 'Loading...';
 				break;
-			case 'hourglass_bottom': 
-				document.querySelector('.loader').innerText = 'hourglass_full';
+			case 'Loading...': 
+				document.querySelector('.loader').innerText = 'Loading.';
 				break;
 			default:
-				document.querySelector('.loader').innerText = 'hourglass_empty';
+				document.querySelector('.loader').innerText = 'Loading.';
 				break;
 		}
 	}
