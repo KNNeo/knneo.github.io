@@ -5,7 +5,7 @@
 </Query>
 
 /* NOTES
- * (1) Place blogspot xml file in folderpath
+ * (1) Place blogspot xml file in archivepath
  * (2) Create blogpath since did not do checking for directory exist
  * (3) Change domainLink to desired domain as exported
  * (4) FIX POST ATTRIBUTES and FIX POST CONTENT can be removed as desired
@@ -44,7 +44,7 @@
 
 void Main()
 {
-    bool WriteTitleOnConsole = false;
+    bool WriteTitleOnConsole = true;
 	bool TraceMode = false;
 	int maxLatestPost = 4;
 	string defaultFont = "Noto Sans";
@@ -52,8 +52,9 @@ void Main()
     Console.WriteLine("\tPost with changes will appear here");
 	Console.WriteLine("\tIf edit from Blogger img tags will be missing self-enclosing slash, format on web version to fix");
 	Console.WriteLine("==================================================================================================");
-    string folderpath = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\";
-    string blogpath = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blogspot\";
+    string archivepath = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\";
+    string blogpath = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\";
+    string outputFolder = "pages";
     string filepath = "";
     string domainLink = "https://knwebreports.blogspot.com/";
 	
@@ -61,28 +62,28 @@ void Main()
     string[] sources = Directory.GetFiles(sourcepath, "blog-*.xml");
     if(sources.Length == 1)
 	{
-        if(TraceMode) Console.WriteLine("Source found; Moving to folderpath");
+        if(TraceMode) Console.WriteLine("Source found; Moving to archivepath");
 		
-	    string[] dests = Directory.GetFiles(Path.GetDirectoryName(folderpath), "blog-*.xml");
+	    string[] dests = Directory.GetFiles(Path.GetDirectoryName(archivepath), "blog-*.xml");
 	    if(dests.Length == 1)
 		{
 	        if(TraceMode) Console.WriteLine("Destination file found; Moving to archive");
-        	File.Delete(dests[0].Replace(folderpath, folderpath + @"archive\"));
-        	File.Move(dests[0], dests[0].Replace(folderpath, folderpath + @"archive\"));
+        	File.Delete(dests[0].Replace(archivepath, archivepath + @"archive\"));
+        	File.Move(dests[0], dests[0].Replace(archivepath, archivepath + @"archive\"));
 		}
 		
-        File.Move(sources[0], sources[0].Replace(sourcepath,folderpath));
+        File.Move(sources[0], sources[0].Replace(sourcepath,archivepath));
 	}
     else if(sources.Length == 0)
     {
-        if(TraceMode) Console.WriteLine("No xml source found; proceed in folderpath");
+        if(TraceMode) Console.WriteLine("No xml source found; proceed in archivepath");
     }
     else
     {
-        if(TraceMode) Console.WriteLine("More than 1 source files found; proceed in folderpath");
+        if(TraceMode) Console.WriteLine("More than 1 source files found; proceed in archivepath");
     }
 	
-    string[] xmls = Directory.GetFiles(Path.GetDirectoryName(folderpath), "blog-*.xml");
+    string[] xmls = Directory.GetFiles(Path.GetDirectoryName(archivepath), "blog-*.xml");
     if(xmls.Length == 1)
 	{
         if(TraceMode) Console.WriteLine("File found");
@@ -116,10 +117,10 @@ void Main()
         .Where(entry => !entry.Descendants(app+"draft").Any(draft => draft.Value != "no"));
     
     #region Only For Export
-    var outfolder = Path.Combine(blogpath, "blog\\");
-    if(Directory.Exists(outfolder))
-        Directory.Delete(outfolder, true);
-    Directory.CreateDirectory(outfolder);	
+    var destPath = Path.Combine(blogpath, outputFolder);
+    if(Directory.Exists(destPath))
+        Directory.Delete(destPath, true);
+    Directory.CreateDirectory(destPath);	
     var allTags = new List<string>();
     #endregion
     
@@ -138,7 +139,7 @@ void Main()
         string originalLink = ((entry.Elements(_+"link")
             .FirstOrDefault(e => e.Attribute("rel").Value == "alternate") ?? empty)
             .Attribute("href") ?? emptA).Value;
-        var pageLink = "./" + Path.GetFileNameWithoutExtension(filepath.Replace(filepath, "blog")) + "/" + published.Year.ToString("0000") + "/"  + published.Month.ToString("00") + "/"  + Path.GetFileNameWithoutExtension(originalLink) + "." + type;
+        var pageLink = "./" + Path.GetFileNameWithoutExtension(filepath.Replace(filepath, outputFolder)) + "/" + published.Year.ToString("0000") + "/"  + published.Month.ToString("00") + "/"  + Path.GetFileNameWithoutExtension(originalLink) + "." + type;
 		postList.Add(pageLink);
 	}	
 	
@@ -693,8 +694,8 @@ void Main()
             .FirstOrDefault(e => e.Attribute("rel").Value == "alternate") ?? empty)
             .Attribute("href") ?? emptA).Value;
             
-        var yearfolder = Path.Combine(outfolder, published.Year.ToString("0000"));
-        if(!Directory.Exists(yearfolder)) Directory.CreateDirectory(outfolder);
+        var yearfolder = Path.Combine(destPath, published.Year.ToString("0000"));
+        if(!Directory.Exists(yearfolder)) Directory.CreateDirectory(destPath);
         var monthfolder = Path.Combine(yearfolder, published.Month.ToString("00"));
         if(!Directory.Exists(monthfolder)) Directory.CreateDirectory(monthfolder);
         string outFileName = Path.GetFileNameWithoutExtension(originalLink) + "." + type;
@@ -712,7 +713,7 @@ void Main()
 		else
             Console.Write(".");
         
-        var pageLink = "./" + Path.GetFileNameWithoutExtension(filepath.Replace(filepath, "blog")) + "/" + published.Year.ToString("0000") + "/"  + published.Month.ToString("00") + "/"  + Path.GetFileNameWithoutExtension(originalLink) + "." + type;
+        var pageLink = "./" + Path.GetFileNameWithoutExtension(filepath.Replace(filepath, outputFolder)) + "/" + published.Year.ToString("0000") + "/"  + published.Month.ToString("00") + "/"  + Path.GetFileNameWithoutExtension(originalLink) + "." + type;
         var pageIndex = postList.IndexOf(pageLink);
 		
         // Write output file (partial HTML for Jekyll)
@@ -729,15 +730,15 @@ void Main()
 			// cursive font for menu use
             if(content.Contains("Dancing Script")) output.WriteLine("<link href='https://fonts.googleapis.com/css?family=Dancing Script' rel='stylesheet' />");
             output.WriteLine("<link href=\"https://fonts.googleapis.com/icon?family=Material+Icons\" rel=\"stylesheet\" />");
-            output.WriteLine("<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../blog.css\" />");
+            output.WriteLine("<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../index.css\" />");
             output.WriteLine("<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../blogspot.css\" />");
-            output.WriteLine("<script src=\"../../../darkmode.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
+            output.WriteLine("<script src=\"../../../../darkmode.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
 			//output.WriteLine("<script src=\"https://platform.twitter.com/widgets.js\" type=\"text/javascript\" charset=\"utf-8\" async></script>");
 			//output.WriteLine("<script src=\"https://www.instagram.com/embed.js\" type=\"text/javascript\" charset=\"utf-8\" async></script>");
             output.WriteLine("<link rel=\"icon\" href=\"../../../storytime.ico\" />");
             output.WriteLine("<title>" + title + "</title>");
 			//if(postList.IndexOf(pageLink) == 0)  
-			output.WriteLine("<a id='BackBtn' href='../../../blog.html' title='Go Back'><i class='material-icons'>arrow_back</i></a>");
+			output.WriteLine("<a id='BackBtn' href='../../../index.html' title='Go Back'><i class='material-icons'>arrow_back</i></a>");
 //            if(postList.IndexOf(pageLink) > 0) output.WriteLine("<a id='LeftBtn' href='" + postList[postList.IndexOf(pageLink) - 1].Replace("./", "../../../") + "' title='Newer Post'><i class='material-icons'>arrow_back</i></a>");
             if(postList.IndexOf(pageLink) + 1 < postList.Count) output.WriteLine("<a id='RightBtn' href='" + postList[postList.IndexOf(pageLink) + 1].Replace("./", "../../../") + "' title='Older Post'><i class='material-icons'>arrow_forward</i></a>");
             output.WriteLine("<body class=\"post-body entry-content\">");
@@ -760,8 +761,10 @@ void Main()
             output.Write("<br>");
             output.WriteLine("</div>");
             output.WriteLine("</body>");
-            output.WriteLine("<script src=\"../../../blog.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
             output.WriteLine("<script src=\"../../../blogspot.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
+            output.WriteLine("<script src=\"../../../js/common.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
+            output.WriteLine("<script src=\"../../../js/header.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
+            output.WriteLine("<script src=\"../../../js/viewer.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
             output.WriteLine("</html>");
 			
         }
@@ -812,9 +815,9 @@ void Main()
     }
     
     //Write into home page
-    string fileString = File.ReadAllText(blogpath + "\\blog_template.html");
+    string fileString = File.ReadAllText(blogpath + "\\template.html");
     fileString = fileString.Replace("<div id=\"blog-archive-list\"></div>", ("<div id=\"blog-archive-list\">" + textString + "</div>")).Replace("_FONT_", defaultFont);
-    File.WriteAllText(blogpath + "\\blog.html", fileString);
+    File.WriteAllText(blogpath + "\\index.html", fileString);
 }
 
 public class MatchItem
