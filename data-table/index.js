@@ -1,5 +1,5 @@
 //--VARIABLES--//
-let fileUrl = 'https://knneo.github.io/klassic-note-table/klassic-note-database-song-table.csv';
+let fileUrl = 'https://knneo.github.io/data-table/klassic-note-database-song-table.csv';
 let maxRows = 100;
 //presets: based on query table columns, else will ignore
 let presets = [
