@@ -563,7 +563,7 @@ function setPageElements(content) {
 	setTimeout(function () {
 		scrollToMainPage(this, true);
 	}, 500);
-	if(window['no-editor'])
+	if(window['no-editor'] && document.querySelector('.button-editor') != null)
 	{
 		document.querySelector('.button-editor').style.display = 'none';
 		localStorage.removeItem('elements');
@@ -656,5 +656,5 @@ function startup() {
 	window['loaded'] = true;
 	if(firstLoad) startup();
 	
-	closeViewer();
+	if(typeof closeViewer == 'function') closeViewer();
 }
