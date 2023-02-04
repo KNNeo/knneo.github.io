@@ -689,9 +689,9 @@ function toggleSidebar() {
     let aside = outer.getElementsByTagName('aside')[0];
     aside.style.display = toggleDisplay(aside, 'block');
 	
-    if (isMobile())
-		document.getElementById('LinkList1').style.display = toggleDisplay(document.getElementById('LinkList1'), 'none');
     if (window.innerHeight <= 640)
+		document.getElementById('LinkList1').style.display = toggleDisplay(document.getElementById('LinkList1'), 'none');
+    if (window.innerHeight <= 960)
 		document.getElementById('BlogArchive1').style.display = toggleDisplay(document.getElementById('BlogArchive1'), 'none');
 }
 
