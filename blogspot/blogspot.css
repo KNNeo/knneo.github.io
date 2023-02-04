@@ -78,7 +78,7 @@ a:hover {
     color: var(--primary);
 }
 
-@media only screen and (max-width: 1040px) {
+@media only screen and (max-width: 1024px) {
 	body {
 		max-width: auto !important;
 		font-size: 14px;

@@ -1,6 +1,6 @@
 //constants
 const notBlogger = function() {
-	return window.location.href.includes('knneo.github.io');
+	return window.location.href.includes('knneo.github.io'); //if false, is blogger
 };
 const isMobile = function() {
     const match = window.matchMedia('(pointer:coarse)');
@@ -11,24 +11,25 @@ const isMobile = function() {
 window.addEventListener('load', startup);
 
 function startup() {
-	// To be in sequence unless otherwise
-	loadExternal();
+	// To be run async unless otherwise, dependents in with parent functions
+	if(!notBlogger()) addSearchBar();
 	addObjects();
-    preloadSequence();
-    reduceResults();
+    if(!notBlogger()) preloadSequence();
+    if(!notBlogger()) reduceResults();
     // fixPopup();
-    fixLabelResults();
-	fixNavigationResults();
-    olderNewerTextToIcon();
-    addLabelForNavigation();
-	fixLightbox();
+    if(!notBlogger()) fixLabelResults();
+	if(!notBlogger()) fixNavigationResults();
+    if(!notBlogger()) olderNewerTextToIcon();
+    if(!notBlogger()) addLabelForNavigation();
+	if(!notBlogger()) fixLightbox();
     addHashtags();
     addHoverForLinks();
-    addHoverOnExpander();
+    if(!notBlogger()) addHoverOnExpander();
 	resizeImages();
 	// hideImagesOnError();
 	// videoifyGIFs();
 	displayFAB();
+	if(typeof redirectInternalUrls == 'function') redirectInternalUrls();
 	if(typeof generateViewer == 'function') generateViewer();
 	if(typeof generateHeader == 'function') generateHeader();
 	if(typeof generateReadTime == 'function') generateReadTime();
@@ -42,62 +43,11 @@ function startup() {
 	setTimeout(resizeImages, 500);
 }
 
-// FUNCTIONS, in startup order //
-// Add custom scripts to only add this script on layout
-function loadExternal() {
-	if(notBlogger()) return;
-	
-	let viewport = document.createElement('meta');
-	viewport.setAttribute('name','viewport');
-	viewport.setAttribute('content','width=device-width,initial-scale=1.0');
-	document.head.appendChild(viewport);
+//==FUNCTIONS==//
 
-	let apple = document.createElement('meta');
-	apple.setAttribute('name','apple-mobile-web-app-capable');
-	apple.setAttribute('content','yes');
-	document.head.appendChild(apple);
-
-	let mobile = document.createElement('meta');
-	mobile.setAttribute('name','mobile-web-app-capable');
-	mobile.setAttribute('content','yes');
-	document.head.appendChild(mobile);
-	
-	let theme = document.createElement('meta');
-	theme.name = 'theme-color';
-	theme.content = 'black';
-	document.head.appendChild(theme);
-	
-	let fontCss = document.createElement('link');
-	fontCss.href = 'https://fonts.googleapis.com/css?family=Open Sans';
-	// fontCss.type = 'text/css';
-	fontCss.rel = 'stylesheet'
-	document.head.appendChild(fontCss);
-	
-	let iconCss = document.createElement('link');
-	iconCss.href = 'https://fonts.googleapis.com/icon?family=Material+Icons';
-	// iconCss.type = 'text/css';
-	iconCss.rel = 'stylesheet'
-	document.head.appendChild(iconCss);
-	
-	let twScript = document.createElement('script');
-	twScript.src = 'https://platform.twitter.com/widgets.js';
-	twScript.type = 'text/javascript';
-	twScript.charset = 'utf-8';
-	twScript.async = 'async';
-	document.head.appendChild(twScript);
-	
-	let inScript = document.createElement('script');
-	inScript.src = 'https://www.instagram.com/embed.js';
-	inScript.type = 'text/javascript';
-	inScript.charset = 'utf-8';
-	inScript.async = 'async';
-	document.head.appendChild(inScript);
-}
-
-// Add search bar, floating action buttons
-function addObjects() {
-	//search bar
-	if(!window.location.href.includes("knneo.github.io")) {
+// Add search bar
+function addSearchBar() {
+	if(!notBlogger()) {
 		let search = document.createElement('div');
 		search.id = 'CustomBlogSearch';
 		search.innerHTML = '<div class="widget-content"><div id="_form"><form action="' + window.location.origin + '/search" class="gsc-search-box" target="_top"><div cellpadding="0" cellspacing="0" class="gsc-search-box"><div><div><span class="gsc-input"><input id="BlogSearch" autocomplete="off" class="gsc-input" name="q" size="10" title="search" type="text" value=""></span><span class="gsc-search-button" style="display: none;"><input class="gsc-search-button" name="max-results" title="search" type="submit" value="5"></span></div></div></div></form></div></div>';
@@ -106,75 +56,52 @@ function addObjects() {
 		if(document.getElementsByClassName('header-outer').length > 0)
 			document.getElementsByClassName('header-outer')[0].appendChild(search);
 	}
+}
+
+// Add FABs
+function addObjects() {
+	addFAB('GoToTopBtn', 'Back To Top', 'arrow_upward', goToTop);
 	
-	//FABs
-	let topButton = document.createElement('a');
-	topButton.id = 'GoToTopBtn';
-	topButton.title = 'Back To Top';
-		let topButtonIcon = document.createElement('i');
-		topButtonIcon.classList.add('material-icons');
-		topButtonIcon.innerText = 'arrow_upward';
-		topButton.appendChild(topButtonIcon);
-	if(document.getElementById('GoToTopBtn') != undefined) document.getElementById('GoToTopBtn').remove();
-	document.body.appendChild(topButton);
+	if(!notBlogger())
+		addFAB('SearchBtn', 'Search Blog', 'search', toggleSearch);
 	
-	if(!window.location.href.includes("knneo.github.io"))
-	{
-		let searchButton = document.createElement('a');
-		searchButton.id = 'SearchBtn';
-		searchButton.title = 'Search Blog';
-			let searchButtonIcon = document.createElement('i');
-			searchButtonIcon.classList.add('material-icons');
-			searchButtonIcon.innerText = 'search';
-			searchButton.appendChild(searchButtonIcon);
-		if(document.getElementById('SearchBtn') != undefined) document.getElementById('SearchBtn').remove();
-		document.body.appendChild(searchButton);
-	}
+	if(notBlogger())
+		addFAB('DarkModeBtn', 'Toggle Dark Mode', 'brightness_high', toggleDarkMode);
 	
-	if(window.location.href.includes("knneo.github.io"))
-	{
-		let darkButton = document.createElement('a');
-		darkButton.id = 'DarkModeBtn';
-		darkButton.title = 'Toggle Dark Mode';
-			let darkButtonIcon = document.createElement('i');
-			darkButtonIcon.classList.add('material-icons');
-			darkButtonIcon.innerText = 'brightness_high';
-			darkButton.appendChild(darkButtonIcon);
-		if(document.getElementById('DarkModeBtn') != undefined) document.getElementById('DarkModeBtn').remove();
-		document.body.appendChild(darkButton);
-	}
-	
-	let sidebarButton = document.createElement('a');
-	sidebarButton.id = 'SidebarBtn';
-	sidebarButton.title = 'Toggle Sidebar';
-		let sidebarButtonIcon = document.createElement('i');
-		sidebarButtonIcon.classList.add('material-icons');
-		sidebarButtonIcon.innerText = 'menu';
-		sidebarButton.appendChild(sidebarButtonIcon);
-	if(document.getElementById('SidebarBtn') != undefined) document.getElementById('SidebarBtn').remove();
-	document.body.appendChild(sidebarButton);
-		
-	document.getElementById('GoToTopBtn').addEventListener('click', goToTop);
-	if(!window.location.href.includes("knneo.github.io")) document.getElementById('SearchBtn').addEventListener('click', toggleSearch);
-	document.getElementById('SidebarBtn').addEventListener('click', toggleSidebar);
-	if(window.location.href.includes("knneo.github.io")) document.getElementById('DarkModeBtn').addEventListener('click', toggleDarkMode);
+	if(!notBlogger())
+		addFAB('SidebarBtn', 'Toggle Sidebar', 'menu', toggleSidebar);
+}
+
+function addFAB(id, title, googleIconName, clickEvent) {
+	let fabButton = document.createElement('a');
+	fabButton.id = id;
+	fabButton.title = title;
+	if(clickEvent) fabButton.addEventListener('click', clickEvent);
+		let fabButtonIcon = document.createElement('i');
+		fabButtonIcon.classList.add('material-icons');
+		fabButtonIcon.innerText = googleIconName;
+		fabButton.appendChild(fabButtonIcon);
+	if(document.getElementById(id) != undefined) document.getElementById(id).remove();
+	document.body.appendChild(fabButton);
 }
 
 // Reload based on first visit: if no 'm=0/1' add, if m=0 edit older posts and newer posts URL
 function preloadSequence() {
     //initial URL visit fix
-    var firstVisit = window.location.href;
-    if (firstVisit.includes("/search/label/The%20Entertainment%20News"))
+    if (window.location.href.includes("/search/label/The%20Entertainment%20News"))
 		document.getElementById("hashtags").remove();
 	
 	//open body if no other fixes
-	document.body.style.display = 'block';
-	if(!window.location.href.includes("knneo.github.io")) document.getElementById("SearchBtn").style.display = 'block';
-	if (window.innderWidth < 1040)
-		document.getElementById("SidebarBtn").style.display = 'block';
+	if(!notBlogger())
+		document.body.style.display = 'block';
+	//not needed, see displayFAB()
+	// if(!notBlogger())
+		// document.getElementById("SearchBtn").style.display = 'block';
+	// if (window.innderWidth < 1040)
+		// document.getElementById("SidebarBtn").style.display = 'block';
 	
 	//pre-load images to prevent thumbnail height check fail
-	preloadImages();
+	// preloadImages();
 }
 
 // For search, collapse all results
@@ -312,26 +239,6 @@ function reduceResults() {
 	}
 }
 
-// Fix only all old thumbnail div with images, not for span
-function fixPopup() {
-    for (let popup of document.getElementsByClassName('popup')) {
-        if (popup.getElementsByTagName('table').length < 2) continue;
-
-        let newInitial = document.createElement('DIV');
-        newInitial.className = 'thumbnail-initial hover-hidden';
-        newInitial.innerHTML = popup.getElementsByClassName('initial')[0].innerHTML;
-        let newPop = document.createElement('DIV');
-        newPop.className = 'thumbnail-initial thumbnail-pop hover-visible';
-        newPop.innerHTML = popup.getElementsByClassName('pop')[0].innerHTML;
-        popup.innerHTML = '';
-        popup.appendChild(newInitial);
-        popup.appendChild(newPop);
-
-        popup.className = 'thumbnail';
-    }
-}
-
-
 // Fix search results to return 5 results instead of 1
 function fixLabelResults() {
 	if(document.getElementById("Label1") == undefined) return;
@@ -400,6 +307,103 @@ function cleanupLightbox() {
         document.getElementsByClassName("CSS_LIGHTBOX_BG_MASK_TRANSPARENT")[0].style.height = "120%";
     }
 	document.getElementById("Blog1").removeEventListener("click", cleanupLightbox);
+}
+
+// Add hashtags for Entertainment News posts with anchors
+function addHashtags() {
+	//ignore old id and if is search result
+	let elements = document.querySelectorAll("[id='hashtags']");
+	if(elements.length > 1 && window.location.href.includes("/search")) {
+		for(let element of elements) {
+			element.style.display = 'none';
+		}
+		return;
+	}
+	
+	var hashtags = [];
+	
+	let hashTag = document.getElementById("hashtags");
+	if(hashTag == null) return;
+	if(hashTag.childElementCount > 0 && hashTag.innerHTML.includes("<a>")) {
+		//render search href on hashtags list
+		let childDivs = hashTag.getElementsByTagName('a');
+		for(let tag of childDivs) {
+			hashtags.push({
+				tag: tag.innerText.substring(1), 
+				target: "\"/search?q=" + tag.innerText.substring(1)
+			});
+		}
+	}
+	hashTag.innerHTML = '';
+	
+	//add hiddenTags direct to search
+	let hiddenTags = document.querySelectorAll("[id='hiddenTags']");
+	if(hiddenTags.length > 0) {
+		var topicList = hiddenTags[0].innerText.split(",");
+		for(var topic of topicList) {
+			// hashtags += "<a href=\"/search?q=" + topic.trim() + "\">#" + topic.trim() + "</a> ";
+			// document.getElementById("hashtags").innerHTML = hashtags;
+			// document.getElementById("hiddenTags").remove();
+			
+			hashtags.push({
+				tag: topic.trim(), 
+				target: "\"/search?q=" + topic.trim()
+			});
+		}	
+	}
+	
+	//add anime
+	for(var topic of document.querySelectorAll("#contents .anime"))
+	{
+		//if last 2 characters do not render a number, do not add
+		var numeric = parseInt(topic.id.slice(-2)) || -1;
+		if(numeric < 0) continue;
+		hashtags.push({
+			tag: topic.id.substring(0,topic.id.length-2), 
+			target: topic.id
+		});
+	}
+	
+	//add klassic note
+	let klassicNoteSpan = '';
+	for(let span of document.querySelectorAll("#contents span")) {
+		if(span.innerText == "This Week on Klassic Note") {
+			//set id on class
+			span.id = "KlassicNote";
+			hashtags.push({
+				tag: "ThisWeekOnKlassicNote", 
+				target: span.id
+			});
+			break;
+		}
+	}
+	
+	//render
+	if(hashtags.length == 0) return;
+	for(let item of hashtags)
+	{
+		let newItem = document.createElement('a');
+		newItem.title = item.target.includes("/search") ? "" : item.target;
+		// newItem.style.paddingRight = '3px';
+		newItem.innerText = '#' + item.tag;
+		newItem.href = item.target.includes("/search") && !window.location.href.includes("knneo.github.io") ? item.target : 'javascript:void(0);';
+		if(!item.target.includes("/search"))
+			newItem.addEventListener('click', function() {
+				window.location.hash = this.title;
+				// scrollToSectionByUrl();
+			});
+		hashTag.appendChild(newItem);
+	}
+}
+
+function scrollToSectionByUrl() {
+	if(window.location.hash.length > 0)
+	{
+		// let hash = window.location.hash;
+		// let target = hash.length > 0 ? document.querySelector(hash) : null;
+		let newPos = document.documentElement.scrollTop + (document.querySelector(window.location.hash)?.getBoundingClientRect().top || 0) - (document.querySelector('.header')?.getBoundingClientRect().height || 0) - 5;
+		document.documentElement.scrollTop = newPos;
+	}
 }
 
 // Popup element, based on content type
@@ -532,6 +536,29 @@ function renderPopup() {
 
 function renderEmbedProcess() {
 	try {
+		
+		if(document.querySelector('#tweet') == null)
+		{
+			let tweet = document.createElement('script');
+			tweet.id = 'tweet';
+			tweet.src = 'https://platform.twitter.com/widgets.js';
+			tweet.type = 'text/javascript';
+			tweet.charset = 'utf-8';
+			tweet.async = 'async';
+			document.head.appendChild(tweet);
+		}
+		
+		if(document.querySelector('#insta') == null)
+		{
+			let insta = document.createElement('script');
+			insta.id = 'insta';
+			insta.src = 'https://www.instagram.com/embed.js';
+			insta.type = 'text/javascript';
+			insta.charset = 'utf-8';
+			insta.async = 'async';
+			document.head.appendChild(insta);
+		}
+		
 		twttr.widgets.load(); // to render twitter embed
 		window.instgrm.Embeds.process(); // to render instagram embed
 		return true;
@@ -586,103 +613,6 @@ function generatePopupContent(url) {
             url + '" style="height:min(50vh,450px);width:min(98%,760px);"></iframe>';
     }
     return null;
-}
-
-// Add hashtags for Entertainment News posts with anchors
-function addHashtags() {
-	//ignore old id and if is search result
-	let elements = document.querySelectorAll("[id='hashtags']");
-	if(elements.length > 1 && window.location.href.includes("/search")) {
-		for(let element of elements) {
-			element.style.display = 'none';
-		}
-		return;
-	}
-	
-	var hashtags = [];
-	
-	let hashTag = document.getElementById("hashtags");
-	if(hashTag == null) return;
-	if(hashTag.childElementCount > 0 && hashTag.innerHTML.includes("<a>")) {
-		//render search href on hashtags list
-		let childDivs = hashTag.getElementsByTagName('a');
-		for(let tag of childDivs) {
-			hashtags.push({
-				tag: tag.innerText.substring(1), 
-				target: "\"/search?q=" + tag.innerText.substring(1)
-			});
-		}
-	}
-	hashTag.innerHTML = '';
-	
-	//add hiddenTags direct to search
-	let hiddenTags = document.querySelectorAll("[id='hiddenTags']");
-	if(hiddenTags.length > 0) {
-		var topicList = hiddenTags[0].innerText.split(",");
-		for(var topic of topicList) {
-			// hashtags += "<a href=\"/search?q=" + topic.trim() + "\">#" + topic.trim() + "</a> ";
-			// document.getElementById("hashtags").innerHTML = hashtags;
-			// document.getElementById("hiddenTags").remove();
-			
-			hashtags.push({
-				tag: topic.trim(), 
-				target: "\"/search?q=" + topic.trim()
-			});
-		}	
-	}
-	
-	//add anime
-	for(var topic of document.querySelectorAll("#contents .anime"))
-	{
-		//if last 2 characters do not render a number, do not add
-		var numeric = parseInt(topic.id.slice(-2)) || -1;
-		if(numeric < 0) continue;
-		hashtags.push({
-			tag: topic.id.substring(0,topic.id.length-2), 
-			target: topic.id
-		});
-	}
-	
-	//add klassic note
-	let klassicNoteSpan = '';
-	for(let span of document.querySelectorAll("#contents span")) {
-		if(span.innerText == "This Week on Klassic Note") {
-			//set id on class
-			span.id = "KlassicNote";
-			hashtags.push({
-				tag: "ThisWeekOnKlassicNote", 
-				target: span.id
-			});
-			break;
-		}
-	}
-	
-	//render
-	if(hashtags.length == 0) return;
-	for(let item of hashtags)
-	{
-		let newItem = document.createElement('a');
-		newItem.title = item.target.includes("/search") ? "" : item.target;
-		// newItem.style.paddingRight = '3px';
-		newItem.innerText = '#' + item.tag;
-		newItem.href = item.target.includes("/search") && !window.location.href.includes("knneo.github.io") ? item.target : 'javascript:void(0);';
-		if(!item.target.includes("/search"))
-			newItem.addEventListener('click', function() {
-				window.location.hash = this.title;
-				// scrollToSectionByUrl();
-			});
-		hashTag.appendChild(newItem);
-	}
-}
-
-function scrollToSectionByUrl() {
-	if(window.location.hash.length > 0)
-	{
-		// let hash = window.location.hash;
-		// let target = hash.length > 0 ? document.querySelector(hash) : null;
-		let newPos = document.documentElement.scrollTop + (document.querySelector(window.location.hash)?.getBoundingClientRect().top || 0) - (document.querySelector('.header')?.getBoundingClientRect().height || 0) - 5;
-		document.documentElement.scrollTop = newPos;
-	}
 }
 
 // Floating action button events
@@ -804,7 +734,7 @@ function displayFAB() {
 }
 
 function windowOnResize() {
-	if (window.innerWidth >= 1040) {
+	if (window.innerWidth >= 1025) {
 		if(document.getElementById('LinkList1') != null) document.getElementById('LinkList1').style.display = '';
 		if(document.getElementById('BlogArchive1') != null) document.getElementById('BlogArchive1').style.display = '';	
 		let outer = document.getElementsByClassName('column-left-outer')[0];

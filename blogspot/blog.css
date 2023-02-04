@@ -454,6 +454,9 @@ input.gsc-input {
     margin-left: auto;
     margin-right: auto;
   }
+  #SidebarBtn {
+	  display: block;
+  }
   #blog-pager.blog-pager {
     /* padding: 0 1em 1em 0; */
     margin: 0;
