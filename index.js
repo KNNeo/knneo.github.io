@@ -8,8 +8,6 @@ const isFirefox = (/Firefox/i.test(navigator.userAgent));
 
 //*dark mode check*//
 window.addEventListener('load', function() {
-	setDarkMode();
-	addDarkModeEvents();
 	renderElements();
 	showLocal();
 	showDimensions();

@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="../darkmode.css">
     <link rel="stylesheet" type="text/css" href="index.css">
 	<link rel="manifest" href="manifest.json">
+	<script src="../darkmode.js" type="application/javascript" charset="utf-8"></script>
 </head>
 <body>
 	<div id="header" class="calc centered" style="position: relative;">
@@ -77,7 +78,7 @@
 	</div>
 	<div id="settings" class="calc centered settings">
 		<a id="autoplay" class="autoplay setting material-icons" href="javascript:void(0);" data-alt="music_note" title="Toggle Autoplay">music_off</a>
-		<a id="darkmode" title="Toggle Dark Mode" class="darkmode material-icons" href="javascript:void(0);">brightness_high</a>
+		<a id="darkmode" title="Toggle Dark Mode" class="darkmode material-icons" href="javascript:void(0);" onclick="toggleDarkMode()">brightness_high</a>
 		<span style="border-left: 3px solid; padding: 0 3px;"></span>
 		<a id="song-queue" title="Toggle Queue" class="material-icons" href="javascript:void(0);" onclick="showContextMenu()" data-context="playlist">format_list_bulleted</a>
 		<a id="shuffle-mode" title="Toggle Shuffle Mode" class="setting material-icons" data-alt="shuffle_on" href="javascript:void(0);">shuffle</a>
