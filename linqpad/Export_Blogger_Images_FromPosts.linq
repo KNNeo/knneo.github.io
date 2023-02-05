@@ -18,7 +18,7 @@ void Main()
 	Console.WriteLine("Image domains to detect are:\n*" + string.Join("\n*", includedDomains));
 	Console.WriteLine("==================================================================================================");
     string folderpath = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\";
-    string blogpath = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blogspot\";
+    string blogpath = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\";
     string filepath = "";
 	
     string[] xmls = Directory.GetFiles(Path.GetDirectoryName(folderpath), "blog-*.xml");
