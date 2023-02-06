@@ -196,3 +196,9 @@ function closeViewer() {
 	document.body.style.overflow = '';
 }
 
+window.addEventListener('keyup', onKeyUp);
+
+function onKeyUp() {
+	// if escape close viewer
+	if(event.keyCode == 27 && typeof closeViewer == 'function') closeViewer();
+}
