@@ -1,22 +1,41 @@
+/*Variables*/
+:root {
+  --primary: #0065ff;
+  --secondary: #609fff;
+  --background: #fff;
+  --foreground: #000;
+}
+.darked:root {
+  --primary: #00e4ff;
+  --secondary: #00abbf;
+  --background: #000;
+  --foreground: #fff;
+}
 html {
 	font-family: Open Sans;
 	font-size: 12px;
 	margin: auto;
-	color-scheme: light;
-}
-html.darked {
-	color-scheme: dark;	
+	background-color: var(--background);
+	color: var(--foreground);
 }
 body {
 	width: 100%;
 	margin: 0;
 }
+a, button {
+	background-color: var(--background);
+	color: var(--foreground);
+}
 a {
+	cursor: pointer;
+	text-decoration: none;
+	text-align: center;
 	margin: 5px;
 }
 button {
+	border: 1px solid var(--foreground);
 	margin: 5px 0;
-	box-shadow: 0;
+	box-shadow: 0;	
 }
 h4, h5 {
 	margin: 3px;
