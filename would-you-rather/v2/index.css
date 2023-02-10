@@ -1,11 +1,36 @@
+/*Variables*/
+:root {
+  --primary: #1b00ff;
+  --secondary: #609fff;
+  --background: #fff;
+  --foreground: #000;
+}
+
+.darked:root {
+  --primary: #00e4ff;
+  --secondary: #00abbf;
+  --background: #000;
+  --foreground: #fff;
+}
+
 html {
-  background-color: white;
+	background-color: var(--background);
+	color: var(--foreground);
 }
 
 body {
   font-family: Open Sans;
   max-width: 640px;
   margin: auto;
+}
+
+a {
+	color: var(--primary);
+}
+
+button, textarea {
+	background-color: var(--background);
+	color: var(--foreground);
 }
 
 #input-module {
@@ -27,8 +52,7 @@ h1 {
 
 button {
   font-family: Open Sans;
-  background-color: white;
-  border: 1px solid black;
+  border: 1px solid var(--foreground);
   border-radius: 5px;
   box-shadow: 3px 3px;
   padding: 8px;
@@ -58,4 +82,16 @@ button:active {
 	border: 0;
 	border-bottom: 1px solid;
 	text-align: center;
+}
+
+.settings {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+	gap: 5px;
+}
+
+.settings > a {
+    color: var(--foreground);
+	text-decoration: none;
 }
