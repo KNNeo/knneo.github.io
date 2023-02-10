@@ -833,12 +833,13 @@ function generateTableList(contents, parameters) {
 	
 	//table
 	let container = document.createElement('div');
-	if(scrollable) 
+	if(scrollable)
 		container.classList.add('scrollable');
 	container.classList.add('content-box');
 	
 	let table = document.createElement('table');
-	table.classList.add('list');
+	if(!scrollable)
+		table.classList.add('list');
 	table.classList.add('not-selectable');
 	
 	let tbody = document.createElement('tbody');
@@ -1117,7 +1118,6 @@ function generateYears(contents) {
 	let rows = contents.values;
 	
 	let table = document.createElement('div');
-	table.classList.add('list');
 	table.classList.add('centered');
 	table.classList.add('tags');
 	

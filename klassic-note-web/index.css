@@ -4,6 +4,7 @@
   --secondary: #609fff;
   --background: #fff;
   --foreground: #000;
+  --accent: lightgray;
 }
 
 .darked:root {
@@ -11,10 +12,13 @@
   --secondary: #00abbf;
   --background: #000;
   --foreground: #fff;
+  --accent: gray;
 }
 
 html {
 	font-family: Open Sans;
+	background-color: var(--background);
+	color: var(--foreground);
 }
 
 body {
@@ -104,10 +108,6 @@ body {
 }
 
 .bordered td, .bordered th {
-	border: 1px solid gray;
-}
-
-.darked .bordered td, .darked .bordered th {
 	border: 1px solid var(--foreground);
 }
 
@@ -122,19 +122,12 @@ body {
 }
 
 .content-box {
-  border: 1px solid gray;
   box-shadow: 3px 3px;
-  /* padding: 4px; */
   white-space: normal;
   width: 100%;
 }
 
-.darked .content-box {
-  border: 1px solid var(--foreground);
-}
-
-.content-table {
-	
+.content-table {	
 }
 
 .content-table tr:hover {
@@ -165,6 +158,7 @@ body {
 }
 
 .list {
+	border: 1px solid var(--foreground);
 	border-collapse: collapse;
 	font-size: 0.9em;
 	width: 100%;
@@ -182,20 +176,13 @@ body {
 }
 
 .list tr:hover > td {
-	background-color: lightgray;
-}
-
-.darked .list tr:hover > td {
-	background-color: gray;
+	background-color: var(--accent);
 }
 
 .highlight {
-	background-color: lightgray;
+	background-color: var(--accent);
 }
 
-.darked .highlight {
-	background-color: gray;
-}
 .header-element {
 	margin: 20px 0;
 	margin-bottom: 0;
@@ -208,7 +195,6 @@ body {
 .material-icons {
 	font-size: 20px;
 	vertical-align: bottom;
-	/* cursor: pointer; */
 	text-decoration: none;
 	color: var(--foreground);
 }
@@ -250,7 +236,8 @@ body {
 .tags {
 	display: flex;
 	flex-wrap: wrap;
-    /* justify-content: center; */
+    justify-content: center;
+	padding: 3px;
 }
 
 .tags .tag {
@@ -260,14 +247,11 @@ body {
 	flex-basis: 14%;
 	text-align: center;
 	padding: 4px;
+	border: 1px solid var(--foreground);
 }
 
 .tags .tag:hover {
-	background-color: lightgray;
-}
-
-.darked .tags .tag:hover {
-	background-color: gray;
+	background-color: var(--accent);
 }
 
 .player {
@@ -277,10 +261,16 @@ body {
 
 .settings {
 	padding: 20px 0;
+	text-align: center;
 }
 
 .settings .material-icons {
 	font-size: 24px;
+}
+
+.home {
+	color: var(--foreground);
+	text-decoration: none;
 }
 
 .year {
@@ -330,6 +320,8 @@ body {
 }
 
 .scrollable {
+	border: 1px solid var(--foreground);
+	font-size: 0.8em;
     max-height: 14rem;
 	overflow-y: auto;
 }
