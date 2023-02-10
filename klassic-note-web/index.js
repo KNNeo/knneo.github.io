@@ -1385,17 +1385,18 @@ function generateCoverArt(contents) {
 	let headerWidth = document.querySelector('#header').getBoundingClientRect().width;// - 15;
 	let headerHeight = document.querySelector('#header').getBoundingClientRect().height - (isOverlay ? -6 : 6);// - 15;
 	
+	let coverArtUrl = coverArtDirectory + row[columnIndexKNYEAR] + '/' + row[columnIndexCoverArt];
 	let art = document.createElement(isOverlay ? 'div' : 'img');
 	art.style.width = (isOverlay ? headerWidth : headerHeight) + 'px';
 	art.style.height = headerHeight + 'px';
 	if (isOverlay) {
 		cover.style.display = 'initial';
 		art.classList.add('overlay-background');
-		art.style.backgroundImage = 'linear-gradient(transparent 75%, var(--background)), url(' + coverArtDirectory + row[columnIndexKNYEAR] + '/' + row[columnIndexCoverArt] + ')';
+		art.style.backgroundImage = 'linear-gradient(transparent 75%, var(--background)), url(' + coverArtUrl + ')';
 	} else {
 		// art.classList.add('content-box');
 		// art.classList.add('overlay-right');
-		art.src = coverArtDirectory + row[columnIndexKNYEAR] + '/' + row[columnIndexCoverArt];
+		art.src = coverArtUrl;
 		art.addEventListener('error', function() {
 			if(debugMode)
 				console.log('cover error');
@@ -1413,12 +1414,12 @@ function generateCoverArt(contents) {
 			artist: meta.artist,
 			album: meta.album,
 			artwork: [
-				{ src: art.src, sizes: '96x96',   type: 'image/png' },
-				{ src: art.src, sizes: '128x128', type: 'image/png' },
-				{ src: art.src, sizes: '192x192', type: 'image/png' },
-				{ src: art.src, sizes: '256x256', type: 'image/png' },
-				{ src: art.src, sizes: '384x384', type: 'image/png' },
-				{ src: art.src, sizes: '512x512', type: 'image/png' },
+				{ src: coverArtUrl, sizes: '96x96',   type: 'image/png' },
+				{ src: coverArtUrl, sizes: '128x128', type: 'image/png' },
+				{ src: coverArtUrl, sizes: '192x192', type: 'image/png' },
+				{ src: coverArtUrl, sizes: '256x256', type: 'image/png' },
+				{ src: coverArtUrl, sizes: '384x384', type: 'image/png' },
+				{ src: coverArtUrl, sizes: '512x512', type: 'image/png' },
 			]
 		});
 		if(debugMode) console.log('metadata', navigator.mediaSession.metadata.toString());
