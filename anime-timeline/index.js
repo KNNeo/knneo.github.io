@@ -10,6 +10,7 @@ let seasons = ['','Winter','Spring','Summer','Autumn'];
 let seasonArray = new Array();
 let seriesArray = new Array();
 
+window.addEventListener('resize', resize);
 window.addEventListener('load', function() {
 	let genres = showsRef.reduce((total, current, index, arr) => {
 		for(let genre of current.seriesGenre)
@@ -43,6 +44,7 @@ window.addEventListener('load', function() {
 	})
 	generateAnimeList(false);
 	addGroupByEvents();
+	resize();
 });
 function generateAnimeList(isGroupBySeries) {
 	//create series array if needed
@@ -365,10 +367,12 @@ function inverseRadio(val) {
 
 //[3] after adjustments
 //fix table height such that window scroll is disabled
-let h3height = document.getElementsByTagName('h3')[0].getBoundingClientRect().height;
-let headerHeight = document.querySelector('.header').offsetHeight;
-let footerHeight = document.querySelector('.footer').offsetHeight;
-document.querySelector('.anime-list').style.height = (window.innerHeight - h3height - headerHeight - footerHeight - 0.2*window.innerHeight - 20) + 'px';
+function resize() {
+	let h3height = document.getElementsByTagName('h3')[0].getBoundingClientRect().height;
+	let headerHeight = document.querySelector('.header').offsetHeight;
+	let footerHeight = document.querySelector('.footer').offsetHeight;
+	document.querySelector('.anime-list').style.height = (window.innerHeight - h3height - headerHeight - footerHeight - 0.2*window.innerHeight) + 'px';
+}
 
 //click season/series to scroll to timeline first box
 function enableSelectTitle() {
