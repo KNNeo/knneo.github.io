@@ -3,9 +3,8 @@ const isMobile = function() {
     const match = window.matchMedia('(pointer:coarse)');
     return (match && match.matches && window.innerWidth <= 480);
 };
-const showExpanded = function() {
-	return !window.location.href.includes('://knneo.github.io');
-}; //will only show name, dob, profile, turning point, social media
+const isLocal = window.location.href.includes('file://');
+const showExpanded = isLocal; //will only show name, dob, profile, turning point, social media
 const maxRating = 5;
 const calendarCategories = ['profile', 'seiyuu', 'doaxvv', 'hololive', 'idolypride'];
 //what to filter for calendar, mapping for category, see profile-list.json
@@ -55,7 +54,7 @@ function initializeVariables() {
 	window['friendList'] = [];
 	window['timelineDOBlist'] = [];
 	window['calendarDOBlist'] = [];
-	window['expanded'] = showExpanded();
+	window['expanded'] = showExpanded;
 	window['loading'] = true;
 }
 
