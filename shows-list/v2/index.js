@@ -393,8 +393,8 @@ function generateTimeline(categoryId, categoryTitle, filterList, fold = true) {
 			if(item.imgURL && item.imgURL.length > 0)
 			{
 				let img = document.createElement('img');
-		img.classList.add('thumb');
-		img.classList.add('dimmed');
+				img.classList.add('thumb');
+				img.classList.add('dimmed');
 				img.src = 'https://knneo.github.io/resources/spacer.gif';
 				img.alt = item.imgURL;
 				if(item.circular)
