@@ -1,29 +1,45 @@
-let currentYear = 2023;
-let currentSeason = 'Winter';
-window.addEventListener('load', startup);
+//--SETTINGS--//
+const defaultTitle = 'Anime List';
+const currentYear = 2023;
+const currentSeason = 'Winter';
+const seasons = [
+	{ title:'Winter', altTitle:'' },
+	{ title:'Spring', altTitle:'' },
+	{ title:'Summer', altTitle:'' },
+	{ title:'Autumn', altTitle:'' },
+]; // in order
 
 function startup() {
-	window['filter'] = '';
-	window['genre'] = '';
+	initializeVariables();
+	setTitle();
 	generateAnimeList();
 	addImagesError();
-	// document.getElementById("showAll").click();
+}
+
+function initializeVariables() {
+	window['filter'] = '';
+	window['genre'] = '';	
+}
+
+function setTitle() {
+	document.title = defaultTitle;
+	document.querySelector('.title').innerText = defaultTitle;
 }
 
 function generateAnimeList() {
-	document.getElementById('anime-list').innerHTML = '';
+	document.querySelector('.shows-list').innerHTML = '';
 	
 	let currentList = showsArray.filter(s => s.type == 'TV' && s.year == currentYear && s.season == currentSeason);
-	document.getElementById('anime-list').appendChild(generateAnimeCurrent(currentList));
+	document.querySelector('.shows-list').appendChild(generateAnimeCurrent(currentList));
 	
 	let calendarBlock = generateAnimeCalendar(showsArray.filter(s => s.type == 'TV' && s.year >= 2008 && s.season.length > 0 && s.MAL > 0));
-	document.getElementById('anime-list').appendChild(calendarBlock);
+	document.querySelector('.shows-list').appendChild(calendarBlock);
 	
 	let archiveList = showsArray.filter(s => s.type == 'TV' && (s.year != currentYear || s.season != currentSeason)).sort((a, b) => b.sortOrder - a.sortOrder);
-	document.getElementById('anime-list').appendChild(generateAnimeArchive(archiveList));
+	document.querySelector('.timeline').appendChild(generateAnimeArchive(archiveList));
 	
 	let moviesList = showsArray.filter(s => s.type == 'Movie');
-	document.getElementById('anime-list').appendChild(generateOVAMovies(moviesList));
+	document.querySelector('.shows-list').appendChild(generateOVAMovies(moviesList));
 	
 }
 
@@ -134,8 +150,8 @@ function generateAnimeCalendar(list) {
 }
 
 function generateCalendarBox(list) {
-	let calendarDiv = document.getElementById('calendar');
-	if(document.getElementById('calendar') == null)
+	let calendarDiv = document.querySelector('#calendar');
+	if(document.querySelector('#calendar') == null)
 	{
 		calendarDiv = document.createElement('div');
 		calendarDiv.id = 'calendar';
@@ -146,26 +162,6 @@ function generateCalendarBox(list) {
 	{
 		calendarDiv.innerHTML = '';
 	}
-	
-	//headers
-	let seasons = [
-		{
-			title:'Winter',
-			altTitle:''
-		},
-		{
-			title:'Spring',
-			altTitle:''
-		},
-		{
-			title:'Summer',
-			altTitle:''
-		},
-		{
-			title:'Autumn',
-			altTitle:''
-		},
-	];
 	
 	let z = document.createElement('div');
 	z.classList.add('calendar-header');
@@ -242,13 +238,13 @@ function generateCalendarBox(list) {
 function generateAnimeArchive(filterList) {
 	let id = 'archiveList';
 	let title = 'TV Series';
-	return generateList(id, title, filterList);	
+	return generateTimeline(id, title, filterList, false);	
 }
 
 function generateAnimeCurrent(filterList) {
 	let id = 'currentList';
 	let title = 'Currently Watching (As of '  + currentSeason + ' ' + currentYear + ')';
-	return generateList(id, title, filterList);	
+	return generateList(id, title, filterList, false);	
 }
 
 function generateOVAMovies(filterList) {
@@ -257,10 +253,14 @@ function generateOVAMovies(filterList) {
 	return generateList(id, title, filterList);
 }
 
-function generateList(categoryId, categoryTitle, filterList) {
-	let currentList = document.createElement('div');
-	currentList.id = categoryId;
-	currentList.classList.add('category');
+function generateList(categoryId, categoryTitle, filterList, fold = true) {
+	let list = document.createElement('div');
+	list.id = categoryId;
+	list.classList.add('category');
+	list.addEventListener('click', function() {
+		document.querySelector('#' + this.id + ' .block').style.height = document.querySelector('#' + this.id + ' .block').style.height == '' ? 0 : '';
+		document.querySelector('#' + this.id + ' .icon').innerText = document.querySelector('#' + this.id + ' .icon').innerText == 'expand_more' ? 'expand_less' : 'expand_more';
+	});
 	
 		let block = document.createElement('h4');
 		block.classList.add('tr_bq');
@@ -268,17 +268,30 @@ function generateList(categoryId, categoryTitle, filterList) {
 			let title = document.createElement('span');
 			title.classList.add('category-title');
 			title.innerText = categoryTitle;
-		
+			
 		block.appendChild(title);
+			
+			let icon = document.createElement('i');
+			icon.classList.add('material-icons');
+			icon.classList.add('icon');
+			icon.innerText = fold ? 'expand_more' : 'expand_less';
 		
-	currentList.appendChild(block);
+		block.appendChild(icon);
+		
+	list.appendChild(block);
+	
+	let listBlock = document.createElement('div');
+	listBlock.classList.add('block');
+	listBlock.style.height = fold ? 0 : '';
 	
 	for(let item of filterList)
 	{
-		currentList.appendChild(generateAnimeRow(item));
+		listBlock.appendChild(generateAnimeRow(item));
 	}
 	
-	return currentList;
+	list.appendChild(listBlock);
+	
+	return list;
 }
 
 function generateAnimeRow(item) {
@@ -319,17 +332,97 @@ function formatRowText(title, altTitle) {
 }
 
 function addImagesError() {
-	for (let image of document.getElementsByTagName("img")) {
-	}
-	let animeImgList = document.getElementsByTagName("img");
-	for (let i = 0; i < animeImgList.length; i++) {
-		animeImgList[i].src = animeImgList[i].alt;
-		animeImgList[i].alt = "";
-		animeImgList[i].addEventListener("error", function() {
-			this.onerror = null;
+	let imgList = document.querySelectorAll('img');
+	for (let i = 0; i < imgList.length; i++) {
+		imgList[i].src = imgList[i].alt;
+		imgList[i].alt = '';
+		imgList[i].addEventListener('error', function() {
+			if(this.parentElement.parentElement.classList.contains('new-anime-row'))
+				console.error('error on thumbnail: ' + this.parentElement.parentElement.innerText);
 			this.src = 'https://knneo.github.io/resources/spacer.gif';
 			this.style.border = '0px white solid';
 			this.style.backgroundColor = 'transparent';
 		});
 	}
 }
+
+function generateTimeline(categoryId, categoryTitle, filterList, fold = true) {
+	let list = document.createElement('div');
+	list.id = categoryId;
+	list.classList.add('category');
+	// list.addEventListener('click', function() {
+		// document.querySelector('#' + this.id + ' .block').style.height = document.querySelector('#' + this.id + ' .block').style.height == '' ? 0 : '';
+		// document.querySelector('#' + this.id + ' .icon').innerText = document.querySelector('#' + this.id + ' .icon').innerText == 'expand_more' ? 'expand_less' : 'expand_more';
+	// });
+	
+		let block = document.createElement('h4');
+		block.classList.add('tr_bq');
+		
+			let title = document.createElement('span');
+			title.classList.add('category-title');
+			title.innerText = categoryTitle;
+			
+		block.appendChild(title);
+			
+			// let icon = document.createElement('i');
+			// icon.classList.add('material-icons');
+			// icon.classList.add('icon');
+			// icon.innerText = fold ? 'expand_more' : 'expand_less';
+		
+		// block.appendChild(icon);
+		
+	list.appendChild(block);
+	
+	let listBlock = document.createElement('div');
+	listBlock.classList.add('block');
+	listBlock.classList.add('grid');
+	listBlock.style.height = fold ? 0 : '';
+	
+	for(let item of filterList)
+	{
+		let container = document.createElement('div');
+		container.classList.add('container');
+		
+		if(item.handle && item.handle.length > 0)
+		{
+			let handler = document.createElement('a');
+			handler.href = 'https://twitter.com/' + item.handle;
+			handler.title = '@' + item.handle;
+			handler.setAttribute('target', '_blank');
+			
+			if(item.imgURL && item.imgURL.length > 0)
+			{
+				let img = document.createElement('img');
+		img.classList.add('thumb');
+		img.classList.add('dimmed');
+				img.src = 'https://knneo.github.io/resources/spacer.gif';
+				img.alt = item.imgURL;
+				if(item.circular)
+					img.style.borderRadius = '50%';
+					
+				handler.appendChild(img);
+			}
+			container.appendChild(handler);
+		}
+		
+		let blob = document.createElement('div');
+		blob.classList.add('blob');
+		blob.classList.add('dimmed');
+		blob.innerText = '|';
+		container.appendChild(blob);
+		
+		let show = document.createElement('div');
+		show.classList.add('description');
+		show.classList.add('dimmed');
+		show.innerText = formatRowText(item.title, item.altTitle);
+		container.appendChild(show);
+		
+		listBlock.appendChild(container);
+	}
+	
+	list.appendChild(listBlock);
+	
+	return list;
+}
+
+window.onload = startup();
