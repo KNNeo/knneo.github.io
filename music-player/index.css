@@ -1,53 +1,47 @@
+/*Variables*/
+:root {
+  --primary: #0065ff;
+  --secondary: #609fff;
+  --background: #fff;
+  --foreground: #000;
+  --accent: lightgray;
+}
+
+.darked:root {
+  --primary: #00e4ff;
+  --secondary: #00abbf;
+  --background: #000;
+  --foreground: #fff;
+  --accent: gray;
+}
+
 html {
-	/* background-color: white; */
 	font-family: Open Sans;
+	background-color: var(--background);
+	color: var(--foreground);
 }
 
- /* Hide scrollbar for Chrome, Safari and Opera */
-#sidebar::-webkit-scrollbar {
-  display: none;
+.title {
+	margin: 20px 0;
+	margin-bottom: 0;
 }
 
-/* Hide scrollbar for IE, Edge and Firefox */
-#sidebar {
-	overflow-x: scroll;
-	overflow-y: hidden;
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
-} 
+.list {
+	border-collapse: collapse;
+	font-size: 0.9em;
+}
+
+.list td,
+.list th { 
+	padding: 2px 4px; 
+	font-size: 0.9em;
+	border: 1px solid var(--foreground);
+}
 
 .centered {
 	max-width: 640px;
 	margin: auto;
 	padding: 2px 8px;
-}
-
-.list tr:hover > td {
-	background-color: transparent;
-}
-
-.darked tr:hover > td {
-	background-color: transparent;
-}
-
-h1 {
-	margin: 20px 0;
-	margin-bottom: 0;
-}
-
-table {
-	border-collapse: collapse;
-	font-size: 0.9em;
-}
-
-td, th { 
-	padding: 2px 4px; 
-	font-size: 0.9em;
-	border: 1px solid black; 
-}
-
-.darked td, .darked th {
-	border: 1px solid white;
 }
 
 .empty td {
@@ -59,52 +53,28 @@ td, th {
 	cursor: pointer;
 }
 
-.player, .list {
+.player,
+.list {
 	width: 100%;
 }
 
-.left, .right {
-  float: left;
-  width: 30%;
-}
-.main {
-  float: left;
-  width: 40%;
-}
-
-.result-box {
-	border: 1px solid gray;
-	display: block;
-	width: auto;
-	height: auto;
+.settings a {
+	display: flex;
+	justify-content: center;
+	color: var(--foreground);
+	text-decoration: none;
 	padding: 5px;
-	margin: 5px;
-
-}
-.show-result, .input-box {
-	padding: 10px;
 }
 
-.flexi-input {
-	margin: 0 5px;
-	border: 0;
-	border-bottom: 1px solid;
-	text-align: center;
+ /* Hide scrollbar for Chrome, Safari and Opera */
+#sidebar::-webkit-scrollbar {
+  display: none;
 }
 
-@media only screen
-   and (min-device-width : 320px)
-   and (max-device-width : 960px)
-{
-	
+/* Hide scrollbar for IE, Edge and Firefox */
+#sidebar {
+	overflow-x: scroll;
+	overflow-y: hidden;
+	-ms-overflow-style: none;  /* IE and Edge */
+	scrollbar-width: none;  /* Firefox */
 }
-
-/* @media (prefers-color-scheme: dark) {
-	td, th { 
-		border: 1px solid white; 
-	}
-
-	.darked td, .darked th {
-		border: 1px solid black; 
-	}
-} */
