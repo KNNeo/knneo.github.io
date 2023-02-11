@@ -1,23 +1,40 @@
 //--DEFAULT SETTINGS--//
 let list = [
-'Let\'s Eat',
-'Tok Lae Dee',
-'Food Republic',
-'Chef Avenue',
-'B.E.D.',
-'Nearest Kopitiam',
-'Across Bridge Kopitiam',
-'Jakk & Co.',
-'DongMama Thai',
-'Leaf Corner',
-'Yu Cun',
-'Subway'
+'A&W Restaurants',
+'Arby\'s',
+'Burger King',
+'Carl\'s Jr.',
+'Chipotle Mexican Grill',
+'Domino\'s Pizza',
+'Dunkin\' Donuts',
+'Five Guys',
+'Jollibee',
+'KFC',
+'Little Caesars',
+'Long John Silver\'s',
+'McDonald\'s',
+'Panda Express',
+'Papa John\'s Pizza',
+'Pizza Hut',
+'Popeyes',
+'Quiznos',
+'Red Lobster',
+'Red Robin',
+'Sbarro',
+'Shake Shack',
+'Smoothie King',
+'Starbucks',
+'Subway',
+'Taco Bell',
+'Tim Hortons',
+'Wendy\'s',
+'Wingstop',
 ];
 let emptyText = '>>No Data<<';
 
 //--FUNCTIONS--//
 window.addEventListener('load', function() {
-	document.getElementById('locations').value = localStorage.getItem('list');
+	document.getElementById('locations').value = localStorage.getItem('list') ?? list.join('\n');
 	document.getElementById('results').style.display = 'none';
 	document.getElementById('result1').style.display = 'none';
 	document.getElementById('history').innerText = localStorage.getItem('history') != null ? localStorage.getItem('history') : emptyText;
@@ -58,4 +75,5 @@ function generate(button) {
 function reset(button) {
 	document.getElementById('history').innerText = emptyText;
 	localStorage.setItem('history', document.getElementById('history').innerText);
+	document.getElementById('locations').value = '';
 }

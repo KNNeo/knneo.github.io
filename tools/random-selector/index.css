@@ -1,7 +1,28 @@
+/*Variables*/
+:root {
+  --primary: #0065ff;
+  --secondary: #609fff;
+  --background: #fff;
+  --foreground: #000;
+  --accent: lightgray;
+}
+
+.darked:root {
+  --primary: #00e4ff;
+  --secondary: #00abbf;
+  --background: #000;
+  --foreground: #fff;
+  --accent: gray;
+}
 html {
-  font-family: Open Sans;
-  font-size: 95%;
-  scroll-behavior: smooth;
+	font-family: Open Sans;
+	font-size: 95%;
+	background-color: var(--background);
+	color: var(--foreground);
+	color-scheme: light;
+}
+html.darked {
+	color-scheme: dark;
 }
 body > * {
   margin: auto;
