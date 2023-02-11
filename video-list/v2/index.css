@@ -14,8 +14,10 @@
 }
 
 html {
-  font-family: Open Sans;
-  scroll-behavior: smooth;
+	font-family: Open Sans;
+	scroll-behavior: smooth;
+	background-color: var(--background);
+	color: var(--foreground);
 }
 
 body > * {
@@ -30,6 +32,17 @@ body > * {
   user-select: none;
 }
 
+a {
+	color: var(--primary);
+	cursor: pointer;
+	text-align: center;
+	margin: 5px;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
 .menu {
 	margin: auto;
 	position: fixed;
@@ -37,7 +50,7 @@ body > * {
 	left: 0;
 	right: 0;
 	z-index: 2;
-	background-color: white;
+	background-color: var(--background);
 }
 
 .settings {
@@ -47,16 +60,7 @@ body > * {
 	left: 0;
 	right: 0;
 	z-index: 2;
-	background-color: white;
-}
-
-.settings a {
-    cursor: pointer;
-    -webkit-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    color: black;
-    text-decoration: none;
+	background-color: var(--background);
 }
 
 .settings h3 {
@@ -117,7 +121,7 @@ body > * {
 }
 
 .shadowed {
-  border: 1px solid lightgray;
+  border: 1px solid var(--foreground);
   box-shadow: 3px 3px;
 }
 .shadowed:active {
@@ -132,19 +136,18 @@ body > * {
 .video-link,
 .video-link:visited {
 	color: var(--foreground);
-	text-decoration: none;
-}
-.darked .video-link,
-.darked .video-link:visited {
-	color: var(--foreground);
-	text-decoration: none;	
 }
 .video-link:hover {
-	text-decoration: revert;
+	text-decoration: none;
 }
 
 .hidden {
 	display: none;
+}
+
+.settings a {
+	color: var(--foreground);
+	text-decoration: none;	
 }
 
 @media only screen and (max-width : 1040px) {
