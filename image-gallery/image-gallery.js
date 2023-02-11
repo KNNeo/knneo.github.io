@@ -425,16 +425,16 @@ function renderPage(pageName) {
 	settingsLoaded = true;
 	// frame.appendChild(settingsDiv);
 	
-	let back = document.querySelector('.back');
+	let back = document.querySelector('.home');
 	if(back == null) {
 		let spacer = document.createElement('div');
 		spacer.style.height = '15px';
 		settingsDiv.appendChild(spacer);
 	
 		let back = document.createElement('a');
-		back.classList.add('back');
+		back.classList.add('home');
 		back.href = '../index.html';
-		back.innerText = 'Back';
+		back.innerText = 'knneo.github.io';
 		settingsDiv.appendChild(back);
 	}	
 	
