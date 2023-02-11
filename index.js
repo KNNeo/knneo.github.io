@@ -9,52 +9,11 @@ const isFirefox = (/Firefox/i.test(navigator.userAgent));
 //*dark mode check*//
 window.addEventListener('load', function() {
 	renderElements();
-	showLocal();
+	hideLocal();
 	showDimensions();
 	// addPreviewOnHover();
 });
 window.addEventListener('resize', showDimensions);
-
-function setDarkMode() {
-	let theme = Array.from(document.getElementsByTagName('meta')).filter(m => m.name == 'theme-color');
-	let themeColor = document.createElement('meta');
-	if(theme && theme.length > 0)
-	{
-		themeColor = theme[0];
-	}
-	else
-	{
-		themeColor = document.createElement('meta');
-		themeColor.name = 'theme-color';
-		document.head.appendChild(themeColor);
-	}
-	
-	if(window.matchMedia('(prefers-color-scheme: dark)').matches) toggleDarkMode();
-	themeColor.content = document.getElementsByTagName('html')[0].classList.contains('darked') ? 'black' : 'white';
-}
-
-function addDarkModeEvents() {
-	//assume supports dark mode
-	window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', toggleDarkMode);
-	//assume page has button with id = darkmode
-	if(document.querySelector('.darkmode') != null)
-		document.querySelector('.darkmode').addEventListener('click', toggleDarkMode);
-}
-
-function toggleDarkMode() {
-	let theme = Array.from(document.getElementsByTagName('meta')).filter(m => m.name == 'theme-color');
-	let themeColor = theme[0];
-	if(document.getElementsByTagName('html')[0].classList.contains('darked')) //parent class of each page
-	{
-		document.getElementsByTagName('html')[0].classList.remove('darked');
-		themeColor.content = 'white';
-	}
-	else
-	{
-		document.getElementsByTagName('html')[0].classList.add('darked');
-		themeColor.content = 'black';
-	}
-}
 
 function renderElements() {
 	if(document.querySelector('.data'))
@@ -70,55 +29,59 @@ function renderElements() {
 		{
 			let group = page.group;
 			let item = document.getElementById(group);
-			if(item == null)
-			{
-				item = document.createElement('h3');
-				item.id = group;
+			// add title
+			// if(item == null)
+			// {
+				// item = document.createElement('h3');
+				// item.id = group;
 				
-			}
-			else
-			{
-				let group = item.querySelector('.title');
-				if(group == null)
-				{
-					group = document.createElement('span');
-					group.classList.add('title');
-					group.innerText = page.group;
-					item.insertBefore(group, item.children[0]);	
+			// }
+			// else
+			// {
+				// let group = item.querySelector('.title');
+				// if(group == null)
+				// {
+					// group = document.createElement('span');
+					// group.classList.add('title');
+					// group.innerText = page.group;
+					// item.insertBefore(group, item.children[0]);	
 					
-					let spacer = document.createElement('span');
-					spacer.innerText = ' ';
-					item.insertBefore(spacer, item.children[1]);
-				}
+					// let spacer = document.createElement('span');
+					// spacer.innerText = ' ';
+					// item.insertBefore(spacer, item.children[1]);
+				// }
 				
-				let spacer = document.createElement('span');
-				spacer.innerText = ' ';
-				item.appendChild(spacer);
-			}
+				// let spacer = document.createElement('span');
+				// spacer.innerText = ' ';
+				// item.appendChild(spacer);
+			// }
 			
+			// add page
 			let url = document.createElement('a');
 			url.classList.add('subset');
 			url.classList.add('box');
 			url.classList.add('shadowed');
+			let randomNo = Math.random() + page.version;
+			url.style.fontSize = randomNo + 'em';
 			if(page.isLocal) 
 				url.classList.add('local');
 			url.href = page.url;
 			url.innerText = page.title;
 			
-			item.appendChild(url);
+			// item.appendChild(url);
 			
-			pageList.appendChild(item);
+			pageList.appendChild(url);
 		}
 	}
 }
 
-function showLocal() {
+function hideLocal() {
 	if(!isLocal)
 	{
 		for(let local of document.getElementsByClassName('local')){
 			local.style.display = 'none';
 		}
-	}	
+	}
 }
 
 function showDimensions() {
@@ -152,29 +115,6 @@ function addPreviewOnHover() {
 			}		
 		}
 	});
-}
-
-function getJson(source, callback) {
-	try
-	{
-		let xmlhttp = new XMLHttpRequest();
-		xmlhttp.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
-				callback(JSON.parse(this.responseText));			
-			}
-			else if(this.status != 0 && this.status != 200) {
-				console.error('getJson:', this.status);
-				callback(null);
-			}
-		};
-		xmlhttp.open("GET", source, true);
-		xmlhttp.send();
-	}
-	catch(e)
-	{
-		console.error('getJson: ' + e.message);
-		callback(null);
-	}
 }
 
 //*tracking prevention*//
