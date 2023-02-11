@@ -1,0 +1,353 @@
+/*Variables*/
+:root {
+  --primary: #0065ff;
+  --secondary: #609fff;
+  --background: #fff;
+  --foreground: #000;
+}
+.darked:root {
+  --primary: #00e4ff;
+  --secondary: #00abbf;
+  --background: #000;
+  --foreground: #fff;
+}
+html {
+	font-family: Open Sans;
+	font-size: 13px;
+	overflow-x: hidden;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+body {
+	background-color: var(--background);
+	color: var(--foreground);
+	max-width: 960px;
+	margin: auto;
+}
+a, button {
+	background-color: var(--background);
+	color: var(--foreground);
+}
+a {
+	cursor: pointer;
+	text-decoration: none;
+	text-align: center;
+}
+button {
+	border: 1px solid var(--foreground);	
+}
+#timeline {
+	border: 1px solid var(--foreground);
+	overflow-y: scroll;
+	width: 90%;
+	max-width: 480px;
+	max-height: 30vh;
+	padding: 5px;
+	display: grid;
+    grid-template-columns: 0 100px 1fr 9fr;
+    grid-auto-rows: 25px;
+    align-items: center;
+}
+
+#timeline .container {
+	display: contents;
+}
+
+#timeline .thumb {
+	max-width: 100px;
+	max-height: 100px;
+	grid-column-start: 2;
+}
+
+#timeline .blob {
+	grid-column-start: 3;
+    font-size: 2em;
+}
+
+#timeline .container:hover a img,
+#timeline .container:hover div {
+	color: var(--primary);
+	font-weight: bold;
+	filter: none;
+}
+
+#timeline .container:hover a,
+#timeline .container:hover div {
+	z-index: 10;
+	
+}
+
+#timeline .description {
+	grid-column-start: 4;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-webkit-user-select: auto;
+	-khtml-user-select: auto;
+	-moz-user-select: auto;
+	-ms-user-select: auto;
+	user-select: auto;
+}
+
+#timeline .container:hover ~ div,
+#timeline .dimmed {
+	color: var(--accent);
+	filter: grayscale(90%) contrast(0.2);
+}
+
+.bi {
+	font-size: 20px;
+	padding: 3px;
+}
+.box-married label {
+	padding-top: 10px;
+	visibility: hidden;
+}
+.box-married:hover label {
+	visibility: visible;
+}
+.calendar table {
+	margin: auto;
+	border: 1px solid var(--foreground);
+	position:relative;
+}
+.calendar td {
+    width: 30px;
+    height: 20px;
+}
+.calendar td:hover .popitem {
+	display: block;
+}
+.prev-month, .next-month,
+.calendar-legend label {	
+	cursor: pointer;
+}
+.calendar-legend input {
+	opacity: 0;
+	height: 0;
+	width: 0;
+}
+.item,
+.darked .item {
+	display: inline-block;
+	color: var(--primary);
+	text-decoration: underline solid var(--primary);
+	white-space: nowrap;
+	margin: 5px;
+}
+.item:hover,
+.darked .item:hover {
+  color: var(--foreground);
+  text-decoration: underline solid var(--foreground);
+}
+.legend {
+	display: inline-block;
+	height: 10px;
+	width: 10px;
+	border: 1px solid var(--foreground);
+    vertical-align: middle;
+    margin-bottom: 3px;
+}
+.list {
+	list-style-type: none;
+	padding: 5px;
+}
+.list li{
+	display: inline-block;
+}
+.married,
+.married:hover {
+	margin: 5px;
+	text-decoration: none;
+	color: gray;
+}
+.page-align {
+	text-align: center;
+	margin: auto;
+}
+.page-align li, .page-align a {
+  line-height: 1.5;
+}
+.points {
+	position: relative;
+}
+.points-note {
+    position: absolute;
+    background: var(--background);
+    border: 1px solid var(--foreground);
+    padding: 5px 8px;
+    font-size: 1.3em;
+    margin-top: 13px;
+	z-index: 10;
+	text-align: left;
+}
+.popitem {
+    position: absolute;
+    background-color: var(--background);
+    right: 0;
+    left: 0;
+    display: none;
+	color: var(--foreground);
+}
+.profile {
+	width: 90%;
+	overflow-y: auto;
+	border: 1px solid var(--foreground);
+	box-shadow: 3px 3px;
+}
+.profile-box {
+	white-space: normal;
+	touch-action: manipulation;
+}
+.profile-box > table {
+	width: 100%;
+}
+.profile:active {
+  box-shadow: 1px 1px;
+  transform: translate(2px,2px);
+}
+.profile-box-comments {
+	text-align: left;
+    padding: 3px;
+}
+.profile-box-comments .superscript {
+	padding-right: 3px;
+}
+.profile-box-label {
+	text-align: left;
+	font-size: 70%;	
+}
+.profile-box-img {
+  margin: auto;
+  clear: both;
+  text-align: center;
+  width: 100%;
+  height: 320px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.profile-friends a, .profile-social a {
+	display: inline-block;
+	white-space: nowrap;
+	margin: 2px;
+}
+.profile-friends a,
+.profile-box-comments a {
+  color: var(--primary);
+  text-decoration: underline solid var(--primary);
+}
+.profile-friends a:hover,
+.profile-box-comments a:hover {
+  color: var(--foreground);
+  text-decoration: underline solid var(--foreground);
+}
+.profile-social {
+	color: var(--primary);
+}
+.profile-social:hover,
+.darked .profile-social:hover {
+  color: var(--foreground);
+}
+.shift-left {
+	text-align: left;
+	position: absolute;
+}
+.shift-right {
+	text-align: right;
+}
+.superscript {
+	vertical-align: super;
+	font-size: 0.8em;
+}
+.disguise {
+	color: #dddddd;
+}
+.darked .disguise {
+	color: #444444;
+}
+.disguise:hover {
+	color: var(--foreground);
+}
+.loader {
+	display: flex;
+	justify-content: center;
+	padding: 10px;
+	font-size: 24px;
+}
+.hidden {
+	display: none;
+}
+.view {
+	max-width: 640px;
+	height: 75vh;
+	margin: auto;
+	display: flex;
+    justify-content: center;
+}
+.timeline-text {
+	font-size: 80%;
+	fill: var(--foreground);
+}
+
+.settings {
+	display: flex;
+	justify-content: center;
+    flex-wrap: wrap;
+}
+
+.home {
+	width: 100%;
+}
+
+/*CUSTOMIZE CALENDAR CATEGORY LABELS*/
+.color-profile {
+	color: lightgray;
+}
+.bg-profile {
+	background-color: lightgray;
+	color: black;
+}
+
+.color-seiyuu {
+	color: cyan;	
+}
+.bg-seiyuu {
+	background-color: cyan;
+	color: black;
+}
+
+.color-doaxvv {
+	color: lime;	
+}
+.bg-doaxvv {
+	background-color: lime;
+	color: black;
+}
+
+.color-hololive {
+	color: gold;	
+}
+.bg-hololive {
+	background-color: gold;
+	color: black;
+}
+
+.color-idolypride {
+	color: pink;	
+}
+.bg-idolypride {
+	background-color: pink;
+	color: black;
+}
+
+/*scrollbars for top and bottom labels only on desktop*/
+@media only screen and (max-width : 480px) {
+	html { font-size: 0.8em; scroll-behavior: auto; }
+	div { scrollbar-width: 0 !important; }
+	div::-webkit-scrollbar { width: 0 !important }
+	.bi { font-size: 28px; }
+}
