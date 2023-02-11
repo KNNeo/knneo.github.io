@@ -248,6 +248,7 @@ body {
 	text-align: center;
 	padding: 4px;
 	border: 1px solid var(--foreground);
+    background-color: var(--background);
 }
 
 .tags .tag:hover {
@@ -286,7 +287,6 @@ body {
 }
 
 .context {
-	background-color: var(--background);
 	font-size: 0.9em;
 	position: fixed;
 	width: auto;
@@ -308,6 +308,7 @@ body {
 
 .playlist .tag {
 	text-align: initial;
+    background-color: var(--background);
 }
 
 .touchable .list td, 
