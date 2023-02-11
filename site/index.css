@@ -4,6 +4,7 @@
   --secondary: #609fff;
   --background: #fff;
   --foreground: #000;
+  --accent: lightgray;
 }
 
 .darked:root {
@@ -11,6 +12,7 @@
   --secondary: #00abbf;
   --background: #000;
   --foreground: #fff;
+  --accent: gray;
 }
 
 html {
@@ -21,10 +23,22 @@ html {
 	-ms-user-select: none;
 	user-select: none;
 	height: 100%;
+	color: var(--foreground);
+	background-color: var(--background);
+	color-scheme: light;
+}
+
+html.darked {
+	color-scheme: dark;
 }
 
 body {
 	margin: 0;
+}
+
+a {
+	color: var(--foreground);
+	background-color: var(--background);
 }
 
 .landing {
@@ -53,7 +67,7 @@ body {
 	z-index: 5;
 	bottom: 0;
 	position: fixed;
-	background-color: white;
+	background-color: var(--background);
 }
 
 .page-title {
@@ -168,11 +182,7 @@ body {
 	font-size: 0.7em;
 	bottom: 0;
 	right: 0;
-	color: black;
-}
-
-.darked .footer {
-	color: white;
+	color: var(--foreground);
 }
 
 .single .footer {
@@ -181,9 +191,18 @@ body {
 	justify-content: flex-end;
 }
 
+.icon {
+	transition: all 0.1s ease;	
+}
+
+.icon:hover {
+	background-color: var(--accent);
+	transform: scale(1.2);
+}
+
 .box {	
-	border: 1px solid gray;
-	background-color: white;
+	border: 1px solid var(--foreground);
+	background-color: var(--background);
 	box-shadow: 3px 3px;
 	display: flex;
 	font-size: 0.8em;
@@ -197,11 +216,8 @@ body {
 .page-element:active {
   box-shadow: 1px 1px;
   transform: translate(2px, 2px);
-}
-
-.darked .box {	
-  border: 1px solid lightgray;
-  background-color: black;
+  border: 1px solid var(--accent);
+  background-color: var(--background);
 }
 
 .single .text {
@@ -220,27 +236,19 @@ body {
 	padding: 5px 0;
 }
 
-.darked a,
-.darked a:visited {
-	color: white;
-}
-
-.darked a:hover {
-	color: var(--secondary);
-}
-
 .circle-icon img {
 	border-radius: 50%;
 }
 
 .button {
+	background-color: transparent;
 	position: fixed;
 	display: block;
 	outline: none;
 	cursor: pointer;
 	padding: 8px 6px 6px 6px;
 	border-radius: 7px;
-	
+	font-size: 2em;
 }
 
 .button-top {
@@ -271,18 +279,17 @@ body {
 .viewer {
 	z-index: 999;
 	position: fixed;
-	/* background-color: black; */
-	background: rgba(255, 255, 255, 0.6);
 	width: 100%;
 	height: 100%;
 	padding-top: 0;
 	visibility: hidden;
 	text-align: center;
 	transition: opacity 0.5s, visibility 0.5s;
+	background: rgba(255, 255, 255, 0.6); /*semi-transparent background*/
 }
 
 .darked .viewer {
-	background: rgba(0, 0, 0, 0.6);	
+	background: rgba(0, 0, 0, 0.6); /*semi-transparent background*/
 }
 
 .editor {
@@ -305,7 +312,7 @@ body {
 
 .section-viewer {
 	border: 2px solid;
-	background-color: white;
+	background-color: var(--foreground);
 	max-width: 80vw;
 	max-height: 80vh;
 	left: 0;

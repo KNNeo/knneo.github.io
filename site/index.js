@@ -454,18 +454,16 @@ function renderFooter(isSinglePage, footerText) {
 }
 
 function renderButtons(isSinglePage) {
-	let topButton = document.createElement('a');
-	topButton.classList.add('button');
-	topButton.classList.add('button-top');
-	topButton.title = 'Back To Top';
 	let topButtonIcon = document.createElement('i');
+	topButtonIcon.classList.add('button');
+	topButtonIcon.classList.add('button-top');
 	topButtonIcon.classList.add('material-icons');
 	topButtonIcon.classList.add('not-selectable');
+	topButtonIcon.title = 'Back To Top';
 	topButtonIcon.innerText = 'north';
-	topButton.appendChild(topButtonIcon);
 	if(document.querySelector('.button-top') == null)
 	{
-		document.body.appendChild(topButton);
+		document.body.appendChild(topButtonIcon);
 		document.querySelector('.button-top').addEventListener('click', scrollToMainPage);
 		document.querySelector('.page').addEventListener('scroll', toggleGoToTopBtn);
 	}
@@ -477,20 +475,16 @@ function renderButtons(isSinglePage) {
 			document.querySelector('.button-top').style.right = null;		
 	}
 
-	let editorButton = document.createElement('a');
-	editorButton.classList.add('button');
-	editorButton.classList.add('button-editor');
-	editorButton.title = 'Toggle Editor';
-	if(isSinglePage || isMobile())
-		editorButton.style.right = '10px';
-	let editorButtonIcon = document.createElement('i');
+	let editorButtonIcon = document.createElement('a');
+	editorButtonIcon.classList.add('button');
+	editorButtonIcon.classList.add('button-editor');
 	editorButtonIcon.classList.add('material-icons');
 	editorButtonIcon.classList.add('not-selectable');
+	editorButtonIcon.title = 'Toggle Editor';
 	editorButtonIcon.innerText = 'code';
 	if(document.querySelector('.button-editor') == null)
 	{
-		editorButton.appendChild(editorButtonIcon);
-		document.body.appendChild(editorButton);
+		document.body.appendChild(editorButtonIcon);
 		document.querySelector('.button-editor').addEventListener('click', toggleEditor);
 	}
 	else
@@ -502,20 +496,18 @@ function renderButtons(isSinglePage) {
 		
 	}
 	
-	let closeButton = document.createElement('a');
-	closeButton.classList.add('button');
-	closeButton.classList.add('button-close');
-	closeButton.title = 'Close Popup';
-	if(isSinglePage || isMobile()) 
-		closeButton.style.right = '10px';
 	let closeButtonIcon = document.createElement('i');
+	closeButtonIcon.classList.add('button');
+	closeButtonIcon.classList.add('button-close');
 	closeButtonIcon.classList.add('material-icons');
 	closeButtonIcon.classList.add('not-selectable');
+	closeButtonIcon.title = 'Close Popup';
 	closeButtonIcon.innerText = 'close';
-	closeButton.appendChild(closeButtonIcon);
+	if(isSinglePage || isMobile()) 
+		closeButtonIcon.style.right = '10px';
 	if(document.querySelector('.button-close') == null)
 	{
-		document.body.appendChild(closeButton);
+		document.body.appendChild(closeButtonIcon);
 		document.querySelector('.button-close').addEventListener('click', goBack);
 		document.querySelector('.button-close').addEventListener('contextmenu', function() {
 			event.preventDefault();
