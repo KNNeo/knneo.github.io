@@ -39,7 +39,8 @@ a {
 button {
 	border: 1px solid var(--foreground);	
 }
-#timeline {
+
+#timeline .grid {
 	border: 1px solid var(--foreground);
 	overflow-y: scroll;
 	width: 90%;
@@ -52,7 +53,21 @@ button {
     align-items: center;
 }
 
-#timeline .container {
+#timeline .grid-horiz {
+	border: 1px solid var(--foreground);
+	overflow: auto;
+	padding: 5px 20px;
+	display: grid;
+    /* grid-template-columns: 0 100px 1fr 9fr; */
+    /* grid-auto-rows: 25px; */
+	grid-auto-columns: 25px;
+	grid-template-rows: 0 60px 5px 25px;
+    align-items: center;
+    justify-items: center;
+}
+
+#timeline .container,
+#timeline .container-horiz {
 	display: contents;
 }
 
@@ -62,9 +77,28 @@ button {
 	grid-column-start: 2;
 }
 
+#timeline .thumb-horiz {
+	max-width: 100px;
+	max-height: 100px;
+	white-space: nowrap;
+	grid-row-start: 3;
+}
+
 #timeline .blob {
 	grid-column-start: 3;
     font-size: 2em;
+}
+
+#timeline .blob-horiz {
+	grid-row-start: 2;
+	white-space: nowrap;
+    font-size: 10em;
+}
+
+#timeline .blob-horiz:hover {
+	color: var(--primary);
+	font-weight: bold;
+	filter: none;
 }
 
 #timeline .container:hover a img,
@@ -72,12 +106,16 @@ button {
 	color: var(--primary);
 	font-weight: bold;
 	filter: none;
+	cursor: pointer;
 }
 
 #timeline .container:hover a,
-#timeline .container:hover div {
+#timeline .container:hover a img,
+#timeline .container:hover div,
+#timeline .container-horiz:hover a,
+#timeline .container-horiz:hover a img,
+#timeline .container-horiz:hover div {
 	z-index: 10;
-	
 }
 
 #timeline .description {
@@ -92,10 +130,28 @@ button {
 	user-select: auto;
 }
 
+#timeline .description-horiz {
+	grid-row-start: 4;
+	white-space: nowrap;
+	-webkit-user-select: auto;
+	-khtml-user-select: auto;
+	-moz-user-select: auto;
+	-ms-user-select: auto;
+	user-select: auto;
+}
+
 #timeline .container:hover ~ div,
 #timeline .dimmed {
 	color: var(--accent);
 	filter: grayscale(90%) contrast(0.2);
+}
+
+#timeline .selected {
+	background-color: var(--background);
+	color: var(--primary);
+	font-weight: bold;
+	filter: none;
+	z-index: 10;
 }
 
 .bi {

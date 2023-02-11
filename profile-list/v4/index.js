@@ -127,7 +127,6 @@ function stopLoader() {
 	document.querySelector('.loader').classList.add('hidden');
 }
 
-
 ////WANTED LIST////
 function generateWantedList() {
 	let wantedList = document.querySelector('.list');
@@ -226,51 +225,14 @@ function generateWantedListEntry(id, autoAdd = []) {
 function loadTimeline(width = 2500) {
 	if(document.querySelector('#timeline') == null) return;
 	document.querySelector('#timeline').innerHTML = '';
-	// TimeKnots.draw('#timeline', window['timelineDOBlist'].filter(prof => !prof.date.startsWith('????')), {
-		// horizontalLayout: true,
-		// width: width,
-		// height: 100,
-		// dateFormat: '%Y.%m.%d',
-		// showLabels: true,
-		// labelFormat: '%Y'
-	// });
-	// adjustKnots(20, width);
-	// addTimelineEvents();
-	generateTimeline('timeline', window['timelineDOBlist'].filter(prof => !prof.date.startsWith('????')), width, null);
+	generateVerticalTimeline('timeline', window['timelineDOBlist'].filter(prof => !prof.date.startsWith('????')), null, '30vh');
+	// generateHorizontalTimeline('timeline', window['timelineDOBlist'].filter(prof => !prof.date.startsWith('????')), width, '140px');
+	addTimelineEvents(false);
 }
 
-function adjustKnots(knotSize, maxValue) {
-	let circleList = document.querySelectorAll('circle');
-	for (let i = 0; i < circleList.length; i++) {
-		let oldCX = parseInt(circleList[i].getAttribute('cx'));
-		//shift position of next knot to the right if overlap with previous
-		if (i + 1 < circleList.length && circleList[i + 1].getAttribute('cx') - oldCX <= knotSize)
-			circleList[i + 1].setAttribute('cx', oldCX + knotSize);
-		// shift position of previous knot to the left, shift back current knot into timeline if exceed timeline dimension
-		if (oldCX + (1.5*knotSize) >= maxValue)
-		{
-			circleList[i].setAttribute('cx', circleList[i].getAttribute('cx') - knotSize);
-			for (let j = i; i > 0; j--) {
-				if(circleList[j].getAttribute('cx') - circleList[j - 1].getAttribute('cx') <= knotSize)
-					circleList[j - 1].setAttribute('cx', circleList[j - 1].getAttribute('cx') - knotSize);
-				else
-					break;
-			}
-		}
-	}
-}
-
-function addTimelineEvents() {
-	//on timeline double click shrink timeline
-	document.querySelector('#timeline').addEventListener('dblclick', function() {
-		let newWidth = this.querySelector('svg').width.baseVal.value / 2;
-		if (newWidth < 1000) newWidth = 1000;
-		else if (newWidth > 10000) newWidth > 10000;
-		else loadTimeline(newWidth);
-	});
-
+function addTimelineEvents(isHorizontal) {
 	//on timeline wheel scroll adjust timeline length ie. redraw
-	document.querySelector('#timeline').addEventListener('wheel', function(e) {
+	document.querySelector('#timeline .grid-horiz')?.addEventListener('wheel', function(e) {
 		e.preventDefault();
 		if (!e.shiftKey) {
 			this.scrollLeft -= e.wheelDelta / 2;
