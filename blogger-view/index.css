@@ -28,20 +28,20 @@ a {
 }
 
 #CloseBtn {
-  position: fixed;
-  /* display: none; */
-  /* opacity: 0; */
-  top: 20px;
-  right: 20px;
-  z-index: 9;
-  outline: none;
-  background-color: var(--background);
-  color: var(--foreground);
-  cursor: pointer;
-  padding: 8px 6px 6px 6px;
-  border-radius: 7px;
-  transition: opacity 0.3s;
-  font-size: 2em;
+	position: fixed;
+	top: 20px;
+	right: 20px;
+	z-index: 9;
+	outline: none;
+	border: 1px solid var(--foreground);
+	background-color: var(--background);
+	box-shadow: 3px 3px var(--foreground);
+	color: var(--foreground);
+	cursor: pointer;
+	border-radius: 7px;
+	transition: opacity 0.3s;
+	font-size: 2em;
+    padding-bottom: 2px;
 }
 
 .home,
@@ -61,7 +61,7 @@ a {
 
 .content,
 .selector {
-	max-width: 100vw;
+	max-width: 80vw;
 	margin: auto;
 	background: var(--background);
 }
