@@ -12,27 +12,36 @@
   --foreground: #fff;
 }
 html {
-  font-family: Open Sans;
-  font-size: 13px;
-  scroll-behavior: smooth;
-  overflow-x: hidden;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+	font-family: Open Sans;
+	font-size: 13px;
+	overflow-x: hidden;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 body {
-  background-color: var(--background);
-  color: var(--foreground);
-  max-width: 960px;
-  margin: auto;
+	background-color: var(--background);
+	color: var(--foreground);
+	max-width: 960px;
+	margin: auto;
 }
 a, button {
+	background-color: var(--background);
+	color: var(--foreground);
+}
+a {
 	cursor: pointer;
+	text-decoration: none;
+	text-align: center;
+}
+button {
+	border: 1px solid var(--foreground);	
 }
 #timeline {
 	width: 90%;
+	max-width: 480px;
 	height: 110px;
 	overflow-x: auto;
 	overflow-y: hidden;
@@ -237,10 +246,21 @@ a, button {
 	height: 75vh;
 	margin: auto;
 	display: flex;
+    justify-content: center;
 }
 .timeline-text {
 	font-size: 80%;
 	fill: var(--foreground);
+}
+
+.settings {
+	display: flex;
+	justify-content: center;
+    flex-wrap: wrap;
+}
+
+.home {
+	width: 100%;
 }
 
 /*CUSTOMIZE CALENDAR CATEGORY LABELS*/
