@@ -16,7 +16,6 @@ const presetPrefix = ['sm', 'md', 'lg']; 	// small, medium, large; property to p
 const filenameSeparator = '_';				// filename to be separator delimited tags excluding file format
 const minColumns = 3;			  			// minimum no. of columns to show thumbnails
 const enableDarkMode = true;	  			// shows dark mode toggle
-const isDarkMode = true;		  			// initial value if enableDarkMode is false, ignored if enableDarkMode is true
 const debugMode = false;		  			// shows console log values on render
 const menuWidth = '50em'; 					// when in horizontal layout, in [px, vw, vh]
 const thumbnailRatio = 1;					// standard thumbnail image ratio, can be math expression or number
@@ -27,7 +26,6 @@ const isWidescreen = function() {
 //--VARIABLES--//
 window.addEventListener('load', startup);
 window.addEventListener('resize', startup);
-if(window.matchMedia('(prefers-color-scheme: dark)').matches) toggleDarkMode();
 
 function startup() {
 	initializeVariables();
@@ -41,38 +39,9 @@ function startup() {
 		mosaic.addEventListener('touchstart', onTouchStart);
 		mosaic.addEventListener('touchmove', onTouchMove);
 	}
-	if(!enableDarkMode) {
-		if(isDarkMode || window['darkMode'] == true) {
-			document.getElementsByTagName('html')[0].classList.add('darked');
-		}
-		else {
-			document.getElementsByTagName('html')[0].classList.remove('darked');
-		}
-	}
-	let darkmode = document.getElementById('darkmode');
-	if(enableDarkMode && darkmode != null) {
-		window['darkMode'] = document.getElementsByTagName('html')[0].classList.contains('darked');
-		darkmode.addEventListener('click', toggleDarkMode);
-		darkmode.addEventListener('click', function() { window['darkMode'] = !window['darkMode']; });
-	}
 	
 	window['screenWidth'] = calculateThumbnailSize();
 	generateGrid();
-}
-
-function toggleDarkMode() {
-	let theme = Array.from(document.getElementsByTagName('meta')).filter(m => m.name == 'theme-color');
-	let themeColor = theme[0];
-	if(document.getElementsByTagName('html')[0].classList.contains('darked')) //parent class of each page
-	{
-		document.getElementsByTagName('html')[0].classList.remove('darked');
-		themeColor.content = 'white';
-	}
-	else
-	{
-		document.getElementsByTagName('html')[0].classList.add('darked');
-		themeColor.content = 'black';
-	}
 }
 
 function initializeVariables() {
@@ -171,48 +140,9 @@ function generateLayoutMenu() {
 	}
 	else {
 		tags.style.width = '100%';
-		// tags.style.maxHeight = 'calc(100vh - 260px)';
 		tags.style.overflowX = 'auto';
 		tags.style.whiteSpace = 'nowrap';
 	}
-	
-	//player div
-	// for(let button of window['buttonArray']) {
-		// if(button.value == '') continue;
-		// let tag = document.createElement('button');
-		// tag.classList.add('tag');
-		// tag.value = button.value;
-		// tag.title = button.value + ' (' + button.count + ')';
-		// tag.innerText = button.value;
-		// tag.addEventListener('click',function() {
-			// if(window['includeCriteria'].includes(this.value)) {
-				// window['includeCriteria'] = window['includeCriteria'].replace('|' + this.value,'').replace(this.value,'');
-				// if(window['includeCriteria'].startsWith('|')) window['includeCriteria'] = window['includeCriteria'].substring(1);
-				// this.classList.toggle('button-active');
-			// }
-			// else {
-				// window['includeCriteria'] += (window['includeCriteria'].length > 0 ? '|' : '') + this.value;
-				// this.classList.toggle('button-active');
-			// }
-			// document.getElementById('include').value = window['includeCriteria'];
-			// generateGrid();
-		// });
-		// tag.addEventListener('contextmenu',function() {
-			// event.preventDefault();
-			// if(window['excludeCriteria'].includes(this.value)) {
-				// window['excludeCriteria'] = window['excludeCriteria'].replace('|' + this.value,'').replace(this.value,'');
-				// if(window['excludeCriteria'].startsWith('|')) window['excludeCriteria'] = window['excludeCriteria'].substring(1);
-				// this.classList.toggle('button-inactive');
-			// }
-			// else {
-				// window['excludeCriteria'] += (window['excludeCriteria'].length > 0 ? '|' : '') + this.value;
-				// this.classList.toggle('button-inactive');
-			// }
-			// document.getElementById('exclude').value = window['excludeCriteria'];
-			// generateGrid();
-		// });
-		// tags.appendChild(tag);
-	// }
 	
 	mainTableRow2Cell1.appendChild(tags);
 	
@@ -235,6 +165,7 @@ function generateLayoutMenu() {
 		darkmode.classList.add('material-icons');
 		darkmode.href = 'javascript:void(0);';
 		darkmode.innerText = 'brightness_high';
+		darkmode.addEventListener('click', toggleDarkMode);
 		settings.appendChild(darkmode);		
 	}
 	
@@ -515,9 +446,6 @@ function onClickGridItem() {
 
 function generatePlayerByURL(url) {
 	let embedHeight = 450; // as per apple documentation, fixed
-	// let url = (isDarkMode ? "https://music.apple.com/jp/" + (releaseId.includes('pl.u') ? 'playlist' : 'album') + "/" : "https://open.spotify.com/embed/album/") + releaseId;
-	// if(!window['horizontal'] && 0.5*window.innerHeight < embedHeight)
-		// embedHeight = 0.5*window.innerHeight;
     if (url.includes('music.apple.com')) {
         //process itunes embed
         return '<iframe allow="autoplay *; encrypted-media *;" frameborder="0" height="'+ embedHeight +'" sandbox="allow-modals allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation" src="' +

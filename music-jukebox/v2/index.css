@@ -13,6 +13,11 @@
   --foreground: #fff;
 }
 
+html {
+	background-color: var(--background);
+	color: var(--foreground);	
+}
+
 body {
 	margin: 0;
 	font-family: Open Sans;
@@ -138,7 +143,9 @@ body {
 	width: 100%;
 }
 
-.settings-icon {
+.settings a {
+	color: var(--foreground);
+	text-decoration: none;
 	padding: 0 5px;	
 }
 
