@@ -4,6 +4,7 @@
   --secondary: #609fff;
   --background: #fff;
   --foreground: #000;
+  --accent: lightgray;
 }
 
 .darked:root {
@@ -11,6 +12,18 @@
   --secondary: #00abbf;
   --background: #000;
   --foreground: #fff;
+  --accent: gray;
+}
+
+html {
+	font-family: Open Sans;
+	background-color: var(--background);
+	color: var(--foreground);
+	color-scheme: light;
+}
+
+html.darked {
+	color-scheme: dark;	
 }
 
 body {
@@ -52,6 +65,9 @@ body {
 .tag {
 	margin: 3px;
 	cursor: pointer;
+	background-color: var(--background);
+	border: 1px solid var(--foreground);
+	color: var(--foreground);
 }
 
 .grid {
@@ -94,30 +110,20 @@ body {
   font-size: 12px;
   color: var(--foreground);
   background: var(--background);
-  border: 1px solid lightgray;
+  border: 1px solid var(--accent);
   border-left: 0;
   border-top: 0;
   z-index: 2;
 }
 
 .button-active {
-	color: lightgray;
-	border: 1px solid lightgray;
-}
-
-.darked .button-active {
-	color: gray;
-	border: 1px solid gray;	
+	color: var(--accent);
+	border: 1px solid var(--accent);
 }
 
 .button-inactive {
-	color: lightgray;
-	border: 1px solid lightgray;
-}
-
-.darked .button-inactive {
-	color: gray;
-	border: 1px solid gray;	
+	color: var(--accent);
+	border: 1px solid var(--accent);
 }
 
 .loader {
@@ -149,10 +155,15 @@ body {
 	font-size: 0.9em;
 }
 
-.settings-icon {
+.settings a {
+	color: var(--foreground);
+	text-decoration: none;
 	padding: 0 5px;	
 }
 
+.filter {
+	border: 1px solid var(--foreground);
+}
 
 #main {
   -webkit-user-select: none;
@@ -160,7 +171,6 @@ body {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  text-align: center;
 }
 
 #main h1,

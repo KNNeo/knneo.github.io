@@ -18,7 +18,6 @@ const presetPrefix = ['sm', 'md', 'lg']; 	// small, medium, large; property to p
 const filenameSeparator = '_';				// filename to be separator delimited tags excluding file format
 const minColumns = 3;			  			// minimum no. of columns to show thumbnails
 const enableDarkMode = true;	  			// shows dark mode toggle
-const isDarkMode = true;		  			// initial value if enableDarkMode is false, ignored if enableDarkMode is true
 const enableButtonArray = true;				// shows tag array based on filename split by filenameSeparator
 const enableSlideshow = true;				// will show random images on viewer
 const slideshowInterval = 5;				// only if enableSlideshow is true, in seconds
@@ -53,38 +52,9 @@ function startup() {
 		mosaic.addEventListener('touchstart', onTouchStart);
 		mosaic.addEventListener('touchmove', onTouchMove);
 	}
-	if(!enableDarkMode) {
-		if(isDarkMode || window['darkMode'] == true) {
-			document.getElementsByTagName('html')[0].classList.add('darked');
-		}
-		else {
-			document.getElementsByTagName('html')[0].classList.remove('darked');
-		}
-	}
-	let darkmode = document.getElementById('darkmode');
-	if(enableDarkMode && darkmode != null) {
-		window['darkMode'] = document.getElementsByTagName('html')[0].classList.contains('darked');
-		darkmode.addEventListener('click', toggleDarkMode);
-		darkmode.addEventListener('click', function() { window['darkMode'] = !window['darkMode']; });
-	}
 
 	window['screenWidth'] = calculateThumbnailSize();
 	generateGrid();
-}
-
-function toggleDarkMode() {
-	let theme = Array.from(document.getElementsByTagName('meta')).filter(m => m.name == 'theme-color');
-	let themeColor = theme[0];
-	if(document.getElementsByTagName('html')[0].classList.contains('darked')) //parent class of each page
-	{
-		document.getElementsByTagName('html')[0].classList.remove('darked');
-		themeColor.content = 'white';
-	}
-	else
-	{
-		document.getElementsByTagName('html')[0].classList.add('darked');
-		themeColor.content = 'black';
-	}
 }
 
 function initializeVariables() {
@@ -240,6 +210,7 @@ function generateLayoutMenu() {
 	if(typeof enableButtonArray == 'boolean' && enableButtonArray == true) {
 		let include = document.createElement('input');
 		include.id = 'include';
+		include.classList.add('filter');
 		include.style.fontSize = '1em';
 		include.style.maxWidth = '45%';
 		include.placeholder = defaultIncludePlaceholder;
@@ -251,6 +222,7 @@ function generateLayoutMenu() {
 		
 		let exclude = document.createElement('input');
 		exclude.id = 'exclude';
+		exclude.classList.add('filter');
 		exclude.style.fontSize = '1em';
 		exclude.style.maxWidth = '45%';
 		exclude.placeholder = defaultExcludePlaceholder;
@@ -347,6 +319,7 @@ function generateLayoutMenu() {
 		darkmode.title = 'Toggle Dark Mode';
 		darkmode.href = 'javascript:void(0);';
 		darkmode.innerText = 'brightness_high';
+		darkmode.addEventListener('click', toggleDarkMode);
 		settings.appendChild(darkmode);		
 	}
 	
