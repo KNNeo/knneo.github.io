@@ -1,19 +1,29 @@
-/*Github Page Only Controls*/
+/*Variables*/
+:root {
+  --primary: #0065ff;
+  --secondary: #609fff;
+  --background: #fff;
+  --foreground: #000;
+}
+.darked:root {
+  --primary: #00e4ff;
+  --secondary: #00abbf;
+  --background: #000;
+  --foreground: #fff;
+}
 html {
   font-family: Open Sans;
   overflow-x: hidden;
   font-size: 13px;
 }
 body {
-  /*padding: 5px;*/
-  background-color: black;
-  color: white;
-  max-width: 960px;
-  margin: auto;
+	background-color: var(--background);
+	color: var(--foreground);
+	max-width: 960px;
+	margin: auto;
 }
 a, button {
 	font-family: Open Sans;
-	color: cyan;
 	cursor: pointer;
 }
 p {

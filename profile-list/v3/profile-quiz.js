@@ -35,7 +35,7 @@ if(profileListJson.length == 0) {
 			
 		}
 	};
-	xmlhttp.open("GET", "https://knneo.github.io/profile-list/profile-list-new.json", true);
+	xmlhttp.open("GET", "https://knneo.github.io/profile-list/data.json", true);
 	xmlhttp.send();
 }
 else {
