@@ -21,7 +21,7 @@ const labels = {
 };
 const timezone = 'Asia/Tokyo';
 const month = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-const source = 'https://knneo.github.io/profile-list/profile-list-new.json';
+const source = 'https://knneo.github.io/profile-list/data.json';
 
 //--STARTUP--//
 window.addEventListener('load', startup);
