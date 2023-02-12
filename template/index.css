@@ -1,7 +1,26 @@
-html {
-  font-family: Open Sans;
-  scroll-behavior: smooth;
+/*Variables*/
+:root {
+  --primary: #1b00ff;
+  --secondary: #609fff;
+  --background: #fff;
+  --foreground: #000;
+  --accent: lightgray;
 }
+
+.darked:root {
+  --primary: #00e4ff;
+  --secondary: #00abbf;
+  --background: #000;
+  --foreground: #fff;
+  --accent: gray;
+}
+
+html {
+	font-family: Open Sans;
+	background-color: var(--background);
+	color: var(--foreground);
+}
+
 body > * {
   max-width: 640px;
   margin: auto;
@@ -13,13 +32,16 @@ body > * {
   -ms-user-select: none;
   user-select: none;
 }
+
 .material-icons {
 	cursor: pointer;
 	padding: 10px;
 }
-.closed {
+
+.hidden {
 	display: none;
 }
+
 .box {
 	margin: 5px;
 	vertical-align: top;
@@ -27,14 +49,17 @@ body > * {
 	white-space: normal;
 	touch-action: manipulation;
 }
+
 .shadowed {
   border: 1px solid lightgray;
   box-shadow: 3px 3px;
 }
+
 .shadowed:active {
   box-shadow: 1px 1px;
   transform: translate(2px,2px);
 }
+
 .unshadowed {
 	filter: opacity(100%);
 	transition: filter 1s;
@@ -45,6 +70,4 @@ body > * {
 html { font-size: 100%; }
 div { scrollbar-width: 0 !important; }
 div::-webkit-scrollbar { width: 0 !important }
-/*snap on touch is better on mobile than on desktop*/
-.profile-box { scroll-snap-align: center; }
 }
