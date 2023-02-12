@@ -1,3 +1,11 @@
+function getTimeframe(startDate, endDate, gapsPerUnit, unit) {
+	let diff = -1;
+	if(luxon && timezone)
+		diff = luxon.DateTime.fromISO(endDate).setZone(timezone).diff(luxon.DateTime.fromISO(startDate), unit)[unit];
+	console.log(startDate, endDate, diff);
+	return diff * gapsPerUnit;
+}
+
 function generateVerticalTimeline(id, data, width, height) {
 	let base = document.querySelector('#' + id);
     base.style.width = '480px';
@@ -8,39 +16,55 @@ function generateVerticalTimeline(id, data, width, height) {
 	if(width) timeline.style.width = width;
 	if(height) timeline.style.height = height;
 	
+	let prev = null;
 	for(let item of data)
 	{
-		let container = document.createElement('div');
-		container.classList.add('container');
-		container.addEventListener('click', function() {
-			generateProfileFromJSON(show);
-		});
-
-		let date = document.createElement('div');
-		date.classList.add('thumb');
-		date.classList.add('dimmed');
-		date.innerText = item.date;
+		if(prev) {
+			let gaps = Math.floor(getTimeframe(prev, item.date, 0.5, 'months'));
+			if(gaps > 0)
+				generateRows(timeline, gaps);
 			
-		container.appendChild(date);
+		}
 		
-		let blob = document.createElement('div');
-		blob.classList.add('blob');
-		blob.classList.add('dimmed');
-		blob.innerText = '|';
-		container.appendChild(blob);
+		generateRow(timeline, function() {
+			generateProfileFromJSON(this.querySelector('.description'));
+		}, item);
 		
-		let show = document.createElement('div');
-		show.classList.add('description');
-		show.classList.add('dimmed');
-		show.innerText = item.name;
-		container.appendChild(show);
-		
-		timeline.appendChild(container);
+		prev = item.date;
 	}
 
 	base.appendChild(timeline);
 	
 	return;
+}
+
+function generateRows(parentElem, repeat, onClick, item) {
+	for(i = 0; i < parseInt(repeat); i++)
+	{
+		generateRow(parentElem, onClick, item);
+	}
+}
+
+function generateRow(parentElem, onClick, item) {
+	let container = document.createElement('div');
+	container.classList.add('container');
+	if(onClick) container.addEventListener('click', onClick);
+	
+	generateCell(container, 'thumb', item?.date);
+	
+	generateCell(container, 'blob', '|');
+	
+	generateCell(container, 'description', item?.name);
+	
+	parentElem.appendChild(container);
+}
+
+function generateCell(parentElem, className, val) {
+	let cell = document.createElement('div');
+	cell.classList.add('dimmed');
+	if(className) cell.classList.add(className);
+	if(val) cell.innerText = val;
+	if(parentElem) parentElem.appendChild(cell);
 }
 
 function generateHorizontalTimeline(id, data, width, height) {
