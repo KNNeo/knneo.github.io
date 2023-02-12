@@ -56,6 +56,7 @@ function loadTimeline(sectionNo, chartContents) {
 		let canvas = document.createElement('canvas');
 		canvas.id = charter;
 		canvas.style.border = '1px solid white';
+		canvas.style.backgroundColor = 'white';
 		document.getElementById(identifier).appendChild(canvas); //parent div
 	}
 	timeline = document.getElementById(charter);
