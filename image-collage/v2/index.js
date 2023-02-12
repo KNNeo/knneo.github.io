@@ -36,7 +36,6 @@ const thumbnailRatio = 9/16;				// standard thumbnail image ratio, can be math e
 //--VARIABLES--//
 window.addEventListener('load', startup);
 window.addEventListener('resize', startup);
-if(window.matchMedia('(prefers-color-scheme: dark)').matches) toggleDarkMode();
 
 function startup() {
 	initializeVariables();
