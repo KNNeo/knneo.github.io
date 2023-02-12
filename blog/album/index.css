@@ -1,6 +1,29 @@
+/*Variables*/
+:root {
+  --primary: #1b00ff;
+  --secondary: #609fff;
+  --background: #fff;
+  --foreground: #000;
+  --accent: lightgray;
+}
+
+.darked:root {
+  --primary: #00e4ff;
+  --secondary: #00abbf;
+  --background: #000;
+  --foreground: #fff;
+  --accent: gray;
+}
+
 html {
-  font-family: Open Sans;
-  scroll-behavior: smooth;
+	font-family: Open Sans;
+	background-color: var(--background);
+	color: var(--foreground);
+	color-scheme: light;
+}
+
+html.darked {
+	color-scheme: dark;
 }
 
 body > * {
@@ -22,7 +45,7 @@ body > * {
 	left: 0;
 	right: 0;
 	z-index: 2;
-	background-color: white;
+	background-color: var(--background);
 }
 
 .title {
@@ -102,19 +125,5 @@ body > * {
 	z-index: 10;
 	position: sticky;
 	top: 0;
-	border-bottom: 1px solid;
-	background-color: white;
-}
-
-.darked .banner {
-	border-bottom: 1px solid white;
-}
-
-@media only screen and (max-width : 1040px) {
-/*scrollbars for top and bottom labels only on desktop*/
-html { font-size: 100%; }
-div { scrollbar-width: 0 !important; }
-div::-webkit-scrollbar { width: 0 !important }
-/*snap on touch is better on mobile than on desktop*/
-.profile-box { scroll-snap-align: center; }
+	background-color: var(--background);
 }
