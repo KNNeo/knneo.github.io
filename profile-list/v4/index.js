@@ -245,10 +245,10 @@ function addTimelineEvents(isHorizontal) {
 	});
 	
 	//on scroll turn off all overlays in timeline and calendar
-	window.addEventListener('scroll', function() {
-		if (document.querySelector('#timeline').querySelectorAll('div').length > 0)
-			document.querySelector('#timeline').querySelector('div').style.opacity = '0';
-	});
+	// window.addEventListener('scroll', function() {
+		// if (document.querySelector('#timeline').querySelectorAll('div').length > 0)
+			// document.querySelector('#timeline').querySelector('div').style.opacity = '0';
+	// });
 }
 
 ////CALENDAR////
@@ -1358,6 +1358,7 @@ function toggleMarried() {
 		let marriedList = window['profileList'].filter(profile => window['excludeMarried'] ? !processOption(profile.turningPoint.married, true) : true);
 		window['timelineDOBlist'] = createDOBlist(marriedList, 1, 35, true);
 		renderWantedList();
+		loadTimeline();
 		resetProfile();
 	}
 }
