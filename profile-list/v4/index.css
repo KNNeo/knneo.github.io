@@ -221,6 +221,7 @@ button {
 	color: gray;
 }
 .page-align {
+	width: 100%;
 	text-align: center;
 	margin: auto;
 }
