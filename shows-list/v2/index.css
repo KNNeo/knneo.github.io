@@ -229,7 +229,7 @@ body {
 .container:hover ~ div,
 .dimmed {
 	color: var(--accent);
-	filter: grayscale(90%) contrast(0.2);
+	filter: grayscale(90%) contrast(0.2) brightness(1.5);
 }
 
 @media only screen and (min-device-width: 320px) and (max-device-width: 960px) {
