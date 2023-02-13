@@ -232,6 +232,11 @@ body {
 	filter: grayscale(90%) contrast(0.2) brightness(1.5);
 }
 
+.darked .container:hover ~ div,
+.darked .dimmed {
+	filter: grayscale(90%) contrast(0.2)  brightness(0.8);	
+}
+
 @media only screen and (min-device-width: 320px) and (max-device-width: 960px) {
 	.anime-row,
 	.new-anime-row,
