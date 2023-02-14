@@ -1,0 +1,115 @@
+/*Variables*/
+:root {
+  --primary: #1b00ff;
+  --secondary: #609fff;
+  --background: #fff;
+  --foreground: #000;
+  --accent: lightgray;
+}
+
+.darked:root {
+  --primary: #00e4ff;
+  --secondary: #00abbf;
+  --background: #000;
+  --foreground: #fff;
+  --accent: gray;
+}
+
+html {
+	font-family: Open Sans;
+	background-color: var(--background);
+	color: var(--foreground);
+}
+
+body {
+  margin: 0;
+  text-align: center;
+}
+
+/*Generic*/
+.material-icons {
+	cursor: pointer;
+	padding: 10px;
+}
+
+.hidden {
+	display: none;
+}
+
+.box {
+	margin: 5px;
+	vertical-align: top;
+	scroll-snap-align: center;
+	white-space: normal;
+	touch-action: manipulation;
+}
+
+.shadowed {
+  border: 1px solid lightgray;
+  box-shadow: 3px 3px;
+}
+
+.shadowed:active {
+  box-shadow: 1px 1px;
+  transform: translate(2px,2px);
+}
+
+.unshadowed {
+	filter: opacity(100%);
+	transition: filter 1s;
+}
+
+.settings {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+	gap: 5px;
+}
+
+.settings > a {
+    color: var(--foreground);
+	text-decoration: none;
+}
+
+@media only screen and (max-width : 1040px) {
+/*scrollbars for top and bottom labels only on desktop*/
+html { font-size: 100%; }
+div { scrollbar-width: 0 !important; }
+div::-webkit-scrollbar { width: 0 !important }
+}
+
+/*Specific*/
+.calendar {
+	width: 100vw;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    align-items: center;
+}
+
+.expanded {
+	height: 75vh;
+}
+
+.day {
+}
+
+.cell {
+}
+
+.header,
+.number {
+	font-size: 1.5em;
+	font-weight: bold;
+}
+
+.content {
+	height: 1.3em;
+	overflow: hidden;
+	text-align: left;
+	font-size: 0.7em;
+}
+
+.content:active {
+	height: auto;
+	background-color: var(--background);
+}
