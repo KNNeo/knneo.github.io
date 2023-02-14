@@ -271,13 +271,15 @@ function generateCalendarTable(year, month, array) {
 	row.style.display = 'contents';
 	
 	let prev = document.createElement('div');
+	prev.classList.add('prev');
 	prev.style.gridColumn = 'span 2';
-	prev.innerText = '<';
+	prev.innerText = '⬅️';
+	prev.title = 'Previous Month';
 	prev.addEventListener('click', function() {
-		// if(window['month'] - 1 < 1) {
-			// generateCalendar(window['year'] - 1, 12);
-			// return;
-		// }
+		if(window['month'] - 1 < 0) {
+			generateCalendar(window['year'] - 1, 11);
+			return;
+		}
 		console.log(window['year'], window['month']-1);
 		generateCalendar(window['year'], window['month']-1);
 	});
@@ -289,13 +291,15 @@ function generateCalendarTable(year, month, array) {
 	row.appendChild(title);
 	
 	let next = document.createElement('div');
+	next.classList.add('next');
 	next.style.gridColumn = 'span 2';
-	next.innerText = '>';
+	next.innerText = '➡️';
+	prev.title = 'Next Month';
 	next.addEventListener('click', function() {
-		// if(window['month'] + 1 > 12) {
-			// generateCalendar(window['year'] + 1, 1);
-			// return;
-		// }
+		if(window['month'] + 1 > 11) {
+			generateCalendar(window['year'] + 1, 0);
+			return;
+		}
 		console.log(window['year'], window['month']+1);
 		generateCalendar(window['year'], window['month']+1);
 	});
@@ -308,8 +312,8 @@ function generateCalendarTable(year, month, array) {
 		row.style.display = 'contents';
 		for (let day = 0; day < 7; day++) {
 			let cell = document.createElement('div');
-			cell.classList.add('day');
 			if(array[week][day] > 0) {
+				cell.classList.add('day');
 				cell.innerHTML = '<div class="cell"><div class="number">' + array[week][day] + '</div></div>';
 				cell.setAttribute('data-id', array[week][day]);		// day of month
 				cell.setAttribute('data-day', day == 0 ? 7 : day);	// day of week (0 is sunday)
@@ -318,6 +322,13 @@ function generateCalendarTable(year, month, array) {
 		}
 		body.appendChild(row);
 	}
+	
+	let foot = document.createElement('div');
+	foot.classList.add('footer');
+	foot.style.gridColumn = 'span 7';	
+	foot.innerText = '';
+	
+	body.appendChild(foot);
 	
 	table.appendChild(body);
 	
@@ -329,21 +340,7 @@ function addSummaryEventsToCalendar() {
 	{
 		if(single.recurringWeeks)
 		{
-			let dates = document.querySelectorAll('div[data-day="' + single.startDayNo + '"]');
-			/*
-			if(single.recurringWeeks.includes(1))
-			{
-				// first day of week
-				// console.log(single);
-				let firstDate = dates[0];
-				// console.log(single.startDayNo, firstDate);				
-				let content = document.createElement('div');
-				content.classList.add('content');
-				content.innerText = single.format + ' - ' + single.name;
-				firstDate.querySelector('.cell').appendChild(content);
-			}
-			*/
-			
+			let dates = document.querySelectorAll('div[data-day="' + single.startDayNo + '"]');			
 			for(let weekNo of single.recurringWeeks)
 			{
 				let date = dates[weekNo-1];
@@ -352,8 +349,15 @@ function addSummaryEventsToCalendar() {
 				{
 					let content = document.createElement('div');
 					content.classList.add('content');
-					content.innerText = single.format + ' - ' + single.name;					
-					content.title = single.format + ' - ' + single.name;
+					content.tabIndex = '-1';
+					content.innerText = single.name;
+					content.title = single.name + '\n' + 
+					single.format + '\n' + 
+					single.channel + '\n' +
+					single.startTime + '-' + getEndTime(single.startTime, single.lengthMinutes);
+					content.addEventListener('click', function() {
+						document.querySelector('.footer').innerText = this.title;
+					});
 					date.querySelector('.cell').appendChild(content);
 				}
 			}
@@ -362,5 +366,17 @@ function addSummaryEventsToCalendar() {
 	}
 }
 
-function addEventDetails(day) {	
+function getEndTime(start, minutes) {
+	minutes += start%100;
+	let hours = 0;
+	while(minutes >= 60) {
+		hours += 1;
+		minutes -=60;
+	}
+	
+	start = start - start%100;
+	return start + (hours*100) + minutes;
+}
+
+function addDetailEventsList(day) {	
 }

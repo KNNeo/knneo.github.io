@@ -64,6 +64,7 @@ body {
     flex-direction: column;
     align-items: center;
 	gap: 5px;
+    margin: 0;
 }
 
 .settings > a {
@@ -71,18 +72,12 @@ body {
 	text-decoration: none;
 }
 
-@media only screen and (max-width : 1040px) {
-/*scrollbars for top and bottom labels only on desktop*/
-html { font-size: 100%; }
-div { scrollbar-width: 0 !important; }
-div::-webkit-scrollbar { width: 0 !important }
-}
-
 /*Specific*/
 .calendar {
 	width: 100vw;
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+	grid-template-rows: 1fr 1fr 1fr 1fr 1fr auto auto 2fr;
     align-items: center;
 }
 
@@ -91,7 +86,12 @@ div::-webkit-scrollbar { width: 0 !important }
 }
 
 .day {
+	height: 10vh;
+	overflow: scroll;
+	scrollbar-width: 0 !important;
 }
+
+.day::-webkit-scrollbar { width: 0 !important }
 
 .cell {
 }
@@ -102,14 +102,23 @@ div::-webkit-scrollbar { width: 0 !important }
 	font-weight: bold;
 }
 
+.prev,
+.next,
 .content {
-	height: 1.3em;
+	cursor: pointer;	
+}
+
+.content {
 	overflow: hidden;
 	text-align: left;
+	height: 1.3em;
 	font-size: 0.7em;
 }
 
-.content:active {
-	height: auto;
-	background-color: var(--background);
+.content:focus {
+	background-color: var(--secondary);
+}
+
+.footer {
+	font-size: 1em;
 }
