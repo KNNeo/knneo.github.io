@@ -272,8 +272,9 @@ function generateCalendarTable(year, month, array) {
 	
 	let prev = document.createElement('div');
 	prev.classList.add('prev');
+	prev.classList.add('material-icons');
 	prev.style.gridColumn = 'span 2';
-	prev.innerText = '⬅️';
+	prev.innerText = 'arrow_back_ios';
 	prev.title = 'Previous Month';
 	prev.addEventListener('click', function() {
 		if(window['month'] - 1 < 0) {
@@ -292,8 +293,9 @@ function generateCalendarTable(year, month, array) {
 	
 	let next = document.createElement('div');
 	next.classList.add('next');
+	next.classList.add('material-icons');
 	next.style.gridColumn = 'span 2';
-	next.innerText = '➡️';
+	next.innerText = 'arrow_forward_ios';
 	prev.title = 'Next Month';
 	next.addEventListener('click', function() {
 		if(window['month'] + 1 > 11) {
@@ -362,6 +364,7 @@ function addSummaryEventsToCalendar() {
 				{
 					let content = document.createElement('div');
 					content.classList.add('content');
+					content.tabIndex = '-1';
 					content.innerText = single.name;
 					content.title = single.name + '\n' + 
 					single.format + '\n' + 

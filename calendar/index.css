@@ -26,10 +26,22 @@ body {
   text-align: center;
 }
 
+a {
+	color: var(--primary);
+}
+
+a:visited {
+	color: var(--secondary);
+}
+
 /*Generic*/
 .material-icons {
 	cursor: pointer;
 	padding: 10px;
+}
+
+.material-icons:hover {
+	color: var(--primary);
 }
 
 .hidden {
@@ -86,7 +98,6 @@ body {
 }
 
 .day {
-	height: 4.5em;
 	overflow: scroll;
 	scrollbar-width: 0 !important;
 	scrollbar-width: none;
@@ -95,6 +106,7 @@ body {
 .day::-webkit-scrollbar { width: 0 !important }
 
 .cell {
+	height: 4.5em;
 }
 
 .header,
@@ -117,7 +129,7 @@ body {
 }
 
 .content:focus {
-	background-color: var(--secondary);
+	background-color: var(--accent);
 }
 
 .footer {
