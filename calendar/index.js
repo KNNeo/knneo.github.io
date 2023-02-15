@@ -307,6 +307,19 @@ function generateCalendarTable(year, month, array) {
 	
 	body.appendChild(row);
 	
+	row = document.createElement('div');
+	row.classList.add('header');
+	row.style.display = 'contents';
+	
+	for(let day of daysOfWeek)
+	{
+		let dayDiv = document.createElement('div');
+		dayDiv.innerText = day;
+		row.appendChild(dayDiv);
+	}
+	
+	body.appendChild(row);
+	
 	for (let week = 0; week < 6; week++) {
 		row = document.createElement('div');
 		row.style.display = 'contents';
@@ -349,14 +362,14 @@ function addSummaryEventsToCalendar() {
 				{
 					let content = document.createElement('div');
 					content.classList.add('content');
-					content.tabIndex = '-1';
 					content.innerText = single.name;
 					content.title = single.name + '\n' + 
 					single.format + '\n' + 
 					single.channel + '\n' +
-					single.startTime + '-' + getEndTime(single.startTime, single.lengthMinutes);
+					single.startTime + '-' + getEndTime(single.startTime, single.lengthMinutes) + '\n' +
+					single.url;
 					content.addEventListener('click', function() {
-						document.querySelector('.footer').innerText = this.title;
+						document.querySelector('.footer').innerHTML = convertTextToHTML(this.title, [single.url]);
 					});
 					date.querySelector('.cell').appendChild(content);
 				}
@@ -364,6 +377,19 @@ function addSummaryEventsToCalendar() {
 			
 		}
 	}
+}
+
+function convertTextToHTML(html, urls) {
+	// all newlines to be line break tag
+	html = html.replace(/\n/g, '<br>');
+	
+	// all links provided will to be in link tag
+	for(let url of urls)
+	{
+		html = html.replace(url, '<a target="_blank" href="' + url + '">' + url + '</a>');
+	}
+	
+	return html;
 }
 
 function getEndTime(start, minutes) {
