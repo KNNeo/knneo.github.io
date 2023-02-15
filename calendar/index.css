@@ -89,12 +89,13 @@ a:visited {
 	width: 100vw;
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-	grid-template-rows: 0.5fr 0.5fr 1fr 1fr 1fr 1fr auto auto 2fr;
+	grid-template-rows: 0.5fr 0.5fr 0.5fr 1fr 0.5fr 1fr 0.5fr 1fr 0.5fr 1fr auto auto 3fr;
     align-items: center;
 }
 
 .expanded {
 	height: 75vh;
+	overflow: auto;
 }
 
 .day {
@@ -105,20 +106,20 @@ a:visited {
 
 .day::-webkit-scrollbar { width: 0 !important }
 
-.cell {
-	height: 4.5em;
-}
-
 .header,
 .number {
 	font-size: 1.2em;
 	font-weight: bold;
 }
 
+.cell {
+	height: 4.8em;
+}
+
 .prev,
 .next,
 .content {
-	cursor: pointer;	
+	cursor: pointer;
 }
 
 .content {

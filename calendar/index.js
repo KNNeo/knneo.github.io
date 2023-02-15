@@ -323,18 +323,26 @@ function generateCalendarTable(year, month, array) {
 	body.appendChild(row);
 	
 	for (let week = 0; week < 6; week++) {
+		let rowHeader = document.createElement('div');
+		rowHeader.style.display = 'contents';
+		
 		row = document.createElement('div');
 		row.style.display = 'contents';
 		for (let day = 0; day < 7; day++) {
+			let cellHeader = document.createElement('div');
+			cellHeader.innerHTML = '<div class="number">' + array[week][day] + '</div>';
+			rowHeader.appendChild(cellHeader);
+			
 			let cell = document.createElement('div');
 			if(array[week][day] > 0) {
 				cell.classList.add('day');
-				cell.innerHTML = '<div class="cell"><div class="number">' + array[week][day] + '</div></div>';
+				cell.classList.add('cell');
 				cell.setAttribute('data-id', array[week][day]);		// day of month
 				cell.setAttribute('data-day', day == 0 ? 7 : day);	// day of week (0 is sunday)
 			}
 			row.appendChild(cell);
 		}
+		body.appendChild(rowHeader);
 		body.appendChild(row);
 	}
 	
@@ -374,7 +382,7 @@ function addSummaryEventsToCalendar() {
 					content.addEventListener('click', function() {
 						document.querySelector('.footer').innerHTML = convertTextToHTML(this.title, [single.url]);
 					});
-					date.querySelector('.cell').appendChild(content);
+					date.appendChild(content);
 				}
 			}
 			
