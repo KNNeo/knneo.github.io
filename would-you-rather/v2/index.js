@@ -142,7 +142,8 @@ function onResultClick(module) {
 	let result = document.getElementById('nameResultBox');
 	window['name-list'] = text.split('\n');
 	if(!result.innerHTML.includes('flexi-input')) result.innerHTML = '';
-	if(window['name-list'].length < 4) result.innerHTML = 'List is too short! Minimum 4 names!';
+	let maxNames = module.target.value?.split('{name}').length - 1 ?? 4;
+	if(window['name-list'].length < maxNames) result.innerHTML = 'List is too short! Minimum ' + maxNames + ' names!';
 	else if(text.length > 0)
 	{
 		window['temp'] = [];
@@ -188,12 +189,13 @@ function onResultClick(module) {
 				result.appendChild(holder);
 			}
 		}
-		else
-			result.innerHTML = module.target.value
-								.replace('{name}', generateTerm())
-								.replace('{name}', generateTerm())
-								.replace('{name}', generateTerm())
-								.replace('{name}', generateTerm());
+		else {
+			result.innerHTML = module.target.value;
+			for(let i = 1; i <= maxNames; i++)
+			{
+				result.innerHTML = result.innerHTML.replace('{name}', generateTerm());
+			}
+		}
 	}
 	else
 		result.innerHTML = 'Please key in something!';
