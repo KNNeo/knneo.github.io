@@ -88,19 +88,20 @@ button {
 
 #timeline .blob {
 	grid-column-start: 3;
-    font-size: 2em;
+	font-size: 2em;
 }
 
 #timeline .blob-horiz {
 	grid-row-start: 2;
 	white-space: nowrap;
-    font-size: 10em;
+	font-size: 10em;
 }
 
 #timeline .blob-horiz:hover {
 	color: var(--primary);
 	font-weight: bold;
 	filter: none;
+	z-index: 10;
 }
 
 #timeline .container:hover a img,
