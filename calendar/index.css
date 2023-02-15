@@ -86,7 +86,7 @@ body {
 }
 
 .day {
-	height: 10vh;
+	height: 4.5em;
 	overflow: scroll;
 	scrollbar-width: 0 !important;
 }
@@ -98,7 +98,7 @@ body {
 
 .header,
 .number {
-	font-size: 1.5em;
+	font-size: 1.2em;
 	font-weight: bold;
 }
 
