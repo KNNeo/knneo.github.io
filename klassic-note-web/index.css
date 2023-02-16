@@ -26,6 +26,10 @@ body {
 	overflow: hidden;
 }
 
+a {
+	color: var(--primary);
+}
+
 #title {
 	white-space: nowrap;
 	overflow: hidden;
@@ -199,15 +203,7 @@ body {
 	color: var(--foreground);
 }
 
-.darked .material-icons {
-	color: var(--foreground);
-}
-
 .no-highlight tr:hover {
-	background-color: initial;
-}
-
-.darked .no-highlight tr:hover {
 	background-color: initial;
 }
 
