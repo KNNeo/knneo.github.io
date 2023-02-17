@@ -113,10 +113,7 @@ button {
 
 #timeline .container:hover a,
 #timeline .container:hover a img,
-#timeline .container:hover div,
-#timeline .container-horiz:hover a,
-#timeline .container-horiz:hover a img,
-#timeline .container-horiz:hover div {
+#timeline .container:hover div {
 	z-index: 10;
 }
 
