@@ -15,7 +15,8 @@ function setDarkMode() {
 		document.head.appendChild(themeColor);
 	}
 	
-	if(window.matchMedia('(prefers-color-scheme: dark)').matches) toggleDarkMode();
+	if(localStorage.getItem('theme') == 'black') toggleDarkMode();
+	else if(window.matchMedia('(prefers-color-scheme: dark)').matches) toggleDarkMode();
 	themeColor.content = document.getElementsByTagName('html')[0].classList.contains('darked') ? 'black' : 'white';
 }
 
@@ -40,4 +41,5 @@ function toggleDarkMode() {
 		document.getElementsByTagName('html')[0].classList.add('darked');
 		themeColor.content = 'black';
 	}
+	localStorage.setItem('theme', themeColor.content);
 }
