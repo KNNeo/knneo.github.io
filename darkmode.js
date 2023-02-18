@@ -18,6 +18,7 @@ function setDarkMode() {
 	if(localStorage.getItem('theme') == 'black') toggleDarkMode();
 	else if(window.matchMedia('(prefers-color-scheme: dark)').matches) toggleDarkMode();
 	themeColor.content = document.getElementsByTagName('html')[0].classList.contains('darked') ? 'black' : 'white';
+	localStorage.setItem('theme', themeColor.content);
 }
 
 function addDarkModeEvents() {
