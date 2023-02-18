@@ -339,6 +339,7 @@ function generateCalendarTable(year, month, array) {
 				cell.classList.add('cell');
 				cell.setAttribute('data-id', array[week][day]);		// day of month
 				cell.setAttribute('data-day', day == 0 ? 7 : day);	// day of week (0 is sunday)
+				cell.setAttribute('data-month', monthsOfYear[month]);	// month
 			}
 			row.appendChild(cell);
 		}
@@ -367,7 +368,6 @@ function addSummaryEventsToCalendar() {
 			for(let weekNo of single.recurringWeeks)
 			{
 				let date = dates[weekNo-1];
-				// console.log(single.startDayNo, firstDate);
 				if(date)
 				{
 					let content = document.createElement('div');
@@ -377,6 +377,8 @@ function addSummaryEventsToCalendar() {
 					content.title = single.name + '\n' + 
 					single.format + '\n' + 
 					single.channel + '\n' +
+					daysOfWeek[single.startDayNo == 7 ? 0 : single.startDayNo] + ', ' + 
+					date.getAttribute('data-month') + ' ' + date.getAttribute('data-id') + ', ' + 
 					single.startTime + '-' + getEndTime(single.startTime, single.lengthMinutes) + '\n' +
 					single.url;
 					content.addEventListener('click', function() {

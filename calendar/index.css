@@ -129,8 +129,12 @@ a:visited {
 	font-size: 0.7em;
 }
 
-.content:focus {
+.content:hover {
 	background-color: var(--accent);
+}
+
+.content:focus {
+	background-color: var(--secondary);
 }
 
 .footer {
