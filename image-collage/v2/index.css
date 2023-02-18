@@ -72,12 +72,9 @@ body {
 
 .grid-item {
   position: relative;
-  background-color: var(--foreground);
   border: 1px solid lightgray;
   cursor: pointer;
   overflow: hidden;
-  /* background-position: center; */
-  /* transition: background-size 0.1s ease; */
 }
 
 .grid-item img {
