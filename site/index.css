@@ -312,7 +312,7 @@ a {
 
 .section-viewer {
 	border: 2px solid;
-	background-color: var(--foreground);
+	background-color: var(--background);
 	max-width: 80vw;
 	max-height: 80vh;
 	left: 0;

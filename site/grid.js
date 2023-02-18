@@ -290,6 +290,9 @@ function openGridInViewer(sectionIndex, componentIndex, galleryIndex) {
 		let component = document.createElement('div');
 		component.id = 'section' + (sectionIndex) + 'viewer';
 		component.classList.add('section-viewer');
+		component.addEventListener('click', function() {
+			event.stopPropagation();
+		});
 		viewer.appendChild(component);
 
 	viewer.appendChild(component);
