@@ -8,10 +8,10 @@
 void Main()
 {
 	List<string> includedDomains = new List<string>() { "ggpht.com", "bp.blogspot.com", "blogger.googleusercontent.com" };
-    bool WriteTitleOnConsole = true;
+    bool WriteTitleOnConsole = false;
 	bool TraceMode = false;
 	string imageExport = "[\"\"";
-    Console.WriteLine("WriteTitleOnConsole is " + WriteTitleOnConsole);
+    Console.WriteLine("WriteTitleOnConsole is " + WriteTitleOnConsole + "; Set as true to see post titles");
     Console.WriteLine("\tPost with changes will appear here");
 	Console.WriteLine("\tIf edit from Blogger img tags will be missing self-enclosing slash, format on web version to fix");
 	Console.WriteLine("==================================================================================================");
@@ -71,6 +71,10 @@ void Main()
         string title = entry.Element(_+"title").Value;        
         if(WriteTitleOnConsole || TraceMode)
             Console.WriteLine((title != "" ? title : "A Random Statement") + (count > 0 ? "\t[" + count + " change(s)]" : ""));
+		else if(p % 100 == 99)
+            Console.WriteLine(".");
+		else
+            Console.Write(".");
 		        
         #region export list of images from latest
         expression = @"(<img)(.*?)(src="")(.*?)("")";
