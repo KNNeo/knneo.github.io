@@ -44,11 +44,11 @@
 
 void Main()
 {
-    bool WriteTitleOnConsole = true;
+    bool WriteTitleOnConsole = false;
 	bool TraceMode = false;
 	int maxLatestPost = 4;
 	string defaultFont = "Noto Sans";
-    Console.WriteLine("WriteTitleOnConsole is " + WriteTitleOnConsole);
+    Console.WriteLine("WriteTitleOnConsole is " + WriteTitleOnConsole + "; Set as true to see post titles");
     Console.WriteLine("\tPost with changes will appear here");
 	Console.WriteLine("\tIf edit from Blogger img tags will be missing self-enclosing slash, format on web version to fix");
 	Console.WriteLine("==================================================================================================");
