@@ -724,7 +724,7 @@ function generateProfileFromJSON(profileName) {
 	}
 	
 	addAgeAfterDOB(labels.ageSuffix);
-	addStatusPopup();
+	addStatusPopup(window['simple']);
 }
 
 function generateProfileImage([profile, currentProfile, previousProfile]) {
@@ -1312,8 +1312,8 @@ function showProfilesImageCount(threshold) {
 }
 
 ////UNCATEGORIZED////
-function addStatusPopup() {
-	if(labels.statusPopup.length == 0) return;
+function addStatusPopup(simple) {
+	if(simple || labels.statusPopup.length == 0) return;
 	if(document.querySelector('.points') == null) return;
 	document.querySelector('.points').addEventListener('mouseover', function(event) {
 		event.target.innerHTML = '<div class=\"points-note\">' + labels.statusPopup + '</div>' + event.target.innerHTML;
