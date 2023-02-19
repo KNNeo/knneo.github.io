@@ -12,8 +12,8 @@
   --foreground: #fff;
 }
 html {
-	font-family: Open Sans;
-	font-size: 13px;
+	font-family: Noto Sans;
+	font-size: 0.8em;
 	overflow-x: hidden;
 	-webkit-user-select: none;
 	-khtml-user-select: none;
@@ -154,7 +154,7 @@ button {
 }
 
 .bi {
-	font-size: 20px;
+	font-size: 2em;
 	padding: 3px;
 }
 .box-married label {
@@ -332,14 +332,14 @@ button {
 	display: flex;
 	justify-content: center;
 	padding: 10px;
-	font-size: 24px;
+	font-size: 2em;
 }
 .hidden {
 	display: none;
 }
 .view {
 	max-width: 640px;
-	height: 75vh;
+	/* height: 75vh; */
 	margin: auto;
 	display: flex;
     justify-content: center;
@@ -402,8 +402,6 @@ button {
 
 /*scrollbars for top and bottom labels only on desktop*/
 @media only screen and (max-width : 480px) {
-	html { font-size: 0.8em; scroll-behavior: auto; }
 	div { scrollbar-width: 0 !important; }
 	div::-webkit-scrollbar { width: 0 !important }
-	.bi { font-size: 28px; }
 }

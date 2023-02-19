@@ -7,9 +7,7 @@
 	<meta name="theme-color" content="white">
     <link rel="stylesheet" type="text/css" href="index.css">
 	<script src="../../wanted-list/luxon.min.js"></script>
-	<script src="../../wanted-list/d3.v2.min.js"></script>
-	<script src="../../wanted-list/timeknots.js"></script>
-	<link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'/>
+	<link href='https://fonts.googleapis.com/css?family=Noto Sans' rel='stylesheet'/>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 	<script src="../../darkmode.js" type="application/javascript" charset="utf-8"></script>
 	<script src="../../get.js" type="application/javascript" charset="utf-8"></script>
@@ -18,6 +16,11 @@
 <body>
 <h1 class="page-align" onclick="location.reload()">女性プロフィールまとめ</h1>
 <div class="loader bi"></div>
+<h3 class="settings">
+	<a title="Wanted Level" class="bi bi-person-square" href="javascript:void(0);" onclick="toggleView(1)"></a>
+	<a title="Calendar" class="bi bi-calendar" href="javascript:void(0);" onclick="toggleView(2)"></a>
+	<a title="Toggle Dark Mode" class="darkmode bi bi-brightness-high-fill" href="javascript:void(0);" onclick="toggleDarkMode()" ></a>
+</h3>
 <div class="view">
 	<div class="page wanted-list page-align">
 		<ul class="list page-align"></ul>
@@ -46,14 +49,13 @@
 <br />
 <div id="time" class="page-align"></div>
 <br />
-<div style="text-align: center;"><a href="../v3/profile-quiz.html"><button id="quizBtn" style="text-align: center;">Quiz</button></a></div>
-<div>
-<h3 id="settings" class="settings">
-	<a title="Wanted Level" class="bi bi-person-square" href="javascript:void(0);" onclick="toggleView(1)"></a>
-	<a title="Calendar" class="bi bi-calendar" href="javascript:void(0);" onclick="toggleView(2)"></a>
-	<a title="Toggle Dark Mode" class="darkmode bi bi-brightness-high-fill" href="javascript:void(0);" onclick="toggleDarkMode()" ></a>
+<div style="text-align: center;">
+	<a href="../v3/profile-quiz.html"><button id="quizBtn" style="text-align: center;">Quiz</button></a>
+</div>
+<h3 class="settings">
 	<a class="home" href="../../index.html">knneo.github.io</a>
 </h3>
+<div>
 </div>
 <script src="index.js"></script>
 <script src="timeline.js"></script>
