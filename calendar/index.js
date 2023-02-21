@@ -216,14 +216,14 @@ function startup() {
 function generateCalendar(year, month, list) {
 	// add class or id to each cell, easier to add content
 	// use table tag, don't use css grid
-	console.log(year, month);
+	// console.log(year, month);
 	
 	let calendar = document.createElement('div');
 	
 	//TODO: allow start from monday
 	// generate calendar array
 	let calendarArray = generateCalendarArray(year, month);
-	console.log(calendarArray);
+	// console.log(calendarArray);
 	
 	// generate calendar HTML
 	let table = generateCalendarTable(year, month, calendarArray);	
@@ -232,8 +232,11 @@ function generateCalendar(year, month, list) {
 	document.querySelector('.list').innerHTML = '';
 	document.querySelector('.list').appendChild(calendar);
 	
-	// populate with summary, on expanded calendar
+	// populate with summary on expanded calendar
 	addSummaryEventsToCalendar();
+	
+	// add marked items on expanded calendar
+	addMarkedEventsToCalendar();
 	
 	// show events, per day, can include upcoming
 	let events = document.createElement('div');
@@ -302,7 +305,7 @@ function generateCalendarTable(year, month, array) {
 			generateCalendar(window['year'] + 1, 0);
 			return;
 		}
-		console.log(window['year'], window['month']+1);
+		// console.log(window['year'], window['month']+1);
 		generateCalendar(window['year'], window['month']+1);
 	});
 	row.appendChild(next);
@@ -337,9 +340,10 @@ function generateCalendarTable(year, month, array) {
 			if(array[week][day] > 0) {
 				cell.classList.add('day');
 				cell.classList.add('cell');
-				cell.setAttribute('data-id', array[week][day]);		// day of month
-				cell.setAttribute('data-day', day == 0 ? 7 : day);	// day of week (0 is sunday)
+				cell.setAttribute('data-id', array[week][day]);			// day of month
+				cell.setAttribute('data-day', day == 0 ? 7 : day);		// day of week (0 is sunday)
 				cell.setAttribute('data-month', monthsOfYear[month]);	// month
+				cell.setAttribute('data-year', window['year']);			// year
 			}
 			row.appendChild(cell);
 		}
@@ -384,11 +388,51 @@ function addSummaryEventsToCalendar() {
 					content.addEventListener('click', function() {
 						document.querySelector('.footer').innerHTML = convertTextToHTML(this.title, [single.url]);
 					});
+					content.addEventListener('dblclick', function() {
+						this.classList.add('marked');
+						addToMarked({
+							date: date.getAttribute('data-id'),
+							month: date.getAttribute('data-month'),
+							year: date.getAttribute('data-year'),
+							id: single.name
+						});
+					});
 					date.appendChild(content);
 				}
 			}
 			
 		}
+	}
+}
+
+function addMarkedEventsToCalendar() {
+	let list = JSON.parse(localStorage.getItem('calendar-marked') ?? '[]');
+	for(let item of list)
+	{
+		let box = document.querySelector('div[data-id="' + item.date + '"][data-month="' + item.month + '"][data-year="' + item.year + '"]');
+		// console.log(box);
+		for(let cell of box.querySelectorAll('div'))
+		{
+			// console.log(cell);
+			if(cell.innerText == item.id)
+			{
+				cell.classList.add('marked');
+			}
+		}
+	}
+}
+
+function addToMarked(item) {
+	let current = JSON.parse(localStorage.getItem('calendar-marked') ?? '[]');
+	current.push(item);
+	localStorage.setItem('calendar-marked', JSON.stringify(current));
+}
+
+function clearMarked() {
+	localStorage.removeItem('calendar-marked');
+	for(let marked of document.querySelectorAll('.marked'))
+	{
+		marked.classList.remove('marked');
 	}
 }
 

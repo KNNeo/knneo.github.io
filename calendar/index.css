@@ -73,8 +73,9 @@ a:visited {
 
 .settings {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
+    justify-content: center;
 	gap: 5px;
     margin: 0;
 }
@@ -139,4 +140,8 @@ a:visited {
 
 .footer {
 	font-size: 1em;
+}
+
+.marked {
+	background-color: var(--primary);	
 }
