@@ -1346,13 +1346,20 @@ function generatePlayer(contents) {
 	document.querySelector('#music').appendChild(audio);
 	
 	//update MediaSession API
-	if (navigator && 'mediaSession' in navigator) {
-		navigator.mediaSession.metadata = new MediaMetadata({
-			title: row[columnIndexSongTitle],
-			artist: row[columnIndexArtistTitle],
-			album: row[columnIndexReleaseTitle]
-		});
-		if(debugMode) console.log('metadata', navigator.mediaSession.metadata.toString());
+	try
+	{
+		if (navigator && 'mediaSession' in navigator) {
+			navigator.mediaSession.metadata = new MediaMetadata({
+				title: row[columnIndexSongTitle],
+				artist: row[columnIndexArtistTitle],
+				album: row[columnIndexReleaseTitle]
+			});
+			if(debugMode) console.log('metadata', navigator.mediaSession.metadata.toString());
+		}
+	}
+	catch
+	{
+		console.error('unable to update MediaSession API');
 	}
 }
 
@@ -1407,22 +1414,29 @@ function generateCoverArt(contents) {
 	displayCoverIfComplete();
 	
 	//update MediaSession API
-	if (navigator && 'mediaSession' in navigator) {
-		var meta = navigator.mediaSession.metadata;
-		navigator.mediaSession.metadata = new MediaMetadata({
-			title: meta.title,
-			artist: meta.artist,
-			album: meta.album,
-			artwork: [
-				{ src: coverArtUrl, sizes: '96x96',   type: 'image/png' },
-				{ src: coverArtUrl, sizes: '128x128', type: 'image/png' },
-				{ src: coverArtUrl, sizes: '192x192', type: 'image/png' },
-				{ src: coverArtUrl, sizes: '256x256', type: 'image/png' },
-				{ src: coverArtUrl, sizes: '384x384', type: 'image/png' },
-				{ src: coverArtUrl, sizes: '512x512', type: 'image/png' },
-			]
-		});
-		if(debugMode) console.log('metadata', navigator.mediaSession.metadata.toString());
+	try
+	{
+		if (navigator && 'mediaSession' in navigator) {
+			var meta = navigator.mediaSession.metadata;
+			navigator.mediaSession.metadata = new MediaMetadata({
+				title: meta.title,
+				artist: meta.artist,
+				album: meta.album,
+				artwork: [
+					{ src: coverArtUrl, sizes: '96x96',   type: 'image/png' },
+					{ src: coverArtUrl, sizes: '128x128', type: 'image/png' },
+					{ src: coverArtUrl, sizes: '192x192', type: 'image/png' },
+					{ src: coverArtUrl, sizes: '256x256', type: 'image/png' },
+					{ src: coverArtUrl, sizes: '384x384', type: 'image/png' },
+					{ src: coverArtUrl, sizes: '512x512', type: 'image/png' },
+				]
+			});
+			if(debugMode) console.log('metadata', navigator.mediaSession.metadata.toString());
+		}
+	}
+	catch
+	{
+		console.error('unable to update MediaSession API');
 	}
 }
 
