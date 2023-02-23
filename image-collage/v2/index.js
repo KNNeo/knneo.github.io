@@ -768,7 +768,7 @@ function closeViewer() {
 }
 
 function toggleZoom() {
-	if(window['slideshow'] == null) return;
+	if(window['slideshow'] != null) return;
 	
 	let viewer = document.getElementById('viewer');
 	let viewerPrev = document.getElementById('viewer-prev');
