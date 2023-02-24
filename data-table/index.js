@@ -544,7 +544,7 @@ function resetTable() {
 function setup() {
 	initialize();
 	resetTable();
-	addDragAndDrop();
+	// addDragAndDrop();
 	window.addEventListener('resize', resize);
 
 }
