@@ -4,6 +4,7 @@ const altTitlePrefix = 'Original'; 			// to be placed before song, release, arti
 const databaseFilename = 'https://knneo.github.io/klassic-note-web/db/KlassicNote.db'; // location of database, url only
 const directory = 'file://C:/Users/KAINENG/OneDrive/Music/'; 		// location of audio file, in {directory}/{KNYEAR}/{Filename}
 const coverArtDirectory = 'file://F:/RBKN/Pictures/ART/ALBUMART/'; 	// location of cover art, in {coverArtDirectory}/{KNYEAR}/{Filename}
+const useDirectoryFormat = true; // for directory and coverArtDirectory, if false will not use format above
 const debugMode = false;					// will show all available logging on console
 const widescreenAverageModuleSize = 480; 	// on wide screens, (responsive) tab width for modules
 const autoplayOnSelect = false; 			// disable player autoplay on select song in any table
@@ -1338,7 +1339,7 @@ function generatePlayer(contents) {
 	});
 	
 	let source = document.createElement('source');
-	source.src = directory + knyear + '/' + filename + '.mp3';
+	source.src = (useDirectoryFormat ? (directory + knyear + '/' + filename) : filename) + '.mp3' ;
 	source.type = 'audio/mpeg';
 	source.innerText = '[You\'ll need a newer browser that supports HTML5 to listen to this.]';
 	
@@ -1392,7 +1393,7 @@ function generateCoverArt(contents) {
 	let headerWidth = document.querySelector('#header').getBoundingClientRect().width;// - 15;
 	let headerHeight = document.querySelector('#header').getBoundingClientRect().height - (isOverlay ? -6 : 6);// - 15;
 	
-	let coverArtUrl = coverArtDirectory + row[columnIndexKNYEAR] + '/' + row[columnIndexCoverArt];
+	let coverArtUrl = useDirectoryFormat ? coverArtDirectory + row[columnIndexKNYEAR] + '/' + row[columnIndexCoverArt] : row[columnIndexCoverArt];
 	let art = document.createElement(isOverlay ? 'div' : 'img');
 	art.style.width = (isOverlay ? headerWidth : headerHeight) + 'px';
 	art.style.height = headerHeight + 'px';
