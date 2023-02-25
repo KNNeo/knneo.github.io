@@ -375,6 +375,7 @@ function skipSong() {
 			if(nextOption == 'artist') query += " AND ArtistID = " + window['artist-id'] + "";
 			if(nextOption == 'release') query += " AND ReleaseID = " + window['release-id'] + "";
 			if(nextOption == 'year') query += " AND KNYEAR = " + window['year'] + "";
+			if(nextOption == 'genre') query += " AND Genre = '" + window['genre'] + "'";
 			if(nextOption == 'past3year') {
 				if(!window['years']) window['years'] = window['year'] - 3;
 				query += " AND KNYEAR > " + parseInt(window['years']) + "";
@@ -538,6 +539,7 @@ function renderVariables() {
 	window['release-id'] = 0;
 	window['artist-id'] = 0;
 	window['year'] = '';
+	window['genre'] = '';
 }
 
 function renderTitle() {
@@ -1244,6 +1246,7 @@ function updateSearch(contents) {
 	let columnIndexArtistTitle = contents.columns.indexOf('Artist Title');
 	let columnIndexArtistID = contents.columns.indexOf('ArtistID');
 	let columnIndexReleaseID = contents.columns.indexOf('ReleaseID');
+	let columnIndexGenre = contents.columns.indexOf('Genre');
 	
 	if(window['mode'] == 'song')
 	{
@@ -1252,6 +1255,7 @@ function updateSearch(contents) {
 		window['release-id'] = row[columnIndexReleaseID];
 		window['song-id'] = row[columnIndexKNID];
 		window['year'] = row[columnIndexKNYEAR];
+		window['genre'] = row[columnIndexGenre];
 		
 		let recent = localStorage.getItem('recent');
 		recent = (recent == null || recent.length == 0) ? JSON.parse('[]') : JSON.parse(recent);
