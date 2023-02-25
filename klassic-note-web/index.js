@@ -380,8 +380,7 @@ function skipSong() {
 				if(!window['years']) window['years'] = window['year'] - 3;
 				query += " AND KNYEAR > " + parseInt(window['years']) + "";
 			}
-			// if(debugMode)
-				console.log(query);
+			if(debugMode) console.log('shuffle-mode', query);
 			queryDb(query, function(content) {
 				if(debugMode) console.log('nextOption', window['song-id'], content);
 				let total = content.values.length;
