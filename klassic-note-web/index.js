@@ -375,6 +375,12 @@ function skipSong() {
 			if(nextOption == 'artist') query += " AND ArtistID = " + window['artist-id'] + "";
 			if(nextOption == 'release') query += " AND ReleaseID = " + window['release-id'] + "";
 			if(nextOption == 'year') query += " AND KNYEAR = " + window['year'] + "";
+			if(nextOption == 'past3year') {
+				if(!window['years']) window['years'] = window['year'] - 3;
+				query += " AND KNYEAR > " + parseInt(window['years']) + "";
+			}
+			// if(debugMode)
+				console.log(query);
 			queryDb(query, function(content) {
 				if(debugMode) console.log('nextOption', window['song-id'], content);
 				let total = content.values.length;
@@ -388,6 +394,7 @@ function skipSong() {
 				if(total == 0 || (inPlaylist >= total))
 				{
 					randomSong();
+					window['years'] = undefined;
 					return;
 				}
 				let toQueue = 1;
