@@ -2,13 +2,28 @@ window.addEventListener('load', generateArchive);
 window.addEventListener('scroll', fadeIn); 
 
 function unique(current, index, all) {
-  return all.map(a => a.url).indexOf(current.url) === index;
+  return all.map(a => a.imgUrl).indexOf(current.imgUrl) === index;
 }
 
 function onFilterInput() {
 	// console.log(event.target.value);
 	window['filter'] = event.target.value;
 	generateArchive();
+}
+
+function onFilterKeyUp() {
+	// console.log(event.keyCode);
+	if (event.keyCode === 13) // "Enter" key
+	{
+		window['filter'] = event.target.value;
+		generateArchive();
+	}
+	if (event.keyCode === 27) // "Escape" key
+	{
+		window['filter'] = '';
+		event.target.value = '';
+		generateArchive();
+	}
 }
 
 function generateArchive() {
@@ -18,13 +33,19 @@ function generateArchive() {
 		list.innerHTML = '';
 		
 		let title = '';
-		for(let mosaic of mosaicArray.filter(unique).filter(m => m.url.includes(window['filter'] || '')))
+		for(let mosaic of mosaicArray.filter(unique).filter(m => m.imgUrl.includes(window['filter'] || '')))
 		{
 			if(title != mosaic.title)
 			{
+				let titleContainer = document.createElement('a');
+				titleContainer.classList.add('title');
+				titleContainer.href = mosaic.titleUrl;
+				
 				let titleDiv = document.createElement('h4');
-				titleDiv.innerText = mosaic.title;
-				list.appendChild(titleDiv);				
+				titleDiv.innerText = mosaic.title;				
+				titleContainer.appendChild(titleDiv);	
+				
+				list.appendChild(titleContainer);				
 			}
 
 			title = mosaic.title;
@@ -34,7 +55,7 @@ function generateArchive() {
 			
 				let imageSpan = document.createElement('img');
 				imageSpan.classList.add('tile-image');
-				imageSpan.setAttribute('data-image', mosaic.url);
+				imageSpan.setAttribute('data-image', mosaic.imgUrl);
 				imageSpan.addEventListener('click', function() {
 					this.style.maxWidth = this.style.maxWidth == '' ? '100vw' : '';
 					this.style.maxHeight = this.style.maxHeight == '' ? '100vh' : '';

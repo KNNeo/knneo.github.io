@@ -49,7 +49,15 @@ body > * {
 }
 
 .title {
-	margin: 3px 0;
+	color: var(--primary);
+}
+
+.title:visited {
+	color: var(--secondary);
+}
+
+.title:hover {
+	text-decoration: none;
 }
 
 .list {
@@ -87,6 +95,7 @@ body > * {
     -o-transition: .5s;
     transition: .5s;
     opacity: 0;
+	cursor: pointer;
 }
 
 .tile-view {
@@ -106,19 +115,6 @@ body > * {
     -webkit-transition: unset;
     -o-transition: unset;
     transition: unset;
-}
-
-.shadowed {
-  border: 1px solid lightgray;
-  box-shadow: 3px 3px;
-}
-.shadowed:active {
-  box-shadow: 1px 1px;
-  transform: translate(2px,2px);
-}
-.unshadowed {
-	filter: opacity(100%);
-	transition: filter 1s;
 }
 
 .banner {
