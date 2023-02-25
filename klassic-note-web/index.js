@@ -3,7 +3,7 @@ const defaultTitle = 'Klassic Note Web'; 	// title of browser and page, will be 
 const altTitlePrefix = 'Original'; 			// to be placed before song, release, artist title headers
 const databaseFilename = 'https://knneo.github.io/klassic-note-web/db/KlassicNote.db'; // location of database, url only
 const directory = 'file://C:/Users/KAINENG/OneDrive/Music/'; 		// location of audio file, in {directory}/{KNYEAR}/{Filename}
-const coverArtDirectory = 'file://F:/RBKN/Pictures/ART/ALBUMART/'; 	// location of cover art, in {coverArtDirectory}/{KNYEAR}/{Filename}
+const coverArtDirectory = 'http://localhost:803/'; 	// location of cover art, in {coverArtDirectory}/{KNYEAR}/{Filename}
 const useDirectoryFormat = true; // for directory and coverArtDirectory, if false will not use format above
 const debugMode = false;					// will show all available logging on console
 const widescreenAverageModuleSize = 480; 	// on wide screens, (responsive) tab width for modules
@@ -730,10 +730,10 @@ function onChangeOption() {
 		window['mode'] = 'song';
 		let input = id.replace(categoryIcons[2], '');
 		
-		let query = "SELECT ID, KNYEAR, Filename, SongTitle AS 'Song Title', ArtistTitle AS 'Artist Title', ReleaseTitle AS 'Release Title', ReleaseArtistTitle AS 'Release Artist', ReleaseYear AS 'Year', Rating, Genre, DateCreated AS 'Date Added', ";
+		let query = "SELECT ID, KNYEAR, Filename, CASE WHEN SongTitleAlt IS NOT NULL AND SongTitle <> SongTitleAlt THEN SongTitle || '<br/>' || SongTitleAlt ELSE SongTitleAlt END AS 'Song Title', ArtistTitle, CASE WHEN ArtistTitleAlt IS NOT NULL AND ArtistTitle <> ArtistTitleAlt THEN ArtistTitle || '<br/>' || ArtistTitleAlt ELSE ArtistTitle END AS 'Artist Title', ReleaseTitle AS 'Release Title', ReleaseArtistTitle AS 'Release Artist', ReleaseYear AS 'Year', Rating, Genre, DateCreated AS 'Date Added', ";
 		query += "CASE WHEN VocalCode = 'F' THEN 'Solo Female' WHEN VocalCode = 'M' THEN 'Solo Male' WHEN VocalCode = 'MM' THEN 'Male Duet' WHEN VocalCode = 'FF' THEN 'Female Duet' WHEN VocalCode IN ('MF', 'FM') THEN 'Mixed Duet' WHEN LENGTH(VocalCode) = 3 THEN 'Triplet' WHEN LENGTH(VocalCode) >= 4 THEN 'Quartet or More (' || LENGTH(VocalCode) || ')' END AS 'Vocals', ";
 		query += "CASE LanguageCode WHEN 'JP' THEN 'Japanese' WHEN 'EN' THEN 'English' WHEN 'CH' THEN 'Chinese' WHEN 'FR' THEN 'French' END AS 'Language', ";
-		query += "LyricsURL AS 'Lyrics', SongTitleAlt AS '" + altTitlePrefix + " Song Title', ArtistID, ReleaseID FROM Song WHERE KNID = " + input;
+		query += "LyricsURL AS 'Lyrics', ArtistID, ReleaseID FROM Song WHERE KNID = " + input;
 		if(debugMode) console.log('query', query);
 		queryDb(query, generateModules);
 	}
@@ -742,7 +742,7 @@ function onChangeOption() {
 		window['mode'] = 'artist';
 		let input = id.replace(categoryIcons[0], '');
 		
-		let query = "SELECT ArtistTitle AS 'Artist Title' FROM Artist WHERE ID = " + input;
+		let query = "SELECT ArtistTitle, ArtistTitle AS 'Artist Title' FROM Artist WHERE ID = " + input;
 		if(debugMode) console.log('query', query);
 		queryDb(query, generateModules);
 		
@@ -1242,14 +1242,14 @@ function updateSearch(contents) {
 	let columnIndexKNID = contents.columns.indexOf('ID');
 	let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
 	let columnIndexSongTitle = contents.columns.indexOf('Song Title');
-	let columnIndexArtistTitle = contents.columns.indexOf('Artist Title');
+	let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
 	let columnIndexArtistID = contents.columns.indexOf('ArtistID');
 	let columnIndexReleaseID = contents.columns.indexOf('ReleaseID');
 	let columnIndexGenre = contents.columns.indexOf('Genre');
 	
 	if(window['mode'] == 'song')
 	{
-		document.querySelector('#search').value = row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle];
+		document.querySelector('#search').value = row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle].split('<br/>')[0];
 		window['artist-id'] = row[columnIndexArtistID];
 		window['release-id'] = row[columnIndexReleaseID];
 		window['song-id'] = row[columnIndexKNID];
@@ -1286,7 +1286,7 @@ function generatePlayer(contents) {
 	let columnIndexFilename = contents.columns.indexOf('Filename');
 	let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
 	let columnIndexSongTitle = contents.columns.indexOf('Song Title');
-	let columnIndexArtistTitle = contents.columns.indexOf('Artist Title');
+	let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
 	let columnIndexReleaseTitle = contents.columns.indexOf('Release Title');
 	let filename = row[columnIndexFilename];
 	let knyear = row[columnIndexKNYEAR];
@@ -1474,16 +1474,16 @@ function queryInfo(contents) {
 	let columns = contents.columns;
 	let rows = contents.values;
 	let row = rows[0];
-	let columnIndexArtistTitle = contents.columns.indexOf('Artist Title');
+	let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
 	let columnIndexReleaseTitle = contents.columns.indexOf('Release Title');
 	let columnIndexReleaseArtistTitle = contents.columns.indexOf('Release Artist');
 	
-	let query = "SELECT ArtistTitle AS 'Name', GROUP_CONCAT(ParentArtist, '<br/>') AS 'Tags (if any)', CASE WHEN ArtistCode = 'BD' THEN 'Independent Band' WHEN ArtistCode = 'ID' THEN 'Idol Group' WHEN ArtistCode = 'AG' THEN 'Anime Voice Actor Group' WHEN ArtistCode = 'AS' THEN 'Anime Voice Actor(s)' WHEN ArtistCode = 'CL' THEN 'Collaboration' WHEN ArtistCode = 'SS' THEN 'Singer-Songwriter' WHEN ArtistCode = 'SL' THEN 'Solo Artist' ELSE 'Unknown' END AS 'Artist Type', DisbandYear AS 'Year Disbanded (if any)', ArtistTitleAlt AS '" + altTitlePrefix + " Name', (SELECT COUNT(*) FROM Song WHERE ArtistTitle = '" + addQuotationInSQLString(row[columnIndexArtistTitle]) + "') AS 'Songs In Library' FROM Artist WHERE ArtistTitle = '" + addQuotationInSQLString(row[columnIndexArtistTitle]) + "' ";
+	let query = "SELECT CASE WHEN ArtistTitleAlt IS NOT NULL AND ArtistTitle <> ArtistTitleAlt THEN ArtistTitle || '<br/>' || ArtistTitleAlt ELSE ArtistTitle END AS 'Name', GROUP_CONCAT(ParentArtist, '<br/>') AS 'Tags (if any)', CASE WHEN ArtistCode = 'BD' THEN 'Independent Band' WHEN ArtistCode = 'ID' THEN 'Idol Group' WHEN ArtistCode = 'AG' THEN 'Anime Voice Actor Group' WHEN ArtistCode = 'AS' THEN 'Anime Voice Actor(s)' WHEN ArtistCode = 'CL' THEN 'Collaboration' WHEN ArtistCode = 'SS' THEN 'Singer-Songwriter' WHEN ArtistCode = 'SL' THEN 'Solo Artist' ELSE 'Unknown' END AS 'Artist Type', DisbandYear AS 'Year Disbanded (if any)', (SELECT COUNT(*) FROM Song WHERE ArtistTitle = '" + addQuotationInSQLString(row[columnIndexArtistTitle]) + "') AS 'Songs In Library' FROM Artist WHERE ArtistTitle = '" + addQuotationInSQLString(row[columnIndexArtistTitle]) + "' ";
 	query += "GROUP BY ArtistTitle, ArtistCode, DisbandYear, ArtistTitleAlt";
 	if(debugMode) console.log('generateArtistInfo', query);
 	queryDb(query, generateArtistInfo);
 	
-	query = "SELECT KNYEAR, Category, Type, ReleaseTitle AS 'Release Title', ReleaseArtistTitle AS 'Release Artist', TracksSelected || ' / ' || TracksTotal AS 'Tracks In Library', (SELECT COUNT(*) FROM Song s WHERE s.ReleaseTitle like r.ReleaseTitle || '%' AND s.ReleaseArtistTitle = r.ReleaseArtistTitle AND s.KNYEAR <= r.KNYEAR) || ' / ' || TracksSelected AS 'New Tracks', ReleaseYear || '.' || SUBSTR('00' || SUBSTR(ReleaseDate, 0, 2), -2, 2) || '.' || SUBSTR('00' || ReleaseDate, -2, 2) AS 'Release Date', ReleaseTitleAlt AS '" + altTitlePrefix + " Release Title', ReleaseArtistTitleAlt AS '" + altTitlePrefix + " Release Artist' FROM Release r WHERE ID = (SELECT MAX(ID) FROM Release WHERE ReleaseTitle = '" + reduceReleaseTitle(row[columnIndexReleaseTitle]) + "' AND ReleaseArtistTitle = '" + addQuotationInSQLString(row[columnIndexReleaseArtistTitle]) + "')";
+	query = "SELECT KNYEAR, Category, Type, CASE WHEN ReleaseTitleAlt IS NOT NULL AND ReleaseTitle <> ReleaseTitleAlt THEN ReleaseTitle || '<br/>' || ReleaseTitleAlt ELSE ReleaseTitle END AS 'Release Title', CASE WHEN ReleaseArtistTitleAlt IS NOT NULL AND ReleaseArtistTitle <> ReleaseArtistTitleAlt THEN ReleaseArtistTitle || '<br/>' || ReleaseArtistTitleAlt ELSE ReleaseArtistTitle END AS 'Release Artist', TracksSelected || ' / ' || TracksTotal AS 'Tracks In Library', (SELECT COUNT(*) FROM Song s WHERE s.ReleaseTitle like r.ReleaseTitle || '%' AND s.ReleaseArtistTitle = r.ReleaseArtistTitle AND s.KNYEAR <= r.KNYEAR) || ' / ' || TracksSelected AS 'New Tracks', ReleaseYear || '.' || SUBSTR('00' || SUBSTR(ReleaseDate, 0, 2), -2, 2) || '.' || SUBSTR('00' || ReleaseDate, -2, 2) AS 'Release Date' FROM Release r WHERE ID = (SELECT MAX(ID) FROM Release WHERE ReleaseTitle = '" + reduceReleaseTitle(row[columnIndexReleaseTitle]) + "' AND ReleaseArtistTitle = '" + addQuotationInSQLString(row[columnIndexReleaseArtistTitle]) + "')";
 	if(debugMode) console.log('generateReleaseInfo', query);
 	queryDb(query, generateReleaseInfo);
 }
@@ -1493,7 +1493,7 @@ function generateSongInfo(contents) {
 	generateTableAsColumnRows(contents, {
 		id: 'song-info', 
 		title: 'Song Information', 
-		skipColumns: ['ArtistID', 'ReleaseID', 'Filename'],
+		skipColumns: ['ArtistID', 'ReleaseID', 'Filename', 'ArtistTitle', 'Release Title', 'Release Artist'],
 	});
 }
 
@@ -1611,9 +1611,9 @@ function queryArtistInfo(contents) {
 	let columns = contents.columns;
 	let rows = contents.values;
 	let row = rows[0];
-	let columnIndexArtistTitle = contents.columns.indexOf('Artist Title');
+	let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
 	
-	let query = "SELECT ArtistTitle AS 'Name', GROUP_CONCAT(ParentArtist, '<br/>') AS 'Tags (if any)', CASE WHEN ArtistCode = 'BD' THEN 'Independent Band' WHEN ArtistCode = 'ID' THEN 'Idol Group' WHEN ArtistCode = 'AG' THEN 'Anime Voice Actor Group' WHEN ArtistCode = 'AS' THEN 'Anime Voice Actor(s)' WHEN ArtistCode = 'CL' THEN 'Collaboration' WHEN ArtistCode = 'SS' THEN 'Singer-Songwriter' WHEN ArtistCode = 'SL' THEN 'Solo Artist' ELSE 'Unknown' END AS 'Artist Type', DisbandYear AS 'Year Disbaneded (if any)', ArtistTitleAlt AS '" + altTitlePrefix + " Name', (SELECT COUNT(*) FROM Song WHERE ArtistTitle = '" + addQuotationInSQLString(row[columnIndexArtistTitle]) + "') AS 'Songs In Library' FROM Artist WHERE ArtistTitle = '" + addQuotationInSQLString(row[columnIndexArtistTitle]) + "' ";
+	let query = "SELECT CASE WHEN ArtistTitleAlt IS NOT NULL AND ArtistTitle <> ArtistTitleAlt THEN ArtistTitle || '<br/>' || ArtistTitleAlt ELSE ArtistTitle END AS 'Name', GROUP_CONCAT(ParentArtist, '<br/>') AS 'Tags (if any)', CASE WHEN ArtistCode = 'BD' THEN 'Independent Band' WHEN ArtistCode = 'ID' THEN 'Idol Group' WHEN ArtistCode = 'AG' THEN 'Anime Voice Actor Group' WHEN ArtistCode = 'AS' THEN 'Anime Voice Actor(s)' WHEN ArtistCode = 'CL' THEN 'Collaboration' WHEN ArtistCode = 'SS' THEN 'Singer-Songwriter' WHEN ArtistCode = 'SL' THEN 'Solo Artist' ELSE 'Unknown' END AS 'Artist Type', DisbandYear AS 'Year Disbaneded (if any)', (SELECT COUNT(*) FROM Song WHERE ArtistTitle = '" + addQuotationInSQLString(row[columnIndexArtistTitle]) + "') AS 'Songs In Library' FROM Artist WHERE ArtistTitle = '" + addQuotationInSQLString(row[columnIndexArtistTitle]) + "' ";
 	query += "GROUP BY ArtistTitle, ArtistCode, DisbandYear, ArtistTitleAlt";
 	if(debugMode)
 		console.log('generateArtistInfo', query);
@@ -1650,7 +1650,7 @@ function queryRelated(contents) {
 	let rows = contents.values;
 	let row = rows[0];
 	let columnIndexKNID = contents.columns.indexOf('ID');
-	let columnIndexArtistTitle = contents.columns.indexOf('Artist Title');
+	let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
 	let columnIndexReleaseYear = contents.columns.indexOf('Year');
 	let columnIndexReleaseTitle = contents.columns.indexOf('Release Title');
 	let columnIndexReleaseArtistTitle = contents.columns.indexOf('Release Artist');
@@ -1780,7 +1780,7 @@ function queryArtistRelated(contents) {
 	let rows = contents.values;
 	let row = rows[0];
 	let columnIndexKNID = contents.columns.indexOf('ID');
-	let columnIndexArtistTitle = contents.columns.indexOf('Artist Title');
+	let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
 	
 	//max 10 related within 5 years
 	let convertDate = "replace(DateCreated,'.','-')";
@@ -1883,7 +1883,7 @@ function queryAwardsByArtist(contents) {
 	let columns = contents.columns;
 	let rows = contents.values;
 	let row = rows[0];
-	let columnIndexArtistTitle = contents.columns.indexOf('Artist Title');
+	let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
 	
 	//select awards of that song regardless of year
 	let query = "SELECT a.KNYEAR, a.AwardType, a.AwardTitle, a.ArtistTitle AS 'Artist Title', CASE WHEN AwardType = 'Release' THEN a.RecipientTitle ELSE NULL END AS 'Release Title', CASE WHEN AwardType = 'Song' THEN a.RecipientTitle ELSE NULL END AS 'Song Title', a.SongID, a.IsWinner AS 'Won' FROM Award a WHERE a.ArtistTitle = '" + row[columnIndexArtistTitle] + "' ORDER BY a.KNYEAR, a.ID, a.SortOrder";
@@ -1966,7 +1966,7 @@ function queryRankingsByArtist(contents) {
 	let columns = contents.columns;
 	let rows = contents.values;
 	let row = rows[0];
-	let columnIndexArtistTitle = contents.columns.indexOf('Artist Title');
+	let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
 	//select ranking of that year of song
 	let query = "SELECT s.ID AS KNID, r.KNYEAR, r.RankNo AS 'Rank #', r.SortOrder, s.SongTitle AS 'Song Title', s.ArtistTitle AS 'Artist Title' FROM Ranking r JOIN Song s on r.SongID = s.ID WHERE s.ArtistTitle = '" + row[columnIndexArtistTitle] + "' ORDER BY r.KNYEAR, r.RankNo, r.SortOrder";
 	if(debugMode) console.log('queryRankingsByArtist', query);
@@ -2050,7 +2050,7 @@ function queryCompilationsByArtist(contents) {
 	let columns = contents.columns;
 	let rows = contents.values;
 	let row = rows[0];
-	let columnIndexArtistTitle = contents.columns.indexOf('Artist Title');
+	let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
 	//select compilations of that song regardless of year
 	let query = "SELECT c.CompilationTitle, c.TrackNumber AS 'Track #', c.SongTitle AS 'Song Title', c.ArtistTitle AS 'Artist Title', c.KNYEAR, c.SongID AS KNID FROM Compilation c JOIN Song s ON s.ID = c.SongID WHERE c.ArtistTitle = '" + row[columnIndexArtistTitle] + "'";
 	query += "ORDER BY c.KNYEAR, c.CompilationTitle, c.TrackNumber";
@@ -2115,7 +2115,7 @@ function queryCollection(contents) {
 	let columns = contents.columns;
 	let rows = contents.values;
 	let row = rows[0];
-	let columnIndexArtistTitle = contents.columns.indexOf('Artist Title');
+	let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
 	//select compilations of that song regardless of year
 	let query = "SELECT c.CollectionTitle, c.TrackNumber AS 'Track #', s.ID AS KNID, s.SongTitle AS 'Song Title' FROM UltimateCollection c JOIN Song s on c.SongID = s.ID WHERE c.Folder = '" + row[columnIndexArtistTitle] + "' ORDER BY c.TrackNumber";
 	if(debugMode) console.log('queryCollection', query);
@@ -2441,7 +2441,7 @@ function generateReleaseByReleaseType(contents) {
 function queryArtistAnalysis(contents) {
 	let columns = contents.columns;
 	let rows = contents.values;
-	let columnIndexData = contents.columns.indexOf('Artist Title');
+	let columnIndexData = contents.columns.indexOf('ArtistTitle');
 	let artist = rows[0][columnIndexData];
 
 	//Song Count by Year
