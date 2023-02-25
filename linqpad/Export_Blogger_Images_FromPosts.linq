@@ -68,7 +68,15 @@ void Main()
        	// Extract data from XML
         DateTime published = DateTime.Parse(entry.Element(_+"published").Value);
         DateTime updated = DateTime.Parse(entry.Element(_+"updated").Value);
-        string title = entry.Element(_+"title").Value;        
+        string title = entry.Element(_+"title").Value; 
+        string type = entry.Element(_+"content").Attribute("type").Value ?? "html";
+        XElement empty = new XElement("empty");
+        XAttribute emptA = new XAttribute("empty","");
+		string originalLink = ((entry.Elements(_+"link")
+            .FirstOrDefault(e => e.Attribute("rel").Value == "alternate") ?? empty)
+            .Attribute("href") ?? emptA).Value;            
+		var pageLink = "../pages" + Path.GetFileNameWithoutExtension(filepath.Replace(filepath, blogpath)) + "/" + published.Year.ToString("0000") + "/"  + published.Month.ToString("00") + "/"  + Path.GetFileNameWithoutExtension(originalLink) + "." + type;
+        
         if(WriteTitleOnConsole || TraceMode)
             Console.WriteLine((title != "" ? title : "A Random Statement") + (count > 0 ? "\t[" + count + " change(s)]" : ""));
 		else if(p % 100 == 99)
@@ -82,7 +90,7 @@ void Main()
         while(match.Success)// && includedDomains.Any(id => match.Groups[4].Value.Contains(id)))
         {
 			if(includedDomains.Any(id => match.Groups[4].Value.Contains(id)))
-				imageExport += ",{\"title\":\"" + title.Replace("\"", "\\\"") + "\", \"url\":\"" + match.Groups[4].Value + "\"}";
+				imageExport += ",{\"title\":\"" + title.Replace("\"", "\\\"") + "\", \"titleUrl\":\"" + pageLink + "\", \"imgUrl\":\"" + match.Groups[4].Value + "\"}";
         	match = match.NextMatch();
         };
         if(match.Success) count++;
