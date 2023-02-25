@@ -1651,7 +1651,7 @@ function queryRelated(contents) {
 	let row = rows[0];
 	let columnIndexKNID = contents.columns.indexOf('ID');
 	let columnIndexArtistTitle = contents.columns.indexOf('ArtistTitle');
-	let columnIndexReleaseYear = contents.columns.indexOf('Year');
+	let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
 	let columnIndexReleaseTitle = contents.columns.indexOf('Release Title');
 	let columnIndexReleaseArtistTitle = contents.columns.indexOf('Release Artist');
 	let columnIndexReleaseDateCreated = contents.columns.indexOf('Date Added');
@@ -1671,7 +1671,7 @@ function queryRelated(contents) {
 	//max 10 related same year
 	// document.querySelector('#songs-related-year').innerHTML = '';
 	query = "SELECT * FROM Song WHERE KNID <> " + row[columnIndexKNID];
-	query += " AND ReleaseYear = '" + row[columnIndexReleaseYear] + "'";
+	query += " AND ReleaseYear = '" + row[columnIndexKNYEAR] + "'";
 	query += " ORDER BY RANDOM() DESC LIMIT 10";
 	if(debugMode) console.log('generateSongRelatedByYear', query);
 	queryDb(query, generateSongRelatedByYear);
@@ -1716,6 +1716,19 @@ function generateSongRelatedByDate(contents) {
 		clickFunc: updateSong, 
 		rightClickFunc: showContextMenu, 
 		rightClickContext: 'related',
+		actionTitle: 'Refresh',
+		actionFunc: function() {
+			//max 10 related within 1 month
+			let convertDate = "replace(DateCreated,'.','-')";
+			let currentDate = "(select date("+convertDate+") from Song where KNID = "+window['song-id']+")";
+			let dateRange = "date("+convertDate+") between date("+currentDate+",'-1 months') and date("+currentDate+",'+1 months')";
+			
+			query = "SELECT * FROM Song WHERE KNID <> " + window['song-id'];
+			query += " AND " + dateRange;
+			query += " ORDER BY RANDOM() DESC LIMIT 10";
+			if(debugMode) console.log('generateSongRelatedByDate', query);
+			queryDb(query, generateSongRelatedByDate);
+		}
 	});
 }
 
@@ -1730,6 +1743,15 @@ function generateSongRelatedByYear(contents) {
 		clickFunc: updateSong, 
 		rightClickFunc: showContextMenu, 
 		rightClickContext: 'related',
+		actionTitle: 'Refresh',
+		actionFunc: function() {
+			//max 10 related same year
+			query = "SELECT * FROM Song WHERE KNID <> " + window['song-id'];
+			query += " AND KNYEAR = '" + window['year'] + "'";
+			query += " ORDER BY RANDOM() DESC LIMIT 10";
+			if(debugMode) console.log('generateSongRelatedByYear', query);
+			queryDb(query, generateSongRelatedByYear);
+		}
 	});
 }
 
