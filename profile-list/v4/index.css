@@ -48,6 +48,7 @@ button:disabled {
 
 #timeline {
 	max-width: 380px;
+	margin: auto;
 }
 
 #timeline .grid {
@@ -198,16 +199,20 @@ button:disabled {
 	height: 0;
 	width: 0;
 }
-.item,
-.darked .item {
+.calendar-name {	
+	cursor: pointer;	
+}
+.calendar-name:hover {	
+	color: var(--foreground);
+}
+.item {
 	display: inline-block;
 	color: var(--primary);
 	text-decoration: underline solid var(--primary);
 	white-space: nowrap;
-	margin: 5px;
+    margin: 6px;
 }
-.item:hover,
-.darked .item:hover {
+.item:hover {
   color: var(--foreground);
   text-decoration: underline solid var(--foreground);
 }
@@ -221,7 +226,7 @@ button:disabled {
 }
 .list {
 	list-style-type: none;
-	padding: 5px;
+	padding: 0 5px;
 }
 .list li{
 	display: inline-block;
@@ -264,7 +269,7 @@ button:disabled {
 }
 .profile {
 	width: 90%;
-	max-height: 70vh;
+	max-height: 60vh;
 	overflow-y: auto;
 	border: 1px solid var(--foreground);
 	box-shadow: 3px 3px;
@@ -320,8 +325,7 @@ button:disabled {
 .profile-social {
 	color: var(--primary);
 }
-.profile-social:hover,
-.darked .profile-social:hover {
+.profile-social:hover {
   color: var(--foreground);
 }
 .shift-left {
@@ -337,9 +341,6 @@ button:disabled {
 }
 .disguise {
 	color: #dddddd;
-}
-.darked .disguise {
-	color: #444444;
 }
 .disguise:hover {
 	color: var(--foreground);
@@ -364,17 +365,14 @@ button:disabled {
 	font-size: 80%;
 	fill: var(--foreground);
 }
-
 .settings {
 	display: flex;
 	justify-content: center;
     flex-wrap: wrap;
 }
-
 .home {
 	width: 100%;
 }
-
 .expand, 
 .close {
 	position: absolute;
@@ -382,13 +380,16 @@ button:disabled {
 	cursor: pointer;
     filter: drop-shadow(2px 4px 6px var(--background));
 }
-
 .expand {
 	left: 3px;
 }
-
 .close {
 	right: 3px;
+}
+.wanted-list {
+    max-width: 380px;
+	max-height: 60vh;
+	overflow-y: auto;
 }
 
 /*CUSTOMIZE CALENDAR CATEGORY LABELS*/
