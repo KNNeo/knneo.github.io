@@ -187,5 +187,5 @@ function exportCalendar() {
 	document.body.removeChild(downloadLink);
 	
 	console.log('Export done');
-	document.getElementById('exportBtn').setAttribute('disabled','');
+	// document.getElementById('exportBtn').setAttribute('disabled','');
 }

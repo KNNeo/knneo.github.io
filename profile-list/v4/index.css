@@ -4,12 +4,14 @@
   --secondary: #609fff;
   --background: #fff;
   --foreground: #000;
+  --accent: lightgray;
 }
 .darked:root {
   --primary: #00e4ff;
   --secondary: #00abbf;
   --background: #000;
   --foreground: #fff;
+  --accent: gray;
 }
 html {
 	font-family: Noto Sans;
@@ -30,14 +32,23 @@ body {
 a, button {
 	background-color: var(--background);
 	color: var(--foreground);
+	cursor: pointer;
 }
 a {
-	cursor: pointer;
 	text-decoration: none;
 	text-align: center;
 }
 button {
-	border: 1px solid var(--foreground);	
+	border: 1px solid var(--foreground);
+}
+
+button:disabled {
+	color: var(--accent);
+	border: 1px solid var(--accent);	
+}
+
+#timeline {
+	max-width: 380px;
 }
 
 #timeline .grid {
@@ -223,7 +234,8 @@ button {
 	margin: auto;
 }
 .page-align li, .page-align a {
-  line-height: 1.5;
+    vertical-align: middle;
+	line-height: 1.5;
 }
 .points {
 	position: relative;
