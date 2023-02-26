@@ -16,7 +16,7 @@
 }
 
 html {
-	font-family: Open Sans;
+	font-family: Noto Sans;
 	background-color: var(--background);
 	color: var(--foreground);
 }
@@ -43,7 +43,6 @@ body {
 .page {
 	max-width: 640px;
 	margin: auto;
-	font-family: Open Sans;
 	-webkit-user-select: none; /* Safari */
 	-ms-user-select: none; /* IE 10+ and Edge */
 	user-select: none; /* Standard syntax */
