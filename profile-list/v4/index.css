@@ -289,7 +289,6 @@ button:disabled {
 	font-size: 70%;	
 }
 .profile-box-img {
-	padding-top: 120px;
 	margin: auto;
 	clear: both;
 	text-align: center;
@@ -377,6 +376,7 @@ button:disabled {
 	position: absolute;
 	top: 0;
 	cursor: pointer;
+    filter: drop-shadow(2px 4px 6px var(--background));
 }
 
 .expand {

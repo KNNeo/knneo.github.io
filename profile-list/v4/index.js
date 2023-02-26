@@ -380,11 +380,12 @@ function generateProfileFromJSON(profileName) {
 		profileBox.classList.add('profile-box');
 		
 			//--BUTTONS--//
-			if(window['simple']) {
+			if(window['simple'] && profile.intro != undefined) {
 				let expander = document.createElement('div');
 				expander.classList.add('expand');
 				expander.classList.add('bi');
 				expander.classList.add('bi-caret-down-square-fill');
+				expander.title = 'Show Details';
 				expander.addEventListener('click', function(e) {
 					e.preventDefault();
 					window['expanded'] = !window['expanded'];
@@ -399,6 +400,7 @@ function generateProfileFromJSON(profileName) {
 			closer.classList.add('close');
 			closer.classList.add('bi');
 			closer.classList.add('bi-x-square-fill');
+			closer.title = 'Close';
 			closer.addEventListener('click', resetProfile);
 			profileBox.appendChild(closer);
 			
