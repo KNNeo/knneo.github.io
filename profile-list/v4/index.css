@@ -237,6 +237,9 @@ button:disabled {
 	text-decoration: none;
 	color: gray;
 }
+.page {
+	max-height: 68vh;
+}
 .page-align {
 	width: 100%;
 	text-align: center;
@@ -268,8 +271,8 @@ button:disabled {
 	color: var(--foreground);
 }
 .profile {
-	width: 90%;
-	max-height: 60vh;
+	width: 95%;
+	/* max-height: 70vh; */
 	overflow-y: auto;
 	border: 1px solid var(--foreground);
 	box-shadow: 3px 3px;
@@ -388,7 +391,7 @@ button:disabled {
 }
 .wanted-list {
     max-width: 380px;
-	max-height: 60vh;
+	/* max-height: 70vh; */
 	overflow-y: auto;
 }
 

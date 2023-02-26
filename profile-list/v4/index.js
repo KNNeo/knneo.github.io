@@ -223,7 +223,7 @@ function generateWantedListEntry(id, autoAdd = []) {
 function loadTimeline(width = 2500) {
 	if(document.querySelector('#timeline') == null) return;
 	document.querySelector('#timeline').innerHTML = '';
-	generateVerticalTimeline('timeline', window['timelineDOBlist'].filter(prof => !prof.date.startsWith('????')), null, '60vh');
+	generateVerticalTimeline('timeline', window['timelineDOBlist'].filter(prof => !prof.date.startsWith('????')), null, '68vh');
 	// generateHorizontalTimeline('timeline', window['timelineDOBlist'].filter(prof => !prof.date.startsWith('????')), width, '140px');
 	addTimelineEvents(false);
 }
@@ -543,7 +543,7 @@ function generateProfileFromJSON(profileName) {
 	document.querySelector('.profile').innerHTML = '';
 	document.querySelector('.profile').appendChild(idBox);	
 	document.querySelector('.profile').style.height = simple || friendMode ? '' : '100%';
-	document.querySelector('.profile').style.maxWidth = simple || friendMode ? '440px' : '640px';
+	// document.querySelector('.profile').style.maxWidth = simple || friendMode ? '440px' : '640px';
 	document.querySelector('.view').style.display = '';
 	
 	addProfileEvents();
@@ -553,10 +553,10 @@ function generateProfileFromJSON(profileName) {
 		document.querySelector('.profile').classList.remove('friend-mode');
 	else {
 		document.querySelector('.profile').classList.add('friend-mode');
-		if(!isMobile()) {
-			document.querySelector('.wanted-list').classList.remove('hidden');
-			document.querySelector('.view').style.display = 'block';
-		}
+		// if(!isMobile()) {
+			// document.querySelector('.wanted-list').classList.remove('hidden');
+			// document.querySelector('.page').style.maxHeight = '40vh';
+		// }
 	}
 	
 	addAgeAfterDOB(labels.ageSuffix);
