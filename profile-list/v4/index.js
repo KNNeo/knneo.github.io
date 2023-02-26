@@ -446,7 +446,8 @@ function generateProfileFromJSON(profileName) {
 						profileTableBody.appendChild(row);
 					}
 					
-					if(!friendMode)
+					//--TURNING POINTS--//
+					if(!friendMode && !simple)
 					{
 						row = document.createElement('tr');
 						
@@ -496,6 +497,20 @@ function generateProfileFromJSON(profileName) {
 						
 					}
 					
+					if(profile.social)
+					{
+						//--SOCIAL--//
+						row = document.createElement('tr');
+						
+							cell = document.createElement('td');
+							
+								cell.appendChild(generateProfileSocial(window['profiles']));
+							
+							row.appendChild(cell);
+						
+						profileTableBody.appendChild(row);						
+					}
+					
 					//any friends with one profile from selected
 					let profileFriendsList = window['friendList'].filter( function(p) {
 						return p.id.includes(profile.id);
@@ -513,20 +528,6 @@ function generateProfileFromJSON(profileName) {
 							row.appendChild(cell);
 						
 						profileTableBody.appendChild(row);
-					}
-					
-					if(profile.social)
-					{
-						//--SOCIAL--//
-						row = document.createElement('tr');
-						
-							cell = document.createElement('td');
-							
-								cell.appendChild(generateProfileSocial(window['profiles']));
-							
-							row.appendChild(cell);
-						
-						profileTableBody.appendChild(row);						
 					}
 					
 				profileTable.appendChild(profileTableBody);
