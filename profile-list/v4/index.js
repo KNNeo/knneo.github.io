@@ -380,7 +380,7 @@ function generateProfileFromJSON(profileName) {
 		profileBox.classList.add('profile-box');
 		
 			//--BUTTONS--//
-			if(window['simple'] && profile.intro != undefined) {
+			if(simple && !friendMode && profile.intro != undefined) {
 				let expander = document.createElement('div');
 				expander.classList.add('expand');
 				expander.classList.add('bi');
