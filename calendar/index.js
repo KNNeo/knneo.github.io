@@ -299,7 +299,7 @@ function generateCalendarTable(year, month, array) {
 	next.classList.add('material-icons');
 	next.style.gridColumn = 'span 2';
 	next.innerText = 'arrow_forward_ios';
-	prev.title = 'Next Month';
+	next.title = 'Next Month';
 	next.addEventListener('click', function() {
 		if(window['month'] + 1 > 11) {
 			generateCalendar(window['year'] + 1, 0);
