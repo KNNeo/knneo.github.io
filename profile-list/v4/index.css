@@ -15,7 +15,6 @@
 }
 html {
 	font-family: Noto Sans;
-	font-size: 0.8em;
 	overflow-x: hidden;
 	-webkit-user-select: none;
 	-khtml-user-select: none;
@@ -163,8 +162,8 @@ button:disabled {
 }
 
 .bi {
-	font-size: 2em;
-	padding: 3px;
+	font-size: 1.5em;
+	padding: 5px;
 }
 .box-married label {
 	padding-top: 10px;
@@ -173,14 +172,18 @@ button:disabled {
 .box-married:hover label {
 	visibility: visible;
 }
+.calendar-box {
+	margin: auto;
+	max-width: 380px;
+}
 .calendar table {
 	margin: auto;
 	border: 1px solid var(--foreground);
-	position:relative;
+	position: relative;
 }
 .calendar td {
-    width: 30px;
-    height: 20px;
+    width: 2.5em;
+    height: 2em;
 }
 .calendar td:hover .popitem {
 	display: block;
@@ -188,6 +191,7 @@ button:disabled {
 .prev-month, .next-month,
 .calendar-legend label {	
 	cursor: pointer;
+	padding: 5px;
 }
 .calendar-legend input {
 	opacity: 0;
