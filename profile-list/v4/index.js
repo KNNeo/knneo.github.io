@@ -223,8 +223,8 @@ function generateWantedListEntry(id, autoAdd = []) {
 function loadTimeline(width = 2500) {
 	if(document.querySelector('#timeline') == null) return;
 	document.querySelector('#timeline').innerHTML = '';
-	// generateVerticalTimeline('timeline', window['timelineDOBlist'].filter(prof => !prof.date.startsWith('????')), null, '30vh');
-	generateHorizontalTimeline('timeline', window['timelineDOBlist'].filter(prof => !prof.date.startsWith('????')), width, '140px');
+	generateVerticalTimeline('timeline', window['timelineDOBlist'].filter(prof => !prof.date.startsWith('????')), null, '60vh');
+	// generateHorizontalTimeline('timeline', window['timelineDOBlist'].filter(prof => !prof.date.startsWith('????')), width, '140px');
 	addTimelineEvents(false);
 }
 
@@ -379,6 +379,29 @@ function generateProfileFromJSON(profileName) {
 		let profileBox = document.createElement('div');
 		profileBox.classList.add('profile-box');
 		
+			//--BUTTONS--//
+			if(window['simple']) {
+				let expander = document.createElement('div');
+				expander.classList.add('expand');
+				expander.classList.add('bi');
+				expander.classList.add('bi-caret-down-square-fill');
+				expander.addEventListener('click', function(e) {
+					e.preventDefault();
+					window['expanded'] = !window['expanded'];
+					generateProfileFromJSON(this.parentElement.parentElement.id);
+					document.querySelector('.profile').scrollIntoView();
+					window['expanded'] = !window['expanded'];
+				});
+				profileBox.appendChild(expander);
+			}
+			
+			let closer = document.createElement('div');
+			closer.classList.add('close');
+			closer.classList.add('bi');
+			closer.classList.add('bi-x-square-fill');
+			closer.addEventListener('click', resetProfile);
+			profileBox.appendChild(closer);
+			
 			profileBox.appendChild(generateProfileImage(window['profiles'], friend));
 			
 			let profileTable = document.createElement('table');
@@ -522,7 +545,7 @@ function generateProfileFromJSON(profileName) {
 	document.querySelector('.view').style.display = '';
 	
 	addProfileEvents();
-	toggleView(3);
+	toggleView(4);
 	
 	if(!friendMode)
 		document.querySelector('.profile').classList.remove('friend-mode');

@@ -17,8 +17,9 @@
 <h1 class="page-align" onclick="location.reload()">女性プロフィールまとめ</h1>
 <div class="loader bi"></div>
 <h3 class="settings">
-	<a title="Wanted Level" class="bi bi-person-square" href="javascript:void(0);" onclick="toggleView(1)"></a>
+	<a title="Profiles" class="bi bi-person-square" href="javascript:void(0);" onclick="toggleView(1)"></a>
 	<a title="Calendar" class="bi bi-calendar" href="javascript:void(0);" onclick="toggleView(2)"></a>
+	<a title="Timeline" class="bi bi-bar-chart-steps" href="javascript:void(0);" onclick="toggleView(3)"></a>
 	<a title="Toggle Dark Mode" class="darkmode bi bi-brightness-high-fill" href="javascript:void(0);" onclick="toggleDarkMode()" ></a>
 </h3>
 <div class="view">
@@ -30,7 +31,7 @@
 			</label>
 		</div>
 	</div>
-	<div class="page page-align hidden">
+	<div class="page page-align">
 		<div class="calendar-box">
 			<div>
 				<span class="calendar-legend page-align"></span>
@@ -41,7 +42,8 @@
 			<br />
 			<div class="calendar page-align"></div>
 		</div>
-		<br />
+	</div>
+	<div class="page page-align">
 		<div id="timeline" class="page-align"></div>
 	</div>
 	<div class="page profile page-align hidden" oncontextmenu="return false"></div>
