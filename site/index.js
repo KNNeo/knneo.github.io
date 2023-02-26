@@ -1,3 +1,8 @@
+const isMobile = function() {
+    const match = window.matchMedia('(pointer:coarse)');
+    return (match && match.matches && window.innerWidth <= 480);
+};
+
 function closestClass(inputElement, targetClassName) {
     while ((inputElement.classList.length == 0 || !inputElement.classList.contains(targetClassName)) 
 		&& inputElement.parentNode.tagName.toUpperCase() != "BODY") {
