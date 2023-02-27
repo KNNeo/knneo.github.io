@@ -1205,7 +1205,9 @@ function updateTime() {
 	if(document.getElementById('time') != null)
 	{
 		var now = luxon.DateTime.local().setZone(timezone);
-		document.getElementById('time').innerText = now.toFormat('yyyy.MM.dd HH:mm:ss');	
+		document.getElementById('time').innerText = now.toFormat('yyyy.MM.dd HH:mm:ss');
+		if(document.getElementById('time').innerText.endsWith('00:00:00'))
+			renderWantedList();
 		setTimeout(updateTime, 1000);
 	}
 }
