@@ -1766,6 +1766,15 @@ function generateArtistRelated(contents) {
 		clickFunc: updateSong, 
 		rightClickFunc: showContextMenu, 
 		rightClickContext: 'related',
+		actionTitle: contents.values.length >= 10 ? 'Refresh' : null,
+		actionFunc: function() {
+			//max 10 related, else show max
+			query = "SELECT * FROM Song WHERE KNID <> " + window['song-id'];
+			query += " AND ArtistID = '" + window['artist-id'] + "'";
+			query += " ORDER BY RANDOM() DESC LIMIT 10";
+			if(debugMode) console.log('queryArtistRelated', query);
+			queryDb(query, generateArtistRelated);
+		}
 	});
 }
 
