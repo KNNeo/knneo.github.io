@@ -238,7 +238,7 @@ button:disabled {
 	color: gray;
 }
 .page {
-	max-height: 68vh;
+	max-height: calc(100vh - 200px);
 }
 .page-align {
 	width: 100%;
@@ -391,7 +391,7 @@ button:disabled {
 }
 .wanted-list {
     max-width: 380px;
-	/* max-height: 70vh; */
+	max-height: 70vh;
 	overflow-y: auto;
 }
 

@@ -223,7 +223,7 @@ function generateWantedListEntry(id, autoAdd = []) {
 function loadTimeline(width = 2500) {
 	if(document.querySelector('#timeline') == null) return;
 	document.querySelector('#timeline').innerHTML = '';
-	generateVerticalTimeline('timeline', window['timelineDOBlist'].filter(prof => !prof.date.startsWith('????')), null, '68vh');
+	generateVerticalTimeline('timeline', window['timelineDOBlist'].filter(prof => !prof.date.startsWith('????')), null, 'calc(100vh - 245px)');
 	// generateHorizontalTimeline('timeline', window['timelineDOBlist'].filter(prof => !prof.date.startsWith('????')), width, '140px');
 	addTimelineEvents(false);
 }
