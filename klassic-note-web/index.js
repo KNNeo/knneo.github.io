@@ -12,6 +12,10 @@ const categoryIcons = ['🧑', '💽', '🎵']; 	// in order: artist, release, s
 const coverArtStyle = 'default'; 			// options: [default, overlay]
 const hideHomepage = false;					// if true will not show home page components
 const volumeDelta = 5;						// volume change for player when shift + up/down; in percentage integer
+const isMobile = function() {
+    const match = window.matchMedia('(pointer:coarse)');
+    return (match && match.matches && window.innerWidth <= 480);
+};
 
 //--STARTUP--//
 window.addEventListener('load', startup);
@@ -1361,7 +1365,7 @@ function generatePlayer(contents) {
 	{
 		if (navigator && 'mediaSession' in navigator) {
 			navigator.mediaSession.metadata = new MediaMetadata({
-				title: row[columnIndexSongTitle],
+				title: row[columnIndexSongTitle].split('<br/>')[0],
 				artist: row[columnIndexArtistTitle],
 				album: row[columnIndexReleaseTitle]
 			});
