@@ -62,8 +62,8 @@ function renderElements() {
 			url.classList.add('box');
 			url.classList.add('shadowed');
 			let randomNo = Math.random() + page.version;
-			url.style.fontSize = randomNo + 'em';
-			if(page.isLocal) 
+			url.style.fontSize = 0.88*randomNo + 'em';
+			if(page.isLocal)
 				url.classList.add('local');
 			url.href = page.url;
 			url.innerText = page.title;
