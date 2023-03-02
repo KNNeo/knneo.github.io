@@ -183,10 +183,6 @@ a {
 	background-color: var(--accent);
 }
 
-.highlight {
-	background-color: var(--accent);
-}
-
 .header-element {
 	margin: 20px 0;
 	margin-bottom: 0;
@@ -310,10 +306,34 @@ a {
 	display: none;
 }
 
+.playlist {
+	padding: 3px;
+}
+
+.related .tag,
 .playlist .tag {
-	text-align: initial;
+	width: auto;
+	margin: 4px;
+	cursor: pointer;
+	flex-basis: 14%;
+	padding: 4px;
+	border: 1px solid var(--foreground);
     background-color: var(--background);
 }
+
+.related .tag:hover,
+.playlist .tag:hover {
+	background-color: var(--accent);
+}
+
+.highlight {
+	background-color: var(--accent);
+}
+
+.playlist .highlight {
+	background-color: var(--accent);
+}
+
 
 .touchable .list td, 
 .touchable .list th {

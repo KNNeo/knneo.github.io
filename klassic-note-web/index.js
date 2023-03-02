@@ -370,6 +370,13 @@ function skipSong() {
 		if(debugMode) console.log('optQuery', optQuery);
 		queryDb(optQuery, updateOptions);
 	}
+	else if (window['playing'] >= 0 && window['playing'] < window['playlist'].length)
+	{
+		let optQuery = "SELECT * FROM Song WHERE KNID = ";
+		optQuery += window['playlist'][++window['playing']];
+		if(debugMode) console.log('optQuery', optQuery);
+		queryDb(optQuery, updateOptions);
+	}
 	else 
 	{
 		if(window['shuffle-mode'])
@@ -424,9 +431,10 @@ function skipSong() {
 }
 
 function updateQueue(next) {
+	if(window['mode'] != 'song') return;
 	if(window['playing'] == null) window['playing'] = 0;
 	else window['playing'] = next ?? window['playing'] + 1;
-	if(window['playing'] >= window['playlist'].length) window['playing'] = window['playlist'].length - 1;
+	if(window['playlist'].length > 0 && window['playing'] >= window['playlist'].length) window['playing'] = window['playlist'].length - 1;
 	if(debugMode) console.log('updateQueue', window['playing']);
 }
 
@@ -536,10 +544,10 @@ function renderVariables() {
 	window['playlist'] = [];
 	window['shuffle-mode'] = false;
 	window['mode'] = 'song';
-	window['playing'] = null;
+	window['playing'] = null;				// index of playing in playlist
 	window['loading'] = true;
 	window['title'] = defaultTitle;
-	window['release-id'] = 0;
+	window['release-id'] = 0;				// below are info for reference
 	window['artist-id'] = 0;
 	window['year'] = '';
 	window['genre'] = '';
@@ -1212,7 +1220,7 @@ function generateModules(contents) {
 		queryAwards(contents);
 		queryRankings(contents);
 		queryCompilations(contents);
-		querySOTD(contents);	
+		querySOTD(contents);
 	}
 	
 	if(window['mode'] == 'artist')
@@ -1231,13 +1239,13 @@ function generateModules(contents) {
 	generateTabs();
 	setTabs();
 	scrollToTop();
-	// updateQueue();
+	updateQueue();
 	updateQueueButtons();
 	
 	for(let selected of document.getElementsByClassName('not-selectable'))
 	{
 		selected.dispatchEvent(new Event('active'));
-	}	
+	}
 }
 
 function updateSearch(contents) {
@@ -2584,7 +2592,7 @@ function clearModules() {
 
 function updateSong() {	
 	window['mode'] = 'song';
-	hideContextMenus(true);
+	let contextOpen = hideContextMenus(true);
 	clearModules();
 	
 	let id = parseInt(this.getAttribute('data-id'));
@@ -2592,11 +2600,17 @@ function updateSong() {
 	if(debugMode) console.log('updateSong', query);
 	queryDb(query, updateOptions);
 	// window['playlist'].push(id.toString());
-	if(window['playlist'][window['playlist'].length - 1] != id)
+	if(!contextOpen && window['playlist'][window['playlist'].length - 1] != id)
 	{
 		window['playlist'].push(id.toString());
+		updateQueue(window['playlist'].length - 1);
 	}
-	updateQueue(window['playlist'].length - 1);
+	else if(contextOpen) // from playlist selection
+	{
+		window['playing'] = window['playlist'].indexOf(this.getAttribute('data-id'));
+		if(document.querySelector('#song-queue') != null)
+			document.querySelector('#song-queue').innerText = 'format_align_justify';
+	}
 }
 
 function updateYear() {
@@ -2704,7 +2718,6 @@ function showContextMenu() {
 	event.preventDefault();
 	event.stopPropagation();
     document.addEventListener('click', hideContextMenus);
-    // document.addEventListener('wheel', hideContextMenus);
 	
 	let box = document.body.getBoundingClientRect();
     let x = event.clientX - box.left + document.querySelector('#song-queue').getBoundingClientRect().width;
@@ -2723,11 +2736,14 @@ function showContextMenu() {
 			menu.appendChild(showAddQueueContextMenu(this.getAttribute('data-id')));
 			break;
 		case 'playlist':
-			if(document.querySelector('.playlist') != null)
+			if(event.target.innerText == 'format_indent_increase') {
 				hideContextMenus(true);
+				event.target.innerText = 'format_align_justify';
+			}
 			else {
 				menu.appendChild(showPlaylist());
 				document.querySelector('.playlist .highlight')?.scrollIntoView();
+				event.target.innerText = 'format_indent_increase';
 			}
 			break;
 	}
@@ -2743,6 +2759,7 @@ function showContextMenu() {
 
 function showAddQueueContextMenu(id) {
 	let submenu = document.createElement('div');
+	submenu.classList.add('related');
 	
 	let playNext = document.createElement('div');
 	playNext.classList.add('tag');
@@ -2773,6 +2790,7 @@ function showPlaylist() {
 	
 	if(window['playlist'].length > 0)
 	{
+		
 		let baseQuery = "SELECT KNID, ArtistTitle || ' - ' || SongTitle AS 'DisplayValue' FROM Song";
 		
 		let query = '';
@@ -2800,30 +2818,36 @@ function renderPlaylistItems(list) {
 	let submenu = document.createElement('div');
 	submenu.classList.add('playlist');
 	
+	let playing = window['playlist'][window['playing']];
 	for(let listItem of list.values)
 	{
 		let item = document.createElement('div');
 		item.classList.add('tag');
+		if(window['playlist'].indexOf(listItem[0].toString()) == window['playing']) // if playing as ID of item
+			item.classList.add('highlight');
 		item.setAttribute('data-id', listItem[0]);
-		if(window['playlist'][window['playing']] == listItem[0]) item.classList.add('highlight');
 		item.innerText = listItem[1];
 		item.addEventListener('click', updateSong);
-		item.addEventListener('click', function() {
-			window['playing'] = window['playlist'].indexOf(this.getAttribute('data-id'));
-			document.querySelector('.context').classList.add('hidden');
-		});
 		submenu.appendChild(item);
 	}
 	return submenu;
 }
 
 function hideContextMenus(forced) {
-	let menu = document.querySelector('.context');
-	if (typeof forced == 'boolean' && forced == true) menu.classList.add('hidden');
-    else if (!menu.contains(event.target)) menu.classList.add('hidden');
-
 	document.removeEventListener('click', hideContextMenus);
-    document.removeEventListener('wheel', hideContextMenus);	
+	if(document.querySelector('#song-queue') != null)
+		document.querySelector('#song-queue').innerText = 'format_align_justify';	
+	
+	let contextOpen = false;
+	let menu = document.querySelector('.context');
+	if (typeof forced == 'boolean' && forced == true) {
+		menu.classList.add('hidden');
+	}
+    else if (!menu.contains(event.target)) {
+		menu.classList.add('hidden');
+		contextOpen = true;
+	}
+	return contextOpen;
 }
 
 function findSpanSibling(row, columns) {
