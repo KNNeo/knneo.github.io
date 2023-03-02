@@ -2592,7 +2592,8 @@ function clearModules() {
 
 function updateSong() {	
 	window['mode'] = 'song';
-	let contextOpen = hideContextMenus(true);
+	let playlistOpen = document.querySelector('#song-queue').innerText == 'format_indent_increase';
+	hideContextMenus(true);
 	clearModules();
 	
 	let id = parseInt(this.getAttribute('data-id'));
@@ -2600,16 +2601,16 @@ function updateSong() {
 	if(debugMode) console.log('updateSong', query);
 	queryDb(query, updateOptions);
 	// window['playlist'].push(id.toString());
-	if(!contextOpen && window['playlist'][window['playlist'].length - 1] != id)
+	if(playlistOpen) // from playlist selection
+	{
+		window['playing'] = window['playlist'].indexOf(this.getAttribute('data-id')) - 1;
+		if(document.querySelector('#song-queue') != null)
+			document.querySelector('#song-queue').innerText = 'format_align_justify';
+	}
+	else if(!playlistOpen && window['playlist'][window['playlist'].length - 1] != id)
 	{
 		window['playlist'].push(id.toString());
 		updateQueue(window['playlist'].length - 1);
-	}
-	else if(contextOpen) // from playlist selection
-	{
-		window['playing'] = window['playlist'].indexOf(this.getAttribute('data-id'));
-		if(document.querySelector('#song-queue') != null)
-			document.querySelector('#song-queue').innerText = 'format_align_justify';
 	}
 }
 
@@ -2720,12 +2721,15 @@ function showContextMenu() {
     document.addEventListener('click', hideContextMenus);
 	
 	let box = document.body.getBoundingClientRect();
-    let x = event.clientX - box.left + document.querySelector('#song-queue').getBoundingClientRect().width;
-    let y = event.clientY - box.top;
+    let x = event.clientX - box.left;
+    let y = event.clientY - box.top - document.querySelector('#song-queue').getBoundingClientRect().height;
+	let smallWidths = x >= 0.5*innerWidth;
 	
 	let menu = document.querySelector('.context');
     menu.style.top = y + 'px';
-    menu.style.left = x + 'px';
+    menu.style.left = 0;
+	menu.style.margin = 'auto';
+	menu.style.right = 0;
 	menu.classList.remove('hidden');	
 	menu.innerHTML = '';
 		
@@ -2842,6 +2846,7 @@ function hideContextMenus(forced) {
 	let menu = document.querySelector('.context');
 	if (typeof forced == 'boolean' && forced == true) {
 		menu.classList.add('hidden');
+		contextOpen = true;
 	}
     else if (!menu.contains(event.target)) {
 		menu.classList.add('hidden');

@@ -290,9 +290,11 @@ a {
 	font-size: 0.9em;
 	position: fixed;
 	width: auto;
-	max-width: 40vw;
+	max-width: max(250px, 40vw);
 	max-height: 80vh;
 	overflow-y: auto;
+	border: 1px solid var(--foreground);
+    background-color: var(--background);
 }
 
 .loader {
@@ -318,7 +320,6 @@ a {
 	flex-basis: 14%;
 	padding: 4px;
 	border: 1px solid var(--foreground);
-    background-color: var(--background);
 }
 
 .related .tag:hover,
