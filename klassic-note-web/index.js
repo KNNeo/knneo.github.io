@@ -370,7 +370,7 @@ function skipSong() {
 		if(debugMode) console.log('optQuery', optQuery);
 		queryDb(optQuery, updateOptions);
 	}
-	else if (window['playing'] >= 0 && window['playing'] < window['playlist'].length)
+	else if (window['playing'] >= 0 && window['playing'] + 1 < window['playlist'].length)
 	{
 		let optQuery = "SELECT * FROM Song WHERE KNID = ";
 		optQuery += window['playlist'][++window['playing']];
