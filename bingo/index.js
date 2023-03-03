@@ -167,7 +167,7 @@ function generatePattern(shape) {
 	
 	let title = document.createElement('div');
 	title.classList.add('pattern-title');
-	title.innerText = shape && shape.name || '';
+	title.innerText = shape && shape.name || '-';
 	div.appendChild(title);
 	
 	document.querySelector('.pattern').innerHTML = '';
