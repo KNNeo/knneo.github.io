@@ -3,6 +3,7 @@ const debugMode = false;
 const cardsGenerated = 3;
 const interval = 5000;
 const labels = ['B','I','N','G','O'];
+//only for single pattern combination ie. can't do any horizontal
 const combinations = [
 	{
 		"name": "W",
@@ -39,21 +40,7 @@ const combinations = [
 	{
 		"name": "Pretzel",
 		"selected": [1,2,3,6,8,11,12,13,14,15,18,20,23,24,25],
-	},
-	// {
-		// "name": "Any Horizontal",
-		// "selected": [
-			// [1,2,3,4,5],
-			// [6,7,8,9,10],
-			// [11,12,13,14,15],
-			// [16,17,18,19,20],
-			// [21,22,23,24,25],
-		// ],
-	// },
-	// {
-		// "name": "Blackout",
-		// "selected": [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25],
-	// },
+	}
 ];
 const smallScreen = function() {
     return window.innerWidth <= 640;
