@@ -79,6 +79,7 @@
 		<a id="darkmode" title="Toggle Dark Mode" class="darkmode material-icons" href="javascript:void(0);" onclick="toggleDarkMode()">brightness_high</a>
 		<!-- <span style="border-left: 3px solid; padding: 0 3px;"></span> -->
 		<a id="song-queue" title="Toggle Queue" class="material-icons" href="javascript:void(0);" onclick="showContextMenu()" data-context="playlist">format_align_justify</a>
+		<a id="queue-skip" title="Play (Next) Song" class="material-icons" style="vertical-align: text-top;" href="javascript:void(0);" onclick="skipSong()">play_circle</a>
 		<a id="shuffle-mode" title="Toggle Shuffle Mode" class="setting material-icons" data-alt="shuffle_on" href="javascript:void(0);">shuffle</a>
 		<span class="controls">
 			<select id="queue-options">
@@ -89,7 +90,6 @@
 				<option value="past3year">Past 3 Years</option>
 				<option value="year">Same Year</option>
 			</select>
-			<a id="queue-skip" title="Play (Next) Song" class="material-icons" style="vertical-align: text-top;" href="javascript:void(0);" onclick="skipSong()">play_circle_outline</a>
 		</span>
 		<div class="spacer"> </div>
 		<a class="home" href="../index.html"><b>knneo.github.io</b></a>
