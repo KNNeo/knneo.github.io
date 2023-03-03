@@ -118,7 +118,7 @@ a {
 .centered {
 	/* max-width: 640px; */
 	margin: auto;
-	padding: 2px 6px;
+	padding: 3px 0;
 }
 
 .centered-text {
