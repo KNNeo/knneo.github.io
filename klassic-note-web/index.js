@@ -785,7 +785,7 @@ function generateTableList(contents, parameters) {
 	//header
 	let headerDiv = document.createElement('div');
 	if(actionTitle != null && actionTitle.length > 0)
-		headerDiv.style.height = '1.5em';
+		headerDiv.style.height = '1.75em';
 	
 	let header = document.createElement('h4');
 	header.classList.add('centered');
@@ -883,12 +883,14 @@ function generateTableByDataWithHeader(contents, parameters) {
 	
 	let headerDiv = document.createElement('div');
 	if(!skipTitle || (actionTitle != null && actionTitle.length > 0))
-		headerDiv.style.height = '1.5em';
+		headerDiv.style.height = '1.75em';
 	
-	let header = document.createElement('h4');
-	header.classList.add('centered');
-	header.innerText = skipTitle ? '' : title;
-	headerDiv.appendChild(header);
+	if(!skipTitle) {
+		let header = document.createElement('h4');
+		header.classList.add('centered');
+		header.innerText = skipTitle ? '' : title;
+		headerDiv.appendChild(header);
+	}
 	
 	if(actionTitle != null && actionTitle.length > 0)
 	{
