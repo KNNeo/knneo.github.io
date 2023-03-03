@@ -1,20 +1,24 @@
 //--SETTINGS--//
 const debugMode = false;
+const autoFill = false;
 const cardsGenerated = 3;
-const interval = 5000;
+const interval = 7500;
 const labels = ['B','I','N','G','O'];
+const smallScreen = function() {
+    return window.innerWidth <= 640;
+};
 //only for single pattern combination ie. can't do any horizontal
 const combinations = [
 	{
-		"name": "W",
+		"name": "Letter W",
 		"selected": [1,5,6,10,11,13,15,16,18,20,22,24],
 	},
 	{
-		"name": "E",
+		"name": "Letter E",
 		"selected": [2,3,4,7,12,13,14,17,22,23,24],
 	},
 	{
-		"name": "N",
+		"name": "Letter N",
 		"selected": [1,5,6,7,10,11,13,15,16,19,20,21,25],
 	},
 	{
@@ -42,24 +46,26 @@ const combinations = [
 		"selected": [1,2,3,6,8,11,12,13,14,15,18,20,23,24,25],
 	}
 ];
-const smallScreen = function() {
-    return window.innerWidth <= 640;
-};
 
 //--COMMON EVENTS--//
 window.addEventListener('load', startup);
 window.addEventListener('resize', startup);
 
 function startup() {
-	window['daub'] = localStorage.getItem('daub');
-	window['ended'] = true;
-	window['combination'] = null;
-	window['cards'] = isMobile() || smallScreen() ? 1 : cardsGenerated;
+	initializeVariables();
 	renderTitle(true);
 	renderDisplay();
 	renderCards();
 	renderActions();
 	generatePattern();
+}
+
+function initializeVariables() {
+	window['daub'] = localStorage.getItem('daub');
+	window['ended'] = true;
+	window['combination'] = null;
+	window['cards'] = isMobile() && smallScreen() ? 1 : cardsGenerated;
+	window['bingo'] = [];	
 }
 
 //--FUNCTIONS--//
@@ -118,18 +124,21 @@ function renderDisplay() {
 	window['call-hist'] = [];
 	let hist = document.createElement('div');
 	hist.classList.add('history');
-	if(isMobile() || smallScreen()) hist.style.display = 'inline-block';
-	if(isMobile() || smallScreen()) hist.style.width = '100%';
+	if(isMobile() && smallScreen()) {
+		hist.style.display = 'inline-block';
+		hist.style.width = '100%';
+	}
 	hist.appendChild(generateHistory());
 	td3.appendChild(hist);
 	
 	let trX = document.createElement('tr');
 	
 	if(!isMobile() && !smallScreen()) tr.appendChild(td1);
-	if(isMobile() || smallScreen()) td2.setAttribute('colspan', 2);
+	if(isMobile() && smallScreen()) 
+		td2.setAttribute('colspan', 2);
 	tr.appendChild(td2);
 	if(!isMobile() && !smallScreen()) tr.appendChild(td3);
-	if(isMobile() || smallScreen()) 
+	if(isMobile() && smallScreen()) 
 	{
 		trX.appendChild(td1);
 		td3.style.display = 'flex';
@@ -137,7 +146,7 @@ function renderDisplay() {
 	}
 	
 	tbody.appendChild(tr);
-	if(isMobile() || smallScreen()) tbody.appendChild(trX);
+	if(isMobile() && smallScreen()) tbody.appendChild(trX);
 
 	table.appendChild(tbody);
 	document.querySelector('.display').appendChild(table);	
@@ -151,6 +160,7 @@ function generatePattern(shape) {
 	header.addEventListener('click', function() {
 		let index = combinations.indexOf(window['combination']);
 		window['combination'] = combinations[index > combinations.length ? 0 : index + 1];
+		if(window['combination']) this.parentElement.parentElement.classList.add('.set');
 		generatePattern(window['combination']);
 	});
 	div.appendChild(header);
@@ -160,7 +170,7 @@ function generatePattern(shape) {
 	let [,selected] = generateMatrix(shape && shape.selected || null);
 	if(debugMode) console.log(selected);
 	let table = generateCard(null, selected);
-	if(isMobile() || smallScreen()) table.style.margin = 'auto';
+	if(isMobile() && smallScreen()) table.style.margin = 'auto';
 	pattern.appendChild(table);
 	
 	div.appendChild(pattern);
@@ -170,6 +180,7 @@ function generatePattern(shape) {
 	title.innerText = shape && shape.name || '-';
 	div.appendChild(title);
 	
+	window['combination'] = shape;
 	document.querySelector('.pattern').innerHTML = '';
 	document.querySelector('.pattern').appendChild(div);
 }
@@ -425,10 +436,12 @@ function onCellClicked() {
 		for(let selection of selected)
 		{
 			// if user selected is in pattern cell and board has pattern cell
-			if(pattern.indexOf(selection.index) >= 0 && revealed.indexOf(selection.value) >= 0)
+			// if free space, don't have to check board
+			if(pattern.indexOf(selection.index) >= 0 && (selection.index == 13 || revealed.indexOf(selection.value) >= 0))
 				count--; // reduce count
 		}
 		
+		document.querySelectorAll('.away')[c].setAttribute('data-away', count);
 		document.querySelectorAll('.away')[c].innerText = count + ' AWAY';
 	}
 }
@@ -440,8 +453,11 @@ function startBingo() {
 	document.querySelector('.board').innerHTML = '';
 	document.querySelector('.board').appendChild(board);
 	
-	window['combination'] = combinations[Math.floor((Math.random() * combinations.length))];
-	generatePattern(window['combination']);
+	if(!window['combination'])
+	{
+		window['combination'] = combinations[Math.floor((Math.random() * combinations.length))];
+		generatePattern(window['combination']);
+	}
 	
 	for(let generate of document.querySelectorAll('.generate'))
 	{
@@ -459,7 +475,8 @@ function startBingo() {
 }
 
 function callNumber() {
-	if(window['ended'] == true)
+	if(debugMode) console.log('bingo', window['bingo']);
+	if(window['ended'] == true || window['bingo'].filter(b => b && b == 1).length == window['cards'].length)
 		return;
 	
 	//generate number
@@ -486,13 +503,14 @@ function callNumber() {
 	//update latest
 	window['call'] = rand;
 	document.querySelector('.latest').innerText = '';
-	setTimeout(function() { document.querySelector('.latest').innerText = window['call']; }, 200);
+	setTimeout(function() { document.querySelector('.latest').innerText = window['call']; }, 250);
+	setTimeout(function() { if(autoFill) autoFillCards(window['call']);	}, 500);
 	
 	let category = labels[Math.floor((rand-1) / 15)];
 	if(debugMode) console.log('category', category);
 	window['category'] = category;
 	document.querySelector('.category').innerText = '';
-	setTimeout(function() { document.querySelector('.category').innerText = window['category']; }, 200);
+	setTimeout(function() { document.querySelector('.category').innerText = window['category']; }, 250);
 	
 	//call again
 	if(window['board'].length < 75 && window['ended'] == false)
@@ -501,8 +519,24 @@ function callNumber() {
 		endBingo();
 }
 
+function autoFillCards(value) {
+	//limitation: does not update if user clicked it off
+	//limitation: does not auto fill free space
+	for(let card of document.querySelectorAll('.card'))
+	{
+		for(let cell of card.querySelectorAll('td'))
+		{
+			if(cell.innerText == value.toString()) {
+				//trigger click event
+				if(debugMode) console.log(card, cell, cell.innerText);
+				cell.click();
+			}
+		}
+	}	
+}
+
 function checkBingo(id) { //from bingo button
-	let away = document.querySelectorAll('.away')[id].innerText.replace(' AWAY', '');
+	let away = document.querySelectorAll('.away')[id].getAttribute('data-away');
 	let isBingo = away == '0';
 	let revealed = window['board'];
 	
@@ -513,7 +547,12 @@ function checkBingo(id) { //from bingo button
 	}
 	
 	let card = document.querySelectorAll('.card')[id];
-	let selected = Array.from(card.querySelectorAll('.selected')).map(cell => parseInt(cell.getAttribute('data-id')));
+	let selected = Array.from(card.querySelectorAll('.selected')).map(function(cell) {
+		return {
+			value: parseInt(cell.innerText),
+			index: parseInt(cell.getAttribute('data-id'))
+		};
+	});
 	if(debugMode) console.log(card);
 	
 	if(isBingo && revealed.length < selected.length)
@@ -524,21 +563,10 @@ function checkBingo(id) { //from bingo button
 	
 	if(isBingo)
 	{
-		for(let index of selected)
-		{
-			if(isBingo && revealed.indexOf(index) < 0)
-			{
-				if(debugMode) alert('card has values not revealed');
-				isBingo = false;
-			}
-		}
-	}
-	
-	if(isBingo)
-	{
 		if(debugMode) alert('bingo');
 		card.querySelector('.generate').innerText = '✔️';
 		// setTimeout(function() { document.querySelectorAll('.card')[id].querySelector('.generate').innerText = 'Generate'; }, 1000);
+		window['bingo'][id] = 1;
 		return false;
 	}
 	else
@@ -569,6 +597,7 @@ function resetBingo() {
 	{
 		generate.innerText = 'Generate';
 	}
+	initializeVariables();
 	renderCards();
 	return true;
 }
