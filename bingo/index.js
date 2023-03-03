@@ -411,15 +411,22 @@ function onCellClicked() {
 	for(c = 0; c < window['cards']; c++)
 	{
 		let card = document.querySelectorAll('.card')[c];
-		let selectedIndices = Array.from(card.querySelectorAll('.selected')).map(cell => parseInt(cell.getAttribute('data-id')));
-		let patternIndices = window['combination'].selected;
-		if(debugMode) console.log('cell', selectedIndices, patternIndices);
+		let selected = Array.from(card.querySelectorAll('.selected')).map(function(cell) {
+			return {
+				value: parseInt(cell.innerText),
+				index: parseInt(cell.getAttribute('data-id'))
+			};
+		});
+		let pattern = window['combination'].selected;
+		let revealed = window['board'];
+		if(debugMode) console.log('cell', selected, pattern, revealed);
 		
-		let count = window['combination'].selected.length;
-		for(let index of patternIndices)
+		let count = pattern.length;
+		for(let selection of selected)
 		{
-			if(selectedIndices.indexOf(index) >= 0)
-				count--;
+			// if user selected is in pattern cell and board has pattern cell
+			if(pattern.indexOf(selection.index) >= 0 && revealed.indexOf(selection.value) >= 0)
+				count--; // reduce count
 		}
 		
 		document.querySelectorAll('.away')[c].innerText = count + ' AWAY';
@@ -497,30 +504,31 @@ function callNumber() {
 function checkBingo(id) { //from bingo button
 	let away = document.querySelectorAll('.away')[id].innerText.replace(' AWAY', '');
 	let isBingo = away == '0';
+	let revealed = window['board'];
 	
-	if(isBingo && window['board'].length < window['combination'].selected.length)
+	if(isBingo && revealed.length < window['combination'].selected.length)
 	{
-		if(debugMode) console.log('pattern has more values than board');
+		if(debugMode) alert('game has not revealed minimum for card to bingo');
 		isBingo = false;
 	}
 	
 	let card = document.querySelectorAll('.card')[id];
-	let selectedIndices = Array.from(card.querySelectorAll('.selected')).map(cell => parseInt(cell.getAttribute('data-id')));
+	let selected = Array.from(card.querySelectorAll('.selected')).map(cell => parseInt(cell.getAttribute('data-id')));
 	if(debugMode) console.log(card);
 	
-	if(isBingo && window['board'].length < selectedIndices.length)
+	if(isBingo && revealed.length < selected.length)
 	{
-		if(debugMode) console.log('card has more values than board');
+		if(debugMode) alert('game has not revealed minimum to fill card');
 		isBingo = false;
 	}
 	
 	if(isBingo)
 	{
-		for(let index of selectedIndices)
+		for(let index of selected)
 		{
-			if(isBingo && window['board'].indexOf(index) < 0)
+			if(isBingo && revealed.indexOf(index) < 0)
 			{
-				if(debugMode) console.log('card has values not on board');
+				if(debugMode) alert('card has values not revealed');
 				isBingo = false;
 			}
 		}
@@ -528,14 +536,14 @@ function checkBingo(id) { //from bingo button
 	
 	if(isBingo)
 	{
-		if(debugMode) console.log('bingo');
+		if(debugMode) alert('bingo');
 		card.querySelector('.generate').innerText = '✔️';
 		// setTimeout(function() { document.querySelectorAll('.card')[id].querySelector('.generate').innerText = 'Generate'; }, 1000);
-		return true;
+		return false;
 	}
 	else
 	{
-		if(debugMode) console.log('not yet');
+		if(debugMode) alert('not yet');
 		card.querySelector('.generate').innerText = '❌';
 		setTimeout(function() { document.querySelectorAll('.card')[id].querySelector('.generate').innerText = 'Bingo'; }, 1000);
 		return false;
