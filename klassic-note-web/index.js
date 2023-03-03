@@ -163,7 +163,7 @@ function setTabs() {
 	//toggle search buttons
 	document.querySelector('#search').style.width = homePageVisible ? '100%' : (document.querySelector('#options').getBoundingClientRect().width - 48) + 'px';
 	document.querySelector('#search-buttons').style.display = homePageVisible ? 'none' : '';
-	document.querySelector('#tab-buttons').style.display = isWidescreen ? 'none' : '';
+	// document.querySelector('#tab-buttons').style.display = isWidescreen ? 'none' : '';
 	document.querySelector('#tab-list').style.maxWidth = isWidescreen && !homePageVisible ? '' : widescreenAverageModuleSize + 'px';
 	
 	for(let module of document.querySelectorAll('.centered'))
@@ -2504,9 +2504,9 @@ function generateTabs() {
 		tabItem.id = 'button-' + tab.id;
 		tabItem.classList.add('tab-button');
 		tabItem.innerText = tab.getAttribute('data-name');
-		// tabItem.style.cursor = 'pointer';
 		tabItem.addEventListener('click', function() {
 			showTab(tab.id);
+			document.querySelector('#' + tab.id).scrollIntoView(); // scroll if on desktop
 		});
 		
 		document.querySelector('#tab-buttons').appendChild(tabItem);
@@ -2751,6 +2751,9 @@ function showPlaylist() {
 		let item = document.createElement('div');
 		item.classList.add('tag');
 		item.innerText = 'No items';
+		item.addEventListener('click', function() {
+			hideContextMenus(true);
+		});
 		submenu.appendChild(item);
 	}
 	
