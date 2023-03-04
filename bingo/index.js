@@ -1,7 +1,7 @@
 //--SETTINGS--//
 const debugMode = false;
 const autoFill = false;
-const cardsGenerated = 3;
+const cards = 3;
 const interval = 7500;
 const labels = ['B','I','N','G','O'];
 const smallScreen = function() {
@@ -61,13 +61,14 @@ function startup() {
 	renderCards();
 	renderActions();
 	generatePattern();
+	generateCall();
 }
 
 function initializeVariables() {
 	window['daub'] = localStorage.getItem('daub');
 	window['ended'] = true;
 	window['combination'] = null;
-	window['cards'] = isMobile() || smallScreen() ? 1 : cardsGenerated;
+	window['cards'] = isMobile() || smallScreen() ? 1 : cards;
 	window['bingo'] = [];	
 }
 
@@ -111,38 +112,7 @@ function renderDisplay() {
 	
 	let td3 = document.createElement('td');
 	td3.classList.add('box');
-	
-	let call = document.createElement('div');
-	call.classList.add('box');
-	call.classList.add('call');
-	
-	let latestDiv = document.createElement('div');
-	latestDiv.classList.add('shadowed');
-	latestDiv.classList.add('square-call');
-	
-	let category = document.createElement('b');
-	category.classList.add('category');
-	latestDiv.appendChild(category);
-	
-	window['call'] = null;
-	let latest = document.createElement('div');
-	latest.classList.add('latest');
-	latest.classList.add('huge-font');
-	latest.innerText = window['call'];
-	
-	latestDiv.appendChild(latest);
-	call.appendChild(latestDiv);
-	td3.appendChild(call);
-	
-	window['call-hist'] = [];
-	let hist = document.createElement('div');
-	hist.classList.add('history');
-	if(isMobile() || smallScreen()) {
-		hist.style.display = 'inline-block';
-		hist.style.width = '100%';
-	}
-	hist.appendChild(generateHistory());
-	td3.appendChild(hist);
+	td3.classList.add('call');
 	
 	let trX = document.createElement('tr');
 	
@@ -237,17 +207,56 @@ function generateBoard() {
 	return table;
 }
 
+function generateCall() {
+	let div = document.createElement('div');
+	
+	let header = document.createElement('div');
+	header.innerText = 'LATEST';
+	div.appendChild(header);
+	
+	let [_,b] = generateMatrix();
+	div.appendChild(generateCard(null, b, true));
+	
+	window['call-hist'] = [];
+	let hist = document.createElement('div');
+	hist.classList.add('history');
+	if(isMobile() || smallScreen()) {
+		hist.style.display = 'inline-block';
+		hist.style.width = '100%';
+	}
+	hist.appendChild(generateHistory());
+	div.appendChild(hist);	
+	
+	document.querySelector('.call').innerHTML = '';
+	document.querySelector('.call').appendChild(div);
+}
+
 function generateHistory() {
 	let history = document.createElement('div');
+	let historyList = Array.from(window['call-hist']);
 	
-	for (let h of Array.from(window['call-hist']))
+	for (let h of historyList)
 	{
-		let hist = document.createElement('div');
-		hist.classList.add('hist');
+		let hist = document.createElement('span');
+		hist.classList.add('box');
+		hist.classList.add('shadowed');
+		hist.classList.add('square-pattern');
 		hist.innerText = h;
 		
 		history.appendChild(hist);
 	}
+	if(historyList.length < 1)
+	{
+		let hist = document.createElement('span');
+		hist.innerText = '-';
+		
+		history.appendChild(hist);
+	}
+	// let historyList = Array.from(window['call-hist']);
+	// let historyText = '';
+	// if(historyList.length > 1) historyText = historyList.join(', ');
+	// else if(historyList.length == 1) historyText = historyList[0];
+	// history.innerText = historyText;
 	
 	return history;
 }
@@ -297,7 +306,7 @@ function generateMatrix(highlighted) {
 	return [numbers, selected];
 }
 
-function generateCard(numbers, selected) {
+function generateCard(numbers, selected, latest) {
 	if(debugMode) console.log('card', numbers, selected);
 	
 	let table = document.createElement('table');
@@ -321,11 +330,19 @@ function generateCard(numbers, selected) {
 	for(m = 0; m < 5; m++)
 	{
 		let tr = document.createElement('tr');
+		if(latest && m > 0)
+		{
+			continue;
+		}
 	
 		for(n = 0; n < 5; n++)
 		{
 			let td = document.createElement('td');
 			td.classList.add('shadowed');
+			if(latest && m == 0 && n > 0)
+			{
+				continue;
+			}
 			if(numbers)
 			{
 				td.classList.add('square-card');
@@ -340,6 +357,23 @@ function generateCard(numbers, selected) {
 						onCellClicked();
 					}
 				});
+			}
+			else if(latest && m == 0 && n == 0)
+			{
+				td.classList.add('square-call');
+				td.setAttribute('colspan', 5);
+				td.setAttribute('rowspan', 5);
+				
+				let category = document.createElement('b');
+				category.classList.add('category');
+				td.appendChild(category);
+				
+				window['call'] = null;
+				let latestDiv = document.createElement('div');
+				latestDiv.classList.add('latest');
+				latestDiv.classList.add('huge-font');
+				latestDiv.innerText = window['call'];
+				td.appendChild(latestDiv);						
 			}
 			else
 			{
@@ -505,11 +539,11 @@ function callNumber() {
 	document.querySelector('.board' + rand).classList.add('selected');
 	
 	//update history
-	if(window['call-hist'].length >= 4)
+	if(window['call-hist'].length >= 5)
 	{
 		window['call-hist'].pop();
 	}
-	window['call-hist'].unshift(window['call']);
+	if(window['call']) window['call-hist'].unshift(window['call']);
 	
 	let history = document.querySelector('.history');
 	history.innerHTML = '';

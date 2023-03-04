@@ -89,8 +89,8 @@ a:hover {
 	height: 20px;	
 }
 .square-call {
-	width: 120px;
-	height: 120px;	
+	width: 125px;
+	height: 125px;	
 }
 .selected {
 	background-color: var(--accent);
@@ -113,11 +113,19 @@ a:hover {
 	background-color: green;
 }
 .latest {
-	margin: 0 10px;
+	/* margin: 0 10px; */
 }
 .label,
 .away {
 	padding: 3px;
+}
+.history span {
+	display: inline-block;
+	background-color: var(--background);
+	font-size: 0.8em;	
+}
+.settings {
+	margin: 0;
 }
 
 @media only screen and (max-width : 1040px) {
