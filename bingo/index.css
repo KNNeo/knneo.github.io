@@ -1,9 +1,26 @@
+/*Variables*/
+:root {
+  --primary: #1b00ff;
+  --secondary: #609fff;
+  --background: #fff;
+  --foreground: #000;
+  --accent: lightgray;
+}
+
+.darked:root {
+  --primary: #00e4ff;
+  --secondary: #00abbf;
+  --background: #000;
+  --foreground: #fff;
+  --accent: gray;
+}
 html {
 	font-family: Open Sans;
-	scroll-behavior: smooth;
+	background-color: var(--background);
+	color: var(--foreground);
 }
-body > * {
-	margin: auto;
+body {
+	margin: 0;
 	text-align: center;	
 	-webkit-user-select: none;
 	-khtml-user-select: none;
@@ -11,8 +28,16 @@ body > * {
 	-ms-user-select: none;
 	user-select: none;
 }
+a {
+    color: var(--foreground);
+	text-decoration: none;
+}
+a:hover {
+    color: var(--primary);
+}
 .menu {
 	max-width: 640px;
+	margin: 10px auto;
 }
 .large-font {
 	font-size: 2em;
@@ -22,7 +47,6 @@ body > * {
 }
 .material-icons {
 	cursor: pointer;
-	padding: 10px;
 }
 .closed {
 	display: none;
@@ -31,7 +55,6 @@ body > * {
 	padding: 10px;
 }
 .box {
-	margin: 5px;
 	vertical-align: top;
 	scroll-snap-align: center;
 	white-space: normal;
@@ -39,7 +62,7 @@ body > * {
 	text-align: center;
 }
 .shadowed {
-	border: 1px solid lightgray;
+	border: 1px solid var(--accent);
 	box-shadow: 3px 3px;
 }
 .shadowed:active {
@@ -47,72 +70,59 @@ body > * {
 	transform: translate(2px,2px);
 }
 .list {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 .square-board {
 	width: 40px;
 	aspect-ratio: 1 / 1;
 }
-.square-hg {
-	width: 120px;
-	height: 120px;
+.square-card {
+	width: 4em;
+	height: 4em;
+	aspect-ratio: 1 / 1;
+	font-size: 1.3em;
 }
-.square-lg {
-	width: 80px;
-	height: 80px;
-}
-.square-md {
-	width: 40px;
-	height: 40px;
-}
-.square-sm {
+.square-pattern {
 	width: 20px;
-	height: 20px;
+	height: 20px;	
+}
+.square-call {
+	width: 120px;
+	height: 120px;	
 }
 .selected {
-	background-color: lightgray;
+	background-color: var(--accent);
 }
-.darked .selected {
-	background-color: gray;
-}
-
 .daub1 {
-	background-color: cyan;	
+	background-color: blue;	
 }
-
 .darked .daub1 {
-	background-color: blue;
 }
-
 .daub2 {
 	background-color: pink;
 }
 .darked .daub2 {
 	background-color: red;
 }
-
 .daub3 {
 	background-color: lime;
 }
-
 .darked .daub3 {
 	background-color: green;
 }
-
 .latest {
 	margin: 0 10px;
 }
-
 .label,
 .away {
-	padding: 5px;
+	padding: 3px;
 }
 
 @media only screen and (max-width : 1040px) {
 /*scrollbars for top and bottom labels only on desktop*/
-html { font-size: 100%; }
 div { scrollbar-width: 0 !important; }
 div::-webkit-scrollbar { width: 0 !important }
+body { font-size: 0.8em; }
 }

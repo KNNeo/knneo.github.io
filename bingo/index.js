@@ -49,11 +49,14 @@ const combinations = [
 
 //--COMMON EVENTS--//
 window.addEventListener('load', startup);
-window.addEventListener('resize', startup);
+window.addEventListener('resize', function() {
+	if(window['ended'])
+		startup();
+});
 
 function startup() {
 	initializeVariables();
-	renderTitle(true);
+	renderTitle();
 	renderDisplay();
 	renderCards();
 	renderActions();
@@ -64,16 +67,25 @@ function initializeVariables() {
 	window['daub'] = localStorage.getItem('daub');
 	window['ended'] = true;
 	window['combination'] = null;
-	window['cards'] = isMobile() && smallScreen() ? 1 : cardsGenerated;
+	window['cards'] = isMobile() || smallScreen() ? 1 : cardsGenerated;
 	window['bingo'] = [];	
 }
 
 //--FUNCTIONS--//
-function renderTitle(firstLoad) {
-	let maxStyles = 3;
-	if(!firstLoad) window['daub'] = (window['daub'] + 1 > maxStyles) ? 1 : window['daub'] + 1;
+function renderTitle() {
+	window['daub'] = 0;
 	document.querySelector('.title').classList = 'title daub' + window['daub'];
 	localStorage.setItem('daub', window['daub']);
+}
+
+function toggleDaub() {
+	if(window['ended'])
+	{
+		let maxStyles = 3; // as per css, .daub<no>
+		window['daub'] = (window['daub'] + 1 > maxStyles) ? 0 : window['daub'] + 1;
+		document.querySelector('.title').classList = 'title daub' + window['daub'];
+		localStorage.setItem('daub', window['daub']);
+	}	
 }
 
 function renderDisplay() {
@@ -94,6 +106,7 @@ function renderDisplay() {
 	
 	let td2 = document.createElement('td');
 	td2.classList.add('board');
+	td2.classList.add('padded');
 	td2.appendChild(generateBoard());
 	
 	let td3 = document.createElement('td');
@@ -105,7 +118,7 @@ function renderDisplay() {
 	
 	let latestDiv = document.createElement('div');
 	latestDiv.classList.add('shadowed');
-	latestDiv.classList.add('square-hg');
+	latestDiv.classList.add('square-call');
 	
 	let category = document.createElement('b');
 	category.classList.add('category');
@@ -124,7 +137,7 @@ function renderDisplay() {
 	window['call-hist'] = [];
 	let hist = document.createElement('div');
 	hist.classList.add('history');
-	if(isMobile() && smallScreen()) {
+	if(isMobile() || smallScreen()) {
 		hist.style.display = 'inline-block';
 		hist.style.width = '100%';
 	}
@@ -133,12 +146,12 @@ function renderDisplay() {
 	
 	let trX = document.createElement('tr');
 	
-	if(!isMobile() && !smallScreen()) tr.appendChild(td1);
-	if(isMobile() && smallScreen()) 
+	if(!isMobile() || !smallScreen()) tr.appendChild(td1);
+	if(isMobile() || smallScreen()) 
 		td2.setAttribute('colspan', 2);
 	tr.appendChild(td2);
-	if(!isMobile() && !smallScreen()) tr.appendChild(td3);
-	if(isMobile() && smallScreen()) 
+	if(!isMobile() || !smallScreen()) tr.appendChild(td3);
+	if(isMobile() || smallScreen()) 
 	{
 		trX.appendChild(td1);
 		td3.style.display = 'flex';
@@ -146,7 +159,7 @@ function renderDisplay() {
 	}
 	
 	tbody.appendChild(tr);
-	if(isMobile() && smallScreen()) tbody.appendChild(trX);
+	if(isMobile() || smallScreen()) tbody.appendChild(trX);
 
 	table.appendChild(tbody);
 	document.querySelector('.display').appendChild(table);	
@@ -170,7 +183,7 @@ function generatePattern(shape) {
 	let [,selected] = generateMatrix(shape && shape.selected || null);
 	if(debugMode) console.log(selected);
 	let table = generateCard(null, selected);
-	if(isMobile() && smallScreen()) table.style.margin = 'auto';
+	if(isMobile() || smallScreen()) table.style.margin = 'auto';
 	pattern.appendChild(table);
 	
 	div.appendChild(pattern);
@@ -315,8 +328,8 @@ function generateCard(numbers, selected) {
 			td.classList.add('shadowed');
 			if(numbers)
 			{
-				td.classList.add('square-lg');
-				td.classList.add('large-font');
+				td.classList.add('square-card');
+				// td.classList.add('large-font');
 				td.setAttribute('data-id', m*5+n+1);
 				td.innerText = numbers && numbers[m*5+n] || '';
 				td.addEventListener('click', function() {
@@ -330,9 +343,11 @@ function generateCard(numbers, selected) {
 			}
 			else
 			{
-				td.classList.add('square-sm');
-				if(selected[m*5+n] == true)
+				td.classList.add('square-pattern');
+				if(selected[m*5+n] == true) {
+					td.classList.toggle('daub' + window['daub']);
 					td.classList.add('selected');
+				}
 			}
 			tr.appendChild(td);
 		}
