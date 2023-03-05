@@ -113,7 +113,8 @@ body {
 	background-color: var(--accent);
 }
 
-.player.score {
+.player.score,
+.opponent.score {
     display: flex;
     align-items: flex-end;
     justify-content: center;
@@ -153,7 +154,19 @@ body {
 }
 
 .reset {
+	text-align: center;
 	border: 1px solid var(--foreground);
+}
+
+.flipped {
+	transform: rotate(180deg);
+}
+
+.board {
+	width: min(80%,480px);
+	margin: auto;
+	text-align: left;
+	font-size: 0.8em;	
 }
 
 .viewer {
@@ -165,6 +178,8 @@ body {
 	height: 100%;
 	padding-top: 0;
 	text-align: center;
+	overflow: auto;
+	display: flex;
 	transition: opacity 0.5s, visibility 0.5s;
 	background: rgba(255, 255, 255, 0.8); /*semi-transparent background*/
 }
@@ -178,4 +193,9 @@ body {
 html { font-size: 100%; }
 div { scrollbar-width: 0 !important; }
 div::-webkit-scrollbar { width: 0 !important }
+.board { width: initial; }
+.board hr { margin: 0; }
+.board .separator { display: none; }
+.rotated { transform: rotate(90deg); }
+.scores td { padding: 20px; }
 }

@@ -125,7 +125,7 @@ function adjustViewerMargin() {
 	if(viewer.childElementCount == 0) return;
 	viewer.style.paddingTop = '0';
 	let image = viewer.lastElementChild;
-	viewer.style.paddingTop = (window.innerHeight - image.getBoundingClientRect().height)/2 + 'px';
+	// viewer.style.paddingTop = (window.innerHeight - image.getBoundingClientRect().height)/2 + 'px';
 }
 
 function closeViewer() {

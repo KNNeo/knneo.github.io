@@ -39,7 +39,7 @@ function start() { // from trigger, start game
 	event.target.onclick = null;
 	event.target.innerHTML = '';
 	let score = document.createElement('strong');
-	score.className = 'opponent total';
+	score.className = 'opponent total flipped';
 	score.innerText = 0;
 	event.target.appendChild(score);
 	event.target.appendChild(document.createElement('hr'));
@@ -266,10 +266,8 @@ function updateTotalScores() {
 
 function showRules() {
 	let board = document.createElement('div');
-	board.style.width = 'min(80%,480px)';
-	board.style.margin = 'auto';
-	board.style.textAlign = 'left';
-	board.style.fontSize = '0.8em';
+	board.classList.add('board');
+	board.classList.add('rotated');
 	board.innerText = rulesText;
 	
 	openItemInViewer(board);
@@ -277,8 +275,8 @@ function showRules() {
 
 function showScores() {
 	let board = document.createElement('div');
-	board.style.width = 'min(80%,480px)';
-	board.style.margin = 'auto';
+	board.classList.add('board');
+	board.classList.add('rotated');
 	board.style.fontSize = '2em';
 	
 	// show matches score, show list of scores
@@ -310,6 +308,7 @@ function showScores() {
 	board.appendChild(winsDiv);
 	
 	separator = document.createElement('div');
+	separator.classList.add('separator');
 	separator.style.height = '5vh';
 	board.appendChild(separator);
 	
@@ -363,6 +362,7 @@ function showScores() {
 	board.appendChild(scoresDiv);
 	
 	separator = document.createElement('div');
+	separator.classList.add('separator');
 	separator.style.height = '5vh';
 	board.appendChild(separator);
 	
@@ -381,6 +381,7 @@ function showScores() {
 function resetScores() {
 	localStorage.setItem('dice-game-wins',JSON.stringify([]));
 	localStorage.setItem('dice-game-scores',JSON.stringify([]));
+	location.reload();
 }
 
 //--RULES--//
