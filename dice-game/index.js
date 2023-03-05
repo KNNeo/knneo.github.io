@@ -84,7 +84,8 @@ function end() { // from trigger, end game
 }
 
 function shake(number) {
-	if(event.target.parentElement.getAttribute('data-status') == 'disabled') return;
+	if(event.target.parentElement.getAttribute('data-status') == 'disabled' ||
+	event.target.parentElement.getAttribute('data-status') == 'rolled') return;
 	window['shake-' + number] = 0;
 	shaking(number);
 }
