@@ -158,10 +158,6 @@ body {
 	border: 1px solid var(--foreground);
 }
 
-.flipped {
-	transform: rotate(180deg);
-}
-
 .board {
 	width: min(80%,480px);
 	margin: auto;
@@ -198,4 +194,5 @@ div::-webkit-scrollbar { width: 0 !important }
 .board .separator { display: none; }
 .rotated { transform: rotate(90deg); }
 .hidden { display: none; }
+.flipped { transform: rotate(180deg); }
 }
