@@ -75,7 +75,7 @@ body {
 
 .page {
 	display: grid;
-	height: 90vh;
+	height: 80vh;
     grid-template-columns: 8vh 8vh 8vh;
     grid-template-rows: auto 8vh 8vh 8vh auto 70px auto 8vh 8vh 8vh auto;
 	box-sizing: border-box;
