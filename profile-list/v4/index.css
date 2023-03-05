@@ -150,8 +150,8 @@ button:disabled {
 
 #timeline .container:hover ~ div,
 #timeline .dimmed {
-	color: var(--accent);
-	filter: grayscale(90%) contrast(0.2);
+	color: var(--foreground);
+	/* filter: grayscale(90%) contrast(0.2); */
 }
 
 #timeline .selected {
