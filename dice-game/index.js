@@ -3,15 +3,16 @@ const enableAI = false;
 
 //--COMMON EVENTS--//
 window.onload = startup();
+window.onresize = adjustViewerMargin();
 
 //--FUNCTIONS--//
 function startup() {
 	window['shake-1'] = false; // player
 	window['shake-2'] = false; // opponent
-	
+	generateViewer();
 }
 
-function start() { // from trigger, start game
+function start() { // from trigger, start game	
 	// remove headers
 	for(let header of document.querySelectorAll('.header'))
 	{
@@ -49,11 +50,37 @@ function start() { // from trigger, start game
 }
 
 function end() { // from trigger, end game
-	console.log('game ended');
+	// disable dice
 	for(let dice of document.querySelectorAll('.dice'))
 	{
 		dice.setAttribute('data-status', 'disabled');
 	}
+	
+	// record score
+	let wins = JSON.parse(localStorage.getItem('dice-game-wins') ?? '[]');
+	let scores = JSON.parse(localStorage.getItem('dice-game-scores') ?? '[]');
+	
+	let playerScore = parseInt(document.querySelector('.player.total').innerText);
+	let opponentScore = parseInt(document.querySelector('.opponent.total').innerText);
+	console.log('game ended: ' + opponentScore + ' / ' + playerScore);
+	
+	let whoWins = 'draw';
+	if(playerScore > opponentScore) {
+		whoWins = 'player';
+		document.querySelector('.player.dice').innerText = '✌️';
+	}
+	if(opponentScore > playerScore) {
+		whoWins = 'opponent';
+		document.querySelector('.opponent.dice').innerText = '✌️';
+	}
+	
+	let playerWins = (wins[0] ?? 0) + (whoWins == 'player' ? 1 : 0);
+	let opponentWins = (wins[1] ?? 0) + (whoWins == 'opponent' ? 1 : 0);
+	
+	scores.unshift({ player: playerScore, opponent: opponentScore, win: whoWins });
+	
+	localStorage.setItem('dice-game-wins',JSON.stringify([playerWins, opponentWins]));
+	localStorage.setItem('dice-game-scores',JSON.stringify(scores));
 }
 
 function shake(number) {
@@ -234,24 +261,136 @@ function updateTotalScores() {
 	document.querySelector('.player.total').innerText = Array.from(document.querySelectorAll('.player.score'))
 	.reduce((total, current) => total + parseInt(current.innerText), 0);
 	document.querySelector('.opponent.total').innerText = Array.from(document.querySelectorAll('.opponent.score'))
-	.reduce((total, current) => total + parseInt(current.innerText), 0);	
+	.reduce((total, current) => total + parseInt(current.innerText), 0);
 }
 
 function showRules() {
+	let board = document.createElement('div');
+	board.style.width = 'min(80%,480px)';
+	board.style.margin = 'auto';
+	board.style.textAlign = 'left';
+	board.style.fontSize = '0.8em';
+	board.innerText = rulesText;
 	
+	openItemInViewer(board);
 }
 
 function showScores() {
+	let board = document.createElement('div');
+	board.style.width = 'min(80%,480px)';
+	board.style.margin = 'auto';
+	board.style.fontSize = '2em';
 	
+	// show matches score, show list of scores
+	// wins array: [playerWins, opponentWins]
+	// scores object: { player: x, opponent: y, win: player }
+	let wins = JSON.parse(localStorage.getItem('dice-game-wins') ?? '[]');
+	let scores = JSON.parse(localStorage.getItem('dice-game-scores') ?? '[]');
+	console.log(wins, scores);
+	
+	let header = document.createElement('h5');
+	header.style.textAlign = 'center';
+	header.innerText = 'MATCHES';
+	board.appendChild(header);
+	
+	let winsDiv = document.createElement('div');
+	winsDiv.style.textAlign = 'center';
+	
+		let playerWins = document.createElement('div');
+		playerWins.innerText = wins[1] ?? 0;
+		winsDiv.appendChild(playerWins);
+		
+		let separator = document.createElement('hr');
+		winsDiv.appendChild(separator);
+	
+		let opponentWins = document.createElement('div');
+		opponentWins.innerText = wins[0] ?? 0;
+		winsDiv.appendChild(opponentWins);
+	
+	board.appendChild(winsDiv);
+	
+	separator = document.createElement('div');
+	separator.style.height = '5vh';
+	board.appendChild(separator);
+	
+	header = document.createElement('h5');
+	header.style.textAlign = 'center';
+	header.innerText = 'BREAKDOWN';
+	board.appendChild(header);
+	
+	let scoresDiv = document.createElement('div');
+	scoresDiv.classList.add('scores');
+
+	for(let score of scores) // opponent only
+	{
+		let scoreTr = document.createElement('tr');
+		
+				let scoreTd = document.createElement('td');
+				
+				let playerWin2 = document.createElement('span');
+				playerWin2.classList.add('win');
+				playerWin2.innerText = score.win == 'opponent' ? '✌️' : '';
+				scoreTd.appendChild(playerWin2);
+				
+				let playerWin1 = document.createElement('span');
+				playerWin1.classList.add('score');
+				playerWin1.innerText = score.opponent;
+				scoreTd.appendChild(playerWin1);
+				
+				scoreTr.appendChild(scoreTd);
+				
+				separator = document.createElement('hr');
+				scoreTr.appendChild(separator);
+			
+				scoreTd = document.createElement('td');
+				scoreTd.style.position = 'relative';
+				
+				let opponentWin2 = document.createElement('span');
+				opponentWin2.classList.add('win');
+				opponentWin2.innerText = score.win == 'player' ? '✌️' : '';
+				scoreTd.appendChild(opponentWin2);
+				
+				let opponentWin1 = document.createElement('span');
+				opponentWin1.classList.add('score');
+				opponentWin1.innerText = score.player;
+				scoreTd.appendChild(opponentWin1);
+				
+				scoreTr.appendChild(scoreTd);
+				
+		scoresDiv.appendChild(scoreTr);
+	}				
+	
+	board.appendChild(scoresDiv);
+	
+	separator = document.createElement('div');
+	separator.style.height = '5vh';
+	board.appendChild(separator);
+	
+	let resetter = document.createElement('div');
+	resetter.classList.add('reset');
+	resetter.innerText = 'Reset';
+	resetter.addEventListener('click', function() {
+		alert('scores reset');
+		resetScores();
+	});
+	board.appendChild(resetter);
+	
+	openItemInViewer(board);	
+}
+
+function resetScores() {
+	localStorage.setItem('dice-game-wins',JSON.stringify([]));
+	localStorage.setItem('dice-game-scores',JSON.stringify([]));
 }
 
 //--RULES--//
-const rules = `(From Cult of the Lamb Wiki, with added info, simplified calculations)
-[ok]* The game consists of two 3x3 boards, each belonging to their respective player.
-[player first]* Each player rolls a die, higher value goes first.
-[ok]* The players take turns. On a player's turn, they roll a single 6-sided die, and must place it in a column on their board. A filled column does not accept any more dice.
-[ok]* Each player has a score, which is the sum of all the dice values on their board. The score awarded by each column is also displayed.
-[ok]* If a player places multiple dice of the same value in the same column, the score awarded for each of those dice is multiplied by the number of dice of the same value in that column. e.g. if a column contains 4-1-4, then the score for that column is 4x2 + 1x1 + 4x2 = 17. 
-[ok]* Calculation applies to number of nice in each column eg. 4x3 + 4x3 + 4x3 = 36.
+const rulesText = `
+* The game consists of two 3x3 boards, each belonging to their respective player.
+* Each player rolls a die, higher value goes first.
+* The players take turns. On a player's turn, they roll a single 6-sided die, and must place it in a column on their board. A filled column does not accept any more dice.
+* Each player has a score, which is the sum of all the dice values on their board. The score awarded by each column is also displayed.
+* If a player places multiple dice of the same value in the same column, the score awarded for each of those dice is multiplied by the number of dice of the same value in that column. e.g. if a column is 4-1-4, then the score is 4x2 + 1x1 + 4x2 = 17. 
+* Calculation applies to number of nice in each column eg. if a column is 4-4-4, then the score is 4x3 + 4x3 + 4x3 = 36.
 * When a player places a die, all dice of the same value in the corresponding column of the opponent's board gets destroyed.
-[ok]* The game ends when either player completely fills up their 3x3 board. The player with the higher score wins.`;
+* The game ends when either player completely fills up their 3x3 board. The player with the higher score wins.
+`;

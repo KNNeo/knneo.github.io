@@ -16,7 +16,7 @@
 }
 
 html {
-	font-family: Open Sans;
+	font-family: Noto Sans;
 	background-color: var(--background);
 	color: var(--foreground);
 }
@@ -81,14 +81,11 @@ body {
 	box-sizing: border-box;
 	grid-gap: 1vh;
     justify-content: center;
-	/* padding: 5vh 0; */
 }
 
-.rules,
 .action,
-.scores,
 .cell {
-	border: 1px solid white;
+	border: 1px solid var(--foreground);
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -116,23 +113,67 @@ body {
 	background-color: var(--accent);
 }
 
+.player.score {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.scores {
+	display: flex;
+	overflow-x: auto;
+}
+
+.scores tr {
+	border: 1px solid var(--foreground);
+	background-color: var(--background);
+    padding: 5px;
+}
+
+.scores td {
+	position: relative;
+    padding: 5px;
+    height: 5vh;
+    width: 8vw;
+}
+
+.scores .score {
+	position: absolute;
+	left: 5px;
+	right: 5px;
+	/* top: 8px; */
+	font-size: 0.85em;
+}
+
+.scores .win {
+	position: absolute;
+	left: 5px;
+	right: 5px;
+	opacity: 0.5;
+}
+
+.reset {
+	border: 1px solid var(--foreground);
+}
+
 .viewer {
 	z-index: 999;
 	position: fixed;
+	top: 0;
+	left: 0;
 	width: 100%;
 	height: 100%;
 	padding-top: 0;
-	visibility: hidden;
 	text-align: center;
 	transition: opacity 0.5s, visibility 0.5s;
-	background: rgba(255, 255, 255, 0.6); /*semi-transparent background*/
+	background: rgba(255, 255, 255, 0.8); /*semi-transparent background*/
 }
 
 .darked .viewer {
-	background: rgba(0, 0, 0, 0.6); /*semi-transparent background*/
+	background: rgba(0, 0, 0, 0.8); /*semi-transparent background*/
 }
 
-@media only screen and (max-width : 1040px) {
+@media only screen and (max-width : 480px) {
 /*scrollbars for top and bottom labels only on desktop*/
 html { font-size: 100%; }
 div { scrollbar-width: 0 !important; }
