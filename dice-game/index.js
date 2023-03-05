@@ -15,7 +15,7 @@ function start() { // from trigger, start game
 	// remove headers
 	for(let header of document.querySelectorAll('.header'))
 	{
-		header.remove();
+		header.classList.add('hidden');
 	}
 	
 	// clear all cells of dice
@@ -75,8 +75,8 @@ function shaking(number) {
 	// prevent rolling
 	// event.target.onclick = null;
 	
-	// disable dice
-	event.target.parentElement.setAttribute('data-status', 'disabled');
+	// show dice as rolled
+	event.target.parentElement.setAttribute('data-status', 'rolled');
 	
 	// light up board
 	let classes = '.' + Array.from(event.target.parentElement.classList).join('.');
@@ -98,9 +98,6 @@ function onCellSelect(number) {
 		if(event.target.querySelector('.content') == null) // has dice on cell
 			return;
 		event.target.querySelector('.content').className = 'content bi bi-dice-' + window['roll-' + number];
-		
-		updateColumnScores();
-		updateTotalScores();
 		
 		// remove other board's dice, if any
 		if(number == 1) {
@@ -163,14 +160,22 @@ function onCellSelect(number) {
 			
 		}
 		
+		// update scores
+		updateColumnScores();	// for each column
+		updateTotalScores();	// for each player
+		
 		// empty roll
 		window['roll-' + number] = null;
 		
 		// allow rolling
-		if(number == 1)
-			document.querySelector('.opponent.dice').removeAttribute('data-status', 'disabled');
-		if(number == 2)
-			document.querySelector('.player.dice').removeAttribute('data-status', 'disabled');
+		if(number == 1) {
+			document.querySelector('.opponent.dice').removeAttribute('data-status');
+			document.querySelector('.player.dice').setAttribute('data-status', 'disabled');
+		}
+		if(number == 2) {
+			document.querySelector('.player.dice').removeAttribute('data-status');
+			document.querySelector('.opponent.dice').setAttribute('data-status', 'disabled');
+		}
 		
 		// remove light up board
 		for(let cell of document.querySelectorAll('.highlight'))
@@ -230,6 +235,14 @@ function updateTotalScores() {
 	.reduce((total, current) => total + parseInt(current.innerText), 0);
 	document.querySelector('.opponent.total').innerText = Array.from(document.querySelectorAll('.opponent.score'))
 	.reduce((total, current) => total + parseInt(current.innerText), 0);	
+}
+
+function showRules() {
+	
+}
+
+function showScores() {
+	
 }
 
 //--RULES--//
