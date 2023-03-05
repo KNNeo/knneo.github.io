@@ -284,7 +284,7 @@ function showScores() {
 	// scores object: { player: x, opponent: y, win: player }
 	let wins = JSON.parse(localStorage.getItem('dice-game-wins') ?? '[]');
 	let scores = JSON.parse(localStorage.getItem('dice-game-scores') ?? '[]');
-	console.log(wins, scores);
+	// console.log(wins, scores);
 	
 	let header = document.createElement('h5');
 	header.style.textAlign = 'center';

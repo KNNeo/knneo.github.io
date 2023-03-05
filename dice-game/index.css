@@ -76,8 +76,8 @@ body {
 .page {
 	display: grid;
 	height: 85vh;
-    grid-template-columns: 8vh 8vh 8vh;
-    grid-template-rows: auto 8vh 8vh 8vh auto 70px auto 8vh 8vh 8vh auto;
+    grid-template-columns: 7vh 7vh 7vh;
+    grid-template-rows: auto 7vh 7vh 7vh auto 70px auto 7vh 7vh 7vh auto;
 	box-sizing: border-box;
 	grid-gap: 1vh;
     justify-content: center;
@@ -133,9 +133,9 @@ body {
 
 .scores td {
 	position: relative;
-    padding: 5px;
     height: 5vh;
     width: 8vw;
+    padding: 20px;
 }
 
 .scores .score {
@@ -197,5 +197,4 @@ div::-webkit-scrollbar { width: 0 !important }
 .board hr { margin: 0; }
 .board .separator { display: none; }
 .rotated { transform: rotate(90deg); }
-.scores td { padding: 20px; }
 }
