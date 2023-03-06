@@ -55,10 +55,10 @@ void Main()
 			continue;
 		var item = new ImageCollageItem();
 		item.filename = file;
-		item.sm = "file://" + (thumbpath + prefixSm + file).Replace("\\", "/");
-		item.md = "file://" + (thumbpath + prefixMd + file).Replace("\\", "/");
-		item.lg = "file://" + (thumbpath + prefixLg + file).Replace("\\", "/");
-		item.og = "file://" + (folderpath + file).Replace("\\", "/");
+		item.sm = "file://KAINENG-PC/bromides/thumbs/" + prefixSm + file;
+		item.md = "file://KAINENG-PC/bromides/thumbs/" + prefixMd + file;
+		item.lg = "file://KAINENG-PC/bromides/thumbs/" + prefixLg + file;
+		item.og = "file://KAINENG-PC/bromides/indexed/" + file;
 		output.Add(item);
 	}
 	
