@@ -287,21 +287,11 @@ function randomSong(mode) {
 	let query = "SELECT COUNT(*) FROM Song";
 	queryDb(query, function(content) { // with song count, get random id
 		let total = content.values[0][0];			
-		let random = '0';
-		do {
-			random = Math.floor((Math.random() * total)).toString();
-			if(window['playlist'].indexOf(random) < 0)
-			{
-				window['playlist'].push(random);
-				toQueue--;
-			}
-		} while (toQueue > 0);
-		if(debugMode) console.log('playlist', window['playlist']);
+		let random = Math.floor((Math.random() * total)).toString();
 		
 		// run query
-		let optQuery = "SELECT * FROM Song WHERE KNID = ";
-		optQuery += window['playlist'][(window['playing'] ?? -1) + 1];
-		if(debugMode) console.log('optQuery', optQuery);
+		let optQuery = "SELECT * FROM Song WHERE KNID = " + random;
+		if(debugMode) console.log('randomSong', optQuery);
 		queryDb(optQuery, updateOptions);
 	});
 };
@@ -342,14 +332,14 @@ function skipSong() {
 	{
 		let optQuery = "SELECT * FROM Song WHERE KNID = ";
 		optQuery += window['playlist'][0];
-		if(debugMode) console.log('optQuery', optQuery);
+		if(debugMode) console.log('skipSong', optQuery);
 		queryDb(optQuery, updateOptions);
 	}
 	else if (window['playing'] >= 0 && window['playing'] + 1 < window['playlist'].length)
 	{
 		let optQuery = "SELECT * FROM Song WHERE KNID = ";
 		optQuery += window['playlist'][window['playing'] + 1];
-		if(debugMode) console.log('optQuery', optQuery);
+		if(debugMode) console.log('skipSong', optQuery);
 		queryDb(optQuery, updateOptions);
 	}
 	else 
@@ -379,7 +369,7 @@ function skipSong() {
 				}
 				let random = content.values[Math.floor((Math.random() * total))][0].toString();
 				let optQuery = "SELECT * FROM Song WHERE KNID = " + random;
-				if(debugMode) console.log('optQuery', optQuery);
+				if(debugMode) console.log('nextOptionQuery', optQuery);
 				queryDb(optQuery, updateOptions);
 				window['playlist'].push(random);
 				if(debugMode) console.log('playlist', window['playlist']);
@@ -687,8 +677,9 @@ function onChangeOption() {
 	//select by id value format
 	if(id.startsWith(categoryIcons[2]))
 	{
-		window['mode'] = 'song';
 		let input = id.replace(categoryIcons[2], '');
+		window['mode'] = 'song';
+		window['playlist'].push(input.toString());
 		
 		let query = "SELECT ID, KNYEAR, Filename, CASE WHEN SongTitleAlt IS NOT NULL AND SongTitle <> SongTitleAlt THEN SongTitle || '<br/>' || SongTitleAlt ELSE SongTitleAlt END AS 'Song Title', ArtistTitle, CASE WHEN ArtistTitleAlt IS NOT NULL AND ArtistTitle <> ArtistTitleAlt THEN ArtistTitle || '<br/>' || ArtistTitleAlt ELSE ArtistTitle END AS 'Artist Title', ReleaseTitle AS 'Release Title', ReleaseArtistTitle AS 'Release Artist', ReleaseYear AS 'Year', Genre, DateCreated AS 'Date Added', ";
 		query += "CASE WHEN VocalCode = 'F' THEN 'Solo Female' WHEN VocalCode = 'M' THEN 'Solo Male' WHEN VocalCode = 'MM' THEN 'Male Duet' WHEN VocalCode = 'FF' THEN 'Female Duet' WHEN VocalCode IN ('MF', 'FM') THEN 'Mixed Duet' WHEN LENGTH(VocalCode) = 3 THEN 'Triplet' WHEN LENGTH(VocalCode) >= 4 THEN 'Quartet or More (' || LENGTH(VocalCode) || ')' END AS 'Vocals', ";
@@ -2537,7 +2528,7 @@ function updateSong() {
 	}
 	else if(!playlistOpen && window['playlist'][window['playlist'].length - 1] != id)
 	{
-		window['playlist'].push(id.toString());
+		// window['playlist'].push(id.toString());
 		updateQueue(window['playlist'].length - 1);
 	}
 }
