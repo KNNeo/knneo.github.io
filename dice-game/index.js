@@ -108,7 +108,7 @@ function shaking(number) {
 	
 	// light up board
 	let classes = '.' + Array.from(event.target.parentElement.classList).join('.');
-	for(let cell of document.querySelectorAll(classes.replace('dice', 'cell')))
+	for(let cell of document.querySelectorAll(classes.replace('dice', 'cell').replace('.flipped', '')))
 	{
 		if(cell.getAttribute('data-id') == null)
 			cell.classList.add('highlight');
