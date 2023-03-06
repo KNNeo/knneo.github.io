@@ -61,7 +61,7 @@ function createCalendar(monthNo, DOBlist, legend = false) {
 		let monthId = month[birthdayInYear.getMonth()];
 		let message = '<b onclick="generateProfileFromJSON(this)" class="calendar-name color-' + item.category + '">' + item.name + '</b> turns ' + thisAge + '</b> (' + birthdayInYear.getDate() + ' ' + monthId.substring(0, 3) + ')';
 		if (thisAge == '??')
-			message = 'Happy Birthday <b nclick="generateProfileFromJSON(this)" class="calendar-name color-' + item.category + '">' + item.name + '</b>!!';
+			message = 'Happy Birthday <b onclick="generateProfileFromJSON(this)" class="calendar-name color-' + item.category + '">' + item.name + '</b>!!';
 		
 		if (thisAge == '??' && htmlString.indexOf(monthId) > -1 && htmlString.indexOf(dateCell) > -1 && item.name != 'Me') //no age
 			htmlString = htmlString.replace(dateCell, 
