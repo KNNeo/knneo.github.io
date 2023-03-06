@@ -357,7 +357,7 @@ function skipSong() {
 		if(window['shuffle-mode'])
 		{
 			let nextOption = document.querySelector('#queue-options').value;
-			let query = "SELECT KNID FROM Song WHERE KNID <> " + window['song-id'];
+			let query = "SELECT KNID FROM Song WHERE KNID NOT IN (" + window['playlist'].join(',') + ")";
 			if(nextOption == 'artist') query += " AND ArtistID = " + window['artist-id'] + "";
 			if(nextOption == 'release') query += " AND ReleaseID = " + window['release-id'] + "";
 			if(nextOption == 'year') query += " AND KNYEAR = " + window['year'] + "";
@@ -370,29 +370,18 @@ function skipSong() {
 			queryDb(query, function(content) {
 				if(debugMode) console.log('nextOption', window['song-id'], content);
 				let total = content.values.length;
-				let inPlaylist = 0;
-				if(typeof content.values == 'object') 
-					inPlaylist = content.values.reduce(function(total, c) {
-						total += window['playlist'].indexOf(c[0].toString()) >= 0 ? 1 : 0;
-						return total;
-					}, 0);
-				//if next option not available ie. will get current song (excluded in query), random
-				if(total == 0 || (inPlaylist >= total))
+				//if next option not available ie. will get random song
+				if(total < 1)
 				{
 					randomSong();
 					window['years'] = undefined;
 					return;
 				}
-				let toQueue = 1;
-				let random = '0';
-				do {
-					random = content.values[Math.floor((Math.random() * total))][0].toString();
-					if(window['playlist'].indexOf(random) < 0)
-					{
-						window['playlist'].push(random);
-						toQueue--;
-					}
-				} while (toQueue > 0);
+				let random = content.values[Math.floor((Math.random() * total))][0].toString();
+				let optQuery = "SELECT * FROM Song WHERE KNID = " + random;
+				if(debugMode) console.log('optQuery', optQuery);
+				queryDb(optQuery, updateOptions);
+				window['playlist'].push(random);
 				if(debugMode) console.log('playlist', window['playlist']);
 				updateQueueButtons();
 			});
@@ -401,7 +390,6 @@ function skipSong() {
 		{
 			randomSong();
 		}
-		// document.querySelector('#player').dispatchEvent(new Event('ended'));
 	}
 }
 
