@@ -395,7 +395,8 @@ function addSummaryEventsToCalendar() {
 					content.addEventListener('click', function() {
 						document.querySelector('.footer').innerHTML = convertTextToHTML(this.title, [single.url]);
 					});
-					content.addEventListener('dblclick', function() {
+					content.addEventListener('contextmenu', function() {
+						event.preventDefault();
 						this.classList.add('marked');
 						addToMarked({
 							date: date.getAttribute('data-id'),
