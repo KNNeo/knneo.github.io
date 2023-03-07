@@ -411,12 +411,14 @@ function addMarkedEventsToCalendar() {
 	{
 		let box = document.querySelector('div[data-id="' + item.date + '"][data-month="' + item.month + '"][data-year="' + item.year + '"]');
 		// console.log(box);
-		for(let cell of box.querySelectorAll('div'))
-		{
-			// console.log(cell);
-			if(cell.innerText == item.id)
+		if(box != null) {
+			for(let cell of box.querySelectorAll('div'))
 			{
-				cell.classList.add('marked');
+				// console.log(cell);
+				if(cell.innerText == item.id)
+				{
+					cell.classList.add('marked');
+				}
 			}
 		}
 	}
