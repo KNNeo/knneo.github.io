@@ -212,7 +212,7 @@ window.addEventListener('load', startup);
 
 //--FUNCTIONS--//
 function startup() {
-	generateCalendar(new Date().getFullYear(), new Date().getMonth());
+	generateCalendar(new Date().getFullYear(), new Date().getMonth()); // month is 0-based
 }
 
 function generateCalendar(year, month, list) {
