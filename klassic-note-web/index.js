@@ -289,10 +289,11 @@ function randomSong(mode) {
 		let total = content.values[0][0];			
 		let random = Math.floor((Math.random() * total)).toString();
 		
-		// run query
 		let optQuery = "SELECT * FROM Song WHERE KNID = " + random;
 		if(debugMode) console.log('randomSong', optQuery);
 		queryDb(optQuery, updateOptions);
+		// assume not in playlist
+		window['playlist'].push(random);
 	});
 };
 
@@ -321,6 +322,10 @@ function queueSongs(ids) {
 	skipSong();
 }
 
+// TEST CASES //
+// Playlist empty
+// With song loaded from search in playlist
+// With playlist loaded, playing is not last song
 function skipSong() {
 	if(window['playing'] == null) window['playing'] = -1; // not played before
 	if(window['playlist'] == null || window['playlist'].length == 0)
@@ -561,6 +566,7 @@ function querySelect() {
 	
 	if(debugMode) 
 		console.log('querySelect', query);
+	window['searching'] = true;
 	queryDb(query, updateOptions);
 }
 
@@ -679,7 +685,10 @@ function onChangeOption() {
 	{
 		let input = id.replace(categoryIcons[2], '');
 		window['mode'] = 'song';
-		window['playlist'].push(input.toString());
+		if(window['searching']) {
+			window['playlist'].push(input.toString());
+			window['searching'] = null;
+		}
 		
 		let query = "SELECT ID, KNYEAR, Filename, CASE WHEN SongTitleAlt IS NOT NULL AND SongTitle <> SongTitleAlt THEN SongTitle || '<br/>' || SongTitleAlt ELSE SongTitleAlt END AS 'Song Title', ArtistTitle, CASE WHEN ArtistTitleAlt IS NOT NULL AND ArtistTitle <> ArtistTitleAlt THEN ArtistTitle || '<br/>' || ArtistTitleAlt ELSE ArtistTitle END AS 'Artist Title', ReleaseTitle AS 'Release Title', ReleaseArtistTitle AS 'Release Artist', ReleaseYear AS 'Year', Genre, DateCreated AS 'Date Added', ";
 		query += "CASE WHEN VocalCode = 'F' THEN 'Solo Female' WHEN VocalCode = 'M' THEN 'Solo Male' WHEN VocalCode = 'MM' THEN 'Male Duet' WHEN VocalCode = 'FF' THEN 'Female Duet' WHEN VocalCode IN ('MF', 'FM') THEN 'Mixed Duet' WHEN LENGTH(VocalCode) = 3 THEN 'Triplet' WHEN LENGTH(VocalCode) >= 4 THEN 'Quartet or More (' || LENGTH(VocalCode) || ')' END AS 'Vocals', ";
@@ -2528,7 +2537,7 @@ function updateSong() {
 	}
 	else if(!playlistOpen && window['playlist'][window['playlist'].length - 1] != id)
 	{
-		// window['playlist'].push(id.toString());
+		window['playlist'].push(id.toString());
 		updateQueue(window['playlist'].length - 1);
 	}
 }
@@ -2642,7 +2651,6 @@ function showContextMenu() {
 	let box = document.body.getBoundingClientRect();
     let x = event.clientX - box.left;
     let y = event.clientY - box.top - document.querySelector('#song-queue').getBoundingClientRect().height;
-	let smallWidths = x >= 0.5*innerWidth;
 	
 	let menu = document.querySelector('.context');
     menu.style.top = y + 'px';
@@ -2671,7 +2679,7 @@ function showContextMenu() {
 			break;
 	}
 	
-	if(y + menu.getBoundingClientRect().height >= window.innerHeight)
+	if(y + menu.getBoundingClientRect().height + 80 >= window.innerHeight)
 	{
 		menu.style.top = (y - menu.getBoundingClientRect().height) + 'px';
 		if(y - menu.getBoundingClientRect().height < 0)
@@ -2700,7 +2708,6 @@ function showAddQueueContextMenu(id) {
 	playLater.addEventListener('click', function() {
 		window['playlist'].push(id);
 		hideContextMenus(true);
-		// updateQueue();
 	});
 	submenu.appendChild(playLater);
 		
