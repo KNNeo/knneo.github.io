@@ -35,6 +35,7 @@ const data = [
 	},
 	{
 		name: '菅野真衣のマイペースマイワールド',
+		startDate: '2023-01-02',
 		startDayNo: 1,
 		startTime: 2430,
 		lengthMinutes: 30,
@@ -87,6 +88,7 @@ const data = [
 		name: '佐倉としたい大西',
 		startDayNo: 2,
 		startTime: 2330,
+		endDate: '2023-03-28',
 		lengthMinutes: 30,
 		recurringWeeks: [1,2,3,4,5],
 		channel: '文化放送『超！A&G＋』',
@@ -284,7 +286,7 @@ function generateCalendarTable(year, month, array) {
 			generateCalendar(window['year'] - 1, 11);
 			return;
 		}
-		console.log(window['year'], window['month']-1);
+		// console.log(window['year'], window['month']-1);
 		generateCalendar(window['year'], window['month']-1);
 	});
 	row.appendChild(prev);
@@ -344,6 +346,7 @@ function generateCalendarTable(year, month, array) {
 				cell.setAttribute('data-day', day == 0 ? 7 : day);		// day of week (0 is sunday)
 				cell.setAttribute('data-month', monthsOfYear[month]);	// month
 				cell.setAttribute('data-year', window['year']);			// year
+				cell.setAttribute('data-date', 10000*window['year'] + 100*(month + 1) + array[week][day]); // date as number
 			}
 			row.appendChild(cell);
 		}
@@ -366,13 +369,17 @@ function generateCalendarTable(year, month, array) {
 function addSummaryEventsToCalendar() {
 	for(let single of data)
 	{
-		if(single.recurringWeeks)
+		// assume events must have weeks defined
+		if(typeof single.recurringWeeks == 'object')
 		{
-			let dates = document.querySelectorAll('div[data-day="' + single.startDayNo + '"]');			
+			let weekdays = document.querySelectorAll('div[data-day="' + single.startDayNo + '"]');
 			for(let weekNo of single.recurringWeeks)
 			{
-				let date = dates[weekNo-1];
-				if(date)
+				let date = weekdays[weekNo-1];
+				let fullDate = parseInt(date?.getAttribute('data-date'));
+				if(date &&
+				(!single.startDate || fullDate >= parseInt(single.startDate.replace(/-/g,''))) &&
+				(!single.endDate || fullDate <= parseInt(single.endDate.replace(/-/g,''))))
 				{
 					let content = document.createElement('div');
 					content.classList.add('content');
@@ -400,7 +407,7 @@ function addSummaryEventsToCalendar() {
 					date.appendChild(content);
 				}
 			}
-			
+		}
 		}
 	}
 }
