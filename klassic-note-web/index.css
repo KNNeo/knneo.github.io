@@ -59,6 +59,14 @@ a {
 	font-size: 1em;
 }
 
+#options {
+	background-color: var(--accent);
+}
+
+.darked #options {
+	background-color: var(--foreground);
+}
+
 #search-buttons a {
 	font-size: 24px;
 }

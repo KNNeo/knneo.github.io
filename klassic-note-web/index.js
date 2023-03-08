@@ -521,6 +521,7 @@ function generateFilters() {
 		
 	let options = document.createElement('select');
 	options.id = 'options';
+	options.title = 'Search Results';
 	options.addEventListener('change', onChangeOption);
 	
 		let opt = document.createElement('option');
@@ -1026,7 +1027,11 @@ function generateHomepage() {
 	let query = "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song";
 	if(isMobile())
 		query += " LIMIT 100";
-	callDb(query, updateOptions);
+	callDb(query, function(contents) {
+		updateOptions(contents);
+		document.querySelector('#options').disabled = true;
+		document.querySelector('#search').disabled = false;
+	});
 	
 	query = "SELECT DISTINCT KNYEAR FROM SongAwardsPeriod";
 	if(debugMode) console.log('generateYears', query);
@@ -2537,7 +2542,11 @@ function updateYear() {
 	query = "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song WHERE KNYEAR = " + year;
 	// if(isMobile())
 		// query += " LIMIT 100";
-	callDb(query, updateOptions);
+	callDb(query, function(contents) {
+		updateOptions(contents);
+		document.querySelector('#options').disabled = true;
+		document.querySelector('#search').disabled = false;
+	});
 }
 
 function updateArtist() {
