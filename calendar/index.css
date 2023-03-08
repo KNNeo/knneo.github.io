@@ -140,7 +140,7 @@ a:visited {
 }
 
 .content:focus {
-	background-color: var(--secondary);
+	background-color: var(--primary);
 }
 
 .footer {
@@ -148,5 +148,5 @@ a:visited {
 }
 
 .marked {
-	background-color: var(--primary);	
+	background-color: var(--secondary);
 }
