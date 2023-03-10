@@ -999,7 +999,7 @@ function generateProfileComments([profile]) {
 	//special cases
 	cellDiv.innerHTML = cellDiv.innerHTML.replace('1976.09.20', '<span class=\'disguise\' class=\'DOB\'>1976.09.20</span>');
 	if(window.location.href.includes('knneo.github.io'))
-		cellDiv.innerHTML = cellDiv.innerHTML.replace(/knwebreports.blogspot.com/gi, 'knneo.github.io/blogspot/blog');
+		cellDiv.innerHTML = cellDiv.innerHTML.replace(/knwebreports.blogspot.com/gi, 'knneo.github.io/blog/pages');
 	
 	return cellDiv;
 }
