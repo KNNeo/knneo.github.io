@@ -229,6 +229,24 @@ function createFrame(entry) {
 		closeButton.appendChild(closeButtonIcon);
 	if(document.getElementById('CloseBtn') != undefined) document.getElementById('CloseBtn').remove();
 	document.body.appendChild(closeButton);	
+	
+	//FAB to to go top
+	let topButton = document.createElement('a');
+	topButton.id = 'TopBtn';
+	topButton.title = 'Go to Top';
+	topButton.addEventListener('click', goToTop);
+		let topButtonIcon = document.createElement('span');
+		// closeButtonIcon.classList.add('material-icons');
+		topButtonIcon.innerText = '🔺';
+		topButton.appendChild(topButtonIcon);
+	if(document.getElementById('TopBtn') != undefined) document.getElementById('TopBtn').remove();
+	document.body.appendChild(topButton);	
+}
+
+function goToTop() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+	history.replaceState(null, null, ' ');
 }
 
 function renderEntry(entry, index, position) {
@@ -283,10 +301,12 @@ function renderEntry(entry, index, position) {
 		prelude.appendChild(preText);
 		contentMain.appendChild(prelude);
 
+		let publishedDiv = document.createElement('div');
+		publishedDiv.classList.add('published');
 		let published = document.createElement('small');
-		published.classList.add('published');
 		published.innerText =  new Date(entry.querySelector('published')?.textContent).toDateString();
-		contentMain.appendChild(published);
+		publishedDiv.appendChild(published);
+		contentMain.appendChild(publishedDiv);
 	}
 	
 	let title = document.createElement('h2');
@@ -327,6 +347,7 @@ function toggleFrame() {
 		document.querySelector('#contents-left')?.remove();
 		document.querySelector('#contents-right')?.remove();
 		document.getElementById('CloseBtn').remove();
+		document.getElementById('TopBtn').remove();
 	}
 }
 

@@ -16,10 +16,6 @@
 html {
 	font-family: Noto Sans;
 	color: var(--foreground);
-}
-
-body {
-	margin: 0;
 	background-color: var(--background);
 }
 
@@ -29,8 +25,25 @@ a {
 
 #CloseBtn {
 	position: fixed;
-	top: 20px;
-	right: 20px;
+	top: 10px;
+	left: 10px;
+	z-index: 9;
+	outline: none;
+	border: 1px solid var(--foreground);
+	background-color: var(--background);
+	box-shadow: 3px 3px var(--foreground);
+	color: var(--foreground);
+	cursor: pointer;
+	border-radius: 7px;
+	transition: opacity 0.3s;
+	font-size: 2em;
+    padding-bottom: 2px;
+}
+
+#TopBtn {
+	position: fixed;
+	bottom: 10px;
+	left: 10px;
 	z-index: 9;
 	outline: none;
 	border: 1px solid var(--foreground);
@@ -46,7 +59,9 @@ a {
 
 .home,
 .disclaimer,
-.prelude {
+.prelude,
+.published,
+.title {
 	text-align: center;
 }
 
@@ -61,7 +76,7 @@ a {
 
 .content,
 .selector {
-	max-width: 80vw;
+	max-width: 640px;
 	margin: auto;
 	background: var(--background);
 }
