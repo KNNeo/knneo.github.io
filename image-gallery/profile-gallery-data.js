@@ -34,7 +34,7 @@ runSlideshow.onreadystatechange = function() {
 		preProcessProfileList(JSON.parse(this.responseText));		
 	}
 };
-runSlideshow.open("GET", "https://knneo.github.io/profile-list/profile-list-new.json", false);
+runSlideshow.open("GET", "https://knneo.github.io/profile-list/data.json", false);
 runSlideshow.send();
 runSlideshow = null;
 
