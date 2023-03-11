@@ -214,7 +214,7 @@ window.addEventListener('load', startup);
 
 //--FUNCTIONS--//
 function startup() {
-	generateCalendar(new Date().getFullYear(), new Date().getMonth()); // month is 0-based
+	generateCalendar(new Date().getFullYear(), new Date().getMonth()); // month is zero-based
 }
 
 function generateCalendar(year, month, list) {
@@ -383,31 +383,7 @@ function addSummaryEventsToCalendar() {
 				(!single.startDate || fullDate >= parseInt(single.startDate.replace(/-/g,''))) &&
 				(!single.endDate || fullDate <= parseInt(single.endDate.replace(/-/g,''))))
 				{
-					let content = document.createElement('div');
-					content.classList.add('content');
-					content.tabIndex = '-1';
-					content.innerText = single.name;
-					content.title = single.name + '\n' + 
-					single.format + '\n' + 
-					single.channel + '\n' +
-					daysOfWeek[single.startDayNo == 7 ? 0 : single.startDayNo] + ', ' + 
-					date.getAttribute('data-month') + ' ' + date.getAttribute('data-id') + ', ' + 
-					single.startTime + '-' + getEndTime(single.startTime, single.lengthMinutes) + '\n' +
-					single.url;
-					content.addEventListener('click', function() {
-						document.querySelector('.footer').innerHTML = convertTextToHTML(this.title, [single.url]);
-					});
-					content.addEventListener('contextmenu', function() {
-						event.preventDefault();
-						this.classList.add('marked');
-						addToMarked({
-							date: date.getAttribute('data-id'),
-							month: date.getAttribute('data-month'),
-							year: date.getAttribute('data-year'),
-							id: single.name
-						});
-					});
-					date.appendChild(content);
+					createSummaryEvent(date, single);
 				}
 			}
 		}
@@ -423,43 +399,47 @@ function addSummaryEventsToCalendar() {
 			let count = 1;
 			do {
 				// console.log(window['year'],date.getFullYear(),window['month'],date.getMonth());
-				if(window['year'] == date.getFullYear() && window['month'] == date.getMonth() && count % 2 > 0) // zero-based
+				if(window['year'] == date.getFullYear() && window['month'] == date.getMonth() && count % 2 > 0)
 				{
 					let day = document.querySelector('div[data-id="' + date.getDate() + '"]');
 					// console.log(day);
-					let content = document.createElement('div');
-					content.classList.add('content');
-					content.tabIndex = '-1';
-					content.innerText = single.name;
-					content.title = single.name + '\n' + 
-					single.format + '\n' + 
-					single.channel + '\n' +
-					daysOfWeek[single.startDayNo == 7 ? 0 : single.startDayNo] + ', ' + 
-					day.getAttribute('data-month') + ' ' + day.getAttribute('data-id') + ', ' + 
-					single.startTime + '-' + getEndTime(single.startTime, single.lengthMinutes) + '\n' +
-					single.url;
-					content.addEventListener('click', function() {
-						document.querySelector('.footer').innerHTML = convertTextToHTML(this.title, [single.url]);
-					});
-					content.addEventListener('contextmenu', function() {
-						event.preventDefault();
-						this.classList.add('marked');
-						addToMarked({
-							date: date.getAttribute('data-id'),
-							month: date.getAttribute('data-month'),
-							year: date.getAttribute('data-year'),
-							id: single.name
-						});
-					});
-					day.appendChild(content);
+					createSummaryEvent(day, single);
 				}
 				// console.log(date);
 				// console.log(count % 2 > 0);
 				date = addDays(date, 7);
 				count++;
-			} while (date <= end);			
+			} while (date <= end || count > 100); // fallback			
 		}
 	}
+}
+
+function createSummaryEvent(elem, single) {
+	let content = document.createElement('div');
+	content.classList.add('content');
+	content.tabIndex = '-1';
+	content.innerText = single.name;
+	content.title = single.name + '\n' + 
+	single.format + '\n' + 
+	single.channel + '\n' +
+	daysOfWeek[single.startDayNo == 7 ? 0 : single.startDayNo] + ', ' + 
+	elem.getAttribute('data-month') + ' ' + elem.getAttribute('data-id') + ', ' + 
+	single.startTime + '-' + getEndTime(single.startTime, single.lengthMinutes) + '\n' +
+	single.url;
+	content.addEventListener('click', function() {
+		document.querySelector('.footer').innerHTML = convertTextToHTML(this.title, [single.url]);
+	});
+	content.addEventListener('contextmenu', function() {
+		event.preventDefault();
+		this.classList.add('marked');
+		addToMarked({
+			date: date.getAttribute('data-id'),
+			month: date.getAttribute('data-month'),
+			year: date.getAttribute('data-year'),
+			id: single.name
+		});
+	});
+	elem.appendChild(content);
 }
 
 function addDays(date, days) {
