@@ -67,11 +67,8 @@ a {
 	background-color: var(--foreground);
 }
 
-#search-buttons a {
+.search-buttons a {
 	font-size: 24px;
-}
-
-#tab-homepage {
 }
 
 #tab-list {
@@ -228,7 +225,7 @@ a {
 	border: 1px solid var(--foreground);
     background-color: var(--background);
 	color: var(--foreground);
-	padding: 6px 12px;
+    padding: 8px 10px;
 	text-transform: uppercase;
 }
 
@@ -349,15 +346,17 @@ a {
 	padding: 8px 4px;
 }
 
-.touchable .tab-button {
-	padding: 10px;
-}
-
 .scrollable {
 	border: 1px solid var(--foreground);
 	font-size: 0.8em;
     max-height: 14rem;
 	overflow-y: auto;
+}
+
+.tab-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .mini #tab-list {
@@ -368,10 +367,10 @@ a {
 	display: none;
 }
 
-.mini #search-buttons {
+.mini .search-buttons {
 	display: none;
 }
 
-.mini #tab-buttons {
+.mini .tab-buttons {
 	display: none;
 }

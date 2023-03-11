@@ -502,6 +502,7 @@ function generateFilters() {
 	
 	let searchButtons = document.createElement('span');
 	searchButtons.id = 'search-buttons';
+	searchButtons.classList.add('search-buttons');
 	searchButtons.style.display = 'none';
 	
 	let tcl = document.createElement('a');
