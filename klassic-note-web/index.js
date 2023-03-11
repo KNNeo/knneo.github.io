@@ -1299,8 +1299,8 @@ function generatePlayer(contents) {
 		if (navigator && 'mediaSession' in navigator) {
 			navigator.mediaSession.metadata = new MediaMetadata({
 				title: row[columnIndexSongTitle].split('<br/>')[0],
-				artist: row[columnIndexArtistTitle],
-				album: row[columnIndexReleaseTitle]
+				artist: row[columnIndexArtistTitle].split('<br/>')[0],
+				album: row[columnIndexReleaseTitle].split('<br/>')[0],
 			});
 			if(debugMode) console.log('metadata', navigator.mediaSession.metadata.toString());
 		}
