@@ -41,11 +41,11 @@ body {
 	white-space: nowrap;
 }
 
-@media only screen and (min-width: 320px) and (max-width: 1024px) {
-}
-
 a:hover {
   color: var(--foreground);
+}
+
+@media only screen and (min-width: 320px) and (max-width: 1024px) {
 }
 
 .tr-caption {
@@ -70,12 +70,13 @@ a:hover {
 	vertical-align: top;
 }
 
-.latest-post h4 {
-    margin: 0;
-}
-
 .latest-post a {
     color: var(--primary);
+	font-weight: bold;
+}
+
+.latest-post a:hover {
+    color: var(--foreground);
 }
 
 @media only screen and (max-width: 1024px) {
@@ -83,14 +84,6 @@ a:hover {
 		max-width: auto !important;
 		font-size: 14px;
 	}
-	
-	/* body { */
-		/* scrollbar-width: 0 !important; */
-	/* } //Firefox */
-
-	/* body::-webkit-scrollbar { */
-		/* width: 0 !important; */
-	/* } // Safari and Chrome */
 
 	.tr-caption {
 		font-size: 11px;
