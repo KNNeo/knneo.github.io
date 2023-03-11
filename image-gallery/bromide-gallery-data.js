@@ -11,7 +11,7 @@ enableSlideshow = true; //enable slideshow button
 enableFullscreenSlideshow = true; //enable fullscreen button for slideshow, for browser only not viewer
 enableShadows = true; //removes shadows and borders in images
 enableDarkMode = true; //no button to toggle, when load always white background
-defaultDirectory = 'file://C:/Users/KAINENG/OneDrive/Pictures/SELFSCAN';
+defaultDirectory = 'file://KAINENG-PC/selfscan';
 
 //localization
 pageTitle = 'GALLERY'; //for tab, and top of page
@@ -679,7 +679,7 @@ imgArray = [
 [696,'{domain}/CCI_20221120_000001_4.jpg','portrait','Kouno Marika','Event "Kouno Marika 2nd LIVE ~LOVE&MOON~" Bromide'],
 [697,'{domain}/CCI_20221120_000002_1.jpg','portrait','Kouno Marika','Event "Kouno Marika 2nd LIVE ~LOVE&MOON~" Bromide'],
 [698,'{domain}/CCI_20221120_000002_2.jpg','portrait','Natsukawa Shiina','CD "Sasakure" Animate Bonus'],
-[699,'{domain}/CCI_20230108_000001_1.jpg','portrait','marupi','marupi Special On-Site Photo Win Raffle'],
+[699,'{domain}/CCI_20230108_000001.jpg','portrait','marupi','marupi Special On-Site Photo Win Raffle'],
 [700,'{domain}/CCI_20230108_000002_1.jpg','portrait','Toyota Moe','Goods "Toyota Moe 2023 Calendar" Animate Bonus'],
 [701,'{domain}/CCI_20230108_000002_2.jpg','portrait','marupi','marupi Special On-Site Photo Win Raffle'],
 [702,'{domain}/CCI_20230108_000002_3.jpg','portrait','marupi','marupi Special On-Site Photo Win Raffle'],
@@ -690,6 +690,35 @@ imgArray = [
 [707,'{domain}/CCI_20230108_000004_1.jpg','portrait','Waki Azumi','Event "Starlight 3rd Star Live "Starry Diamond"" Bromide'],
 [708,'{domain}/CCI_20230108_000004_2.jpg','portrait','Touyama Nao','Book "Seiyuu Grand Prix 2022 October" Animate Bonus'],
 [709,'{domain}/CCI_20230108_000004_3.jpg','portrait','Amamiya Sora','CD "Freesia" Gamers Bonus'],
+[710,'{domain}/CCI_20230311_000001_1.jpg','portrait','Minase Inori','Event "Inori Machi Choumin Shukai 2023" Bromide Set A'],
+[711,'{domain}/CCI_20230311_000001_2.jpg','landscape','Minase Inori','Event "Inori Machi Choumin Shukai 2023" Bromide Set A'],
+[712,'{domain}/CCI_20230311_000001_3.jpg','portrait','Minase Inori','Event "Inori Machi Choumin Shukai 2023" Bromide Set A'],
+[713,'{domain}/CCI_20230311_000001_4.jpg','landscape','Minase Inori','Event "Inori Machi Choumin Shukai 2023" Bromide Set B'],
+[714,'{domain}/CCI_20230311_000002_1.jpg','portrait','Minase Inori','Event "Inori Machi Choumin Shukai 2023" Bromide Set B'],
+[715,'{domain}/CCI_20230311_000002_2.jpg','portrait','Minase Inori','Event "Inori Machi Choumin Shukai 2023" Bromide Set B'],
+
+
+[718,'{domain}/CCI_20230311_000003_2.jpg','portrait','Hanazawa Kana','CD "Dramatic Janakute mo" Canime Bonus'],
+[719,'{domain}/CCI_20230311_000003_3.jpg','portrait','Uesaka Sumire','CD "LOVE CRAZY" Toranoana Bonus'],
+[720,'{domain}/CCI_20230311_000004_1.jpg','portrait','Tomita Miyu','Event "Tomita Miyu 2nd LIVE ~Fizzy Night~" Random Bromides'],
+[721,'{domain}/CCI_20230311_000004_2.jpg','portrait','Tomita Miyu','Event "Tomita Miyu 2nd LIVE ~Fizzy Night~" Random Bromides'],
+[722,'{domain}/CCI_20230311_000004_3.jpg','landscape','Tomita Miyu','Event "Tomita Miyu 2nd LIVE ~Fizzy Night~" Random Bromides'],
+[723,'{domain}/CCI_20230311_000004_4.jpg','landscape','Tomita Miyu','Event "Tomita Miyu 2nd LIVE ~Fizzy Night~" Random Bromides'],
+[724,'{domain}/CCI_20230311_000005_1.jpg','landscape','Nichinichisou Sangokan','Event "Nichinichisou Sangokan ~Kimi to Natsumatsuri~" Bromide Set'],
+[725,'{domain}/CCI_20230311_000005_2.jpg','portrait','Nichinichisou Sangokan','Event "Nichinichisou Sangokan ~Kimi to Natsumatsuri~" Bromide Set'],
+[726,'{domain}/CCI_20230311_000005_3.jpg','portrait','Nichinichisou Sangokan','Event "Nichinichisou Sangokan ~Kimi to Natsumatsuri~" Bromide Set'],
+[727,'{domain}/CCI_20230311_000005_4.jpg','landscape','Nichinichisou Sangokan','Event "Nichinichisou Sangokan ~Kimi to Natsumatsuri~" Bromide Set'],
+[728,'{domain}/CCI_20230311_000006_1.jpg','portrait','Nichinichisou Sangokan','Event "Nichinichisou Sangokan ~Kimi to Natsumatsuri~" Bromide Set'],
+[729,'{domain}/CCI_20230311_000006_2.jpg','portrait','Nichinichisou Sangokan','Event "Nichinichisou Sangokan ~Kimi to Natsumatsuri~" Bromide Set'],
+[730,'{domain}/CCI_20230311_000006_3.jpg','portrait','Nichinichisou Sangokan','Event "Nichinichisou Sangokan ~Kimi to Natsumatsuri~" Bromide Set'],
+[731,'{domain}/CCI_20230311_000006_4.jpg','landscape','Nichinichisou Sangokan','Event "Nichinichisou Sangokan ~Kimi to Natsumatsuri~" Bromide Set'],
+[732,'{domain}/CCI_20230311_000007_1.jpg','portrait','Nichinichisou Sangokan','Event "Nichinichisou Sangokan ~Kimi to Natsumatsuri~" Bromide Set'],
+[733,'{domain}/CCI_20230311_000007_2.jpg','portrait','Nichinichisou Sangokan','Event "Nichinichisou Sangokan ~Kimi to Natsumatsuri~" Bromide Set'],
+[734,'{domain}/CCI_20230311_000007_3.jpg','portrait','Nichinichisou Sangokan','Event "Nichinichisou Sangokan ~Kimi to Natsumatsuri~" Bromide Set'],
+[735,'{domain}/CCI_20230311_000008_1.jpg','portrait','Natsukawa Shiina','Event "MusicRayn Mall Valentine\'s Day Campaign" Bonus'],
+[736,'{domain}/CCI_20230311_000008_2.jpg','portrait','Miyazawa Koharu','Event "MusicRayn Mall Valentine\'s Day Campaign" Bonus'],
+[737,'{domain}/CCI_20230311_000009_1.jpg','portrait','Asakura Momo','Event "MusicRayn Mall Valentine\'s Day Campaign" Bonus'],
+[738,'{domain}/CCI_20230311_000009_2.jpg','portrait','Nagae Rika','Book "Re:color" Animate Bonus'],
 
 
 [999,'','','']
