@@ -799,7 +799,7 @@ void Main()
 			            thumbnailUrl = "";
 				}
 				
-				var thumbnailDiv = "<div"+classes.Replace("Post", "Post latest-post")+"><span>"+published.ToString("yyyy.MM.dd")+" </span><a href=\"" + pageLink + "\"><div><h4>" + title + "</h4><div><div><div class=\"" + (thumbnailUrl == "" ? "" : "home-thumb") + "\" style=\"background-image: url(" + thumbnailUrl + ");\"></div></div></div></div></a></div>\n";
+				var thumbnailDiv = "<div"+classes.Replace("Post", "Post latest-post")+"><span>"+published.ToString("yyyy.MM.dd")+" </span><a href=\"" + pageLink + "\"><div><div>" + title + "</div><div class=\"" + (thumbnailUrl == "" ? "" : "home-thumb") + "\" style=\"background-image: url(" + thumbnailUrl + ");\"></div></div></a></div>\n";
             
                 textString += latestPostCount >= maxLatestPost ? "<div"+classes+"><span>"+published.ToString("yyyy.MM.dd")+" </span><a href=\""+pageLink+"\">"+title+"</a></div>\n" : thumbnailDiv;
 				
