@@ -2804,6 +2804,20 @@ function renderPlaylistItems(list) {
 	return submenu;
 }
 
+function clearPlaylist() {
+	event.preventDefault();
+	
+	if(confirm('Clear Playlist?'))
+	{
+		// clear all but playing
+		window['playlist'] = window['playlist'].slice(window['playing'], window['playing'] + 1);
+		// assume after clear, only song in playlist
+		window['playing'] = 0;
+		
+		hideContextMenus(true);
+	}
+}
+
 function hideContextMenus(forced) {
 	document.removeEventListener('click', hideContextMenus);
 	if(document.querySelector('#song-queue') != null)
@@ -2847,7 +2861,6 @@ function getDomainViaUrl(url) {
 	}
 	return url;
 }
-
 
 //drag and drop
 function addDragAndDrop() {
