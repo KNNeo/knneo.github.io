@@ -36,17 +36,22 @@ function start() { // from trigger, start game
 		dice.removeAttribute('data-status');
 	}
 	
-	event.target.onclick = null;
-	event.target.innerHTML = '';
+	let actionScore = document.querySelector('.action.bi.bi-table');
+	actionScore.innerHTML = '';
+	actionScore.className = 'action score';
 	let score = document.createElement('strong');
 	score.className = 'opponent total flipped';
 	score.innerText = 0;
-	event.target.appendChild(score);
-	event.target.appendChild(document.createElement('hr'));
+	actionScore.appendChild(score);
+	actionScore.appendChild(document.createElement('hr'));
 	score = document.createElement('strong');
 	score.className = 'player total';
 	score.innerText = 0;
-	event.target.appendChild(score);
+	actionScore.appendChild(score);
+	
+	let actionPlay = document.querySelector('.action.bi.bi-play-fill');
+	actionPlay.onclick = reload;
+	actionPlay.className = 'action bi bi-arrow-clockwise';
 }
 
 function end() { // from trigger, end game
@@ -81,6 +86,11 @@ function end() { // from trigger, end game
 	
 	localStorage.setItem('dice-game-wins',JSON.stringify([playerWins, opponentWins]));
 	localStorage.setItem('dice-game-scores',JSON.stringify(scores));
+}
+
+function reload() {
+	event.preventDefault();
+	location.reload();
 }
 
 function shake(number) {
@@ -386,7 +396,8 @@ function resetScores() {
 }
 
 //--RULES--//
-const rulesText = `
+const rulesText = `[Adapted from video game "Cult of the Lamb"]
+
 * The game consists of two 3x3 boards, each belonging to their respective player.
 * Each player rolls a die, higher value goes first.
 * The players take turns. On a player's turn, they roll a single 6-sided die, and must place it in a column on their board. A filled column does not accept any more dice.
