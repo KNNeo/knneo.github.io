@@ -24,9 +24,9 @@ a {
 }
 
 #CloseBtn {
-	position: fixed;
+	position: sticky;
 	top: 10px;
-	left: 10px;
+	/* left: 10px; */
 	z-index: 9;
 	outline: none;
 	border: 1px solid var(--foreground);
@@ -41,9 +41,9 @@ a {
 }
 
 #TopBtn {
-	position: fixed;
-	bottom: 10px;
-	left: 10px;
+	position: sticky;
+	top: 10px;
+	/* right: 10px; */
 	z-index: 9;
 	outline: none;
 	border: 1px solid var(--foreground);
@@ -55,6 +55,7 @@ a {
 	transition: opacity 0.3s;
 	font-size: 2em;
     padding-bottom: 2px;
+    margin: 10px;
 }
 
 .home,
@@ -66,7 +67,6 @@ a {
 }
 
 .prelude {
-	text-align: center;
 	font-size: 0.8em;
 }
 
@@ -79,6 +79,10 @@ a {
 	max-width: 640px;
 	margin: auto;
 	background: var(--background);
+}
+
+.contents-container {
+	position: relative;
 }
 
 .post {
@@ -129,5 +133,9 @@ a {
 }
 
 .selector {
-	height: 100vh;
+    height: calc(100vh - 16px);
+}
+
+.button {
+	padding: 0 15px 0 5px;
 }

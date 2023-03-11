@@ -26,12 +26,18 @@ function onSelect(e) {
 }
 
 function processXml(doc) {
-	// console.log(doc);
+	console.log(doc);
 	window['doc'] = doc;
+	//filter posts here
+	window['posts'] = Array.from(window['doc'].querySelectorAll('entry'))
+		.filter(e => e.querySelector('content[type=html]') != null && 
+			e.querySelector('link[rel=alternate]') != null &&
+			e.querySelector('title').textContent.length > 0);
 	window['loading'] = false;
 	runLoader();
-	createIndex();
+	// createIndex();
 	generateHomepage();
+	window['doc'] = null;
 }
 
 function generateHomepage() {
@@ -41,7 +47,7 @@ function generateHomepage() {
 	document.body.appendChild(home);
 	
 	let homeTitle = document.createElement('h1');
-	homeTitle.innerText = 'BLOG';
+	homeTitle.innerText = 'Blogger Viewer';
 	document.title = window['doc'].querySelector('title').textContent;
 	document.querySelector('.home').appendChild(homeTitle);
 	
@@ -74,79 +80,66 @@ function generateHomepage() {
 
 function generatePages() {
 	let count = 0;
-	for(let post of window['doc'].getElementsByTagName('entry'))
+	for(let p = 0; p < window['posts'].length; p++)
 	{
-		// draft
-		if(post.getElementsByTagName('app:control').length > 0 &&
-		post.getElementsByTagName('app:control')[0].getElementsByTagName('app:draft')[0].textContent == 'yes')
-		{
-			// console.log('draft found', post.querySelector('title'));
-			continue;
-		}
-		// published post
-		if(post.querySelector('category') && 
-		post.querySelector('category').getAttribute('term').includes('#post') &&
-		post.querySelector('title').textContent.length > 0)
-		{
-			// console.log('post found', post.querySelector('title').textContent);
-			
-			let postDiv = document.createElement('div');
-			postDiv.classList.add('post');
-			
-			let date = document.createElement('span');
-			date.innerText = post.querySelector('published').textContent.substring(0,10).replace(/-/g,'.'); //publish date
-			postDiv.appendChild(date);
-					
-			let postLink = document.createElement('a');
-			let url = post.querySelector('link[rel=alternate]')
-				.getAttribute('href')
-				.replace('https://knwebreports.blogspot.com/', './blog/');
-			postLink.href = 'javascript:void(0);';
-			postLink.setAttribute('data-link', url);
-			postLink.addEventListener('click', function() {
-				let index = window['list'].find(l => l.url == this.getAttribute('data-link'))?.id;
-				createFrame(window['doc'].getElementsByTagName('entry')[index]);
-			});
-			postDiv.appendChild(postLink);
-			
-			let container = document.createElement('div');
-			
-				let title = document.createElement('h4');
-				title.innerText = post.querySelector('title').textContent;
-				container.appendChild(title);
+		let post =  window['posts'][p];
+		
+		let postDiv = document.createElement('div');
+		postDiv.classList.add('post');
+		
+		let date = document.createElement('span');
+		date.innerText = post.querySelector('published').textContent.substring(0,10).replace(/-/g,'.'); //publish date
+		postDiv.appendChild(date);
 				
-				let home = document.createElement('div');
+		let postLink = document.createElement('a');
+		let url = post.querySelector('link[rel=alternate]')
+			.getAttribute('href')
+			.replace('https://knwebreports.blogspot.com/', './blog/');
+		postLink.href = 'javascript:void(0);';
+		postLink.setAttribute('data-index', p);
+		postLink.addEventListener('click', function() {
+			createFrame(parseInt(this.getAttribute('data-index')));			
+			toggleFrame();
+		});
+		postDiv.appendChild(postLink);
+		
+		let container = document.createElement('div');
+		
+			let title = document.createElement('h4');
+			title.innerText = post.querySelector('title').textContent;
+			container.appendChild(title);
+			
+			let home = document.createElement('div');
+			
+				let thumb = document.createElement('div');
 				
-					let thumb = document.createElement('div');
-					
-						if(count < 4)
+					if(count < 4)
+					{
+						postDiv.classList.add('latest');
+						let homeThumb = document.createElement('div');
+						homeThumb.classList.add('thumb');
+						if(post.getElementsByTagName('media:thumbnail').length > 0)
 						{
-							postDiv.classList.add('latest');
-							let homeThumb = document.createElement('div');
-							homeThumb.classList.add('thumb');
-							if(post.getElementsByTagName('media:thumbnail').length > 0)
-							{
-								let mediaThumbnail = post.getElementsByTagName('media:thumbnail')[0];
-								homeThumb.style.backgroundImage = 'url(' + mediaThumbnail.getAttribute('url') + ')';
-							}			
-							thumb.appendChild(homeThumb);			
-							count++;
-						}
-					
-					home.appendChild(thumb);
+							let mediaThumbnail = post.getElementsByTagName('media:thumbnail')[0];
+							homeThumb.style.backgroundImage = 'url(' + mediaThumbnail.getAttribute('url') + ')';
+						}			
+						thumb.appendChild(homeThumb);			
+						count++;
+					}
 				
-				container.appendChild(home);
+				home.appendChild(thumb);
 			
-			postLink.appendChild(container);
-			
-			document.querySelector('.home').appendChild(postDiv);
-		}
+			container.appendChild(home);
+		
+		postLink.appendChild(container);
+		
+		document.querySelector('.home').appendChild(postDiv);
 	}
 }
 
 function createIndex() {
 	window['list'] = [];
-	let list = window['doc'].getElementsByTagName('entry');
+	let list = window['posts'];
 	let counter = 0;
 	for(let p = 0; p < list.length; p++)
 	{
@@ -174,37 +167,64 @@ function createIndex() {
 	}
 }
 
-function createFrame(entry) {
-	// console.log('loading post', entry);
+function createFrame(postIndex) {
 	document.querySelector('.content').innerHTML = '';
 	document.querySelector('#contents-left')?.remove();
 	document.querySelector('#contents-right')?.remove();
 	
-	let index = window['list'].find(l => l.url == entry.querySelector('link[rel=alternate]').getAttribute('href').replace('https://knwebreports.blogspot.com/', './blog/'))?.id;
+	let entry = window['posts'][postIndex];
+	// console.log('loading post', entry);
 	
-	let listIndex = window['list'].map(l => l.id).indexOf(index);
+	// let index = postIndex;
+	
+	// let listIndex = window['posts'].map(l => l.id).indexOf(index);
 	// console.log('listIndex', listIndex);
 	
 	//outside div
 	let contentContainer = document.createElement('div');
 	contentContainer.id = 'contents-container';
 	// contentContainer.style.display = 'flex';
-	contentContainer.style.height = '100vh';
+	// contentContainer.style.height = '100vh';
 	
+	//FAB to close
+	let closeButton = document.createElement('a');
+	closeButton.id = 'CloseBtn';
+	closeButton.title = 'Close Popup';
+	closeButton.addEventListener('click', toggleFrame);
+		let closeButtonIcon = document.createElement('span');
+		closeButtonIcon.classList.add('button');
+		// closeButtonIcon.classList.add('material-icons');
+		closeButtonIcon.innerText = '❌ Close';
+		closeButton.appendChild(closeButtonIcon);
+	if(document.getElementById('CloseBtn') != undefined) document.getElementById('CloseBtn').remove();
+	contentContainer.appendChild(closeButton);	
 	
-	if(window.innerWidth >= 760 + 640 && listIndex - 1 >= 0)
-		document.body.appendChild(renderEntry(window['doc'].getElementsByTagName('entry')[index-1], index, 'left'));
+	//FAB to to go top
+	let topButton = document.createElement('a');
+	topButton.id = 'TopBtn';
+	topButton.title = 'Go to Top';
+	topButton.addEventListener('click', goToTop);
+		let topButtonIcon = document.createElement('span');
+		topButtonIcon.classList.add('button');
+		// closeButtonIcon.classList.add('material-icons');
+		topButtonIcon.innerText = '🔺 Top';
+		topButton.appendChild(topButtonIcon);
+	if(document.getElementById('TopBtn') != undefined) document.getElementById('TopBtn').remove();
+	contentContainer.appendChild(topButton);	
 	
-	contentContainer.appendChild(renderEntry(entry, index, 'main'));
+	if(window.innerWidth >= 760 + 640 && postIndex - 1 >= 0)
+		document.body.appendChild(renderEntry(window['posts'][postIndex-1], postIndex, 'left'));
 	
-	if(window.innerWidth >= 760 + 640 && listIndex + 1 < window['list'].length)
-		document.body.appendChild(renderEntry(window['doc'].getElementsByTagName('entry')[index+1], index, 'right'));
+	contentContainer.appendChild(renderEntry(entry, postIndex, 'main'));
+	
+	if(window.innerWidth >= 760 + 640 && postIndex + 1 < window['posts'].length)
+		document.body.appendChild(renderEntry(window['posts'][postIndex+1], postIndex, 'right'));
 		
 	document.querySelector('.content').appendChild(contentContainer);
 	
-	if(document.querySelector('.home').classList.contains('inactive'))
-		toggleFrame();
-	toggleFrame();
+	// if(document.querySelector('.home').classList.contains('inactive'))
+		// toggleFrame();
+	// toggleFrame();
 	
 	if(document.querySelector('#contents-left #hashtags') != null)
 		document.querySelector('#contents-left #hashtags').remove();
@@ -217,30 +237,6 @@ function createFrame(entry) {
 		if(document.querySelector('#contents-right') != null)
 			document.querySelector('#contents-right').style.visibility = document.querySelector('#contents-right').getBoundingClientRect().width < 320 ? 'hidden' : '';
 	});
-	
-	//FAB to close
-	let closeButton = document.createElement('a');
-	closeButton.id = 'CloseBtn';
-	closeButton.title = 'Close Popup';
-	closeButton.addEventListener('click', toggleFrame);
-		let closeButtonIcon = document.createElement('span');
-		// closeButtonIcon.classList.add('material-icons');
-		closeButtonIcon.innerText = '❌';
-		closeButton.appendChild(closeButtonIcon);
-	if(document.getElementById('CloseBtn') != undefined) document.getElementById('CloseBtn').remove();
-	document.body.appendChild(closeButton);	
-	
-	//FAB to to go top
-	let topButton = document.createElement('a');
-	topButton.id = 'TopBtn';
-	topButton.title = 'Go to Top';
-	topButton.addEventListener('click', goToTop);
-		let topButtonIcon = document.createElement('span');
-		// closeButtonIcon.classList.add('material-icons');
-		topButtonIcon.innerText = '🔺';
-		topButton.appendChild(topButtonIcon);
-	if(document.getElementById('TopBtn') != undefined) document.getElementById('TopBtn').remove();
-	document.body.appendChild(topButton);	
 }
 
 function goToTop() {
@@ -269,7 +265,7 @@ function renderEntry(entry, index, position) {
 		contentMain.style.filter = 'brightness(25%)';
 		contentMain.addEventListener('click', function() {
 			event.preventDefault();
-			createFrame(window['doc'].getElementsByTagName('entry')[position == 'left' ? index-1 : index+1]);
+			createFrame(position == 'left' ? index-1 : index+1);
 		});
 	}
 	
@@ -337,13 +333,13 @@ function renderEntry(entry, index, position) {
 }
 
 function toggleFrame() {
+	let homeInactive = document.querySelector('.home')?.classList.contains('inactive');
 	for(let block of document.querySelectorAll('.block'))
 	{
 		block.classList.toggle('inactive');
 	}
 	goToTop();
-	if(document.getElementById('CloseBtn') != undefined) {
-		
+	if(homeInactive) {		
 		document.querySelector('#contents-left')?.remove();
 		document.querySelector('#contents-right')?.remove();
 		document.getElementById('CloseBtn').remove();
