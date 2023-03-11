@@ -1408,6 +1408,7 @@ function displayCoverIfComplete() {
 function queryInfo(contents) {
 	generateSongInfo(contents);
 	queryYouTubeInfo(contents);
+	queryCreditInfo(contents);
 	
 	let columns = contents.columns;
 	let rows = contents.values;
@@ -1464,6 +1465,41 @@ function generateYouTubeInfo(contents) {
 		
 	info.insertBefore(videoRow, info.children[info.children.length - 1]);
 	// info.appendChild(videoRow);
+}
+
+function queryCreditInfo(contents) {
+	let columns = contents.columns;
+	let rows = contents.values;
+	let row = rows[0];
+	let columnIndexID = contents.columns.indexOf('ID');
+	
+	let query = "SELECT * FROM Credit WHERE SongID = " + row[columnIndexID];
+	if(debugMode) console.log('queryCreditInfo', query);
+	queryDb(query, generateCreditInfo);
+}
+
+function generateCreditInfo(contents) {
+	if(!contents.columns || !contents.values) return;
+	let columnIndexCategory = contents.columns.indexOf('Category');
+	let columnIndexTitle = contents.columns.indexOf('Title');
+	let columnIndexType = contents.columns.indexOf('Type');
+	let info = document.querySelector('#song-info tbody');
+	
+	let videoRow = document.createElement('tr');
+	
+	let videoCell1 = document.createElement('td');
+	videoCell1.innerText = 'Credit';
+	videoRow.appendChild(videoCell1);
+	
+	let videoCell2 = document.createElement('td');
+	for(let row of contents.values)
+	{
+		videoCell2.innerHTML += row[columnIndexCategory] + ' "' + row[columnIndexTitle] + '" ' + row[columnIndexType] + ' Song<br/>';
+	}
+	
+	videoRow.appendChild(videoCell2);
+	
+	info.insertBefore(videoRow, info.children[info.children.length - 1]);
 }
 
 function generateArtistInfo(contents) {
