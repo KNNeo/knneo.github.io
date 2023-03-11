@@ -127,20 +127,22 @@ const data = [
 	},
 	{
 		name: '戸松遥のココロ☆ハルカス',
+		startDate: '2023-02-02',
 		startDayNo: 4,
 		startTime: 2130,
 		lengthMinutes: 30,
-		recurringWeeks: [1,2,3,4,5],
+		recurringWeeks: 'alternate',
 		channel: 'ニコニコ動画',
 		url: 'http://harukas.secondshot.jp/',
 		format: 'Audio Live',
 	},
 	{
 		name: '寿美菜子のラフラフ',
+		startDate: '2023-02-09',
 		startDayNo: 4,
 		startTime: 2130,
 		lengthMinutes: 30,
-		recurringWeeks: [1,2,3,4,5],
+		recurringWeeks: 'alternate',
 		channel: 'ニコニコ動画',
 		url: 'http://laugh-rough.secondshot.jp/',
 		format: 'Audio Live',
@@ -409,8 +411,61 @@ function addSummaryEventsToCalendar() {
 				}
 			}
 		}
+		
+		// special case: alternating weeks independent of week no
+		if(single.recurringWeeks == 'alternate' && single.startDate)
+		{
+			let start = new Date(single.startDate);
+			//needs each month last day, check if hit eg. 31st day
+			let end = new Date(single.endDate ?? '' + (window['month'] + 2 >= 12 ? window['year'] + 1 : window['year']) + '-' + (window['month'] + 2) + '-01');
+			// console.log(start, end);
+			let date = start;
+			let count = 1;
+			do {
+				// console.log(window['year'],date.getFullYear(),window['month'],date.getMonth());
+				if(window['year'] == date.getFullYear() && window['month'] == date.getMonth() && count % 2 > 0) // zero-based
+				{
+					let day = document.querySelector('div[data-id="' + date.getDate() + '"]');
+					// console.log(day);
+					let content = document.createElement('div');
+					content.classList.add('content');
+					content.tabIndex = '-1';
+					content.innerText = single.name;
+					content.title = single.name + '\n' + 
+					single.format + '\n' + 
+					single.channel + '\n' +
+					daysOfWeek[single.startDayNo == 7 ? 0 : single.startDayNo] + ', ' + 
+					day.getAttribute('data-month') + ' ' + day.getAttribute('data-id') + ', ' + 
+					single.startTime + '-' + getEndTime(single.startTime, single.lengthMinutes) + '\n' +
+					single.url;
+					content.addEventListener('click', function() {
+						document.querySelector('.footer').innerHTML = convertTextToHTML(this.title, [single.url]);
+					});
+					content.addEventListener('contextmenu', function() {
+						event.preventDefault();
+						this.classList.add('marked');
+						addToMarked({
+							date: date.getAttribute('data-id'),
+							month: date.getAttribute('data-month'),
+							year: date.getAttribute('data-year'),
+							id: single.name
+						});
+					});
+					day.appendChild(content);
+				}
+				// console.log(date);
+				// console.log(count % 2 > 0);
+				date = addDays(date, 7);
+				count++;
+			} while (date <= end);			
 		}
 	}
+}
+
+function addDays(date, days) {
+  var result = new Date(date);
+  result.setDate(result.getDate() + days);
+  return result;
 }
 
 function addMarkedEventsToCalendar() {
