@@ -205,6 +205,14 @@ function renderMenu() {
 	shuffle.addEventListener('click', randomVideo);
 		
 	document.querySelector('.menu').appendChild(shuffle);
+	
+	let withPlaylist = document.createElement('a');
+	withPlaylist.classList.add('material-icons');
+	withPlaylist.title = 'Playing Video Only';
+	withPlaylist.innerText =  localStorage.getItem('with-playlist') == 'true' ? 'queue_music' : 'music_note';
+	withPlaylist.addEventListener('click', toggleWithPlaylist);
+		
+	document.querySelector('.menu').appendChild(withPlaylist);
 }
 
 function toggleSort(event) {
@@ -252,9 +260,27 @@ function toggleSearch(event) {
 	renderList();
 }
 
+function toggleWithPlaylist(event) {
+	switch(event.target.innerText) {
+		case 'queue_music':
+			event.target.innerText = 'music_note';
+			event.target.title = 'Playing Video Only';
+			localStorage.setItem('with-playlist', false);
+			break;
+		case 'music_note':
+			event.target.innerText = 'queue_music';
+			event.target.title = 'Playing Video with Playlist';
+			localStorage.setItem('with-playlist', true);
+			break;
+		default:
+			break;
+	}
+	renderList();
+}
+
 function randomVideo() {
 	let random = list[Math.floor(Math.random() * list.length)];
-	window.open(random.video.url);
+	window.open(random.video.url + (localStorage.getItem('with-playlist') == 'true' ? '&list=' + playlistId : ''));
 }
 
 function renderList() {
@@ -289,7 +315,7 @@ function renderList() {
 			let title = document.createElement('div');
 			
 				let titleLink = document.createElement('a');
-				titleLink.href = v.video.url;
+				titleLink.href = v.video.url + (localStorage.getItem('with-playlist') == 'true' ? '&list=' + playlistId : '');
 				titleLink.innerText = v.video.title;
 				titleLink.setAttribute('target','_blank');
 			
