@@ -491,7 +491,12 @@ function generateFilters() {
 	search.disabled = true;
 	search.setAttribute('autocomplete', 'off');
 	search.placeholder = 'Song Title, Artist Title, KNYEAR...';
-	// search.addEventListener('focus', selectAll);
+	search.addEventListener('focus', function() {
+		window['searching'] = true;
+	});
+	search.addEventListener('blur', function() {
+		window['searching'] = false;
+	});
 	search.addEventListener('input', querySelect);
 	filters.appendChild(search);
 	
@@ -522,6 +527,12 @@ function generateFilters() {
 	let options = document.createElement('select');
 	options.id = 'options';
 	options.title = 'Search Results';
+	options.addEventListener('focus', function() {
+		window['searching'] = true;
+	});
+	options.addEventListener('blur', function() {
+		window['searching'] = false;
+	});
 	options.addEventListener('change', onChangeOption);
 	
 		let opt = document.createElement('option');
@@ -548,7 +559,7 @@ function querySelect() {
 	
 	if(debugMode) 
 		console.log('querySelect', query);
-	window['searching'] = true;
+	// window['searching'] = true;
 	queryDb(query, updateOptions);
 }
 
