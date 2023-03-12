@@ -294,6 +294,7 @@ table.tr-caption-container {
 	opacity: 0;
 	visibility: hidden;
 	transition: opacity 0.5s, visibility 0.5s;
+	overflow-y: auto;
 }
 
 #viewer-prev {
