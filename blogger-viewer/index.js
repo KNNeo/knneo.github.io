@@ -390,11 +390,15 @@ window.addEventListener('load', function() {
 	// loader.classList.add('material-icons');
 	document.body.appendChild(loader);
 	
-	let selector = document.createElement('input');
-	selector.classList.add('selector');
-	selector.type = 'file';
-	selector.accept = 'application/xml';
-	selector.addEventListener('change', onSelect);
-	document.body.appendChild(selector);
+	let selectorDiv = document.createElement('div');
+	selectorDiv.classList.add('selector');
+	
+		let selector = document.createElement('input');
+		selector.type = 'file';
+		selector.accept = 'application/xml';
+		selector.addEventListener('change', onSelect);
+		selectorDiv.appendChild(selector);
+		
+	document.body.appendChild(selectorDiv);
 });
 
