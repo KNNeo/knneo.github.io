@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en-SG">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+    <link id="index-css" rel="stylesheet" type="text/css" href="index.css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'/>
+	<script src="../../darkmode.js" type="application/javascript" charset="utf-8"></script>
+    <title>ITEM SHUFFLE</title>
+</head>
+<body>
+	<h2>ITEM SHUFFLE</h2>
+	<h5>Based on a collection of similar (physical) items eg. books, suggest rearrangement</h5>
+	<div class="module">
+		<div><label for="input1">Columns</label><input id="input1" type="number" min="2"></input></div>
+		<div><label for="input2">Rows</label><input id="input2" type="number" min="2"></input></div>
+	</div>
+	<div id="actions" class="module">
+		<input type="button" onclick="generate()" name="locations" value="Generate" />
+		<div id="result1"></div>
+	</div>
+	<div class="history">
+		<h4>History</h4>
+		<div id="history">No data</div>
+		<input type="button" onclick="reset()" name="locations" value="Reset" />
+	</div>
+	<hr>
+	<br>
+	<h3 id="settings" class="settings">
+		<a title="Toggle Dark Mode" class="darkmode material-icons" href="javascript:void(0);" onclick="toggleDarkMode()">brightness_high</a>
+		<a href="../../index.html">knneo.github.io</a>
+	</h3>
+</body>
+<script src="index.js" type="application/javascript" charset="utf-8"></script>
+</html>
