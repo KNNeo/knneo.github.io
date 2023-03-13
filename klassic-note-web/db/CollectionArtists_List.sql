@@ -7,7 +7,7 @@ from (
 select a.ArtistTitle, case when a.ArtistCode in ('ID') or s.ReleaseArtistTitle = 'V.A.' then a.ArtistTitle else a.ParentArtist end as Parent, 
 (select count(ParentArtist) from Artist aa where aa.ParentArtist = a.ParentArtist) as ParentArtistCount,
 count(s.SongTitle) as SongCount from Song s
-join Artist a on s.ArtistID = a.ArtistID
+join Artist a on s.ArtistID = a.ID
 where a.ArtistCode not in ('AS','AG') --exclude anime credit
 and (s.ReleaseArtistTitle != 'V.A.' or s.ReleaseTitle like '%NANO-MUGEN%') --add exceptions: compilation albums of other artists, not cover album, not tribute
 --and a.ArtistCode not in ('ID')
