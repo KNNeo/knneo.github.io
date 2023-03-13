@@ -81,7 +81,7 @@ function openItemInViewer(link) {
 		img.title = thumbnail.title;
 		img.style.maxHeight = '100%';
 		img.style.maxWidth = '100%';
-		img.addEventListener('click', closeViewer);
+		img.onclick = closeViewer();
 		// img.style.visibility = 'hidden';
 		// if(imgNo-1 >= 0) viewer.appendChild(viewerPrev);
 		// if(imgNo+1 < window['viewer-list'].length) viewer.appendChild(viewerNext);
@@ -93,7 +93,7 @@ function openItemInViewer(link) {
 		// let div = document.createElement('div');
 		viewer.style.height = '100vh';
 		viewer.style.width = '100vw';
-		viewer.addEventListener('click', closeViewer);
+		viewer.onclick = closeViewer();
 		viewer.innerHTML = item;
 		// viewer.appendChild(div);
 		renderEmbedProcess();
@@ -190,6 +190,7 @@ function closeViewer() {
 	viewer.style.opacity = '';
 	viewer.style.visibility = '';
 	viewer.innerHTML = '';
+	viewer.onclick = null;
 	if(viewer.parentElement) viewer.parentElement.style.overflow = '';
 	if(document.getElementById('CloseBtn') != undefined) document.getElementById('CloseBtn').remove();
 	
