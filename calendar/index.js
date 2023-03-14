@@ -433,9 +433,9 @@ function createSummaryEvent(elem, single) {
 		event.preventDefault();
 		this.classList.add('marked');
 		addToMarked({
-			date: date.getAttribute('data-id'),
-			month: date.getAttribute('data-month'),
-			year: date.getAttribute('data-year'),
+			date: elem.getAttribute('data-id'),
+			month: elem.getAttribute('data-month'),
+			year: elem.getAttribute('data-year'),
 			id: single.name
 		});
 	});
