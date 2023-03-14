@@ -1494,7 +1494,7 @@ function generateCreditInfo(contents) {
 	let videoCell2 = document.createElement('td');
 	for(let row of contents.values)
 	{
-		videoCell2.innerHTML += row[columnIndexCategory] + ' "' + row[columnIndexTitle] + '" ' + row[columnIndexType] + ' Song<br/>';
+		videoCell2.innerHTML += row[columnIndexCategory] + ' "' + row[columnIndexTitle] + '" ' + row[columnIndexType] + ' <br/>';
 	}
 	
 	videoRow.appendChild(videoCell2);
