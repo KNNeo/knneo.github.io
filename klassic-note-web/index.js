@@ -1270,7 +1270,7 @@ function generatePlayer(contents) {
 	audio.volume = localStorage.getItem('volume')|| 0.5;
 	audio.controlsList = 'nodownload';
 	audio.addEventListener('play', function() {
-		window['title'] = row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle] + ' | ' + defaultTitle;
+		window['title'] = row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle].split('<br/>')[0] + ' | ' + defaultTitle;
 		renderTitle();
 	});
 	audio.addEventListener('pause', function() {
