@@ -346,11 +346,12 @@ function skipSong() {
 			queryDb(query, function(content) {
 				if(debugMode) console.log('nextOption', window['song-id'], content);
 				let total = content.values.length;
-				//if next option not available ie. will get random song
+				//if next option not available ie. will get random song, reset special shuffle
 				if(total < 1)
 				{
 					randomSong();
-					window['years'] = undefined;
+					window['years'] = undefined;					
+					document.querySelector('#queue-options').value = 'any';
 					return;
 				}
 				let random = content.values[Math.floor((Math.random() * total))][0].toString();
@@ -674,11 +675,12 @@ function updateOptions(contents) {
 function onChangeOption() {
 	let id = document.querySelector('#options').value;
 	if(debugMode) console.log('onChangeOption', id);
-	//select by id value format
+	// select by id value format
 	if(id.startsWith(categoryIcons[2]))
 	{
 		let input = id.replace(categoryIcons[2], '');
 		window['mode'] = 'song';
+		// if from search, add to playlist, disable flag, unfocus search
 		if(window['searching']) {
 			window['playlist'].push(input.toString());
 			window['searching'] = null;
