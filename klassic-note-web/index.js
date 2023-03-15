@@ -682,6 +682,7 @@ function onChangeOption() {
 		if(window['searching']) {
 			window['playlist'].push(input.toString());
 			window['searching'] = null;
+			 document.querySelector('#search').blur();
 		}
 		
 		let query = "SELECT ID, KNYEAR, Filename, CASE WHEN SongTitleAlt IS NOT NULL AND SongTitle <> SongTitleAlt THEN SongTitle || '<br/>' || SongTitleAlt ELSE SongTitleAlt END AS 'Song Title', ArtistTitle, CASE WHEN ArtistTitleAlt IS NOT NULL AND ArtistTitle <> ArtistTitleAlt THEN ArtistTitle || '<br/>' || ArtistTitleAlt ELSE ArtistTitle END AS 'Artist Title', ReleaseTitle AS 'Release Title', ReleaseArtistTitle AS 'Release Artist', ReleaseYear AS 'Year', Genre, DateCreated AS 'Date Added', ";
