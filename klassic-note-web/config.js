@@ -2,7 +2,7 @@
 const debugMode = false;					// will show all available logging on console
 const defaultTitle = 'Klassic Note Web'; 	// title of browser and page, will be appended with song info when playing
 const databaseFilename = 'https://knneo.github.io/klassic-note-web/db/KlassicNote.db'; // location of database, url only
-const directory = 'file://KAINENG-PC/songs/'; 			// location of audio file, in {KNYEAR}/{Filename}
+const directory = 'file://KAINENG-PC/music/'; 			// location of audio file, in {KNYEAR}/{Filename}
 const coverArtDirectory = 'file://KAINENG-PC/albumart/'; 	// location of cover art, in {KNYEAR}/{Filename}
 const useDirectoryFormat = true; // for directory and coverArtDirectory, if false will not use format above
 const widescreenAverageModuleSize = 480; 	// on wide screens, (responsive) tab width for modules
