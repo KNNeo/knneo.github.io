@@ -642,7 +642,7 @@ function updateOptions(contents) {
 		}
 		if(newOptions.length == 2 && window['mode'] != 'artist') //1 result with default
 		{
-			search.blur();
+			// search.blur();
 			setTimeout(function() {
 				let newId = contents.values[0][columnIndexKNID];
 				document.querySelector('#options').value = categoryIcons[2] + newId;
