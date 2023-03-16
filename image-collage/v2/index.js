@@ -255,29 +255,15 @@ function generateLayoutMenu() {
 		tag.title = button.value + ' (' + button.count + ')';
 		tag.innerText = button.value;
 		tag.addEventListener('click',function() {
-			if(window['includeCriteria'].includes(this.value)) {
-				window['includeCriteria'] = window['includeCriteria'].replace('|' + this.value,'').replace(this.value,'');
-				if(window['includeCriteria'].startsWith('|')) window['includeCriteria'] = window['includeCriteria'].substring(1);
-				this.classList.toggle('button-active');
-			}
-			else {
-				window['includeCriteria'] += (window['includeCriteria'].length > 0 ? '|' : '') + this.value;
-				this.classList.toggle('button-active');
-			}
+			// this.classList.toggle('button-active');
+			toggleVariable('includeCriteria', this.value);
 			document.getElementById('include').value = window['includeCriteria'];
 			generateGrid();
 		});
 		tag.addEventListener('contextmenu',function() {
 			event.preventDefault();
-			if(window['excludeCriteria'].includes(this.value)) {
-				window['excludeCriteria'] = window['excludeCriteria'].replace('|' + this.value,'').replace(this.value,'');
-				if(window['excludeCriteria'].startsWith('|')) window['excludeCriteria'] = window['excludeCriteria'].substring(1);
-				this.classList.toggle('button-inactive');
-			}
-			else {
-				window['excludeCriteria'] += (window['excludeCriteria'].length > 0 ? '|' : '') + this.value;
-				this.classList.toggle('button-inactive');
-			}
+			// this.classList.toggle('button-active');
+			toggleVariable('excludeCriteria', this.value);
 			document.getElementById('exclude').value = window['excludeCriteria'];
 			generateGrid();
 		});
@@ -294,6 +280,16 @@ function generateLayoutMenu() {
 	let settings = document.createElement('h3');
 	settings.id = 'settings';
 	settings.classList.add('settings');
+	
+	let clear = document.createElement('a');
+	clear.classList.add('clear');
+	clear.classList.add('settings-icon');
+	clear.classList.add('material-icons');
+	clear.title = 'Clear Search & Tags';
+	clear.href = 'javascript:void(0);';
+	clear.innerText = 'clear_all';
+	clear.addEventListener('click', onClearAll);
+	settings.appendChild(clear);		
 	
 	if(!window['horizontal'])
 	{
@@ -479,6 +475,18 @@ function generateGrid() {
 			});
 			gridItemImage.addEventListener('contextmenu', function(e) {
 				e.preventDefault();
+				let keywords = this.title.split('\n');
+				if(keywords.filter(k => !window['includeCriteria'].includes(k)).length >= keywords.length) // if no keywords in filter
+					toggleVariable('includeCriteria', keywords[0]);
+				else {
+					let inFilter = keywords.filter(k => window['includeCriteria'].includes(k))[0];
+					let notFilter = keywords.filter(k => !window['includeCriteria'].includes(k));
+					
+					toggleVariable('includeCriteria', inFilter);
+					toggleVariable('includeCriteria', notFilter[0]);
+				}
+				document.getElementById('include').value = window['includeCriteria'];
+				generateGrid();
 				return false;
 			}, false);
 			// let fullImageUrl = addUrlClause(item[getThumbnailPrefix()]);
@@ -491,6 +499,16 @@ function generateGrid() {
 
 	document.querySelector('.counter').innerText = filterArray.length;
 	return grid;
+}
+
+function toggleVariable(variable, value) {
+	if(window[variable].includes(value)) {
+		window[variable] = window[variable].replace('|' + value,'').replace(value,'');
+		if(window[variable].startsWith('|')) window[variable] = window[variable].substring(1);
+	}
+	else {
+		window[variable] += (window[variable].length > 0 ? '|' : '') + value;
+	}
 }
 
 function generateFiltered() {
@@ -632,6 +650,18 @@ function onToggleExpander() {
 	
 	window['preset'] = document.getElementById('preset').innerText;
 	
+	generateGrid();
+}
+
+function onClearAll() {
+	for(let button of document.querySelectorAll('.button-active'))
+	{
+		button.classList.remove('button-active');
+	}
+	window['includeCriteria'] = '';
+	document.getElementById('include').value = window['includeCriteria'];
+	window['excludeCriteria'] = '';
+	document.getElementById('exclude').value = window['excludeCriteria'];
 	generateGrid();
 }
 
