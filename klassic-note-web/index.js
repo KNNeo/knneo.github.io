@@ -988,7 +988,7 @@ function generateTableByDataWithHeader(contents, parameters) {
 				else
 				{
 					let td = document.createElement('td');
-					if(iconTooltip) td.title = iconTooltip;
+					// if(iconTooltip) td.title = iconTooltip;
 					td.appendChild(columnName == iconColumnName ? generateCellValue(columns, row, columnName, iconValueColumnName, iconId) : generateCellValue(columns, row, columnName));
 					tr.appendChild(td);
 				}
@@ -1014,7 +1014,10 @@ function generateCellValue(columns, row, textColumn, iconColumn, iconId) {
 	
 	let textSpan = document.createElement('span');
 	textSpan.style.paddingRight = '3px';
-	if(!iconOnly) textSpan.innerText = cellValue;	
+	if(!iconOnly) {
+		textSpan.innerText = cellValue;	
+		textSpan.title = cellValue;
+	}
 	cell.appendChild(textSpan);
 	
 	if(parseInt(iconValue))
