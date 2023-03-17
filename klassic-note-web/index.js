@@ -1944,15 +1944,20 @@ function generateAwards(contents) {
 	header.innerText = 'Awards';
 	document.querySelector('#song-awards').appendChild(header);
 	
+	let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
 	let columnIndexAwardTitle = contents.columns.indexOf('AwardTitle');
-	let awardTitles = rows.map(s => s[columnIndexAwardTitle]).filter((sa, ind, arr) => arr.indexOf(sa) == ind);
+	let awardTitles = rows
+		.map(s => s[columnIndexKNYEAR] + '|' + s[columnIndexAwardTitle])
+		.filter((sa, ind, arr) => arr.indexOf(sa) == ind);
 	if(debugMode) console.log('awardTitles', awardTitles);
 	for(let award of awardTitles)
 	{
-		let awardRows = rows.filter(r => r[columnIndexAwardTitle] == award);
+		let [year, title] = award.split('|');
+		let awardRows = rows.filter(r => r[columnIndexKNYEAR] == year && r[columnIndexAwardTitle] == title);
 		let columnIndexAwardType = columns.indexOf('AwardType');
 		let type = awardRows[0][columnIndexAwardType];
-		if(debugMode) console.log('awardRows', { columns, values: awardRows });
+		// if(debugMode) 
+			console.log('awardRows', { columns, values: awardRows });
 		
 		let skipColumns = ['KNYEAR', 'AwardType', 'AwardTitle', 'SongID'];
 		if(type == 'Artist' || type == 'Song')
@@ -1974,7 +1979,7 @@ function generateAwards(contents) {
 			iconColumnName: 'Won',
 			iconValueColumnName: 'Won',
 			iconId: 'emoji_events',
-			iconTooltip: 'Winner',
+			iconTooltip: 'Yes',
 		});
 		document.querySelector('#song-awards').appendChild(document.createElement('br'));
 	}
