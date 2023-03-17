@@ -1956,8 +1956,7 @@ function generateAwards(contents) {
 		let awardRows = rows.filter(r => r[columnIndexKNYEAR] == year && r[columnIndexAwardTitle] == title);
 		let columnIndexAwardType = columns.indexOf('AwardType');
 		let type = awardRows[0][columnIndexAwardType];
-		// if(debugMode) 
-			console.log('awardRows', { columns, values: awardRows });
+		if(debugMode) console.log('awardRows', { columns, values: awardRows });
 		
 		let skipColumns = ['KNYEAR', 'AwardType', 'AwardTitle', 'SongID'];
 		if(type == 'Artist' || type == 'Song')
