@@ -1718,7 +1718,7 @@ function generateSongRelatedByYear(contents) {
 	generateTableList(
 		contents, {
 		id: 'songs-related-year', 
-		title: 'Songs from ' + contents.values[0][contents.columns.indexOf('ReleaseYear')],
+		title: 'Songs from ' + contents.values[0][contents.columns.indexOf('KNYEAR')],
 		rowFormat: ['ArtistTitle', ' - ', 'SongTitle'], 
 		clickFunc: updateSong, 
 		rightClickFunc: showContextMenu, 
