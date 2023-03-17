@@ -1360,44 +1360,25 @@ function generateCoverArt(contents) {
 	let coverHeight = document.querySelector('#header').getBoundingClientRect().height + (isOverlay ? 8 : 1); // - (isOverlay || isFill ? 0 : 0);// - 15;
 	
 	let art = document.createElement('img');
-	if(isOverlay || isFill) art.style.width = coverWidth + 'px';
+	if(isOverlay) art.style.width = coverWidth + 'px';
 	art.style.height = coverHeight + 'px';
 	
 	if (isFill) {
-		cover.style.display = 'initial';
 		cover.classList.add('fill-background');
-		// art.style.backgroundImage = 'linear-gradient(transparent 75%, var(--background)), url(' + coverArtUrl + ')';
-		art.src = coverArtUrl;
-		art.addEventListener('error', function() {
-			if(debugMode)
-				console.log('cover error');
-			document.querySelector('#cover').classList.add('error');
-			document.querySelector('#search').style.width = (document.querySelector('#header').getBoundingClientRect().width - 48) + 'px';
-			document.querySelector('#options').style.width = '';
-		});
 		art.style.width = window['fill'] + 'px';
 		art.style.height = window['fill'] + 'px';
-		art.style.filter = 'none';
 	}
 	if (isOverlay) {
 		cover.classList.add('overlay-background');
-		cover.style.display = 'initial';
-		// art.style.backgroundImage = 'linear-gradient(transparent 75%, var(--background)), url(' + coverArtUrl + ')';
-		art.src = coverArtUrl;
-		art.addEventListener('error', function() {
-			if(debugMode)
-				console.log('cover error');
-			document.querySelector('#cover').classList.add('error');
-		});
 	} else {
 		cover.classList.add('fill-background');
-		art.src = coverArtUrl;
-		art.addEventListener('error', function() {
-			if(debugMode)
-				console.log('cover error');
-			document.querySelector('#cover').classList.add('error');
-		});
 	}
+	art.src = coverArtUrl;
+	art.addEventListener('error', function() {
+		if(debugMode)
+			console.log('cover error');
+		document.querySelector('#cover').classList.add('error');
+	});
 	cover.appendChild(art);
 	displayCoverIfComplete();
 	
