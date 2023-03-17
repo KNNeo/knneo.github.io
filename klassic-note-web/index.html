@@ -13,16 +13,18 @@
 	<script src="../darkmode.js" type="application/javascript" charset="utf-8"></script>
 </head>
 <body>
-	<div id="header" class="calc centered" style="position: relative;">
-		<h1 id="title" class="header-element"></h1><div id="cover"></div>
-		<h6 class="header-element">Powered by SQL.js</h6>
-	</div>
-	<div id="filters" class="calc centered"></div>
-	<div id="music-player" class="calc centered">
-		<div id="music"></div>
+	<div class="head calc centered">
+		<div id="header" class=" centered padded" style="position: relative;">
+			<h1 id="title" class="header-element"></h1><div id="cover"></div>
+			<h6 class="header-element">Powered by SQL.js</h6>
+		</div>
+		<div id="filters" class="padded"></div>
+		<div id="music-player" class="">
+			<div id="music"></div>
+		</div>
 	</div>
 	<div class="loader material-icons"></div>
-	<div id="tab-buttons" class="calc centered tab-buttons"></div>
+	<div id="tab-buttons" class="calc centered padded tab-buttons"></div>
 	<div id="tab-list">
 		<div id="tab-homepage" data-name="Homepage">
 			<div id="award-years" class="module"></div>
@@ -76,7 +78,7 @@
 			<div id="song-sotm" class="module bordered"></div>
 		</div>
 	</div>
-	<div id="settings" class="calc centered settings">
+	<div id="settings" class="calc centered padded settings">
 		<a id="autoplay" class="autoplay setting material-icons" href="javascript:void(0);" data-alt="music_note" title="Toggle Autoplay">music_off</a>
 		<a id="darkmode" title="Toggle Dark Mode" class="darkmode material-icons" href="javascript:void(0);" onclick="toggleDarkMode()">brightness_high</a>
 		<!-- <span style="border-left: 3px solid; padding: 0 3px;"></span> -->

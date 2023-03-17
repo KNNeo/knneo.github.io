@@ -142,8 +142,9 @@ function setTabs() {
 	}
 	
 	//toggle search buttons
-	document.querySelector('#search').style.width = homePageVisible ? '100%' : (document.querySelector('#options').getBoundingClientRect().width - 48) + 'px';
+	document.querySelector('#search').style.width = homePageVisible ? '100%' : (document.querySelector('#header').getBoundingClientRect().width - 48) + 'px';
 	document.querySelector('#search-buttons').style.display = homePageVisible ? 'none' : '';
+	document.querySelector('#options').style.width = '';
 	// document.querySelector('#tab-buttons').style.display = isWidescreen ? 'none' : '';
 	document.querySelector('#tab-list').style.maxWidth = isWidescreen && !homePageVisible ? '' : widescreenAverageModuleSize + 'px';
 	
@@ -154,6 +155,7 @@ function setTabs() {
 	}
 	
 	hideContextMenus(true);
+	displayCoverIfComplete();
 	
 	//adjust content height
 	let tabHeight = window.innerHeight - Array.from(document.querySelectorAll('.calc')).reduce((total, current) => { return total + current.offsetHeight; }, 15) + 'px';
@@ -236,7 +238,7 @@ function clearSearch() {
 	document.querySelector('#search-buttons').style.display = 'none';
 	document.querySelector('#search').style.width = '100%';
 	document.querySelector('#tab-buttons').innerHTML = '';
-	document.querySelector('#cover').style.display = 'none';
+	document.querySelector('#cover').innerHTML = '';
 	document.querySelector('#cover').classList = [];
 	clearModules();
 	resetQueueView();
@@ -476,6 +478,7 @@ function renderVariables() {
 	window['artist-id'] = 0;
 	window['year'] = '';
 	window['genre'] = '';
+	window['fill'] = 152;					// for coverArtStyle == 'large', how much width on header to take
 }
 
 function renderTitle() {
@@ -485,7 +488,6 @@ function renderTitle() {
 
 function generateFilters() {
 	let filters = document.querySelector('#filters');
-	filters.classList.add('centered');
 	
 	let search = document.createElement('input');
 	search.id = 'search';
@@ -771,7 +773,7 @@ function generateTableList(contents, parameters) {
 	//header
 	let headerDiv = document.createElement('div');
 	if(actionTitle != null && actionTitle.length > 0)
-		headerDiv.style.height = '1.75em';
+		headerDiv.style.height = '1.4em';
 	
 	let header = document.createElement('h4');
 	header.classList.add('centered');
@@ -786,7 +788,7 @@ function generateTableList(contents, parameters) {
 		let action = document.createElement('h6');
 		action.classList.add('centered');
 		action.classList.add('action');
-		action.style.cursor = 'pointer';
+		action.classList.add('not-selectable');
 		action.innerText = actionTitle;
 		if(actionFunc != null && typeof actionFunc == 'function')
 			action.addEventListener('click', actionFunc);
@@ -988,7 +990,7 @@ function generateTableByDataWithHeader(contents, parameters) {
 				else
 				{
 					let td = document.createElement('td');
-					// if(iconTooltip) td.title = iconTooltip;
+					if(iconTooltip) td.title = iconTooltip;
 					td.appendChild(columnName == iconColumnName ? generateCellValue(columns, row, columnName, iconValueColumnName, iconId) : generateCellValue(columns, row, columnName));
 					tr.appendChild(td);
 				}
@@ -1333,31 +1335,62 @@ function queryCoverArt(contents) {
 }
 
 function generateCoverArt(contents) {
-	if(contents.values.length < 1) return;
 	let isOverlay = coverArtStyle.toLowerCase() == 'overlay';
+	let isFill = coverArtStyle.toLowerCase() == 'large';
+	let cover = document.querySelector('#cover');
+	cover.className = '';
+	cover.innerHTML = '';
+	if(contents.values.length < 1) { // if no value
+		if(isFill) {
+			document.querySelector('#search').style.width = (document.querySelector('#header').getBoundingClientRect().width - 48) + 'px';
+			document.querySelector('#options').style.width = '';
+		}
+		return;
+	}
+	
 	//position: by title, right hand corner of header
 	let columns = contents.columns;
 	let rows = contents.values;
 	let row = rows[0];
 	let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
 	let columnIndexCoverArt = contents.columns.indexOf('CoverArt');
-	
-	let cover = document.querySelector('#cover');
-	cover.innerHTML = '';
-	let headerWidth = document.querySelector('#header').getBoundingClientRect().width;// - 15;
-	let headerHeight = document.querySelector('#header').getBoundingClientRect().height - (isOverlay ? -6 : 6);// - 15;
-	
 	let coverArtUrl = useDirectoryFormat ? coverArtDirectory + row[columnIndexKNYEAR] + '/' + row[columnIndexCoverArt] : row[columnIndexCoverArt];
-	let art = document.createElement(isOverlay ? 'div' : 'img');
-	art.style.width = (isOverlay ? headerWidth : headerHeight) + 'px';
-	art.style.height = headerHeight + 'px';
-	if (isOverlay) {
+
+	let coverWidth = 0.45*document.querySelector('#header').getBoundingClientRect().width;// - 15;
+	let coverHeight = document.querySelector('#header').getBoundingClientRect().height + (isOverlay ? 8 : 1); // - (isOverlay || isFill ? 0 : 0);// - 15;
+	
+	let art = document.createElement('img');
+	if(isOverlay || isFill) art.style.width = coverWidth + 'px';
+	art.style.height = coverHeight + 'px';
+	
+	if (isFill) {
 		cover.style.display = 'initial';
-		art.classList.add('overlay-background');
-		art.style.backgroundImage = 'linear-gradient(transparent 75%, var(--background)), url(' + coverArtUrl + ')';
+		cover.classList.add('fill-background');
+		// art.style.backgroundImage = 'linear-gradient(transparent 75%, var(--background)), url(' + coverArtUrl + ')';
+		art.src = coverArtUrl;
+		art.addEventListener('error', function() {
+			if(debugMode)
+				console.log('cover error');
+			document.querySelector('#cover').classList.add('error');
+			document.querySelector('#search').style.width = (document.querySelector('#header').getBoundingClientRect().width - 48) + 'px';
+			document.querySelector('#options').style.width = '';
+		});
+		art.style.width = window['fill'] + 'px';
+		art.style.height = window['fill'] + 'px';
+		art.style.filter = 'none';
+	}
+	if (isOverlay) {
+		cover.classList.add('overlay-background');
+		cover.style.display = 'initial';
+		// art.style.backgroundImage = 'linear-gradient(transparent 75%, var(--background)), url(' + coverArtUrl + ')';
+		art.src = coverArtUrl;
+		art.addEventListener('error', function() {
+			if(debugMode)
+				console.log('cover error');
+			document.querySelector('#cover').classList.add('error');
+		});
 	} else {
-		// art.classList.add('content-box');
-		// art.classList.add('overlay-right');
+		cover.classList.add('fill-background');
 		art.src = coverArtUrl;
 		art.addEventListener('error', function() {
 			if(debugMode)
@@ -1365,7 +1398,7 @@ function generateCoverArt(contents) {
 			document.querySelector('#cover').classList.add('error');
 		});
 	}
-	cover.appendChild(art);	
+	cover.appendChild(art);
 	displayCoverIfComplete();
 	
 	//update MediaSession API
@@ -1400,9 +1433,13 @@ function displayCoverIfComplete() {
 	if(cover.classList.contains('error') || cover.getElementsByTagName('img').length == 0) return;
 	if(cover.getElementsByTagName('img').length > 0 && cover.getElementsByTagName('img')[0].complete && !cover.classList.contains('error'))
 	{
-		if(debugMode)
-			console.log('cover loaded');
 		cover.style.display = 'initial';
+		if(debugMode) console.log('cover loaded');		
+		if(coverArtStyle.toLowerCase() == 'large') {
+			let headerWidth = document.querySelector('#header').getBoundingClientRect().width;// - 15;
+			document.querySelector('#search').style.width = (headerWidth - window['fill'] - 55) + 'px';
+			document.querySelector('#options').style.width = (headerWidth - window['fill'] - 8) + 'px';
+		}
 		return;
 	}
 
