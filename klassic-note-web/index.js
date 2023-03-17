@@ -1568,21 +1568,13 @@ function generateSongList(contents) {
 		title: 'Songs from ' + contents.values[0][contents.columns.indexOf('KNYEAR')],
 		rowFormat: ['ArtistTitle', ' - ', 'SongTitle'], 
 		clickFunc: updateSong,
-		actionTitle: 'Show All',
+		actionTitle: 'Refresh',
 		actionFunc: function() {
 			this.style.maxHeight = this.getBoundingClientRect().height;
-			let query = "SELECT * FROM Song WHERE KNYEAR = " + contents.values[0][contents.columns.indexOf('KNYEAR')] + " ORDER BY SongTitle";
+			let query = "SELECT * FROM Song WHERE KNYEAR = " + contents.values[0][contents.columns.indexOf('KNYEAR')];
+			query += " ORDER BY RANDOM() DESC LIMIT 10";
 			if(debugMode) console.log('generateSongList', query);
-			queryDb(query, function(contents) {
-				generateTableList(
-					contents, {
-					id: 'year-list', 
-					title: 'Songs from ' + contents.values[0][contents.columns.indexOf('KNYEAR')],
-					rowFormat: ['ArtistTitle', ' - ', 'SongTitle'], 
-					clickFunc: updateSong,
-					scrollable: true,
-				});
-			});
+			queryDb(query, generateSongList);
 		},
 	});
 }
