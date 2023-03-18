@@ -1,7 +1,23 @@
-const isMobile = function() {
+function isMobile() {
     const match = window.matchMedia('(pointer:coarse)');
     return (match && match.matches && window.innerWidth <= 480);
-};
+}
+
+function smallScreenWidth() {
+	return window.innerWidth <= 800;
+}
+
+function mediumScreenWidth() {
+	return window.innerWidth <= 1200;
+}
+
+function largeScreenWidth() {
+	return window.innerWidth >= 1600;
+}
+
+function smallScreenHeight() {
+	return window.innerHeight <= 800;
+}
 
 function closestClass(inputElement, targetClassName) {
     while ((inputElement.classList.length == 0 || !inputElement.classList.contains(targetClassName)) 
@@ -109,8 +125,6 @@ function renderPage() {
 		}
 	}
 	
-	renderFooter(window['elements'][mainSectionNo].isSinglePage, window['elements'][mainSectionNo].footer);
-	
 	for(let sectionNo = 0; sectionNo < window['elements'].length; sectionNo++) {
 		if(window['elements'][sectionNo].isMain) {
 			if(document.querySelector('.menu') == null)
@@ -134,6 +148,7 @@ function renderPage() {
 	}
 	
 	renderButtons(window['elements'][mainSectionNo].isSinglePage);
+	renderFooter(window['elements'][mainSectionNo].isSinglePage, window['elements'][mainSectionNo].footer);
 	
 	for(let focusable of document.querySelectorAll('.focusable'))
 	{
@@ -150,7 +165,9 @@ function renderMain(sectionNo) {
 	
 	if(document.querySelector('.main') != null) {
 		let main = document.querySelector('.main');
-				
+		if(content.isSinglePage)
+			main.style.height = 'calc(100vh - ' + (document.querySelector('.menu').getBoundingClientRect().height + 'px') + ')';
+		
 		if(sectionNo > 0) {
 			let prevDiv = document.createElement('div');
 			prevDiv.classList.add('page-prev');
@@ -208,33 +225,33 @@ function renderMain(sectionNo) {
 				drawerHeight = '30px';
 			}
 			if (content.isSinglePage) iconSize = '5rem';
-			document.querySelector('.menu').style.minHeight = content.isSinglePage && window.innerWidth < 760 ? drawerHeight : '';
-			document.querySelector('.menu').style.maxHeight = content.isSinglePage && window.innerWidth < 760 ? drawerHeight : '';
+			// document.querySelector('.menu').style.minHeight = content.isSinglePage && smallScreenWidth() ? drawerHeight : '';
+			// document.querySelector('.menu').style.maxHeight = content.isSinglePage && smallScreenWidth() ? drawerHeight : '';
 
 			//drawer, home icon
 			if(content.isSinglePage)
 			{
 				// add drag handle if mobile, or low screen height
-				if(window.innerWidth < 760 || window.innerHeight < 760)
-				{
-					let contentItem = document.createElement('div');
-					contentItem.classList.add('handle');
-					contentItem.classList.add('material-icons');
-					contentItem.classList.add('focusable');
-					contentItem.innerText = 'drag_handle';
-					contentItem.addEventListener('click', function() {
-						event.stopPropagation();
-						document.querySelector('.menu').style.maxHeight = document.querySelector('.menu').style.maxHeight == 'initial' ? drawerHeight : 'initial';
-					});
-					contentItem.addEventListener('touchmove', function() {
-						event.stopPropagation();
-						document.querySelector('.menu').style.maxHeight = (window.innerHeight - event.touches[0].clientY + 20) + 'px';
-					});
-					contentList.appendChild(contentItem);
+				// if(smallScreenWidth() || smallScreenHeight())
+				// {
+					// let contentItem = document.createElement('div');
+					// contentItem.classList.add('handle');
+					// contentItem.classList.add('material-icons');
+					// contentItem.classList.add('focusable');
+					// contentItem.innerText = 'drag_handle';
+					// contentItem.addEventListener('click', function() {
+						// event.stopPropagation();
+						// document.querySelector('.menu').style.maxHeight = document.querySelector('.menu').style.maxHeight == 'initial' ? drawerHeight : 'initial';
+					// });
+					// contentItem.addEventListener('touchmove', function() {
+						// event.stopPropagation();
+						// document.querySelector('.menu').style.maxHeight = (window.innerHeight - event.touches[0].clientY + 20) + 'px';
+					// });
+					// contentList.appendChild(contentItem);
 					
-					if(window.innerHeight < 760)
-						document.querySelector('.menu').style.maxHeight = drawerHeight;
-				}
+					// if(window.innerHeight < 760)
+						// document.querySelector('.menu').style.maxHeight = drawerHeight;
+				// }
 				
 				let contentItem = document.createElement('div');
 				contentItem.classList.add('material-icons');
@@ -273,7 +290,7 @@ function renderMain(sectionNo) {
 					contentItem.addEventListener('click', function() {
 						event.stopPropagation();
 						scrollToPage(section, content.isSinglePage);
-						if(window.innerWidth < 760 || window.innerHeight < 760)
+						if(smallScreenWidth() || smallScreenHeight())
 							document.querySelector('.menu').style.maxHeight = drawerHeight;
 					});
 					// contentItem.addEventListener('touchstart', function() {
@@ -306,7 +323,7 @@ function renderMain(sectionNo) {
 					contentItem.addEventListener('click', function() {
 						event.stopPropagation();
 						scrollToPage(section, content.isSinglePage);
-						if(window.innerWidth < 760 || window.innerHeight < 760)
+						if(smallScreenWidth() || smallScreenHeight())
 							document.querySelector('.menu').style.maxHeight = drawerHeight;
 					});
 					// contentItem.addEventListener('touchstart', function() {
@@ -366,7 +383,9 @@ function renderMain(sectionNo) {
 function renderSection(sectionNo, mainSectionNo) {
 	let section = document.querySelectorAll('.section')[sectionNo];// > mainSectionNo ? sectionNo - mainSectionNo : sectionNo];
 	let main = window['elements'][mainSectionNo];
-	let content = window['elements'][sectionNo];	
+	let content = window['elements'][sectionNo];
+	if(main.isSinglePage)
+		section.style.height = 'calc(100vh - ' + (document.querySelector('.menu').getBoundingClientRect().height + 'px') + ')';	
 		
 	if(!main.isSinglePage)
 	{
@@ -419,7 +438,7 @@ function renderSection(sectionNo, mainSectionNo) {
 		component.id = 'section' + sectionNo;
 		section.appendChild(component);
 		
-		renderGrid(sectionNo, content);
+		renderGrid(sectionNo, content, main.isSinglePage);
 	}
 	
 	if(!main.isSinglePage)
@@ -456,7 +475,13 @@ function renderFooter(isSinglePage, footerText) {
 	footer.classList.add('footer');
 	footer.innerText = footerText ?? '';
 	document.querySelector('.page').appendChild(footer);
-	if(!isSinglePage) document.querySelector('.page').appendChild(renderMenu());
+	if(!isSinglePage) {
+		document.querySelector('.page').appendChild(renderMenu());
+	}
+	if(isSinglePage) {
+		document.querySelector('.footer').style.bottom = document.querySelector('.menu').getBoundingClientRect().height + 'px';
+	}
+	
 }
 
 function renderButtons(isSinglePage) {

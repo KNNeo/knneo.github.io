@@ -68,6 +68,12 @@ a {
 	bottom: 0;
 	position: fixed;
 	background-color: var(--background);
+	overflow: auto;
+    padding: 0 2px;
+}
+
+.single .menu {
+	width: 100%;
 }
 
 .page-title {
@@ -111,7 +117,7 @@ a {
 	 margin: 0 auto;
 }
 
-.container {
+.one, .container {
 	 height: 75vh;	
 }
 
@@ -121,24 +127,6 @@ a {
 	display: flex;
 	flex-basis: 100%;
 	justify-content: center;
-}
-
-.contents .icon {
-	border-radius: 50%;
-	cursor: pointer;
-	background-size: contain;
-	background-repeat: no-repeat;
-	background-position: center;
-	
-}
-
-.contents .text {
-    margin: 0;
-	cursor: pointer;
-}
-
-.contents .home {
-	padding: 0 1px;
 }
 
 .page-next {
@@ -175,20 +163,18 @@ a {
 }
 
 .footer {
-	display: flex;
+    text-align: center;
 	padding: 20px;
-	justify-content: center;
-	/* margin: auto; */
 	font-size: 0.7em;
 	bottom: 0;
+	left: 0;
 	right: 0;
 	color: var(--foreground);
 }
 
 .single .footer {
-	width: 100%;
+	padding: 10px;
 	position: fixed;
-	justify-content: flex-end;
 }
 
 .icon {
@@ -222,6 +208,8 @@ a {
 
 .single .text {
 	font-size: 0.9em;
+    flex-grow: 0;
+    flex-shrink: 0;
 }
 
 .one .text {
@@ -230,11 +218,32 @@ a {
 
 .contents {
 	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-	justify-content: center;
 	padding: 5px 0;
 }
+
+.contents .icon {
+	border-radius: 50%;
+	cursor: pointer;
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+	
+}
+
+.one .contents {
+    flex-wrap: wrap;
+    justify-content: center;	
+}
+
+.contents .text {
+    margin: 0;
+	cursor: pointer;
+}
+
+.contents .home {
+	padding: 0 1px;
+}
+
 
 .circle-icon img {
 	border-radius: 50%;
@@ -332,16 +341,12 @@ a {
 	background: transparent;
 }
 
-@media only screen and (max-width: 960px) {
+@media only screen and (max-width: 800px) {
 	.container {
 		 width: 99%;
 		 margin: 0;
 	}
-	.single .text,
 	.one .text {
 		font-size: 0.9em;
-	}
-	.single .footer {
-		visibility: hidden;
 	}
 }

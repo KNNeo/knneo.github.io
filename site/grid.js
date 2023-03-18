@@ -1,10 +1,12 @@
 //main function to render detachable component
-function renderGrid(sectionNo, content) {
+function renderGrid(sectionNo, content, isSinglePage) {
 	let section = document.querySelector('#section'+sectionNo);
 	section.innerHTML = '';
 	
 	let table = document.createElement('table');
 	table.classList.add('container');
+	if(isSinglePage)
+		table.style.height = 'calc(100vh - ' + (document.querySelector('.menu').getBoundingClientRect().height + 'px') + ')';
 	
 	let tbody = document.createElement('tbody');
 	
@@ -13,7 +15,7 @@ function renderGrid(sectionNo, content) {
 	});
 	
 	//for mobile, stack all elements in one column
-	if(window.innerWidth <= 800 && content.columns > 1)
+	if(smallScreenWidth() && content.columns > 1)
 	{
 		content.componentData = content.componentData.filter(cd => cd.type && cd.type != 'spacer');
 		let totalCells = content.componentData.length;
@@ -55,6 +57,9 @@ function renderGrid(sectionNo, content) {
 			td.id = 'section'+sectionNo+'cell'+count;
 			td.style.width = content.columns > 1 ? (100 / content.columns) + '%' : '100%';
 			td.style.height = content.rows > 1 ? (100 / content.rows) + '%' : '100%';
+			// if(smallScreenWidth() && content.rows > 1)
+				// td.style.height = (100 / content.columns) + '%';
+				
 			
 			let item = content.componentData[count];
 			// td.innerText = item.type;
@@ -104,8 +109,8 @@ function renderGrid(sectionNo, content) {
 			}
 			
 			let titleType = 'h1';
-			if(window.innerWidth < 800) titleType = 'h2';
-			if(window.innerHeight < 800) titleType = 'h3';
+			if(smallScreenWidth()) titleType = 'h2';
+			if(smallScreenHeight()) titleType = 'h3';
 			let title = document.createElement(titleType);
 			title.innerText = component.title;
 			elem.appendChild(title);
@@ -135,7 +140,7 @@ function renderGrid(sectionNo, content) {
 			{
 				let linkContainer = document.createElement('div');
 				linkContainer.style.width = '100%';
-				linkContainer.style.height = '100%';
+				linkContainer.style.height = largeScreenWidth() ? '80%' : '100%';
 				linkContainer.style.verticalAlign = 'center';
 
 					let url = document.createElement('a');
@@ -153,7 +158,7 @@ function renderGrid(sectionNo, content) {
 		}
 		else if(component.type == 'images')
 		{
-			elem.style.height = '100%';
+			// elem.style.height = '100%';
 			if(typeof generateViewer == 'function') generateViewer();
 			
 			let gallery = document.createElement('div');
@@ -170,7 +175,7 @@ function renderGrid(sectionNo, content) {
 				img.setAttribute('data-src', data.source);
 				if(component.columns > 0) 
 				{
-					if(window.innerWidth < 800)
+					if(mediumScreenWidth())
 					{
 						img.style.width = (100 / (component.datas.length + 1)) + '%';
 					}
@@ -181,7 +186,7 @@ function renderGrid(sectionNo, content) {
 				}
 				if(component.rows > 0)
 				{
-					if(window.innerWidth < 800)
+					if(mediumScreenWidth())
 					{
 						img.style.width = (100 / (component.datas.length + 1)) + '%';
 					}
@@ -244,7 +249,7 @@ function renderGrid(sectionNo, content) {
 					img.setAttribute('data-gallery', galleryIndex);
 				}
 				else img.setAttribute('data-src', data.source);
-				if(window.innerWidth < 800)
+				if(smallScreenWidth())
 				{
 					img.style.height = '20vw';
 				}
