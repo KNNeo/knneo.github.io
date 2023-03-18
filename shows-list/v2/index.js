@@ -1,5 +1,4 @@
 //--SETTINGS--//
-const defaultTitle = 'Anime List';
 const currentYear = 2023;
 const currentSeason = 'Winter';
 const seasons = [
@@ -11,7 +10,6 @@ const seasons = [
 
 function startup() {
 	initializeVariables();
-	setTitle();
 	generateAnimeList();
 	addImagesError();
 }
@@ -19,11 +17,6 @@ function startup() {
 function initializeVariables() {
 	window['filter'] = '';
 	window['genre'] = '';	
-}
-
-function setTitle() {
-	document.title = defaultTitle;
-	document.querySelector('.title').innerText = defaultTitle;
 }
 
 function generateAnimeList() {
