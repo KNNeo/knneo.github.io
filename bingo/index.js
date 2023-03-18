@@ -7,6 +7,11 @@ const labels = ['B','I','N','G','O'];
 const smallScreen = function() {
     return window.innerWidth <= 640;
 };
+const isMobile = function() {
+    const match = window.matchMedia('(pointer:coarse)');
+    return (match && match.matches && window.innerWidth <= 480);
+};
+
 //only for single pattern combination ie. can't do any horizontal
 const combinations = [
 	{
