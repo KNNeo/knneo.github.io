@@ -24,7 +24,16 @@
 		</div>
 	</div>
 	<div class="loader material-icons"></div>
-	<div id="tab-buttons" class="calc centered padded tab-buttons"></div>
+	<div id="tab-buttons" class="calc centered padded tab-buttons hidden">
+		<button id="button-tab-info" class="tab-button" onclick="showTab(this.id)">Info</button>
+		<button id="button-tab-related" class="tab-button" onclick="showTab(this.id)">Related</button>
+		<button id="button-tab-awards" class="tab-button" onclick="showTab(this.id)">Awards</button>
+		<button id="button-tab-ranking" class="tab-button" onclick="showTab(this.id)">Rankings</button>
+		<button id="button-tab-analysis" class="tab-button" onclick="showTab(this.id)">Analysis</button>
+		<button id="button-tab-compilation" class="tab-button" onclick="showTab(this.id)">Compilations</button>
+		<button id="button-tab-collection" class="tab-button" onclick="showTab(this.id)">Collection</button>
+		<button id="button-tab-sotd" class="tab-button" onclick="showTab(this.id)">Song of the Day</button>
+	</div>
 	<div id="tab-list">
 		<div id="tab-homepage" data-name="Homepage">
 			<div id="award-years" class="module"></div>

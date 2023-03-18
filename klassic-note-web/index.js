@@ -107,6 +107,8 @@ function setTabs() {
 	let totalModules = Math.round(window.innerWidth / widescreenAverageModuleSize);
 	if(debugMode) console.log('totalModules', totalModules);
 	
+	document.querySelector('#tab-buttons').classList.remove('hidden');
+	if(homePageVisible) document.querySelector('#tab-buttons').classList.add('hidden');
 	for(let tab of document.querySelectorAll('.tab'))
 	{
 		let hasModules = Array.from(tab.childNodes).filter(c => c.childNodes.length > 0).length > 0;
@@ -136,10 +138,7 @@ function setTabs() {
 	}
 	
 	//display tab when mobile, depending on mode
-	if(!isWidescreen)
-	{
-		showTab('tab-info');
-	}
+	if(!homePageVisible) showTab('tab-info');
 	
 	//toggle search buttons
 	document.querySelector('#search').style.width = homePageVisible ? '100%' : (document.querySelector('#header').getBoundingClientRect().width - 48) + 'px';
@@ -188,12 +187,14 @@ function toggleMiniMode() {
 	}
 }
 
-function showTab(activeTab) {
+function showTab(tabId) {
+	document.querySelector('#tab-buttons').classList.remove('hidden');
 	for(let tab of document.getElementsByClassName('tab'))
 	{
-		tab.style.display = tab.id == activeTab ? 'block' : 'none';
+		tab.style.display = tab.id == tabId ? 'block' : 'none';
 		if(tab.classList.contains('tab-view')) tab.style.display = 'inline-block';
 	}
+	document.querySelector('#' + tabId.replace('button-','')).scrollIntoView(); // scroll if on desktop
 }
 
 function hoverOnTableRow() {
@@ -237,7 +238,7 @@ function clearSearch() {
 	document.querySelector('#tab-homepage').style.display = '';
 	document.querySelector('#search-buttons').style.display = 'none';
 	document.querySelector('#search').style.width = '100%';
-	document.querySelector('#tab-buttons').innerHTML = '';
+	document.querySelector('#tab-buttons').classList.add('hidden');
 	document.querySelector('#cover').innerHTML = '';
 	document.querySelector('#cover').classList = [];
 	clearModules();
@@ -1192,7 +1193,7 @@ function generateModules(contents) {
 		queryArtistAnalysis(contents);
 	}
 	
-	generateTabs();
+	// generateTabs();
 	setTabs();
 	scrollToTop();
 	updateQueue();
@@ -1380,7 +1381,6 @@ function generateCoverArt(contents) {
 		document.querySelector('#cover').classList.add('error');
 	});
 	cover.appendChild(art);
-	displayCoverIfComplete();
 	
 	//update MediaSession API
 	try
@@ -2548,8 +2548,6 @@ function generateTabs() {
 		tabItem.classList.add('tab-button');
 		tabItem.innerText = tab.getAttribute('data-name');
 		tabItem.addEventListener('click', function() {
-			showTab(tab.id);
-			document.querySelector('#' + tab.id).scrollIntoView(); // scroll if on desktop
 		});
 		
 		document.querySelector('#tab-buttons').appendChild(tabItem);
