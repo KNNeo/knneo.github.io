@@ -112,7 +112,7 @@ function renderPage() {
 	renderFooter(window['elements'][mainSectionNo].isSinglePage, window['elements'][mainSectionNo].footer);
 	
 	for(let sectionNo = 0; sectionNo < window['elements'].length; sectionNo++) {
-		if(window['elements'][sectionNo].isMain) {
+		if(window['elements'][sectionNo].isMain && document.querySelector('.menu') == null) {
 			document.body.appendChild(renderMenu());
 			renderMain(sectionNo);
 		}
