@@ -126,6 +126,7 @@ a {
 }
 
 .fill-background img {
+	object-position: bottom left;
 	object-fit: contain;
 	width: 100%;
     filter: none;
