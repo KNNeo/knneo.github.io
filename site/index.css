@@ -192,11 +192,11 @@ a {
 }
 
 .icon {
-	transition: all 0.1s ease;	
+	transition: all 0.1s ease;
+	background-color: var(--accent);
 }
 
 .icon:hover {
-	background-color: var(--accent);
 	transform: scale(1.2);
 }
 
