@@ -506,26 +506,26 @@ function renderButtons(isSinglePage) {
 			document.querySelector('.button-top').style.right = null;		
 	}
 
-	let editorButtonIcon = document.createElement('a');
-	editorButtonIcon.classList.add('button');
-	editorButtonIcon.classList.add('button-editor');
-	editorButtonIcon.classList.add('material-icons');
-	editorButtonIcon.classList.add('not-selectable');
-	editorButtonIcon.title = 'Toggle Editor';
-	editorButtonIcon.innerText = 'code';
-	if(document.querySelector('.button-editor') == null)
-	{
-		document.body.appendChild(editorButtonIcon);
-		document.querySelector('.button-editor').addEventListener('click', toggleEditor);
-	}
-	else
-	{
-		if(isSinglePage || isMobile()) 
-			document.querySelector('.button-editor').style.right = '10px';
-		else 
-			document.querySelector('.button-editor').style.right = null;
+	// let editorButtonIcon = document.createElement('a');
+	// editorButtonIcon.classList.add('button');
+	// editorButtonIcon.classList.add('button-editor');
+	// editorButtonIcon.classList.add('material-icons');
+	// editorButtonIcon.classList.add('not-selectable');
+	// editorButtonIcon.title = 'Toggle Editor';
+	// editorButtonIcon.innerText = 'code';
+	// if(document.querySelector('.button-editor') == null)
+	// {
+		// document.body.appendChild(editorButtonIcon);
+		// document.querySelector('.button-editor').addEventListener('click', toggleEditor);
+	// }
+	// else
+	// {
+		// if(isSinglePage || isMobile()) 
+			// document.querySelector('.button-editor').style.right = '10px';
+		// else 
+			// document.querySelector('.button-editor').style.right = null;
 		
-	}
+	// }
 	
 	let closeButtonIcon = document.createElement('i');
 	closeButtonIcon.classList.add('button');
