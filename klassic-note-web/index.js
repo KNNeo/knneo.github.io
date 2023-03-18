@@ -1184,7 +1184,7 @@ function generateModules(contents) {
 	document.querySelector('#tab-homepage').style.display = 'none';
 	document.querySelector('#search-buttons').style.display = '';
 	document.querySelector('#music').innerHTML = '';
-	document.querySelector('#cover').style.display = 'none';
+	document.querySelector('#cover').innerHTML = '';
 	
 	//clear modules
 	clearModules();
