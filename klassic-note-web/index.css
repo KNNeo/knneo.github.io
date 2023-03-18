@@ -74,10 +74,6 @@ a {
 	margin: auto;
 }
 
-#head > input {
-    max-width: 480px;
-}
-
 #header {
 	background-color: transparent;
 }
@@ -92,6 +88,14 @@ a {
 
 #queue-options {
 	height: 1.75em;
+}
+
+.head {
+	padding: 0 3px;
+}
+
+.head > input {
+    max-width: 480px;
 }
 
 .search-buttons a {
@@ -240,7 +244,6 @@ a {
 }
 
 .tab {
-	display: none;
     overflow-y: auto;
 }
 

@@ -168,6 +168,18 @@ function setTabs() {
 	toggleMiniMode();
 }
 
+function showTab(tabId) {
+	document.querySelector('#tab-buttons').classList.remove('hidden');
+	for(let tab of document.getElementsByClassName('tab'))
+	{
+		if(tab.id == tabId.replace('button-',''))
+			tab.classList.remove('hidden');
+		else
+			tab.classList.add('hidden');
+	}
+	document.querySelector('#' + tabId.replace('button-','')).scrollIntoView(); // scroll if on desktop
+}
+
 function toggleMiniMode() {
 	let minHeight = 10;
 	if(document.querySelector('#player') == null) return;
@@ -185,16 +197,6 @@ function toggleMiniMode() {
 		window['mini-height'] = window.innerHeight;
 		document.querySelector('html').classList.add('mini');
 	}
-}
-
-function showTab(tabId) {
-	document.querySelector('#tab-buttons').classList.remove('hidden');
-	for(let tab of document.getElementsByClassName('tab'))
-	{
-		tab.style.display = tab.id == tabId ? 'block' : 'none';
-		if(tab.classList.contains('tab-view')) tab.style.display = 'inline-block';
-	}
-	document.querySelector('#' + tabId.replace('button-','')).scrollIntoView(); // scroll if on desktop
 }
 
 function hoverOnTableRow() {
