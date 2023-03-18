@@ -714,20 +714,50 @@ function onChangeOption() {
 }
 
 function generateTableAsColumnRows(contents, parameters) {
-	let { id, title, skipColumns = []} = parameters
+	let { 
+		id, 
+		title, 
+		skipTitle,
+		skipColumns = [],
+		actionTitle, 
+		actionFunc = null,
+	} = parameters
 	document.getElementById(id).innerHTML = '';
+	let columns = contents.columns;
+	let rows = contents.values;
+	if(contents.length == 0) return;
 	
 	if(debugMode) console.log('generateTableAsColumnRows', id);
 	if(!id || !contents.columns || !contents.values) return;
 	
+	//header
+	let headerDiv = document.createElement('div');
+	if(!skipTitle || (actionTitle != null && actionTitle.length > 0))
+		headerDiv.style.height = '1.4em';
+	
 	let header = document.createElement('h4');
 	header.classList.add('centered');
 	header.innerText = title || '';
-	document.getElementById(id).appendChild(header);	
+	headerDiv.appendChild(header);
 	
-	let columns = contents.columns;
-	let rows = contents.values;
+	if(actionTitle != null && actionTitle.length > 0)
+	{
+		let action = document.createElement('h6');
+		action.classList.add('centered');
+		action.classList.add('action');
+		action.style.cursor = 'pointer';
+		action.innerText = actionTitle;
+		if(actionFunc != null && typeof actionFunc == 'function')
+			action.addEventListener('click', actionFunc);
+		
+		headerDiv.style.position = 'relative';
+		headerDiv.classList.add('centered');
+		headerDiv.appendChild(action);
+	}
 	
+	document.getElementById(id).appendChild(headerDiv);
+	
+	//table
 	let table = document.createElement('table');
 	table.classList.add('list');
 	table.classList.add('centered');
@@ -870,9 +900,10 @@ function generateTableByDataWithHeader(contents, parameters) {
 	let rows = contents.values;
 	if(contents.length == 0) return;
 	
+	if(debugMode) console.log('generateTableAsColumnRows', id);
 	let headerDiv = document.createElement('div');
 	if(!skipTitle || (actionTitle != null && actionTitle.length > 0))
-		headerDiv.style.height = '1.75em';
+		headerDiv.style.height = '1.4em';
 	
 	if(!skipTitle) {
 		let header = document.createElement('h4');
@@ -883,9 +914,6 @@ function generateTableByDataWithHeader(contents, parameters) {
 	
 	if(actionTitle != null && actionTitle.length > 0)
 	{
-		headerDiv.style.position = 'relative';
-		headerDiv.style.maxWidth = '680px';
-		headerDiv.style.margin = 'auto';
 		let action = document.createElement('h6');
 		action.classList.add('centered');
 		action.classList.add('action');
@@ -894,12 +922,14 @@ function generateTableByDataWithHeader(contents, parameters) {
 		if(actionFunc != null && typeof actionFunc == 'function')
 			action.addEventListener('click', actionFunc);
 		
-		// if(document.querySelector('#' + id + ' .action') == null)
-			headerDiv.appendChild(action);
+		headerDiv.style.position = 'relative';
+		headerDiv.classList.add('centered');
+		headerDiv.appendChild(action);
 	}
 	
 	document.getElementById(id).appendChild(headerDiv);
 	
+	//table
 	let table = document.createElement('table');
 	table.classList.add('list');
 	table.classList.add('centered');
@@ -1532,6 +1562,13 @@ function generateArtistInfo(contents) {
 		id: 'artist-info', 
 		title: 'Artist Information', 
 		skipColumns: [],
+		actionTitle: window['mode'] == 'artist' ? null : 'More Info',
+		actionFunc: window['mode'] == 'artist' ? null : function() {
+			window['mode'] = 'artist';
+			let artistId = window['artist-id'];
+			let query = "SELECT ArtistTitle, ArtistTitle AS 'Artist Title' FROM Artist WHERE ID = " + artistId;
+			queryDb(query, generateModules);
+		},
 	});
 }
 
@@ -2621,7 +2658,7 @@ function updateArtist() {
 	document.querySelector('#options').value = '';
 	
 	let artist = this.getAttribute('data-artist');
-	let query = "SELECT ArtistTitle AS 'Artist Title' FROM Artist WHERE ArtistTitle = '" + addQuotationInSQLString(artist) + "'";
+	let query = "SELECT ArtistTitle, ArtistTitle AS 'Artist Title' FROM Artist WHERE ArtistTitle = '" + addQuotationInSQLString(artist) + "'";
 	if(debugMode) console.log('updateArtist', query);
 	queryDb(query, generateModules);
 	
