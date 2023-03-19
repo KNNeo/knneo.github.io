@@ -261,8 +261,10 @@ function renderMain(sectionNo) {
 				contentItem.innerText = 'home';
 				contentItem.addEventListener('click', function() {
 					event.stopPropagation();
-						document.querySelector('.menu').style.maxHeight = document.querySelector('.menu').style.maxHeight == 'initial' ? drawerHeight : 'initial';
+					document.querySelector('.menu').style.maxHeight = document.querySelector('.menu').style.maxHeight == 'initial' ? drawerHeight : 'initial';
 					scrollToPage(sectionNo, content.isSinglePage);
+					if(content.isSinglePage)
+						event.target.scrollIntoView({ inline: 'center' });
 				});
 				// contentItem.addEventListener('touchstart', function() {
 					// event.stopPropagation();
@@ -292,6 +294,8 @@ function renderMain(sectionNo) {
 						scrollToPage(section, content.isSinglePage);
 						if(smallScreenWidth() || smallScreenHeight())
 							document.querySelector('.menu').style.maxHeight = drawerHeight;
+						if(content.isSinglePage)
+							event.target.scrollIntoView({ inline: 'center' });
 					});
 					// contentItem.addEventListener('touchstart', function() {
 						// event.stopPropagation();
@@ -325,6 +329,8 @@ function renderMain(sectionNo) {
 						scrollToPage(section, content.isSinglePage);
 						if(smallScreenWidth() || smallScreenHeight())
 							document.querySelector('.menu').style.maxHeight = drawerHeight;
+						if(content.isSinglePage)
+							event.target.scrollIntoView({ inline: 'center' });
 					});
 					// contentItem.addEventListener('touchstart', function() {
 						// event.stopPropagation();
