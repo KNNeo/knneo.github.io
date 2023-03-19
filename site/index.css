@@ -113,12 +113,17 @@ a {
 }
 
 .container, .box {
-	 width: 80vw;
-	 margin: 0 auto;
+	width: 80vw;
+	margin: 0 auto;
 }
 
 .one, .container {
-	 height: 75vh;	
+	height: 75vh;
+	/* height: 100%; */
+}
+
+.viewer .container {
+    padding: 50px 25px;
 }
 
 .handle {
@@ -232,7 +237,6 @@ a {
 .contents .home {
 	padding: 0 1px;
 }
-
 
 .single .text {
 	font-size: 0.9em;
@@ -354,6 +358,20 @@ a {
     margin: auto;
     z-index: 1000;
 	background: transparent;
+}
+
+.tags {
+    font-size: 0.8em;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.tags-value {
+	border: 1px solid var(--foreground);
+    box-shadow: 2px 2px var(--foreground);
+    padding: 2px 5px;
+	margin: 2px;
 }
 
 @media only screen and (max-width: 800px) {

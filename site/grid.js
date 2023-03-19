@@ -7,6 +7,8 @@ function renderGrid(sectionNo, content, isSinglePage) {
 	table.classList.add('container');
 	if(isSinglePage)
 		table.style.height = 'calc(100vh - ' + (document.querySelector('.menu').getBoundingClientRect().height + 'px') + ')';
+	else if(!smallScreenWidth())
+		table.style.height = '100%';
 	
 	let tbody = document.createElement('tbody');
 	
@@ -90,7 +92,7 @@ function renderGrid(sectionNo, content, isSinglePage) {
 	table.appendChild(tbody);
 	section.appendChild(table);
 	
-	//render data
+	//render data: from left to right, top to bottom
 	for(let index = 0; index < content.componentData.length; index++)
 	{
 		let component = content.componentData[index];
@@ -281,6 +283,15 @@ function renderGrid(sectionNo, content, isSinglePage) {
 			}
 			
 			elem.appendChild(gallery);
+		}
+		else if(component.type == 'tags')
+		{
+			let tags = document.createElement('div');
+			tags.classList.add('tags');
+			
+			tags.innerHTML = typeof component.values == 'string' ? component.values : component.values.map(c => '<span class="tags-value">' + component.prefix + c + '</span>').join('');
+			
+			elem.appendChild(tags);
 		}
 	}
 	
