@@ -21,8 +21,8 @@ function smallScreenHeight() {
 
 function closestClass(inputElement, targetClassName) {
     while ((inputElement.classList.length == 0 || !inputElement.classList.contains(targetClassName)) 
-		&& inputElement.parentNode.tagName.toUpperCase() != "BODY") {
-        inputElement = inputElement.parentNode;
+		&& inputElement.parentElement.tagName.toUpperCase() != "BODY") {
+        inputElement = inputElement.parentElement;
     }
     return inputElement;
 }
@@ -31,14 +31,19 @@ function scrollToNextPage() {
 	event.stopPropagation();
 	let nextPage = closestClass(this, 'section').nextElementSibling;
 	if(nextPage != null)
+		if(document.body.classList.contains('single'))
+			scrollToPage(nextPage.getAttribute('data-section'), true);
 		nextPage.scrollIntoView();
 }
 
 function scrollToPrevPage() {
 	event.stopPropagation();
 	let prevPage = closestClass(this, 'section').previousElementSibling;
-	if(prevPage != null)
+	if(prevPage != null) {
+		if(document.body.classList.contains('single'))
+			scrollToPage(prevPage.getAttribute('data-section'), true);
 		prevPage.scrollIntoView();
+	}
 }
 
 function scrollToPage(sectionNo, isSinglePage = false) {
@@ -56,7 +61,7 @@ function scrollToPage(sectionNo, isSinglePage = false) {
 	{
 		document.querySelectorAll('.section')[sectionNo].scrollIntoView();
 		setTimeout(function() {
-			document.querySelectorAll('.section')[sectionNo].focus()
+			document.querySelectorAll('.section')[sectionNo].focus();
 		}, 500);
 	}
 }
@@ -101,6 +106,7 @@ function renderPage() {
 			let newMain = document.createElement('div');
 			newMain.classList.add('main');
 			newMain.classList.add('section');
+			newMain.setAttribute('data-section', sectionNo);
 			newMain.addEventListener('click', function() {
 				event.stopPropagation();
 				scrollToPage(sectionNo, window['elements'][mainSectionNo].isSinglePage);
@@ -114,6 +120,7 @@ function renderPage() {
 			let newSection = document.createElement('div');
 			newSection.classList.add('section');
 			newSection.classList.add('focusable');
+			newSection.setAttribute('data-section', sectionNo);
 			newSection.addEventListener('click', function() {
 				event.stopPropagation();
 				scrollToPage(sectionNo, window['elements'][mainSectionNo].isSinglePage);
@@ -175,7 +182,7 @@ function renderMain(sectionNo) {
 			let prevButton = document.createElement('a');
 			prevButton.classList.add('focusable');
 			prevButton.title = 'Previous';
-			if(content.isSinglePage || main.previousElementSibling == null)
+			if(main.previousElementSibling == null)
 				nextButton.style.opacity = '0';
 			else
 				nextButton.href = 'javascript:void(0)';
@@ -183,7 +190,7 @@ function renderMain(sectionNo) {
 			// prevButton.addEventListener('touchstart', scrollToPrevPage);
 			let prevButtonIcon = document.createElement('i');
 			prevButtonIcon.classList.add('material-icons');
-			prevButtonIcon.innerText = 'arrow_drop_up';
+			prevButtonIcon.innerText = content.isSinglePage ? 'arrow_left' : 'arrow_drop_up';
 			prevButton.appendChild(prevButtonIcon);
 			prevDiv.appendChild(prevButton);
 			main.appendChild(prevDiv);
@@ -369,7 +376,7 @@ function renderMain(sectionNo) {
 			let nextButton = document.createElement('a');
 			nextButton.classList.add('focusable');
 			nextButton.title = 'Next';
-			if(content.isSinglePage || main.nextElementSibling == null)
+			if(main.nextElementSibling == null)
 				nextButton.style.opacity = '0';
 			else
 				nextButton.href = 'javascript:void(0)';
@@ -377,7 +384,7 @@ function renderMain(sectionNo) {
 			// nextButton.addEventListener('touchstart', scrollToNextPage);
 			let nextButtonIcon = document.createElement('i');
 			nextButtonIcon.classList.add('material-icons');
-			nextButtonIcon.innerText = 'arrow_drop_down';
+			nextButtonIcon.innerText = content.isSinglePage ? 'arrow_right' : 'arrow_drop_down';
 			nextButton.appendChild(nextButtonIcon);
 			nextDiv.appendChild(nextButton);
 			main.appendChild(nextDiv);
@@ -393,15 +400,15 @@ function renderSection(sectionNo, mainSectionNo) {
 	if(main.isSinglePage)
 		section.style.height = 'calc(100vh - ' + (document.querySelector('.menu').getBoundingClientRect().height + 'px') + ')';	
 		
-	if(!main.isSinglePage)
-	{
+	// if(!main.isSinglePage)
+	// {
 		let prevDiv = document.createElement('div');
 		prevDiv.classList.add('page-prev');
 		prevDiv.classList.add('not-selectable');
 		let prevButton = document.createElement('a');
 		prevButton.classList.add('focusable');
 		prevButton.title = 'Previous';
-		if(main.isSinglePage || section.previousElementSibling == null || !section.previousElementSibling.classList.contains('section'))
+		if(section.previousElementSibling == null || !section.previousElementSibling.classList.contains('section'))
 			prevButton.style.opacity = '0';
 		else
 			prevButton.href = 'javascript:void(0)';
@@ -409,11 +416,11 @@ function renderSection(sectionNo, mainSectionNo) {
 		// prevButton.addEventListener('touchstart',scrollToPrevPage);
 		let prevButtonIcon = document.createElement('i');
 		prevButtonIcon.classList.add('material-icons');
-		prevButtonIcon.innerText = 'arrow_drop_up';
+		prevButtonIcon.innerText = main.isSinglePage ? 'arrow_left' : 'arrow_drop_up';
 		prevButton.appendChild(prevButtonIcon);
 		prevDiv.appendChild(prevButton);
 		section.appendChild(prevDiv);
-	}
+	// }
 	
 	if(content.title) {
 		let title = document.createElement('h2');
@@ -447,15 +454,15 @@ function renderSection(sectionNo, mainSectionNo) {
 		renderGrid(sectionNo, content, main.isSinglePage);
 	}
 	
-	if(!main.isSinglePage)
-	{
+	// if(!main.isSinglePage)
+	// {
 		let nextDiv = document.createElement('div');
 		nextDiv.classList.add('page-next');
 		nextDiv.classList.add('not-selectable');
 		let nextButton = document.createElement('a');
 		nextButton.classList.add('focusable');
 		nextButton.title = 'Next';
-		if(main.isSinglePage || section.nextElementSibling == null || !section.nextElementSibling.classList.contains('section')) 	
+		if(section.nextElementSibling == null || !section.nextElementSibling.classList.contains('section')) 	
 			nextButton.style.opacity = '0';
 		else
 			nextButton.href = 'javascript:void(0)';
@@ -463,11 +470,11 @@ function renderSection(sectionNo, mainSectionNo) {
 		// nextButton.addEventListener('touchstart',scrollToNextPage);
 		let nextButtonIcon = document.createElement('i');
 		nextButtonIcon.classList.add('material-icons');
-		nextButtonIcon.innerText = 'arrow_drop_down';
+		nextButtonIcon.innerText = main.isSinglePage ? 'arrow_right' : 'arrow_drop_down';
 		nextButton.appendChild(nextButtonIcon);
 		nextDiv.appendChild(nextButton);
 		section.appendChild(nextDiv);
-	}
+	// }
 }
 
 function renderMenu() {
@@ -485,7 +492,15 @@ function renderFooter(isSinglePage, footerText) {
 		document.querySelector('.page').appendChild(renderMenu());
 	}
 	if(isSinglePage) {
-		document.querySelector('.footer').style.bottom = document.querySelector('.menu').getBoundingClientRect().height + 'px';
+		let menuHeight = document.querySelector('.menu').getBoundingClientRect().height + 'px';
+		document.querySelector('.footer').style.bottom = menuHeight;
+		for(let pagePrev of document.querySelectorAll('.page-prev')) {
+			pagePrev.style.bottom = menuHeight;
+		}
+		
+		for(let pageNext of document.querySelectorAll('.page-next')) {
+			pageNext.style.bottom = menuHeight;
+		}
 	}
 	
 }
