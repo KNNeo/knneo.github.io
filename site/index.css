@@ -205,17 +205,6 @@ a {
   border: 1px solid var(--accent);
   background-color: var(--background);
 }
-
-.single .text {
-	font-size: 0.9em;
-    flex-grow: 0;
-    flex-shrink: 0;
-}
-
-.one .text {
-	font-size: 1.5vw;
-}
-
 .contents {
 	display: flex;
 	padding: 5px 0;
@@ -244,6 +233,16 @@ a {
 	padding: 0 1px;
 }
 
+
+.single .text {
+	font-size: 0.9em;
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+.one .text {
+	font-size: 1.5vw;
+}
 
 .circle-icon img {
 	border-radius: 50%;
