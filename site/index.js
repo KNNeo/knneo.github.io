@@ -408,8 +408,10 @@ function renderSection(sectionNo, mainSectionNo) {
 		let prevButton = document.createElement('a');
 		prevButton.classList.add('focusable');
 		prevButton.title = 'Previous';
-		if(section.previousElementSibling == null || !section.previousElementSibling.classList.contains('section'))
+		if(section.previousElementSibling == null || !section.previousElementSibling.classList.contains('section')) {
+			prevButton.style.visibility = 'hidden';
 			prevButton.style.opacity = '0';
+		}
 		else
 			prevButton.href = 'javascript:void(0)';
 		prevButton.addEventListener('click',scrollToPrevPage);
@@ -462,8 +464,10 @@ function renderSection(sectionNo, mainSectionNo) {
 		let nextButton = document.createElement('a');
 		nextButton.classList.add('focusable');
 		nextButton.title = 'Next';
-		if(section.nextElementSibling == null || !section.nextElementSibling.classList.contains('section')) 	
+		if(section.nextElementSibling == null || !section.nextElementSibling.classList.contains('section')) {
+			nextButton.style.visibility = 'hidden';
 			nextButton.style.opacity = '0';
+		}
 		else
 			nextButton.href = 'javascript:void(0)';
 		nextButton.addEventListener('click',scrollToNextPage);
