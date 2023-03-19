@@ -211,6 +211,12 @@ function togglePopup() {
 }
 
 function closePopups() {
+	// kill youtube videos playing
+	for(let video of document.querySelectorAll('.yt-video'))
+	{
+		video.contentWindow.postMessage('{"event":"command","func":"stopVideo","args":""}', '*');
+	}
+	
 	for (let page of document.getElementsByClassName('post-body entry-content')) {
 		for (let popup of page.getElementsByClassName('new-thumbnail')) {
 			popup.classList.remove('new-thumbnail');
@@ -344,9 +350,9 @@ function generatePopupContent(url) {
     if (url.includes('youtube.com') && url.includes('/watch')) {
         //process youtube embed
         let id = url.substring(url.indexOf('?v=') + 3);
-        return '<iframe allow="autoplay; encrypted-media" allowfullscreen="" frameborder="0" style="max-height: 360px;" src="' +
+        return '<iframe class="yt-video" allow="autoplay; encrypted-media" allowfullscreen="" frameborder="0" style="max-height: 360px;" src="' +
             'https://www.youtube.com/embed/' + id +
-            '"></iframe>';
+            '?enablejsapi=1"></iframe>';
     }
     if (url.includes('instagram.com/p/')) {
         //process instagram embed
