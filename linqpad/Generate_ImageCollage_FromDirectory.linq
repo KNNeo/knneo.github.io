@@ -24,8 +24,8 @@ void Main()
 	var prefixMd = "size" + separator + "md" + separator;
 	var prefixLg = "size" + separator + "lg" + separator;
 	
-	string folderpath = @"C:\Users\KAINENG\Pictures\DOAX-VenusVacation\BROMIDES\indexed\"; // ends with backslash
-	string thumbpath = @"C:\Users\KAINENG\Pictures\DOAX-VenusVacation\BROMIDES\thumbs\"; // ends with backslash
+	string folderpath = @"\\Kaineng-pc\bromides\indexed\"; // ends with backslash
+	string thumbpath = @"\\Kaineng-pc\bromides\thumbs\"; // ends with backslash
 	string destination = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\image-collage\v2\data.js"; // ends with backslash
 	var files = Directory.GetFiles(folderpath, "*.jpg", SearchOption.AllDirectories)?.Select(f => f.Replace(folderpath, ""));
 	//Console.WriteLine(files);
