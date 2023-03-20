@@ -265,11 +265,11 @@ function toggleButton() {
 	updateQueueButtons();
 }
 
-function randomSong(mode) {
-	event.preventDefault();	
+function randomSong() {
+	event?.preventDefault();	
 	
 	let content = Array.from(document.querySelectorAll('#options option')).filter(c => c.value > 0).map(val => val.value);
-	let toQueue = parseInt(event.target.getAttribute('data-count')) || 1;	
+	let toQueue = parseInt(event?.target.getAttribute('data-count')) || 1;	
 	let query = "SELECT COUNT(*) FROM Song";
 	queryDb(query, function(content) { // with song count, get random id
 		let total = content.values[0][0];			
@@ -362,7 +362,7 @@ function skipSong() {
 			updateQueueButtons();
 		});
 	}
-	else if (event.target.id != 'player')
+	else if (event?.target.id != 'player')
 	{ // if trigger from ended event
 		randomSong();
 	}
@@ -1178,6 +1178,7 @@ function generateModules(contents) {
 	document.querySelector('#search-buttons').style.display = '';
 	document.querySelector('#music').innerHTML = '';
 	document.querySelector('#cover').innerHTML = '';
+	updateMediaSession();
 	
 	//clear modules
 	clearModules();
@@ -1328,22 +1329,11 @@ function generatePlayer(contents) {
 	audio.appendChild(source);
 	document.querySelector('#music').appendChild(audio);
 	
-	//update MediaSession API
-	try
-	{
-		if (navigator && 'mediaSession' in navigator) {
-			navigator.mediaSession.metadata = new MediaMetadata({
-				title: row[columnIndexSongTitle].split('<br/>')[0],
-				artist: row[columnIndexArtistTitle].split('<br/>')[0],
-				album: row[columnIndexReleaseTitle].split('<br/>')[0],
-			});
-			if(debugMode) console.log('metadata', navigator.mediaSession.metadata.toString());
-		}
-	}
-	catch
-	{
-		console.error('unable to update MediaSession API');
-	}
+	updateMediaSession({
+		title: row[columnIndexSongTitle].split('<br/>')[0],
+		artist: row[columnIndexArtistTitle].split('<br/>')[0],
+		album: row[columnIndexReleaseTitle].split('<br/>')[0],
+	});
 }
 
 function queryCoverArt(contents) {
@@ -1407,30 +1397,21 @@ function generateCoverArt(contents) {
 	});
 	cover.appendChild(art);
 	
-	//update MediaSession API
-	try
-	{
-		if (navigator && 'mediaSession' in navigator) {
-			var meta = navigator.mediaSession.metadata;
-			navigator.mediaSession.metadata = new MediaMetadata({
-				title: meta.title,
-				artist: meta.artist,
-				album: meta.album,
-				artwork: [
-					{ src: coverArtUrl, sizes: '96x96',   type: 'image/png' },
-					{ src: coverArtUrl, sizes: '128x128', type: 'image/png' },
-					{ src: coverArtUrl, sizes: '192x192', type: 'image/png' },
-					{ src: coverArtUrl, sizes: '256x256', type: 'image/png' },
-					{ src: coverArtUrl, sizes: '384x384', type: 'image/png' },
-					{ src: coverArtUrl, sizes: '512x512', type: 'image/png' },
-				]
-			});
-			if(debugMode) console.log('metadata', navigator.mediaSession.metadata.toString());
-		}
-	}
-	catch
-	{
-		console.error('unable to update MediaSession API');
+	if (navigator && 'mediaSession' in navigator) {
+		var meta = navigator.mediaSession.metadata;
+		updateMediaSession({
+			title: meta.title,
+			artist: meta.artist,
+			album: meta.album,
+			artwork: [
+				{ src: coverArtUrl, sizes: '96x96',   type: 'image/png' },
+				{ src: coverArtUrl, sizes: '128x128', type: 'image/png' },
+				{ src: coverArtUrl, sizes: '192x192', type: 'image/png' },
+				{ src: coverArtUrl, sizes: '256x256', type: 'image/png' },
+				{ src: coverArtUrl, sizes: '384x384', type: 'image/png' },
+				{ src: coverArtUrl, sizes: '512x512', type: 'image/png' },
+			]
+		});
 	}
 }
 
@@ -2911,6 +2892,26 @@ function getDomainViaUrl(url) {
 		if(url.toLowerCase().includes('youtu.be')) return 'YouTube';
 	}
 	return url;
+}
+
+function updateMediaSession(session) {
+	if(debugMode) 
+		console.log('updateMediaSession', session);
+	//update MediaSession API
+	try
+	{
+		if (session && navigator && 'mediaSession' in navigator) {
+			var meta = navigator.mediaSession.metadata;
+			navigator.mediaSession.metadata = new MediaMetadata(session);
+			navigator.mediaSession.setActionHandler("nexttrack", skipSong);
+			if(debugMode) 
+				console.log('metadata', navigator.mediaSession.metadata.toString());
+		}
+	}
+	catch
+	{
+		console.error('updateMediaSession: update failed');
+	}	
 }
 
 //drag and drop
