@@ -1,34 +1,30 @@
 //--STARTUP--//
 window.addEventListener('load', startup);
-window.addEventListener('resize', setTabs);
-window.addEventListener('keyup', setKeyUp);
-window.addEventListener('keydown', setKeyDown);
-window.addEventListener('touchstart', setInput);
-window.addEventListener('click', setInput);
+window.addEventListener('resize', onResize);
+window.addEventListener('keyup', onKeyUp);
+window.addEventListener('keydown', onKeyDown);
+window.addEventListener('touchstart', onFeedback);
+window.addEventListener('click', onFeedback);
 
 //--EVENTS--//
-function setInput() {
-	if(isMobile())
-	{
-		document.querySelector('html').classList.add('touchable');
-		return;
-	}
-	if(debugMode)
-		console.log(event.type, new Date() - window['last-input']);
-	let list = document.querySelector('html').classList;
-	if(event.type === 'touchstart' && !list.contains('touchable'))
-	{
-		document.querySelector('html').classList.add('touchable');
-	}
-	else if(event.type === 'click' && new Date() - window['last-input'] > 200 && list.contains('touchable'))
-	{
-		document.querySelector('html').classList.remove('touchable');
-	}
-	window['last-input'] = new Date();
+function startup() {
+	onFeedback();
+	renderVariables();
+	renderSettings();
+	renderTitle();
+	
+	runLoader();
+	generateFilters();
+	generateHomepage();
+	setTabs();
 }
 
-function setKeyUp() {
-	if (debugMode) console.log('setKeyUp', event.key);
+function onResize() {
+	setTabs();
+}
+
+function onKeyUp() {
+	if (debugMode) console.log('onKeyUp', event.key);
 	// space: play/pause when not focus on player
 	if (event.key === ' ' && document.querySelector('#player') != null 
 	&& ['player', 'search'].indexOf(document.activeElement.id) < 0) {
@@ -80,8 +76,8 @@ function setKeyUp() {
 	return false;
 }
 
-function setKeyDown() {
-	if (debugMode) console.log('setKeyDown', event.key);
+function onKeyDown() {
+	if (debugMode) console.log('onKeyDown', event.key);
 	// space: prevent scroll when play/pause
 	if(event.key === ' ' && ['player', 'search'].indexOf(document.activeElement.id) < 0)
 		event.preventDefault();
@@ -98,6 +94,163 @@ function setKeyDown() {
 	}
 	return false;
 }
+
+function onFeedback() {
+	if(isMobile())
+	{
+		document.querySelector('html').classList.add('touchable');
+		return;
+	}
+	if(debugMode)
+		console.log(event.type, new Date() - window['last-input']);
+	let list = document.querySelector('html').classList;
+	if(event.type === 'touchstart' && !list.contains('touchable'))
+	{
+		document.querySelector('html').classList.add('touchable');
+	}
+	else if(event.type === 'click' && new Date() - window['last-input'] > 200 && list.contains('touchable'))
+	{
+		document.querySelector('html').classList.remove('touchable');
+	}
+	window['last-input'] = new Date();
+}
+
+//--FUNCTIONS--//
+async function callDb(query, callback) {
+	const time = Date.now();
+	//for webassembly file
+	const SQL = await initSqlJs({
+	  // Required to load the wasm binary asynchronously. Of course, you can host it wherever you want
+	  // You can omit locateFile completely when running in node
+	  locateFile: file => 'https://knneo.github.io/klassic-note-web/sql-wasm.wasm'
+	});
+
+	// for sqlite db
+	const xhr = new XMLHttpRequest();
+	xhr.responseType = 'arraybuffer';
+	xhr.open('GET', databaseFilename, true);
+	xhr.onload = e => {
+	  const uInt8Array = new Uint8Array(xhr.response);
+	  window['db'] = new SQL.Database(uInt8Array);
+	  const contents = window['db'].exec(query);
+	  // console.log('callDb',contents);
+	  if(contents && contents.length > 0)
+		  callback(contents[0]);
+	  else if(contents)
+		  callback(contents);
+	};
+	xhr.send();
+	
+	if(debugMode)
+		console.log('callDb took', Date.now() - time, 'ms');
+}
+
+function queryDb(query, callback) {
+	const time = Date.now();	
+	const contents = window['db'].exec(query);
+	// console.log('queryDb',contents);
+	if(contents && contents.length > 0)
+	  return callback(contents[0]);
+	else if(contents)
+	  return callback(contents);
+  
+	if(debugMode) console.log('queryDb took', Date.now() - time, 'ms');
+}
+
+function toggleButton() {
+	window[this.id] = !window[this.id];
+	
+	let temp = document.getElementById(this.id).innerText;
+	document.getElementById(this.id).innerText = this.getAttribute('data-alt');
+	this.setAttribute('data-alt', temp);
+	
+	if(this.getAttribute('data-title'))
+	{
+		let tempTitle = document.getElementById(this.id).title;
+		document.getElementById(this.id).title = this.getAttribute('data-title');
+		this.setAttribute('data-title', tempTitle);
+	}
+	updateQueueButtons();
+}
+
+function skipSong() {
+	//==TEST CASES==//
+	// Playlist empty
+	// With song selected on homepage
+	// With song from search in playlist
+	// With playlist, playing is not last song - select next in playlist
+	// With playlist, playing is last song
+
+	window['mode'] = 'song'; // assumption: must be in song mode
+	 // for startup
+	if(window['playing'] === null)
+		window['playing'] = -1;
+	 // empty playlist
+	if(window['playlist'] === null || window['playlist'].length === 0)
+		randomSong();
+	else if (window['playing'] >= 0 && window['playing'] + 1 < window['playlist'].length)
+	{ // if playing something
+		let optQuery = "SELECT * FROM Song WHERE KNID = ";
+		optQuery += window['playlist'][window['playing'] + 1];
+		if(debugMode) console.log('skipSong', optQuery);
+		queryDb(optQuery, updateOptions);
+	}
+	else if(window['shuffle-mode'])
+	{ // shuffle mode on
+		let nextOption = document.querySelector('#queue-options').value;
+		let query = "SELECT KNID FROM Song WHERE KNID NOT IN (" + window['playlist'].join(',') + ")";
+		if(nextOption === 'artist') query += " AND ArtistID = " + window['artist-id'] + "";
+		if(nextOption === 'release') query += " AND ReleaseID = " + window['release-id'] + "";
+		if(nextOption === 'year') query += " AND KNYEAR = " + window['year'] + "";
+		if(nextOption === 'genre') query += " AND Genre = '" + window['genre'] + "'";
+		if(nextOption === 'past3year') {
+			if(!window['years']) window['years'] = window['year'] - 3;
+			query += " AND KNYEAR > " + parseInt(window['years']) + "";
+		}
+		if(debugMode) console.log('shuffle-mode', query);
+		queryDb(query, function(content) {
+			if(debugMode) console.log('nextOption', window['song-id'], content);
+			let total = content.values.length;
+			//if next option not available ie. will get random song, reset special shuffle
+			if(total < 1)
+			{
+				randomSong();
+				window['years'] = undefined;					
+				document.querySelector('#queue-options').value = 'any';
+				return;
+			}
+			let random = content.values[Math.floor((Math.random() * total))][0].toString();
+			let optQuery = "SELECT * FROM Song WHERE KNID = " + random;
+			if(debugMode) console.log('nextOptionQuery', optQuery);
+			queryDb(optQuery, updateOptions);
+			window['playlist'].push(random);
+			if(debugMode) console.log('playlist', window['playlist']);
+			updateQueueButtons();
+		});
+	}
+	else if (event?.target.id != 'player')
+	{ // if trigger from ended event
+		randomSong();
+	}
+}
+
+function randomSong() {
+	event?.preventDefault();	
+	
+	let content = Array.from(document.querySelectorAll('#options option')).filter(c => c.value > 0).map(val => val.value);
+	let toQueue = parseInt(event?.target.getAttribute('data-count')) || 1;	
+	let query = "SELECT COUNT(*) FROM Song";
+	queryDb(query, function(content) { // with song count, get random id
+		let total = content.values[0][0];			
+		let random = Math.floor((Math.random() * total)).toString();
+		
+		let optQuery = "SELECT * FROM Song WHERE KNID = " + random;
+		if(debugMode) console.log('randomSong', optQuery);
+		queryDb(optQuery, updateOptions);
+		// assume not in playlist
+		window['playlist'].push(random);
+	});
+};
 
 function setTabs() {
 	let isWidescreen = window.innerWidth > 1.5*widescreenAverageModuleSize;
@@ -165,7 +318,7 @@ function setTabs() {
 		if (tabHeight > 0 && !window['mini-height']) setTimeout(setTabs, 100);
 	}
 	
-	toggleMiniMode();
+	checkIfMiniMode();
 }
 
 function showTab(tabId) {
@@ -180,11 +333,11 @@ function showTab(tabId) {
 	document.querySelector('#' + tabId.replace('button-','')).scrollIntoView(); // scroll if on desktop
 }
 
-function toggleMiniMode() {
+function checkIfMiniMode() {
 	let minHeight = 10;
 	if(document.querySelector('#player') === null) return;
 	
-	// console.log('toggleMiniMode', document.querySelector('#tab-list').getBoundingClientRect().height);
+	// console.log('checkIfMiniMode', document.querySelector('#tab-list').getBoundingClientRect().height);
 	if (document.querySelector('html').classList.contains('mini') && 
 	window.innerHeight > window['mini-height'])
 	{
@@ -197,267 +350,6 @@ function toggleMiniMode() {
 		window['mini-height'] = window.innerHeight;
 		document.querySelector('html').classList.add('mini');
 	}
-}
-
-function hoverOnTableRow() {
-	// if(document.querySelector('html').classList.contains('touchable')) return;
-	let titleCells = this.parentNode.getElementsByClassName('table-title').length;
-	let columns = this.parentNode.getElementsByTagName('th').length - (titleCells > 0 ? titleCells : 0); //estimate
-	let rowCells = this.getElementsByTagName('td');
-	let spanRow = findSpanSibling(this, columns);
-	let spanCells = spanRow.getElementsByTagName('td');
-	
-	if(rowCells.length + 1 === spanCells.length && spanCells[0].rowSpan != undefined && !spanRow.classList.contains('not-selectable'))
-		spanCells[0].classList.toggle('highlight');
-	
-	for(let cell of rowCells)
-	{
-		cell.classList.toggle('highlight');
-	}
-}
-
-function copySearch() {
-	let search = document.querySelector('#search').value.split(' - ');
-	if(search.length === 2)
-	{
-		navigator.clipboard.writeText(search[1] + '\t' + search[0]);
-	}
-	else
-	{
-		navigator.clipboard.writeText(search[0]);
-	}
-	document.querySelector('#copy').innerText = 'done';
-	document.querySelector('#copy').style.cursor = 'none';
-	setTimeout( function() { 
-		document.querySelector('#copy').innerText = 'content_copy'; 
-		document.querySelector('#copy').style.cursor = '';
-	}, 2000);
-}
-
-function clearSearch() {
-	document.querySelector('#music').innerHTML = '';
-	document.querySelector('#search').value = '';
-	document.querySelector('#tab-homepage').style.display = '';
-	document.querySelector('#search-buttons').style.display = 'none';
-	document.querySelector('#search').style.width = '100%';
-	document.querySelector('#tab-buttons').classList.add('hidden');
-	document.querySelector('#cover').innerHTML = '';
-	document.querySelector('#cover').classList = [];
-	clearModules();
-	resetQueueView();
-	generateHomepage();
-	setTabs();
-}
-
-function toggleButton() {
-	window[this.id] = !window[this.id];
-	
-	let temp = document.getElementById(this.id).innerText;
-	document.getElementById(this.id).innerText = this.getAttribute('data-alt');
-	this.setAttribute('data-alt', temp);
-	
-	if(this.getAttribute('data-title'))
-	{
-		let tempTitle = document.getElementById(this.id).title;
-		document.getElementById(this.id).title = this.getAttribute('data-title');
-		this.setAttribute('data-title', tempTitle);
-	}
-	updateQueueButtons();
-}
-
-function randomSong() {
-	event?.preventDefault();	
-	
-	let content = Array.from(document.querySelectorAll('#options option')).filter(c => c.value > 0).map(val => val.value);
-	let toQueue = parseInt(event?.target.getAttribute('data-count')) || 1;	
-	let query = "SELECT COUNT(*) FROM Song";
-	queryDb(query, function(content) { // with song count, get random id
-		let total = content.values[0][0];			
-		let random = Math.floor((Math.random() * total)).toString();
-		
-		let optQuery = "SELECT * FROM Song WHERE KNID = " + random;
-		if(debugMode) console.log('randomSong', optQuery);
-		queryDb(optQuery, updateOptions);
-		// assume not in playlist
-		window['playlist'].push(random);
-	});
-};
-
-function changeRandomMode() {
-	event.preventDefault();
-	switch (parseInt(event.target.getAttribute('data-count')))
-	{
-		case 1:
-			event.target.setAttribute('data-count', 10);
-			event.target.innerText = 'replay_10';
-			event.target.title = 'Queue Songs';
-			break;
-		default:
-			event.target.setAttribute('data-count', 1);
-			event.target.innerText = 'replay';
-			event.target.title = 'Queue Song';
-			break;
-	}
-	return false;
-}
-
-function queueSongs(ids) {
-	window['playlist'] = ids;
-	window['playing'] = -1;
-	if(!window['autoplay']) document.querySelector('.autoplay').click();
-	skipSong();
-}
-
-// TEST CASES //
-// Playlist empty
-// With song selected on homepage
-// With song from search in playlist
-// With playlist, playing is not last song - select next in playlist
-// With playlist, playing is last song
-function skipSong() {
-	window['mode'] = 'song'; // assumption: must be in song mode
-	 // for startup
-	if(window['playing'] === null)
-		window['playing'] = -1;
-	 // empty playlist
-	if(window['playlist'] === null || window['playlist'].length === 0)
-		randomSong();
-	else if (window['playing'] >= 0 && window['playing'] + 1 < window['playlist'].length)
-	{ // if playing something
-		let optQuery = "SELECT * FROM Song WHERE KNID = ";
-		optQuery += window['playlist'][window['playing'] + 1];
-		if(debugMode) console.log('skipSong', optQuery);
-		queryDb(optQuery, updateOptions);
-	}
-	else if(window['shuffle-mode'])
-	{ // shuffle mode on
-		let nextOption = document.querySelector('#queue-options').value;
-		let query = "SELECT KNID FROM Song WHERE KNID NOT IN (" + window['playlist'].join(',') + ")";
-		if(nextOption === 'artist') query += " AND ArtistID = " + window['artist-id'] + "";
-		if(nextOption === 'release') query += " AND ReleaseID = " + window['release-id'] + "";
-		if(nextOption === 'year') query += " AND KNYEAR = " + window['year'] + "";
-		if(nextOption === 'genre') query += " AND Genre = '" + window['genre'] + "'";
-		if(nextOption === 'past3year') {
-			if(!window['years']) window['years'] = window['year'] - 3;
-			query += " AND KNYEAR > " + parseInt(window['years']) + "";
-		}
-		if(debugMode) console.log('shuffle-mode', query);
-		queryDb(query, function(content) {
-			if(debugMode) console.log('nextOption', window['song-id'], content);
-			let total = content.values.length;
-			//if next option not available ie. will get random song, reset special shuffle
-			if(total < 1)
-			{
-				randomSong();
-				window['years'] = undefined;					
-				document.querySelector('#queue-options').value = 'any';
-				return;
-			}
-			let random = content.values[Math.floor((Math.random() * total))][0].toString();
-			let optQuery = "SELECT * FROM Song WHERE KNID = " + random;
-			if(debugMode) console.log('nextOptionQuery', optQuery);
-			queryDb(optQuery, updateOptions);
-			window['playlist'].push(random);
-			if(debugMode) console.log('playlist', window['playlist']);
-			updateQueueButtons();
-		});
-	}
-	else if (event?.target.id != 'player')
-	{ // if trigger from ended event
-		randomSong();
-	}
-}
-
-function updateQueue(next) {
-	if(window['mode'] != 'song') return;
-	if(window['playing'] === null) window['playing'] = 0;
-	else window['playing'] = next ?? window['playing'] + 1;
-	if(window['playlist'].length > 0 && window['playing'] >= window['playlist'].length) window['playing'] = window['playlist'].length - 1;
-	if(debugMode) console.log('updateQueue', window['playing']);
-}
-
-function updateQueueButtons() {
-	document.querySelector('#queue-options').style.display = window['shuffle-mode'] ? '' : 'none';
-	window['autoplay'] = document.querySelector('#autoplay').innerText === 'music_note';
-}
-
-function clearQueue() {
-	event.preventDefault();
-	window['playlist'] = window['playlist'].slice(-1);
-	document.querySelector('#random-count').innerText = 'Queue cleared';
-	setTimeout(resetQueueView, 1000);
-}
-
-function resetQueueView() {
-	// document.querySelector('#random-count').innerText = '';
-	window['playlist'] = [];
-	// document.querySelector('#queue-skip').style.display = 'none';
-	// document.querySelector('#queue-clear').style.display = 'none';
-}
-
-//--FUNCTIONS--//
-async function callDb(query, callback) {
-	const time = Date.now();
-	//for webassembly file
-	const SQL = await initSqlJs({
-	  // Required to load the wasm binary asynchronously. Of course, you can host it wherever you want
-	  // You can omit locateFile completely when running in node
-	  locateFile: file => 'https://knneo.github.io/klassic-note-web/sql-wasm.wasm'
-	});
-
-	// for sqlite db
-	const xhr = new XMLHttpRequest();
-	xhr.open('GET', databaseFilename, true);
-	xhr.responseType = 'arraybuffer';
-
-	xhr.onload = e => {
-	  const uInt8Array = new Uint8Array(xhr.response);
-	  window['db'] = new SQL.Database(uInt8Array);
-	  const contents = window['db'].exec(query);
-	  // console.log('callDb',contents);
-	  if(contents && contents.length > 0)
-		  callback(contents[0]);
-	  else if(contents)
-		  callback(contents);
-	  // contents is now [{columns:['col1','col2',...], values:[[first row], [second row], ...]}]
-	};
-	xhr.send();
-	
-	if(debugMode) console.log('callDb took', Date.now() - time, 'ms');
-}
-
-function queryDb(query, callback) {
-	const time = Date.now();	
-	const contents = window['db'].exec(query);
-	// console.log('queryDb',contents);
-	if(contents && contents.length > 0)
-	  return callback(contents[0]);
-	else if(contents)
-	  return callback(contents);
-  
-	if(debugMode) console.log('queryDb took', Date.now() - time, 'ms');
-}
-
-function startup() {
-	setInput();
-	renderVariables();
-	renderSettings();
-	renderTitle();
-	generateFilters();
-	runLoader();
-	generateHomepage();
-	setTabs();
-	addDragAndDrop();
-}
-
-function renderSettings() {
-	for(let setting of document.querySelectorAll('.setting'))
-	{
-		setting.addEventListener('click', toggleButton);
-	}
-	if(autoplayOnSelect)
-		document.getElementById('autoplay').click();
-	updateQueueButtons();
 }
 
 function renderVariables() {
@@ -475,6 +367,16 @@ function renderVariables() {
 	window['year'] = '';
 	window['genre'] = '';
 	window['fill'] = 152;					// for coverArtStyle === 'large', how much width on header to take
+}
+
+function renderSettings() {
+	for(let setting of document.querySelectorAll('.setting'))
+	{
+		setting.addEventListener('click', toggleButton);
+	}
+	if(autoplayOnSelect)
+		document.getElementById('autoplay').click();
+	updateQueueButtons();
 }
 
 function renderTitle() {
@@ -540,6 +442,38 @@ function generateFilters() {
 		options.appendChild(opt);
 		
 	filters.appendChild(options);
+}
+
+function copySearch() {
+	let search = document.querySelector('#search').value.split(' - ');
+	if(search.length === 2)
+	{
+		navigator.clipboard.writeText(search[1] + '\t' + search[0]);
+	}
+	else
+	{
+		navigator.clipboard.writeText(search[0]);
+	}
+	document.querySelector('#copy').innerText = 'done';
+	document.querySelector('#copy').style.cursor = 'none';
+	setTimeout( function() { 
+		document.querySelector('#copy').innerText = 'content_copy'; 
+		document.querySelector('#copy').style.cursor = '';
+	}, 2000);
+}
+
+function clearSearch() {
+	document.querySelector('#music').innerHTML = '';
+	document.querySelector('#search').value = '';
+	document.querySelector('#tab-homepage').style.display = '';
+	document.querySelector('#search-buttons').style.display = 'none';
+	document.querySelector('#search').style.width = '100%';
+	document.querySelector('#tab-buttons').classList.add('hidden');
+	document.querySelector('#cover').innerHTML = '';
+	document.querySelector('#cover').classList = [];
+	clearModules();
+	generateHomepage();
+	setTabs();
 }
 
 function querySelect() {
@@ -708,366 +642,8 @@ function onChangeOption() {
 	}
 }
 
-function generateTableAsColumnRows(contents, parameters) {
-	let { 
-		id, 
-		title, 
-		skipTitle,
-		skipColumns = [],
-		actionTitle, 
-		actionFunc = null,
-	} = parameters
-	document.getElementById(id).innerHTML = '';
-	let columns = contents.columns;
-	let rows = contents.values;
-	if(contents.length === 0) return;
-	
-	if(debugMode) console.log('generateTableAsColumnRows', id);
-	if(!id || !contents.columns || !contents.values) return;
-	
-	//header
-	let headerDiv = document.createElement('div');
-	if(!skipTitle || (actionTitle != null && actionTitle.length > 0))
-		headerDiv.style.height = '1.4em';
-	
-	let header = document.createElement('h4');
-	header.classList.add('centered');
-	header.innerText = title || '';
-	headerDiv.appendChild(header);
-	
-	if(actionTitle != null && actionTitle.length > 0)
-	{
-		let action = document.createElement('h6');
-		action.classList.add('centered');
-		action.classList.add('action');
-		action.style.cursor = 'pointer';
-		action.innerText = actionTitle;
-		if(actionFunc != null && typeof actionFunc === 'function')
-			action.addEventListener('click', actionFunc);
-		
-		headerDiv.style.position = 'relative';
-		headerDiv.classList.add('centered');
-		headerDiv.appendChild(action);
-	}
-	
-	document.getElementById(id).appendChild(headerDiv);
-	
-	//table
-	let table = document.createElement('table');
-	table.classList.add('list');
-	table.classList.add('centered');
-	table.classList.add('content-box');
-	
-	let tbody = document.createElement('tbody');
-	
-	let row = rows[0];
-	for(let r = 0; r < columns.length; r++)
-	{
-		let rowVal = row[r];
-		if(!rowVal || rowVal.length === 0) continue;
-		if(skipColumns.includes(columns[r])) continue;
-		
-		let tr = document.createElement('tr');
-	
-		let tc = document.createElement('td');
-		tc.innerHTML = columns[r];
-		tr.appendChild(tc);
-		
-		let td = document.createElement('td');
-		td.innerHTML = rowVal;
-		if(rowVal.toString().includes('https://') || rowVal.toString().includes('http://'))
-			td.innerHTML = '<a target="_blank" href="' + rowVal + '">' + getDomainViaUrl(rowVal) + '</a>';
-		tr.appendChild(td);
-		
-		tbody.appendChild(tr);	
-	}
-		
-	table.appendChild(tbody);
-	document.getElementById(id).appendChild(table);
-}
-
-function generateTableList(contents, parameters) {
-	let { id, title, rowFormat, clickFunc, rightClickFunc, rightClickContext, scrollable, actionTitle, actionFunc } = parameters
-	document.getElementById(id).innerHTML = '';
-	if(debugMode) console.log('generateTableList', id);
-	if(!id || !rowFormat || !contents?.columns || !contents?.values) return;
-	
-	let columns = contents.columns;
-	let rows = contents.values;
-	if(rows.length < 1) return;
-	
-	//header
-	let headerDiv = document.createElement('div');
-	if(actionTitle != null && actionTitle.length > 0)
-		headerDiv.style.height = '1.4em';
-	
-	let header = document.createElement('h4');
-	header.classList.add('centered');
-	header.innerText = title;
-	headerDiv.appendChild(header);
-	
-	if(actionTitle != null && actionTitle.length > 0)
-	{
-		headerDiv.style.position = 'relative';
-		headerDiv.style.maxWidth = '680px';
-		headerDiv.style.margin = 'auto';
-		let action = document.createElement('h6');
-		action.classList.add('centered');
-		action.classList.add('action');
-		action.classList.add('not-selectable');
-		action.innerText = actionTitle;
-		if(actionFunc != null && typeof actionFunc === 'function')
-			action.addEventListener('click', actionFunc);
-		
-		// if(document.querySelector('#' + id + ' .action') === null)
-			headerDiv.appendChild(action);
-	}
-	
-	document.getElementById(id).appendChild(headerDiv);
-	
-	//table
-	let container = document.createElement('div');
-	if(scrollable)
-		container.classList.add('scrollable');
-	container.classList.add('content-box');
-	
-	let table = document.createElement('table');
-	if(!scrollable)
-		table.classList.add('list');
-	table.classList.add('not-selectable');
-	
-	let tbody = document.createElement('tbody');
-	
-	for(let row of rows)
-	{
-		let columnIndexKNID = contents.columns.indexOf('KNID');
-		if(columnIndexKNID < 0) return;
-		
-		let parts = [];
-		for(let format of rowFormat)
-		{
-			if(contents.columns.indexOf(format) >= 0)
-				parts.push(row[contents.columns.indexOf(format)]);
-			else
-				parts.push(format);
-		}
-	
-		let tr = document.createElement('tr');
-	
-		let tc = document.createElement('td');
-		if(clickFunc) tc.style.cursor = 'pointer';
-		tc.setAttribute('data-id', row[columnIndexKNID]);
-		tc.addEventListener('click', clickFunc);
-		tc.setAttribute('data-context', rightClickContext);
-		tc.addEventListener('contextmenu', rightClickFunc);
-		tc.innerText = parts.join('');
-		
-		tr.appendChild(tc);
-
-		tbody.appendChild(tr);	
-	}
-		
-	table.appendChild(tbody);
-	container.appendChild(table);
-	document.getElementById(id).appendChild(container);
-}
-
-function generateTableByDataWithHeader(contents, parameters) {
-	let {
-		id, 
-		skipClear, 
-		title, 
-		skipTitle, 
-		skipColumns = [], 
-		dataId = 'KNID',
-		groupColumn = 'Rank #', 
-		titleFormat = [], 
-		centerContent, 
-		iconColumnName, 
-		iconValueColumnName, 
-		iconId, 
-		iconTooltip, 
-		actionTitle, 
-		actionFunc = null, 
-	} = parameters
-	if(!skipClear) document.getElementById(id).innerHTML = '';
-	let columns = contents.columns;
-	let rows = contents.values;
-	if(contents.length === 0) return;
-	
-	if(debugMode) console.log('generateTableAsColumnRows', id);
-	let headerDiv = document.createElement('div');
-	if(!skipTitle || (actionTitle != null && actionTitle.length > 0))
-		headerDiv.style.height = '1.4em';
-	
-	if(!skipTitle) {
-		let header = document.createElement('h4');
-		header.classList.add('centered');
-		header.innerText = skipTitle ? '' : title;
-		headerDiv.appendChild(header);
-	}
-	
-	if(actionTitle != null && actionTitle.length > 0)
-	{
-		let action = document.createElement('h6');
-		action.classList.add('centered');
-		action.classList.add('action');
-		action.style.cursor = 'pointer';
-		action.innerText = actionTitle;
-		if(actionFunc != null && typeof actionFunc === 'function')
-			action.addEventListener('click', actionFunc);
-		
-		headerDiv.style.position = 'relative';
-		headerDiv.classList.add('centered');
-		headerDiv.appendChild(action);
-	}
-	
-	document.getElementById(id).appendChild(headerDiv);
-	
-	//table
-	let table = document.createElement('table');
-	table.classList.add('list');
-	table.classList.add('centered');
-	if(centerContent) table.classList.add('centered-text');
-	table.classList.add('content-box');
-	table.classList.add('content-table');
-	table.classList.add('not-selectable');
-	table.classList.add('bordered');
-	
-	let tbody = document.createElement('tbody');
-	
-	//title
-	if(titleFormat != null && titleFormat.length > 0)
-	{
-		let parts = [];
-		for(let format of titleFormat)
-		{
-			if(contents.columns.indexOf(format) >= 0)
-				parts.push(rows[0][contents.columns.indexOf(format)]);
-		}
-		
-		let ttr = document.createElement('tr');
-		
-		let th = document.createElement('th');
-		th.classList.add('table-title');
-		th.setAttribute('colspan', columns.length - skipColumns.filter(sc => columns.indexOf(sc)).length);
-		th.innerText = parts.join(' - ');
-		ttr.appendChild(th);
-		
-		tbody.appendChild(ttr);
-		
-	}
-	
-	//header
-	let tr = document.createElement('tr');
-	tr.classList.add('no-highlight');
-	for(let column of columns)
-	{
-		if(skipColumns.indexOf(column) < 0)
-		{
-			let th = document.createElement('th');
-			th.innerText = column;
-			tr.appendChild(th);
-		}
-	}
-	tbody.appendChild(tr);	
-	
-	//rows
-	let rank = undefined;
-	for(let row of rows)
-	{		
-		let columnIndexKNID = contents.columns.indexOf(dataId);
-		let columnIndexRankNo = contents.columns.indexOf(groupColumn);
-		
-		let tr = document.createElement('tr');
-		tr.setAttribute('data-id', row[columnIndexKNID] ?? 0);
-		if(document.querySelector('#options').value.replace(categoryIcons[2], '') === row[columnIndexKNID]) {
-			tr.classList.add('highlight');
-			tr.classList.add('not-selectable');
-			tr.addEventListener('active', hoverOnTableRow);
-		}
-		else if(row[columnIndexKNID]) {
-			tr.style.cursor = 'pointer';
-			tr.addEventListener('click', updateSong);
-			tr.addEventListener('mouseover', hoverOnTableRow);
-			tr.addEventListener('mouseout', hoverOnTableRow);
-		}
-		tr.addEventListener('touchstart', hoverOnTableRow);
-		tr.addEventListener('touchend', hoverOnTableRow);
-		
-		for(let col = 0; col < columns.length ; col++)
-		{
-			let columnName = columns[col];
-			if(skipColumns.indexOf(columnName) < 0)
-			{
-				// if grouping, need to follow row index
-				if(columnName === groupColumn)
-				{
-					if(row[columnIndexRankNo] != rank)
-					{
-						let span = rows.filter(r => r[columnIndexRankNo] === row[columnIndexRankNo]).length;
-						let tc = document.createElement('td');
-						tc.classList.add('centered-text');
-						tc.setAttribute('rowspan', span);
-						tc.innerText = row[contents.columns.indexOf(columnName)];
-						tr.appendChild(tc);
-					}
-				}
-				else
-				{
-					let td = document.createElement('td');
-					if(iconTooltip) td.title = iconTooltip;
-					td.appendChild(columnName === iconColumnName ? generateCellValue(columns, row, columnName, iconValueColumnName, iconId) : generateCellValue(columns, row, columnName));
-					tr.appendChild(td);
-				}
-			}
-		}
-		
-		tbody.appendChild(tr);
-		
-		rank = row[columnIndexRankNo];
-	}
-		
-	table.appendChild(tbody);
-	document.getElementById(id).appendChild(table);
-}
-
-function generateCellValue(columns, row, textColumn, iconColumn, iconId) {	
-	let cell = document.createElement('span');
-	cell.style.backgroundColor = 'transparent';
-	
-	let cellValue = row[columns.indexOf(textColumn)];
-	let iconValue = row[columns.indexOf(iconColumn)];
-	let iconOnly = textColumn === iconColumn;
-	
-	let textSpan = document.createElement('span');
-	textSpan.style.paddingRight = '3px';
-	if(!iconOnly) {
-		textSpan.innerText = cellValue;	
-		textSpan.title = cellValue;
-	}
-	cell.appendChild(textSpan);
-	
-	if(parseInt(iconValue))
-	{
-		let iconSpan = document.createElement('span');
-		
-		for(let i = 0; i < parseInt(iconValue); i++)
-		{
-			let icon = document.createElement('span');
-			icon.classList.add('material-icons');
-			icon.innerText = iconId;
-			iconSpan.appendChild(icon);
-		}
-		
-		cell.appendChild(iconSpan);
-	}
-	
-	return cell;
-}
-
 //--HOMEPAGE--//
-//flow is generally generateHomepage -> query-prefixed functions -> generate-prefixed functions
+//flow is generally generateHomepage -> query[Module/Component] -> generate[Module/Component]
 function generateHomepage() {
 	//initial query for options
 	let query = "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song";
@@ -1171,7 +747,7 @@ function generateUpcomingReleases(contents) {
 }
 
 //--MODULES--//
-//flow is generally generateModules -> query-prefixed functions -> generate-prefixed functions
+//flow is generally generateModules -> query[Module/Component] -> generate[Module/Component]
 function generateModules(contents) {
 	if(debugMode) console.log('generateModules', contents);
 	document.querySelector('#tab-homepage').style.display = 'none';
@@ -1182,7 +758,7 @@ function generateModules(contents) {
 	
 	//clear modules
 	clearModules();
-	setInput();
+	onFeedback();
 	if(window['mode'] === 'year')
 	{
 		queryYearInfo(contents);
@@ -1221,9 +797,9 @@ function generateModules(contents) {
 	
 	// generateTabs();
 	setTabs();
-	scrollToTop();
 	updateQueue();
 	updateQueueButtons();
+	scrollToTop();
 	
 	for(let selected of document.getElementsByClassName('not-selectable'))
 	{
@@ -2576,7 +2152,26 @@ function generateTabs() {
 	}
 }
 
-//--HELPER FUNCTIONS--//
+function updateQueue(next) {
+	if(window['mode'] != 'song') return;
+	if(window['playing'] === null) window['playing'] = 0;
+	else window['playing'] = next ?? window['playing'] + 1;
+	if(window['playlist'].length > 0 && window['playing'] >= window['playlist'].length) window['playing'] = window['playlist'].length - 1;
+	if(debugMode) console.log('updateQueue', window['playing']);
+}
+
+function updateQueueButtons() {
+	document.querySelector('#queue-options').style.display = window['shuffle-mode'] ? '' : 'none';
+	window['autoplay'] = document.querySelector('#autoplay').innerText === 'music_note';
+}
+
+function scrollToTop() {
+    document.querySelector('#tab-list').scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+	window.location.hash = "";
+}
+
+//--QUEUE FUNCTIONS--//
 function clearModules() {
 	for(let tab of document.getElementsByClassName('module'))
 	{
@@ -2646,6 +2241,402 @@ function updateArtist() {
 	callDb(query, updateOptions);
 }
 
+function queueSongs(ids) {
+	window['playlist'] = ids;
+	window['playing'] = -1;
+	if(!window['autoplay']) document.querySelector('.autoplay').click();
+	
+	let optQuery = "SELECT * FROM Song WHERE KNID = ";
+	optQuery += window['playlist'][window['playing'] + 1];
+	if(debugMode) console.log('queueSongs', optQuery);
+	queryDb(optQuery, updateOptions);
+}
+
+//--TABLE FUNCTIONS--//
+function generateTableAsColumnRows(contents, parameters) {
+	let { 
+		id, 
+		title, 
+		skipTitle,
+		skipColumns = [],
+		actionTitle, 
+		actionFunc = null,
+	} = parameters
+	document.getElementById(id).innerHTML = '';
+	let columns = contents.columns;
+	let rows = contents.values;
+	if(contents.length === 0) return;
+	
+	if(debugMode) console.log('generateTableAsColumnRows', id);
+	if(!id || !contents.columns || !contents.values) return;
+	
+	//header
+	let headerDiv = document.createElement('div');
+	if(!skipTitle || (actionTitle != null && actionTitle.length > 0))
+		headerDiv.style.height = '1.4em';
+	
+	let header = document.createElement('h4');
+	header.classList.add('centered');
+	header.innerText = title || '';
+	headerDiv.appendChild(header);
+	
+	if(actionTitle != null && actionTitle.length > 0)
+	{
+		let action = document.createElement('h6');
+		action.classList.add('centered');
+		action.classList.add('action');
+		action.style.cursor = 'pointer';
+		action.innerText = actionTitle;
+		if(actionFunc != null && typeof actionFunc === 'function')
+			action.addEventListener('click', actionFunc);
+		
+		headerDiv.style.position = 'relative';
+		headerDiv.classList.add('centered');
+		headerDiv.appendChild(action);
+	}
+	
+	document.getElementById(id).appendChild(headerDiv);
+	
+	//table
+	let table = document.createElement('table');
+	table.classList.add('list');
+	table.classList.add('centered');
+	table.classList.add('content-box');
+	
+	let tbody = document.createElement('tbody');
+	
+	let row = rows[0];
+	for(let r = 0; r < columns.length; r++)
+	{
+		let rowVal = row[r];
+		if(!rowVal || rowVal.length === 0) continue;
+		if(skipColumns.includes(columns[r])) continue;
+		
+		let tr = document.createElement('tr');
+	
+		let tc = document.createElement('td');
+		tc.innerHTML = columns[r];
+		tr.appendChild(tc);
+		
+		let td = document.createElement('td');
+		td.innerHTML = rowVal;
+		if(rowVal.toString().includes('https://') || rowVal.toString().includes('http://'))
+			td.innerHTML = '<a target="_blank" href="' + rowVal + '">' + getDomainViaUrl(rowVal) + '</a>';
+		tr.appendChild(td);
+		
+		tbody.appendChild(tr);	
+	}
+		
+	table.appendChild(tbody);
+	document.getElementById(id).appendChild(table);
+}
+
+function generateTableList(contents, parameters) {
+	let { id, title, rowFormat, clickFunc, rightClickFunc, rightClickContext, scrollable, actionTitle, actionFunc } = parameters
+	document.getElementById(id).innerHTML = '';
+	if(debugMode) console.log('generateTableList', id);
+	if(!id || !rowFormat || !contents?.columns || !contents?.values) return;
+	
+	let columns = contents.columns;
+	let rows = contents.values;
+	if(rows.length < 1) return;
+	
+	//header
+	let headerDiv = document.createElement('div');
+	if(actionTitle != null && actionTitle.length > 0)
+		headerDiv.style.height = '1.4em';
+	
+	let header = document.createElement('h4');
+	header.classList.add('centered');
+	header.innerText = title;
+	headerDiv.appendChild(header);
+	
+	if(actionTitle != null && actionTitle.length > 0)
+	{
+		headerDiv.style.position = 'relative';
+		headerDiv.style.maxWidth = '680px';
+		headerDiv.style.margin = 'auto';
+		let action = document.createElement('h6');
+		action.classList.add('centered');
+		action.classList.add('action');
+		action.classList.add('not-selectable');
+		action.innerText = actionTitle;
+		if(actionFunc != null && typeof actionFunc === 'function')
+			action.addEventListener('click', actionFunc);
+		
+		// if(document.querySelector('#' + id + ' .action') === null)
+			headerDiv.appendChild(action);
+	}
+	
+	document.getElementById(id).appendChild(headerDiv);
+	
+	//table
+	let container = document.createElement('div');
+	if(scrollable)
+		container.classList.add('scrollable');
+	container.classList.add('content-box');
+	
+	let table = document.createElement('table');
+	if(!scrollable)
+		table.classList.add('list');
+	table.classList.add('not-selectable');
+	
+	let tbody = document.createElement('tbody');
+	
+	for(let row of rows)
+	{
+		let columnIndexKNID = contents.columns.indexOf('KNID');
+		if(columnIndexKNID < 0) return;
+		
+		let parts = [];
+		for(let format of rowFormat)
+		{
+			if(contents.columns.indexOf(format) >= 0)
+				parts.push(row[contents.columns.indexOf(format)]);
+			else
+				parts.push(format);
+		}
+	
+		let tr = document.createElement('tr');
+	
+		let tc = document.createElement('td');
+		if(clickFunc) tc.style.cursor = 'pointer';
+		tc.setAttribute('data-id', row[columnIndexKNID]);
+		tc.addEventListener('click', clickFunc);
+		tc.setAttribute('data-context', rightClickContext);
+		tc.addEventListener('contextmenu', rightClickFunc);
+		tc.innerText = parts.join('');
+		
+		tr.appendChild(tc);
+
+		tbody.appendChild(tr);	
+	}
+		
+	table.appendChild(tbody);
+	container.appendChild(table);
+	document.getElementById(id).appendChild(container);
+}
+
+function generateTableByDataWithHeader(contents, parameters) {
+	let {
+		id, 
+		skipClear, 
+		title, 
+		skipTitle, 
+		skipColumns = [], 
+		dataId = 'KNID',
+		groupColumn = 'Rank #', 
+		titleFormat = [], 
+		centerContent, 
+		iconColumnName, 
+		iconValueColumnName, 
+		iconId, 
+		iconTooltip, 
+		actionTitle, 
+		actionFunc = null, 
+	} = parameters
+	if(!skipClear) document.getElementById(id).innerHTML = '';
+	let columns = contents.columns;
+	let rows = contents.values;
+	if(contents.length === 0) return;
+	
+	if(debugMode) console.log('generateTableAsColumnRows', id);
+	let headerDiv = document.createElement('div');
+	if(!skipTitle || (actionTitle != null && actionTitle.length > 0))
+		headerDiv.style.height = '1.4em';
+	
+	if(!skipTitle) {
+		let header = document.createElement('h4');
+		header.classList.add('centered');
+		header.innerText = skipTitle ? '' : title;
+		headerDiv.appendChild(header);
+	}
+	
+	if(actionTitle != null && actionTitle.length > 0)
+	{
+		let action = document.createElement('h6');
+		action.classList.add('centered');
+		action.classList.add('action');
+		action.style.cursor = 'pointer';
+		action.innerText = actionTitle;
+		if(actionFunc != null && typeof actionFunc === 'function')
+			action.addEventListener('click', actionFunc);
+		
+		headerDiv.style.position = 'relative';
+		headerDiv.classList.add('centered');
+		headerDiv.appendChild(action);
+	}
+	
+	document.getElementById(id).appendChild(headerDiv);
+	
+	//table
+	let table = document.createElement('table');
+	table.classList.add('list');
+	table.classList.add('centered');
+	if(centerContent) table.classList.add('centered-text');
+	table.classList.add('content-box');
+	table.classList.add('content-table');
+	table.classList.add('not-selectable');
+	table.classList.add('bordered');
+	
+	let tbody = document.createElement('tbody');
+	
+	//title
+	if(titleFormat != null && titleFormat.length > 0)
+	{
+		let parts = [];
+		for(let format of titleFormat)
+		{
+			if(contents.columns.indexOf(format) >= 0)
+				parts.push(rows[0][contents.columns.indexOf(format)]);
+		}
+		
+		let ttr = document.createElement('tr');
+		
+		let th = document.createElement('th');
+		th.classList.add('table-title');
+		th.setAttribute('colspan', columns.length - skipColumns.filter(sc => columns.indexOf(sc)).length);
+		th.innerText = parts.join(' - ');
+		ttr.appendChild(th);
+		
+		tbody.appendChild(ttr);
+		
+	}
+	
+	//header
+	let tr = document.createElement('tr');
+	tr.classList.add('no-highlight');
+	for(let column of columns)
+	{
+		if(skipColumns.indexOf(column) < 0)
+		{
+			let th = document.createElement('th');
+			th.innerText = column;
+			tr.appendChild(th);
+		}
+	}
+	tbody.appendChild(tr);	
+	
+	//rows
+	let rank = undefined;
+	for(let row of rows)
+	{		
+		let columnIndexKNID = contents.columns.indexOf(dataId);
+		let columnIndexRankNo = contents.columns.indexOf(groupColumn);
+		
+		let tr = document.createElement('tr');
+		tr.setAttribute('data-id', row[columnIndexKNID] ?? 0);
+		if(document.querySelector('#options').value.replace(categoryIcons[2], '') === row[columnIndexKNID]) {
+			tr.classList.add('highlight');
+			tr.classList.add('not-selectable');
+			tr.addEventListener('active', onHoverTableRow);
+		}
+		else if(row[columnIndexKNID]) {
+			tr.style.cursor = 'pointer';
+			tr.addEventListener('click', updateSong);
+			tr.addEventListener('mouseover', onHoverTableRow);
+			tr.addEventListener('mouseout', onHoverTableRow);
+		}
+		tr.addEventListener('touchstart', onHoverTableRow);
+		tr.addEventListener('touchend', onHoverTableRow);
+		
+		for(let col = 0; col < columns.length ; col++)
+		{
+			let columnName = columns[col];
+			if(skipColumns.indexOf(columnName) < 0)
+			{
+				// if grouping, need to follow row index
+				if(columnName === groupColumn)
+				{
+					if(row[columnIndexRankNo] != rank)
+					{
+						let span = rows.filter(r => r[columnIndexRankNo] === row[columnIndexRankNo]).length;
+						let tc = document.createElement('td');
+						tc.classList.add('centered-text');
+						tc.setAttribute('rowspan', span);
+						tc.innerText = row[contents.columns.indexOf(columnName)];
+						tr.appendChild(tc);
+					}
+				}
+				else
+				{
+					let td = document.createElement('td');
+					if(iconTooltip) td.title = iconTooltip;
+					td.appendChild(columnName === iconColumnName ? generateCellValue(columns, row, columnName, iconValueColumnName, iconId) : generateCellValue(columns, row, columnName));
+					tr.appendChild(td);
+				}
+			}
+		}
+		
+		tbody.appendChild(tr);
+		
+		rank = row[columnIndexRankNo];
+	}
+		
+	table.appendChild(tbody);
+	document.getElementById(id).appendChild(table);
+}
+
+function generateCellValue(columns, row, textColumn, iconColumn, iconId) {	
+	let cell = document.createElement('span');
+	cell.style.backgroundColor = 'transparent';
+	
+	let cellValue = row[columns.indexOf(textColumn)];
+	let iconValue = row[columns.indexOf(iconColumn)];
+	let iconOnly = textColumn === iconColumn;
+	
+	let textSpan = document.createElement('span');
+	textSpan.style.paddingRight = '3px';
+	if(!iconOnly) {
+		textSpan.innerText = cellValue;	
+		textSpan.title = cellValue;
+	}
+	cell.appendChild(textSpan);
+	
+	if(parseInt(iconValue))
+	{
+		let iconSpan = document.createElement('span');
+		
+		for(let i = 0; i < parseInt(iconValue); i++)
+		{
+			let icon = document.createElement('span');
+			icon.classList.add('material-icons');
+			icon.innerText = iconId;
+			iconSpan.appendChild(icon);
+		}
+		
+		cell.appendChild(iconSpan);
+	}
+	
+	return cell;
+}
+
+function onHoverTableRow() {
+	let titleCells = this.parentNode.getElementsByClassName('table-title').length;
+	let columns = this.parentNode.getElementsByTagName('th').length - (titleCells > 0 ? titleCells : 0); //estimate
+	let rowCells = this.getElementsByTagName('td');
+	let spanRow = findTableSiblingRow(this, columns);
+	let spanCells = spanRow.getElementsByTagName('td');
+	
+	if(rowCells.length + 1 === spanCells.length && spanCells[0].rowSpan != undefined && !spanRow.classList.contains('not-selectable'))
+		spanCells[0].classList.toggle('highlight');
+	
+	for(let cell of rowCells)
+	{
+		cell.classList.toggle('highlight');
+	}
+}
+
+function findTableSiblingRow(row, columns) {
+	let returnRow = row;
+	while(returnRow.childNodes.length < columns && returnRow.childNodes.length <= row.childNodes.length)
+	{
+		returnRow = returnRow.previousSibling;
+	}
+	return returnRow;
+}
+
+//--HELPER FUNCTIONS-//
 function addQuotationInSQLString(query) {
 	//fix query in single quotes contains single quotes, see also reduceReleaseTitle
 	return query.replace(/'/g,"''");
@@ -2661,58 +2652,38 @@ function reduceReleaseTitle(release) {
 	return release.replace(/'/g,"''").replace('Disc 1','').replace('Disc 2','').replace('Disc 3','').trim();
 }
 
-function testPlayer() {
-	window['test-score'] = 0;
-	window['test-count'] = 1;
-	window['test-total'] = 0;
-	window['test-errors'] = [];
-	
-	//to test if filename is corresponding to database
-	//loop all songs in dropdown trigger event, log player status
-	let options = document.querySelector('#options');
-	window['option_list'] = options.getElementsByTagName('option');
-	window['test-total'] = window['option_list'].length - 1;
-	
-	setTimeout(function () {
-		setNextOption(parseInt(window['option_list'][1].value));
-	}, 200); //set timeout to where processor comfortable
-}
-
-function setNextOption(id) {
-	console.log('setNextOption',id);
-	document.querySelector('#options').value = id;
-	document.querySelector('#options').dispatchEvent(new Event('change'));
-
-	setTimeout(updateTestPlayer, timeout);
-}
-
-function updateTestPlayer() {
-	let player = document.querySelector('#player');
-	let id = player.getAttribute('data-id');
-	let overlay = document.querySelector('.invisible');
-	if(overlay != null)
-		window['test-score'] += 1;
-	else
-		errors.push(id);
-	
-	console.log('updateTestPlayer', id);
-	console.log('score', window['test-score'] + '/' + window['test-total']);
-	window['test-count'] += 1;
-	if(window['test-count'] > window['test-total'])
-		endTestPlayer();
-	else
+function getDomainViaUrl(url) {
+	if(url)
 	{
-		setTimeout(function () {
-			setNextOption(parseInt(window['option_list'][window['test-count']].value));
-		}, timeout);
+		if(url.toLowerCase().includes('uta-net.com')) return 'Uta-Net';
+		if(url.toLowerCase().includes('utaten.com')) return 'UtaTen';
+		if(url.toLowerCase().includes('youtube.com')) return 'YouTube';
+		if(url.toLowerCase().includes('youtu.be')) return 'YouTube';
 	}
+	return url;
 }
 
-function endTestPlayer() {	
-	console.log('testPlayer', window['test-score'] + '/' + window['test-total'] + ' ok');
-	console.log('errors', window['test-errors']);
+function updateMediaSession(session) {
+	if(debugMode) 
+		console.log('updateMediaSession', session);
+	//update MediaSession API
+	try
+	{
+		if (session && navigator && 'mediaSession' in navigator) {
+			var meta = navigator.mediaSession.metadata;
+			navigator.mediaSession.metadata = new MediaMetadata(session);
+			navigator.mediaSession.setActionHandler("nexttrack", skipSong);
+			if(debugMode) 
+				console.log('metadata', navigator.mediaSession.metadata.toString());
+		}
+	}
+	catch
+	{
+		console.error('updateMediaSession: update failed');
+	}	
 }
 
+//--CONTEXT MENU--//
 function showContextMenu() {
 	event.preventDefault();
 	event.stopPropagation();
@@ -2868,94 +2839,55 @@ function hideContextMenus(forced) {
 	return contextOpen;
 }
 
-function findSpanSibling(row, columns) {
-	let returnRow = row;
-	while(returnRow.childNodes.length < columns && returnRow.childNodes.length <= row.childNodes.length)
-	{
-		returnRow = returnRow.previousSibling;
-	}
-	return returnRow;
-}
-
-function scrollToTop() {
-    document.querySelector('#tab-list').scrollTop = 0;
-    document.documentElement.scrollTop = 0;
-	window.location.hash = "";
-}
-
-function getDomainViaUrl(url) {
-	if(url)
-	{
-		if(url.toLowerCase().includes('uta-net.com')) return 'Uta-Net';
-		if(url.toLowerCase().includes('utaten.com')) return 'UtaTen';
-		if(url.toLowerCase().includes('youtube.com')) return 'YouTube';
-		if(url.toLowerCase().includes('youtu.be')) return 'YouTube';
-	}
-	return url;
-}
-
-function updateMediaSession(session) {
-	if(debugMode) 
-		console.log('updateMediaSession', session);
-	//update MediaSession API
-	try
-	{
-		if (session && navigator && 'mediaSession' in navigator) {
-			var meta = navigator.mediaSession.metadata;
-			navigator.mediaSession.metadata = new MediaMetadata(session);
-			navigator.mediaSession.setActionHandler("nexttrack", skipSong);
-			if(debugMode) 
-				console.log('metadata', navigator.mediaSession.metadata.toString());
-		}
-	}
-	catch
-	{
-		console.error('updateMediaSession: update failed');
-	}	
-}
-
-//drag and drop
-function addDragAndDrop() {
-	let dropArea = document.createElement('div');
-	dropArea.classList.add('drop-area');
-	document.body.appendChild(dropArea);
-
-	document.body.addEventListener('dragenter', onDragEnter, false); //show fade
-	document.querySelector('.drop-area').addEventListener('dragleave', onDragLeave, false); //revert
-	document.querySelector('.drop-area').addEventListener('dragover', onDragEnter, false);
-	document.querySelector('.drop-area').addEventListener('drop', onDrop, false); //actual event that does stuff
-}
-
-function onDragEnter(e) {
-	e.preventDefault();
-	e.stopPropagation();
-	let dropArea = document.querySelector('.drop-area');
-	if (!dropArea.classList.contains('drop-fade')) dropArea.classList.add('drop-fade');
-}
-
-function onDragLeave(e) {
-	e.preventDefault();
-	e.stopPropagation();
-	let dropArea = document.querySelector('.drop-area');
-	if (dropArea.classList.contains('drop-fade')) dropArea.classList.remove('drop-fade');
-}
-
-function onDrop(e) {
-	e.preventDefault();
-	e.stopPropagation();
-	let dropArea = document.querySelector('.drop-area');
-	if (dropArea.classList.contains('drop-fade')) dropArea.classList.remove('drop-fade');
+//--TEST PLAYER-//
+function testPlayer() {
+	window['test-score'] = 0;
+	window['test-count'] = 1;
+	window['test-total'] = 0;
+	window['test-errors'] = [];
 	
-	var file = e.dataTransfer.files[0];
-	// console.log('file', file.name, file.type);
-	if(file.type === 'audio/mpeg')
+	//to test if filename is corresponding to database
+	//loop all songs in dropdown trigger event, log player status
+	let options = document.querySelector('#options');
+	window['option_list'] = options.getElementsByTagName('option');
+	window['test-total'] = window['option_list'].length - 1;
+	
+	setTimeout(function () {
+		setNextOption(parseInt(window['option_list'][1].value));
+	}, 200); //set timeout to where processor comfortable
+}
+
+function setNextOption(id) {
+	console.log('setNextOption',id);
+	document.querySelector('#options').value = id;
+	document.querySelector('#options').dispatchEvent(new Event('change'));
+
+	setTimeout(updateTestPlayer, timeout);
+}
+
+function updateTestPlayer() {
+	let player = document.querySelector('#player');
+	let id = player.getAttribute('data-id');
+	let overlay = document.querySelector('.invisible');
+	if(overlay != null)
+		window['test-score'] += 1;
+	else
+		errors.push(id);
+	
+	console.log('updateTestPlayer', id);
+	console.log('score', window['test-score'] + '/' + window['test-total']);
+	window['test-count'] += 1;
+	if(window['test-count'] > window['test-total'])
+		endTestPlayer();
+	else
 	{
-		document.querySelector('#search').value = file.name.replace('.mp3','');
-		document.querySelector('#search').dispatchEvent(new Event('input'));
-		
-		let query = "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song";
-		query += " WHERE SongTitle = '" + addQuotationInSQLString(document.querySelector('#search').value) + "'";
-		// console.log('query', query);
-		queryDb(query, updateOptions);
+		setTimeout(function () {
+			setNextOption(parseInt(window['option_list'][window['test-count']].value));
+		}, timeout);
 	}
+}
+
+function endTestPlayer() {	
+	console.log('testPlayer', window['test-score'] + '/' + window['test-total'] + ' ok');
+	console.log('errors', window['test-errors']);
 }
