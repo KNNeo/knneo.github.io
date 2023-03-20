@@ -3,7 +3,7 @@ function generateViewer() {
 	let viewer = document.getElementById('viewer');
 	if(viewer != null)
 	{
-		viewer.addEventListener('click', closeViewer, false);
+		// viewer.addEventListener('click', closeViewer, false);
 		viewer.addEventListener('contextmenu', function(e) {
 			e.preventDefault();
 			return false;
