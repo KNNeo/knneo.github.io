@@ -663,6 +663,8 @@ function generateHomepage() {
 	
 	let recent = localStorage.getItem('recent');
 	recent = (recent === null || recent.length === 0) ? JSON.parse('[]') : JSON.parse(recent);
+	if(recent.length > 10)
+		recent = recent.slice(0,10);
 	
 	query = "";
 	for(let id of recent)
@@ -833,8 +835,8 @@ function updateSearch(contents) {
 		{
 			recent = recent.filter(r => r != row[columnIndexKNID]);
 			recent.unshift(row[columnIndexKNID])
-			if(recent.length > 10)
-				recent = recent.slice(0,10);
+			// if(recent.length > 10)
+				// recent = recent.slice(0,10);
 		}
 		else
 		{
