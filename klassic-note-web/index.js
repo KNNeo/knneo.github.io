@@ -16,11 +16,11 @@ function setInput() {
 	if(debugMode)
 		console.log(event.type, new Date() - window['last-input']);
 	let list = document.querySelector('html').classList;
-	if(event.type == 'touchstart' && !list.contains('touchable'))
+	if(event.type === 'touchstart' && !list.contains('touchable'))
 	{
 		document.querySelector('html').classList.add('touchable');
 	}
-	else if(event.type == 'click' && new Date() - window['last-input'] > 200 && list.contains('touchable'))
+	else if(event.type === 'click' && new Date() - window['last-input'] > 200 && list.contains('touchable'))
 	{
 		document.querySelector('html').classList.remove('touchable');
 	}
@@ -28,9 +28,9 @@ function setInput() {
 }
 
 function setKeyUp() {
-	if (debugMode) console.log('setKeyUp', event.keyCode);
+	if (debugMode) console.log('setKeyUp', event.key);
 	// space: play/pause when not focus on player
-	if (event.keyCode === 32 && document.querySelector('#player') != null 
+	if (event.key === ' ' && document.querySelector('#player') != null 
 	&& ['player', 'search'].indexOf(document.activeElement.id) < 0) {
 		event.preventDefault();
 		let player = document.querySelector('#player');
@@ -40,25 +40,25 @@ function setKeyUp() {
 			player.pause();
 	}
 	// ctrl + c: copy search content
-	if (event.keyCode === 67 && window['ctrled'] && document.querySelector('#copy') != null
+	if (event.key === 'c' && window['ctrled'] && document.querySelector('#copy') != null
 	&& ['search'].indexOf(document.activeElement.id) < 0) {
 		event.preventDefault();
 		document.querySelector('#copy').click();
 	}
 	// shift: combine with click playlist to add 10 songs to queue
-	if (event.keyCode === 16) {
+	if (event.key === 'Shift') {
 		event.preventDefault();
 		window['shifted'] = false;
 	}
 	// ctrl: combine with c to copy search content
-	if (event.keyCode === 17) {
+	if (event.key === 'Control') {
 		event.preventDefault();
 		window['ctrled'] = false;
 	}
 	// up: increases volume of player, combine with shift to adjust without player focus
-	if (event.keyCode === 38 && document.querySelector('#player') != null 
+	if (event.key === 'ArrowUp' && document.querySelector('#player') != null 
 	&& document.querySelector('#player').volume < 1
-	&& (document.querySelector('#player') == document.activeElement || window['shifted'])) {
+	&& (document.querySelector('#player') === document.activeElement || window['shifted'])) {
 		event.preventDefault();
 		let player = document.querySelector('#player');
 		let volume = player.volume + (0.01 * volumeDelta);
@@ -67,9 +67,9 @@ function setKeyUp() {
 		player.volume = volume;
 	}
 	// down: decreases volume of player, combine with shift to adjust without player focus
-	if (event.keyCode === 40 && document.querySelector('#player') != null 
+	if (event.key === 'ArrowDown' && document.querySelector('#player') != null 
 	&& document.querySelector('#player').volume > 0
-	&& (document.querySelector('#player') == document.activeElement || window['shifted'])) {
+	&& (document.querySelector('#player') === document.activeElement || window['shifted'])) {
 		event.preventDefault();
 		let player = document.querySelector('#player');
 		let volume = player.volume - (0.01 * volumeDelta);
@@ -81,18 +81,18 @@ function setKeyUp() {
 }
 
 function setKeyDown() {
-	if (debugMode) console.log('setKeyDown', event.keyCode);
+	if (debugMode) console.log('setKeyDown', event.key);
 	// space: prevent scroll when play/pause
-	if(event.keyCode === 32 && ['player', 'search'].indexOf(document.activeElement.id) < 0)
+	if(event.key === ' ' && ['player', 'search'].indexOf(document.activeElement.id) < 0)
 		event.preventDefault();
 		
 	// shift: combine with click playlist to add 10 songs to queue
-	if (event.keyCode === 16) {
+	if (event.key === 'Shift') {
 		event.preventDefault();
 		window['shifted'] = true;
 	}
 	// ctrl: combine with c to copy search content
-	if (event.keyCode === 17) {
+	if (event.key === 'Control') {
 		event.preventDefault();
 		window['ctrled'] = true;
 	}
@@ -172,7 +172,7 @@ function showTab(tabId) {
 	document.querySelector('#tab-buttons').classList.remove('hidden');
 	for(let tab of document.getElementsByClassName('tab'))
 	{
-		if(tab.id == tabId.replace('button-',''))
+		if(tab.id === tabId.replace('button-',''))
 			tab.classList.remove('hidden');
 		else
 			tab.classList.add('hidden');
@@ -182,7 +182,7 @@ function showTab(tabId) {
 
 function toggleMiniMode() {
 	let minHeight = 10;
-	if(document.querySelector('#player') == null) return;
+	if(document.querySelector('#player') === null) return;
 	
 	// console.log('toggleMiniMode', document.querySelector('#tab-list').getBoundingClientRect().height);
 	if (document.querySelector('html').classList.contains('mini') && 
@@ -207,7 +207,7 @@ function hoverOnTableRow() {
 	let spanRow = findSpanSibling(this, columns);
 	let spanCells = spanRow.getElementsByTagName('td');
 	
-	if(rowCells.length + 1 == spanCells.length && spanCells[0].rowSpan != undefined && !spanRow.classList.contains('not-selectable'))
+	if(rowCells.length + 1 === spanCells.length && spanCells[0].rowSpan != undefined && !spanRow.classList.contains('not-selectable'))
 		spanCells[0].classList.toggle('highlight');
 	
 	for(let cell of rowCells)
@@ -218,7 +218,7 @@ function hoverOnTableRow() {
 
 function copySearch() {
 	let search = document.querySelector('#search').value.split(' - ');
-	if(search.length == 2)
+	if(search.length === 2)
 	{
 		navigator.clipboard.writeText(search[1] + '\t' + search[0]);
 	}
@@ -313,13 +313,13 @@ function queueSongs(ids) {
 // With song loaded from search in playlist
 // With playlist loaded, playing is not last song
 function skipSong() {
-	if(window['playing'] == null) window['playing'] = -1; // not played before
-	if(window['playlist'] == null || window['playlist'].length == 0)
+	if(window['playing'] === null) window['playing'] = -1; // not played before
+	if(window['playlist'] === null || window['playlist'].length === 0)
 	{
 		randomSong();
 		// return;
 	}
-	if(document.querySelector('#player') == null)
+	if(document.querySelector('#player') === null)
 	{
 		let optQuery = "SELECT * FROM Song WHERE KNID = ";
 		optQuery += window['playlist'][0];
@@ -339,11 +339,11 @@ function skipSong() {
 		{
 			let nextOption = document.querySelector('#queue-options').value;
 			let query = "SELECT KNID FROM Song WHERE KNID NOT IN (" + window['playlist'].join(',') + ")";
-			if(nextOption == 'artist') query += " AND ArtistID = " + window['artist-id'] + "";
-			if(nextOption == 'release') query += " AND ReleaseID = " + window['release-id'] + "";
-			if(nextOption == 'year') query += " AND KNYEAR = " + window['year'] + "";
-			if(nextOption == 'genre') query += " AND Genre = '" + window['genre'] + "'";
-			if(nextOption == 'past3year') {
+			if(nextOption === 'artist') query += " AND ArtistID = " + window['artist-id'] + "";
+			if(nextOption === 'release') query += " AND ReleaseID = " + window['release-id'] + "";
+			if(nextOption === 'year') query += " AND KNYEAR = " + window['year'] + "";
+			if(nextOption === 'genre') query += " AND Genre = '" + window['genre'] + "'";
+			if(nextOption === 'past3year') {
 				if(!window['years']) window['years'] = window['year'] - 3;
 				query += " AND KNYEAR > " + parseInt(window['years']) + "";
 			}
@@ -377,7 +377,7 @@ function skipSong() {
 
 function updateQueue(next) {
 	if(window['mode'] != 'song') return;
-	if(window['playing'] == null) window['playing'] = 0;
+	if(window['playing'] === null) window['playing'] = 0;
 	else window['playing'] = next ?? window['playing'] + 1;
 	if(window['playlist'].length > 0 && window['playing'] >= window['playlist'].length) window['playing'] = window['playlist'].length - 1;
 	if(debugMode) console.log('updateQueue', window['playing']);
@@ -385,7 +385,7 @@ function updateQueue(next) {
 
 function updateQueueButtons() {
 	document.querySelector('#queue-options').style.display = window['shuffle-mode'] ? '' : 'none';
-	window['autoplay'] = document.querySelector('#autoplay').innerText == 'music_note';
+	window['autoplay'] = document.querySelector('#autoplay').innerText === 'music_note';
 }
 
 function clearQueue() {
@@ -481,7 +481,7 @@ function renderVariables() {
 	window['artist-id'] = 0;
 	window['year'] = '';
 	window['genre'] = '';
-	window['fill'] = 152;					// for coverArtStyle == 'large', how much width on header to take
+	window['fill'] = 152;					// for coverArtStyle === 'large', how much width on header to take
 }
 
 function renderTitle() {
@@ -646,7 +646,7 @@ function updateOptions(contents) {
 			
 			options.appendChild(opt);
 		}
-		if(newOptions.length == 2 && window['mode'] != 'artist') //1 result with default
+		if(newOptions.length === 2 && window['mode'] != 'artist') //1 result with default
 		{
 			// search.blur();
 			setTimeout(function() {
@@ -661,7 +661,7 @@ function updateOptions(contents) {
 			},200);
 		}
 		
-		options.disabled = newOptions.length == 2;
+		options.disabled = newOptions.length === 2;
 		search.disabled = false;
 	}
 	else {
@@ -727,7 +727,7 @@ function generateTableAsColumnRows(contents, parameters) {
 	document.getElementById(id).innerHTML = '';
 	let columns = contents.columns;
 	let rows = contents.values;
-	if(contents.length == 0) return;
+	if(contents.length === 0) return;
 	
 	if(debugMode) console.log('generateTableAsColumnRows', id);
 	if(!id || !contents.columns || !contents.values) return;
@@ -749,7 +749,7 @@ function generateTableAsColumnRows(contents, parameters) {
 		action.classList.add('action');
 		action.style.cursor = 'pointer';
 		action.innerText = actionTitle;
-		if(actionFunc != null && typeof actionFunc == 'function')
+		if(actionFunc != null && typeof actionFunc === 'function')
 			action.addEventListener('click', actionFunc);
 		
 		headerDiv.style.position = 'relative';
@@ -771,7 +771,7 @@ function generateTableAsColumnRows(contents, parameters) {
 	for(let r = 0; r < columns.length; r++)
 	{
 		let rowVal = row[r];
-		if(!rowVal || rowVal.length == 0) continue;
+		if(!rowVal || rowVal.length === 0) continue;
 		if(skipColumns.includes(columns[r])) continue;
 		
 		let tr = document.createElement('tr');
@@ -823,10 +823,10 @@ function generateTableList(contents, parameters) {
 		action.classList.add('action');
 		action.classList.add('not-selectable');
 		action.innerText = actionTitle;
-		if(actionFunc != null && typeof actionFunc == 'function')
+		if(actionFunc != null && typeof actionFunc === 'function')
 			action.addEventListener('click', actionFunc);
 		
-		// if(document.querySelector('#' + id + ' .action') == null)
+		// if(document.querySelector('#' + id + ' .action') === null)
 			headerDiv.appendChild(action);
 	}
 	
@@ -900,7 +900,7 @@ function generateTableByDataWithHeader(contents, parameters) {
 	if(!skipClear) document.getElementById(id).innerHTML = '';
 	let columns = contents.columns;
 	let rows = contents.values;
-	if(contents.length == 0) return;
+	if(contents.length === 0) return;
 	
 	if(debugMode) console.log('generateTableAsColumnRows', id);
 	let headerDiv = document.createElement('div');
@@ -921,7 +921,7 @@ function generateTableByDataWithHeader(contents, parameters) {
 		action.classList.add('action');
 		action.style.cursor = 'pointer';
 		action.innerText = actionTitle;
-		if(actionFunc != null && typeof actionFunc == 'function')
+		if(actionFunc != null && typeof actionFunc === 'function')
 			action.addEventListener('click', actionFunc);
 		
 		headerDiv.style.position = 'relative';
@@ -988,7 +988,7 @@ function generateTableByDataWithHeader(contents, parameters) {
 		
 		let tr = document.createElement('tr');
 		tr.setAttribute('data-id', row[columnIndexKNID] ?? 0);
-		if(document.querySelector('#options').value.replace(categoryIcons[2], '') == row[columnIndexKNID]) {
+		if(document.querySelector('#options').value.replace(categoryIcons[2], '') === row[columnIndexKNID]) {
 			tr.classList.add('highlight');
 			tr.classList.add('not-selectable');
 			tr.addEventListener('active', hoverOnTableRow);
@@ -1008,11 +1008,11 @@ function generateTableByDataWithHeader(contents, parameters) {
 			if(skipColumns.indexOf(columnName) < 0)
 			{
 				// if grouping, need to follow row index
-				if(columnName == groupColumn)
+				if(columnName === groupColumn)
 				{
 					if(row[columnIndexRankNo] != rank)
 					{
-						let span = rows.filter(r => r[columnIndexRankNo] == row[columnIndexRankNo]).length;
+						let span = rows.filter(r => r[columnIndexRankNo] === row[columnIndexRankNo]).length;
 						let tc = document.createElement('td');
 						tc.classList.add('centered-text');
 						tc.setAttribute('rowspan', span);
@@ -1024,7 +1024,7 @@ function generateTableByDataWithHeader(contents, parameters) {
 				{
 					let td = document.createElement('td');
 					if(iconTooltip) td.title = iconTooltip;
-					td.appendChild(columnName == iconColumnName ? generateCellValue(columns, row, columnName, iconValueColumnName, iconId) : generateCellValue(columns, row, columnName));
+					td.appendChild(columnName === iconColumnName ? generateCellValue(columns, row, columnName, iconValueColumnName, iconId) : generateCellValue(columns, row, columnName));
 					tr.appendChild(td);
 				}
 			}
@@ -1045,7 +1045,7 @@ function generateCellValue(columns, row, textColumn, iconColumn, iconId) {
 	
 	let cellValue = row[columns.indexOf(textColumn)];
 	let iconValue = row[columns.indexOf(iconColumn)];
-	let iconOnly = textColumn == iconColumn;
+	let iconOnly = textColumn === iconColumn;
 	
 	let textSpan = document.createElement('span');
 	textSpan.style.paddingRight = '3px';
@@ -1093,13 +1093,13 @@ function generateHomepage() {
 	if(hideHomepage) return;
 	
 	let recent = localStorage.getItem('recent');
-	recent = (recent == null || recent.length == 0) ? JSON.parse('[]') : JSON.parse(recent);
+	recent = (recent === null || recent.length === 0) ? JSON.parse('[]') : JSON.parse(recent);
 	
 	query = "";
 	for(let id of recent)
 	{
 		query += "UNION ALL ";
-		if(query == "UNION ALL ") query = "";
+		if(query === "UNION ALL ") query = "";
 		query += "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song WHERE KNID = " + id.toString() + " ";
 	}
 	if(debugMode) console.log('generateSearchHistory', query);
@@ -1189,7 +1189,7 @@ function generateModules(contents) {
 	//clear modules
 	clearModules();
 	setInput();
-	if(window['mode'] == 'year')
+	if(window['mode'] === 'year')
 	{
 		queryYearInfo(contents);
 		querySongList(contents); //SOTD is here
@@ -1199,7 +1199,7 @@ function generateModules(contents) {
 		queryAnalysis(contents);
 	}
 	
-	if(window['mode'] == 'song')
+	if(window['mode'] === 'song')
 	{
 		updateSearch(contents);
 		generatePlayer(contents);
@@ -1212,7 +1212,7 @@ function generateModules(contents) {
 		querySOTD(contents);
 	}
 	
-	if(window['mode'] == 'artist')
+	if(window['mode'] === 'artist')
 	{
 		updateSearch(contents);		
 		queryArtistInfo(contents);
@@ -1248,7 +1248,7 @@ function updateSearch(contents) {
 	let columnIndexReleaseID = contents.columns.indexOf('ReleaseID');
 	let columnIndexGenre = contents.columns.indexOf('Genre');
 	
-	if(window['mode'] == 'song')
+	if(window['mode'] === 'song')
 	{
 		document.querySelector('#search').value = row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle].split('<br/>')[0];
 		window['artist-id'] = row[columnIndexArtistID];
@@ -1258,7 +1258,7 @@ function updateSearch(contents) {
 		window['genre'] = row[columnIndexGenre];
 		
 		let recent = localStorage.getItem('recent');
-		recent = (recent == null || recent.length == 0) ? JSON.parse('[]') : JSON.parse(recent);
+		recent = (recent === null || recent.length === 0) ? JSON.parse('[]') : JSON.parse(recent);
 		if(recent.length > 0)
 		{
 			recent = recent.filter(r => r != row[columnIndexKNID]);
@@ -1273,7 +1273,7 @@ function updateSearch(contents) {
 		
 		localStorage.setItem('recent', JSON.stringify(recent));
 	}
-	if(window['mode'] == 'artist')
+	if(window['mode'] === 'artist')
 	{
 		document.querySelector('#search').value = contents.values[0][columnIndexArtistTitle];
 	}
@@ -1368,8 +1368,8 @@ function queryCoverArt(contents) {
 }
 
 function generateCoverArt(contents) {
-	let isOverlay = coverArtStyle.toLowerCase() == 'overlay';
-	let isFill = coverArtStyle.toLowerCase() == 'large';
+	let isOverlay = coverArtStyle.toLowerCase() === 'overlay';
+	let isFill = coverArtStyle.toLowerCase() === 'large';
 	let cover = document.querySelector('#cover');
 	cover.className = '';
 	cover.innerHTML = '';
@@ -1443,12 +1443,12 @@ function generateCoverArt(contents) {
 
 function displayCoverIfComplete() {
 	let cover = document.getElementById('cover');
-	if(cover.classList.contains('error') || cover.getElementsByTagName('img').length == 0) return;
+	if(cover.classList.contains('error') || cover.getElementsByTagName('img').length === 0) return;
 	if(cover.getElementsByTagName('img').length > 0 && cover.getElementsByTagName('img')[0].complete && !cover.classList.contains('error'))
 	{
 		cover.style.display = 'initial';
 		if(debugMode) console.log('cover loaded');		
-		if(coverArtStyle.toLowerCase() == 'large') {
+		if(coverArtStyle.toLowerCase() === 'large') {
 			let headerWidth = document.querySelector('#header').getBoundingClientRect().width;// - 15;
 			document.querySelector('#search').style.width = (headerWidth - window['fill'] - 55) + 'px';
 			document.querySelector('#options').style.width = (headerWidth - window['fill'] - 8) + 'px';
@@ -1564,8 +1564,8 @@ function generateArtistInfo(contents) {
 		id: 'artist-info', 
 		title: 'Artist Information', 
 		skipColumns: [],
-		actionTitle: window['mode'] == 'artist' ? null : 'More Info',
-		actionFunc: window['mode'] == 'artist' ? null : function() {
+		actionTitle: window['mode'] === 'artist' ? null : 'More Info',
+		actionFunc: window['mode'] === 'artist' ? null : function() {
 			window['mode'] = 'artist';
 			let artistId = window['artist-id'];
 			let query = "SELECT ArtistTitle, ArtistTitle AS 'Artist Title' FROM Artist WHERE ID = " + artistId;
@@ -1763,7 +1763,7 @@ function generateSongRelatedByDate(contents) {
 
 function generateSongRelatedByYear(contents) {
 	if(debugMode) console.log('generateSongRelatedByYear', contents);
-	if(contents.values.length == 0) return;
+	if(contents.values.length === 0) return;
 	generateTableList(
 		contents, {
 		id: 'songs-related-year', 
@@ -1786,7 +1786,7 @@ function generateSongRelatedByYear(contents) {
 
 function generateArtistRelated(contents) {
 	if(debugMode) console.log('generateArtistRelated', contents);
-	if(contents.values.length == 0) return;
+	if(contents.values.length === 0) return;
 	generateTableList(
 		contents, {
 		id: 'artist-related', 
@@ -1809,7 +1809,7 @@ function generateArtistRelated(contents) {
 
 function generateReleaseRelated(contents) {
 	if(debugMode) console.log('generateReleaseRelated', contents);
-	if(contents.values.length == 0) return;
+	if(contents.values.length === 0) return;
 	generateTableList(
 		contents, {
 		id: 'release-related', 
@@ -1823,7 +1823,7 @@ function generateReleaseRelated(contents) {
 
 function generateSongFeaturedByArtist(contents) {
 	if(debugMode) console.log('generateSongFeaturedByArtist', contents);
-	if(contents.values.length == 0) return;
+	if(contents.values.length === 0) return;
 	generateTableList(
 		contents, {
 		id: 'artist-featured', 
@@ -1902,7 +1902,7 @@ function queryArtistSongs10Years(contents) {
 
 function generateArtistFeatured(contents) {
 	if(debugMode) console.log('generateArtistFeatured', contents);
-	if(contents.values.length == 0) return;
+	if(contents.values.length === 0) return;
 	generateTableList(
 		contents, {
 		id: 'artist-featured', 
@@ -1957,7 +1957,7 @@ function generateAwards(contents) {
 	document.querySelector('#song-awards').innerHTML = '';
 	let columns = contents.columns;
 	let rows = contents.values;
-	if(contents.length == 0) return;
+	if(contents.length === 0) return;
 	
 	let header = document.createElement('h4');
 	header.classList.add('centered');
@@ -1968,20 +1968,20 @@ function generateAwards(contents) {
 	let columnIndexAwardTitle = contents.columns.indexOf('AwardTitle');
 	let awardTitles = rows
 		.map(s => s[columnIndexKNYEAR] + '|' + s[columnIndexAwardTitle])
-		.filter((sa, ind, arr) => arr.indexOf(sa) == ind);
+		.filter((sa, ind, arr) => arr.indexOf(sa) === ind);
 	if(debugMode) console.log('awardTitles', awardTitles);
 	for(let award of awardTitles)
 	{
 		let [year, title] = award.split('|');
-		let awardRows = rows.filter(r => r[columnIndexKNYEAR] == year && r[columnIndexAwardTitle] == title);
+		let awardRows = rows.filter(r => r[columnIndexKNYEAR] === parseInt(year) && r[columnIndexAwardTitle] === title);
 		let columnIndexAwardType = columns.indexOf('AwardType');
 		let type = awardRows[0][columnIndexAwardType];
 		if(debugMode) console.log('awardRows', { columns, values: awardRows });
 		
 		let skipColumns = ['KNYEAR', 'AwardType', 'AwardTitle', 'SongID'];
-		if(type == 'Artist' || type == 'Song')
+		if(type === 'Artist' || type === 'Song')
 			skipColumns.push('Release Title');
-		if(type == 'Artist' || type == 'Release')
+		if(type === 'Artist' || type === 'Release')
 			skipColumns.push('Song Title');
 		
 		generateTableByDataWithHeader(
@@ -2127,7 +2127,7 @@ function generateCompilations(contents) {
 	
 	let columns = contents.columns;
 	let rows = contents.values;
-	if(contents.length == 0) return;
+	if(contents.length === 0) return;
 	
 	// let header = document.createElement('h4');
 	// header.classList.add('centered');
@@ -2136,15 +2136,15 @@ function generateCompilations(contents) {
 	
 	let columnIndexKNID = contents.columns.indexOf('KNID');
 	let columnIndexCompilationTitle = contents.columns.indexOf('CompilationTitle');
-	let compilationTitles = rows.map(s => s[columnIndexCompilationTitle]).filter((sa, ind, arr) => arr.indexOf(sa) == ind);
+	let compilationTitles = rows.map(s => s[columnIndexCompilationTitle]).filter((sa, ind, arr) => arr.indexOf(sa) === ind);
 	if(debugMode) console.log('compilationTitles', compilationTitles);
 	
 	let index = 0;
 	for(let compilationTitle of compilationTitles)
 	{
-		let compilationRows = rows.filter(r => r[columnIndexCompilationTitle] == compilationTitle);
+		let compilationRows = rows.filter(r => r[columnIndexCompilationTitle] === compilationTitle);
 		if(debugMode) console.log('compilationRows', { columns, values: compilationRows });
-		let isArtist = window['mode'] == 'artist';
+		let isArtist = window['mode'] === 'artist';
 		
 		generateTableByDataWithHeader(
 			{ columns, values: compilationRows }, {
@@ -2381,7 +2381,7 @@ function generateBSide(contents) {
 	let columns = contents.columns;
 	let rows = contents.values;
 	let total = rows[0][1];
-	if(contents.length == 0 || total == 0) return;
+	if(contents.length === 0 || total === 0) return;
 	
 	let header = document.createElement('h4');
 	header.classList.add('centered');
@@ -2407,7 +2407,7 @@ function generateBSide(contents) {
 	for(let r = 0; r < rows.length; r++)
 	{
 		// let rowVal = row[r];
-		// if(!rowVal || rowVal.length == 0) continue;
+		// if(!rowVal || rowVal.length === 0) continue;
 		// if(skipColumns.includes(columns[r])) continue;
 		
 		let tr = document.createElement('tr');
@@ -2417,7 +2417,7 @@ function generateBSide(contents) {
 		tr.appendChild(tc);
 		
 		let td = document.createElement('td');
-		td.innerText = r == 0 ? total + ' Singles' : rows[r][1];
+		td.innerText = r === 0 ? total + ' Singles' : rows[r][1];
 		tr.appendChild(td);
 		
 		tbody.appendChild(tr);	
@@ -2611,7 +2611,7 @@ function clearModules() {
 
 function updateSong() {	
 	window['mode'] = 'song';
-	let playlistOpen = document.querySelector('#song-queue').innerText == 'format_indent_increase';
+	let playlistOpen = document.querySelector('#song-queue').innerText === 'format_indent_increase';
 	hideContextMenus(true);
 	clearModules();
 	
@@ -2762,7 +2762,7 @@ function showContextMenu() {
 			menu.appendChild(showAddQueueContextMenu(this.getAttribute('data-id')));
 			break;
 		case 'playlist':
-			if(event.target.innerText == 'format_indent_increase') {
+			if(event.target.innerText === 'format_indent_increase') {
 				hideContextMenus(true);
 				event.target.innerText = 'format_align_justify';
 			}
@@ -2828,7 +2828,7 @@ function showPlaylist() {
 		if(debugMode) console.log('showPlaylist', query);
 		return queryDb(query, renderPlaylistItems);
 	}
-	else if(window['playlist'].length == 0)
+	else if(window['playlist'].length === 0)
 	{
 		let item = document.createElement('div');
 		item.classList.add('tag');
@@ -2851,7 +2851,7 @@ function renderPlaylistItems(list) {
 	{
 		let item = document.createElement('div');
 		item.classList.add('tag');
-		if(window['playlist'].indexOf(listItem[0].toString()) == window['playing']) // if playing as ID of item
+		if(window['playlist'].indexOf(listItem[0].toString()) === window['playing']) // if playing as ID of item
 			item.classList.add('highlight');
 		item.setAttribute('data-id', listItem[0]);
 		item.innerText = listItem[1];
@@ -2882,7 +2882,7 @@ function hideContextMenus(forced) {
 	
 	let contextOpen = false;
 	let menu = document.querySelector('.context');
-	if (typeof forced == 'boolean' && forced == true) {
+	if (typeof forced === 'boolean' && forced === true) {
 		menu.classList.add('hidden');
 		contextOpen = true;
 	}
@@ -2953,7 +2953,7 @@ function onDrop(e) {
 	
 	var file = e.dataTransfer.files[0];
 	// console.log('file', file.name, file.type);
-	if(file.type == 'audio/mpeg')
+	if(file.type === 'audio/mpeg')
 	{
 		document.querySelector('#search').value = file.name.replace('.mp3','');
 		document.querySelector('#search').dispatchEvent(new Event('input'));
