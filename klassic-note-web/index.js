@@ -310,68 +310,61 @@ function queueSongs(ids) {
 
 // TEST CASES //
 // Playlist empty
-// With song loaded from search in playlist
-// With playlist loaded, playing is not last song
+// With song selected on homepage
+// With song from search in playlist
+// With playlist, playing is not last song - select next in playlist
+// With playlist, playing is last song
 function skipSong() {
-	if(window['playing'] === null) window['playing'] = -1; // not played before
+	window['mode'] = 'song'; // assumption: must be in song mode
+	 // for startup
+	if(window['playing'] === null)
+		window['playing'] = -1;
+	 // empty playlist
 	if(window['playlist'] === null || window['playlist'].length === 0)
-	{
 		randomSong();
-		// return;
-	}
-	if(document.querySelector('#player') === null)
-	{
-		let optQuery = "SELECT * FROM Song WHERE KNID = ";
-		optQuery += window['playlist'][0];
-		if(debugMode) console.log('skipSong', optQuery);
-		queryDb(optQuery, updateOptions);
-	}
 	else if (window['playing'] >= 0 && window['playing'] + 1 < window['playlist'].length)
-	{
+	{ // if playing something
 		let optQuery = "SELECT * FROM Song WHERE KNID = ";
 		optQuery += window['playlist'][window['playing'] + 1];
 		if(debugMode) console.log('skipSong', optQuery);
 		queryDb(optQuery, updateOptions);
 	}
-	else 
-	{
-		if(window['shuffle-mode'])
-		{
-			let nextOption = document.querySelector('#queue-options').value;
-			let query = "SELECT KNID FROM Song WHERE KNID NOT IN (" + window['playlist'].join(',') + ")";
-			if(nextOption === 'artist') query += " AND ArtistID = " + window['artist-id'] + "";
-			if(nextOption === 'release') query += " AND ReleaseID = " + window['release-id'] + "";
-			if(nextOption === 'year') query += " AND KNYEAR = " + window['year'] + "";
-			if(nextOption === 'genre') query += " AND Genre = '" + window['genre'] + "'";
-			if(nextOption === 'past3year') {
-				if(!window['years']) window['years'] = window['year'] - 3;
-				query += " AND KNYEAR > " + parseInt(window['years']) + "";
+	else if(window['shuffle-mode'])
+	{ // shuffle mode on
+		let nextOption = document.querySelector('#queue-options').value;
+		let query = "SELECT KNID FROM Song WHERE KNID NOT IN (" + window['playlist'].join(',') + ")";
+		if(nextOption === 'artist') query += " AND ArtistID = " + window['artist-id'] + "";
+		if(nextOption === 'release') query += " AND ReleaseID = " + window['release-id'] + "";
+		if(nextOption === 'year') query += " AND KNYEAR = " + window['year'] + "";
+		if(nextOption === 'genre') query += " AND Genre = '" + window['genre'] + "'";
+		if(nextOption === 'past3year') {
+			if(!window['years']) window['years'] = window['year'] - 3;
+			query += " AND KNYEAR > " + parseInt(window['years']) + "";
+		}
+		if(debugMode) console.log('shuffle-mode', query);
+		queryDb(query, function(content) {
+			if(debugMode) console.log('nextOption', window['song-id'], content);
+			let total = content.values.length;
+			//if next option not available ie. will get random song, reset special shuffle
+			if(total < 1)
+			{
+				randomSong();
+				window['years'] = undefined;					
+				document.querySelector('#queue-options').value = 'any';
+				return;
 			}
-			if(debugMode) console.log('shuffle-mode', query);
-			queryDb(query, function(content) {
-				if(debugMode) console.log('nextOption', window['song-id'], content);
-				let total = content.values.length;
-				//if next option not available ie. will get random song, reset special shuffle
-				if(total < 1)
-				{
-					randomSong();
-					window['years'] = undefined;					
-					document.querySelector('#queue-options').value = 'any';
-					return;
-				}
-				let random = content.values[Math.floor((Math.random() * total))][0].toString();
-				let optQuery = "SELECT * FROM Song WHERE KNID = " + random;
-				if(debugMode) console.log('nextOptionQuery', optQuery);
-				queryDb(optQuery, updateOptions);
-				window['playlist'].push(random);
-				if(debugMode) console.log('playlist', window['playlist']);
-				updateQueueButtons();
-			});
-		}
-		else if (event.target.id != 'player') // if trigger from ended event
-		{
-			randomSong();
-		}
+			let random = content.values[Math.floor((Math.random() * total))][0].toString();
+			let optQuery = "SELECT * FROM Song WHERE KNID = " + random;
+			if(debugMode) console.log('nextOptionQuery', optQuery);
+			queryDb(optQuery, updateOptions);
+			window['playlist'].push(random);
+			if(debugMode) console.log('playlist', window['playlist']);
+			updateQueueButtons();
+		});
+	}
+	else if (event.target.id != 'player')
+	{ // if trigger from ended event
+		randomSong();
 	}
 }
 
@@ -1566,9 +1559,10 @@ function generateArtistInfo(contents) {
 		skipColumns: [],
 		actionTitle: window['mode'] === 'artist' ? null : 'More Info',
 		actionFunc: window['mode'] === 'artist' ? null : function() {
+			document.querySelector('#options').value = '';
+			
 			window['mode'] = 'artist';
-			let artistId = window['artist-id'];
-			let query = "SELECT ArtistTitle, ArtistTitle AS 'Artist Title' FROM Artist WHERE ID = " + artistId;
+			let query = "SELECT ArtistTitle, ArtistTitle AS 'Artist Title' FROM Artist WHERE ID = " + window['artist-id'];
 			queryDb(query, generateModules);
 		},
 	});
