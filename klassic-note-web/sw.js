@@ -1,43 +1,58 @@
-importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
+const CACHE_NAME = 'klassic-note-web-cache-v1';
+const cacheUrls = [
+  '/',
+  'index.html',
+  'index.css',
+  'config.js',
+  'index.js',
+  '../resources/noto-sans.woff2',
+  '../resources/material-icons.woff2',
+];
 
-const CACHE = "pwabuilder-page";
-const offlineFallbackPage = "index.html";
-
-self.addEventListener("message", (event) => {
-  if (event.data && event.data.type === "SKIP_WAITING") {
-    self.skipWaiting();
-  }
-});
-
-self.addEventListener('install', async (event) => {
+self.addEventListener('install', function(event) {
+  // Perform install steps
   event.waitUntil(
-    caches.open(CACHE)
-      .then((cache) => cache.add(offlineFallbackPage))
+    caches.open(CACHE_NAME)
+      .then(function(cache) {
+        console.log('Opened cache');
+        return cache.addAll(cacheUrls);
+      })
   );
 });
 
-if (workbox.navigationPreload.isSupported()) {
-  workbox.navigationPreload.enable();
-}
+self.addEventListener('fetch', function(event) {
+  event.respondWith(
+	caches.match(event.request)
+	  .then(function(response) {
+		// Cache hit - return response
+		if (response) {
+		  return response;
+		}
 
-self.addEventListener('fetch', (event) => {
-  if (event.request.mode === 'navigate') {
-    event.respondWith((async () => {
-      try {
-        const preloadResp = await event.preloadResponse;
+		// Clone the request
+		var fetchRequest = event.request.clone();
 
-        if (preloadResp) {
-          return preloadResp;
-        }
+		return fetch(fetchRequest).then(
+		  function(response) {
+			// Check if we received a valid response
+			if(!response ||
+			   response.status !== 200 ||
+			   response.type !== 'basic'
+			) {
+			  return response;
+			}
 
-        const networkResp = await fetch(event.request);
-        return networkResp;
-      } catch (error) {
+			// Clone the response
+			var responseToCache = response.clone();
 
-        const cache = await caches.open(CACHE);
-        const cachedResp = await cache.match(offlineFallbackPage);
-        return cachedResp;
-      }
-    })());
-  }
+			caches.open(CACHE_NAME)
+			  .then(function(cache) {
+				cache.put(event.request, responseToCache);
+			  });
+
+			return response;
+		  }
+		);
+	  })
+  );
 });

@@ -1,4 +1,5 @@
 //--STARTUP--//
+// addServiceWorker();
 window.addEventListener('load', startup);
 window.addEventListener('resize', onResize);
 window.addEventListener('keyup', onKeyUp);
@@ -17,6 +18,20 @@ function startup() {
 	generateFilters();
 	generateHomepage();
 	setTabs();
+}
+
+function addServiceWorker() {
+	if (navigator && 'serviceWorker' in navigator) {
+	  window.addEventListener('load', function() {
+		navigator.serviceWorker.register('sw.js')
+		  .then(function(registration) {
+			console.log('Service worker registered:', registration.scope);
+			startup();
+		  }, function(err) {
+			console.log('Service worker registration failed:', err);
+		  });
+	  });
+	}
 }
 
 function onResize() {
@@ -119,21 +134,18 @@ function onFeedback() {
 async function callDb(query, callback) {
 	const time = Date.now();
 	//for webassembly file
-	const SQL = await initSqlJs({
-	  // Required to load the wasm binary asynchronously. Of course, you can host it wherever you want
-	  // You can omit locateFile completely when running in node
+	const sqlPromise = await initSqlJs({
 	  locateFile: file => 'https://knneo.github.io/klassic-note-web/sql-wasm.wasm'
 	});
 
-	// for sqlite db
+	// using xmlhttprequest
 	const xhr = new XMLHttpRequest();
 	xhr.responseType = 'arraybuffer';
 	xhr.open('GET', databaseFilename, true);
 	xhr.onload = e => {
 	  const uInt8Array = new Uint8Array(xhr.response);
-	  window['db'] = new SQL.Database(uInt8Array);
+	  window['db'] = new sqlPromise.Database(uInt8Array);
 	  const contents = window['db'].exec(query);
-	  // console.log('callDb',contents);
 	  if(contents && contents.length > 0)
 		  callback(contents[0]);
 	  else if(contents)
@@ -146,7 +158,7 @@ async function callDb(query, callback) {
 }
 
 function queryDb(query, callback) {
-	const time = Date.now();	
+	const time = Date.now();
 	const contents = window['db'].exec(query);
 	// console.log('queryDb',contents);
 	if(contents && contents.length > 0)
@@ -638,13 +650,13 @@ function onChangeOption() {
 		query = "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song WHERE ID = " + input;
 		if(isMobile())
 			query += " LIMIT 100";
-		callDb(query, updateOptions);
+		queryDb(query, updateOptions);
 	}
 }
 
 //--HOMEPAGE--//
 //flow is generally generateHomepage -> query[Module/Component] -> generate[Module/Component]
-function generateHomepage() {
+function generateHomepage() {	
 	//initial query for options
 	let query = "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song";
 	if(isMobile())
@@ -2219,7 +2231,7 @@ function updateYear() {
 	query = "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song WHERE KNYEAR = " + year;
 	// if(isMobile())
 		// query += " LIMIT 100";
-	callDb(query, function(contents) {
+	queryDb(query, function(contents) {
 		updateOptions(contents);
 		document.querySelector('#options').disabled = true;
 		document.querySelector('#search').disabled = false;
@@ -2240,7 +2252,7 @@ function updateArtist() {
 	query = "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song WHERE ArtistTitle = '" + addQuotationInSQLString(artist) + "'";
 	if(isMobile())
 		query += " LIMIT 100";
-	callDb(query, updateOptions);
+	queryDb(query, updateOptions);
 }
 
 function queueSongs(ids) {
