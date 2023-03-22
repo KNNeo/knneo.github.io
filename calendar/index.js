@@ -48,6 +48,7 @@ const data = [
 		name: '夏川椎菜のCultureZ',
 		startDayNo: 1,
 		startTime: 2500,
+		endDate: '2023-03-20',
 		lengthMinutes: 120,
 		recurringWeeks: [1,2,3,4,5],
 		channel: 'YouTube',
