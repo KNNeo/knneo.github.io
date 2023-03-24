@@ -2258,6 +2258,7 @@ function updateArtist() {
 function queueSongs(ids) {
 	window['playlist'] = ids;
 	window['playing'] = -1;
+	window['mode'] = 'song;
 	if(!window['autoplay']) document.querySelector('.autoplay').click();
 	
 	let optQuery = "SELECT * FROM Song WHERE KNID = ";
