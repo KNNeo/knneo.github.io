@@ -17,7 +17,11 @@ function largeScreenWidth() {
 }
 
 function smallScreenHeight() {
-	return window.innerHeight <= 800;
+	return getScreenHeight() <= 800;
+}
+
+function getScreenHeight() {
+	return window.innerHeight < window.screen.height ? window.screen.height : window.innerHeight;
 }
 
 //--EVENTS--//
@@ -370,7 +374,7 @@ function renderMenu() {
 		
 		let iconSize = '6rem';
 		let drawerHeight = '15vh';
-		if (window.innerHeight < 760) {
+		if (getScreenHeight() < 760) {
 			iconSize = '4rem';
 			drawerHeight = '30px';
 		}
@@ -395,11 +399,11 @@ function renderMenu() {
 				// });
 				// contentItem.addEventListener('touchmove', function() {
 					// event.stopPropagation();
-					// document.querySelector('.menu').style.maxHeight = (window.innerHeight - event.touches[0].clientY + 20) + 'px';
+					// document.querySelector('.menu').style.maxHeight = (getScreenHeight() - event.touches[0].clientY + 20) + 'px';
 				// });
 				// contentList.appendChild(contentItem);
 				
-				// if(window.innerHeight < 760)
+				// if(getScreenHeight() < 760)
 					// document.querySelector('.menu').style.maxHeight = drawerHeight;
 			// }
 			
