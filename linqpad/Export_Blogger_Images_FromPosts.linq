@@ -85,12 +85,16 @@ void Main()
             Console.Write(".");
 		        
         #region export list of images from latest
+		var urls = new List<string>();
         expression = @"(<img)(.*?)(src="")(.*?)("")";
         match = Regex.Match(content, expression);
         while(match.Success)// && includedDomains.Any(id => match.Groups[4].Value.Contains(id)))
         {
-			if(includedDomains.Any(id => match.Groups[4].Value.Contains(id)))
+			if(includedDomains.Any(id => match.Groups[4].Value.Contains(id)) && !urls.Contains(match.Groups[4].Value))
+			{
 				imageExport += ",{\"title\":\"" + title.Replace("\"", "\\\"") + "\", \"titleUrl\":\"" + pageLink + "\", \"imgUrl\":\"" + match.Groups[4].Value + "\"}";
+				urls.Add(match.Groups[4].Value);
+			}
         	match = match.NextMatch();
         };
         if(match.Success) count++;
