@@ -295,6 +295,11 @@ table.tr-caption-container {
 	visibility: hidden;
 	transition: opacity 0.5s, visibility 0.5s;
 	overflow-y: auto;
+	
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    /* align-items: center; */
 }
 
 #viewer-prev {

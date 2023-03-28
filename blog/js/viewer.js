@@ -98,6 +98,7 @@ function openItemInViewer(link) {
 		viewer.innerHTML = item;
 		// viewer.appendChild(div);
 		renderEmbedProcess();
+		setTimeout(adjustViewerMargin, 1000);
 	}
 	
 	viewer.style.opacity = 1;
@@ -179,7 +180,7 @@ function adjustViewerMargin() {
 		let iframe = viewer.querySelector('iframe');
 		let iframeDoc = iframe.contentWindow;
 		if(iframeDoc == null) setTimeout(adjustViewerMargin, 1000);
-		else viewer.style.paddingTop = (viewer.getBoundingClientRect().height - viewer.querySelector('div').getBoundingClientRect().height)/2 + 'px';
+		else viewer.style.alignItems = iframe.getBoundingClientRect().height > window.innerHeight ? '' : 'center';
 	}
 	
 	document.body.style.overflow = 'hidden';

@@ -156,8 +156,9 @@ function scrollToSectionByUrl() {
 function addHoverForLinks() {
 	if(document.getElementsByClassName('post-body entry-content').length == 0) return;
     for (let link of document.getElementsByClassName('post-body entry-content')[0].getElementsByTagName('a')) {
-		if(typeof generateViewer == 'function' && link.target != '' && 
-		(link.href.includes('twitter.com') || link.href.includes('instagram.com')))
+		if(typeof generateViewer == 'function' && link.target != '' && false
+		// && (link.href.includes('twitter.com') || link.href.includes('instagram.com'))
+		)
 			link.addEventListener('click', openItemInViewer);
 		else if(link.target != '')
 			link.addEventListener('mouseover', renderPopup);
@@ -204,7 +205,8 @@ function togglePopup() {
 		switchToButton('CloseBtn');
 		if(typeof fixExternalFrame == 'function') fixExternalFrame(this);
 		renderEmbedProcess();
-		// if(isMobile()) document.querySelector('html').scrollTop += this.getBoundingClientRect().top;
+		// if(isMobile()) 
+			document.querySelector('html').scrollTop += (this.getBoundingClientRect().top - document.querySelector('.header')?.getBoundingClientRect().height);
     }
 	
 	toggleOverlay(false);
@@ -362,7 +364,7 @@ function generatePopupContent(url) {
     if (url.includes('jisho.org/search/')) {
         //process page as iframe
         return '<iframe id="myFrame" src="' +
-            url + '" style="height:min(50vh,450px);width:min(98%,760px);"></iframe>';
+            url + '" style="height:min(70vh,600px);width:min(98%,760px);"></iframe>';
     }
     return null;
 }
@@ -373,17 +375,18 @@ function toggleOverlay(fromSidebar) {
 		let overlay = document.createElement('div');
 		overlay.id = 'Overlay';
 		overlay.style.display = 'none';
-		overlay.addEventListener('click',closePopups);
+		overlay.addEventListener('click', closePopups);
 		body.appendChild(overlay);
 	}
 	document.getElementById('Overlay').style.display = toggleDisplay(document.getElementById('Overlay'), 'none');
-	document.getElementById('Overlay').style.backgroundColor = fromSidebar ? 'black' : 'transparent';
-	document.getElementById('Overlay').style.zIndex = fromSidebar ? '8' : '0';
+	document.getElementById('Overlay').style.backgroundColor = fromSidebar ? 'black' : '';
+	document.getElementById('Overlay').style.zIndex = fromSidebar ? '8' : '';
 	
-	if(fromSidebar) {
-		document.body.style.overflow = document.body.style.overflow == '' ? 'hidden' : '';
-	}
-	else if(document.getElementById('BackBtn') != null) {
+	// if(fromSidebar) {
+		// document.body.style.overflow = document.body.style.overflow == '' ? 'hidden' : '';
+	// }
+	// else 
+	if(document.getElementById('BackBtn') != null) {
 		document.getElementById('BackBtn').style.display = toggleDisplay(document.getElementById('BackBtn'), 'none');
 		document.getElementById('RightBtn').style.display = toggleDisplay(document.getElementById('RightBtn'), 'none');
 	}
