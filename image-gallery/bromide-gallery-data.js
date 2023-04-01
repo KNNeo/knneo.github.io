@@ -11,7 +11,7 @@ enableSlideshow = true; //enable slideshow button
 enableFullscreenSlideshow = true; //enable fullscreen button for slideshow, for browser only not viewer
 enableShadows = true; //removes shadows and borders in images
 enableDarkMode = true; //no button to toggle, when load always white background
-defaultDirectory = 'file://KAINENG-PC/selfscan';
+defaultDirectory = 'file://///KAINENG-PC/selfscan';
 
 //localization
 pageTitle = 'GALLERY'; //for tab, and top of page
