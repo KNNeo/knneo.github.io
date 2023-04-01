@@ -181,7 +181,9 @@ const data = [
 	{
 		name: '竹達・沼倉の初ラジ！',
 		startDayNo: 6,
+		startDate: '2023-04-01',
 		startTime: 1900,
+		endDate: '2023-06-30',
 		lengthMinutes: 30,
 		recurringWeeks: [1,2,3,4,5],
 		channel: '文化放送『超！A&G＋』',
