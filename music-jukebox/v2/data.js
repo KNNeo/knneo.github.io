@@ -529,22 +529,6 @@ const mosaicArray = [
         "og": "https://music.apple.com/jp/album/1655049849"
     },
     {
-        "filename": "2022KlassicNote@AppleMusicJP",
-        "sort": "2022_2022KlassicNote@AppleMusicJP",
-        "sm": "https://is3-ssl.mzstatic.com/image/thumb/ItpENF2Vb3ygdNJivUm_KQ/305x305cc.webp",
-        "md": "https://is3-ssl.mzstatic.com/image/thumb/ItpENF2Vb3ygdNJivUm_KQ/305x305cc.webp",
-        "lg": "https://is3-ssl.mzstatic.com/image/thumb/ItpENF2Vb3ygdNJivUm_KQ/305x305cc.webp",
-        "og": "https://music.apple.com/jp/playlist/2022klassicnote-applemusicjp/pl.u-WabZzxVUR9boM4B"
-    },
-    {
-        "filename": "2023KlassicNote@AppleMusicJP",
-        "sort": "2023_2022KlassicNote@AppleMusicJP",
-        "sm": "https://is4-ssl.mzstatic.com/image/thumb/P3WOFFKt_3cq0VhzaHfAJQ/305x305cc.webp",
-        "md": "https://is4-ssl.mzstatic.com/image/thumb/P3WOFFKt_3cq0VhzaHfAJQ/305x305cc.webp",
-        "lg": "https://is4-ssl.mzstatic.com/image/thumb/P3WOFFKt_3cq0VhzaHfAJQ/305x305cc.webp",
-        "og": "https://music.apple.com/jp/playlist/2023klassicnote-applemusicjp/pl.u-gxblvj7IxJqepBN"
-    },
-    {
         "filename": "2021_caravan!_豊崎愛生",
         "sort": "2021_caravan!_豊崎愛生",
         "sm": "https://is3-ssl.mzstatic.com/image/thumb/Music125/v4/18/07/3d/18073d11-510f-05b7-f9f9-e57834c52846/4580074475271.jpg/316x316bb.webp",
