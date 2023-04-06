@@ -22,15 +22,14 @@ function createCalendar(monthNo, DOBlist, legend = false) {
 		calendarArray.push(weekDays);
 	}
 	
-	let week = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 	// render table
 	let htmlString = '<table><tbody><tr><td>' + 
 	(monthNo+1 > 1 ? '<i class="prev-month bi bi-arrow-left"></i>' : '') + 
 	'</td><td colspan="5">' + 
-	month[monthNo] + ' ' + new Date().getFullYear() + 
+	months[monthNo] + ' ' + new Date().getFullYear() + 
 	'</td><td>'	+ 
 	(monthNo+1 < 12 ? '<i class="next-month bi bi-arrow-right"></i>' : '') + 
-	'</td></tr><tr>' + week.map(w => '<td>' + w + '</td>').join('') + '</tr>';
+	'</td></tr><tr>' + daysOfWeek.map(w => '<td>' + w + '</td>').join('') + '</tr>';
 	
 	for (let week = 0; week < 6; week++) {
 		htmlString += '<tr>';
@@ -58,7 +57,7 @@ function createCalendar(monthNo, DOBlist, legend = false) {
 		
 		//replace html based on thisAge
 		let dateCell = '<td>' + birthdayInYear.getDate() + '</td>';
-		let monthId = month[birthdayInYear.getMonth()];
+		let monthId = months[birthdayInYear.getMonth()];
 		let message = '<b onclick="generateProfileFromJSON(this)" class="calendar-name color-' + item.category + '">' + item.name + '</b> turns ' + thisAge + '</b> (' + birthdayInYear.getDate() + ' ' + monthId.substring(0, 3) + ')';
 		if (thisAge == '??')
 			message = 'Happy Birthday <b onclick="generateProfileFromJSON(this)" class="calendar-name color-' + item.category + '">' + item.name + '</b>!!';
