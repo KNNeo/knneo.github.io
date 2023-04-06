@@ -220,7 +220,7 @@ function startup() {
 	generateCalendar(new Date().getFullYear(), new Date().getMonth()); // month is zero-based
 }
 
-function generateCalendar(year, month, list) {
+function generateCalendar(year, month) {
 	// add class or id to each cell, easier to add content
 	// use table tag, don't use css grid
 	// console.log(year, month);
