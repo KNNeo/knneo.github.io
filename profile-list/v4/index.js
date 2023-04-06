@@ -57,10 +57,10 @@ function initializeVariables() {
 }
 
 function loadProfileLists() {
-	window['profileList'] = profileListJson.filter(n => n.rating);
-	window['calendarList'] = profileListJson.filter(n => calendarCategories.includes(n.category));
+	window['profileList'] = profileListJson.filter(n => !(n.inactive === true) && n.rating);
+	window['calendarList'] = profileListJson.filter(n => !(n.inactive === true) && calendarCategories.includes(n.category));
 	window['friendList'] = profileListJson
-		.filter(n => n.category == 'friends')
+		.filter(n => !(n.inactive === true) && n.category == 'friends')
 		.sort(function(a,b) { 
 			return b.id.split('-').length - a.id.split('-').length;
 		}); // 3-friend id on top of list regardless of sort order
