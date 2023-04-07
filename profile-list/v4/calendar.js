@@ -1,46 +1,69 @@
-function generateCalendar(month, list = [], legend = false) {
+function generateMiniCalendar(year, month, list = [], showLegend = false) {
+	// add class or id to each cell, easier to add content
+	// use table tag, don't use css grid
+	// console.log(year, month);
 	
+	let calendar = document.createElement('div');
+	
+	//TODO: allow start from monday
+	// generate calendar array
+	let calendarArray = generateCalendarArray(year, month);
+	// console.log(calendarArray);
+	
+	// generate calendar HTML
+	let table = generateMiniCalendarTable(year, month, calendarArray);	
+	// calendar.appendChild(table);
+	
+	document.querySelector('.calendar').innerHTML = table;
+	// document.querySelector('.calendar').appendChild(calendar);
+	
+	// add marked items on expanded calendar
+	window['currentMonth'] = month;
+	addEventsToMiniCalendar(table, list);
+	
+	if(showLegend)
+		addCalendarLegend();
 }
 
-function createCalendar(monthNo, DOBlist, legend = false) {
-	//generate calendar from DOBlist
-	//monthNo is 0-based, actual is monthNo + 1
-	//legend will generate legend, if .calendar-legend is found
+function generateCalendarArray(year, month) {
 	let calendarArray = new Array();
 	let dayOfMonth = 1;
-	// render days of month as fixed array
 	for (let week = 0; week < 6; week++) {
-		let weekDays = ['', '', '', '', '', '', ''];
+		let emptyDays = ['', '', '', '', '', '', ''];
 		for (let day = 0; day < 7; day++) {
-			if (new Date(new Date().getFullYear(), monthNo, dayOfMonth).getDay() == day) {
-				//add to array
-				if (dayOfMonth > new Date(new Date().getFullYear(), monthNo, dayOfMonth).getDate()) break;
-				weekDays[day] = dayOfMonth;
-				dayOfMonth++;
+			if (new Date(year, month, dayOfMonth).getDay() == day) {
+				if (dayOfMonth > new Date(year, month+1, 0).getDate()) break;
+				emptyDays[day] = dayOfMonth++;
 			}
 		}
-		calendarArray.push(weekDays);
+		calendarArray.push(emptyDays);
 	}
-	
+	return calendarArray;
+}
+
+function generateMiniCalendarTable(year, month, array) {
 	// render table
 	let htmlString = '<table><tbody><tr><td>' + 
-	(monthNo+1 > 1 ? '<i class="prev-month bi bi-arrow-left"></i>' : '') + 
+	(month+1 > 1 ? '<i class="prev-month bi bi-arrow-left"></i>' : '') + 
 	'</td><td colspan="5">' + 
-	months[monthNo] + ' ' + new Date().getFullYear() + 
+	months[month] + ' ' + new Date().getFullYear() + 
 	'</td><td>'	+ 
-	(monthNo+1 < 12 ? '<i class="next-month bi bi-arrow-right"></i>' : '') + 
+	(month+1 < 12 ? '<i class="next-month bi bi-arrow-right"></i>' : '') + 
 	'</td></tr><tr>' + daysOfWeek.map(w => '<td>' + w + '</td>').join('') + '</tr>';
 	
 	for (let week = 0; week < 6; week++) {
 		htmlString += '<tr>';
-		let weekDays = calendarArray[week];
+		let weekDays = array[week];
 		for (let day = 0; day < 7; day++) {
 			htmlString += '<td>' + weekDays[day] + '</td>';
 		}
 		htmlString += '</tr>';
 	}
 	htmlString += '</tbody></table>';
-	
+	return htmlString;
+}
+
+function addEventsToMiniCalendar(htmlString, DOBlist) {
 	// replace cells in table with relevant dates
 	for (let item of DOBlist) {
 		//calculate if birthday this year has passed
@@ -80,16 +103,22 @@ function createCalendar(monthNo, DOBlist, legend = false) {
 	
 	//global variable for month navigation
 	//events for month buttons
-	window['currentMonth'] = monthNo;
+	// window['currentMonth'] = monthNo;
 	if (window['currentMonth'] > 0) document.querySelector('.prev-month').addEventListener('click', function() {
-		createCalendar(--window['currentMonth'], window['calendarDOBlist']);
+		generateMiniCalendar(
+			luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: timezone}).year,
+			--window['currentMonth'], 
+			window['calendarDOBlist']
+		);
 	});
 	if (window['currentMonth'] < 11) document.querySelector('.next-month').addEventListener('click', function() {
-		createCalendar(++window['currentMonth'], window['calendarDOBlist']);
+		generateMiniCalendar(
+			luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: timezone}).year,
+			++window['currentMonth'], 
+			window['calendarDOBlist']
+		);
 	});
 	
-	if(legend)		
-		addCalendarLegend();
 }
 
 function addCalendarLegend() {
@@ -122,8 +151,12 @@ function addCalendarLegend() {
 				else
 					this.classList.add(id);					
 				setTimeout(function() {
-					filterCalendar();
-					createCalendar(luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: timezone}).month-1, window['calendarDOBlist']);
+					filterCalendarList();
+					generateMiniCalendar(
+						luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: timezone}).year,
+						window['currentMonth'], 
+						window['calendarDOBlist']
+					);
 				}, 10);
 			});
 			label.appendChild(box);
@@ -139,8 +172,12 @@ function addCalendarLegend() {
 				else
 					this.previousElementSibling.classList.add(id);					
 				setTimeout(function() {
-					filterCalendar();
-					createCalendar(luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: timezone}).month-1, window['calendarDOBlist']);
+					filterCalendarList();
+					generateMiniCalendar(
+						luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: timezone}).year,
+						window['currentMonth'], 
+						window['calendarDOBlist']
+					);
 				}, 10);
 			});
 			description.innerText = category.substring(0,1).toUpperCase() + category.substring(1);
@@ -150,7 +187,7 @@ function addCalendarLegend() {
 	}
 }
 
-function filterCalendar() {
+function filterCalendarList() {
 	let checkedCategories = Array
 		.from(document.querySelectorAll('.calendar-legend input'))
 		.filter(i => i.checked == true)

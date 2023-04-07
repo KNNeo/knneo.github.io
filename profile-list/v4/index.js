@@ -76,7 +76,12 @@ function loadProfileLists() {
 function renderWantedList() {
 	generateWantedList();
 	loadTimeline();
-	createCalendar(luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: timezone}).month-1, window['calendarDOBlist'], true);
+	// createCalendar(luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: timezone}).month-1, window['calendarDOBlist'], true);
+	generateMiniCalendar(
+		luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: timezone}).year,
+		luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: timezone}).month-1, // month is zero-based
+		window['calendarDOBlist'], 
+		true);
 	updateTime();
 	toggleView(2);
 }
