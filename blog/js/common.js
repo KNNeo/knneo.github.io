@@ -206,7 +206,8 @@ function togglePopup() {
 		if(typeof fixExternalFrame == 'function') fixExternalFrame(this);
 		renderEmbedProcess();
 		// if(isMobile()) 
-			document.querySelector('html').scrollTop += (this.getBoundingClientRect().top - document.querySelector('.header')?.getBoundingClientRect().height);
+			// document.querySelector('html').scrollTop += (this.getBoundingClientRect().top - document.querySelector('.header')?.getBoundingClientRect().height);
+		this.scrollIntoView({ behavior: "smooth", block: "center" });
     }
 	
 	toggleOverlay(false);
@@ -364,7 +365,7 @@ function generatePopupContent(url) {
     if (url.includes('jisho.org/search/')) {
         //process page as iframe
         return '<iframe id="myFrame" src="' +
-            url + '" style="height:min(70vh,600px);width:min(98%,760px);"></iframe>';
+            url + '" style="height:min(50vh,600px);width:min(98%,760px);"></iframe>';
     }
     return null;
 }
