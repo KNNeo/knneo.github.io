@@ -551,21 +551,7 @@ I guess<div><div>
     </div>
   </div>
 </div>
-<script>
-  var hashtags = new Array();
-  for(var topic of document.getElementsByClassName("anime"))
-  {
-    hashtags.push( { tag: topic.id.substring(0,topic.id.length-2), target: topic.id } );
-  }
-  for(let item of hashtags)
-  {
-    let newItem = document.createElement('a');
-    newItem.style.paddingRight = '3px';
-    newItem.innerText = '#' + item.tag;
-    newItem.href = '#' + item.target;
-    document.getElementById("hashtags").appendChild(newItem);
-  }
-</script><hr><h4>#The Entertainment News</h4><h6 style="text-align: center;">Copyright (c) 2014-2023 Klassic Note Web Reports</h6><br><br><br><br></div>
+<hr><h4>#The Entertainment News</h4><h6 style="text-align: center;">Copyright (c) 2014-2023 Klassic Note Web Reports</h6><br><br><br><br></div>
 </body>
 <script src="../../../blogspot.js" type="application/javascript" charset="utf-8"></script>
 <script src="../../../js/common.js" type="application/javascript" charset="utf-8"></script>

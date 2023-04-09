@@ -586,21 +586,7 @@ Hey, guys. I have bad news to report.
     and until next time note to self that please wait until at least 11pm JST
     before posting just in case Minase Inori wants to dump some news and I have
     to put it in next week's post instead lol bye<br />
-    <script>
-      var hashtags = new Array();
-      for(var topic of document.getElementsByClassName("anime"))
-      {
-        hashtags.push( { tag: topic.id.substring(0,topic.id.length-2), target: topic.id } );
-      }
-      for(let item of hashtags)
-      {
-      let newItem = document.createElement('a');
-      newItem.style.paddingRight = '3px';
-      newItem.innerText = '#' + item.tag;
-      newItem.href = '#' + item.target;
-      document.getElementById("hashtags").appendChild(newItem);
-      }
-    </script>
+    
   </div>
   <div><br /></div>
   <div>

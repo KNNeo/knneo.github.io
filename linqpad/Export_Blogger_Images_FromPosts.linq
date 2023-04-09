@@ -86,7 +86,7 @@ void Main()
 		        
         #region export list of images from latest
 		var urls = new List<string>();
-        expression = @"(<img)(.*?)(src="")(.*?)("")";
+        expression = @"(?s)(<img)(.*?)(src="")(.*?)("")";
         match = Regex.Match(content, expression);
         while(match.Success)// && includedDomains.Any(id => match.Groups[4].Value.Contains(id)))
         {

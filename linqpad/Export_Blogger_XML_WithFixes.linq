@@ -179,7 +179,7 @@ void Main()
 	            match = match.NextMatch();
 	        };
 			
-	        expression = @"(<blockquote)(.*?)(?<=class=""twitter-tweet)(.*?)(>)";
+	        expression = @"(?s)(<blockquote)(.*?)(?<=class=""twitter-tweet)(.*?)(>)";
 	        match = Regex.Match(content, expression);
 	        while(match.Success && match.Groups[2].Value.EndsWith("twitter-tweet") && !match.Groups[3].Value.Contains("tw-align-center")) {
 				//Console.WriteLine(title);
@@ -212,7 +212,7 @@ void Main()
         #region 03 remove embed styles for thumbnail normal/hover (posts with sp-thumbnail will be ignored)
 		if(includeIndex.Count() == 0 || includeIndex.Contains(3))
 		{
-	        expression = @"(<style)(.*?)(.thumbnail .hover)(.*?)(</style>)";
+	        expression = @"(?s)(<style)(.*?)(.thumbnail .hover)(.*?)(</style>)";
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 				content = content.Replace(match.Value, "");
@@ -224,7 +224,7 @@ void Main()
         #region 04 thumbnail => new thumbnail
 		if(includeIndex.Count() == 0 || includeIndex.Contains(4))
 		{
-        	expression = @"(<div class=""thumbnail"">)(.*?)(<span class=""normal"">)(.*?)(<span class=""hover"">)(.*?)(</div>)";      
+        	expression = @"(?s)(<div class=""thumbnail"">)(.*?)(<span class=""normal"">)(.*?)(<span class=""hover"">)(.*?)(</div>)";      
 	        match = Regex.Match(content, expression);
 	        prefix = @"<div class=""thumbnail""><div class=""thumbnail-initial hover-hidden"">";
 	        midfix = @"</div><div class=""thumbnail-initial thumbnail-pop hover-visible"">";
@@ -244,7 +244,7 @@ void Main()
         #region 06 sp-thumbnail active => new thumbnail
 		if(includeIndex.Count() == 0 || includeIndex.Contains(6))
 		{
-        	expression = @"(<div class=""sp-thumbnail"">)(.*?)(<span class=""normal"">)(.*?)(<span class=""clicker"">)(.*?)(<span class=""hover"">)(.*?)(</div>)";      
+        	expression = @"(?s)(<div class=""sp-thumbnail"">)(.*?)(<span class=""normal"">)(.*?)(<span class=""clicker"">)(.*?)(<span class=""hover"">)(.*?)(</div>)";      
 	        match = Regex.Match(content, expression);
 	        prefix = @"<div class=""thumbnail""><div class=""thumbnail-initial hover-hidden"">";
 	        midfix = @"</div><div class=""thumbnail-initial thumbnail-pop hover-visible"">";
@@ -260,7 +260,7 @@ void Main()
         #region 07 div popup table => new thumbnail
 		if(includeIndex.Count() == 0 || includeIndex.Contains(7))
 		{
-	        expression = @"(<div class=""popup""><span class=""initial"">)(.*?)(</span><span class=""pop"" style=""margin: 0; position: initial;"">)(.*?)(</span></div>)";
+	        expression = @"(?s)(<div class=""popup""><span class=""initial"">)(.*?)(</span><span class=""pop"" style=""margin: 0; position: initial;"">)(.*?)(</span></div>)";
 	        //matchExpression = @"(?<=<div class=""popup""><span class=""initial"">)(.*?)(</span><span class=""pop"" style=""margin: 0; position: initial;"">)(.*?)(?=</span></div>)";
 	        
 	        match = Regex.Match(content, expression);
@@ -281,7 +281,7 @@ void Main()
         #region 08 span popup table => new thumbnail
 		if(includeIndex.Count() == 0 || includeIndex.Contains(8))
 		{
-	        expression = @"(<span class=""popup""><span class=""initial"">)(.*?)(</span><span class=""pop"" style=""margin: 0; position: initial;"">)(.*?)(</span></span>)";
+	        expression = @"(?s)(<span class=""popup""><span class=""initial"">)(.*?)(</span><span class=""pop"" style=""margin: 0; position: initial;"">)(.*?)(</span></span>)";
 	        //matchExpression = @"(?<=<div class=""popup""><span class=""initial"">)(.*?)(</span><span class=""pop"" style=""margin: 0; position: initial;"">)(.*?)(?=</span></div>)";
 	        
 	        match = Regex.Match(content, expression);
@@ -302,7 +302,7 @@ void Main()
         #region 09 div popup normal pop image => new popup
 		if(includeIndex.Count() == 0 || includeIndex.Contains(9))
 		{
-	        expression = @"(<div class=""popup""><span class=""normal"">)(.*?)(</span>)(<span class=""pop"">)(.*?)(src="")(.*?)("")(.*?)(</span></div>)";
+	        expression = @"(?s)(<div class=""popup""><span class=""normal"">)(.*?)(</span>)(<span class=""pop"">)(.*?)(src="")(.*?)("")(.*?)(</span></div>)";
 	        match = Regex.Match(content, expression);
 	        prefix = @"<a href=""";
 	        midfix = @""" target=""_blank"">";
@@ -331,7 +331,7 @@ void Main()
         #endregion
         
         #region span popup normal pop => div popup normal pop
-        //expression = @"(<span class=""popup""><span class=""normal"">)(.*?)(</span><span class=""pop"">)(.*?)(</span></span>)";
+        //expression = @"(?s)(<span class=""popup""><span class=""normal"">)(.*?)(</span><span class=""pop"">)(.*?)(</span></span>)";
         //content = content.Replace("<span class=\"popup\"><span class=\"normal\">", "<div class=\"popup\"><span class=\"normal\">");
         //content = content.Replace("</span></span>", "</span></div>");
         
@@ -354,7 +354,7 @@ void Main()
         #endregion
         
         #region abbr imgpop => div popup normal pop
-        //expression = @"(<abbr class=""imgpop"">)(.*?)(/>)(.*?)(</abbr>)";
+        //expression = @"(?s)(<abbr class=""imgpop"">)(.*?)(/>)(.*?)(</abbr>)";
         //
         //match = Regex.Match(content, expression);
         //prefix = @"<div class=""popup""><span class=""normal"">";
@@ -371,7 +371,7 @@ void Main()
         #endregion
         
         #region div popup normal pop (images) => div new-thumbnail
-        //expression = @"(<div class=""popup""><span class=""normal"">)(.*?)(</span><span class=""pop"">)(.*?)(<img)(.*?)(src="")(.*?)("" /></span></div>)";
+        //expression = @"(?s)(<div class=""popup""><span class=""normal"">)(.*?)(</span><span class=""pop"">)(.*?)(<img)(.*?)(src="")(.*?)("" /></span></div>)";
         //
         //match = Regex.Match(content, expression);
         //prefix = @"<a href=""";
@@ -388,7 +388,7 @@ void Main()
         #endregion
         
         #region div popup normal pop (iframes) => div new-thumbnail
-        //expression = @"(<div class=""popup""><span class=""normal"">)(.*?)(</span><span class=""pop""><iframe)(.*?)(src="")(.*?)(""></iframe></span></div>)";
+        //expression = @"(?s)(<div class=""popup""><span class=""normal"">)(.*?)(</span><span class=""pop""><iframe)(.*?)(src="")(.*?)(""></iframe></span></div>)";
         //
         //match = Regex.Match(content, expression);
         //prefix = @"<a href=""";
@@ -461,7 +461,7 @@ void Main()
         #endregion
         
         #region jisho links detection
-        //expression = @"(<a href="")(https://jisho.org/search/)(.*?)("" target=""_blank"">)(.*?)(</a>)";
+        //expression = @"(?s)(<a href="")(https://jisho.org/search/)(.*?)("" target=""_blank"">)(.*?)(</a>)";
         //match = Regex.Match(content, expression);
         //if(match.Value.Length > 0)
         //	Console.WriteLine(match.Value);
@@ -470,7 +470,7 @@ void Main()
         #region 16 remove hashtags on post level
 		if(includeIndex.Count() == 0 || includeIndex.Contains(16))
 		{
-	        expression = @"(<script>)(.*?)(var hashtags)(.*?)(</script>)";
+	        expression = @"(?s)(<script>)(.*?)(var hashtags)(.*?)(</script>)";
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 				content = content.Replace(match.Value, "");
@@ -504,7 +504,7 @@ void Main()
 	        prefix = @"<a href=""";
 	        midfix = @""" target=""_blank""";
 	        suffix = ">";
-	        expression = @"(<a )(.*?)(href="")(.*?)("")(.*?)(>)";        
+	        expression = @"(?s)(<a )(.*?)(href="")(.*?)("")(.*?)(>)";        
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 				var url = match.Groups[4].Value;
@@ -524,7 +524,7 @@ void Main()
 	            match = match.NextMatch();			
 	        };
 			
-	        expression = @"(<div class=""thumbnail"")(.*?)(<a )(.*?)(href="")(.*?)("")(.*?)(>)(.*?)(</a)(.*?)(/div>)";        
+	        expression = @"(?s)(<div class=""thumbnail"")(.*?)(<a )(.*?)(href="")(.*?)("")(.*?)(>)(.*?)(</a)(.*?)(/div>)";        
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 				var url = match.Groups[6].Value;
@@ -596,7 +596,7 @@ void Main()
 		#endregion
         
         #region export list of images from latest
-//        expression = @"(<img)(.*?)(src="")(.*?)("")";
+//        expression = @"(?s)(<img)(.*?)(src="")(.*?)("")";
 //        match = Regex.Match(content, expression);
 //        while(match.Success)
 //        {
@@ -620,7 +620,7 @@ void Main()
 		
         #region check image without ending tag
 		if(TraceMode) Console.WriteLine("check image without ending tag");
-//        expression = @"(<img)(.*?)(/>)";
+//        expression = @"(?s)(<img)(.*?)(/>)";
 //        match = Regex.Match(content, expression);
 //        Console.WriteLine(match);
 //        if(match.Success) count++;
@@ -629,7 +629,7 @@ void Main()
         #region 25 remove hidden tags to generate hashtags
 		if(includeIndex.Count() == 0 || includeIndex.Contains(25))
 		{
-	        expression = @"(<div id=""hiddenTags"")(.*?)(>)(.*?)(</div>)";
+	        expression = @"(?s)(<div id=""hiddenTags"")(.*?)(>)(.*?)(</div>)";
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 				count++;
@@ -645,7 +645,7 @@ void Main()
 		content = content.Replace(@"style=""background: var(--secondary); border-radius: 5px; padding: 3px 5px; text-align: center; vertical-align: text-bottom;""", @"class=""head-prefix""");
 		if(includeIndex.Count() == 0 || includeIndex.Contains(26))
 		{
-	        expression = @"(<blockquote class=""tr_bq""><div style=""text-align: center;""><span class=""head-prefix""><b>アニメ</b></span><span style=""font-size: large;"">)(.*?)(</span></div></blockquote>)(.*?)(\(#)(.*?)(\))";
+	        expression = @"(?s)(<blockquote class=""tr_bq""><div style=""text-align: center;""><span class=""head-prefix""><b>アニメ</b></span><span style=""font-size: large;"">)(.*?)(</span></div></blockquote>)(.*?)(\(#)(.*?)(\))";
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 				if(!match.Groups[2].Value.Contains("Preview")
@@ -657,7 +657,7 @@ void Main()
 	            match = match.NextMatch();
 	        };
 			
-	        expression = @"(<blockquote class=""tr_bq""><div style=""text-align: center;""><span class=""head-prefix""><b>映画</b></span><span style=""font-size: large;"">)(.*?)(</span></div></blockquote>)(.*?)(\(#)(.*?)(\))";
+	        expression = @"(?s)(<blockquote class=""tr_bq""><div style=""text-align: center;""><span class=""head-prefix""><b>映画</b></span><span style=""font-size: large;"">)(.*?)(</span></div></blockquote>)(.*?)(\(#)(.*?)(\))";
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 				if(!match.Groups[2].Value.Contains("Preview")

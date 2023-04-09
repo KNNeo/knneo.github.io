@@ -719,18 +719,10 @@ Wow this new Blogger re-design is not going to be fun to deal with.
       doesn't auto adjust HTML when I switch to Compose mode now. Trust me, it
       actually happens. Maybe I should come up with a custom JS to write this
       down from a link to allow flexibility of code then. Hmm...<br />
-      <div id="hiddenTags" style="font-size: 0em;">
-        Kakushigoto,YesterdayWoUtatte,KaguyaSama
-      </div>
       
       
-      <script>
-        var topicList = document.getElementById("hiddenTags").innerText.split(",");
-        var hashtags = "";
-        for(var topic of topicList) hashtags += "<a href=\"/search?q=" + topic.trim() + "\">#" + topic.trim() + "</a> ";
-        document.getElementById("hashtags").innerHTML = hashtags;
-        document.getElementById("hiddenTags").remove();
-      </script>
+      
+      
     </div>
   </div>
 </div>
