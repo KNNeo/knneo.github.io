@@ -790,7 +790,7 @@ void Main()
 		        var thumbnailUrl = "";
 				if(latestPostCount < maxLatestPost)
 				{
-			        expression = @"(.*?)<img(.*?)src=""(.*?)""(.*?)/>(.*?)";
+			        expression = @"(?s)(.*?)<img(.*?)src=""(.*?)""(.*?)/>(.*?)";
 			        match = Regex.Match(content, expression);
 					//Console.WriteLine(content);
 			        if(match.Success)
