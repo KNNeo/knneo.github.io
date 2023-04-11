@@ -79,6 +79,27 @@ a:hover {
     color: var(--foreground);
 }
 
+.anchors {
+    display: none;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.latest-post:hover .anchors {
+    display: flex;
+}
+
+.anchors a {
+    color: var(--primary);
+	font-size: 0.7em;
+	padding: 2px;
+}
+
+.anchors a:hover {
+    color: var(--foreground);
+}
+
+
 @media only screen and (max-width: 1024px) {
 	body {
 		max-width: auto !important;

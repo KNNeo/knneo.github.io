@@ -788,6 +788,8 @@ void Main()
 		        // Find first image for home page, if any
 				if (TraceMode) Console.WriteLine("Find first image for home page, if any");
 		        var thumbnailUrl = "";
+				var anchors = new List<string>();
+				// For latest post, show expanded content
 				if(latestPostCount < maxLatestPost)
 				{
 			        expression = @"(?s)(.*?)<img(.*?)src=""(.*?)""(.*?)/>(.*?)";
@@ -797,9 +799,18 @@ void Main()
 			            thumbnailUrl = match.Groups[3].Value;
 			        if(thumbnailUrl.Contains("scontent-sin.xx.fbcdn.net"))
 			            thumbnailUrl = "";
+					
+			        expression = @"(?s)(.*?)id=""(.*?)""(.*?)";
+			        match = Regex.Match(content, expression);
+	        		while(match.Success && match.Groups[2].Value.Length > 1) {
+						 if(match.Groups[2].Value != "hashtags")
+						 	anchors.Add(match.Groups[2].Value);
+	            		match = match.NextMatch();
+					}
+					//Console.WriteLine(anchors);
 				}
 				
-				var thumbnailDiv = "<div"+classes.Replace("Post", "Post latest-post")+"><span>"+published.ToString("yyyy.MM.dd")+" </span><a href=\"" + pageLink + "\"><div><div>" + title + "</div><div class=\"" + (thumbnailUrl == "" ? "" : "home-thumb") + "\" style=\"background-image: url(" + thumbnailUrl + ");\"></div></div></a></div>\n";
+				var thumbnailDiv = "<div"+classes.Replace("Post", "Post latest-post")+"><span>"+published.ToString("yyyy.MM.dd")+" </span><a href=\"" + pageLink + "\"><div><div>" + title + "</div><div class=\"" + (thumbnailUrl == "" ? "" : "home-thumb") + "\" style=\"background-image: url(" + thumbnailUrl + ");\"></div><div class=\"anchors\">" + string.Join("", anchors.Select(a => "<a href=\"" + (pageLink + "#" + a) + "\">#" + a + "</a>")) + "</div></div></a></div>\n";
             
                 textString += latestPostCount >= maxLatestPost ? "<div"+classes+"><span>"+published.ToString("yyyy.MM.dd")+" </span><a href=\""+pageLink+"\">"+title+"</a></div>\n" : thumbnailDiv;
 				
