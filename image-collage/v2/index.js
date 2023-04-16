@@ -488,7 +488,11 @@ function generateGrid() {
 				document.getElementById('include').value = window['includeCriteria'];
 				generateGrid();
 				return false;
-			}, false);
+			}, false);			
+			gridItemImage.addEventListener('error', function(e) {
+				e.preventDefault();
+				console.log(this.title);
+			});
 			// let fullImageUrl = addUrlClause(item[getThumbnailPrefix()]);
 			gridItemImage.src = item[getThumbnailPrefix()] || 'https://knneo.github.io/resources/spacer.gif';
 			
