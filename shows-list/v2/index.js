@@ -1,6 +1,6 @@
 //--SETTINGS--//
 const currentYear = 2023;
-const currentSeason = 'Winter';
+const currentSeason = 'Spring';
 const seasons = [
 	{ title:'Winter', altTitle:'' },
 	{ title:'Spring', altTitle:'' },

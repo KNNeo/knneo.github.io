@@ -180,6 +180,7 @@ body {
 }
 
 .grid {
+	padding: 40px 0;
 	display: grid;
     grid-template-columns: 0 120px 1fr 9fr;
     grid-auto-rows: 25px;
