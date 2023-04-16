@@ -4420,11 +4420,57 @@ let showsRef = [
             ""
         ],
         "id": 38349
+    },
+    {
+        "seriesTitle": "Kimi wa Houkago Insomnia",
+        "seriesURL": "https://myanimelist.net/anime/50796/Kimi_wa_Houkago_Insomnia",
+        "seriesType": "TV",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1402/134007.webp?s=4db1a6e6d340018fb7353d2bff4500c2",
+        "seriesAirSeason": [],
+        "seriesGenre": [
+            "Romance"
+        ],
+        "seriesDemographic": "Seinen",
+        "tags": [
+            ""
+        ],
+        "id": 50796
+    },
+    {
+        "seriesTitle": "Skip to Loafer",
+        "seriesURL": "https://myanimelist.net/anime/50416/Skip_to_Loafer",
+        "seriesType": "TV",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1355/133785.webp?s=c1cf682b3fdf1f0b4a85cd982d468537",
+        "seriesAirSeason": [],
+        "seriesGenre": [
+            "Drama"
+        ],
+        "seriesDemographic": "Seinen",
+        "tags": [
+            ""
+        ],
+        "id": 50416
+    },
+    {
+        "seriesTitle": "Tonikaku Kawaii 2nd Season",
+        "seriesURL": "https://myanimelist.net/anime/50307/Tonikaku_Kawaii_2nd_Season",
+        "seriesType": "TV",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1996/133361.webp?s=4d568f4f3c0103f03a33317fa42a8983",
+        "seriesAirSeason": [],
+        "seriesGenre": [
+            "Comedy",
+            "Romance"
+        ],
+        "seriesDemographic": "Shounen",
+        "tags": [
+            "Kitou Akari",
+            "Kohara Konomi"
+        ],
+        "id": 50307
     }
 ];
 
 let showsArray = [
-
 
 { sortOrder:1, year:2009, season: '', length:0, seriesTitle: '', type:'Movie', title:'Kara no Kyoukai', altTitle:'空の境界', handle:'', imgURL:'', circular:false, MAL:2593 },
 { sortOrder:2, year:2011, season: '', length:0, seriesTitle: '', type:'Movie', title:'Cat Shit One – THE ANIMATED SERIES', altTitle:'', handle:'', imgURL:'', circular:false, MAL:6280 },
@@ -4553,7 +4599,7 @@ let showsArray = [
 { sortOrder:114, year:2020, season: 'Summer', length:2, seriesTitle: '', type:'TV', title:'GREAT PRETENDER', altTitle:'', handle:'GrePre_anime', imgURL:'https://pbs.twimg.com/profile_images/1220648780011167745/QMKboWCS.jpg', circular:true, MAL:40052 },
 { sortOrder:115, year:2020, season: 'Summer', length:1, seriesTitle: '', type:'TV', title:'Uzaki-chan wa Asobitai!', altTitle:'宇崎ちゃんは遊びたい！', handle:'uzakichan_asobi', imgURL:'https://pbs.twimg.com/profile_images/1147099341858824192/pL6QoWt7.png', circular:true, MAL:41226 },
 { sortOrder:116, year:2020, season: 'Summer', length:1, seriesTitle: 'Kanojo, Okarishimasu', type:'TV', title:'Kanojo, Okarishimasu', altTitle:'彼女、お借りします', handle:'kanokari_anime', imgURL:'https://pbs.twimg.com/profile_images/1264535167755931648/AUajKJKz.jpg', circular:true, MAL:40839 },
-{ sortOrder:117, year:2020, season: 'Autumn', length:1, seriesTitle: '', type:'TV', title:'Tonikaku Kawaii', altTitle:'トニカクカワイイ', handle:'tonikawa_anime', imgURL:'https://pbs.twimg.com/profile_images/1456916236831723520/2j8nUeJQ.jpg', circular:true, MAL:41389 },
+{ sortOrder:117, year:2020, season: 'Autumn', length:1, seriesTitle: 'Tonikaku Kawaii', type:'TV', title:'Tonikaku Kawaii', altTitle:'トニカクカワイイ', handle:'tonikawa_anime', imgURL:'https://pbs.twimg.com/profile_images/1456916236831723520/2j8nUeJQ.jpg', circular:true, MAL:41389 },
 { sortOrder:118, year:2020, season: 'Autumn', length:1, seriesTitle: '', type:'TV', title:'Majou no Tabitabi', altTitle:'魔女の旅々', handle:'majotabi_PR', imgURL:'https://pbs.twimg.com/profile_images/1185540696037421056/njCjSwao.png', circular:true, MAL:40571 },
 { sortOrder:119, year:2020, season: 'Autumn', length:2, seriesTitle: 'Shingeki no Kyojin', type:'TV', title:'Shingeki no Kyojin The Final Season', altTitle:'進撃の巨人 The Final Season', handle:'anime_shingeki', imgURL:'https://pbs.twimg.com/profile_images/1309025164139663360/cbRKqHxk.jpg', circular:true, MAL:40028 },
 { sortOrder:120, year:2021, season: 'Winter', length:1, seriesTitle: '', type:'TV', title:'Horimiya', altTitle:'ホリミヤ', handle:'horimiya_anime', imgURL:'https://pbs.twimg.com/profile_images/1306608160363261955/m8MflVId.png', circular:true, MAL:42897 },
@@ -4588,7 +4634,11 @@ let showsArray = [
 { sortOrder:149, year:2023, season: 'Winter', length:1, seriesTitle: '', type:'TV', title:'Bungou Stray Dogs 4th Season', altTitle:'文豪ストレイドッグス', handle:'bungosd_anime', imgURL:'https://pbs.twimg.com/profile_images/1615718164700237824/sOlzG31P.jpg', circular:true, MAL:50330 },
 { sortOrder:150, year:2023, season: 'Winter', length:1, seriesTitle: 'Kyokou Suiri', type:'TV', title:'Kyokou Suiri Season 2', altTitle:'虚構推理', handle:'kyokou_suiri', imgURL:'https://pbs.twimg.com/profile_images/1115453678771523584/Vpeq5eJ1.png', circular:true, MAL:44204 },
 { sortOrder:151, year:2023, season: 'Winter', length:1, seriesTitle: '', type:'TV', title:'Otonari no Tenshi-sama ni Itsunomanika Dame Ningen ni Sareteita Ken', altTitle:'お隣の天使様にいつの間にか駄目人間にされていた件', handle:'tenshisama_PR', imgURL:'https://pbs.twimg.com/profile_images/1509908597706457088/BWa0Mowg.jpg', circular:true, MAL:50739 },
-{ sortOrder:152, year:2023, season: 'Winter', length:1, seriesTitle: '', type:'TV', title:'Kubo-san wa Mob wo Yurusanai', altTitle:'久保さんは僕を許さない', handle:'kubosan_anime', imgURL:'https://pbs.twimg.com/profile_images/1590993533867282433/_ecrqUJy.jpg', circular:true, MAL:51815 },
+{ sortOrder:152, year:2023, season: 'Winter', length:1, seriesTitle: 'Kubo-san wa Mob wo Yurusanai', type:'TV', title:'Kubo-san wa Mob wo Yurusanai', altTitle:'久保さんは僕を許さない', handle:'kubosan_anime', imgURL:'https://pbs.twimg.com/profile_images/1590993533867282433/_ecrqUJy.jpg', circular:true, MAL:51815 },
+{ sortOrder:153, year:2023, season: 'Spring', length:1, seriesTitle: '', type:'TV', title:'Skip to Loafer', altTitle:'スキップとローファー', handle:'skip_and_loafer', imgURL:'https://pbs.twimg.com/profile_images/1539249977587044352/2AJG3p6B.png', circular:true, MAL:50416 },
+{ sortOrder:154, year:2023, season: 'Spring', length:1, seriesTitle: 'Tonikaku Kawaii', type:'TV', title:'Tonikaku Kawaii', altTitle:'トニカクカワイイ', handle:'tonikawa_anime', imgURL:'https://pbs.twimg.com/profile_images/1625421036559929345/q58Ijlsh.jpg', circular:true, MAL:50307 },
+{ sortOrder:155, year:2023, season: 'Spring', length:1, seriesTitle: '', type:'TV', title:'Kimi wa Houkago Insomnia', altTitle:'君は放課後インソムニア', handle:'kimisomu_anime', imgURL:'https://pbs.twimg.com/profile_images/1534459081733578753/Y_5nf5us.jpg', circular:true, MAL:50796 },
+{ sortOrder:156, year:2023, season: 'Spring', length:1, seriesTitle: 'Kubo-san wa Mob wo Yurusanai', type:'TV', title:'Kubo-san wa Mob wo Yurusanai', altTitle:'久保さんは僕を許さない', handle:'kubosan_anime', imgURL:'https://pbs.twimg.com/profile_images/1590993533867282433/_ecrqUJy.jpg', circular:true, MAL:51815 },
 
 ].map(ca => {
 	let ref = showsRef.filter(s => s.id == ca.MAL);
