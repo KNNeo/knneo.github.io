@@ -157,6 +157,10 @@ body {
 	color: var(--primary);
 }
 
+.calendar {
+	font-size: x-small;
+}
+
 .calendar-cell:hover {
 	background-color: var(--accent);
 }
@@ -238,7 +242,13 @@ body {
 	filter: grayscale(90%) contrast(0.2)  brightness(0.8);	
 }
 
-@media only screen and (min-device-width: 320px) and (max-device-width: 960px) {
+@media only screen and (max-device-width: 960px) {
+	span {
+		-webkit-user-select: all;
+		-moz-user-select: all;
+		-ms-user-select: all;
+		user-select: all;
+	}
 	.anime-row,
 	.new-anime-row,
 	.year-display {
@@ -251,9 +261,6 @@ body {
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
-	}
-	.anime-row:hover,
-	.new-anime-row:hover {
 		font-size: x-small;
 	}
 	.anime-row:hover a,
@@ -269,10 +276,7 @@ body {
 		width: 200px;
 		max-height: 200px;
 	}
-	span {
-		-webkit-user-select: all;
-		-moz-user-select: all;
-		-ms-user-select: all;
-		user-select: all;
+	.grid .description {
+		font-size: x-small;
 	}
 }

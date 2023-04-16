@@ -20,20 +20,20 @@ function initializeVariables() {
 }
 
 function generateAnimeList() {
-	document.querySelector('.shows-list').innerHTML = '';
-	
 	let currentList = showsArray.filter(s => s.type == 'TV' && s.year == currentYear && s.season == currentSeason);
-	document.querySelector('.shows-list').appendChild(generateAnimeCurrent(currentList));
 	
 	let calendarBlock = generateAnimeCalendar(showsArray.filter(s => s.type == 'TV' && s.year >= 2008 && s.season.length > 0 && s.MAL > 0));
-	document.querySelector('.shows-list').appendChild(calendarBlock);
 	
 	let archiveList = showsArray.filter(s => s.type == 'TV' && (s.year != currentYear || s.season != currentSeason)).sort((a, b) => b.sortOrder - a.sortOrder);
 	document.querySelector('.timeline').appendChild(generateAnimeArchive(archiveList));
 	
 	let moviesList = showsArray.filter(s => s.type == 'Movie');
-	document.querySelector('.shows-list').appendChild(generateOVAMovies(moviesList));
 	
+	let showsHtml = document.querySelector('.shows-list');
+	showsHtml.innerHTML = '';
+	showsHtml.appendChild(calendarBlock);
+	showsHtml.appendChild(generateAnimeCurrent(currentList));
+	showsHtml.appendChild(generateOVAMovies(moviesList));
 }
 
 function generateAnimeCalendar(list) {	
