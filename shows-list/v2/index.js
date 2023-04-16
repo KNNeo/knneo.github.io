@@ -39,41 +39,14 @@ function generateAnimeList() {
 function generateAnimeCalendar(list) {	
 	let calendarBlock = document.createElement('div');
 	
-	let block = document.createElement('h4');
-	block.classList.add('tr_bq');
-	// block.style.gridColumn = '1 / span 5';
+	let title = document.createElement('h4');
+	title.classList.add('category-title');
+	title.innerText = 'Directory';
 	
-		let title = document.createElement('span');
-		title.classList.add('category-title');
-		title.innerText = 'Directory';
+	calendarBlock.appendChild(title);
 	
-	block.appendChild(title);
-	
-		let filter = document.createElement('input');
-		filter.classList.add('filter');
-		filter.placeholder = 'Filter show name..';
-		filter.value = window['filter'] || '';
-		filter.addEventListener('input', function() {
-			window['filter'] = this.value.toLowerCase() || '';
-			window['genre'] = window['genre'] || '';
-			generateCalendarBox(showsArray.map(ca => {
-					let ref = showsRef.filter(s => s.id == ca.MAL);
-					return {
-						...ca,
-						handle: ref[0].seriesURL,
-						imgURL: ref[0].seriesImage,
-						genres: ref[0].seriesGenre,
-					}
-				}).filter(s => 
-				s.type == 'TV' && 
-				s.year >= 2008 && 
-				s.season.length > 0 && 
-				(window['filter'].length == 0 || s.title.toLowerCase().includes(window['filter'])) && 
-				(window['genre'].length == 0 || s.genres.includes(window['genre']))
-			));
-		});
-		
-	block.appendChild(filter);
+	let block = document.createElement('div');
+	block.classList.add('filter-bar');
 	
 		let listGenres = showsArray.filter(sr => sr.season.length > 0).map(sa => sa.MAL);
 		let genres = showsRef.filter(sr => listGenres.includes(sr.id)).reduce((total, current, index, arr) => {
@@ -134,6 +107,32 @@ function generateAnimeCalendar(list) {
 		}
 		
 	block.appendChild(genreSelect);
+	
+		let filter = document.createElement('input');
+		filter.classList.add('filter');
+		filter.placeholder = 'Filter show name..';
+		filter.value = window['filter'] || '';
+		filter.addEventListener('input', function() {
+			window['filter'] = this.value.toLowerCase() || '';
+			window['genre'] = window['genre'] || '';
+			generateCalendarBox(showsArray.map(ca => {
+					let ref = showsRef.filter(s => s.id == ca.MAL);
+					return {
+						...ca,
+						handle: ref[0].seriesURL,
+						imgURL: ref[0].seriesImage,
+						genres: ref[0].seriesGenre,
+					}
+				}).filter(s => 
+				s.type == 'TV' && 
+				s.year >= 2008 && 
+				s.season.length > 0 && 
+				(window['filter'].length == 0 || s.title.toLowerCase().includes(window['filter'])) && 
+				(window['genre'].length == 0 || s.genres.includes(window['genre']))
+			));
+		});
+		
+	block.appendChild(filter);
 	
 	calendarBlock.appendChild(block);
 	
@@ -343,10 +342,6 @@ function generateTimeline(categoryId, categoryTitle, filterList, fold = true) {
 	let list = document.createElement('div');
 	list.id = categoryId;
 	list.classList.add('category');
-	// list.addEventListener('click', function() {
-		// document.querySelector('#' + this.id + ' .block').style.height = document.querySelector('#' + this.id + ' .block').style.height == '' ? 0 : '';
-		// document.querySelector('#' + this.id + ' .icon').innerText = document.querySelector('#' + this.id + ' .icon').innerText == 'expand_more' ? 'expand_less' : 'expand_more';
-	// });
 	
 		let block = document.createElement('h4');
 		block.classList.add('tr_bq');
@@ -356,13 +351,6 @@ function generateTimeline(categoryId, categoryTitle, filterList, fold = true) {
 			title.innerText = categoryTitle;
 			
 		block.appendChild(title);
-			
-			// let icon = document.createElement('i');
-			// icon.classList.add('material-icons');
-			// icon.classList.add('icon');
-			// icon.innerText = fold ? 'expand_more' : 'expand_less';
-		
-		// block.appendChild(icon);
 		
 	list.appendChild(block);
 	
