@@ -40,6 +40,7 @@ function generateAnimeCalendar(list) {
 	let calendarBlock = document.createElement('div');
 	
 	let title = document.createElement('h4');
+	title.classList.add('tr_bq');
 	title.classList.add('category-title');
 	title.innerText = 'Directory';
 	
