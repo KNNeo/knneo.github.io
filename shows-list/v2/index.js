@@ -251,9 +251,12 @@ function generateList(categoryId, categoryTitle, filterList, fold = true) {
 	list.id = categoryId;
 	list.classList.add('category');
 	list.addEventListener('click', function() {
-		document.querySelector('#' + this.id + ' .block').style.height = document.querySelector('#' + this.id + ' .block').style.height == '' ? 0 : '';
-		document.querySelector('#' + this.id + ' .icon').innerText = document.querySelector('#' + this.id + ' .icon').innerText == 'expand_more' ? 'expand_less' : 'expand_more';
-	});
+		if(event.target.classList.contains('category-title') || event.target.classList.contains('icon'))
+		{
+			document.querySelector('#' + this.id + ' .block').style.height = document.querySelector('#' + this.id + ' .block').style.height == '' ? 0 : '';
+			document.querySelector('#' + this.id + ' .icon').innerText = document.querySelector('#' + this.id + ' .icon').innerText == 'expand_more' ? 'expand_less' : 'expand_more';
+		}
+	}, false);
 	
 		let block = document.createElement('h4');
 		block.classList.add('tr_bq');
