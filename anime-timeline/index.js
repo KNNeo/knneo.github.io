@@ -196,6 +196,7 @@ function generateAnimeList(isGroupBySeries) {
 									
 										let animeTableContentOverlayImage = document.createElement('img');
 										animeTableContentOverlayImage.src = series.imgURL;
+										animeTableContentOverlayImage.title = animeTableContentOverlay.innerText;
 										if(series.circular && !series.handle.startsWith('http'))
 											animeTableContentOverlayImage.style.borderRadius = '50%';
 												
@@ -323,6 +324,7 @@ function generateAnimeList(isGroupBySeries) {
 							
 								let animeTableContentOverlayImage = document.createElement('img');
 								animeTableContentOverlayImage.src = anime.imgURL;
+								animeTableContentOverlayImage.title = animeTableContentOverlay.innerText;
 								if(anime.circular && !anime.handle.startsWith('http'))
 									animeTableContentOverlayImage.style.borderRadius = '50%';
 										
