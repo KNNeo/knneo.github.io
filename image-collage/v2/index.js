@@ -255,16 +255,45 @@ function generateLayoutMenu() {
 		tag.title = button.value + ' (' + button.count + ')';
 		tag.innerText = button.value;
 		tag.addEventListener('click',function() {
-			// this.classList.toggle('button-active');
-			toggleVariable('includeCriteria', this.value);
+			// to toggle
+			switch(this.getAttribute('filter'))
+			{
+				case 'include':
+					toggleVariable('includeCriteria', this.value);
+					toggleVariable('excludeCriteria', this.value);
+					this.setAttribute('filter', 'exclude');
+					break;
+				case 'exclude':
+					toggleVariable('excludeCriteria', this.value);
+					this.removeAttribute('filter');
+					break;
+				default:
+					toggleVariable('includeCriteria', this.value);
+					this.setAttribute('filter', 'include');
+					break;
+			}
 			document.getElementById('include').value = window['includeCriteria'];
+			document.getElementById('exclude').value = window['excludeCriteria'];			
 			generateGrid();
 		});
 		tag.addEventListener('contextmenu',function() {
+			// to reset
 			event.preventDefault();
-			// this.classList.toggle('button-active');
-			toggleVariable('excludeCriteria', this.value);
-			document.getElementById('exclude').value = window['excludeCriteria'];
+			switch(this.getAttribute('filter'))
+			{
+				case 'include':
+					toggleVariable('includeCriteria', this.value);
+					this.setAttribute('filter', 'exclude');
+					break;
+				case 'exclude':
+					toggleVariable('excludeCriteria', this.value);
+					break;
+				default:
+					break;
+			}
+			this.removeAttribute('filter');
+			document.getElementById('include').value = window['includeCriteria'];
+			document.getElementById('exclude').value = window['excludeCriteria'];			
 			generateGrid();
 		});
 		tags.appendChild(tag);

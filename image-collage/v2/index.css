@@ -64,6 +64,14 @@ body {
 	color: var(--foreground);
 }
 
+.tag[filter="include"] {
+	background-color: var(--primary);
+}
+
+.tag[filter="exclude"] {
+	background-color: var(--secondary);
+}
+
 .grid {
 	width: 100%;
 	display: flex;
