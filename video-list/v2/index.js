@@ -306,6 +306,7 @@ function renderList() {
 			// thumbnail.style.backgroundRepeat = 'no-repeat';
 			// thumbnail.style.backgroundPosition = 'center';
 			thumbnail.style.width = '120px';
+			thumbnail.title = v.video.title;
 			thumbnail.addEventListener('click', function() {
 				window.open(v.video.url);
 			});
