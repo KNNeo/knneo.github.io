@@ -75,7 +75,7 @@ void Main()
 			if(dataOne != null && !File.Exists(thumbpath + filename))
 			{
 				//download image
-				Console.WriteLine(dataOne.name + " found");
+				Console.WriteLine("Found: " + dataOne.name);
 				var url = @"https://doax.cc/res/pic_star/" + dataOne.id + ".png";
 				DownloadTo(url, thumbpath + filename);
 				
@@ -87,6 +87,11 @@ void Main()
 				if(!File.Exists(thumbpath + prefixLg + filename))
 					ResizeImageToNew(thumbpath + filename, thumbpath + prefixLg + filename, 800, 0);
 			}
+			else if(dataOne == null) 
+			{
+				Console.WriteLine("WARNING - " + file.search + " not found");
+				file.search = "";
+			}
 		}
 		
 	}
@@ -96,14 +101,17 @@ void Main()
 	
 	foreach(var file in mapper)
 	{
-		var filename = file.ishou + "_" + file.chara + ".jpg";
-		var item = new ImageCollageItem();
-		item.filename = filename;
-		item.sm = thumbpath.Replace("\\","/") + prefixSm + filename;
-		item.md = thumbpath.Replace("\\","/") + prefixMd + filename;
-		item.lg = thumbpath.Replace("\\","/") + prefixLg + filename;
-		item.og = thumbpath.Replace("\\","/") + filename;
-		output.Add(item);
+		if(!string.IsNullOrWhiteSpace(file.search))
+		{
+			var filename = file.ishou + "_" + file.chara + ".jpg";
+			var item = new ImageCollageItem();
+			item.filename = filename;
+			item.sm = thumbpath.Replace("\\","/") + prefixSm + filename;
+			item.md = thumbpath.Replace("\\","/") + prefixMd + filename;
+			item.lg = thumbpath.Replace("\\","/") + prefixLg + filename;
+			item.og = thumbpath.Replace("\\","/") + filename;
+			output.Add(item);
+		}
 	}
 	
 	switch(generateObjectAs)
