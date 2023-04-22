@@ -105,10 +105,10 @@ void Main()
 			var filename = file.ishou + "_" + file.chara + ".jpg";
 			var item = new ImageCollageItem();
 			item.filename = filename;
-			item.sm = thumbpath.Replace("\\","/") + prefixSm + filename;
-			item.md = thumbpath.Replace("\\","/") + prefixMd + filename;
-			item.lg = thumbpath.Replace("\\","/") + prefixLg + filename;
-			item.og = thumbpath.Replace("\\","/") + filename;
+			item.sm = "file://" + thumbpath.Replace("\\","/") + prefixSm + filename;
+			item.md = "file://" + thumbpath.Replace("\\","/") + prefixMd + filename;
+			item.lg = "file://" + thumbpath.Replace("\\","/") + prefixLg + filename;
+			item.og = "file://" + thumbpath.Replace("\\","/") + filename;
 			output.Add(item);
 		}
 	}
