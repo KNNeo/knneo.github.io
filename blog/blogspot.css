@@ -79,10 +79,21 @@ a:hover {
     color: var(--foreground);
 }
 
+.latest-post-thumb {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+	position: relative;
+}
+
 .anchors {
     display: none;
     flex-wrap: wrap;
     flex-direction: column;
+	position: absolute;
+	background-color: var(--background);
+	width: 100%;
 }
 
 .latest-post:hover .anchors {
