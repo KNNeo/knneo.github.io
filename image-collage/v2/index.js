@@ -591,13 +591,12 @@ function calculateColumns() {
 	  default:
 		break;
 	}
-	columns = Math.floor((window.innerWidth - (window['horizontal'] ? horizontalMenuWidth : 0)) / columns);
+	columns = Math.round((window.innerWidth - (window['horizontal'] ? horizontalMenuWidth : 0)) / columns);
 	return columns < minColumns ? minColumns : columns;
 }
 
 function calculateThumbnailSize() {
 	let grid = document.getElementById('grid');
-	let gridChild = grid?.firstChild;
 	let columns = calculateColumns();
 	let screenWidth = window['screenWidth'] ?? grid.getBoundingClientRect().width - (2*columns);
 	window['thumbWidth'] = screenWidth / columns;
