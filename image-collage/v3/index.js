@@ -522,12 +522,12 @@ function calculateColumns() {
 function calculateThumbnailSize() {
 	let columns = calculateColumns();
 	grid.style.height = '101%';
-	let screenWidth = grid.getBoundingClientRect().width - (2*columns);
+	let gridWidth = grid.getBoundingClientRect().width;
 	grid.style.height = '';
-	let thumbWidth = screenWidth / columns;
+	let thumbWidth = gridWidth / columns;
 	
 	if(config.debug) {
-		console.log('screenWidth', screenWidth);
+		console.log('gridWidth', gridWidth);
 		console.log('columns', columns);
 		console.log('calculateThumbnailSize', thumbWidth);
 	}
