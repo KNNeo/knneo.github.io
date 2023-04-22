@@ -68,8 +68,7 @@ void Main()
 		{
 			var filename = file.ishou + "_" + file.chara + ".jpg";
 			//Console.WriteLine(filename);
-			//var tags = file.Split(separator);
-			var dataOne = data.FirstOrDefault(d => d.name == file.search);
+			var dataOne = data.FirstOrDefault(d => d.name.Trim() == file.search.Trim());
 			//Console.WriteLine(dataOne);
 			
 			if(dataOne != null && !File.Exists(thumbpath + filename))
