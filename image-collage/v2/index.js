@@ -51,9 +51,6 @@ function startup() {
 		mosaic.addEventListener('touchstart', onTouchStart);
 		mosaic.addEventListener('touchmove', onTouchMove);
 	}
-
-	window['screenWidth'] = calculateThumbnailSize();
-	generateGrid();
 }
 
 function initializeVariables() {
@@ -62,8 +59,6 @@ function initializeVariables() {
 	window['excludeCriteria'] = '';
 	window['horizontal'] = isWidescreen();
 	window['preset'] = 'photo_size_select_small';
-	window['screenWidth'] = null;
-	window['thumbWidth'] = presetWidths[0];
 	window['slideshow'] = null;
 }
 
@@ -456,7 +451,7 @@ function generateGrid() {
 	let prevValue = '';
 	let grid = document.getElementById('grid');
 	let columns = calculateColumns();
-	calculateThumbnailSize();
+	let thumbWidth = calculateThumbnailSize();
 	grid.innerHTML = '';
 	
 	let filterArray = generateFiltered().sort(function(a,b) {
@@ -467,10 +462,11 @@ function generateGrid() {
 		return a.sort.localeCompare(b.sort, defaultSortLocale);
 	});
 	
-	if(debugMode) console.log("window['thumbWidth']", window['thumbWidth']);
-	let itemWidth = window['thumbWidth'] + 'px';
-	let itemHeight = (window['thumbWidth']*thumbnailRatio) + 'px';
-	grid.style.gridTemplateColumns = (itemWidth + ' ').repeat(columns);
+	if(debugMode)
+		console.log("thumbWidth", thumbWidth);
+	let itemWidth = thumbWidth + 'px';
+	let itemHeight = (thumbWidth*thumbnailRatio) + 'px';
+	// grid.style.gridTemplateColumns = (itemWidth + ' ').repeat(columns);
 	
 	for(let item of filterArray) {
 		let imageUrl = item.filename;
@@ -600,15 +596,17 @@ function calculateColumns() {
 function calculateThumbnailSize() {
 	let grid = document.getElementById('grid');
 	let columns = calculateColumns();
-	let screenWidth = window['screenWidth'] ?? grid.getBoundingClientRect().width - (2*columns);
-	window['thumbWidth'] = screenWidth / columns;
+	grid.style.height = '101%';
+	let screenWidth = grid.getBoundingClientRect().width - (2*columns);
+	grid.style.height = '';
+	let thumbWidth = screenWidth / columns;
 	
 	if(debugMode) {
 		console.log('screenWidth', screenWidth);
 		console.log('columns', columns);
-		console.log('calculateThumbnailSize', window['thumbWidth']);
+		console.log('calculateThumbnailSize', thumbWidth);
 	}
-	return screenWidth;
+	return thumbWidth;
 }
 
 //EVENTS//
@@ -642,15 +640,12 @@ function onTogglePreset() {
 	{
 	  case 'photo_size_select_actual':
 		document.getElementById('preset').innerText = 'photo_size_select_small';
-		window['thumbWidth'] = presetWidths[0];
 		break
 	  case 'photo_size_select_small':
 		document.getElementById('preset').innerText = 'photo_size_select_large';
-		window['thumbWidth'] = presetWidths[1];
 		break;
 	  case 'photo_size_select_large':
 		document.getElementById('preset').innerText = 'photo_size_select_actual';
-		window['thumbWidth'] = presetWidths[2];
 		break;
 	  default:
 		break;
