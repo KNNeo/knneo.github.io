@@ -88,7 +88,7 @@ void Main()
 			}
 			else if(dataOne == null) 
 			{
-				Console.WriteLine("WARNING - " + file.search + " not found");
+				Console.WriteLine("WARNING - File not found: " + file.search);
 				file.search = "";
 			}
 		}
