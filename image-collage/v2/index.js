@@ -428,7 +428,9 @@ function generateStats() {
 	for(let item of Object.keys(filtered))
 	{
 		// console.log(filtered[item]);
-		if(filtered[item] >= minTagCount && filtered[item] <= maxTagCount)
+		if(filtered[item] >= minTagCount && 
+			filtered[item] <= maxTagCount &&
+			!hiddenTags.includes(item))
 			countArray.push([item, filtered[item]]);
 	}
 	
