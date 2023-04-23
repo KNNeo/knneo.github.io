@@ -412,7 +412,7 @@ function generateGrid() {
 		let prefix = imageUrl.substring(0, config.grid.banner.length);
 		if(config.grid.banner.length > 0 && prevValue != prefix) {
 			let overlay = document.createElement('div');
-			overlay.classList.add('static-banner');
+			overlay.classList.add('banner');
 			overlay.innerText = prefix;
 			gridItem.appendChild(overlay);
 			prevValue = prefix;
@@ -453,8 +453,6 @@ function generateGrid() {
 
 	if(document.querySelector('.counter') != null)
 		document.querySelector('.counter').innerText = filterArray.length;
-
-	return grid;
 }
 
 function generateFiltered() {
@@ -612,7 +610,7 @@ function onToggleExpander() {
 	  case 'unfold_more':
 		document.querySelector('.expander').innerText = 'unfold_less';
 		document.querySelector('.expander').title = 'Close Tags';
-		let toMore = document.querySelector('.vertical');
+		let toMore = document.querySelector('.tags.vertical');
 		toMore.classList.remove('vertical');
 		toMore.classList.add('horizontal');
 		for(let tag of document.querySelectorAll('.tag'))
@@ -623,7 +621,7 @@ function onToggleExpander() {
 	  case 'unfold_less':
 		document.querySelector('.expander').innerText = 'unfold_more';
 		document.querySelector('.expander').title = 'Expand Tags';
-		let toLess = document.querySelector('.horizontal');
+		let toLess = document.querySelector('.tags.horizontal');
 		toLess.classList.remove('horizontal');
 		toLess.classList.add('vertical');
 		for(let tag of document.querySelectorAll('.tag'))
@@ -634,9 +632,6 @@ function onToggleExpander() {
 	  default:
 		break;
 	}
-	
-	window['preset'] = document.getElementById('preset').innerText;
-	generateGrid();
 }
 
 function onClearAll() {

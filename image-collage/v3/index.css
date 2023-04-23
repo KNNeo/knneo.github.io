@@ -52,12 +52,12 @@ body[layout='horizontal'] .content {
 	height: 0;
 }
 
-body[layout='horizontal'] .tags {
+.tags.horizontal {
 	max-height: 40em;
 	overflow-y: auto;
 }
 
-body[layout='vertical'] .tags {
+.tags.vertical {
 	width: 100vw;
 	max-height: 2em;
 	overflow-x: auto;
@@ -114,7 +114,7 @@ body[layout='vertical'] .tags {
   transform: scale(1.2);
 }
 
-.static-banner {
+.banner {
   position: absolute;
   left: 0;
   top: 0;
