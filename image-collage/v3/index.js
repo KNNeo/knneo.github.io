@@ -133,11 +133,11 @@ function generateLayout() {
 	if(window['horizontal']) {
 		document.body.setAttribute('layout', 'horizontal');
 		menu.style.width = horizontalMenuWidth + 'px';
-		tags.classList.add('horizontal');
+		if(window.innerHeight > 800)
+			tags.classList.add('expanded');
 	}
 	else {
 		document.body.setAttribute('layout', 'vertical');
-		tags.classList.add('vertical');
 	}
 		
 	if(config.title && config.title.length > 0)
@@ -540,14 +540,15 @@ function onResize() {
 	if(window['horizontal']) {
 		document.body.setAttribute('layout', 'horizontal');
 		menu.style.width = horizontalMenuWidth + 'px';
-		tags.classList.remove('vertical');
-		tags.classList.add('horizontal');
+		if(window.innerHeight < 800)
+			tags.classList.remove('expanded');
+		else
+			tags.classList.add('expanded');
 	}
 	else {
 		document.body.setAttribute('layout', 'vertical');
 		menu.style.width = '';
-		tags.classList.remove('horizontal');
-		tags.classList.add('vertical');
+		tags.classList.remove('expanded');
 	}
 	
 	//resize images again

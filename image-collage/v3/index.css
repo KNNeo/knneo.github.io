@@ -56,16 +56,17 @@ body[layout='horizontal'] .expander {
 	height: 0;
 }
 
-.tags.horizontal {
-	max-height: 40em;
-	overflow-y: auto;
-}
 
-.tags.vertical {
-	width: 100vw;
+.tags {
+	width: 100%;
 	max-height: 2em;
 	overflow-x: auto;
 	white-space: nowrap;
+}
+
+.tags.expanded {
+	max-height: 40em;
+	overflow-y: auto;
 }
 
 .tag {
