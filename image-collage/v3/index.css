@@ -186,6 +186,7 @@ body[layout='horizontal'] .expander {
 .filter {
 	border: 1px solid var(--foreground);
 	margin: 2px;
+	width: 40%;
 }
 
 .menu {
