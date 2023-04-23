@@ -49,7 +49,7 @@ const config = {
 };
 const horizontalMenuWidth = 500;
 const horizontalLayout = function() { 
-	return false;//matchMedia('all and (orientation:landscape)').matches; 
+	return matchMedia('all and (orientation:landscape)').matches; 
 }
 
 //--REFERENCES--//
@@ -234,7 +234,7 @@ function generateLayout() {
 		settings.appendChild(clear);
 	}
 	
-	if(typeof config.setting.expand == 'boolean' && !window['horizontal'])
+	if(typeof config.setting.expand == 'boolean')
 	{
 		let expander = document.createElement('a');
 		expander.classList.add('expander');
@@ -244,7 +244,7 @@ function generateLayout() {
 		expander.href = 'javascript:void(0);';
 		expander.innerText = 'unfold_more';
 		expander.addEventListener('click', onToggleExpander);
-		settings.appendChild(expander);		
+		settings.appendChild(expander);
 	}
 	
 	if(typeof config.setting.darkmode == 'boolean')
@@ -540,10 +540,14 @@ function onResize() {
 	if(window['horizontal']) {
 		document.body.setAttribute('layout', 'horizontal');
 		menu.style.width = horizontalMenuWidth + 'px';
+		tags.classList.remove('vertical');
+		tags.classList.add('horizontal');
 	}
 	else {
 		document.body.setAttribute('layout', 'vertical');
 		menu.style.width = '';
+		tags.classList.remove('horizontal');
+		tags.classList.add('vertical');
 	}
 	
 	//resize images again
@@ -572,14 +576,21 @@ function onScroll(e) {
 
 function onTouchStart(e) {
 	window['touchY'] = e.touches[0].clientY;
+	window['touchX'] = e.touches[0].clientX;
 }
 
 function onTouchMove(e) {
+	let swipeDown = e.touches[0].clientY - window['touchY'];
+	let swipeUp = window['touchY'] - e.touches[0].clientY;
+	let swipeLeft = window['touchX'] - e.touches[0].clientX;
+	let swipeRight = e.touches[0].clientX - window['touchX'];
+	if(config.debug)
+		console.log(swipeUp > 0, swipeDown > 0, swipeLeft > 0, swipeRight > 0);
 	if(!window['horizontal'])
 	{
-		menu.style.height = window['touchY'] > e.touches[0].clientY ? 0 : '';
+		menu.style.height = swipeUp > 0 ? 0 : '';
 		tags.style.height = menu.style.height;
-		collage.style.height = window['touchY'] > e.touches[0].clientY ? window.innerHeight + 'px' : (window.innerHeight - menu.getBoundingClientRect().height) + 'px';
+		collage.style.height = swipeUp > 0 ? window.innerHeight + 'px' : (window.innerHeight - menu.getBoundingClientRect().height) + 'px';
 	}
 }
 
@@ -610,9 +621,8 @@ function onToggleExpander() {
 	  case 'unfold_more':
 		document.querySelector('.expander').innerText = 'unfold_less';
 		document.querySelector('.expander').title = 'Close Tags';
-		let toMore = document.querySelector('.tags.vertical');
-		toMore.classList.remove('vertical');
-		toMore.classList.add('horizontal');
+		tags.classList.remove('vertical');
+		tags.classList.add('horizontal');
 		for(let tag of document.querySelectorAll('.tag'))
 		{
 			tag.tabIndex = 0;
@@ -621,9 +631,8 @@ function onToggleExpander() {
 	  case 'unfold_less':
 		document.querySelector('.expander').innerText = 'unfold_more';
 		document.querySelector('.expander').title = 'Expand Tags';
-		let toLess = document.querySelector('.tags.horizontal');
-		toLess.classList.remove('horizontal');
-		toLess.classList.add('vertical');
+		tags.classList.remove('horizontal');
+		tags.classList.add('vertical');
 		for(let tag of document.querySelectorAll('.tag'))
 		{
 			tag.tabIndex = -1;
@@ -678,6 +687,7 @@ function openImageInViewer(image) {
 	let imgNo = updateImageNo(image);
 	
 	let viewer = document.getElementById('viewer');
+	viewer.setAttribute('index', imgNo);
 	viewer.innerHTML = '';
 	viewer.tabIndex = 999;
 	let viewerPrev = document.createElement('a');
@@ -726,27 +736,66 @@ function openImageInViewer(image) {
 	window['loading'] = true;
 	
 	if(imgNo-1 >= 0 && window['slideshow'] == null) {
-		document.getElementById('viewer-prev').addEventListener('click', function(e) {
-			openImageInViewer(window['viewer-list'][imgNo-1]);
-			window['loading'] = true;
-			runLoader();
-			return false;
-		}, false);
+		document.getElementById('viewer-prev').addEventListener('click', onClickViewerPrev, false);
 	}
 	if(imgNo+1 < window['viewer-list'].length && window['slideshow'] == null) {
-		document.getElementById('viewer-next').addEventListener('click', function(e) {
-			openImageInViewer(window['viewer-list'][imgNo+1]);
-			window['loading'] = true;
-			runLoader();
-			return false;
-		}, false);
+		document.getElementById('viewer-next').addEventListener('click', onClickViewerNext, false);
 	}
+	img.addEventListener('touchstart', onTouchStart);
+	img.addEventListener('touchmove', onTouchMoveViewer, false);
 	img.addEventListener('click', closeViewer);
 	img.addEventListener('contextmenu', toggleZoom);
 	
 	if(viewer.style.visibility != 'visible') viewer.style.visibility = 'visible';
 	if(viewer.style.opacity != '1') viewer.style.opacity = '1';
 	setTimeout(adjustViewerMargin, 50);
+}
+
+function onClickViewerPrev() {
+	openImageInViewer(window['viewer-list'][parseInt(viewer.getAttribute('index'))-1]);
+	window['loading'] = true;
+	runLoader();
+	return false;
+}
+
+function onClickViewerNext() {
+	openImageInViewer(window['viewer-list'][parseInt(viewer.getAttribute('index'))+1]);
+	window['loading'] = true;
+	runLoader();
+	return false;
+}
+
+function onTouchMoveViewer(e) {
+	let swipeDown = e.touches[0].clientY - window['touchY'];
+	let swipeUp = window['touchY'] - e.touches[0].clientY;
+	let swipeLeft = window['touchX'] - e.touches[0].clientX;
+	let swipeRight = e.touches[0].clientX - window['touchX'];
+	if(config.debug)
+		console.log(swipeUp > 0, swipeDown > 0, swipeLeft > 0, swipeRight > 0);
+	//--SWIPE LEFT--//
+	if(swipeLeft > swipeUp && swipeLeft > swipeDown) {
+		onClickViewerNext();
+		this.removeEventListener('touchmove', onTouchMoveViewer);
+		return;
+	}
+	//--SWIPE RIGHT--//
+	if(swipeRight > swipeUp && swipeRight > swipeDown) {
+		onClickViewerPrev();
+		this.removeEventListener('touchmove', onTouchMoveViewer);
+		return;
+	}
+	//--SWIPE DOWN--//
+	if(swipeDown > swipeLeft && swipeDown > swipeRight) {
+		closeViewer();
+		this.removeEventListener('touchmove', onTouchMoveViewer);
+		return;
+	}
+	//--SWIPE UP--//
+	if(swipeUp > swipeLeft && swipeUp > swipeRight) {
+		closeViewer();
+		this.removeEventListener('touchmove', onTouchMoveViewer);
+		return;
+	}
 }
 
 function adjustViewerMargin() {

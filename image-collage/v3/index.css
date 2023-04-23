@@ -30,6 +30,10 @@ body[layout='horizontal'] .content {
 	display: flex;
 }
 
+body[layout='horizontal'] .expander {
+	display: none;
+}
+
 .title {
 	cursor: pointer;
 }
