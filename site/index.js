@@ -472,10 +472,10 @@ function renderMenu() {
 				contentItem.classList.add('box');
 				contentItem.classList.add('text');
 				contentItem.classList.add('focusable');
+				if(window['elements'][section].highlight)
+					contentItem.classList.add('highlight');
 				contentItem.style.width = iconSize;
 				contentItem.style.height = iconSize;
-				// contentItem.style.cursor = 'pointer';
-				// contentItem.style.margin = '0';
 				contentItem.innerText = window['elements'][section].text;
 				contentItem.title = contentItem.innerText || '';
 				contentItem.addEventListener('click', function() {

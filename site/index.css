@@ -179,15 +179,6 @@ a {
 	position: fixed;
 }
 
-.icon {
-	transition: all 0.1s ease;
-	background-color: var(--accent);
-}
-
-.icon:hover {
-	transform: scale(1.2);
-}
-
 .box {	
 	border: 1px solid var(--foreground);
 	background-color: var(--background);
@@ -207,6 +198,20 @@ a {
   border: 1px solid var(--accent);
   background-color: var(--background);
 }
+
+.highlight {
+	background-color: var(--accent);
+}
+
+.icon {
+	transition: all 0.1s ease;
+	background-color: var(--accent);
+}
+
+.icon:hover {
+	transform: scale(1.2);
+}
+
 .contents {
 	display: flex;
 	padding: 5px 0;
