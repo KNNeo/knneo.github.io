@@ -392,7 +392,6 @@ button:disabled {
 }
 .wanted-list {
     max-width: 380px;
-	max-height: 70vh;
 	overflow-y: auto;
 }
 
