@@ -360,6 +360,13 @@ function generatePopupContent(url) {
             'https://www.youtube.com/embed/' + id +
             '?enablejsapi=1"></iframe>';
     }
+    if (url.includes('youtu.be/')) {
+        //process youtube embed
+        let id = url.substring(url.indexOf('youtu.be/') + 9);
+        return '<iframe class="yt-video" allow="autoplay; encrypted-media" allowfullscreen="" frameborder="0" style="max-height: 360px;" src="' +
+            'https://www.youtube.com/embed/' + id +
+            '?enablejsapi=1"></iframe>';
+    }
     if (url.includes('instagram.com/p/')) {
         //process instagram embed
         return '<center><blockquote class="instagram-media" data-instgrm-permalink="' +
