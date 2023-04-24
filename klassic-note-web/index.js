@@ -322,7 +322,7 @@ function setTabs() {
 	displayCoverIfComplete();
 	
 	//adjust content height
-	let tabHeight = window.innerHeight - Array.from(document.querySelectorAll('.calc')).reduce((total, current) => { return total + current.offsetHeight; }, 15) + 'px';
+	let tabHeight = window.innerHeight - Array.from(document.querySelectorAll('.calc')).reduce((total, current) => { return total + current.offsetHeight; }, 50) + 'px';
 	if(debugMode) console.log('containerHeight', tabHeight, document.querySelector('#tab-list').style.height);
 	if(tabHeight != document.querySelector('#tab-list').style.height)
 	{
