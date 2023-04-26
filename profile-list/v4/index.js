@@ -983,7 +983,7 @@ function generateProfileSocialIcons(social, alignRight = true) {
 	{
 		let youtubeSpan = document.createElement('a');
 		youtubeSpan.classList.add('profile-social');
-		youtubeSpan.href = 'https://www.youtube.com/channel/' + social.youtube;
+		youtubeSpan.href = 'https://www.youtube.com/' + social.youtube;
 		youtubeSpan.target = '_blank';
 		youtubeSpan.title = social.youtube;
 		
