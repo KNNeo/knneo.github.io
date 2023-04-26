@@ -238,7 +238,7 @@ button:disabled {
 	color: gray;
 }
 .page {
-	max-height: calc(100vh - 200px);
+    max-height: calc(100vh - 220px);
 }
 .page-align {
 	width: 100%;
@@ -360,7 +360,7 @@ button:disabled {
 }
 .view {
 	max-width: 640px;
-	/* height: 75vh; */
+    max-height: calc(100vh - 240px);
 	margin: auto;
 	display: flex;
     justify-content: center;
