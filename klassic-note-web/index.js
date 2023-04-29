@@ -1517,7 +1517,8 @@ function queryAwardsByArtist(contents) {
 }
 
 function generateAwards(contents) {
-	if(debugMode) console.log('generateAwards', contents);
+	if(debugMode)
+		console.log('generateAwards', contents);
 	
 	document.querySelector('#song-awards').innerHTML = '';
 	let columns = contents.columns;
@@ -2541,7 +2542,11 @@ function generateTableByDataWithHeader(contents, parameters) {
 		
 		let tr = document.createElement('tr');
 		tr.setAttribute('data-id', row[columnIndexKNID] ?? 0);
-		if(document.querySelector('#options').value.replace(categoryIcons[2], '') === row[columnIndexKNID]) {
+		if(debugMode)
+			console.log('highlight', document.querySelector('#options').value.replace(categoryIcons[2], ''), row[columnIndexKNID]);
+		if(document.querySelector('#options').value.replace(categoryIcons[2], '') == row[columnIndexKNID]) {
+			if(debugMode)
+				console.log('highlighted');
 			tr.classList.add('highlight');
 			tr.classList.add('not-selectable');
 			tr.addEventListener('active', onHoverTableRow);
