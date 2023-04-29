@@ -412,10 +412,12 @@ function generateProfileFromJSON(profileName) {
     });
 	//if not found, means reset
 	if(profile == null) {
-		profile = profileListJson.find( function(n) {
+		profile = profileListJson.filter(n => !(n.inactive === true) && n.rating).find( function(n) {
 			return n.id == profileName;
 		});
 	};
+	//if still not found, then ignore
+	if(profile == null) return;
 	//remove friend mode if add to history before
 	if(window['profiles'].map(p => p.id).includes(profile.id))
 		resetProfile();
