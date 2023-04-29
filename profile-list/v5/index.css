@@ -137,9 +137,6 @@ a {
 	padding: 10px;
 	font-size: 2em;
 }
-.hidden {
-	display: none;
-}
 .view {
 	max-width: 640px;
 	margin: auto;
@@ -180,6 +177,9 @@ a {
 .box:active {
 	box-shadow: 1px 1px;
 	transform: translate(2px, 2px);
+}
+.hidden {
+	display: none;
 }
 
 /*CALENDAR*/
