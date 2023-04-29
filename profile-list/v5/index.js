@@ -795,13 +795,11 @@ function generateProfilePointers([profile]) {
 		console.log(points);
 	
 	let cell = document.createElement('div');
-	cell.style.display = 'flex';
-	cell.style.justifyContent = 'space-evenly';
+	cell.classList.add('profile-pointers');
 	
 	for(let point of points)
 	{
 		let cellContainer = document.createElement('div');
-		cellContainer.style.flexBasis = '33%';
 
 		//--POINTERS LABEL--//
 		let cellDiv = document.createElement('div');

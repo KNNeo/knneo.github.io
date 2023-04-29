@@ -110,7 +110,7 @@ a {
 	width: 100%;
 }
 .profile-box-label {
-	font-size: 60%;	
+	font-size: 70%;	
 }
 .profile-box-img {
 	margin: auto;
@@ -123,6 +123,16 @@ a {
 	background-repeat: no-repeat;
 	background-position: center;
     object-fit: contain;
+}
+.profile-pointers {
+	display: flex;
+	justify-content: center;	
+}
+.profile-pointers > div {
+	flex-basis: 33%;
+}
+.profile-pointers > div:nth-of-type(2) {
+	flex-basis: 44%;	
 }
 .profile-social {
 	color: var(--primary);
