@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en-SG">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+	<meta name="theme-color" content="white">
+	<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Noto Sans'>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="index.css">
+	<script src="../../darkmode.js"></script>
+	<script src="../../wanted-list/luxon.min.js" defer></script>
+	<script src="../../get.js" defer></script>
+	<script src="index.js" defer></script>
+	<script src="calendar.js" defer></script>
+	<script src="timeline.js" defer></script>
+    <title>Profile List</title>
+</head>
+<body>
+<div class="loader bi"></div>
+<h3 class="page-align">
+	<a title="Profiles" class="bi bi-person-square" href="javascript:void(0);" onclick="toggleView(4)"></a>
+	<a title="Calendar" class="bi bi-calendar" href="javascript:void(0);" onclick="toggleView(2)"></a>
+	<a title="Timeline" class="bi bi-bar-chart-steps" href="javascript:void(0);" onclick="toggleView(3)"></a>
+	<a title="Toggle Dark Mode" class="darkmode bi bi-brightness-high-fill" href="javascript:void(0);" onclick="toggleDarkMode()" ></a>
+</h3>
+<div class="view">
+	<div class="page wanted-list page-align"></div>
+	<div class="page page-align">
+		<div class="calendar-box">
+			<div class="calendar-legend page-align">
+				<a title="Export Calendar" class="bi bi-box-arrow-right" style="margin: -5px 5px;" onclick="exportCalendar()"></a>
+			</div>
+			<br />
+			<div class="calendar page-align"></div>
+		</div>
+	</div>
+	<div class="page page-align">
+		<div id="timeline"></div>
+	</div>
+	<div class="page profile page-align" oncontextmenu="return false">
+		<div class="profile-box box" style="width: 100%;">
+			<h1>Profile List</h1>
+		</div>
+	</div>
+</div>
+<div class="page-align"><input id="search" onKeyUp="onSearch()"></input></div>
+<ul class="list"></ul>
+<h3 class="settings">
+	<div id="time" class="page-align"></div>
+	<a class="home" href="../../index.html">knneo.github.io</a>
+</h3>
+<div>
+</div>
+</body>
+</html>
