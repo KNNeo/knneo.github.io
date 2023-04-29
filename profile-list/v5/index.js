@@ -817,7 +817,7 @@ function generateProfilePointers([profile]) {
 			cellDiv.title = point.comment;
 			cellDiv.classList.add('points');
 			cellDiv.addEventListener('click', function() {
-				popupText(point.comment);
+				popupText(processComment(point.comment, profile.links));
 			});
 		}
 		cellDiv.innerHTML = point.value;
@@ -1060,6 +1060,27 @@ function addProfileEvents() {
 ////HELPER////
 function addBackgroundUrlClause(url) { return "url('" + url + "')"; }
 function addBrackets(content, startWithWhitespace) { return (startWithWhitespace ? ' ' : '') + '(' + content + ')'; }
+function processComment(comment, refs) {
+	let commentArr = [];
+	let added = false;
+	for(let ref of refs)
+	{
+		let refText = ref.substring(0, ref.indexOf('}')+1);
+		let refLink = ref.replace(refText, '');
+		if(window.location.href.includes('knneo.github.io'))
+			refLink = refLink.replace(/knwebreports.blogspot.com/gi, 'knneo.github.io/blog/pages');
+		let replaced = comment.replace(refText, '<a target="_blank" href="' + refLink + '">' + refText + '</a>');
+		if(window['debug']) console.log('processComment', replaced, comment);
+		if(replaced != comment)
+		{
+			commentArr.push(replaced.replace('{','').replace('}',''));
+			added = true;
+		}
+	}
+	if(!added)
+		commentArr.push(comment);
+	return superscriptText(commentArr.join('<br/>'));
+}
 function processComments(comments, refs) {
 	if(refs && refs.length > 0)
 	{
@@ -1105,6 +1126,16 @@ function superscriptText(input) { return input.replace('[1]',superscriptHTML('[1
 function superscriptHTML(input) { return '<span class="superscript">' + input + '</span>'; }
 function dupeStringCheck(source, compare) { return source == compare ? source : compare; }
 function findComment(profile, commentIndexStr) { return profile.comments.find(c => c.includes(commentIndexStr))?.replace(commentIndexStr,''); }
+function addStatusPopup(simple) {
+	if(simple || labels.statusPopup.length == 0) return;
+	if(document.querySelector('.points') == null) return;
+	document.querySelector('.points').addEventListener('mouseover', function(event) {
+		event.target.innerHTML = '<div class=\"points-note\">' + labels.statusPopup + '</div>' + event.target.innerHTML;
+	});
+	document.querySelector('.points').addEventListener('mouseout', function(event) {
+		if (event.target.querySelector('.points-note') != null) event.target.querySelector('.points-note').remove();
+	});
+}
 
 ////CHECK////
 function daysFromMe() {
@@ -1174,20 +1205,30 @@ function showProfilesImageCount(threshold) {
 	}
 }
 
-////UNCATEGORIZED////
+////DIALOG////
 function popupText(input) {
-	alert(input);
+	let dialog = createOrUpdateDialog(input);
+	document.body.appendChild(dialog);
+	dialog.showModal();
 }
 
-function addStatusPopup(simple) {
-	if(simple || labels.statusPopup.length == 0) return;
-	if(document.querySelector('.points') == null) return;
-	document.querySelector('.points').addEventListener('mouseover', function(event) {
-		event.target.innerHTML = '<div class=\"points-note\">' + labels.statusPopup + '</div>' + event.target.innerHTML;
-	});
-	document.querySelector('.points').addEventListener('mouseout', function(event) {
-		if (event.target.querySelector('.points-note') != null) event.target.querySelector('.points-note').remove();
-	});
+function createOrUpdateDialog(html) {
+	let dialog = document.querySelector('dialog') ?? document.createElement('dialog');
+	if(!dialog.classList.contains('box')) dialog.classList.add('box');
+	dialog.innerHTML = html;
+	dialog.addEventListener('click', closeAllDialogs);
+	return dialog;
+}
+
+function openDialog(dialog) {
+	dialog.showModal();
+}
+
+function closeAllDialogs() {
+	for(let dialog of document.querySelectorAll('dialog'))
+	{
+		dialog.close();
+	}
 }
 
 //add age after DOB span
