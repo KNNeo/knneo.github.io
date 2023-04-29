@@ -928,8 +928,8 @@ function generateProfileFriends([profile], friends) {
 
 function generateProfileSocial([profile, currentProfile, previousProfile]) {
 	if(window['debug']) console.log('generateProfileSocial');
-	let friend = findFriendIdByProfile([profile, currentProfile, previousProfile]);
-	[profile, currentProfile] = setProfileOrderByFriend([profile, currentProfile, previousProfile], friend);
+	// let friend = findFriendIdByProfile([profile, currentProfile, previousProfile]);
+	// [profile, currentProfile] = setProfileOrderByFriend([profile, currentProfile, previousProfile], friend);
 	
 	let cell = document.createElement('div');
 	
@@ -940,62 +940,74 @@ function generateProfileSocial([profile, currentProfile, previousProfile]) {
 	return cell;
 }
 
-function generateProfileSocialIcons(social, alignRight = true) {
+function generateProfileSocialIcons(social) {
 	let cellDiv = document.createElement('div');
 	cellDiv.classList.add('shift-center');
-	//shift first value left in friend mode
-	// if(!alignRight)
-		// cellDiv.classList.add('shift-left');
-	// else
-		// cellDiv.classList.add('shift-right');
 	
 	if(social.twitter)
 	{
-		let twitterSpan = document.createElement('a');
-		twitterSpan.classList.add('profile-social');
-		twitterSpan.href = 'https://twitter.com/' + social.twitter;
-		twitterSpan.target = '_blank';
-		twitterSpan.title = social.twitter;
+		let span = document.createElement('a');
+		span.classList.add('profile-social');
+		span.href = 'https://twitter.com/' + social.twitter;
+		span.target = '_blank';
+		span.title = social.twitter;
 		
-		let twitterIcon = document.createElement('i');
-		twitterIcon.classList.add('bi');
-		twitterIcon.classList.add('bi-twitter');
-		twitterSpan.appendChild(twitterIcon);
+		let icon = document.createElement('i');
+		icon.classList.add('bi');
+		icon.classList.add('bi-twitter');
+		span.appendChild(icon);
 		
-		cellDiv.appendChild(twitterSpan);
+		cellDiv.appendChild(span);
 	}
 	
 	if(social.instagram)
 	{
-		let instagramSpan = document.createElement('a');
-		instagramSpan.classList.add('profile-social');
-		instagramSpan.href = 'https://www.instagram.com/' + social.instagram;
-		instagramSpan.target = '_blank';
-		instagramSpan.title = social.instagram;
+		let span = document.createElement('a');
+		span.classList.add('profile-social');
+		span.href = 'https://www.instagram.com/' + social.instagram;
+		span.target = '_blank';
+		span.title = social.instagram;
 		
-		let instagramIcon = document.createElement('i');
-		instagramIcon.classList.add('bi');
-		instagramIcon.classList.add('bi-instagram');
-		instagramSpan.appendChild(instagramIcon);
+		let icon = document.createElement('i');
+		icon.classList.add('bi');
+		icon.classList.add('bi-instagram');
+		span.appendChild(icon);
 		
-		cellDiv.appendChild(instagramSpan);
+		cellDiv.appendChild(span);
 	}
 	
 	if(social.youtube)
 	{
-		let youtubeSpan = document.createElement('a');
-		youtubeSpan.classList.add('profile-social');
-		youtubeSpan.href = 'https://www.youtube.com/' + social.youtube;
-		youtubeSpan.target = '_blank';
-		youtubeSpan.title = social.youtube;
+		let span = document.createElement('a');
+		span.classList.add('profile-social');
+		span.href = 'https://www.youtube.com/' + social.youtube;
+		span.target = '_blank';
+		span.title = social.youtube;
 		
-		let youtubeIcon = document.createElement('i');
-		youtubeIcon.classList.add('bi');
-		youtubeIcon.classList.add('bi-youtube');
-		youtubeSpan.appendChild(youtubeIcon);
+		let icon = document.createElement('i');
+		icon.classList.add('bi');
+		icon.classList.add('bi-youtube');
+		span.appendChild(icon);
 		
-		cellDiv.appendChild(youtubeSpan);
+		cellDiv.appendChild(span);
 	}
+	
+	if(social.twitch)
+	{
+		let span = document.createElement('a');
+		span.classList.add('profile-social');
+		span.href = 'https://www.twitch.tv/' + social.twitch;
+		span.target = '_blank';
+		span.title = social.twitch;
+		
+		let icon = document.createElement('i');
+		icon.classList.add('bi');
+		icon.classList.add('bi-twitch');
+		span.appendChild(icon);
+		
+		cellDiv.appendChild(span);
+	}
+	
 	return cellDiv;
 }
 
