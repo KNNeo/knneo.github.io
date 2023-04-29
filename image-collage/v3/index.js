@@ -537,21 +537,21 @@ function calculateThumbnailSize() {
 }
 
 function fadeIn() {
-	let boxes = document.querySelectorAll(".grid-item");
+	let boxes = document.querySelectorAll('.grid-item:not(.tile-view)');
     for (let elem of boxes) {
         // let elem = boxes[i]
         let distInViewFromTop = elem.getBoundingClientRect().top;
-        let distInViewFromBottom = elem.getBoundingClientRect().bottom - 100;
-		let inView = distInViewFromTop >= 0 && distInViewFromBottom <= window.innerHeight;
+        // let distInViewFromBottom = elem.getBoundingClientRect().bottom;
+		let inView = distInViewFromTop >= 0 && distInViewFromTop <= window.innerHeight;
 		let thumbnail = elem.querySelector('img');
         if (thumbnail.complete && inView) {
 			thumbnail.src = thumbnail.getAttribute('data-image');
-            elem.classList.add("tile-view");
-            setTimeout(function() { elem.classList.add("no-delay"); }, 500);
+            elem.classList.add('tile-view');
+            setTimeout(function() { elem.classList.add('no-delay'); }, 500);
         }
 		else {
-            elem.classList.remove("tile-view");
-            elem.classList.remove("no-delay");
+            elem.classList.remove('tile-view');
+            elem.classList.remove('no-delay');
         }
     }
 }
