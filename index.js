@@ -7,7 +7,7 @@ const isFirefox = (/Firefox/i.test(navigator.userAgent));
 const random = function(version) {
 	//random is 0 ~ 1
 	//version is integer, output is in em
-	return 0.88*(0.5*Math.random() + version) + 'em';
+	return 0.6*(0.5*Math.random() + version) + 'em';
 };
 
 //*dark mode check*//
@@ -39,7 +39,7 @@ function renderElements() {
 			url.classList.add('subset');
 			url.classList.add('box');
 			url.classList.add('shadowed');
-			url.style.fontSize = random(page.version);
+			url.style.fontSize = random(page.priority);
 			if(page.isLocal)
 				url.classList.add('local');
 			url.href = page.url;
