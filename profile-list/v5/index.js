@@ -791,7 +791,8 @@ function generateProfilePointers([profile]) {
 			comment: profile.turningPoint[item].includes('[') ? findComment(profile, profile.turningPoint[item].substring(profile.turningPoint[item].indexOf('['))) : null, 
 		}
 	});
-	// console.log(points);
+	if(window['debug'])
+		console.log(points);
 	
 	let cell = document.createElement('div');
 	cell.style.display = 'flex';
@@ -800,6 +801,7 @@ function generateProfilePointers([profile]) {
 	for(let point of points)
 	{
 		let cellContainer = document.createElement('div');
+		cellContainer.style.flexBasis = '33%';
 
 		//--POINTERS LABEL--//
 		let cellDiv = document.createElement('div');
@@ -836,8 +838,6 @@ function generateProfilePointers([profile]) {
 						
 	return cell;		
 }
-
-function findComment(profile, commentIndexStr) { return profile.comments.find(c => c.includes(commentIndexStr))?.replace(commentIndexStr,''); }
 
 function generateProfileRating([profile]) {
 	let cell = document.createElement('div');
@@ -1106,6 +1106,7 @@ function ratingAsStars(rating, total) {
 function superscriptText(input) { return input.replace('[1]',superscriptHTML('[1]')).replace('[2]',superscriptHTML('[2]')).replace('[3]',superscriptHTML('[3]')); }
 function superscriptHTML(input) { return '<span class="superscript">' + input + '</span>'; }
 function dupeStringCheck(source, compare) { return source == compare ? source : compare; }
+function findComment(profile, commentIndexStr) { return profile.comments.find(c => c.includes(commentIndexStr))?.replace(commentIndexStr,''); }
 
 ////CHECK////
 function daysFromMe() {
