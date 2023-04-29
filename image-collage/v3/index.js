@@ -62,17 +62,20 @@ const settings = document.querySelector('.settings');
 
 //--VARIABLES--//
 window.addEventListener('load', startup);
-window.addEventListener('resize', onResize);
 
 function startup() {
 	initializeVariables();
 	generateButtonArray();
 	generateLayout();
 	generateViewer();
+	setTimeout(fadeIn, 200);
 	let mousewheelEvent = isFirefox ? 'DOMMouseScroll' : 'mousewheel';
 	collage.addEventListener(mousewheelEvent, onScroll);
 	collage.addEventListener('touchstart', onTouchStart);
 	collage.addEventListener('touchmove', onTouchMove);
+	collage.addEventListener('scroll', fadeIn);
+	window.addEventListener('resize', onResize);
+	window.addEventListener('resize', fadeIn);
 }
 
 function initializeVariables() {
@@ -421,7 +424,8 @@ function generateGrid() {
 			let gridItemImage = document.createElement('img');
 		
 			gridItemImage.title = getFilenameInfo(imageUrl).filename.split(config.separator).join('\n');
-			gridItemImage.src = item[getThumbnailPrefix()] || 'https://knneo.github.io/resources/spacer.gif';
+			// gridItemImage.src = item[getThumbnailPrefix()] || 'https://knneo.github.io/resources/spacer.gif';
+			gridItemImage.setAttribute('data-image', item[getThumbnailPrefix()] || 'https://knneo.github.io/resources/spacer.gif');
 			gridItemImage.setAttribute('alt', item['og']);
 			gridItemImage.addEventListener('click', function() {
 				openViewer(this.parentElement);
@@ -530,6 +534,26 @@ function calculateThumbnailSize() {
 		console.log('calculateThumbnailSize', thumbWidth);
 	}
 	return thumbWidth;
+}
+
+function fadeIn() {
+	let boxes = document.querySelectorAll(".grid-item");
+    for (let elem of boxes) {
+        // let elem = boxes[i]
+        let distInViewFromTop = elem.getBoundingClientRect().top;
+        let distInViewFromBottom = elem.getBoundingClientRect().bottom - 100;
+		let inView = distInViewFromTop >= 0 && distInViewFromBottom <= window.innerHeight;
+		let thumbnail = elem.querySelector('img');
+        if (thumbnail.complete && inView) {
+			thumbnail.src = thumbnail.getAttribute('data-image');
+            elem.classList.add("tile-view");
+            setTimeout(function() { elem.classList.add("no-delay"); }, 500);
+        }
+		else {
+            elem.classList.remove("tile-view");
+            elem.classList.remove("no-delay");
+        }
+    }
 }
 
 //EVENTS//
