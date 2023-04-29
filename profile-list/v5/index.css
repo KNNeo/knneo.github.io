@@ -196,7 +196,7 @@ a {
     width: 2.5em;
     height: 2em;
 }
-.calendar td:hover .popitem {
+.calendar td:hover .calendar-popitem {
 	display: block;
 }
 .calendar-legend {
