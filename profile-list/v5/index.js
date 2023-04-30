@@ -968,8 +968,8 @@ function generateProfileSocial([profile, currentProfile, previousProfile]) {
 			'<p style="font-style: italic;">"' + processOption(profile.description, false) + 
 			'"</p>Rating: ' + ratingAsStars(profile.rating, maxRating)?.outerHTML);
 			let dialog = document.querySelector('.dialog dialog');
-			dialog.style.width = '380px';
-			dialog.style.maxWidth = '100vw - 10px';
+			// dialog.style.width = '380px';
+			// dialog.style.maxWidth = '360px';
 		});
 		
 		let icon = document.createElement('i');
@@ -1267,7 +1267,7 @@ function showProfilesImageCount(threshold) {
 ////DIALOG////
 function popupText(input) {
 	let dialog = createOrUpdateDialog(input);
-	dialog.style = '';
+	// dialog.style = '';
 	if(document.querySelector('.dialog') == null)
 	{
 		let dialogDiv = document.createElement('div');
