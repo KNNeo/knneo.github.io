@@ -147,6 +147,15 @@ function filterWantedListBySearch() {
 	generateWantedList(true);
 }
 
+function clearWantedList() {
+	document.getElementById('search').value = '';
+	document.querySelector('.profile').innerHTML = '';
+	window['profiles'] = [];
+	window['friendMode'] = false;
+	loadProfileLists();
+	generateWantedList();
+}
+
 function onTouchStart(e) {
 	window['touchY'] = e.touches[0].clientY;
 	window['touchX'] = e.touches[0].clientX;
@@ -179,6 +188,11 @@ function onTouchMove(e) {
 		console.log('swipeUp');
 		return;
 	}
+}
+
+function onKeyUpWantedListEntry() {
+	if (event.key === ' ' || event.key === 'Enter')
+		generateProfileFromJSON(this);
 }
 
 ////WANTED LIST////
@@ -266,20 +280,21 @@ function generateWantedListEntry(id, autoAdd = []) {
 		if(autoAdd.length > 0) wanted.setAttribute('auto-add', autoAdd.join(','));
 		wanted.addEventListener('click', function() {
 			generateProfileFromJSON(this);
-			if(this.getAttribute('auto-add') != null)
-				for(let add of this.getAttribute('auto-add').split(','))
-				{
-					generateProfileFromJSON(add);
-				}
+			// if(this.getAttribute('auto-add') != null)
+				// for(let add of this.getAttribute('auto-add').split(','))
+				// {
+					// generateProfileFromJSON(add);
+				// }
 			// document.querySelector('.profile').scrollIntoView();
 		});
-		wanted.addEventListener('contextmenu', function(e) {
-			e.preventDefault();
-			window['expanded'] = !window['expanded'];
-			generateProfileFromJSON(this);
+		wanted.addEventListener('keyup', onKeyUpWantedListEntry);
+		// wanted.addEventListener('contextmenu', function(e) {
+			// e.preventDefault();
+			// window['expanded'] = !window['expanded'];
+			// generateProfileFromJSON(this);
 			// document.querySelector('.profile').scrollIntoView();
-			window['expanded'] = !window['expanded'];
-		}, false);
+			// window['expanded'] = !window['expanded'];
+		// }, false);
 	}
 	
 	return wanted;
@@ -292,13 +307,10 @@ function generateWantedListClear() {
 	wanted.classList.add('bi-x-lg');
 	wanted.tabIndex = 0;
 	wanted.innerText = ' CLEAR';
-	wanted.addEventListener('click', function() {
-		document.getElementById('search').value = '';
-		document.querySelector('.profile').innerHTML = '';
-		window['profiles'] = [];
-		window['friendMode'] = false;
-		loadProfileLists();
-		generateWantedList();
+	wanted.addEventListener('click', clearWantedList);
+	wanted.addEventListener('keyup', function() {
+		if (event.key === ' ' || event.key === 'Enter')
+			clearWantedList();
 	});
 	
 	return wanted;
@@ -518,7 +530,7 @@ function generateProfileFromJSON(profileName) {
 						
 						profileTableBody.appendChild(row);
 					}
-					
+										
 					if(!friendMode && !simple)
 					{
 						//--INTRO--//
@@ -667,6 +679,7 @@ function generateProfileName([profile, currentProfile, previousProfile]) {
 			span.addEventListener('click', function() {
 				generateProfileFromJSON(this);
 			});
+			span.addEventListener('keyup', onKeyUpWantedListEntry);
 		}
 		else if(item.nickname && item.nickname.length > 0)
 		{
@@ -943,6 +956,29 @@ function generateProfileSocial([profile, currentProfile, previousProfile]) {
 	//--SOCIAL VALUE--//	
 	if(!window['friendMode'] && profile.social)
 		cell.appendChild(generateProfileSocialIcons(profile.social));
+	
+	if(!window['friendMode'] && cell.childNodes.length > 0 && profile.intro && profile.description && profile.rating)
+	{
+		let span = document.createElement('a');
+		span.classList.add('profile-social');
+		span.href = 'javascript:void(0)';
+		span.title = 'My Comments';
+		span.addEventListener('click', function() {
+			popupText(profile.intro + 
+			'<p style="font-style: italic;">"' + processOption(profile.description, false) + 
+			'"</p>Rating: ' + ratingAsStars(profile.rating, maxRating)?.outerHTML);
+			let dialog = document.querySelector('.dialog dialog');
+			dialog.style.width = '380px';
+			dialog.style.maxWidth = '100vw - 10px';
+		});
+		
+		let icon = document.createElement('i');
+		icon.classList.add('bi');
+		icon.classList.add('bi-chat-heart-fill');
+		span.appendChild(icon);
+		
+		cell.childNodes[0].insertBefore(span, cell.childNodes[0].childNodes[0]);
+	}
 	
 	return cell;
 }
@@ -1231,12 +1267,23 @@ function showProfilesImageCount(threshold) {
 ////DIALOG////
 function popupText(input) {
 	let dialog = createOrUpdateDialog(input);
-	document.body.appendChild(dialog);
+	dialog.style = '';
+	if(document.querySelector('.dialog') == null)
+	{
+		let dialogDiv = document.createElement('div');
+		dialogDiv.classList.add('dialog');
+		dialogDiv.appendChild(dialog);
+		document.body.appendChild(dialogDiv);
+	}
 	dialog.showModal();
 }
 
 function createOrUpdateDialog(html) {
-	let dialog = document.querySelector('dialog') ?? document.createElement('dialog');
+	let dialog = document.querySelector('dialog');
+	if(dialog == null)
+	{
+		dialog = document.createElement('dialog');
+	}
 	if(!dialog.classList.contains('box')) dialog.classList.add('box');
 	dialog.innerHTML = html;
 	dialog.addEventListener('click', closeAllDialogs);
