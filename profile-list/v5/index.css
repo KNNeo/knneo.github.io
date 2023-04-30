@@ -36,10 +36,11 @@ a {
 dialog {
 	background-color: var(--background);
 	color: var(--foreground);	
+	padding: 10px;
 }
 dialog a {
 	background-color: var(--background);
-	color: var(--foreground);
+	color: var(--primary);
 }
 .time {
     font-weight: normal;
