@@ -659,7 +659,7 @@ function generateProfileName([profile, currentProfile, previousProfile]) {
 		// name clickable if friend mode
 		let span = document.createElement(window['friendMode'] ? 'a' : 'span');
 		span.classList.add('profile-name');
-		span.title = processOption(item.nickname, false);
+		span.title = item.nickname && item.nickname.length > 0 ? processOption(item.nickname, false) : '';
 		span.innerText = item.name;
 		if(window['friendMode']) 
 		{	
@@ -668,7 +668,7 @@ function generateProfileName([profile, currentProfile, previousProfile]) {
 				generateProfileFromJSON(this);
 			});
 		}
-		else
+		else if(item.nickname && item.nickname.length > 0)
 		{
 			span.addEventListener('click', function() {
 				popupText(this.title);
