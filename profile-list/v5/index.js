@@ -138,7 +138,12 @@ function onSearch() {
 }
 
 function filterWantedListBySearch() {
-	window['profileList'] = profileListJson.filter(n => !(n.inactive === true) && n.rating && n.name.toLowerCase().includes(window['search'].toLowerCase()));
+	window['profileList'] = profileListJson
+	.filter(n => !(n.inactive === true) 
+	&& n.rating 
+	&& (n.name.toLowerCase().includes(window['search'].toLowerCase())
+	|| (n.nickname?.toLowerCase().includes(window['search'].toLowerCase()) ?? false))
+	);
 	generateWantedList(true);
 }
 
@@ -252,6 +257,7 @@ function generateWantedListEntry(id, autoAdd = []) {
 
 	let wanted = document.createElement(married ? 'span' : 'a');
 	wanted.innerText = profile.name;
+	wanted.tabIndex = 0;
 	if (married)
 		wanted.classList.add('married');
 	else
@@ -284,6 +290,7 @@ function generateWantedListClear() {
 	wanted.classList.add('clear');
 	wanted.classList.add('bi');
 	wanted.classList.add('bi-x-lg');
+	wanted.tabIndex = 0;
 	wanted.innerText = ' CLEAR';
 	wanted.addEventListener('click', function() {
 		document.getElementById('search').value = '';
@@ -950,7 +957,7 @@ function generateProfileSocialIcons(social) {
 		span.classList.add('profile-social');
 		span.href = 'https://twitter.com/' + social.twitter;
 		span.target = '_blank';
-		span.title = social.twitter;
+		span.title = 'Twitter';
 		
 		let icon = document.createElement('i');
 		icon.classList.add('bi');
@@ -966,7 +973,7 @@ function generateProfileSocialIcons(social) {
 		span.classList.add('profile-social');
 		span.href = 'https://www.instagram.com/' + social.instagram;
 		span.target = '_blank';
-		span.title = social.instagram;
+		span.title = 'Instagram';
 		
 		let icon = document.createElement('i');
 		icon.classList.add('bi');
@@ -982,7 +989,7 @@ function generateProfileSocialIcons(social) {
 		span.classList.add('profile-social');
 		span.href = 'https://www.youtube.com/' + social.youtube;
 		span.target = '_blank';
-		span.title = social.youtube;
+		span.title = 'YouTube';
 		
 		let icon = document.createElement('i');
 		icon.classList.add('bi');
@@ -998,7 +1005,7 @@ function generateProfileSocialIcons(social) {
 		span.classList.add('profile-social');
 		span.href = 'https://www.twitch.tv/' + social.twitch;
 		span.target = '_blank';
-		span.title = social.twitch;
+		span.title = 'Twitch';
 		
 		let icon = document.createElement('i');
 		icon.classList.add('bi');
@@ -1006,6 +1013,22 @@ function generateProfileSocialIcons(social) {
 		span.appendChild(icon);
 		
 		cellDiv.appendChild(span);
+	}
+	
+	for(let page of Object.keys(social).filter(k => !['twitter', 'instagram', 'youtube', 'twitch'].includes(k)))
+	{
+		let span = document.createElement('a');
+		span.classList.add('profile-social');
+		span.href = social[page];
+		span.target = '_blank';
+		span.title = 'External Link';
+		
+		let icon = document.createElement('i');
+		icon.classList.add('bi');
+		icon.classList.add('bi-file-earmark-fill');
+		span.appendChild(icon);
+		
+		cellDiv.appendChild(span);		
 	}
 	
 	return cellDiv;
