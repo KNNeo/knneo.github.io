@@ -58,6 +58,8 @@ void Main()
     string filepath = "";
     string domainLink = "https://knwebreports.blogspot.com/";
 	
+	//Get xml file from source, move to archivepath
+	//If not found in source, will run file in archivepath
 	string sourcepath = @"C:\Users\KAINENG\Downloads\";
     string[] sources = Directory.GetFiles(sourcepath, "blog-*.xml");
     if(sources.Length == 1)
@@ -83,6 +85,8 @@ void Main()
         if(TraceMode) Console.WriteLine("More than 1 source files found; proceed in archivepath");
     }
 	
+	//Get xml file to process
+	//Can only have exactly one file per query, else fail, require manual intervention
     string[] xmls = Directory.GetFiles(Path.GetDirectoryName(archivepath), "blog-*.xml");
     if(xmls.Length == 1)
 	{
@@ -99,6 +103,8 @@ void Main()
         if(TraceMode) Console.WriteLine("More than 1 xml files found");
         return;
     }
+	
+	//Read file
     string text = File.ReadAllText(filepath);
     XDocument doc = XDocument.Parse(text);
     
@@ -675,6 +681,18 @@ void Main()
 		if(includeIndex.Count() == 0 || includeIndex.Contains(29))
 		{
 			content = content.Replace(@"/s4032/", @"/s2048/");
+		}
+        #endregion
+		
+        #region 30 censor words
+		if(includeIndex.Count() == 0 || includeIndex.Contains(30))
+		{
+	        expression = @"(.*?)(fuck)(.*?)";
+	        match = Regex.Match(content, expression);
+	        while(match.Success) {
+	            content = content.Replace(match.Groups[2].Value, "f**k");
+	            match = match.NextMatch();
+	        };
 		}
         #endregion
 		
