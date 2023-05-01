@@ -6,6 +6,7 @@
 
 void Main()
 {
+	#region File Import
 	string folderpath = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\";
 	string filepath = "";
 	string domainLink = "knwebreports.blogspot.com";
@@ -36,12 +37,13 @@ void Main()
 		.Where(entry => !entry.Element(_+"category").Attribute("term").ToString().Contains("#page"))
 		// Exclude any entries with an <app:draft> element except <app:draft>no</app:draft>
 		.Where(entry => !entry.Descendants(app+"draft").Any(draft => draft.Value != "no"));
+	#endregion
 	
 	var postCount = 0;
 	var showResults = true;
 	var showMatches = true;
 	 //----------INDEXES HERE----------//
-	List<int> includeIndex = new List<int> { 29 };
+	List<int> includeIndex = new List<int> { 30 };
 	if(includeIndex.Count > 0) Console.WriteLine("[SELECTIVE_CHECKS_ACTIVATED]");
 	
 	/* [ID] List of Cases:		
@@ -75,6 +77,8 @@ void Main()
 	 * [26]	find hashtag to set id for anime blockquote 
 	 * [27] link in images of thumbnails to be removed
 	 * [28]	links to current blog to remove for migration
+	 * [29] reduce resolution of uploaded images (from 4032 -> 2048 pixels)
+	 * [] censor words
 	 */
 	
 	// Process XML content per post
@@ -581,6 +585,21 @@ void Main()
 		}
 		#endregion
 	
+        #region 30 censor words
+		if(includeIndex.Count() == 0 || includeIndex.Contains(30))
+		{
+	        expression = @"(.*?)(fuck)(.*?)";
+	        match = Regex.Match(content, expression);
+	        while(match.Success) {
+	            fixes.Add(new MatchItem() {
+						match = showMatches ? match : null,
+						description = "[30] illegal word found: " + match.Groups[2].Value
+					});
+	            match = match.NextMatch();
+	        };
+		}
+        #endregion
+		
 		//===================================================================================//
 		//Display Result
 		var count = fixes.Count();
