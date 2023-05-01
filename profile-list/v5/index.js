@@ -626,9 +626,9 @@ function generateProfileImage([profile, currentProfile, previousProfile]) {
 	//if one image, either from profile, or friend image if friend mode
 	//subsequent images are friend mode only, portraits only
 	let image1Source = profile.image;
-	if(profile.landscapes == undefined) profile.landscapes = [];
-	if(profile.portraits == undefined) profile.portraits = [];
-	let allImages = window['friendMode'] ? [friend.image] : profile.portraits; //TODO: friend also portraits/landscapes?
+	// if(profile.landscapes == undefined) profile.landscapes = [];
+	// if(profile.portraits == undefined) profile.portraits = [];
+	let allImages = window['friendMode'] ? [friend.image] : profile.portraits ?? [profile.image]; //TODO: friend also portraits/landscapes?
 	if(allImages.length < 1) allImages = [image1Source];
 	profileBoxImg.src = randomArrayItem(allImages);
 	//click finds profile images list and shows another (no dupe check)
@@ -636,21 +636,24 @@ function generateProfileImage([profile, currentProfile, previousProfile]) {
 	if(!window['friendMode'])
 	{
 		profileBoxImg.addEventListener('click', function() {
-			this.src = dupeStringCheck(this.src, getRandomProfileImage(this.parentElement.parentElement.id));
+			if(!window['friendMode'])
+				this.src = getNextProfileImage(this.parentElement.parentElement.id, this.src);
 		});
 		profileBoxImg.addEventListener('error', function() {
-			this.src = dupeStringCheck(this.src, getRandomProfileImage(this.parentElement.parentElement.id));
+			if(!window['friendMode'])
+				this.src = getNextProfileImage(this.parentElement.parentElement.id, this.src);
 		});
 	}
 
 	return profileBoxImg;
 }
 
-function getRandomProfileImage(id) {
+function getNextProfileImage(id, current) {
 	let profile = profileListJson.find( function(n) {
         return n.id == id;
     });
-	return randomArrayItem(profile?.portraits ?? []);
+	let allImages = profile.portraits ?? [profile.image];
+	return allImages[allImages.indexOf(current) + 1];
 }
 
 function generateProfileName([profile, currentProfile, previousProfile]) {
