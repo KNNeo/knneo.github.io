@@ -44,11 +44,11 @@ function generateCalendarArray(year, month) {
 function generateMiniCalendarTable(year, month, array) {
 	// render table
 	let htmlString = '<table class="box"><tbody><tr><td>' + 
-	(month+1 > 1 ? '<i class="prev-month bi bi-arrow-left"></i>' : '') + 
+	(month+1 > 1 ? '<i class="inverted prev-month bi bi-arrow-left"></i>' : '') + 
 	'</td><td colspan="5">' + 
 	months[month] + ' ' + new Date().getFullYear() + 
 	'</td><td>'	+ 
-	(month+1 < 12 ? '<i class="next-month bi bi-arrow-right"></i>' : '') + 
+	(month+1 < 12 ? '<i class="inverted next-month bi bi-arrow-right"></i>' : '') + 
 	'</td></tr><tr>' + daysOfWeek.map(w => '<td>' + w + '</td>').join('') + '</tr>';
 	
 	for (let week = 0; week < 6; week++) {

@@ -29,9 +29,11 @@ body {
 	margin: auto;
 }
 a {
-	background-color: var(--background);
-	color: var(--foreground);
+	color: var(--primary);
 	cursor: pointer;
+}
+a:hover {
+	color: var(--foreground);	
 }
 .dialog dialog {
 	background-color: var(--background);
@@ -74,6 +76,12 @@ a {
 	display: flex;
     align-items: center;
 }
+.inverted {
+	color: var(--foreground);
+}
+.inverted:hover {
+	color: var(--primary);
+}
 .page {
 	height: calc(100vh - 300px);
 }
@@ -88,7 +96,7 @@ a {
     vertical-align: middle;
 	line-height: 1.5;
 }
-.points {
+.points:hover {
     text-decoration: underline;
 }
 .points-note {
@@ -144,12 +152,12 @@ a {
 .profile-pointers > div:nth-of-type(2) {
 	flex-basis: 44%;	
 }
-.profile-social {
-	color: var(--primary);
-}
-.profile-social:hover {
-  color: var(--foreground);
-}
+/* .profile-social { */
+	/* color: var(--primary); */
+/* } */
+/* .profile-social:hover { */
+  /* color: var(--foreground); */
+/* } */
 .loader {
 	display: flex;
 	justify-content: center;

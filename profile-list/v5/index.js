@@ -683,6 +683,7 @@ function generateProfileName([profile, currentProfile, previousProfile]) {
 		}
 		else if(item.nickname && item.nickname.length > 0)
 		{
+			span.classList.add('points');
 			span.addEventListener('click', function() {
 				popupText(this.title);
 			});
@@ -729,6 +730,7 @@ function generateProfileDob([profile, currentProfile, previousProfile]) {
 		
 		let age = getAge(item.dob);
 		if (age != undefined && age > 0) {
+			DOBspan.classList.add('points');
 			DOBspan.title = `${age} ${labels.ageSuffix}`;
 			DOBspan.addEventListener('click', function() {
 				popupText(this.title);
