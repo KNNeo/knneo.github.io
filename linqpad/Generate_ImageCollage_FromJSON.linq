@@ -35,7 +35,7 @@ void Main()
 	string datapath = @"\\Kaineng-pc\bromides\ssr_data.json"; // master data
 	string mappingpath = @"\\Kaineng-pc\bromides\my_ssr_data.json"; // mapping data
 	string thumbpath = @"\\Kaineng-pc\bromides\thumbs\"; // ends with backslash
-	string destination = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\image-collage\v2\data.js";
+	string destination = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\image-collage\v3\data.js";
 	
 	if(!string.IsNullOrWhiteSpace(dataurl))
 	{
