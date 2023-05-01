@@ -207,8 +207,10 @@ function togglePopup() {
 		renderEmbedProcess();
 		// document.querySelector('html').scrollTop += (this.getBoundingClientRect().top - document.querySelector('.header')?.getBoundingClientRect().height);
 		// this.scrollIntoView({ behavior: "smooth", block: "center" });
+		// if below threshold height scroll up, else open popup without scroll
+		let thresholdHeight = 0.4*window.innerHeight;
 		window.scrollTo({
-			top: document.querySelector('html').scrollTop + this.getBoundingClientRect().top - 0.4*window.innerHeight, 
+			top: document.querySelector('html').scrollTop + this.getBoundingClientRect().top - (this.getBoundingClientRect().top >= thresholdHeight ? thresholdHeight : this.getBoundingClientRect().top), 
 			behavior: 'smooth'
 		});
     }
