@@ -46,10 +46,10 @@ function generateMiniCalendarTable(year, month, array) {
 	let htmlString = '<table class="box"><tbody><tr><td>' + 
 	(month+1 > 1 ? '<i class="inverted prev-month bi bi-arrow-left"></i>' : '') + 
 	'</td><td colspan="5">' + 
-	months[month] + ' ' + new Date().getFullYear() + 
+	config.calendar.months[month] + ' ' + new Date().getFullYear() + 
 	'</td><td>'	+ 
 	(month+1 < 12 ? '<i class="inverted next-month bi bi-arrow-right"></i>' : '') + 
-	'</td></tr><tr>' + daysOfWeek.map(w => '<td>' + w + '</td>').join('') + '</tr>';
+	'</td></tr><tr>' + config.calendar.daysOfWeek.map(w => '<td>' + w + '</td>').join('') + '</tr>';
 	
 	for (let week = 0; week < 6; week++) {
 		htmlString += '<tr>';
@@ -76,11 +76,11 @@ function addEventsToMiniCalendar(htmlString, DOBlist) {
 		else if (isBirthdayPassed(currentYear + item.date.substring(4))) thisAge = item.currentAge;
 		else thisAge = item.currentAge + 1;
 		// console.log(item.category + '|' + item.name + '|' + item.currentAge);
-		if (calendarCategories == null) continue;
+		if (config.calendar.category == null) continue;
 		
 		//replace html based on thisAge
 		let dateCell = '<td>' + birthdayInYear.getDate() + '</td>';
-		let monthId = months[birthdayInYear.getMonth()];
+		let monthId = config.calendar.months[birthdayInYear.getMonth()];
 		let message = '<b onclick="generateProfileFromJSON(this)" class="calendar-name color-' + item.category + '">' + item.name + '</b> turns ' + thisAge + '</b> (' + birthdayInYear.getDate() + ' ' + monthId.substring(0, 3) + ')';
 		if (thisAge == '??')
 			message = 'Happy Birthday <b onclick="generateProfileFromJSON(this)" class="calendar-name color-' + item.category + '">' + item.name + '</b>!!';
@@ -145,7 +145,7 @@ function addCalendarLegend() {
 			box.setAttribute('data-id', 'bg-' + category.toLowerCase());
 			// box.style.backgroundColor = 'lightgray';
 			box.addEventListener('click', function() {
-				// this.previousElementSibling.style.backgroundColor = this.previousElementSibling.previousElementSibling.checked ? 'transparent' :calendarCategories[this.title.toLowerCase()] || 'lightgray';
+				// this.previousElementSibling.style.backgroundColor = this.previousElementSibling.previousElementSibling.checked ? 'transparent' :config.calendar.category[this.title.toLowerCase()] || 'lightgray';
 				let id = this.getAttribute('data-id');
 				if(this.classList.contains(id))
 					this.classList.remove(id);
@@ -166,7 +166,7 @@ function addCalendarLegend() {
 			description.style.padding = '0 5px';
 			description.title = category;
 			description.addEventListener('click', function() {
-				// this.previousElementSibling.style.backgroundColor = this.previousElementSibling.previousElementSibling.checked ? 'transparent' :calendarCategories[this.title.toLowerCase()] || 'lightgray';
+				// this.previousElementSibling.style.backgroundColor = this.previousElementSibling.previousElementSibling.checked ? 'transparent' :config.calendar.category[this.title.toLowerCase()] || 'lightgray';
 				let id = this.previousElementSibling.getAttribute('data-id');
 				if(this.previousElementSibling.classList.contains(id))
 					this.previousElementSibling.classList.remove(id);

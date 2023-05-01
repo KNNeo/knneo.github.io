@@ -1,7 +1,7 @@
 function getTimeframe(startDate, endDate, gapsPerUnit, unit) {
 	let diff = -1;
-	if(luxon && timezone)
-		diff = luxon.DateTime.fromISO(endDate).setZone(timezone).diff(luxon.DateTime.fromISO(startDate), unit)[unit];
+	if(luxon && config.timezone)
+		diff = luxon.DateTime.fromISO(endDate).setZone(config.timezone).diff(luxon.DateTime.fromISO(startDate), unit)[unit];
 	// console.log(startDate, endDate, diff);
 	return diff * gapsPerUnit;
 }

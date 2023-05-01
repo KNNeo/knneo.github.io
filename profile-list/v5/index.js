@@ -1,30 +1,30 @@
 //--SETTINGS--//
-const isMobile = function() {
-    const match = window.matchMedia('(pointer:coarse)');
-    return (match && match.matches && window.innerWidth <= 480);
+const config = {
+	source: 'https://knneo.github.io/profile-list/data.json',
+	rating: {
+		max: 5,
+	},
+	timezone: 'Asia/Tokyo',
+	calendar: {
+		category: ['profile', 'seiyuu', 'doaxvv', 'hololive', 'idolypride'], //mapping for category, see data.json
+		daysOfWeek: ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],
+		months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+	},
+	labels: {
+		name: 'Name',
+		nameWithNickname: 'Name (Nickname)',
+		dob: 'Date of Birth',
+		ageSuffix: 'years ago',
+		profile: 'Profile',
+		turningPoint: 'Singer Debut|Swimsuit Photobook|Married',
+		statusPopup: 'As answered haphazardly by Uesaka Sumire (and expanded on by me) the three "turning points" of a voice actress (but applicable to all):<br/>~ Singer Debut (The exhibition of their unique voices in singing)<br/>~ Swimsuit Photobook (The display of their figure to the extent of being half-naked)<br/>~ Married (The declaration of the end of idolism?)',
+		intro: 'How I came to know of her',
+		description: 'Why would she be "wanted" by me',
+		rating: 'Wanted Level',
+		friends: 'Known Acquaintances',
+		social: 'Social Media',
+	}
 };
-const isLocal = window.location.href.includes('file://');
-const maxRating = 5;
-const calendarCategories = ['profile', 'seiyuu', 'doaxvv', 'hololive', 'idolypride'];
-//what to filter for calendar, mapping for category, see data.json
-const labels = {
-	name: 'Name',
-	nameWithNickname: 'Name (Nickname)',
-	dob: 'Date of Birth',
-	ageSuffix: 'years ago',
-	profile: 'Profile',
-	turningPoint: 'Singer Debut|Swimsuit Photobook|Married',
-	statusPopup: 'As answered haphazardly by Uesaka Sumire (and expanded on by me) the three "turning points" of a voice actress (but applicable to all):<br/>~ Singer Debut (The exhibition of their unique voices in singing)<br/>~ Swimsuit Photobook (The display of their figure to the extent of being half-naked)<br/>~ Married (The declaration of the end of idolism?)',
-	intro: 'How I came to know of her',
-	description: 'Why would she be "wanted" by me',
-	rating: 'Wanted Level',
-	friends: 'Known Acquaintances',
-	social: 'Social Media',
-};
-const timezone = 'Asia/Tokyo';
-const daysOfWeek = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-const source = 'https://knneo.github.io/profile-list/data.json';
 
 //--STARTUP--//
 window.addEventListener('load', startup);
@@ -33,7 +33,7 @@ window.addEventListener('load', startup);
 function startup() {
 	initializeVariables();
 	runLoader();
-	getJson(source, function(response) {
+	getJson(config.source, function(response) {
 		profileListJson = response;
 		loadProfileLists();
 	});
@@ -59,7 +59,7 @@ function initializeVariables() {
 
 function loadProfileLists() {
 	window['profileList'] = profileListJson.filter(n => !(n.inactive === true) && n.rating);
-	window['calendarList'] = profileListJson.filter(n => !(n.inactive === true) && calendarCategories.includes(n.category));
+	window['calendarList'] = profileListJson.filter(n => !(n.inactive === true) && config.calendar.category.includes(n.category));
 	window['friendList'] = profileListJson
 		.filter(n => !(n.inactive === true) && n.category == 'friends')
 		.sort(function(a,b) { 
@@ -76,10 +76,10 @@ function loadProfileLists() {
 function renderWantedList() {
 	generateWantedList();
 	loadTimeline();
-	// createCalendar(luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: timezone}).month-1, window['calendarDOBlist'], true);
+	// createCalendar(luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: config.timezone}).month-1, window['calendarDOBlist'], true);
 	generateMiniCalendar(
-		luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: timezone}).year,
-		luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: timezone}).month-1, // month is zero-based
+		luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: config.timezone}).year,
+		luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: config.timezone}).month-1, // month is zero-based
 		window['calendarDOBlist'], 
 		true);
 	updateTime();
@@ -504,7 +504,7 @@ function generateProfileFromJSON(profileName) {
 						row = document.createElement('tr');
 						
 							cell = document.createElement('td');
-							cell.appendChild(generateProfileWithInnerHTML(window['profiles'], labels.profile, 'profile'));
+							cell.appendChild(generateProfileWithInnerHTML(window['profiles'], config.labels.profile, 'profile'));
 							row.appendChild(cell);
 						
 						profileTableBody.appendChild(row);
@@ -537,7 +537,7 @@ function generateProfileFromJSON(profileName) {
 						row = document.createElement('tr');
 						
 							cell = document.createElement('td');
-							cell.appendChild(generateProfileWithInnerHTML(window['profiles'], labels.intro, 'intro'));
+							cell.appendChild(generateProfileWithInnerHTML(window['profiles'], config.labels.intro, 'intro'));
 							row.appendChild(cell);
 						
 						profileTableBody.appendChild(row);
@@ -546,7 +546,7 @@ function generateProfileFromJSON(profileName) {
 						row = document.createElement('tr');
 						
 							cell = document.createElement('td');
-							cell.appendChild(generateProfileWithInnerHTML(window['profiles'], labels.description, 'description'));
+							cell.appendChild(generateProfileWithInnerHTML(window['profiles'], config.labels.description, 'description'));
 							row.appendChild(cell);
 						
 						profileTableBody.appendChild(row);
@@ -611,7 +611,7 @@ function generateProfileFromJSON(profileName) {
 		document.querySelector('.profile').classList.add('friend-mode');
 	}
 	
-	// addAgeAfterDOB(labels.ageSuffix);
+	// addAgeAfterDOB(config.labels.ageSuffix);
 	// addStatusPopup(window['simple']);
 }
 
@@ -710,7 +710,7 @@ function generateProfileDob([profile, currentProfile, previousProfile]) {
 	// {
 		// let cellDiv = document.createElement('div');
 		// cellDiv.classList.add('profile-box-label');
-		// cellDiv.innerText = labels.dob;
+		// cellDiv.innerText = config.labels.dob;
 		// cell.appendChild(cellDiv);
 	// }
 										
@@ -731,7 +731,7 @@ function generateProfileDob([profile, currentProfile, previousProfile]) {
 		let age = getAge(item.dob);
 		if (age != undefined && age > 0) {
 			DOBspan.classList.add('points');
-			DOBspan.title = `${age} ${labels.ageSuffix}`;
+			DOBspan.title = `${age} ${config.labels.ageSuffix}`;
 			DOBspan.addEventListener('click', function() {
 				popupText(this.title);
 			});
@@ -741,7 +741,7 @@ function generateProfileDob([profile, currentProfile, previousProfile]) {
 		
 		//if dob is not in full, show as <dd MMM>
 		if(DOBspan.innerHTML.includes('????')) {
-			DOBspan.innerHTML = months[parseInt(item.dob.substring(5,7))-1] + ' ' + parseInt(item.dob.substring(8,10)) + (!window['friendMode'] && !window['simple'] && item.dobComment ? (' (' + item.dobComment + ')') : '');
+			DOBspan.innerHTML = config.calendar.months[parseInt(item.dob.substring(5,7))-1] + ' ' + parseInt(item.dob.substring(8,10)) + (!window['friendMode'] && !window['simple'] && item.dobComment ? (' (' + item.dobComment + ')') : '');
 			if(item.dob.substring(10).length === 3)
 				DOBspan.innerHTML += window['simple'] ? processOption(item.dob.substring(10), false) : superscriptText(item.dob.substring(10));
 		}
@@ -808,7 +808,7 @@ function generateProfileWithInnerHTML([profile], label, property) {
 function generateProfilePointers([profile]) {
 	let points = Object.keys(profile.turningPoint).map((item, index, arr) => {
 		return {
-			label: labels.turningPoint.split('|')[index],
+			label: config.labels.turningPoint.split('|')[index],
 			value: processOption(profile.turningPoint[item], false),
 			comment: profile.turningPoint[item].includes('[') ? findComment(profile, profile.turningPoint[item].substring(profile.turningPoint[item].indexOf('['))) : null, 
 		}
@@ -865,13 +865,13 @@ function generateProfileRating([profile]) {
 	//--RATING LABEL--//
 	let cellDiv = document.createElement('div');
 	cellDiv.classList.add('profile-box-label');
-	cellDiv.innerText = labels.rating;
+	cellDiv.innerText = config.labels.rating;
 	cell.appendChild(cellDiv);
 	
 	//--RATING VALUE--//
 	cellDiv = document.createElement('div');
 	cellDiv.classList.add('shift-right');
-	cellDiv.appendChild(ratingAsStars(profile.rating, maxRating));
+	cellDiv.appendChild(ratingAsStars(profile.rating, config.rating.max));
 	cell.appendChild(cellDiv);
 
 	return cell;
@@ -898,7 +898,7 @@ function generateProfileFriends([profile], friends) {
 	//--FRIENDS LABEL--//
 	let cellDiv = document.createElement('div');
 	cellDiv.classList.add('profile-box-label');
-	cellDiv.innerText = labels.friends;
+	cellDiv.innerText = config.labels.friends;
 	cell.appendChild(cellDiv);
 	
 	//--FRIENDS VALUE--//
@@ -968,7 +968,7 @@ function generateProfileSocial([profile, currentProfile, previousProfile]) {
 		span.addEventListener('click', function() {
 			popupText(profile.intro + 
 			'<p style="font-style: italic;">"' + processOption(profile.description, false) + 
-			'"</p>Rating: ' + ratingAsStars(profile.rating, maxRating)?.outerHTML);
+			'"</p>Rating: ' + ratingAsStars(profile.rating, config.rating.max)?.outerHTML);
 			let dialog = document.querySelector('.dialog dialog');
 			// dialog.style.width = '380px';
 			// dialog.style.maxWidth = '360px';
@@ -1188,10 +1188,10 @@ function superscriptHTML(input) { return '<span class="superscript">' + input + 
 function dupeStringCheck(source, compare) { return source == compare ? source : compare; }
 function findComment(profile, commentIndexStr) { return profile.comments.find(c => c.includes(commentIndexStr))?.replace(commentIndexStr,''); }
 function addStatusPopup(simple) {
-	if(simple || labels.statusPopup.length == 0) return;
+	if(simple || config.labels.statusPopup.length == 0) return;
 	if(document.querySelector('.points') == null) return;
 	document.querySelector('.points').addEventListener('mouseover', function(event) {
-		event.target.innerHTML = '<div class=\"points-note\">' + labels.statusPopup + '</div>' + event.target.innerHTML;
+		event.target.innerHTML = '<div class=\"points-note\">' + config.labels.statusPopup + '</div>' + event.target.innerHTML;
 	});
 	document.querySelector('.points').addEventListener('mouseout', function(event) {
 		if (event.target.querySelector('.points-note') != null) event.target.querySelector('.points-note').remove();
@@ -1212,7 +1212,7 @@ function daysFromMe() {
 		let myDate = myDateStr.substring(0, 10);
 		let birthDateStr = DOB.replace('.', '-').replace('.', '-');
 		let birthDate = birthDateStr.substring(0, 10);
-		let diff = luxon.DateTime.fromISO(myDate).setZone(timezone).diff(luxon.DateTime.fromISO(birthDate), 'days').days;
+		let diff = luxon.DateTime.fromISO(myDate).setZone(config.timezone).diff(luxon.DateTime.fromISO(birthDate), 'days').days;
 		away.push({
 			name: other.name,
 			days: Math.abs(diff),
@@ -1321,16 +1321,16 @@ function getAge(DOB) {
 	//support for date types: yyyy.MM.dd, ????.MM.dd, ????.??.??
 	if(DOB.includes('?')) return 0;
 	let birthDateStr = DOB.replace('.', '-').replace('.', '-');
-	let birthDate = luxon.DateTime.fromISO(birthDateStr.substring(0, 10), {zone: timezone});
-	let today = luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: timezone});
+	let birthDate = luxon.DateTime.fromISO(birthDateStr.substring(0, 10), {zone: config.timezone});
+	let today = luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: config.timezone});
 	if(window['debug']) console.log('getAge', today, birthDate);
 	return parseInt(today.diff(birthDate, 'years').years);
 }
 
 function isBirthdayPassed(DOB) {
 	let birthDateStr = DOB.replace('.', '-').replace('.', '-'); //yyyy.MM.dd -> yyyy-MM-dd
-	let birthDate = luxon.DateTime.fromISO(birthDateStr.substring(0, 10), {zone: timezone}); 
-	let today = luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: timezone});
+	let birthDate = luxon.DateTime.fromISO(birthDateStr.substring(0, 10), {zone: config.timezone}); 
+	let today = luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: config.timezone});
 	return today.diff(birthDate, 'days').days >= 0;
 }
 
@@ -1350,7 +1350,7 @@ function updateTime() {
 	if(document.querySelector('.time') != null)
 	{
 		let time = document.querySelector('.time');
-		var now = luxon.DateTime.local().setZone(timezone);
+		var now = luxon.DateTime.local().setZone(config.timezone);
 		time.innerText = now.toFormat('yyyy.MM.dd HH:mm:ss');
 		if(time.innerText.endsWith('00:00:00'))
 			renderWantedList();
