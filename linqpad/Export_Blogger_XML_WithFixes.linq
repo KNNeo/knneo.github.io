@@ -44,7 +44,7 @@
 
 void Main()
 {
-    bool WriteTitleOnConsole = false;
+    bool WriteTitleOnConsole = true;
 	bool TraceMode = false;
 	int maxLatestPost = 4;
 	string defaultFont = "Noto Sans";
@@ -159,7 +159,7 @@ void Main()
         //fix url of ent news, by year except 2014
         
         // FIX POST CONTENT
-        int count = 0;
+        List<int> count = new List<int>();
         string oldContent = entry.Element(_+"content").Value;
         string content = entry.Element(_+"content").Value;
         string expression, matchExpression;
@@ -181,6 +181,7 @@ void Main()
 	        while(match.Success) {
 				//Console.WriteLine(title);
 				//Console.WriteLine(match);
+				count.Add(1);
 				content = content.Replace(match.Value, match.Value.Replace("//platform.twitter.com", "https://platform.twitter.com"));
 	            match = match.NextMatch();
 	        };
@@ -190,6 +191,7 @@ void Main()
 	        while(match.Success && match.Groups[2].Value.EndsWith("twitter-tweet") && !match.Groups[3].Value.Contains("tw-align-center")) {
 				//Console.WriteLine(title);
 				//Console.WriteLine(match);
+				count.Add(1);
 				content = content.Replace(match.Value, match.Value.Replace("twitter-tweet", "twitter-tweet tw-align-center"));
 	            match = match.NextMatch();
 	        };
@@ -202,6 +204,7 @@ void Main()
 	        expression = @"(height=""315"")";
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
+				count.Add(2);
 				content = content.Replace(match.Value, match.Value.Replace("height=\"315\"", ""));
 	            match = match.NextMatch();
 	        };
@@ -209,6 +212,7 @@ void Main()
 	        expression = @"(width=""560"")";
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
+				count.Add(2);
 				content = content.Replace(match.Value, match.Value.Replace("width=\"560\"", ""));
 	            match = match.NextMatch();
 	        };
@@ -221,6 +225,7 @@ void Main()
 	        expression = @"(?s)(<style)(.*?)(.thumbnail .hover)(.*?)(</style>)";
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
+				count.Add(3);
 				content = content.Replace(match.Value, "");
 	            match = match.NextMatch();
 	        };
@@ -236,6 +241,7 @@ void Main()
 	        midfix = @"</div><div class=""thumbnail-initial thumbnail-pop hover-visible"">";
 	        suffix = @"</div></div>";
 	        while(match.Success) {
+				count.Add(4);
 	            var replacement = prefix + match.Groups[4].Value + midfix + match.Groups[6].Value + suffix;
 	            content = content.Replace(match.Value, replacement);
 	            match = match.NextMatch();
@@ -256,6 +262,7 @@ void Main()
 	        midfix = @"</div><div class=""thumbnail-initial thumbnail-pop hover-visible"">";
 	        suffix = @"</div></div>";
 	        while(match.Success) {
+				count.Add(6);
 	            var replacement = prefix + match.Groups[4].Value + midfix + match.Groups[6].Value + midfix + match.Groups[8].Value + suffix;
 	            content = content.Replace(match.Value, replacement);
 	            match = match.NextMatch();
@@ -276,6 +283,7 @@ void Main()
 	        suffix = @"</div></div>";
 	        while(match.Success && match.Groups[2].Value.Contains("<table") && match.Groups[4].Value.Contains("<table"))
 	        {
+				count.Add(7);
 	            var replacement = prefix + match.Groups[2].Value + midfix + match.Groups[4].Value + suffix;
 	            content = content.Replace(match.Value, replacement);
 	            match = match.NextMatch();
@@ -297,6 +305,7 @@ void Main()
 	        suffix = @"</div></div>";
 	        while(match.Success && match.Groups[2].Value.Contains("<table") && match.Groups[4].Value.Contains("<table"))
 	        {
+				count.Add(8);
 	            var replacement = prefix + match.Groups[2].Value + midfix + match.Groups[4].Value + suffix;
 	            content = content.Replace(match.Value, replacement);
 	            match = match.NextMatch();
@@ -314,6 +323,7 @@ void Main()
 	        midfix = @""" target=""_blank"">";
 	        suffix = @"</a>";			
 	        while(match.Success && !match.Groups[2].Value.Contains("<table") && match.Groups[5].Value.Contains("<img")) {
+				count.Add(9);
 	            var replacement = prefix + match.Groups[7].Value + midfix + match.Groups[2].Value + suffix;
 	            content = content.Replace(match.Value, replacement);
 	            match = match.NextMatch();
@@ -446,6 +456,7 @@ void Main()
 	        expression = @"(href=""https://knwebreports2014.blogspot.com/)(.*?)(>)";
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
+				count.Add(14);
 	            var replacement = match.Value.Replace("target=\"_blank\"", "").Replace("https://knwebreports2014.blogspot.com/", "../../");
 	            content = content.Replace(match.Value, replacement);
 	            match = match.NextMatch();
@@ -454,6 +465,7 @@ void Main()
 	        expression = @"(href=""http://knwebreports2014.blogspot.com/)(.*?)(>)";
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
+				count.Add(14);
 	            var replacement = match.Value.Replace("target=\"_blank\"", "").Replace("http://knwebreports2014.blogspot.com/", "../../");
 	            content = content.Replace(match.Value, replacement);
 	            match = match.NextMatch();
@@ -479,6 +491,7 @@ void Main()
 	        expression = @"(?s)(<script>)(.*?)(var hashtags)(.*?)(</script>)";
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
+				count.Add(16);
 				content = content.Replace(match.Value, "");
 	            match = match.NextMatch();
 	        };
@@ -491,6 +504,7 @@ void Main()
 	        expression = @"(href=""https://youtu.be)(.*?)(>)";
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
+				count.Add(17);
 				content = content.Replace(match.Value, match.Value.Replace("https://youtu.be", "https://www.youtube.com/watch?v="));
 	            match = match.NextMatch();
 	        };
@@ -523,7 +537,7 @@ void Main()
 				&& !url.Contains("../../")
 				&& !url.Contains(domainLink)
 				) {
-					count++;
+					count.Add(18);
 	                var replacement = prefix + url + midfix + match.Groups[6].Value + suffix;
 	                content = content.Replace(match.Value, replacement);
 				}
@@ -539,7 +553,7 @@ void Main()
 				&& !match.Groups[10].Value.Contains(">")
 				&& (url.Contains("blogger.") || url.Contains("bp.blogspot.com"))
 				) {
-					count++;
+					count.Add(18);
 	                var replacement = match.Groups[1].Value + match.Groups[2].Value + prefix + url + midfix + match.Groups[8].Value + suffix + match.Groups[10].Value + match.Groups[11].Value + match.Groups[12].Value + match.Groups[13].Value;
 					content = content.Replace(match.Value, replacement);
 				}
@@ -550,7 +564,8 @@ void Main()
 	        #region remove add href to hashtags script
 			if(TraceMode) Console.WriteLine("remove add href to hashtags script");
 	        var childDivScript = "<script>var childDivs = document.getElementById('hashtags').getElementsByTagName('a'); for( i=0; i< childDivs.length; i++ ) {  var childDiv = childDivs[i];  childDiv.href = '/search?q=' + childDiv.text.substring(1); } </script>";
-	        if(content.Contains(childDivScript)) count++;
+	        if(content.Contains(childDivScript)) 
+				count.Add(18);
 	        content = content.Replace(childDivScript, "");
 		}
         #endregion
@@ -569,36 +584,45 @@ void Main()
         //if(match.Success) count++;
         #endregion
         
-        #region fix primary and secondary colours to variables
-		if(TraceMode) Console.WriteLine("fix primary and secondary colours to variables");
-        var primaryColour = "#00e4ff";
-        var headerPrefixColour = "#00b8cc";
-        var headerPrefixColourRgb1 = "rgb(0, 184, 204)";
-        var headerPrefixColourRgb2 = "rgb(9, 165, 184)";
-		var whiteBorder = "1px solid white;";
-        if(content.Contains(primaryColour) || 
-		content.Contains(headerPrefixColour) || 
-		content.Contains(headerPrefixColourRgb1) || 
-		content.Contains(headerPrefixColourRgb2) || 
-		content.Contains(whiteBorder)) count++;
-        content = content.Replace(primaryColour, "var(--primary)");
-        content = content.Replace(headerPrefixColour, "var(--secondary)");
-        content = content.Replace(headerPrefixColourRgb1, "var(--secondary)");
-        content = content.Replace(headerPrefixColourRgb2, "var(--secondary)");
-        content = content.Replace(whiteBorder, "1px solid var(--foreground);");
+        #region 21 fix primary and secondary colours to variables
+		if(includeIndex.Count() == 0 || includeIndex.Contains(21))
+		{
+			if(TraceMode) Console.WriteLine("fix primary and secondary colours to variables");
+	        var primaryColour = "#00e4ff";
+	        var headerPrefixColour = "#00b8cc";
+	        var headerPrefixColourRgb1 = "rgb(0, 184, 204)";
+	        var headerPrefixColourRgb2 = "rgb(9, 165, 184)";
+			var whiteBorder = "1px solid white;";
+	        if(content.Contains(primaryColour) || 
+			content.Contains(headerPrefixColour) || 
+			content.Contains(headerPrefixColourRgb1) || 
+			content.Contains(headerPrefixColourRgb2) || 
+			content.Contains(whiteBorder)) 
+				count.Add(21);
+	        content = content.Replace(primaryColour, "var(--primary)");
+	        content = content.Replace(headerPrefixColour, "var(--secondary)");
+	        content = content.Replace(headerPrefixColourRgb1, "var(--secondary)");
+	        content = content.Replace(headerPrefixColourRgb2, "var(--secondary)");
+	        content = content.Replace(whiteBorder, "1px solid var(--foreground);");
+		}
         #endregion
 		
-		#region (entertainment news) convert inline styles migrated to blog.css
-		if(TraceMode) Console.WriteLine("(entertainment news) convert inline styles migrated to blog.css");
-        var oldStyle = @"<div id=""news-thumbnail"" style=""display: none;"">";
-        var newStyle = @"<div class=""news-thumbnail"">";
-        if(content.Contains(oldStyle)) count++;
-        content = content.Replace(oldStyle, newStyle);
-		
-        oldStyle = @"<div id=""hashtags"" style=""color: #bbbbbb; font-size: 0.8em;"">";
-        newStyle = @"<div id=""hashtags"">";
-        if(content.Contains(oldStyle)) count++;
-        content = content.Replace(oldStyle, newStyle);
+		#region 22 (entertainment news) convert inline styles migrated to blog.css
+		if(includeIndex.Count() == 0 || includeIndex.Contains(22))
+		{
+			if(TraceMode) Console.WriteLine("(entertainment news) convert inline styles migrated to blog.css");
+	        var oldStyle = @"<div id=""news-thumbnail"" style=""display: none;"">";
+	        var newStyle = @"<div class=""news-thumbnail"">";
+	        if(content.Contains(oldStyle)) 
+				count.Add(21);
+	        content = content.Replace(oldStyle, newStyle);
+			
+	        oldStyle = @"<div id=""hashtags"" style=""color: #bbbbbb; font-size: 0.8em;"">";
+	        newStyle = @"<div id=""hashtags"">";
+	        if(content.Contains(oldStyle)) 
+				count.Add(21);
+	        content = content.Replace(oldStyle, newStyle);
+		}
 		#endregion
         
         #region export list of images from latest
@@ -612,20 +636,23 @@ void Main()
 //        if(match.Success) count++;
         #endregion
 		
-        #region replace common phrases with emoji
-		if(TraceMode) Console.WriteLine("replace common phrases with emoji");
-        var phrases = new string[]{"laughs", "giggles", "sob", "silence", "pukes", "ugh", "wink", "dabs", "thumbs up", "sigh", "blessed", "shrugs", "cringe"};
-        var emojis = new string[]{"😆", "🤭", "😢", "😐", "🤮", "🙄", "😉", "😎", "👍", "😩", "🥰", "🤷", "😬"};
-		
-		for(var e = 0; e < emojis.Length; e++)
+        #region 24 replace common phrases with emoji
+		if(includeIndex.Count() == 0 || includeIndex.Contains(24))
 		{
-			var initial = "*" + phrases[e] + "*";
-	        content = content.Replace(initial, "<span title=\"" + initial + "\">" + emojis[e] + "</span>");
+			if(TraceMode) Console.WriteLine("replace common phrases with emoji");
+	        var phrases = new string[]{"laughs", "giggles", "sob", "silence", "pukes", "ugh", "wink", "dabs", "thumbs up", "sigh", "blessed", "shrugs", "cringe"};
+	        var emojis = new string[]{"😆", "🤭", "😢", "😐", "🤮", "🙄", "😉", "😎", "👍", "😩", "🥰", "🤷", "😬"};
+			
+			for(var e = 0; e < emojis.Length; e++)
+			{
+				var initial = "*" + phrases[e] + "*";
+		        content = content.Replace(initial, "<span title=\"" + initial + "\">" + emojis[e] + "</span>");
+			}
 		}
         #endregion
 		
         #region check image without ending tag
-		if(TraceMode) Console.WriteLine("check image without ending tag");
+//		if(TraceMode) Console.WriteLine("check image without ending tag");
 //        expression = @"(?s)(<img)(.*?)(/>)";
 //        match = Regex.Match(content, expression);
 //        Console.WriteLine(match);
@@ -638,7 +665,7 @@ void Main()
 	        expression = @"(?s)(<div id=""hiddenTags"")(.*?)(>)(.*?)(</div>)";
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
-				count++;
+				count.Add(25);
 				content = content.Replace(match.Value, "");
 	            match = match.NextMatch();
 	        };
@@ -646,17 +673,18 @@ void Main()
         #endregion
 		
 		#region [beta] 26 find hashtag to set id for anime blockquote 
-		content = content.Replace(@"style=""background: #00b8cc; border-radius: 5px; padding: 3px 5px; text-align: center; vertical-align: text-bottom;""", @"class=""head-prefix""");
-		content = content.Replace(@"style=""background: rgb(0, 184, 204); border-radius: 5px; padding: 3px 5px; text-align: center; vertical-align: text-bottom;""", @"class=""head-prefix""");
-		content = content.Replace(@"style=""background: var(--secondary); border-radius: 5px; padding: 3px 5px; text-align: center; vertical-align: text-bottom;""", @"class=""head-prefix""");
 		if(includeIndex.Count() == 0 || includeIndex.Contains(26))
 		{
+			content = content.Replace(@"style=""background: #00b8cc; border-radius: 5px; padding: 3px 5px; text-align: center; vertical-align: text-bottom;""", @"class=""head-prefix""");
+			content = content.Replace(@"style=""background: rgb(0, 184, 204); border-radius: 5px; padding: 3px 5px; text-align: center; vertical-align: text-bottom;""", @"class=""head-prefix""");
+			content = content.Replace(@"style=""background: var(--secondary); border-radius: 5px; padding: 3px 5px; text-align: center; vertical-align: text-bottom;""", @"class=""head-prefix""");
+			
 	        expression = @"(?s)(<blockquote class=""tr_bq""><div style=""text-align: center;""><span class=""head-prefix""><b>アニメ</b></span><span style=""font-size: large;"">)(.*?)(</span></div></blockquote>)(.*?)(\(#)(.*?)(\))";
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 				if(!match.Groups[2].Value.Contains("Preview")
 				) {
-					count++;
+					count.Add(26);
 					var replacement = match.Groups[1].Value.Replace(@"class=""tr_bq""", @"class=""tr_bq anime"" id=""" + match.Groups[6].Value + @"""");
 					content = content.Replace(match.Value, replacement + match.Groups[2].Value + match.Groups[3].Value + match.Groups[4].Value + match.Groups[5].Value + match.Groups[6].Value + match.Groups[7].Value);
 				}
@@ -668,7 +696,7 @@ void Main()
 	        while(match.Success) {
 				if(!match.Groups[2].Value.Contains("Preview")
 				) {
-					count++;
+					count.Add(26);
 					var replacement = match.Groups[1].Value.Replace(@"class=""tr_bq""", @"class=""tr_bq anime"" id=""" + match.Groups[6].Value + @"01""");
 					content = content.Replace(match.Value, replacement + match.Groups[2].Value + match.Groups[3].Value + match.Groups[4].Value + match.Groups[5].Value + match.Groups[6].Value + match.Groups[7].Value);
 				}
@@ -680,6 +708,8 @@ void Main()
 		#region 29 reduce resolution of uploaded images (from 4032 -> 2048 pixels)
 		if(includeIndex.Count() == 0 || includeIndex.Contains(29))
 		{
+			if(content.Contains("s4032"))
+				count.Add(29);
 			content = content.Replace(@"/s4032/", @"/s2048/");
 		}
         #endregion
@@ -690,6 +720,7 @@ void Main()
 	        expression = @"(.*?)(fuck)(.*?)";
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
+				count.Add(30);
 	            content = content.Replace(match.Groups[2].Value, "f**k");
 	            match = match.NextMatch();
 	        };
@@ -725,7 +756,7 @@ void Main()
         .Where(e => !e.Attribute("term").ToString().Contains("#post")).Select(q => q.Attribute("term").Value).ToList();
         
         if(WriteTitleOnConsole || TraceMode)
-            Console.WriteLine((title != "" ? title : "A Random Statement") + (count > 0 ? "\t[" + count + " change(s)]" : ""));
+            Console.WriteLine((title != "" ? title : "A Random Statement") + (count.Count > 0 ? "\t[" + string.Join(",", count) + "]" : ""));
 		else if(p % 100 == 99)
             Console.WriteLine(".");
 		else
