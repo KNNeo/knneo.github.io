@@ -106,14 +106,14 @@ function addEventsToMiniCalendar(htmlString, DOBlist) {
 	// window['currentMonth'] = monthNo;
 	if (window['currentMonth'] > 0) document.querySelector('.prev-month').addEventListener('click', function() {
 		generateMiniCalendar(
-			luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: timezone}).year,
+			luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: config.timezone}).year,
 			--window['currentMonth'], 
 			window['calendarDOBlist']
 		);
 	});
 	if (window['currentMonth'] < 11) document.querySelector('.next-month').addEventListener('click', function() {
 		generateMiniCalendar(
-			luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: timezone}).year,
+			luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: config.timezone}).year,
 			++window['currentMonth'], 
 			window['calendarDOBlist']
 		);
@@ -154,7 +154,7 @@ function addCalendarLegend() {
 				setTimeout(function() {
 					filterCalendarList();
 					generateMiniCalendar(
-						luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: timezone}).year,
+						luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: config.timezone}).year,
 						window['currentMonth'], 
 						window['calendarDOBlist']
 					);
@@ -175,7 +175,7 @@ function addCalendarLegend() {
 				setTimeout(function() {
 					filterCalendarList();
 					generateMiniCalendar(
-						luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: timezone}).year,
+						luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: config.timezone}).year,
 						window['currentMonth'], 
 						window['calendarDOBlist']
 					);
@@ -198,7 +198,7 @@ function filterCalendarList() {
 
 function exportCalendar() {
 	let textOutput = '"Subject","Start date","All Day Event","Description","Private"';
-	let nowYear = luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: timezone}).year;
+	let nowYear = luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: config.timezone}).year;
 	// title, MM/dd/yyyy, true, description, true
 	for(let profile of window['calendarDOBlist'])
 	{
