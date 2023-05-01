@@ -96,7 +96,7 @@ a:hover {
     vertical-align: middle;
 	line-height: 1.5;
 }
-.points:hover {
+.profile-box:hover .points {
     text-decoration: underline;
 }
 .points-note {
