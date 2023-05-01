@@ -22,7 +22,7 @@ void Main()
 	var timezone = 8; // with respect to UTC
 	var separator = "_";
 	string folderpath = @"C:\Users\KAINENG\Documents\LINQPad Queries\photos-takeout\Takeout";
-	string destination = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\image-collage\v2\data.js"; // ends with backslash
+	string destination = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\image-collage\v3\data.js"; // ends with backslash
 	var files = Directory.GetFiles(folderpath, "*.json", SearchOption.AllDirectories);
 	//Console.WriteLine(files);
 	
