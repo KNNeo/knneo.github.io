@@ -146,7 +146,8 @@ void Main()
             .FirstOrDefault(e => e.Attribute("rel").Value == "alternate") ?? empty)
             .Attribute("href") ?? emptA).Value;
         var pageLink = "./" + Path.GetFileNameWithoutExtension(filepath.Replace(filepath, outputFolder)) + "/" + published.Year.ToString("0000") + "/"  + published.Month.ToString("00") + "/"  + Path.GetFileNameWithoutExtension(originalLink) + "." + type;
-		postList.Add(pageLink);
+		if(!string.IsNullOrWhiteSpace(originalLink))
+			postList.Add(pageLink);
 	}	
 	
     // Process XML content per post
@@ -742,6 +743,8 @@ void Main()
         string originalLink = ((entry.Elements(_+"link")
             .FirstOrDefault(e => e.Attribute("rel").Value == "alternate") ?? empty)
             .Attribute("href") ?? emptA).Value;
+		if(string.IsNullOrWhiteSpace(originalLink))
+			continue;
             
         var yearfolder = Path.Combine(destPath, published.Year.ToString("0000"));
         if(!Directory.Exists(yearfolder)) Directory.CreateDirectory(destPath);
@@ -832,7 +835,8 @@ void Main()
         }
         
         if (originalLink != "")
-        {if(title != "")
+        {
+			if(title != "")
 			{
 		        // Find first image for home page, if any
 				if (TraceMode) Console.WriteLine("Find first image for home page, if any");
