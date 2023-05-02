@@ -704,9 +704,11 @@ abbr.imgpop:hover img {
 
 /*Pop-up content frame*/
 .popup .normal {
-  animation: txtblink 3s infinite;
-  -webkit-animation: txtblink 3s infinite;
-  -moz-animation: txtblink 3s infinite;
+  /* animation: txtblink 3s infinite; */
+  /* -webkit-animation: txtblink 3s infinite; */
+  /* -moz-animation: txtblink 3s infinite; */
+  color: var(--primary);
+  text-decoration: underline;
 }
 
 .popup .initial * img {
