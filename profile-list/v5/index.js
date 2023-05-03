@@ -971,7 +971,7 @@ function generateProfileSocial([profile, currentProfile, previousProfile]) {
 		span.addEventListener('click', function() {
 			popupText(profile.intro + 
 			'<p style="font-style: italic;">"' + processOption(profile.description, false) + 
-			'"</p>Rating: ' + ratingAsStars(profile.rating, config.rating.max)?.outerHTML);
+			'"</p>Star Rating: ' + ratingAsStars(profile.rating, config.rating.max)?.outerHTML);
 			let dialog = document.querySelector('.dialog dialog');
 			// dialog.style.width = '380px';
 			// dialog.style.maxWidth = '360px';
@@ -1176,13 +1176,13 @@ function randomArrayItem(array) { return array[Math.floor(Math.random()*(array.l
 function ratingAsStars(rating, total) {
 	let stars = document.createElement('div');
 	stars.title = rating + '/' + total;
-	for(s = 0; s < total; s++)
+	for(s = 0; s < Math.max(rating, total); s++)
 	{
 		let star = document.createElement('i');
 		star.classList.add('bi');
-		star.classList.add('bi-star' + (rating - s > 0 ? '-fill' : ''))
+		star.classList.add('bi-star' + (rating - s > 0 ? '-fill' : ''));
+		if(s + 1 - total > 0) star.classList.add('extra-rating');
 		stars.appendChild(star);
-		// stars += rating - s > 0 ? '★' : '☆';
 	}
 	return stars;
 }

@@ -209,6 +209,9 @@ a:hover {
 .hidden {
 	display: none;
 }
+.extra-rating {
+	color: var(--primary);
+}
 
 /*CALENDAR*/
 .calendar-box {
