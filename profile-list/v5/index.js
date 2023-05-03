@@ -1,6 +1,7 @@
 //--SETTINGS--//
 const config = {
 	source: 'https://knneo.github.io/profile-list/data.json',
+	random: true,
 	rating: {
 		max: 5,
 	},
@@ -156,6 +157,11 @@ function clearWantedList() {
 	generateWantedList();
 }
 
+function selectRandomProfile() {
+	let list = document.querySelectorAll('.list .item');
+	generateProfileFromJSON(list[Math.floor(list.length*Math.random())]);
+}
+
 function onTouchStart(e) {
 	window['touchY'] = e.touches[0].clientY;
 	window['touchX'] = e.touches[0].clientX;
@@ -203,6 +209,12 @@ function generateWantedList(addReset) {
 	if(addReset) {
 		let list = document.createElement('li');
 		list.appendChild(generateWantedListClear());
+		wantedList.appendChild(list);
+	}
+	else if(config.random)
+	{
+		let list = document.createElement('li');
+		list.appendChild(generateWantedListRandom());
 		wantedList.appendChild(list);
 	}
 	
@@ -296,6 +308,22 @@ function generateWantedListEntry(id, autoAdd = []) {
 			// window['expanded'] = !window['expanded'];
 		// }, false);
 	}
+	
+	return wanted;
+}
+
+function generateWantedListRandom() {	
+	let wanted = document.createElement('a');
+	wanted.classList.add('clear');
+	wanted.classList.add('bi');
+	wanted.classList.add('bi-shuffle');
+	wanted.tabIndex = 0;
+	wanted.innerText = ' RANDOM';
+	wanted.addEventListener('click', selectRandomProfile);
+	wanted.addEventListener('keyup', function() {
+		if (event.key === ' ' || event.key === 'Enter')
+			selectRandomProfile();
+	});
 	
 	return wanted;
 }
