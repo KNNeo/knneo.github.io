@@ -557,23 +557,26 @@ function setThumbnails() {
 		allThumbnails[i].getElementsByClassName("thumbnail-initial").length > 0 &&
 		allThumbnails[i].getElementsByClassName("thumbnail-pop").length > 0)
 		{
-			let textElement = document.createElement('span');
-			textElement.classList.add('thumbnail-text');
-			textElement.innerHTML = allThumbnails[i].getElementsByClassName("thumbnail-initial")[0].innerHTML;
-			let popupText = allThumbnails[i].getElementsByClassName("thumbnail-pop")[0].innerHTML;
-			textElement.onclick = function() {
-				let dialogElement = document.querySelector('.thumbnail-dialog') ?? document.createElement('dialog');
-				dialogElement.className = 'thumbnail-dialog';
-				dialogElement.onclick = function() {
-					this.close();
-				};
-				dialogElement.innerHTML = popupText;
-				if(document.querySelector('.thumbnail-dialog') == null)
-					document.body.appendChild(dialogElement);
-				dialogElement.showModal();
-			};
+			allThumbnails[i].addEventListener('click', function() {
+				toggleThumbnailPop(this);				
+			});
+			// let textElement = document.createElement('span');
+			// textElement.classList.add('thumbnail-text');
+			// textElement.innerHTML = allThumbnails[i].getElementsByClassName("thumbnail-initial")[0].innerHTML;
+			// let popupText = allThumbnails[i].getElementsByClassName("thumbnail-pop")[0].innerHTML;
+			// textElement.onclick = function() {
+				// let dialogElement = document.querySelector('.thumbnail-dialog') ?? document.createElement('dialog');
+				// dialogElement.className = 'thumbnail-dialog';
+				// dialogElement.onclick = function() {
+					// this.close();
+				// };
+				// dialogElement.innerHTML = popupText;
+				// if(document.querySelector('.thumbnail-dialog') == null)
+					// document.body.appendChild(dialogElement);
+				// dialogElement.showModal();
+			// };
 			
-			allThumbnails[i].replaceWith(textElement);
+			// allThumbnails[i].replaceWith(textElement);
 		}
     }
 }
@@ -590,6 +593,11 @@ function closestTag(inputElement, targetTagName) {
 		inputElement = inputElement.parentNode;
     }
     return inputElement;
+}
+
+function toggleThumbnailPop(tn) {
+	if(tn.getElementsByClassName("thumbnail-pop").length > 0)
+		tn.getElementsByClassName("thumbnail-pop")[0].classList.toggle('thumbnail-pop');
 }
 
 function switchThumbnails(tn) {
