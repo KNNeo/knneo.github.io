@@ -669,9 +669,11 @@ abbr {
   -ms-user-select: all;
   user-select: all;
   text-decoration: none;
-  animation: txtblink 3s infinite;
-  -webkit-animation: txtblink 3s infinite;
-  -moz-animation: txtblink 3s infinite;
+  /* animation: txtblink 3s infinite; */
+  /* -webkit-animation: txtblink 3s infinite; */
+  /* -moz-animation: txtblink 3s infinite; */
+  color: var(--primary);
+  text-decoration: underline;
 }
 
 abbr.published {
