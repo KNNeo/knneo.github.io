@@ -552,6 +552,28 @@ function setThumbnails() {
 				return;
 			}
 		}
+		// if text only
+		if(allThumbImages.length < 1 && allThumbVideos.length < 1 &&
+		allThumbnails[i].getElementsByClassName("thumbnail-initial").length > 0 &&
+		allThumbnails[i].getElementsByClassName("thumbnail-pop").length > 0)
+		{
+			let textElement = document.createElement('span');
+			textElement.classList.add('new-thumbnail-initial');
+			textElement.innerHTML = allThumbnails[i].getElementsByClassName("thumbnail-initial")[0].innerHTML;
+			let popupText = allThumbnails[i].getElementsByClassName("thumbnail-pop")[0].innerHTML;
+			textElement.onclick = function() {
+				let dialogElement = document.querySelector('.dialog') ?? document.createElement('dialog');
+				dialogElement.onclick = function() {
+					this.close();
+				};
+				dialogElement.innerHTML = popupText;
+				if(document.querySelector('.dialog') == null)
+					document.body.appendChild(dialogElement);
+				dialogElement.showModal();
+			};
+			
+			allThumbnails[i].replaceWith(textElement);
+		}
     }
 }
 
