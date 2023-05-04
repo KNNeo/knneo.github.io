@@ -558,16 +558,17 @@ function setThumbnails() {
 		allThumbnails[i].getElementsByClassName("thumbnail-pop").length > 0)
 		{
 			let textElement = document.createElement('span');
-			textElement.classList.add('new-thumbnail-initial');
+			textElement.classList.add('thumbnail-text');
 			textElement.innerHTML = allThumbnails[i].getElementsByClassName("thumbnail-initial")[0].innerHTML;
 			let popupText = allThumbnails[i].getElementsByClassName("thumbnail-pop")[0].innerHTML;
 			textElement.onclick = function() {
-				let dialogElement = document.querySelector('.dialog') ?? document.createElement('dialog');
+				let dialogElement = document.querySelector('.thumbnail-dialog') ?? document.createElement('dialog');
+				dialogElement.className = 'thumbnail-dialog';
 				dialogElement.onclick = function() {
 					this.close();
 				};
 				dialogElement.innerHTML = popupText;
-				if(document.querySelector('.dialog') == null)
+				if(document.querySelector('.thumbnail-dialog') == null)
 					document.body.appendChild(dialogElement);
 				dialogElement.showModal();
 			};

@@ -790,6 +790,18 @@ abbr.imgpop:hover img {
 	animation: none;
 }
 
+/*Supports text, not to be mistaken with links or images*/
+
+.thumbnail-text {
+	color: var(--primary);
+	text-decoration: underline;	
+}
+
+.thumbnail-dialog {
+    background-color: var(--background);
+    color: var(--foreground);	
+}
+
 /*EXPERIMENTAL - all prefixed with new for now*/
 .new-t, .new-thumbnail, .new-thumbnail-initial {
 	display: inline;
