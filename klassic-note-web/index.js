@@ -2581,8 +2581,7 @@ function generateTableByDataWithHeader(contents, parameters) {
 				else
 				{
 					let td = document.createElement('td');
-					if(iconTooltip) td.title = iconTooltip;
-					td.appendChild(columnName === iconColumnName ? generateCellValue(columns, row, columnName, iconValueColumnName, iconId) : generateCellValue(columns, row, columnName));
+					td.appendChild(columnName === iconColumnName ? generateCellValue(columns, row, columnName, iconValueColumnName, iconTooltip, iconId) : generateCellValue(columns, row, columnName));
 					tr.appendChild(td);
 				}
 			}
@@ -2597,7 +2596,7 @@ function generateTableByDataWithHeader(contents, parameters) {
 	document.getElementById(id).appendChild(table);
 }
 
-function generateCellValue(columns, row, textColumn, iconColumn, iconId) {	
+function generateCellValue(columns, row, textColumn, iconColumn, iconTooltip, iconId) {	
 	let cell = document.createElement('span');
 	cell.style.backgroundColor = 'transparent';
 	
@@ -2621,6 +2620,7 @@ function generateCellValue(columns, row, textColumn, iconColumn, iconId) {
 		{
 			let icon = document.createElement('span');
 			icon.classList.add('material-icons');
+			icon.title = iconTooltip;
 			icon.innerText = iconId;
 			iconSpan.appendChild(icon);
 		}
