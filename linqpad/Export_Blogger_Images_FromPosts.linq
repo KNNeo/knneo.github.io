@@ -74,7 +74,9 @@ void Main()
         XAttribute emptA = new XAttribute("empty","");
 		string originalLink = ((entry.Elements(_+"link")
             .FirstOrDefault(e => e.Attribute("rel").Value == "alternate") ?? empty)
-            .Attribute("href") ?? emptA).Value;            
+            .Attribute("href") ?? emptA).Value;
+		if(string.IsNullOrWhiteSpace(originalLink))
+			continue;
 		var pageLink = "../pages" + Path.GetFileNameWithoutExtension(filepath.Replace(filepath, blogpath)) + "/" + published.Year.ToString("0000") + "/"  + published.Month.ToString("00") + "/"  + Path.GetFileNameWithoutExtension(originalLink) + "." + type;
         
         if(WriteTitleOnConsole || TraceMode)
