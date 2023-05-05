@@ -169,8 +169,10 @@ function filterWantedListBySearch() {
 function clearWantedList() {
 	document.getElementById('search').value = '';
 	document.querySelector('.profile-details').innerHTML = '';
+	document.querySelector('.profile-image').innerHTML = '<h2 class="title">Profile List</h2>';
 	window['profiles'] = [];
 	window['friendMode'] = false;
+	setTitle();
 	loadProfileLists();
 	generateWantedList();
 }
@@ -248,48 +250,12 @@ function generateWantedList(addReset) {
 	//create wanted list
 	for (let profile of profileNamesList) {
 		let list = document.createElement('li');
-		// list.appendChild(generateWantedListIcon(profile.id));
 		list.appendChild(generateWantedListEntry(profile.id));
 		wantedList.appendChild(list);
 	}
 	
 	//scroll to front
 	wantedList.scrollLeft = 0;
-}
-
-function generateWantedListIcon(id) {
-	let profile = window['profileList'].find( function(n) {
-		return n.id == id
-	});
-	let married = window['excludeMarried'] && processOption(profile.turningPoint.married, true);
-
-	let wanted = document.createElement('span');
-	wanted.style.backgroundImage = addBackgroundUrlClause(profile.image);
-	wanted.style.backgroundSize = '40px auto';
-	wanted.style.backgroundPosition = 'center top';
-	wanted.style.backgroundRepeat = 'no-repeat';
-	wanted.style.width = '20px';
-	wanted.style.height = '20px';
-	// wanted.innerText = profile.name;
-	if (married)
-		wanted.classList.add('married');
-	else
-	{
-		wanted.classList.add('item');
-		wanted.addEventListener('click', function() {
-			generateProfileFromJSON(this);
-			// document.querySelector('.profile').scrollIntoView();
-		});
-		wanted.addEventListener('contextmenu', function(e) {
-			e.preventDefault();
-			window['expanded'] = !window['expanded'];
-			generateProfileFromJSON(this);
-			// document.querySelector('.profile').scrollIntoView();
-			window['expanded'] = !window['expanded'];
-		}, false);
-	}
-	
-	return wanted;
 }
 
 function generateWantedListEntry(id, autoAdd = []) {
@@ -371,10 +337,7 @@ function updateWantedList([profile, currentProfile]) {
 	if(window['debug'])
 		console.log('profileFriendsList', profileFriendsList);
 
-	if(profileFriendsList.length > 0)
-	{
-		filterWantedListByFriends(profileFriendsList, profile, currentProfile);
-	}
+	filterWantedListByFriends(profileFriendsList, profile, currentProfile);
 }
 
 ////TIMELINE////
@@ -636,13 +599,11 @@ function generateProfileDob(item) {
 		});
 	}
 	//dob comment only appears if single profile
-	DOBspan.innerHTML = (window['simple'] ? processOption(item.dob, false) : superscriptText(item.dob)) + (!window['friendMode'] && !window['simple'] && item.dobComment ? (' (' + item.dobComment + ')') : '');
+	DOBspan.innerHTML = processOption(item.dob, false);
 	
 	//if dob is not in full, show as <dd MMM>
 	if(DOBspan.innerHTML.includes('????')) {
-		DOBspan.innerHTML = config.calendar.months[parseInt(item.dob.substring(5,7))-1] + ' ' + parseInt(item.dob.substring(8,10)) + (!window['friendMode'] && !window['simple'] && item.dobComment ? (' (' + item.dobComment + ')') : '');
-		if(item.dob.substring(10).length === 3)
-			DOBspan.innerHTML += window['simple'] ? processOption(item.dob.substring(10), false) : superscriptText(item.dob.substring(10));
+		DOBspan.innerHTML = config.calendar.months[parseInt(item.dob.substring(5,7))-1] + ' ' + parseInt(item.dob.substring(8,10));
 	}
 	cellDiv.appendChild(DOBspan);
 	cell.appendChild(cellDiv);
@@ -657,7 +618,7 @@ function generateProfileWithInnerHTML(profile, label, property) {
 	//--VALUE--//
 	cellDiv = document.createElement('div');
 	cellDiv.classList.add('shift-center');
-	cellDiv.innerHTML = superscriptText(profile[property]);
+	cellDiv.innerHTML = processOption(profile[property], false);
 	cell.appendChild(cellDiv);
 
 	return cell;
@@ -851,57 +812,32 @@ function generateProfileSocialIcons(social) {
 }
 
 ////HELPER////
-function addBackgroundUrlClause(url) { return "url('" + url + "')"; }
-function addBrackets(content, startWithWhitespace) { return (startWithWhitespace ? ' ' : '') + '(' + content + ')'; }
-function processComment(comment, refs) {
-	let commentArr = [];
-	let added = false;
-	for(let ref of refs)
-	{
-		let refText = ref.substring(0, ref.indexOf('}')+1);
-		let refLink = ref.replace(refText, '');
-		if(window.location.href.includes('knneo.github.io'))
-			refLink = refLink.replace(/knwebreports.blogspot.com/gi, 'knneo.github.io/blog/pages');
-		let replaced = comment.replace(refText, '<a target="_blank" href="' + refLink + '">' + refText + '</a>');
-		if(window['debug']) console.log('processComment', replaced, comment);
-		if(replaced != comment)
-		{
-			commentArr.push(replaced.replace('{','').replace('}',''));
-			added = true;
-		}
-	}
-	if(!added)
-		commentArr.push(comment);
-	return superscriptText(commentArr.join('<br/>'));
+function getAge(DOB) {
+	//support for date types: yyyy.MM.dd, ????.MM.dd, ????.??.??
+	if(DOB.includes('?')) return 0;
+	let birthDateStr = DOB.replace('.', '-').replace('.', '-');
+	let birthDate = luxon.DateTime.fromISO(birthDateStr.substring(0, 10), {zone: config.timezone});
+	let today = luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: config.timezone});
+	if(window['debug']) console.log('getAge', today, birthDate);
+	return parseInt(today.diff(birthDate, 'years').years);
 }
-function processComments(comments, refs) {
-	if(refs && refs.length > 0)
-	{
-		let commentArr = [];
-		for(let comment of comments)
-		{
-			let added = false;
-			for(let ref of refs)
-			{
-				let refText = ref.substring(0, ref.indexOf('}')+1);
-				let refLink = ref.replace(refText, '');
-				let replaced = comment.replace(refText, '<a target="_blank" href="' + refLink + '">' + refText + '</a>');
-				if(window['debug']) console.log('processComments', replaced, comment);
-				if(replaced != comment)
-				{
-					commentArr.push(replaced.replace('{','').replace('}',''));
-					added = true;
-				}
-			}
-			if(!added)
-				commentArr.push(comment);
-		}
-		return superscriptText(commentArr.join('<br/>'));
-	}
-	return superscriptText(comments.join('<br/>'));
+function isBirthdayPassed(DOB) {
+	let birthDateStr = DOB.replace('.', '-').replace('.', '-'); //yyyy.MM.dd -> yyyy-MM-dd
+	let birthDate = luxon.DateTime.fromISO(birthDateStr.substring(0, 10), {zone: config.timezone}); 
+	let today = luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: config.timezone});
+	return today.diff(birthDate, 'days').days >= 0;
 }
-function processOption(option, returnBool) { return returnBool ? option.includes('Yes') : option.replace('[1]','').replace('[2]','').replace('[3]',''); }
-function randomArrayItem(array) { return array[Math.floor(Math.random()*(array.length-1))]; }
+function updateTime() {
+	if(document.querySelector('.time') != null)
+	{
+		let time = document.querySelector('.time');
+		var now = luxon.DateTime.local().setZone(config.timezone);
+		time.innerText = now.toFormat('yyyy.MM.dd HH:mm:ss');
+		if(time.innerText.endsWith('00:00:00'))
+			renderWantedList();
+		setTimeout(updateTime, 1000);
+	}
+}
 function ratingAsStars(rating, total) {
 	let stars = document.createElement('div');
 	stars.title = rating + '/' + total;
@@ -915,20 +851,33 @@ function ratingAsStars(rating, total) {
 	}
 	return stars;
 }
-function superscriptText(input) { return input.replace('[1]',superscriptHTML('[1]')).replace('[2]',superscriptHTML('[2]')).replace('[3]',superscriptHTML('[3]')); }
-function superscriptHTML(input) { return '<span class="superscript">' + input + '</span>'; }
-function dupeStringCheck(source, compare) { return source == compare ? source : compare; }
-function findComment(profile, commentIndexStr) { return profile.comments.find(c => c.includes(commentIndexStr))?.replace(commentIndexStr,''); }
-function addStatusPopup(simple) {
-	if(simple || config.labels.statusPopup.length == 0) return;
-	if(document.querySelector('.points') == null) return;
-	document.querySelector('.points').addEventListener('mouseover', function(event) {
-		event.target.innerHTML = '<div class=\"points-note\">' + config.labels.statusPopup + '</div>' + event.target.innerHTML;
-	});
-	document.querySelector('.points').addEventListener('mouseout', function(event) {
-		if (event.target.querySelector('.points-note') != null) event.target.querySelector('.points-note').remove();
-	});
+function processComment(comment, refs) {
+	let commentArr = [];
+	let added = false;
+	for(let ref of refs)
+	{
+		let refText = ref.substring(0, ref.indexOf('}')+1);
+		let refLink = ref.replace(refText, '');
+		if(window.location.href.includes('knneo.github.io'))
+			refLink = refLink.replace(/knwebreports.blogspot.com/gi, 'knneo.github.io/blog/pages');
+		let replaced = comment.replace(refText, '<a target="_blank" href="' + refLink + '">' + refText + '</a>');
+		if(window['debug'])
+			console.log('processComment', replaced, comment);
+		if(replaced != comment)
+		{
+			commentArr.push(replaced.replace('{','').replace('}',''));
+			added = true;
+		}
+	}
+	if(!added)
+		commentArr.push(comment);
+	return commentArr.join('<br/>');
 }
+function findComment(profile, commentIndexStr) { 
+	return profile.comments.find(c => c.includes(commentIndexStr))?.replace(commentIndexStr,'');
+}
+function processOption(option, returnBool) { return returnBool ? option.includes('Yes') : option.replace('[1]','').replace('[2]','').replace('[3]',''); }
+function dupeStringCheck(source, compare) { return source == compare ? source : compare; }
 
 ////CHECK////
 function daysFromMe() {
@@ -1032,48 +981,5 @@ function closeAllDialogs() {
 	for(let dialog of document.querySelectorAll('dialog'))
 	{
 		dialog.close();
-	}
-}
-
-//add age after DOB span
-function addAgeAfterDOB(suffix) {
-	if(document.querySelector('.profile').classList.contains('friend-mode')) return;
-	let profile = window['profileList'].filter(p => p.id === document.querySelector('.profile').firstChild.id)[0];
-	let DOBspan = document.getElementById(profile?.id)?.getElementsByClassName('DOB')[0];
-	if(DOBspan != null)
-	{
-		let age = getAge(profile.dob);
-		window['simple'] = profile.intro == undefined || !window['expanded'];
-		if (age != undefined && age > 0 && !window['simple'])
-			DOBspan.innerHTML = DOBspan.innerHTML.concat(' [').concat(age.toString()).concat(' ' + (suffix || 'years old') + ']');
-	}
-}
-
-function getAge(DOB) {
-	//support for date types: yyyy.MM.dd, ????.MM.dd, ????.??.??
-	if(DOB.includes('?')) return 0;
-	let birthDateStr = DOB.replace('.', '-').replace('.', '-');
-	let birthDate = luxon.DateTime.fromISO(birthDateStr.substring(0, 10), {zone: config.timezone});
-	let today = luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: config.timezone});
-	if(window['debug']) console.log('getAge', today, birthDate);
-	return parseInt(today.diff(birthDate, 'years').years);
-}
-
-function isBirthdayPassed(DOB) {
-	let birthDateStr = DOB.replace('.', '-').replace('.', '-'); //yyyy.MM.dd -> yyyy-MM-dd
-	let birthDate = luxon.DateTime.fromISO(birthDateStr.substring(0, 10), {zone: config.timezone}); 
-	let today = luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: config.timezone});
-	return today.diff(birthDate, 'days').days >= 0;
-}
-
-function updateTime() {
-	if(document.querySelector('.time') != null)
-	{
-		let time = document.querySelector('.time');
-		var now = luxon.DateTime.local().setZone(config.timezone);
-		time.innerText = now.toFormat('yyyy.MM.dd HH:mm:ss');
-		if(time.innerText.endsWith('00:00:00'))
-			renderWantedList();
-		setTimeout(updateTime, 1000);
 	}
 }
