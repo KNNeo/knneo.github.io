@@ -110,7 +110,7 @@ function renderWantedList() {
 		window['calendarDOBlist'], 
 		true);
 	updateTime();
-	toggleView(4);
+	toggleView(2);
 }
 
 function toggleView(id) {
