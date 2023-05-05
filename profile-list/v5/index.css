@@ -158,12 +158,6 @@ a:hover {
 .profile-pointers > div:nth-of-type(2) {
 	flex-basis: 44%;	
 }
-/* .profile-social { */
-	/* color: var(--primary); */
-/* } */
-/* .profile-social:hover { */
-  /* color: var(--foreground); */
-/* } */
 .loader {
 	display: flex;
 	justify-content: center;
@@ -186,10 +180,6 @@ a:hover {
 .settings a {
 	text-decoration: none;
 	text-align: center;
-}
-.wanted-list {
-    max-width: 320px;
-	overflow-y: auto;
 }
 .clear {
 	display: inline-block;
@@ -439,5 +429,4 @@ a:hover {
 @media only screen and (max-width : 480px) {
 	div { scrollbar-width: 0 !important; }
 	div::-webkit-scrollbar { width: 0 !important }
-	/* .profile { font-size: 0.8em; } */
 }
