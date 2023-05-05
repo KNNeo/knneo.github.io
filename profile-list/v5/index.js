@@ -1,5 +1,6 @@
 //--SETTINGS--//
 const config = {
+	title: '日本女優図鑑',
 	source: 'https://knneo.github.io/profile-list/data.json',
 	random: true,
 	rating: {
@@ -30,14 +31,39 @@ const config = {
 //--STARTUP--//
 window.addEventListener('load', startup);
 
+//--REFERENCES--//
+let profileDiv = document.querySelector('.profile');
+let profileImageDiv = document.querySelector('.profile-image');
+let profileDetailsDiv = document.querySelector('.profile-details');
+let viewDiv = document.querySelector('.view');
+let pageDivs = document.querySelectorAll('.page');
+
 //--FUNCTIONS--//
 function startup() {
 	initializeVariables();
+	setTitle();
 	runLoader();
+	addPageEvents();
 	getJson(config.source, function(response) {
 		profileListJson = response;
 		loadProfileLists();
 	});
+}
+
+function setTitle() {
+	if(config.title)
+	{
+		document.title = config.title;
+		document.querySelector('.title').innerText = config.title;
+	}
+}
+
+function addPageEvents() {
+	for(let box of pageDivs)
+	{
+		box.addEventListener('touchstart', onTouchStart);
+		box.addEventListener('touchmove', onTouchMove, false);
+	}
 }
 
 function initializeVariables() {
@@ -84,26 +110,17 @@ function renderWantedList() {
 		window['calendarDOBlist'], 
 		true);
 	updateTime();
-	toggleView(2);
-}
-
-function resetProfile() {
-	document.querySelector('.profile').innerHTML = '';
-	document.body.scrollTop = 0; // For Safari
-	document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-	window['profiles'] = [];
-	window['friendMode'] = false;
-	toggleView(1);
+	toggleView(4);
 }
 
 function toggleView(id) {
 	//change page
 	let isSelect = typeof pageClass == 'string';
-	for(let page of document.querySelectorAll('.page'))
+	for(let page of pageDivs)
 	{
 		page.classList.add('hidden');
 	}
-	document.querySelectorAll('.page')[id-1].classList.remove('hidden');
+	pageDivs[id-1].classList.remove('hidden');
 }
 
 function runLoader() {
@@ -132,6 +149,7 @@ function stopLoader() {
 	document.querySelector('.loader').classList.add('hidden');
 }
 
+//--EVENTS--//
 function onSearch() {
 	// console.log(event.target.value);
 	window['search'] = event.target.value;
@@ -150,7 +168,7 @@ function filterWantedListBySearch() {
 
 function clearWantedList() {
 	document.getElementById('search').value = '';
-	document.querySelector('.profile').innerHTML = '';
+	document.querySelector('.profile-details').innerHTML = '';
 	window['profiles'] = [];
 	window['friendMode'] = false;
 	loadProfileLists();
@@ -344,6 +362,21 @@ function generateWantedListClear() {
 	return wanted;
 }
 
+function updateWantedList([profile, currentProfile]) {
+	let profileFriendsList = window['friendList'].filter( function(p) {
+		return p.id.includes(profile.id) && 
+		(currentProfile == null || p.id.includes(currentProfile?.id)
+		);
+	});
+	if(window['debug'])
+		console.log('profileFriendsList', profileFriendsList);
+
+	if(profileFriendsList.length > 0)
+	{
+		filterWantedListByFriends(profileFriendsList, profile, currentProfile);
+	}
+}
+
 ////TIMELINE////
 function loadTimeline(width = 2500) {
 	if(document.querySelector('#timeline') == null) return;
@@ -445,7 +478,7 @@ function setProfileOrderByFriend(list, friend) {
 
 ////PROFILE////
 function generateProfileFromJSON(profileName) {
-	//check parameter
+	//process input
 	if(typeof profileName == 'object')
 		profileName = profileName.innerText;
 	if(profileName.indexOf(' ') >= 0)
@@ -454,226 +487,83 @@ function generateProfileFromJSON(profileName) {
 		profileName = profileName.substring(0, profileName.indexOf(' '));
 	
 	//select profile from id
-	let profile = window['profileList'].find( function(n) {
+	let source = window['profileList'];
+	window['friendMode'] = false;
+	let profile = source.find( function(n) {
         return n.id == profileName;
     });
-	//if not found, means reset
-	if(profile == null) {
-		profile = profileListJson.filter(n => !(n.inactive === true) && n.rating).find( function(n) {
+	if(profile == null) //if not found, means reset list
+	{
+		window['profiles'] = [];
+		source = profileListJson;
+		profile = source.filter(n => !(n.inactive === true) && n.rating).find( function(n) {
 			return n.id == profileName;
 		});
 	};
-	//if still not found, then ignore
+	//if still not found, then ignore; else add to list
 	if(profile == null) return;
-	//remove friend mode if add to history before
-	if(window['profiles'].map(p => p.id).includes(profile.id))
-		resetProfile();
-	//add selected to first in list: array order will be [profile, currentProfile, previousProfile]
-	window['profiles'].unshift(profile);
-	if(window['profiles'].length > 3) window['profiles'] = window['profiles'].slice(0,3);
+	else window['profiles'].unshift(profile); //first 3 are latest
 	
-	let currentProfile = null;
-	let profiles = document.querySelectorAll('.profile div[id]');
-	if(profiles.length > 0)
+	let friend = findFriendIdByProfile(window['profiles'].slice(0,3));
+	if(friend) {
+		window['friendMode'] = true;
+	}
+	
+	//layout
+	getProfileImage();
+	
+	//get insert index
+	// let index = setProfileInsertOrder(window['profiles'].slice(0,3));
+	//insert depending on location of details
+	// profileDetailsDiv.insertBefore(generateProfileElement(profile), profileDetailsDiv.children[index]);
+	
+	let layout = setProfileOrderByFriend(window['profiles'].slice(0,3), friend);
+	if(layout.length > 0) profileDetailsDiv.innerHTML = '';
+	for(let l of layout)
 	{
-		let currentProfileName = profiles[0].id;
-		currentProfile = profileListJson.filter( function(n) {
-			return n.id == currentProfileName;
-		})[0];
-
-		let friendFound = findFriendIdByProfile(window['profiles']) != null;
-		window['friendList'].find( function(p) {
-			return p.id == (currentProfile.id + '-' + profile.id) || p.id == (profile.id + '-' + currentProfile.id);
-		}) != undefined;
-		
-		if(friendFound && window['debug'])
-			console.log('Friend found! ' + findFriendIdByProfile([currentProfile.id, profile.id]).id);
-		
-		window['friendMode'] = friendFound;// && window.innerWidth > 360;
-		//FRIEND MODE: selected profile is (profile), to be replaced profile is (currentProfile)
+		if(l)
+			profileDetailsDiv.appendChild(generateProfileElement(l, window['friendMode']));
 	}
+	// profileDiv.style.height = window['friendMode'] ? '' : '100%';
+	viewDiv.style.display = '';
 	
-	//friend: selected found and has pairing with current
-	let friend = findFriendIdByProfile(window['profiles']);
-	if(window['debug']) console.log('friend', friend);
-	//if friend found
-	let friendMode = window['friendMode'];
-
-	//if mandatory fields filled or by setting
-	window['simple'] = profile.intro == undefined || !window['expanded'];
-	let simple = window['simple'];
-
-	let idBox = document.createElement('div');
-	idBox.id = window['profiles'][0].id;
-	idBox.style.width = '100%';
-	
-		let profileBox = document.createElement('div');
-		profileBox.classList.add('profile-box');
-		profileBox.classList.add('box');
-			
-		profileBox.appendChild(generateProfileImage(window['profiles'], friend));
-			
-			let profileTable = document.createElement('table');
-			
-				let profileTableBody = document.createElement('tbody');
-				
-					//--NAME--//
-					let row = document.createElement('tr');
-					
-					let cell = document.createElement('td');
-					cell.appendChild(generateProfileName(window['profiles']));
-					row.appendChild(cell);
-					
-					profileTableBody.appendChild(row);
-					
-					//--PROFILE--//
-					if(!friendMode)
-					{
-						row = document.createElement('tr');
-						
-							cell = document.createElement('td');
-							cell.appendChild(generateProfileWithInnerHTML(window['profiles'], config.labels.profile, 'profile'));
-							row.appendChild(cell);
-						
-						profileTableBody.appendChild(row);
-					}
-					
-					//--DOB--//
-					row = document.createElement('tr');
-					
-						cell = document.createElement('td');
-						cell.appendChild(generateProfileDob(window['profiles']));
-						row.appendChild(cell);
-					
-					profileTableBody.appendChild(row);
-					
-					//--TURNING POINTS--//
-					if(!friendMode)
-					{
-						row = document.createElement('tr');
-						
-							cell = document.createElement('td');
-							cell.appendChild(generateProfilePointers(window['profiles']));
-							row.appendChild(cell);
-						
-						profileTableBody.appendChild(row);
-					}
-										
-					if(!friendMode && !simple)
-					{
-						//--INTRO--//
-						row = document.createElement('tr');
-						
-							cell = document.createElement('td');
-							cell.appendChild(generateProfileWithInnerHTML(window['profiles'], config.labels.intro, 'intro'));
-							row.appendChild(cell);
-						
-						profileTableBody.appendChild(row);
-
-						//--DESCRIPTION--//
-						row = document.createElement('tr');
-						
-							cell = document.createElement('td');
-							cell.appendChild(generateProfileWithInnerHTML(window['profiles'], config.labels.description, 'description'));
-							row.appendChild(cell);
-						
-						profileTableBody.appendChild(row);
-						
-						//--RATING--//
-						row = document.createElement('tr');
-						
-							cell = document.createElement('td');
-							cell.appendChild(generateProfileRating(window['profiles']));
-							row.appendChild(cell);
-						
-						profileTableBody.appendChild(row);
-						
-					}
-					
-					//--SOCIAL--//
-					row = document.createElement('tr');
-					
-						cell = document.createElement('td');
-						cell.appendChild(generateProfileSocial(window['profiles']));
-						row.appendChild(cell);
-					
-					profileTableBody.appendChild(row);						
-					
-					//--FRIENDS--//
-					//any friends with one profile from selected
-					let profileFriendsList = window['friendList'].filter( function(p) {
-						return p.id.includes(profile.id) && 
-						(currentProfile == null || p.id.includes(currentProfile?.id)
-						);
-					});
-					if(window['debug'])
-						console.log('profileFriendsList', profileFriendsList);
-					
-					if(profileFriendsList.length > 0)
-					{
-						filterWantedListByFriends(profileFriendsList, profile, currentProfile);
-					}
-					
-				profileTable.appendChild(profileTableBody);
-			
-			profileBox.appendChild(profileTable);
-			
-			// if(!friendMode && !simple)
-			// {
-				// profileBox.appendChild(generateProfileComments(window['profiles']));
-			// }
-	
-		idBox.appendChild(profileBox);
-	
-	document.querySelector('.profile').innerHTML = '';
-	document.querySelector('.profile').appendChild(idBox);
-	document.querySelector('.profile').style.height = simple || friendMode ? '' : '100%';
-	document.querySelector('.view').style.display = '';
-	
-	addProfileEvents();
+	updateWantedList(window['profiles'].slice(0,3));
 	toggleView(4);
-	
-	if(!friendMode)
-		document.querySelector('.profile').classList.remove('friend-mode');
-	else {
-		document.querySelector('.profile').classList.add('friend-mode');
-	}
-	
-	// addAgeAfterDOB(config.labels.ageSuffix);
-	// addStatusPopup(window['simple']);
 }
 
-function generateProfileImage([profile, currentProfile, previousProfile]) {
-	if(window['debug']) console.log('generateProfileImage');
-	let friend = findFriendIdByProfile([profile, currentProfile, previousProfile]);
-	[profile, currentProfile, previousProfile] = setProfileOrderByFriend([profile, currentProfile, previousProfile], friend);
-
-	let profileBoxImg = document.createElement('img');
-	profileBoxImg.classList.add('profile-box-img');
-
-	//if one image, either from profile, or friend image if friend mode
-	//subsequent images are friend mode only, portraits only
-	let image1Source = profile.image;
-	// if(profile.landscapes == undefined) profile.landscapes = [];
-	// if(profile.portraits == undefined) profile.portraits = [];
-	let allImages = window['friendMode'] ? [friend.image] : profile.portraits ?? [profile.image]; //TODO: friend also portraits/landscapes?
-	if(allImages.length < 1) allImages = [image1Source];
-	profileBoxImg.src = randomArrayItem(allImages);
-	//click finds profile images list and shows another (no dupe check)
-	//in friend mode click has no effect
-	if(!window['friendMode'])
-	{
-		profileBoxImg.addEventListener('click', function() {
-			if(!window['friendMode'])
-				this.src = getNextProfileImage(this.parentElement.parentElement.id, this.src);
-		});
-		profileBoxImg.addEventListener('error', function() {
-			if(!window['friendMode'])
-				this.src = getNextProfileImage(this.parentElement.parentElement.id, this.src);
-		});
+function generateProfileElement(profile, friendMode) {
+	let cell = document.createElement('div');
+	cell.style.width = '100%';
+	
+	// all the children ones
+	cell.appendChild(generateProfileName(profile));
+	if(!friendMode) cell.appendChild(generateProfileWithInnerHTML(profile, config.labels.profile, 'profile'));
+	cell.appendChild(generateProfileDob(profile));
+	if(!friendMode) {
+		cell.appendChild(generateProfilePointers(profile));
+		cell.appendChild(generateProfileSocial(profile));
 	}
+	
+	return cell;
+}
 
-	return profileBoxImg;
+function getProfileImage() {
+	//assume single image tag in profile-image element
+	let imgDiv = document.createElement('img');
+	
+	//find friend with 3 names
+	let friend = findFriendIdByProfile(window['profiles'].slice(0,3));
+	if(friend)
+		imgDiv.src = friend.image;
+	else
+	{
+		//find friend withone name
+		let profile = profiles[0];
+		imgDiv.src = getNextProfileImage(profile.id, profileImageDiv.querySelector('img')?.src);
+	}
+	
+	profileImageDiv.innerHTML = '';
+	profileImageDiv.appendChild(imgDiv);
 }
 
 function getNextProfileImage(id, current) {
@@ -681,151 +571,88 @@ function getNextProfileImage(id, current) {
         return n.id == id;
     });
 	let allImages = profile.portraits ?? [profile.image];
-	return allImages[allImages.indexOf(current) + 1];
+	let nextIndex = allImages.indexOf(current) + 1;
+	return allImages[current && nextIndex < allImages.length ? nextIndex : 0];
 }
 
-function generateProfileName([profile, currentProfile, previousProfile]) {
-	if(window['debug']) console.log('generateProfileName');
-	let friend = findFriendIdByProfile([profile, currentProfile, previousProfile]);
-	let list = setProfileOrderByFriend([profile, currentProfile, previousProfile], friend);
-	// console.log(list);
+function generateProfileName(item) {
+	if(window['debug'])
+		console.log('generateProfileName');
 	
 	let cell = document.createElement('div');
 	cell.style.display = 'flex';
     cell.style.justifyContent = 'space-evenly';
 		
 	//--NAME VALUE--//
-	for(let item of list)
-	{
-		let cellDiv = document.createElement('div');
-		
-		// name clickable if friend mode
-		let span = document.createElement(window['friendMode'] ? 'a' : 'span');
-		span.classList.add('profile-name');
-		span.title = item.nickname && item.nickname.length > 0 ? processOption(item.nickname, false) : '';
-		span.innerText = item.name;
-		if(window['friendMode']) 
-		{	
-			span.href = 'javascript:void(0)';
-			span.addEventListener('click', function() {
-				generateProfileFromJSON(this);
-			});
-			span.addEventListener('keyup', onKeyUpWantedListEntry);
-		}
-		else if(item.nickname && item.nickname.length > 0)
-		{
-			span.classList.add('points');
-			span.addEventListener('click', function() {
-				popupText(this.title);
-			});
-		}
-		cellDiv.appendChild(span);
-		
-		cell.appendChild(cellDiv);	
+	let cellDiv = document.createElement('div');
+	
+	// name clickable if friend mode
+	let span = document.createElement(window['friendMode'] ? 'a' : 'span');
+	span.classList.add('profile-name');
+	span.title = item.nickname && item.nickname.length > 0 ? processOption(item.nickname, false) : '';
+	span.innerText = item.name;
+	if(window['friendMode']) 
+	{	
+		span.href = 'javascript:void(0)';
+		span.addEventListener('click', function() {
+			generateProfileFromJSON(this);
+		});
+		span.addEventListener('keyup', onKeyUpWantedListEntry);
 	}
+	else if(item.nickname && item.nickname.length > 0)
+	{
+		span.classList.add('points');
+		span.addEventListener('click', function() {
+			popupText(this.title);
+		});
+	}
+	cellDiv.appendChild(span);
+	
+	cell.appendChild(cellDiv);	
 	
 	return cell;
 }
 
-function generateProfileDob([profile, currentProfile, previousProfile]) {
+function generateProfileDob(item) {
 	if(window['debug']) console.log('generateProfileDob');
-	let friend = findFriendIdByProfile([profile, currentProfile, previousProfile]);
-	let list = setProfileOrderByFriend([profile, currentProfile, previousProfile], friend);
 	
 	let cell = document.createElement('div');
 	cell.style.display = 'flex';
     cell.style.justifyContent = 'space-evenly';
-	
-	//--DOB LABEL--//
-	// if(!window['friendMode'])
-	// {
-		// let cellDiv = document.createElement('div');
-		// cellDiv.classList.add('profile-box-label');
-		// cellDiv.innerText = config.labels.dob;
-		// cell.appendChild(cellDiv);
-	// }
-										
+											
 	//--DOB VALUE--//
-	for(let item of list)
-	{
-		let cellDiv = document.createElement('div');
-		cellDiv.classList.add('shift-center');
-		//shift first value left in friend mode
-		// if(window['friendMode'])
-			// cellDiv.classList.add('shift-left');
-		// else
-			// cellDiv.classList.add('shift-right');
-		
-		let DOBspan = document.createElement('span');
-		DOBspan.classList.add('DOB');
-		
-		let age = getAge(item.dob);
-		if (age != undefined && age > 0) {
-			DOBspan.classList.add('points');
-			DOBspan.title = `${age} ${config.labels.ageSuffix}`;
-			DOBspan.addEventListener('click', function() {
-				popupText(this.title);
-			});
-		}
-		//dob comment only appears if single profile
-		DOBspan.innerHTML = (window['simple'] ? processOption(item.dob, false) : superscriptText(item.dob)) + (!window['friendMode'] && !window['simple'] && item.dobComment ? (' (' + item.dobComment + ')') : '');
-		
-		//if dob is not in full, show as <dd MMM>
-		if(DOBspan.innerHTML.includes('????')) {
-			DOBspan.innerHTML = config.calendar.months[parseInt(item.dob.substring(5,7))-1] + ' ' + parseInt(item.dob.substring(8,10)) + (!window['friendMode'] && !window['simple'] && item.dobComment ? (' (' + item.dobComment + ')') : '');
-			if(item.dob.substring(10).length === 3)
-				DOBspan.innerHTML += window['simple'] ? processOption(item.dob.substring(10), false) : superscriptText(item.dob.substring(10));
-		}
-		cellDiv.appendChild(DOBspan);
-		cell.appendChild(cellDiv);
-	}
-								
-	//shift second value right in friend mode
-	// if(window['friendMode'])
-	// {
-		// if((previousProfile || currentProfile) != undefined)
-		// {
-			// cellDiv = document.createElement('div');
-			// cellDiv.classList.add('shift-right');
-			// cellDiv.style.position = 'relative';
-		
-			// DOBspan = document.createElement('span');
-			// DOBspan.classList.add('DOB');
-			// DOBspan.innerHTML = processOption((previousProfile || currentProfile).dob, false) + (!window['friendMode'] && !window['simple'] && (previousProfile || currentProfile).dobComment != '' ? (' (' + (previousProfile || currentProfile).dobComment + ')') : '');
-			// cellDiv.appendChild(DOBspan);
-			// cell.appendChild(cellDiv);
-		// }
-		
-		// if(previousProfile != undefined && currentProfile != undefined)
-		// {
-			// cellDiv = document.createElement('div');
-			// cellDiv.style.textAlign = 'center';
-			
-				// DOBspan = document.createElement('span');
-				// DOBspan.classList.add('DOB');
-				// DOBspan.style.position = 'absolute';
-				// DOBspan.style.left = '0';
-				// DOBspan.style.right = '0';
-				// DOBspan.innerHTML = processOption(currentProfile.dob, false) + (!window['friendMode'] && !window['simple'] && currentProfile.dobComment != '' ? (' (' + currentProfile.dobComment + ')') : '');
-				// cellDiv.appendChild(DOBspan);
-				
-			// cell.appendChild(cellDiv);
-		// }
+	let cellDiv = document.createElement('div');
+	cellDiv.classList.add('shift-center');
 	
-	// }
+	let DOBspan = document.createElement('span');
+	DOBspan.classList.add('DOB');
+	
+	let age = getAge(item.dob);
+	if (age != undefined && age > 0) {
+		DOBspan.classList.add('points');
+		DOBspan.title = `${age} ${config.labels.ageSuffix}`;
+		DOBspan.addEventListener('click', function() {
+			popupText(this.title);
+		});
+	}
+	//dob comment only appears if single profile
+	DOBspan.innerHTML = (window['simple'] ? processOption(item.dob, false) : superscriptText(item.dob)) + (!window['friendMode'] && !window['simple'] && item.dobComment ? (' (' + item.dobComment + ')') : '');
+	
+	//if dob is not in full, show as <dd MMM>
+	if(DOBspan.innerHTML.includes('????')) {
+		DOBspan.innerHTML = config.calendar.months[parseInt(item.dob.substring(5,7))-1] + ' ' + parseInt(item.dob.substring(8,10)) + (!window['friendMode'] && !window['simple'] && item.dobComment ? (' (' + item.dobComment + ')') : '');
+		if(item.dob.substring(10).length === 3)
+			DOBspan.innerHTML += window['simple'] ? processOption(item.dob.substring(10), false) : superscriptText(item.dob.substring(10));
+	}
+	cellDiv.appendChild(DOBspan);
+	cell.appendChild(cellDiv);
 
 	return cell;
 }
 
-function generateProfileWithInnerHTML([profile], label, property) {
+function generateProfileWithInnerHTML(profile, label, property) {
 	let cell = document.createElement('div');
 	if(profile[property] == undefined || profile[property].length == 0) return cell;
-	
-	//--LABEL--//
-	// let cellDiv = document.createElement('div');
-	// cellDiv.classList.add('profile-box-label');
-	// cellDiv.innerText = label;
-	// cell.appendChild(cellDiv);
 	
 	//--VALUE--//
 	cellDiv = document.createElement('div');
@@ -836,7 +663,7 @@ function generateProfileWithInnerHTML([profile], label, property) {
 	return cell;
 }
 
-function generateProfilePointers([profile]) {
+function generateProfilePointers(profile) {
 	let points = Object.keys(profile.turningPoint).map((item, index, arr) => {
 		return {
 			label: config.labels.turningPoint.split('|')[index],
@@ -890,24 +717,6 @@ function generateProfilePointers([profile]) {
 	return cell;		
 }
 
-function generateProfileRating([profile]) {
-	let cell = document.createElement('div');
-	
-	//--RATING LABEL--//
-	let cellDiv = document.createElement('div');
-	cellDiv.classList.add('profile-box-label');
-	cellDiv.innerText = config.labels.rating;
-	cell.appendChild(cellDiv);
-	
-	//--RATING VALUE--//
-	cellDiv = document.createElement('div');
-	cellDiv.classList.add('shift-right');
-	cellDiv.appendChild(ratingAsStars(profile.rating, config.rating.max));
-	cell.appendChild(cellDiv);
-
-	return cell;
-}
-
 function filterWantedListByFriends(profileFriendsList, profile, currentProfile) {
 	//filter as search
 	let friendsSearch = profileFriendsList.map(f => {
@@ -921,68 +730,8 @@ function filterWantedListByFriends(profileFriendsList, profile, currentProfile) 
 	generateWantedList(true);
 }
 
-function generateProfileFriends([profile], friends) {
-	if(window['debug'])
-		console.log('generateProfileFriends');
-	let cell = document.createElement('div');
-	
-	//--FRIENDS LABEL--//
-	let cellDiv = document.createElement('div');
-	cellDiv.classList.add('profile-box-label');
-	cellDiv.innerText = config.labels.friends;
-	cell.appendChild(cellDiv);
-	
-	//--FRIENDS VALUE--//
-	cellDiv = document.createElement('div');
-	cellDiv.classList.add('profile-friends');
-	cellDiv.classList.add('shift-right');
-	
-	let friendsList = [];
-	//create name array and sort
-	for(let friend of friends)
-	{
-		let splits = friend.id.split('-');
-		for(let item of splits)
-		{
-			if(item != profile.id && friendsList.indexOf(item) < 0)
-				friendsList.push(item);
-		}
-	}
-	if(window['debug'])
-		console.log('friendsList', friendsList);
-	
-	for(let friend of friendsList.sort())
-	{
-		if(window['debug']) console.log('friend', friend);
-		let span = document.createElement('span');
-		span.style.position = 'relative';
-		span.innerText = ' ';
-		cellDiv.appendChild(span);
-	
-		let entry = window['friendList'].filter( function(p) {
-			return p.id.includes(profile.id) && p.id.includes(friend);
-		});
-		if(window['debug']) console.log('entry', entry);
-		
-		let remaining = [];
-		if(entry.length == 1)
-			remaining = entry[0].id.replace(profile.id, '').replace(friend, '').split('-').filter( function(p) {
-				return p != '';
-			}) || [];
-		if(window['debug']) console.log('remaining', remaining);
-
-		cellDiv.appendChild(generateWantedListEntry(friend, remaining));
-	}
-	
-	cell.appendChild(cellDiv);
-	
-	return cell;
-}
-
-function generateProfileSocial([profile, currentProfile, previousProfile]) {
+function generateProfileSocial(profile) {
 	if(window['debug']) console.log('generateProfileSocial');
-	// let friend = findFriendIdByProfile([profile, currentProfile, previousProfile]);
-	// [profile, currentProfile] = setProfileOrderByFriend([profile, currentProfile, previousProfile], friend);
 	
 	let cell = document.createElement('div');
 	
@@ -1001,8 +750,6 @@ function generateProfileSocial([profile, currentProfile, previousProfile]) {
 			'<p style="font-style: italic;">"' + processOption(profile.description, false) + 
 			'"</p>Star Rating: ' + ratingAsStars(profile.rating, config.rating.max)?.outerHTML);
 			let dialog = document.querySelector('.dialog dialog');
-			// dialog.style.width = '380px';
-			// dialog.style.maxWidth = '360px';
 		});
 		
 		let icon = document.createElement('i');
@@ -1101,52 +848,6 @@ function generateProfileSocialIcons(social) {
 	}
 	
 	return cellDiv;
-}
-
-function generateProfileComments([profile]) {
-	let cellDiv = document.createElement('div');
-	cellDiv.classList.add('profile-box-comments');
-	cellDiv.innerHTML = processComments(profile.comments, profile.links);
-	
-	//special cases
-	cellDiv.innerHTML = cellDiv.innerHTML.replace('1976.09.20', '<span class=\'disguise\' class=\'DOB\'>1976.09.20</span>');
-	if(window.location.href.includes('knneo.github.io'))
-		cellDiv.innerHTML = cellDiv.innerHTML.replace(/knwebreports.blogspot.com/gi, 'knneo.github.io/blog/pages');
-	
-	return cellDiv;
-}
-
-function addProfileEvents() {
-	let profileBox = document.querySelector('.profile-box');
-	
-	profileBox.addEventListener('touchstart', onTouchStart);
-	profileBox.addEventListener('touchmove', onTouchMove, false);
-	
-	//add event listener for image switch but through clicking on profile box
-	// profileBox.addEventListener('click', function() {
-		// let boxImg = this.querySelector('.profile-box-img');
-		// let temp = boxImg.getAttribute('alt');//boxImg.style.backgroundImage;
-		// let count = temp.split('url(').length - 1;
-		// if(boxImg.src == temp) return;
-		// boxImg.setAttribute('alt', boxImg.src);
-		// boxImg.src = temp;
-		// if(window['debug']) console.log('addProfileEvents.click',temp);
-		// if(count > 1) 
-		// {
-			// boxImg.style.backgroundRepeat = 'no-repeat';
-			// boxImg.style.backgroundSize = Math.floor(100/count) + '% auto';
-			// boxImg.style.backgroundPosition = 'left, ' + (count > 2 ? 'center, ' : '') + 'right';
-		// }
-		// else
-		// {
-			// boxImg.style.backgroundSize = 'contain';
-			// boxImg.style.backgroundRepeat = 'no-repeat';
-			// boxImg.style.backgroundPosition = 'center';
-		// }
-	// });
-	
-	//double click profile box go up to list of names
-	 // profileBox.addEventListener('dblclick', resetProfile);
 }
 
 ////HELPER////
@@ -1363,18 +1064,6 @@ function isBirthdayPassed(DOB) {
 	let birthDate = luxon.DateTime.fromISO(birthDateStr.substring(0, 10), {zone: config.timezone}); 
 	let today = luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: config.timezone});
 	return today.diff(birthDate, 'days').days >= 0;
-}
-
-function toggleMarried() {
-	if(window['excludeMarried'] != null)
-	{
-		window['excludeMarried'] = document.querySelector('#cb-married').checked;
-		let marriedList = window['profileList'].filter(profile => window['excludeMarried'] ? !processOption(profile.turningPoint.married, true) : true);
-		window['timelineDOBlist'] = createDOBlist(marriedList, 1, 35, true);
-		renderWantedList();
-		loadTimeline();
-		resetProfile();
-	}
 }
 
 function updateTime() {
