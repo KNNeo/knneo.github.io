@@ -68,9 +68,9 @@ a:hover {
 .list {
 	list-style-type: none;
 	padding: 0 5px;
-    margin: 0;
+    margin: auto;
 	height: 45px;
-    max-width: 100vw;
+    max-width: 380px;
     overflow-x: scroll;
     overflow-y: hidden;
 	display: flex;
@@ -81,9 +81,6 @@ a:hover {
 }
 .inverted:hover {
 	color: var(--primary);
-}
-.page {
-	height: calc(100vh - 250px);
 }
 .page-align {
 	width: 100%;
@@ -114,7 +111,7 @@ a:hover {
 	max-width: 320px;
 	/* max-height: 420px; */
 	overflow-y: auto;
-    padding: 0 10px;
+    padding: 10px;
 	display: flex;
     justify-content: center;
     align-items: center;
@@ -147,6 +144,7 @@ a:hover {
 	display: flex;
 	justify-content: space-evenly;
 	padding-bottom: 5px;
+    align-items: center;
 }
 .profile-pointers {
 	display: flex;
@@ -165,7 +163,7 @@ a:hover {
 	font-size: 2em;
 }
 .view {
-	max-width: 640px;
+	height: calc(100vh - 210px);
 	margin: auto;
 	display: flex;
     justify-content: center;
@@ -429,4 +427,21 @@ a:hover {
 @media only screen and (max-width : 480px) {
 	div { scrollbar-width: 0 !important; }
 	div::-webkit-scrollbar { width: 0 !important }
+}
+
+@media screen and (max-height : 480px) and (orientation:landscape) {
+	h3 {
+		margin: 0;
+	}
+	.profile-box {
+		height: 100%;
+		display: flex;
+		justify-content: center;
+	}
+	.view {
+		height: calc(100vh - 180px);
+	}
+	.page-align {
+		margin: 0;
+	}
 }
