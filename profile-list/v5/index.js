@@ -490,6 +490,7 @@ function generateProfileFromJSON(profileName) {
 	// profileDiv.style.height = window['friendMode'] ? '' : '100%';
 	viewDiv.style.display = '';
 	
+	document.getElementById('search').value = '';
 	updateWantedList(window['profiles'].slice(0,3));
 	toggleView(4);
 }
@@ -707,7 +708,7 @@ function generateProfileSocial(profile) {
 		span.href = 'javascript:void(0)';
 		span.title = 'My Comments';
 		span.addEventListener('click', function() {
-			popupText(profile.intro + 
+			popupText(processOption(profile.intro, false) + 
 			'<p style="font-style: italic;">"' + processOption(profile.description, false) + 
 			'"</p>Star Rating: ' + ratingAsStars(profile.rating, config.rating.max)?.outerHTML);
 			let dialog = document.querySelector('.dialog dialog');
