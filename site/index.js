@@ -376,13 +376,17 @@ function renderMenu() {
 		let contentList = document.createElement('div');
 		contentList.classList.add('contents');
 		
-		let iconSize = '6rem';
+		let iconSize = '10vw';
+		let iconFontSize = '1.5rem';
 		let drawerHeight = '15vh';
-		if (getScreenHeight() < 760) {
-			iconSize = '4rem';
+		if (smallScreenWidth()) {
+			iconSize = '19vw';
 			drawerHeight = '30px';
+			iconFontSize = '1rem';
 		}
-		if (content.isSinglePage) iconSize = '5rem';
+		if (content.isSinglePage) {
+			iconFontSize = '1rem';
+		}
 		// document.querySelector('.menu').style.minHeight = content.isSinglePage && smallScreenWidth() ? drawerHeight : '';
 		// document.querySelector('.menu').style.maxHeight = content.isSinglePage && smallScreenWidth() ? drawerHeight : '';
 
@@ -480,6 +484,7 @@ function renderMenu() {
 					contentItem.classList.add('highlight');
 				contentItem.style.width = iconSize;
 				contentItem.style.height = iconSize;
+				contentItem.style.fontSize = iconFontSize;
 				contentItem.innerText = window['elements'][section].text;
 				contentItem.title = contentItem.innerText || '';
 				contentItem.addEventListener('click', function() {
