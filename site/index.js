@@ -381,15 +381,17 @@ function renderMenu() {
 		let iconFontSize = '1.5rem';
 		let maxIconSize = '120px';
 		let drawerHeight = '15vh';
+		let homeIconSize = '95px';
+		if (content.isSinglePage) {
+			iconFontSize = '1rem';
+			maxIconSize = '90px';
+		}
 		if (smallScreenWidth()) {
 			iconSize = '19vw';
 			drawerHeight = '30px';
 			iconFontSize = '1rem';
 			maxIconSize = '80px';
-		}
-		if (content.isSinglePage) {
-			iconFontSize = '1rem';
-			maxIconSize = '90px';
+			homeIconSize = '80px';
 		}
 		// document.querySelector('.menu').style.minHeight = content.isSinglePage && smallScreenWidth() ? drawerHeight : '';
 		// document.querySelector('.menu').style.maxHeight = content.isSinglePage && smallScreenWidth() ? drawerHeight : '';
@@ -423,7 +425,7 @@ function renderMenu() {
 			contentItem.classList.add('material-icons');
 			contentItem.classList.add('home');
 			contentItem.classList.add('focusable');
-			contentItem.style.fontSize = '6rem';
+			contentItem.style.fontSize = homeIconSize;
 			contentItem.innerText = 'home';
 			contentItem.addEventListener('click', function() {
 				event.stopPropagation();
