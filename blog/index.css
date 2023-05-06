@@ -823,9 +823,9 @@ abbr.imgpop:hover img {
 	z-index: 9;
 	left: 0;
 	right: 0;
-	margin: 3px;
+	margin: auto;
 	text-align: center;
-	max-width: 100%;
+	max-width: 98%;
 }
 	
 /*Assign class based on image resize for responsive, see blog.js resizeImg()*/
