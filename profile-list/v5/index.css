@@ -21,12 +21,14 @@ html {
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
+	height: 100%;
 }
 body {
 	background-color: var(--background);
 	color: var(--foreground);
 	max-width: 380px;
 	margin: auto;
+	height: 100%;
 }
 a {
 	color: var(--primary);
@@ -163,7 +165,7 @@ a:hover {
 	font-size: 2em;
 }
 .view {
-	height: calc(100vh - 210px);
+	height: calc(100% - 210px);
 	margin: auto;
 	display: flex;
     justify-content: center;
@@ -439,7 +441,7 @@ a:hover {
 		justify-content: center;
 	}
 	.view {
-		height: calc(100vh - 180px);
+		height: calc(100% - 180px);
 	}
 	.page-align {
 		margin: 0;
