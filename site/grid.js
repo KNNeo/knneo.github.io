@@ -174,25 +174,26 @@ function renderGrid(sectionNo, content, isSinglePage) {
 				img.setAttribute('data-src', data.source);
 				if(component.columns > 0) 
 				{
-					if(mediumScreenWidth())
+					if(mediumScreenWidth()) // if mobile, all in one row
 					{
 						img.style.width = (100 / (component.datas.length + 1)) + '%';
 					}
-					else
+					else //if desktop, all in one row
 					{
-						img.style.height = ((window.innerHeight / (content.rows)) - (20 * component.datas.length)) + 'px';
+						img.style.width = (100 / (component.columns + 1)) + '%';
+						img.style.height = (100 / (component.columns + 1)) + '%';
 					}
 				}
 				if(component.rows > 0)
 				{
-					if(mediumScreenWidth())
+					if(mediumScreenWidth()) // if mobile, all in one row
 					{
-						img.style.width = (100 / (component.datas.length + 1)) + '%';
+						img.style.height = (100 / (component.datas.length + 1)) + '%';
 					}
-					else
+					else //if desktop, all in n rows where n = component.rows
 					{
-						gallery.style.width = (window.innerWidth / (content.columns + 1)) + 'px';
-						img.style.height = (window.innerHeight * 0.8 / (component.datas.length)) + 'px';
+						img.style.width = (100 / (component.rows)) + '%';
+						img.style.height = (100 / (component.rows)) + '%';
 					}
 				}
 				img.style.margin = '5px';
