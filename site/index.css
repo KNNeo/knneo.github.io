@@ -210,7 +210,7 @@ a {
 
 .contents {
 	display: flex;
-	padding: 5px 0;
+	padding: 0;
 }
 
 .contents .icon {
