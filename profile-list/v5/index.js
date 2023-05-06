@@ -488,7 +488,7 @@ function generateProfileFromJSON(profileName) {
 			profileDetailsDiv.appendChild(generateProfileElement(l, window['friendMode']));
 	}
 	// profileDiv.style.height = window['friendMode'] ? '' : '100%';
-	viewDiv.style.display = '';
+	// viewDiv.style.display = '';
 	
 	document.getElementById('search').value = '';
 	updateWantedList(window['profiles'].slice(0,3));
