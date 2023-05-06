@@ -426,7 +426,7 @@ function renderMenu() {
 			contentItem.innerText = 'home';
 			contentItem.addEventListener('click', function() {
 				event.stopPropagation();
-				document.querySelector('.menu').style.maxHeight = document.querySelector('.menu').style.maxHeight == 'initial' ? drawerHeight : 'initial';
+				// document.querySelector('.menu').style.maxHeight = document.querySelector('.menu').style.maxHeight == 'initial' ? drawerHeight : 'initial';
 				scrollToPage(content.sectionNo);
 				if(content.isSinglePage)
 					event.target.scrollIntoView({ inline: 'center' });
@@ -497,8 +497,8 @@ function renderMenu() {
 				contentItem.addEventListener('click', function() {
 					event.stopPropagation();
 					scrollToPage(section);
-					if(smallScreenWidth() || smallScreenHeight())
-						document.querySelector('.menu').style.maxHeight = drawerHeight;
+					// if(smallScreenWidth() || smallScreenHeight())
+						// document.querySelector('.menu').style.maxHeight = drawerHeight;
 					if(content.isSinglePage)
 						event.target.scrollIntoView({ inline: 'center' });
 				});

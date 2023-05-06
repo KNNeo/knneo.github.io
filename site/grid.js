@@ -2,13 +2,13 @@
 function renderGrid(sectionNo, content, isSinglePage) {
 	let section = document.querySelector('#section'+sectionNo);
 	section.innerHTML = '';
+	if(isSinglePage)
+		section.style.height = 'calc(100% - ' + (document.querySelector('.menu').getBoundingClientRect().height + 'px') + ')';
+	else
+		section.style.height = '75%';
 	
 	let table = document.createElement('table');
 	table.classList.add('container');
-	// if(isSinglePage)
-		// table.style.height = 'calc(100vh - ' + (document.querySelector('.menu').getBoundingClientRect().height + 'px') + ')';
-	// else if(!smallScreenWidth())
-		// table.style.height = '100%';
 	
 	let tbody = document.createElement('tbody');
 	
