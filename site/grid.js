@@ -1,11 +1,8 @@
 //main function to render detachable component
 function renderGrid(sectionNo, content, isSinglePage) {
 	let section = document.querySelector('#section'+sectionNo);
+	section.style.height = '75%';
 	section.innerHTML = '';
-	if(isSinglePage)
-		section.style.height = 'calc(100% - ' + (document.querySelector('.menu').getBoundingClientRect().height + 'px') + ')';
-	else
-		section.style.height = '75%';
 	
 	let table = document.createElement('table');
 	table.classList.add('container');
@@ -287,7 +284,7 @@ function renderGrid(sectionNo, content, isSinglePage) {
 		else if(component.type == 'tags')
 		{
 			let tags = document.createElement('div');
-			tags.classList.add('tags');
+			tags.classList.add(component.type);
 			
 			tags.innerHTML = typeof component.values == 'string' ? component.values : component.values.map(c => '<span class="tags-value">' + component.prefix + c + '</span>').join('');
 			
