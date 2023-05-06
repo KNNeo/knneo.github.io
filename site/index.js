@@ -31,7 +31,7 @@ function scrollToNextPage() {
 	if(nextPage != null)
 		if(document.body.classList.contains('single'))
 			scrollToPage(nextPage.getAttribute('data-section'));
-		nextPage.scrollIntoView();
+		nextPage.focus();
 }
 
 function scrollToPrevPage() {
@@ -40,7 +40,7 @@ function scrollToPrevPage() {
 	if(prevPage != null) {
 		if(document.body.classList.contains('single'))
 			scrollToPage(prevPage.getAttribute('data-section'));
-		prevPage.scrollIntoView();
+		prevPage.focus();
 	}
 }
 
@@ -57,8 +57,7 @@ function scrollToPage(sectionNo) {
 	}
 	else
 	{
-		document.querySelectorAll('.section')[sectionNo].focus()
-		// document.querySelector('.page').scrollTop = window.innerHeight*sectionNo;
+		document.querySelectorAll('.section')[sectionNo].focus();
 		// setTimeout(function() {
 			// document.querySelectorAll('.section')[sectionNo].focus();
 		// }, 500);
