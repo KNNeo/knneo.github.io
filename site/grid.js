@@ -1,7 +1,7 @@
 //main function to render detachable component
 function renderGrid(sectionNo, content, isSinglePage) {
 	let section = document.querySelector('#section'+sectionNo);
-	section.style.height = '75%';
+	section.style.height = isSinglePage ? '80%' : '75%';
 	section.innerHTML = '';
 	
 	let table = document.createElement('table');
