@@ -57,10 +57,11 @@ function scrollToPage(sectionNo) {
 	}
 	else
 	{
-		document.querySelectorAll('.section')[sectionNo].scrollIntoView();
-		setTimeout(function() {
-			document.querySelectorAll('.section')[sectionNo].focus();
-		}, 500);
+		document.querySelectorAll('.section')[sectionNo].focus()
+		// document.querySelector('.page').scrollTop = window.innerHeight*sectionNo;
+		// setTimeout(function() {
+			// document.querySelectorAll('.section')[sectionNo].focus();
+		// }, 500);
 	}
 }
 
