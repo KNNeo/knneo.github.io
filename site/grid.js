@@ -5,10 +5,10 @@ function renderGrid(sectionNo, content, isSinglePage) {
 	
 	let table = document.createElement('table');
 	table.classList.add('container');
-	if(isSinglePage)
-		table.style.height = 'calc(100vh - ' + (document.querySelector('.menu').getBoundingClientRect().height + 'px') + ')';
-	else if(!smallScreenWidth())
-		table.style.height = '100%';
+	// if(isSinglePage)
+		// table.style.height = 'calc(100vh - ' + (document.querySelector('.menu').getBoundingClientRect().height + 'px') + ')';
+	// else if(!smallScreenWidth())
+		// table.style.height = '100%';
 	
 	let tbody = document.createElement('tbody');
 	
@@ -17,7 +17,7 @@ function renderGrid(sectionNo, content, isSinglePage) {
 	});
 	
 	//for mobile, stack all elements in one column
-	if(smallScreenWidth() && content.columns > 1)
+	if(mediumScreenWidth() && content.columns > 1)
 	{
 		content.componentData = content.componentData.filter(cd => cd.type && cd.type != 'spacer');
 		let totalCells = content.componentData.length;
@@ -130,7 +130,7 @@ function renderGrid(sectionNo, content, isSinglePage) {
 			img.classList.add(component.type);
 			if(component.tooltip && component.tooltip.length > 0) img.title = component.tooltip;
 			img.style.backgroundImage = addBackgroundUrlClause(component.source);
-			img.style.width = component.rows > 1 ? '80%' : '100%';
+			img.style.width = '90%';//component.rows > 1 ? '80%' : '100%';
 			img.style.height = '100%';
 			img.style.margin = 'auto';
 			img.style.backgroundSize = 'contain';
