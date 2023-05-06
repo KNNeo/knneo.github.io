@@ -177,6 +177,10 @@ function renderPage() {
 	else
 	{
 		document.body.classList.add('one');
+		for(let section of document.querySelectorAll('.one .section'))
+		{
+			section.style.height = window.innerHeight + 'px';
+		}
 	}
 	
 	// render content in sections
@@ -206,7 +210,7 @@ function renderMain() {
 	if(document.querySelector('.main') != null) {
 		let main = document.querySelector('.main');
 		if(content.isSinglePage)
-			main.style.height = 'calc(100vh - ' + (document.querySelector('.menu').getBoundingClientRect().height + 'px') + ')';
+			main.style.height = 'calc(100% - ' + (document.querySelector('.menu').getBoundingClientRect().height + 'px') + ')';
 		
 		if(content.sectionNo > 0) {
 			let prevDiv = document.createElement('div');
@@ -285,7 +289,7 @@ function renderSection(sectionNo) {
 	let main = window['main'];
 	let content = window['elements'][sectionNo];
 	if(main.isSinglePage)
-		section.style.height = 'calc(100vh - ' + (document.querySelector('.menu').getBoundingClientRect().height + 'px') + ')';	
+		section.style.height = 'calc(100% - ' + (document.querySelector('.menu').getBoundingClientRect().height + 'px') + ')';	
 		
 	let prevDiv = document.createElement('div');
 	prevDiv.classList.add('page-prev');

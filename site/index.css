@@ -26,6 +26,7 @@ html {
 	color: var(--foreground);
 	background-color: var(--background);
 	color-scheme: light;
+	height: 100%;
 }
 
 html.darked {
@@ -34,6 +35,7 @@ html.darked {
 
 body {
 	margin: 0;
+	height: 100%;
 }
 
 a {
@@ -43,14 +45,14 @@ a {
 
 .landing {
 	width: 100vw;
-	height: 100vh;
+	height: 100%;
 	display: none;
 	z-index: 1;
 }
 
 .landing p {
     position: relative;
-    top: 50vh;
+    top: 50%;
     padding: 0;
     text-align: center;
 }
@@ -90,8 +92,7 @@ a {
 }
 
 .one .section {
-	/* bottom: 0; */
-	height: 100vh;
+	/* height: 100vh; */
 }
 
 .one .page {
@@ -102,11 +103,6 @@ a {
 .single .section {
 	position: absolute;
 	width: 100%;
-	height: 88vh;
-}
-
-.section:active {
-	/* scroll-snap-align: start; */
 }
 
 .container, .box {
@@ -115,7 +111,7 @@ a {
 }
 
 .one, .container {
-	height: 75vh;
+	height: 75%;
 	/* height: 100%; */
 }
 
@@ -344,7 +340,7 @@ a {
 	border: 2px solid;
 	background-color: var(--background);
 	max-width: 80vw;
-	max-height: 80vh;
+	max-height: 80%;
 	left: 0;
 	right: 0;
 	margin: auto;
