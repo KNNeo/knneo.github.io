@@ -184,8 +184,8 @@ function renderPage() {
 	}
 	
 	// render content in sections
-	renderMain();
 	renderMenu();
+	renderMain();
 	for(let sectionNo = 0; sectionNo < window['elements'].length; sectionNo++) {
 		if(!window['elements'][sectionNo].isMain)
 			renderSection(sectionNo);

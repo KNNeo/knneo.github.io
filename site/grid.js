@@ -192,8 +192,8 @@ function renderGrid(sectionNo, content, isSinglePage) {
 					}
 					else //if desktop, all in n rows where n = component.rows
 					{
-						img.style.width = (100 / (component.rows)) + '%';
-						img.style.height = (100 / (component.rows)) + '%';
+						img.style.width = (100 / (component.rows + 1)) + '%';
+						img.style.height = (100 / (component.rows + 1)) + '%';
 					}
 				}
 				img.style.margin = '5px';
