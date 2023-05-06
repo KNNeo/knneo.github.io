@@ -69,9 +69,9 @@ function scrollToMainPage(el, onLoad) {
 	if(!window['loaded'] || !onLoad)
 	{
 		if(document.querySelector('.main') != null)
-			document.querySelector('.main').scrollIntoView();
+			document.querySelector('.main').focus();
 		else
-			document.querySelector('.page').firstElementChild.scrollIntoView();
+			document.querySelector('.page').firstElementChild.focus();
 	}
 }
 
@@ -209,6 +209,7 @@ function renderMain() {
 	
 	if(document.querySelector('.main') != null) {
 		let main = document.querySelector('.main');
+		main.classList.add('focusable');
 		if(content.isSinglePage)
 			main.style.height = 'calc(100% - ' + (document.querySelector('.menu').getBoundingClientRect().height + 'px') + ')';
 		
