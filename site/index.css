@@ -126,27 +126,18 @@ a {
 	justify-content: center;
 }
 
+.page-prev,
 .page-next {
-	/* padding-top: 20px; */
-	opacity: 0;
-	transition: opacity 0.5s;
-}
-
-.page-prev {
-	/* padding-bottom: 10px; */
+	cursor: pointer;
 	opacity: 0;
 	transition: opacity 0.5s;
 }
 
 .section:hover .page-prev,
-.page-prev:active {
-	opacity: 1;
-}
-
+.page-prev:active,
 .section:hover .page-next,
 .page-next:active {
-	opacity: 1;	
-	opacity: 1;	
+	opacity: 1;
 }
 
 .page-next .material-icons,
