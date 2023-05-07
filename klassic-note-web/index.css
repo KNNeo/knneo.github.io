@@ -425,11 +425,11 @@ a {
 }
 
 .mini #search {
-	display: none;
+	/* display: none; */
 }
 
 .mini .search-buttons {
-	display: none;
+	/* display: none; */
 }
 
 .mini .tab-buttons {
