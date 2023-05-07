@@ -40,8 +40,9 @@ void Main()
 	#endregion
 	
 	var postCount = 0;
-	var showResults = true;
-	var showMatches = true;
+	var showResults = false; //if has match show full object, else just post title
+	var showMatches = false; //if has match show full match object, else just object with description
+	var showOk = false; //if post no issues don't show
 	 //----------ADD INDEXES HERE----------//
 	List<int> includeIndex = new List<int> { 30 };
 	if(includeIndex.Count > 0) Console.WriteLine("[SELECTIVE_CHECKS_ACTIVATED - " + String.Join(", ", includeIndex) + "]");
@@ -541,7 +542,7 @@ void Main()
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
-						match = null,
+						match = showMatches ? match : null,
 						description = "[27] link in image of thumbnail first child found",
 						action = "manual fix on html required"
 					});
@@ -552,7 +553,7 @@ void Main()
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
-						match = null,
+						match = showMatches ? match : null,
 						description = "[27] link in image of thumbnail not first child found",
 						action = "manual fix on html required"
 					});
@@ -568,8 +569,8 @@ void Main()
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
-						match = match,
-						description = "[14] old blog link https found",
+						match = showMatches ? match : null,
+						description = "[28] old blog link https found",
 						action = "remove link"
 					});
 	            match = match.NextMatch();
@@ -579,8 +580,8 @@ void Main()
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
-						match = match,
-						description = "[14] old blog link http found",
+						match = showMatches ? match : null,
+						description = "[28] old blog link http found",
 						action = "remove link"
 					});
 	            match = match.NextMatch();
@@ -620,7 +621,7 @@ void Main()
         #endregion
 		
 		//===================================================================================//
-		//Display Result
+		#region Display Result
 		var count = fixes.Count();
 		if(fixes.Count() > 0)
 		{
@@ -632,8 +633,9 @@ void Main()
 				});
 			postCount++;
 		}
-		//count++;
-		
+		else if(showOk)
+			Console.WriteLine(title + " [ok]");
+		#endregion
 	}
 	
 	Console.WriteLine("" + postCount + " published posts needed to update");
