@@ -495,7 +495,7 @@ void Main()
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
 						match = showMatches ? match : null,
-						description = "[25] hiddenTags found"
+						description = "[25] hiddenTags found",
 						action = "remove hiddenTags"
 					});
 	            match = match.NextMatch();
