@@ -912,7 +912,10 @@ function generatePlayer(contents) {
 	audio.addEventListener('ended', skipSong);
 	
 	let source = document.createElement('source');
-	source.src = (useDirectoryFormat ? (directory + knyear + '/' + filename) : filename) + '.mp3' ;
+	let format = directory + knyear + '/' + filename;
+	if(directoryFormat && directoryFormat == 'full')
+		format = filename;
+	source.src = format + '.mp3';
 	source.type = 'audio/mpeg';
 	source.innerText = '[You\'ll need a newer browser that supports HTML5 to listen to this.]';
 	
@@ -960,7 +963,11 @@ function generateCoverArt(contents) {
 	let row = rows[0];
 	let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
 	let columnIndexCoverArt = contents.columns.indexOf('CoverArt');
-	let coverArtUrl = useDirectoryFormat ? coverArtDirectory + row[columnIndexKNYEAR] + '/' + row[columnIndexCoverArt] : row[columnIndexCoverArt];
+	let coverArtUrl = coverArtDirectory + row[columnIndexKNYEAR] + '/' + row[columnIndexCoverArt];
+	if(coverArtDirectoryFormat && coverArtDirectoryFormat == 'full')
+		coverArtUrl = row[columnIndexCoverArt];
+	if(coverArtDirectoryFormat && coverArtDirectoryFormat == 'merge')
+		coverArtUrl = coverArtDirectory + row[columnIndexCoverArt];
 
 	let coverWidth = 0.45*document.querySelector('#header').getBoundingClientRect().width;// - 15;
 	let coverHeight = document.querySelector('#header').getBoundingClientRect().height + (isOverlay ? 8 : 1); // - (isOverlay || isFill ? 0 : 0);// - 15;
