@@ -42,11 +42,14 @@ void Main()
 	var postCount = 0;
 	var showResults = true;
 	var showMatches = true;
-	 //----------INDEXES HERE----------//
+	 //----------ADD INDEXES HERE----------//
 	List<int> includeIndex = new List<int> { 30 };
-	if(includeIndex.Count > 0) Console.WriteLine("[SELECTIVE_CHECKS_ACTIVATED]");
+	if(includeIndex.Count > 0) Console.WriteLine("[SELECTIVE_CHECKS_ACTIVATED - " + String.Join(", ", includeIndex) + "]");
+	else Console.WriteLine("[ALL_CHECKS_ACTIVATED]");
 	
 	/* [ID] List of Cases:		
+	 * [M1] change entertainment news post title and default page url
+	 * [M2] filter posts to exclude from import
 	 * [01]	fix twitter embed
 	 * [02]	fix youtube iframe size
 	 * [03]	remove embed styles for thumbnail normal/hover (posts with sp-thumbnail will be ignored)
@@ -84,21 +87,16 @@ void Main()
 	// Process XML content per post
 	foreach (var entry in posts)
 	{
-		//FIX POST ATTRIBUTES
-		//fix url of ent news, by year except 2014
-		
 		// FIX POST CONTENT
 		string title = entry.Element(_+"title").Value;
 		if(title.Length == 0) title = "A Random Statement";
 		
-		string oldContent = entry.Element(_+"content").Value;
 		string content = entry.Element(_+"content").Value;
-		string expression, matchExpression;
-		Match match, matchExp;
-		string prefix, midfix, suffix;
+		string expression;
+		Match match;
 		List<MatchItem> fixes = new List<MatchItem>();
 		
-		#region M1 
+		#region M1 change entertainment news post title and default page url
 		if(includeIndex.Count() == 0 || includeIndex.Contains(-1))
 		{
 	        XElement empty = new XElement("empty");
@@ -106,39 +104,44 @@ void Main()
 	        string originalLink = ((entry.Elements(_+"link")
 	            .FirstOrDefault(e => e.Attribute("rel").Value == "alternate") ?? empty)
 	            .Attribute("href") ?? emptA).Value;
-				
-			//int position = 40;
-			string titleUrl = "[M1] " + title + ": " + originalLink;
-			if(originalLink.Contains("TheEntertainmentNews"))
-				Console.WriteLine(titleUrl);
-				
-			//Consider removing all references to local blog with such post titles
 			
-			//string asciiOnly = Regex.Replace(title.ToLower(), @"[^a-zA-Z0-9\s]", "").Replace(" ", "-");
-			//Console.WriteLine(asciiOnly.IndexOf(" ", position));
-			//string cropped = asciiOnly.Length >= position ? asciiOnly : asciiOnly;
-			//Console.WriteLine(">> New Title: " + cropped);
-			//Console.WriteLine();
-//            fixes.Add(new MatchItem() {
-//					match = null,
-//					description = titleUrl
-//				});
-
+			//if page link is not in correct format - the-entertainment-news-<yy>-issue-<[00-52]><-extra>.html
+			if(originalLink.Replace("-","").ToLower().Contains("theentertainmentnews")) // includes TheEntertainmentNews, the-entertainment-news
+			{
+				//Post Title is not current format - The Entertainment News '<yy> Issue #<[00-52]> <Extra>
+		        expression = @"(.*?)(The Entertainment News)(.*?)(Edition)(.*?)"; // change custom query in regex here, put 0 as includeIndex
+		        match = Regex.Match(content, expression);
+		        while(match.Success) {
+		            fixes.Add(new MatchItem() {
+							match = match,
+							description = "[M1] old post title for entertainment news found",
+							action = "change to new post title manually so import can fix url, cannot change url from import"
+						});
+		            match = match.NextMatch();
+		        };
+			}
+		}
+		#endregion
+		
+		#region M2 filter posts to exclude from import
+		if(includeIndex.Count() == 0 || includeIndex.Contains(-2))
+		{
 		}
 		#endregion
 		
 		#region 00 custom search
-		if(includeIndex.Contains(0))
+		if(includeIndex.Count() == 0 || includeIndex.Contains(0))
 		{
-	        expression = @"(name='more')";
+	        expression = @"(name='more')"; // change custom query in regex here, put 0 as includeIndex
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
 						match = match,
-						description = "[00] custom search"
+						description = "[00] custom search found",
+						action = "N.A."
 					});
 	            match = match.NextMatch();
-	        };		
+	        };
 		}
 		#endregion
 		
@@ -150,7 +153,8 @@ void Main()
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
 						match = match,
-						description = "[01] twitter embed without domain found"
+						description = "[01] twitter embed without domain found",
+						action = "add back domain script, see other cases"
 					});
 	            match = match.NextMatch();
 	        };
@@ -158,11 +162,10 @@ void Main()
 	        expression = @"(<blockquote)(.*?)(?<=class=""twitter-tweet)(.*?)(>)";
 	        match = Regex.Match(content, expression);
 	        while(match.Success && match.Groups[2].Value.EndsWith("twitter-tweet") && !match.Groups[3].Value.Contains("tw-align-center")) {
-				//Console.WriteLine(title);
-				//Console.WriteLine(match);
 	            fixes.Add(new MatchItem() {
 						match = match,
-						description = "[01] twitter embed not centered found"
+						description = "[01] twitter embed not centered found",
+						action = "add class tw-align-center manually"
 					});
 	            match = match.NextMatch();
 	        };
@@ -177,7 +180,8 @@ void Main()
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
 						match = match,
-						description = "[02] youtube embed with height property found"
+						description = "[02] youtube embed with height property found",
+						action = "remove property manually"
 					});
 	            match = match.NextMatch();
 	        };
@@ -187,7 +191,8 @@ void Main()
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
 						match = match,
-						description = "[02] youtube embed with width property found"
+						description = "[02] youtube embed with width property found",
+						action = "remove property manually"
 					});
 	            match = match.NextMatch();
 	        };
@@ -202,7 +207,8 @@ void Main()
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
 						match = match,
-						description = "[03] embed styles for thumbnail found"
+						description = "[03] inline styles for thumbnail found",
+						action = "remove inline styles if thumbnails replaced to latest"
 					});
 	            match = match.NextMatch();
 	        };
@@ -217,7 +223,8 @@ void Main()
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
 						match = match,
-						description = "[04] thumbnail found"
+						description = "[04] thumbnail found",
+						action = "change to latest thumbnail manually"
 					});
 	            match = match.NextMatch();
 	        };
@@ -236,7 +243,8 @@ void Main()
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
 						match = match,
-						description = "[06] sp-thumbnail found"
+						description = "[06] sp-thumbnail found",
+						action = "change to latest thumbnail manually, own discretion of where clicker class should be"
 					});
 	            match = match.NextMatch();
 	        };
@@ -251,7 +259,8 @@ void Main()
 	        while(match.Success && match.Groups[2].Value.Contains("<table") && match.Groups[4].Value.Contains("<table")) {
 	            fixes.Add(new MatchItem() {
 						match = match,
-						description = "[07] div popup table found"
+						description = "[07] div popup table found",
+						action = "change to latest thumbnail manually"
 					});
 	            match = match.NextMatch();
 	        };
@@ -266,7 +275,8 @@ void Main()
 	        while(match.Success && match.Groups[2].Value.Contains("<table") && match.Groups[4].Value.Contains("<table")) {
 	            fixes.Add(new MatchItem() {
 						match = match,
-						description = "[08] span popup table found"
+						description = "[08] span popup table found",
+						action = "change to latest thumbnail manually"
 					});
 	            match = match.NextMatch();
 	        };
@@ -281,7 +291,8 @@ void Main()
 	        while(match.Success && !match.Groups[2].Value.Contains("<table") && match.Groups[5].Value.Contains("<img")) {
 	            fixes.Add(new MatchItem() {
 						match = match,
-						description = "[09] div popup image found"
+						description = "[09] div popup image found",
+						action = "change to link tag manually if pop class is non-text"
 					});
 	            match = match.NextMatch();
 	        };
@@ -296,7 +307,8 @@ void Main()
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
 						match = match,
-						description = "[14] old blog link https found"
+						description = "[14] old blog link https found",
+						action = "remove"
 					});
 	            match = match.NextMatch();
 	        };
@@ -306,7 +318,8 @@ void Main()
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
 						match = match,
-						description = "[14] old blog link http found"
+						description = "[14] old blog link http found",
+						action = "remove"
 					});
 	            match = match.NextMatch();
 	        };
@@ -321,7 +334,8 @@ void Main()
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
 						match = match,
-						description = "[16] hashtag script tag found"
+						description = "[16] old hashtag inline script tag found",
+						action = "remove old hashtag inline script"
 					});
 	            match = match.NextMatch();
 	        };
@@ -336,7 +350,8 @@ void Main()
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
 						match = match,
-						description = "[17] youtube https redirect link found"
+						description = "[17] youtube https redirect link found",
+						action = "ignore"
 					});
 	            match = match.NextMatch();
 	        };
@@ -346,7 +361,8 @@ void Main()
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
 						match = match,
-						description = "[17] youtube http redirect link found"
+						description = "[17] youtube http redirect link found",
+						action = "ignore"
 					});
 	            match = match.NextMatch();
 	        };
@@ -404,7 +420,8 @@ void Main()
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
 						match = match,
-						description = "[19] hashtag script tag found"
+						description = "[19] hashtag inline script tag found",
+						action = "remove hashtag inline script"
 					});
 	            match = match.NextMatch();
 	        };
@@ -412,7 +429,18 @@ void Main()
         #endregion
                 
         #region 21 fix primary and secondary colours to variables
-		//GENERIC REPLACE, CHECK NOT REQUIRED
+		if(includeIndex.Count() == 0 || includeIndex.Contains(21))
+		{
+	        expression = @"(.*?)(#00e4ff|#00b8cc|rgb(0, 184, 204)|rgb(9, 165, 184)|1px solid white)(.*?)";
+	        match = Regex.Match(content, expression);
+	        while(match.Success) {
+	            fixes.Add(new MatchItem() {
+						match = match,
+						description = "[21] inline colour style found"
+					});
+	            match = match.NextMatch();
+	        };
+		}
         #endregion
 		
 		#region 23 (entertainment news) convert inline styles migrated to blog.css
@@ -428,7 +456,7 @@ void Main()
 	            match = match.NextMatch();
 	        };
 			
-	        expression = @"(<div)(.*?)(id=""hashtags"" style=""color: #bbbbbb; font-size: 0.8em;"")(.*?)(>)";
+	        expression = @"(<div)(.*?)(id=""hashtags"")(.*?)(style=""color: #bbbbbb; font-size: 0.8em;"")(.*?)(>)(.*?)(</div>)";
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
@@ -468,73 +496,65 @@ void Main()
 	            fixes.Add(new MatchItem() {
 						match = showMatches ? match : null,
 						description = "[25] hiddenTags found"
+						action = "remove hiddenTags"
 					});
 	            match = match.NextMatch();
 	        };
 		}
         #endregion
 		
-		#region [beta] 26 find hashtag to set id for anime blockquote 
-		content = content.Replace(@"style=""background: #00b8cc; border-radius: 5px; padding: 3px 5px; text-align: center; vertical-align: text-bottom;""", @"class=""head-prefix""");
-		content = content.Replace(@"style=""background: rgb(0, 184, 204); border-radius: 5px; padding: 3px 5px; text-align: center; vertical-align: text-bottom;""", @"class=""head-prefix""");
-		content = content.Replace(@"style=""background: var(--secondary); border-radius: 5px; padding: 3px 5px; text-align: center; vertical-align: text-bottom;""", @"class=""head-prefix""");
+		#region 26 find hashtag to set id for anime blockquote 
 		if(includeIndex.Count() == 0 || includeIndex.Contains(26))
 		{
-	        expression = @"(<blockquote class=""tr_bq""><div style=""text-align: center;""><span class=""head-prefix""><b>アニメ</b></span><span style=""font-size: large;"">)(.*?)(</span></div></blockquote>)(.*?)(\(#)(.*?)(\))";
+	        expression = @"(<blockquote class=""tr_bq"")(.*?)(>)(.*?)(アニメ)(.*?)";
+	        match = Regex.Match(content, expression);
+	        while(match.Success) {
+	            fixes.Add(new MatchItem() {
+						match = showMatches ? match : null,
+						description = "[26] anime header without id found",
+						action = "add id to header manually based on if there is existing hashtag"
+					});
+	            match = match.NextMatch();
+	        };
+			
+	        expression = @"(<blockquote class=""tr_bq"")(.*?)(>)(.*?)(映画)(.*?)";
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 				if(!match.Groups[2].Value.Contains("Preview")
 				) {
 		            fixes.Add(new MatchItem() {
 							match = showMatches ? match : null,
-							description = "[26] anime header without id found"
+							description = "[26] movie header without id found",
+							action = "if is anime movie, change header to anime, else ignore"
 						});
 				}
 	            match = match.NextMatch();
 	        };
-			
-//	        expression = @"(<blockquote class=""tr_bq""><div style=""text-align: center;""><span class=""head-prefix""><b>映画</b></span><span style=""font-size: large;"">)(.*?)(</span></div></blockquote>)";
-//	        match = Regex.Match(content, expression);
-//	        while(match.Success) {
-//				if(!match.Groups[2].Value.Contains("Preview")
-//				) {
-//		            fixes.Add(new MatchItem() {
-//							match = showMatches ? match : null,
-//							description = "[26] movie header without id found"
-//						});
-//				}
-//	            match = match.NextMatch();
-//	        };
 		}
         #endregion
 		
-        #region 27 link in images of thumbnails to be removed [MANUAL FIX!]
+        #region 27 link in images of thumbnails to be removed
 		//false positive with multiple thumbnails before
 		if(includeIndex.Count() == 0 || includeIndex.Contains(27))
 		{
-			var excludedTitles = new List<string>() { 
-				"The Entertainment News 2020 Edition Issue #31", 
-				"The Entertainment News 2020 Edition Issue #11",
-				"The Entertainment News 2020 Edition Issue #9",
-				"The Entertainment News 2019 Edition Issue #32"
-			};
-			
 	        expression = @"(<div class=""thumbnail-initial hover-hidden""><table)(.*?)(<a)(.*?)(>)(<img)(.*?)(></a>)(.*?)(</table></div>)";
 	        match = Regex.Match(content, expression);
-	        while(match.Success && !excludedTitles.Contains(title)) {
+	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
 						match = null,
-						description = "[27] link in image of thumbnail first div found"
+						description = "[27] link in image of thumbnail first child found",
+						action = "manual fix on html required"
 					});
 	            match = match.NextMatch();
 	        };
 			
 	        expression = @"(<div class=""thumbnail-initial thumbnail-pop hover-visible""><table)(.*?)(<a)(.*?)(>)(<img)(.*?)(></a>)(.*?)(</table></div>)";
 	        match = Regex.Match(content, expression);
-	        while(match.Success && !excludedTitles.Contains(title)) {
+	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
 						match = null,
-						description = "[27] link in image of thumbnail not first div found"
+						description = "[27] link in image of thumbnail not first child found",
+						action = "manual fix on html required"
 					});
 	            match = match.NextMatch();
 	        };
@@ -549,7 +569,8 @@ void Main()
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
 						match = match,
-						description = "[14] old blog link https found"
+						description = "[14] old blog link https found",
+						action = "remove link"
 					});
 	            match = match.NextMatch();
 	        };
@@ -559,7 +580,8 @@ void Main()
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
 						match = match,
-						description = "[14] old blog link http found"
+						description = "[14] old blog link http found",
+						action = "remove link"
 					});
 	            match = match.NextMatch();
 	        };
@@ -569,31 +591,28 @@ void Main()
 		#region 29 reduce resolution of uploaded images (from 4032 -> 2048 pixels)
 		if(includeIndex.Count() == 0 || includeIndex.Contains(29))
 		{
-	        expression = @"(<a)(.*?)(href="")(.*?)(/s4032/)(.*?)("")";
+	        expression = @"(<a)(.*?)(href="")(.*?)(s4032)(.*?)("")";
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
-				//if(!match.Groups[2].Value.Contains("Preview")
-				//) {
-		            fixes.Add(new MatchItem() {
-							match = showMatches ? match : null,
-							description = "[29] high res blogger image found"
-						});
-				//}
+	            fixes.Add(new MatchItem() {
+						match = showMatches ? match : null,
+						description = "[29] high res blogger image found",
+						action = "to downsize to max s2048"
+					});
 	            match = match.NextMatch();
-	        };
-			//content = content.Replace(@"style=""background: #00b8cc; border-radius: 5px; padding: 3px 5px; text-align: center; vertical-align: text-bottom;""", @"class=""head-prefix""");
-		}
+	        };}
 		#endregion
 	
         #region 30 censor words
 		if(includeIndex.Count() == 0 || includeIndex.Contains(30))
 		{
-	        expression = @"(.*?)(fuck)(.*?)";
+	        expression = @"(.*?)(fuck|bitch|slut|boobs|tits|sex)(.*?)";
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
 						match = showMatches ? match : null,
-						description = "[30] illegal word found: " + match.Groups[2].Value
+						description = "[30] illegal word found",
+						action = "replace words with censors ie. f**k"
 					});
 	            match = match.NextMatch();
 	        };
@@ -605,13 +624,11 @@ void Main()
 		var count = fixes.Count();
 		if(fixes.Count() > 0)
 		{
-			Console.WriteLine(title + " [" + count + " issue(s)]");
+			Console.WriteLine(title + " [" + count + " issue(s) found]");
 			if(showResults)
 				Console.WriteLine(new Result {
 					title = title,
 					fixes = fixes,
-					//content = new List<string>() { oldContent },
-					//newContent = content
 				});
 			postCount++;
 		}
@@ -622,12 +639,13 @@ void Main()
 	Console.WriteLine("" + postCount + " published posts needed to update");
 }
 
-public class Result {
+class Result {
 	public string title { get; set; }
 	public List<MatchItem> fixes { get; set; }
 }
 
-public class MatchItem {
+class MatchItem {
 	public string description { get; set; }
 	public Match match { get; set; }
+	public string action { get; set; }
 }
