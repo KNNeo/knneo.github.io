@@ -136,8 +136,9 @@ function generateLayout() {
 	if(window['horizontal']) {
 		document.body.setAttribute('layout', 'horizontal');
 		menu.style.width = horizontalMenuWidth + 'px';
-		if(window.innerHeight > 800)
+		if(window.innerHeight > 800) {
 			tags.classList.add('expanded');
+		}
 	}
 	else {
 		document.body.setAttribute('layout', 'vertical');
@@ -646,8 +647,7 @@ function onToggleExpander() {
 	  case 'unfold_more':
 		document.querySelector('.expander').innerText = 'unfold_less';
 		document.querySelector('.expander').title = 'Close Tags';
-		tags.classList.remove('vertical');
-		tags.classList.add('horizontal');
+		tags.classList.toggle('expanded');
 		for(let tag of document.querySelectorAll('.tag'))
 		{
 			tag.tabIndex = 0;
@@ -656,8 +656,7 @@ function onToggleExpander() {
 	  case 'unfold_less':
 		document.querySelector('.expander').innerText = 'unfold_more';
 		document.querySelector('.expander').title = 'Expand Tags';
-		tags.classList.remove('horizontal');
-		tags.classList.add('vertical');
+		tags.classList.toggle('expanded');
 		for(let tag of document.querySelectorAll('.tag'))
 		{
 			tag.tabIndex = -1;
