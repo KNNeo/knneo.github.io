@@ -103,9 +103,7 @@ a {
 #tab-list {
 	resize: vertical;
 	overflow: auto;
-	/* padding: 3px; */
 	margin: auto;
-    height: 50%;
 }
 
 #header {
@@ -354,9 +352,10 @@ a {
 
 .context {
 	font-size: 0.9em;
-	position: fixed;
+	position: absolute;
 	width: auto;
-	max-width: max(250px, 40vw);
+	max-width: max(300px, 80vw);
+    width: fit-content;
 	max-height: 80%;
 	overflow-y: auto;
 	border: 1px solid var(--foreground);
@@ -364,14 +363,15 @@ a {
 }
 
 .loader {
-	display: flex;
-    justify-content: center;
+	position: absolute;
+    left: 0;
+    right: 0;
+    text-align: center;
 	padding: 10px;
     font-size: 24px;
 }
 
 .playlist {
-	/* padding: 3px; */
 }
 
 .related .tag,

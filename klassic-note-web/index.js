@@ -322,7 +322,7 @@ function setTabs() {
 	displayCoverIfComplete();
 	
 	//adjust content height
-	let tabHeight = window.innerHeight - Array.from(document.querySelectorAll('.calc')).reduce((total, current) => { return total + current.offsetHeight; }, 50) + 'px';
+	let tabHeight = window.innerHeight - Array.from(document.querySelectorAll('.calc')).reduce((total, current) => { return total + current.offsetHeight; }, 0) + 'px';
 	if(debugMode) console.log('containerHeight', tabHeight, document.querySelector('#tab-list').style.height);
 	if(tabHeight != document.querySelector('#tab-list').style.height)
 	{
@@ -2716,8 +2716,6 @@ function showContextMenu() {
 	let menu = document.querySelector('.context');
     menu.style.top = y + 'px';
     menu.style.left = 0;
-	menu.style.margin = 'auto';
-	menu.style.right = 0;
 	menu.classList.remove('hidden');	
 	menu.innerHTML = '';
 		
@@ -2725,9 +2723,12 @@ function showContextMenu() {
 	switch(event.target.getAttribute('data-context'))
 	{
 		case 'related':
+			menu.style.left = x + 'px';
 			menu.appendChild(showAddQueueContextMenu(this.getAttribute('data-id')));
 			break;
 		case 'playlist':
+			menu.style.margin = 'auto';
+			menu.style.right = 0;
 			if(event.target.innerText === 'format_indent_increase') {
 				hideContextMenus(true);
 				event.target.innerText = 'format_align_justify';
