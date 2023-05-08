@@ -13,18 +13,8 @@ const config = {
 		months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 	},
 	labels: {
-		name: 'Name',
-		nameWithNickname: 'Name (Nickname)',
-		dob: 'Date of Birth',
 		ageSuffix: 'years ago',
-		profile: 'Profile',
 		turningPoint: 'Singer Debut|Swimsuit Photobook|Married',
-		statusPopup: 'As answered haphazardly by Uesaka Sumire (and expanded on by me) the three "turning points" of a voice actress (but applicable to all):<br/>~ Singer Debut (The exhibition of their unique voices in singing)<br/>~ Swimsuit Photobook (The display of their figure to the extent of being half-naked)<br/>~ Married (The declaration of the end of idolism?)',
-		intro: 'How I came to know of her',
-		description: 'Why would she be "wanted" by me',
-		rating: 'Wanted Level',
-		friends: 'Known Acquaintances',
-		social: 'Social Media',
 	}
 };
 
@@ -501,7 +491,7 @@ function generateProfileElement(profile, friendMode) {
 	
 	// all the children ones
 	cell.appendChild(generateProfileName(profile));
-	if(!friendMode) cell.appendChild(generateProfileWithInnerHTML(profile, config.labels.profile, 'profile'));
+	if(!friendMode) cell.appendChild(generateProfileWithInnerHTML(profile, 'profile'));
 	cell.appendChild(generateProfileDob(profile));
 	if(!friendMode) {
 		cell.appendChild(generateProfilePointers(profile));
@@ -612,7 +602,7 @@ function generateProfileDob(item) {
 	return cell;
 }
 
-function generateProfileWithInnerHTML(profile, label, property) {
+function generateProfileWithInnerHTML(profile, property) {
 	let cell = document.createElement('div');
 	if(profile[property] == undefined || profile[property].length == 0) return cell;
 	
@@ -877,7 +867,20 @@ function processComment(comment, refs) {
 function findComment(profile, commentIndexStr) { 
 	return profile.comments.find(c => c.includes(commentIndexStr))?.replace(commentIndexStr,'');
 }
-function processOption(option, returnBool) { return returnBool ? option.includes('Yes') : option.replace('[1]','').replace('[2]','').replace('[3]',''); }
+function processOption(option, returnBool) { 
+	return returnBool ? 
+		option.includes('Yes') : 
+		option
+			.replace('[1]','')
+			.replace('[2]','')
+			.replace('[3]','')
+			.replace('[4]','')
+			.replace('[5]','')
+			.replace('[6]','')
+			.replace('[7]','')
+			.replace('[8]','')
+			.replace('[9]','');
+}
 function dupeStringCheck(source, compare) { return source == compare ? source : compare; }
 
 ////CHECK////
