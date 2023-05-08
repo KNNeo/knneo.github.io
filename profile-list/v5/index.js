@@ -953,37 +953,24 @@ function showProfilesImageCount(threshold) {
 
 ////DIALOG////
 function popupText(input) {
-	let dialog = createOrUpdateDialog(input);
-	// dialog.style = '';
-	if(document.querySelector('.dialog') == null)
+	let dialogDiv = document.querySelector('.dialog');
+	if(dialogDiv == null)
 	{
-		let dialogDiv = document.createElement('div');
+		dialogDiv = document.createElement('div');
 		dialogDiv.classList.add('dialog');
-		dialogDiv.appendChild(dialog);
 		document.body.appendChild(dialogDiv);
 	}
+	let dialog = createDialog(input);
+	dialogDiv.appendChild(dialog);
 	dialog.showModal();
 }
 
-function createOrUpdateDialog(html) {
-	let dialog = document.querySelector('dialog');
-	if(dialog == null)
-	{
-		dialog = document.createElement('dialog');
-	}
+function createDialog(html) {
+	let dialog = document.createElement('dialog');
 	if(!dialog.classList.contains('box')) dialog.classList.add('box');
 	dialog.innerHTML = html;
-	dialog.addEventListener('click', closeAllDialogs);
+	dialog.addEventListener('click', function() {
+		this.remove();
+	});
 	return dialog;
-}
-
-function openDialog(dialog) {
-	dialog.showModal();
-}
-
-function closeAllDialogs() {
-	for(let dialog of document.querySelectorAll('dialog'))
-	{
-		dialog.close();
-	}
 }
