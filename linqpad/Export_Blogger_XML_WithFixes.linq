@@ -532,7 +532,7 @@ void Main()
 				if(!match.Groups[6].Value.Contains("_blank")
 				&& !url.StartsWith("#")
 				//&& !url.Contains("twitter.") //raw code will have link if not render as embed
-				&& !url.Contains("t.co/")
+				//&& !url.Contains("t.co/")
 				&& !url.Contains("blogger.")
 				&& !url.Contains("bp.blogspot.com")
 				&& !url.Contains("../../")
