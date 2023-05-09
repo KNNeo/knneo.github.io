@@ -855,8 +855,8 @@ void Main()
 					
 			        expression = @"(?s)(.*?)id=""(.*?)""(.*?)";
 			        match = Regex.Match(content, expression);
-	        		while(match.Success && match.Groups[2].Value.Length > 1) {
-						 if(match.Groups[2].Value != "hashtags")
+	        		while(match.Success) {
+						 if(match.Groups[2].Value.Length > 1 && match.Groups[2].Value != "hashtags")
 						 	anchors.Add(match.Groups[2].Value);
 	            		match = match.NextMatch();
 					}
