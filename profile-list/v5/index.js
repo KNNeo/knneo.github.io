@@ -17,6 +17,9 @@ const config = {
 		turningPoint: 'Singer Debut|Swimsuit Photobook|Married',
 	}
 };
+const isLandscape = function() {
+	return window.matchMedia('(orientation:landscape)')?.matches;
+}
 
 //--STARTUP--//
 window.addEventListener('load', startup);
@@ -332,10 +335,10 @@ function updateWantedList([profile, currentProfile]) {
 
 ////TIMELINE////
 function loadTimeline(width = 2500) {
-	if(document.querySelector('#timeline') == null) return;
-	document.querySelector('#timeline').innerHTML = '';
-	generateVerticalTimeline('timeline', window['timelineDOBlist'].filter(prof => !prof.date.startsWith('????')), null, '380px');
-	// generateHorizontalTimeline('timeline', window['timelineDOBlist'].filter(prof => !prof.date.startsWith('????')), width, '160px');
+	// if(document.querySelector('#timeline') == null) return;
+	// document.querySelector('#timeline').innerHTML = '';
+	generateVerticalTimeline('timeline-vert', window['timelineDOBlist'].filter(prof => !prof.date.startsWith('????')), null, '380px');
+	generateHorizontalTimeline('timeline-horiz', window['timelineDOBlist'].filter(prof => !prof.date.startsWith('????')), width, '160px');
 	addTimelineEvents(false);
 }
 
@@ -524,7 +527,7 @@ function getNextProfileImage(id, current) {
 	let profile = profileListJson.find( function(n) {
         return n.id == id;
     });
-	let allImages = profile.portraits ?? [profile.image];
+	let allImages = ((isLandscape() ? profile.landscapes : profile.portraits) ?? []) ?? [profile.image];
 	let nextIndex = allImages.indexOf(current) + 1;
 	return allImages[current && nextIndex < allImages.length ? nextIndex : 0];
 }

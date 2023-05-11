@@ -169,6 +169,7 @@ a:hover {
 	margin: auto;
 	display: flex;
     justify-content: center;
+    align-items: center;
 	overflow: auto;
 }
 .settings {
@@ -267,13 +268,17 @@ a:hover {
 }
 
 /*TIMELINE*/
-#timeline {
+#timeline-horiz {
+	display: none;
+}
+
+.timeline {
 	width: 100%;
 	max-width: 320px;
 	margin: auto;
 }
 
-#timeline .grid {
+.timeline .grid {
 	/* border: 1px solid var(--foreground); */
 	margin: auto;
     overflow-y: auto;
@@ -285,7 +290,7 @@ a:hover {
     align-items: center;
 }
 
-#timeline .grid-horiz {
+.timeline .grid-horiz {
 	border: 1px solid var(--foreground);
 	margin: auto;
 	overflow-x: auto;
@@ -298,57 +303,57 @@ a:hover {
     justify-items: center;
 }
 
-#timeline .container,
-#timeline .container-horiz {
+.timeline .container,
+.timeline .container-horiz {
 	display: contents;
 }
 
-#timeline .thumb {
+.timeline .thumb {
 	max-width: 100px;
 	max-height: 100px;
 	grid-column-start: 2;
 }
 
-#timeline .thumb-horiz {
+.timeline .thumb-horiz {
 	max-width: 100px;
 	max-height: 100px;
 	white-space: nowrap;
 	grid-row-start: 3;
 }
 
-#timeline .blob {
+.timeline .blob {
 	grid-column-start: 3;
 	font-size: 1.6em;
 }
 
-#timeline .blob-horiz {
+.timeline .blob-horiz {
 	grid-row-start: 2;
 	white-space: nowrap;
 	font-size: 10em;
 }
 
-#timeline .blob-horiz:hover {
+.timeline .blob-horiz:hover {
 	color: var(--primary);
 	font-weight: bold;
 	filter: none;
 	z-index: 10;
 }
 
-#timeline .container:hover a img,
-#timeline .container:hover div {
+.timeline .container:hover a img,
+.timeline .container:hover div {
 	color: var(--primary);
 	font-weight: bold;
 	filter: none;
 	cursor: pointer;
 }
 
-#timeline .container:hover a,
-#timeline .container:hover a img,
-#timeline .container:hover div {
+.timeline .container:hover a,
+.timeline .container:hover a img,
+.timeline .container:hover div {
 	z-index: 10;
 }
 
-#timeline .description {
+.timeline .description {
 	grid-column-start: 4;
 	white-space: nowrap;
 	overflow: hidden;
@@ -360,7 +365,7 @@ a:hover {
 	user-select: auto;
 }
 
-#timeline .description-horiz {
+.timeline .description-horiz {
 	grid-row-start: 4;
 	white-space: nowrap;
 	-webkit-user-select: auto;
@@ -370,13 +375,13 @@ a:hover {
 	user-select: auto;
 }
 
-#timeline .container:hover ~ div,
-#timeline .dimmed {
+.timeline .container:hover ~ div,
+.timeline .dimmed {
 	color: var(--foreground);
 	/* filter: grayscale(90%) contrast(0.2); */
 }
 
-#timeline .selected {
+.timeline .selected {
 	background-color: var(--background);
 	color: var(--primary);
 	font-weight: bold;
@@ -431,9 +436,18 @@ a:hover {
 	div::-webkit-scrollbar { width: 0 !important }
 }
 
-@media screen and (max-height : 480px) and (orientation:landscape) {
+@media screen and (orientation:landscape) {
+	body {
+		width: 100%;
+		max-width: 640px;
+	}
 	h3 {
 		margin: 0;
+	}
+	.profile {
+		max-width: 100%;
+		max-height: 360px;
+		overflow-y: hidden;
 	}
 	.profile-box {
 		height: 100%;
@@ -445,5 +459,20 @@ a:hover {
 	}
 	.page-align {
 		margin: 0;
+	}
+	.timeline {
+		max-width: 640px;
+	}
+	.profile-image {
+		width: 50%;
+	}
+	.profile-details {
+		width: 50%;
+	}
+	#timeline-horiz {
+		display: initial;
+	}
+	#timeline-vert {
+		display: none;
 	}
 }
