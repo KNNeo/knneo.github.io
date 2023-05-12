@@ -292,6 +292,10 @@ a {
 	border-color: var(--accent);
 }
 
+.tab-button:not([disabled]):hover {
+    background-color: var(--accent);
+}
+
 .tab-view {
 	vertical-align: top;
 }
