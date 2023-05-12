@@ -50,6 +50,10 @@ function onKeyUp() {
 		else
 			player.pause();
 	}
+	// esc: to clear search bar
+	if (event.key === 'Escape') {
+		clearSearch();
+	}
 	// ctrl + c: copy search content
 	if (event.key === 'c' && window['ctrled'] && document.querySelector('#copy') != null
 	&& ['search'].indexOf(document.activeElement.id) < 0) {
