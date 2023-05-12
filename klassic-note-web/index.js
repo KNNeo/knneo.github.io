@@ -1258,7 +1258,6 @@ function queryRelated(contents) {
 	let columnIndexReleaseDateCreated = contents.columns.indexOf('Date Added');
 
 	//max 10 related within 1 month
-	// document.querySelector('#songs-related-date').innerHTML = '';
 	let convertDate = "replace(DateCreated,'.','-')";
 	let currentDate = "(select date("+convertDate+") from Song where KNID = "+row[columnIndexKNID]+")";
 	let dateRange = "date("+convertDate+") between date("+currentDate+",'-1 months') and date("+currentDate+",'+1 months')";
@@ -1270,15 +1269,13 @@ function queryRelated(contents) {
 	queryDb(query, generateSongRelatedByDate);
 	
 	//max 10 related same year
-	// document.querySelector('#songs-related-year').innerHTML = '';
 	query = "SELECT * FROM Song WHERE KNID <> " + row[columnIndexKNID];
-	query += " AND ReleaseYear = '" + row[columnIndexKNYEAR] + "'";
+	query += " AND KNYEAR = '" + row[columnIndexKNYEAR] + "'";
 	query += " ORDER BY RANDOM() DESC LIMIT 10";
 	if(debugMode) console.log('generateSongRelatedByYear', query);
 	queryDb(query, generateSongRelatedByYear);
 	
 	//max 10 related to artist
-	// document.querySelector('#artist-related').innerHTML = '';
 	query = "SELECT * FROM Song WHERE KNID <> " + row[columnIndexKNID];
 	query += " AND ArtistTitle = '" + addQuotationInSQLString(row[columnIndexArtistTitle]) + "'";
 	query += " ORDER BY RANDOM() DESC LIMIT 10";
@@ -1286,7 +1283,6 @@ function queryRelated(contents) {
 	queryDb(query, generateArtistRelated);
 	
 	//max 10 related to release
-	// document.querySelector('#release-related').innerHTML = '';
 	query = "SELECT * FROM Song WHERE KNID <> " + row[columnIndexKNID];
 	if(reduceReleaseTitle(row[columnIndexReleaseTitle]).includes('Disc '))
 		query += " AND ReleaseTitle LIKE '%" + reduceReleaseTitle(row[columnIndexReleaseTitle]) + "%'";
@@ -1298,7 +1294,6 @@ function queryRelated(contents) {
 	queryDb(query, generateReleaseRelated);
 	
 	//artist featured in
-	// document.querySelector('#songs-related-collab').innerHTML = '';
 	query = "select a.ParentArtist, s.KNID, s.KNYEAR, s.SongTitle, s.ArtistTitle from Artist a ";
 	query += "join Song s on a.ID = s.ArtistID "
 	query += "where a.ParentArtist <> a.ArtistTitle and a.ParentArtist = '" + addQuotationInSQLString(row[columnIndexArtistTitle]) + "' ";
