@@ -18,8 +18,8 @@ const config = {
 	}
 };
 const isLandscape = function() {
-	return window.matchMedia('(orientation:landscape)')?.matches;
-}
+	return window.matchMedia('(orientation:landscape) and (max-height : 640px)')?.matches;
+} //same as css conditions
 
 //--STARTUP--//
 window.addEventListener('load', startup);
