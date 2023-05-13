@@ -2517,7 +2517,7 @@ function generateTableByDataWithHeader(contents, parameters) {
 		
 		let th = document.createElement('th');
 		th.classList.add('table-title');
-		th.setAttribute('colspan', columns.length - skipColumns.filter(sc => columns.indexOf(sc)).length);
+		th.setAttribute('colspan', columns.length - columns.filter(sc => skipColumns.indexOf(sc) >= 0).length);
 		th.innerText = parts.join(' - ');
 		ttr.appendChild(th);
 		
