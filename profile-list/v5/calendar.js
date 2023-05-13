@@ -145,14 +145,8 @@ function addCalendarLegend() {
 			box.classList.add('calendar-legend-box');
 			box.classList.add('bg');
 			box.setAttribute('data-id', category);
-			// box.style.backgroundColor = 'lightgray';
 			box.addEventListener('click', function() {
-				// this.previousElementSibling.style.backgroundColor = this.previousElementSibling.previousElementSibling.checked ? 'transparent' :config.calendar.category[this.title.toLowerCase()] || 'lightgray';
-				let id = 'disabled';
-				if(this.classList.contains(id))
-					this.classList.remove(id);
-				else
-					this.classList.add(id);					
+				this.classList.toggle('disabled');	
 				setTimeout(function() {
 					filterCalendarList();
 					generateMiniCalendar(
@@ -168,12 +162,7 @@ function addCalendarLegend() {
 			description.style.padding = '0 5px';
 			description.title = category;
 			description.addEventListener('click', function() {
-				// this.previousElementSibling.style.backgroundColor = this.previousElementSibling.previousElementSibling.checked ? 'transparent' :config.calendar.category[this.title.toLowerCase()] || 'lightgray';
-				let id = 'disabled';
-				if(this.previousElementSibling.classList.contains(id))
-					this.previousElementSibling.classList.remove(id);
-				else
-					this.previousElementSibling.classList.add(id);					
+				this.previousElementSibling.classList.toggle('disabled');			
 				setTimeout(function() {
 					filterCalendarList();
 					generateMiniCalendar(
@@ -183,7 +172,7 @@ function addCalendarLegend() {
 					);
 				}, 10);
 			});
-			description.innerText = category.substring(0,1).toUpperCase() + category.substring(1);
+			description.innerText = category;
 			label.appendChild(description);
 		
 		calendarLegend.insertBefore(label, calendarLegend.childNodes[0]); // before export button
