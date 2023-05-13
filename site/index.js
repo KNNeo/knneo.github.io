@@ -535,7 +535,7 @@ function renderButtons() {
 	topButtonIcon.classList.add('material-icons');
 	topButtonIcon.classList.add('not-selectable');
 	topButtonIcon.title = 'Back To Top';
-	topButtonIcon.innerText = 'north';
+	topButtonIcon.innerText = 'keyboard_double_arrow_up';
 	if(document.querySelector('.button-top') == null)
 	{
 		document.body.appendChild(topButtonIcon);
