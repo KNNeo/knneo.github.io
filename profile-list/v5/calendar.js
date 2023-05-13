@@ -79,18 +79,20 @@ function addEventsToMiniCalendar(htmlString, DOBlist) {
 		if (config.calendar.category == null) continue;
 		
 		//replace html based on thisAge
+		// let colorClass = 'color-' + item.category;
+		// let backgroundClass = 'bg-' + item.category;
 		let dateCell = '<td>' + birthdayInYear.getDate() + '</td>';
 		let monthId = config.calendar.months[birthdayInYear.getMonth()];
-		let message = '<b onclick="generateProfileFromJSON(this)" class="calendar-name color-' + item.category + '">' + item.name + '</b> turns ' + thisAge + '</b> (' + birthdayInYear.getDate() + ' ' + monthId.substring(0, 3) + ')';
+		let message = '<b onclick="generateProfileFromJSON(this)" class="calendar-name color" data-id="' + item.category + '">' + item.name + '</b> turns ' + thisAge + '</b> (' + birthdayInYear.getDate() + ' ' + monthId.substring(0, 3) + ')';
 		if (thisAge == '??')
-			message = 'Happy Birthday <b onclick="generateProfileFromJSON(this)" class="calendar-name color-' + item.category + '">' + item.name + '</b>!!';
+			message = 'Happy Birthday <b onclick="generateProfileFromJSON(this)" class="calendar-name color" data-id="' + item.category + '">' + item.name + '</b>!!';
 		
 		if (thisAge == '??' && htmlString.indexOf(monthId) > -1 && htmlString.indexOf(dateCell) > -1 && item.name != 'Me') //no age
 			htmlString = htmlString.replace(dateCell, 
-			'<td class="bg-' + item.category + '"><div class="calendar-popitem">' + message + '</div>' + birthdayInYear.getDate() + '</td>');
+			'<td class="bg" data-id="' + item.category + '"><div class="calendar-popitem">' + message + '</div>' + birthdayInYear.getDate() + '</td>');
 		else if (htmlString.indexOf(monthId) > -1 && htmlString.indexOf(dateCell) > -1 && item.name != "Me") //with age
 			htmlString = htmlString.replace(dateCell, 
-			'<td class="bg-' + item.category + '"><div class="calendar-popitem">' + message + '</div>' + birthdayInYear.getDate() + '</td>');
+			'<td class="bg" data-id="' + item.category + '"><div class="calendar-popitem">' + message + '</div>' + birthdayInYear.getDate() + '</td>');
 		else if (thisAge == '??' && htmlString.indexOf(monthId) > -1) //append DOB, no age
 			htmlString = htmlString.replace('</div>' + birthdayInYear.getDate() + '</td>', 
 			'<br />' + message + '</div>' + birthdayInYear.getDate() + '</td>');
@@ -123,12 +125,12 @@ function addEventsToMiniCalendar(htmlString, DOBlist) {
 
 function addCalendarLegend() {
 	if(document.querySelector('.calendar-legend') == null) return;
-	let categories = window['calendarList'].filter((val, index, arr) => arr.map(a => a.category).indexOf(val.category) === index).map(p => p.category);
+	let categories = config.calendar.category.reverse() ?? window['calendarList'].filter((val, index, arr) => arr.map(a => a.category).indexOf(val.category) === index).map(p => p.category);
 	// console.log(categories);
 	let calendarLegend = document.querySelector('.calendar-legend');
 	if(calendarLegend.childElementCount > 1)
 		calendarLegend.innerHTML = '';
-	for(let category of categories) {		
+	for(let category of categories) {
 		let id = 'label-' + category;
 		let label = document.createElement('label');
 		
@@ -141,12 +143,12 @@ function addCalendarLegend() {
 			
 			let box = document.createElement('span');
 			box.classList.add('calendar-legend-box');
-			box.classList.add('bg-' + category.toLowerCase());
-			box.setAttribute('data-id', 'bg-' + category.toLowerCase());
+			box.classList.add('bg');
+			box.setAttribute('data-id', category);
 			// box.style.backgroundColor = 'lightgray';
 			box.addEventListener('click', function() {
 				// this.previousElementSibling.style.backgroundColor = this.previousElementSibling.previousElementSibling.checked ? 'transparent' :config.calendar.category[this.title.toLowerCase()] || 'lightgray';
-				let id = this.getAttribute('data-id');
+				let id = 'disabled';
 				if(this.classList.contains(id))
 					this.classList.remove(id);
 				else
@@ -167,7 +169,7 @@ function addCalendarLegend() {
 			description.title = category;
 			description.addEventListener('click', function() {
 				// this.previousElementSibling.style.backgroundColor = this.previousElementSibling.previousElementSibling.checked ? 'transparent' :config.calendar.category[this.title.toLowerCase()] || 'lightgray';
-				let id = this.previousElementSibling.getAttribute('data-id');
+				let id = 'disabled';
 				if(this.previousElementSibling.classList.contains(id))
 					this.previousElementSibling.classList.remove(id);
 				else
@@ -184,7 +186,7 @@ function addCalendarLegend() {
 			description.innerText = category.substring(0,1).toUpperCase() + category.substring(1);
 			label.appendChild(description);
 		
-		calendarLegend.insertBefore(label, calendarLegend.childNodes[0]);
+		calendarLegend.insertBefore(label, calendarLegend.childNodes[0]); // before export button
 	}
 }
 

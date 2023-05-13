@@ -1,14 +1,14 @@
 //--SETTINGS--//
 const config = {
 	title: '日本女優図鑑',
-	source: 'https://knneo.github.io/profile-list/data.json',
+	source: 'https://knneo.github.io/profile-list/v5/profiles.json',
 	random: true,
 	rating: {
 		max: 5,
 	},
 	timezone: 'Asia/Tokyo',
 	calendar: {
-		category: ['profile', 'seiyuu', 'doaxvv', 'hololive', 'idolypride'], //mapping for category, see data.json
+		category: ['アイドル', '女性声優', 'DOAXVV', 'hololive', 'IDOLY PRIDE', 'ミュージックレイン3期生'], // also css attribute, in order
 		daysOfWeek: ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],
 		months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 	},
@@ -37,10 +37,7 @@ function startup() {
 	setTitle();
 	runLoader();
 	addPageEvents();
-	getJson(config.source, function(response) {
-		profileListJson = response;
-		loadProfileLists();
-	});
+	loadSources();
 }
 
 function setTitle() {
@@ -75,25 +72,28 @@ function initializeVariables() {
 	window['expanded'] = false;
 	window['loading'] = true;
 	window['search'] = '';
+	window['source'] = [];
 }
 
-function loadProfileLists() {
-	window['profileList'] = profileListJson.filter(n => !(n.inactive === true) && n.rating);
-	window['calendarList'] = profileListJson.filter(n => !(n.inactive === true) && config.calendar.category.includes(n.category));
-	window['friendList'] = profileListJson
-		.filter(n => !(n.inactive === true) && n.category == 'friends')
-		.sort(function(a,b) { 
-			return b.id.split('-').length - a.id.split('-').length;
-		}); // 3-friend id on top of list regardless of sort order
-	window['defaultProfile'] = profileListJson.find(n => n.category == 'default');
-	window['timelineDOBlist'] = createDOBlist(window['profileList'], 1, 35, true);
-	window['calendarDOBlist'] = createDOBlist(window['calendarList'], 0, 50);
-	
-	stopLoader();
-	renderWantedList();
+function loadSources() {
+	getJson(config.source, function(response) {
+		window['source'] = response;
+		window['profileList'] = window['source'].filter(n => !(n.inactive === true) && n.rating);
+		window['calendarList'] = window['source'].filter(n => !(n.inactive === true) && config.calendar.category.includes(n.category));
+		window['friendList'] = window['source']
+			.filter(n => !(n.inactive === true) && n.category == 'friends')
+			.sort(function(a,b) { 
+				return b.id.split('-').length - a.id.split('-').length;
+			}); // 3-friend id on top of list regardless of sort order
+		window['defaultProfile'] = window['source'].find(n => n.category == 'default');
+		window['timelineDOBlist'] = createDOBlist(window['profileList'], 1, 35, true);
+		window['calendarDOBlist'] = createDOBlist(window['calendarList'], 0, 50);
+		stopLoader();
+		renderPage();
+	});
 }
 
-function renderWantedList() {
+function renderPage() {
 	generateWantedList();
 	loadTimeline();
 	// createCalendar(luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: config.timezone}).month-1, window['calendarDOBlist'], true);
@@ -150,7 +150,7 @@ function onSearch() {
 }
 
 function filterWantedListBySearch() {
-	window['profileList'] = profileListJson
+	window['profileList'] = window['source']
 	.filter(n => !(n.inactive === true) 
 	&& n.rating 
 	&& (n.name.toLowerCase().includes(window['search'].toLowerCase())
@@ -166,7 +166,7 @@ function clearWantedList() {
 	window['profiles'] = [];
 	window['friendMode'] = false;
 	setTitle();
-	loadProfileLists();
+	loadSources();
 	generateWantedList();
 }
 
@@ -451,7 +451,7 @@ function generateProfileFromJSON(profileName) {
 	if(profile == null) //if not found, means reset list
 	{
 		window['profiles'] = [];
-		source = profileListJson;
+		source = window['source'];
 		profile = source.filter(n => !(n.inactive === true) && n.rating).find( function(n) {
 			return n.id == profileName;
 		});
@@ -511,7 +511,7 @@ function getProfileImage() {
 	//find friend with 3 names
 	let friend = findFriendIdByProfile(window['profiles'].slice(0,3));
 	if(friend)
-		imgDiv.src = friend.image;
+		imgDiv.src = getNextFriendImage(friend.id, profileImageDiv.querySelector('img')?.src);
 	else
 	{
 		//find friend withone name
@@ -523,8 +523,17 @@ function getProfileImage() {
 	profileImageDiv.appendChild(imgDiv);
 }
 
+function getNextFriendImage(id, current) {
+	let friend = window['source'].find( function(n) {
+        return n.id == id;
+    });
+	let allImages = (friend.landscapes ?? []).concat(friend.portraits ?? []) ?? [friend.image];
+	let nextIndex = allImages.indexOf(current) + 1;
+	return allImages[current && nextIndex < allImages.length ? nextIndex : 0];
+}
+
 function getNextProfileImage(id, current) {
-	let profile = profileListJson.find( function(n) {
+	let profile = window['source'].find( function(n) {
         return n.id == id;
     });
 	let allImages = ((isLandscape() ? profile.landscapes : profile.portraits) ?? []) ?? [profile.image];
@@ -619,11 +628,12 @@ function generateProfileWithInnerHTML(profile, property) {
 }
 
 function generateProfilePointers(profile) {
-	let points = Object.keys(profile.turningPoint).map((item, index, arr) => {
+	let points = profile.pointers.map((item, index, arr) => {
+		let parts = item.split('|');
 		return {
-			label: config.labels.turningPoint.split('|')[index],
-			value: processOption(profile.turningPoint[item], false),
-			comment: profile.turningPoint[item].includes('[') ? findComment(profile, profile.turningPoint[item].substring(profile.turningPoint[item].indexOf('['))) : null, 
+			label: parts[0],
+			value: processOption(parts[1], false),
+			comment: parts[1].includes('[') ? findComment(profile, parts[1].substring(parts[1].indexOf('['))) : null, 
 		}
 	});
 	if(window['debug'])
@@ -681,7 +691,7 @@ function filterWantedListByFriends(profileFriendsList, profile, currentProfile) 
 		.replace(/-/g, '');
 	}).filter(p => !window['profiles'].map(p => p.id).includes(p));
 	// console.log('friendsSearch', friendsSearch);
-	window['profileList'] = profileListJson.filter(n => !(n.inactive === true) && n.rating && friendsSearch.includes(n.id));
+	window['profileList'] = window['source'].filter(n => !(n.inactive === true) && n.rating && friendsSearch.includes(n.id));
 	generateWantedList(true);
 }
 
@@ -828,7 +838,7 @@ function updateTime() {
 		var now = luxon.DateTime.local().setZone(config.timezone);
 		time.innerText = now.toFormat('yyyy.MM.dd HH:mm:ss');
 		if(time.innerText.endsWith('00:00:00'))
-			renderWantedList();
+			renderPage();
 		setTimeout(updateTime, 1000);
 	}
 }

@@ -252,10 +252,8 @@ a:hover {
     vertical-align: middle;
     margin-bottom: 3px;
 }
-.calendar-name {	
-	cursor: pointer;	
-}
-.calendar-name:hover {	
+.calendar-name {
+	cursor: pointer;
 	color: var(--foreground);
 }
 .calendar-popitem {
@@ -390,44 +388,56 @@ a:hover {
 }
 
 /*CUSTOMIZE CALENDAR CATEGORY LABELS*/
-.color-profile {
+.color[data-id="アイドル"]:hover {
 	color: lightgray;
 }
-.bg-profile {
+.bg[data-id="アイドル"] {
 	background-color: lightgray;
 	color: black;
 }
 
-.color-seiyuu {
+.color[data-id="女性声優"]:hover {
 	color: cyan;	
 }
-.bg-seiyuu {
+.bg[data-id="女性声優"] {
 	background-color: cyan;
 	color: black;
 }
 
-.color-doaxvv {
-	color: lime;	
+.color[data-id="DOAXVV"]:hover {
+	color: chartreuse;	
 }
-.bg-doaxvv {
-	background-color: lime;
+.bg[data-id="DOAXVV"] {
+	background-color: chartreuse;
 	color: black;
 }
 
-.color-hololive {
+.color[data-id="hololive"]:hover {
 	color: gold;	
 }
-.bg-hololive {
+.bg[data-id="hololive"] {
 	background-color: gold;
 	color: black;
 }
 
-.color-idolypride {
-	color: pink;	
+.color[data-id="IDOLY PRIDE"]:hover {
+	color: violet;	
 }
-.bg-idolypride {
-	background-color: pink;
+.bg[data-id="IDOLY PRIDE"] {
+	background-color: violet;
 	color: black;
+}
+
+.color[data-id="ミュージックレイン3期生"]:hover {
+	color: orangered;	
+}
+.bg[data-id="ミュージックレイン3期生"] {
+	background-color: orangered;
+	color: black;
+}
+
+.bg.disabled {
+	background-color: transparent;
 }
 
 /*scrollbars for top and bottom labels only on desktop*/
