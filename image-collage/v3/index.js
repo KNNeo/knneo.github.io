@@ -456,6 +456,7 @@ function generateGrid() {
 		grid.appendChild(gridItem);
 	}
 
+	fadeIn();
 	if(document.querySelector('.counter') != null)
 		document.querySelector('.counter').innerText = filterArray.length;
 }
