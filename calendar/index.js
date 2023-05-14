@@ -477,10 +477,13 @@ function addToMarked(item) {
 }
 
 function clearMarked() {
-	localStorage.removeItem('calendar-marked');
-	for(let marked of document.querySelectorAll('.marked'))
+	if(confirm('Confirm to clear marked? This action is irreversible.'))
 	{
-		marked.classList.remove('marked');
+		localStorage.removeItem('calendar-marked');
+		for(let marked of document.querySelectorAll('.marked'))
+		{
+			marked.classList.remove('marked');
+		}
 	}
 }
 
