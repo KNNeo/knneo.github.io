@@ -596,7 +596,7 @@ function getNextProfileImage(id, current) {
 	let profile = window['source'].find( function(n) {
         return n.id == id;
     });
-	let allImages = ((isLandscape() ? profile.landscapes : profile.portraits) ?? []) ?? [profile.image];
+	let allImages = ((isLandscape() ? (profile.landscapes ?? profile.portraits) : (profile.portraits ?? profile.landscapes)) ?? []) ?? [profile.image];
 	let nextIndex = allImages.indexOf(current) + 1;
 	return allImages[current && nextIndex < allImages.length ? nextIndex : 0];
 }
