@@ -772,11 +772,11 @@ function getLastDayOfMonth(monthNo, yearNo) {
 function toggleWeekMode() {
 	if(window['mode'] == 'month') {
 		window['mode'] = 'week';
-		this.innerText = 'calendar_view_week';
+		document.querySelector('.mode').innerText = 'calendar_view_week';
 	}
 	else {
 		window['mode'] = 'month';
-		this.innerText = 'calendar_view_month';
+		document.querySelector('.mode').innerText = 'calendar_view_month';
 	}
 	
 	generateCalendar(new Date().getFullYear(), new Date().getMonth(), window['mode'] == 'week' ? new Date().getDate() : null); // month is zero-based
