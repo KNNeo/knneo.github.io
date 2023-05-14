@@ -2,7 +2,10 @@
 const config = {
 	title: '日本女優図鑑',
 	source: 'https://knneo.github.io/profile-list/v5/profiles.json',
-	random: true,
+	buttons: {
+		random: false,
+		all: true,
+	},
 	rating: {
 		max: 5,
 	},
@@ -34,26 +37,9 @@ let pageDivs = document.querySelectorAll('.page');
 //--FUNCTIONS--//
 function startup() {
 	initializeVariables();
-	setTitle();
+	ititializePage();
 	runLoader();
-	addPageEvents();
 	loadSources();
-}
-
-function setTitle() {
-	if(config.title)
-	{
-		document.title = config.title;
-		document.querySelector('.title').innerText = config.title;
-	}
-}
-
-function addPageEvents() {
-	for(let box of pageDivs)
-	{
-		box.addEventListener('touchstart', onTouchStart);
-		box.addEventListener('touchmove', onTouchMove, false);
-	}
 }
 
 function initializeVariables() {
@@ -73,6 +59,21 @@ function initializeVariables() {
 	window['loading'] = true;
 	window['search'] = '';
 	window['source'] = [];
+}
+
+function ititializePage() {
+	// set title
+	if(config.title)
+	{
+		document.title = config.title;
+		document.querySelector('.title').innerText = config.title;
+	}
+	// add touch events
+	for(let box of pageDivs)
+	{
+		box.addEventListener('touchstart', onTouchStart);
+		box.addEventListener('touchmove', onTouchMove, false);
+	}
 }
 
 function loadSources() {
@@ -165,7 +166,6 @@ function clearWantedList() {
 	document.querySelector('.profile-image').innerHTML = '<h2 class="title">Profile List</h2>';
 	window['profiles'] = [];
 	window['friendMode'] = false;
-	setTitle();
 	loadSources();
 	generateWantedList();
 }
@@ -214,20 +214,38 @@ function onKeyUpWantedListEntry() {
 		generateProfileFromJSON(this);
 }
 
+function onClickShowAll() {
+	let wantedList = document.createElement('div');
+	wantedList.classList.add('list');
+	//create array
+	let profileNamesList = [];
+	for (let profileName of window['source'].filter(n => !(n.inactive === true) && n.rating)) {
+		profileNamesList.push(profileName);
+	}
+	profileNamesList.sort(function(a,b) {
+		return a.name.localeCompare(b.name);
+	});
+
+	//create wanted list
+	for (let profile of profileNamesList) {
+		let list = document.createElement('li');
+		list.appendChild(generateWantedListEntry(profile.id));
+		wantedList.appendChild(list);
+	}
+	
+	popupText(wantedList);
+}
+
 ////WANTED LIST////
 function generateWantedList(addReset) {
 	let wantedList = document.querySelector('.list');
 	wantedList.innerHTML = '';
 
-	if(addReset) {
-		let list = document.createElement('li');
-		list.appendChild(generateWantedListClear());
-		wantedList.appendChild(list);
-	}
-	else if(config.random)
+	generateWantedListButtons(addReset);
+	if(config.buttons.all)
 	{
 		let list = document.createElement('li');
-		list.appendChild(generateWantedListRandom());
+		list.appendChild(generateWantedListShowAll());
 		wantedList.appendChild(list);
 	}
 	
@@ -252,7 +270,7 @@ function generateWantedList(addReset) {
 }
 
 function generateWantedListEntry(id, autoAdd = []) {
-	let profile = window['profileList'].find( function(n) {
+	let profile = window['source'].find( function(n) {
 		return n.id == id
 	});
 						
@@ -269,29 +287,48 @@ function generateWantedListEntry(id, autoAdd = []) {
 		if(autoAdd.length > 0) wanted.setAttribute('auto-add', autoAdd.join(','));
 		wanted.addEventListener('click', function() {
 			generateProfileFromJSON(this);
-			// if(this.getAttribute('auto-add') != null)
-				// for(let add of this.getAttribute('auto-add').split(','))
-				// {
-					// generateProfileFromJSON(add);
-				// }
-			// document.querySelector('.profile').scrollIntoView();
 		});
 		wanted.addEventListener('keyup', onKeyUpWantedListEntry);
-		// wanted.addEventListener('contextmenu', function(e) {
-			// e.preventDefault();
-			// window['expanded'] = !window['expanded'];
-			// generateProfileFromJSON(this);
-			// document.querySelector('.profile').scrollIntoView();
-			// window['expanded'] = !window['expanded'];
-		// }, false);
 	}
+	
+	return wanted;
+}
+
+function generateWantedListButtons(addReset) {
+	let search = document.querySelector('.search');
+	search.innerHTML = '';
+	
+	if(addReset) {
+		let list = document.createElement('span');
+		list.appendChild(generateWantedListClear());
+		search.appendChild(list);
+	}
+	else if(config.buttons.random) {
+		let list = document.createElement('span');
+		list.appendChild(generateWantedListRandom());
+		search.appendChild(list);
+	}
+}
+
+function generateWantedListShowAll() {	
+	let wanted = document.createElement('a');
+	wanted.classList.add('button-sml');
+	wanted.classList.add('bi');
+	wanted.classList.add('bi-view-list');
+	wanted.tabIndex = 0;
+	wanted.innerText = ' ALL';
+	wanted.addEventListener('click', onClickShowAll);
+	wanted.addEventListener('keyup', function() {
+		if (event.key === ' ' || event.key === 'Enter')
+			onClickShowAll();
+	});
 	
 	return wanted;
 }
 
 function generateWantedListRandom() {	
 	let wanted = document.createElement('a');
-	wanted.classList.add('clear');
+	wanted.classList.add('button-sml');
 	wanted.classList.add('bi');
 	wanted.classList.add('bi-shuffle');
 	wanted.tabIndex = 0;
@@ -307,7 +344,7 @@ function generateWantedListRandom() {
 
 function generateWantedListClear() {	
 	let wanted = document.createElement('a');
-	wanted.classList.add('clear');
+	wanted.classList.add('button-sml');
 	wanted.classList.add('bi');
 	wanted.classList.add('bi-x-lg');
 	wanted.tabIndex = 0;
@@ -978,12 +1015,19 @@ function popupText(input) {
 	dialog.showModal();
 }
 
-function createDialog(html) {
+function createDialog(node) {
 	let dialog = document.createElement('dialog');
 	if(!dialog.classList.contains('box')) dialog.classList.add('box');
-	dialog.innerHTML = html;
+	if(typeof node == 'string')
+		dialog.innerHTML = node;
+	if(typeof node == 'object')
+		dialog.appendChild(node);
 	dialog.addEventListener('click', function() {
 		this.remove();
+	});
+	dialog.addEventListener('keyup', function() {
+		if (event.key === ' ' || event.key === 'Enter')
+			this.remove();
 	});
 	return dialog;
 }

@@ -78,6 +78,12 @@ a:hover {
 	display: flex;
     align-items: center;
 }
+.dialog .list {
+    flex-direction: column;
+    align-items: flex-start;
+	height: auto;
+	overflow: auto;
+}
 .inverted {
 	color: var(--foreground);
 }
@@ -183,7 +189,7 @@ a:hover {
 	text-decoration: none;
 	text-align: center;
 }
-.clear {
+.button-sml {
 	display: inline-block;
 	white-space: nowrap;
 	font-size: 1rem;
@@ -192,7 +198,7 @@ a:hover {
 	padding: 0 5px;
 	box-shadow: 1px 1px;
 }
-.clear:active {
+.button-sml:active {
 	box-shadow: none;
 	transform: translate(1px,1px);
 }
