@@ -3,7 +3,7 @@ const config = {
 	title: '日本女優図鑑',
 	source: 'https://knneo.github.io/profile-list/v5/profiles.json',
 	buttons: {
-		random: false,
+		random: true,
 		all: true,
 	},
 	rating: {

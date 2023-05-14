@@ -296,11 +296,10 @@ a:hover {
 }
 
 .timeline .grid-horiz {
+    padding: 5px 4em;
+	overflow-x: auto;
 	border: 1px solid var(--foreground);
 	margin: auto;
-	overflow-x: auto;
-	padding: 5px 5em;
-	max-width: 480px;
 	display: grid;
 	grid-auto-columns: 30px;
     grid-template-rows: 0 60px 15px 20px;
@@ -505,5 +504,8 @@ a:hover {
 	}
 	.profile-image img, .profile-box-img {
 		max-height: 200px;
+	}
+	.timeline .grid-horiz {
+		max-width: 480px;
 	}
 }
