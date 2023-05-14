@@ -94,9 +94,17 @@ a:visited {
     align-items: center;
 }
 
-.expanded {
+.calendar.expanded {
+	grid-template-rows: 3em 2em 1.5em auto 2fr;
+}
+
+.full {
     height: 75vh;
 	overflow: auto;
+}
+
+.row {
+	display: contents;
 }
 
 .day {
@@ -116,6 +124,10 @@ a:visited {
 .cell {
 	height: 4.8em;
 }
+.cell.expanded {
+	height: auto;
+	align-self: flex-start;
+}
 
 .prev,
 .next,
@@ -133,6 +145,11 @@ a:visited {
 	text-align: left;
 	height: 1.3em;
 	font-size: 0.7em;
+}
+
+.content.expanded {
+	height: auto;
+	padding-bottom: 5px;
 }
 
 .content:hover {
