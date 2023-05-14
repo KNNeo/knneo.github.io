@@ -308,6 +308,11 @@ function generateWantedListButtons(addReset) {
 		list.appendChild(generateWantedListRandom());
 		search.appendChild(list);
 	}
+	else {
+		let list = document.createElement('span');
+		list.appendChild(generateWantedListSearch());
+		search.appendChild(list);		
+	}
 }
 
 function generateWantedListShowAll() {	
@@ -337,6 +342,24 @@ function generateWantedListRandom() {
 	wanted.addEventListener('keyup', function() {
 		if (event.key === ' ' || event.key === 'Enter')
 			selectRandomProfile();
+	});
+	
+	return wanted;
+}
+
+function generateWantedListSearch() {	
+	let wanted = document.createElement('a');
+	wanted.classList.add('button-sml');
+	wanted.classList.add('bi');
+	wanted.classList.add('bi-search');
+	wanted.tabIndex = 0;
+	wanted.innerText = ' SEARCH';
+	wanted.addEventListener('click', function() {
+		popupText('Search by name or nickname');
+	});
+	wanted.addEventListener('keyup', function() {
+		if (event.key === ' ' || event.key === 'Enter')
+			popupText('Search by name or nickname');
 	});
 	
 	return wanted;

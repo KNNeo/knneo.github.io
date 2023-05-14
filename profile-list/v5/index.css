@@ -22,6 +22,10 @@ html {
 	-ms-user-select: none;
 	user-select: none;
 	height: 100%;
+	color-scheme: light;
+}
+html.darked {
+	color-scheme: dark;
 }
 body {
 	background-color: var(--background);
@@ -228,8 +232,8 @@ a:hover {
 	position: relative;
 }
 .calendar td {
-    width: 2.5em;
-    height: 2em;
+    min-width: 2.5em;
+    height: 2.5em;
 }
 .calendar td:hover .calendar-popitem {
 	display: block;
