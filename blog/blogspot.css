@@ -2,14 +2,14 @@
 :root {
   --primary: #1b3fff;
   --secondary: #609fff;
-  --background: #fff;
+  --background: #e3e7ff;
   --foreground: #000;
 }
 
 .darked:root {
   --primary: #00e4ff;
   --secondary: #00abbf;
-  --background: #000;
+  --background: #001c20;
   --foreground: #fff;
 }
 
