@@ -30,6 +30,10 @@ body {
 	margin-top: 0;
 }
 
+.header {
+	padding: 0 10px;
+}
+
 .page {
 	-webkit-user-select: none; /* Safari */
 	-ms-user-select: none; /* IE 10+ and Edge */
