@@ -1,5 +1,5 @@
 window['light-theme'] = '#f4f6ff';
-window['dark-theme'] = '#001c20';
+window['dark-theme'] = '#001114';
 
 window.onpageshow = filterByTag();
 

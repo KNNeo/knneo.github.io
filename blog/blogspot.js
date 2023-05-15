@@ -1,5 +1,5 @@
 window['light-theme'] = '#f4f6ff';
-window['dark-theme'] = '#001c20';
+window['dark-theme'] = '#001114';
 
 //fix urls disable if search on blog
 function redirectInternalUrls() {
