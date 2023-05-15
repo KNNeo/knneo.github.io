@@ -1,5 +1,6 @@
 const defaultLightModeTheme = window['light-theme'] ?? 'white';
 const defaultDarkModeTheme = window['dark-theme'] ?? 'black';
+const defaultDarkModeItem = window['dark-name'] ?? 'theme';
 
 setDarkMode();
 addDarkModeEvents();
@@ -18,10 +19,10 @@ function setDarkMode() {
 		document.head.appendChild(themeColor);
 	}
 	
-	if(localStorage.getItem('theme') == defaultDarkModeTheme) toggleDarkMode();
+	if(localStorage.getItem(defaultDarkModeItem) == defaultDarkModeTheme) toggleDarkMode();
 	else if(window.matchMedia('(prefers-color-scheme: dark)').matches) toggleDarkMode();
 	themeColor.content = document.getElementsByTagName('html')[0].classList.contains('darked') ? defaultDarkModeTheme : defaultLightModeTheme;
-	localStorage.setItem('theme', themeColor.content);
+	localStorage.setItem(defaultDarkModeItem, themeColor.content);
 }
 
 function addDarkModeEvents() {
@@ -45,5 +46,5 @@ function toggleDarkMode() {
 		document.getElementsByTagName('html')[0].classList.add('darked');
 		themeColor.content = defaultDarkModeTheme;
 	}
-	localStorage.setItem('theme', themeColor.content);
+	localStorage.setItem(defaultDarkModeItem, themeColor.content);
 }
