@@ -20,6 +20,7 @@ body {
 	margin: auto;
 	color: var(--foreground);
 	background-color: var(--background);
+	transition: background .2s linear;
 }
 
 .header {
