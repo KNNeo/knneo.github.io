@@ -1,3 +1,6 @@
+const defaultLightModeTheme = window['light-theme'] ?? 'white';
+const defaultDarkModeTheme = window['dark-theme'] ?? 'black';
+
 setDarkMode();
 addDarkModeEvents();
 
@@ -15,9 +18,9 @@ function setDarkMode() {
 		document.head.appendChild(themeColor);
 	}
 	
-	if(localStorage.getItem('theme') == 'black') toggleDarkMode();
+	if(localStorage.getItem('theme') == defaultDarkModeTheme) toggleDarkMode();
 	else if(window.matchMedia('(prefers-color-scheme: dark)').matches) toggleDarkMode();
-	themeColor.content = document.getElementsByTagName('html')[0].classList.contains('darked') ? 'black' : 'white';
+	themeColor.content = document.getElementsByTagName('html')[0].classList.contains('darked') ? defaultDarkModeTheme : defaultLightModeTheme;
 	localStorage.setItem('theme', themeColor.content);
 }
 
@@ -35,12 +38,12 @@ function toggleDarkMode() {
 	if(document.getElementsByTagName('html')[0].classList.contains('darked')) //parent class of each page
 	{
 		document.getElementsByTagName('html')[0].classList.remove('darked');
-		themeColor.content = 'white';
+		themeColor.content = defaultLightModeTheme;
 	}
 	else
 	{
 		document.getElementsByTagName('html')[0].classList.add('darked');
-		themeColor.content = 'black';
+		themeColor.content = defaultDarkModeTheme;
 	}
 	localStorage.setItem('theme', themeColor.content);
 }

@@ -1,3 +1,6 @@
+window['light-theme'] = '#e3e7ff';
+window['dark-theme'] = '#001c20';
+
 window.onpageshow = filterByTag();
 
 function filterByTag(sourceFilter) {
@@ -5,7 +8,7 @@ function filterByTag(sourceFilter) {
 	let isAll = tag == "All" || tag == "";
 	window.location.hash = !isAll ? '#' + tag : "";
 	let blogList = document.getElementById("blog-archive-list");
-	let posts = blogList.getElementsByClassName("Post");
+	let posts = blogList?.getElementsByClassName("Post") ?? [];
 	let count = 0;
 	for(let post of posts)
 	{
@@ -31,7 +34,8 @@ function filterByTag(sourceFilter) {
 			count++;
 		}
 	}
-	document.getElementsByClassName("Count")[0].innerText = count + " published posts " + (tag == "TheStatement" ? "hidden" : "found");
+	if(count > 0)
+		document.getElementsByClassName("Count")[0].innerText = count + " published posts " + (tag == "TheStatement" ? "hidden" : "found");
 }
 
 function randomPost() {
