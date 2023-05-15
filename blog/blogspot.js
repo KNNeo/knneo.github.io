@@ -1,3 +1,6 @@
+window['light-theme'] = '#f8f9ff';
+window['dark-theme'] = '#001c20';
+
 //fix urls disable if search on blog
 function redirectInternalUrls() {
 	for(let url of document.getElementsByTagName('a'))
