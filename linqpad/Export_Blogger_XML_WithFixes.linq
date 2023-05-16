@@ -784,7 +784,11 @@ void Main()
             output.WriteLine("<link href=\"https://fonts.googleapis.com/icon?family=Material+Icons\" rel=\"stylesheet\" />");
             output.WriteLine("<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../index.css\" />");
             output.WriteLine("<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../blogspot.css\" />");
+            output.WriteLine("<script src=\"../../../blogspot.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
             output.WriteLine("<script src=\"../../../../darkmode.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
+            output.WriteLine("<script src=\"../../../js/common.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
+            output.WriteLine("<script src=\"../../../js/header.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
+            output.WriteLine("<script src=\"../../../js/viewer.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
 			//output.WriteLine("<script src=\"https://platform.twitter.com/widgets.js\" type=\"text/javascript\" charset=\"utf-8\" async></script>");
 			//output.WriteLine("<script src=\"https://www.instagram.com/embed.js\" type=\"text/javascript\" charset=\"utf-8\" async></script>");
             output.WriteLine("<link rel=\"icon\" href=\"../../../storytime.ico\" />");
@@ -813,10 +817,6 @@ void Main()
             output.Write("<br>");
             output.WriteLine("</div>");
             output.WriteLine("</body>");
-            output.WriteLine("<script src=\"../../../blogspot.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
-            output.WriteLine("<script src=\"../../../js/common.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
-            output.WriteLine("<script src=\"../../../js/header.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
-            output.WriteLine("<script src=\"../../../js/viewer.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
             output.WriteLine("</html>");
 			
         }
