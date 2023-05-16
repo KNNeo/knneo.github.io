@@ -917,6 +917,8 @@ function generatePlayer(contents) {
 	
 	let source = document.createElement('source');
 	let format = directory + knyear + '/' + filename;
+	if(directoryFormat && directoryFormat == 'common')
+		format = directory + filename;
 	if(directoryFormat && directoryFormat == 'full')
 		format = filename;
 	source.src = format + '.mp3';
@@ -968,6 +970,8 @@ function generateCoverArt(contents) {
 	let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
 	let columnIndexCoverArt = contents.columns.indexOf('CoverArt');
 	let coverArtUrl = coverArtDirectory + row[columnIndexKNYEAR] + '/' + row[columnIndexCoverArt];
+	if(coverArtDirectoryFormat && coverArtDirectoryFormat == 'common')
+		coverArtUrl = coverArtDirectory + row[columnIndexCoverArt];
 	if(coverArtDirectoryFormat && coverArtDirectoryFormat == 'full')
 		coverArtUrl = row[columnIndexCoverArt];
 	if(coverArtDirectoryFormat && coverArtDirectoryFormat == 'merge')
