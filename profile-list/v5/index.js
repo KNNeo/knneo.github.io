@@ -100,12 +100,7 @@ function loadSources() {
 function renderPage() {
 	generateWantedList();
 	loadTimeline();
-	// createCalendar(luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: config.timezone}).month-1, window['calendarDOBlist'], true);
-	generateMiniCalendar(
-		luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: config.timezone}).year,
-		luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: config.timezone}).month-1, // month is zero-based
-		window['calendarDOBlist'], 
-		true);
+	loadCalendar();
 	updateTime();
 	toggleView(2);
 }
@@ -427,6 +422,25 @@ function addTimelineEvents(isHorizontal) {
 }
 
 ////CALENDAR////
+function loadCalendar() {
+	// createCalendar(luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: config.timezone}).month-1, window['calendarDOBlist'], true);
+	generateMiniCalendar(
+		luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: config.timezone}).year,
+		luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: config.timezone}).month-1, // month is zero-based
+		window['calendarDOBlist'], 
+		true);
+	
+	//click as dialog
+	for(let date of document.querySelectorAll('.calendar td'))
+	{
+		let popitem = date.querySelector('.calendar-popitem');
+		if(popitem != null)
+			date.addEventListener('click', function() {
+				popupText(popitem);
+			});
+	}
+}
+
 function createDOBlist(profiles, minAge, maxAge, sort = false) {
 	//create array with DOB info, age range inclusive
 	let list = new Array();

@@ -235,8 +235,20 @@ a:hover {
     min-width: 2.5em;
     height: 2.5em;
 }
+.calendar-popitem {
+    position: absolute;
+    background-color: var(--background);
+    right: 0;
+    left: 0;
+    display: none;
+	color: var(--foreground);
+}
 .calendar td:hover .calendar-popitem {
-	display: block;
+	/* display: block; */
+}
+.dialog .calendar-popitem {
+    display: block;
+    position: initial;
 }
 .calendar-legend {
     display: flex;
@@ -265,14 +277,6 @@ a:hover {
 }
 .calendar-name {
 	cursor: pointer;
-	color: var(--foreground);
-}
-.calendar-popitem {
-    position: absolute;
-    background-color: var(--background);
-    right: 0;
-    left: 0;
-    display: none;
 	color: var(--foreground);
 }
 
