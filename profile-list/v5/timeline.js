@@ -12,7 +12,7 @@ function generateVerticalTimeline(id, data, width, height) {
 	let timeline = document.createElement('div');
 	timeline.classList.add('block');
 	timeline.classList.add('grid');
-	timeline.classList.add('box');
+	// timeline.classList.add('box');
 	if(width) timeline.style.width = width;
 	if(height) timeline.style.height = height;
 	
@@ -83,7 +83,7 @@ function generateHorizontalTimeline(id, data, width, height) {
 	let timeline = document.createElement('div');
 	timeline.classList.add('block');
 	timeline.classList.add('grid-horiz');
-	timeline.classList.add('box');
+	// timeline.classList.add('box');
 	if(width) timeline.style.width = width;
 	if(height) timeline.style.height = height;
 			
