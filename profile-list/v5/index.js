@@ -18,7 +18,10 @@ const config = {
 	labels: {
 		ageSuffix: 'years ago',
 		turningPoint: 'Singer Debut|Swimsuit Photobook|Married',
-	}
+	},
+	timeline: {
+		category: ['Me', '女性声優'],
+	},
 };
 const isLandscape = function() {
 	return window.matchMedia('(orientation:landscape) and (max-height : 640px)')?.matches;
@@ -81,13 +84,13 @@ function loadSources() {
 		window['source'] = response;
 		window['profileList'] = window['source'].filter(n => !(n.inactive === true) && n.rating);
 		window['calendarList'] = window['source'].filter(n => !(n.inactive === true) && config.calendar.category.includes(n.category));
+		window['timelineList'] = window['source'].filter(n => !(n.inactive === true) && n.dob && config.timeline.category.includes(n.category));
 		window['friendList'] = window['source']
 			.filter(n => !(n.inactive === true) && n.category == 'friends')
 			.sort(function(a,b) { 
 				return b.id.split('-').length - a.id.split('-').length;
 			}); // 3-friend id on top of list regardless of sort order
-		window['defaultProfile'] = window['source'].find(n => n.category == 'default');
-		window['timelineDOBlist'] = createDOBlist(window['profileList'], 1, 35, true);
+		window['timelineDOBlist'] = createDOBlist(window['timelineList'], 1, 35, true);
 		window['calendarDOBlist'] = createDOBlist(window['calendarList'], 0, 50);
 		stopLoader();
 		renderPage();
@@ -397,7 +400,7 @@ function updateWantedList([profile, currentProfile]) {
 function loadTimeline(width = 2500) {
 	// if(document.querySelector('#timeline') == null) return;
 	// document.querySelector('#timeline').innerHTML = '';
-	generateVerticalTimeline('timeline-vert', window['timelineDOBlist'].filter(prof => !prof.date.startsWith('????')), null, '380px');
+	generateVerticalTimeline('timeline-vert', window['timelineDOBlist'].filter(prof => !prof.date.startsWith('????')), null, 'auto');
 	generateHorizontalTimeline('timeline-horiz', window['timelineDOBlist'].filter(prof => !prof.date.startsWith('????')), width, '160px');
 	addTimelineEvents(false);
 }
@@ -427,13 +430,6 @@ function addTimelineEvents(isHorizontal) {
 function createDOBlist(profiles, minAge, maxAge, sort = false) {
 	//create array with DOB info, age range inclusive
 	let list = new Array();
-	if(window['defaultProfile']) {
-		list.push({
-			category: window['defaultProfile'].category,
-			date: window['defaultProfile'].dob.replace('.', '-').replace('.', '-').substring(0, 10),
-			name: window['defaultProfile'].name
-		});
-	}
 	for(let profile of profiles) {
 		let targetDOB = profile.dob;
 		if (targetDOB.length > 0) {
