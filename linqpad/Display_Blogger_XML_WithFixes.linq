@@ -470,7 +470,7 @@ void Main()
 		#endregion
 		
         #region 24 replace common phrases with emoji
-        var phrases = new string[]{"laughs", "giggles", "sob", "silence", "pukes", "ugh", "wink", "dabs", "thumbs up"};
+        var phrases = new string[]{"laughs", "giggles", "sob", "silence", "pukes", "ugh", "wink", "dabs", "thumbs up", "fingers crossed"};
 		if(includeIndex.Count() == 0 || includeIndex.Contains(24))
 		{
 			foreach(var phrase in phrases)
