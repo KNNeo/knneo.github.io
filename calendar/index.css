@@ -156,10 +156,6 @@ a:visited {
 	background-color: var(--accent);
 }
 
-.content:focus {
-	background-color: var(--primary);
-}
-
 .footer {
 	font-size: 1em;
 }

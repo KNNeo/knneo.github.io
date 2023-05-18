@@ -630,17 +630,28 @@ function createDetailedEvent(elem, single) {
 	single.startTime + '-' + getEndTime(single.startTime, single.lengthMinutes) + '<br>' +
 	convertTextToHTML(single.url, [single.url]);
 	content.addEventListener('click', function() {
-		document.querySelector('.footer').innerHTML = convertTextToHTML(content.innerHTML, []);
+		// document.querySelector('.footer').innerHTML = convertTextToHTML(content.innerHTML, []);
 	});
 	content.addEventListener('contextmenu', function() {
 		event.preventDefault();
-		this.classList.add('marked');
-		addToMarked({
-			date: elem.getAttribute('data-id'),
-			month: elem.getAttribute('data-month'),
-			year: elem.getAttribute('data-year'),
-			id: single.name
-		});
+		if(!this.classList.contains('marked')) {
+			this.classList.add('marked');
+			addToMarked({
+				date: elem.getAttribute('data-id'),
+				month: elem.getAttribute('data-month'),
+				year: elem.getAttribute('data-year'),
+				id: single.name
+			});
+		}
+		else {
+			this.classList.remove('marked');
+			removeFromMarked({
+				date: elem.getAttribute('data-id'),
+				month: elem.getAttribute('data-month'),
+				year: elem.getAttribute('data-year'),
+				id: single.name
+			});
+		}
 	});
 	elem.appendChild(content);
 }
@@ -658,7 +669,7 @@ function createSummaryEvent(elem, single) {
 	single.startTime + '-' + getEndTime(single.startTime, single.lengthMinutes) + '\n' +
 	single.url;
 	content.addEventListener('click', function() {
-		document.querySelector('.footer').innerHTML = convertTextToHTML(this.title, [single.url]);
+			document.querySelector('.footer').innerHTML = convertTextToHTML(this.title, [single.url]);
 	});
 	content.addEventListener('contextmenu', function() {
 		event.preventDefault();
@@ -719,6 +730,15 @@ function addToMarked(item) {
 	let current = JSON.parse(localStorage.getItem('calendar-marked') ?? '[]');
 	current.push(item);
 	localStorage.setItem('calendar-marked', JSON.stringify(current));
+}
+
+function removeFromMarked(item) {
+	let current = JSON.parse(localStorage.getItem('calendar-marked') ?? '[]');
+	if(current.length > 0)
+	{
+		let updated = current.filter(c => JSON.stringify(c) != JSON.stringify(item));
+		localStorage.setItem('calendar-marked', JSON.stringify(updated));
+	}
 }
 
 function clearMarked() {
