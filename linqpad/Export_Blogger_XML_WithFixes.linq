@@ -641,8 +641,10 @@ void Main()
 		if(includeIndex.Count() == 0 || includeIndex.Contains(24))
 		{
 			if(TraceMode) Console.WriteLine("replace common phrases with emoji");
-	        var phrases = new string[]{"laughs", "giggles", "sob", "silence", "pukes", "ugh", "wink", "dabs", "thumbs up", "sigh", "blessed", "shrugs", "cringe", "fingers crossed"};
-	        var emojis = new string[]{"😆", "🤭", "😢", "😐", "🤮", "🙄", "😉", "😎", "👍", "😩", "🥰", "🤷", "😬", "🤞"};
+	        var phrases = new string[]{"laughs", "giggles", "sob", "silence", "pukes", "ugh", "wink", "dabs", 
+			"thumbs up", "sigh", "blessed", "shrugs", "cringe", "fingers crossed", "smiles", "screams"};
+	        var emojis = new string[]{"😆", "🤭", "😢", "😐", "🤮", "🙄", "😉", "😎", 
+			"👍", "😩", "🥰", "🤷", "😬", "🤞", "😊", "😱"};
 			
 			for(var e = 0; e < emojis.Length; e++)
 			{
