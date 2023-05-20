@@ -68,7 +68,6 @@ function initializeVariables() {
 	window['search'] = '';
 	window['profiles'] = [];
 	window['friendMode'] = false;
-	window['currentMonth'] = 0;
 }
 
 function ititializePageEvents() {
