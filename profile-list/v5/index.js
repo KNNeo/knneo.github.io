@@ -10,7 +10,15 @@ const config = {
 		max: 5,
 	},
 	timezone: 'Asia/Tokyo',
+	profile: {
+		include: function(n) {
+			return n.pointers;
+		},
+	},
 	calendar: {
+		include: function(n) {
+			return config.calendar.category.includes(n.category);
+		},
 		category: ['アイドル', '女性声優', 'DOAXVV', 'hololive', 'IDOLY PRIDE', 'ミュージックレイン3期生'], // also css attribute, in order
 		daysOfWeek: ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],
 		months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
@@ -20,6 +28,9 @@ const config = {
 		turningPoint: 'Singer Debut|Swimsuit Photobook|Married',
 	},
 	timeline: {
+		include: function(n) {
+			return n.dob && config.timeline.category.includes(n.category);
+		},
 		category: ['Me', '女性声優'],
 	},
 };
@@ -40,31 +51,27 @@ let pageDivs = document.querySelectorAll('.page');
 //--FUNCTIONS--//
 function startup() {
 	initializeVariables();
-	ititializePage();
+	ititializePageEvents();
 	runLoader();
 	loadSources();
 }
 
 function initializeVariables() {
 	window['debug'] = false;
-	window['profiles'] = [];
-	window['simple'] = false;
-	window['defaultProfile'] = {};	
-	window['excludeMarried'] = false;
-	window['friendMode'] = false;	
-	window['currentMonth'] = 0;	
+	window['loading'] = true;
+	window['source'] = [];
 	window['profileList'] = [];
 	window['calendarList'] = [];
 	window['friendList'] = [];
 	window['timelineDOBlist'] = [];
 	window['calendarDOBlist'] = [];
-	window['expanded'] = false;
-	window['loading'] = true;
 	window['search'] = '';
-	window['source'] = [];
+	window['profiles'] = [];
+	window['friendMode'] = false;
+	window['currentMonth'] = 0;
 }
 
-function ititializePage() {
+function ititializePageEvents() {
 	// set title
 	if(config.title)
 	{
@@ -82,14 +89,10 @@ function ititializePage() {
 function loadSources() {
 	getJson(config.source, function(response) {
 		window['source'] = response;
-		window['profileList'] = window['source'].filter(n => !(n.inactive === true) && n.rating);
-		window['calendarList'] = window['source'].filter(n => !(n.inactive === true) && config.calendar.category.includes(n.category));
-		window['timelineList'] = window['source'].filter(n => !(n.inactive === true) && n.dob && config.timeline.category.includes(n.category));
-		window['friendList'] = window['source']
-			.filter(n => !(n.inactive === true) && n.category == 'friends')
-			.sort(function(a,b) { 
-				return b.id.split('-').length - a.id.split('-').length;
-			}); // 3-friend id on top of list regardless of sort order
+		window['profileList'] = window['source'].filter(n => !(n.inactive === true) && config.profile.include(n));
+		window['calendarList'] = window['source'].filter(n => !(n.inactive === true) && config.calendar.include(n));
+		window['timelineList'] = window['source'].filter(n => !(n.inactive === true) && config.timeline.include(n));
+		window['friendList'] = window['source'].filter(n => !(n.inactive === true) && n.category == 'friends');
 		window['timelineDOBlist'] = createDOBlist(window['timelineList'], 1, 35, true);
 		window['calendarDOBlist'] = createDOBlist(window['calendarList'], 0, 50);
 		stopLoader();
@@ -217,7 +220,7 @@ function onClickShowAll() {
 	wantedList.classList.add('list');
 	//create array
 	let profileNamesList = [];
-	for (let profileName of window['source'].filter(n => !(n.inactive === true) && n.rating)) {
+	for (let profileName of window['source'].filter(n => !(n.inactive === true) && config.profile.include(n))) {
 		profileNamesList.push(profileName);
 	}
 	profileNamesList.sort(function(a,b) {
@@ -271,23 +274,16 @@ function generateWantedListEntry(id, autoAdd = []) {
 	let profile = window['source'].find( function(n) {
 		return n.id == id
 	});
-						
-	let married = window['excludeMarried'] && processOption(profile.turningPoint.married, true);
-
-	let wanted = document.createElement(married ? 'span' : 'a');
+	
+	let wanted = document.createElement('a');
 	wanted.innerText = profile.name;
 	wanted.tabIndex = 0;
-	if (married)
-		wanted.classList.add('married');
-	else
-	{
-		wanted.classList.add('item');
-		if(autoAdd.length > 0) wanted.setAttribute('auto-add', autoAdd.join(','));
-		wanted.addEventListener('click', function() {
-			generateProfileFromJSON(this);
-		});
-		wanted.addEventListener('keyup', onKeyUpWantedListEntry);
-	}
+	wanted.classList.add('item');
+	if(autoAdd.length > 0) wanted.setAttribute('auto-add', autoAdd.join(','));
+	wanted.addEventListener('click', function() {
+		generateProfileFromJSON(this);
+	});
+	wanted.addEventListener('keyup', onKeyUpWantedListEntry);
 	
 	return wanted;
 }
