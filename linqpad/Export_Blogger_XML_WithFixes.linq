@@ -46,7 +46,7 @@ void Main()
 {
     bool WriteTitleOnConsole = true;
 	bool TraceMode = false;
-	int maxLatestPost = 8;
+	int maxLatestPost = 20;
 	string defaultFont = "Noto Sans";
     Console.WriteLine("WriteTitleOnConsole is " + WriteTitleOnConsole + "; Set as true to see post titles");
     Console.WriteLine("\tPost with changes will appear here");
@@ -867,7 +867,7 @@ void Main()
 			        expression = @"(?s)(div|blockquote)(.*?)id=""(.*?)""(.*?)(>)";
 			        match = Regex.Match(content, expression);
 	        		while(match.Success) {
-						 Console.WriteLine(match.Groups[3].Value);
+						 //Console.WriteLine(match.Groups[3].Value);
 						 if(match.Groups[3].Value.Length > 1 && match.Groups[3].Value != "hashtags")
 						 	anchors.Add(match.Groups[3].Value);
 	            		match = match.NextMatch();
