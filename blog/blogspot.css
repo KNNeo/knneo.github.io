@@ -61,11 +61,12 @@ a:hover {
 .Post .home-thumb {
 	width: 150px;
 	height: 150px;
+    flex: 1 0 auto;
 }
 
 .latest-post {
 	padding: 12px;
-	width: 150px;
+	width: 300px;
 	display: inline-block;
     margin: 2px auto;
 	vertical-align: top;
@@ -82,7 +83,7 @@ a:hover {
 
 .latest-post-thumb {
     display: flex;
-    flex-direction: column;
+    flex-direction: row-reverse;
     justify-content: flex-end;
     align-items: center;
 	position: relative;

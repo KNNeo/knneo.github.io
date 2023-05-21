@@ -46,7 +46,7 @@ void Main()
 {
     bool WriteTitleOnConsole = true;
 	bool TraceMode = false;
-	int maxLatestPost = 4;
+	int maxLatestPost = 8;
 	string defaultFont = "Noto Sans";
     Console.WriteLine("WriteTitleOnConsole is " + WriteTitleOnConsole + "; Set as true to see post titles");
     Console.WriteLine("\tPost with changes will appear here");
@@ -833,20 +833,28 @@ void Main()
         var classes = " class=\"Post "+tagList+"\"";
         foreach(var tag in tags)
         {
-            if(!allTags.Contains(tag)) allTags.Add(tag);
+            if(!allTags.Contains(tag))
+				allTags.Add(tag);
         }
         
-        if (originalLink != "")
+        if (originalLink == "") // wiwhout post link
+            textString += "<div"+classes+"><span>"+published.ToString("yyyy.MM.dd")+" </span>"+title+"</div>\n";
+		else
         {
-			if(title != "")
+			if(title == "") // without title
 			{
-		        // Find first image for home page, if any
-				if (TraceMode) Console.WriteLine("Find first image for home page, if any");
+                textString += "<div"+classes.Replace("Post ","Post TheStatement")+"><span>"+published.ToString("yyyy.MM.dd")+" </span>" + 
+				"<a href=\""+pageLink+"\">A Random Statement</a></div>\n";
+			}
+			else
+			{
 		        var thumbnailUrl = "";
 				var anchors = new List<string>();
 				// For latest post, show expanded content
 				if(latestPostCount < maxLatestPost)
 				{
+			        // Find first image, if any
+					if (TraceMode) Console.WriteLine("Find first image for home page, if any");
 			        expression = @"(?s)(.*?)<img(.*?)src=""(.*?)""(.*?)/>(.*?)";
 			        match = Regex.Match(content, expression);
 					//Console.WriteLine(content);
@@ -855,27 +863,34 @@ void Main()
 			        if(thumbnailUrl.Contains("scontent-sin.xx.fbcdn.net"))
 			            thumbnailUrl = "";
 					
-			        expression = @"(?s)(.*?)id=""(.*?)""(.*?)";
+					// Find all anchors
+			        expression = @"(?s)(div|blockquote)(.*?)id=""(.*?)""(.*?)(>)";
 			        match = Regex.Match(content, expression);
 	        		while(match.Success) {
-						 if(match.Groups[2].Value.Length > 1 && match.Groups[2].Value != "hashtags")
-						 	anchors.Add(match.Groups[2].Value);
+						 Console.WriteLine(match.Groups[3].Value);
+						 if(match.Groups[3].Value.Length > 1 && match.Groups[3].Value != "hashtags")
+						 	anchors.Add(match.Groups[3].Value);
 	            		match = match.NextMatch();
 					}
 					//Console.WriteLine(anchors);
 				}
 				
-				var thumbnailDiv = "<div"+classes.Replace("Post", "Post latest-post")+"><span>"+published.ToString("yyyy.MM.dd")+" </span><a href=\"" + pageLink + "\"><div class=\"latest-post-thumb\"><div>" + title + "</div><div class=\"anchors\">" + string.Join("", anchors.Select(a => "<a href=\"" + (pageLink + "#" + a) + "\">#" + a + "</a>")) + "</div><div class=\"" + (thumbnailUrl == "" ? "" : "home-thumb") + "\" style=\"background-image: url(" + thumbnailUrl + ");\"></div></div></a></div>\n";
+				var thumbnailDiv = "<div"+classes.Replace("Post", "Post latest-post")+">" + 
+					"<span>"+published.ToString("yyyy.MM.dd")+" </span>" + 
+					"<a href=\"" + pageLink + "\">" + 
+					"<div class=\"latest-post-thumb\">" + 
+					"<div>" + title + "</div>" + 
+					"<div class=\"anchors\">" + string.Join("", anchors.Select(a => "<a href=\"" + (pageLink + "#" + a) + "\">#" + a + "</a>")) + "</div>" + 
+					"<div class=\"" + (thumbnailUrl == "" ? "" : "home-thumb") + "\" style=\"background-image: url(" + thumbnailUrl + ");\"></div>" + 
+					"</div></a></div>\n";
             
-                textString += latestPostCount >= maxLatestPost ? "<div"+classes+"><span>"+published.ToString("yyyy.MM.dd")+" </span><a href=\""+pageLink+"\">"+title+"</a></div>\n" : thumbnailDiv;
+                textString += latestPostCount >= maxLatestPost 
+					? "<div"+classes+"><span>"+published.ToString("yyyy.MM.dd")+" </span><a href=\""+pageLink+"\">"+title+"</a></div>\n" 
+					: thumbnailDiv;
 				
 				latestPostCount++;
 			}
-            else
-                textString += "<div"+classes.Replace("Post ","Post TheStatement")+"><span>"+published.ToString("yyyy.MM.dd")+" </span><a href=\""+pageLink+"\">A Random Statement</a></div>\n";				
         }
-        else
-            textString += "<div"+classes+"><span>"+published.ToString("yyyy.MM.dd")+" </span>"+title+"</div>\n";
 			
 			
     }
@@ -884,12 +899,6 @@ void Main()
     string fileString = File.ReadAllText(blogpath + "\\template.html");
     fileString = fileString.Replace("<div id=\"blog-archive-list\"></div>", ("<div id=\"blog-archive-list\">" + textString + "</div>")).Replace("_FONT_", defaultFont);
     File.WriteAllText(blogpath + "\\index.html", fileString);
-}
-
-public class MatchItem
-{
-    public string Title { get; set; }
-    public string Item { get; set; }
 }
 
 string UpdateRegexContent(string content, Match loosematch, Match strictMatch, string replacementPrefix, string replacementSuffix)
@@ -904,4 +913,10 @@ string UpdateRegexContent(string content, Match loosematch, Match strictMatch, s
     };
     
     return newContent;
+}
+
+public class MatchItem
+{
+    public string Title { get; set; }
+    public string Item { get; set; }
 }
