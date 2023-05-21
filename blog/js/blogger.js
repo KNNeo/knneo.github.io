@@ -52,8 +52,9 @@ function reduceResults() {
 		document.getElementsByClassName('blog-feeds')[0].remove(); //remove feed
 	}
 
-	if(!window.location.href.startsWith(window.location.origin + '/search') && 
-		!window.location.href.startsWith(window.location.origin + '/20'))
+	if(true) // all use thumbnail, no more reduced pages
+	// if(!window.location.href.startsWith(window.location.origin + '/search') && 
+		// !window.location.href.startsWith(window.location.origin + '/20'))
 	{
 		let columnCenterInner = document.getElementsByClassName('column-center-inner')[0];
 		columnCenterInner.classList.add('homepage-column-center-inner');
