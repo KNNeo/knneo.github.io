@@ -1,5 +1,5 @@
 let currentYear = 2023;
-let currentSeason = 'Winter';
+let currentSeason = 'Spring';
 window.addEventListener('load', startup);
 
 function startup() {
