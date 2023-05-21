@@ -112,6 +112,15 @@ function addEventsToMiniCalendar(htmlString, DOBlist) {
 			--window['currentMonth'], 
 			window['calendarDOBlist']
 		);
+		//click as dialog
+		for(let date of document.querySelectorAll('.calendar td'))
+		{
+			let popitem = date.querySelector('.calendar-popitem');
+			if(popitem != null)
+				date.addEventListener('click', function() {
+					popupText(popitem);
+				});
+		}
 	});
 	if (window['currentMonth'] < 11) document.querySelector('.next-month').addEventListener('click', function() {
 		generateMiniCalendar(
@@ -119,6 +128,16 @@ function addEventsToMiniCalendar(htmlString, DOBlist) {
 			++window['currentMonth'], 
 			window['calendarDOBlist']
 		);
+		
+		//click as dialog
+		for(let date of document.querySelectorAll('.calendar td'))
+		{
+			let popitem = date.querySelector('.calendar-popitem');
+			if(popitem != null)
+				date.addEventListener('click', function() {
+					popupText(popitem);
+				});
+		}
 	});
 	
 }
