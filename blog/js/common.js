@@ -2,6 +2,9 @@
 const notBlogger = function() {
 	return window.location.href.includes('knneo.github.io'); //if false, is blogger
 };
+const isSmallWidth = function() {
+	return window.innerWidth <= 500;
+}
 
 // Single onLoad event control: put all functions in sequence
 window.addEventListener('load', startup);
@@ -339,7 +342,7 @@ function generatePopupContent(url) {
         //process itunes embed
         return '<iframe allow="autoplay *; encrypted-media *;" frameborder="0" height="'+ (!url.includes('i=') ? '450' : '150') +'" sandbox="allow-modals allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation" src="' +
             url.replace('music.apple.com', 'embed.music.apple.com') +
-            '" style="background: transparent; max-width: 660px; overflow: hidden; width: 100%;"></iframe>';
+            '" style="background: transparent; max-width: ' + (isSmallWidth() ? 290 : 660) + 'px; overflow: hidden; width: 100%;"></iframe>';
     }
     if (url.includes('twitter.com')) {
         //process twitter embed
