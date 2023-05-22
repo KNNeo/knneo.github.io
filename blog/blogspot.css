@@ -105,7 +105,7 @@ a:hover {
 .anchors a {
     color: var(--primary);
 	font-size: 0.75em;
-	padding: 2px;
+	padding-bottom: 5px;
 }
 
 .anchors a:hover {
