@@ -598,43 +598,19 @@ function closestTag(inputElement, targetTagName) {
 
 function switchThumbnails(tn) {
     let tc = tn.getElementsByClassName("thumbnail-initial");
-	// to identify active
+	// identify active
 	let active = tn.getAttribute('active');
 	if(active == null)
 		active = Array.from(tc).findIndex(t => !t.classList.contains("thumbnail-pop"));
 	// to reset before setting new active
 	for(let t of tc) {
 		if(!t.classList.contains("thumbnail-pop"))
-		t.classList.add("thumbnail-pop");
+			t.classList.add("thumbnail-pop");
 	}
 	if(active == null) return;
 	let nextActive = tc[active].nextElementSibling;
 	if(nextActive == null) nextActive = tn.firstElementChild;
 	nextActive.classList.remove("thumbnail-pop");
-	// recalculate height if huge difference
-    // var initialVisible = true;
-    // let heights = Array.from(tc).map(t => t.offsetHeight);
-	// let maxHeight = Math.max(...heights);
-	// let minHeight = Math.min(...heights);
-    /*let tc = tn.getElementsByClassName("thumbnail-initial");
-    if (tc[0].style.visibility == "hidden") {
-        tc[0].style.visibility = "visible";
-        tc[1].style.visibility = "hidden";
-    } else if (tc[0].style.visibility == "" || tc[1].style.visibility == "") {
-        tc[0].style.visibility = "hidden";
-        tc[1].style.visibility = "visible";
-        initialVisible = false;
-    } else {
-        tc[0].style.visibility = "hidden";
-        tc[1].style.visibility = "visible";
-        initialVisible = false;
-    }
-
-    var initialHeight = tn.getElementsByClassName('thumbnail-initial')[0].offsetHeight;
-    var popHeight = tn.getElementsByClassName('thumbnail-pop')[0].offsetHeight;
-    if (popHeight - initialHeight > 50 || popHeight - initialHeight < -50)
-        tn.style.height = (initialVisible ? initialHeight : popHeight) + 'px';*/
-	// if(maxHeight - minHeight > 50)
 	let [min, max] = calcMinMaxThumbHeight(tn);
 	if(min && max)
 		tn.style.height = nextActive.offsetHeight + 'px';
