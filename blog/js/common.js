@@ -522,6 +522,13 @@ function windowOnResize() {
 
 // Multi-image thumbnail: Define max caption height, onclick event
 function setThumbnails() {
+	// check if thumbnail violate features
+	if(Array.from(document.querySelectorAll('.thumbnail img')).filter(i => i.parentElement.tagName.toLowerCase() === 'a').length > 0)
+	{
+		console.error("Thumbnail has image with link: Will prevent switchThumbnails from image click");
+		return;
+	}
+	
     let allThumbnails = document.body.getElementsByClassName("thumbnail");
     for (let i = 0; i < allThumbnails.length; i++) {
 /*         var firstElement = allThumbnails[i].getElementsByClassName('thumbnail-initial')[0];
@@ -549,12 +556,6 @@ function setThumbnails() {
                 switchThumbnails(closestClass(this, "thumbnail"));
             };
         }
-		for(let image of allThumbImages) {
-			if(image.parentElement.tagName == "A") {
-				console.error("Thumbnail has image with link: Will prevent switchThumbnails from image click");
-				return;
-			}
-		}
 		// if text only
 		if(allThumbImages.length < 1 && allThumbVideos.length < 1 &&
 		allThumbnails[i].getElementsByClassName("thumbnail-initial").length > 0 &&
