@@ -374,7 +374,7 @@ function generateStats() {
 			countArray.push([item, filtered[item]]);
 	}
 	
-	alert(countArray.sort(function(a,b) { return b[1] - a[1]; }).map(m => m[0] + ' - ' + m[1]).join('\n'));
+	popupText(countArray.sort(function(a,b) { return b[1] - a[1]; }).map(m => m[0] + ' - ' + m[1]).join('<br>'));
 }
 
 function generateLayoutCollage() {
@@ -673,6 +673,10 @@ function onClearAll() {
 	{
 		button.classList.remove('button-active');
 	}
+	for(let tag of document.querySelectorAll('.tag'))
+	{
+		tag.removeAttribute('filter');
+	}
 	window['includeCriteria'] = '';
 	document.getElementById('include').value = window['includeCriteria'];
 	window['excludeCriteria'] = '';
@@ -934,4 +938,35 @@ function runLoader() {
 			loader.parentElement.removeChild(loader);
 		}
 	}
+}
+
+////DIALOG////
+function popupText(input) {
+	let dialogDiv = document.querySelector('.dialog');
+	if(dialogDiv == null)
+	{
+		dialogDiv = document.createElement('div');
+		dialogDiv.classList.add('dialog');
+		document.body.appendChild(dialogDiv);
+	}
+	let dialog = createDialog(input);
+	dialogDiv.appendChild(dialog);
+	dialog.showModal();
+}
+
+function createDialog(node) {
+	let dialog = document.createElement('dialog');
+	if(!dialog.classList.contains('box')) dialog.classList.add('box');
+	if(typeof node == 'string')
+		dialog.innerHTML = node;
+	if(typeof node == 'object')
+		dialog.appendChild(node);
+	dialog.addEventListener('click', function() {
+		this.remove();
+	});
+	dialog.addEventListener('keyup', function() {
+		if (event.key === ' ' || event.key === 'Enter')
+			this.remove();
+	});
+	return dialog;
 }
