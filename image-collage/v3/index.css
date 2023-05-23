@@ -85,11 +85,21 @@ body[layout='horizontal'] .expander {
 }
 
 .tag[filter="include"] {
-	background-color: var(--primary);
+	background-color: var(--foreground);
+	color: var(--background);
+}
+
+.tag[filter="include"]::before {
+	content: "+ ";
 }
 
 .tag[filter="exclude"] {
-	background-color: var(--secondary);
+	background-color: var(--foreground);
+	color: var(--background);
+}
+
+.tag[filter="exclude"]::before {
+	content: " - ";
 }
 
 .grid {
@@ -213,6 +223,24 @@ body[layout='horizontal'] .expander {
 .collage {
   overflow: auto;
   white-space: nowrap;
+}
+
+.dialog dialog {
+	border: 1px solid var(--foreground);
+	background-color: var(--background);
+	color: var(--foreground);	
+	padding: 10px;
+	max-width: 80%;
+	max-height: 80%;
+	font-size: 0.8em;
+}
+.dialog dialog a {
+	background-color: var(--background);
+	color: var(--primary);
+}
+
+.hidden {
+	display: none;
 }
 
 #viewer {
