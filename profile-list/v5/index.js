@@ -234,6 +234,13 @@ function onClickShowAll() {
 	}
 	
 	popupText(wantedList);
+	for(let wanted of document.querySelectorAll('.dialog .item'))
+	{
+		wanted.addEventListener('click', function() {
+			generateProfileFromJSON(this);
+		});
+		wanted.addEventListener('keyup', onKeyUpWantedListEntry);
+	}
 }
 
 ////WANTED LIST////
@@ -1034,11 +1041,13 @@ function popupText(input) {
 }
 
 function createDialog(node) {
+	// node in dialog will not have events!
 	let dialog = document.createElement('dialog');
 	if(!dialog.classList.contains('box')) dialog.classList.add('box');
 	if(typeof node == 'string')
 		dialog.innerHTML = node;
-	if(typeof node == 'object') {
+	if(typeof node == 'object')
+	{
 		let clonedNode = node.cloneNode(true);
 		dialog.appendChild(clonedNode);
 	}
