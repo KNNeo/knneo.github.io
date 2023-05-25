@@ -243,7 +243,7 @@ function generateCalendar(year, month, day) {
 	
 	// populate with summary on expanded calendar
 	if(week)
-		addDetailedEventsToCalendar();
+		addDetailedEventsToCalendar(week);
 	else
 		addSummaryEventsToCalendar();
 	
@@ -511,24 +511,27 @@ function generateCalendarWeekTable(year, month, week, day, array) {
 	return table;
 }
 
-function addDetailedEventsToCalendar() {
+function addDetailedEventsToCalendar(week) {
 	for(let single of data)
 	{
 		// assume events must have weeks defined
 		if(typeof single.recurringWeeks == 'object')
 		{
-			let weekdays = document.querySelectorAll('div[data-day="' + single.startDayNo + '"]');
+			let weekdays = document.querySelectorAll('div[data-day="' + single.startDayNo + '"]'); // should only have 1
 			for(let weekNo of single.recurringWeeks)
 			{
-				let date = weekdays[weekNo-1];
-				let fullDate = parseInt(date?.getAttribute('data-date'));
-				if(date &&
-				(!single.startDate || fullDate >= parseInt(single.startDate.replace(/-/g,''))) &&
-				(!single.endDate || fullDate <= parseInt(single.endDate.replace(/-/g,''))))
+				if(weekNo == week - 1) // zero-based week no must tally
 				{
-					if(!date.classList.contains('expanded'))
-						date.classList.add('expanded');
-					createDetailedEvent(date, single);
+					let date = weekdays[0];
+					let fullDate = parseInt(date?.getAttribute('data-date'));
+					if(date &&
+					(!single.startDate || fullDate >= parseInt(single.startDate.replace(/-/g,''))) &&
+					(!single.endDate || fullDate <= parseInt(single.endDate.replace(/-/g,''))))
+					{
+						if(!date.classList.contains('expanded'))
+							date.classList.add('expanded');
+						createDetailedEvent(date, single);
+					}
 				}
 			}
 		}
