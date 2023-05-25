@@ -182,6 +182,7 @@ class MapDataItem
 	public string ishou { get; set; }
 	public string chara { get; set; }
 	public string search { get; set; }	
+	public bool collab { get; set; }	
 }
 
 class ImageCollageItem
