@@ -424,16 +424,6 @@ function loadCalendar() {
 		luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: config.timezone}).month-1, // month is zero-based
 		window['calendarDOBlist'], 
 		true);
-	
-	//click as dialog
-	for(let date of document.querySelectorAll('.calendar td'))
-	{
-		let popitem = date.querySelector('.calendar-popitem');
-		if(popitem != null)
-			date.addEventListener('click', function() {
-				popupText(popitem);
-			});
-	}
 }
 
 function createDOBlist(profiles, minAge, maxAge, sort = false) {
@@ -1048,8 +1038,10 @@ function createDialog(node) {
 	if(!dialog.classList.contains('box')) dialog.classList.add('box');
 	if(typeof node == 'string')
 		dialog.innerHTML = node;
-	if(typeof node == 'object')
-		dialog.appendChild(node);
+	if(typeof node == 'object') {
+		let clonedNode = node.cloneNode(true);
+		dialog.appendChild(clonedNode);
+	}
 	dialog.addEventListener('click', function() {
 		this.remove();
 	});
