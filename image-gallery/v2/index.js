@@ -30,12 +30,12 @@ function onMouseMove(e) {
 		let swipeUp = window.variables.touchY - e.offsetY;
 		let swipeLeft = window.variables.touchX - e.offsetX;
 		let swipeRight = e.offsetX - window.variables.touchX;
-		console.log(e.offsetX, e.offsetY);
-		console.log(swipeUp, swipeDown, swipeLeft, swipeRight);
+		// console.log(e.offsetX, e.offsetY);
+		// console.log(swipeUp, swipeDown, swipeLeft, swipeRight);
 		
 		//--SWIPE LEFT IE. FROM RIGHT OF SCREEN--//
 		if(swipeLeft > delta) {
-			console.log('swipeLeft');
+			// console.log('swipeLeft');
 			if(window.variables.selected >= galleryDiv.childElementCount - 1)
 				window.variables.selected = galleryDiv.childElementCount - 2;
 			if(window.variables.selected < galleryDiv.childElementCount - 1) {
@@ -48,7 +48,7 @@ function onMouseMove(e) {
 		}
 		//--SWIPE RIGHT IE. FROM LEFT OF SCREEN--//
 		if(swipeRight > delta) {
-			console.log('swipeRight');
+			// console.log('swipeRight');
 			if(window.variables.selected <= 0)
 				window.variables.selected = 1;
 			if(window.variables.selected > 0) {
@@ -61,12 +61,12 @@ function onMouseMove(e) {
 		}
 		//--SWIPE DOWN IE. FROM TOP OF SCREEN--//
 		if(swipeDown > delta) {
-			console.log('swipeDown');
+			// console.log('swipeDown');
 			return;
 		}
 		//--SWIPE UP IE. FROM BOTTOM OF SCREEN--//
 		if(swipeUp > delta) {
-			console.log('swipeUp');
+			// console.log('swipeUp');
 			return;
 		}
 		
