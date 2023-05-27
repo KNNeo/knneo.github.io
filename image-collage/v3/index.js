@@ -65,10 +65,9 @@ window.addEventListener('load', startup);
 
 function startup() {
 	initializeVariables();
-	generateButtonArray();
+	generateTags();
 	generateLayout();
 	generateViewer();
-	setTimeout(fadeIn, 200);
 	let mousewheelEvent = isFirefox ? 'DOMMouseScroll' : 'mousewheel';
 	collage.addEventListener(mousewheelEvent, onScroll);
 	collage.addEventListener('touchstart', onTouchStart);
@@ -87,7 +86,7 @@ function initializeVariables() {
 	window['slideshow'] = null;
 }
 
-function generateButtonArray() {
+function generateTags() {
 	if(typeof config.setting.filter == 'boolean') {
 		window['buttonArray'] = [];
 		if(!config.setting.filter) return;
@@ -103,22 +102,17 @@ function generateButtonArray() {
 	.split(config.separator)
 	.reduce(function(total, current, index, array) {
 		let updated = total;
-		if(total.filter(a => a.value == current).length > 0) {
-			let nonUpdated = total.filter(a => a.value == current)[0];
-			let oldCount = nonUpdated.count;
-			
+		let existing = total.filter(a => a.value == current);
+		let existingFirst = existing[0];
+		let oldCount = existingFirst?.count;
+		if(existingFirst) {
+			//remove this tag, add back with new count
 			updated = total.filter(a => a.value.toLowerCase() != current.toLowerCase());
-			updated.push({
-				value: current,
-				count: oldCount + 1,
-			});
 		}
-		else {
-			updated.push({
-				value: current,
-				count: 1,
-			});
-		}		
+		updated.push({
+			value: current,
+			count: existingFirst ? oldCount + 1 : 1,
+		});
 		return updated;
 	},[])
 	.filter(function(item) {
@@ -172,59 +166,6 @@ function generateLayout() {
 		});
 	}
 	
-	for(let button of window['buttonArray']) {
-		if(button.value == '') continue;
-		let tag = document.createElement('button');
-		tag.classList.add('tag');
-		tag.value = button.value;
-		tag.title = button.value + ' (' + button.count + ')';
-		tag.innerText = button.value;
-		tag.tabIndex = -1;
-		tag.addEventListener('click',function() {
-			// to toggle
-			switch(this.getAttribute('filter'))
-			{
-				case 'include':
-					toggleVariable('includeCriteria', this.value);
-					toggleVariable('excludeCriteria', this.value);
-					this.setAttribute('filter', 'exclude');
-					break;
-				case 'exclude':
-					toggleVariable('excludeCriteria', this.value);
-					this.removeAttribute('filter');
-					break;
-				default:
-					toggleVariable('includeCriteria', this.value);
-					this.setAttribute('filter', 'include');
-					break;
-			}
-			document.getElementById('include').value = window['includeCriteria'];
-			document.getElementById('exclude').value = window['excludeCriteria'];			
-			generateGrid();
-		});
-		tag.addEventListener('contextmenu',function() {
-			// to reset
-			event.preventDefault();
-			switch(this.getAttribute('filter'))
-			{
-				case 'include':
-					toggleVariable('includeCriteria', this.value);
-					this.setAttribute('filter', 'exclude');
-					break;
-				case 'exclude':
-					toggleVariable('excludeCriteria', this.value);
-					break;
-				default:
-					break;
-			}
-			this.removeAttribute('filter');
-			document.getElementById('include').value = window['includeCriteria'];
-			document.getElementById('exclude').value = window['excludeCriteria'];			
-			generateGrid();
-		});
-		tags.appendChild(tag);
-	}
-
 	if(typeof config.setting.clear == 'boolean')
 	{
 		let clear = document.createElement('a');
@@ -322,10 +263,72 @@ function generateLayout() {
 	back.innerText = 'knneo.github.io';
 	settings.appendChild(back);
 	
+	generateTagsList();
 	generateLayoutCollage();
 	generateGrid();
 	if(grid.childElementCount == 0)
 		grid.innerText = 'No Data';
+}
+
+function generateTagsList() {
+	tags.innerHTML = '';
+	for(let button of window['buttonArray']) {
+		if(button.value == '') continue;
+		let tag = document.createElement('button');
+		tag.classList.add('tag');
+		tag.value = button.value;
+		tag.title = button.value + ' (' + button.count + ')';
+		tag.innerText = button.value;
+		tag.tabIndex = -1;
+		tag.addEventListener('click',function() {
+			// to toggle
+			switch(this.getAttribute('filter'))
+			{
+				case 'include':
+					toggleVariable('includeCriteria', this.value);
+					toggleVariable('excludeCriteria', this.value);
+					this.setAttribute('filter', 'exclude');
+					break;
+				case 'exclude':
+					toggleVariable('excludeCriteria', this.value);
+					this.removeAttribute('filter');
+					break;
+				default:
+					toggleVariable('includeCriteria', this.value);
+					this.setAttribute('filter', 'include');
+					break;
+			}
+			document.getElementById('include').value = window['includeCriteria'];
+			document.getElementById('exclude').value = window['excludeCriteria'];			
+			generateGrid();
+		});
+		tag.addEventListener('contextmenu',function() {
+			// to reset
+			event.preventDefault();
+			switch(this.getAttribute('filter'))
+			{
+				case 'include':
+					toggleVariable('includeCriteria', this.value);
+					this.setAttribute('filter', 'exclude');
+					break;
+				case 'exclude':
+					toggleVariable('excludeCriteria', this.value);
+					break;
+				default:
+					break;
+			}
+			this.removeAttribute('filter');
+			document.getElementById('include').value = window['includeCriteria'];
+			document.getElementById('exclude').value = window['excludeCriteria'];			
+			generateGrid();
+		});
+		
+		if(window['includeCriteria'].split(config.separator).includes(button.value))
+			tag.setAttribute('filter', 'include');
+		if(window['excludeCriteria'].split(config.separator).includes(button.value))
+			tag.setAttribute('filter', 'exclude');
+		tags.appendChild(tag);
+	}	
 }
 
 function generateViewer() {	
@@ -444,6 +447,7 @@ function generateGrid() {
 					toggleVariable('includeCriteria', notFilter[0]);
 				}
 				document.getElementById('include').value = window['includeCriteria'];
+				generateTagsList();
 				generateGrid();
 				return false;
 			}, false);			
@@ -456,7 +460,7 @@ function generateGrid() {
 		grid.appendChild(gridItem);
 	}
 
-	fadeIn();
+	setTimeout(fadeIn, 0);
 	if(document.querySelector('.counter') != null)
 		document.querySelector('.counter').innerText = filterArray.length;
 }
