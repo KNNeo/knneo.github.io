@@ -433,7 +433,7 @@ function renderPage(pageName) {
 	
 		let back = document.createElement('a');
 		back.classList.add('home');
-		back.href = '../index.html';
+		back.href = '../../index.html';
 		back.innerText = 'knneo.github.io';
 		settingsDiv.appendChild(back);
 	}	
