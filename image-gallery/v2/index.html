@@ -9,18 +9,19 @@
 	<script src="../../darkmode.js" type="application/javascript" charset="utf-8"></script>
 	<script src="../../get.js" type="application/javascript" charset="utf-8"></script>
 	<script src="index.js" defer></script>
-	<script id="data-id" src="https://knneo.github.io/image-gallery/v2/surugaya.json" defer></script>
+	<script src="viewer.js" defer></script>
+	<script id="data-id" src="https://knneo.github.io/image-gallery/v2/bromides.json" defer></script>
     <title>Title</title>
 </head>
 <body>
 <div class="gallery"></div>
 <h2 class="title">Title</h2>
 <h6 class="subtitle hidden">Subtitle</h6>
-<div class="filter"></div>
+<div class="filters"></div>
 <h3 class="settings">
-	<a class="darkmode material-icons" title="Toggle Dark Mode" onclick="toggleDarkMode()">brightness_high</a>
-	<a class="viewer material-icons" title="Toggle Viewer" onclick="toggleOpenInViewer()">view_column</a>
-	<a class="shadows material-icons" title="Toggle Shadows" onclick="toggleDisplayMode()">crop_original</a>
+	<a class="darkmode material-icons" title="Toggle Dark Mode" onclick="toggleDarkMode()" oncontextmenu="false">brightness_high</a>
+	<a class="slideshow material-icons" title="Run Slideshow" onclick="startSlideshow()" oncontextmenu="false">slideshow</a>
+	<a class="filter material-icons" title="Toggle Filters" onclick="toggleFilters()" oncontextmenu="false">filter</a>
 </h3>
 <a class="home" href="../../index.html">knneo.github.io</a>
 <div class="notice hidden"></div>

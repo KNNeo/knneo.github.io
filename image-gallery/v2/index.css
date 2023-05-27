@@ -70,6 +70,11 @@ a {
 .subtitle, 
 .settings {
 	position: absolute;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 
 .title, 
@@ -95,7 +100,7 @@ a {
 body .gallery {
 	display: flex;
 	overflow: hidden;
-	padding: 0 10dvw;
+	padding: 0 25dvw;
 }
 
 .gallery img {
@@ -107,4 +112,54 @@ body .gallery {
 	object-fit: contain;
 	width: 80dvw;
 	height: 100dvh;
+}
+
+/*VIEWER*/
+.viewer {
+	z-index: 9;
+	position: fixed;
+	background-color: var(--background);
+	width: 100%;
+	height: 100%;
+	padding-top: 0;
+	text-align: center;
+	transition: opacity 0.3s, visibility 0.3s;
+	top: 0;
+}
+.viewer-prev {
+	cursor: pointer;
+	background-color: transparent;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 25%;
+	height: 100%;
+	z-index: 11;
+}
+.viewer-next {
+	cursor: pointer;
+	background-color: transparent;
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 25%;
+	height: 100%;
+	z-index: 11;
+}
+.viewer-next:active {
+	opacity: 0.4;
+	background-image: linear-gradient(to left, var(--background), transparent);
+}
+.viewer-prev:active {
+	opacity: 0.4;
+	background-image: linear-gradient(to right, var(--background), transparent);
+}
+
+.viewer img {
+	transition: transform 0.2s;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }

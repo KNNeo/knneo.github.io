@@ -152,7 +152,12 @@ function renderGallery() {
 	galleryDiv.addEventListener('mousemove', onMouseMove, false);
 	galleryDiv.addEventListener('mouseup', onMouseUp);
 	galleryDiv.addEventListener('touchstart', onTouchStart);
-	galleryDiv.addEventListener('touchmove', onTouchMove, false);	
+	galleryDiv.addEventListener('touchmove', onTouchMove, false);
+	setTimeout(function() {
+		document.querySelectorAll('.gallery img')[0].scrollIntoView({
+			inline: 'center', behavior: 'smooth'
+		});
+	}, 200);
 }
 
 //--INITIAL--//
