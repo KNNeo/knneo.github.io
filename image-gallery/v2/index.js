@@ -9,6 +9,7 @@ let titleDiv = document.querySelector('.title');
 let subtitleDiv = document.querySelector('.subtitle');
 let galleryDiv = document.querySelector('.gallery');
 let noticeDiv = document.querySelector('.notice');
+let filtersDiv = document.querySelector('.filters');
 
 //--DOM FUNCTIONS--//
 
@@ -128,10 +129,18 @@ function onTouchMove(e) {
 	}
 }
 
+function toggleFilters() {
+	renderFilters();
+	
+	if(filtersDiv.classList.contains('hidden'))
+		filtersDiv.classList.remove('hidden');
+}
+
 //--FUNCTIONS--//
 function renderGallery() {
+	galleryDiv.innerHTML = '';
 	// render all items
-	for(let [index, value] of window.variables.items.entries())
+	for(let [index, value] of window.variables.base.entries())
 	{
 		let itemDiv = document.createElement('img');
 		itemDiv.setAttribute('data-id', index);
@@ -160,6 +169,35 @@ function renderGallery() {
 	}, 200);
 }
 
+function renderFilters() {
+	filtersDiv.innerHTML = '';
+	//generate unique tags
+	let tags = window.variables.items
+	.map(i => i.tags)
+	.reduce(function(total, current, index, arr) {
+		if(!total.includes(current))
+			total.push(current);
+		return total;
+	}, []);
+	
+	//render tags
+	for(let tag of tags)
+	{
+		let tagDiv = document.createElement('a');
+		tagDiv.href = 'javascript:void(0);';
+		tagDiv.innerText = tag;
+		tagDiv.addEventListener('click', function() {
+			if(!filtersDiv.classList.contains('hidden'))
+				filtersDiv.classList.add('hidden');
+			
+			window.variables.base = window.variables.items.filter(i => i.tags == tag);
+			renderGallery();
+		});
+		filtersDiv.appendChild(tagDiv);
+	}
+}
+
+
 //--INITIAL--//
 function startup() {
 	document.title = window.variables.title;
@@ -173,6 +211,7 @@ window.onload = getJson(
 	document.getElementById('data-id').src,
 	function(content) {
 		window.variables = content;
+		window.variables.base = window.variables.items;
 		startup();
 	}
 );
