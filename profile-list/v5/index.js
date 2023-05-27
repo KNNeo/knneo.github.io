@@ -1036,6 +1036,7 @@ function popupText(input) {
 		document.body.appendChild(dialogDiv);
 	}
 	let dialog = createDialog(input);
+	dialogDiv.innerHTML = '';
 	dialogDiv.appendChild(dialog);
 	dialog.showModal();
 }
