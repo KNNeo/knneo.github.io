@@ -50,7 +50,7 @@ function openImageInViewer(image) {
 	let thumbnail = image.cloneNode(true);
 	let img = document.createElement('img');
 	img.id = thumbnail.id;
-	img.src = thumbnail.getAttribute('alt');
+	img.src = thumbnail.src;
 	img.title = thumbnail.title;
 	if(window.innerHeight > window.innerWidth && img.getBoundingClientRect().width >= window.innerWidth)
 		img.style.width = 'inherit'; //portrait
