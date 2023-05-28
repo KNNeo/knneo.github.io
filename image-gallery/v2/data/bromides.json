@@ -1,5 +1,9 @@
 {
 	"title": "Bromides",
+	"display": {
+		"subtitle": false,
+		"notice": false
+	},
 	"orientation": {
 		"portrait": "Portrait",
 		"landscape": "Landscape"
