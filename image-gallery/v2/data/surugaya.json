@@ -7,7 +7,7 @@
 	},
 	"autoscroll": {
 		"delta": 2,
-		"timeout": 50,
+		"timeout": 50
 	},
 	"orientation": {
 		"portrait": "縦向き",
