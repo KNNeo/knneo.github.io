@@ -1,5 +1,9 @@
 {
-	"title": "ブロマイド",
+	"title": "Bromides",
+	"orientation": {
+		"portrait": "Portrait",
+		"landscape": "Landscape"
+	},
 	"items": [
 		{
 			"order": 1,
