@@ -185,6 +185,18 @@ function hideFilters() {
 }
 
 //--FUNCTIONS--//
+function renderDisplay() {
+	// hide all components by config
+	for(let setting of Object.keys(window.variables.display ?? []))
+	{
+		// setting must be false
+		// if setting is true or null, will display
+		if(window.variables?.display[setting] == false &&
+		!document.querySelector('.' + setting)?.classList.contains('hidden'))
+			document.querySelector('.' + setting)?.classList.add('hidden');
+	}
+}
+
 function renderGallery() {
 	galleryDiv.innerHTML = '';
 	// render all items
@@ -263,6 +275,7 @@ function startup() {
 			titleDiv.innerText = window.variables.title;
 			noticeDiv.innerText = window.variables.notice;
 			
+			renderDisplay();
 			renderGallery();
 		}
 	);
