@@ -2,8 +2,12 @@
 	"title": "Bromides",
 	"display": {
 		"subtitle": false,
-		"autoscroll": false,
 		"notice": false
+	},
+	"autoscroll": {
+		"direction": "left",
+		"delta": 2,
+		"timeout": 50
 	},
 	"orientation": {
 		"portrait": "Portrait",
