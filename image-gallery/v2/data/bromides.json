@@ -2,6 +2,7 @@
 	"title": "Bromides",
 	"display": {
 		"subtitle": false,
+		"autoscroll": false,
 		"notice": false
 	},
 	"orientation": {
