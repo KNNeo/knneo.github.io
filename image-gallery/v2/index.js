@@ -55,6 +55,24 @@ function generateOrientationValues() {
 }
 
 //--EVENT HANDLERS--//
+function onKeyDown() {
+	if (['PageUp','PageDown','End','Home'].indexOf(event.key) >= 0)
+		event.preventDefault();
+		
+	if (event.key === 'PageUp')
+		galleryDiv.scrollTo(galleryDiv.scrollLeft-window.innerWidth*.9, 0);
+	if (event.key === 'PageDown')
+		galleryDiv.scrollTo(galleryDiv.scrollLeft+window.innerWidth*.9, 0);
+	if (event.key === 'End')
+		galleryDiv.lastElementChild.scrollIntoView({
+			inline: 'center'
+		});
+	if (event.key === 'Home')
+		galleryDiv.firstElementChild.scrollIntoView({
+			inline: 'center'
+		});
+}
+
 function onWheel() {
 	event.preventDefault();
 	let scrollDelta = isFirefox ? -event.detail*75 : event.wheelDelta;
@@ -242,7 +260,7 @@ function renderGallery() {
 		});
 		itemDiv.addEventListener('click', function() {
 			this.scrollIntoView({
-				inline: 'center', behavior: 'smooth',
+				inline: 'center', behavior: 'smooth'
 			});
 		});
 		itemDiv.addEventListener('contextmenu', function() {
