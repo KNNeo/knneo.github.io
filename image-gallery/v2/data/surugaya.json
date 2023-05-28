@@ -1,12 +1,7 @@
 {
 	"title": "ギャラリー",
 	"display": {
-		"title": false,
 		"subtitle": false,
-		"darkmode": false,
-		"slideshow": false,
-		"filter": false,
-		"home": false,
 		"notice": false
 	},
 	"orientation": {
