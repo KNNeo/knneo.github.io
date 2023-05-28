@@ -2,7 +2,12 @@
 	"title": "ギャラリー",
 	"display": {
 		"subtitle": false,
+		"slideshow": false,
 		"notice": false
+	},
+	"autoscroll": {
+		"delta": 2,
+		"timeout": 50,
 	},
 	"orientation": {
 		"portrait": "縦向き",
