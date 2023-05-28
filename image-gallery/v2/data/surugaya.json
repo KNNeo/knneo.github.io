@@ -1,5 +1,14 @@
 {
 	"title": "ギャラリー",
+	"display": {
+		"title": false,
+		"subtitle": false,
+		"darkmode": false,
+		"slideshow": false,
+		"filter": false,
+		"home": false,
+		"notice": false
+	},
 	"orientation": {
 		"portrait": "縦向き",
 		"landscape": "横向き"
