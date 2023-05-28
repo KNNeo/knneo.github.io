@@ -2,7 +2,7 @@
 	"title": "ギャラリー",
 	"orientation": {
 		"portrait": "縦向き",
-		"landscape": "横向き",
+		"landscape": "横向き"
 	},
 	"items": [
 		{
