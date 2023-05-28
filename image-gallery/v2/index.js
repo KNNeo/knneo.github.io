@@ -6,7 +6,7 @@ function scrollToItem(itemNo) {
 		});
 }
 
-//--VARIABLES--//
+//--CONSTANTS--//
 // see data file, under data folder
 const isFirefox = (/Firefox/i.test(navigator.userAgent));
 
@@ -204,7 +204,9 @@ function toggleAutoScroll() {
 
 function scrollGallery() {
 	if(window.variables.autoscroll.run) {
-		galleryDiv.scrollBy(window.variables.autoscroll.delta, 0);		
+		galleryDiv.scrollBy(window.variables.autoscroll.delta, 0);
+		if(galleryDiv.scrollLeft + window.innerWidth >= galleryDiv.scrollWidth)
+			galleryDiv.scrollTo(0, 0);
 	}
 }
 
@@ -248,6 +250,7 @@ function renderGallery() {
 	
 	// touch events
 	window.variables.selected = 0;
+	scrollToItem();
 	// galleryDiv.addEventListener('mousedown', onMouseDown);
 	// galleryDiv.addEventListener('mousemove', onMouseMove, false);
 	// galleryDiv.addEventListener('mouseup', onMouseUp);
