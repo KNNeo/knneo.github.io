@@ -146,10 +146,18 @@ function onMouseUp() {
 function onTouchStart() {
 	window.variables.touchY = event.touches[0].clientY;
 	window.variables.touchX = event.touches[0].clientX;
+	window.variables.touchdown = new Date();
 }
 
 function onTouchMove() {
 	event.preventDefault();
+	// fast response: normal scroll
+	if(window.variables.touchdown && Math.floor(new Date() - window.variables.touchdown) < 1000)
+	{
+		galleryDiv.scrollLeft += (window.variables.touchX - event.touches[0].clientX);
+		return;
+	}
+	
 	let swipeDown = event.touches[0].clientY - window.variables.touchY;
 	let swipeUp = window.variables.touchY - event.touches[0].clientY;
 	let swipeLeft = window.variables.touchX - event.touches[0].clientX;
