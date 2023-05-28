@@ -205,9 +205,11 @@ function toggleAutoScroll() {
 
 function scrollGallery() {
 	if(window.variables.autoscroll.run) {
-		galleryDiv.scrollBy(window.variables.autoscroll.delta, 0);
-		if(galleryDiv.scrollLeft + window.innerWidth >= galleryDiv.scrollWidth)
+		galleryDiv.scrollBy(window.variables.autoscroll.delta * (window.variables.autoscroll.direction == 'left' ? -1 : 1), 0);
+		if(window.variables.autoscroll.direction == 'right' && galleryDiv.scrollLeft + window.innerWidth >= galleryDiv.scrollWidth)
 			galleryDiv.scrollTo(0, 0);
+		if(window.variables.autoscroll.direction == 'left' && galleryDiv.scrollLeft <= 0)
+			galleryDiv.scrollTo(galleryDiv.scrollWidth, 0);
 	}
 }
 
