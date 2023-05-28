@@ -86,7 +86,7 @@ a:hover {
 
 .home {
 	position: absolute;
-    filter: drop-shadow(2px 4px 6px var(--background));
+    filter: drop-shadow(2px 4px 2px var(--background));
     left: 0;
     right: 0;
 	bottom: 1em;
