@@ -8,6 +8,7 @@ function scrollToItem(itemNo) {
 
 //--VARIABLES--//
 // see data file, under data folder
+const isFirefox = (/Firefox/i.test(navigator.userAgent));
 
 //--DOM NODE REFERENCES--//
 let titleDiv = document.querySelector('.title');
@@ -48,6 +49,12 @@ function generateOrientationValues() {
 }
 
 //--EVENT HANDLERS--//
+function onWheel(e) {
+	e.preventDefault();
+	let scrollDelta = isFirefox ? -e.detail*75 : e.wheelDelta;
+	galleryDiv.scrollLeft -= scrollDelta;
+}
+
 function onMouseDown(e) {
 	// console.log('onMouseDown');
 	window.variables.touchY = e.offsetX;
@@ -187,13 +194,14 @@ function renderGallery() {
 		itemDiv.setAttribute('data-id', index);
 		itemDiv.src = value.filename;
 		itemDiv.title = value.description;
+		itemDiv.alt = value.description;
 		itemDiv.draggable = false;
 		itemDiv.addEventListener('load', function() {
 			setTimeout(scrollToItem, 200);
 		});
 		itemDiv.addEventListener('click', function() {
 			this.scrollIntoView({
-				inline: 'center'
+				inline: 'center', behavior: 'smooth',
 			});
 		});
 		itemDiv.addEventListener('contextmenu', function() {
@@ -207,9 +215,9 @@ function renderGallery() {
 	// galleryDiv.addEventListener('mousedown', onMouseDown);
 	// galleryDiv.addEventListener('mousemove', onMouseMove, false);
 	// galleryDiv.addEventListener('mouseup', onMouseUp);
+	galleryDiv.addEventListener(isFirefox ? 'DOMMouseScroll' : 'mousewheel', onWheel);
 	galleryDiv.addEventListener('touchstart', onTouchStart);
 	galleryDiv.addEventListener('touchmove', onTouchMove, false);
-	// setTimeout(scrollToItem, 200);
 }
 
 function renderFilters(tags) {
