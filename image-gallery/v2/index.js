@@ -28,11 +28,17 @@ function generateTagClouds() {
 		let filterList = window.variables.items
 		.map(i => i[filter.className])
 		.reduce(function(total, current, index, arr) {
-			if(!total.includes(current))
-				total.push(current);
+			if(!total.map(m => m.value).includes(current))
+				total.push({
+					value: current,
+					category: filter.className,
+					count: arr.filter(f => f == current).length
+				});
 			return total;
 		}, [])
-		.map(t => ({ value: t, category: filter.className })); // must correspond to json object key
+		.sort(function(a,b) {
+			return b.count - a.count;
+		});
 		allTags = allTags.concat(filterList);
 	}
 	
@@ -253,6 +259,7 @@ function renderFilters(tags) {
 		{
 			let tagDiv = document.createElement('a');
 			tagDiv.href = 'javascript:void(0);';
+			tagDiv.title = tag.value + '(' + tag.count + ')';
 			tagDiv.innerText = tag.value;
 			tagDiv.addEventListener('click', function() {
 				window.variables.base = window.variables.items.filter(i => i[tag.category] == tag.value);
