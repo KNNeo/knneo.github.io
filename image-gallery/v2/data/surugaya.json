@@ -11,10 +11,38 @@
 	"items": [
 		{
 			"order": 1,
+			"filename": "https://cdn.suruga-ya.jp/database/pics_light/game/gl874602.jpg",
+			"tags": "本渡楓",
+			"description": "雑誌「月刊ドラゴンエイジ 2023年5月号増刊 ヤングドラゴンエイジ VOL.16」ゲーマーズ特典ブロマイド",
+			"date": "2023/04/26"
+		},
+		{
+			"order": 2,
+			"filename": "https://cdn.suruga-ya.jp/database/pics_light/game/gl846011.jpg",
+			"tags": "雨宮天",
+			"description": "CD「雨宮天作品集1-導火線-」アニメイト特典ブロマイド",
+			"date": "2023/03/22"
+		},
+		{
+			"order": 3,
+			"filename": "https://cdn.suruga-ya.jp/database/pics_light/game/gl846012.jpg",
+			"tags": "雨宮天",
+			"description": "CD「雨宮天作品集1-導火線-」ゲーマーズ特典ブロマイド",
+			"date": "2023/03/22"
+		},
+		{
+			"order": 4,
 			"filename": "https://cdn.suruga-ya.jp/database/pics_light/game/gl826262.jpg",
 			"tags": "竹達彩奈",
 			"description": "印刷サイン・メッセージ入り/CD「明日のカタチ」アニメイト特典ブロマイド",
 			"date": "2023/03/01"
+		},
+		{
+			"order": 5,
+			"filename": "https://cdn.suruga-ya.jp/database/pics_light/game/gl910752.jpg",
+			"tags": "上坂すみれ",
+			"description": "印刷サイン・メッセージ入り・2Lサイズ/「上坂すみれ 卓上4月始まりカレンダー」オフィシャルファンクラブ すみぺれんぽう会員限定特典ブロマイド",
+			"date": "2023/02/26"
 		},
 		{
 			"order": 2,
@@ -136,6 +164,20 @@
 			"date": "2023/01/10"
 		},
 		{
+			"order": 8,
+			"filename": "https://cdn.suruga-ya.jp/database/pics_light/game/gl753921.jpg",
+			"tags": "高橋李依",
+			"description": "雑誌「声優グランプリ 2023年2月号」HMV特典ブロマイド",
+			"date": "2023/01/10"
+		},
+		{
+			"order": 9,
+			"filename": "https://cdn.suruga-ya.jp/database/pics_light/game/gl753923.jpg",
+			"tags": "高橋李依",
+			"description": "横型/雑誌「声優グランプリ 2023年2月号」主婦の友インフォスSHOP特典ブロマイド",
+			"date": "2023/01/10"
+		},
+		{
 			"order": 19,
 			"filename": "https://cdn.suruga-ya.jp/database/pics_light/game/gl710429.jpg",
 			"tags": "上坂すみれ",
@@ -192,6 +234,41 @@
 			"date": "2022/11/29"
 		},
 		{
+			"order": 8,
+			"filename": "https://cdn.suruga-ya.jp/database/pics_light/game/gl675553.jpg",
+			"tags": "上田麗奈",
+			"description": "雑誌「声優グランプリ 2022年12月号」アニメイト特典ブロマイド",
+			"date": "2022/11/10"
+		},
+		{
+			"order": 9,
+			"filename": "https://cdn.suruga-ya.jp/database/pics_light/game/gl675556.jpg",
+			"tags": "上田麗奈",
+			"description": "雑誌「声優グランプリ 2022年12月号」楽天ブックス・メロンブックス・ビックカメラ.com・AKIBA☆ソフマップ特典ブロマイド",
+			"date": "2022/11/10"
+		},
+		{
+			"order": 10,
+			"filename": "https://cdn.suruga-ya.jp/database/pics_light/game/gl675555.jpg",
+			"tags": "上田麗奈",
+			"description": "雑誌「声優グランプリ 2022年12月号」セブンネット・HMV特典ブロマイド",
+			"date": "2022/11/10"
+		},
+		{
+			"order": 11,
+			"filename": "https://cdn.suruga-ya.jp/database/pics_light/game/gl675557.jpg",
+			"tags": "上田麗奈",
+			"description": "2Lサイズ/雑誌「声優グランプリ 2022年12月号」主婦の友インフォスSHOP特典ブロマイド",
+			"date": "2022/11/10"
+		},
+		{
+			"order": 12,
+			"filename": "https://cdn.suruga-ya.jp/database/pics_light/game/gl659439.jpg",
+			"tags": "上田麗奈",
+			"description": "CD「Atrium」アニメイト特典ブロマイド",
+			"date": "2022/10/05"
+		},
+		{
 			"order": 27,
 			"filename": "https://cdn.suruga-ya.jp/database/pics_light/game/gl714993.jpg",
 			"tags": "夏川椎菜",
@@ -246,6 +323,125 @@
 			"tags": "東山奈央",
 			"description": "印刷サイン・メッセージ入り/CD「Welcome to MY WONDERLAND」アニメイト限定セット特典ブロマイド",
 			"date": "2022/09/28"
+		},
+		{
+			"order": 1,
+			"filename": "https://cdn.suruga-ya.jp/database/pics_light/game/gl802848.jpg",
+			"tags": "会沢紗弥",
+			"description": "横型/「会沢紗弥のエンディングは上機嫌で～会沢紗弥生誕祭2022～」ブロマイド",
+			"date": "2022/09/10"
+		},
+		{
+			"order": 2,
+			"filename": "https://cdn.suruga-ya.jp/database/pics_light/game/gl802852.jpg",
+			"tags": "会沢紗弥",
+			"description": "横型/「会沢紗弥のエンディングは上機嫌で～会沢紗弥生誕祭2022～」ブロマイド",
+			"date": "2022/09/10"
+		},
+		{
+			"order": 3,
+			"filename": "https://cdn.suruga-ya.jp/database/pics_light/game/gl802847.jpg",
+			"tags": "会沢紗弥",
+			"description": "横型/「会沢紗弥のエンディングは上機嫌で～会沢紗弥生誕祭2022～」ブロマイド",
+			"date": "2022/09/10"
+		},
+		{
+			"order": 4,
+			"filename": "https://cdn.suruga-ya.jp/database/pics_light/game/gl802843.jpg",
+			"tags": "会沢紗弥",
+			"description": "「会沢紗弥のエンディングは上機嫌で～会沢紗弥生誕祭2022～」ブロマイド",
+			"date": "2022/09/10"
+		},
+		{
+			"order": 5,
+			"filename": "https://cdn.suruga-ya.jp/database/pics_light/game/gl802840.jpg",
+			"tags": "会沢紗弥",
+			"description": "「会沢紗弥のエンディングは上機嫌で～会沢紗弥生誕祭2022～」ブロマイド",
+			"date": "2022/09/10"
+		},
+		{
+			"order": 6,
+			"filename": "https://cdn.suruga-ya.jp/database/pics_light/game/gl802851.jpg",
+			"tags": "会沢紗弥",
+			"description": "横型/「会沢紗弥のエンディングは上機嫌で～会沢紗弥生誕祭2022～」ブロマイド",
+			"date": "2022/09/10"
+		},
+		{
+			"order": 7,
+			"filename": "https://cdn.suruga-ya.jp/database/pics_light/game/gl802853.jpg",
+			"tags": "会沢紗弥",
+			"description": "横型/「会沢紗弥のエンディングは上機嫌で～会沢紗弥生誕祭2022～」ブロマイド",
+			"date": "2022/09/10"
+		},
+		{
+			"order": 8,
+			"filename": "https://cdn.suruga-ya.jp/database/pics_light/game/gl802844.jpg",
+			"tags": "会沢紗弥",
+			"description": "「会沢紗弥のエンディングは上機嫌で～会沢紗弥生誕祭2022～」ブロマイド",
+			"date": "2022/09/10"
+		},
+		{
+			"order": 9,
+			"filename": "https://cdn.suruga-ya.jp/database/pics_light/game/gl802846.jpg",
+			"tags": "会沢紗弥",
+			"description": "横型/「会沢紗弥のエンディングは上機嫌で～会沢紗弥生誕祭2022～」ブロマイド",
+			"date": "2022/09/10"
+		},
+		{
+			"order": 10,
+			"filename": "https://cdn.suruga-ya.jp/database/pics_light/game/gl802841.jpg",
+			"tags": "会沢紗弥",
+			"description": "「会沢紗弥のエンディングは上機嫌で～会沢紗弥生誕祭2022～」ブロマイド",
+			"date": "2022/09/10"
+		},
+		{
+			"order": 11,
+			"filename": "https://cdn.suruga-ya.jp/database/pics_light/game/gl802849.jpg",
+			"tags": "会沢紗弥",
+			"description": "横型/「会沢紗弥のエンディングは上機嫌で～会沢紗弥生誕祭2022～」ブロマイド",
+			"date": "2022/09/10"
+		},
+		{
+			"order": 12,
+			"filename": "https://cdn.suruga-ya.jp/database/pics_light/game/gl802850.jpg",
+			"tags": "会沢紗弥",
+			"description": "横型/「会沢紗弥のエンディングは上機嫌で～会沢紗弥生誕祭2022～」ブロマイド",
+			"date": "2022/09/10"
+		},
+		{
+			"order": 13,
+			"filename": "https://cdn.suruga-ya.jp/database/pics_light/game/gl802854.jpg",
+			"tags": "会沢紗弥",
+			"description": "横型/「会沢紗弥のエンディングは上機嫌で～会沢紗弥生誕祭2022～」ブロマイド",
+			"date": "2022/09/10"
+		},
+		{
+			"order": 14,
+			"filename": "https://cdn.suruga-ya.jp/database/pics_light/game/gl802842.jpg",
+			"tags": "会沢紗弥",
+			"description": "「会沢紗弥のエンディングは上機嫌で～会沢紗弥生誕祭2022～」ブロマイド",
+			"date": "2022/09/10"
+		},
+		{
+			"order": 15,
+			"filename": "https://cdn.suruga-ya.jp/database/pics_light/game/gl802845.jpg",
+			"tags": "会沢紗弥",
+			"description": "「会沢紗弥のエンディングは上機嫌で～会沢紗弥生誕祭2022～」ブロマイド",
+			"date": "2022/09/10"
+		},
+		{
+			"order": 16,
+			"filename": "https://cdn.suruga-ya.jp/database/pics_light/game/gl744851.jpg",
+			"tags": "富田美憂",
+			"description": "おにぱん!ファンミーティング＆ライブ2022『おにさんこちら♪』ブロマイド",
+			"date": "2022/08/26"
+		},
+		{
+			"order": 1,
+			"filename": "https://cdn.suruga-ya.jp/database/pics_light/game/gl744856.jpg",
+			"tags": "富田美憂",
+			"description": "おにぱん!ファンミーティング＆ライブ2022『おにさんこちら♪』ブロマイド",
+			"date": "2022/08/26"
 		},
 		{
 			"order": 35,
@@ -353,6 +549,20 @@
 			"date": "2022/07/08"
 		},
 		{
+			"order": 4,
+			"filename": "https://cdn.suruga-ya.jp/database/pics_light/game/gl659434.jpg",
+			"tags": "菅野真衣",
+			"description": "雑誌「VOICE+ Vol.3」ゲーマーズ特典ブロマイド",
+			"date": "2022/06/21"
+		},
+		{
+			"order": 5,
+			"filename": "https://cdn.suruga-ya.jp/database/pics_light/game/gl659435.jpg",
+			"tags": "菅野真衣",
+			"description": "雑誌「VOICE+ Vol.3」HMV特典ブロマイド",
+			"date": "2022/06/21"
+		},
+		{
 			"order": 50,
 			"filename": "https://cdn.suruga-ya.jp/database/pics_light/game/gl529233.jpg",
 			"tags": "東山奈央",
@@ -428,6 +638,27 @@
 			"tags": "夏川椎菜",
 			"description": "雑誌「VOICE BRODY vol.11」ゲーマーズ特典ブロマイド",
 			"date": "2022/03/30"
+		},
+		{
+			"order": 3,
+			"filename": "https://cdn.suruga-ya.jp/database/pics_light/game/gl355315.jpg",
+			"tags": "Lynn",
+			"description": "Lynn 1st写真集「りん」アニメガ×ソフマップ特典ブロマイド",
+			"date": "2022/03/23"
+		},
+		{
+			"order": 4,
+			"filename": "https://cdn.suruga-ya.jp/database/pics_light/game/gl355320.jpg",
+			"tags": "Lynn",
+			"description": "Lynn 1st写真集「りん」楽天ブックス特典ブロマイド",
+			"date": "2022/03/23"
+		},
+		{
+			"order": 5,
+			"filename": "https://cdn.suruga-ya.jp/database/pics_light/game/gl355318.jpg",
+			"tags": "Lynn",
+			"description": "Lynn 1st写真集「りん」セブンネット特典ブロマイド",
+			"date": "2022/03/23"
 		},
 		{
 			"order": 61,
@@ -750,6 +981,34 @@
 			"tags": "麻倉もも",
 			"description": "CD「ピンキーフック」ゲーマーズ特典ブロマイド",
 			"date": "2021/08/18"
+		},
+		{
+			"order": 2,
+			"filename": "https://cdn.suruga-ya.jp/database/pics_light/game/gl104873.jpg",
+			"tags": "上田麗奈",
+			"description": "CD「Nebula」ゲーマーズ特典ブロマイド",
+			"date": "2021/08/18"
+		},
+		{
+			"order": 3,
+			"filename": "https://cdn.suruga-ya.jp/database/pics_light/game/gl104875.jpg",
+			"tags": "上田麗奈",
+			"description": "CD「Nebula」TOWER RECORDS特典ブロマイド",
+			"date": "2021/08/18"
+		},
+		{
+			"order": 4,
+			"filename": "https://cdn.suruga-ya.jp/database/pics_light/game/gl479291.jpg",
+			"tags": "上田麗奈",
+			"description": "雑誌「声優グランプリ 2021年9月号」セブンネット特典ブロマイド",
+			"date": "2021/08/10"
+		},
+		{
+			"order": 5,
+			"filename": "https://cdn.suruga-ya.jp/database/pics_light/game/gl479292.jpg",
+			"tags": "上田麗奈",
+			"description": "雑誌「声優グランプリ 2021年9月号」HMV特典ブロマイド",
+			"date": "2021/08/10"
 		},
 		{
 			"order": 107,
