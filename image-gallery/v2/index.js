@@ -190,6 +190,25 @@ function hideFilters() {
 		filtersDiv.classList.add('hidden');	
 }
 
+function toggleAutoScroll() {
+	if(window.variables.autoscroll.run) {
+		window.variables.autoscroll.run = false;
+		event.target.innerText = 'pause';
+	}
+	else {
+		window.variables.autoscroll.run = true;
+		event.target.innerText = 'play_arrow';
+		scrollGallery();
+	}
+}
+
+function scrollGallery() {
+	if(window.variables.autoscroll.run) {
+		galleryDiv.scrollBy(window.variables.autoscroll.delta, 0);
+		setTimeout(scrollGallery, window.variables.autoscroll.timeout);
+	}
+}
+
 //--FUNCTIONS--//
 function renderDisplay() {
 	// hide all components by config
