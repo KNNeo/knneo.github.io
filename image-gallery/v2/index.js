@@ -55,29 +55,29 @@ function generateOrientationValues() {
 }
 
 //--EVENT HANDLERS--//
-function onWheel(e) {
-	e.preventDefault();
-	let scrollDelta = isFirefox ? -e.detail*75 : e.wheelDelta;
+function onWheel() {
+	event.preventDefault();
+	let scrollDelta = isFirefox ? -event.detail*75 : event.wheelDelta;
 	galleryDiv.scrollLeft -= scrollDelta;
 }
 
-function onMouseDown(e) {
+function onMouseDown() {
 	// console.log('onMouseDown');
-	window.variables.touchY = e.offsetX;
-	window.variables.touchX = e.offsetY;
+	window.variables.touchY = event.offsetX;
+	window.variables.touchX = event.offsetY;
 	window.variables.mousedown = true;
 }
 
-function onMouseMove(e) {
+function onMouseMove() {
 	// console.log('onMouseMove');
 	if(window.variables.mousedown)
 	{
 		let delta = 10;
-		let swipeDown = e.offsetY - window.variables.touchY;
-		let swipeUp = window.variables.touchY - e.offsetY;
-		let swipeLeft = window.variables.touchX - e.offsetX;
-		let swipeRight = e.offsetX - window.variables.touchX;
-		// console.log(e.offsetX, e.offsetY);
+		let swipeDown = event.offsetY - window.variables.touchY;
+		let swipeUp = window.variables.touchY - event.offsetY;
+		let swipeLeft = window.variables.touchX - event.offsetX;
+		let swipeRight = event.offsetX - window.variables.touchX;
+		// console.log(event.offsetX, event.offsetY);
 		// console.log(swipeUp, swipeDown, swipeLeft, swipeRight);
 		
 		//--SWIPE LEFT IE. FROM RIGHT OF SCREEN--//
@@ -121,20 +121,21 @@ function onMouseMove(e) {
 	}
 }
 
-function onMouseUp(e) {	
+function onMouseUp() {	
 	window.variables.mousedown = false;
 }
 
-function onTouchStart(e) {
-	window.variables.touchY = e.touches[0].clientY;
-	window.variables.touchX = e.touches[0].clientX;
+function onTouchStart() {
+	window.variables.touchY = event.touches[0].clientY;
+	window.variables.touchX = event.touches[0].clientX;
 }
 
-function onTouchMove(e) {
-	let swipeDown = e.touches[0].clientY - window.variables.touchY;
-	let swipeUp = window.variables.touchY - e.touches[0].clientY;
-	let swipeLeft = window.variables.touchX - e.touches[0].clientX;
-	let swipeRight = e.touches[0].clientX - window.variables.touchX;
+function onTouchMove() {
+	event.preventDefault();
+	let swipeDown = event.touches[0].clientY - window.variables.touchY;
+	let swipeUp = window.variables.touchY - event.touches[0].clientY;
+	let swipeLeft = window.variables.touchX - event.touches[0].clientX;
+	let swipeRight = event.touches[0].clientX - window.variables.touchX;
 	// console.log(swipeUp > 0, swipeDown > 0, swipeLeft > 0, swipeRight > 0);
 	
 	//--SWIPE LEFT IE. FROM RIGHT OF SCREEN--//
