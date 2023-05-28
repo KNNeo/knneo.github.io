@@ -67,6 +67,26 @@ for(let item of items) {
 }
 console.log(list);
 
+NOTE:
+to work on v2 payload, add the output into the following:
+[
+<list here>
+].map(function(i) {
+    return {
+        order: i[0],
+        filename: i[1],
+        tags: i[3],
+        description: i[4],
+        date: i[5]
+    };
+});
+to sort array by desc date:
+<list here>.sort((a, b) => {
+  const dateA = new Date(a.date);
+  const dateB = new Date(b.date);
+  return dateB - dateA;
+});
+
 
 from page: 'https://www.suruga-ya.com/en/products?category=501080317&keyword='
 let list = '\n';
