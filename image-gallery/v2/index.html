@@ -13,18 +13,22 @@
 	<script id="data-id" src="https://knneo.github.io/image-gallery/v2/data/surugaya.json" defer></script>
     <title>Title</title>
 </head>
-<body>
+<body onload="startup()">
 <div class="gallery"></div>
 <h2 class="title">Title</h2>
 <h6 class="subtitle hidden">Subtitle</h6>
 <h3 class="settings">
 	<a class="darkmode material-icons" title="Toggle Dark Mode" onclick="toggleDarkMode()" oncontextmenu="false">brightness_high</a>
 	<a class="slideshow material-icons" title="Run Slideshow" onclick="startSlideshow()" oncontextmenu="false">slideshow</a>
-	<a class="filter material-icons" title="Toggle Filters" onclick="toggleFilters()" oncontextmenu="false">filter</a>
+	<a class="filter material-icons" title="Display Filters" onclick="showFilters()" oncontextmenu="false">filter</a>
 </h3>
 <a class="home" href="../../index.html">knneo.github.io</a>
 <div class="notice hidden"></div>
-<div class="filters hidden"></div>
+<div class="filters hidden">
+	<a class="close material-icons" title="Hide Filters" onclick="hideFilters()" oncontextmenu="false">close</a>
+	<div class="orientation"></div>
+	<div class="tags"></div>
+</div>
 <div class="viewer hidden"></div>
 </body>
 </html>

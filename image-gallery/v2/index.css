@@ -49,24 +49,44 @@ a:hover {
 .filters {
 	width: 100%;
 	height: 100%;
-	top: 0;
+	bottom: 0;
     margin: auto;
 	background-color: var(--background);
+	display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+}
+
+.filters div {
 	display: flex;
     flex-wrap: wrap;
     align-content: center;
     justify-content: center;
 }
 
-.filters a {
+.filters div a {
 	cursor: pointer;
 	text-decoration: none;
 	padding: 0.5em;
-	flex: 0 0 40dvw;
+	flex: 0 0 auto;
+}
+
+.filters div h3 {
+	flex: 0 0 99dvw;
+}
+
+.close {	
+    position: absolute;
+    top: 1em;
+    right: 1em;
 }
 
 .home {
 	position: absolute;
+    left: 0;
+    right: 0;
 	bottom: 1em;
 	text-decoration: none;
 	font-weight: bold;
@@ -75,7 +95,7 @@ a:hover {
 body .gallery {
 	display: flex;
 	overflow: hidden;
-	padding: 0 25dvw;
+	padding: 0 45dvw;
 }
 
 .gallery img {

@@ -1,8 +1,13 @@
 //--HELPERS--//
-
+function scrollToItem(itemNo) {
+	if(document.querySelectorAll('.gallery img').length > 0)
+		document.querySelectorAll('.gallery img')[itemNo || 0].scrollIntoView({
+			inline: 'center', behavior: 'smooth'
+		});
+}
 
 //--VARIABLES--//
-
+// see data file, under data folder
 
 //--DOM NODE REFERENCES--//
 let titleDiv = document.querySelector('.title');
@@ -12,11 +17,39 @@ let noticeDiv = document.querySelector('.notice');
 let filtersDiv = document.querySelector('.filters');
 
 //--DOM FUNCTIONS--//
+function generateTagClouds() {
+	let allTags = [];
+	
+	// dependent on list of filter containers in html
+	for(let filter of document.querySelectorAll('.filters div'))
+	{
+		//generate unique tags
+		let filterList = window.variables.items
+		.map(i => i[filter.className])
+		.reduce(function(total, current, index, arr) {
+			if(!total.includes(current))
+				total.push(current);
+			return total;
+		}, [])
+		.map(t => ({ value: t, category: filter.className })); // must correspond to json object key
+		allTags = allTags.concat(filterList);
+	}
+	
+	return allTags;
+}
 
+function generateOrientationValues() {
+	for(let item of window.variables.base)
+	{
+		let itemDiv = document.querySelector('.gallery img[src="' + item.filename + '"]');
+		let isLandscape = itemDiv?.naturalWidth >= itemDiv?.naturalHeight ?? false;
+		item.orientation = isLandscape ? window.variables.orientation.landscape : window.variables.orientation.portrait;
+	}
+}
 
 //--EVENT HANDLERS--//
 function onMouseDown(e) {
-	console.log('onMouseDown');
+	// console.log('onMouseDown');
 	window.variables.touchY = e.offsetX;
 	window.variables.touchX = e.offsetY;
 	window.variables.mousedown = true;
@@ -129,11 +162,19 @@ function onTouchMove(e) {
 	}
 }
 
-function toggleFilters() {
-	renderFilters();
+function showFilters() {
+	if(window.variables.base[0].orientation == null) // if no orientation mapped, create map
+		generateOrientationValues();
+	let allTags = generateTagClouds();
+	renderFilters(allTags);
 	
 	if(filtersDiv.classList.contains('hidden'))
 		filtersDiv.classList.remove('hidden');
+}
+
+function hideFilters() {
+	if(!filtersDiv.classList.contains('hidden'))
+		filtersDiv.classList.add('hidden');	
 }
 
 //--FUNCTIONS--//
@@ -147,71 +188,74 @@ function renderGallery() {
 		itemDiv.src = value.filename;
 		itemDiv.title = value.description;
 		itemDiv.draggable = false;
+		itemDiv.addEventListener('load', function() {
+			setTimeout(scrollToItem, 200);
+		});
 		itemDiv.addEventListener('click', function() {
 			this.scrollIntoView({
 				inline: 'center'
 			});
 		});
+		itemDiv.addEventListener('contextmenu', function() {
+			event.preventDefault();
+		}, false);
 		galleryDiv.appendChild(itemDiv);
 	}
 	
 	// touch events
 	window.variables.selected = 0;
-	galleryDiv.addEventListener('mousedown', onMouseDown);
-	galleryDiv.addEventListener('mousemove', onMouseMove, false);
-	galleryDiv.addEventListener('mouseup', onMouseUp);
+	// galleryDiv.addEventListener('mousedown', onMouseDown);
+	// galleryDiv.addEventListener('mousemove', onMouseMove, false);
+	// galleryDiv.addEventListener('mouseup', onMouseUp);
 	galleryDiv.addEventListener('touchstart', onTouchStart);
 	galleryDiv.addEventListener('touchmove', onTouchMove, false);
-	setTimeout(function() {
-		document.querySelectorAll('.gallery img')[0].scrollIntoView({
-			inline: 'center', behavior: 'smooth'
-		});
-	}, 200);
+	// setTimeout(scrollToItem, 200);
 }
 
-function renderFilters() {
-	filtersDiv.innerHTML = '';
-	//generate unique tags
-	let tags = window.variables.items
-	.map(i => i.tags)
-	.reduce(function(total, current, index, arr) {
-		if(!total.includes(current))
-			total.push(current);
-		return total;
-	}, []);
+function renderFilters(tags) {
+	// clear all tags
+	for(let tag of filtersDiv.querySelectorAll('div'))
+	{
+		tag.innerHTML = '';
+		
+		// add tag title
+		let tagDiv = document.createElement('h3');
+		tagDiv.style.textTransform = 'uppercase';
+		tagDiv.innerText = tag.className;
+		tag.appendChild(tagDiv);
+	}
 	
 	//render tags
 	for(let tag of tags)
 	{
-		let tagDiv = document.createElement('a');
-		tagDiv.href = 'javascript:void(0);';
-		tagDiv.innerText = tag;
-		tagDiv.addEventListener('click', function() {
-			if(!filtersDiv.classList.contains('hidden'))
-				filtersDiv.classList.add('hidden');
-			
-			window.variables.base = window.variables.items.filter(i => i.tags == tag);
-			renderGallery();
-		});
-		filtersDiv.appendChild(tagDiv);
+		let filterDiv = document.querySelector('.filters .' + tag.category);
+		if(filterDiv != null)
+		{
+			let tagDiv = document.createElement('a');
+			tagDiv.href = 'javascript:void(0);';
+			tagDiv.innerText = tag.value;
+			tagDiv.addEventListener('click', function() {
+				window.variables.base = window.variables.items.filter(i => i[tag.category] == tag.value);
+				hideFilters();
+				renderGallery();
+			});
+			filterDiv.appendChild(tagDiv);
+		}
 	}
 }
-
 
 //--INITIAL--//
 function startup() {
-	document.title = window.variables.title;
-	titleDiv.innerText = window.variables.title;
-	noticeDiv.innerText = window.variables.notice;
-	
-	renderGallery();
+	getJson(
+		document.getElementById('data-id').src,
+		function(content) {
+			window.variables = content;
+			window.variables.base = window.variables.items;
+			document.title = window.variables.title;
+			titleDiv.innerText = window.variables.title;
+			noticeDiv.innerText = window.variables.notice;
+			
+			renderGallery();
+		}
+	);
 }
-
-window.onload = getJson(
-	document.getElementById('data-id').src,
-	function(content) {
-		window.variables = content;
-		window.variables.base = window.variables.items;
-		startup();
-	}
-);
