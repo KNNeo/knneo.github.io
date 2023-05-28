@@ -6,6 +6,7 @@
 		"notice": false
 	},
 	"autoscroll": {
+		"direction": "right",
 		"delta": 2,
 		"timeout": 50
 	},
