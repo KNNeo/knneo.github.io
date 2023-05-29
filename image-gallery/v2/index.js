@@ -154,7 +154,7 @@ function onTouchMove() {
 	// fast response: normal scroll
 	if(window.variables.touchdown && Math.floor(new Date() - window.variables.touchdown) < 1000)
 	{
-		galleryDiv.scrollLeft += (window.variables.touchX - event.touches[0].clientX);
+		galleryDiv.scrollLeft += 0.5*(window.variables.touchX - event.touches[0].clientX);
 		return;
 	}
 	
