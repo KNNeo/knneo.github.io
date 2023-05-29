@@ -41,3 +41,8 @@ body > * {
 input {
 	margin: 10px;
 }
+
+input:disabled {
+	color: var(--accent);
+	border-color: var(--accent);
+}
