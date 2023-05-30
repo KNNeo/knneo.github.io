@@ -75,7 +75,7 @@ function onKeyDown() {
 
 function onWheel() {
 	event.preventDefault();
-	let scrollDelta = isFirefox ? -event.detail*75 : event.wheelDelta;
+	let scrollDelta = isFirefox ? -event.detail*50 : event.wheelDelta;
 	galleryDiv.scrollLeft -= scrollDelta;
 }
 
