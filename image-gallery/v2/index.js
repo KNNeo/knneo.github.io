@@ -6,6 +6,12 @@ function scrollToItem(itemNo) {
 		});
 }
 
+function dupeCheck() {
+	return window.variables.base.filter((obj, index) => {
+	  return window.variables.base.findIndex((item, i) => item.filename === obj.filename && i !== index) > -1;
+	});
+}
+
 //--CONSTANTS--//
 // see data file, under data folder
 const isFirefox = (/Firefox/i.test(navigator.userAgent));
