@@ -78,12 +78,6 @@ a:hover {
 	flex: 0 0 99dvw;
 }
 
-.close {	
-    position: absolute;
-    top: 1em;
-    right: 1em;
-}
-
 .home {
 	position: absolute;
     filter: drop-shadow(2px 4px 2px var(--background));

@@ -24,7 +24,7 @@ function generateTagClouds() {
 	// dependent on list of filter containers in html
 	for(let filter of document.querySelectorAll('.filters div'))
 	{
-		//generate unique tags
+		// generate unique tags
 		let filterList = window.variables.items
 		.map(i => i[filter.className])
 		.reduce(function(total, current, index, arr) {
@@ -215,6 +215,12 @@ function showFilters() {
 function hideFilters() {
 	if(!filtersDiv.classList.contains('hidden'))
 		filtersDiv.classList.add('hidden');	
+}
+
+function resetFilters() {
+	window.variables.base = window.variables.items;
+	hideFilters();
+	renderGallery();
 }
 
 function toggleAutoScroll() {
