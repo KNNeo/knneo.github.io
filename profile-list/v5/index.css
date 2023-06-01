@@ -243,9 +243,6 @@ a:hover {
     display: none;
 	color: var(--foreground);
 }
-.calendar td:hover .calendar-popitem {
-	/* display: block; */
-}
 .dialog .calendar-popitem {
     display: block;
     position: initial;
@@ -474,6 +471,12 @@ a:hover {
 	}
 	.profile-image img {
 		max-height: calc(94vh - 344px);
+	}
+}
+
+@media only screen and (pointer: fine) {
+	.calendar td:hover .calendar-popitem {
+		display: block;
 	}
 }
 
