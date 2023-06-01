@@ -272,8 +272,8 @@ function renderGallery() {
 		let itemDiv = document.createElement('img');
 		itemDiv.setAttribute('data-id', index);
 		itemDiv.src = value.filename;
-		itemDiv.title = value.description;
-		itemDiv.alt = value.description;
+		itemDiv.title = value.description || '';
+		itemDiv.alt = value.description || '';
 		itemDiv.draggable = false;
 		itemDiv.addEventListener('load', function() {
 			setTimeout(scrollToItem, 200);
@@ -339,7 +339,19 @@ function startup() {
 		document.getElementById('data-id').src,
 		function(content) {
 			window.variables = content;
-			window.variables.base = window.variables.items;
+			window.variables.base = window.variables.items
+				.sort(function(a,b) {
+					if(window.variables.sort && window.variables.sort.order && window.variables.sort.value)
+					{
+						if(window.variables.sort.order.toLowerCase() == 'asc')
+							return a[window.variables.sort.value] - b[window.variables.sort.value];
+						if(window.variables.sort.order.toLowerCase() == 'desc')
+							return b[window.variables.sort.value] - a[window.variables.sort.value];
+						if(window.variables.sort.order.toLowerCase() == 'random')
+							return (2*Math.random()) - 1;
+					}
+					return 0;
+				});
 			document.title = window.variables.title;
 			titleDiv.innerText = window.variables.title;
 			noticeDiv.innerText = window.variables.notice;
