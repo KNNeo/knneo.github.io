@@ -242,13 +242,13 @@ function generateCalendar(year, month, day) {
 	document.querySelector('.list').appendChild(calendar);
 	
 	// populate with summary on expanded calendar
-	if(week)
+	if(typeof week == 'number')
 		addDetailedEventsToCalendar(week);
 	else
 		addSummaryEventsToCalendar();
 	
 	// add marked items on expanded calendar
-	if(week)
+	if(typeof week == 'number')
 		addMarkedEventsToWeekCalendar();
 	else
 		addMarkedEventsToMonthCalendar();
