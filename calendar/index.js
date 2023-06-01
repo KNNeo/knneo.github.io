@@ -231,21 +231,18 @@ function generateCalendar(year, month, day) {
 	//TODO: allow start from monday
 	// generate calendar array
 	let [calendarArray, week, noOfWeeks] = generateCalendarArray(year, month, day);
-	window['week-count'] = noOfWeeks;
-	// console.log(calendarArray);
+	// console.log(day, week);
 	
 	// generate calendar HTML
-	let table = typeof week == 'number' ? generateCalendarWeekTable(year, month, week, day, calendarArray) : generateCalendarMonthTable(year, month, calendarArray);	
+	let table = generateCalendarMonthTable(year, month, week, day, calendarArray);
 	calendar.appendChild(table);
+	window['week-count'] = noOfWeeks + 1; // technically speaking all months have 5 weeks
 	
 	document.querySelector('.list').innerHTML = '';
 	document.querySelector('.list').appendChild(calendar);
 	
 	// populate with summary on expanded calendar
-	if(typeof week == 'number')
-		addDetailedEventsToCalendar(week);
-	else
-		addSummaryEventsToCalendar();
+	addEventsToCalendar(typeof week == 'number');
 	
 	// add marked items on expanded calendar
 	if(typeof week == 'number')
@@ -253,10 +250,20 @@ function generateCalendar(year, month, day) {
 	else
 		addMarkedEventsToMonthCalendar();
 	
-	// show events, per day, can include upcoming
-	let events = document.createElement('div');
-	events.classList.add('events');
-	
+	if(typeof week == 'number')
+	{
+		let counter = 0;
+		// remove all weeks other than current
+		for(let weekRow of document.querySelectorAll('.week'))
+		{
+			if((week - 1 < 0 && counter > 0) || (week - 1 >= 0 && counter != week))
+			{
+				weekRow.previousSibling.parentElement.removeChild(weekRow.previousSibling);
+				weekRow.parentElement.removeChild(weekRow);
+			}
+			counter++;
+		}
+	}
 }
 
 function generateCalendarArray(year, month, day) {
@@ -283,7 +290,7 @@ function generateCalendarArray(year, month, day) {
 	return [calendarArray, currentWeekNo, noOfWeeks];
 }
 
-function generateCalendarMonthTable(year, month, array) {
+function generateCalendarMonthTable(year, month, _week, day, array) {
 	let table = document.createElement('div');
 	
 	let body = document.createElement('div');
@@ -291,6 +298,9 @@ function generateCalendarMonthTable(year, month, array) {
 	body.classList.add('full');
 	window['year'] = year;
 	window['month'] = month;
+	window['week'] = _week;
+	if(day)
+		window['day'] = day;
 	
 	let row = document.createElement('div');
 	row.classList.add('header');
@@ -302,14 +312,36 @@ function generateCalendarMonthTable(year, month, array) {
 	prev.style.gridColumn = 'span 2';
 	prev.innerText = 'arrow_back_ios';
 	prev.title = 'Previous Month';
-	prev.addEventListener('click', function() {
-		if(window['month'] - 1 < 0) {
-			generateCalendar(window['year'] - 1, 11);
-			return;
-		}
-		// console.log(window['year'], window['month']-1);
-		generateCalendar(window['year'], window['month']-1);
-	});
+	if(typeof _week == 'number')
+	{
+		prev.addEventListener('click', function() {
+			if(window['week'] - 1 == 0) { // if hit first week
+				generateCalendar(window['year'], window['month'], 1);
+				return;
+			}
+			if(window['day'] - 7 < 0) { // if hit previous month
+				if(window['month'] - 1 < 0) { // if hit previous year
+					generateCalendar(window['year'] - 1, 11, getLastDayOfMonth(11, window['year']-1));
+					return;
+				}
+				generateCalendar(window['year'], window['month'] - 1, getLastDayOfMonth(window['month']-1, window['year']));
+				return;
+			}
+			// console.log(window['year'], window['month']-1);
+			generateCalendar(window['year'], window['month'], window['day'] - 7);
+		});
+	}
+	else
+	{
+		prev.addEventListener('click', function() {
+			if(window['month'] - 1 < 0) {
+				generateCalendar(window['year'] - 1, 11);
+				return;
+			}
+			// console.log(window['year'], window['month']-1);
+			generateCalendar(window['year'], window['month']-1);
+		});
+	}
 	row.appendChild(prev);
 	
 	let title = document.createElement('div');
@@ -323,14 +355,37 @@ function generateCalendarMonthTable(year, month, array) {
 	next.style.gridColumn = 'span 2';
 	next.innerText = 'arrow_forward_ios';
 	next.title = 'Next Month';
-	next.addEventListener('click', function() {
-		if(window['month'] + 1 > 11) {
-			generateCalendar(window['year'] + 1, 0);
-			return;
-		}
-		// console.log(window['year'], window['month']+1);
-		generateCalendar(window['year'], window['month']+1);
-	});
+	if(typeof _week == 'number')
+	{
+		next.addEventListener('click', function() {
+			console.log(window['day'] + 7 , getLastDayOfMonth(window['month'], window['year']));
+			if(window['day'] + 7 > getLastDayOfMonth(window['month'], window['year'])) { // if hit next month
+				if(window['month'] + 1 > 11) { // if hit next year
+					generateCalendar(window['year'] + 1, 0, 1);
+					return;
+				}
+				generateCalendar(window['year'], window['month'] + 1, 1);
+				return;
+			}
+			if(document.querySelector('.day[data-id="' + getLastDayOfMonth(window['month'], window['year']) + '"]') != null) { // if hit final week
+				generateCalendar(window['year'], window['month'], getLastDayOfMonth(window['month'], window['year']));
+				return;
+			}
+			// console.log(window['year'], window['month']+1);
+			generateCalendar(window['year'], window['month'], window['day']+7);
+		});
+	}
+	else
+	{
+		next.addEventListener('click', function() {
+			if(window['month'] + 1 > 11) {
+				generateCalendar(window['year'] + 1, 0);
+				return;
+			}
+			// console.log(window['year'], window['month']+1);
+			generateCalendar(window['year'], window['month']+1);
+		});
+	}
 	row.appendChild(next);
 	
 	body.appendChild(row);
@@ -354,6 +409,7 @@ function generateCalendarMonthTable(year, month, array) {
 		
 		row = document.createElement('div');
 		row.classList.add('row');
+		row.classList.add('week');
 		for (let day = 0; day < 7; day++) {
 			let cellHeader = document.createElement('div');
 			cellHeader.innerHTML = '<div class="number">' + array[week][day] + '</div>';
@@ -443,7 +499,7 @@ function generateCalendarWeekTable(year, month, week, day, array) {
 			generateCalendar(window['year'], window['month'], getLastDayOfMonth(window['month'], window['year']));
 			return;
 		}
-		if(window['day'] + 7 > getLastDayOfMonth(window['month'], window['year'])) { // if hit next month
+		if(window['day'] + 7 >= getLastDayOfMonth(window['month'], window['year'])) { // if hit next month
 			if(window['month'] + 1 > 11) { // if hit next year
 				generateCalendar(window['year'] + 1, 0, 1);
 				return;
@@ -567,7 +623,7 @@ function addDetailedEventsToCalendar(week) {
 	
 }
 
-function addSummaryEventsToCalendar() {
+function addEventsToCalendar(detailed) {
 	for(let single of data)
 	{
 		// assume events must have weeks defined
@@ -582,9 +638,16 @@ function addSummaryEventsToCalendar() {
 				(!single.startDate || fullDate >= parseInt(single.startDate.replace(/-/g,''))) &&
 				(!single.endDate || fullDate <= parseInt(single.endDate.replace(/-/g,''))))
 				{
-					if(date.classList.contains('expanded'))
-						date.classList.remove('expanded');
-					createSummaryEvent(date, single);
+					if(detailed) {
+						if(!date.classList.contains('expanded'))
+							date.classList.add('expanded');
+						createDetailedEvent(date, single);
+					}
+					else {
+						if(date.classList.contains('expanded'))
+							date.classList.remove('expanded');
+						createSummaryEvent(date, single);
+					}
 				}
 			}
 		}
@@ -605,9 +668,16 @@ function addSummaryEventsToCalendar() {
 					let day = document.querySelector('div[data-id="' + date.getDate() + '"]');
 					// console.log(day);
 					if(day) {
-						createSummaryEvent(day, single);
-						if(day.classList.contains('expanded'))
-							day.classList.remove('expanded');
+						if(detailed) {
+							if(!day.classList.contains('expanded'))
+								day.classList.add('expanded');
+							createDetailedEvent(day, single);
+						}
+						else {
+							if(day.classList.contains('expanded'))
+								day.classList.remove('expanded');
+							createSummaryEvent(day, single);
+						}
 					}
 				}
 				// console.log(date);
@@ -802,5 +872,5 @@ function toggleWeekMode() {
 		document.querySelector('.mode').innerText = 'calendar_view_month';
 	}
 	
-	generateCalendar(new Date().getFullYear(), new Date().getMonth(), window['mode'] == 'week' ? new Date().getDate() : null); // month is zero-based
+	generateCalendar(window['year'], window['month'], window['mode'] == 'week' ? window['day'] : null); // month is zero-based
 }
