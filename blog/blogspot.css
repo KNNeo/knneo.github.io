@@ -320,7 +320,7 @@ h2 {
 	opacity: 0;
 	visibility: hidden;
 	transition: opacity 0.5s, visibility 0.5s;
-	overflow-y: auto;
+	overflow: hidden;
 	
     display: flex;
     align-content: center;
@@ -363,6 +363,7 @@ h2 {
 	left: 0;
 	right: 0;
 	position: fixed;
+	object-fit: contain;
 }
 
 /*OTHER MEDIA QUERIES - REDUCED MOTION*/
