@@ -755,6 +755,7 @@ abbr.imgpop:hover img {
 /*Multi-image thumbnail (Refer to js setThumbnails for logic)*/
 .thumbnail {
 	display: block;
+    position: relative;
 	transition: height 0.3s;	
 }
 
@@ -766,7 +767,7 @@ abbr.imgpop:hover img {
 	right: 0;
 	opacity: 1;
 	overflow: hidden;
-	transition: opacity 0.3s, left 0.3s, right 0.3s;
+	transition: opacity 0.6s, left 0.3s;
 }
 
 .thumbnail-normal {
@@ -779,7 +780,7 @@ abbr.imgpop:hover img {
 
 .thumbnail-pop {
 	visibility: hidden;
-	left: 80vw;
+	left: 80%;
 	opacity: 0;
 }
 
