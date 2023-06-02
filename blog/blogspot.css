@@ -133,12 +133,6 @@ a:hover {
 	}
 }
 
-@media only screen and (max-width: 480px) {
-	body {
-		transition: none;
-	}
-}
-
 #blog-archive-list {
 	padding-bottom: 20px;
 }
@@ -370,4 +364,22 @@ table.tr-caption-container {
 	left: 0;
 	right: 0;
 	position: fixed;
+}
+
+/*OTHER MEDIA QUERIES - REDUCED MOTION*/
+@media only screen and (max-width: 480px) {
+	body {
+		transition: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.fadeIn {
+		animation: none;
+	}
+	body,
+	.header
+	{
+		transition: none;
+	}
 }

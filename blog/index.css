@@ -49,13 +49,13 @@
   cursor: pointer;
   padding: 8px 6px 6px 6px;
   border-radius: 7px;
-  transition: opacity 0.3s;
+  /* transition: opacity 0.3s; */
 }
 
 #SearchBtn {
   position: fixed;
   display: none;
-  opacity: 1;
+  /* opacity: 1; */
   bottom: 20px;
   right: 20px;
   z-index: 7;
@@ -65,7 +65,7 @@
   cursor: pointer;
   padding: 8px 6px 6px 6px;
   border-radius: 7px;
-  transition: opacity 0.3s;
+  /* transition: opacity 0.3s; */
 }
 
 #CloseBtn {
@@ -81,7 +81,7 @@
   cursor: pointer;
   padding: 8px 6px 6px 6px;
   border-radius: 7px;
-  transition: opacity 0.3s;
+  /* transition: opacity 0.3s; */
 }
 
 #Overlay {
@@ -887,4 +887,17 @@ abbr.imgpop:hover img {
     opacity: 1;
     transform: translate3d(0, 0, 0);
   }
+}
+
+/*OTHER MEDIA QUERIES - REDUCED MOTION*/
+@media (prefers-reduced-motion: reduce) {
+	.fadeIn {
+		animation: none;
+	}
+	.date-header,
+	.thumbnail,
+	.thumbnail-initial
+	{
+		transition: none;
+	}
 }
