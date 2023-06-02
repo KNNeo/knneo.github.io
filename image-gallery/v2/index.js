@@ -62,21 +62,37 @@ function generateOrientationValues() {
 
 //--EVENT HANDLERS--//
 function onKeyDown() {
-	if (['PageUp','PageDown','End','Home'].indexOf(event.key) >= 0)
+	if (['PageUp','PageDown','End','Home','ArrowLeft','ArrowRight'].indexOf(event.key) >= 0)
 		event.preventDefault();
-		
-	if (event.key === 'PageUp')
+	
+	switch(event.key) {
+	  case 'PageUp':
 		galleryDiv.scrollTo(galleryDiv.scrollLeft-window.innerWidth*.9, 0);
-	if (event.key === 'PageDown')
+		break;
+	  case 'PageDown':
 		galleryDiv.scrollTo(galleryDiv.scrollLeft+window.innerWidth*.9, 0);
-	if (event.key === 'End')
+		break;
+	  case 'End':
 		galleryDiv.lastElementChild.scrollIntoView({
 			inline: 'center'
 		});
-	if (event.key === 'Home')
+		break;
+	  case 'Home':
 		galleryDiv.firstElementChild.scrollIntoView({
 			inline: 'center'
 		});
+		break;
+	  case 'ArrowLeft':
+		if(window.variables.selected >= 0 && window.variables.selected - 1 >= 0)
+			scrollToItem(--window.variables.selected);
+		break;
+	  case 'ArrowRight':
+		if(window.variables.selected >= 0 && window.variables.selected + 1 < window.variables.base.length)
+			scrollToItem(++window.variables.selected);
+		break;
+	  default:
+		break;
+	}
 }
 
 function onWheel() {
