@@ -247,7 +247,7 @@ table.tr-caption-container {
 }
 
 .post-body {
-	overflow-x: hidden;
+	overflow: hidden;
 }
 
 .post-body a {
