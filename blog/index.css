@@ -765,6 +765,7 @@ abbr.imgpop:hover img {
 	left: 0;
 	right: 0;
 	opacity: 1;
+	overflow: hidden;
 	transition: opacity 0.3s, left 0.3s, right 0.3s;
 }
 
