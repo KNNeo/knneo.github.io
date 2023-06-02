@@ -170,6 +170,7 @@ a:hover {
 	background-color: var(--background);
 	box-shadow: 3px 3px var(--foreground);
 	border-radius: 8px;
+	transition: background .2s linear;
 }
 
 #LeftBtn {
@@ -192,6 +193,7 @@ a:hover {
 	background-color: var(--background);
 	box-shadow: 3px 3px var(--foreground);
 	border-radius: 8px;
+	transition: background .2s linear;
 }
 
 #RightBtn {
@@ -214,6 +216,7 @@ a:hover {
 	background-color: var(--background);
 	box-shadow: 3px 3px var(--foreground);
 	border-radius: 8px;
+	transition: background .2s linear;
 }
 
 #DarkModeBtn {
@@ -229,7 +232,6 @@ a:hover {
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
-	background-color: var(--background);
 	color: var(--foreground);
 	cursor: pointer;
 	padding: 8px 6px 6px 6px;
@@ -239,6 +241,7 @@ a:hover {
 	background-color: var(--background);
 	box-shadow: 3px 3px var(--foreground);
 	border-radius: 8px;
+	transition: background .2s linear;
 }
 
 #DarkModeBtn:active,
@@ -374,7 +377,11 @@ h2 {
 		animation: none;
 	}
 	body,
-	.header
+	.header,
+	#LeftBtn,
+	#RightBtn,
+	#BackBtn,
+	#DarkModeBtn
 	{
 		transition: none;
 	}
