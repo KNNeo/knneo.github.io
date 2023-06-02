@@ -163,7 +163,7 @@ a {
 
 a img,
 table div[style|=background] {
-  border: 1px solid var(--primary);
+  border: 2px solid var(--primary);
 }
 
 a:hover {
@@ -752,10 +752,10 @@ abbr.imgpop:hover img {
   animation: fadeIn 0.2s ease-in 0.1s both;
 }
 
-/*Multi-image thumbnail (Refer to js for logic)*/
-
+/*Multi-image thumbnail (Refer to js setThumbnails for logic)*/
 .thumbnail {
 	display: block;
+	transition: height 0.3s;	
 }
 
 .thumbnail-initial {
@@ -764,6 +764,8 @@ abbr.imgpop:hover img {
 	/* text-align: center; */
 	left: 0;
 	right: 0;
+	opacity: 1;
+	transition: opacity 0.3s, left 0.3s, right 0.3s;
 }
 
 .thumbnail-normal {
@@ -776,22 +778,23 @@ abbr.imgpop:hover img {
 
 .thumbnail-pop {
 	visibility: hidden;
+	left: 80vw;
+	opacity: 0;
 }
 
 .thumbnail-initial * img,
 .thumbnail-initial * video {
-	border: 2px solid transparent;
-	animation: imgblink 3s infinite;
-	-webkit-animation: imgblink 3s infinite;
-	-moz-animation: imgblink 3s infinite;
+	border: 2px solid var(--primary);
+	/* animation: imgblink 3s infinite; */
+	/* -webkit-animation: imgblink 3s infinite; */
+	/* -moz-animation: imgblink 3s infinite; */
 }
 
 .thumbnail .popup:hover .pop img {
-	animation: none;
+	/* animation: none; */
 }
 
-/*Supports text, not to be mistaken with links or images*/
-
+/*EXPERIMENTAL - Supports text, not to be mistaken with links or images*/
 .thumbnail-text {
 	color: var(--primary);
 	text-decoration: underline;	
