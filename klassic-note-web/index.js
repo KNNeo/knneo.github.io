@@ -174,17 +174,18 @@ function queryDb(query, callback) {
 }
 
 function toggleButton() {
-	window[this.id] = !window[this.id];
+	let target = event.target;
+	window[target.id] = !window[target.id];
 	
-	let temp = document.getElementById(this.id).innerText;
-	document.getElementById(this.id).innerText = this.getAttribute('data-alt');
-	this.setAttribute('data-alt', temp);
+	let temp = document.getElementById(target.id).innerText;
+	document.getElementById(target.id).innerText = target.getAttribute('data-alt');
+	target.setAttribute('data-alt', temp);
 	
-	if(this.getAttribute('data-title'))
+	if(target.getAttribute('data-title'))
 	{
-		let tempTitle = document.getElementById(this.id).title;
-		document.getElementById(this.id).title = this.getAttribute('data-title');
-		this.setAttribute('data-title', tempTitle);
+		let tempTitle = document.getElementById(target.id).title;
+		document.getElementById(target.id).title = target.getAttribute('data-title');
+		target.setAttribute('data-title', tempTitle);
 	}
 	updateQueueButtons();
 }
@@ -307,7 +308,7 @@ function setTabs() {
 	}
 	
 	//display tab when mobile, depending on mode
-	if(!homePageVisible) showTab('tab-info');
+	if(!homePageVisible) document.querySelector('.tab-button').click();
 	
 	//toggle search buttons
 	document.querySelector('#search').style.width = homePageVisible ? '100%' : (document.querySelector('#header').getBoundingClientRect().width - 48) + 'px';
@@ -337,8 +338,9 @@ function setTabs() {
 	checkIfMiniMode();
 }
 
-function showTab(tabId) {
+function showTab(sourceId) {
 	document.querySelector('#tab-buttons').classList.remove('hidden');
+	let tabId = sourceId || event.target.id;
 	for(let tab of document.getElementsByClassName('tab'))
 	{
 		if(tab.id === tabId.replace('button-',''))
@@ -386,10 +388,6 @@ function renderVariables() {
 }
 
 function renderSettings() {
-	for(let setting of document.querySelectorAll('.setting'))
-	{
-		setting.addEventListener('click', toggleButton);
-	}
 	if(autoplayOnSelect)
 		document.getElementById('autoplay').click();
 	updateQueueButtons();
@@ -2843,10 +2841,19 @@ function clearPlaylist() {
 	
 	if(confirm('Clear Playlist?'))
 	{
-		// clear all but playing
-		window['playlist'] = window['playlist'].slice(window['playing'], window['playing'] + 1);
-		// assume after clear, only song in playlist
-		window['playing'] = 0;
+		if(document.querySelector('#music').childElementCount > 0)
+		{
+			// clear all but playing
+			window['playlist'] = window['playlist'].slice(window['playing'], window['playing'] + 1);
+			// assume after clear, only song in playlist
+			window['playing'] = 0;
+		}
+		else
+		{
+			// reset all
+			window['playlist'] = [];
+			window['playing'] = null;
+		}
 		
 		hideContextMenus(true);
 	}

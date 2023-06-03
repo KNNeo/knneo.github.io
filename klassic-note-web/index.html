@@ -28,14 +28,14 @@
 	</div>
 	<div class="loader material-icons"></div>
 	<div id="tab-buttons" class="calc centered padded tab-buttons hidden">
-		<button id="button-tab-info" class="tab-button" onclick="showTab(this.id)">Info</button>
-		<button id="button-tab-related" class="tab-button" onclick="showTab(this.id)">Related</button>
-		<button id="button-tab-awards" class="tab-button" onclick="showTab(this.id)">Awards</button>
-		<button id="button-tab-ranking" class="tab-button" onclick="showTab(this.id)">Rankings</button>
-		<button id="button-tab-analysis" class="tab-button" onclick="showTab(this.id)">Analysis</button>
-		<button id="button-tab-compilation" class="tab-button" onclick="showTab(this.id)">Compilations</button>
-		<button id="button-tab-collection" class="tab-button" onclick="showTab(this.id)">Collection</button>
-		<button id="button-tab-sotd" class="tab-button" onclick="showTab(this.id)">Song of the Day</button>
+		<button id="button-tab-info" class="tab-button" onclick="showTab()">Info</button>
+		<button id="button-tab-related" class="tab-button" onclick="showTab()">Related</button>
+		<button id="button-tab-awards" class="tab-button" onclick="showTab()">Awards</button>
+		<button id="button-tab-ranking" class="tab-button" onclick="showTab()">Rankings</button>
+		<button id="button-tab-analysis" class="tab-button" onclick="showTab()">Analysis</button>
+		<button id="button-tab-compilation" class="tab-button" onclick="showTab()">Compilations</button>
+		<button id="button-tab-collection" class="tab-button" onclick="showTab()">Collection</button>
+		<button id="button-tab-sotd" class="tab-button" onclick="showTab()">Song of the Day</button>
 	</div>
 	<div id="tab-list">
 		<div id="tab-homepage" data-name="Homepage">
@@ -91,12 +91,16 @@
 		</div>
 	</div>
 	<div id="settings" class="calc centered padded settings">
-		<a id="autoplay" class="autoplay setting material-icons" href="javascript:void(0);" data-alt="music_note" title="Toggle Autoplay">music_off</a>
-		<a id="darkmode" title="Toggle Dark Mode" class="darkmode material-icons" href="javascript:void(0);" onclick="toggleDarkMode()">brightness_high</a>
-		<!-- <span style="border-left: 3px solid; padding: 0 3px;"></span> -->
-		<a id="song-queue" title="Toggle Queue" class="material-icons" href="javascript:void(0);" onclick="showContextMenu()" oncontextmenu="clearPlaylist()" data-context="playlist">format_align_justify</a>
-		<a id="queue-skip" title="Play (Next) Song" class="material-icons" style="vertical-align: text-top;" href="javascript:void(0);" onclick="skipSong()">play_circle</a>
-		<a id="shuffle-mode" title="Toggle Shuffle Mode" class="setting material-icons" data-alt="shuffle_on" href="javascript:void(0);">shuffle</a>
+		<a id="autoplay" class="material-icons" title="Toggle Autoplay" 
+		href="javascript:void(0);" onclick="toggleButton()" data-alt="music_note">music_off</a>
+		<a id="darkmode" class="material-icons" title="Toggle Dark Mode" 
+		href="javascript:void(0);" onclick="toggleDarkMode()">brightness_high</a>
+		<a id="song-queue" class="material-icons" title="Toggle Queue" 
+		href="javascript:void(0);" onclick="showContextMenu()" data-context="playlist" oncontextmenu="clearPlaylist()">format_align_justify</a>
+		<a id="queue-skip" class="material-icons" title="Play (Next) Song" 
+		href="javascript:void(0);" onclick="skipSong()">play_circle</a>
+		<a id="shuffle-mode" class="material-icons" title="Toggle Shuffle Mode" 
+		href="javascript:void(0);" onclick="toggleButton()" data-alt="shuffle_on">shuffle</a>
 		<span class="controls">
 			<select id="queue-options">
 				<option value="any">Any</option>
