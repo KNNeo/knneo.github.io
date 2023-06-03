@@ -611,9 +611,11 @@ function switchThumbnails(tn) {
 	let nextActive = tc[active].nextElementSibling;
 	if(nextActive == null) nextActive = tn.firstElementChild;
 	nextActive.classList.remove("thumbnail-pop");
-	let [min, max] = calcMinMaxThumbHeight(tn);
-	if(min && max)
-		tn.style.height = nextActive.offsetHeight + 'px';
+	setTimeout(function() {
+		let [min, max] = calcMinMaxThumbHeight(tn);
+		if(min && max)
+			tn.style.height = nextActive.offsetHeight + 'px';
+	}, 200);
     return;
 }
 
