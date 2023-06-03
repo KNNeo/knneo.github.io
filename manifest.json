@@ -1,0 +1,39 @@
+{
+	"background_color": "#ffffff",
+	"description": "knneo.github.io is a place for me to play around with vanilla HTML and Javascript",
+	"dir": "ltr",
+	"display": "fullscreen",
+	"name": "Klassic Note Playground",
+	"orientation": "natural",
+	"scope": "/",
+	"short_name": "Klassic Note",
+	"start_url": "/",
+	"theme_color": "#ffffff",
+	"categories": [],
+	"screenshots": [],
+	"icons": [
+		{
+			"src": "flask-svgrepo-com.png",
+			"type": "image/png",
+			"sizes": "any"
+		}
+	],
+	"shortcuts": [
+		{
+			"name": "Music Database",
+			"url": "/klassic-note-web/index.html",
+			"description": ""
+		},
+		{
+			"name": "Blog",
+			"url": "/blog.index.html",
+			"description": ""
+		}
+	],
+	"lang": "en",
+	"display_override": [
+		"window-controls-overlay",
+		"standalone",
+		"browser"
+	]
+}
