@@ -333,42 +333,6 @@
 			"sizes": "256x256"
 		},
 		{
-			"src": "resources/icons/android/android-launchericon-maskable-512-512.svg",
-			"sizes": "512x512",
-			"type": "image/svg+xml",
-			"purpose": "any maskable"
-		},
-		{
-			"src": "resources/icons/android/android-launchericon-maskable-192-192.svg",
-			"sizes": "192x192",
-			"type": "image/svg+xml",
-			"purpose": "any maskable"
-		},
-		{
-			"src": "resources/icons/android/android-launchericon-maskable-144-144.svg",
-			"sizes": "144x144",
-			"type": "image/svg+xml",
-			"purpose": "any maskable"
-		},
-		{
-			"src": "resources/icons/android/android-launchericon-maskable-96-96.svg",
-			"sizes": "96x96",
-			"type": "image/svg+xml",
-			"purpose": "any maskable"
-		},
-		{
-			"src": "resources/icons/android/android-launchericon-maskable-72-72.svg",
-			"sizes": "72x72",
-			"type": "image/svg+xml",
-			"purpose": "any maskable"
-		},
-		{
-			"src": "resources/icons/android/android-launchericon-maskable-48-48.svg",
-			"sizes": "48x48",
-			"type": "image/svg+xml",
-			"purpose": "any maskable"
-		},
-		{
 			"src": "resources/icons/ios/16.png",
 			"sizes": "16x16"
 		},
@@ -471,6 +435,12 @@
 		{
 			"src": "resources/icons/ios/1024.png",
 			"sizes": "1024x1024"
+		},
+		{
+			"src": "flask-svgrepo-com.svg",
+			"type": "image/svg+xml",
+			"sizes": "any",
+			"purpose": "any maskable"
 		},
 		{
 			"src": "flask-svgrepo-com.png",
