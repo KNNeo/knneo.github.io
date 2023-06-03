@@ -16,12 +16,12 @@
 			"src": "flask-svgrepo-com.svg",
 			"type": "image/svg+xml",
 			"sizes": "any",
-			"purpose": "any maskable"
+			"purpose": "maskable"
 		},
 		{
 			"src": "flask-svgrepo-com.png",
 			"type": "image/png",
-			"sizes": "192x192",
+			"sizes": "any",
 			"purpose": "any"
 		}
 	],
