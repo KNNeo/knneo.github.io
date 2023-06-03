@@ -519,12 +519,24 @@
 		{
 			"name": "Music Database",
 			"url": "/klassic-note-web/index.html",
-			"description": ""
+			"description": "Klassic Note Web",
+			"icons": [
+				{
+					"src": "/klassic-note-web/music-svgrepo-com-custom-tint.png",
+					"sizes": "192x192"
+				}
+			]
 		},
 		{
 			"name": "Blog",
-			"url": "/blog.index.html",
-			"description": ""
+			"url": "/blog/index.html",
+			"description": "BLOG",
+			"icons": [
+				{
+					"src": "/blog/storytime.png",
+					"sizes": "192x192"
+				}
+			]
 		}
 	],
 	"lang": "en",
