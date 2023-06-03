@@ -540,7 +540,7 @@ function setThumbnails() {
             allThumbnails[i].style.height = initialHeight + 'px'; */
 		
 		let [min, max] = calcMinMaxThumbHeight(allThumbnails[i]);
-		if(min && max)
+		if(min && max) // hint to adjust height of thumbnail to first child
 			allThumbnails[i].style.height = allThumbnails[i].getElementsByClassName("thumbnail-initial")[0].offsetHeight + 'px';
 		if(!min)
 			allThumbnails[i].style.height = max + 'px';
@@ -613,17 +613,15 @@ function switchThumbnails(tn) {
 	nextActive.classList.remove("thumbnail-pop");
 	setTimeout(function() {
 		let [min, max] = calcMinMaxThumbHeight(tn);
-		if(min && max)
+		if(min && max) // hint to adjust height of thumbnail
 			tn.style.height = nextActive.offsetHeight + 'px';
 	}, 200);
-    return;
 }
 
 function calcMinMaxThumbHeight(thumbnailClass) {
-	//calculation logic:
-	/*
+	/* calculation logic:
 	 * if large difference ie. >50, set min and max height
-	 * if small difference, set no min, max as max height
+	 * if small difference, set no min, set max height only
 	 */
     let tc = thumbnailClass.getElementsByClassName("thumbnail-initial");
     let heights = Array.from(tc).map(t => t.offsetHeight);
