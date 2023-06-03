@@ -620,14 +620,14 @@ function switchThumbnails(tn) {
 
 function calcMinMaxThumbHeight(thumbnailClass) {
 	/* calculation logic:
-	 * if large difference ie. >50, set min and max height
+	 * if large difference, set min and max height
 	 * if small difference, set no min, set max height only
 	 */
     let tc = thumbnailClass.getElementsByClassName("thumbnail-initial");
     let heights = Array.from(tc).map(t => t.offsetHeight);
 	let minHeight = Math.min(...heights);
 	let maxHeight = Math.max(...heights);
-	if(maxHeight - minHeight <= 50)
+	if(maxHeight - minHeight <= 20)
 		return [null, maxHeight];
 	if(minHeight && maxHeight)
 		return [minHeight, maxHeight];
