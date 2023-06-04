@@ -627,7 +627,7 @@ function calcMinMaxThumbHeight(thumbnailClass) {
     let heights = Array.from(tc).map(t => t.offsetHeight);
 	let minHeight = Math.min(...heights);
 	let maxHeight = Math.max(...heights);
-	if(maxHeight - minHeight <= 20)
+	if(maxHeight - minHeight <= 5)
 		return [null, maxHeight];
 	if(minHeight && maxHeight)
 		return [minHeight, maxHeight];
