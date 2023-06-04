@@ -707,8 +707,8 @@ function resizeImages() {
                 p.classList.add('img-width-fit');
             else if (p.width < imgWidth)
                 p.classList.add('img-width-auto');
-            else
-                p.style.width = imgWidth + 'px';
+            // else
+                // p.style.width = imgWidth + 'px';
 			if(showLog) console.log('landscape', p.style.width, p.style.height);
         } else //portrait
         {
@@ -725,8 +725,8 @@ function resizeImages() {
                 p.classList.add('img-width-fit');
             else if (p.width < imgWidth)
                 p.classList.add('img-width-auto');
-            else
-                p.style.width = imgWidth + 'px';
+            // else
+                // p.style.width = imgWidth + 'px';
 			if(showLog) console.log('portrait', p.style.width, p.style.height);
         }
 		//end of process based on dimensions
