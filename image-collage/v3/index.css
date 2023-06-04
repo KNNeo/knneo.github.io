@@ -234,6 +234,7 @@ body[layout='horizontal'] .expander {
 	max-height: 80%;
 	font-size: 0.8em;
 }
+
 .dialog dialog a {
 	background-color: var(--background);
 	color: var(--primary);
@@ -243,7 +244,7 @@ body[layout='horizontal'] .expander {
 	display: none;
 }
 
-#viewer {
+.viewer {
 	z-index: 9;
 	position: fixed;
 	background-color: var(--background);
@@ -253,8 +254,16 @@ body[layout='horizontal'] .expander {
 	text-align: center;
 	transition: opacity 0.3s, visibility 0.3s;
 	top: 0;
+	visibility: hidden;
+	opacity: 0;
 }
-#viewer-prev {
+
+.viewer.open {
+	visibility: visible;
+	opacity: 1;	
+}
+
+.viewer .prev {
 	cursor: pointer;
 	background-color: transparent;
 	position: absolute;
@@ -264,7 +273,8 @@ body[layout='horizontal'] .expander {
 	height: 100%;
 	z-index: 11;
 }
-#viewer-next {
+
+.viewer .next {
 	cursor: pointer;
 	background-color: transparent;
 	position: absolute;
@@ -274,16 +284,18 @@ body[layout='horizontal'] .expander {
 	height: 100%;
 	z-index: 11;
 }
-#viewer-next:active {
+
+.viewer .prev:active {
 	opacity: 0.4;
 	background-image: linear-gradient(to left, var(--background), transparent);
 }
-#viewer-prev:active {
+
+.viewer .next:active {
 	opacity: 0.4;
 	background-image: linear-gradient(to right, var(--background), transparent);
 }
 
-#viewer img {
+.viewer img {
 	transition: transform 0.2s;
 	object-fit: contain;
 	width: 100%;
@@ -295,6 +307,6 @@ body[layout='horizontal'] .expander {
 	user-select: none;
 }
 
-#viewer.zoom img {
+.viewer.zoom img {
 	object-fit: cover;	
 }
