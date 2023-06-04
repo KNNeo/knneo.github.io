@@ -53,6 +53,8 @@ const horizontalLayout = function() {
 }
 
 //--REFERENCES--//
+const title = document.querySelector('.title');
+const description = document.querySelector('.description');
 const content = document.querySelector('.content');
 const grid = document.querySelector('.grid');
 const collage = document.querySelector('.collage');
@@ -139,10 +141,10 @@ function generateLayout() {
 	}
 		
 	if(config.title && config.title.length > 0)
-		document.querySelector('.title').innerText = config.title;
+		title.innerText = config.title;
 	
 	if(config.description && config.description.length > 0)
-		document.querySelector('.description').innerText = config.description;
+		description.innerText = config.description;
 
 	if(typeof config.setting.filter == 'boolean' && config.setting.filter) {
 		let include = document.querySelector('#include');
