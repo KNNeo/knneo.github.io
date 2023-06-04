@@ -670,6 +670,7 @@ function onToggleExpander() {
 	  default:
 		break;
 	}
+	setTimeout(fadeIn, 0);
 }
 
 function onClearAll() {
