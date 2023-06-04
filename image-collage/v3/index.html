@@ -23,7 +23,14 @@
 		</div>
 		<div class="tags"></div>
 		<h3 class="settings">
-		</h3>
+			<a class="clear settings-icon material-icons" title="Clear Search &amp; Tags" href="javascript:void(0);" onclick="onClearAll()">clear_all</a>
+			<a class="expand settings-icon material-icons" title="Expand Tags" href="javascript:void(0);"onclick="onToggleExpander()">unfold_more</a>
+			<a class="darkmode settings-icon material-icons" id="darkmode" title="Toggle Dark Mode" href="javascript:void(0);" onclick="toggleDarkMode()">brightness_high</a>
+			<a id="preset" class="preset settings-icon material-icons" title="Toggle Thumbnail Presets" href="javascript:void(0);" onclick="onTogglePreset()">photo_size_select_small</a>
+			<a id="slideshow" class="slideshow settings-icon material-icons" title="Start Slideshow" href="javascript:void(0);" onclick="startSlideshow()">slideshow</a>
+			<a id="stats" class="stats settings-icon material-icons" title="Show Statistics" href="javascript:void(0);" onclick="generateStats()">analytics</a>
+			<span class="counter" title="Number of items displayed"></span>
+			<a class="back menu" href="../../index.html" style="padding: 0px 5px; vertical-align: top;">knneo.github.io</a></h3>
 	</div>
 	<div class="collage">
 		<div class="grid"></div>

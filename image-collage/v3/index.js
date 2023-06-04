@@ -7,6 +7,9 @@
 //--SETTINGS--//
 const config = {
 	debug: false,
+	menu: {
+		width: 500,
+	},
 	title: 'VVブロマイド図鑑',
 	description: `Gallery based on tag separated filenames\n\n©コーエーテクモゲームス All rights reserved.	`,
 	placeholder: {
@@ -47,8 +50,7 @@ const config = {
 	},
 	separator: '_',
 };
-const horizontalMenuWidth = 500;
-const horizontalLayout = function() { 
+const isHorizontalLayout = function() { 
 	return matchMedia('all and (orientation:landscape)').matches; 
 }
 
@@ -82,7 +84,7 @@ function initializeVariables() {
 	window['isFirefox'] = (/Firefox/i.test(navigator.userAgent));
 	window['includeCriteria'] = '';
 	window['excludeCriteria'] = '';
-	window['horizontal'] = horizontalLayout();
+	window['horizontal'] = isHorizontalLayout();
 	window['preset'] = 'photo_size_select_small';
 	window['slideshow'] = null;
 }
@@ -126,19 +128,10 @@ function generateTags() {
 }
 
 function generateLayout() {
-	document.title = config.title ?? 'Image Collage';
+	resetLayout();
 	
-	if(window['horizontal']) {
-		document.body.setAttribute('layout', 'horizontal');
-		menu.style.width = horizontalMenuWidth + 'px';
-		if(window.innerHeight > 800) {
-			tags.classList.add('expanded');
-		}
-	}
-	else {
-		document.body.setAttribute('layout', 'vertical');
-	}
-		
+	document.title = config.title ?? 'Image Collage';
+
 	if(config.title && config.title.length > 0)
 		title.innerText = config.title;
 	
@@ -148,8 +141,6 @@ function generateLayout() {
 	if(typeof config.setting.filter == 'boolean' && config.setting.filter) {
 		let include = document.querySelector('#include');
 		include.classList.add('filter');
-		include.style.fontSize = '1em';
-		include.style.maxWidth = '45%';
 		include.placeholder = config.placeholder.include;
 		include.addEventListener('input', function() {
 			window['includeCriteria'] = this.value;
@@ -158,8 +149,6 @@ function generateLayout() {
 		
 		let exclude = document.querySelector('#exclude');
 		exclude.classList.add('filter');
-		exclude.style.fontSize = '1em';
-		exclude.style.maxWidth = '45%';
 		exclude.placeholder = config.placeholder.exclude;
 		exclude.addEventListener('input', function() {
 			window['excludeCriteria'] = this.value;
@@ -167,108 +156,36 @@ function generateLayout() {
 		});
 	}
 	
-	if(typeof config.setting.clear == 'boolean')
+	for(let [key, value] of Object.entries(config.setting))
 	{
-		let clear = document.createElement('a');
-		clear.classList.add('clear');
-		clear.classList.add('settings-icon');
-		clear.classList.add('material-icons');
-		clear.title = 'Clear Search & Tags';
-		clear.href = 'javascript:void(0);';
-		clear.innerText = 'clear_all';
-		clear.addEventListener('click', onClearAll);
-		settings.appendChild(clear);
+		if(key == 'expand' && window['horizontal'])
+			document.querySelector('.' + key).classList.add('hidden');			
+		else if(value)
+			document.querySelector('.' + key).classList.remove('hidden');
+		else
+			document.querySelector('.' + key).classList.add('hidden');
 	}
-	
-	if(typeof config.setting.expand == 'boolean')
-	{
-		let expander = document.createElement('a');
-		expander.classList.add('expander');
-		expander.classList.add('settings-icon');
-		expander.classList.add('material-icons');
-		expander.title = 'Expand Tags';
-		expander.href = 'javascript:void(0);';
-		expander.innerText = 'unfold_more';
-		expander.addEventListener('click', onToggleExpander);
-		settings.appendChild(expander);
-	}
-	
-	if(typeof config.setting.darkmode == 'boolean')
-	{
-		let darkmode = document.createElement('a');
-		darkmode.id = 'darkmode';
-		darkmode.classList.add('darkmode');
-		darkmode.classList.add('settings-icon');
-		darkmode.classList.add('material-icons');
-		darkmode.title = 'Toggle Dark Mode';
-		darkmode.href = 'javascript:void(0);';
-		darkmode.innerText = 'brightness_high';
-		darkmode.addEventListener('click', toggleDarkMode);
-		settings.appendChild(darkmode);		
-	}
-	
-	if(typeof config.setting.preset == 'boolean' && typeof config.tag.preset == 'object' && config.tag.preset.length == 3)
-	{
-		let preset = document.createElement('a');
-		preset.id = 'preset';
-		preset.classList.add('preset');
-		preset.classList.add('settings-icon');
-		preset.classList.add('material-icons');
-		preset.title = 'Toggle Thumbnail Presets';
-		preset.href = 'javascript:void(0);';
-		preset.innerText = window['preset'];
-		preset.addEventListener('click', onTogglePreset);
-		settings.appendChild(preset);
-	}
-	
-	if(typeof config.setting.slideshow == 'number' && config.setting.slideshow > 0)
-	{
-		let slideshow = document.createElement('a');
-		slideshow.id = 'slideshow';
-		slideshow.classList.add('slideshow');
-		slideshow.classList.add('settings-icon');
-		slideshow.classList.add('material-icons');
-		slideshow.title = 'Start Slideshow';
-		slideshow.href = 'javascript:void(0);';
-		slideshow.innerText = 'slideshow';
-		slideshow.addEventListener('click', startSlideshow);
-		settings.appendChild(slideshow);
-	}
-	
-	if(config.setting.stats && typeof mosaicArray == 'object')
-	{
-		let stats = document.createElement('a');
-		stats.id = 'stats';
-		stats.classList.add('stats');
-		stats.classList.add('settings-icon');
-		stats.classList.add('material-icons');
-		stats.title = 'Show Statistics';
-		stats.href = 'javascript:void(0);';
-		stats.innerText = 'analytics';
-		stats.addEventListener('click', generateStats);
-		settings.appendChild(stats);
-		
-		let counter = document.createElement('span');
-		counter.classList.add('counter');
-		counter.title = 'Number of items displayed';
-		counter.innerText = 0;
-		settings.appendChild(counter);
-	}
-	
-	let back = document.createElement('a');
-	back.classList.add('back');
-	back.classList.add('menu');
-	back.style.padding = '0 5px';
-	back.style.verticalAlign = 'top';
-	back.href = '../../index.html';
-	back.innerText = 'knneo.github.io';
-	settings.appendChild(back);
 	
 	generateTagsList();
 	generateLayoutCollage();
 	generateGrid();
 	if(grid.childElementCount == 0)
 		grid.innerText = 'No Data';
+}
+
+function resetLayout() {
+	if(window['horizontal']) {
+		document.body.setAttribute('layout', 'horizontal');
+		menu.style.width = config.menu.width + 'px' || 0;
+		if(window.innerHeight > 800)
+			tags.classList.add('expanded');
+	}
+	else {
+		document.body.setAttribute('layout', 'vertical');
+		menu.style.width = '';
+		menu.style.height = config.menu.height + 'px' || '';
+	}
+	
 }
 
 function generateTagsList() {
@@ -377,7 +294,7 @@ function generateStats() {
 
 function generateLayoutCollage() {
 	if(window['horizontal']) 
-		collage.style.width = (horizontalMenuWidth >= 0.5*window.innerWidth ? 0.5*window.innerWidth : window.innerWidth - horizontalMenuWidth) + 'px';
+		collage.style.width = (config.menu.width >= 0.5*window.innerWidth ? 0.5*window.innerWidth : window.innerWidth - config.menu.width) + 'px';
 	else
 		collage.style.width = '';
 	collage.style.height = (window.innerHeight) + 'px';
@@ -518,7 +435,7 @@ function calculateColumns() {
 	  default:
 		break;
 	}
-	columns = Math.round((window.innerWidth - (window['horizontal'] ? horizontalMenuWidth : 0)) / columns);
+	columns = Math.round((window.innerWidth - (window['horizontal'] ? config.menu.width : 0)) / columns);
 	return columns < config.grid.column.min ? config.grid.column.min : columns;
 }
 
@@ -560,22 +477,11 @@ function fadeIn() {
 //EVENTS//
 function onResize() {
 	//size grid again
-	window['horizontal'] = horizontalLayout();
-	generateLayoutCollage();
-	if(window['horizontal']) {
-		document.body.setAttribute('layout', 'horizontal');
-		menu.style.width = horizontalMenuWidth + 'px';
-		if(window.innerHeight < 800)
-			tags.classList.remove('expanded');
-		else
-			tags.classList.add('expanded');
-	}
-	else {
-		document.body.setAttribute('layout', 'vertical');
-		menu.style.width = '';
-		tags.classList.remove('expanded');
-	}
-	
+	window['horizontal'] = isHorizontalLayout();
+	document.querySelector('.expand').innerText = 'unfold_more';
+	tags.classList.remove('expanded');
+	generateLayout();
+
 	//resize images again
 	let thumbWidth = calculateThumbnailSize();
 	let itemWidth = thumbWidth + 'px';
@@ -618,7 +524,7 @@ function onTouchMove(e) {
 }
 
 function onTogglePreset() {
-	switch(this.innerText)
+	switch(event.target.innerText)
 	{
 	  case 'photo_size_select_actual':
 		document.getElementById('preset').innerText = 'photo_size_select_small';
@@ -639,11 +545,11 @@ function onTogglePreset() {
 }
 
 function onToggleExpander() {
-	switch(this.innerText)
+	switch(event.target.innerText)
 	{
 	  case 'unfold_more':
-		document.querySelector('.expander').innerText = 'unfold_less';
-		document.querySelector('.expander').title = 'Close Tags';
+		event.target.innerText = 'unfold_less';
+		event.target.title = 'Close Tags';
 		tags.classList.toggle('expanded');
 		for(let tag of document.querySelectorAll('.tag'))
 		{
@@ -651,8 +557,8 @@ function onToggleExpander() {
 		}
 		break
 	  case 'unfold_less':
-		document.querySelector('.expander').innerText = 'unfold_more';
-		document.querySelector('.expander').title = 'Expand Tags';
+		event.target.innerText = 'unfold_more';
+		event.target.title = 'Expand Tags';
 		tags.classList.toggle('expanded');
 		for(let tag of document.querySelectorAll('.tag'))
 		{

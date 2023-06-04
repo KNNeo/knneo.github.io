@@ -200,6 +200,8 @@ body[layout='horizontal'] .expander {
 	border: 1px solid var(--foreground);
 	margin: 2px;
 	width: 40%;
+	max-width: 45%;
+	font-size: 1em;
 }
 
 .menu {
