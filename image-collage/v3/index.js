@@ -592,9 +592,6 @@ function onResize() {
 		gridItem.style.width = itemWidth;
 		gridItem.style.height = itemHeight;		
 	}
-	
-	//if viewer on, adjust placement again
-	adjustViewerMargin();
 }
 
 function onScroll(e) {
@@ -693,24 +690,7 @@ function onClearAll() {
 
 //VIEWER//
 function createLinkedList(selector) {
-	window['viewer-list'] = [];
-	for(let img of document.querySelectorAll(selector))
-	{
-		window['viewer-list'].push(img);
-	}
-}
-
-function updateImageNo(image) {
-	let imageNo = -1;
-	for(let img of window['viewer-list'])
-	{
-		imageNo++;
-		if(img.src == image.src)
-		{
-			return imageNo;
-		}
-	}
-	return imageNo;
+	window['viewer-list'] = Array.from(document.querySelectorAll(selector));
 }
 
 function openViewer(image) {
@@ -720,12 +700,10 @@ function openViewer(image) {
 }
 
 function openImageInViewer(image) {	
-	let imgNo = updateImageNo(image);
+	let imgNo = window['viewer-list'].findIndex(i => i.src === image.src);
 	
 	let viewer = document.getElementById('viewer');
 	viewer.setAttribute('index', imgNo);
-	viewer.innerHTML = '';
-	viewer.tabIndex = 999;
 	let viewerPrev = document.createElement('a');
 	viewerPrev.id = 'viewer-prev';
 	viewerPrev.classList.add('viewer-nav');
@@ -761,6 +739,7 @@ function openImageInViewer(image) {
 			runLoader();
 		}, 250);
 	});
+	
 	if(viewer.childNodes.length > 0) viewer.innerHTML = '';
 	if(imgNo-1 >= 0 && window['slideshow'] == null)
 		viewer.appendChild(viewerPrev);
@@ -780,23 +759,20 @@ function openImageInViewer(image) {
 	img.addEventListener('touchstart', onTouchStart);
 	img.addEventListener('touchmove', onTouchMoveViewer, false);
 	img.addEventListener('click', closeViewer);
-	img.addEventListener('contextmenu', toggleZoom);
+	// img.addEventListener('contextmenu', toggleZoom);
 	
 	if(viewer.style.visibility != 'visible') viewer.style.visibility = 'visible';
 	if(viewer.style.opacity != '1') viewer.style.opacity = '1';
-	setTimeout(adjustViewerMargin, 50);
 }
 
 function onClickViewerPrev() {
 	openImageInViewer(window['viewer-list'][parseInt(viewer.getAttribute('index'))-1]);
-	window['loading'] = true;
 	runLoader();
 	return false;
 }
 
 function onClickViewerNext() {
 	openImageInViewer(window['viewer-list'][parseInt(viewer.getAttribute('index'))+1]);
-	window['loading'] = true;
 	runLoader();
 	return false;
 }
@@ -832,14 +808,6 @@ function onTouchMoveViewer(e) {
 		this.removeEventListener('touchmove', onTouchMoveViewer);
 		return;
 	}
-}
-
-function adjustViewerMargin() {
-	let viewer = document.getElementById('viewer');
-	if(viewer.childElementCount == 0) return;
-	let image = viewer.querySelector('img');
-	if(!image.complete) setTimeout(adjustViewerMargin, 200);
-	viewer.style.paddingTop = (window.innerHeight - image.height)/2 + 'px';
 }
 
 function closeViewer() {
@@ -881,7 +849,6 @@ function toggleZoom() {
 	viewer.style.overflow = value ? '' : 'auto';
 	viewerImage.style.maxWidth = value ? '100%' : '';
 	viewer.style.height = value ? '' : viewer.getBoundingClientRect().height;
-	viewer.style.paddingTop = value ? adjustViewerMargin() : 0;
 	
 	document.getElementById('viewer').scrollLeft = document.querySelector('#viewer img').getBoundingClientRect().width*0.5 - window.innerWidth*0.5;
 }
@@ -905,7 +872,6 @@ function runSlideshow() {
 		let images = generateFiltered();
 		let image = images[Math.floor(Math.random()*images.length)];
 		openImageInViewer(document.querySelector('img[alt="' + image.og + '"]'));
-		window['loading'] = true;
 		runLoader();
 		window['slideshow'] = setTimeout(runSlideshow, config.setting.slideshow * 1000);	
 	}
