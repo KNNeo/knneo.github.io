@@ -294,3 +294,7 @@ body[layout='horizontal'] .expander {
 	-ms-user-select: none;
 	user-select: none;
 }
+
+#viewer.zoom img {
+	object-fit: cover;	
+}

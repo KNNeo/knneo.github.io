@@ -759,7 +759,7 @@ function openImageInViewer(image) {
 	img.addEventListener('touchstart', onTouchStart);
 	img.addEventListener('touchmove', onTouchMoveViewer, false);
 	img.addEventListener('click', closeViewer);
-	// img.addEventListener('contextmenu', toggleZoom);
+	img.addEventListener('contextmenu', toggleZoom);
 	
 	if(viewer.style.visibility != 'visible') viewer.style.visibility = 'visible';
 	if(viewer.style.opacity != '1') viewer.style.opacity = '1';
@@ -835,22 +835,7 @@ function toggleZoom() {
 	if(window['slideshow'] != null) return;
 	
 	let viewer = document.getElementById('viewer');
-	let viewerPrev = document.getElementById('viewer-prev');
-	let viewerNext = document.getElementById('viewer-next');
-	let viewerImage = viewer.querySelector('img');
-	if(viewer.getBoundingClientRect().width > viewerImage.getBoundingClientRect().width) return;
-	
-	let value = viewer.style.display == 'flex';
-
-	if(viewerPrev != null) viewerPrev.style.display = value ? '' : 'none';
-	if(viewerNext != null) viewerNext.style.display = value ? '' : 'none';
-	
-	viewer.style.display = value ? '' : 'flex';
-	viewer.style.overflow = value ? '' : 'auto';
-	viewerImage.style.maxWidth = value ? '100%' : '';
-	viewer.style.height = value ? '' : viewer.getBoundingClientRect().height;
-	
-	document.getElementById('viewer').scrollLeft = document.querySelector('#viewer img').getBoundingClientRect().width*0.5 - window.innerWidth*0.5;
+	viewer.classList.toggle('zoom');
 }
 
 function getFilenameInfo(url) {
