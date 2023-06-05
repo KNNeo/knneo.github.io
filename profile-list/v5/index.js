@@ -462,7 +462,11 @@ function createDOBlist(profiles, minAge, maxAge, sort = false) {
 function findFriendIdByProfile(friends) {
 	if(window['debug']) console.log('findFriendIdByProfile', friends[1], friends[2]);
 	if(typeof friends == 'object' && friends[1] != undefined)
-		return window['friendList'].find( function(p) {
+		return window['friendList']
+			.sort(function(a,b) {
+				return b.id.split('-').length - a.id.split('-').length;
+			})
+			.find( function(p) {
 				let count = p.id.split('-').length;
 				let check0 = (p.id.includes(friends[0].id + '-') || p.id.includes('-' + friends[0].id + '-') || p.id.includes('-' + friends[0].id));
 				let check1 = (p.id.includes(friends[1].id + '-') || p.id.includes('-' + friends[1].id + '-') || p.id.includes('-' + friends[1].id));
