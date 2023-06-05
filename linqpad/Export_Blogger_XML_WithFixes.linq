@@ -46,7 +46,7 @@ void Main()
 {
     bool WriteTitleOnConsole = true;
 	bool TraceMode = false;
-	int maxLatestPost = 20;
+	int maxLatestPost = 12;
 	string defaultFont = "Noto Sans";
     Console.WriteLine("WriteTitleOnConsole is " + WriteTitleOnConsole + "; Set as true to see post titles");
     Console.WriteLine("\tPost with changes will appear here");

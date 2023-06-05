@@ -2,8 +2,6 @@ window['light-theme'] = '#f4f6ff';
 window['dark-theme'] = '#001114';
 window['dark-name'] = 'blog-theme';
 
-window.onpageshow = filterByTag();
-
 function filterByTag(sourceFilter) {
 	let tag = sourceFilter || window.location.hash.replace('#','');
 	let isAll = tag == "All" || tag == "";
