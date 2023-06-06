@@ -134,8 +134,10 @@ a {
 }
 
 .section:hover .page-prev,
+.page-prev:focus-visible,
 .page-prev:active,
 .section:hover .page-next,
+.page-next:focus-visible,
 .page-next:active {
 	opacity: 1;
 }
@@ -166,9 +168,8 @@ a {
 }
 
 .box {	
-	border: 1px solid var(--foreground);
+	border: 3px solid var(--foreground);
 	background-color: var(--background);
-	box-shadow: 3px 3px;
 	display: flex;
 	font-size: 0.8em;
 	word-wrap: break-word;
@@ -179,9 +180,8 @@ a {
 
 .box:active,
 .page-element:active {
-  box-shadow: 1px 1px;
-  transform: translate(2px, 2px);
-  border: 1px solid var(--accent);
+  color: var(--accent);
+  border: 3px solid var(--accent);
   background-color: var(--background);
 }
 
@@ -190,12 +190,14 @@ a {
 }
 
 .icon {
-	transition: all 0.1s ease;
+	border: 3px solid var(--background);
 	background-color: var(--accent);
 }
 
-.icon:hover {
-	transform: scale(1.2);
+.icon:focus-visible,
+.icon:active {
+	border: 3px solid var(--accent);
+	filter: grayscale(1);
 }
 
 .contents {
@@ -226,14 +228,20 @@ a {
 	padding: 0 1px;
 }
 
+.contents .home:active {
+	color: var(--accent);
+}
+
 .single .text {
 	font-size: 0.9em;
     flex-grow: 0;
     flex-shrink: 0;
+    border-radius: 100%;
 }
 
 .one .text {
 	font-size: 1.5vw;
+    border-radius: 100%;
 }
 
 .single .page-prev {

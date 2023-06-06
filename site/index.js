@@ -465,7 +465,7 @@ function renderMenu() {
 					if(smallScreenWidth() || smallScreenHeight())
 						document.querySelector('.menu').style.maxHeight = drawerHeight;
 					if(content.isSinglePage)
-						event.target.scrollIntoView({ inline: 'center' });
+						event.target.scrollIntoView({ inline: 'center', behavior: 'smooth' });
 				});
 				// contentItem.addEventListener('touchstart', function() {
 					// event.stopPropagation();
@@ -503,7 +503,7 @@ function renderMenu() {
 					// if(smallScreenWidth() || smallScreenHeight())
 						// document.querySelector('.menu').style.maxHeight = drawerHeight;
 					if(content.isSinglePage)
-						event.target.scrollIntoView({ inline: 'center' });
+						event.target.scrollIntoView({ inline: 'center', behavior: 'smooth' });
 				});
 				// contentItem.addEventListener('touchstart', function() {
 					// event.stopPropagation();
@@ -521,6 +521,14 @@ function renderMenu() {
 				// });
 				contentList.appendChild(contentItem);
 			}				
+		}
+		
+		//drawer, spacer
+		if(content.isSinglePage)
+		{
+			let contentItem = document.createElement('div');
+			contentItem.style.padding = '4px';
+			contentList.appendChild(contentItem);
 		}
 		
 		document.querySelector('.menu').innerHTML = '';
