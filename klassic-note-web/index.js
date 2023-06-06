@@ -967,6 +967,13 @@ function generateCoverArt(contents) {
 	let row = rows[0];
 	let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
 	let columnIndexCoverArt = contents.columns.indexOf('CoverArt');
+	if(row[columnIndexCoverArt].length < 1) { // if no value
+		if(isFill) {
+			document.querySelector('#search').style.width = (document.querySelector('#header').getBoundingClientRect().width - 48) + 'px';
+			document.querySelector('#options').style.width = '';
+		}
+		return;
+	}
 	let coverArtUrl = coverArtDirectory + row[columnIndexKNYEAR] + '/' + row[columnIndexCoverArt];
 	if(coverArtDirectoryFormat && coverArtDirectoryFormat == 'common')
 		coverArtUrl = coverArtDirectory + row[columnIndexCoverArt];
