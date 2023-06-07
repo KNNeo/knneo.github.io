@@ -110,6 +110,7 @@ const data = [
 		name: 'たかみなと大西のたかにしや',
 		startDayNo: 3,
 		startTime: 2200,
+		endDate: '2023-06-14',
 		lengthMinutes: 30,
 		recurringWeeks: [1,2,3,4,5],
 		channel: 'ニコニコ動画',
