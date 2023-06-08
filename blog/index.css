@@ -16,7 +16,7 @@
 }
 
 #hashtags a {
-	padding: 0 3px;
+	padding: 3px;
     display: inline-block;
 	white-space: nowrap;
 }
@@ -510,10 +510,6 @@ input.gsc-input {
   #SidebarBtn {
     display: block;
 	left: 15px;
-  }
-  #hashtags a {
-	/* padding: 3px; */
-	font-size: 0.9em;
   }
   div.footer-inner {
     padding: 10px 0;
