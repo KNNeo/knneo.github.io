@@ -40,6 +40,8 @@
  * []	remove hidden tags to generate hashtags
  * [manual] link in images of thumbnails to be removed
  * []	reduce resolution of uploaded images (from 4032 -> 2048 pixels)
+ * []	censor words
+ * [ok]	add lazy loading to img tags
  */
 
 void Main()
@@ -151,7 +153,7 @@ void Main()
 	}	
 	
     // Process XML content per post
-	List<int> includeIndex = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 29 };
+	List<int> includeIndex = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 29, 31 };
     for (var p = 0; p < posts.Count(); p++)
     {
 		var entry = posts.ElementAt(p);
@@ -538,7 +540,7 @@ void Main()
 				&& !url.Contains("../../")
 				&& !url.Contains(domainLink)
 				) {
-					count.Add(18);
+					if(!count.Contains(18)) count.Add(18);
 	                var replacement = prefix + url + midfix + match.Groups[6].Value + suffix;
 	                content = content.Replace(match.Value, replacement);
 				}
@@ -554,7 +556,7 @@ void Main()
 				&& !match.Groups[10].Value.Contains(">")
 				&& (url.Contains("blogger.") || url.Contains("bp.blogspot.com"))
 				) {
-					count.Add(18);
+					if(!count.Contains(18)) count.Add(18);
 	                var replacement = match.Groups[1].Value + match.Groups[2].Value + prefix + url + midfix + match.Groups[8].Value + suffix + match.Groups[10].Value + match.Groups[11].Value + match.Groups[12].Value + match.Groups[13].Value;
 					content = content.Replace(match.Value, replacement);
 				}
@@ -727,6 +729,14 @@ void Main()
 	            content = content.Replace(match.Groups[2].Value, "f**k");
 	            match = match.NextMatch();
 	        };
+		}
+        #endregion
+		
+        #region 31 add lazy loading to img tags
+		if(includeIndex.Count() == 0 || includeIndex.Contains(31))
+		{
+			if(content.IndexOf("<img") >= 0) count.Add(31);
+	        content = content.Replace("<img", "<img loading=\"lazy\" ");
 		}
         #endregion
 		
