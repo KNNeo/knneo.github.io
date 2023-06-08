@@ -48,7 +48,7 @@ void Main()
 {
     bool WriteTitleOnConsole = true;
 	bool TraceMode = false;
-	int maxLatestPost = 12;
+	int maxLatestPost = 20;
 	string defaultFont = "Noto Sans";
     Console.WriteLine("WriteTitleOnConsole is " + WriteTitleOnConsole + "; Set as true to see post titles");
     Console.WriteLine("\tPost with changes will appear here");
@@ -735,7 +735,8 @@ void Main()
         #region 31 add lazy loading to img tags
 		if(includeIndex.Count() == 0 || includeIndex.Contains(31))
 		{
-			if(content.IndexOf("<img") >= 0) count.Add(31);
+			if(content.Contains("<img"))
+				count.Add(31);
 	        content = content.Replace("<img", "<img loading=\"lazy\" ");
 		}
         #endregion
@@ -891,7 +892,7 @@ void Main()
 					"<div class=\"latest-post-thumb\">" + 
 					"<div>" + title + "</div>" + 
 					"<div class=\"anchors\">" + string.Join("", anchors.Select(a => "<a href=\"" + (pageLink + "#" + a) + "\">#" + a + "</a>")) + "</div>" + 
-					"<div class=\"" + (thumbnailUrl == "" ? "" : "home-thumb") + "\" style=\"background-image: url(" + thumbnailUrl + ");\"></div>" + 
+					"<img loading=\"lazy\" class=\"" + (thumbnailUrl == "" ? "" : "home-thumb") + "\" src=\"" + thumbnailUrl + "\"/>" + 
 					"</div></a></div>\n";
             
                 textString += latestPostCount >= maxLatestPost 
