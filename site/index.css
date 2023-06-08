@@ -135,10 +135,8 @@ a {
 
 .section:focus-visible .focusable,
 .focusable:focus-visible,
-.section:hover .page-prev,
-.page-prev:active,
-.section:hover .page-next,
-.page-next:active {
+.section:hover .focusable,
+.focusable:active {
 	opacity: 1;
 }
 
