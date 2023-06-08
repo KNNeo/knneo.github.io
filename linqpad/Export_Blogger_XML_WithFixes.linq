@@ -39,9 +39,9 @@
  * [ok]	replace common phrases with emoji
  * []	remove hidden tags to generate hashtags
  * [manual] link in images of thumbnails to be removed
- * []	reduce resolution of uploaded images (from 4032 -> 2048 pixels)
+ * [ok]	reduce resolution of uploaded images (from 4032 -> 2048 pixels)
  * []	censor words
- * [ok]	add lazy loading to img tags
+ * []	add lazy loading to img tags
  */
 
 void Main()
@@ -153,7 +153,7 @@ void Main()
 	}	
 	
     // Process XML content per post
-	List<int> includeIndex = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 29, 31 };
+	List<int> includeIndex = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 29 };
     for (var p = 0; p < posts.Count(); p++)
     {
 		var entry = posts.ElementAt(p);
@@ -737,6 +737,7 @@ void Main()
 		{
 			if(content.Contains("<img"))
 				count.Add(31);
+			// Does not cater to thumbnails, do not put lazy on first thumb
 	        content = content.Replace("<img", "<img loading=\"lazy\" ");
 		}
         #endregion
