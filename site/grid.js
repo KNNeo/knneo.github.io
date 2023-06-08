@@ -125,6 +125,7 @@ function renderGrid(sectionNo, content, isSinglePage) {
 		{
 			let img = document.createElement('div');
 			img.classList.add(component.type);
+			img.setAttribute('loading', 'lazy');
 			if(component.tooltip && component.tooltip.length > 0) img.title = component.tooltip;
 			img.style.backgroundImage = addBackgroundUrlClause(component.source);
 			img.style.width = '100%';//component.rows > 1 ? '80%' : '100%';
@@ -169,6 +170,7 @@ function renderGrid(sectionNo, content, isSinglePage) {
 				let url = document.createElement('a');
 				
 				let img = document.createElement('img');
+				img.setAttribute('loading', 'lazy');
 				if(data.tooltip && data.tooltip.length > 0) img.title = data.tooltip;
 				img.src = data.thumbnail;
 				img.setAttribute('data-src', data.source);
@@ -240,6 +242,7 @@ function renderGrid(sectionNo, content, isSinglePage) {
 			{
 				let data = component.datas[galleryIndex];
 				let img = document.createElement('img');
+				img.setAttribute('loading', 'lazy');
 				if(data.tooltip && data.tooltip.length > 0) img.title = data.tooltip;
 				img.classList.add('focusable');
 				img.src = data.thumbnail;
@@ -256,7 +259,7 @@ function renderGrid(sectionNo, content, isSinglePage) {
 					img.style.height = '20vw';
 				}
 				else if (component.size && component.size == 'lg') img.style.height = '12vw';
-				else img.style.height = '7vw';
+				else img.style.height = '10vw';
 				img.style.margin = '5px';
 				if(data.source) img.style.cursor = 'pointer';
 				if(data.grid || data.source)

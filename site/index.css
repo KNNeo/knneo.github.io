@@ -126,18 +126,18 @@ a {
 	justify-content: center;
 }
 
-.page-prev,
-.page-next {
+.page-prev .focusable,
+.page-next .focusable {
 	cursor: pointer;
 	opacity: 0;
 	transition: opacity 0.5s;
 }
 
+.section:focus-visible .focusable,
+.focusable:focus-visible,
 .section:hover .page-prev,
-.page-prev:focus-visible,
 .page-prev:active,
 .section:hover .page-next,
-.page-next:focus-visible,
 .page-next:active {
 	opacity: 1;
 }
