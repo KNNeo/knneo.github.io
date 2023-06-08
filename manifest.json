@@ -2,7 +2,7 @@
 	"background_color": "#ffffff",
 	"description": "knneo.github.io is a place for me to play around with vanilla HTML and Javascript",
 	"dir": "ltr",
-	"display": "fullscreen",
+	"display": "standalone",
 	"name": "Klassic Note Playground",
 	"orientation": "natural",
 	"scope": "/",
@@ -51,8 +51,8 @@
 	],
 	"lang": "en",
 	"display_override": [
+		"fullscreen"
 		"window-controls-overlay",
-		"standalone",
 		"browser"
 	]
 }
