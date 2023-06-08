@@ -427,6 +427,12 @@ function renderMenu() {
 			contentItem.classList.add('focusable');
 			contentItem.style.fontSize = homeIconSize;
 			contentItem.innerText = 'home';
+			contentItem.addEventListener('keyup', function() {
+				event.stopPropagation();
+				event.preventDefault();
+				if(event.key == 'Enter')
+					event.target.click();
+			});
 			contentItem.addEventListener('click', function() {
 				event.stopPropagation();
 				// document.querySelector('.menu').style.maxHeight = document.querySelector('.menu').style.maxHeight == 'initial' ? drawerHeight : 'initial';
@@ -459,6 +465,12 @@ function renderMenu() {
 				contentItem.style.maxHeight = maxIconSize;
 				contentItem.title = window['elements'][section].text || '';
 				contentItem.style.backgroundImage = addBackgroundUrlClause(window['elements'][section].image);
+				contentItem.addEventListener('keyup', function() {
+					event.stopPropagation();
+					event.preventDefault();
+					if(event.key == 'Enter')
+						event.target.click();
+				});
 				contentItem.addEventListener('click', function() {
 					event.stopPropagation();
 					scrollToPage(section);
@@ -497,6 +509,12 @@ function renderMenu() {
 				contentItem.style.fontSize = iconFontSize;
 				contentItem.innerText = window['elements'][section].text;
 				contentItem.title = contentItem.innerText || '';
+				contentItem.addEventListener('keyup', function() {
+					event.stopPropagation();
+					event.preventDefault();
+					if(event.key == 'Enter')
+						event.target.click();
+				});
 				contentItem.addEventListener('click', function() {
 					event.stopPropagation();
 					scrollToPage(section);
