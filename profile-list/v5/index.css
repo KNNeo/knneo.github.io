@@ -476,7 +476,7 @@ a:hover {
 
 @media only screen and (pointer: fine) {
 	.calendar td:hover .calendar-popitem {
-		display: block;
+		/* display: block; */
 	}
 }
 
