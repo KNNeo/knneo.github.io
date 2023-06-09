@@ -10,15 +10,15 @@
 /*Klassic Note: Website Additions*/
 #hashtags {
 	width: 100%;
-	padding-bottom: 1em;
-	color: #bbbbbb;
+	color: var(--primary);
+	display: flex;
+    flex-wrap: wrap;
+	padding-bottom: 0.5em;
 	/* font-size: 0.8em; */
 }
 
 #hashtags a {
 	padding: 3px;
-    display: inline-block;
-	white-space: nowrap;
 }
 
 #SidebarBtn {

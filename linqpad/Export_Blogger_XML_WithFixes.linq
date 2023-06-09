@@ -820,14 +820,15 @@ void Main()
 			output.WriteLine("<a id='BackBtn' href='../../../index.html' title='Go Back'><i class='material-icons'>arrow_back</i></a>");
 //            if(postList.IndexOf(pageLink) > 0) output.WriteLine("<a id='LeftBtn' href='" + postList[postList.IndexOf(pageLink) - 1].Replace("./", "../../../") + "' title='Newer Post'><i class='material-icons'>arrow_back</i></a>");
             if(postList.IndexOf(pageLink) - 1 > 0) output.WriteLine("<a id='RightBtn' href='" + postList[postList.IndexOf(pageLink) - 1].Replace("./", "../../../") + "' title='Older Post'><i class='material-icons'>arrow_forward</i></a>");
-            output.WriteLine("<body class=\"post-body entry-content\">");
+            output.WriteLine("<body>");
             output.WriteLine("<div id=\"viewer\"></div>");
-            output.WriteLine("<div id=\"contents\" style=\"font-family: " + defaultFont + ";\">");
+            output.WriteLine("<div id=\"contents\" class=\"post-body entry-content\" style=\"font-family: " + defaultFont + ";\">");
 			if (originalLink != "")
                 output.WriteLine("<small style=\"text-align: center;\"><p><i>This post was imported from "+
                  "<a href=\"{0}\">Blogger</a></i></p></small>", originalLink);				 
             output.WriteLine("<small class=\"published\">"+published.ToString("dddd, dd MMMM yyyy")+"</small>");
             output.WriteLine("<h2 class=\"title\">"+title+"</h2>");
+			if(!content.Contains("id=\"hashtags\"")) output.WriteLine("<div id=\"hashtags\"></div>");
             output.WriteLine("<div class=\"header\"></div>");
             output.Write(content);
             output.Write("<hr>");

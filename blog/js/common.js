@@ -73,48 +73,58 @@ function addHashtags() {
 	
 	let hashTag = document.getElementById("hashtags");
 	if(hashTag == null) return;
-	if(hashTag.childElementCount > 0 && hashTag.innerHTML.includes("<a>")) {
-		//render search href on hashtags list
-		let childDivs = hashTag.getElementsByTagName('a');
-		for(let tag of childDivs) {
-			hashtags.push({
-				tag: tag.innerText.substring(1), 
-				target: "\"/search?q=" + tag.innerText.substring(1)
-			});
-		}
-	}
+	// if(hashTag.childElementCount > 0 && hashTag.innerHTML.includes("<a>")) {
+		// render search href on hashtags list
+		// let childDivs = hashTag.getElementsByTagName('a');
+		// for(let tag of childDivs) {
+			// hashtags.push({
+				// tag: tag.innerText.substring(1), 
+				// target: "\"/search?q=" + tag.innerText.substring(1)
+			// });
+		// }
+	// }
 	hashTag.innerHTML = '';
 	
 	//add hiddenTags direct to search
-	let hiddenTags = document.querySelectorAll("[id='hiddenTags']");
-	if(hiddenTags.length > 0) {
-		var topicList = hiddenTags[0].innerText.split(",");
-		for(var topic of topicList) {
+	// let hiddenTags = document.querySelectorAll("[id='hiddenTags']");
+	// if(hiddenTags.length > 0) {
+		// var topicList = hiddenTags[0].innerText.split(",");
+		// for(var topic of topicList) {
 			// hashtags += "<a href=\"/search?q=" + topic.trim() + "\">#" + topic.trim() + "</a> ";
 			// document.getElementById("hashtags").innerHTML = hashtags;
 			// document.getElementById("hiddenTags").remove();
 			
-			hashtags.push({
-				tag: topic.trim(), 
-				target: "\"/search?q=" + topic.trim()
-			});
-		}	
-	}
+			// hashtags.push({
+				// tag: topic.trim(), 
+				// target: "\"/search?q=" + topic.trim()
+			// });
+		// }	
+	// }
 	
 	//add anime
-	for(var topic of document.querySelectorAll(".post-body .anime"))
-	{
-		//if last 2 characters do not render a number, do not add
-		var numeric = parseInt(topic.id.slice(-2)) || -1;
-		if(numeric < 0) continue;
-		hashtags.push({
-			tag: topic.id.substring(0,topic.id.length-2), 
-			target: topic.id
-		});
-	}
+	// for(var topic of document.querySelectorAll(".post-body .anime"))
+	// {
+		// if last 2 characters do not render a number, do not add
+		// var numeric = parseInt(topic.id.slice(-2)) || -1;
+		// if(numeric < 0) continue;
+		// hashtags.push({
+			// tag: topic.id.substring(0,topic.id.length-2), 
+			// target: topic.id
+		// });
+	// }
 	
-	//add klassic note
-	let klassicNoteSpan = '';
+	// add anything with anchor
+	let sections = document.querySelectorAll(".post-body [id]:not(#hashtags)");
+	if(sections.length > 0)
+	{
+		for(let section of sections) {
+			hashtags.push({
+				tag: section.id, 
+				target: section.id
+			});
+		}
+	}
+	// special case: klassic note
 	for(let span of document.querySelectorAll(".post-body span")) {
 		if(span.innerText == "This Week on Klassic Note") {
 			//set id on class
