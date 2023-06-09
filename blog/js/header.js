@@ -3,17 +3,23 @@ function generateHeader() {
 	if(document.querySelector('.header') != null) {
 		let header = document.createElement('div');
 		
-		//clone elements to put in header
+		//clone element to put in header
+		if(document.querySelector('.published') != null)
+			header.appendChild(document.querySelector('.published').cloneNode(true));
+		
+		//clone element to put in header
 		if(document.querySelector('.title') != null)
 			header.appendChild(document.querySelector('.title').cloneNode(true));
 		
 		if(document.querySelector('#hashtags') != null)
 		{
+			//clone element to put in header
 			let hashtags = document.createElement('div');
 			hashtags.classList.add('hashtags');
 			for(let hashtag of document.querySelectorAll('#hashtags a'))
 			{
 				let clone = hashtag.cloneNode(true);
+				// for hashtags, have to put back click event
 				clone.addEventListener('click', function() {
 					window.location.hash = this.title;
 					// scrollToSectionByUrl();
