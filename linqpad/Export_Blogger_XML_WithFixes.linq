@@ -735,10 +735,14 @@ void Main()
         #region 31 add lazy loading to img tags
 		if(includeIndex.Count() == 0 || includeIndex.Contains(31))
 		{
-			if(content.Contains("<img"))
-				count.Add(31);
 			// Does not cater to thumbnails, do not put lazy on first thumb
-	        content = content.Replace("<img", "<img loading=\"lazy\" ");
+	        expression = @"(.*?)(thumbnail-initial thumbnail-pop hover-visible)(.*?)(<img)";
+	        match = Regex.Match(content, expression);
+	        while(match.Success) {
+				count.Add(31);
+	            content = content.Replace(match.Groups[4].Value, "<img loading=\"lazy\");
+	            match = match.NextMatch();
+	        };
 		}
         #endregion
 		
