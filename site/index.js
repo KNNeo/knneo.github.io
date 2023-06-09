@@ -474,8 +474,8 @@ function renderMenu() {
 				contentItem.addEventListener('click', function() {
 					event.stopPropagation();
 					scrollToPage(section);
-					if(smallScreenWidth() || smallScreenHeight())
-						document.querySelector('.menu').style.maxHeight = drawerHeight;
+					// if(smallScreenWidth() || smallScreenHeight())
+						// document.querySelector('.menu').style.maxHeight = drawerHeight;
 					if(content.isSinglePage)
 						event.target.scrollIntoView({ inline: 'center', behavior: 'smooth' });
 				});

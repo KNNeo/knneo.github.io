@@ -192,7 +192,7 @@ a {
 }
 
 .icon {
-	border: 3px solid var(--background);
+	border: 3px solid var(--foreground);
 	background-color: var(--accent);
 }
 
