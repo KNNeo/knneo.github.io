@@ -55,8 +55,10 @@ function loadTimeline(sectionNo, chartContents) {
 	if(document.getElementById(charter) == undefined) { // canvas
 		let canvas = document.createElement('canvas');
 		canvas.id = charter;
-		canvas.style.border = '1px solid white';
-		canvas.style.backgroundColor = 'white';
+		canvas.tabIndex = 0;
+		canvas.classList.add('chart');
+		canvas.setAttribute('aria-label', chartContents.title);
+		canvas.setAttribute('role', 'img');		
 		document.getElementById(identifier).appendChild(canvas); //parent div
 	}
 	timeline = document.getElementById(charter);
@@ -67,8 +69,6 @@ function loadTimeline(sectionNo, chartContents) {
 		options: {
 			indexAxis: 'y',
 			responsive: true,
-			maintainAspectRatio: false,
-			aspectRatio: isMobile() ? 1 : 0.5,
 			datasets: {
 				bar: {
 					barPercentage: 1
@@ -96,6 +96,9 @@ function loadTimeline(sectionNo, chartContents) {
 							return context.dataset.label;
 						}
 					}
+				},
+				customCanvasBackgroundColor: {
+					color: 'white',
 				}
 			},
 			scales: {
@@ -148,7 +151,10 @@ function loadTimeline(sectionNo, chartContents) {
 						}
 					}
 				},
-				drawVerticalLine: chartContents.vertical
+				drawVerticalLine: chartContents.vertical,
+				customCanvasBackgroundColor: {
+					color: 'white',
+				}
 			},
 			scales: chartContents.type == 'line-bar' ? 
 			{
@@ -210,7 +216,7 @@ function loadTimeline(sectionNo, chartContents) {
 				}
 			}
 		},
-		plugins: [drawVerticalLine]
+		plugins: [drawVerticalLine, customCanvasBackgroundColor]
 	};
 	
 	window['container'+sectionNo] = new Chart(timeline, config);
@@ -233,6 +239,18 @@ const drawVerticalLine = {
 		ctx.closePath();
 		ctx.stroke();		
 	}
+  }
+};
+
+const customCanvasBackgroundColor = {
+  id: 'customCanvasBackgroundColor',
+  beforeDraw: (chart, args, options) => {
+    const {ctx} = chart;
+    ctx.save();
+    ctx.globalCompositeOperation = 'destination-over';
+    ctx.fillStyle = options.color || '#ffffff';
+    ctx.fillRect(0, 0, chart.width, chart.height);
+    ctx.restore();
   }
 };
 
