@@ -129,10 +129,6 @@ a:hover {
 	.Post span {
 		display: block;
 	}
-	
-	.header .hashtags a {
-		font-size: 0.9em;
-	}
 }
 
 #blog-archive-list {
