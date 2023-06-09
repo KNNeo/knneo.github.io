@@ -135,42 +135,53 @@ function onFeedback() {
 }
 
 //--FUNCTIONS--//
-async function callDb(query, callback) {
+async function callDb() {
 	const time = Date.now();
 	//for webassembly file
 	const sqlPromise = await initSqlJs({
 	  locateFile: file => 'https://knneo.github.io/klassic-note-web/sql-wasm.wasm'
 	});
 
-	// using xmlhttprequest
-	const xhr = new XMLHttpRequest();
-	xhr.responseType = 'arraybuffer';
-	xhr.open('GET', databaseFilename, true);
-	xhr.onload = e => {
-	  const uInt8Array = new Uint8Array(xhr.response);
-	  window['db'] = new sqlPromise.Database(uInt8Array);
-	  const contents = window['db'].exec(query);
-	  if(contents && contents.length > 0)
-		  callback(contents[0]);
-	  else if(contents)
-		  callback(contents);
-	};
-	xhr.send();
-	
-	if(debugMode)
-		console.log('callDb took', Date.now() - time, 'ms');
+	//fetch api to get db
+	try
+	{
+		const response = await fetch(databaseFilename);
+		if(response.ok && response.status == 200)
+		{
+			//initialize db
+			const result = await response.arrayBuffer();
+			const uInt8Array = new Uint8Array(result);
+			window['db'] = new sqlPromise.Database(uInt8Array);
+			
+			if(debugMode)
+				console.log('callDb took', Date.now() - time, 'ms');
+		}
+		else
+		{
+			console.error('callDb: ' + response);
+		}
+	}
+	catch(e)
+	{
+		console.error('callDb: ' + e.message);
+	}
 }
 
-function queryDb(query, callback) {
+async function queryDb(query, callback) {
+	if(!window['db'])
+		await callDb();
+	
 	const time = Date.now();
 	const contents = window['db'].exec(query);
-	// console.log('queryDb',contents);
+	if(debugMode)
+		console.log('queryDb',contents);
 	if(contents && contents.length > 0)
 	  return callback(contents[0]);
 	else if(contents)
 	  return callback(contents);
   
-	if(debugMode) console.log('queryDb took', Date.now() - time, 'ms');
+	if(debugMode)
+		console.log('queryDb took', Date.now() - time, 'ms');
 }
 
 function toggleButton() {
@@ -188,6 +199,11 @@ function toggleButton() {
 		target.setAttribute('data-title', tempTitle);
 	}
 	updateQueueButtons();
+}
+
+function restartSong() {
+	document.querySelector('#player').pause();
+	document.querySelector('#player').currentTime = 0;
 }
 
 function skipSong() {
@@ -663,7 +679,7 @@ function generateHomepage() {
 	let query = "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song";
 	if(isMobile())
 		query += " LIMIT 100";
-	callDb(query, function(contents) {
+	queryDb(query, function(contents) {
 		updateOptions(contents);
 		document.querySelector('#options').disabled = true;
 		document.querySelector('#search').disabled = false;
@@ -671,7 +687,7 @@ function generateHomepage() {
 	
 	query = "SELECT DISTINCT KNYEAR FROM SongAwardsPeriod";
 	if(debugMode) console.log('generateYears', query);
-	callDb(query, generateYears);
+	queryDb(query, generateYears);
 	
 	if(hideHomepage) return;
 	
@@ -688,13 +704,13 @@ function generateHomepage() {
 		query += "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song WHERE KNID = " + id.toString() + " ";
 	}
 	if(debugMode) console.log('generateSearchHistory', query);
-	callDb(query, generateSearchHistory);
+	queryDb(query, generateSearchHistory);
 	
 	query = "SELECT ID as KNID, Type, Category, ReleaseTitle, ReleaseArtistTitle, KNYEAR, substr('0000'||ReleaseDate,-4) as ReleaseDate FROM Release ";
 	query += "WHERE KNYEAR = strftime('%Y','now') ";
 	query += "AND ReleaseDate >= cast(strftime('%m%d','now') as integer) ORDER BY ReleaseDate, ReleaseArtistTitle, ReleaseTitle LIMIT 10";
 	if(debugMode) console.log('generateUpcomingReleases', query);
-	callDb(query, generateUpcomingReleases);
+	queryDb(query, generateUpcomingReleases);
 }
 
 function generateYears(contents) {
@@ -953,7 +969,7 @@ function generateCoverArt(contents) {
 	let cover = document.querySelector('#cover');
 	cover.className = '';
 	cover.innerHTML = '';
-	if(contents.values.length < 1) { // if no value
+	if(contents.values.length < 1) { // if no release found
 		if(isFill) {
 			document.querySelector('#search').style.width = (document.querySelector('#header').getBoundingClientRect().width - 48) + 'px';
 			document.querySelector('#options').style.width = '';
@@ -2707,6 +2723,7 @@ function updateMediaSession(session) {
 		if (session && navigator && 'mediaSession' in navigator) {
 			var meta = navigator.mediaSession.metadata;
 			navigator.mediaSession.metadata = new MediaMetadata(session);
+			navigator.mediaSession.setActionHandler("previoustrack", restartSong);
 			navigator.mediaSession.setActionHandler("nexttrack", skipSong);
 			if(debugMode) 
 				console.log('metadata', navigator.mediaSession.metadata.toString());
