@@ -259,7 +259,7 @@ function renderGrid(sectionNo, content, isSinglePage) {
 					img.style.height = '20vw';
 				}
 				else if (component.size && component.size == 'lg') img.style.height = '12vw';
-				else img.style.height = '10vw';
+				else img.style.height = '8vw';
 				img.style.margin = '5px';
 				if(data.source) img.style.cursor = 'pointer';
 				if(data.grid || data.source)
