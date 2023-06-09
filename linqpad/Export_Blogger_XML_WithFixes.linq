@@ -153,7 +153,7 @@ void Main()
 	}	
 	
     // Process XML content per post
-	List<int> includeIndex = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 29 };
+	List<int> includeIndex = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 29, 31 };
     for (var p = 0; p < posts.Count(); p++)
     {
 		var entry = posts.ElementAt(p);
@@ -735,14 +735,19 @@ void Main()
         #region 31 add lazy loading to img tags
 		if(includeIndex.Count() == 0 || includeIndex.Contains(31))
 		{
+			// Put on all, then replace for first in thumbnails
+	        content = content.Replace("<img", "<img loading=\"lazy\"");
+			
 			// Does not cater to thumbnails, do not put lazy on first thumb
-	        expression = @"(.*?)(thumbnail-initial thumbnail-pop hover-visible)(.*?)(<img)";
+	        expression = @"(?s)(thumbnail-initial hover-hidden)(.*?)(<img loading=""lazy"")";
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 				count.Add(31);
-	            content = content.Replace(match.Groups[4].Value, "<img loading=\"lazy\");
+				//Console.WriteLine(match);
+	            content = content.Replace(match.Groups[0].Value, match.Groups[1].Value + match.Groups[2].Value + "<img");
 	            match = match.NextMatch();
 	        };
+			
 		}
         #endregion
 		
