@@ -540,11 +540,11 @@ function setThumbnails() {
         if (popHeight - initialHeight > 50 || popHeight - initialHeight < -50)
             allThumbnails[i].style.height = initialHeight + 'px'; */
 		
-		let [min, max] = calcMinMaxThumbHeight(allThumbnails[i]);
-		if(min && max) // hint to adjust height of thumbnail to first child
-			allThumbnails[i].style.height = allThumbnails[i].getElementsByClassName("thumbnail-initial")[0].offsetHeight + 'px';
-		if(!min)
-			allThumbnails[i].style.height = max + 'px';
+		// let [min, max] = calcMinMaxThumbHeight(allThumbnails[i]);
+		// if(min && max) // adjust height of thumbnail to first child
+		allThumbnails[i].style.height = allThumbnails[i].getElementsByClassName("thumbnail-initial")[0].offsetHeight + 'px';
+		// if(!min)
+			// allThumbnails[i].style.height = max + 'px';
         let allThumbImages = allThumbnails[i].getElementsByTagName("img");
         let allThumbVideos = allThumbnails[i].getElementsByTagName("video");
         for (j = 0; j < allThumbImages.length; j++) {
@@ -613,17 +613,16 @@ function switchThumbnails(tn) {
 	if(nextActive == null) nextActive = tn.firstElementChild;
 	nextActive.classList.remove("thumbnail-pop");
 	setTimeout(function() {
-		let [min, max] = calcMinMaxThumbHeight(tn);
-		if(min && max) // hint to adjust height of thumbnail
+		// let [min, max] = calcMinMaxThumbHeight(tn);
+		// if(min && max) // adjust height of thumbnail to next displayed
 			tn.style.height = nextActive.offsetHeight + 'px';
 	}, 200);
 }
-
+/* 
 function calcMinMaxThumbHeight(thumbnailClass) {
-	/* calculation logic:
-	 * if large difference, set min and max height
-	 * if small difference, set no min, set max height only
-	 */
+	// calculation logic:
+	// if large difference, set min and max height
+	// if small difference, set no min, set max height only
     let tc = thumbnailClass.getElementsByClassName("thumbnail-initial");
     let heights = Array.from(tc).map(t => t.offsetHeight);
 	let minHeight = Math.min(...heights);
@@ -634,7 +633,7 @@ function calcMinMaxThumbHeight(thumbnailClass) {
 		return [minHeight, maxHeight];
 	return [null, null];
 }
-
+ */
 // Responsive image resizing based on screen dimensions
 function resizeImages() {
     //current issues
