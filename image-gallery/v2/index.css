@@ -18,6 +18,7 @@
 /*SPECIFIC*/
 a {
 	color: var(--foreground);
+	text-decoration: none;
 }
 a:hover {
 	color: var(--primary);	
