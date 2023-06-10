@@ -4,7 +4,7 @@
 	"dir": "ltr",
 	"display": "standalone",
 	"name": "Klassic Note Playground",
-	"orientation": "natural",
+	"orientation": "fullscreen",
 	"scope": "/",
 	"short_name": "Klassic Note",
 	"start_url": "/",
@@ -51,7 +51,8 @@
 	],
 	"lang": "en",
 	"display_override": [
-		"fullscreen"
+		"standalone",
+		"natural",
 		"window-controls-overlay",
 		"browser"
 	]
