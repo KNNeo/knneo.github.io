@@ -274,10 +274,10 @@ function generatePopupContent(url) {
 		if(url.includes('/status/')) {
 			return '<blockquote class="twitter-tweet tw-align-center" data-conversation="none" data-height="' + 0.6*window.innerHeight + '"><a href="' +
 				url +
-				'"></a></blockquote><script async="async" charset="utf-8" src="https://platform.twitter.com/widgets.js" >\</script\>';
+				'"></a></blockquote><script async="async" charset="utf-8" src="https://platform.twitter.com/widgets.js"></script>';
 		}
     }
-    if (url.includes('youtube.com') && url.includes('/watch')) {
+    if (url.includes('youtube.com/watch')) {
         //process youtube embed
         let id = url.substring(url.indexOf('?v=') + 3);
         return '<iframe class="yt-video" allow="autoplay; encrypted-media" allowfullscreen="" frameborder="0" style="max-height: 360px;" src="' +
@@ -293,12 +293,12 @@ function generatePopupContent(url) {
     }
     if (url.includes('instagram.com/p/')) {
         //process instagram embed
-        return '<center><blockquote class="instagram-media" data-instgrm-permalink="' +
-            url + '" data-instgrm-version="13" style="max-width:540px; min-width:326px; padding:0; width:100%;"></blockquote></center><script async="async" src="//www.instagram.com/embed.js">\</script\>';
+        return '<center><blockquote class="instagram-media" style="' + (!isSmallWidth() ? 'width:550px;' : '') + '" data-instgrm-permalink="' +
+            url + '" data-instgrm-version="14" style="padding:0;"></blockquote></center><script async="async" src="//www.instagram.com/embed.js"></script>';
     }
     if (url.includes('jisho.org/search/')) {
         //process page as iframe
-        return '<iframe id="myFrame" src="' +
+        return '<iframe id="jisho-frame" src="' +
             url + '" style="height:min(50vh,450px);width:min(98%,760px);"></iframe>';
     }
     return null;

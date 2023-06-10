@@ -616,39 +616,42 @@ table.tr-caption-container {
 
 /*Middle Screen Width (Responsive)*/
 @media only screen and (max-width: 780px) {
-  #SidebarBtn{
-    left: 15px;
-  }
-  #SidebarBtn,
-  #GoToTopBtn,
-  #SearchBtn  {
-    bottom: 15px;
-  }
-  #CloseBtn,
-  #GoToTopBtn,
-  #SearchBtn  {
+	#SidebarBtn{
+	left: 15px;
+	}
+	#SidebarBtn,
+	#GoToTopBtn,
+	#SearchBtn  {
+	bottom: 15px;
+	}
+	#CloseBtn,
+	#GoToTopBtn,
+	#SearchBtn  {
 	right: 15px;
-  } 
-  #CloseBtn {
-    top: 15px;
-  }
-  #Label1 {
-    margin: 0 5px;
-  }
-  #footer-3 {
-    margin: 0;
-  }
-  .header-inner .Header .titlewrapper,
-  .header-inner .Header .descriptionwrapper {
-    padding-left: 0;
-    padding-right: 0;
-  }
-  .main-inner .column-center-inner .section {
-    margin: 0 5px;
-  }
-  .material-icons {
-    font-size: 36px;
-  }
+	} 
+	#CloseBtn {
+	top: 15px;
+	}
+	#Label1 {
+	margin: 0 5px;
+	}
+	#footer-3 {
+	margin: 0;
+	}
+	.header-inner .Header .titlewrapper,
+	.header-inner .Header .descriptionwrapper {
+	padding-left: 0;
+	padding-right: 0;
+	}
+	.main-inner .column-center-inner .section {
+	margin: 0 5px;
+	}
+	.material-icons {
+	font-size: 36px;
+	}
+	.twitter-tweet {
+		width: 320px !important;
+	}
 }
 
 /*Custom abbr hover (Unsupported)*/
