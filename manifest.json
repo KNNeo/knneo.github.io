@@ -9,6 +9,7 @@
 	"short_name": "Klassic Note",
 	"start_url": "/",
 	"theme_color": "#ffffff",
+	"lang": "en",
 	"categories": [],
 	"screenshots": [],
 	"icons": [
@@ -48,10 +49,5 @@
 				}
 			]
 		}
-	],
-	"lang": "en",
-	"display_override": [
-		"fullscreen",
-		"minimal-ui"
 	]
 }
