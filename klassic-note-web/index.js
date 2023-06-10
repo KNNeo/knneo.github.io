@@ -756,7 +756,7 @@ function generateSearchHistory(contents) {
 	generateTableList(
 		contents, {
 		id: 'search-history', 
-		title: 'Recently Saearched',
+		title: 'Recently Searched',
 		rowFormat: ['KNYEAR', ' - ', 'ArtistTitle', ' - ', 'SongTitle'], 
 		clickFunc: updateSong,
 		actionTitle: 'Clear All',
