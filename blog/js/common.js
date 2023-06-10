@@ -51,7 +51,7 @@ function addHashtags() {
 	var hashtags = [];
 	
 	// add anything with anchor
-	let sections = document.querySelectorAll(".post-body [id]:not(#hashtags)");
+	let sections = document.querySelectorAll(".post-body [id]:not(#hashtags):not(#news-thumbnail):not(.twitter-tweet iframe[id])");
 	if(sections.length > 0)
 	{
 		for(let section of sections) {
