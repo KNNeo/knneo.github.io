@@ -11,13 +11,14 @@ window.addEventListener('load', startup);
 
 function startup() {
 	// To be run async unless otherwise, dependents in with parent functions
+	resizeImages();
+	addHashtags();
 	if(typeof preloadSequence == 'function') preloadSequence();
 	if(typeof addFloatingActionButtons == 'function') addFloatingActionButtons();
 	if(typeof redirectInternalUrls == 'function') redirectInternalUrls();
 	if(typeof generateViewer == 'function') generateViewer();
 	if(typeof generateHeader == 'function') generateHeader();
 	if(typeof generateReadTime == 'function') generateReadTime();
-	resizeImages();
 
 	// Window events
 	window.addEventListener('scroll', displayFAB);
@@ -25,7 +26,6 @@ function startup() {
 	window.addEventListener('resize', resizeImages);
 	window.addEventListener('hashchange', scrollToSectionByUrl);
 	setTimeout(displayFAB, 0);
-	setTimeout(addHashtags, 0);
 	setTimeout(addHoverForLinks, 0);
 	setTimeout(scrollToSectionByUrl, 1);
 	setTimeout(resizeImages, 500);
@@ -316,8 +316,12 @@ function toggleOverlay(fromSidebar) {
 	}
 	
 	// re-set event listener
+	overlay.style.cursor = '';
 	overlay.removeEventListener('click', closePopups);
-	if(fromSidebar) overlay.addEventListener('click', closePopups);
+	if(fromSidebar) {
+		overlay.style.cursor = 'pointer';
+		overlay.addEventListener('click', closePopups);
+	}
 	
 	overlay.style.display = toggleDisplay(overlay, 'none');
 	overlay.style.backgroundColor = fromSidebar ? 'black' : '';

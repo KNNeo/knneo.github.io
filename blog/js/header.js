@@ -49,7 +49,7 @@ function toggleHeader() {
 }
 
 function generateReadTime() {
-	let contents = document.querySelector('#contents-main');
+	let contents = document.querySelector('#contents');
 	if(contents != null)
 	{
 		let text = contents.innerText;
