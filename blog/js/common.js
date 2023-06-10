@@ -80,13 +80,12 @@ function addHashtags() {
 	for(let item of hashtags)
 	{
 		let newItem = document.createElement('a');
-		newItem.title = item.target.includes("/search/") ? "" : item.target;
+		newItem.title = item.target;
 		newItem.innerText = '#' + item.tag;
-		newItem.href = item.target.includes("/search/") && !notBlogger() ? item.target : 'javascript:void(0);';
-		if(!item.target.includes("/search"))
-			newItem.addEventListener('click', function() {
-				window.location.hash = this.title;
-			});
+		newItem.href = 'javascript:void(0);';
+		newItem.addEventListener('click', function() {
+			window.location.hash = this.title;
+		});
 		hashTag.appendChild(newItem);
 	}
 }
