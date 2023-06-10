@@ -166,8 +166,10 @@ function closePopups() {
 	if(document.getElementById('SidebarBtn') != null && document.getElementById('Overlay') != null && 
 	document.getElementById('Overlay').style.backgroundColor == 'black')
 		document.getElementById('SidebarBtn').click(); //from sidebar
-	else
+	else {
 		toggleOverlay(false);
+		displayFAB();
+	}
 }
 
 function renderPopup() {
@@ -207,12 +209,10 @@ function renderPopup() {
 	//FAB to close
 	let closeButton = document.createElement('a');
 	closeButton.id = 'CloseBtn';
+	closeButton.classList.add('material-icons');
 	closeButton.title = 'Close Popup';
+	closeButton.innerText = 'close';
 	closeButton.addEventListener('click', closePopups);
-		let closeButtonIcon = document.createElement('i');
-		closeButtonIcon.classList.add('material-icons');
-		closeButtonIcon.innerText = 'close';
-		closeButton.appendChild(closeButtonIcon);
 	if(document.getElementById('CloseBtn') != undefined) document.getElementById('CloseBtn').remove();
 	document.body.appendChild(closeButton);
 	
@@ -245,7 +245,7 @@ function renderEmbedProcess() {
 		}
 		
 		if(typeof twttr != 'undefined') twttr.widgets.load(); // to render twitter embed
-		window.instgrm.Embeds.process(); // to render instagram embed
+		if(typeof instgrm != 'undefined') window.instgrm.Embeds.process(); // to render instagram embed
 		return true;
 	}
 	catch(err)
@@ -319,15 +319,18 @@ function toggleOverlay(fromSidebar) {
 	
 	if(document.getElementById('BackBtn') != null) {
 		document.getElementById('BackBtn').style.display = toggleDisplay(document.getElementById('BackBtn'), 'none');
-		document.getElementById('RightBtn').style.display = toggleDisplay(document.getElementById('RightBtn'), 'none');
+		if(document.getElementById('RightBtn') != null)
+			document.getElementById('RightBtn').style.display = toggleDisplay(document.getElementById('RightBtn'), 'none');
 	}
 	else if(document.getElementById('SidebarBtn') != null) {
-		document.getElementById('SidebarBtn').style.display = fromSidebar ? '' : toggleDisplay(document.getElementById('SidebarBtn'), 'none');
+		document.getElementById('SidebarBtn').style.display = toggleDisplay(document.getElementById('SidebarBtn'), 'none');
 	}
 }
 
 // Floating action button events
 function displayFAB() {
+	if(document.querySelector('#Overlay') != null && document.querySelector('#Overlay').style.display != 'none')
+		return;
 	// When the user scrolls down to half of viewport from the top of the document, change floating action button
 	if (document.body.scrollTop > document.documentElement.clientHeight || 
 		document.documentElement.scrollTop > document.documentElement.clientHeight) {
