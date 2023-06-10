@@ -801,26 +801,26 @@ void Main()
             output.WriteLine("<meta name=\"apple-mobile-web-app-capable\" content=\"yes\">");
             output.WriteLine("<meta name=\"mobile-web-app-capable\" content=\"yes\">");
             output.WriteLine("<meta name=\"theme-color\" content=\"white\">");
+            output.WriteLine("<link href=\"https://fonts.googleapis.com/icon?family=Material+Icons\" rel=\"stylesheet\" />");
             output.WriteLine("<link href='https://fonts.googleapis.com/css?family=" + defaultFont + "' rel='stylesheet' />");
 			// cursive font for menu use
-            if(content.Contains("Dancing Script")) output.WriteLine("<link href='https://fonts.googleapis.com/css?family=Dancing Script' rel='stylesheet' />");
-            output.WriteLine("<link href=\"https://fonts.googleapis.com/icon?family=Material+Icons\" rel=\"stylesheet\" />");
+            if(content.Contains("Dancing Script"))
+				output.WriteLine("<link href='https://fonts.googleapis.com/css?family=Dancing Script' rel='stylesheet' />");
             output.WriteLine("<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../index.css\" />");
             output.WriteLine("<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../blogspot.css\" />");
-            output.WriteLine("<script src=\"../../../blogspot.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
+            output.WriteLine("<link rel=\"icon\" href=\"../../../storytime.ico\" />");
             output.WriteLine("<script src=\"../../../../darkmode.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
+            output.WriteLine("<script src=\"../../../blogspot.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
             output.WriteLine("<script src=\"../../../js/common.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
             output.WriteLine("<script src=\"../../../js/header.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
             output.WriteLine("<script src=\"../../../js/viewer.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
-			//output.WriteLine("<script src=\"https://platform.twitter.com/widgets.js\" type=\"text/javascript\" charset=\"utf-8\" async></script>");
-			//output.WriteLine("<script src=\"https://www.instagram.com/embed.js\" type=\"text/javascript\" charset=\"utf-8\" async></script>");
-            output.WriteLine("<link rel=\"icon\" href=\"../../../storytime.ico\" />");
             output.WriteLine("<title>" + title + "</title>");
-			//if(postList.IndexOf(pageLink) == 0)  
-			output.WriteLine("<a id='BackBtn' href='../../../index.html' title='Go Back'><i class='material-icons'>arrow_back</i></a>");
-//            if(postList.IndexOf(pageLink) > 0) output.WriteLine("<a id='LeftBtn' href='" + postList[postList.IndexOf(pageLink) - 1].Replace("./", "../../../") + "' title='Newer Post'><i class='material-icons'>arrow_back</i></a>");
+			// if(postList.IndexOf(pageLink) > 0) output.WriteLine("<a id='LeftBtn' href='" + postList[postList.IndexOf(pageLink) - 1].Replace("./", "../../../") + "' title='Newer Post'><i class='material-icons'>arrow_back</i></a>");
             if(postList.IndexOf(pageLink) - 1 > 0) output.WriteLine("<a id='RightBtn' href='" + postList[postList.IndexOf(pageLink) - 1].Replace("./", "../../../") + "' title='Older Post'><i class='material-icons'>arrow_forward</i></a>");
             output.WriteLine("<body>");
+			output.WriteLine("<a id='BackBtn' href='../../../index.html' title='Go Back'><i class='material-icons'>arrow_back</i></a>");
+			output.WriteLine("<a id='DarkModeBtn' title='Toggle Dark Mode' href='javascript:void(0);' onclick='toggleDarkMode()'><i class='material-icons'>brightness_high</i></a>");
+			output.WriteLine("<a id='GoToTopBtn' title='Go To Top' style='display: none;' href='javascript:void(0);' onclick='goToTop()'><i class='material-icons'>arrow_upward</i></a>");
             output.WriteLine("<div id=\"viewer\"></div>");
             output.WriteLine("<div id=\"contents\" class=\"post-body entry-content\" style=\"font-family: " + defaultFont + ";\">");
 			if (originalLink != "")
@@ -828,7 +828,8 @@ void Main()
                  "<a href=\"{0}\">Blogger</a></i></p></small>", originalLink);				 
             output.WriteLine("<small class=\"published\">"+published.ToString("dddd, dd MMMM yyyy")+"</small>");
             output.WriteLine("<h2 class=\"title\">"+title+"</h2>");
-			if(!content.Contains("id=\"hashtags\"")) output.WriteLine("<div id=\"hashtags\"></div>");
+			if(!content.Contains("id=\"hashtags\""))
+				output.WriteLine("<div id=\"hashtags\"></div>");
             output.WriteLine("<div class=\"header\"></div>");
             output.Write(content);
             output.Write("<hr>");
@@ -842,7 +843,6 @@ void Main()
             output.WriteLine("</div>");
             output.WriteLine("</body>");
             output.WriteLine("</html>");
-			
         }
 		
 		//check post
