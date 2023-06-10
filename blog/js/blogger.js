@@ -85,17 +85,17 @@ function reduceResults() {
 			let title = post.getElementsByClassName('post-title')[0];
 			let link = title != undefined ? title.getElementsByTagName('a')[0] : undefined;
 			let snippet = post.getElementsByClassName('post-body')[0];
-			if(snippet.getElementsByTagName('style').length > 0)
-				snippet.removeChild(snippet.childNodes[0]); //remove style
+			for(let styleDiv of snippet.getElementsByTagName('style'))
+			{
+				styleDiv.parentElement.removeChild(styleDiv); //remove style
+			}
 			let statement = snippet.getElementsByTagName('b');
 			let thumb = snippet.getElementsByClassName('post-thumbnail');
-			if(thumb.length > 0) {
+			if(thumb.length > 0)
 				thumb = snippet.getElementsByClassName('post-thumbnail')[0].getAttribute('data-src');
-			}
-			else if (snippet.getElementsByTagName('img').length > 0) {
+			else if (snippet.getElementsByTagName('img').length > 0)
 				thumb = snippet.getElementsByTagName('img')[0].src;
-			}
-				
+			
 			//generate thumb
 			let latestPost = document.createElement('div');
 			latestPost.classList.add('latest-post');
