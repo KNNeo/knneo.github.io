@@ -1,51 +1,32 @@
 window['light-theme'] = '#f4f6ff';
 window['dark-theme'] = '#001114';
 window['dark-name'] = 'blog-theme';
+window['urls'] = [];
 
 function filterByTag(sourceFilter) {
 	let tag = sourceFilter || window.location.hash.replace('#','');
 	let isAll = tag == "All" || tag == "";
 	window.location.hash = !isAll ? '#' + tag : "";
-	let blogList = document.getElementById("blog-archive-list");
-	let posts = blogList?.getElementsByClassName("Post") ?? [];
-	let count = 0;
-	for(let post of posts)
+	
+	for(let post of (document.querySelectorAll('.Post') ?? []))
 	{
-		if(post.classList.length == 0 && !isAll)
-		{
-			post.style.display = 'none';
-			post.style.height = 0;
-		}
-		else if(!post.classList.contains(tag) && !isAll)
-		{
-			post.style.display = 'none';
-			post.style.height = 0;
-		}
-		else if(post.classList.contains('TheStatement') && isAll)
-		{
-			post.style.display = 'none';
-			post.style.height = 0;
-		}
+		let hide = !post.classList.contains(tag) && !isAll;
+		if(hide)
+			post.classList.add('hidden');
 		else
-		{
-			post.style.display = '';
-			post.style.height = '';
-			count++;
-		}
+			post.classList.remove('hidden');
 	}
-	if(count > 0)
-		document.getElementsByClassName("Count")[0].innerText = count + " published posts " + (tag == "TheStatement" ? "hidden" : "found");
+	let posts = document.querySelectorAll('.Post:not(.hidden)');
+	if(posts.length > 0)
+		document.querySelector(".Count").innerText = posts.length + " published posts";
 }
 
 function randomPost() {
-	let classes = [".TheEntertainmentNews", ".TheEverydayLife", ".TheKlassicNote"];
-	let urls = [];
-	
-	for(let c of classes)
+	if(window['urls'] <= 0)
 	{
-		for(let post of document.querySelectorAll(c))
+		for(let post of document.querySelectorAll('.TheEntertainmentNews, .TheEverydayLife, .TheKlassicNote'))
 		{
-			urls.push(post.querySelector('a').href);
+			window['urls'].push(post.querySelector('a').href);
 		}
 	}
 	

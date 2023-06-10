@@ -11,107 +11,45 @@ window.addEventListener('load', startup);
 
 function startup() {
 	// To be run async unless otherwise, dependents in with parent functions
-	if(typeof addFloatingActionButtons == 'function') addFloatingActionButtons();
 	if(typeof preloadSequence == 'function') preloadSequence();
-    addHashtags();
-    addHoverForLinks();
-	resizeImages();
-	displayFAB();
+	if(typeof addFloatingActionButtons == 'function') addFloatingActionButtons();
 	if(typeof redirectInternalUrls == 'function') redirectInternalUrls();
 	if(typeof generateViewer == 'function') generateViewer();
 	if(typeof generateHeader == 'function') generateHeader();
 	if(typeof generateReadTime == 'function') generateReadTime();
+	resizeImages();
 
 	// Window events
 	window.addEventListener('scroll', displayFAB);
 	window.addEventListener('resize', windowOnResize);
 	window.addEventListener('resize', resizeImages);
 	window.addEventListener('hashchange', scrollToSectionByUrl);
+	setTimeout(displayFAB, 0);
+	setTimeout(addHashtags, 0);
+	setTimeout(addHoverForLinks, 0);
 	setTimeout(scrollToSectionByUrl, 1);
 	setTimeout(resizeImages, 500);
 }
 
 //==FUNCTIONS==//
-function addFloatingActionButtons() {
-	addFAB('GoToTopBtn', 'Back To Top', 'arrow_upward', goToTop);
-	
-	if(!notBlogger())
-		addFAB('SearchBtn', 'Search Blog', 'search', toggleSearch);
-	
-	if(notBlogger())
-		addFAB('DarkModeBtn', 'Toggle Dark Mode', 'brightness_high', toggleDarkMode);
-	
-	if(!notBlogger())
-		addFAB('SidebarBtn', 'Toggle Sidebar', 'menu', toggleSidebar);
-}
-
-function addFAB(id, title, googleIconName, clickEvent) {
-	let fabButton = document.createElement('a');
-	fabButton.id = id;
-	fabButton.title = title;
-	if(clickEvent) fabButton.addEventListener('click', clickEvent);
-		let fabButtonIcon = document.createElement('i');
-		fabButtonIcon.classList.add('material-icons');
-		fabButtonIcon.innerText = googleIconName;
-		fabButton.appendChild(fabButtonIcon);
-	if(document.getElementById(id) != undefined) document.getElementById(id).remove();
-	document.body.appendChild(fabButton);
-}
 
 // Add hashtags for Entertainment News posts with anchors
 function addHashtags() {
+	// empty hashtags if any content
+	let hashTag = document.getElementById("hashtags");
+	if(hashTag == null) return;
+	hashTag.innerHTML = '';
+	
 	//ignore old id and if is search result
-	let elements = document.querySelectorAll("[id='hashtags']");
-	if(elements.length > 1 && window.location.href.includes("/search")) {
-		for(let element of elements) {
+	if(window.location.href.includes("/search/")) {
+		for(let element of document.querySelectorAll("[id='hashtags']")) {
 			element.style.display = 'none';
 		}
 		return;
 	}
 	
+	// recreate hashtags
 	var hashtags = [];
-	
-	let hashTag = document.getElementById("hashtags");
-	if(hashTag == null) return;
-	// if(hashTag.childElementCount > 0 && hashTag.innerHTML.includes("<a>")) {
-		// render search href on hashtags list
-		// let childDivs = hashTag.getElementsByTagName('a');
-		// for(let tag of childDivs) {
-			// hashtags.push({
-				// tag: tag.innerText.substring(1), 
-				// target: "\"/search?q=" + tag.innerText.substring(1)
-			// });
-		// }
-	// }
-	hashTag.innerHTML = '';
-	
-	//add hiddenTags direct to search
-	// let hiddenTags = document.querySelectorAll("[id='hiddenTags']");
-	// if(hiddenTags.length > 0) {
-		// var topicList = hiddenTags[0].innerText.split(",");
-		// for(var topic of topicList) {
-			// hashtags += "<a href=\"/search?q=" + topic.trim() + "\">#" + topic.trim() + "</a> ";
-			// document.getElementById("hashtags").innerHTML = hashtags;
-			// document.getElementById("hiddenTags").remove();
-			
-			// hashtags.push({
-				// tag: topic.trim(), 
-				// target: "\"/search?q=" + topic.trim()
-			// });
-		// }	
-	// }
-	
-	//add anime
-	// for(var topic of document.querySelectorAll(".post-body .anime"))
-	// {
-		// if last 2 characters do not render a number, do not add
-		// var numeric = parseInt(topic.id.slice(-2)) || -1;
-		// if(numeric < 0) continue;
-		// hashtags.push({
-			// tag: topic.id.substring(0,topic.id.length-2), 
-			// target: topic.id
-		// });
-	// }
 	
 	// add anything with anchor
 	let sections = document.querySelectorAll(".post-body [id]:not(#hashtags)");
@@ -137,19 +75,17 @@ function addHashtags() {
 		}
 	}
 	
-	//render
+	// render
 	if(hashtags.length == 0) return;
 	for(let item of hashtags)
 	{
 		let newItem = document.createElement('a');
-		newItem.title = item.target.includes("/search") ? "" : item.target;
-		// newItem.style.paddingRight = '3px';
+		newItem.title = item.target.includes("/search/") ? "" : item.target;
 		newItem.innerText = '#' + item.tag;
-		newItem.href = item.target.includes("/search") && !window.location.href.includes("knneo.github.io") ? item.target : 'javascript:void(0);';
+		newItem.href = item.target.includes("/search/") && !notBlogger() ? item.target : 'javascript:void(0);';
 		if(!item.target.includes("/search"))
 			newItem.addEventListener('click', function() {
 				window.location.hash = this.title;
-				// scrollToSectionByUrl();
 			});
 		hashTag.appendChild(newItem);
 	}
@@ -158,8 +94,6 @@ function addHashtags() {
 function scrollToSectionByUrl() {
 	if(window.location.hash.length > 0)
 	{
-		// let hash = window.location.hash;
-		// let target = hash.length > 0 ? document.querySelector(hash) : null;
 		let newPos = document.documentElement.scrollTop + (document.querySelector(window.location.hash)?.getBoundingClientRect().top || 0) - (document.querySelector('.header')?.getBoundingClientRect().height || 0) - 5;
 		document.documentElement.scrollTop = newPos;
 	}
@@ -169,26 +103,8 @@ function scrollToSectionByUrl() {
 function addHoverForLinks() {
 	if(document.getElementsByClassName('post-body entry-content').length == 0) return;
     for (let link of document.getElementsByClassName('post-body entry-content')[0].getElementsByTagName('a')) {
-		if(typeof generateViewer == 'function' && link.target != '' && false
-		// && (link.href.includes('twitter.com') || link.href.includes('instagram.com'))
-		)
-			link.addEventListener('click', openItemInViewer);
-		else if(link.target != '')
+		if(link.target != '')
 			link.addEventListener('mouseover', renderPopup);
-    }
-}
-
-function addHoverOnExpander() {
-	if (!window.location.href.includes("/search/label/")) return;
-    for (let expander of document.getElementsByClassName('search-expander')) {
-        expander.addEventListener('click', function() {
-            for (let page of document.getElementsByClassName('post-body entry-content')) {
-                if (page.style.display == 'none') continue;
-                for (let link of page.getElementsByTagName('a')) {
-                    link.addEventListener('mouseover', renderPopup);
-                }
-            }
-        });
     }
 }
 
@@ -218,8 +134,6 @@ function togglePopup() {
 		switchToButton('CloseBtn');
 		if(typeof fixExternalFrame == 'function') fixExternalFrame(this);
 		renderEmbedProcess();
-		// document.querySelector('html').scrollTop += (this.getBoundingClientRect().top - document.querySelector('.header')?.getBoundingClientRect().height);
-		// this.scrollIntoView({ behavior: "smooth", block: "center" });
 		// if below threshold height scroll up, else open popup without scroll
 		let thresholdHeight = 0.4*window.innerHeight;
 		window.scrollTo({
@@ -257,15 +171,13 @@ function closePopups() {
 }
 
 function renderPopup() {
-    //if(link.childElementCount == 0)
     event.preventDefault();
 	
 	//exclusion for blogger	images
     if ((this.href.includes('blogspot.com') || this.href.includes('blogger.googleusercontent.com')) && this.target == '') return;
 	//exclusion for if target is not _blank
     if (this.target == '') return;
-	//exclusion class
-    //if(link.childElementCount > 0) return;
+	//exclusion class, if any
     if (this.classList.contains('opt-out')) return;
 	//if not compatible for any design
     let newContent = generatePopupContent(this.href);
@@ -308,8 +220,8 @@ function renderPopup() {
 }
 
 function renderEmbedProcess() {
-	try {
-		
+	try
+	{
 		if(document.querySelector('#tweet') == null)
 		{
 			let tweet = document.createElement('script');
@@ -336,7 +248,8 @@ function renderEmbedProcess() {
 		window.instgrm.Embeds.process(); // to render instagram embed
 		return true;
 	}
-	catch(err) {
+	catch(err)
+	{
 		console.error(err);
 		return false;
 	}
@@ -363,11 +276,6 @@ function generatePopupContent(url) {
 				url +
 				'"></a></blockquote><script async="async" charset="utf-8" src="https://platform.twitter.com/widgets.js" >\</script\>';
 		}
- 		/*else {
-			return '<a class="twitter-timeline" data-width="568" data-height="' + 0.6*window.innerHeight + '" href="' +
-				url +
-				'"></a><script async="async" charset="utf-8" src="https://platform.twitter.com/widgets.js" >\</script\>';
-		} */
     }
     if (url.includes('youtube.com') && url.includes('/watch')) {
         //process youtube embed
@@ -409,10 +317,6 @@ function toggleOverlay(fromSidebar) {
 	document.getElementById('Overlay').style.backgroundColor = fromSidebar ? 'black' : '';
 	document.getElementById('Overlay').style.zIndex = fromSidebar ? '8' : '';
 	
-	// if(fromSidebar) {
-		// document.body.style.overflow = document.body.style.overflow == '' ? 'hidden' : '';
-	// }
-	// else 
 	if(document.getElementById('BackBtn') != null) {
 		document.getElementById('BackBtn').style.display = toggleDisplay(document.getElementById('BackBtn'), 'none');
 		document.getElementById('RightBtn').style.display = toggleDisplay(document.getElementById('RightBtn'), 'none');
@@ -422,10 +326,8 @@ function toggleOverlay(fromSidebar) {
 	}
 }
 
+// Floating action button events
 function displayFAB() {
-	// if(document.getElementById('Overlay') != null &&
-	// document.getElementById('Overlay').style.display != 'none')
-		// return;
 	// When the user scrolls down to half of viewport from the top of the document, change floating action button
 	if (document.body.scrollTop > document.documentElement.clientHeight || 
 		document.documentElement.scrollTop > document.documentElement.clientHeight) {
@@ -436,7 +338,17 @@ function displayFAB() {
 	}
 }
 
-// Floating action button events
+function switchToButton(id) {
+	if(id == '') return;
+	let buttons = ['GoToTopBtn','SearchBtn','DarkModeBtn'];
+	for(let button of buttons)
+	{
+		if(document.getElementById(button) != null) document.getElementById(button).style.display = 'none';
+	}
+	if(document.getElementById(id) != null) document.getElementById(id).style.display = 'block';
+	else if (window.location.href.includes("knwebreports.blogspot")) document.getElementById('SearchBtn').style.display = 'block';
+}
+
 function toggleSearch() {
     goToTop();
 	if(document.getElementById('CustomBlogSearch') == null) return;
@@ -455,9 +367,6 @@ function toggleSearch() {
 function toggleSidebar() {
 	// toggle body overlay
     toggleOverlay(true);
-    // document.body.style.position = document.body.style.position == 'fixed' ? '' : 'fixed';
-    // document.body.style.left = document.body.style.left == '0' ? '' : '0';
-    // document.body.style.right = document.body.style.right == '0' ? '' : '0';
 	
 	// left sidebar element
     let outer = document.getElementsByClassName('column-left-outer')[0];
@@ -485,17 +394,6 @@ function toggleSidebar() {
 
 function toggleDisplay(element, defaultValue) {
 	return element.style.display == '' ? defaultValue : '';
-}
-
-function switchToButton(id) {
-	if(id == '') return;
-	let buttons = ['GoToTopBtn','SearchBtn','DarkModeBtn'];
-	for(let button of buttons)
-	{
-		if(document.getElementById(button) != null) document.getElementById(button).style.display = 'none';
-	}
-	if(id != 'SearchBtn') document.getElementById(id).style.display = 'block';
-	else if (window.location.href.includes("knwebreports.blogspot")) document.getElementById('SearchBtn').style.display = 'block';
 }
 
 function goToTop() {
@@ -542,19 +440,9 @@ function setThumbnails() {
 	
     let allThumbnails = document.body.getElementsByClassName("thumbnail");
     for (let i = 0; i < allThumbnails.length; i++) {
-/*         var firstElement = allThumbnails[i].getElementsByClassName('thumbnail-initial')[0];
-        if (firstElement == undefined) continue;
-        var initialHeight = firstElement.offsetHeight;
-        var popHeight = allThumbnails[i].getElementsByClassName('thumbnail-pop')[0].offsetHeight;
-        allThumbnails[i].style.height = Math.max(initialHeight, popHeight) + 'px';
-        if (popHeight - initialHeight > 50 || popHeight - initialHeight < -50)
-            allThumbnails[i].style.height = initialHeight + 'px'; */
-		
-		// let [min, max] = calcMinMaxThumbHeight(allThumbnails[i]);
-		// if(min && max) // adjust height of thumbnail to first child
+		// set height for first thumbnail content
 		allThumbnails[i].style.height = allThumbnails[i].getElementsByClassName("thumbnail-initial")[0].offsetHeight + 'px';
-		// if(!min)
-			// allThumbnails[i].style.height = max + 'px';
+		// add click event for first thumbnail content
         let allThumbImages = allThumbnails[i].getElementsByTagName("img");
         let allThumbVideos = allThumbnails[i].getElementsByTagName("video");
         for (j = 0; j < allThumbImages.length; j++) {
@@ -567,7 +455,7 @@ function setThumbnails() {
                 switchThumbnails(closestClass(this, "thumbnail"));
             };
         }
-		// if text only
+		// if text only (experimental)
 		if(allThumbImages.length < 1 && allThumbVideos.length < 1 &&
 		allThumbnails[i].getElementsByClassName("thumbnail-initial").length > 0 &&
 		allThumbnails[i].getElementsByClassName("thumbnail-pop").length > 0)
@@ -608,42 +496,26 @@ function closestTag(inputElement, targetTagName) {
 }
 
 function switchThumbnails(tn) {
-    let tc = tn.getElementsByClassName("thumbnail-initial");
+    let tc = tn.getElementsByClassName('thumbnail-initial');
 	// identify active
 	let active = tn.getAttribute('active');
 	if(active == null)
-		active = Array.from(tc).findIndex(t => !t.classList.contains("thumbnail-pop"));
+		active = Array.from(tc).findIndex(t => !t.classList.contains('thumbnail-pop'));
 	// to reset before setting new active
 	for(let t of tc) {
-		if(!t.classList.contains("thumbnail-pop"))
-			t.classList.add("thumbnail-pop");
+		if(!t.classList.contains('thumbnail-pop'))
+			t.classList.add('thumbnail-pop');
 	}
 	if(active == null) return;
 	let nextActive = tc[active].nextElementSibling;
 	if(nextActive == null) nextActive = tn.firstElementChild;
-	nextActive.classList.remove("thumbnail-pop");
+	nextActive.classList.remove('thumbnail-pop');
+	// set height with transition delay
 	setTimeout(function() {
-		// let [min, max] = calcMinMaxThumbHeight(tn);
-		// if(min && max) // adjust height of thumbnail to next displayed
 			tn.style.height = nextActive.offsetHeight + 'px';
 	}, 200);
 }
-/* 
-function calcMinMaxThumbHeight(thumbnailClass) {
-	// calculation logic:
-	// if large difference, set min and max height
-	// if small difference, set no min, set max height only
-    let tc = thumbnailClass.getElementsByClassName("thumbnail-initial");
-    let heights = Array.from(tc).map(t => t.offsetHeight);
-	let minHeight = Math.min(...heights);
-	let maxHeight = Math.max(...heights);
-	if(maxHeight - minHeight <= 5)
-		return [null, maxHeight];
-	if(minHeight && maxHeight)
-		return [minHeight, maxHeight];
-	return [null, null];
-}
- */
+
 // Responsive image resizing based on screen dimensions
 function resizeImages() {
     //current issues
@@ -660,8 +532,7 @@ function resizeImages() {
         var imgWidth = p.width;
         var imgHeight = p.height;
 		if(showLog) console.log('width x height', imgWidth, imgHeight);
-        //process exclusion list
-		//by image size, class, tag name, or by id
+        // exclusion list: by image size, class, tag name, or by id
         if (imgWidth < 20 || imgHeight < 20) continue;
         if (p.id == "news-thumbnail" || 
 			p.parentElement.tagName == "ABBR" || 
@@ -676,32 +547,8 @@ function resizeImages() {
 			p.classList.add('img-unchanged');
 			continue;
 		}
-        //end of process exclusion list
-		
-		//process based on parent
-        /* if (p.parentElement.tagName == "DIV" && !p.parentElement.classList.contains("post") && !p.parentElement.classList.contains("post-body") && !p.parentElement.classList.contains("post-outer")) {
-            p.parentElement.style.maxWidth = imgWidth + 'px';
-            p.parentElement.style.maxHeight = imgHeight + 'px';
-			if(showLog) console.log('parentElement', p.parentElement.style.maxWidth, p.parentElement.style.maxHeight);
-        } else if ((p.parentElement.parentElement.tagName == "TR" ||
-                (p.parentElement.parentElement.className == "separator" && p.parentElement.parentElement.tagName != "TR")) &&
-            !p.parentElement.parentElement.classList.contains("post") && !p.parentElement.parentElement.classList.contains("post-body") &&
-            !p.parentElement.parentElement.classList.contains("post-outer")) {
-            p.parentElement.parentElement.style.maxWidth = imgWidth + 'px';
-            p.parentElement.parentElement.style.maxHeight = imgHeight + 'px';
-			if(showLog) console.log('parentElement.parentElement', p.parentElement.parentElement.style.maxWidth, p.parentElement.parentElement.style.maxHeight);
-            p.parentElement.style.width = (100 / (p.parentElement.parentElement.childElementCount)) + '%';
-			if(showLog) console.log('parentElement', p.parentElement.style.width);
-        } else if (!p.parentElement.parentElement.parentElement.classList.contains("post") &&
-            !p.parentElement.parentElement.parentElement.classList.contains("post-body") &&
-            !p.parentElement.parentElement.parentElement.classList.contains("post-outer")) {
-            p.parentElement.parentElement.parentElement.style.maxWidth = imgWidth + 'px';
-            p.parentElement.parentElement.parentElement.style.maxHeight = imgHeight + 'px';
-			if(showLog) console.log('parentElement.parentElement.parentElement', p.parentElement.parentElement.parentElement.style.maxWidth, p.parentElement.parentElement.parentElement.style.maxHeight);
-        } */
-		//end of process based on parent
-		
-		//process based on dimensions
+				
+		// adjust dimensions
         if (imgWidth >= imgHeight) //landscape
         {
             p.removeAttribute("height");
@@ -717,10 +564,9 @@ function resizeImages() {
                 p.classList.add('img-width-fit');
             else if (p.width < imgWidth)
                 p.classList.add('img-width-auto');
-            // else
-                // p.style.width = imgWidth + 'px';
 			if(showLog) console.log('landscape', p.style.width, p.style.height);
-        } else //portrait
+        }
+		else //portrait
         {
             p.removeAttribute("width");
             p.removeAttribute("height");
@@ -735,13 +581,10 @@ function resizeImages() {
                 p.classList.add('img-width-fit');
             else if (p.width < imgWidth)
                 p.classList.add('img-width-auto');
-            // else
-                // p.style.width = imgWidth + 'px';
 			if(showLog) console.log('portrait', p.style.width, p.style.height);
         }
-		//end of process based on dimensions
 		
-		//separator special cases
+		// special case: separator class
         if (p.parentElement.className == "separator" ||
 			p.parentElement.parentElement.className == "separator") {
 			p.parentElement.classList.add('img-separator');
@@ -755,13 +598,8 @@ function resizeImages() {
 			p.parentElement.style.marginRight = null;
 			p.parentElement.classList.add('img-separator');
 		}
-		//end of separator special cases
-		
-        /* if (p.width >= document.getElementsByClassName("post-body")[0].offsetWidth && document.getElementsByClassName("post-body")[0].offsetWidth > 0) {
-            p.style.width = '100%';
-			if(showLog) console.log('offsetWidth', p.style.width, p.style.height);
-        } */
     }
 	
+	// set thumbnails again after adjusted
     setThumbnails();
 }

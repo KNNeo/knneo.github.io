@@ -19,10 +19,9 @@ function generateHeader() {
 			for(let hashtag of document.querySelectorAll('#hashtags a'))
 			{
 				let clone = hashtag.cloneNode(true);
-				// for hashtags, have to put back click event
+				// for hashtags, have to add back click event
 				clone.addEventListener('click', function() {
 					window.location.hash = this.title;
-					// scrollToSectionByUrl();
 				});
 				hashtags.appendChild(clone);
 			}

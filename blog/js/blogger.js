@@ -1,3 +1,36 @@
+function preloadSequence() {
+	if(typeof addSearchBar == 'function') addSearchBar();
+	if(typeof addMetadata == 'function') addMetadata();
+	if(typeof reduceResults == 'function') reduceResults();
+	if(typeof fixLabelResults == 'function') fixLabelResults();
+	if(typeof fixNavigationResults == 'function') fixNavigationResults();
+	if(typeof olderNewerTextToIcon == 'function') olderNewerTextToIcon();
+	if(typeof addLabelForNavigation == 'function') addLabelForNavigation();
+	if(typeof fixLightbox == 'function') fixLightbox();
+
+	//open body if no other fixes
+	document.body.style.display = 'block';
+}
+
+function addFloatingActionButtons() {
+	addFAB('GoToTopBtn', 'Back To Top', 'arrow_upward', goToTop);
+	addFAB('SearchBtn', 'Search Blog', 'search', toggleSearch);
+	addFAB('SidebarBtn', 'Toggle Sidebar', 'menu', toggleSidebar);
+}
+
+function addFAB(id, title, googleIconName, clickEvent) {
+	let fabButton = document.createElement('a');
+	fabButton.id = id;
+	fabButton.title = title;
+	if(clickEvent) fabButton.addEventListener('click', clickEvent);
+		let fabButtonIcon = document.createElement('i');
+		fabButtonIcon.classList.add('material-icons');
+		fabButtonIcon.innerText = googleIconName;
+		fabButton.appendChild(fabButtonIcon);
+	if(document.getElementById(id) != undefined) document.getElementById(id).remove();
+	document.body.appendChild(fabButton);
+}
+
 function addSearchBar() {
 	let search = document.createElement('div');
 	search.id = 'CustomBlogSearch';
@@ -13,25 +46,6 @@ function addMetadata() {
 	viewport.setAttribute('name','viewport');
 	viewport.setAttribute('content','width=device-width,initial-scale=1.0');
 	document.head.appendChild(viewport);
-}
-
-function preloadSequence() {
-    //initial URL visit fix
-    if (window.location.href.includes("/search/label/The%20Entertainment%20News"))
-		document.getElementById("hashtags").remove();
-	
-	if(typeof addSearchBar == 'function') addSearchBar();
-	if(typeof addMetadata == 'function') addMetadata();
-	if(typeof reduceResults == 'function') reduceResults();
-	if(typeof fixLabelResults == 'function') fixLabelResults();
-	if(typeof fixNavigationResults == 'function') fixNavigationResults();
-	if(typeof olderNewerTextToIcon == 'function') olderNewerTextToIcon();
-	if(typeof addLabelForNavigation == 'function') addLabelForNavigation();
-	if(typeof fixLightbox == 'function') fixLightbox();
-	if(typeof addHoverOnExpander == 'function') addHoverOnExpander();
-
-	//open body if no other fixes
-	document.body.style.display = 'block';
 }
 
 // For search, collapse all results
@@ -239,6 +253,7 @@ function cleanupLightbox() {
 	document.getElementById("Blog1").removeEventListener("click", cleanupLightbox);
 }
 
+// Others, Blogger Only
 function fixExternalFrame(thumbnail) {
 	if(window.location.href.includes("knneo.github.io")) return;
 	//fix iframes in thumbnails that don't fit content width

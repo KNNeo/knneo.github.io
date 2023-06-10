@@ -6,7 +6,6 @@
   --foreground: #ffffff;
 }
 
-
 /*Klassic Note: Website Additions*/
 #hashtags {
 	width: 100%;
@@ -392,7 +391,6 @@ table.tr-caption-container {
 
 .tabs-inner .widget li span {
   line-height: initial;
-  /* margin: 12px 20px; */
   display: block;
 }
 
@@ -418,21 +416,21 @@ table.tr-caption-container {
   width: initial;
 }
 
-div#sidebar-left-1 > div {
+#sidebar-left-1 > div {
   padding: 10px;
 }
 
-div#sidebar-left-1 ul {
+#sidebar-left-1 ul {
   list-style: none;
   padding: 0;
 }
 
-div#PageList1 div ul li:first-child a {
+#PageList1 div ul li:first-child a {
   font: normal bold 14px Open Sans;
   color: var(--foreground);
 }
 
-div#sidebar-left-1.sidebar.section {
+#sidebar-left-1.sidebar.section {
   margin: 0 8px 0 15px;
 }
 
@@ -441,11 +439,11 @@ div#sidebar-left-1.sidebar.section {
   margin-bottom: 0;
 }
 
-input.gsc-search-button {
+.gsc-search-button {
   display: none;
 }
 
-input.gsc-input {
+.gsc-input {
   padding: 2px 6px;
   font: inherit;
   width: 200px;
@@ -463,7 +461,6 @@ input.gsc-input {
 	  display: block;
   }
   #blog-pager.blog-pager {
-    /* padding: 0 1em 1em 0; */
     margin: 0;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -511,13 +508,13 @@ input.gsc-input {
     display: block;
 	left: 15px;
   }
-  div.footer-inner {
+  .footer-inner {
     padding: 10px 0;
   }
   .column-left-inner>aside {
     display: none;
   }
-  div.content-cap-bottom.cap-bottom {
+  .content-cap-bottom.cap-bottom {
     height: 60px;
   }
   .columns.fauxcolumns {
@@ -544,7 +541,7 @@ input.gsc-input {
   }
   /*Fix post newer older post links*/
   .blog-mobile-link,
-  a.home-link {
+  .home-link {
     color: var(--foreground);
 	/* position: absolute; */
     /* left: 0; */
@@ -605,7 +602,7 @@ input.gsc-input {
     display: none;
   }
   .blog-mobile-link,
-  a.home-link {
+  .home-link {
     display: none;
   }
   .main-inner {
@@ -624,29 +621,26 @@ input.gsc-input {
 
 /*Middle Screen Width (Responsive)*/
 @media only screen and (max-width: 780px) {
-  /* * { */
-    /* scrollbar-width: 0 !important; */
-  /* } //Firefox */
-  a#SidebarBtn{
+  #SidebarBtn{
     left: 15px;
   }
-  a#SidebarBtn,
-  a#GoToTopBtn,
-  a#SearchBtn  {
+  #SidebarBtn,
+  #GoToTopBtn,
+  #SearchBtn  {
     bottom: 15px;
   }
-  a#CloseBtn,
-  a#GoToTopBtn,
-  a#SearchBtn  {
+  #CloseBtn,
+  #GoToTopBtn,
+  #SearchBtn  {
 	right: 15px;
   } 
-  a#CloseBtn {
+  #CloseBtn {
     top: 15px;
   }
-  div#Label1 {
+  #Label1 {
     margin: 0 5px;
   }
-  div#footer-3 {
+  #footer-3 {
     margin: 0;
   }
   .header-inner .Header .titlewrapper,
@@ -669,9 +663,6 @@ abbr {
   -ms-user-select: all;
   user-select: all;
   text-decoration: none;
-  /* animation: txtblink 3s infinite; */
-  /* -webkit-animation: txtblink 3s infinite; */
-  /* -moz-animation: txtblink 3s infinite; */
   color: var(--primary);
   text-decoration: underline;
 }
@@ -706,9 +697,6 @@ abbr.imgpop:hover img {
 
 /*Pop-up content frame*/
 .popup .normal {
-  /* animation: txtblink 3s infinite; */
-  /* -webkit-animation: txtblink 3s infinite; */
-  /* -moz-animation: txtblink 3s infinite; */
   color: var(--primary);
   text-decoration: underline;
 }
@@ -760,13 +748,10 @@ abbr.imgpop:hover img {
 }
 
 .thumbnail-initial {
-	/* margin: 0 10px; */
 	position: absolute;
-	/* text-align: center; */
 	left: 0;
 	right: 0;
 	opacity: 1;
-	/* overflow: hidden; */
 	transition: opacity 0.4s, left 0.2s;
 }
 
@@ -787,13 +772,20 @@ abbr.imgpop:hover img {
 .thumbnail-initial * img,
 .thumbnail-initial * video {
 	border: 2px solid var(--primary);
-	/* animation: imgblink 3s infinite; */
-	/* -webkit-animation: imgblink 3s infinite; */
-	/* -moz-animation: imgblink 3s infinite; */
 }
 
-.thumbnail .popup:hover .pop img {
-	/* animation: none; */
+/*Assign class based on image resize for responsive, see blog.js resizeImg()*/
+.img-width-fit {
+	width: 100%;
+}
+
+.img-width-auto {
+	width: auto;
+}
+
+.img-separator {
+	margin-left: auto;
+	margin-right: auto;
 }
 
 /*EXPERIMENTAL - Supports text, not to be mistaken with links or images*/
@@ -832,52 +824,8 @@ abbr.imgpop:hover img {
 	text-align: center;
 	max-width: 98%;
 }
-	
-/*Assign class based on image resize for responsive, see blog.js resizeImg()*/
-.img-width-fit {
-	width: 100%;
-}
 
-.img-width-auto {
-	width: auto;
-}
-
-.img-separator {
-	margin-left: auto;
-	margin-right: auto;
-}
-
-/*Blink animation (Time is 10x blink sequence)*/
-@keyframes txtblink {
-  0% {
-    color: var(--foreground);
-  }
-  5% {
-    color: var(--primary);
-  }
-  20% {
-    color: var(--primary);
-  }
-  25% {
-    color: var(--foreground);
-  }
-}
-
-@keyframes imgblink {
-  50% {
-    border: 2px solid transparent;
-  }
-  55% {
-    border: 2px solid var(--primary);
-  }
-  65% {
-    border: 2px solid var(--primary);
-  }
-  70% {
-    border: 2px solid transparent;
-  }
-}
-
+/*ANIMATION KEYFRAMES*/
 @keyframes fadeIn {
   from {
     opacity: 0;

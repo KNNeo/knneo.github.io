@@ -116,6 +116,11 @@ a:hover {
     color: var(--foreground);
 }
 
+.TheStatement,
+.hidden {
+	display: none;
+	height: 0;
+}
 
 @media only screen and (max-width: 1024px) {
 	body {
@@ -251,10 +256,6 @@ a:hover {
 }
 
 a#SidebarBtn, a#SearchBtn {
-	display: none;
-}
-
-.TheStatement {
 	display: none;
 }
 
