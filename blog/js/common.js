@@ -11,7 +11,6 @@ window.addEventListener('load', startup);
 
 function startup() {
 	// To be run async unless otherwise, dependents in with parent functions
-	resizeImages();
 	addHashtags();
 	if(typeof preloadSequence == 'function') preloadSequence();
 	if(typeof addFloatingActionButtons == 'function') addFloatingActionButtons();
@@ -27,8 +26,8 @@ function startup() {
 	window.addEventListener('hashchange', scrollToSectionByUrl);
 	setTimeout(displayFAB, 0);
 	setTimeout(addHoverForLinks, 0);
-	setTimeout(scrollToSectionByUrl, 1);
 	setTimeout(resizeImages, 500);
+	setTimeout(scrollToSectionByUrl, 500);
 }
 
 //==FUNCTIONS==//
@@ -407,13 +406,12 @@ function setThumbnails() {
 		return;
 	}
 	
-    let allThumbnails = document.body.getElementsByClassName("thumbnail");
-    for (let i = 0; i < allThumbnails.length; i++) {
+    for (let thumbnail of document.querySelectorAll(".thumbnail")) {
 		// set height for first thumbnail content
-		allThumbnails[i].style.height = allThumbnails[i].getElementsByClassName("thumbnail-initial")[0].offsetHeight + 'px';
+		thumbnail.style.height = thumbnail.getElementsByClassName("thumbnail-initial")[0].offsetHeight + 'px';
 		// add click event for first thumbnail content
-        let allThumbImages = allThumbnails[i].getElementsByTagName("img");
-        let allThumbVideos = allThumbnails[i].getElementsByTagName("video");
+        let allThumbImages = thumbnail.getElementsByTagName("img");
+        let allThumbVideos = thumbnail.getElementsByTagName("video");
         for (j = 0; j < allThumbImages.length; j++) {
             allThumbImages[j].onclick = function() {
                 switchThumbnails(closestClass(this, "thumbnail"));
@@ -426,13 +424,13 @@ function setThumbnails() {
         }
 		// if text only (experimental)
 		if(allThumbImages.length < 1 && allThumbVideos.length < 1 &&
-		allThumbnails[i].getElementsByClassName("thumbnail-initial").length > 0 &&
-		allThumbnails[i].getElementsByClassName("thumbnail-pop").length > 0)
+		thumbnail.getElementsByClassName("thumbnail-initial").length > 0 &&
+		thumbnail.getElementsByClassName("thumbnail-pop").length > 0)
 		{
 			let textElement = document.createElement('span');
 			textElement.classList.add('thumbnail-text');
-			textElement.innerHTML = allThumbnails[i].getElementsByClassName("thumbnail-initial")[0].innerHTML;
-			let popupText = allThumbnails[i].getElementsByClassName("thumbnail-pop")[0].innerHTML;
+			textElement.innerHTML = thumbnail.getElementsByClassName("thumbnail-initial")[0].innerHTML;
+			let popupText = thumbnail.getElementsByClassName("thumbnail-pop")[0].innerHTML;
 			textElement.onclick = function() {
 				let dialogElement = document.querySelector('.thumbnail-dialog') ?? document.createElement('dialog');
 				dialogElement.className = 'thumbnail-dialog';
@@ -445,7 +443,7 @@ function setThumbnails() {
 				dialogElement.showModal();
 			};
 			
-			allThumbnails[i].replaceWith(textElement);
+			thumbnail.replaceWith(textElement);
 		}
     }
 }
@@ -504,6 +502,7 @@ function resizeImages() {
         // exclusion list: by image size, class, tag name, or by id
         if (imgWidth < 20 || imgHeight < 20) continue;
         if (p.id == "news-thumbnail" || 
+			p.classList.contains('img-unchanged') ||
 			p.parentElement.tagName == "ABBR" || 
 			p.parentElement.className == "anime-row" ||
 			p.parentElement.className == "profile-box-img" || 
@@ -516,42 +515,24 @@ function resizeImages() {
 			p.classList.add('img-unchanged');
 			continue;
 		}
+		
+		if(showLog)	console.log('orientation: ' + (imgWidth >= imgHeight ? 'landscape' : 'portrait'));
 				
 		// adjust dimensions
-        if (imgWidth >= imgHeight) //landscape
-        {
-            p.removeAttribute("height");
-            p.removeAttribute("width");
-            if (p.parentElement.parentElement.tagName == "TR" && p.parentElement.parentElement.getElementsByTagName("td").length > 1) //in table
-                p.classList.add('img-width-fit');
-            else if (p.parentElement.parentElement.parentElement.tagName == "TR" && p.parentElement.parentElement.parentElement.getElementsByTagName("td").length > 1 && p.parentElement.tagName == "A") //in table, with link
-			{
-				if(!p.parentElement.parentElement.style.width)
-					p.classList.add('img-width-fit');
-			}
-            else if (p.width + 20 >= window.outerWidth) //see #main and .separator
-                p.classList.add('img-width-fit');
-            else if (p.width < imgWidth)
-                p.classList.add('img-width-auto');
-			if(showLog) console.log('landscape', p.style.width, p.style.height);
-        }
-		else //portrait
-        {
-            p.removeAttribute("width");
-            p.removeAttribute("height");
-            if (p.parentElement.parentElement.tagName == "TR" && p.parentElement.parentElement.getElementsByTagName("td").length > 1) //in table
-                p.classList.add('img-width-fit');
-            else if (p.parentElement.parentElement.parentElement.tagName == "TR" && p.parentElement.parentElement.parentElement.getElementsByTagName("td").length > 1 && p.parentElement.tagName == "A") //in table, with link
-			{
-				if(!p.parentElement.parentElement.style.width)
-					p.classList.add('img-width-fit');
-			}
-            else if (p.width + 20 >= window.outerWidth) //see #main and .separator
-                p.classList.add('img-width-fit');
-            else if (p.width < imgWidth)
-                p.classList.add('img-width-auto');
-			if(showLog) console.log('portrait', p.style.width, p.style.height);
-        }
+		p.removeAttribute("height");
+		p.removeAttribute("width");
+		if (p.parentElement.parentElement.tagName == "TR" && 
+			p.parentElement.parentElement.getElementsByTagName("td").length > 1) //in table
+			p.classList.add('img-width-fit');
+		else if (p.parentElement.parentElement.parentElement.tagName == "TR" && 
+			p.parentElement.parentElement.parentElement.getElementsByTagName("td").length > 1 && 
+			p.parentElement.tagName == "A" &&
+			!p.parentElement.parentElement.style.width) //in table, with link
+			p.classList.add('img-width-fit');
+		else if (p.width + 20 >= window.outerWidth)
+			p.classList.add('img-width-fit');
+		else
+			p.classList.add('img-width-auto');
 		
 		// special case: separator class
         if (p.parentElement.className == "separator" ||
