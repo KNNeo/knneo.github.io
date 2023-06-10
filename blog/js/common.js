@@ -306,16 +306,22 @@ function generatePopupContent(url) {
 
 function toggleOverlay(fromSidebar) {
 	let body = document.body;
-    if (document.getElementById('Overlay') == undefined) {
-		let overlay = document.createElement('div');
+	let overlay = document.getElementById('Overlay');
+	// if no overlay
+    if (overlay == undefined) {
+		overlay = document.createElement('div');
 		overlay.id = 'Overlay';
 		overlay.style.display = 'none';
-		overlay.addEventListener('click', closePopups);
 		body.appendChild(overlay);
 	}
-	document.getElementById('Overlay').style.display = toggleDisplay(document.getElementById('Overlay'), 'none');
-	document.getElementById('Overlay').style.backgroundColor = fromSidebar ? 'black' : '';
-	document.getElementById('Overlay').style.zIndex = fromSidebar ? '8' : '';
+	
+	// re-set event listener
+	overlay.removeEventListener('click', closePopups);
+	if(fromSidebar) overlay.addEventListener('click', closePopups);
+	
+	overlay.style.display = toggleDisplay(overlay, 'none');
+	overlay.style.backgroundColor = fromSidebar ? 'black' : '';
+	overlay.style.zIndex = fromSidebar ? '8' : '';
 	
 	if(document.getElementById('BackBtn') != null) {
 		document.getElementById('BackBtn').style.display = toggleDisplay(document.getElementById('BackBtn'), 'none');
