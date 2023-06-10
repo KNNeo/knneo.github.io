@@ -57,7 +57,7 @@ function generateReadTime() {
 		let words = text.trim().split(/\s+/).length;
 		let time = Math.ceil(words / wpm);
 		
-		if(document.querySelector('.published') != null)
+		if(document.querySelector('.published') != null && time > 1)
 			document.querySelector('.published').innerText += ' - ' + time + ' min read';
 	}
 }
