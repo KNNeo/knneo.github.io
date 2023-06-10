@@ -254,6 +254,49 @@ function cleanupLightbox() {
 }
 
 // Others, Blogger Only
+function toggleSearch() {
+    goToTop();
+	if(document.getElementById('CustomBlogSearch') == null) return;
+    var barDisp = document.getElementById('CustomBlogSearch').style.display;
+    if (barDisp == 'none' || barDisp == '') {
+        document.getElementById('CustomBlogSearch').style.display = 'block';
+		document.getElementById('BlogSearch').focus();
+	}
+    else {
+        document.getElementById('CustomBlogSearch').style.display = 'none';
+		document.getElementById('BlogSearch').innerText = '';
+		document.getElementById('BlogSearch').blur();
+	}
+}
+
+function toggleSidebar() {
+	// toggle body overlay
+    toggleOverlay(true);
+	
+	// left sidebar element
+    let outer = document.getElementsByClassName('column-left-outer')[0];
+	outer.style.position = toggleDisplay(outer, 'fixed');
+	
+	let menuStatus = document.getElementById('SidebarBtn').getElementsByTagName('i')[0];
+	menuStatus.innerText = menuStatus.innerText == 'menu' ? 'menu_open' : 'menu';
+	
+    let iconLeft = window.innerWidth >= 780 ? '5px' : '0';
+    outer.style.left = outer.style.left == '' ? iconLeft : '';
+	
+    let iconBottom = window.innerWidth >= 780 ? '78px' : '60px';
+    outer.style.bottom = outer.style.bottom == '' ? iconBottom : '';
+    outer.style.margin = outer.style.margin == '' ? 'auto' : '';
+    outer.style.zIndex = outer.style.zIndex != 9 ? 9 : '';
+	
+    let aside = outer.getElementsByTagName('aside')[0];
+    aside.style.display = toggleDisplay(aside, 'block');
+	
+    if (window.innerHeight <= 640)
+		document.getElementById('LinkList1').style.display = toggleDisplay(document.getElementById('LinkList1'), 'none');
+    if (window.innerHeight <= 960)
+		document.getElementById('BlogArchive1').style.display = toggleDisplay(document.getElementById('BlogArchive1'), 'none');
+}
+
 function fixExternalFrame(thumbnail) {
 	if(window.location.href.includes("knneo.github.io")) return;
 	//fix iframes in thumbnails that don't fit content width
