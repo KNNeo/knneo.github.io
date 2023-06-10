@@ -245,10 +245,6 @@ table.tr-caption-container {
   padding-top: 20px;
 }
 
-.post-body {
-	overflow: hidden;
-}
-
 .post-body a {
 	text-decoration: underline;
 }
@@ -743,6 +739,7 @@ abbr.imgpop:hover img {
 /*Multi-image thumbnail (Refer to js setThumbnails for logic)*/
 .thumbnail {
 	display: block;
+    overflow: hidden;
     position: relative;
 	transition: height 0.2s;	
 }

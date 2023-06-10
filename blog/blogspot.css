@@ -23,10 +23,6 @@ body {
 	transition: background .2s linear;
 }
 
-.post-body {
-	overflow: auto;
-}
-
 .header {
 	width: 96%;
 	max-width: 680px;
