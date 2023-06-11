@@ -331,9 +331,6 @@ function toggleOverlay(fromSidebar) {
 		if(document.getElementById('RightBtn') != null)
 			document.getElementById('RightBtn').style.display = toggleDisplay(document.getElementById('RightBtn'), 'none');
 	}
-	else if(document.getElementById('SidebarBtn') != null) {
-		document.getElementById('SidebarBtn').style.display = toggleDisplay(document.getElementById('SidebarBtn'), 'none');
-	}
 }
 
 // Floating action button events
