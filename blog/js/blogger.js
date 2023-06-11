@@ -212,15 +212,15 @@ function fixNavigationResults() {
 
 // Convert text to icon for footer next previous posts
 function olderNewerTextToIcon() {
-    if (document.getElementById("blog-pager-newer-link") != null) document.getElementById("blog-pager-newer-link").getElementsByTagName("a")[0].innerHTML = "<i class='material-icons flip-arrow'>arrow_right_alt</i>";
-    if (document.getElementById("blog-pager-older-link") != null) document.getElementById("blog-pager-older-link").getElementsByTagName("a")[0].innerHTML = "<i class='material-icons'>arrow_right_alt</i>";
+    if (document.getElementById("blog-pager-newer-link") != null)
+		document.getElementById("blog-pager-newer-link").getElementsByTagName("a")[0].innerHTML = 
+		"<i class='material-icons flip-arrow'>start</i>";
+    if (document.getElementById("blog-pager-older-link") != null)
+		document.getElementById("blog-pager-older-link").getElementsByTagName("a")[0].innerHTML = 
+		"<i class='material-icons'>start</i>";
 	if (document.getElementsByClassName('home-link').length > 0) {
-		let homeLink = document.getElementsByClassName('home-link')[0];
-		if(window.innerHeight*2 < document.body.getBoundingClientRect().height) 
-			homeLink.innerHTML = "<i class='material-icons'>home</i>";
-		else
-			homeLink.classList.add('display-none');
-	}		
+		document.getElementsByClassName('home-link')[0].classList.add('display-none');
+	}
 }
 
 // Add arrows for search labels when in smaller screens
