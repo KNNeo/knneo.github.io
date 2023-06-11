@@ -214,12 +214,12 @@ function fixNavigationResults() {
 function olderNewerTextToIcon() {
     if (document.getElementById("blog-pager-newer-link") != null)
 		document.getElementById("blog-pager-newer-link").getElementsByTagName("a")[0].innerHTML = 
-		"<i class='material-icons flip-arrow'>start</i>";
+		"<i class='material-icons flip-arrow latest-post'>arrow_right_alt</i>";
     if (document.getElementById("blog-pager-older-link") != null)
 		document.getElementById("blog-pager-older-link").getElementsByTagName("a")[0].innerHTML = 
-		"<i class='material-icons'>start</i>";
+		"<i class='material-icons latest-post'>arrow_right_alt</i>";
 	if (document.getElementsByClassName('home-link').length > 0) {
-		document.getElementsByClassName('home-link')[0].classList.add('display-none');
+		document.getElementsByClassName('home-link').classList.add('display-none');
 	}
 }
 
