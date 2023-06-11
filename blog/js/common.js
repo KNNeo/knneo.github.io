@@ -18,6 +18,7 @@ function startup() {
 	if(typeof generateViewer == 'function') generateViewer();
 	if(typeof generateHeader == 'function') generateHeader();
 	if(typeof generateReadTime == 'function') generateReadTime();
+	if(typeof toggleEmojiDisplay == 'function') toggleEmojiDisplay();
 
 	// Window events
 	window.addEventListener('scroll', displayFAB);

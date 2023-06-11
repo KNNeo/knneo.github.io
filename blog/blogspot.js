@@ -26,6 +26,16 @@ function removeContentDimensions() {
 		setTimeout(removeContentDimensions, 200);
 }
 
+//to allow toggle of emoji display
+function toggleEmojiDisplay() {
+	for(let emoji of document.querySelectorAll('.emoji'))
+	{
+		let temp = emoji.innerText;
+		emoji.innerText = emoji.title;
+		emoji.title = temp;
+	}
+}
+
 //add back button to each page
 function goBack() {
 	closePopups();
