@@ -537,10 +537,7 @@ table.tr-caption-container {
   /*Fix post newer older post links*/
   .blog-mobile-link,
   .home-link {
-    color: var(--foreground);
-	/* position: absolute; */
-    /* left: 0; */
-    /* right: 0; */
+	  display: none;
   }
   .bar-left {
     position: absolute;
