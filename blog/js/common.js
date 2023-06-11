@@ -311,21 +311,17 @@ function toggleOverlay(fromSidebar) {
 		overlay = document.createElement('div');
 		overlay.id = 'Overlay';
 		overlay.style.display = 'none';
+		overlay.style.cursor = 'pointer';
+		overlay.addEventListener('click', closePopups);
 		body.appendChild(overlay);
 	}
 	
-	// re-set event listener
-	overlay.style.cursor = '';
-	overlay.removeEventListener('click', closePopups);
-	if(fromSidebar) {
-		overlay.style.cursor = 'pointer';
-		overlay.addEventListener('click', closePopups);
-	}
-	
+	// set overlay
 	overlay.style.display = toggleDisplay(overlay, 'none');
 	overlay.style.backgroundColor = fromSidebar ? 'black' : '';
 	overlay.style.zIndex = fromSidebar ? '8' : '';
 	
+	// change buttons by force
 	if(document.getElementById('BackBtn') != null) {
 		document.getElementById('BackBtn').style.display = toggleDisplay(document.getElementById('BackBtn'), 'none');
 		if(document.getElementById('RightBtn') != null)
