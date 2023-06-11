@@ -529,7 +529,7 @@ function resizeImages() {
 			p.classList.add('img-width-fit');
 		else if (p.width + 20 >= window.outerWidth)
 			p.classList.add('img-width-fit');
-		else
+		else if(!p.classList.contains('img-width-fit'))
 			p.classList.add('img-width-auto');
 		
 		// special case: separator class
