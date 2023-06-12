@@ -898,13 +898,12 @@ void Main()
 				}
 				
 				var thumbnailDiv = "<div"+classes.Replace("Post", "Post latest-post")+">" + 
-					"<span>"+published.ToString("yyyy.MM.dd")+" </span>" + 
-					"<a href=\"" + pageLink + "\">" + 
+					"<span>"+published.ToString("yyyy.MM.dd")+"</span>" + 
 					"<div class=\"latest-post-thumb\">" + 
-					"<div>" + title + "</div>" + 
-					"<div class=\"anchors\">" + string.Join("", anchors.Select(a => "<a href=\"" + (pageLink + "#" + a) + "\">#" + a + "</a>")) + "</div>" + 
-					"<img loading=\"lazy\" class=\"" + (thumbnailUrl == "" ? "" : "home-thumb") + "\" src=\"" + thumbnailUrl + "\"/>" + 
-					"</div></a></div>\n";
+						"<a href=\"" + pageLink + "\">" + title + "</a>" + 
+						"<div class=\"anchors\">" + string.Join("", anchors.Select(a => "<a href=\"" + (pageLink + "#" + a) + "\">#" + a + "</a>")) + "</div>" + 
+						"<img loading=\"lazy\" class=\"" + (thumbnailUrl == "" ? "" : "home-thumb") + "\" src=\"" + thumbnailUrl + "\"/>" + 
+					"</div></div>\n";
             
                 textString += latestPostCount >= maxLatestPost 
 					? "<div"+classes+"><span>"+published.ToString("yyyy.MM.dd")+" </span><a href=\""+pageLink+"\">"+title+"</a></div>\n" 
