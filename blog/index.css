@@ -244,10 +244,6 @@ table.tr-caption-container {
   padding-top: 20px;
 }
 
-.post-body {
-    overflow-x: hidden;
-}
-
 .post-body a {
 	text-decoration: underline;
 }
