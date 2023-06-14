@@ -329,6 +329,10 @@ function toggleOverlay(fromSidebar) {
 	}
 }
 
+function toggleDisplay(element, defaultValue) {
+	return element.style.display == '' ? defaultValue : '';
+}
+
 // Floating action button events
 function displayFAB() {
 	if(document.querySelector('#Overlay') != null && document.querySelector('#Overlay').style.display != 'none')
@@ -352,10 +356,6 @@ function switchToButton(id) {
 	}
 	if(document.getElementById(id) != null) document.getElementById(id).style.display = 'block';
 	else if (window.location.href.includes("knwebreports.blogspot")) document.getElementById('SearchBtn').style.display = 'block';
-}
-
-function toggleDisplay(element, defaultValue) {
-	return element.style.display == '' ? defaultValue : '';
 }
 
 function goToTop() {
