@@ -44,7 +44,7 @@ void Main()
 	var showMatches = false; //if has match show full match object, else just object with description
 	var showOk = false; //if post no issues don't show
 	 //----------ADD INDEXES HERE----------//
-	List<int> includeIndex = new List<int> { 30 };
+	List<int> includeIndex = new List<int> { 11 };
 	if(includeIndex.Count > 0) Console.WriteLine("[SELECTIVE_CHECKS_ACTIVATED - " + String.Join(", ", includeIndex) + "]");
 	else Console.WriteLine("[ALL_CHECKS_ACTIVATED]");
 	
@@ -82,7 +82,8 @@ void Main()
 	 * [27] link in images of thumbnails to be removed
 	 * [28]	links to current blog to remove for migration
 	 * [29] reduce resolution of uploaded images (from 4032 -> 2048 pixels)
-	 * [] censor words
+	 * []	censor words
+	 * [31]	add lazy loading to img tags
 	 */
 	
 	// Process XML content per post
@@ -299,6 +300,36 @@ void Main()
 	        };
 		}
         #endregion
+		
+        #region 11 abbr imgpop => div popup normal pop	
+		if(includeIndex.Count() == 0 || includeIndex.Contains(11))
+		{	
+	        expression = @"(?s)(<abbr)(.*?)(title="")(.*?)(</abbr>)";
+	        
+	        match = Regex.Match(content, expression);
+	        while(match.Success)
+	        {
+	            fixes.Add(new MatchItem() {
+						match = match,
+						description = "[11] old abbr text found",
+						action = "think of how to fix"
+					});
+	        	match = match.NextMatch();
+	        };
+	        expression = @"(?s)(<abbr)(.*?)(class=""imgpop)(.*?)(</abbr>)";
+	        
+	        match = Regex.Match(content, expression);
+	        while(match.Success)
+	        {
+	            fixes.Add(new MatchItem() {
+						match = match,
+						description = "[11] old abbr img found",
+						action = "replace with new thumbnail popup"
+					});
+	        	match = match.NextMatch();
+	        };
+		}
+		#endregion
         
         #region 14 old blog link to current blog
 		if(includeIndex.Count() == 0 || includeIndex.Contains(14))
@@ -619,6 +650,33 @@ void Main()
 	        };
 		}
         #endregion
+		
+		#region 31 add lazy loading to img tags
+		if(includeIndex.Count() == 0 || includeIndex.Contains(31))
+		{
+			// Put on all, then replace for first in thumbnails
+			if(content.Contains("<img"))
+			{
+	            fixes.Add(new MatchItem() {
+						match = null,
+						description = "[30] img tag found",
+						action = "replace with img lazy loading"
+					});
+			}
+			
+			// Does not cater to thumbnails, do not put lazy on first thumb
+	        expression = @"(?s)(thumbnail-initial hover-hidden)(.*?)(<img loading=""lazy"")";
+	        match = Regex.Match(content, expression);
+	        while(match.Success) {
+	            fixes.Add(new MatchItem() {
+						match = showMatches ? match : null,
+						description = "[31] thumbnail-initial found, to not have loading lazy",
+						action = "to revert to normal img, as need this for setThumbnail"
+					});
+	        };
+			
+		}
+		#endregion
 		
 		//===================================================================================//
 		#region Display Result
