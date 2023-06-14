@@ -429,6 +429,15 @@ table.tr-caption-container {
   margin: 0 8px 0 15px;
 }
 
+#blog-pager.blog-pager {
+	margin: 0;
+	padding: 3px;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
 /*Search Bar*/
 .header-inner .Header .descriptionwrapper {
   margin-bottom: 0;
@@ -444,33 +453,56 @@ table.tr-caption-container {
   width: 200px;
 }
 
-/*Middle Screen Width Responsive*/
-@media only screen and (min-width: 320px) and (max-width: 1024px) {
+/*Small Screen Width*/
+@media only screen and (max-width: 780px) {
+	#SidebarBtn{
+		left: 15px;
+	}
+	#SidebarBtn,
+	#GoToTopBtn,
+	#SearchBtn  {
+		bottom: 15px;
+	}
+	#CloseBtn,
+	#GoToTopBtn,
+	#SearchBtn  {
+		right: 15px;
+	} 
+	#CloseBtn {
+		top: 15px;
+	}
+	#Label1 {
+		margin: 0 5px;
+	}
+	#footer-3 {
+		margin: 0;
+	}
+	.header-inner .Header .titlewrapper,
+	.header-inner .Header .descriptionwrapper {
+		padding-left: 0;
+		padding-right: 0;
+	}
+	.main-inner .column-center-inner .section {
+		margin: 0 5px;
+	}
+	.material-icons {
+		font-size: 36px;
+	}
+	.twitter-tweet {
+		width: 320px !important;
+	}
+}
+
+/*Middle Screen Width*/
+@media only screen and (max-width: 1024px) {
   body {
-    min-width: auto !important;
-    max-width: 760px !important;
-    margin-left: auto;
-    margin-right: auto;
+	min-width: auto !important;
+	max-width: 760px !important;
+	margin-left: auto;
+	margin-right: auto;
   }
   #SidebarBtn {
-	  display: block;
-  }
-  #blog-pager.blog-pager {
-    margin: 0;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-  }
-  #blog-pager-older-link>a,
-  #blog-pager-older-link>a:visited,
-  #blog-pager-newer-link>a,
-  #blog-pager-newer-link>a:visited {
-    color: var(--foreground);
-  }
-  #blog-pager-older-link>a:hover,
-  #blog-pager-newer-link>a:hover {
-    color: var(--primary);
+	display: block;
   }
   #header-inner {
     padding-left: 10px;
@@ -537,7 +569,7 @@ table.tr-caption-container {
   /*Fix post newer older post links*/
   .blog-mobile-link,
   .home-link {
-	  display: none;
+	display: none;
   }
   .bar-left {
     position: absolute;
@@ -558,7 +590,7 @@ table.tr-caption-container {
   }
 }
 
-/*Large Screen Width (Responsive)*/
+/*Large Screen Width*/
 @media only screen and (min-width: 1025px) {
   #CustomBlogSearch {
     position: absolute;
@@ -567,24 +599,6 @@ table.tr-caption-container {
     top: 100px;
     width: 200px;
     display: none;
-  }
-  /*Fix post newer older post links*/
-  #blog-pager-newer-link {
-    left: 0;
-  }
-  #blog-pager-older-link {
-    right: 0;
-  }
-  a.home-link:visited,
-  #blog-pager-older-link>a,
-  #blog-pager-older-link>a:visited,
-  #blog-pager-newer-link>a,
-  #blog-pager-newer-link>a:visited {
-    padding: inherit;
-  }
-  #blog-pager.blog-pager {
-    padding: 0 1em 1em 0;
-    margin: 0;
   }
   .tabs-inner {
 	margin: 0;
@@ -609,46 +623,6 @@ table.tr-caption-container {
     background-color: var(--background);
     padding-bottom: 18px;
   }
-}
-
-/*Middle Screen Width (Responsive)*/
-@media only screen and (max-width: 780px) {
-	#SidebarBtn{
-	left: 15px;
-	}
-	#SidebarBtn,
-	#GoToTopBtn,
-	#SearchBtn  {
-	bottom: 15px;
-	}
-	#CloseBtn,
-	#GoToTopBtn,
-	#SearchBtn  {
-	right: 15px;
-	} 
-	#CloseBtn {
-	top: 15px;
-	}
-	#Label1 {
-	margin: 0 5px;
-	}
-	#footer-3 {
-	margin: 0;
-	}
-	.header-inner .Header .titlewrapper,
-	.header-inner .Header .descriptionwrapper {
-	padding-left: 0;
-	padding-right: 0;
-	}
-	.main-inner .column-center-inner .section {
-	margin: 0 5px;
-	}
-	.material-icons {
-	font-size: 36px;
-	}
-	.twitter-tweet {
-		width: 320px !important;
-	}
 }
 
 /*Custom abbr hover (Unsupported)*/
@@ -783,18 +757,7 @@ abbr.imgpop:hover img {
 	margin-right: auto;
 }
 
-/*EXPERIMENTAL - Supports text, not to be mistaken with links or images*/
-.thumbnail-text {
-	color: var(--primary);
-	text-decoration: underline;	
-}
-
-.thumbnail-dialog {
-    background-color: var(--background);
-    color: var(--foreground);	
-}
-
-/*EXPERIMENTAL - all prefixed with new for now*/
+/*link popup content - all prefixed with new for now*/
 .new-t, .new-thumbnail, .new-thumbnail-initial {
 	display: inline;
 	cursor: pointer;
@@ -818,6 +781,17 @@ abbr.imgpop:hover img {
 	margin: auto;
 	text-align: center;
 	max-width: 98%;
+}
+
+/*EXPERIMENTAL - Supports text, not to be mistaken with links or images*/
+.thumbnail-text {
+	color: var(--primary);
+	text-decoration: underline;	
+}
+
+.thumbnail-dialog {
+    background-color: var(--background);
+    color: var(--foreground);	
 }
 
 /*ANIMATION KEYFRAMES*/
