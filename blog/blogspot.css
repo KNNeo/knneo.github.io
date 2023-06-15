@@ -100,7 +100,7 @@ a:hover {
 	position: absolute;
 	background-color: var(--background);
 	margin-left: 2px;
-	width: 50%;
+	width: 150px;
 }
 
 .latest-post:hover .anchors {
