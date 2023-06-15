@@ -19,7 +19,7 @@ function filterByTag(sourceFilter) {
 	}
 	let posts = document.querySelectorAll('.Post:not(.hidden)');
 	if(posts.length > 0)
-		document.querySelector(".Count").innerText = posts.length + " published posts";
+		document.querySelector(".count").innerText = posts.length + " published posts";
 }
 
 function randomPost() {

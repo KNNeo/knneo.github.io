@@ -134,7 +134,6 @@ void Main()
     
 	var latestPostCount = 0;
     var textString = "";
-    textString += "<div class=\"Count\">" + posts.ToList().Count + " published posts found</div>\n";
 	
 	// Linked list for all page links to find navigation
 	var postList = new List<string>();
@@ -901,7 +900,7 @@ void Main()
 					"<span>"+published.ToString("yyyy.MM.dd")+"</span>" + 
 					"<div class=\"latest-post-thumb\">" + 
 						"<a href=\"" + pageLink + "\">" + title + "</a>" + 
-						"<div class=\"anchors\">" + string.Join("", anchors.Select(a => "<a href=\"" + (pageLink + "#" + a) + "\">#" + a + "</a>")) + "</div>" + 
+						(anchors.Count > 0 ? "<div class=\"anchors\">" + string.Join("", anchors.Select(a => "<a href=\"" + (pageLink + "#" + a) + "\">#" + a + "</a>")) + "</div>" : "") + 
 						"<img loading=\"lazy\" class=\"" + (thumbnailUrl == "" ? "" : "home-thumb") + "\" src=\"" + thumbnailUrl + "\"/>" + 
 					"</div></div>\n";
             
@@ -918,7 +917,7 @@ void Main()
     
     //Write into home page
     string fileString = File.ReadAllText(blogpath + "\\template.html");
-    fileString = fileString.Replace("<div id=\"blog-archive-list\"></div>", ("<div id=\"blog-archive-list\">" + textString + "</div>")).Replace("_FONT_", defaultFont);
+    fileString = fileString.Replace("_ARCHIVE_", textString).Replace("_FONT_", defaultFont).Replace("_COUNT_", posts.ToList().Count.ToString());
     File.WriteAllText(blogpath + "\\index.html", fileString);
 }
 

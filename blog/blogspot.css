@@ -23,6 +23,12 @@ body {
 	transition: background .2s linear;
 }
 
+.archive-list {
+	display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
 .header {
 	width: 96%;
 	max-width: 680px;
@@ -70,8 +76,7 @@ a:hover {
 .latest-post {
 	padding: 12px;
 	width: 320px;
-	display: inline-block;
-    margin: 2px auto;
+    margin: 4px 2px;
 	vertical-align: top;
 }
 
@@ -100,6 +105,7 @@ a:hover {
 	position: absolute;
 	background-color: var(--background);
 	margin-left: 2px;
+    padding-top: 3px;
 	width: 150px;
 }
 
