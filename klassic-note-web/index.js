@@ -21,6 +21,7 @@ function startup() {
 }
 
 function addServiceWorker() {
+	// not using for now, pending further analysis of use
 	if (navigator && 'serviceWorker' in navigator) {
 	  window.addEventListener('load', function() {
 		navigator.serviceWorker.register('sw.js')
@@ -783,9 +784,6 @@ function generateUpcomingReleases(contents) {
 function generateModules(contents) {
 	if(debugMode) console.log('generateModules', contents);
 	document.querySelector('#tab-homepage').style.display = 'none';
-	document.querySelector('#search-buttons').style.display = '';
-	document.querySelector('#music').innerHTML = '';
-	document.querySelector('#cover').innerHTML = '';
 	updateMediaSession();
 	
 	//clear modules
@@ -803,9 +801,8 @@ function generateModules(contents) {
 	
 	if(window['mode'] === 'song')
 	{
+		updateHeader(contents);
 		updateSearch(contents);
-		generatePlayer(contents);
-		queryCoverArt(contents);
 		queryInfo(contents);
 		queryRelated(contents);
 		queryAwards(contents);
@@ -816,7 +813,7 @@ function generateModules(contents) {
 	
 	if(window['mode'] === 'artist')
 	{
-		updateSearch(contents);		
+		// updateSearch(contents);
 		queryArtistInfo(contents);
 		queryArtistRelated(contents);
 		queryAwardsByArtist(contents);
@@ -836,6 +833,18 @@ function generateModules(contents) {
 	for(let selected of document.getElementsByClassName('not-selectable'))
 	{
 		selected.dispatchEvent(new Event('active'));
+	}
+}
+
+function updateHeader(contents) {
+	if(contents.values.length > 1) return;
+	let row = contents.values[0];
+	let columnIndexKNID = contents.columns.indexOf('ID');
+	if(row[columnIndexKNID] != window['song-id'])
+	{
+		document.querySelector('#search-buttons').style.display = '';
+		generatePlayer(contents);
+		queryCoverArt(contents);
 	}
 }
 
@@ -895,8 +904,6 @@ function generatePlayer(contents) {
 	let knyear = row[columnIndexKNYEAR];
 	
 	document.querySelector('#music').innerHTML = '';
-	// if(!document.querySelector('#music').classList.contains('centered'))
-		// document.querySelector('#music').classList.add('centered');
 	
 	let audioOverlay = document.createElement('div');
 	audioOverlay.id = 'overlay';
