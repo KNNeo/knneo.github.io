@@ -69,6 +69,8 @@ function loadTimeline(sectionNo, chartContents) {
 		options: {
 			indexAxis: 'y',
 			responsive: true,
+			maintainAspectRatio: false,
+			aspectRatio: 0.5,
 			datasets: {
 				bar: {
 					barPercentage: 1
@@ -109,7 +111,8 @@ function loadTimeline(sectionNo, chartContents) {
 					stacked: true,
 				}
 			}
-		}
+		},
+		plugins: [drawVerticalLine, customCanvasBackgroundColor]
 	} : {
 		type: chartContents.type || 'line',
 		data: chartContents,
@@ -117,7 +120,7 @@ function loadTimeline(sectionNo, chartContents) {
 			indexAxis: chartContents.type == 'bar' ? (chartContents.chartBarOrientation || 'y') : undefined,
 			responsive: true,
 			maintainAspectRatio: false,
-			aspectRatio: isMobile() ? 1 : 0.5,
+			aspectRatio: 0.5,
 			datasets: {
 				bar: {
 					barPercentage: 1
