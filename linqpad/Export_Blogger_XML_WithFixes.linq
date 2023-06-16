@@ -27,6 +27,7 @@
  * []	adjust ent news headers
  * []	add class to header prefix for styling
  * [ok]	old blog link to current blog
+ * [ok]	current blog link to relative
  * []	all table styles to be within post
  * [ok]	remove hashtags on post level
  * [ok]	alternate links detection for new popups (youtu.be)
@@ -455,7 +456,8 @@ void Main()
         #region 14 old blog link to current blog
 		if(includeIndex.Count() == 0 || includeIndex.Contains(14))
 		{
-	        expression = @"(href=""https://knwebreports2014.blogspot.com/)(.*?)(>)";
+			//https
+	        expression = @"(?s)(href=""https://knwebreports2014.blogspot.com/)(.*?)(>)";
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 				count.Add(14);
@@ -464,11 +466,37 @@ void Main()
 	            match = match.NextMatch();
 	        };
 			
-	        expression = @"(href=""http://knwebreports2014.blogspot.com/)(.*?)(>)";
+			//http
+	        expression = @"(?s)(href=""http://knwebreports2014.blogspot.com/)(.*?)(>)";
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 				count.Add(14);
 	            var replacement = match.Value.Replace("target=\"_blank\"", "").Replace("http://knwebreports2014.blogspot.com/", "../../");
+	            content = content.Replace(match.Value, replacement);
+	            match = match.NextMatch();
+	        };
+		}
+        #endregion
+        
+        #region 15 current blog link to relative
+		if(includeIndex.Count() == 0 || includeIndex.Contains(14))
+		{
+			//https
+	        expression = @"(?s)(href=""https://knwebreports.blogspot.com/)(.*?)(>)";
+	        match = Regex.Match(content, expression);
+	        while(match.Success) {
+				count.Add(15);
+	            var replacement = match.Value.Replace("target=\"_blank\"", "").Replace("https://knwebreports.blogspot.com/", "../../");
+	            content = content.Replace(match.Value, replacement);
+	            match = match.NextMatch();
+	        };
+			
+			//http
+	        expression = @"(?s)(href=""http://knwebreports.blogspot.com/)(.*?)(>)";
+	        match = Regex.Match(content, expression);
+	        while(match.Success) {
+				count.Add(15);
+	            var replacement = match.Value.Replace("target=\"_blank\"", "").Replace("http://knwebreports.blogspot.com/", "../../");
 	            content = content.Replace(match.Value, replacement);
 	            match = match.NextMatch();
 	        };
@@ -814,12 +842,15 @@ void Main()
             output.WriteLine("<script src=\"../../../js/header.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
             output.WriteLine("<script src=\"../../../js/viewer.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
             output.WriteLine("<title>" + title + "</title>");
-			// if(postList.IndexOf(pageLink) > 0) output.WriteLine("<a id='LeftBtn' href='" + postList[postList.IndexOf(pageLink) - 1].Replace("./", "../../../") + "' title='Newer Post'><i class='material-icons'>arrow_back</i></a>");
-            if(postList.IndexOf(pageLink) - 1 > 0) output.WriteLine("<a id='RightBtn' href='" + postList[postList.IndexOf(pageLink) - 1].Replace("./", "../../../") + "' title='Older Post'><i class='material-icons'>arrow_forward</i></a>");
+			//if(postList.IndexOf(pageLink) > 0)
+			//output.WriteLine("<a id='LeftBtn' href='" + postList[postList.IndexOf(pageLink) - 1].Replace("./", "../../../") + "' title='Newer Post'><i class='material-icons'>arrow_back</i></a>");
+            if(postList.IndexOf(pageLink) - 1 > 0)
+				output.WriteLine("<a id='RightBtn' class='material-icons' href='" + postList[postList.IndexOf(pageLink) - 1].Replace("./", "../../../") + "' title='Older Post'><i class='material-icons'>arrow_forward</i></a>");
             output.WriteLine("<body>");
-			output.WriteLine("<a id='BackBtn' href='../../../index.html' title='Go Back'><i class='material-icons'>arrow_back</i></a>");
-			output.WriteLine("<a id='DarkModeBtn' title='Toggle Dark Mode' href='javascript:void(0);' onclick='toggleDarkMode()'><i class='material-icons'>brightness_high</i></a>");
-			output.WriteLine("<a id='GoToTopBtn' title='Go To Top' style='display: none;' href='javascript:void(0);' onclick='goToTop()'><i class='material-icons'>arrow_upward</i></a>");
+			output.WriteLine("<a id='BackBtn' class='material-icons' href='../../../index.html' title='Go Back'>arrow_back</a>");
+			output.WriteLine("<a id='EmojiBtn' class='material-icons' title='Toggle Emoji Display' href='javascript:void(0);' onclick='toggleEmojiDisplay()'>mood</a>");
+			output.WriteLine("<a id='DarkModeBtn' class='material-icons' title='Toggle Dark Mode' href='javascript:void(0);' onclick='toggleDarkMode()'>brightness_high</a>");
+			output.WriteLine("<a id='GoToTopBtn' class='material-icons' title='Go To Top' style='display: none;' href='javascript:void(0);' onclick='goToTop()'>arrow_upward</a>");
             output.WriteLine("<div id=\"viewer\"></div>");
             output.WriteLine("<div id=\"contents\" class=\"post-body entry-content\" style=\"font-family: " + defaultFont + ";\">");
 			if (originalLink != "")

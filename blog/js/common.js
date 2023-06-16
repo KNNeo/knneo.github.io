@@ -14,7 +14,6 @@ function startup() {
 	addHashtags();
 	if(typeof preloadSequence == 'function') preloadSequence();
 	if(typeof addFloatingActionButtons == 'function') addFloatingActionButtons();
-	if(typeof redirectInternalUrls == 'function') redirectInternalUrls();
 	if(typeof generateViewer == 'function') generateViewer();
 	if(typeof generateHeader == 'function') generateHeader();
 	if(typeof generateReadTime == 'function') generateReadTime();
@@ -349,13 +348,21 @@ function displayFAB() {
 
 function switchToButton(id) {
 	if(id == '') return;
-	let buttons = ['GoToTopBtn','SearchBtn','DarkModeBtn'];
+	
+	// to hide
+	let buttons = ['GoToTopBtn','SearchBtn','DarkModeBtn','EmojiBtn'];
 	for(let button of buttons)
 	{
 		if(document.getElementById(button) != null) document.getElementById(button).style.display = 'none';
 	}
-	if(document.getElementById(id) != null) document.getElementById(id).style.display = 'block';
-	else if (window.location.href.includes("knwebreports.blogspot")) document.getElementById('SearchBtn').style.display = 'block';
+	
+	// to show
+	if(document.getElementById(id) != null) // destination id by default
+		document.getElementById(id).style.display = 'block';
+	else if (window.location.href.includes("knwebreports.blogspot"))
+		document.getElementById('SearchBtn').style.display = 'block';
+	if (['GoToTopBtn','SearchBtn','DarkModeBtn'].includes(id) && document.getElementById('EmojiBtn') != null)
+		document.getElementById('EmojiBtn').style.display = 'block';
 }
 
 function goToTop() {
