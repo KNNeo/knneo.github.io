@@ -26,26 +26,11 @@ html.darked {
 	color-scheme: dark;
 }
 
-body > * {
-  max-width: 480px;
-  margin: auto;
-  text-align: center;
-  overflow-x: hidden;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-.menu {
+body {
+	max-width: 480px;
 	margin: auto;
-	position: fixed;
-	top: 0;
-	left: 0;
-	right: 0;
-	z-index: 2;
-	background-color: var(--background);
+	text-align: center;
+	overflow-x: hidden;
 }
 
 .title {
@@ -60,34 +45,7 @@ body > * {
 	text-decoration: none;
 }
 
-.list {
-	padding-top: 80px;
-}
-
-.thumbnail {
-	cursor: pointer;
-}
-
-.material-icons {
-	cursor: pointer;
-	padding: 10px;
-}
-
-.closed {
-	display: none;
-}
-
-.box {
-	margin: 5px;
-	vertical-align: top;
-	scroll-snap-align: center;
-	white-space: normal;
-	touch-action: manipulation;
-}
-
 .tile {
-    /* -webkit-transform: translateY(50px); */
-    /* transform: translateY(50px) translateZ(0); */
     -webkit-transition-delay: .3s;
     -o-transition-delay: .3s;
     transition-delay: .3s;
@@ -99,27 +57,9 @@ body > * {
 }
 
 .tile-view {
-    /* -webkit-transform: translateY(0px); */
-    /* transform: translateY(0px) */
     opacity: 1;
 }
 
 .tile-image {
 	max-width: 33%;
-}
-
-.no-delay {
-    -webkit-transition-delay: unset;
-    -o-transition-delay: unset;
-    transition-delay: unset;
-    -webkit-transition: unset;
-    -o-transition: unset;
-    transition: unset;
-}
-
-.banner {
-	z-index: 10;
-	position: sticky;
-	top: 0;
-	background-color: var(--background);
 }
