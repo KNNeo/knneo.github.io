@@ -55,6 +55,7 @@ function generateArchive() {
 			
 				let imageSpan = document.createElement('img');
 				imageSpan.classList.add('tile-image');
+				imageSpan.setAttribute('loading', 'lazy');
 				imageSpan.setAttribute('data-image', mosaic.imgUrl);
 				imageSpan.addEventListener('click', function() {
 					this.style.maxWidth = this.style.maxWidth == '' ? '100vw' : '';
