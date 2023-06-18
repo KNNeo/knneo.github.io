@@ -28,12 +28,12 @@
 	],
 	"shortcuts": [
 		{
-			"name": "Music Database",
-			"url": "/klassic-note-web/index.html",
-			"description": "Klassic Note Web",
+			"name": "Profiles",
+			"url": "/profile-list/v5/index.html",
+			"description": "Profiles",
 			"icons": [
 				{
-					"src": "/klassic-note-web/music-svgrepo-com-custom-tint.png",
+					"src": "/profile-list/v5/user-circle-svgrepo-com.png",
 					"sizes": "96x96"
 				}
 			]
@@ -45,6 +45,17 @@
 			"icons": [
 				{
 					"src": "/blog/storytime.png",
+					"sizes": "96x96"
+				}
+			]
+		},
+		{
+			"name": "Music Database",
+			"url": "/klassic-note-web/index.html",
+			"description": "Klassic Note Web",
+			"icons": [
+				{
+					"src": "/klassic-note-web/music-svgrepo-com-custom-tint.png",
 					"sizes": "96x96"
 				}
 			]
