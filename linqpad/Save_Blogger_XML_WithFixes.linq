@@ -15,8 +15,6 @@ void Main()
 	Console.WriteLine("\tIf edit from Blogger img tags will be missing self-enclosing slash, format on web version to fix");
 	Console.WriteLine("==================================================================================================");
     string archivepath = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\";
-    string blogpath = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\";
-    string outputFolder = "pages";
     string filepath = "";
     string domainLink = "https://knwebreports.blogspot.com/";
 	
@@ -26,7 +24,7 @@ void Main()
     string[] sources = Directory.GetFiles(sourcepath, "blog-*.xml");
     if(sources.Length == 1)
 	{
-        if(TraceMode) Console.WriteLine("Source found; Moving to archivepath");
+        Console.WriteLine("Source found; Moving to archivepath");
 		
 	    string[] dests = Directory.GetFiles(Path.GetDirectoryName(archivepath), "blog-*.xml");
 	    if(dests.Length == 1)
@@ -40,11 +38,11 @@ void Main()
 	}
     else if(sources.Length == 0)
     {
-		Console.WriteLine("No xml source found; proceed in archivepath");
+		Console.WriteLine("No xml source found; proceed in " + archivepath);
     }
     else
     {
-		Console.WriteLine("More than 1 source files found; proceed in archivepath");
+		Console.WriteLine("More than 1 source files found; proceed in " + archivepath);
     }
 	
 	//Get xml file to process
@@ -62,7 +60,7 @@ void Main()
     }
     else
     {
-		Console.WriteLine("More than 1 xml files found");
+		Console.WriteLine("More than 1 xml files found: Remove all but one source file in " + archivepath);
         return;
     }
 	
@@ -92,4 +90,5 @@ void Main()
 	if(File.Exists(outputFilename))
 		File.Delete(outputFilename);
 	doc.Save(outputFilename);
+	Console.WriteLine("Saved.");
 }
