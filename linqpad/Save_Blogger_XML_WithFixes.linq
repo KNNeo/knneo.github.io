@@ -66,6 +66,13 @@ void Main()
 	
 	//Read file
     string text = File.ReadAllText(filepath);
+	
+	//General text replace
+	text = text.Replace("\n", "");
+	//Console.WriteLine(text.Substring(0,300000));
+	//return;
+	
+	//Parse XML document
     XDocument doc = XDocument.Parse(text);
     
     // Use XNamespaces to deal with those pesky "xmlns" attributes.
@@ -75,9 +82,7 @@ void Main()
 	
 	// Filter posts from XML
     doc.Root.Elements(_+"entry")
-	.Where(entry => !entry.Element(_+"category").Attribute("term").ToString().Contains("#template"))
-    .Where(entry => !entry.Element(_+"category").Attribute("term").ToString().Contains("#settings"))
-    .Where(entry => !entry.Element(_+"category").Attribute("term").ToString().Contains("#page"))
+	.Where(entry => entry.Element(_+"category").Attribute("term").ToString().Contains("#post"))
     .Where(entry => !entry.Descendants(app+"draft").Any(draft => draft.Value != "no"))
 	.Where(entry => 
 		entry.Element(_+"published") != null && 
