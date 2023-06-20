@@ -68,9 +68,9 @@ void Main()
     string text = File.ReadAllText(filepath);
 	
 	//General text replace
-	text = text.Replace("\n", "");
-	//Console.WriteLine(text.Substring(0,300000));
-	//return;
+	text = text.Replace("\n", "")
+		.Replace("The Entertainment News 2022 Edition Issue", "The Entertainment News &#x27;22 Issue"); // string literal in single quotes, use unicode
+	//Console.WriteLine(text.Substring(2416600, 40));
 	
 	//Parse XML document
     XDocument doc = XDocument.Parse(text);
@@ -87,13 +87,14 @@ void Main()
 	.Where(entry => 
 		entry.Element(_+"published") != null && 
 		DateTime.TryParse(entry.Element(_+"published").Value, out DateTime publishDate) && 
-		publishDate.Year < 2022)
+		publishDate.Year != 2022)
 	.Remove();
 	
 	// Save
 	var outputFilename = filepath.Replace(".xml","-edit.xml");
-	if(File.Exists(outputFilename))
-		File.Delete(outputFilename);
+	if(File.Exists(outputFilename)) File.Delete(outputFilename);
 	doc.Save(outputFilename);
+    File.Delete(outputFilename.Replace(archivepath, archivepath + @"archive\"));
+	File.Move(outputFilename, outputFilename.Replace(archivepath, archivepath + @"archive\"));
 	Console.WriteLine("Saved.");
 }
