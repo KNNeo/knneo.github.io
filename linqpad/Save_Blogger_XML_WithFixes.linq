@@ -82,12 +82,14 @@ void Main()
 	
 	// Filter posts from XML
     doc.Root.Elements(_+"entry")
-	.Where(entry => entry.Element(_+"category").Attribute("term").ToString().Contains("#post"))
+    .Where(entry => !entry.Element(_+"category").Attribute("term").ToString().Contains("#template"))
+    .Where(entry => !entry.Element(_+"category").Attribute("term").ToString().Contains("#settings"))
+    .Where(entry => !entry.Element(_+"category").Attribute("term").ToString().Contains("#page"))
     .Where(entry => !entry.Descendants(app+"draft").Any(draft => draft.Value != "no"))
 	.Where(entry => 
 		entry.Element(_+"published") != null && 
 		DateTime.TryParse(entry.Element(_+"published").Value, out DateTime publishDate) && 
-		publishDate.Year != 2022)
+		publishDate.Year < 2022)
 	.Remove();
 	
 	// Save
