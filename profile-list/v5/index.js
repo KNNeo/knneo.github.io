@@ -271,7 +271,7 @@ function generateWantedList(addReset) {
 		wantedList.appendChild(list);
 	}
 	
-	generateWantedListButtons(addReset && wantedList.length < 1);
+	generateWantedListButtons(addReset && profileNamesList.length < 1);
 	
 	//scroll to front
 	wantedList.scrollLeft = 0;
