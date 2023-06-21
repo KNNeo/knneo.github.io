@@ -248,7 +248,6 @@ function generateWantedList(addReset) {
 	let wantedList = document.querySelector('.list');
 	wantedList.innerHTML = '';
 
-	generateWantedListButtons(addReset);
 	if(config.buttons.all)
 	{
 		let list = document.createElement('li');
@@ -272,6 +271,8 @@ function generateWantedList(addReset) {
 		wantedList.appendChild(list);
 	}
 	
+	generateWantedListButtons(addReset && wantedList.length < 1);
+	
 	//scroll to front
 	wantedList.scrollLeft = 0;
 }
@@ -294,11 +295,11 @@ function generateWantedListEntry(id, autoAdd = []) {
 	return wanted;
 }
 
-function generateWantedListButtons(addReset) {
+function generateWantedListButtons(showReset) {
 	let search = document.querySelector('.search');
 	search.innerHTML = '';
 	
-	if(addReset) {
+	if(showReset) {
 		let list = document.createElement('span');
 		list.appendChild(generateWantedListClear());
 		search.appendChild(list);
