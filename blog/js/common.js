@@ -291,7 +291,7 @@ function generatePopupContent(url) {
     }
     if (url.includes('instagram.com/p/')) {
         //process instagram embed
-        return '<center><blockquote class="instagram-media" style="' + (!isSmallWidth() ? 'width:550px;' : '') + '" data-instgrm-permalink="' +
+        return '<center><blockquote class="instagram-media" style="' + (window.innerWidth >= 576 ? 'width:550px;' : '') + '" data-instgrm-permalink="' +
             url + '" data-instgrm-version="14" style="padding:0;"></blockquote></center><script async="async" src="//www.instagram.com/embed.js"></script>';
     }
     if (url.includes('jisho.org/search/')) {
