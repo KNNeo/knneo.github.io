@@ -244,6 +244,11 @@ table.tr-caption-container {
   padding-top: 20px;
 }
 
+.post-body {
+    width: 100%;
+    overflow: hidden;
+}
+
 .post-body a {
 	text-decoration: underline;
 }
