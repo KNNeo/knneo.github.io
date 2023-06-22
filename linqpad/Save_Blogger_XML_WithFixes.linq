@@ -68,7 +68,7 @@ void Main()
     string text = File.ReadAllText(filepath);
 	
 	//General text replace
-	text = text.Replace("\n ", " ").Replace("  ", " ").Replace("   ", " ")
+	text = text.Replace("\n ", " ").Replace("  ", " ").Replace("   ", " ").Replace("&gt;\n&lt;", "&gt;&lt;").Replace("</a\n>", "</a>")
 		.Replace("The Entertainment News 2022 Edition Issue", "The Entertainment News &#x27;22 Issue"); // string literal in single quotes, use unicode
 	//Console.WriteLine(text.Substring(2416600, 40));
 	
@@ -89,7 +89,7 @@ void Main()
 	.Where(entry => 
 		entry.Element(_+"published") != null && 
 		DateTime.TryParse(entry.Element(_+"published").Value, out DateTime publishDate) && 
-		publishDate.Year < 2022)
+		publishDate.Year != 2022)
 	.Remove();
 	
 	// Save
