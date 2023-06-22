@@ -134,9 +134,6 @@ a:hover {
 	body {
 		font-size: 14px;
 	}
-	.Post span {
-		display: block;
-	}
 }
 
 #blog-archive-list {
@@ -149,11 +146,6 @@ a:hover {
 	margin: auto;
 	right: 0;
 	left: 0;
-}
-
-#tags a {
-	cursor: pointer;
-	white-space: nowrap;
 }
 
 #BackBtn {
@@ -292,6 +284,12 @@ a#SidebarBtn, a#SearchBtn {
 	display: none;
 }
 
+div.home-tags a {
+	cursor: pointer;
+	white-space: nowrap;
+}
+
+
 /*Fixes from Blogger*/
 h2 {
 	margin: 0;
@@ -341,6 +339,9 @@ h2 {
   }
   #EmojiBtn {
     bottom: 75px;	  
+  }
+  .Post span {
+	display: block;
   }
 }
 /*Custom viewer*/
