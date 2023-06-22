@@ -68,7 +68,7 @@ void Main()
     string text = File.ReadAllText(filepath);
 	
 	//General text replace
-	text = text.Replace("\n", "")
+	text = text.Replace("\n ", " ").Replace("  ", " ").Replace("   ", " ")
 		.Replace("The Entertainment News 2022 Edition Issue", "The Entertainment News &#x27;22 Issue"); // string literal in single quotes, use unicode
 	//Console.WriteLine(text.Substring(2416600, 40));
 	
