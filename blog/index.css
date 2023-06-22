@@ -149,6 +149,7 @@
 body {
   display: none;
   background-color: #444444;
+  overflow-x: hidden;
 }
 
 blockquote {
@@ -242,11 +243,6 @@ table.tr-caption-container {
 
 .main-inner .column-center-inner {
   padding-top: 20px;
-}
-
-.post-body {
-    width: 100%;
-    overflow: hidden;
 }
 
 .post-body a {
