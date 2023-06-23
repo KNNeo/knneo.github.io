@@ -12,6 +12,7 @@ window.addEventListener('load', startup);
 function startup() {
 	// To be run async unless otherwise, dependents in with parent functions
 	addHashtags();
+	resizeImages();
 	if(typeof preloadSequence == 'function') preloadSequence();
 	if(typeof addFloatingActionButtons == 'function') addFloatingActionButtons();
 	if(typeof generateViewer == 'function') generateViewer();
