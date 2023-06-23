@@ -495,63 +495,73 @@ function resizeImages() {
     ~Consluion: Consider redo whole list based on stricter requirements, and clearer ranges/lists to maintain exclusions
     */
     var images = document.getElementsByTagName("img");
-    for (var p of images) {
-		let showLog = false;
-		if(showLog) console.log(p);
-        var imgWidth = p.width;
-        var imgHeight = p.height;
-		if(showLog) console.log('width x height', imgWidth, imgHeight);
-        // exclusion list: by image size, class, tag name, or by id
-        if (imgWidth < 20 || imgHeight < 20) continue;
-        if (p.id == "news-thumbnail" || 
-			p.classList.contains('img-unchanged') ||
-			p.parentElement.tagName == "ABBR" || 
-			p.parentElement.className == "anime-row" ||
-			p.parentElement.className == "profile-box-img" || 
-			p.parentElement.parentElement.className == "popup" || 
-			p.parentElement.parentElement.className == "new-anime-row" ||
-			p.parentElement.parentElement.parentElement.id == "anime-list" ||
-			p.parentElement.parentElement.parentElement.className == "anime-year") 
-		{
-			if(showLog) console.log('exclusion', p, p.parentElement);
-			p.classList.add('img-unchanged');
-			continue;
-		}
-		
-		if(showLog)	console.log('orientation: ' + (imgWidth >= imgHeight ? 'landscape' : 'portrait'));
-				
-		// adjust dimensions
-		p.removeAttribute("height");
-		p.removeAttribute("width");
-		if (p.parentElement.parentElement.tagName == "TR" && 
-			p.parentElement.parentElement.getElementsByTagName("td").length > 1) //in table
-			p.classList.add('img-width-fit');
-		else if (p.parentElement.parentElement.parentElement.tagName == "TR" && 
-			p.parentElement.parentElement.parentElement.getElementsByTagName("td").length > 1 && 
-			p.parentElement.tagName == "A" &&
-			!p.parentElement.parentElement.style.width) //in table, with link
-			p.classList.add('img-width-fit');
-		else if (p.width + 20 >= window.outerWidth)
-			p.classList.add('img-width-fit');
-		else if(!p.classList.contains('img-width-fit'))
-			p.classList.add('img-width-auto');
-		
-		// special case: separator class
-        if (p.parentElement.className == "separator" ||
-			p.parentElement.parentElement.className == "separator") {
-			p.parentElement.classList.add('img-separator');
-			if(showLog) console.log('separator', p.style.marginLeft, p.style.marginRight);
-        }
-		if(p.parentElement.tagName == "A" &&
-		p.parentElement.marginLeft != "" &&
-		p.parentElement.marginRight != "")
-		{
-			p.parentElement.style.marginLeft = null;
-			p.parentElement.style.marginRight = null;
-			p.parentElement.classList.add('img-separator');
-		}
+    for (var p of images)
+	{
+		resizeImage(p);
+		p.onload = function() {
+			resizeImage(this);
+		};
     }
 	
 	// set thumbnails again after adjusted
     setThumbnails();
+}
+
+function resizeImage(p) {
+	// Conditions that cannot fix - workaround
+	// Multiple table cells with caption row - set width style for caption row in %
+	let showLog = false;
+	if(showLog) console.log(p);
+	var imgWidth = p.width;
+	var imgHeight = p.height;
+	if(showLog) console.log('width x height', imgWidth, imgHeight);
+	// exclusion list: by image size, class, tag name, or by id
+	if ((!notBlogger && (imgWidth < 20 || imgHeight < 20)) || 
+		p.id == "news-thumbnail" || 
+		p.classList.contains('img-unchanged') ||
+		p.parentElement.tagName == "ABBR" || 
+		p.parentElement.className == "anime-row" ||
+		p.parentElement.className == "profile-box-img" || 
+		p.parentElement.parentElement.className == "popup" || 
+		p.parentElement.parentElement.className == "new-anime-row" ||
+		p.parentElement.parentElement.parentElement.id == "anime-list" ||
+		p.parentElement.parentElement.parentElement.className == "anime-year") 
+	{
+		if(showLog) console.log('exclusion', p, p.parentElement);
+		p.classList.add('img-unchanged');
+		return;
+	}
+	
+	if(showLog)	console.log('orientation: ' + (imgWidth >= imgHeight ? 'landscape' : 'portrait'));
+			
+	// adjust dimensions
+	p.removeAttribute("height");
+	p.removeAttribute("width");
+	if (p.parentElement.parentElement.tagName == "TR" && 
+		p.parentElement.parentElement.getElementsByTagName("td").length > 1) //in table
+		p.classList.add('img-width-fit');
+	else if (p.parentElement.parentElement.parentElement.tagName == "TR" && 
+		p.parentElement.parentElement.parentElement.getElementsByTagName("td").length > 1 && 
+		p.parentElement.tagName == "A" &&
+		!p.parentElement.parentElement.style.width) //in table, with link
+		p.classList.add('img-width-fit');
+	else if (p.width + 20 >= window.outerWidth)
+		p.classList.add('img-width-fit');
+	else if(!p.classList.contains('img-width-fit'))
+		p.classList.add('img-width-auto');
+	
+	// special case: separator class
+	if (p.parentElement.className == "separator" ||
+		p.parentElement.parentElement.className == "separator") {
+		p.parentElement.classList.add('img-separator');
+		if(showLog) console.log('separator', p.style.marginLeft, p.style.marginRight);
+	}
+	if(p.parentElement.tagName == "A" &&
+	p.parentElement.marginLeft != "" &&
+	p.parentElement.marginRight != "")
+	{
+		p.parentElement.style.marginLeft = null;
+		p.parentElement.style.marginRight = null;
+		p.parentElement.classList.add('img-separator');
+	}
 }
