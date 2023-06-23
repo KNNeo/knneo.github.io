@@ -2832,7 +2832,20 @@ function showPlaylist() {
 			if(p < window['playlist'].length - 1) query += " UNION ALL ";
 		}
 		if(debugMode) console.log('showPlaylist', query);
-		return queryDb(query, renderPlaylistItems);
+		return queryDb(query, function(list) {
+			let playing = window['playlist'][window['playing']];
+			for(let listItem of list.values)
+			{
+				let item = document.createElement('div');
+				item.classList.add('tag');
+				if(window['playlist'].indexOf(listItem[0].toString()) === window['playing']) // if playing as ID of item
+					item.classList.add('highlight');
+				item.setAttribute('data-id', listItem[0]);
+				item.innerText = listItem[1];
+				item.addEventListener('click', updateSong);
+				submenu.appendChild(item);
+			}
+		});
 	}
 	else if(window['playlist'].length === 0)
 	{
@@ -2845,25 +2858,6 @@ function showPlaylist() {
 		submenu.appendChild(item);
 	}
 	
-	return submenu;
-}
-
-function renderPlaylistItems(list) {
-	let submenu = document.createElement('div');
-	submenu.classList.add('playlist');
-	
-	let playing = window['playlist'][window['playing']];
-	for(let listItem of list.values)
-	{
-		let item = document.createElement('div');
-		item.classList.add('tag');
-		if(window['playlist'].indexOf(listItem[0].toString()) === window['playing']) // if playing as ID of item
-			item.classList.add('highlight');
-		item.setAttribute('data-id', listItem[0]);
-		item.innerText = listItem[1];
-		item.addEventListener('click', updateSong);
-		submenu.appendChild(item);
-	}
 	return submenu;
 }
 
