@@ -164,7 +164,7 @@ void Main()
         // FIX POST CONTENT
         List<int> count = new List<int>();
         string oldContent = entry.Element(_+"content").Value;
-        string content = entry.Element(_+"content").Value.Replace("\n ", " ").Replace("  ", " ").Replace("   ", " ");
+        string content = entry.Element(_+"content").Value;
         string expression, matchExpression;
         Match match, matchExp;
         string prefix, midfix, suffix;
