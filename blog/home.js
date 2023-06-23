@@ -25,14 +25,7 @@ function filterByTag() {
 
 
 function randomPost() {
-	if(window['urls'] <= 0)
-	{
-		for(let post of document.querySelectorAll('.TheEntertainmentNews, .TheEverydayLife, .TheKlassicNote'))
-		{
-			window['urls'].push(post.querySelector('a').href);
-		}
-	}
-	
+	let urls = Array.from(document.querySelectorAll('.Post:not(.hidden)')).map(p => p.querySelector('a').href);;
 	window.location.href = urls[Math.floor(Math.random() * urls.length)];
 }
 
