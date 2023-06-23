@@ -2832,7 +2832,7 @@ function showPlaylist() {
 			if(p < window['playlist'].length - 1) query += " UNION ALL ";
 		}
 		if(debugMode) console.log('showPlaylist', query);
-		return queryDb(query, function(list) {
+		queryDb(query, function(list) {
 			let playing = window['playlist'][window['playing']];
 			for(let listItem of list.values)
 			{
