@@ -94,7 +94,7 @@ void Main()
         {
 			if(includedDomains.Any(id => match.Groups[4].Value.Contains(id)) && !urls.Contains(match.Groups[4].Value))
 			{
-				imageExport += ",{\"title\":\"" + title.Replace("\"", "\\\"") + "\", \"titleUrl\":\"" + pageLink + "\", \"imgUrl\":\"" + match.Groups[4].Value + "\"}";
+				imageExport += ",{\"title\":\"" + title.Replace("\"", "\\\"") + "\", \"titleUrl\":\"" + pageLink + "\", \"imgUrl\":\"" + match.Groups[4].Value + "\", \"imgFilename\": \"" + Path.GetFileName(match.Groups[4].Value) + "\"}";
 				urls.Add(match.Groups[4].Value);
 			}
         	match = match.NextMatch();

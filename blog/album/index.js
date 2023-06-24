@@ -33,7 +33,7 @@ function generateArchive() {
 		list.innerHTML = '';
 		
 		let title = '';
-		for(let mosaic of mosaicArray.filter(unique).filter(m => m.imgUrl.includes(window['filter'] || '')))
+		for(let mosaic of mosaicArray.filter(unique).filter(m => m.imgFilename.includes(window['filter'] || '')))
 		{
 			if(title != mosaic.title)
 			{
@@ -55,6 +55,7 @@ function generateArchive() {
 			
 				let imageSpan = document.createElement('img');
 				imageSpan.classList.add('tile-image');
+				imageSpan.title = mosaic.imgFilename;
 				imageSpan.setAttribute('loading', 'lazy');
 				imageSpan.setAttribute('data-image', mosaic.imgUrl);
 				imageSpan.addEventListener('click', function() {
