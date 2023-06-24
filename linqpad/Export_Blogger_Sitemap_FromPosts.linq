@@ -110,7 +110,7 @@ void Main()
     // Process sitemap page
     var textString = "";
 	var sitemapItems = new List<SitemapItem>();
-	var exclusions = new List<string>() { "hashtags", "news-thumbnail" };
+	var exclusions = new List<string>() { "hashtags", "news-thumbnail", "music", "menu", "table" };
 	
     // Process XML content per post
     for (var p = 0; p < posts.Count(); p++)
@@ -174,11 +174,15 @@ void Main()
 		{
 			var anchors = new List<string>();
 			// Find all anchors
-	        var expression = @"(?s)(div|blockquote)(.*?)id=""(.*?)""(.*?)(>)";
+	        var expression = @"(?s)(div|blockquote)(.*?) id=""(.*?)""(.*?)(>)";
 	        var match = Regex.Match(content, expression);
     		while(match.Success) {
 				//Console.WriteLine(match.Groups[3].Value);
-				if(match.Groups[3].Value.Length > 1 && match.Groups[3].Value.Length <= 64 && !exclusions.Contains(match.Groups[3].Value) && !int.TryParse(match.Groups[3].Value, out int _))
+				if(match.Groups[3].Value.Length > 1 && 
+				match.Groups[3].Value.Length <= 64 && 
+				!exclusions.Contains(match.Groups[3].Value) && 
+				!int.TryParse(match.Groups[3].Value, out int _) &&
+				!match.Groups[4].Value.Contains("none"))
 				{
 					anchors.Add(match.Groups[3].Value);
 					sitemapItems.Add(new SitemapItem() {
@@ -204,7 +208,7 @@ void Main()
 	{
 		var key = Char.ToUpper(item.Keyword[0]);
 		textString += (tempTitle != key ? ("<h3 class=\"title\">" + key + "</h3>\r\n") : "");
-		textString += "<a class=\"keyword\" href=\"" + item.KeywordUrl + "\">" + item.Keyword + "</a>\r\n";
+		textString += "<a class=\"keyword\" href=\"" + item.KeywordUrl + "\">" + item.Keyword + "</a><br>\r\n";
 		tempTitle = key;
 	}
     
