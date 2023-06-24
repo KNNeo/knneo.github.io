@@ -203,8 +203,8 @@ void Main()
 	foreach(var item in sitemapItems.OrderBy(i => i.Keyword))
 	{
 		var key = Char.ToUpper(item.Keyword[0]);
-		textString += (tempTitle != key ? ("<h3 class=\"title\">" + key + "</h3>") : "");
-		textString += "<a class=\"keyword\" href=\"" + item.KeywordUrl + "\">" + item.Keyword + "</a><br>";
+		textString += (tempTitle != key ? ("<h3 class=\"title\">" + key + "</h3>\r\n") : "");
+		textString += "<a class=\"keyword\" href=\"" + item.KeywordUrl + "\">" + item.Keyword + "</a>\r\n";
 		tempTitle = key;
 	}
     
