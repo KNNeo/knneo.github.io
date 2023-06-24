@@ -56,10 +56,15 @@ function addHashtags() {
 	if(sections.length > 0)
 	{
 		for(let section of sections) {
-			hashtags.push({
-				tag: section.id, 
-				target: section.id
-			});
+			if(section.id.length > 1 && section.id.length <= 64)
+				hashtags.push({
+					tag: section.id, 
+					target: section.id
+				});
+			else {
+				console.error('hashtag length too long: ' + section.id);
+				return;
+			}
 		}
 	}
 	// special case: klassic note
