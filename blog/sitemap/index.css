@@ -1,18 +1,16 @@
 /*Variables*/
 :root {
-  --primary: #1b00ff;
+  --primary: #1b3fff;
   --secondary: #609fff;
-  --background: #fff;
+  --background: #f4f6ff;
   --foreground: #000;
-  --accent: lightgray;
 }
 
 .darked:root {
   --primary: #00e4ff;
   --secondary: #00abbf;
-  --background: #000;
+  --background: #001114;
   --foreground: #fff;
-  --accent: gray;
 }
 
 html {
