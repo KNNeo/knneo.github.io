@@ -41,6 +41,7 @@ h1 {
 
 .keyword {
 	color: var(--primary);
+	display: block;
 }
 
 .keyword:visited {
