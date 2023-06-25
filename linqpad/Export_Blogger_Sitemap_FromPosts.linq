@@ -110,7 +110,7 @@ void Main()
     // Process sitemap page
     var textString = "";
 	var sitemapItems = new List<SitemapItem>();
-	var exclusions = new List<string>() { "hashtags", "news-thumbnail", "music", "menu", "table" };
+	var exclusions = new List<string>() { "hashtags", "news-thumbnail", "music", "menu", "table", "video" };
 	
     // Process XML content per post
     for (var p = 0; p < posts.Count(); p++)
@@ -180,7 +180,7 @@ void Main()
 				//Console.WriteLine(match.Groups[3].Value);
 				if(match.Groups[3].Value.Length > 1 && 
 				match.Groups[3].Value.Length <= 64 && 
-				!exclusions.Contains(match.Groups[3].Value) && 
+				!exclusions.Any(e => match.Groups[3].Value.Contains(e)) && 
 				!int.TryParse(match.Groups[3].Value, out int _) &&
 				!match.Groups[4].Value.Contains("none"))
 				{
