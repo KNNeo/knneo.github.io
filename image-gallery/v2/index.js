@@ -264,6 +264,14 @@ function scrollGallery() {
 			galleryDiv.scrollTo(0, 0);
 		if(window.variables.autoscroll.direction == 'left' && galleryDiv.scrollLeft <= 0)
 			galleryDiv.scrollTo(galleryDiv.scrollWidth, 0);
+		if(window.variables.autoscroll.direction == 'next' && window.variables.selected + 1 < galleryDiv.childElementCount)
+			scrollToItem(++window.variables.selected);
+		if(window.variables.autoscroll.direction == 'next' && window.variables.selected + 1 >= galleryDiv.childElementCount)
+			scrollToItem(0);
+		if(window.variables.autoscroll.direction == 'previous' && window.variables.selected - 1 >= 0)
+			scrollToItem(--window.variables.selected);
+		if(window.variables.autoscroll.direction == 'previous' && window.variables.selected - 1 < 0)
+			scrollToItem(galleryDiv.childElementCount - 1);
 	}
 }
 
