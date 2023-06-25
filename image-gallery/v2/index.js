@@ -266,14 +266,14 @@ function scrollGallery() {
 			galleryDiv.scrollTo(0, 0);
 		if(window.variables.autoscroll.direction == 'left' && galleryDiv.scrollLeft <= 0)
 			galleryDiv.scrollTo(galleryDiv.scrollWidth, 0);
-		if(window.variables.autoscroll.direction == 'next' && window.variables.selected + 1 < galleryDiv.childElementCount)
-			scrollToItem(++window.variables.selected);
-		else if(window.variables.autoscroll.direction == 'next' && window.variables.selected + 1 >= galleryDiv.childElementCount)
+		if(window.variables.autoscroll.direction == 'next' && window.variables.selected + window.variables.autoscroll.delta < galleryDiv.childElementCount)
+			scrollToItem(window.variables.selected + window.variables.autoscroll.delta);
+		else if(window.variables.autoscroll.direction == 'next' && window.variables.selected + window.variables.autoscroll.delta >= galleryDiv.childElementCount)
 			scrollToItem(0);
-		if(window.variables.autoscroll.direction == 'previous' && window.variables.selected - 1 >= 0)
-			scrollToItem(--window.variables.selected);
-		else if(window.variables.autoscroll.direction == 'previous' && window.variables.selected - 1 < 0)
-			scrollToItem(galleryDiv.childElementCount - 1);
+		if(window.variables.autoscroll.direction == 'previous' && window.variables.selected - window.variables.autoscroll.delta >= 0)
+			scrollToItem(window.variables.selected - window.variables.autoscroll.delta);
+		else if(window.variables.autoscroll.direction == 'previous' && window.variables.selected - window.variables.autoscroll.delta < 0)
+			scrollToItem(galleryDiv.childElementCount - window.variables.autoscroll.delta);
 	}
 }
 
