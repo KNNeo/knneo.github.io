@@ -208,7 +208,7 @@ void Main()
 	{
 		var key = Char.ToUpper(item.Keyword[0]);
 		textString += (tempTitle != key ? ("<h3 class=\"title\">" + key + "</h3>\r\n") : "");
-		textString += "<a class=\"keyword\" href=\"" + item.KeywordUrl + "\">" + item.Keyword + "</a><br>\r\n";
+		textString += "<a class=\"keyword\" title=\"" + item.Title + "\" href=\"" + item.KeywordUrl + "\">" + item.Keyword + "</a><br>\r\n";
 		tempTitle = key;
 	}
     
