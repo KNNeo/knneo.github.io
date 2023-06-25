@@ -1,9 +1,11 @@
 //--HELPERS--//
 function scrollToItem(itemNo) {
-	if(document.querySelectorAll('.gallery img').length > 0)
+	if(document.querySelectorAll('.gallery img').length > 0) {
 		document.querySelectorAll('.gallery img')[itemNo || 0].scrollIntoView({
 			inline: 'center', behavior: 'smooth'
 		});
+		window.variables.selected = itemNo || 0;
+	}
 }
 
 function dupeCheck() {
@@ -266,11 +268,11 @@ function scrollGallery() {
 			galleryDiv.scrollTo(galleryDiv.scrollWidth, 0);
 		if(window.variables.autoscroll.direction == 'next' && window.variables.selected + 1 < galleryDiv.childElementCount)
 			scrollToItem(++window.variables.selected);
-		if(window.variables.autoscroll.direction == 'next' && window.variables.selected + 1 >= galleryDiv.childElementCount)
+		else if(window.variables.autoscroll.direction == 'next' && window.variables.selected + 1 >= galleryDiv.childElementCount)
 			scrollToItem(0);
 		if(window.variables.autoscroll.direction == 'previous' && window.variables.selected - 1 >= 0)
 			scrollToItem(--window.variables.selected);
-		if(window.variables.autoscroll.direction == 'previous' && window.variables.selected - 1 < 0)
+		else if(window.variables.autoscroll.direction == 'previous' && window.variables.selected - 1 < 0)
 			scrollToItem(galleryDiv.childElementCount - 1);
 	}
 }
@@ -306,6 +308,7 @@ function renderGallery() {
 			this.scrollIntoView({
 				inline: 'center', behavior: 'smooth'
 			});
+			window.variables.selected = parseInt(this.getAttribute('data-id'));
 		});
 		itemDiv.addEventListener('contextmenu', function() {
 			event.preventDefault();
@@ -314,7 +317,6 @@ function renderGallery() {
 	}
 	
 	// touch events
-	window.variables.selected = 0;
 	scrollToItem();
 	// galleryDiv.addEventListener('mousedown', onMouseDown);
 	// galleryDiv.addEventListener('mousemove', onMouseMove, false);
