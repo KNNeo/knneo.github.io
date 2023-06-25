@@ -434,6 +434,8 @@ function setThumbnails() {
 		thumbnail.getElementsByClassName("thumbnail-initial").length > 0 &&
 		thumbnail.getElementsByClassName("thumbnail-pop").length > 0)
 		{
+			thumbnail.style.display = 'inline';
+			
 			let textElement = document.createElement('span');
 			textElement.classList.add('thumbnail-text');
 			textElement.innerHTML = thumbnail.getElementsByClassName("thumbnail-initial")[0].innerHTML;
