@@ -153,7 +153,7 @@ void Main()
 	}	
 	
     // Process XML content per post
-	List<int> includeIndex = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 29, 31 };
+	List<int> includeIndex = new List<int> { 1, 2, 3, 14, 15, 16, 17, 18, 21, 24, 29, 31 };
     for (var p = 0; p < posts.Count(); p++)
     {
 		var entry = posts.ElementAt(p);
@@ -479,7 +479,7 @@ void Main()
         #endregion
         
         #region 15 current blog link to relative
-		if(includeIndex.Count() == 0 || includeIndex.Contains(14))
+		if(includeIndex.Count() == 0 || includeIndex.Contains(15))
 		{
 			//https
 	        expression = @"(?s)(href=""https://knwebreports.blogspot.com/)(.*?)(>)";
