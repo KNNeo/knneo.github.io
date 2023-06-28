@@ -556,6 +556,10 @@ function resizeImage(p) {
 		p.classList.add('img-width-fit');
 	else if(!p.classList.contains('img-width-fit'))
 		p.classList.add('img-width-auto');
+
+	// special case: to avoid resize issue on reload
+	if(p.classList.contains('img-width-fit') && p.classList.contains('img-width-auto'))
+		p.classList.remove('img-width-auto');
 	
 	// special case: separator class
 	if (p.parentElement.className == "separator" ||
