@@ -770,6 +770,9 @@ abbr.imgpop:hover img {
 	color: var(--primary);
 	text-decoration: underline;
 }
+.new-thumbnail-initial:hover {
+	color: var(--foreground);
+}
 .new-thumbnail {
 	border-bottom: 2px solid var(--foreground);
 }
