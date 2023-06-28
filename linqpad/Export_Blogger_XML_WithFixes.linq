@@ -841,7 +841,7 @@ void Main()
             output.WriteLine("<script src=\"../../../js/common.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
             output.WriteLine("<script src=\"../../../js/header.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
             output.WriteLine("<script src=\"../../../js/viewer.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
-            output.WriteLine("<title>" + title + "</title>");
+            output.WriteLine("<title>" + (title.Length > 0 ? title : "A Random Statement") + "</title>");
 			//if(postList.IndexOf(pageLink) > 0)
 			//output.WriteLine("<a id='LeftBtn' href='" + postList[postList.IndexOf(pageLink) - 1].Replace("./", "../../../") + "' title='Newer Post'><i class='material-icons'>arrow_back</i></a>");
             if(postList.IndexOf(pageLink) - 1 > 0)
