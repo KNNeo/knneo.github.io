@@ -787,6 +787,27 @@ abbr.imgpop:hover img {
 	max-width: 98%;
 }
 
+/*DATA TABLE*/
+.datatable {
+	white-space: nowrap;
+	overflow: auto;
+}
+
+.datatable table {
+    border-collapse: collapse;
+}
+
+.datatable td, .datatable th {
+    border: 1px solid var(--foreground);
+    padding: 0 5px;
+}
+
+.datatable .freeze {
+	position: sticky;
+	background-color: var(--background);
+	left: 0;
+}
+
 /*EXPERIMENTAL - Supports text, not to be mistaken with links or images*/
 .thumbnail-text {
 	color: var(--primary);
