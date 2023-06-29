@@ -798,7 +798,8 @@ abbr.imgpop:hover img {
 }
 
 .datatable td, .datatable th {
-    border: 1px solid var(--foreground);
+    border-top: 1px solid var(--foreground);
+    border-bottom: 1px solid var(--foreground);
     padding: 0 5px;
 }
 
