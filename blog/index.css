@@ -789,6 +789,7 @@ abbr.imgpop:hover img {
 
 /*DATA TABLE*/
 .datatable {
+	white-space: nowrap;
 	overflow: auto;
 }
 
@@ -806,7 +807,6 @@ abbr.imgpop:hover img {
 	background-color: var(--background);
 	left: 0;
 	max-width: 200px;
-	white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
