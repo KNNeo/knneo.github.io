@@ -350,6 +350,7 @@ h2 {
   #LeftBtn {
     left: 15px;
   }
+  #PopupBtn,
   #EmojiBtn,
   #DarkModeBtn {
     right: 15px;
@@ -365,6 +366,9 @@ h2 {
   }
   #EmojiBtn {
     bottom: 75px;	  
+  }
+  #PopupBtn {
+    bottom: 135px;	  
   }
   .Post span {
 	display: block;
