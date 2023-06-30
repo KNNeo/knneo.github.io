@@ -267,6 +267,32 @@ a:hover {
 	transition: background .2s linear;
 }
 
+#PopupBtn {
+	position: fixed;
+	display: block;
+	visibility: visible;
+	opacity: 1;
+	bottom: 148px;
+	right: 20px;
+	z-index: 7;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	color: var(--foreground);
+	cursor: pointer;
+	padding: 8px 6px 6px 6px;
+	border-radius: 7px;
+	transition: opacity 0.3s;
+	border: 1px solid var(--foreground);
+	background-color: var(--background);
+	box-shadow: 3px 3px var(--foreground);
+	border-radius: 8px;
+	transition: background .2s linear;
+}
+
+#PopupBtn:active,
 #EmojiBtn:active,
 #DarkModeBtn:active,
 #BackBtn:active,

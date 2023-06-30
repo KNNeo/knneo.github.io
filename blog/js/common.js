@@ -121,11 +121,16 @@ function addHoverForPopups() {
 }
 
 function togglePopup() {
-    if (this.classList.contains('new-thumbnail')) {
+	if(document.querySelector('#PopupBtn') != null && document.querySelector('#PopupBtn').innerText == 'launch')
+	{
+		window.open(this.getAttribute('data-url'), '_blank');
+	}
+    else if (this.classList.contains('new-thumbnail')) {
 		//hide
         this.classList.remove('new-thumbnail');
 		switchToButton('GoToTopBtn');
 		if(document.getElementById('CloseBtn') != null) document.getElementById('CloseBtn').style.display = 'none';
+		toggleOverlay(false);
 	}
     else {
 		//display
@@ -144,9 +149,9 @@ function togglePopup() {
 			top: document.querySelector('html').scrollTop + this.getBoundingClientRect().top - (this.getBoundingClientRect().top >= thresholdHeight ? thresholdHeight : this.getBoundingClientRect().top), 
 			behavior: 'smooth'
 		});
+		toggleOverlay(false);
     }
 	
-	toggleOverlay(false);
 }
 
 function closePopups() {
@@ -178,15 +183,16 @@ function closePopups() {
 
 function renderPopup() {
     event.preventDefault();
+	let processLink = this.href;
 	
 	//exclusion for blogger	images
-    if ((this.href.includes('blogspot.com') || this.href.includes('blogger.googleusercontent.com')) && this.target == '') return;
+    if ((processLink.includes('blogspot.com') || processLink.includes('blogger.googleusercontent.com')) && this.target == '') return;
 	//exclusion for if target is not _blank
     if (this.target == '') return;
 	//exclusion class, if any
     if (this.classList.contains('opt-out')) return;
 	//if not compatible for any design
-    let newContent = generatePopupContent(this.href);
+    let newContent = generatePopupContent(processLink);
     if (newContent == null) return;
     let thumbnail = document.createElement('div');
     thumbnail.classList.add('new-t');
@@ -198,12 +204,13 @@ function renderPopup() {
     let focus = document.createElement('div');
     focus.classList.add('new-thumbnail-focus');
     focus.classList.add('fadeIn');
-	if(!this.href.includes('twitter.com') && !this.href.includes('/status/'))
+	if(!processLink.includes('twitter.com') && !processLink.includes('/status/'))
 		focus.style.paddingTop = '10px';
     focus.innerHTML = newContent;
 
     thumbnail.appendChild(initial);
     thumbnail.appendChild(focus);
+	thumbnail.setAttribute('data-url', processLink);
 	
 	renderEmbedProcess();
 
@@ -356,7 +363,7 @@ function switchToButton(id) {
 	if(id == '') return;
 	
 	// to hide
-	let buttons = ['GoToTopBtn','SearchBtn','DarkModeBtn','EmojiBtn'];
+	let buttons = ['GoToTopBtn','SearchBtn','DarkModeBtn','EmojiBtn','PopupBtn'];
 	for(let button of buttons)
 	{
 		if(document.getElementById(button) != null) document.getElementById(button).style.display = 'none';
@@ -367,8 +374,12 @@ function switchToButton(id) {
 		document.getElementById(id).style.display = 'block';
 	else if (window.location.href.includes("knwebreports.blogspot"))
 		document.getElementById('SearchBtn').style.display = 'block';
+	
+	// custom buttons, should standardize as single menu
 	if (['GoToTopBtn','SearchBtn','DarkModeBtn'].includes(id) && document.getElementById('EmojiBtn') != null)
 		document.getElementById('EmojiBtn').style.display = 'block';
+	if (['GoToTopBtn','SearchBtn','DarkModeBtn'].includes(id) && document.getElementById('PopupBtn') != null)
+		document.getElementById('PopupBtn').style.display = 'block';
 }
 
 function goToTop() {

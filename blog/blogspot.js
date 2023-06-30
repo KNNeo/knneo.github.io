@@ -16,6 +16,14 @@ function toggleEmojiDisplay() {
 	}
 }
 
+//to allow toggle of popups to show (supported) embed instead of external link
+function toggleInlinePopups() {
+	if(event.target != null)
+	{
+		event.target.innerText = event.target.innerText == 'launch' ? 'crop_din' : 'launch';
+	}
+}
+
 //add back button to each page
 function goBack() {
 	closePopups();
