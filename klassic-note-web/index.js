@@ -2250,21 +2250,21 @@ function updateSong() {
 	hideContextMenus(true);
 	clearModules();
 	
-	// data-id on td OR tr
-	let id = parseInt(event.target.closest('tr').getAttribute('data-id'));
+	// data-id on tr
+	let id = event.target.closest('tr').getAttribute('data-id');
 	let query = "SELECT * FROM Song WHERE ID = " + id;
 	if(debugMode) console.log('updateSong', query);
 	queryDb(query, updateOptions);
 	// window['playlist'].push(id.toString());
 	if(playlistOpen) // from playlist selection
 	{
-		window['playing'] = window['playlist'].indexOf(event.target.getAttribute('data-id')) - 1;
+		window['playing'] = window['playlist'].indexOf(id) - 1;
 		if(document.querySelector('#song-queue') != null)
 			document.querySelector('#song-queue').innerText = 'format_align_justify';
 	}
 	else if(!playlistOpen && window['playlist'][window['playlist'].length - 1] != id)
 	{
-		window['playlist'].push(id.toString());
+		window['playlist'].push(id);
 		updateQueue(window['playlist'].length - 1);
 	}
 }
@@ -2926,7 +2926,7 @@ function showPlaylist() {
 function clearPlaylist() {
 	event.preventDefault();
 	
-	if(confirm('Clear Playlist?'))
+	if(confirm('Clear Playlist? Shuffle Mode will now play songs not in playlist.'))
 	{
 		if(document.querySelector('#music').childElementCount > 0)
 		{
