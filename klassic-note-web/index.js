@@ -650,7 +650,8 @@ function onChangeOption() {
 			 document.querySelector('#search').blur();
 		}
 		
-		let query = "SELECT ID, KNYEAR, Filename, CASE WHEN SongTitleAlt IS NOT NULL AND SongTitle <> SongTitleAlt THEN SongTitle || '<br/>' || SongTitleAlt ELSE SongTitleAlt END AS 'Song Title', ArtistTitle, CASE WHEN ArtistTitleAlt IS NOT NULL AND ArtistTitle <> ArtistTitleAlt THEN ArtistTitle || '<br/>' || ArtistTitleAlt ELSE ArtistTitle END AS 'Artist Title', ReleaseTitle AS 'Release Title', ReleaseArtistTitle AS 'Release Artist', ReleaseYear AS 'Year', Genre, DateCreated AS 'Date Added', ";
+		// query song info
+		let query = "SELECT ID, KNYEAR, Filename, CASE WHEN SongTitleAlt IS NOT NULL AND SongTitle <> SongTitleAlt THEN SongTitle || '<br/>' || SongTitleAlt ELSE SongTitleAlt END AS 'Song Title', ArtistTitle, CASE WHEN ArtistTitleAlt IS NOT NULL AND ArtistTitle <> ArtistTitleAlt THEN ArtistTitle || '<br/>' || ArtistTitleAlt ELSE ArtistTitle END AS 'Artist Title', ReleaseTitle AS 'Release Title', ReleaseArtistTitle AS 'Release Artist', ReleaseYear AS 'Release Year', Genre, DateCreated AS 'Date Added', ";
 		query += "CASE WHEN VocalCode = 'F' THEN 'Solo Female' WHEN VocalCode = 'M' THEN 'Solo Male' WHEN VocalCode = 'MM' THEN 'Male Duet' WHEN VocalCode = 'FF' THEN 'Female Duet' WHEN VocalCode IN ('MF', 'FM') THEN 'Mixed Duet' WHEN LENGTH(VocalCode) = 3 THEN 'Triplet' WHEN LENGTH(VocalCode) >= 4 THEN 'Quartet or More (' || LENGTH(VocalCode) || ')' END AS 'Vocals', ";
 		query += "CASE LanguageCode WHEN 'JP' THEN 'Japanese' WHEN 'EN' THEN 'English' WHEN 'CH' THEN 'Chinese' WHEN 'FR' THEN 'French' END AS 'Language', ";
 		query += "LyricsURL AS 'Lyrics', ArtistID, ReleaseID FROM Song WHERE KNID = " + input;
@@ -662,6 +663,7 @@ function onChangeOption() {
 		window['mode'] = 'artist';
 		let input = id.replace(categoryIcons[0], '');
 		
+		// query artist info
 		let query = "SELECT ArtistTitle, ArtistTitle AS 'Artist Title' FROM Artist WHERE ID = " + input;
 		if(debugMode) console.log('query', query);
 		queryDb(query, generateModules);
@@ -1085,7 +1087,7 @@ function queryInfo(contents) {
 	if(debugMode) console.log('generateArtistInfo', query);
 	queryDb(query, generateArtistInfo);
 	
-	query = "SELECT KNYEAR, Type || ' ' || Category AS 'Category', CASE WHEN ReleaseTitleAlt IS NOT NULL AND ReleaseTitle <> ReleaseTitleAlt THEN ReleaseTitle || '<br/>' || ReleaseTitleAlt ELSE ReleaseTitle END AS 'Release Title', CASE WHEN ReleaseArtistTitleAlt IS NOT NULL AND ReleaseArtistTitle <> ReleaseArtistTitleAlt THEN ReleaseArtistTitle || '<br/>' || ReleaseArtistTitleAlt ELSE ReleaseArtistTitle END AS 'Release Artist', TracksSelected || ' / ' || TracksTotal AS 'Tracks In Library', (SELECT COUNT(*) FROM Song s WHERE s.ReleaseTitle like r.ReleaseTitle || '%' AND s.ReleaseArtistTitle = r.ReleaseArtistTitle AND s.KNYEAR <= r.KNYEAR) || ' / ' || TracksSelected AS 'New Tracks', ReleaseYear || '.' || SUBSTR('00' || (ReleaseDate / 100), -2, 2) || '.' || SUBSTR('00' || ReleaseDate, -2, 2) AS 'Release Date' FROM Release r WHERE ID = (SELECT MAX(ID) FROM Release WHERE ReleaseTitle = '" + reduceReleaseTitle(row[columnIndexReleaseTitle]) + "' AND ReleaseArtistTitle = '" + addQuotationInSQLString(row[columnIndexReleaseArtistTitle]) + "')";
+	query = "SELECT KNYEAR, Type || ' ' || Category AS 'Category', CASE WHEN ReleaseTitleAlt IS NOT NULL AND ReleaseTitle <> ReleaseTitleAlt THEN ReleaseTitle || '<br/>' || ReleaseTitleAlt ELSE ReleaseTitle END AS 'Release Title', CASE WHEN ReleaseArtistTitleAlt IS NOT NULL AND ReleaseArtistTitle <> ReleaseArtistTitleAlt THEN ReleaseArtistTitle || '<br/>' || ReleaseArtistTitleAlt ELSE ReleaseArtistTitle END AS 'Release Artist', TracksSelected || ' / ' || TracksTotal AS 'Tracks In Library', (SELECT COUNT(*) FROM Song s WHERE s.ReleaseTitle like r.ReleaseTitle || '%' AND s.ReleaseArtistTitle = r.ReleaseArtistTitle AND s.KNYEAR <= r.KNYEAR) || ' / ' || TracksSelected AS 'New Tracks', ReleaseYear AS 'Release Year', ReleaseYear || '.' || SUBSTR('00' || (ReleaseDate / 100), -2, 2) || '.' || SUBSTR('00' || ReleaseDate, -2, 2) AS 'Release Date' FROM Release r WHERE ID = (SELECT MAX(ID) FROM Release WHERE ReleaseTitle = '" + reduceReleaseTitle(row[columnIndexReleaseTitle]) + "' AND ReleaseArtistTitle = '" + addQuotationInSQLString(row[columnIndexReleaseArtistTitle]) + "')";
 	if(debugMode) console.log('generateReleaseInfo', query);
 	queryDb(query, generateReleaseInfo);
 }
@@ -1184,10 +1186,15 @@ function generateArtistInfo(contents) {
 
 function generateReleaseInfo(contents) {
 	if(debugMode) console.log('generateReleaseInfo', contents);
+	let columns = contents.columns;
+	let rows = contents.values;
+	let row = rows[0];
+	let columnIndexReleaseDate = contents.columns.indexOf('Release Date');
+	
 	generateTableAsColumnRows(contents, {
 		id: 'release-info', 
 		title: 'Release Information', 
-		skipColumns: [],
+		skipColumns: row[columnIndexReleaseDate] ? ['Release Year'] : ['Release Date'],
 	});
 }
 
