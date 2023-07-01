@@ -565,8 +565,11 @@ function resizeImage(p) {
 		p.classList.add('img-width-fit');
 	else if (p.width + 20 >= window.outerWidth)
 		p.classList.add('img-width-fit');
-	else if(!p.classList.contains('img-width-fit'))
+	else {
 		p.classList.add('img-width-auto');
+		p.height = imgHeight;
+		p.width = imgWidth;
+	}
 
 	// special case: to avoid resize issue on reload
 	if(p.classList.contains('img-width-fit') && p.classList.contains('img-width-auto'))
