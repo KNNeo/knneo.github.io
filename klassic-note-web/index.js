@@ -508,7 +508,7 @@ function clearSearch() {
 }
 
 function querySelect() {
-	if(debugMode) console.log('querySelect', this.value);
+	if(debugMode) console.log('querySelect', event.target.value);
 	if(this.value.length < 3) return;
 	let searchFields = [].join(" || ");
 	let query = "";
@@ -745,6 +745,11 @@ function generateYears(contents) {
 		tc.classList.add('tag');
 		tc.setAttribute('data-year', row[columnIndexKNYEAR]);
 		tc.innerText = row[columnIndexKNYEAR];
+		tc.tabIndex = 0;
+		tc.addEventListener('keyup', function() {
+			if(event.key == 'Enter')
+				updateYear(event);
+		});
 		tc.addEventListener('click', updateYear);
 		table.appendChild(tc);
 		
@@ -1242,7 +1247,7 @@ function generateSongList(contents) {
 		clickFunc: updateSong,
 		actionTitle: 'Refresh',
 		actionFunc: function() {
-			this.style.maxHeight = this.getBoundingClientRect().height;
+			event.target.style.maxHeight = event.target.getBoundingClientRect().height;
 			let query = "SELECT * FROM Song WHERE KNYEAR = " + contents.values[0][contents.columns.indexOf('KNYEAR')];
 			query += " ORDER BY RANDOM() DESC LIMIT 10";
 			if(debugMode) console.log('generateSongList', query);
@@ -1667,7 +1672,7 @@ function generateRanking(contents) {
 		iconTooltip: null,
 		actionTitle: 'Play All',
 		actionFunc: function() {
-			let table = this.parentElement.nextSibling;
+			let table = event.target.parentElement.nextSibling;
 			let rows = table.querySelectorAll('tr');
 			let ids = Array.from(rows).reduce(function (all, current) {
 				let id = current.getAttribute('data-id');
@@ -2245,14 +2250,15 @@ function updateSong() {
 	hideContextMenus(true);
 	clearModules();
 	
-	let id = parseInt(this.getAttribute('data-id'));
+	// data-id on td OR tr
+	let id = parseInt(event.target.closest('tr').getAttribute('data-id'));
 	let query = "SELECT * FROM Song WHERE ID = " + id;
 	if(debugMode) console.log('updateSong', query);
 	queryDb(query, updateOptions);
 	// window['playlist'].push(id.toString());
 	if(playlistOpen) // from playlist selection
 	{
-		window['playing'] = window['playlist'].indexOf(this.getAttribute('data-id')) - 1;
+		window['playing'] = window['playlist'].indexOf(event.target.getAttribute('data-id')) - 1;
 		if(document.querySelector('#song-queue') != null)
 			document.querySelector('#song-queue').innerText = 'format_align_justify';
 	}
@@ -2268,7 +2274,7 @@ function updateYear() {
 	document.querySelector('#search').value = '';
 	document.querySelector('#options').value = '';
 	
-	let year = this.getAttribute('data-year');
+	let year = event.target.getAttribute('data-year');
 	let query = "SELECT DISTINCT KNYEAR FROM SongAwardsPeriod WHERE KNYEAR = " + year;
 	if(debugMode) console.log('updateYear', query);
 	queryDb(query, generateModules);
@@ -2289,7 +2295,7 @@ function updateArtist() {
 	document.querySelector('#search').value = '';
 	document.querySelector('#options').value = '';
 	
-	let artist = this.getAttribute('data-artist');
+	let artist = event.target.getAttribute('data-artist');
 	let query = "SELECT ArtistTitle, ArtistTitle AS 'Artist Title' FROM Artist WHERE ArtistTitle = '" + addQuotationInSQLString(artist) + "'";
 	if(debugMode) console.log('updateArtist', query);
 	queryDb(query, generateModules);
@@ -2305,7 +2311,8 @@ function queueSongs(ids) {
 	window['playlist'] = ids;
 	window['playing'] = -1;
 	window['mode'] = 'song';
-	if(!window['autoplay']) document.querySelector('.autoplay').click();
+	if(!window['autoplay'])
+		document.getElementById('autoplay').click();
 	
 	let optQuery = "SELECT * FROM Song WHERE KNID = ";
 	optQuery += window['playlist'][window['playing'] + 1];
@@ -2347,9 +2354,15 @@ function generateTableAsColumnRows(contents, parameters) {
 		action.classList.add('centered');
 		action.classList.add('action');
 		action.style.cursor = 'pointer';
+		action.tabIndex = 0;
 		action.innerText = actionTitle;
-		if(actionFunc != null && typeof actionFunc === 'function')
+		if(actionFunc != null && typeof actionFunc === 'function') {
+			action.addEventListener('keyup', function() {
+				if(event.key == 'Enter')
+					actionFunc(event);
+			});			
 			action.addEventListener('click', actionFunc);
+		}
 		
 		headerDiv.style.position = 'relative';
 		headerDiv.classList.add('centered');
@@ -2414,19 +2427,24 @@ function generateTableList(contents, parameters) {
 	
 	if(actionTitle != null && actionTitle.length > 0)
 	{
-		headerDiv.style.position = 'relative';
-		headerDiv.style.maxWidth = '680px';
-		headerDiv.style.margin = 'auto';
 		let action = document.createElement('h6');
 		action.classList.add('centered');
 		action.classList.add('action');
 		action.classList.add('not-selectable');
+		action.tabIndex = 0;
 		action.innerText = actionTitle;
-		if(actionFunc != null && typeof actionFunc === 'function')
+		if(typeof actionFunc === 'function') {
+			action.addEventListener('keyup', function() {
+				if(event.key == 'Enter')
+					actionFunc(event);
+			});
 			action.addEventListener('click', actionFunc);
+		}
 		
-		// if(document.querySelector('#' + id + ' .action') === null)
-			headerDiv.appendChild(action);
+		headerDiv.style.position = 'relative';
+		headerDiv.style.maxWidth = '680px';
+		headerDiv.style.margin = 'auto';
+		headerDiv.appendChild(action);
 	}
 	
 	document.getElementById(id).appendChild(headerDiv);
@@ -2459,14 +2477,22 @@ function generateTableList(contents, parameters) {
 		}
 	
 		let tr = document.createElement('tr');
-	
+		tr.setAttribute('data-id', row[columnIndexKNID]);
+		
 		let tc = document.createElement('td');
-		if(clickFunc) tc.style.cursor = 'pointer';
-		tc.setAttribute('data-id', row[columnIndexKNID]);
-		tc.addEventListener('click', clickFunc);
+	
+		tc.innerText = parts.join('');
 		tc.setAttribute('data-context', rightClickContext);
 		tc.addEventListener('contextmenu', rightClickFunc);
-		tc.innerText = parts.join('');
+		if(typeof clickFunc === 'function') {
+			tc.style.cursor = 'pointer';
+			tc.tabIndex = 0;
+			tc.addEventListener('keyup', function() {
+				if(event.key == 'Enter')
+					clickFunc(event);
+			});
+			tc.addEventListener('click', clickFunc);
+		}
 		
 		tr.appendChild(tc);
 
@@ -2519,9 +2545,15 @@ function generateTableByDataWithHeader(contents, parameters) {
 		action.classList.add('centered');
 		action.classList.add('action');
 		action.style.cursor = 'pointer';
+		action.tabIndex = 0;
 		action.innerText = actionTitle;
-		if(actionFunc != null && typeof actionFunc === 'function')
+		if(typeof actionFunc === 'function') {
+			action.addEventListener('keyup', function() {
+				if(event.key == 'Enter')
+					actionFunc(event);
+			});
 			action.addEventListener('click', actionFunc);
+		}
 		
 		headerDiv.style.position = 'relative';
 		headerDiv.classList.add('centered');
@@ -2598,6 +2630,11 @@ function generateTableByDataWithHeader(contents, parameters) {
 		}
 		else if(row[columnIndexKNID]) {
 			tr.style.cursor = 'pointer';
+			tr.tabIndex = 0;
+			tr.addEventListener('keyup', function() {
+				if(event.key == 'Enter')
+					updateSong(event);
+			});
 			tr.addEventListener('click', updateSong);
 			tr.addEventListener('mouseover', onHoverTableRow);
 			tr.addEventListener('mouseout', onHoverTableRow);
@@ -2677,10 +2714,10 @@ function generateCellValue(columns, row, textColumn, iconColumn, iconTooltip, ic
 }
 
 function onHoverTableRow() {
-	let titleCells = this.parentNode.getElementsByClassName('table-title').length;
-	let columns = this.parentNode.getElementsByTagName('th').length - (titleCells > 0 ? titleCells : 0); //estimate
-	let rowCells = this.getElementsByTagName('td');
-	let spanRow = findTableSiblingRow(this, columns);
+	let titleCells = event.target.parentNode.getElementsByClassName('table-title').length;
+	let columns = event.target.parentNode.getElementsByTagName('th').length - (titleCells > 0 ? titleCells : 0); //estimate
+	let rowCells = event.target.getElementsByTagName('td');
+	let spanRow = findTableSiblingRow(event.target, columns);
 	let spanCells = spanRow.getElementsByTagName('td');
 	
 	if(rowCells.length + 1 === spanCells.length && spanCells[0].rowSpan != undefined && !spanRow.classList.contains('not-selectable'))
@@ -2756,24 +2793,30 @@ function showContextMenu() {
     document.addEventListener('click', hideContextMenus);
 	
 	let box = document.body.getBoundingClientRect();
-    let x = event.clientX - box.left;
+    let x = event.clientX;
     let y = event.clientY - box.top - document.querySelector('#song-queue').getBoundingClientRect().height;
-	
+
 	let menu = document.querySelector('.context');
     menu.style.top = y + 'px';
     menu.style.left = 0;
 	menu.classList.remove('hidden');	
 	menu.innerHTML = '';
-		
+	
 	// console.log(event.target.getAttribute('context'));
 	switch(event.target.getAttribute('data-context'))
 	{
 		case 'related':
 			menu.style.left = x + 'px';
-			menu.appendChild(showAddQueueContextMenu(this.getAttribute('data-id')));
+			menu.style.margin = 0;
+			menu.appendChild(showAddQueueContextMenu(event.target.closest('tr').getAttribute('data-id')));
 			break;
 		case 'playlist':
+			if(y < 1) {
+				y = document.querySelector('#settings').getBoundingClientRect().y;
+				menu.style.top = y + 'px';
+			}
 			menu.style.margin = 'auto';
+			menu.style.left = 0;
 			menu.style.right = 0;
 			if(event.target.innerText === 'format_indent_increase') {
 				hideContextMenus(true);
@@ -2823,8 +2866,10 @@ function showAddQueueContextMenu(id) {
 }
 
 function showPlaylist() {
-	let submenu = document.createElement('div');
+	let submenu = document.createElement('table');
 	submenu.classList.add('playlist');
+	
+	let submenubody = document.createElement('tbody');
 	
 	if(window['playlist'].length > 0)
 	{
@@ -2843,27 +2888,37 @@ function showPlaylist() {
 			let playing = window['playlist'][window['playing']];
 			for(let listItem of list.values)
 			{
-				let item = document.createElement('div');
+				let container = document.createElement('tr');
+				container.setAttribute('data-id', listItem[0]);
+				
+				let item = document.createElement('td');
 				item.classList.add('tag');
 				if(window['playlist'].indexOf(listItem[0].toString()) === window['playing']) // if playing as ID of item
 					item.classList.add('highlight');
-				item.setAttribute('data-id', listItem[0]);
 				item.innerText = listItem[1];
 				item.addEventListener('click', updateSong);
-				submenu.appendChild(item);
+				
+				container.appendChild(item);				
+				submenubody.appendChild(container);				
 			}
 		});
 	}
 	else if(window['playlist'].length === 0)
 	{
-		let item = document.createElement('div');
+		let container = document.createElement('tr');
+		
+		let item = document.createElement('td');
 		item.classList.add('tag');
 		item.innerText = 'No items';
 		item.addEventListener('click', function() {
 			hideContextMenus(true);
 		});
-		submenu.appendChild(item);
+		container.appendChild(item);
+		
+		submenubody.appendChild(container);
 	}
+	
+	submenu.appendChild(submenubody);
 	
 	return submenu;
 }
