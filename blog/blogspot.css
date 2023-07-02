@@ -345,35 +345,6 @@ h2 {
 	background-color: gray;
 }
 
-@media only screen and (max-width: 780px) {
-  #BackBtn,
-  #LeftBtn {
-    left: 15px;
-  }
-  #PopupBtn,
-  #EmojiBtn,
-  #DarkModeBtn {
-    right: 15px;
-  }
-  #DarkModeBtn,
-  #BackBtn,
-  #LeftBtn,
-  #RightBtn {
-    bottom: 15px;
-  }
-  #RightBtn {
-    left: 75px;
-  }
-  #EmojiBtn {
-    bottom: 75px;	  
-  }
-  #PopupBtn {
-    bottom: 135px;	  
-  }
-  .Post span {
-	display: block;
-  }
-}
 /*Custom viewer*/
 #viewer {
 	z-index: 9;
@@ -416,13 +387,13 @@ h2 {
 }
 
 #viewer-next:active {
-	opacity: 0.4;
-	background-image: linear-gradient(to left, white, transparent);
+	opacity: 0.5;
+	background-image: linear-gradient(to left, var(--background), transparent);
 }
 
 #viewer-prev:active {
-	opacity: 0.4;
-	background-image: linear-gradient(to right, white, transparent);
+	opacity: 0.5;
+	background-image: linear-gradient(to right, var(--background), transparent);
 }
 
 #viewer img {
@@ -433,7 +404,38 @@ h2 {
 	object-fit: contain;
 }
 
-/*OTHER MEDIA QUERIES - REDUCED MOTION*/
+/*MEDIA QUERIES - BUTTON POSITION*/
+@media only screen and (max-width: 780px) {
+  #BackBtn,
+  #LeftBtn {
+    left: 15px;
+  }
+  #PopupBtn,
+  #EmojiBtn,
+  #DarkModeBtn {
+    right: 15px;
+  }
+  #DarkModeBtn,
+  #BackBtn,
+  #LeftBtn,
+  #RightBtn {
+    bottom: 15px;
+  }
+  #RightBtn {
+    left: 75px;
+  }
+  #EmojiBtn {
+    bottom: 75px;	  
+  }
+  #PopupBtn {
+    bottom: 135px;	  
+  }
+  .Post span {
+	display: block;
+  }
+}
+
+/*MEDIA QUERIES - REDUCED MOTION*/
 @media only screen and (max-width: 480px) {
 	body {
 		transition: none;
@@ -446,6 +448,8 @@ h2 {
 	}
 	body,
 	.header,
+	#PopupBtn,
+	#EmojiBtn,
 	#LeftBtn,
 	#RightBtn,
 	#BackBtn,
