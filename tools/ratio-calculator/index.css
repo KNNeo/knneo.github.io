@@ -43,6 +43,6 @@ input {
 }
 
 input:disabled {
-	color: var(--accent);
-	border-color: var(--accent);
+	color: var(--foreground);
+	background-color: var(--accent);
 }
