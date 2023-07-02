@@ -288,13 +288,13 @@ body[layout='horizontal'] .expander {
 }
 
 .viewer .prev:active {
-	opacity: 0.4;
-	background-image: linear-gradient(to left, var(--background), transparent);
+	opacity: 0.5;
+	background-image: linear-gradient(to left, transparent, var(--background));
 }
 
 .viewer .next:active {
-	opacity: 0.4;
-	background-image: linear-gradient(to right, var(--background), transparent);
+	opacity: 0.5;
+	background-image: linear-gradient(to right, transparent, var(--background));
 }
 
 .viewer img {
