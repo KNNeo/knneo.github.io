@@ -22,8 +22,10 @@ const isFirefox = (/Firefox/i.test(navigator.userAgent));
 let titleDiv = document.querySelector('.title');
 let subtitleDiv = document.querySelector('.subtitle');
 let galleryDiv = document.querySelector('.gallery');
+let overviewDiv = document.querySelector('.overview');
 let noticeDiv = document.querySelector('.notice');
 let filtersDiv = document.querySelector('.filters');
+let settingsDiv = document.querySelector('.settings');
 
 //--DOM FUNCTIONS--//
 function generateTagClouds() {
@@ -278,54 +280,6 @@ function scrollGallery() {
 }
 
 //--FUNCTIONS--//
-function renderDisplay() {
-	// hide all components by config
-	for(let setting of Object.keys(window.variables.display ?? []))
-	{
-		// setting must be false
-		// if setting is true or null, will display
-		if(window.variables?.display[setting] == false &&
-		!document.querySelector('.' + setting)?.classList.contains('hidden'))
-			document.querySelector('.' + setting)?.classList.add('hidden');
-	}
-}
-
-function renderGallery() {
-	galleryDiv.innerHTML = '';
-	// render all items
-	for(let [index, value] of window.variables.base.entries())
-	{
-		let itemDiv = document.createElement('img');
-		itemDiv.setAttribute('data-id', index);
-		itemDiv.src = value.filename;
-		itemDiv.title = value.description || '';
-		itemDiv.alt = value.description || '';
-		itemDiv.draggable = false;
-		itemDiv.addEventListener('load', function() {
-			setTimeout(scrollToItem, 200);
-		});
-		itemDiv.addEventListener('click', function() {
-			this.scrollIntoView({
-				inline: 'center', behavior: 'smooth'
-			});
-			window.variables.selected = parseInt(this.getAttribute('data-id'));
-		});
-		itemDiv.addEventListener('contextmenu', function() {
-			event.preventDefault();
-		}, false);
-		galleryDiv.appendChild(itemDiv);
-	}
-	
-	// touch events
-	scrollToItem();
-	// galleryDiv.addEventListener('mousedown', onMouseDown);
-	// galleryDiv.addEventListener('mousemove', onMouseMove, false);
-	// galleryDiv.addEventListener('mouseup', onMouseUp);
-	galleryDiv.addEventListener(isFirefox ? 'DOMMouseScroll' : 'mousewheel', onWheel);
-	galleryDiv.addEventListener('touchstart', onTouchStart);
-	galleryDiv.addEventListener('touchmove', onTouchMove, false);
-}
-
 function renderFilters(tags) {
 	// clear all tags
 	for(let tag of filtersDiv.querySelectorAll('div'))
@@ -353,10 +307,60 @@ function renderFilters(tags) {
 				window.variables.base = window.variables.items.filter(i => i[tag.category] == tag.value);
 				hideFilters();
 				renderGallery();
+				renderOverview();
 			});
 			filterDiv.appendChild(tagDiv);
-		}
+		}v
 	}
+}
+
+function renderDisplay() {
+	// hide all components by config
+	for(let setting of Object.keys(window.variables.display ?? []))
+	{
+		// setting must be false
+		// if setting is true or null, will display
+		if(window.variables?.display[setting] == false &&
+		!document.querySelector('.' + setting)?.classList.contains('hidden'))
+			document.querySelector('.' + setting)?.classList.add('hidden');
+	}
+}
+
+function renderGallery() {
+	galleryDiv.innerHTML = '';
+	// render all items
+	for(let [index, value] of window.variables.base.entries())
+	{
+		let itemDiv = document.createElement('img');
+		itemDiv.setAttribute('data-id', index);
+		itemDiv.src = value.filename;
+		itemDiv.title = value.description || '';
+		itemDiv.alt = value.description || '';
+		itemDiv.draggable = false;
+		itemDiv.addEventListener('load', function() {
+			setTimeout(scrollToItem, 200);
+		});
+		itemDiv.addEventListener('click', function() {
+			galleryDiv.classList.remove('overview');
+			settingsDiv.classList.remove('hidden');
+			scrollToItem(parseInt(this.getAttribute('data-id')));
+			window.variables.selected = parseInt(this.getAttribute('data-id'));
+		});
+		itemDiv.addEventListener('contextmenu', function() {
+			event.preventDefault();
+		}, false);
+		galleryDiv.appendChild(itemDiv);
+	}
+	
+	scrollToItem();
+	galleryDiv.addEventListener(isFirefox ? 'DOMMouseScroll' : 'mousewheel', onWheel);
+	galleryDiv.addEventListener('touchstart', onTouchStart);
+	galleryDiv.addEventListener('touchmove', onTouchMove, false);
+	if(window.variables.display.overview)
+		galleryDiv.addEventListener('contextmenu', function() {
+			galleryDiv.classList.add('overview');
+			settingsDiv.classList.add('hidden');
+		});
 }
 
 //--INITIAL--//

@@ -106,6 +106,15 @@ body .gallery {
 	height: 100dvh;
 }
 
+.overview img {
+    width: 20px;
+	cursor: pointer;
+}
+
+.overview img:hover {
+	transform: scale(10);
+}
+
 /*VIEWER*/
 .viewer {
 	z-index: 9;
