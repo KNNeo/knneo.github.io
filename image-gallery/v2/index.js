@@ -310,7 +310,7 @@ function renderFilters(tags) {
 				renderOverview();
 			});
 			filterDiv.appendChild(tagDiv);
-		}v
+		}
 	}
 }
 
