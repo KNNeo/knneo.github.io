@@ -553,8 +553,6 @@ function resizeImage(p) {
 	if(showLog)	console.log('orientation: ' + (imgWidth >= imgHeight ? 'landscape' : 'portrait'));
 			
 	// adjust dimensions
-	p.removeAttribute("height");
-	p.removeAttribute("width");
 	if (p.parentElement.parentElement.tagName == "TR" && 
 		p.parentElement.parentElement.getElementsByTagName("td").length > 1) //in table
 		p.classList.add('img-width-fit');
@@ -567,8 +565,6 @@ function resizeImage(p) {
 		p.classList.add('img-width-fit');
 	else {
 		p.classList.add('img-width-auto');
-		p.height = imgHeight;
-		p.width = imgWidth;
 	}
 
 	// special case: to avoid resize issue on reload

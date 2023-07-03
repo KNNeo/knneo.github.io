@@ -747,6 +747,7 @@ abbr.imgpop:hover img {
 /*Assign class based on image resize for responsive, see blog.js resizeImg()*/
 .img-width-fit {
 	width: 100%;
+	height: 100%;
 }
 
 .img-width-auto {
