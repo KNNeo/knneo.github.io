@@ -233,7 +233,6 @@ a:hover {
 	color: var(--foreground);
 	cursor: pointer;
 	padding: 8px 6px 6px 6px;
-	border-radius: 7px;
 	transition: opacity 0.3s;
 	border: 1px solid var(--foreground);
 	background-color: var(--background);
@@ -258,7 +257,6 @@ a:hover {
 	color: var(--foreground);
 	cursor: pointer;
 	padding: 8px 6px 6px 6px;
-	border-radius: 7px;
 	transition: opacity 0.3s;
 	border: 1px solid var(--foreground);
 	background-color: var(--background);
@@ -283,7 +281,6 @@ a:hover {
 	color: var(--foreground);
 	cursor: pointer;
 	padding: 8px 6px 6px 6px;
-	border-radius: 7px;
 	transition: opacity 0.3s;
 	border: 1px solid var(--foreground);
 	background-color: var(--background);
@@ -302,17 +299,24 @@ a:hover {
 	transform: translate(2px, 2px);
 }
 
-a.material-icons {
-	text-decoration: none;
+#SidebarBtn, #SearchBtn {
+	display: none;
 }
 
-a#SidebarBtn, a#SearchBtn {
-	display: none;
+a.material-icons {
+	text-decoration: none;
 }
 
 div.home-tags a {
 	cursor: pointer;
 	white-space: nowrap;
+}
+
+span.post-tags {
+	border-radius: 8px;
+	border: 1px solid var(--foreground);
+	padding: 5px;
+	margin: 0 5px;
 }
 
 
