@@ -222,6 +222,16 @@ const data = [
 		url: 'https://www.onsen.ag/program/sankaku',
 		format: 'Video Live',
 	},
+	{
+		name: 'イヤホンズの三平方の定理',
+		startDayNo: 2,
+		startDate: '2023-06-23',
+		lengthMinutes: 30,
+		recurringWeeks: [4],
+		channel: 'インターネットラジオステーション＜音泉＞',
+		url: 'https://www.onsen.ag/program/omimi',
+		format: 'Audio Premiere',
+	},
 ];
 
 //--COMMON EVENTS--//
@@ -712,7 +722,7 @@ function createDetailedEvent(elem, single) {
 	single.channel + '<br>' +
 	daysOfWeek[single.startDayNo == 7 ? 0 : single.startDayNo] + ', ' + 
 	elem.getAttribute('data-month') + ' ' + elem.getAttribute('data-id') + ', ' + 
-	single.startTime + '-' + getEndTime(single.startTime, single.lengthMinutes) + '<br>' +
+	(single.startTime ? single.startTime + '-' + getEndTime(single.startTime, single.lengthMinutes) : '') + '<br>' +
 	convertTextToHTML(single.url, [single.url]);
 	content.addEventListener('click', function() {
 		// document.querySelector('.footer').innerHTML = convertTextToHTML(content.innerHTML, []);
@@ -750,8 +760,8 @@ function createSummaryEvent(elem, single) {
 	single.format + '\n' + 
 	single.channel + '\n' +
 	daysOfWeek[single.startDayNo == 7 ? 0 : single.startDayNo] + ', ' + 
-	elem.getAttribute('data-month') + ' ' + elem.getAttribute('data-id') + ', ' + 
-	single.startTime + '-' + getEndTime(single.startTime, single.lengthMinutes) + '\n' +
+	elem.getAttribute('data-month') + ' ' + elem.getAttribute('data-id') + 
+	(single.startTime ? ', ' + single.startTime + '-' + getEndTime(single.startTime, single.lengthMinutes) : '') + '\n' +
 	single.url;
 	content.addEventListener('click', function() {
 			document.querySelector('.footer').innerHTML = convertTextToHTML(this.title, [single.url]);
