@@ -113,7 +113,7 @@ void Main()
         var pageLink = "./" + Path.GetFileNameWithoutExtension(filepath.Replace(filepath, outputFolder)) + "/" + published.Year.ToString("0000") + "/"  + published.Month.ToString("00") + "/"  + Path.GetFileNameWithoutExtension(originalLink) + "." + type;
 		if(!string.IsNullOrWhiteSpace(originalLink))
 			postList.Add(pageLink);
-	}	
+	}
 	
     // Process XML content per post
     for (var p = 0; p < posts.Count(); p++)
@@ -123,7 +123,6 @@ void Main()
         DateTime published = DateTime.Parse(entry.Element(_+"published").Value);
         DateTime updated = DateTime.Parse(entry.Element(_+"updated").Value);
         string title = entry.Element(_+"title").Value;
-        //Console.WriteLine("Processing...  " + (title != "" ? title : "A Random Statement"));
         string type = entry.Element(_+"content").Attribute("type").Value ?? "html";
         XElement empty = new XElement("empty");
         XAttribute emptA = new XAttribute("empty","");
@@ -131,6 +130,8 @@ void Main()
             .FirstOrDefault(e => e.Attribute("rel").Value == "alternate") ?? empty)
             .Attribute("href") ?? emptA).Value;
 		if(string.IsNullOrWhiteSpace(originalLink))
+			continue;
+		if(title != "The Welfare Package May 2023: A True Memory In Making") // test single post
 			continue;
 		
 		// Create page location
@@ -151,13 +152,14 @@ void Main()
         string content = entry.Element(_+"content").Value;
 		content = FixContent(content, p, entry.Element(_+"title").Value);
 		
-		// Find images
-		if (TraceMode) Console.WriteLine("Find first image for home page, if any");
-        var match = Regex.Match(content, @"(?s)(.*?)<img(.*?)src=""(.*?)""(.*?)/>(.*?)");
-		//Console.WriteLine(content);
-        while(match.Success)
+		// Find src in img
+		Console.WriteLine("   Find src in img");
+        var match = Regex.Match(content, @"(?s)<img(.*?)src=""(.*?)""(.*?)/>");
+		//Console.WriteLine(match);
+        while(false && match.Success)
 		{
-			var url = match.Groups[3].Value;
+			var url = match.Groups[2].Value;
+			if(TraceMode) Console.WriteLine(url.Substring(0,40) + "...");
 			var urlWithoutFilename = url.Substring(0, url.LastIndexOf('/') + 1);
 			var filename = url.Substring(url.LastIndexOf('/') + 1);
 			
@@ -165,11 +167,76 @@ void Main()
 			content = content.Replace(urlWithoutFilename, "data/");
 			
 			// Download into local post subfolder
+			var fileExist = File.Exists(monthfolder + "/data/" + filename);
+			if(TraceMode && fileExist)
+				Console.WriteLine("Filename of " + filename + " exists in " + monthfolder);
+			if(!fileExist)
+			{
+				using (WebClient client = new WebClient()) 
+				{
+					//Console.WriteLine("Downloading... " + url);
+				    client.DownloadFile(new Uri(url), monthfolder + "/data/" + filename);
+					//Console.WriteLine("File downloaded to " + monthfolder + "/data/" + filename);
+				}
+			}
+		
+	        match = match.NextMatch();
+		}
+		
+		// Find href in img with link
+		Console.WriteLine("   Find href in img with link");
+        match = Regex.Match(content, @"href\s*=\s*""(.*?)""");
+		//Console.WriteLine(match);
+        while(match.Success)
+		{
+			var url = match.Groups[1].Value;
+			if(TraceMode) Console.WriteLine(url.Substring(0,40) + "...");
+			List<string> formats = new List<string>() { ".jpg", ".gif" };
+			if(formats.Any(format => url.EndsWith(format)))
+			{
+				//Console.WriteLine(url);
+				var urlWithoutFilename = url.Substring(0, url.LastIndexOf('/') + 1);
+				var filename = url.Substring(url.LastIndexOf('/') + 1);
+				
+				// Set as relative path
+				content = content.Replace(urlWithoutFilename, "data/");
+				
+				// Download into local post subfolder
+				var fileExist = File.Exists(monthfolder + "/data/" + filename);
+				if(TraceMode && fileExist)
+					Console.WriteLine("Filename of " + filename + " exists in " + monthfolder);
+				using (WebClient client = new WebClient()) 
+				{
+					//Console.WriteLine("Downloading... " + url);
+				    client.DownloadFile(new Uri(url), monthfolder + "/data/" + filename);
+					//Console.WriteLine("File downloaded to " + monthfolder + "/data/" + filename);
+				}
+			}
+		
+	        match = match.NextMatch();
+		}
+		
+		// Find background-image in div
+		Console.WriteLine("   Find background-image in div");
+        match = Regex.Match(content, @"background-image:\s*url\((.*?)\)");
+		//Console.WriteLine(match);
+        while(match.Success)
+		{
+			var url = match.Groups[1].Value;
+			Console.WriteLine(url.Substring(0,40) + "...");
+			var urlWithoutFilename = url.Substring(0, url.LastIndexOf('/') + 1);
+			var filename = url.Substring(url.LastIndexOf('/') + 1);
+			
+			// Set as relative path
+			content = content.Replace(urlWithoutFilename, "data/");
+			
+			// Download into local post subfolder
+			var fileExist = File.Exists(monthfolder + "/data/" + filename);
+			if(TraceMode && fileExist)
+				Console.WriteLine("Filename of " + filename + " exists in " + monthfolder);
 			using (WebClient client = new WebClient()) 
 			{
 				//Console.WriteLine("Downloading... " + url);
-				if(File.Exists(monthfolder + "/data/" + filename))
-					throw new Exception("Filename of " + filename + " exists in " + monthfolder);
 			    client.DownloadFile(new Uri(url), monthfolder + "/data/" + filename);
 				//Console.WriteLine("File downloaded to " + monthfolder + "/data/" + filename);
 			}
