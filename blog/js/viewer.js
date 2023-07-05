@@ -14,8 +14,7 @@ function generateViewer() {
 	for(let img of document.getElementsByTagName('img'))
 	{
 		if(img.parentElement.tagName.toUpperCase() == 'A' && 
-		!img.parentElement.href.includes('#') && 
-		!img.parentElement.href.includes('knneo.github.io'))
+		!img.parentElement.href.includes('#'))
 		{
 			window['viewer-list'].push(img.parentElement);
 		}
@@ -25,8 +24,7 @@ function generateViewer() {
 	for (let img of document.getElementsByTagName('img'))
 	{
 		if(img.parentElement.tagName.toUpperCase() == 'A' && 
-		!img.parentElement.href.includes('#') && 
-		!img.parentElement.href.includes('knneo.github.io'))
+		!img.parentElement.href.includes('#'))
 		{
 			img.parentElement.addEventListener('click', function(e) {
 				e.preventDefault();
