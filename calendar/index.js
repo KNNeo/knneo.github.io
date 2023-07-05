@@ -211,6 +211,17 @@ const data = [
 		url: 'http://melody-flag.com',
 		format: 'Audio Live',
 	},
+	{
+		name: 'さやとみはるのさんかくカンケイ',
+		startDayNo: 3,
+		startDate: '2023-07-05',
+		startTime: 1800,
+		lengthMinutes: 30,
+		recurringWeeks: 'alternate',
+		channel: 'インターネットラジオステーション＜音泉＞',
+		url: 'https://www.onsen.ag/program/sankaku',
+		format: 'Video Live',
+	},
 ];
 
 //--COMMON EVENTS--//
@@ -569,7 +580,7 @@ function generateCalendarWeekTable(year, month, week, day, array) {
 }
 
 function addDetailedEventsToCalendar(week) {
-	for(let single of data)
+	for(let single of data.sort(function(a,b) { return a.startTime - b.startTime; }))
 	{
 		// assume events must have weeks defined
 		if(typeof single.recurringWeeks == 'object')
@@ -625,7 +636,7 @@ function addDetailedEventsToCalendar(week) {
 }
 
 function addEventsToCalendar(detailed) {
-	for(let single of data)
+	for(let single of data.sort(function(a,b) { return a.startTime - b.startTime; }))
 	{
 		// assume events must have weeks defined
 		if(typeof single.recurringWeeks == 'object')
