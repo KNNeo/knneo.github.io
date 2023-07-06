@@ -420,13 +420,19 @@ function setThumbnails() {
 	// check if thumbnail violate features
 	if(Array.from(document.querySelectorAll('.thumbnail img')).filter(i => i.parentElement.tagName.toLowerCase() === 'a').length > 0)
 	{
-		console.error("Thumbnail has image with link: Will prevent switchThumbnails from image click");
+		console.error("Thumbnail has image with link: Will prevent switchThumbnails assignment");
+		return;
+	}
+	// check if thumbnail violate initial view classes
+	if(Array.from(document.querySelectorAll('.thumbnail')).filter(i => i.querySelectorAll('.thumbnail-initial.hover-hidden').length == 1).length != document.querySelectorAll('.thumbnail').length)
+	{
+		console.error("Thumbnail initial classList fail: Will prevent switchThumbnails assignment");
 		return;
 	}
 	
     for (let thumbnail of document.querySelectorAll(".thumbnail")) {
 		// set height for first thumbnail content
-		thumbnail.style.height = thumbnail.getElementsByClassName("hover-visible")[0].offsetHeight + 'px';
+		thumbnail.style.height = thumbnail.getElementsByClassName("hover-hidden")[0].offsetHeight + 'px';
 		// add click event for first thumbnail content
         let allThumbImages = thumbnail.getElementsByTagName("img");
         let allThumbVideos = thumbnail.getElementsByTagName("video");
@@ -512,13 +518,9 @@ function resizeImages() {
     ~Images that always resize to 100% instead of retaining original size which can fit screen, consider putting back original size if no overflow
     ~Consluion: Consider redo whole list based on stricter requirements, and clearer ranges/lists to maintain exclusions
     */
-    var images = document.getElementsByTagName("img");
-    for (var p of images)
+    for (var p of document.querySelectorAll("img"))
 	{
 		resizeImage(p);
-		p.onload = function() {
-			resizeImage(this);
-		};
     }
 	
 	// set thumbnails again after adjusted
