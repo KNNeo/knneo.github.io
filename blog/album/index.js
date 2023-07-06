@@ -59,13 +59,12 @@ function generateArchive() {
 				imageSpan.setAttribute('loading', 'lazy');
 				imageSpan.setAttribute('data-image', mosaic.imgUrl);
 				imageSpan.addEventListener('click', function() {
-					this.style.maxWidth = this.style.maxWidth == '' ? '100vw' : '';
-					this.style.maxHeight = this.style.maxHeight == '' ? '100vh' : '';
+					event.target.parentElement.classList.toggle('fit');
 				});
 				imageSpan.addEventListener('load', function() {
-					if(!this.classList.contains('loaded'))
+					if(!event.target.classList.contains('loaded'))
 						document.querySelector('#counter').innerText = 1 + parseInt(document.querySelector('#counter').innerText);
-					this.classList.add('loaded');
+					event.target.classList.add('loaded');
 				});
 				
 				imageDiv.appendChild(imageSpan);
