@@ -426,7 +426,7 @@ function setThumbnails() {
 	
     for (let thumbnail of document.querySelectorAll(".thumbnail")) {
 		// set height for first thumbnail content
-		thumbnail.style.height = thumbnail.getElementsByClassName("thumbnail-initial")[0].offsetHeight + 'px';
+		thumbnail.style.height = thumbnail.getElementsByClassName("hover-visible")[0].offsetHeight + 'px';
 		// add click event for first thumbnail content
         let allThumbImages = thumbnail.getElementsByTagName("img");
         let allThumbVideos = thumbnail.getElementsByTagName("video");
