@@ -424,7 +424,7 @@ function setThumbnails() {
 		return;
 	}
 	// check if thumbnail violate initial view classes
-	if(Array.from(document.querySelectorAll('.thumbnail')).filter(i => i.querySelectorAll('.thumbnail-initial.hover-hidden').length == 1).length != document.querySelectorAll('.thumbnail').length)
+	if(Array.from(document.querySelectorAll('.thumbnail')).filter(i => i.querySelectorAll('.thumbnail-initial:not(.thumbnail-pop)').length == 1).length != document.querySelectorAll('.thumbnail').length)
 	{
 		console.error("Thumbnail initial classList fail: Will prevent switchThumbnails assignment");
 		return;
@@ -432,7 +432,7 @@ function setThumbnails() {
 	
     for (let thumbnail of document.querySelectorAll(".thumbnail")) {
 		// set height for first thumbnail content
-		thumbnail.style.height = thumbnail.getElementsByClassName("hover-hidden")[0].offsetHeight + 'px';
+		thumbnail.style.height = thumbnail.querySelector('.thumbnail-initial:not(.thumbnail-pop)').offsetHeight + 'px';
 		// add click event for first thumbnail content
         let allThumbImages = thumbnail.getElementsByTagName("img");
         let allThumbVideos = thumbnail.getElementsByTagName("video");
