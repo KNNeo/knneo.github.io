@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en-SG">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="white">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+<link href='https://fonts.googleapis.com/css?family=Noto Sans' rel='stylesheet' />
+<link rel="stylesheet" type="text/css" href="index.css" />
+<link rel="stylesheet" type="text/css" href="blogspot.css" />
+<link rel="icon" href="storytime.ico" />
+<script src="../darkmode.js" type="application/javascript" charset="utf-8"></script>
+<script src="blogspot.js" type="application/javascript" charset="utf-8"></script>
+<script src="js/common.js" type="application/javascript" charset="utf-8" defer></script>
+<script src="js/header.js" type="application/javascript" charset="utf-8" defer></script>
+<script src="js/viewer.js" type="application/javascript" charset="utf-8" defer></script>
+<title>Components</title>
+<body>
+<a id='BackBtn' class='material-icons' href='../../../index.html' title='Go Back'>arrow_back</a>
+<a id='PopupBtn' class='material-icons' title='Toggle Display Links As Popups' href='javascript:void(0);' onclick='toggleInlinePopups()'>crop_din</a>
+<a id='EmojiBtn' class='material-icons' title='Toggle Display Emoji' href='javascript:void(0);' onclick='toggleEmojiDisplay()'>mood</a>
+<a id='DarkModeBtn' class='material-icons' title='Toggle Dark Mode' href='javascript:void(0);' onclick='toggleDarkMode()'>brightness_high</a>
+<a id='GoToTopBtn' class='material-icons' title='Go To Top' style='display: none;' href='javascript:void(0);' onclick='goToTop()'>arrow_upward</a>
+<div id="viewer"></div>
+<div id="contents" class="post-body entry-content" style="font-family: Noto Sans;">
+<style>
+pre {
+	padding: 10px;
+	border: 1px solid var(--foreground);
+}
+</style>
+<h4 style="text-align: center;">COMPONENTS</h4>
+<hr>
+
+<style>
+.popup {
+	display: inline;
+	cursor: pointer;
+}
+
+.popup .text {
+	display: inline;
+	color: var(--primary);
+	text-decoration: underline;
+}
+
+.popup .text:hover {
+	color: var(--foreground);
+	text-decoration: none;
+}
+
+.popup .content {
+	display: none;
+	padding-top: 10px;
+	left: 0;
+	right: 0;
+	margin: auto;
+	text-align: center;
+	max-width: 98%;
+}
+.popup .content.show {
+	display: block;
+	position: absolute;
+	z-index: 9;
+}
+</style>
+<script>
+function addPopupTriggers() {
+
+}
+function togglePopup() {
+
+}
+function renderPopup() {
+
+}
+</script>
+<h1>Pop-Up Content</h1>
+<h5>Rename of container to "popup", rename of first child to "text", all but first/displaying child to "content"</h5>
+<h5>Element</h5>
+<pre>
+This is where you put the &lt;a href="[LINK]" target="_blank"&gt;
+  [TEXT]
+&lt;/a&gt; so it's inline.
+</pre>
+"There's a thing called give and take, you know?" Yeah Isaki gave you a kiss so she can take your- All according to <a href="https://jisho.org/search/keikaku">keikaku</a> haha
+<h5>With rendered popup</h5>
+<pre>
+This is where you put the &lt;div class="popup" data-url="[LINK]"&gt;
+  &lt;div class="text"&gt;[TEXT]&lt;/div&gt;
+  &lt;div class="content"&gt;[CONTENT]&lt;/div&gt;
+&lt;/div&gt; so it's inline.
+</pre>
+"There's a thing called give and take, you know?" Yeah Isaki gave you a kiss so she can take your- All according to <a href="https://jisho.org/search/keikaku" target="_blank">keikaku</a> haha
+
+<style>
+.carousel {
+	display: block;
+    position: relative;
+	transition: height 0.2s;
+}
+
+.carousel .item {
+	position: absolute;
+	left: 0;
+	right: 0;
+	opacity: 1;
+	transition: opacity 0.4s, left 0.2s;
+}
+
+.carousel .item * img,
+.carousel .item * video {
+	border: 2px solid var(--primary);
+}
+
+.carousel .item.hide {
+	visibility: hidden;
+	left: 80%;
+	opacity: 0;
+}
+.carousel .item.text {
+	color: var(--primary);
+	text-decoration: underline;	
+}
+
+.carousel-dialog {
+    background-color: var(--background);
+    color: var(--foreground);	
+}
+
+</style>
+<script>
+window.addEventListener('load', setCarousel);
+function setCarousel() {
+	if(Array.from(document.querySelectorAll('.carousel img')).filter(i => i.parentElement.tagName.toLowerCase() === 'a').length > 0)
+	{
+		console.error("Carousel has image with link: Will prevent carousel function");
+		return;
+	}
+	if(Array.from(document.querySelectorAll('.carousel')).filter(i => i.querySelectorAll('.item:not(.hide)').length == 1).length != document.querySelectorAll('.carousel').length)
+	{
+		console.error("Carousel initial view fail: Will prevent carousel function");
+		return;
+	}
+	
+    for (let carousel of document.querySelectorAll('.carousel')) {
+		carousel.style.height = carousel.querySelector('.item:not(.hide)')?.offsetHeight + 'px';
+
+        let clickables = carousel.querySelectorAll('img, video');
+        for (let clickable of clickables) {
+            clickable.onclick = function() {
+                showNextCarouselItem(event.target.closest('.carousel'));
+            };
+        }
+		
+		if(clickables.length < 1 && carousel.getElementsByClassName('.item').length > 0)
+		{
+			carousel.style.display = 'inline';
+			
+			let textElement = document.createElement('span');
+			textElement.className = 'item text';
+			textElement.innerHTML = carousel.querySelector('.item.hide').innerHTML;
+			let popupText = carousel.querySelector('.item:not(.hide)').innerHTML;
+			textElement.onclick = function() {
+				let dialogElement = document.querySelector('.carousel-dialog') ?? document.createElement('dialog');
+				dialogElement.className = 'carousel-dialog';
+				dialogElement.onclick = function() {
+					this.close();
+				};
+				dialogElement.innerHTML = popupText;
+				if(document.querySelector('.carousel-dialog') == null)
+					document.body.appendChild(dialogElement);
+				dialogElement.showModal();
+			};
+			
+			carousel.replaceWith(textElement);
+		}
+    }
+}
+function showNextCarouselItem(tn) {
+	// all children
+    let tc = tn.querySelectorAll('.item');
+	// identify active child
+	let active = Array.from(tc).findIndex(t => !t.classList.contains('hide'));
+	if (active == null) return;
+	// hide all
+	for(let t of tc) {
+		t.classList.add('hide');
+	}
+	// set next child to display, or first if reach last child
+	let nextActive = tc[active].nextElementSibling;
+	if(!nextActive) nextActive = tn.firstElementChild;
+	nextActive.classList.remove('hide');
+	// set height of container
+	setTimeout(function() {
+		tn.style.height = nextActive.offsetHeight + 'px';
+	}, 200);
+}
+</script>
+<h1>Carousel</h1>
+<h5>Rename of container to "carousel", rename of all child to "item", all but first/displaying child to "hide"</h5>
+<pre>
+&lt;div class="carousel"&gt;
+  &lt;div class="item"&gt;&lt;/div&gt;
+  &lt;div class="item hide"&gt;&lt;/div&gt;
+  &lt;div class="item hide"&gt;&lt;/div&gt;
+  ...
+&lt;/div&gt;
+</pre>
+<div class="carousel">
+  <div class="item">
+    <table
+      align="center"
+      cellpadding="0"
+      cellspacing="0"
+      class="tr-caption-container"
+      style="margin-left: auto; margin-right: auto;"
+    >
+      <tbody>
+        <tr>
+          <td style="text-align: center;">
+            <img
+              border="0"
+              data-original-height="1537"
+              data-original-width="1280"
+              height="385"
+              src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjSCwFrwHYWWP_iDd-_D8s4DWfNUsG0mNz7yKPIpVm-0WlpNQ5dK1mzjcNlYFF9zzJuRKWucffLGc1xBxjPH6o9KWxKKfa9i-MiMEPuoUJGmakkxpq12xGF3hwALeC1bP2RUIp9Vn_LpDhefag3bYhCn8K3g75VvkeAtzdBNBlkoWNG0gW_07-jGlxu79M/s380/kimisomu12_raincoat.jpg"
+              width="320"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td class="tr-caption" style="text-align: center;">
+            Even in a raincoat Isaki is still adorable af
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="item hide">
+    <table
+      align="center"
+      cellpadding="0"
+      cellspacing="0"
+      class="tr-caption-container"
+      style="margin-left: auto; margin-right: auto;"
+    >
+      <tbody>
+        <tr>
+          <td style="text-align: center;">
+            <img
+              border="0"
+              data-original-height="720"
+              data-original-width="1280"
+              height="180"
+              src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhIAJTgdEQrEtu-rOLNPqKzkEhJPp2r-KdrWLNAcdvmUIALJBu-so0Azj8UAHItQ-DAOnda-6JBZVsvrHVgvAvhXMMgbxgveKAubKSuO997CwzbuoJX5Oi_YF2lJ4oj7NWd2nQgQJCoWCuIUrnbh-kYSUp9-jLL9gDAH9lHZqLXKmRspSReaMRmbEf3dSY/s320/kimisomu12_tea.jpg"
+              width="320"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td class="tr-caption" style="text-align: center;">
+            Glad to see the Japanese universal tea drinking pose is still up and running haha
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<style>
+.agenda {
+    display: grid !important;
+}
+
+.agenda .item table.tr-caption-container {
+    width: 100%;
+	margin-bottom: 0;
+}
+
+.agenda .item img {
+    width: 100%;
+    height: 200px;
+	object-fit: cover;
+}
+</style>
+<h1>Table of Contents</h1>
+<h5>Consists of container "agenda" with inline styles for grid column customization, and children "item" holding Blogger-inserted image with url (to be changed to section)</h5>
+<pre>
+&lt;div class="agenda" style="display: none; grid-template-columns: repeat([NO_OF_COLS], 1fr);"&gt;
+  &lt;div class="item"&gt;&lt;/div&gt;
+  &lt;div class="item"&gt;&lt;/div&gt;
+  &lt;div class="item"&gt;&lt;/div&gt;
+  ...
+&lt;/div&gt;
+</pre>
+<div class="agenda" style="display: none; grid-template-columns: repeat(3, 1fr);">
+	<div class="item">
+	<table
+  align="center"
+  cellpadding="0"
+  cellspacing="0"
+  class="tr-caption-container"
+  style="margin-left: auto; margin-right: auto;"
+>
+  <tbody>
+    <tr>
+      <td style="text-align: center;">
+        <a
+          href="#Moeshi"
+          style="margin-left: auto; margin-right: auto;"
+          ><img
+            border="0"
+            data-original-height="1536"
+            data-original-width="2048"
+            height="240"
+            src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi38UEx78PVLToknFWmUljKVcNqyAN0AmTFu2ef7uk4kAvohhrJBuXXNhP9vgVTmhRcfaNarc_icb_yf7a-wpZf2zFu5nT0798uLeTj1v88r27TvZy_u_2zPxSOxi14dG3UByoFTQUNU3J6SmxRAW_VABG8YFhsIHtj_mYbgRM6V4KVFUPR1YSO_qVZmtQ/s320/PXL_20210114_114710189.jpg"
+            width="320"
+        /></a>
+      </td>
+    </tr>
+    <tr>
+      <td class="tr-caption" style="text-align: center;">
+        Toyota Moe Bromides
+      </td>
+    </tr>
+  </tbody>
+</table>
+	</div>
+	<div class="item"><table
+  align="center"
+  cellpadding="0"
+  cellspacing="0"
+  class="tr-caption-container"
+  style="margin-left: auto; margin-right: auto;"
+>
+  <tbody>
+    <tr>
+      <td style="text-align: center;">
+        <a
+          href="#DoukiChan"
+          style="margin-left: auto; margin-right: auto;"
+          ><img
+            border="0"
+            data-original-height="2048"
+            data-original-width="1536"
+            height="320"
+            src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiPcdKsMf1kT5hREsYytOE3yHoMfGE1RdeyYp40Oe8hC62JJ0XN6NmiLAvsP1H7IbSRIzNrCbAl1Q9MWdgXgbfhf_2RBbm9WHQNMLQW0XtMP-4gNT0e0Tj7aHZaiLHqEI8zjttPPQKuN1aGhwJOvfgZB2B3_5Pnp0c-duMrqQbYWVIEHJdVmwFMWL7w_XA/s320/PXL_20210114_114831914.jpg"
+            width="240"
+        /></a>
+      </td>
+    </tr>
+    <tr>
+      <td class="tr-caption" style="text-align: center;">
+        Ganbare Douki-chan Vol.8
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+	</div>
+	<div class="item">
+	<table
+  align="center"
+  cellpadding="0"
+  cellspacing="0"
+  class="tr-caption-container"
+  style="margin-left: auto; margin-right: auto;"
+>
+  <tbody>
+    <tr>
+      <td style="text-align: center;">
+        <a
+          href="#Moeshi"
+          style="margin-left: auto; margin-right: auto;"
+          ><img
+            border="0"
+            data-original-height="1536"
+            data-original-width="2048"
+            height="240"
+            src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi38UEx78PVLToknFWmUljKVcNqyAN0AmTFu2ef7uk4kAvohhrJBuXXNhP9vgVTmhRcfaNarc_icb_yf7a-wpZf2zFu5nT0798uLeTj1v88r27TvZy_u_2zPxSOxi14dG3UByoFTQUNU3J6SmxRAW_VABG8YFhsIHtj_mYbgRM6V4KVFUPR1YSO_qVZmtQ/s320/PXL_20210114_114710189.jpg"
+            width="320"
+        /></a>
+      </td>
+    </tr>
+    <tr>
+      <td class="tr-caption" style="text-align: center;">
+        Toyota Moe Bromides
+      </td>
+    </tr>
+  </tbody>
+</table>
+	</div>
+	<div class="item"><table
+  align="center"
+  cellpadding="0"
+  cellspacing="0"
+  class="tr-caption-container"
+  style="margin-left: auto; margin-right: auto;"
+>
+  <tbody>
+    <tr>
+      <td style="text-align: center;">
+        <a
+          href="#DoukiChan"
+          style="margin-left: auto; margin-right: auto;"
+          ><img
+            border="0"
+            data-original-height="2048"
+            data-original-width="1536"
+            height="320"
+            src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiPcdKsMf1kT5hREsYytOE3yHoMfGE1RdeyYp40Oe8hC62JJ0XN6NmiLAvsP1H7IbSRIzNrCbAl1Q9MWdgXgbfhf_2RBbm9WHQNMLQW0XtMP-4gNT0e0Tj7aHZaiLHqEI8zjttPPQKuN1aGhwJOvfgZB2B3_5Pnp0c-duMrqQbYWVIEHJdVmwFMWL7w_XA/s320/PXL_20210114_114831914.jpg"
+            width="240"
+        /></a>
+      </td>
+    </tr>
+    <tr>
+      <td class="tr-caption" style="text-align: center;">
+        Ganbare Douki-chan Vol.8
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+	</div>
+	<div class="item">
+	<table
+  align="center"
+  cellpadding="0"
+  cellspacing="0"
+  class="tr-caption-container"
+  style="margin-left: auto; margin-right: auto;"
+>
+  <tbody>
+    <tr>
+      <td style="text-align: center;">
+        <a
+          href="#Moeshi"
+          style="margin-left: auto; margin-right: auto;"
+          ><img
+            border="0"
+            data-original-height="1536"
+            data-original-width="2048"
+            height="240"
+            src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi38UEx78PVLToknFWmUljKVcNqyAN0AmTFu2ef7uk4kAvohhrJBuXXNhP9vgVTmhRcfaNarc_icb_yf7a-wpZf2zFu5nT0798uLeTj1v88r27TvZy_u_2zPxSOxi14dG3UByoFTQUNU3J6SmxRAW_VABG8YFhsIHtj_mYbgRM6V4KVFUPR1YSO_qVZmtQ/s320/PXL_20210114_114710189.jpg"
+            width="320"
+        /></a>
+      </td>
+    </tr>
+    <tr>
+      <td class="tr-caption" style="text-align: center;">
+        Toyota Moe Bromides
+      </td>
+    </tr>
+  </tbody>
+</table>
+	</div>
+	<div class="item"><table
+  align="center"
+  cellpadding="0"
+  cellspacing="0"
+  class="tr-caption-container"
+  style="margin-left: auto; margin-right: auto;"
+>
+  <tbody>
+    <tr>
+      <td style="text-align: center;">
+        <a
+          href="#DoukiChan"
+          style="margin-left: auto; margin-right: auto;"
+          ><img
+            border="0"
+            data-original-height="2048"
+            data-original-width="1536"
+            height="320"
+            src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiPcdKsMf1kT5hREsYytOE3yHoMfGE1RdeyYp40Oe8hC62JJ0XN6NmiLAvsP1H7IbSRIzNrCbAl1Q9MWdgXgbfhf_2RBbm9WHQNMLQW0XtMP-4gNT0e0Tj7aHZaiLHqEI8zjttPPQKuN1aGhwJOvfgZB2B3_5Pnp0c-duMrqQbYWVIEHJdVmwFMWL7w_XA/s320/PXL_20210114_114831914.jpg"
+            width="240"
+        /></a>
+      </td>
+    </tr>
+    <tr>
+      <td class="tr-caption" style="text-align: center;">
+        Ganbare Douki-chan Vol.8
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+	</div>
+</div>
+
+<h1>Data Table</h1>
+<h5>Needs to be responsive, smaller in text for mobile, approach is usually use generator websites to render HTML then add class and customize inline</h5>
+<pre>
+&lt;div class="datatable" style="font-size: 0.9em;"&gt;
+  &lt;table&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;
+        &lt;th class="freeze"&gt;&lt;/th&gt;
+        &lt;th&gt;&lt;/th&gt;
+        ...
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td
+          class="freeze"
+          title=''
+        &gt;&lt;/td&gt;
+        &lt;td&gt;&lt;/td&gt;
+        ...
+      &lt;/tr&gt;
+      ...
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+</pre>
+<div class="datatable" style="font-size: 0.9em;">
+    <table>
+      <tbody>
+        <tr>
+          <th class="freeze">Item</th>
+          <th>From</th>
+          <th>Timeline</th>
+          <th>Qty</th>
+          <th>Price</th>
+          <th>Shipping</th>
+          <th>Purchased On</th>
+          <th>Arrived On</th>
+          <th>Condition</th>
+        </tr>
+        <tr>
+          <td
+            class="freeze"
+            title='Kanno Mai "VOICE+ Vol.5" Print Tune Bromide Set'
+          >
+            Kanno Mai "VOICE+ Vol.5" Print Tune Bromide Set
+          </td>
+          <td>Mercari</td>
+          <td>2023.02</td>
+          <td>2</td>
+          <td>¥999</td>
+          <td>-</td>
+          <td>2023.05.31<br />🟧</td>
+          <td>2023.06.09<br />🟧🟧</td>
+          <td>OK?</td>
+        </tr>
+        <tr>
+          <td class="freeze" title='Ueda Reina CD "Atrium" Animate Bonus'>
+            Ueda Reina CD "Atrium" Animate Bonus
+          </td>
+          <td>Y!</td>
+          <td>2022.10<br />🟩</td>
+          <td>1 (+File)</td>
+          <td>¥1000</td>
+          <td>¥210</td>
+          <td>2023.06.02<br />🟧</td>
+          <td>2023.06.05<br />🟧🟧</td>
+          <td>OK</td>
+        </tr>
+        <tr>
+          <td
+            class="freeze"
+            title='Waki Azumi "Kimi to no Mirai" Release Event Bromides'
+          >
+            Waki Azumi "Kimi to no Mirai" Release Event Bromides
+          </td>
+          <td>Y!</td>
+          <td>2023.03</td>
+          <td>6</td>
+          <td>¥1000🔽</td>
+          <td>¥210</td>
+          <td>2023.06.02<br />🟧</td>
+          <td>2023.06.05<br />🟧🟧</td>
+          <td>Bent</td>
+        </tr>
+        <tr>
+          <td class="freeze" title='Nagae Rika "Re:color" Gamers Bonus'>
+            Nagae Rika "Re:color" Gamers Bonus
+          </td>
+          <td>Mercari</td>
+          <td>2023.02</td>
+          <td>2</td>
+          <td>¥1000</td>
+          <td>-</td>
+          <td>2023.06.02<br />🟧</td>
+          <td>2023.06.06<br />🟧🟧</td>
+          <td>OK</td>
+        </tr>
+        <tr>
+          <td
+            class="freeze"
+            title='Aizawa Saya "Kimi no Iro, Kimi no Koe wo Kikasete" Event Bromides'
+          >
+            Aizawa Saya "Kimi no Iro, Kimi no Koe wo Kikasete" Event Bromides
+          </td>
+          <td>Mercari</td>
+          <td>2022.05<br />🟩</td>
+          <td>2</td>
+          <td>¥444</td>
+          <td>-</td>
+          <td>2023.06.02<br />🟧</td>
+          <td>2023.06.08<br />🟧🟧</td>
+          <td>OK</td>
+        </tr>
+        <tr>
+          <td class="freeze" title='Koga Aoi "Seiyuu Animedia Aug 2020" Bonus'>
+            Koga Aoi "Seiyuu Animedia Aug 2020" Bonus
+          </td>
+          <td>Mercari</td>
+          <td>2020.07<br />🟩🟩🟩</td>
+          <td>1</td>
+          <td>¥50🔽</td>
+          <td>¥185</td>
+          <td>2023.06.02<br />🟧</td>
+          <td>2023.06.06<br />🟧🟧</td>
+          <td>OK</td>
+        </tr>
+        <tr>
+          <td class="freeze" title='Natsukawa Shiina "Yueni" Animate Bonus'>
+            Natsukawa Shiina "Yueni" Animate Bonus
+          </td>
+          <td>Y!</td>
+          <td>2023.05</td>
+          <td>1</td>
+          <td>¥700</td>
+          <td>¥210</td>
+          <td>2023.06.03<br />🟧</td>
+          <td>2023.06.07<br />🟧🟧</td>
+          <td>OK</td>
+        </tr>
+        <tr>
+          <td class="freeze" title='Natsukawa Shiina "Yueni" HMV Bonus'>
+            Natsukawa Shiina "Yueni" HMV Bonus
+          </td>
+          <td>Mercari</td>
+          <td>2023.05</td>
+          <td>1</td>
+          <td>¥300</td>
+          <td>-</td>
+          <td>2023.06.03<br />🟧</td>
+          <td>2023.06.08<br />🟧🟧</td>
+          <td>OK</td>
+        </tr>
+        <tr>
+          <td
+            class="freeze"
+            title='Kouno Marika "Gekkan Bushiroad Mar 2022" Gamers Bonus'
+          >
+            Kouno Marika "Gekkan Bushiroad Mar 2022" Gamers Bonus
+          </td>
+          <td>Y!</td>
+          <td>2022.02<br />🟩</td>
+          <td>1</td>
+          <td>¥400</td>
+          <td>¥185</td>
+          <td>2023.06.04<br />🟧</td>
+          <td>2023.06.07<br />🟧🟧</td>
+          <td>OK</td>
+        </tr>
+        <tr>
+          <td
+            class="freeze"
+            title='TrySail "Seiyuu Grand Prix Jul 2021" HMV Bonus'
+          >
+            TrySail "Seiyuu Grand Prix Jul 2021" HMV Bonus
+          </td>
+          <td>Y!</td>
+          <td>2021.06<br />🟩🟩</td>
+          <td>1</td>
+          <td>¥700</td>
+          <td>¥210</td>
+          <td>2023.06.04<br />🟧</td>
+          <td>2023.06.09<br />🟧🟧</td>
+          <td>OK</td>
+        </tr>
+        <tr>
+          <td
+            class="freeze"
+            title='TrySail "Seiyuu Grand Prix Jul 2021" Animate Bonus'
+          >
+            TrySail "Seiyuu Grand Prix Jul 2021" Animate Bonus
+          </td>
+          <td>Y!</td>
+          <td>2021.06<br />🟩🟩</td>
+          <td>1</td>
+          <td>¥300</td>
+          <td>¥185</td>
+          <td>2023.06.04<br />🟧</td>
+          <td>2023.06.07<br />🟧🟧</td>
+          <td>OK</td>
+        </tr>
+        <tr>
+          <td
+            class="freeze"
+            title='Takahashi Rie "Seiyuu Grand Prix Jul 2023" Bromide Set'
+          >
+            Takahashi Rie "Seiyuu Grand Prix Jul 2023" Bromide Set
+          </td>
+          <td>Mercari</td>
+          <td>2023.06</td>
+          <td>3</td>
+          <td>¥2555</td>
+          <td>-</td>
+          <td>2023.06.09<br />🟧🟧</td>
+          <td>2023.06.14<br />🟧🟧🟧</td>
+          <td>OK</td>
+        </tr>
+        <tr>
+          <td
+            class="freeze"
+            title='Takahashi Rie "TV Guide A Stars vol.02" Gamers Bonus'
+          >
+            Takahashi Rie "TV Guide A Stars vol.02" Gamers Bonus
+          </td>
+          <td>Y!</td>
+          <td>2023.03</td>
+          <td>1</td>
+          <td><strike>¥1000</strike><br />¥1100🔼</td>
+          <td>¥185</td>
+          <td>2023.06.09<br />🟧🟧</td>
+          <td>2023.06.13<br />🟧🟧🟧</td>
+          <td>OK</td>
+        </tr>
+        <tr>
+          <td
+            class="freeze"
+            title='Ueda Reina "Seiyuu Grand Prix Dec 2022" Animate Bonus'
+          >
+            Ueda Reina "Seiyuu Grand Prix Dec 2022" Animate Bonus
+          </td>
+          <td>Mercari</td>
+          <td>2022.11<br />🟩</td>
+          <td>1</td>
+          <td>¥399</td>
+          <td>-</td>
+          <td>2023.06.11<br />🟧🟧</td>
+          <td>2023.06.19<br />🟧🟧🟧🟧</td>
+          <td>OK</td>
+        </tr>
+        <tr>
+          <td class="freeze" title='TrySail "Karei One Turn / Follow You!" Set'>
+            TrySail "Karei One Turn / Follow You!" Set
+          </td>
+          <td>Mercari</td>
+          <td>2023.05</td>
+          <td>1 (+Card)</td>
+          <td>¥1300</td>
+          <td>-</td>
+          <td>2023.06.12<br />🟧🟧🟧</td>
+          <td>2023.06.16<br />🟧🟧🟧</td>
+          <td>OK</td>
+        </tr>
+        <tr>
+          <td class="freeze" title='Kanno Mai "Kanno Mai to Issho." Bonus'>
+            Kanno Mai "Kanno Mai to Issho." Bonus
+          </td>
+          <td>Mercari</td>
+          <td>2022.08<br />🟩</td>
+          <td>1</td>
+          <td>¥1500🔼</td>
+          <td>-</td>
+          <td>2023.06.12<br />🟧🟧🟧</td>
+          <td>2023.06.16<br />🟧🟧🟧</td>
+          <td>OK</td>
+        </tr>
+        <tr>
+          <td
+            class="freeze"
+            title='Amamiya Sora "10 miles to America" HMV Bonus'
+          >
+            Amamiya Sora "10 miles to America" HMV Bonus
+          </td>
+          <td>Mercari</td>
+          <td>2023.06</td>
+          <td>2</td>
+          <td>¥1111</td>
+          <td>-</td>
+          <td>2023.06.14<br />🟧🟧🟧</td>
+          <td>2023.06.16<br />🟧🟧🟧</td>
+          <td>OK</td>
+        </tr>
+        <tr>
+          <td
+            class="freeze"
+            title='Asakura Momo "Seiyuu Grand Prix Apr 2022" Animate + Gamers Bonus'
+          >
+            Asakura Momo "Seiyuu Grand Prix Apr 2022" Animate + Gamers Bonus
+          </td>
+          <td>Mercari</td>
+          <td>2022.03<br />🟩</td>
+          <td>2</td>
+          <td>¥599</td>
+          <td>-</td>
+          <td>2023.06.18<br />🟧🟧🟧</td>
+          <td>2023.06.21<br />🟧🟧🟧🟧</td>
+          <td>OK</td>
+        </tr>
+      </tbody>
+    </table>
+</div>
+
+</div>
+</body>
+</html>
