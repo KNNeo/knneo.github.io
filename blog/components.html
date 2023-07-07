@@ -13,16 +13,10 @@
 <link rel="icon" href="storytime.ico" />
 <script src="../darkmode.js" type="application/javascript" charset="utf-8"></script>
 <script src="blogspot.js" type="application/javascript" charset="utf-8"></script>
-<script src="js/common.js" type="application/javascript" charset="utf-8" defer></script>
-<script src="js/header.js" type="application/javascript" charset="utf-8" defer></script>
-<script src="js/viewer.js" type="application/javascript" charset="utf-8" defer></script>
 <title>Components</title>
 <body>
 <a id='BackBtn' class='material-icons' href='../../../index.html' title='Go Back'>arrow_back</a>
-<a id='PopupBtn' class='material-icons' title='Toggle Display Links As Popups' href='javascript:void(0);' onclick='toggleInlinePopups()'>crop_din</a>
-<a id='EmojiBtn' class='material-icons' title='Toggle Display Emoji' href='javascript:void(0);' onclick='toggleEmojiDisplay()'>mood</a>
 <a id='DarkModeBtn' class='material-icons' title='Toggle Dark Mode' href='javascript:void(0);' onclick='toggleDarkMode()'>brightness_high</a>
-<a id='GoToTopBtn' class='material-icons' title='Go To Top' style='display: none;' href='javascript:void(0);' onclick='goToTop()'>arrow_upward</a>
 <div id="viewer"></div>
 <div id="contents" class="post-body entry-content" style="font-family: Noto Sans;">
 <style>
@@ -59,41 +53,222 @@ pre {
 	margin: auto;
 	text-align: center;
 	max-width: 98%;
+	animation: fadeIn 0.2s ease-in 0.1s both;
 }
+
 .popup .content.show {
 	display: block;
 	position: absolute;
 	z-index: 9;
 }
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -5%, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
 </style>
 <script>
+window.addEventListener('load', addPopupTriggers);
 function addPopupTriggers() {
-
+    for (let a of document.querySelectorAll('.testing a[target="_blank"]')) // for production remove testing class
+	{
+		a.addEventListener('mouseover', renderPopup);
+    }
 }
-function togglePopup() {
 
-}
 function renderPopup() {
+    event.preventDefault();
+	let processLink = event.target.href;
+	
+	//exclusion for blogger	images
+    if (processLink.includes('blogspot.com') || 
+		processLink.includes('blogger.googleusercontent.com'))
+		return;
+	//if not compatible for any design
+    let newContent = generatePopupContent(processLink);
+    if (newContent == null) return;
+    let thumbnail = document.createElement('div');
+    thumbnail.classList.add('popup');
 
+    let initial = document.createElement('div');
+    initial.classList.add('text');
+    initial.innerHTML = event.target.innerHTML;
+
+    let focus = document.createElement('div');
+    focus.classList.add('content');
+	if(!processLink.includes('twitter.com'))
+		focus.style.paddingTop = '10px';
+    focus.innerHTML = newContent;
+
+    thumbnail.appendChild(initial);
+    thumbnail.appendChild(focus);
+	thumbnail.setAttribute('data-url', processLink);
+	
+	renderEmbedProcess();
+
+    event.target.outerHTML = thumbnail.outerHTML;
+    addHoverForPopups();
+
+	//FAB to close
+	//let closeButton = document.createElement('a');
+	//closeButton.id = 'CloseBtn';
+	//closeButton.classList.add('material-icons');
+	//closeButton.title = 'Close Popup';
+	//closeButton.innerText = 'close';
+	//closeButton.addEventListener('click', closePopups);
+	//if(document.getElementById('CloseBtn') != undefined) document.getElementById('CloseBtn').remove();
+	//document.body.appendChild(closeButton);
+	
+	return thumbnail;
+}
+
+function renderEmbedProcess() {
+	try
+	{
+		if(document.querySelector('#tweet') == null)
+		{
+			let tweet = document.createElement('script');
+			tweet.id = 'tweet';
+			tweet.src = 'https://platform.twitter.com/widgets.js';
+			tweet.type = 'text/javascript';
+			tweet.charset = 'utf-8';
+			tweet.async = 'async';
+			document.head.appendChild(tweet);
+		}
+		
+		if(document.querySelector('#insta') == null)
+		{
+			let insta = document.createElement('script');
+			insta.id = 'insta';
+			insta.src = 'https://www.instagram.com/embed.js';
+			insta.type = 'text/javascript';
+			insta.charset = 'utf-8';
+			insta.async = 'async';
+			document.head.appendChild(insta);
+		}
+		
+		if(typeof twttr != 'undefined') twttr.widgets.load(); // to render twitter embed
+		if(typeof instgrm != 'undefined') window.instgrm.Embeds.process(); // to render instagram embed
+		return true;
+	}
+	catch(err)
+	{
+		console.error(err);
+		return false;
+	}
+}
+
+function generatePopupContent(url) {
+	if (!url) return null;
+    if (url.includes('.jpg') || url.includes('.png') || url.includes('.gif') || url.includes('blogger.googleusercontent.com')) {
+        //process image
+        return '<div class="separator"><img style="max-height: 360px; max-width: 100%;" src="' + url + '" /></div>';
+    }
+    if (url.includes('music.apple.com')) {
+        //process itunes embed
+		let isTrack = url.includes('i=');
+        return '<iframe allow="autoplay *; encrypted-media *;" frameborder="0" height="'+ (!isTrack ? 450 : 170) +'" sandbox="allow-modals allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation" src="' +
+            url.replace('music.apple.com', 'embed.music.apple.com') +
+            '" style="background: transparent; max-width: ' + (!isTrack ? 290 : 660) + 'px; overflow: hidden; width: 100%;"></iframe>';
+    }
+    if (url.includes('twitter.com')) {
+        //process twitter embed
+		//data-height for timeline is max width
+		if(url.includes('/status/')) {
+			return '<blockquote class="twitter-tweet tw-align-center" data-conversation="none" ' + (document.querySelector('html').classList.contains('darked') ? 'data-theme="dark"' : '') + ' data-height="' + 0.6*window.innerHeight + '"><a href="' +
+				url + '"></a></blockquote>';
+		}
+    }
+    if (url.includes('youtube.com/watch')) {
+        //process youtube embed
+        let id = url.substring(url.indexOf('?v=') + 3);
+        return '<iframe class="yt-video" allow="autoplay; encrypted-media" allowfullscreen="" frameborder="0" style="max-height: 360px;" src="' +
+            'https://www.youtube.com/embed/' + id +
+            '?enablejsapi=1"></iframe>';
+    }
+    if (url.includes('youtu.be/')) {
+        //process youtube embed
+        let id = url.substring(url.indexOf('youtu.be/') + 9);
+        return '<iframe class="yt-video" allow="autoplay; encrypted-media" allowfullscreen="" frameborder="0" style="max-height: 360px;" src="' +
+            'https://www.youtube.com/embed/' + id +
+            '?enablejsapi=1"></iframe>';
+    }
+    if (url.includes('instagram.com/p/')) {
+        //process instagram embed
+        return '<center><blockquote class="instagram-media" style="' + (window.innerWidth >= 576 ? 'width:550px;' : '') + '" data-instgrm-permalink="' +
+            url + '" data-instgrm-version="14" style="padding:0;"></blockquote></center>';
+    }
+    if (url.includes('jisho.org/search/')) {
+        //process page as iframe
+        return '<iframe id="jisho-frame" src="' +
+            url + '" style="height:min(50vh,450px);width:min(98%,760px);"></iframe>';
+    }
+    return null;
+}
+
+function addHoverForPopups() {
+    for (let popup of document.querySelectorAll('.popup')) {
+		popup.addEventListener('click', togglePopup);
+    }
+}
+
+function togglePopup() {
+	if(document.querySelector('#PopupBtn') != null && document.querySelector('#PopupBtn').innerText == 'launch')
+	{
+		//if config false, then treat as link
+		window.open(event.target.getAttribute('data-url'), '_blank');
+	}
+    else if (event.target.closest('.popup').querySelector('.content.show') != null) {
+		//hide
+        event.target.closest('.popup').querySelector('.content.show').classList.remove('show');
+		//switchToButton('GoToTopBtn');
+		if(document.getElementById('CloseBtn') != null) document.getElementById('CloseBtn').style.display = 'none';
+		//toggleOverlay(false);
+	}
+    else {
+		//display
+        for (let popup of document.querySelectorAll('.popup .content.show')) {
+			popup.classList.remove('show');
+        }
+        event.target.closest('.popup').querySelector('.content').classList.add('show');
+		//switchToButton('CloseBtn');
+		if(typeof fixExternalFrame == 'function') fixExternalFrame(this);
+		//renderEmbedProcess();
+		// if below threshold height scroll up, else open popup without scroll
+		let thresholdHeight = 0.4*window.innerHeight;
+		window.scrollTo({
+			top: document.querySelector('html').scrollTop + event.target.getBoundingClientRect().top - (event.target.getBoundingClientRect().top >= thresholdHeight ? thresholdHeight : event.target.getBoundingClientRect().top), 
+			behavior: 'smooth'
+		});
+		//toggleOverlay(false);
+    }
 }
 </script>
 <h1>Pop-Up Content</h1>
 <h5>Rename of container to "popup", rename of first child to "text", all but first/displaying child to "content"</h5>
-<h5>Element</h5>
+<h5>On page load</h5>
 <pre>
 This is where you put the &lt;a href="[LINK]" target="_blank"&gt;
   [TEXT]
 &lt;/a&gt; so it's inline.
 </pre>
-"There's a thing called give and take, you know?" Yeah Isaki gave you a kiss so she can take your- All according to <a href="https://jisho.org/search/keikaku">keikaku</a> haha
-<h5>With rendered popup</h5>
+"There's a thing called give and take, you know?" Yeah Isaki gave you a kiss so she can take your- All according to <a href="https://jisho.org/search/keikaku" target="_blank">keikaku</a> haha
+<h5>When mouseover, popup will render if url is valid (click link to close popup)</h5>
 <pre>
 This is where you put the &lt;div class="popup" data-url="[LINK]"&gt;
   &lt;div class="text"&gt;[TEXT]&lt;/div&gt;
   &lt;div class="content"&gt;[CONTENT]&lt;/div&gt;
 &lt;/div&gt; so it's inline.
 </pre>
+<div class="testing">
 "There's a thing called give and take, you know?" Yeah Isaki gave you a kiss so she can take your- All according to <a href="https://jisho.org/search/keikaku" target="_blank">keikaku</a> haha
+</div>
 
 <style>
 .carousel {
@@ -167,7 +342,7 @@ function setCarousel() {
 				let dialogElement = document.querySelector('.carousel-dialog') ?? document.createElement('dialog');
 				dialogElement.className = 'carousel-dialog';
 				dialogElement.onclick = function() {
-					this.close();
+					event.target.close();
 				};
 				dialogElement.innerHTML = popupText;
 				if(document.querySelector('.carousel-dialog') == null)
@@ -956,5 +1131,7 @@ function toggleExpander() {
   <hr>
   <div class="footer">CLOSE</div>
 </div>
+<br>
+<br>
 </body>
 </html>
