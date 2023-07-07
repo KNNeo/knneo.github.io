@@ -828,6 +828,16 @@ void Main()
             output.WriteLine("<meta name=\"apple-mobile-web-app-capable\" content=\"yes\">");
             output.WriteLine("<meta name=\"mobile-web-app-capable\" content=\"yes\">");
             output.WriteLine("<meta name=\"theme-color\" content=\"white\">");
+			output.WriteLine("<meta property=\"og:title\" content=\"" + title + "\"/>");
+			if (TraceMode) Console.WriteLine("Find first image of post for sharing, if any");
+	        expression = @"(?s)<img(.*?)src=""(.*?)""(.*?)/>";
+	        match = Regex.Match(content, expression);
+	        if(match.Success) {
+	            var thumbnailUrl = match.Groups[2].Value;
+				output.WriteLine("<meta property=\"og:image\" content=\"" + thumbnailUrl + "\"/>");
+			}
+			output.WriteLine("<meta property=\"og:url\" content=\"" + pageLink + "\"/>");
+			output.WriteLine("<meta property=\"og:type\" content=\"website\"/>");
             output.WriteLine("<link href=\"https://fonts.googleapis.com/icon?family=Material+Icons\" rel=\"stylesheet\" />");
             output.WriteLine("<link href='https://fonts.googleapis.com/css?family=" + defaultFont + "' rel='stylesheet' />");
 			// cursive font for menu use
