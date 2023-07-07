@@ -800,6 +800,161 @@ function showNextCarouselItem(tn) {
     </table>
 </div>
 
+<style>
+.accordion {
+	border: 1px solid var(--foreground);
+	border-radius: 8px;
+	cursor: pointer;
+}
+.accordion .content {
+	cursor: initial;
+}
+.accordion .footer {
+	text-align: center;
+}
+.accordion .content,
+.accordion .footer {
+	padding: 4px 8px;
+	display: none;
+}
+.accordion .content.show,
+.accordion .footer.show {
+	display: block;
+}
+</style>
+<script>
+window.addEventListener('load', setExpander);
+function setExpander() {
+	for(let accordion of document.querySelectorAll('.accordion'))
+	{
+		accordion.querySelector('.header').addEventListener('click', toggleExpander);
+		accordion.querySelector('.footer').addEventListener('click', toggleExpander);
+	}
+}
+function toggleExpander() {
+	let parent = event.target.closest('.accordion');
+	parent.querySelector('.content').classList.toggle('show');
+	parent.querySelector('.footer').classList.toggle('show');
+	event.target.scrollIntoView({ block: 'center' });
+}
+</script>
+<h1>Accordion</h1>
+<h5>Click on header to show rest of content, provide universal close button to close or click header to close</h5>
+<pre>
+&lt;div class="accordion"&gt;
+  &lt;blockquote class="header"&gt;[TITLE]&lt;/blockquote&gt;
+  &lt;div class="content"&gt;[CONTENT]&lt;/div&gt;
+  &lt;hr&gt;
+  &lt;blockquote class="footer"&gt;CLOSE&lt;/blockquote&gt;
+&lt;/div&gt;
+</pre>
+<div class="accordion" id="mute-QnA">
+  <div class="header">
+    <blockquote class="tr_bq">
+  	<div style="text-align: center;">
+  	  <span style="font-size: large;">100 QUESTIONS FOR HONDO KAEDE!!!</span>
+  	</div>
+    </blockquote>
+    <blockquote class="tr_bq">
+  	<div style="text-align: center;">
+  	  <span style="font-size: small;">(Selected ones will be mentioned here in quote, above is full if you interested and can Japanese)</span>
+  	</div>
+    </blockquote>
+  </div>
+  <div class="content">
+    <div>Q1: Origin of name</div>
+    <div>
+  	A1: Mother encountered people of fate who were named "Sakura" and
+  	"Kaede" more than often especially more of the former, so it was a hard
+  	decision between them
+    </div>
+    <div>[Well thank goodness it isn't "Hondo Sakura" lol]</div>
+    <div><br></div>
+    <div>Q2: Nickname(s) as a kid</div>
+    <div>A2: Kae-chan, Ede-chan</div>
+    <div>
+  	[Kae-chan? Is that something I can call you after dating you twice?
+  	Hehe]
+    </div>
+    <div>
+  	<div><br></div>
+  	<div>Q3: Similarities to parents</div>
+  	<div>A3: Partly similar to father, mostly mother</div>
+  	<div><br></div>
+  	<div>Q4: Earliest memory of your life</div>
+  	<div>
+  	  A4: Recollection of being in Higashiyama Zoo (Aichi Prefecture where
+  	  she was born) where she was trying to get a handshake with a giraffe
+  	  mascot who walked away, and (she) shouted "Wait up! If you leave I'll
+  	  throw this at you!!" while crying and running towards it
+  	</div>
+  	<div>
+  	  [LOL that sounded bad but the mascot with a long neck probably did not
+  	  notice her]
+  	</div>
+  	<div><br></div>
+  	<div>Q5: Things you were interested to learn as a kid</div>
+  	<div>A5: Calligraphy for a year plus, swimming for around 5 years</div>
+    </div>
+    <div><br></div>
+    <div>A53: Without going overboard... hmm... shopping or sorts?</div>
+    <div>[Yeah fine I'll carry your bags for the stuff I paid haha]</div>
+    <div><br></div>
+    <div>Q55: What do you see in your partner</div>
+    <div>
+  	A55: Serious, honest, knowledgeable, nice, nice, nice, laughs a lot,
+  	playful mind at heart and carries one's dreams and hopes moving forward
+    </div>
+    <div>
+  	[Three nices? Well in her defence I already lost at being knowledgeable
+  	so]
+    </div>
+    <div><br></div>
+    <div>Q57: What you want to listen on a driving date?</div>
+    <div>
+  	A57: Whatever they like they can let it play! If it gets too loud I'll
+  	get uncomfortable (though)
+    </div>
+    <div>[Remind me to bring up like, Teshima Aoi on our drive lol]</div>
+    <div><br></div>
+    <div>Q58: Fetishes</div>
+    <div>A58: I wonder what they are...</div>
+    <div>[I wonder too, Ede-chan, you into female voice actresses?]</div>
+    <div><br></div>
+    <div>Q59: What tickles your fancy?</div>
+    <div>A59: I wonder what they are...</div>
+    <div>
+  	[Okay guys literally drill her with your kindness, she doesn't have that
+  	moment so you gotta put in the effort]
+    </div>
+    <div><br></div>
+    <div>Q61: Would you prefer to confess or be confessed to?</div>
+    <div>A61: I would like to confess from my side! Without hesitation!</div>
+    <div>[Well I look forward to the day I get confessed to by you-]</div>
+    <div><br></div>
+    <div>Q62: Own charm points</div>
+    <div>
+  	A62: Strong eyes and...
+  	<a href="https://jisho.org/search/yaeba" target="_blank">double tooth</a>?
+    </div>
+    <div>
+  	[Yes and YES OH MY FUCKING GOD- I thank our Lord and saviour for
+  	stopping this girl from fixing her teeth]
+    </div>
+    <div><br></div>
+    <div>Q100: Last word!</div>
+    <div>
+  	A100: Thanks for getting your hands on this! My favourite foods,
+  	outfits, places, people... a lot of them were being compiled! This
+  	photobook where being a voice actress but it was without the essence of
+  	voice within, I gave the title of the book "MUTE". The stuff I worked a
+  	lot on and I will continue to work on and enjoy them all back and forth,
+  	so please continue to show your support!
+    </div>
+    <div>[Ah, so THAT is how the title came about; She is right though]</div>
+  </div>
+  <hr>
+  <div class="footer">CLOSE</div>
 </div>
 </body>
 </html>
