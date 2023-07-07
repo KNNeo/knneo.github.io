@@ -1,6 +1,6 @@
 //--HEADER--//
 function generateHeader() {
-	if(document.querySelector('.header') != null) {
+	if(document.querySelector('.page-header') != null) {
 		let header = document.createElement('div');
 		
 		//clone element to put in header
@@ -29,7 +29,7 @@ function generateHeader() {
 		}
 		
 		//add header to document, add window events	
-		document.querySelector('.header').appendChild(header);
+		document.querySelector('.page-header').appendChild(header);
 		window.addEventListener('scroll', toggleHeader);
 		toggleHeader();
 	}
@@ -39,12 +39,12 @@ function toggleHeader() {
 	// When the user scrolls down from the top of the document, show header
 	if (document.body.scrollTop > 0.2*document.documentElement.clientHeight || 
 		document.documentElement.scrollTop > 0.2*document.documentElement.clientHeight) {
-		document.querySelector('.header').style.opacity = 1;
-		document.querySelector('.header').style.zIndex = '';
+		document.querySelector('.page-header').style.opacity = 1;
+		document.querySelector('.page-header').style.zIndex = '';
 	}
 	else {
-		document.querySelector('.header').style.opacity = 0;
-		document.querySelector('.header').style.zIndex = -1;
+		document.querySelector('.page-header').style.opacity = 0;
+		document.querySelector('.page-header').style.zIndex = -1;
 	}
 }
 

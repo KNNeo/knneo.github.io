@@ -861,7 +861,7 @@ void Main()
             output.WriteLine("<h2 class=\"title\">"+title+"</h2>");
 			if(!content.Contains("id=\"hashtags\""))
 				output.WriteLine("<div id=\"hashtags\"></div>");
-            output.WriteLine("<div class=\"header\"></div>");
+            output.WriteLine("<div class=\"page-header\"></div>");
             output.Write(content);
             output.Write("<hr>");
             if(tags.Count > 0)
