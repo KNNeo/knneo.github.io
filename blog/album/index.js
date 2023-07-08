@@ -97,3 +97,8 @@ function fadeIn() {
 		thumbnail.src = thumbnail.getAttribute('data-image');
     }
 }
+
+//add back button to each page
+function goBack() {
+	window.history.back();
+}

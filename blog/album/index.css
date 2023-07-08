@@ -67,7 +67,80 @@ body {
 	max-width: 100dvw;
 	height: auto;
 }
-	
+
+.material-icons {
+	font-size: 36px;
+}
+
+#BackBtn {
+	position: fixed;
+	display: block;
+	visibility: visible;
+	bottom: 20px;
+	left: 20px;
+	z-index: 8;
+	outline: none;
+	color: var(--foreground);
+	cursor: pointer;
+	padding: 8px 6px 6px 6px;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	border: 1px solid var(--foreground);
+	background-color: var(--background);
+	box-shadow: 3px 3px var(--foreground);
+	border-radius: 8px;
+	transition: background .2s linear;
+	text-decoration: none;
+}
+
+#DarkModeBtn {
+	position: fixed;
+	display: block;
+	visibility: visible;
+	opacity: 1;
+	bottom: 20px;
+	right: 20px;
+	z-index: 7;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	color: var(--foreground);
+	cursor: pointer;
+	padding: 8px 6px 6px 6px;
+	transition: opacity 0.3s;
+	border: 1px solid var(--foreground);
+	background-color: var(--background);
+	box-shadow: 3px 3px var(--foreground);
+	border-radius: 8px;
+	transition: background .2s linear;
+	text-decoration: none;
+}
+
+#DarkModeBtn:active,
+#BackBtn:active {
+	box-shadow: 1px 1px;
+	transform: translate(2px, 2px);
+}
+
+/*MEDIA QUERIES - BUTTON POSITION*/
+@media only screen and (max-width: 780px) {
+  #BackBtn {
+    left: 15px;
+  }
+  #DarkModeBtn {
+    right: 15px;
+  }
+  #DarkModeBtn,
+  #BackBtn {
+    bottom: 15px;
+  }
+}
+
 @media only screen and (min-width: 480px) {
 	#contents {
 		display: flex;

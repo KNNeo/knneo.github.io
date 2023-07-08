@@ -1,21 +1,22 @@
 <!DOCTYPE html>
 <html lang="en-SG">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="theme-color" content="white">
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-<link href='https://fonts.googleapis.com/css?family=Noto Sans' rel='stylesheet' />
-<link rel="stylesheet" type="text/css" href="index.css" />
-<link rel="stylesheet" type="text/css" href="blogspot.css" />
-<link rel="icon" href="storytime.ico" />
-<script src="../darkmode.js" type="application/javascript" charset="utf-8"></script>
-<script src="blogspot.js" type="application/javascript" charset="utf-8"></script>
-<title>Components</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="theme-color" content="white">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+	<link href='https://fonts.googleapis.com/css?family=Noto Sans' rel='stylesheet' />
+	<link rel="stylesheet" type="text/css" href="index.css" />
+	<link rel="stylesheet" type="text/css" href="blogspot.css" />
+	<link rel="icon" href="storytime.ico" />
+	<script src="../darkmode.js" type="application/javascript" charset="utf-8"></script>
+	<script src="blogspot.js" type="application/javascript" charset="utf-8"></script>
+	<title>Components</title>
+</head>
 <body>
-<a id='BackBtn' class='material-icons' href='../../../index.html' title='Go Back'>arrow_back</a>
+<a id='BackBtn' class='material-icons' href='index.html' title='Go Back'>arrow_back</a>
 <a id='DarkModeBtn' class='material-icons' title='Toggle Dark Mode' href='javascript:void(0);' onclick='toggleDarkMode()'>brightness_high</a>
 <div id="viewer"></div>
 <div id="contents" class="post-body entry-content" style="font-family: Noto Sans;">
@@ -252,14 +253,14 @@ function togglePopup() {
 </script>
 <h1>Pop-Up Content</h1>
 <h5>Rename of container to "popup", rename of first child to "text", all but first/displaying child to "content"</h5>
-<h5>On page load</h5>
+<h5>On load/fallback</h5>
 <pre>
 This is where you put the &lt;a href="[LINK]" target="_blank"&gt;
   [TEXT]
 &lt;/a&gt; so it's inline.
 </pre>
 "There's a thing called give and take, you know?" Yeah Isaki gave you a kiss so she can take your- All according to <a href="https://jisho.org/search/keikaku" target="_blank">keikaku</a> haha
-<h5>When mouseover, popup will render if url is valid (click link to close popup)</h5>
+<h5>When mouse over, popup will render if url is valid (click link to close popup)</h5>
 <pre>
 This is where you put the &lt;div class="popup" data-url="[LINK]"&gt;
   &lt;div class="text"&gt;[TEXT]&lt;/div&gt;
