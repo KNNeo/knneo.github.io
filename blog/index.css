@@ -769,13 +769,13 @@ abbr.imgpop:hover img {
 }
 .new-thumbnail-initial {
 	color: var(--primary);
-	text-decoration: underline;
+	text-decoration: underline dashed;
 }
 .new-thumbnail-initial:hover {
 	color: var(--foreground);
 }
-.new-thumbnail {
-	border-bottom: 2px solid var(--foreground);
+.new-t.new-thumbnail .new-thumbnail-initial {
+	color: var(--foreground);
 }
 .new-thumbnail .new-thumbnail-focus {
 	position: absolute;
