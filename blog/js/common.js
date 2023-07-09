@@ -98,7 +98,7 @@ function addHashtags() {
 function scrollToSectionByUrl() {
 	if(window.location.hash.length > 0)
 	{
-		let newPos = document.documentElement.scrollTop + (document.querySelector(window.location.hash)?.getBoundingClientRect().top || 0) - (document.querySelector('.header')?.getBoundingClientRect().height || 0) - 5;
+		let newPos = document.documentElement.scrollTop + (document.querySelector(window.location.hash)?.getBoundingClientRect().top || 0) - (document.querySelector('.page-header')?.getBoundingClientRect().height || 0) - 5;
 		document.documentElement.scrollTop = newPos;
 	}
 }
