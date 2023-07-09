@@ -38,12 +38,16 @@ pre {
 .popup .text {
 	display: inline;
 	color: var(--primary);
-	text-decoration: underline;
+	text-decoration: underline dashed;
 }
 
 .popup .text:hover {
 	color: var(--foreground);
 	text-decoration: none;
+}
+
+.popup.show .text {
+	color: var(--foreground);
 }
 
 .popup .content {
@@ -57,7 +61,7 @@ pre {
 	animation: fadeIn 0.2s ease-in 0.1s both;
 }
 
-.popup .content.show {
+.popup.show .content {
 	display: block;
 	position: absolute;
 	z-index: 9;
@@ -225,19 +229,19 @@ function togglePopup() {
 		//if config false, then treat as link
 		window.open(event.target.getAttribute('data-url'), '_blank');
 	}
-    else if (event.target.closest('.popup').querySelector('.content.show') != null) {
+    else if (event.target.closest('.popup.show') != null) {
 		//hide
-        event.target.closest('.popup').querySelector('.content.show').classList.remove('show');
+        event.target.closest('.popup').classList.remove('show');
 		//switchToButton('GoToTopBtn');
 		if(document.getElementById('CloseBtn') != null) document.getElementById('CloseBtn').style.display = 'none';
 		//toggleOverlay(false);
 	}
     else {
 		//display
-        for (let popup of document.querySelectorAll('.popup .content.show')) {
+        for (let popup of document.querySelectorAll('.popup')) {
 			popup.classList.remove('show');
         }
-        event.target.closest('.popup').querySelector('.content').classList.add('show');
+        event.target.closest('.popup').classList.add('show');
 		//switchToButton('CloseBtn');
 		if(typeof fixExternalFrame == 'function') fixExternalFrame(this);
 		//renderEmbedProcess();
