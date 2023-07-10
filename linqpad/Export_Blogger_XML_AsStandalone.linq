@@ -20,7 +20,7 @@ void Main()
 	Console.WriteLine("\tIf edit from Blogger img tags will be missing self-enclosing slash, format on web version to fix");
 	Console.WriteLine("==================================================================================================");
     string archivepath = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\";
-    string blogpath = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\";
+    string blogpath = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\";
     string outputFolder = "pages";
     string filepath = "";
 	
@@ -90,15 +90,13 @@ void Main()
     
     #region Only For Export
     var destPath = Path.Combine(blogpath, outputFolder);
-    if(Directory.Exists(destPath))
-        Directory.Delete(destPath, true);
-    Directory.CreateDirectory(destPath);	
+//    if(Directory.Exists(destPath))
+//        Directory.Delete(destPath, true);
+    if(!Directory.Exists(destPath))
+		Directory.CreateDirectory(destPath);
     var allTags = new List<string>();
     #endregion
     
-	var latestPostCount = 0;
-    var textString = "";
-	
 	// Linked list for all page links to find navigation
 	var postList = new List<string>();
 	foreach(var entry in posts)
@@ -174,7 +172,7 @@ void Main()
 			{
 				using (WebClient client = new WebClient()) 
 				{
-					//Console.WriteLine("Downloading... " + url);
+					Console.WriteLine("      Downloading... " + url);
 				    client.DownloadFile(new Uri(url), monthfolder + "/data/" + filename);
 					//Console.WriteLine("File downloaded to " + monthfolder + "/data/" + filename);
 				}
@@ -205,11 +203,14 @@ void Main()
 				var fileExist = File.Exists(monthfolder + "/data/" + filename);
 				if(TraceMode && fileExist)
 					Console.WriteLine("Filename of " + filename + " exists in " + monthfolder);
-				using (WebClient client = new WebClient()) 
+				if(!fileExist)
 				{
-					//Console.WriteLine("Downloading... " + url);
-				    client.DownloadFile(new Uri(url), monthfolder + "/data/" + filename);
-					//Console.WriteLine("File downloaded to " + monthfolder + "/data/" + filename);
+					using (WebClient client = new WebClient()) 
+					{
+						Console.WriteLine("      Downloading... " + url);
+					    client.DownloadFile(new Uri(url), monthfolder + "/data/" + filename);
+						//Console.WriteLine("File downloaded to " + monthfolder + "/data/" + filename);
+					}
 				}
 			}
 		
@@ -223,7 +224,7 @@ void Main()
         while(match.Success)
 		{
 			var url = match.Groups[1].Value;
-			Console.WriteLine(url.Substring(0,40) + "...");
+			if(TraceMode) Console.WriteLine(url.Substring(0,40) + "...");
 			var urlWithoutFilename = url.Substring(0, url.LastIndexOf('/') + 1);
 			var filename = url.Substring(url.LastIndexOf('/') + 1);
 			
@@ -234,11 +235,14 @@ void Main()
 			var fileExist = File.Exists(monthfolder + "/data/" + filename);
 			if(TraceMode && fileExist)
 				Console.WriteLine("Filename of " + filename + " exists in " + monthfolder);
-			using (WebClient client = new WebClient()) 
+			if(!fileExist)
 			{
-				//Console.WriteLine("Downloading... " + url);
-			    client.DownloadFile(new Uri(url), monthfolder + "/data/" + filename);
-				//Console.WriteLine("File downloaded to " + monthfolder + "/data/" + filename);
+				using (WebClient client = new WebClient()) 
+				{
+					Console.WriteLine("      Downloading... " + url);
+				    client.DownloadFile(new Uri(url), monthfolder + "/data/" + filename);
+					//Console.WriteLine("File downloaded to " + monthfolder + "/data/" + filename);
+				}
 			}
 		
 	        match = match.NextMatch();
@@ -267,7 +271,7 @@ void Main()
             output.WriteLine("<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../index.css\" />");
             output.WriteLine("<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../blogspot.css\" />");
             output.WriteLine("<link rel=\"icon\" href=\"../../../storytime.ico\" />");
-            output.WriteLine("<script src=\"../../../../darkmode.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
+            output.WriteLine("<script src=\"../../../darkmode.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
             output.WriteLine("<script src=\"../../../blogspot.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
             output.WriteLine("<script src=\"../../../js/common.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
             output.WriteLine("<script src=\"../../../js/header.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
@@ -304,76 +308,7 @@ void Main()
             output.WriteLine("</body>");
             output.WriteLine("</html>");
         }
-		
-		//check post
-		//if(TraceMode && title == "The Entertainment News 2022 Edition Issue #01") continue;
-        
-        // Process home page
-		if (TraceMode) Console.WriteLine("Process home page");
-        var tagList = string.Join("-",tags).Replace(" ","").Replace("-"," ");
-        var classes = " class=\"Post "+tagList+"\"";
-        foreach(var tag in tags)
-        {
-            if(!allTags.Contains(tag))
-				allTags.Add(tag);
-        }
-        
-        if (originalLink == "") // wiwhout post link
-            textString += "<div"+classes+"><span>"+published.ToString("yyyy.MM.dd")+" </span>"+title+"</div>\n";
-		else
-        {
-			if(title == "") // without title
-			{
-                textString += "<div"+classes.Replace("Post ","Post TheStatement")+"><span>"+published.ToString("yyyy.MM.dd")+" </span>" + 
-				"<a href=\""+pageLink+"\">A Random Statement</a></div>\n";
-			}
-			else
-			{
-		        var thumbnailUrl = "";
-				var anchors = new List<string>();
-				// For latest post, show expanded content
-				if(latestPostCount < maxLatestPost)
-				{
-			        // Find first image, if any
-					if (TraceMode) Console.WriteLine("Find first image for home page, if any");
-			        match = Regex.Match(content, @"(?s)(.*?)<img(.*?)src=""(.*?)""(.*?)/>(.*?)");
-					//Console.WriteLine(content);
-			        if(match.Success)
-			            thumbnailUrl = match.Groups[3].Value;
-			        if(thumbnailUrl.Contains("scontent-sin.xx.fbcdn.net"))
-			            thumbnailUrl = "";
-					
-					// Find all anchors
-			        match = Regex.Match(content, @"(?s)(div|blockquote)(.*?)id=""(.*?)""(.*?)(>)");
-	        		while(match.Success) {
-						 if(match.Groups[3].Value.Length > 1 && match.Groups[3].Value != "hashtags")
-						 	anchors.Add(match.Groups[3].Value);
-	            		match = match.NextMatch();
-					}
-					//Console.WriteLine(anchors);
-				}
-				
-				var thumbnailDiv = "<div"+classes.Replace("Post", "Post latest-post")+">" + 
-					"<span class=\"publish\">"+published.ToString("yyyy.MM.dd")+"</span>" + 
-					"<div class=\"latest-post-thumb\">" + 
-						"<a href=\"" + pageLink + "\">" + title + "</a>" + 
-						(anchors.Count > 0 ? "<div class=\"anchors\">" + string.Join("", anchors.Select(a => "<a href=\"" + (pageLink + "#" + a) + "\">#" + a + "</a>")) + "</div>" : "") + 
-						"<img loading=\"lazy\" class=\"" + (thumbnailUrl == "" ? "" : "home-thumb") + "\" src=\"" + thumbnailUrl + "\"/>" + 
-					"</div></div>\n";
-            
-                textString += latestPostCount >= maxLatestPost 
-					? "<div"+classes+"><span class=\"publish\">"+published.ToString("yyyy.MM.dd")+" </span><a href=\""+pageLink+"\">"+title+"</a></div>\n" 
-					: thumbnailDiv;
-				
-				latestPostCount++;
-			}
-        }
-    }
-    
-    //Write into home page
-    string fileString = File.ReadAllText(blogpath + "\\template.html");
-    fileString = fileString.Replace("_ARCHIVE_", textString).Replace("_FONT_", defaultFont).Replace("_COUNT_", posts.ToList().Count.ToString());
-    File.WriteAllText(blogpath + "\\index.html", fileString);
+	}
 }
 
 public static string FixContent(string content, int index, string title)
