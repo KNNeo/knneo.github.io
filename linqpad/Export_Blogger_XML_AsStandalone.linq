@@ -113,7 +113,7 @@ void Main()
 			postList.Add(pageLink);
 	}
 	
-    // Process XML content per post
+    // Process XML content per post - Do limited testing on list of continues below
     for (var p = 0; p < posts.Count(); p++)
     {
 		var entry = posts.ElementAt(p);
@@ -127,18 +127,19 @@ void Main()
         string originalLink = ((entry.Elements(_+"link")
             .FirstOrDefault(e => e.Attribute("rel").Value == "alternate") ?? empty)
             .Attribute("href") ?? emptA).Value;
+			
+		//=====CHECKS=====//
 		if(string.IsNullOrWhiteSpace(originalLink))
 			continue;
-		if(title != "The Welfare Package May 2023: A True Memory In Making") // test single post
+		if(published <= DateTime.Parse("2023-01-01"))
 			continue;
+		//=====CHECKS=====//
 		
 		// Create page location
         var yearfolder = Path.Combine(destPath, published.Year.ToString("0000"));
         if(!Directory.Exists(yearfolder)) Directory.CreateDirectory(destPath);
         var monthfolder = Path.Combine(yearfolder, published.Month.ToString("00"));
         if(!Directory.Exists(monthfolder)) Directory.CreateDirectory(monthfolder);
-        var dataFolder = Path.Combine(monthfolder, "data");
-        if(!Directory.Exists(dataFolder)) Directory.CreateDirectory(dataFolder);
         string outFileName = Path.GetFileNameWithoutExtension(originalLink) + "." + type;
         var outPath = Path.Combine(monthfolder, outFileName);
         
@@ -150,11 +151,11 @@ void Main()
         string content = entry.Element(_+"content").Value;
 		content = FixContent(content, p, entry.Element(_+"title").Value);
 		
-		// Find src in img
+		#region Find src in img
 		Console.WriteLine("   Find src in img");
-        var match = Regex.Match(content, @"(?s)<img(.*?)src=""(.*?)""(.*?)/>");
+        var match = Regex.Match(oldContent, @"(?s)<img(.*?)src=""(.*?)""(.*?)/>");
 		//Console.WriteLine(match);
-        while(false && match.Success)
+        while(match.Success)
 		{
 			var url = match.Groups[2].Value;
 			if(TraceMode) Console.WriteLine(url.Substring(0,40) + "...");
@@ -162,10 +163,12 @@ void Main()
 			var filename = url.Substring(url.LastIndexOf('/') + 1);
 			
 			// Set as relative path
-			content = content.Replace(urlWithoutFilename, "data/");
+			content = content.Replace(urlWithoutFilename, "data/imgsrc/");
 			
 			// Download into local post subfolder
-			var fileExist = File.Exists(monthfolder + "/data/" + filename);
+	        var dataFolder = Path.Combine(monthfolder, "data/imgsrc");
+	        if(!Directory.Exists(dataFolder)) Directory.CreateDirectory(dataFolder);
+			var fileExist = File.Exists(monthfolder + "/data/imgsrc/" + filename);
 			if(TraceMode && fileExist)
 				Console.WriteLine("Filename of " + filename + " exists in " + monthfolder);
 			if(!fileExist)
@@ -173,17 +176,18 @@ void Main()
 				using (WebClient client = new WebClient()) 
 				{
 					Console.WriteLine("      Downloading... " + url);
-				    client.DownloadFile(new Uri(url), monthfolder + "/data/" + filename);
+				    client.DownloadFile(new Uri(url), monthfolder + "/data/imgsrc/" + filename);
 					//Console.WriteLine("File downloaded to " + monthfolder + "/data/" + filename);
 				}
 			}
 		
 	        match = match.NextMatch();
 		}
+		#endregion
 		
-		// Find href in img with link
+		#region Find href in img with link
 		Console.WriteLine("   Find href in img with link");
-        match = Regex.Match(content, @"href\s*=\s*""(.*?)""");
+        match = Regex.Match(oldContent, @"(?s)href\s*=\s*""(.*?)""");
 		//Console.WriteLine(match);
         while(match.Success)
 		{
@@ -197,10 +201,12 @@ void Main()
 				var filename = url.Substring(url.LastIndexOf('/') + 1);
 				
 				// Set as relative path
-				content = content.Replace(urlWithoutFilename, "data/");
+				content = content.Replace(urlWithoutFilename, "data/imglink/");
 				
 				// Download into local post subfolder
-				var fileExist = File.Exists(monthfolder + "/data/" + filename);
+		        var dataFolder = Path.Combine(monthfolder, "data/imglink");
+		        if(!Directory.Exists(dataFolder)) Directory.CreateDirectory(dataFolder);
+				var fileExist = File.Exists(monthfolder + "/data/imglink/" + filename);
 				if(TraceMode && fileExist)
 					Console.WriteLine("Filename of " + filename + " exists in " + monthfolder);
 				if(!fileExist)
@@ -208,7 +214,7 @@ void Main()
 					using (WebClient client = new WebClient()) 
 					{
 						Console.WriteLine("      Downloading... " + url);
-					    client.DownloadFile(new Uri(url), monthfolder + "/data/" + filename);
+					    client.DownloadFile(new Uri(url), monthfolder + "/data/imglink/" + filename);
 						//Console.WriteLine("File downloaded to " + monthfolder + "/data/" + filename);
 					}
 				}
@@ -216,10 +222,11 @@ void Main()
 		
 	        match = match.NextMatch();
 		}
+		#endregion
 		
-		// Find background-image in div
+		#region Find background-image in div
 		Console.WriteLine("   Find background-image in div");
-        match = Regex.Match(content, @"background-image:\s*url\((.*?)\)");
+        match = Regex.Match(oldContent, @"background-image:\s*url\((.*?)\)");
 		//Console.WriteLine(match);
         while(match.Success)
 		{
@@ -229,10 +236,12 @@ void Main()
 			var filename = url.Substring(url.LastIndexOf('/') + 1);
 			
 			// Set as relative path
-			content = content.Replace(urlWithoutFilename, "data/");
+			content = content.Replace(urlWithoutFilename, "data/divimg/");
 			
 			// Download into local post subfolder
-			var fileExist = File.Exists(monthfolder + "/data/" + filename);
+	        var dataFolder = Path.Combine(monthfolder, "data/divimg");
+	        if(!Directory.Exists(dataFolder)) Directory.CreateDirectory(dataFolder);
+			var fileExist = File.Exists(monthfolder + "/data/divimg/" + filename);
 			if(TraceMode && fileExist)
 				Console.WriteLine("Filename of " + filename + " exists in " + monthfolder);
 			if(!fileExist)
@@ -240,13 +249,14 @@ void Main()
 				using (WebClient client = new WebClient()) 
 				{
 					Console.WriteLine("      Downloading... " + url);
-				    client.DownloadFile(new Uri(url), monthfolder + "/data/" + filename);
+				    client.DownloadFile(new Uri(url), monthfolder + "/data/divimg/" + filename);
 					//Console.WriteLine("File downloaded to " + monthfolder + "/data/" + filename);
 				}
 			}
 		
 	        match = match.NextMatch();
 		}
+		#endregion
 		
         var tags = entry.Elements(_+"category")
         // An <entry> is either a post, or some bit of metadata no one cares about.
@@ -320,7 +330,7 @@ public static string FixContent(string content, int index, string title)
         Match match, matchExp;
         string prefix, midfix, suffix;
     	string domainLink = "https://knwebreports.blogspot.com/";
-		List<int> includeIndex = new List<int> { 1, 2, 3, 14, 15, 16, 17, 18, 21, 24, 29, 31 };
+		List<int> includeIndex = new List<int> { 1, 2, 3, 14, 15, 16, 17, 18, 21, 24, 31 }; // 29 disabled as local output ignore file size
         // All regions of change to include in order: [1] detection expression [2] increment if detected [3] replacement
         // Process XML content per post	if is not simple replace
         // [1] Define Regex Expression (loose and strict)
