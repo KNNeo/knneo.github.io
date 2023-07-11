@@ -282,12 +282,20 @@ This is where you put the &lt;div class="popup" data-url="[LINK]"&gt;
 	transition: height 0.2s;
 }
 
+.carousel.fast {
+	transition: none;
+}
+
 .carousel .item {
 	position: absolute;
 	left: 0;
 	right: 0;
 	opacity: 1;
 	transition: opacity 0.4s, left 0.2s;
+}
+
+.carousel.fast .item {
+	transition: none;
 }
 
 .carousel .item * img,
@@ -373,14 +381,19 @@ function showNextCarouselItem(tn) {
 	let nextActive = tc[active].nextElementSibling;
 	if(!nextActive) nextActive = tn.firstElementChild;
 	nextActive.classList.remove('hide');
+	// fast mode: transition disabled if click/tap fast enough
+	if(new Date() - window['tn'] < 200) 
+		tn.classList.add('fast');
+	else 
+		window['tn'] = new Date();
 	// set height of container
 	setTimeout(function() {
 		tn.style.height = nextActive.offsetHeight + 'px';
-	}, 200);
+	}, tn.classList.contains('fast') ? 0 : 200);
 }
 </script>
 <h1>Carousel</h1>
-<h5>Rename of container to "carousel", rename of all child to "item", all but first/displaying child to "hide"</h5>
+<h5>Rename of container to "carousel", rename of all child to "item", all but first/displaying child to "hide"; Fast mode will turn off transition to allow quick toggle of images</h5>
 <pre>
 &lt;div class="carousel"&gt;
   &lt;div class="item"&gt;&lt;/div&gt;
