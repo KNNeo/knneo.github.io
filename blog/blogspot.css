@@ -31,7 +31,7 @@ body {
 	top: 0;
 	z-index: 1;
 	background-color: var(--background);
-	transition: opacity 0.5s;
+	transition: opacity .5s, background .2s linear;
 	opacity: 0;
     white-space: break-spaces;
 }
@@ -255,7 +255,7 @@ a:hover {
 #PopupBtn {
 	position: fixed;
 	display: block;
-	visibility: visible;
+	visibility: hidden;
 	opacity: 1;
 	bottom: 144px;
 	right: calc(50% - 400px);
@@ -429,7 +429,7 @@ h2 {
 /*MEDIA QUERIES - REDUCED MOTION*/
 @media only screen and (max-width: 480px) {
 	body,
-	.header,
+	.page-header,
 	#PopupBtn,
 	#EmojiBtn,
 	#LeftBtn,
@@ -446,7 +446,7 @@ h2 {
 		animation: none;
 	}
 	body,
-	.header,
+	.page-header,
 	#PopupBtn,
 	#EmojiBtn,
 	#LeftBtn,
