@@ -184,10 +184,10 @@ function renderPage() {
 	}
 	
 	// render page elements
-	renderMain();
 	renderMenu();
 	renderButtons();
 	renderFooter();
+	renderMain();
 	// render content in sections
 	for(let sectionNo = 0; sectionNo < window['elements'].length; sectionNo++) {
 		if(!window['elements'][sectionNo].isMain)
