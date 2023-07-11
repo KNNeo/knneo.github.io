@@ -401,11 +401,13 @@ h2 {
   #LeftBtn {
     left: 15px;
   }
+  #GoToTopBtn,
   #PopupBtn,
   #EmojiBtn,
   #DarkModeBtn {
     right: 15px;
   }
+  #GoToTopBtn,
   #DarkModeBtn,
   #BackBtn,
   #LeftBtn,
