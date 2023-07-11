@@ -854,8 +854,8 @@ void Main()
             output.WriteLine("<title>" + (title.Length > 0 ? title : "A Random Statement") + "</title>");
 			//if(postList.IndexOf(pageLink) > 0)
 			//output.WriteLine("<a id='LeftBtn' href='" + postList[postList.IndexOf(pageLink) - 1].Replace("./", "../../../") + "' title='Newer Post'><i class='material-icons'>arrow_back</i></a>");
-            if(postList.IndexOf(pageLink) - 1 > 0)
-				output.WriteLine("<a id='RightBtn' class='material-icons' href='" + postList[postList.IndexOf(pageLink) - 1].Replace("./", "../../../") + "' title='Older Post'><i class='material-icons'>arrow_forward</i></a>");
+            if(postList.IndexOf(pageLink) > 0)
+				output.WriteLine("<a id='RightBtn' class='material-icons' href='" + postList[postList.IndexOf(pageLink) - 1].Replace("./", "../../../") + "' title='Newer Post'><i class='material-icons'>skip_next</i></a>");
             output.WriteLine("<body>");
 			output.WriteLine("<a id='BackBtn' class='material-icons' href='../../../index.html' title='Go Back'>arrow_back</a>");
 			output.WriteLine("<a id='PopupBtn' class='material-icons' title='Toggle Display Links As Popups' href='javascript:void(0);' onclick='toggleInlinePopups()'>crop_din</a>");
