@@ -186,14 +186,15 @@ function renderPage() {
 	// render page elements
 	renderMain();
 	renderMenu();
-	renderButtons();
-	renderFooter();
 	// render content in sections
 	for(let sectionNo = 0; sectionNo < window['elements'].length; sectionNo++) {
 		if(!window['elements'][sectionNo].isMain)
 			renderSection(sectionNo);
 	}
 
+	renderButtons();
+	renderFooter();
+	
 	// add focus events
 	for(let focusable of document.querySelectorAll('.focusable'))
 	{
@@ -212,7 +213,7 @@ function renderMain() {
 		let main = document.querySelector('.main');
 		main.classList.add('focusable');
 		if(content.isSinglePage)
-			main.style.height = 'calc(100% - ' + ((document.querySelector('.menu').getBoundingClientRect().height + 35) + 'px') + ')';
+			main.style.height = 'calc(100% - ' + (document.querySelector('.menu').getBoundingClientRect().height + 'px') + ')';
 		
 		if(content.sectionNo > 0) {
 			let prevDiv = document.createElement('div');
