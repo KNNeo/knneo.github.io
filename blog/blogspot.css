@@ -36,6 +36,11 @@ body {
     white-space: break-spaces;
 }
 
+.show-header {
+	opacity: 1;
+	z-index: 2;
+}
+
 .page-header .hashtags a {
 	padding: 3px;
     display: inline-block;

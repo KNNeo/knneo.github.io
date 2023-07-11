@@ -1,4 +1,6 @@
 //--HEADER--//
+const isFirefox = (/Firefox/i.test(navigator.userAgent));
+
 function generateHeader() {
 	if(document.querySelector('.page-header') != null) {
 		let header = document.createElement('div');
@@ -30,21 +32,25 @@ function generateHeader() {
 		
 		//add header to document, add window events	
 		document.querySelector('.page-header').appendChild(header);
-		window.addEventListener('scroll', toggleHeader);
+		window.addEventListener(isFirefox ? 'DOMMouseScroll' : 'mousewheel', onWheel);
 		toggleHeader();
 	}
 }
 
-function toggleHeader() {
+function onWheel() {
+	// event.preventDefault();
+	toggleHeader(isFirefox ? -event.detail*50 : event.wheelDelta);
+}
+
+function toggleHeader(delta) {
 	// When the user scrolls down from the top of the document, show header
-	if (document.body.scrollTop > 0.2*document.documentElement.clientHeight || 
-		document.documentElement.scrollTop > 0.2*document.documentElement.clientHeight) {
-		document.querySelector('.page-header').style.opacity = 1;
-		document.querySelector('.page-header').style.zIndex = '';
+	let isScrollDown = document.body.scrollTop > 0.3*document.documentElement.clientHeight || 
+		document.documentElement.scrollTop > 0.3*document.documentElement.clientHeight;
+	if ((delta > 0 || !delta) && isScrollDown) {
+		document.querySelector('.page-header').classList.add('show-header');
 	}
 	else {
-		document.querySelector('.page-header').style.opacity = 0;
-		document.querySelector('.page-header').style.zIndex = -1;
+		document.querySelector('.page-header').classList.remove('show-header');
 	}
 }
 
