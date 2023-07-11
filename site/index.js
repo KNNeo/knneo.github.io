@@ -184,10 +184,10 @@ function renderPage() {
 	}
 	
 	// render page elements
+	renderMain();
 	renderMenu();
 	renderButtons();
 	renderFooter();
-	renderMain();
 	// render content in sections
 	for(let sectionNo = 0; sectionNo < window['elements'].length; sectionNo++) {
 		if(!window['elements'][sectionNo].isMain)
@@ -212,7 +212,7 @@ function renderMain() {
 		let main = document.querySelector('.main');
 		main.classList.add('focusable');
 		if(content.isSinglePage)
-			main.style.height = 'calc(100% - ' + ((document.querySelector('.menu').getBoundingClientRect().height + document.querySelector('.footer').getBoundingClientRect().height) + 'px') + ')';
+			main.style.height = 'calc(100% - ' + ((document.querySelector('.menu').getBoundingClientRect().height + 35) + 'px') + ')';
 		
 		if(content.sectionNo > 0) {
 			let prevDiv = document.createElement('div');
