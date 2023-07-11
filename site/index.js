@@ -183,17 +183,18 @@ function renderPage() {
 		}
 	}
 	
-	// render content in sections
+	// render page elements
 	renderMain();
 	renderMenu();
+	renderButtons();
+	renderFooter();
+	// render content in sections
 	for(let sectionNo = 0; sectionNo < window['elements'].length; sectionNo++) {
 		if(!window['elements'][sectionNo].isMain)
 			renderSection(sectionNo);
 	}
-	
-	renderButtons();
-	renderFooter();
-	
+
+	// add focus events
 	for(let focusable of document.querySelectorAll('.focusable'))
 	{
 		focusable.tabIndex = 0;
