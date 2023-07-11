@@ -441,7 +441,15 @@ h2 {
 
 /*MEDIA QUERIES - REDUCED MOTION*/
 @media only screen and (max-width: 480px) {
-	body {
+	body,
+	.header,
+	#PopupBtn,
+	#EmojiBtn,
+	#LeftBtn,
+	#RightBtn,
+	#BackBtn,
+	#DarkModeBtn
+	{
 		transition: none;
 	}
 }
