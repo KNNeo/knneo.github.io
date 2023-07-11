@@ -717,12 +717,20 @@ abbr.imgpop:hover img {
 	transition: height 0.2s;	
 }
 
+.thumbnail.fastscroll {
+	transition: none;	
+}
+
 .thumbnail-initial {
 	position: absolute;
 	left: 0;
 	right: 0;
 	opacity: 1;
 	transition: opacity 0.4s, left 0.2s;
+}
+
+.thumbnail.fastscroll .thumbnail-initial {
+	transition: none;
 }
 
 .thumbnail-normal {

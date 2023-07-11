@@ -438,12 +438,12 @@ function setThumbnails() {
         let allThumbVideos = thumbnail.getElementsByTagName("video");
         for (j = 0; j < allThumbImages.length; j++) {
             allThumbImages[j].onclick = function() {
-                switchThumbnails(closestClass(this, "thumbnail"));
+                switchThumbnails(event.target.closest('.thumbnail'));
             };
         }
         for (k = 0; k < allThumbVideos.length; k++) {
             allThumbVideos[k].onclick = function() {
-                switchThumbnails(closestClass(this, "thumbnail"));
+                switchThumbnails(event.target.closest('.thumbnail'));
             };
         }
 		// if text only (experimental)
@@ -474,36 +474,27 @@ function setThumbnails() {
     }
 }
 
-function closestClass(inputElement, targetClassName) {
-    while (inputElement.className != targetClassName && inputElement.parentNode.tagName.toUpperCase() != "BODY") {
-        inputElement = inputElement.parentNode;
-    }
-    return inputElement;
-}
-
-function closestTag(inputElement, targetTagName) {
-    while (inputElement.tagName != targetTagName.toUpperCase() && inputElement.parentNode.tagName.toUpperCase() != "BODY") {
-		inputElement = inputElement.parentNode;
-    }
-    return inputElement;
-}
-
 function switchThumbnails(tn) {
     let tc = tn.getElementsByClassName('thumbnail-initial');
-	// identify active
+	// identify current active
 	let active = tn.getAttribute('active');
-	if(active == null)
-		active = Array.from(tc).findIndex(t => !t.classList.contains('thumbnail-pop'));
+	if(active == null) active = Array.from(tc).findIndex(t => !t.classList.contains('thumbnail-pop'));
+	if(active == null) return;
 	// to reset before setting new active
 	for(let t of tc) {
 		if(!t.classList.contains('thumbnail-pop'))
 			t.classList.add('thumbnail-pop');
 	}
-	if(active == null) return;
+	// show next active
 	let nextActive = tc[active].nextElementSibling;
 	if(nextActive == null) nextActive = tn.firstElementChild;
 	nextActive.classList.remove('thumbnail-pop');
-	// set height with transition delay
+	// fastscroll: transition disabled if click/tap fast enough
+	if(new Date() - window['tn'] < 200) 
+		tn.classList.add('fastscroll');
+	else 
+		window['tn'] = new Date();
+	// set height change delay due to transition
 	setTimeout(function() {
 			tn.style.height = nextActive.offsetHeight + 'px';
 	}, 200);
