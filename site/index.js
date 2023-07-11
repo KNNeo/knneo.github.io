@@ -211,7 +211,7 @@ function renderMain() {
 		let main = document.querySelector('.main');
 		main.classList.add('focusable');
 		if(content.isSinglePage)
-			main.style.height = 'calc(100% - ' + (document.querySelector('.menu').getBoundingClientRect().height + 'px') + ')';
+			main.style.height = 'calc(100% - ' + ((document.querySelector('.menu').getBoundingClientRect().height + document.querySelector('.footer').getBoundingClientRect().height) + 'px') + ')';
 		
 		if(content.sectionNo > 0) {
 			let prevDiv = document.createElement('div');
