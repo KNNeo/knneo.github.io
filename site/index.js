@@ -213,7 +213,7 @@ function renderMain() {
 		let main = document.querySelector('.main');
 		main.classList.add('focusable');
 		if(content.isSinglePage)
-			main.style.height = 'calc(100% - ' + (document.querySelector('.menu').getBoundingClientRect().height + 'px') + ')';
+			main.style.height = 'calc(100% - ' + ((document.querySelector('.menu').getBoundingClientRect().height + 35) + 'px') + ')';
 		
 		if(content.sectionNo > 0) {
 			let prevDiv = document.createElement('div');
@@ -292,7 +292,7 @@ function renderSection(sectionNo) {
 	let main = window['main'];
 	let content = window['elements'][sectionNo];
 	if(main.isSinglePage)
-		section.style.height = 'calc(100% - ' + (document.querySelector('.menu').getBoundingClientRect().height + 'px') + ')';	
+		section.style.height = 'calc(100% - ' + ((document.querySelector('.menu').getBoundingClientRect().height + 35) + 'px') + ')';	
 		
 	let prevDiv = document.createElement('div');
 	prevDiv.classList.add('page-prev');
