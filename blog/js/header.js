@@ -32,26 +32,22 @@ function generateHeader() {
 		
 		//add header to document, add window events	
 		document.querySelector('.page-header').appendChild(header);
-		window.addEventListener(isFirefox ? 'DOMMouseScroll' : 'mousewheel', onWheel);
-		toggleHeader();
+		window.addEventListener('scroll', onScrollHeader);
 	}
 }
 
-function onWheel() {
+function onScrollHeader(value) {
 	// event.preventDefault();
-	toggleHeader(isFirefox ? -event.detail*50 : event.wheelDelta);
+	let st = window.pageYOffset || document.documentElement.scrollTop;
+	toggleHeader(st < window['scrollTop'] && st > 0.3*document.documentElement.clientHeight);
+	window['scrollTop'] = st;
 }
 
-function toggleHeader(delta) {
-	// When the user scrolls down from the top of the document, show header
-	let isScrollDown = document.body.scrollTop > 0.3*document.documentElement.clientHeight || 
-		document.documentElement.scrollTop > 0.3*document.documentElement.clientHeight;
-	if ((delta > 0 || !delta) && isScrollDown) {
+function toggleHeader(forced) {
+	if (forced)
 		document.querySelector('.page-header').classList.add('show-header');
-	}
-	else {
+	else
 		document.querySelector('.page-header').classList.remove('show-header');
-	}
 }
 
 function generateReadTime() {

@@ -431,7 +431,6 @@ h2 {
 /*MEDIA QUERIES - REDUCED MOTION*/
 @media only screen and (max-width: 480px) {
 	body,
-	.page-header,
 	#PopupBtn,
 	#EmojiBtn,
 	#LeftBtn,
