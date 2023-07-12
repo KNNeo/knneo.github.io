@@ -17,6 +17,7 @@ body {
 	display: block;
 	padding: 0 10px;
     max-width: 900px;
+	font-size: 18px;
 	margin: auto;
 	color: var(--foreground);
 	background-color: var(--background);
@@ -129,18 +130,6 @@ a:hover {
 	height: 0;
 }
 
-@media only screen and (min-width: 1024px) {
-	body {
-		font-size: 18px;
-	}
-}
-
-@media only screen and (max-width: 1023px) {
-	body {
-		font-size: 14px;
-	}
-}
-
 #blog-archive-list {
 	padding-bottom: 20px;
 }
@@ -233,7 +222,7 @@ a:hover {
 	display: block;
 	visibility: visible;
 	opacity: 1;
-	bottom: 80px;
+    bottom: 75px;
 	right: calc(50% - 400px);
 	z-index: 7;
 	-webkit-user-select: none;
@@ -257,7 +246,7 @@ a:hover {
 	display: block;
 	visibility: hidden;
 	opacity: 1;
-	bottom: 144px;
+    bottom: 135px;
 	right: calc(50% - 400px);
 	z-index: 7;
 	-webkit-user-select: none;
@@ -396,36 +385,26 @@ h2 {
 }
 
 /*MEDIA QUERIES - BUTTON POSITION*/
-@media only screen and (max-width: 780px) {
-  #BackBtn,
-  #LeftBtn {
-    left: 15px;
-  }
-  #GoToTopBtn,
-  #PopupBtn,
-  #EmojiBtn,
-  #DarkModeBtn {
-    right: 15px;
-  }
-  #GoToTopBtn,
-  #DarkModeBtn,
-  #BackBtn,
-  #LeftBtn,
-  #RightBtn {
-    bottom: 15px;
-  }
-  #RightBtn {
-    left: 75px;
-  }
-  #EmojiBtn {
-    bottom: 75px;	  
-  }
-  #PopupBtn {
-    bottom: 135px;	  
-  }
-  .Post span {
+@media only screen and (max-width: 880px) {
+	#BackBtn,
+	#LeftBtn {
+		left: 15px;
+	}
+	#GoToTopBtn,
+	#PopupBtn,
+	#EmojiBtn,
+	#DarkModeBtn {
+		right: 15px;
+	}
+	#RightBtn {
+		left: 75px;
+	}
+	.Post span {
 	display: block;
-  }
+	}
+	body {
+		font-size: 14px;
+	}
 }
 
 /*MEDIA QUERIES - REDUCED MOTION*/
