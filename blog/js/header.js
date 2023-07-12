@@ -36,10 +36,10 @@ function generateHeader() {
 	}
 }
 
-function onScrollHeader(value) {
+function onScrollHeader() {
 	// event.preventDefault();
 	let st = window.pageYOffset || document.documentElement.scrollTop;
-	toggleHeader(st < window['scrollTop'] && st > 0.3*document.documentElement.clientHeight);
+	toggleHeader(st > 0.3 * document.documentElement.clientHeight && (st < window['scrollTop'] || !window['scrollTop']));
 	window['scrollTop'] = st;
 }
 
