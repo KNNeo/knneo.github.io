@@ -39,7 +39,7 @@ function generateHeader() {
 function onScrollHeader() {
 	// event.preventDefault();
 	let st = window.pageYOffset || document.documentElement.scrollTop;
-	toggleHeader(st > 0.3 * document.documentElement.clientHeight && (st < window['scrollTop'] || !window['scrollTop']));
+	toggleHeader(st > 0.3 * document.documentElement.clientHeight && (st <= window['scrollTop'] || !window['scrollTop']));
 	window['scrollTop'] = st;
 }
 
