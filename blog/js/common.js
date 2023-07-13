@@ -497,7 +497,7 @@ function switchThumbnails(tn) {
 	// set height change delay due to transition
 	setTimeout(function() {
 			tn.style.height = nextActive.offsetHeight + 'px';
-	}, 200);
+	}, tn.classList.contains('fastscroll') ? 0 : 200);
 }
 
 // Responsive image resizing based on screen dimensions
