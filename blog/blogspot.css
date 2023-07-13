@@ -326,7 +326,7 @@ h2 {
 }
 
 /*Custom viewer*/
-#viewer {
+.viewer {
 	z-index: 9;
 	position: fixed;
 	background-color: var(--background);
@@ -346,7 +346,12 @@ h2 {
     /* align-items: center; */
 }
 
-#viewer-prev {
+.viewer.open {
+	visibility: visible;
+	opacity: 1;	
+}
+
+.viewer-nav.prev {
 	background-color: transparent;
 	position: absolute;
 	left: 0;
@@ -356,7 +361,12 @@ h2 {
 	z-index: 11;
 }
 
-#viewer-next {
+.viewer-nav.prev:active {
+	opacity: 0.5;
+	background-image: linear-gradient(to right, var(--background), transparent);
+}
+
+.viewer-nav.next {
 	background-color: transparent;
 	position: absolute;
 	right: 0;
@@ -366,22 +376,30 @@ h2 {
 	z-index: 11;
 }
 
-#viewer-next:active {
+.viewer-nav.next:active {
 	opacity: 0.5;
 	background-image: linear-gradient(to left, var(--background), transparent);
 }
 
-#viewer-prev:active {
-	opacity: 0.5;
-	background-image: linear-gradient(to right, var(--background), transparent);
-}
-
-#viewer img {
+.viewer img {
 	margin: auto;
 	left: 0;
 	right: 0;
 	position: fixed;
 	object-fit: contain;
+}
+
+.loader {
+	position: absolute;
+	font-size: 24px;
+	width: 100%;
+    height: 100%;
+	margin: auto;
+	padding: 10px;
+	z-index: 11;
+	display: flex;
+    align-items: center;
+	justify-content: center;
 }
 
 /*MEDIA QUERIES - BUTTON POSITION*/

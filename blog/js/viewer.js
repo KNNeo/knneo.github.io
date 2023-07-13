@@ -1,6 +1,12 @@
 //--VIEWER--//
 function generateViewer() {
-	let viewer = document.getElementById('viewer');
+	let viewer = document.querySelector('.viewer');
+	if(viewer == null)
+	{
+		viewer = document.createElement('div');
+		viewer.classList.add('viewer');
+		document.body.appendChild(viewer);
+	}
 	if(viewer != null)
 	{
 		viewer.addEventListener('contextmenu', function(e) {
@@ -49,28 +55,40 @@ function updateImageNo(image) {
 
 function openViewer() {
 	openImageInViewer(this);
+	runLoader();
 }
 
 function openImageInViewer(image) {
 	let imgNo = updateImageNo(image);
-	let viewer = document.getElementById('viewer');
+	let viewer = document.querySelector('.viewer');
 	
 	let viewerPrev = document.createElement('div');
-	viewerPrev.id = 'viewer-prev';
+	viewerPrev.classList.add('prev');
 	viewerPrev.classList.add('viewer-nav');
 	if(imgNo-1 >= 0)
 		viewerPrev.addEventListener('click', function(e) {
 			openImageInViewer(window['viewer-list'][imgNo-1]);
+			runLoader();
 			return false;
 		}, false);
 	let viewerNext = document.createElement('div');
-	viewerNext.id = 'viewer-next';
+	viewerNext.classList.add('next');
 	viewerNext.classList.add('viewer-nav');
 	if(imgNo+1 < window['viewer-list'].length)
 		viewerNext.addEventListener('click', function(e) {
 			openImageInViewer(window['viewer-list'][imgNo+1]);
+			runLoader();
 			return false;
 		}, false);
+	
+	let loader = document.createElement('div');
+	loader.classList.add('material-icons');
+	loader.classList.add('loader');
+	loader.addEventListener('click', function() {
+		window['loading'] = false;
+		runLoader();
+		closeViewer();		
+	});
 	
 	let thumbnail = image.cloneNode(true);
 	let img = document.createElement('img');
@@ -80,29 +98,60 @@ function openImageInViewer(image) {
 	img.title = thumbnail.title;
 	img.style.height = '100dvh';
 	img.style.width = '100dvw';
+	img.addEventListener('load', function() {
+		window['loading'] = false;
+		runLoader();
+	});
 	img.addEventListener('click', closeViewer);
 	
 	if(viewer.childNodes.length > 0) viewer.innerHTML = '';
 	if(imgNo-1 >= 0) viewer.appendChild(viewerPrev);
 	if(imgNo+1 < window['viewer-list'].length) viewer.appendChild(viewerNext);
+	viewer.appendChild(loader);
 	viewer.appendChild(img);
 	
-	viewer.style.opacity = 1;
-	viewer.style.visibility = 'visible';
-	
-	document.body.style.overflow = 'hidden';
+	window['loading'] = true;
+	viewer.classList.add('open');
 }
 
 function closeViewer() {
-	let viewer = document.getElementById('viewer');
-	viewer.style.opacity = '';
-	viewer.style.visibility = '';
-	viewer.innerHTML = '';
-	viewer.onclick = null;
-	if(viewer.parentElement) viewer.parentElement.style.overflow = '';
-	if(document.getElementById('CloseBtn') != undefined) document.getElementById('CloseBtn').remove();
+	let viewer = document.querySelector('.viewer');
+	viewer.classList.remove('open');
+	if(document.getElementById('CloseBtn') != undefined)
+		document.getElementById('CloseBtn').remove();
 	
 	document.body.style.overflow = '';
+}
+
+//--LOADER--//
+function runLoader() {
+	for(let loader of document.querySelectorAll('.loader'))
+	{
+		switch(document.querySelector('.loader').innerText)
+		{
+			case 'hourglass_full': 
+				document.querySelector('.loader').innerText = 'hourglass_empty';
+				break;
+			case 'hourglass_empty': 
+				document.querySelector('.loader').innerText = 'hourglass_bottom';
+				break;
+			case 'hourglass_bottom': 
+				document.querySelector('.loader').innerText = 'hourglass_full';
+				break;
+			default:
+				document.querySelector('.loader').innerText = 'hourglass_empty';
+				break;
+		}
+	}
+	if(window['loading'] && document.querySelectorAll('.loader').length > 0)
+		setTimeout(runLoader, 500);
+	else
+	{
+		for(let loader of document.querySelectorAll('.loader'))
+		{
+			loader.parentElement.removeChild(loader);
+		}
+	}
 }
 
 window.addEventListener('keyup', function() {
