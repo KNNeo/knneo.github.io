@@ -16,12 +16,25 @@
 body {
 	display: block;
 	padding: 0 10px;
-    max-width: 900px;
+    max-width: 680px;
 	font-size: 18px;
 	margin: auto;
 	color: var(--foreground);
 	background-color: var(--background);
 	transition: background .2s linear;
+}
+
+a {
+  color: var(--primary);
+}
+
+a img,
+table div[style|=background] {
+  border: 2px solid var(--primary);
+}
+
+a:hover {
+  text-decoration: none;
 }
 
 .page-header {
@@ -74,8 +87,11 @@ a:hover {
 }
 
 .latest-post {
+	box-shadow: 3px 3px var(--foreground);
+	border: 1px solid var(--foreground);
+	border-radius: 8px;
     display: inline-block;
-	padding: 12px;
+	padding: 5px;
 	width: 320px;
     margin: 4px 2px;
 	vertical-align: top;
@@ -92,7 +108,7 @@ a:hover {
 
 .latest-post-thumb {
     display: flex;
-	gap: 0 5px;
+	gap: 0 6px;
     flex-direction: row-reverse;
     justify-content: flex-end;
     align-items: center;
