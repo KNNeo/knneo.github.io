@@ -95,6 +95,7 @@ a:hover {
 	width: 320px;
     margin: 4px 2px;
 	vertical-align: top;
+	font-size: initial;
 }
 
 .latest-post a {
@@ -112,18 +113,19 @@ a:hover {
     flex-direction: row-reverse;
     justify-content: flex-end;
     align-items: center;
-	position: relative;
 }
 
 .anchors {
     display: none;
     flex-wrap: wrap;
     flex-direction: column;
+    justify-content: center;
 	position: absolute;
 	background-color: var(--background);
 	margin-left: 2px;
-    padding-top: 3px;
+    padding-top: 2px;
 	width: 150px;
+    height: 148px;
 }
 
 .latest-post:hover .anchors {
@@ -432,10 +434,13 @@ h2 {
 		right: 15px;
 	}
 	.Post span {
-	display: block;
+		display: block;
 	}
 	body {
 		font-size: 14px;
+	}
+	.anchors {
+		font-size: 16px;
 	}
 }
 
