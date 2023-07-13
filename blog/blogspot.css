@@ -387,6 +387,7 @@ h2 {
 /*MEDIA QUERIES - BUTTON POSITION*/
 @media only screen and (max-width: 880px) {
 	#BackBtn,
+	#RightBtn,
 	#LeftBtn {
 		left: 15px;
 	}
@@ -395,9 +396,6 @@ h2 {
 	#EmojiBtn,
 	#DarkModeBtn {
 		right: 15px;
-	}
-	#RightBtn {
-		left: 75px;
 	}
 	.Post span {
 	display: block;
