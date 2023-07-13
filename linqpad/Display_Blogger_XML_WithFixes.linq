@@ -40,11 +40,11 @@ void Main()
 	#endregion
 	
 	var postCount = 0;
-	var showResults = false; //if has match show full object, else just post title
+	var showResults = true; //if has match show full object, else just post title
 	var showMatches = false; //if has match show full match object, else just object with description
 	var showOk = false; //if post no issues don't show
 	 //----------ADD INDEXES HERE----------//
-	List<int> includeIndex = new List<int> { 11 };
+	List<int> includeIndex = new List<int> { 24 };
 	if(includeIndex.Count > 0) Console.WriteLine("[SELECTIVE_CHECKS_ACTIVATED - " + String.Join(", ", includeIndex) + "]");
 	else Console.WriteLine("[ALL_CHECKS_ACTIVATED]");
 	
@@ -501,21 +501,23 @@ void Main()
 		#endregion
 		
         #region 24 replace common phrases with emoji
-        var phrases = new string[]{"laughs", "giggles", "sob", "silence", "pukes", "ugh", "wink", "dabs", "thumbs up", "fingers crossed"};
 		if(includeIndex.Count() == 0 || includeIndex.Contains(24))
 		{
-			foreach(var phrase in phrases)
-			{
-		        expression = @"(\*{phrase}\*)".Replace("{phrase}", phrase);
-		        match = Regex.Match(content, expression);
-		        while(match.Success) {
+			var phrases = new string[]{
+				"laughs", "giggles", "sob", "silence", "pukes", "ugh", "wink", "dabs", 
+				"thumbs up", "sigh", "blessed", "shrugs", "cringe", "fingers crossed", "smiles", "screams",
+				"phew", "chef's kiss", "sshh", "speechless", "sniff", "gasp", "mind blown"
+			};
+	        expression = @"(\*)(.*?)(\*)";
+	        match = Regex.Match(content, expression);
+	        while(match.Success) {
+				if(match.Groups[2].Value.Length > 1 && match.Groups[2].Value.Length < 16 && phrases.Contains(match.Groups[2].Value))
 		            fixes.Add(new MatchItem() {
 							match = showMatches ? match : null,
-							description = "[24] emoji " + phrase + " found"
+							description = "[24] emoji \"" + match.Groups[2].Value + "\" found"
 						});
-		            match = match.NextMatch();
-		        };				
-			}
+	            match = match.NextMatch();
+	        };
 		}
         #endregion
 		
