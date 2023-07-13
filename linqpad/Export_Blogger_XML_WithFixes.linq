@@ -868,7 +868,7 @@ void Main()
 			output.WriteLine("<a id='EmojiBtn' class='material-icons' title='Toggle Display Emoji' href='javascript:void(0);' onclick='toggleEmojiDisplay()'>mood</a>");
 			output.WriteLine("<a id='DarkModeBtn' class='material-icons' title='Toggle Dark Mode' href='javascript:void(0);' onclick='toggleDarkMode()'>brightness_high</a>");
 			output.WriteLine("<a id='GoToTopBtn' class='material-icons' title='Go To Top' style='display: none;' href='javascript:void(0);' onclick='goToTop()'>arrow_upward</a>");
-            output.WriteLine("<div id=\"viewer\"></div>");
+            //output.WriteLine("<div id=\"viewer\" class=\"viewer\"></div>");
             output.WriteLine("<div id=\"contents\" class=\"post-body entry-content\" style=\"font-family: " + defaultFont + ";\">");
 			if (originalLink != "")
                 output.WriteLine("<small style=\"text-align: center;\"><p><i>This post was imported from "+
