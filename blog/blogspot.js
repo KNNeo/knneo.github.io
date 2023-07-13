@@ -26,6 +26,7 @@ function toggleInlinePopups() {
 
 //add back button to each page
 function goBack() {
+	event.preventDefault();
 	closePopups();
 	window.history.back();
 }
