@@ -115,6 +115,14 @@ body .gallery {
 	transform: scale(10);
 }
 
+.progress {
+    position: absolute;
+    top: 0;
+    height: 10px;
+	background-color: var(--foreground);
+	transition: top 0.3s, width 0.1s;
+}
+
 /*VIEWER*/
 .viewer {
 	z-index: 9;

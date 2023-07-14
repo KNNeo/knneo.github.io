@@ -307,7 +307,6 @@ function renderFilters(tags) {
 				window.variables.base = window.variables.items.filter(i => i[tag.category] == tag.value);
 				hideFilters();
 				renderGallery();
-				renderOverview();
 			});
 			filterDiv.appendChild(tagDiv);
 		}
@@ -338,7 +337,7 @@ function renderGallery() {
 		itemDiv.alt = value.description || '';
 		itemDiv.draggable = false;
 		itemDiv.addEventListener('load', function() {
-			setTimeout(scrollToItem, 200);
+			event.target.classList.add('loaded');
 		});
 		itemDiv.addEventListener('click', function() {
 			galleryDiv.classList.remove('overview');
@@ -352,7 +351,7 @@ function renderGallery() {
 		galleryDiv.appendChild(itemDiv);
 	}
 	
-	scrollToItem();
+	setTimeout(checkComplete, 0);
 	galleryDiv.addEventListener(isFirefox ? 'DOMMouseScroll' : 'mousewheel', onWheel);
 	galleryDiv.addEventListener('touchstart', onTouchStart);
 	galleryDiv.addEventListener('touchmove', onTouchMove, false);
@@ -361,6 +360,28 @@ function renderGallery() {
 			galleryDiv.classList.add('overview');
 			settingsDiv.classList.add('hidden');
 		});
+}
+
+function checkComplete() {
+	let total = window.variables.base.length;
+	let loaded = document.querySelectorAll('.loaded').length;
+	console.log(loaded, total);
+	
+	// render progress bar
+	let progress = document.querySelector('.progress') || document.createElement('div');
+	if(progress.className == '') document.body.appendChild(progress);
+	progress.className = 'progress';
+	progress.style.width = 100*loaded/total + '%';
+	
+	// continue or stop
+	if(loaded < total)
+		setTimeout(checkComplete, 1000);
+	else {
+		scrollToItem();
+		setTimeout(function() {
+			progress.style.top = '-10px';
+		}, 1000);
+	}
 }
 
 //--INITIAL--//
