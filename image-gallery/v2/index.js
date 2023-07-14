@@ -26,6 +26,7 @@ let overviewDiv = document.querySelector('.overview');
 let noticeDiv = document.querySelector('.notice');
 let filtersDiv = document.querySelector('.filters');
 let settingsDiv = document.querySelector('.settings');
+let progressDiv = document.querySelector('.progress');
 
 //--DOM FUNCTIONS--//
 function generateTagClouds() {
@@ -326,6 +327,7 @@ function renderDisplay() {
 }
 
 function renderGallery() {
+	progressDiv.style.top = '0';
 	galleryDiv.innerHTML = '';
 	// render all items
 	for(let [index, value] of window.variables.base.entries())
@@ -368,10 +370,7 @@ function checkComplete() {
 	console.log(loaded, total);
 	
 	// render progress bar
-	let progress = document.querySelector('.progress') || document.createElement('div');
-	if(progress.className == '') document.body.appendChild(progress);
-	progress.className = 'progress';
-	progress.style.width = 100*loaded/total + '%';
+	progressDiv.style.width = 100*loaded/total + '%';
 	
 	// continue or stop
 	if(loaded < total)
@@ -379,7 +378,7 @@ function checkComplete() {
 	else {
 		scrollToItem();
 		setTimeout(function() {
-			progress.style.top = '-10px';
+			progressDiv.style.top = '';
 		}, 1000);
 	}
 }

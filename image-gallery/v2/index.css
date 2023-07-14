@@ -117,7 +117,7 @@ body .gallery {
 
 .progress {
     position: absolute;
-    top: 0;
+    top: -10px;
     height: 10px;
 	background-color: var(--foreground);
 	transition: top 0.3s, width 0.1s;
