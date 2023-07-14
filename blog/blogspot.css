@@ -96,6 +96,11 @@ a:hover {
     margin: 4px 2px;
 	vertical-align: top;
 	font-size: initial;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 
 .latest-post a {
@@ -105,6 +110,11 @@ a:hover {
 
 .latest-post a:hover {
     color: var(--foreground);
+}
+
+.latest-post:active {
+	box-shadow: 1px 1px;
+	transform: translate(2px,2px);
 }
 
 .latest-post-thumb {
