@@ -31,7 +31,7 @@ function goBack() {
 	window.history.back();
 }
 
-function characterCount() {
+function countCharacters() {
 	for(let paragraph of document.querySelectorAll('.count.characters'))
 	{
 		let count = paragraph.innerText.length;
@@ -40,7 +40,7 @@ function characterCount() {
 	}
 }
 
-function wordCount() {
+function countWords() {
 	for(let paragraph of document.querySelectorAll('.count.words'))
 	{
 		let count = paragraph.innerText.split(' ').length;
