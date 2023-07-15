@@ -202,7 +202,7 @@ a:hover {
 	position: fixed;
 	display: block;
 	visibility: visible;
-	bottom: 80px;
+	bottom: 75px;
 	left: calc(50% - 410px);
 	z-index: 8;
 	outline: none;
