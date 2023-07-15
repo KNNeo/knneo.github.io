@@ -30,3 +30,21 @@ function goBack() {
 	closePopups();
 	window.history.back();
 }
+
+function characterCount() {
+	for(let paragraph of document.querySelectorAll('.count.characters'))
+	{
+		let count = paragraph.innerText.length;
+		console.log(paragraph.innerText, count);
+		paragraph.innerText += ' [' + count + ' characters]';
+	}
+}
+
+function wordCount() {
+	for(let paragraph of document.querySelectorAll('.count.words'))
+	{
+		let count = paragraph.innerText.split(' ').length;
+		console.log(paragraph.innerText, count);
+		paragraph.innerText += ' [' + count + ' words]';
+	}
+}
