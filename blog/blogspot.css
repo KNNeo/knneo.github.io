@@ -89,7 +89,6 @@ a:hover {
 .latest-post {
 	box-shadow: 3px 3px var(--foreground);
 	border: 1px solid var(--foreground);
-	border-radius: 8px;
     display: inline-block;
 	padding: 5px;
 	width: 320px;
@@ -103,6 +102,11 @@ a:hover {
 	user-select: none;
 }
 
+.latest-post:hover {
+	box-shadow: 1px 1px;
+	transform: translate(2px,2px);
+}
+
 .latest-post a {
     color: var(--primary);
 	font-weight: bold;
@@ -110,11 +114,6 @@ a:hover {
 
 .latest-post a:hover {
     color: var(--foreground);
-}
-
-.latest-post:active {
-	box-shadow: 1px 1px;
-	transform: translate(2px,2px);
 }
 
 .latest-post-thumb {
