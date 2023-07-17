@@ -302,7 +302,7 @@ function generatePopupContent(url) {
             'https://www.youtube.com/embed/' + id +
             '?enablejsapi=1"></iframe>';
     }
-    if (url.includes('instagram.com/p/')) {
+    if (url.includes('instagram.com/p/') || url.includes('instagram.com/reel/')) {
         //process instagram embed
         return '<center><blockquote class="instagram-media" style="' + (window.innerWidth >= 576 ? 'width:550px;' : '') + '" data-instgrm-permalink="' +
             url + '" data-instgrm-version="14" style="padding:0;"></blockquote></center><script async="async" src="//www.instagram.com/embed.js"></script>';
