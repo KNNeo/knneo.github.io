@@ -1,5 +1,127 @@
 let showsRef = [
     {
+        "seriesTitle": "Bleach: Sennen Kessen-hen - Ketsubetsu-tan",
+        "seriesURL": "https://myanimelist.net/anime/53998/Bleach__Sennen_Kessen-hen_-_Ketsubetsu-tan",
+        "seriesType": "TV",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1018/136667.webp?s=f3754a3e480865a15eec317a37936e08",
+        "seriesAirSeason": [],
+        "seriesGenre": [
+            "Action",
+            "Adventure",
+            "Fantasy"
+        ],
+        "seriesDemographic": "Shounen",
+        "tags": [
+            "Taketatsu Ayana",
+            "Touyama Nao"
+        ],
+        "id": 53998
+    },
+    {
+        "seriesTitle": "Bungou Stray Dogs 5th Season",
+        "seriesURL": "https://myanimelist.net/anime/54898/Bungou_Stray_Dogs_5th_Season",
+        "seriesType": "TV",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1161/136691.webp?s=4eae9706c7967fdcf466378febfe0ca7",
+        "seriesAirSeason": [],
+        "seriesGenre": [
+            "Action",
+            "Mystery",
+            "Supernatural"
+        ],
+        "seriesDemographic": "Seinen",
+        "tags": [
+            ""
+        ],
+        "id": 54898
+    },
+    {
+        "seriesTitle": "Horimiya: Piece",
+        "seriesURL": "https://myanimelist.net/anime/54856/Horimiya__Piece",
+        "seriesType": "TV",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1007/136277.webp?s=c807fe5adff37782f0688049253379ad",
+        "seriesAirSeason": [],
+        "seriesGenre": [
+            "Romance"
+        ],
+        "seriesDemographic": "Shounen",
+        "tags": [
+            "Tomatsu Haruka",
+            "Kozakai Yurie",
+            "Kondou Reina",
+            "Asakura Momo"
+        ],
+        "id": 54856
+    },
+    {
+        "seriesTitle": "Kanojo, Okarishimasu 3rd Season",
+        "seriesURL": "https://myanimelist.net/anime/53050/Kanojo_Okarishimasu_3rd_Season",
+        "seriesType": "TV",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1696/136634.webp?s=1e8a23f470eaf8d379afceb8109fb855",
+        "seriesAirSeason": [],
+        "seriesGenre": [
+            "Comedy",
+            "Romance"
+        ],
+        "seriesDemographic": "Shounen",
+        "tags": [
+            "Amamiya Sora",
+            "Yuuki Aoi",
+            "Touyama Nao",
+            "Takahashi Rie"
+        ],
+        "id": 53050
+    },
+    {
+        "seriesTitle": "Shinigami Bocchan to Kuro Maid 2nd Season",
+        "seriesURL": "https://myanimelist.net/anime/49858/Shinigami_Bocchan_to_Kuro_Maid_2nd_Season",
+        "seriesType": "TV",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1078/136947.webp?s=ea480ba5fff417276cef57cf64415a32",
+        "seriesAirSeason": [],
+        "seriesGenre": [
+            "Comedy",
+            "Supernatural"
+        ],
+        "seriesDemographic": "",
+        "tags": [
+            "Mano Ayumi",
+            "Minase Inori",
+            "Hikasa Youko"
+        ],
+        "id": 49858
+    },
+    {
+        "seriesTitle": "Suki na Ko ga Megane wo Wasureta",
+        "seriesURL": "https://myanimelist.net/anime/54234/Suki_na_Ko_ga_Megane_wo_Wasureta",
+        "seriesType": "TV",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1582/136325.webp?s=25d56703ad69503787ba1ee6df8788c4",
+        "seriesAirSeason": [],
+        "seriesGenre": [
+            "Comedy"
+        ],
+        "seriesDemographic": "Shounen",
+        "tags": [
+            "Wakayama Shion"
+        ],
+        "id": 54234
+    },
+    {
+        "seriesTitle": "Tonikaku Kawaii: Joshikou-hen",
+        "seriesURL": "https://myanimelist.net/anime/55651/Tonikaku_Kawaii__Joshikou-hen",
+        "seriesType": "ONA",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1922/136453.webp?s=9528de1427aa28fac4479487950bc7b8",
+        "seriesAirSeason": [],
+        "seriesGenre": [
+            "Comedy",
+            "Romance"
+        ],
+        "seriesDemographic": "Shounen",
+        "tags": [
+            "Sakura Ayane",
+            "Kitou Akari"
+        ],
+        "id": 55651
+    },
+    {
         "seriesTitle": "3-gatsu no Lion",
         "seriesURL": "https://myanimelist.net/anime/31646/3-gatsu_no_Lion",
         "seriesType": "TV",
@@ -23,8 +145,7 @@ let showsRef = [
         "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/3/88469.webp?s=cef70df1de4df28e59c99705bce97683",
         "seriesAirSeason": [],
         "seriesGenre": [
-            "Drama",
-            "Slice of Life"
+            "Drama"
         ],
         "seriesDemographic": "Seinen",
         "tags": [
@@ -57,8 +178,7 @@ let showsRef = [
         "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/12/35321.webp?s=be3c0441636d0ec9d014106bc6f08aed",
         "seriesAirSeason": [],
         "seriesGenre": [
-            "Comedy",
-            "Slice of Life"
+            "Comedy"
         ],
         "seriesDemographic": "",
         "tags": [
@@ -109,8 +229,7 @@ let showsRef = [
         "seriesAirSeason": [],
         "seriesGenre": [
             "Comedy",
-            "Romance",
-            "Slice of Life"
+            "Romance"
         ],
         "seriesDemographic": "",
         "tags": [
@@ -127,8 +246,7 @@ let showsRef = [
         "seriesAirSeason": [],
         "seriesGenre": [
             "Comedy",
-            "Romance",
-            "Slice of Life"
+            "Romance"
         ],
         "seriesDemographic": "",
         "tags": [
@@ -144,12 +262,12 @@ let showsRef = [
         "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1612/120636.webp?s=a1ec846df26b11c858e174afc04c0433",
         "seriesAirSeason": [],
         "seriesGenre": [
-            "Comedy"
+            "Comedy",
+            "Romance"
         ],
         "seriesDemographic": "Shounen",
         "tags": [
             "Minase Inori",
-            "M.A.O",
             "Nagae Rika",
             "Hanazawa Kana"
         ],
@@ -337,8 +455,7 @@ let showsRef = [
         "seriesAirSeason": [],
         "seriesGenre": [
             "Drama",
-            "Gourmet",
-            "Slice of Life"
+            "Gourmet"
         ],
         "seriesDemographic": "Seinen",
         "tags": [
@@ -383,7 +500,7 @@ let showsRef = [
         "seriesTitle": "Bleach Movie 1: Memories of Nobody",
         "seriesURL": "https://myanimelist.net/anime/1686/Bleach_Movie_1__Memories_of_Nobody",
         "seriesType": "Movie",
-        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1649/121185.webp?s=2f3d08da995bf260ba1c127a1f27d5d9",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1834/134488.webp?s=5c6cd7429595c770f5036ba507e760af",
         "seriesAirSeason": [],
         "seriesGenre": [
             "Action",
@@ -434,7 +551,7 @@ let showsRef = [
         "seriesTitle": "Bleach Movie 4: Jigoku-hen",
         "seriesURL": "https://myanimelist.net/anime/8247/Bleach_Movie_4__Jigoku-hen",
         "seriesType": "Movie",
-        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/9/26792.webp?s=93ff2393a43521cad03596cf7bd33cbb",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1554/134492.webp?s=d7bee0c678777151a25de3f40f2189cd",
         "seriesAirSeason": [],
         "seriesGenre": [
             "Action",
@@ -451,7 +568,7 @@ let showsRef = [
         "seriesTitle": "Bleach: Sennen Kessen-hen",
         "seriesURL": "https://myanimelist.net/anime/41467/Bleach__Sennen_Kessen-hen",
         "seriesType": "TV",
-        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1764/126627.webp?s=36cc5874ea813ac65a6abe8ef3bc9bcd",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1908/135431.webp?s=abb49b0738e87c727059c28f9db95edb",
         "seriesAirSeason": [],
         "seriesGenre": [
             "Action",
@@ -536,7 +653,7 @@ let showsRef = [
         "seriesTitle": "Bungou Stray Dogs 2nd Season",
         "seriesURL": "https://myanimelist.net/anime/32867/Bungou_Stray_Dogs_2nd_Season",
         "seriesType": "TV",
-        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/5/88585.webp?s=4d169fda4a37cf106ef8ef855c3c217f",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1572/133096.webp?s=63efd7db83bc39135e45fafe29b21440",
         "seriesAirSeason": [],
         "seriesGenre": [
             "Action",
@@ -567,6 +684,23 @@ let showsRef = [
         "id": 38003
     },
     {
+        "seriesTitle": "Bungou Stray Dogs 4th Season",
+        "seriesURL": "https://myanimelist.net/anime/50330/Bungou_Stray_Dogs_4th_Season",
+        "seriesType": "TV",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1263/132759.webp?s=32c387caad65825b5a8ca78d1574c287",
+        "seriesAirSeason": [],
+        "seriesGenre": [
+            "Action",
+            "Mystery",
+            "Supernatural"
+        ],
+        "seriesDemographic": "Seinen",
+        "tags": [
+            "Hanazawa Kana"
+        ],
+        "id": 50330
+    },
+    {
         "seriesTitle": "Bungou Stray Dogs Wan!",
         "seriesURL": "https://myanimelist.net/anime/42250/Bungou_Stray_Dogs_Wan",
         "seriesType": "TV",
@@ -574,7 +708,6 @@ let showsRef = [
         "seriesAirSeason": [],
         "seriesGenre": [
             "Comedy",
-            "Slice of Life",
             "Supernatural"
         ],
         "seriesDemographic": "",
@@ -921,7 +1054,7 @@ let showsRef = [
         "seriesTitle": "Gaikotsu Shotenin Honda-san OVA",
         "seriesURL": "https://myanimelist.net/anime/38527/Gaikotsu_Shotenin_Honda-san_OVA",
         "seriesType": "OVA",
-        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1428/95664.webp?s=c4556a6b29ed91a18db0b9af532c6e82",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1763/132688.webp?s=59af59771b0b4ba599a0e8f0730221a9",
         "seriesAirSeason": [],
         "seriesGenre": [
             "Comedy"
@@ -990,7 +1123,6 @@ let showsRef = [
         "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/12/52091.webp?s=d2ccdf061fb40ca4e2885716f27ed438",
         "seriesAirSeason": [],
         "seriesGenre": [
-            "Comedy",
             "Drama",
             "Romance"
         ],
@@ -1046,8 +1178,7 @@ let showsRef = [
         "seriesGenre": [
             "Comedy",
             "Romance",
-            "Supernatural",
-            "Ecchi"
+            "Supernatural"
         ],
         "seriesDemographic": "",
         "tags": [
@@ -1204,8 +1335,7 @@ let showsRef = [
         "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/6/61891.webp?s=0c1e04653daff98df243ee2b67e0dc0e",
         "seriesAirSeason": [],
         "seriesGenre": [
-            "Comedy",
-            "Slice of Life"
+            "Comedy"
         ],
         "seriesDemographic": "Shounen",
         "tags": [
@@ -1327,6 +1457,7 @@ let showsRef = [
         "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/5/76233.webp?s=44e85d4967738d43f2620ddcd4917835",
         "seriesAirSeason": [],
         "seriesGenre": [
+            "Award Winning",
             "Comedy"
         ],
         "seriesDemographic": "",
@@ -1346,6 +1477,7 @@ let showsRef = [
         "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/12/76121.webp?s=349c8706425fb3622926f9e2bc7e379d",
         "seriesAirSeason": [],
         "seriesGenre": [
+            "Award Winning",
             "Comedy"
         ],
         "seriesDemographic": "",
@@ -1434,6 +1566,25 @@ let showsRef = [
             "Taketatsu Ayana"
         ],
         "id": 7017
+    },
+    {
+        "seriesTitle": "Kaguya-sama wa Kokurasetai: First Kiss wa Owaranai",
+        "seriesURL": "https://myanimelist.net/anime/52198/Kaguya-sama_wa_Kokurasetai__First_Kiss_wa_Owaranai",
+        "seriesType": "Movie",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1670/130060.webp?s=a24c9776a432b28c4ae117989d8487d7",
+        "seriesAirSeason": [],
+        "seriesGenre": [
+            "Comedy",
+            "Drama",
+            "Romance"
+        ],
+        "seriesDemographic": "Seinen",
+        "tags": [
+            "Koga Aoi",
+            "Kohara Konomi",
+            "Tomita Miyu"
+        ],
+        "id": 52198
     },
     {
         "seriesTitle": "Kaguya-sama wa Kokurasetai: Tensai-tachi no Renai Zunousen",
@@ -1851,6 +2002,21 @@ let showsRef = [
         "id": 49721
     },
     {
+        "seriesTitle": "Karakai Jouzu no Takagi-san Movie",
+        "seriesURL": "https://myanimelist.net/anime/49722/Karakai_Jouzu_no_Takagi-san_Movie",
+        "seriesType": "Movie",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1376/123398.webp?s=bd4ae342216290549ceaaa7c25ff7ef9",
+        "seriesAirSeason": [],
+        "seriesGenre": [
+            ""
+        ],
+        "seriesDemographic": "Shounen",
+        "tags": [
+            ""
+        ],
+        "id": 49722
+    },
+    {
         "seriesTitle": "Kawaii dake ja Nai Shikimori-san",
         "seriesURL": "https://myanimelist.net/anime/45613/Kawaii_dake_ja_Nai_Shikimori-san",
         "seriesType": "TV",
@@ -1893,7 +2059,6 @@ let showsRef = [
         "seriesGenre": [
             "Action",
             "Adventure",
-            "Comedy",
             "Supernatural"
         ],
         "seriesDemographic": "Shounen",
@@ -1917,6 +2082,22 @@ let showsRef = [
             "Lynn"
         ],
         "id": 36098
+    },
+    {
+        "seriesTitle": "Kimi wa Houkago Insomnia",
+        "seriesURL": "https://myanimelist.net/anime/50796/Kimi_wa_Houkago_Insomnia",
+        "seriesType": "TV",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1402/134007.webp?s=4db1a6e6d340018fb7353d2bff4500c2",
+        "seriesAirSeason": [],
+        "seriesGenre": [
+            "Romance"
+        ],
+        "seriesDemographic": "Seinen",
+        "tags": [
+            "Tomatsu Haruka",
+            "Lynn"
+        ],
+        "id": 50796
     },
     {
         "seriesTitle": "Koi to Yobu ni wa Kimochi Warui",
@@ -2002,7 +2183,8 @@ let showsRef = [
             "Koga Aoi",
             "Hidaka Rina",
             "Ookubo Rumi",
-            "Uchida Maaya"
+            "Uchida Maaya",
+            "Hondo Kaede"
         ],
         "id": 48926
     },
@@ -2048,6 +2230,7 @@ let showsRef = [
         "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1597/112995.webp?s=00598b3a1c2584ef3172598112ab05a0",
         "seriesAirSeason": [],
         "seriesGenre": [
+            "Award Winning",
             "Drama",
             "Romance"
         ],
@@ -2090,6 +2273,24 @@ let showsRef = [
             "Kouno Marika"
         ],
         "id": 50590
+    },
+    {
+        "seriesTitle": "Kubo-san wa Mob wo Yurusanai",
+        "seriesURL": "https://myanimelist.net/anime/51815/Kubo-san_wa_Mob_wo_Yurusanai",
+        "seriesType": "TV",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1818/132330.webp?s=485f343efdd1beaba262f00384af1b6a",
+        "seriesAirSeason": [],
+        "seriesGenre": [
+            "Comedy",
+            "Romance"
+        ],
+        "seriesDemographic": "Seinen",
+        "tags": [
+            "Hanazawa Kana",
+            "Itou Miku",
+            "Amamiya Sora"
+        ],
+        "id": 51815
     },
     {
         "seriesTitle": "Kuroshitsuji",
@@ -2219,6 +2420,24 @@ let showsRef = [
             "Uesaka Sumire"
         ],
         "id": 39017
+    },
+    {
+        "seriesTitle": "Kyokou Suiri Season 2",
+        "seriesURL": "https://myanimelist.net/anime/44204/Kyokou_Suiri_Season_2",
+        "seriesType": "TV",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1901/131653.webp?s=56c76a8fc78aa99ed8b03e9328149900",
+        "seriesAirSeason": [],
+        "seriesGenre": [
+            "Mystery",
+            "Romance",
+            "Supernatural"
+        ],
+        "seriesDemographic": "Shounen",
+        "tags": [
+            "Kitou Akari",
+            "Yuuki Aoi"
+        ],
+        "id": 44204
     },
     {
         "seriesTitle": "Love Hina",
@@ -2551,6 +2770,22 @@ let showsRef = [
         "id": 43007
     },
     {
+        "seriesTitle": "Otonari no Tenshi-sama ni Itsunomanika Dame Ningen ni Sareteita Ken",
+        "seriesURL": "https://myanimelist.net/anime/50739/Otonari_no_Tenshi-sama_ni_Itsunomanika_Dame_Ningen_ni_Sareteita_Ken",
+        "seriesType": "TV",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1240/133638.webp?s=68b90d1ad1cec53c244ce176e5b1d6be",
+        "seriesAirSeason": [],
+        "seriesGenre": [
+            "Comedy",
+            "Romance"
+        ],
+        "seriesDemographic": "",
+        "tags": [
+            "Iwami Manaka"
+        ],
+        "id": 50739
+    },
+    {
         "seriesTitle": "Plastic Memories",
         "seriesURL": "https://myanimelist.net/anime/27775/Plastic_Memories",
         "seriesType": "TV",
@@ -2682,11 +2917,13 @@ let showsRef = [
         "seriesAirSeason": [],
         "seriesGenre": [
             "Comedy",
-            "Romance"
+            "Romance",
+            "Supernatural"
         ],
         "seriesDemographic": "Shounen",
         "tags": [
-            ""
+            "Takahashi Rie",
+            "Komatsu Mikako"
         ],
         "id": 52865
     },
@@ -2949,7 +3186,7 @@ let showsRef = [
         "seriesTitle": "Shakugan no Shana II (Second)",
         "seriesURL": "https://myanimelist.net/anime/2787/Shakugan_no_Shana_II_Second",
         "seriesType": "TV",
-        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/10/18669.webp?s=1ec36617aeb8406f9f1936f5305bd5d6",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1827/134365.webp?s=408b2270c849047c4a96e04e391ccef8",
         "seriesAirSeason": [],
         "seriesGenre": [
             "Action",
@@ -3218,7 +3455,6 @@ let showsRef = [
         "seriesAirSeason": [],
         "seriesGenre": [
             "Comedy",
-            "Drama",
             "Supernatural"
         ],
         "seriesDemographic": "",
@@ -3228,6 +3464,21 @@ let showsRef = [
             "Hikasa Youko"
         ],
         "id": 47257
+    },
+    {
+        "seriesTitle": "Skip to Loafer",
+        "seriesURL": "https://myanimelist.net/anime/50416/Skip_to_Loafer",
+        "seriesType": "TV",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1355/133785.webp?s=c1cf682b3fdf1f0b4a85cd982d468537",
+        "seriesAirSeason": [],
+        "seriesGenre": [
+            "Drama"
+        ],
+        "seriesDemographic": "Seinen",
+        "tags": [
+            "Kurosawa Tomoyo"
+        ],
+        "id": 50416
     },
     {
         "seriesTitle": "Slow Start",
@@ -3309,8 +3560,7 @@ let showsRef = [
         "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1179/119897.webp?s=e7371a6118a2ff6fab439f0227fc26c7",
         "seriesAirSeason": [],
         "seriesGenre": [
-            "Romance",
-            "Slice of Life"
+            "Romance"
         ],
         "seriesDemographic": "Seinen",
         "tags": [
@@ -3335,8 +3585,7 @@ let showsRef = [
             "Natsukawa Shiina",
             "Minase Inori",
             "Komatsu Mikako",
-            "Toyosaki Aki",
-            "Yoshimura Haruka"
+            "Toyosaki Aki"
         ],
         "id": 23209
     },
@@ -3356,8 +3605,7 @@ let showsRef = [
             "Natsukawa Shiina",
             "Minase Inori",
             "Komatsu Mikako",
-            "Toyosaki Aki",
-            "Yoshimura Haruka"
+            "Toyosaki Aki"
         ],
         "id": 30919
     },
@@ -3378,7 +3626,6 @@ let showsRef = [
             "Minase Inori",
             "Komatsu Mikako",
             "Toyosaki Aki",
-            "Yoshimura Haruka",
             "Kouno Marika"
         ],
         "id": 38891
@@ -3459,7 +3706,6 @@ let showsRef = [
         "seriesAirSeason": [],
         "seriesGenre": [
             "Comedy",
-            "Drama",
             "Mystery",
             "Romance"
         ],
@@ -3555,6 +3801,24 @@ let showsRef = [
         "id": 41389
     },
     {
+        "seriesTitle": "Tonikaku Kawaii 2nd Season",
+        "seriesURL": "https://myanimelist.net/anime/50307/Tonikaku_Kawaii_2nd_Season",
+        "seriesType": "TV",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1996/133361.webp?s=4d568f4f3c0103f03a33317fa42a8983",
+        "seriesAirSeason": [],
+        "seriesGenre": [
+            "Comedy",
+            "Romance"
+        ],
+        "seriesDemographic": "Shounen",
+        "tags": [
+            "Kitou Akari",
+            "Kohara Konomi",
+            "Uesaka Sumire"
+        ],
+        "id": 50307
+    },
+    {
         "seriesTitle": "Tonikaku Kawaii: Seifuku",
         "seriesURL": "https://myanimelist.net/anime/51533/Tonikaku_Kawaii__Seifuku",
         "seriesType": "Special",
@@ -3628,7 +3892,6 @@ let showsRef = [
         "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1373/107550.webp?s=dd969c5ad739be73c15ae9007c73807e",
         "seriesAirSeason": [],
         "seriesGenre": [
-            "Comedy",
             "Supernatural"
         ],
         "seriesDemographic": "",
@@ -3906,6 +4169,23 @@ let showsRef = [
         "id": 34537
     },
     {
+        "seriesTitle": "Shingeki no Kyojin: The Final Season - Kanketsu-hen",
+        "seriesURL": "https://myanimelist.net/anime/51535/Shingeki_no_Kyojin__The_Final_Season_-_Kanketsu-hen",
+        "seriesType": "Special",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1279/131078.webp?s=02ee7d67319256c936a2ad09f4b29a95",
+        "seriesAirSeason": [],
+        "seriesGenre": [
+            "Action",
+            "Drama",
+            "Suspense"
+        ],
+        "seriesDemographic": "Shounen",
+        "tags": [
+            ""
+        ],
+        "id": 51535
+    },
+    {
         "seriesTitle": "3D Kanojo: Real Girl",
         "seriesURL": "https://myanimelist.net/anime/36793/3D_Kanojo__Real_Girl",
         "seriesType": "TV",
@@ -3921,6 +4201,21 @@ let showsRef = [
         "id": 36793
     },
     {
+        "seriesTitle": "Ayaka",
+        "seriesURL": "https://myanimelist.net/anime/53428/Ayaka",
+        "seriesType": "TV",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1406/136367.webp?s=66d7a41658f8b1e9debfc7f1ba906c7d",
+        "seriesAirSeason": [],
+        "seriesGenre": [
+            "Fantasy"
+        ],
+        "seriesDemographic": "",
+        "tags": [
+            ""
+        ],
+        "id": 53428
+    },
+    {
         "seriesTitle": "Hataraku Saibou",
         "seriesURL": "https://myanimelist.net/anime/37141/Hataraku_Saibou",
         "seriesType": "TV",
@@ -3934,6 +4229,21 @@ let showsRef = [
             "Hanazawa Kana"
         ],
         "id": 37141
+    },
+    {
+        "seriesTitle": "Heike Monogatari",
+        "seriesURL": "https://myanimelist.net/anime/49738/Heike_Monogatari",
+        "seriesType": "TV",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1282/119979.webp?s=e3b64ca0375c1e1b651fcc9307ac8de6",
+        "seriesAirSeason": [],
+        "seriesGenre": [
+            "Drama"
+        ],
+        "seriesDemographic": "",
+        "tags": [
+            "Yuuki Aoi"
+        ],
+        "id": 49738
     },
     {
         "seriesTitle": "Hitoribocchi no Marumaru Seikatsu",
@@ -4196,166 +4506,53 @@ let showsRef = [
         "id": 50346
     },
     {
-        "seriesTitle": "Bleach: Sennen Kessen-hen - Ketsubetsu-tan",
-        "seriesURL": "https://myanimelist.net/anime/53998/Bleach__Sennen_Kessen-hen_-_Ketsubetsu-tan",
+        "seriesTitle": "Yumemiru Danshi wa Genjitsushugisha",
+        "seriesURL": "https://myanimelist.net/anime/53632/Yumemiru_Danshi_wa_Genjitsushugisha",
         "seriesType": "TV",
-        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1430/132111.webp?s=c30c5c95e2550a1855b886db9f3efc81",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1239/134810.webp?s=9faae027149844b8e6b3c2e88a15fc15",
         "seriesAirSeason": [],
         "seriesGenre": [
-            "Action",
-            "Adventure",
-            "Fantasy"
+            "Comedy",
+            "Romance"
         ],
-        "seriesDemographic": "Shounen",
+        "seriesDemographic": "",
         "tags": [
             ""
         ],
-        "id": 53998
+        "id": 53632
     },
     {
-        "seriesTitle": "Bungou Stray Dogs 4th Season",
-        "seriesURL": "https://myanimelist.net/anime/50330/Bungou_Stray_Dogs_4th_Season",
+        "seriesTitle": "Kuroshitsuji (Shin Series)",
+        "seriesURL": "https://myanimelist.net/anime/55855/Kuroshitsuji_Shin_Series",
         "seriesType": "TV",
-        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1720/126608.webp?s=eafe26db0664426339ea1d0b0ee13a32",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1401/136922.webp?s=4cc28d4093089773fc11eb2a7b5a38fe",
         "seriesAirSeason": [],
         "seriesGenre": [
             "Action",
+            "Comedy",
             "Mystery",
             "Supernatural"
         ],
-        "seriesDemographic": "Seinen",
-        "tags": [
-            ""
-        ],
-        "id": 50330
-    },
-    {
-        "seriesTitle": "Heike Monogatari",
-        "seriesURL": "https://myanimelist.net/anime/49738/Heike_Monogatari",
-        "seriesType": "TV",
-        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1282/119979.webp?s=e3b64ca0375c1e1b651fcc9307ac8de6",
-        "seriesAirSeason": [],
-        "seriesGenre": [
-            "Drama"
-        ],
-        "seriesDemographic": "",
-        "tags": [
-            "Yuuki Aoi"
-        ],
-        "id": 49738
-    },
-    {
-        "seriesTitle": "Kanojo, Okarishimasu 3rd Season",
-        "seriesURL": "https://myanimelist.net/anime/53050/Kanojo_Okarishimasu_3rd_Season",
-        "seriesType": "TV",
-        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1698/128028.webp?s=b404e8baf2aa8d53567ee6217c3e8257",
-        "seriesAirSeason": [],
-        "seriesGenre": [
-            "Comedy",
-            "Romance"
-        ],
         "seriesDemographic": "Shounen",
         "tags": [
             ""
         ],
-        "id": 53050
+        "id": 55855
     },
     {
-        "seriesTitle": "Karakai Jouzu no Takagi-san Movie",
-        "seriesURL": "https://myanimelist.net/anime/49722/Karakai_Jouzu_no_Takagi-san_Movie",
-        "seriesType": "Movie",
-        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1376/123398.webp?s=bd4ae342216290549ceaaa7c25ff7ef9",
+        "seriesTitle": "Lycoris Recoil (Shinsaku Animation)",
+        "seriesURL": "https://myanimelist.net/anime/54440/Lycoris_Recoil_Shinsaku_Animation",
+        "seriesType": "Unknown",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1435/133315.webp?s=3410c8bb9586ab0bdff201461b9235d2",
         "seriesAirSeason": [],
         "seriesGenre": [
-            ""
-        ],
-        "seriesDemographic": "Shounen",
-        "tags": [
-            ""
-        ],
-        "id": 49722
-    },
-    {
-        "seriesTitle": "Kubo-san wa Mob wo Yurusanai",
-        "seriesURL": "https://myanimelist.net/anime/51815/Kubo-san_wa_Mob_wo_Yurusanai",
-        "seriesType": "TV",
-        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1284/130956.webp?s=fa866ae17e5db9eeb79bd5361e3f1f02",
-        "seriesAirSeason": [],
-        "seriesGenre": [
-            "Comedy",
-            "Romance"
-        ],
-        "seriesDemographic": "Seinen",
-        "tags": [
-            ""
-        ],
-        "id": 51815
-    },
-    {
-        "seriesTitle": "Kyokou Suiri Season 2",
-        "seriesURL": "https://myanimelist.net/anime/44204/Kyokou_Suiri_Season_2",
-        "seriesType": "TV",
-        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1901/131653.webp?s=56c76a8fc78aa99ed8b03e9328149900",
-        "seriesAirSeason": [],
-        "seriesGenre": [
-            "Mystery",
-            "Romance",
-            "Supernatural"
-        ],
-        "seriesDemographic": "Shounen",
-        "tags": [
-            ""
-        ],
-        "id": 44204
-    },
-    {
-        "seriesTitle": "Otonari no Tenshi-sama ni Itsunomanika Dame Ningen ni Sareteita Ken",
-        "seriesURL": "https://myanimelist.net/anime/50739/Otonari_no_Tenshi-sama_ni_Itsunomanika_Dame_Ningen_ni_Sareteita_Ken",
-        "seriesType": "TV",
-        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1429/128789.webp?s=457cc586a9ba0bf0d95b9c3c320c0026",
-        "seriesAirSeason": [],
-        "seriesGenre": [
-            "Comedy",
-            "Romance"
+            "Action"
         ],
         "seriesDemographic": "",
         "tags": [
             ""
         ],
-        "id": 50739
-    },
-    {
-        "seriesTitle": "Shingeki no Kyojin: The Final Season - Kanketsu-hen",
-        "seriesURL": "https://myanimelist.net/anime/51535/Shingeki_no_Kyojin__The_Final_Season_-_Kanketsu-hen",
-        "seriesType": "TV",
-        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1361/130998.webp?s=7fab402b8df4ea897ced6929d39f6aed",
-        "seriesAirSeason": [],
-        "seriesGenre": [
-            "Action",
-            "Drama"
-        ],
-        "seriesDemographic": "Shounen",
-        "tags": [
-            ""
-        ],
-        "id": 51535
-    },
-    {
-        "seriesTitle": "Shinigami Bocchan to Kuro Maid 2nd Season",
-        "seriesURL": "https://myanimelist.net/anime/49858/Shinigami_Bocchan_to_Kuro_Maid_2nd_Season",
-        "seriesType": "TV",
-        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1964/123840.webp?s=adc20979aea212eb11f1070156b6d286",
-        "seriesAirSeason": [],
-        "seriesGenre": [
-            "Comedy",
-            "Drama",
-            "Supernatural"
-        ],
-        "seriesDemographic": "",
-        "tags": [
-            ""
-        ],
-        "id": 49858
+        "id": 54440
     },
     {
         "seriesTitle": "Sono Bisque Doll wa Koi wo Suru (Zoku-hen)",
@@ -4364,7 +4561,7 @@ let showsRef = [
         "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1160/128045.webp?s=45ce112e0b81cc4ad97db8c35260840d",
         "seriesAirSeason": [],
         "seriesGenre": [
-            "Slice of Life"
+            "Romance"
         ],
         "seriesDemographic": "Seinen",
         "tags": [
@@ -4380,7 +4577,6 @@ let showsRef = [
         "seriesAirSeason": [],
         "seriesGenre": [
             "Comedy",
-            "Drama",
             "Mystery",
             "Romance"
         ],
@@ -4389,22 +4585,6 @@ let showsRef = [
             ""
         ],
         "id": 52480
-    },
-    {
-        "seriesTitle": "Tonikaku Kawaii 2nd Season",
-        "seriesURL": "https://myanimelist.net/anime/50307/Tonikaku_Kawaii_2nd_Season",
-        "seriesType": "TV",
-        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1091/131379.webp?s=66ebde3f59b71df91f194fce5285b4c5",
-        "seriesAirSeason": [],
-        "seriesGenre": [
-            "Comedy",
-            "Romance"
-        ],
-        "seriesDemographic": "Shounen",
-        "tags": [
-            ""
-        ],
-        "id": 50307
     },
     {
         "seriesTitle": "Wotaku ni Koi wa Muzukashii OVA",
@@ -4420,53 +4600,6 @@ let showsRef = [
             ""
         ],
         "id": 38349
-    },
-    {
-        "seriesTitle": "Kimi wa Houkago Insomnia",
-        "seriesURL": "https://myanimelist.net/anime/50796/Kimi_wa_Houkago_Insomnia",
-        "seriesType": "TV",
-        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1402/134007.webp?s=4db1a6e6d340018fb7353d2bff4500c2",
-        "seriesAirSeason": [],
-        "seriesGenre": [
-            "Romance"
-        ],
-        "seriesDemographic": "Seinen",
-        "tags": [
-            ""
-        ],
-        "id": 50796
-    },
-    {
-        "seriesTitle": "Skip to Loafer",
-        "seriesURL": "https://myanimelist.net/anime/50416/Skip_to_Loafer",
-        "seriesType": "TV",
-        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1355/133785.webp?s=c1cf682b3fdf1f0b4a85cd982d468537",
-        "seriesAirSeason": [],
-        "seriesGenre": [
-            "Drama"
-        ],
-        "seriesDemographic": "Seinen",
-        "tags": [
-            ""
-        ],
-        "id": 50416
-    },
-    {
-        "seriesTitle": "Tonikaku Kawaii 2nd Season",
-        "seriesURL": "https://myanimelist.net/anime/50307/Tonikaku_Kawaii_2nd_Season",
-        "seriesType": "TV",
-        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1996/133361.webp?s=4d568f4f3c0103f03a33317fa42a8983",
-        "seriesAirSeason": [],
-        "seriesGenre": [
-            "Comedy",
-            "Romance"
-        ],
-        "seriesDemographic": "Shounen",
-        "tags": [
-            "Kitou Akari",
-            "Kohara Konomi"
-        ],
-        "id": 50307
     }
 ];
 
@@ -4599,16 +4732,16 @@ let showsArray = [
 { sortOrder:114, year:2020, season: 'Summer', length:2, seriesTitle: '', type:'TV', title:'GREAT PRETENDER', altTitle:'', handle:'GrePre_anime', imgURL:'https://pbs.twimg.com/profile_images/1220648780011167745/QMKboWCS.jpg', circular:true, MAL:40052 },
 { sortOrder:115, year:2020, season: 'Summer', length:1, seriesTitle: '', type:'TV', title:'Uzaki-chan wa Asobitai!', altTitle:'宇崎ちゃんは遊びたい！', handle:'uzakichan_asobi', imgURL:'https://pbs.twimg.com/profile_images/1147099341858824192/pL6QoWt7.png', circular:true, MAL:41226 },
 { sortOrder:116, year:2020, season: 'Summer', length:1, seriesTitle: 'Kanojo, Okarishimasu', type:'TV', title:'Kanojo, Okarishimasu', altTitle:'彼女、お借りします', handle:'kanokari_anime', imgURL:'https://pbs.twimg.com/profile_images/1264535167755931648/AUajKJKz.jpg', circular:true, MAL:40839 },
-{ sortOrder:117, year:2020, season: 'Autumn', length:1, seriesTitle: 'Tonikaku Kawaii', type:'TV', title:'Tonikaku Kawaii', altTitle:'トニカクカワイイ', handle:'tonikawa_anime', imgURL:'https://pbs.twimg.com/profile_images/1625421036559929345/q58Ijlsh.jpg', circular:true, MAL:41389 },
+{ sortOrder:117, year:2020, season: 'Autumn', length:1, seriesTitle: 'Tonikaku Kawaii', type:'TV', title:'Tonikaku Kawaii', altTitle:'トニカクカワイイ', handle:'tonikawa_anime', imgURL:'https://pbs.twimg.com/profile_images/1679090118496501762/U5SFl-wA.jpg', circular:true, MAL:41389 },
 { sortOrder:118, year:2020, season: 'Autumn', length:1, seriesTitle: '', type:'TV', title:'Majou no Tabitabi', altTitle:'魔女の旅々', handle:'majotabi_PR', imgURL:'https://pbs.twimg.com/profile_images/1185540696037421056/njCjSwao.png', circular:true, MAL:40571 },
 { sortOrder:119, year:2020, season: 'Autumn', length:2, seriesTitle: 'Shingeki no Kyojin', type:'TV', title:'Shingeki no Kyojin The Final Season', altTitle:'進撃の巨人 The Final Season', handle:'anime_shingeki', imgURL:'https://pbs.twimg.com/profile_images/1309025164139663360/cbRKqHxk.jpg', circular:true, MAL:40028 },
-{ sortOrder:120, year:2021, season: 'Winter', length:1, seriesTitle: '', type:'TV', title:'Horimiya', altTitle:'ホリミヤ', handle:'horimiya_anime', imgURL:'https://pbs.twimg.com/profile_images/1306608160363261955/m8MflVId.png', circular:true, MAL:42897 },
+{ sortOrder:120, year:2021, season: 'Winter', length:1, seriesTitle: 'Horimiya', type:'TV', title:'Horimiya', altTitle:'ホリミヤ', handle:'horimiya_anime', imgURL:'https://pbs.twimg.com/profile_images/1306608160363261955/m8MflVId.png', circular:true, MAL:42897 },
 { sortOrder:121, year:2021, season: 'Winter', length:1, seriesTitle: 'Bungou Stray Dogs ', type:'TV', title:'Bungou Stray Dogs Wan!', altTitle:'文豪ストレイドッグス わん！', handle:'bungosd_anime', imgURL:'https://pbs.twimg.com/profile_images/1377636883807707142/G8S5apfo.jpg', circular:true, MAL:42250 },
 { sortOrder:122, year:2021, season: 'Spring', length:1, seriesTitle: '', type:'TV', title:'Koi to Yobu ni wa Kimochi Warui', altTitle:'恋と呼ぶには気持ち悪い', handle:'koikimo_anime', imgURL:'https://pbs.twimg.com/profile_images/1311825458665644032/qQdVyDYR.jpg', circular:true, MAL:41103 },
 { sortOrder:123, year:2021, season: 'Spring', length:1, seriesTitle: '', type:'TV', title:'Hige wo Soru. Soshite Joshikousei wo Hirou.', altTitle:'ひげを剃る。そして女子高生を拾う。', handle:'higehiro_anime', imgURL:'https://pbs.twimg.com/profile_images/1311599822730715141/l39MahWA.jpg', circular:true, MAL:40938 },
 { sortOrder:124, year:2021, season: 'Spring', length:1, seriesTitle: '', type:'TV', title:'Osananajimi ga Zettai ni Makenai Love Comedy', altTitle:'幼なじみが絶対に負けないラブコメ', handle:'osamake_project', imgURL:'https://pbs.twimg.com/profile_images/1312352077423636482/WoxK7ZKO.jpg', circular:true, MAL:43007 },
 { sortOrder:125, year:2021, season: 'Summer', length:1, seriesTitle: '', type:'TV', title:'Kanojo mo Kanojo', altTitle:'カノジョも彼女', handle:'kanokano_anime', imgURL:'https://pbs.twimg.com/profile_images/1573948741639233537/_KFWh6IA.jpg', circular:true, MAL:43969 },
-{ sortOrder:126, year:2021, season: 'Summer', length:1, seriesTitle: '', type:'TV', title:'Shinigami Bocchan to Kuro Maid', altTitle:'死神坊ちゃんと黒メイド', handle:'bocchan_anime', imgURL:'https://pbs.twimg.com/profile_images/1526215904714887168/qff51lCJ.jpg', circular:true, MAL:47257 },
+{ sortOrder:126, year:2021, season: 'Summer', length:1, seriesTitle: 'Shinigami Bocchan to Kuro Maid', type:'TV', title:'Shinigami Bocchan to Kuro Maid', altTitle:'死神坊ちゃんと黒メイド', handle:'bocchan_anime', imgURL:'https://pbs.twimg.com/profile_images/1526215904714887168/qff51lCJ.jpg', circular:true, MAL:47257 },
 { sortOrder:127, year:2021, season: 'Summer', length:1, seriesTitle: '', type:'TV', title:'Sonny Boy', altTitle:'', handle:'sonnyboy_anime', imgURL:'https://pbs.twimg.com/profile_images/1415738208835407872/qdHMoMo3.jpg', circular:true, MAL:48849 },
 { sortOrder:128, year:2021, season: 'Summer', length:1, seriesTitle: '', type:'TV', title:'Tantei wa Mou, Shindeiru.', altTitle:'探偵はもう、死んでいる。', handle:'tanteiwamou_', imgURL:'https://pbs.twimg.com/profile_images/1245369835896229889/JDG3Y_Wo.png', circular:true, MAL:46471 },
 { sortOrder:129, year:2021, season: 'Autumn', length:1, seriesTitle: 'Komi-san wa, Komyushou Desu.', type:'TV', title:'Komi-san wa, Komyushou Desu.', altTitle:'古見さんは、コミュ症です。', handle:'comisanvote', imgURL:'https://pbs.twimg.com/profile_images/1383659174643470342/CllYIDt4.jpg', circular:true, MAL:48926 },
@@ -4622,23 +4755,31 @@ let showsArray = [
 { sortOrder:137, year:2022, season: 'Spring', length:1, seriesTitle: 'Kaguya-sama wa Kokurasetai', type:'TV', title:'Kaguya-sama wa Kokurasetai: Ultra Romantic', altTitle:'かぐや様は告らせたい-ウルトラロマンティック-', handle:'anime_kaguya', imgURL:'https://pbs.twimg.com/profile_images/1509869806001872897/SmQyyzqI.png', circular:true, MAL:43608 },
 { sortOrder:138, year:2022, season: 'Spring', length:1, seriesTitle: 'Komi-san wa, Komyushou Desu.', type:'TV', title:'Komi-san wa, Komyushou Desu.', altTitle:'古見さんは、コミュ症です。', handle:'comisanvote', imgURL:'https://pbs.twimg.com/profile_images/1383659174643470342/CllYIDt4.jpg', circular:true, MAL:50631 },
 { sortOrder:139, year:2022, season: 'Spring', length:1, seriesTitle: '', type:'TV', title:'Kawaii Dake ja Nai Shikimori-san', altTitle:'可愛いだけじゃない式守さん', handle:'anime_shikimori', imgURL:'https://pbs.twimg.com/profile_images/1601158887700238336/Q6cSK3iU.jpg', circular:true, MAL:45613 },
-{ sortOrder:140, year:2022, season: 'Summer', length:1, seriesTitle: 'Kanojo, Okarishimasu', type:'TV', title:'Kanojo, Okarishimasu', altTitle:'彼女、お借りします', handle:'kanokari_anime', imgURL:'https://pbs.twimg.com/profile_images/1264535167755931648/AUajKJKz.jpg', circular:true, MAL:42963 },
+{ sortOrder:140, year:2022, season: 'Summer', length:1, seriesTitle: 'Kanojo, Okarishimasu', type:'TV', title:'Kanojo, Okarishimasu 2nd Season', altTitle:'彼女、お借りします', handle:'kanokari_anime', imgURL:'https://pbs.twimg.com/profile_images/1264535167755931648/AUajKJKz.jpg', circular:true, MAL:42963 },
 { sortOrder:141, year:2022, season: 'Summer', length:1, seriesTitle: '', type:'TV', title:'Lycoris Recoil', altTitle:'リコリス・リコイル', handle:'lycoris_recoil', imgURL:'https://pbs.twimg.com/profile_images/1476909381061320708/bKmQgcMT.png', circular:true, MAL:50709 },
 { sortOrder:142, year:2022, season: 'Summer', length:1, seriesTitle: '', type:'TV', title:'Engage Kiss', altTitle:'', handle:'engage_kiss', imgURL:'https://pbs.twimg.com/profile_images/1507536637550419971/IiEiGvfN.jpg', circular:true, MAL:51417 },
 { sortOrder:143, year:2022, season: 'Summer', length:1, seriesTitle: '', type:'TV', title:'Mamahaha no Tsurego ga Motokano Datta', altTitle:'継母の連れ子が元カノだった', handle:'tsurekano', imgURL:'https://pbs.twimg.com/profile_images/1633708227711102976/FL5eO_Id.jpg', circular:true, MAL:49470 },
 { sortOrder:144, year:2022, season: 'Summer', length:1, seriesTitle: '', type:'TV', title:'Warau Arsnotoria Sun!', altTitle:'咲う アルスノトリア すんっ！', handle:'arsno_anime', imgURL:'https://pbs.twimg.com/profile_images/1529390632304660480/agcmmW_X.jpg', circular:true, MAL:51923 },
 { sortOrder:145, year:2022, season: 'Autumn', length:1, seriesTitle: '', type:'TV', title:'Uzaki-chan wa Asobitai! Double', altTitle:'宇崎ちゃんは遊びたい！Ω', handle:'uzakichan_asobi', imgURL:'https://pbs.twimg.com/profile_images/1147099341858824192/pL6QoWt7.png', circular:true, MAL:42962 },
-{ sortOrder:146, year:2022, season: 'Autumn', length:1, seriesTitle: 'BLEACH', type:'TV', title:'Bleach: Sennen Kessen-hen', altTitle:'BLEACH 千年血戦篇', handle:'BLEACHanimation', imgURL:'https://pbs.twimg.com/profile_images/1556527498644815872/lTiDIt2G.jpg', circular:true, MAL:41467 },
+{ sortOrder:146, year:2022, season: 'Autumn', length:1, seriesTitle: 'BLEACH: Sennen Kessen-hen', type:'TV', title:'BLEACH: Sennen Kessen-hen', altTitle:'BLEACH 千年血戦篇', handle:'BLEACHanimation', imgURL:'https://pbs.twimg.com/profile_images/1556527498644815872/lTiDIt2G.jpg', circular:false, MAL:41467 },
 { sortOrder:147, year:2022, season: 'Autumn', length:1, seriesTitle: '', type:'TV', title:'Koukyuu no Karasu', altTitle:'後宮の烏', handle:'kokyu_anime', imgURL:'https://pbs.twimg.com/profile_images/1516841738437939202/utooJ7Gr.jpg', circular:true, MAL:50590 },
 { sortOrder:148, year:2022, season: 'Autumn', length:1, seriesTitle: '', type:'TV', title:'Romantic Killer', altTitle:'ロマンティック・キラー', handle:'', imgURL:'', circular:false, MAL:52865 },
-{ sortOrder:149, year:2023, season: 'Winter', length:1, seriesTitle: '', type:'TV', title:'Bungou Stray Dogs 4th Season', altTitle:'文豪ストレイドッグス', handle:'bungosd_anime', imgURL:'https://pbs.twimg.com/profile_images/1642180039390412805/B6Kf8n46.png', circular:true, MAL:50330 },
+{ sortOrder:149, year:2023, season: 'Winter', length:1, seriesTitle: 'Bungou Stray Dogs', type:'TV', title:'Bungou Stray Dogs 4th Season', altTitle:'文豪ストレイドッグス', handle:'bungosd_anime', imgURL:'https://pbs.twimg.com/profile_images/1642180039390412805/B6Kf8n46.png', circular:true, MAL:50330 },
 { sortOrder:150, year:2023, season: 'Winter', length:1, seriesTitle: 'Kyokou Suiri', type:'TV', title:'Kyokou Suiri Season 2', altTitle:'虚構推理', handle:'kyokou_suiri', imgURL:'https://pbs.twimg.com/profile_images/1115453678771523584/Vpeq5eJ1.png', circular:true, MAL:44204 },
 { sortOrder:151, year:2023, season: 'Winter', length:1, seriesTitle: '', type:'TV', title:'Otonari no Tenshi-sama ni Itsunomanika Dame Ningen ni Sareteita Ken', altTitle:'お隣の天使様にいつの間にか駄目人間にされていた件', handle:'tenshisama_PR', imgURL:'https://pbs.twimg.com/profile_images/1645255424831275008/6O3iyefk.jpg', circular:false, MAL:50739 },
 { sortOrder:152, year:2023, season: 'Winter', length:1, seriesTitle: 'Kubo-san wa Mob wo Yurusanai', type:'TV', title:'Kubo-san wa Mob wo Yurusanai', altTitle:'久保さんは僕を許さない', handle:'kubosan_anime', imgURL:'https://pbs.twimg.com/profile_images/1590993533867282433/_ecrqUJy.jpg', circular:true, MAL:51815 },
 { sortOrder:153, year:2023, season: 'Spring', length:1, seriesTitle: '', type:'TV', title:'Skip to Loafer', altTitle:'スキップとローファー', handle:'skip_and_loafer', imgURL:'https://pbs.twimg.com/profile_images/1539249977587044352/2AJG3p6B.png', circular:true, MAL:50416 },
-{ sortOrder:154, year:2023, season: 'Spring', length:1, seriesTitle: 'Tonikaku Kawaii', type:'TV', title:'Tonikaku Kawaii', altTitle:'トニカクカワイイ', handle:'tonikawa_anime', imgURL:'https://pbs.twimg.com/profile_images/1625421036559929345/q58Ijlsh.jpg', circular:true, MAL:50307 },
+{ sortOrder:154, year:2023, season: 'Spring', length:1, seriesTitle: 'Tonikaku Kawaii', type:'TV', title:'Tonikaku Kawaii Season 2', altTitle:'トニカクカワイイ', handle:'tonikawa_anime', imgURL:'https://pbs.twimg.com/profile_images/1679090118496501762/U5SFl-wA.jpg', circular:true, MAL:50307 },
 { sortOrder:155, year:2023, season: 'Spring', length:1, seriesTitle: '', type:'TV', title:'Kimi wa Houkago Insomnia', altTitle:'君は放課後インソムニア', handle:'kimisomu_anime', imgURL:'https://pbs.twimg.com/profile_images/1534459081733578753/Y_5nf5us.jpg', circular:true, MAL:50796 },
 { sortOrder:156, year:2023, season: 'Spring', length:1, seriesTitle: 'Kubo-san wa Mob wo Yurusanai', type:'TV', title:'Kubo-san wa Mob wo Yurusanai', altTitle:'久保さんは僕を許さない', handle:'kubosan_anime', imgURL:'https://pbs.twimg.com/profile_images/1590993533867282433/_ecrqUJy.jpg', circular:true, MAL:51815 },
+{ sortOrder:157, year:2023, season: 'Summer', length:1, seriesTitle: 'Horimiya', type:'TV', title:'Horimiya -piece-', altTitle:'ホリミヤ -piece-', handle:'horimiya_anime', imgURL:'https://pbs.twimg.com/profile_images/1639502331099353088/dEFBpRoF.png', circular:false, MAL:54856 },
+{ sortOrder:158, year:2023, season: 'Summer', length:1, seriesTitle: '', type:'TV', title:'Suki na Ko ga Megane wo Wasureta', altTitle:'好きな子がめがねを忘れた', handle:'Sukimega', imgURL:'https://pbs.twimg.com/profile_images/1650326300949884929/sxriBoy5.jpg', circular:true, MAL:54234 },
+{ sortOrder:159, year:2023, season: 'Summer', length:1, seriesTitle: 'Kanojo, Okarishimasu', type:'TV', title:'Kanojo, Okarishimasu 3rd Season', altTitle:'彼女、お借りします', handle:'kanokari_anime', imgURL:'https://pbs.twimg.com/profile_images/1264535167755931648/AUajKJKz.jpg', circular:true, MAL:53050 },
+{ sortOrder:160, year:2023, season: 'Summer', length:1, seriesTitle: 'BLEACH: Sennen Kessen-hen', type:'TV', title:'BLEACH: Sennen Kessen-hen - Ketsubetsu-tan', altTitle:'BLEACH 千年血戦篇-訣別譚-', handle:'BLEACHanimation', imgURL:'https://pbs.twimg.com/profile_images/1642181977213403136/uLb-uNMZ_400x400.jpg', circular:false, MAL:53998 },
+{ sortOrder:161, year:2023, season: 'Summer', length:1, seriesTitle: 'Shinigami Bocchan to Kuro Maid', type:'TV', title:'Shinigami Bocchan to Kuro Maid 2nd Season', altTitle:'死神坊ちゃんと黒メイド', handle:'bocchan_anime', imgURL:'https://pbs.twimg.com/profile_images/1671871727058706433/FEl4RRQs.jpg', circular:true, MAL:49858 },
+{ sortOrder:162, year:2023, season: 'Summer', length:1, seriesTitle: 'Bungou Stray Dogs', type:'TV', title:'Bungou Stray Dogs 5th Season', altTitle:'文豪ストレイドッグス', handle:'bungosd_anime', imgURL:'https://pbs.twimg.com/profile_images/1642180039390412805/B6Kf8n46.png', circular:true, MAL:54898 },
+{ sortOrder:163, year:2023, season: 'Summer', length:1, seriesTitle: 'Tonikaku Kawaii', type:'TV', title:'Tonikaku Kawaii: Joshikou-hen', altTitle:'トニカクカワイイ 女子高編', handle:'tonikawa_anime', imgURL:'https://pbs.twimg.com/profile_images/1679090118496501762/U5SFl-wA.jpg', circular:true, MAL:55651 },
+
 
 ].map(ca => {
 	let ref = showsRef.filter(s => s.id == ca.MAL);
@@ -4648,7 +4789,6 @@ let showsArray = [
 		genres: ref[0].seriesGenre,
 	}
 });
-
 
 //CODE TO EXTRACT DATA FROM MYANIMELIST ANIME LIST PAGE, PUT IN SHOWSREF
 function extractData() {
