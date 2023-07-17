@@ -1,6 +1,7 @@
 //--SETTINGS--//
 const currentYear = 2023;
-const currentSeason = 'Spring';
+const currentSeason = 'Summer';
+const maxPerSeason = 7;
 const seasons = [
 	{ title:'Winter', altTitle:'' },
 	{ title:'Spring', altTitle:'' },
@@ -175,7 +176,7 @@ function generateCalendarBox(list) {
 		let t = document.createElement('div');
 		t.classList.add('year');
 		t.style.paddingRight = '3px';
-		t.style.gridRow = (2+((y-2008)*5)) + '/ span 5';
+		t.style.gridRow = (2+((y-2008)*maxPerSeason)) + '/ span ' + maxPerSeason;
 		t.innerText = y;
 		calendarDiv.appendChild(t);
 		
@@ -187,14 +188,14 @@ function generateCalendarBox(list) {
 		
 		for(let s of seasons)
 		{
-			while(yearShows[s.title].length < 5)
+			while(yearShows[s.title].length < maxPerSeason)
 			{
 				yearShows[s.title].push({ year: y, season: s.title, title: '' });
 			}
 		}
 		// console.log(yearShows);
 		
-		for(let count = 0; count < 5; count++)
+		for(let count = 0; count < maxPerSeason; count++)
 		{
 			for(let s of seasons)
 			{
