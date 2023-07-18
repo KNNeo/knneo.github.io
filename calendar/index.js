@@ -97,6 +97,16 @@ const data = [
 		format: 'Video Live',
 	},
 	{
+		name: 'ミュージックレイン3期生 新番組β版',
+		startDayNo: 2,
+		startTime: 2330,
+		lengthMinutes: 30,
+		recurringWeeks: [1,2,3,4,5],
+		channel: 'ニコニコチャンネル',
+		url: 'http://beta.secondshot.jp/',
+		format: 'Video Live',
+	},
+	{
 		name: '鬼頭明里のsmiley pop',
 		startDayNo: 3,
 		startTime: 1930,
