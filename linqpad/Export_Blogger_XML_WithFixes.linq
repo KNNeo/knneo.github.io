@@ -42,7 +42,7 @@
  * [manual] link in images of thumbnails to be removed
  * [ok]	reduce resolution of uploaded images (from 4032 -> 2048 pixels)
  * []	censor words
- * []	add lazy loading to img tags
+ * [ok]	add lazy loading to img tags
  */
 
 void Main()
