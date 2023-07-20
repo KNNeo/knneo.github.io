@@ -1,5 +1,5 @@
 let currentYear = 2023;
-let currentSeason = 'Spring';
+let currentSeason = 'Summer';
 window.addEventListener('load', startup);
 
 function startup() {
@@ -198,7 +198,7 @@ function generateCalendarBox(list) {
 		
 		for(let s of seasons)
 		{
-			while(yearShows[s.title].length < 5)
+			while(yearShows[s.title].length < 7)
 			{
 				yearShows[s.title].push({ year: y, season: s.title, title: '' });
 			}
