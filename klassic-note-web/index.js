@@ -1969,7 +1969,7 @@ function queryAnalysis(contents) {
 	queryDb(query, generateSongAppetite);
 	
 	//Release by Artist Type
-	query = "SELECT DISTINCT CASE WHEN ArtistCode = 'BD' THEN 'Independent Band' WHEN ArtistCode IN ('ID','VG') THEN 'Idol Group' WHEN ArtistCode = 'AG' THEN 'Anime Voice Actor Group' WHEN ArtistCode = 'AS' THEN 'Anime Voice Actor(s)' WHEN ArtistCode = 'CL' THEN 'Collaboration' WHEN ArtistCode = 'SS' THEN 'Singer-Songwriter' WHEN ArtistCode IN ('SL','VA') THEN 'Solo Artist' ELSE 'Unknown' END AS 'Artist Type', Count(a.ArtistCode) AS 'Count' FROM Release s JOIN (SELECT DISTINCT ArtistTitle, ArtistCode from Artist) a ON s.ReleaseArtistTitle = a.ArtistTitle WHERE s.KNYEAR = " + KNYEAR + " AND a.ArtistCode <> '' GROUP BY a.ArtistCode ORDER BY Count(a.ArtistCode) DESC";
+	query = "SELECT artists.'Artist Type', SUM(artists.Count) FROM (SELECT DISTINCT CASE WHEN ArtistCode = 'BD' THEN 'Independent Band' WHEN ArtistCode IN ('ID','VG') THEN 'Idol Group' WHEN ArtistCode = 'AG' THEN 'Anime Voice Actor Group' WHEN ArtistCode = 'AS' THEN 'Anime Voice Actor(s)' WHEN ArtistCode = 'CL' THEN 'Collaboration' WHEN ArtistCode = 'SS' THEN 'Singer-Songwriter' WHEN ArtistCode IN ('SL','VA') THEN 'Solo Artist' ELSE 'Unknown' END AS 'Artist Type', Count(a.ArtistCode) AS 'Count' FROM Release s JOIN (SELECT DISTINCT ArtistTitle, ArtistCode from Artist) a ON s.ReleaseArtistTitle = a.ArtistTitle WHERE s.KNYEAR = " + KNYEAR + " AND a.ArtistCode <> '' GROUP BY a.ArtistCode) artists GROUP BY artists.'Artist Type' ORDER BY SUM(artists.Count) DESC";
 
 	if(debugMode) console.log('generateReleaseByArtistType', query);
 	queryDb(query, generateReleaseByArtistType);
