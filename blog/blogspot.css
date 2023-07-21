@@ -88,11 +88,11 @@ a:hover {
 
 .latest-post {
 	box-shadow: 3px 3px var(--foreground);
-	border: 1px solid var(--foreground);
+	border: 2px solid var(--foreground);
     display: inline-block;
 	padding: 5px;
 	width: 320px;
-    margin: 4px 2px;
+    margin: 4px 1px;
 	vertical-align: top;
 	font-size: initial;
 	-webkit-user-select: none;
