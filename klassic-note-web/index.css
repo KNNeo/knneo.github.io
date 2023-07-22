@@ -240,7 +240,7 @@ a {
 }
 
 .list th {
-    white-space: nowrap;	
+    /* white-space: nowrap;	 */
 }
 
 .list tr:hover > td {
