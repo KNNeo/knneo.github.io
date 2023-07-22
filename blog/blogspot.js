@@ -10,7 +10,7 @@ function toggleEmojiDisplay() {
 	}
 	for(let emoji of document.querySelectorAll('.emoji'))
 	{
-		let temp = emoji.innerText;
+		let temp = emoji.textContent;
 		emoji.innerText = emoji.title;
 		emoji.title = temp;
 	}
