@@ -670,21 +670,18 @@ void Main()
 		if(includeIndex.Count() == 0 || includeIndex.Contains(24))
 		{
 			if(TraceMode) Console.WriteLine("replace common phrases with emoji");
-	        var phrases = new string[]{
-				"laughs", "giggles", "sob", "silence", "pukes", "ugh", "wink", "dabs", 
-				"thumbs up", "sigh", "blessed", "shrugs", "cringe", "fingers crossed", "smiles", "screams",
-				"phew", "chef's kiss", "sshh", "speechless", "sniff", "gasp", "mind blown"
-			};
-	        var emojis = new string[]{
-				"😆", "🤭", "😢", "😐", "🤮", "🙄", "😉", "😎", 
-				"👍", "😩", "🥰", "🤷", "😬", "🤞", "😊", "😱", 
-				"😌", "😚", "🤫", "😲", "😢", "😲", "🤯"
+			Dictionary<string, string> emojis = new Dictionary<string, string>()
+			{
+				{"laughs",	"😆"}, {"giggles",			"🤭"}, {"sob",			"😢"}, {"silence",	"😐"}, {"pukes",		"🤮"}, {"ugh", 			"🙄"},
+				{"wink",	"😉"}, {"dabs",				"😎"}, {"thumbs up",	"👍"}, {"sigh",		"😩"}, {"blessed", 		"🥰"}, {"shrugs", 		"🤷"},
+				{"cringe",	"😬"}, {"fingers crossed",	"🤞"}, {"smiles",		"😊"}, {"screams",	"😱"}, {"phew",			"😌"}, {"chef's kiss",	"😚"},
+				{"sshh",	"🤫"}, {"speechless",		"😲"}, {"sniff",		"😢"}, {"gasp",		"😲"}, {"mind blown",	"🤯"}
 			};
 			
-			for(var e = 0; e < emojis.Length; e++)
+			foreach(var emoji in emojis)
 			{
-				var initial = "*" + phrases[e] + "*";
-		        content = content.Replace(initial, "<span class=\"emoji\" title=\"" + emojis[e] + "\">" + initial + "</span>");
+				var initial = "*" + emoji.Key + "*";
+		        content = content.Replace(initial, "<span class=\"emoji\" title=\"" + emoji.Value + "\">" + initial + "</span>");
 			}
 		}
         #endregion
