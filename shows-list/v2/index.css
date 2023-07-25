@@ -77,8 +77,11 @@ body {
 
 .calendar {	
 	display: grid;
-    max-height: 50dvh;
+	min-height: 200px;
+    	max-height: 75dvh;
 	overflow-y: auto;
+	font-size: x-small;
+	resize: vertical;
 }
 
 .calendar-header {
@@ -162,10 +165,6 @@ body {
 
 .year-display:hover {
 	color: var(--primary);
-}
-
-.calendar {
-	font-size: x-small;
 }
 
 .calendar-cell:hover {
