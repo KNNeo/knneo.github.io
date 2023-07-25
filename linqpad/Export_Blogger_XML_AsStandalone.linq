@@ -131,7 +131,7 @@ void Main()
 		//=====CHECKS=====//
 		if(string.IsNullOrWhiteSpace(originalLink))
 			continue;
-		if(published <= DateTime.Parse("2023-01-01"))
+		if(published <= DateTime.Parse("2022-01-01"))
 			continue;
 		//=====CHECKS=====//
 		
@@ -214,7 +214,7 @@ void Main()
 					using (WebClient client = new WebClient()) 
 					{
 						Console.WriteLine("      Downloading... " + url);
-					    client.DownloadFile(new Uri(url), monthfolder + "/data/imglink/" + filename);
+					    client.DownloadFile(new Uri(url), monthfolder + "/data/imglink/" + filename.Replace("%20", " "));
 						//Console.WriteLine("File downloaded to " + monthfolder + "/data/" + filename);
 					}
 				}
