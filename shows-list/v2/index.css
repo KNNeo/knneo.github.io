@@ -78,7 +78,7 @@ body {
 .calendar {	
 	display: grid;
 	min-height: 200px;
-    	max-height: 75dvh;
+	max-height: 70dvh;
 	overflow-y: auto;
 	font-size: x-small;
 	resize: vertical;
