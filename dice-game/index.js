@@ -1,6 +1,10 @@
 //--DEFAULT SETTINGS--//
 const enableAI = true;
 const comBehavior = 'balanced';
+const isMobile = function() {
+    const match = window.matchMedia('(pointer:coarse)');
+    return (match && match.matches && window.innerWidth <= 480);
+};
 
 //--COMMON EVENTS--//
 window.onload = startup();
@@ -13,6 +17,16 @@ function startup() {
 	window['delay'] = 500; // AI
 	window['ai'] = comBehavior ?? 'balanced';
 	generateViewer();
+}
+
+function updateDisplay() {
+	if(!enableAI && isMobile())
+	{
+		document.querySelector('.opponent.dice').classList.add('flipped');
+		document.querySelector('.opponent.score.col1').classList.add('flipped');
+		document.querySelector('.opponent.score.col2').classList.add('flipped');
+		document.querySelector('.opponent.score.col3').classList.add('flipped');
+	}
 }
 
 function start() { // from trigger, start game	
@@ -43,7 +57,7 @@ function start() { // from trigger, start game
 	actionScore.innerHTML = '';
 	actionScore.className = 'action score';
 	let score = document.createElement('strong');
-	score.className = 'opponent total flipped';
+	score.className = 'opponent total ' + (!enableAI && isMobile() ? 'flipped' : '');
 	score.innerText = 0;
 	actionScore.appendChild(score);
 	actionScore.appendChild(document.createElement('hr'));
