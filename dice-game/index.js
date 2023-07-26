@@ -1,5 +1,6 @@
 //--DEFAULT SETTINGS--//
-const enableAI = false;
+const enableAI = true;
+const comBehavior = 'balanced';
 
 //--COMMON EVENTS--//
 window.onload = startup();
@@ -9,6 +10,8 @@ window.onresize = adjustViewerMargin();
 function startup() {
 	window['shake-1'] = false; // player
 	window['shake-2'] = false; // opponent
+	window['delay'] = 500; // AI
+	window['ai'] = comBehavior ?? 'balanced';
 	generateViewer();
 }
 
@@ -72,11 +75,11 @@ function end() { // from trigger, end game
 	let whoWins = 'draw';
 	if(playerScore > opponentScore) {
 		whoWins = 'player';
-		document.querySelector('.player.dice').innerText = '✌️';
+		document.querySelector('.player.dice').innerText = '🏆';
 	}
 	if(opponentScore > playerScore) {
 		whoWins = 'opponent';
-		document.querySelector('.opponent.dice').innerText = '✌️';
+		document.querySelector('.opponent.dice').innerText = '🏆';
 	}
 	
 	let playerWins = (wins[0] ?? 0) + (whoWins == 'player' ? 1 : 0);
@@ -98,6 +101,17 @@ function shake(number) {
 	event.target.parentElement.getAttribute('data-status') == 'rolled') return;
 	window['shake-' + number] = 0;
 	shaking(number);
+	
+	// AI action
+	if(enableAI && number == 2)
+	{
+		setTimeout(function() {
+			//calculate which cell to click
+			let colNo = chooseCell();
+			if(colNo)
+				document.querySelector('.opponent.cell.col' + colNo + ':not([data-id])').dispatchEvent(new Event('click'));
+		}, window['delay'] * 2);
+	}
 }
 
 function shaking(number) {
@@ -115,6 +129,9 @@ function shaking(number) {
 	
 	// show dice as rolled
 	event.target.parentElement.setAttribute('data-status', 'rolled');
+	
+	// set value
+	event.target.parentElement.setAttribute('data-id', rand);
 	
 	// light up board
 	let classes = '.' + Array.from(event.target.parentElement.classList).join('.');
@@ -229,6 +246,14 @@ function onCellSelect(number) {
 		Array.from(document.querySelectorAll('.player.cell'))
 		.reduce((total, current) => total + (current.getAttribute('data-id') != null ? 1 : 0), 0) >= 9)
 			end();
+		
+		// AI action
+		if(enableAI && number == 1 && document.querySelector('.opponent.dice .bi') != null)
+		{
+			setTimeout(function() {
+				document.querySelector('.opponent.dice .bi').dispatchEvent(new Event('click'));
+			}, window['delay']);
+		}
 	}
 }
 
@@ -393,6 +418,150 @@ function resetScores() {
 	localStorage.setItem('dice-game-wins',JSON.stringify([]));
 	localStorage.setItem('dice-game-scores',JSON.stringify([]));
 	location.reload();
+}
+
+function chooseCell() {
+	let current = parseInt(document.querySelector('.opponent.dice').getAttribute('data-id'));
+	let choice = 0;
+	let col1 = [], col2 = [], col3 = [];
+	let counts1 = [], counts2 = [], counts3 = [];
+	let selectCol1 = false, selectCol2 = false, selectCol3 = false;
+	let method = window['ai'];
+	if(method == 'balanced') // to kill combo when present, else get highest score possible
+	{
+		if(Math.random() >= 0.5)
+			method = 'aggressive';
+		else
+			method = 'defensive';
+	}
+	console.log('AI approach:', method);
+	
+	switch(method.toLowerCase())
+	{
+		case 'aggressive': // to kill combo when present
+			// compile player values
+			col1 = Array.from(document.querySelectorAll('.player.cell.col1'))
+				.map(c => parseInt(c.getAttribute('data-id')) || 0);
+			col2 = Array.from(document.querySelectorAll('.player.cell.col2'))
+				.map(c => parseInt(c.getAttribute('data-id')) || 0);
+			col3 = Array.from(document.querySelectorAll('.player.cell.col3'))
+				.map(c => parseInt(c.getAttribute('data-id')) || 0);
+			// console.log(col1, col2, col3);
+			counts1 = [
+				null,
+				col1.reduce((total, dice) => dice == 1 ? total + 1 : total, 0),
+				col1.reduce((total, dice) => dice == 2 ? total + 1 : total, 0),
+				col1.reduce((total, dice) => dice == 3 ? total + 1 : total, 0),
+				col1.reduce((total, dice) => dice == 4 ? total + 1 : total, 0),
+				col1.reduce((total, dice) => dice == 5 ? total + 1 : total, 0),
+				col1.reduce((total, dice) => dice == 6 ? total + 1 : total, 0)
+			];
+			// console.log('left', counts1);
+			counts2 = [
+				null,
+				col2.reduce((total, dice) => dice == 1 ? total + 1 : total, 0),
+				col2.reduce((total, dice) => dice == 2 ? total + 1 : total, 0),
+				col2.reduce((total, dice) => dice == 3 ? total + 1 : total, 0),
+				col2.reduce((total, dice) => dice == 4 ? total + 1 : total, 0),
+				col2.reduce((total, dice) => dice == 5 ? total + 1 : total, 0),
+				col2.reduce((total, dice) => dice == 6 ? total + 1 : total, 0)
+			];
+			// console.log('middle', counts2);
+			counts3 = [
+				null,
+				col3.reduce((total, dice) => dice == 1 ? total + 1 : total, 0),
+				col3.reduce((total, dice) => dice == 2 ? total + 1 : total, 0),
+				col3.reduce((total, dice) => dice == 3 ? total + 1 : total, 0),
+				col3.reduce((total, dice) => dice == 4 ? total + 1 : total, 0),
+				col3.reduce((total, dice) => dice == 5 ? total + 1 : total, 0),
+				col3.reduce((total, dice) => dice == 6 ? total + 1 : total, 0)
+			];
+			// console.log('right', counts3);
+			// filter weight
+			selectCol1 = counts1.map(c => c > 0 ? -1 : c).indexOf(-1) == current;
+			selectCol2 = counts2.map(c => c > 0 ? -1 : c).indexOf(-1) == current;
+			selectCol3 = counts3.map(c => c > 0 ? -1 : c).indexOf(-1) == current;
+			// console.log('select', selectCol1, selectCol2, selectCol3);
+			
+			// make choice
+			if(selectCol3 && Array.from(document.querySelectorAll('.opponent.cell.col3:not([data-id])')).length > 0)
+				choice = 3;
+			else if(selectCol2 && Array.from(document.querySelectorAll('.opponent.cell.col2:not([data-id])')).length > 0)
+				choice = 2;
+			else if(selectCol1 && Array.from(document.querySelectorAll('.opponent.cell.col1:not([data-id])')).length > 0)
+				choice = 1;
+			else {
+				if(Array.from(document.querySelectorAll('.opponent.cell.col3:not([data-id])')).length > 0)
+					choice = 3;
+				if(Array.from(document.querySelectorAll('.opponent.cell.col2:not([data-id])')).length > 0)
+					choice = 2;
+				if(Array.from(document.querySelectorAll('.opponent.cell.col1:not([data-id])')).length > 0)
+					choice = 1;
+			}
+			break;
+		case 'defensive': // to get highest score possible
+			// compile self values
+			col1 = Array.from(document.querySelectorAll('.opponent.cell.col1'))
+				.map(c => parseInt(c.getAttribute('data-id')) || 0);
+			col2 = Array.from(document.querySelectorAll('.opponent.cell.col2'))
+				.map(c => parseInt(c.getAttribute('data-id')) || 0);
+			col3 = Array.from(document.querySelectorAll('.opponent.cell.col3'))
+				.map(c => parseInt(c.getAttribute('data-id')) || 0);
+			// console.log(col1, col2, col3);
+			counts1 = [
+				null,
+				col1.reduce((total, dice) => dice == 1 ? total + 1 : total, 0),
+				col1.reduce((total, dice) => dice == 2 ? total + 1 : total, 0),
+				col1.reduce((total, dice) => dice == 3 ? total + 1 : total, 0),
+				col1.reduce((total, dice) => dice == 4 ? total + 1 : total, 0),
+				col1.reduce((total, dice) => dice == 5 ? total + 1 : total, 0),
+				col1.reduce((total, dice) => dice == 6 ? total + 1 : total, 0)
+			];
+			// console.log('left', counts1);
+			counts2 = [
+				null,
+				col2.reduce((total, dice) => dice == 1 ? total + 1 : total, 0),
+				col2.reduce((total, dice) => dice == 2 ? total + 1 : total, 0),
+				col2.reduce((total, dice) => dice == 3 ? total + 1 : total, 0),
+				col2.reduce((total, dice) => dice == 4 ? total + 1 : total, 0),
+				col2.reduce((total, dice) => dice == 5 ? total + 1 : total, 0),
+				col2.reduce((total, dice) => dice == 6 ? total + 1 : total, 0)
+			];
+			// console.log('middle', counts2);
+			counts3 = [
+				null,
+				col3.reduce((total, dice) => dice == 1 ? total + 1 : total, 0),
+				col3.reduce((total, dice) => dice == 2 ? total + 1 : total, 0),
+				col3.reduce((total, dice) => dice == 3 ? total + 1 : total, 0),
+				col3.reduce((total, dice) => dice == 4 ? total + 1 : total, 0),
+				col3.reduce((total, dice) => dice == 5 ? total + 1 : total, 0),
+				col3.reduce((total, dice) => dice == 6 ? total + 1 : total, 0)
+			];
+			// console.log('right', counts3);
+			// filter weight
+			selectCol1 = counts1[current] > 0;
+			selectCol2 = counts2[current] > 0;
+			selectCol3 = counts3[current] > 0;
+			// console.log('select', selectCol1, selectCol2, selectCol3);
+			
+			// make choice
+			if(selectCol3 && Array.from(document.querySelectorAll('.opponent.cell.col3:not([data-id])')).length > 0)
+				choice = 3;
+			else if(selectCol2 && Array.from(document.querySelectorAll('.opponent.cell.col2:not([data-id])')).length > 0)
+				choice = 2;
+			else if(selectCol1 && Array.from(document.querySelectorAll('.opponent.cell.col1:not([data-id])')).length > 0)
+				choice = 1;
+			else {
+				if(Array.from(document.querySelectorAll('.opponent.cell.col3:not([data-id])')).length > 0)
+					choice = 3;
+				if(Array.from(document.querySelectorAll('.opponent.cell.col2:not([data-id])')).length > 0)
+					choice = 2;
+				if(Array.from(document.querySelectorAll('.opponent.cell.col1:not([data-id])')).length > 0)
+					choice = 1;
+			}
+			break;
+	}
+	return choice;
 }
 
 //--RULES--//
