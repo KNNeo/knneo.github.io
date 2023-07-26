@@ -549,7 +549,7 @@ function startBingo() {
 
 function pauseBingo() {
 	if(window['paused'] == true)
-		setTimeout(pauseBingo, interval);
+		setTimeout(pauseBingo, 500);
 	else
 		setTimeout(callNumber, interval);
 }
