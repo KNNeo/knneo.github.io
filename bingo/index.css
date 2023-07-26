@@ -74,13 +74,16 @@ a:hover {
 	justify-content: center;
 	align-items: center;
 }
+.card {
+	padding: 10px;
+}
 .square-board {
 	width: 40px;
 	aspect-ratio: 1 / 1;
 }
 .square-card {
-	width: 4em;
-	height: 4em;
+	width: 3em;
+	height: 3em;
 	aspect-ratio: 1 / 1;
 	font-size: 1.3em;
 }
@@ -131,7 +134,7 @@ a:hover {
 	visibility: hidden;
 }
 .hidden::before {
-	content: "PAUSED";
+	content: "-PAUSED-";
     position: absolute;
 	text-align: center;
 	visibility: visible;
