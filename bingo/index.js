@@ -72,6 +72,7 @@ function startup() {
 function initializeVariables() {
 	window['daub'] = localStorage.getItem('daub');
 	window['ended'] = true;
+	window['paused'] = false;
 	window['combination'] = null;
 	window['cards'] = isMobile() || smallScreen() ? 1 : cards;
 	window['bingo'] = [];	
@@ -92,6 +93,13 @@ function toggleDaub() {
 		document.querySelector('.title').classList = 'title daub' + window['daub'];
 		localStorage.setItem('daub', window['daub']);
 	}	
+}
+
+function togglePause() {
+	window['paused'] = !window['paused'];
+	event.target.innerText = event.target.innerText == 'pause' ? 'play_arrow' : 'pause';
+	document.querySelector('.list').classList.toggle('hidden');
+	return true;
 }
 
 function renderDisplay() {
@@ -459,8 +467,19 @@ function onBingoClicked() {
 		case 'Start':
 			if(startBingo() == true)
 			{
-				this.style.display = 'none';
-				this.innerText = 'Reset';
+				this.innerText = 'Pause';
+			}
+			break;
+		case 'Resume':
+			if(togglePause() == true)
+			{
+				this.innerText = 'Pause';
+			}
+			break;
+		case 'Pause':
+			if(togglePause() == true)
+			{
+				this.innerText = 'Resume';
 			}
 			break;
 		case 'Reset':
@@ -528,10 +547,21 @@ function startBingo() {
 	return true;
 }
 
+function pauseBingo() {
+	if(window['paused'] == true)
+		setTimeout(pauseBingo, interval);
+	else
+		setTimeout(callNumber, interval);
+}
+
 function callNumber() {
 	if(debugMode) console.log('bingo', window['bingo']);
 	if(window['ended'] == true || window['bingo'].filter(b => b && b == 1).length == window['cards'].length)
 		return;
+	if(window['paused'] == true) {
+		pauseBingo();
+		return;
+	}
 	
 	//generate number
 	let rand = 0;
