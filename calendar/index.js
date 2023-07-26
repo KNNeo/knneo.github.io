@@ -4,6 +4,17 @@ const daysOfWeek = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 const monthsOfYear = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const data = [
 	{
+		name: '高橋李依・上田麗奈 仕事で会えないからラジオはじめました。',
+		startDayNo: 1,
+		startDate: '2023-07-24',
+		startTime: 1300,
+		lengthMinutes: 30,
+		recurringWeeks: 'alternate',
+		channel: 'インターネットラジオステーション＜音泉＞',
+		url: 'https://www.onsen.ag/program/shigohaji',
+		format: 'Audio Premiere',
+	},
+	{
 		name: '長江里加の“じゅうななへんげ”',
 		startDayNo: 1,
 		startTime: 2200,
@@ -114,6 +125,16 @@ const data = [
 		recurringWeeks: [1,2,3,4,5],
 		channel: '文化放送『超！A&G＋』',
 		url: 'http://smp.secondshot.jp/',
+		format: 'Audio Live',
+	},
+	{
+		name: '麻倉ももの日常系ラジオ',
+		startDayNo: 3,
+		startTime: 2100,
+		lengthMinutes: 30,
+		recurringWeeks: [1,2,3,4,5],
+		channel: 'Radiotalk',
+		url: 'https://radiotalk.jp/program/108065',
 		format: 'Audio Live',
 	},
 	{
