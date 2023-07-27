@@ -1,6 +1,7 @@
 //--DEFAULT SETTINGS--//
 const enableAI = true;
 const comBehavior = 'balanced';
+const winIcon = '🏆';
 const isMobile = function() {
     const match = window.matchMedia('(pointer:coarse)');
     return (match && match.matches && window.innerWidth <= 480);
@@ -89,11 +90,11 @@ function end() { // from trigger, end game
 	let whoWins = 'draw';
 	if(playerScore > opponentScore) {
 		whoWins = 'player';
-		document.querySelector('.player.dice').innerText = '🏆';
+		document.querySelector('.player.dice').innerText = winIcon;
 	}
 	if(opponentScore > playerScore) {
 		whoWins = 'opponent';
-		document.querySelector('.opponent.dice').innerText = '🏆';
+		document.querySelector('.opponent.dice').innerText = winIcon;
 	}
 	
 	let playerWins = (wins[0] ?? 0) + (whoWins == 'player' ? 1 : 0);
@@ -378,7 +379,7 @@ function showScores() {
 				
 				let playerWin2 = document.createElement('span');
 				playerWin2.classList.add('win');
-				playerWin2.innerText = score.win == 'opponent' ? '✌️' : '';
+				playerWin2.innerText = score.win == 'opponent' ? winIcon : '';
 				scoreTd.appendChild(playerWin2);
 				
 				let playerWin1 = document.createElement('span');
@@ -396,7 +397,7 @@ function showScores() {
 				
 				let opponentWin2 = document.createElement('span');
 				opponentWin2.classList.add('win');
-				opponentWin2.innerText = score.win == 'player' ? '✌️' : '';
+				opponentWin2.innerText = score.win == 'player' ? winIcon : '';
 				scoreTd.appendChild(opponentWin2);
 				
 				let opponentWin1 = document.createElement('span');
