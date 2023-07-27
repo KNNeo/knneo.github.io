@@ -1,7 +1,19 @@
 //--DEFAULT SETTINGS--//
-const enableAI = true;
-const comBehavior = 'balanced';
-const winIcon = '🏆';
+const config = {
+	"com": {
+		"enable": true,
+		"mode": "balanced",
+	},
+	"icon": {
+		"win": "🏆",
+	},
+	"scoreboard": {
+		"title": {
+			"matches": "MATCHES WON",
+			"history": "HISTORY",
+		},
+	},
+};
 const isMobile = function() {
     const match = window.matchMedia('(pointer:coarse)');
     return (match && match.matches && window.innerWidth <= 480);
@@ -16,12 +28,12 @@ function startup() {
 	window['shake-1'] = false; // player
 	window['shake-2'] = false; // opponent
 	window['delay'] = 500; // AI
-	window['ai'] = comBehavior ?? 'balanced';
+	window['ai'] = config.com.mode ?? 'balanced';
 	generateViewer();
 }
 
 function updateDisplay() {
-	if(!enableAI && isMobile())
+	if(!config.com.enable && isMobile())
 	{
 		document.querySelector('.opponent.dice').classList.add('flipped');
 		document.querySelector('.opponent.score.col1').classList.add('flipped');
@@ -58,7 +70,7 @@ function start() { // from trigger, start game
 	actionScore.innerHTML = '';
 	actionScore.className = 'action score';
 	let score = document.createElement('strong');
-	score.className = 'opponent total ' + (!enableAI && isMobile() ? 'flipped' : '');
+	score.className = 'opponent total ' + (!config.com.enable && isMobile() ? 'flipped' : '');
 	score.innerText = 0;
 	actionScore.appendChild(score);
 	actionScore.appendChild(document.createElement('hr'));
@@ -90,11 +102,11 @@ function end() { // from trigger, end game
 	let whoWins = 'draw';
 	if(playerScore > opponentScore) {
 		whoWins = 'player';
-		document.querySelector('.player.dice').innerText = winIcon;
+		document.querySelector('.player.dice').innerText = config.icon.win;
 	}
 	if(opponentScore > playerScore) {
 		whoWins = 'opponent';
-		document.querySelector('.opponent.dice').innerText = winIcon;
+		document.querySelector('.opponent.dice').innerText = config.icon.win;
 	}
 	
 	let playerWins = (wins[0] ?? 0) + (whoWins == 'player' ? 1 : 0);
@@ -118,7 +130,7 @@ function shake(number) {
 	shaking(number);
 	
 	// AI action
-	if(enableAI && number == 2)
+	if(config.com.enable && number == 2)
 	{
 		setTimeout(function() {
 			//calculate which cell to click
@@ -263,7 +275,7 @@ function onCellSelect(number) {
 			end();
 		
 		// AI action
-		if(enableAI && number == 1 && document.querySelector('.opponent.dice .bi') != null)
+		if(config.com.enable && number == 1 && document.querySelector('.opponent.dice .bi') != null)
 		{
 			setTimeout(function() {
 				document.querySelector('.opponent.dice .bi').dispatchEvent(new Event('click'));
@@ -339,7 +351,7 @@ function showScores() {
 	
 	let header = document.createElement('h5');
 	header.style.textAlign = 'center';
-	header.innerText = 'MATCHES';
+	header.innerText = config.scoreboard.title.matches;
 	board.appendChild(header);
 	
 	let winsDiv = document.createElement('div');
@@ -365,7 +377,7 @@ function showScores() {
 	
 	header = document.createElement('h5');
 	header.style.textAlign = 'center';
-	header.innerText = 'BREAKDOWN';
+	header.innerText = config.scoreboard.title.history;
 	board.appendChild(header);
 	
 	let scoresDiv = document.createElement('div');
@@ -379,7 +391,7 @@ function showScores() {
 				
 				let playerWin2 = document.createElement('span');
 				playerWin2.classList.add('win');
-				playerWin2.innerText = score.win == 'opponent' ? winIcon : '';
+				playerWin2.innerText = score.win == 'opponent' ? config.icon.win : '';
 				scoreTd.appendChild(playerWin2);
 				
 				let playerWin1 = document.createElement('span');
@@ -397,7 +409,7 @@ function showScores() {
 				
 				let opponentWin2 = document.createElement('span');
 				opponentWin2.classList.add('win');
-				opponentWin2.innerText = score.win == 'player' ? winIcon : '';
+				opponentWin2.innerText = score.win == 'player' ? config.icon.win : '';
 				scoreTd.appendChild(opponentWin2);
 				
 				let opponentWin1 = document.createElement('span');
