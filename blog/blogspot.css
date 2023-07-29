@@ -120,7 +120,7 @@ a:hover {
     display: flex;
 	gap: 0 6px;
     flex-direction: row-reverse;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
 }
 
