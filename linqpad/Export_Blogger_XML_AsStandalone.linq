@@ -131,7 +131,7 @@ void Main()
 		//=====CHECKS=====//
 		if(string.IsNullOrWhiteSpace(originalLink))
 			continue;
-		if(published <= DateTime.Parse("2022-01-01"))
+		if(published <= DateTime.Parse("2023-01-01"))
 			continue;
 		//=====CHECKS=====//
 		
