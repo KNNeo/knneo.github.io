@@ -135,6 +135,7 @@ a:hover {
     padding-top: 2px;
 	width: 150px;
     height: 148px;
+    left: 5px;
 }
 
 .latest-post:hover .anchors {
