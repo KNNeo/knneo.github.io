@@ -39,7 +39,10 @@ function generateHeader() {
 function onScrollHeader() {
 	// event.preventDefault();
 	let st = window.pageYOffset || document.documentElement.scrollTop;
-	toggleHeader(st > 0.3 * document.documentElement.clientHeight && (st <= window['scrollTop'] || !window['scrollTop']));
+	let diff = st - window['scrollTop'];
+	// console.log(st, window['scrollTop'], diff);
+	// diff == 1 is for initial load if navigate to section (chrome)
+	toggleHeader(st > 0.3 * document.documentElement.clientHeight && (!window['scrollTop'] || diff <= 0 || (!isFirefox && diff == 1)));
 	window['scrollTop'] = st;
 }
 
