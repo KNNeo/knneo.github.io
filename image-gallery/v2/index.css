@@ -107,12 +107,17 @@ body .gallery {
 }
 
 .overview img {
+	position: relative;
+	top: 10dvh;
     width: 20px;
 	cursor: pointer;
+	z-index: 10;
 }
 
 .overview img:hover {
+	top: -10dvh;
 	transform: scale(10);
+	z-index: 9;
 }
 
 .progress {
