@@ -367,7 +367,7 @@ function renderGallery() {
 function checkComplete() {
 	let total = window.variables.base.length;
 	let loaded = document.querySelectorAll('.loaded').length;
-	console.log(loaded, total);
+	// console.log(loaded, total);
 	
 	// render progress bar
 	progressDiv.style.width = 100*loaded/total + '%';
@@ -390,6 +390,7 @@ function startup() {
 		function(content) {
 			window.variables = content;
 			window.variables.base = window.variables.items
+				.filter(i => window.variables.filter ? i[window.variables.filter.category] == window.variables.filter.value : true)
 				.sort(function(a,b) {
 					if(window.variables.sort && window.variables.sort.order && window.variables.sort.value)
 					{
@@ -406,6 +407,7 @@ function startup() {
 			titleDiv.innerText = window.variables.title;
 			noticeDiv.innerText = window.variables.notice;
 			
+			hideFilters();
 			renderDisplay();
 			renderGallery();
 		}
