@@ -383,6 +383,16 @@ function checkComplete() {
 	}
 }
 
+function changeSource(dest) {
+	// assume all same URL prefix for filename
+	for(let img of window.variables.items)
+	{
+		let name = img.filename;
+		img.filename = name.replace(name.substring(0, name.lastIndexOf('/')), dest);
+	}
+	renderGallery();
+}
+
 //--INITIAL--//
 function startup() {
 	getJson(
