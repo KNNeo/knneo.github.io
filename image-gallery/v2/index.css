@@ -109,14 +109,14 @@ body .gallery {
 .overview img {
 	position: relative;
 	top: 10dvh;
-    width: 20px;
+    width: 30%;
 	cursor: pointer;
 	z-index: 10;
 }
 
 .overview img:hover {
 	top: -10dvh;
-	transform: scale(10);
+	transform: scale(5);
 	z-index: 9;
 }
 
