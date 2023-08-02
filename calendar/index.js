@@ -247,6 +247,7 @@ const data = [
 		startDayNo: 3,
 		startDate: '2023-07-05',
 		startTime: 1800,
+		endDate: '2023-08-02',
 		lengthMinutes: 30,
 		recurringWeeks: 'alternate',
 		channel: 'インターネットラジオステーション＜音泉＞',
