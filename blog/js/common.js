@@ -100,6 +100,7 @@ function scrollToSectionByUrl() {
 	{
 		let newPos = document.documentElement.scrollTop + (document.querySelector(window.location.hash)?.getBoundingClientRect().top || 0) - (document.querySelector('.page-header')?.getBoundingClientRect().height || 0) - 5;
 		document.documentElement.scrollTop = newPos;
+		if(typeof toggleHeader === 'function') toggleHeader(true);
 	}
 }
 
