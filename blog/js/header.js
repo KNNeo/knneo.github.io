@@ -53,7 +53,9 @@ function toggleHeader(forced) {
 	}
 	else {
 		document.querySelector('.page-header').classList.remove('show-header');
-		document.querySelector('.page-header').classList.add('hide-header');
+		setTimeout(function() {
+			document.querySelector('.page-header').classList.add('hide-header');
+		}, 500);
 	}
 }
 
