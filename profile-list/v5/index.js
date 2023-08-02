@@ -8,6 +8,14 @@ const config = {
 	},
 	rating: {
 		max: 5,
+		tiers: [
+			'',
+			'',
+			'(Just Admirable)',
+			'(Topic of Interest)',
+			'(Deeply Invested)',
+			'(Special Relationship)'
+		],
 	},
 	timezone: 'Asia/Tokyo',
 	profile: {
@@ -780,7 +788,8 @@ function generateProfileSocial(profile) {
 		span.addEventListener('click', function() {
 			popupText(processOption(profile.intro, false) + 
 			'<p style="font-style: italic;">"' + processOption(profile.description, false) + 
-			'"</p>Star Rating: ' + ratingAsStars(profile.rating, config.rating.max)?.outerHTML);
+			'"</p>Star Rating:<br>' + ratingAsStars(profile.rating, config.rating.max)?.outerHTML + 
+			'<small>' + (config.rating.tiers[profile.rating - 1] ?? '') + '</small>');
 			let dialog = document.querySelector('.dialog dialog');
 		});
 		
@@ -910,7 +919,7 @@ function updateTime() {
 	}
 }
 function ratingAsStars(rating, total) {
-	let stars = document.createElement('div');
+	let stars = document.createElement('span');
 	stars.title = rating + '/' + total;
 	for(s = 0; s < Math.max(rating, total); s++)
 	{
