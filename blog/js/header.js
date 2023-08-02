@@ -47,10 +47,14 @@ function onScrollHeader() {
 }
 
 function toggleHeader(forced) {
-	if (forced)
+	if (forced) {
 		document.querySelector('.page-header').classList.add('show-header');
-	else
+		document.querySelector('.page-header').classList.remove('hide-header');
+	}
+	else {
 		document.querySelector('.page-header').classList.remove('show-header');
+		document.querySelector('.page-header').classList.add('hide-header');
+	}
 }
 
 function generateReadTime() {
