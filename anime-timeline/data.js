@@ -30,7 +30,7 @@ let showsRef = [
         ],
         "seriesDemographic": "Seinen",
         "tags": [
-            ""
+            "Hanazawa Kana"
         ],
         "id": 54898
     },
@@ -1497,8 +1497,7 @@ let showsRef = [
         "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/7/26965.webp?s=38dfbbb8916a61bdebc756e7c43b1608",
         "seriesAirSeason": [],
         "seriesGenre": [
-            "Comedy",
-            "Slice of Life"
+            "Comedy"
         ],
         "seriesDemographic": "",
         "tags": [
@@ -2776,7 +2775,6 @@ let showsRef = [
         "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1240/133638.webp?s=68b90d1ad1cec53c244ce176e5b1d6be",
         "seriesAirSeason": [],
         "seriesGenre": [
-            "Comedy",
             "Romance"
         ],
         "seriesDemographic": "",
@@ -2935,7 +2933,6 @@ let showsRef = [
         "seriesAirSeason": [],
         "seriesGenre": [
             "Adventure",
-            "Comedy",
             "Mystery",
             "Supernatural"
         ],
@@ -4740,7 +4737,7 @@ let showsArray = [
 { sortOrder:122, year:2021, season: 'Spring', length:1, seriesTitle: '', type:'TV', title:'Koi to Yobu ni wa Kimochi Warui', altTitle:'恋と呼ぶには気持ち悪い', handle:'koikimo_anime', imgURL:'https://pbs.twimg.com/profile_images/1311825458665644032/qQdVyDYR.jpg', circular:true, MAL:41103 },
 { sortOrder:123, year:2021, season: 'Spring', length:1, seriesTitle: '', type:'TV', title:'Hige wo Soru. Soshite Joshikousei wo Hirou.', altTitle:'ひげを剃る。そして女子高生を拾う。', handle:'higehiro_anime', imgURL:'https://pbs.twimg.com/profile_images/1311599822730715141/l39MahWA.jpg', circular:true, MAL:40938 },
 { sortOrder:124, year:2021, season: 'Spring', length:1, seriesTitle: '', type:'TV', title:'Osananajimi ga Zettai ni Makenai Love Comedy', altTitle:'幼なじみが絶対に負けないラブコメ', handle:'osamake_project', imgURL:'https://pbs.twimg.com/profile_images/1312352077423636482/WoxK7ZKO.jpg', circular:true, MAL:43007 },
-{ sortOrder:125, year:2021, season: 'Summer', length:1, seriesTitle: '', type:'TV', title:'Kanojo mo Kanojo', altTitle:'カノジョも彼女', handle:'kanokano_anime', imgURL:'https://pbs.twimg.com/profile_images/1573948741639233537/_KFWh6IA.jpg', circular:true, MAL:43969 },
+{ sortOrder:125, year:2021, season: 'Summer', length:1, seriesTitle: '', type:'TV', title:'Kanojo mo Kanojo', altTitle:'カノジョも彼女', handle:'kanokano_anime', imgURL:'https://pbs.twimg.com/profile_images/1679719997176967168/Hbbf6awg.jpg', circular:true, MAL:43969 },
 { sortOrder:126, year:2021, season: 'Summer', length:1, seriesTitle: 'Shinigami Bocchan to Kuro Maid', type:'TV', title:'Shinigami Bocchan to Kuro Maid', altTitle:'死神坊ちゃんと黒メイド', handle:'bocchan_anime', imgURL:'https://pbs.twimg.com/profile_images/1526215904714887168/qff51lCJ.jpg', circular:true, MAL:47257 },
 { sortOrder:127, year:2021, season: 'Summer', length:1, seriesTitle: '', type:'TV', title:'Sonny Boy', altTitle:'', handle:'sonnyboy_anime', imgURL:'https://pbs.twimg.com/profile_images/1415738208835407872/qdHMoMo3.jpg', circular:true, MAL:48849 },
 { sortOrder:128, year:2021, season: 'Summer', length:1, seriesTitle: '', type:'TV', title:'Tantei wa Mou, Shindeiru.', altTitle:'探偵はもう、死んでいる。', handle:'tanteiwamou_', imgURL:'https://pbs.twimg.com/profile_images/1245369835896229889/JDG3Y_Wo.png', circular:true, MAL:46471 },
