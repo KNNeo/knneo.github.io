@@ -111,7 +111,7 @@ function scrollToSectionByUrl() {
 function showAbbrAsDialog() {
 	for(let abbr of document.querySelectorAll('abbr[title]'))
 	{
-		abbr.addEventListener('contextmenu', function() {
+		abbr.addEventListener('click', function() {
 			event.preventDefault();
 			popupText(event.target.title);
 		});
