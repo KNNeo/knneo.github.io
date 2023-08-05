@@ -627,7 +627,11 @@ table.tr-caption-container {
 }
 
 /*Custom abbr hover (Unsupported)*/
-abbr {
+abbr.published {
+  animation: none;
+}
+
+abbr.imgpop {
   -webkit-user-select: all;
   -moz-user-select: all;
   -ms-user-select: all;
@@ -635,10 +639,6 @@ abbr {
   text-decoration: none;
   color: var(--primary);
   text-decoration: underline;
-}
-
-abbr.published {
-  animation: none;
 }
 
 abbr.imgpop img {
