@@ -6,6 +6,7 @@ function preloadSequence() {
 	if(typeof fixNavigationResults == 'function') fixNavigationResults();
 	if(typeof olderNewerTextToIcon == 'function') olderNewerTextToIcon();
 	if(typeof addLabelForNavigation == 'function') addLabelForNavigation();
+	if(typeof addFloatingActionButtons == 'function') addFloatingActionButtons();
 	if(typeof fixLightbox == 'function') fixLightbox();
 
 	//open body if no other fixes

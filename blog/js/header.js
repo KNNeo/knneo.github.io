@@ -31,6 +31,7 @@ function generateHeader() {
 		}
 		
 		//add header to document, add window events	
+		document.querySelector('.page-header').innerHTML = '';
 		document.querySelector('.page-header').appendChild(header);
 		window.addEventListener('scroll', onScrollHeader);
 	}

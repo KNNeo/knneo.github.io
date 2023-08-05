@@ -837,6 +837,19 @@ abbr.imgpop:hover img {
 	object-fit: cover;
 }
 
+/*DIALOG*/
+.dialog dialog {
+	background-color: var(--background);
+	color: var(--foreground);	
+	padding: 10px;
+	max-width: 360px;
+}
+
+.dialog dialog a {
+	background-color: var(--background);
+	color: var(--primary);
+}
+
 /*EXPERIMENTAL - Supports text, not to be mistaken with links or images*/
 .thumbnail-text {
 	color: var(--primary);

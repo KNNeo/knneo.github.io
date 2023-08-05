@@ -10,21 +10,21 @@ const isSmallWidth = function() {
 window.addEventListener('load', startup);
 
 function startup() {
-	// To be run async unless otherwise, dependents in with parent functions
-	addHashtags();
+	// Synchronous Functions
 	resizeImages();
 	if(typeof preloadSequence == 'function') preloadSequence();
-	if(typeof addFloatingActionButtons == 'function') addFloatingActionButtons();
-	if(typeof generateViewer == 'function') generateViewer();
-	if(typeof generateHeader == 'function') generateHeader();
-	if(typeof generateReadTime == 'function') generateReadTime();
 	if(typeof toggleEmojiDisplay == 'function') toggleEmojiDisplay();
+	if(typeof generateViewer == 'function') setTimeout(generateViewer, 0);
 
 	// Window events
 	window.addEventListener('scroll', displayFAB);
 	window.addEventListener('resize', windowOnResize);
 	window.addEventListener('resize', resizeImages);
 	window.addEventListener('hashchange', scrollToSectionByUrl);
+	
+	// Asynchronous Events
+	setTimeout(addHashtags, 0); // generateHeader, generateReadTime
+	setTimeout(showAbbrAsDialog, 0);
 	setTimeout(displayFAB, 0);
 	setTimeout(addHoverForLinks, 0);
 	setTimeout(resizeImages, 500);
@@ -93,6 +93,9 @@ function addHashtags() {
 		});
 		hashTag.appendChild(newItem);
 	}
+	
+	if(typeof generateHeader == 'function') generateHeader();
+	if(typeof generateReadTime == 'function') generateReadTime();
 }
 
 function scrollToSectionByUrl() {
@@ -102,6 +105,53 @@ function scrollToSectionByUrl() {
 		document.documentElement.scrollTop = newPos;
 		if(typeof toggleHeader === 'function') toggleHeader(true);
 	}
+}
+
+// Abbreviation to show as dialog if not using mouse to hover
+function showAbbrAsDialog() {
+	for(let abbr of document.querySelectorAll('abbr[title]'))
+	{
+		abbr.addEventListener('contextmenu', function() {
+			event.preventDefault();
+			popupText(event.target.title);
+		});
+	}
+}
+
+////DIALOG////
+function popupText(input) {
+	let dialogDiv = document.querySelector('.dialog');
+	if(dialogDiv == null)
+	{
+		dialogDiv = document.createElement('div');
+		dialogDiv.classList.add('dialog');
+		document.body.appendChild(dialogDiv);
+	}
+	let dialog = createDialog(input);
+	dialogDiv.innerHTML = '';
+	dialogDiv.appendChild(dialog);
+	dialog.showModal();
+}
+
+function createDialog(node) {
+	// node in dialog will not have events!
+	let dialog = document.createElement('dialog');
+	if(!dialog.classList.contains('box')) dialog.classList.add('box');
+	if(typeof node == 'string')
+		dialog.innerHTML = node;
+	if(typeof node == 'object')
+	{
+		let clonedNode = node.cloneNode(true);
+		dialog.appendChild(clonedNode);
+	}
+	dialog.addEventListener('click', function() {
+		this.remove();
+	});
+	dialog.addEventListener('keyup', function() {
+		if (event.key === ' ' || event.key === 'Enter')
+			this.remove();
+	});
+	return dialog;
 }
 
 // Popup element, based on content type
