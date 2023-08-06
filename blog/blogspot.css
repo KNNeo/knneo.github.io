@@ -15,8 +15,8 @@
 
 body {
 	display: block;
+	max-width: 760px;
 	padding: 0 10px;
-    max-width: 680px;
 	font-size: 18px;
 	margin: auto;
 	color: var(--foreground);
@@ -176,8 +176,21 @@ a:hover {
 }
 
 #GoToTopBtn {
-	right: calc(50% - 400px);
+	position: fixed;
+	display: block;
+	/* opacity: 0; */
+	right: calc(50% - 410px);
 	bottom: 16px;
+	z-index: 7;
+	outline: none;
+	border: 1px solid var(--foreground);
+	background-color: var(--background);
+	box-shadow: 3px 3px var(--foreground);
+	color: var(--foreground);
+	cursor: pointer;
+	padding: 8px 6px 6px 6px;
+	border-radius: 7px;
+	/* transition: opacity 0.3s; */
 }
 
 #BackBtn {
@@ -232,7 +245,7 @@ a:hover {
 	visibility: visible;
 	opacity: 1;
 	bottom: 16px;
-	right: calc(50% - 400px);
+	right: calc(50% - 410px);
 	z-index: 7;
 	-webkit-user-select: none;
 	-khtml-user-select: none;
@@ -256,7 +269,7 @@ a:hover {
 	visibility: visible;
 	opacity: 1;
     bottom: 75px;
-	right: calc(50% - 400px);
+	right: calc(50% - 410px);
 	z-index: 7;
 	-webkit-user-select: none;
 	-khtml-user-select: none;
@@ -280,7 +293,7 @@ a:hover {
 	visibility: hidden;
 	opacity: 1;
     bottom: 135px;
-	right: calc(50% - 400px);
+	right: calc(50% - 410px);
 	z-index: 7;
 	-webkit-user-select: none;
 	-khtml-user-select: none;

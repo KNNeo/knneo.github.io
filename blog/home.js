@@ -2,7 +2,7 @@ window['light-theme'] = '#f4f6ff';
 window['dark-theme'] = '#001114';
 window['dark-name'] = 'blog-theme';
 window['urls'] = [];
-window.addEventListener('scroll', displayFAB);
+window.addEventListener('scroll', displayHomeFAB);
 
 function filterByTag() {
 	let tag = event.target.id || window.location.hash.replace('#','');
@@ -44,7 +44,7 @@ function goToIndex() {
 }
 
 // Floating action button events
-function displayFAB() {
+function displayHomeFAB() {
 	// When the user scrolls down to half of viewport from the top of the document, change floating action button
 	if (document.body.scrollTop > document.documentElement.clientHeight || 
 		document.documentElement.scrollTop > document.documentElement.clientHeight) {
