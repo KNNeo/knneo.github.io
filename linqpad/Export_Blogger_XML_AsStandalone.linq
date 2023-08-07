@@ -1,8 +1,10 @@
 <Query Kind="Program">
   <Reference>&lt;RuntimeDirectory&gt;\System.Net.dll</Reference>
   <Reference>&lt;RuntimeDirectory&gt;\System.Text.RegularExpressions.dll</Reference>
+  <Reference>&lt;RuntimeDirectory&gt;\System.Web.dll</Reference>
   <Reference>&lt;RuntimeDirectory&gt;\System.Windows.Forms.dll</Reference>
   <Namespace>System.Net</Namespace>
+  <Namespace>System.Web</Namespace>
   <Namespace>System.Windows.Forms</Namespace>
 </Query>
 
@@ -14,7 +16,6 @@
 void Main()
 {
 	bool TraceMode = false;
-	int maxLatestPost = 20;
 	string defaultFont = "Noto Sans";
     Console.WriteLine("\tPost with changes will appear here");
 	Console.WriteLine("\tIf edit from Blogger img tags will be missing self-enclosing slash, format on web version to fix");
@@ -176,8 +177,8 @@ void Main()
 				using (WebClient client = new WebClient()) 
 				{
 					Console.WriteLine("      Downloading... " + url);
-				    client.DownloadFile(new Uri(url), monthfolder + "/data/imgsrc/" + filename);
-					//Console.WriteLine("File downloaded to " + monthfolder + "/data/" + filename);
+				    client.DownloadFile(new Uri(url), monthfolder + "/data/imgsrc/" + HttpUtility.UrlDecode(filename));
+					//Console.WriteLine("File downloaded to " + monthfolder + "/data/" + HttpUtility.UrlDecode(filename));
 				}
 			}
 		
@@ -193,7 +194,7 @@ void Main()
 		{
 			var url = match.Groups[1].Value;
 			if(TraceMode) Console.WriteLine(url.Substring(0,40) + "...");
-			List<string> formats = new List<string>() { ".jpg", ".gif" };
+			List<string> formats = new List<string>() { ".jpg", ".png", ".gif" };
 			if(formats.Any(format => url.EndsWith(format)))
 			{
 				//Console.WriteLine(url);
@@ -214,8 +215,8 @@ void Main()
 					using (WebClient client = new WebClient()) 
 					{
 						Console.WriteLine("      Downloading... " + url);
-					    client.DownloadFile(new Uri(url), monthfolder + "/data/imglink/" + filename.Replace("%20", " "));
-						//Console.WriteLine("File downloaded to " + monthfolder + "/data/" + filename);
+					    client.DownloadFile(new Uri(url), monthfolder + "/data/imglink/" + HttpUtility.UrlDecode(filename));
+						//Console.WriteLine("File downloaded to " + monthfolder + "/data/" + HttpUtility.UrlDecode(filename));
 					}
 				}
 			}
@@ -249,8 +250,8 @@ void Main()
 				using (WebClient client = new WebClient()) 
 				{
 					Console.WriteLine("      Downloading... " + url);
-				    client.DownloadFile(new Uri(url), monthfolder + "/data/divimg/" + filename);
-					//Console.WriteLine("File downloaded to " + monthfolder + "/data/" + filename);
+				    client.DownloadFile(new Uri(url), monthfolder + "/data/divimg/" + HttpUtility.UrlDecode(filename));
+					//Console.WriteLine("File downloaded to " + monthfolder + "/data/" + HttpUtility.UrlDecode(filename));
 				}
 			}
 		
@@ -280,7 +281,6 @@ void Main()
 				output.WriteLine("<link href='https://fonts.googleapis.com/css?family=Dancing Script' rel='stylesheet' />");
             output.WriteLine("<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../index.css\" />");
             output.WriteLine("<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../blogspot.css\" />");
-            output.WriteLine("<link rel=\"icon\" href=\"../../../storytime.ico\" />");
             output.WriteLine("<script src=\"../../../darkmode.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
             output.WriteLine("<script src=\"../../../blogspot.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
             output.WriteLine("<script src=\"../../../js/common.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
