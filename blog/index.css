@@ -363,6 +363,14 @@ table.tr-caption-container {
     object-fit: cover;
 }
 
+.anchors {
+	position: absolute;
+}
+
+.latest-post:hover .anchors {
+	position: absolute;
+}
+
 .news-thumbnail {
 	display: none;
 }

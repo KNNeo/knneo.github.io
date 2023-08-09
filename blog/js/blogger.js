@@ -67,9 +67,7 @@ function reduceResults() {
 		document.getElementsByClassName('blog-feeds')[0].remove(); //remove feed
 	}
 
-	if(!window.location.href.includes('The%20Statement')) // all use thumbnail, no more reduced pages
-	// if(!window.location.href.startsWith(window.location.origin + '/search') && 
-		// !window.location.href.startsWith(window.location.origin + '/20'))
+	if(!window.location.href.includes('The%20Statement')) // if not statement labels
 	{
 		let columnCenterInner = document.getElementsByClassName('column-center-inner')[0];
 		columnCenterInner.classList.add('homepage-column-center-inner');
@@ -113,8 +111,24 @@ function reduceResults() {
 				homeThumb.classList.add('home-thumb');
 				homeThumb.style.width = '150px';
 				homeThumb.style.height = '150px';
-				homeThumb.src = thumb;				
+				homeThumb.src = thumb;
 				thumbDiv.appendChild(homeThumb);
+			}
+			
+			let tags = post.querySelectorAll("[id]:not(#hashtags):not(#news-thumbnail):not(.twitter-tweet iframe[id]):not(#table):not(#music):not(.list):not(audio):not(video):not(object)");
+			if(link?.href && tags.length > 0)
+			{
+				let tagsDiv = document.createElement('div');
+				tagsDiv.classList.add('anchors');
+				
+				for(let tag of tags)
+				{
+					let tagDiv = document.createElement('a');
+					tagDiv.href = link?.href + '#' + tag.id;
+					tagsDiv.appendChild(tagDiv);
+				}
+				
+				thumbDiv.appendChild(tagsDiv);
 			}
 			
 			let latestPostTitle = document.createElement('h3');
@@ -140,7 +154,7 @@ function reduceResults() {
 			counter++;
 		}
 	}
-	else
+	else // show all content
 	{
 		for (var content of document.getElementsByClassName('post-body entry-content'))
 		{
