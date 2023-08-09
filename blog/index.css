@@ -394,7 +394,7 @@ table.tr-caption-container {
 .footer-inner .widget li {
   box-shadow: 3px 3px var(--foreground);
   border: 1px solid var(--foreground);
-  margin: 3px 0 3px 15px;
+  margin: 3px 0 3px 12px;
   border-radius: 8px;
 }
 
