@@ -67,7 +67,7 @@ function reduceResults() {
 		document.getElementsByClassName('blog-feeds')[0].remove(); //remove feed
 	}
 
-	if(!window.location.href.contains('The%20Statement')) // all use thumbnail, no more reduced pages
+	if(!window.location.href.includes('The%20Statement')) // all use thumbnail, no more reduced pages
 	// if(!window.location.href.startsWith(window.location.origin + '/search') && 
 		// !window.location.href.startsWith(window.location.origin + '/20'))
 	{
