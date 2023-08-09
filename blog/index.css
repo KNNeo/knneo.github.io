@@ -334,6 +334,10 @@ table.tr-caption-container {
 	overflow: hidden;
 }
 
+.latest-post h3 {
+    padding: 10px;	
+}
+
 .latest-post a, 
 .latest-post-summary {
 	color: var(--foreground);
@@ -356,8 +360,8 @@ table.tr-caption-container {
 
 .home-thumb {
     margin: 10px 0;
-	width: 90px;
-	height: 90px;
+	width: 150px;
+	height: 150px;
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center;

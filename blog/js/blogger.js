@@ -116,8 +116,8 @@ function reduceResults() {
 				homeThumb.classList.add('home-thumb');
 				if(counter == 0) {
 					homeThumb.style.margin = '5px auto';
-					homeThumb.style.width = '180px';
-					homeThumb.style.height = '180px';
+					// homeThumb.style.width = '180px';
+					// homeThumb.style.height = '180px';
 				}
 				homeThumb.style.backgroundImage = 'url(\'' + (thumb || '') + '\')';
 				
@@ -130,13 +130,10 @@ function reduceResults() {
 			let excerpt = snippet.innerText.trim();
 			latestPostSummary.innerHTML = (title == undefined ? '' : excerpt.substring(0, excerpt.substring(380, 450).indexOf(' ') + 380) + '...');
 			
-			let contents = document.createElement('div');
-			if(link != undefined && thumb != undefined) contents.appendChild(thumbDiv);
-			if(title != undefined) contents.appendChild(latestPostSummary);
-			
 			let innerWrapper = document.createElement('div');
 			innerWrapper.appendChild(latestPostTitle);
-			innerWrapper.appendChild(contents);
+			if(link != undefined && thumb != undefined) innerWrapper.appendChild(thumbDiv);
+			if(title != undefined) innerWrapper.appendChild(latestPostSummary);
 			
 			innerPostLink.appendChild(innerWrapper);
 			
