@@ -27,8 +27,8 @@ function startup() {
 	setTimeout(showAbbrAsDialog, 0);
 	setTimeout(displayFAB, 0);
 	setTimeout(addHoverForLinks, 0);
+	setTimeout(scrollToSectionByUrl, 0);
 	setTimeout(resizeImages, 500);
-	setTimeout(scrollToSectionByUrl, 500);
 }
 
 //==FUNCTIONS==//
