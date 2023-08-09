@@ -105,11 +105,11 @@ function reduceResults() {
 			innerPostLink.href = link?.href ?? './search/label/The%20Statement';
 			
 			let thumbDiv = document.createElement('div');
-			if(counter > 0) thumbDiv.style.float = 'left';
+			thumbDiv.style.float = 'left';
 			
 			if(thumb.length > 0)
 			{
-				let homeThumb = document.createElement('div');
+				let homeThumb = document.createElement('img');
 				homeThumb.classList.add('home-thumb');
 				if(counter == 0) {
 					homeThumb.style.margin = '5px auto';
@@ -117,6 +117,7 @@ function reduceResults() {
 					// homeThumb.style.height = '180px';
 				}
 				homeThumb.style.backgroundImage = 'url(\'' + (thumb || '') + '\')';
+				homeThumb.src = thumb;
 				
 				thumbDiv.appendChild(homeThumb);
 			}
@@ -131,8 +132,8 @@ function reduceResults() {
 			latestPostSummary.innerHTML = (title == undefined ? '' : excerpt.substring(0, excerpt.substring(380, 450).indexOf(' ') + 380) + '...');
 			
 			let innerWrapper = document.createElement('div');
-			innerWrapper.appendChild(latestPostTitle);
 			if(link != undefined && thumb != undefined) innerWrapper.appendChild(thumbDiv);
+			innerWrapper.appendChild(latestPostTitle);
 			if(title != undefined) innerWrapper.appendChild(latestPostSummary);
 			
 			innerPostLink.appendChild(innerWrapper);
