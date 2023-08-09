@@ -335,17 +335,15 @@ table.tr-caption-container {
 }
 
 .latest-post h3 {
+	color: var(--primary);
     display: inline-block;
     padding: 10px;	
 }
 
 .latest-post a, 
-.latest-post-summary {
-	color: var(--foreground);
-}
-
+.latest-post-summary,
 .latest-post:hover h3 {
-	color: var(--primary);
+	color: var(--foreground);
 }
 
 .latest-post:active {
