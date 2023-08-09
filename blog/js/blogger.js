@@ -124,7 +124,8 @@ function reduceResults() {
 				for(let tag of tags)
 				{
 					let tagDiv = document.createElement('a');
-					tagDiv.href = link?.href + '#' + tag.id;
+					tagDiv.innerText = '#' + tag.id;
+					tagDiv.href = link?.href + tagDiv.innerText;
 					tagsDiv.appendChild(tagDiv);
 				}
 				
