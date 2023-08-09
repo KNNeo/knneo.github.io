@@ -923,7 +923,7 @@ void Main()
         {
 			if(title == "") // without title
 			{
-                textString += "<div"+classes.Replace("Post ","Post TheStatement")+"><span>"+published.ToString("yyyy.MM.dd")+" </span>" + 
+                textString += "<div"+classes+"><span>"+published.ToString("yyyy.MM.dd")+" </span>" + 
 				"<a href=\""+pageLink+"\">A Random Statement</a></div>\n";
 			}
 			else
