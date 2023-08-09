@@ -49,13 +49,13 @@ function onScrollHeader() {
 
 function toggleHeader(forced) {
 	if (forced) {
-		document.querySelector('.page-header').classList.add('show-header');
-		document.querySelector('.page-header').classList.remove('hide-header');
+		document.querySelector('.page-header').classList.add('opaque-header');
+		document.querySelector('.page-header').classList.add('visible-header');
 	}
 	else {
-		document.querySelector('.page-header').classList.remove('show-header');
+		document.querySelector('.page-header').classList.remove('opaque-header');
 		setTimeout(function() {
-			document.querySelector('.page-header').classList.add('hide-header');
+			document.querySelector('.page-header').classList.remove('visible-header');
 		}, 500);
 	}
 }
