@@ -132,7 +132,7 @@ void Main()
 		//=====CHECKS=====//
 		if(string.IsNullOrWhiteSpace(originalLink))
 			continue;
-		if(published <= DateTime.Parse("2023-01-01"))
+		if(published <= DateTime.Parse("2022-01-01"))
 			continue;
 		//=====CHECKS=====//
 		
@@ -169,7 +169,7 @@ void Main()
 			// Download into local post subfolder
 	        var dataFolder = Path.Combine(monthfolder, "data/imgsrc");
 	        if(!Directory.Exists(dataFolder)) Directory.CreateDirectory(dataFolder);
-			var fileExist = File.Exists(monthfolder + "/data/imgsrc/" + filename);
+			var fileExist = File.Exists(monthfolder + "/data/imgsrc/" + HttpUtility.UrlDecode(filename));
 			if(TraceMode && fileExist)
 				Console.WriteLine("Filename of " + filename + " exists in " + monthfolder);
 			if(!fileExist)
@@ -207,7 +207,7 @@ void Main()
 				// Download into local post subfolder
 		        var dataFolder = Path.Combine(monthfolder, "data/imglink");
 		        if(!Directory.Exists(dataFolder)) Directory.CreateDirectory(dataFolder);
-				var fileExist = File.Exists(monthfolder + "/data/imglink/" + filename);
+				var fileExist = File.Exists(monthfolder + "/data/imglink/" + HttpUtility.UrlDecode(filename));
 				if(TraceMode && fileExist)
 					Console.WriteLine("Filename of " + filename + " exists in " + monthfolder);
 				if(!fileExist)
@@ -242,7 +242,7 @@ void Main()
 			// Download into local post subfolder
 	        var dataFolder = Path.Combine(monthfolder, "data/divimg");
 	        if(!Directory.Exists(dataFolder)) Directory.CreateDirectory(dataFolder);
-			var fileExist = File.Exists(monthfolder + "/data/divimg/" + filename);
+			var fileExist = File.Exists(monthfolder + "/data/divimg/" + HttpUtility.UrlDecode(filename));
 			if(TraceMode && fileExist)
 				Console.WriteLine("Filename of " + filename + " exists in " + monthfolder);
 			if(!fileExist)
