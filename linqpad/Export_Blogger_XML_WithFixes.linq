@@ -884,7 +884,7 @@ void Main()
 			if (originalLink != "")
                 output.WriteLine("<small style=\"text-align: center;\"><p><i>This post was imported from "+
                  "<a href=\"{0}\">Blogger</a></i></p></small>", originalLink);				 
-            output.WriteLine("<small class=\"published\">"+published.ToString("dddd, dd MMMM yyyy")+"</small>");
+            output.WriteLine("<small title=\"" + published.ToString() + "\" class=\"published\">"+published.ToString("dddd, dd MMMM yyyy")+"</small>");
             output.WriteLine("<h2 class=\"title\">"+title+"</h2>");
 			if(!content.Contains("id=\"hashtags\""))
 				output.WriteLine("<div id=\"hashtags\"></div>");
