@@ -357,9 +357,12 @@ table.tr-caption-container {
     overflow: hidden;
 }
 
+.latest-post-thumb {
+	position: relative;
+	float: left;
+}
+
 .home-thumb {
-	width: 150px;
-	height: 150px;
     object-fit: cover;
 }
 

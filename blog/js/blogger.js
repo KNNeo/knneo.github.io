@@ -102,8 +102,8 @@ function reduceResults() {
 			let innerPostLink = document.createElement('a');
 			innerPostLink.href = link?.href ?? './search/label/The%20Statement';
 			
-			let thumbDiv = document.createElement('div');
-			thumbDiv.style.float = 'left';
+			let latestPostThumb = document.createElement('div');
+			latestPostThumb.classList.add('latest-post-thumb');
 			
 			if(thumb.length > 0)
 			{
@@ -112,10 +112,10 @@ function reduceResults() {
 				homeThumb.style.width = '150px';
 				homeThumb.style.height = '150px';
 				homeThumb.src = thumb;
-				thumbDiv.appendChild(homeThumb);
+				latestPostThumb.appendChild(homeThumb);
 			}
 			
-			let tags = post.querySelectorAll("[id]:not(#hashtags):not(#news-thumbnail):not(.twitter-tweet iframe[id]):not(#table):not(#music):not(.list):not(audio):not(video):not(object)");
+			let tags = post.querySelectorAll(".post-body [id]:not(#hashtags):not(#news-thumbnail):not(.twitter-tweet iframe[id]):not(#table):not(#music):not(.list):not(audio):not(video):not(object)");
 			if(link?.href && tags.length > 0)
 			{
 				let tagsDiv = document.createElement('div');
@@ -128,10 +128,11 @@ function reduceResults() {
 					tagsDiv.appendChild(tagDiv);
 				}
 				
-				thumbDiv.appendChild(tagsDiv);
+				latestPostThumb.appendChild(tagsDiv);
 			}
 			
 			let latestPostTitle = document.createElement('h3');
+			latestPostTitle.classList.add('latest-post-title');
 			latestPostTitle.innerText = title?.getElementsByTagName('a')[0]?.innerText ?? statement[0].innerText;
 			
 			let latestPostSummary = document.createElement('div');
@@ -141,7 +142,7 @@ function reduceResults() {
 			latestPostSummary.innerHTML = (title == undefined ? '' : excerpt.substring(0, excerpt.substring(380, 450).indexOf(' ') + 380) + '...');
 			
 			let innerWrapper = document.createElement('div');
-			if(link != undefined && thumb != undefined) innerWrapper.appendChild(thumbDiv);
+			if(link != undefined && thumb != undefined) innerWrapper.appendChild(latestPostThumb);
 			innerWrapper.appendChild(latestPostTitle);
 			if(title != undefined) innerWrapper.appendChild(latestPostSummary);
 			
