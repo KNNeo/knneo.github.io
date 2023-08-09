@@ -111,14 +111,9 @@ function reduceResults() {
 			{
 				let homeThumb = document.createElement('img');
 				homeThumb.classList.add('home-thumb');
-				if(counter == 0) {
-					homeThumb.style.margin = '5px auto';
-					// homeThumb.style.width = '180px';
-					// homeThumb.style.height = '180px';
-				}
-				homeThumb.style.backgroundImage = 'url(\'' + (thumb || '') + '\')';
-				homeThumb.src = thumb;
-				
+				homeThumb.style.width = '150px';
+				homeThumb.style.height = '150px';
+				homeThumb.src = thumb;				
 				thumbDiv.appendChild(homeThumb);
 			}
 			
