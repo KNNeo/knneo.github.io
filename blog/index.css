@@ -335,12 +335,10 @@ table.tr-caption-container {
 }
 
 .latest-post h3 {
-	color: var(--primary);
     display: inline-block;
     padding: 10px;	
 }
 
-.latest-post a, 
 .latest-post-summary,
 .latest-post:hover h3 {
 	color: var(--foreground);
@@ -367,12 +365,33 @@ table.tr-caption-container {
 }
 
 .anchors {
+    display: none;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 	position: absolute;
+	background-color: var(--background);
+	width: 150px;
+    height: 150px;
+	top: 2px;
+    left: 2px;
 }
 
 .latest-post:hover .anchors {
-	position: absolute;
+    display: flex;
 }
+
+.latest-post .anchors a {
+    color: var(--primary);
+	font-size: 0.7em;
+	padding-bottom: 5px;
+}
+
+.latest-post .anchors a:hover {
+    color: var(--foreground);
+}
+
 
 .news-thumbnail {
 	display: none;
