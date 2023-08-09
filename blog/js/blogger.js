@@ -11,6 +11,7 @@ function preloadSequence() {
 
 	//open body if no other fixes
 	document.body.style.display = 'block';
+	setTimeout(scrollToSectionByUrl, 500);
 }
 
 function addFloatingActionButtons() {
