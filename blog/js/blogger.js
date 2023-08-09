@@ -104,9 +104,6 @@ function reduceResults() {
 			let innerPostLink = document.createElement('a');
 			innerPostLink.href = link?.href ?? './search/label/The%20Statement';
 			
-			let latestPostTitle = document.createElement('h3');
-			latestPostTitle.innerText = title?.getElementsByTagName('a')[0]?.innerText ?? statement[0].innerText;
-			
 			let thumbDiv = document.createElement('div');
 			if(counter > 0) thumbDiv.style.float = 'left';
 			
@@ -123,6 +120,9 @@ function reduceResults() {
 				
 				thumbDiv.appendChild(homeThumb);
 			}
+			
+			let latestPostTitle = document.createElement('h3');
+			latestPostTitle.innerText = title?.getElementsByTagName('a')[0]?.innerText ?? statement[0].innerText;
 			
 			let latestPostSummary = document.createElement('div');
 			if(thumb.length > 0)
