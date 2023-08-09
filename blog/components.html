@@ -113,7 +113,7 @@ function renderPopup() {
 
     thumbnail.appendChild(initial);
     thumbnail.appendChild(focus);
-	thumbnail.setAttribute('data-url', processLink);
+	thumbnail.setAttribute('title', processLink);
 	
 	renderEmbedProcess();
 
@@ -227,7 +227,7 @@ function togglePopup() {
 	if(document.querySelector('#PopupBtn') != null && document.querySelector('#PopupBtn').innerText == 'launch')
 	{
 		//if config false, then treat as link
-		window.open(event.target.getAttribute('data-url'), '_blank');
+		window.open(event.target.getAttribute('title'), '_blank');
 	}
     else if (event.target.closest('.popup.show') != null) {
 		//hide
@@ -256,17 +256,19 @@ function togglePopup() {
 }
 </script>
 <h1>Pop-Up Content</h1>
-<h5>Rename of container to "popup", rename of first child to "text", all but first/displaying child to "content"</h5>
-<h5>On load/fallback</h5>
+<h5>ON PAGE LOAD, JS FALLBACK</h5>
+<h5>Normal link tag with target="_blank" (open in new window/tab)</h5>
 <pre>
 This is where you put the &lt;a href="[LINK]" target="_blank"&gt;
   [TEXT]
 &lt;/a&gt; so it's inline.
 </pre>
 "There's a thing called give and take, you know?" Yeah Isaki gave you a kiss so she can take your- All according to <a href="https://jisho.org/search/keikaku" target="_blank">keikaku</a> haha
-<h5>When mouse over, popup will render if url is valid (click link to close popup)</h5>
+<h5>WHEN MOUSE OVER</h5>
+<h5>Link will be transformed to class popup if URL is valid (click tag to close popup)<br/>
+Container class "popup", first child class "text", other children class "content"</h5>
 <pre>
-This is where you put the &lt;div class="popup" data-url="[LINK]"&gt;
+This is where you put the &lt;div class="popup" title="[LINK]"&gt;
   &lt;div class="text"&gt;[TEXT]&lt;/div&gt;
   &lt;div class="content"&gt;[CONTENT]&lt;/div&gt;
 &lt;/div&gt; so it's inline.
@@ -393,7 +395,8 @@ function showNextCarouselItem(tn) {
 }
 </script>
 <h1>Carousel</h1>
-<h5>Rename of container to "carousel", rename of all child to "item", all but first/displaying child to "hide"; Fast mode will turn off transition to allow quick toggle of images</h5>
+<h5>Container class "carousel", all child items class "item", all but first child class "hide"<br/>
+Click/tap container fast (&lt;200ms) will turn off transition (for observing differences)</h5>
 <pre>
 &lt;div class="carousel"&gt;
   &lt;div class="item"&gt;&lt;/div&gt;
@@ -480,7 +483,7 @@ function showNextCarouselItem(tn) {
 }
 </style>
 <h1>Table of Contents</h1>
-<h5>Consists of container "agenda" with inline styles for grid column customization, and children "item" holding Blogger-inserted image with url (to be changed to section)</h5>
+<h5>Container class "agenda" contains style attribute for inline grid customization, children class "item" for content (with link)</h5>
 <pre>
 &lt;div class="agenda" style="display: none; grid-template-columns: repeat([NO_OF_COLS], 1fr);"&gt;
   &lt;div class="item"&gt;&lt;/div&gt;
@@ -685,7 +688,8 @@ function showNextCarouselItem(tn) {
 </div>
 
 <h1>Data Table</h1>
-<h5>Needs to be responsive, smaller in text for mobile, approach is usually use generator websites to render HTML then add class and customize inline</h5>
+<h5>Responsive width, smaller in text for mobile<br/>
+Use table generators (eg. <a href="https://divtable.com/generator/">DivTable.com</a>) to render HTML, add container + inline, add table into container, add classes for children</h5>
 <pre>
 &lt;div class="datatable" style="font-size: 0.9em;"&gt;
   &lt;table&gt;
@@ -995,7 +999,7 @@ function showNextCarouselItem(tn) {
 
 <style>
 .accordion {
-	border: 1px solid var(--foreground);
+	border: 2px solid var(--foreground);
 	border-radius: 8px;
 	cursor: pointer;
 }
@@ -1010,8 +1014,7 @@ function showNextCarouselItem(tn) {
 	padding: 4px 8px;
 	display: none;
 }
-.accordion .content.show,
-.accordion .footer.show {
+.accordion.show > * {
 	display: block;
 }
 </style>
@@ -1026,13 +1029,12 @@ function setExpander() {
 }
 function toggleExpander() {
 	let parent = event.target.closest('.accordion');
-	parent.querySelector('.content').classList.toggle('show');
-	parent.querySelector('.footer').classList.toggle('show');
+	parent.classList.toggle('show');
 	event.target.scrollIntoView({ block: 'center' });
 }
 </script>
 <h1>Accordion</h1>
-<h5>Click on header to show rest of content, provide universal close button to close or click header to close</h5>
+<h5>Container "accordion" (with id), child "header" to toggle child "content" and "footer", child "footer" to allow close from end of content</h5>
 <pre>
 &lt;div class="accordion"&gt;
   &lt;blockquote class="header"&gt;[TITLE]&lt;/blockquote&gt;
@@ -1146,7 +1148,6 @@ function toggleExpander() {
     </div>
     <div>[Ah, so THAT is how the title came about; She is right though]</div>
   </div>
-  <hr>
   <div class="footer">CLOSE</div>
 </div>
 <br>
