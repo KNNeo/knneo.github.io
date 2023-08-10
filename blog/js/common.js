@@ -107,7 +107,6 @@ function scrollToSectionByUrl() {
 			document.documentElement.scrollTop = newPos;
 		}
 		else if(typeof toggleHeader === 'function') toggleHeader(true);
-		else if(!notBlogger()) document.documentElement.scrollTop = newPos;
 		else setTimeout(scrollToSectionByUrl, 100);
 	}
 }
@@ -572,6 +571,7 @@ function resizeImages() {
 	
 	// set thumbnails again after adjusted
     setThumbnails();
+	scrollToSectionByUrl();
 }
 
 function resizeImage(p) {
