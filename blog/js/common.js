@@ -27,6 +27,7 @@ function startup() {
 	setTimeout(showAbbrAsDialog, 0);
 	setTimeout(displayFAB, 0);
 	setTimeout(addHoverForLinks, 0);
+	setTimeout(scrollToSectionByUrl, 0);
 	setTimeout(resizeImages, 500);
 }
 
@@ -102,13 +103,15 @@ function scrollToSectionByUrl() {
 	{
 		let newPos = document.documentElement.scrollTop + (document.querySelector(window.location.hash)?.getBoundingClientRect().top || 0) - (document.querySelector('.page-header')?.getBoundingClientRect().height || 0) - 5;
 		console.log(document.documentElement.scrollTop, newPos);
-		if(document.documentElement.scrollTop == parseInt(newPos)) {
-			if(typeof toggleHeader === 'function') toggleHeader(true);
-		}
-		else {
-			document.documentElement.scrollTop = newPos;
+		if(window['pos'] != newPos) // detext final position of section on render
+		{
+			window['pos'] = newPos;
 			setTimeout(scrollToSectionByUrl, 100);
 		}
+		else if(document.documentElement.scrollTop != parseInt(newPos)) // then, check against scrollTop
+			document.documentElement.scrollTop = newPos;			
+		else if(typeof toggleHeader === 'function') // for github page
+			toggleHeader(true);
 	}
 }
 
@@ -572,7 +575,6 @@ function resizeImages() {
 	
 	// set thumbnails again after adjusted
     setThumbnails();
-	setTimeout(scrollToSectionByUrl, 0);
 }
 
 function resizeImage(p) {
