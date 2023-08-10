@@ -105,7 +105,7 @@ function scrollToSectionByUrl() {
 		if(document.documentElement.scrollTop != newPos) {
 			document.documentElement.scrollTop = newPos;
 		}
-		else if(!notBlogger()) setTimeout(scrollToSectionByUrl, 500);
+		else if(!notBlogger()) setTimeout(scrollToSectionByUrl, 1000);
 		else if(typeof toggleHeader === 'function') toggleHeader(true);
 	}
 }
