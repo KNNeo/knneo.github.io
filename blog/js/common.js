@@ -104,11 +104,9 @@ function scrollToSectionByUrl() {
 		let newPos = document.documentElement.scrollTop + (document.querySelector(window.location.hash)?.getBoundingClientRect().top || 0) - (document.querySelector('.page-header')?.getBoundingClientRect().height || 0) - 5;
 		if(document.documentElement.scrollTop != newPos) {
 			document.documentElement.scrollTop = newPos;
-			setTimeout(scrollToSectionByUrl, 500); // extra run for Blogger
 		}
-		else
-			setTimeout(scrollToSectionByUrl, 500);
-		if(typeof toggleHeader === 'function') toggleHeader(true);
+		else if(!notBlogger()) setTimeout(scrollToSectionByUrl, 500);
+		else if(typeof toggleHeader === 'function') toggleHeader(true);
 	}
 }
 
