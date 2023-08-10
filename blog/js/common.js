@@ -101,7 +101,7 @@ function scrollToSectionByUrl() {
 	if(window.location.hash.length > 0)
 	{
 		let newPos = document.documentElement.scrollTop + (document.querySelector(window.location.hash)?.getBoundingClientRect().top || 0) - (document.querySelector('.page-header')?.getBoundingClientRect().height || 0) - 5;
-		console.log(document.documentElement.scrollTop, newPos);
+		// console.log(document.documentElement.scrollTop, newPos);
 		if(window['pos'] != newPos) // detext final position of section on render
 		{
 			window['pos'] = newPos;
