@@ -102,10 +102,10 @@ function scrollToSectionByUrl() {
 	if(window.location.hash.length > 0)
 	{
 		let newPos = document.documentElement.scrollTop + (document.querySelector(window.location.hash)?.getBoundingClientRect().top || 0) - (document.querySelector('.page-header')?.getBoundingClientRect().height || 0) - 5;
+		console.log(document.documentElement.scrollTop, newPos);
 		if(document.documentElement.scrollTop != newPos) {
 			document.documentElement.scrollTop = newPos;
 		}
-		else if(!notBlogger()) setTimeout(scrollToSectionByUrl, 1000);
 		else if(typeof toggleHeader === 'function') toggleHeader(true);
 	}
 }
