@@ -335,7 +335,7 @@ table.tr-caption-container {
 }
 
 .latest-post h3 {
-    display: inline-block;
+    display: flex;
     padding: 10px;	
 }
 
