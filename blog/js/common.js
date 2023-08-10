@@ -27,7 +27,6 @@ function startup() {
 	setTimeout(showAbbrAsDialog, 0);
 	setTimeout(displayFAB, 0);
 	setTimeout(addHoverForLinks, 0);
-	setTimeout(scrollToSectionByUrl, 0);
 	setTimeout(resizeImages, 500);
 }
 
@@ -103,11 +102,13 @@ function scrollToSectionByUrl() {
 	{
 		let newPos = document.documentElement.scrollTop + (document.querySelector(window.location.hash)?.getBoundingClientRect().top || 0) - (document.querySelector('.page-header')?.getBoundingClientRect().height || 0) - 5;
 		console.log(document.documentElement.scrollTop, newPos);
-		if(document.documentElement.scrollTop != newPos) {
-			document.documentElement.scrollTop = newPos;
+		if(document.documentElement.scrollTop == parseInt(newPos)) {
+			if(typeof toggleHeader === 'function') toggleHeader(true);
 		}
-		else if(typeof toggleHeader === 'function') toggleHeader(true);
-		else setTimeout(scrollToSectionByUrl, 100);
+		else {
+			document.documentElement.scrollTop = newPos;
+			setTimeout(scrollToSectionByUrl, 100);
+		}
 	}
 }
 
@@ -571,7 +572,7 @@ function resizeImages() {
 	
 	// set thumbnails again after adjusted
     setThumbnails();
-	scrollToSectionByUrl();
+	setTimeout(scrollToSectionByUrl, 0);
 }
 
 function resizeImage(p) {
