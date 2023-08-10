@@ -27,7 +27,6 @@ function startup() {
 	setTimeout(showAbbrAsDialog, 0);
 	setTimeout(displayFAB, 0);
 	setTimeout(addHoverForLinks, 0);
-	setTimeout(scrollToSectionByUrl, 0);
 	setTimeout(resizeImages, 500);
 }
 
@@ -575,6 +574,7 @@ function resizeImages() {
 	
 	// set thumbnails again after adjusted
     setThumbnails();
+	setTimeout(scrollToSectionByUrl, 0);
 }
 
 function resizeImage(p) {
