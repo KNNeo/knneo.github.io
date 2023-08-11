@@ -334,13 +334,17 @@ table.tr-caption-container {
 	overflow: hidden;
 }
 
-.latest-post h3 {
+.latest-post-title {
     display: flex;
-    padding: 10px;
+    padding: 10px 0 0 10px;
+}
+
+.latest-post-statement {
+    padding: 0;
 }
 
 .latest-post-summary,
-.latest-post:hover h3 {
+.latest-post:hover .latest-post-title {
 	color: var(--foreground);
 }
 
