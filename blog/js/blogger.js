@@ -139,7 +139,7 @@ function reduceResults() {
 			let latestPostSummary = document.createElement('div');
 			latestPostSummary.classList.add('latest-post-summary');
 			let excerpt = snippet.innerText.trim();
-			latestPostSummary.innerHTML = (title == undefined ? '' : excerpt.substring(0, excerpt.substring(300, 380).indexOf(' ') + 300) + '...');
+			latestPostSummary.innerHTML = (title == undefined ? '' : excerpt.substring(0, excerpt.substring(280, 350).indexOf(' ') + 280) + '...');
 			
 			let innerWrapper = document.createElement('div');
 			if(link != undefined && thumb != undefined) innerWrapper.appendChild(latestPostThumb);
