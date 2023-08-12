@@ -102,12 +102,12 @@ function scrollToSectionByUrl() {
 	{
 		let newPos = document.documentElement.scrollTop + (document.querySelector(window.location.hash)?.getBoundingClientRect().top || 0) - (document.querySelector('.page-header')?.getBoundingClientRect().height || 0) - 5;
 		// console.log(document.documentElement.scrollTop, newPos);
-		if(window['pos'] != newPos) // detext final position of section on render
+		if(window['pos'] != parseInt(newPos)) // detext final position of section on render
 		{
-			window['pos'] = newPos;
+			window['pos'] = parseInt(newPos);
 			setTimeout(scrollToSectionByUrl, 1000);
 		}
-		else if(document.documentElement.scrollTop != parseInt(newPos)) // then, check against scrollTop
+		else if(document.documentElement.scrollTop != newPos) // then, check against scrollTop
 			document.documentElement.scrollTop = newPos;			
 		else if(typeof toggleHeader === 'function') // for github page
 			toggleHeader(true);
