@@ -105,7 +105,7 @@ function scrollToSectionByUrl() {
 		if(window['pos'] != parseInt(newPos)) // detext final position of section on render
 		{
 			window['pos'] = parseInt(newPos);
-			setTimeout(scrollToSectionByUrl, 1000);
+			setTimeout(scrollToSectionByUrl, 500);
 		}
 		else if(document.documentElement.scrollTop != newPos) // then, check against scrollTop
 			document.documentElement.scrollTop = newPos;			
