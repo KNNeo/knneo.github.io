@@ -2714,24 +2714,24 @@ function generateCellValue(columns, row, textColumn, iconColumn, iconTooltip, ic
 }
 
 function onHoverTableRow() {
-	let titleCells = event.target.parentNode.getElementsByClassName('table-title').length;
-	let columns = event.target.parentNode.getElementsByTagName('th').length - (titleCells > 0 ? titleCells : 0); //estimate
-	let rowCells = event.target.getElementsByTagName('td');
-	let spanRow = findTableSiblingRow(event.target, columns);
-	let spanCells = spanRow.getElementsByTagName('td');
+	let rowCells = event.target.closest('tr').getElementsByTagName('td');
+	let spanRow = findTableSiblingRow(event.target.closest('tr'));
+	let spanCell = spanRow.querySelector('td[rowspan]');
 	
-	if(rowCells.length + 1 === spanCells.length && spanCells[0].rowSpan != undefined && !spanRow.classList.contains('not-selectable'))
-		spanCells[0].classList.toggle('highlight');
+	// find cell with rowspan attribute
+	if(!spanRow.classList.contains('not-selectable') && spanCell != null)
+		spanCell.classList.toggle('highlight');
 	
+	// highlight rest of row
 	for(let cell of rowCells)
 	{
 		cell.classList.toggle('highlight');
 	}
 }
 
-function findTableSiblingRow(row, columns) {
-	let returnRow = row;
-	while(returnRow.childNodes.length < columns && returnRow.childNodes.length <= row.childNodes.length)
+function findTableSiblingRow(cell) {
+	let returnRow = cell;
+	while(returnRow.querySelector('td[rowspan]') == null && returnRow.previousSibling != null)
 	{
 		returnRow = returnRow.previousSibling;
 	}
