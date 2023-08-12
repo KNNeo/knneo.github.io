@@ -589,6 +589,7 @@ table.tr-caption-container {
     margin: 3px 5px;
   }
   .content-inner {
+    overflow-x: hidden;
     padding: 0 5px 0 0;
   }
   .content-outer {
