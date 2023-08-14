@@ -267,7 +267,7 @@ const data = [
 ];
 
 //--COMMON EVENTS--//
-window['mode'] = 'week'; // change html for default icon (ends with _week or _month)
+window['mode'] = 'month'; // change html for default icon (ends with _week or _month)
 window.addEventListener('load', startup);
 
 //--FUNCTIONS--//
