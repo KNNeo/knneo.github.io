@@ -928,3 +928,64 @@ function toggleWeekMode() {
 	
 	generateCalendar(window['year'], window['month'], window['mode'] == 'week' ? window['day'] : null); // month is zero-based
 }
+
+function exportEvents() {
+	let universalBOM = "\uFEFF"; // byte order mark, to fix url encoding issue
+	let textOutput = universalBOM + 
+	'"Subject","Start date","Start time","End date","End time","All Day Event","Description","Private"';
+	// title, MM/dd/yyyy, HH:mm tt, MM/dd/yyyy, HH:mm tt, false, description, true
+
+	for(let marked of JSON.parse(localStorage.getItem('calendar-marked')))
+	{
+		//find event
+		let details = data.find(function(d) {
+			return d.name == marked.id && d.startTime;
+		});
+		
+		if(details)
+		{
+			textOutput += '\n';
+		
+			//date formatting
+			let monthNo = monthsOfYear.indexOf(marked.month); // zero-based
+			let hour = parseInt(details.startTime/100);
+			let realStartDate = new Date(marked.year, monthNo, marked.date);
+			if(hour >= 24)
+				realStartDate.setDate(realStartDate.getDate() + 1);
+			// console.log(hour);
+			// console.log(realStartDate);
+			let formatDate = (realStartDate.getMonth()+1) + '/' + realStartDate.getDate() + '/' + realStartDate.getFullYear();
+			// console.log(formatDate);
+			
+			textOutput += '"' + details.name + '",'+ // Subject
+						'"' + formatDate + '",' + // Start date
+						'"' + formatTime(details.startTime) + '",' + // Start time
+						'"' + formatDate + '",' + // End date
+						'"' + formatTime(getEndTime(details.startTime, details.lengthMinutes)) + '",' + // End time
+						'"false",' + // All Day Event
+						'"' + details.channel + ' ' + details.url + ' ' + details.format + '",'+ // Description
+						'"true"'; // Private
+		}
+	}
+	
+	//create download file
+	let downloadLink = document.createElement('a');
+	downloadLink.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(textOutput);
+	downloadLink.target = '_blank';
+	downloadLink.download = 'events.csv';
+	document.body.appendChild(downloadLink);
+	downloadLink.click();
+	document.body.removeChild(downloadLink);
+	
+	console.log('Export done');
+}
+
+function formatTime(time) {
+	if(!time) return;
+	//input: (int)HHmm
+	//output: HH:mm tt
+	let time12h = (time < 1200 ? time : time - 1200);
+	if(time > 2359)
+		time12h = time - 2400;
+	return time12h.toString().padStart(4, '0').substring(0,2) + ':' + time12h.toString().padStart(4, '0').substring(2,4) + ' ' + (time < 1200 || time >= 2400 ? 'AM' : 'PM');
+}
