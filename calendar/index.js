@@ -948,19 +948,27 @@ function exportEvents() {
 		
 			//date formatting
 			let monthNo = monthsOfYear.indexOf(marked.month); // zero-based
-			let hour = parseInt(details.startTime/100);
+			
+			let startHour = parseInt(details.startTime/100);
 			let realStartDate = new Date(marked.year, monthNo, marked.date);
-			if(hour >= 24)
+			if(startHour >= 24)
 				realStartDate.setDate(realStartDate.getDate() + 1);
-			// console.log(hour);
+			// console.log(startHour);
 			// console.log(realStartDate);
-			let formatDate = (realStartDate.getMonth()+1) + '/' + realStartDate.getDate() + '/' + realStartDate.getFullYear();
-			// console.log(formatDate);
+			let formatStartDate = (realStartDate.getMonth()+1) + '/' + realStartDate.getDate() + '/' + realStartDate.getFullYear();
+			// console.log(formatStartDate);
+			
+			let endHour = parseInt(getEndTime(details.startTime, details.lengthMinutes)/100);
+			let realEndDate = new Date(marked.year, monthNo, marked.date);
+			if(endHour >= 24)
+				realEndDate.setDate(realEndDate.getDate() + 1);
+			let formatEndDate = (realEndDate.getMonth()+1) + '/' + realEndDate.getDate() + '/' + realEndDate.getFullYear();
+			// console.log(formatEndDate);
 			
 			textOutput += '"' + details.name + '",'+ // Subject
-						'"' + formatDate + '",' + // Start date
+						'"' + formatStartDate + '",' + // Start date
 						'"' + formatTime(details.startTime) + '",' + // Start time
-						'"' + formatDate + '",' + // End date
+						'"' + formatEndDate + '",' + // End date
 						'"' + formatTime(getEndTime(details.startTime, details.lengthMinutes)) + '",' + // End time
 						'"false",' + // All Day Event
 						'"' + details.channel + ' ' + details.url + ' ' + details.format + '",'+ // Description
