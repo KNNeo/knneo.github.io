@@ -825,6 +825,9 @@ void Main()
         // Exclude entries that don't have a child like <category term="...#post"/>
         .Where(e => !e.Attribute("term").ToString().Contains("#post")).Select(q => q.Attribute("term").Value).ToList();
         
+		if(tags.Contains("The Archive"))
+			continue;
+		
         if(WriteTitleOnConsole || TraceMode)
             Console.WriteLine((title != "" ? title : "A Random Statement") + (count.Count > 0 ? "\t[" + string.Join(",", count) + "]" : ""));
 		else if(p % 100 == 99)
