@@ -2965,9 +2965,9 @@ function hideContextMenus(forced) {
 }
 
 //--TEST PLAYER-//
-function testPlayer() {
-	window['test-score'] = 0;
-	window['test-count'] = 1;
+function testPlayer(startFrom) {
+	window['test-count'] = startFrom ?? 1;
+	window['test-score'] = window['test-count'] - 1;
 	window['test-total'] = 0;
 	window['test-errors'] = [];
 	window['test-timeout'] = 200;
@@ -2979,7 +2979,7 @@ function testPlayer() {
 	window['test-total'] = window['option_list'].length - 1;
 	
 	setTimeout(function () {
-		setNextOption(window['option_list'][1].value);
+		setNextOption(window['option_list'][window['test-count']].value);
 	}, window['test-timeout']); //set timeout to where processor comfortable
 }
 
