@@ -43,7 +43,7 @@ function onScrollHeader() {
 	let diff = st - window['scrollTop'];
 	// console.log(st, window['scrollTop'], diff);
 	// diff == 1 is for initial load if navigate to section (chrome)
-	toggleHeader(st > 0.3 * document.documentElement.clientHeight && (!window['scrollTop'] || diff <= 0.1 * document.documentElement.clientHeight));
+	toggleHeader(st > 0.3 * document.documentElement.clientHeight && (!window['scrollTop'] || diff >= 0.1 * document.documentElement.clientHeight));
 	window['scrollTop'] = st;
 }
 
