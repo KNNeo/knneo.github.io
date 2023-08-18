@@ -2970,6 +2970,7 @@ function testPlayer() {
 	window['test-count'] = 1;
 	window['test-total'] = 0;
 	window['test-errors'] = [];
+	window['test-timeout'] = 200;
 	
 	//to test if filename is corresponding to database
 	//loop all songs in dropdown trigger event, log player status
@@ -2978,16 +2979,16 @@ function testPlayer() {
 	window['test-total'] = window['option_list'].length - 1;
 	
 	setTimeout(function () {
-		setNextOption(parseInt(window['option_list'][1].value));
-	}, 200); //set timeout to where processor comfortable
+		setNextOption(window['option_list'][1].value);
+	}, window['test-timeout']); //set timeout to where processor comfortable
 }
 
 function setNextOption(id) {
-	console.log('setNextOption',id);
+	console.log('setNextOption', id);
 	document.querySelector('#options').value = id;
 	document.querySelector('#options').dispatchEvent(new Event('change'));
 
-	setTimeout(updateTestPlayer, timeout);
+	setTimeout(updateTestPlayer, window['test-timeout']);
 }
 
 function updateTestPlayer() {
@@ -3007,8 +3008,8 @@ function updateTestPlayer() {
 	else
 	{
 		setTimeout(function () {
-			setNextOption(parseInt(window['option_list'][window['test-count']].value));
-		}, timeout);
+			setNextOption(window['option_list'][window['test-count']].value);
+		}, window['test-timeout']);
 	}
 }
 
