@@ -25,6 +25,12 @@ pre {
 	padding: 10px;
 	border: 1px solid var(--foreground);
 }
+.blank {
+	height: 30dvh;
+}
+.blank::before {
+	content: 'This section is intentionally left blank'
+}
 </style>
 <h4 style="text-align: center;">COMPONENTS</h4>
 <hr>
@@ -483,7 +489,7 @@ Click/tap container fast (&lt;200ms) will turn off transition (for observing dif
 }
 </style>
 <h1>Table of Contents</h1>
-<h5>Container class "agenda" contains style attribute for inline grid customization, children class "item" for content (with link)</h5>
+<h5>Container class "agenda" contains style attribute for inline grid customization, children class "item" for content (with link to section, see address bar after click)</h5>
 <pre>
 &lt;div class="agenda" style="display: none; grid-template-columns: repeat([NO_OF_COLS], 1fr);"&gt;
   &lt;div class="item"&gt;&lt;/div&gt;
@@ -494,196 +500,95 @@ Click/tap container fast (&lt;200ms) will turn off transition (for observing dif
 </pre>
 <div class="agenda" style="display: none; grid-template-columns: repeat(3, 1fr);">
 	<div class="item">
-	<table
-  align="center"
-  cellpadding="0"
-  cellspacing="0"
-  class="tr-caption-container"
-  style="margin-left: auto; margin-right: auto;"
->
-  <tbody>
-    <tr>
-      <td style="text-align: center;">
-        <a
-          href="#Moeshi"
-          style="margin-left: auto; margin-right: auto;"
-          ><img
-            border="0"
-            data-original-height="1536"
-            data-original-width="2048"
-            height="240"
-            src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi38UEx78PVLToknFWmUljKVcNqyAN0AmTFu2ef7uk4kAvohhrJBuXXNhP9vgVTmhRcfaNarc_icb_yf7a-wpZf2zFu5nT0798uLeTj1v88r27TvZy_u_2zPxSOxi14dG3UByoFTQUNU3J6SmxRAW_VABG8YFhsIHtj_mYbgRM6V4KVFUPR1YSO_qVZmtQ/s320/PXL_20210114_114710189.jpg"
-            width="320"
-        /></a>
-      </td>
-    </tr>
-    <tr>
-      <td class="tr-caption" style="text-align: center;">
-        Toyota Moe Bromides
-      </td>
-    </tr>
-  </tbody>
-</table>
+	<table align="center" cellpadding="3" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto;">
+    <tbody>
+      <tr>
+        <td style="text-align: center;">
+          <a href="#Miyu2ndLiveRaffle" style="margin-left: auto; margin-right: auto;"><div style="background-image: url(https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgBygS7_6UzhkbeNXDLvoI3MlVKFPwr2DlFkUJSXWWe80HmMiVCE9iK-paZOCoJdPquO5VGB8324oO5453AcXxvKUTJDR1E6Yy70QiIYIsjWOjSWlzSmCyJJNSnZUE5fCDqOelJvHOBNCOOuuYRLJwPxckTPAjJNbvsBNB5MsH8NWDKGSQEg8Ft1DkL/s320/e55998a9ae8522530c1d9d639b328b76.png); background-position: 50% 50%; background-size: cover; height: 200px; width: 100%;"></div></a>
+        </td>
+      </tr>
+      <tr>
+        <td class="tr-caption" style="max-width: 250px; text-align: center; width: 33%;">
+          Tomita Miyu 2nd LIVE ~Fizzy Night~ Comemmorative Raffle
+        </td>
+      </tr>
+    </tbody>
+  </table>
 	</div>
-	<div class="item"><table
-  align="center"
-  cellpadding="0"
-  cellspacing="0"
-  class="tr-caption-container"
-  style="margin-left: auto; margin-right: auto;"
->
-  <tbody>
-    <tr>
-      <td style="text-align: center;">
-        <a
-          href="#DoukiChan"
-          style="margin-left: auto; margin-right: auto;"
-          ><img
-            border="0"
-            data-original-height="2048"
-            data-original-width="1536"
-            height="320"
-            src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiPcdKsMf1kT5hREsYytOE3yHoMfGE1RdeyYp40Oe8hC62JJ0XN6NmiLAvsP1H7IbSRIzNrCbAl1Q9MWdgXgbfhf_2RBbm9WHQNMLQW0XtMP-4gNT0e0Tj7aHZaiLHqEI8zjttPPQKuN1aGhwJOvfgZB2B3_5Pnp0c-duMrqQbYWVIEHJdVmwFMWL7w_XA/s320/PXL_20210114_114831914.jpg"
-            width="240"
-        /></a>
-      </td>
-    </tr>
-    <tr>
-      <td class="tr-caption" style="text-align: center;">
-        Ganbare Douki-chan Vol.8
-      </td>
-    </tr>
-  </tbody>
-</table>
-
+	<div class="item"><table align="center" cellpadding="3" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto;">
+    <tbody>
+      <tr>
+        <td style="text-align: center;">
+          <a href="#InoriMachiDiary21" style="margin-left: auto; margin-right: auto;"><div style="background-image: url(https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgYdzeOIjbcugK6ZVcYXbADP41KJU6c-xqZDxQv_VzgIyom-HIDKCPkt9IZrBbRf-b-xyZVCSgTXjL4xyQbQbw3J83o3LqwQCx5V8T5gTEnSTXhqM8Lwh1AAznCFBLrszTHi4evgZ2JfYdeeY-BKcLikmIqVt8VCDCJmGN1T2a5-DmVh4mYhcgyYi2e/s320/PXL_20230509_124137750.jpg); background-position: 50% 50%; background-size: cover; height: 200px; width: 100%;"></div></a>
+        </td>
+      </tr>
+      <tr>
+        <td class="tr-caption" style="max-width: 250px; text-align: center; width: 33%;">
+          Minase Inori fanclub newsletter Inori Diary vol.21
+        </td>
+      </tr>
+    </tbody>
+  </table>
 	</div>
-	<div class="item">
-	<table
-  align="center"
-  cellpadding="0"
-  cellspacing="0"
-  class="tr-caption-container"
-  style="margin-left: auto; margin-right: auto;"
->
-  <tbody>
-    <tr>
-      <td style="text-align: center;">
-        <a
-          href="#Moeshi"
-          style="margin-left: auto; margin-right: auto;"
-          ><img
-            border="0"
-            data-original-height="1536"
-            data-original-width="2048"
-            height="240"
-            src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi38UEx78PVLToknFWmUljKVcNqyAN0AmTFu2ef7uk4kAvohhrJBuXXNhP9vgVTmhRcfaNarc_icb_yf7a-wpZf2zFu5nT0798uLeTj1v88r27TvZy_u_2zPxSOxi14dG3UByoFTQUNU3J6SmxRAW_VABG8YFhsIHtj_mYbgRM6V4KVFUPR1YSO_qVZmtQ/s320/PXL_20210114_114710189.jpg"
-            width="320"
-        /></a>
-      </td>
-    </tr>
-    <tr>
-      <td class="tr-caption" style="text-align: center;">
-        Toyota Moe Bromides
-      </td>
-    </tr>
-  </tbody>
-</table>
+	<div class="item"><table align="center" cellpadding="3" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto;">
+    <tbody>
+      <tr>
+        <td style="text-align: center;">
+          <a href="#SmileGivingDayVol3" style="margin-left: auto; margin-right: auto;"><div style="background-image: url(https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiEx84v5pODC_WrzzFT44eAvtl5Kb2FYgWkZhdGlQmEEpssg8PNTZ_u4kZscxAg8zeMqYRGSA552fpoljPy4KwVbbx7CuBDmOH4_IULmCGK7NzaeuipbgMNiSjzkofMvcLOVQ6ng3rKTm1kxDysKUfU318kAl2LsS26GPSx7NYDBWJ8ZcZSVHYPRCi4/s320/1427202006_1.jpg); background-position: 50% 50%; background-size: cover; height: 200px; width: 100%;"></div></a>
+        </td>
+      </tr>
+      <tr>
+        <td class="tr-caption" style="max-width: 250px; text-align: center; width: 33%;">
+          Kitou Akari fanclub event smile giving day vol.3 Goods
+        </td>
+      </tr>
+    </tbody>
+  </table>
 	</div>
-	<div class="item"><table
-  align="center"
-  cellpadding="0"
-  cellspacing="0"
-  class="tr-caption-container"
-  style="margin-left: auto; margin-right: auto;"
->
-  <tbody>
-    <tr>
-      <td style="text-align: center;">
-        <a
-          href="#DoukiChan"
-          style="margin-left: auto; margin-right: auto;"
-          ><img
-            border="0"
-            data-original-height="2048"
-            data-original-width="1536"
-            height="320"
-            src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiPcdKsMf1kT5hREsYytOE3yHoMfGE1RdeyYp40Oe8hC62JJ0XN6NmiLAvsP1H7IbSRIzNrCbAl1Q9MWdgXgbfhf_2RBbm9WHQNMLQW0XtMP-4gNT0e0Tj7aHZaiLHqEI8zjttPPQKuN1aGhwJOvfgZB2B3_5Pnp0c-duMrqQbYWVIEHJdVmwFMWL7w_XA/s320/PXL_20210114_114831914.jpg"
-            width="240"
-        /></a>
-      </td>
-    </tr>
-    <tr>
-      <td class="tr-caption" style="text-align: center;">
-        Ganbare Douki-chan Vol.8
-      </td>
-    </tr>
-  </tbody>
-</table>
-
+	<div class="item"><table align="center" cellpadding="3" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto;">
+    <tbody>
+      <tr>
+        <td style="text-align: center;">
+          <a href="#IbukiLIVERTINEAGEShirt" style="margin-left: auto; margin-right: auto;"><div style="background-image: url(https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhdm_Med1mS1NZBjD3yK78FTexaf1uxHnyLx96hHhz1BIu8z8BzcbfZHtAULOA-oqJRKEh3TvmUb6UeQr3hmtyMmB__B8A6Dpq-z6_8FRnmquVVQCW8RwOCHERLbHqirEguj2lZ0EJmqO1wRYjuGaGVYDXrHiHujiFQQP3rnXJRCincgPy6E-OrQQdl/s320/2231100020_16.jpg); background-position: 50% 50%; background-size: cover; height: 200px; width: 100%;"></div></a>
+        </td>
+      </tr>
+      <tr>
+        <td class="tr-caption" style="max-width: 250px; text-align: center; width: 33%;">
+          Kido Ibuki LIVERTINE AGE Collaboration T-Shirt
+        </td>
+      </tr>
+    </tbody>
+  </table>
 	</div>
-	<div class="item">
-	<table
-  align="center"
-  cellpadding="0"
-  cellspacing="0"
-  class="tr-caption-container"
-  style="margin-left: auto; margin-right: auto;"
->
-  <tbody>
-    <tr>
-      <td style="text-align: center;">
-        <a
-          href="#Moeshi"
-          style="margin-left: auto; margin-right: auto;"
-          ><img
-            border="0"
-            data-original-height="1536"
-            data-original-width="2048"
-            height="240"
-            src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi38UEx78PVLToknFWmUljKVcNqyAN0AmTFu2ef7uk4kAvohhrJBuXXNhP9vgVTmhRcfaNarc_icb_yf7a-wpZf2zFu5nT0798uLeTj1v88r27TvZy_u_2zPxSOxi14dG3UByoFTQUNU3J6SmxRAW_VABG8YFhsIHtj_mYbgRM6V4KVFUPR1YSO_qVZmtQ/s320/PXL_20210114_114710189.jpg"
-            width="320"
-        /></a>
-      </td>
-    </tr>
-    <tr>
-      <td class="tr-caption" style="text-align: center;">
-        Toyota Moe Bromides
-      </td>
-    </tr>
-  </tbody>
-</table>
+	<div class="item"><table align="center" cellpadding="3" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto;">
+    <tbody>
+      <tr>
+        <td style="text-align: center;">
+          <a href="#BLEACHKarutaBox" style="margin-left: auto; margin-right: auto;"><div style="background-image: url(https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEik_fIJTsGtaaI1_aRRcRtlfwOk86WIB1BTD35yS20VRsBnG8kv9-NRIYT5zTYKd0Damu9vLofPwNSN9oGerUWY1m_FwIJFVDL01RtKqJboUo5hlSeB78tNTejqKo4aELtmNAetScoATWGJb9a4ElM6zQxS7oYQKa5A-N1ds014_fSxFpKR1KnDGJxv/s320/71sbV3OcDEL._AC_SL1500_.jpg); background-position: 50% 50%; background-size: cover; height: 200px; width: 100%;"></div></a>
+        </td>
+      </tr>
+      <tr>
+        <td class="tr-caption" style="max-width: 250px; text-align: center; width: 33%;">
+          BLEACH SONGS OF THE SOUL Karuta Card Set
+        </td>
+      </tr>
+    </tbody>
+  </table>
 	</div>
-	<div class="item"><table
-  align="center"
-  cellpadding="0"
-  cellspacing="0"
-  class="tr-caption-container"
-  style="margin-left: auto; margin-right: auto;"
->
-  <tbody>
-    <tr>
-      <td style="text-align: center;">
-        <a
-          href="#DoukiChan"
-          style="margin-left: auto; margin-right: auto;"
-          ><img
-            border="0"
-            data-original-height="2048"
-            data-original-width="1536"
-            height="320"
-            src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiPcdKsMf1kT5hREsYytOE3yHoMfGE1RdeyYp40Oe8hC62JJ0XN6NmiLAvsP1H7IbSRIzNrCbAl1Q9MWdgXgbfhf_2RBbm9WHQNMLQW0XtMP-4gNT0e0Tj7aHZaiLHqEI8zjttPPQKuN1aGhwJOvfgZB2B3_5Pnp0c-duMrqQbYWVIEHJdVmwFMWL7w_XA/s320/PXL_20210114_114831914.jpg"
-            width="240"
-        /></a>
-      </td>
-    </tr>
-    <tr>
-      <td class="tr-caption" style="text-align: center;">
-        Ganbare Douki-chan Vol.8
-      </td>
-    </tr>
-  </tbody>
-</table>
-
+	<div class="item"><table align="center" cellpadding="3" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto;">
+    <tbody>
+      <tr>
+        <td style="text-align: center;">
+          <a href="#DoukiChanVol9" style="margin-left: auto; margin-right: auto;"><div style="background-image: url(https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi_Jiivs07bP53jmQTzwEKeV4rYl78TqJAPQKTX_0LmCDGTFiqnGHiGQpqy9YtJdodfTcjU4bUSk3nPEhfjiAxXA5q_BodifImDqwGAt4hZkHfp14b9Tkb-e4C2tCD9OUtIA0gkK2wSF4eYNG144mHGzPj6m0_Zgqm7b6exXcd5X7yeLi1sGJhUTWOw/s320/040031058348-1p.jpg); background-position: 50% 50%; background-size: cover; height: 200px; width: 100%;"></div></a>
+        </td>
+      </tr>
+      <tr>
+        <td class="tr-caption" style="max-width: 250px; text-align: center; width: 33%;">
+          Ganbare Douki-chan Vol.9
+        </td>
+      </tr>
+    </tbody>
+  </table>
 	</div>
 </div>
 
@@ -1158,12 +1063,18 @@ function toggleExpander() {
 	font-size: 0.2em;
 	max-height: 50vh;
 	overflow-y: auto;
-}
-.fineprint:hover {
-	font-size: 1em;
+	cursor: pointer;
 	border-radius: 5px;
-	border: 2px solid white;
+	border: 2px solid transparent;
+}
+.fineprint:hover,
+.fineprint.show {
+	border-color: white;
+}
+.fineprint.show {
+	font-size: 1em;
 	padding: 4px 8px;
+	cursor: initial;
 }
 </style>
 <script>
@@ -1171,14 +1082,15 @@ window.addEventListener('load', focusOnExpandFineprint);
 function focusOnExpandFineprint() {
 	for(let fp of document.querySelectorAll('.fineprint'))
 	{
-		fp.addEventListener('mouseover', function() {
-			this.scrollIntoView();
+		fp.addEventListener('click', function() {
+			fp.classList.add('show');
+			fp.scrollIntoView({ block: 'center' });
 		});
 	}
 }
 </script>
 <h1>Fine Print</h1>
-<h5>Container "fineprint", reduces font of unimportant paragraphs to save space<br />
+<h5>Container "fineprint", single element with reduced font, used on unimportant paragraphs to save space<br />
 (Not to be confused with Accordion where content to be paired with header)</h5>
 <pre>
 &lt;div class="fineprint"&gt;
@@ -1253,5 +1165,7 @@ as a summary:<br />
   </li>
 </ul>
 </div>
+<br />
+<div class="blank">
 </body>
 </html>
