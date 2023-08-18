@@ -2998,7 +2998,7 @@ function updateTestPlayer() {
 	if(overlay != null)
 		window['test-score'] += 1;
 	else
-		errors.push(id);
+		window['test-errors'].push(id);
 	
 	console.log('updateTestPlayer', id);
 	console.log('score', window['test-score'] + '/' + window['test-total']);
@@ -3014,6 +3014,6 @@ function updateTestPlayer() {
 }
 
 function endTestPlayer() {	
-	console.log('testPlayer', window['test-score'] + '/' + window['test-total'] + ' ok');
-	console.log('errors', window['test-errors']);
+	console.log('testPlayer', window['test-score'] + '/' + window['test-total'] + ' scanned');
+	// console.log('errors', window['test-errors']);
 }
