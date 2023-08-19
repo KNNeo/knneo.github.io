@@ -1,8 +1,9 @@
 //--HEADER--//
 const isFirefox = (/Firefox/i.test(navigator.userAgent));
+const pageHeader = document.querySelector('.page-header');
 
 function generateHeader() {
-	if(document.querySelector('.page-header') != null) {
+	if(pageHeader != null) {
 		let header = document.createElement('div');
 		
 		//clone element to put in header
@@ -31,8 +32,8 @@ function generateHeader() {
 		}
 		
 		//add header to document, add window events	
-		document.querySelector('.page-header').innerHTML = '';
-		document.querySelector('.page-header').appendChild(header);
+		pageHeader.innerHTML = '';
+		pageHeader.appendChild(header);
 		window.addEventListener('scroll', onScrollHeader);
 	}
 }
@@ -49,13 +50,16 @@ function onScrollHeader() {
 
 function toggleHeader(forced) {
 	if (forced) {
-		document.querySelector('.page-header').classList.add('opaque-header');
-		document.querySelector('.page-header').classList.add('visible-header');
+		pageHeader.classList.add('opaque-header');
+		pageHeader.classList.add('visible-header');
+		if(pageHeader.getBoundingClientRect().height >= 0.25*window.innerHeight) {
+			pageHeader.querySelector('.hashtags').classList.add('hidden');
+		}
 	}
 	else {
-		document.querySelector('.page-header').classList.remove('opaque-header');
+		pageHeader.classList.remove('opaque-header');
 		setTimeout(function() {
-			document.querySelector('.page-header').classList.remove('visible-header');
+			pageHeader.classList.remove('visible-header');
 		}, 500);
 	}
 }
