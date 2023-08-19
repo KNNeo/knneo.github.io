@@ -569,7 +569,7 @@ function resizeImages() {
     */
     for (var p of document.querySelectorAll("img"))
 	{
-		resizeImage(p);
+		p.addEventListener('load', resizeImage);
     }
 	
 	// set thumbnails again after adjusted
@@ -577,11 +577,13 @@ function resizeImages() {
 	setTimeout(scrollToSectionByUrl, 0);
 }
 
-function resizeImage(p) {
+function resizeImage(img) {
 	// Conditions that cannot fix - workaround
 	// Multiple table cells with caption row - set width style for caption row in %
+	let p = event.target || img;
 	let showLog = false;
-	if(showLog) console.log(p);
+	// if(showLog) 
+		console.log(p);
 	var imgWidth = p.width;
 	var imgHeight = p.height;
 	if(showLog) console.log('width x height', imgWidth, imgHeight);
