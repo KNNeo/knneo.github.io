@@ -264,6 +264,9 @@ void Main()
         // Exclude entries that don't have a child like <category term="...#post"/>
         .Where(e => !e.Attribute("term").ToString().Contains("#post")).Select(q => q.Attribute("term").Value).ToList();
         
+		if(tags.Contains("The Archive"))
+			continue;
+		
         // Write output file (partial HTML for Jekyll)
         using (StreamWriter output = File.CreateText(outPath)) {
             output.WriteLine("<!DOCTYPE html>");
