@@ -85,7 +85,15 @@ void Main()
             Console.WriteLine(".");
 		else
             Console.Write(".");
-		        
+		
+        var tags = entry.Elements(_+"category")
+        // An <entry> is either a post, or some bit of metadata no one cares about.
+        // Exclude entries that don't have a child like <category term="...#post"/>
+        .Where(e => !e.Attribute("term").ToString().Contains("#post")).Select(q => q.Attribute("term").Value).ToList();
+        
+		if(tags.Contains("The Archive"))
+			continue;
+		
         #region export list of images from latest
 		var urls = new List<string>();
         expression = @"(?s)(<img)(.*?)(src="")(.*?)("")";
