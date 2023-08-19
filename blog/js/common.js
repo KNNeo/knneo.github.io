@@ -493,14 +493,12 @@ function setThumbnails() {
 		thumbnail.style.height = thumbnail.querySelector('.thumbnail-initial:not(.thumbnail-pop)').offsetHeight + 'px';
 		// add click event for first thumbnail content
         let allThumbImages = thumbnail.getElementsByTagName("img");
-        let allThumbVideos = thumbnail.getElementsByTagName("video");
+		// show if loaded first content
+		if(allThumbImages.length > 0 && allThumbImages[0].complete) {
+			thumbnail.classList.add('show');
+		}
         for (j = 0; j < allThumbImages.length; j++) {
             allThumbImages[j].onclick = function() {
-                switchThumbnails(event.target.closest('.thumbnail'));
-            };
-        }
-        for (k = 0; k < allThumbVideos.length; k++) {
-            allThumbVideos[k].onclick = function() {
                 switchThumbnails(event.target.closest('.thumbnail'));
             };
         }
@@ -582,8 +580,7 @@ function resizeImage(img) {
 	// Multiple table cells with caption row - set width style for caption row in %
 	let p = event.target || img;
 	let showLog = false;
-	// if(showLog) 
-		console.log(p);
+	if(showLog) console.log(p);
 	var imgWidth = p.width;
 	var imgHeight = p.height;
 	if(showLog) console.log('width x height', imgWidth, imgHeight);
@@ -604,7 +601,7 @@ function resizeImage(img) {
 		return;
 	}
 	
-	if(showLog)	console.log('orientation: ' + (imgWidth >= imgHeight ? 'landscape' : 'portrait'));
+	// if(showLog)	console.log('orientation: ' + (imgWidth >= imgHeight ? 'landscape' : 'portrait'));
 			
 	// adjust dimensions
 	if (p.parentElement.parentElement.tagName == "TR" && 
