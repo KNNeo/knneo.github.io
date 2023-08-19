@@ -158,6 +158,9 @@ void Main()
 		else
             Console.Write(".");
         
+		if(tags.Contains("The Archive"))
+			continue;
+		
         var pageLink = "../" + Path.GetFileNameWithoutExtension(filepath.Replace(filepath, outputFolder)) + "/" + published.Year.ToString("0000") + "/"  + published.Month.ToString("00") + "/"  + Path.GetFileNameWithoutExtension(originalLink) + "." + type;
         var pageIndex = postList.IndexOf(pageLink);
 		
