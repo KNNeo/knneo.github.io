@@ -488,31 +488,31 @@ function setThumbnails() {
 		return;
 	}
 	
-    for (let thumbnail of document.querySelectorAll(".thumbnail")) {
+    for (let thumbnail of document.querySelectorAll('.thumbnail')) {
 		// set height for first thumbnail content
 		thumbnail.style.height = thumbnail.querySelector('.thumbnail-initial:not(.thumbnail-pop)').offsetHeight + 'px';
 		// add click event for first thumbnail content
-        let allThumbImages = thumbnail.getElementsByTagName("img");
+        let allThumbImages = thumbnail.querySelectorAll('img');
 		// show if loaded first content
 		if(allThumbImages.length > 0 && allThumbImages[0].complete) {
 			thumbnail.classList.add('show');
 		}
-        for (j = 0; j < allThumbImages.length; j++) {
-            allThumbImages[j].onclick = function() {
+        for (let thumbImage of allThumbImages) {
+            thumbImage.onclick = function() {
                 switchThumbnails(event.target.closest('.thumbnail'));
             };
         }
 		// if text only (experimental)
-		if(allThumbImages.length < 1 && allThumbVideos.length < 1 &&
-		thumbnail.getElementsByClassName("thumbnail-initial").length > 0 &&
-		thumbnail.getElementsByClassName("thumbnail-pop").length > 0)
+		if(allThumbImages.length < 1 &&
+		thumbnail.querySelectorAll('.thumbnail-initial').length > 0 &&
+		thumbnail.querySelectorAll('.thumbnail-pop').length > 0)
 		{
 			thumbnail.style.display = 'inline';
 			
 			let textElement = document.createElement('span');
 			textElement.classList.add('thumbnail-text');
-			textElement.innerHTML = thumbnail.getElementsByClassName("thumbnail-initial")[0].innerHTML;
-			let popupText = thumbnail.getElementsByClassName("thumbnail-pop")[0].innerHTML;
+			textElement.innerHTML = thumbnail.querySelectorAll('.thumbnail-initial')[0].innerHTML;
+			let popupText = thumbnail.querySelectorAll('.thumbnail-pop')[0].innerHTML;
 			textElement.onclick = function() {
 				let dialogElement = document.querySelector('.thumbnail-dialog') ?? document.createElement('dialog');
 				dialogElement.className = 'thumbnail-dialog';
