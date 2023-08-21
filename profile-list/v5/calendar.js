@@ -103,6 +103,16 @@ function addEventsToMiniCalendar(htmlString, DOBlist) {
 	
 	document.querySelector('.calendar').innerHTML = htmlString;
 	
+	//add today
+	let today = luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: config.timezone});
+	for(let date of document.querySelectorAll('.calendar td'))
+	{
+		if(1+window['currentMonth'] == today.month && date.innerText.includes(today.day.toString()))
+			today = date;
+	}
+	if(today.classList)
+		today.classList.add('today');
+	
 	//global variable for month navigation
 	//events for month buttons
 	// window['currentMonth'] = monthNo;
