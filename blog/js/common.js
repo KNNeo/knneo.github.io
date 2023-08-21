@@ -84,12 +84,12 @@ function addHashtags() {
 	for(let item of hashtags)
 	{
 		let newItem = document.createElement('a');
-		newItem.title = item.target;
 		newItem.innerText = '#' + item.tag;
-		newItem.href = 'javascript:void(0);';
-		newItem.addEventListener('click', function() {
-			window.location.hash = this.title;
-		});
+		newItem.title = item.tag;
+		newItem.href = newItem.innerText;
+		// newItem.addEventListener('click', function() {
+			// window.location.hash = this.title;
+		// });
 		hashTag.appendChild(newItem);
 	}
 	
