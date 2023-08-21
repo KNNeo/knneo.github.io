@@ -29,6 +29,7 @@ body {
 	margin: auto;
 	text-align: center;
 	overflow-x: hidden;
+	position: relative;
 }
 
 .title {
@@ -45,12 +46,6 @@ body {
 }
 
 .tile {
-    -webkit-transition-delay: .3s;
-    -o-transition-delay: .3s;
-    transition-delay: .3s;
-    -webkit-transition: .5s;
-    -o-transition: .5s;
-    transition: .5s;
     opacity: 0;
 	cursor: pointer;
 }
@@ -61,6 +56,13 @@ body {
 
 .tile-image {
 	max-width: 33%;
+}
+
+.fit {
+	position: fixed;
+	top: 50px;
+    left: 0;
+    right: 0;
 }
 
 .fit .tile-image {

@@ -59,6 +59,11 @@ function generateArchive() {
 				imageSpan.setAttribute('loading', 'lazy');
 				imageSpan.setAttribute('data-image', mosaic.imgUrl);
 				imageSpan.addEventListener('click', function() {
+					for(let fit of document.querySelectorAll('.fit'))
+					{
+						if(fit != event.target.parentElement)
+							fit.classList.remove('fit');
+					}
 					event.target.parentElement.classList.toggle('fit');
 				});
 				imageSpan.addEventListener('load', function() {
