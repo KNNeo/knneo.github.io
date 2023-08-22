@@ -786,9 +786,18 @@ abbr.imgpop:hover img {
 	opacity: 0;
 }
 
-.thumbnail-initial * img,
-.thumbnail-initial * video {
+.thumbnail-initial img,
+.thumbnail-initial video {
 	border: 2px solid var(--primary);
+    border-left-width: thick;
+    border-right-width: thick;
+	transition: border 0.2s;
+}
+
+.thumbnail-initial img:hover,
+.thumbnail-initial video:hover {
+    border-left-width: 2px;
+    border-right-width: 2px;
 }
 
 /*Assign class based on image resize for responsive, see blog.js resizeImg()*/
