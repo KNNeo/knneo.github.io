@@ -61,6 +61,7 @@ void Main()
     string outputFolder = "pages";
     string filepath = "";
     string domainLink = "https://knwebreports.blogspot.com/";
+	string blogTitle = "Klassic Note Web Reports";
 	
 	//Get xml file from source, move to archivepath
 	//If not found in source, will run file in archivepath
@@ -978,8 +979,12 @@ void Main()
     }
     
     //Write into home page
-    string fileString = File.ReadAllText(blogpath + "\\template.html");
-    fileString = fileString.Replace("_ARCHIVE_", textString).Replace("_FONT_", defaultFont).Replace("_COUNT_", posts.ToList().Count.ToString());
+    string fileString = File.ReadAllText(blogpath + "\\template.html")
+		.Replace("_TITLE_", blogTitle)
+		.Replace("_URL_", domainLink)
+		.Replace("_ARCHIVE_", textString)
+		.Replace("_FONT_", defaultFont)
+		.Replace("_COUNT_", posts.ToList().Count.ToString());
     File.WriteAllText(blogpath + "\\index.html", fileString);
 }
 
