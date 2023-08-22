@@ -309,6 +309,15 @@ This is where you put the &lt;div class="popup" title="[LINK]"&gt;
 .carousel .item img,
 .carousel .item video {
 	border: 2px solid var(--primary);
+    border-left-width: thick;
+    border-right-width: thick;
+	transition: border 0.2s;
+}
+
+.carousel .item img:hover,
+.carousel .item video:hover {
+    border-left-width: 2px;
+    border-right-width: 2px;
 }
 
 .carousel .item.hide {
