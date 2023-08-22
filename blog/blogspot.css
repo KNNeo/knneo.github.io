@@ -335,9 +335,34 @@ a.material-icons {
 	text-decoration: none;
 }
 
+span.small-icons {
+	font-size: 18px;
+	padding-right: 2px;
+    margin-top: 1px;
+}
+
+.home-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
 .home-tags a {
+    display: flex;
 	cursor: pointer;
 	white-space: nowrap;
+	border-radius: 8px;
+	box-shadow: 3px 3px var(--foreground);
+	border: 1px solid var(--foreground);
+	background-color: var(--background);
+	text-decoration: none;
+    padding: 6px;
+}
+
+.home-tags a:active {
+	box-shadow: 1px 1px;
+	transform: translate(2px, 2px);
 }
 
 .post-tags {
