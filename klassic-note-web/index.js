@@ -1405,7 +1405,7 @@ function generateArtistRelated(contents) {
 	generateTableList(
 		contents, {
 		id: 'artist-related', 
-		title: 'Songs from ' + contents.values[0][contents.columns.indexOf('ArtistTitle')], 
+		title: 'Songs from "' + contents.values[0][contents.columns.indexOf('ArtistTitle')] + '"',
 		rowFormat: ['KNYEAR', ' - ', 'SongTitle'], 
 		clickFunc: updateSong, 
 		rightClickFunc: showContextMenu, 
@@ -1442,7 +1442,7 @@ function generateSongFeaturedByArtist(contents) {
 	generateTableList(
 		contents, {
 		id: 'artist-featured', 
-		title: 'Songs featuring ' + contents.values[0][contents.columns.indexOf('ParentArtist')],
+		title: 'Songs featuring "' + contents.values[0][contents.columns.indexOf('ParentArtist')] + '"',
 		rowFormat: ['KNYEAR', ' - ', 'ArtistTitle', ' - ', 'SongTitle'],
 		clickFunc: updateSong, 
 		rightClickFunc: showContextMenu, 
@@ -1521,7 +1521,7 @@ function generateArtistFeatured(contents) {
 	generateTableList(
 		contents, {
 		id: 'artist-featured', 
-		title: 'Songs featuring ' + contents.values[0][contents.columns.indexOf('ParentArtist')],
+		title: 'Songs featuring "' + contents.values[0][contents.columns.indexOf('ParentArtist')] + '"',
 		rowFormat: ['KNYEAR', ' - ', 'ArtistTitle', ' - ', 'SongTitle'],
 		clickFunc: updateSong, 
 		rightClickFunc: showContextMenu, 
