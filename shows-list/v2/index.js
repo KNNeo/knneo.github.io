@@ -30,9 +30,12 @@ function generateAnimeList() {
 	
 	let moviesList = showsArray.filter(s => s.type == 'Movie');
 	
-	let showsHtml = document.querySelector('.shows-list');
+	let directoryHTML = document.querySelector('.directory');
+	directoryHTML.innerHTML = '';
+	directoryHTML.appendChild(calendarBlock);
+	
+	let showsHtml = document.querySelector('.shows');
 	showsHtml.innerHTML = '';
-	showsHtml.appendChild(calendarBlock);
 	showsHtml.appendChild(generateAnimeCurrent(currentList));
 	showsHtml.appendChild(generateOVAMovies(moviesList));
 }
@@ -158,8 +161,13 @@ function generateCalendarBox(list) {
 	}
 	
 	let z = document.createElement('div');
-	z.classList.add('calendar-header');
-	z.innerText = 'Year';
+	z.classList.add('calendar-icon');
+	
+		let icon = document.createElement('i');
+		icon.classList.add('material-icons');
+		icon.innerText = 'today';
+		z.appendChild(icon);
+		
 	calendarDiv.appendChild(z);
 	
 	for(let season of seasons)
@@ -174,10 +182,13 @@ function generateCalendarBox(list) {
 	for(let y = 2008; y <= currentYear; y++)
 	{
 		let t = document.createElement('div');
-		t.classList.add('year');
-		t.style.paddingRight = '3px';
+		t.classList.add('calendar-year');
 		t.style.gridRow = (2+((y-2008)*maxPerSeason)) + '/ span ' + maxPerSeason;
-		t.innerText = y;
+		
+			let tx = document.createElement('span');
+			tx.innerText = y;
+			t.appendChild(tx);
+			
 		calendarDiv.appendChild(t);
 		
 		let yearShows = {};

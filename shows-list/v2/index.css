@@ -39,6 +39,17 @@ body {
     justify-content: center;
 }
 
+.filter-bar * {
+	margin: 2px;
+    padding: 2px;
+	background-color: white;
+	border: 1px solid var(--foreground);
+}
+
+.filter-bar input {
+	height: 18px;
+}
+
 .header, .disclaimer {
 	font-size: small;
 }
@@ -58,6 +69,7 @@ body {
 
 .category-title {
 	font-size: large;
+	cursor: initial;
 }
 
 .anime-year {
@@ -78,10 +90,23 @@ body {
 .calendar {	
 	display: grid;
 	min-height: 200px;
+	height: 50dvh;
 	max-height: 70dvh;
 	overflow-y: auto;
-	font-size: x-small;
+	font-size: small;
 	resize: vertical;
+}
+
+.calendar-icon {
+	position: sticky;
+	top: 0;
+	display: flex;
+	justify-content: center;
+    align-items: flex-end;
+	background-color: var(--background);
+	border: 1px solid var(--foreground);
+    margin: 0 1px;
+    padding: 3px;
 }
 
 .calendar-header {
@@ -89,6 +114,21 @@ body {
 	top: 0;
 	text-align: center;
 	background-color: var(--background);
+	border: 1px solid var(--foreground);
+	font-weight: 900;
+    margin: 0 1px;
+    padding: 3px;
+}
+
+.calendar-year {
+	background-color: var(--background);
+	border: 1px solid var(--foreground);
+	font-weight: 900;
+    margin: 1px;
+    padding: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .anime-row img,
@@ -173,12 +213,6 @@ body {
 
 .highlight {
 	border: 1px solid;
-}
-
-.filter {
-	/* margin-left: 8px; */
-	font-size: 0.8em;
-    padding: 2px;
 }
 
 .settings a {
@@ -277,6 +311,9 @@ body {
 		max-height: 200px;
 	}
 	.grid .description {
+		font-size: x-small;
+	}
+	.calendar {	
 		font-size: x-small;
 	}
 }
