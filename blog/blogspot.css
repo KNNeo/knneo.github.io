@@ -360,16 +360,27 @@ span.small-icons {
     padding: 6px;
 }
 
-.home-tags a:active {
-	box-shadow: 1px 1px;
-	transform: translate(2px, 2px);
+.post-tags {
+	display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
 }
 
-.post-tags {
+.post-tags a {
 	border-radius: 8px;
+	box-shadow: 3px 3px var(--foreground);
 	border: 1px solid var(--foreground);
-	padding: 5px;
-	margin: 0 5px;
+	background-color: var(--background);
+	padding: 6px;
+    white-space: nowrap;
+	text-decoration: none;
+}
+
+.home-tags a:active,
+.post-tags a:active {
+	box-shadow: 1px 1px;
+	transform: translate(2px, 2px);
 }
 
 /*Fixes from Blogger*/

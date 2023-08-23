@@ -6,8 +6,8 @@ window.addEventListener('scroll', displayHomeFAB);
 
 function filterByTag() {
 	let tag = event.target.id || window.location.hash.replace('#','');
-	let isAll = tag == "All" || tag == "";
-	window.location.hash = !isAll ? '#' + tag : "";
+	let isAll = tag == 'All' || tag == '';
+	window.location.hash = !isAll ? '#' + tag : '';
 	
 	for(let post of (document.querySelectorAll('.Post') ?? []))
 	{
@@ -20,12 +20,12 @@ function filterByTag() {
 	let posts = document.querySelectorAll('.Post:not(.hidden)');
 	if(posts.length == 0) window.location.hash = '#All';
 	if(posts.length > 0)
-		document.querySelector(".count").innerText = posts.length + " published posts";
+		document.querySelector('.count').innerText = posts.length + ' published posts' + (isAll ? '' : ' (' + window.location.hash + ')');
 }
 
 
 function randomPost() {
-	let urls = Array.from(document.querySelectorAll('.Post:not(.hidden)')).map(p => p.querySelector('a').href);;
+	let urls = Array.from(document.querySelectorAll('.Post:not(.hidden)')).map(p => p.querySelector('a').href);
 	window.location.href = urls[Math.floor(Math.random() * urls.length)];
 }
 
