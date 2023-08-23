@@ -43,13 +43,13 @@ function generateCalendarArray(year, month) {
 
 function generateMiniCalendarTable(year, month, array) {
 	// render table
-	let htmlString = '<table class="box"><tbody><tr><td>' + 
+	let htmlString = '<table class="box"><tbody><tr><th>' + 
 	(month+1 > 1 ? '<i class="inverted prev-month bi bi-arrow-left"></i>' : '') + 
-	'</td><td colspan="5">' + 
+	'</th><th colspan="5">' + 
 	config.calendar.months[month] + ' ' + new Date().getFullYear() + 
-	'</td><td>'	+ 
+	'</th><th>'	+ 
 	(month+1 < 12 ? '<i class="inverted next-month bi bi-arrow-right"></i>' : '') + 
-	'</td></tr><tr>' + config.calendar.daysOfWeek.map(w => '<td>' + w + '</td>').join('') + '</tr>';
+	'</th></tr><tr>' + config.calendar.daysOfWeek.map(w => '<td>' + w + '</td>').join('') + '</tr>';
 	
 	for (let week = 0; week < 6; week++) {
 		htmlString += '<tr>';
