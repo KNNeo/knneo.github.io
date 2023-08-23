@@ -38,6 +38,10 @@ html {
 	border: 1px solid var(--foreground);
 }
 
+.list tr:hover > td {
+	background-color: var(--accent);
+}
+
 .centered {
 	max-width: 640px;
 	margin: auto;
@@ -53,6 +57,10 @@ html {
 	cursor: pointer;
 }
 
+.year.selected {
+	font-weight: bold;
+}
+
 .player,
 .list {
 	width: 100%;
@@ -64,6 +72,10 @@ html {
 	color: var(--foreground);
 	text-decoration: none;
 	padding: 5px;
+}
+
+.highlight {
+	background-color: var(--accent);
 }
 
  /* Hide scrollbar for Chrome, Safari and Opera */

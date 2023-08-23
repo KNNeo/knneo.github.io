@@ -283,7 +283,7 @@ function startup() {
 	if(document.getElementById('sidebar') != undefined) 
 	{
 		generateSidemenu();
-		hideIrrelevant();
+		highlightSelectedYear();
 	}
 	
 	//read from table div, for blogger
@@ -336,9 +336,10 @@ function generateTable(tableID) {
 		let tr = document.createElement('tr');
 		tr.style.cursor = 'pointer';
 		tr.setAttribute('seek',stamps[0][2]);
+		tr.setAttribute('rank',rank);
 		tr.addEventListener('click', function() { generateSeek(this.getAttribute('seek')); });
-		tr.addEventListener('mouseover', hoverOnRow);
-		tr.addEventListener('mouseout', hoverOnRow);
+		tr.addEventListener('mouseover', onHoverTableRow);
+		tr.addEventListener('mouseout', onHoverTableRow);
 		
 		if(stamps.length > 1)
 		{
@@ -361,9 +362,10 @@ function generateTable(tableID) {
 			tr = document.createElement('tr');
 			tr.style.cursor = 'pointer';
 			tr.setAttribute('seek',stamps[1][2]);
+			tr.setAttribute('rank',rank);
 			tr.addEventListener('click', function() { generateSeek(this.getAttribute('seek')); });
-			tr.addEventListener('mouseover', hoverOnRow);
-			tr.addEventListener('mouseout', hoverOnRow);
+			tr.addEventListener('mouseover', onHoverTableRow);
+			tr.addEventListener('mouseout', onHoverTableRow);
 							
 			td2 = document.createElement('td');
 			td2.innerText = stamps[1][5];
@@ -414,22 +416,30 @@ function generateTable(tableID) {
 	document.getElementById('table').appendChild(table);
 }
 
-function hoverOnRow() {
-	let cells = this.getElementsByTagName('td');
-	let prevCells = this.previousSibling.getElementsByTagName('td');
-	if(prevCells.length == 3 && cells.length == 2 && prevCells[0].rowSpan != undefined)
-		toggleHover(prevCells[0]);//.style.visibility = 'hidden';
-	toggleHover(cells[0]);//.style.visibility = 'hidden';
-	toggleHover(cells[1]);//.style.visibility = 'hidden';
-	if(cells.length > 2) toggleHover(cells[2]);//.style.visibility = 'hidden';
+function onHoverTableRow() {
+	let rowCells = event.target.closest('tr').getElementsByTagName('td');
+	let spanRow = findTableSiblingRow(event.target.closest('tr'));
+	let spanCell = spanRow.querySelector('td[rowspan]');
+	
+	// find cell with rowspan attribute
+	if(!spanRow.classList.contains('not-selectable') && spanCell != null)
+		spanCell.classList.toggle('highlight');
+	
+	// highlight rest of row
+	for(let cell of rowCells)
+	{
+		cell.classList.toggle('highlight');
+	}
 }
 
-function toggleHover(cell) {
-	let supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-	let isDarked = document.querySelector('.darked') != null;
-	let cellColor = 'transparent';
-	cellColor = isDarked ? 'gray' : 'lightgray';
-	cell.style.backgroundColor = cell.style.backgroundColor == cellColor ? '' : cellColor;
+function findTableSiblingRow(cell) {
+	let rankNo = cell.getAttribute('rank');
+	let returnRow = cell;
+	while(rankNo == returnRow.getAttribute('rank') && returnRow.querySelector('td[rowspan]') == null && returnRow.previousSibling != null)
+	{
+		returnRow = returnRow.previousSibling;
+	}
+	return returnRow;
 }
 
 function generateSeek(time) {
@@ -470,6 +480,8 @@ function generateSidemenu() {
 	{
 		let item = document.createElement('span');
 		item.classList.add('year');
+		item.setAttribute('tabIndex', 0);
+		item.title = year;
 		item.innerText = year;
 		item.addEventListener('click', function() {
 			window.location.hash = '#' + this.innerText;
@@ -479,7 +491,7 @@ function generateSidemenu() {
 			generatePlayer(tableID);
             clearInterval(timer);
 			clearTimestamps();
-			hideIrrelevant();
+			highlightSelectedYear();
 		});
 		document.getElementById('sidebar').appendChild(item);
 	}
@@ -493,14 +505,17 @@ function generateSidemenu() {
 			generatePlayer(tableID);
             clearInterval(timer);
 			clearTimestamps();
-			hideIrrelevant();
+			highlightSelectedYear();
 	}
 }
 
-function hideIrrelevant() {
+function highlightSelectedYear() {
 	for(let year of document.getElementsByClassName('year'))
 	{
-		year.style.fontWeight = year.innerText != tableID ? 'normal' : 'bold';
+		if(year.innerText != tableID)
+			year.classList.remove('selected');
+		else
+			year.classList.add('selected');
 	}
 }
 
