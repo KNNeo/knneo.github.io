@@ -40,14 +40,15 @@ body {
 }
 
 .filter-bar * {
-	margin: 2px;
-    padding: 2px;
-	background-color: white;
+	font-family: Open Sans;
 	border: 1px solid var(--foreground);
+	background-color: white;
+    padding: 2px;
+	margin: 2px;
 }
 
 .filter-bar input {
-	height: 18px;
+	height: 20px;
 }
 
 .header, .disclaimer {
