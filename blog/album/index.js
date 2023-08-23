@@ -5,17 +5,11 @@ function unique(current, index, all) {
   return all.map(a => a.imgUrl).indexOf(current.imgUrl) === index;
 }
 
-function onFilterInput() {
-	// console.log(event.target.value);
-	window['filter'] = event.target.value;
-	generateArchive();
-}
-
 function onFilterKeyUp() {
 	// console.log(event.keyCode);
 	if (event.keyCode === 13) // "Enter" key
 	{
-		window['filter'] = event.target.value;
+		window['filter'] = event.target.value.toLowerCase();
 		generateArchive();
 	}
 	if (event.keyCode === 27) // "Escape" key
@@ -27,6 +21,7 @@ function onFilterKeyUp() {
 }
 
 function generateArchive() {
+	document.querySelector('#counter').innerText = 0;
 	if(typeof mosaicArray == 'object')
 	{
 		let list = document.querySelector('#contents');
