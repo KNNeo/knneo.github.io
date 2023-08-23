@@ -86,7 +86,7 @@ function addHashtags() {
 		let newItem = document.createElement('a');
 		newItem.innerText = '#' + item.tag;
 		newItem.title = item.tag;
-		newItem.href = newItem.innerText;
+		newItem.href = '#' + item.target;
 		// newItem.addEventListener('click', function() {
 			// window.location.hash = this.title;
 		// });
