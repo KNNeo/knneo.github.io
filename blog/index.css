@@ -380,6 +380,7 @@ table.tr-caption-container {
     height: 150px;
 	top: 2px;
     left: 2px;
+    overflow-x: hidden;
 }
 
 .latest-post:hover .anchors {
@@ -390,6 +391,7 @@ table.tr-caption-container {
     color: var(--primary);
 	font-size: 0.88em;
 	padding-bottom: 5px;
+    white-space: nowrap;
 }
 
 .latest-post .anchors a:hover {
