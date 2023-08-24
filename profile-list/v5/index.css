@@ -279,6 +279,9 @@ a:hover {
 .calendar .today {
 	text-decoration: underline dashed var(--foreground) 5px;
 }
+.calendar .today[data-id] {
+    text-decoration-color: var(--background);
+}
 
 /*TIMELINE*/
 #timeline-horiz {
