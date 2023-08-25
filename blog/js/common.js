@@ -11,7 +11,6 @@ window.addEventListener('load', startup);
 
 function startup() {
 	// Synchronous Functions
-	resizeImages();
 	if(typeof preloadSequence == 'function') preloadSequence();
 	if(typeof toggleEmojiDisplay == 'function') toggleEmojiDisplay();
 	if(typeof generateViewer == 'function') setTimeout(generateViewer, 0);
@@ -27,7 +26,8 @@ function startup() {
 	setTimeout(showAbbrAsDialog, 0);
 	setTimeout(displayFAB, 0);
 	setTimeout(addHoverForLinks, 0);
-	setTimeout(resizeImages, 500);
+	setTimeout(resizeImages, 0);
+	setTimeout(scrollToSectionByUrl, 0);
 }
 
 //==FUNCTIONS==//
@@ -567,18 +567,17 @@ function resizeImages() {
     */
     for (var p of document.querySelectorAll("img"))
 	{
-		p.addEventListener('load', resizeImage);
+		if(p.complete)
+			resizeImage(p);
+		else
+			p.addEventListener('load', resizeImage);
     }
-	
-	// set thumbnails again after adjusted
-    setThumbnails();
-	setTimeout(scrollToSectionByUrl, 0);
 }
 
 function resizeImage(img) {
 	// Conditions that cannot fix - workaround
 	// Multiple table cells with caption row - set width style for caption row in %
-	let p = event.target || img;
+	let p = event?.target || img;
 	let showLog = false;
 	if(showLog) console.log(p);
 	var imgWidth = p.width;
@@ -636,4 +635,7 @@ function resizeImage(img) {
 		p.parentElement.style.marginRight = null;
 		p.parentElement.classList.add('img-separator');
 	}
+	
+	// set thumbnails again after adjusted
+    setThumbnails();
 }
