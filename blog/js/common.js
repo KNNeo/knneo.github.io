@@ -476,9 +476,10 @@ function windowOnResize() {
 async function sharePage() {
   try {
 	let pageTitle = document.querySelector('.post-title.entry-title')?.innerText || document.querySelector('.title')?.innerText;
+	let pageText = 'A Klassic Note Web Reports' + (notBlogger() ? ' Blog Archive' : '');
 	await navigator.share({
 		title: pageTitle,
-		text: 'Klassic Note Web Reports' + (notBlogger() ? ' Blog Archive' : ''),
+		text: pageTitle + ' - ' + pageText,
 		url: window.location.href,
 	});
   } catch (err) {
