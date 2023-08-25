@@ -600,7 +600,6 @@ function resizeImage(img) {
 	// exclusion list: by image size, class, tag name, or by id
 	if ((!notBlogger && (imgWidth < 20 || imgHeight < 20)) || 
 		p.id == "news-thumbnail" || 
-		p.classList.contains('img-unchanged') ||
 		p.parentElement.tagName == "ABBR" || 
 		p.parentElement.className == "anime-row" ||
 		p.parentElement.className == "profile-box-img" || 
