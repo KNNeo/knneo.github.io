@@ -479,7 +479,7 @@ function windowOnResize() {
 async function sharePage() {
   try {
 	let pageTitle = document.querySelector('.post-title.entry-title')?.innerText || document.querySelector('.title')?.innerText;
-	let pageText = 'A Klassic Note Web Reports' + (notBlogger() ? ' Blog Archive' : '');
+	let pageText = 'From Klassic Note Web Reports' + (notBlogger() ? ' Archive' : '');
 	if(navigator.share)
 		await navigator.share({
 			title: pageTitle,
