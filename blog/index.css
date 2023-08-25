@@ -527,6 +527,9 @@ table.tr-caption-container {
 	#SearchBtn  {
 		bottom: 15px;
 	}
+	#ShareBtn {
+		bottom: 80px;		
+	}
 	#ShareBtn,
 	#CloseBtn,
 	#GoToTopBtn,
