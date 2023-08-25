@@ -415,6 +415,9 @@ function displayFAB() {
 		if(window.location.href.includes("knneo.github.io")) switchToButton('DarkModeBtn');
 		else switchToButton('SearchBtn');
 	}
+	if(!navigator.share) {
+		document.querySelector('#ShareBtn').style.display = 'none';
+	}
 }
 
 function switchToButton(id) {
@@ -477,11 +480,12 @@ async function sharePage() {
   try {
 	let pageTitle = document.querySelector('.post-title.entry-title')?.innerText || document.querySelector('.title')?.innerText;
 	let pageText = 'A Klassic Note Web Reports' + (notBlogger() ? ' Blog Archive' : '');
-	await navigator.share({
-		title: pageTitle,
-		text: pageTitle + ' - ' + pageText,
-		url: window.location.href,
-	});
+	if(navigator.share)
+		await navigator.share({
+			title: pageTitle,
+			text: pageTitle + ' - ' + pageText,
+			url: window.location.href,
+		});
   } catch (err) {
     console.error(err);
   }
@@ -597,16 +601,9 @@ function resizeImage(img) {
 	var imgWidth = p.width;
 	var imgHeight = p.height;
 	if(showLog) console.log('width x height', imgWidth, imgHeight);
-	// exclusion list: by image size, class, tag name, or by id
+	// exclusion list
 	if ((!notBlogger && (imgWidth < 20 || imgHeight < 20)) || 
-		p.id == "news-thumbnail" || 
-		p.parentElement.tagName == "ABBR" || 
-		p.parentElement.className == "anime-row" ||
-		p.parentElement.className == "profile-box-img" || 
-		p.parentElement.parentElement.className == "popup" || 
-		p.parentElement.parentElement.className == "new-anime-row" ||
-		p.parentElement.parentElement.parentElement.id == "anime-list" ||
-		p.parentElement.parentElement.parentElement.className == "anime-year") 
+		p.id == 'news-thumbnail')
 	{
 		if(showLog) console.log('exclusion', p, p.parentElement);
 		p.classList.add('img-unchanged');
@@ -614,14 +611,14 @@ function resizeImage(img) {
 	}
 	
 	// if(showLog)	console.log('orientation: ' + (imgWidth >= imgHeight ? 'landscape' : 'portrait'));
-			
+	
 	// adjust dimensions
-	if (p.parentElement.parentElement.tagName == "TR" && 
-		p.parentElement.parentElement.getElementsByTagName("td").length > 1) //in table
+	if (p.parentElement.parentElement.tagName == 'TR' && 
+		p.parentElement.parentElement.getElementsByTagName('td').length > 1) //in table
 		p.classList.add('img-width-fit');
-	else if (p.parentElement.parentElement.parentElement.tagName == "TR" && 
-		p.parentElement.parentElement.parentElement.getElementsByTagName("td").length > 1 && 
-		p.parentElement.tagName == "A" &&
+	else if (p.parentElement.parentElement.parentElement.tagName == 'TR' && 
+		p.parentElement.parentElement.parentElement.getElementsByTagName('td').length > 1 && 
+		p.parentElement.tagName == 'A' &&
 		!p.parentElement.parentElement.style.width) //in table, with link
 		p.classList.add('img-width-fit');
 	else if (p.width + 20 >= window.outerWidth)
@@ -635,14 +632,14 @@ function resizeImage(img) {
 		p.classList.remove('img-width-auto');
 	
 	// special case: separator class
-	if (p.parentElement.className == "separator" ||
-		p.parentElement.parentElement.className == "separator") {
+	if (p.parentElement.className == 'separator' ||
+		p.parentElement.parentElement.className == 'separator') {
 		p.parentElement.classList.add('img-separator');
 		if(showLog) console.log('separator', p.style.marginLeft, p.style.marginRight);
 	}
-	if(p.parentElement.tagName == "A" &&
-	p.parentElement.marginLeft != "" &&
-	p.parentElement.marginRight != "")
+	if(p.parentElement.tagName == 'A' &&
+	p.parentElement.marginLeft != '' &&
+	p.parentElement.marginRight != '')
 	{
 		p.parentElement.style.marginLeft = null;
 		p.parentElement.style.marginRight = null;
