@@ -107,7 +107,7 @@ function addEventsToMiniCalendar(htmlString, DOBlist) {
 	let today = luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: config.timezone});
 	for(let date of document.querySelectorAll('.calendar td'))
 	{
-		if(1+window['currentMonth'] == today.month && date.innerText.includes(today.day.toString()))
+		if(1+window['currentMonth'] == today.month && date.innerText.endsWith(today.day.toString()))
 			today = date;
 	}
 	if(today.classList)
