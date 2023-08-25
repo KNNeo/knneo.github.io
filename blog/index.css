@@ -83,6 +83,30 @@
   /* transition: opacity 0.3s; */
 }
 
+#ShareBtn {
+	position: fixed;
+	display: block;
+	visibility: visible;
+	opacity: 1;
+    bottom: 75px;
+	right: 20px;
+	z-index: 7;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	color: var(--foreground);
+	cursor: pointer;
+	padding: 8px 6px 6px 6px;
+	transition: opacity 0.3s;
+	border: 1px solid var(--foreground);
+	background-color: var(--background);
+	box-shadow: 3px 3px var(--foreground);
+	border-radius: 8px;
+	transition: background .2s linear;
+}
+
 #Overlay {
 	background-color: transparent;
 	position: fixed;
@@ -96,6 +120,7 @@
 }
 
 #Label1 > div,
+#ShareBtn,
 #SidebarBtn,
 #GoToTopBtn,
 #SearchBtn,
@@ -108,6 +133,7 @@
 }
 
 #sidebar-left-1 > div,
+#ShareBtn,
 #SidebarBtn,
 #GoToTopBtn,
 #SearchBtn,
@@ -126,6 +152,7 @@
 #SidebarBtn:active,
 #GoToTopBtn:active,
 #SearchBtn:active,
+#ShareBtn:active,
 #CloseBtn:active {
   box-shadow: 1px 1px;
   transform: translate(2px, 2px);
@@ -500,6 +527,7 @@ table.tr-caption-container {
 	#SearchBtn  {
 		bottom: 15px;
 	}
+	#ShareBtn,
 	#CloseBtn,
 	#GoToTopBtn,
 	#SearchBtn  {

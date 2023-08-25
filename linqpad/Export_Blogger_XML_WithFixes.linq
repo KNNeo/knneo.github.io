@@ -879,7 +879,8 @@ void Main()
 				output.WriteLine("<a id='RightBtn' class='material-icons' href='" + postList[postList.IndexOf(pageLink) - 1].Replace("./", "../../../") + "' title='Newer Post'><i class='material-icons'>skip_next</i></a>");
             output.WriteLine("<body>");
 			output.WriteLine("<a id='BackBtn' class='material-icons' href='../../../index.html' title='Back To Homepage' oncontextmenu='goBack()'>arrow_back</a>");
-			output.WriteLine("<a id='PopupBtn' class='material-icons' title='Toggle Display Links As Popups' href='javascript:void(0);' onclick='toggleInlinePopups()'>crop_din</a>");
+			//output.WriteLine("<a id='PopupBtn' class='material-icons' title='Toggle Display Links As Popups' href='javascript:void(0);' onclick='toggleInlinePopups()'>crop_din</a>");
+			output.WriteLine("<a id='ShareBtn' class='material-icons' title='Share This Page' href='javascript:void(0);' onclick='sharePage()'>share</a>");
 			output.WriteLine("<a id='EmojiBtn' class='material-icons' title='Toggle Display Emoji' href='javascript:void(0);' onclick='toggleEmojiDisplay()'>mood</a>");
 			output.WriteLine("<a id='DarkModeBtn' class='material-icons' title='Toggle Dark Mode' href='javascript:void(0);' onclick='toggleDarkMode()'>brightness_high</a>");
 			output.WriteLine("<a id='GoToTopBtn' class='material-icons' title='Go To Top' style='display: none;' href='javascript:void(0);' onclick='goToTop()'>arrow_upward</a>");

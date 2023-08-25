@@ -473,6 +473,19 @@ function windowOnResize() {
 	resizeImages();
 };
 
+async function sharePage() {
+  try {
+	let pageTitle = document.querySelector('.post-title.entry-title')?.innerText || document.querySelector('.title')?.innerText;
+	await navigator.share({
+		title: pageTitle,
+		text: 'Klassic Note Web Reports' + (notBlogger() ? ' Blog Archive' : ''),
+		url: window.location.href,
+	});
+  } catch (err) {
+    console.error(err);
+  }
+}
+
 // Multi-image thumbnail: Define max caption height, onclick event
 function setThumbnails() {
 	// check if thumbnail violate features

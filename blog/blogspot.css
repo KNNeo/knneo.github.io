@@ -274,7 +274,7 @@ a:hover {
 	display: block;
 	visibility: visible;
 	opacity: 1;
-    bottom: 75px;
+    bottom: 135px;
 	right: calc(50% - 410px);
 	z-index: 7;
 	-webkit-user-select: none;
@@ -291,6 +291,11 @@ a:hover {
 	box-shadow: 3px 3px var(--foreground);
 	border-radius: 8px;
 	transition: background .2s linear;
+}
+
+#ShareBtn {
+    bottom: 75px;
+	right: calc(50% - 410px);
 }
 
 #PopupBtn {
@@ -496,6 +501,7 @@ h2 {
 	#LeftBtn {
 		left: 15px;
 	}
+	#ShareBtn,
 	#GoToTopBtn,
 	#PopupBtn,
 	#EmojiBtn,

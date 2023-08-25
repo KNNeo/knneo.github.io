@@ -17,6 +17,7 @@ function addFloatingActionButtons() {
 	addFAB('GoToTopBtn', 'Back To Top', 'arrow_upward', goToTop);
 	addFAB('SearchBtn', 'Search Blog', 'search', toggleSearch);
 	addFAB('SidebarBtn', 'Toggle Sidebar', 'menu', toggleSidebar);
+	addFAB('ShareBtn', 'Share This Page', 'share', sharePage);
 }
 
 function addFAB(id, title, googleIconName, clickEvent) {
