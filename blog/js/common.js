@@ -424,23 +424,26 @@ function switchToButton(id) {
 	if(id == '') return;
 	
 	// to hide
-	let buttons = ['GoToTopBtn','SearchBtn','DarkModeBtn','EmojiBtn','PopupBtn','ShareBtn'];
-	for(let button of buttons)
+	let allButtons = ['GoToTopBtn','SearchBtn','DarkModeBtn','EmojiBtn','PopupBtn','ShareBtn'];
+	for(let fab of allButtons)
 	{
-		if(document.getElementById(button) != null) document.getElementById(button).style.display = 'none';
+		if(document.getElementById(fab) != null)
+			document.getElementById(fab).style.display = 'none';
 	}
 	
 	// to show
 	if(document.getElementById(id) != null) // destination id by default
 		document.getElementById(id).style.display = 'block';
-	else if (window.location.href.includes("knwebreports.blogspot"))
+	else if (window.location.href.includes("knwebreports.blogspot")) // search btn in blogger by default
 		document.getElementById('SearchBtn').style.display = 'block';
 	
-	// custom buttons, should standardize as single menu
+	// custom logic
 	if (['GoToTopBtn','SearchBtn','DarkModeBtn'].includes(id) && document.getElementById('EmojiBtn') != null)
 		document.getElementById('EmojiBtn').style.display = 'block';
 	if (['GoToTopBtn','SearchBtn','DarkModeBtn'].includes(id) && document.getElementById('PopupBtn') != null)
 		document.getElementById('PopupBtn').style.display = 'block';
+	if (document.getElementById('ShareBtn') != null)
+		document.getElementById('ShareBtn').style.display = 'block';
 }
 
 function goToTop() {
