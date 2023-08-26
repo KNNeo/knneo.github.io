@@ -878,6 +878,10 @@ abbr.imgpop:hover img {
 	text-align: center;
 	max-width: 98%;
 }
+.new-thumbnail .new-thumbnail-focus img {
+	border-radius: 0;
+	border: 2px solid var(--primary);
+}
 
 /*DATA TABLE*/
 .datatable {
