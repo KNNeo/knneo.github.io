@@ -158,11 +158,12 @@ void Main()
         // Fix Post Content
         string oldContent = entry.Element(_+"content").Value;
         string content = entry.Element(_+"content").Value;
+		Match match = null;
 		content = FixContent(content, p, entry.Element(_+"title").Value);
 		
 		#region Find src in img
-		Console.WriteLine("   Find src in img");
-        var match = Regex.Match(oldContent, @"(?s)<img(.*?)src=""(.*?)""(.*?)/>");
+		Console.WriteLine("   IMGSRC - Find src in img");
+        match = Regex.Match(oldContent, @"(?s)<img(.*?)src=""(.*?)""(.*?)/>");
 		//Console.WriteLine(match);
         while(match.Success)
 		{
@@ -170,9 +171,6 @@ void Main()
 			if(TraceMode) Console.WriteLine(url.Substring(0,40) + "...");
 			var urlWithoutFilename = url.Substring(0, url.LastIndexOf('/') + 1);
 			var filename = url.Substring(url.LastIndexOf('/') + 1);
-			
-			// Set as relative path
-			content = content.Replace(urlWithoutFilename, "data/imgsrc/");
 			
 			// Download into local post subfolder
 	        var dataFolder = Path.Combine(monthfolder, "data/imgsrc");
@@ -188,6 +186,9 @@ void Main()
 				    client.DownloadFile(new Uri(url), monthfolder + "/data/imgsrc/" + HttpUtility.UrlDecode(filename));
 					//Console.WriteLine("File downloaded to " + monthfolder + "/data/" + HttpUtility.UrlDecode(filename));
 				}
+				
+				// Set as relative path
+				content = content.Replace(urlWithoutFilename, "data/imgsrc/");
 			}
 		
 	        match = match.NextMatch();
@@ -195,7 +196,7 @@ void Main()
 		#endregion
 		
 		#region Find href in img with link
-		Console.WriteLine("   Find href in img with link");
+		Console.WriteLine("   IMGLINK - Find href in img with link");
         match = Regex.Match(oldContent, @"(?s)href\s*=\s*""(.*?)""");
 		//Console.WriteLine(match);
         while(match.Success)
@@ -208,9 +209,6 @@ void Main()
 				//Console.WriteLine(url);
 				var urlWithoutFilename = url.Substring(0, url.LastIndexOf('/') + 1);
 				var filename = url.Substring(url.LastIndexOf('/') + 1);
-				
-				// Set as relative path
-				content = content.Replace(urlWithoutFilename, "data/imglink/");
 				
 				// Download into local post subfolder
 		        var dataFolder = Path.Combine(monthfolder, "data/imglink");
@@ -226,6 +224,9 @@ void Main()
 					    client.DownloadFile(new Uri(url), monthfolder + "/data/imglink/" + HttpUtility.UrlDecode(filename));
 						//Console.WriteLine("File downloaded to " + monthfolder + "/data/" + HttpUtility.UrlDecode(filename));
 					}
+					
+					// Set as relative path
+					content = content.Replace(urlWithoutFilename, "data/imglink/");
 				}
 			}
 		
@@ -234,7 +235,7 @@ void Main()
 		#endregion
 		
 		#region Find background-image in div
-		Console.WriteLine("   Find background-image in div");
+		Console.WriteLine("   DIVIMG - Find background-image in div");
         match = Regex.Match(oldContent, @"background-image:\s*url\((.*?)\)");
 		//Console.WriteLine(match);
         while(match.Success)
@@ -243,9 +244,6 @@ void Main()
 			if(TraceMode) Console.WriteLine(url.Substring(0,40) + "...");
 			var urlWithoutFilename = url.Substring(0, url.LastIndexOf('/') + 1);
 			var filename = url.Substring(url.LastIndexOf('/') + 1);
-			
-			// Set as relative path
-			content = content.Replace(urlWithoutFilename, "data/divimg/");
 			
 			// Download into local post subfolder
 	        var dataFolder = Path.Combine(monthfolder, "data/divimg");
@@ -261,6 +259,9 @@ void Main()
 				    client.DownloadFile(new Uri(url), monthfolder + "/data/divimg/" + HttpUtility.UrlDecode(filename));
 					//Console.WriteLine("File downloaded to " + monthfolder + "/data/" + HttpUtility.UrlDecode(filename));
 				}
+				
+				// Set as relative path
+				content = content.Replace(urlWithoutFilename, "data/divimg/");
 			}
 		
 	        match = match.NextMatch();
