@@ -147,7 +147,7 @@ function reduceResults() {
 			if(link != undefined && thumb != undefined) outerWrapper.appendChild(latestPostThumb);
 			
 			let innerWrapper = document.createElement('div');
-			outerWrapper.classList.add('inner');
+			innerWrapper.classList.add('inner');
 			innerWrapper.appendChild(latestPostTitle);
 			if(title != undefined) innerWrapper.appendChild(latestPostSummary);
 			
