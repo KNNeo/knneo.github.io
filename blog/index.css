@@ -363,7 +363,7 @@ table.tr-caption-container {
 
 .latest-post-title {
     display: flex;
-    padding: 10px 0 0 10px;
+    padding-left: 10px;
 }
 
 .latest-post-statement {
@@ -389,6 +389,16 @@ table.tr-caption-container {
 .latest-post-thumb {
 	position: relative;
 	float: left;
+}
+
+.latest-post-thumb .outer {
+    display: flex;
+}
+
+.latest-post-thumb .inner {
+    display: flex;
+	flex-direction: column;
+	justify-content: center;
 }
 
 .home-thumb {

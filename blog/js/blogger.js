@@ -142,12 +142,17 @@ function reduceResults() {
 			let excerpt = snippet.innerText.trim();
 			latestPostSummary.innerHTML = (title == undefined ? '' : excerpt.substring(0, excerpt.substring(280, 350).indexOf(' ') + 280) + '...');
 			
+			let outerWrapper = document.createElement('div');
+			outerWrapper.classList.add('outer');
+			if(link != undefined && thumb != undefined) outerWrapper.appendChild(latestPostThumb);
+			
 			let innerWrapper = document.createElement('div');
-			if(link != undefined && thumb != undefined) innerWrapper.appendChild(latestPostThumb);
+			outerWrapper.classList.add('inner');
 			innerWrapper.appendChild(latestPostTitle);
 			if(title != undefined) innerWrapper.appendChild(latestPostSummary);
 			
-			innerPostLink.appendChild(innerWrapper);
+			outerWrapper.appendChild(innerWrapper);
+			innerPostLink.appendChild(outerWrapper);
 			
 			post.innerHTML = '';
 			latestPost.appendChild(innerPostLink);
