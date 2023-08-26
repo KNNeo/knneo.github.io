@@ -627,27 +627,27 @@ function resizeImage(img) {
 		else {
 			p.classList.add('img-width-auto');
 		}
+			
+		// special case: to avoid resize issue on reload
+		if(p.classList && p.classList.contains('img-width-fit') && p.classList.contains('img-width-auto'))
+			p.classList.remove('img-width-auto');
+	
+		// special case: separator class
+		if (p.parentElement.className == 'separator' ||
+			p.parentElement.parentElement.className == 'separator') {
+			p.parentElement.classList.add('img-separator');
+			if(showLog) console.log('separator', p.style.marginLeft, p.style.marginRight);
+		}
+		if(p.parentElement.tagName == 'A' &&
+		p.parentElement.marginLeft != '' &&
+		p.parentElement.marginRight != '')
+		{
+			p.parentElement.style.marginLeft = null;
+			p.parentElement.style.marginRight = null;
+			p.parentElement.classList.add('img-separator');
+		}
 	}
 
-	// special case: to avoid resize issue on reload
-	if(p.classList.contains('img-width-fit') && p.classList.contains('img-width-auto'))
-		p.classList.remove('img-width-auto');
-	
-	// special case: separator class
-	if (p.parentElement.className == 'separator' ||
-		p.parentElement.parentElement.className == 'separator') {
-		p.parentElement.classList.add('img-separator');
-		if(showLog) console.log('separator', p.style.marginLeft, p.style.marginRight);
-	}
-	if(p.parentElement.tagName == 'A' &&
-	p.parentElement.marginLeft != '' &&
-	p.parentElement.marginRight != '')
-	{
-		p.parentElement.style.marginLeft = null;
-		p.parentElement.style.marginRight = null;
-		p.parentElement.classList.add('img-separator');
-	}
-	
 	// set thumbnails again after adjusted
     setThumbnails();
 }
