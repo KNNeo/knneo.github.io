@@ -104,7 +104,6 @@ function reduceResults() {
 			innerPostLink.href = link?.href ?? './search/label/The%20Statement';
 			
 			let latestPostThumb = document.createElement('div');
-			latestPostThumb.classList.add('latest-post-thumb');
 			
 			if(thumb.length > 0)
 			{
@@ -138,7 +137,7 @@ function reduceResults() {
 			latestPostTitle.innerText = title?.getElementsByTagName('a')[0]?.innerText ?? statement[0].innerText;
 			
 			let latestPostSummary = document.createElement('div');
-			latestPostSummary.classList.add('latest-post-summary');
+			latestPostSummary.classList.add('summary');
 			let excerpt = snippet.innerText.trim();
 			latestPostSummary.innerHTML = (title == undefined ? '' : excerpt.substring(0, excerpt.substring(280, 350).indexOf(' ') + 280) + '...');
 			

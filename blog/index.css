@@ -361,16 +361,7 @@ table.tr-caption-container {
 	overflow: hidden;
 }
 
-.latest-post-title {
-    display: flex;
-    padding-left: 10px;
-}
-
-.latest-post-statement {
-    padding: 2px;
-}
-
-.latest-post-summary,
+.latest-post .summary,
 .latest-post:hover .latest-post-title {
 	color: var(--foreground);
 }
@@ -380,25 +371,28 @@ table.tr-caption-container {
 	transform: translate(2px,2px);
 }
 
-.latest-post-summary {
-	padding: 10px;
-    max-height: 80px;
-    overflow: hidden;
+.latest-post-title {
+    padding-left: 10px;
 }
 
-.latest-post-thumb {
-	position: relative;
-	float: left;
+.latest-post-statement {
+    padding: 2px;
 }
 
-.latest-post-thumb .outer {
+.latest-post .outer {
     display: flex;
 }
 
-.latest-post-thumb .inner {
+.latest-post .inner {
     display: flex;
 	flex-direction: column;
 	justify-content: center;
+}
+
+.latest-post .summary {
+	padding: 10px;
+    max-height: 80px;
+    overflow: hidden;
 }
 
 .home-thumb {
