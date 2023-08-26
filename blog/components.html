@@ -309,15 +309,16 @@ This is where you put the &lt;div class="popup" title="[LINK]"&gt;
 .carousel .item img,
 .carousel .item video {
 	border: 2px solid var(--primary);
-    border-left-width: thick;
-    border-right-width: thick;
-	transition: border 0.2s;
+    border-left-width: 10px;
+    border-right-width: 10px;
+	border-radius: 8px;
+	transition: border 0.2s, border-radius 0.2s;
 }
 
 .carousel .item img:hover,
 .carousel .item video:hover {
-    border-left-width: 2px;
-    border-right-width: 2px;
+    border-width: 2px;
+	border-radius: 0;
 }
 
 .carousel .item.hide {
@@ -495,6 +496,11 @@ Click/tap container fast (&lt;200ms) will turn off transition (for observing dif
     width: 100%;
     height: 200px;
 	object-fit: cover;
+    box-sizing: border-box;
+	transition: border 0.2s;
+}
+.agenda .item img:hover {
+	border-width: 2px 10px;
 }
 </style>
 <h1>Table of Contents</h1>
@@ -508,97 +514,104 @@ Click/tap container fast (&lt;200ms) will turn off transition (for observing dif
 &lt;/div&gt;
 </pre>
 <div class="agenda" style="display: none; grid-template-columns: repeat(3, 1fr);">
-	<div class="item">
-	<table align="center" cellpadding="3" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto;">
-    <tbody>
-      <tr>
-        <td style="text-align: center;">
-          <a href="#Miyu2ndLiveRaffle" style="margin-left: auto; margin-right: auto;"><div style="background-image: url(https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgBygS7_6UzhkbeNXDLvoI3MlVKFPwr2DlFkUJSXWWe80HmMiVCE9iK-paZOCoJdPquO5VGB8324oO5453AcXxvKUTJDR1E6Yy70QiIYIsjWOjSWlzSmCyJJNSnZUE5fCDqOelJvHOBNCOOuuYRLJwPxckTPAjJNbvsBNB5MsH8NWDKGSQEg8Ft1DkL/s320/e55998a9ae8522530c1d9d639b328b76.png); background-position: 50% 50%; background-size: cover; height: 200px; width: 100%;"></div></a>
-        </td>
-      </tr>
-      <tr>
-        <td class="tr-caption" style="max-width: 250px; text-align: center; width: 33%;">
-          Tomita Miyu 2nd LIVE ~Fizzy Night~ Comemmorative Raffle
-        </td>
-      </tr>
-    </tbody>
-  </table>
-	</div>
-	<div class="item"><table align="center" cellpadding="3" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto;">
-    <tbody>
-      <tr>
-        <td style="text-align: center;">
-          <a href="#InoriMachiDiary21" style="margin-left: auto; margin-right: auto;"><div style="background-image: url(https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgYdzeOIjbcugK6ZVcYXbADP41KJU6c-xqZDxQv_VzgIyom-HIDKCPkt9IZrBbRf-b-xyZVCSgTXjL4xyQbQbw3J83o3LqwQCx5V8T5gTEnSTXhqM8Lwh1AAznCFBLrszTHi4evgZ2JfYdeeY-BKcLikmIqVt8VCDCJmGN1T2a5-DmVh4mYhcgyYi2e/s320/PXL_20230509_124137750.jpg); background-position: 50% 50%; background-size: cover; height: 200px; width: 100%;"></div></a>
-        </td>
-      </tr>
-      <tr>
-        <td class="tr-caption" style="max-width: 250px; text-align: center; width: 33%;">
-          Minase Inori fanclub newsletter Inori Diary vol.21
-        </td>
-      </tr>
-    </tbody>
-  </table>
-	</div>
-	<div class="item"><table align="center" cellpadding="3" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto;">
-    <tbody>
-      <tr>
-        <td style="text-align: center;">
-          <a href="#SmileGivingDayVol3" style="margin-left: auto; margin-right: auto;"><div style="background-image: url(https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiEx84v5pODC_WrzzFT44eAvtl5Kb2FYgWkZhdGlQmEEpssg8PNTZ_u4kZscxAg8zeMqYRGSA552fpoljPy4KwVbbx7CuBDmOH4_IULmCGK7NzaeuipbgMNiSjzkofMvcLOVQ6ng3rKTm1kxDysKUfU318kAl2LsS26GPSx7NYDBWJ8ZcZSVHYPRCi4/s320/1427202006_1.jpg); background-position: 50% 50%; background-size: cover; height: 200px; width: 100%;"></div></a>
-        </td>
-      </tr>
-      <tr>
-        <td class="tr-caption" style="max-width: 250px; text-align: center; width: 33%;">
-          Kitou Akari fanclub event smile giving day vol.3 Goods
-        </td>
-      </tr>
-    </tbody>
-  </table>
-	</div>
-	<div class="item"><table align="center" cellpadding="3" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto;">
-    <tbody>
-      <tr>
-        <td style="text-align: center;">
-          <a href="#IbukiLIVERTINEAGEShirt" style="margin-left: auto; margin-right: auto;"><div style="background-image: url(https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhdm_Med1mS1NZBjD3yK78FTexaf1uxHnyLx96hHhz1BIu8z8BzcbfZHtAULOA-oqJRKEh3TvmUb6UeQr3hmtyMmB__B8A6Dpq-z6_8FRnmquVVQCW8RwOCHERLbHqirEguj2lZ0EJmqO1wRYjuGaGVYDXrHiHujiFQQP3rnXJRCincgPy6E-OrQQdl/s320/2231100020_16.jpg); background-position: 50% 50%; background-size: cover; height: 200px; width: 100%;"></div></a>
-        </td>
-      </tr>
-      <tr>
-        <td class="tr-caption" style="max-width: 250px; text-align: center; width: 33%;">
-          Kido Ibuki LIVERTINE AGE Collaboration T-Shirt
-        </td>
-      </tr>
-    </tbody>
-  </table>
-	</div>
-	<div class="item"><table align="center" cellpadding="3" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto;">
-    <tbody>
-      <tr>
-        <td style="text-align: center;">
-          <a href="#BLEACHKarutaBox" style="margin-left: auto; margin-right: auto;"><div style="background-image: url(https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEik_fIJTsGtaaI1_aRRcRtlfwOk86WIB1BTD35yS20VRsBnG8kv9-NRIYT5zTYKd0Damu9vLofPwNSN9oGerUWY1m_FwIJFVDL01RtKqJboUo5hlSeB78tNTejqKo4aELtmNAetScoATWGJb9a4ElM6zQxS7oYQKa5A-N1ds014_fSxFpKR1KnDGJxv/s320/71sbV3OcDEL._AC_SL1500_.jpg); background-position: 50% 50%; background-size: cover; height: 200px; width: 100%;"></div></a>
-        </td>
-      </tr>
-      <tr>
-        <td class="tr-caption" style="max-width: 250px; text-align: center; width: 33%;">
-          BLEACH SONGS OF THE SOUL Karuta Card Set
-        </td>
-      </tr>
-    </tbody>
-  </table>
-	</div>
-	<div class="item"><table align="center" cellpadding="3" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto;">
-    <tbody>
-      <tr>
-        <td style="text-align: center;">
-          <a href="#DoukiChanVol9" style="margin-left: auto; margin-right: auto;"><div style="background-image: url(https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi_Jiivs07bP53jmQTzwEKeV4rYl78TqJAPQKTX_0LmCDGTFiqnGHiGQpqy9YtJdodfTcjU4bUSk3nPEhfjiAxXA5q_BodifImDqwGAt4hZkHfp14b9Tkb-e4C2tCD9OUtIA0gkK2wSF4eYNG144mHGzPj6m0_Zgqm7b6exXcd5X7yeLi1sGJhUTWOw/s320/040031058348-1p.jpg); background-position: 50% 50%; background-size: cover; height: 200px; width: 100%;"></div></a>
-        </td>
-      </tr>
-      <tr>
-        <td class="tr-caption" style="max-width: 250px; text-align: center; width: 33%;">
-          Ganbare Douki-chan Vol.9
-        </td>
-      </tr>
-    </tbody>
-  </table>
-	</div>
+  <div class="item">
+    <table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto;">
+      <tbody>
+        <tr>
+          <td style="text-align: center;">
+            <a href="./pages/2023/08/the-klassic-note-review-202308.html" style="margin-left: auto; margin-right: auto;">
+              <img border="0" data-original-height="794" data-original-width="800" height="318" src="https://www.jvcmusic.co.jp/sukimega/op/images/jk_anim.jpg" width="320" /></a>
+          </td>
+        </tr>
+        <tr>
+          <td class="tr-caption" style="text-align: center;">
+            Tsuzuri - NAME [Single]
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="item">
+    <table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto;">
+      <tbody>
+        <tr>
+          <td style="text-align: center;">
+            <a href="#KanaClubSummerPostcard" style="margin-left: auto; margin-right: auto;"><img border="0" data-original-height="500" data-original-width="500" height="320" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg61TYSG12FaUhx6wSbeB6R-PEzFD9EIa0w1XnFFirstSYFFZsybBGitNFLvn6JmxOyldyjrYKx6BizV8Ex4JgqCJ7sk9yUzzLWnDLjB9ZqEnAm9PXWWHV3GQA3vqnbtmlNaA_22kaFyL7PZVlFrkzbmgux1Tzl3JP3kYz7-jEYkZjVh91hghNXqkp5pCM/s320/logo-blue_print.jpg" width="320" /></a>
+          </td>
+        </tr>
+        <tr>
+          <td class="tr-caption" style="text-align: center;">
+            Hanazawa Kana Fanclub "Destination Club" SUMMER GREETING CARD 2023
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="item">
+    <table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto;">
+      <tbody>
+        <tr>
+          <td style="text-align: center;">
+            <a href="#Akarin2023TourGoods" style="margin-left: auto; margin-right: auto;"><img border="0" data-original-height="1113" data-original-width="1046" height="320" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhWAJD1t3ou8ap3sWVIgvsmrirujTxFI8t0vwIlJx_JrD_RS9vRp3NnG5vp69SpywCQSca3qkbizzdxJkpICH9P3fKbB-awytGJFImcGBQuRHgwLBGUZzyI3FI8YXcN5qYKsszznBk54mKca1zW3lOIIm2uylHBzuEIw0L3zEKjotvfVYJ7XUuBQxEVbiE/s320/1429003003_1.png" width="301" /></a>
+          </td>
+        </tr>
+        <tr>
+          <td class="tr-caption" style="text-align: center;">
+            Kitou Akari Zepp Tour 2023 Goods
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="item">
+    <table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto;">
+      <tbody>
+        <tr>
+          <td style="text-align: center;">
+            <a href="#MaiMaiKBSGoods" style="margin-left: auto; margin-right: auto;"><img border="0" data-original-height="992" data-original-width="992" height="320" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhZBiVb8uyCTklhwfAMUWUVVZ5dgBaBmClj-2XOrN60IB3a343qCHnfPrBqpw3Ra4BcxF83WPDbnfZ_-ly7zNL1_O6FUct7oqwlCsYVNEKO0ILFgYmwbK3UUm5E_0eHuJ9a7YgIv3BWedfKIYeYUDBWubqx2b_kiS1sWU_094FrN3hHfi54nADYrJ4SKQo/s320/0c8e0da345762ce42340.jpg" width="320" /></a>
+          </td>
+        </tr>
+        <tr>
+          <td class="tr-caption" style="text-align: center;">
+            KannoMai Birthday Summer Goods
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="item">
+    <table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto;">
+      <tbody>
+        <tr>
+          <td style="text-align: center;">
+            <a href="#DOAXVVAcrylicSets" style="margin-left: auto; margin-right: auto;"><img border="0" data-original-height="680" data-original-width="680" height="320" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEicmyyFiXjEECAYjrwy7hHEiK8nvBUiui5WCYs6o13JMbIoMRdjo2AoPwhCJu_DBdHFkc923UmnBSn9mRNxVgVFYEhV-olPStR7rWnIPVr6l0oI3JEQwXsPblyRhRbC9hq5K7cY8Y6HYNhBreadxxNUON1mgYI4a1vZPSS_kixVyisAhtu2Hu3ZlUOaLrY/s320/306996604307430_680.jpg" width="320" /></a>
+          </td>
+        </tr>
+        <tr>
+          <td class="tr-caption" style="text-align: center;">
+            DEAD OR ALIVE Xtreme Venus Vacation Venus Acrylic Diorama Set (5.5
+            Years)
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="item">
+    <table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto;">
+      <tbody>
+        <tr>
+          <td style="text-align: center;">
+            <a href="#DoukiChanVol10" style="margin-left: auto; margin-right: auto;"><img border="0" data-original-height="1129" data-original-width="800" height="320" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj1rIpIMrsSYkblMmKZxponOv6v4hI0QQswBS6iNhJ7Fk1bnvV_reo_j9nJtQDCc-GAcPFx72ZiXiC1PCb8opgTrtU8CPGJ2OoXPAckN6adt52js6-bsKuSpkKmvF5oggnNZDuhNY0Bu2lx5TbmO2mEDqZ36JSwbCvfyRMY74mWI7otOo1-S82Zq_ND8p8/s320/040031080689-1p.jpg" width="227" /></a>
+          </td>
+        </tr>
+        <tr>
+          <td class="tr-caption" style="text-align: center;">
+            Ganbare Douki-chan Vol.10
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 
 <h1>Data Table</h1>
@@ -913,9 +926,16 @@ Use table generators (eg. <a href="https://divtable.com/generator/">DivTable.com
 
 <style>
 .accordion {
-	border: 2px solid var(--foreground);
-	border-radius: 8px;
 	cursor: pointer;
+	border-color: var(--foreground);
+	border-style: solid;
+	border-width: 2px 10px;
+	border-radius: 8px;
+	transition: border 0.2s, border-radius 0.2s;
+}
+.accordion:not(.show):hover {
+	border-width: 2px;
+	border-radius: 0;
 }
 .accordion .content {
 	cursor: initial;
@@ -927,6 +947,10 @@ Use table generators (eg. <a href="https://divtable.com/generator/">DivTable.com
 .accordion .footer {
 	padding: 4px 8px;
 	display: none;
+}
+.accordion.show {
+	border-width: 2px;
+	border-radius: 0;
 }
 .accordion.show > * {
 	display: block;
@@ -1073,17 +1097,18 @@ function toggleExpander() {
 	max-height: 50vh;
 	overflow-y: auto;
 	cursor: pointer;
-	border-radius: 5px;
-	border: 2px solid transparent;
+	border-color: transparent transparent transparent var(--foreground);
+	border-style: solid;
+	border-width: 2px 2px 2px 10px;
+	transition: border 0.2s;
 }
 .fineprint:hover,
 .fineprint.show {
-	border-color: white;
+	border-color: var(--foreground);
 }
 .fineprint.show {
 	font-size: 1em;
 	padding: 4px 8px;
-	cursor: initial;
 }
 </style>
 <script>
@@ -1092,7 +1117,7 @@ function focusOnExpandFineprint() {
 	for(let fp of document.querySelectorAll('.fineprint'))
 	{
 		fp.addEventListener('click', function() {
-			fp.classList.add('show');
+			fp.classList.toggle('show');
 			fp.scrollIntoView({ block: 'center' });
 		});
 	}
