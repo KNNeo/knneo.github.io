@@ -104,11 +104,12 @@ function reduceResults() {
 			innerPostLink.href = link?.href ?? './search/label/The%20Statement';
 			
 			let latestPostThumb = document.createElement('div');
+			latestPostThumb.style.position = 'relative';
 			
 			if(thumb.length > 0)
 			{
 				let homeThumb = document.createElement('img');
-				homeThumb.classList.add('home-thumb');
+				// homeThumb.classList.add('home-thumb');
 				homeThumb.style.width = '150px';
 				homeThumb.style.height = '150px';
 				homeThumb.src = thumb;
