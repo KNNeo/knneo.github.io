@@ -199,6 +199,7 @@ function togglePopup() {
         }
         this.classList.add('new-thumbnail');
 		switchToButton('CloseBtn');
+		toggleOverlay(false);
 		if(typeof fixExternalFrame == 'function') fixExternalFrame(this);
 		renderEmbedProcess();
 		// if below threshold height scroll up, else open popup without scroll
@@ -207,7 +208,6 @@ function togglePopup() {
 			top: document.querySelector('html').scrollTop + this.getBoundingClientRect().top - (this.getBoundingClientRect().top >= thresholdHeight ? thresholdHeight : this.getBoundingClientRect().top), 
 			behavior: 'smooth'
 		});
-		toggleOverlay(false);
     }
 	
 }
@@ -424,7 +424,7 @@ function switchToButton(id) {
 	if(id == '') return;
 	
 	// to hide
-	let buttons = ['GoToTopBtn','SearchBtn','DarkModeBtn','EmojiBtn','PopupBtn'];
+	let buttons = ['GoToTopBtn','SearchBtn','DarkModeBtn','EmojiBtn','PopupBtn','ShareBtn'];
 	for(let button of buttons)
 	{
 		if(document.getElementById(button) != null) document.getElementById(button).style.display = 'none';
@@ -613,18 +613,20 @@ function resizeImage(img) {
 	// if(showLog)	console.log('orientation: ' + (imgWidth >= imgHeight ? 'landscape' : 'portrait'));
 	
 	// adjust dimensions
-	if (p.parentElement.parentElement.tagName == 'TR' && 
-		p.parentElement.parentElement.getElementsByTagName('td').length > 1) //in table
-		p.classList.add('img-width-fit');
-	else if (p.parentElement.parentElement.parentElement.tagName == 'TR' && 
-		p.parentElement.parentElement.parentElement.getElementsByTagName('td').length > 1 && 
-		p.parentElement.tagName == 'A' &&
-		!p.parentElement.parentElement.style.width) //in table, with link
-		p.classList.add('img-width-fit');
-	else if (p.width + 20 >= window.outerWidth)
-		p.classList.add('img-width-fit');
-	else {
-		p.classList.add('img-width-auto');
+	if(p.parentElement && p.parentElement.parentElement && p.parentElement.parentElement.parentElement) {
+		if (p.parentElement.parentElement.tagName == 'TR' && 
+			p.parentElement.parentElement.getElementsByTagName('td').length > 1) //in table
+			p.classList.add('img-width-fit');
+		else if (p.parentElement.parentElement.parentElement.tagName == 'TR' && 
+			p.parentElement.parentElement.parentElement.getElementsByTagName('td').length > 1 && 
+			p.parentElement.tagName == 'A' &&
+			!p.parentElement.parentElement.style.width) //in table, with link
+			p.classList.add('img-width-fit');
+		else if (p.width + 20 >= window.outerWidth)
+			p.classList.add('img-width-fit');
+		else {
+			p.classList.add('img-width-auto');
+		}
 	}
 
 	// special case: to avoid resize issue on reload

@@ -312,7 +312,7 @@ function fixExternalFrame(thumbnail) {
 	//fix iframes in thumbnails that don't fit content width
 	if(thumbnail.getElementsByTagName('iframe').length > 0) {
 		let thumbnailTable = thumbnail.closest('table');
-		if (thumbnailTable != thumbnail)
+		if (thumbnailTable != null && thumbnailTable != thumbnail)
 			thumbnailTable.style.width = '100%';
 	}
 }
