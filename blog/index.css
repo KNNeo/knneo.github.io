@@ -387,8 +387,7 @@ table.tr-caption-container {
 .latest-post .inner {
     display: flex;
 	flex-direction: column;
-	justify-content: center;
-    gap: 10px;
+	justify-content: space-evenly;
 }
 
 .latest-post .summary {
