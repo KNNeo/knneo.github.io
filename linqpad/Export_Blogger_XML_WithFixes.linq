@@ -803,7 +803,7 @@ void Main()
        	// Extract data from XML
         DateTime published = DateTime.Parse(entry.Element(_+"published").Value);
         DateTime updated = DateTime.Parse(entry.Element(_+"updated").Value);
-        string title = entry.Element(_+"title").Value;
+        string postTitle = entry.Element(_+"title").Value;
         //Console.WriteLine("Processing...  " + (title != "" ? title : "A Random Statement"));
         string type = entry.Element(_+"content").Attribute("type").Value ?? "html";
         XElement empty = new XElement("empty");
@@ -830,7 +830,7 @@ void Main()
 			continue;
 		
         if(WriteTitleOnConsole || TraceMode)
-            Console.WriteLine((title != "" ? title : "A Random Statement") + (count.Count > 0 ? "\t[" + string.Join(",", count) + "]" : ""));
+            Console.WriteLine((postTitle.Length > 0 ? postTitle : "A Random Statement") + (count.Count > 0 ? "\t[" + string.Join(",", count) + "]" : ""));
 		else if(p % 100 == 99)
             Console.WriteLine(".");
 		else
@@ -849,7 +849,7 @@ void Main()
             output.WriteLine("<meta name=\"apple-mobile-web-app-capable\" content=\"yes\">");
             output.WriteLine("<meta name=\"mobile-web-app-capable\" content=\"yes\">");
             output.WriteLine("<meta name=\"theme-color\" content=\"white\">");
-			output.WriteLine("<meta property=\"og:title\" content=\"" + title + "\"/>");
+			output.WriteLine("<meta property=\"og:title\" content=\"" + postTitle + "\"/>");
 			if (TraceMode) Console.WriteLine("Find first image of post for sharing, if any");
 	        expression = @"(?s)<img(.*?)src=""(.*?)""(.*?)/>";
 	        match = Regex.Match(content, expression);
@@ -872,7 +872,7 @@ void Main()
             output.WriteLine("<script src=\"../../../js/common.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
             output.WriteLine("<script src=\"../../../js/header.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
             output.WriteLine("<script src=\"../../../js/viewer.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
-            output.WriteLine("<title>" + (title.Length > 0 ? title : "A Random Statement") + "</title>");
+            output.WriteLine("<title>" + (postTitle.Length > 0 ? postTitle : "A Random Statement") + "</title>");
 			//if(postList.IndexOf(pageLink) > 0)
 			//output.WriteLine("<a id='LeftBtn' href='" + postList[postList.IndexOf(pageLink) - 1].Replace("./", "../../../") + "' title='Newer Post'><i class='material-icons'>arrow_back</i></a>");
             if(postList.IndexOf(pageLink) > 0)
@@ -887,10 +887,10 @@ void Main()
             //output.WriteLine("<div id=\"viewer\" class=\"viewer\"></div>");
             output.WriteLine("<div id=\"contents\" class=\"post-body entry-content\" style=\"font-family: " + defaultFont + ";\">");
 			if (originalLink != "")
-                output.WriteLine("<small style=\"text-align: center;\"><p><i>This post was imported from "+
-                 "<a href=\"{0}\">Blogger</a></i></p></small>", originalLink);				 
-            output.WriteLine("<small title=\"" + published.ToString() + "\" class=\"published\">"+published.ToString("dddd, dd MMMM yyyy")+"</small>");
-            output.WriteLine("<h2 class=\"title\">"+title+"</h2>");
+                output.WriteLine("<small style=\"text-align: center;\"><p><i>This is an archive from "+
+                 "<a href=\"" + originalLink + "\">" + blogTitle + "</a></i></p></small>");
+            output.WriteLine("<small title=\"" + published.ToString() + "\" class=\"published\">" + published.ToString("dddd, dd MMMM yyyy") + "</small>");
+            output.WriteLine("<h2 class=\"title\">" + postTitle + "</h2>");
 			if(!content.Contains("id=\"hashtags\""))
 				output.WriteLine("<div id=\"hashtags\"></div>");
             output.WriteLine("<div class=\"page-header\"></div>");
@@ -925,10 +925,10 @@ void Main()
         }
         
         if (originalLink == "") // wiwhout post link
-            textString += "<div"+classes+"><span>"+published.ToString("yyyy.MM.dd")+" </span>"+title+"</div>\n";
+            textString += "<div" + classes + "><span>" + published.ToString("yyyy.MM.dd") + "</span>" + postTitle + "</div>\n";
 		else
         {
-			if(title == "") // without title
+			if(postTitle == "") // without title
 			{
                 textString += "<div"+classes+"><span>"+published.ToString("yyyy.MM.dd")+" </span>" + 
 				"<a href=\""+pageLink+"\">A Random Statement</a></div>\n";
@@ -965,13 +965,13 @@ void Main()
 				var thumbnailDiv = "<div"+classes.Replace("Post", "Post latest-post")+">" + 
 					"<span class=\"publish\">"+published.ToString("yyyy.MM.dd")+"</span>" + 
 					"<div class=\"latest-post-thumb\">" + 
-						"<a href=\"" + pageLink + "\">" + title + "</a>" + 
+						"<a href=\"" + pageLink + "\">" + postTitle + "</a>" + 
 						(anchors.Count > 0 ? "<div class=\"anchors\">" + string.Join("", anchors.Select(a => "<a href=\"" + (pageLink + "#" + a) + "\">#" + a + "</a>")) + "</div>" : "") + 
 						"<img loading=\"lazy\" class=\"" + (thumbnailUrl == "" ? "" : "home-thumb") + "\" src=\"" + thumbnailUrl + "\"/>" + 
 					"</div></div>\n";
             
                 textString += latestPostCount >= maxLatestPost 
-					? "<div"+classes+"><span class=\"publish\">"+published.ToString("yyyy.MM.dd")+" </span><a href=\""+pageLink+"\">"+title+"</a></div>\n" 
+					? "<div" + classes + "><span class=\"publish\">" + published.ToString("yyyy.MM.dd") + " </span><a href=\""+pageLink+"\">" + postTitle + "</a></div>\n" 
 					: thumbnailDiv;
 				
 				latestPostCount++;
