@@ -128,6 +128,7 @@ a:hover {
     flex-direction: row-reverse;
     justify-content: center;
     align-items: center;
+	position: relative;
 }
 
 .latest-post-thumb img {
@@ -141,12 +142,12 @@ a:hover {
     justify-content: center;
 	position: absolute;
 	background-color: var(--background);
-	margin-left: 2px;
     padding-top: 2px;
 	width: 150px;
     height: 148px;
     left: 2px;
 	border-radius: 8px;
+	overflow-x: hidden;
 }
 
 .latest-post:hover .anchors {
