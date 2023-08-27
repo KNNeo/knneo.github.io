@@ -437,12 +437,12 @@ function switchToButton(id) {
 	else if (window.location.href.includes("knwebreports.blogspot")) // search btn in blogger by default
 		document.getElementById('SearchBtn').style.display = 'block';
 	
-	// custom logic
+	// custom logic: if switching to id of button, and if it exists
 	if (['GoToTopBtn','SearchBtn','DarkModeBtn'].includes(id) && document.getElementById('EmojiBtn') != null)
 		document.getElementById('EmojiBtn').style.display = 'block';
 	if (['GoToTopBtn','SearchBtn','DarkModeBtn'].includes(id) && document.getElementById('PopupBtn') != null)
 		document.getElementById('PopupBtn').style.display = 'block';
-	if (document.getElementById('ShareBtn') != null)
+	if (['GoToTopBtn','SearchBtn','DarkModeBtn'].includes(id) && document.getElementById('ShareBtn') != null)
 		document.getElementById('ShareBtn').style.display = 'block';
 }
 
