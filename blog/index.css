@@ -881,6 +881,7 @@ abbr.imgpop:hover img {
 .new-thumbnail .new-thumbnail-focus img {
 	border-radius: 0;
 	border: 2px solid var(--primary);
+    filter: drop-shadow(2px 4px 6px var(--background));
 }
 
 /*DATA TABLE*/
