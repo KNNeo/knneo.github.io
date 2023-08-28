@@ -877,7 +877,7 @@ void Main()
 			//output.WriteLine("<a id='LeftBtn' href='" + postList[postList.IndexOf(pageLink) - 1].Replace("./", "../../../") + "' title='Newer Post'><i class='material-icons'>arrow_back</i></a>");
             if(postList.IndexOf(pageLink) > 0)
 				output.WriteLine("<a id='RightBtn' class='material-icons' href='" + postList[postList.IndexOf(pageLink) - 1].Replace("./", "../../../") + "' title='Newer Post'><i class='material-icons'>skip_next</i></a>");
-            output.WriteLine("<body>");
+            output.WriteLine("<body style=\"font-family: " + defaultFont + ";\">");
 			output.WriteLine("<a id='BackBtn' class='material-icons' href='../../../index.html' title='Back To Homepage' oncontextmenu='goBack()'>arrow_back</a>");
 			//output.WriteLine("<a id='PopupBtn' class='material-icons' title='Toggle Display Links As Popups' href='javascript:void(0);' onclick='toggleInlinePopups()'>crop_din</a>");
 			output.WriteLine("<a id='ShareBtn' class='material-icons' title='Share This Page' href='javascript:void(0);' onclick='sharePage()'>share</a>");
@@ -885,7 +885,7 @@ void Main()
 			output.WriteLine("<a id='DarkModeBtn' class='material-icons' title='Toggle Dark Mode' href='javascript:void(0);' onclick='toggleDarkMode()'>brightness_high</a>");
 			output.WriteLine("<a id='GoToTopBtn' class='material-icons' title='Go To Top' style='display: none;' href='javascript:void(0);' onclick='goToTop()'>arrow_upward</a>");
             //output.WriteLine("<div id=\"viewer\" class=\"viewer\"></div>");
-            output.WriteLine("<div id=\"contents\" class=\"post-body entry-content\" style=\"font-family: " + defaultFont + ";\">");
+            output.WriteLine("<div id=\"contents\" class=\"post-body entry-content\">");
 			if (originalLink != "")
                 output.WriteLine("<small style=\"text-align: center;\"><p><i>This is an archive from "+
                  "<a href=\"" + originalLink + "\">" + blogTitle + "</a></i></p></small>");
