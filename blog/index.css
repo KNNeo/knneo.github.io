@@ -423,14 +423,14 @@ table.tr-caption-container {
 }
 
 .latest-post .anchors a {
-    color: var(--primary);
+    color: var(--foreground);
 	font-size: 0.88em;
 	padding-bottom: 5px;
     white-space: nowrap;
 }
 
 .latest-post .anchors a:hover {
-    color: var(--foreground);
+    color: var(--primary);
 	text-decoration: underline;
 }
 
