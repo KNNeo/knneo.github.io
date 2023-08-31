@@ -361,9 +361,13 @@ table.tr-caption-container {
 	overflow: hidden;
 }
 
-.latest-post .summary,
+.latest-post .summary {
+	color: var(--foreground);
+}
+
 .latest-post:hover .latest-post-title {
 	color: var(--foreground);
+	text-decoration: underline;
 }
 
 .latest-post:active {
@@ -373,6 +377,10 @@ table.tr-caption-container {
 
 .latest-post-statement {
     padding: 2px;
+}
+
+.latest-post:hover .latest-post-thumb {
+	border-color: var(--foreground);	
 }
 
 .latest-post .outer {
@@ -423,8 +431,8 @@ table.tr-caption-container {
 
 .latest-post .anchors a:hover {
     color: var(--foreground);
+	text-decoration: underline;
 }
-
 
 .news-thumbnail {
 	display: none;
