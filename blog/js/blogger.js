@@ -109,7 +109,7 @@ function reduceResults() {
 			if(thumb.length > 0)
 			{
 				let homeThumb = document.createElement('img');
-				// homeThumb.classList.add('home-thumb');
+				homeThumb.classList.add('latest-post-thumb');
 				homeThumb.style.width = '150px';
 				homeThumb.style.height = '150px';
 				homeThumb.src = thumb;
