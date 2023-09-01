@@ -13,12 +13,12 @@ function setDarkMode() {
 		document.head.appendChild(themeColor);
 	}
 	
-	//save as local storage
-	localStorage.setItem(defaultDarkModeItem, themeColor.content);
-	
 	//conditions to initialize dark mode
 	if(localStorage.getItem(defaultDarkModeItem) == defaultDarkModeTheme) toggleDarkMode();
 	else if(window.matchMedia('(prefers-color-scheme: dark)').matches) toggleDarkMode();
+	
+	//save as local storage
+	localStorage.setItem(defaultDarkModeItem, themeColor.content);
 	
 	window.addEventListener('load', addDarkModeEvents);
 }
