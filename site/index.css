@@ -39,7 +39,6 @@ body {
 
 a {
 	color: var(--foreground);
-	background-color: var(--background);
 }
 
 .landing {
