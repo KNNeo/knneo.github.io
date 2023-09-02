@@ -842,6 +842,17 @@ abbr.imgpop:hover img {
 	border-radius: 0;
 }
 
+/*EXPERIMENTAL - Supports text, not to be mistaken with links or images*/
+.thumbnail-text {
+	color: var(--primary);
+	text-decoration: underline;	
+}
+
+.thumbnail-dialog {
+    background-color: var(--background);
+    color: var(--foreground);	
+}
+
 /*Assign class based on image resize for responsive, see blog.js resizeImg()*/
 .img-width-fit {
 	width: 100%;
@@ -952,17 +963,6 @@ abbr.imgpop:hover img {
 	color: var(--primary);
 }
 
-/*EXPERIMENTAL - Supports text, not to be mistaken with links or images*/
-.thumbnail-text {
-	color: var(--primary);
-	text-decoration: underline;	
-}
-
-.thumbnail-dialog {
-    background-color: var(--background);
-    color: var(--foreground);	
-}
-
 /*ANIMATION KEYFRAMES*/
 @keyframes fadeIn {
   from {
@@ -975,7 +975,7 @@ abbr.imgpop:hover img {
   }
 }
 
-/*OTHER MEDIA QUERIES - REDUCED MOTION*/
+/*MEDIA QUERIES - REDUCED MOTION*/
 @media (prefers-reduced-motion: reduce) {
 	.fadeIn {
 		animation: none;
