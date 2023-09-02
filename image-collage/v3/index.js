@@ -31,6 +31,10 @@ const config = {
 		stats: true,
 	},
 	tag: {
+		category: {
+			groups: ['衣装', 'キャラクター'],
+			ratio: [4, 1],
+		},
 		preset: [160, 320, 480],
 		min: 2,
 		max: 9999,
@@ -101,20 +105,21 @@ function generateTags() {
 		let filenameIndex = file.filename.includes('/') ? file.filename.lastIndexOf('/') : -1;
 		return getFilenameInfo(file.filename).filename;
 	})
-	.join(config.separator)
-	.split(config.separator)
-	.reduce(function(total, current, index, array) {
+	.reduce(function(total, current, _, _) {
 		let updated = total;
-		let existing = total.filter(a => a.value == current);
-		let existingFirst = existing[0];
-		let oldCount = existingFirst?.count;
-		if(existingFirst) {
-			//remove this tag, add back with new count
-			updated = total.filter(a => a.value.toLowerCase() != current.toLowerCase());
-		}
-		updated.push({
-			value: current,
-			count: existingFirst ? oldCount + 1 : 1,
+		current.split(config.separator).forEach(function(tag, index, _) {
+			let existing = updated.filter(a => a.value == tag);
+			// console.log(tag, existing);
+			let existingFirst = existing[0];
+			if(existingFirst) {
+				//remove this tag, add back with new count
+				updated = updated.filter(a => a.value.toLowerCase() != tag.toLowerCase());
+			}
+			updated.push({
+				value: tag,
+				count: existingFirst?.count ? existingFirst?.count + 1 : 1,
+				category: config.tag.category ? index : null,
+			});
 		});
 		return updated;
 	},[])
@@ -190,6 +195,26 @@ function resetLayout() {
 
 function generateTagsList() {
 	tags.innerHTML = '';
+	
+	if(config.tag.category && config.tag.category.groups) {
+		let sections = config.tag.category.ratio.reduce((sum, r) => sum + r, 0);
+		config.tag.category.groups.forEach(function(current, index, _) {
+			let tag = document.createElement('div');
+			tag.style.maxHeight = (100 / sections * config.tag.category.ratio[index]) + '%';
+			
+				let title = document.createElement('h4');
+				title.classList.add('category-title');
+				title.innerText = current;
+				tag.appendChild(title);
+				
+			tags.appendChild(tag);
+		});
+	}
+	else {
+		let tag = document.createElement('div');
+		tags.appendChild(tag);
+	}
+	
 	for(let button of window['buttonArray']) {
 		if(button.value == '') continue;
 		let tag = document.createElement('button');
@@ -245,7 +270,10 @@ function generateTagsList() {
 			tag.setAttribute('filter', 'include');
 		if(window['excludeCriteria'].split(config.separator).includes(button.value))
 			tag.setAttribute('filter', 'exclude');
-		tags.appendChild(tag);
+		if(button.category)
+			tags.childNodes[button.category].appendChild(tag);
+		else
+			tags.childNodes[0].appendChild(tag);
 	}	
 }
 
