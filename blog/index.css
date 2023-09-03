@@ -169,7 +169,7 @@
 
 #Label1 ul::-webkit-scrollbar {
   width: 0 !important
-} // Safari and Chrome
+} /* Safari and Chrome */
 
 .head-prefix {
 	background-color: var(--secondary);
