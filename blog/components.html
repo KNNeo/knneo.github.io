@@ -1205,4 +1205,65 @@ as a summary:<br />
 <br />
 <div class="blank">
 </body>
+
+<style>
+/* Base styles for .scale elements  */
+.scale {
+	display: flex;
+    gap: 5px;
+}
+/* Base styles for all elements within .scale */
+.scale * {
+  background-color: gray;
+  width: 2em;
+  height: 10px;
+}
+
+/* Styles for data-id="1" */
+.scale[data-id="1"] div:nth-child(1),
+.scale[data-id="2"] div:nth-child(1),
+.scale[data-id="2"] div:nth-child(2),
+.scale[data-id="3"] div:nth-child(1),
+.scale[data-id="3"] div:nth-child(2),
+.scale[data-id="3"] div:nth-child(3),
+.scale[data-id="4"] div:not(:nth-child(5)),
+.scale[data-id="5"] div {
+  background-color: var(--primary);
+}
+
+.scale::after {
+  content: attr(data-id) "/" attr(data-scale);
+}
+</style>
+<script>
+window.addEventListener('load', addScales);
+function addScales() {
+	for(let scale of document.querySelectorAll('.scale'))
+	{
+		let num = parseInt(scale.getAttribute('data-scale'));
+		for(i = 0; i < num; i++)
+		{
+			let block = document.createElement('div');
+			scale.appendChild(block);
+		}
+	}
+}
+</script>
+<br />
+<h1>Rating Scale</h1>
+<h5>Container "scale", js to populate div children, to show scale (in this case out of 5)
+<pre>
+&lt;div class="scale"&gt;
+	&lt;div&gt;&lt;/div&gt;
+	...
+&lt;/div&gt;
+</pre>
+<div class="scale" data-id="1" data-scale="5">
+</div>
+<div class="scale" data-id="3" data-scale="5">
+</div>
+<div class="scale" data-id="5" data-scale="5">
+</div>
+<br />
+</body>
 </html>
