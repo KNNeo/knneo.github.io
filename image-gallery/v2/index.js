@@ -312,6 +312,14 @@ function renderFilters(tags) {
 			filterDiv.appendChild(tagDiv);
 		}
 	}
+	
+	//allow change source
+	document.querySelector('.close').addEventListener('contextmenu', function() {
+		event.preventDefault();
+		let input = prompt('Datafile location:', document.getElementById('data-id').src);
+		if (input != null)
+			changeDataFile(input);
+	});
 }
 
 function renderDisplay() {
@@ -397,6 +405,12 @@ function changeSource(dest) {
 		img.filename = name.replace(name.substring(0, name.lastIndexOf('/')), dest);
 	}
 	renderGallery();
+}
+
+function changeDataFile(dest) {
+	document.getElementById('data-id').src = dest;
+	hideFilters();
+	startup();
 }
 
 //--INITIAL--//
