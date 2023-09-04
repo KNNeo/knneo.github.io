@@ -334,6 +334,7 @@ function renderGallery() {
 	{
 		let itemDiv = document.createElement('img');
 		itemDiv.setAttribute('data-id', index);
+		if(value.link) itemDiv.setAttribute('data-link', value.link);
 		itemDiv.src = value.filename;
 		itemDiv.title = value.description || '';
 		itemDiv.alt = value.description || '';
@@ -344,8 +345,13 @@ function renderGallery() {
 		itemDiv.addEventListener('click', function() {
 			galleryDiv.classList.remove('overview');
 			settingsDiv.classList.remove('hidden');
-			scrollToItem(parseInt(this.getAttribute('data-id')));
-			window.variables.selected = parseInt(this.getAttribute('data-id'));
+			if(window.variables.selected != parseInt(this.getAttribute('data-id'))) {
+				scrollToItem(parseInt(this.getAttribute('data-id')));
+				window.variables.selected = parseInt(this.getAttribute('data-id'));
+			}
+			else {
+				window.open(this.getAttribute('data-link'), '_blank');
+			}
 		});
 		itemDiv.addEventListener('contextmenu', function() {
 			event.preventDefault();
