@@ -350,15 +350,16 @@ function renderGallery() {
 			event.target.classList.add('loaded');
 		});
 		itemDiv.addEventListener('click', function() {
+			let inOverview = galleryDiv.classList.contains('overview');
+			galleryDiv.classList.remove('overview');
+			settingsDiv.classList.remove('hidden');
 			if(window.variables.selected != parseInt(this.getAttribute('data-id'))) {
 				scrollToItem(parseInt(this.getAttribute('data-id')));
 				window.variables.selected = parseInt(this.getAttribute('data-id'));
 			}
-			else if(!galleryDiv.classList.contains('overview')) {
+			else if(!inOverview) {
 				window.open(this.getAttribute('data-link'), '_blank');
 			}
-			galleryDiv.classList.remove('overview');
-			settingsDiv.classList.remove('hidden');
 		});
 		itemDiv.addEventListener('contextmenu', function() {
 			event.preventDefault();
