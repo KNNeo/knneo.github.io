@@ -357,7 +357,7 @@ function renderGallery() {
 				scrollToItem(parseInt(this.getAttribute('data-id')));
 				window.variables.selected = parseInt(this.getAttribute('data-id'));
 			}
-			else if(!inOverview) {
+			else if(!inOverview && this.hasAttribute('data-link')) {
 				window.open(this.getAttribute('data-link'), '_blank');
 			}
 		});
