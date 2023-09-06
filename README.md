@@ -34,4 +34,5 @@ Tools
 
 Whole site uses a universal dark mode file darkmode.js, styles for dark mode dependent on each page; Supports Firefox and Chromium-based browsers.<br/>
 <hr>
-Note: Blog is customised for responsive layout from old Blogger theme; Code arrangement messy, currently only used for archiving purposes. For more generic use, see Blogger View which allows input of XML file from Blogger.
+Note: The blog is not a dev blog, just an export of my personal blog;
+<br/><br/>Blog is customised for responsive layout from old Blogger theme; Code arrangement messy, currently only used for archiving purposes. For more generic use, see Blogger View which allows input of XML file from Blogger.
