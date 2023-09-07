@@ -200,7 +200,7 @@ function generateTagsList() {
 		let sections = config.tag.category.ratio.reduce((sum, r) => sum + r, 0);
 		config.tag.category.groups.forEach(function(current, index, _) {
 			let tag = document.createElement('div');
-			tag.style.maxHeight = (100 / sections * config.tag.category.ratio[index]) + '%';
+			if(isHorizontalLayout()) tag.style.maxHeight = (100 / sections * config.tag.category.ratio[index]) + '%';
 			
 				let title = document.createElement('h4');
 				title.classList.add('category-title');
