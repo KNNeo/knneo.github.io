@@ -232,7 +232,7 @@ body[layout='horizontal'] .expander {
 	max-height: 100%;
 }
 
-body[layout='horizontal'] .menu {
+body[layout='vertical'] .menu {
 	max-height: 330px;
 }
 
