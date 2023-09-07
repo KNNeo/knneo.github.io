@@ -228,8 +228,12 @@ body[layout='horizontal'] .expander {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-    justify-content: center;
+	justify-content: center;
 	max-height: 100%;
+}
+
+body[layout='horizontal'] .menu {
+	max-height: 330px;
 }
 
 .title,
