@@ -244,12 +244,8 @@
 	top: 2px;
     left: 2px;
     overflow-x: hidden;
+	scrollbar-width: none;} /* Firefox */
 }
-
-.anchors {
-  padding: 0 0 0 1em;
-  scrollbar-width: none;
-} /* Firefox */
 
 .anchors::-webkit-scrollbar {
   width: 0 !important
