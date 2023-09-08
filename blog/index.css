@@ -163,8 +163,10 @@
   background: none;
 }
 
-#Label1 .widget ul {
+#Label1 ul {
   padding: 0 0 0 1em;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
 #Label1 ul::-webkit-scrollbar {
@@ -233,7 +235,6 @@
 .anchors {
     display: none;
     flex-wrap: wrap;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
 	position: absolute;
@@ -244,6 +245,15 @@
     left: 2px;
     overflow-x: hidden;
 }
+
+.anchors {
+  padding: 0 0 0 1em;
+  scrollbar-width: none;
+} /* Firefox */
+
+.anchors::-webkit-scrollbar {
+  width: 0 !important
+} /* Safari and Chrome */
 
 .latest-post:hover .anchors {
     display: flex;
