@@ -135,29 +135,32 @@ a:hover {
 	border-radius: 8px;
 }
 
+.anchors::-webkit-scrollbar {
+  width: 0 !important
+} /* Safari and Chrome */
+
 .anchors {
     display: none;
-    flex-wrap: wrap;
-    flex-direction: column;
-    justify-content: center;
 	position: absolute;
 	background-color: var(--background);
-    padding-top: 2px;
 	width: 150px;
-    height: 148px;
+    height: 144px;
     left: 2px;
 	border-radius: 8px;
 	overflow-x: hidden;
+    padding: 3px 0;
+	scrollbar-width: none; /* Firefox */
 }
 
 .latest-post:hover .anchors {
-    display: flex;
+    display: initial;
 }
 
 .anchors a {
+    display: block;
     color: var(--primary);
 	font-size: 0.7em;
-	padding-bottom: 5px;
+    padding: 3px 0;
 }
 
 .anchors a:hover {
