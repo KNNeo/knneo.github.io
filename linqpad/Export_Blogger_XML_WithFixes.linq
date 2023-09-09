@@ -967,7 +967,7 @@ void Main()
 					"<div class=\"latest-post-thumb\">" + 
 						"<a href=\"" + pageLink + "\">" + postTitle + "</a>" + 
 						(anchors.Count > 0 ? "<div class=\"anchors\">" + string.Join("", anchors.Select(a => "<a href=\"" + (pageLink + "#" + a) + "\">#" + a + "</a>")) + "</div>" : "") + 
-						"<img loading=\"lazy\" class=\"" + (thumbnailUrl == "" ? "" : "home-thumb") + "\" src=\"" + thumbnailUrl + "\"/>" + 
+						(thumbnailUrl.Length > 0 ? "<div class=\"" + (anchors.Count > 0 ? "thumb-overlay" : "thumb") + "\"><img loading=\"lazy\" src=\"" + thumbnailUrl + "\"/></div>" : "") + 
 					"</div></div>\n";
             
                 textString += latestPostCount >= maxLatestPost 

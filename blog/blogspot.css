@@ -83,14 +83,6 @@ a:hover {
 	padding: 2px;
 }
 
-.Post .home-thumb {
-	border: 2px solid var(--primary);
-	object-fit: cover;
-	width: 150px;
-	height: 150px;
-    flex: 1 0 auto;
-}
-
 .latest-post {
 	box-shadow: 3px 3px var(--foreground);
 	border: 2px solid var(--foreground);
@@ -131,8 +123,23 @@ a:hover {
 	position: relative;
 }
 
+.latest-post .thumb,
+.latest-post .thumb-overlay {
+	border: 2px solid var(--primary);
+    border-radius: 8px;
+	width: 150px;
+	height: 150px;
+}
+
 .latest-post-thumb img {
-	border-radius: 8px;
+	border-radius: 6px;
+	object-fit: cover;
+	width: 150px;
+	height: 150px;
+}
+
+.latest-post:hover .thumb-overlay img {
+	visibility: hidden;
 }
 
 .anchors::-webkit-scrollbar {
@@ -144,7 +151,7 @@ a:hover {
 	position: absolute;
 	background-color: var(--background);
 	width: 150px;
-    height: 144px;
+    max-height: 144px;
     left: 2px;
 	border-radius: 8px;
 	overflow-x: hidden;
