@@ -21,6 +21,7 @@
 <script src="../../../js/header.js" type="application/javascript" charset="utf-8" defer></script>
 <script src="../../../js/viewer.js" type="application/javascript" charset="utf-8" defer></script>
 <title>The Welfare Package September 2023: What Otakus Actually Buy In Japan Part 5 feat. Melonbooks</title>
+<a id='RightBtn' class='material-icons' href='../../../pages/2023/09/the-entertainment-news-23-issue-37.html' title='Newer Post'><i class='material-icons'>skip_next</i></a>
 <body style="font-family: Noto Sans;">
 <a id='BackBtn' class='material-icons' href='../../../index.html' title='Back To Homepage' oncontextmenu='goBack()'>arrow_back</a>
 <a id='ShareBtn' class='material-icons' title='Share This Page' href='javascript:void(0);' onclick='sharePage()'>share</a>
@@ -269,14 +270,14 @@
   <table>
     <tbody>
       <tr>
-        <th>Artist Info</th>
+        <th class="freeze">Artist Info</th>
         <th>Relevance/Known Period</th>
         <th>Quality/Preference</th>
         <th>Popularity (Twitter/X)</th>
         <th>Decency/H Level</th>
       </tr>
       <tr>
-        <td>
+        <td class="freeze">
           Chigusa Minori<br /><a
             href="https://www.pixiv.net/users/41106591"
             target="_blank"
@@ -292,7 +293,7 @@
         <td>Average<br />🌸👙</td>
       </tr>
       <tr>
-        <td>
+        <td class="freeze">
           92M<br /><a href="https://www.pixiv.net/users/93583" target="_blank"
             >Pixiv</a
           >
@@ -304,7 +305,7 @@
         <td>Dangerous<br />🌸👙🔞</td>
       </tr>
       <tr>
-        <td>
+        <td class="freeze">
           Hiten<br /><a
             href="https://www.pixiv.net/users/490219"
             target="_blank"
@@ -318,7 +319,7 @@
         <td>Pure<br />🌸</td>
       </tr>
       <tr>
-        <td>
+        <td class="freeze">
           Miwano Rag<br /><a
             href="https://www.pixiv.net/users/7324626"
             target="_blank"
@@ -332,7 +333,7 @@
         <td>Average<br />🌸👙</td>
       </tr>
       <tr>
-        <td>
+        <td class="freeze">
           Fuumi<br /><a href="https://www.pixiv.net/users/10292" target="_blank"
             >Pixiv</a
           >
@@ -344,7 +345,7 @@
         <td>Average<br />🌸👙</td>
       </tr>
       <tr>
-        <td>
+        <td class="freeze">
           Rangu<br /><a
             href="https://www.pixiv.net/users/33844486"
             target="_blank"
@@ -358,7 +359,7 @@
         <td>Average<br />🌸👙</td>
       </tr>
       <tr>
-        <td>
+        <td class="freeze">
           Sano Hiyori<br /><a
             href="https://www.pixiv.net/users/52644245"
             target="_blank"
@@ -372,7 +373,7 @@
         <td>Average<br />🌸👙</td>
       </tr>
       <tr>
-        <td>
+        <td class="freeze">
           Komizuki<br /><a
             href="https://www.pixiv.net/users/40497746"
             target="_blank"
@@ -386,7 +387,7 @@
         <td>Average<br />🌸</td>
       </tr>
       <tr>
-        <td>
+        <td class="freeze">
           Nakamura<br /><a
             href="https://www.pixiv.net/users/25387646"
             target="_blank"
@@ -400,7 +401,7 @@
         <td>Average<br />🌸👙</td>
       </tr>
       <tr>
-        <td>
+        <td class="freeze">
           Omulettomato<br /><a
             href="https://www.pixiv.net/users/14000684"
             target="_blank"
@@ -414,7 +415,7 @@
         <td>Average<br />🌸👙</td>
       </tr>
       <tr>
-        <td>
+        <td class="freeze">
           Kureha<br /><a
             href="https://www.pixiv.net/users/4994566"
             target="_blank"
@@ -502,8 +503,8 @@
 <div style="text-align: center;">
   <label style="cursor: pointer;"
     ><input
-      onclick="document.querySelector('.lineup').style.display=''==document.querySelector('.lineup').style.display?'none':'';"
-      style="vertical-align: bottom; cursor: pointer;"
+      onclick="document.querySelector('.lineup').style.display=''==document.querySelector('.lineup').style.display?'none':'';setThumbnails();"
+      style="cursor: pointer; vertical-align: bottom;"
       type="checkbox"
     />
     I Agree</label
