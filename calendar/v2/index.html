@@ -21,7 +21,7 @@
 	<a title="Add Event" class="add material-icons" href="javascript:void(0);" onclick="addDetailedEventToCalendar()">add</a>
 	<a title="Toggle Dark Mode" class="darkmode material-icons" href="javascript:void(0);" onclick="toggleDarkMode()">brightness_high</a>
 	<a title="Show Templates" class="material-icons" href="javascript:void(0);" onclick="showTemplates()">clear_all</a>
-	<a title="Export Events" class="material-icons" href="javascript:void(0);" onclick="exportEvents()">file_download</a>
+	<a title="Export Events" class="material-icons" href="javascript:void(0);" onclick="showData()">file_download</a>
 </h3>
 <h3 class="settings">
 	<a href="../../index.html">knneo.github.io</a>
@@ -30,41 +30,42 @@
 	<form id="event-form">
 		<label for="event-select">Template</label>
 		<select id="event-select" style="width: 50%;">
-		<option>===Select Event===</option>
+			<option>===Select Event===</option>
 		</select>
-		<br><br>
-		
-		<label for="name">Name:</label>
-		<input type="text" id="name" name="name" required>
-		<br><br>
-
-		<label for="start_date">Start Date:</label>
-		<input type="date" id="start_date" name="start_date" required>
-		<br><br>
-
-		<label>Start Time (24h format - HH:mm):</label>
 		<br>
-		<label for="start_hour">Hour:</label>
+		<br>		
+		<label for="name">Name</label>
+		<input type="text" id="name" name="name" required style="width: 60%;">
+		<br>
+		<br>
+		<label for="start_date">Start Date</label>
+		<input type="date" id="start_date" name="start_date" required>
+		<input type="button" value="Previous" onclick="document.querySelector('#start_date').value=new Date(document.querySelector('#start_date').value).addDays(-7).toISOString().slice(0,10);">
+		<br>
+		<br>
+		<label>Start Time (24h format - HH:mm)</label>
+		<br>
+		<label for="start_hour">Hour</label>
 		<input type="number" id="start_hour" name="start_hour" min="0" max="27" 
-		onchange="if(this.value.length==1)this.value='0'+this.value;" required style="width: 10%;">
-		<label for="start_minute">Minutes:</label>
+		onchange="this.value=String(this.value).padStart(2,'0');" required style="width: 10%;">
+		<label for="start_minute">Minutes</label>
 		<input type="number" id="start_minute" name="start_minute" min="0" max="59" 
-		onchange="if(this.value.length==1)this.value='0'+this.value;" required style="width: 10%;">
-		<br><br>
-
-		<label for="duration">Duration (minutes):</label>
+		onchange="this.value=String(this.value).padStart(2,'0');" required style="width: 10%;">
+		<br>
+		<br>
+		<label for="duration">Duration (minutes)</label>
 		<input type="number" id="duration" name="duration" min="1" required style="width: 10%;">
-		<br><br>
-
-		<label for="description">Description:</label>
-		<textarea id="description" name="description" rows="4" cols="20" required></textarea>
-		<br><br>
-
-		<label for="link">Link:</label>
+		<br>
+		<br>
+		<label for="description">Description</label>
+		<textarea id="description" name="description" rows="8" cols="40" required style="max-width: 90%;"></textarea>
+		<br>
+		<br>
+		<label for="link">Link</label>
 		<input type="url" id="link" name="link" required>
-		<br><br>
-
-		<input type="submit" value="Submit">
+		<br>
+		<br>
+		<input type="submit" value="Add">
 		<input type="submit" value="Cancel" onclick="removeDialog()">
 	</form>
 </template>

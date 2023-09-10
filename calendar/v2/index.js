@@ -108,7 +108,7 @@ const templates = [
 		format: 'Video Live',
 	},
 	{
-		name: 'ミュージックレイン3期生 新番組β版',
+		name: 'ミュージックレイン3期生 新番組ベータ版',
 		startDayNo: 2,
 		startTime: 2330,
 		lengthMinutes: 30,
@@ -263,24 +263,6 @@ const templates = [
 		channel: 'インターネットラジオステーション＜音泉＞',
 		url: 'https://www.onsen.ag/program/omimi',
 		format: 'Audio Premiere',
-	},
-	{
-		name: 'ミュージックレイン3期生 新番組ベータ版',
-		startDayNo: 2,
-		startTime: 2330,
-		lengthMinutes: 30,
-		channel: 'ニコニコ動画',
-		url: 'http://beta.secondshot.jp/',
-		format: 'Audio Live',
-	},
-	{
-		name: 'ミュージックレイン3期生 新番組ベータ版',
-		startDayNo: 2,
-		startTime: 2330,
-		lengthMinutes: 30,
-		channel: 'ニコニコ動画',
-		url: 'http://beta.secondshot.jp/',
-		format: 'Audio Live',
 	},
 	{
 		name: '堀江由衣の天使のたまご',
@@ -546,11 +528,13 @@ function addDetailedEventToCalendar() {
 	// Handle dropdown selection change
 	let dropdown = form.querySelector('#event-select');
 	let today = parseInt(new Date().toISOString().slice(0,10).replace(/-/g,''));
-	for(let templateEvent of templates.filter(t => 
-		t.startDate && parseInt(t.startDate.replace(/-/g,'') >= today) ||  
-		t.endDate && parseInt(t.endDate.replace(/-/g,'') <= today) || 
-		(!t.startDate && !t.endDate)
-	))
+	for(let templateEvent of templates
+		.filter(t => 
+			t.startDate && parseInt(t.startDate.replace(/-/g,'') >= today) ||  
+			t.endDate && parseInt(t.endDate.replace(/-/g,'') <= today) || 
+			(!t.startDate && !t.endDate))
+		.sort((a,b) => a.startDayNo - b.startDayNo)
+	)
 	{
 		let option = document.createElement('option');
 		option.value = templateEvent.name;
@@ -719,7 +703,13 @@ function getLastDayOfMonth(monthNo, yearNo) {
 	}
 }
 
-function exportEvents() {
+function showData() {
+	popupText('<textarea id="data" name="data" rows="8" cols="40" style="max-width: 90%;">' + localStorage.getItem('calendar-marked-v2') + '</textarea>' + 
+	'<input type="submit" value="Copy" onclick="navigator.clipboard.writeText(document.querySelector(\'#data\').value);">' + 
+	'<input type="submit" value="Close" onclick="removeDialog()">');
+}
+
+function exportEventsToCalendar() {
 	let universalBOM = "\uFEFF"; // byte order mark, to fix url encoding issue
 	let textOutput = universalBOM + 
 	'"Subject","Start date","Start time","End date","End time","All Day Event","Description","Private"';
