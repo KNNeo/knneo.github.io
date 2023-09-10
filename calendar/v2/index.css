@@ -1,0 +1,180 @@
+/*Variables*/
+:root {
+  --primary: #1b00ff;
+  --secondary: #609fff;
+  --background: #fff;
+  --foreground: #000;
+  --accent: lightgray;
+}
+
+.darked:root {
+  --primary: #00e4ff;
+  --secondary: #00abbf;
+  --background: #000;
+  --foreground: #fff;
+  --accent: gray;
+}
+
+html {
+	font-family: Open Sans;
+	background-color: var(--background);
+	color: var(--foreground);
+}
+
+body {
+  margin: 0;
+  text-align: center;
+}
+
+a {
+	color: var(--primary);
+}
+
+a:visited {
+	color: var(--secondary);
+}
+
+/*Generic*/
+.material-icons {
+	cursor: pointer;
+	padding: 10px;
+}
+
+.material-icons:hover {
+	color: var(--primary);
+}
+
+.hidden {
+	display: none;
+}
+
+.box {
+	/* margin: 5px; */
+	vertical-align: top;
+	scroll-snap-align: center;
+	white-space: normal;
+	touch-action: manipulation;
+}
+
+.shadowed {
+  border: 1px solid lightgray;
+  box-shadow: 3px 3px;
+}
+
+.shadowed:active {
+  box-shadow: 1px 1px;
+  transform: translate(2px,2px);
+}
+
+.unshadowed {
+	filter: opacity(100%);
+	transition: filter 1s;
+}
+
+.settings {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+	gap: 5px;
+    margin: 0;
+}
+
+.settings > a {
+    color: var(--foreground);
+	text-decoration: none;
+}
+
+/*Specific*/
+.calendar {
+	width: 100vw;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+	grid-template-rows: 3em 2em 1.5em 4.8em 1.5em 4.8em 1.5em 4.8em 1.5em 4.8em auto auto 2fr;
+    align-items: center;
+}
+
+.calendar.expanded {
+	grid-template-rows: 3em 2em 1.5em auto 2fr;
+}
+
+.full {
+    height: 75vh;
+	overflow: auto;
+}
+
+.row {
+	display: contents;
+}
+
+.day {
+	overflow: scroll;
+	scrollbar-width: 0 !important;
+	scrollbar-width: none;
+}
+
+.day::-webkit-scrollbar { width: 0 !important }
+
+.header,
+.number {
+	font-size: 1.2em;
+	font-weight: bold;
+}
+
+.cell {
+	height: 4.8em;
+}
+.cell.expanded {
+	height: auto;
+	align-self: flex-start;
+}
+
+.prev,
+.next,
+.content {
+	cursor: pointer;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.content {
+	overflow: hidden;
+	text-align: left;
+	height: 1.3em;
+	font-size: 0.7em;
+}
+
+.content.expanded {
+	height: auto;
+	padding-bottom: 5px;
+}
+
+.content:hover {
+	background-color: var(--accent);
+}
+
+.footer {
+	font-size: 1em;
+}
+
+.marked {
+	background-color: var(--secondary);
+}
+
+.dialog {
+	position: fixed;
+}
+
+.dialog dialog {
+	background-color: var(--background);
+	color: var(--foreground);	
+	padding: 10px;
+	max-width: 360px;
+}
+.dialog dialog a {
+	background-color: var(--background);
+	color: var(--primary);
+}

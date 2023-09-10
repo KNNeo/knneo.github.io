@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en-SG">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+    <link id="index-css" rel="stylesheet" type="text/css" href="index.css">
+	<link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<script src="../../darkmode.js" type="application/javascript" charset="utf-8"></script>
+	<script src="../../wanted-list/luxon.min.js" defer></script>
+	<script src="index.js" defer></script>
+    <title>Event Calendar</title>
+</head>
+<body>
+<h3>Event Calendar</h3>
+<h6>Designed for regularly scheduled events</h6>
+<div class="menu"></div>
+<div class="list">Loading...</div>
+<h3 class="settings">
+	<a title="Add Event" class="add material-icons" href="javascript:void(0);" onclick="addDetailedEventToCalendar()">add</a>
+	<a title="Toggle Dark Mode" class="darkmode material-icons" href="javascript:void(0);" onclick="toggleDarkMode()">brightness_high</a>
+	<a title="Show Templates" class="material-icons" href="javascript:void(0);" onclick="showTemplates()">clear_all</a>
+	<a title="Export Events" class="material-icons" href="javascript:void(0);" onclick="exportEvents()">file_download</a>
+</h3>
+<h3 class="settings">
+	<a href="../../index.html">knneo.github.io</a>
+</h3>
+<template id="add-event-template">
+	<form id="event-form">
+		<label for="event-select">Template</label>
+		<select id="event-select" style="width: 50%;">
+		<option>===Select Event===</option>
+		</select>
+		<br><br>
+		
+		<label for="name">Name:</label>
+		<input type="text" id="name" name="name" required>
+		<br><br>
+
+		<label for="start_date">Start Date:</label>
+		<input type="date" id="start_date" name="start_date" required>
+		<br><br>
+
+		<label>Start Time (24h format - HH:mm):</label>
+		<br>
+		<label for="start_hour">Hour:</label>
+		<input type="number" id="start_hour" name="start_hour" min="0" max="27" 
+		onchange="if(this.value.length==1)this.value='0'+this.value;" required style="width: 10%;">
+		<label for="start_minute">Minutes:</label>
+		<input type="number" id="start_minute" name="start_minute" min="0" max="59" 
+		onchange="if(this.value.length==1)this.value='0'+this.value;" required style="width: 10%;">
+		<br><br>
+
+		<label for="duration">Duration (minutes):</label>
+		<input type="number" id="duration" name="duration" min="1" required style="width: 10%;">
+		<br><br>
+
+		<label for="description">Description:</label>
+		<textarea id="description" name="description" rows="4" cols="20" required></textarea>
+		<br><br>
+
+		<label for="link">Link:</label>
+		<input type="url" id="link" name="link" required>
+		<br><br>
+
+		<input type="submit" value="Submit">
+		<input type="submit" value="Cancel" onclick="removeDialog()">
+	</form>
+</template>
+</body>
+</html>
