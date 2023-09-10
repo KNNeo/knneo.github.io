@@ -530,8 +530,8 @@ function addDetailedEventToCalendar() {
 	let today = parseInt(new Date().toISOString().slice(0,10).replace(/-/g,''));
 	for(let templateEvent of templates
 		.filter(t => 
-			t.startDate && parseInt(t.startDate.replace(/-/g,'') >= today) ||  
-			t.endDate && parseInt(t.endDate.replace(/-/g,'') <= today) || 
+			(t.startDate && parseInt(t.startDate.replace(/-/g,'')) <= today) ||  
+			(t.endDate && parseInt(t.endDate.replace(/-/g,'')) >= today) || 
 			(!t.startDate && !t.endDate))
 		.sort((a,b) => a.startDayNo - b.startDayNo)
 	)
@@ -559,7 +559,7 @@ function populateForm(selectedEvent) {
 			// console.log(count, latestDate);
 		}
 		form.querySelector('#start_date').value = latestDate.toISOString().slice(0,10);
-        // Extract time		
+        // Extract time
         var hours = Math.floor(selectedEvent.startTime / 100);
         var minutes = selectedEvent.startTime % 100;
         // Format hours and minutes with a colon
@@ -569,8 +569,8 @@ function populateForm(selectedEvent) {
 		form.querySelector('#duration').value = selectedEvent.lengthMinutes;
 		form.querySelector('#description').value = 
 			daysOfWeek[selectedEvent.startDayNo == 7 ? 0 : selectedEvent.startDayNo] + ', ' + 
-			monthsOfYear[latestDate.getMonth()] + ' ' + latestDate.getDate() + ' | ' + 
-			(selectedEvent.startTime ? selectedEvent.startTime + '-' + getEndTime(selectedEvent.startTime, selectedEvent.lengthMinutes) : '') + '\n' +
+			monthsOfYear[latestDate.getMonth()] + ' ' + latestDate.getDate() + 
+			(selectedEvent.startTime ? ' | ' + selectedEvent.startTime + '-' + getEndTime(selectedEvent.startTime, selectedEvent.lengthMinutes) : '') + '\n' +
 			selectedEvent.name + '\n' + 
 			selectedEvent.format + '\n' + 
 			selectedEvent.channel + '\n' +
