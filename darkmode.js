@@ -6,24 +6,26 @@ function setDarkMode() {
 	let saved = localStorage.getItem(defaultDarkModeItem);
 	let theme = document.querySelector('meta[name="theme-color"]');
 	// conditions to initialize dark mode
-	if(window.matchMedia('(prefers-color-scheme: dark)').matches) toggleDarkMode();
-	else {
+	if (!theme) { // no theme in DOM, create
 		let themeColor = document.createElement('meta');
-		if(theme && theme.length > 0) // document theme (assume no toggle on DOM, else always override)
-			themeColor = theme;
-		else { // no theme 
-			themeColor.name = 'theme-color';
-			themeColor.content = defaultLightModeTheme;
-			document.head.appendChild(themeColor);
-			theme = themeColor; // put back
-		}
-	
-		//save as local storage
+		themeColor.name = 'theme-color';
+		themeColor.content = defaultLightModeTheme;
+		document.head.appendChild(themeColor);
+		
 		localStorage.setItem(defaultDarkModeItem, themeColor.content);
+		theme = themeColor; // put back
+	}
+	if (window.matchMedia('(prefers-color-scheme: dark)').matches) toggleDarkMode();
+	else if (theme) {
+		let themeColor = document.createElement('meta');
+		if(theme && theme.length > 0) {// document theme
+			themeColor = theme;
+			localStorage.setItem(defaultDarkModeItem, themeColor.content);
+		}
 	}
 
 	// override if have saved
-	if(saved && theme && saved != theme.content)
+	if (saved && theme && saved != theme.content)
 		toggleDarkMode();
 
 	// if button .darkmode in DOM, to toggle modes
