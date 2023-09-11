@@ -706,7 +706,18 @@ function getLastDayOfMonth(monthNo, yearNo) {
 function showData() {
 	popupText('<textarea id="data" name="data" rows="8" cols="40" style="max-width: 90%;">' + localStorage.getItem('calendar-marked-v2') + '</textarea>' + 
 	'<input type="submit" value="Copy" onclick="navigator.clipboard.writeText(document.querySelector(\'#data\').value);">' + 
-	'<input type="submit" value="Close" onclick="removeDialog()">');
+	'<input type="submit" value="Close" onclick="updateData()">');
+}
+
+function updateData() {
+	if(localStorage.getItem('calendar-marked-v2') != document.querySelector('#data').value) // if different, update
+	{
+		if(document.querySelector('#data').value.length < 1) // if empty, set empty array
+			document.querySelector('#data').value = '[]';
+		localStorage.setItem('calendar-marked-v2', document.querySelector('#data').value);
+		startup();
+	}
+	removeDialog();
 }
 
 function exportEventsToCalendar() {
