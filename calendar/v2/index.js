@@ -703,6 +703,25 @@ function getLastDayOfMonth(monthNo, yearNo) {
 	}
 }
 
+function showTemplates() {
+	let today = parseInt(new Date().toISOString().slice(0,10).replace(/-/g,''));
+	let closeBtn = '<input type="button" value="Close" onclick="removeDialog()"><br>';
+	let displayText = closeBtn + templates
+		.filter(t => 
+			(t.startDate && parseInt(t.startDate.replace(/-/g,'')) <= today) ||  
+			(t.endDate && parseInt(t.endDate.replace(/-/g,'')) >= today) || 
+			(!t.startDate && !t.endDate))
+		.sort((a,b) => a.startDayNo - b.startDayNo)
+		.map(t => 
+			t.name + '<br><small>' + 
+			(t.startDayNo == 7 ? daysOfWeek[0] : daysOfWeek[t.startDayNo]) + 
+			(t.startTime ? ', ' + t.startTime + ' - ' + getEndTime(t.startTime, t.lengthMinutes) + '<br>' : '') + 
+			'</small>')
+		.join('<br><br>') + closeBtn;
+	
+	popupText(displayText);
+}
+
 function showData() {
 	popupText('<textarea id="data" name="data" rows="8" cols="40" style="max-width: 90%;">' + localStorage.getItem('calendar-marked-v2') + '</textarea>' + 
 	'<input type="submit" value="Copy" onclick="navigator.clipboard.writeText(document.querySelector(\'#data\').value);">' + 
@@ -787,17 +806,6 @@ function formatTime(time) {
 	if(time > 2359)
 		time12h = time - 2400;
 	return time12h.toString().padStart(4, '0').substring(0,2) + ':' + time12h.toString().padStart(4, '0').substring(2,4) + ' ' + (time < 1200 || time >= 2400 ? 'AM' : 'PM');
-}
-
-function showTemplates() {
-	let closeBtn = '<input type="button" value="Close" onclick="removeDialog()"><br>';
-	let displayText = closeBtn + templates.map(t => 
-		t.name + '<br>' + 
-		(t.startDayNo == 7 ? daysOfWeek[0] : daysOfWeek[t.startDayNo]) + ', ' + 
-		t.startTime + ' - ' + getEndTime(t.startTime, t.lengthMinutes) + '<br>'
-	).join('<br><br>') + closeBtn;
-	
-	popupText(displayText);
 }
 
 ////DIALOG////
