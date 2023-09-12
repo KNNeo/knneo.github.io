@@ -277,7 +277,7 @@ a:hover {
 	color: var(--foreground);
 }
 .calendar .today {
-	text-decoration: underline dashed var(--foreground) 5px;
+	text-decoration: underline solid var(--foreground) 5px;
 }
 .calendar .today[data-id] {
     text-decoration-color: var(--background);
