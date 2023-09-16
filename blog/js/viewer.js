@@ -114,6 +114,33 @@ function openImageInViewer(image) {
 	viewer.classList.add('open');
 }
 
+function openImagesInViewer(images) {
+	//each object in images should contain [1] position, [2] img src
+	console.log(images);
+	let viewer = document.querySelector('.viewer');
+	if(viewer.childNodes.length > 0) viewer.innerHTML = '';
+	
+	let container = document.createElement('div');
+	container.classList.add('overview');
+	
+	images.forEach(function(image, index, array) {
+		let imgContainer = document.createElement('div');
+		imgContainer.classList.add('item');
+		let thumbnail = image.cloneNode(true);
+		thumbnail.onclick = function() {
+			if(typeof switchThumbnails == 'function')
+				switchThumbnails(image.closest('.thumbnail'), index);
+			closeViewer();
+		};
+		imgContainer.appendChild(thumbnail);
+		container.appendChild(imgContainer);
+		
+	});
+	
+	viewer.appendChild(container);
+	viewer.classList.add('open');
+}
+
 function closeViewer() {
 	let viewer = document.querySelector('.viewer');
 	viewer.classList.remove('open');

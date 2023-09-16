@@ -505,6 +505,31 @@ h2 {
 	justify-content: center;
 }
 
+.viewer .overview {
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+	height: 100dvh;
+	width: 100dvw;
+}
+
+.viewer .overview .item {
+    position: relative;
+    min-height: 2dvh;
+}
+
+.viewer .overview img {
+	border: 2px solid transparent;
+	cursor: pointer;
+}
+
+.viewer .overview img:hover {
+	border-color: var(--primary);
+	z-index: 10;
+}
+
 /*MEDIA QUERIES - BUTTON POSITION*/
 @media only screen and (max-width: 880px) {
 	#BackBtn,

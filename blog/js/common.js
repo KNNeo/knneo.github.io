@@ -522,6 +522,11 @@ function setThumbnails() {
             thumbImage.onclick = function() {
                 switchThumbnails(event.target.closest('.thumbnail'));
             };
+			if(allThumbImages.length > 6 && typeof generateViewer == 'function')
+				thumbImage.oncontextmenu = function() {
+					event.preventDefault();
+					showAllThumbnails(thumbnail);
+				};
         }
 		// if text only (experimental)
 		if(allThumbImages.length < 1 &&
@@ -551,7 +556,7 @@ function setThumbnails() {
     }
 }
 
-function switchThumbnails(tn) {
+function switchThumbnails(tn, index) {
     let tc = tn.getElementsByClassName('thumbnail-initial');
 	// identify current active
 	let active = tn.getAttribute('active');
@@ -565,6 +570,7 @@ function switchThumbnails(tn) {
 	// show next active
 	let nextActive = tc[active].nextElementSibling;
 	if(nextActive == null) nextActive = tn.firstElementChild;
+	if(index) nextActive = tc[index];
 	nextActive.classList.remove('thumbnail-pop');
 	// fastscroll: transition disabled if click/tap fast enough
 	if(new Date() - window['tn'] < 200) 
@@ -575,6 +581,12 @@ function switchThumbnails(tn) {
 	setTimeout(function() {
 			tn.style.height = nextActive.offsetHeight + 'px';
 	}, tn.classList.contains('fastscroll') && !isSmallWidth() ? 0 : 200);
+}
+
+function showAllThumbnails(tn) {
+	console.log(Array.from(tn.querySelectorAll('img')));
+	if(typeof openImagesInViewer == 'function' && document.querySelector('.viewer') != null)
+		openImagesInViewer(tn.querySelectorAll('img'));
 }
 
 // Responsive image resizing based on screen dimensions
