@@ -24,8 +24,8 @@ function setDarkMode() {
 		}
 	}
 
-	// override if have saved
-	if (saved && theme && saved != theme.content)
+	// override if have saved, toggle if dark
+	if (saved && theme && saved != defaultDarkModeTheme)
 		toggleDarkMode();
 
 	// if button .darkmode in DOM, to toggle modes
