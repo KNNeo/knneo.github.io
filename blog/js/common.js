@@ -337,12 +337,12 @@ function generatePopupContent(url) {
             url.replace('music.apple.com', 'embed.music.apple.com') +
             '" style="background: transparent; max-width: ' + (isSmallWidth() && !isTrack ? 290 : 660) + 'px; overflow: hidden; width: 100%;"></iframe>';
     }
-    if (url.includes('twitter.com')) {
+    if (url.includes('twitter.com') || url.includes('x.com')) {
         //process twitter embed
 		//data-height for timeline is max width
 		if(url.includes('/status/')) {
 			return '<blockquote class="twitter-tweet tw-align-center" data-conversation="none" ' + (!notBlogger() || document.querySelector('html').classList.contains('darked') ? 'data-theme="dark"' : '') + ' data-height="' + 0.6*window.innerHeight + '"><a href="' +
-				url +
+				url.replace('x.com', 'twitter.com') +
 				'"></a></blockquote><script async="async" charset="utf-8" src="https://platform.twitter.com/widgets.js"></script>';
 		}
     }
@@ -570,7 +570,7 @@ function switchThumbnails(tn, index) {
 	// show next active
 	let nextActive = tc[active].nextElementSibling;
 	if(nextActive == null) nextActive = tn.firstElementChild;
-	if(index) nextActive = tc[index];
+	if(index != null) nextActive = tc[index];
 	nextActive.classList.remove('thumbnail-pop');
 	// fastscroll: transition disabled if click/tap fast enough
 	if(new Date() - window['tn'] < 200) 
