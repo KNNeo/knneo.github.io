@@ -126,7 +126,9 @@ function openImagesInViewer(images) {
 	images.forEach(function(image, index, array) {
 		let imgContainer = document.createElement('div');
 		imgContainer.classList.add('item');
-		let thumbnail = image.cloneNode(true);
+		if(!image.classList.contains('thumbnail-pop'))
+			imgContainer.classList.add('selected');
+		let thumbnail = image.querySelector('img').cloneNode(true);
 		thumbnail.onclick = function() {
 			if(typeof switchThumbnails == 'function')
 				switchThumbnails(image.closest('.thumbnail'), index);

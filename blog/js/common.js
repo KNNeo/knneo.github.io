@@ -559,8 +559,7 @@ function setThumbnails() {
 function switchThumbnails(tn, index) {
     let tc = tn.getElementsByClassName('thumbnail-initial');
 	// identify current active
-	let active = tn.getAttribute('active');
-	if(active == null) active = Array.from(tc).findIndex(t => !t.classList.contains('thumbnail-pop'));
+	let active = Array.from(tc).findIndex(t => !t.classList.contains('thumbnail-pop'));
 	if(active == null) return;
 	// to reset before setting new active
 	for(let t of tc) {
@@ -584,9 +583,8 @@ function switchThumbnails(tn, index) {
 }
 
 function showAllThumbnails(tn) {
-	console.log(Array.from(tn.querySelectorAll('img')));
 	if(typeof openImagesInViewer == 'function' && document.querySelector('.viewer') != null)
-		openImagesInViewer(tn.querySelectorAll('img'));
+		openImagesInViewer(tn.querySelectorAll('.thumbnail-initial'));
 }
 
 // Responsive image resizing based on screen dimensions

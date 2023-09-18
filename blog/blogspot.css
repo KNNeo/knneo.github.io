@@ -528,8 +528,9 @@ h2 {
     object-fit: cover;
 }
 
-.viewer .overview img:hover {
-	border-color: var(--primary);
+.viewer .overview .selected img,
+.viewer .overview .item img:hover {
+	border: 2px solid var(--primary);
 }
 
 /*MEDIA QUERIES - BUTTON POSITION*/
