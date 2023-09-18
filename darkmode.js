@@ -34,7 +34,7 @@ function setDarkMode() {
 
 function addDarkModeEvents() {
 	// assume browser supports dark mode
-	window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', toggleDarkMode);
+	// window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', toggleDarkMode);
 	// assume page has button with classname darkmode, add onclick event if not assigned
 	if(document.querySelector('.darkmode') && !document.querySelector('.darkmode').onclick)
 		document.querySelector('.darkmode').onclick = toggleDarkMode;
