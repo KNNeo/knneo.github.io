@@ -10,28 +10,28 @@ function setDarkMode() {
 	let saved = localStorage.getItem(defaultDarkModeItem);
 	let theme = document.querySelector('meta[name="theme-color"]');
 	// conditions to initialize dark mode
-	if (!theme) { // no theme in DOM, create
-		let themeColor = document.createElement('meta');
-		themeColor.name = 'theme-color';
-		themeColor.content = saved || defaultLightModeTheme; // if has saved, else default
-		document.head.appendChild(themeColor);
-		
-		localStorage.setItem(defaultDarkModeItem, themeColor.content);
-		if(theme.content == defaultDarkModeTheme) // if theme is dark, toggle
+	if (saved) { // has save data
+		if (!theme) { // no meta on DOM
+			let themeColor = document.createElement('meta');
+			themeColor.name = 'theme-color';
+			themeColor.content = saved;
+			document.head.appendChild(themeColor);
+		}
+		if(saved == defaultDarkModeTheme) // if theme is dark, toggle
 			toggleDarkMode();
-		theme = themeColor; // put back
 	}
-	else if (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches) // if device dark mode, toggle
-		toggleDarkMode();
-	else if (theme) { // initial document theme
-		themeColor = theme;
-		if(saved) themeColor.content = saved; // if has saved, else document default
-		if(theme.content == defaultDarkModeTheme) // if theme is dark, toggle
-			toggleDarkMode();
-		localStorage.setItem(defaultDarkModeItem, themeColor.content);
+	else { // no save data
+		if (window.matchMedia('(prefers-color-scheme: dark)').matches) { // if device dark mode
+			toggleDarkMode(); // toggle, will save data
+		}
+		if (!theme) { // no meta on DOM
+			let themeColor = document.createElement('meta');
+			themeColor.name = 'theme-color';
+			themeColor.content = hasDarked ? defaultDarkModeTheme : defaultLightModeTheme;
+			document.head.appendChild(themeColor);
+			localStorage.setItem(defaultDarkModeItem, themeColor.content); // save data
+		}
 	}
-
-
 }
 
 function addDarkModeEvents() {
