@@ -17,15 +17,21 @@ function setDarkMode() {
 		document.head.appendChild(themeColor);
 		
 		localStorage.setItem(defaultDarkModeItem, themeColor.content);
+		if(theme.content == defaultDarkModeTheme) // if theme is dark, toggle
+			toggleDarkMode();
 		theme = themeColor; // put back
 	}
-	else if (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches) // if device dark mode
+	else if (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches) // if device dark mode, toggle
 		toggleDarkMode();
 	else if (theme) { // initial document theme
 		themeColor = theme;
 		if(saved) themeColor.content = saved; // if has saved, else document default
+		if(theme.content == defaultDarkModeTheme) // if theme is dark, toggle
+			toggleDarkMode();
 		localStorage.setItem(defaultDarkModeItem, themeColor.content);
 	}
+
+
 }
 
 function addDarkModeEvents() {
