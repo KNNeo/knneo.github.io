@@ -2,7 +2,7 @@ const defaultLightModeTheme = window['light-theme'] ?? 'white';
 const defaultDarkModeTheme = window['dark-theme'] ?? 'black';
 const defaultDarkModeItem = window['dark-name'] ?? 'theme';
 
-function setDarkMode() {
+function setDarkMode() { 
 	let saved = localStorage.getItem(defaultDarkModeItem);
 	let theme = document.querySelector('meta[name="theme-color"]');
 	// conditions to initialize dark mode
