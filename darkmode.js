@@ -2,10 +2,6 @@ const defaultLightModeTheme = window['light-theme'] ?? 'white';
 const defaultDarkModeTheme = window['dark-theme'] ?? 'black';
 const defaultDarkModeItem = window['dark-name'] ?? 'theme';
 
-// if button .darkmode in DOM, to toggle modes
-window.addEventListener('load', setDarkMode);
-window.addEventListener('load', addDarkModeEvents);
-
 function setDarkMode() {
 	let saved = localStorage.getItem(defaultDarkModeItem);
 	let theme = document.querySelector('meta[name="theme-color"]');
@@ -32,6 +28,8 @@ function setDarkMode() {
 			localStorage.setItem(defaultDarkModeItem, themeColor.content); // save data
 		}
 	}
+	// if button .darkmode in DOM, allow toggle modes
+	window.addEventListener('load', addDarkModeEvents);
 }
 
 function addDarkModeEvents() {
@@ -49,3 +47,5 @@ function toggleDarkMode() {
 	document.documentElement.classList.toggle('darked');
 	localStorage.setItem(defaultDarkModeItem, theme.content);
 }
+
+setDarkMode();
