@@ -2,6 +2,10 @@ const defaultLightModeTheme = window['light-theme'] ?? 'white';
 const defaultDarkModeTheme = window['dark-theme'] ?? 'black';
 const defaultDarkModeItem = window['dark-name'] ?? 'theme';
 
+// if button .darkmode in DOM, to toggle modes
+window.addEventListener('load', setDarkMode);
+window.addEventListener('load', addDarkModeEvents);
+
 function setDarkMode() {
 	let saved = localStorage.getItem(defaultDarkModeItem);
 	let theme = document.querySelector('meta[name="theme-color"]');
@@ -9,27 +13,19 @@ function setDarkMode() {
 	if (!theme) { // no theme in DOM, create
 		let themeColor = document.createElement('meta');
 		themeColor.name = 'theme-color';
-		themeColor.content = defaultLightModeTheme;
+		themeColor.content = saved || defaultLightModeTheme; // if has saved, else default
 		document.head.appendChild(themeColor);
 		
 		localStorage.setItem(defaultDarkModeItem, themeColor.content);
 		theme = themeColor; // put back
 	}
-	if (window.matchMedia('(prefers-color-scheme: dark)').matches) toggleDarkMode();
-	else if (theme) {
-		let themeColor = document.createElement('meta');
-		if(theme && theme.length > 0) {// document theme
-			themeColor = theme;
-			localStorage.setItem(defaultDarkModeItem, themeColor.content);
-		}
-	}
-
-	// override if have saved, toggle if dark
-	if (saved && theme && saved != defaultDarkModeTheme)
+	else if (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches) // if device dark mode
 		toggleDarkMode();
-
-	// if button .darkmode in DOM, to toggle modes
-	window.addEventListener('load', addDarkModeEvents);
+	else if (theme) { // initial document theme
+		themeColor = theme;
+		if(saved) themeColor.content = saved; // if has saved, else document default
+		localStorage.setItem(defaultDarkModeItem, themeColor.content);
+	}
 }
 
 function addDarkModeEvents() {
@@ -47,5 +43,3 @@ function toggleDarkMode() {
 	document.documentElement.classList.toggle('darked');
 	localStorage.setItem(defaultDarkModeItem, theme.content);
 }
-
-setDarkMode();
