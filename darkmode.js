@@ -23,7 +23,7 @@ function setDarkMode() {
 		if (!theme) { // no meta on DOM
 			let themeColor = document.createElement('meta');
 			themeColor.name = 'theme-color';
-			themeColor.content = hasDarked ? defaultDarkModeTheme : defaultLightModeTheme;
+			themeColor.content = document.documentElement.classList.contains('darked') ? defaultDarkModeTheme : defaultLightModeTheme;
 			document.head.appendChild(themeColor);
 			localStorage.setItem(defaultDarkModeItem, themeColor.content); // save data
 		}
