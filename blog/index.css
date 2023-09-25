@@ -838,8 +838,8 @@ abbr.imgpop:hover img {
 	border: 2px solid var(--primary);
 }
 
-.thumbnail-initial img:not(.ignore),
-.thumbnail-initial video:not(.ignore) {
+.thumbnail-initial:not(.ignore) img,
+.thumbnail-initial:not(.ignore) video {
 	border-left-width: 10px;
 	border-right-width: 10px;
 	transition: border 0.2s, border-radius 0.2s;
