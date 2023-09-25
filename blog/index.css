@@ -836,16 +836,20 @@ abbr.imgpop:hover img {
 .thumbnail-initial img,
 .thumbnail-initial video {
 	border: 2px solid var(--primary);
-    border-left-width: 10px;
-    border-right-width: 10px;
+}
+
+.thumbnail-initial img:not(.ignore),
+.thumbnail-initial video:not(.ignore) {
+	border-left-width: 10px;
+	border-right-width: 10px;
 	transition: border 0.2s, border-radius 0.2s;
 	border-radius: 8px;
 }
 
 .thumbnail-initial img:hover,
 .thumbnail-initial video:hover {
-    border-left-width: 2px;
-    border-right-width: 2px;
+	border-left-width: 2px;
+	border-right-width: 2px;
 	border-radius: 0;
 }
 
