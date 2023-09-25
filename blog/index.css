@@ -846,8 +846,8 @@ abbr.imgpop:hover img {
 	border-radius: 8px;
 }
 
-.thumbnail-initial img:hover,
-.thumbnail-initial video:hover {
+.thumbnail-initial:not(.ignore) .thumbnail-initial img:hover,
+.thumbnail-initial:not(.ignore) .thumbnail-initial video:hover {
 	border-left-width: 2px;
 	border-right-width: 2px;
 	border-radius: 0;
