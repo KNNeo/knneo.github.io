@@ -355,7 +355,6 @@ function renderGallery() {
 			settingsDiv.classList.remove('hidden');
 			if(window.variables.selected != parseInt(this.getAttribute('data-id'))) {
 				scrollToItem(parseInt(this.getAttribute('data-id')));
-				window.variables.selected = parseInt(this.getAttribute('data-id'));
 			}
 			else if(!inOverview && this.hasAttribute('data-link')) {
 				window.open(this.getAttribute('data-link'), '_blank');
@@ -375,6 +374,8 @@ function renderGallery() {
 		galleryDiv.addEventListener('contextmenu', function() {
 			galleryDiv.classList.add('overview');
 			settingsDiv.classList.add('hidden');
+			if(window.variables.selected)
+				document.querySelectorAll('.gallery img')[parseInt(window.variables.selected)].scrollIntoView({ inline: 'center' });
 		});
 }
 
