@@ -838,16 +838,18 @@ abbr.imgpop:hover img {
 	border: 2px solid var(--primary);
 }
 
-.thumbnail:not(.ignore) .thumbnail-initial img,
-.thumbnail:not(.ignore) .thumbnail-initial video {
+.thumbnail .thumbnail-initial img,
+.thumbnail .thumbnail-initial video {
 	border-left-width: 10px;
 	border-right-width: 10px;
 	transition: border 0.2s, border-radius 0.2s;
 	border-radius: 8px;
 }
 
-.thumbnail-initial:not(.ignore) .thumbnail-initial img:hover,
-.thumbnail-initial:not(.ignore) .thumbnail-initial video:hover {
+.ignore img,
+.ignore video,
+.thumbnail-initial .thumbnail-initial img:hover,
+.thumbnail-initial .thumbnail-initial video:hover {
 	border-left-width: 2px;
 	border-right-width: 2px;
 	border-radius: 0;
