@@ -12,6 +12,7 @@ const categoryIcons = ['🧑', '💽', '🎵']; 	// for artist, release, and son
 const coverArtStyle = 'overlay'; 			// options: [default, overlay, large]
 const hideHomepage = false;					// if true will not show home page components
 const volumeDelta = 5;						// volume change for player when shift + up/down, in percentage, integer
+const showAltTitleOnMetadata = true;		// display alt titles instead when update metadata on player (page is the same)
 const isMobile = function() {
     const match = window.matchMedia('(pointer:coarse)');
     return (match && match.matches && window.innerWidth <= 480);

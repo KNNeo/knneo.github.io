@@ -654,7 +654,9 @@ function onChangeOption() {
 		let query = "SELECT ID, KNYEAR, Filename, CASE WHEN SongTitleAlt IS NOT NULL AND SongTitle <> SongTitleAlt THEN SongTitle || '<br/>' || SongTitleAlt ELSE SongTitleAlt END AS 'Song Title', ArtistTitle, CASE WHEN ArtistTitleAlt IS NOT NULL AND ArtistTitle <> ArtistTitleAlt THEN ArtistTitle || '<br/>' || ArtistTitleAlt ELSE ArtistTitle END AS 'Artist Title', ReleaseTitle AS 'Release Title', ReleaseArtistTitle AS 'Release Artist', ReleaseYear AS 'Release Year', Genre, DateCreated AS 'Date Added', ";
 		query += "CASE WHEN VocalCode = 'F' THEN 'Solo Female' WHEN VocalCode = 'M' THEN 'Solo Male' WHEN VocalCode = 'MM' THEN 'Male Duet' WHEN VocalCode = 'FF' THEN 'Female Duet' WHEN VocalCode IN ('MF', 'FM') THEN 'Mixed Duet' WHEN LENGTH(VocalCode) = 3 THEN 'Triplet' WHEN LENGTH(VocalCode) >= 4 THEN 'Quartet or More (' || LENGTH(VocalCode) || ')' END AS 'Vocals', ";
 		query += "CASE LanguageCode WHEN 'JP' THEN 'Japanese' WHEN 'EN' THEN 'English' WHEN 'CH' THEN 'Chinese' WHEN 'FR' THEN 'French' END AS 'Language', ";
-		query += "LyricsURL AS 'Lyrics', ArtistID, ReleaseID FROM Song WHERE KNID = " + input;
+		query += "LyricsURL AS 'Lyrics', ArtistID, ReleaseID ";
+		if(showAltTitleOnMetadata) query += ", SongTitleAlt, ArtistTitleAlt, ReleaseTitleAlt ";
+		query += "FROM Song WHERE KNID = " + input;
 		if(debugMode) console.log('query', query);
 		queryDb(query, generateModules);
 	}
@@ -956,11 +958,18 @@ function generatePlayer(contents) {
 	audio.appendChild(source);
 	document.querySelector('#music').appendChild(audio);
 	
-	updateMediaSession({
-		title: row[columnIndexSongTitle].split('<br/>')[0],
-		artist: row[columnIndexArtistTitle].split('<br/>')[0],
-		album: row[columnIndexReleaseTitle].split('<br/>')[0],
-	});
+	if(showAltTitleOnMetadata)
+		updateMediaSession({
+			title: row[contents.columns.indexOf('SongTitleAlt')],
+			artist: row[contents.columns.indexOf('ArtistTitleAlt')],
+			album: row[contents.columns.indexOf('ReleaseTitleAlt')],
+		});
+	else
+		updateMediaSession({
+			title: row[columnIndexSongTitle].split('<br/>')[0],
+			artist: row[columnIndexArtistTitle].split('<br/>')[0],
+			album: row[columnIndexReleaseTitle].split('<br/>')[0],
+		});
 }
 
 function queryCoverArt(contents) {
