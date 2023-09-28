@@ -27,9 +27,12 @@ pre {
 	overflow: auto;
 }
 .blank {
-	height: 30dvh;
+	height: 15dvh;
+	border: 1px dashed var(--foreground);
 }
 .blank::before {
+    display: flex;
+    justify-content: center;
 	content: 'This section is intentionally left blank'
 }
 </style>
@@ -1091,8 +1094,6 @@ function toggleExpander() {
   </div>
   <div class="footer">CLOSE</div>
 </div>
-<br>
-<br>
 
 <style>
 .fineprint {
@@ -1202,9 +1203,6 @@ as a summary:<br />
   </li>
 </ul>
 </div>
-<br />
-<div class="blank">
-</body>
 
 <style>
 /* Base styles for .scale elements  */
@@ -1249,9 +1247,8 @@ function addScales() {
 	}
 }
 </script>
-<br />
 <h1>Rating Scale</h1>
-<h5>Container "scale", js to populate div children, to show scale (in this case out of 5)
+<h5>Container "scale", js to populate div children, to show scale (in this case out of 5)</h5>
 <pre>
 &lt;div class="scale"&gt;
 	&lt;div&gt;&lt;/div&gt;
@@ -1264,6 +1261,9 @@ function addScales() {
 </div>
 <div class="scale" data-id="5" data-scale="5">
 </div>
+<br />
+
+<div class="blank"></div>
 <br />
 </body>
 </html>
