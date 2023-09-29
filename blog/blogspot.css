@@ -22,6 +22,7 @@ body {
 	color: var(--foreground);
 	background-color: var(--background);
 	transition: background .2s linear;
+	line-height: 1.5;
 }
 
 a {
