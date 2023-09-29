@@ -273,6 +273,27 @@ const templates = [
 		url: 'https://horie-yui.com/radio/',
 		format: 'Audio Live',
 	},
+	{
+		name: 'きどまだSeason2',
+		channel: 'OPENREC.tv',
+		frequency: 'Monthly',
+		url: 'https://www.openrec.tv/user/kido-ibuki',
+		format: 'Video Live',
+	},
+	{
+		name: 'MIYU学院 放送部っ！',
+		channel: 'ニコニコ動画',
+		frequency: 'Monthly',
+		url: 'https://ch.nicovideo.jp/miyugaku',
+		format: 'Video Live',
+	},
+	{
+		name: '大久保瑠美の◯◯な件',
+		channel: 'ニコニコ動画',
+		frequency: 'Monthly',
+		url: 'https://ch.nicovideo.jp/seigura',
+		format: 'Video Live',
+	},
 ];
 
 //--COMMON EVENTS--//
@@ -554,21 +575,26 @@ function populateForm(selectedEvent) {
 		// Find latest date by day of week
 		let latestDate = new Date();
 		let count = 0;
-		while (latestDate.getDay() != (selectedEvent.startDayNo == 7 ? 0 : selectedEvent.startDayNo) && count > -8) {
-			latestDate = new Date().addDays(--count);
-			// console.log(count, latestDate);
+		if(selectedEvent.startDayNo) {
+			while (latestDate.getDay() != (selectedEvent.startDayNo == 7 ? 0 : selectedEvent.startDayNo) && count > -8) {
+				latestDate = new Date().addDays(--count);
+				// console.log(count, latestDate);
+			}			
 		}
+		
 		form.querySelector('#start_date').value = latestDate.toISOString().slice(0,10);
         // Extract time
         var hours = Math.floor(selectedEvent.startTime / 100);
         var minutes = selectedEvent.startTime % 100;
         // Format hours and minutes with a colon
         var formattedTime = hours.toString().padStart(2, '0') + ":" + minutes.toString().padStart(2, '0');
+		// Get day from latestDate
+		var dayOfWeek = latestDate.getDay();
 		form.querySelector('#start_hour').value = hours;
 		form.querySelector('#start_minute').value = minutes;
 		form.querySelector('#duration').value = selectedEvent.lengthMinutes;
 		form.querySelector('#description').value = 
-			daysOfWeek[selectedEvent.startDayNo == 7 ? 0 : selectedEvent.startDayNo] + ', ' + 
+			(dayOfWeek ? daysOfWeek[dayOfWeek == 7 ? 0 : dayOfWeek] + ', ' : '') + 
 			monthsOfYear[latestDate.getMonth()] + ' ' + latestDate.getDate() + 
 			(selectedEvent.startTime ? ' | ' + selectedEvent.startTime + '-' + getEndTime(selectedEvent.startTime, selectedEvent.lengthMinutes) : '') + '\n' +
 			selectedEvent.name + '\n' + 
@@ -576,6 +602,8 @@ function populateForm(selectedEvent) {
 			selectedEvent.channel + '\n' +
 			selectedEvent.url;
 		form.querySelector('#link').value = selectedEvent.url;
+		window.format = selectedEvent.format;
+		window.channel = selectedEvent.channel;
 	}
 	else {
 		for(let field of form.querySelectorAll('input[id], textarea[id]'))
@@ -589,6 +617,22 @@ function populateForm(selectedEvent) {
 		// form.querySelector('#description').value = null;
 		// form.querySelector('#link').value = null;
 	}
+}
+
+function generateDescription() {
+	const form = document.querySelector('#event-form');
+	const latestDate = new Date(form.querySelector('#start_date').value);
+	const dayOfWeek = latestDate.getDay();
+	const startTime = form.querySelector('#start_hour').value && parseInt(form.querySelector('#start_minute').value && form.querySelector('#start_hour').value + form.querySelector('#start_minute').value);
+	const lengthMinutes = parseInt(form.querySelector('#duration').value);
+	form.querySelector('#description').value = 
+			(dayOfWeek ? daysOfWeek[dayOfWeek == 7 ? 0 : dayOfWeek] + ', ' : '') + // optional field if update via form
+			monthsOfYear[latestDate.getMonth()] + ' ' + latestDate.getDate() + 
+			(startTime && lengthMinutes ? ' | ' + startTime + '-' + getEndTime(startTime, lengthMinutes) : '') + '\n' +
+			form.querySelector('#name').value + '\n' + 
+			window.format + '\n' + 
+			window.channel + '\n' +
+			form.querySelector('#link').value;
 }
 
 function createSummaryEvent(elem, single) {
@@ -633,7 +677,7 @@ function addToMarked(item) {
 	let current = JSON.parse(localStorage.getItem(key) ?? '[]');
 	current.push(item);
 	localStorage.setItem(key, JSON.stringify(current));
-	console.log(JSON.parse(localStorage.getItem(key) ?? '[]'));
+	// console.log(JSON.parse(localStorage.getItem(key) ?? '[]'));
 }
 
 function removeFromMarked(item) {
@@ -714,8 +758,9 @@ function showTemplates() {
 		.sort((a,b) => a.startDayNo - b.startDayNo)
 		.map(t => 
 			t.name + '<br><small>' + 
-			(t.startDayNo == 7 ? daysOfWeek[0] : daysOfWeek[t.startDayNo]) + 
-			(t.startTime ? ', ' + t.startTime + ' - ' + getEndTime(t.startTime, t.lengthMinutes) + '<br>' : '') + 
+			(t.frequency || '') + ' ' + t.format + '<br>' +
+			(t.startDayNo == 7 ? daysOfWeek[0] : daysOfWeek[t.startDayNo] || '') + 
+			(t.startTime && t.lengthMinutes ? ', ' + t.startTime + ' - ' + getEndTime(t.startTime, t.lengthMinutes) + '<br>' : '<br>') + 
 			'</small>')
 		.join('<br><br>') + closeBtn;
 	
