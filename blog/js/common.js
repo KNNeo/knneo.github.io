@@ -511,8 +511,8 @@ function setThumbnails() {
 	
     for (let thumbnail of document.querySelectorAll('.thumbnail')) {
 	    // ignore new borders if span width
-	    if(Array.from(thumbnail.querySelectorAll('tr')).filter(tr => tr.querySelectorAll('td').length > 1).length > 0)
-		    thumbnail.classList.add('ignore');
+	    // if(Array.from(thumbnail.querySelectorAll('tr')).filter(tr => tr.querySelectorAll('td').length > 1).length > 0)
+		    // thumbnail.classList.add('ignore');
 		// set height for first thumbnail content
 		thumbnail.style.height = thumbnail.querySelector('.thumbnail-initial:not(.thumbnail-pop)').offsetHeight + 'px';
 		// add click event for first thumbnail content

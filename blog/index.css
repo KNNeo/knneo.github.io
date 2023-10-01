@@ -836,17 +836,34 @@ abbr.imgpop:hover img {
 .thumbnail-initial img,
 .thumbnail-initial video {
 	border: 2px solid var(--primary);
-	border-left-width: 10px;
-	border-right-width: 10px;
+	/* border-left-width: 10px; */
+	/* border-right-width: 10px; */
 	transition: border 0.2s, border-radius 0.2s;
-	border-radius: 8px;
+    box-sizing: border-box;
 }
 
-.ignore img,
-.ignore video,
-.thumbnail-initial img:hover,
-.thumbnail-initial video:hover {
+.thumbnail-initial td:first-child img,
+.thumbnail-initial td:first-child video {
+	border-left-width: 10px;
+	border-top-left-radius: 8px;
+	border-bottom-left-radius: 8px;
+}
+
+.thumbnail-initial td:last-child img,
+.thumbnail-initial td:last-child video {
+	border-right-width: 10px;
+	border-top-right-radius: 8px;
+	border-bottom-right-radius: 8px;
+}
+
+.thumbnail-initial td:first-child img:hover,
+.thumbnail-initial td:first-child video:hover {
 	border-left-width: 2px;
+	border-radius: 0;
+}
+
+.thumbnail-initial td:last-child img:hover,
+.thumbnail-initial td:last-child video:hover {
 	border-right-width: 2px;
 	border-radius: 0;
 }
