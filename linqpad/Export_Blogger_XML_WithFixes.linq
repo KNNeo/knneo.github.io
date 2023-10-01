@@ -930,8 +930,9 @@ void Main()
         {
 			if(postTitle == "") // without title
 			{
-                textString += "<div"+classes+"><span>"+published.ToString("yyyy.MM.dd")+" </span>" + 
-				"<a href=\""+pageLink+"\">A Random Statement</a></div>\n";
+				continue;
+                // textString += "<div"+classes+"><span>"+published.ToString("yyyy.MM.dd")+" </span>" + 
+				// "<a href=\""+pageLink+"\">A Random Statement</a></div>\n";
 			}
 			else
 			{
@@ -942,11 +943,11 @@ void Main()
 				{
 			        // Find first image, if any
 					if (TraceMode) Console.WriteLine("Find first image for home page, if any");
-			        expression = @"(?s)(.*?)<img(.*?)src=""(.*?)""(.*?)/>(.*?)";
+			        expression = @"(?s)<img(.*?)src=""(.*?)""(.*?)/>";
 			        match = Regex.Match(content, expression);
 					//Console.WriteLine(content);
 			        if(match.Success)
-			            thumbnailUrl = match.Groups[3].Value;
+			            thumbnailUrl = match.Groups[2].Value;
 			        if(thumbnailUrl.Contains("scontent-sin.xx.fbcdn.net"))
 			            thumbnailUrl = "";
 					
