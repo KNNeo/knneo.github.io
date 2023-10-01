@@ -101,7 +101,7 @@ function reduceResults() {
 			latestPost.classList.add('latest-post');
 							
 			let innerPostLink = document.createElement('a');
-			innerPostLink.href = link?.href ?? '/search/label/The%20Statement';
+			innerPostLink.href = link?.href ?? '/search/label/The%20Statement?max-results=5';
 			
 			let latestPostThumb = document.createElement('div');
 			latestPostThumb.style.position = 'relative';
