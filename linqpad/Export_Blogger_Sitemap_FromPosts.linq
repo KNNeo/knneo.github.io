@@ -8,7 +8,7 @@ void Main()
 {
     bool WriteTitleOnConsole = false;
 	bool TraceMode = false;
-	string defaultFont = "Noto Sans";
+	string defaultFont = "Noto Sans Mono";
     Console.WriteLine("WriteTitleOnConsole is " + WriteTitleOnConsole + "; Set as true to see post titles");
     Console.WriteLine("\tPost with changes will appear here");
 	Console.WriteLine("\tIf edit from Blogger img tags will be missing self-enclosing slash, format on web version to fix");
