@@ -239,6 +239,7 @@
 .anchors {
     display: none;
     flex-wrap: wrap;
+    align-content: flex-end;
     justify-content: center;
     align-items: center;
 	position: absolute;
