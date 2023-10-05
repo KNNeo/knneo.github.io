@@ -358,6 +358,10 @@ span.small-icons {
     margin-top: 1px;
 }
 
+span.emoji {
+	white-space: nowrap;
+}
+
 .home-tags {
     display: flex;
     gap: 8px;
