@@ -151,7 +151,7 @@ a:hover {
     display: none;
 	position: absolute;
 	background-color: var(--background);
-	width: 150px;
+	width: 149px;
     max-height: 144px;
     left: 2px;
 	border-radius: 8px;
