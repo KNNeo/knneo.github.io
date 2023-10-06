@@ -674,10 +674,10 @@ void Main()
 			if(TraceMode) Console.WriteLine("replace common phrases with emoji");
 			Dictionary<string, string> emojis = new Dictionary<string, string>()
 			{
-				{"laughs",	"😆"}, {"giggles",			"🤭"}, {"sob",			"😢"}, {"silence",	"😐"}, {"pukes",		"🤮"}, {"ugh", 			"🙄"},
-				{"wink",	"😉"}, {"dabs",				"😎"}, {"thumbs up",	"👍"}, {"sigh",		"😩"}, {"blessed", 		"🥰"}, {"shrugs", 		"🤷"},
-				{"cringe",	"😬"}, {"fingers crossed",	"🤞"}, {"smiles",		"😊"}, {"screams",	"😱"}, {"phew",			"😌"}, {"chef's kiss",	"😚"},
-				{"sshh",	"🤫"}, {"speechless",		"😲"}, {"sniff",		"😢"}, {"gasp",		"😲"}, {"mind blown",	"🤯"}
+				{"laughs",	"😆"}, {"giggles",		"🤭"}, {"sob",		"😢"}, {"silence",	"😐"}, {"pukes",	"🤮"}, {"ugh", 		"🙄"},
+				{"wink",	"😉"}, {"dabs",			"😎"}, {"thumbs up",	"👍"}, {"sigh",		"😩"}, {"blessed", 	"🥰"}, {"shrugs", 	"🤷"},
+				{"cringe",	"😬"}, {"fingers crossed",	"🤞"}, {"smiles",	"😊"}, {"screams",	"😱"}, {"phew",		"😌"}, {"chef's kiss",	"😚"},
+				{"sshh",	"🤫"}, {"speechless",		"😲"}, {"sniff",	"😢"}, {"gasp",		"😲"}, {"mind blown",	"🤯"}, {"fap fap fap",	"🍆💦💦"}
 			};
 			
 			foreach(var emoji in emojis)
