@@ -6,6 +6,7 @@ window.addEventListener('keyup', onKeyUp);
 window.addEventListener('keydown', onKeyDown);
 window.addEventListener('touchstart', onFeedback);
 window.addEventListener('click', onFeedback);
+window.addEventListener('beforeunload', onUnload);
 
 //--EVENTS--//
 function startup() {
@@ -133,6 +134,12 @@ function onFeedback() {
 		document.querySelector('html').classList.remove('touchable');
 	}
 	window['last-input'] = new Date();
+}
+
+function onUnload() {
+	let player = document.querySelector('#player');
+	if(player.playing && !confirm('Confirm exit? Player is still playing.'))
+		event.preventDefault();
 }
 
 //--FUNCTIONS--//
