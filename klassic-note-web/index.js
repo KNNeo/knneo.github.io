@@ -139,8 +139,8 @@ function onFeedback() {
 function onUnload() {
 	let player = document.querySelector('#player');
 	if(player && !player.paused) {
-		player.pause();
 		event.preventDefault();
+		event.returnValue = '';
 	}
 }
 
