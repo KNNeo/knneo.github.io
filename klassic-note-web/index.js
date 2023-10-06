@@ -138,8 +138,10 @@ function onFeedback() {
 
 function onUnload() {
 	let player = document.querySelector('#player');
-	if(player && !player.paused && !confirm('Confirm exit? Player is still playing.'))
+	if(player && !player.paused) {
+		player.pause();
 		event.preventDefault();
+	}
 }
 
 //--FUNCTIONS--//
