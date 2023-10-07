@@ -506,7 +506,7 @@ void Main()
 			var phrases = new string[]{
 				"laughs", "giggles", "sob", "silence", "pukes", "ugh", "wink", "dabs", 
 				"thumbs up", "sigh", "blessed", "shrugs", "cringe", "fingers crossed", "smiles", "screams",
-				"phew", "chef's kiss", "sshh", "speechless", "sniff", "gasp", "mind blown"
+				"phew", "chef's kiss", "sshh", "speechless", "sniff", "gasp", "mind blown", "fap fap fap"
 			};
 	        expression = @"(\*)(.*?)(\*)";
 	        match = Regex.Match(content, expression);
