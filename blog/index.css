@@ -938,6 +938,10 @@ abbr.imgpop:hover img {
     filter: drop-shadow(2px 4px 6px var(--background));
 }
 
+.twitter-tweet.twitter-tweet-rendered {
+    width: auto !important; /*fix tweet embed use display flex*/
+}
+
 /*DATA TABLE*/
 .datatable {
 	white-space: nowrap;

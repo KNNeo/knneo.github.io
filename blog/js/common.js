@@ -341,9 +341,9 @@ function generatePopupContent(url) {
         //process twitter embed
 		//data-height for timeline is max width
 		if(url.includes('/status/')) {
-			return '<blockquote class="twitter-tweet tw-align-center" data-conversation="none" ' + (!notBlogger() || document.querySelector('html').classList.contains('darked') ? 'data-theme="dark"' : '') + ' data-height="' + 0.6*window.innerHeight + '"><a href="' +
+			return '<div style="display: flex;"><blockquote class="twitter-tweet tw-align-center" data-conversation="none" ' + (!notBlogger() || document.querySelector('html').classList.contains('darked') ? 'data-theme="dark"' : '') + ' data-height="' + 0.6*window.innerHeight + '"><a href="' +
 				url.replace('x.com', 'twitter.com') +
-				'"></a></blockquote><script async="async" charset="utf-8" src="https://platform.twitter.com/widgets.js"></script>';
+				'"></a></blockquote><script async="async" charset="utf-8" src="https://platform.twitter.com/widgets.js"></script></div>';
 		}
     }
     if (url.includes('youtube.com/watch')) {
