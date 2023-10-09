@@ -837,8 +837,6 @@ abbr.imgpop:hover img {
 .thumbnail-initial img,
 .thumbnail-initial video {
 	border: 2px solid var(--primary);
-	border-left-width: 10px;
-	border-right-width: 10px;
 	transition: border 0.2s, border-radius 0.2s;
 	box-sizing: border-box;
 }
