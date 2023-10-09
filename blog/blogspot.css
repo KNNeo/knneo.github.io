@@ -54,6 +54,10 @@ body {
 	white-space: nowrap;
 }
 
+a {
+  color: var(--primary);
+}
+
 a:hover {
   color: var(--foreground);
 }
