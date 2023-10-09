@@ -312,17 +312,20 @@ This is where you put the &lt;div class="popup" title="[LINK]"&gt;
 
 .carousel .item img,
 .carousel .item video {
-	border: 2px solid var(--primary);
-    border-left-width: 10px;
-    border-right-width: 10px;
-	border-radius: 8px;
-	transition: border 0.2s, border-radius 0.2s;
+	border: 2px solid var(--secondary);
+	transition: border 0.2s;
+    border-bottom-width: 1em;
+}
+
+@media only screen and (pointer: coarse) {
+	.carousel .item img {
+		border-bottom-width: 2em;	
+	}
 }
 
 .carousel .item img:hover,
 .carousel .item video:hover {
-    border-width: 2px;
-	border-radius: 0;
+    border-color: var(--primary);
 }
 
 .carousel .item.hide {
