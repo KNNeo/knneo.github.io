@@ -25,19 +25,6 @@ body {
 	line-height: 1.5;
 }
 
-a {
-  color: var(--primary);
-}
-
-a img,
-table div[style|=background] {
-  border: 2px solid var(--primary);
-}
-
-a:hover {
-  text-decoration: none;
-}
-
 .page-header {
 	width: 96%;
 	max-width: 680px;

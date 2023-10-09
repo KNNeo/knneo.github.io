@@ -290,7 +290,13 @@ a {
 
 a img,
 table div[style|=background] {
-  border: 2px solid var(--primary);
+    box-sizing: border-box;
+	border: 2px solid var(--secondary);
+}
+
+a img:hover,
+table div[style|=background]:hover {
+    border-color: var(--primary);
 }
 
 a:hover {
@@ -845,15 +851,15 @@ abbr.imgpop:hover img {
 .thumbnail-initial td:first-child img,
 .thumbnail-initial td:first-child video {
 	/* border-left-width: 10px; */
-	border-top-left-radius: 8px;
-	border-bottom-left-radius: 8px;
+	/* border-top-left-radius: 8px; */
+	/* border-bottom-left-radius: 8px; */
 }
 
 .thumbnail-initial td:last-child img,
 .thumbnail-initial td:last-child video {
 	/* border-right-width: 10px; */
-	border-top-right-radius: 8px;
-	border-bottom-right-radius: 8px;
+	/* border-top-right-radius: 8px; */
+	/* border-bottom-right-radius: 8px; */
 }
 
 .thumbnail-initial td:first-child img:hover,
@@ -977,10 +983,10 @@ abbr.imgpop:hover img {
 
 .agenda .item a img {
 	border-width: 2px 10px;
-	border-radius: 8px;
+	/* border-radius: 8px; */
 }
 
-.agenda .item a img:hover {
+.agenda .item a img:active {
 	border-width: 2px;
 }
 

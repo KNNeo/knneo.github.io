@@ -29,13 +29,16 @@ function generateViewer() {
 	//any image with url will open in new tab
 	for (let img of document.getElementsByTagName('img'))
 	{
-		if(img.parentElement.tagName.toUpperCase() == 'A' && 
-		!img.parentElement.href.includes('#'))
+		let elem = img.parentElement;
+		if(elem.tagName.toUpperCase() == 'A' && 
+		!elem.href.startsWith('#') &&
+		elem.getAttribute('target') != null &&
+		elem.getAttribute('target') != '_blank')
 		{
-			img.parentElement.addEventListener('click', function(e) {
+			elem.addEventListener('click', function(e) {
 				e.preventDefault();
 			});
-			img.parentElement.addEventListener('click', openViewer);
+			elem.addEventListener('click', openViewer);
 		}
 	}
 }
