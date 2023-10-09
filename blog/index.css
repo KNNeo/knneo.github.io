@@ -842,10 +842,6 @@ abbr.imgpop:hover img {
     border-bottom-width: 1em;
 }
 
-@media only screen and (pointer: coarse) {
-    border-bottom-width: 2em;	
-}
-
 .thumbnail-initial td:first-child img,
 .thumbnail-initial td:first-child video {
 	/* border-left-width: 10px; */
