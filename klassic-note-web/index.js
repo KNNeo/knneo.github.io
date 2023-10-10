@@ -657,7 +657,6 @@ function onChangeOption() {
 		
 		// remove option value prefix icon
 		let input = id.replace(categoryIcons[2], '');
-		window['term'] = input;
 		
 		// if from search, add to playlist, disable flag, unfocus search
 		if(window['searching']) {
@@ -682,7 +681,6 @@ function onChangeOption() {
 		
 		// remove option value prefix icon
 		let input = id.replace(categoryIcons[0], '');
-		window['term'] = input;
 		
 		// query artist info
 		let query = "SELECT ArtistTitle, ArtistTitle AS 'Artist Title' FROM Artist WHERE ID = " + input;
@@ -890,6 +888,7 @@ function updateSearch(contents) {
 	if(window['mode'] === 'song')
 	{
 		document.querySelector('#search').value = row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle].split('<br/>')[0];
+		window['term'] = document.querySelector('#search').value;
 		window['artist-id'] = row[columnIndexArtistID];
 		window['release-id'] = row[columnIndexReleaseID];
 		window['song-id'] = row[columnIndexKNID];
@@ -915,6 +914,7 @@ function updateSearch(contents) {
 	if(window['mode'] === 'artist')
 	{
 		document.querySelector('#search').value = contents.values[0][columnIndexArtistTitle];
+		window['term'] = document.querySelector('#search').value;
 	}
 }
 
