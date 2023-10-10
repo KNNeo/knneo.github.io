@@ -54,7 +54,10 @@ function onKeyUp() {
 	}
 	// esc: to clear search bar
 	if (event.key === 'Escape') {
-		clearSearch();
+		if(window['term'])
+			document.querySelector('#search').value = window['term'];
+		else if(document.querySelector('#search').value == window['term'])
+			clearSearch();
 	}
 	// ctrl + c: copy search content
 	if (event.key === 'c' && window['ctrled'] && document.querySelector('#copy') != null
@@ -650,8 +653,12 @@ function onChangeOption() {
 	// select by id value format
 	if(id.startsWith(categoryIcons[2]))
 	{
-		let input = id.replace(categoryIcons[2], '');
 		window['mode'] = 'song';
+		
+		// remove option value prefix icon
+		let input = id.replace(categoryIcons[2], '');
+		window['term'] = input;
+		
 		// if from search, add to playlist, disable flag, unfocus search
 		if(window['searching']) {
 			window['playlist'].push(input.toString());
@@ -672,7 +679,10 @@ function onChangeOption() {
 	else
 	{
 		window['mode'] = 'artist';
+		
+		// remove option value prefix icon
 		let input = id.replace(categoryIcons[0], '');
+		window['term'] = input;
 		
 		// query artist info
 		let query = "SELECT ArtistTitle, ArtistTitle AS 'Artist Title' FROM Artist WHERE ID = " + input;
