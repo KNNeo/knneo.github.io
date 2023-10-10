@@ -54,10 +54,10 @@ function onKeyUp() {
 	}
 	// esc: to clear search bar
 	if (event.key === 'Escape') {
-		if(window['term'])
-			document.querySelector('#search').value = window['term'];
-		else if(document.querySelector('#search').value == window['term'])
+		if(document.querySelector('#search').value == window['term'])
 			clearSearch();
+		else if(window['term'])
+			document.querySelector('#search').value = window['term'];
 	}
 	// ctrl + c: copy search content
 	if (event.key === 'c' && window['ctrled'] && document.querySelector('#copy') != null
