@@ -54,7 +54,10 @@ function onKeyUp() {
 	}
 	// esc: to clear search bar
 	if (event.key === 'Escape') {
-		clearSearch();
+		if(document.querySelector('#search').value == window['term'])
+			clearSearch();
+		else if(window['term'])
+			document.querySelector('#search').value = window['term'];
 	}
 	// ctrl + c: copy search content
 	if (event.key === 'c' && window['ctrled'] && document.querySelector('#copy') != null
@@ -650,8 +653,11 @@ function onChangeOption() {
 	// select by id value format
 	if(id.startsWith(categoryIcons[2]))
 	{
-		let input = id.replace(categoryIcons[2], '');
 		window['mode'] = 'song';
+		
+		// remove option value prefix icon
+		let input = id.replace(categoryIcons[2], '');
+		
 		// if from search, add to playlist, disable flag, unfocus search
 		if(window['searching']) {
 			window['playlist'].push(input.toString());
@@ -672,6 +678,8 @@ function onChangeOption() {
 	else
 	{
 		window['mode'] = 'artist';
+		
+		// remove option value prefix icon
 		let input = id.replace(categoryIcons[0], '');
 		
 		// query artist info
@@ -880,6 +888,7 @@ function updateSearch(contents) {
 	if(window['mode'] === 'song')
 	{
 		document.querySelector('#search').value = row[columnIndexArtistTitle] + ' - ' + row[columnIndexSongTitle].split('<br/>')[0];
+		window['term'] = document.querySelector('#search').value;
 		window['artist-id'] = row[columnIndexArtistID];
 		window['release-id'] = row[columnIndexReleaseID];
 		window['song-id'] = row[columnIndexKNID];
@@ -905,6 +914,7 @@ function updateSearch(contents) {
 	if(window['mode'] === 'artist')
 	{
 		document.querySelector('#search').value = contents.values[0][columnIndexArtistTitle];
+		window['term'] = document.querySelector('#search').value;
 	}
 }
 
