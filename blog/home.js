@@ -21,6 +21,7 @@ function filterByTag() {
 	if(posts.length == 0) window.location.hash = '#All';
 	if(posts.length > 0)
 		document.querySelector('.count').innerText = posts.length + ' published posts' + (isAll ? '' : ' (' + window.location.hash + ')');
+	goToTop();
 }
 
 
