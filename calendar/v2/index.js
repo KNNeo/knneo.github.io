@@ -294,6 +294,16 @@ const templates = [
 		url: 'https://ch.nicovideo.jp/seigura',
 		format: 'Video Live',
 	},
+	{
+		name: '日笠・佐倉は余談を許さない',
+		startDayNo: 4,
+		startDate: '2023-10-05',
+		startTime: 2130,
+		lengthMinutes: 30,
+		channel: '文化放送『超！A&G＋』',
+		url: 'https://www.joqr.co.jp/qr/program/yodan/',
+		format: 'Audio Live',
+	},
 ];
 
 //--COMMON EVENTS--//
