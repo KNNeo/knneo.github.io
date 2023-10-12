@@ -31,8 +31,8 @@ function generateViewer() {
 	{
 		let elem = img.parentElement;
 		if(elem.tagName.toUpperCase() == 'A' && 
-		!elem.href.startsWith('#') &&
-		elem.getAttribute('target') != null &&
+		!elem.href.includes('#') &&
+		elem.getAttribute('target') == null &&
 		elem.getAttribute('target') != '_blank')
 		{
 			elem.addEventListener('click', function(e) {
