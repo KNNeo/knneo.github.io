@@ -26,19 +26,24 @@ function generateViewer() {
 		}
 	}
 	
-	//any image with url will open in new tab
+	//any image with url will open in new tab (non-external)
 	for (let img of document.getElementsByTagName('img'))
 	{
 		let elem = img.parentElement;
-		if(elem.tagName.toUpperCase() == 'A' && 
-		!elem.href.includes('#') &&
-		elem.getAttribute('target') == null &&
+		if(elem.tagName.toUpperCase() == 'A' &&
 		elem.getAttribute('target') != '_blank')
 		{
-			elem.addEventListener('click', function(e) {
-				e.preventDefault();
-			});
-			elem.addEventListener('click', openViewer);
+			let srcInd = img.src.lastIndexOf('/');
+			let srcName = srcInd >= 0 ? img.src.substring(srcInd) : null;
+			let fileInd = elem.href.lastIndexOf('/');
+			let fileName = fileInd >= 0 ? elem.href.substring(fileInd) : null;
+			if(srcName && fileName && srcName == fileName)
+			{
+				elem.addEventListener('click', function(e) {
+					e.preventDefault();
+				});
+				elem.addEventListener('click', openViewer);
+			}
 		}
 	}
 }
