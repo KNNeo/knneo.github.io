@@ -196,7 +196,7 @@
 
 .latest-post:hover .latest-post-title {
 	color: var(--foreground);
-	text-decoration: underline;
+	/* text-decoration: underline; */
 }
 
 .latest-post:active {
