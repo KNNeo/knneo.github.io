@@ -104,10 +104,15 @@ body .gallery {
 	object-fit: contain;
 	width: 80dvw;
 	height: 100dvh;
+	transition: filter 0.5s;
 }
 
 .gallery img[data-link] {
 	cursor: pointer;
+}
+
+.gallery img[data-effect="blur"] {
+	filter: blur(5px);
 }
 
 .overview img {
