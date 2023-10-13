@@ -117,7 +117,7 @@ function reduceResults() {
 			}
 			
 			let tags = post.querySelectorAll(".post-body [id]:not(#hashtags):not(#news-thumbnail):not(.twitter-tweet iframe[id]):not(#table):not(#music):not(.list):not(audio):not(video):not(object)");
-			if(link?.href && tags.length > 0)
+			if(false && link?.href && tags.length > 0)
 			{
 				let tagsDiv = document.createElement('div');
 				tagsDiv.classList.add('anchors');
