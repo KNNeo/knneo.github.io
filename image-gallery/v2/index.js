@@ -342,6 +342,7 @@ function renderGallery() {
 		let itemDiv = document.createElement('img');
 		itemDiv.setAttribute('data-id', index);
 		if(value.link) itemDiv.setAttribute('data-link', value.link);
+		if(value.blur) itemDiv.setAttribute('data-effect', 'blur');
 		itemDiv.src = value.filename;
 		itemDiv.title = value.description || '';
 		itemDiv.alt = value.description || '';
@@ -359,6 +360,10 @@ function renderGallery() {
 			else if(!inOverview && this.hasAttribute('data-link')) {
 				window.open(this.getAttribute('data-link'), '_blank');
 			}
+		});
+		itemDiv.addEventListener('dblclick', function() {
+			if(this.hasAttribute('data-effect') && this.getAttribute('data-effect') == 'blur')
+				this.classList.removeAttribute('data-effect');
 		});
 		itemDiv.addEventListener('contextmenu', function() {
 			event.preventDefault();
