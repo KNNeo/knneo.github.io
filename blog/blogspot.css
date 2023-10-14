@@ -166,12 +166,6 @@ a:hover {
     color: var(--foreground);
 }
 
-.TheStatement,
-.hidden {
-	display: none;
-	height: 0;
-}
-
 #blog-archive-list {
 	padding-bottom: 20px;
 }
@@ -395,11 +389,13 @@ span.emoji {
 	transform: translate(2px, 2px);
 }
 
-/*Fixes from Blogger*/
-h2 {
-	margin: 0;
+.TheStatement,
+a.hidden {
+	display: none;
+	height: 0;
 }
 
+/*Fixes from Blogger*/
 .published {
 	text-transform: uppercase;
 }
