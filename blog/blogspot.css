@@ -390,6 +390,7 @@ span.emoji {
 }
 
 .TheStatement,
+.Post.hidden,
 a.hidden {
 	display: none;
 	height: 0;
