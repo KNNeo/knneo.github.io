@@ -890,7 +890,7 @@ void Main()
                 output.WriteLine("<small style=\"text-align: center;\"><p><i>This is an archive from "+
                  "<a href=\"" + originalLink + "\">" + blogTitle + "</a></i></p></small>");
             output.WriteLine("<small title=\"" + published.ToString() + "\" class=\"published\">" + published.ToString("dddd, dd MMMM yyyy") + "</small>");
-            output.WriteLine("<h2 class=\"title\">" + postTitle + "</h2>");
+            output.WriteLine("<div class=\"title\">" + postTitle + "</div>");
 			if(!content.Contains("id=\"hashtags\""))
 				output.WriteLine("<div id=\"hashtags\"></div>");
             output.WriteLine("<div class=\"page-header\"></div>");
