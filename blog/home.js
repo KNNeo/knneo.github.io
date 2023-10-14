@@ -9,6 +9,15 @@ function filterByTag() {
 	let isAll = tag == 'All' || tag == '';
 	window.location.hash = !isAll ? '#' + tag : '';
 	
+	for(let filter of (document.querySelectorAll('.home-tags a') ?? []))
+	{
+		let hide = !filter.href.endsWith('#All') && !isAll && !filter.href.endsWith('#' + tag);
+		if(hide)
+			filter.classList.add('hidden');
+		else
+			filter.classList.remove('hidden');
+	}
+	
 	for(let post of (document.querySelectorAll('.Post') ?? []))
 	{
 		let hide = !isAll && !post.classList.contains(tag) && !post.querySelector('.publish')?.innerText.startsWith(tag);
