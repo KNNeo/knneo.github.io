@@ -37,7 +37,8 @@ function generateViewer() {
 			let srcName = srcInd >= 0 ? img.src.substring(srcInd) : null;
 			let fileInd = elem.href.lastIndexOf('/');
 			let fileName = fileInd >= 0 ? elem.href.substring(fileInd) : null;
-			if(srcName && fileName && srcName == fileName)
+			if((img.src.startsWith('https://blogger.googleusercontent.com/')) // exception due to not using direct link
+			|| (srcName && fileName && srcName == fileName))
 			{
 				elem.addEventListener('click', function(e) {
 					e.preventDefault();
