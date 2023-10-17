@@ -1130,7 +1130,7 @@ function generateSongInfo(contents) {
 	generateTableAsColumnRows(contents, {
 		id: 'song-info', 
 		title: 'Song Information', 
-		skipColumns: ['ArtistID', 'ReleaseID', 'Filename', 'ArtistTitle', 'Release Title', 'Release Artist'],
+		skipColumns: ['ArtistID', 'ReleaseID', 'Filename', 'ArtistTitle', 'Release Title', 'Release Artist', 'SongTitleAlt', 'ArtistTitleAlt', 'ReleaseTitleAlt'],
 	});
 }
 
