@@ -1231,6 +1231,22 @@ as a summary:<br />
   content: attr(data-id) "/" attr(data-scale);
     padding-left: 5px;
 }
+	
+progress.scale {
+  border-radius: 0;
+  height: 1em;
+}
+progress.scale::-webkit-progress-bar,
+progress.scale::-moz-progress-bar {
+  background-color: transparent;
+}
+progress.scale::-webkit-progress-value {
+  background-color: cyan;
+}
+progress.scale::after {
+  content: attr(value) "/" attr(max);
+    padding-left: 5px;
+}
 </style>
 <script>
 window.addEventListener('load', addScales);
@@ -1269,5 +1285,7 @@ function addScales() {
 &lt;progress class="scale" value="3" max="5"&gt; 
 &lt;/progress&gt;
 </pre>
+<progress class="scale" value="3" max="5">
+</progress>
 </body>
 </html>
