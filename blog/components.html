@@ -1206,7 +1206,7 @@ as a summary:<br />
 /* Base styles for .scale elements  */
 .scale {
 	display: flex;
-    gap: 5px;
+    /* gap: 5px; */
 }
 /* Base styles for all elements within .scale */
 .scale * {
@@ -1229,6 +1229,7 @@ as a summary:<br />
 
 .scale::after {
   content: attr(data-id) "/" attr(data-scale);
+    padding-left: 5px;
 }
 </style>
 <script>
@@ -1263,5 +1264,10 @@ function addScales() {
 
 <div class="blank"></div>
 <br />
+<h5>Alternative is to design this by using &lt;progress&gt; tag</h5>
+<pre>
+&lt;progress class="scale" value="3" max="5"&gt; 
+&lt;/progress&gt;
+</pre>
 </body>
 </html>
