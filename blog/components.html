@@ -327,6 +327,16 @@ This is where you put the &lt;div class="popup" title="[LINK]"&gt;
 	left: 80%;
 	opacity: 0;
 }
+
+.carousel .item [data-index][data-length]::before {
+    content: attr(data-index) " / " attr(data-length);
+    position: absolute;
+    bottom: 2.75em;
+    left: 0;
+    right: 0;
+    font-size: 0.8em;
+}
+
 .carousel .item.text {
 	color: var(--primary);
 	text-decoration: underline;	
@@ -356,7 +366,10 @@ function setCarousel() {
 		carousel.style.height = carousel.querySelector('.item:not(.hide)')?.offsetHeight + 'px';
 
         let clickables = carousel.querySelectorAll('img, video');
+		let counter = 1;
         for (let clickable of clickables) {
+			clickable.closest('td').setAttribute('data-index', counter++);
+			clickable.closest('td').setAttribute('data-length', clickables.length);
             clickable.onclick = function() {
                 showNextCarouselItem(event.target.closest('.carousel'));
             };
