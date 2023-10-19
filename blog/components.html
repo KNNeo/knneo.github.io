@@ -329,7 +329,7 @@ This is where you put the &lt;div class="popup" title="[LINK]"&gt;
 }
 
 .carousel .item [data-index][data-length]::before {
-    content: attr(data-index) " / " attr(data-length);
+    content: attr(data-index) "/" attr(data-length);
     position: absolute;
     bottom: 2.75em;
     left: 0;
@@ -507,17 +507,17 @@ Click/tap container fast (&lt;200ms) will turn off transition (for observing dif
 	margin-bottom: 0;
 }
 
-.agenda .item img {
+.agenda .item a img {
     width: 100%;
     height: 200px;
 	object-fit: cover;
-    box-sizing: border-box;
+	border-color: var(--secondary);
 	border-width: 2px 10px;
-	border-radius: 8px;
-	transition: border 0.1s;
+	transition: border 0.2s;
 }
+
 .agenda .item img:hover {
-	border-width: 2px;
+	border-color: var(--primary);
 }
 </style>
 <h1>Table of Contents</h1>
@@ -947,12 +947,9 @@ Use table generators (eg. <a href="https://divtable.com/generator/">DivTable.com
 	border-color: var(--foreground);
 	border-style: solid;
 	border-width: 2px 10px;
-	border-radius: 8px;
-	transition: border 0.2s, border-radius 0.2s;
 }
-.accordion:not(.show):hover {
-	border-width: 2px;
-	border-radius: 0;
+.accordion:hover {
+	border-color: var(--primary);
 }
 .accordion .content {
 	cursor: initial;
@@ -967,7 +964,6 @@ Use table generators (eg. <a href="https://divtable.com/generator/">DivTable.com
 }
 .accordion.show {
 	border-width: 2px;
-	border-radius: 0;
 }
 .accordion.show > * {
 	display: block;
@@ -1112,14 +1108,12 @@ function toggleExpander() {
 	max-height: 50vh;
 	overflow-y: auto;
 	cursor: pointer;
-	border-color: transparent transparent transparent var(--foreground);
+	border-color: var(--foreground);
 	border-style: solid;
 	border-width: 2px 2px 2px 10px;
-	transition: border 0.2s;
 }
-.fineprint:hover,
-.fineprint.show {
-	border-color: var(--foreground);
+.fineprint:hover {
+	border-color: var(--primary);
 }
 .fineprint.show {
 	font-size: 1em;
