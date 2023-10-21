@@ -329,12 +329,18 @@ This is where you put the &lt;div class="popup" title="[LINK]"&gt;
 }
 
 .carousel .item [data-index][data-length]::before {
-    content: attr(data-index) "/" attr(data-length);
+    content: attr(data-index) " / " attr(data-length);
     position: absolute;
     bottom: 2.75em;
     left: 0;
     right: 0;
     font-size: 0.8em;
+}
+
+@media only screen and (max-width: 880px) {
+  .carousel .item [data-index][data-length]::before {
+	bottom: 3em;
+  }
 }
 
 .carousel .item.text {
