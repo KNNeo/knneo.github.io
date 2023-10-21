@@ -1260,7 +1260,7 @@ function querySongList(contents) {
 	let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
 	let year = row[columnIndexKNYEAR];
 	
-	let query = "SELECT * FROM Song WHERE KNYEAR = " + year + " ORDER BY SongTitle LIMIT 10";
+	let query = "SELECT PRINTF('%03d', ROW_NUMBER()OVER (ORDER BY ID)) R_NO, * FROM Song WHERE KNYEAR = " + year + " ORDER BY RANDOM() LIMIT 10";
 	if(debugMode) console.log('generateSongList', query);
 	queryDb(query, generateSongList);
 }
@@ -1271,13 +1271,13 @@ function generateSongList(contents) {
 		contents, {
 		id: 'year-list', 
 		title: 'Songs from ' + contents.values[0][contents.columns.indexOf('KNYEAR')],
-		rowFormat: ['ArtistTitle', ' - ', 'SongTitle'], 
+		rowFormat: ['R_NO', '. ', 'ArtistTitle', ' - ', 'SongTitle'], 
 		clickFunc: updateSong,
-		actionTitle: 'Refresh',
+		actionTitle: 'Show All',
 		actionFunc: function() {
 			event.target.style.maxHeight = event.target.getBoundingClientRect().height;
-			let query = "SELECT * FROM Song WHERE KNYEAR = " + contents.values[0][contents.columns.indexOf('KNYEAR')];
-			query += " ORDER BY RANDOM() DESC LIMIT 10";
+			let query = "SELECT PRINTF('%03d', ROW_NUMBER()OVER (ORDER BY ID)) R_NO, * FROM Song WHERE KNYEAR = " + contents.values[0][contents.columns.indexOf('KNYEAR')];
+			query += " ORDER BY R_NO";
 			if(debugMode) console.log('generateSongList', query);
 			queryDb(query, generateSongList);
 		},
