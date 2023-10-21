@@ -112,7 +112,8 @@ body .gallery {
 }
 
 .gallery img[data-effect="blur"] {
-	filter: blur(5px);
+	filter: blur(5em);
+	transform: scale(0.95);
 }
 
 .overview img {
