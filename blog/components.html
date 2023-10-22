@@ -330,16 +330,14 @@ This is where you put the &lt;div class="popup" title="[LINK]"&gt;
 	opacity: 0;
 }
 
-.carousel .item [data-index][data-length]::before {
+.carousel .item[data-index][data-length]::before {
     content: attr(data-index) " / " attr(data-length);
     position: absolute;
     top: 0.25em;
     left: 0;
     right: 0;
     font-size: 0.8em;
-}
-
-.carousel .item [data-index][data-length]:hover::before {
+    text-align: center;
 }
 
 .carousel .item.text {
@@ -370,38 +368,19 @@ function setCarousel() {
     for (let carousel of document.querySelectorAll('.carousel')) {
 		carousel.style.height = carousel.querySelector('.item:not(.hide)')?.offsetHeight + 'px';
 
-        let clickables = carousel.querySelectorAll('img, video');
 		let counter = 1;
-        for (let clickable of clickables) {
-			clickable.closest('td').setAttribute('data-index', counter++);
-			clickable.closest('td').setAttribute('data-length', clickables.length);
-            clickable.onclick = function() {
-                showNextCarouselItem(event.target.closest('.carousel'));
-            };
-        }
-		
-		if(clickables.length < 1 && carousel.getElementsByClassName('.item').length > 0)
-		{
-			carousel.style.display = 'inline';
-			
-			let textElement = document.createElement('span');
-			textElement.className = 'item text';
-			textElement.innerHTML = carousel.querySelector('.item.hide').innerHTML;
-			let popupText = carousel.querySelector('.item:not(.hide)').innerHTML;
-			textElement.onclick = function() {
-				let dialogElement = document.querySelector('.carousel-dialog') ?? document.createElement('dialog');
-				dialogElement.className = 'carousel-dialog';
-				dialogElement.onclick = function() {
-					event.target.close();
+        let items = carousel.querySelectorAll('.item');
+        for (let item of items) {
+			if(!item.hasAttribute('data-index')) {
+				item.setAttribute('data-index', counter++);
+				item.setAttribute('data-length', items.length);
+			}
+			for(let media of item.querySelectorAll('img, video')) {
+				media.onclick = function() {
+					showNextCarouselItem(event.target.closest('.carousel'));
 				};
-				dialogElement.innerHTML = popupText;
-				if(document.querySelector('.carousel-dialog') == null)
-					document.body.appendChild(dialogElement);
-				dialogElement.showModal();
-			};
-			
-			carousel.replaceWith(textElement);
-		}
+			}
+        }
     }
 }
 function showNextCarouselItem(tn) {
@@ -495,6 +474,88 @@ Click/tap container fast (&lt;200ms) will turn off transition (for observing dif
         <tr>
           <td class="tr-caption" style="text-align: center;">
             Glad to see the Japanese universal tea drinking pose is still up and running haha
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="carousel">
+  <div class="item">
+    <table
+      align="center"
+      cellpadding="0"
+      cellspacing="0"
+      class="tr-caption-container"
+      style="margin-left: auto; margin-right: auto;"
+    >
+      <tbody>
+        <tr>
+          <td style="text-align: center;">
+            <img
+              border="0"
+              data-original-height="720"
+              data-original-width="1280"
+              height="180"
+              src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEipwSA-2PA9sgTx8bLGE5LX22SJxB1BU2vYEKiqAAvP2PNabdyEFuS93gq142SbO2qfES3HyYtH-0CFZXoj-HbDG-oLbZJrumJ7Axfnj1-h72SDWCN6x7Hplaoim3MV620-bK0hpwWB-g3h0nVrnEASf0yxn_1fyGuyoRgH0UWvqg6ii7UJg9u-6E9mpSc/s320/kanokano15_couple2.jpg"
+              width="320"
+            />
+          </td>
+          <td style="text-align: center;">
+            <img
+              border="0"
+              data-original-height="720"
+              data-original-width="1280"
+              height="180"
+              src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhyekQzrMbNdj9FbtOsr0qScqAT4qKf8B9Ec9yB8dztol6hRMRGnG7O61Kgy2XDMJoJP5OHJPmDEif8J7SAsQYWbR_RJnKc_Jdf8RBlSNnBA9QicEs6RRklAuabPnxCZ8fZa50vkztF9p3RIQE-t5T13kWZkuRZBm8LOT7cX79omjOrI4SUtgNbr1yh8CM/s320/kanokano15_shove.jpg"
+              width="320"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td class="tr-caption" colspan="2" style="text-align: center;">
+            This week in violence we have:<br />I gotta say Saki-chan you lost
+            to Milika-san here this episode haha
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="item hide">
+    <table
+      align="center"
+      cellpadding="0"
+      cellspacing="0"
+      class="tr-caption-container"
+      style="margin-left: auto; margin-right: auto;"
+    >
+      <tbody>
+        <tr>
+          <td style="text-align: center;">
+            <img
+              border="0"
+              data-original-height="720"
+              data-original-width="1280"
+              height="180"
+              src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjJpAmqOwBcljRob0qN8moENYSY7ZSxYKXShs6lpgMJjjayA4qbwiMAVDEp6RtJEQErpR4RKnKsEvlek-MV7HFDkb3rZ4jJ0tH6LcVe7TA2nvyJTipGW4OYDFVimkYT5LxjUedO-OEIdMjDUBhQ2bClqDApqM_4X1nTnyehSxMvY4m8MxzMVDUcwYsI-H8/s320/kanokano15_piggyback1.jpg"
+              width="320"
+            />
+          </td>
+          <td style="text-align: center;">
+            <img
+              border="0"
+              data-original-height="720"
+              data-original-width="1280"
+              height="180"
+              src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiJPYJ2gT1RBU9l4eNs77nJTENSr1tbHSxuYuY6LgmLeT1cqc5Tq_HYzAKNyhbUh3lVnl9wEZ6civWyMpN-WIil8HGrVVwF18mEugNQRf5z3bvr7dS8TZturcFf4ko7Z4U7g9Q8XT4ru0anvrGP5QJdsaD08vJV1POf4gmu6NKY6eGLgPALn05wc2L5r_Q/s320/kanokano15_piggyback4.jpg"
+              width="320"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td class="tr-caption" colspan="2" style="text-align: center;">
+            Because you know, carrying girls other than your girlfriend(s) is
+            his part-time hobby lol
           </td>
         </tr>
       </tbody>
