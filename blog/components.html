@@ -312,6 +312,7 @@ This is where you put the &lt;div class="popup" title="[LINK]"&gt;
 
 .carousel .item img,
 .carousel .item video {
+	cursor: pointer;
 	border: 2px solid var(--secondary);
 	transition: border 0.2s;
     border-top-width: 1em;
@@ -319,6 +320,7 @@ This is where you put the &lt;div class="popup" title="[LINK]"&gt;
 
 .carousel .item img:hover,
 .carousel .item video:hover {
+	object-fit: cover;
     border-color: var(--primary);
 }
 
@@ -335,6 +337,9 @@ This is where you put the &lt;div class="popup" title="[LINK]"&gt;
     left: 0;
     right: 0;
     font-size: 0.8em;
+}
+
+.carousel .item [data-index][data-length]:hover::before {
 }
 
 .carousel .item.text {
@@ -511,9 +516,9 @@ Click/tap container fast (&lt;200ms) will turn off transition (for observing dif
     width: 100%;
     height: 200px;
 	object-fit: cover;
-	border-color: var(--secondary);
-	border-width: 10px 2px 2px;
 	transition: border 0.2s;
+	border-color: var(--secondary);
+	border-width: 1em 2px 2px;
 }
 
 .agenda .item img:hover {
@@ -946,7 +951,8 @@ Use table generators (eg. <a href="https://divtable.com/generator/">DivTable.com
 	cursor: pointer;
 	border-color: var(--foreground);
 	border-style: solid;
-	border-width: 10px 2px 2px;
+	border-width: 1em 2px 2px;
+	transition: border 0.2s;
 }
 .accordion:hover {
 	border-color: var(--primary);
@@ -1108,7 +1114,8 @@ function toggleExpander() {
 	cursor: pointer;
 	border-color: var(--foreground);
 	border-style: solid;
-	border-width: 10px 2px 2px;
+	border-width: 14px 2px 2px;
+	transition: border 0.2s;
 }
 .fineprint:hover {
 	border-color: var(--primary);
