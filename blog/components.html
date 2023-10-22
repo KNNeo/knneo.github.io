@@ -314,7 +314,7 @@ This is where you put the &lt;div class="popup" title="[LINK]"&gt;
 .carousel .item video {
 	border: 2px solid var(--secondary);
 	transition: border 0.2s;
-    border-bottom-width: 1em;
+    border-top-width: 1em;
 }
 
 .carousel .item img:hover,
@@ -331,16 +331,10 @@ This is where you put the &lt;div class="popup" title="[LINK]"&gt;
 .carousel .item [data-index][data-length]::before {
     content: attr(data-index) " / " attr(data-length);
     position: absolute;
-    bottom: 2.75em;
+    top: 0.25em;
     left: 0;
     right: 0;
     font-size: 0.8em;
-}
-
-@media only screen and (max-width: 880px) {
-  .carousel .item [data-index][data-length]::before {
-	bottom: 3em;
-  }
 }
 
 .carousel .item.text {
@@ -518,7 +512,7 @@ Click/tap container fast (&lt;200ms) will turn off transition (for observing dif
     height: 200px;
 	object-fit: cover;
 	border-color: var(--secondary);
-	border-width: 2px 10px;
+	border-width: 10px 2px 2px;
 	transition: border 0.2s;
 }
 
@@ -952,7 +946,7 @@ Use table generators (eg. <a href="https://divtable.com/generator/">DivTable.com
 	cursor: pointer;
 	border-color: var(--foreground);
 	border-style: solid;
-	border-width: 2px 10px;
+	border-width: 10px 2px 2px;
 }
 .accordion:hover {
 	border-color: var(--primary);
@@ -968,9 +962,7 @@ Use table generators (eg. <a href="https://divtable.com/generator/">DivTable.com
 	padding: 4px 8px;
 	display: none;
 }
-.accordion.show {
-	border-width: 2px;
-}
+
 .accordion.show > * {
 	display: block;
 }
@@ -1116,7 +1108,7 @@ function toggleExpander() {
 	cursor: pointer;
 	border-color: var(--foreground);
 	border-style: solid;
-	border-width: 2px 2px 2px 10px;
+	border-width: 10px 2px 2px;
 }
 .fineprint:hover {
 	border-color: var(--primary);
