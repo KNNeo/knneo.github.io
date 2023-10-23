@@ -292,6 +292,7 @@ This is where you put the &lt;div class="popup" title="[LINK]"&gt;
 	display: block;
     position: relative;
 	transition: height 0.2s;
+	padding-top: 1em;
 }
 
 .carousel.fast {
@@ -315,7 +316,7 @@ This is where you put the &lt;div class="popup" title="[LINK]"&gt;
 	cursor: pointer;
 	border: 2px solid var(--secondary);
 	transition: border 0.2s;
-    border-top-width: 1em;
+    border-bottom-width: 1em;
 }
 
 .carousel .item img:hover,
@@ -333,7 +334,7 @@ This is where you put the &lt;div class="popup" title="[LINK]"&gt;
 .carousel .item[data-index][data-length]::before {
     content: attr(data-index) " / " attr(data-length);
     position: absolute;
-    top: 0.25em;
+    top: -1em;
     left: 0;
     right: 0;
     font-size: 0.8em;
@@ -579,7 +580,7 @@ Click/tap container fast (&lt;200ms) will turn off transition (for observing dif
 	object-fit: cover;
 	transition: border 0.2s;
 	border-color: var(--secondary);
-	border-width: 1em 2px 2px;
+	border-width: 2px 2px 1em;
 }
 
 .agenda .item img:hover {
@@ -1010,9 +1011,9 @@ Use table generators (eg. <a href="https://divtable.com/generator/">DivTable.com
 <style>
 .accordion {
 	cursor: pointer;
-	border-color: var(--foreground);
+	border-color: var(--secondary);
 	border-style: solid;
-	border-width: 1em 2px 2px;
+	border-width: 2px 2px 1em;
 	transition: border 0.2s;
 }
 .accordion:hover {
@@ -1028,6 +1029,10 @@ Use table generators (eg. <a href="https://divtable.com/generator/">DivTable.com
 .accordion .footer {
 	padding: 4px 8px;
 	display: none;
+}
+
+.accordion.show {
+	border-color: var(--foreground);
 }
 
 .accordion.show > * {
@@ -1173,15 +1178,16 @@ function toggleExpander() {
 	max-height: 50vh;
 	overflow-y: auto;
 	cursor: pointer;
-	border-color: var(--foreground);
+	border-color: var(--secondary);
 	border-style: solid;
-	border-width: 14px 2px 2px;
+	border-width: 2px 2px 14px;
 	transition: border 0.2s;
 }
 .fineprint:hover {
 	border-color: var(--primary);
 }
 .fineprint.show {
+	border-color: var(--foreground);
 	font-size: 1em;
 	padding: 4px 8px;
 }
@@ -1276,19 +1282,16 @@ as a summary:<br />
 </div>
 
 <style>
-/* Base styles for .scale elements  */
 .scale {
 	display: flex;
     /* gap: 5px; */
 }
-/* Base styles for all elements within .scale */
 .scale * {
   background-color: gray;
   width: 2em;
   height: 10px;
 }
 
-/* Styles for data-id="1" */
 .scale[data-id="1"] div:nth-child(1),
 .scale[data-id="2"] div:nth-child(1),
 .scale[data-id="2"] div:nth-child(2),
@@ -1301,23 +1304,23 @@ as a summary:<br />
 }
 
 .scale::after {
-  content: attr(data-id) "/" attr(data-scale);
+	content: attr(data-id) "/" attr(data-scale);
     padding-left: 5px;
 }
 	
 progress.scale {
-  border-radius: 0;
-  height: 1em;
+	border-radius: 0;
+	height: 1em;
 }
 progress.scale::-webkit-progress-bar,
 progress.scale::-moz-progress-bar {
-  background-color: transparent;
+	background-color: transparent;
 }
 progress.scale::-webkit-progress-value {
-  background-color: cyan;
+	background-color: cyan;
 }
 progress.scale::after {
-  content: attr(value) "/" attr(max);
+	content: attr(value) "/" attr(max);
     padding-left: 5px;
 }
 </style>
