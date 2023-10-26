@@ -304,6 +304,13 @@ const templates = [
 		url: 'https://www.joqr.co.jp/qr/program/yodan/',
 		format: 'Audio Live',
 	},
+	{
+		name: '礒部花凜のどなたか助けてくれませんか？',
+		channel: 'ニコニコ動画',
+		frequency: 'Monthly',
+		url: 'https://ch.nicovideo.jp/Carin',
+		format: 'Video Live',
+	},
 ];
 
 //--COMMON EVENTS--//
