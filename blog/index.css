@@ -577,6 +577,9 @@ a:hover {
 	.material-icons {
 		font-size: 36px;
 	}
+	.twitter-tweet {
+		width: min(100%, 320px) !important;
+	}
 }
 
 /*Middle Screen Width*/
