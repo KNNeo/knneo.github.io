@@ -577,9 +577,6 @@ a:hover {
 	.material-icons {
 		font-size: 36px;
 	}
-	.twitter-tweet {
-		width: 320px !important;
-	}
 }
 
 /*Middle Screen Width*/
@@ -939,7 +936,7 @@ abbr.imgpop:hover img {
 }
 
 .twitter-tweet.twitter-tweet-rendered {
-    width: auto !important; /*fix tweet embed use display flex*/
+    width: min(100%, 480px); /*fix tweet embed use display flex*/
 }
 
 /*DATA TABLE*/
