@@ -17,7 +17,6 @@ void Main()
     string blogpath = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\sitemap\";
     string outputFolder = "pages";
     string filepath = "";
-    string domainLink = "https://knwebreports.blogspot.com/";
 	
 	//Get xml file from source, move to archivepath
 	//If not found in source, will run file in archivepath
@@ -158,7 +157,7 @@ void Main()
 		else
             Console.Write(".");
         
-		if(tags.Contains("The Archive"))
+		if(tags.Contains("The Archive") || tags.Contains("The Statement"))
 			continue;
 		
         var pageLink = "../" + Path.GetFileNameWithoutExtension(filepath.Replace(filepath, outputFolder)) + "/" + published.Year.ToString("0000") + "/"  + published.Month.ToString("00") + "/"  + Path.GetFileNameWithoutExtension(originalLink) + "." + type;
