@@ -426,7 +426,7 @@ function startup() {
 		function(content) {
 			window.variables = content;
 			window.variables.base = window.variables.items
-				.filter(i => window.variables.filter ? i[window.variables.filter.category] == window.variables.filter.value : true)
+				.filter(i => window.variables.filter ? i[window.variables.filter.category].includes(window.variables.filter.value) : true)
 				.sort(function(a,b) {
 					if(window.variables.sort && window.variables.sort.order && window.variables.sort.value)
 					{
