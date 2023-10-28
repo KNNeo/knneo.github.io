@@ -33,12 +33,11 @@ function generateViewer() {
 		if(elem.tagName.toUpperCase() == 'A' &&
 		elem.getAttribute('target') != '_blank')
 		{
-			let srcInd = img.src.lastIndexOf('/');
-			let srcName = srcInd >= 0 ? img.src.substring(srcInd) : null;
-			let fileInd = elem.href.lastIndexOf('/');
-			let fileName = fileInd >= 0 ? elem.href.substring(fileInd) : null;
-			if((img.src.startsWith('https://blogger.googleusercontent.com/') && !fileName.includes('#')) // exception due to not using direct link, should not disturb section calls
-			|| (srcName && fileName && srcName == fileName)) // otherwise, must always link to same filename
+			let srcInd = img.src.indexOf('/');
+			let srcDomain = srcInd >= 0 ? img.src.substring(0,srcInd) : null;
+			let fileInd = elem.href.indexOf('/');
+			let fileDomain = fileInd >= 0 ? elem.href.substring(0,fileInd) : null;
+			if(srcDomain == fileDomain) // image src must be in same domain as link href
 			{
 				elem.addEventListener('click', function(e) {
 					e.preventDefault();
