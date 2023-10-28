@@ -60,8 +60,9 @@ function generateOrientationValues() {
 	for(let item of window.variables.items)
 	{
 		let itemDiv = document.querySelector('.gallery img[src="' + item.filename + '"]');
-		let isLandscape = itemDiv?.naturalWidth >= itemDiv?.naturalHeight ?? false;
-		item.orientation = isLandscape ? window.variables.orientation.landscape : window.variables.orientation.portrait;
+		item.orientation = (itemDiv?.naturalWidth >= itemDiv?.naturalHeight && window.variables.orientation.landscape) 
+			|| (itemDiv?.naturalWidth < itemDiv?.naturalHeight && window.variables.orientation.portrait) 
+			|| null;
 	}
 }
 
@@ -229,7 +230,8 @@ function onTouchMove() {
 }
 
 function showFilters() {
-	if(window.variables.items[0].orientation == null) // if no orientation mapped, create map
+	 // if no orientation mapped, create map; does not work if all items not loaded
+	if(window.variables.items[0].orientation == null)
 		generateOrientationValues();
 	let allTags = generateTagClouds();
 	renderFilters(allTags);
