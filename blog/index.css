@@ -144,16 +144,16 @@
   border-radius: 8px;
 }
 
-#Text1:active,
-#PageList1:active,
-#LinkList1:active,
-#BlogArchive1:active,
-#HTML1:active,
-#SidebarBtn:active,
-#GoToTopBtn:active,
-#SearchBtn:active,
-#ShareBtn:active,
-#CloseBtn:active {
+#Text1:hover,
+#PageList1:hover,
+#LinkList1:hover,
+#BlogArchive1:hover,
+#HTML1:hover,
+#SidebarBtn:hover,
+#GoToTopBtn:hover,
+#SearchBtn:hover,
+#ShareBtn:hover,
+#CloseBtn:hover {
   box-shadow: 1px 1px;
   transform: translate(2px, 2px);
 }
@@ -482,8 +482,8 @@ a:hover {
   border-radius: 8px;
 }
 
-.tabs-inner .widget li:active,
-.footer-inner .widget li:active {
+.tabs-inner .widget li:hover,
+.footer-inner .widget li:hover {
   box-shadow: 1px 1px;
   transform: translate(2px, 2px);
 }

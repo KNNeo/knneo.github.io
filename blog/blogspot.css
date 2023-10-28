@@ -324,12 +324,12 @@ a:hover {
 	transition: background .2s linear;
 }
 
-#PopupBtn:active,
-#EmojiBtn:active,
-#DarkModeBtn:active,
-#BackBtn:active,
-#LeftBtn:active,
-#RightBtn:active {
+#PopupBtn:hover,
+#EmojiBtn:hover,
+#DarkModeBtn:hover,
+#BackBtn:hover,
+#LeftBtn:hover,
+#RightBtn:hover {
 	box-shadow: 1px 1px;
 	transform: translate(2px, 2px);
 }
@@ -388,8 +388,8 @@ span.emoji {
 	text-decoration: none;
 }
 
-.home-tags a:active,
-.post-tags a:active {
+.home-tags a:hover,
+.post-tags a:hover {
 	box-shadow: 1px 1px;
 	transform: translate(2px, 2px);
 }
