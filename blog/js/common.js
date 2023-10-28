@@ -447,9 +447,13 @@ function switchToButton(id) {
 }
 
 function goToTop() {
+	// reset history
+	history.replaceState(null, null, ' ');
+	// scroll to top of DOM
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
-	history.replaceState(null, null, ' ');
+	// scroll to table of contents, if any
+	document.querySelector('.agenda')?.scrollIntoView({ block: "end" });
 }
 
 function hideImagesOnError() {
