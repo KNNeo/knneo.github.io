@@ -1,0 +1,1 @@
+select r.ID, min(r.ReleaseTitle) as Title, min(r.ReleaseArtistTitle) as Artist, (r.ReleaseYear || r.ReleaseDate) as Date, max(r.KNYEAR) as Year, max(r.CoverArt) as Cover, max(s.DateCreated) as SortOrder from Release r join Song s on r.ID = s.ReleaseID group by r.ID order by Date desc
