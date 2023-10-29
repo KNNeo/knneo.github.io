@@ -75,7 +75,11 @@ body[layout='horizontal'] .expander {
 .tags.expanded .category-title {
 	display: block;
     flex-basis: 100%;
-	margin: 0.5em;
+    margin: 0;
+    position: sticky;
+    top: 0;
+    padding: 0.5em;
+    background-color: var(--background);
 }
 
 .tags.expanded div {
