@@ -291,7 +291,15 @@ const templates = [
 		name: '大久保瑠美の◯◯な件',
 		channel: 'ニコニコ動画',
 		frequency: 'Monthly',
+		endDate: '2023-09-30',
 		url: 'https://ch.nicovideo.jp/seigura',
+		format: 'Video Live',
+	},
+	{
+		name: '大久保瑠美の◯◯な件',
+		channel: 'OPENREC.tv',
+		frequency: 'Monthly',
+		url: 'https://www.openrec.tv/user/rumimaru_official',
 		format: 'Video Live',
 	},
 	{
@@ -575,12 +583,12 @@ function addDetailedEventToCalendar() {
 	)
 	{
 		let option = document.createElement('option');
-		option.value = templateEvent.name;
+		option.value = templateEvent.name + '-' + templateEvent.channel;
 		option.innerText = templateEvent.name;
 		dropdown.appendChild(option);
 	}
 	dropdown.addEventListener('change', function() {
-		populateForm(templates.find(t => t.name == this.value));
+		populateForm(templates.find(t => t.name + '-' + t.channel == this.value));
 	});
 }
 
