@@ -9,7 +9,7 @@ function filterByTag() {
 	let isAll = tag == 'All' || tag == '';
 	window.location.hash = !isAll ? '#' + tag : '';
 	
-	for(let filter of (document.querySelectorAll('.home-tags a') ?? []))
+	for(let filter of (document.querySelectorAll('.home-tags.filters a') ?? []))
 	{
 		let hide = !filter.href.endsWith('#All') && !isAll && !filter.href.endsWith('#' + tag);
 		if(hide)
@@ -17,6 +17,11 @@ function filterByTag() {
 		else
 			filter.classList.remove('hidden');
 	}
+
+	if(isAll)
+		document.querySelector('#All')?.classList.add('hidden');
+	else
+		document.querySelector('#All')?.classList.remove('hidden');
 	
 	for(let post of (document.querySelectorAll('.Post') ?? []))
 	{
