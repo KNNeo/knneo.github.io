@@ -33,9 +33,9 @@ function generateViewer() {
 		if(elem.tagName.toUpperCase() == 'A' &&
 		elem.getAttribute('target') != '_blank')
 		{
-			let srcInd = img.src.indexOf('/');
+			let srcInd = img.src.replace('//','').indexOf('/');
 			let srcDomain = srcInd >= 0 ? img.src.substring(0,srcInd) : null;
-			let fileInd = elem.href.indexOf('/');
+			let fileInd = elem.href.replace('//','').indexOf('/');
 			let fileDomain = fileInd >= 0 ? elem.href.substring(0,fileInd) : null;
 			if(srcDomain == fileDomain) // image src must be in same domain as link href
 			{
