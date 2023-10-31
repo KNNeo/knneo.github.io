@@ -3,6 +3,7 @@ window['dark-theme'] = '#001114';
 window['dark-name'] = 'blog-theme';
 window['urls'] = [];
 window.addEventListener('scroll', displayHomeFAB);
+window.addEventListener('hashchange', filterByTag);
 
 function filterByTag() {
 	let tag = event.target.id || window.location.hash.replace('#','');
@@ -35,7 +36,7 @@ function filterByTag() {
 	if(posts.length == 0) window.location.hash = '#All';
 	if(posts.length > 0)
 		document.querySelector('.count').innerText = posts.length + ' published posts' + (isAll ? '' : ' (' + window.location.hash + ')');
-	goToTop();
+	// goToTop();
 }
 
 
