@@ -459,7 +459,9 @@ function goToTop() {
     document.documentElement.scrollTop = 0;
 	// scroll to table of contents, if any
 	if(document.querySelector('.agenda') != null)
-	scrollToElement(document.querySelector('.agenda'));
+	setTimeout(function() {
+		scrollToElement(document.querySelector('.agenda'));
+	}, 0);
 }
 
 function hideImagesOnError() {
