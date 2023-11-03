@@ -99,8 +99,13 @@ function addHashtags() {
 
 function scrollToSectionByUrl() {
 	if(window.location.hash.length > 0)
+		scrollToElement(document.querySelector(window.location.hash));
+}
+
+function scrollToElement(elem) {
+	if(elem != null)
 	{
-		let newPos = document.documentElement.scrollTop + (document.querySelector(window.location.hash)?.getBoundingClientRect().top || 0) - (document.querySelector('.page-header')?.getBoundingClientRect().height || 0) - 5;
+		let newPos = document.documentElement.scrollTop + (elem?.getBoundingClientRect().top || 0) - (document.querySelector('.page-header')?.getBoundingClientRect().height || 0) - 5;
 		// console.log(document.documentElement.scrollTop, newPos);
 		if(window['pos'] != parseInt(newPos)) // detext final position of section on render
 		{
@@ -453,7 +458,7 @@ function goToTop() {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
 	// scroll to table of contents, if any
-	document.querySelector('.agenda')?.scrollIntoView({ block: 'start' });
+	scrollToElement(document.querySelector('.agenda'));
 }
 
 function hideImagesOnError() {
