@@ -99,7 +99,10 @@ function addHashtags() {
 
 function scrollToSectionByUrl() {
 	if(window.location.hash.length > 0)
+	{
 		scrollToElement(document.querySelector(window.location.hash));
+		setTimeout(scrollToSectionByUrl, 500);
+	}
 }
 
 function scrollToElement(elem) {
@@ -107,11 +110,8 @@ function scrollToElement(elem) {
 	{
 		let newPos = document.documentElement.scrollTop + (elem?.getBoundingClientRect().top || 0) - (document.querySelector('.page-header')?.getBoundingClientRect().height || 0) - 5;
 		// console.log(document.documentElement.scrollTop, newPos);
-		if(window['pos'] != parseInt(newPos)) // detext final position of section on render
-		{
+		if(window['pos'] != parseInt(newPos)) // detect final position of section on render
 			window['pos'] = parseInt(newPos);
-			setTimeout(scrollToSectionByUrl, 500);
-		}
 		else if(document.documentElement.scrollTop != newPos) // then, check against scrollTop
 			document.documentElement.scrollTop = newPos;			
 		else if(typeof toggleHeader === 'function') // for github page
