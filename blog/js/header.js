@@ -52,7 +52,7 @@ function toggleHeader(forced) {
 	if (forced) {
 		pageHeader.classList.add('opaque-header');
 		pageHeader.classList.add('visible-header');
-		if(pageHeader.getBoundingClientRect().height >= 0.25*window.innerHeight) {
+		if(pageHeader.getBoundingClientRect().height >= 0.35*window.innerHeight) {
 			pageHeader.querySelector('.hashtags').classList.add('hidden');
 		}
 	}
