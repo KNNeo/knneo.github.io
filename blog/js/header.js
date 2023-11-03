@@ -34,34 +34,35 @@ function generateHeader() {
 		//add header to document, add window events	
 		pageHeader.innerHTML = '';
 		pageHeader.appendChild(header);
-		window.addEventListener('scroll', onScrollHeader);
+		window.addEventListener('scroll', headerOnScroll);
 	}
 }
 
-function onScrollHeader() {
+function headerOnScroll() {
 	// event.preventDefault();
 	let st = window.pageYOffset || document.documentElement.scrollTop;
 	let diff = st - window['scrollTop'];
-	// console.log(st, window['scrollTop'], diff);
+	console.log(st, window['scrollTop'], diff);
 	// diff == 1 is for initial load if navigate to section (chrome)
-	toggleHeader(st > 0.3 * document.documentElement.clientHeight && (!window['scrollTop'] || diff <= 0));
+	toggleHeader(st > 0.3 * document.documentElement.clientHeight && diff <= 0.01);
 	window['scrollTop'] = st;
 }
 
 function toggleHeader(forced) {
+	
 	if (forced) {
-		pageHeader.classList.add('opaque-header');
-		pageHeader.classList.add('visible-header');
+		// exclusions: to do before show/hide
 		if(pageHeader.getBoundingClientRect().height >= 0.35*window.innerHeight)
 			pageHeader.querySelector('.hashtags').classList.add('hidden');
 		if(pageHeader.height >= 0.35*window.innerHeight)
 			pageHeader.classList.add('hidden');
+		
+		pageHeader.classList.add('opaque-header');
+		pageHeader.classList.add('visible-header');
 	}
 	else {
 		pageHeader.classList.remove('opaque-header');
-		setTimeout(function() {
 			pageHeader.classList.remove('visible-header');
-		}, 500);
 	}
 }
 
