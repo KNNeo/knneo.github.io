@@ -975,7 +975,8 @@ abbr.imgpop:hover img {
 .agenda .item table.tr-caption-container {
 	width: 100%;
 	margin-bottom: 0;
-	padding: 0;
+	padding-left: 0;
+	padding-right: 0;
 }
 
 .agenda .item img {
