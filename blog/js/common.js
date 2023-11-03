@@ -453,7 +453,7 @@ function goToTop() {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
 	// scroll to table of contents, if any
-	document.querySelector('.agenda')?.scrollIntoView({ block: "center" });
+	document.querySelector('.agenda')?.scrollIntoView({ block: 'start' });
 }
 
 function hideImagesOnError() {
