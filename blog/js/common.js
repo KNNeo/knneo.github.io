@@ -100,7 +100,7 @@ function addHashtags() {
 function scrollToSectionByUrl() {
 	if(window.location.hash.length > 0)
 	{
-		scrollToElement(document.querySelector(window.location.hash));
+		scrollToElement(document.getElementById(window.location.hash.substring(1)));
 		// setTimeout(scrollToSectionByUrl, 500);
 	}
 }
@@ -109,12 +109,12 @@ function scrollToElement(elem) {
 	if(elem != null)
 	{
 		let newPos = document.documentElement.scrollTop + (elem?.getBoundingClientRect().top || 0) - (document.querySelector('.page-header')?.getBoundingClientRect().height || 0) - 5;
-		// console.log(document.documentElement.scrollTop, newPos);
+		// console.log(window['pos'], newPos);
 		if(window['pos'] != parseInt(newPos)) // detect final position of section on render
 			window['pos'] = parseInt(newPos);
-		else if(document.documentElement.scrollTop != newPos) // then, check against scrollTop
-			document.documentElement.scrollTop = newPos;			
-		else if(typeof toggleHeader === 'function') // for github page
+		if(document.documentElement.scrollTop != newPos) // then, check against scrollTop
+			document.documentElement.scrollTop = newPos;
+		if(typeof toggleHeader === 'function') // for github page
 			toggleHeader(true);
 	}
 }
@@ -455,8 +455,8 @@ function goToTop() {
 	// reset history
 	history.replaceState(null, null, ' ');
 	// scroll to top of DOM
-    document.body.scrollTop = 0;
-    document.documentElement.scrollTop = 0;
+	document.body.scrollTop = 0;
+	document.documentElement.scrollTop = 0;
 	// scroll to table of contents, if any
 	if(document.querySelector('.agenda') != null)
 		scrollToElement(document.querySelector('.agenda'));
