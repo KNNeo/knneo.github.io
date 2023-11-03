@@ -898,7 +898,7 @@ void Main()
             output.Write("<hr>");
             if(tags.Count > 0)
                 output.Write("<h4 class=\"post-tags\"><div> Reported in </div>" + 
-					string.Join("", tags.Select(tag => "<a href=\"../../../index.html#" + tag.Replace(" ","") +"\">" + tag + "</a>")) + 
+					string.Join("", tags.OrderBy(t => t).Select(tag => "<a href=\"../../../index.html#" + tag.Replace(" ","") +"\">" + tag + "</a>")) + 
 					"</h4>");
             output.Write("<h6 style=\"text-align: center;\">Copyright (c) 2014-" + DateTime.Now.Year + " Klassic Note Web Reports</h6>");
             output.Write("<br>");
