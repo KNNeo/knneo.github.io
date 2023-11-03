@@ -101,7 +101,7 @@ function scrollToSectionByUrl() {
 	if(window.location.hash.length > 0)
 	{
 		scrollToElement(document.querySelector(window.location.hash));
-		setTimeout(scrollToSectionByUrl, 500);
+		// setTimeout(scrollToSectionByUrl, 500);
 	}
 }
 
@@ -459,9 +459,7 @@ function goToTop() {
     document.documentElement.scrollTop = 0;
 	// scroll to table of contents, if any
 	if(document.querySelector('.agenda') != null)
-	setTimeout(function() {
 		scrollToElement(document.querySelector('.agenda'));
-	}, 0);
 }
 
 function hideImagesOnError() {
