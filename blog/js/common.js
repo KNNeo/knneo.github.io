@@ -458,6 +458,7 @@ function goToTop() {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
 	// scroll to table of contents, if any
+	if(document.querySelector('.agenda') != null)
 	scrollToElement(document.querySelector('.agenda'));
 }
 
