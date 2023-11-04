@@ -260,6 +260,9 @@ function labelTextToIcon(iconText) {
 		case 'The Fanfiction':
 			return 'menu_book';
 			break;
+		case 'The Statement':
+			return 'text_snippet';
+			break;
 		default:
 			break;
 	}

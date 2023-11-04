@@ -326,24 +326,8 @@ a:hover {
 span.small-icons {
     font-size: 18px;
     padding-right: 2px;
-    padding-top: 2px;
 }
 
-/* 
-.custom-table th, .custom-table td {
-	border: 1px solid var(--foreground);
-	padding: 2px 4px;
-}  
-
-.custom-table {
-	border-collapse: collapse;
-}
-
-.custom-table tr:hover > td {
-	background-color: gray;
-}
-
-*/
 .center-cells td {
 	text-align: center;
 }
@@ -470,7 +454,8 @@ span.small-icons {
 
 .tabs-inner .widget li a,
 .footer-inner .widget li a {
-  padding: 0;
+	display: flex;
+	padding: 0;
 }
 
 .tabs-inner .widget li {
