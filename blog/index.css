@@ -132,7 +132,7 @@
   user-select: none;
 }
 
-#sidebar-left-1 > div,
+.sidebar .widget,
 #ShareBtn,
 #SidebarBtn,
 #GoToTopBtn,
@@ -326,6 +326,7 @@ a:hover {
 span.small-icons {
     font-size: 18px;
     padding-right: 2px;
+    margin-top: -1px;
 }
 
 .center-cells td {
@@ -459,7 +460,7 @@ span.small-icons {
 }
 
 .tabs-inner .widget li {
-  padding: 12px 20px;
+  padding: 12px;
 }
 
 .tabs-inner .widget li span {
@@ -471,7 +472,7 @@ span.small-icons {
 .footer-inner .widget li {
   box-shadow: 3px 3px var(--foreground);
   border: 1px solid var(--foreground);
-  margin: 3px 12px 3px 0;
+  margin: 3px;
   border-radius: 8px;
 }
 
@@ -489,8 +490,9 @@ span.small-icons {
   width: initial;
 }
 
-#sidebar-left-1 > div {
-  padding: 10px;
+.sidebar .widget {
+	padding: 10px;
+    margin: 6px 0;
 }
 
 #sidebar-left-1 ul {
@@ -605,7 +607,7 @@ span.small-icons {
   #Label1 li {
     float: none;
     display: inline-block;
-    padding: 12px 20px;
+    padding: 12px;
   }
   #CustomBlogSearch {
     max-width: 220px;
@@ -633,7 +635,7 @@ span.small-icons {
   .footer-inner .widget li {
     float: none;
     display: inline-block;
-    margin: 3px 5px;
+    margin: 3px;
   }
   .content-inner {
     overflow-x: hidden;
