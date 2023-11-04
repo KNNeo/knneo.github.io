@@ -322,6 +322,13 @@ a:hover {
 .material-icons {
   font-size: 48px;
 }
+
+span.small-icons {
+    font-size: 18px;
+    padding-right: 2px;
+    padding-top: 2px;
+}
+
 /* 
 .custom-table th, .custom-table td {
 	border: 1px solid var(--foreground);
@@ -989,7 +996,7 @@ abbr.imgpop:hover img {
 }
 
 .agenda .item a img {
-	border-width: 2px 10px;
+	border-width: 2px 2px 1em;
 	/* border-radius: 8px; */
 }
 
