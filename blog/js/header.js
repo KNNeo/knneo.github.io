@@ -42,7 +42,7 @@ function headerOnScroll() {
 	// event.preventDefault();
 	let st = window.pageYOffset || document.documentElement.scrollTop;
 	let diff = st - window['scrollTop'];
-	console.log(st, window['scrollTop'], diff);
+	// console.log(st, window['scrollTop'], diff);
 	// diff == 1 is for initial load if navigate to section (chrome)
 	toggleHeader(st > 0.3 * document.documentElement.clientHeight && diff <= 0.01);
 	window['scrollTop'] = st;
