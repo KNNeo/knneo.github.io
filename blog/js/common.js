@@ -506,16 +506,20 @@ async function sharePage() {
 
 // Multi-image thumbnail: Define max caption height, onclick event
 function setThumbnails() {
-	// check if thumbnail violate features
-	if(Array.from(document.querySelectorAll('.thumbnail img')).filter(i => i.parentElement.tagName.toLowerCase() === 'a').length > 0)
+	// check thumbnail images with links
+	let thumbImagesWithLinks = Array.from(document.querySelectorAll('.thumbnail img')).filter(i => i.parentElement.tagName.toLowerCase() === 'a');
+	if(thumbImagesWithLinks.length > 0)
 	{
 		console.error("Thumbnail has image with link: Will prevent switchThumbnails assignment");
+		console.log(thumbImagesWithLinks);
 		return;
 	}
-	// check if thumbnail violate initial view classes
-	if(Array.from(document.querySelectorAll('.thumbnail')).filter(i => i.querySelectorAll('.thumbnail-initial:not(.thumbnail-pop)').length == 1).length != document.querySelectorAll('.thumbnail').length)
+	// check thumbnail class names logic violation
+	let thumbInitials = Array.from(document.querySelectorAll('.thumbnail')).filter(i => i.querySelectorAll('.thumbnail-initial:not(.thumbnail-pop)').length != 1);
+	if(thumbInitials.length > 0) // no of thumbnails with initial class not exactly 1
 	{
-		console.error("Thumbnail initial classList fail: Will prevent switchThumbnails assignment");
+		console.error("Thumbnail classList definition error: Will prevent switchThumbnails assignment");
+		console.log(thumbInitials);
 		return;
 	}
 	
