@@ -41,10 +41,10 @@ void Main()
 	
 	var postCount = 0;
 	var showResults = true; //if has match show full object, else just post title
-	var showMatches = false; //if has match show full match object, else just object with description
+	var showMatches = true; //if has match show full match object, else just object with description
 	var showOk = false; //if post no issues don't show
 	 //----------ADD INDEXES HERE----------//
-	List<int> includeIndex = new List<int> { 24 };
+	List<int> includeIndex = new List<int> { 32 };
 	if(includeIndex.Count > 0) Console.WriteLine("[SELECTIVE_CHECKS_ACTIVATED - " + String.Join(", ", includeIndex) + "]");
 	else Console.WriteLine("[ALL_CHECKS_ACTIVATED]");
 	
@@ -84,6 +84,7 @@ void Main()
 	 * [29] reduce resolution of uploaded images (from 4032 -> 2048 pixels)
 	 * []	censor words
 	 * [31]	add lazy loading to img tags
+	 * [32] fix blogger images without absolute path
 	 */
 	
 	// Process XML content per post
@@ -675,6 +676,28 @@ void Main()
 						description = "[31] thumbnail-initial found, to not have loading lazy",
 						action = "to revert to normal img, as need this for setThumbnail"
 					});
+	        };
+			
+		}
+		#endregion
+		
+		#region 32 fix blogger images without absolute path
+		if(includeIndex.Count() == 0 || includeIndex.Contains(32))
+		{
+			List<string> includedDomains = new List<string>() { "ggpht.com", "bp.blogspot.com", "blogger.googleusercontent.com" };
+			// Does not cater to thumbnails, do not put lazy on first thumb
+	        expression = @"(?s)(<img)(.*?)(src="")(.*?)("")";
+	        match = Regex.Match(content, expression);
+	        while(match.Success) {
+				var filename = match.Groups[4].Value;
+				if(includedDomains.Any(d => filename.Contains(d)) && !filename.EndsWith(".jpg")) {
+					Console.WriteLine(filename);
+		            fixes.Add(new MatchItem() {
+							match = showMatches ? match : null,
+							description = "[32] blogger image without absolute path found",
+							action = "find absolute path name from blogger media manager and replace src manually"
+						});
+				}
 	        };
 			
 		}
