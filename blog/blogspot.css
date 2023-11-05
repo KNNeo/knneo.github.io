@@ -93,6 +93,7 @@ a:hover {
 }
 
 .latest-post:hover {
+	transition: all .1s linear;
 	box-shadow: 1px 1px;
 	transform: translate(2px,2px);
 }
@@ -198,7 +199,7 @@ a:hover {
 	cursor: pointer;
 	padding: 8px 6px 6px 6px;
 	border-radius: 7px;
-	/* transition: opacity 0.3s; */
+	transition: background .2s linear;
 }
 
 #BackBtn {
@@ -221,6 +222,7 @@ a:hover {
 	background-color: var(--background);
 	box-shadow: 3px 3px var(--foreground);
 	border-radius: 8px;
+	transition: all 0.1s linear;
 	transition: background .2s linear;
 }
 
@@ -330,6 +332,7 @@ a:hover {
 #BackBtn:hover,
 #LeftBtn:hover,
 #RightBtn:hover {
+	transition: all .1s linear;
 	box-shadow: 1px 1px;
 	transform: translate(2px, 2px);
 }
@@ -390,6 +393,7 @@ span.emoji {
 
 .home-tags a:hover,
 .post-tags a:hover {
+	transition: all .1s linear;
 	box-shadow: 1px 1px;
 	transform: translate(2px, 2px);
 }
