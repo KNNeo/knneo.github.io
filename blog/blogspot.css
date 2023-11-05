@@ -90,6 +90,7 @@ a:hover {
 	-ms-user-select: none;
 	user-select: none;
 	border-radius: 8px;
+	transition: background .2s linear;
 }
 
 .latest-post:hover {
@@ -372,6 +373,7 @@ span.emoji {
 	background-color: var(--background);
 	text-decoration: none;
     padding: 6px;
+	transition: background .2s linear;
 }
 
 .post-tags {
@@ -389,6 +391,7 @@ span.emoji {
 	padding: 6px;
     white-space: nowrap;
 	text-decoration: none;
+	transition: background .2s linear;
 }
 
 .home-tags a:hover,
