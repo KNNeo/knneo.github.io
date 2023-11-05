@@ -56,18 +56,33 @@ body {
 
 .tile-image {
 	max-width: 33%;
+	border: 1px solid transparent;
+}
+
+.tile-image:hover {
+	border: 1px solid var(--foreground);
 }
 
 .fit {
 	position: fixed;
-	top: 50px;
+	top: 0;
     left: 0;
     right: 0;
+	background-color: var(--background);
 }
 
 .fit .tile-image {
 	max-width: 100dvw;
 	height: auto;
+	border: 1px solid var(--foreground);
+	box-shadow: 3px 3px var(--foreground);
+	border-radius: 8px;
+	margin: 5px;
+}
+
+.fit .tile-image:hover {
+	box-shadow: 1px 1px;
+	transform: translate(2px, 2px);
 }
 
 .material-icons {
@@ -147,6 +162,7 @@ body {
 	#contents {
 		display: flex;
 		flex-wrap: wrap;
+		gap: 0 5px;
 	}
 	
 	.title {
@@ -154,7 +170,7 @@ body {
 	}
 	
 	.tile {
-		width: 33%;
+		width: 30%;
 	}
 
 	.tile-image {
