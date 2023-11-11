@@ -1,0 +1,1 @@
+select u.SeriesTitle, u.Folder, group_concat(s.SongTitle, ' | ') from UltimateCollection u join Song s on u.SongID = s.ID group by u.SeriesTitle, u.Folder
