@@ -50,7 +50,8 @@ void Main()
 {
     bool WriteTitleOnConsole = true;
 	bool TraceMode = false;
-	int maxLatestPost = 20;
+	//int maxLatestPost = 20;
+	bool RenderHomepageOnly = true;
 	string defaultFont = "Noto Sans";
     Console.WriteLine("WriteTitleOnConsole is " + WriteTitleOnConsole + "; Set as true to see post titles");
     Console.WriteLine("\tPost with changes will appear here");
@@ -135,7 +136,7 @@ void Main()
     var allTags = new List<string>();
     #endregion
     
-	var latestPostCount = 0;
+	//var latestPostCount = 0;
     var textString = "";
 	
 	// Linked list for all page links to find navigation
@@ -159,17 +160,16 @@ void Main()
     for (var p = 0; p < posts.Count(); p++)
     {
 		var entry = posts.ElementAt(p);
-	
         //FIX POST ATTRIBUTES
         //fix url of ent news, by year except 2014
-        
+		
         // FIX POST CONTENT
         List<int> count = new List<int>();
         string oldContent = entry.Element(_+"content").Value;
         string content = entry.Element(_+"content").Value;
-        string expression, matchExpression;
-        Match match, matchExp;
+		string expression, matchExpression;
         string prefix, midfix, suffix;
+	    Match match, matchExp;
         List<MatchItem> matchItems = new List<MatchItem>();
         
         // All regions of change to include in order: [1] detection expression [2] increment if detected [3] replacement
@@ -177,7 +177,6 @@ void Main()
         // [1] Define Regex Expression (loose and strict)
         // [2] Replace String According to Expression (simple without format, or simple with format, or complex use UpdateRegexContent)
         
-		
 		#region 01 fix twitter embed
 		if(includeIndex.Count() == 0 || includeIndex.Contains(1))
 		{
@@ -505,17 +504,16 @@ void Main()
 		}
         #endregion
         
-        #region all table styles to be within post
-        // change style tr or whatever to .post-content tr respectively		
+        //#region all table styles to be within post
+        // change style tr or whatever to .post-content tr respectively
+        //#endregion
         
-        #endregion
-        
-        #region jisho links detection
+        //#region jisho links detection
         //expression = @"(?s)(<a href="")(https://jisho.org/search/)(.*?)("" target=""_blank"">)(.*?)(</a>)";
         //match = Regex.Match(content, expression);
         //if(match.Value.Length > 0)
         //	Console.WriteLine(match.Value);
-        #endregion
+        //#endregion
         
         #region 16 remove hashtags on post level
 		if(includeIndex.Count() == 0 || includeIndex.Contains(16))
@@ -657,16 +655,16 @@ void Main()
 		}
 		#endregion
         
-        #region export list of images from latest
-//        expression = @"(?s)(<img)(.*?)(src="")(.*?)("")";
-//        match = Regex.Match(content, expression);
-//        while(match.Success)
-//        {
-//			imageExport += ",\"" + match.Groups[4].Value + "\"";
-//        	match = match.NextMatch();
-//        };
-//        if(match.Success) count++;
-        #endregion
+        //#region export list of images from latest
+        //expression = @"(?s)(<img)(.*?)(src="")(.*?)("")";
+        //match = Regex.Match(content, expression);
+        //while(match.Success)
+        //{
+		//	imageExport += ",\"" + match.Groups[4].Value + "\"";
+        //	match = match.NextMatch();
+        //};
+        //if(match.Success) count++;
+        //#endregion
 		
         #region 24 replace common phrases with emoji
 		if(includeIndex.Count() == 0 || includeIndex.Contains(24))
@@ -688,13 +686,13 @@ void Main()
 		}
         #endregion
 		
-        #region check image without ending tag
-//		if(TraceMode) Console.WriteLine("check image without ending tag");
-//        expression = @"(?s)(<img)(.*?)(/>)";
-//        match = Regex.Match(content, expression);
-//        Console.WriteLine(match);
-//        if(match.Success) count++;
-        #endregion
+        //#region check image without ending tag
+		//if(TraceMode) Console.WriteLine("check image without ending tag");
+        //expression = @"(?s)(<img)(.*?)(/>)";
+        //match = Regex.Match(content, expression);
+        //Console.WriteLine(match);
+        //if(match.Success) count++;
+        //#endregion
 		
         #region 25 remove hidden tags to generate hashtags
 		if(includeIndex.Count() == 0 || includeIndex.Contains(25))
@@ -908,7 +906,7 @@ void Main()
             output.WriteLine("</div>");
             output.WriteLine("</body>");
             output.WriteLine("</html>");
-        }
+		}
 		
 		//check post
 		//if(TraceMode && title == "The Entertainment News 2022 Edition Issue #01")
@@ -938,8 +936,9 @@ void Main()
 			{
 		        var thumbnailUrl = "";
 				var anchors = new List<string>();
+				var isLatest = IsLatestPost(published);
 				// For latest post, show expanded content
-				if(latestPostCount < maxLatestPost)
+				if(isLatest)
 				{
 			        // Find first image, if any
 					if (TraceMode) Console.WriteLine("Find first image for home page, if any");
@@ -963,23 +962,19 @@ void Main()
 					//Console.WriteLine(anchors);
 				}
 				
-				var thumbnailDiv = "<div"+classes.Replace("Post", "Post latest-post")+">" + 
+                textString += isLatest 
+					? "<div"+classes.Replace("Post", "Post latest-post")+">" + 
 					"<span class=\"publish\">"+published.ToString("yyyy.MM.dd")+"</span>" + 
 					"<div class=\"latest-post-thumb\">" + 
 						"<a href=\"" + pageLink + "\">" + postTitle + "</a>" + 
 						(anchors.Count > 0 ? "<div class=\"anchors\">" + string.Join("", anchors.Select(a => "<a href=\"" + (pageLink + "#" + a) + "\">#" + a + "</a>")) + "</div>" : "") + 
 						(thumbnailUrl.Length > 0 ? "<div class=\"" + (anchors.Count > 0 ? "thumb-overlay" : "thumb") + "\"><img loading=\"lazy\" src=\"" + thumbnailUrl + "\"/></div>" : "") + 
-					"</div></div>\n";
-            
-                textString += latestPostCount >= maxLatestPost 
-					? "<div" + classes + "><span class=\"publish\">" + published.ToString("yyyy.MM.dd") + " </span><a href=\""+pageLink+"\">" + postTitle + "</a></div>\n" 
-					: thumbnailDiv;
-				
-				latestPostCount++;
+					"</div></div>\n"
+					: "<div" + classes + "><span class=\"publish\">" + published.ToString("yyyy.MM.dd") + " </span><a href=\""+pageLink+"\">" + postTitle + "</a></div>\n";
+					
+				//latestPostCount++;
 			}
         }
-			
-			
     }
     
     //Write into home page
@@ -992,19 +987,25 @@ void Main()
     File.WriteAllText(blogpath + "\\index.html", fileString);
 }
 
-string UpdateRegexContent(string content, Match loosematch, Match strictMatch, string replacementPrefix, string replacementSuffix)
+bool IsLatestPost(DateTime publishDate)
 {
-    var newContent = content;
-    while(loosematch.Success)
-    {
-        var replacement = replacementPrefix + strictMatch.Value + replacementSuffix;
-        newContent = newContent.Replace(loosematch.Value, replacement);
-        loosematch = loosematch.NextMatch();
-        strictMatch = strictMatch.NextMatch();
-    };
-    
-    return newContent;
+	DateTime beforeDate = DateTime.Now.AddMonths(-2);
+	return DateTime.Compare(publishDate, new DateTime(beforeDate.Year, beforeDate.Month, 1)) >= 0;
 }
+
+//string UpdateRegexContent(string content, Match loosematch, Match strictMatch, string replacementPrefix, string replacementSuffix)
+//{
+//    var newContent = content;
+//    while(loosematch.Success)
+//    {
+//        var replacement = replacementPrefix + strictMatch.Value + replacementSuffix;
+//        newContent = newContent.Replace(loosematch.Value, replacement);
+//        loosematch = loosematch.NextMatch();
+//        strictMatch = strictMatch.NextMatch();
+//    };
+//    
+//    return newContent;
+//}
 
 public class MatchItem
 {
