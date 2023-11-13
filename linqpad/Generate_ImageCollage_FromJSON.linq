@@ -24,6 +24,7 @@ void Main()
 {
 	//variables
 	bool checkFiles = true;
+	bool noDownload = true;
 	var generateObjectAs = "string"; // accepted data types: object, string
 	
 	var separator = '_';
@@ -48,7 +49,7 @@ void Main()
     {
         string json = r.ReadToEnd();
         data = JsonConvert.DeserializeObject<List<SourceDataItem>>(json);
-		//Console.WriteLine(data);
+		Console.WriteLine(data);
     }
 		
 	List<MapDataItem> mapper = new List<MapDataItem>();
@@ -73,18 +74,27 @@ void Main()
 			
 			if(dataOne != null && !File.Exists(thumbpath + filename))
 			{
-				//download image
-				Console.WriteLine("Found: " + dataOne.name);
-				var url = @"https://doax.cc/res/pic_star/" + dataOne.id + ".png";
-				DownloadTo(url, thumbpath + filename);
-				
-				//resize image to thumbnails
-				if(!File.Exists(thumbpath + prefixSm + filename))
-					ResizeImageToNew(thumbpath + filename, thumbpath + prefixSm + filename, 200, 0);
-				if(!File.Exists(thumbpath + prefixMd + filename))
-					ResizeImageToNew(thumbpath + filename, thumbpath + prefixMd + filename, 400, 0);
-				if(!File.Exists(thumbpath + prefixLg + filename))
-					ResizeImageToNew(thumbpath + filename, thumbpath + prefixLg + filename, 800, 0);
+				if(noDownload)
+				{
+					//record image url
+					var url = @"https://doax.cc/res/pic_star/" + dataOne.id + ".png";
+					Console.WriteLine("Found: " + url);
+				}
+				else
+				{
+					//download image
+					Console.WriteLine("Found: " + dataOne.name);
+					var url = @"https://doax.cc/res/pic_star/" + dataOne.id + ".png";
+					DownloadTo(url, thumbpath + filename);
+					
+					//resize image to thumbnails
+					if(!File.Exists(thumbpath + prefixSm + filename))
+						ResizeImageToNew(thumbpath + filename, thumbpath + prefixSm + filename, 200, 0);
+					if(!File.Exists(thumbpath + prefixMd + filename))
+						ResizeImageToNew(thumbpath + filename, thumbpath + prefixMd + filename, 400, 0);
+					if(!File.Exists(thumbpath + prefixLg + filename))
+						ResizeImageToNew(thumbpath + filename, thumbpath + prefixLg + filename, 800, 0);
+				}
 			}
 			else if(dataOne == null) 
 			{
@@ -105,10 +115,26 @@ void Main()
 			var filename = file.ishou + "_" + file.chara + ".jpg";
 			var item = new ImageCollageItem();
 			item.filename = filename;
-			item.sm = "file://" + thumbpath.Replace("\\","/") + prefixSm + filename;
-			item.md = "file://" + thumbpath.Replace("\\","/") + prefixMd + filename;
-			item.lg = "file://" + thumbpath.Replace("\\","/") + prefixLg + filename;
-			item.og = "file://" + thumbpath.Replace("\\","/") + filename;
+			if(noDownload) 
+			{
+				var dataOne = data.FirstOrDefault(d => d.name.Trim() == file.search.Trim());
+				if(dataOne != null)
+				{
+					var url = @"https://doax.cc/res/pic_star/" + dataOne.id + ".png";
+					var thumb = @"https://doax.cc/res/pic_star_s/" + dataOne.id + ".png";
+					item.sm = thumb;
+					item.md = thumb;
+					item.lg = url;
+					item.og = url;
+				}				
+			}
+			else
+			{
+				item.sm = "file://" + thumbpath.Replace("\\","/") + prefixSm + filename;
+				item.md = "file://" + thumbpath.Replace("\\","/") + prefixMd + filename;
+				item.lg = "file://" + thumbpath.Replace("\\","/") + prefixLg + filename;
+				item.og = "file://" + thumbpath.Replace("\\","/") + filename;
+			}
 			output.Add(item);
 		}
 	}
@@ -182,7 +208,7 @@ class MapDataItem
 	public string ishou { get; set; }
 	public string chara { get; set; }
 	public string search { get; set; }	
-	public bool collab { get; set; }	
+	public bool collab { get; set; }
 }
 
 class ImageCollageItem
