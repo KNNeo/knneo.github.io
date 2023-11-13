@@ -17,15 +17,18 @@ const config = {
 		"wrong": '❌',
 	},
 	"rules": `RULES<br><br>
-			- Press play button to start<br>
-			- Select from 3 options, which corresponds to image shown<br>
+			- Click on sun icon [D] for dark mode toggle<br>
+			- Click on play button [Enter] to start<br>
+			- Select from 3 options [1-3], which corresponds to image shown<br>
 			- When max questions reached, will show final score<br>
 			- Change source data from settings below<br>
-			- Click on timer icon for a challenge, default no time limit<br>
-			- Click on braces icon for practice mode, attempt will not be recorded<br><br>
+			- Click on timer icon [T] for a challenge, default no time limit<br>
+			- Click on braces icon [M] for practice mode, attempt will not be recorded<br><br>
 			SETUP<br><br>
 			- Dataset to have min amount of items as of config.options.total<br>
-			- Dataset to have min amount of total tags as of config.options.each`
+			- Dataset to have min amount of total tags as of config.options.each<br>
+			- Config allows set no. of options, but keyboard mapping is limited to first 3 options<br><br>
+			Click on this modal [Enter] to close`
 };
 
 //--DOM NODE REFERENCES--//
@@ -81,6 +84,19 @@ function onKeyDown() {
 		// event.preventDefault();
 	
 	switch(event.key) {
+	  case 'F1':
+		event.preventDefault();
+		document.querySelector('.rules').click();
+		break;
+	  case 'T':
+		document.querySelector('.timer').click();
+		break;
+	  case 'M':
+		document.querySelector('.mode').click();
+		break;
+	  case 'D':
+		document.querySelector('.darkmode').click();
+		break;
 	  case 'PageDown':
 		next();
 		break;
@@ -88,7 +104,9 @@ function onKeyDown() {
 		end();
 		break;
 	  case 'Enter':
-		start();
+		// console.log(event.target);
+		if(event.target != document.querySelector('.dialog dialog'))
+			start();
 		break;
 	  case '1':
 	  case 'ArrowLeft':
