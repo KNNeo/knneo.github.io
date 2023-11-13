@@ -132,7 +132,14 @@ a:hover {
 	color: var(--foreground);
     font-size: 1.8em;
     padding: 6px 12px;
-	pointer: cursor;
+	cursor: pointer;
+    width: 6em;
+}
+
+@media (min-width: 960px) and (orientation: landscape) {
+	.bottom-right button {
+		width: 80%;
+	}
 }
 
 .bottom-right button:hover {
