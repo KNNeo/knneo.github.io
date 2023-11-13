@@ -4,6 +4,7 @@ const isFirefox = (/Firefox/i.test(navigator.userAgent));
 const config = {
 	"title": 'QUIZ MAKER',
 	"subtitle": '[See (?) icon for rules]',
+	"mode": 'quiz',
 	"options": {
 		"total": 10,
 		"each": 3,
@@ -20,7 +21,8 @@ const config = {
 			- Select from 3 options, which corresponds to image shown<br>
 			- When max questions reached, will show final score<br>
 			- Change source data from settings below<br>
-			- Click on timer icon for a challenge, default no time limit<br><br>
+			- Click on timer icon for a challenge, default no time limit<br>
+			- Click on braces icon for practice mode, attempt will not be recorded<br><br>
 			SETUP<br><br>
 			- Dataset to have min amount of items as of config.options.total<br>
 			- Dataset to have min amount of total tags as of config.options.each`
@@ -120,6 +122,7 @@ function start() {
 	window.variables.total = 0;
 	window.variables.correct = 0;
 	window.variables.running = true;
+	window.variables.practice = config.mode.toLowerCase() == 'practice';
 	window.variables.test = [];
 	window.variables.timer = null;
 	next();
@@ -131,7 +134,8 @@ function choose() {
 	if(choiceItems[0].tags == event.target.innerText) {
 		++window.variables.correct;
 		clearTimeout(window.variables.timer);
-		popupTextGoAway(config.prompt.correct);
+		if(!window.variables.practice)
+			popupTextGoAway(config.prompt.correct);
 	}
 	else {
 		popupTextGoAway(config.prompt.wrong);
@@ -139,7 +143,7 @@ function choose() {
 	}
 	
 	++window.variables.total;
-	setTimeout(next, 500);
+	setTimeout(next, window.variables.practice ? 0 : 500);
 }
 
 function next() {
@@ -174,11 +178,13 @@ function next() {
 	
 	// load options
 	let choices = [item.tags];
-	choices.push(notItem[0].item.tags);
-	choices.push(notItem[1].item.tags);
-	choices.sort(function() {
-		return 2*Math.random() - 1;
-	});
+	if(!window.variables.practice) {
+		choices.push(notItem[0].item.tags);
+		choices.push(notItem[1].item.tags);
+		choices.sort(function() {
+			return 2*Math.random() - 1;
+		});
+	}
 	
 	for(let choice of choices)
 	{
@@ -204,12 +210,15 @@ function end() {
 	scoreDiv.innerText = window.variables.correct + ' / ' + window.variables.total;
 	bottomRightDiv.appendChild(scoreDiv);
 	
-	window.variables.scores.unshift({
-		timestamp: new Date().toLocaleString(), 
-		total: window.variables.total, 
-		score: window.variables.correct 
-	});
-	localStorage.setItem('quiz-history', JSON.stringify(window.variables.scores));
+	if(!window.variables.practice) {
+		window.variables.scores.unshift({
+			timestamp: new Date().toLocaleString(), 
+			total: window.variables.total, 
+			score: window.variables.correct,
+			timer: config.timer.each > 0 ? config.timer.each + 's' : 'infinite',
+		});
+		localStorage.setItem('quiz-history', JSON.stringify(window.variables.scores));
+	}
 }
 
 function clear() {
@@ -225,14 +234,18 @@ function showRules() {
 
 function showScores() {
 	let containerDiv = document.createElement('div');	
+	let titleDiv = document.createElement('div');
+	titleDiv.innerText = 'SCORES';
+	containerDiv.appendChild(titleDiv);
+	
 	let headerDiv = document.createElement('div');
-	headerDiv.innerText = 'SCORES';
+	headerDiv.innerText = 'time | score | timer';
 	containerDiv.appendChild(headerDiv);
 	
 	for(let score of window.variables.scores)
 	{
 		let scoreDiv = document.createElement('div');
-		scoreDiv.innerText = score.timestamp + ' | ' + score.score + ' / ' + score.total;
+		scoreDiv.innerText = [score.timestamp, score.score + ' / ' + score.total, score.timer].join(' | ');
 		containerDiv.appendChild(scoreDiv);
 	}
 	
@@ -261,8 +274,11 @@ function changeDataFile(dest) {
 function toggleTimer() {
 	let time = parseInt(event.target.getAttribute('data-timer'));
 	switch(time) {
+		case 2:
+			config.timer.each = 0;			
+			break;
 		case 3:
-			config.timer.each = 1;			
+			config.timer.each = 2;			
 			break;
 		case 5:
 			config.timer.each = 3;
@@ -276,6 +292,22 @@ function toggleTimer() {
 	}
 	event.target.setAttribute('data-timer', config.timer.each);
 	popupTextGoAway(config.timer.each > 0 ? config.timer.each + 's' : '♾️');
+}
+
+function toggleMode() {
+	let mode = event.target.getAttribute('data-mode');
+	switch(mode) {
+		case 'practice':
+			config.mode = 'quiz';
+			break;
+		default:
+			config.mode = 'practice';
+			break;
+	}
+	event.target.classList.toggle('bi-braces');
+	event.target.classList.toggle('bi-braces-asterisk');
+	event.target.setAttribute('data-mode', config.mode);
+	popupTextGoAway(config.mode.toUpperCase());
 }
 
 //--FUNCTIONS--//
