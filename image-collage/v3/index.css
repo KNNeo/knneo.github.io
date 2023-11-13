@@ -91,6 +91,10 @@ body[layout='horizontal'] .expander {
 	overflow-y: auto;
 }
 
+body[layout='vertical'] .tags.expanded div {
+	max-height: 46dvh;
+}
+
 .tag {
 	margin: 3px;
 	cursor: pointer;
