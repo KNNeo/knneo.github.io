@@ -15,11 +15,14 @@
 <body onload="startup()" onkeydown="onKeyDown()">
 <div class="page">
 	<div class="top-left box" data-status="disabled"></div>
-	<h3 class="action">
-		<a class="bi bi-question-circle" href="javascript:void(0);" title="Show Rules" onclick="showRules()"></a>
-		<a class="bi bi-table" href="javascript:void(0);" title="Show Scores" onclick="showScores()"></a>
-		<a class="play bi bi-play-circle" href="javascript:void(0);" title="Play/Pause" onclick="start()" oncontextmenu="reload()"></a>
-	</h3>
+	<div class="box">
+		<h3 class="action">
+			<a class="bi bi-question-circle" href="javascript:void(0);" title="Show Rules" onclick="showRules()"></a>
+			<a class="bi bi-table" href="javascript:void(0);" title="Show Scores" onclick="showScores()"></a>
+			<a class="play bi bi-play-circle" href="javascript:void(0);" title="Play/Pause" onclick="start()" oncontextmenu="reload()"></a>
+		</h3>
+		<progress class="progress" value="0" max="1"></progress>
+	</div>
 	<div class="bottom-right box" data-status="disabled">Loading...</div>
 </div>
 <h3 class="settings">

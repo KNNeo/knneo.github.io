@@ -20,7 +20,10 @@ const config = {
 			- Select from 3 options, which corresponds to image shown<br>
 			- When max questions reached, will show final score<br>
 			- Change source data from settings below<br>
-			- Set timer for a challenge, else no time limit`
+			- Click on timer icon for a challenge, default no time limit<br><br>
+			SETUP<br><br>
+			- Dataset to have min amount of items as of config.options.total<br>
+			- Dataset to have min amount of total tags as of config.options.each`
 };
 
 //--DOM NODE REFERENCES--//
@@ -102,7 +105,17 @@ function onKeyDown() {
 	}
 }
 
-function start() {	
+function start() {
+	// check requirements for start
+	if(window.variables.base.length < config.options.total) // min config.options.total number of items
+		return alert('dataset is too small: quiz cancelled');
+	if(window.variables.base.reduce(function(total, current) {
+		if(total.indexOf(current.tags) < 0)
+			total.push(current.tags);
+		return total;
+	}, []).length < config.options.each) // min config.options.each number of tags
+		return alert('dataset has too little tags: quiz cancelled');
+	
 	// start game
 	window.variables.total = 0;
 	window.variables.correct = 0;
@@ -113,9 +126,9 @@ function start() {
 }
 
 function choose() {
-	let choiceItem = window.variables.base.filter(b => document.querySelector('.question').src == b.filename)[0];
+	let choiceItems = window.variables.base.filter(b => document.querySelector('.question').src == b.filename);
 	
-	if(choiceItem.tags == event.target.innerText) {
+	if(choiceItems[0].tags == event.target.innerText) {
 		++window.variables.correct;
 		clearTimeout(window.variables.timer);
 		popupTextGoAway(config.prompt.correct);
@@ -154,12 +167,10 @@ function next() {
 	});
 	topLeftDiv.appendChild(questionDiv);
 	
-	// load progress
-	let progressDiv = document.createElement('progress');
-	progressDiv.classList.add('progress');
+	// set progress
+	progressDiv.title = window.variables.total + ' / ' + config.options.total;
 	progressDiv.value = window.variables.total + 1;
 	progressDiv.max = config.options.total;
-	bottomRightDiv.appendChild(progressDiv);
 	
 	// load options
 	let choices = [item.tags];
@@ -189,6 +200,7 @@ function end() {
 	bottomRightDiv.appendChild(choiceDiv);
 	
 	let scoreDiv = document.createElement('div');
+	scoreDiv.style.fontSize = '2em';
 	scoreDiv.innerText = window.variables.correct + ' / ' + window.variables.total;
 	bottomRightDiv.appendChild(scoreDiv);
 	
@@ -250,16 +262,16 @@ function toggleTimer() {
 	let time = parseInt(event.target.getAttribute('data-timer'));
 	switch(time) {
 		case 3:
-			config.timer.each = 5;			
+			config.timer.each = 1;			
 			break;
 		case 5:
-			config.timer.each = 10;
+			config.timer.each = 3;
 			break;
 		case 10:
-			config.timer.each = 0;
+			config.timer.each = 5;
 			break;
 		default:
-			config.timer.each = 3;
+			config.timer.each = 10;
 			break;
 	}
 	event.target.setAttribute('data-timer', config.timer.each);
@@ -290,7 +302,7 @@ function randomItem(list, property, exclude) {
 	let check = exclude || [];
 	let index = Math.floor(list.length*Math.random());
 	let item = list[index];
-	while(check.includes(item[property])) {
+	while(check.includes(item[property]) || (property == 'index' && check.includes(index))) {
 		index = Math.floor(list.length*Math.random());
 		item = list[index];
 	}
