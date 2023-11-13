@@ -131,7 +131,7 @@ a:hover {
 }
 
 .go-away.text.fade {
-	transition: opacity .2s;
+	transition: opacity .5s;
 }
 
 .go-away.hide {

@@ -16,8 +16,9 @@ const config = {
 		"wrong": '❌',
 	},
 	"rules": `RULES<br><br>
-			- Select from 3 options<br>
-			- Max questions reached, show score<br>
+			- Press play button to start<br>
+			- Select from 3 options, which corresponds to image shown<br>
+			- When max questions reached, will show final score<br>
 			- Change source data from settings below<br>
 			- Set timer for a challenge, else no time limit`
 };
@@ -125,7 +126,7 @@ function choose() {
 	}
 	
 	++window.variables.total;
-	next();
+	setTimeout(next, 500);
 }
 
 function next() {
