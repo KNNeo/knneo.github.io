@@ -4,7 +4,6 @@
 	"dir": "ltr",
 	"display": "standalone",
 	"name": "Klassic Note Playground",
-	"orientation": "portrait",
 	"scope": "/",
 	"short_name": "Klassic Note",
 	"start_url": "/",
