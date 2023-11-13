@@ -55,13 +55,11 @@ a:hover {
 }
 
 .bi {
-	font-size: 1.5em;
+	font-size: 2em;
 }
 
 .top-left,
 .bottom-right {
-	width: auto;
-	height: 45dvh;
 	display: flex;
 	flex-direction: column;
     justify-content: space-evenly;
@@ -78,9 +76,17 @@ a:hover {
 }
 
 .page {
-	display: flex;
-    flex-direction: column;
+	display: grid;
+	grid-template-rows: 1fr 50px 1fr;
+	align-items: center;
     height: calc(100dvh - 70px);
+}
+
+@media (orientation: landscape) {
+	.page {
+		grid-template-rows: 1fr;
+		grid-template-columns: 1fr 125px 1fr;
+	}
 }
 
 .dialog dialog {
@@ -101,6 +107,14 @@ a:hover {
     height: 100%;
     max-height: 30dvh;
     object-fit: contain;
+}
+
+@media (orientation: landscape) {
+	.top-left img {
+		max-width: 30dvw;
+		height: auto;
+		max-height: calc(100dvh - 70px);
+	}
 }
 
 .bottom-right button {
@@ -124,6 +138,12 @@ a:hover {
 	left: 0;
 	font-size: 10em;
 	text-shadow: 4px 4px var(--background);
+}
+
+@media (orientation: landscape) {
+	.go-away {
+		width: 40dvw;
+	}
 }
 
 .go-away.fade {
