@@ -345,7 +345,7 @@ function renderGallery() {
 		itemDiv.setAttribute('data-id', index);
 		if(value.link) itemDiv.setAttribute('data-link', value.link);
 		if(value.blur) itemDiv.setAttribute('data-effect', 'blur');
-		itemDiv.src = value.filename;
+		itemDiv.src = value.thumbnail || value.filename;
 		itemDiv.title = value.description || '';
 		itemDiv.alt = value.description || '';
 		itemDiv.draggable = false;
