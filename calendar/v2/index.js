@@ -121,6 +121,7 @@ const templates = [
 		name: '鬼頭明里のsmiley pop',
 		startDayNo: 3,
 		startTime: 1930,
+		endDate: '2023-09-27',
 		lengthMinutes: 30,
 		recurringWeeks: [1,2,3,4,5],
 		channel: '文化放送『超！A&G＋』',
