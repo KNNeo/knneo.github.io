@@ -19,11 +19,12 @@ function dupeCheck() {
 const isFirefox = (/Firefox/i.test(navigator.userAgent));
 
 //--DOM NODE REFERENCES--//
-let titleDiv = document.querySelector('.title');
+let titleDiv = document.querySelector('.title h2');
 let subtitleDiv = document.querySelector('.subtitle');
 let galleryDiv = document.querySelector('.gallery');
 let overviewDiv = document.querySelector('.overview');
-let noticeDiv = document.querySelector('.notice');
+let noticeDiv = document.querySelector('.details .info');
+let detailsDiv = document.querySelector('.details');
 let filtersDiv = document.querySelector('.filters');
 let settingsDiv = document.querySelector('.settings');
 let progressDiv = document.querySelector('.progress');
@@ -229,6 +230,16 @@ function onTouchMove() {
 	}
 }
 
+function showDetails() {
+	if(detailsDiv.classList.contains('hidden'))
+		detailsDiv.classList.remove('hidden');
+}
+
+function hideDetails() {
+	if(!detailsDiv.classList.contains('hidden'))
+		detailsDiv.classList.add('hidden');	
+}
+
 function showFilters() {
 	 // if no orientation mapped, create map; does not work if all items not loaded
 	if(window.variables.items[0].orientation == null)
@@ -298,7 +309,7 @@ function renderFilters(tags) {
 	//render tags
 	for(let tag of tags)
 	{
-		let filterDiv = document.querySelector('.filters .' + tag.category);
+		let filterDiv = filtersDiv.querySelector('.' + tag.category);
 		if(filterDiv != null)
 		{
 			let tagDiv = document.createElement('a');
@@ -315,7 +326,7 @@ function renderFilters(tags) {
 	}
 	
 	//allow change source
-	document.querySelector('.close').addEventListener('contextmenu', function() {
+	filtersDiv.querySelector('.close').addEventListener('contextmenu', function() {
 		event.preventDefault();
 		let input = prompt('Datafile location:', document.getElementById('data-id').src);
 		if (input != null)

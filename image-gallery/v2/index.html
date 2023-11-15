@@ -3,7 +3,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta charset="utf-8">
-    <link id="index-css" rel="stylesheet" type="text/css" href="../../fonts.css">
+    <link id="fonts-css" rel="stylesheet" type="text/css" href="../../fonts.css">
     <link id="index-css" rel="stylesheet" type="text/css" href="index.css">
 	<script src="../../darkmode.js" type="application/javascript" charset="utf-8"></script>
 	<script src="../../fetch.js" type="application/javascript" charset="utf-8"></script>
@@ -14,18 +14,26 @@
 </head>
 <body onload="startup()" onkeydown="onKeyDown()">
 <div class="gallery"></div>
-<h2 class="title">Title</h2>
+<div class="title">
+	<h2>Title</h2>
+	<a class="notice material-icons" href="javascript:void(0);" title="Show Info" onclick="showDetails()" oncontextmenu="false">info</a>
+</div>
 <h6 class="subtitle hidden">Subtitle</h6>
 <div class="overview hidden"></div>
-<div class="notice hidden"></div>
 <div class="viewer hidden"></div>
 <div class="progress"></div>
 <h3 class="settings">
 	<a class="darkmode material-icons" href="javascript:void(0);" title="Toggle Dark Mode" onclick="toggleDarkMode()" oncontextmenu="false">brightness_high</a>
 	<a class="slideshow material-icons" href="javascript:void(0);" title="Run Slideshow" onclick="startSlideshow()" oncontextmenu="false">slideshow</a>
 	<a class="autoscroll material-icons" href="javascript:void(0);" title="Toggle Autoscroll" onclick="toggleAutoScroll()" oncontextmenu="false">pause</a>
-	<a class="filter material-icons" href="javascript:void(0);" title="Display Filters" onclick="showFilters()" oncontextmenu="false">filter</a>
+	<a class="filter material-icons" href="javascript:void(0);" title="Show Filters" onclick="showFilters()" oncontextmenu="false">filter</a>
 </h3>
+<div class="details hidden">
+	<h3 class="settings">
+		<a class="close material-icons" href="javascript:void(0);" title="Hide Info" onclick="hideDetails()" oncontextmenu="false">close</a>
+	</h3>
+	<div class="info"></div>
+</div>
 <div class="filters hidden">
 	<h3 class="settings">
 		<a class="all material-icons" href="javascript:void(0);" title="Reset Filters" onclick="resetFilters()" oncontextmenu="false">clear_all</a>
