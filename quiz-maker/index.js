@@ -285,7 +285,7 @@ function toggleDataset() {
 }
 
 function changeDataFile(dest) {
-	document.getElementById('data-id').src = dest;
+	document.getElementById('data-id').src = dest.endsWith('.json') ? dest : window.location.href.replace('index.html', 'data/' + dest + '.json');
 	startup();
 }
 
