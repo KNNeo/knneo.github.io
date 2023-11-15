@@ -326,12 +326,7 @@ function renderFilters(tags) {
 	}
 	
 	//allow change source
-	filtersDiv.querySelector('.close').addEventListener('contextmenu', function() {
-		event.preventDefault();
-		let input = prompt('Datafile location:', document.getElementById('data-id').src);
-		if (input != null)
-			changeDataFile(input);
-	});
+	// filtersDiv.querySelector('.close').addEventListener('contextmenu', changeData);
 }
 
 function renderDisplay() {
@@ -424,6 +419,13 @@ function changeSource(dest) {
 		img.filename = name.replace(name.substring(0, name.lastIndexOf('/')), dest);
 	}
 	renderGallery();
+}
+
+function changeData() {
+	event.preventDefault();
+	let input = prompt('Datafile location:', document.getElementById('data-id').src);
+	if (input != null)
+		changeDataFile(input);
 }
 
 function changeDataFile(dest) {
