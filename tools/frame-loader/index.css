@@ -1,0 +1,55 @@
+/*Variables*/
+:root {
+  --primary: #0065ff;
+  --secondary: #609fff;
+  --background: #fff;
+  --foreground: #000;
+  --accent: lightgray;
+}
+
+.darked:root {
+  --primary: #00e4ff;
+  --secondary: #00abbf;
+  --background: #000;
+  --foreground: #fff;
+  --accent: gray;
+}
+html {
+	font-family: Open Sans;
+	background-color: var(--background);
+	color: var(--foreground);
+}
+
+body {
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  text-align: center;
+}
+
+.container {
+	height: 100%;
+	width: 100%;
+	margin: 0;
+}
+
+body.container {	
+	background-color: var(--accent);
+}
+
+.frame {
+	height: 90%;
+	width: 90%;
+	margin: 0;
+}
+
+.home {
+	text-decoration: none;
+	font-weight: bold;
+}
+
+.address {
+	width: 90%;	
+}
