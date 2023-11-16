@@ -19,7 +19,7 @@ html {
 }
 
 body {
-  font-family: Open Sans;
+  font-family: Noto Sans;
   max-width: 640px;
   margin: auto;
 }
@@ -51,7 +51,7 @@ h1 {
 }
 
 button {
-  font-family: Open Sans;
+  font-family: Noto Sans;
   border: 1px solid var(--foreground);
   border-radius: 5px;
   box-shadow: 3px 3px;
