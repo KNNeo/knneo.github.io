@@ -403,7 +403,7 @@ function generateCalendarMonthTable(year, month, _week, day, array) {
 	let prev = document.createElement('a');
 	prev.classList.add('prev');
 	prev.classList.add('bi');
-	prev.classList.add('bi-caret-left-fill');
+	prev.classList.add('bi-arrow-left');
 	prev.style.gridColumn = 'span 2';
 	prev.title = 'Previous Month';
 	if(typeof _week == 'number')
@@ -446,7 +446,7 @@ function generateCalendarMonthTable(year, month, _week, day, array) {
 	let next = document.createElement('a');
 	next.classList.add('next');
 	next.classList.add('bi');
-	next.classList.add('bi-caret-right-fill');
+	next.classList.add('bi-arrow-right');
 	next.style.gridColumn = 'span 2';
 	next.title = 'Next Month';
 	if(typeof _week == 'number')
