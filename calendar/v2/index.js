@@ -400,11 +400,11 @@ function generateCalendarMonthTable(year, month, _week, day, array) {
 	row.classList.add('header');
 	row.classList.add('row');
 	
-	let prev = document.createElement('div');
+	let prev = document.createElement('a');
 	prev.classList.add('prev');
-	prev.classList.add('material-icons');
+	prev.classList.add('bi');
+	prev.classList.add('bi-caret-left-fill');
 	prev.style.gridColumn = 'span 2';
-	prev.innerText = 'arrow_back_ios';
 	prev.title = 'Previous Month';
 	if(typeof _week == 'number')
 	{
@@ -443,11 +443,11 @@ function generateCalendarMonthTable(year, month, _week, day, array) {
 	title.innerText = monthsOfYear[month] + ' ' + year;
 	row.appendChild(title);
 	
-	let next = document.createElement('div');
+	let next = document.createElement('a');
 	next.classList.add('next');
-	next.classList.add('material-icons');
+	next.classList.add('bi');
+	next.classList.add('bi-caret-right-fill');
 	next.style.gridColumn = 'span 2';
-	next.innerText = 'arrow_forward_ios';
 	next.title = 'Next Month';
 	if(typeof _week == 'number')
 	{

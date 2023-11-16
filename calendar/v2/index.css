@@ -26,7 +26,7 @@ body {
   text-align: center;
 }
 
-a {
+a:hover {
 	color: var(--primary);
 }
 
@@ -35,6 +35,10 @@ a:visited {
 }
 
 /*Generic*/
+.bi {
+	font-size: 1.5em;
+}
+
 .material-icons {
 	cursor: pointer;
 	padding: 10px;
@@ -73,16 +77,19 @@ a:visited {
 
 .settings {
     display: flex;
-    flex-direction: row;
-    align-items: center;
+    align-items: baseline;
     justify-content: center;
 	gap: 5px;
     margin: 0;
 }
 
-.settings > a {
+.settings a {
     color: var(--foreground);
 	text-decoration: none;
+}
+
+.settings a:hover {
+	color: var(--primary);
 }
 
 /*Specific*/
