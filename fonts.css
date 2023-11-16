@@ -15,6 +15,10 @@
   src: url(resources/material-icons.woff2) format(woff2);
 }
 
+.bi {
+	font-size: 1.2em;
+}
+
 .material-icons {
   font-family: Material Icons;
   font-weight: normal;
