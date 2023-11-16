@@ -430,14 +430,19 @@ function createDialog(node) {
 	let dialog = document.createElement('dialog');
 	if(!dialog.classList.contains('box')) dialog.classList.add('box');
 	if(typeof node == 'string')
-		dialog.innerHTML = node;
+	{
+		let containerDiv = document.createElement('div');
+		containerDiv.innerHTML = node;
+		dialog.appendChild(containerDiv);
+	}
 	if(typeof node == 'object')
 	{
 		let clonedNode = node.cloneNode(true);
 		dialog.appendChild(clonedNode);
 	}
 	dialog.addEventListener('click', function() {
-		this.remove();
+		if(event.target == event.target.closest('dialog'))
+			this.remove();
 	});
 	dialog.addEventListener('keyup', function() {
 		if (event.key === ' ' || event.key === 'Enter')
