@@ -837,75 +837,79 @@ void Main()
         var pageLink = "./" + Path.GetFileNameWithoutExtension(filepath.Replace(filepath, outputFolder)) + "/" + published.Year.ToString("0000") + "/"  + published.Month.ToString("00") + "/"  + Path.GetFileNameWithoutExtension(originalLink) + "." + type;
         var pageIndex = postList.IndexOf(pageLink);
 		
+		// Generate HTML
+		var output = new StringBuilder();
+        output.AppendLine("<!DOCTYPE html>");
+        output.AppendLine("<html lang=\"en-SG\">");
+        output.AppendLine("<head>");
+        output.AppendLine("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>");
+        output.AppendLine("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
+        output.AppendLine("<meta name=\"apple-mobile-web-app-capable\" content=\"yes\">");
+        output.AppendLine("<meta name=\"mobile-web-app-capable\" content=\"yes\">");
+        output.AppendLine("<meta name=\"theme-color\" content=\"white\">");
+		output.AppendLine("<meta property=\"og:title\" content=\"" + postTitle + "\"/>");
+		if (TraceMode) Console.WriteLine("Find first image of post for sharing, if any");
+        expression = @"(?s)<img(.*?)src=""(.*?)""(.*?)/>";
+        match = Regex.Match(content, expression);
+        if(match.Success) {
+            var thumbnailUrl = match.Groups[2].Value;
+			output.AppendLine("<meta property=\"og:image\" content=\"" + thumbnailUrl + "\"/>");
+		}
+		output.AppendLine("<meta property=\"og:url\" content=\"" + pageLink + "\"/>");
+		output.AppendLine("<meta property=\"og:type\" content=\"website\"/>");
+        output.AppendLine("<link href=\"https://fonts.googleapis.com/icon?family=Material+Icons\" rel=\"stylesheet\" />");
+        output.AppendLine("<link href='https://fonts.googleapis.com/css?family=" + defaultFont + "' rel='stylesheet' />");
+		// cursive font for menu use
+        if(content.Contains("Dancing Script"))
+			output.AppendLine("<link href='https://fonts.googleapis.com/css?family=Dancing Script' rel='stylesheet' />");
+        output.AppendLine("<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../index.css\" />");
+        output.AppendLine("<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../blogspot.css\" />");
+        output.AppendLine("<link rel=\"icon\" href=\"../../../storytime.ico\" />");
+        output.AppendLine("<script src=\"../../../../darkmode.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
+        output.AppendLine("<script src=\"../../../blogspot.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
+        output.AppendLine("<script src=\"../../../js/common.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
+        output.AppendLine("<script src=\"../../../js/header.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
+        output.AppendLine("<script src=\"../../../js/viewer.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
+        output.AppendLine("<title>" + (postTitle.Length > 0 ? postTitle : "A Random Statement") + "</title>");
+		//if(postList.IndexOf(pageLink) > 0)
+		//output.AppendLine("<a id='LeftBtn' href='" + postList[postList.IndexOf(pageLink) - 1].Replace("./", "../../../") + "' title='Newer Post'><i class='material-icons'>arrow_back</i></a>");
+        if(postList.IndexOf(pageLink) > 0)
+			output.AppendLine("<a id='RightBtn' class='material-icons' href='" + postList[postList.IndexOf(pageLink) - 1].Replace("./", "../../../") + "' title='Newer Post'><i class='material-icons'>skip_next</i></a>");
+        output.AppendLine("<body style=\"font-family: " + defaultFont + ";\">");
+		output.AppendLine("<a id='BackBtn' class='material-icons' href='../../../index.html' title='Back To Homepage' oncontextmenu='goBack()'>arrow_back</a>");
+		//output.AppendLine("<a id='PopupBtn' class='material-icons' title='Toggle Display Links As Popups' href='javascript:void(0);' onclick='toggleInlinePopups()'>crop_din</a>");
+		output.AppendLine("<a id='ShareBtn' class='material-icons' title='Share This Page' href='javascript:void(0);' onclick='sharePage()'>share</a>");
+		output.AppendLine("<a id='EmojiBtn' class='material-icons' title='Toggle Display Emoji' href='javascript:void(0);' onclick='toggleEmojiDisplay()'>mood</a>");
+		output.AppendLine("<a id='DarkModeBtn' class='material-icons' title='Toggle Dark Mode' href='javascript:void(0);' onclick='toggleDarkMode()'>brightness_high</a>");
+		output.AppendLine("<a id='GoToTopBtn' class='material-icons' title='Go To Top' style='display: none;' href='javascript:void(0);' onclick='goToTop()'>arrow_upward</a>");
+        //output.AppendLine("<div id=\"viewer\" class=\"viewer\"></div>");
+        output.AppendLine("<div id=\"contents\" class=\"post-body entry-content\">");
+		if (originalLink != "")
+            output.AppendLine("<small style=\"text-align: center;\"><p><i>This is an archive from "+
+             "<a href=\"" + originalLink + "\">" + blogTitle + "</a></i></p></small>");
+        output.AppendLine("<small title=\"" + published.ToString() + "\" class=\"published\">" + published.ToString("dddd, dd MMMM yyyy") + "</small>");
+        output.AppendLine("<div class=\"title\">" + postTitle + "</div>");
+		if(!content.Contains("id=\"hashtags\""))
+			output.AppendLine("<div id=\"hashtags\"></div>");
+        output.AppendLine("<div class=\"page-header\"></div>");
+        output.Append(content);
+        output.Append("<hr>");
+        if(tags.Count > 0)
+            output.Append("<h4 class=\"post-tags\"><div> Reported in </div>" + 
+				string.Join("", tags.OrderBy(t => t).Select(tag => "<a href=\"../../../index.html#" + tag.Replace(" ","") +"\">" + tag + "</a>")) + 
+				"</h4>");
+        output.Append("<h6 style=\"text-align: center;\">Copyright (c) 2014-" + DateTime.Now.Year + " Klassic Note Web Reports</h6>");
+        output.Append("<br>");
+        output.Append("<br>");
+        output.Append("<br>");
+        output.Append("<br>");
+        output.AppendLine("</div>");
+        output.AppendLine("</body>");
+        output.AppendLine("</html>");
+		
         // Write output file (partial HTML for Jekyll)
-        using (StreamWriter output = File.CreateText(outPath)) {
-            output.WriteLine("<!DOCTYPE html>");
-            output.WriteLine("<html lang=\"en-SG\">");
-            output.WriteLine("<head>");
-            output.WriteLine("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>");
-            output.WriteLine("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
-            output.WriteLine("<meta name=\"apple-mobile-web-app-capable\" content=\"yes\">");
-            output.WriteLine("<meta name=\"mobile-web-app-capable\" content=\"yes\">");
-            output.WriteLine("<meta name=\"theme-color\" content=\"white\">");
-			output.WriteLine("<meta property=\"og:title\" content=\"" + postTitle + "\"/>");
-			if (TraceMode) Console.WriteLine("Find first image of post for sharing, if any");
-	        expression = @"(?s)<img(.*?)src=""(.*?)""(.*?)/>";
-	        match = Regex.Match(content, expression);
-	        if(match.Success) {
-	            var thumbnailUrl = match.Groups[2].Value;
-				output.WriteLine("<meta property=\"og:image\" content=\"" + thumbnailUrl + "\"/>");
-			}
-			output.WriteLine("<meta property=\"og:url\" content=\"" + pageLink + "\"/>");
-			output.WriteLine("<meta property=\"og:type\" content=\"website\"/>");
-            output.WriteLine("<link href=\"https://fonts.googleapis.com/icon?family=Material+Icons\" rel=\"stylesheet\" />");
-            output.WriteLine("<link href='https://fonts.googleapis.com/css?family=" + defaultFont + "' rel='stylesheet' />");
-			// cursive font for menu use
-            if(content.Contains("Dancing Script"))
-				output.WriteLine("<link href='https://fonts.googleapis.com/css?family=Dancing Script' rel='stylesheet' />");
-            output.WriteLine("<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../index.css\" />");
-            output.WriteLine("<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../blogspot.css\" />");
-            output.WriteLine("<link rel=\"icon\" href=\"../../../storytime.ico\" />");
-            output.WriteLine("<script src=\"../../../../darkmode.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
-            output.WriteLine("<script src=\"../../../blogspot.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
-            output.WriteLine("<script src=\"../../../js/common.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
-            output.WriteLine("<script src=\"../../../js/header.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
-            output.WriteLine("<script src=\"../../../js/viewer.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
-            output.WriteLine("<title>" + (postTitle.Length > 0 ? postTitle : "A Random Statement") + "</title>");
-			//if(postList.IndexOf(pageLink) > 0)
-			//output.WriteLine("<a id='LeftBtn' href='" + postList[postList.IndexOf(pageLink) - 1].Replace("./", "../../../") + "' title='Newer Post'><i class='material-icons'>arrow_back</i></a>");
-            if(postList.IndexOf(pageLink) > 0)
-				output.WriteLine("<a id='RightBtn' class='material-icons' href='" + postList[postList.IndexOf(pageLink) - 1].Replace("./", "../../../") + "' title='Newer Post'><i class='material-icons'>skip_next</i></a>");
-            output.WriteLine("<body style=\"font-family: " + defaultFont + ";\">");
-			output.WriteLine("<a id='BackBtn' class='material-icons' href='../../../index.html' title='Back To Homepage' oncontextmenu='goBack()'>arrow_back</a>");
-			//output.WriteLine("<a id='PopupBtn' class='material-icons' title='Toggle Display Links As Popups' href='javascript:void(0);' onclick='toggleInlinePopups()'>crop_din</a>");
-			output.WriteLine("<a id='ShareBtn' class='material-icons' title='Share This Page' href='javascript:void(0);' onclick='sharePage()'>share</a>");
-			output.WriteLine("<a id='EmojiBtn' class='material-icons' title='Toggle Display Emoji' href='javascript:void(0);' onclick='toggleEmojiDisplay()'>mood</a>");
-			output.WriteLine("<a id='DarkModeBtn' class='material-icons' title='Toggle Dark Mode' href='javascript:void(0);' onclick='toggleDarkMode()'>brightness_high</a>");
-			output.WriteLine("<a id='GoToTopBtn' class='material-icons' title='Go To Top' style='display: none;' href='javascript:void(0);' onclick='goToTop()'>arrow_upward</a>");
-            //output.WriteLine("<div id=\"viewer\" class=\"viewer\"></div>");
-            output.WriteLine("<div id=\"contents\" class=\"post-body entry-content\">");
-			if (originalLink != "")
-                output.WriteLine("<small style=\"text-align: center;\"><p><i>This is an archive from "+
-                 "<a href=\"" + originalLink + "\">" + blogTitle + "</a></i></p></small>");
-            output.WriteLine("<small title=\"" + published.ToString() + "\" class=\"published\">" + published.ToString("dddd, dd MMMM yyyy") + "</small>");
-            output.WriteLine("<div class=\"title\">" + postTitle + "</div>");
-			if(!content.Contains("id=\"hashtags\""))
-				output.WriteLine("<div id=\"hashtags\"></div>");
-            output.WriteLine("<div class=\"page-header\"></div>");
-            output.Write(content);
-            output.Write("<hr>");
-            if(tags.Count > 0)
-                output.Write("<h4 class=\"post-tags\"><div> Reported in </div>" + 
-					string.Join("", tags.OrderBy(t => t).Select(tag => "<a href=\"../../../index.html#" + tag.Replace(" ","") +"\">" + tag + "</a>")) + 
-					"</h4>");
-            output.Write("<h6 style=\"text-align: center;\">Copyright (c) 2014-" + DateTime.Now.Year + " Klassic Note Web Reports</h6>");
-            output.Write("<br>");
-            output.Write("<br>");
-            output.Write("<br>");
-            output.Write("<br>");
-            output.WriteLine("</div>");
-            output.WriteLine("</body>");
-            output.WriteLine("</html>");
+        using (StreamWriter writer = File.CreateText(outPath)) {
+			writer.Write(output.ToString());
 		}
 		
 		//check post
