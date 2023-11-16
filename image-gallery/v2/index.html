@@ -5,6 +5,7 @@
 	<meta charset="utf-8">
     <link id="fonts-css" rel="stylesheet" type="text/css" href="../../fonts.css">
     <link id="index-css" rel="stylesheet" type="text/css" href="index.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 	<script src="../../darkmode.js" type="application/javascript" charset="utf-8"></script>
 	<script src="../../fetch.js" type="application/javascript" charset="utf-8"></script>
 	<script src="index.js" defer></script>
@@ -16,17 +17,17 @@
 <div class="gallery"></div>
 <div class="title">
 	<h2>Title</h2>
-	<a class="notice material-icons" href="javascript:void(0);" title="Show Info" onclick="showDetails()" oncontextmenu="false">info</a>
+	<a class="notice bi bi-info-circle" href="javascript:void(0);" title="Show Info" onclick="showDetails()" oncontextmenu="false"></a>
 </div>
 <h6 class="subtitle hidden">Subtitle</h6>
 <div class="overview hidden"></div>
 <div class="viewer hidden"></div>
 <div class="progress"></div>
 <h3 class="settings">
-	<a class="darkmode material-icons" href="javascript:void(0);" title="Toggle Dark Mode" onclick="toggleDarkMode()" oncontextmenu="false">brightness_high</a>
-	<a class="slideshow material-icons" href="javascript:void(0);" title="Run Slideshow" onclick="startSlideshow()" oncontextmenu="false">slideshow</a>
-	<a class="autoscroll material-icons" href="javascript:void(0);" title="Toggle Autoscroll" onclick="toggleAutoScroll()" oncontextmenu="false">pause</a>
-	<a class="filter material-icons" href="javascript:void(0);" title="Show Filters" onclick="showFilters()" oncontextmenu="false">filter_alt</a>
+	<a class="darkmode bi bi-brightness-high" href="javascript:void(0);" title="Toggle Dark Mode" onclick="toggleDarkMode()" oncontextmenu="false"></a>
+	<a class="slideshow bi bi-collection-play" href="javascript:void(0);" title="Run Slideshow" onclick="startSlideshow()" oncontextmenu="false"></a>
+	<a class="autoscroll bi bi-pause-circle" href="javascript:void(0);" title="Toggle Autoscroll" onclick="toggleAutoScroll()" oncontextmenu="false"></a>
+	<a class="filter bi bi-funnel" href="javascript:void(0);" title="Show Filters" onclick="showFilters()" oncontextmenu="false"></a>
 </h3>
 <div class="details hidden">
 	<h3 class="settings">
@@ -36,9 +37,9 @@
 </div>
 <div class="filters hidden">
 	<h3 class="settings">
-		<a class="change material-icons" href="javascript:void(0);" title="Change Source Data" onclick="changeData()" oncontextmenu="false">folder</a>
-		<a class="all material-icons" href="javascript:void(0);" title="Reset Filters" onclick="resetFilters()" oncontextmenu="false">clear_all</a>
-		<a class="close material-icons" href="javascript:void(0);" title="Hide Filters" onclick="hideFilters()" oncontextmenu="false">close</a>
+		<a class="change bi bi-folder2" href="javascript:void(0);" title="Change Source Data" onclick="changeData()" oncontextmenu="false"></a>
+		<a class="all bi bi-list-nested" href="javascript:void(0);" title="Reset Filters" onclick="resetFilters()" oncontextmenu="false"></a>
+		<a class="close bi bi-x-circle" href="javascript:void(0);" title="Hide Filters" onclick="hideFilters()" oncontextmenu="false"></a>
 	</h3>
 	<div class="orientation"></div>
 	<div class="tags"></div>
