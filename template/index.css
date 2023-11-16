@@ -16,26 +16,19 @@
 }
 
 html {
-	font-family: Open Sans;
+	font-family: Noto Sans;
 	background-color: var(--background);
 	color: var(--foreground);
 }
 
-body > * {
-  max-width: 640px;
-  margin: auto;
+body {
+  margin: 0;
   text-align: center;
-  overflow-x: hidden;
   -webkit-user-select: none;
   -khtml-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-}
-
-.material-icons {
-	cursor: pointer;
-	padding: 10px;
 }
 
 .hidden {
@@ -63,11 +56,4 @@ body > * {
 .unshadowed {
 	filter: opacity(100%);
 	transition: filter 1s;
-}
-
-@media only screen and (max-width : 1040px) {
-/*scrollbars for top and bottom labels only on desktop*/
-html { font-size: 100%; }
-div { scrollbar-width: 0 !important; }
-div::-webkit-scrollbar { width: 0 !important }
 }

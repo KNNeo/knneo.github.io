@@ -1,7 +1,20 @@
 //--DEFAULT SETTINGS--//
+const config = {};
+
+//--DOM NODE REFERENCES--//
 
 
-//--COMMON EVENTS--//
+//--DOM FUNCTIONS--//
+function onKeyDown() {
+	
+}
+
+//--EVENT HANDLERS--//
 
 
 //--FUNCTIONS--//
+
+
+//--INITIAL--//
+function startup() {
+}
