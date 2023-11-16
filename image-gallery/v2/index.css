@@ -27,7 +27,13 @@ a:hover {
 .bi {
     font-size: 1.5em;
     padding: 3px;
-    filter: drop-shadow(2px 4px 2px var(--background));
+}
+
+.bi,
+.title, 
+.subtitle,
+.home {
+    filter: drop-shadow(2px 4px 2px var(--background));	
 }
 
 .title, 
@@ -94,7 +100,6 @@ a:hover {
 
 .home {
 	position: absolute;
-    filter: drop-shadow(2px 4px 2px var(--background));
     left: 0;
     right: 0;
 	bottom: 1em;
