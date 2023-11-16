@@ -15,14 +15,8 @@
   --accent: gray;
 }
 
-.settings a {
-	color: var(--foreground);
-	text-decoration: none;
-}
-
 html {
-	font-family: Open Sans;
-	font-size: 95%;
+	font-family: Noto Sans;
 	background-color: var(--background);
 	color: var(--foreground);
 }
@@ -45,4 +39,9 @@ input {
 input:disabled {
 	color: var(--foreground);
 	background-color: var(--accent);
+}
+
+.settings a {
+	color: var(--foreground);
+	text-decoration: none;
 }

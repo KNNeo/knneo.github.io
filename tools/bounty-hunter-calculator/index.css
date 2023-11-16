@@ -15,7 +15,7 @@
   --accent: gray;
 }
 html {
-	font-family: Open Sans;
+	font-family: Noto Sans;
 	font-size: 95%;
 	scroll-behavior: smooth;
 	background-color: var(--background);
