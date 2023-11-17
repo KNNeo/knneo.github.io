@@ -17,7 +17,6 @@ body {
 	display: block;
 	max-width: 760px;
 	padding: 0 10px;
-	font-size: 16px;
 	margin: auto;
 	color: var(--foreground);
 	background-color: var(--background);
@@ -136,35 +135,35 @@ a:hover {
 	visibility: hidden;
 }
 
-.anchors::-webkit-scrollbar {
-  width: 0 !important
-} /* Safari and Chrome */
-
 .anchors {
     display: none;
 	position: absolute;
 	background-color: var(--background);
-	width: 149px;
-    max-height: 144px;
+	width: 150px;
+    height: 144px;
     left: 2px;
 	border-radius: 8px;
-	overflow-x: hidden;
+	overflow: auto;
     padding: 3px 0;
 	scrollbar-width: none; /* Firefox */
 }
 
+.anchors::-webkit-scrollbar {
+  width: 0 !important
+} /* Safari and Chrome */
+
 .latest-post:hover .anchors {
-    display: initial;
+	display: initial;
 }
 
-.anchors a {
+.latest-post .anchors a {
     display: block;
     color: var(--primary);
 	font-size: 0.7em;
     padding: 3px 0;
 }
 
-.anchors a:hover {
+.latest-post .anchors a:hover {
     color: var(--foreground);
 }
 
