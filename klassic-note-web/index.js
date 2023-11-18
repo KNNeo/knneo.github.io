@@ -863,7 +863,7 @@ function queryAllReleases() {
 	action.classList.add('not-selectable');
 	action.style.textDecoration = 'underline';
 	action.style.cursor = 'pointer';
-	action.style.textAlign = 'end';
+	action.style.textAlign = 'center';
 	action.tabIndex = 0;
 	action.innerText = 'Go Back';
 	action.addEventListener('keyup', function() {
