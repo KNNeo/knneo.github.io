@@ -413,3 +413,29 @@ a {
 .mini .tab-buttons {
 	display: none;
 }
+
+.grid {
+	display: flex;
+    flex-wrap: wrap;
+	gap: 5px;
+}
+
+.grid .content-box {
+	border: 1px solid var(--foreground);
+	box-shadow: 3px 3px;
+	white-space: normal;
+    margin-right: 3px;
+}
+
+.grid .content-box:hover {
+	transform: translate(2px, 2px);
+	box-shadow: 1px 1px;
+}
+
+#all-releases .action {
+	text-decoration: underline;
+	position: initial;
+	left: 0;
+    top: 0;
+	cursor: pointer;
+}

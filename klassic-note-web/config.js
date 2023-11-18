@@ -11,6 +11,7 @@ const autoplayOnSelect = false; 			// disable player autoplay on select song in 
 const categoryIcons = ['🧑', '💽', '🎵']; 	// for artist, release, and song; icon will appear in front of each dropdown result
 const coverArtStyle = 'overlay'; 			// options: [default, overlay, large]
 const hideHomepage = false;					// if true will not show home page components
+const hideAllReleases = false;					// if true will not show home page components
 const volumeDelta = 5;						// volume change for player when shift + up/down, in percentage, integer
 const showAltTitleOnMetadata = true;		// display alt titles instead when update metadata on player (page is the same)
 const isMobile = function() {

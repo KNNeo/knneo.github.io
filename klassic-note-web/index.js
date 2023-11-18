@@ -300,52 +300,79 @@ function randomSong() {
 
 function setTabs() {
 	let isWidescreen = window.innerWidth > 1.5*widescreenAverageModuleSize;
-	let homePageVisible = document.querySelector('#tab-homepage').style.display != 'none';
+	let isSearchMode = ['song', 'artist', 'year'].includes(window['mode']);
+	let isViewMode = ['home', 'release'].includes(window['mode']);
 	
-	//responsive module display	
-	let totalModules = Math.round(window.innerWidth / widescreenAverageModuleSize);
-	if(debugMode) console.log('totalModules', totalModules);
-	
-	document.querySelector('#tab-buttons').classList.remove('hidden');
-	if(homePageVisible) document.querySelector('#tab-buttons').classList.add('hidden');
-	for(let tab of document.querySelectorAll('.tab'))
+	//show or hide module containers
+	if(isSearchMode)
 	{
-		let hasModules = Array.from(tab.childNodes).filter(c => c.childNodes.length > 0).length > 0;
-		if(debugMode) console.log('hasModules', tab.id, hasModules);
-		let tabButton = document.querySelector('#button-' + tab.id);
-		//enable tab button controls if have content
-		if(tabButton != null)
+		//responsive module display	
+		let totalModules = Math.round(window.innerWidth / widescreenAverageModuleSize);
+		if(debugMode) console.log('totalModules', totalModules);
+		
+		for(let tab of document.querySelectorAll('.tab'))
 		{
-			tabButton.style.cursor = hasModules ? 'pointer' : '';
-			tabButton.disabled = !hasModules;
-		}
+			let hasModules = Array.from(tab.childNodes).filter(c => c.childNodes.length > 0).length > 0;
+			if(debugMode) console.log('hasModules', tab.id, hasModules);
+			let tabButton = document.querySelector('#button-' + tab.id);
+			//enable tab button controls if have content
+			if(tabButton != null)
+			{
+				tabButton.style.cursor = hasModules ? 'pointer' : '';
+				tabButton.disabled = !hasModules;
+			}
 
-		//remove padding if no elements
-		for(let module of tab.querySelectorAll('.module'))
-		{
-			module.style.padding = Array.from(module.childNodes).filter(c => c.childNodes.length > 0).length > 0 ? '' : 0;
+			//remove padding if no elements
+			for(let module of tab.querySelectorAll('.module'))
+			{
+				module.style.padding = Array.from(module.childNodes).filter(c => c.childNodes.length > 0).length > 0 ? '' : 0;
+			}
+			
+			//mobile alignments
+			if(isWidescreen && !tab.classList.contains('tab-view')) tab.classList.add('tab-view');
+			if(!isWidescreen && tab.classList.contains('tab-view')) tab.classList.remove('tab-view');
+			
+			tab.style.display = isWidescreen ? 'inline-block' : '';
+			//set width: exclude horizontal padding
+			tab.style.width = isWidescreen && hasModules ? ((window.innerWidth / totalModules) - 20) + 'px' : '';
 		}
 		
-		//mobile alignments
-		if(isWidescreen && !tab.classList.contains('tab-view')) tab.classList.add('tab-view');
-		if(!isWidescreen && tab.classList.contains('tab-view')) tab.classList.remove('tab-view');
-		
-		//hide tab if is homepage
-		tab.style.display = homePageVisible ? 'none' : '';
-		tab.style.display = isWidescreen ? 'inline-block' : '';
-		tab.style.width = isWidescreen && hasModules ? ((window.innerWidth / totalModules) - 20) + 'px' : ''; //exclude horizontal padding
+		//display tabs depending on mode
+		document.querySelector('.tab-buttons').classList.remove('hidden');
+		document.querySelector('.tab-button').click();
+		//toggle search buttons
+		document.querySelector('#search-buttons').style.display = '';
+		document.querySelector('#search').style.width = (document.querySelector('#header').getBoundingClientRect().width - 48) + 'px';
+	}
+	else
+	{
+		for(let tab of document.querySelectorAll('.tab'))
+		{
+			//remove padding if no elements
+			for(let module of tab.querySelectorAll('.module'))
+			{
+				module.style.padding = window['mode'] == 'home' && tab.id == 'tab-homepage' ? '' : 0;
+			}
+			
+			//show tab if is homepage
+			tab.style.display = '';
+			tab.classList.remove('hidden');
+			//set width: exclude horizontal padding
+			tab.style.width = tab.classList.contains('view') ? '' : widescreenAverageModuleSize + 'px';
+		}
 	}
 	
-	//display tab when mobile, depending on mode
-	if(!homePageVisible) document.querySelector('.tab-button').click();
-	
-	//toggle search buttons
-	document.querySelector('#search').style.width = homePageVisible ? '100%' : (document.querySelector('#header').getBoundingClientRect().width - 48) + 'px';
-	document.querySelector('#search-buttons').style.display = homePageVisible ? 'none' : '';
-	document.querySelector('#options').style.width = '';
-	// document.querySelector('#tab-buttons').style.display = isWidescreen ? 'none' : '';
-	document.querySelector('#tab-list').style.maxWidth = isWidescreen && !homePageVisible ? '' : widescreenAverageModuleSize + 'px';
-	
+	//show or hide custom view containers
+	if(isViewMode)
+	{
+		//display tabs depending on mode
+		document.querySelector('.tab-buttons').classList.add('hidden');
+		//toggle search buttons
+		document.querySelector('#search').style.width = '100%';
+		document.querySelector('#search-buttons').style.display = 'none';
+	}
+
+	//set width for non-tab elements
 	for(let module of document.querySelectorAll('.centered'))
 	{
 		if(module.style.maxWidth != widescreenAverageModuleSize)
@@ -355,7 +382,9 @@ function setTabs() {
 	hideContextMenus(true);
 	displayCoverIfComplete();
 	
-	//adjust content height
+	//adjust overall content width (according to screen)
+	document.querySelector('#tab-list').style.maxWidth = isWidescreen ? '' : widescreenAverageModuleSize + 'px';
+	//adjust overall content height (space for footer)
 	let tabHeight = window.innerHeight - Array.from(document.querySelectorAll('.calc')).reduce((total, current) => { return total + current.offsetHeight; }, 0) + 'px';
 	if(debugMode) console.log('containerHeight', tabHeight, document.querySelector('#tab-list').style.height);
 	if(tabHeight != document.querySelector('#tab-list').style.height)
@@ -512,6 +541,7 @@ function clearSearch() {
 	document.querySelector('#search-buttons').style.display = 'none';
 	document.querySelector('#search').style.width = '100%';
 	document.querySelector('#tab-buttons').classList.add('hidden');
+	document.querySelector('#all-releases').classList.add('hidden');
 	document.querySelector('#cover').innerHTML = '';
 	document.querySelector('#cover').classList = [];
 	clearModules();
@@ -696,7 +726,9 @@ function onChangeOption() {
 
 //--HOMEPAGE--//
 //flow is generally generateHomepage -> query[Module/Component] -> generate[Module/Component]
-function generateHomepage() {	
+function generateHomepage() {
+	window['mode'] = 'home';
+	
 	//initial query for options
 	let query = "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song";
 	if(isMobile())
@@ -795,14 +827,165 @@ function generateSearchHistory(contents) {
 	});
 }
 
-function generateUpcomingReleases(contents) {	
+function generateUpcomingReleases(contents) {
 	if(debugMode) console.log('generateUpcomingReleases', contents);
 	generateTableList(
 		contents, {
 		id: 'upcoming-releases', 
 		title: 'Upcoming Releases',
-		rowFormat: ['KNYEAR', 'ReleaseDate', ' - [', 'Type', ' ', 'Category', '] ' , 'ReleaseArtistTitle', ' - ', 'ReleaseTitle'], 
+		rowFormat: ['KNYEAR', 'ReleaseDate', ' - [', 'Type', ' ', 'Category', '] ' , 'ReleaseArtistTitle', ' - ', 'ReleaseTitle'],
+		actionTitle: hideAllReleases ? null : 'See All',
+		actionFunc: hideAllReleases ?  null : function() {
+			queryAllReleases();
+		}
 	});
+}
+
+//--RELEASES--//
+//flow is generally query[Module/Component] -> generate[Module/Component]
+function queryAllReleases() {
+	if(hideAllReleases) return;
+	window['mode'] = 'release';
+	
+	clearModules();
+	
+	let allReleases = document.querySelector('#all-releases');
+
+	let header = document.createElement('h4');
+	header.classList.add('centered');
+	header.style.textAlign = 'center';
+	header.style.top = 0;
+	header.innerText = 'Releases';
+	allReleases.appendChild(header);	
+	
+	let action = document.createElement('h6');
+	action.classList.add('centered');
+	action.classList.add('not-selectable');
+	action.style.textDecoration = 'underline';
+	action.style.cursor = 'pointer';
+	action.style.textAlign = 'end';
+	action.tabIndex = 0;
+	action.innerText = 'Go Back';
+	action.addEventListener('keyup', function() {
+		window['mode'] = 'home';
+		clearSearch();
+	});
+	action.addEventListener('click', function() {
+		window['mode'] = 'home';
+		clearSearch();
+	});
+	allReleases.appendChild(action);
+	
+	//initial query
+	query = "SELECT r.ID as ReleaseID, r.Type, r.Category, r.ReleaseTitle, r.ReleaseArtistTitle, r.KNYEAR, r.ReleaseYear, substr('0000'||r.ReleaseDate,-4) as ReleaseDate, r.CoverArt "
+	query += "FROM Release r WHERE r.KNYEAR = strftime('%Y','now') ";
+	query += "AND LENGTH(r.CoverArt) > 0 ORDER BY r.ReleaseYear DESC, r.ReleaseDate DESC";
+	if(debugMode) console.log('queryAllReleases', query);
+	queryDb(query, generateAllReleases);
+}
+
+function generateAllReleases(contents) {
+	let allReleases = document.querySelector('#all-releases');
+	
+	if(debugMode) console.log('generateAllReleases', contents);
+	if(!contents.columns || !contents.values) return;
+	
+	let columns = contents.columns;
+	let rows = contents.values;
+	
+	let table = allReleases.querySelector('.grid') || document.createElement('div');
+	table.classList.add('grid');
+	if(allReleases.querySelector('.grid') == null) allReleases.appendChild(table);
+	
+	let columnIndexReleaseID = contents.columns.indexOf('ReleaseID');
+	let columnIndexType = contents.columns.indexOf('Type');
+	let columnIndexCategory = contents.columns.indexOf('Category');
+	let columnIndexKNYEAR = contents.columns.indexOf('KNYEAR');
+	let columnIndexReleaseArtistTitle = contents.columns.indexOf('ReleaseArtistTitle');
+	let columnIndexReleaseTitle = contents.columns.indexOf('ReleaseTitle');
+	let columnIndexReleaseYear = contents.columns.indexOf('ReleaseYear');
+	let columnIndexReleaseDate = contents.columns.indexOf('ReleaseDate');
+	let columnIndexCoverArt = contents.columns.indexOf('CoverArt');
+	
+	//header
+	for(let row of rows)
+	{
+		let tr = document.createElement('div');
+		tr.setAttribute('data-year', row[columnIndexKNYEAR]);
+		tr.style.paddingTop = '8px';
+		
+		let tb = document.createElement('div');
+		tb.style.fontSize = 'small';
+		tb.style.whiteSpace = 'nowrap';
+		tb.style.overflowX = 'hidden';
+		tb.style.textOverflow = 'ellipsis';
+		tb.style.width = (widescreenAverageModuleSize / 3) + 'px';
+		tb.title = row[columnIndexReleaseArtistTitle];
+		tb.innerText = tb.title;
+		tb.tabIndex = 0;
+		tr.appendChild(tb);
+		
+		let tc = document.createElement('div');
+		tc.style.whiteSpace = 'nowrap';
+		tc.style.overflowX = 'hidden';
+		tc.style.textOverflow = 'ellipsis';
+		tc.style.width = (widescreenAverageModuleSize / 3) + 'px';
+		tc.title = row[columnIndexReleaseTitle];
+		tc.innerText = tc.title;
+		tc.tabIndex = 0;
+		tr.appendChild(tc);
+		
+		let ti = document.createElement('img');
+		ti.classList.add('content-box');
+		ti.classList.add('list');
+		ti.setAttribute('loading', 'lazy');
+		ti.style.width = (widescreenAverageModuleSize / 3) + 'px';
+		ti.title = [row[columnIndexType] + ' ' + row[columnIndexCategory], row[columnIndexReleaseYear] + (row[columnIndexReleaseDate] || '')].join('\n');
+		ti.src = coverArtDirectory + row[columnIndexKNYEAR] + '/' + row[columnIndexCoverArt];
+		if(coverArtDirectoryFormat == 'full') ti.src = row[columnIndexCoverArt];
+		if(coverArtDirectoryFormat == 'merge') ti.src = coverArtDirectory + row[columnIndexCoverArt];
+		ti.setAttribute('data-context', 'release');
+		ti.setAttribute('data-id', row[columnIndexReleaseID]);
+		ti.addEventListener('click', showContextMenu);
+		tr.appendChild(ti);
+		
+		table.appendChild(tr);
+	}
+	allReleases.classList.remove('hidden');
+	
+	if(allReleases.querySelector('.footer') == null)
+	{
+		let footer = document.createElement('h6');
+		footer.classList.add('footer');
+		footer.classList.add('action');
+		footer.classList.add('centered');
+		footer.classList.add('not-selectable');
+		footer.style.padding = '10px';
+		footer.style.textAlign = 'center';
+		footer.tabIndex = 0;
+		footer.innerText = 'Show More';
+		footer.addEventListener('keyup', function() {
+			//get year of last album listed
+			let year = parseInt(table.lastElementChild.getAttribute('data-year'));
+			generateMoreReleases(year - 1);
+		});
+		footer.addEventListener('click', function() {
+			//get year of last album listed
+			let year = parseInt(table.lastElementChild.getAttribute('data-year'));
+			generateMoreReleases(year - 1);
+		});
+		allReleases.appendChild(footer);
+	}
+	setTabs();
+}
+
+function generateMoreReleases(year) {
+	//query the year before
+	query = "SELECT ID as ReleaseID, Type, Category, ReleaseTitle, ReleaseArtistTitle, KNYEAR, substr('0000'||ReleaseDate,-4) as ReleaseDate, CoverArt FROM Release ";
+	query += "WHERE KNYEAR = " + year + " ";
+	query += "AND LENGTH(CoverArt) > 0 ORDER BY ReleaseYear DESC, ReleaseDate DESC";
+	if(debugMode) console.log('queryAllReleases', query);
+	queryDb(query, generateAllReleases);
 }
 
 //--MODULES--//
@@ -2448,10 +2631,13 @@ function generateTableList(contents, parameters) {
 	if(actionTitle != null && actionTitle.length > 0)
 		headerDiv.style.height = '1.4em';
 	
-	let header = document.createElement('h4');
-	header.classList.add('centered');
-	header.innerText = title;
-	headerDiv.appendChild(header);
+	if(title)
+	{
+		let header = document.createElement('h4');
+		header.classList.add('centered');
+		header.innerText = title;
+		headerDiv.appendChild(header);
+	}
 	
 	if(actionTitle != null && actionTitle.length > 0)
 	{
@@ -2826,15 +3012,22 @@ function showContextMenu() {
 
 	let menu = document.querySelector('.context');
     menu.style.top = y + 'px';
-    menu.style.left = 0;
+	menu.style.left = x + 'px';
 	menu.classList.remove('hidden');	
 	menu.innerHTML = '';
 	
 	// console.log(event.target.getAttribute('context'));
 	switch(event.target.getAttribute('data-context'))
 	{
+		case 'release':
+			let submenu = document.createElement('div');
+			submenu.id = 'release-tracks';
+			menu.appendChild(submenu);
+			
+			let query = 'SELECT KNID, SongTitle, ArtistTitle FROM Song WHERE ReleaseID = ' + event.target.getAttribute('data-id');
+			queryDb(query, generateTracks);
+			break;
 		case 'related':
-			menu.style.left = x + 'px';
 			menu.style.margin = 0;
 			menu.appendChild(showAddQueueContextMenu(event.target.closest('tr').getAttribute('data-id')));
 			break;
@@ -2865,6 +3058,25 @@ function showContextMenu() {
 			menu.style.top = 0;
 	}
 	
+	if(x + menu.getBoundingClientRect().width + 80 >= window.innerWidth)
+	{
+		menu.style.left = (x - menu.getBoundingClientRect().width) + 'px';
+		if(x - menu.getBoundingClientRect().width < 0)
+			menu.style.left = 0;
+	}
+	
+}
+
+function generateTracks(contents) {
+	if(debugMode) console.log('generateTracks', contents);
+	generateTableList(
+		contents, {
+		id: 'release-tracks', 
+		rowFormat: ['ArtistTitle', ' - ', 'SongTitle'], 
+		clickFunc: updateSong, 
+		// rightClickFunc: showContextMenu, 
+		// rightClickContext: 'related',
+	});
 }
 
 function showAddQueueContextMenu(id) {
