@@ -41,18 +41,20 @@ body {
 	padding: 0;
 }
 
+.group {
+	text-transform: uppercase;
+}
+
 .page-list {
-    display: flex;
 	margin: auto;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-evenly;
+	padding: 1em;
 }
 
 .page-list a {
 	color: var(--primary);
 	text-decoration: none;
+    display: inline-block;
+	padding: 2px 5px;
 }
 
 .page-list > a:hover {

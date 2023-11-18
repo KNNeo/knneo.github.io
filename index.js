@@ -29,10 +29,19 @@ function renderElements() {
 			pageList.innerHTML = '';
 		}
 		
+		let group = '';
 		for(let page of pageElements)
 		{
-			let group = page.group;
-			let item = document.getElementById(group);
+			if(group != page.group) {
+				let br = document.createElement('br');
+				pageList.appendChild(br);
+			
+				group = page.group;
+				let grp = document.createElement('div');
+				grp.classList.add('group');
+				grp.innerText = group;
+				pageList.appendChild(grp);
+			}
 			
 			// add page
 			let url = document.createElement('a');
@@ -46,6 +55,7 @@ function renderElements() {
 			url.innerText = page.title;
 			
 			pageList.appendChild(url);
+			
 		}
 	}
 }
