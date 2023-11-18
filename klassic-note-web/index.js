@@ -343,6 +343,7 @@ function setTabs() {
 		//toggle search buttons
 		document.querySelector('#search-buttons').style.display = '';
 		document.querySelector('#search').style.width = (document.querySelector('#header').getBoundingClientRect().width - 48) + 'px';
+		document.querySelector('#all-releases').innerHTML = '';
 	}
 	else
 	{
@@ -768,7 +769,6 @@ function generateHomepage() {
 }
 
 function generateYears(contents) {
-	document.querySelector('#award-years').innerHTML = '';
 	stopLoader();
 	
 	if(debugMode) console.log('generateYears', contents);
