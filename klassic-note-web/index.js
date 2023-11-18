@@ -329,8 +329,8 @@ function setTabs() {
 			}
 			
 			//mobile alignments
-			if(isWidescreen && !tab.classList.contains('tab-view')) tab.classList.add('tab-view');
-			if(!isWidescreen && tab.classList.contains('tab-view')) tab.classList.remove('tab-view');
+			// if(isWidescreen && !tab.classList.contains('tab-view')) tab.classList.add('tab-view');
+			// if(!isWidescreen && tab.classList.contains('tab-view')) tab.classList.remove('tab-view');
 			
 			tab.style.display = isWidescreen ? 'inline-block' : '';
 			//set width: exclude horizontal padding
@@ -358,7 +358,7 @@ function setTabs() {
 			tab.style.display = '';
 			tab.classList.remove('hidden');
 			//set width: exclude horizontal padding
-			tab.style.width = tab.classList.contains('view') ? '' : widescreenAverageModuleSize + 'px';
+			tab.style.width = '';//tab.classList.contains('view') ? '' : widescreenAverageModuleSize + 'px';
 		}
 	}
 	
@@ -907,6 +907,9 @@ function generateAllReleases(contents) {
 	let columnIndexReleaseDate = contents.columns.indexOf('ReleaseDate');
 	let columnIndexCoverArt = contents.columns.indexOf('CoverArt');
 	
+	let isWidescreen = window.innerWidth > 1.5*widescreenAverageModuleSize;
+	let rowWidth = (widescreenAverageModuleSize / (isWidescreen ? 3 : 4)) + 'px';
+	
 	//header
 	for(let row of rows)
 	{
@@ -919,7 +922,7 @@ function generateAllReleases(contents) {
 		tb.style.whiteSpace = 'nowrap';
 		tb.style.overflowX = 'hidden';
 		tb.style.textOverflow = 'ellipsis';
-		tb.style.width = (widescreenAverageModuleSize / 3) + 'px';
+		tb.style.width = rowWidth;
 		tb.title = row[columnIndexReleaseArtistTitle];
 		tb.innerText = tb.title;
 		tb.tabIndex = 0;
@@ -929,7 +932,7 @@ function generateAllReleases(contents) {
 		tc.style.whiteSpace = 'nowrap';
 		tc.style.overflowX = 'hidden';
 		tc.style.textOverflow = 'ellipsis';
-		tc.style.width = (widescreenAverageModuleSize / 3) + 'px';
+		tc.style.width = rowWidth;
 		tc.title = row[columnIndexReleaseTitle];
 		tc.innerText = tc.title;
 		tc.tabIndex = 0;
@@ -939,7 +942,7 @@ function generateAllReleases(contents) {
 		ti.classList.add('content-box');
 		ti.classList.add('list');
 		ti.setAttribute('loading', 'lazy');
-		ti.style.width = (widescreenAverageModuleSize / 3) + 'px';
+		ti.style.width = rowWidth;
 		ti.title = [row[columnIndexType] + ' ' + row[columnIndexCategory], row[columnIndexReleaseYear] + (row[columnIndexReleaseDate] || '')].join('\n');
 		ti.src = coverArtDirectory + row[columnIndexKNYEAR] + '/' + row[columnIndexCoverArt];
 		if(coverArtDirectoryFormat == 'full') ti.src = row[columnIndexCoverArt];

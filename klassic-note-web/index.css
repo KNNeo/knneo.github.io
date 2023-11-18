@@ -246,6 +246,7 @@ a {
 
 .tab {
     overflow-y: auto;
+	vertical-align: top;
 }
 
 .tab-button {
@@ -266,7 +267,6 @@ a {
 }
 
 .tab-view {
-	vertical-align: top;
 }
 
 .tags {
