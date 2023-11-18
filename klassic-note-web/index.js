@@ -944,12 +944,22 @@ function generateAllReleases(contents) {
 		ti.setAttribute('loading', 'lazy');
 		ti.style.width = rowWidth;
 		ti.title = [row[columnIndexType] + ' ' + row[columnIndexCategory], row[columnIndexReleaseYear] + (row[columnIndexReleaseDate] || '')].join('\n');
-		ti.src = coverArtDirectory + row[columnIndexKNYEAR] + '/' + row[columnIndexCoverArt];
-		if(coverArtDirectoryFormat == 'full') ti.src = row[columnIndexCoverArt];
-		if(coverArtDirectoryFormat == 'merge') ti.src = coverArtDirectory + row[columnIndexCoverArt];
+
+		let coverArtUrl = coverArtDirectory + row[columnIndexKNYEAR] + '/' + row[columnIndexCoverArt];
+		if(coverArtDirectoryFormat && coverArtDirectoryFormat == 'common')
+			coverArtUrl = coverArtDirectory + row[columnIndexCoverArt];
+		if(coverArtDirectoryFormat && coverArtDirectoryFormat == 'full')
+			coverArtUrl = row[columnIndexCoverArt];
+		if(coverArtDirectoryFormat && coverArtDirectoryFormat == 'merge')
+			coverArtUrl = coverArtDirectory + row[columnIndexCoverArt];
+		
+		ti.src = coverArtUrl;
 		ti.setAttribute('data-context', 'release');
 		ti.setAttribute('data-id', row[columnIndexReleaseID]);
 		ti.addEventListener('click', showContextMenu);
+		ti.addEventListener('error', function() {
+			tr.classList.add('hidden');
+		});
 		tr.appendChild(ti);
 		
 		table.appendChild(tr);
