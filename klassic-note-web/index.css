@@ -216,6 +216,11 @@ a {
 	background-color: var(--accent);
 }
 
+/* Remove outline for non-keyboard :focus */
+.list td:focus {
+	background-color: var(--accent);
+}
+
 .header-element {
 	margin: 20px 0;
 	margin-bottom: 0;

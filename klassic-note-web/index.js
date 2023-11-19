@@ -3098,6 +3098,7 @@ function generateTracks(contents) {
 		// rightClickFunc: showContextMenu, 
 		// rightClickContext: 'related',
 	});
+	document.querySelector('#release-tracks td').focus();
 }
 
 function showAddQueueContextMenu(id) {
