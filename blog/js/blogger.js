@@ -258,10 +258,10 @@ function labelTextToIcon(iconText) {
 			return 'nightlife';
 			break;
 		case 'The Fanfiction':
-			return 'menu_book';
+			return 'category';
 			break;
 		case 'The Statement':
-			return 'text_snippet';
+			return 'campaign';
 			break;
 		default:
 			break;
