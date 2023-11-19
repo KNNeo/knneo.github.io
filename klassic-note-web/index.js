@@ -853,26 +853,28 @@ function queryAllReleases() {
 
 	let header = document.createElement('h4');
 	header.classList.add('centered');
-	header.style.textAlign = 'center';
-	header.style.top = 0;
+	header.classList.add('centered-text');
 	header.innerText = 'Releases';
-	allReleases.appendChild(header);	
+	allReleases.appendChild(header);
 	
 	let action = document.createElement('h6');
+	action.classList.add('action');
 	action.classList.add('centered');
+	action.classList.add('centered-text');
 	action.classList.add('not-selectable');
-	action.style.textDecoration = 'underline';
-	action.style.cursor = 'pointer';
-	action.style.textAlign = 'center';
 	action.tabIndex = 0;
 	action.innerText = 'Go Back';
 	action.addEventListener('keyup', function() {
-		window['mode'] = 'home';
-		clearSearch();
+		if(event.key == 'Enter') {
+			window['mode'] = 'home';
+			clearSearch();
+		}
 	});
 	action.addEventListener('click', function() {
-		window['mode'] = 'home';
-		clearSearch();
+		if(event.key == 'Enter') {
+			window['mode'] = 'home';
+			clearSearch();
+		}
 	});
 	allReleases.appendChild(action);
 	
@@ -925,7 +927,6 @@ function generateAllReleases(contents) {
 		tb.style.width = rowWidth;
 		tb.title = row[columnIndexReleaseArtistTitle];
 		tb.innerText = tb.title;
-		tb.tabIndex = 0;
 		tr.appendChild(tb);
 		
 		let tc = document.createElement('div');
@@ -935,7 +936,6 @@ function generateAllReleases(contents) {
 		tc.style.width = rowWidth;
 		tc.title = row[columnIndexReleaseTitle];
 		tc.innerText = tc.title;
-		tc.tabIndex = 0;
 		tr.appendChild(tc);
 		
 		let ti = document.createElement('img');
@@ -943,6 +943,7 @@ function generateAllReleases(contents) {
 		ti.classList.add('list');
 		ti.setAttribute('loading', 'lazy');
 		ti.style.width = rowWidth;
+		ti.tabIndex = 0;
 		ti.title = [row[columnIndexType] + ' ' + row[columnIndexCategory], row[columnIndexReleaseYear] + (row[columnIndexReleaseDate] || '')].join('\n');
 
 		let coverArtUrl = coverArtDirectory + row[columnIndexKNYEAR] + '/' + row[columnIndexCoverArt];
@@ -956,6 +957,7 @@ function generateAllReleases(contents) {
 		ti.src = coverArtUrl;
 		ti.setAttribute('data-context', 'release');
 		ti.setAttribute('data-id', row[columnIndexReleaseID]);
+		ti.addEventListener('keyup', showContextMenu);
 		ti.addEventListener('click', showContextMenu);
 		ti.addEventListener('error', function() {
 			tr.classList.add('hidden');
@@ -978,14 +980,18 @@ function generateAllReleases(contents) {
 		footer.tabIndex = 0;
 		footer.innerText = 'Show More';
 		footer.addEventListener('keyup', function() {
-			//get year of last album listed
-			let year = parseInt(table.lastElementChild.getAttribute('data-year'));
-			generateMoreReleases(year - 1);
+			if(event.key == 'Enter') {
+				//get year of last album listed
+				let year = parseInt(table.lastElementChild.getAttribute('data-year'));
+				generateMoreReleases(year - 1);
+			}
 		});
 		footer.addEventListener('click', function() {
-			//get year of last album listed
-			let year = parseInt(table.lastElementChild.getAttribute('data-year'));
-			generateMoreReleases(year - 1);
+			if(event.key == 'Enter') {
+				//get year of last album listed
+				let year = parseInt(table.lastElementChild.getAttribute('data-year'));
+				generateMoreReleases(year - 1);
+			}
 		});
 		allReleases.appendChild(footer);
 	}
@@ -2652,7 +2658,7 @@ function generateTableList(contents, parameters) {
 		headerDiv.appendChild(header);
 	}
 	
-	if(actionTitle != null && actionTitle.length > 0)
+	if(actionTitle && actionTitle.length > 0)
 	{
 		let action = document.createElement('h6');
 		action.classList.add('centered');
@@ -2674,7 +2680,8 @@ function generateTableList(contents, parameters) {
 		headerDiv.appendChild(action);
 	}
 	
-	document.getElementById(id).appendChild(headerDiv);
+	if(title && actionTitle && actionTitle.length > 0)
+		document.getElementById(id).appendChild(headerDiv);
 	
 	//table
 	let container = document.createElement('div');
@@ -2707,10 +2714,10 @@ function generateTableList(contents, parameters) {
 		tr.setAttribute('data-id', row[columnIndexKNID]);
 		
 		let tc = document.createElement('td');
-	
+		tc.tabIndex = 0;
 		tc.innerText = parts.join('');
-		tc.setAttribute('data-context', rightClickContext);
-		tc.addEventListener('contextmenu', rightClickFunc);
+		if(rightClickContext) tc.setAttribute('data-context', rightClickContext);
+		if(rightClickFunc) tc.addEventListener('contextmenu', rightClickFunc);
 		if(typeof clickFunc === 'function') {
 			tc.style.cursor = 'pointer';
 			tc.tabIndex = 0;
@@ -3020,19 +3027,21 @@ function showContextMenu() {
     document.addEventListener('click', hideContextMenus);
 	
 	let box = document.body.getBoundingClientRect();
-    let x = event.clientX;
-    let y = event.clientY - box.top - document.querySelector('#song-queue').getBoundingClientRect().height;
+    let x = event.clientX || event.target.getBoundingClientRect()?.x;
+    let y = (event.clientY - box.top - document.querySelector('#song-queue').getBoundingClientRect().height) || event.target.getBoundingClientRect()?.y;
 
 	let menu = document.querySelector('.context');
     menu.style.top = y + 'px';
 	menu.style.left = x + 'px';
-	menu.classList.remove('hidden');	
+	menu.classList.remove('hidden');
 	menu.innerHTML = '';
 	
 	// console.log(event.target.getAttribute('context'));
 	switch(event.target.getAttribute('data-context'))
 	{
 		case 'release':
+			// left click or Enter key shows track list, play single track on click
+			if(event.key && event.key != 'Enter') return;
 			let submenu = document.createElement('div');
 			submenu.id = 'release-tracks';
 			menu.appendChild(submenu);
@@ -3077,7 +3086,6 @@ function showContextMenu() {
 		if(x - menu.getBoundingClientRect().width < 0)
 			menu.style.left = 0;
 	}
-	
 }
 
 function generateTracks(contents) {

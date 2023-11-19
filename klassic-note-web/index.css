@@ -328,6 +328,10 @@ a {
 	cursor: pointer;
 }
 
+.action:hover {
+	color: var(--accent);
+}
+
 .context {
 	font-size: 0.9em;
 	position: absolute;
