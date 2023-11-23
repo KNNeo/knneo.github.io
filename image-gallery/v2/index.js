@@ -263,14 +263,14 @@ function resetFilters() {
 }
 
 function toggleAutoScroll() {
+	event.target.classList.toggle('bi-play-circle');
+	event.target.classList.toggle('bi-pause-circle');
 	if(window.variables.autoscroll.run) {
 		clearInterval(window.variables.autoscroll.run);
 		window.variables.autoscroll.run = null;
-		event.target.innerText = 'pause';
 	}
 	else {
 		window.variables.autoscroll.run = setInterval(scrollGallery, window.variables.autoscroll.timeout);
-		event.target.innerText = 'play_arrow';
 	}
 }
 
