@@ -24,21 +24,22 @@ html {
 body {
 	max-width: 480px;
 	margin: auto;
-}
-
-.no-margins {
-	margin-top: 0;
-}
-
-.header {
-	padding: 0 10px;
-}
-
-.page {
 	-webkit-user-select: none; /* Safari */
 	-ms-user-select: none; /* IE 10+ and Edge */
 	user-select: none; /* Standard syntax */
 	padding: 0;
+}
+
+.no-margins {
+	margin: 0;
+}
+
+.small-font {
+	font-size: small;
+}
+
+.header {
+	position: relative;
 }
 
 .group {
@@ -47,7 +48,7 @@ body {
 
 .page-list {
 	margin: auto;
-	padding: 1em;
+	padding: 0 1em;
 }
 
 .page-list a {
@@ -63,20 +64,16 @@ body {
 }
 
 .settings {
-	position: relative;
-}
-
-.page .settings h3 {
 	position: absolute;
 	right: 0;
 }
 
-.settings * a {
+.settings a {
 	color: var(--foreground);
 	cursor: pointer;
 	text-decoration: none;
 }
 
-.settings * a:hover {
+.settings a:hover {
 	color: var(--primary);
 }
