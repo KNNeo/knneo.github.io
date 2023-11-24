@@ -8,6 +8,7 @@ void Main()
 {
     bool WriteTitleOnConsole = false;
 	bool TraceMode = false;
+	int MaxHashtagLength = 32;
 	string defaultFont = "Noto Sans Mono";
     Console.WriteLine("WriteTitleOnConsole is " + WriteTitleOnConsole + "; Set as true to see post titles");
     Console.WriteLine("\tPost with changes will appear here");
@@ -181,7 +182,7 @@ void Main()
     		while(match.Success) {
 				//Console.WriteLine(match.Groups[3].Value);
 				if(match.Groups[3].Value.Length > 1 && 
-				match.Groups[3].Value.Length <= 64 && 
+				match.Groups[3].Value.Length <= MaxHashtagLength && 
 				!exclusions.Any(e => match.Groups[3].Value.Contains(e)) && 
 				!int.TryParse(match.Groups[3].Value, out int _) &&
 				!match.Groups[4].Value.Contains("none"))
