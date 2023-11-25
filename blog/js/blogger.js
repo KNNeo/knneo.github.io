@@ -68,7 +68,7 @@ function reduceResults() {
 		document.getElementsByClassName('blog-feeds')[0].remove(); //remove feed
 	}
 
-	if(false && !window.location.href.includes('The%20Statement')) // if not statement labels
+	if(true || !window.location.href.includes('The%20Statement')) // if not statement labels
 	{
 		let columnCenterInner = document.getElementsByClassName('column-center-inner')[0];
 		columnCenterInner.classList.add('homepage-column-center-inner');
@@ -161,7 +161,7 @@ function reduceResults() {
 			counter++;
 		}
 	}
-	if(true) // show all content
+	else // show all content
 	{
 		for (var content of document.getElementsByClassName('post-body entry-content'))
 		{
