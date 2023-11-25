@@ -83,7 +83,7 @@ function reduceResults() {
 			let footer = post.getElementsByClassName('post-footer')[0];
 			if(footer) footer.parentElement.removeChild(footer);
 			let title = post.getElementsByClassName('post-title')[0];
-			let link = title != undefined ? title.getElementsByTagName('a')[0] : undefined;
+			let link = title.getElementsByTagName('a')[0];//title != undefined ? title.getElementsByTagName('a')[0] : undefined;
 			let snippet = post.getElementsByClassName('post-body')[0];
 			for(let styleDiv of snippet.getElementsByTagName('style'))
 			{
@@ -101,7 +101,7 @@ function reduceResults() {
 			latestPost.classList.add('latest-post');
 							
 			let innerPostLink = document.createElement('a');
-			innerPostLink.href = link?.href ?? '/search/label/The%20Statement?max-results=5';
+			innerPostLink.href = link?.href;// ?? '/search/label/The%20Statement?max-results=5';
 			
 			let latestPostThumb = document.createElement('div');
 			latestPostThumb.style.position = 'relative';
