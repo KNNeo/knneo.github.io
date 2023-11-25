@@ -83,7 +83,7 @@ function reduceResults() {
 			let footer = post.getElementsByClassName('post-footer')[0];
 			if(footer) footer.parentElement.removeChild(footer);
 			let title = post.getElementsByClassName('post-title')[0];
-			let link = title.getElementsByTagName('a')[0];//title != undefined ? title.getElementsByTagName('a')[0] : undefined;
+			let link = title != undefined ? title.getElementsByTagName('a')[0] : undefined;
 			let snippet = post.getElementsByClassName('post-body')[0];
 			for(let styleDiv of snippet.getElementsByTagName('style'))
 			{
