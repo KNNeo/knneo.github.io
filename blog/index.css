@@ -839,38 +839,12 @@ abbr.imgpop:hover img {
 .thumbnail-initial img,
 .thumbnail-initial video {
 	border: 2px solid var(--secondary);
+	border-bottom-width: 1em;
 	transition: border 0.2s, border-radius 0.2s;
-	box-sizing: border-box;
-    border-bottom-width: 1em;
 }
 
-.thumbnail-initial td:first-child img,
-.thumbnail-initial td:first-child video {
-	/* border-left-width: 10px; */
-	/* border-top-left-radius: 8px; */
-	/* border-bottom-left-radius: 8px; */
-}
-
-.thumbnail-initial td:last-child img,
-.thumbnail-initial td:last-child video {
-	/* border-right-width: 10px; */
-	/* border-top-right-radius: 8px; */
-	/* border-bottom-right-radius: 8px; */
-}
-
-.thumbnail-initial td:first-child img:hover,
-.thumbnail-initial td:first-child video:hover {
-    /* border-bottom-width: 2px; */
-	/* border-left-width: 2px; */
-	/* border-radius: 0; */
-    border-color: var(--primary);
-}
-
-.thumbnail-initial td:last-child img:hover,
-.thumbnail-initial td:last-child video:hover {
-    /* border-bottom-width: 2px; */
-	/* border-right-width: 2px; */
-	/* border-radius: 0; */
+.thumbnail-initial:hover img,
+.thumbnail-initial:hover video {
     border-color: var(--primary);
 }
 
