@@ -217,8 +217,13 @@
     gap: 10px;
 }
 
+.latest-post .outer div:first-child {
+    position: relative;	
+    line-height: 0;
+}
+
 .latest-post .outer img {
-	border-radius: 8px;	
+	border-radius: 4px;	
     object-fit: cover;
 }
 

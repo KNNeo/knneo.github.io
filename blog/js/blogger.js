@@ -104,7 +104,7 @@ function reduceResults() {
 			innerPostLink.href = link?.href ?? '/search/label/The%20Statement?max-results=5';
 			
 			let latestPostThumb = document.createElement('div');
-			latestPostThumb.style.position = 'relative';
+			// latestPostThumb.style.position = 'relative';
 			
 			if(thumb.length > 0)
 			{
