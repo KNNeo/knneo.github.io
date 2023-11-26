@@ -24,7 +24,7 @@ function filterByTag() {
 	else
 		document.querySelector('#All')?.classList.remove('hidden');
 	
-	for(let post of (document.querySelectorAll('.Post') ?? []))
+	for(let post of (document.querySelectorAll('.post') ?? []))
 	{
 		let hide = !isAll && !post.classList.contains(tag) && !post.querySelector('.publish')?.innerText.startsWith(tag);
 		if(hide)
@@ -32,7 +32,7 @@ function filterByTag() {
 		else
 			post.classList.remove('hidden');
 	}
-	let posts = document.querySelectorAll('.Post:not(.hidden)');
+	let posts = document.querySelectorAll('.post:not(.hidden)');
 	if(posts.length == 0) window.location.hash = '#All';
 	if(posts.length > 0)
 		document.querySelector('.count').innerText = posts.length + ' published posts' + (isAll ? '' : ' (' + window.location.hash + ')');
@@ -41,7 +41,7 @@ function filterByTag() {
 
 
 function randomPost() {
-	let urls = Array.from(document.querySelectorAll('.Post:not(.hidden)')).map(p => p.querySelector('a').href);
+	let urls = Array.from(document.querySelectorAll('.post:not(.hidden)')).map(p => p.querySelector('a').href);
 	window.location.href = urls[Math.floor(Math.random() * urls.length)];
 }
 

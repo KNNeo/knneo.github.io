@@ -70,11 +70,11 @@ a:hover {
     overflow-x: hidden;
 }
 
-.Post {
-	padding: 2px;
+.post {
+    padding: 4px;
 }
 
-.latest-post {
+.latest {
 	box-shadow: 3px 3px var(--foreground);
 	border: 2px solid var(--foreground);
     display: inline-block;
@@ -92,22 +92,22 @@ a:hover {
 	transition: background .2s linear;
 }
 
-.latest-post:hover {
-	/* transition: all .1s linear; */
+.latest:hover {
 	box-shadow: 1px 1px;
 	transform: translate(2px,2px);
 }
 
-.latest-post a {
+.latest a {
     color: var(--primary);
 	font-weight: bold;
+	line-height: initial;
 }
 
-.latest-post a:hover {
+.latest a:hover {
     color: var(--foreground);
 }
 
-.latest-post-thumb {
+.latest .thumb {
     display: flex;
 	gap: 0 6px;
     flex-direction: row-reverse;
@@ -116,33 +116,23 @@ a:hover {
 	position: relative;
 }
 
-.latest-post .thumb,
-.latest-post .thumb-overlay {
-	border: 2px solid var(--primary);
-    border-radius: 8px;
-	width: 150px;
-	height: 150px;
+.latest .thumb {
+	line-height: 0;
 }
 
-.latest-post-thumb img {
-	border-radius: 6px;
+.latest .thumb img {
+	border: 2px solid transparent;
+    border-radius: 5px;
+	width: 150px;
+	height: 150px;
 	object-fit: cover;
-	width: 150px;
-	height: 150px;
-}
-
-.latest-post:hover .thumb-overlay img {
-	visibility: hidden;
 }
 
 .anchors {
     display: none;
 	position: absolute;
-	background-color: var(--background);
-	width: 150px;
-    height: 144px;
+    border-radius: 5px;
     left: 2px;
-	border-radius: 8px;
 	overflow: auto;
     padding: 3px 0;
 	scrollbar-width: none; /* Firefox */
@@ -152,18 +142,19 @@ a:hover {
   width: 0 !important
 } /* Safari and Chrome */
 
-.latest-post:hover .anchors {
+.latest:hover .anchors {
 	display: initial;
+	border: 2px solid var(--foreground);
 }
 
-.latest-post .anchors a {
+.latest .anchors a {
     display: block;
     color: var(--primary);
 	font-size: 0.7em;
     padding: 3px 0;
 }
 
-.latest-post .anchors a:hover {
+.latest .anchors a:hover {
     color: var(--foreground);
 }
 
@@ -551,7 +542,7 @@ a.hidden {
 	#DarkModeBtn {
 		right: 15px;
 	}
-	.Post span {
+	.post span {
 		display: block;
 	}
 	body {

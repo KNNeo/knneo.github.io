@@ -919,7 +919,7 @@ void Main()
         // Process home page
 		if (TraceMode) Console.WriteLine("Process home page");
         var tagList = string.Join("-",tags).Replace(" ","").Replace("-"," ");
-        var classes = " class=\"Post "+tagList+"\"";
+        var classes = " class=\"post "+tagList+"\"";
         foreach(var tag in tags)
         {
             if(!allTags.Contains(tag))
@@ -967,12 +967,12 @@ void Main()
 				}
 				
                 textString += isLatest 
-					? "<div"+classes.Replace("Post", "Post latest-post")+">" + 
+					? "<div"+classes.Replace("post", "post latest")+">" + 
 					"<span class=\"publish\">"+published.ToString("yyyy.MM.dd")+"</span>" + 
-					"<div class=\"latest-post-thumb\">" + 
+					"<div class=\"thumb\">" + 
 						"<a href=\"" + pageLink + "\">" + postTitle + "</a>" + 
 						(anchors.Count > 0 ? "<div class=\"anchors\">" + string.Join("", anchors.Select(a => "<a href=\"" + (pageLink + "#" + a) + "\">#" + a + "</a>")) + "</div>" : "") + 
-						(thumbnailUrl.Length > 0 ? "<div class=\"" + (anchors.Count > 0 ? "thumb-overlay" : "thumb") + "\"><img loading=\"lazy\" src=\"" + thumbnailUrl + "\"/></div>" : "") + 
+						(thumbnailUrl.Length > 0 ? "<div class=\"overlay\"><img loading=\"lazy\" src=\"" + thumbnailUrl + "\"/></div>" : "") + 
 					"</div></div>\n"
 					: "<div" + classes + "><span class=\"publish\">" + published.ToString("yyyy.MM.dd") + " </span><a href=\""+pageLink+"\">" + postTitle + "</a></div>\n";
 					
