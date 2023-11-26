@@ -2676,7 +2676,7 @@ function generateTableList(contents, parameters) {
 		headerDiv.appendChild(action);
 	}
 	
-	if(title && actionTitle && actionTitle.length > 0)
+	if(title || actionTitle && actionTitle.length > 0)
 		document.getElementById(id).appendChild(headerDiv);
 	
 	//table
