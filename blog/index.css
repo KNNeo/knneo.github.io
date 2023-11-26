@@ -205,11 +205,11 @@
 }
 
 .latest-post-statement {
-    padding: 2px;
+    padding: 12px 2px;
 }
 
-.latest-post:hover .latest-post-thumb {
-	border-color: var(--foreground);	
+.latest-post-thumb {
+	border-color: transparent;
 }
 
 .latest-post .outer {
