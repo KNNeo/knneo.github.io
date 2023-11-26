@@ -26,7 +26,8 @@ function filterByTag() {
 	
 	for(let post of (document.querySelectorAll('.post') ?? []))
 	{
-		let hide = !isAll && !post.classList.contains(tag) && !post.querySelector('.publish')?.innerText.startsWith(tag);
+		let tags = post.getAttribute('data-tags')?.split(',') || [];
+		let hide = !isAll && !tags.includes(tag) && !post.querySelector('.publish')?.innerText.startsWith(tag);
 		if(hide)
 			post.classList.add('hidden');
 		else

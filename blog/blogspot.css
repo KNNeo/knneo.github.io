@@ -163,6 +163,10 @@ a:hover {
     font-weight: bold;
 }
 
+.hidden {
+    display: none;
+}
+
 #blog-archive-list {
 	padding-bottom: 20px;
 }

@@ -918,8 +918,8 @@ void Main()
         
         // Process home page
 		if (TraceMode) Console.WriteLine("Process home page");
-        var tagList = string.Join("-",tags).Replace(" ","").Replace("-"," ");
-        var classes = " class=\"post "+tagList+"\"";
+        var tagList = string.Join(",",tags).Replace(" ","").Replace("-"," ");
+        var dataId = " data-tags=\""+tagList+"\"";
         foreach(var tag in tags)
         {
             if(!allTags.Contains(tag))
@@ -927,13 +927,13 @@ void Main()
         }
         
         if (originalLink == "") // wiwhout post link
-            textString += "<div" + classes + "><span>" + published.ToString("yyyy.MM.dd") + "</span>" + postTitle + "</div>\n";
+            textString += "<div class=\"post\"><span>" + published.ToString("yyyy.MM.dd") + "</span>" + postTitle + "</div>\n";
 		else
         {
 			if(postTitle == "") // without title
 			{
 				continue;
-                // textString += "<div"+classes+"><span>"+published.ToString("yyyy.MM.dd")+" </span>" + 
+                // textString += "<div class=\"post\"><span>"+published.ToString("yyyy.MM.dd")+" </span>" + 
 				// "<a href=\""+pageLink+"\">A Random Statement</a></div>\n";
 			}
 			else
@@ -967,14 +967,14 @@ void Main()
 				}
 				
                 textString += isLatest 
-					? "<div"+classes.Replace("post", "post latest")+">" + 
+					? "<div class=\"post latest\"" + dataId + ">" + 
 					"<span class=\"publish\">"+published.ToString("yyyy.MM.dd")+"</span>" + 
 					"<div class=\"thumb\">" + 
 						"<a href=\"" + pageLink + "\">" + postTitle + "</a>" + 
 						(anchors.Count > 0 ? "<div class=\"anchors\">" + string.Join("", anchors.Select(a => "<a href=\"" + (pageLink + "#" + a) + "\">#" + a + "</a>")) + "</div>" : "") + 
 						(thumbnailUrl.Length > 0 ? "<div class=\"overlay\"><img loading=\"lazy\" src=\"" + thumbnailUrl + "\"/></div>" : "") + 
 					"</div></div>\n"
-					: "<div" + classes + "><span class=\"publish\">" + published.ToString("yyyy.MM.dd") + " </span><a href=\""+pageLink+"\">" + postTitle + "</a></div>\n";
+					: "<div class=\"post\"" + dataId + "><span class=\"publish\">" + published.ToString("yyyy.MM.dd") + " </span><a href=\""+pageLink+"\">" + postTitle + "</a></div>\n";
 					
 				//latestPostCount++;
 			}
