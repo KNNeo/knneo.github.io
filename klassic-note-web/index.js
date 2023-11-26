@@ -871,10 +871,8 @@ function queryAllReleases() {
 		}
 	});
 	action.addEventListener('click', function() {
-		if(event.key == 'Enter') {
-			window['mode'] = 'home';
-			clearSearch();
-		}
+		window['mode'] = 'home';
+		clearSearch();
 	});
 	allReleases.appendChild(action);
 	
@@ -980,18 +978,16 @@ function generateAllReleases(contents) {
 		footer.tabIndex = 0;
 		footer.innerText = 'Show More';
 		footer.addEventListener('keyup', function() {
+			//get year of last album listed
 			if(event.key == 'Enter') {
-				//get year of last album listed
 				let year = parseInt(table.lastElementChild.getAttribute('data-year'));
 				generateMoreReleases(year - 1);
 			}
 		});
 		footer.addEventListener('click', function() {
-			if(event.key == 'Enter') {
-				//get year of last album listed
-				let year = parseInt(table.lastElementChild.getAttribute('data-year'));
-				generateMoreReleases(year - 1);
-			}
+			//get year of last album listed
+			let year = parseInt(table.lastElementChild.getAttribute('data-year'));
+			generateMoreReleases(year - 1);
 		});
 		allReleases.appendChild(footer);
 	}
