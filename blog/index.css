@@ -205,7 +205,8 @@
 }
 
 .latest-post-statement {
-    padding: 12px 2px;
+    padding: 2px;
+    line-height: initial;
 }
 
 .latest-post-thumb {
