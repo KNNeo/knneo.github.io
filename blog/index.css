@@ -7,6 +7,7 @@
 }
 
 /*Klassic Note: Website Additions*/
+.hashtags,
 #hashtags {
 	width: 100%;
 	color: var(--primary);
@@ -16,6 +17,7 @@
 	/* font-size: 0.8em; */
 }
 
+.hashtags a,
 #hashtags a {
 	padding: 3px;
 }

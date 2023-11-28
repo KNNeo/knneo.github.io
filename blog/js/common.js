@@ -35,9 +35,9 @@ function startup() {
 // Add hashtags for Entertainment News posts with anchors
 function addHashtags() {
 	// empty hashtags if any content
-	let hashTag = document.getElementById("hashtags");
-	if(hashTag == null) return;
-	hashTag.innerHTML = '';
+	let tags = document.querySelector(".hashtags") || document.querySelector("#hashtags");
+	if(tags == null) return;
+	tags.innerHTML = '';
 	
 	//ignore old id and if is search result
 	if(window.location.href.includes("/search/")) {
@@ -87,10 +87,7 @@ function addHashtags() {
 		newItem.innerText = '#' + item.tag;
 		newItem.title = item.tag;
 		newItem.href = '#' + item.target;
-		// newItem.addEventListener('click', function() {
-			// window.location.hash = this.title;
-		// });
-		hashTag.appendChild(newItem);
+		tags.appendChild(newItem);
 	}
 	
 	if(typeof generateHeader == 'function') generateHeader();
