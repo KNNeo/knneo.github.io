@@ -851,8 +851,8 @@ abbr.imgpop:hover img {
 	transition: border 0.2s, border-radius 0.2s;
 }
 
-.thumbnail-initial:hover img,
-.thumbnail-initial:hover video {
+.thumbnail tr:hover img,
+.thumbnail tr:hover video {
     border-color: var(--primary);
 }
 
