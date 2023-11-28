@@ -156,8 +156,8 @@ body {
 
 .anime-row:hover img,
 .new-anime-row:hover img {
-	width: 200px;
-	max-height: 200px;
+	width: 150px;
+	/* max-height: 200px; */
 	margin: 1.5em auto;
 	display: block;
 	z-index: 3;
@@ -227,7 +227,7 @@ body {
 .grid {
 	padding: 40px 0;
 	display: grid;
-    grid-template-columns: 0 120px 1fr 9fr;
+    grid-template-columns: 0 100px 1fr 18fr;
     grid-auto-rows: 25px;
     align-items: center;
 }
@@ -238,7 +238,7 @@ body {
 
 .grid .thumb {
 	max-width: 100px;
-	max-height: 100px;
+	/* max-height: 100px; */
 	grid-column-start: 2;
 	border: 4px solid var(--foreground);
 }
@@ -301,15 +301,15 @@ body {
 	.anime-row:hover a,
 	.new-anime-row:hover a {
 		position: fixed;
-		width: 200px;
-		height: 220px;
+		width: 150px;
+		/* height: 220px; */
 	}
 	.anime-row:hover img,
 	.new-anime-row:hover img {
 		position: fixed;
 		top: 0;
-		width: 200px;
-		max-height: 200px;
+		width: 150px;
+		/* max-height: 200px; */
 	}
 	.grid .description {
 		font-size: x-small;

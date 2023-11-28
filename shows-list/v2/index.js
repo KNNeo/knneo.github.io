@@ -324,7 +324,7 @@ function generateAnimeRow(item) {
 	if(item.handle && item.handle.length > 0)
 	{
 		let handler = document.createElement('a');
-		handler.href = 'https://twitter.com/' + item.handle;
+		handler.href = (item.handle.startsWith('http') ? '' : 'https://twitter.com/') + item.handle;
 		handler.setAttribute('target', '_blank');
 		
 		if(item.imgURL && item.imgURL.length > 0)
@@ -332,7 +332,7 @@ function generateAnimeRow(item) {
 			let img = document.createElement('img');
 			img.src = 'https://knneo.github.io/resources/spacer.gif';
 			img.alt = item.imgURL;
-			img.title = '@' + item.handle;	
+			img.title = (item.handle.startsWith('http') ? '' : '@') + item.handle;
 			if(item.circular)
 				img.style.borderRadius = '50%';
 				
@@ -384,6 +384,7 @@ function generateTimeline(categoryId, categoryTitle, filterList, fold = true) {
 		block.appendChild(title);
 		
 	list.appendChild(block);
+	list.appendChild(document.createElement('br'));
 	
 	let listBlock = document.createElement('div');
 	listBlock.classList.add('block');
@@ -398,7 +399,7 @@ function generateTimeline(categoryId, categoryTitle, filterList, fold = true) {
 		if(item.handle && item.handle.length > 0)
 		{
 			let handler = document.createElement('a');
-			handler.href = 'https://twitter.com/' + item.handle;
+			handler.href = (item.handle.startsWith('http') ? '' : 'https://twitter.com/') + item.handle;
 			handler.setAttribute('target', '_blank');
 			
 			if(item.imgURL && item.imgURL.length > 0)
@@ -408,7 +409,7 @@ function generateTimeline(categoryId, categoryTitle, filterList, fold = true) {
 				img.classList.add('dimmed');
 				img.src = 'https://knneo.github.io/resources/spacer.gif';
 				img.alt = item.imgURL;
-				img.title = '@' + item.handle;
+				img.title = (item.handle.startsWith('http') ? '' : '@') + item.handle;
 				if(item.circular)
 					img.style.borderRadius = '50%';
 					
@@ -433,6 +434,7 @@ function generateTimeline(categoryId, categoryTitle, filterList, fold = true) {
 	}
 	
 	list.appendChild(listBlock);
+	list.appendChild(document.createElement('br'));
 	
 	return list;
 }

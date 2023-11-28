@@ -4915,9 +4915,13 @@ let showsArray = [
 ].map(ca => {
 	let ref = showsRef.filter(s => s.id == ca.MAL);
 	if(ref.length == 0) return ca;
+	let { seriesGenre, seriesImage, seriesURL } = ref[0];
 	return {
 		...ca,
-		genres: ref[0].seriesGenre,
+		genres: seriesGenre,
+		imgURL: seriesImage,
+		circular: false,
+		handle: seriesURL,
 	}
 });
 
