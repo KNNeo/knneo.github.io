@@ -68,6 +68,11 @@ const tags = document.querySelector('.tags');
 const menu = document.querySelector('.menu');
 const settings = document.querySelector('.settings');
 const viewer = document.querySelector('.viewer');
+const preset = document.querySelector('#preset');
+const include = document.querySelector('#include');
+const exclude = document.querySelector('#exclude');
+const prev = document.querySelector('#viewer-prev');
+const next = document.querySelector('#viewer-next');
 
 //--FUNCTIONS--//
 function startup() {
@@ -224,16 +229,11 @@ function generateTagsList() {
 		tag.innerText = button.value;
 		tag.tabIndex = -1;
 		tag.addEventListener('click',function() {
-			// to toggle
+			// to include or reset
 			switch(this.getAttribute('filter'))
 			{
 				case 'include':
 					toggleVariable('includeCriteria', this.value);
-					toggleVariable('excludeCriteria', this.value);
-					this.setAttribute('filter', 'exclude');
-					break;
-				case 'exclude':
-					toggleVariable('excludeCriteria', this.value);
 					this.removeAttribute('filter');
 					break;
 				default:
@@ -241,28 +241,26 @@ function generateTagsList() {
 					this.setAttribute('filter', 'include');
 					break;
 			}
-			document.getElementById('include').value = window['includeCriteria'];
-			document.getElementById('exclude').value = window['excludeCriteria'];			
+			include.value = window['includeCriteria'];
+			exclude.value = window['excludeCriteria'];			
 			generateGrid();
 		});
 		tag.addEventListener('contextmenu',function() {
-			// to reset
+			// to exclude or reset
 			event.preventDefault();
 			switch(this.getAttribute('filter'))
 			{
-				case 'include':
-					toggleVariable('includeCriteria', this.value);
-					this.setAttribute('filter', 'exclude');
-					break;
 				case 'exclude':
 					toggleVariable('excludeCriteria', this.value);
+					this.removeAttribute('filter');
 					break;
 				default:
+					toggleVariable('excludeCriteria', this.value);
+					this.setAttribute('filter', 'exclude');
 					break;
 			}
-			this.removeAttribute('filter');
-			document.getElementById('include').value = window['includeCriteria'];
-			document.getElementById('exclude').value = window['excludeCriteria'];			
+			include.value = window['includeCriteria'];
+			exclude.value = window['excludeCriteria'];			
 			generateGrid();
 		});
 		
@@ -283,12 +281,10 @@ function generateViewer() {
 		return false;
 	}, false);		
 	viewer.addEventListener('keyup', function(e) {
-		if (event.keyCode === 37 && document.getElementById('viewer-prev') != null) {
-			document.getElementById('viewer-prev').click();
-		}
-		if (event.keyCode === 39 && document.getElementById('viewer-next') != null) {
-			document.getElementById('viewer-next').click();
-		}
+		if (event.keyCode === 37 && prev != null)
+			prev.click();
+		if (event.keyCode === 39 && next != null)
+			next.click();
 		return false;
 	}, false);
 }
@@ -386,7 +382,7 @@ function generateGrid() {
 					toggleVariable('includeCriteria', inFilter);
 					toggleVariable('includeCriteria', notFilter[0]);
 				}
-				document.getElementById('include').value = window['includeCriteria'];
+				include.value = window['includeCriteria'];
 				generateTagsList();
 				generateGrid();
 				return false;
@@ -555,20 +551,19 @@ function onTogglePreset() {
 	switch(event.target.innerText)
 	{
 	  case 'photo_size_select_actual':
-		document.getElementById('preset').innerText = 'photo_size_select_small';
+		preset.innerText = 'photo_size_select_small';
 		break
 	  case 'photo_size_select_small':
-		document.getElementById('preset').innerText = 'photo_size_select_large';
+		preset.innerText = 'photo_size_select_large';
 		break;
 	  case 'photo_size_select_large':
-		document.getElementById('preset').innerText = 'photo_size_select_actual';
+		preset.innerText = 'photo_size_select_actual';
 		break;
 	  default:
 		break;
 	}
 	
-	window['preset'] = document.getElementById('preset').innerText;
-	
+	window['preset'] = preset.innerText;	
 	generateGrid();
 }
 
@@ -609,9 +604,9 @@ function onClearAll() {
 		tag.removeAttribute('filter');
 	}
 	window['includeCriteria'] = '';
-	document.getElementById('include').value = window['includeCriteria'];
+	include.value = window['includeCriteria'];
 	window['excludeCriteria'] = '';
-	document.getElementById('exclude').value = window['excludeCriteria'];
+	exclude.value = window['excludeCriteria'];
 	generateGrid();
 }
 

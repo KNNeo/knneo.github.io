@@ -504,4 +504,7 @@ const mosaicArray = [
 {"filename":"グレイス・リリー_こころ.jpg","sm":"https://doax.cc/res/pic_star_s/763_1.png","md":"https://doax.cc/res/pic_star_s/763_1.png","lg":"https://doax.cc/res/pic_star/763_1.png","og":"https://doax.cc/res/pic_star/763_1.png"},
 {"filename":"花鳥風月_シャンディ.jpg","sm":"https://doax.cc/res/pic_star_s/574_27.png","md":"https://doax.cc/res/pic_star_s/574_27.png","lg":"https://doax.cc/res/pic_star/574_27.png","og":"https://doax.cc/res/pic_star/574_27.png"},
 {"filename":"プリマ・スワン_カンナ.jpg","sm":"https://doax.cc/res/pic_star_s/758_2.png","md":"https://doax.cc/res/pic_star_s/758_2.png","lg":"https://doax.cc/res/pic_star/758_2.png","og":"https://doax.cc/res/pic_star/758_2.png"},
+{"filename":"サンドリヨン・エスカリエ_なぎさ.jpg","sm":"https://doax.cc/res/pic_star_s/815_15.png","md":"https://doax.cc/res/pic_star_s/815_15.png","lg":"https://doax.cc/res/pic_star/815_15.png","og":"https://doax.cc/res/pic_star/815_15.png"},
+{"filename":"スパークリングブルー_かすみ.jpg","sm":"https://doax.cc/res/pic_star_s/556_7.png","md":"https://doax.cc/res/pic_star_s/556_7.png","lg":"https://doax.cc/res/pic_star/556_7.png","og":"https://doax.cc/res/pic_star/556_7.png"},
+{"filename":"恋色いろは_なぎさ.jpg","sm":"https://doax.cc/res/pic_star_s/249.png","md":"https://doax.cc/res/pic_star_s/249.png","lg":"https://doax.cc/res/pic_star/249.png","og":"https://doax.cc/res/pic_star/249.png"},
 ];

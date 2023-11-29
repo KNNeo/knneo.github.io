@@ -297,6 +297,8 @@ body[layout='vertical'] .tags.expanded div {
 	width: 25%;
 	height: 100%;
 	z-index: 11;
+	opacity: 0;
+	transition: opacity .2s;
 }
 
 .viewer .next {
@@ -308,14 +310,16 @@ body[layout='vertical'] .tags.expanded div {
 	width: 25%;
 	height: 100%;
 	z-index: 11;
+	opacity: 0;
+	transition: opacity .2s;
 }
 
-.viewer .prev:active {
+.viewer .prev:hover {
 	opacity: 0.5;
 	background-image: linear-gradient(to left, transparent, var(--background));
 }
 
-.viewer .next:active {
+.viewer .next:hover {
 	opacity: 0.5;
 	background-image: linear-gradient(to right, transparent, var(--background));
 }
