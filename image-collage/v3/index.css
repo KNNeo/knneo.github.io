@@ -92,7 +92,7 @@ body[layout='horizontal'] .expander {
 }
 
 body[layout='vertical'] .tags.expanded div {
-	max-height: 46dvh;
+	/* max-height: 46dvh; */
 }
 
 .tag {

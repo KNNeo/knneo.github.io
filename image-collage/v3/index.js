@@ -366,7 +366,7 @@ function generateGrid() {
 			gridItemImage.title = getFilenameInfo(imageUrl).filename.split(config.separator).join('\n');
 			// gridItemImage.src = item[getThumbnailPrefix()] || 'https://knneo.github.io/resources/spacer.gif';
 			gridItemImage.setAttribute('data-image', item[getThumbnailPrefix()] || 'https://knneo.github.io/resources/spacer.gif');
-			gridItemImage.setAttribute('alt', item['og']);
+			gridItemImage.setAttribute('data-src', item['og']);
 			gridItemImage.addEventListener('click', function() {
 				openViewer(this.parentElement);
 			});
@@ -591,6 +591,7 @@ function onToggleExpander() {
 	  default:
 		break;
 	}
+	collage.style.height = (window.innerHeight) + 'px';
 	setTimeout(fadeIn, 0);
 }
 
@@ -650,7 +651,7 @@ function openImageInViewer(image) {
 	
 	let img = document.createElement('img');
 	img.id = image.id;
-	img.src = image.getAttribute('alt');
+	img.src = image.getAttribute('data-src');
 	img.title = image.title;
 	img.style.transform = 'scale(0.8)';
 	img.style.opacity = 0;
@@ -756,7 +757,7 @@ function runSlideshow() {
 	{
 		let images = generateFiltered();
 		let image = images[Math.floor(Math.random()*images.length)];
-		openImageInViewer(document.querySelector('img[alt="' + image.og + '"]'));
+		openImageInViewer(document.querySelector('img[data-src="' + image.og + '"]'));
 		runLoader();
 		window['slideshow'] = setTimeout(runSlideshow, config.setting.slideshow * 1000);	
 	}
