@@ -72,9 +72,10 @@ function generateReadTime() {
 	if(contents != null)
 	{
 		let text = contents.innerText;
-		let wpm = 200;
-		let words = text.trim().split(/\s+/).length;
-		let time = Math.ceil(words / wpm);
+		let wpm = text.trim().split(/\s+/).length / 250;
+		let ipm = 12 * document.querySelectorAll('img').length / 60;
+		let time = Math.ceil(wpm + ipm); // according to blog site Medium
+		console.log(wpm, ipm, time);
 		
 		if(document.querySelector('.published') != null && time > 1)
 			document.querySelector('.published').innerText += ' - ' + time + ' min read';
