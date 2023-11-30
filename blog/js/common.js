@@ -36,60 +36,60 @@ function startup() {
 function addHashtags() {
 	// empty hashtags if any content
 	let tags = document.querySelector(".hashtags") || document.querySelector("#hashtags");
-	if(tags == null) return;
-	tags.innerHTML = '';
-	
-	//ignore old id and if is search result
-	if(window.location.href.includes("/search/")) {
-		for(let element of document.querySelectorAll("[id='hashtags']")) {
-			element.style.display = 'none';
-		}
-		return;
-	}
-	
-	// recreate hashtags
-	var hashtags = [];
-	
-	// add anything with anchor
-	let sections = document.querySelectorAll(".post-body [id]:not(#hashtags):not(#news-thumbnail):not(.twitter-tweet iframe[id]):not(#table):not(#music):not(.list):not(audio):not(video):not(object)");
-	if(sections.length > 0)
+	if(tags != null)
 	{
-		for(let section of sections) {
-			if(section.id.length > 1 && section.id.length <= 64)
-				hashtags.push({
-					tag: section.id, 
-					target: section.id
-				});
-			else {
-				console.error('hashtag length too long: ' + section.id);
-				return;
+		tags.innerHTML = '';
+		
+		//ignore old id and if is search result
+		if(window.location.href.includes("/search/")) {
+			for(let element of document.querySelectorAll("[id='hashtags']")) {
+				element.style.display = 'none';
+			}
+			return;
+		}
+		
+		// recreate hashtags
+		var hashtags = [];		
+		// add anything with anchor
+		let sections = document.querySelectorAll(".post-body [id]:not(#hashtags):not(#news-thumbnail):not(.twitter-tweet iframe[id]):not(#table):not(#music):not(.list):not(audio):not(video):not(object)");
+		if(sections.length > 0)
+		{
+			for(let section of sections) {
+				if(section.id.length > 1 && section.id.length <= 64)
+					hashtags.push({
+						tag: section.id, 
+						target: section.id
+					});
+				else {
+					console.error('hashtag length too long: ' + section.id);
+					return;
+				}
 			}
 		}
-	}
-	// special case: klassic note
-	for(let span of document.querySelectorAll(".post-body span")) {
-		if(span.innerText == "This Week on Klassic Note") {
-			//set id on class
-			span.id = "KlassicNote";
-			hashtags.push({
-				tag: "ThisWeekOnKlassicNote", 
-				target: span.id
-			});
-			break;
+		// special case: klassic note
+		for(let span of document.querySelectorAll(".post-body span")) {
+			if(span.innerText == "This Week on Klassic Note") {
+				//set id on class
+				span.id = "KlassicNote";
+				hashtags.push({
+					tag: "ThisWeekOnKlassicNote", 
+					target: span.id
+				});
+				break;
+			}
+		}
+		
+		// render
+		if(hashtags.length == 0) return;
+		for(let item of hashtags)
+		{
+			let newItem = document.createElement('a');
+			newItem.innerText = '#' + item.tag;
+			newItem.title = item.tag;
+			newItem.href = '#' + item.target;
+			tags.appendChild(newItem);
 		}
 	}
-	
-	// render
-	if(hashtags.length == 0) return;
-	for(let item of hashtags)
-	{
-		let newItem = document.createElement('a');
-		newItem.innerText = '#' + item.tag;
-		newItem.title = item.tag;
-		newItem.href = '#' + item.target;
-		tags.appendChild(newItem);
-	}
-	
 	if(typeof generateHeader == 'function') generateHeader();
 	if(typeof generateReadTime == 'function') generateReadTime();
 }
