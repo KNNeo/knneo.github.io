@@ -401,6 +401,20 @@ a.hidden {
 	height: 0;
 }
 
+.thumbnail {
+	padding-top: 1em;
+}
+
+.thumbnail .thumbnail-initial[data-index][data-length]::before {
+    content: attr(data-index) " / " attr(data-length);
+    position: absolute;
+    top: -1em;
+    left: 0;
+    right: 0;
+    font-size: 0.8em;
+    text-align: center;
+}
+
 /*Fixes from Blogger*/
 .published {
 	text-transform: uppercase;

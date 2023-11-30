@@ -567,6 +567,16 @@ function setThumbnails() {
 			
 			thumbnail.replaceWith(textElement);
 		}
+		
+		// add indices
+		let counter = 1;
+        let items = thumbnail.querySelectorAll('.thumbnail-initial');
+        for (let item of items) {
+			if(!item.hasAttribute('data-index')) {
+				item.setAttribute('data-index', counter++);
+				item.setAttribute('data-length', items.length);
+			}
+        }
     }
 }
 
