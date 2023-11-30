@@ -889,8 +889,8 @@ void Main()
              "<a href=\"" + originalLink + "\">" + blogTitle + "</a></i></p></small>");
         output.AppendLine("<small title=\"" + published.ToString() + "\" class=\"published\">" + published.ToString("dddd, dd MMMM yyyy") + "</small>");
         output.AppendLine("<div class=\"title\">" + postTitle + "</div>");
-		if(!content.Contains("id=\"hashtags\""))
-			output.AppendLine("<div id=\"hashtags\"></div>");
+		if(content.Contains("id=\"") && !content.Contains("=\"hashtags\""))
+			output.AppendLine("<div class=\"hashtags\"></div>");
         output.AppendLine("<div class=\"page-header\"></div>");
         output.Append(content);
         output.Append("<hr>");

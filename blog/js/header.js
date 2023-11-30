@@ -14,12 +14,13 @@ function generateHeader() {
 		if(document.querySelector('.title') != null)
 			header.appendChild(document.querySelector('.title').cloneNode(true));
 		
-		if(document.querySelector('#hashtags') != null)
+		let tags = document.querySelector(".hashtags") || document.querySelector("#hashtags");
+		if(tags != null)
 		{
 			//clone element to put in header
 			let hashtags = document.createElement('div');
 			hashtags.classList.add('hashtags');
-			for(let hashtag of document.querySelectorAll('#hashtags a'))
+			for(let hashtag of tags.querySelectorAll('a'))
 			{
 				let clone = hashtag.cloneNode(true);
 				// for hashtags, have to add back click event
