@@ -100,6 +100,7 @@ a:hover {
     color: var(--primary);
 	font-weight: bold;
 	line-height: initial;
+    overflow-wrap: anywhere;
 }
 
 .latest a:hover {
@@ -127,6 +128,10 @@ a:hover {
 	object-fit: cover;
 }
 
+.latest .thumb:hover img {
+    border: 2px solid var(--foreground);
+}
+
 .anchors {
     display: none;
 	position: absolute;
@@ -143,7 +148,7 @@ a:hover {
 
 .latest:hover .anchors {
 	display: initial;
-	border: 2px solid var(--foreground);
+	/* border: 2px solid var(--foreground); */
 }
 
 .latest .anchors a {
