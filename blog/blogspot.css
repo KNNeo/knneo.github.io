@@ -128,7 +128,7 @@ a:hover {
 	object-fit: cover;
 }
 
-.latest .thumb:hover img {
+.latest:hover .thumb img {
     border: 2px solid var(--foreground);
 }
 
