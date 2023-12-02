@@ -214,10 +214,6 @@
 	border-color: transparent;
 }
 
-.latest-post:hover .latest-post-thumb {
-    border-color: var(--foreground);
-}
-
 .latest-post .outer {
     display: flex;
     gap: 10px;
