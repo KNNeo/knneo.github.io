@@ -128,10 +128,6 @@ a:hover {
 	object-fit: cover;
 }
 
-.latest:hover .thumb img {
-    border: 2px solid var(--foreground);
-}
-
 .anchors {
     display: none;
 	position: absolute;
