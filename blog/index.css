@@ -198,7 +198,6 @@
 
 .latest-post:hover .latest-post-title {
 	color: var(--foreground);
-	/* text-decoration: underline; */
 }
 
 .latest-post:hover {
@@ -215,7 +214,7 @@
 	border-color: transparent;
 }
 
-.latest-post-thumb:hover {
+.latest-post:hover .latest-post-thumb {
     border-color: var(--foreground);
 }
 
