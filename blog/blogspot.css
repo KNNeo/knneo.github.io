@@ -350,31 +350,15 @@ span.emoji {
 	white-space: nowrap;
 }
 
-.home-tags {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.home-tags a {
-    display: flex;
-	cursor: pointer;
-	white-space: nowrap;
-	border-radius: 8px;
-	box-shadow: 3px 3px var(--foreground);
-	border: 1px solid var(--foreground);
-	background-color: var(--background);
-	text-decoration: none;
-    padding: 6px;
-	transition: background .2s linear;
-}
-
 .post-tags {
 	display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: 8px;
+}
+
+.post-tags.filters {
+    justify-content: center;
 }
 
 .post-tags a {
@@ -388,9 +372,7 @@ span.emoji {
 	transition: background .2s linear;
 }
 
-.home-tags a:hover,
 .post-tags a:hover {
-	/* transition: all .1s linear; */
 	box-shadow: 1px 1px;
 	transform: translate(2px, 2px);
 }

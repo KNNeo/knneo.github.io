@@ -27,10 +27,61 @@ function startup() {
 	setTimeout(displayFAB, 0);
 	setTimeout(addHoverForLinks, 0);
 	setTimeout(resizeImages, 0);
+	setTimeout(olderNewerTextToIcon, 0);
 	setTimeout(scrollToSectionByUrl, 200);
 }
 
 //==FUNCTIONS==//
+// Convert text to icon for footer next previous posts and labels
+function olderNewerTextToIcon() {
+    if (document.getElementById("blog-pager-newer-link") != null)
+		document.getElementById("blog-pager-newer-link").getElementsByTagName("a")[0].innerHTML = 
+		"<i class='material-icons latest-post' style='padding:0;'>arrow_back</i>";
+    if (document.getElementById("blog-pager-older-link") != null)
+		document.getElementById("blog-pager-older-link").getElementsByTagName("a")[0].innerHTML = 
+		"<i class='material-icons latest-post' style='padding:0;'>arrow_forward</i>";
+	if (document.getElementsByClassName('home-link').length > 0) {
+		document.getElementsByClassName('home-link')[0].classList.add('display-none');
+	}
+	
+	for(let label of document.querySelectorAll('#Label1 li a, .post-tags a'))
+	{
+		label.innerHTML = '<span class="material-icons small-icons">' + labelTextToIcon(label.innerText) + '</span>' + label.innerText + '</a>';
+	}
+}
+
+function labelTextToIcon(iconText) {
+	switch (iconText)
+	{
+		case 'The Entertainment News':
+			return 'newspaper';
+			break;
+		case 'The Klassic Note':
+			return 'music_note';
+			break;
+		case 'The Dreams':
+			return 'cloud';
+			break;
+		case 'The Everyday Life':
+			return 'nightlife';
+			break;
+		case 'The Fanfiction':
+			return 'category';
+			break;
+		case 'The Statement':
+			return 'campaign';
+			break;
+		case 'The Welfare Package':
+			return 'inventory_2';
+			break;
+		case 'The Review':
+			return 'edit_note';
+			break;
+		default:
+			break;
+	}
+}
+
 
 // Add hashtags for Entertainment News posts with anchors
 function addHashtags() {

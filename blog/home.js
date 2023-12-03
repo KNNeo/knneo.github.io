@@ -20,9 +20,9 @@ function filterByTag() {
 	}
 
 	if(isAll)
-		document.querySelector('#All')?.classList.add('hidden');
+		document.querySelector('a[href="#All"]')?.classList.add('hidden');
 	else
-		document.querySelector('#All')?.classList.remove('hidden');
+		document.querySelector('a[href="#All"]')?.classList.remove('hidden');
 	
 	for(let post of (document.querySelectorAll('.post') ?? []))
 	{
