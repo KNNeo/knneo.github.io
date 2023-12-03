@@ -24,6 +24,14 @@ body {
 	line-height: 1.5;
 }
 
+a {
+  color: var(--primary);
+}
+
+a:hover {
+  color: var(--foreground);
+}
+
 .page-header {
 	width: 96%;
 	max-width: 680px;
@@ -50,14 +58,6 @@ body {
 .page-header .hashtags a {
     display: inline-block;
 	white-space: nowrap;
-}
-
-a {
-  color: var(--primary);
-}
-
-a:hover {
-  color: var(--foreground);
 }
 
 .tr-caption {
@@ -131,7 +131,7 @@ a:hover {
 .anchors {
     display: none;
 	position: absolute;
-    border-radius: 5px;
+    /* border-radius: 2px; */
     left: 2px;
 	overflow: auto;
     padding: 3px 0;
@@ -144,7 +144,7 @@ a:hover {
 
 .latest:hover .anchors {
 	display: initial;
-	/* border: 2px solid var(--foreground); */
+    border-right: 2px solid var(--foreground);
 }
 
 .latest .anchors a {
