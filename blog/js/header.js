@@ -73,11 +73,19 @@ function generateReadTime() {
 	{
 		let text = contents.innerText;
 		let wpm = text.trim().split(/\s+/).length / 250;
-		let ipm = 12 * document.querySelectorAll('img').length / 60;
-		let time = Math.ceil(wpm + ipm); // according to blog site Medium
+		let ipm = calculateIpmSeconds(12, 5) / 60;
+		let time = Math.ceil(wpm + ipm);
 		console.log(wpm, ipm, time);
 		
 		if(document.querySelector('.published') != null && time > 1)
 			document.querySelector('.published').innerText += ' - ' + time + ' min read';
 	}
+}
+
+function calculateIpmSeconds(highest, lowest) {
+	 // according to blog site Medium: initial time for image is high, subsequent drop to low
+	return Array.from(document.querySelectorAll('img'))
+		.reduce(function(total, current, index) { 
+			return total + Math.max(highest - index, lowest); 
+		}, 0);
 }
