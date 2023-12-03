@@ -232,6 +232,11 @@ function generateTagsList() {
 			// to include or reset
 			switch(this.getAttribute('filter'))
 			{
+				case 'exclude':
+					toggleVariable('excludeCriteria', this.value);
+					toggleVariable('includeCriteria', this.value);
+					this.setAttribute('filter', 'include');
+					break;
 				case 'include':
 					toggleVariable('includeCriteria', this.value);
 					this.removeAttribute('filter');
@@ -250,6 +255,11 @@ function generateTagsList() {
 			event.preventDefault();
 			switch(this.getAttribute('filter'))
 			{
+				case 'include':
+					toggleVariable('includeCriteria', this.value);
+					toggleVariable('excludeCriteria', this.value);
+					this.setAttribute('filter', 'exclude');
+					break;
 				case 'exclude':
 					toggleVariable('excludeCriteria', this.value);
 					this.removeAttribute('filter');
