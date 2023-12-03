@@ -139,7 +139,7 @@ function reduceResults() {
 			let latestPostSummary = document.createElement('div');
 			latestPostSummary.classList.add('summary');
 			let excerpt = snippet.innerText.trim();
-			latestPostSummary.innerHTML = (title == undefined ? '' : excerpt.substring(0, excerpt.substring(280, 350).indexOf(' ') + 280) + '...');
+			latestPostSummary.innerHTML = (title == undefined ? '' : excerpt.substring(0, excerpt.substring(280, 350).indexOf(' ') + 280).trim() + '...');
 			
 			let outerWrapper = document.createElement('div');
 			outerWrapper.classList.add('outer');
