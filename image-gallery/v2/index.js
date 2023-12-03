@@ -195,27 +195,27 @@ function onTouchMove() {
 	//--SWIPE LEFT IE. FROM RIGHT OF SCREEN--//
 	if(swipeLeft > swipeUp && swipeLeft > swipeDown) {
 		// console.log('swipeLeft');
-		if(window.variables.selected >= galleryDiv.childElementCount - 1)
-			window.variables.selected = galleryDiv.childElementCount - 2;
-		if(window.variables.selected < galleryDiv.childElementCount - 1) {
-			document.querySelectorAll('.gallery img')[++window.variables.selected].scrollIntoView({
-				inline: 'center'
-			});
-			window.variables.selected++;
-		}
+		// if(window.variables.selected >= galleryDiv.childElementCount - 1)
+			// window.variables.selected = galleryDiv.childElementCount - 2;
+		// if(window.variables.selected < galleryDiv.childElementCount - 1) {
+			// document.querySelectorAll('.gallery img')[++window.variables.selected].scrollIntoView({
+				// inline: 'center'
+			// });
+			// window.variables.selected++;
+		// }
 		return;
 	}
 	//--SWIPE RIGHT IE. FROM LEFT OF SCREEN--//
 	if(swipeRight > swipeUp && swipeRight > swipeDown) {
 		// console.log('swipeRight');
-		if(window.variables.selected <= 0)
-			window.variables.selected = 1;
-		if(window.variables.selected > 0) {
-			document.querySelectorAll('.gallery img')[--window.variables.selected].scrollIntoView({
-				inline: 'center'
-			});
-			window.variables.selected--;
-		}
+		// if(window.variables.selected <= 0)
+			// window.variables.selected = 1;
+		// if(window.variables.selected > 0) {
+			// document.querySelectorAll('.gallery img')[--window.variables.selected].scrollIntoView({
+				// inline: 'center'
+			// });
+			// window.variables.selected--;
+		// }
 		return;
 	}
 	//--SWIPE DOWN IE. FROM TOP OF SCREEN--//
