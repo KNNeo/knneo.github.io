@@ -102,16 +102,17 @@ function condenseList() {
 				continue;
 			}
 			let date = box.querySelector('.release_date').innerText;
+			let source = item.src;
 			list.push({
 				order: counter++,
-				filename: item.src,
+				filename: 'https://www.suruga-ya.jp/database/pics_light/game/' + source.substring(source.indexOf('shinaban=')+9, source.indexOf('&size=')).toLowerCase() + '.jpg',
 				tags: titleDesc.substring(0, titleDesc.indexOf('/')),
 				description: titleDesc.substring(titleDesc.indexOf('/')+1),
 				date: date.replace('発売日：',''),
 			});
 		}
 	}
-	return list;
+	console.log(list);
 }
 
 let action = document.createElement('a');
