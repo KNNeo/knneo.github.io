@@ -10,7 +10,8 @@ function filterByTag() {
 	let isAll = tag == 'All' || tag == '';
 	window.location.hash = !isAll ? '#' + tag : '';
 	
-	for(let filter of (document.querySelectorAll('.home-tags.filters a') ?? []))
+	let filters = document.querySelector('.post-tags.filters');
+	for(let filter of (filters.querySelectorAll('a') ?? []))
 	{
 		let hide = !filter.href.endsWith('#All') && !isAll && !filter.href.endsWith('#' + tag);
 		if(hide)
@@ -36,7 +37,7 @@ function filterByTag() {
 	let posts = document.querySelectorAll('.post:not(.hidden)');
 	if(posts.length == 0) window.location.hash = '#All';
 	if(posts.length > 0)
-		document.querySelector('.count').innerText = posts.length + ' published posts' + (isAll ? '' : ' (' + window.location.hash + ')');
+		document.querySelector('.count').innerText = 'Showing ' + posts.length + ' published posts' + (isAll ? '' : ' (' + window.location.hash + ')');
 	// goToTop();
 }
 
