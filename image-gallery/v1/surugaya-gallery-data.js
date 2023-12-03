@@ -82,35 +82,43 @@ to work on v2 payload, add the output into the following:
 });
 
 ==FOR V2 PAYLOAD==
-let counter = 1;
-let list = [];
-for(let box of document.querySelectorAll('.item_box .item'))
-{
-	let item = box.querySelector('img');
-	if(item.getBoundingClientRect().width == item.getBoundingClientRect().height)
-		box.remove();
-	else {
-		let condition = box.querySelector('.condition').innerText;
-		if(condition.includes('コレクションカード')) {
+function condenseList() {
+	let counter = 1;
+	let list = [];
+	for(let box of document.querySelectorAll('.item_box .item'))
+	{
+		let item = box.querySelector('img');
+		if(item.getBoundingClientRect().width == item.getBoundingClientRect().height)
 			box.remove();
-			continue;
+		else {
+			let condition = box.querySelector('.condition').innerText;
+			if(condition.includes('コレクションカード')) {
+				box.remove();
+				continue;
+			}
+			let titleDesc = box.querySelector('.title').innerText;
+			if(titleDesc.includes('チェキ') || titleDesc.includes('サイン入りポラ')) {
+				box.remove();
+				continue;
+			}
+			let date = box.querySelector('.release_date').innerText;
+			list.push({
+				order: counter++,
+				filename: item.src,
+				tags: titleDesc.substring(0, titleDesc.indexOf('/')),
+				description: titleDesc.substring(titleDesc.indexOf('/')+1),
+				date: date.replace('発売日：',''),
+			});
 		}
-		let titleDesc = box.querySelector('.title').innerText;
-		if(titleDesc.includes('チェキ') || titleDesc.includes('サイン入りポラ')) {
-			box.remove();
-			continue;
-		}
-		let date = box.querySelector('.release_date').innerText;
-		list.push({
-			order: counter++,
-			filename: item.src,
-			tags: titleDesc.substring(0, titleDesc.indexOf('/')),
-			description: titleDesc.substring(titleDesc.indexOf('/')+1),
-			date: date.replace('発売日：',''),
-		});
 	}
+	return list;
 }
-console.log(list);
+
+let action = document.createElement('a');
+action.addEventListener('click', condenseList);
+action.href = 'javascript:void(0);';
+action.innerText = 'CONDENSE';
+document.querySelector('.is-search').appendChild(action);
 
 to sort array by desc date:
 <list here>.sort((a, b) => {
