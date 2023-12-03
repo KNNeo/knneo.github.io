@@ -507,4 +507,7 @@ const mosaicArray = [
 {"filename":"サンドリヨン・エスカリエ_なぎさ.jpg","sm":"https://doax.cc/res/pic_star_s/815_15.png","md":"https://doax.cc/res/pic_star_s/815_15.png","lg":"https://doax.cc/res/pic_star/815_15.png","og":"https://doax.cc/res/pic_star/815_15.png"},
 {"filename":"スパークリングブルー_かすみ.jpg","sm":"https://doax.cc/res/pic_star_s/556_7.png","md":"https://doax.cc/res/pic_star_s/556_7.png","lg":"https://doax.cc/res/pic_star/556_7.png","og":"https://doax.cc/res/pic_star/556_7.png"},
 {"filename":"恋色いろは_なぎさ.jpg","sm":"https://doax.cc/res/pic_star_s/249.png","md":"https://doax.cc/res/pic_star_s/249.png","lg":"https://doax.cc/res/pic_star/249.png","og":"https://doax.cc/res/pic_star/249.png"},
+{"filename":"純白のスリットワンピ_ゆきの.jpg","sm":"https://doax.cc/res/pic_star_s/797.png","md":"https://doax.cc/res/pic_star_s/797.png","lg":"https://doax.cc/res/pic_star/797.png","og":"https://doax.cc/res/pic_star/797.png"},
+{"filename":"はいからブロッサム_ヒトミ.jpg","sm":"https://doax.cc/res/pic_star_s/818.png","md":"https://doax.cc/res/pic_star_s/818.png","lg":"https://doax.cc/res/pic_star/818.png","og":"https://doax.cc/res/pic_star/818.png"},
+{"filename":"テイクユアマーク_たまき.jpg","sm":"https://doax.cc/res/pic_star_s/784_5.png","md":"https://doax.cc/res/pic_star_s/784_5.png","lg":"https://doax.cc/res/pic_star/784_5.png","og":"https://doax.cc/res/pic_star/784_5.png"},
 ];
