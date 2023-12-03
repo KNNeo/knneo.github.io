@@ -341,9 +341,7 @@ a.material-icons {
 }
 
 span.small-icons {
-	font-size: 18px;
-	padding-right: 2px;
-    padding-top: 2px;
+    vertical-align: sub;
 }
 
 span.emoji {
