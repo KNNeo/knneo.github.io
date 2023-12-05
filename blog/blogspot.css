@@ -132,7 +132,8 @@ a:hover {
     display: none;
 	position: absolute;
     /* border-radius: 2px; */
-    left: 2px;
+    /* left: 2px; */
+	width: 150px;
 	overflow: auto;
     padding: 3px 0;
 	scrollbar-width: none; /* Firefox */
