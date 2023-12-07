@@ -138,6 +138,10 @@ a:hover {
 	object-fit: cover;
 }
 
+.latest:hover .thumb img {
+	filter: brightness(50%);
+}
+
 .anchors {
 	display: none;
 	position: absolute;
