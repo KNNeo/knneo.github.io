@@ -121,7 +121,7 @@ a:hover {
 }
 
 .latest .thumb img {
-	border: 2px solid transparent;
+/* 	border: 2px solid transparent; */
     border-radius: 5px;
 	width: 150px;
 	height: 150px;
@@ -132,8 +132,10 @@ a:hover {
     display: none;
 	position: absolute;
     /* border-radius: 2px; */
-    /* left: 2px; */
+    left: 0;
+	top: 0;
 	width: 150px;
+	height: 150px;
 	overflow: auto;
     padding: 3px 0;
 	scrollbar-width: none; /* Firefox */
