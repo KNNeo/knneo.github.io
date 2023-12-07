@@ -544,15 +544,9 @@ a.hidden {
 	.post span {
 		display: block;
 	}
-	body {
-		font-size: 14px;
-	}
-	.anchors {
-		font-size: 16px;
-	}
 }
 
-/*MEDIA QUERIES - REDUCED MOTION*/
+/*MEDIA QUERIES - REDUCED MOTION FOR SMALL SCREENS*/
 @media only screen and (max-width: 480px) {
 	body,
 	#PopupBtn,
@@ -566,6 +560,7 @@ a.hidden {
 	}
 }
 
+/*MEDIA QUERIES - REDUCED MOTION*/
 @media (prefers-reduced-motion: reduce) {
 	.fadeIn {
 		animation: none;
