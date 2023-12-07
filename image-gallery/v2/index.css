@@ -140,8 +140,8 @@ body .gallery {
 
 .overview img {
 	position: relative;
-	top: 10dvh;
-    width: 30%;
+	top: 20dvh;
+	width: max(50px, 30%);
 	cursor: pointer;
 	z-index: 10;
 }
