@@ -73,12 +73,18 @@ a:hover {
     padding: 4px;
 }
 
+.latest .publish {
+	position: absolute;
+	right: 8px;
+}
+
 .latest {
 	box-shadow: 3px 3px var(--foreground);
 	border: 2px solid var(--foreground);
+	position: relative;
     display: inline-block;
-	/* padding: 5px; */
-	width: 320px;
+    width: min(95%, 450px);
+    height: 150px;
     margin: 4px 2px;
 	vertical-align: top;
 	font-size: initial;
@@ -111,13 +117,17 @@ a:hover {
     display: flex;
 	gap: 0 6px;
     flex-direction: row-reverse;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
 	position: relative;
 }
 
 .latest .thumb {
 	line-height: 0;
+}
+
+.latest .thumb a {
+	width: 100%;
 }
 
 .latest .thumb img {
@@ -129,12 +139,13 @@ a:hover {
 }
 
 .anchors {
-    display: none;
+	display: none;
 	position: absolute;
-    /* border-radius: 2px; */
-    left: 0;
-	top: 0;
-	width: 150px;
+    width: calc(100% - 156px);
+    left: auto;
+	top: auto;
+	bottom: 0;
+	right: 0;
 	overflow: auto;
     padding: 3px 0;
 	scrollbar-width: none; /* Firefox */
@@ -145,15 +156,16 @@ a:hover {
 } /* Safari and Chrome */
 
 .latest:hover .anchors {
-	display: initial;
-    border-right: 2px solid var(--foreground);
+    display: flex;
+    align-content: center;
+    /* border-right: 2px solid var(--foreground); */
 }
 
 .latest .anchors a {
-    display: block;
     color: var(--primary);
-	font-size: 0.7em;
+	font-size: 0.8em;
     padding: 3px 0;
+	width: auto;
 }
 
 .latest .anchors a:hover {
