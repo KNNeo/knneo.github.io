@@ -130,6 +130,14 @@ a:hover {
 	width: 100%;
 }
 
+.latest:hover:has(.anchors) .thumb a {
+    margin-bottom: 2em;
+}
+
+.latest:hover .thumb .anchors a {
+    margin-bottom: 0;
+}
+
 .latest .thumb img {
 /* 	border: 2px solid transparent; */
     border-radius: 5px;
@@ -138,14 +146,11 @@ a:hover {
 	object-fit: cover;
 }
 
-.latest:hover:has(.anchors) .thumb img {
-	filter: brightness(50%);
-}
-
 .anchors {
 	display: none;
 	position: absolute;
     width: calc(100% - 156px);
+	max-height: 30%;
     left: auto;
 	top: auto;
 	bottom: 0;
@@ -161,7 +166,7 @@ a:hover {
 
 .latest:hover .anchors {
     display: flex;
-    align-content: center;
+    align-content: flex-start;
     /* border-right: 2px solid var(--foreground); */
 }
 
