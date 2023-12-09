@@ -35,7 +35,6 @@ function processXml(doc) {
 			e.querySelector('title').textContent.length > 0);
 	window['loading'] = false;
 	runLoader();
-	// createIndex();
 	generateHomepage();
 	window['doc'] = null;
 }
@@ -47,6 +46,7 @@ function generateHomepage() {
 	document.body.appendChild(home);
 	
 	let homeTitle = document.createElement('h1');
+	homeTitle.classList.add('title');
 	homeTitle.innerText = 'Blogger Viewer';
 	document.title = window['doc'].querySelector('title').textContent;
 	document.querySelector('.home').appendChild(homeTitle);
@@ -58,7 +58,7 @@ function generateHomepage() {
 	preText.innerText = 'This is an archive of ';
 	
 	let preLink = document.createElement('a');
-	preLink.href = 'https://knwebreports.blogspot.com/';
+	preLink.href = window['doc'].querySelector('link[rel=alternate]').getAttribute('href');
 	preLink.innerText = window['doc'].querySelector('title').textContent;
 	preLink.setAttribute('target', '_blank');
 	
@@ -87,14 +87,11 @@ function generatePages() {
 		let postDiv = document.createElement('div');
 		postDiv.classList.add('post');
 		
-		let date = document.createElement('span');
+		let date = document.createElement('div');
 		date.innerText = post.querySelector('published').textContent.substring(0,10).replace(/-/g,'.'); //publish date
 		postDiv.appendChild(date);
 				
 		let postLink = document.createElement('a');
-		let url = post.querySelector('link[rel=alternate]')
-			.getAttribute('href')
-			.replace('https://knwebreports.blogspot.com/', './blog/');
 		postLink.href = 'javascript:void(0);';
 		postLink.setAttribute('data-index', p);
 		postLink.addEventListener('click', function() {
@@ -102,140 +99,70 @@ function generatePages() {
 			toggleFrame();
 		});
 		postDiv.appendChild(postLink);
-		
-		let container = document.createElement('div');
-		
-			let title = document.createElement('h4');
-			title.innerText = post.querySelector('title').textContent;
-			container.appendChild(title);
-			
-			let home = document.createElement('div');
-			
-				let thumb = document.createElement('div');
 				
-					if(count < 4)
-					{
-						postDiv.classList.add('latest');
-						let homeThumb = document.createElement('div');
-						homeThumb.classList.add('thumb');
-						if(post.getElementsByTagName('media:thumbnail').length > 0)
-						{
-							let mediaThumbnail = post.getElementsByTagName('media:thumbnail')[0];
-							homeThumb.style.backgroundImage = 'url(' + mediaThumbnail.getAttribute('url') + ')';
-						}			
-						thumb.appendChild(homeThumb);			
-						count++;
-					}
-				
-				home.appendChild(thumb);
+		let title = document.createElement('h4');
+		title.innerText = post.querySelector('title').textContent;
+		postLink.appendChild(title);
 			
-			container.appendChild(home);
-		
-		postLink.appendChild(container);
-		
 		document.querySelector('.home').appendChild(postDiv);
-	}
-}
-
-function createIndex() {
-	window['list'] = [];
-	let list = window['posts'];
-	let counter = 0;
-	for(let p = 0; p < list.length; p++)
-	{
-		let post = list[p];
-		
-		// draft
-		if(post.getElementsByTagName('app:control').length > 0 &&
-		post.getElementsByTagName('app:control')[0].getElementsByTagName('app:draft')[0].textContent == 'yes')
-		{
-			// console.log('draft found', post.querySelector('title'));
-			continue;
-		}
-		if(post.querySelector('category') && 
-		post.querySelector('category').getAttribute('term').includes('#post') &&
-		post.querySelector('title').textContent.length > 0)
-		{
-			let url = post.querySelector('link[rel=alternate]')
-				.getAttribute('href')
-				.replace('https://knwebreports.blogspot.com/', './blog/');
-			window['list'].push({
-				id: p,
-				url,
-			});
-		}
 	}
 }
 
 function createFrame(postIndex) {
 	document.querySelector('.content').innerHTML = '';
-	document.querySelector('#contents-left')?.remove();
-	document.querySelector('#contents-right')?.remove();
+	document.querySelector('.side.left')?.remove();
+	document.querySelector('.side.right')?.remove();
 	
 	let entry = window['posts'][postIndex];
 	// console.log('loading post', entry);
 	
-	// let index = postIndex;
-	
-	// let listIndex = window['posts'].map(l => l.id).indexOf(index);
-	// console.log('listIndex', listIndex);
-	
 	//outside div
 	let contentContainer = document.createElement('div');
 	contentContainer.id = 'contents-container';
-	// contentContainer.style.display = 'flex';
-	// contentContainer.style.height = '100vh';
 	
 	//FAB to close
 	let closeButton = document.createElement('a');
-	closeButton.id = 'CloseBtn';
+	closeButton.classList.add('close');
 	closeButton.title = 'Close Popup';
 	closeButton.addEventListener('click', toggleFrame);
+	
 		let closeButtonIcon = document.createElement('span');
-		closeButtonIcon.classList.add('button');
-		// closeButtonIcon.classList.add('material-icons');
 		closeButtonIcon.innerText = '❌ Close';
 		closeButton.appendChild(closeButtonIcon);
-	if(document.getElementById('CloseBtn') != undefined) document.getElementById('CloseBtn').remove();
+		
+	if(document.querySelector('.close') != undefined) 
+		document.querySelector('.close').remove();
 	contentContainer.appendChild(closeButton);	
 	
 	//FAB to to go top
 	let topButton = document.createElement('a');
-	topButton.id = 'TopBtn';
+	topButton.classList.add('top');
 	topButton.title = 'Go to Top';
 	topButton.addEventListener('click', goToTop);
+	
 		let topButtonIcon = document.createElement('span');
-		topButtonIcon.classList.add('button');
-		// closeButtonIcon.classList.add('material-icons');
 		topButtonIcon.innerText = '🔺 Top';
 		topButton.appendChild(topButtonIcon);
-	if(document.getElementById('TopBtn') != undefined) document.getElementById('TopBtn').remove();
-	contentContainer.appendChild(topButton);	
+		
+	if(document.querySelector('.top') != undefined) 
+		document.querySelector('.top').remove();
+	contentContainer.appendChild(topButton);
 	
-	if(window.innerWidth >= 760 + 640 && postIndex - 1 >= 0)
+	// if(window.innerWidth >= 760 + 640 && postIndex - 1 >= 0)
 		document.body.appendChild(renderEntry(window['posts'][postIndex-1], postIndex, 'left'));
 	
 	contentContainer.appendChild(renderEntry(entry, postIndex, 'main'));
 	
-	if(window.innerWidth >= 760 + 640 && postIndex + 1 < window['posts'].length)
+	// if(window.innerWidth >= 760 + 640 && postIndex + 1 < window['posts'].length)
 		document.body.appendChild(renderEntry(window['posts'][postIndex+1], postIndex, 'right'));
 		
 	document.querySelector('.content').appendChild(contentContainer);
 	
-	// if(document.querySelector('.home').classList.contains('inactive'))
-		// toggleFrame();
-	// toggleFrame();
-	
-	if(document.querySelector('#contents-left #hashtags') != null)
-		document.querySelector('#contents-left #hashtags').remove();
-	if(document.querySelector('#contents-right #hashtags') != null)
-		document.querySelector('#contents-right #hashtags').remove();
-	
 	window.addEventListener('resize', function() {
-		if(document.querySelector('#contents-left') != null)
-			document.querySelector('#contents-left').style.visibility = document.querySelector('#contents-left').getBoundingClientRect().width < 320 ? 'hidden' : '';
-		if(document.querySelector('#contents-right') != null)
-			document.querySelector('#contents-right').style.visibility = document.querySelector('#contents-right').getBoundingClientRect().width < 320 ? 'hidden' : '';
+		if(document.querySelector('.side.left') != null)
+			document.querySelector('.side.left').style.visibility = document.querySelector('.side.left').getBoundingClientRect().width < 320 ? 'hidden' : '';
+		if(document.querySelector('.side.right') != null)
+			document.querySelector('.side.right').style.visibility = document.querySelector('.side.right').getBoundingClientRect().width < 320 ? 'hidden' : '';
 	});
 }
 
@@ -252,17 +179,12 @@ function renderEntry(entry, index, position) {
 	contentMain.classList.add('content');
 	if(position != 'main')
 	{	
-		contentMain.classList.add('content');
+		contentMain.classList.add('side');
 		contentMain.title = 'Go To ' + (position == 'left' ? 'Newer' : 'Older') + ' Post';
-		contentMain.style.overflow = 'hidden';
-		contentMain.style.height = '100vh';
-		contentMain.style.position = 'fixed';
-		contentMain.style.top = 0;
-		if(position == 'left') contentMain.style.left = 0;
-		if(position == 'right') contentMain.style.right = 0;
-		contentMain.style.width = 'calc(0.5*(100vw - 760px))';
-		contentMain.style.cursor = 'pointer';
-		contentMain.style.filter = 'brightness(25%)';
+		if(position == 'left')
+			contentMain.classList.add('left');
+		if(position == 'right')
+			contentMain.classList.add('right');
 		contentMain.addEventListener('click', function() {
 			event.preventDefault();
 			createFrame(position == 'left' ? index-1 : index+1);
@@ -270,16 +192,7 @@ function renderEntry(entry, index, position) {
 	}
 	
 	if(position == 'main')
-	{
-		let viewer = document.createElement('div');
-		viewer.id = 'viewer';
-		viewer.style.display = 'none';
-		viewer.addEventListener('contextmenu', function(e) {
-			e.preventDefault();
-			return false;
-		}, false);
-		contentMain.appendChild(viewer);
-	
+	{	
 		let prelude = document.createElement('p');
 		prelude.classList.add('prelude');
 		
@@ -306,7 +219,6 @@ function renderEntry(entry, index, position) {
 	}
 	
 	let title = document.createElement('h2');
-	title.classList.add('title');
 	title.innerText = entry.querySelector('title')?.textContent;
 	contentMain.appendChild(title);
 	
@@ -340,10 +252,10 @@ function toggleFrame() {
 	}
 	goToTop();
 	if(homeInactive) {		
-		document.querySelector('#contents-left')?.remove();
-		document.querySelector('#contents-right')?.remove();
-		document.getElementById('CloseBtn').remove();
-		document.getElementById('TopBtn').remove();
+		document.querySelector('.side.left')?.remove();
+		document.querySelector('.side.right')?.remove();
+		document.querySelector('.close').remove();
+		document.querySelector('.top').remove();
 	}
 }
 
