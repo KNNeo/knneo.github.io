@@ -108,8 +108,8 @@ void Main()
 	}	
 	
     // Process sitemap page
-    var textString = "";
 	var sitemapItems = new List<SitemapItem>();
+	var fanficItems = new List<SitemapItem>();
 	var exclusions = new List<string>() { "hashtags", "news-thumbnail", "music", "menu", "table", "video" };
 	
     // Process XML content per post
@@ -166,14 +166,28 @@ void Main()
 		
 		if (TraceMode) Console.WriteLine("Process home page");
         var tagList = string.Join("-",tags).Replace(" ","").Replace("-"," ");
-        var classes = " class=\"Post "+tagList+"\"";
-        foreach(var tag in tags)
-        {
-            if(!allTags.Contains(tag))
-				allTags.Add(tag);
-        }
 		
-		if(originalLink != "" && title != "") // without title
+		if(tags.Contains("The Fanfiction")) // custom tag display
+		{
+			// Find single img title
+	        var expression = @"(?s)(img)(.*?) title=""(.*?)""(.*?)(>)";
+	        var match = Regex.Match(content, expression);
+    		while(match.Success) {
+				//Console.WriteLine(match.Groups[3].Value);
+				if(match.Groups[3].Value.Length > 1)
+				{
+					fanficItems.Add(new SitemapItem() {
+						Title = title,
+						TitleUrl = pageLink,
+						Keyword = "Fanfiction|" + published.ToString("yyyy.MM.dd") + "|" + match.Groups[3].Value,
+						KeywordUrl = pageLink + "#" + match.Groups[3].Value,
+					});
+				}
+        		match = match.NextMatch();
+			}
+			//Console.WriteLine(tagList);
+		}
+		else if(originalLink != "" && title != "") // without title
 		{
 			var anchors = new List<string>();
 			// Find all anchors
@@ -192,7 +206,7 @@ void Main()
 						Title = title,
 						TitleUrl = pageLink,
 						Keyword = match.Groups[3].Value,
-						KeywordUrl = pageLink + "#" + match.Groups[3].Value,
+						KeywordUrl = pageLink,
 					});
 				}
         		match = match.NextMatch();
@@ -200,12 +214,21 @@ void Main()
 			//Console.WriteLine("Anchors - " + anchors.ToString());
 			//textString += string.Join("", anchors.Select(a => "<a href=\"" + (pageLink + "#" + a) + "\">#" + a + "</a>"));
 		}
+		
+        var classes = " class=\"Post "+tagList+"\"";
+        foreach(var tag in tags)
+        {
+            if(!allTags.Contains(tag))
+				allTags.Add(tag);
+        }
+		
     }
 	
 	if(TraceMode)
 		Console.WriteLine(sitemapItems);
 	
 	//Generate sitemap string
+    var textString = "";
 	char tempTitle = '_';
 	foreach(var item in sitemapItems.OrderBy(i => i.Keyword))
 	{
@@ -214,10 +237,24 @@ void Main()
 		textString += "<a class=\"keyword\" title=\"" + item.Title + "\" href=\"" + item.KeywordUrl + "\">" + item.Keyword + "</a><br>\r\n";
 		tempTitle = key;
 	}
+	
+	//Generate fanfic string
+    var fanString = "";
+	var seasonNo = 0;
+	var fanDate = DateTime.Parse("1900-01-01");
+	foreach(var item in fanficItems.OrderBy(i => i.Keyword))
+	{
+		var key = item.Keyword.Split('|'); // Fanfiction|date|name
+		var date = DateTime.ParseExact(key[1], "yyyy.MM.dd", null);
+		if(date >= fanDate.AddDays(14)) // assume breaks between seasons
+			fanString += "<div class=\"title\">SEASON " + ++seasonNo + "</div>";
+		fanString += "<span>" + key[1] + "</span> <a class=\"keyword\" title=\"" + item.Title + "\" href=\"" + item.KeywordUrl + "\">" + key[2] + "</a><br>\r\n";
+		fanDate = date;
+	}
     
-    //Write into sitemap page
+    //Write into page
     string fileString = File.ReadAllText(blogpath + "\\template.html");
-    fileString = fileString.Replace("_SITEMAP_", textString).Replace("_FONT_", defaultFont);
+    fileString = fileString.Replace("_SITEMAP_", textString).Replace("_FONT_", defaultFont).Replace("_FANFICS_", fanString);	
     File.WriteAllText(blogpath + "\\index.html", fileString);
 }
 
