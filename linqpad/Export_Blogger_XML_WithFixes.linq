@@ -968,7 +968,7 @@ void Main()
 				
                 textString += isLatest 
 					? "<div class=\"post latest\"" + dataId + ">" + 
-					"<span class=\"publish\">"+published.ToString("yyyy.MM.dd")+"</span>" + 
+					(thumbnailUrl.Length > 0 ? "<span class=\"publish\">"+published.ToString("yyyy.MM.dd")+"</span>" : "") + 
 					"<div class=\"thumb\">" + 
 						"<a href=\"" + pageLink + "\">" + postTitle + "</a>" + 
 						(anchors.Count > 0 ? "<div class=\"anchors\">" + string.Join("", anchors.Select(a => "<a href=\"" + (pageLink + "#" + a) + "\">#" + a + "</a>")) + "</div>" : "") + 

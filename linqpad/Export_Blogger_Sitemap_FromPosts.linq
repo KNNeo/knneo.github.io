@@ -257,6 +257,15 @@ void Main()
     string fileString = File.ReadAllText(blogpath + "\\template.html");
     fileString = fileString.Replace("_SITEMAP_", textString).Replace("_FONT_", defaultFont).Replace("_FANFICS_", fanString);	
     File.WriteAllText(blogpath + "\\index.html", fileString);
+	
+	//Fanfic stats
+	Console.WriteLine(fanficItems
+		.GroupBy(g => g.Keyword.Split('|')[2])
+		.Select(s => new { 
+	         Metric = s.Key, 
+	         Count = s.Count()
+	    })
+	    .OrderByDescending(x => x.Count));
 }
 
 public class SitemapItem
