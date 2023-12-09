@@ -241,14 +241,15 @@ void Main()
 	//Generate fanfic string
     var fanString = "";
 	var seasonNo = 0;
+	var counter = 0;
 	var fanDate = DateTime.Parse("1900-01-01");
 	foreach(var item in fanficItems.OrderBy(i => i.Keyword))
 	{
 		var key = item.Keyword.Split('|'); // Fanfiction|date|name
 		var date = DateTime.ParseExact(key[1], "yyyy.MM.dd", null);
 		if(date >= fanDate.AddDays(14)) // assume breaks between seasons
-			fanString += "<div class=\"title\">SEASON " + ++seasonNo + "</div>";
-		fanString += "<span>" + key[1] + "</span> <a class=\"keyword\" title=\"" + item.Title + "\" href=\"" + item.KeywordUrl + "\">" + key[2] + "</a><br>\r\n";
+			fanString += "<b class=\"title\">SEASON " + ++seasonNo + "</b><br>\r\n";
+		fanString += "<span>#" + ++counter + "</span> <a class=\"keyword\" title=\"" + item.Title + "\" href=\"" + item.KeywordUrl + "\">" + key[2] + "</a><br>\r\n";
 		fanDate = date;
 	}
     
