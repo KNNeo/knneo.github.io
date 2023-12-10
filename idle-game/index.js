@@ -69,7 +69,7 @@ function showDetails() {
 		// if level 0 unlock, else if bar filled level up, else boost
 		action.innerText = window.game.action.unlock + ' - ' + window.game.currency + calculateUnlock(worldId, seqId);
 		if(window.item.level > 0)
-			action.innerText = window.game.action.boost + ' - ' + window.game.currency + calculateBoost(worldId, window.item.level);;
+			action.innerText = window.game.action.boost + ' - ' + window.game.currency + calculateBoost(worldId, window.item.level);
 		if(window.item.percent > 99)
 			action.innerText = window.game.action.up;
 		action.setAttribute('data-action', action.innerText.split(' - ')[0]);
@@ -148,14 +148,9 @@ function showDisplay(id) {
 }
 
 function renderDisplay() {
-	// DOM level properties
-	document.title = window.game.title;
-	currencyDiv.innerText = 'Bank: ¥' + window.game.bank;
-	
-	showDisplay(0);
-	
-	renderWorld();
-	
+	updateCurrency();	
+	showDisplay(0);	
+	renderWorld();	
 	save();
 }
 
@@ -233,7 +228,7 @@ function createCharacter(list, order) {
 	let newId = -1;
 	do
 	{
-		newId = Math.floor(Math.random() * window.variables.items.length);
+		newId = Math.floor(Math.random() * window.game.items.length);
 	} while(list.length > 0 && newId >= 0 && list.map(l => l.id).includes(newId));
 	
 	return {
@@ -262,9 +257,7 @@ function calculateUnlock(world, seqNo) {
 }
 
 function calculateBoost(world, level) {
-	let rate = window.item.rate;
-	// assume rate is exponential
-	return (world + 1) * (level) * (rate);
+	return (world + 1) * (level);
 }
 
 function calculateDelta(world, seqNo, level, progress) {
@@ -272,7 +265,7 @@ function calculateDelta(world, seqNo, level, progress) {
 }
 
 function calculateLevelUp(world, seqNo, level) {
-	
+	return 0;
 }
 
 function save() {
@@ -327,8 +320,8 @@ function startup() {
 		document.getElementById('data-id').src,
 		function(content) {
 			if(content) {
-				window.variables = content;
-				window.game = JSON.parse(localStorage.getItem('idle-game')) ?? window.variables;
+				window.game = JSON.parse(localStorage.getItem('idle-game')) ?? content;
+				// filter by unique tag
 				window.game.items = window.game.items
 					.reduce(function(total, current, index, arr) {
 						if(!total.map(m => m['tags']).includes(current['tags']))
@@ -336,6 +329,8 @@ function startup() {
 						return total;
 					}, []);
 				
+				// DOM level properties
+				document.title = window.game.title;
 				renderDisplay();
 				renderGame();
 			}
