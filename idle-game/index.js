@@ -119,7 +119,7 @@ function onAction() {
 		case window.game.action.up:
 			window.item.level += 1;
 			window.item.percent = 0;
-			event.target.innerText = window.action.boost + ' - ' + window.game.currency + calculateBoost(worldId, window.item.level);
+			event.target.innerText = window.game.action.boost + ' - ' + window.game.currency + calculateBoost(worldId, window.item.level);
 			break;
 		default:
 			break;
