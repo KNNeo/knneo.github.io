@@ -123,7 +123,8 @@ a:hover {
 
 .progress {
     height: 10px;
-	background-color: var(--foreground);
+	background-color: var(--background);
+	border: 2px solid var(--foreground);
 	transition: top 0.3s, width 0.1s;
 }
 
