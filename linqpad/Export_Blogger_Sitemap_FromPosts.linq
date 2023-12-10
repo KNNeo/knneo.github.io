@@ -261,8 +261,8 @@ void Main()
 	//Fanfic stats
 	Console.WriteLine(fanficItems
 		.GroupBy(g => g.Keyword.Split('|')[2])
-		.Select(s => new { 
-	         Metric = s.Key, 
+		.Select(s => new {
+	         Fanfiction = s.Key, 
 	         Count = s.Count()
 	    })
 	    .OrderByDescending(x => x.Count));
