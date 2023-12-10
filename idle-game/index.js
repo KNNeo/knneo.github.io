@@ -18,15 +18,16 @@ function decrementCurrency(decrement) {
 	save();
 }
 
-function incrementCurrency() {
+function incrementCurrency(multiplier) {
 	let increment = window.game.worlds.reduce(function(total, world, index) {
 		return total + world.characters.reduce(function(t, c, i) { 
 			return t + c.rate; 
 		}, 0);
 	}, 0);
-	window.game.bank = (window.game.bank ?? 0) + increment;
+	window.game.bank = (window.game.bank ?? 0) + ((multiplier ?? 1) * increment);
 	updateCurrency();
 	save();
+	return increment;
 }
 
 function updateCurrency() {
@@ -265,7 +266,7 @@ function calculateUnlock(world, seqNo) {
 }
 
 function calculateBoost(world, level) {
-	return (world + 1) * (level);
+	return (world + 1) * (level) * 100;
 }
 
 function calculateDelta(world, seqNo, level, progress) {
