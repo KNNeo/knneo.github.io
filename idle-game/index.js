@@ -31,7 +31,7 @@ function incrementCurrency(multiplier) {
 }
 
 function updateCurrency() {
-	currencyDiv.innerText = 'Bank: ¥' + (window.game.bank ?? 0);
+	currencyDiv.innerText = 'Bank: ' + asCurrency(window.game.bank ?? 0);
 }
 
 //--EVENT HANDLERS--//
@@ -55,7 +55,7 @@ function showDetails() {
 
 		let stats = document.createElement('div');
 		stats.classList.add('stats');
-		stats.innerHTML = 'Level ' + window.item.level + ' | ' + (window.item.percent ?? 0) + '%<br>' + window.game.currency + window.item.rate + '/s';
+		stats.innerHTML = 'Level ' + window.item.level + ' | ' + (window.item.percent ?? 0) + '%<br>' + asCurrency(window.item.rate) + '/s';
 		detailsDiv.appendChild(stats);
 		
 		let progress = document.createElement('progress');
@@ -68,9 +68,9 @@ function showDetails() {
 		let action = document.createElement('div');
 		action.classList.add('action');
 		// if level 0 unlock, else if bar filled level up, else boost
-		action.innerText = window.game.action.unlock + ' - ' + window.game.currency + calculateUnlock(worldId, seqId);
+		action.innerText = window.game.action.unlock + ' - ' + asCurrency(calculateUnlock(worldId, seqId));
 		if(window.item.level > 0)
-			action.innerText = window.game.action.boost + ' - ' + window.game.currency + calculateBoost(worldId, window.item.level);
+			action.innerText = window.game.action.boost + ' - ' + asCurrency(calculateBoost(worldId, window.item.level));
 		if(window.item.percent > 99)
 			action.innerText = window.game.action.up;
 		action.setAttribute('data-action', action.innerText.split(' - ')[0]);
@@ -96,7 +96,7 @@ function onAction() {
 				decrementCurrency(amt);
 				window.item.level = 1;
 				window.item.percent = 0;
-				event.target.innerText = window.game.action.boost + ' - ' + window.game.currency + calculateBoost(worldId, window.item.level);
+				event.target.innerText = window.game.action.boost + ' - ' + window.game.currency.prefix + calculateBoost(worldId, window.item.level);
 			}
 			else
 			{
@@ -120,7 +120,7 @@ function onAction() {
 		case window.game.action.up: // level up
 			window.item.level += 1;
 			window.item.percent = 0;
-			event.target.innerText = window.game.action.boost + ' - ' + window.game.currency + calculateBoost(worldId, window.item.level);
+			event.target.innerText = window.game.action.boost + ' - ' + asCurrency(calculateBoost(worldId, window.item.level));
 			break;
 		default:
 			break;
@@ -131,7 +131,7 @@ function onAction() {
 	event.target.setAttribute('data-action', event.target.innerText.split(' - ')[0]);
 	event.target.closest('.character').setAttribute('data-level', window.item.level);
 	event.target.closest('.character').querySelector('.progress').setAttribute('value', window.item.percent);
-	event.target.closest('.character').querySelector('.stats').innerHTML = 'Level ' + window.item.level + ' | ' + (window.item.percent ?? 0) + '%<br>' + window.game.currency + window.item.rate + '/s';
+	event.target.closest('.character').querySelector('.stats').innerHTML = 'Level ' + window.item.level + ' | ' + (window.item.percent ?? 0) + '%<br>' + asCurrency(window.item.rate) + '/s';
 	
 	// update game
 	save();	
@@ -149,7 +149,6 @@ function showDisplay(id) {
 }
 
 function renderDisplay() {
-	updateCurrency();	
 	showDisplay(0);	
 	renderWorld();	
 	save();
@@ -251,8 +250,10 @@ function renderGame() {
 	let multiplier = Math.floor((new Date() - new Date(window.game.time)) / 1000);
 	if(multiplier >= 1) {
 		let increment = incrementCurrency(multiplier);
-		popupContent('You have been out for ' + multiplier + 's<br>Gain: ' + window.game.currency + (multiplier * increment));
+		popupContent('You have been out for ' + multiplier + 's<br>Gain: ' + asCurrency(multiplier * increment));
 	}
+	
+	updateCurrency();
 }
 
 function resetGame() {
@@ -275,6 +276,15 @@ function calculateDelta(world, seqNo, level, progress) {
 
 function calculateLevelUp(world, seqNo, level) {
 	return 0;
+}
+
+function asCurrency(number) {
+	let suffix = window.game.currency.suffix[number.toString().length - 1] ?? '';	
+	let reduced = number;
+	if(window.game.currency.suffix[number.toString().length - 1]) // if valid prefix, reduce number
+		reduced = (number / Math.pow(10, number.toString().length - 1)) ?? number;
+	
+	return window.game.currency.prefix + parseInt(reduced) + suffix;
 }
 
 function save() {
