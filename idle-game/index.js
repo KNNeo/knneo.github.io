@@ -54,7 +54,7 @@ function showDetails() {
 
 		let stats = document.createElement('div');
 		stats.classList.add('stats');
-		stats.innerText = 'Level ' + window.item.level + ' | ' + (window.item.percent ?? 0) + '%';
+		stats.innerHTML = 'Level ' + window.item.level + ' | ' + (window.item.percent ?? 0) + '%<br>' + window.game.currency + window.item.rate + '/s';
 		detailsDiv.appendChild(stats);
 		
 		let progress = document.createElement('progress');
@@ -88,7 +88,7 @@ function onAction() {
 	//update logic
 	switch(event.target.getAttribute('data-action'))
 	{
-		case window.game.action.unlock:
+		case window.game.action.unlock: // unlock
 			amt = calculateUnlock(worldId, seqId);
 			if(window.game.bank >= amt)
 			{
@@ -102,7 +102,7 @@ function onAction() {
 				popupContent('Not enough money!');
 			}
 			break;
-		case window.game.action.boost:
+		case window.game.action.boost: // boost
 			amt = calculateBoost(worldId, window.item.level);
 			if(window.game.bank >= amt)
 			{
@@ -116,7 +116,7 @@ function onAction() {
 				popupContent('Not enough money!');
 			}
 			break;
-		case window.game.action.up:
+		case window.game.action.up: // level up
 			window.item.level += 1;
 			window.item.percent = 0;
 			event.target.innerText = window.game.action.boost + ' - ' + window.game.currency + calculateBoost(worldId, window.item.level);
@@ -125,12 +125,12 @@ function onAction() {
 			break;
 	}
 	
-	window.item.rate = window.item.level;
+	window.item.rate = window.item.level; // should be calculation based
 	//update view
 	event.target.setAttribute('data-action', event.target.innerText.split(' - ')[0]);
 	event.target.closest('.character').setAttribute('data-level', window.item.level);
 	event.target.closest('.character').querySelector('.progress').setAttribute('value', window.item.percent);
-	event.target.closest('.character').querySelector('.stats').innerText = 'Level ' + window.item.level + ' | ' + (window.item.percent ?? 0) + '%';
+	event.target.closest('.character').querySelector('.stats').innerHTML = 'Level ' + window.item.level + ' | ' + (window.item.percent ?? 0) + '%<br>' + window.game.currency + window.item.rate + '/s';
 	
 	// update game
 	save();	
