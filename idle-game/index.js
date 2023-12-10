@@ -245,6 +245,13 @@ function renderGame() {
 	// game logic here
 	// start timer for increment
 	window.timer = setInterval(incrementCurrency, 1000);
+	
+	// calculate idle time in seconds
+	let multiplier = Math.floor((new Date() - new Date(window.game.time)) / 1000);
+	if(multiplier >= 1) {
+		let increment = incrementCurrency(multiplier);
+		popupContent('You have been out for ' + multiplier + 's<br>Gain: ' + window.game.currency + (multiplier * increment));
+	}
 }
 
 function resetGame() {
@@ -337,4 +344,9 @@ function startup() {
 			}
 		}
 	);
+}
+
+function idle() {
+	window.game.time = new Date();
+	save();
 }
