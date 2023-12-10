@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en-SG">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta charset="utf-8">
+		<link id="fonts-css" rel="stylesheet" type="text/css" href="../fonts.css">
+		<link id="index-css" rel="stylesheet" type="text/css" href="index.css">
+		<link id="bs-css" rel="stylesheet" type="text/css" href="../resources/bootstrap-icons.css">
+		<script src="../darkmode.js" type="application/javascript" charset="utf-8"></script>
+		<script src="../fetch.js" type="application/javascript" charset="utf-8"></script>
+		<script src="index.js" defer></script>
+		<script id="data-id" src="https://knneo.github.io/idle-game/data/surugaya.json" defer></script>
+		<title>Title</title>
+	</head>
+	<body onload="startup()" onkeydown="onKeyDown()">
+		<h3 class="settings currency"></h3>
+		<div class="display"></div>
+		<h3 class="settings">
+			<a class="darkmode bi bi-brightness-high" href="javascript:void(0);" title="Toggle Dark Mode" onclick="toggleDarkMode()" oncontextmenu="false"></a>
+			<a class="filter bi bi-cash-stack" href="javascript:void(0);" title="MONEY!!!" onclick="incrementCurrency()" oncontextmenu="false"></a>
+			<a class="slideshow bi bi-trash3" href="javascript:void(0);" title="Reset Game" onclick="resetGame()" oncontextmenu="false"></a>
+		</h3>
+		<a class="home" href="../../index.html">knneo.github.io</a>
+	</body>
+</html>
