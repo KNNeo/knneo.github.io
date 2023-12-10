@@ -201,6 +201,7 @@ function renderWorld() {
 			
 				let charaImage = document.createElement('img');
 				charaImage.classList.add('pic');
+				charaImage.title = listItem.description;
 				charaImage.src = listItem.filename;
 				charaImage.addEventListener('click', showDetails);
 				charaDiv.appendChild(charaImage);
