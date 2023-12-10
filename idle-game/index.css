@@ -178,7 +178,7 @@ a:hover {
 
 .expanded {
 	background-color: var(--background);
-    width: 75%;
+    width: 90%;
 	margin: 1% 10%;
     display: flex;
 }
@@ -191,6 +191,10 @@ a:hover {
 	cursor: pointer;
 	border-radius: 6px;
 	max-height: 150px;
+}
+
+.expanded .pic {
+	max-height: 250px;
 }
 
 .card[data-level="0"] .pic {
