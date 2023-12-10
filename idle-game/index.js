@@ -84,6 +84,7 @@ function showDetails() {
 function onAction() {
 	let worldId = parseInt(event.target.closest('.character').getAttribute('data-world'));
 	let seqId = parseInt(event.target.closest('.character').getAttribute('data-seq'));
+	window.item = window.game.worlds[worldId].characters[seqId];
 	let amt = 0;
 	
 	//update logic
