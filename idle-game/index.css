@@ -122,10 +122,19 @@ a:hover {
 
 
 .progress {
-    height: 10px;
+    height: 15px;
 	background-color: var(--background);
-	border: 2px solid var(--foreground);
+	border: 1px solid var(--foreground);
 	transition: top 0.3s, width 0.1s;
+}
+
+.progress::-webkit-progress-bar {
+	background-color: var(--background);
+	border: 1px solid var(--foreground);
+}
+
+.progress::-webkit-progress-value {
+	background-color: var(--primary);
 }
 
 /*DIALOG*/
