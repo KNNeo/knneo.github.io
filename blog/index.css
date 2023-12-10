@@ -220,7 +220,7 @@
 
 .latest-post .outer {
     display: flex;
-    gap: 10px;
+    gap: 6px;
 }
 
 .latest-post .outer div:first-child {
