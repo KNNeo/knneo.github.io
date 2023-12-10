@@ -250,7 +250,8 @@ function renderGame() {
 	let multiplier = Math.floor((new Date() - new Date(window.game.time)) / 1000);
 	if(multiplier >= 1) {
 		let increment = incrementCurrency(multiplier);
-		popupContent('You have been out for ' + multiplier + 's<br>Gain: ' + asCurrency(multiplier * increment));
+		if(multiplier && increment)
+			popupContent('You have been out for ' + multiplier + 's<br>Gain: ' + asCurrency(multiplier * increment));
 	}
 	
 	updateCurrency();
@@ -267,7 +268,7 @@ function calculateUnlock(world, seqNo) {
 }
 
 function calculateBoost(world, level) {
-	return (world + 1) * (level) * 100;
+	return (world + 1) * (level) * 10;
 }
 
 function calculateDelta(world, seqNo, level, progress) {
