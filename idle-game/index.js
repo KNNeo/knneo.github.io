@@ -281,10 +281,15 @@ function calculateLevelUp(world, seqNo, level) {
 }
 
 function asCurrency(number) {
-	let suffix = window.game.currency.suffix[number.toString().length - 1] ?? '';	
-	let reduced = number;
-	if(window.game.currency.suffix[number.toString().length - 1]) // if valid prefix, reduce number
-		reduced = (number / Math.pow(10, number.toString().length - 1)) ?? number;
+	let shift = 0;
+	let suffix = '';
+	while (!suffix && shift <= number.toString().length - 1) // if suffix empty, find previous in config array
+	{
+		suffix = window.game.currency.suffix[number.toString().length - ++shift] ?? '';
+	}
+	
+	// if valid prefix, reduce number
+	let reduced = (number / Math.pow(10, number.toString().length - shift)) ?? number;
 	
 	return window.game.currency.prefix + parseInt(reduced) + suffix;
 }
