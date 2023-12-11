@@ -1282,7 +1282,7 @@ as a summary:<br />
 </ul>
 </div>
 
-<style>
+<!-- <style>
 .scale {
 	display: flex;
     /* gap: 5px; */
@@ -1356,6 +1356,79 @@ function addScales() {
 &lt;/progress&gt;
 </pre>
 <progress class="scale" value="3" max="5"></progress>
+ -->
+ 
+<style>
+.dialog dialog {
+	background-color: var(--background);
+	color: var(--foreground);	
+	padding: 10px;
+	max-width: 360px;
+	font-family: Noto Sans;
+}
+
+.dialog dialog a {
+	background-color: var(--background);
+	color: var(--primary);
+}
+</style>
+<script>
+window.addEventListener('load', showAbbrAsDialog);
+function showAbbrAsDialog() {
+	for(let abbr of document.querySelectorAll('.abbreviation'))
+	{
+		abbr.addEventListener('click', function() {
+			event.preventDefault();
+			popupText(event.target.title);
+		});
+	}
+}
+
+function popupText(input) {
+	let dialogDiv = document.querySelector('.dialog');
+	if(dialogDiv == null)
+	{
+		dialogDiv = document.createElement('div');
+		dialogDiv.classList.add('dialog');
+		document.body.appendChild(dialogDiv);
+	}
+	let dialog = createDialog(input);
+	dialogDiv.innerHTML = '';
+	dialogDiv.appendChild(dialog);
+	dialog.showModal();
+}
+
+function createDialog(node) {
+	// node in dialog will not have events!
+	let dialog = document.createElement('dialog');
+	if(!dialog.classList.contains('box')) dialog.classList.add('box');
+	if(typeof node == 'string')
+		dialog.innerHTML = node;
+	if(typeof node == 'object')
+	{
+		let clonedNode = node.cloneNode(true);
+		dialog.appendChild(clonedNode);
+	}
+	dialog.addEventListener('click', function() {
+		this.remove();
+	});
+	dialog.addEventListener('keyup', function() {
+		if (event.key === ' ' || event.key === 'Enter')
+			this.remove();
+	});
+	return dialog;
+}
+</script>
+<h1>Abbreviation</h1>
+<h5>Extension of abbr element, to allow touch to show title</h5>
+<h5>(Uses new dialog HTML element to render pop up)</h5>
+<pre>
+&lt;abbr title="[TITLE HERE]"&gt;
+	[CONTENT]
+&lt;/abbr&gt;
+</pre>
+<abbr class="abbreviation" title="Thank Goodness It's Friday">TGIF</abbr>
+<br />
 <br />
 <div class="blank"></div>
 <br />
