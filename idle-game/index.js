@@ -261,11 +261,10 @@ function renderGame() {
 function resetGame() {
 	if(confirm('Confirm to reset? Your progress will be lost!'))
 		localStorage.removeItem('idle-game');
-	window.location.reload();
 }
 
 function calculateUnlock(world, seqNo) {
-	return (world) + (10000 * seqNo);
+	return (world) + (seqNo >= 1 ? 1000 * Math.pow(10, seqNo) : 0); // first in world unlock always free
 }
 
 function calculateBoost(world, level) {
