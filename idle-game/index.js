@@ -70,7 +70,7 @@ function showDetails() {
 		// if level 0 unlock, else if bar filled level up, else boost
 		action.innerText = window.game.action.unlock + ' - ' + asCurrency(calculateUnlock(worldId, seqId));
 		if(window.item.level > 0)
-			action.innerText = window.game.action.boost + ' - ' + asCurrency(calculateBoost(worldId, window.item.level));
+			action.innerText = window.game.action.boost + ' - ' + asCurrency(calculateBoost(worldId, seqId, window.item.level));
 		if(window.item.percent > 99)
 			action.innerText = window.game.action.up;
 		action.setAttribute('data-action', action.innerText.split(' - ')[0]);
@@ -97,7 +97,7 @@ function onAction() {
 				decrementCurrency(amt);
 				window.item.level = 1;
 				window.item.percent = 0;
-				event.target.innerText = window.game.action.boost + ' - ' + window.game.currency.prefix + calculateBoost(worldId, window.item.level);
+				event.target.innerText = window.game.action.boost + ' - ' + window.game.currency.prefix + calculateBoost(worldId, seqId, window.item.level);
 			}
 			else
 			{
@@ -105,7 +105,7 @@ function onAction() {
 			}
 			break;
 		case window.game.action.boost: // boost
-			amt = calculateBoost(worldId, window.item.level);
+			amt = calculateBoost(worldId, seqId, window.item.level);
 			if(window.game.bank >= amt)
 			{
 				decrementCurrency(amt);
@@ -121,7 +121,7 @@ function onAction() {
 		case window.game.action.up: // level up
 			window.item.level += 1;
 			window.item.percent = 0;
-			event.target.innerText = window.game.action.boost + ' - ' + asCurrency(calculateBoost(worldId, window.item.level));
+			event.target.innerText = window.game.action.boost + ' - ' + asCurrency(calculateBoost(worldId, seqId, window.item.level));
 			break;
 		default:
 			break;
@@ -261,14 +261,15 @@ function renderGame() {
 function resetGame() {
 	if(confirm('Confirm to reset? Your progress will be lost!'))
 		localStorage.removeItem('idle-game');
+	window.location.reload();
 }
 
 function calculateUnlock(world, seqNo) {
 	return (world) + (seqNo >= 1 ? 1000 * Math.pow(10, seqNo) : 0); // first in world unlock always free
 }
 
-function calculateBoost(world, level) {
-	return (world + 1) * (level) * 10;
+function calculateBoost(world, seqNo, level) {
+	return calculateUnlock(world, seqNo) + (level) * 10;
 }
 
 function calculateDelta(world, seqNo, level, progress) {
