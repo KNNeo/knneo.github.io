@@ -273,7 +273,7 @@ function calculateUnlock(world, seqNo) {
 }
 
 function calculateBoost(world, seqNo, level) {
-	return calculateUnlock(world, seqNo) + (level) * 10;
+	return seqNo >= 1 ? calculateUnlock(world, seqNo) / 10 * level : level;
 }
 
 function calculateDelta(world, seqNo, level, progress) {
