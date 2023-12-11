@@ -259,9 +259,13 @@ function renderGame() {
 }
 
 function resetGame() {
-	if(confirm('Confirm to reset? Your progress will be lost!'))
+	if(confirm('Confirm to reset? Your progress will be lost!')) {
 		localStorage.removeItem('idle-game');
-	window.location.reload();
+		displaysDiv[0].innerHTML = '';
+		currencyDiv.innerHTML = 'Refresh to start over';
+		window.game = null;
+		clearInterval(window.timer);
+	}
 }
 
 function calculateUnlock(world, seqNo) {
