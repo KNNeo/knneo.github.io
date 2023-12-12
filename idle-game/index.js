@@ -41,7 +41,7 @@ function updateRate() {
 			return t + c.rate; 
 		}, 0);
 	}, 0);
-	rateDiv.innerText = asCurrency(rate) + '/s';
+	rateDiv.innerText = asCurrency(rate) + '/' + window.game.locale.display.seconds;
 }
 
 //--EVENT HANDLERS--//
@@ -65,7 +65,7 @@ function showDetails() {
 
 		let stats = document.createElement('div');
 		stats.classList.add('stats');
-		stats.innerHTML = 'Level ' + window.item.level + ' | ' + (window.item.percent ?? 0) + '%<br>' + asCurrency(window.item.rate) + '/s';
+		stats.innerHTML = window.game.locale.display.level + window.item.level + ' | ' + (window.item.percent ?? 0) + '%<br>' + asCurrency(window.item.rate) + '/' + window.game.locale.display.seconds;
 		detailsDiv.appendChild(stats);
 		
 		let progress = document.createElement('progress');
@@ -75,17 +75,17 @@ function showDetails() {
 		progress.setAttribute('value', window.item.percent ?? 0);
 		detailsDiv.appendChild(progress);
 		
-		let action = document.createElement('div');
-		action.classList.add('action');
+		let action1 = document.createElement('div');
+		action1.classList.add('action');
 		// if level 0 unlock, else if bar filled level up, else boost
-		action.innerText = window.game.action.unlock + ' - ' + asCurrency(calculateUnlock(worldId, seqId));
+		action1.innerText = window.game.locale.action.unlock + ' - ' + asCurrency(calculateUnlock(worldId, seqId));
 		if(window.item.level > 0)
-			action.innerText = window.game.action.boost + ' - ' + asCurrency(calculateBoost(worldId, seqId, window.item.level));
+			action1.innerText = window.game.locale.action.boost + ' - ' + asCurrency(calculateBoost(worldId, seqId, window.item.level));
 		if(window.item.percent > 99)
-			action.innerText = window.game.action.up;
-		action.setAttribute('data-action', action.innerText.split(' - ')[0]);
-		action.addEventListener('click', onAction);
-		detailsDiv.appendChild(action);
+			action1.innerText = window.game.locale.action.level_up;
+		action1.setAttribute('data-action', action1.innerText.split(' - ')[0]);
+		action1.addEventListener('click', onAction);
+		detailsDiv.appendChild(action1);
 		
 		info.querySelector('.info').appendChild(detailsDiv);
 	}
@@ -100,38 +100,38 @@ function onAction() {
 	//update logic
 	switch(event.target.getAttribute('data-action'))
 	{
-		case window.game.action.unlock: // unlock
+		case window.game.locale.action.unlock: // unlock
 			amt = calculateUnlock(worldId, seqId);
 			if(window.game.bank >= amt)
 			{
 				decrementCurrency(amt);
 				window.item.level = 1;
 				window.item.percent = 0;
-				event.target.innerText = window.game.action.boost + ' - ' + asCurrency(calculateBoost(worldId, seqId, window.item.level));
+				event.target.innerText = window.game.locale.action.boost + ' - ' + asCurrency(calculateBoost(worldId, seqId, window.item.level));
 			}
 			else
 			{
-				popupContent('Not enough money!');
+				popupContent(window.game.locale.display.no_money);
 			}
 			break;
-		case window.game.action.boost: // boost
+		case window.game.locale.action.boost: // boost
 			amt = calculateBoost(worldId, seqId, window.item.level);
 			if(window.game.bank >= amt)
 			{
 				decrementCurrency(amt);
-				window.item.percent += calculateDelta();
+				window.item.percent += window.game.worlds[worldId].delta;
 				if(window.item.percent > 99)
-					event.target.innerText = window.game.action.up + ' - ' + asCurrency(calculateLevelUp(worldId, seqId, window.item.level));
+					event.target.innerText = window.game.locale.action.level_up + ' - ' + asCurrency(calculateLevelUp(worldId, seqId, window.item.level));
 			}
 			else
 			{
-				popupContent('Not enough money!');
+				popupContent(window.game.locale.display.no_money);
 			}
 			break;
-		case window.game.action.up: // level up
+		case window.game.locale.action.level_up: // level up
 			window.item.level += 1;
 			window.item.percent = 0;
-			event.target.innerText = window.game.action.boost + ' - ' + asCurrency(calculateBoost(worldId, seqId, window.item.level));
+			event.target.innerText = window.game.locale.action.boost + ' - ' + asCurrency(calculateBoost(worldId, seqId, window.item.level));
 			break;
 		default:
 			break;
@@ -144,7 +144,7 @@ function onAction() {
 	event.target.setAttribute('data-action', event.target.innerText.split(' - ')[0]);
 	event.target.closest('.character').setAttribute('data-level', window.item.level);
 	event.target.closest('.character').querySelector('.progress').setAttribute('value', window.item.percent);
-	event.target.closest('.character').querySelector('.stats').innerHTML = 'Level ' + window.item.level + ' | ' + (window.item.percent ?? 0) + '%<br>' + asCurrency(window.item.rate) + '/s';
+	event.target.closest('.character').querySelector('.stats').innerHTML = window.game.locale.display.level + window.item.level + ' | ' + (window.item.percent ?? 0) + '%<br>' + asCurrency(window.item.rate) + '/' + window.game.locale.display.seconds;
 	
 	// update game
 	save();	
