@@ -97,6 +97,16 @@ const templates = [
 		format: 'Audio Live',
 	},
 	{
+		name: '山根綺・富田美憂 ややとみの',
+		startDayNo: 2,
+		startTime: 2230,
+		lengthMinutes: 30,
+		recurringWeeks: [1,2,3,4,5],
+		channel: 'ニコニコチャンネル',
+		url: 'http://yayatomi.secondshot.jp/',
+		format: 'Video Live',
+	},
+	{
 		name: '佐倉としたい大西',
 		startDayNo: 2,
 		startTime: 2330,
