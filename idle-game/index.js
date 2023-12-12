@@ -107,7 +107,7 @@ function onAction() {
 				decrementCurrency(amt);
 				window.item.level = 1;
 				window.item.percent = 0;
-				event.target.innerText = window.game.action.boost + ' - ' + window.game.currency.prefix + calculateBoost(worldId, seqId, window.item.level);
+				event.target.innerText = window.game.action.boost + ' - ' + asCurrency(calculateBoost(worldId, seqId, window.item.level));
 			}
 			else
 			{
@@ -121,7 +121,7 @@ function onAction() {
 				decrementCurrency(amt);
 				window.item.percent += calculateDelta();
 				if(window.item.percent > 99)
-					event.target.innerText = window.game.action.up;
+					event.target.innerText = window.game.action.up + ' - ' + asCurrency(calculateLevelUp(worldId, seqId, window.item.level));
 			}
 			else
 			{
@@ -295,7 +295,7 @@ function calculateDelta(world, seqNo, level, progress) {
 }
 
 function calculateLevelUp(world, seqNo, level) {
-	return 0;
+	return calculateBoost(world, seqNo, level) * 50;
 }
 
 function asCurrency(number) {
