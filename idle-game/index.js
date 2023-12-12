@@ -252,7 +252,8 @@ function renderGame() {
 	if(multiplier >= 1) {
 		let increment = incrementCurrency(multiplier);
 		if(multiplier && increment)
-			popupContent('You have been out for ' + multiplier + 's<br>Gain: ' + asCurrency(multiplier * increment));
+			popupContent('<div>You have been out for ' + multiplier + 's<br>Gain: ' + asCurrency(multiplier * increment) + '</div>'
+		+ '<br><button class="bi" onclick="this.closest(\'dialog\').remove();">OK</button>');
 	}
 	
 	updateCurrency();
