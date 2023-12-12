@@ -10,6 +10,7 @@ let settingsDiv = document.querySelector('.settings');
 let progressDiv = document.querySelector('.progress');
 let displaysDiv = document.querySelectorAll('.display');
 let currencyDiv = document.querySelector('.currency');
+let rateDiv = document.querySelector('.rate');
 
 //--DOM FUNCTIONS--//
 function decrementCurrency(decrement) {
@@ -32,6 +33,15 @@ function incrementCurrency(multiplier) {
 
 function updateCurrency() {
 	currencyDiv.innerText = 'Bank: ' + asCurrency(window.game.bank ?? 0);
+}
+
+function updateRate() {
+	let rate = window.game.worlds.reduce(function(total, world, index) {
+		return total + world.characters.reduce(function(t, c, i) { 
+			return t + c.rate; 
+		}, 0);
+	}, 0);
+	rateDiv.innerText = asCurrency(rate) + '/s';
 }
 
 //--EVENT HANDLERS--//
@@ -127,7 +137,9 @@ function onAction() {
 			break;
 	}
 	
-	window.item.rate = window.item.level; // should be calculation based
+	//update rate
+	window.item.rate = window.item.level; // currently based on level
+	updateRate();
 	//update view
 	event.target.setAttribute('data-action', event.target.innerText.split(' - ')[0]);
 	event.target.closest('.character').setAttribute('data-level', window.item.level);
@@ -256,6 +268,7 @@ function renderGame() {
 		+ '<br><button class="bi" onclick="this.closest(\'dialog\').remove();">OK</button>');
 	}
 	
+	updateRate();
 	updateCurrency();
 }
 
