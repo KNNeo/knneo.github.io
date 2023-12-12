@@ -176,7 +176,7 @@ a:hover {
 	border: 2px solid var(--foreground);
 	position: relative;
 	border-radius: 8px;
-    margin: 4px 2px;
+    margin: 2px;
 	
 	-webkit-user-select: none;
 	-khtml-user-select: none;
