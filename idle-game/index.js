@@ -132,6 +132,7 @@ function onAction() {
 			amt = calculateLevelUp(worldId, seqId, window.item.level);
 			if(window.game.bank >= amt)
 			{
+				decrementCurrency(amt);
 				window.item.level += 1;
 				window.item.percent = 0;
 				event.target.innerText = window.game.locale.action.boost + ' - ' + asCurrency(calculateBoost(worldId, seqId, window.item.level));
