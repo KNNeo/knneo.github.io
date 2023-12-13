@@ -82,7 +82,7 @@ function showDetails() {
 		if(window.item.level > 0)
 			action1.innerText = window.game.locale.action.boost + ' - ' + asCurrency(calculateBoost(worldId, seqId, window.item.level));
 		if(window.item.percent > 99)
-			action1.innerText = window.game.locale.action.level_up;
+			action1.innerText = window.game.locale.action.level_up + ' - ' + asCurrency(calculateLevelUp(worldId, seqId, window.item.level));
 		action1.setAttribute('data-action', action1.innerText.split(' - ')[0]);
 		action1.addEventListener('click', onAction);
 		detailsDiv.appendChild(action1);
