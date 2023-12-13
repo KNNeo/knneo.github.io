@@ -129,9 +129,17 @@ function onAction() {
 			}
 			break;
 		case window.game.locale.action.level_up: // level up
-			window.item.level += 1;
-			window.item.percent = 0;
-			event.target.innerText = window.game.locale.action.boost + ' - ' + asCurrency(calculateBoost(worldId, seqId, window.item.level));
+			amt = calculateLevelUp(worldId, seqId, window.item.level);
+			if(window.game.bank >= amt)
+			{
+				window.item.level += 1;
+				window.item.percent = 0;
+				event.target.innerText = window.game.locale.action.boost + ' - ' + asCurrency(calculateBoost(worldId, seqId, window.item.level));
+			}
+			else
+			{
+				popupContent(window.game.locale.display.no_money);
+			}
 			break;
 		default:
 			break;
