@@ -87,6 +87,15 @@ function showDetails() {
 		action1.addEventListener('click', onAction);
 		detailsDiv.appendChild(action1);
 		
+		let action2 = document.createElement('div');
+		action2.classList.add('action');
+		if(window.item.level < 10 || window.item.percent > 99)
+			action2.classList.add('hidden');
+		action2.innerText = window.game.locale.action.maxBoost + ' - ' + asCurrency(calculateMaxBoost(worldId, seqId, window.item.level, window.item.percent, window.game.worlds[worldId].delta));
+		action2.setAttribute('data-action', action2.innerText.split(' - ')[0]);
+		action2.addEventListener('click', onAction);
+		detailsDiv.appendChild(action2);
+		
 		info.querySelector('.info').appendChild(detailsDiv);
 	}
 }
@@ -108,6 +117,26 @@ function onAction() {
 				window.item.level = 1;
 				window.item.percent = 0;
 				event.target.innerText = window.game.locale.action.boost + ' - ' + asCurrency(calculateBoost(worldId, seqId, window.item.level));
+				if(window.item.level >= 10 || window.item.percent > 99)
+					event.target.nextSibling.classList.remove('hidden');
+				event.target.nextSibling.setAttribute('data-action', window.game.locale.action.maxBoost);
+				event.target.nextSibling.innerText = window.game.locale.action.maxBoost + ' - ' + asCurrency(calculateMaxBoost(worldId, seqId, window.item.level, window.item.percent, window.game.worlds[worldId].delta));
+			}
+			else
+			{
+				popupContent(window.game.locale.display.no_money);
+			}
+			break;
+		case window.game.locale.action.maxBoost: // boost to 100%
+			amt = calculateMaxBoost(worldId, seqId, window.item.level, window.item.percent, window.game.worlds[worldId].delta);
+			if(window.game.bank >= amt)
+			{
+				decrementCurrency(amt);
+				window.item.percent = 100;
+				event.target.classList.add('hidden');
+				event.target.innerText = window.game.locale.action.level_up + ' - ' + asCurrency(calculateLevelUp(worldId, seqId, window.item.level));
+				event.target.previousSibling.setAttribute('data-action', event.target.innerText.split(' - ')[0]);
+				event.target.previousSibling.innerText = window.game.locale.action.level_up + ' - ' + asCurrency(calculateLevelUp(worldId, seqId, window.item.level));
 			}
 			else
 			{
@@ -120,8 +149,11 @@ function onAction() {
 			{
 				decrementCurrency(amt);
 				window.item.percent += window.game.worlds[worldId].delta;
-				if(window.item.percent > 99)
+				event.target.nextSibling.innerText = window.game.locale.action.maxBoost + ' - ' + asCurrency(calculateMaxBoost(worldId, seqId, window.item.level, window.item.percent, window.game.worlds[worldId].delta));
+				if(window.item.percent > 99) {
 					event.target.innerText = window.game.locale.action.level_up + ' - ' + asCurrency(calculateLevelUp(worldId, seqId, window.item.level));
+					event.target.nextSibling.classList.add('hidden');
+				}
 			}
 			else
 			{
@@ -136,6 +168,10 @@ function onAction() {
 				window.item.level += 1;
 				window.item.percent = 0;
 				event.target.innerText = window.game.locale.action.boost + ' - ' + asCurrency(calculateBoost(worldId, seqId, window.item.level));
+				if(window.item.level >= 10 || window.item.percent > 99)
+					event.target.nextSibling.classList.remove('hidden');
+				event.target.nextSibling.setAttribute('data-action', window.game.locale.action.maxBoost);
+				event.target.nextSibling.innerText = window.game.locale.action.maxBoost + ' - ' + asCurrency(calculateMaxBoost(worldId, seqId, window.item.level, window.item.percent, window.game.worlds[worldId].delta));
 			}
 			else
 			{
@@ -284,8 +320,9 @@ function renderGame() {
 function resetGame() {
 	if(confirm('Confirm to reset? Your progress will be lost!')) {
 		localStorage.removeItem('idle-game');
-		displaysDiv[0].innerHTML = '';
-		currencyDiv.innerHTML = 'Refresh to start over';
+		displaysDiv[0].remove();
+		currencyDiv.remove();
+		rateDiv.innerHTML = 'Refresh to start over';
 		window.game = null;
 		clearInterval(window.timer);
 	}
@@ -299,8 +336,12 @@ function calculateBoost(world, seqNo, level) {
 	return seqNo >= 1 ? calculateUnlock(world, seqNo) / 10 * level : 10 * level;
 }
 
-function calculateDelta(world, seqNo, level, progress) {
-	return 10;
+function calculateMaxBoost(world, seqNo, level, progress, delta) {
+	return calculateBoost(world, seqNo, level) * calculateDelta(progress ?? 0, delta);
+}
+
+function calculateDelta(progress, delta) {
+	return (100 - progress) / delta;
 }
 
 function calculateLevelUp(world, seqNo, level) {
