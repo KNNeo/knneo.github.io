@@ -34,10 +34,6 @@ body {
 	padding: 7px;
 }
 
-.hidden {
-	display: none;
-}
-
 .box {
 	margin: 5px;
 	vertical-align: top;
@@ -234,4 +230,8 @@ a:hover {
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
+}
+
+.hidden {
+	display: none;
 }
