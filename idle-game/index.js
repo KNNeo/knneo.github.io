@@ -309,7 +309,8 @@ function renderGame() {
 	if(multiplier >= 1) {
 		let increment = incrementCurrency(multiplier);
 		if(multiplier && increment)
-			popupContent('<div>You have been out for ' + multiplier + 's<br>Gain: ' + asCurrency(multiplier * increment) + '</div>'
+			popupContent('<div>' + window.game.idle.display.offline + ' ' + asCustomDateTime(multiplier) + '<br>' + 
+						window.game.idle.display.gain + ' ' + asCurrency(multiplier * increment) + '</div>'
 		+ '<br><button class="bi" onclick="this.closest(\'dialog\').remove();">OK</button>');
 	}
 	
@@ -346,6 +347,25 @@ function calculateDelta(progress, delta) {
 
 function calculateLevelUp(world, seqNo, level) {
 	return calculateBoost(world, seqNo, level) * 50;
+}
+
+function asCustomDateTime(seconds) {
+	let display = '';
+	
+	if(!window.game.idle || !window.game.idle.units) // if null
+		return seconds + 's';
+	if(seconds >= window.game.idle.max) // limit
+		seconds = window.game.idle.max;
+	if(seconds / 86400 > 1) // day
+		display += (seconds / 86400) + window.game.idle.units.day;
+	if(seconds / 3600 < 24 && Math.floor(seconds / 3600) > 0) // hour
+		display += Math.floor(seconds / 3600) + window.game.idle.units.hour;
+	if((seconds % 3600 / 3600) < 1 && Math.floor(((seconds % 3600) / 3600) * 60) > 0) // minute
+		display += Math.floor(((seconds % 3600) / 3600) * 60) + window.game.idle.units.minute;
+	if(seconds < 60) // second
+		display += seconds + window.game.idle.units.second;
+
+	return display;
 }
 
 function asCurrency(number) {
