@@ -148,12 +148,12 @@ function createFrame(postIndex) {
 		document.querySelector('.top').remove();
 	contentContainer.appendChild(topButton);
 	
-	// if(window.innerWidth >= 760 + 640 && postIndex - 1 >= 0)
+	if(window['posts'][postIndex-1] != null)
 		document.body.appendChild(renderEntry(window['posts'][postIndex-1], postIndex, 'left'));
 	
 	contentContainer.appendChild(renderEntry(entry, postIndex, 'main'));
 	
-	// if(window.innerWidth >= 760 + 640 && postIndex + 1 < window['posts'].length)
+	if(window['posts'][postIndex+1] != null)
 		document.body.appendChild(renderEntry(window['posts'][postIndex+1], postIndex, 'right'));
 		
 	document.querySelector('.content').appendChild(contentContainer);
@@ -173,6 +173,8 @@ function goToTop() {
 }
 
 function renderEntry(entry, index, position) {
+	if(entry == null) return;
+	
 	//actual post
 	let contentMain = document.createElement('div');
 	contentMain.id = 'contents-' + position;
@@ -216,29 +218,26 @@ function renderEntry(entry, index, position) {
 		published.innerText =  new Date(entry.querySelector('published')?.textContent).toDateString();
 		publishedDiv.appendChild(published);
 		contentMain.appendChild(publishedDiv);
-	}
-	
-	let title = document.createElement('h2');
-	title.innerText = entry.querySelector('title')?.textContent;
-	contentMain.appendChild(title);
-	
-	if(position == 'main')
-	{
+		
 		let header = document.createElement('div');
 		header.classList.add('header');
 		contentMain.appendChild(header);
 	}
 	
+	let title = document.createElement('h2');
+	title.innerText = entry.querySelector('title')?.textContent;
+	contentMain.appendChild(title);
+
 	let content = entry.querySelector('content[type=html]')?.textContent;
 	contentMain.innerHTML += content;
-	
+
 	contentMain.innerHTML += '<hr>';
-	
+
 	let disclaimer = document.createElement('h6');
 	disclaimer.classList.add('disclaimer');
-	disclaimer.innerText = 'Copyright (c) 2014-' + new Date().getFullYear() + ' Klassic Note Web Reports';
+	disclaimer.innerText = 'Copyright (c) ' + new Date().getFullYear();
 	contentMain.appendChild(disclaimer);
-	
+
 	contentMain.innerHTML += '<br><br><br><br>';
 	
 	return contentMain;
