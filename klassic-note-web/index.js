@@ -761,9 +761,9 @@ function generateHomepage() {
 	if(debugMode) console.log('generateSearchHistory', query);
 	queryDb(query, generateSearchHistory);
 	
-	query = "SELECT ID as KNID, Type, Category, ReleaseTitle, ReleaseArtistTitle, KNYEAR, substr('0000'||ReleaseDate,-4) as ReleaseDate FROM Release ";
-	query += "WHERE KNYEAR = strftime('%Y','now') ";
-	query += "AND ReleaseDate >= cast(strftime('%m%d','now') as integer) ORDER BY ReleaseDate, ReleaseArtistTitle, ReleaseTitle LIMIT 10";
+	query = "SELECT ID as KNID, Type, Category, ReleaseTitle, ReleaseArtistTitle, ReleaseYear, substr('0000'||ReleaseDate,-4) as ReleaseDate FROM Release ";
+	query += "WHERE (ReleaseYear * 10000) + ReleaseDate >= cast(strftime('%Y','now') as integer) * 10000 + cast(strftime('%m%d','now') as integer) ";
+	query += "ORDER BY ReleaseYear, ReleaseDate, ReleaseArtistTitle, ReleaseTitle LIMIT 10";
 	if(debugMode) console.log('generateUpcomingReleases', query);
 	queryDb(query, generateUpcomingReleases);
 }
@@ -833,7 +833,7 @@ function generateUpcomingReleases(contents) {
 		contents, {
 		id: 'upcoming-releases', 
 		title: 'Upcoming Releases',
-		rowFormat: ['KNYEAR', 'ReleaseDate', ' - [', 'Type', ' ', 'Category', '] ' , 'ReleaseArtistTitle', ' - ', 'ReleaseTitle'],
+		rowFormat: ['ReleaseYear', 'ReleaseDate', ' - [', 'Type', ' ', 'Category', '] ' , 'ReleaseArtistTitle', ' - ', 'ReleaseTitle'],
 		actionTitle: hideAllReleases ? null : 'See All',
 		actionFunc: hideAllReleases ?  null : function() {
 			queryAllReleases();
