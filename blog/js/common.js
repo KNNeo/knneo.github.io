@@ -461,8 +461,9 @@ function displayFAB() {
 	if(document.querySelector('#Overlay') != null && document.querySelector('#Overlay').style.display != 'none')
 		return;
 	// When the user scrolls down to half of viewport from the top of the document, change floating action button
-	if (document.body.scrollTop > document.documentElement.clientHeight || 
-		document.documentElement.scrollTop > document.documentElement.clientHeight) {
+	let pageDown = document.body.scrollTop > document.documentElement.clientHeight || 
+		document.documentElement.scrollTop > document.documentElement.clientHeight;
+	if (pageDown) {
 		switchToButton('GoToTopBtn');
 	} else {
 		if(window.location.href.includes("knneo.github.io")) switchToButton('DarkModeBtn');
@@ -471,6 +472,20 @@ function displayFAB() {
 	if(!navigator.share) {
 		document.querySelector('#ShareBtn').style.display = 'none';
 	}
+	
+	// works with header, when scroll down/up, hide/show buttons
+	let st = window.pageYOffset || document.documentElement.scrollTop;
+	let diff = st - window['scrollTop'];
+	let scrollDown = st > 0.3 * document.documentElement.clientHeight && diff <= 0.01;
+	let allButtons = ['GoToTopBtn','DarkModeBtn','EmojiBtn','ShareBtn','BackBtn'];
+	if(scrollDown || !pageDown)
+		allButtons.forEach(function(btn) {
+			document.getElementById(btn)?.classList.remove('hide-btn');
+		});
+	else
+		allButtons.forEach(function(btn) {
+			document.getElementById(btn)?.classList.add('hide-btn');
+		});
 }
 
 function switchToButton(id) {

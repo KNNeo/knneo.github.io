@@ -317,6 +317,7 @@ a:hover {
 #ShareBtn {
     bottom: 135px;
 	right: calc(50% - 410px);
+	transition: background .2s linear;
 }
 
 #PopupBtn {
@@ -356,6 +357,18 @@ a:hover {
 
 #SidebarBtn, #SearchBtn {
 	display: none;
+}
+
+#BackBtn.hide-btn {
+	left: -50%;
+}
+
+#ShareBtn.hide-btn,
+#GoToTopBtn.hide-btn,
+#PopupBtn.hide-btn,
+#EmojiBtn.hide-btn,
+#DarkModeBtn.hide-btn {
+	right: -50%;
 }
 
 a.material-icons {
@@ -554,6 +567,7 @@ a.hidden {
 	#RightBtn,
 	#LeftBtn {
 		left: 15px;
+		transition: left .2s;
 	}
 	#ShareBtn,
 	#GoToTopBtn,
@@ -561,23 +575,10 @@ a.hidden {
 	#EmojiBtn,
 	#DarkModeBtn {
 		right: 15px;
+		transition: right .2s;
 	}
 	.post span {
 		display: block;
-	}
-}
-
-/*MEDIA QUERIES - REDUCED MOTION FOR SMALL SCREENS*/
-@media only screen and (max-width: 480px) {
-	body,
-	#PopupBtn,
-	#EmojiBtn,
-	#LeftBtn,
-	#RightBtn,
-	#BackBtn,
-	#DarkModeBtn
-	{
-		transition: none;
 	}
 }
 
@@ -593,7 +594,8 @@ a.hidden {
 	#LeftBtn,
 	#RightBtn,
 	#BackBtn,
-	#DarkModeBtn
+	#DarkModeBtn,
+	#GoToTopBtn
 	{
 		transition: none;
 	}
