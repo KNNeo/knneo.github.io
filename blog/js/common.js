@@ -477,7 +477,7 @@ function displayFAB() {
 	let st = window.pageYOffset || document.documentElement.scrollTop;
 	let diff = st - window['scrollTop'];
 	let scrollDown = st > 0.3 * document.documentElement.clientHeight && diff <= 0.01;
-	let allButtons = ['GoToTopBtn','DarkModeBtn','EmojiBtn','ShareBtn','BackBtn'];
+	let allButtons = ['GoToTopBtn','DarkModeBtn','EmojiBtn','ShareBtn','BackBtn','RightBtn'];
 	if(scrollDown || !pageDown)
 		allButtons.forEach(function(btn) {
 			document.getElementById(btn)?.classList.remove('hide-btn');
