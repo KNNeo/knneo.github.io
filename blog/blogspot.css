@@ -359,8 +359,9 @@ a:hover {
 	display: none;
 }
 
-#BackBtn.hide-btn {
-	left: -50%;
+#BackBtn.hide-btn,
+#RightBtn.hide-btn {
+	left: -15%;
 }
 
 #ShareBtn.hide-btn,
@@ -368,7 +369,7 @@ a:hover {
 #PopupBtn.hide-btn,
 #EmojiBtn.hide-btn,
 #DarkModeBtn.hide-btn {
-	right: -50%;
+	right: -15%;
 }
 
 a.material-icons {
