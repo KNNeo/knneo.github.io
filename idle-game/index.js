@@ -356,8 +356,8 @@ function asCustomDateTime(seconds) {
 		return seconds + 's';
 	if(seconds >= window.game.idle.max) // limit
 		seconds = window.game.idle.max;
-	if(seconds / 86400 > 1) // day
-		display += (seconds / 86400) + window.game.idle.units.day;
+	if(Math.floor(seconds / 86400) > 0) // day
+		display += Math.floor(seconds / 86400) + window.game.idle.units.day;
 	if(seconds / 3600 < 24 && Math.floor(seconds / 3600) > 0) // hour
 		display += Math.floor(seconds / 3600) + window.game.idle.units.hour;
 	if((seconds % 3600 / 3600) < 1 && Math.floor(((seconds % 3600) / 3600) * 60) > 0) // minute
