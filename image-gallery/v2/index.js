@@ -292,6 +292,12 @@ function scrollGallery() {
 	}
 }
 
+function scrollToSelected() {
+	galleryDiv.classList.remove('overview');
+	settingsDiv.classList.remove('hidden');
+	scrollToItem(window.variables.selected ?? 0);
+}
+
 //--FUNCTIONS--//
 function renderFilters(tags) {
 	// clear all tags
