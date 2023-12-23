@@ -460,9 +460,9 @@ function toggleDisplay(element, defaultValue) {
 function displayFAB() {
 	if(document.querySelector('#Overlay') != null && document.querySelector('#Overlay').style.display != 'none')
 		return;
-	// When the user scrolls down to half of viewport from the top of the document, change floating action button
-	let pageDown = document.body.scrollTop > document.documentElement.clientHeight || 
-		document.documentElement.scrollTop > document.documentElement.clientHeight;
+	// When the user scrolls down to n% of viewport from the top of the document, change floating action buttons
+	let pageDown = document.body.scrollTop > 0.3 * document.documentElement.clientHeight || 
+		document.documentElement.scrollTop > 0.3 * document.documentElement.clientHeight;
 	if (pageDown) {
 		switchToButton('GoToTopBtn');
 	} else {
