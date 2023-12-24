@@ -32,6 +32,14 @@ h1 {
 	column-width: 220px;
 }
 
+.fanfics {
+	display: flex;
+}
+
+.fanfics .season {
+	flex-basis: 220px;
+}
+
 .back {
 	text-decoration: none;
 	font-size: 2em;

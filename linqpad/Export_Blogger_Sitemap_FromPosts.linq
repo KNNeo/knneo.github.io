@@ -239,7 +239,7 @@ void Main()
 	}
 	
 	//Generate fanfic string
-    var fanString = "";
+    var fanString = "<div>";
 	var seasonNo = 0;
 	var counter = 0;
 	var fanDate = DateTime.Parse("1900-01-01");
@@ -248,10 +248,11 @@ void Main()
 		var key = item.Keyword.Split('|'); // Fanfiction|date|name
 		var date = DateTime.ParseExact(key[1], "yyyy.MM.dd", null);
 		if(date >= fanDate.AddDays(14)) // assume breaks between seasons
-			fanString += "<b class=\"title\">SEASON " + ++seasonNo + "</b><br>\r\n";
-		fanString += "<span>#" + ++counter + "</span> <a class=\"keyword\" title=\"" + item.Title + "\" href=\"" + item.KeywordUrl + "\">" + key[2] + "</a><br>\r\n";
+			fanString += "</div>\r\n<div class=\"season\"><b class=\"title\">SEASON " + ++seasonNo + "</b><br>\r\n";
+		fanString += "<div><span>#" + ++counter + "</span> <a class=\"keyword\" title=\"" + item.Title + "\" href=\"" + item.KeywordUrl + "\">" + key[2] + "</a></div>\r\n";
 		fanDate = date;
 	}
+	fanString = fanString.Replace("<div></div>\r\n","");
     
     //Write into page
     string fileString = File.ReadAllText(blogpath + "\\template.html");
