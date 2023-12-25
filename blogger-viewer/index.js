@@ -26,13 +26,13 @@ function onSelect(e) {
 }
 
 function processXml(doc) {
-	console.log(doc);
+	// console.log(doc);
 	window['doc'] = doc;
 	//filter posts here
 	window['posts'] = Array.from(window['doc'].querySelectorAll('entry'))
 		.filter(e => e.querySelector('content[type=html]') != null && 
 			e.querySelector('link[rel=alternate]') != null &&
-			e.querySelector('title').textContent.length > 0);
+			e.querySelector('title') != null);
 	window['loading'] = false;
 	runLoader();
 	generateHomepage();
@@ -101,7 +101,8 @@ function generatePages() {
 		postDiv.appendChild(postLink);
 				
 		let title = document.createElement('h4');
-		title.innerText = post.querySelector('title').textContent;
+		let titleContent = post.querySelector('title').textContent;
+		title.innerText = titleContent.length > 0 ? titleContent : '<<Unknown Title>>';
 		postLink.appendChild(title);
 			
 		document.querySelector('.home').appendChild(postDiv);
@@ -118,7 +119,7 @@ function createFrame(postIndex) {
 	
 	//outside div
 	let contentContainer = document.createElement('div');
-	contentContainer.id = 'contents-container';
+	contentContainer.classList.add('content-container');
 	
 	//FAB to close
 	let closeButton = document.createElement('a');

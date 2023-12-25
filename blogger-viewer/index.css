@@ -77,6 +77,11 @@ a {
 	background: var(--background);
 }
 
+.content-container {
+	position: relative;
+	margin: 8px;
+}
+
 .side {
     overflow: hidden;
     height: 100vh;
@@ -93,10 +98,6 @@ a {
 
 .side.right {
 	right: calc((100% - 640px) / 2 - 640px);
-}
-
-.contents-container {
-	position: relative;
 }
 
 .title,
