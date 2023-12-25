@@ -510,4 +510,6 @@ const mosaicArray = [
 {"filename":"純白のスリットワンピ_ゆきの.jpg","sm":"https://doax.cc/res/pic_star_s/797.png","md":"https://doax.cc/res/pic_star_s/797.png","lg":"https://doax.cc/res/pic_star/797.png","og":"https://doax.cc/res/pic_star/797.png"},
 {"filename":"はいからブロッサム_ヒトミ.jpg","sm":"https://doax.cc/res/pic_star_s/818.png","md":"https://doax.cc/res/pic_star_s/818.png","lg":"https://doax.cc/res/pic_star/818.png","og":"https://doax.cc/res/pic_star/818.png"},
 {"filename":"テイクユアマーク_たまき.jpg","sm":"https://doax.cc/res/pic_star_s/784_5.png","md":"https://doax.cc/res/pic_star_s/784_5.png","lg":"https://doax.cc/res/pic_star/784_5.png","og":"https://doax.cc/res/pic_star/784_5.png"},
+{"filename":"スイートメリーナイト_こはる.jpg","sm":"https://doax.cc/res/pic_star_s/827_24.png","md":"https://doax.cc/res/pic_star_s/827_24.png","lg":"https://doax.cc/res/pic_star/827_24.png","og":"https://doax.cc/res/pic_star/827_24.png"},
+{"filename":"スイートメリーナイト_つくし.jpg","sm":"https://doax.cc/res/pic_star_s/827_20.png","md":"https://doax.cc/res/pic_star_s/827_20.png","lg":"https://doax.cc/res/pic_star/827_20.png","og":"https://doax.cc/res/pic_star/827_20.png"},
 ];
