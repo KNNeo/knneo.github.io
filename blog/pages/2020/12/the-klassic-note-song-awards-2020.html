@@ -39,10 +39,10 @@
   .details:hover { font-size: 1em; border-radius: 5px; border: 1px solid var(--foreground); padding: 4px 8px; }
   .post-body td, .post-body th { border: 1px solid var(--foreground); padding: 2px 4px; }
   .list { border-collapse: collapse; }
-  .list tr:hover > td {
-	background-color: gray;
-}
-.player { width: 100%; }
+  .list .selected { font-weight: bold; }
+  .list tr:hover > td { background-color: gray; }
+  .player { width: 100%; }
+  .empty td { border: 1px solid transparent; }
   @media only screen
     and (min-device-width : 320px)
     and (max-device-width : 960px)
@@ -1140,7 +1140,7 @@ This is how the new songs fared this year:<div>&nbsp;&nbsp;<div class="separator
   Below is an audio preview (with timestamps!) of The Top 20 of Klassic Note 2020, for your
   listening pleasure.<br />
   Enjoy.<br />
-  <div style="display: none;">[Edit: Click on any row on the table above to skip to that track!]</div><br />
+  <div>[Edit: Click on any row on the table above to skip to that track!]</div><br />
   <div id="music"></div>
   <br /><br />
   <div class="details">
@@ -1242,6 +1242,6 @@ This is how the new songs fared this year:<div>&nbsp;&nbsp;<div class="separator
     owners.</span><br />
 </div>
 </div>
-<script src="https://knneo.github.io/music-player/index.js"></script><hr><div class="post-tags"><h4>Reported in </h4><a href="../../../index.html#TheKlassicNote">The Klassic Note</a><a href="../../../index.html#TheSongAwards">The Song Awards</a></div><h6 style="text-align: center;">Copyright (c) 2014-2023 Klassic Note Web Reports</h6><br><br><br><br></div>
+<script onload="startup()" src="https://knneo.github.io/music-player/index.js"></script><hr><div class="post-tags"><h4>Reported in </h4><a href="../../../index.html#TheKlassicNote">The Klassic Note</a><a href="../../../index.html#TheSongAwards">The Song Awards</a></div><h6 style="text-align: center;">Copyright (c) 2014-2023 Klassic Note Web Reports</h6><br><br><br><br></div>
 </body>
 </html>
