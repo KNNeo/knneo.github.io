@@ -52,6 +52,7 @@ void Main()
 	bool TraceMode = false;
 	//int maxLatestPost = 20;
 	bool RenderHomepageOnly = true;
+	string searchTerm = "";
 	string defaultFont = "Noto Sans";
     Console.WriteLine("WriteTitleOnConsole is " + WriteTitleOnConsole + "; Set as true to see post titles");
     Console.WriteLine("\tPost with changes will appear here");
@@ -176,7 +177,7 @@ void Main()
         // Process XML content per post	if is not simple replace
         // [1] Define Regex Expression (loose and strict)
         // [2] Replace String According to Expression (simple without format, or simple with format, or complex use UpdateRegexContent)
-        
+		
 		#region 01 fix twitter embed
 		if(includeIndex.Count() == 0 || includeIndex.Contains(1))
 		{
@@ -827,6 +828,9 @@ void Main()
 		if(tags.Contains("The Archive"))
 			continue;
 		
+		if(!string.IsNullOrWhiteSpace(searchTerm) && content.IndexOf(searchTerm) >= 0)
+			Console.WriteLine(postTitle);
+        
         if(WriteTitleOnConsole || TraceMode)
             Console.WriteLine((postTitle.Length > 0 ? postTitle : "A Random Statement") + (count.Count > 0 ? "\t[" + string.Join(",", count) + "]" : ""));
 		else if(p % 100 == 99)
