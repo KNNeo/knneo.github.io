@@ -180,7 +180,7 @@ void Main()
 						Title = title,
 						TitleUrl = pageLink,
 						Keyword = "Fanfiction|" + published.ToString("yyyy.MM.dd") + "|" + match.Groups[3].Value,
-						KeywordUrl = pageLink + "#" + match.Groups[3].Value,
+						KeywordUrl = pageLink
 					});
 				}
         		match = match.NextMatch();
@@ -206,7 +206,7 @@ void Main()
 						Title = title,
 						TitleUrl = pageLink,
 						Keyword = match.Groups[3].Value,
-						KeywordUrl = pageLink,
+						KeywordUrl = pageLink + "#" + match.Groups[3].Value
 					});
 				}
         		match = match.NextMatch();
