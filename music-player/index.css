@@ -23,8 +23,7 @@ html {
 
 .title {
 	display: inline-block;
-	margin: 20px 0;
-	margin-bottom: 0;
+    margin: 0;
 }
 
 .subtitle {
@@ -62,6 +61,7 @@ html {
 .year {
 	padding: 5px;
 	cursor: pointer;
+    line-height: 2;
 }
 
 .year:hover {
