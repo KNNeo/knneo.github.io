@@ -24,7 +24,7 @@ void Main()
     string blogpath = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\";
     string outputFolder = "pages";
     string filepath = "";
-	string beforeDate = "2021-01-01"; // in format yyyy-MM-dd
+	string beforeDate = "2020-01-01"; // in format yyyy-MM-dd
 	
 	//Get xml file from source, move to archivepath
 	//If not found in source, will run file in archivepath
@@ -187,10 +187,10 @@ void Main()
 				    client.DownloadFile(new Uri(url), monthfolder + "/data/imgsrc/" + HttpUtility.UrlDecode(filename));
 					//Console.WriteLine("File downloaded to " + monthfolder + "/data/" + HttpUtility.UrlDecode(filename));
 				}
-				
-				// Set as relative path
-				content = content.Replace(urlWithoutFilename, "data/imgsrc/");
 			}
+			
+			// Set as relative path
+			content = content.Replace(urlWithoutFilename, "data/imgsrc/");
 		
 	        match = match.NextMatch();
 		}
@@ -225,12 +225,12 @@ void Main()
 					    client.DownloadFile(new Uri(url), monthfolder + "/data/imglink/" + HttpUtility.UrlDecode(filename));
 						//Console.WriteLine("File downloaded to " + monthfolder + "/data/" + HttpUtility.UrlDecode(filename));
 					}
-					
-					// Set as relative path
-					content = content.Replace(urlWithoutFilename, "data/imglink/");
 				}
+				
+				// Set as relative path
+				content = content.Replace(urlWithoutFilename, "data/imglink/");
 			}
-		
+			
 	        match = match.NextMatch();
 		}
 		#endregion
@@ -260,10 +260,10 @@ void Main()
 				    client.DownloadFile(new Uri(url), monthfolder + "/data/divimg/" + HttpUtility.UrlDecode(filename));
 					//Console.WriteLine("File downloaded to " + monthfolder + "/data/" + HttpUtility.UrlDecode(filename));
 				}
-				
-				// Set as relative path
-				content = content.Replace(urlWithoutFilename, "data/divimg/");
 			}
+			
+			// Set as relative path
+			content = content.Replace(urlWithoutFilename, "data/divimg/");
 		
 	        match = match.NextMatch();
 		}
