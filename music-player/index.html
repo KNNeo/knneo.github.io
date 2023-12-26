@@ -10,16 +10,17 @@
 	<script src="index.js" defer></script>
     <title>Music Player</title>
 </head>
-<body>
+<body onload="startup()">
 	<div class="centered">
     <h1 class="title">Music Player</h1>
+	<h6 class="subtitle">(c) Klassic Note 2014-2023</h6>
 	<div id="sidebar"></div>
-    <h5>Audio timestamps link to table based on source</h5>
+	<hr />
+    <h5 class="description">Select a year from the menu above; Select from table to skip to track</h5>
 	</div>
 	<div id="music"></div>
 	<div id="table"></div>
-	<h6 style="text-align: center;">(c) Klassic Note 2014-2023</h6>
-	<h3 id="settings" class="settings">
+	<h3 class="settings">
 		<a id="darkmode" title="Toggle Dark Mode" class="darkmode material-icons" href="javascript:void(0);" onclick="toggleDarkMode()">brightness_high</a>
 		<div class="spacer"> </div>
 		<a href="../index.html">knneo.github.io</a>

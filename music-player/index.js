@@ -1,8 +1,8 @@
 //timestamp display for audio player
 let tableID = '2022';
 let playerID = tableID + 'Player';
-let domain = 'https://klassicnoteawards.webs.com/';
-let timer;
+let domain = 'https://res.cloudinary.com/klassicnote/video/upload/audio/';
+let timer = null;
 let timestamps = new Array();
 //title_string,table_row,time_in_seconds,rank_till_time
 //for ranks with more than 1 result, order is same as order of push not table_row
@@ -275,21 +275,24 @@ timestamps.push(['2013', 24, 0000, 20, 'yanaginagi', 'You can count on me']);
 //--------//
 
 
-//--FUNCTIONS--//
-window.addEventListener('load', startup);
+//--DOM REFERENCES--//
+let musicDiv = document.getElementById('music');
+let sidebarDiv = document.getElementById('sidebar');
+let tableDiv = document.getElementById('table');
 
+//--FUNCTIONS--//
 function startup() {
 	timestamps = timestamps.sort((a,b) => a[1] - b[1]);
-	if(document.getElementById('sidebar') != undefined) 
+	if(sidebarDiv != undefined) 
 	{
 		generateSidemenu();
 		highlightSelectedYear();
 	}
 	
 	//read from table div, for blogger
-	if(document.getElementById('table').getAttribute('data-id') != null)
+	if(tableDiv.getAttribute('data-id') != null)
 	{
-		tableID = document.getElementById('table').getAttribute('data-id');
+		tableID = tableDiv.getAttribute('data-id');
 		playerID = tableID + 'Player';
 	}
 	
@@ -298,7 +301,7 @@ function startup() {
 }
 
 function generateTable(tableID) {
-	document.getElementById('table').innerHTML = '';
+	tableDiv.innerHTML = '';
 	
 	let table = document.createElement('table');
 	table.id = tableID;
@@ -413,7 +416,7 @@ function generateTable(tableID) {
 	}
 		
 	table.appendChild(tbody);
-	document.getElementById('table').appendChild(table);
+	tableDiv.appendChild(table);
 }
 
 function onHoverTableRow() {
@@ -443,13 +446,13 @@ function findTableSiblingRow(cell) {
 }
 
 function generateSeek(time) {
-	let player = document.getElementById('music').getElementsByClassName('player')[0];
+	let player = musicDiv.getElementsByClassName('player')[0];
 	player.currentTime = time;
 	player.play();
 }
 
 function generatePlayer(tableID) {
-	document.getElementById('music').innerHTML = '';
+	musicDiv.innerHTML = '';
 		
 	let audio = document.createElement('audio');
 	audio.id = tableID + 'Player';
@@ -461,13 +464,12 @@ function generatePlayer(tableID) {
 	audio.controlsList = 'nodownload';
 	
 	let source = document.createElement('source');
-	if(tableID == '2018') source.src = domain + 'awardrankings2018-1.mp3';
-	else source.src = domain + 'awardrankings' + tableID + '.mp3';
+	source.src = domain + 'awardrankings' + tableID + '.mp3';
 	source.type = 'audio/mpeg';
 	source.innerText = '[You\'ll need a newer browser that supports HTML5 to listen to this.]';
 	
 	audio.appendChild(source);
-	document.getElementById('music').appendChild(audio);
+	musicDiv.appendChild(audio);
 }
 
 //for side menu, add all tables to have list class, use ids to generate
@@ -493,7 +495,7 @@ function generateSidemenu() {
 			clearTimestamps();
 			highlightSelectedYear();
 		});
-		document.getElementById('sidebar').appendChild(item);
+		sidebarDiv.appendChild(item);
 	}
 	
 	//if location has anchor, click on year (eg. "?year=2020")
@@ -512,11 +514,9 @@ function generateSidemenu() {
 function highlightSelectedYear() {
 	for(let year of document.getElementsByClassName('year'))
 	{
-		if(year.innerText != tableID)
-			year.classList.remove('selected');
-		else
-			year.classList.add('selected');
+		year.classList.remove('selected');
 	}
+	document.querySelector('.year[title="' + tableID + '"]').classList.add('selected');
 }
 
 //actual timestamp run event when playing
@@ -526,9 +526,9 @@ function runTimestamp() {
 
 function checkTimestamps() {
     //get player, table
-    let audioPlayer = document.getElementById(playerID);
-    let audioTable = document.getElementById(tableID);
-	//if(audioPlayer == null || audioTable == null) return;
+	let audioPlayer = document.getElementById(playerID);
+	let audioTable = document.getElementById(tableID);
+	
     //find current supposed highlighted based on time on player
     let currentTime = Math.floor(audioPlayer.currentTime);
     let currentPos;
@@ -540,6 +540,7 @@ function checkTimestamps() {
             break;
         }
     }
+	
     //only change when time of next has passed: current to normal, next to bold
     if (currentPos == undefined) clearInterval(timer);
     else {
@@ -547,12 +548,11 @@ function checkTimestamps() {
         if (!audioPlayer.paused) {
 			//if has colspan on column 0 ensure on second row cell on first row is highlighted
             if(audioTable.getElementsByTagName("tr")[currentPos].cells.length == 2)
-				setTimestamp(audioTable.getElementsByTagName("tr")[currentPos-1].cells[0]);//.style.fontWeight = "bold";
-            setTimestamp(audioTable.getElementsByTagName("tr")[currentPos]);//.style.fontWeight = "bold";
+				setTimestamp(audioTable.getElementsByTagName("tr")[currentPos-1].cells[0]);
+            setTimestamp(audioTable.getElementsByTagName("tr")[currentPos]);
         }
         else {
 			clearTimestamps();
-            //audioTable.getElementsByTagName("tr")[currentPos].style.fontWeight = "normal";
             clearInterval(timer);
         }
     }
@@ -560,12 +560,13 @@ function checkTimestamps() {
 }
 
 function setTimestamp(cell) {
-	cell.style.fontWeight = "bold";
+	cell.classList.add('selected');
 }
 
 function clearTimestamps() {
-    for (let row of document.getElementById(tableID).getElementsByTagName("tr")) {
-        if(row.cells.length == 3) row.cells[0].style.fontWeight = null;
-        row.style.fontWeight = "normal";
+	let audioTable = document.getElementById(tableID);
+    for (let row of audioTable.getElementsByTagName("tr")) {
+        if(row.cells.length == 3) row.cells[0].classList.remove('selected');
+		row.classList.remove('selected');
     }
 }

@@ -22,8 +22,15 @@ html {
 }
 
 .title {
+	display: inline-block;
 	margin: 20px 0;
 	margin-bottom: 0;
+}
+
+.subtitle {
+	display: inline-block;
+	margin: 0;
+	margin-bottom: 20px;
 }
 
 .list {
@@ -57,8 +64,14 @@ html {
 	cursor: pointer;
 }
 
+.year:hover {
+	font-weight: bold;
+	color: var(--accent);
+}
+
 .year.selected {
 	font-weight: bold;
+	color: var(--primary);
 }
 
 .player,
@@ -66,9 +79,18 @@ html {
 	width: 100%;
 }
 
-.settings a {
+.list .selected {
+	font-weight: bold;
+}
+
+.settings {
 	display: flex;
+    flex-direction: column;
 	justify-content: center;
+    align-items: center;
+}
+
+.settings a {
 	color: var(--foreground);
 	text-decoration: none;
 	padding: 5px;
