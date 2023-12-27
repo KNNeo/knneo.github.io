@@ -5,7 +5,28 @@ const config = {
 	"interval": 7500,
 	"cards": {
 		"playable": 3,
-		"labels": ['B','I','N','G','O']
+		"labels": ['B','I','N','G','O'],
+	},
+	"locale": {
+		"title": "BINGO",
+		"free": "FREE",
+		"display": {
+			"pattern": "PATTERN",
+			"latest": "LATEST",
+		},
+		"generate": {
+			"new": "GENERATE",
+			"check": "BINGO",
+			"pass": "✔️",
+			"fail": "❌",
+		},
+		"remainder": "AWAY",
+		"action": {
+			"start": "START",
+			"pause": "PAUSE",
+			"resume": "RESUME",
+			"reset": "RESET",
+		}
 	},
 	"patterns": [
 		{
@@ -137,7 +158,6 @@ let titleDiv = document.querySelector('.title');
 let displayDiv = document.querySelector('.display');
 let listDiv = document.querySelector('.list');
 let menuDiv = document.querySelector('.menu');
-let callDiv = document.querySelector('.call');
 
 //--DOM EVENTS--//
 function startup() {
@@ -201,7 +221,7 @@ function onGenerateClicked() {
 	
 	switch(this.innerText)
 	{
-		case 'Generate':
+		case config.locale.generate.new:
 			let [a,b] = generateMatrix();
 			let newCard = renderCard(a,b);
 			document.querySelectorAll('.card')[id].innerHTML = '';
@@ -212,7 +232,7 @@ function onGenerateClicked() {
 			document.querySelectorAll('.card')[id].appendChild(away);
 			
 			break;
-		case 'Bingo':
+		case config.locale.generate.check:
 			if(checkBingo(id) == true)
 				endBingo();
 			break;
@@ -222,28 +242,28 @@ function onGenerateClicked() {
 function onBingoClicked() {
 	switch(this.innerText)
 	{
-		case 'Start':
+		case config.locale.action.start:
 			if(startBingo() == true)
 			{
-				this.innerText = 'Pause';
+				this.innerText = config.locale.action.pause;
 			}
 			break;
-		case 'Resume':
+		case config.locale.action.resume:
 			if(togglePause() == true)
 			{
-				this.innerText = 'Pause';
+				this.innerText = config.locale.action.pause;
 			}
 			break;
-		case 'Pause':
+		case config.locale.action.pause:
 			if(togglePause() == true)
 			{
-				this.innerText = 'Resume';
+				this.innerText = config.locale.action.resume;
 			}
 			break;
-		case 'Reset':
+		case config.locale.action.reset:
 			if(resetBingo() == true)
 			{
-				this.innerText = 'Start';
+				this.innerText = config.locale.action.start;
 			}
 			break;
 	}
@@ -293,7 +313,7 @@ function onCellClicked() {
 		}
 		
 		document.querySelectorAll('.away')[c].setAttribute('data-away', count);
-		document.querySelectorAll('.away')[c].innerText = count + ' AWAY';
+		document.querySelectorAll('.away')[c].innerText = count + ' ' + config.locale.remainder;
 	}
 }
 
@@ -329,8 +349,9 @@ function generatePattern(shape) {
 	let div = document.createElement('div');
 	
 	let header = document.createElement('div');
-	header.innerText = 'PATTERN';
+	header.innerText = config.locale.display.pattern;
 	header.addEventListener('click', function() {
+		if(!window['ended']) return;
 		let index = config.patterns.map(p => p.name).indexOf(window['combination']);
 		window['combination'] = config.patterns[index > config.patterns.length ? 0 : index + 1];
 		if(window['combination']) this.parentElement.parentElement.classList.add('.set');
@@ -392,9 +413,9 @@ function generateMatrix(set) {
 	let selected = [];
 	for(i = 0; i < 25; i++)
 	{
-		if(!set && i == 12)
+		if(!set && i == 12) // free cell
 		{
-			numbers[i] = 'FREE';
+			numbers[i] = config.locale.free;
 			continue;
 		}
 		
@@ -422,6 +443,7 @@ function initializeVariables() {
 
 function renderTitle() {
 	window['daub'] = 0;
+	document.title = config.locale.title;
 	titleDiv.classList = 'title daub' + window['daub'];
 	titleDiv.innerText = config.locale.title;
 	localStorage.setItem('daub', window['daub']);
@@ -587,7 +609,7 @@ function renderCard(numbers, selected, latest) {
 		generate.setAttribute('colspan', '5');
 		generate.classList.add('shadowed');
 		generate.classList.add('large-font');
-		generate.innerText = 'Generate';
+		generate.innerText = config.locale.generate.new;
 		generate.addEventListener('click', onGenerateClicked);
 		
 		row.appendChild(generate);
@@ -607,18 +629,18 @@ function renderActions() {
 	bingo.id = 'bingo';
 	bingo.classList.add('shadowed');
 	bingo.classList.add('large-font');
-	bingo.innerText = 'Start';
+	bingo.innerText = config.locale.action.start;
 	bingo.addEventListener('click', onBingoClicked);
 	menuDiv.appendChild(bingo);
 }
 
 function renderCell() {
-	callDiv.innerHTML = '';
+	document.querySelector('.call').innerHTML = '';
 	
 	let div = document.createElement('div');
 	
 	let header = document.createElement('div');
-	header.innerText = 'LATEST';
+	header.innerText = config.locale.display.latest;
 	div.appendChild(header);
 	
 	let [_,b] = generateMatrix();
@@ -634,7 +656,7 @@ function renderCell() {
 	hist.appendChild(renderHistory());
 	div.appendChild(hist);	
 	
-	callDiv.appendChild(div);
+	document.querySelector('.call').appendChild(div);
 }
 
 function renderHistory() {
@@ -645,7 +667,7 @@ function renderHistory() {
 	{
 		let hist = document.createElement('span');
 		hist.classList.add('box');
-		hist.classList.add('shadowed');
+		// hist.classList.add('shadowed');
 		hist.classList.add('square-pattern');
 		hist.innerText = h;
 		
@@ -753,20 +775,13 @@ function startBingo() {
 	
 	for(let generate of document.querySelectorAll('.generate'))
 	{
-		generate.innerText = 'Bingo';
+		generate.innerText = config.locale.generate.check;
 	}
 	
 	for(let generate of document.querySelectorAll('.away'))
 	{
 		let combination = config.patterns.find(p => p.name == window['combination']);
-		if(isAnyBingo(combination.selected))
-		{
-			generate.innerText = combination.selected[0].length + ' AWAY';
-		}
-		else
-		{
-			generate.innerText = combination.selected.length + ' AWAY';
-		}
+		generate.innerText = (isAnyBingo(combination.selected) ? combination.selected[0].length : combination.selected.length) + ' ' + config.locale.remainder;
 	}
 	
 	setTimeout(callNumber, 500);
@@ -877,16 +892,17 @@ function checkBingo(id) {
 	if(isBingo)
 	{
 		if(config.debug) alert('bingo');
-		card.querySelector('.generate').innerText = '✔️';
-		// setTimeout(function() { document.querySelectorAll('.card')[id].querySelector('.generate').innerText = 'Generate'; }, 1000);
+		card.querySelector('.generate').innerText = config.locale.generate.pass;
 		window['bingo'][id] = 1;
 		return true;
 	}
 	else
 	{
 		if(config.debug) alert('not yet');
-		card.querySelector('.generate').innerText = '❌';
-		setTimeout(function() { document.querySelectorAll('.card')[id].querySelector('.generate').innerText = 'Bingo'; }, 1000);
+		card.querySelector('.generate').innerText = config.locale.generate.fail;
+		setTimeout(function() { 
+			document.querySelectorAll('.card')[id].querySelector('.generate').innerText = config.locale.generate.check; 
+		}, 1000);
 		return false;
 	}
 }
@@ -896,7 +912,7 @@ function endBingo() {
 	popupTextGoAway('BINGO!!!');
 	window['ended'] = true;
 	document.querySelector('#bingo').style.display = '';
-	document.querySelector('#bingo').innerText = 'Reset';
+	document.querySelector('#bingo').innerText = config.locale.action.reset;
 }
 
 function resetBingo() {
@@ -910,7 +926,7 @@ function resetBingo() {
 	
 	for(let generate of document.querySelectorAll('.generate'))
 	{
-		generate.innerText = 'Generate';
+		generate.innerText = config.locale.generate.new;
 	}
 	initializeVariables();
 	generatePattern();
