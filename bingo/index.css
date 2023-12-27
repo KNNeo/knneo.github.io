@@ -125,8 +125,6 @@ a:hover {
 }
 .history span {
 	display: inline-block;
-	background-color: var(--background);
-	font-size: 0.8em;	
 }
 .settings {
 	margin: 0;
