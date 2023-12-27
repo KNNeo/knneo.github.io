@@ -63,7 +63,23 @@ const isMobile = function() {
 
 
 //--DOM EVENTS--//
-
+function toggleCards() {
+	switch(window['cards'])
+	{
+		case 1:
+		default:
+			window['cards'] = 3;
+			break;
+		case 3:
+			window['cards'] = 5;
+			break;
+		case 5:
+			window['cards'] = 1;
+			break;
+	}
+	alert('Cards playable is now ' + window['cards']);
+	renderCards();
+}
 
 //--COMMON EVENTS--//
 function startup() {
