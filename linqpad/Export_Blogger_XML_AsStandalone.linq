@@ -24,7 +24,7 @@ void Main()
     string blogpath = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\";
     string outputFolder = "pages";
     string filepath = "";
-	string beforeDate = "2017-01-01"; // in format yyyy-MM-dd
+	string beforeDate = "2018-01-01"; // in format yyyy-MM-dd
 	
 	//Get xml file from source, move to archivepath
 	//If not found in source, will run file in archivepath
@@ -335,7 +335,7 @@ public static string FixContent(string content, int index, string title)
         Match match, matchExp;
         string prefix, midfix, suffix;
     	string domainLink = "https://knwebreports.blogspot.com/";
-		List<int> includeIndex = new List<int> { 1, 2, 3, 14, 15, 16, 17, 18, 21, 24, 31 }; // 29 disabled as local output ignore file size
+		List<int> includeIndex = new List<int> { 1, 2, 3, 14, 15, 16, 17, 18, 21, 24, 29, 31, 32 };
         // All regions of change to include in order: [1] detection expression [2] increment if detected [3] replacement
         // Process XML content per post	if is not simple replace
         // [1] Define Regex Expression (loose and strict)
@@ -347,6 +347,7 @@ public static string FixContent(string content, int index, string title)
 	        expression = @"(""//platform.twitter.com)";
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
+				//Console.WriteLine(title);
 				//Console.WriteLine(match);
 				count.Add(1);
 				content = content.Replace(match.Value, match.Value.Replace("//platform.twitter.com", "https://platform.twitter.com"));
@@ -356,6 +357,7 @@ public static string FixContent(string content, int index, string title)
 	        expression = @"(?s)(<blockquote)(.*?)(?<=class=""twitter-tweet)(.*?)(>)";
 	        match = Regex.Match(content, expression);
 	        while(match.Success && match.Groups[2].Value.EndsWith("twitter-tweet") && !match.Groups[3].Value.Contains("tw-align-center")) {
+				//Console.WriteLine(title);
 				//Console.WriteLine(match);
 				count.Add(1);
 				content = content.Replace(match.Value, match.Value.Replace("twitter-tweet", "twitter-tweet tw-align-center"));
@@ -532,7 +534,7 @@ public static string FixContent(string content, int index, string title)
 	        content = content.Replace(childDivScript, "");
 		}
         #endregion
-        
+                
         #region 21 fix primary and secondary colours to variables
 		if(includeIndex.Count() == 0 || includeIndex.Contains(21))
 		{
@@ -556,84 +558,23 @@ public static string FixContent(string content, int index, string title)
 		}
         #endregion
 		
-		#region 22 (entertainment news) convert inline styles migrated to blog.css
-		if(includeIndex.Count() == 0 || includeIndex.Contains(22))
-		{
-			if(TraceMode) Console.WriteLine("(entertainment news) convert inline styles migrated to blog.css");
-	        var oldStyle = @"<div id=""news-thumbnail"" style=""display: none;"">";
-	        var newStyle = @"<div class=""news-thumbnail"">";
-	        if(content.Contains(oldStyle)) 
-				count.Add(21);
-	        content = content.Replace(oldStyle, newStyle);
-			
-	        oldStyle = @"<div id=""hashtags"" style=""color: #bbbbbb; font-size: 0.8em;"">";
-	        newStyle = @"<div id=""hashtags"">";
-	        if(content.Contains(oldStyle)) 
-				count.Add(21);
-	        content = content.Replace(oldStyle, newStyle);
-		}
-		#endregion
-        
         #region 24 replace common phrases with emoji
 		if(includeIndex.Count() == 0 || includeIndex.Contains(24))
 		{
 			if(TraceMode) Console.WriteLine("replace common phrases with emoji");
-	        var phrases = new string[]{"laughs", "giggles", "sob", "silence", "pukes", "ugh", "wink", "dabs", 
-			"thumbs up", "sigh", "blessed", "shrugs", "cringe", "fingers crossed", "smiles", "screams"};
-	        var emojis = new string[]{"😆", "🤭", "😢", "😐", "🤮", "🙄", "😉", "😎", 
-			"👍", "😩", "🥰", "🤷", "😬", "🤞", "😊", "😱"};
-			
-			for(var e = 0; e < emojis.Length; e++)
+			Dictionary<string, string> emojis = new Dictionary<string, string>()
 			{
-				var initial = "*" + phrases[e] + "*";
-		        content = content.Replace(initial, "<span class=\"emoji\" title=\"" + emojis[e] + "\">" + initial + "</span>");
+				{"laughs",	"😆"}, {"giggles",		"🤭"}, {"sob",		"😢"}, {"silence",	"😐"}, {"pukes",	"🤮"}, {"ugh", 		"🙄"},
+				{"wink",	"😉"}, {"dabs",			"😎"}, {"thumbs up",	"👍"}, {"sigh",		"😩"}, {"blessed", 	"🥰"}, {"shrugs", 	"🤷"},
+				{"cringe",	"😬"}, {"fingers crossed",	"🤞"}, {"smiles",	"😊"}, {"screams",	"😱"}, {"phew",		"😌"}, {"chef's kiss",	"😚"},
+				{"sshh",	"🤫"}, {"speechless",		"😲"}, {"sniff",	"😢"}, {"gasp",		"😲"}, {"mind blown",	"🤯"}, {"fap fap fap",	"🍆💦💦"}
+			};
+			
+			foreach(var emoji in emojis)
+			{
+				var initial = "*" + emoji.Key + "*";
+		        content = content.Replace(initial, "<span class=\"emoji\" title=\"" + emoji.Value + "\">" + initial + "</span>");
 			}
-		}
-        #endregion
-		
-        #region 25 remove hidden tags to generate hashtags
-		if(includeIndex.Count() == 0 || includeIndex.Contains(25))
-		{
-	        expression = @"(?s)(<div id=""hiddenTags"")(.*?)(>)(.*?)(</div>)";
-	        match = Regex.Match(content, expression);
-	        while(match.Success) {
-				count.Add(25);
-				content = content.Replace(match.Value, "");
-	            match = match.NextMatch();
-	        };
-		}
-        #endregion
-		
-		#region [beta] 26 find hashtag to set id for anime blockquote 
-		if(includeIndex.Count() == 0 || includeIndex.Contains(26))
-		{
-			content = content.Replace(@"style=""background: #00b8cc; border-radius: 5px; padding: 3px 5px; text-align: center; vertical-align: text-bottom;""", @"class=""head-prefix""");
-			content = content.Replace(@"style=""background: rgb(0, 184, 204); border-radius: 5px; padding: 3px 5px; text-align: center; vertical-align: text-bottom;""", @"class=""head-prefix""");
-			content = content.Replace(@"style=""background: var(--secondary); border-radius: 5px; padding: 3px 5px; text-align: center; vertical-align: text-bottom;""", @"class=""head-prefix""");
-			
-	        expression = @"(?s)(<blockquote class=""tr_bq""><div style=""text-align: center;""><span class=""head-prefix""><b>アニメ</b></span><span style=""font-size: large;"">)(.*?)(</span></div></blockquote>)(.*?)(\(#)(.*?)(\))";
-	        match = Regex.Match(content, expression);
-	        while(match.Success) {
-				if(!match.Groups[2].Value.Contains("Preview")
-				) {
-					count.Add(26);
-					var replacement = match.Groups[1].Value.Replace(@"class=""tr_bq""", @"class=""tr_bq anime"" id=""" + match.Groups[6].Value + @"""");
-					content = content.Replace(match.Value, replacement + match.Groups[2].Value + match.Groups[3].Value + match.Groups[4].Value + match.Groups[5].Value + match.Groups[6].Value + match.Groups[7].Value);
-				}
-	            match = match.NextMatch();
-	        };
-			
-	        expression = @"(?s)(<blockquote class=""tr_bq""><div style=""text-align: center;""><span class=""head-prefix""><b>映画</b></span><span style=""font-size: large;"">)(.*?)(</span></div></blockquote>)(.*?)(\(#)(.*?)(\))";
-	        match = Regex.Match(content, expression);
-	        while(match.Success) {
-				if(!match.Groups[2].Value.Contains("Preview")
-				) {
-					count.Add(26);
-					var replacement = match.Groups[1].Value.Replace(@"class=""tr_bq""", @"class=""tr_bq anime"" id=""" + match.Groups[6].Value + @"01""");
-					content = content.Replace(match.Value, replacement + match.Groups[2].Value + match.Groups[3].Value + match.Groups[4].Value + match.Groups[5].Value + match.Groups[6].Value + match.Groups[7].Value);
-				}
-	            match = match.NextMatch();
-	        };
 		}
         #endregion
 		
@@ -673,6 +614,19 @@ public static string FixContent(string content, int index, string title)
 				//Console.WriteLine(match);
 	            content = content.Replace(match.Groups[0].Value, match.Groups[1].Value + match.Groups[2].Value + "<img");
 	            match = match.NextMatch();
+	        };
+			
+		}
+        #endregion
+		
+        #region 32 replace italics with emphasis tag
+		if(includeIndex.Count() == 0 || includeIndex.Contains(32))
+		{
+	        expression = @"<i\b[^>]*>(.*?)<\/i>";
+	        match = Regex.Match(content, expression);
+	        if(match.Success) {
+				count.Add(32);
+	            content = Regex.Replace(content, expression, "<em>$1</em>");
 	        };
 			
 		}
