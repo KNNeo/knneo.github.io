@@ -13,6 +13,10 @@ const config = {
 			"selected": [[1,2,3,4,5],[6,7,8,9,10],[11,12,13,14,15],[16,17,18,19,20],[21,22,23,24,25]],
 		},
 		{
+			"name": "Any Vertical",
+			"selected": [[1,6,11,16,21],[2,7,12,17,22],[3,8,13,18,23],[4,9,14,19,24],[5,10,15,20,25]],
+		},
+		{
 			"name": "Letter W",
 			"selected": [1,5,6,10,11,13,15,16,18,20,22,24],
 		},
@@ -180,7 +184,8 @@ function generatePattern(shape) {
 		let index = config.patterns.map(p => p.name).indexOf(window['combination']);
 		window['combination'] = config.patterns[index > config.patterns.length ? 0 : index + 1];
 		if(window['combination']) this.parentElement.parentElement.classList.add('.set');
-		window['combination-set'] = false;
+		window['combination-set'] = null;
+		window['custom'] = null;
 		generatePattern(window['combination']);
 	});
 	div.appendChild(header);
@@ -191,7 +196,7 @@ function generatePattern(shape) {
 	// for any combinations
 	if(shape && shape.selected && isAnyBingo(shape.selected))
 	{
-		window['combination-set'] = true;
+		window['combination-set'] = shape.name;
 		generatePatternSet(shape);
 		return;
 	}
@@ -213,13 +218,12 @@ function generatePattern(shape) {
 }
 
 function generatePatternSet(shapes) {
-	window['combination'] = shapes.name;
 	for(let n = 0; n < shapes.selected.length; n++)
 	{
 		let pattern = shapes.selected[n];
 		setTimeout(function() {
-			// console.log('pattern');
-			if(!window['combination-set']) return;
+			//console.log('pattern');
+			if(window['combination-set'] != shapes.name) return;
 			generatePattern({
 				"name": shapes.name,
 				"selected": pattern
@@ -228,7 +232,7 @@ function generatePatternSet(shapes) {
 	}
 	setTimeout(function() {
 		// console.log('shapes');
-		if(!window['combination-set']) return;
+		if(window['combination-set'] != shapes.name) return;
 		generatePatternSet(shapes);
 	}, 1000 * shapes.selected.length);
 }
@@ -408,7 +412,7 @@ function generateCard(numbers, selected, latest) {
 			{
 				continue;
 			}
-			if(numbers)
+			if(numbers) // card on board
 			{
 				td.classList.add('square-card');
 				// td.classList.add('large-font');
@@ -423,7 +427,7 @@ function generateCard(numbers, selected, latest) {
 					}
 				});
 			}
-			else if(latest && m == 0 && n == 0)
+			else if(latest && m == 0 && n == 0) // call box
 			{
 				td.classList.add('square-call');
 				td.setAttribute('colspan', 5);
@@ -440,9 +444,11 @@ function generateCard(numbers, selected, latest) {
 				latestDiv.innerText = window['call'];
 				td.appendChild(latestDiv);						
 			}
-			else
+			else // pattern grid
 			{
 				td.classList.add('square-pattern');
+				td.setAttribute('data-id', m*5+n+1);
+				td.addEventListener('click', createOrUpdateCustom);
 				if(selected[m*5+n] == true) {
 					td.classList.toggle('daub' + window['daub']);
 					td.classList.add('selected');
@@ -473,6 +479,16 @@ function generateCard(numbers, selected, latest) {
 	table.appendChild(tbody);
 	
 	return table;
+}
+
+function createOrUpdateCustom() {
+	if(!window['ended']) return;
+	this.classList.toggle('daub' + window['daub']);
+	this.classList.toggle('selected');
+	let values = Array.from(document.querySelectorAll('.pattern-grid .selected')).map(p => parseInt(p.getAttribute('data-id')));
+	window['custom'] = values;
+	
+	document.querySelector('.pattern-title').innerText = 'Custom';
 }
 
 function renderActions() {
@@ -595,6 +611,21 @@ function startBingo() {
 	let board = generateBoard();
 	document.querySelector('.board').innerHTML = '';
 	document.querySelector('.board').appendChild(board);
+	
+	if(window['custom'])
+	{
+		window['combination'] = 'Custom';
+		// if same as previous set, set again
+		let customExist = config.patterns.find(p => p.name == 'Custom');
+		if(!customExist || customExist.selected.toString() != window['custom'].toString())
+		{
+			if(customExist) config.patterns.pop();
+			config.patterns.push({
+				name: 'Custom',
+				selected: window['custom'],
+			});
+		}
+	}
 	
 	if(!window['combination'])
 	{
