@@ -482,7 +482,7 @@ function generateCard(numbers, selected, latest) {
 }
 
 function createOrUpdateCustom() {
-	if(!window['ended']) return;
+	if(!window['ended'] || window['combination-set']) return;
 	this.classList.toggle('daub' + window['daub']);
 	this.classList.toggle('selected');
 	let values = Array.from(document.querySelectorAll('.pattern-grid .selected')).map(p => parseInt(p.getAttribute('data-id')));
