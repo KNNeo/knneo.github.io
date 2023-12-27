@@ -1,9 +1,52 @@
 //--SETTINGS--//
-const debugMode = false;
-const autoFill = false;
-const cards = 3;
-const interval = 7500;
-const labels = ['B','I','N','G','O'];
+const config = {
+	"debug": false,
+	"autoFill": false,
+	"cards": {
+		"playable": 3,
+		"labels": ['B','I','N','G','O']
+	},
+	"patterns": [
+		{
+			"name": "Letter W",
+			"selected": [1,5,6,10,11,13,15,16,18,20,22,24],
+		},
+		{
+			"name": "Letter E",
+			"selected": [2,3,4,7,12,13,14,17,22,23,24],
+		},
+		{
+			"name": "Letter N",
+			"selected": [1,5,6,7,10,11,13,15,16,19,20,21,25],
+		},
+		{
+			"name": "4 Corners",
+			"selected": [1,5,21,25],
+		},
+		{
+			"name": "4 Stamps",
+			"selected": [1,2,4,5,6,7,9,10,13,16,17,19,20,21,22,24,25],
+		},
+		{
+			"name": "Number 3",
+			"selected": [1,2,3,4,5,10,11,12,13,14,15,20,21,22,23,24,25],
+		},
+		{
+			"name": "Number 5",
+			"selected": [1,2,3,4,5,6,11,12,13,14,20,21,22,23,24],
+		},
+		{
+			"name": "Lucky 13",
+			"selected": [1,3,4,5,6,10,11,13,14,15,16,20,21,23,24,25],
+		},
+		{
+			"name": "Pretzel",
+			"selected": [1,2,3,6,8,11,12,13,14,15,18,20,23,24,25],
+		}
+	],
+	"interval": 7500,
+};
+// pattern limited to single outcomes, eg. can't do "any horizontal"
 const smallScreen = function() {
     return window.innerWidth <= 640;
 };
@@ -12,53 +55,13 @@ const isMobile = function() {
     return (match && match.matches && window.innerWidth <= 480);
 };
 
-//only for single pattern combination ie. can't do any horizontal
-const combinations = [
-	{
-		"name": "Letter W",
-		"selected": [1,5,6,10,11,13,15,16,18,20,22,24],
-	},
-	{
-		"name": "Letter E",
-		"selected": [2,3,4,7,12,13,14,17,22,23,24],
-	},
-	{
-		"name": "Letter N",
-		"selected": [1,5,6,7,10,11,13,15,16,19,20,21,25],
-	},
-	{
-		"name": "4 Corners",
-		"selected": [1,5,21,25],
-	},
-	{
-		"name": "4 Stamps",
-		"selected": [1,2,4,5,6,7,9,10,13,16,17,19,20,21,22,24,25],
-	},
-	{
-		"name": "Number 3",
-		"selected": [1,2,3,4,5,10,11,12,13,14,15,20,21,22,23,24,25],
-	},
-	{
-		"name": "Number 5",
-		"selected": [1,2,3,4,5,6,11,12,13,14,20,21,22,23,24],
-	},
-	{
-		"name": "Lucky 13",
-		"selected": [1,3,4,5,6,10,11,13,14,15,16,20,21,23,24,25],
-	},
-	{
-		"name": "Pretzel",
-		"selected": [1,2,3,6,8,11,12,13,14,15,18,20,23,24,25],
-	}
-];
+//--DOM REFERENCES--//
+
+
+//--DOM EVENTS--//
+
 
 //--COMMON EVENTS--//
-window.addEventListener('load', startup);
-window.addEventListener('resize', function() {
-	if(window['ended'])
-		startup();
-});
-
 function startup() {
 	initializeVariables();
 	renderTitle();
@@ -74,7 +77,7 @@ function initializeVariables() {
 	window['ended'] = true;
 	window['paused'] = false;
 	window['combination'] = null;
-	window['cards'] = isMobile() || smallScreen() ? 1 : cards;
+	window['cards'] = isMobile() || smallScreen() ? 1 : config.cards.playable;
 	window['bingo'] = [];	
 }
 
@@ -154,8 +157,8 @@ function generatePattern(shape) {
 	let header = document.createElement('div');
 	header.innerText = 'PATTERN';
 	header.addEventListener('click', function() {
-		let index = combinations.indexOf(window['combination']);
-		window['combination'] = combinations[index > combinations.length ? 0 : index + 1];
+		let index = config.patterns.indexOf(window['combination']);
+		window['combination'] = config.patterns[index > config.patterns.length ? 0 : index + 1];
 		if(window['combination']) this.parentElement.parentElement.classList.add('.set');
 		generatePattern(window['combination']);
 	});
@@ -164,7 +167,7 @@ function generatePattern(shape) {
 	let pattern = document.createElement('div');
 	pattern.classList.add('pattern-grid');
 	let [,selected] = generateMatrix(shape && shape.selected || null);
-	if(debugMode) console.log(selected);
+	if(config.debug) console.log(selected);
 	let table = generateCard(null, selected);
 	if(isMobile() || smallScreen()) table.style.margin = 'auto';
 	pattern.appendChild(table);
@@ -199,7 +202,7 @@ function generateBoard() {
 		
 		let label = document.createElement('th');
 		label.classList.add('label');
-		label.innerText = labels[m];
+		label.innerText = config.cards.labels[m];
 		tr.appendChild(label);
 	
 		for(n = 0; n < 15; n++)
@@ -315,12 +318,12 @@ function generateMatrix(highlighted) {
 		numbers[i] = rnd;
 		if(highlighted) selected[i] = highlighted.includes(i+1);
 	}
-	if(debugMode) console.log('numbers', [numbers, selected]);
+	if(config.debug) console.log('numbers', [numbers, selected]);
 	return [numbers, selected];
 }
 
 function generateCard(numbers, selected, latest) {
-	if(debugMode) console.log('card', numbers, selected);
+	if(config.debug) console.log('card', numbers, selected);
 	
 	let table = document.createElement('table');
 	table.classList.add('box');
@@ -330,7 +333,7 @@ function generateCard(numbers, selected, latest) {
 	if(numbers)
 	{
 		let first = document.createElement('tr');
-		for(let label of labels)
+		for(let label of config.cards.labels)
 		{
 			let th = document.createElement('th');
 			th.classList.add('label');
@@ -437,7 +440,7 @@ function renderActions() {
 
 function onGenerateClicked() {
 	let id = Array.from(document.querySelectorAll('.generate')).indexOf(this);
-	if(debugMode) console.log(id);
+	if(config.debug) console.log(id);
 	
 	switch(this.innerText)
 	{
@@ -503,7 +506,7 @@ function onCellClicked() {
 		});
 		let pattern = window['combination'].selected;
 		let revealed = window['board'];
-		if(debugMode) console.log('cell', selected, pattern, revealed);
+		if(config.debug) console.log('cell', selected, pattern, revealed);
 		
 		let count = pattern.length;
 		for(let selection of selected)
@@ -528,7 +531,7 @@ function startBingo() {
 	
 	if(!window['combination'])
 	{
-		window['combination'] = combinations[Math.floor((Math.random() * combinations.length))];
+		window['combination'] = config.patterns[Math.floor((Math.random() * config.patterns.length))];
 		generatePattern(window['combination']);
 	}
 	
@@ -551,11 +554,11 @@ function pauseBingo() {
 	if(window['paused'] == true)
 		setTimeout(pauseBingo, 500);
 	else
-		setTimeout(callNumber, interval);
+		setTimeout(callNumber, config.cards.interval);
 }
 
 function callNumber() {
-	if(debugMode) console.log('bingo', window['bingo']);
+	if(config.debug) console.log('bingo', window['bingo']);
 	if(window['ended'] == true || window['bingo'].filter(b => b && b == 1).length == window['cards'].length)
 		return;
 	if(window['paused'] == true) {
@@ -569,7 +572,7 @@ function callNumber() {
 	{
 		rand = Math.floor((Math.random() * 75)) + 1;
 	} while(window['board'].includes(rand) && window['board'].length < 75);
-	if(debugMode) console.log('rand', rand);
+	if(config.debug) console.log('rand', rand);
 	window['board'].push(rand);
 	document.querySelector('.board' + rand).classList.add('selected');
 	
@@ -588,17 +591,17 @@ function callNumber() {
 	window['call'] = rand;
 	document.querySelector('.latest').innerText = '';
 	setTimeout(function() { document.querySelector('.latest').innerText = window['call']; }, 250);
-	setTimeout(function() { if(autoFill) autoFillCards(window['call']);	}, 500);
+	setTimeout(function() { if(config.autoFill) autoFillCards(window['call']);	}, 500);
 	
-	let category = labels[Math.floor((rand-1) / 15)];
-	if(debugMode) console.log('category', category);
+	let category = config.cards.labels[Math.floor((rand-1) / 15)];
+	if(config.debug) console.log('category', category);
 	window['category'] = category;
 	document.querySelector('.category').innerText = '';
 	setTimeout(function() { document.querySelector('.category').innerText = window['category']; }, 250);
 	
 	//call again
 	if(window['board'].length < 75 && window['ended'] == false)
-		setTimeout(callNumber, interval);
+		setTimeout(callNumber, config.cards.interval);
 	else
 		endBingo();
 }
@@ -612,7 +615,7 @@ function autoFillCards(value) {
 		{
 			if(cell.innerText == value.toString()) {
 				//trigger click event
-				if(debugMode) console.log(card, cell, cell.innerText);
+				if(config.debug) console.log(card, cell, cell.innerText);
 				cell.click();
 			}
 		}
@@ -626,7 +629,7 @@ function checkBingo(id) { //from bingo button
 	
 	if(isBingo && revealed.length < window['combination'].selected.length)
 	{
-		if(debugMode) alert('game has not revealed minimum for card to bingo');
+		if(config.debug) alert('game has not revealed minimum for card to bingo');
 		isBingo = false;
 	}
 	
@@ -637,17 +640,17 @@ function checkBingo(id) { //from bingo button
 			index: parseInt(cell.getAttribute('data-id'))
 		};
 	});
-	if(debugMode) console.log(card);
+	if(config.debug) console.log(card);
 	
 	if(isBingo && revealed.length < selected.length)
 	{
-		if(debugMode) alert('game has not revealed minimum to fill card');
+		if(config.debug) alert('game has not revealed minimum to fill card');
 		isBingo = false;
 	}
 	
 	if(isBingo)
 	{
-		if(debugMode) alert('bingo');
+		if(config.debug) alert('bingo');
 		card.querySelector('.generate').innerText = '✔️';
 		// setTimeout(function() { document.querySelectorAll('.card')[id].querySelector('.generate').innerText = 'Generate'; }, 1000);
 		window['bingo'][id] = 1;
@@ -655,7 +658,7 @@ function checkBingo(id) { //from bingo button
 	}
 	else
 	{
-		if(debugMode) alert('not yet');
+		if(config.debug) alert('not yet');
 		card.querySelector('.generate').innerText = '❌';
 		setTimeout(function() { document.querySelectorAll('.card')[id].querySelector('.generate').innerText = 'Bingo'; }, 1000);
 		return false;
@@ -663,7 +666,7 @@ function checkBingo(id) { //from bingo button
 }
 
 function endBingo() {
-	if(debugMode) console.log('end');
+	if(config.debug) console.log('end');
 	window['ended'] = true;
 	document.querySelector('#bingo').style.display = '';
 }
