@@ -133,10 +133,26 @@ const isMobile = function() {
 };
 
 //--DOM REFERENCES--//
-
+let titleDiv = document.querySelector('.title');
+let displayDiv = document.querySelector('.display');
+let listDiv = document.querySelector('.list');
+let menuDiv = document.querySelector('.menu');
+let callDiv = document.querySelector('.call');
 
 //--DOM EVENTS--//
+function startup() {
+	initializeVariables();
+	renderTitle();
+	renderDisplay();
+	renderCards();
+	renderActions();
+	generatePattern();
+	renderCell();
+}
+
 function toggleCards() {
+	if(!window['ended'])
+		return popupTextGoAway(window['cards']);
 	switch(window['cards'])
 	{
 		case 1:
@@ -156,6 +172,8 @@ function toggleCards() {
 }
 
 function toggleInterval() {
+	if(!window['ended'])
+		return popupTextGoAway(config.interval / 1000 + 's');
 	switch(config.interval)
 	{
 		case 5000:
@@ -176,52 +194,107 @@ function toggleInterval() {
 	popupTextGoAway(config.interval / 1000 + 's');
 }
 
-//--COMMON EVENTS--//
-function startup() {
-	initializeVariables();
-	renderTitle();
-	renderDisplay();
-	renderCards();
-	renderActions();
-	generatePattern();
-	generateCall();
-}
-
-function initializeVariables() {
-	window['daub'] = localStorage.getItem('daub');
-	window['ended'] = true;
-	window['paused'] = false;
-	window['combination'] = null;
-	window['cards'] = isMobile() || smallScreen() ? 1 : config.cards.playable;
-	window['bingo'] = [];	
-}
-
-function popupTextGoAway(textVal) {	
-	//create popup and show
-	let popup = document.createElement('div');
-	popup.classList.add('go-away');
-	popup.classList.add('text');
-	popup.innerText = textVal;
-	document.querySelector('.go-away')?.remove();
-	document.body.appendChild(popup);
+//--EVENT LISTENERS--//
+function onGenerateClicked() {
+	let id = Array.from(document.querySelectorAll('.generate')).indexOf(this);
+	if(config.debug) console.log(id);
 	
-	//add class to fade
-	popup.classList.add('fade');
-	
-	//add class to hide
-	setTimeout(function() {
-		popup.classList.add('hide');
-	}, 10);
-	setTimeout(function() {
-		popup.remove();
-	}, 1000);
+	switch(this.innerText)
+	{
+		case 'Generate':
+			let [a,b] = generateMatrix();
+			let newCard = renderCard(a,b);
+			document.querySelectorAll('.card')[id].innerHTML = '';
+			document.querySelectorAll('.card')[id].appendChild(newCard);
+			
+			let away = document.createElement('div');
+			away.classList.add('away');
+			document.querySelectorAll('.card')[id].appendChild(away);
+			
+			break;
+		case 'Bingo':
+			if(checkBingo(id) == true)
+				endBingo();
+			break;
+	}
 }
 
-//--FUNCTIONS--//
-function renderTitle() {
-	window['daub'] = 0;
-	document.querySelector('.title').classList = 'title daub' + window['daub'];
-	localStorage.setItem('daub', window['daub']);
+function onBingoClicked() {
+	switch(this.innerText)
+	{
+		case 'Start':
+			if(startBingo() == true)
+			{
+				this.innerText = 'Pause';
+			}
+			break;
+		case 'Resume':
+			if(togglePause() == true)
+			{
+				this.innerText = 'Pause';
+			}
+			break;
+		case 'Pause':
+			if(togglePause() == true)
+			{
+				this.innerText = 'Resume';
+			}
+			break;
+		case 'Reset':
+			if(resetBingo() == true)
+			{
+				this.innerText = 'Start';
+			}
+			break;
+	}
+}
+
+function onCellClicked() {
+	for(c = 0; c < window['cards']; c++)
+	{
+		let card = document.querySelectorAll('.card')[c];
+		let selected = Array.from(card.querySelectorAll('.selected')).map(function(cell) {
+			return {
+				value: parseInt(cell.innerText),
+				index: parseInt(cell.getAttribute('data-id'))
+			};
+		});
+		let pattern = config.patterns.find(p => p.name == window['combination']).selected;
+		let revealed = window['board'];
+		if(config.debug) console.log('cell', selected, pattern, revealed);
+		
+		let count = isAnyBingo(pattern) ? null : pattern.length;
+		if(isAnyBingo(pattern))
+		{
+			// if has combo, check on all then find smallest value
+			let counts = [];
+			for(let p = 0; p < pattern.length; p++)
+			{
+				counts[p] = pattern[p].length;
+				for(let selection of selected)
+				{
+					// if user selected is in pattern cell and board has pattern cell
+					// if free space, don't have to check board
+					if(pattern[p].indexOf(selection.index) >= 0 && (selection.index == 13 || revealed.indexOf(selection.value) >= 0))
+						counts[p]--; // reduce count
+				}
+			}
+			// console.log(counts);
+			count = Math.min(...counts);
+		}
+		else {
+			for(let selection of selected)
+			{
+				// if user selected is in pattern cell and board has pattern cell
+				// if free space, don't have to check board
+				if(pattern.indexOf(selection.index) >= 0 && (selection.index == 13 || revealed.indexOf(selection.value) >= 0))
+					count--; // reduce count
+			}
+		}
+		
+		document.querySelectorAll('.away')[c].setAttribute('data-away', count);
+		document.querySelectorAll('.away')[c].innerText = count + ' AWAY';
+	}
 }
 
 function toggleDaub() {
@@ -229,7 +302,7 @@ function toggleDaub() {
 	{
 		let maxStyles = 3; // as per css, .daub<no>
 		window['daub'] = (window['daub'] + 1 > maxStyles) ? 0 : window['daub'] + 1;
-		document.querySelector('.title').classList = 'title daub' + window['daub'];
+		titleDiv.classList = 'title daub' + window['daub'];
 		localStorage.setItem('daub', window['daub']);
 	}	
 }
@@ -237,56 +310,21 @@ function toggleDaub() {
 function togglePause() {
 	window['paused'] = !window['paused'];
 	event.target.innerText = event.target.innerText == 'pause' ? 'play_arrow' : 'pause';
-	document.querySelector('.list').classList.toggle('hidden');
+	listDiv.classList.toggle('hidden');
 	return true;
 }
 
-function renderDisplay() {
-	document.querySelector('.display').innerHTML = '';
-	//three sections: pattern, board, call
-	//sub sections: -, -, [call, call-history]
+function createOrUpdateCustom() {
+	if(!window['ended'] || window['combination-set']) return;
+	this.classList.toggle('daub' + window['daub']);
+	this.classList.toggle('selected');
+	let values = Array.from(document.querySelectorAll('.pattern-grid .selected')).map(p => parseInt(p.getAttribute('data-id')));
+	window['custom'] = values;
 	
-	let table = document.createElement('table');
-	table.classList.add('box');
-	table.style.margin = 'auto';
-	
-	let tbody = document.createElement('tbody');
-	
-	let tr = document.createElement('tr');
-	
-	let td1 = document.createElement('td');
-	td1.classList.add('pattern');
-	
-	let td2 = document.createElement('td');
-	td2.classList.add('board');
-	td2.classList.add('padded');
-	td2.appendChild(generateBoard());
-	
-	let td3 = document.createElement('td');
-	td3.classList.add('box');
-	td3.classList.add('call');
-	
-	let trX = document.createElement('tr');
-	
-	if(!isMobile() || !smallScreen()) tr.appendChild(td1);
-	if(isMobile() || smallScreen()) 
-		td2.setAttribute('colspan', 2);
-	tr.appendChild(td2);
-	if(!isMobile() || !smallScreen()) tr.appendChild(td3);
-	if(isMobile() || smallScreen()) 
-	{
-		trX.appendChild(td1);
-		td3.style.display = 'flex';
-		trX.appendChild(td3);
-	}
-	
-	tbody.appendChild(tr);
-	if(isMobile() || smallScreen()) tbody.appendChild(trX);
-
-	table.appendChild(tbody);
-	document.querySelector('.display').appendChild(table);	
+	document.querySelector('.pattern-title').innerText = 'Custom';
 }
 
+//--FUNCTIONS--//
 function generatePattern(shape) {	
 	let div = document.createElement('div');
 	
@@ -313,7 +351,7 @@ function generatePattern(shape) {
 		return;
 	}
 	if(config.debug) console.log(selected);
-	let table = generateCard(null, selected);
+	let table = renderCard(null, selected);
 	if(isMobile() || smallScreen()) table.style.margin = 'auto';
 	pattern.appendChild(table);
 	
@@ -349,120 +387,6 @@ function generatePatternSet(shapes) {
 	}, 1000 * shapes.selected.length);
 }
 
-function generateBoard() {
-	let numbers = [];
-	for(i = 0; i < 75; i++)
-	{
-		numbers.push(i+1);
-	}
-	
-	let table = document.createElement('table');
-	table.classList.add('box');
-	
-	let tbody = document.createElement('tbody');
-	
-	for(m = 0; m < 5; m++)
-	{
-		let tr = document.createElement('tr');
-		
-		let label = document.createElement('th');
-		label.classList.add('label');
-		label.innerText = config.cards.labels[m];
-		tr.appendChild(label);
-	
-		for(n = 0; n < 15; n++)
-		{			
-			let td = document.createElement('td');
-			td.classList.add('board' + (m*15+n+1));
-			td.classList.add('shadowed');
-			td.classList.add('square-board');
-			td.setAttribute('data-id', m*15+n+1);
-			td.innerText = numbers[m*15+n];
-			tr.appendChild(td);
-		}
-		tbody.appendChild(tr);
-	}
-	
-	table.appendChild(tbody);
-	
-	return table;
-}
-
-function generateCall() {
-	let div = document.createElement('div');
-	
-	let header = document.createElement('div');
-	header.innerText = 'LATEST';
-	div.appendChild(header);
-	
-	let [_,b] = generateMatrix();
-	div.appendChild(generateCard(null, b, true));
-	
-	window['call-hist'] = [];
-	let hist = document.createElement('div');
-	hist.classList.add('history');
-	if(isMobile() || smallScreen()) {
-		hist.style.display = 'inline-block';
-		hist.style.width = '100%';
-	}
-	hist.appendChild(generateHistory());
-	div.appendChild(hist);	
-	
-	document.querySelector('.call').innerHTML = '';
-	document.querySelector('.call').appendChild(div);
-}
-
-function generateHistory() {
-	let history = document.createElement('div');
-	let historyList = Array.from(window['call-hist']);
-	
-	for (let h of historyList)
-	{
-		let hist = document.createElement('span');
-		hist.classList.add('box');
-		hist.classList.add('shadowed');
-		hist.classList.add('square-pattern');
-		hist.innerText = h;
-		
-		history.appendChild(hist);
-	}
-	if(historyList.length < 1)
-	{
-		let hist = document.createElement('span');
-		hist.innerText = '-';
-		
-		history.appendChild(hist);
-	}
-	// let historyList = Array.from(window['call-hist']);
-	// let historyText = '';
-	// if(historyList.length > 1) historyText = historyList.join(', ');
-	// else if(historyList.length == 1) historyText = historyList[0];
-	// history.innerText = historyText;
-	
-	return history;
-}
-
-function renderCards() {
-	document.querySelector('.list').innerHTML = '';
-	
-	for(c = 0; c < window['cards']; c++)
-	{
-		let div = document.createElement('div');
-		div.classList.add('card');
-		
-		let [a,b] = generateMatrix();
-		let table = generateCard(a,b);
-		div.appendChild(table);	
-		
-		let away = document.createElement('div');
-		away.classList.add('away');
-		div.appendChild(away);
-		
-		document.querySelector('.list').appendChild(div);
-	}
-	
-}
-
 function generateMatrix(set) {
 	let numbers = [];
 	let selected = [];
@@ -487,7 +411,90 @@ function generateMatrix(set) {
 	return [numbers, selected];
 }
 
-function generateCard(numbers, selected, latest) {
+function initializeVariables() {
+	window['daub'] = localStorage.getItem('daub');
+	window['ended'] = true;
+	window['paused'] = false;
+	window['combination'] = null;
+	window['cards'] = isMobile() || smallScreen() ? 1 : config.cards.playable;
+	window['bingo'] = [];	
+}
+
+function renderTitle() {
+	window['daub'] = 0;
+	titleDiv.classList = 'title daub' + window['daub'];
+	titleDiv.innerText = config.locale.title;
+	localStorage.setItem('daub', window['daub']);
+}
+
+function renderDisplay() {
+	displayDiv.innerHTML = '';
+	//three sections: pattern, board, call
+	//sub sections: -, -, [call, call-history]
+	
+	let table = document.createElement('table');
+	table.classList.add('box');
+	table.style.margin = 'auto';
+	
+	let tbody = document.createElement('tbody');
+	
+	let tr = document.createElement('tr');
+	
+	let td1 = document.createElement('td');
+	td1.classList.add('pattern');
+	
+	let td2 = document.createElement('td');
+	td2.classList.add('board');
+	td2.classList.add('padded');
+	td2.appendChild(renderBoard());
+	
+	let td3 = document.createElement('td');
+	td3.classList.add('box');
+	td3.classList.add('call');
+	
+	let trX = document.createElement('tr');
+	
+	if(!isMobile() || !smallScreen()) tr.appendChild(td1);
+	if(isMobile() || smallScreen()) 
+		td2.setAttribute('colspan', 2);
+	tr.appendChild(td2);
+	if(!isMobile() || !smallScreen()) tr.appendChild(td3);
+	if(isMobile() || smallScreen()) 
+	{
+		trX.appendChild(td1);
+		td3.style.display = 'flex';
+		trX.appendChild(td3);
+	}
+	
+	tbody.appendChild(tr);
+	if(isMobile() || smallScreen()) tbody.appendChild(trX);
+
+	table.appendChild(tbody);
+	displayDiv.appendChild(table);	
+}
+
+function renderCards() {
+	listDiv.innerHTML = '';
+	
+	for(c = 0; c < window['cards']; c++)
+	{
+		let div = document.createElement('div');
+		div.classList.add('card');
+		
+		let [a,b] = generateMatrix();
+		let table = renderCard(a,b);
+		div.appendChild(table);	
+		
+		let away = document.createElement('div');
+		away.classList.add('away');
+		div.appendChild(away);
+		
+		listDiv.appendChild(div);
+	}
+	
+}
+
+function renderCard(numbers, selected, latest) {
 	if(config.debug) console.log('card', numbers, selected);
 	
 	let table = document.createElement('table');
@@ -593,18 +600,8 @@ function generateCard(numbers, selected, latest) {
 	return table;
 }
 
-function createOrUpdateCustom() {
-	if(!window['ended'] || window['combination-set']) return;
-	this.classList.toggle('daub' + window['daub']);
-	this.classList.toggle('selected');
-	let values = Array.from(document.querySelectorAll('.pattern-grid .selected')).map(p => parseInt(p.getAttribute('data-id')));
-	window['custom'] = values;
-	
-	document.querySelector('.pattern-title').innerText = 'Custom';
-}
-
 function renderActions() {
-	document.querySelector('.menu').innerHTML = '';
+	menuDiv.innerHTML = '';
 	
 	let bingo = document.createElement('div');
 	bingo.id = 'bingo';
@@ -612,115 +609,124 @@ function renderActions() {
 	bingo.classList.add('large-font');
 	bingo.innerText = 'Start';
 	bingo.addEventListener('click', onBingoClicked);
-	document.querySelector('.menu').appendChild(bingo);
+	menuDiv.appendChild(bingo);
 }
 
-function onGenerateClicked() {
-	let id = Array.from(document.querySelectorAll('.generate')).indexOf(this);
-	if(config.debug) console.log(id);
+function renderCell() {
+	callDiv.innerHTML = '';
 	
-	switch(this.innerText)
-	{
-		case 'Generate':
-			let [a,b] = generateMatrix();
-			let newCard = generateCard(a,b);
-			document.querySelectorAll('.card')[id].innerHTML = '';
-			document.querySelectorAll('.card')[id].appendChild(newCard);
-			
-			let away = document.createElement('div');
-			away.classList.add('away');
-			document.querySelectorAll('.card')[id].appendChild(away);
-			
-			break;
-		case 'Bingo':
-			if(checkBingo(id) == true)
-				endBingo();
-			break;
+	let div = document.createElement('div');
+	
+	let header = document.createElement('div');
+	header.innerText = 'LATEST';
+	div.appendChild(header);
+	
+	let [_,b] = generateMatrix();
+	div.appendChild(renderCard(null, b, true));
+	
+	window['call-hist'] = [];
+	let hist = document.createElement('div');
+	hist.classList.add('history');
+	if(isMobile() || smallScreen()) {
+		hist.style.display = 'inline-block';
+		hist.style.width = '100%';
 	}
+	hist.appendChild(renderHistory());
+	div.appendChild(hist);	
+	
+	callDiv.appendChild(div);
 }
 
-function onBingoClicked() {
-	switch(this.innerText)
+function renderHistory() {
+	let history = document.createElement('div');
+	let historyList = Array.from(window['call-hist']);
+	
+	for (let h of historyList)
 	{
-		case 'Start':
-			if(startBingo() == true)
-			{
-				this.innerText = 'Pause';
-			}
-			break;
-		case 'Resume':
-			if(togglePause() == true)
-			{
-				this.innerText = 'Pause';
-			}
-			break;
-		case 'Pause':
-			if(togglePause() == true)
-			{
-				this.innerText = 'Resume';
-			}
-			break;
-		case 'Reset':
-			if(resetBingo() == true)
-			{
-				this.innerText = 'Start';
-			}
-			break;
-	}
-}
-
-function onCellClicked() {
-	for(c = 0; c < window['cards']; c++)
-	{
-		let card = document.querySelectorAll('.card')[c];
-		let selected = Array.from(card.querySelectorAll('.selected')).map(function(cell) {
-			return {
-				value: parseInt(cell.innerText),
-				index: parseInt(cell.getAttribute('data-id'))
-			};
-		});
-		let pattern = config.patterns.find(p => p.name == window['combination']).selected;
-		let revealed = window['board'];
-		if(config.debug) console.log('cell', selected, pattern, revealed);
+		let hist = document.createElement('span');
+		hist.classList.add('box');
+		hist.classList.add('shadowed');
+		hist.classList.add('square-pattern');
+		hist.innerText = h;
 		
-		let count = isAnyBingo(pattern) ? null : pattern.length;
-		if(isAnyBingo(pattern))
-		{
-			// if has combo, check on all then find smallest value
-			let counts = [];
-			for(let p = 0; p < pattern.length; p++)
-			{
-				counts[p] = pattern[p].length;
-				for(let selection of selected)
-				{
-					// if user selected is in pattern cell and board has pattern cell
-					// if free space, don't have to check board
-					if(pattern[p].indexOf(selection.index) >= 0 && (selection.index == 13 || revealed.indexOf(selection.value) >= 0))
-						counts[p]--; // reduce count
-				}
-			}
-			// console.log(counts);
-			count = Math.min(...counts);
-		}
-		else {
-			for(let selection of selected)
-			{
-				// if user selected is in pattern cell and board has pattern cell
-				// if free space, don't have to check board
-				if(pattern.indexOf(selection.index) >= 0 && (selection.index == 13 || revealed.indexOf(selection.value) >= 0))
-					count--; // reduce count
-			}
-		}
-		
-		document.querySelectorAll('.away')[c].setAttribute('data-away', count);
-		document.querySelectorAll('.away')[c].innerText = count + ' AWAY';
+		history.appendChild(hist);
 	}
+	
+	if(historyList.length < 1)
+	{
+		let hist = document.createElement('span');
+		hist.innerText = '-';
+		
+		history.appendChild(hist);
+	}	
+	return history;
 }
 
+function renderBoard() {
+	let numbers = [];
+	for(i = 0; i < 75; i++)
+	{
+		numbers.push(i+1);
+	}
+	
+	let table = document.createElement('table');
+	table.classList.add('box');
+	
+	let tbody = document.createElement('tbody');
+	
+	for(m = 0; m < 5; m++)
+	{
+		let tr = document.createElement('tr');
+		
+		let label = document.createElement('th');
+		label.classList.add('label');
+		label.innerText = config.cards.labels[m];
+		tr.appendChild(label);
+	
+		for(n = 0; n < 15; n++)
+		{			
+			let td = document.createElement('td');
+			td.classList.add('board' + (m*15+n+1));
+			td.classList.add('shadowed');
+			td.classList.add('square-board');
+			td.setAttribute('data-id', m*15+n+1);
+			td.innerText = numbers[m*15+n];
+			tr.appendChild(td);
+		}
+		tbody.appendChild(tr);
+	}
+	
+	table.appendChild(tbody);
+	
+	return table;
+}
+
+function popupTextGoAway(textVal) {	
+	//create popup and show
+	let popup = document.createElement('div');
+	popup.classList.add('go-away');
+	popup.classList.add('text');
+	popup.innerText = textVal;
+	document.querySelector('.go-away')?.remove();
+	document.body.appendChild(popup);
+	
+	//add class to fade
+	popup.classList.add('fade');
+	
+	//add class to hide
+	setTimeout(function() {
+		popup.classList.add('hide');
+	}, 10);
+	setTimeout(function() {
+		popup.remove();
+	}, 1000);
+}
+
+//--GAME FUNCTIONS--//
 function startBingo() {
 	window['ended'] = false;
 	window['board'] = [];
-	let board = generateBoard();
+	let board = renderBoard();
 	document.querySelector('.board').innerHTML = '';
 	document.querySelector('.board').appendChild(board);
 	
@@ -803,7 +809,7 @@ function callNumber() {
 	
 	let history = document.querySelector('.history');
 	history.innerHTML = '';
-	history.appendChild(generateHistory());
+	history.appendChild(renderHistory());
 	
 	//update latest
 	window['call'] = rand;
@@ -887,6 +893,7 @@ function checkBingo(id) {
 
 function endBingo() {
 	if(config.debug) console.log('end');
+	popupTextGoAway('BINGO!!!');
 	window['ended'] = true;
 	document.querySelector('#bingo').style.display = '';
 	document.querySelector('#bingo').innerText = 'Reset';
@@ -897,7 +904,7 @@ function resetBingo() {
 	document.querySelector('.latest').innerHTML = '';
 	document.querySelector('.history').innerHTML = '';
 	
-	let board = generateBoard();
+	let board = renderBoard();
 	document.querySelector('.board').innerHTML = '';
 	document.querySelector('.board').appendChild(board);
 	

@@ -41,6 +41,7 @@ a:hover {
 }
 .large-font {
 	font-size: 2em;
+    line-height: 1.5;
 }
 .huge-font {
 	font-size: 4em;
@@ -147,18 +148,13 @@ a:hover {
 	position: fixed;
 	top: 0;
 	left: 0;
+	right: 0;
 	font-size: 8em;
 	text-align: center;
 	text-shadow: 4px 4px var(--background);
 }
 
-@media (orientation: landscape) {
-	.go-away {
-		width: 40dvw;
-	}
-}
-
-.go-away.text.fade {
+.go-away.fade {
 	transition: opacity 1s;
 }
 
