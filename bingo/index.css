@@ -141,6 +141,31 @@ a:hover {
 	font-size: 2em;
 }
 
+.go-away {
+    width: 100dvw;
+    height: auto;
+	position: fixed;
+	top: 0;
+	left: 0;
+	font-size: 8em;
+	text-align: center;
+	text-shadow: 4px 4px var(--background);
+}
+
+@media (orientation: landscape) {
+	.go-away {
+		width: 40dvw;
+	}
+}
+
+.go-away.text.fade {
+	transition: opacity 1s;
+}
+
+.go-away.hide {
+	opacity: 0;
+}
+
 @media only screen and (max-width : 1040px) {
 /*scrollbars for top and bottom labels only on desktop*/
 div { scrollbar-width: 0 !important; }

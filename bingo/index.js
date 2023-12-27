@@ -81,8 +81,30 @@ function toggleCards() {
 			window['cards'] = 1;
 			break;
 	}
-	alert('Cards playable is now ' + window['cards']);
+	if(config.debug) alert('Cards playable is now ' + window['cards']);
+	popupTextGoAway(window['cards']);
 	renderCards();
+}
+
+function toggleInterval() {
+	switch(config.interval)
+	{
+		case 5000:
+		default:
+			config.interval = 7500;
+			break;
+		case 7500:
+			config.interval = 10000;
+			break;
+		case 10000:
+			config.interval = 2500;
+			break;
+		case 2500:
+			config.interval = 5000;
+			break;
+	}
+	if(config.debug) alert('Time interval between calls is now ' + config.interval);
+	popupTextGoAway(config.interval / 1000 + 's');
 }
 
 //--COMMON EVENTS--//
@@ -103,6 +125,27 @@ function initializeVariables() {
 	window['combination'] = null;
 	window['cards'] = isMobile() || smallScreen() ? 1 : config.cards.playable;
 	window['bingo'] = [];	
+}
+
+function popupTextGoAway(textVal) {	
+	//create popup and show
+	let popup = document.createElement('div');
+	popup.classList.add('go-away');
+	popup.classList.add('text');
+	popup.innerText = textVal;
+	document.querySelector('.go-away')?.remove();
+	document.body.appendChild(popup);
+	
+	//add class to fade
+	popup.classList.add('fade');
+	
+	//add class to hide
+	setTimeout(function() {
+		popup.classList.add('hide');
+	}, 10);
+	setTimeout(function() {
+		popup.remove();
+	}, 1000);
 }
 
 //--FUNCTIONS--//
