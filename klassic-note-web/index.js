@@ -731,7 +731,8 @@ function onChangeOption() {
 		if(debugMode) console.log('query', query);
 		queryDb(query, generateModules);
 		
-		query = "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song WHERE ID = " + input;
+		//initial query for options
+		query = "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song WHERE ArtistID = " + input;
 		if(isMobile())
 			query += " LIMIT 100";
 		queryDb(query, updateOptions);
@@ -1424,6 +1425,12 @@ function generateArtistInfo(contents) {
 			window['mode'] = 'artist';
 			let query = "SELECT ArtistTitle, ArtistTitle AS 'Artist Title' FROM Artist WHERE ID = " + window['artist-id'];
 			queryDb(query, generateModules);
+			
+			//initial query for options
+			query = "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song WHERE ArtistID = " + window['artist-id'];
+			if(isMobile())
+				query += " LIMIT 100";
+			queryDb(query, updateOptions);
 		},
 	});
 }
