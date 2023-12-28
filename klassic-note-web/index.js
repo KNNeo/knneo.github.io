@@ -826,7 +826,7 @@ function generateYears(contents) {
 function generateSearchHistory(contents) {	
 	if(debugMode) console.log('generateSearchHistory', contents);
 	document.querySelector('#search-history').classList.remove('hidden');
-	generateTableList(
+	generateDataAsTableList(
 		contents, {
 		id: 'search-history', 
 		title: 'Recently Searched',
@@ -843,7 +843,7 @@ function generateSearchHistory(contents) {
 
 function generateUpcomingReleases(contents) {
 	if(debugMode) console.log('generateUpcomingReleases', contents);
-	generateTableList(
+	generateDataAsTableList(
 		contents, {
 		id: 'upcoming-releases', 
 		title: 'Upcoming Releases',
@@ -1339,7 +1339,7 @@ function queryInfo(contents) {
 
 function generateSongInfo(contents) {
 	if(debugMode) console.log('generateSongInfo', contents);
-	generateTableAsColumnRows(contents, {
+	generateDataAsTableRows(contents, {
 		id: 'song-info', 
 		title: 'Song Information', 
 		skipColumns: ['ArtistID', 'ReleaseID', 'Filename', 'ArtistTitle', 'Release Title', 'Release Artist', 'SongTitleAlt', 'ArtistTitleAlt', 'ReleaseTitleAlt'],
@@ -1414,7 +1414,7 @@ function generateCreditInfo(contents) {
 
 function generateArtistInfo(contents) {
 	if(debugMode) console.log('generateArtistInfo', contents);
-	generateTableAsColumnRows(contents, {
+	generateDataAsTableRows(contents, {
 		id: 'artist-info', 
 		title: 'Artist Information', 
 		skipColumns: [],
@@ -1442,7 +1442,7 @@ function generateReleaseInfo(contents) {
 	let row = rows[0];
 	let columnIndexReleaseDate = contents.columns.indexOf('Release Date');
 	
-	generateTableAsColumnRows(contents, {
+	generateDataAsTableRows(contents, {
 		id: 'release-info', 
 		title: 'Release Information', 
 		skipColumns: row[columnIndexReleaseDate] ? ['Release Year'] : ['Release Date'],
@@ -1464,7 +1464,7 @@ function queryYearInfo(contents) {
 
 function generateYearInfo(contents) {
 	if(debugMode) console.log('generateYearInfo', contents);
-	generateTableAsColumnRows(contents, {
+	generateDataAsTableRows(contents, {
 		id: 'year-info', 
 		title: 'Song Awards Information', 
 		skipColumns: [],
@@ -1485,7 +1485,7 @@ function querySongList(contents) {
 
 function generateSongList(contents) {
 	if(debugMode) console.log('generateSongList', contents);
-	generateTableList(
+	generateDataAsTableList(
 		contents, {
 		id: 'year-list', 
 		title: 'Songs from ' + contents.values[0][contents.columns.indexOf('KNYEAR')],
@@ -1522,7 +1522,7 @@ function queryArtistInfo(contents) {
 
 function generateArtistReleaseInfo(contents) {
 	if(debugMode) console.log('generateArtistReleaseInfo', contents);
-	generateTableByDataWithHeader(
+	generateDataAsTableWithHeader(
 		contents, {
 		id: 'artist-release', 
 		skipClear: false,
@@ -1598,7 +1598,7 @@ function queryRelated(contents) {
 
 function generateSongRelatedByDate(contents) {
 	if(debugMode) console.log('generateSongRelatedByDate', contents);
-	generateTableList(
+	generateDataAsTableList(
 		contents, {
 		id: 'songs-related-date', 
 		title: 'Songs within 3 months', 
@@ -1625,7 +1625,7 @@ function generateSongRelatedByDate(contents) {
 function generateSongRelatedByYear(contents) {
 	if(debugMode) console.log('generateSongRelatedByYear', contents);
 	if(contents.values.length === 0) return;
-	generateTableList(
+	generateDataAsTableList(
 		contents, {
 		id: 'songs-related-year', 
 		title: 'Songs from ' + contents.values[0][contents.columns.indexOf('KNYEAR')],
@@ -1648,7 +1648,7 @@ function generateSongRelatedByYear(contents) {
 function generateArtistRelated(contents) {
 	if(debugMode) console.log('generateArtistRelated', contents);
 	if(contents.values.length === 0) return;
-	generateTableList(
+	generateDataAsTableList(
 		contents, {
 		id: 'artist-related', 
 		title: 'Songs from "' + contents.values[0][contents.columns.indexOf('ArtistTitle')] + '"',
@@ -1671,7 +1671,7 @@ function generateArtistRelated(contents) {
 function generateReleaseRelated(contents) {
 	if(debugMode) console.log('generateReleaseRelated', contents);
 	if(contents.values.length === 0) return;
-	generateTableList(
+	generateDataAsTableList(
 		contents, {
 		id: 'release-related', 
 		title: 'Songs from "' + reduceReleaseTitle(contents.values[0][contents.columns.indexOf('ReleaseTitle')]) + '"',
@@ -1685,7 +1685,7 @@ function generateReleaseRelated(contents) {
 function generateSongFeaturedByArtist(contents) {
 	if(debugMode) console.log('generateSongFeaturedByArtist', contents);
 	if(contents.values.length === 0) return;
-	generateTableList(
+	generateDataAsTableList(
 		contents, {
 		id: 'artist-featured', 
 		title: 'Songs featuring "' + contents.values[0][contents.columns.indexOf('ParentArtist')] + '"',
@@ -1737,7 +1737,7 @@ function queryArtistRelated(contents) {
 
 function queryArtistSongs5Years(contents) {
 	if(debugMode) console.log('queryArtistSongs5Years', contents);
-	generateTableList(
+	generateDataAsTableList(
 		contents, {
 		id: 'artist-songs-5y', 
 		title: 'Songs within 5 years',
@@ -1750,7 +1750,7 @@ function queryArtistSongs5Years(contents) {
 
 function queryArtistSongs10Years(contents) {
 	if(debugMode) console.log('queryArtistSongs10Years', contents);
-	generateTableList(
+	generateDataAsTableList(
 		contents, {
 		id: 'artist-songs-10y', 
 		title: 'Songs within 10 years',
@@ -1764,7 +1764,7 @@ function queryArtistSongs10Years(contents) {
 function generateArtistFeatured(contents) {
 	if(debugMode) console.log('generateArtistFeatured', contents);
 	if(contents.values.length === 0) return;
-	generateTableList(
+	generateDataAsTableList(
 		contents, {
 		id: 'artist-featured', 
 		title: 'Songs featuring "' + contents.values[0][contents.columns.indexOf('ParentArtist')] + '"',
@@ -1846,7 +1846,7 @@ function generateAwards(contents) {
 		if(type === 'Artist' || type === 'Release')
 			skipColumns.push('Song Title');
 		
-		generateTableByDataWithHeader(
+		generateDataAsTableWithHeader(
 			{ columns, values: awardRows }, {
 			id: 'song-awards', 
 			skipClear: true, 
@@ -1901,7 +1901,7 @@ function queryRankingsByArtist(contents) {
 
 function generateRanking(contents) {
 	if(debugMode) console.log('generateRanking', contents);
-	generateTableByDataWithHeader(
+	generateDataAsTableWithHeader(
 		contents, {
 		id: 'song-ranking', 
 		skipClear: false, 
@@ -1933,7 +1933,7 @@ function generateRanking(contents) {
 
 function generateRankingByArtist(contents) {
 	if(debugMode) console.log('generateRankingByArtist', contents);
-	generateTableByDataWithHeader(
+	generateDataAsTableWithHeader(
 		contents, {
 		id: 'song-ranking', 
 		skipClear: false, 
@@ -2008,7 +2008,7 @@ function generateCompilations(contents) {
 		if(debugMode) console.log('compilationRows', { columns, values: compilationRows });
 		let isArtist = window['mode'] === 'artist';
 		
-		generateTableByDataWithHeader(
+		generateDataAsTableWithHeader(
 			{ columns, values: compilationRows }, {
 			id: 'song-compilation', 
 			skipClear: true, 
@@ -2050,7 +2050,7 @@ function queryCollection(contents) {
 
 function generateCollection(contents) {
 	if(debugMode) console.log('generateCollection', contents);
-	generateTableByDataWithHeader(
+	generateDataAsTableWithHeader(
 		contents, {
 		id: 'ultimate-collection', 
 		skipClear: false, 
@@ -2104,8 +2104,14 @@ function querySOTDByYear(contents) {
 	let KNYEAR = rows[0][columnIndexKNYEAR];
 	let startDate = rows[0][columnIndexStartDate];
 	let endDate = rows[0][columnIndexEndDate];
+	
 	//select song of the day mentions of that song regardless of year
-	let query = "SELECT COUNT(*) AS 'Rank', t.SongTitle AS 'Song Title', t.ArtistTitle AS 'Artist Title', t.SongID AS KNID FROM SOTD t JOIN Song s ON s.ID = t.SongID ";
+	let query = "select CAST(JulianDay(substr(" + endDate + ", 1, 4) || '-' || substr(" + endDate + ", 5, 2) || '-' || substr(" + endDate + ", 7, 2)) - JulianDay(substr(" + startDate + ", 1, 4) || '-' || substr(" + startDate + ", 5, 2) || '-' || substr(" + startDate + ", 7, 2)) as INTEGER) AS 'Number of Days in Range', (SELECT COUNT(*) FROM SOTD t WHERE t.Date > " + startDate + " AND t.Date < " + endDate + ") AS 'Songs Recorded', (SELECT COUNT(*) FROM SOTD t WHERE t.Date > " + startDate + " AND t.Date < " + endDate + " AND t.IsPastYear = 1) AS 'Past Year Songs Recorded' from SongAwardsPeriod p where p.KNYEAR = 2023 and p.Category = 'SOTD'";
+	if(debugMode) console.log('querySOTDStats', query);
+	queryDb(query, generateSOTDStats);
+	
+	//select song of the day mentions of that song regardless of year
+	query = "SELECT COUNT(*) AS 'Rank', t.SongTitle AS 'Song Title', t.ArtistTitle AS 'Artist Title', t.SongID AS KNID FROM SOTD t JOIN Song s ON s.ID = t.SongID ";
 	query += "WHERE t.Date BETWEEN " + startDate + " AND " + endDate + " AND t.IsShortPreview = 0 ";
 	query += "GROUP BY t.SongTitle, t.ArtistTitle, t.SongID ORDER BY COUNT(*) DESC LIMIT 20";
 	if(debugMode) console.log('querySOTDByYear', query);
@@ -2120,9 +2126,9 @@ function querySOTDByYear(contents) {
 
 function generateSOTD(contents) {
 	if(debugMode) console.log('generateSOTD', contents);	
-	generateTableByDataWithHeader(
+	generateDataAsTableWithHeader(
 		contents, {
-		id: 'song-sotd', 
+		id: 'sotd-ranks', 
 		skipClear: false, 
 		title: 'Song Mentions', 
 		skipTitle: false, 
@@ -2134,11 +2140,21 @@ function generateSOTD(contents) {
 	});
 }
 
+function generateSOTDStats(contents) {
+	if(debugMode) console.log('generateSOTDStats', contents);	
+	generateDataAsTableRows(
+		contents, {
+		id: 'sotd-stats',
+		title: 'Song of The Day Stats',
+		skipColumns: [],
+	});
+}
+
 function generateTopSOTD(contents) {
 	if(debugMode) console.log('generateTopSOTD', contents);	
-	generateTableByDataWithHeader(
+	generateDataAsTableWithHeader(
 		contents, {
-		id: 'song-sotd', 
+		id: 'sotd-ranks', 
 		skipClear: false, 
 		title: 'Song of the Day Top Rankings',
 		skipTitle: false, 
@@ -2152,9 +2168,9 @@ function generateTopSOTD(contents) {
 
 function generateSOTM(contents) {
 	if(debugMode) console.log('generateSOTM', contents);	
-	generateTableByDataWithHeader(
+	generateDataAsTableWithHeader(
 		contents, {
-		id: 'song-sotm', 
+		id: 'sotm-ranks', 
 		skipClear: false, 
 		title: 'Monthly Mentions', 
 		skipTitle: false, 
@@ -2229,7 +2245,7 @@ function queryAnalysis(contents) {
 
 function generateVocalPopularity(contents) {	
 	if(debugMode) console.log('generateVocalPopularity', contents);	
-	generateTableByDataWithHeader(
+	generateDataAsTableWithHeader(
 		contents, {
 		id: 'vocal-popularity', 
 		skipClear: false, 
@@ -2294,7 +2310,7 @@ function generateBSide(contents) {
 
 function generateSongLaguage(contents) {
 	if(debugMode) console.log('generateSongLaguage', contents);	
-	generateTableByDataWithHeader(
+	generateDataAsTableWithHeader(
 		contents, {
 		id: 'song-language', 
 		skipClear: false, 
@@ -2306,7 +2322,7 @@ function generateSongLaguage(contents) {
 
 function generateYearOfRelease(contents) {
 	if(debugMode) console.log('generateYearOfRelease', contents);	
-	generateTableByDataWithHeader(
+	generateDataAsTableWithHeader(
 		contents, {
 		id: 'release-year', 
 		skipClear: false, 
@@ -2318,7 +2334,7 @@ function generateYearOfRelease(contents) {
 
 function generateAnimeSongs(contents) {	
 	if(debugMode) console.log('generateAnimeSongs', contents);	
-	generateTableByDataWithHeader(
+	generateDataAsTableWithHeader(
 		contents, {
 		id: 'anime-songs', 
 		skipClear: false, 
@@ -2330,7 +2346,7 @@ function generateAnimeSongs(contents) {
 
 function generateSongAppetite(contents) {
 	if(debugMode) console.log('generateSongAppetite', contents);	
-	generateTableByDataWithHeader(
+	generateDataAsTableWithHeader(
 		contents, {
 		id: 'song-appetite',
 		skipClear: false, 
@@ -2342,7 +2358,7 @@ function generateSongAppetite(contents) {
 
 function generateReleaseByArtistType(contents) {
 	if(debugMode) console.log('generateReleaseByArtistType', contents);	
-	generateTableByDataWithHeader(
+	generateDataAsTableWithHeader(
 		contents, {
 		id: 'release-artisttype', 
 		skipClear: false, 
@@ -2354,7 +2370,7 @@ function generateReleaseByArtistType(contents) {
 
 function generateReleaseByReleaseType(contents) {
 	if(debugMode) console.log('generateReleaseByReleaseType', contents);	
-	generateTableByDataWithHeader(
+	generateDataAsTableWithHeader(
 		contents, {
 		id: 'release-releasetype', 
 		skipClear: false, 
@@ -2405,7 +2421,7 @@ function queryArtistAnalysis(contents) {
 
 function generatePopularSongs(contents) {
 	if(debugMode) console.log('generatePopularSongs', contents);
-	generateTableByDataWithHeader(
+	generateDataAsTableWithHeader(
 		contents, {
 		id: 'popular-songs', 
 		skipClear: false, 
@@ -2421,7 +2437,7 @@ function generatePopularSongs(contents) {
 
 function generateSongCountByYear(contents) {
 	if(debugMode) console.log('generateArtistReleaseInfo', contents);
-	generateTableByDataWithHeader(
+	generateDataAsTableWithHeader(
 		contents, {
 		id: 'song-appetite', 
 		skipClear: false, 
@@ -2567,7 +2583,7 @@ function queueSongs(ids) {
 }
 
 //--TABLE FUNCTIONS--//
-function generateTableAsColumnRows(contents, parameters) {
+function generateDataAsTableRows(contents, parameters) {
 	let { 
 		id, 
 		title, 
@@ -2581,7 +2597,7 @@ function generateTableAsColumnRows(contents, parameters) {
 	let rows = contents.values;
 	if(contents.length === 0) return;
 	
-	if(debugMode) console.log('generateTableAsColumnRows', id);
+	if(debugMode) console.log('generateDataAsTableRows', id);
 	if(!id || !contents.columns || !contents.values) return;
 	
 	//header
@@ -2651,10 +2667,10 @@ function generateTableAsColumnRows(contents, parameters) {
 	document.getElementById(id).appendChild(table);
 }
 
-function generateTableList(contents, parameters) {
+function generateDataAsTableList(contents, parameters) {
 	let { id, title, rowFormat, clickFunc, rightClickFunc, rightClickContext, scrollable, actionTitle, actionFunc } = parameters
 	document.getElementById(id).innerHTML = '';
-	if(debugMode) console.log('generateTableList', id);
+	if(debugMode) console.log('generateDataAsTableList', id);
 	if(!id || !rowFormat || !contents?.columns || !contents?.values) return;
 	
 	let columns = contents.columns;
@@ -2754,12 +2770,13 @@ function generateTableList(contents, parameters) {
 	document.getElementById(id).appendChild(container);
 }
 
-function generateTableByDataWithHeader(contents, parameters) {
+function generateDataAsTableWithHeader(contents, parameters) {
 	let {
 		id, 
 		skipClear, 
 		title, 
 		skipTitle, 
+		skipHeader,
 		skipColumns = [], 
 		dataId = 'KNID',
 		groupColumn = 'Rank', 
@@ -2777,7 +2794,7 @@ function generateTableByDataWithHeader(contents, parameters) {
 	let rows = contents.values;
 	if(contents.length === 0) return;
 	
-	if(debugMode) console.log('generateTableAsColumnRows', id);
+	if(debugMode) console.log('generateDataAsTableRows', id);
 	let headerDiv = document.createElement('div');
 	if(!skipTitle || (actionTitle != null && actionTitle.length > 0))
 		headerDiv.style.height = '1.4em';
@@ -2858,7 +2875,7 @@ function generateTableByDataWithHeader(contents, parameters) {
 			tr.appendChild(th);
 		}
 	}
-	tbody.appendChild(tr);	
+	tbody.appendChild(tr);
 	
 	//rows
 	let rank = undefined;
@@ -3106,7 +3123,7 @@ function showContextMenu() {
 
 function generateTracks(contents) {
 	if(debugMode) console.log('generateTracks', contents);
-	generateTableList(
+	generateDataAsTableList(
 		contents, {
 		id: 'release-tracks', 
 		rowFormat: ['ArtistTitle', ' - ', 'SongTitle'], 
