@@ -551,19 +551,22 @@ function clearSearch() {
 }
 
 function querySelect() {
-	if(debugMode) console.log('querySelect', event.target.value);
+	if(debugMode) console.log('querySelect', this.value);
 	if(this.value.length < 3) return;
+	let searchValue = this.value;
 	let searchFields = [].join(" || ");
 	let query = "";
 	
+	// find song
 	searchFields = ['ArtistTitle'].join(" || ");
-	query += "SELECT MIN(ID) AS KNID, '' AS KNYEAR, '' AS SongTitle, ArtistTitle, ID AS ArtistID, null as ReleaseID FROM Artist WHERE TRUE "
-	query += addQuotationInSQLString(this.value).split(' ').map(v => "AND " + searchFields + " LIKE '%" + v + "%'").join('');
+	query += "SELECT MIN(ID) AS KNID, '' AS KNYEAR, '' AS SongTitle, ArtistTitle, ID AS ArtistID, null as ReleaseID FROM Artist WHERE TRUE AND (" + (!searchValue.includes(categoryKeywords[2]) ? "TRUE" : "FALSE") + ") ";
+	query += addQuotationInSQLString(searchValue.replace(categoryKeywords[0],'')).split(' ').map(v => "AND " + searchFields + " LIKE '%" + v + "%'").join('');
 	query += " GROUP BY ArtistTitle UNION ALL ";
 	
+	//find artist
 	searchFields = ['SongTitle','ArtistTitle','KNYEAR'].join(" || ");
-	query += "SELECT ID AS KNID, KNYEAR, SongTitle, ArtistTitle, ArtistID, ReleaseID FROM Song WHERE TRUE ";
-	query += addQuotationInSQLString(this.value).split(' ').map(v => "AND " + searchFields + " LIKE '%" + v + "%'").join('');
+	query += "SELECT ID AS KNID, KNYEAR, SongTitle, ArtistTitle, ArtistID, ReleaseID FROM Song WHERE TRUE AND (" + (!searchValue.includes(categoryKeywords[0]) ? "TRUE" : "FALSE") + ") ";
+	query += addQuotationInSQLString(searchValue.replace(categoryKeywords[2],'')).split(' ').map(v => "AND " + searchFields + " LIKE '%" + v + "%'").join('');
 	
 	if(debugMode) 
 		console.log('querySelect', query);
@@ -647,12 +650,22 @@ function updateOptions(contents) {
 			
 			options.appendChild(opt);
 		}
-		if(newOptions.length === 2 && window['mode'] != 'artist') //1 result with default
+		if(newOptions.length === 2) //1 result with default select
 		{
+			console.log('single option from input');
 			// search.blur();
 			setTimeout(function() {
 				let newId = contents.values[0][columnIndexKNID];
-				document.querySelector('#options').value = categoryIcons[2] + newId;
+				let isSong = contents.values[0][columnIndexSongTitle]?.length > 0 ?? false;
+				if(isSong) {
+					window['mode'] = 'song';
+					document.querySelector('#options').value = categoryIcons[2] + newId;
+				}
+				else {
+					window['mode'] = 'artist';
+					window['artist-id'] = newId;
+					document.querySelector('#options').value = categoryIcons[0] + newId;
+				}
 				document.querySelector('#options').dispatchEvent(new Event('change'));
 				// if(window['playlist'][window['playlist'].length - 1] != newId)
 				// {
