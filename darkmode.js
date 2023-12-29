@@ -1,9 +1,9 @@
-const defaultLightModeTheme = window['light-theme'] ?? 'white';
-const defaultDarkModeTheme = window['dark-theme'] ?? 'black';
-const defaultDarkModeItem = window['dark-name'] ?? 'theme';
+const defaultLightTheme = window['light-theme'] ?? 'white';
+const defaultDarkTheme = window['dark-theme'] ?? 'black';
+const defaultThemeItem = window['dark-name'] ?? 'theme';
 
 function setDarkMode() { 
-	let saved = localStorage.getItem(defaultDarkModeItem);
+	let saved = localStorage.getItem(defaultThemeItem);
 	let theme = document.querySelector('meta[name="theme-color"]');
 	// conditions to initialize dark mode
 	if (saved) { // has save data
@@ -13,19 +13,19 @@ function setDarkMode() {
 			themeColor.content = saved;
 			document.head.appendChild(themeColor);
 		}
-		if(saved == defaultDarkModeTheme) // if theme is dark, toggle
+		if(saved == defaultDarkTheme) // if theme is dark, toggle
 			toggleDarkMode();
 	}
 	else { // no save data
-		if (window.matchMedia('(prefers-color-scheme: dark)').matches) { // if device dark mode
-			toggleDarkMode(); // toggle, will save data
-		}
 		if (!theme) { // no meta on DOM
 			let themeColor = document.createElement('meta');
 			themeColor.name = 'theme-color';
-			themeColor.content = document.documentElement.classList.contains('darked') ? defaultDarkModeTheme : defaultLightModeTheme;
+			themeColor.content = document.documentElement.classList.contains('darked') ? defaultDarkTheme : defaultLightTheme;
 			document.head.appendChild(themeColor);
-			localStorage.setItem(defaultDarkModeItem, themeColor.content); // save data
+			localStorage.setItem(defaultThemeItem, themeColor.content); // save data
+		}
+		if (window.matchMedia('(prefers-color-scheme: dark)').matches) { // if device dark mode
+			toggleDarkMode(); // toggle, will save data
 		}
 	}
 	// if button .darkmode in DOM, allow toggle modes
@@ -41,11 +41,11 @@ function addDarkModeEvents() {
 function toggleDarkMode() {
 	let theme = document.querySelector('meta[name="theme-color"]');
 	if(document.documentElement.classList.contains('darked')) //parent class of each page
-		theme.content = defaultLightModeTheme;
+		theme.content = defaultLightTheme;
 	else
-		theme.content = defaultDarkModeTheme;
+		theme.content = defaultDarkTheme;
 	document.documentElement.classList.toggle('darked');
-	localStorage.setItem(defaultDarkModeItem, theme.content);
+	localStorage.setItem(defaultThemeItem, theme.content);
 }
 
 setDarkMode();
