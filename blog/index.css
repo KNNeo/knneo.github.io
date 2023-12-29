@@ -950,7 +950,14 @@ abbr.imgpop:hover img {
 
 /*AGENDA TABLE OF CONTENTS*/
 .agenda {
-	display: grid !important;
+	/* fallback */
+	display: none; 
+	grid-template-columns: repeat(3, 1fr);
+	
+	/* if grid is supported */
+    display: grid !important;
+	grid-template-columns: repeat(var(--columns), 1fr);
+	
 	margin-left: auto;
 	margin-right: auto;
 }

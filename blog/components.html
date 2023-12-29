@@ -778,7 +778,16 @@ Click/tap container fast (&lt;200ms) will turn off transition (for observing dif
 
 <style>
 .agenda {
+	/* fallback */
+	display: none; 
+	grid-template-columns: repeat(3, 1fr);
+	
+	/* if grid is supported */
     display: grid !important;
+	grid-template-columns: repeat(var(--columns), 1fr);
+	
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .agenda .item table.tr-caption-container {
@@ -801,7 +810,8 @@ Click/tap container fast (&lt;200ms) will turn off transition (for observing dif
 }
 </style>
 <h1>Table of Contents</h1>
-<h5>Container class "agenda" contains style attribute for inline grid customization, children class "item" for content (with link to section, see address bar after click)</h5>
+<h5>Container class "agenda" contains inline style for grid customization (using variable or fallback, max-width)</h5>
+<h5>Children class "item" for content (with link to section, see address bar after click)</h5>
 <pre>
 &lt;div class="agenda" style="display: none; grid-template-columns: repeat([NO_OF_COLS], 1fr);"&gt;
   &lt;div class="item"&gt;&lt;/div&gt;
@@ -810,7 +820,7 @@ Click/tap container fast (&lt;200ms) will turn off transition (for observing dif
   ...
 &lt;/div&gt;
 </pre>
-<div class="agenda" style="display: none; grid-template-columns: repeat(3, 1fr);">
+<div class="agenda" style="max-width: 600px; --columns: 3;">
   <div class="item">
     <table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto;">
       <tbody>
