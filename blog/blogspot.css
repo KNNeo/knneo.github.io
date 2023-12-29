@@ -4,6 +4,7 @@
   --secondary: #609fff;
   --background: #f4f6ff;
   --foreground: #000;
+  --accent: #dddddd;
 }
 
 .darked:root {
@@ -11,6 +12,7 @@
   --secondary: #00abbf;
   --background: #001114;
   --foreground: #fff;
+  --accent: #444444;
 }
 
 body {

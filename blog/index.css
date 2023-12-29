@@ -4,6 +4,7 @@
   --secondary: #00abbf;
   --background: #000000;
   --foreground: #ffffff;
+  --accent: #444444;
 }
 
 /*Klassic Note: Website Additions*/
@@ -997,6 +998,14 @@ abbr.imgpop:hover img {
 .dialog dialog a {
 	background-color: var(--background);
 	color: var(--primary);
+}
+
+/*OMAKE*/
+.omake {
+	border-radius: 8px;
+	border: 2px solid var(--foreground);
+	background-color: var(--accent);
+	padding: 1em;
 }
 
 /*ANIMATION KEYFRAMES*/
