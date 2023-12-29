@@ -8,13 +8,225 @@
 	<meta name="theme-color" content="white">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 	<link href='https://fonts.googleapis.com/css?family=Noto Sans' rel='stylesheet' />
-	<link rel="stylesheet" type="text/css" href="index.css" />
-	<link rel="stylesheet" type="text/css" href="blogspot.css" />
 	<link rel="icon" href="storytime.ico" />
 	<script src="../darkmode.js" type="application/javascript" charset="utf-8"></script>
 	<script src="blogspot.js" type="application/javascript" charset="utf-8"></script>
 	<title>Components</title>
 </head>
+<style>
+/* BASE STYLE */
+:root {
+  --primary: #1b3fff;
+  --secondary: #609fff;
+  --background: #f4f6ff;
+  --foreground: #000;
+}
+
+.darked:root {
+  --primary: #00e4ff;
+  --secondary: #00abbf;
+  --background: #001114;
+  --foreground: #fff;
+}
+
+body {
+	display: block;
+	max-width: 680px;
+	padding: 0 10px;
+	margin: auto;
+	color: var(--foreground);
+	background-color: var(--background);
+	transition: background .2s linear;
+	line-height: 1.5;
+	overflow-x: hidden;
+}
+
+blockquote {
+	margin: 1em;
+}
+
+a {
+  color: var(--primary);
+}
+
+a img,
+table div[style|=background] {
+    box-sizing: border-box;
+	border: 2px solid var(--secondary);
+}
+
+a img:hover,
+table div[style|=background]:hover {
+    border-color: var(--primary);
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+a.material-icons {
+	text-decoration: none;
+    font-size: 36px;
+}
+
+span.small-icons {
+    vertical-align: sub;
+}
+
+a.material-icons {
+	text-decoration: none;
+}
+
+span.small-icons {
+    vertical-align: sub;
+}
+
+.post-body {
+    overflow-x: hidden;
+}
+
+.tr-caption {
+    font-size: 0.7rem;
+    max-width: 680px;
+}
+
+.tr-caption-container {
+    padding: 4px;
+    margin-bottom: .5em;
+}
+
+/* THUMBNAIL */
+.thumbnail {
+	display: none;
+	padding-top: 1em;
+    position: relative;
+	transition: height 0.2s;	
+}
+
+.thumbnail.show {
+	display: block;
+}
+
+.thumbnail.fastscroll {
+	transition: none;	
+}
+
+.thumbnail-initial {
+	position: absolute;
+	left: 0;
+	right: 0;
+	opacity: 1;
+	transition: opacity 0.4s, left 0.2s;
+}
+
+.thumbnail.fastscroll .thumbnail-initial {
+	transition: none;
+}
+
+.thumbnail-normal {
+	margin: 0 10px;
+	position: initial;
+	text-align: center;
+	left: 0;
+	right: 0;
+}
+
+.thumbnail-pop {
+	visibility: hidden;
+	left: 80%;
+	opacity: 0;
+}
+
+.thumbnail-initial img,
+.thumbnail-initial video {
+	border: 2px solid var(--secondary);
+	border-bottom-width: 1em;
+	transition: border 0.2s, border-radius 0.2s;
+}
+
+.thumbnail tr:hover img,
+.thumbnail tr:hover video {
+    border-color: var(--primary);
+}
+
+.thumbnail .thumbnail-initial[data-index][data-length]::before {
+    content: attr(data-index) " / " attr(data-length);
+    position: absolute;
+    top: -1em;
+    left: 0;
+    right: 0;
+    font-size: 0.8em;
+    text-align: center;
+}
+
+/*Assign class based on image resize for responsive, see blog.js resizeImg()*/
+.img-width-fit {
+	width: 100%;
+	height: 100%;
+}
+
+.img-width-auto {
+	width: auto;
+}
+
+.img-separator {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#DarkModeBtn {
+	position: fixed;
+	display: block;
+	visibility: visible;
+	opacity: 1;
+	bottom: 16px;
+	right: calc(50% - 410px);
+	z-index: 7;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	color: var(--foreground);
+	cursor: pointer;
+	padding: 8px 6px 6px 6px;
+	border: 1px solid var(--foreground);
+	background-color: var(--background);
+	box-shadow: 3px 3px var(--foreground);
+	border-radius: 8px;
+	transition: background .2s linear;
+}
+
+#BackBtn {
+	position: fixed;
+	display: block;
+	visibility: visible;
+	bottom: 16px;
+	left: calc(50% - 410px);
+	z-index: 8;
+	outline: none;
+	color: var(--foreground);
+	cursor: pointer;
+	padding: 8px 6px 6px 6px;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	border: 1px solid var(--foreground);
+	background-color: var(--background);
+	box-shadow: 3px 3px var(--foreground);
+	border-radius: 8px;
+	transition: background .2s linear;
+}
+
+#DarkModeBtn:hover,
+#BackBtn:hover {
+	box-shadow: 1px 1px;
+	transform: translate(2px, 2px);
+}
+
+</style>
 <body>
 <a id='BackBtn' class='material-icons' href='index.html' title='Go Back'>arrow_back</a>
 <a id='DarkModeBtn' class='material-icons' title='Toggle Dark Mode' href='javascript:void(0);' onclick='toggleDarkMode()'>brightness_high</a>
@@ -699,6 +911,31 @@ Click/tap container fast (&lt;200ms) will turn off transition (for observing dif
   </div>
 </div>
 
+<style>
+.datatable {
+	white-space: nowrap;
+	overflow: auto;
+}
+
+.datatable table {
+    border-collapse: collapse;
+}
+
+.datatable td, .datatable th {
+    border-top: 1px solid var(--foreground);
+    border-bottom: 1px solid var(--foreground);
+    padding: 0 5px;
+}
+
+.datatable .freeze {
+	position: sticky;
+	background-color: var(--background);
+	left: 0;
+	max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+</style>
 <h1>Data Table</h1>
 <h5>Responsive width, smaller in text for mobile<br/>
 Use table generators (eg. <a href="https://divtable.com/generator/">DivTable.com</a>) to render HTML, add container + inline, add table into container, add classes for children</h5>
