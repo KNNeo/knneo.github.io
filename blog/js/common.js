@@ -194,8 +194,8 @@ function focusOnExpandFineprint() {
 function setExpander() {
 	for(let accordion of document.querySelectorAll('.accordion'))
 	{
-		accordion.querySelector('.header').addEventListener('click', toggleExpander);
-		accordion.querySelector('.footer').addEventListener('click', toggleExpander);
+		accordion.querySelector('.header')?.addEventListener('click', toggleExpander);
+		accordion.querySelector('.footer')?.addEventListener('click', toggleExpander);
 	}
 }
 function toggleExpander() {
