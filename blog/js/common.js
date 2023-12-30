@@ -24,7 +24,7 @@ function startup() {
 	// Asynchronous Events
 	setTimeout(addHashtags, 0); // generateHeader, generateReadTime
 	setTimeout(showAbbrAsDialog, 0);
-	setTimeout(focusOnExpandFineprint, 0);
+	setTimeout(setExpander, 0);
 	setTimeout(displayFAB, 0);
 	setTimeout(addHoverForLinks, 0);
 	setTimeout(resizeImages, 0);
@@ -188,6 +188,20 @@ function focusOnExpandFineprint() {
 			fp.scrollIntoView({ block: 'center' });
 		});
 	}
+}
+
+// Accordion component, click to toggle show extra text or just header
+function setExpander() {
+	for(let accordion of document.querySelectorAll('.accordion'))
+	{
+		accordion.querySelector('.header').addEventListener('click', toggleExpander);
+		accordion.querySelector('.footer').addEventListener('click', toggleExpander);
+	}
+}
+function toggleExpander() {
+	let parent = event.target.closest('.accordion');
+	parent.classList.toggle('show');
+	event.target.scrollIntoView({ block: 'center' });
 }
 
 ////DIALOG////

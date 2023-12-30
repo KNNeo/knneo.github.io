@@ -1030,6 +1030,37 @@ abbr.imgpop:hover img {
 	padding: 4px 8px;
 }
 
+/* ACCORDION */
+.accordion {
+	cursor: pointer;
+	border-color: var(--secondary);
+	border-style: solid;
+	border-width: 2px 2px 1em;
+	transition: border 0.2s;
+}
+.accordion:hover {
+	border-color: var(--primary);
+}
+.accordion .content {
+	cursor: initial;
+}
+.accordion .footer {
+	text-align: center;
+}
+.accordion .content,
+.accordion .footer {
+	padding: 4px 8px;
+	display: none;
+}
+
+.accordion.show {
+	border-color: var(--foreground);
+}
+
+.accordion.show > * {
+	display: block;
+}
+
 /*ANIMATION KEYFRAMES*/
 @keyframes fadeIn {
   from {
