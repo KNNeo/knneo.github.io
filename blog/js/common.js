@@ -24,6 +24,7 @@ function startup() {
 	// Asynchronous Events
 	setTimeout(addHashtags, 0); // generateHeader, generateReadTime
 	setTimeout(showAbbrAsDialog, 0);
+	setTimeout(focusOnExpandFineprint, 0);
 	setTimeout(displayFAB, 0);
 	setTimeout(addHoverForLinks, 0);
 	setTimeout(resizeImages, 0);
@@ -174,6 +175,17 @@ function showAbbrAsDialog() {
 		abbr.addEventListener('click', function() {
 			event.preventDefault();
 			popupText(event.target.title);
+		});
+	}
+}
+
+// Fineprint component, click to toggle show full text or condensed
+function focusOnExpandFineprint() {
+	for(let fp of document.querySelectorAll('.fineprint'))
+	{
+		fp.addEventListener('click', function() {
+			fp.classList.toggle('show');
+			fp.scrollIntoView({ block: 'center' });
 		});
 	}
 }
