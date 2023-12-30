@@ -13,7 +13,12 @@
 	<script src="blogspot.js" type="application/javascript" charset="utf-8"></script>
 	<title>Components</title>
 </head>
-<style>
+<body>
+<a id='BackBtn' class='material-icons' href='index.html' title='Go Back'>arrow_back</a>
+<a id='DarkModeBtn' class='material-icons' title='Toggle Dark Mode' href='javascript:void(0);' onclick='toggleDarkMode()'>brightness_high</a>
+<div id="viewer"></div>
+<div id="contents" class="post-body entry-content" style="font-family: Noto Sans;">
+<style id="base-style">
 /* BASE STYLE */
 :root {
   --primary: #1b3fff;
@@ -227,12 +232,8 @@ span.small-icons {
 }
 
 </style>
-<body>
-<a id='BackBtn' class='material-icons' href='index.html' title='Go Back'>arrow_back</a>
-<a id='DarkModeBtn' class='material-icons' title='Toggle Dark Mode' href='javascript:void(0);' onclick='toggleDarkMode()'>brightness_high</a>
-<div id="viewer"></div>
-<div id="contents" class="post-body entry-content" style="font-family: Noto Sans;">
-<style>
+<style id="page-style">
+/* PAGE ONLY STYLE */
 pre {
 	padding: 10px;
 	border: 1px solid var(--foreground);
