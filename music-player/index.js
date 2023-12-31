@@ -1,11 +1,34 @@
 //timestamp display for audio player
-let tableID = '2022';
+let tableID = '2023';
 let playerID = tableID + 'Player';
 let domain = 'https://res.cloudinary.com/klassicnote/video/upload/audio/';
 let timer = null;
 let timestamps = new Array();
 //title_string,table_row,time_in_seconds,rank_till_time
 //for ranks with more than 1 result, order is same as order of push not table_row
+timestamps.push(['2023', 1,935, 1,'Homecomings','US']);
+timestamps.push(['2023', 2,888, 2,'mol-74','0.1s']);
+timestamps.push(['2023', 3,846, 3,'Kroi','Fuurai']);
+timestamps.push(['2023', 4,747, 4,'aiko','Itsu Aetara']);
+timestamps.push(['2023', 5,803, 4,'miwa','Tsuki ga Kirei Desu ne']);
+timestamps.push(['2023', 6,704, 5,'Kodama Hikari','Dramatic ni Koi Shitai']);
+timestamps.push(['2023', 7,660, 6,'Natsukawa Shiina','Laugh Second']);
+timestamps.push(['2023', 8,613, 7,'Ikimonogakari','Tokimeki']);
+timestamps.push(['2023', 9,569, 8,'TrySail','Follow You!']);
+timestamps.push(['2023',10,519, 9,'w.o.d.','STARS']);
+timestamps.push(['2023',11,481,10,'Omoinotake','Uzumaku']);
+timestamps.push(['2023',12,441,11,'Ryokuoushoku Shakai','Summer Time Cinderella']);
+timestamps.push(['2023',13,349,12,'Fuchigami Mai','Fantastic Partner']);
+timestamps.push(['2023',14,397,12,'Kitou Akari','Magie x Magie']);
+timestamps.push(['2023',15,300,13,'Fujifabric x frederic','Hitomi no Rendezvous']);
+timestamps.push(['2023',16,259,14,'Uesaka Sumire','LOVE CRAZY']);
+timestamps.push(['2023',17,214,15,'Mrs. GREEN APPLE','Magic']);
+timestamps.push(['2023',18,174,16,'fuzzy knot','Blue Sky']);
+timestamps.push(['2023',19,134,17,'Genie High','Classic High']);
+timestamps.push(['2023',20, 93,18,'Natsukawa Shiina','Kienai Melancholy']);
+timestamps.push(['2023',21, 51,19,'SHE\'S','Super Bloom']);
+timestamps.push(['2023',22,  0,20,'LUCK LIFE','Kiseki']);
+
 timestamps.push(['2022', 22,   0, 20, 'Scenarioart', 'Aiminor']);
 timestamps.push(['2022', 21,  45, 19, 'ORESKABAND', 'ARCO']);
 timestamps.push(['2022', 20,  96, 18, 'Natsukawa Shiina', 'Sasakure']);
