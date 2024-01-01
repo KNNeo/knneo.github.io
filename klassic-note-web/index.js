@@ -2326,6 +2326,13 @@ function generateYearOfRelease(contents) {
 		title: 'Release Year', 
 		skipTitle: false, 
 		skipColumns: [],
+		actionTitle: document.querySelector('#release-year').firstChild != null ? '' : 'Expand', 
+		actionFunc: function() {
+			let query = "SELECT 'All' AS 'Release Year', COUNT(ReleaseYear) || ' Songs' AS 'Count (%)' FROM Song WHERE KNYEAR = " + window['year'] + " UNION ALL SELECT res.ReleaseYear AS 'Release Year', res.Count || ' (' || printf('%.2f', (100.00 * res.Count / (SELECT COUNT(ReleaseYear) AS 'Count (%)' FROM Song WHERE KNYEAR = " + window['year'] + "))) || '%)' AS 'Count (%)' FROM (SELECT ReleaseYear AS 'ReleaseYear', COUNT(ReleaseYear) AS 'Count' FROM Song WHERE KNYEAR = " + window['year'] + " GROUP BY ReleaseYear) res";
+
+			if(debugMode) console.log('generateYearOfRelease', query);
+			queryDb(query, generateYearOfRelease);
+		}, 
 	});
 }
 
@@ -2534,6 +2541,7 @@ function updateYear() {
 	document.querySelector('#options').value = '';
 	
 	let year = event.target.getAttribute('data-year');
+	window['year'] = year;
 	let query = "SELECT DISTINCT KNYEAR FROM SongAwardsPeriod WHERE KNYEAR = " + year;
 	if(debugMode) console.log('updateYear', query);
 	queryDb(query, generateModules);
