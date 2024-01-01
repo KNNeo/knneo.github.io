@@ -892,7 +892,7 @@ function queryAllReleases() {
 	
 	//initial query
 	query = "SELECT r.ID as ReleaseID, r.Type, r.Category, r.ReleaseTitle, r.ReleaseArtistTitle, r.KNYEAR, r.ReleaseYear, substr('0000'||r.ReleaseDate,-4) as ReleaseDate, r.CoverArt "
-	query += "FROM Release r WHERE r.KNYEAR = strftime('%Y','now') ";
+	query += "FROM Release r WHERE r.KNYEAR >= strftime('%Y','now') - 1 ";
 	query += "AND LENGTH(r.CoverArt) > 0 ORDER BY r.ReleaseYear DESC, r.ReleaseDate DESC";
 	if(debugMode) console.log('queryAllReleases', query);
 	queryDb(query, generateAllReleases);
