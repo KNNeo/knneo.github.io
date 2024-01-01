@@ -2001,9 +2001,9 @@ function generateCompilations(contents) {
 	let compilationTitles = rows.map(s => s[columnIndexCompilationTitle]).filter((sa, ind, arr) => arr.indexOf(sa) === ind);
 	if(debugMode) console.log('compilationTitles', compilationTitles);
 	
-	let index = 0;
 	for(let compilationTitle of compilationTitles)
 	{
+		if(debugMode) console.log('compilationTitle', compilationTitle);
 		let compilationRows = rows.filter(r => r[columnIndexCompilationTitle] === compilationTitle);
 		if(debugMode) console.log('compilationRows', { columns, values: compilationRows });
 		let isArtist = window['mode'] === 'artist';
@@ -2012,12 +2012,10 @@ function generateCompilations(contents) {
 			{ columns, values: compilationRows }, {
 			id: 'song-compilation', 
 			skipClear: true, 
-			title: 'Compilations', 
-			skipTitle: index > 0, 
+			title: compilationTitle,
 			skipColumns: ['CompilationTitle', 'KNID', 'KNYEAR'],
 			dataId: 'KNID',
 			groupColumn: 'Track', 
-			titleFormat: ['KNYEAR', 'CompilationTitle'],
 			actionTitle: isArtist ? null : 'Play All',
 			actionFunc: isArtist ? null : function() {
 				let table = this.parentElement.nextSibling;
@@ -2033,7 +2031,6 @@ function generateCompilations(contents) {
 			});
 		
 		document.getElementById('song-compilation').appendChild(document.createElement('br'));
-		index++;
 	}
 }
 
