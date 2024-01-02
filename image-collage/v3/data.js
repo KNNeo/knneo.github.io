@@ -512,4 +512,7 @@ const mosaicArray = [
 {"filename":"テイクユアマーク_たまき.jpg","sm":"https://doax.cc/res/pic_star_s/784_5.png","md":"https://doax.cc/res/pic_star_s/784_5.png","lg":"https://doax.cc/res/pic_star/784_5.png","og":"https://doax.cc/res/pic_star/784_5.png"},
 {"filename":"スイートメリーナイト_こはる.jpg","sm":"https://doax.cc/res/pic_star_s/827_24.png","md":"https://doax.cc/res/pic_star_s/827_24.png","lg":"https://doax.cc/res/pic_star/827_24.png","og":"https://doax.cc/res/pic_star/827_24.png"},
 {"filename":"スイートメリーナイト_つくし.jpg","sm":"https://doax.cc/res/pic_star_s/827_20.png","md":"https://doax.cc/res/pic_star_s/827_20.png","lg":"https://doax.cc/res/pic_star/827_20.png","og":"https://doax.cc/res/pic_star/827_20.png"},
+{"filename":"まよなかのあさり_エレナ.jpg","sm":"https://doax.cc/res/pic_star_s/281.png","md":"https://doax.cc/res/pic_star_s/281.png","lg":"https://doax.cc/res/pic_star/281.png","og":"https://doax.cc/res/pic_star/281.png"},
+{"filename":"巫女舞_ティナ.jpg","sm":"https://doax.cc/res/pic_star_s/830.png","md":"https://doax.cc/res/pic_star_s/830.png","lg":"https://doax.cc/res/pic_star/830.png","og":"https://doax.cc/res/pic_star/830.png"},
+{"filename":"巫女舞_つくし.jpg","sm":"https://doax.cc/res/pic_star_s/829.png","md":"https://doax.cc/res/pic_star_s/829.png","lg":"https://doax.cc/res/pic_star/829.png","og":"https://doax.cc/res/pic_star/829.png"},
 ];
