@@ -606,7 +606,7 @@ void Main()
 			            thumbnailUrl = "";
 					
 					// Find all anchors
-			        expression = @"(?s)(div|blockquote)(.*?)id=""(.*?)""(.*?)(>)";
+			        expression = @"(?s)(div|blockquote)(.*?) id=""(.*?)""(.*?)(>)";
 			        match = Regex.Match(content, expression);
 	        		while(match.Success) {
 						 //Console.WriteLine(match.Groups[3].Value);
