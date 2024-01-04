@@ -590,6 +590,7 @@ void Main()
 			{
 		        var thumbnailUrl = "";
 				var anchors = new List<string>();
+				var excluded = new List<string>() { "hashtags", "table", "music" };
 				var isLatest = IsLatestPost(published);
 				// For latest post, show expanded content
 				if(isLatest)
@@ -609,7 +610,7 @@ void Main()
 			        match = Regex.Match(content, expression);
 	        		while(match.Success) {
 						 //Console.WriteLine(match.Groups[3].Value);
-						 if(match.Groups[3].Value.Length > 1 && match.Groups[3].Value != "hashtags")
+						 if(match.Groups[3].Value.Length > 1 && !excluded.Contains(match.Groups[3].Value))
 						 	anchors.Add(match.Groups[3].Value);
 	            		match = match.NextMatch();
 					}
