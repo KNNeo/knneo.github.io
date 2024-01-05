@@ -24,7 +24,7 @@ void Main()
     string blogpath = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\";
     string outputFolder = "pages";
     string filepath = "";
-	string beforeDate = "2018-01-01"; // in format yyyy-MM-dd
+	string startDate = "2017-01-01"; // in format yyyy-MM-dd
 	
 	//Get xml file from source, move to archivepath
 	//If not found in source, will run file in archivepath
@@ -133,7 +133,7 @@ void Main()
 		//=====CHECKS=====//
 		if(string.IsNullOrWhiteSpace(originalLink))
 			continue;
-		if(published <= DateTime.Parse(beforeDate))
+		if(published <= DateTime.Parse(startDate))
 			continue;
 		//=====CHECKS=====//
 		
