@@ -515,4 +515,6 @@ const mosaicArray = [
 {"filename":"まよなかのあさり_エレナ.jpg","sm":"https://doax.cc/res/pic_star_s/281.png","md":"https://doax.cc/res/pic_star_s/281.png","lg":"https://doax.cc/res/pic_star/281.png","og":"https://doax.cc/res/pic_star/281.png"},
 {"filename":"巫女舞_ティナ.jpg","sm":"https://doax.cc/res/pic_star_s/830.png","md":"https://doax.cc/res/pic_star_s/830.png","lg":"https://doax.cc/res/pic_star/830.png","og":"https://doax.cc/res/pic_star/830.png"},
 {"filename":"巫女舞_つくし.jpg","sm":"https://doax.cc/res/pic_star_s/829.png","md":"https://doax.cc/res/pic_star_s/829.png","lg":"https://doax.cc/res/pic_star/829.png","og":"https://doax.cc/res/pic_star/829.png"},
+{"filename":"振袖・月夜見_ルナ.jpg","sm":"https://doax.cc/res/pic_star_s/835.png","md":"https://doax.cc/res/pic_star_s/835.png","lg":"https://doax.cc/res/pic_star/835.png","og":"https://doax.cc/res/pic_star/835.png"},
+{"filename":"振袖・白百合_さゆり.jpg","sm":"https://doax.cc/res/pic_star_s/836.png","md":"https://doax.cc/res/pic_star_s/836.png","lg":"https://doax.cc/res/pic_star/836.png","og":"https://doax.cc/res/pic_star/836.png"},
 ];
