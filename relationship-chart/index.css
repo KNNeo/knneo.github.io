@@ -1,0 +1,77 @@
+/*Variables*/
+:root {
+  --primary: #1b00ff;
+  --secondary: #609fff;
+  --background: #fff;
+  --foreground: #000;
+  --accent: lightgray;
+}
+
+.darked:root {
+  --primary: #00e4ff;
+  --secondary: #00abbf;
+  --background: #000;
+  --foreground: #fff;
+  --accent: gray;
+}
+
+html {
+	font-family: Noto Sans;
+	background-color: var(--background);
+	color: var(--foreground);
+}
+
+body {
+  margin: 0;
+  text-align: center;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+a {
+	color: var(--foreground);
+	text-decoration: none;
+}
+a:hover {
+	color: var(--primary);	
+}
+
+.bi {
+    font-size: 1.5em;
+    padding: 3px;
+}
+
+.viewer {
+	z-index: 9;
+	position: fixed;
+	background-color: var(--background);
+	width: 100%;
+	height: 100%;
+	padding-top: 0;
+	text-align: center;
+	transition: opacity 0.3s, visibility 0.3s;
+	top: 0;
+	
+	display: flex;
+	flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.editor {
+	width: 80%;
+	height: 80%;
+}
+
+.preview,
+.close {
+	width: auto;
+	height: 44px;
+}
+
+.hidden {
+	display: none;
+}
