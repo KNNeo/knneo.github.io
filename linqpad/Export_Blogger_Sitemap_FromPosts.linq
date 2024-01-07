@@ -7,6 +7,7 @@
 void Main()
 {
     bool WriteTitleOnConsole = false;
+	bool WriteFanficList = false;
 	bool TraceMode = false;
 	int MaxHashtagLength = 32;
 	string defaultFont = "Noto Sans Mono";
@@ -260,13 +261,14 @@ void Main()
     File.WriteAllText(blogpath + "\\index.html", fileString);
 	
 	//Fanfic stats
-	Console.WriteLine(fanficItems
-		.GroupBy(g => g.Keyword.Split('|')[2])
-		.Select(s => new {
-	         Fanfiction = s.Key, 
-	         Count = s.Count()
-	    })
-	    .OrderByDescending(x => x.Count));
+	if(WriteFanficList)
+		Console.WriteLine(fanficItems
+			.GroupBy(g => g.Keyword.Split('|')[2])
+			.Select(s => new {
+		         Fanfiction = s.Key, 
+		         Count = s.Count()
+		    })
+		    .OrderByDescending(x => x.Count));
 }
 
 public class SitemapItem
