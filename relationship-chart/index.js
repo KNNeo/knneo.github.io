@@ -329,7 +329,7 @@ function nextCoordinate(coordinates) {
 //--INITIAL--//
 function startup() {
 	window.data = { ...config };
-	diagramDiv.setAttribute('width', '90dvw');
-	diagramDiv.setAttribute('height', '75dvh');
+	diagramDiv.setAttribute('width', window.innerWidth);
+	diagramDiv.setAttribute('height', parseInt(0.7*window.innerHeight));
 	drawBoard();
 }
