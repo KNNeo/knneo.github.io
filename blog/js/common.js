@@ -405,47 +405,47 @@ function renderEmbedProcess() {
 
 function generatePopupContent(url) {
 	if (!url) return null;
-	url = url.toLowerCase();
-    if (url.includes('.jpg') || url.includes('.png') || url.includes('.gif') || url.includes('blogger.googleusercontent.com')) {
+	let testUrl = url.toLowerCase();
+    if (testUrl.includes('.jpg') || testUrl.includes('.png') || testUrl.includes('.gif') || testUrl.includes('blogger.googleusercontent.com')) {
         //process image
         return '<div class="separator"><img style="max-height: 360px; max-width: 100%;" src="' + url + '" /></div>';
     }
-    if (url.includes('music.apple.com')) {
+    if (testUrl.includes('music.apple.com')) {
         //process itunes embed
-		let isTrack = url.includes('i=');
+		let isTrack = testUrl.includes('i=');
         return '<iframe allow="autoplay *; encrypted-media *;" frameborder="0" height="'+ (!isTrack ? 450 : 170) +'" sandbox="allow-modals allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation" src="' +
             url.replace('music.apple.com', 'embed.music.apple.com') +
             '" style="background: transparent; max-width: ' + (isSmallWidth() && !isTrack ? 290 : 660) + 'px; overflow: hidden; width: 100%;"></iframe>';
     }
-    if (url.includes('twitter.com') || url.includes('x.com')) {
+    if (testUrl.includes('twitter.com') || testUrl.includes('x.com')) {
         //process twitter embed
 		//data-height for timeline is max width
-		if(url.includes('/status/')) {
+		if(testUrl.includes('/status/')) {
 			return '<div style="display: flex;"><blockquote class="twitter-tweet tw-align-center" data-conversation="none" ' + (!notBlogger() || document.querySelector('html').classList.contains('darked') ? 'data-theme="dark"' : '') + ' data-height="' + 0.6*window.innerHeight + '"><a href="' +
 				url.replace('x.com', 'twitter.com') +
 				'"></a></blockquote><script async="async" charset="utf-8" src="https://platform.twitter.com/widgets.js"></script></div>';
 		}
     }
-    if (url.includes('youtube.com/watch')) {
+    if (testUrl.includes('youtube.com/watch')) {
         //process youtube embed
         let id = url.substring(url.indexOf('?v=') + 3);
         return '<iframe class="yt-video" allow="autoplay; encrypted-media" allowfullscreen="" frameborder="0" style="max-height: 360px;" src="' +
             'https://www.youtube.com/embed/' + id +
             '?enablejsapi=1"></iframe>';
     }
-    if (url.includes('youtu.be/')) {
+    if (testUrl.includes('youtu.be/')) {
         //process youtube embed
         let id = url.substring(url.indexOf('youtu.be/') + 9);
         return '<iframe class="yt-video" allow="autoplay; encrypted-media" allowfullscreen="" frameborder="0" style="max-height: 360px;" src="' +
             'https://www.youtube.com/embed/' + id +
             '?enablejsapi=1"></iframe>';
     }
-    if (url.includes('instagram.com/p/') || url.includes('instagram.com/reel/')) {
+    if (testUrl.includes('instagram.com/p/') || testUrl.includes('instagram.com/reel/')) {
         //process instagram embed
         return '<center><blockquote class="instagram-media" style="' + (window.innerWidth >= 576 ? 'width:550px;' : '') + '" data-instgrm-permalink="' +
             url + '" data-instgrm-version="14" style="padding:0;"></blockquote></center><script async="async" src="//www.instagram.com/embed.js"></script>';
     }
-    if (url.includes('jisho.org/search/')) {
+    if (testUrl.includes('jisho.org/search/')) {
         //process page as iframe
         return '<iframe id="jisho-frame" src="' +
             url + '" style="height:min(50vh,450px);width:min(98%,760px);"></iframe>';
