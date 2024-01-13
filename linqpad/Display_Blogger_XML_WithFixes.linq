@@ -45,46 +45,24 @@ void Main()
 	var showMatches = true; //if has match show full match object, else just object with description
 	var showOk = false; //if post no issues don't show
 	 //----------ADD INDEXES HERE----------//
-	List<int> includeIndex = new List<int> { 3 };
+	List<int> includeIndex = new List<int> { 28 };
 	if(includeIndex.Count > 0) Console.WriteLine("[SELECTIVE_CHECKS_ACTIVATED - " + String.Join(", ", includeIndex) + "]");
 	else Console.WriteLine("[ALL_CHECKS_ACTIVATED]");
 	
+	// [?] undetermined [-] minor issue [!] major issue
 	/* [ID] List of Cases:
-	 * [00]	custom search
-	 * [01]	fix twitter embed
-	 * [02]	fix youtube iframe size
-	 * [03]	remove embed styles for thumbnail normal/hover (posts with sp-thumbnail will be ignored)
-	 * [04]	thumbnail normal table => new thumbnail
-	 * [05]	thumbnail hover table => new thumbnail
-     * [06]	sp-thumbnail active => new thumbnail
-	 * [07]	div popup table => new thumbnail
-	 * [08]	span popup table => new thumbnail
-	 * [09] div popup normal pop image => new new popup	
-	 * []	any gif img tag should not have enclosing a tag
-	 * []	abbr imgpop => div popup normal pop
-	 * []	span popup normal pop => div popup normal pop
-	 * []	div popup normal pop (images) => div new-thumbnail
-	 * []	adjust ent news headers
-	 * []	add class to header prefix for styling
-	 * [14]	old blog link to current blog
-	 * []	all table styles to be within post
-	 * [16]	remove hashtags on post level
-	 * [17]	alternate links detection for new popups (youtu.be)
-	 * [18]	any link not referenced within blog to open on new tab
-	 * [19]	remove add href to hashtags script
-	 * []	remove wallpaper images cache linked from facebook
-	 * [21]	fix primary and secondary colours to variables
-	 * [22] (entertainment news) convert inline styles migrated to blog.css
-	 * []	export list of images from latest
-	 * [24]	replace common phrases with emoji
-	 * [25]	remove hidden tags to generate hashtags
-	 * [26]	find hashtag to set id for anime blockquote 
-	 * [27] link in images of thumbnails to be removed
-	 * [28]	links to current blog to remove for migration
-	 * [29] reduce resolution of uploaded images (from 4032 -> 2048 pixels)
-	 * []	censor words
-	 * [31]	add lazy loading to img tags
-	 * [32] fix blogger images without absolute path
+	 * [00]	[?]	custom search
+	 * [01]	[-]	fix twitter embed
+	 * [14]	[?]	old blog link to current blog
+	 * [17]	[-]	alternate links detection for new popups (youtu.be)
+	 * [18]	[!]	any link not referenced within blog to open on new tab
+	 * [21]	[!]	fix primary and secondary colours to variables
+	 * [24]	[-]	replace common phrases with emoji
+	 * [26]	[!]	find hashtag to set id for anime blockquote
+	 * [29]	[-]	reduce resolution of uploaded images (from 4032 -> 2048 pixels)
+	 * [30]	[-]	censor words
+	 * [31]	[-]	add lazy loading to img tags
+	 * [32]	[!]	 fix blogger images without absolute path
 	 */
 	
 	// Process XML content per post
@@ -141,163 +119,6 @@ void Main()
 	        };
 		}
 		#endregion
-		
-		#region 02 fix youtube iframe size
-		if(includeIndex.Count() == 0 || includeIndex.Contains(2))
-		{
-	        expression = @"(height=""315"")";
-	        match = Regex.Match(content, expression);
-	        while(match.Success) {
-	            fixes.Add(new MatchItem() {
-						match = showMatches ? match : null,
-						description = "[02] youtube embed with height property found",
-						action = "remove property manually"
-					});
-	            match = match.NextMatch();
-	        };
-			
-	        expression = @"(width=""560"")";
-	        match = Regex.Match(content, expression);
-	        while(match.Success) {
-	            fixes.Add(new MatchItem() {
-						match = showMatches ? match : null,
-						description = "[02] youtube embed with width property found",
-						action = "remove property manually"
-					});
-	            match = match.NextMatch();
-	        };
-		}
-		#endregion
-		
-        #region 03 remove embed styles for thumbnail normal/hover (posts with sp-thumbnail will be ignored)
-		if(includeIndex.Count() == 0 || includeIndex.Contains(3))
-		{
-	        expression = @"(<style)(.*?)(.thumbnail .hover)(.*?)(</style>)";
-	        match = Regex.Match(content, expression);
-	        while(match.Success) {
-	            fixes.Add(new MatchItem() {
-						match = showMatches ? match : null,
-						description = "[03] inline styles for thumbnail found",
-						action = "remove inline styles if thumbnails replaced to latest"
-					});
-	            match = match.NextMatch();
-	        };
-		}
-        #endregion
-		
-        #region 04 thumbnail => new thumbnail
-		if(includeIndex.Count() == 0 || includeIndex.Contains(4))
-		{
-        	expression = @"(<div class=""thumbnail"">)(.*?)(<span class=""normal"">)(.*?)(<span class=""hover"">)(.*?)(</div>)";      
-	        match = Regex.Match(content, expression);
-	        while(match.Success) {
-	            fixes.Add(new MatchItem() {
-						match = showMatches ? match : null,
-						description = "[04] thumbnail found",
-						action = "change to latest thumbnail manually"
-					});
-	            match = match.NextMatch();
-	        };
-		}
-        #endregion
-        
-        #region 05 thumbnail hover => new thumbnail
-		// SEE 04
-        #endregion
-		
-        #region 06 sp-thumbnail active => new thumbnail
-		if(includeIndex.Count() == 0 || includeIndex.Contains(6))
-		{
-        	expression = @"(<div class=""sp-thumbnail"">)(.*?)(<span class=""normal"">)(.*?)(<span class=""clicker"">)(.*?)(<span class=""hover"">)(.*?)(</div>)";      
-	        match = Regex.Match(content, expression);
-	        while(match.Success) {
-	            fixes.Add(new MatchItem() {
-						match = showMatches ? match : null,
-						description = "[06] sp-thumbnail found",
-						action = "change to latest thumbnail manually, own discretion of where clicker class should be"
-					});
-	            match = match.NextMatch();
-	        };
-		}
-        #endregion
-		
-        #region 07 div popup table => new thumbnail	
-		if(includeIndex.Count() == 0 || includeIndex.Contains(7))
-		{
-	        expression = @"(<div class=""popup""><span class=""initial"">)(.*?)(</span><span class=""pop"" style=""margin: 0; position: initial;"">)(.*?)(</span></div>)";        
-	        match = Regex.Match(content, expression);
-	        while(match.Success && match.Groups[2].Value.Contains("<table") && match.Groups[4].Value.Contains("<table")) {
-	            fixes.Add(new MatchItem() {
-						match = showMatches ? match : null,
-						description = "[07] div popup table found",
-						action = "change to latest thumbnail manually"
-					});
-	            match = match.NextMatch();
-	        };
-		}
-        #endregion
-        
-        #region 08 span popup table => new thumbnail
-		if(includeIndex.Count() == 0 || includeIndex.Contains(8))
-		{
-	        expression = @"(<span class=""popup""><span class=""initial"">)(.*?)(</span><span class=""pop"" style=""margin: 0; position: initial;"">)(.*?)(</span></span>)";        
-	        match = Regex.Match(content, expression);
-	        while(match.Success && match.Groups[2].Value.Contains("<table") && match.Groups[4].Value.Contains("<table")) {
-	            fixes.Add(new MatchItem() {
-						match = showMatches ? match : null,
-						description = "[08] span popup table found",
-						action = "change to latest thumbnail manually"
-					});
-	            match = match.NextMatch();
-	        };
-		}
-        #endregion
-		
-        #region 09 div popup normal pop image => new new popup	
-		if(includeIndex.Count() == 0 || includeIndex.Contains(9))
-		{
-	        expression = @"(<div class=""popup""><span class=""normal"">)(.*?)(</span>)(<span class=""pop"">)(.*?)(src="")(.*?)("")(.*?)(</span></div>)";        
-	        match = Regex.Match(content, expression);
-	        while(match.Success && !match.Groups[2].Value.Contains("<table") && match.Groups[5].Value.Contains("<img")) {
-	            fixes.Add(new MatchItem() {
-						match = showMatches ? match : null,
-						description = "[09] div popup image found",
-						action = "change to link tag manually if pop class is non-text"
-					});
-	            match = match.NextMatch();
-	        };
-		}
-        #endregion
-		
-        #region 11 abbr imgpop => div popup normal pop	
-		if(includeIndex.Count() == 0 || includeIndex.Contains(11))
-		{	
-//	        expression = @"(?s)(<abbr)(.*?)(title="")(.*?)(</abbr>)";
-//	        
-//	        match = Regex.Match(content, expression);
-//	        while(match.Success)
-//	        {
-//	            fixes.Add(new MatchItem() {
-//						match = match,
-//						description = "[11] old abbr text found",
-//						action = "think of how to fix"
-//					});
-//	        	match = match.NextMatch();
-//	        };
-	        expression = @"(?s)(<abbr)(.*?)(class=""imgpop)(.*?)(</abbr>)";
-	        
-	        match = Regex.Match(content, expression);
-	        while(match.Success)
-	        {
-	            fixes.Add(new MatchItem() {
-						match = showMatches ? match : null,
-						description = "[11] old abbr img found",
-						action = "replace with new thumbnail popup"
-					});
-	        	match = match.NextMatch();
-	        };
-		}
-		#endregion
         
         #region 14 old blog link to current blog
 		if(includeIndex.Count() == 0 || includeIndex.Contains(14))
@@ -320,22 +141,6 @@ void Main()
 						match = showMatches ? match : null,
 						description = "[14] old blog link http found",
 						action = "remove"
-					});
-	            match = match.NextMatch();
-	        };
-		}
-        #endregion
-        
-        #region 16 remove hashtags on post level
-		if(includeIndex.Count() == 0 || includeIndex.Contains(16))
-		{
-	        expression = @"(<script>)(.*?)(var hashtags)(.*?)(</script>)";
-	        match = Regex.Match(content, expression);
-	        while(match.Success) {
-	            fixes.Add(new MatchItem() {
-						match = showMatches ? match : null,
-						description = "[16] old hashtag inline script tag found",
-						action = "remove old hashtag inline script"
 					});
 	            match = match.NextMatch();
 	        };
@@ -372,14 +177,15 @@ void Main()
         #region 18 any link not referenced within blog to open on new tab
 		if(includeIndex.Count() == 0 || includeIndex.Contains(18))
 		{
-	        expression = @"(<a )(.*?)(href="")(.*?)(#|t.co/|blogger.|bp.blogspot.com|../../)(.*?)("")(.*?)(>)";        
+	        expression = @"(<a )(.*?)(href="")(.*?)(t.co/|blogger.|bp.blogspot.com|../../)(.*?)("")(.*?)(>)";        
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 				var url = match.Groups[4].Value;
-				if(!match.Groups[6].Value.Contains("_blank") && !url.Contains(domainLink)) {
+				if(!match.Value.Contains("_blank") && !match.Groups[2].Value.StartsWith("#") && !url.Contains(domainLink)) {
 					fixes.Add(new MatchItem() {
 						match = showMatches ? match : null,
-						description = "[18] any link not referenced within blog to open on new tab"
+						description = "[18] any link not referenced within blog to open on new tab",
+						action = "manual add in _blank"
 					});
 				}
 	            match = match.NextMatch();
@@ -396,7 +202,8 @@ void Main()
 				) {
 					fixes.Add(new MatchItem() {
 						match = showMatches ? match : null,
-						description = "[18] thumbnail: any link without new tab but is a caption (text only)"
+						description = "[18] thumbnail: any link without new tab but is a caption (text only)",
+						action = "manual add in _blank"
 					});
 				}
 	            match = match.NextMatch();
@@ -404,22 +211,6 @@ void Main()
 		}
         #endregion
 		
-        #region 19 remove add href to hashtags script
-		if(includeIndex.Count() == 0 || includeIndex.Contains(19))
-		{
-	        expression = @"(<script>)(.*?)(var childDivs)(.*?)(</script>)";
-	        match = Regex.Match(content, expression);
-	        while(match.Success) {
-	            fixes.Add(new MatchItem() {
-						match = showMatches ? match : null,
-						description = "[19] hashtag inline script tag found",
-						action = "remove hashtag inline script"
-					});
-	            match = match.NextMatch();
-	        };
-		}
-        #endregion
-                
         #region 21 fix primary and secondary colours to variables
 		if(includeIndex.Count() == 0 || includeIndex.Contains(21))
 		{
@@ -428,37 +219,13 @@ void Main()
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
 						match = showMatches ? match : null,
-						description = "[21] inline colour style found"
+						description = "[21] inline colour style found",
+						action = "Replace with class or current CSS variables"
 					});
 	            match = match.NextMatch();
 	        };
 		}
         #endregion
-		
-		#region 23 (entertainment news) remove inline styles and use class names for thumbnail, hashtags
-		if(includeIndex.Count() == 0 || includeIndex.Contains(23))
-		{
-	        expression = @"(<div)(.*?)(id=""news-thumbnail"")(.*?)(>)";
-	        match = Regex.Match(content, expression);
-	        while(match.Success) {
-	            fixes.Add(new MatchItem() {
-						match = showMatches ? match : null,
-						description = "[23] news-thumbnail id found"
-					});
-	            match = match.NextMatch();
-	        };
-			
-	        expression = @"(<div)(.*?)(id=""hashtags"")(.*?)(>)(.*?)(</div>)";
-	        match = Regex.Match(content, expression);
-	        while(match.Success) {
-	            fixes.Add(new MatchItem() {
-						match = showMatches ? match : null,
-						description = "[23] hashtags with fixed style found"
-					});
-	            match = match.NextMatch();
-	        };
-		}
-		#endregion
 		
         #region 24 replace common phrases with emoji
 		if(includeIndex.Count() == 0 || includeIndex.Contains(24))
@@ -474,24 +241,9 @@ void Main()
 				if(match.Groups[2].Value.Length > 1 && match.Groups[2].Value.Length < 16 && phrases.Contains(match.Groups[2].Value))
 		            fixes.Add(new MatchItem() {
 							match = showMatches ? match : null,
-							description = "[24] emoji \"" + match.Groups[2].Value + "\" found"
+							description = "[24] emoji \"" + match.Groups[2].Value + "\" found",
+							action = "Ignore"
 						});
-	            match = match.NextMatch();
-	        };
-		}
-        #endregion
-		
-        #region 25 remove hidden tags to generate hashtags
-		if(includeIndex.Count() == 0 || includeIndex.Contains(25))
-		{
-	        expression = @"(<div id=""hiddenTags"")(.*?)(>)(.*?)(</div>)";
-	        match = Regex.Match(content, expression);
-	        while(match.Success) {
-	            fixes.Add(new MatchItem() {
-						match = showMatches ? match : null,
-						description = "[25] hiddenTags found",
-						action = "remove hiddenTags"
-					});
 	            match = match.NextMatch();
 	        };
 		}
@@ -522,61 +274,6 @@ void Main()
 							action = "if is anime movie, change header to anime, else ignore"
 						});
 				}
-	            match = match.NextMatch();
-	        };
-		}
-        #endregion
-		
-        #region 27 link in images of thumbnails to be removed
-		//false positive with multiple thumbnails before
-		if(includeIndex.Count() == 0 || includeIndex.Contains(27))
-		{
-	        expression = @"(<div class=""thumbnail-initial hover-hidden""><table)(.*?)(<a)(.*?)(>)(<img)(.*?)(></a>)(.*?)(</table></div>)";
-	        match = Regex.Match(content, expression);
-	        while(match.Success) {
-	            fixes.Add(new MatchItem() {
-						match = showMatches ? match : null,
-						description = "[27] link in image of thumbnail first child found",
-						action = "manual fix on html required"
-					});
-	            match = match.NextMatch();
-	        };
-			
-	        expression = @"(<div class=""thumbnail-initial thumbnail-pop hover-visible""><table)(.*?)(<a)(.*?)(>)(<img)(.*?)(></a>)(.*?)(</table></div>)";
-	        match = Regex.Match(content, expression);
-	        while(match.Success) {
-	            fixes.Add(new MatchItem() {
-						match = showMatches ? match : null,
-						description = "[27] link in image of thumbnail not first child found",
-						action = "manual fix on html required"
-					});
-	            match = match.NextMatch();
-	        };
-		}
-        #endregion
-		
-        #region 28 links to current blog to remove for migration
-		if(includeIndex.Count() == 0 || includeIndex.Contains(28))
-		{
-	        expression = @"(href=""https://knwebreports.blogspot.com/)(.*?)(>)";
-	        match = Regex.Match(content, expression);
-	        while(match.Success) {
-	            fixes.Add(new MatchItem() {
-						match = showMatches ? match : null,
-						description = "[28] old blog link https found",
-						action = "remove link"
-					});
-	            match = match.NextMatch();
-	        };
-			
-	        expression = @"(href=""http://knwebreports.blogspot.com/)(.*?)(>)";
-	        match = Regex.Match(content, expression);
-	        while(match.Success) {
-	            fixes.Add(new MatchItem() {
-						match = showMatches ? match : null,
-						description = "[28] old blog link http found",
-						action = "remove link"
-					});
 	            match = match.NextMatch();
 	        };
 		}
