@@ -940,10 +940,30 @@ abbr.imgpop:hover img {
     padding: 0 5px;
 }
 
-.datatable .freeze {
+.datatable.center-text td {
+	text-align: center;
+}
+
+.datatable.all-borders td, .datatable.all-borders th {
+    border-left: 1px solid var(--foreground);
+    border-right: 1px solid var(--foreground);
+}
+
+.datatable.freeze-left th:first-child,
+.datatable.freeze-left td:first-child {
 	position: sticky;
 	background-color: var(--background);
 	left: 0;
+	max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.datatable.freeze-right th:last-child,
+.datatable.freeze-right td:last-child {
+	position: sticky;
+	background-color: var(--background);
+	right: 0;
 	max-width: 200px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -1006,28 +1026,6 @@ abbr.imgpop:hover img {
 	border: 2px solid var(--foreground);
 	background-color: var(--accent);
 	padding: 1em;
-}
-
-/* FINE PRINT */
-.fineprint {
-	font-size: 0.2em;
-	max-height: 50vh;
-	overflow-y: auto;
-	cursor: pointer;
-	border-color: var(--secondary);
-	border-style: solid;
-	border-width: 2px 2px 14px;
-	transition: border 0.2s;
-}
-
-.fineprint:hover {
-	border-color: var(--primary);
-}
-
-.fineprint.show {
-	border-color: var(--foreground);
-	font-size: 1em;
-	padding: 4px 8px;
 }
 
 /* ACCORDION */
