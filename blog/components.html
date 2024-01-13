@@ -938,7 +938,17 @@ Click/tap container fast (&lt;200ms) will turn off transition (for observing dif
     padding: 0 5px;
 }
 
-.datatable .freeze {
+.datatable.center-text td {
+	text-align: center;
+}
+
+.datatable.all-borders td, .datatable.all-borders th {
+    border-left: 1px solid var(--foreground);
+    border-right: 1px solid var(--foreground);
+}
+
+.datatable.freeze-left th:first-child,
+.datatable.freeze-left td:first-child {
 	position: sticky;
 	background-color: var(--background);
 	left: 0;
@@ -946,10 +956,22 @@ Click/tap container fast (&lt;200ms) will turn off transition (for observing dif
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+.datatable.freeze-right th:last-child,
+.datatable.freeze-right td:last-child {
+	position: sticky;
+	background-color: var(--background);
+	right: 0;
+	max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 </style>
 <h1>Data Table</h1>
-<h5>Responsive width, smaller in text for mobile<br/>
-Use table generators (eg. <a href="https://divtable.com/generator/">DivTable.com</a>) to render HTML, add container + inline, add table into container, add classes for children</h5>
+<h5>Responsive width, smaller in text for mobile</h5>
+<h5>Use table generators (eg. <a href="https://divtable.com/generator/">DivTable.com</a>) to render HTML, add container + inline, add table into container, add classes for children</h5>
+<h5>By default will show as horizontal borders; Add class "all-borders" to include vertical borders</h5>
+<h5>By default will not freeze columns; Add class "freeze-(left/right)" to freeze first/last column</h5>
 <pre>
 &lt;div class="datatable" style="font-size: 0.9em;"&gt;
   &lt;table&gt;
@@ -972,7 +994,7 @@ Use table generators (eg. <a href="https://divtable.com/generator/">DivTable.com
   &lt;/table&gt;
 &lt;/div&gt;
 </pre>
-<div class="datatable" style="font-size: 0.9em;">
+<div class="datatable freeze-left" style="font-size: 0.9em;">
     <table>
       <tbody>
         <tr>
