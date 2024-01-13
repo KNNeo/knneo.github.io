@@ -44,7 +44,7 @@ void Main()
 	var showMatches = true; //if has match show full match object, else just object with description
 	var showOk = false; //if post no issues don't show
 	 //----------ADD INDEXES HERE----------//
-	List<int> includeIndex = new List<int> { 3,4,6,7,8,9,11 };
+	List<int> includeIndex = new List<int> { 0 };
 	if(includeIndex.Count > 0) Console.WriteLine("[SELECTIVE_CHECKS_ACTIVATED - " + String.Join(", ", includeIndex) + "]");
 	else Console.WriteLine("[ALL_CHECKS_ACTIVATED]");
 	
@@ -135,7 +135,7 @@ void Main()
 		#region 00 custom search
 		if(includeIndex.Count() == 0 || includeIndex.Contains(0))
 		{
-	        expression = @"(.mzstatic.com/)"; // change custom query in regex here, put 0 as includeIndex
+	        expression = @"(""fineprint"")"; // change custom query in regex here, put 0 as includeIndex
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
