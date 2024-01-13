@@ -39,18 +39,18 @@ void Main()
 		.Where(entry => !entry.Descendants(app+"draft").Any(draft => draft.Value != "no"));
 	#endregion
 	
+	 //----------CHANGE SETTINGS HERE----------//
 	var postCount = 0;
 	var showResults = true; //if has match show full object, else just post title
 	var showMatches = true; //if has match show full match object, else just object with description
 	var showOk = false; //if post no issues don't show
 	 //----------ADD INDEXES HERE----------//
-	List<int> includeIndex = new List<int> { 23 };
+	List<int> includeIndex = new List<int> { 3 };
 	if(includeIndex.Count > 0) Console.WriteLine("[SELECTIVE_CHECKS_ACTIVATED - " + String.Join(", ", includeIndex) + "]");
 	else Console.WriteLine("[ALL_CHECKS_ACTIVATED]");
 	
-	/* [ID] List of Cases:		
-	 * [M1] change entertainment news post title and default page url
-	 * [M2] filter posts to exclude from import
+	/* [ID] List of Cases:
+	 * [00]	custom search
 	 * [01]	fix twitter embed
 	 * [02]	fix youtube iframe size
 	 * [03]	remove embed styles for thumbnail normal/hover (posts with sp-thumbnail will be ignored)
@@ -98,40 +98,7 @@ void Main()
 		string expression;
 		Match match;
 		List<MatchItem> fixes = new List<MatchItem>();
-		
-		#region M1 change entertainment news post title and default page url
-		if(includeIndex.Count() == 0 || includeIndex.Contains(-1))
-		{
-	        XElement empty = new XElement("empty");
-	        XAttribute emptA = new XAttribute("empty","");
-	        string originalLink = ((entry.Elements(_+"link")
-	            .FirstOrDefault(e => e.Attribute("rel").Value == "alternate") ?? empty)
-	            .Attribute("href") ?? emptA).Value;
-			
-			//if page link is not in correct format - the-entertainment-news-<yy>-issue-<[00-52]><-extra>.html
-			if(originalLink.Replace("-","").ToLower().Contains("theentertainmentnews")) // includes TheEntertainmentNews, the-entertainment-news
-			{
-				//Post Title is not current format - The Entertainment News '<yy> Issue #<[00-52]> <Extra>
-		        expression = @"(.*?)(The Entertainment News)(.*?)(Edition)(.*?)"; // change custom query in regex here, put 0 as includeIndex
-		        match = Regex.Match(content, expression);
-		        while(match.Success) {
-		            fixes.Add(new MatchItem() {
-							match = match,
-							description = "[M1] old post title for entertainment news found",
-							action = "change to new post title manually so import can fix url, cannot change url from import"
-						});
-		            match = match.NextMatch();
-		        };
-			}
-		}
-		#endregion
-		
-		#region M2 filter posts to exclude from import - replaced by manual add "The Archive" label in Blogger
-		//if(includeIndex.Count() == 0 || includeIndex.Contains(-2))
-		//{
-		//}
-		#endregion
-		
+				
 		#region 00 custom search
 		if(includeIndex.Count() == 0 || includeIndex.Contains(0))
 		{
@@ -155,7 +122,7 @@ void Main()
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
-						match = match,
+						match = showMatches ? match : null,
 						description = "[01] twitter embed without domain found",
 						action = "add back domain script, see other cases"
 					});
@@ -166,7 +133,7 @@ void Main()
 	        match = Regex.Match(content, expression);
 	        while(match.Success && match.Groups[2].Value.EndsWith("twitter-tweet") && !match.Groups[3].Value.Contains("tw-align-center")) {
 	            fixes.Add(new MatchItem() {
-						match = match,
+						match = showMatches ? match : null,
 						description = "[01] twitter embed not centered found",
 						action = "add class tw-align-center manually"
 					});
@@ -182,7 +149,7 @@ void Main()
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
-						match = match,
+						match = showMatches ? match : null,
 						description = "[02] youtube embed with height property found",
 						action = "remove property manually"
 					});
@@ -193,7 +160,7 @@ void Main()
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
-						match = match,
+						match = showMatches ? match : null,
 						description = "[02] youtube embed with width property found",
 						action = "remove property manually"
 					});
@@ -209,7 +176,7 @@ void Main()
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
-						match = match,
+						match = showMatches ? match : null,
 						description = "[03] inline styles for thumbnail found",
 						action = "remove inline styles if thumbnails replaced to latest"
 					});
@@ -225,7 +192,7 @@ void Main()
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
-						match = match,
+						match = showMatches ? match : null,
 						description = "[04] thumbnail found",
 						action = "change to latest thumbnail manually"
 					});
@@ -245,7 +212,7 @@ void Main()
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
-						match = match,
+						match = showMatches ? match : null,
 						description = "[06] sp-thumbnail found",
 						action = "change to latest thumbnail manually, own discretion of where clicker class should be"
 					});
@@ -261,7 +228,7 @@ void Main()
 	        match = Regex.Match(content, expression);
 	        while(match.Success && match.Groups[2].Value.Contains("<table") && match.Groups[4].Value.Contains("<table")) {
 	            fixes.Add(new MatchItem() {
-						match = match,
+						match = showMatches ? match : null,
 						description = "[07] div popup table found",
 						action = "change to latest thumbnail manually"
 					});
@@ -277,7 +244,7 @@ void Main()
 	        match = Regex.Match(content, expression);
 	        while(match.Success && match.Groups[2].Value.Contains("<table") && match.Groups[4].Value.Contains("<table")) {
 	            fixes.Add(new MatchItem() {
-						match = match,
+						match = showMatches ? match : null,
 						description = "[08] span popup table found",
 						action = "change to latest thumbnail manually"
 					});
@@ -293,7 +260,7 @@ void Main()
 	        match = Regex.Match(content, expression);
 	        while(match.Success && !match.Groups[2].Value.Contains("<table") && match.Groups[5].Value.Contains("<img")) {
 	            fixes.Add(new MatchItem() {
-						match = match,
+						match = showMatches ? match : null,
 						description = "[09] div popup image found",
 						action = "change to link tag manually if pop class is non-text"
 					});
@@ -323,7 +290,7 @@ void Main()
 	        while(match.Success)
 	        {
 	            fixes.Add(new MatchItem() {
-						match = match,
+						match = showMatches ? match : null,
 						description = "[11] old abbr img found",
 						action = "replace with new thumbnail popup"
 					});
@@ -339,7 +306,7 @@ void Main()
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
-						match = match,
+						match = showMatches ? match : null,
 						description = "[14] old blog link https found",
 						action = "remove"
 					});
@@ -350,7 +317,7 @@ void Main()
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
-						match = match,
+						match = showMatches ? match : null,
 						description = "[14] old blog link http found",
 						action = "remove"
 					});
@@ -366,7 +333,7 @@ void Main()
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
-						match = match,
+						match = showMatches ? match : null,
 						description = "[16] old hashtag inline script tag found",
 						action = "remove old hashtag inline script"
 					});
@@ -382,7 +349,7 @@ void Main()
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
-						match = match,
+						match = showMatches ? match : null,
 						description = "[17] youtube https redirect link found",
 						action = "ignore"
 					});
@@ -393,7 +360,7 @@ void Main()
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
-						match = match,
+						match = showMatches ? match : null,
 						description = "[17] youtube http redirect link found",
 						action = "ignore"
 					});
@@ -405,21 +372,13 @@ void Main()
         #region 18 any link not referenced within blog to open on new tab
 		if(includeIndex.Count() == 0 || includeIndex.Contains(18))
 		{
-	        expression = @"(<a )(.*?)(href="")(.*?)("")(.*?)(>)";        
+	        expression = @"(<a )(.*?)(href="")(.*?)(#|t.co/|blogger.|bp.blogspot.com|../../)(.*?)("")(.*?)(>)";        
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 				var url = match.Groups[4].Value;
-				if(!match.Groups[6].Value.Contains("_blank")
-				&& !url.StartsWith("#")
-				//&& !url.Contains("twitter.") //raw code will have link if not render as embed
-				&& !url.Contains("t.co/")
-				&& !url.Contains("blogger.")
-				&& !url.Contains("bp.blogspot.com")
-				&& !url.Contains("../../")
-				&& !url.Contains(domainLink)
-				) {
+				if(!match.Groups[6].Value.Contains("_blank") && !url.Contains(domainLink)) {
 					fixes.Add(new MatchItem() {
-						match = match,
+						match = showMatches ? match : null,
 						description = "[18] any link not referenced within blog to open on new tab"
 					});
 				}
@@ -436,7 +395,7 @@ void Main()
 				&& (url.Contains("blogger.") || url.Contains("bp.blogspot.com"))
 				) {
 					fixes.Add(new MatchItem() {
-						match = match,
+						match = showMatches ? match : null,
 						description = "[18] thumbnail: any link without new tab but is a caption (text only)"
 					});
 				}
@@ -452,7 +411,7 @@ void Main()
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
-						match = match,
+						match = showMatches ? match : null,
 						description = "[19] hashtag inline script tag found",
 						action = "remove hashtag inline script"
 					});
@@ -468,7 +427,7 @@ void Main()
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
-						match = match,
+						match = showMatches ? match : null,
 						description = "[21] inline colour style found"
 					});
 	            match = match.NextMatch();
@@ -483,7 +442,7 @@ void Main()
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
-						match = match,
+						match = showMatches ? match : null,
 						description = "[23] news-thumbnail id found"
 					});
 	            match = match.NextMatch();
@@ -493,7 +452,7 @@ void Main()
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
-						match = match,
+						match = showMatches ? match : null,
 						description = "[23] hashtags with fixed style found"
 					});
 	            match = match.NextMatch();
@@ -685,12 +644,13 @@ void Main()
 		if(includeIndex.Count() == 0 || includeIndex.Contains(32))
 		{
 			List<string> includedDomains = new List<string>() { "ggpht.com", "bp.blogspot.com", "blogger.googleusercontent.com" };
+			List<string> includedFormats = new List<string>() { ".jpg", ".png", ".gif" };
 			// Does not cater to thumbnails, do not put lazy on first thumb
 	        expression = @"(?s)(<img)(.*?)(src="")(.*?)("")";
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 				var filename = match.Groups[4].Value;
-				if(includedDomains.Any(d => filename.Contains(d)) && !filename.EndsWith(".jpg")) {
+				if(includedDomains.Any(d => filename.ToLower().Contains(d)) && !includedFormats.Any(d => filename.ToLower().EndsWith(d))) {
 					Console.WriteLine(filename);
 		            fixes.Add(new MatchItem() {
 							match = showMatches ? match : null,
