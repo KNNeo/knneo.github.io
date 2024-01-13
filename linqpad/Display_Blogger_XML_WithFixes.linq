@@ -44,7 +44,7 @@ void Main()
 	var showMatches = true; //if has match show full match object, else just object with description
 	var showOk = false; //if post no issues don't show
 	 //----------ADD INDEXES HERE----------//
-	List<int> includeIndex = new List<int> { 32 };
+	List<int> includeIndex = new List<int> { 3,4,6,7,8,9,11 };
 	if(includeIndex.Count > 0) Console.WriteLine("[SELECTIVE_CHECKS_ACTIVATED - " + String.Join(", ", includeIndex) + "]");
 	else Console.WriteLine("[ALL_CHECKS_ACTIVATED]");
 	
@@ -126,16 +126,16 @@ void Main()
 		}
 		#endregion
 		
-		#region M2 filter posts to exclude from import
-		if(includeIndex.Count() == 0 || includeIndex.Contains(-2))
-		{
-		}
+		#region M2 filter posts to exclude from import - replaced by manual add "The Archive" label in Blogger
+		//if(includeIndex.Count() == 0 || includeIndex.Contains(-2))
+		//{
+		//}
 		#endregion
 		
 		#region 00 custom search
 		if(includeIndex.Count() == 0 || includeIndex.Contains(0))
 		{
-	        expression = @"(name='more')"; // change custom query in regex here, put 0 as includeIndex
+	        expression = @"(.mzstatic.com/)"; // change custom query in regex here, put 0 as includeIndex
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
@@ -305,18 +305,18 @@ void Main()
         #region 11 abbr imgpop => div popup normal pop	
 		if(includeIndex.Count() == 0 || includeIndex.Contains(11))
 		{	
-	        expression = @"(?s)(<abbr)(.*?)(title="")(.*?)(</abbr>)";
-	        
-	        match = Regex.Match(content, expression);
-	        while(match.Success)
-	        {
-	            fixes.Add(new MatchItem() {
-						match = match,
-						description = "[11] old abbr text found",
-						action = "think of how to fix"
-					});
-	        	match = match.NextMatch();
-	        };
+//	        expression = @"(?s)(<abbr)(.*?)(title="")(.*?)(</abbr>)";
+//	        
+//	        match = Regex.Match(content, expression);
+//	        while(match.Success)
+//	        {
+//	            fixes.Add(new MatchItem() {
+//						match = match,
+//						description = "[11] old abbr text found",
+//						action = "think of how to fix"
+//					});
+//	        	match = match.NextMatch();
+//	        };
 	        expression = @"(?s)(<abbr)(.*?)(class=""imgpop)(.*?)(</abbr>)";
 	        
 	        match = Regex.Match(content, expression);
