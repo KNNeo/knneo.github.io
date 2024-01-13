@@ -44,7 +44,7 @@ void Main()
 	var showMatches = true; //if has match show full match object, else just object with description
 	var showOk = false; //if post no issues don't show
 	 //----------ADD INDEXES HERE----------//
-	List<int> includeIndex = new List<int> { 0 };
+	List<int> includeIndex = new List<int> { 23 };
 	if(includeIndex.Count > 0) Console.WriteLine("[SELECTIVE_CHECKS_ACTIVATED - " + String.Join(", ", includeIndex) + "]");
 	else Console.WriteLine("[ALL_CHECKS_ACTIVATED]");
 	
@@ -476,20 +476,20 @@ void Main()
 		}
         #endregion
 		
-		#region 23 (entertainment news) convert inline styles migrated to blog.css
+		#region 23 (entertainment news) remove inline styles and use class names for thumbnail, hashtags
 		if(includeIndex.Count() == 0 || includeIndex.Contains(23))
 		{
-	        expression = @"(<div)(.*?)(id=""news-thumbnail"" style=""display: none;"")(.*?)(>)";
+	        expression = @"(<div)(.*?)(id=""news-thumbnail"")(.*?)(>)";
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
 						match = match,
-						description = "[23] news-thumbnail with display none found"
+						description = "[23] news-thumbnail id found"
 					});
 	            match = match.NextMatch();
 	        };
 			
-	        expression = @"(<div)(.*?)(id=""hashtags"")(.*?)(style=""color: #bbbbbb; font-size: 0.8em;"")(.*?)(>)(.*?)(</div>)";
+	        expression = @"(<div)(.*?)(id=""hashtags"")(.*?)(>)(.*?)(</div>)";
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
