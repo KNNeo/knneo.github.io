@@ -201,7 +201,7 @@ function setExpander() {
 function toggleExpander() {
 	let parent = event.target.closest('.accordion');
 	parent.classList.toggle('show');
-	event.target.scrollIntoView({ block: 'center' });
+	parent.querySelector('.header').scrollIntoView({ block: 'center' });
 }
 
 ////DIALOG////
