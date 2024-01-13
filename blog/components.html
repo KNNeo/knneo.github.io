@@ -1300,7 +1300,7 @@ function setExpander() {
 function toggleExpander() {
 	let parent = event.target.closest('.accordion');
 	parent.classList.toggle('show');
-	event.target.scrollIntoView({ block: 'center' });
+	parent.querySelector('.header').scrollIntoView({ block: 'center' });
 }
 </script>
 <h1>Accordion</h1>
@@ -1418,7 +1418,7 @@ function toggleExpander() {
     </div>
     <div>[Ah, so THAT is how the title came about; She is right though]</div>
   </div>
-  <div class="footer">CLOSE</div>
+  <div class="footer">[CLOSE]</div>
 </div>
 
 <style>
