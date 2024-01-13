@@ -397,6 +397,10 @@ span.emoji {
     justify-content: center;
 }
 
+.post-tags h4 {
+	margin: 0;
+}
+
 .post-tags a {
 	border-radius: 8px;
 	box-shadow: 3px 3px var(--foreground);
