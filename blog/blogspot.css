@@ -39,22 +39,22 @@ a:hover {
 	max-width: 680px;
 	position: fixed;
 	padding-top: 5px;
-	top: 0;
+	top: -50%;
 	z-index: 1;
 	background-color: var(--background);
-	transition: opacity .4s linear, background .2s linear;
+	transition: opacity .2s linear, background .2s linear;
 	opacity: 0;
-	visibility: hidden;
-	white-space: break-spaces;
+	/* visibility: hidden; */
+}
+
+.visible-header {
+	/* visibility: visible; */
+	top: 0;
 }
 
 .opaque-header {
 	opacity: 1;
 	z-index: 2;
-}
-
-.visible-header {
-	visibility: visible;
 }
 
 .page-header .hashtags a {
@@ -218,7 +218,8 @@ a:hover {
 	cursor: pointer;
 	padding: 8px 6px 6px 6px;
 	border-radius: 7px;
-	transition: background .2s linear;
+	opacity: 1;
+	transition: opacity .2s linear, background .2s linear;
 }
 
 #BackBtn {
@@ -241,8 +242,8 @@ a:hover {
 	background-color: var(--background);
 	box-shadow: 3px 3px var(--foreground);
 	border-radius: 8px;
-	/* transition: all 0.1s linear; */
-	transition: background .2s linear;
+	opacity: 1;
+	transition: opacity .2s linear, background .2s linear;
 }
 
 #RightBtn {
@@ -265,7 +266,8 @@ a:hover {
 	background-color: var(--background);
 	box-shadow: 3px 3px var(--foreground);
 	border-radius: 8px;
-	transition: background .2s linear;
+	opacity: 1;
+	transition: opacity .2s linear, background .2s linear;
 }
 
 #DarkModeBtn {
@@ -289,7 +291,8 @@ a:hover {
 	background-color: var(--background);
 	box-shadow: 3px 3px var(--foreground);
 	border-radius: 8px;
-	transition: background .2s linear;
+	opacity: 1;
+	transition: opacity .2s linear, background .2s linear;
 }
 
 #EmojiBtn {
@@ -313,13 +316,15 @@ a:hover {
 	background-color: var(--background);
 	box-shadow: 3px 3px var(--foreground);
 	border-radius: 8px;
-	transition: background .2s linear;
+	opacity: 1;
+	transition: opacity .2s linear, background .2s linear;
 }
 
 #ShareBtn {
     bottom: 135px;
 	right: calc(50% - 410px);
-	transition: background .2s linear;
+	opacity: 1;
+	transition: opacity .2s linear, background .2s linear;
 }
 
 #PopupBtn {
@@ -361,17 +366,26 @@ a:hover {
 	display: none;
 }
 
-#BackBtn.hide-btn,
-#RightBtn.hide-btn {
+#BackBtn.tuck-away,
+#RightBtn.tuck-away {
 	left: -15%;
 }
 
-#ShareBtn.hide-btn,
-#GoToTopBtn.hide-btn,
-#PopupBtn.hide-btn,
-#EmojiBtn.hide-btn,
-#DarkModeBtn.hide-btn {
+#ShareBtn.tuck-away,
+#GoToTopBtn.tuck-away,
+#PopupBtn.tuck-away,
+#EmojiBtn.tuck-away,
+#DarkModeBtn.tuck-away {
 	right: -15%;
+}
+
+#BackBtn.hide,
+#RightBtn.hide,
+#GoToTopBtn.hide,
+#PopupBtn.hide,
+#EmojiBtn.hide,
+#DarkModeBtn.hide {
+	opacity: 0;
 }
 
 a.material-icons {
@@ -568,7 +582,7 @@ a.hidden {
 	border: 2px solid var(--primary);
 }
 
-/*MEDIA QUERIES - BUTTON POSITION*/
+/*MEDIA QUERIES - MOBILE SCREENS*/
 @media only screen and (max-width: 880px) {
 	#BackBtn,
 	#RightBtn,
@@ -583,6 +597,9 @@ a.hidden {
 	#DarkModeBtn {
 		right: 15px;
 		transition: right .2s;
+	}
+	.page-header {
+		transition: top .2s ease-out;
 	}
 	.post span {
 		display: block;

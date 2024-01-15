@@ -493,7 +493,7 @@ function displayFAB() {
 	if (pageDown) {
 		switchToButton('GoToTopBtn');
 	} else {
-		if(window.location.href.includes("knneo.github.io")) switchToButton('DarkModeBtn');
+		if(window.location.href.includes('knneo.github.io')) switchToButton('DarkModeBtn');
 		else switchToButton('SearchBtn');
 	}
 	if(!navigator.share) {
@@ -507,11 +507,13 @@ function displayFAB() {
 	let allButtons = ['GoToTopBtn','DarkModeBtn','EmojiBtn','ShareBtn','BackBtn','RightBtn'];
 	if(scrollDown || !pageDown)
 		allButtons.forEach(function(btn) {
-			document.getElementById(btn)?.classList.remove('hide-btn');
+			document.getElementById(btn)?.classList.remove('hide');
+			document.getElementById(btn)?.classList.remove('tuck-away');
 		});
 	else
 		allButtons.forEach(function(btn) {
-			document.getElementById(btn)?.classList.add('hide-btn');
+			document.getElementById(btn)?.classList.add('hide');
+			document.getElementById(btn)?.classList.add('tuck-away');
 		});
 }
 
