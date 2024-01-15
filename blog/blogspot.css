@@ -206,7 +206,6 @@ a:hover {
 #GoToTopBtn {
 	position: fixed;
 	display: block;
-	/* opacity: 0; */
 	right: calc(50% - 410px);
 	bottom: 16px;
 	z-index: 7;
@@ -286,7 +285,6 @@ a:hover {
 	color: var(--foreground);
 	cursor: pointer;
 	padding: 8px 6px 6px 6px;
-	/* transition: opacity 0.3s; */
 	border: 1px solid var(--foreground);
 	background-color: var(--background);
 	box-shadow: 3px 3px var(--foreground);
@@ -311,7 +309,6 @@ a:hover {
 	color: var(--foreground);
 	cursor: pointer;
 	padding: 8px 6px 6px 6px;
-	/* transition: opacity 0.3s; */
 	border: 1px solid var(--foreground);
 	background-color: var(--background);
 	box-shadow: 3px 3px var(--foreground);
@@ -343,7 +340,6 @@ a:hover {
 	color: var(--foreground);
 	cursor: pointer;
 	padding: 8px 6px 6px 6px;
-	/* transition: opacity 0.3s; */
 	border: 1px solid var(--foreground);
 	background-color: var(--background);
 	box-shadow: 3px 3px var(--foreground);
@@ -423,7 +419,6 @@ span.emoji {
 	padding: 6px;
     white-space: nowrap;
 	text-decoration: none;
-/* 	transition: background .2s linear; */
 }
 
 .post-tags a:hover {
