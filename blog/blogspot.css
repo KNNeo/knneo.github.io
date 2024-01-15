@@ -613,13 +613,14 @@ a.hidden {
 	}
 	body,
 	.page-header,
+	#BackBtn,
+	#RightBtn,
+	#LeftBtn,
+	#ShareBtn,
+	#GoToTopBtn,
 	#PopupBtn,
 	#EmojiBtn,
-	#LeftBtn,
-	#RightBtn,
-	#BackBtn,
-	#DarkModeBtn,
-	#GoToTopBtn
+	#DarkModeBtn
 	{
 		transition: none;
 	}
