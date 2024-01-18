@@ -1,6 +1,9 @@
 window.addEventListener('load', generateArchive);
 window.addEventListener('scroll', fadeIn); 
 
+const list = document.querySelector('.contents');
+const counter = document.querySelector('.counter');
+
 function unique(current, index, all) {
   return all.map(a => a.imgUrl).indexOf(current.imgUrl) === index;
 }
@@ -21,10 +24,9 @@ function onFilterKeyUp() {
 }
 
 function generateArchive() {
-	document.querySelector('#counter').innerText = 0;
+	counter.innerText = 0;
 	if(typeof mosaicArray == 'object')
 	{
-		let list = document.querySelector('#contents');
 		list.innerHTML = '';
 		
 		let title = '';
@@ -60,10 +62,13 @@ function generateArchive() {
 							fit.classList.remove('fit');
 					}
 					event.target.parentElement.classList.toggle('fit');
+					console.log(event.target.src.replace('/s320/', '/s640/'));
+					event.target.src = event.target.src.replace('/s320/', '/s640/');
+					setTimeout(fadeIn, 200);
 				});
 				imageSpan.addEventListener('load', function() {
 					if(!event.target.classList.contains('loaded'))
-						document.querySelector('#counter').innerText = 1 + parseInt(document.querySelector('#counter').innerText);
+						counter.innerText = 1 + parseInt(counter.innerText);
 					event.target.classList.add('loaded');
 				});
 				
@@ -77,22 +82,22 @@ function generateArchive() {
 }
 
 function fadeIn() {
-    for (let elem of document.querySelectorAll(".tile")) {
+    for (let elem of document.querySelectorAll('.tile')) {
         let distInViewFromTop = elem.getBoundingClientRect().top - window.innerHeight + 20;
         let distInViewFromBottom = elem.getBoundingClientRect().bottom + window.innerHeight - 20;
 		let inView = distInViewFromTop <= 0 && distInViewFromBottom > window.innerHeight;
 		let thumbnail = elem.querySelector('img');
         if (inView) {
-            elem.classList.add("tile-view");
-            setTimeout(function() { elem.classList.add("no-delay"); }, 500);
+            elem.classList.add('tile-view');
+            setTimeout(function() { elem.classList.add('no-delay'); }, 500);
         }
 		else {
-            elem.classList.remove("tile-view");
+            elem.classList.remove('tile-view');
             elem.classList.remove("no-delay");
         }
     }
 	
-    for (let elem of document.querySelectorAll('.tile-view')) {
+    for (let elem of document.querySelectorAll('.tile-view:not(.fit)')) {
 		let thumbnail = elem.querySelector('img');
 		thumbnail.src = thumbnail.getAttribute('data-image');
     }

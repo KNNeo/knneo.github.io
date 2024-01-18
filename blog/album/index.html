@@ -14,12 +14,13 @@
 	<title>Album Archive</title>
 </head>
 <body>
-	<a id='BackBtn' class='material-icons' href='../index.html' title='Go Back'>arrow_back</a>
-	<a id='DarkModeBtn' class='material-icons' title='Toggle Dark Mode' href='javascript:void(0);' onclick='toggleDarkMode()'>brightness_high</a>
+	<a id="BackBtn" class="material-icons" href="../index.html" title="Go Back">arrow_back</a>
+	<a id="DarkModeBtn" class="material-icons" title="Toggle Dark Mode" href="javascript:void(0);" onclick="toggleDarkMode()">brightness_high</a>
 	<div class="banner">
-	<div><span id="counter">0</span> images loaded</div>
-	<input id="term" placeholder="Filename (case sensitive)" onKeyUp="onFilterKeyUp()"></input>
+	<div>
+		<span class="counter">0</span> images loaded</div>
+		<input onKeyUp="onFilterKeyUp()"></input>
 	</div>
-	<div id="contents"></div>
+	<div class="contents"></div>
 </body>
 </html>
