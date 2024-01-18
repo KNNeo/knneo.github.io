@@ -13,13 +13,12 @@
 	<script src="index.js" type="application/javascript" charset="utf-8" defer></script>
 	<title>Album Archive</title>
 </head>
-<body>
+<body onload="generateArchive()">
 	<a id="BackBtn" class="material-icons" href="../index.html" title="Go Back">arrow_back</a>
 	<a id="DarkModeBtn" class="material-icons" title="Toggle Dark Mode" href="javascript:void(0);" onclick="toggleDarkMode()">brightness_high</a>
 	<div class="banner">
-	<div>
-		<span class="counter">0</span> images loaded</div>
-		<input onKeyUp="onFilterKeyUp()"></input>
+		<div><span class="counter">0</span> images loaded</div>
+		<input class="input" onKeyUp="onFilterKeyUp()"></input>
 	</div>
 	<div class="contents"></div>
 </body>

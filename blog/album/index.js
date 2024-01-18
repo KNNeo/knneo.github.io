@@ -1,8 +1,17 @@
-window.addEventListener('load', generateArchive);
-window.addEventListener('scroll', fadeIn); 
-
 const list = document.querySelector('.contents');
 const counter = document.querySelector('.counter');
+const callback = (entries, observer) => {
+	entries.forEach((elem) => {
+		elem.target.classList.add('tile-view');
+		let thumbnail = elem.target.querySelector('img');
+		thumbnail.src = thumbnail.getAttribute('data-image');
+	});
+};
+const observer = new IntersectionObserver(callback, {
+	root: document.querySelector('.contents'),
+	rootMargin: '10px',
+	threshold: 0,
+});
 
 function unique(current, index, all) {
   return all.map(a => a.imgUrl).indexOf(current.imgUrl) === index;
@@ -12,7 +21,8 @@ function onFilterKeyUp() {
 	// console.log(event.keyCode);
 	if (event.keyCode === 13) // "Enter" key
 	{
-		window['filter'] = event.target.value.toLowerCase();
+		window['filter'] = event.target.value.toLowerCase().replace('*','');
+		event.target.blur();
 		generateArchive();
 	}
 	if (event.keyCode === 27) // "Escape" key
@@ -24,13 +34,12 @@ function onFilterKeyUp() {
 }
 
 function generateArchive() {
-	counter.innerText = 0;
 	if(typeof mosaicArray == 'object')
 	{
 		list.innerHTML = '';
 		
 		let title = '';
-		for(let mosaic of mosaicArray.filter(unique).filter(m => m.imgFilename.includes(window['filter'] || '')))
+		for(let mosaic of mosaicArray.filter(unique).filter(m => m.imgFilename.toLowerCase().includes(window['filter'] || '')))
 		{
 			if(title != mosaic.title)
 			{
@@ -42,7 +51,7 @@ function generateArchive() {
 				titleDiv.innerText = mosaic.title;				
 				titleContainer.appendChild(titleDiv);	
 				
-				list.appendChild(titleContainer);				
+				list.appendChild(titleContainer);
 			}
 
 			title = mosaic.title;
@@ -62,9 +71,7 @@ function generateArchive() {
 							fit.classList.remove('fit');
 					}
 					event.target.parentElement.classList.toggle('fit');
-					console.log(event.target.src.replace('/s320/', '/s640/'));
 					event.target.src = event.target.src.replace('/s320/', '/s640/');
-					setTimeout(fadeIn, 200);
 				});
 				imageSpan.addEventListener('load', function() {
 					if(!event.target.classList.contains('loaded'))
@@ -75,32 +82,9 @@ function generateArchive() {
 				imageDiv.appendChild(imageSpan);
 			
 			list.appendChild(imageDiv);
+			observer.observe(imageDiv);
 		}
 	}
-	
-	setTimeout(fadeIn, 200);
-}
-
-function fadeIn() {
-    for (let elem of document.querySelectorAll('.tile')) {
-        let distInViewFromTop = elem.getBoundingClientRect().top - window.innerHeight + 20;
-        let distInViewFromBottom = elem.getBoundingClientRect().bottom + window.innerHeight - 20;
-		let inView = distInViewFromTop <= 0 && distInViewFromBottom > window.innerHeight;
-		let thumbnail = elem.querySelector('img');
-        if (inView) {
-            elem.classList.add('tile-view');
-            setTimeout(function() { elem.classList.add('no-delay'); }, 500);
-        }
-		else {
-            elem.classList.remove('tile-view');
-            elem.classList.remove("no-delay");
-        }
-    }
-	
-    for (let elem of document.querySelectorAll('.tile-view:not(.fit)')) {
-		let thumbnail = elem.querySelector('img');
-		thumbnail.src = thumbnail.getAttribute('data-image');
-    }
 }
 
 //add back button to each page

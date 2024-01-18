@@ -30,6 +30,20 @@ body {
 	text-align: center;
 }
 
+.banner {
+	position: sticky;
+	top: 0;
+}
+
+.banner div {
+	width: 100%;
+	background-color: var(--background);
+}
+
+.input:focus {
+	font-size: 2em;
+}
+
 .title {
 	color: var(--primary);
 }
@@ -161,9 +175,9 @@ body {
 	}
 }
 
-@media only screen and (min-width: 480px) {
+@media only screen and (min-width: 492px) {
 	body {
-		width: 480px;	
+		width: 492px;
 	}
 	
 	.contents {
