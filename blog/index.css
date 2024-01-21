@@ -203,8 +203,16 @@
 }
 
 .latest-post .summary {
-    max-height: 76px;
+    max-height: 86px;
     overflow: hidden;
+}
+
+.latest-post .summary::before {
+    content: "...";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 10px 20px;
 }
 
 .anchors::-webkit-scrollbar {
@@ -447,7 +455,7 @@ span.small-icons {
 .footer-inner .widget li {
   box-shadow: 3px 3px var(--foreground);
   border: 1px solid var(--foreground);
-  margin: 3px;
+  margin: 5px 3px;
   border-radius: 8px;
 }
 
