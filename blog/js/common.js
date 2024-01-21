@@ -505,22 +505,28 @@ function toggleActionsOnScroll() {
 	// position of buttons
 	let pageDown = document.body.scrollTop > 0.3 * document.documentElement.clientHeight || 
 	document.documentElement.scrollTop > 0.3 * document.documentElement.clientHeight;
-	if (pageDown) {
-		toggleActions(['.fab.share', '.fab.go-to-top'], '.action-menu.bottom-right');
+	if(window.location.href.includes('knneo.github.io')) {
+		if (pageDown) {
+			toggleActions(['.fab.share', '.fab.go-to-top'], '.action-menu.bottom-right');
+		}
+		else {
+			toggleActions(['.fab.share', '.fab.dark-mode'], '.action-menu.bottom-right');
+		}
 	}
 	else {
-		if(window.location.href.includes('knneo.github.io')) 
-			toggleActions(['.fab.share', '.fab.dark-mode'], '.action-menu.bottom-right');
+		if (pageDown) {
+			toggleActions(['.fab.share', '.fab.go-to-top'], '.action-menu.bottom-right');
+		}
 		else {
 			toggleActions(['.fab.share', '.fab.search'], '.action-menu.bottom-right');
-			if(isMediumWidth()) toggleActions(['.fab.sidebar'], '.action-menu.bottom-left');
-			else toggleActions([], '.action-menu.bottom-left');
 		}
+		if(isMediumWidth()) toggleActions(['.fab.sidebar'], '.action-menu.bottom-left');
+		else toggleActions([], '.action-menu.bottom-left');
 	}
 	
 	// works with header, when scroll down/up, hide/show buttons
 	let st = window.pageYOffset || document.documentElement.scrollTop;
-	let diff = st - window.scrollDist;
+	let diff = st - window['scrollTop'];
 	let scrollDown = st > 0.3 * document.documentElement.clientHeight && diff <= 0.01;
 	if(scrollDown || !pageDown) {
 		document.querySelector('.action-menu.bottom-left')?.classList.remove('hide');
