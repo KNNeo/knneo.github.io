@@ -59,7 +59,7 @@ function addMenuItem(classes, title, googleIconName, clickEvent, parentElement) 
 	fabButton.classList.add('material-icons');
 	fabButton.title = title;
 	fabButton.innerText = googleIconName;
-	if(clickEvent) fabButton.addEventListener('click', clickEvent);
+	if(clickEvent) fabButton.onclick = clickEvent;
 	if(parentElement) parentElement.appendChild(fabButton);
 	else document.body.appendChild(fabButton);
 }
