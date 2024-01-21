@@ -148,7 +148,7 @@
 
 .latest-post {
 	box-shadow: 3px 3px var(--foreground);
-	border: 1px solid var(--foreground);
+	border: 2px solid var(--foreground);
 	margin: 12px auto;
 	border-radius: 8px;
 	padding: 6px;
@@ -205,14 +205,6 @@
 .latest-post .summary {
     max-height: 86px;
     overflow: hidden;
-}
-
-.latest-post .summary::before {
-    content: "...";
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    padding: 10px 20px;
 }
 
 .anchors::-webkit-scrollbar {
@@ -561,6 +553,9 @@ span.small-icons {
 	}
 	.twitter-tweet {
 		width: min(100%, 320px) !important;
+	}
+	.latest-post .summary {
+		max-height: 69px;
 	}
 }
 
