@@ -37,6 +37,18 @@
 	bottom: 20px;
 	right: 20px;
 	z-index: 7;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.fab {
+	border: 1px solid var(--foreground);
+	background-color: var(--background);
+	box-shadow: 3px 3px var(--foreground);
+	border-radius: 8px;
+	color: var(--foreground);
+	cursor: pointer;
 }
 
 #SidebarBtn {

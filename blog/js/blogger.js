@@ -22,7 +22,7 @@ function addFloatingActionButtons() {
 	addMenuItem(['fab', 'go-to-top'], 'Go To Top', 'arrow_upward', goToTop, bottomRightMenu);
 	addMenuItem(['fab', 'search'], 'Search This Blog', 'search', toggleSearch, bottomRightMenu);
 	if(navigator.share) addMenuItem(['fab', 'share'], 'Share This Page', 'share', sharePage, bottomRightMenu);
-	addMenuItem(['fab', 'sidebar'], 'Toggle Menu', 'menu', toggleSearch, bottomLeftMenu);
+	addMenuItem(['fab', 'sidebar'], 'Toggle Menu', 'menu', toggleSidebar, bottomLeftMenu);
 }
 
 function addFAB(id, title, googleIconName, clickEvent) {
