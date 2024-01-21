@@ -487,37 +487,13 @@ function toggleDisplay(element, defaultValue) {
 function displayFAB() {
 	if(document.querySelector('#Overlay') != null && document.querySelector('#Overlay').style.display != 'none')
 		return;
-	// When the user scrolls down to n% of viewport from the top of the document, change floating action buttons
-	let pageDown = document.body.scrollTop > 0.3 * document.documentElement.clientHeight || 
-		document.documentElement.scrollTop > 0.3 * document.documentElement.clientHeight;
-	if (pageDown) {
-		switchToButton('GoToTopBtn');
-	} else {
-		if(window.location.href.includes('knneo.github.io')) switchToButton('DarkModeBtn');
-		else switchToButton('SearchBtn');
-	}
 	if(!navigator.share) {
-		document.querySelector('#ShareBtn').style.display = 'none';
+		document.querySelector('.fab.share').remove();
 	}
-	
-	// works with header, when scroll down/up, hide/show buttons
-	let st = window.pageYOffset || document.documentElement.scrollTop;
-	let diff = st - window['scrollTop'];
-	let scrollDown = st > 0.3 * document.documentElement.clientHeight && diff <= 0.01;
-	let allButtons = ['GoToTopBtn','DarkModeBtn','EmojiBtn','ShareBtn','BackBtn','RightBtn'];
-	if(scrollDown || !pageDown)
-		allButtons.forEach(function(btn) {
-			document.getElementById(btn)?.classList.remove('hide');
-			document.getElementById(btn)?.classList.remove('tuck-away');
-		});
-	else
-		allButtons.forEach(function(btn) {
-			document.getElementById(btn)?.classList.add('hide');
-			document.getElementById(btn)?.classList.add('tuck-away');
-		});
 }
 
 function toggleActionsOnScroll() {
+	// position of buttons
 	let pageDown = document.body.scrollTop > 0.3 * document.documentElement.clientHeight || 
 	document.documentElement.scrollTop > 0.3 * document.documentElement.clientHeight;
 	if (pageDown) {
@@ -527,6 +503,23 @@ function toggleActionsOnScroll() {
 		if(window.location.href.includes('knneo.github.io')) 
 			toggleActions(['.fab.share', '.fab.dark-mode'], '.action-menu.bottom-right');
 		else toggleActions(['.fab.share', '.fab.search'], '.action-menu.bottom-right');
+	}
+	
+	// works with header, when scroll down/up, hide/show buttons
+	let st = window.pageYOffset || document.documentElement.scrollTop;
+	let diff = st - window['scrollTop'];
+	let scrollDown = st > 0.3 * document.documentElement.clientHeight && diff <= 0.01;
+	if(scrollDown || !pageDown) {
+		document.querySelector('.action-menu.bottom-left')?.classList.remove('hide');
+		document.querySelector('.action-menu.bottom-right')?.classList.remove('hide');
+		document.querySelector('.action-menu.bottom-left')?.classList.remove('tuck-away');
+		document.querySelector('.action-menu.bottom-right')?.classList.remove('tuck-away');
+	}
+	else {
+		document.querySelector('.action-menu.bottom-left')?.classList.add('hide');
+		document.querySelector('.action-menu.bottom-right')?.classList.add('hide');
+		document.querySelector('.action-menu.bottom-left')?.classList.add('tuck-away');
+		document.querySelector('.action-menu.bottom-right')?.classList.add('tuck-away');
 	}
 }
 
