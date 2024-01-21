@@ -2,7 +2,7 @@ window['light-theme'] = '#f4f6ff';
 window['dark-theme'] = '#001114';
 window['dark-name'] = 'blog-theme';
 window['urls'] = [];
-window.addEventListener('scroll', displayHomeFAB);
+window.addEventListener('scroll', toggleActionsOnScroll);
 window.addEventListener('hashchange', filterByTag);
 
 function filterByTag() {
@@ -62,23 +62,38 @@ function goToIndex() {
 }
 
 // Floating action button events
-function displayHomeFAB() {
-	// When the user scrolls down to half of viewport from the top of the document, change floating action button
-	if (document.body.scrollTop > document.documentElement.clientHeight || 
-		document.documentElement.scrollTop > document.documentElement.clientHeight) {
-		switchToButton('GoToTopBtn');
-	} else {
-		switchToButton('DarkModeBtn');
+function toggleActionsOnScroll() {
+	// position of buttons
+	let pageDown = document.body.scrollTop > 0.3 * document.documentElement.clientHeight || 
+	document.documentElement.scrollTop > 0.3 * document.documentElement.clientHeight;
+	if (pageDown) {
+		toggleActions('.fab.go-to-top', '.action-menu.bottom-right');
+	}
+	else {
+		toggleActions('.fab.dark-mode', '.action-menu.bottom-right');
 	}
 }
 
-function switchToButton(id) {
-	if(id == '') return;
-	let buttons = ['GoToTopBtn','DarkModeBtn'];
-	for(let button of buttons)
+function toggleActions(showElements, parentElement) {
+	if(!showElements || !parentElement) return;
+	if(typeof(parentElement) == 'string') parentElement = document.querySelector(parentElement);
+	
+	// hide all in parent element: assume has fab class children
+	for(let fab of parentElement.querySelectorAll('.fab'))
 	{
-		if(document.getElementById(button) != null) document.getElementById(button).style.display = 'none';
+		fab.classList.add('hidden');
 	}
-	if(document.getElementById(id) != null)
-		document.getElementById(id).style.display = 'block';
+	
+	// show button(s) specified
+	if(Array.isArray(showElements)) {
+		for(let elem of showElements)
+		{
+			if(typeof(elem) == 'string') elem = document.querySelector(elem);
+			elem.classList.remove('hidden');
+		}
+	}
+	else if(typeof(showElements) == 'string') {
+		showElements = document.querySelector(showElements);
+		showElements.classList.remove('hidden');
+	}
 }

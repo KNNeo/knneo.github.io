@@ -47,11 +47,15 @@
 	<span class="material-icons small-icons">settings_input_component</span>Components</a>
 </p>
 <p>
-	<a id="BackBtn" class="material-icons" onclick="goBack()" title="Go Back">arrow_back</a>
-	<a id="DarkModeBtn" class="material-icons" onclick="toggleDarkMode()" title="Toggle Dark Mode">brightness_high</a>
-	<a id="GoToTopBtn" class="material-icons" title="Go To Top" style="display: none;" href="javascript:void(0);" onclick="goToTop()">arrow_upward</a>
-	<div class="count"></div>
-	<div class="archive-list">_ARCHIVE_</div>
+<div class="count"></div>
+<div class="archive-list">_ARCHIVE_</div>
+<div class="action-menu bottom-left">
+	<a class="fab back material-icons" href="../../../index.html" title="Back To Homepage">arrow_back</a>
+</div>
+<div class="action-menu bottom-right">
+	<a class="fab dark-mode material-icons" title="Toggle Dark Mode" onclick="toggleDarkMode()">brightness_high</a>
+	<a class="fab go-to-top material-icons hidden" title="Go To Top" onclick="goToTop()">arrow_upward</a>
+</div>
 </p>
 </body>
 </html>
