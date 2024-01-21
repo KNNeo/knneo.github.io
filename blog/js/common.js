@@ -5,6 +5,9 @@ const notBlogger = function() {
 const isSmallWidth = function() {
 	return window.innerWidth <= 500;
 }
+const isMediumWidth = function () {
+	return window.innerWidth <= 1024;
+}
 
 // Single onLoad event control: put all functions in sequence
 window.addEventListener('load', startup);
@@ -493,7 +496,7 @@ function displayFAB() {
 	}
 	if(!window.location.href.includes('knneo.github.io')) {
 		toggleActions(['.fab.share', '.fab.search'], '.action-menu.bottom-right');
-		if(isSmallWidth()) toggleActions(['.fab.sidebar'], '.action-menu.bottom-left');
+		if(isMediumWidth()) toggleActions(['.fab.sidebar'], '.action-menu.bottom-left');
 		else toggleActions([], '.action-menu.bottom-left');
 	}
 }
@@ -508,12 +511,16 @@ function toggleActionsOnScroll() {
 	else {
 		if(window.location.href.includes('knneo.github.io')) 
 			toggleActions(['.fab.share', '.fab.dark-mode'], '.action-menu.bottom-right');
-		else toggleActions(['.fab.share', '.fab.search'], '.action-menu.bottom-right');
+		else {
+			toggleActions(['.fab.share', '.fab.search'], '.action-menu.bottom-right');
+			if(isMediumWidth()) toggleActions(['.fab.sidebar'], '.action-menu.bottom-left');
+			else toggleActions([], '.action-menu.bottom-left');
+		}
 	}
 	
 	// works with header, when scroll down/up, hide/show buttons
 	let st = window.pageYOffset || document.documentElement.scrollTop;
-	let diff = st - window['scrollTop'];
+	let diff = st - window.scrollDist;
 	let scrollDown = st > 0.3 * document.documentElement.clientHeight && diff <= 0.01;
 	if(scrollDown || !pageDown) {
 		document.querySelector('.action-menu.bottom-left')?.classList.remove('hide');
