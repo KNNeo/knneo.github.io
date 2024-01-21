@@ -52,10 +52,10 @@ function addMenus() {
 	return [menuLeft, menuRight];
 }
 
-function addMenuItem(className, title, googleIconName, clickEvent, parentElement) {
+function addMenuItem(classes, title, googleIconName, clickEvent, parentElement) {
 	let fabButton = document.createElement('a');
-	if(Array.isArray(classNames)) fabButton.className = className.join(' ');
-	else fabButton.classList.add(className);
+	if(Array.isArray(classes)) fabButton.className = classes.join(' ');
+	else fabButton.className = classes;
 	fabButton.classList.add('material-icons');
 	fabButton.title = title;
 	fabButton.innerText = googleIconName;
