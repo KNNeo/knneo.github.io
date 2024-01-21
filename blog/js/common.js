@@ -541,13 +541,15 @@ function toggleActions(showElements, parentElement) {
 		for(let elem of showElements)
 		{
 			if(typeof(elem) == 'string') elem = document.querySelector(elem);
-			elem.classList.remove('hidden');
+			if(elem != null) elem.classList.remove('hidden');
 		}
 	}
 	else if(typeof(showElements) == 'string') {
 		showElements = document.querySelector(showElements);
-		showElements.classList.remove('hidden');
+		if(showElements != null) showElements.classList.remove('hidden');
 	}
+	else if(showElements != null)
+		showElements.classList.remove('hidden');
 }
 
 function goToTop() {
