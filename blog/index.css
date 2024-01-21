@@ -320,7 +320,7 @@ span.small-icons {
   margin: 0 !important;
 }
 
-.post-title a,
+.latest-post-title,
 .post-title.entry-title {
   font: normal bold 20px 'Open Sans', Trebuchet, sans-serif;
   background-color: var(--background);
