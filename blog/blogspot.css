@@ -203,6 +203,14 @@ a:hover {
 	left: 0;
 }
 
+.action-menu.bottom-left {
+	left: calc(50% - 405px);
+}
+
+.action-menu.bottom-right {
+	right: calc(50% - 400px);
+}
+
 .action-menu.bottom-left.tuck-away {
 	left: -15%;
 }
