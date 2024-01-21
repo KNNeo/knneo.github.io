@@ -16,7 +16,7 @@ function startup() {
 	if(typeof generateViewer == 'function') setTimeout(generateViewer, 0);
 
 	// Window events
-	window.addEventListener('scroll', displayFAB);
+	window.addEventListener('scroll', toggleActionsOnScroll);
 	window.addEventListener('resize', windowOnResize);
 	window.addEventListener('resize', resizeImages);
 	window.addEventListener('hashchange', scrollToSectionByUrl);
@@ -265,7 +265,7 @@ function togglePopup() {
     else if (this.classList.contains('new-thumbnail')) {
 		//hide
         this.classList.remove('new-thumbnail');
-		switchToButton('GoToTopBtn');
+		// switchToButton('GoToTopBtn');
 		if(document.getElementById('CloseBtn') != null) document.getElementById('CloseBtn').style.display = 'none';
 		toggleOverlay(false);
 	}
@@ -277,7 +277,7 @@ function togglePopup() {
             }
         }
         this.classList.add('new-thumbnail');
-		switchToButton('CloseBtn');
+		// switchToButton('CloseBtn');
 		toggleOverlay(false);
 		if(typeof fixExternalFrame == 'function') fixExternalFrame(this);
 		renderEmbedProcess();
@@ -517,30 +517,41 @@ function displayFAB() {
 		});
 }
 
-function switchToButton(id) {
-	if(id == '') return;
+function toggleActionsOnScroll() {
+	let pageDown = document.body.scrollTop > 0.3 * document.documentElement.clientHeight || 
+	document.documentElement.scrollTop > 0.3 * document.documentElement.clientHeight;
+	if (pageDown) {
+		toggleActions(['.fab.share', '.fab.go-to-top'], '.action-menu.bottom-right');
+	}
+	else {
+		if(window.location.href.includes('knneo.github.io')) 
+			toggleActions(['.fab.share', '.fab.dark-mode'], '.action-menu.bottom-right');
+		else toggleActions(['.fab.share', '.fab.search'], '.action-menu.bottom-right');
+	}
+}
+
+function toggleActions(showElements, parentElement) {
+	if(!showElements || !parentElement) return;
+	if(typeof(parentElement) == 'string') parentElement = document.querySelector(parentElement);
 	
-	// to hide
-	let allButtons = ['GoToTopBtn','SearchBtn','DarkModeBtn','EmojiBtn','PopupBtn','ShareBtn'];
-	for(let fab of allButtons)
+	// hide all in parent element: assume has fab class children
+	for(let fab of parentElement.querySelectorAll('.fab'))
 	{
-		if(document.getElementById(fab) != null)
-			document.getElementById(fab).style.display = 'none';
+		fab.classList.add('hidden');
 	}
 	
-	// to show
-	if(document.getElementById(id) != null) // destination id by default
-		document.getElementById(id).style.display = 'block';
-	else if (window.location.href.includes("knwebreports.blogspot")) // search btn in blogger by default
-		document.getElementById('SearchBtn').style.display = 'block';
-	
-	// custom logic: if switching to id of button, and if it exists
-	if (['GoToTopBtn','SearchBtn','DarkModeBtn'].includes(id) && document.getElementById('EmojiBtn') != null)
-		document.getElementById('EmojiBtn').style.display = 'block';
-	if (['GoToTopBtn','SearchBtn','DarkModeBtn'].includes(id) && document.getElementById('PopupBtn') != null)
-		document.getElementById('PopupBtn').style.display = 'block';
-	if (['GoToTopBtn','SearchBtn','DarkModeBtn'].includes(id) && document.getElementById('ShareBtn') != null)
-		document.getElementById('ShareBtn').style.display = 'block';
+	// show button(s) specified
+	if(Array.isArray(showElements)) {
+		for(let elem of showElements)
+		{
+			if(typeof(elem) == 'string') elem = document.querySelector(elem);
+			elem.classList.remove('hidden');
+		}
+	}
+	else if(typeof(showElements) == 'string') {
+		showElements = document.querySelector(showElements);
+		showElements.classList.remove('hidden');
+	}
 }
 
 function goToTop() {
@@ -549,9 +560,6 @@ function goToTop() {
 	// scroll to top of DOM
 	document.body.scrollTop = 0;
 	document.documentElement.scrollTop = 0;
-	// scroll to table of contents, if any
-	// if(document.querySelector('.agenda') != null)
-		// scrollToElement(document.querySelector('.agenda'));
 }
 
 function hideImagesOnError() {
