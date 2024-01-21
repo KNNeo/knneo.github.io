@@ -13,10 +13,16 @@ function preloadSequence() {
 }
 
 function addFloatingActionButtons() {
-	addFAB('GoToTopBtn', 'Back To Top', 'arrow_upward', goToTop);
-	addFAB('SearchBtn', 'Search Blog', 'search', toggleSearch);
-	addFAB('SidebarBtn', 'Toggle Sidebar', 'menu', toggleSidebar);
-	if(navigator.share) addFAB('ShareBtn', 'Share This Page', 'share', sharePage);
+	// addFAB('GoToTopBtn', 'Back To Top', 'arrow_upward', goToTop);
+	// addFAB('SearchBtn', 'Search Blog', 'search', toggleSearch);
+	// addFAB('SidebarBtn', 'Toggle Sidebar', 'menu', toggleSidebar);
+	// if(navigator.share) addFAB('ShareBtn', 'Share This Page', 'share', sharePage);
+	
+	let [bottomLeftMenu, bottomRightMenu] = addMenus();	
+	addMenuItem(['fab', 'go-to-top'], 'Go To Top', 'arrow_upward', goToTop, bottomRightMenu);
+	addMenuItem(['fab', 'search'], 'Search This Blog', 'search', toggleSearch, bottomRightMenu);
+	if(navigator.share) aaddMenuItem(['fab', 'share'], 'Share This Page', 'share', sharePage, bottomRightMenu);
+	addMenuItem(['fab', 'sidebar'], 'Toggle Menu', 'menu', toggleSearch, bottomLeftMenu);
 }
 
 function addFAB(id, title, googleIconName, clickEvent) {
@@ -30,6 +36,31 @@ function addFAB(id, title, googleIconName, clickEvent) {
 		fabButton.appendChild(fabButtonIcon);
 	if(document.getElementById(id) != undefined) document.getElementById(id).remove();
 	document.body.appendChild(fabButton);
+}
+
+function addMenus() {
+	let menuLeft = document.createElement('div');
+	menuLeft.classList.add('action-menu');
+	menuLeft.classList.add('bottom-left');
+	document.body.appendChild(menuLeft);
+	
+	let menuRight = document.createElement('div');
+	menuRight.classList.add('action-menu');
+	menuRight.classList.add('bottom-right');
+	document.body.appendChild(menuRight);
+	
+	return [menuLeft, menuRight];
+}
+
+function addMenuItem([classNames], title, googleIconName, clickEvent, parentElement) {
+	let fabButton = document.createElement('a');
+	fabButton.className = classNames.join(' ');
+	fabButton.classList.add('material-icons');
+	fabButton.title = title;
+	fabButton.innerText = googleIconName;
+	if(clickEvent) fabButton.addEventListener('click', clickEvent);
+	if(parentElement) parentElement.appendChild(fabButton);
+	else document.body.appendChild(fabButton);
 }
 
 function addSearchBar() {

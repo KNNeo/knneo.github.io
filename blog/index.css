@@ -23,6 +23,22 @@
 	padding: 3px;
 }
 
+.action-menu.bottom-left {
+	position: fixed;
+	display: block;
+	bottom: 20px;
+	left: 20px;
+	z-index: 9;
+}
+
+.action-menu.bottom-right {
+	position: fixed;
+	display: block;
+	bottom: 20px;
+	right: 20px;
+	z-index: 7;
+}
+
 #SidebarBtn {
   position: fixed;
   display: none;
