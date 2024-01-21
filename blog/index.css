@@ -552,17 +552,6 @@ span.small-icons {
 	.twitter-tweet {
 		width: min(100%, 320px) !important;
 	}
-	.latest-post .summary {
-		max-height: 59px;
-	}
-	.action-menu.bottom-left {
-		left: 15px;
-		transition: left .2s;
-	}
-	.action-menu.bottom-right {
-		right: 15px;
-		transition: right .2s;
-	}
 }
 
 /*Middle Screen Width*/
@@ -659,6 +648,9 @@ span.small-icons {
   .search-expander i {
     font-size:36px;
 	font-weight:normal;
+  }
+  .latest-post .summary {
+	max-height: 57px;
   }
 }
 
