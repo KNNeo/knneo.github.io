@@ -493,8 +493,8 @@ function displayFAB() {
 	}
 	if(!window.location.href.includes('knneo.github.io')) {
 		toggleActions(['.fab.share', '.fab.search'], '.action-menu.bottom-right');
-		if(isSmallWidth()) toggleActions([], '.action-menu.bottom-left');
-		else toggleActions(['.fab.sidebar'], '.action-menu.bottom-left');
+		if(isSmallWidth()) toggleActions(['.fab.sidebar'], '.action-menu.bottom-left');
+		else toggleActions([], '.action-menu.bottom-left');
 	}
 }
 
