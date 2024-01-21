@@ -490,6 +490,9 @@ function displayFAB() {
 	if(!navigator.share) {
 		document.querySelector('.fab.share').remove();
 	}
+	if(!window.location.href.includes('knneo.github.io')) {
+		toggleActions(['.fab.share', '.fab.search'], '.action-menu.bottom-right');
+	}
 }
 
 function toggleActionsOnScroll() {
