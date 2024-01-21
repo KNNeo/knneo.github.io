@@ -692,9 +692,8 @@ span.small-icons {
 @media only screen and (min-width: 1025px) {
   #CustomBlogSearch {
     position: absolute;
-    z-index: 50;
-    right: 26px;
-    top: 100px;
+    right: 36px;
+    top: 120px;
     width: 200px;
     display: none;
   }
