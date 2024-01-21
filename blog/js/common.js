@@ -132,14 +132,15 @@ function addHashtags() {
 		}
 		
 		// render
-		if(hashtags.length == 0) return;
-		for(let item of hashtags)
-		{
-			let newItem = document.createElement('a');
-			newItem.innerText = '#' + item.tag;
-			newItem.title = item.tag;
-			newItem.href = '#' + item.target;
-			tags.appendChild(newItem);
+		if(hashtags.length > 0) {
+			for(let item of hashtags)
+			{
+				let newItem = document.createElement('a');
+				newItem.innerText = '#' + item.tag;
+				newItem.title = item.tag;
+				newItem.href = '#' + item.target;
+				tags.appendChild(newItem);
+			}
 		}
 	}
 	if(typeof generateHeader == 'function') generateHeader();
