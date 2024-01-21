@@ -161,6 +161,7 @@ function reduceResults() {
 			
 			let latestPostTitle = document.createElement('h3');
 			latestPostTitle.classList.add(title == undefined ? 'latest-post-statement' : 'latest-post-title');
+			latestPostTitle.classList.add('post-title');
 			latestPostTitle.innerText = title?.getElementsByTagName('a')[0]?.innerText ?? statement[0].innerText;
 			
 			let latestPostSummary = document.createElement('div');
