@@ -13,11 +13,6 @@ function preloadSequence() {
 }
 
 function addFloatingActionButtons() {
-	// addFAB('GoToTopBtn', 'Back To Top', 'arrow_upward', goToTop);
-	// addFAB('SearchBtn', 'Search Blog', 'search', toggleSearch);
-	// addFAB('SidebarBtn', 'Toggle Sidebar', 'menu', toggleSidebar);
-	// if(navigator.share) addFAB('ShareBtn', 'Share This Page', 'share', sharePage);
-	
 	let [bottomLeftMenu, bottomRightMenu] = addMenus();
 	if(navigator.share) addMenuItem(['fab', 'share'], 'Share This Page', 'share', sharePage, bottomRightMenu);
 	addMenuItem(['fab', 'search'], 'Search This Blog', 'search', toggleSearch, bottomRightMenu);
