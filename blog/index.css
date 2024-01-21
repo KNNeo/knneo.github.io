@@ -508,6 +508,10 @@ span.small-icons {
     margin: 6px 0;
 }
 
+.section:last-child .widget:last-child {
+    padding-bottom: 10px;
+}
+
 #sidebar-left-1 ul {
   list-style: none;
   padding: 0;
