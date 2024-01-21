@@ -21,7 +21,7 @@ function addFloatingActionButtons() {
 	let [bottomLeftMenu, bottomRightMenu] = addMenus();	
 	addMenuItem(['fab', 'go-to-top'], 'Go To Top', 'arrow_upward', goToTop, bottomRightMenu);
 	addMenuItem(['fab', 'search'], 'Search This Blog', 'search', toggleSearch, bottomRightMenu);
-	if(navigator.share) aaddMenuItem(['fab', 'share'], 'Share This Page', 'share', sharePage, bottomRightMenu);
+	if(navigator.share) addMenuItem(['fab', 'share'], 'Share This Page', 'share', sharePage, bottomRightMenu);
 	addMenuItem(['fab', 'sidebar'], 'Toggle Menu', 'menu', toggleSearch, bottomLeftMenu);
 }
 
