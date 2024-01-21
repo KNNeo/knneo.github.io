@@ -322,7 +322,7 @@ span.small-icons {
 
 .post-title a,
 .post-title.entry-title {
-  font: normal bold 22px 'Trebuchet MS', Trebuchet, sans-serif;
+  font: normal bold 20px 'Open Sans', Trebuchet, sans-serif;
   background-color: var(--background);
 }
 
