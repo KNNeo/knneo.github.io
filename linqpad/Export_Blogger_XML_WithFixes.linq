@@ -530,15 +530,7 @@ void Main()
         output.AppendLine("<script src=\"../../../js/header.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
         output.AppendLine("<script src=\"../../../js/viewer.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
         output.AppendLine("<title>" + (postTitle.Length > 0 ? postTitle : "A Random Statement") + "</title>");
-        if(postList.IndexOf(pageLink) > 0)
-			output.AppendLine("<a id='RightBtn' class='material-icons' href='" + postList[postList.IndexOf(pageLink) - 1].Replace("./", "../../../") + "' title='Newer Post'><i class='material-icons'>skip_next</i></a>");
         output.AppendLine("<body style=\"font-family: " + defaultFont + ";\">");
-		output.AppendLine("<a id='BackBtn' class='material-icons' href='../../../index.html' title='Back To Homepage' oncontextmenu='goBack()'>arrow_back</a>");
-		//output.AppendLine("<a id='PopupBtn' class='material-icons' title='Toggle Display Links As Popups' href='javascript:void(0);' onclick='toggleInlinePopups()'>crop_din</a>");
-		output.AppendLine("<a id='ShareBtn' class='material-icons' title='Share This Page' href='javascript:void(0);' onclick='sharePage()'>share</a>");
-		output.AppendLine("<a id='EmojiBtn' class='material-icons' title='Toggle Display Emoji' href='javascript:void(0);' onclick='toggleEmojiDisplay()'>mood</a>");
-		output.AppendLine("<a id='DarkModeBtn' class='material-icons' title='Toggle Dark Mode' href='javascript:void(0);' onclick='toggleDarkMode()'>brightness_high</a>");
-		output.AppendLine("<a id='GoToTopBtn' class='material-icons' title='Go To Top' style='display: none;' href='javascript:void(0);' onclick='goToTop()'>arrow_upward</a>");
         output.AppendLine("<div id=\"contents\" class=\"post-body entry-content\">");
 		if (originalLink != "")
             output.AppendLine("<small style=\"text-align: center;\"><p><i>This is an archive from "+
@@ -560,6 +552,23 @@ void Main()
         output.Append("<br>");
         output.Append("<br>");
         output.AppendLine("</div>");
+		output.AppendLine("<div class=\"action-menu bottom-left\">");
+		if(postList.IndexOf(pageLink) > 0)
+			output.AppendLine("<a class=\"fab next material-icons\" href='" + postList[postList.IndexOf(pageLink) - 1].Replace("./", "../../../") + "' title=\"Newer Post\">skip_next</a>");
+		output.AppendLine("<a class=\"fab back material-icons\" href=\"../../../index.html\" title=\"Back To Homepage\">arrow_back</a>");
+		output.AppendLine("</div>");
+        output.AppendLine("</div>");
+		output.AppendLine("<div class=\"action-menu bottom-right\">");
+		output.AppendLine("<a class=\"fab share material-icons\" title=\"Share This Page\" onclick=\"sharePage()\">share</a>");
+		output.AppendLine("<a class=\"fab dark-mode material-icons\" title=\"Toggle Dark Mode\" onclick=\"toggleDarkMode()\">brightness_high</a>");
+		output.AppendLine("<a class=\"fab go-to-top material-icons hidden\" title=\"Go To Top\" onclick=\"goToTop()\">arrow_upward</a>");
+		output.AppendLine("</div>");
+		//output.AppendLine("<a id='BackBtn' class='material-icons' href='../../../index.html' title='Back To Homepage' oncontextmenu='goBack()'>arrow_back</a>");
+		//output.AppendLine("<a id='PopupBtn' class='material-icons' title='Toggle Display Links As Popups' href='javascript:void(0);' onclick='toggleInlinePopups()'>crop_din</a>");
+		//output.AppendLine("<a id='ShareBtn' class='material-icons' title='Shfare This Page' href='javascript:void(0);' onclick='sharePage()'>share</a>");
+		//output.AppendLine("<a id='EmojiBtn' class='material-icons' title='Toggle Display Emoji' href='javascript:void(0);' onclick='toggleEmojiDisplay()'>mood</a>");
+		//output.AppendLine("<a id='DarkModeBtn' class='material-icons' title='Toggle Dark Mode' href='javascript:void(0);' onclick='toggleDarkMode()'>brightness_high</a>");
+		//output.AppendLine("<a id='GoToTopBtn' class='material-icons' title='Go To Top' style='display: none;' href='javascript:void(0);' onclick='goToTop()'>arrow_upward</a>");
         output.AppendLine("</body>");
         output.AppendLine("</html>");
 		
