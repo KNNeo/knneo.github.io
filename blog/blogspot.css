@@ -211,6 +211,19 @@ a:hover {
 	right: calc(50% - 400px);
 }
 
+.action-menu.bottom-left.tuck-away {
+	left: -15%;
+}
+
+.action-menu.bottom-right.tuck-away {
+	right: -15%;
+}
+
+.action-menu.bottom-left.hide,
+.action-menu.bottom-right.hide {
+	opacity: 0;
+}
+
 a.material-icons {
 	text-decoration: none;
 }
