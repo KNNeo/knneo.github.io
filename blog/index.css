@@ -48,6 +48,7 @@
 	box-shadow: 3px 3px var(--foreground);
 	border-radius: 8px;
 	color: var(--foreground);
+	padding: 8px 6px 6px 6px;
 	cursor: pointer;
 }
 

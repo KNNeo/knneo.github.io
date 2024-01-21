@@ -310,7 +310,7 @@ function toggleSidebar() {
     let outer = document.getElementsByClassName('column-left-outer')[0];
 	outer.style.position = toggleDisplay(outer, 'fixed');
 	
-	let menuStatus = document.getElementById('SidebarBtn').getElementsByTagName('i')[0];
+	let menuStatus = document.querySelector('.fab.sidebar');
 	menuStatus.innerText = menuStatus.innerText == 'menu' ? 'menu_open' : 'menu';
 	
     let iconLeft = window.innerWidth >= 780 ? '5px' : '0';
