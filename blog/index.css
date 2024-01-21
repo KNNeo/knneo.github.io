@@ -47,19 +47,6 @@
 	transition: opacity .2s linear, background .2s linear;
 }
 
-.action-menu.bottom-left.tuck-away {
-	left: -15%;
-}
-
-.action-menu.bottom-right.tuck-away {
-	right: -15%;
-}
-
-.action-menu.bottom-left.hide,
-.action-menu.bottom-right.hide {
-	opacity: 0;
-}
-
 .fab {
 	border: 1px solid var(--foreground);
 	background-color: var(--background);
