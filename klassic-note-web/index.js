@@ -2316,7 +2316,18 @@ function generateSongAppetite(contents) {
 		title: 'Song Count by Month',
 		skipTitle: false, 
 		skipColumns: [],
+		actionTitle: 'Chart',
+		actionFunc: function() {
+			let values = contents.values.map(v => v[1]).map(v => v.toString().split(' ')[0]);
+			createFontChart({
+				title: 'Song Count by Month', 
+				values, 
+				minRange: contents.values[0][0],
+				maxRange: contents.values[contents.values.length-1][0]
+			});
+		}
 	});
+	
 }
 
 function generateReleaseByArtistType(contents) {
@@ -3222,6 +3233,86 @@ function hideContextMenus(forced) {
 	}
 	return contextOpen;
 }
+
+//--DIALOG CONTENT--//
+function popupText(input) {
+	let dialogDiv = document.querySelector('.dialog');
+	if(dialogDiv == null)
+	{
+		dialogDiv = document.createElement('div');
+		dialogDiv.classList.add('dialog');
+		document.body.appendChild(dialogDiv);
+	}
+	let dialog = createDialog(input);
+	dialogDiv.innerHTML = '';
+	dialogDiv.appendChild(dialog);
+	dialog.showModal();
+}
+
+function createDialog(node) {
+	// node in dialog will not have events!
+	let dialog = document.createElement('dialog');
+	if(!dialog.classList.contains('box')) dialog.classList.add('box');
+	if(typeof node == 'string')
+		dialog.innerHTML = node;
+	if(typeof node == 'object')
+	{
+		let clonedNode = node.cloneNode(true);
+		dialog.appendChild(clonedNode);
+	}
+	dialog.addEventListener('click', function() {
+		this.remove();
+	});
+	dialog.addEventListener('keyup', function() {
+		if (event.key === ' ' || event.key === 'Enter')
+			this.remove();
+	});
+	return dialog;
+}
+
+function createFontChart(contents) {
+	let { title, values, minRange, maxRange} = contents;
+	// console.log(values);
+	let min = Math.min(...values);
+	let max = Math.max(...values);
+	// console.log(min, max);
+	let normalized = values.map(v => Math.floor(50 * (v - min) / (max - min)));
+	// console.log(Array.from(normalized));
+	let textVal = Array.from(normalized).map(i => String.fromCharCode((i > 24 ? 65+i-25 : 97+i)));
+	// console.log(textVal);
+	
+	let container = document.createElement('div');
+	
+	let header = document.createElement('div');
+	header.style.position = 'absolute';
+	header.style.top = '10px';
+	header.style.textAlign = 'center';
+	header.innerText = title;
+	container.appendChild(header);
+	
+	let wave = document.createElement('div');
+	wave.classList.add('wave');
+	wave.innerText = textVal.join('');
+	container.appendChild(wave);
+	
+	let rangeLeft = document.createElement('div');
+	rangeLeft.style.position = 'absolute';
+	rangeLeft.style.bottom = '10px';
+	rangeLeft.style.fontSize = '70%';
+	rangeLeft.innerText = minRange;
+	container.appendChild(rangeLeft);
+	
+	let rangeRight = document.createElement('div');
+	rangeRight.style.position = 'absolute';
+	rangeRight.style.right = '10px';
+	rangeRight.style.bottom = '10px';
+	rangeRight.style.fontSize = '70%';
+	rangeRight.innerText = maxRange;
+	container.appendChild(rangeRight);
+	
+	popupText(container);
+}
+
 
 //--TEST PLAYER-//
 function testPlayer(startFrom) {
