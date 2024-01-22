@@ -2253,56 +2253,15 @@ function generateVocalPopularity(contents) {
 }
 
 function generateBSide(contents) {	
-	let columns = contents.columns;
-	let rows = contents.values;
-	let total = rows[0][1];
-	if(contents.length === 0 || total === 0) return;
-	
-	let header = document.createElement('h4');
-	header.classList.add('centered');
-	header.innerText = 'Singles B-side Reviews';
-	
-	let table = document.createElement('table');
-	table.classList.add('list');
-	table.classList.add('centered');
-	table.classList.add('content-box');
-	
-	let tbody = document.createElement('tbody');
-	
-	let tr = document.createElement('tr');
-	for(let column of columns)
-	{
-		let th = document.createElement('th');
-		th.innerText = column;
-		tr.appendChild(th);
-	}
-	tbody.appendChild(tr);
-	
-	let skipColumns = [];
-	for(let r = 0; r < rows.length; r++)
-	{
-		// let rowVal = row[r];
-		// if(!rowVal || rowVal.length === 0) continue;
-		// if(skipColumns.includes(columns[r])) continue;
-		
-		let tr = document.createElement('tr');
-	
-		let tc = document.createElement('td');
-		tc.innerText = rows[r][0];
-		tr.appendChild(tc);
-		
-		let td = document.createElement('td');
-		td.innerText = r === 0 ? total + ' Singles' : rows[r][1];
-		tr.appendChild(td);
-		
-		tbody.appendChild(tr);	
-	}
-		
-	table.appendChild(tbody);
-	
-	document.querySelector('#single-bside').innerHTML = '';
-	document.querySelector('#single-bside').appendChild(header);
-	document.querySelector('#single-bside').appendChild(table);
+	if(debugMode) console.log('generateVocalPopularity', contents);	
+	generateDataAsTableWithHeader(
+		contents, {
+		id: 'single-bside', 
+		skipClear: false, 
+		title: 'Singles B-side Reviews', 
+		skipTitle: false, 
+		skipColumns: [],
+	});
 }
 
 function generateSongLaguage(contents) {
