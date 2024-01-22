@@ -15,6 +15,13 @@
   src: url(resources/material-icons.woff2) format(woff2);
 }
 
+@font-face {
+  font-family: Wavefont;
+  font-style: normal;
+  font-weight: 400;
+  src: url(resources/wavefont.woff2) format(woff2);
+}
+
 .bi {
 	font-size: 1.2em;
 }
