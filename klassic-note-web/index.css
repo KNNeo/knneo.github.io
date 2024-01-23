@@ -450,12 +450,6 @@ a {
 	cursor: pointer;
 }
 
-.wave {
-	font-family: Wavefont;
-    font-size: 10em;
-	font-variation-settings: 'wght' 400, 'ROND' 0, 'YELA' 0;
-}
-
 .dialog dialog {
 	background-color: var(--background);
 	color: var(--foreground);	
@@ -465,4 +459,29 @@ a {
 .dialog dialog a {
 	background-color: var(--background);
 	color: var(--primary);
+}
+
+.wave {
+	font-family: Wavefont;
+    font-size: 10em;
+    padding: 0 15px;
+	font-variation-settings: 'wght' 400, 'ROND' 0, 'YELA' 0;
+}
+
+.font-chart .range {
+	position: absolute;
+	bottom: 10px;
+	font-size: 70%;
+}
+
+.range.right {
+	right: 10px;
+}
+
+.range.max {
+    top: 3em;
+}
+
+.range.min {
+	bottom: 4em;
 }

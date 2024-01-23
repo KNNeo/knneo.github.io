@@ -2322,8 +2322,8 @@ function generateSongAppetite(contents) {
 			createFontChart({
 				title: 'Song Count by Month', 
 				values, 
-				minRange: contents.values[0][0],
-				maxRange: contents.values[contents.values.length-1][0]
+				startRange: contents.values[0][0],
+				endRange: contents.values[contents.values.length-1][0]
 			});
 		}
 	});
@@ -2425,6 +2425,25 @@ function generateSongCountByYear(contents) {
 		iconColumnName: 'Count',
 		iconValueColumnName: 'Count',
 		iconId: 'music_note',
+		actionTitle: 'Chart',
+		actionFunc: function() {
+			let values = contents.values.reduce(function(total, current, _, _) {
+				let latest = total.length > 0 ? total[total.length-1][0] : current[0];
+				while(current[0] - latest > 1)
+				{
+					total.push([++latest, 0]);
+				}
+				total.push(current);
+				return total;
+			}, []).map(v => v[1]);
+			// console.log(values);
+			createFontChart({
+				title: 'Song Count by Year', 
+				values, 
+				startRange: contents.values[0][0],
+				endRange: contents.values[contents.values.length-1][0]
+			});
+		}
 	});
 }
 
@@ -3271,7 +3290,7 @@ function createDialog(node) {
 }
 
 function createFontChart(contents) {
-	let { title, values, minRange, maxRange} = contents;
+	let { title, values, startRange, endRange, minRange, maxRange } = contents;
 	// console.log(values);
 	let min = Math.min(...values);
 	let max = Math.max(...values);
@@ -3282,6 +3301,7 @@ function createFontChart(contents) {
 	// console.log(textVal);
 	
 	let container = document.createElement('div');
+	container.classList.add('font-chart');
 	
 	let header = document.createElement('div');
 	header.style.position = 'absolute';
@@ -3296,19 +3316,24 @@ function createFontChart(contents) {
 	container.appendChild(wave);
 	
 	let rangeLeft = document.createElement('div');
-	rangeLeft.style.position = 'absolute';
-	rangeLeft.style.bottom = '10px';
-	rangeLeft.style.fontSize = '70%';
-	rangeLeft.innerText = minRange;
+	rangeLeft.className = 'range left';
+	rangeLeft.innerText = startRange;
 	container.appendChild(rangeLeft);
 	
 	let rangeRight = document.createElement('div');
-	rangeRight.style.position = 'absolute';
-	rangeRight.style.right = '10px';
-	rangeRight.style.bottom = '10px';
-	rangeRight.style.fontSize = '70%';
-	rangeRight.innerText = maxRange;
+	rangeRight.className = 'range right';
+	rangeRight.innerText = endRange;
 	container.appendChild(rangeRight);
+	
+	let rangeMin = document.createElement('div');
+	rangeMin.className = 'range min';
+	rangeMin.innerText = minRange || min;
+	container.appendChild(rangeMin);
+	
+	let rangeMax = document.createElement('div');
+	rangeMax.className = 'range max';
+	rangeMax.innerText = maxRange || max;
+	container.appendChild(rangeMax);
 	
 	popupText(container);
 }
