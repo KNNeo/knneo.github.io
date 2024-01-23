@@ -54,16 +54,14 @@ function toggleHeader(forced) {
 	if (forced) {
 		// exclusions: to do before show/hide
 		if(pageHeader.getBoundingClientRect().height >= minCoverHeight)
-			pageHeader.querySelector('.hashtags').classList.add('hidden');
+			pageHeader.querySelector('.hashtags').classList.add('hide');
 		if(pageHeader.height >= minCoverHeight)
-			pageHeader.classList.add('hidden');
+			pageHeader.classList.add('hide');
 		
-		pageHeader.classList.add('visible-header');
-		pageHeader.classList.add('opaque-header');
+		pageHeader.classList.remove('hide');
 	}
 	else {
-		pageHeader.classList.remove('opaque-header');
-		pageHeader.classList.remove('visible-header');
+		pageHeader.classList.add('hide');
 	}
 }
 

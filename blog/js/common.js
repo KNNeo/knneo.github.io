@@ -531,14 +531,10 @@ function toggleActionsOnScroll() {
 	if(scrollDown || !pageDown) {
 		document.querySelector('.action-menu.bottom-left')?.classList.remove('hide');
 		document.querySelector('.action-menu.bottom-right')?.classList.remove('hide');
-		document.querySelector('.action-menu.bottom-left')?.classList.remove('tuck-away');
-		document.querySelector('.action-menu.bottom-right')?.classList.remove('tuck-away');
 	}
 	else {
 		document.querySelector('.action-menu.bottom-left')?.classList.add('hide');
 		document.querySelector('.action-menu.bottom-right')?.classList.add('hide');
-		document.querySelector('.action-menu.bottom-left')?.classList.add('tuck-away');
-		document.querySelector('.action-menu.bottom-right')?.classList.add('tuck-away');
 	}
 }
 
