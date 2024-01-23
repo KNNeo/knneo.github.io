@@ -33,6 +33,12 @@
     src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjeG1NiPfCVutVXoF8p8K_q6WullZi-R7ncGd839tjdX4in6xZLshiJwsizHCSjAFhB0Pw5GrPdF63DWsEJQVbzo9urV666B0z8ZrGOCN6P0tviJbsrL8mZ5yOf_0Wz9BokZS9nr_qZ0f1G8quC4csHQADG7a09zrOxl-0Qd7Stl9HgZyJZbhZqwMqQHXQ/s320/212001401359.jpg"
   />
 </div>
+<script>
+  window.addEventListener('load', function() { 
+    if(localStorage.getItem(window.location.origin)) 
+      document.querySelector('.disclaimer-checkbox').click(); 
+  });
+</script>
 <div style="padding: 5px; text-align: center;">
   <i
     ><span style="font-size: x-small;"
@@ -510,7 +516,8 @@
 <div style="text-align: center;">
   <label style="cursor: pointer;"
     ><input
-      onclick="document.querySelector('.lineup').style.visibility=''==document.querySelector('.lineup').style.visibility?'hidden':'';setThumbnails();"
+      class="disclaimer-checkbox"
+      onclick="document.querySelector('.lineup').style.display=''==document.querySelector('.lineup').style.display?'none':'';setThumbnails();localStorage.setItem(window.location.origin,'none');"
       style="cursor: pointer; vertical-align: bottom;"
       type="checkbox"
     />
@@ -520,7 +527,7 @@
 <div><br /></div>
 <div><hr /></div>
 <div><br /></div>
-<div class="lineup" style="visibility: hidden;">
+<div class="lineup" style="display: none;">
   <div>
     Okay okay, now that you have consented to not telling your parents about
     what you are about to see, let's do this! <span class="emoji" title="🤭">*giggles*</span>
