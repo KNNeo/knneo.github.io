@@ -47,6 +47,7 @@ a:hover {
 
 .page-header.hide {
 	opacity: 0;
+	z-index: -1;
 }
 
 .page-header .hashtags a {
@@ -208,10 +209,12 @@ a:hover {
 
 .action-menu.bottom-left.hide {
 	opacity: 0;
+	z-index: -1;
 }
 
 .action-menu.bottom-right.hide {
 	opacity: 0;
+	z-index: -1;
 }
 
 a.material-icons {
