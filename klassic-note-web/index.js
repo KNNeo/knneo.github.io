@@ -612,7 +612,7 @@ function updateOptions(contents) {
 	//default
 	newOptions.push({
 		id: 0,
-		optionString: '===' + (contents?.values?.length || 'no') + ' options==='
+		optionString: '===' + (contents?.values?.length || 'NO') + ' OPTIONS==='
 	});
 	
 	if(contents.columns) {
@@ -630,20 +630,29 @@ function updateOptions(contents) {
 				
 				if(title)
 					newOptions.push({
+						category: 'SONG',
 						id: categoryIcons[2] + id,
 						optionString: categoryIcons[2] + knyear + ' - ' + artist +  ' - ' + title
 					});
-				else if (artist)
+				else if (artist) 
 					newOptions.push({
+						category: 'ARTIST',
 						id: categoryIcons[0] + id,
 						optionString: categoryIcons[0] + artist
-					});					
+					});			
 			}
-			
 		}
 		
+		let category = '';
 		for(let newOption of newOptions)
 		{
+			if(newOption.category && newOption.category != category) {
+				let optgroup = document.createElement('optgroup');
+				optgroup.setAttribute('label', newOption.category);					
+				options.appendChild(optgroup);
+				category = newOption.category;
+			}
+			
 			let opt = document.createElement('option');
 			opt.value = (newOption.optionString.startsWith(' - ') ? 'A' : '') + newOption.id;
 			opt.innerHTML = newOption.optionString.replace(search.value, '<span style="font-weight: bold;">' + search.value + '</span>');
@@ -652,7 +661,7 @@ function updateOptions(contents) {
 		}
 		if(newOptions.length === 2) //1 result with default select
 		{
-			console.log('single option from input');
+			if(debugMode) console.log('single option from input: auto select');
 			// search.blur();
 			setTimeout(function() {
 				let newId = contents.values[0][columnIndexKNID];
@@ -2316,7 +2325,7 @@ function generateSongAppetite(contents) {
 		title: 'Song Count by Month',
 		skipTitle: false, 
 		skipColumns: [],
-		actionTitle: 'Chart',
+		actionTitle: 'Graph',
 		actionFunc: function() {
 			let values = contents.values.map(v => v[1]).map(v => v.toString().split(' ')[0]);
 			createFontChart({
@@ -2425,7 +2434,7 @@ function generateSongCountByYear(contents) {
 		iconColumnName: 'Count',
 		iconValueColumnName: 'Count',
 		iconId: 'music_note',
-		actionTitle: 'Chart',
+		actionTitle: 'Graph',
 		actionFunc: function() {
 			let values = contents.values.reduce(function(total, current, _, _) {
 				let latest = total.length > 0 ? total[total.length-1][0] : current[0];
@@ -3291,49 +3300,57 @@ function createDialog(node) {
 
 function createFontChart(contents) {
 	let { title, values, startRange, endRange, minRange, maxRange } = contents;
-	// console.log(values);
+	if(debugMode) console.log(values);
 	let min = Math.min(...values);
 	let max = Math.max(...values);
-	// console.log(min, max);
+	if(debugMode) console.log(min, max);
 	let normalized = values.map(v => Math.floor(50 * (v - min) / (max - min)));
-	// console.log(Array.from(normalized));
+	if(debugMode) console.log(Array.from(normalized));
 	let textVal = Array.from(normalized).map(i => String.fromCharCode((i > 24 ? 65+i-25 : 97+i)));
-	// console.log(textVal);
+	if(debugMode) onsole.log(textVal);
 	
 	let container = document.createElement('div');
 	container.classList.add('font-chart');
 	
-	let header = document.createElement('div');
-	header.style.position = 'absolute';
-	header.style.top = '10px';
-	header.style.textAlign = 'center';
-	header.innerText = title;
-	container.appendChild(header);
+	if(title) {
+		let header = document.createElement('div');
+		header.style.position = 'absolute';
+		header.style.top = '10px';
+		header.style.textAlign = 'center';
+		header.innerText = title;
+		container.appendChild(header);
+	}
 	
 	let wave = document.createElement('div');
 	wave.classList.add('wave');
 	wave.innerText = textVal.join('');
 	container.appendChild(wave);
 	
-	let rangeLeft = document.createElement('div');
-	rangeLeft.className = 'range left';
-	rangeLeft.innerText = startRange;
-	container.appendChild(rangeLeft);
+	if(startRange) {
+		let rangeLeft = document.createElement('div');
+		rangeLeft.className = 'range left';
+		rangeLeft.innerText = startRange;
+		container.appendChild(rangeLeft);
+	}
 	
-	let rangeRight = document.createElement('div');
-	rangeRight.className = 'range right';
-	rangeRight.innerText = endRange;
-	container.appendChild(rangeRight);
+	if(endRange) {
+		let rangeRight = document.createElement('div');
+		rangeRight.className = 'range right';
+		rangeRight.innerText = endRange;
+		container.appendChild(rangeRight);
+	}
 	
-	let rangeMin = document.createElement('div');
-	rangeMin.className = 'range min';
-	rangeMin.innerText = minRange || min;
-	container.appendChild(rangeMin);
-	
-	let rangeMax = document.createElement('div');
-	rangeMax.className = 'range max';
-	rangeMax.innerText = maxRange || max;
-	container.appendChild(rangeMax);
+	if(showMinMax) {
+		let rangeMin = document.createElement('div');
+		rangeMin.className = 'range min';
+		rangeMin.innerText = minRange || min;
+		container.appendChild(rangeMin);
+		
+		let rangeMax = document.createElement('div');
+		rangeMax.className = 'range max';
+		rangeMax.innerText = maxRange || max;
+		container.appendChild(rangeMax);
+	}
 	
 	popupText(container);
 }
