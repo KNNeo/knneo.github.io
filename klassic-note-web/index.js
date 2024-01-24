@@ -3340,17 +3340,15 @@ function createFontChart(contents) {
 		container.appendChild(rangeRight);
 	}
 	
-	if(showMinMax) {
-		let rangeMin = document.createElement('div');
-		rangeMin.className = 'range min';
-		rangeMin.innerText = minRange || min;
-		container.appendChild(rangeMin);
-		
-		let rangeMax = document.createElement('div');
-		rangeMax.className = 'range max';
-		rangeMax.innerText = maxRange || max;
-		container.appendChild(rangeMax);
-	}
+	let rangeMin = document.createElement('div');
+	rangeMin.className = 'range min';
+	rangeMin.innerText = minRange || min;
+	container.appendChild(rangeMin);
+	
+	let rangeMax = document.createElement('div');
+	rangeMax.className = 'range max';
+	rangeMax.innerText = maxRange || max;
+	container.appendChild(rangeMax);
 	
 	popupText(container);
 }
