@@ -2327,7 +2327,7 @@ function generateSongAppetite(contents) {
 		skipColumns: [],
 		actionTitle: 'Graph',
 		actionFunc: function() {
-			let values = contents.values.map(v => v[1]).map(v => v.toString().split(' ')[0]);
+			let values = contents.values.map(v => v[1]).map((v,i) => i > 0 ? v.toString().split(' ')[1].replace(/[()+]/g, '') : v.toString().split(' ')[0]); // first value is initial value, no increment
 			createFontChart({
 				title: 'Song Count by Month', 
 				values, 
@@ -3362,7 +3362,6 @@ function createFontChart(contents) {
 	
 	popupText(container);
 }
-
 
 //--TEST PLAYER-//
 function testPlayer(startFrom) {
