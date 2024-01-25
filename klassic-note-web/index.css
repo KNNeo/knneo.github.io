@@ -462,10 +462,15 @@ a {
 }
 
 .wave {
-	font-family: Wavefont;
-    font-size: 10em;
+	font-family: linefont;
+    font-size: 9em;
     padding: 0 15px;
-	font-variation-settings: 'wght' 400, 'ROND' 0, 'YELA' 0;
+	/* font-variation-settings: 'ROND' 0; */
+	font-variation-settings: 'wght' 50, 'wdth' 140;
+}
+
+.wave.condensed {
+    font-size: 2em;	
 }
 
 .font-chart .range {

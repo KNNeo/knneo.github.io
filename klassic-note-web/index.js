@@ -2420,6 +2420,16 @@ function generatePopularSongs(contents) {
 
 function generateSongCountByYear(contents) {
 	if(debugMode) console.log('generateArtistReleaseInfo', contents);
+	let values = contents.values.reduce(function(total, current, _, _) {
+		let latest = total.length > 0 ? total[total.length-1][0] : current[0];
+		while(current[0] - latest > 1)
+		{
+			total.push([++latest, 0]);
+		}
+		total.push(current);
+		return total;
+	}, []).map(v => v[1]);
+	// console.log(values);
 	generateDataAsTableWithHeader(
 		contents, {
 		id: 'song-appetite', 
@@ -2434,23 +2444,14 @@ function generateSongCountByYear(contents) {
 		iconColumnName: 'Count',
 		iconValueColumnName: 'Count',
 		iconId: 'music_note',
-		actionTitle: 'Graph',
+		actionTitle: values.length > 3 ? 'Graph' : null,
 		actionFunc: function() {
-			let values = contents.values.reduce(function(total, current, _, _) {
-				let latest = total.length > 0 ? total[total.length-1][0] : current[0];
-				while(current[0] - latest > 1)
-				{
-					total.push([++latest, 0]);
-				}
-				total.push(current);
-				return total;
-			}, []).map(v => v[1]);
-			// console.log(values);
 			createFontChart({
 				title: 'Song Count by Year', 
 				values, 
 				startRange: contents.values[0][0],
-				endRange: contents.values[contents.values.length-1][0]
+				endRange: contents.values[contents.values.length-1][0],
+				cumulative: true
 			});
 		}
 	});
@@ -3299,8 +3300,16 @@ function createDialog(node) {
 }
 
 function createFontChart(contents) {
-	let { title, values, startRange, endRange, minRange, maxRange } = contents;
+	let { title, values, startRange, endRange, minRange, maxRange, cumulative } = contents;
 	if(debugMode) console.log(values);
+	if(cumulative) {
+		let prev = 0;
+		values = values.map(function(current) {
+			prev += current;
+			return prev;
+		});
+	}
+	// console.log(values);
 	let min = Math.min(...values);
 	let max = Math.max(...values);
 	if(debugMode) console.log(min, max);
@@ -3323,6 +3332,7 @@ function createFontChart(contents) {
 	
 	let wave = document.createElement('div');
 	wave.classList.add('wave');
+	wave.classList.add('not-selectable');
 	wave.innerText = textVal.join('');
 	container.appendChild(wave);
 	

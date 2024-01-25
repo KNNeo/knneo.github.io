@@ -22,6 +22,12 @@
   src: url(resources/wavefont.woff2) format(woff2);
 }
 
+@font-face {
+	font-family: linefont;
+	font-display: block;
+	src: url(resources/Linefont[wdth,wght].woff2) format('woff2');
+}
+
 .bi {
 	font-size: 1.2em;
 }
