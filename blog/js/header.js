@@ -45,7 +45,7 @@ function headerOnScroll() {
 	let diff = st - window['scrollTop'];
 	// console.log(st, window['scrollTop'], diff);
 	// diff == 1 is for initial load if navigate to section (chrome)
-	toggleHeader(st > 0.3 * document.documentElement.clientHeight && diff <= 0.01);
+	toggleHeader(st > 0.3 * document.documentElement.clientHeight && diff <= 0.1);
 	window['scrollTop'] = st;
 }
 
@@ -54,14 +54,14 @@ function toggleHeader(forced) {
 	if (forced) {
 		// exclusions: to do before show/hide
 		if(pageHeader.getBoundingClientRect().height >= minCoverHeight)
-			pageHeader.querySelector('.hashtags').classList.add('hide');
+			pageHeader.querySelector('.hashtags').classList.remove('show');
 		if(pageHeader.height >= minCoverHeight)
-			pageHeader.classList.add('hide');
+			pageHeader.classList.remove('show');
 		
-		pageHeader.classList.remove('hide');
+		pageHeader.classList.add('show');
 	}
 	else {
-		pageHeader.classList.add('hide');
+		pageHeader.classList.remove('show');
 	}
 }
 

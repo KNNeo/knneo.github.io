@@ -527,7 +527,7 @@ function toggleActionsOnScroll() {
 	// works with header, when scroll down/up, hide/show buttons
 	let st = window.pageYOffset || document.documentElement.scrollTop;
 	let diff = st - window['scrollTop'];
-	let scrollDown = st > 0.3 * document.documentElement.clientHeight && diff <= 0.01;
+	let scrollDown = st > 0.3 * document.documentElement.clientHeight && diff <= 0.1;
 	if(scrollDown || !pageDown) {
 		document.querySelector('.action-menu.bottom-left')?.classList.remove('hide');
 		document.querySelector('.action-menu.bottom-right')?.classList.remove('hide');
