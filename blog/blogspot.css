@@ -428,10 +428,10 @@ a.hidden {
 		transform: translateX(15em);
 	}
 	.page-header {
-		transform: translateY(0);
-	}
-	.page-header.hide {
 		transform: translateY(-20em);
+	}
+	.page-header.show {
+		transform: translateY(0);
 	}
 	.post span {
 		display: block;
