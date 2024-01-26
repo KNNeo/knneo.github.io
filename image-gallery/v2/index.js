@@ -444,7 +444,7 @@ function createSource() {
 	// checks for limits
 	if(Array.from(list).find(f => !window.variables.custom.maxFileSizeBytes || f.size > window.variables.custom.maxFileSizeBytes))
 		alert('Some files selected too large: Slow loading times expected');
-	if(list.length > window.variables.custom.maxFileAmount)
+	if(window.variables.custom.maxFileAmount && list.length > window.variables.custom.maxFileAmount)
 		alert('File count selected too large: Slow loading times expected');
 	
 	// reset variables
