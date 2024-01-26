@@ -185,8 +185,22 @@ a:hover {
     display: none;
 }
 
-#blog-archive-list {
+.archive-list {
 	padding-bottom: 20px;
+}
+
+.archive-list.flip .thumb {
+    flex-direction: row;
+}
+
+.archive-list.flip .anchors {
+    right: auto;
+	left: 0;
+}
+
+.archive-list.flip .publish {
+    right: auto;
+	left: 8px;
 }
 
 #contents {

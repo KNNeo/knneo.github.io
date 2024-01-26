@@ -55,6 +55,7 @@
 	color: var(--foreground);
 	padding: 8px 6px 6px 6px;
 	cursor: pointer;
+	line-height: 1;
 
 	-webkit-user-select: none;
 	-khtml-user-select: none;

@@ -41,7 +41,6 @@ function filterByTag() {
 	// goToTop();
 }
 
-
 function randomPost() {
 	let urls = Array.from(document.querySelectorAll('.post:not(.hidden)')).map(p => p.querySelector('a').href);
 	window.location.href = urls[Math.floor(Math.random() * urls.length)];
@@ -59,6 +58,11 @@ function goBack() {
 
 function goToIndex() {
 	window.location.href = '../blogger-view/index.html';
+}
+
+function toggleThumbnailDesign() {
+	event.target.style.transform = event.target.style.transform == '' ? 'rotateY(180deg)' : '';
+	document.querySelector('.archive-list').classList.toggle('flip');
 }
 
 // Floating action button events
