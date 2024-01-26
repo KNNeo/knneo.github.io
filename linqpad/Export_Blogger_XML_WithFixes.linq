@@ -651,7 +651,7 @@ void Main()
 
 bool IsLatestPost(DateTime publishDate)
 {
-	DateTime beforeDate = DateTime.Now.AddMonths(-2);
+	DateTime beforeDate = DateTime.Now.AddMonths(-6);
 	return DateTime.Compare(publishDate, new DateTime(beforeDate.Year, beforeDate.Month, 1)) >= 0;
 }
 
