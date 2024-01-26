@@ -441,9 +441,17 @@ function createSource() {
 	let list = event.target.files;
 	// console.log('onSelectFiles', list);
 	
+	// checks for limits
+	if(Array.from(list).find(f => !window.variables.custom.maxFileSizeBytes || f.size > window.variables.custom.maxFileSizeBytes))
+		alert('Some files selected too large: Slow loading times expected');
+	if(list.length > window.variables.custom.maxFileAmount)
+		alert('File count selected too large: Slow loading times expected');
+	
+	// reset variables
 	let content = window.variables;
 	window.variables.items = [];
 	
+	// load as blob and render
 	for(i = 0; i < list.length; i++)
 	{
 		let name = list[i].name;
