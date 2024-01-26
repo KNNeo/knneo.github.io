@@ -16,11 +16,16 @@
 }
 
 /*SPECIFIC*/
-a {
+a, label {
 	color: var(--foreground);
 	text-decoration: none;
 }
-a:hover {
+
+label {
+	cursor: pointer;
+}
+
+a:hover, label:hover {
 	color: var(--primary);	
 }
 

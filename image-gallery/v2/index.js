@@ -40,7 +40,7 @@ function generateTagClouds() {
 		let filterList = window.variables.items
 		.map(i => i[filter.className])
 		.reduce(function(total, current, index, arr) {
-			if(!total.map(m => m.value).includes(current))
+			if(current && !total.map(m => m.value).includes(current))
 				total.push({
 					value: current,
 					category: filter.className,
@@ -304,7 +304,6 @@ function renderFilters(tags) {
 	for(let tag of filtersDiv.querySelectorAll('div'))
 	{
 		tag.innerHTML = '';
-		
 		// add tag title
 		let tagDiv = document.createElement('h3');
 		tagDiv.style.textTransform = 'uppercase';
@@ -331,9 +330,6 @@ function renderFilters(tags) {
 			filterDiv.appendChild(tagDiv);
 		}
 	}
-	
-	//allow change source
-	// filtersDiv.querySelector('.close').addEventListener('contextmenu', changeData);
 }
 
 function renderDisplay() {
@@ -441,32 +437,57 @@ function changeDataFile(dest) {
 	startup();
 }
 
+function createSource() {	
+	let list = event.target.files;
+	// console.log('onSelectFiles', list);
+	
+	let content = window.variables;
+	window.variables.items = [];
+	
+	for(i = 0; i < list.length; i++)
+	{
+		let name = list[i].name;
+		let reader = new FileReader();
+		reader.readAsDataURL(list[i]);
+		reader.onload = function() {
+			window.variables.items.push({
+				"order": i,
+				"filename": event.target.result,
+				"tags": window.variables.custom.showTagsAsFilename ? name.substring(0, name.lastIndexOf('.')) : undefined,
+			});
+			if(i >= list.length) {
+				hideFilters();
+				startLoad(content);
+			}
+		};
+	}
+}
+
 //--INITIAL--//
 function startup() {
-	getJson(
-		document.getElementById('data-id').src,
-		function(content) {
-			window.variables = content;
-			window.variables.base = window.variables.items
-				.filter(i => window.variables.filter ? i[window.variables.filter.category].includes(window.variables.filter.value) : true)
-				.sort(function(a,b) {
-					if(window.variables.sort && window.variables.sort.order && window.variables.sort.value)
-					{
-						if(window.variables.sort.order.toLowerCase() == 'asc')
-							return a[window.variables.sort.value] - b[window.variables.sort.value];
-						if(window.variables.sort.order.toLowerCase() == 'desc')
-							return b[window.variables.sort.value] - a[window.variables.sort.value];
-						if(window.variables.sort.order.toLowerCase() == 'random')
-							return (2*Math.random()) - 1;
-					}
-					return 0;
-				});
-			document.title = window.variables.title;
-			titleDiv.innerText = window.variables.title;
-			noticeDiv.innerText = window.variables.notice;
-			
-			renderDisplay();
-			renderGallery();
-		}
-	);
+	getJson(document.getElementById('data-id').src, startLoad);
+}
+
+function startLoad(content) {
+	window.variables = content;
+	window.variables.base = window.variables.items
+		.filter(i => window.variables.filter ? i[window.variables.filter.category].includes(window.variables.filter.value) : true)
+		.sort(function(a,b) {
+			if(window.variables.sort && window.variables.sort.order && window.variables.sort.value)
+			{
+				if(window.variables.sort.order.toLowerCase() == 'asc')
+					return a[window.variables.sort.value] - b[window.variables.sort.value];
+				if(window.variables.sort.order.toLowerCase() == 'desc')
+					return b[window.variables.sort.value] - a[window.variables.sort.value];
+				if(window.variables.sort.order.toLowerCase() == 'random')
+					return (2*Math.random()) - 1;
+			}
+			return 0;
+		});
+	document.title = window.variables.title;
+	titleDiv.innerText = window.variables.title;
+	noticeDiv.innerText = window.variables.notice;
+	
+	renderDisplay();
+	renderGallery();
 }
