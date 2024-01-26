@@ -449,7 +449,7 @@ function createSource() {
 		let name = list[i].name;
 		let reader = new FileReader();
 		reader.readAsDataURL(list[i]);
-		reader.onload = function() {
+		reader.onload = function(event) {
 			window.variables.items.push({
 				"order": i,
 				"filename": event.target.result,
