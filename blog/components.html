@@ -781,11 +781,14 @@ Click/tap container fast (&lt;200ms) will turn off transition (for observing dif
 .agenda {
 	margin-left: auto;
 	margin-right: auto;
-	/* fallback */
-	display: none;	
-	/* if grid is supported */
-	display: grid !important;
-	grid-template-columns: repeat(var(--columns, 3), 1fr);
+}
+
+@supports (display: grid) {
+	.agenda {
+		/* if grid is supported */
+		display: grid;
+		grid-template-columns: repeat(var(--columns, 3), 1fr);
+	}
 }
 
 .agenda .item table.tr-caption-container {
