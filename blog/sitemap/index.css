@@ -74,7 +74,7 @@ h1 {
 
 @media only screen and (max-width: 780px) {
 	.content {
-		column-width: 12em;
+		column-width: 10em;
 		line-height: 1.5;
 	}
 	.keyword {
