@@ -74,7 +74,8 @@ h1 {
 
 @media only screen and (max-width: 780px) {
 	.content {
-		column-width: 200px;
+		column-width: 12em;
+		line-height: 1.5;
 	}
 	.keyword {
 		font-size: 0.8em;
