@@ -29,7 +29,13 @@ h1 {
 }
 
 .content {
-	column-width: 220px;
+	column-width: 14em;
+	max-height: 46vh;
+	overflow: auto;
+}
+
+.content .title:first-child {
+	margin-top: 0;
 }
 
 .fanfics {
