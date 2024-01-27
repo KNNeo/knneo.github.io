@@ -249,6 +249,38 @@ pre {
 	content: 'This section is intentionally left blank'
 }
 </style>
+<script id="dialog-script">
+////DIALOG////
+function popupText(input) {
+	let dialogDiv = document.querySelector('.dialog');
+	if(dialogDiv == null)
+	{
+		dialogDiv = document.createElement('div');
+		dialogDiv.classList.add('dialog');
+		document.body.appendChild(dialogDiv);
+	}
+	let dialog = createDialog(input);
+	dialogDiv.appendChild(dialog);
+	dialog.showModal();
+}
+
+function createDialog(node) {
+	let dialog = document.createElement('dialog');
+	if(!dialog.classList.contains('box')) dialog.classList.add('box');
+	if(typeof node == 'string')
+		dialog.innerHTML = node;
+	if(typeof node == 'object')
+		dialog.appendChild(node);
+	dialog.addEventListener('click', function() {
+		this.remove();
+	});
+	dialog.addEventListener('keyup', function() {
+		if (event.key === ' ' || event.key === 'Enter')
+			this.remove();
+	});
+	return dialog;
+}
+</script>
 <h4 style="text-align: center;">COMPONENTS</h4>
 <hr>
 
@@ -342,16 +374,6 @@ function renderPopup() {
 
     event.target.outerHTML = thumbnail.outerHTML;
     addHoverForPopups();
-
-	//FAB to close
-	//let closeButton = document.createElement('a');
-	//closeButton.id = 'CloseBtn';
-	//closeButton.classList.add('material-icons');
-	//closeButton.title = 'Close Popup';
-	//closeButton.innerText = 'close';
-	//closeButton.addEventListener('click', closePopups);
-	//if(document.getElementById('CloseBtn') != undefined) document.getElementById('CloseBtn').remove();
-	//document.body.appendChild(closeButton);
 	
 	return thumbnail;
 }
@@ -500,7 +522,7 @@ This is where you put the &lt;div class="popup" title="[LINK]"&gt;
 "There's a thing called give and take, you know?" Yeah Isaki gave you a kiss so she can take your- All according to <a href="https://jisho.org/search/keikaku" target="_blank">keikaku</a> haha
 </div>
 
-<style>
+<style id="carousel-style">
 .carousel {
 	display: block;
     position: relative;
@@ -565,7 +587,7 @@ This is where you put the &lt;div class="popup" title="[LINK]"&gt;
 }
 
 </style>
-<script>
+<script id="carousel-script">
 window.addEventListener('load', setCarousel);
 function setCarousel() {
 	if(Array.from(document.querySelectorAll('.carousel img')).filter(i => i.parentElement.tagName.toLowerCase() === 'a').length > 0)
@@ -625,6 +647,8 @@ function showNextCarouselItem(tn) {
 <h1>Carousel</h1>
 <h5>Container class "carousel", all child items class "item", all but first child class "hide"<br/>
 Click/tap container fast (&lt;200ms) will turn off transition (for observing differences)</h5>
+<button onclick="popupText(document.querySelector('#carousel-style').textContent)">Show CSS</button>
+<button onclick="popupText(document.querySelector('#carousel-script').textContent)">Show JS</button>
 <pre>
 &lt;div class="carousel"&gt;
   &lt;div class="item"&gt;&lt;/div&gt;
