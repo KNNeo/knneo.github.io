@@ -939,8 +939,7 @@ abbr.imgpop:hover img {
 .agenda {
 	margin-left: auto;
 	margin-right: auto;
-	display: none;	
-	display: grid !important;
+	display: grid;
 	grid-template-columns: repeat(var(--columns, 3), 1fr);
 }
 
@@ -961,11 +960,6 @@ abbr.imgpop:hover img {
 
 .agenda .item a img {
 	border-width: 2px 2px 1em;
-	/* border-radius: 8px; */
-}
-
-.agenda .item a img:active {
-	/* border-width: 2px; */
 }
 
 /*DIALOG*/
