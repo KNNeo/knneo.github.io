@@ -785,7 +785,7 @@ Click/tap container fast (&lt;200ms) will turn off transition (for observing dif
 	
 	/* if grid is supported */
     display: grid !important;
-	grid-template-columns: repeat(var(--columns), 1fr);
+	grid-template-columns: repeat(var(--columns, 3), 1fr);
 	
 	margin-left: auto;
 	margin-right: auto;
@@ -793,17 +793,17 @@ Click/tap container fast (&lt;200ms) will turn off transition (for observing dif
 
 .agenda .item table.tr-caption-container {
     width: 100%;
-	margin-bottom: 0;
 	padding: 0;
 }
 
 .agenda .item a img {
-    width: 100%;
-    height: 200px;
+	width: 100%;
+	height: auto;
 	object-fit: cover;
 	transition: border 0.2s;
 	border-color: var(--secondary);
 	border-width: 2px 2px 1em;
+	aspect-ratio: var(--aspect-ratio, 1);
 }
 
 .agenda .item img:hover {
@@ -813,6 +813,7 @@ Click/tap container fast (&lt;200ms) will turn off transition (for observing dif
 <h1>Table of Contents</h1>
 <h5>Container class "agenda" contains inline style for grid customization (using variable or fallback, max-width)</h5>
 <h5>Children class "item" for content (with link to section, see address bar after click)</h5>
+<h5>Variables: --columns to change no. of columns default 3, --aspect-ratio to fix ratio default 1</h5>
 <pre>
 &lt;div class="agenda" style="display: none; grid-template-columns: repeat([NO_OF_COLS], 1fr);"&gt;
   &lt;div class="item"&gt;&lt;/div&gt;
@@ -821,7 +822,7 @@ Click/tap container fast (&lt;200ms) will turn off transition (for observing dif
   ...
 &lt;/div&gt;
 </pre>
-<div class="agenda" style="max-width: 600px; --columns: 3;">
+<div class="agenda" style="max-width: 600px; --columns: 2; --aspect-ratio: 1.17;">
   <div class="item">
     <table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto;">
       <tbody>
