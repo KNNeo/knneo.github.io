@@ -73,6 +73,17 @@ const include = document.querySelector('#include');
 const exclude = document.querySelector('#exclude');
 const prev = document.querySelector('#viewer-prev');
 const next = document.querySelector('#viewer-next');
+const callback = (entries, observer) => {
+	entries.forEach((elem) => {
+		let thumbnail = elem.target;
+		thumbnail.src = thumbnail.getAttribute('data-image');
+	});
+};
+const observer = new IntersectionObserver(callback, {
+	root: document.querySelector('.collage'),
+	rootMargin: '10px',
+	threshold: 0,
+})
 
 //--FUNCTIONS--//
 function startup() {
@@ -80,13 +91,12 @@ function startup() {
 	generateTags();
 	generateLayout();
 	generateViewer();
-	let mousewheelEvent = isFirefox ? 'DOMMouseScroll' : 'mousewheel';
-	collage.addEventListener(mousewheelEvent, onScroll);
+	collage.addEventListener(isFirefox ? 'DOMMouseScroll' : 'mousewheel', onScroll);
 	collage.addEventListener('touchstart', onTouchStart);
 	collage.addEventListener('touchmove', onTouchMove);
-	collage.addEventListener('scroll', fadeIn);
+	// collage.addEventListener('scroll', fadeIn);
 	window.addEventListener('resize', onResize);
-	window.addEventListener('resize', fadeIn);
+	// window.addEventListener('resize', fadeIn);
 }
 
 function initializeVariables() {
@@ -377,6 +387,7 @@ function generateGrid() {
 			// gridItemImage.src = item[getThumbnailPrefix()] || 'https://knneo.github.io/resources/spacer.gif';
 			gridItemImage.setAttribute('data-image', item[getThumbnailPrefix()] || 'https://knneo.github.io/resources/spacer.gif');
 			gridItemImage.setAttribute('data-src', item['og']);
+			gridItemImage.setAttribute('loading', 'lazy');
 			gridItemImage.addEventListener('click', function() {
 				openViewer(this.parentElement);
 			});
@@ -396,17 +407,18 @@ function generateGrid() {
 				generateTagsList();
 				generateGrid();
 				return false;
-			}, false);			
+			}, false);
 			gridItemImage.addEventListener('error', function(e) {
 				e.preventDefault();
 				console.log(this.title);
 			});
 			gridItem.appendChild(gridItemImage);
+			observer.observe(gridItemImage);
 			
 		grid.appendChild(gridItem);
 	}
 
-	setTimeout(fadeIn, 0);
+	// setTimeout(fadeIn, 0);
 	if(document.querySelector('.counter') != null)
 		document.querySelector('.counter').innerText = filterArray.length;
 }
@@ -602,7 +614,7 @@ function onToggleExpander() {
 		break;
 	}
 	collage.style.height = (window.innerHeight) + 'px';
-	setTimeout(fadeIn, 0);
+	// setTimeout(fadeIn, 0);
 }
 
 function onClearAll() {
