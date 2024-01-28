@@ -104,7 +104,7 @@ function onKeyDown() {
 
 function onWheel() {
 	event.preventDefault();
-	let scrollDelta = isFirefox ? -event.detail*50 : event.wheelDelta;
+	let scrollDelta = isFirefox ? -event.detail*45 : event.wheelDelta;
 	galleryDiv.scrollLeft -= scrollDelta;
 }
 
@@ -384,8 +384,8 @@ function renderGallery() {
 	
 	setTimeout(checkComplete, 0);
 	galleryDiv.addEventListener(isFirefox ? 'DOMMouseScroll' : 'mousewheel', onWheel);
-	galleryDiv.addEventListener('touchstart', onTouchStart);
-	galleryDiv.addEventListener('touchmove', onTouchMove, false);
+	// galleryDiv.addEventListener('touchstart', onTouchStart);
+	// galleryDiv.addEventListener('touchmove', onTouchMove, false);
 	if(window.variables.display.overview)
 		galleryDiv.addEventListener('contextmenu', function() {
 			galleryDiv.classList.add('overview');

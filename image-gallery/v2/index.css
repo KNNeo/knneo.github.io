@@ -118,8 +118,8 @@ a:hover, label:hover {
 
 body .gallery {
 	display: flex;
-	overflow: hidden;
-	padding: 0 45dvw;
+	overflow-y: hidden;
+	padding: 0 45%;
 }
 
 .gallery img {
@@ -132,6 +132,15 @@ body .gallery {
 	width: 80dvw;
 	height: 100dvh;
 	transition: filter 0.5s;
+}
+
+.gallery::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}
+
+.gallery {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
 .gallery img[data-link] {
