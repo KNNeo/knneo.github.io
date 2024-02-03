@@ -775,7 +775,7 @@ abbr.imgpop:hover img {
 
 /*Multi-image thumbnail (Refer to js setThumbnails for logic)*/
 .thumbnail {
-	display: none;
+	/* display: none; */
     position: relative;
 	transition: height 0.2s;	
 }

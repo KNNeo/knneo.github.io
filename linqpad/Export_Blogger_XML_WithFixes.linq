@@ -428,14 +428,14 @@ void Main()
 	        content = content.Replace("<img", "<img loading=\"lazy\"");
 			
 			// Does not cater to thumbnails, do not put lazy on first thumb
-	        expression = @"(?s)(thumbnail-initial hover-hidden)(.*?)(<img loading=""lazy"")";
-	        match = Regex.Match(content, expression);
-	        while(match.Success) {
-				count.Add(31);
-				//Console.WriteLine(match);
-	            content = content.Replace(match.Groups[0].Value, match.Groups[1].Value + match.Groups[2].Value + "<img");
-	            match = match.NextMatch();
-	        };
+//	        expression = @"(?s)(thumbnail-initial hover-hidden)(.*?)(<img loading=""lazy"")";
+//	        match = Regex.Match(content, expression);
+//	        while(match.Success) {
+//				count.Add(31);
+//				//Console.WriteLine(match);
+//	            content = content.Replace(match.Groups[0].Value, match.Groups[1].Value + match.Groups[2].Value + "<img");
+//	            match = match.NextMatch();
+//	        };
 			
 		}
         #endregion
@@ -519,8 +519,9 @@ void Main()
 		}
 		output.AppendLine("<meta property=\"og:url\" content=\"" + pageLink + "\"/>");
 		output.AppendLine("<meta property=\"og:type\" content=\"website\"/>");
-        output.AppendLine("<link href=\"https://fonts.googleapis.com/icon?family=Material+Icons\" rel=\"stylesheet\" />");
-        output.AppendLine("<link href='https://fonts.googleapis.com/css?family=" + defaultFont + "' rel='stylesheet' />");
+        output.AppendLine("<link href=\"../../../../fonts.css\" rel=\"stylesheet\" />");
+//        output.AppendLine("<link href=\"https://fonts.googleapis.com/icon?family=Material+Icons\" rel=\"stylesheet\" />");
+//        output.AppendLine("<link href='https://fonts.googleapis.com/css?family=" + defaultFont + "' rel='stylesheet' />");
 		// cursive font for menu use
         if(content.Contains("Dancing Script"))
 			output.AppendLine("<link href='https://fonts.googleapis.com/css?family=Dancing Script' rel='stylesheet' />");
