@@ -61,7 +61,6 @@ function goToIndex() {
 }
 
 function toggleThumbnailDesign() {
-	event.stopPropagation();
 	event.target.style.transform = event.target.style.transform == '' ? 'rotateY(180deg)' : '';
 	document.querySelector('.archive-list').classList.toggle('flip');
 }
