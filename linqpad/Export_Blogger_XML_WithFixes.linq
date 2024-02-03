@@ -566,12 +566,6 @@ void Main()
 		output.AppendLine("<a class=\"fab dark-mode material-icons\" title=\"Toggle Dark Mode\" onclick=\"toggleDarkMode()\">brightness_high</a>");
 		output.AppendLine("<a class=\"fab go-to-top material-icons hidden\" title=\"Go To Top\" onclick=\"goToTop()\">arrow_upward</a>");
 		output.AppendLine("</div>");
-		//output.AppendLine("<a id='BackBtn' class='material-icons' href='../../../index.html' title='Back To Homepage' oncontextmenu='goBack()'>arrow_back</a>");
-		//output.AppendLine("<a id='PopupBtn' class='material-icons' title='Toggle Display Links As Popups' href='javascript:void(0);' onclick='toggleInlinePopups()'>crop_din</a>");
-		//output.AppendLine("<a id='ShareBtn' class='material-icons' title='Shfare This Page' href='javascript:void(0);' onclick='sharePage()'>share</a>");
-		//output.AppendLine("<a id='EmojiBtn' class='material-icons' title='Toggle Display Emoji' href='javascript:void(0);' onclick='toggleEmojiDisplay()'>mood</a>");
-		//output.AppendLine("<a id='DarkModeBtn' class='material-icons' title='Toggle Dark Mode' href='javascript:void(0);' onclick='toggleDarkMode()'>brightness_high</a>");
-		//output.AppendLine("<a id='GoToTopBtn' class='material-icons' title='Go To Top' style='display: none;' href='javascript:void(0);' onclick='goToTop()'>arrow_upward</a>");
         output.AppendLine("</body>");
         output.AppendLine("</html>");
 		
