@@ -13,19 +13,21 @@
  * DO NOT UPLOAD TO GITHUB, RUN WithFixes SCRIPT AGAIN
  */
 
+static bool TraceMode = false;
+static bool ReassignFilename = false; // TODO: will need hashmap to remember initial filenames to avoid duplicates
+static List<string> AcceptedFormats = new List<string>() { ".jpg", ".png", ".gif" };
+static string defaultFont = "Noto Sans";
+static string archivepath = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\";
+static string blogpath = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\";
+static string outputFolder = "pages";
+static string filepath = "";
+static string startDate = "2024-01-01"; // in format yyyy-MM-dd
+
 void Main()
 {
-	bool TraceMode = false;
-	string defaultFont = "Noto Sans";
-    Console.WriteLine("\tPost with changes will appear here");
+	Console.WriteLine("\tPost with changes will appear here");
 	Console.WriteLine("\tIf edit from Blogger img tags will be missing self-enclosing slash, format on web version to fix");
 	Console.WriteLine("==================================================================================================");
-    string archivepath = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\";
-    string blogpath = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\";
-    string outputFolder = "pages";
-    string filepath = "";
-	string startDate = "2017-01-01"; // in format yyyy-MM-dd
-	
 	//Get xml file from source, move to archivepath
 	//If not found in source, will run file in archivepath
 	string sourcepath = @"C:\Users\KAINENG\Downloads\";
@@ -164,34 +166,19 @@ void Main()
 		
 		#region Find src in img
 		Console.WriteLine("   IMGSRC - Find src in img");
-        match = Regex.Match(oldContent, @"(?s)<img(.*?)src=""(.*?)""(.*?)/>");
-		//Console.WriteLine(match);
+        match = Regex.Match(oldContent, @"(?s)<img(.*?)src=""(.*?)""(.*?)>");
         while(match.Success)
 		{
+			if(TraceMode) Console.WriteLine(match);
 			var url = match.Groups[2].Value;
-			if(TraceMode) Console.WriteLine(url.Substring(0,40) + "...");
 			var urlWithoutFilename = url.Substring(0, url.LastIndexOf('/') + 1);
-			var filename = url.Substring(url.LastIndexOf('/') + 1);
-			
-			// Download into local post subfolder
-	        var dataFolder = Path.Combine(monthfolder, "data/imgsrc");
-	        if(!Directory.Exists(dataFolder)) Directory.CreateDirectory(dataFolder);
-			var fileExist = File.Exists(monthfolder + "/data/imgsrc/" + HttpUtility.UrlDecode(filename));
-			if(TraceMode && fileExist)
-				Console.WriteLine("Filename of " + filename + " exists in " + monthfolder);
-			if(!fileExist)
-			{
-				using (WebClient client = new WebClient()) 
-				{
-					Console.WriteLine("      Downloading... " + url);
-				    client.DownloadFile(new Uri(url), monthfolder + "/data/imgsrc/" + HttpUtility.UrlDecode(filename));
-					//Console.WriteLine("File downloaded to " + monthfolder + "/data/" + HttpUtility.UrlDecode(filename));
-				}
-			}
-			
-			// Set as relative path
-			content = content.Replace(urlWithoutFilename, "data/imgsrc/");
-		
+			var downloadFolder = "data/imgsrc/";
+		    var dataFolder = Path.Combine(monthfolder, downloadFolder);
+			// download to local and return file name
+			var newFileName = DownloadFileToLocal(url, dataFolder, ReassignFilename);
+			// set as relative path
+			if(newFileName != null)
+				content = content.Replace(urlWithoutFilename, downloadFolder);
 	        match = match.NextMatch();
 		}
 		#endregion
@@ -199,38 +186,18 @@ void Main()
 		#region Find href in img with link
 		Console.WriteLine("   IMGLINK - Find href in img with link");
         match = Regex.Match(oldContent, @"(?s)href\s*=\s*""(.*?)""");
-		//Console.WriteLine(match);
         while(match.Success)
 		{
+			if(TraceMode) Console.WriteLine(match);
 			var url = match.Groups[1].Value;
-			if(TraceMode) Console.WriteLine(url.Substring(0,40) + "...");
-			List<string> formats = new List<string>() { ".jpg", ".png", ".gif" };
-			if(formats.Any(format => url.EndsWith(format)))
-			{
-				//Console.WriteLine(url);
-				var urlWithoutFilename = url.Substring(0, url.LastIndexOf('/') + 1);
-				var filename = url.Substring(url.LastIndexOf('/') + 1);
-				
-				// Download into local post subfolder
-		        var dataFolder = Path.Combine(monthfolder, "data/imglink");
-		        if(!Directory.Exists(dataFolder)) Directory.CreateDirectory(dataFolder);
-				var fileExist = File.Exists(monthfolder + "/data/imglink/" + HttpUtility.UrlDecode(filename));
-				if(TraceMode && fileExist)
-					Console.WriteLine("Filename of " + filename + " exists in " + monthfolder);
-				if(!fileExist)
-				{
-					using (WebClient client = new WebClient()) 
-					{
-						Console.WriteLine("      Downloading... " + url);
-					    client.DownloadFile(new Uri(url), monthfolder + "/data/imglink/" + HttpUtility.UrlDecode(filename));
-						//Console.WriteLine("File downloaded to " + monthfolder + "/data/" + HttpUtility.UrlDecode(filename));
-					}
-				}
-				
-				// Set as relative path
-				content = content.Replace(urlWithoutFilename, "data/imglink/");
-			}
-			
+			var urlWithoutFilename = url.Substring(0, url.LastIndexOf('/') + 1);
+			var downloadFolder = "data/imglink/";
+		    var dataFolder = Path.Combine(monthfolder, downloadFolder);
+			// download to local and return file name
+			var newFileName = DownloadFileToLocal(url, dataFolder, ReassignFilename);
+			// set as relative path
+			if(newFileName != null)
+				content = content.Replace(urlWithoutFilename, downloadFolder);
 	        match = match.NextMatch();
 		}
 		#endregion
@@ -238,33 +205,18 @@ void Main()
 		#region Find background-image in div
 		Console.WriteLine("   DIVIMG - Find background-image in div");
         match = Regex.Match(oldContent, @"background-image:\s*url\((.*?)\)");
-		//Console.WriteLine(match);
         while(match.Success)
 		{
+			if(TraceMode) Console.WriteLine(match);
 			var url = match.Groups[1].Value;
-			if(TraceMode) Console.WriteLine(url.Substring(0,40) + "...");
 			var urlWithoutFilename = url.Substring(0, url.LastIndexOf('/') + 1);
-			var filename = url.Substring(url.LastIndexOf('/') + 1);
-			
-			// Download into local post subfolder
-	        var dataFolder = Path.Combine(monthfolder, "data/divimg");
-	        if(!Directory.Exists(dataFolder)) Directory.CreateDirectory(dataFolder);
-			var fileExist = File.Exists(monthfolder + "/data/divimg/" + HttpUtility.UrlDecode(filename));
-			if(TraceMode && fileExist)
-				Console.WriteLine("Filename of " + filename + " exists in " + monthfolder);
-			if(!fileExist)
-			{
-				using (WebClient client = new WebClient()) 
-				{
-					Console.WriteLine("      Downloading... " + url);
-				    client.DownloadFile(new Uri(url), monthfolder + "/data/divimg/" + HttpUtility.UrlDecode(filename));
-					//Console.WriteLine("File downloaded to " + monthfolder + "/data/" + HttpUtility.UrlDecode(filename));
-				}
-			}
-			
-			// Set as relative path
-			content = content.Replace(urlWithoutFilename, "data/divimg/");
-		
+			var downloadFolder = "data/divimg/";
+		    var dataFolder = Path.Combine(monthfolder, downloadFolder);
+			// download to local and return file name
+			var newFileName = DownloadFileToLocal(url, dataFolder, ReassignFilename);
+			// set as relative path
+			if(newFileName != null)
+				content = content.Replace(urlWithoutFilename, downloadFolder);
 	        match = match.NextMatch();
 		}
 		#endregion
@@ -325,6 +277,33 @@ void Main()
         }
 	}
 }
+
+public static string DownloadFileToLocal(string url, string downloadFolderLocation, bool assignNewFilename)
+{
+	string localFileName = null;
+	//Console.WriteLine(url);
+	if(AcceptedFormats.Any(format => url.EndsWith(format)))
+	{
+		var filename = url.Substring(url.LastIndexOf('/') + 1);
+        if(!Directory.Exists(downloadFolderLocation)) Directory.CreateDirectory(downloadFolderLocation);
+		localFileName = downloadFolderLocation + (downloadFolderLocation.EndsWith("/") ? "" : "/") + HttpUtility.UrlDecode(filename);
+		var fileExist = File.Exists(localFileName);
+		// Download into local post subfolder
+		if(!fileExist)
+		{
+			using (WebClient client = new WebClient()) 
+			{
+				Console.WriteLine("      Downloading: " + url);
+			    client.DownloadFile(new Uri(url), localFileName);
+			}
+		}
+		else if(TraceMode)
+			Console.WriteLine("File does not exist in folder " + downloadFolderLocation);
+			
+	}
+	return localFileName;
+}
+
 
 public static string FixContent(string content, int index, string title)
 {
