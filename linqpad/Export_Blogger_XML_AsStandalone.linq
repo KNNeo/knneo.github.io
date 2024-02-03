@@ -22,6 +22,7 @@ static string blogpath = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archi
 static string outputFolder = "pages";
 static string filepath = "";
 static string startDate = "2024-01-01"; // in format yyyy-MM-dd
+static string blogTitle = "Klassic Note Web Reports";
 
 void Main()
 {
@@ -223,57 +224,73 @@ void Main()
 		
         // Write output file (partial HTML for Jekyll)
         using (StreamWriter output = File.CreateText(outPath)) {
-            output.WriteLine("<!DOCTYPE html>");
-            output.WriteLine("<html lang=\"en-SG\">");
-            output.WriteLine("<head>");
-            output.WriteLine("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>");
-            output.WriteLine("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
-            output.WriteLine("<meta name=\"apple-mobile-web-app-capable\" content=\"yes\">");
-            output.WriteLine("<meta name=\"mobile-web-app-capable\" content=\"yes\">");
-            output.WriteLine("<meta name=\"theme-color\" content=\"white\">");
-            output.WriteLine("<link href=\"https://fonts.googleapis.com/icon?family=Material+Icons\" rel=\"stylesheet\" />");
-            output.WriteLine("<link href='https://fonts.googleapis.com/css?family=" + defaultFont + "' rel='stylesheet' />");
+			output.WriteLine("<!DOCTYPE html>");
+	        output.WriteLine("<html lang=\"en-SG\">");
+	        output.WriteLine("<head>");
+	        output.WriteLine("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>");
+	        output.WriteLine("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
+	        output.WriteLine("<meta name=\"apple-mobile-web-app-capable\" content=\"yes\">");
+	        output.WriteLine("<meta name=\"mobile-web-app-capable\" content=\"yes\">");
+	        output.WriteLine("<meta name=\"theme-color\" content=\"white\">");
+			output.WriteLine("<meta property=\"og:title\" content=\"" + title + "\"/>");
+			if (TraceMode) Console.WriteLine("Find first image of post for sharing, if any");
+	        var expression = @"(?s)<img(.*?)src=""(.*?)""(.*?)/>";
+	        match = Regex.Match(content, expression);
+	        if(match.Success) {
+	            var thumbnailUrl = match.Groups[2].Value;
+				output.WriteLine("<meta property=\"og:image\" content=\"" + thumbnailUrl + "\"/>");
+			}
+			output.WriteLine("<meta property=\"og:url\" content=\"" + pageLink + "\"/>");
+			output.WriteLine("<meta property=\"og:type\" content=\"website\"/>");
+	        output.WriteLine("<link href=\"https://fonts.googleapis.com/icon?family=Material+Icons\" rel=\"stylesheet\" />");
+	        output.WriteLine("<link href='https://fonts.googleapis.com/css?family=" + defaultFont + "' rel='stylesheet' />");
 			// cursive font for menu use
-            if(content.Contains("Dancing Script"))
+	        if(content.Contains("Dancing Script"))
 				output.WriteLine("<link href='https://fonts.googleapis.com/css?family=Dancing Script' rel='stylesheet' />");
-            output.WriteLine("<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../index.css\" />");
-            output.WriteLine("<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../blogspot.css\" />");
-            output.WriteLine("<script src=\"../../../darkmode.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
-            output.WriteLine("<script src=\"../../../blogspot.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
-            output.WriteLine("<script src=\"../../../js/common.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
-            output.WriteLine("<script src=\"../../../js/header.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
-            output.WriteLine("<script src=\"../../../js/viewer.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
-            output.WriteLine("<title>" + (title.Length > 0 ? title : "A Random Statement") + "</title>");
-			if(postList.IndexOf(pageLink) - 1 > 0)
-				output.WriteLine("<a id='RightBtn' class='material-icons' href='" + postList[postList.IndexOf(pageLink) - 1].Replace("./", "../../../") + "' title='Older Post'><i class='material-icons'>arrow_forward</i></a>");
-            output.WriteLine("<body>");
-			output.WriteLine("<a id='BackBtn' class='material-icons' href='../../../index.html' title='Go Back'>arrow_back</a>");
-			output.WriteLine("<a id='PopupBtn' class='material-icons' title='Toggle Display Links As Popups' href='javascript:void(0);' onclick='toggleInlinePopups()'>crop_din</a>");
-			output.WriteLine("<a id='EmojiBtn' class='material-icons' title='Toggle Display Emoji' href='javascript:void(0);' onclick='toggleEmojiDisplay()'>mood</a>");
-			output.WriteLine("<a id='DarkModeBtn' class='material-icons' title='Toggle Dark Mode' href='javascript:void(0);' onclick='toggleDarkMode()'>brightness_high</a>");
-			output.WriteLine("<a id='GoToTopBtn' class='material-icons' title='Go To Top' style='display: none;' href='javascript:void(0);' onclick='goToTop()'>arrow_upward</a>");
-            output.WriteLine("<div id=\"viewer\"></div>");
-            output.WriteLine("<div id=\"contents\" class=\"post-body entry-content\" style=\"font-family: " + defaultFont + ";\">");
+	        output.WriteLine("<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../index.css\" />");
+	        output.WriteLine("<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../blogspot.css\" />");
+	        //output.WriteLine("<link rel=\"icon\" href=\"../../../storytime.ico\" />");
+	        output.WriteLine("<script src=\"../../../darkmode.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
+	        output.WriteLine("<script src=\"../../../blogspot.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
+	        output.WriteLine("<script src=\"../../../js/common.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
+	        output.WriteLine("<script src=\"../../../js/header.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
+	        output.WriteLine("<script src=\"../../../js/viewer.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
+	        output.WriteLine("<title>" + (title.Length > 0 ? title : "A Random Statement") + "</title>");
+	        output.WriteLine("<body style=\"font-family: " + defaultFont + ";\">");
+	        output.WriteLine("<div id=\"contents\" class=\"post-body entry-content\">");
 			if (originalLink != "")
-                output.WriteLine("<small style=\"text-align: center;\"><p><i>This post was imported from "+
-                 "<a href=\"{0}\">Blogger</a></i></p></small>", originalLink);				 
-            output.WriteLine("<small class=\"published\">"+published.ToString("dddd, dd MMMM yyyy")+"</small>");
-            output.WriteLine("<h2 class=\"title\">"+title+"</h2>");
-			if(!content.Contains("id=\"hashtags\""))
-				output.WriteLine("<div id=\"hashtags\"></div>");
-            output.WriteLine("<div class=\"header\"></div>");
-            output.Write(content);
-            output.Write("<hr>");
-            if(tags.Count > 0)
-                output.Write("<h4> Reported in " + string.Join("", tags.Select(tag => "<span class=\"post-tags\">" + tag + "</span>")) + "</h4>");
-            output.Write("<h6 style=\"text-align: center;\">Copyright (c) 2014-" + DateTime.Now.Year + " Klassic Note Web Reports</h6>");
-            output.Write("<br>");
-            output.Write("<br>");
-            output.Write("<br>");
-            output.Write("<br>");
-            output.WriteLine("</div>");
-            output.WriteLine("</body>");
-            output.WriteLine("</html>");
+	            output.WriteLine("<small style=\"text-align: center;\"><p><i>This is an archive from "+
+	             "<a href=\"" + originalLink + "\">" + blogTitle + "</a></i></p></small>");
+	        output.WriteLine("<small title=\"" + published.ToString() + "\" class=\"published\">" + published.ToString("dddd, dd MMMM yyyy") + "</small>");
+	        output.WriteLine("<div class=\"title\">" + title + "</div>");
+			if(content.Contains("id=\"") && !content.Contains("=\"hashtags\""))
+				output.WriteLine("<div class=\"hashtags\"></div>");
+	        output.WriteLine("<div class=\"page-header\"></div>");
+	        output.Write(content);
+	        output.Write("<hr>");
+	        if(tags.Count > 0)
+	            output.Write("<div class=\"post-tags\"><h4>Reported in </h4>" + 
+					string.Join("", tags.OrderBy(t => t).Select(tag => "<a href=\"../../../index.html#" + tag.Replace(" ","") +"\">" + tag + "</a>")) + 
+					"</div>");
+	        output.Write("<h6 style=\"text-align: center;\">Copyright (c) 2014-" + DateTime.Now.Year + " Klassic Note Web Reports</h6>");
+	        output.Write("<br>");
+	        output.Write("<br>");
+	        output.Write("<br>");
+	        output.Write("<br>");
+	        output.WriteLine("</div>");
+			output.WriteLine("<div class=\"action-menu bottom-left\">");
+			if(postList.IndexOf(pageLink) > 0)
+				output.WriteLine("<a class=\"fab next material-icons\" href='" + postList[postList.IndexOf(pageLink) - 1].Replace("./", "../../../") + "' title=\"Newer Post\">skip_next</a>");
+			output.WriteLine("<a class=\"fab back material-icons\" href=\"../../../index.html\" title=\"Back To Homepage\">arrow_back</a>");
+			output.WriteLine("</div>");
+	        output.WriteLine("</div>");
+			output.WriteLine("<div class=\"action-menu bottom-right\">");
+			output.WriteLine("<a class=\"fab share material-icons\" title=\"Share This Page\" onclick=\"sharePage()\">share</a>");
+			output.WriteLine("<a class=\"fab dark-mode material-icons\" title=\"Toggle Dark Mode\" onclick=\"toggleDarkMode()\">brightness_high</a>");
+			output.WriteLine("<a class=\"fab go-to-top material-icons hidden\" title=\"Go To Top\" onclick=\"goToTop()\">arrow_upward</a>");
+			output.WriteLine("</div>");
+	        output.WriteLine("</body>");
+	        output.WriteLine("</html>");
         }
 	}
 }
