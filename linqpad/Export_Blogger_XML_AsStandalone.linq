@@ -1,8 +1,11 @@
 <Query Kind="Program">
+  <Reference Relative="..\..\..\LINQPad Queries\NUglify.dll">&lt;MyDocuments&gt;\LINQPad Queries\NUglify.dll</Reference>
   <Reference>&lt;RuntimeDirectory&gt;\System.Net.dll</Reference>
   <Reference>&lt;RuntimeDirectory&gt;\System.Text.RegularExpressions.dll</Reference>
   <Reference>&lt;RuntimeDirectory&gt;\System.Web.dll</Reference>
   <Reference>&lt;RuntimeDirectory&gt;\System.Windows.Forms.dll</Reference>
+  <Namespace>NUglify</Namespace>
+  <Namespace>NUglify.Html</Namespace>
   <Namespace>System.Net</Namespace>
   <Namespace>System.Web</Namespace>
   <Namespace>System.Windows.Forms</Namespace>
@@ -310,7 +313,7 @@ void Main()
 			if(!content.Contains("id=\"hashtags\""))
 				output.WriteLine("<div id=\"hashtags\"></div>");
             output.WriteLine("<div class=\"header\"></div>");
-            output.Write(content);
+            output.Write(Uglify.Html(content));
             output.Write("<hr>");
             if(tags.Count > 0)
                 output.Write("<h4> Reported in " + string.Join("", tags.Select(tag => "<span class=\"post-tags\">" + tag + "</span>")) + "</h4>");
