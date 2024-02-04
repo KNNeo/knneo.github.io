@@ -322,6 +322,7 @@ span.small-icons {
 }
 
 .latest-post-title,
+.latest-post-statement.post-title,
 .post-title.entry-title {
   font: normal bold 20px 'Open Sans', Trebuchet, sans-serif;
   background-color: var(--background);
