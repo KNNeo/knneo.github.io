@@ -30,7 +30,7 @@ h1 {
 
 .content {
 	column-width: 14em;
-	max-height: 40vh;
+	max-height: 80vh;
 	overflow: auto;
 }
 
