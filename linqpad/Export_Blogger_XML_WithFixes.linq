@@ -399,12 +399,12 @@ void Main()
 		}
         #endregion
 		
-		#region 29 reduce resolution of uploaded images (from 4032 -> 2048 pixels)
+		#region 29 reduce resolution of uploaded images
 		if(includeIndex.Count() == 0 || includeIndex.Contains(29))
 		{
-			if(content.Contains("s4032"))
+			if(content.Contains("s4032") || content.Contains("s4080") || content.Contains("s2048"))
 				count.Add(29);
-			content = content.Replace(@"/s4032/", @"/s2048/");
+			content = content.Replace(@"/s4032/", @"/s1600/").Replace(@"/s4080/", @"/s1600/").Replace(@"/s2048/", @"/s1600/");
 		}
         #endregion
 		
