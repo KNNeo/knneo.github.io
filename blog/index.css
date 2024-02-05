@@ -982,6 +982,7 @@ abbr.imgpop:hover img {
 	border: 2px solid var(--foreground);
 	background-color: var(--accent);
 	padding: 1em;
+	transition: background-color 0.2s linear;
 }
 
 /* ACCORDION */
@@ -1034,7 +1035,8 @@ abbr.imgpop:hover img {
 	}
 	.date-header,
 	.thumbnail,
-	.thumbnail-initial
+	.thumbnail-initial,
+	.omake
 	{
 		transition: none;
 	}
