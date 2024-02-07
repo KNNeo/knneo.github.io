@@ -100,70 +100,6 @@ span.small-icons {
     margin-bottom: .5em;
 }
 
-/* THUMBNAIL */
-.thumbnail {
-	display: none;
-	padding-top: 1em;
-    position: relative;
-	transition: height 0.2s;	
-}
-
-.thumbnail.show {
-	display: block;
-}
-
-.thumbnail.fastscroll {
-	transition: none;	
-}
-
-.thumbnail-initial {
-	position: absolute;
-	left: 0;
-	right: 0;
-	opacity: 1;
-	transition: opacity 0.4s, left 0.2s;
-}
-
-.thumbnail.fastscroll .thumbnail-initial {
-	transition: none;
-}
-
-.thumbnail-normal {
-	margin: 0 10px;
-	position: initial;
-	text-align: center;
-	left: 0;
-	right: 0;
-}
-
-.thumbnail-pop {
-	visibility: hidden;
-	left: 80%;
-	opacity: 0;
-}
-
-.thumbnail-initial img,
-.thumbnail-initial video {
-	border: 2px solid var(--secondary);
-	border-bottom-width: 1em;
-	transition: border 0.2s, border-radius 0.2s;
-}
-
-.thumbnail tr:hover img,
-.thumbnail tr:hover video {
-    border-color: var(--primary);
-}
-
-.thumbnail .thumbnail-initial[data-index][data-length]::before {
-    content: attr(data-index) " / " attr(data-length);
-    position: absolute;
-    top: -1em;
-    left: 0;
-    right: 0;
-    font-size: 0.8em;
-    text-align: center;
-}
-
 /*Assign class based on image resize for responsive, see blog.js resizeImg()*/
 .img-width-fit {
 	width: 100%;
@@ -248,39 +184,10 @@ pre {
     justify-content: center;
 	content: 'This section is intentionally left blank'
 }
+.hidden {
+	display: none;
+}
 </style>
-<script id="dialog-script">
-////DIALOG////
-function popupText(input) {
-	let dialogDiv = document.querySelector('.dialog');
-	if(dialogDiv == null)
-	{
-		dialogDiv = document.createElement('div');
-		dialogDiv.classList.add('dialog');
-		document.body.appendChild(dialogDiv);
-	}
-	let dialog = createDialog(input);
-	dialogDiv.appendChild(dialog);
-	dialog.showModal();
-}
-
-function createDialog(node) {
-	let dialog = document.createElement('dialog');
-	if(!dialog.classList.contains('box')) dialog.classList.add('box');
-	if(typeof node == 'string')
-		dialog.innerHTML = node;
-	if(typeof node == 'object')
-		dialog.appendChild(node);
-	dialog.addEventListener('click', function() {
-		this.remove();
-	});
-	dialog.addEventListener('keyup', function() {
-		if (event.key === ' ' || event.key === 'Enter')
-			this.remove();
-	});
-	return dialog;
-}
-</script>
 <h4 style="text-align: center;">COMPONENTS</h4>
 <hr>
 
@@ -522,7 +429,12 @@ This is where you put the &lt;div class="popup" title="[LINK]"&gt;
 "There's a thing called give and take, you know?" Yeah Isaki gave you a kiss so she can take your- All according to <a href="https://jisho.org/search/keikaku" target="_blank">keikaku</a> haha
 </div>
 
-<style id="carousel-style">
+<h1>Carousel</h1>
+<h5>Container class "carousel", all child items class "item", all but first child class "hide"<br/>
+Click/tap container fast (&lt;200ms) will turn off transition (for observing differences)</h5>
+<button onclick="document.querySelector('#carousel-style').classList.toggle('hidden')">Show CSS</button>
+<button onclick="document.querySelector('#carousel-script').classList.toggle('hidden')">Show JS</button>
+<pre id="carousel-style" class="hidden">
 .carousel {
 	display: block;
     position: relative;
@@ -585,9 +497,8 @@ This is where you put the &lt;div class="popup" title="[LINK]"&gt;
     background-color: var(--background);
     color: var(--foreground);	
 }
-
-</style>
-<script id="carousel-script">
+</pre>
+<pre id="carousel-script" class="hidden">
 window.addEventListener('load', setCarousel);
 function setCarousel() {
 	if(Array.from(document.querySelectorAll('.carousel img')).filter(i => i.parentElement.tagName.toLowerCase() === 'a').length > 0)
@@ -634,21 +545,24 @@ function showNextCarouselItem(tn) {
 	if(!nextActive) nextActive = tn.firstElementChild;
 	nextActive.classList.remove('hide');
 	// fast mode: transition disabled if click/tap fast enough
-	if(new Date() - window['tn'] < 200) 
-		tn.classList.add('fast');
-	else 
+	if(new Date() - window['tn'] >= 200) 
 		window['tn'] = new Date();
+	else 
+		tn.classList.add('fast');
 	// set height of container
 	setTimeout(function() {
 		tn.style.height = nextActive.offsetHeight + 'px';
 	}, tn.classList.contains('fast') ? 0 : 200);
 }
+</pre>
+<script id="carousel-loader">
+let css = document.createElement('style');
+css.innerHTML = document.querySelector('#carousel-style').innerHTML;
+document.body.appendChild(css);
+let js = document.createElement('script');
+js.innerHTML = document.querySelector('#carousel-script').innerHTML.replace(/&lt;/g,'<').replace(/&gt;/g,'>');
+document.body.appendChild(js);
 </script>
-<h1>Carousel</h1>
-<h5>Container class "carousel", all child items class "item", all but first child class "hide"<br/>
-Click/tap container fast (&lt;200ms) will turn off transition (for observing differences)</h5>
-<button onclick="popupText(document.querySelector('#carousel-style').textContent)">Show CSS</button>
-<button onclick="popupText(document.querySelector('#carousel-script').textContent)">Show JS</button>
 <pre>
 &lt;div class="carousel"&gt;
   &lt;div class="item"&gt;&lt;/div&gt;
