@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-SG">
 <head>
-	<meta http-equiv="Content-Typ
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
 	<meta content="utf-8" http-equiv="encoding">
@@ -717,7 +716,12 @@ document.body.appendChild(js);
   </div>
 </div>
 
-<style>
+<h1>Table of Contents</h1>
+<h5>Container class "agenda" contains inline style for grid customization (using variable or fallback, max-width)</h5>
+<h5>Children class "item" for content (with link to section, see address bar after click)</h5>
+<h5>Variables: --columns to change no. of columns default 3, --aspect-ratio to fix ratio default 1</h5>
+<button onclick="document.querySelector('#agenda-style').classList.toggle('hidden')">Show CSS</button>
+<pre id="agenda-style" class="hidden">
 .agenda {
 	margin-left: auto;
 	margin-right: auto;
@@ -749,12 +753,13 @@ document.body.appendChild(js);
 .agenda .item img:hover {
 	border-color: var(--primary);
 }
-</style>
-<h1>Table of Contents</h1>
-<h5>Container class "agenda" contains inline style for grid customization (using variable or fallback, max-width)</h5>
-<h5>Children class "item" for content (with link to section, see address bar after click)</h5>
-<h5>Variables: --columns to change no. of columns default 3, --aspect-ratio to fix ratio default 1</h5>
-<pre>
+</pre>
+<script id="agenda-loader">
+css = document.createElement('style');
+css.innerHTML = document.querySelector('#agenda-style').innerHTML;
+document.body.appendChild(css);
+</script>
+<pre id="agenda-tag">
 &lt;div class="agenda" style="display: none; grid-template-columns: repeat([NO_OF_COLS], 1fr);"&gt;
   &lt;div class="item"&gt;&lt;/div&gt;
   &lt;div class="item"&gt;&lt;/div&gt;
@@ -863,7 +868,13 @@ document.body.appendChild(js);
   </div>
 </div>
 
-<style>
+<h1>Data Table</h1>
+<h5>Responsive width, smaller in text for mobile</h5>
+<h5>Use table generators (eg. <a href="https://divtable.com/generator/">DivTable.com</a>) to render HTML, add container + inline, add table into container, add classes for children</h5>
+<h5>By default will show as horizontal borders; Add class "all-borders" to include vertical borders</h5>
+<h5>By default will not freeze columns; Add class "freeze-(left/right)" to freeze first/last column</h5>
+<button onclick="document.querySelector('#datatable-style').classList.toggle('hidden')">Show CSS</button>
+<pre id="datatable-style" class="hidden">
 .datatable {
 	white-space: nowrap;
 	overflow: auto;
@@ -907,13 +918,13 @@ document.body.appendChild(js);
     overflow: hidden;
     text-overflow: ellipsis;
 }
-</style>
-<h1>Data Table</h1>
-<h5>Responsive width, smaller in text for mobile</h5>
-<h5>Use table generators (eg. <a href="https://divtable.com/generator/">DivTable.com</a>) to render HTML, add container + inline, add table into container, add classes for children</h5>
-<h5>By default will show as horizontal borders; Add class "all-borders" to include vertical borders</h5>
-<h5>By default will not freeze columns; Add class "freeze-(left/right)" to freeze first/last column</h5>
-<pre>
+</pre>
+<script id="datatable-loader">
+css = document.createElement('style');
+css.innerHTML = document.querySelector('#datatable-style').innerHTML;
+document.body.appendChild(css);
+</script>
+<pre id="datatable-tag">
 &lt;div class="datatable" style="font-size: 0.9em;"&gt;
   &lt;table&gt;
     &lt;tbody&gt;
