@@ -820,6 +820,7 @@ abbr.imgpop:hover img {
 	border: 2px solid var(--secondary);
 	border-bottom-width: 1em;
 	transition: border 0.2s, border-radius 0.2s;
+	cursor: pointer;
 }
 
 .thumbnail tr:hover img,
