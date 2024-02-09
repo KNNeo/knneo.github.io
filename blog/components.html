@@ -546,10 +546,10 @@ function showNextCarouselItem(tn) {
 	if(!nextActive) nextActive = tn.firstElementChild;
 	nextActive.classList.remove('hide');
 	// fast mode: transition disabled if click/tap fast enough
-	if(new Date() - window['tn'] >= 200) 
-		window['tn'] = new Date();
-	else 
+	if(new Date() - window['tn'] &lt; 200) 
 		tn.classList.add('fast');
+	else 
+		window['tn'] = new Date();
 	// set height of container
 	setTimeout(function() {
 		tn.style.height = nextActive.offsetHeight + 'px';
