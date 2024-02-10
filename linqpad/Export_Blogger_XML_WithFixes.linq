@@ -25,7 +25,7 @@
  * [ok]	remove add href to hashtags script
  * [ok]	fix primary and secondary colours to variables
  * [ok]	replace common phrases with emoji
- * [ok]	reduce resolution of uploaded images (from 4032 -> 2048 pixels)
+ * [ok]	reduce resolution of uploaded images to 1600 pixels max
  * []	censor words
  * [ok]	add lazy loading to img tags
  * [ok]	replace italics with emphasis tag
@@ -399,7 +399,7 @@ void Main()
 		}
         #endregion
 		
-		#region 29 reduce resolution of uploaded images
+		#region 29 reduce resolution of uploaded images to 1600px max
 		if(includeIndex.Count() == 0 || includeIndex.Contains(29))
 		{
 			if(content.Contains("s4032") || content.Contains("s4080") || content.Contains("s2048"))
