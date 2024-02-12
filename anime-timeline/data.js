@@ -1,55 +1,35 @@
 let showsRef = [
     {
-        "seriesTitle": "Kanojo mo Kanojo Season 2",
-        "seriesURL": "https://myanimelist.net/anime/53040/Kanojo_mo_Kanojo_Season_2",
+        "seriesTitle": "Majo to Yajuu",
+        "seriesURL": "https://myanimelist.net/anime/52816/Majo_to_Yajuu",
         "seriesType": "TV",
-        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1063/137100.webp?s=1a96f5e2283ed05e2afb2b9a379894ee",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1380/139745.webp?s=d7a8390244c5e3f8ea13d47cfc179d3a",
         "seriesAirSeason": [],
         "seriesGenre": [
-            "Comedy",
-            "Romance"
-        ],
-        "seriesDemographic": "Shounen",
-        "tags": [
-            "Sakura Ayane",
-            "Waki Azumi",
-            "Taketatsu Ayana",
-            "Takahashi Rie",
-            "Koga Aoi"
-        ],
-        "id": 53040
-    },
-    {
-        "seriesTitle": "Kimi no Koto ga Daidaidaidaidaisuki na 100-nin no Kanojo",
-        "seriesURL": "https://myanimelist.net/anime/54714/Kimi_no_Koto_ga_Daidaidaidaidaisuki_na_100-nin_no_Kanojo",
-        "seriesType": "TV",
-        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1812/136764.webp?s=d8c0d4f7d7ba368077d01b696b02ee9b",
-        "seriesAirSeason": [],
-        "seriesGenre": [
-            "Comedy",
-            "Romance"
+            "Action",
+            "Fantasy"
         ],
         "seriesDemographic": "Seinen",
         "tags": [
-            "Hondo Kaede",
-            "Tomita Miyu"
+            ""
         ],
-        "id": 54714
+        "id": 52816
     },
     {
-        "seriesTitle": "Under Ninja",
-        "seriesURL": "https://myanimelist.net/anime/49766/Under_Ninja",
+        "seriesTitle": "Oroka na Tenshi wa Akuma to Odoru",
+        "seriesURL": "https://myanimelist.net/anime/55129/Oroka_na_Tenshi_wa_Akuma_to_Odoru",
         "seriesType": "TV",
-        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1915/137896.webp?s=065ddec0eb6dfdb6695cda1c9c675f82",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1902/139271.webp?s=77d873d5d7164257988f8d5b4badf267",
         "seriesAirSeason": [],
         "seriesGenre": [
-            "Action"
+            "Comedy",
+            "Supernatural"
         ],
         "seriesDemographic": "Seinen",
         "tags": [
-            "Anzai Chika"
+            ""
         ],
-        "id": 49766
+        "id": 55129
     },
     {
         "seriesTitle": "3-gatsu no Lion",
@@ -209,8 +189,7 @@ let showsRef = [
         "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/7/86665.webp?s=44301b40a3bf56473676739a5f41920d",
         "seriesAirSeason": [],
         "seriesGenre": [
-            "Comedy",
-            "Romance"
+            "Comedy"
         ],
         "seriesDemographic": "Shounen",
         "tags": [
@@ -731,6 +710,22 @@ let showsRef = [
         "id": 41468
     },
     {
+        "seriesTitle": "Burn the Witch #0.8",
+        "seriesURL": "https://myanimelist.net/anime/56671/Burn_the_Witch_08",
+        "seriesType": "TV Special",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1522/139282.webp?s=5f61cb096f299e80c437a88dee7f814b",
+        "seriesAirSeason": [],
+        "seriesGenre": [
+            "Action",
+            "Fantasy"
+        ],
+        "seriesDemographic": "Shounen",
+        "tags": [
+            ""
+        ],
+        "id": 56671
+    },
+    {
         "seriesTitle": "C: The Money of Soul and Possibility Control",
         "seriesURL": "https://myanimelist.net/anime/10163/C__The_Money_of_Soul_and_Possibility_Control",
         "seriesType": "TV",
@@ -739,6 +734,7 @@ let showsRef = [
         "seriesGenre": [
             "Action",
             "Mystery",
+            "Sci-Fi",
             "Suspense"
         ],
         "seriesDemographic": "",
@@ -788,6 +784,7 @@ let showsRef = [
         "seriesAirSeason": [],
         "seriesGenre": [
             "Action",
+            "Drama",
             "Sci-Fi"
         ],
         "seriesDemographic": "Seinen",
@@ -1256,6 +1253,22 @@ let showsRef = [
         "id": 38276
     },
     {
+        "seriesTitle": "Houkago Shounen Hanako-kun",
+        "seriesURL": "https://myanimelist.net/anime/56425/Houkago_Shounen_Hanako-kun",
+        "seriesType": "TV",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1530/138031.webp?s=eb7d9c247f01f0524460cc64fa8685c9",
+        "seriesAirSeason": [],
+        "seriesGenre": [
+            "Comedy",
+            "Supernatural"
+        ],
+        "seriesDemographic": "",
+        "tags": [
+            ""
+        ],
+        "id": 56425
+    },
+    {
         "seriesTitle": "Houseki no Kuni",
         "seriesURL": "https://myanimelist.net/anime/35557/Houseki_no_Kuni",
         "seriesType": "TV",
@@ -1661,6 +1674,7 @@ let showsRef = [
         "seriesAirSeason": [],
         "seriesGenre": [
             "Adventure",
+            "Drama",
             "Fantasy",
             "Mystery"
         ],
@@ -1724,6 +1738,26 @@ let showsRef = [
             "Takahashi Rie"
         ],
         "id": 43969
+    },
+    {
+        "seriesTitle": "Kanojo mo Kanojo Season 2",
+        "seriesURL": "https://myanimelist.net/anime/53040/Kanojo_mo_Kanojo_Season_2",
+        "seriesType": "TV",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1063/137100.webp?s=1a96f5e2283ed05e2afb2b9a379894ee",
+        "seriesAirSeason": [],
+        "seriesGenre": [
+            "Comedy",
+            "Romance"
+        ],
+        "seriesDemographic": "Shounen",
+        "tags": [
+            "Sakura Ayane",
+            "Waki Azumi",
+            "Taketatsu Ayana",
+            "Takahashi Rie",
+            "Koga Aoi"
+        ],
+        "id": 53040
     },
     {
         "seriesTitle": "Kanojo, Okarishimasu",
@@ -1860,7 +1894,7 @@ let showsRef = [
         "seriesTitle": "Kara no Kyoukai Movie 5: Mujun Rasen",
         "seriesURL": "https://myanimelist.net/anime/4282/Kara_no_Kyoukai_Movie_5__Mujun_Rasen",
         "seriesType": "Movie",
-        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1574/112838.webp?s=e5c3b521ee2e382e7d99138b248b8719",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/4/75851.webp?s=7177457fb413ea6ad8538463a7bd5d38",
         "seriesAirSeason": [],
         "seriesGenre": [
             "Action",
@@ -2065,6 +2099,23 @@ let showsRef = [
             ""
         ],
         "id": 1606
+    },
+    {
+        "seriesTitle": "Kimi no Koto ga Daidaidaidaidaisuki na 100-nin no Kanojo",
+        "seriesURL": "https://myanimelist.net/anime/54714/Kimi_no_Koto_ga_Daidaidaidaidaisuki_na_100-nin_no_Kanojo",
+        "seriesType": "TV",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1812/136764.webp?s=d8c0d4f7d7ba368077d01b696b02ee9b",
+        "seriesAirSeason": [],
+        "seriesGenre": [
+            "Comedy",
+            "Romance"
+        ],
+        "seriesDemographic": "Seinen",
+        "tags": [
+            "Hondo Kaede",
+            "Tomita Miyu"
+        ],
+        "id": 54714
     },
     {
         "seriesTitle": "Kimi no Suizou wo Tabetai",
@@ -2632,7 +2683,7 @@ let showsRef = [
         "seriesTitle": "Neko no Ongaeshi",
         "seriesURL": "https://myanimelist.net/anime/597/Neko_no_Ongaeshi",
         "seriesType": "Movie",
-        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1/597.webp?s=15e9bb3bb965a5d558f8332a460ac34c",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1176/138720.webp?s=b8b0750e08f823a5ff1ca29eefe500c9",
         "seriesAirSeason": [],
         "seriesGenre": [
             "Adventure",
@@ -2791,6 +2842,21 @@ let showsRef = [
             "Amamiya Sora"
         ],
         "id": 27775
+    },
+    {
+        "seriesTitle": "Pokemon Concierge",
+        "seriesURL": "https://myanimelist.net/anime/54633/Pokemon_Concierge",
+        "seriesType": "ONA",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1064/139658.webp?s=f81db126812e8fc99021303047d0d12e",
+        "seriesAirSeason": [],
+        "seriesGenre": [
+            "Fantasy"
+        ],
+        "seriesDemographic": "Kids",
+        "tags": [
+            ""
+        ],
+        "id": 54633
     },
     {
         "seriesTitle": "PriPri Chii-chan!!",
@@ -3424,7 +3490,7 @@ let showsRef = [
     {
         "seriesTitle": "Shingeki no Kyojin: The Final Season - Kanketsu-hen",
         "seriesURL": "https://myanimelist.net/anime/51535/Shingeki_no_Kyojin__The_Final_Season_-_Kanketsu-hen",
-        "seriesType": "Special",
+        "seriesType": "TV Special",
         "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1279/131078.webp?s=02ee7d67319256c936a2ad09f4b29a95",
         "seriesAirSeason": [],
         "seriesGenre": [
@@ -4013,6 +4079,21 @@ let showsRef = [
         "id": 39606
     },
     {
+        "seriesTitle": "Under Ninja",
+        "seriesURL": "https://myanimelist.net/anime/49766/Under_Ninja",
+        "seriesType": "TV",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1915/137896.webp?s=065ddec0eb6dfdb6695cda1c9c675f82",
+        "seriesAirSeason": [],
+        "seriesGenre": [
+            "Action"
+        ],
+        "seriesDemographic": "Seinen",
+        "tags": [
+            "Anzai Chika"
+        ],
+        "id": 49766
+    },
+    {
         "seriesTitle": "Uzaki-chan wa Asobitai!",
         "seriesURL": "https://myanimelist.net/anime/41226/Uzaki-chan_wa_Asobitai",
         "seriesType": "TV",
@@ -4254,6 +4335,21 @@ let showsRef = [
         "id": 53428
     },
     {
+        "seriesTitle": "Dosanko Gal wa Namara Menkoi",
+        "seriesURL": "https://myanimelist.net/anime/53421/Dosanko_Gal_wa_Namara_Menkoi",
+        "seriesType": "TV",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1937/136906.webp?s=601659b8da45b873b92d3d9eccce4448",
+        "seriesAirSeason": [],
+        "seriesGenre": [
+            "Comedy"
+        ],
+        "seriesDemographic": "Shounen",
+        "tags": [
+            ""
+        ],
+        "id": 53421
+    },
+    {
         "seriesTitle": "Hataraku Saibou",
         "seriesURL": "https://myanimelist.net/anime/37141/Hataraku_Saibou",
         "seriesType": "TV",
@@ -4332,7 +4428,7 @@ let showsRef = [
         "seriesTitle": "Keikenzumi na Kimi to, Keiken Zero na Ore ga, Otsukiai suru Hanashi.",
         "seriesURL": "https://myanimelist.net/anime/52990/Keikenzumi_na_Kimi_to_Keiken_Zero_na_Ore_ga_Otsukiai_suru_Hanashi",
         "seriesType": "TV",
-        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1594/139137.webp?s=205d368d14bb36b45671baab20cd0459",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1848/140019.webp?s=d04f7e36ab0a774ac9a670b925249e2f",
         "seriesAirSeason": [],
         "seriesGenre": [
             "Romance"
@@ -4445,7 +4541,7 @@ let showsRef = [
         "seriesTitle": "Ojou to Banken-kun",
         "seriesURL": "https://myanimelist.net/anime/53300/Ojou_to_Banken-kun",
         "seriesType": "TV",
-        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1833/138479.webp?s=6c77238bffe928e66bacbf87d08c5090",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1016/139805.webp?s=1c2d9acc69497631e1a1d6efa738f201",
         "seriesAirSeason": [],
         "seriesGenre": [
             "Romance"
@@ -4588,6 +4684,22 @@ let showsRef = [
         "id": 53632
     },
     {
+        "seriesTitle": "Bartender: Kami no Glass",
+        "seriesURL": "https://myanimelist.net/anime/53407/Bartender__Kami_no_Glass",
+        "seriesType": "TV",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1623/138578.webp?s=d17657f34ee30faa689627c860624cb1",
+        "seriesAirSeason": [],
+        "seriesGenre": [
+            "Drama",
+            "Gourmet"
+        ],
+        "seriesDemographic": "Seinen",
+        "tags": [
+            ""
+        ],
+        "id": 53407
+    },
+    {
         "seriesTitle": "Bleach: Sennen Kessen-hen - Soukoku-tan",
         "seriesURL": "https://myanimelist.net/anime/56784/Bleach__Sennen_Kessen-hen_-_Soukoku-tan",
         "seriesType": "TV",
@@ -4605,10 +4717,27 @@ let showsRef = [
         "id": 56784
     },
     {
-        "seriesTitle": "Houkago Shounen Hanako-kun",
-        "seriesURL": "https://myanimelist.net/anime/56425/Houkago_Shounen_Hanako-kun",
-        "seriesType": "TV",
-        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1530/138031.webp?s=eb7d9c247f01f0524460cc64fa8685c9",
+        "seriesTitle": "Great Pretender: Razbliuto",
+        "seriesURL": "https://myanimelist.net/anime/57184/Great_Pretender__Razbliuto",
+        "seriesType": "ONA",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1552/139680.webp?s=543ee35891eb1f5e3de85dfdb262adcc",
+        "seriesAirSeason": [],
+        "seriesGenre": [
+            "Action",
+            "Adventure",
+            "Mystery"
+        ],
+        "seriesDemographic": "",
+        "tags": [
+            ""
+        ],
+        "id": 57184
+    },
+    {
+        "seriesTitle": "Houkago Shounen Hanako-kun (Zoku-hen)",
+        "seriesURL": "https://myanimelist.net/anime/57102/Houkago_Shounen_Hanako-kun_Zoku-hen",
+        "seriesType": "Unknown",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1309/139559.webp?s=7b3349208354668b94bc2dba3a04488c",
         "seriesAirSeason": [],
         "seriesGenre": [
             "Comedy",
@@ -4618,13 +4747,13 @@ let showsRef = [
         "tags": [
             ""
         ],
-        "id": 56425
+        "id": 57102
     },
     {
-        "seriesTitle": "Jibaku Shounen Hanako-kun (Anime Shin Project)",
-        "seriesURL": "https://myanimelist.net/anime/53924/Jibaku_Shounen_Hanako-kun_Anime_Shin_Project",
-        "seriesType": "Unknown",
-        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1135/131985.webp?s=32869172557808e3fd5846158e9c2678",
+        "seriesTitle": "Jibaku Shounen Hanako-kun 2nd Season",
+        "seriesURL": "https://myanimelist.net/anime/53924/Jibaku_Shounen_Hanako-kun_2nd_Season",
+        "seriesType": "TV",
+        "seriesImage": "https://cdn.myanimelist.net/r/192x272/images/anime/1285/139572.webp?s=a93d32d5f4da354b6ca58801a76f8ef1",
         "seriesAirSeason": [],
         "seriesGenre": [
             "Supernatural"
@@ -4910,7 +5039,8 @@ let showsArray = [
 { sortOrder:164, year:2023, season: 'Autumn', length:1, seriesTitle: 'Kanojo mo Kanojo', type:'TV', title:'Kanojo mo Kanojo Season 2', altTitle:'カノジョも彼女 Season 2', handle:'kanokano_anime', imgURL:'https://pbs.twimg.com/profile_images/1679719997176967168/Hbbf6awg.jpg', circular:true, MAL:53040 },
 { sortOrder:165, year:2023, season: 'Autumn', length:1, seriesTitle: '', type:'TV', title:'Kimi no Koto ga Daidaidaidaidaisuki na 100-nin no Kanojo', altTitle:'君のことが大大大大大好きな100人の彼女', handle:'hyakkano_anime', imgURL:'https://pbs.twimg.com/profile_images/1674742172401418241/vw34qd-x.jpg', circular:true, MAL:54714 },
 { sortOrder:166, year:2023, season: 'Autumn', length:1, seriesTitle: '', type:'TV', title:'Under Ninja', altTitle:'アンダーニンジャ', handle:'UNDERNINJAanime', imgURL:'https://pbs.twimg.com/profile_images/1609009121289998336/pWnyIpF2.jpg', circular:false, MAL:49766 },
-
+{ sortOrder:167, year:2024, season: 'Winter', length:1, seriesTitle: '', type:'TV', title:'Oroka na Tenshi wa Akuma to Odoru', altTitle:'愚かな天使は悪魔と踊る', handle:'kanaten_PR', imgURL:'https://pbs.twimg.com/profile_images/1684141928013766656/YEfefQ5G.jpg', circular:true, MAL:55129 },
+{ sortOrder:168, year:2024, season: 'Winter', length:1, seriesTitle: '', type:'TV', title:'Majo to Yajuu', altTitle:'魔女と野獣', handle:'majo_yajuu', imgURL:'https://pbs.twimg.com/profile_images/1729341495520657408/BOLlxKhS.jpg', circular:true, MAL:52816 },
 
 ].map(ca => {
 	let ref = showsRef.filter(s => s.id == ca.MAL);
