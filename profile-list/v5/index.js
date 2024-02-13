@@ -156,6 +156,8 @@ function onSearch() {
 	// console.log(event.target.value);
 	window['search'] = event.target.value;
 	filterWantedListBySearch();
+	if(event.key === 'Enter') // select first result
+		document.querySelector('.list .item').click();
 }
 
 function filterWantedListBySearch() {
