@@ -907,18 +907,20 @@ document.body.appendChild(css);
 	max-width: 200px;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	border-top: 1px solid var(--foreground);
-	border-bottom: 1px solid var(--foreground);
 }
 
 .datatable.freeze-right th:last-child,
 .datatable.freeze-right td:last-child {
 	position: sticky;
-	background-color: var(--background);
 	right: 0;
 	max-width: 200px;
-    overflow: hidden;
-    text-overflow: ellipsis;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.datatable.freeze-right th:last-child,
+.datatable.freeze-right td:last-child {
+	background-color: var(--background);
 }
 </pre>
 <script id="datatable-loader">
