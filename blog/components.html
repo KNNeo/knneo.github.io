@@ -885,9 +885,10 @@ document.body.appendChild(css);
 }
 
 .datatable td, .datatable th {
-    border-top: 1px solid var(--foreground);
-    border-bottom: 1px solid var(--foreground);
-    padding: 0 5px;
+	border-top: 1px solid var(--foreground);
+	border-bottom: 1px solid var(--foreground);
+	padding: 0 5px;
+	box-sizing: border-box;
 }
 
 .datatable.center-text td {
@@ -916,10 +917,6 @@ document.body.appendChild(css);
 	max-width: 200px;
 	overflow: hidden;
 	text-overflow: ellipsis;
-}
-
-.datatable.freeze-right th:last-child,
-.datatable.freeze-right td:last-child {
 	background-color: var(--background);
 }
 </pre>
