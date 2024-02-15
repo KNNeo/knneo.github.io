@@ -1,19 +1,3 @@
-//--HELPERS--//
-function scrollToItem(itemNo) {
-	if(document.querySelectorAll('.gallery img').length > 0) {
-		document.querySelectorAll('.gallery img')[itemNo || 0].scrollIntoView({
-			inline: 'center', behavior: 'smooth'
-		});
-		window.variables.selected = itemNo || 0;
-	}
-}
-
-function dupeCheck() {
-	return window.variables.base.filter((obj, index) => {
-	  return window.variables.base.findIndex((item, i) => item.filename === obj.filename && i !== index) > -1;
-	});
-}
-
 //--CONSTANTS--//
 // see data file, under data folder
 const isFirefox = (/Firefox/i.test(navigator.userAgent));
@@ -28,6 +12,24 @@ let detailsDiv = document.querySelector('.details');
 let filtersDiv = document.querySelector('.filters');
 let settingsDiv = document.querySelector('.settings');
 let progressDiv = document.querySelector('.progress');
+
+//--HELPERS--//
+function scrollToItem(itemNo) {
+	let allItems = document.querySelectorAll('.gallery img');
+	let selectItem = itemNo || 0;
+	if(allItems.length > 0) {
+		allItems[selectItem].scrollIntoView({
+			inline: 'center', behavior: 'smooth'
+		});
+		window.variables.selected = selectItem;
+	}
+}
+
+function dupeCheck() {
+	return window.variables.base.filter((obj, index) => {
+	  return window.variables.base.findIndex((item, i) => item.filename === obj.filename && i !== index) > -1;
+	});
+}
 
 //--DOM FUNCTIONS--//
 function generateTagClouds() {
@@ -74,10 +76,18 @@ function onKeyDown() {
 	
 	switch(event.key) {
 	  case 'PageUp':
-		galleryDiv.scrollTo(galleryDiv.scrollLeft-window.innerWidth*.9, 0);
+		galleryDiv.scrollTo({
+			left: galleryDiv.scrollLeft-window.innerWidth*.9,
+			top: 0,
+			behavior: 'smooth'
+		});
 		break;
 	  case 'PageDown':
-		galleryDiv.scrollTo(galleryDiv.scrollLeft+window.innerWidth*.9, 0);
+		galleryDiv.scrollTo({
+			left: galleryDiv.scrollLeft+window.innerWidth*.9,
+			top: 0,
+			behavior: 'smooth'
+		});
 		break;
 	  case 'End':
 		galleryDiv.lastElementChild.scrollIntoView({
@@ -104,7 +114,7 @@ function onKeyDown() {
 
 function onWheel() {
 	event.preventDefault();
-	let scrollDelta = isFirefox ? -event.detail*45 : event.wheelDelta;
+	let scrollDelta = isFirefox ? -event.detail*50 : event.wheelDelta;
 	galleryDiv.scrollLeft -= scrollDelta;
 }
 
