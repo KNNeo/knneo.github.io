@@ -527,4 +527,8 @@ const mosaicArray = [
 {"filename":"モーモ・ビキニ_つくし.jpg","sm":"https://doax.cc/res/pic_star_s/609_4.png","md":"https://doax.cc/res/pic_star_s/609_4.png","lg":"https://doax.cc/res/pic_star/609_4.png","og":"https://doax.cc/res/pic_star/609_4.png"},
 {"filename":"モーモ・ビキニ_ルナ.jpg","sm":"https://doax.cc/res/pic_star_s/609_2.png","md":"https://doax.cc/res/pic_star_s/609_2.png","lg":"https://doax.cc/res/pic_star/609_2.png","og":"https://doax.cc/res/pic_star/609_2.png"},
 {"filename":"モーモ・ビキニ_たまき.jpg","sm":"https://doax.cc/res/pic_star_s/609_14.png","md":"https://doax.cc/res/pic_star_s/609_14.png","lg":"https://doax.cc/res/pic_star/609_14.png","og":"https://doax.cc/res/pic_star/609_14.png"},
+{"filename":"ビター・ジェラシー_紅葉.jpg","sm":"https://doax.cc/res/pic_star_s/846_8.png","md":"https://doax.cc/res/pic_star_s/846_8.png","lg":"https://doax.cc/res/pic_star/846_8.png","og":"https://doax.cc/res/pic_star/846_8.png"},
+{"filename":"ビター・ジェラシー_カンナ.jpg","sm":"https://doax.cc/res/pic_star_s/846_16.png","md":"https://doax.cc/res/pic_star_s/846_16.png","lg":"https://doax.cc/res/pic_star/846_16.png","og":"https://doax.cc/res/pic_star/846_16.png"},
+{"filename":"ビター・ジェラシー_ルナ.jpg","sm":"https://doax.cc/res/pic_star_s/846_11.png","md":"https://doax.cc/res/pic_star_s/846_11.png","lg":"https://doax.cc/res/pic_star/846_11.png","og":"https://doax.cc/res/pic_star/846_11.png"},
+{"filename":"プリンセス・グレイス_ルナ.jpg","sm":"https://doax.cc/res/pic_star_s/144.png","md":"https://doax.cc/res/pic_star_s/144.png","lg":"https://doax.cc/res/pic_star/144.png","og":"https://doax.cc/res/pic_star/144.png"},
 ];
