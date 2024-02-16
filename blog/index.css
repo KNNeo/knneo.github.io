@@ -1037,6 +1037,8 @@ abbr.imgpop:hover img {
 	.date-header,
 	.thumbnail,
 	.thumbnail-initial,
+	.thumbnail-initial img,
+	.thumbnail-initial video,
 	.omake
 	{
 		transition: none;
