@@ -1619,11 +1619,12 @@ function addScales() {
 .conversation .message[data-sender] {
   text-align: right;
 }
-.conversation .message[data-sender] span {
-  border-radius: 8px 8px 0 8px;
-}
 .conversation .message[data-name]::before {
   content: attr(data-name);
+}
+.conversation .message[data-sender] span {
+  background-color: var(--secondary);
+  border-radius: 8px 8px 0 8px;
 }
 </pre>
 <pre id="conversation-script" class="hidden">
