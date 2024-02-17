@@ -1601,6 +1601,7 @@ function addScales() {
 <h5>For selected lines of text wrapped in container "conversation", will be styled to have chat boxes, left and right aligned</h5>
 <h5>To set who is right aligned, add "data-sender" attribute; Sender name is determined by first "data-separator" attribute detected (default colon)</h5>
 <h5>Note: Uses innerText property which removes tags and only read per line in HTML (separator '\n'), do not style text</h5>
+<h5>Add data-animate attribute to allow enactment of conversation blocks</h5>
 <button onclick="document.querySelector('#conversation-style').classList.toggle('hidden')">Show CSS</button>
 <button onclick="document.querySelector('#conversation-script').classList.toggle('hidden')">Show JS</button>
 <pre id="conversation-style" class="hidden">
@@ -1610,6 +1611,11 @@ function addScales() {
 .conversation .message {
   display: flex;
   align-items: center;
+  opacity: 1;
+}
+.conversation .message.hide {
+  opacity: 0;
+  transform: translateY(-20px);
 }
 .conversation .message span {
   margin: 8px;
@@ -1626,6 +1632,11 @@ function addScales() {
 .conversation .message[data-sender] span {
   background-color: var(--secondary);
   border-radius: 8px 8px 0 8px;
+}
+.conversation .footer {
+	font-size: 2em;
+    justify-content: center;
+	cursor: pointer;
 }
 </pre>
 <pre id="conversation-script" class="hidden">
@@ -1654,6 +1665,28 @@ function processConversations() {
       
       converse.appendChild(lineDiv);
     }
+    if(converse.getAttribute('data-animate') != null) {
+	  let footer = document.createElement('div');
+	  footer.className = 'footer message';
+	  footer.innerText = '🔁';
+      footer.setAttribute('onclick', "animateConversation(this.closest('.conversation'))");
+	  converse.appendChild(footer);
+	}
+  }
+}
+
+function animateConversation(converse) {
+  let lines = converse.querySelectorAll('.message');
+  if(Array.from(lines).filter(l => l.classList.contains('hide')).length > 0) return;
+  for(let line of lines)
+  {
+    line.classList.add('hide');
+  }
+  for(let l = 0; l &lt; lines.length; l++)
+  {
+    setTimeout(function() {
+      lines[l].classList.remove('hide');
+    }, l*1500);
   }
 }
 </pre>
@@ -1666,8 +1699,8 @@ js.innerHTML = document.querySelector('#conversation-script').innerHTML.replace(
 document.body.appendChild(js);
 </script>
 <pre id="conversation-tag">
-&lt;div class="conversation"&gt;
-  [LINES OF ONTENT]
+&lt;div class="conversation" data-separator="[SEPARATOR]" data-sender="[SENDER_NAME]" onclick="animateConversation(this)"&gt;
+  [LINES_OF_ONTENT]
 &lt;/div&gt;
 </pre>
 <h5>TWO PARTY CONVERSATION, SENDER NOT DEFINED</h5>
@@ -1679,8 +1712,8 @@ document.body.appendChild(js);
   <div>Nan | W-what are you talking about? Of course not, I was just happy for onii-chan.</div>
   <div>Shouhei | LOL</div>
 </div>
-<h5>MORE THAN TWO PARTY CONVERSATION, SENDER DEFINED</h5>
-<div class="conversation" data-sender="Shouhei">
+<h5>MORE THAN TWO PARTY CONVERSATION, SENDER DEFINED, ANIMATED</h5>
+<div class="conversation" data-sender="Shouhei" data-animate>
   <div>Nan: Onii-chan, who is she?</div>
   <div>Inori: I didn't know you have such an adorable sister!!</div>
   <div>Shouhei: Uh...</div>
