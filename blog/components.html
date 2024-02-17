@@ -1690,8 +1690,13 @@ function animateConversation(converse) {
         return total + current.getBoundingClientRect().height;
       }, 0) : 0;
       let currentHeight = lines[l].getBoundingClientRect().height;
-      if(heightAboveItem + currentHeight > converse.clientHeight - currentHeight) // delta to fix item height rounding
-        converse.scrollBy({ top: currentHeight, behavior: 'smooth' });
+	  let diff = heightAboveItem + 2*currentHeight - converse.clientHeight; // delta to fix item height rounding
+      if(diff > 0) {
+	    if(diff &lt; currentHeight) // fix container height wrt to message height
+          converse.scrollBy({ top: diff, behavior: 'smooth' });
+		else
+		  converse.scrollBy({ top: currentHeight, behavior: 'smooth' });
+      }
       else 
         converse.scrollTo({ top: 0, behavior: 'smooth' });
     }, l*1500);
@@ -1721,7 +1726,7 @@ document.body.appendChild(js);
   <div>Shouhei | LOL</div>
 </div>
 <h5>MORE THAN TWO PARTY CONVERSATION, SENDER DEFINED, ANIMATED</h5>
-<div class="conversation" data-sender="Shouhei" data-animate style="max-height: 200px; overflow-y: auto;">
+<div class="conversation" data-sender="Shouhei" data-animate style="max-height: 185px; overflow-y: auto;">
   <div>Nan: Onii-chan, who is she?</div>
   <div>Inori: I didn't know you have such an adorable sister!!</div>
   <div>Shouhei: Uh...</div>
