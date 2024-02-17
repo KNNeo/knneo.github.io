@@ -2,16 +2,16 @@
 <html lang="en-SG">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
-	<meta content="utf-8" http-equiv="encoding">
+  <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+  <meta content="utf-8" http-equiv="encoding">
     <link id="fonts-css" rel="stylesheet" type="text/css" href="../fonts.css">
-	<meta name="apple-mobile-web-app-capable" content="yes">
-	<meta name="mobile-web-app-capable" content="yes">
-	<link rel="icon" sizes="192x192" type="image/png" href="storytime.png" />
-	<link rel="apple-touch-icon" sizes="192x192" href="storytime.png" />
-	<script src="../darkmode.js" type="application/javascript" charset="utf-8"></script>
-	<script src="blogspot.js" type="application/javascript" charset="utf-8"></script>
-	<title>Components</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="icon" sizes="192x192" type="image/png" href="storytime.png" />
+  <link rel="apple-touch-icon" sizes="192x192" href="storytime.png" />
+  <script src="../darkmode.js" type="application/javascript" charset="utf-8"></script>
+  <script src="blogspot.js" type="application/javascript" charset="utf-8"></script>
+  <title>Components</title>
 </head>
 <body>
 <a id="BackBtn" class="material-icons" href="index.html" title="Go Back">arrow_back</a>
@@ -25,6 +25,7 @@
   --secondary: #609fff;
   --background: #f4f6ff;
   --foreground: #000;
+  --accent: lightgray;
 }
 
 .darked:root {
@@ -32,22 +33,23 @@
   --secondary: #00abbf;
   --background: #001114;
   --foreground: #fff;
+  --accent: gray;
 }
 
 body {
-	display: block;
-	max-width: 680px;
-	padding: 0 10px;
-	margin: auto;
-	color: var(--foreground);
-	background-color: var(--background);
-	transition: background .2s linear;
-	line-height: 1.5;
-	overflow-x: hidden;
+  display: block;
+  max-width: 680px;
+  padding: 0 10px;
+  margin: auto;
+  color: var(--foreground);
+  background-color: var(--background);
+  transition: background .2s linear;
+  line-height: 1.5;
+  overflow-x: hidden;
 }
 
 blockquote {
-	margin: 1em;
+  margin: 1em;
 }
 
 a {
@@ -57,7 +59,7 @@ a {
 a img,
 table div[style|=background] {
     box-sizing: border-box;
-	border: 2px solid var(--secondary);
+  border: 2px solid var(--secondary);
 }
 
 a img:hover,
@@ -70,7 +72,7 @@ a:hover {
 }
 
 a.material-icons {
-	text-decoration: none;
+  text-decoration: none;
     font-size: 36px;
 }
 
@@ -79,7 +81,7 @@ span.small-icons {
 }
 
 a.material-icons {
-	text-decoration: none;
+  text-decoration: none;
 }
 
 span.small-icons {
@@ -102,91 +104,91 @@ span.small-icons {
 
 /*Assign class based on image resize for responsive, see blog.js resizeImg()*/
 .img-width-fit {
-	width: 100%;
-	height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 .img-width-auto {
-	width: auto;
+  width: auto;
 }
 
 .img-separator {
-	margin-left: auto;
-	margin-right: auto;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 #DarkModeBtn {
-	position: fixed;
-	display: block;
-	visibility: visible;
-	opacity: 1;
-	bottom: 16px;
-	right: calc(50% - 410px);
-	z-index: 7;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-	color: var(--foreground);
-	cursor: pointer;
-	padding: 8px 6px 6px 6px;
-	border: 1px solid var(--foreground);
-	background-color: var(--background);
-	box-shadow: 3px 3px var(--foreground);
-	border-radius: 8px;
-	transition: background .2s linear;
+  position: fixed;
+  display: block;
+  visibility: visible;
+  opacity: 1;
+  bottom: 16px;
+  right: calc(50% - 410px);
+  z-index: 7;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: var(--foreground);
+  cursor: pointer;
+  padding: 8px 6px 6px 6px;
+  border: 1px solid var(--foreground);
+  background-color: var(--background);
+  box-shadow: 3px 3px var(--foreground);
+  border-radius: 8px;
+  transition: background .2s linear;
 }
 
 #BackBtn {
-	position: fixed;
-	display: block;
-	visibility: visible;
-	bottom: 16px;
-	left: calc(50% - 410px);
-	z-index: 8;
-	outline: none;
-	color: var(--foreground);
-	cursor: pointer;
-	padding: 8px 6px 6px 6px;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-	border: 1px solid var(--foreground);
-	background-color: var(--background);
-	box-shadow: 3px 3px var(--foreground);
-	border-radius: 8px;
-	transition: background .2s linear;
+  position: fixed;
+  display: block;
+  visibility: visible;
+  bottom: 16px;
+  left: calc(50% - 410px);
+  z-index: 8;
+  outline: none;
+  color: var(--foreground);
+  cursor: pointer;
+  padding: 8px 6px 6px 6px;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  border: 1px solid var(--foreground);
+  background-color: var(--background);
+  box-shadow: 3px 3px var(--foreground);
+  border-radius: 8px;
+  transition: background .2s linear;
 }
 
 #DarkModeBtn:hover,
 #BackBtn:hover {
-	box-shadow: 1px 1px;
-	transform: translate(2px, 2px);
+  box-shadow: 1px 1px;
+  transform: translate(2px, 2px);
 }
 
 </style>
 <style id="page-style">
 /* PAGE ONLY STYLE */
 pre {
-	padding: 10px;
-	border: 1px solid var(--foreground);
-	overflow: auto;
-	max-height: 50dvh;
+  padding: 10px;
+  border: 1px solid var(--foreground);
+  overflow: auto;
+  max-height: 50dvh;
 }
 .blank {
-	height: 15dvh;
-	border: 1px dashed var(--foreground);
+  height: 15dvh;
+  border: 1px dashed var(--foreground);
 }
 .blank::before {
     display: flex;
     justify-content: center;
-	content: 'This section is intentionally left blank'
+  content: 'This section is intentionally left blank'
 }
 .hidden {
-	display: none;
+  display: none;
 }
 </style>
 <h4 style="text-align: center;">COMPONENTS</h4>
@@ -194,40 +196,40 @@ pre {
 
 <style>
 .popup {
-	display: inline;
-	cursor: pointer;
+  display: inline;
+  cursor: pointer;
 }
 
 .popup .text {
-	display: inline;
-	color: var(--primary);
-	text-decoration: underline dashed;
+  display: inline;
+  color: var(--primary);
+  text-decoration: underline dashed;
 }
 
 .popup .text:hover {
-	color: var(--foreground);
-	text-decoration: none;
+  color: var(--foreground);
+  text-decoration: none;
 }
 
 .popup.show .text {
-	color: var(--foreground);
+  color: var(--foreground);
 }
 
 .popup .content {
-	display: none;
-	padding-top: 10px;
-	left: 0;
-	right: 0;
-	margin: auto;
-	text-align: center;
-	max-width: 98%;
-	animation: fadeIn 0.2s ease-in 0.1s both;
+  display: none;
+  padding-top: 10px;
+  left: 0;
+  right: 0;
+  margin: auto;
+  text-align: center;
+  max-width: 98%;
+  animation: fadeIn 0.2s ease-in 0.1s both;
 }
 
 .popup.show .content {
-	display: block;
-	position: absolute;
-	z-index: 9;
+  display: block;
+  position: absolute;
+  z-index: 9;
 }
 
 @keyframes fadeIn {
@@ -245,20 +247,20 @@ pre {
 window.addEventListener('load', addPopupTriggers);
 function addPopupTriggers() {
     for (let a of document.querySelectorAll('.testing a[target="_blank"]')) // for production remove testing class
-	{
-		a.addEventListener('mouseover', renderPopup);
+  {
+    a.addEventListener('mouseover', renderPopup);
     }
 }
 
 function renderPopup() {
     event.preventDefault();
-	let processLink = event.target.href;
-	
-	//exclusion for blogger	images
+  let processLink = event.target.href;
+  
+  //exclusion for blogger  images
     if (processLink.includes('blogspot.com') || 
-		processLink.includes('blogger.googleusercontent.com'))
-		return;
-	//if not compatible for any design
+    processLink.includes('blogger.googleusercontent.com'))
+    return;
+  //if not compatible for any design
     let newContent = generatePopupContent(processLink);
     if (newContent == null) return;
     let thumbnail = document.createElement('div');
@@ -270,78 +272,78 @@ function renderPopup() {
 
     let focus = document.createElement('div');
     focus.classList.add('content');
-	if(!processLink.includes('twitter.com'))
-		focus.style.paddingTop = '10px';
+  if(!processLink.includes('twitter.com'))
+    focus.style.paddingTop = '10px';
     focus.innerHTML = newContent;
 
     thumbnail.appendChild(initial);
     thumbnail.appendChild(focus);
-	thumbnail.setAttribute('title', processLink);
-	
-	renderEmbedProcess();
+  thumbnail.setAttribute('title', processLink);
+  
+  renderEmbedProcess();
 
     event.target.outerHTML = thumbnail.outerHTML;
     addHoverForPopups();
-	
-	return thumbnail;
+  
+  return thumbnail;
 }
 
 function renderEmbedProcess() {
-	try
-	{
-		if(document.querySelector('#tweet') == null)
-		{
-			let tweet = document.createElement('script');
-			tweet.id = 'tweet';
-			tweet.src = 'https://platform.twitter.com/widgets.js';
-			tweet.type = 'text/javascript';
-			tweet.charset = 'utf-8';
-			tweet.async = 'async';
-			document.head.appendChild(tweet);
-		}
-		
-		if(document.querySelector('#insta') == null)
-		{
-			let insta = document.createElement('script');
-			insta.id = 'insta';
-			insta.src = 'https://www.instagram.com/embed.js';
-			insta.type = 'text/javascript';
-			insta.charset = 'utf-8';
-			insta.async = 'async';
-			document.head.appendChild(insta);
-		}
-		
-		if(typeof twttr != 'undefined') twttr.widgets.load(); // to render twitter embed
-		if(typeof instgrm != 'undefined') window.instgrm.Embeds.process(); // to render instagram embed
-		return true;
-	}
-	catch(err)
-	{
-		console.error(err);
-		return false;
-	}
+  try
+  {
+    if(document.querySelector('#tweet') == null)
+    {
+      let tweet = document.createElement('script');
+      tweet.id = 'tweet';
+      tweet.src = 'https://platform.twitter.com/widgets.js';
+      tweet.type = 'text/javascript';
+      tweet.charset = 'utf-8';
+      tweet.async = 'async';
+      document.head.appendChild(tweet);
+    }
+    
+    if(document.querySelector('#insta') == null)
+    {
+      let insta = document.createElement('script');
+      insta.id = 'insta';
+      insta.src = 'https://www.instagram.com/embed.js';
+      insta.type = 'text/javascript';
+      insta.charset = 'utf-8';
+      insta.async = 'async';
+      document.head.appendChild(insta);
+    }
+    
+    if(typeof twttr != 'undefined') twttr.widgets.load(); // to render twitter embed
+    if(typeof instgrm != 'undefined') window.instgrm.Embeds.process(); // to render instagram embed
+    return true;
+  }
+  catch(err)
+  {
+    console.error(err);
+    return false;
+  }
 }
 
 function generatePopupContent(url) {
-	if (!url) return null;
+  if (!url) return null;
     if (url.includes('.jpg') || url.includes('.png') || url.includes('.gif') || url.includes('blogger.googleusercontent.com')) {
         //process image
         return '<div class="separator"><img style="max-height: 360px; max-width: 100%;" src="' + url + '" /></div>';
     }
     if (url.includes('music.apple.com')) {
         //process itunes embed
-		let isTrack = url.includes('i=');
+    let isTrack = url.includes('i=');
         return '<iframe allow="autoplay *; encrypted-media *;" frameborder="0" height="'+ (!isTrack ? 450 : 170) +'" sandbox="allow-modals allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation" src="' +
             url.replace('music.apple.com', 'embed.music.apple.com') +
             '" style="background: transparent; max-width: ' + (!isTrack ? 290 : 660) + 'px; overflow: hidden; width: 100%;"></iframe>';
     }
     if (url.includes('twitter.com')) {
         //process twitter embed
-		//data-height for timeline is max width
-		if(url.includes('/status/')) {
-			return '<blockquote class="twitter-tweet tw-align-center" data-conversation="none" ' + (document.querySelector('html').classList.contains('darked') ? 'data-theme="dark"' : '') + ' data-height="' + 0.6*window.innerHeight + '"><a href="' +
-				url + '"></a></blockquote>';
-		}
+    //data-height for timeline is max width
+    if(url.includes('/status/')) {
+      return '<blockquote class="twitter-tweet tw-align-center" data-conversation="none" ' + (document.querySelector('html').classList.contains('darked') ? 'data-theme="dark"' : '') + ' data-height="' + 0.6*window.innerHeight + '"><a href="' +
+        url + '"></a></blockquote>';
+    }
     }
     if (url.includes('youtube.com/watch')) {
         //process youtube embed
@@ -372,39 +374,39 @@ function generatePopupContent(url) {
 
 function addHoverForPopups() {
     for (let popup of document.querySelectorAll('.popup')) {
-		popup.addEventListener('click', togglePopup);
+    popup.addEventListener('click', togglePopup);
     }
 }
 
 function togglePopup() {
-	if(document.querySelector('#PopupBtn') != null && document.querySelector('#PopupBtn').innerText == 'launch')
-	{
-		//if config false, then treat as link
-		window.open(event.target.getAttribute('title'), '_blank');
-	}
+  if(document.querySelector('#PopupBtn') != null && document.querySelector('#PopupBtn').innerText == 'launch')
+  {
+    //if config false, then treat as link
+    window.open(event.target.getAttribute('title'), '_blank');
+  }
     else if (event.target.closest('.popup.show') != null) {
-		//hide
+    //hide
         event.target.closest('.popup').classList.remove('show');
-		//switchToButton('GoToTopBtn');
-		if(document.getElementById('CloseBtn') != null) document.getElementById('CloseBtn').style.display = 'none';
-		//toggleOverlay(false);
-	}
+    //switchToButton('GoToTopBtn');
+    if(document.getElementById('CloseBtn') != null) document.getElementById('CloseBtn').style.display = 'none';
+    //toggleOverlay(false);
+  }
     else {
-		//display
+    //display
         for (let popup of document.querySelectorAll('.popup')) {
-			popup.classList.remove('show');
+      popup.classList.remove('show');
         }
         event.target.closest('.popup').classList.add('show');
-		//switchToButton('CloseBtn');
-		if(typeof fixExternalFrame == 'function') fixExternalFrame(this);
-		//renderEmbedProcess();
-		// if below threshold height scroll up, else open popup without scroll
-		let thresholdHeight = 0.4*window.innerHeight;
-		window.scrollTo({
-			top: document.querySelector('html').scrollTop + event.target.getBoundingClientRect().top - (event.target.getBoundingClientRect().top >= thresholdHeight ? thresholdHeight : event.target.getBoundingClientRect().top), 
-			behavior: 'smooth'
-		});
-		//toggleOverlay(false);
+    //switchToButton('CloseBtn');
+    if(typeof fixExternalFrame == 'function') fixExternalFrame(this);
+    //renderEmbedProcess();
+    // if below threshold height scroll up, else open popup without scroll
+    let thresholdHeight = 0.4*window.innerHeight;
+    window.scrollTo({
+      top: document.querySelector('html').scrollTop + event.target.getBoundingClientRect().top - (event.target.getBoundingClientRect().top >= thresholdHeight ? thresholdHeight : event.target.getBoundingClientRect().top), 
+      behavior: 'smooth'
+    });
+    //toggleOverlay(false);
     }
 }
 </script>
@@ -437,46 +439,46 @@ Click/tap container fast (&lt;200ms) will turn off transition (for observing dif
 <button onclick="document.querySelector('#carousel-script').classList.toggle('hidden')">Show JS</button>
 <pre id="carousel-style" class="hidden">
 .carousel {
-	display: block;
+  display: block;
     position: relative;
-	transition: height 0.2s;
-	padding-top: 1em;
+  transition: height 0.2s;
+  padding-top: 1em;
 }
 
 .carousel.fast {
-	transition: none;
+  transition: none;
 }
 
 .carousel .item {
-	position: absolute;
-	left: 0;
-	right: 0;
-	opacity: 1;
-	transition: opacity 0.4s, left 0.2s;
+  position: absolute;
+  left: 0;
+  right: 0;
+  opacity: 1;
+  transition: opacity 0.4s, left 0.2s;
 }
 
 .carousel.fast .item {
-	transition: none;
+  transition: none;
 }
 
 .carousel .item img,
 .carousel .item video {
-	cursor: pointer;
-	border: 2px solid var(--secondary);
-	transition: border 0.2s;
+  cursor: pointer;
+  border: 2px solid var(--secondary);
+  transition: border 0.2s;
     border-bottom-width: 1em;
 }
 
 .carousel .item tr:hover img,
 .carousel .item tr:hover video {
-	object-fit: cover;
+  object-fit: cover;
     border-color: var(--primary);
 }
 
 .carousel .item.hide {
-	visibility: hidden;
-	left: 80%;
-	opacity: 0;
+  visibility: hidden;
+  left: 80%;
+  opacity: 0;
 }
 
 .carousel .item[data-index][data-length]::before {
@@ -490,70 +492,70 @@ Click/tap container fast (&lt;200ms) will turn off transition (for observing dif
 }
 
 .carousel .item.text {
-	color: var(--primary);
-	text-decoration: underline;	
+  color: var(--primary);
+  text-decoration: underline;  
 }
 
 .carousel-dialog {
     background-color: var(--background);
-    color: var(--foreground);	
+    color: var(--foreground);  
 }
 </pre>
 <pre id="carousel-script" class="hidden">
 window.addEventListener('load', setCarousel);
 function setCarousel() {
-	if(Array.from(document.querySelectorAll('.carousel img')).filter(i => i.parentElement.tagName.toLowerCase() === 'a').length > 0)
-	{
-		console.error("Carousel has image with link: Will prevent carousel function");
-		return;
-	}
-	if(Array.from(document.querySelectorAll('.carousel')).filter(i => i.querySelectorAll('.item:not(.hide)').length == 1).length != document.querySelectorAll('.carousel').length)
-	{
-		console.error("Carousel initial view fail: Will prevent carousel function");
-		return;
-	}
-	
+  if(Array.from(document.querySelectorAll('.carousel img')).filter(i => i.parentElement.tagName.toLowerCase() === 'a').length > 0)
+  {
+    console.error("Carousel has image with link: Will prevent carousel function");
+    return;
+  }
+  if(Array.from(document.querySelectorAll('.carousel')).filter(i => i.querySelectorAll('.item:not(.hide)').length == 1).length != document.querySelectorAll('.carousel').length)
+  {
+    console.error("Carousel initial view fail: Will prevent carousel function");
+    return;
+  }
+  
     for (let carousel of document.querySelectorAll('.carousel')) {
-		carousel.style.height = carousel.querySelector('.item:not(.hide)')?.offsetHeight + 'px';
+    carousel.style.height = carousel.querySelector('.item:not(.hide)')?.offsetHeight + 'px';
 
-		let counter = 1;
+    let counter = 1;
         let items = carousel.querySelectorAll('.item');
         for (let item of items) {
-			if(!item.hasAttribute('data-index')) {
-				item.setAttribute('data-index', counter++);
-				item.setAttribute('data-length', items.length);
-			}
-			for(let media of item.querySelectorAll('img, video')) {
-				media.onclick = function() {
-					showNextCarouselItem(event.target.closest('.carousel'));
-				};
-			}
+      if(!item.hasAttribute('data-index')) {
+        item.setAttribute('data-index', counter++);
+        item.setAttribute('data-length', items.length);
+      }
+      for(let media of item.querySelectorAll('img, video')) {
+        media.onclick = function() {
+          showNextCarouselItem(event.target.closest('.carousel'));
+        };
+      }
         }
     }
 }
 function showNextCarouselItem(tn) {
-	// all children
+  // all children
     let tc = tn.querySelectorAll('.item');
-	// identify active child
-	let active = Array.from(tc).findIndex(t => !t.classList.contains('hide'));
-	if (active == null) return;
-	// hide all
-	for(let t of tc) {
-		t.classList.add('hide');
-	}
-	// set next child to display, or first if reach last child
-	let nextActive = tc[active].nextElementSibling;
-	if(!nextActive) nextActive = tn.firstElementChild;
-	nextActive.classList.remove('hide');
-	// fast mode: transition disabled if click/tap fast enough
-	if(new Date() - window['tn'] &lt; 200) 
-		tn.classList.add('fast');
-	else 
-		window['tn'] = new Date();
-	// set height of container
-	setTimeout(function() {
-		tn.style.height = nextActive.offsetHeight + 'px';
-	}, tn.classList.contains('fast') ? 0 : 200);
+  // identify active child
+  let active = Array.from(tc).findIndex(t => !t.classList.contains('hide'));
+  if (active == null) return;
+  // hide all
+  for(let t of tc) {
+    t.classList.add('hide');
+  }
+  // set next child to display, or first if reach last child
+  let nextActive = tc[active].nextElementSibling;
+  if(!nextActive) nextActive = tn.firstElementChild;
+  nextActive.classList.remove('hide');
+  // fast mode: transition disabled if click/tap fast enough
+  if(new Date() - window['tn'] &lt; 200) 
+    tn.classList.add('fast');
+  else 
+    window['tn'] = new Date();
+  // set height of container
+  setTimeout(function() {
+    tn.style.height = nextActive.offsetHeight + 'px';
+  }, tn.classList.contains('fast') ? 0 : 200);
 }
 </pre>
 <script id="carousel-loader">
@@ -614,7 +616,7 @@ document.body.appendChild(js);
         <tr>
           <td style="text-align: center;">
             <img
-			  loading="lazy"
+        loading="lazy"
               border="0"
               data-original-height="720"
               data-original-width="1280"
@@ -723,35 +725,35 @@ document.body.appendChild(js);
 <button onclick="document.querySelector('#agenda-style').classList.toggle('hidden')">Show CSS</button>
 <pre id="agenda-style" class="hidden">
 .agenda {
-	margin-left: auto;
-	margin-right: auto;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 @supports (display: grid) {
-	.agenda {
-		/* if grid is supported */
-		display: grid;
-		grid-template-columns: repeat(var(--columns, 3), 1fr);
-	}
+  .agenda {
+    /* if grid is supported */
+    display: grid;
+    grid-template-columns: repeat(var(--columns, 3), 1fr);
+  }
 }
 
 .agenda .item table.tr-caption-container {
     width: 100%;
-	padding: 0;
+  padding: 0;
 }
 
 .agenda .item a img {
-	width: 100%;
-	height: auto;
-	object-fit: cover;
-	transition: border 0.2s;
-	border-color: var(--secondary);
-	border-width: 2px 2px 1em;
-	aspect-ratio: var(--aspect-ratio, 1);
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  transition: border 0.2s;
+  border-color: var(--secondary);
+  border-width: 2px 2px 1em;
+  aspect-ratio: var(--aspect-ratio, 1);
 }
 
 .agenda .item img:hover {
-	border-color: var(--primary);
+  border-color: var(--primary);
 }
 </pre>
 <script id="agenda-loader">
@@ -876,8 +878,8 @@ document.body.appendChild(css);
 <button onclick="document.querySelector('#datatable-style').classList.toggle('hidden')">Show CSS</button>
 <pre id="datatable-style" class="hidden">
 .datatable {
-	white-space: nowrap;
-	overflow: auto;
+  white-space: nowrap;
+  overflow: auto;
 }
 
 .datatable table {
@@ -885,14 +887,14 @@ document.body.appendChild(css);
 }
 
 .datatable td, .datatable th {
-	border-top: 1px solid var(--foreground);
-	border-bottom: 1px solid var(--foreground);
-	box-sizing: border-box;
-	padding: 0 5px;
+  border-top: 1px solid var(--foreground);
+  border-bottom: 1px solid var(--foreground);
+  box-sizing: border-box;
+  padding: 0 5px;
 }
 
 .datatable.center-text td {
-	text-align: center;
+  text-align: center;
 }
 
 .datatable.all-borders td, .datatable.all-borders th {
@@ -902,22 +904,22 @@ document.body.appendChild(css);
 
 .datatable.freeze-left th:first-child,
 .datatable.freeze-left td:first-child {
-	position: sticky;
-	left: 0;
-	max-width: 200px;
-	overflow-x: hidden;
-	text-overflow: ellipsis;
-	background-color: var(--background);
+  position: sticky;
+  left: 0;
+  max-width: 200px;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  background-color: var(--background);
 }
 
 .datatable.freeze-right th:last-child,
 .datatable.freeze-right td:last-child {
-	position: sticky;
-	right: 0;
-	max-width: 200px;
-	overflow-x: hidden;
-	text-overflow: ellipsis;
-	background-color: var(--background);
+  position: sticky;
+  right: 0;
+  max-width: 200px;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  background-color: var(--background);
 }
 </pre>
 <script id="datatable-loader">
@@ -1232,55 +1234,66 @@ document.body.appendChild(css);
     </table>
 </div>
 
-<style>
+<h1>Accordion</h1>
+<h5>Container "accordion" (with id), child "header" to toggle child "content" and "footer", child "footer" to allow close from end of content</h5>
+<button onclick="document.querySelector('#accordion-style').classList.toggle('hidden')">Show CSS</button>
+<button onclick="document.querySelector('#accordion-script').classList.toggle('hidden')">Show JS</button>
+<pre id="accordion-style" class="hidden">
 .accordion {
-	cursor: pointer;
-	border-color: var(--secondary);
-	border-style: solid;
-	border-width: 2px 2px 1em;
-	transition: border 0.2s;
+  cursor: pointer;
+  border-color: var(--secondary);
+  border-style: solid;
+  border-width: 2px 2px 1em;
+  transition: border 0.2s;
 }
 .accordion:hover {
-	border-color: var(--primary);
+  border-color: var(--primary);
 }
 .accordion .content {
-	cursor: initial;
+  cursor: initial;
 }
 .accordion .footer {
-	text-align: center;
+  text-align: center;
 }
 .accordion .content,
 .accordion .footer {
-	padding: 4px 8px;
-	display: none;
+  padding: 4px 8px;
+  display: none;
 }
 
 .accordion.show {
-	border-color: var(--foreground);
+  border-color: var(--foreground);
 }
 
-.accordion.show > * {
-	display: block;
+.accordion.show .content,
+.accordion.show .footer {
+  display: block;
 }
-</style>
-<script>
+</pre>
+<pre id="accordion-script" class="hidden">
 window.addEventListener('load', setExpander);
 function setExpander() {
-	for(let accordion of document.querySelectorAll('.accordion'))
-	{
-		accordion.querySelector('.header')?.addEventListener('click', toggleExpander);
-		accordion.querySelector('.footer')?.addEventListener('click', toggleExpander);
-	}
+  for(let accordion of document.querySelectorAll('.accordion'))
+  {
+    accordion.querySelector('.header')?.addEventListener('click', toggleExpander);
+    accordion.querySelector('.footer')?.addEventListener('click', toggleExpander);
+  }
 }
 function toggleExpander() {
-	let parent = event.target.closest('.accordion');
-	parent.classList.toggle('show');
-	parent.querySelector('.header').scrollIntoView({ block: 'center' });
+  let parent = event.target.closest('.accordion');
+  parent.classList.toggle('show');
+  parent.querySelector('.header').scrollIntoView({ block: 'center' });
 }
+</pre>
+<script id="accordion-loader">
+css = document.createElement('style');
+css.innerHTML = document.querySelector('#accordion-style').innerHTML;
+document.body.appendChild(css);
+js = document.createElement('script');
+js.innerHTML = document.querySelector('#accordion-script').innerHTML.replace(/&lt;/g,'<').replace(/&gt;/g,'>');
+document.body.appendChild(js);
 </script>
-<h1>Accordion</h1>
-<h5>Container "accordion" (with id), child "header" to toggle child "content" and "footer", child "footer" to allow close from end of content</h5>
-<pre>
+<pre id="accordion-tag">
 &lt;div class="accordion"&gt;
   &lt;blockquote class="header"&gt;[TITLE]&lt;/blockquote&gt;
   &lt;div class="content"&gt;[CONTENT]&lt;/div&gt;
@@ -1291,50 +1304,50 @@ function toggleExpander() {
 <div class="accordion" id="mute-QnA">
   <div class="header">
     <blockquote class="tr_bq">
-  	<div style="text-align: center;">
-  	  <span style="font-size: large;">100 QUESTIONS FOR HONDO KAEDE!!!</span>
-  	</div>
+    <div style="text-align: center;">
+      <span style="font-size: large;">100 QUESTIONS FOR HONDO KAEDE!!!</span>
+    </div>
     </blockquote>
     <blockquote class="tr_bq">
-  	<div style="text-align: center;">
-  	  <span style="font-size: small;">(Selected ones will be mentioned here in quote, above is full if you interested and can Japanese)</span>
-  	</div>
+    <div style="text-align: center;">
+      <span style="font-size: small;">(Selected ones will be mentioned here in quote, above is full if you interested and can Japanese)</span>
+    </div>
     </blockquote>
   </div>
   <div class="content">
     <div>Q1: Origin of name</div>
     <div>
-  	A1: Mother encountered people of fate who were named "Sakura" and
-  	"Kaede" more than often especially more of the former, so it was a hard
-  	decision between them
+    A1: Mother encountered people of fate who were named "Sakura" and
+    "Kaede" more than often especially more of the former, so it was a hard
+    decision between them
     </div>
     <div>[Well thank goodness it isn't "Hondo Sakura" lol]</div>
     <div><br></div>
     <div>Q2: Nickname(s) as a kid</div>
     <div>A2: Kae-chan, Ede-chan</div>
     <div>
-  	[Kae-chan? Is that something I can call you after dating you twice?
-  	Hehe]
+    [Kae-chan? Is that something I can call you after dating you twice?
+    Hehe]
     </div>
     <div>
-  	<div><br></div>
-  	<div>Q3: Similarities to parents</div>
-  	<div>A3: Partly similar to father, mostly mother</div>
-  	<div><br></div>
-  	<div>Q4: Earliest memory of your life</div>
-  	<div>
-  	  A4: Recollection of being in Higashiyama Zoo (Aichi Prefecture where
-  	  she was born) where she was trying to get a handshake with a giraffe
-  	  mascot who walked away, and (she) shouted "Wait up! If you leave I'll
-  	  throw this at you!!" while crying and running towards it
-  	</div>
-  	<div>
-  	  [LOL that sounded bad but the mascot with a long neck probably did not
-  	  notice her]
-  	</div>
-  	<div><br></div>
-  	<div>Q5: Things you were interested to learn as a kid</div>
-  	<div>A5: Calligraphy for a year plus, swimming for around 5 years</div>
+    <div><br></div>
+    <div>Q3: Similarities to parents</div>
+    <div>A3: Partly similar to father, mostly mother</div>
+    <div><br></div>
+    <div>Q4: Earliest memory of your life</div>
+    <div>
+      A4: Recollection of being in Higashiyama Zoo (Aichi Prefecture where
+      she was born) where she was trying to get a handshake with a giraffe
+      mascot who walked away, and (she) shouted "Wait up! If you leave I'll
+      throw this at you!!" while crying and running towards it
+    </div>
+    <div>
+      [LOL that sounded bad but the mascot with a long neck probably did not
+      notice her]
+    </div>
+    <div><br></div>
+    <div>Q5: Things you were interested to learn as a kid</div>
+    <div>A5: Calligraphy for a year plus, swimming for around 5 years</div>
     </div>
     <div><br></div>
     <div>A53: Without going overboard... hmm... shopping or sorts?</div>
@@ -1342,18 +1355,18 @@ function toggleExpander() {
     <div><br></div>
     <div>Q55: What do you see in your partner</div>
     <div>
-  	A55: Serious, honest, knowledgeable, nice, nice, nice, laughs a lot,
-  	playful mind at heart and carries one's dreams and hopes moving forward
+    A55: Serious, honest, knowledgeable, nice, nice, nice, laughs a lot,
+    playful mind at heart and carries one's dreams and hopes moving forward
     </div>
     <div>
-  	[Three nices? Well in her defence I already lost at being knowledgeable
-  	so]
+    [Three nices? Well in her defence I already lost at being knowledgeable
+    so]
     </div>
     <div><br></div>
     <div>Q57: What you want to listen on a driving date?</div>
     <div>
-  	A57: Whatever they like they can let it play! If it gets too loud I'll
-  	get uncomfortable (though)
+    A57: Whatever they like they can let it play! If it gets too loud I'll
+    get uncomfortable (though)
     </div>
     <div>[Remind me to bring up like, Teshima Aoi on our drive lol]</div>
     <div><br></div>
@@ -1364,8 +1377,8 @@ function toggleExpander() {
     <div>Q59: What tickles your fancy?</div>
     <div>A59: I wonder what they are...</div>
     <div>
-  	[Okay guys literally drill her with your kindness, she doesn't have that
-  	moment so you gotta put in the effort]
+    [Okay guys literally drill her with your kindness, she doesn't have that
+    moment so you gotta put in the effort]
     </div>
     <div><br></div>
     <div>Q61: Would you prefer to confess or be confessed to?</div>
@@ -1374,58 +1387,59 @@ function toggleExpander() {
     <div><br></div>
     <div>Q62: Own charm points</div>
     <div>
-  	A62: Strong eyes and...
-  	<a href="https://jisho.org/search/yaeba" target="_blank">double tooth</a>?
+    A62: Strong eyes and...
+    <a href="https://jisho.org/search/yaeba" target="_blank">double tooth</a>?
     </div>
     <div>
-  	[Yes and YES OH MY FUCKING GOD- I thank our Lord and saviour for
-  	stopping this girl from fixing her teeth]
+    [Yes and YES OH MY FUCKING GOD- I thank our Lord and saviour for
+    stopping this girl from fixing her teeth]
     </div>
     <div><br></div>
     <div>Q100: Last word!</div>
     <div>
-  	A100: Thanks for getting your hands on this! My favourite foods,
-  	outfits, places, people... a lot of them were being compiled! This
-  	photobook where being a voice actress but it was without the essence of
-  	voice within, I gave the title of the book "MUTE". The stuff I worked a
-  	lot on and I will continue to work on and enjoy them all back and forth,
-  	so please continue to show your support!
+    A100: Thanks for getting your hands on this! My favourite foods,
+    outfits, places, people... a lot of them were being compiled! This
+    photobook where being a voice actress but it was without the essence of
+    voice within, I gave the title of the book "MUTE". The stuff I worked a
+    lot on and I will continue to work on and enjoy them all back and forth,
+    so please continue to show your support!
     </div>
     <div>[Ah, so THAT is how the title came about; She is right though]</div>
   </div>
   <div class="footer">[CLOSE]</div>
 </div>
 
+<!-- FINE PRINT
 <style>
 .fineprint {
-	font-size: 0.2em;
-	max-height: 50vh;
-	overflow-y: auto;
-	cursor: pointer;
-	border-color: var(--secondary);
-	border-style: solid;
-	border-width: 2px 2px 14px;
-	transition: border 0.2s;
+  font-size: 0.2em;
+  max-height: 50vh;
+  overflow-y: auto;
+  cursor: pointer;
+  border-color: var(--secondary);
+  border-style: solid;
+  border-width: 2px 2px 14px;
+  transition: border 0.2s;
 }
 .fineprint:hover {
-	border-color: var(--primary);
+  border-color: var(--primary);
 }
 .fineprint.show {
-	border-color: var(--foreground);
-	font-size: 1em;
-	padding: 4px 8px;
+  border-color: var(--foreground);
+  font-size: 1em;
+  padding: 4px 8px;
 }
 </style>
 <script>
 window.addEventListener('load', focusOnExpandFineprint);
 function focusOnExpandFineprint() {
-	for(let fp of document.querySelectorAll('.fineprint'))
-	{
-		fp.addEventListener('click', function() {
-			fp.classList.toggle('show');
-			fp.scrollIntoView({ block: 'center' });
-		});
-	}
+  for(let fp of document.querySelectorAll('.fineprint'))
+  {
+    fp.addEventListener('click', function() {
+      fp.classList.toggle('show');
+      fp.scrollIntoView({ block: 'center' });
+    });
+  }
 }
 </script>
 <h1>Fine Print</h1>
@@ -1433,7 +1447,7 @@ function focusOnExpandFineprint() {
 (Not to be confused with Accordion where content to be paired with header)</h5>
 <pre>
 &lt;div class="fineprint"&gt;
-	[CONTENT]
+  [CONTENT]
 &lt;/div&gt;
 </pre>
 Congratulations to CHiCO's collaboration single for best single and
@@ -1444,70 +1458,72 @@ Here are my thoughts about this year's Top 20 as elaborated from above,
 as a summary:<br />
 <ul style="text-align: left;">
   <li>
-	I have already set my sights for mol-74 taking in the top spot
-	mainly because none of the others impressed me in the long run with
-	a particularly strong emotion. It was already hard for them to
-	impress even in the short run, which will be the influence of the
-	rankings this year.
+  I have already set my sights for mol-74 taking in the top spot
+  mainly because none of the others impressed me in the long run with
+  a particularly strong emotion. It was already hard for them to
+  impress even in the short run, which will be the influence of the
+  rankings this year.
   </li>
   <li>
-	For the idolism grouping rank, I opted for Kouno Marika for a simple
-	song on her 1st album early this year, and Minase Inori which I
-	thought the song which started the year was actually good, which
-	made me hesitant to choose between this and "glow", the topic song
-	from her album in July. I even thought these songs are actually
-	better than mainstream, putting them above Scenarioart and nano.RIPE
-	for comparison. Natsukawa Shiina did not join in the ranks because I
-	felt like her best effort is not going to win her 3rd single, and
-	Asakura Momo went above the ranks just because of a very different
-	melody I can concur.
+  For the idolism grouping rank, I opted for Kouno Marika for a simple
+  song on her 1st album early this year, and Minase Inori which I
+  thought the song which started the year was actually good, which
+  made me hesitant to choose between this and "glow", the topic song
+  from her album in July. I even thought these songs are actually
+  better than mainstream, putting them above Scenarioart and nano.RIPE
+  for comparison. Natsukawa Shiina did not join in the ranks because I
+  felt like her best effort is not going to win her 3rd single, and
+  Asakura Momo went above the ranks just because of a very different
+  melody I can concur.
   </li>
   <li>
-	It was wise from this year's song list to include mainstream artists
-	whom I think mattered for the year in the review boom halfway
-	through the year, which were Creepy Nuts, Kami wa Saikoro wo Furanai
-	ie. KamiSai, and Kroi. The problem is where to put them. I chose to
-	group the latter two together and put down Creepy Nuts for the rap
-	genre which I'm not too keen but so is Kroi. It was hard to juggle
-	between these and not putting the other one on top on its own, so to
-	speak.
+  It was wise from this year's song list to include mainstream artists
+  whom I think mattered for the year in the review boom halfway
+  through the year, which were Creepy Nuts, Kami wa Saikoro wo Furanai
+  ie. KamiSai, and Kroi. The problem is where to put them. I chose to
+  group the latter two together and put down Creepy Nuts for the rap
+  genre which I'm not too keen but so is Kroi. It was hard to juggle
+  between these and not putting the other one on top on its own, so to
+  speak.
   </li>
   <li>
-	Prospective artists I want to give more chances to are Kitani
-	Tatsuya who I've known from Anime just recently, and miwa who
-	actually did well overall but hard to pick up songs to give for the
-	Top 20. For the latter I opted to promote her album topic song but
-	even then I can't put myself to place her too high just because.
+  Prospective artists I want to give more chances to are Kitani
+  Tatsuya who I've known from Anime just recently, and miwa who
+  actually did well overall but hard to pick up songs to give for the
+  Top 20. For the latter I opted to promote her album topic song but
+  even then I can't put myself to place her too high just because.
   </li>
   <li>
-	The Top 5 songs have already been pre-determined to some extent.
-	Ryokuoushoku Shakai ie. RyokuShaka did well this year so it was
-	obvious to choose between the topic songs of their 2 singles and 1
-	album for a winner. harmoe is the best idol song which impressed me
-	so I had to leave a spot for them, and I still cannot believe I can
-	be back giving songs to amazarashi and for them to be up on the
-	ranks. I guess depression might be getting back onto me since I
-	ditched it in 2018.
+  The Top 5 songs have already been pre-determined to some extent.
+  Ryokuoushoku Shakai ie. RyokuShaka did well this year so it was
+  obvious to choose between the topic songs of their 2 singles and 1
+  album for a winner. harmoe is the best idol song which impressed me
+  so I had to leave a spot for them, and I still cannot believe I can
+  be back giving songs to amazarashi and for them to be up on the
+  ranks. I guess depression might be getting back onto me since I
+  ditched it in 2018.
   </li>
   <li>
-	Genie High is the last-minute option due to me realizing how simple
-	the melody is for this song, and of course that it has been accented
-	by guest vocalist Kouno Marika (see above) so this is just an extra
-	win for the voice actress, in my opinion.
+  Genie High is the last-minute option due to me realizing how simple
+  the melody is for this song, and of course that it has been accented
+  by guest vocalist Kouno Marika (see above) so this is just an extra
+  win for the voice actress, in my opinion.
   </li>
   <li>
-	For emotional tunes there aren't many or even any to be frank
-	compared to last year I just realized, so I'm glad I still
-	remembered the ClariS and TrySail collaboration song to put them in
-	here. As usual, the composer who also did many for Anime series
-	"Madoka Magica" doing wonders every time I get into it.
+  For emotional tunes there aren't many or even any to be frank
+  compared to last year I just realized, so I'm glad I still
+  remembered the ClariS and TrySail collaboration song to put them in
+  here. As usual, the composer who also did many for Anime series
+  "Madoka Magica" doing wonders every time I get into it.
   </li>
 </ul>
 </div>
+-->
 
-<!-- <style>
+<!-- SCALE
+<style>
 .scale {
-	display: flex;
+  display: flex;
     /* gap: 5px; */
 }
 .scale * {
@@ -1528,46 +1544,46 @@ as a summary:<br />
 }
 
 .scale::after {
-	content: attr(data-id) "/" attr(data-scale);
+  content: attr(data-id) "/" attr(data-scale);
     padding-left: 5px;
 }
-	
+  
 progress.scale {
-	border-radius: 0;
-	height: 1em;
+  border-radius: 0;
+  height: 1em;
 }
 progress.scale::-webkit-progress-bar,
 progress.scale::-moz-progress-bar {
-	background-color: transparent;
+  background-color: transparent;
 }
 progress.scale::-webkit-progress-value {
-	background-color: cyan;
+  background-color: cyan;
 }
 progress.scale::after {
-	content: attr(value) "/" attr(max);
+  content: attr(value) "/" attr(max);
     padding-left: 5px;
 }
 </style>
 <script>
 window.addEventListener('load', addScales);
 function addScales() {
-	for(let scale of document.querySelectorAll('.scale'))
-	{
-		let num = parseInt(scale.getAttribute('data-scale'));
-		for(i = 0; i < num; i++)
-		{
-			let block = document.createElement('div');
-			scale.appendChild(block);
-		}
-	}
+  for(let scale of document.querySelectorAll('.scale'))
+  {
+    let num = parseInt(scale.getAttribute('data-scale'));
+    for(i = 0; i < num; i++)
+    {
+      let block = document.createElement('div');
+      scale.appendChild(block);
+    }
+  }
 }
 </script>
 <h1>Rating Scale</h1>
 <h5>Container "scale", js to populate div children, to show scale (in this case out of 5)</h5>
 <pre>
 &lt;div class="scale" data-id="3" data-scale="5"&gt;
-	&lt;div&gt;&lt;/div&gt;
-	...
+  &lt;div&gt;&lt;/div&gt;
+  ...
 &lt;/div&gt;
 </pre>
 <div class="scale" data-id="1" data-scale="5"></div>
@@ -1580,74 +1596,175 @@ function addScales() {
 </pre>
 <progress class="scale" value="3" max="5"></progress>
  -->
- 
-<style>
+
+<h1>Conversation</h1>
+<h5>For selected lines of text wrapped in container "conversation", will be styled to have chat boxes, left and right aligned</h5>
+<h5>To set who is right aligned, add "data-sender" attribute; Sender name is determined by first "data-separator" attribute detected (default colon)</h5>
+<h5>Note: Uses innerText property which removes tags and only read per line in HTML (separator '\n'), do not style text</h5>
+<button onclick="document.querySelector('#conversation-style').classList.toggle('hidden')">Show CSS</button>
+<button onclick="document.querySelector('#conversation-script').classList.toggle('hidden')">Show JS</button>
+<pre id="conversation-style" class="hidden">
+.conversation {
+  font-size: 0.9em;
+}
+.conversation .message {
+  margin: 20px 0;
+}
+.conversation .message span {
+  margin: 10px;
+  padding: 6px;
+  background-color: var(--accent);
+  border-radius: 8px 8px 8px 0;
+}
+.conversation .message[data-sender] {
+  text-align: right;
+}
+.conversation .message[data-sender] span {
+  border-radius: 8px 8px 0 8px;
+}
+.conversation .message[data-name]::before {
+  content: attr(data-name);
+}
+</pre>
+<pre id="conversation-script" class="hidden">
+window.addEventListener('load', processConversations);
+function processConversations() {
+  for(let converse of document.querySelectorAll('.conversation'))
+  {
+    let separator = converse.getAttribute('data-separator') || ':';
+    let lines = converse.innerText.split('\n');
+    converse.innerHTML = '';
+    for(let line of lines)
+    {
+      let lineDiv = document.createElement('div');
+      lineDiv.classList.add('message');
+      
+        let messageDiv = document.createElement('span');
+        lineDiv.setAttribute('data-name', line.substring(0,line.indexOf(separator)).trim());
+        if(converse.getAttribute('data-sender') != null) {
+          if(converse.getAttribute('data-sender').toLowerCase() == lineDiv.getAttribute('data-name').toLowerCase())
+            lineDiv.setAttribute('data-sender', '');
+          else
+            lineDiv.setAttribute('data-recipient', '');
+        }
+        messageDiv.innerText = line.substring(line.indexOf(separator)+1).trim();
+        lineDiv.appendChild(messageDiv);
+      
+      converse.appendChild(lineDiv);
+    }
+  }
+}
+</pre>
+<script id="accordion-loader">
+css = document.createElement('style');
+css.innerHTML = document.querySelector('#conversation-style').innerHTML;
+document.body.appendChild(css);
+js = document.createElement('script');
+js.innerHTML = document.querySelector('#conversation-script').innerHTML.replace(/&lt;/g,'<').replace(/&gt;/g,'>');
+document.body.appendChild(js);
+</script>
+<pre id="conversation-tag">
+&lt;div class="conversation"&gt;
+  [LINES OF ONTENT]
+&lt;/div&gt;
+</pre>
+<h5>TWO PARTY CONVERSATION, SENDER NOT DEFINED</h5>
+<div class="conversation" data-separator="|">
+  <div>Nan | I saw you brought someone home in the afternoon, who was that?</div>
+  <div>Shouhei | Uh...</div>
+  <div>Nan | Is she your girlfriend? She is very cute.</div>
+  <div>Shouhei | Are you jealous?</div>
+  <div>Nan | W-what are you talking about? Of course not, I was just happy for onii-chan.</div>
+  <div>Shouhei | LOL</div>
+</div>
+<h5>MORE THAN TWO PARTY CONVERSATION, SENDER DEFINED</h5>
+<div class="conversation" data-sender="Shouhei">
+  <div>Nan: Onii-chan, who is she?</div>
+  <div>Inori: I didn't know you have such an adorable sister!!</div>
+  <div>Shouhei: Uh...</div>
+  <div>Nan: Is she your girlfriend? She is very cute.</div>
+  <div>Inori: Are you jealous I am hanging out with your brother?</div>
+  <div>Nan: W-what are you talking about? Of course not!</div>
+  <div>Shouhei: LOL</div>
+</div>
+
+<h1>Abbreviation</h1>
+<h5>Extension of abbr element, to allow touch to show title</h5>
+<h5>Uses new dialog HTML element to render pop up</h5>
+<button onclick="document.querySelector('#abbreviation-style').classList.toggle('hidden')">Show CSS</button>
+<button onclick="document.querySelector('#abbreviation-script').classList.toggle('hidden')">Show JS</button>
+<pre id="abbreviation-style" class="hidden">
 .dialog dialog {
-	background-color: var(--background);
-	color: var(--foreground);	
-	padding: 10px;
-	max-width: 360px;
-	font-family: Noto Sans;
+  background-color: var(--background);
+  color: var(--foreground);  
+  padding: 10px;
+  max-width: 360px;
+  font-family: Noto Sans;
 }
 
 .dialog dialog a {
-	background-color: var(--background);
-	color: var(--primary);
+  background-color: var(--background);
+  color: var(--primary);
 }
-</style>
-<script>
+</pre>
+<pre id="abbreviation-script" class="hidden">
 window.addEventListener('load', showAbbrAsDialog);
 function showAbbrAsDialog() {
-	for(let abbr of document.querySelectorAll('.abbreviation'))
-	{
-		abbr.addEventListener('click', function() {
-			event.preventDefault();
-			popupText(event.target.title);
-		});
-	}
+  for(let abbr of document.querySelectorAll('.abbreviation'))
+  {
+    abbr.addEventListener('click', function() {
+      event.preventDefault();
+      popupText(event.target.title);
+    });
+  }
 }
 
 function popupText(input) {
-	let dialogDiv = document.querySelector('.dialog');
-	if(dialogDiv == null)
-	{
-		dialogDiv = document.createElement('div');
-		dialogDiv.classList.add('dialog');
-		document.body.appendChild(dialogDiv);
-	}
-	let dialog = createDialog(input);
-	dialogDiv.innerHTML = '';
-	dialogDiv.appendChild(dialog);
-	dialog.showModal();
+  let dialogDiv = document.querySelector('.dialog');
+  if(dialogDiv == null)
+  {
+    dialogDiv = document.createElement('div');
+    dialogDiv.classList.add('dialog');
+    document.body.appendChild(dialogDiv);
+  }
+  let dialog = createDialog(input);
+  dialogDiv.innerHTML = '';
+  dialogDiv.appendChild(dialog);
+  dialog.showModal();
 }
 
 function createDialog(node) {
-	// node in dialog will not have events!
-	let dialog = document.createElement('dialog');
-	if(!dialog.classList.contains('box')) dialog.classList.add('box');
-	if(typeof node == 'string')
-		dialog.innerHTML = node;
-	if(typeof node == 'object')
-	{
-		let clonedNode = node.cloneNode(true);
-		dialog.appendChild(clonedNode);
-	}
-	dialog.addEventListener('click', function() {
-		this.remove();
-	});
-	dialog.addEventListener('keyup', function() {
-		if (event.key === ' ' || event.key === 'Enter')
-			this.remove();
-	});
-	return dialog;
+  // node in dialog will not have events!
+  let dialog = document.createElement('dialog');
+  if(!dialog.classList.contains('box')) dialog.classList.add('box');
+  if(typeof node == 'string')
+    dialog.innerHTML = node;
+  if(typeof node == 'object')
+  {
+    let clonedNode = node.cloneNode(true);
+    dialog.appendChild(clonedNode);
+  }
+  dialog.addEventListener('click', function() {
+    this.remove();
+  });
+  dialog.addEventListener('keyup', function() {
+    if (event.key === ' ' || event.key === 'Enter')
+      this.remove();
+  });
+  return dialog;
 }
+</pre>
+<script id="abbreviation-loader">
+css = document.createElement('style');
+css.innerHTML = document.querySelector('#abbreviation-style').innerHTML;
+document.body.appendChild(css);
+js = document.createElement('script');
+js.innerHTML = document.querySelector('#abbreviation-script').innerHTML.replace(/&lt;/g,'<').replace(/&gt;/g,'>');
+document.body.appendChild(js);
 </script>
-<h1>Abbreviation</h1>
-<h5>Extension of abbr element, to allow touch to show title</h5>
-<h5>(Uses new dialog HTML element to render pop up)</h5>
-<pre>
+<pre id="abbreviation-tag">
 &lt;abbr title="[TITLE HERE]"&gt;
-	[CONTENT]
+  [CONTENT]
 &lt;/abbr&gt;
 </pre>
 <abbr class="abbreviation" title="Thank Goodness It's Friday">TGIF</abbr>
