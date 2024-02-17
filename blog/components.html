@@ -1601,7 +1601,7 @@ function addScales() {
 <h5>For selected lines of text wrapped in container "conversation", will be styled to have chat boxes, left and right aligned</h5>
 <h5>To set who is right aligned, add "data-sender" attribute; Sender name is determined by first "data-separator" attribute detected (default colon)</h5>
 <h5>Note: Uses innerText property which removes tags and only read per line in HTML (separator '\n'), do not style text</h5>
-<h5>Add data-animate attribute to allow enactment of conversation blocks</h5>
+<h5>Add data-animate attribute to allow enactment of conversation blocks; Will auto scroll if has overflow</h5>
 <button onclick="document.querySelector('#conversation-style').classList.toggle('hidden')">Show CSS</button>
 <button onclick="document.querySelector('#conversation-script').classList.toggle('hidden')">Show JS</button>
 <pre id="conversation-style" class="hidden">
@@ -1676,16 +1676,23 @@ function processConversations() {
 }
 
 function animateConversation(converse) {
-  let lines = converse.querySelectorAll('.message');
-  if(Array.from(lines).filter(l => l.classList.contains('hide')).length > 0) return;
+  let lines = Array.from(converse.querySelectorAll('.message'));
+  if(lines.filter(l => l.classList.contains('hide')).length > 0) return;
   for(let line of lines)
   {
     line.classList.add('hide');
   }
+  let maxHeight = converse.getBoundingClientRect().height;
   for(let l = 0; l &lt; lines.length; l++)
   {
     setTimeout(function() {
       lines[l].classList.remove('hide');
+	  converse.scrollTo({
+		top: l-1 > 1 ? lines.slice(1,l-1).reduce(function(total, current, index) {
+			return total + current.getBoundingClientRect().height;
+		}, -1*lines[l].getBoundingClientRect().height) : 0,
+		behavior: 'smooth'
+	  });
     }, l*1500);
   }
 }
@@ -1713,7 +1720,7 @@ document.body.appendChild(js);
   <div>Shouhei | LOL</div>
 </div>
 <h5>MORE THAN TWO PARTY CONVERSATION, SENDER DEFINED, ANIMATED</h5>
-<div class="conversation" data-sender="Shouhei" data-animate>
+<div class="conversation" data-sender="Shouhei" data-animate style="max-height: 200px; overflow-y: auto;">
   <div>Nan: Onii-chan, who is she?</div>
   <div>Inori: I didn't know you have such an adorable sister!!</div>
   <div>Shouhei: Uh...</div>
