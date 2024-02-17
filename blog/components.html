@@ -1634,9 +1634,9 @@ function addScales() {
   border-radius: 8px 8px 0 8px;
 }
 .conversation .footer {
-	font-size: 2em;
-    justify-content: center;
-	cursor: pointer;
+  font-size: 2em;
+  justify-content: center;
+  cursor: pointer;
 }
 </pre>
 <pre id="conversation-script" class="hidden">
@@ -1666,12 +1666,12 @@ function processConversations() {
       converse.appendChild(lineDiv);
     }
     if(converse.getAttribute('data-animate') != null) {
-	  let footer = document.createElement('div');
-	  footer.className = 'footer message';
-	  footer.innerText = '🔁';
+      let footer = document.createElement('div');
+      footer.className = 'footer message';
+      footer.innerText = '🔁';
       footer.setAttribute('onclick', "animateConversation(this.closest('.conversation'))");
-	  converse.appendChild(footer);
-	}
+      converse.appendChild(footer);
+    }
   }
 }
 
@@ -1682,17 +1682,18 @@ function animateConversation(converse) {
   {
     line.classList.add('hide');
   }
-  let maxHeight = converse.getBoundingClientRect().height;
   for(let l = 0; l &lt; lines.length; l++)
   {
     setTimeout(function() {
       lines[l].classList.remove('hide');
-	  converse.scrollTo({
-		top: l-1 > 1 ? lines.slice(1,l-1).reduce(function(total, current, index) {
-			return total + current.getBoundingClientRect().height;
-		}, -1*lines[l].getBoundingClientRect().height) : 0,
-		behavior: 'smooth'
-	  });
+      let heightAboveItem = l-1 > 0 ? lines.slice(0,l-1).reduce(function(total, current, index) {
+        return total + current.getBoundingClientRect().height;
+      }, 0) : 0;
+      let currentHeight = lines[l].getBoundingClientRect().height;
+      if(heightAboveItem + currentHeight > converse.clientHeight - currentHeight) // delta to fix item height rounding
+        converse.scrollBy({ top: currentHeight, behavior: 'smooth' });
+      else 
+        converse.scrollTo({ top: 0, behavior: 'smooth' });
     }, l*1500);
   }
 }
@@ -1724,8 +1725,8 @@ document.body.appendChild(js);
   <div>Nan: Onii-chan, who is she?</div>
   <div>Inori: I didn't know you have such an adorable sister!!</div>
   <div>Shouhei: Uh...</div>
-  <div>Nan: Is she your girlfriend? She is very cute.</div>
-  <div>Inori: Are you jealous I am hanging out with your brother?</div>
+  <div>Nan: Is she your girlfriend??</div>
+  <div>Inori: Are you jealous I am hanging out with your brother? That's so cute!</div>
   <div>Nan: W-what are you talking about? Of course not!</div>
   <div>Shouhei: LOL</div>
 </div>
