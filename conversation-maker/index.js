@@ -85,9 +85,10 @@ function updateSender() {
 	saveToLocalStorage();
 }
 
-function addConversation(nameInput) {
+function addConversation(name) {
 	let newOpt = document.createElement('option');
-	let name = typeof(nameInput) == 'string' ? nameInput : prompt('Key in name:');
+	if(!name || !typeof(name) == 'string')
+		name = prompt('Key in name:');
 	if(name) {
 		newOpt.innerText = name;
 		let newId = 'text' + selectionDiv.childElementCount;
@@ -106,7 +107,9 @@ function addConversation(nameInput) {
 }
 
 function renameConversation() {
-	window['conversation-messages'][selectionDiv.value].name = prompt('Key in new name:');
+	let newName = prompt('Key in new name:', window['conversation-messages'][selectionDiv.value].name);
+	if(newName != null)
+		window['conversation-messages'][selectionDiv.value].name = newName;
 	saveToLocalStorage();
 	window.location.reload();
 }
