@@ -1,0 +1,128 @@
+/*Variables*/
+:root {
+  --primary: #609fff;
+  --secondary: #ddd;
+  --background: #fff;
+  --foreground: #000;
+  --accent: lightgray;
+}
+
+.darked:root {
+  --primary: #00abbf;
+  --secondary: #444;
+  --background: #000;
+  --foreground: #fff;
+  --accent: gray;
+}
+
+html, select {
+	font-family: Noto Sans;
+	background-color: var(--background);
+	color: var(--foreground);
+}
+
+body {
+	margin: auto;
+	text-align: center;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	max-width: 640px;
+}
+
+a {
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	color: var(--foreground);
+	text-decoration: none;
+	font-weight: bold;
+}
+
+a:hover {
+	color: var(--accent);
+}
+
+.hidden {
+	display: none;
+}
+
+.box {
+	margin: 5px;
+	vertical-align: top;
+	scroll-snap-align: center;
+	white-space: normal;
+	touch-action: manipulation;
+}
+
+.shadowed {
+  border: 1px solid lightgray;
+  box-shadow: 3px 3px;
+}
+
+.shadowed:active {
+  box-shadow: 1px 1px;
+  transform: translate(2px,2px);
+}
+
+.unshadowed {
+	filter: opacity(100%);
+	transition: filter 1s;
+}
+
+/*Page-Specific*/
+.conversation a {
+    display: inline-block;
+	padding: 8px 4px;
+}
+.conversation .messages {
+	background-color: var(--secondary);
+	height: min(50em, 500px);
+    overflow-y: auto;
+	padding: 1em;
+}
+.conversation .message {
+	display: flex;
+	align-items: center;
+	opacity: 1;
+}
+.conversation .message.hide {
+	opacity: 0;
+}
+.conversation .message span {
+	margin: 8px;
+	padding: 6px;
+	background-color: var(--accent);
+	border-radius: 8px 8px 8px 0;
+	text-align: left;
+}
+.conversation .message[data-sender] {
+	justify-content: flex-end;
+}
+.conversation .message[data-name]::before {
+	content: attr(data-name);
+}
+.conversation .message[data-sender] span {
+	background-color: var(--primary);
+	border-radius: 8px 8px 0 8px;
+}
+.conversation .footer {
+	font-size: 2em;
+	justify-content: center;
+	cursor: pointer;
+}
+
+.editor textarea {
+    width: 100%;
+    height: 30em;
+}
+
+.menu {
+    display: flex;
+    justify-content: center;
+	gap: 4px;
+}

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en-SG">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+    <link id="fonts-css" rel="stylesheet" type="text/css" href="../fonts.css">
+    <link id="index-css" rel="stylesheet" type="text/css" href="index.css">
+    <link id="bs-css" rel="stylesheet" type="text/css" href="../resources/bootstrap-icons.css">
+	<script src="../darkmode.js" type="application/javascript" charset="utf-8"></script>
+	<script src="index.js" defer></script>
+    <title>Conversation Starter</title>
+</head>
+<body onload="startup()" onkeydown="onKeyDown()">
+	<h2>Conversation Starter</h2>
+	<h5>Allows for curated animations of chat lines</h5>
+	<div class="page">
+		<!--DROPDOWN-->
+		<div>
+			<label for="selection">Select Conversation:</label>
+		</div>
+		<div class="menu">
+			<select name="selection" id="selection" onchange="selectConversation()">
+				<option value="">======</option>
+			</select>
+			<a class="add bi bi-plus-circle" href="javascript:void(0);" title="Add New Conversation" onclick="addConversation()"></a>
+			<a class="delete bi bi-x-circle" href="javascript:void(0);" title="Delete Current Conversation" onclick="deleteConversation()" oncontextmenu="false"></a>
+		</div>
+		<!--MESSAGE BOX-->
+		<div class="container"></div>
+		<!--SETTINGS-->
+		<h3 class="settings">
+			<a class="darkmode bi bi-brightness-high" href="javascript:void(0);" title="Toggle Dark Mode" onclick="toggleDarkMode()" oncontextmenu="false"></a>
+			<a class="audio bi bi-volume-mute" href="javascript:void(0);" title="Toggle Audio" onclick="toggleAudio()" oncontextmenu="false"></a>
+			<a class="clear bi bi-trash" href="javascript:void(0);" title="Clear All Conversations" onclick="clearConversations()" oncontextmenu="false"></a>
+		</h3>
+		<a class="home" href="../index.html">knneo.github.io</a>
+	</div>
+	<template class="template">
+		<div class="conversation hidden" id="" onclick="animateConversation()">
+			<a class="bi bi-chat-square-text" href="javascript:void(0);" onclick="showMessages()" title="Show Conversation"> CONVERSATION</a>
+			<a class="bi bi-pencil-square" href="javascript:void(0);" onclick="showEditor()"title="Show Editor"> EDITOR</a>
+			<div class="view messages" data-animate></div>
+			<div class="view editor">
+				<textarea title="editor" placeholder="Markdown text here..." onchange="updateEditor()"></textarea>
+				<label for="sender">Sender:</label>
+				<select name="sender" class="sender" id="sender" onchange="updateSender()">
+					<option value="">======</option>
+				</select>
+			</div>
+		</div>
+	</template>
+	<audio class="sfx hidden" src="data/notifications-sound-soundsforyou-pixabay-edit.mp3"></audio>
+</body>
+</html>
