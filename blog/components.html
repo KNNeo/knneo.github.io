@@ -1615,13 +1615,13 @@ function addScales() {
 }
 .conversation .message.hide {
   opacity: 0;
-  transform: translateY(-20px);
 }
 .conversation .message span {
   margin: 8px;
   padding: 6px;
   background-color: var(--accent);
   border-radius: 8px 8px 8px 0;
+  text-align: left;
 }
 .conversation .message[data-sender] {
   justify-content: flex-end;
@@ -1653,14 +1653,14 @@ function processConversations() {
       lineDiv.classList.add('message');
       
         let messageDiv = document.createElement('span');
-        lineDiv.setAttribute('data-name', line.substring(0,line.indexOf(separator)).trim());
+        lineDiv.setAttribute('data-name', line.trim().substring(0,line.indexOf(separator)).trim());
         if(converse.getAttribute('data-sender') != null) {
           if(converse.getAttribute('data-sender').toLowerCase() == lineDiv.getAttribute('data-name').toLowerCase())
             lineDiv.setAttribute('data-sender', '');
           else
             lineDiv.setAttribute('data-recipient', '');
         }
-        messageDiv.innerText = line.substring(line.indexOf(separator)+1).trim();
+        messageDiv.innerText = line.substring(line.trim().indexOf(separator)+1).trim();
         lineDiv.appendChild(messageDiv);
       
       converse.appendChild(lineDiv);
