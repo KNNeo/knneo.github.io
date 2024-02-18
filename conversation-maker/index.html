@@ -41,7 +41,7 @@
 		<div class="conversation hidden" id="" onclick="animateConversation()">
 			<a class="bi bi-chat-square-text" href="javascript:void(0);" onclick="showMessages()" title="Show Conversation"> CONVERSATION</a>
 			<a class="bi bi-pencil-square" href="javascript:void(0);" onclick="showEditor()"title="Show Editor"> EDITOR</a>
-			<div class="view messages" data-animate onwheel="event.preventDefault()" onmousewheel="event.preventDefault()"></div>
+			<div class="view messages" data-animate onwheel="event.preventDefault()" onmousewheel="event.preventDefault()" ontouchstart="event.preventDefault()"></div>
 			<div class="view editor">
 				<textarea title="editor" placeholder="Message text here..." onchange="updateEditor()"></textarea>
 				<label for="sender">Sender:</label>
