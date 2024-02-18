@@ -56,7 +56,7 @@ function updateEditor() {
 
 function updateSenderOptions(conversation) {
 	let selection = conversation.querySelector('.sender');
-    let separator = conversation.getAttribute('data-separator') || ':';
+    let separator = conversation.querySelector('.messages').getAttribute('data-separator') || ':';
 	if(!window['conversation-messages'][conversation.id]) return;
     let lines = (window['conversation-messages'][conversation.id]?.content || '').split('\n');
 	if(!lines || lines.length < 2) return;
@@ -82,6 +82,13 @@ function updateSender() {
 	let conversation = event.target.closest('.conversation');
 	conversation.querySelector('.messages').setAttribute('data-sender', event.target.value);
 	window['conversation-messages'][conversation.id].sender = event.target.value;
+	saveToLocalStorage();
+}
+
+function updateSeparator() {
+	let conversation = event.target.closest('.conversation');
+	conversation.querySelector('.messages').setAttribute('data-separator', event.target.value);
+	window['conversation-messages'][conversation.id].separator = event.target.value;
 	saveToLocalStorage();
 }
 
@@ -162,8 +169,14 @@ function readFromLocalStorage() {
 			let conversation = document.querySelector('#'+key);
 			if(item.content)
 				conversation.querySelector('.editor textarea').value = item.content;
-			if(item.sender)
+			if(item.separator) {
+				conversation.querySelector('.messages').setAttribute('data-separator', item.separator);
+				conversation.querySelector('.editor .separator').value = item.separator;
+			}
+			if(item.sender) {
 				conversation.querySelector('.messages').setAttribute('data-sender', item.sender);
+				updateSenderOptions(conversation);
+			}
 		}
 	}
 }

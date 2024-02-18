@@ -147,3 +147,7 @@ a:hover {
     justify-content: center;
 	gap: 10px;
 }
+
+.separator {
+    width: 2ch;
+}
