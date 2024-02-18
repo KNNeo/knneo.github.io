@@ -74,21 +74,26 @@ a:hover {
 	transition: filter 1s;
 }
 
+.bi {
+	font-size: 1.75em;
+}
+
 /*Page-Specific*/
 .conversation a {
     display: inline-block;
-	padding: 8px 4px;
+	padding: 8px 6px;
+	font-size: 1.2em;
 }
 .conversation .messages {
 	background-color: var(--secondary);
-	height: min(50em, 500px);
+	height: min(45em, 500px);
     overflow-y: auto;
-	padding: 10px;
 }
 .conversation .message {
 	display: flex;
 	align-items: center;
 	opacity: 1;
+	padding: 0 10px 10px;
 }
 .conversation .message.hide {
 	opacity: 0;
@@ -124,5 +129,5 @@ a:hover {
 .menu {
     display: flex;
     justify-content: center;
-	gap: 4px;
+	gap: 10px;
 }

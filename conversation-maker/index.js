@@ -223,9 +223,9 @@ function animateConversation() {
 			let diff = heightAboveItem + 2*currentHeight - converse.clientHeight; // delta to fix item height rounding
 			if(diff > 0) {
 				if(diff < currentHeight) // fix container height wrt to message height
-					converse.scrollBy({ top: diff + 10, behavior: 'smooth' });
+					converse.scrollBy({ top: diff, behavior: 'smooth' });
 				else
-					converse.scrollBy({ top: currentHeight + 10, behavior: 'smooth' });
+					converse.scrollBy({ top: currentHeight, behavior: 'smooth' });
 			}
 			else 
 				converse.scrollTo({ top: 0, behavior: 'smooth' });
