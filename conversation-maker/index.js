@@ -28,6 +28,7 @@ function showMessages() {
 		document.querySelector('#'+conversation.id+' .messages').innerHTML = document.querySelector('#'+conversation.id+' .editor textarea').value;
 		processConversations();
 		document.querySelector('#'+conversation.id+' .messages').classList.remove('hidden');
+		animateConversation(conversation);
 	}
 	window.editing = false;
 }
