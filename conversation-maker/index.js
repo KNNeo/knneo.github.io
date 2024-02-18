@@ -61,7 +61,7 @@ function updateSenderOptions(conversation) {
 	if(selection.childElementCount > 1) selection.innerHTML = '<option value="">=====</option>';
 	let senders = lines.reduce(function(total, current) {
 		let name = current.trim().substring(0,current.indexOf(separator)).trim();
-		if(!total.includes(name))
+		if(name && !total.includes(name))
 			total.push(name);
 		return total;
 	},[]);
@@ -170,13 +170,16 @@ function processConversations() {
 		return;
 	}
     else converse.innerHTML = '';
+	
+	let prevName = '';
     for(let line of lines)
     {
       let lineDiv = document.createElement('div');
       lineDiv.classList.add('message');
       
         let messageDiv = document.createElement('span');
-        lineDiv.setAttribute('data-name', line.trim().substring(0,line.indexOf(separator)).trim());
+        lineDiv.setAttribute('data-name', line.includes(separator) ? line.trim().substring(0,line.indexOf(separator)).trim() : prevName); // if line has no sender, use previous
+		prevName = lineDiv.getAttribute('data-name');
         if(converse.getAttribute('data-sender') != null) {
           if(converse.getAttribute('data-sender').toLowerCase() == lineDiv.getAttribute('data-name').toLowerCase())
             lineDiv.setAttribute('data-sender', '');
