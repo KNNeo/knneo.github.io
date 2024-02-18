@@ -30,7 +30,8 @@ function showMessages() {
 		document.querySelector('#'+conversation.id+' .messages').innerHTML = textareaVal;
 		processConversations();
 		document.querySelector('#'+conversation.id+' .messages').classList.remove('hidden');
-	}	
+	}
+	window.editing = false;
 }
 
 function showEditor() {
@@ -43,6 +44,7 @@ function showEditor() {
 		document.querySelector('#'+conversation.id+' .editor').classList.remove('hidden');
 		updateSenderOptions(conversation);
 	}
+	window.editing = true;
 }
 
 function updateEditor() {
@@ -50,6 +52,7 @@ function updateEditor() {
 	window['conversation-messages'][conversation.id].content = conversation.querySelector('.editor textarea').value;
 	saveToLocalStorage();
 	updateSenderOptions(conversation);
+	window.editing = false;
 }
 
 function updateSenderOptions(conversation) {
@@ -101,6 +104,12 @@ function addConversation(nameInput) {
 			window['conversation-messages'][newId] = { name };
 		saveToLocalStorage();
 	}
+}
+
+function renameConversation() {
+	window['conversation-messages'][selectionDiv.value].name = prompt('Key in new name:');
+	saveToLocalStorage();
+	window.location.reload();
 }
 
 function deleteConversation() {
@@ -214,6 +223,7 @@ function animateConversation() {
 	for(let l = 0; l < lines.length; l++)
 	{
 		setTimeout(function() {
+			if(window.editing) return;
 			if(window.ping && !lines[l].classList.contains('footer')) // play sound effect on each message
 				sfxAudio.play();
 			if(lines[l].classList.contains('footer'))
