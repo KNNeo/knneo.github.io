@@ -204,6 +204,7 @@ function processConversations() {
 
 function animateConversation() {
 	let converse = event.target.closest('.conversation').querySelector('.messages');
+	converse.setAttribute('data-running', '');
 	let lines = Array.from(converse.querySelectorAll('.message'));
 	if(lines.filter(l => l.classList.contains('hide')).length > 0) return;
 	for(let line of lines)
@@ -215,6 +216,8 @@ function animateConversation() {
 		setTimeout(function() {
 			if(window.ping && !lines[l].classList.contains('footer')) // play sound effect on each message
 				sfxAudio.play();
+			if(lines[l].classList.contains('footer'))
+				converse.removeAttribute('data-running');
 			lines[l].classList.remove('hide');
 			let heightAboveItem = l-1 > 0 ? lines.slice(0,l-1).reduce(function(total, current, index) {
 				return total + current.getBoundingClientRect().height;

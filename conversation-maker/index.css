@@ -1,7 +1,7 @@
 /*Variables*/
 :root {
   --primary: #609fff;
-  --secondary: #ddd;
+  --secondary: #eee;
   --background: #fff;
   --foreground: #000;
   --accent: lightgray;
@@ -88,6 +88,15 @@ a:hover {
 	background-color: var(--secondary);
 	height: min(45em, 500px);
     overflow-y: auto;
+	position: relative;
+}
+.conversation .messages[data-running]::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
 }
 .conversation .message {
 	display: flex;
