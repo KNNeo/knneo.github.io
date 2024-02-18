@@ -2,7 +2,6 @@
 const config = {};
 
 //--DOM NODE REFERENCES--//
-const conversationDivs = document.querySelectorAll('.conversation');
 const selectionDiv = document.querySelector('#selection');
 const sfxAudio = document.querySelector('.sfx');
 
@@ -27,6 +26,7 @@ function showMessages() {
 	}
 	if(conversation.id) {
 		let textareaVal = document.querySelector('#'+conversation.id+' .editor textarea').value;
+		console.log(textareaVal);
 		document.querySelector('#'+conversation.id+' .messages').innerHTML = textareaVal;
 		processConversations();
 		document.querySelector('#'+conversation.id+' .messages').classList.remove('hidden');
@@ -134,7 +134,7 @@ function toggleAudio() {
 
 //--FUNCTIONS--//
 function hideAllConversations() {
-	for(let conv of conversationDivs)
+	for(let conv of document.querySelectorAll('.conversation'))
 	{
 		conv.classList.add('hidden');
 	}
@@ -167,7 +167,7 @@ function processConversations() {
     let lines = converse.innerText.split('\n');
 	if(lines.length < 2) {
 		converse.innerHTML = 'Click on Editor to create a conversation list';
-		return;
+		continue;
 	}
     else converse.innerHTML = '';
 	
@@ -223,9 +223,9 @@ function animateConversation() {
 			let diff = heightAboveItem + 2*currentHeight - converse.clientHeight; // delta to fix item height rounding
 			if(diff > 0) {
 				if(diff < currentHeight) // fix container height wrt to message height
-				converse.scrollBy({ top: diff, behavior: 'smooth' });
+					converse.scrollBy({ top: diff + 10, behavior: 'smooth' });
 				else
-				converse.scrollBy({ top: currentHeight, behavior: 'smooth' });
+					converse.scrollBy({ top: currentHeight + 10, behavior: 'smooth' });
 			}
 			else 
 				converse.scrollTo({ top: 0, behavior: 'smooth' });
