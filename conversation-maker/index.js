@@ -25,9 +25,7 @@ function showMessages() {
 		view.classList.add('hidden');
 	}
 	if(conversation.id) {
-		let textareaVal = document.querySelector('#'+conversation.id+' .editor textarea').value;
-		console.log(textareaVal);
-		document.querySelector('#'+conversation.id+' .messages').innerHTML = textareaVal;
+		document.querySelector('#'+conversation.id+' .messages').innerHTML = document.querySelector('#'+conversation.id+' .editor textarea').value;
 		processConversations();
 		document.querySelector('#'+conversation.id+' .messages').classList.remove('hidden');
 	}
@@ -145,6 +143,7 @@ function toggleAudio() {
 function hideAllConversations() {
 	for(let conv of document.querySelectorAll('.conversation'))
 	{
+		conv.querySelector('.messages').removeAttribute('data-running');
 		conv.classList.add('hidden');
 	}
 }
