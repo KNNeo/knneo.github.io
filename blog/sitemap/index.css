@@ -155,3 +155,14 @@ h1 {
 		line-height: 2;
 	}
 }
+
+/*MEDIA QUERIES - REDUCED MOTION*/
+@media (prefers-reduced-motion: reduce) {
+	html,
+	#BackBtn,
+	#GoToTopBtn,
+	#DarkModeBtn
+	{
+		transition: none;
+	}
+}
