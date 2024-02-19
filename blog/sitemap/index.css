@@ -29,26 +29,18 @@ h1 {
 	display: inline-block;
 }
 
-.content {
+.sitemap {
 	column-width: 14em;
 }
 
-.content .title:first-child {
+.sitemap .title:first-child {
 	margin-top: 0;
 }
 
 .fanfics {
 	display: flex;
 	overflow-x: auto;
-}
-
-.fanfics .season {
-	flex-basis: 13em;
-}
-
-.back {
-	text-decoration: none;
-	font-size: 2em;
+    gap: 12px;
 }
 
 .keyword {
@@ -90,12 +82,13 @@ h1 {
 	line-height: 1;
 }
 
+#GoToTopBtn,
 #DarkModeBtn {
 	position: fixed;
 	display: block;
 	visibility: visible;
 	opacity: 1;
-	bottom: 20px;
+	bottom: 80px;
     right: 20px;
 	z-index: 7;
 	-webkit-user-select: none;
@@ -116,6 +109,11 @@ h1 {
 	line-height: 1;
 }
 
+#GoToTopBtn {
+	bottom: 20px;	
+}
+
+#GoToTopBtn:hover,
 #DarkModeBtn:hover,
 #BackBtn:hover {
 	box-shadow: 1px 1px;
@@ -127,10 +125,14 @@ h1 {
   #BackBtn {
     left: 15px;
   }
+  #GoToTopBtn,
   #DarkModeBtn {
     right: 15px;
   }
-  #DarkModeBtn,
+  #DarkModeBtn {
+    bottom: 75px;
+  }
+  #GoToTopBtn,
   #BackBtn {
     bottom: 15px;
   }
@@ -144,7 +146,7 @@ h1 {
 }
 
 @media only screen and (max-width: 780px) {
-	.content {
+	.sitemap {
 		column-width: 13em;
 		line-height: 1.5;
 	}
