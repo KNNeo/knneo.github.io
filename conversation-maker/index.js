@@ -281,7 +281,7 @@ function animateConversation() {
 				else 
 					conversation.scrollTo({ top: 0, behavior: 'smooth' });
 			}
-		}, l*1500);
+		}, l*2000);
 	}
 }
 
