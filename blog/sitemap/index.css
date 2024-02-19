@@ -38,10 +38,11 @@ h1 {
 
 .fanfics {
 	display: flex;
+	overflow-x: auto;
 }
 
 .fanfics .season {
-	flex-basis: 220px;
+	flex-basis: 13em;
 }
 
 .back {
