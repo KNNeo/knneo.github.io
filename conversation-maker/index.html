@@ -23,25 +23,25 @@
 			<select name="selection" id="selection" onchange="selectConversation()">
 				<option value="">======</option>
 			</select>
-			<a class="add bi bi-plus-circle" href="javascript:void(0);" title="Add New Conversation" onclick="addConversation()"></a>
-			<a class="add bi bi-check-circle" href="javascript:void(0);" title="Rename Conversation" onclick="renameConversation()"></a>
-			<a class="delete bi bi-x-circle" href="javascript:void(0);" title="Delete Current Conversation" onclick="deleteConversation()" oncontextmenu="false"></a>
+			<a class="add bi bi-plus-square" href="javascript:void(0);" title="Add New Conversation" onclick="addConversation()"></a>
+			<a class="add bi bi-pencil-square" href="javascript:void(0);" title="Rename Conversation" onclick="renameConversation()"></a>
+			<a class="delete bi bi-x-square" href="javascript:void(0);" title="Delete Current Conversation" onclick="deleteConversation()" oncontextmenu="false"></a>
 		</div>
 		<!--MESSAGE BOX-->
 		<div class="container"></div>
 		<!--SETTINGS-->
 		<h3 class="settings">
+			<a class="code bi bi-file-code" href="javascript:void(0);" title="Show Data" onclick="showData()" oncontextmenu="false"></a>
 			<a class="darkmode bi bi-brightness-high" href="javascript:void(0);" title="Toggle Dark Mode" onclick="toggleDarkMode()" oncontextmenu="false"></a>
 			<a class="audio bi bi-volume-mute" href="javascript:void(0);" title="Toggle Audio" onclick="toggleAudio()" oncontextmenu="false"></a>
 			<a class="clear bi bi-trash" href="javascript:void(0);" title="Clear All Conversations" onclick="clearConversations()" oncontextmenu="false"></a>
-			<a class="code bi bi-code-square" href="javascript:void(0);" title="Show Data" onclick="showData()" oncontextmenu="false"></a>
 		</h3>
 		<a class="home" href="../index.html">knneo.github.io</a>
 	</div>
 	<template class="template">
 		<div class="conversation hidden" id="">
-			<a class="bi bi-chat-square-text" href="javascript:void(0);" onclick="showMessages()" title="Show Conversation"> CONVERSATION</a>
-			<a class="bi bi-pencil-square" href="javascript:void(0);" onclick="showEditor()"title="Show Editor"> EDITOR</a>
+			<a class="bi bi-chat-dots" href="javascript:void(0);" onclick="showMessages()" title="Show Conversation"> CONVERSATION</a>
+			<a class="bi bi-pencil" href="javascript:void(0);" onclick="showEditor()"title="Show Editor"> EDITOR</a>
 			<div class="view messages" data-animate></div>
 			<div class="view editor">
 				<textarea title="editor" placeholder="Message text here..." onchange="updateEditor()"></textarea>
