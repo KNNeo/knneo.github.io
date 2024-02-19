@@ -18,6 +18,7 @@ html {
 	background-color: var(--background);
 	color: var(--foreground);
 	color-scheme: light;
+	transition: 0.2s background-color linear;
 }
 
 html.darked {
@@ -86,7 +87,7 @@ h1 {
 	border-radius: 8px;
 	transition: background .2s linear;
 	text-decoration: none;
-	font-size: 2em;
+	line-height: 1;
 }
 
 #DarkModeBtn {
@@ -112,11 +113,11 @@ h1 {
 	border-radius: 8px;
 	transition: background .2s linear;
 	text-decoration: none;
-	font-size: 2em;
+	line-height: 1;
 }
 
-#DarkModeBtn:active,
-#BackBtn:active {
+#DarkModeBtn:hover,
+#BackBtn:hover {
 	box-shadow: 1px 1px;
 	transform: translate(2px, 2px);
 }

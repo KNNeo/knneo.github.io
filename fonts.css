@@ -53,3 +53,11 @@
   -webkit-font-feature-settings: liga;
   font-feature-settings: liga;
 }
+
+.feather-icon {
+	width: 2em;
+}
+
+html.darked .feather-icon {
+    filter: invert(1);	
+}
