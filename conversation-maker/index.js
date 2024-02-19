@@ -230,20 +230,31 @@ function processConversations() {
 function animateConversation() {
 	let converse = event.target.closest('.conversation').querySelector('.messages');
 	converse.setAttribute('data-running', '');
+	// disable scroll capture
+	converse.setAttribute('onwheel', 'event.preventDefault()');
+	converse.setAttribute('onmousewheel', 'event.preventDefault()');
+	converse.setAttribute('ontouchstart', 'event.preventDefault()');
+	
+	// read lines
 	let lines = Array.from(converse.querySelectorAll('.message'));
 	if(lines.filter(l => l.classList.contains('hide')).length > 0) return;
 	for(let line of lines)
 	{
 		line.classList.add('hide');
 	}
+	// set timing to display and scroll
 	for(let l = 0; l < lines.length; l++)
 	{
 		setTimeout(function() {
 			if(window.editing) return;
 			if(window.ping && !lines[l].classList.contains('footer')) // play sound effect on each message
 				sfxAudio.play();
-			if(lines[l].classList.contains('footer'))
+			if(lines[l].classList.contains('footer')) {
 				converse.removeAttribute('data-running');
+				converse.removeAttribute('onwheel');
+				converse.removeAttribute('onmousewheel');
+				converse.removeAttribute('ontouchstart');
+			}
 			lines[l].classList.remove('hide');
 			let heightAboveItem = l-1 > 0 ? lines.slice(0,l-1).reduce(function(total, current, index) {
 				return total + current.getBoundingClientRect().height;
