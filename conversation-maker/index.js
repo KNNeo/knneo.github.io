@@ -150,6 +150,23 @@ function toggleAudio() {
 	}
 }
 
+function showData() {
+	popupText('<textarea id="data" name="data" rows="8" cols="40" style="max-width: 90%;">' + localStorage.getItem('conversation-messages') + '</textarea>' + 
+	'<div><a class="add bi bi-copy" href="javascript:void(0);" title="Copy Data" onclick="navigator.clipboard.writeText(document.querySelector(\'#data\').value);"></a>' + 
+	'<a class="add bi bi-x-square" href="javascript:void(0);" title="Save/Close Data" onclick="updateData()"></a></div>');
+}
+
+function updateData() {
+	if(localStorage.getItem('conversation-messages') != document.querySelector('#data').value) // update if different
+	{
+		if(document.querySelector('#data').value.length < 1) // set empty
+			document.querySelector('#data').value = '{}';
+		localStorage.setItem('conversation-messages', document.querySelector('#data').value);
+		startup();
+	}
+	removeDialog();
+}
+
 //--FUNCTIONS--//
 function hideAllConversations() {
 	for(let conv of document.querySelectorAll('.conversation'))
@@ -283,6 +300,51 @@ function disableRunMessages(conversation) {
 	conversation.removeAttribute('onwheel');
 	conversation.removeAttribute('onmousewheel');
 	conversation.removeAttribute('ontouchstart');
+}
+
+//--DIALOG--//
+function popupText(input) {
+	let dialogDiv = document.querySelector('.dialog');
+	if(dialogDiv == null)
+	{
+		dialogDiv = document.createElement('div');
+		dialogDiv.classList.add('dialog');
+		document.body.appendChild(dialogDiv);
+	}
+	let dialog = createDialog(input);
+	dialogDiv.innerHTML = '';
+	dialogDiv.appendChild(dialog);
+	dialog.showModal();
+}
+
+function createDialog(node) {
+	// node in dialog will not have events!
+	let dialog = document.createElement('dialog');
+	if(!dialog.classList.contains('box')) dialog.classList.add('box');
+	if(typeof node == 'string')
+		dialog.innerHTML = node;
+	if(typeof node == 'object')
+	{
+		let clonedNode = node.cloneNode(true);
+		dialog.appendChild(clonedNode);
+	}
+	// dialog.addEventListener('click', function() {
+		// this.remove();
+	// });
+	dialog.addEventListener('keyup', function() {
+		if (event.key === 'Enter')
+			this.remove();
+	});
+	return dialog;
+}
+
+function removeDialog() {
+	if(event) event.preventDefault(); // Prevent the default form submission
+	let dialogDiv = document.querySelector('.dialog');
+	if(dialogDiv != null)
+	{
+		dialogDiv.remove();
+	}	
 }
 
 //--INITIAL--//
