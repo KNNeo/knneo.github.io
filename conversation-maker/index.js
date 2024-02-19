@@ -43,7 +43,7 @@ function showEditor() {
 		document.querySelector('#'+conversation.id+' .editor').classList.remove('hidden');
 		updateSenderOptions(conversation);
 	}
-	window.editing = true;
+	disableRunMessages(conversation);
 }
 
 function updateEditor() {
@@ -51,7 +51,7 @@ function updateEditor() {
 	window['conversation-messages'][conversation.id].content = conversation.querySelector('.editor textarea').value;
 	saveToLocalStorage();
 	updateSenderOptions(conversation);
-	window.editing = false;
+	allowRunMessages(conversation);
 }
 
 function updateSenderOptions(conversation) {
@@ -167,13 +167,13 @@ function readFromLocalStorage() {
 			let item = window['conversation-messages'][key];
 			addConversation(item.name);
 			let conversation = document.querySelector('#'+key);
-			if(item.content)
+			if(item.content) // editor content
 				conversation.querySelector('.editor textarea').value = item.content;
-			if(item.separator) {
+			if(item.separator) { // separator input
 				conversation.querySelector('.messages').setAttribute('data-separator', item.separator);
 				conversation.querySelector('.editor .separator').value = item.separator;
 			}
-			if(item.sender) {
+			if(item.sender) { // sender input
 				conversation.querySelector('.messages').setAttribute('data-sender', item.sender);
 				updateSenderOptions(conversation);
 			}
@@ -228,15 +228,11 @@ function processConversations() {
 }
 
 function animateConversation() {
-	let converse = event.target.closest('.conversation').querySelector('.messages');
-	converse.setAttribute('data-running', '');
-	// disable scroll capture
-	converse.setAttribute('onwheel', 'event.preventDefault()');
-	converse.setAttribute('onmousewheel', 'event.preventDefault()');
-	converse.setAttribute('ontouchstart', 'event.preventDefault()');
+	let conversation = event.target.closest('.conversation').querySelector('.messages');
+	allowRunMessages(conversation);
 	
 	// read lines
-	let lines = Array.from(converse.querySelectorAll('.message'));
+	let lines = Array.from(conversation.querySelectorAll('.message'));
 	if(lines.filter(l => l.classList.contains('hide')).length > 0) return;
 	for(let line of lines)
 	{
@@ -246,31 +242,47 @@ function animateConversation() {
 	for(let l = 0; l < lines.length; l++)
 	{
 		setTimeout(function() {
-			if(window.editing) return;
-			if(window.ping && !lines[l].classList.contains('footer')) // play sound effect on each message
-				sfxAudio.play();
-			if(lines[l].classList.contains('footer')) {
-				converse.removeAttribute('data-running');
-				converse.removeAttribute('onwheel');
-				converse.removeAttribute('onmousewheel');
-				converse.removeAttribute('ontouchstart');
+			if(conversation.getAttribute('data-running') != null) {
+				if(window.ping && !lines[l].classList.contains('footer')) // play sound effect on each message
+					sfxAudio.play();
+				if(lines[l].classList.contains('footer'))
+					disableRunMessages(conversation);
+				lines[l].classList.remove('hide');
+				let heightAboveItem = l-1 > 0 ? lines.slice(0,l-1).reduce(function(total, current, index) {
+					return total + current.getBoundingClientRect().height;
+				}, 0) : 0;
+				let currentHeight = lines[l].getBoundingClientRect().height;
+				let diff = heightAboveItem + 2*currentHeight - conversation.clientHeight; // delta to fix item height rounding
+				if(diff > 0) {
+					console.log(diff);
+					if(diff < currentHeight) // fix container height wrt to message height
+						conversation.scrollBy({ top: diff, behavior: 'smooth' });
+					else
+						conversation.scrollBy({ top: currentHeight, behavior: 'smooth' });
+				}
+				else 
+					conversation.scrollTo({ top: 0, behavior: 'smooth' });
 			}
-			lines[l].classList.remove('hide');
-			let heightAboveItem = l-1 > 0 ? lines.slice(0,l-1).reduce(function(total, current, index) {
-				return total + current.getBoundingClientRect().height;
-			}, 0) : 0;
-			let currentHeight = lines[l].getBoundingClientRect().height;
-			let diff = heightAboveItem + 2*currentHeight - converse.clientHeight; // delta to fix item height rounding
-			if(diff > 0) {
-				if(diff < currentHeight) // fix container height wrt to message height
-					converse.scrollBy({ top: diff, behavior: 'smooth' });
-				else
-					converse.scrollBy({ top: currentHeight, behavior: 'smooth' });
-			}
-			else 
-				converse.scrollTo({ top: 0, behavior: 'smooth' });
 		}, l*1500);
 	}
+}
+
+function allowRunMessages(conversation) {
+	// set status
+	conversation.setAttribute('data-running', '');
+	// disable scroll capture
+	conversation.setAttribute('onwheel', 'event.preventDefault()');
+	conversation.setAttribute('onmousewheel', 'event.preventDefault()');
+	conversation.setAttribute('ontouchstart', 'event.preventDefault()');	
+}
+
+function disableRunMessages(conversation) {
+	// remove status
+	conversation.removeAttribute('data-running');
+	// remove scroll capture
+	conversation.removeAttribute('onwheel');
+	conversation.removeAttribute('onmousewheel');
+	conversation.removeAttribute('ontouchstart');
 }
 
 //--INITIAL--//
