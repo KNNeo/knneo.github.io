@@ -126,6 +126,7 @@ a:hover {
 }
 .conversation .message[data-name]::before {
 	content: attr(data-name);
+    white-space: nowrap;
 }
 .conversation .message[data-sender] span {
 	background-color: var(--primary);
