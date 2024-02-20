@@ -81,7 +81,7 @@ a:hover {
 /*Page-Specific*/
 .conversation a {
     display: inline-block;
-	padding: 8px 6px;
+	padding: 12px 6px;
 	font-size: 1.2em;
 }
 .conversation .messages {
