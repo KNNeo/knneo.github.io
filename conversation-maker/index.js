@@ -31,7 +31,7 @@ function showMessages() {
 		document.querySelector('#'+conversation.id+' .messages').classList.remove('hidden');
 		document.querySelector('#'+conversation.id+' .messages .footer').scrollIntoView();
 	}
-	window.editing = false;
+	disableRunMessages(conversation);
 }
 
 function showEditor() {
