@@ -1,18 +1,18 @@
 /*Variables*/
 :root {
-  --primary: #1b3fff;
-  --secondary: #609fff;
-  --background: #f4f6ff;
-  --foreground: #000;
-  --accent: #dddddd;
+  --primary: rgba(27, 63, 255, 1);
+  --secondary: rgba(96, 159, 255, 1);
+  --background: rgba(244, 246, 255, 1);
+  --foreground: rgba(0, 0, 0, 1);
+  --accent: rgba(221, 221, 221, 1);
 }
 
 .darked:root {
-  --primary: #00e4ff;
-  --secondary: #00abbf;
-  --background: #001114;
-  --foreground: #fff;
-  --accent: #444444;
+  --primary: rgba(0, 228, 255, 1);
+  --secondary: rgba(0, 171, 191, 1);
+  --background: rgba(0, 17, 20, 1);
+  --foreground: rgba(255, 255, 255, 1);
+  --accent: rgba(68, 68, 68, 1);
 }
 
 body {

@@ -1,10 +1,10 @@
 /*Variables*/
 :root {
-  --primary: #00e4ff;
-  --secondary: #00abbf;
-  --background: #000000;
-  --foreground: #ffffff;
-  --accent: #444444;
+  --primary: rgba(0, 228, 255, 1);
+  --secondary: rgba(0, 171, 191, 1);
+  --background: rgba(0, 0, 0, 1);
+  --foreground: rgba(255, 255, 255, 1);
+  --accent: rgba(68, 68, 68, 1);
 }
 
 /*Klassic Note: Website Additions*/
