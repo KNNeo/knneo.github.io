@@ -13,6 +13,7 @@
 	<link rel="apple-touch-icon" sizes="192x192" href="storytime.png" />
 	<script src="../darkmode.js" type="application/javascript" charset="utf-8"></script>
 	<script src="home.js" type="application/javascript" charset="utf-8"></script>
+	<script src="searchIndex.js" type="application/javascript" charset="utf-8" defer></script>
     <title>BLOG</title>
 </head>
 <body style="text-align: center; font-family: Noto Sans;" onpageshow="filterByTag()">
@@ -765,6 +766,7 @@
 </div>
 <div class="action-menu bottom-right">
 	<a class="fab thumb-design" title="Toggle Thumbnail Layout"><i class="material-icons" onclick="toggleThumbnailDesign()">flip</i></a>
+	<a class="fab search" title="Search This Blog"><i class="material-icons" onclick="showSearch()">search</i></a>
 	<a class="fab dark-mode material-icons" title="Toggle Dark Mode" onclick="toggleDarkMode()">brightness_high</a>
 	<a class="fab go-to-top material-icons hidden" title="Go To Top" onclick="goToTop()">arrow_upward</a>
 </div>

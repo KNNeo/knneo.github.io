@@ -2,6 +2,7 @@ window['light-theme'] = '#f4f6ff';
 window['dark-theme'] = '#001114';
 window['dark-name'] = 'blog-theme';
 window['urls'] = [];
+window['search-results'] = [];
 window.addEventListener('scroll', toggleActionsOnScroll);
 window.addEventListener('hashchange', filterByTag);
 
@@ -65,6 +66,98 @@ function toggleThumbnailDesign() {
 	document.querySelector('.archive-list').classList.toggle('flip');
 }
 
+function showSearch() {
+	let searchContainer = document.createElement('div');
+	
+	let search = document.createElement('input');
+	search.classList.add('search-input');
+	search.style.fontSize = '1em';
+	search.setAttribute('onkeyup', 'onSearchKeyUp()');
+	searchContainer.appendChild(search);
+	
+	let results = document.createElement('div');
+	results.classList.add('input-result');
+	searchContainer.appendChild(results);
+	
+	let closeBtn = document.createElement('button');
+	closeBtn.innerText = 'Close';
+	closeBtn.style.fontSize = '1em';
+	closeBtn.setAttribute('onclick', 'removeDialog()');
+	searchContainer.appendChild(closeBtn);
+	
+	popupText(searchContainer);
+}
+
+function onSearchKeyUp() {
+	// console.log(event.keyCode);
+	if (event.keyCode === 13) // "Enter" key
+	{
+		let inputVal = event.target.value.toLowerCase();
+		let indexesKeys = Object.keys(searchIndex.indexes).filter(k => inputVal.toLowerCase().split(' ').includes(k));
+		// console.log(indexesKeys);
+		let postIdLists = [];
+		let postIds = [];
+		if(indexesKeys.length > 0) {
+			for(let key of indexesKeys)
+			{
+				let list = searchIndex.indexes[key];
+				// console.log(list);				
+				postIdLists.push(list);
+			}
+		}
+		
+		// console.log(postIdLists);
+		for(let sublist of postIdLists)
+		{
+			for(let value of sublist)
+			{
+				// console.log(value);
+				if(postIdLists.filter(l => l.includes(value)).length == indexesKeys.length)
+					postIds.push(value);
+			}
+		}
+		
+		// console.log(postIds);
+		window['search-results'] = searchIndex.posts.filter((current, index, arr) => postIds.includes(index));
+		showResults(window['search-results'].length > 10 ? window['search-results'].slice(0,10) : window['search-results']);
+
+		let resultTally = document.createElement('div');
+		if(window['search-results'].length > 10)
+			resultTally.innerText = (window['search-results'].length - 10) + ' more results';
+		else if(window['search-results'].length < 1)
+			resultTally.innerText = 'No results';
+		else
+			resultTally.innerText = window['search-results'].length + ' results';
+		document.querySelector('.input-result').appendChild(resultTally);
+	}
+	if (event.keyCode === 27) // "Escape" key
+	{
+		document.querySelector('.input-result').innerHTML = '';
+		event.target.value = '';
+	}
+}
+
+function showResults(posts) {
+	document.querySelector('.input-result').innerHTML = '';
+	for(let post of posts)
+	{
+		let resultDiv = document.createElement('div');
+		resultDiv.classList.add('post');
+		
+		let publishSpan = document.createElement('span');
+		publishSpan.classList.add('publish');
+		publishSpan.innerText = post.date + ' ';
+		resultDiv.appendChild(publishSpan);
+		
+		let resultUrl = document.createElement('a');
+		resultUrl.href = post.url;
+		resultUrl.innerText = post.title;
+		resultDiv.appendChild(resultUrl);
+		
+		document.querySelector('.input-result').appendChild(resultDiv);
+	}
+}
+
 // Floating action button events
 function toggleActionsOnScroll() {
 	// position of buttons
@@ -74,7 +167,7 @@ function toggleActionsOnScroll() {
 		toggleActions('.fab.go-to-top', '.action-menu.bottom-right');
 	}
 	else {
-		toggleActions('.fab.dark-mode', '.action-menu.bottom-right');
+		toggleActions(['.fab.thumb-design', '.fab.search', '.fab.dark-mode'], '.action-menu.bottom-right');
 	}
 }
 
@@ -100,4 +193,48 @@ function toggleActions(showElements, parentElement) {
 		showElements = document.querySelector(showElements);
 		showElements.classList.remove('hidden');
 	}
+}
+
+////DIALOG////
+function popupText(input) {
+	let dialogDiv = document.querySelector('.dialog');
+	if(dialogDiv == null)
+	{
+		dialogDiv = document.createElement('div');
+		dialogDiv.classList.add('dialog');
+		document.body.appendChild(dialogDiv);
+	}
+	let dialog = createDialog(input);
+	dialogDiv.innerHTML = '';
+	dialogDiv.appendChild(dialog);
+	dialog.showModal();
+}
+
+function createDialog(node) {
+	// node in dialog will not have events!
+	let dialog = document.createElement('dialog');
+	if(!dialog.classList.contains('box')) dialog.classList.add('box');
+	if(typeof node == 'string')
+		dialog.innerHTML = node;
+	if(typeof node == 'object')
+	{
+		let clonedNode = node.cloneNode(true);
+		dialog.appendChild(clonedNode);
+	}
+	// dialog.addEventListener('click', function() {
+		// this.remove();
+	// });
+	dialog.addEventListener('keyup', function() {
+		// event.preventDefault();
+	});
+	return dialog;
+}
+
+function removeDialog() {
+	if(event) event.preventDefault(); // Prevent the default form submission
+	let dialogDiv = document.querySelector('.dialog');
+	if(dialogDiv != null)
+	{
+		dialogDiv.remove();
+	}	
 }
