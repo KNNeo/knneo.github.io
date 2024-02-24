@@ -140,7 +140,7 @@ void Main()
 	}
 	
     // Process XML content per post
-    var homepageString = "";
+    var homepageString = new StringBuilder();
     for (var p = 0; p < posts.Count(); p++)
     {
 		var entry = posts.ElementAt(p);
@@ -283,7 +283,7 @@ void Main()
         }
         
         if (originalLink == "") // wiwhout post link
-            homepageString += "<div class=\"post\"><span>" + published.ToString("yyyy.MM.dd") + "</span>" + postTitle + "</div>\n";
+            homepageString.AppendLine("<div class=\"post\"><span>" + published.ToString("yyyy.MM.dd") + "</span>" + postTitle + "</div>");
 		else
         {
 			if(postTitle == "") // without title
@@ -320,15 +320,15 @@ void Main()
 					//Console.WriteLine(anchors);
 				}
 				
-                homepageString += isLatest 
+                homepageString.AppendLine(isLatest 
 					? "<div class=\"post latest\"" + dataId + ">" + 
 					(thumbnailUrl.Length > 0 ? "<span class=\"publish\">"+published.ToString("yyyy.MM.dd")+"</span>" : "") + 
 					"<div class=\"thumb\">" + 
 						"<a href=\"" + pageLink + "\">" + postTitle + "</a>" + 
 						(anchors.Count > 0 ? "<div class=\"anchors\">" + string.Join("", anchors.Select(a => "<a href=\"" + (pageLink + "#" + a) + "\">#" + a + "</a>")) + "</div>" : "") + 
 						(thumbnailUrl.Length > 0 ? "<div class=\"overlay\"><img loading=\"lazy\" src=\"" + thumbnailUrl + "\"/></div>" : "") + 
-					"</div></div>\n"
-					: "<div class=\"post\"" + dataId + "><span class=\"publish\">" + published.ToString("yyyy.MM.dd") + " </span><a href=\""+pageLink+"\">" + postTitle + "</a></div>\n";
+					"</div></div>"
+					: "<div class=\"post\"" + dataId + "><span class=\"publish\">" + published.ToString("yyyy.MM.dd") + " </span><a href=\""+pageLink+"\">" + postTitle + "</a></div>");
 			}
         }
     }
@@ -337,7 +337,7 @@ void Main()
     string fileString = File.ReadAllText(outputPath + "\\template.html")
 		.Replace("_TITLE_", blogTitle)
 		.Replace("_URL_", domainLink)
-		.Replace("_ARCHIVE_", homepageString)
+		.Replace("_ARCHIVE_", homepageString.ToString())
 		.Replace("_FONT_", defaultFont)
 		.Replace("_COUNT_", posts.ToList().Count.ToString());
     File.WriteAllText(outputPath + "\\index.html", fileString);
