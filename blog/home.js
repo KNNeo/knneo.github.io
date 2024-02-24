@@ -129,9 +129,10 @@ function createDialog(node) {
 		let clonedNode = node.cloneNode(true);
 		dialog.appendChild(clonedNode);
 	}
-	// dialog.addEventListener('click', function() {
-		// this.remove();
-	// });
+	dialog.addEventListener('click', function() {
+		if(event.target.parentElement == document.querySelector('.dialog'))
+			removeDialog();
+	});
 	dialog.addEventListener('keyup', function() {
 		// event.preventDefault();
 	});
