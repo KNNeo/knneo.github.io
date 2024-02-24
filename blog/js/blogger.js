@@ -299,6 +299,10 @@ function toggleSearch() {
 }
 
 function toggleSidebar() {
+	let collapseSidebarWidth = window.innerWidth < 780;
+	let collapseSidebarLinks = window.innerHeight <= 640;
+	let collapseSidebarArchive = window.innerHeight <= 960;
+	
 	// toggle body overlay
     toggleOverlay(true);
 	
@@ -309,10 +313,10 @@ function toggleSidebar() {
 	let menuStatus = document.querySelector('.fab.sidebar');
 	menuStatus.innerText = menuStatus.innerText == 'menu' ? 'menu_open' : 'menu';
 	
-    let iconLeft = window.innerWidth >= 780 ? '5px' : '0';
+    let iconLeft = collapseSidebarWidth ? '0' : '5px';
     outer.style.left = outer.style.left == '' ? iconLeft : '';
 	
-    let iconBottom = window.innerWidth >= 780 ? '78px' : '60px';
+    let iconBottom = collapseSidebarWidth ? '60px' : '78px'; 
     outer.style.bottom = outer.style.bottom == '' ? iconBottom : '';
     outer.style.margin = outer.style.margin == '' ? 'auto' : '';
     outer.style.zIndex = outer.style.zIndex != 9 ? 9 : '';
@@ -320,14 +324,14 @@ function toggleSidebar() {
     let aside = outer.getElementsByTagName('aside')[0];
     aside.style.display = toggleDisplay(aside, 'block');
 	
-    if (window.innerHeight <= 640)
+    if (collapseSidebarLinks)
 		document.getElementById('LinkList1').style.display = toggleDisplay(document.getElementById('LinkList1'), 'none');
-    if (window.innerHeight <= 960)
+    if (collapseSidebarArchive)
 		document.getElementById('BlogArchive1').style.display = toggleDisplay(document.getElementById('BlogArchive1'), 'none');
 }
 
 function fixExternalFrame(thumbnail) {
-	if(window.location.href.includes("knneo.github.io")) return;
+	if(!isBlogger()) return;
 	//fix iframes in thumbnails that don't fit content width
 	if(thumbnail.getElementsByTagName('iframe').length > 0) {
 		let thumbnailTable = thumbnail.closest('table');

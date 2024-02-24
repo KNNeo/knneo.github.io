@@ -1,6 +1,6 @@
 //constants
-const notBlogger = function() {
-	return window.location.href.includes('knneo.github.io'); //if false, is blogger
+const isBlogger = function() {
+	return window.location.href.includes('.blogspot.com'); //if false, is blogger
 };
 const isSmallWidth = function() {
 	return window.innerWidth <= 500;
@@ -434,7 +434,7 @@ function generatePopupContent(url) {
         //process twitter embed
 		//data-height for timeline is max width
 		if(testUrl.includes('/status/')) {
-			return '<div style="display: flex;"><blockquote class="twitter-tweet tw-align-center" data-conversation="none" ' + (!notBlogger() || document.querySelector('html').classList.contains('darked') ? 'data-theme="dark"' : '') + ' data-height="' + 0.6*window.innerHeight + '"><a href="' +
+			return '<div style="display: flex;"><blockquote class="twitter-tweet tw-align-center" data-conversation="none" ' + (isBlogger() || document.querySelector('html').classList.contains('darked') ? 'data-theme="dark"' : '') + ' data-height="' + 0.6*window.innerHeight + '"><a href="' +
 				url.replace('x.com', 'twitter.com') +
 				'"></a></blockquote><script async="async" charset="utf-8" src="https://platform.twitter.com/widgets.js"></script></div>';
 		}
@@ -455,7 +455,7 @@ function generatePopupContent(url) {
     }
     if (testUrl.includes('instagram.com/p/') || testUrl.includes('instagram.com/reel/')) {
         //process instagram embed
-        return '<center><blockquote class="instagram-media" style="' + (window.innerWidth >= 576 ? 'width:550px;' : '') + '" data-instgrm-permalink="' +
+        return '<center><blockquote class="instagram-media" style="' + (!isSmallWidth() ? 'width:550px;' : '') + '" data-instgrm-permalink="' +
             url + '" data-instgrm-version="14" style="padding:0;"></blockquote></center><script async="async" src="//www.instagram.com/embed.js"></script>';
     }
     if (testUrl.includes('jisho.org/search/')) {
@@ -498,12 +498,13 @@ function toggleDisplay(element, defaultValue) {
 
 // Floating action button events
 function displayFAB() {
+	// for initial state
 	if(document.querySelector('#Overlay') != null && document.querySelector('#Overlay').style.display != 'none')
 		return;
 	if(!navigator.share) {
 		document.querySelector('.fab.share')?.remove();
 	}
-	if(!window.location.href.includes('knneo.github.io')) {
+	if(isBlogger()) {
 		toggleActions(['.fab.share', '.fab.search'], '.action-menu.bottom-right');
 		if(isMediumWidth()) toggleActions(['.fab.sidebar'], '.action-menu.bottom-left');
 		else toggleActions([], '.action-menu.bottom-left');
@@ -511,15 +512,15 @@ function displayFAB() {
 }
 
 function toggleActionsOnScroll() {
-	// position of buttons
+	// position of buttons on scroll
 	let pageDown = document.body.scrollTop > 0.3 * document.documentElement.clientHeight || 
 	document.documentElement.scrollTop > 0.3 * document.documentElement.clientHeight;
-	if(window.location.href.includes('knneo.github.io')) {
+	if(!isBlogger()) {
 		if (pageDown) {
-			toggleActions(['.fab.share', '.fab.go-to-top'], '.action-menu.bottom-right');
+			toggleActions(['.fab.share', '.fab.search', '.fab.go-to-top'], '.action-menu.bottom-right');
 		}
 		else {
-			toggleActions(['.fab.share', '.fab.dark-mode'], '.action-menu.bottom-right');
+			toggleActions(['.fab.share', '.fab.search', '.fab.dark-mode'], '.action-menu.bottom-right');
 		}
 	}
 	else {
@@ -541,7 +542,7 @@ function toggleActionsOnScroll() {
 		document.querySelector('.action-menu.bottom-left')?.classList.remove('hide');
 		document.querySelector('.action-menu.bottom-right')?.classList.remove('hide');
 	}
-	else {
+	else if(isSmallWidth()) {
 		document.querySelector('.action-menu.bottom-left')?.classList.add('hide');
 		document.querySelector('.action-menu.bottom-right')?.classList.add('hide');
 	}
@@ -593,15 +594,13 @@ function hideImagesOnError() {
 }
 
 function windowOnResize() {
-	if (window.innerWidth >= 1025) {
+	if (!isMediumWidth()) {
 		if(document.getElementById('LinkList1') != null) document.getElementById('LinkList1').style.display = '';
 		if(document.getElementById('BlogArchive1') != null) document.getElementById('BlogArchive1').style.display = '';	
 		let outer = document.getElementsByClassName('column-left-outer')[0];
 		if(outer != null)
 			outer.style.position = '';
 	}
-	document.body.style.visibility = window.innerWidth <= 320 ? 'hidden' : '';
-	
 	if(document.getElementById('Overlay') != null && document.getElementById('Overlay').style.display != 'none')
 		closePopups();
 	
@@ -612,7 +611,7 @@ function windowOnResize() {
 async function sharePage() {
   try {
 	let pageTitle = document.querySelector('.post-title.entry-title')?.innerText || document.querySelector('.title')?.innerText;
-	let pageText = 'From Klassic Note Web Reports' + (notBlogger() ? ' Archive' : '');
+	let pageText = 'From Klassic Note Web Reports' + (!isBlogger() ? ' Archive' : '');
 	if(navigator.share)
 		await navigator.share({
 			title: pageTitle,
@@ -762,7 +761,7 @@ function resizeImage(img) {
 	var imgHeight = p.height;
 	if(showLog) console.log('width x height', imgWidth, imgHeight);
 	// exclusion list
-	if ((!notBlogger && (imgWidth < 20 || imgHeight < 20)) || 
+	if ((isBlogger() && (imgWidth < 20 || imgHeight < 20)) || 
 		p.id == 'news-thumbnail')
 	{
 		if(showLog) console.log('exclusion', p, p.parentElement);
