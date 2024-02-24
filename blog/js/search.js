@@ -56,7 +56,7 @@ function onSearchKeyUp() {
 		// add more results display
 		let resultTally = document.createElement('div');
 		if(window['search-results'].length > 10)
-			resultTally.innerText = (window['search-results'].length - 10) + ' more results';
+			resultTally.innerText = '+ ' + (window['search-results'].length - 10) + ' more results';
 		else if(window['search-results'].length < 1)
 			resultTally.innerText = 'No results';
 		else

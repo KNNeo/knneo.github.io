@@ -74,7 +74,9 @@ void Main()
 			continue;
 		var pageLink = "./pages" + Path.GetFileNameWithoutExtension(filepath.Replace(filepath, blogpath)) + "/" + published.Year.ToString("0000") + "/"  + published.Month.ToString("00") + "/"  + Path.GetFileNameWithoutExtension(originalLink) + "." + type;
         
-        if(p % 100 == 99)
+        if(WriteTitleOnConsole || TraceMode)
+            Console.WriteLine(title != "" ? title : "A Random Statement");
+        else if(p % 100 == 99)
             Console.WriteLine(".");
 		else
             Console.Write(".");
@@ -120,7 +122,7 @@ void Main()
 	
 	#region Export search index into JSON
     string export = "const searchIndex = " + JsonConvert.SerializeObject(searchIndex) + ";";
-    File.WriteAllText(blogpath + "\\searchIndex.js", export);
+    File.WriteAllText(blogpath + "\\js\\searchIndex.js", export);
     #endregion
 }
 
