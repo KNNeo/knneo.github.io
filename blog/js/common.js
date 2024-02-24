@@ -235,13 +235,22 @@ function createDialog(node) {
 		dialog.appendChild(clonedNode);
 	}
 	dialog.addEventListener('click', function() {
-		this.remove();
+		if(event.target.parentElement == document.querySelector('.dialog'))
+			removeDialog();
 	});
 	dialog.addEventListener('keyup', function() {
-		if (event.key === ' ' || event.key === 'Enter')
-			this.remove();
+		// event.preventDefault();
 	});
 	return dialog;
+}
+
+function removeDialog() {
+	if(event) event.preventDefault(); // Prevent the default form submission
+	let dialogDiv = document.querySelector('.dialog');
+	if(dialogDiv != null)
+	{
+		dialogDiv.remove();
+	}	
 }
 
 // Popup element, based on content type

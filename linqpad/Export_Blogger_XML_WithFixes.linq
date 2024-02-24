@@ -219,6 +219,8 @@ void Main()
 	        output.AppendLine("<script src=\"../../../js/common.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
 	        output.AppendLine("<script src=\"../../../js/header.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
 	        output.AppendLine("<script src=\"../../../js/viewer.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
+	        output.AppendLine("<script src=\"../../../js/search.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
+	        output.AppendLine("<script src=\"../../../js/searchIndex.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
 	        output.AppendLine("<title>" + (postTitle.Length > 0 ? postTitle : "A Random Statement") + "</title>");
 	        output.AppendLine("<body style=\"font-family: " + defaultFont + ";\">");
 	        output.AppendLine("<div id=\"contents\" class=\"post-body entry-content\">");
@@ -249,6 +251,7 @@ void Main()
 	        output.AppendLine("</div>");
 			output.AppendLine("<div class=\"action-menu bottom-right\">");
 			output.AppendLine("<a class=\"fab share material-icons\" title=\"Share This Page\" onclick=\"sharePage()\">share</a>");
+			output.AppendLine("<a class=\"fab search material-icons\" title=\"Search This Blog\" onclick=\"showSearch()\">search</a>");	
 			output.AppendLine("<a class=\"fab dark-mode material-icons\" title=\"Toggle Dark Mode\" onclick=\"toggleDarkMode()\">brightness_high</a>");
 			output.AppendLine("<a class=\"fab go-to-top material-icons hidden\" title=\"Go To Top\" onclick=\"goToTop()\">arrow_upward</a>");
 			output.AppendLine("</div>");
