@@ -75,15 +75,15 @@ function showSearch() {
 	search.setAttribute('onkeyup', 'onSearchKeyUp()');
 	searchContainer.appendChild(search);
 	
-	let results = document.createElement('div');
-	results.classList.add('input-result');
-	searchContainer.appendChild(results);
-	
 	let closeBtn = document.createElement('button');
 	closeBtn.innerText = 'Close';
 	closeBtn.style.fontSize = '1em';
 	closeBtn.setAttribute('onclick', 'removeDialog()');
 	searchContainer.appendChild(closeBtn);
+	
+	let results = document.createElement('div');
+	results.classList.add('input-result');
+	searchContainer.appendChild(results);
 	
 	popupText(searchContainer);
 }
