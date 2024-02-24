@@ -970,6 +970,7 @@ abbr.imgpop:hover img {
 	color: var(--foreground);	
 	padding: 10px;
 	max-width: 640px;
+	max-height: 60%;
 }
 
 .dialog dialog a {
