@@ -43,6 +43,10 @@ h1 {
     gap: 12px;
 }
 
+.fanfics .season {
+    min-width: 11em;
+}
+
 .keyword {
 	color: var(--primary);
 	line-height: 1.5;
