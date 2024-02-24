@@ -26,7 +26,7 @@ function onSearchKeyUp() {
 	{
 		let inputVal = event.target.value.toLowerCase();
 		let indexesKeys = Object.keys(searchIndex.indexes).filter(k => inputVal.toLowerCase().split(' ').includes(k));
-		// console.log(indexesKeys);
+		// create lists of relevant keywords
 		let postIdLists = [];
 		let postIds = [];
 		if(indexesKeys.length > 0) {
@@ -38,7 +38,7 @@ function onSearchKeyUp() {
 			}
 		}
 		
-		// console.log(postIdLists);
+		// filter keywords if appear in all lists
 		for(let sublist of postIdLists)
 		{
 			for(let value of sublist)
@@ -49,10 +49,11 @@ function onSearchKeyUp() {
 			}
 		}
 		
-		// console.log(postIds);
+		// update global variable & results div
 		window['search-results'] = searchIndex.posts.filter((current, index, arr) => postIds.includes(index));
 		showResults(window['search-results'].length > 10 ? window['search-results'].slice(0,10) : window['search-results']);
-
+		
+		// add more results display
 		let resultTally = document.createElement('div');
 		if(window['search-results'].length > 10)
 			resultTally.innerText = (window['search-results'].length - 10) + ' more results';
@@ -61,6 +62,8 @@ function onSearchKeyUp() {
 		else
 			resultTally.innerText = window['search-results'].length + ' results';
 		document.querySelector('.input-result').appendChild(resultTally);
+		
+		event.target.blur();
 	}
 	if (event.keyCode === 27) // "Escape" key
 	{
