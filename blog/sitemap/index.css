@@ -1,16 +1,18 @@
 /*Variables*/
 :root {
-  --primary: #1b3fff;
-  --secondary: #609fff;
-  --background: #f4f6ff;
-  --foreground: #000;
+  --primary: rgba(27, 0, 255, 1);
+  --secondary: rgba(96, 159, 255, 1);
+  --background: rgba(255, 255, 255, 1);
+  --foreground: rgba(0, 0, 0, 1);
+  --accent: rgb(211, 211, 211, 1);
 }
 
 .darked:root {
-  --primary: #00e4ff;
-  --secondary: #00abbf;
-  --background: #001114;
-  --foreground: #fff;
+  --primary: rgba(0, 228, 255, 1);
+  --secondary: rgba(0, 171, 191, 1);
+  --background: rgba(0, 0, 0, 1);
+  --foreground: rgba(255, 255, 255, 1);
+  --accent: rgb(128, 128, 128, 1);
 }
 
 html {
@@ -25,7 +27,7 @@ html.darked {
 	color-scheme: dark;
 }
 
-h1 {
+h1, h4 {
 	display: inline-block;
 }
 
@@ -63,6 +65,31 @@ h1 {
 .keyword:hover {
 	color: var(--foreground);
 	text-decoration: none;
+}
+
+#FanficBtn {
+	position: fixed;
+	display: block;
+	visibility: visible;
+	top: 20px;
+    right: 20px;
+	z-index: 8;
+	outline: none;
+	color: var(--foreground);
+	cursor: pointer;
+	padding: 8px 6px 6px 6px;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	border: 1px solid var(--foreground);
+	background-color: var(--background);
+	box-shadow: 3px 3px var(--foreground);
+	border-radius: 8px;
+	transition: background .2s linear;
+	text-decoration: none;
+	line-height: 1;
 }
 
 #BackBtn {
@@ -121,6 +148,7 @@ h1 {
 	bottom: 20px;	
 }
 
+#FanficBtn:hover,
 #GoToTopBtn:hover,
 #DarkModeBtn:hover,
 #BackBtn:hover {
@@ -130,20 +158,24 @@ h1 {
 
 /*MEDIA QUERIES - BUTTON POSITION*/
 @media only screen and (max-width: 780px) {
-  #BackBtn {
-    left: 15px;
-  }
-  #GoToTopBtn,
-  #DarkModeBtn {
-    right: 15px;
-  }
-  #DarkModeBtn {
-    bottom: 75px;
-  }
-  #GoToTopBtn,
-  #BackBtn {
-    bottom: 15px;
-  }
+	#FanficBtn {
+		top: 15px;
+		right: 15px;
+	}
+	#BackBtn {
+		left: 15px;
+	}
+	#GoToTopBtn,
+	#DarkModeBtn {
+		right: 15px;
+	}
+	#DarkModeBtn {
+		bottom: 75px;
+	}
+	#GoToTopBtn,
+	#BackBtn {
+		bottom: 15px;
+	}
 }
 
 @media only screen and (min-width: 980px) {
@@ -155,18 +187,24 @@ h1 {
 
 @media only screen and (max-width: 780px) {
 	.sitemap {
-		column-width: 13em;
-		line-height: 1.5;
+		column-width: 11em;
+		line-height: 1.8;
+	}
+	.fanfics .season {
+		min-width: 9em;
+	}
+	.fanfics .season div {
+		line-height: 1.8;
 	}
 	.keyword {
 		font-size: 0.8em;
-		line-height: 2;
 	}
 }
 
 /*MEDIA QUERIES - REDUCED MOTION*/
 @media (prefers-reduced-motion: reduce) {
 	html,
+	#FanficBtn,
 	#BackBtn,
 	#GoToTopBtn,
 	#DarkModeBtn

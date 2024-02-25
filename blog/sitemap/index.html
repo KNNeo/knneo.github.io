@@ -11,11 +11,13 @@
 	<script src="../../darkmode.js" type="application/javascript" charset="utf-8"></script>
 	<title>Sitemap</title>
 </head>
-<body style="font-family: Noto Sans Mono;">
+<body style="font-family: Noto Sans;">
 <a id="BackBtn" class="material-icons" href="../index.html" title="Go Back">arrow_back</a>
 <a id="DarkModeBtn" class="material-icons" title="Toggle Dark Mode" href="javascript:void(0);" onclick="toggleDarkMode()">brightness_high</a>
-<a id="GoToTopBtn" class="material-icons" title="Go To Top" href="javascript:void(0);" onclick="goToTop()">arrow_upward</a>
+<a id="FanficBtn" class="material-icons" title="Go To Fanfiction" href="javascript:void(0);" onclick="document.querySelector('.fanfics').scrollIntoView()">category</a>
+<a id="GoToTopBtn" class="material-icons" title="Go To Top" href="javascript:void(0);" onclick="document.body.scrollTop = 0; document.documentElement.scrollTop = 0;">arrow_upward</a>
 <h1>SITEMAP</h1>
+<h2 onclick="document.body.scrollTop = 0; document.documentElement.scrollTop = 0;">MAIN DIRECTORY</h2>
 <div class="sitemap"><h3 class="title">1</h3>
 <a class="keyword" title="15 Years of Watching Anime: 15 Questions and Answers" href="../pages/2023/10/15-years-of-watching-anime-15-questions.html#15YearsOfAnime">15YearsOfAnime</a><br>
 <h3 class="title">2</h3>
@@ -1365,7 +1367,7 @@
 <a class="keyword" title="The Entertainment News '23 Issue #28" href="../pages/2023/07/the-entertainment-news-23-issue-28.html#YumemiruDanshi01">YumemiruDanshi01</a><br>
 </div>
 <br>
-<h1>THE FANFICTION SERIES</h1>
+<h1>THE FANFICTION</h1>
 <div class="fanfics"><div class="season"><b class="title">SEASON 1</b><br>
 <div><span>#1</span> <a class="keyword" title="The Fanfiction 20230701" href="../pages/2023/07/the-fanfiction-20230701.html">Takahashi Rie</a></div>
 <div><span>#2</span> <a class="keyword" title="The Fanfiction 20230708" href="../pages/2023/07/the-fanfiction-20230708.html">Amamiya Sora</a></div>
@@ -1395,5 +1397,9 @@
 <div><span>#22</span> <a class="keyword" title="The Fanfiction 20240217" href="../pages/2024/02/the-fanfiction-20240217.html">Koga Aoi</a></div>
 <div><span>#23</span> <a class="keyword" title="The Fanfiction 20240224" href="../pages/2024/02/the-fanfiction-20240224.html">Kouno Marika</a></div>
 </div>
+<br>
+<br>
+<br>
+<br>
 </body>
 </html>
