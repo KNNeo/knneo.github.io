@@ -13,13 +13,13 @@
 	"screenshots": [],
 	"icons": [
 		{
-			"src": "flask-svgrepo-com.svg",
+			"src": "/resources/icons/flask-svgrepo-com.svg",
 			"type": "image/svg+xml",
 			"sizes": "any",
 			"purpose": "maskable"
 		},
 		{
-			"src": "flask-svgrepo-com.png",
+			"src": "/resources/icons/flask-svgrepo-com.png",
 			"type": "image/png",
 			"sizes": "any",
 			"purpose": "any"
