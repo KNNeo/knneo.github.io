@@ -138,7 +138,7 @@ a:hover {
 .conversation .message[data-system] span {
 	background-color: var(--secondary);
 }
-.conversation .message[data-url] span {
+.conversation .message[data-url]:has(img) span {
 	width: 50%;
 }
 .conversation .message[data-url] a {
