@@ -223,8 +223,9 @@ function processConversations() {
       lineDiv.classList.add('message');
       
         let messageDiv = document.createElement('span');
-        lineDiv.setAttribute('data-name', line.includes(separator) ? line.trim().substring(0,line.indexOf(separator)).trim() : prevName); // if line has no sender, use previous
-		prevName = lineDiv.getAttribute('data-name');
+	if(!isSystem) // for non-system, if line has no sender, use previous
+		lineDiv.setAttribute('data-name', line.includes(separator) ? line.trim().substring(0,line.indexOf(separator)).trim() : prevName);
+	prevName = lineDiv.getAttribute('data-name');
         if(converse.getAttribute('data-sender') != null) {
           if(converse.getAttribute('data-sender').toLowerCase() == lineDiv.getAttribute('data-name').toLowerCase())
             lineDiv.setAttribute('data-sender', '');
