@@ -241,6 +241,7 @@ function processConversations() {
 	if(isSystem)
 	     messageDiv.innerText =  line.trim();
 	if(isUrl) {
+	     messageDiv.innerText =  '';
 	     let messageImg = document.createElement('img');
 		messageImg.src = line.trim();
 		messageImg.onerror = "event.target.closest('.message')?.innerText=line.trim();event.target.remove();";
