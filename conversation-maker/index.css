@@ -86,7 +86,7 @@ a:hover {
 }
 .conversation .messages {
 	background-color: var(--secondary);
-	height: min(45em, 500px);
+	height: min(45em, 380px);
     overflow-y: auto;
 	position: relative;
 }
