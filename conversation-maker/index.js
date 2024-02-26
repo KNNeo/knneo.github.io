@@ -43,6 +43,8 @@ function showEditor() {
 	if(conversation.id) {
 		document.querySelector('#'+conversation.id+' .editor').classList.remove('hidden');
 		updateSenderOptions(conversation);
+		let sender = conversation.querySelector('.messages').getAttribute('data-sender');
+		conversation.querySelector('.sender option[value=' + sender + ']').selected = sender;
 	}
 	disableRunMessages(conversation);
 	document.querySelector('#'+conversation.id+' .messages').innerHTML = '';
@@ -196,7 +198,6 @@ function readFromLocalStorage() {
 			if(item.sender) { // sender input
 				conversation.querySelector('.messages').setAttribute('data-sender', item.sender);
 				updateSenderOptions(conversation);
-				conversation.querySelector('.sender').value = item.sender;
 			}
 		}
 	}
@@ -254,8 +255,10 @@ function processConversations() {
 		
 	     let messageImg = document.createElement('img');
 	     messageImg.src = line.trim();
+	     messageImg.alt = '';
 	     messageImg.setAttribute('onload', "event.target.previousElementSibling.remove();");
 	     messageImg.setAttribute('onerror', "event.target.remove();");
+	     messageImg.setAttribute('oncontextmenu', "return false;");
 	     messageDiv.appendChild(messageImg);
 	}
         lineDiv.appendChild(messageDiv);
