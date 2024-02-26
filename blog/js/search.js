@@ -22,7 +22,7 @@ function showSearch() {
 
 function onSearchKeyUp() {
 	// console.log(event.keyCode);
-	if (event.keyCode === 13) // "Enter" key
+	if (event.key === 'Enter') // "Enter" key
 	{
 		let inputVal = event.target.value.toLowerCase();
 		let indexesKeys = Object.keys(searchIndex.indexes).filter(k => inputVal.toLowerCase().split(' ').includes(k));
@@ -65,11 +65,26 @@ function onSearchKeyUp() {
 		
 		event.target.blur();
 	}
-	if (event.keyCode === 27) // "Escape" key
+	if (event.key === 'Escape') // "Escape" key
 	{
 		document.querySelector('.input-result').innerHTML = '';
 		event.target.value = '';
 	}
+	if (window['ctrled'] && event.key.toLowerCase === 'a') // "Ctrl+A" keys
+	{
+		document.querySelector('.search-input').focus();
+		document.querySelector('.search-input').select();
+	}
+}
+
+function onSearchKeyDown() {
+	// console.log(event.keyCode);
+	// ctrl: combine with a to select all
+	if (event.key === 'Control') {
+		event.preventDefault();
+		window['ctrled'] = true;
+	}
+	return false;
 }
 
 function showResults(posts) {
