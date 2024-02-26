@@ -191,9 +191,9 @@ pre {
   display: none;
 }
 </style>
+
 <h4 style="text-align: center;">COMPONENTS</h4>
 <hr>
-
 <style>
 .popup {
   display: inline;
@@ -1605,38 +1605,88 @@ function addScales() {
 <button onclick="document.querySelector('#conversation-style').classList.toggle('hidden')">Show CSS</button>
 <button onclick="document.querySelector('#conversation-script').classList.toggle('hidden')">Show JS</button>
 <pre id="conversation-style" class="hidden">
-.conversation {
-  font-size: 0.9em;
+.conversation a {
+    display: inline-block;
+	padding: 12px 6px;
+	font-size: 1.2em;
+}
+.conversation .messages {
+	background-color: var(--secondary);
+    height: min(100dvh - 350px, 35em);
+    overflow-y: auto;
+	position: relative;
+    resize: vertical;
+}
+.conversation .messages[data-running]::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+.conversation .messages::-webkit-scrollbar {
+	display: none; /* Chrome, Safari and Opera */
+}
+.conversation .messages {
+	-ms-overflow-style: none;  /* IE and Edge */
+	scrollbar-width: none;  /* Firefox */
 }
 .conversation .message {
-  display: flex;
-  align-items: center;
-  opacity: 1;
+	display: flex;
+	align-items: center;
+	opacity: 1;
+    padding: 0 8px 4px;
 }
 .conversation .message.hide {
-  opacity: 0;
+	opacity: 0;
 }
 .conversation .message span {
-  margin: 8px;
-  padding: 6px;
-  background-color: var(--accent);
-  border-radius: 8px 8px 8px 0;
-  text-align: left;
+	margin: 8px;
+	padding: 6px;
+	background-color: var(--accent);
+	border-radius: 10px 10px 10px 0;
+	text-align: left;
+}
+.conversation .message[data-system] {
+	justify-content: center;
 }
 .conversation .message[data-sender] {
-  justify-content: flex-end;
+	justify-content: flex-end;
 }
 .conversation .message[data-name]::before {
-  content: attr(data-name);
+	content: attr(data-name);
+    white-space: nowrap;
 }
 .conversation .message[data-sender] span {
-  background-color: var(--secondary);
-  border-radius: 8px 8px 0 8px;
+	background-color: var(--secondary);
+	border-radius: 8px 8px 0 8px;
+}
+.conversation .message[data-system] span {
+	background-color: var(--secondary);
+}
+.conversation .message[data-url]:has(img) span {
+	width: min(20em, 60%);
+    line-height: 0;
+}
+.conversation .message[data-url] a {
+	font-weight: normal;
+	text-decoration: underline;
+	font-size: small;
+	overflow-wrap: anywhere;
+    line-height: 0;
+}
+.conversation .message[data-url] a:hover {
+	color: var(--background);
+}
+.conversation .message[data-url] img {
+	width: 100%;
+	border-radius: 4px;
 }
 .conversation .footer {
-  font-size: 2em;
-  justify-content: center;
-  cursor: pointer;
+	font-size: 2em;
+	justify-content: center;
+	cursor: pointer;
 }
 </pre>
 <pre id="conversation-script" class="hidden">
@@ -1645,22 +1695,56 @@ function processConversations() {
   for(let converse of document.querySelectorAll('.conversation'))
   {
     let separator = converse.getAttribute('data-separator') || ':';
+    let systemMessagePrefix = '===';
     let lines = converse.innerText.split('\n');
-    converse.innerHTML = '';
+	if(lines.length &lt; 2) {
+		converse.innerHTML = 'Click on Editor to create a conversation list';
+		continue;
+	}
+    else converse.innerHTML = '';
+	
+	let prevName = '';
     for(let line of lines)
     {
+	  let isSystem = line.startsWith(systemMessagePrefix) &amp;&amp; line.endsWith(systemMessagePrefix);
+	  let isUrl = line.startsWith('https://') || line.startsWith('http://');
       let lineDiv = document.createElement('div');
       lineDiv.classList.add('message');
       
         let messageDiv = document.createElement('span');
-        lineDiv.setAttribute('data-name', line.trim().substring(0,line.indexOf(separator)).trim());
+	if(!isSystem) // for non-system, if line has no sender, use previous
+		lineDiv.setAttribute('data-name', !isUrl &amp;&amp; line.includes(separator) ? line.trim().substring(0,line.indexOf(separator)).trim() : prevName);
+	prevName = lineDiv.getAttribute('data-name');
         if(converse.getAttribute('data-sender') != null) {
+	  if (isSystem)
+	    lineDiv.setAttribute('data-system', '');
+	  else {
+		  if (isUrl)
+	    lineDiv.setAttribute('data-url', '');
           if(converse.getAttribute('data-sender').toLowerCase() == lineDiv.getAttribute('data-name').toLowerCase())
             lineDiv.setAttribute('data-sender', '');
           else
             lineDiv.setAttribute('data-recipient', '');
+	  }
         }
-        messageDiv.innerText = line.substring(line.trim().indexOf(separator)+1).trim();
+        messageDiv.innerText = line.trim().substring(line.indexOf(separator)+1).trim();
+	if(isSystem)
+	     messageDiv.innerText =  line.trim();
+	if(isUrl) {
+	     messageDiv.innerHTML =  '';
+	     let messageLink = document.createElement('a');
+	     messageLink.href = line.trim();
+	     messageLink.innerText =  line.trim();
+	     messageDiv.appendChild(messageLink);
+		
+	     let messageImg = document.createElement('img');
+	     messageImg.src = line.trim();
+	     messageImg.alt = '';
+	     messageImg.setAttribute('onload', "event.target.previousElementSibling.remove();");
+	     messageImg.setAttribute('onerror', "event.target.remove();");
+	     messageImg.setAttribute('oncontextmenu', "return false;");
+	     messageDiv.appendChild(messageImg);
+	}
         lineDiv.appendChild(messageDiv);
       
       converse.appendChild(lineDiv);
@@ -1669,46 +1753,78 @@ function processConversations() {
       let footer = document.createElement('div');
       footer.className = 'footer message';
       footer.innerText = '🔁';
+	  footer.title = 'Replay Conversation';
       footer.setAttribute('onclick', "animateConversation(this.closest('.conversation'))");
       converse.appendChild(footer);
     }
   }
 }
 
-function animateConversation(converse) {
-  let lines = Array.from(converse.querySelectorAll('.message'));
-  if(lines.filter(l => l.classList.contains('hide')).length > 0) return;
-  for(let line of lines)
-  {
-    line.classList.add('hide');
-  }
-  for(let l = 0; l &lt; lines.length; l++)
-  {
-    setTimeout(function() {
-      lines[l].classList.remove('hide');
-      let heightAboveItem = l-1 > 0 ? lines.slice(0,l-1).reduce(function(total, current, index) {
-        return total + current.getBoundingClientRect().height;
-      }, 0) : 0;
-      let currentHeight = lines[l].getBoundingClientRect().height;
-	  let diff = heightAboveItem + 2*currentHeight - converse.clientHeight; // delta to fix item height rounding
-      if(diff > 0) {
-	    if(diff &lt; currentHeight) // fix container height wrt to message height
-          converse.scrollBy({ top: diff, behavior: 'smooth' });
-		else
-		  converse.scrollBy({ top: currentHeight, behavior: 'smooth' });
-      }
-      else 
-        converse.scrollTo({ top: 0, behavior: 'smooth' });
-    }, l*1500);
-  }
+function animateConversation() {
+	let conversation = event.target.closest('.conversation');
+	allowRunMessages(conversation);
+	
+	// read lines
+	let lines = conversation.querySelectorAll('.message');
+	if(Array.from(lines).filter(l => l.classList.contains('hide')).length > 0) return;
+	for(let line of lines)
+	{
+		line.classList.add('hide');
+	}
+	// set timing to display and scroll
+	for(let l = 0; l &lt; lines.length; l++)
+	{
+		setTimeout(function() {
+			if(conversation.getAttribute('data-running') != null) {
+				if(window.ping &amp;&amp; !lines[l].classList.contains('footer') &amp;&amp; lines[l].getAttribute('data-system') == null) // play sound effect on each message
+					sfxAudio.play();
+				if(lines[l].classList.contains('footer'))
+					disableRunMessages(conversation);
+				lines[l].classList.remove('hide');
+				let heightAboveItem = Array.from(lines).slice(0,l).reduce(function(total, current, index) {
+					return total + current.getBoundingClientRect().height;
+				}, 0);
+				let currentHeight = lines[l].getBoundingClientRect().height;
+				let diff = heightAboveItem + currentHeight - conversation.clientHeight; // delta to fix item height rounding
+				// console.log(heightAboveItem + currentHeight, conversation.clientHeight);
+				if(diff > 0) {
+					if(diff &lt; currentHeight) // newest message is not aligned to bottom of container
+						conversation.scrollBy({ top: diff, behavior: 'smooth' });
+					else
+						conversation.scrollBy({ top: currentHeight, behavior: 'smooth' });
+				}
+				else // newest message is not at or beyond bottom of container
+					conversation.scrollTo({ top: 0, behavior: 'smooth' });
+			}
+		}, l*2000);
+	}
 }
+
+function allowRunMessages(conversation) {
+	// set status
+	conversation.setAttribute('data-running', '');
+	// disable scroll capture
+	conversation.setAttribute('onwheel', 'event.preventDefault()');
+	conversation.setAttribute('onmousewheel', 'event.preventDefault()');
+	conversation.setAttribute('ontouchstart', 'event.preventDefault()');	
+}
+
+function disableRunMessages(conversation) {
+	// remove status
+	conversation.removeAttribute('data-running');
+	// remove scroll capture
+	conversation.removeAttribute('onwheel');
+	conversation.removeAttribute('onmousewheel');
+	conversation.removeAttribute('ontouchstart');
+}
+
 </pre>
 <script id="accordion-loader">
 css = document.createElement('style');
 css.innerHTML = document.querySelector('#conversation-style').innerHTML;
 document.body.appendChild(css);
 js = document.createElement('script');
-js.innerHTML = document.querySelector('#conversation-script').innerHTML.replace(/&lt;/g,'<').replace(/&gt;/g,'>');
+js.innerHTML = document.querySelector('#conversation-script').innerHTML.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');
 document.body.appendChild(js);
 </script>
 <pre id="conversation-tag">
