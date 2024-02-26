@@ -138,6 +138,16 @@ a:hover {
 .conversation .message[data-system] span {
 	background-color: var(--secondary);
 }
+.conversation .message[data-url] a {
+	font-weight: normal;
+	text-decoration: underline;
+}
+.conversation .message[data-url] a:hover {
+	color: var(--background);
+}
+.conversation .message[data-url] img {
+	width: 50%;
+}
 .conversation .footer {
 	font-size: 2em;
 	justify-content: center;
