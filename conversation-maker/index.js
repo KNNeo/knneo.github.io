@@ -230,12 +230,14 @@ function processConversations() {
         if(converse.getAttribute('data-sender') != null) {
 	  if (isSystem)
 	    lineDiv.setAttribute('data-system', '');
-	  else if (isUrl)
+	  else {
+		  if (isUrl)
 	    lineDiv.setAttribute('data-url', '');
-          else if(converse.getAttribute('data-sender').toLowerCase() == lineDiv.getAttribute('data-name').toLowerCase())
+          if(converse.getAttribute('data-sender').toLowerCase() == lineDiv.getAttribute('data-name').toLowerCase())
             lineDiv.setAttribute('data-sender', '');
           else
             lineDiv.setAttribute('data-recipient', '');
+	  }
         }
         messageDiv.innerText = line.trim().substring(line.indexOf(separator)+1).trim();
 	if(isSystem)
