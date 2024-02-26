@@ -121,6 +121,10 @@ a:hover {
 	border-radius: 8px 8px 8px 0;
 	text-align: left;
 }
+.conversation .message[data-system] {
+	justify-content: center;
+	background-color: var(--secondary);
+}
 .conversation .message[data-sender] {
 	justify-content: flex-end;
 }
