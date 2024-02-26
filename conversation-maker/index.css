@@ -86,7 +86,7 @@ a:hover {
 }
 .conversation .messages {
 	background-color: var(--secondary);
-	height: min(45em, 500px);
+	height: min(45em, 380px);
     overflow-y: auto;
 	position: relative;
 }
@@ -121,6 +121,9 @@ a:hover {
 	border-radius: 8px 8px 8px 0;
 	text-align: left;
 }
+.conversation .message[data-system] {
+	justify-content: center;
+}
 .conversation .message[data-sender] {
 	justify-content: flex-end;
 }
@@ -131,6 +134,25 @@ a:hover {
 .conversation .message[data-sender] span {
 	background-color: var(--primary);
 	border-radius: 8px 8px 0 8px;
+}
+.conversation .message[data-system] span {
+	background-color: var(--secondary);
+}
+.conversation .message[data-url]:has(img) span {
+	width: 50%;
+}
+.conversation .message[data-url] a {
+	font-weight: normal;
+	text-decoration: underline;
+	font-size: small;
+	overflow-wrap: anywhere;
+	line-height: 1;
+}
+.conversation .message[data-url] a:hover {
+	color: var(--background);
+}
+.conversation .message[data-url] img {
+	width: 100%;
 }
 .conversation .footer {
 	font-size: 2em;

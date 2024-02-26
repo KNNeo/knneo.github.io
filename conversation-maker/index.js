@@ -57,13 +57,14 @@ function updateEditor() {
 
 function updateSenderOptions(conversation) {
 	let selection = conversation.querySelector('.sender');
-    let separator = conversation.querySelector('.messages').getAttribute('data-separator') || ':';
+	let separator = conversation.querySelector('.messages').getAttribute('data-separator') || ':';
 	if(!window['conversation-messages'][conversation.id]) return;
-    let lines = (window['conversation-messages'][conversation.id]?.content || '').split('\n');
+	let lines = (window['conversation-messages'][conversation.id]?.content || '').split('\n');
 	if(!lines || lines.length < 2) return;
 	if(selection.childElementCount > 1) selection.innerHTML = '<option value="">=====</option>';
-	let senders = lines.reduce(function(total, current) {
-		let name = current.trim().substring(0,current.indexOf(separator)).trim();
+	let senders = lines.reduce(function(total, line) {
+		let isUrl = line.startsWith('https://') || line.startsWith('http://');
+		let name = isUrl ? '' : line.trim().substring(0,line.indexOf(separator)).trim();
 		if(name && !total.includes(name))
 			total.push(name);
 		return total;
@@ -194,6 +195,7 @@ function readFromLocalStorage() {
 			if(item.sender) { // sender input
 				conversation.querySelector('.messages').setAttribute('data-sender', item.sender);
 				updateSenderOptions(conversation);
+				conversation.querySelector('.sender').value = item.sender;
 			}
 		}
 	}
@@ -207,6 +209,7 @@ function processConversations() {
   for(let converse of document.querySelectorAll('.conversation .messages'))
   {
     let separator = converse.getAttribute('data-separator') || ':';
+    let systemMessagePrefix = '===';
     let lines = converse.innerText.split('\n');
 	if(lines.length < 2) {
 		converse.innerHTML = 'Click on Editor to create a conversation list';
@@ -217,19 +220,43 @@ function processConversations() {
 	let prevName = '';
     for(let line of lines)
     {
+	  let isSystem = line.startsWith(systemMessagePrefix) && line.endsWith(systemMessagePrefix);
+	  let isUrl = line.startsWith('https://') || line.startsWith('http://');
       let lineDiv = document.createElement('div');
       lineDiv.classList.add('message');
       
         let messageDiv = document.createElement('span');
-        lineDiv.setAttribute('data-name', line.includes(separator) ? line.trim().substring(0,line.indexOf(separator)).trim() : prevName); // if line has no sender, use previous
-		prevName = lineDiv.getAttribute('data-name');
+	if(!isSystem) // for non-system, if line has no sender, use previous
+		lineDiv.setAttribute('data-name', !isUrl && line.includes(separator) ? line.trim().substring(0,line.indexOf(separator)).trim() : prevName);
+	prevName = lineDiv.getAttribute('data-name');
         if(converse.getAttribute('data-sender') != null) {
+	  if (isSystem)
+	    lineDiv.setAttribute('data-system', '');
+	  else {
+		  if (isUrl)
+	    lineDiv.setAttribute('data-url', '');
           if(converse.getAttribute('data-sender').toLowerCase() == lineDiv.getAttribute('data-name').toLowerCase())
             lineDiv.setAttribute('data-sender', '');
           else
             lineDiv.setAttribute('data-recipient', '');
+	  }
         }
         messageDiv.innerText = line.trim().substring(line.indexOf(separator)+1).trim();
+	if(isSystem)
+	     messageDiv.innerText =  line.trim();
+	if(isUrl) {
+	     messageDiv.innerHTML =  '';
+	     let messageLink = document.createElement('a');
+	     messageLink.href = line.trim();
+	     messageLink.innerText =  line.trim();
+	     messageDiv.appendChild(messageLink);
+		
+	     let messageImg = document.createElement('img');
+	     messageImg.src = line.trim();
+	     messageImg.setAttribute('onload', "event.target.previousElementSibling.remove();");
+	     messageImg.setAttribute('onerror', "event.target.remove();");
+	     messageDiv.appendChild(messageImg);
+	}
         lineDiv.appendChild(messageDiv);
       
       converse.appendChild(lineDiv);
@@ -261,7 +288,7 @@ function animateConversation() {
 	{
 		setTimeout(function() {
 			if(conversation.getAttribute('data-running') != null) {
-				if(window.ping && !lines[l].classList.contains('footer')) // play sound effect on each message
+				if(window.ping && !lines[l].classList.contains('footer') && lines[l].getAttribute('data-system') == null) // play sound effect on each message
 					sfxAudio.play();
 				if(lines[l].classList.contains('footer'))
 					disableRunMessages(conversation);
@@ -270,7 +297,7 @@ function animateConversation() {
 					return total + current.getBoundingClientRect().height;
 				}, 0) : 0;
 				let currentHeight = lines[l].getBoundingClientRect().height;
-				let diff = heightAboveItem + 2*currentHeight - conversation.clientHeight; // delta to fix item height rounding
+				let diff = heightAboveItem + currentHeight - conversation.clientHeight; // delta to fix item height rounding
 				if(diff > 0) {
 					console.log(diff);
 					if(diff < currentHeight) // fix container height wrt to message height
