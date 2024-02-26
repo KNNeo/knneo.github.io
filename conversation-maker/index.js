@@ -251,7 +251,8 @@ function processConversations() {
 		
 	     let messageImg = document.createElement('img');
 	     messageImg.src = line.trim();
-	     messageImg.onerror = "event.target.closest('.message')?.innerText=line.trim();event.target.remove();";
+	     messageImg.setAttribute('onload', "event.target.previousElementSibling.remove();");
+	     messageImg.setAttribute('onerror', "event.target.remove();");
 	     messageDiv.appendChild(messageImg);
 	}
         lineDiv.appendChild(messageDiv);
