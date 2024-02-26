@@ -224,14 +224,14 @@ function processConversations() {
       lineDiv.classList.add('message');
       
         let messageDiv = document.createElement('span');
-	if(!isSystem) // for non-system, if line has no sender, use previous
+	if(!isSystem && !isUrl) // for non-system, if line has no sender, use previous
 		lineDiv.setAttribute('data-name', line.includes(separator) ? line.trim().substring(0,line.indexOf(separator)).trim() : prevName);
 	prevName = lineDiv.getAttribute('data-name');
         if(converse.getAttribute('data-sender') != null) {
 	  if (isSystem)
 	    lineDiv.setAttribute('data-system', '');
 	  else if (isUrl)
-	    lineDiv.setAttribute('data-image', '');
+	    lineDiv.setAttribute('data-url', '');
           else if(converse.getAttribute('data-sender').toLowerCase() == lineDiv.getAttribute('data-name').toLowerCase())
             lineDiv.setAttribute('data-sender', '');
           else
@@ -244,6 +244,7 @@ function processConversations() {
 	     messageDiv.innerHTML =  '';
 	     let messageLink = document.createElement('a');
 		messageLink.href = line.trim();
+	     messageLink.innerText =  line.trim();
 	     messageDiv.appendChild(messageLink);
 		
 	     let messageImg = document.createElement('img');
