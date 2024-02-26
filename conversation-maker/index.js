@@ -195,6 +195,7 @@ function readFromLocalStorage() {
 			if(item.sender) { // sender input
 				conversation.querySelector('.messages').setAttribute('data-sender', item.sender);
 				updateSenderOptions(conversation);
+				conversation.querySelector('.sender').value = item.sender;
 			}
 		}
 	}
@@ -298,7 +299,7 @@ function animateConversation() {
 				let currentHeight = lines[l].getBoundingClientRect().height;
 				let diff = heightAboveItem + 2*currentHeight - conversation.clientHeight; // delta to fix item height rounding
 				if(diff > 0) {
-					console.log(diff);
+					console.log(heightAboveItem, currentHeight, conversation.clientHeight);
 					if(diff < currentHeight) // fix container height wrt to message height
 						conversation.scrollBy({ top: diff, behavior: 'smooth' });
 					else
