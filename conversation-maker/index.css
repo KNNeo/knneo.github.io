@@ -74,7 +74,7 @@ a:hover {
 }
 .conversation .messages {
 	background-color: var(--secondary);
-	height: min(45em, 380px);
+    height: min(100dvh - 350px, 35em);
     overflow-y: auto;
 	position: relative;
     resize: vertical;
@@ -98,7 +98,7 @@ a:hover {
 	display: flex;
 	align-items: center;
 	opacity: 1;
-	padding: 0 8px 8px;
+    padding: 0 8px 4px;
 }
 .conversation .message.hide {
 	opacity: 0;
@@ -107,7 +107,7 @@ a:hover {
 	margin: 8px;
 	padding: 6px;
 	background-color: var(--accent);
-	border-radius: 8px 8px 8px 0;
+	border-radius: 10px 10px 10px 0;
 	text-align: left;
 }
 .conversation .message[data-system] {
@@ -128,7 +128,8 @@ a:hover {
 	background-color: var(--secondary);
 }
 .conversation .message[data-url]:has(img) span {
-	width: 50%;
+	width: min(20em, 60%);
+    line-height: 0;
 }
 .conversation .message[data-url] a {
 	font-weight: normal;
@@ -142,6 +143,7 @@ a:hover {
 }
 .conversation .message[data-url] img {
 	width: 100%;
+	border-radius: 4px;
 }
 .conversation .footer {
 	font-size: 2em;
