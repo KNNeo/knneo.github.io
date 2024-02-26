@@ -297,7 +297,7 @@ function animateConversation() {
 					return total + current.getBoundingClientRect().height;
 				}, 0) : 0;
 				let currentHeight = lines[l].getBoundingClientRect().height;
-				let diff = heightAboveItem + 2*currentHeight - conversation.clientHeight; // delta to fix item height rounding
+				let diff = heightAboveItem + currentHeight - conversation.clientHeight; // delta to fix item height rounding
 				if(diff > 0) {
 					console.log(heightAboveItem, currentHeight, conversation.clientHeight);
 					if(diff < currentHeight) // fix container height wrt to message height
