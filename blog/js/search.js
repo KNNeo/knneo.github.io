@@ -5,6 +5,7 @@ function showSearch() {
 	search.classList.add('search-input');
 	search.style.fontSize = '1em';
 	search.setAttribute('onkeyup', 'onSearchKeyUp()');
+	search.closest('.dialog').setAttribute('onkeydown', 'onSearchKeyDown()');
 	searchContainer.appendChild(search);
 	
 	let closeBtn = document.createElement('button');
