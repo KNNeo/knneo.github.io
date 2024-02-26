@@ -123,7 +123,6 @@ a:hover {
 }
 .conversation .message[data-system] {
 	justify-content: center;
-	background-color: var(--secondary);
 }
 .conversation .message[data-sender] {
 	justify-content: flex-end;
@@ -135,6 +134,9 @@ a:hover {
 .conversation .message[data-sender] span {
 	background-color: var(--primary);
 	border-radius: 8px 8px 0 8px;
+}
+.conversation .message[data-system] span {
+	background-color: var(--secondary);
 }
 .conversation .footer {
 	font-size: 2em;
