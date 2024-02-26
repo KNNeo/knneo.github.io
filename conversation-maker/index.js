@@ -45,6 +45,7 @@ function showEditor() {
 		updateSenderOptions(conversation);
 	}
 	disableRunMessages(conversation);
+	document.querySelector('#'+conversation.id+' .messages').innerHTML = '';
 }
 
 function updateEditor() {
@@ -277,8 +278,8 @@ function animateConversation() {
 	allowRunMessages(conversation);
 	
 	// read lines
-	let lines = Array.from(conversation.querySelectorAll('.message'));
-	if(lines.filter(l => l.classList.contains('hide')).length > 0) return;
+	let lines = conversation.querySelectorAll('.message');
+	if(Array.from(lines).filter(l => l.classList.contains('hide')).length > 0) return;
 	for(let line of lines)
 	{
 		line.classList.add('hide');
@@ -293,19 +294,19 @@ function animateConversation() {
 				if(lines[l].classList.contains('footer'))
 					disableRunMessages(conversation);
 				lines[l].classList.remove('hide');
-				let heightAboveItem = l-1 > 0 ? lines.slice(0,l-1).reduce(function(total, current, index) {
+				let heightAboveItem = Array.from(lines).slice(0,l).reduce(function(total, current, index) {
 					return total + current.getBoundingClientRect().height;
-				}, 0) : 0;
+				}, 0);
 				let currentHeight = lines[l].getBoundingClientRect().height;
 				let diff = heightAboveItem + currentHeight - conversation.clientHeight; // delta to fix item height rounding
+				// console.log(heightAboveItem + currentHeight, conversation.clientHeight);
 				if(diff > 0) {
-					console.log(diff);
-					if(diff < currentHeight) // fix container height wrt to message height
+					if(diff < currentHeight) // newest message is not aligned to bottom of container
 						conversation.scrollBy({ top: diff, behavior: 'smooth' });
 					else
 						conversation.scrollBy({ top: currentHeight, behavior: 'smooth' });
 				}
-				else 
+				else // newest message is not at or beyond bottom of container
 					conversation.scrollTo({ top: 0, behavior: 'smooth' });
 			}
 		}, l*2000);
