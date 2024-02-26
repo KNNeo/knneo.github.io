@@ -207,6 +207,7 @@ function processConversations() {
   for(let converse of document.querySelectorAll('.conversation .messages'))
   {
     let separator = converse.getAttribute('data-separator') || ':';
+    let systemMessagePrefix = '===';
     let lines = converse.innerText.split('\n');
 	if(lines.length < 2) {
 		converse.innerHTML = 'Click on Editor to create a conversation list';
@@ -217,6 +218,7 @@ function processConversations() {
 	let prevName = '';
     for(let line of lines)
     {
+	  let isSystem = line.startsWith(systemMessagePrefix) && line.endsWith(systemMessagePrefix);
       let lineDiv = document.createElement('div');
       lineDiv.classList.add('message');
       
@@ -226,10 +228,12 @@ function processConversations() {
         if(converse.getAttribute('data-sender') != null) {
           if(converse.getAttribute('data-sender').toLowerCase() == lineDiv.getAttribute('data-name').toLowerCase())
             lineDiv.setAttribute('data-sender', '');
+		  else if (isSystem)
+		    lineDiv.setAttribute('data-system', '');
           else
             lineDiv.setAttribute('data-recipient', '');
         }
-        messageDiv.innerText = line.trim().substring(line.indexOf(separator)+1).trim();
+        messageDiv.innerText = isSystem ? line.trim() : line.trim().substring(line.indexOf(separator)+1).trim();
         lineDiv.appendChild(messageDiv);
       
       converse.appendChild(lineDiv);
