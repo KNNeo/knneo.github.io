@@ -57,13 +57,14 @@ function updateEditor() {
 
 function updateSenderOptions(conversation) {
 	let selection = conversation.querySelector('.sender');
-    let separator = conversation.querySelector('.messages').getAttribute('data-separator') || ':';
+	let separator = conversation.querySelector('.messages').getAttribute('data-separator') || ':';
 	if(!window['conversation-messages'][conversation.id]) return;
-    let lines = (window['conversation-messages'][conversation.id]?.content || '').split('\n');
+	let lines = (window['conversation-messages'][conversation.id]?.content || '').split('\n');
 	if(!lines || lines.length < 2) return;
 	if(selection.childElementCount > 1) selection.innerHTML = '<option value="">=====</option>';
-	let senders = lines.reduce(function(total, current) {
-		let name = current.trim().substring(0,current.indexOf(separator)).trim();
+	let senders = lines.reduce(function(total, line) {
+		let isUrl = line.startsWith('https://') || line.startsWith('http://');
+		let name = isUrl ? '' : line.trim().substring(0,line.indexOf(separator)).trim();
 		if(name && !total.includes(name))
 			total.push(name);
 		return total;
