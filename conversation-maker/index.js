@@ -219,6 +219,7 @@ function processConversations() {
     for(let line of lines)
     {
 	  let isSystem = line.startsWith(systemMessagePrefix) && line.endsWith(systemMessagePrefix);
+	  let isUrl = line.startsWith('https://') || line.startsWith('http://');
       let lineDiv = document.createElement('div');
       lineDiv.classList.add('message');
       
@@ -229,12 +230,22 @@ function processConversations() {
         if(converse.getAttribute('data-sender') != null) {
 	  if (isSystem)
 	    lineDiv.setAttribute('data-system', '');
+	  else if (isUrl)
+	    lineDiv.setAttribute('data-image', '');
           else if(converse.getAttribute('data-sender').toLowerCase() == lineDiv.getAttribute('data-name').toLowerCase())
             lineDiv.setAttribute('data-sender', '');
           else
             lineDiv.setAttribute('data-recipient', '');
         }
-        messageDiv.innerText = isSystem ? line.trim() : line.trim().substring(line.indexOf(separator)+1).trim();
+        messageDiv.innerText = line.trim().substring(line.indexOf(separator)+1).trim();
+	if(isSystem)
+	     messageDiv.innerText =  line.trim();
+	if(isUrl) {
+	     let messageImg = document.createElement('img');
+		messageImg.src = line.trim();
+		messageImg.onerror = "event.target.closest('.message')?.innerText=line.trim();event.target.remove();";
+	     messageDiv.appendChild(messageImg);
+	}
         lineDiv.appendChild(messageDiv);
       
       converse.appendChild(lineDiv);
