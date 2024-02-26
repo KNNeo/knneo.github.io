@@ -5,7 +5,6 @@ function showSearch() {
 	search.classList.add('search-input');
 	search.style.fontSize = '1em';
 	search.setAttribute('onkeyup', 'onSearchKeyUp()');
-	search.closest('.dialog').setAttribute('onkeydown', 'onSearchKeyDown()');
 	searchContainer.appendChild(search);
 	
 	let closeBtn = document.createElement('button');
@@ -19,6 +18,7 @@ function showSearch() {
 	searchContainer.appendChild(results);
 	
 	popupText(searchContainer);
+	document.body.setAttribute('onkeydown', 'onSearchKeyDown()');
 }
 
 function onSearchKeyUp() {
@@ -73,8 +73,8 @@ function onSearchKeyUp() {
 	}
 	if (window['ctrled'] && event.key.toLowerCase === 'a') // "Ctrl+A" keys
 	{
-		document.querySelector('.search-input').focus();
-		document.querySelector('.search-input').select();
+		document.querySelector('.search-input')?.focus();
+		document.querySelector('.search-input')?.select();
 	}
 }
 
