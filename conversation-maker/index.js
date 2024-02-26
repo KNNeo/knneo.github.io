@@ -227,10 +227,10 @@ function processConversations() {
 		lineDiv.setAttribute('data-name', line.includes(separator) ? line.trim().substring(0,line.indexOf(separator)).trim() : prevName);
 	prevName = lineDiv.getAttribute('data-name');
         if(converse.getAttribute('data-sender') != null) {
-          if(converse.getAttribute('data-sender').toLowerCase() == lineDiv.getAttribute('data-name').toLowerCase())
+	  if (isSystem)
+	    lineDiv.setAttribute('data-system', '');
+          else if(converse.getAttribute('data-sender').toLowerCase() == lineDiv.getAttribute('data-name').toLowerCase())
             lineDiv.setAttribute('data-sender', '');
-		  else if (isSystem)
-		    lineDiv.setAttribute('data-system', '');
           else
             lineDiv.setAttribute('data-recipient', '');
         }
