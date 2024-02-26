@@ -287,7 +287,7 @@ function animateConversation() {
 	{
 		setTimeout(function() {
 			if(conversation.getAttribute('data-running') != null) {
-				if(window.ping && !lines[l].classList.contains('footer')) // play sound effect on each message
+				if(window.ping && !lines[l].classList.contains('footer') && lines[l].getAttribute('data-system') == null) // play sound effect on each message
 					sfxAudio.play();
 				if(lines[l].classList.contains('footer'))
 					disableRunMessages(conversation);
