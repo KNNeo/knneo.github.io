@@ -138,15 +138,17 @@ a:hover {
 .conversation .message[data-system] span {
 	background-color: var(--secondary);
 }
+.conversation .message[data-url] span {
+	width: 50%;
+}
 .conversation .message[data-url] a {
 	font-weight: normal;
 	text-decoration: underline;
+	font-size: small;
+	overflow-wrap: anywhere;
 }
 .conversation .message[data-url] a:hover {
 	color: var(--background);
-}
-.conversation .message[data-url] img {
-	width: 50%;
 }
 .conversation .footer {
 	font-size: 2em;
