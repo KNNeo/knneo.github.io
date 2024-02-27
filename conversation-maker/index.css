@@ -146,7 +146,7 @@ a:hover {
 	border-radius: 4px;
 }
 .conversation .message .reactions {
-	line-height: 2;
+    line-height: 0.5;
 }
 .conversation .footer {
 	font-size: 2em;
