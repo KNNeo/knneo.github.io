@@ -226,7 +226,7 @@ function processConversations() {
 	  let isUrl = line.startsWith('https://') || line.startsWith('http://');
       let lineDiv = document.createElement('div');
       lineDiv.classList.add('message');
-	  lineDiv.setAttribute('onclick', showReactions);
+	  lineDiv.setAttribute('onclick', 'showReactions()');
       
         let messageDiv = document.createElement('span');
 	if(!isSystem) // for non-system, if line has no sender, use previous
