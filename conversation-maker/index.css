@@ -136,7 +136,7 @@ a:hover {
 	text-decoration: underline;
 	font-size: small;
 	overflow-wrap: anywhere;
-    line-height: 0;
+    line-height: 1;
 }
 .conversation .message[data-url] a:hover {
 	color: var(--background);
@@ -144,6 +144,9 @@ a:hover {
 .conversation .message[data-url] img {
 	width: 100%;
 	border-radius: 4px;
+}
+.conversation .message .reactions {
+	line-height: 2;
 }
 .conversation .footer {
 	font-size: 2em;

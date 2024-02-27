@@ -295,9 +295,7 @@ function setReaction() {
 	if(message.querySelector('.reactions') != null) {
 		message.querySelector('.reactions').innerHTML = '';	
 	}
-	let reaction = document.createElement('div');
-	reaction.title = event.target.title;
-	reaction.innerText = event.target.innerText;
+	let reaction = event.target.cloneNode(true);
 	reaction.setAttribute('onclick', 'event.target.remove()');
 	message.querySelector('.reactions').appendChild(reaction);
 }
