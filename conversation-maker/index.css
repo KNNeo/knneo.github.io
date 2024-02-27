@@ -136,7 +136,7 @@ a:hover {
 	text-decoration: underline;
 	font-size: small;
 	overflow-wrap: anywhere;
-    line-height: 1;
+    line-height: 0;
 }
 .conversation .message[data-url] a:not(.reaction):hover {
 	color: var(--background);
