@@ -228,7 +228,8 @@ function processConversations() {
       lineDiv.classList.add('message');
 	  lineDiv.setAttribute('onclick', 'showReactions()');
       
-        let messageDiv = document.createElement('span');
+        let messageDiv = document.createElement('div');
+        let messageText = document.createElement('span');
 	if(!isSystem) // for non-system, if line has no sender, use previous
 		lineDiv.setAttribute('data-name', !isUrl && line.includes(separator) ? line.trim().substring(0,line.indexOf(separator)).trim() : prevName);
 	prevName = lineDiv.getAttribute('data-name');
@@ -244,9 +245,10 @@ function processConversations() {
             lineDiv.setAttribute('data-recipient', '');
 	  }
         }
-        messageDiv.innerText = line.trim().substring(line.indexOf(separator)+1).trim();
+        messageText.innerText = line.trim().substring(line.indexOf(separator)+1).trim();
 	if(isSystem)
-	     messageDiv.innerText =  line.trim();
+		messageText.innerText =  line.trim();
+	messageDiv.appendChild(messageText);
 	if(isUrl) {
 	     messageDiv.innerHTML =  '';
 	     let messageLink = document.createElement('a');
@@ -293,6 +295,7 @@ function setReaction() {
 		message.querySelector('.reactions').innerHTML = '';	
 	}
 	let reaction = document.createElement('div');
+	reaction.title = event.target.title;
 	reaction.innerText = event.target.innerText;
 	reaction.setAttribute('onclick', 'event.target.remove()');
 	message.querySelector('.reactions').appendChild(reaction);
