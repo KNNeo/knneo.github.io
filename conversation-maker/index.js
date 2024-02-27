@@ -229,6 +229,7 @@ function processConversations() {
 	  lineDiv.setAttribute('onclick', 'showReactions()');
       
         let messageDiv = document.createElement('div');
+		messageDiv.classList.add('container');
         let messageText = document.createElement('span');
 	if(!isSystem) // for non-system, if line has no sender, use previous
 		lineDiv.setAttribute('data-name', !isUrl && line.includes(separator) ? line.trim().substring(0,line.indexOf(separator)).trim() : prevName);
