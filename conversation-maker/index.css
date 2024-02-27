@@ -103,7 +103,7 @@ a:hover {
 .conversation .message.hide {
 	opacity: 0;
 }
-.conversation .message span {
+.conversation .message .container {
 	margin: 8px;
 	padding: 6px;
 	background-color: var(--accent);
@@ -120,30 +120,33 @@ a:hover {
 	content: attr(data-name);
     white-space: nowrap;
 }
-.conversation .message[data-sender] span {
+.conversation .message[data-sender] .container {
 	background-color: var(--primary);
 	border-radius: 8px 8px 0 8px;
 }
-.conversation .message[data-system] span {
+.conversation .message[data-system] .container {
 	background-color: var(--secondary);
 }
-.conversation .message[data-url]:has(img) span {
+.conversation .message[data-url]:has(img) .container {
 	width: min(20em, 60%);
     line-height: 0;
 }
-.conversation .message[data-url] a {
+.conversation .message[data-url] a:not(.reaction) {
 	font-weight: normal;
 	text-decoration: underline;
 	font-size: small;
 	overflow-wrap: anywhere;
     line-height: 0;
 }
-.conversation .message[data-url] a:hover {
+.conversation .message[data-url] a:not(.reaction):hover {
 	color: var(--background);
 }
 .conversation .message[data-url] img {
 	width: 100%;
 	border-radius: 4px;
+}
+.conversation .message .reactions {
+    line-height: 0.5;
 }
 .conversation .footer {
 	font-size: 2em;

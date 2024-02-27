@@ -107,7 +107,7 @@ function addConversation(name) {
 		newOpt.value = newId;		
 		selectionDiv.appendChild(newOpt);
 		
-		let template = document.querySelector('.template');
+		let template = document.querySelector('.template-message');
 		let conversation = template.content.cloneNode(true);
 		conversation.firstElementChild.id = newId;
 		document.querySelector('.container').appendChild(conversation);
@@ -226,8 +226,11 @@ function processConversations() {
 	  let isUrl = line.startsWith('https://') || line.startsWith('http://');
       let lineDiv = document.createElement('div');
       lineDiv.classList.add('message');
+	  lineDiv.setAttribute('onclick', 'showReactions()');
       
-        let messageDiv = document.createElement('span');
+        let messageDiv = document.createElement('div');
+		messageDiv.classList.add('container');
+        let messageText = document.createElement('span');
 	if(!isSystem) // for non-system, if line has no sender, use previous
 		lineDiv.setAttribute('data-name', !isUrl && line.includes(separator) ? line.trim().substring(0,line.indexOf(separator)).trim() : prevName);
 	prevName = lineDiv.getAttribute('data-name');
@@ -243,9 +246,10 @@ function processConversations() {
             lineDiv.setAttribute('data-recipient', '');
 	  }
         }
-        messageDiv.innerText = line.trim().substring(line.indexOf(separator)+1).trim();
+        messageText.innerText = line.trim().substring(line.indexOf(separator)+1).trim();
 	if(isSystem)
-	     messageDiv.innerText =  line.trim();
+		messageText.innerText =  line.trim();
+	messageDiv.appendChild(messageText);
 	if(isUrl) {
 	     messageDiv.innerHTML =  '';
 	     let messageLink = document.createElement('a');
@@ -274,6 +278,26 @@ function processConversations() {
       converse.appendChild(footer);
     }
   }
+}
+
+function showReactions() {
+	let message = event.target.closest('.message');
+	if(message.querySelector('.reactions') != null) {
+		message.querySelector('.reactions').remove();	
+	}
+	let template = document.querySelector('.template-reactions');
+	let reactions = template.content.cloneNode(true);
+	message.querySelector('div').appendChild(reactions);
+}
+
+function setReaction() {
+	let message = event.target.closest('.message');
+	if(message.querySelector('.reactions') != null) {
+		message.querySelector('.reactions').innerHTML = '';	
+	}
+	let reaction = event.target.cloneNode(true);
+	reaction.setAttribute('onclick', 'event.target.remove()');
+	message.querySelector('.reactions').appendChild(reaction);
 }
 
 function animateConversation() {

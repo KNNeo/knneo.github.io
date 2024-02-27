@@ -38,7 +38,7 @@
 		</h3>
 		<a class="home" href="../index.html">knneo.github.io</a>
 	</div>
-	<template class="template">
+	<template class="template-message">
 		<div class="conversation hidden" id="">
 			<a class="bi bi-chat-dots" href="javascript:void(0);" onclick="showMessages()" title="Show Conversation"> CONVERSATION</a>
 			<a class="bi bi-pencil" href="javascript:void(0);" onclick="showEditor()"title="Show Editor"> EDITOR</a>
@@ -52,6 +52,14 @@
 				<label for="separator">Separator:</label>
 				<input name="sender" class="separator" id="separator" placeholder=":" onchange="updateSeparator()"></input>
 			</div>
+		</div>
+	</template>
+	<template class="template-reactions">
+		<div class="reactions">
+			<a class="reaction" href="javascript:void(0);" onclick="setReaction()" title="Good">👍</a>
+			<a class="reaction" href="javascript:void(0);" onclick="setReaction()"title="Love">❤️</a>
+			<a class="reaction" href="javascript:void(0);" onclick="setReaction()"title="Laughs">😂</a>
+			<a class="reaction" href="javascript:void(0);" onclick="setReaction()"title="Angry">😡</a>
 		</div>
 	</template>
 	<audio class="sfx hidden" src="data/pixelbay-happy-pop-2-185287-floraphonic.mp3"></audio>
