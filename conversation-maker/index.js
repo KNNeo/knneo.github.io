@@ -278,10 +278,11 @@ function processConversations() {
 }
 
 function showReactions() {
+	let message = event.target.closest('.message');
+	if(message.querySelector('.reactions') != null) return;
 	let template = document.querySelector('.template-reactions');
 	let reactions = template.content.cloneNode(true);
-	event.target.appendChild(reactions);
-
+	message.appendChild(reactions);
 }
 
 function animateConversation() {
