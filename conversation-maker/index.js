@@ -310,7 +310,7 @@ function animateConversation() {
 						conversation.scrollBy({ top: currentHeight, behavior: 'smooth' });
 				}
 				else // newest message is not at or beyond bottom of container
-					conversation.scrollTo({ top: 0, behavior: 'smooth' });
+					conversation.scrollTo({ top: 0 });
 			}
 		}, l*2000);
 	}
