@@ -107,7 +107,7 @@ function addConversation(name) {
 		newOpt.value = newId;		
 		selectionDiv.appendChild(newOpt);
 		
-		let template = document.querySelector('.template');
+		let template = document.querySelector('.template-message');
 		let conversation = template.content.cloneNode(true);
 		conversation.firstElementChild.id = newId;
 		document.querySelector('.container').appendChild(conversation);
@@ -226,6 +226,7 @@ function processConversations() {
 	  let isUrl = line.startsWith('https://') || line.startsWith('http://');
       let lineDiv = document.createElement('div');
       lineDiv.classList.add('message');
+	  lineDiv.setAttribute('onclick', showReactions);
       
         let messageDiv = document.createElement('span');
 	if(!isSystem) // for non-system, if line has no sender, use previous
@@ -274,6 +275,14 @@ function processConversations() {
       converse.appendChild(footer);
     }
   }
+}
+
+function showReactions() {
+	let template = document.querySelector('.template-reactions');
+	let reactions = template.content.cloneNode(true);
+	reactions.classList.remove('hidden');
+	event.target.appendChild(reactions);
+
 }
 
 function animateConversation() {
