@@ -290,12 +290,12 @@ function showReactions() {
 function setReaction() {
 	let message = event.target.closest('.message');
 	if(message.querySelector('.reactions') != null) {
-		message.querySelector('.reactions').remove();	
+		message.querySelector('.reactions').innerHTML = '';	
 	}
 	let reaction = document.createElement('div');
-	div.innerText = event.target.innerText;
-	div.setAttribute('onclick', 'event.target.remove()');
-	message.querySelector('span').appendChild(reaction);
+	reaction.innerText = event.target.innerText;
+	reaction.setAttribute('onclick', 'event.target.remove()');
+	message.querySelector('.reactions').appendChild(reaction);
 }
 
 function animateConversation() {
