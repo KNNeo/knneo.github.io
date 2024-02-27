@@ -286,7 +286,7 @@ function showReactions() {
 	}
 	let template = document.querySelector('.template-reactions');
 	let reactions = template.content.cloneNode(true);
-	message.querySelector('span').appendChild(reactions);
+	message.querySelector('div').appendChild(reactions);
 }
 
 function setReaction() {
