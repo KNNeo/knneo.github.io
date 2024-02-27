@@ -131,14 +131,14 @@ a:hover {
 	width: min(20em, 60%);
     line-height: 0;
 }
-.conversation .message[data-url] a {
+.conversation .message[data-url] a:not(.reaction) {
 	font-weight: normal;
 	text-decoration: underline;
 	font-size: small;
 	overflow-wrap: anywhere;
     line-height: 1;
 }
-.conversation .message[data-url] a:hover {
+.conversation .message[data-url] a:not(.reaction):hover {
 	color: var(--background);
 }
 .conversation .message[data-url] img {
