@@ -279,10 +279,23 @@ function processConversations() {
 
 function showReactions() {
 	let message = event.target.closest('.message');
-	if(message.querySelector('.reactions') != null) return;
+	if(message.querySelector('.reactions') != null) {
+		message.querySelector('.reactions').remove();	
+	}
 	let template = document.querySelector('.template-reactions');
 	let reactions = template.content.cloneNode(true);
-	message.appendChild(reactions);
+	message.querySelector('span').appendChild(reactions);
+}
+
+function setReaction() {
+	let message = event.target.closest('.message');
+	if(message.querySelector('.reactions') != null) {
+		message.querySelector('.reactions').remove();	
+	}
+	let reaction = document.createElement('div');
+	div.innerText = event.target.innerText;
+	div.setAttribute('onclick', 'event.target.remove()');
+	message.querySelector('span').appendChild(reaction);
 }
 
 function animateConversation() {
