@@ -280,7 +280,6 @@ function processConversations() {
 function showReactions() {
 	let template = document.querySelector('.template-reactions');
 	let reactions = template.content.cloneNode(true);
-	reactions.classList.remove('hidden');
 	event.target.appendChild(reactions);
 
 }
