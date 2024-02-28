@@ -475,6 +475,9 @@ function createSource() {
 			});
 			if(i >= list.length) {
 				hideFilters();
+				window.variables.items = window.variables.items
+					.sort(function(a,b) { return a.tags.localeCompare(b.tags) })
+					.map(function(item, index) { return {...item, order: 1+index} });
 				startLoad(content);
 			}
 		};
