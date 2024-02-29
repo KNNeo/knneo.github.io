@@ -252,6 +252,7 @@ const templates = [
 		channel: '文化放送',
 		url: 'http://melody-flag.com',
 		format: 'Audio Live',
+		notes: 'Note: Archive on YouTube the following day'
 	},
 	{
 		name: 'さやとみはるのさんかくカンケイ',
@@ -283,6 +284,7 @@ const templates = [
 		channel: '文化放送',
 		url: 'https://horie-yui.com/radio/',
 		format: 'Audio Live',
+		notes: 'Note: Archive on YouTube the following day'
 	},
 	{
 		name: 'きどまだSeason2',
@@ -583,7 +585,12 @@ function addDetailedEventToCalendar() {
 	});
 	
 	// Handle dropdown selection change
+	let runningGroup = document.createElement('optgroup');
+	let groupName = '';
 	let dropdown = form.querySelector('#event-select');
+	dropdown.addEventListener('change', function() {
+		populateForm(templates.find(t => t.name + '-' + t.channel == this.value));
+	});
 	let today = parseInt(new Date().toISOString().slice(0,10).replace(/-/g,''));
 	for(let templateEvent of templates
 		.filter(t => 
@@ -591,16 +598,27 @@ function addDetailedEventToCalendar() {
 			(t.endDate && parseInt(t.endDate.replace(/-/g,'')) >= today) || 
 			(!t.startDate && !t.endDate))
 		.sort((a,b) => a.startDayNo - b.startDayNo)
-	)
-	{
+	) {
+		if(templateEvent.startDayNo && templateEvent.startDayNo == 7)
+			templateEvent.startDayNo = 0;
+		if(groupName != templateEvent.startDayNo) { // push previous group
+			runningGroup = document.createElement('optgroup');
+			runningGroup.label = daysOfWeek[templateEvent.startDayNo] || 'Irregular';
+		}
+		
 		let option = document.createElement('option');
 		option.value = templateEvent.name + '-' + templateEvent.channel;
 		option.innerText = templateEvent.name;
-		dropdown.appendChild(option);
+		runningGroup.appendChild(option);
+		
+		if(groupName != templateEvent.startDayNo) { // push previous group
+			dropdown.appendChild(runningGroup);
+			groupName = templateEvent.startDayNo;
+		}
 	}
-	dropdown.addEventListener('change', function() {
-		populateForm(templates.find(t => t.name + '-' + t.channel == this.value));
-	});
+	
+	if(templates.length > 0)
+		dropdown.appendChild(runningGroup);
 }
 
 // Function to populate form fields based on selected event
@@ -636,7 +654,8 @@ function populateForm(selectedEvent) {
 			selectedEvent.name + '\n' + 
 			selectedEvent.format + '\n' + 
 			selectedEvent.channel + '\n' +
-			selectedEvent.url;
+			selectedEvent.url + '\n' +
+			selectedEvent.notes || '';
 		form.querySelector('#link').value = selectedEvent.url;
 		window.format = selectedEvent.format;
 		window.channel = selectedEvent.channel;
