@@ -1,6 +1,6 @@
 //--SETTINGS--//
 const config = {
-	title: '日本女優図鑑',
+	title: '推し図鑑',
 	source: 'https://knneo.github.io/profile-list/v5/profiles.json',
 	buttons: {
 		random: true,
@@ -11,7 +11,7 @@ const config = {
 		tiers: [
 			'',
 			'',
-			'(Just Admirable)',
+			'(Purely Admirable)',
 			'(Topic of Interest)',
 			'(Deeply Invested)',
 			'(Special Relationship)'
@@ -27,7 +27,8 @@ const config = {
 		include: function(n) {
 			return config.calendar.category.includes(n.category);
 		},
-		category: ['アイドル', '女性声優', 'DOAXVV', 'hololive', 'IDOLY PRIDE', 'ミュージックレイン3期生'], // also css attribute, in order
+		category: ['アイドル', '女性声優', 'DOAXVV', 'hololive', 'IDOLY PRIDE', 'ミュージックレイン3期生'], // in legend display order
+		categoryColor: ['lightgray', 'cyan', 'chartreuse', 'gold', 'violet', 'orangered'], // in order of category
 		daysOfWeek: ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],
 		months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 	},

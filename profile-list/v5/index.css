@@ -403,66 +403,18 @@ a:hover {
 	z-index: 10;
 }
 
-/*CUSTOMIZE CALENDAR CATEGORY LABELS*/
+/*calendar category labels*/
 .color[data-id="アイドル"] {
-	color: lightgray;
+	color: var(--accent);
 }
+
 .bg[data-id="アイドル"] {
-	background-color: lightgray;
-	color: black;
-}
-
-.color[data-id="女性声優"] {
-	color: cyan;	
-}
-.bg[data-id="女性声優"] {
-	background-color: cyan;
-	color: black;
-}
-
-.color[data-id="DOAXVV"] {
-	color: chartreuse;	
-}
-.bg[data-id="DOAXVV"] {
-	background-color: chartreuse;
-	color: black;
-}
-
-.color[data-id="hololive"] {
-	color: gold;	
-}
-.bg[data-id="hololive"] {
-	background-color: gold;
-	color: black;
-}
-
-.color[data-id="IDOLY PRIDE"] {
-	color: violet;	
-}
-.bg[data-id="IDOLY PRIDE"] {
-	background-color: violet;
-	color: black;
-}
-
-.color[data-id="ミュージックレイン3期生"] {
-	color: orangered;	
-}
-.bg[data-id="ミュージックレイン3期生"] {
-	background-color: orangered;
-	color: black;
-}
-
-.bg.disabled {
-	background-color: transparent;
-}
-
-.bg:hover {
 	background-color: var(--foreground);
 	color: var(--background);
 }
 
-.color:hover {
-	color: var(--foreground);
+.bg.disabled {
+	background-color: transparent;
 }
 
 /*scrollbars for top and bottom labels only on desktop*/

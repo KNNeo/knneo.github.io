@@ -150,6 +150,7 @@ function addCalendarLegend() {
 	let calendarLegend = document.querySelector('.calendar-legend');
 	if(calendarLegend.childElementCount > 1)
 		calendarLegend.innerHTML = '';
+	// add checkbox toggle
 	for(let category of categories) {
 		let id = 'label-' + category;
 		let label = document.createElement('label');
@@ -196,6 +197,15 @@ function addCalendarLegend() {
 			label.appendChild(description);
 		
 		calendarLegend.insertBefore(label, calendarLegend.childNodes[0]); // before export button
+	}
+	// add css styles
+	let styleTemplate = ' .color[data-id="{name}"] { color: {value}; } .bg[data-id="{name}"] { background-color: {value}; color: black; } .bg:hover { background-color: var(--foreground); color: var(--background); } .color:hover { color: var(--foreground); }';
+	config.calendar.category.reverse(); // flip back
+	for(let c = 0; c < categories.length; c++) {
+		let categoryIndex = config.calendar.category.indexOf(categories[c]);
+		let styleSheet = document.createElement('style');
+		styleSheet.innerText = styleTemplate.replace(/{name}/g, config.calendar.category[categoryIndex]).replace(/{value}/g, config.calendar.categoryColor[categoryIndex]);
+		document.head.appendChild(styleSheet);
 	}
 }
 
