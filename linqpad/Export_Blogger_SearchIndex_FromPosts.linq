@@ -92,13 +92,16 @@ void Main()
         var content = entry.Element(_+"content").Value;
 		var stopWords = new List<string>() { "the", "a", "is", "of" };
 		var tokens = RemoveAllTags(content)
-			.Split(new string[] { " ", ".", ",", "!", "?", "&nbsp;", "&quot;", "*" }, StringSplitOptions.RemoveEmptyEntries)
+			.Split(new string[] { " ", ".", ",", "!", "?", "&nbsp;", "&quot;", "*", ":", ";", "-", "(", ")", "[", "]", "\"", "'" }, StringSplitOptions.RemoveEmptyEntries)
 			.ToList()
 			.Select(t => t.ToLower().Trim())
 			.Distinct()
 			.Where(c => c.Length > 2 && !stopWords.Contains(c))
 			.ToArray();
-		//Console.WriteLine(tokens);
+		if(p == 2) {
+			//Console.WriteLine(tokens);
+			//return;
+		}
 		
 		searchIndex.posts.Add(new SearchIndexPost() {
 			title = title,
