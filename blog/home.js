@@ -26,16 +26,15 @@ function filterByTag() {
 	else
 		document.querySelector('a[href="#All"]')?.classList.remove('hidden');
 	
-	for(let post of (document.querySelectorAll('.post') ?? []))
+	for(let post of (document.querySelectorAll('.latest.post') ?? []))
 	{
+		post.classList.add('hidden');
 		let tags = post.getAttribute('data-tags')?.split(',') || [];
 		let hide = !isAll && !tags.includes(tag) && !post.querySelector('.publish')?.innerText.startsWith(tag);
-		if(hide)
-			post.classList.add('hidden');
-		else
+		if(!hide)
 			post.classList.remove('hidden');
 	}
-	let posts = document.querySelectorAll('.post:not(.hidden)');
+	let posts = document.querySelectorAll('.latest.post:not(.hidden)');
 	if(posts.length == 0) window.location.hash = '#All';
 	if(posts.length > 0)
 		document.querySelector('.count').innerText = 'Showing ' + posts.length + ' published posts' + (isAll ? '' : ' (' + window.location.hash + ')');
@@ -43,7 +42,7 @@ function filterByTag() {
 }
 
 function randomPost() {
-	let urls = Array.from(document.querySelectorAll('.post:not(.hidden)')).map(p => p.querySelector('a').href);
+	let urls = Array.from(document.querySelectorAll('.latest.post:not(.hidden)')).map(p => p.querySelector('a').href);
 	window.location.href = urls[Math.floor(Math.random() * urls.length)];
 }
 

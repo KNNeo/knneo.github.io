@@ -641,7 +641,7 @@ List<int> FixContent(ref string content)
 
 bool IsLatestPost(DateTime publishDate)
 {
-	DateTime beforeDate = DateTime.Parse("2020-01-01");
+	DateTime beforeDate = DateTime.Now.AddYears(-1);
 	return DateTime.Compare(publishDate, new DateTime(beforeDate.Year, beforeDate.Month, 1)) >= 0;
 }
 
