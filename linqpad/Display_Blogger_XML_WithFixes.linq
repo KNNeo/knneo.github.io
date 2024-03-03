@@ -45,14 +45,15 @@ void Main()
 	var showMatches = true; //if has match show full match object, else just object with description
 	var showOk = false; //if post no issues don't show
 	 //----------ADD INDEXES HERE----------//
-	List<int> includeIndex = new List<int> { 28 };
+	List<int> includeIndex = new List<int> { 0 };
 	if(includeIndex.Count > 0) Console.WriteLine("[SELECTIVE_CHECKS_ACTIVATED - " + String.Join(", ", includeIndex) + "]");
 	else Console.WriteLine("[ALL_CHECKS_ACTIVATED]");
 	
 	// [?] undetermined [-] minor issue [!] major issue
 	/* [ID] List of Cases:
-	 * [00]	[?]	custom search
-	 * [01]	[-]	fix twitter embed
+	 * [00]	[?]	simple search
+	 * [01]	[?]	custom search
+	 * [02]	[-]	fix twitter embed
 	 * [14]	[?]	old blog link to current blog
 	 * [17]	[-]	alternate links detection for new popups (youtu.be)
 	 * [18]	[!]	any link not referenced within blog to open on new tab
@@ -76,16 +77,29 @@ void Main()
 		string expression;
 		Match match;
 		List<MatchItem> fixes = new List<MatchItem>();
-				
+		
 		#region 00 custom search
 		if(includeIndex.Count() == 0 || includeIndex.Contains(0))
 		{
-	        expression = @"(""fineprint"")"; // change custom query in regex here, put 0 as includeIndex
+	        if(!content.Contains("id=\"") && title != "A Random Statement" && !title.Contains("The Fanfiction") && !title.Contains("The Dream")) {
+	            fixes.Add(new MatchItem() {
+						match = null,
+						description = "[00] simple search found",
+						action = "Check if \"" + title + "\" contains desired value"
+					});
+	        };
+		}
+		#endregion
+			
+		#region 01 custom search
+		if(includeIndex.Count() == 0 || includeIndex.Contains(1))
+		{
+	        expression = @"(""id=#"")"; // change custom query in regex here, put 0 as includeIndex
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
 						match = match,
-						description = "[00] custom search found",
+						description = "[01] custom search found",
 						action = "N.A."
 					});
 	            match = match.NextMatch();
@@ -93,8 +107,8 @@ void Main()
 		}
 		#endregion
 		
-		#region 01 fix twitter embed
-		if(includeIndex.Count() == 0 || includeIndex.Contains(1))
+		#region 02 fix twitter embed
+		if(includeIndex.Count() == 0 || includeIndex.Contains(2))
 		{
 	        expression = @"(<script)(.*?)(""//platform.twitter.com)(.*?)(>)";
 	        match = Regex.Match(content, expression);
