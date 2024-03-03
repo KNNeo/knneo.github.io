@@ -14,16 +14,23 @@
 <body style="font-family: _FONT_;">
 <a id="BackBtn" class="material-icons" href="../index.html" title="Go Back">arrow_back</a>
 <a id="DarkModeBtn" class="material-icons" title="Toggle Dark Mode" href="javascript:void(0);" onclick="toggleDarkMode()">brightness_high</a>
-<a id="FanficBtn" class="material-icons" title="Go To Fanfiction" href="javascript:void(0);" onclick="document.querySelector('.fanfics').scrollIntoView()">category</a>
 <a id="GoToTopBtn" class="material-icons" title="Go To Top" href="javascript:void(0);" onclick="document.body.scrollTop = 0; document.documentElement.scrollTop = 0;">arrow_upward</a>
+<p class="post-tags filters">
+	<a onclick="document.querySelector('.anime').previousElementSibling.scrollIntoView()" href="javascript:void(0);">
+	<span class="material-icons">newspaper</span></a>
+	<a onclick="document.querySelector('.package').previousElementSibling.scrollIntoView()" href="javascript:void(0);">
+	<span class="material-icons">inventory_2</span></a>
+	<a onclick="document.querySelector('.fanfics').previousElementSibling.scrollIntoView()" href="javascript:void(0);">
+	<span class="material-icons">category</span></a>
+</p>
 <h1>SITEMAP</h1>
-<h2>ANIME</h2>
-<div class="sitemap">_ANIME_</div>
+<h2><span class="material-icons small-icons">newspaper</span> THE ANIME</h2>
+<div class="sitemap anime">_ANIME_</div>
 <br>
-<h2>PACKAGE</h2>
-<div class="sitemap">_PACKAGE_</div>
+<h2><span class="material-icons small-icons">inventory_2</span> THE REVIEWS</h2>
+<div class="sitemap package">_PACKAGE_</div>
 <br>
-<h2>FANFICTION</h2>
+<h2><span class="material-icons small-icons">category</span> THE FANFICTION</h2>
 <div class="fanfics">_FANFICS_</div>
 <br>
 <br>
