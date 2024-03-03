@@ -207,7 +207,8 @@ void Main()
 						Title = title,
 						TitleUrl = pageLink,
 						Keyword = match.Groups[3].Value,
-						KeywordUrl = pageLink + "#" + match.Groups[3].Value
+						KeywordUrl = pageLink + "#" + match.Groups[3].Value,
+						Tags = tags
 					});
 				}
         		match = match.NextMatch();
@@ -228,18 +229,28 @@ void Main()
 	if(TraceMode)
 		Console.WriteLine(sitemapItems);
 	
-	//Generate sitemap string
-    var textString = "";
-	char tempTitle = '_';
-	foreach(var item in sitemapItems.OrderBy(i => i.Keyword))
+	//Generate sitemap string by category
+    var animeString = "";
+	char animeTitle = '_';
+	foreach(var item in sitemapItems.Where(i => i.Tags.Contains("The Entertainment News")).OrderBy(i => i.Keyword))
 	{
 		var key = Char.ToUpper(item.Keyword[0]);
-		textString += (tempTitle != key ? ("<h3 class=\"title\">" + key + "</h3>\r\n") : "");
-		textString += "<a class=\"keyword\" title=\"" + item.Title + "\" href=\"" + item.KeywordUrl + "\">" + item.Keyword + "</a><br>\r\n";
-		tempTitle = key;
+		animeString += (animeTitle != key ? ("<h3 class=\"title\">" + key + "</h3>\r\n") : "");
+		animeString += "<a class=\"keyword\" title=\"" + item.Title + "\" href=\"" + item.KeywordUrl + "\">" + item.Keyword + "</a><br>\r\n";
+		animeTitle = key;
 	}
 	
-	//Generate fanfic string
+    var packageString = "";
+	char packageTitle = '_';
+	foreach(var item in sitemapItems.Where(i => i.Tags.Contains("The Klassic Note") || i.Tags.Contains("The Welfare Package") || i.Tags.Contains("The Everyday Life")).OrderBy(i => i.Keyword))
+	{
+		var key = Char.ToUpper(item.Keyword[0]);
+		packageString += (packageTitle != key ? ("<h3 class=\"title\">" + key + "</h3>\r\n") : "");
+		packageString += "<a class=\"keyword\" title=\"" + item.Title + "\" href=\"" + item.KeywordUrl + "\">" + item.Keyword + "</a><br>\r\n";
+		packageTitle = key;
+	}
+	
+	//Generate sitemap string (fanfic)
     var fanString = "<div>";
 	var seasonNo = 0;
 	var counter = 0;
@@ -257,7 +268,7 @@ void Main()
     
     //Write into page
     string fileString = File.ReadAllText(blogpath + "\\template.html");
-    fileString = fileString.Replace("_SITEMAP_", textString).Replace("_FONT_", defaultFont).Replace("_FANFICS_", fanString);	
+    fileString = fileString.Replace("_FONT_", defaultFont).Replace("_ANIME_", animeString).Replace("_PACKAGE_", packageString).Replace("_FANFICS_", fanString);	
     File.WriteAllText(blogpath + "\\index.html", fileString);
 	
 	//Fanfic stats
@@ -277,5 +288,5 @@ public class SitemapItem
     public string TitleUrl { get; set; }
     public string Keyword { get; set; }
     public string KeywordUrl { get; set; }
-	//public string Type { get; set; } // determine if is Anime hashtag to remove number?
+	public List<string> Tags { get; set; }
 }
