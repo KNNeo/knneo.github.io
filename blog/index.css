@@ -144,7 +144,7 @@
 	border-radius: 5px;
 	padding: 3px 5px;
 	text-align: center;
-	vertical-align: text-bottom;
+	line-height: 0;
 }
 
 .latest-post {
