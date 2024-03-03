@@ -214,8 +214,8 @@ void Main()
 	        output.AppendLine("<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../index.css\" />");
 	        output.AppendLine("<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../blogspot.css\" />");
 	        output.AppendLine("<link rel=\"icon\" href=\"../../../storytime.ico\" />");
-	        output.AppendLine("<script src=\"../../../../darkmode.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
-	        output.AppendLine("<script src=\"../../../blogspot.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
+	        output.AppendLine("<script src=\"../../../darkmode.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
+	        output.AppendLine("<script src=\"../../../blogspot.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
 	        output.AppendLine("<script src=\"../../../js/common.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
 	        output.AppendLine("<script src=\"../../../js/header.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
 	        output.AppendLine("<script src=\"../../../js/viewer.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
