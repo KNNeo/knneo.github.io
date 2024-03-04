@@ -308,7 +308,8 @@ function togglePopup() {
 }
 
 function closePopups() {
-	if(overlay.style.display != 'none' && !document.querySelector('.fab.close')?.classList.contains('hidden'))
+	if(document.getElementById('Overlay')?.style.display != 'none' && 
+		document.querySelector('.fab.close') != null && !document.querySelector('.fab.close').classList.contains('hidden'))
 		return; // prevent kill if from sidebar
 	// kill youtube videos playing
 	for(let video of document.querySelectorAll('.yt-video'))
