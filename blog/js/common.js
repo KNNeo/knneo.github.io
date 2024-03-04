@@ -490,6 +490,8 @@ function toggleOverlay(fromSidebar) {
 	overlay.style.display = toggleDisplay(overlay, 'none');
 	overlay.style.backgroundColor = fromSidebar ? 'black' : '';
 	overlay.style.zIndex = fromSidebar ? '8' : '';
+	if(fromSidebar)
+		document.querySelector('.fab.close')?.classList.toggle('hide');
 	
 	// change buttons
 	document.querySelector('.action-menu.bottom-left')?.classList.toggle('hide');

@@ -18,6 +18,7 @@ function addFloatingActionButtons() {
 	addMenuItem(['fab', 'search'], 'Search This Blog', 'search', toggleSearch, bottomRightMenu);
 	addMenuItem(['fab', 'go-to-top'], 'Go To Top', 'arrow_upward', goToTop, bottomRightMenu);
 	addMenuItem(['fab', 'sidebar'], 'Toggle Menu', 'menu', toggleSidebar, bottomLeftMenu);
+	addMenuItem(['fab', 'close', 'hidden'], 'Close Menu', 'menu_open', toggleSidebar, bottomLeftMenu);
 }
 
 function addFAB(id, title, googleIconName, clickEvent) {
