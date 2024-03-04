@@ -555,6 +555,9 @@ span.small-icons {
 	.twitter-tweet {
 		width: min(100%, 320px) !important;
 	}
+	.fab.close {
+		margin-left: 20px;
+	}
 }
 
 /*Middle Screen Width*/
