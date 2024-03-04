@@ -86,7 +86,8 @@
 }
 
 #Overlay {
-	background-color: transparent;
+	background-color: rgba(var(--background), 0.5);
+	transition: background 0.3s;
 	position: fixed;
 	opacity: 0.5;
 	width: 100%;
