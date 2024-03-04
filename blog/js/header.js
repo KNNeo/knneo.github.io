@@ -61,10 +61,12 @@ function toggleHeader(minYOffset, minScrollDiff) {
 			pageHeader.classList.remove('show');
 		
 		pageHeader.classList.add('show');
+		if (isSmallWidth())
+			pageHeader.classList.add('show');
 	}
 	else {
 		pageHeader.classList.remove('show');
-		if (!isSmallWidth() && minYOffset)
+		if (!isSmallWidth())
 			pageHeader.classList.add('show');
 	}
 }
