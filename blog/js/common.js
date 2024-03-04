@@ -265,12 +265,15 @@ function addHoverForLinks() {
 function addHoverForPopups() {
     for (let page of document.getElementsByClassName('post-body entry-content')) {
         for (let popup of page.getElementsByClassName('new-t')) {
-            popup.addEventListener('click', togglePopup);
+            popup.addEventListener('contextmenu', togglePopup);
+            popup.querySelector('.new-thumbnail-initial').href = popup.getAttribute('data-url');
+            popup.querySelector('.new-thumbnail-focus').addEventListener('click', closePopups);
         }
     }
 }
 
 function togglePopup() {
+	event.preventDefault();
 	if(document.querySelector('#PopupBtn') != null && document.querySelector('#PopupBtn').innerText == 'launch')
 	{
 		window.open(this.getAttribute('data-url'), '_blank');
@@ -347,7 +350,7 @@ function renderPopup() {
     let thumbnail = document.createElement('div');
     thumbnail.classList.add('new-t');
 
-    let initial = document.createElement('div');
+    let initial = document.createElement('a');
     initial.classList.add('new-thumbnail-initial');
     initial.innerHTML = this.innerHTML;
 
@@ -357,6 +360,7 @@ function renderPopup() {
 	if(!processLink.includes('twitter.com') && !processLink.includes('/status/'))
 		focus.style.paddingTop = '10px';
     focus.innerHTML = newContent;
+	focus.addEventListener('click', closePopups);
 
     thumbnail.appendChild(initial);
     thumbnail.appendChild(focus);
@@ -476,6 +480,9 @@ function toggleOverlay(fromSidebar) {
 		overlay.style.display = 'none';
 		overlay.style.cursor = 'pointer';
 		overlay.addEventListener('click', closePopups);
+		overlay.addEventListener('contextmenu', function() {
+			event.preventDefault();
+		});
 		body.appendChild(overlay);
 	}
 	
@@ -484,12 +491,9 @@ function toggleOverlay(fromSidebar) {
 	overlay.style.backgroundColor = fromSidebar ? 'black' : '';
 	overlay.style.zIndex = fromSidebar ? '8' : '';
 	
-	// change buttons by force
-	if(document.getElementById('BackBtn') != null) {
-		document.getElementById('BackBtn').style.display = toggleDisplay(document.getElementById('BackBtn'), 'none');
-		if(document.getElementById('RightBtn') != null)
-			document.getElementById('RightBtn').style.display = toggleDisplay(document.getElementById('RightBtn'), 'none');
-	}
+	// change buttons
+	document.querySelector('.action-menu.bottom-left')?.classList.toggle('hide');
+	document.querySelector('.action-menu.bottom-right')?.classList.toggle('hide');
 }
 
 function toggleDisplay(element, defaultValue) {
