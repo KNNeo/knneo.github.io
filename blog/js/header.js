@@ -62,7 +62,7 @@ function toggleHeader(minYOffset, minScrollDiff) {
 		
 		pageHeader.classList.add('show');
 		if (isSmallWidth())
-			pageHeader.classList.add('show');
+			pageHeader.classList.remove('show');
 	}
 	else {
 		pageHeader.classList.remove('show');
