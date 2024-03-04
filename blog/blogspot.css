@@ -1,18 +1,18 @@
 /*Variables*/
 :root {
-  --primary: rgba(27, 63, 255, 1);
-  --secondary: rgba(96, 159, 255, 1);
-  --background: rgba(244, 246, 255, 1);
-  --foreground: rgba(0, 0, 0, 1);
-  --accent: rgba(221, 221, 221, 1);
+  --primary: 27, 63, 255;
+  --secondary: 96, 159, 255;
+  --background: 244, 246, 255;
+  --foreground: 0, 0, 0;
+  --accent: 221, 221, 221;
 }
 
 .darked:root {
-  --primary: rgba(0, 228, 255, 1);
-  --secondary: rgba(0, 171, 191, 1);
-  --background: rgba(0, 17, 20, 1);
-  --foreground: rgba(255, 255, 255, 1);
-  --accent: rgba(68, 68, 68, 1);
+  --primary: 0, 228, 255;
+  --secondary: 0, 171, 191;
+  --background: 0, 17, 20;
+  --foreground: 255, 255, 255;
+  --accent: 68, 68, 68;
 }
 
 body {
@@ -20,18 +20,18 @@ body {
 	max-width: 760px;
 	padding: 0 10px;
 	margin: auto;
-	color: var(--foreground);
-	background-color: var(--background);
+	color: rgb(var(--foreground));
+	background-color: rgb(var(--background));
 	transition: background .2s linear;
 	line-height: 1.5;
 }
 
 a {
-  color: var(--primary);
+  color: rgb(var(--primary));
 }
 
 a:hover {
-  color: var(--foreground);
+  color: rgb(var(--foreground));
 }
 
 .page-header {
@@ -42,7 +42,7 @@ a:hover {
 	top: 0;
 	opacity: 0;
 	z-index: -1;
-	background-color: var(--background);
+	background-color: rgb(var(--background));
 	transition: all .2s ease-out;
 }
 
@@ -75,8 +75,8 @@ a:hover {
 }
 
 .latest {
-	box-shadow: 3px 3px var(--foreground);
-	border: 2px solid var(--foreground);
+	box-shadow: 3px 3px rgb(var(--foreground));
+	border: 2px solid rgb(var(--foreground));
 	position: relative;
     display: inline-block;
     width: min(95%, 410px);
@@ -98,14 +98,14 @@ a:hover {
 }
 
 .latest a {
-    color: var(--primary);
+    color: rgb(var(--primary));
 	font-weight: bold;
 	line-height: initial;
     overflow-wrap: anywhere;
 }
 
 .latest a:hover {
-    color: var(--foreground);
+    color: rgb(var(--foreground));
 }
 
 .latest .thumb {
@@ -162,18 +162,18 @@ a:hover {
 .latest:hover .anchors {
     display: flex;
     align-content: flex-start;
-    /* border-right: 2px solid var(--foreground); */
+    /* border-right: 2px solid rgb(var(--foreground)); */
 }
 
 .latest .anchors a {
-    color: var(--primary);
+    color: rgb(var(--primary));
 	font-size: 0.8em;
     padding: 3px 0;
 	width: auto;
 }
 
 .latest .anchors a:hover {
-    color: var(--foreground);
+    color: rgb(var(--foreground));
 }
 
 .title {
@@ -261,9 +261,9 @@ span.emoji {
 
 .post-tags a {
 	border-radius: 8px;
-	box-shadow: 3px 3px var(--foreground);
-	border: 1px solid var(--foreground);
-	background-color: var(--background);
+	box-shadow: 3px 3px rgb(var(--foreground));
+	border: 1px solid rgb(var(--foreground));
+	background-color: rgb(var(--background));
 	padding: 6px;
     white-space: nowrap;
 	text-decoration: none;
@@ -324,7 +324,7 @@ a.hidden {
 .viewer {
 	z-index: 9;
 	position: fixed;
-	background-color: var(--background);
+	background-color: rgb(var(--background));
 	width: 100%;
 	height: 100%;
 	top: 0;
@@ -358,7 +358,7 @@ a.hidden {
 
 .viewer-nav.prev:active {
 	opacity: 0.5;
-	background-image: linear-gradient(to right, var(--background), transparent);
+	background-image: linear-gradient(to right, rgb(var(--background));, transparent);
 }
 
 .viewer-nav.next {
@@ -373,7 +373,7 @@ a.hidden {
 
 .viewer-nav.next:active {
 	opacity: 0.5;
-	background-image: linear-gradient(to left, var(--background), transparent);
+	background-image: linear-gradient(to left, rgb(var(--background));, transparent);
 }
 
 .viewer img {
@@ -422,7 +422,7 @@ a.hidden {
 
 .viewer .overview .selected img,
 .viewer .overview .item img:hover {
-	border: 2px solid var(--primary);
+	border: 2px solid rgb(var(--primary));
 }
 
 /*MEDIA QUERIES - MOBILE SCREENS*/

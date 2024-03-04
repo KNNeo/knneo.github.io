@@ -1,17 +1,17 @@
 /*Variables*/
 :root {
-  --primary: rgba(0, 228, 255, 1);
-  --secondary: rgba(0, 171, 191, 1);
-  --background: rgba(0, 0, 0, 1);
-  --foreground: rgba(255, 255, 255, 1);
-  --accent: rgba(68, 68, 68, 1);
+  --primary: 0, 228, 255;
+  --secondary: 0, 171, 191;
+  --background: 0, 17, 20;
+  --foreground: 255, 255, 255;
+  --accent: 68, 68, 68;
 }
 
 /*Klassic Note: Website Additions*/
 .hashtags,
 #hashtags {
 	width: 100%;
-	color: var(--primary);
+	color: rgb(var(--primary));
 	display: flex;
     flex-wrap: wrap;
 	padding-bottom: 0.5em;
@@ -48,11 +48,11 @@
 }
 
 .fab {
-	border: 1px solid var(--foreground);
-	background-color: var(--background);
-	box-shadow: 3px 3px var(--foreground);
+	border: 1px solid rgb(var(--foreground));
+	background-color: rgb(var(--background));
+	box-shadow: 3px 3px rgb(var(--foreground));
 	border-radius: 8px;
-	color: var(--foreground);
+	color: rgb(var(--foreground));
 	padding: 8px 6px 6px 6px;
 	cursor: pointer;
 	line-height: 1;
@@ -77,8 +77,8 @@
   right: 20px;
   z-index: 9;
   outline: none;
-  background-color: var(--background);
-  color: var(--foreground);
+  background-color: rgb(var(--background));
+  color: rgb(var(--foreground));
   cursor: pointer;
   padding: 8px 6px 6px 6px;
   border-radius: 7px;
@@ -108,9 +108,9 @@
 
 .sidebar .widget,
 #CloseBtn {
-  border: 1px solid var(--foreground);
-  background-color: var(--background);
-  box-shadow: 3px 3px var(--foreground);
+  border: 1px solid rgb(var(--foreground));
+  background-color: rgb(var(--background));
+  box-shadow: 3px 3px rgb(var(--foreground));
   border-radius: 8px;
 }
 
@@ -140,7 +140,7 @@
 } /* Safari and Chrome */
 
 .head-prefix {
-	background-color: var(--secondary);
+	background-color: rgb(var(--secondary));
 	border-radius: 5px;
 	padding: 3px 5px;
 	text-align: center;
@@ -148,8 +148,8 @@
 }
 
 .latest-post {
-	box-shadow: 3px 3px var(--foreground);
-	border: 2px solid var(--foreground);
+	box-shadow: 3px 3px rgb(var(--foreground));
+	border: 2px solid rgb(var(--foreground));
 	margin: 12px auto;
 	border-radius: 8px;
 	padding: 6px;
@@ -157,14 +157,14 @@
 }
 
 .latest-post .summary {
-	color: var(--foreground);
+	color: rgb(var(--foreground));
     font-size: 85%;
     max-height: 86px;
     overflow: hidden;
 }
 
 .latest-post:hover .latest-post-title {
-	color: var(--foreground);
+	color: rgb(var(--foreground));
 }
 
 .latest-post:hover {
@@ -217,7 +217,7 @@
     justify-content: center;
     align-items: center;
 	position: absolute;
-	background-color: var(--background);
+	background-color: rgb(var(--background));
 	width: 150px;
     height: 144px;
 	top: 2px;
@@ -233,13 +233,13 @@
 }
 
 .latest-post .anchors a {
-    color: var(--foreground);
+    color: rgb(var(--foreground));
 	font-size: 0.88em;
     white-space: nowrap;
 }
 
 .latest-post .anchors a:hover {
-    color: var(--primary);
+    color: rgb(var(--primary));
 	text-decoration: underline;
 }
 
@@ -260,18 +260,18 @@ blockquote {
 }
 
 a {
-  color: var(--primary);
+  color: rgb(var(--primary));
 }
 
 a img,
 table div[style|=background] {
     box-sizing: border-box;
-	border: 2px solid var(--secondary);
+	border: 2px solid rgb(var(--secondary));
 }
 
 a img:hover,
 table div[style|=background]:hover {
-    border-color: var(--primary);
+    border-color: rgb(var(--primary));
 }
 
 a:hover {
@@ -308,7 +308,7 @@ span.small-icons {
 }
 
 .title > a:hover {
-  color: var(--primary);
+  color: rgb(var(--primary));
 }
 
 .date-header {
@@ -325,7 +325,7 @@ span.small-icons {
 .latest-post-statement.post-title,
 .post-title.entry-title {
   font: normal bold 20px 'Open Sans', Trebuchet, sans-serif;
-  background-color: var(--background);
+  background-color: rgb(var(--background));
 }
 
 .content-outer {
@@ -445,8 +445,8 @@ span.small-icons {
 
 .tabs-inner .widget li,
 .footer-inner .widget li {
-  box-shadow: 3px 3px var(--foreground);
-  border: 1px solid var(--foreground);
+  box-shadow: 3px 3px rgb(var(--foreground));
+  border: 1px solid rgb(var(--foreground));
   margin: 5px 3px;
   border-radius: 8px;
 }
@@ -481,7 +481,7 @@ span.small-icons {
 
 #PageList1 div ul li:first-child a {
   font: normal bold 14px Open Sans;
-  color: var(--foreground);
+  color: rgb(var(--foreground));
 }
 
 #sidebar-left-1.sidebar.section {
@@ -626,7 +626,7 @@ span.small-icons {
     text-decoration: none;
   }
   .footer-inner .widget a:hover {
-    color: var(--foreground);
+    color: rgb(var(--foreground));
     text-decoration: none;
   }
   /*Fix post newer older post links*/
@@ -682,10 +682,10 @@ span.small-icons {
   .sidebar .widget a:hover,
   .footer-inner .widget a:hover {
     text-decoration: none;
-    color: var(--foreground);
+    color: rgb(var(--foreground));
   }
   .footer-outer {
-    background-color: var(--background);
+    background-color: rgb(var(--background));
     padding-bottom: 18px;
   }
 }
@@ -701,7 +701,7 @@ abbr.imgpop {
   -ms-user-select: all;
   user-select: all;
   text-decoration: none;
-  color: var(--primary);
+  color: rgb(var(--primary));
   text-decoration: underline;
 }
 
@@ -731,7 +731,7 @@ abbr.imgpop:hover img {
 
 /*Pop-up content frame*/
 .popup .normal {
-  color: var(--primary);
+  color: rgb(var(--primary));
   text-decoration: underline;
 }
 
@@ -817,7 +817,7 @@ abbr.imgpop:hover img {
 
 .thumbnail-initial img,
 .thumbnail-initial video {
-	border: 2px solid var(--secondary);
+	border: 2px solid rgb(var(--secondary));
 	border-bottom-width: 1em;
 	transition: border 0.2s, border-radius 0.2s;
 	cursor: pointer;
@@ -825,18 +825,18 @@ abbr.imgpop:hover img {
 
 .thumbnail tr:hover img,
 .thumbnail tr:hover video {
-    border-color: var(--primary);
+    border-color: rgb(var(--primary));
 }
 
 /*EXPERIMENTAL - Supports text, not to be mistaken with links or images*/
 .thumbnail-text {
-	color: var(--primary);
+	color: rgb(var(--primary));
 	text-decoration: underline;	
 }
 
 .thumbnail-dialog {
-    background-color: var(--background);
-    color: var(--foreground);	
+    background-color: rgb(var(--background));
+    color: rgb(var(--foreground));	
 }
 
 /*Assign class based on image resize for responsive, see blog.js resizeImg()*/
@@ -863,14 +863,14 @@ abbr.imgpop:hover img {
 	display: none;
 }
 .new-thumbnail-initial {
-	color: var(--primary);
+	color: rgb(var(--primary));
 	text-decoration: underline dashed;
 }
 .new-thumbnail-initial:hover {
-	color: var(--foreground);
+	color: rgb(var(--foreground));
 }
 .new-t.new-thumbnail .new-thumbnail-initial {
-	color: var(--foreground);
+	color: rgb(var(--foreground));
 }
 .new-thumbnail .new-thumbnail-focus {
 	position: absolute;
@@ -884,7 +884,7 @@ abbr.imgpop:hover img {
 }
 .new-thumbnail .new-thumbnail-focus img {
 	border-radius: 0;
-	border: 2px solid var(--primary);
+	border: 2px solid rgb(var(--primary));
     filter: drop-shadow(2px 4px 6px var(--background));
 }
 
@@ -903,8 +903,8 @@ abbr.imgpop:hover img {
 }
 
 .datatable td, .datatable th {
-    border-top: 1px solid var(--foreground);
-    border-bottom: 1px solid var(--foreground);
+    border-top: 1px solid rgb(var(--foreground));
+    border-bottom: 1px solid rgb(var(--foreground));
     padding: 0 5px;
 }
 
@@ -913,14 +913,14 @@ abbr.imgpop:hover img {
 }
 
 .datatable.all-borders td, .datatable.all-borders th {
-    border-left: 1px solid var(--foreground);
-    border-right: 1px solid var(--foreground);
+    border-left: 1px solid rgb(var(--foreground));
+    border-right: 1px solid rgb(var(--foreground));
 }
 
 .datatable.freeze-left th:first-child,
 .datatable.freeze-left td:first-child {
 	position: sticky;
-	background-color: var(--background);
+	background-color: rgb(var(--background));
 	left: 0;
 	max-width: 200px;
     overflow: hidden;
@@ -930,7 +930,7 @@ abbr.imgpop:hover img {
 .datatable.freeze-right th:last-child,
 .datatable.freeze-right td:last-child {
 	position: sticky;
-	background-color: var(--background);
+	background-color: rgb(var(--background));
 	right: 0;
 	max-width: 200px;
     overflow: hidden;
@@ -966,23 +966,23 @@ abbr.imgpop:hover img {
 
 /*DIALOG*/
 .dialog dialog {
-	background-color: var(--background);
-	color: var(--foreground);	
+	background-color: rgb(var(--background));
+	color: rgb(var(--foreground));	
 	padding: 10px;
 	max-width: 640px;
 	max-height: 60%;
 }
 
 .dialog dialog a {
-	background-color: var(--background);
-	color: var(--primary);
+	background-color: rgb(var(--background));
+	color: rgb(var(--primary));
 }
 
 /*OMAKE*/
 .omake {
 	border-radius: 8px;
-	border: 2px solid var(--foreground);
-	background-color: var(--accent);
+	border: 2px solid rgb(var(--foreground));
+	background-color: rgb(var(--accent));
 	padding: 1em;
 	transition: background-color 0.2s linear;
 }
@@ -990,13 +990,13 @@ abbr.imgpop:hover img {
 /* ACCORDION */
 .accordion {
 	cursor: pointer;
-	border-color: var(--secondary);
+	border-color: rgb(var(--secondary));
 	border-style: solid;
 	border-width: 2px 2px 1em;
 	transition: border 0.2s;
 }
 .accordion:hover {
-	border-color: var(--primary);
+	border-color: rgb(var(--primary));
 }
 .accordion .content {
 	cursor: initial;
@@ -1011,7 +1011,7 @@ abbr.imgpop:hover img {
 }
 
 .accordion.show {
-	border-color: var(--foreground);
+	border-color: rgb(var(--foreground));
 }
 
 .accordion.show > * {
