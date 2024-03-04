@@ -14,24 +14,11 @@ function preloadSequence() {
 
 function addFloatingActionButtons() {
 	let [bottomLeftMenu, bottomRightMenu] = addMenus();
-	if(navigator.share) addMenuItem(['fab', 'share'], 'Share This Page', 'share', sharePage, bottomRightMenu);
-	addMenuItem(['fab', 'search'], 'Search This Blog', 'search', toggleSearch, bottomRightMenu);
-	addMenuItem(['fab', 'go-to-top'], 'Go To Top', 'arrow_upward', goToTop, bottomRightMenu);
-	addMenuItem(['fab', 'sidebar'], 'Toggle Menu', 'menu', toggleSidebar, bottomLeftMenu);
-	addMenuItem(['fab', 'close', 'hidden'], 'Close Menu', 'menu_open', toggleSidebar, bottomLeftMenu);
-}
-
-function addFAB(id, title, googleIconName, clickEvent) {
-	let fabButton = document.createElement('a');
-	fabButton.id = id;
-	fabButton.title = title;
-	if(clickEvent) fabButton.addEventListener('click', clickEvent);
-		let fabButtonIcon = document.createElement('i');
-		fabButtonIcon.classList.add('material-icons');
-		fabButtonIcon.innerText = googleIconName;
-		fabButton.appendChild(fabButtonIcon);
-	if(document.getElementById(id) != undefined) document.getElementById(id).remove();
-	document.body.appendChild(fabButton);
+	if(navigator.share) addButton(['fab', 'share'], 'Share This Page', 'share', sharePage, bottomRightMenu);
+	addButton(['fab', 'search'], 'Search This Blog', 'search', toggleSearch, bottomRightMenu);
+	addButton(['fab', 'go-to-top'], 'Go To Top', 'arrow_upward', goToTop, bottomRightMenu);
+	addButton(['fab', 'sidebar'], 'Toggle Menu', 'menu', toggleSidebar, bottomLeftMenu);
+	addButton(['fab', 'close', 'hidden'], 'Close Menu', 'menu_open', toggleSidebar, document.querySelector('.column-left-inner'));
 }
 
 function addMenus() {
@@ -48,7 +35,7 @@ function addMenus() {
 	return [menuLeft, menuRight];
 }
 
-function addMenuItem(classes, title, googleIconName, clickEvent, parentElement) {
+function addButton(classes, title, googleIconName, clickEvent, parentElement) {
 	let fabButton = document.createElement('a');
 	if(Array.isArray(classes)) fabButton.className = classes.join(' ');
 	else fabButton.className = classes;
@@ -317,7 +304,7 @@ function toggleSidebar() {
     let iconLeft = collapseSidebarWidth ? '0' : '5px';
     outer.style.left = outer.style.left == '' ? iconLeft : '';
 	
-    let iconBottom = collapseSidebarWidth ? '60px' : '78px'; 
+    let iconBottom = '4px';
     outer.style.bottom = outer.style.bottom == '' ? iconBottom : '';
     outer.style.margin = outer.style.margin == '' ? 'auto' : '';
     outer.style.zIndex = outer.style.zIndex != 9 ? 9 : '';
@@ -325,6 +312,7 @@ function toggleSidebar() {
     let aside = outer.getElementsByTagName('aside')[0];
     aside.style.display = toggleDisplay(aside, 'block');
 	
+	document.querySelector('.fab.close')?.classList.toggle('hidden');
     if (collapseSidebarLinks)
 		document.getElementById('LinkList1').style.display = toggleDisplay(document.getElementById('LinkList1'), 'none');
     if (collapseSidebarArchive)

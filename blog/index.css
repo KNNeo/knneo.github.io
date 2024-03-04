@@ -64,10 +64,6 @@
 	user-select: none;
 }
 
-.fab.close {
-	z-index: 9;	
-}
-
 .fab:hover, .fab:focus-within {
 	box-shadow: 1px 1px;
 	transform: translate(2px, 2px);	
@@ -659,6 +655,9 @@ span.small-icons {
   .latest-post .summary {
 	max-height: 57px;
   }
+	.fab.close {
+		margin-left: 20px;
+	}
 }
 
 /*Large Screen Width*/
