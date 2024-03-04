@@ -486,7 +486,7 @@ span.small-icons {
 }
 
 #sidebar-left-1.sidebar.section {
-  margin: 0 8px 0 15px;
+    margin: 0 8px 8px 15px;
 }
 
 #blog-pager.blog-pager {
@@ -656,7 +656,7 @@ span.small-icons {
 	max-height: 57px;
   }
 	.fab.close {
-		margin-left: 20px;
+		margin-left: 15px;
 	}
 }
 
