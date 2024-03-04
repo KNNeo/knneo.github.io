@@ -487,6 +487,8 @@ function toggleOverlay(fromSidebar) {
 	}
 	
 	// set overlay
+	if(fromSidebar && overlay.style.display != 'none')
+		closePopups();
 	overlay.style.display = toggleDisplay(overlay, 'none');
 	overlay.style.backgroundColor = fromSidebar ? 'black' : '';
 	overlay.style.zIndex = fromSidebar ? '8' : '';
