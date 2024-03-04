@@ -531,4 +531,5 @@ const mosaicArray = [
 {"filename":"ビター・ジェラシー_カンナ.jpg","sm":"https://doax.cc/res/pic_star_s/846_16.png","md":"https://doax.cc/res/pic_star_s/846_16.png","lg":"https://doax.cc/res/pic_star/846_16.png","og":"https://doax.cc/res/pic_star/846_16.png"},
 {"filename":"ビター・ジェラシー_ルナ.jpg","sm":"https://doax.cc/res/pic_star_s/846_11.png","md":"https://doax.cc/res/pic_star_s/846_11.png","lg":"https://doax.cc/res/pic_star/846_11.png","og":"https://doax.cc/res/pic_star/846_11.png"},
 {"filename":"プリンセス・グレイス_ルナ.jpg","sm":"https://doax.cc/res/pic_star_s/144.png","md":"https://doax.cc/res/pic_star_s/144.png","lg":"https://doax.cc/res/pic_star/144.png","og":"https://doax.cc/res/pic_star/144.png"},
+{"filename":"ベルベットタイム・ローズ_フィオナ.jpg","sm":"https://doax.cc/res/pic_star_s/331_12.png","md":"https://doax.cc/res/pic_star_s/331_12.png","lg":"https://doax.cc/res/pic_star/331_12.png","og":"https://doax.cc/res/pic_star/331_12.png"},
 ];
