@@ -326,7 +326,7 @@ void Main()
 					"<div class=\"thumb\">" + 
 						"<a href=\"" + pageLink + "\">" + postTitle + "</a>" + 
 						(anchors.Count > 0 ? "<div class=\"anchors\">" + string.Join("", anchors.Select(a => "<a href=\"" + (pageLink + "#" + a) + "\">#" + a + "</a>")) + "</div>" : "") + 
-						(thumbnailUrl.Length > 0 ? "<div class=\"overlay\"><img loading=\"lazy\" src=\"" + thumbnailUrl + "\"/></div>" : "") + 
+						(thumbnailUrl.Length > 0 ? "<div><img loading=\"lazy\" src=\"" + thumbnailUrl + "\"/></div>" : "") + 
 					"</div></div>"
 					: "<div class=\"post\"" + dataId + "><span class=\"publish\">" + published.ToString("yyyy.MM.dd") + " </span><a href=\""+pageLink+"\">" + postTitle + "</a></div>");
 			}

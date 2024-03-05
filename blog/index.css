@@ -318,6 +318,24 @@ span.small-icons {
 	transform: translate(2px, 2px);	
 }
 
+.overlay {
+	background-color: rgba(var(--background), 0.5);
+	transition: opacity .3s linear;
+	position: fixed;
+	width: 100%;
+	height: 120%;
+	bottom: 0;
+	top: 0;
+	left: 0;
+	z-index: 8;
+	cursor: pointer;
+}
+
+.overlay.hide {
+	z-index: -1;
+	opacity: 0;
+}
+
 #CloseBtn {
   position: fixed;
   display: none;
@@ -332,19 +350,6 @@ span.small-icons {
   padding: 8px 6px 6px 6px;
   border-radius: 7px;
   /* transition: opacity 0.3s; */
-}
-
-#Overlay {
-	background-color: rgba(var(--background), 0.5);
-	transition: background 0.3s;
-	position: fixed;
-	opacity: 0.5;
-	width: 100%;
-	height: 120%;
-	bottom: 0;
-	top: 0;
-	left: 0;
-	z-index: 8;
 }
 
 #Label1 > div,

@@ -475,13 +475,11 @@ function generatePopupContent(url) {
 
 function toggleOverlay(fromSidebar) {
 	let body = document.body;
-	let overlay = document.getElementById('Overlay');
+	let overlay = document.querySelector('.overlay');
 	// if no overlay
     if (overlay == undefined) {
 		overlay = document.createElement('div');
-		overlay.id = 'Overlay';
-		overlay.style.display = 'none';
-		overlay.style.cursor = 'pointer';
+		overlay.className = 'overlay hide';
 		overlay.addEventListener('click', closePopups);
 		overlay.addEventListener('contextmenu', function() {
 			event.preventDefault();
@@ -490,9 +488,9 @@ function toggleOverlay(fromSidebar) {
 	}
 	
 	// set overlay
-	overlay.style.display = toggleDisplay(overlay, 'none');
-	overlay.style.backgroundColor = fromSidebar ? 'black' : '';
-	overlay.style.zIndex = fromSidebar ? '8' : '';
+	overlay.classList.toggle('hide');
+	// overlay.style.backgroundColor = fromSidebar ? 'black' : '';
+	// overlay.style.zIndex = fromSidebar ? '8' : '';
 	
 	// change buttons
 	document.querySelector('.action-menu.bottom-left')?.classList.toggle('hide');
