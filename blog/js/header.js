@@ -49,9 +49,9 @@ function headerOnScroll() {
 	window['scrollTop'] = st;
 }
 
-function toggleHeader(minYOffset, minScrollDiff) {
+function toggleHeader(minYOffset, scrollUp) {
 	let minCoverHeight = 0.4*window.innerHeight;
-	// console.log(minYOffset, minScrollDiff);
+	// console.log(minYOffset, scrollUp);
 	if (minYOffset) {
 		// exclusion: hide if scroll down minCoverHeight
 		if(pageHeader.getBoundingClientRect().height >= minCoverHeight)
@@ -60,14 +60,13 @@ function toggleHeader(minYOffset, minScrollDiff) {
 		if(pageHeader.height >= minCoverHeight)
 			pageHeader.classList.remove('show');
 		
-		pageHeader.classList.add('show');
-		if (isSmallWidth() && !minScrollDiff)
-			pageHeader.classList.remove('show');
+		if(!isSmallWidth() || scrollUp)
+			pageHeader.classList.add('show');
+		else
+			pageHeader.classList.remove('show');	
 	}
 	else {
 		pageHeader.classList.remove('show');
-		if (!isSmallWidth() && !minScrollDiff)
-			pageHeader.classList.add('show');
 	}
 }
 
