@@ -61,7 +61,7 @@ function goToIndex() {
 }
 
 function toggleThumbnailDesign() {
-	event.target.style.transform = event.target.style.transform == '' ? 'rotateY(180deg)' : '';
+	event.target.innerText = event.target.innerText == 'checklist' ? 'checklist_rtl' : 'checklist';
 	document.querySelector('.archive-list').classList.toggle('flip');
 }
 
