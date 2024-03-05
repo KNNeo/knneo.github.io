@@ -451,6 +451,19 @@ a.hidden {
 	}
 }
 
+/*MEDIA QUERIES - LARGE SCREENS*/
+@media only screen and (min-width: 1080px) {
+	.action-menu.home.bottom-left {
+		left: 20px;
+		transition: all 0.2s ease-out;
+	}
+
+	.action-menu.home.bottom-right {
+		right: 15px;
+		transition: all 0.2s ease-out;
+	}
+}
+
 /*MEDIA QUERIES - REDUCED MOTION*/
 @media (prefers-reduced-motion: reduce) {
 	.fadeIn {
