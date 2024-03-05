@@ -17,7 +17,7 @@
 
 body {
 	display: block;
-	max-width: 760px;
+	/* max-width: 760px; */
 	padding: 0 10px;
 	margin: auto;
 	color: rgb(var(--foreground));
@@ -218,7 +218,6 @@ a:hover {
 
 .action-menu.bottom-right {
 	right: calc(50% - 400px);
-	transform: translateX(0);
 	transition: all 0.2s ease-out;
 }
 
