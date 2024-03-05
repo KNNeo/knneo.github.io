@@ -594,8 +594,10 @@ function addDetailedEventToCalendar() {
 	let today = parseInt(new Date().toISOString().slice(0,10).replace(/-/g,''));
 	for(let templateEvent of templates
 		.filter(t => 
-			(t.startDate && parseInt(t.startDate.replace(/-/g,'')) <= today) ||  
-			(t.endDate && parseInt(t.endDate.replace(/-/g,'')) >= today) || 
+			(t.startDate && t.endDate &&
+			today >= parseInt(t.startDate.replace(/-/g,'')) && today <= parseInt(t.endDate.replace(/-/g,''))) ||  
+			(t.startDate && !t.endDate && today >= parseInt(t.startDate.replace(/-/g,''))) ||  
+			(t.endDate && !t.startDate && today <= parseInt(t.endDate.replace(/-/g,''))) || 
 			(!t.startDate && !t.endDate))
 		.sort((a,b) => a.startDayNo - b.startDayNo)
 	) {
