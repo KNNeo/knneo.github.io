@@ -265,9 +265,15 @@ function addHoverForLinks() {
 function addHoverForPopups() {
     for (let page of document.getElementsByClassName('post-body entry-content')) {
         for (let popup of page.getElementsByClassName('new-t')) {
-            popup.addEventListener('contextmenu', togglePopup);
-            popup.querySelector('.new-thumbnail-initial').href = popup.getAttribute('data-url');
-            popup.querySelector('.new-thumbnail-focus').addEventListener('click', closePopups);
+			popup.querySelector('.new-thumbnail-initial').href = popup.getAttribute('data-url');
+			let dataUrl = popup.getAttribute('data-url').toLowerCase();
+			if(dataUrl.includes('.jpg') || dataUrl.includes('.png') || dataUrl.includes('.gif') || dataUrl.includes('blogger.googleusercontent.com')) {
+				popup.addEventListener('click', togglePopup);
+			}
+			else {
+				popup.addEventListener('contextmenu', togglePopup);
+				popup.querySelector('.new-thumbnail-focus').addEventListener('click', closePopups);
+			}
         }
     }
 }
