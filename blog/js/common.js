@@ -173,8 +173,9 @@ function scrollToElement(elem) {
 }
 
 // Abbreviation to show as dialog if not using mouse to hover
+// Exception for published field in github site
 function showAbbrAsDialog() {
-	for(let abbr of document.querySelectorAll('abbr[title]'))
+	for(let abbr of document.querySelectorAll('.published, abbr[title]'))
 	{
 		abbr.addEventListener('click', function() {
 			event.preventDefault();
