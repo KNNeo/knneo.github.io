@@ -295,6 +295,11 @@ a.hidden {
 }
 
 /*Fixes from Blogger*/
+.tr-caption-container {
+    padding: 4px;
+    margin-bottom: .5em;
+}
+
 .published {
 	text-transform: uppercase;
 }

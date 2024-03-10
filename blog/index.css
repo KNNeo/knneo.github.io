@@ -10,45 +10,40 @@
 /*Website Adjustments*/
 /*By Tag*/
 body {
-  display: none;
-  overflow-x: hidden;
+  display: none; /*Prevent show until load complete*/
+  overflow-x: hidden; /*Prevent image resize issues*/
 }
 
 blockquote {
-	margin: 1em;
+	margin: 1em; /*Prevent default 40px margin*/
 }
 
 a {
   color: rgb(var(--primary));
 }
 
-a img,
-table div[style|=background] {
+table div[style|=background], /*Depreceated: background-image*/
+a img { 
     box-sizing: border-box;
-	border: 2px solid rgb(var(--secondary));
+	border: 2px solid rgb(var(--secondary)); /*Any image with link to have border*/
 }
 
-a img:hover,
-table div[style|=background]:hover {
+table div[style|=background]:hover,
+a img:hover {
     border-color: rgb(var(--primary));
 }
 
 a:hover {
-  text-decoration: none;
+  text-decoration: none; /*Generic behaviour, consider remove*/
 }
 
 /*By Class*/
-.tr-caption-container {
-    padding: 4px;
-    margin-bottom: .5em;
-}
-
-.failed {
+.failed { /*Depreceated: Old FB images*/
 	display: none;
 	border: 0;
 }
 
-.flip-arrow {
+.flip-arrow { /*Depreceated: Flipping single arrow icon*/
   transform: rotate(180deg);
 }
 
