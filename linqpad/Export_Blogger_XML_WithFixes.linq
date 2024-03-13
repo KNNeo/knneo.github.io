@@ -207,15 +207,15 @@ void Main()
 			}
 			output.AppendLine("<meta property=\"og:url\" content=\"" + pageLink + "\"/>");
 			output.AppendLine("<meta property=\"og:type\" content=\"website\"/>");
+	        output.AppendLine("<link href=\"../../../storytime.ico\" rel=\"icon\" />");
 	        output.AppendLine("<link href=\"../../../../fonts.css\" rel=\"stylesheet\" />");
 			// cursive font only used twice in posts so far
 	        if(content.Contains("Dancing Script"))
 				output.AppendLine("<link href='https://fonts.googleapis.com/css?family=Dancing Script' rel='stylesheet' />");
 	        output.AppendLine("<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../index.css\" />");
 	        output.AppendLine("<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../blogspot.css\" />");
-	        output.AppendLine("<link rel=\"icon\" href=\"../../../storytime.ico\" />");
-	        output.AppendLine("<script src=\"../../../darkmode.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
-	        output.AppendLine("<script src=\"../../../blogspot.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
+	        output.AppendLine("<script src=\"../../../js/theme.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
+	        output.AppendLine("<script src=\"../../../js/blogspot.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
 	        output.AppendLine("<script src=\"../../../js/common.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
 	        output.AppendLine("<script src=\"../../../js/header.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
 	        output.AppendLine("<script src=\"../../../js/viewer.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");

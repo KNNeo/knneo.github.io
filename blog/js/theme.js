@@ -1,8 +1,8 @@
 const defaultLightTheme = window['light-theme'] ?? '#f4f6ff';
 const defaultDarkTheme = window['dark-theme'] ?? '#001114';
-const defaultThemeItem = window['dark-name'] ?? 'blog-theme';
+const defaultThemeItem = window['theme-name'] ?? 'blog-theme';
 
-function setDarkMode() { 
+function setTheme() { 
 	let saved = localStorage.getItem(defaultThemeItem);
 	let theme = document.querySelector('meta[name="theme-color"]');
 	// conditions to initialize dark mode
@@ -14,7 +14,7 @@ function setDarkMode() {
 			document.head.appendChild(themeColor);
 		}
 		if(saved == defaultDarkTheme) // if theme is dark, toggle
-			toggleDarkMode();
+			toggleTheme();
 	}
 	else { // no save data
 		if (!theme) { // no meta on DOM
@@ -25,20 +25,20 @@ function setDarkMode() {
 			localStorage.setItem(defaultThemeItem, themeColor.content); // save data
 		}
 		if (window.matchMedia('(prefers-color-scheme: dark)').matches) { // if device dark mode
-			toggleDarkMode(); // toggle, will save data
+			toggleTheme(); // toggle, will save data
 		}
 	}
 	// if button .darkmode in DOM, allow toggle modes
-	window.addEventListener('load', addDarkModeEvents);
+	window.addEventListener('load', addThemeEvents);
 }
 
-function addDarkModeEvents() {
+function addThemeEvents() {
 	// assume page has button with classname darkmode, add onclick event if not assigned
 	if(document.querySelector('.darkmode') && !document.querySelector('.darkmode').onclick)
-		document.querySelector('.darkmode').onclick = toggleDarkMode;
+		document.querySelector('.darkmode').onclick = toggleTheme;
 }
 
-function toggleDarkMode() {
+function toggleTheme() {
 	let theme = document.querySelector('meta[name="theme-color"]');
 	if(document.documentElement.classList.contains('darked')) //parent class of each page
 		theme.content = defaultLightTheme;
@@ -48,4 +48,4 @@ function toggleDarkMode() {
 	localStorage.setItem(defaultThemeItem, theme.content);
 }
 
-setDarkMode();
+setTheme();
