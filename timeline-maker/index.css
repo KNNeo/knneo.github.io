@@ -1,0 +1,156 @@
+/*Variables*/
+:root {
+  --primary: #609fff;
+  --secondary: #eee;
+  --background: #fff;
+  --foreground: #000;
+  --accent: lightgray;
+}
+.darked:root {
+  --primary: #00abbf;
+  --secondary: #444;
+  --background: #000;
+  --foreground: #fff;
+  --accent: gray;
+}
+html, select {
+	font-family: Noto Sans;
+	background-color: var(--background);
+	color: var(--foreground);
+}
+body {
+	margin: auto;
+	text-align: center;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	max-width: 640px;
+}
+a {
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	color: var(--foreground);
+	text-decoration: none;
+	font-weight: bold;
+}
+a:hover {
+	color: var(--accent);
+}
+.hidden {
+	display: none;
+}
+.box {
+	margin: 5px;
+	vertical-align: top;
+	scroll-snap-align: center;
+	white-space: normal;
+	touch-action: manipulation;
+}
+.shadowed {
+	border: 1px solid lightgray;
+	box-shadow: 3px 3px;
+}
+.shadowed:active {
+	box-shadow: 1px 1px;
+	transform: translate(2px,2px);
+}
+.unshadowed {
+	filter: opacity(100%);
+	transition: filter 1s;
+}
+.bi {
+	font-size: 1.75em;
+}
+/*Page-Specific*/
+.timeline {
+	position: relative;
+    height: calc(100dvh - 225px);
+	max-width: 480px;
+    overflow: auto;
+    margin: auto;
+}
+.grid {
+	padding: 40px 0;
+	display: grid;
+    grid-template-columns: 1fr 25px 1fr;
+    grid-auto-rows: 25px;
+    align-items: center;
+    justify-items: center;
+}
+.grid .container {
+	display: contents;
+}
+.grid .left {
+	/* white-space: nowrap; */
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-webkit-user-select: auto;
+	-khtml-user-select: auto;
+	-moz-user-select: auto;
+	-ms-user-select: auto;
+	user-select: auto;
+}
+.grid .img {
+	max-width: 100px;
+	border: 4px solid var(--foreground);
+}
+.grid .right {
+	grid-column-start: 3;
+	/* white-space: nowrap; */
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-webkit-user-select: auto;
+	-khtml-user-select: auto;
+	-moz-user-select: auto;
+	-ms-user-select: auto;
+	user-select: auto;
+}
+.grid .blob {
+	grid-column-start: 2;
+    font-size: 2em;
+    font-weight: bold;
+}
+.container:hover .img,
+.container:hover div {
+	color: var(--foreground);
+	filter: none;
+}
+.container:hover a,
+.container:hover div {
+	z-index: 10;
+}
+.container:hover ~ div,
+.dimmed {
+	color: var(--accent);
+	filter: grayscale(90%) contrast(0.2) brightness(1.5);
+}
+.darked .container:hover ~ div,
+.darked .dimmed {
+	filter: grayscale(90%) contrast(0.2)  brightness(0.8);	
+}
+.menu {
+    display: flex;
+    justify-content: center;
+	gap: 10px;
+}
+.separator {
+    width: 2ch;
+}
+.dialog {
+	position: fixed;
+}
+.dialog dialog {
+	background-color: var(--background);
+	color: var(--foreground);	
+	padding: 10px;
+	max-width: 360px;
+    margin: auto;
+}
+.dialog dialog a {
+	padding: 6px;
+}
