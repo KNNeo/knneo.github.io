@@ -42,7 +42,7 @@ function filterByTag() {
 }
 
 function randomPost() {
-	let urls = Array.from(document.querySelectorAll('.latest.post:not(.hidden)')).map(p => p.querySelector('a').href);
+	let urls = Array.from(document.querySelectorAll('.post:not(.hidden)')).map(p => p.querySelector('a').href);
 	window.location.href = urls[Math.floor(Math.random() * urls.length)];
 }
 
