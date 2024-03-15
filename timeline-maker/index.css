@@ -112,7 +112,7 @@ a:hover {
 }
 .grid .blob {
 	grid-column-start: 2;
-    font-size: 2em;
+    font-size: 3em;
     font-weight: bold;
 }
 .grid .img {

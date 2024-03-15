@@ -100,7 +100,7 @@ function generateTimeline(timelineList, categoryId, categoryTitle = '') {
 				if(dat.txt)
 				{
 					let txt = document.createElement('div');
-					txt.classList.add(dat.key);
+					txt.classList.add(dat.pos);
 					txt.classList.add('txt');
 					if(config.dimmed) txt.classList.add('dimmed');
 					txt.innerText = dat.txt;
@@ -111,25 +111,24 @@ function generateTimeline(timelineList, categoryId, categoryTitle = '') {
 				{		
 					let url = document.createElement('a');
 					let img = document.createElement('img');
-					img.classList.add(dat.key);
+					img.classList.add(dat.pos);
 					img.classList.add('img');
 					if(config.dimmed) img.classList.add('dimmed');
 					img.src = dat.img;
 					img.setAttribute('oncontextmenu', 'return false');
-					// img.title = (item.url.startsWith('http') ? '' : '@') + item.url;
-					// if(img.circular)
-						// img.style.borderRadius = '50%';
-						
+					img.title = dat.title;
+					
 					if(dat.url && dat.url.length > 0)
-						handler.appendChild(img);
+						url.appendChild(img);
 					else
 						elems.push(img);
 
 					if(dat.url && dat.url.length > 0)
 					{
-						handler.href = (dat.url.startsWith('http') ? '' : 'https://twitter.com/') + dat.url;
-						handler.setAttribute('target', '_blank');
-						elems.push(handler);
+						url.classList.add(dat.pos);
+						url.href = (dat.url.startsWith('http') ? '' : 'https://twitter.com/') + dat.url;
+						// url.setAttribute('target', '_blank');
+						elems.push(url);
 					}
 				}
 			}
