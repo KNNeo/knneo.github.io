@@ -115,19 +115,17 @@ a:hover {
     font-size: 2em;
     font-weight: bold;
 }
-.highlight .img,
+.highlight img,
 .highlight a,
 .highlight div {
 	color: var(--foreground);
 	filter: none;
 	z-index: 10;
 }
-.highlight ~ div,
 .dimmed {
 	color: var(--accent);
 	filter: grayscale(90%) contrast(0.2) brightness(1.5);
 }
-.darked .highlight ~ div,
 .darked .dimmed {
 	filter: grayscale(90%) contrast(0.2)  brightness(0.8);	
 }
