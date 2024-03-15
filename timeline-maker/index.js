@@ -1,6 +1,7 @@
 //--DEFAULT SETTINGS--//
 const config = {
-	"dimmed": true
+	"dimmed": true,
+	"orientation": "horizontal"
 };
 
 //--DOM NODE REFERENCES--//
@@ -12,6 +13,7 @@ function onKeyDown() {
 
 function timelineOnScroll() {
 	var middleY = (timelineDiv.clientHeight / 2) + 100;
+	var middleX = (timelineDiv.clientWidth / 2) -30;
 	
 	var positions = [];
 	var selected = null;
@@ -19,13 +21,30 @@ function timelineOnScroll() {
 	for(let item of timelineDiv.querySelectorAll('.blob'))
 	{
 		item.parentElement.classList.remove('highlight');
-		let diff = Math.abs(item.getBoundingClientRect().y - middleY);
-		if(diff < min) {
+		let diffY = Math.abs(item.getBoundingClientRect().y - middleY);
+		let diffX = Math.abs(item.getBoundingClientRect().x - middleX);
+		if(diffY < min) {
 			selected = item;
-			min = diff;
+			min = diffY;
+		}
+		if(diffX < min) {
+			selected = item;
+			min = diffX;
 		}
 	}
 	selected.parentElement.classList.add('highlight');
+}
+
+function toggleDimMode() {
+	event.target.classList.toggle('bi-lightbulb');
+	event.target.classList.toggle('bi-lightbulb-fill');
+	config.dimmed = config.dimmed ? false : true;
+	startup();
+}
+
+function toggleOrientation() {
+	config.orientation = config.orientation == 'horizontal' ? 'vertical' : 'horizontal';
+	startup();
 }
 
 //--EVENT HANDLERS--//
@@ -33,32 +52,32 @@ function timelineOnScroll() {
 
 //--FUNCTIONS--//
 function readFromLocalStorage() {
-	
+	window.addEventListener('resize', startup);
 }
 
-function generateTimeline(timelineList, categoryId, categoryTitle = '') {
-	let list = document.createElement('div');
-	list.id = categoryId;
-	list.classList.add('category');
+function generateTimeline(timelineList, parentQuery, timelineTitle = '') {
+	let list = document.querySelector(parentQuery);
+	list.innerHTML = '';
+	list.classList.remove('horizontal');
+	list.classList.remove('vertical');
+	list.classList.add(config.orientation);
 	
-	if(categoryTitle) {
+	if(timelineTitle) {
 		let block = document.createElement('h4');
 		block.classList.add('tr_bq');
 		
 			let title = document.createElement('span');
 			title.classList.add('category-title');
-			title.innerText = categoryTitle;
+			title.innerText = timelineTitle;
 			
 		block.appendChild(title);
 		list.appendChild(block);
 	}
 	
 	let listBlock = document.createElement('div');
-	listBlock.classList.add('block');
 	listBlock.classList.add('grid');
 	
 	let empty = {};
-	let count = 0;
 	let displayList = timelineList
 		.sort(function(a,b) { return a.sort - b.sort; })
 		.reduce(function(total, current, index, _) {
@@ -76,14 +95,20 @@ function generateTimeline(timelineList, categoryId, categoryTitle = '') {
 			return total;
 		}, []);
 	
+	if(config.orientation == 'horizontal') {
+		for(s = 0; s < Math.floor((timelineDiv.clientWidth / 2) / 45); s++)
+		{
+			displayList.push({ "empty": true });
+		}
+	}
+	
+	let count = 0;
 	for(let item of displayList)
 	{
+		count++;
+		
 		let container = document.createElement('div');
 		container.classList.add('container');
-		// if(config.dimmed) {
-			// container.setAttribute('onmouseenter', 'itemOnMouseEnter()');
-			// container.setAttribute('onmouseleave', 'itemOnMouseLeave()');
-		// }
 
 		let elems = [];
 		let blob = document.createElement('div');
@@ -91,6 +116,7 @@ function generateTimeline(timelineList, categoryId, categoryTitle = '') {
 		blob.classList.add('blob');
 		if(config.dimmed) blob.classList.add('dimmed');
 		blob.innerText = '|';
+		if(item.empty) blob.style.opacity = 0;
 		elems.push(blob);
 		
 		if(item.data && item.data.length >= 2)
@@ -135,27 +161,49 @@ function generateTimeline(timelineList, categoryId, categoryTitle = '') {
 		}
 		
 		let leftElems = elems.filter(e => e.classList.contains('left'));
-		if(leftElems.length > 0)
+		if(leftElems.length > 0) {
+			if(config.orientation == 'horizontal') 
+				leftElems[0].style.gridColumnStart = count;
 			container.appendChild(leftElems[0]);
-		else
-			container.appendChild(document.createElement('div'));
+		}
+		else {
+			let leftElems = document.createElement('div');
+			if(config.orientation == 'horizontal') 
+				leftElems.style.gridColumnStart = count;
+			leftElems.classList.add('left');
+			container.appendChild(leftElems);
+		}
 		let centerElems = elems.filter(e => e.classList.contains('center'));
-		if(centerElems.length > 0)
+		if(centerElems.length > 0) {
+			if(config.orientation == 'horizontal') 
+				centerElems[0].style.gridColumnStart = count;
 			container.appendChild(centerElems[0]);
-		else
-			container.appendChild(document.createElement('div'));
+		}
+		else {
+			centerElems = document.createElement('div');
+			if(config.orientation == 'horizontal') 
+				centerElems.style.gridColumnStart = count;
+			centerElems.classList.add('center');
+			container.appendChild(centerElems);
+		}
 		let rightElems = elems.filter(e => e.classList.contains('right'));
-		if(rightElems.length > 0)
+		if(rightElems.length > 0) {
+			if(config.orientation == 'horizontal') 
+				rightElems[0].style.gridColumnStart = count;
 			container.appendChild(rightElems[0]);
-		else
-			container.appendChild(document.createElement('div'));
+		}
+		else {
+			rightElems = document.createElement('div');
+			if(config.orientation == 'horizontal') 
+				rightElems.style.gridColumnStart = count;
+			rightElems.classList.add('right');
+			container.appendChild(rightElems);
+		}
 		
 		listBlock.appendChild(container);
 	}
 	
 	list.appendChild(listBlock);
-	
-	return list;
 }
 
 //--DIALOG--//
@@ -206,5 +254,5 @@ function removeDialog() {
 //--INITIAL--//
 function startup() {
 	readFromLocalStorage();
-	timelineDiv.appendChild(generateTimeline(JSON.parse(document.querySelector('#data').textContent), 'list'));
+	generateTimeline(JSON.parse(document.querySelector('#data').textContent), '.timeline');
 }
