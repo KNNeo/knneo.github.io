@@ -75,7 +75,7 @@ a:hover {
     margin: auto;
 }
 .grid {
-	padding: 40px 0;
+	padding: 50% 0;
 	display: grid;
     grid-template-columns: 1fr 25px 1fr;
     grid-auto-rows: 25px;
@@ -115,21 +115,19 @@ a:hover {
     font-size: 2em;
     font-weight: bold;
 }
-.container:hover .img,
-.container:hover div {
+.highlight .img,
+.highlight a,
+.highlight div {
 	color: var(--foreground);
 	filter: none;
-}
-.container:hover a,
-.container:hover div {
 	z-index: 10;
 }
-.container:hover ~ div,
+.highlight ~ div,
 .dimmed {
 	color: var(--accent);
 	filter: grayscale(90%) contrast(0.2) brightness(1.5);
 }
-.darked .container:hover ~ div,
+.darked .highlight ~ div,
 .darked .dimmed {
 	filter: grayscale(90%) contrast(0.2)  brightness(0.8);	
 }
