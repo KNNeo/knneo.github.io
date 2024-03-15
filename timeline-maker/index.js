@@ -1,5 +1,7 @@
 //--DEFAULT SETTINGS--//
-const config = {};
+const config = {
+	"dimmed": true
+};
 
 //--DOM NODE REFERENCES--//
 let timelineDiv = document.querySelector('.timeline');
@@ -10,10 +12,18 @@ function onKeyDown() {
 
 function itemOnMouseEnter() {
 	event.target.classList.add('highlight');
+	for(let child of event.target.childNodes)
+	{
+		child.classList.remove('dimmed');
+	}
 }
 
 function itemOnMouseLeave() {
 	event.target.classList.remove('highlight');
+	for(let child of event.target.childNodes)
+	{
+		child.classList.add('dimmed');
+	}
 }
 
 //--EVENT HANDLERS--//
@@ -71,8 +81,10 @@ function generateTimeline(categoryId, categoryTitle, filterList, fold = true) {
 	{
 		let container = document.createElement('div');
 		container.classList.add('container');
-		container.setAttribute('onmouseenter', 'itemOnMouseEnter()');
-		container.setAttribute('onmouseleave', 'itemOnMouseLeave()');
+		if(config.dimmed) {
+			container.setAttribute('onmouseenter', 'itemOnMouseEnter()');
+			container.setAttribute('onmouseleave', 'itemOnMouseLeave()');
+		}
 
 		let elems = [];
 		let blob = document.createElement('div');
