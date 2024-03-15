@@ -115,6 +115,7 @@ function generateTimeline(categoryId, categoryTitle, filterList, fold = true) {
 					img.classList.add('img');
 					if(config.dimmed) img.classList.add('dimmed');
 					img.src = dat.img;
+					img.setAttribute('oncontextmenu', 'return false');
 					// img.title = (item.url.startsWith('http') ? '' : '@') + item.url;
 					// if(img.circular)
 						// img.style.borderRadius = '50%';
