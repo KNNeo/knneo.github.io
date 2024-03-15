@@ -9,11 +9,11 @@ function onKeyDown() {
 }
 
 function itemOnMouseEnter() {
-	event.target.classList.add('highlight');
+	event.target.classList.remove('dimmed');
 }
 
-function itemOnMouseOut() {
-	event.target.classList.remove('highlight');
+function itemOnMouseLeave() {
+	event.target.classList.add('dimmed');
 }
 
 //--EVENT HANDLERS--//
@@ -78,8 +78,8 @@ function generateTimeline(categoryId, categoryTitle, filterList, fold = true) {
 		blob.classList.add('blob');
 		blob.classList.add('dimmed');
 		blob.innerText = '|';
-		blob.onmouseenter = 'itemOnMouseEnter()';
-		blob.onmouseout = 'itemOnMouseOut()';
+		blob.setAttribute('onmouseenter', 'itemOnMouseEnter()');
+		blob.setAttribute('onmouseleave', 'itemOnMouseLeave()');
 		// container.appendChild(blob);
 		elems.push(blob);
 		
@@ -94,8 +94,8 @@ function generateTimeline(categoryId, categoryTitle, filterList, fold = true) {
 					txt.classList.add('txt');
 					txt.classList.add('dimmed');
 					txt.innerText = dat.txt;
-					txt.onmouseenter = 'itemOnMouseEnter()';
-					txt.onmouseout = 'itemOnMouseOut()';
+					txt.setAttribute('onmouseenter', 'itemOnMouseEnter()');
+					txt.setAttribute('onmouseleave', 'itemOnMouseLeave()');
 					elems.push(txt);
 					// container.appendChild(txt);
 				}
@@ -108,8 +108,8 @@ function generateTimeline(categoryId, categoryTitle, filterList, fold = true) {
 					img.classList.add('img');
 					img.classList.add('dimmed');
 					img.src = dat.img;
-					img.onmouseenter = 'itemOnMouseEnter()';
-					img.onmouseout = 'itemOnMouseOut()';
+					img.setAttribute('onmouseenter', 'itemOnMouseEnter()');
+					img.setAttribute('onmouseleave', 'itemOnMouseLeave()');
 					// img.title = (item.url.startsWith('http') ? '' : '@') + item.url;
 					// if(img.circular)
 						// img.style.borderRadius = '50%';
