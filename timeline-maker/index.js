@@ -36,7 +36,7 @@ function readFromLocalStorage() {
 	
 }
 
-function generateTimeline(categoryId, categoryTitle, filterList, fold = true) {
+function generateTimeline(timelineList, categoryId, categoryTitle = '') {
 	let list = document.createElement('div');
 	list.id = categoryId;
 	list.classList.add('category');
@@ -59,7 +59,7 @@ function generateTimeline(categoryId, categoryTitle, filterList, fold = true) {
 	
 	let empty = {};
 	let count = 0;
-	let displayList = filterList
+	let displayList = timelineList
 		.sort(function(a,b) { return a.sort - b.sort; })
 		.reduce(function(total, current, index, _) {
 			if(current.skip) {
@@ -207,5 +207,5 @@ function removeDialog() {
 //--INITIAL--//
 function startup() {
 	readFromLocalStorage();
-	timelineDiv.appendChild(generateTimeline('list', '', JSON.parse(document.querySelector('#data').textContent)));
+	timelineDiv.appendChild(generateTimeline(JSON.parse(document.querySelector('#data').textContent), 'list'));
 }
