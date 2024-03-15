@@ -8,7 +8,7 @@ let timelineDiv = document.querySelector('.timeline');
 function onKeyDown() {
 }
 
-function itemOnMouseOver() {
+function itemOnMouseEnter() {
 	event.target.classList.add('highlight');
 }
 
@@ -78,8 +78,8 @@ function generateTimeline(categoryId, categoryTitle, filterList, fold = true) {
 		blob.classList.add('blob');
 		blob.classList.add('dimmed');
 		blob.innerText = '|';
-		blob.onmouseover = 'itemMouseOver()';
-		blob.onmouseout = 'itemMouseOut()';
+		blob.onmouseenter = 'itemOnMouseEnter()';
+		blob.onmouseout = 'itemOnMouseOut()';
 		// container.appendChild(blob);
 		elems.push(blob);
 		
@@ -94,8 +94,8 @@ function generateTimeline(categoryId, categoryTitle, filterList, fold = true) {
 					txt.classList.add('txt');
 					txt.classList.add('dimmed');
 					txt.innerText = dat.txt;
-					txt.onmouseover = 'itemMouseOver()';
-					txt.onmouseout = 'itemMouseOut()';
+					txt.onmouseenter = 'itemOnMouseEnter()';
+					txt.onmouseout = 'itemOnMouseOut()';
 					elems.push(txt);
 					// container.appendChild(txt);
 				}
@@ -108,8 +108,8 @@ function generateTimeline(categoryId, categoryTitle, filterList, fold = true) {
 					img.classList.add('img');
 					img.classList.add('dimmed');
 					img.src = dat.img;
-					img.onmouseover = 'itemMouseOver()';
-					img.onmouseout = 'itemMouseOut()';
+					img.onmouseenter = 'itemOnMouseEnter()';
+					img.onmouseout = 'itemOnMouseOut()';
 					// img.title = (item.url.startsWith('http') ? '' : '@') + item.url;
 					// if(img.circular)
 						// img.style.borderRadius = '50%';
