@@ -75,7 +75,7 @@ a:hover {
     margin: auto;
 }
 .grid {
-	padding: 50% 0;
+    padding: 95% 0;
 	display: grid;
     grid-template-columns: 1fr 25px 1fr;
     grid-auto-rows: 25px;
@@ -123,9 +123,8 @@ a:hover {
 .darked .dimmed {
 	filter: grayscale(90%) contrast(0.2)  brightness(0.8);	
 }
-.highlight img,
-.highlight a,
-.highlight div {
+.container:active .dimmed,
+.highlight .dimmed {
 	color: var(--foreground);
 	filter: none;
 	z-index: 10;

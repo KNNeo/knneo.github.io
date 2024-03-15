@@ -1,6 +1,6 @@
 //--DEFAULT SETTINGS--//
 const config = {
-	"dimmed": false
+	"dimmed": true
 };
 
 //--DOM NODE REFERENCES--//
@@ -10,20 +10,22 @@ let timelineDiv = document.querySelector('.timeline');
 function onKeyDown() {
 }
 
-function itemOnMouseEnter() {
-	event.target.classList.add('highlight');
-	for(let child of event.target.childNodes)
+function timelineOnScroll() {
+	var yValue = timelineDiv.clientHeight / 2;
+	
+	var positions = [];
+	var selected = null;
+	var min = Number.MAX_VALUE;
+	for(let item of timelineDiv.querySelectorAll('.blob'))
 	{
-		child.classList.remove('dimmed');
+		item.parentElement.classList.remove('highlight');
+		let diff = Math.abs(item.getBoundingClientRect().y - yValue);
+		if(diff < min) {
+			selected = item;
+			min = diff;
+		}
 	}
-}
-
-function itemOnMouseLeave() {
-	event.target.classList.remove('highlight');
-	for(let child of event.target.childNodes)
-	{
-		child.classList.add('dimmed');
-	}
+	selected.parentElement.classList.add('highlight');
 }
 
 //--EVENT HANDLERS--//
@@ -51,12 +53,9 @@ function generateTimeline(categoryId, categoryTitle, filterList, fold = true) {
 		list.appendChild(block);
 	}
 	
-	list.appendChild(document.createElement('br'));
-	
 	let listBlock = document.createElement('div');
 	listBlock.classList.add('block');
 	listBlock.classList.add('grid');
-	// listBlock.style.height = fold ? 0 : '';
 	
 	let empty = {};
 	let count = 0;
@@ -92,7 +91,6 @@ function generateTimeline(categoryId, categoryTitle, filterList, fold = true) {
 		blob.classList.add('blob');
 		if(config.dimmed) blob.classList.add('dimmed');
 		blob.innerText = '|';
-		// container.appendChild(blob);
 		elems.push(blob);
 		
 		if(item.data && item.data.length >= 2)
@@ -107,7 +105,6 @@ function generateTimeline(categoryId, categoryTitle, filterList, fold = true) {
 					if(config.dimmed) txt.classList.add('dimmed');
 					txt.innerText = dat.txt;
 					elems.push(txt);
-					// container.appendChild(txt);
 				}
 				
 				if(dat.img)
@@ -125,14 +122,12 @@ function generateTimeline(categoryId, categoryTitle, filterList, fold = true) {
 					if(dat.url && dat.url.length > 0)
 						handler.appendChild(img);
 					else
-						// container.appendChild(img);
 						elems.push(img);
 
 					if(dat.url && dat.url.length > 0)
 					{
 						handler.href = (dat.url.startsWith('http') ? '' : 'https://twitter.com/') + dat.url;
 						handler.setAttribute('target', '_blank');
-						// container.appendChild(handler);
 						elems.push(handler);
 					}
 				}
@@ -159,7 +154,6 @@ function generateTimeline(categoryId, categoryTitle, filterList, fold = true) {
 	}
 	
 	list.appendChild(listBlock);
-	list.appendChild(document.createElement('br'));
 	
 	return list;
 }
