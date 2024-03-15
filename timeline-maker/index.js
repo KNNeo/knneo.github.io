@@ -9,11 +9,11 @@ function onKeyDown() {
 }
 
 function itemOnMouseEnter() {
-	event.target.classList.remove('dimmed');
+	event.target.parentElement.classList.add('highlight');
 }
 
 function itemOnMouseLeave() {
-	event.target.classList.add('dimmed');
+	event.target.parentElement.classList.remove('highlight');
 }
 
 //--EVENT HANDLERS--//
