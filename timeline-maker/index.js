@@ -90,7 +90,7 @@ function generateTimeline(categoryId, categoryTitle, filterList, fold = true) {
 		let blob = document.createElement('div');
 		blob.classList.add('center');
 		blob.classList.add('blob');
-		blob.classList.add('dimmed');
+		if(config.dimmed) blob.classList.add('dimmed');
 		blob.innerText = '|';
 		// container.appendChild(blob);
 		elems.push(blob);
@@ -104,7 +104,7 @@ function generateTimeline(categoryId, categoryTitle, filterList, fold = true) {
 					let txt = document.createElement('div');
 					txt.classList.add(dat.key);
 					txt.classList.add('txt');
-					txt.classList.add('dimmed');
+					if(config.dimmed) txt.classList.add('dimmed');
 					txt.innerText = dat.txt;
 					elems.push(txt);
 					// container.appendChild(txt);
@@ -116,7 +116,7 @@ function generateTimeline(categoryId, categoryTitle, filterList, fold = true) {
 					let img = document.createElement('img');
 					img.classList.add(dat.key);
 					img.classList.add('img');
-					img.classList.add('dimmed');
+					if(config.dimmed) img.classList.add('dimmed');
 					img.src = dat.img;
 					// img.title = (item.url.startsWith('http') ? '' : '@') + item.url;
 					// if(img.circular)
