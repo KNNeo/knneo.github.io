@@ -75,7 +75,7 @@ a:hover {
     margin: auto;
 }
 .grid {
-    padding: 95% 0;
+    padding: 100% 0;
 	display: grid;
     grid-template-columns: 1fr 25px 1fr;
     grid-auto-rows: 25px;
