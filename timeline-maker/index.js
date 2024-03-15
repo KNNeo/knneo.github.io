@@ -11,7 +11,7 @@ function onKeyDown() {
 }
 
 function timelineOnScroll() {
-	var yValue = timelineDiv.clientHeight / 2;
+	var middleY = (timelineDiv.clientHeight / 2) + 100;
 	
 	var positions = [];
 	var selected = null;
@@ -19,7 +19,7 @@ function timelineOnScroll() {
 	for(let item of timelineDiv.querySelectorAll('.blob'))
 	{
 		item.parentElement.classList.remove('highlight');
-		let diff = Math.abs(item.getBoundingClientRect().y - yValue);
+		let diff = Math.abs(item.getBoundingClientRect().y - middleY);
 		if(diff < min) {
 			selected = item;
 			min = diff;
@@ -80,10 +80,10 @@ function generateTimeline(categoryId, categoryTitle, filterList, fold = true) {
 	{
 		let container = document.createElement('div');
 		container.classList.add('container');
-		if(config.dimmed) {
-			container.setAttribute('onmouseenter', 'itemOnMouseEnter()');
-			container.setAttribute('onmouseleave', 'itemOnMouseLeave()');
-		}
+		// if(config.dimmed) {
+			// container.setAttribute('onmouseenter', 'itemOnMouseEnter()');
+			// container.setAttribute('onmouseleave', 'itemOnMouseLeave()');
+		// }
 
 		let elems = [];
 		let blob = document.createElement('div');

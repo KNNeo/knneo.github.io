@@ -75,10 +75,10 @@ a:hover {
     margin: auto;
 }
 .grid {
-    padding: 100% 0;
+    padding: 75% 0;
 	display: grid;
     grid-template-columns: 1fr 25px 1fr;
-    grid-auto-rows: 25px;
+    grid-auto-rows: 30px;
     align-items: center;
     justify-items: center;
 }
@@ -95,11 +95,6 @@ a:hover {
 	-ms-user-select: auto;
 	user-select: auto;
 }
-.grid .img {
-	max-width: 100px;
-	max-height: 100px;
-	border: 4px solid var(--foreground);
-}
 .grid .right {
 	grid-column-start: 3;
 	/* white-space: nowrap; */
@@ -111,10 +106,19 @@ a:hover {
 	-ms-user-select: auto;
 	user-select: auto;
 }
+.grid .txt {
+	padding: 0 5px;
+	font-size: 0.9em;
+}
 .grid .blob {
 	grid-column-start: 2;
     font-size: 2em;
     font-weight: bold;
+}
+.grid .img {
+	max-width: 120px;
+	max-height: 120px;
+	border: 4px solid var(--foreground);
 }
 .dimmed {
 	color: var(--accent);
