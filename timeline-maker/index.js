@@ -1,6 +1,6 @@
 //--DEFAULT SETTINGS--//
 const config = {
-	"dimmed": true
+	"dimmed": false
 };
 
 //--DOM NODE REFERENCES--//
