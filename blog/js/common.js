@@ -786,7 +786,8 @@ function resizeImage(img) {
 	// adjust dimensions
 	if(p.parentElement && p.parentElement.parentElement && p.parentElement.parentElement.parentElement) {
 		if (p.parentElement.parentElement.tagName == 'TR' && 
-			p.parentElement.parentElement.getElementsByTagName('td').length > 1) //in table
+			p.parentElement.parentElement.getElementsByTagName('td').length > 1 &&
+			!p.parentElement.parentElement.style.width) //in table
 			p.classList.add('img-width-fit');
 		else if (p.parentElement.parentElement.parentElement.tagName == 'TR' && 
 			p.parentElement.parentElement.parentElement.getElementsByTagName('td').length > 1 && 
@@ -795,9 +796,8 @@ function resizeImage(img) {
 			p.classList.add('img-width-fit');
 		else if (p.width + 20 >= window.outerWidth)
 			p.classList.add('img-width-fit');
-		else {
+		else
 			p.classList.add('img-width-auto');
-		}
 			
 		// special case: to avoid resize issue on reload
 		if(p.classList && p.classList.contains('img-width-fit') && p.classList.contains('img-width-auto'))
