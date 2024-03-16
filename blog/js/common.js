@@ -21,7 +21,6 @@ function startup() {
 	// Window events
 	window.addEventListener('scroll', toggleActionsOnScroll);
 	window.addEventListener('resize', windowOnResize);
-	window.addEventListener('resize', resizeImages);
 	window.addEventListener('hashchange', scrollToSectionByUrl);
 	
 	// Asynchronous Events
@@ -756,17 +755,17 @@ function resizeImages() {
     */
     for (var p of document.querySelectorAll("img"))
 	{
-		if(p.complete)
+		resizeImage(p);
+		p.addEventListener('load', function() {
 			resizeImage(p);
-		else
-			p.addEventListener('load', resizeImage);
+		}); // redundancy for slow networks
     }
 }
 
-function resizeImage(img) {
+function resizeImage(p) {
 	// Conditions that cannot fix - workaround
 	// Multiple table cells with caption row - set width style for caption row in %
-	let p = event?.target || img;
+	// let p = event?.target || img;
 	let showLog = false;
 	if(showLog) console.log(p);
 	var imgWidth = p.width;
@@ -784,17 +783,37 @@ function resizeImage(img) {
 	// if(showLog)	console.log('orientation: ' + (imgWidth >= imgHeight ? 'landscape' : 'portrait'));
 	
 	// adjust dimensions
-	if(p.parentElement && p.parentElement.parentElement && p.parentElement.parentElement.parentElement) {
-		if (p.parentElement.parentElement.tagName == 'TR' && 
-			p.parentElement.parentElement.getElementsByTagName('td').length > 1 &&
-			!p.parentElement.parentElement.style.width) //in table
-			p.classList.add('img-width-fit');
-		else if (p.parentElement.parentElement.parentElement.tagName == 'TR' && 
-			p.parentElement.parentElement.parentElement.getElementsByTagName('td').length > 1 && 
-			p.parentElement.tagName == 'A' &&
-			!p.parentElement.parentElement.style.width) //in table, with link
-			p.classList.add('img-width-fit');
-		else if (p.width + 20 >= window.outerWidth)
+	if(p.parentElement && p.parentElement.parentElement) {
+		let bodyWidth = document.querySelector('.post-body.entry-content').clientWidth;
+		// if (p.parentElement.parentElement.tagName == 'TR' && 
+			// p.parentElement.parentElement.getElementsByTagName('td').length > 1 &&
+			// !p.parentElement.parentElement.style.width) //in table
+			// p.classList.add('img-width-fit');
+		// else if (p.parentElement.parentElement.parentElement.tagName == 'TR' && 
+			// p.parentElement.parentElement.parentElement.getElementsByTagName('td').length > 1 && 
+			// p.parentElement.tagName == 'A' &&
+			// !p.parentElement.parentElement.style.width) //in table, with link
+			// p.classList.add('img-width-fit');
+		if(p.closest('table')) { // table
+			let table = p.closest('table');
+			let max = Math.max(...Array.from(table.querySelectorAll('tr')).map(tr => tr.querySelectorAll('img').length > 1 ? Array.from(tr.querySelectorAll('img')).reduce((imgs, img) => imgs + img.width, 0) : 0)); // with more than 1 column of images
+			if(!table.style.width && !table.style.maxWidth && max) {
+				table.style.width = '100%';
+				table.style.maxWidth = max + 'px';
+			}
+			if(showLog)
+				console.log(table, parseInt(table.style.maxWidth), parseInt(table.style.maxWidth) + 20 >= bodyWidth);
+			// set all images in table
+			if(table.style.maxWidth && parseInt(table.style.maxWidth) + 20 >= bodyWidth) {
+				table.querySelectorAll('img').forEach(img => img.classList.remove('img-width-auto'));
+				table.querySelectorAll('img').forEach(img => img.classList.add('img-width-fit'));
+			}
+			if(table.style.maxWidth && parseInt(table.style.maxWidth) + 20 < bodyWidth) {
+				table.querySelectorAll('img').forEach(img => img.classList.remove('img-width-fit'));
+				table.querySelectorAll('img').forEach(img => img.classList.add('img-width-auto'));
+			}
+		}
+		else if (p.width + 20 >= bodyWidth)
 			p.classList.add('img-width-fit');
 		else
 			p.classList.add('img-width-auto');
