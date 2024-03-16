@@ -50,7 +50,8 @@ h1, h4 {
 .fanfics {
 	display: flex;
 	overflow-x: auto;
-    gap: 12px;
+	gap: 12px;
+	padding-bottom: 2em;
 }
 
 .fanfics .season {
