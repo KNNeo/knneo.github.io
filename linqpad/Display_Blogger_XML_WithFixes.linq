@@ -94,7 +94,7 @@ void Main()
 		#region 01 custom search
 		if(includeIndex.Count() == 0 || includeIndex.Contains(1))
 		{
-	        expression = @"(""id=#"")"; // change custom query in regex here, put 0 as includeIndex
+	        expression = @"(var hashtags = new Array)"; // change custom query in regex here, put 0 as includeIndex
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
