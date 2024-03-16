@@ -45,7 +45,7 @@ void Main()
 	var showMatches = true; //if has match show full match object, else just object with description
 	var showOk = false; //if post no issues don't show
 	 //----------ADD INDEXES HERE----------//
-	List<int> includeIndex = new List<int> { 0 };
+	List<int> includeIndex = new List<int> { 21 };
 	if(includeIndex.Count > 0) Console.WriteLine("[SELECTIVE_CHECKS_ACTIVATED - " + String.Join(", ", includeIndex) + "]");
 	else Console.WriteLine("[ALL_CHECKS_ACTIVATED]");
 	
@@ -228,7 +228,7 @@ void Main()
         #region 21 fix primary and secondary colours to variables
 		if(includeIndex.Count() == 0 || includeIndex.Contains(21))
 		{
-	        expression = @"(.*?)(#00e4ff|#00b8cc|rgb(0, 184, 204)|rgb(9, 165, 184)|1px solid white)(.*?)";
+	        expression = @"(#00e4ff|#00b8cc|rgb\(0, 184, 204\)|rgb\(9, 165, 184\))";//|1px solid white)";
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {

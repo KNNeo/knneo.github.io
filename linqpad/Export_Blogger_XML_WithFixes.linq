@@ -562,11 +562,11 @@ List<int> FixContent(ref string content)
 		content.Contains(headerPrefixColourRgb2) || 
 		content.Contains(whiteBorder)) 
 			count.Add(21);
-        content = content.Replace(primaryColour, "var(--primary)");
-        content = content.Replace(headerPrefixColour, "var(--secondary)");
-        content = content.Replace(headerPrefixColourRgb1, "var(--secondary)");
-        content = content.Replace(headerPrefixColourRgb2, "var(--secondary)");
-        content = content.Replace(whiteBorder, "1px solid var(--foreground);");
+        content = content.Replace(primaryColour, "rgb(var(--primary))");
+        content = content.Replace(headerPrefixColour, "rgb(var(--secondary))");
+        content = content.Replace(headerPrefixColourRgb1, "rgb(var(--secondary))");
+        content = content.Replace(headerPrefixColourRgb2, "rgb(var(--secondary))");
+        content = content.Replace(whiteBorder, "1px solid rgb(var(--foreground));");
 	}
     #endregion
 	
