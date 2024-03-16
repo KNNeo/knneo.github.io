@@ -1,26 +1,48 @@
 //--DEFAULT SETTINGS--//
+const isFirefox = (/Firefox/i.test(navigator.userAgent));
 const config = {
 	"dimmed": true,
-	"orientation": "horizontal"
+	"orientation": window.innerWidth > window.innerHeight ? "horizontal" : "vertical",
+	"size": 40
 };
 
 //--DOM NODE REFERENCES--//
 let timelineDiv = document.querySelector('.timeline');
 
 //--DOM FUNCTIONS--//
+function clearSelectItems() {	
+	for(let blob of timelineDiv.querySelectorAll('.blob'))
+	{
+		blob.parentElement.classList.remove('highlight');
+	}
+}
+
+function selectItem(container) {
+	clearSelectItems();
+	container.classList.add('highlight');
+}
+
+//--EVENT HANDLERS--//
 function onKeyDown() {
 }
 
-function timelineOnScroll() {
-	var middleY = (timelineDiv.clientHeight / 2) + 100;
-	var middleX = (timelineDiv.clientWidth / 2) -30;
+function onWheel() {
+	if(config.orientation == 'horizontal') {
+		event.preventDefault();
+		let scrollDelta = isFirefox ? -event.detail*50 : event.wheelDelta;
+		timelineDiv.scrollLeft -= scrollDelta;
+	}
+}
+
+function timelineOnScroll() {	
+	var middleY = (timelineDiv.clientHeight / 2) + config.size;
+	var middleX = (timelineDiv.clientWidth / 2) - config.size;
 	
 	var positions = [];
 	var selected = null;
 	var min = Number.MAX_VALUE;
 	for(let item of timelineDiv.querySelectorAll('.blob'))
 	{
-		item.parentElement.classList.remove('highlight');
 		let diffY = Math.abs(item.getBoundingClientRect().y - middleY);
 		let diffX = Math.abs(item.getBoundingClientRect().x - middleX);
 		if(diffY < min) {
@@ -32,7 +54,7 @@ function timelineOnScroll() {
 			min = diffX;
 		}
 	}
-	selected.parentElement.classList.add('highlight');
+	selectItem(selected.parentElement);	
 }
 
 function toggleDimMode() {
@@ -47,12 +69,11 @@ function toggleOrientation() {
 	startup();
 }
 
-//--EVENT HANDLERS--//
-
-
 //--FUNCTIONS--//
 function readFromLocalStorage() {
 	window.addEventListener('resize', startup);
+	
+	timelineDiv.addEventListener(isFirefox ? 'DOMMouseScroll' : 'mousewheel', onWheel);
 }
 
 function generateTimeline(timelineList, parentQuery, timelineTitle = '') {
@@ -61,6 +82,7 @@ function generateTimeline(timelineList, parentQuery, timelineTitle = '') {
 	list.classList.remove('horizontal');
 	list.classList.remove('vertical');
 	list.classList.add(config.orientation);
+	list.setAttribute('onscroll', 'timelineOnScroll()');
 	
 	if(timelineTitle) {
 		let block = document.createElement('h4');
@@ -96,7 +118,7 @@ function generateTimeline(timelineList, parentQuery, timelineTitle = '') {
 		}, []);
 	
 	if(config.orientation == 'horizontal') {
-		for(s = 0; s < Math.floor((timelineDiv.clientWidth / 2) / 45); s++)
+		for(s = 0; s < Math.floor((timelineDiv.clientWidth / 2) / config.size); s++)
 		{
 			displayList.push({ "empty": true });
 		}
@@ -115,11 +137,13 @@ function generateTimeline(timelineList, parentQuery, timelineTitle = '') {
 		blob.classList.add('center');
 		blob.classList.add('blob');
 		if(config.dimmed) blob.classList.add('dimmed');
+		blob.classList.add('interactive');
+		blob.setAttribute('onclick', 'selectItem(event.target.parentElement)');
 		blob.innerText = '|';
 		if(item.empty) blob.style.opacity = 0;
 		elems.push(blob);
 		
-		if(item.data && item.data.length >= 2)
+		if(item.data && item.data.length > 0)
 		{
 			for(let dat of item.data)
 			{
@@ -129,6 +153,10 @@ function generateTimeline(timelineList, parentQuery, timelineTitle = '') {
 					txt.classList.add(dat.pos);
 					txt.classList.add('txt');
 					if(config.dimmed) txt.classList.add('dimmed');
+					if(dat.tooltip) {
+						txt.classList.add('interactive');	
+						txt.setAttribute('onclick', 'popupText("' + dat.tooltip + '")');
+					}
 					txt.innerText = dat.txt;
 					elems.push(txt);
 				}
@@ -142,12 +170,17 @@ function generateTimeline(timelineList, parentQuery, timelineTitle = '') {
 					if(config.dimmed) img.classList.add('dimmed');
 					img.src = dat.img;
 					img.setAttribute('oncontextmenu', 'return false');
-					img.title = dat.title;
+					img.title = dat.title ?? '';
 					
 					if(dat.url && dat.url.length > 0)
 						url.appendChild(img);
-					else
+					else {
+						if(dat.tooltip) {
+							img.classList.add('interactive');	
+							img.setAttribute('onclick', 'popupText("' + dat.tooltip + '")');
+						}
 						elems.push(img);
+					}
 
 					if(dat.url && dat.url.length > 0)
 					{
@@ -232,9 +265,10 @@ function createDialog(node) {
 		let clonedNode = node.cloneNode(true);
 		dialog.appendChild(clonedNode);
 	}
-	// dialog.addEventListener('click', function() {
-		// this.remove();
-	// });
+	dialog.addEventListener('click', function() {
+		if(event.target.parentElement == document.querySelector('.dialog'))
+			removeDialog();
+	});
 	dialog.addEventListener('keyup', function() {
 		if (event.key === 'Enter')
 			this.remove();
