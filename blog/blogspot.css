@@ -1,37 +1,37 @@
 /*Variables*/
 :root {
-  --primary: 27, 63, 255;
-  --secondary: 96, 159, 255;
-  --background: 244, 246, 255;
-  --foreground: 0, 0, 0;
-  --accent: 221, 221, 221;
+	--primary: 27, 63, 255;
+	--secondary: 96, 159, 255;
+	--background: 244, 246, 255;
+	--foreground: 0, 0, 0;
+	--accent: 221, 221, 221;
 }
 
 .darked:root {
-  --primary: 0, 228, 255;
-  --secondary: 0, 171, 191;
-  --background: 0, 17, 20;
-  --foreground: 255, 255, 255;
-  --accent: 68, 68, 68;
+	--primary: 0, 228, 255;
+	--secondary: 0, 171, 191;
+	--background: 0, 17, 20;
+	--foreground: 255, 255, 255;
+	--accent: 68, 68, 68;
 }
 
 body {
 	display: block;
-	/* max-width: 760px; */
 	padding: 0 10px;
 	margin: auto;
 	color: rgb(var(--foreground));
 	background-color: rgb(var(--background));
 	transition: background .2s linear;
 	line-height: 1.5;
+	font-size: calc(1rem + 0.25vw);
 }
 
 a {
-  color: rgb(var(--primary));
+	color: rgb(var(--primary));
 }
 
 a:hover {
-  color: rgb(var(--foreground));
+	color: rgb(var(--foreground));
 }
 
 .page-header {
@@ -52,13 +52,13 @@ a:hover {
 }
 
 .page-header .hashtags a {
-    display: inline-block;
+	display: inline-block;
 	white-space: nowrap;
 }
 
 .tr-caption {
-    font-size: 80%;
-    max-width: 680px;
+	font-size: 80%;
+	max-width: 680px;
 }
 
 .post-body {
@@ -78,9 +78,9 @@ a:hover {
 	box-shadow: 3px 3px rgb(var(--foreground));
 	border: 2px solid rgb(var(--foreground));
 	position: relative;
-    display: inline-block;
-    width: min(95%, 410px);
-    margin: 4px 2px;
+	display: inline-block;
+	width: min(95%, 410px);
+	margin: 4px 2px;
 	vertical-align: top;
 	font-size: initial;
 	-webkit-user-select: none;
@@ -98,22 +98,22 @@ a:hover {
 }
 
 .latest a {
-    color: rgb(var(--primary));
+	color: rgb(var(--primary));
 	font-weight: bold;
 	line-height: initial;
-    overflow-wrap: anywhere;
+	overflow-wrap: anywhere;
 }
 
 .latest a:hover {
-    color: rgb(var(--foreground));
+	color: rgb(var(--foreground));
 }
 
 .latest .thumb {
-    display: flex;
+	display: flex;
 	gap: 0 6px;
-    flex-direction: row-reverse;
-    justify-content: space-between;
-    align-items: center;
+	flex-direction: row-reverse;
+	justify-content: space-between;
+	align-items: center;
 	position: relative;
 }
 
@@ -126,16 +126,15 @@ a:hover {
 }
 
 .latest:hover:has(.anchors) .thumb a {
-    margin-bottom: 2em;
+	margin-bottom: 2em;
 }
 
 .latest:hover .thumb .anchors a {
-    margin-bottom: 0;
+	margin-bottom: 0;
 }
 
 .latest .thumb img {
-/* 	border: 2px solid transparent; */
-    border-radius: 5px;
+	border-radius: 5px;
 	width: 150px;
 	height: 150px;
 	object-fit: cover;
@@ -144,45 +143,44 @@ a:hover {
 .anchors {
 	display: none;
 	position: absolute;
-    width: calc(100% - 156px);
+	width: calc(100% - 156px);
 	max-height: 33%;
-    left: auto;
+	left: auto;
 	top: auto;
 	bottom: 0;
 	right: 0;
 	overflow: auto;
-    padding: 3px 0;
+	padding: 3px 0;
 	scrollbar-width: none; /* Firefox */
 }
 
 .anchors::-webkit-scrollbar {
-  width: 0 !important
+	width: 0 !important
 } /* Safari and Chrome */
 
 .latest:hover .anchors {
-    display: flex;
-    align-content: flex-start;
-    /* border-right: 2px solid rgb(var(--foreground)); */
+	display: flex;
+	align-content: flex-start;
 }
 
 .latest .anchors a {
-    color: rgb(var(--primary));
+	color: rgb(var(--primary));
 	font-size: 0.8em;
-    padding: 3px 0;
+	padding: 3px 0;
 	width: auto;
 }
 
 .latest .anchors a:hover {
-    color: rgb(var(--foreground));
+	color: rgb(var(--foreground));
 }
 
 .title {
-    font-size: 1.5em;
-    font-weight: bold;
+	font-size: 1.5em;
+	font-weight: bold;
 }
 
 .hidden {
-    display: none;
+	display: none;
 }
 
 .archive-list {
@@ -190,16 +188,16 @@ a:hover {
 }
 
 .archive-list.flip .thumb {
-    flex-direction: row;
+	flex-direction: row;
 }
 
 .archive-list.flip .anchors {
-    right: auto;
+	right: auto;
 	left: 0;
 }
 
 .archive-list.flip .publish {
-    right: auto;
+	right: auto;
 	left: 8px;
 }
 
@@ -244,6 +242,7 @@ span.emoji {
 }
 
 .post-tags {
+	font-size: 0.9em;
 	display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -305,7 +304,7 @@ a.hidden {
 }
 
 .material-icons {
-	font-size: 36px;
+	font-size: 2em;
 }
 
 .inverted {
@@ -390,7 +389,7 @@ a.hidden {
 
 .loader {
 	position: absolute;
-	font-size: 24px;
+	font-size: 1.5em;
 	width: 100%;
     height: 100%;
 	margin: auto;
