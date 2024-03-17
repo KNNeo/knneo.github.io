@@ -45,7 +45,7 @@ void Main()
 	var showMatches = true; //if has match show full match object, else just object with description
 	var showOk = false; //if post no issues don't show
 	 //----------ADD INDEXES HERE----------//
-	List<int> includeIndex = new List<int> { 21 };
+	List<int> includeIndex = new List<int> { 1 };
 	if(includeIndex.Count > 0) Console.WriteLine("[SELECTIVE_CHECKS_ACTIVATED - " + String.Join(", ", includeIndex) + "]");
 	else Console.WriteLine("[ALL_CHECKS_ACTIVATED]");
 	
@@ -100,7 +100,7 @@ void Main()
 	            fixes.Add(new MatchItem() {
 						match = match,
 						description = "[01] custom search found",
-						action = "N.A."
+						action = "Find where present: " + expression
 					});
 	            match = match.NextMatch();
 	        };
