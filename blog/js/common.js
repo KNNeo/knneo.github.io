@@ -780,7 +780,8 @@ function resizeImage(p) {
 	
 	// adjust dimensions
 	if(p.parentElement && p.parentElement.parentElement) {
-		let bodyWidth = document.querySelector('.post-body.entry-content').clientWidth;
+		let bodyWidth = document.querySelector('.post-body.entry-content')?.clientWidth;
+		if(!bodyWidth) return;
 		// if (p.parentElement.parentElement.tagName == 'TR' && 
 			// p.parentElement.parentElement.getElementsByTagName('td').length > 1 &&
 			// !p.parentElement.parentElement.style.width) //in table
