@@ -390,6 +390,10 @@ a.fab:focus-within {
 	overflow: hidden;
 }
 
+.latest-post a:hover {
+	text-decoration: none;
+}
+
 .latest-post .summary {
 	color: rgb(var(--foreground));
     font-size: 85%;
@@ -399,6 +403,7 @@ a.fab:focus-within {
 
 .latest-post:hover .latest-post-title {
 	color: rgb(var(--foreground));
+	text-decoration: underline;
 }
 
 .latest-post:hover {
