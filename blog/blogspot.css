@@ -98,14 +98,9 @@ a:hover {
 }
 
 .latest a {
-	color: rgb(var(--primary));
 	font-weight: bold;
 	line-height: initial;
 	overflow-wrap: anywhere;
-}
-
-.latest a:hover {
-	color: rgb(var(--foreground));
 }
 
 .latest .thumb {
@@ -177,10 +172,6 @@ a:hover {
 .title {
 	font-size: 1.5em;
 	font-weight: bold;
-}
-
-.hidden {
-	display: none;
 }
 
 .archive-list {
@@ -267,14 +258,17 @@ span.emoji {
 	text-decoration: none;
 }
 
+.post-tags a:visited {
+	color: rgb(var(--primary));
+}
+
 .post-tags a:hover {
 	box-shadow: 1px 1px;
 	transform: translate(2px, 2px);
+	color: rgb(var(--foreground));
 }
 
-.TheStatement,
-.Post.hidden,
-a.hidden {
+.hidden {
 	display: none;
 	height: 0;
 }
