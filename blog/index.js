@@ -71,10 +71,10 @@ function toggleActionsOnScroll() {
 	let pageDown = document.body.scrollTop > 0.3 * document.documentElement.clientHeight || 
 	document.documentElement.scrollTop > 0.3 * document.documentElement.clientHeight;
 	if (pageDown) {
-		toggleActions('.fab.go-to-top', '.action-menu.bottom-right');
+		toggleActions(['.fab.search', '.fab.top'], '.action-menu.bottom-right');
 	}
 	else {
-		toggleActions(['.fab.thumb-design', '.fab.search', '.fab.dark-mode'], '.action-menu.bottom-right');
+		toggleActions(['.fab.thumb-design', '.fab.search', '.fab.theme'], '.action-menu.bottom-right');
 	}
 }
 
@@ -93,12 +93,12 @@ function toggleActions(showElements, parentElement) {
 		for(let elem of showElements)
 		{
 			if(typeof(elem) == 'string') elem = document.querySelector(elem);
-			elem.classList.remove('hidden');
+			if(elem) elem.classList.remove('hidden');
 		}
 	}
 	else if(typeof(showElements) == 'string') {
 		showElements = document.querySelector(showElements);
-		showElements.classList.remove('hidden');
+		if(showElements) showElements.classList.remove('hidden');
 	}
 }
 

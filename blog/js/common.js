@@ -528,15 +528,15 @@ function toggleActionsOnScroll() {
 	document.documentElement.scrollTop > 0.3 * document.documentElement.clientHeight;
 	if(!isBlogger()) {
 		if (pageDown) {
-			toggleActions(['.fab.share', '.fab.search', '.fab.go-to-top'], '.action-menu.bottom-right');
+			toggleActions(['.fab.share', '.fab.search', '.fab.top'], '.action-menu.bottom-right');
 		}
 		else {
-			toggleActions(['.fab.share', '.fab.search', '.fab.dark-mode'], '.action-menu.bottom-right');
+			toggleActions(['.fab.share', '.fab.search', '.fab.theme'], '.action-menu.bottom-right');
 		}
 	}
 	else {
 		if (pageDown) {
-			toggleActions(['.fab.share', '.fab.go-to-top'], '.action-menu.bottom-right');
+			toggleActions(['.fab.share', '.fab.top'], '.action-menu.bottom-right');
 		}
 		else {
 			toggleActions(['.fab.share', '.fab.search'], '.action-menu.bottom-right');

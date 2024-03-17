@@ -252,8 +252,8 @@ void Main()
 			output.AppendLine("<div class=\"action-menu bottom-right\">");
 			output.AppendLine("<a class=\"fab share material-icons\" title=\"Share This Page\" onclick=\"sharePage()\">share</a>");
 			output.AppendLine("<a class=\"fab search material-icons\" title=\"Search This Blog\" onclick=\"showSearch()\">search</a>");	
-			output.AppendLine("<a class=\"fab dark-mode material-icons\" title=\"Toggle Dark Mode\" onclick=\"toggleDarkMode()\">brightness_high</a>");
-			output.AppendLine("<a class=\"fab go-to-top material-icons hidden\" title=\"Go To Top\" onclick=\"goToTop()\">arrow_upward</a>");
+			output.AppendLine("<a class=\"fab theme material-icons\" title=\"Toggle Dark Mode\" onclick=\"toggleTheme()\">brightness_high</a>");
+			output.AppendLine("<a class=\"fab top material-icons hidden\" title=\"Go To Top\" onclick=\"goToTop()\">arrow_upward</a>");
 			output.AppendLine("</div>");
 	        output.AppendLine("</body>");
 	        output.AppendLine("</html>");
