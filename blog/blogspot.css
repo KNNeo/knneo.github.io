@@ -159,7 +159,6 @@ a:hover {
 }
 
 .latest .anchors a {
-	color: rgb(var(--primary));
 	font-size: 0.8em;
 	padding: 3px 0;
 	width: auto;
