@@ -3,7 +3,8 @@ const isFirefox = (/Firefox/i.test(navigator.userAgent));
 const config = {
 	"dimmed": true,
 	"orientation": window.innerWidth > window.innerHeight ? "horizontal" : "vertical",
-	"size": 40
+	"size": 40,
+	"scroll": 0.3
 };
 
 //--DOM NODE REFERENCES--//
@@ -27,11 +28,12 @@ function onKeyDown() {
 }
 
 function onWheel() {
-	if(config.orientation == 'horizontal') {
-		event.preventDefault();
-		let scrollDelta = isFirefox ? -event.detail*50 : event.wheelDelta;
+	event.preventDefault();
+	let scrollDelta = config.scroll * (isFirefox ? -event.detail * 50 : event.wheelDelta);
+	if(config.orientation == 'horizontal')
 		timelineDiv.scrollLeft -= scrollDelta;
-	}
+	if(config.orientation == 'vertical')
+		timelineDiv.scrollTop -= scrollDelta;
 }
 
 function timelineOnScroll() {	
@@ -109,11 +111,10 @@ function generateTimeline(timelineList, parentQuery, timelineTitle = '') {
 					total.push({});
 				}
 			}
-			else
-				total.push({
-					...current,
-					sort: index,
-				});
+			total.push({
+				...current,
+				sort: index,
+			});
 			return total;
 		}, []);
 	
