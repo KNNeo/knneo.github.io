@@ -4,7 +4,7 @@ const config = {
 	"dimmed": true,
 	"orientation": window.innerWidth > window.innerHeight ? "horizontal" : "vertical",
 	"size": 40,
-	"scroll": 0.3
+	"scroll": 0.1
 };
 
 //--DOM NODE REFERENCES--//
