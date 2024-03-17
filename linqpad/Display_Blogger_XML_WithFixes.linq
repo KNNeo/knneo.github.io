@@ -45,7 +45,7 @@ void Main()
 	var showMatches = true; //if has match show full match object, else just object with description
 	var showOk = false; //if post no issues don't show
 	 //----------ADD INDEXES HERE----------//
-	List<int> includeIndex = new List<int> { 1 };
+	List<int> includeIndex = new List<int> { 32 };
 	if(includeIndex.Count > 0) Console.WriteLine("[SELECTIVE_CHECKS_ACTIVATED - " + String.Join(", ", includeIndex) + "]");
 	else Console.WriteLine("[ALL_CHECKS_ACTIVATED]");
 	
@@ -78,7 +78,7 @@ void Main()
 		Match match;
 		List<MatchItem> fixes = new List<MatchItem>();
 		
-		#region 00 custom search
+		#region 00 custom search for single instance
 		if(includeIndex.Count() == 0 || includeIndex.Contains(0))
 		{
 	        if(!content.Contains("id=\"") && title != "A Random Statement" && !title.Contains("The Fanfiction") && !title.Contains("The Dream")) {
@@ -91,7 +91,7 @@ void Main()
 		}
 		#endregion
 			
-		#region 01 custom search
+		#region 01 custom search by regex
 		if(includeIndex.Count() == 0 || includeIndex.Contains(1))
 		{
 	        expression = @"(var hashtags = new Array)"; // change custom query in regex here, put 0 as includeIndex
@@ -110,7 +110,7 @@ void Main()
 		#region 02 fix twitter embed
 		if(includeIndex.Count() == 0 || includeIndex.Contains(2))
 		{
-	        expression = @"(<script)(.*?)(""//platform.twitter.com)(.*?)(>)";
+	        expression = @"(script)(.*?)(""//platform.twitter.com)";
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
@@ -143,7 +143,7 @@ void Main()
 	            fixes.Add(new MatchItem() {
 						match = showMatches ? match : null,
 						description = "[14] old blog link https found",
-						action = "remove"
+						action = "write as relative"
 					});
 	            match = match.NextMatch();
 	        };
@@ -154,7 +154,7 @@ void Main()
 	            fixes.Add(new MatchItem() {
 						match = showMatches ? match : null,
 						description = "[14] old blog link http found",
-						action = "remove"
+						action = "write as relative"
 					});
 	            match = match.NextMatch();
 	        };
