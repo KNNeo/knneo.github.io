@@ -33,10 +33,13 @@ a img:hover {
     border-color: rgb(var(--primary));
 }
 
+a:visited {
+  color: rgb(var(--secondary));
+}
+
 a:hover {
   text-decoration: none; /*Generic behaviour, consider remove*/
 }
-
 /*By Class*/
 .failed { /*Depreceated: Old FB images*/
 	/* display: none; */
