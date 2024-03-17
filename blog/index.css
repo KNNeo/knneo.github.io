@@ -37,9 +37,6 @@ a:visited {
   color: rgb(var(--secondary));
 }
 
-a:hover {
-  text-decoration: none; /*Generic behaviour, consider remove*/
-}
 /*By Class*/
 .failed { /*Depreceated: Old FB images*/
 	/* display: none; */
@@ -263,31 +260,27 @@ a.toggle { /*Archive arrows*/
 	padding: 3px;
 }
 
-.action-menu.bottom-left {
+.action-menu {
 	position: fixed;
 	display: block;
-	bottom: 20px;
-	left: 20px;
-	z-index: 7;
 	display: flex;
 	flex-direction: column;
 	gap: 8px;
-	transition: opacity .2s linear, background .2s linear;
+	transition: opacity .2s linear, background .2s linear;	
+	z-index: 7;
+}
+
+.action-menu.bottom-left {
+	bottom: 20px;
+	left: 20px;
 }
 
 .action-menu.bottom-right {
-	position: fixed;
-	display: block;
 	bottom: 20px;
 	right: 20px;
-	z-index: 7;
-	display: flex;
-	flex-direction: column;
-	gap: 8px;
-	transition: opacity .2s linear, background .2s linear;
 }
 
-.fab {
+a.fab {
 	border: 1px solid rgb(var(--foreground));
 	background-color: rgb(var(--background));
 	box-shadow: 3px 3px rgb(var(--foreground));
@@ -305,7 +298,8 @@ a.toggle { /*Archive arrows*/
 	user-select: none;
 }
 
-.fab:hover, .fab:focus-within {
+a.fab:hover,
+a.fab:focus-within {
 	box-shadow: 1px 1px;
 	transform: translate(2px, 2px);	
 }
