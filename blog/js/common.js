@@ -255,26 +255,22 @@ function removeDialog() {
 
 // Popup element, based on content type
 function addHoverForLinks() {
-	if(document.getElementsByClassName('post-body entry-content').length == 0) return;
-    for (let link of document.getElementsByClassName('post-body entry-content')[0].getElementsByTagName('a')) {
-		if(link.target != '')
+	if(document.querySelector('.post-body.entry-content') == null) return;
+    for (let link of document.querySelector('.post-body.entry-content').querySelectorAll('a')) {
+		if(link.target)
 			link.addEventListener('mouseover', renderPopup);
     }
 }
 
 function addHoverForPopups() {
-    for (let page of document.getElementsByClassName('post-body entry-content')) {
-        for (let popup of page.getElementsByClassName('new-t')) {
-			popup.querySelector('.new-thumbnail-initial').href = popup.getAttribute('data-url');
-			let dataUrl = popup.getAttribute('data-url').toLowerCase();
-			if(dataUrl.includes('.jpg') || dataUrl.includes('.png') || dataUrl.includes('.gif') || dataUrl.includes('blogger.googleusercontent.com')) {
-				popup.addEventListener('click', togglePopup);
-			}
-			else {
-				popup.addEventListener('contextmenu', togglePopup);
-				popup.querySelector('.new-thumbnail-focus').addEventListener('click', closePopups);
-			}
-        }
+    for (let popup of document.querySelectorAll('.post-body.entry-content .new-t')) {
+		popup.querySelector('.new-thumbnail-initial').href = popup.getAttribute('data-url');
+		popup.addEventListener('contextmenu', togglePopup);
+		let dataUrl = popup.getAttribute('data-url').toLowerCase();
+		if(dataUrl.includes('.jpg') || dataUrl.includes('.png') || dataUrl.includes('.gif') || dataUrl.includes('blogger.googleusercontent.com'))
+			popup.addEventListener('click', togglePopup);
+		else
+			popup.querySelector('.new-thumbnail-focus').addEventListener('click', closePopups);
     }
 }
 
