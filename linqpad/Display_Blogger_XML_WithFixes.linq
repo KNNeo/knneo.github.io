@@ -228,7 +228,7 @@ void Main()
         #region 21 fix primary and secondary colours to variables
 		if(includeIndex.Count() == 0 || includeIndex.Contains(21))
 		{
-	        expression = @"(#00e4ff|#00b8cc|rgb\(0, 184, 204\)|rgb\(9, 165, 184\))";//|1px solid white)";
+	        expression = @"(?s)(#00e4ff|#00b8cc|rgb\(0, 184, 204\)|rgb\(9, 165, 184\)|1px solid white)";
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
