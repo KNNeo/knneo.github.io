@@ -52,7 +52,7 @@ a:hover {
 }
 
 span.small-icons {
-    font-size: 18px;
+    font-size: 1.25em;
     padding-right: 2px;
     margin-top: -1px;
 }
@@ -494,6 +494,7 @@ a.toggle { /*Archive arrows*/
 	padding: 3px 5px;
 	text-align: center;
 	line-height: 0;
+	font-size: 0.9em;
 }
 
 .hidden,
