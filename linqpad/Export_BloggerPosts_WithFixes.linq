@@ -226,7 +226,7 @@ void Main()
 	        output.AppendLine("<div id=\"contents\" class=\"post-body entry-content\">");
 			if (originalLink != "")
 	            output.AppendLine("<small style=\"text-align: center;\"><p><i>This is an archive from <a href=\"" + originalLink + "\">" + blogTitle + "</a></i></p></small>");
-	        output.AppendLine("<small title=\"" + published.ToString() + "\" class=\"published\">" + published.ToString("dddd, dd MMMM yyyy") + "</small>");
+	        output.AppendLine("<small title=\"" + published.ToString("yyyy-MM-ddTHH:mm:sszzz") + " (Singapore Time)\" class=\"published\">" + published.ToString("dddd, dd MMMM yyyy") + "</small>");
 	        output.AppendLine("<div class=\"title\">" + postTitle + "</div>");
 			if(content.Contains("id=\"") && !content.Contains("=\"hashtags\""))
 				output.AppendLine("<div class=\"hashtags\"></div>");
