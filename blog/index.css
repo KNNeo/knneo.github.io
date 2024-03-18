@@ -87,8 +87,8 @@ span.small-icons {
     padding-bottom: 0px;
 }
 
-.main-inner {
-  /* padding: 0; */
+.main-inner { /*remove top bottom padding on small screens*/
+	padding: 0;
 }
 
 .main-inner .column-center-inner { /*Defunct*/
