@@ -110,11 +110,11 @@ function showResults(posts) {
 			    ? window['search-results'].slice(window['search-page']*window['search-size'], window['search-page']*2*window['search-size'])
 			    : window['search-results'].slice(window['search-page']*window['search-size']));
 	});
-	if(window['search-results'].length > window['search-page']*window['search-size'])
-		resultTally.innerText = '+ ' + (window['search-results'].length - window['search-page']*window['search-size'] + 1) + ' more results';
+	if(window['search-results'].length > (1+window['search-page'])*window['search-size'])
+		resultTally.innerText = '+ ' + (window['search-results'].length - (1+window['search-page'])*window['search-size']) + ' more results';
 	else if(window['search-results'].length < 1)
 		resultTally.innerText = 'No results';
 	else
-		resultTally.innerText = ((window['search-results'].length % window['search-size']) + 1) + ' results';
-	document.querySelector('.input-result').appendChild(resultTally);		
+		resultTally.innerText = ((window['search-results'].length % window['search-size'])) + ' results';
+	document.querySelector('.input-result').appendChild(resultTally);
 }
