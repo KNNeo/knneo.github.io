@@ -107,7 +107,7 @@ function showResults(posts) {
 	resultTally.addEventListener('click', function() {
 		window['search-page']++;
 		showResults(window['search-results'].length > window['search-page']*window['search-size'] 
-			    ? window['search-results'].slice(window['search-page']*window['search-size'],window['search-page']*2*window['search-size'])
+			    ? window['search-results'].slice(window['search-page']*window['search-size'], window['search-page']*2*window['search-size'])
 			    : window['search-results'].slice(window['search-page']*window['search-size']));
 	});
 	if(window['search-results'].length > window['search-page']*window['search-size'])
@@ -115,6 +115,6 @@ function showResults(posts) {
 	else if(window['search-results'].length < 1)
 		resultTally.innerText = 'No results';
 	else
-		resultTally.innerText = (window['search-results'].length % window['search-size']) + 1) + ' results';
+		resultTally.innerText = ((window['search-results'].length % window['search-size']) + 1) + ' results';
 	document.querySelector('.input-result').appendChild(resultTally);		
 }
