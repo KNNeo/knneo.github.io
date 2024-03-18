@@ -106,7 +106,8 @@ void Main()
 		searchIndex.posts.Add(new SearchIndexPost() {
 			title = title,
 			url = pageLink,
-			date = published.ToString("yyyy.MM.dd")
+			date = published.ToString("yyyy.MM.dd"),
+			id = p
 		});
 		
         #region Create search index
@@ -116,7 +117,7 @@ void Main()
 			{
 				searchIndex.indexes.Add(token, new List<int>());
 			}
-			searchIndex.indexes[token].Add(p); // p represents actual post id in order, without filter
+			searchIndex.indexes[token].Add(p); // p represents unique id
 		}
         #endregion
 		
@@ -138,6 +139,7 @@ public class SearchIndexPost {
 	public string title { get; set; }
 	public string url { get; set; }
 	public string date { get; set; }
+	public int id { get; set; }
 }
 
 public string RemoveAllTags(string content) {

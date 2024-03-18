@@ -10,6 +10,13 @@ function showSearch() {
 	search.setAttribute('onkeyup', 'onSearchKeyUp()');
 	searchContainer.appendChild(search);
 	
+	let nextBtn = document.createElement('button');
+	nextBtn.classList.add('search-next');
+	nextBtn.innerText = 'Next';
+	nextBtn.style.fontSize = '1em';
+	nextBtn.setAttribute('onclick', 'removeDialog()');
+	searchContainer.appendChild(nextBtn);
+	
 	let closeBtn = document.createElement('button');
 	closeBtn.innerText = 'Close';
 	closeBtn.style.fontSize = '1em';
@@ -54,7 +61,7 @@ function onSearchKeyUp() {
 		}
 		
 		// update global variable & results div
-		window['search-results'] = searchIndex.posts.filter((current, index, arr) => current.date && current.title && postIds.includes(index));
+		window['search-results'] = searchIndex.posts.filter((current, index, arr) => current.date && current.title && postIds.includes(current.id));
 		window['search-page'] = 0;
 		showResults(window['search-results'].length > window['search-size'] ? window['search-results'].slice(0,window['search-size']) : window['search-results']);
 		
@@ -84,6 +91,8 @@ function onSearchKeyDown() {
 
 function showResults(posts) {
 	document.querySelector('.input-result').innerHTML = '';
+	
+	// render result page 1
 	for(let post of posts)
 	{
 		let resultDiv = document.createElement('div');
@@ -102,15 +111,12 @@ function showResults(posts) {
 		document.querySelector('.input-result').appendChild(resultDiv);
 	}
 	
-	// add more results display
-	let resultTally = document.createElement('div');
+	// show more results if not at end
 	if(window['search-results'].length > (1+window['search-page'])*window['search-size'])
-		resultTally.addEventListener('click', function() {
-			window['search-page']++;
-			showResults(window['search-results'].length > window['search-page']*window['search-size'] 
-				    ? window['search-results'].slice(window['search-page']*window['search-size'], (1+window['search-page'])*window['search-size'])
-				    : window['search-results'].slice(window['search-page']*window['search-size']));
-		});
+		document.querySelector('.search-next').setAttribute('onclick', 'showNextResults()');
+	
+	// show remaining results
+	let resultTally = document.createElement('div');
 	if(window['search-results'].length > (1+window['search-page'])*window['search-size'])
 		resultTally.innerText = '+ ' + (window['search-results'].length - (1+window['search-page'])*window['search-size']) + ' more results';
 	else if(window['search-results'].length < 1)
@@ -118,4 +124,11 @@ function showResults(posts) {
 	else
 		resultTally.innerText = ((window['search-results'].length % window['search-size'])) + ' results';
 	document.querySelector('.input-result').appendChild(resultTally);
+}
+
+function showNextResults() {
+	window['search-page']++;
+	showResults(window['search-results'].length > window['search-page']*window['search-size'] 
+			? window['search-results'].slice(window['search-page']*window['search-size'], (1+window['search-page'])*window['search-size'])
+			: window['search-results'].slice(window['search-page']*window['search-size']));
 }
