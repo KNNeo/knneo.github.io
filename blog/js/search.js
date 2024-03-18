@@ -1,3 +1,5 @@
+window['search-size'] = 10;
+
 function showSearch() {
 	let searchContainer = document.createElement('div');
 	
@@ -52,11 +54,12 @@ function onSearchKeyUp() {
 		
 		// update global variable & results div
 		window['search-results'] = searchIndex.posts.filter((current, index, arr) => postIds.includes(index));
-		showResults(window['search-results'].length > 10 ? window['search-results'].slice(0,10) : window['search-results']);
+		window['search-results-page'] = window['search-results'].length > window['search-size'] ? window['search-results'].slice(0,window['search-size']) : window['search-results'];
+		showResults();
 		
 		// add more results display
 		let resultTally = document.createElement('div');
-		if(window['search-results'].length > 10)
+		if(window['search-results'].length > window['search-size'])
 			resultTally.innerText = '+ ' + (window['search-results'].length - 10) + ' more results';
 		else if(window['search-results'].length < 1)
 			resultTally.innerText = 'No results';
@@ -88,9 +91,9 @@ function onSearchKeyDown() {
 	return false;
 }
 
-function showResults(posts) {
+function showResults() {
 	document.querySelector('.input-result').innerHTML = '';
-	for(let post of posts)
+	for(let post of window['search-results-page'])
 	{
 		let resultDiv = document.createElement('div');
 		resultDiv.classList.add('post');
