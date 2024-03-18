@@ -86,30 +86,33 @@ function showResults(posts) {
 	document.querySelector('.input-result').innerHTML = '';
 	for(let post of posts)
 	{
-		let resultDiv = document.createElement('div');
-		resultDiv.classList.add('post');
-		
-		let publishSpan = document.createElement('span');
-		publishSpan.classList.add('publish');
-		publishSpan.innerText = post.date + ' ';
-		resultDiv.appendChild(publishSpan);
-		
-		let resultUrl = document.createElement('a');
-		resultUrl.href = post.url;
-		resultUrl.innerText = post.title;
-		resultDiv.appendChild(resultUrl);
-		
-		document.querySelector('.input-result').appendChild(resultDiv);
+		if(post.title && post.date) {
+			let resultDiv = document.createElement('div');
+			resultDiv.classList.add('post');
+			
+			let publishSpan = document.createElement('span');
+			publishSpan.classList.add('publish');
+			publishSpan.innerText = post.date + ' ';
+			resultDiv.appendChild(publishSpan);
+			
+			let resultUrl = document.createElement('a');
+			resultUrl.href = post.url;
+			resultUrl.innerText = post.title;
+			resultDiv.appendChild(resultUrl);
+			
+			document.querySelector('.input-result').appendChild(resultDiv);
+		}
 	}
 	
 	// add more results display
 	let resultTally = document.createElement('div');
-	resultTally.addEventListener('click', function() {
-		window['search-page']++;
-		showResults(window['search-results'].length > window['search-page']*window['search-size'] 
-			    ? window['search-results'].slice(window['search-page']*window['search-size'], (1+window['search-page'])*window['search-size'])
-			    : window['search-results'].slice(window['search-page']*window['search-size']));
-	});
+	if(window['search-results'].length > window['search-page']*window['search-size'])
+		resultTally.addEventListener('click', function() {
+			window['search-page']++;
+			showResults(window['search-results'].length > window['search-page']*window['search-size'] 
+				    ? window['search-results'].slice(window['search-page']*window['search-size'], (1+window['search-page'])*window['search-size'])
+				    : window['search-results'].slice(window['search-page']*window['search-size']));
+		});
 	if(window['search-results'].length > (1+window['search-page'])*window['search-size'])
 		resultTally.innerText = '+ ' + (window['search-results'].length - (1+window['search-page'])*window['search-size']) + ' more results';
 	else if(window['search-results'].length < 1)
