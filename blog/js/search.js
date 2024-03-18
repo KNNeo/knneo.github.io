@@ -54,7 +54,7 @@ function onSearchKeyUp() {
 		}
 		
 		// update global variable & results div
-		window['search-results'] = searchIndex.posts.filter((current, index, arr) => postIds.includes(index));
+		window['search-results'] = searchIndex.posts.filter((current, index, arr) => current.date && current.title && postIds.includes(index));
 		window['search-page'] = 0;
 		showResults(window['search-results'].length > window['search-size'] ? window['search-results'].slice(0,window['search-size']) : window['search-results']);
 		
@@ -86,27 +86,25 @@ function showResults(posts) {
 	document.querySelector('.input-result').innerHTML = '';
 	for(let post of posts)
 	{
-		if(post.title && post.date) {
-			let resultDiv = document.createElement('div');
-			resultDiv.classList.add('post');
-			
-			let publishSpan = document.createElement('span');
-			publishSpan.classList.add('publish');
-			publishSpan.innerText = post.date + ' ';
-			resultDiv.appendChild(publishSpan);
-			
-			let resultUrl = document.createElement('a');
-			resultUrl.href = post.url;
-			resultUrl.innerText = post.title;
-			resultDiv.appendChild(resultUrl);
-			
-			document.querySelector('.input-result').appendChild(resultDiv);
-		}
+		let resultDiv = document.createElement('div');
+		resultDiv.classList.add('post');
+		
+		let publishSpan = document.createElement('span');
+		publishSpan.classList.add('publish');
+		publishSpan.innerText = post.date + ' ';
+		resultDiv.appendChild(publishSpan);
+		
+		let resultUrl = document.createElement('a');
+		resultUrl.href = post.url;
+		resultUrl.innerText = post.title;
+		resultDiv.appendChild(resultUrl);
+		
+		document.querySelector('.input-result').appendChild(resultDiv);
 	}
 	
 	// add more results display
 	let resultTally = document.createElement('div');
-	if(window['search-results'].length > window['search-page']*window['search-size'])
+	if(window['search-results'].length <= window['search-page']*window['search-size'])
 		resultTally.addEventListener('click', function() {
 			window['search-page']++;
 			showResults(window['search-results'].length > window['search-page']*window['search-size'] 
