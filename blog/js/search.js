@@ -1,5 +1,5 @@
 window['search-size'] = 10;
-window['search-page'] = 1;
+window['search-page'] = 0;
 
 function showSearch() {
 	let searchContainer = document.createElement('div');
@@ -55,24 +55,8 @@ function onSearchKeyUp() {
 		
 		// update global variable & results div
 		window['search-results'] = searchIndex.posts.filter((current, index, arr) => postIds.includes(index));
-		window['search-page'] = 1;
+		window['search-page'] = 0;
 		showResults(window['search-results'].length > window['search-size'] ? window['search-results'].slice(0,window['search-size']) : window['search-results']);
-		
-		// add more results display
-		let resultTally = document.createElement('div');
-		resultTally.addEventListener('click', function() {
-			window['search-page']++;
-			showResults(window['search-results'].length > window['search-page']*window['search-size'] 
-				    ? window['search-results'].slice(window['search-page']*window['search-size'],window['search-page']*2*window['search-size'])
-				    : window['search-results'].slice(window['search-page']*window['search-size']));
-		});
-		if(window['search-results'].length > window['search-page']*window['search-size'])
-			resultTally.innerText = '+ ' + ((window['search-results'].length % window['search-size']) + 1) + ' more results';
-		else if(window['search-results'].length < 1)
-			resultTally.innerText = 'No results';
-		else
-			resultTally.innerText = (window['search-results'].length - window['search-page']*window['search-size'] + 1) + ' results';
-		document.querySelector('.input-result').appendChild(resultTally);
 		
 		event.target.blur();
 	}
@@ -117,4 +101,20 @@ function showResults(posts) {
 		
 		document.querySelector('.input-result').appendChild(resultDiv);
 	}
+	
+	// add more results display
+	let resultTally = document.createElement('div');
+	resultTally.addEventListener('click', function() {
+		window['search-page']++;
+		showResults(window['search-results'].length > window['search-page']*window['search-size'] 
+			    ? window['search-results'].slice(window['search-page']*window['search-size'],window['search-page']*2*window['search-size'])
+			    : window['search-results'].slice(window['search-page']*window['search-size']));
+	});
+	if(window['search-results'].length > window['search-page']*window['search-size'])
+		resultTally.innerText = '+ ' + ((window['search-results'].length % window['search-size']) + 1) + ' more results';
+	else if(window['search-results'].length < 1)
+		resultTally.innerText = 'No results';
+	else
+		resultTally.innerText = (window['search-results'].length - window['search-page']*window['search-size'] + 1) + ' results';
+	document.querySelector('.input-result').appendChild(resultTally);		
 }
