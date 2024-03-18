@@ -104,7 +104,7 @@ function showResults(posts) {
 	
 	// add more results display
 	let resultTally = document.createElement('div');
-	if(window['search-results'].length <= window['search-page']*window['search-size'])
+	if(window['search-results'].length > (1+window['search-page'])*window['search-size'])
 		resultTally.addEventListener('click', function() {
 			window['search-page']++;
 			showResults(window['search-results'].length > window['search-page']*window['search-size'] 
