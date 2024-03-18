@@ -67,7 +67,7 @@ function onSearchKeyUp() {
 				    : window['search-results'].slice(window['search-page']*window['search-size'],window['search-page']*2*window['search-size']));
 		});
 		if(window['search-results'].length > window['search-page']*window['search-size'])
-			resultTally.innerText = '+ ' + (window['search-results'].length % window['search-size']) + 1) + ' more results';
+			resultTally.innerText = '+ ' + ((window['search-results'].length % window['search-size']) + 1) + ' more results';
 		else if(window['search-results'].length < 1)
 			resultTally.innerText = 'No results';
 		else
