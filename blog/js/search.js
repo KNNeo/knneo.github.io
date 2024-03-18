@@ -1,4 +1,5 @@
 window['search-size'] = 10;
+window['search-page'] = 1;
 
 function showSearch() {
 	let searchContainer = document.createElement('div');
@@ -54,17 +55,23 @@ function onSearchKeyUp() {
 		
 		// update global variable & results div
 		window['search-results'] = searchIndex.posts.filter((current, index, arr) => postIds.includes(index));
-		window['search-results-page'] = window['search-results'].length > window['search-size'] ? window['search-results'].slice(0,window['search-size']) : window['search-results'];
-		showResults();
+		window['search-page'] = 1;
+		showResults(window['search-results'].length > window['search-size'] ? window['search-results'].slice(0,window['search-size']) : window['search-results']);
 		
 		// add more results display
 		let resultTally = document.createElement('div');
-		if(window['search-results'].length > window['search-size'])
-			resultTally.innerText = '+ ' + (window['search-results'].length - 10) + ' more results';
+		resultTally.addEventListener('click', function() {
+			window['search-page']++;
+			showResults(window['search-results'].length > window['search-page']*window['search-size'] 
+				    ? window['search-results'].slice(window['search-page']*window['search-size'])
+				    : window['search-results'].slice(window['search-page']*window['search-size'],window['search-page']*2*window['search-size']));
+		});
+		if(window['search-results'].length > window['search-page']*window['search-size'])
+			resultTally.innerText = '+ ' + (window['search-results'].length % window['search-size']) + 1) + ' more results';
 		else if(window['search-results'].length < 1)
 			resultTally.innerText = 'No results';
 		else
-			resultTally.innerText = window['search-results'].length + ' results';
+			resultTally.innerText = (window['search-results'].length - window['search-page']*window['search-size'] + 1) + ' results';
 		document.querySelector('.input-result').appendChild(resultTally);
 		
 		event.target.blur();
@@ -91,9 +98,9 @@ function onSearchKeyDown() {
 	return false;
 }
 
-function showResults() {
+function showResults(posts) {
 	document.querySelector('.input-result').innerHTML = '';
-	for(let post of window['search-results-page'])
+	for(let post of posts)
 	{
 		let resultDiv = document.createElement('div');
 		resultDiv.classList.add('post');
