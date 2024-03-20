@@ -332,6 +332,15 @@ const templates = [
 		url: 'https://ch.nicovideo.jp/Carin',
 		format: 'Video Live',
 	},
+	{
+		name: '鬼頭明里のふくみみラジオ',
+		startDayNo: 3,
+		startTime: 2130,
+		lengthMinutes: 30,
+		channel: '鬼頭明里オフィシャルファンクラブ『Smiley Light Village』',
+		url: 'https://kitoakari-fc.com/',
+		format: 'Video Live',
+	},
 ];
 
 //--COMMON EVENTS--//
