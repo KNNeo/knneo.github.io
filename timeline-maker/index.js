@@ -135,7 +135,7 @@ function generateTimeline(timelineList, parentQuery, timelineTitle = '') {
 
 		let elems = [];
 		let blob = document.createElement('div');
-		blob.classList.add('center');
+		blob.classList.add('c');
 		blob.classList.add('blob');
 		if(config.dimmed) blob.classList.add('dimmed');
 		blob.classList.add('interactive');
@@ -194,7 +194,7 @@ function generateTimeline(timelineList, parentQuery, timelineTitle = '') {
 			}
 		}
 		
-		let leftElems = elems.filter(e => e.classList.contains('left'));
+		let leftElems = elems.filter(e => e.classList.contains('l'));
 		if(leftElems.length > 0) {
 			if(config.orientation == 'horizontal') 
 				leftElems[0].style.gridColumnStart = count;
@@ -207,7 +207,7 @@ function generateTimeline(timelineList, parentQuery, timelineTitle = '') {
 			leftElems.classList.add('left');
 			container.appendChild(leftElems);
 		}
-		let centerElems = elems.filter(e => e.classList.contains('center'));
+		let centerElems = elems.filter(e => e.classList.contains('c'));
 		if(centerElems.length > 0) {
 			if(config.orientation == 'horizontal') 
 				centerElems[0].style.gridColumnStart = count;
@@ -220,7 +220,7 @@ function generateTimeline(timelineList, parentQuery, timelineTitle = '') {
 			centerElems.classList.add('center');
 			container.appendChild(centerElems);
 		}
-		let rightElems = elems.filter(e => e.classList.contains('right'));
+		let rightElems = elems.filter(e => e.classList.contains('r'));
 		if(rightElems.length > 0) {
 			if(config.orientation == 'horizontal') 
 				rightElems[0].style.gridColumnStart = count;
