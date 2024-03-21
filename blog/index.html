@@ -18,38 +18,48 @@
     <title>BLOG</title>
 </head>
 <body style="text-align: center; font-family: Noto Sans;" onpageshow="filterByTag()">
-<h4>This is a Blogger archive of</h4>
-<h2><a href="https://knwebreports.blogspot.com/">Klassic Note Web Reports</a></h2>
-<h6>(To import an existing Blogger XML Export, try <a href="../blogger-viewer/index.html">Blogger Viewer</a>)</h6>
-<p class="post-tags filters">
-	<a href="#All">All Posts</a>
-	<a href="#TheEntertainmentNews">
-	<span class="material-icons small-icons">newspaper</span>The Entertainment News</a>
-	<a href="#TheWelfarePackage">
-	<span class="material-icons small-icons">inventory_2</span>The Welfare Package</a>
-	<a href="#TheKlassicNote">
-	<span class="material-icons small-icons">music_note</span>The Klassic Note</a>
-	<a href="#TheEverydayLife">
-	<span class="material-icons small-icons">nightlife</span>The Everyday Life</a>
-	<a href="#TheFanfiction">
-	<span class="material-icons small-icons">category</span>The Fanfiction</a>
-	<a href="#TheReview">
-	<span class="material-icons small-icons">edit_note</span>The Review</a>
-	<a href="#TheDreams">
-	<span class="material-icons small-icons">cloud</span>The Dreams</a>
-</p>
-<p class="post-tags filters">
-	<a onclick="randomPost()"href="javascript:void(0);">
-	<span class="material-icons small-icons">shuffle</span>Random Post</a>
-	<a href="album/index.html">
-	<span class="material-icons small-icons">photo_album</span>Image Archive</a>
-	<a href="sitemap/index.html">
-	<span class="material-icons small-icons">account_tree</span>Sitemap</a>
-	<a href="components.html">
-	<span class="material-icons small-icons">settings_input_component</span>Components</a>
-</p>
-<p>
-<div class="count"></div>
+<div class="home-header">
+	<h4>This is a Blogger archive of</h4>
+	<h2><a href="https://knwebreports.blogspot.com/">Klassic Note Web Reports</a></h2>
+	<h6>(To import an existing Blogger XML Export, try <a href="../blogger-viewer/index.html">Blogger Viewer</a>)</h6>
+	<p class="post-tags filters">
+		<a href="#All">All Posts</a>
+		<a href="#TheEntertainmentNews">
+		<span class="material-icons small-icons">newspaper</span>The Entertainment News</a>
+		<a href="#TheWelfarePackage">
+		<span class="material-icons small-icons">inventory_2</span>The Welfare Package</a>
+		<a href="#TheKlassicNote">
+		<span class="material-icons small-icons">music_note</span>The Klassic Note</a>
+		<a href="#TheEverydayLife">
+		<span class="material-icons small-icons">nightlife</span>The Everyday Life</a>
+		<a href="#TheFanfiction">
+		<span class="material-icons small-icons">category</span>The Fanfiction</a>
+		<a href="#TheReview">
+		<span class="material-icons small-icons">edit_note</span>The Review</a>
+		<a href="#TheDreams">
+		<span class="material-icons small-icons">cloud</span>The Dreams</a>
+	</p>
+	<p class="post-tags filters">
+		<a onclick="randomPost()"href="javascript:void(0);">
+		<span class="material-icons small-icons">shuffle</span>Random Post</a>
+		<a href="album/index.html">
+		<span class="material-icons small-icons">photo_album</span>Image Archive</a>
+		<a href="sitemap/index.html">
+		<span class="material-icons small-icons">account_tree</span>Sitemap</a>
+		<a href="components.html">
+		<span class="material-icons small-icons">settings_input_component</span>Components</a>
+	</p>
+	<div class="count"></div>
+	<div class="action-menu home bottom-left">
+		<a class="fab back material-icons" href="../index.html" title="Back To Homepage">home</a>
+	</div>
+	<div class="action-menu home bottom-right">
+		<a class="fab thumb-design material-icons" title="Toggle Thumbnail Layout" onclick="toggleThumbnailDesign()">checklist</a>
+		<a class="fab search material-icons" title="Search This Blog" onclick="showSearch()">search</a>
+		<a class="fab theme material-icons" title="Toggle Dark Mode" onclick="toggleTheme()">brightness_high</a>
+		<a class="fab top material-icons hidden" title="Go To Top" onclick="goToTop()">arrow_upward</a>
+	</div>
+</div>
 <div class="archive-list"><div class="post latest" data-tags="TheDreams"><div class="thumb"><a href="./pages/2024/03/the-dream-fragment-20240319.html">The Dream Fragment 20240319</a></div></div>
 <div class="post latest" data-tags="TheEntertainmentNews"><span class="publish">2024.03.17</span><div class="thumb"><a href="./pages/2024/03/the-entertainment-news-24-issue-11.html">The Entertainment News '24 Issue #11</a><div class="anchors"><a href="./pages/2024/03/the-entertainment-news-24-issue-11.html#KanaTen10">#KanaTen10</a><a href="./pages/2024/03/the-entertainment-news-24-issue-11.html#MajoToYajuu09">#MajoToYajuu09</a></div><div><img loading="lazy" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgPrYMgoeLmyghLHvC-A3rmN9FoJszAVM56sOVffxA7HfCUV-1JFESGSTwF35I5PCG92YTZXmqpEGy7Pg_Gw9kJUSLhvykraRlEUlM_djwNySs90WcryqomPZGh3eveZjIKZ0h64bZ_gZDHT26LCQjCqhHL0PJF-ue-6fFYBGZkSjY9iiUgJWiMkqY7J2c/s320/kanaten10_zwei7.jpg"/></div></div></div>
 <div class="post latest" data-tags="TheFanfiction"><span class="publish">2024.03.16</span><div class="thumb"><a href="./pages/2024/03/the-fanfiction-20240316.html">The Fanfiction 20240316</a><div><img loading="lazy" src="https://www.suruga-ya.jp/database/pics_light/game/gg351933.jpg"/></div></div></div>
@@ -775,15 +785,5 @@
 <div class="post" data-tags="TheKlassicNote,TheReview"><span class="publish">2014.02.23 </span><a href="./pages/2014/02/the-klassic-note-review-201402-issue-2.html">The Klassic Note Review 2014.02 Issue 2: The (Supposed) Birthday Delivery</a></div>
 <div class="post" data-tags="TheKlassicNote,TheReview"><span class="publish">2014.02.17 </span><a href="./pages/2014/02/the-klassic-note-review-201402-issue-1.html">The Klassic Note Review 2014.02 Issue 1</a></div>
 </div>
-<div class="action-menu home bottom-left">
-	<a class="fab back material-icons" href="../index.html" title="Back To Homepage">home</a>
-</div>
-<div class="action-menu home bottom-right">
-	<a class="fab thumb-design material-icons" title="Toggle Thumbnail Layout" onclick="toggleThumbnailDesign()">checklist</a>
-	<a class="fab search material-icons" title="Search This Blog" onclick="showSearch()">search</a>
-	<a class="fab theme material-icons" title="Toggle Dark Mode" onclick="toggleTheme()">brightness_high</a>
-	<a class="fab top material-icons hidden" title="Go To Top" onclick="goToTop()">arrow_upward</a>
-</div>
-</p>
 </body>
 </html>
