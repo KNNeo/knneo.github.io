@@ -787,7 +787,7 @@ function generateProfileSocial(profile) {
 		let span = document.createElement('a');
 		span.classList.add('profile-social');
 		span.href = 'javascript:void(0)';
-		span.title = 'My Comments';
+		span.title = 'Comments';
 		span.addEventListener('click', function() {
 			popupText(processOption(profile.intro, false) + 
 			'<p style="font-style: italic;">"' + processOption(profile.description, false) + 
@@ -798,7 +798,7 @@ function generateProfileSocial(profile) {
 		
 		let icon = document.createElement('i');
 		icon.classList.add('bi');
-		icon.classList.add('bi-chat-heart-fill');
+		icon.classList.add('bi-chat-text-fill');
 		span.appendChild(icon);
 		
 		cell.childNodes[0].insertBefore(span, cell.childNodes[0].childNodes[0]);
