@@ -863,7 +863,7 @@ function generateProfileSocialIcons(social) {
 	{
 		let span = document.createElement('a');
 		span.classList.add('profile-social');
-		span.href = 'https://www.youtube.com/' + social.youtube;
+		span.href = 'https://www.youtube.com/@' + social.youtube;
 		span.target = '_blank';
 		span.title = 'YouTube';
 		
@@ -891,7 +891,8 @@ function generateProfileSocialIcons(social) {
 		cellDiv.appendChild(span);
 	}
 	
-	for(let page of Object.keys(social).filter(k => !['twitter', 'instagram', 'youtube', 'twitch'].includes(k)))
+	let socials = ['twitter', 'instagram', 'youtube', 'twitch', 'tiktok'];
+	for(let page of Object.keys(social).filter(k => !socials.includes(k)))
 	{
 		let span = document.createElement('a');
 		span.classList.add('profile-social');
@@ -901,7 +902,7 @@ function generateProfileSocialIcons(social) {
 		
 		let icon = document.createElement('i');
 		icon.classList.add('bi');
-		icon.classList.add('bi-file-earmark-fill');
+		icon.classList.add('bi-box-arrow-up-right');
 		span.appendChild(icon);
 		
 		cellDiv.appendChild(span);		
