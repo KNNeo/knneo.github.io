@@ -843,6 +843,22 @@ function generateProfileSocialIcons(social) {
 		cellDiv.appendChild(span);
 	}
 	
+	if(social.tiktok)
+	{
+		let span = document.createElement('a');
+		span.classList.add('profile-social');
+		span.href = 'https://www.tiktok.com/@' + social.tiktok;
+		span.target = '_blank';
+		span.title = 'Tiktok';
+		
+		let icon = document.createElement('i');
+		icon.classList.add('bi');
+		icon.classList.add('bi-tiktok');
+		span.appendChild(icon);
+		
+		cellDiv.appendChild(span);
+	}
+	
 	if(social.youtube)
 	{
 		let span = document.createElement('a');
