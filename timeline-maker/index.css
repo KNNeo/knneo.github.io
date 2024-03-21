@@ -83,7 +83,6 @@ a:hover {
     padding: 80% 0;
 	display: grid;
     grid-template-columns: 1fr 25px 1fr;
-    /* grid-auto-rows: 40px; */
     align-items: center;
     justify-items: center;
 }
@@ -98,7 +97,6 @@ a:hover {
 	user-select: auto;
 }
 .vertical .grid .left {
-	/* white-space: nowrap; */
 	overflow: hidden;
 	text-overflow: ellipsis;	
 }
@@ -111,7 +109,6 @@ a:hover {
 }
 .vertical .grid .right {
 	grid-column-start: 3;
-	/* white-space: nowrap; */
 	overflow: hidden;
 	text-overflow: ellipsis;	
 }
@@ -135,7 +132,6 @@ a:hover {
     padding: 0 50%;
     display: grid;
     grid-template-rows: 1fr 25px 1fr;
-    /* grid-auto-columns: 40px; */
     align-items: center;
     justify-items: center;
     height: 480px;
@@ -171,6 +167,7 @@ a:hover {
 	color: var(--foreground);
 	filter: none;
 	z-index: 10;
+    position: relative;
 }
 .interactive {
 	cursor: pointer;
