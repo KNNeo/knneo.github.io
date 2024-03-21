@@ -72,7 +72,7 @@ function toggleOrientation() {
 }
 
 //--FUNCTIONS--//
-function readFromLocalStorage() {
+function initialize() {
 	window.addEventListener('resize', startup);
 	
 	timelineDiv.addEventListener(isFirefox ? 'DOMMouseScroll' : 'mousewheel', onWheel);
@@ -100,6 +100,10 @@ function generateTimeline(timelineList, parentQuery, timelineTitle = '') {
 	
 	let listBlock = document.createElement('div');
 	listBlock.classList.add('grid');
+	if (config.orientation == 'horizontal')
+		listBlock.style.gridAutoColumns = config.size + 'px';
+	else
+		listBlock.style.gridAutoRows = config.size + 'px';
 	
 	let empty = {};
 	let displayList = timelineList
@@ -288,6 +292,6 @@ function removeDialog() {
 
 //--INITIAL--//
 function startup() {
-	readFromLocalStorage();
+	initialize();
 	generateTimeline(JSON.parse(document.querySelector('#data').textContent), '.timeline');
 }
