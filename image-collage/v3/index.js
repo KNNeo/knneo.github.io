@@ -762,9 +762,13 @@ function toggleZoom() {
 }
 
 function getFilenameInfo(url) {
-	let filename = url.substring(url.lastIndexOf('/')+1, url.lastIndexOf('.'));
-	let extension = url.substring(url.lastIndexOf('.')+1);
-	return {filename, extension};
+	if(url.lastIndexOf('.') >= 0) {
+		let filename = url.substring(url.lastIndexOf('/')+1, url.lastIndexOf('.'));
+		let extension = url.substring(url.lastIndexOf('.')+1);
+		return {filename, extension};
+	}
+	else
+		return {filename: url, extension: ''};
 }
 
 //SLIDESHOW//
