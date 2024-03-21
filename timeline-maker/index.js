@@ -13,9 +13,7 @@ let timelineDiv = document.querySelector('.timeline');
 //--DOM FUNCTIONS--//
 function clearSelectItems() {	
 	for(let blob of timelineDiv.querySelectorAll('.blob'))
-	{
 		blob.parentElement.classList.remove('highlight');
-	}
 }
 
 function selectItem(container) {
@@ -24,9 +22,6 @@ function selectItem(container) {
 }
 
 //--EVENT HANDLERS--//
-function onKeyDown() {
-}
-
 function onWheel() {
 	event.preventDefault();
 	let scrollDelta = config.scroll * (isFirefox ? -event.detail * 50 : event.wheelDelta);
@@ -73,30 +68,16 @@ function toggleOrientation() {
 
 //--FUNCTIONS--//
 function initialize() {
-	window.addEventListener('resize', startup);
-	
 	timelineDiv.addEventListener(isFirefox ? 'DOMMouseScroll' : 'mousewheel', onWheel);
 }
 
-function generateTimeline(timelineList, parentQuery, timelineTitle = '') {
-	let list = document.querySelector(parentQuery);
+function generateTimeline(timelineList, querySelector) {
+	let list = document.querySelector(querySelector);
 	list.innerHTML = '';
 	list.classList.remove('horizontal');
 	list.classList.remove('vertical');
 	list.classList.add(config.orientation);
 	list.setAttribute('onscroll', 'timelineOnScroll()');
-	
-	if(timelineTitle) {
-		let block = document.createElement('h4');
-		block.classList.add('tr_bq');
-		
-			let title = document.createElement('span');
-			title.classList.add('category-title');
-			title.innerText = timelineTitle;
-			
-		block.appendChild(title);
-		list.appendChild(block);
-	}
 	
 	let listBlock = document.createElement('div');
 	listBlock.classList.add('grid');
@@ -105,7 +86,6 @@ function generateTimeline(timelineList, parentQuery, timelineTitle = '') {
 	else
 		listBlock.style.gridAutoRows = config.size + 'px';
 	
-	let empty = {};
 	let displayList = timelineList
 		.sort(function(a,b) { return a.sort - b.sort; })
 		.reduce(function(total, current, index, _) {
