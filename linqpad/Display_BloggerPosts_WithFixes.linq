@@ -45,7 +45,7 @@ void Main()
 	var showMatches = true; //if has match show full match object, else just object with description
 	var showOk = false; //if post no issues don't show
 	 //----------ADD INDEXES HERE----------//
-	List<int> includeIndex = new List<int> { 33 };
+	List<int> includeIndex = new List<int> { 1 };
 	if(includeIndex.Count > 0) Console.WriteLine("[SELECTIVE_CHECKS_ACTIVATED - " + String.Join(", ", includeIndex) + "]");
 	else Console.WriteLine("[ALL_CHECKS_ACTIVATED]");
 	
@@ -54,7 +54,7 @@ void Main()
 	 * [00]	[?]	simple search
 	 * [01]	[?]	custom search
 	 * [02]	[-]	fix twitter embed
-	 * [14]	[?]	old blog link to current blog
+	 * [14]	[!]	old blog link to current blog
 	 * [17]	[-]	alternate links detection for new popups (youtu.be)
 	 * [18]	[!]	any link not referenced within blog to open on new tab
 	 * [21]	[!]	fix primary and secondary colours to variables
@@ -95,7 +95,7 @@ void Main()
 		#region 01 custom search by regex
 		if(includeIndex.Count() == 0 || includeIndex.Contains(1))
 		{
-	        expression = @"(var hashtags = new Array)"; // change custom query in regex here, put 0 as includeIndex
+	        expression = @"(.fbcdn.net/)"; // change custom query in regex here, put 0 as includeIndex
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
