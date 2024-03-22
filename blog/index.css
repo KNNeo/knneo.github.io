@@ -415,7 +415,6 @@ a.fab:focus-within {
 .latest-post-statement.post-title,
 .post-title.entry-title { /*change all titles to alt font and size*/
 	font: normal bold 20px 'Open Sans', Trebuchet, sans-serif;
-	background-color: rgb(var(--background));
 }
 
 .latest-post-statement {
