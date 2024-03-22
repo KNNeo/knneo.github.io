@@ -35,6 +35,7 @@ const config = {
 	labels: {
 		ageSuffix: 'years ago',
 		turningPoint: 'Singer Debut|Swimsuit Photobook|Married',
+		icon: '🎤|👙|💍',
 	},
 	timeline: {
 		include: function(n) {
@@ -176,7 +177,7 @@ function filterWantedListBySearch() {
 function clearWantedList() {
 	searchDiv.value = '';
 	profileDetailsDiv.innerHTML = '';
-	profileImageDiv.innerHTML = '<h2 class="title">Profile List</h2>';
+	profileImageDiv.innerHTML = '<h2 class="title">' + config.title + '</h2>';
 	window['profiles'] = [];
 	window['friendMode'] = false;
 	loadSources();
@@ -241,12 +242,10 @@ function onClickShowAll() {
 
 	//create wanted list
 	for (let profile of profileNamesList) {
-		let list = document.createElement('li');
-		list.appendChild(generateWantedListEntry(profile.id));
-		wantedList.appendChild(list);
+		wantedList.appendChild(generateWantedListCard(profile.id));
 	}
 	
-	popupText(wantedList);
+	popupContent(wantedList);
 	for(let wanted of document.querySelectorAll('.dialog .item'))
 	{
 		wanted.addEventListener('click', function() {
@@ -369,11 +368,11 @@ function generateWantedListSearch() {
 	wanted.tabIndex = 0;
 	wanted.innerText = ' SEARCH';
 	wanted.addEventListener('click', function() {
-		popupText('Search by name or nickname');
+		popupContent('Search by name or nickname');
 	});
 	wanted.addEventListener('keyup', function() {
 		if (event.key === ' ' || event.key === 'Enter')
-			popupText('Search by name or nickname');
+			popupContent('Search by name or nickname');
 	});
 	
 	return wanted;
@@ -407,8 +406,45 @@ function updateWantedList([profile, currentProfile]) {
 	filterWantedListByFriends(profileFriendsList, profile, currentProfile);
 }
 
-function generateWantedListCards() {
+function generateWantedListCard(id) {
+	let profile = window['source'].find( function(n) {
+		return n.id == id
+	});
 	
+	let wanted = document.createElement('div');
+	wanted.classList.add('item');
+	wanted.tabIndex = 0;
+	wanted.setAttribute('data-name', profile.id);
+	wanted.addEventListener('click', function() {
+		generateProfileFromJSON(this);
+	});
+	wanted.addEventListener('keyup', onKeyUpWantedListEntry);
+	
+	let card = document.createElement('div');
+	card.classList.add('card');
+	
+	let left = document.createElement('img');
+	left.src = profile.landscapes.concat(profile.portraits)[0];
+	
+	let right = document.createElement('div');
+	right.classList.add('info');
+	
+	let name = document.createElement('div');
+	name.innerText = profile.name;
+	
+	let date = document.createElement('div');
+	date.innerText = profile.dob.startsWith('????') ? '' : processOption(profile.dob, false);
+	
+	let icons = config.labels.icon.split('|');
+	let stats = generateProfilePointers(profile, icons);	
+	
+	right.appendChild(name);
+	right.appendChild(date);
+	right.appendChild(stats);
+	card.appendChild(left);
+	card.appendChild(right);
+	wanted.appendChild(card);
+	return wanted;	
 }
 
 ////TIMELINE////
@@ -520,7 +556,7 @@ function setProfileOrderByFriend(list, friend) {
 function generateProfileFromJSON(profileName) {
 	//process input
 	if(typeof profileName == 'object')
-		profileName = profileName.innerText;
+		profileName = profileName.getAttribute('data-name') ?? profileName.innerText;
 	if(profileName.indexOf(' ') >= 0)
 		profileName = profileName.replace(' ', '');
 	if(profileName.indexOf(' ') >= 0)
@@ -653,7 +689,7 @@ function generateProfileName(item) {
 	{
 		span.classList.add('points');
 		span.addEventListener('click', function() {
-			popupText(this.title);
+			popupContent(this.title);
 		});
 	}
 	cellDiv.appendChild(span);
@@ -682,7 +718,7 @@ function generateProfileDob(item) {
 		DOBspan.classList.add('points');
 		DOBspan.title = `${age} ${config.labels.ageSuffix}`;
 		DOBspan.addEventListener('click', function() {
-			popupText(this.title);
+			popupContent(this.title);
 		});
 	}
 	//dob comment only appears if single profile
@@ -711,12 +747,13 @@ function generateProfileWithInnerHTML(profile, property) {
 	return cell;
 }
 
-function generateProfilePointers(profile) {
+function generateProfilePointers(profile, icons) {
 	let points = profile.pointers.map((item, index, arr) => {
 		let parts = item.split('|');
 		return {
 			label: parts[0],
 			value: processOption(parts[1], false),
+			bool: processOption(parts[1], true),
 			comment: parts[1].includes('[') ? findComment(profile, parts[1].substring(parts[1].indexOf('['))) : null, 
 		}
 	});
@@ -736,6 +773,9 @@ function generateProfilePointers(profile) {
 		cellDiv.classList.add('page-align');
 		cellDiv.classList.add('tr-caption');
 		cellDiv.innerText = point.label;
+		if(icons) {
+			cellDiv.innerText = point.bool ? icons[config.labels.turningPoint.split('|').indexOf(point.label)] : '';
+		}
 		cellContainer.appendChild(cellDiv);
 
 		//--POINTERS VALUE--//
@@ -746,16 +786,16 @@ function generateProfilePointers(profile) {
 			cellDiv.title = point.comment;
 			cellDiv.classList.add('points');
 			cellDiv.addEventListener('click', function() {
-				popupText(processComment(point.comment, profile.links));
+				popupContent(processComment(point.comment, profile.links));
 			});
 		}
 		cellDiv.innerHTML = point.value;
-		cellContainer.appendChild(cellDiv);
+		if(!icons) cellContainer.appendChild(cellDiv);
 		
 		cell.appendChild(cellContainer);
 		
 		//--LINE BREAK--//
-		if(points.indexOf(point) < points.length - 1)
+		if(points.indexOf(point) < points.length - 1 && !icons)
 		{
 			let hr = document.createElement('hr');
 			hr.style.margin = '0.2em';
@@ -795,7 +835,7 @@ function generateProfileSocial(profile) {
 		span.href = 'javascript:void(0)';
 		span.title = 'Comments';
 		span.addEventListener('click', function() {
-			popupText(processOption(profile.intro, false) + 
+			popupContent(processOption(profile.intro, false) + 
 			'<p style="font-style: italic;">"' + processOption(profile.description, false) + 
 			'"</p>Star Rating:<br>' + ratingAsStars(profile.rating, config.rating.max)?.outerHTML + 
 			'<small>' + (config.rating.tiers[profile.rating - 1] ?? '') + '</small>');
@@ -1067,7 +1107,7 @@ function showProfilesImageCount(threshold) {
 }
 
 ////DIALOG////
-function popupText(input) {
+function popupContent(input) {
 	let dialogDiv = document.querySelector('.dialog');
 	if(dialogDiv == null)
 	{

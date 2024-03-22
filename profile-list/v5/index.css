@@ -41,13 +41,18 @@ a {
 a:hover {
 	color: var(--foreground);	
 }
-.dialog .box {
+.dialog {
 	background-color: var(--background);
-	color: var(--foreground);	
+	color: var(--foreground);
+	width: 100%;
+}
+.dialog .box {
+	color: var(--foreground);
 	padding: 10px;
+    padding-right: 20px;
 	overflow-x: hidden;
 }
-.dialog .box a {
+.dialog a {
 	background-color: var(--background);
 	color: var(--primary);
 }
@@ -61,15 +66,37 @@ a:hover {
 	padding: 5px;
 }
 .item {
-	display: inline-block;
-	color: var(--primary);
-	text-decoration: underline solid var(--primary);
 	white-space: nowrap;
     margin: 6px;
+    width: 100%;
 }
-.item:hover {
-	color: var(--foreground);
-	text-decoration: underline solid var(--foreground);
+.card {
+	display: flex;
+    align-items: center;
+    gap: 5px;
+	cursor: pointer;
+    background: var(--accent);
+    padding: 10px;
+	transition: background .2s linear;
+}
+.card:hover {
+    background: var(--secondary);	
+}
+.card .info {
+	margin: auto;
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.card img {
+	width: 120px;
+	height: 120px;
+	object-fit: cover;
+}
+.card .profile-box-label {
+	white-space: initial;
+	font-size: 1.2em;
+	text-decoration: none;
 }
 .list {
 	list-style-type: none;
@@ -86,8 +113,10 @@ a:hover {
     flex-direction: column;
     align-items: flex-start;
 	height: auto;
-	overflow: auto;
-	min-width: 160px;
+    overflow-x: hidden;
+}
+.dialog .list li {
+	width: 100%:
 }
 .inverted {
 	color: var(--foreground);
