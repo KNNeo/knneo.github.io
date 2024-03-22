@@ -84,7 +84,7 @@ body {
 
 .blog {
 	font-weight: 100;
-	font-size: 1em;
+	/* font-size: 1em; */
 }
 
 /*MEDIA QUERIES - REDUCED MOTION*/
