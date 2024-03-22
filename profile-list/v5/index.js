@@ -56,6 +56,7 @@ let profileImageDiv = document.querySelector('.profile-image');
 let profileDetailsDiv = document.querySelector('.profile-details');
 let viewDiv = document.querySelector('.view');
 let pageDivs = document.querySelectorAll('.page');
+let searchDiv = document.querySelector('#search');
 
 //--FUNCTIONS--//
 function startup() {
@@ -165,6 +166,7 @@ function filterWantedListBySearch() {
 	window['profileList'] = window['source']
 	.filter(n => !(n.inactive === true) 
 	&& n.rating 
+	&& window['profiles'].filter(p => p.id != n.id).length > 0
 	&& (n.name.toLowerCase().includes(window['search'].toLowerCase())
 	|| (n.nickname?.toLowerCase().includes(window['search'].toLowerCase()) ?? false))
 	);
@@ -172,9 +174,9 @@ function filterWantedListBySearch() {
 }
 
 function clearWantedList() {
-	document.getElementById('search').value = '';
-	document.querySelector('.profile-details').innerHTML = '';
-	document.querySelector('.profile-image').innerHTML = '<h2 class="title">Profile List</h2>';
+	searchDiv.value = '';
+	profileDetailsDiv.innerHTML = '';
+	profileImageDiv.innerHTML = '<h2 class="title">Profile List</h2>';
 	window['profiles'] = [];
 	window['friendMode'] = false;
 	loadSources();
@@ -405,6 +407,10 @@ function updateWantedList([profile, currentProfile]) {
 	filterWantedListByFriends(profileFriendsList, profile, currentProfile);
 }
 
+function generateWantedListCards() {
+	
+}
+
 ////TIMELINE////
 function loadTimeline(width = 2500) {
 	// if(document.querySelector('#timeline') == null) return;
@@ -561,7 +567,7 @@ function generateProfileFromJSON(profileName) {
 	// profileDiv.style.height = window['friendMode'] ? '' : '100%';
 	// viewDiv.style.display = '';
 	
-	document.getElementById('search').value = '';
+	searchDiv.value = '';
 	updateWantedList(window['profiles'].slice(0,3));
 	toggleView(4);
 }
