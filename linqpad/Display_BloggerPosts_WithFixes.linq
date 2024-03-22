@@ -45,7 +45,7 @@ void Main()
 	var showMatches = true; //if has match show full match object, else just object with description
 	var showOk = false; //if post no issues don't show
 	 //----------ADD INDEXES HERE----------//
-	List<int> includeIndex = new List<int> { 32 };
+	List<int> includeIndex = new List<int> { 33 };
 	if(includeIndex.Count > 0) Console.WriteLine("[SELECTIVE_CHECKS_ACTIVATED - " + String.Join(", ", includeIndex) + "]");
 	else Console.WriteLine("[ALL_CHECKS_ACTIVATED]");
 	
@@ -63,7 +63,8 @@ void Main()
 	 * [29]	[-]	reduce resolution of uploaded images (from 4032 -> 2048 pixels)
 	 * [30]	[-]	censor words
 	 * [31]	[-]	add lazy loading to img tags
-	 * [32]	[!]	 fix blogger images without absolute path
+	 * [32]	[!]	fix blogger images without absolute path
+	 * [33] [!] fix blogger links/images on http non-secure domain
 	 */
 	
 	// Process XML content per post
@@ -371,6 +372,22 @@ void Main()
 				}
 	        };
 			
+		}
+		#endregion
+		
+		#region 33 fix blogger links/images on http non-secure domain
+		if(includeIndex.Count() == 0 || includeIndex.Contains(33))
+		{
+	        expression = @"(http://)(.*?)(.jpg|.html)"; // last bracket for file type, must be static to detect
+	        match = Regex.Match(content, expression);
+	        while(match.Success) {
+	            fixes.Add(new MatchItem() {
+						match = match,
+						description = "[33] url is on http non-secure domain",
+						action = "update if possible to https, else change source or reupload"
+					});
+	            match = match.NextMatch();
+	        };
 		}
 		#endregion
 		
