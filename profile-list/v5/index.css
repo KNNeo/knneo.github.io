@@ -41,13 +41,13 @@ a {
 a:hover {
 	color: var(--foreground);	
 }
-.dialog dialog {
+.dialog .box {
 	background-color: var(--background);
 	color: var(--foreground);	
 	padding: 10px;
-	max-width: 360px;
+	overflow-x: hidden;
 }
-.dialog dialog a {
+.dialog .box a {
 	background-color: var(--background);
 	color: var(--primary);
 }
@@ -87,6 +87,7 @@ a:hover {
     align-items: flex-start;
 	height: auto;
 	overflow: auto;
+	min-width: 160px;
 }
 .inverted {
 	color: var(--foreground);
