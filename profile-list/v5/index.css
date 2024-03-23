@@ -49,7 +49,6 @@ a:hover {
 .dialog .box {
 	color: var(--foreground);
 	padding: 10px;
-    padding-right: 20px;
 	overflow-x: hidden;
 }
 .dialog a {
