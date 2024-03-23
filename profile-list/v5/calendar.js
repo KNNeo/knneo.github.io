@@ -89,10 +89,10 @@ function addEventsToMiniCalendar(htmlString, DOBlist) {
 		
 		if (thisAge == '??' && htmlString.indexOf(monthId) > -1 && htmlString.indexOf(dateCell) > -1 && item.name != 'Me') //no age
 			htmlString = htmlString.replace(dateCell, 
-			'<td onclick="popupText(this.querySelector(\'.calendar-popitem\'))" class="bg" data-id="' + item.category + '"><div class="calendar-popitem">' + message + '</div>' + birthdayInYear.getDate() + '</td>');
+			'<td onclick="popupContent(this.querySelector(\'.calendar-popitem\'))" class="bg" data-id="' + item.category + '"><div class="calendar-popitem">' + message + '</div>' + birthdayInYear.getDate() + '</td>');
 		else if (htmlString.indexOf(monthId) > -1 && htmlString.indexOf(dateCell) > -1 && item.name != "Me") //with age
 			htmlString = htmlString.replace(dateCell, 
-			'<td onclick="popupText(this.querySelector(\'.calendar-popitem\'))" class="bg" data-id="' + item.category + '"><div class="calendar-popitem">' + message + '</div>' + birthdayInYear.getDate() + '</td>');
+			'<td onclick="popupContent(this.querySelector(\'.calendar-popitem\'))" class="bg" data-id="' + item.category + '"><div class="calendar-popitem">' + message + '</div>' + birthdayInYear.getDate() + '</td>');
 		else if (thisAge == '??' && htmlString.indexOf(monthId) > -1) //append DOB, no age
 			htmlString = htmlString.replace('</div>' + birthdayInYear.getDate() + '</td>', 
 			'<br />' + message + '</div>' + birthdayInYear.getDate() + '</td>');
@@ -136,7 +136,7 @@ function addEventsToMiniCalendar(htmlString, DOBlist) {
 			let popitem = date.querySelector('.calendar-popitem');
 			if(popitem != null)
 				date.addEventListener('click', function() {
-					popupText(popitem);
+					popupContent(popitem);
 				});
 		}
 	});
