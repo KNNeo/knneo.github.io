@@ -1,7 +1,7 @@
 //--NOTES--//
 //Default separator is '_' (underscore) unless stated in settings
-//Filenames of images to be in the format of <tag>_<tag>_...jpg
-//Thumbnail filenames to be in format '<prefix>_<filename>' according to preset; original has no prefix
+//Filenames of images to be in the format of <tag>_<tag>, if with extension eg. '.jpg' will be removed
+//Thumbnail filenames to be in format '<prefix>_<id>' according to preset; original has no prefix
 //Data in data.js, variable mosaicArray
 
 //--SETTINGS--//
@@ -19,7 +19,7 @@ const config = {
 	sort: {
 		order: 'asc',
 		locale: 'ja-JP',
-		property: 'filename',
+		property: 'id',
 	},
 	setting: {
 		clear: true,
@@ -117,8 +117,8 @@ function generateTags() {
 	//generate tags by design
 	window['buttonArray'] = generateFiltered()
 	.map(function(file) {
-		let filenameIndex = file.filename.includes('/') ? file.filename.lastIndexOf('/') : -1;
-		return getFilenameInfo(file.filename).filename;
+		let filenameIndex = file.id.includes('/') ? file.id.lastIndexOf('/') : -1;
+		return getFilenameInfo(file.id).filename;
 	})
 	.reduce(function(total, current, _, _) {
 		let updated = total;
@@ -312,7 +312,7 @@ function generateViewer() {
 function generateStats() {
 	let filtered = generateFiltered(mosaicArray)
 	.reduce(function(total, current, arr) {
-		let names = current.filename.substring(0, current.filename.lastIndexOf('.')).split(config.separator);
+		let names = getFilenameInfo(current.id).filename.split(config.separator);
 		for(let name of names)
 		{
 			if(total[name] == undefined)
@@ -365,7 +365,7 @@ function generateGrid() {
 	let itemHeight = (thumbWidth*config.grid.thumbnail.ratio) + 'px';
 	
 	for(let item of filterArray) {
-		let imageUrl = item.filename;
+		let imageUrl = item.id;
 		
 		let gridItem = document.createElement('div');
 		gridItem.classList.add('grid-item');
@@ -382,7 +382,7 @@ function generateGrid() {
 		}
 		
 			let gridItemImage = document.createElement('img');
-		
+			gridItemImage.alt = '';
 			gridItemImage.title = getFilenameInfo(imageUrl).filename.split(config.separator).join('\n');
 			// gridItemImage.src = item[getThumbnailPrefix()] || 'https://knneo.github.io/resources/spacer.gif';
 			gridItemImage.setAttribute('data-image', item[getThumbnailPrefix()] || 'https://knneo.github.io/resources/spacer.gif');
@@ -430,9 +430,9 @@ function generateFiltered() {
 	if(config.debug) console.log('included', includeArray);
 	if(config.debug) console.log('excluded', excludeArray);
 	return mosaicArray.filter(m => 
-		(window['includeCriteria'].length == 0 || includeArray.filter(s => m.filename.toLowerCase().includes(s.toLowerCase() + config.separator) || m.filename.toLowerCase().includes(config.separator + s.toLowerCase())).length == includeArray.length) && 
-		(window['excludeCriteria'].length == 0 || excludeArray.filter(s => !m.filename.toLowerCase().includes(s.toLowerCase() + config.separator) && !m.filename.toLowerCase().includes(config.separator + s.toLowerCase())).length == excludeArray.length) &&
-		(config.tag.exclude ?? []).filter(f => m.filename.includes(f)).length < 1
+		(window['includeCriteria'].length == 0 || includeArray.filter(s => m.id.toLowerCase().includes(s.toLowerCase() + config.separator) || m.id.toLowerCase().includes(config.separator + s.toLowerCase())).length == includeArray.length) && 
+		(window['excludeCriteria'].length == 0 || excludeArray.filter(s => !m.id.toLowerCase().includes(s.toLowerCase() + config.separator) && !m.id.toLowerCase().includes(config.separator + s.toLowerCase())).length == excludeArray.length) &&
+		(config.tag.exclude ?? []).filter(f => m.id.includes(f)).length < 1
 	);
 }
 
@@ -674,7 +674,8 @@ function openImageInViewer(image) {
 	let img = document.createElement('img');
 	img.id = image.id;
 	img.src = image.getAttribute('data-src');
-	img.title = image.title;
+	img.alt = '';
+	img.title = '';
 	img.style.transform = 'scale(0.8)';
 	img.style.opacity = 0;
 	img.addEventListener('load', function() {
@@ -762,7 +763,7 @@ function toggleZoom() {
 }
 
 function getFilenameInfo(url) {
-	if(url.lastIndexOf('.') >= 0) {
+	if(url.lastIndexOf('.') >= 0) { // assume file name with extension
 		let filename = url.substring(url.lastIndexOf('/')+1, url.lastIndexOf('.'));
 		let extension = url.substring(url.lastIndexOf('.')+1);
 		return {filename, extension};
