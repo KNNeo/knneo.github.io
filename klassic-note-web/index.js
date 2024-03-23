@@ -2094,9 +2094,9 @@ function querySOTD(contents) {
 	queryDb(query, generateSOTD);
 	
 	//select awards of that song regardless of year
-	query = "SELECT m.KNYEAR AS 'Year', m.Month, m.SongTitle AS 'Song Title', m.ArtistTitle AS 'Artist Title', m.Count, m.SongID as KNID "
-	query += "FROM SOTM m JOIN Song s ON s.ID = m.SongID "
-	query += "JOIN (SELECT tm.* FROM SOTM tm WHERE tm.SongID = " + row[columnIndexKNID] + ") mref ON mref.KNYEAR = m.KNYEAR ";
+	query = "SELECT m.KNYEAR AS 'Year', m.Month, m.SongTitle AS 'Song Title', m.ArtistTitle AS 'Artist Title', m.Count, m.SongID as KNID ";
+	query += "FROM SOTM m JOIN Song s ON s.ID = m.SongID ";
+	query += "WHERE m.KNYEAR = (SELECT tm.KNYEAR FROM SOTM tm WHERE tm.SongID = " + row[columnIndexKNID] + ")";
 
 	if(debugMode) console.log('querySOTM', query);
 	queryDb(query, generateSOTM);
