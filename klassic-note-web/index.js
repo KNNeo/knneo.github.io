@@ -333,6 +333,7 @@ function setTabs() {
 			// if(!isWidescreen && tab.classList.contains('tab-view')) tab.classList.remove('tab-view');
 			
 			tab.style.display = isWidescreen ? 'inline-block' : '';
+			tab.style.display = hasModules ? tab.style.display : 'none';
 			//set width: exclude horizontal padding
 			tab.style.width = isWidescreen && hasModules ? ((window.innerWidth / totalModules) - 20) + 'px' : '';
 		}
