@@ -160,14 +160,14 @@ function onSearch() {
 	window['search'] = event.target.value;
 	filterWantedListBySearch();
 	if(event.key === 'Enter') // select first result
-		document.querySelector('.list .item').click();
+		document.querySelector('.list .item')?.click();
 }
 
 function filterWantedListBySearch() {
 	window['profileList'] = window['source']
 	.filter(n => !(n.inactive === true) 
 	&& n.rating 
-	&& window['profiles'].filter(p => p.id != n.id).length > 0
+	&& (window['profiles'].length == 0 || window['profiles'].filter(p => p.id != n.id).length > 0)
 	&& (n.name.toLowerCase().includes(window['search'].toLowerCase())
 	|| (n.nickname?.toLowerCase().includes(window['search'].toLowerCase()) ?? false))
 	);
