@@ -59,6 +59,7 @@ a:hover {
 .tr-caption {
 	font-size: 80%;
 	max-width: 680px;
+	padding: 0 0.2em;
 }
 
 .post-body {
