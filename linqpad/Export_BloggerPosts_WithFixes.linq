@@ -29,6 +29,7 @@
  * []	censor words
  * [ok]	add lazy loading to img tags
  * [ok]	replace italics with emphasis tag
+ * [ok] replace inline style in content header
  */
 
 bool TraceMode = false;
@@ -347,7 +348,7 @@ void Main()
 
 List<int> FixContent(ref string content)
 {
-	List<int> includeIndex = new List<int> { 1, 2, 3, 14, 15, 16, 17, 18, 21, 24, 29, 31, 32 };
+	List<int> includeIndex = new List<int> { 1, 2, 3, 14, 15, 16, 17, 18, 21, 24, 29, 31, 32, 33 };
 	List<int> count = new List<int>();
 	string expression;
     string prefix, midfix, suffix;
@@ -631,6 +632,19 @@ List<int> FixContent(ref string content)
 		
 	}
     #endregion
+	
+	#region 33 replace inline style in content header
+	if(includeIndex.Count() == 0 || includeIndex.Contains(33))
+	{
+        expression = @"style=""font-size: large;""";
+        match = Regex.Match(content, expression);
+        if(match.Success) {
+			count.Add(33);
+            content = Regex.Replace(content, expression, @"class=""head-title""");
+        };
+		
+	}	
+	#endregion
 	
     //Add to debug
     if(matchItems.Count() > 0)
