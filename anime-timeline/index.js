@@ -375,7 +375,7 @@ function resize() {
 	let h3height = document.getElementsByTagName('h3')[0].getBoundingClientRect().height;
 	let headerHeight = document.querySelector('.header').offsetHeight;
 	let footerHeight = document.querySelector('.footer').offsetHeight;
-	document.querySelector('.anime-list').style.height = (window.innerHeight - h3height - headerHeight - footerHeight - 0.2*window.innerHeight) + 'px';
+	// document.querySelector('.anime-list').style.height = (window.innerHeight - h3height - headerHeight - footerHeight - 0.2*window.innerHeight) + 'px';
 }
 
 //click season/series to scroll to timeline first box
