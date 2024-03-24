@@ -24,7 +24,7 @@ function selectItem(container) {
 //--EVENT HANDLERS--//
 function onWheel() {
 	event.preventDefault();
-	let scrollDelta = config.scroll * (isFirefox ? -event.detail * 50 : event.wheelDelta);
+	let scrollDelta = (config.dimmed ? config.scroll : 1) * (isFirefox ? -event.detail * 50 : event.wheelDelta);
 	if(config.orientation == 'horizontal')
 		timelineDiv.scrollLeft -= scrollDelta;
 	if(config.orientation == 'vertical')
@@ -72,6 +72,9 @@ function initialize() {
 }
 
 function generateTimeline(timelineList, querySelector) {
+	let spacing = calculateSpacing();
+	alert(spacing);
+	
 	let list = document.querySelector(querySelector);
 	list.innerHTML = '';
 	list.classList.remove('horizontal');
@@ -90,10 +93,12 @@ function generateTimeline(timelineList, querySelector) {
 		.sort(function(a,b) { return a.sort - b.sort; })
 		.reduce(function(total, current, index, _) {
 			if(current.skip) {
-				for(s = 0; s < current.skip; s++)
-				{
+				for(s = 0; s < current.skip * spacing; s++)
 					total.push({});
-				}
+			}
+			else if (index > 0 && spacing > 1) {
+				for(s = 0; s < spacing; s++)
+					total.push({});
 			}
 			total.push({
 				...current,
@@ -222,6 +227,13 @@ function generateTimeline(timelineList, querySelector) {
 	}
 	
 	list.appendChild(listBlock);
+}
+
+function calculateSpacing() {
+	// multiply based on horizontal screen ratio
+	if(config.orientation == 'horizontal')
+		return Math.ceil(window.innerWidth / window.innerHeight);
+	return 1;
 }
 
 //--DIALOG--//
