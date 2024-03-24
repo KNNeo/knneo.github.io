@@ -1,6 +1,7 @@
 //--DEFAULT SETTINGS--//
 const isFirefox = (/Firefox/i.test(navigator.userAgent));
 const config = {
+	"title": "My Fanfiction Journey",
 	"dimmed": true,
 	"orientation": window.innerWidth > window.innerHeight ? "horizontal" : "vertical",
 	"size": 40,
@@ -68,13 +69,11 @@ function toggleOrientation() {
 
 //--FUNCTIONS--//
 function initialize() {
+	document.title = config.title;
 	timelineDiv.addEventListener(isFirefox ? 'DOMMouseScroll' : 'mousewheel', onWheel);
 }
 
 function generateTimeline(timelineList, querySelector) {
-	let spacing = calculateSpacing();
-	alert(spacing);
-	
 	let list = document.querySelector(querySelector);
 	list.innerHTML = '';
 	list.classList.remove('horizontal');
@@ -89,6 +88,7 @@ function generateTimeline(timelineList, querySelector) {
 	else
 		listBlock.style.gridAutoRows = config.size + 'px';
 	
+	let spacing = calculateSpacing();
 	let displayList = timelineList
 		.sort(function(a,b) { return a.sort - b.sort; })
 		.reduce(function(total, current, index, _) {
@@ -109,9 +109,7 @@ function generateTimeline(timelineList, querySelector) {
 	
 	if(config.orientation == 'horizontal') {
 		for(s = 0; s < Math.floor((timelineDiv.clientWidth / 2) / config.size); s++)
-		{
 			displayList.push({ "empty": true });
-		}
 	}
 	
 	let count = 0;
