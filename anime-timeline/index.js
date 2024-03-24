@@ -77,6 +77,8 @@ function generateAnimeList(isGroupBySeries) {
 					series.shows.push(show);
 			}
 		}
+		
+		seriesArray = seriesArray.filter(s => s.shows.length > 1);
 	}
 	
 	let animeTable = document.createElement('table');
