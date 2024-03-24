@@ -498,6 +498,10 @@ a.fab:focus-within {
 	font-size: 0.9em;
 }
 
+.head-title {
+	font-size: 1.1em;
+}
+
 .hidden,
 .news-thumbnail {
 	display: none;
