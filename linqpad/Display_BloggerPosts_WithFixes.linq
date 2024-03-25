@@ -45,7 +45,7 @@ void Main()
 	var showMatches = true; //if has match show full match object, else just object with description
 	var showOk = false; //if post no issues don't show
 	 //----------ADD INDEXES HERE----------//
-	List<int> includeIndex = new List<int> { 1 };
+	List<int> includeIndex = new List<int> { 34 };
 	if(includeIndex.Count > 0) Console.WriteLine("[SELECTIVE_CHECKS_ACTIVATED - " + String.Join(", ", includeIndex) + "]");
 	else Console.WriteLine("[ALL_CHECKS_ACTIVATED]");
 	
@@ -65,6 +65,7 @@ void Main()
 	 * [31]	[-]	add lazy loading to img tags
 	 * [32]	[!]	fix blogger images without absolute path
 	 * [33] [!] fix blogger links/images on http non-secure domain
+	 * [34] [!] fix old popup elements, replace with link to new tab
 	 */
 	
 	// Process XML content per post
@@ -385,6 +386,22 @@ void Main()
 						match = match,
 						description = "[33] url is on http non-secure domain",
 						action = "update if possible to https, else change source or reupload"
+					});
+	            match = match.NextMatch();
+	        };
+		}
+		#endregion
+		
+		#region 34 fix old popup elements, replace with link to new tab
+		if(includeIndex.Count() == 0 || includeIndex.Contains(34))
+		{
+	        expression = @"(?s)(class=""popup"")(.*?)(class=""normal"")(.*?)(class=""pop"")"; // last bracket for file type, must be static to detect
+	        match = Regex.Match(content, expression);
+	        while(match.Success) {
+	            fixes.Add(new MatchItem() {
+						match = match,
+						description = "[34] old popup detected",
+						action = "convert to link to new tab"
 					});
 	            match = match.NextMatch();
 	        };
