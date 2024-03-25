@@ -29,7 +29,7 @@
  * []	censor words
  * [ok]	add lazy loading to img tags
  * [ok]	replace italics with emphasis tag
- * [ok] replace inline style in content header
+ * [ok] replace inline style with class due to universal font-size use
  */
 
 bool TraceMode = false;
@@ -633,7 +633,7 @@ List<int> FixContent(ref string content)
 	}
     #endregion
 	
-	#region 33 replace inline style in content header
+	#region 33 replace inline style with class due to universal font-size use
 	if(includeIndex.Count() == 0 || includeIndex.Contains(33))
 	{
         expression = @"style=""font-size: large;""";
@@ -641,6 +641,13 @@ List<int> FixContent(ref string content)
         if(match.Success) {
 			count.Add(33);
             content = Regex.Replace(content, expression, @"class=""head-title""");
+        };
+		
+        expression = @"style=""font-size: x-small;""";
+        match = Regex.Match(content, expression);
+        if(match.Success) {
+			count.Add(33);
+            content = Regex.Replace(content, expression, @"class=""skip-section""");
         };
 		
 	}	

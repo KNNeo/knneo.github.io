@@ -287,6 +287,15 @@ span.emoji {
     text-align: center;
 }
 
+/*Fixes from universal font-size change*/
+.head-title {
+	font-size: 1.125em;
+}
+
+.skip-section {
+	font-size: 0.625em;	
+}
+
 /*Fixes from Blogger*/
 .tr-caption-container {
     padding: 4px;
