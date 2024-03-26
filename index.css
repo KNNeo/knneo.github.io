@@ -1,24 +1,24 @@
 /*Variables*/
 :root {
-  --primary: rgba(27, 0, 255, 1);
-  --secondary: rgba(96, 159, 255, 1);
-  --background: rgba(255, 255, 255, 1);
-  --foreground: rgba(0, 0, 0, 1);
-  --accent: rgb(211, 211, 211, 1);
+  --primary: 27, 0, 255;
+  --secondary: 96, 159, 255;
+  --background: 255, 255, 255;
+  --foreground: 0, 0, 0;
+  --accent: 211, 211, 211;
 }
 
 .darked:root {
-  --primary: rgba(0, 228, 255, 1);
-  --secondary: rgba(0, 171, 191, 1);
-  --background: rgba(0, 0, 0, 1);
-  --foreground: rgba(255, 255, 255, 1);
-  --accent: rgb(128, 128, 128, 1);
+  --primary: 0, 228, 255;
+  --secondary: 0, 171, 191;
+  --background: 0, 0, 0;
+  --foreground: 255, 255, 255;
+  --accent: 128, 128, 128;
 }
 
 html {
 	font-family: Noto Sans, Verdana, sans-serif;
-	background-color: var(--background);
-	color: var(--foreground);
+	background-color: rgb(var(--background));
+	color: rgb(var(--foreground));
 	transition: background .2s linear;
 }
 
@@ -52,14 +52,14 @@ body {
 }
 
 .page-list a {
-	color: var(--primary);
+	color: rgb(var(--primary));
 	text-decoration: none;
     display: inline-block;
 	padding: 2px 5px;
 }
 
 .page-list > a:hover {
-	color: var(--foreground);
+	color: rgb(var(--foreground));
 	text-decoration: underline;
 }
 
@@ -73,13 +73,13 @@ body {
 }
 
 .settings a {
-	color: var(--foreground);
+	color: rgb(var(--foreground));
 	cursor: pointer;
 	text-decoration: none;
 }
 
 .settings a:hover {
-	color: var(--primary);
+	color: rgb(var(--primary));
 }
 
 .blog {
