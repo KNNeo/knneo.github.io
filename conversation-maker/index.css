@@ -18,15 +18,19 @@ html, select {
 	background-color: var(--background);
 	color: var(--foreground);
 }
+html {
+	height: 100%;
+}
 body {
-	margin: auto;
+    margin: 0 auto;
+	height: 100%;
+	max-width: 640px;
 	text-align: center;
 	-webkit-user-select: none;
 	-khtml-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
-	max-width: 640px;
 }
 a {
 	-webkit-user-select: none;
@@ -67,14 +71,27 @@ a:hover {
 	font-size: 1.75em;
 }
 /*Page-Specific*/
+.page {
+    display: inline-block;
+    width: 100%;
+	height: 100%;
+}
+.container {
+	height: calc(100% - 300px);
+}
+.conversation {
+	height: 100%;
+}
 .conversation a {
     display: inline-block;
 	padding: 12px 6px;
 	font-size: 1.2em;
 }
+.conversation .view {
+	height: calc(100% - 50px);
+}
 .conversation .messages {
 	background-color: var(--secondary);
-    height: min(100dvh - 350px, 35em);
     overflow-y: auto;
 	position: relative;
     resize: vertical;
@@ -148,14 +165,14 @@ a:hover {
 .conversation .message .reactions {
     line-height: 0.5;
 }
+.conversation .editor textarea {
+    width: 100%;
+	height: calc(100% - 25px);
+}
 .conversation .footer {
 	font-size: 2em;
 	justify-content: center;
 	cursor: pointer;
-}
-.editor textarea {
-    width: 95%;
-    height: 30em;
 }
 .menu {
     display: flex;

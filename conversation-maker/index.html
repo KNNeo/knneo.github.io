@@ -12,20 +12,20 @@
     <title>Conversation Starter</title>
 </head>
 <body onload="startup()" onkeydown="onKeyDown()">
-	<h2>Conversation Starter</h2>
-	<h5>Allows for curated animations of chat lines</h5>
 	<div class="page">
+		<h2>Conversations</h2>
+		<h5>Curated animations of chat lines using text editor</h5>
 		<!--DROPDOWN-->
 		<div>
 			<label for="selection">Select Conversation:</label>
-		</div>
-		<div class="menu">
-			<select name="selection" id="selection" onchange="selectConversation()">
-				<option value="">======</option>
-			</select>
-			<a class="add bi bi-plus-square" href="javascript:void(0);" title="Add New Conversation" onclick="addConversation()"></a>
-			<a class="add bi bi-pencil-square" href="javascript:void(0);" title="Rename Conversation" onclick="renameConversation()"></a>
-			<a class="delete bi bi-x-square" href="javascript:void(0);" title="Delete Current Conversation" onclick="deleteConversation()" oncontextmenu="false"></a>
+			<div class="menu">
+				<select name="selection" id="selection" onchange="selectConversation()">
+					<option value="">======</option>
+				</select>
+				<a class="add bi bi-plus-square" href="javascript:void(0);" title="Add New Conversation" onclick="addConversation()"></a>
+				<a class="add bi bi-pencil-square" href="javascript:void(0);" title="Rename Conversation" onclick="renameConversation()"></a>
+				<a class="delete bi bi-x-square" href="javascript:void(0);" title="Delete Current Conversation" onclick="deleteConversation()" oncontextmenu="false"></a>
+			</div>
 		</div>
 		<!--MESSAGE BOX-->
 		<div class="container"></div>
