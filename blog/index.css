@@ -290,6 +290,7 @@ a.fab {
 	cursor: pointer;
 	line-height: 1;
     text-decoration: none;
+	transition: background .2s linear;
 
 	-webkit-user-select: none;
 	-khtml-user-select: none;
