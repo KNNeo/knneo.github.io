@@ -41,7 +41,7 @@ const config = {
 		include: function(n) {
 			return n.dob && config.timeline.category.includes(n.category);
 		},
-		category: ['Me', '女性声優'],
+		category: ['Me', '女性声優', 'ミュージックレイン3期生'],
 	},
 };
 const isLandscape = function() {
