@@ -226,7 +226,7 @@ function processConversations() {
 	  let isUrl = line.startsWith('https://') || line.startsWith('http://');
       let lineDiv = document.createElement('div');
       lineDiv.classList.add('message');
-	  lineDiv.setAttribute('onclick', 'showReactions()');
+	  lineDiv.setAttribute('onclick', 'toggleReactions()');
       
         let messageDiv = document.createElement('div');
 		messageDiv.classList.add('container');
@@ -280,14 +280,16 @@ function processConversations() {
   }
 }
 
-function showReactions() {
+function toggleReactions() {
 	let message = event.target.closest('.message');
 	if(message.querySelector('.reactions') != null) {
 		message.querySelector('.reactions').remove();	
 	}
-	let template = document.querySelector('.template-reactions');
-	let reactions = template.content.cloneNode(true);
-	message.querySelector('div').appendChild(reactions);
+	else {
+		let template = document.querySelector('.template-reactions');
+		let reactions = template.content.cloneNode(true);
+		message.querySelector('div').appendChild(reactions);
+	}
 }
 
 function setReaction() {
