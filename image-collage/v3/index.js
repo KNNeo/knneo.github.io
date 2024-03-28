@@ -549,16 +549,16 @@ function onScroll(e) {
 	}
 }
 
-function onTouchStart(e) {
-	window['touchY'] = e.touches[0].clientY;
-	window['touchX'] = e.touches[0].clientX;
+function onTouchStart() {
+	window['touchY'] = event.touches[0].clientY;
+	window['touchX'] = event.touches[0].clientX;
 }
 
-function onTouchMove(e) {
-	let swipeDown = e.touches[0].clientY - window['touchY'];
-	let swipeUp = window['touchY'] - e.touches[0].clientY;
-	let swipeLeft = window['touchX'] - e.touches[0].clientX;
-	let swipeRight = e.touches[0].clientX - window['touchX'];
+function onTouchMove() {
+	let swipeDown = event.touches[0].clientY - window['touchY'];
+	let swipeUp = window['touchY'] - event.touches[0].clientY;
+	let swipeLeft = window['touchX'] - event.touches[0].clientX;
+	let swipeRight = event.touches[0].clientX - window['touchX'];
 	if(config.debug)
 		console.log(swipeUp > 0, swipeDown > 0, swipeLeft > 0, swipeRight > 0);
 	if(!window['horizontal'])
@@ -647,6 +647,8 @@ function openViewer(image) {
 function openImageInViewer(image) {	
 	let imgNo = window['viewer-list'].findIndex(i => i.src === image.src);	
 	viewer.setAttribute('index', imgNo);
+	viewer.setAttribute('ontouchstart', 'onTouchStart()');
+	viewer.setAttribute('ontouchmove', 'onTouchMoveViewer()');
 	
 	let viewerPrev = document.createElement('a');
 	viewerPrev.classList.add('prev');
@@ -687,8 +689,6 @@ function openImageInViewer(image) {
 			runLoader();
 		}, 250);
 	});
-	img.addEventListener('touchstart', onTouchStart);
-	img.addEventListener('touchmove', onTouchMoveViewer, false);
 	img.addEventListener('click', closeViewer);
 	img.addEventListener('contextmenu', toggleZoom);
 	
@@ -718,11 +718,11 @@ function onClickViewerNext() {
 	return false;
 }
 
-function onTouchMoveViewer(e) {
-	let swipeDown = e.touches[0].clientY - window['touchY'];
-	let swipeUp = window['touchY'] - e.touches[0].clientY;
-	let swipeLeft = window['touchX'] - e.touches[0].clientX;
-	let swipeRight = e.touches[0].clientX - window['touchX'];
+function onTouchMoveViewer() {
+	let swipeDown = event.touches[0].clientY - window['touchY'];
+	let swipeUp = window['touchY'] - event.touches[0].clientY;
+	let swipeLeft = window['touchX'] - event.touches[0].clientX;
+	let swipeRight = event.touches[0].clientX - window['touchX'];
 	if(config.debug)
 		console.log(swipeUp > 0, swipeDown > 0, swipeLeft > 0, swipeRight > 0);
 	//--SWIPE LEFT--//
