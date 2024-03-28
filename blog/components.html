@@ -16,8 +16,12 @@
 <a id="BackBtn" class="material-icons" href="index.html" title="Go Back">arrow_back</a>
 <a id="DarkModeBtn" class="material-icons" title="Toggle Dark Mode" href="javascript:void(0);" onclick="toggleDarkMode()">brightness_high</a>
 <div id="contents" class="post-body entry-content" style="font-family: Noto Sans;">
-<style id="base-style">
-/* BASE STYLE */
+<h1 style="text-align: center;">COMPONENTS</h1>
+<hr>
+
+<h5>Note - Assume all CSS content have the following base variables:</h5>
+<button onclick="document.querySelector('#variables-style').classList.toggle('hidden')">Show CSS</button>
+<pre id="variables-style" class="hidden">
 :root {
   --primary: #1b3fff;
   --secondary: #609fff;
@@ -31,9 +35,11 @@
   --secondary: #00abbf;
   --background: #001114;
   --foreground: #fff;
-  --accent: gray;
+  --accent: #454545;
 }
-
+</pre>
+<style id="base-style">
+/* BASE STYLE */
 body {
   display: block;
   max-width: 680px;
@@ -189,10 +195,13 @@ pre {
   display: none;
 }
 </style>
+<script id="base-loader">
+let css = document.createElement('style');
+css.innerHTML = document.querySelector('#variables-style').innerHTML;
+document.body.appendChild(css);
+let js = document.createElement('script');
+</script>
 
-
-<h4 style="text-align: center;">COMPONENTS</h4>
-<hr>
 <style>
 .popup {
   display: inline;
@@ -559,10 +568,10 @@ function showNextCarouselItem(tn) {
 }
 </pre>
 <script id="carousel-loader">
-let css = document.createElement('style');
+css = document.createElement('style');
 css.innerHTML = document.querySelector('#carousel-style').innerHTML;
 document.body.appendChild(css);
-let js = document.createElement('script');
+js = document.createElement('script');
 js.innerHTML = document.querySelector('#carousel-script').innerHTML.replace(/&lt;/g,'<').replace(/&gt;/g,'>');
 document.body.appendChild(js);
 </script>
@@ -1939,6 +1948,29 @@ document.body.appendChild(js);
 &lt;/abbr&gt;
 </pre>
 <abbr class="abbreviation" title="Thank Goodness It's Friday">TGIF</abbr>
+
+<h1>Omake</h1>
+<h5>Wrapped element to show extra content</h5>
+<button onclick="document.querySelector('#omake-style').classList.toggle('hidden')">Show CSS</button>
+<pre id="omake-style" class="hidden">
+.omake {
+	border-radius: 8px;
+	background-color: var(--accent);
+	padding: 1em;
+	transition: background-color 0.2s linear;
+}
+</pre>
+<script id="omake-loader">
+css = document.createElement('style');
+css.innerHTML = document.querySelector('#omake-style').innerHTML;
+document.body.appendChild(css);
+</script>
+<pre id="omake-tag">
+&lt;div class="omake"&gt;
+  [CONTENT]
+&lt;/div&gt;
+</pre>
+<div class="omake">WORTHY MENTION: COLLECTING CD<br> This technically doesn't fall in this category, since I wouldn't call collecting songs a thing, but hey, it's sort of like it. You like the songs, you buy them and they stack up. <span class="emoji" title="*laughs*">😆</span> Not going to do pricing on this one because... I spent a lot. Over the past decade alone, I've spent a lot. A good portion of my salary when I was in the Army went to those, and those were the first things I bought with my own money. So yeah, I'll update if I can count them all haha maybe I can do this</div>
 <br />
 <br />
 <div class="blank"></div>
