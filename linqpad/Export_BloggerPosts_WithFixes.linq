@@ -247,7 +247,9 @@ void Main()
 			output.AppendLine("<div class=\"action-menu bottom-left\">");
 			if(postList.IndexOf(pageLink) > 0)
 				output.AppendLine("<a class=\"fab next material-icons\" href='" + postList[postList.IndexOf(pageLink) - 1].Replace("./", "../../../") + "' title=\"Newer Post\">skip_next</a>");
-			output.AppendLine("<a class=\"fab back material-icons\" href=\"../../../index.html\" title=\"Back To Homepage\">arrow_back</a>");
+			if(postList.IndexOf(pageLink) < postList.Count() - 1)
+				output.AppendLine("<a class=\"fab prev material-icons\" href='" + postList[postList.IndexOf(pageLink) + 1].Replace("./", "../../../") + "' title=\"Older Post\">skip_previous</a>");
+			output.AppendLine("<a class=\"fab back material-icons\" href=\"../../../index.html\" title=\"Back To Homepage\">home</a>");
 			output.AppendLine("</div>");
 	        output.AppendLine("</div>");
 			output.AppendLine("<div class=\"action-menu bottom-right\">");

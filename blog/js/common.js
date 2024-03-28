@@ -17,6 +17,7 @@ function startup() {
 	if(typeof preloadSequence == 'function') preloadSequence();
 	if(typeof toggleEmojiDisplay == 'function') toggleEmojiDisplay();
 	if(typeof generateViewer == 'function') setTimeout(generateViewer, 0);
+	if(typeof addSwipeEvents == 'function') setTimeout(addSwipeEvents, 0);
 
 	// Window events
 	window.addEventListener('scroll', toggleActionsOnScroll);
