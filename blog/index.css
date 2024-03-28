@@ -4,7 +4,7 @@
   --secondary: 0, 171, 191;
   --background: 0, 17, 20;
   --foreground: 255, 255, 255;
-  --accent: 68, 68, 68;
+  --accent: 69, 69, 69;
 }
 
 /*Website Adjustments*/
@@ -808,7 +808,7 @@ abbr.imgpop:hover img {
 /*OMAKE*/
 .omake {
 	border-radius: 8px;
-	border: 2px solid rgb(var(--foreground));
+	/* border: 2px solid rgb(var(--foreground)); */
 	background-color: rgb(var(--accent));
 	padding: 1em;
 	transition: background-color 0.2s linear;
