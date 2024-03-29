@@ -23,19 +23,19 @@
 <button onclick="document.querySelector('#variables-style').classList.toggle('hidden')">Show CSS</button>
 <pre id="variables-style" class="hidden">
 :root {
-  --primary: #1b3fff;
-  --secondary: #609fff;
-  --background: #f4f6ff;
-  --foreground: #000;
-  --accent: lightgray;
+	--primary: 27, 63, 255;
+	--secondary: 96, 159, 255;
+	--background: 244, 246, 255;
+	--foreground: 0, 0, 0;
+	--accent: 221, 221, 221;
 }
 
 .darked:root {
-  --primary: #00e4ff;
-  --secondary: #00abbf;
-  --background: #001114;
-  --foreground: #fff;
-  --accent: #454545;
+	--primary: 0, 228, 255;
+	--secondary: 0, 171, 191;
+	--background: 0, 17, 20;
+	--foreground: 255, 255, 255;
+	--accent: 69, 69, 69;
 }
 </pre>
 <style id="base-style">
@@ -45,8 +45,8 @@ body {
   max-width: 680px;
   padding: 0 10px;
   margin: auto;
-  color: var(--foreground);
-  background-color: var(--background);
+  color: rgb(var(--foreground));
+  background-color: rgb(var(--background));
   transition: background .2s linear;
   line-height: 1.5;
   overflow-x: hidden;
@@ -57,18 +57,18 @@ blockquote {
 }
 
 a {
-  color: var(--primary);
+  color: rgb(var(--primary));
 }
 
 a img,
 table div[style|=background] {
     box-sizing: border-box;
-  border: 2px solid var(--secondary);
+  border: 2px solid rgb(var(--secondary));
 }
 
 a img:hover,
 table div[style|=background]:hover {
-    border-color: var(--primary);
+    border-color: rgb(var(--primary));
 }
 
 a:hover {
@@ -134,12 +134,12 @@ span.small-icons {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  color: var(--foreground);
+  color: rgb(var(--foreground));
   cursor: pointer;
   padding: 8px 6px 6px 6px;
-  border: 1px solid var(--foreground);
-  background-color: var(--background);
-  box-shadow: 3px 3px var(--foreground);
+  border: 1px solid rgb(var(--foreground));
+  background-color: rgb(var(--background));
+  box-shadow: 3px 3px rgb(var(--foreground));
   border-radius: 8px;
   transition: background .2s linear;
 }
@@ -152,7 +152,7 @@ span.small-icons {
   left: calc(50% - 410px);
   z-index: 8;
   outline: none;
-  color: var(--foreground);
+  color: rgb(var(--foreground));
   cursor: pointer;
   padding: 8px 6px 6px 6px;
   -webkit-user-select: none;
@@ -160,9 +160,9 @@ span.small-icons {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  border: 1px solid var(--foreground);
-  background-color: var(--background);
-  box-shadow: 3px 3px var(--foreground);
+  border: 1px solid rgb(var(--foreground));
+  background-color: rgb(var(--background));
+  box-shadow: 3px 3px rgb(var(--foreground));
   border-radius: 8px;
   transition: background .2s linear;
 }
@@ -178,13 +178,13 @@ span.small-icons {
 /* PAGE ONLY STYLE */
 pre {
   padding: 10px;
-  border: 1px solid var(--foreground);
+  border: 1px solid rgb(var(--foreground));
   overflow: auto;
   max-height: 50dvh;
 }
 .blank {
   height: 15dvh;
-  border: 1px dashed var(--foreground);
+  border: 1px dashed rgb(var(--foreground));
 }
 .blank::before {
     display: flex;
@@ -204,8 +204,7 @@ let js = document.createElement('script');
 
 
 <h1>Pop-Up Content</h1>
-<h5>ON PAGE LOAD, JS FALLBACK</h5>
-<h5>Normal link tag with target="_blank" (open in new window/tab)</h5>
+<h5>On right-click of external links, supported URLs will show embed content/iframe</h5>
 <button onclick="document.querySelector('#popup-style').classList.toggle('hidden')">Show CSS</button>
 <button onclick="document.querySelector('#popup-script').classList.toggle('hidden')">Show JS</button>
 <pre id="popup-style" class="hidden">
@@ -219,7 +218,7 @@ let js = document.createElement('script');
 }
 
 .popup .text:hover {
-  color: var(--foreground);
+  color: rgb(var(--foreground));
 }
 
 .popup .content {
@@ -240,7 +239,7 @@ let js = document.createElement('script');
 }
 
 .overlay {
-	background-color: var(--background);
+	background-color: rgb(var(--background), 0.5);
 	transition: opacity .3s linear;
 	position: fixed;
 	width: 100%;
@@ -465,22 +464,22 @@ js = document.createElement('script');
 js.innerHTML = document.querySelector('#popup-script').innerHTML.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');
 document.body.appendChild(js);
 </script>
-<pre id="popup-tag">
+<h5>Displayed initially as normal link tag with target="_blank" (open in new window/tab)</h5>
+<pre>
 This is where you put the &lt;a href="[LINK]" target="_blank"&gt;
   [TEXT]
 &lt;/a&gt; so it's inline.
 </pre>
-"There's a thing called give and take, you know?" Yeah Isaki gave you a kiss so she can take your- All according to <a href="https://jisho.org/search/keikaku" target="_blank">keikaku</a> haha
-<h5>WHEN MOUSE OVER</h5>
-<h5>Link will be transformed to class popup if URL is valid (click tag to close popup)<br/>
+<div class="omake">"There's a thing called give and take, you know?" Yeah Isaki gave you a kiss so she can take your- All according to <a href="https://jisho.org/search/keikaku" target="_blank">keikaku</a> haha</div>
+<h5>When mouse over, link will be transformed to class popup if URL is valid (click tag to close popup)<br/>
 Container class "popup", first child class "text", other children class "content"</h5>
-<pre>
-This is where you put the &lt;div class="popup" title="[LINK]"&gt;
+<pre id="popup-tag">
+This is where you put the &lt;div class="popup" data=url="[LINK]"&gt;
   &lt;div class="text"&gt;[TEXT]&lt;/div&gt;
   &lt;div class="content"&gt;[CONTENT]&lt;/div&gt;
 &lt;/div&gt; so it's inline.
 </pre>
-<div class="testing">
+<div class="testing omake">
 "There's a thing called give and take, you know?" Yeah Isaki gave you a kiss so she can take your- All according to <a href="https://jisho.org/search/keikaku" target="_blank">keikaku</a> haha
 </div>
 
@@ -517,7 +516,7 @@ Click/tap container fast (&lt;200ms) will turn off transition (for observing dif
 .carousel .item img,
 .carousel .item video {
   cursor: pointer;
-  border: 2px solid var(--secondary);
+  border: 2px solid rgb(var(--secondary));
   transition: border 0.2s;
     border-bottom-width: 1em;
 }
@@ -525,7 +524,7 @@ Click/tap container fast (&lt;200ms) will turn off transition (for observing dif
 .carousel .item tr:hover img,
 .carousel .item tr:hover video {
   object-fit: cover;
-    border-color: var(--primary);
+    border-color: rgb(var(--primary));
 }
 
 .carousel .item.hide {
@@ -545,13 +544,13 @@ Click/tap container fast (&lt;200ms) will turn off transition (for observing dif
 }
 
 .carousel .item.text {
-  color: var(--primary);
+  color: rgb(var(--primary));
   text-decoration: underline;  
 }
 
 .carousel-dialog {
-    background-color: var(--background);
-    color: var(--foreground);  
+    background-color: rgb(var(--background));
+    color: rgb(var(--foreground));  
 }
 </pre>
 <pre id="carousel-script" class="hidden">
@@ -801,13 +800,13 @@ document.body.appendChild(js);
   height: auto;
   object-fit: cover;
   transition: border 0.2s;
-  border-color: var(--secondary);
+  border-color: rgb(var(--secondary));
   border-width: 2px 2px 1em;
   aspect-ratio: var(--aspect-ratio, 1);
 }
 
 .agenda .item img:hover {
-  border-color: var(--primary);
+  border-color: rgb(var(--primary));
 }
 </pre>
 <script id="agenda-loader">
@@ -942,8 +941,8 @@ document.body.appendChild(css);
 }
 
 .datatable td, .datatable th {
-  border-top: 1px solid var(--foreground);
-  border-bottom: 1px solid var(--foreground);
+  border-top: 1px solid rgb(var(--foreground));
+  border-bottom: 1px solid rgb(var(--foreground));
   box-sizing: border-box;
   padding: 0 5px;
 }
@@ -953,8 +952,8 @@ document.body.appendChild(css);
 }
 
 .datatable.all-borders td, .datatable.all-borders th {
-    border-left: 1px solid var(--foreground);
-    border-right: 1px solid var(--foreground);
+    border-left: 1px solid rgb(var(--foreground));
+    border-right: 1px solid rgb(var(--foreground));
 }
 
 .datatable.freeze-left th:first-child,
@@ -964,7 +963,7 @@ document.body.appendChild(css);
   max-width: 200px;
   overflow-x: hidden;
   text-overflow: ellipsis;
-  background-color: var(--background);
+  background-color: rgb(var(--background));
 }
 
 .datatable.freeze-right th:last-child,
@@ -974,7 +973,7 @@ document.body.appendChild(css);
   max-width: 200px;
   overflow-x: hidden;
   text-overflow: ellipsis;
-  background-color: var(--background);
+  background-color: rgb(var(--background));
 }
 </pre>
 <script id="datatable-loader">
@@ -1297,13 +1296,13 @@ document.body.appendChild(css);
 <pre id="accordion-style" class="hidden">
 .accordion {
   cursor: pointer;
-  border-color: var(--secondary);
+  border-color: rgb(var(--secondary));
   border-style: solid;
   border-width: 2px 2px 1em;
   transition: border 0.2s;
 }
 .accordion:hover {
-  border-color: var(--primary);
+  border-color: rgb(var(--primary));
 }
 .accordion .content {
   cursor: initial;
@@ -1318,7 +1317,7 @@ document.body.appendChild(css);
 }
 
 .accordion.show {
-  border-color: var(--foreground);
+  border-color: rgb(var(--foreground));
 }
 
 .accordion.show .content,
@@ -1473,16 +1472,16 @@ document.body.appendChild(js);
   max-height: 50vh;
   overflow-y: auto;
   cursor: pointer;
-  border-color: var(--secondary);
+  border-color: rgb(var(--secondary));
   border-style: solid;
   border-width: 2px 2px 14px;
   transition: border 0.2s;
 }
 .fineprint:hover {
-  border-color: var(--primary);
+  border-color: rgb(var(--primary));
 }
 .fineprint.show {
-  border-color: var(--foreground);
+  border-color: rgb(var(--foreground));
   font-size: 1em;
   padding: 4px 8px;
 }
@@ -1598,7 +1597,7 @@ as a summary:<br />
 .scale[data-id="3"] div:nth-child(3),
 .scale[data-id="4"] div:not(:nth-child(5)),
 .scale[data-id="5"] div {
-  background-color: var(--primary);
+  background-color: rgb(var(--primary));
 }
 
 .scale::after {
@@ -1670,7 +1669,7 @@ function addScales() {
 	font-size: 1.2em;
 }
 .conversation .messages {
-	background-color: var(--secondary);
+	background-color: rgb(var(--secondary));
     height: min(100dvh - 350px, 35em);
     overflow-y: auto;
 	position: relative;
@@ -1703,7 +1702,7 @@ function addScales() {
 .conversation .message span {
 	margin: 8px;
 	padding: 6px;
-	background-color: var(--accent);
+	background-color: rgb(var(--accent));
 	border-radius: 10px 10px 10px 0;
 	text-align: left;
 }
@@ -1718,11 +1717,11 @@ function addScales() {
     white-space: nowrap;
 }
 .conversation .message[data-sender] span {
-	background-color: var(--secondary);
+	background-color: rgb(var(--secondary));
 	border-radius: 8px 8px 0 8px;
 }
 .conversation .message[data-system] span {
-	background-color: var(--secondary);
+	background-color: rgb(var(--secondary));
 }
 .conversation .message[data-url]:has(img) span {
 	width: min(20em, 60%);
@@ -1736,7 +1735,7 @@ function addScales() {
     line-height: 0;
 }
 .conversation .message[data-url] a:hover {
-	color: var(--background);
+	color: rgb(var(--background));
 }
 .conversation .message[data-url] img {
 	width: 100%;
@@ -1919,16 +1918,16 @@ document.body.appendChild(js);
 <button onclick="document.querySelector('#abbreviation-script').classList.toggle('hidden')">Show JS</button>
 <pre id="abbreviation-style" class="hidden">
 .dialog dialog {
-  background-color: var(--background);
-  color: var(--foreground);  
+  background-color: rgb(var(--background));
+  color: rgb(var(--foreground));  
   padding: 10px;
   max-width: 360px;
   font-family: Noto Sans;
 }
 
 .dialog dialog a {
-  background-color: var(--background);
-  color: var(--primary);
+  background-color: rgb(var(--background));
+  color: rgb(var(--primary));
 }
 </pre>
 <pre id="abbreviation-script" class="hidden">
@@ -1999,7 +1998,7 @@ document.body.appendChild(js);
 <pre id="omake-style" class="hidden">
 .omake {
 	border-radius: 8px;
-	background-color: var(--accent);
+	background-color: rgb(var(--accent));
 	padding: 1em;
 }
 </pre>
