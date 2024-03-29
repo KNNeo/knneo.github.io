@@ -256,14 +256,11 @@ function removeDialog() {
 
 // Popup element, based on content type
 function addHoverForLinks() {
-	if(document.querySelector('.post-body.entry-content') == null) return;
-    for (let link of document.querySelector('.post-body.entry-content').querySelectorAll('a')) {
-		if(link.target)
-			link.addEventListener('mouseover', renderPopup);
-    }
+    for (let link of document.querySelectorAll('.post-body.entry-content a[target]'))
+		link.addEventListener('mouseover', renderPopup);
 }
 
-function addHoverForPopups() {
+function addPopupEvents() {
     for (let popup of document.querySelectorAll('.post-body.entry-content .new-t')) {
 		popup.querySelector('.new-thumbnail-initial').href = popup.getAttribute('data-url');
 		popup.addEventListener('contextmenu', togglePopup);
@@ -306,8 +303,7 @@ function togglePopup() {
 			top: document.querySelector('html').scrollTop + this.getBoundingClientRect().top - (this.getBoundingClientRect().top >= thresholdHeight ? thresholdHeight : this.getBoundingClientRect().top), 
 			behavior: 'smooth'
 		});
-    }
-	
+    }	
 }
 
 function closePopups() {
@@ -375,7 +371,7 @@ function renderPopup() {
 	renderEmbedProcess();
 
     this.outerHTML = thumbnail.outerHTML;
-    addHoverForPopups();
+    addPopupEvents();
 
 	//FAB to close
 	let closeButton = document.createElement('a');
