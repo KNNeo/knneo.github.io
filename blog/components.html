@@ -202,24 +202,23 @@ document.body.appendChild(css);
 let js = document.createElement('script');
 </script>
 
-<style>
+
+<h1>Pop-Up Content</h1>
+<h5>ON PAGE LOAD, JS FALLBACK</h5>
+<h5>Normal link tag with target="_blank" (open in new window/tab)</h5>
+<button onclick="document.querySelector('#popup-style').classList.toggle('hidden')">Show CSS</button>
+<button onclick="document.querySelector('#popup-script').classList.toggle('hidden')">Show JS</button>
+<pre id="popup-style" class="hidden">
 .popup {
-  display: inline;
-  cursor: pointer;
+	display: inline;
+	cursor: pointer;
 }
 
 .popup .text {
   display: inline;
-  color: var(--primary);
-  text-decoration: underline dashed;
 }
 
 .popup .text:hover {
-  color: var(--foreground);
-  text-decoration: none;
-}
-
-.popup.show .text {
   color: var(--foreground);
 }
 
@@ -240,6 +239,24 @@ let js = document.createElement('script');
   z-index: 9;
 }
 
+.overlay {
+	background-color: var(--background);
+	transition: opacity .3s linear;
+	position: fixed;
+	width: 100%;
+	height: 120%;
+	bottom: 0;
+	top: 0;
+	left: 0;
+	z-index: 8;
+	cursor: pointer;
+}
+
+.overlay.hide {
+	z-index: -1;
+	opacity: 0;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -250,50 +267,78 @@ let js = document.createElement('script');
     transform: translate3d(0, 0, 0);
   }
 }
-</style>
-<script>
+</pre>
+<pre id="popup-script" class="hidden">
 window.addEventListener('load', addPopupTriggers);
 function addPopupTriggers() {
     for (let a of document.querySelectorAll('.testing a[target="_blank"]')) // for production remove testing class
-  {
-    a.addEventListener('mouseover', renderPopup);
+		a.addEventListener('mouseover', renderPopup);
+}
+
+function addPopupEvents() {
+    for (let popup of document.querySelectorAll('.popup')) {
+		popup.querySelector('.text').href = popup.getAttribute('data-url');
+		popup.addEventListener('contextmenu', togglePopup);
+		let dataUrl = popup.getAttribute('data-url').toLowerCase();
+		if(dataUrl.includes('.jpg') || dataUrl.includes('.png') || dataUrl.includes('.gif') || dataUrl.includes('blogger.googleusercontent.com'))
+			popup.addEventListener('click', togglePopup);
+		else
+			popup.querySelector('.content').addEventListener('click', closePopups);
     }
+}
+
+function closePopups() {
+	// kill youtube videos playing
+	for(let video of document.querySelectorAll('.yt-video'))
+		video.contentWindow.postMessage('{"event":"command","func":"stopVideo","args":""}', '*');
+	
+	// close all popups
+	for (let popup of document.querySelectorAll('.post-body.entry-content .show')) {
+		popup.classList.remove('show');
+	}
+	
+	// hide overlay
+	hideOverlay();
 }
 
 function renderPopup() {
     event.preventDefault();
-  let processLink = event.target.href;
-  
-  //exclusion for blogger  images
-    if (processLink.includes('blogspot.com') || 
-    processLink.includes('blogger.googleusercontent.com'))
-    return;
-  //if not compatible for any design
+	let processLink = this.href;
+	
+	//exclusion for blogger	images
+    if ((processLink.includes('blogspot.com') || processLink.includes('blogger.googleusercontent.com')) && this.target == '') return;
+	//exclusion for if target is not _blank
+    if (this.target == '') return;
+	//exclusion class, if any
+    if (this.classList.contains('opt-out')) return;
+	//if not compatible for any design
     let newContent = generatePopupContent(processLink);
     if (newContent == null) return;
     let thumbnail = document.createElement('div');
     thumbnail.classList.add('popup');
 
-    let initial = document.createElement('div');
+    let initial = document.createElement('a');
     initial.classList.add('text');
-    initial.innerHTML = event.target.innerHTML;
+    initial.innerHTML = this.innerHTML;
 
     let focus = document.createElement('div');
     focus.classList.add('content');
-  if(!processLink.includes('twitter.com'))
-    focus.style.paddingTop = '10px';
+    focus.classList.add('fadeIn');
+	if(!processLink.includes('twitter.com') && !processLink.includes('/status/'))
+		focus.style.paddingTop = '10px';
     focus.innerHTML = newContent;
+	focus.addEventListener('click', closePopups);
 
     thumbnail.appendChild(initial);
     thumbnail.appendChild(focus);
-  thumbnail.setAttribute('title', processLink);
-  
-  renderEmbedProcess();
+	thumbnail.setAttribute('data-url', processLink);
+	
+	renderEmbedProcess();
 
-    event.target.outerHTML = thumbnail.outerHTML;
-    addHoverForPopups();
-  
-  return thumbnail;
+    this.outerHTML = thumbnail.outerHTML;
+    addPopupEvents();
+
+	return thumbnail;
 }
 
 function renderEmbedProcess() {
@@ -327,101 +372,100 @@ function renderEmbedProcess() {
   }
   catch(err)
   {
-    console.error(err);
-    return false;
+	console.error(err);
+	return false;
   }
 }
 
 function generatePopupContent(url) {
-  if (!url) return null;
+	if (!url) return null;
     if (url.includes('.jpg') || url.includes('.png') || url.includes('.gif') || url.includes('blogger.googleusercontent.com')) {
         //process image
-        return '<div class="separator"><img style="max-height: 360px; max-width: 100%;" src="' + url + '" /></div>';
+        return '<div class="separator"><img style="max-height: 360px; max-width: 100%;" src="_URL_" /></div>'.replace('_URL_', url);
     }
     if (url.includes('music.apple.com')) {
         //process itunes embed
     let isTrack = url.includes('i=');
-        return '<iframe allow="autoplay *; encrypted-media *;" frameborder="0" height="'+ (!isTrack ? 450 : 170) +'" sandbox="allow-modals allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation" src="' +
-            url.replace('music.apple.com', 'embed.music.apple.com') +
-            '" style="background: transparent; max-width: ' + (!isTrack ? 290 : 660) + 'px; overflow: hidden; width: 100%;"></iframe>';
+        return '<iframe allow="autoplay *; encrypted-media *;" frameborder="0" height="_HEIGHT_" sandbox="allow-modals allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation" src="_URL_" style="background: transparent; max-width: _WIDTH_px; overflow: hidden; width: 100%;"></iframe>'
+			.replace('_HEIGHT_', isTrack ? 170 : 450)
+			.replace('_WIDTH_' , isTrack ? 660 : 290)
+			.replace('_URL_', url.replace('music.apple.com', 'embed.music.apple.com'));
     }
     if (url.includes('twitter.com')) {
-        //process twitter embed
-    //data-height for timeline is max width
-    if(url.includes('/status/')) {
-      return '<blockquote class="twitter-tweet tw-align-center" data-conversation="none" ' + (document.querySelector('html').classList.contains('darked') ? 'data-theme="dark"' : '') + ' data-height="' + 0.6*window.innerHeight + '"><a href="' +
-        url + '"></a></blockquote>';
+        //process twitter embed, data-height for timeline is max width
+		if(url.includes('/status/')) {
+		  return '<blockquote class="twitter-tweet tw-align-center" data-conversation="none" _DATA_THEME_ data-height="_DATA_HEIGHT_"><a href="_URL_"></a></blockquote>'
+			.replace('_DATA_THEME_', document.querySelector('html').classList.contains('darked') ? 'data-theme="dark"' : '')
+			.replace('_URL_', url)
+			.replace('_DATA_HEIGHT_', 0.6*window.innerHeight);
+		}
     }
-    }
-    if (url.includes('youtube.com/watch')) {
+    if (url.includes('youtube.com/watch') || url.includes('youtu.be/')) {
         //process youtube embed
         let id = url.substring(url.indexOf('?v=') + 3);
-        return '<iframe class="yt-video" allow="autoplay; encrypted-media" allowfullscreen="" frameborder="0" style="max-height: 360px;" src="' +
-            'https://www.youtube.com/embed/' + id +
-            '?enablejsapi=1"></iframe>';
-    }
-    if (url.includes('youtu.be/')) {
-        //process youtube embed
-        let id = url.substring(url.indexOf('youtu.be/') + 9);
-        return '<iframe class="yt-video" allow="autoplay; encrypted-media" allowfullscreen="" frameborder="0" style="max-height: 360px;" src="' +
-            'https://www.youtube.com/embed/' + id +
-            '?enablejsapi=1"></iframe>';
+		if(url.includes('youtu.be/')) id = url.substring(url.indexOf('youtu.be/') + 9);
+        return '<iframe class="yt-video" allow="autoplay *; encrypted-media *;" allowfullscreen="" frameborder="0" style="max-height: 360px;" src="https://www.youtube.com/embed/_ID_?enablejsapi=1"></iframe>'
+		.replace('_ID_', id);
     }
     if (url.includes('instagram.com/p/')) {
         //process instagram embed
-        return '<center><blockquote class="instagram-media" style="' + (window.innerWidth >= 576 ? 'width:550px;' : '') + '" data-instgrm-permalink="' +
-            url + '" data-instgrm-version="14" style="padding:0;"></blockquote></center>';
+        return '<center><blockquote class="instagram-media" style="_STYLE_" data-instgrm-permalink="_URL_" data-instgrm-version="14" style="padding:0;"></blockquote></center>'
+		.replace('_STYLE_', window.innerWidth >= 576 ? 'width:550px;' : '')
+		.replace('_URL_', url);
     }
     if (url.includes('jisho.org/search/')) {
         //process page as iframe
-        return '<iframe id="jisho-frame" src="' +
-            url + '" style="height:min(50vh,450px);width:min(98%,760px);"></iframe>';
+        return '<iframe id="jisho-frame" src="_URL_" style="height:min(50vh,450px);width:min(98%,760px);"></iframe>'
+			.replace('_URL_', url);
     }
     return null;
 }
 
-function addHoverForPopups() {
-    for (let popup of document.querySelectorAll('.popup')) {
-    popup.addEventListener('click', togglePopup);
+function togglePopup() {
+	event.preventDefault();
+	if (this.classList.contains('show')) {
+		//hide
+        closePopups();
+	}
+    else {
+		//display
+        closePopups();
+        this.classList.add('show');
+		showOverlay();
+		if(typeof fixExternalFrame == 'function') fixExternalFrame(this);
+		renderEmbedProcess();
+		// if below threshold height scroll up, else open popup without scroll
+		let thresholdHeight = 0.4*window.innerHeight;
+		window.scrollTo({
+			top: document.querySelector('html').scrollTop + this.getBoundingClientRect().top - (this.getBoundingClientRect().top >= thresholdHeight ? thresholdHeight : this.getBoundingClientRect().top), 
+			behavior: 'smooth'
+		});
     }
 }
 
-function togglePopup() {
-  if(document.querySelector('#PopupBtn') != null && document.querySelector('#PopupBtn').innerText == 'launch')
-  {
-    //if config false, then treat as link
-    window.open(event.target.getAttribute('title'), '_blank');
-  }
-    else if (event.target.closest('.popup.show') != null) {
-    //hide
-        event.target.closest('.popup').classList.remove('show');
-    //switchToButton('GoToTopBtn');
-    if(document.getElementById('CloseBtn') != null) document.getElementById('CloseBtn').style.display = 'none';
-    //toggleOverlay(false);
-  }
-    else {
-    //display
-        for (let popup of document.querySelectorAll('.popup')) {
-      popup.classList.remove('show');
-        }
-        event.target.closest('.popup').classList.add('show');
-    //switchToButton('CloseBtn');
-    if(typeof fixExternalFrame == 'function') fixExternalFrame(this);
-    //renderEmbedProcess();
-    // if below threshold height scroll up, else open popup without scroll
-    let thresholdHeight = 0.4*window.innerHeight;
-    window.scrollTo({
-      top: document.querySelector('html').scrollTop + event.target.getBoundingClientRect().top - (event.target.getBoundingClientRect().top >= thresholdHeight ? thresholdHeight : event.target.getBoundingClientRect().top), 
-      behavior: 'smooth'
-    });
-    //toggleOverlay(false);
-    }
+function showOverlay() {
+	let overlay = document.createElement('div');
+	overlay.className = 'overlay';
+	overlay.addEventListener('click', closePopups);
+	overlay.addEventListener('contextmenu', function() {
+		event.preventDefault();
+	});
+	document.body.appendChild(overlay);
 }
+
+function hideOverlay() {
+	document.querySelector('.overlay')?.remove();
+}
+</pre>
+<script id="popup-loader">
+css = document.createElement('style');
+css.innerHTML = document.querySelector('#popup-style').innerHTML;
+document.body.appendChild(css);
+js = document.createElement('script');
+js.innerHTML = document.querySelector('#popup-script').innerHTML.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');
+document.body.appendChild(js);
 </script>
-<h1>Pop-Up Content</h1>
-<h5>ON PAGE LOAD, JS FALLBACK</h5>
-<h5>Normal link tag with target="_blank" (open in new window/tab)</h5>
-<pre>
+<pre id="popup-tag">
 This is where you put the &lt;a href="[LINK]" target="_blank"&gt;
   [TEXT]
 &lt;/a&gt; so it's inline.
@@ -1957,7 +2001,6 @@ document.body.appendChild(js);
 	border-radius: 8px;
 	background-color: var(--accent);
 	padding: 1em;
-	transition: background-color 0.2s linear;
 }
 </pre>
 <script id="omake-loader">
