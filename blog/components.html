@@ -23,8 +23,8 @@
 <h1 style="text-align: center;">COMPONENTS</h1>
 <hr>
 
-<h5>Note - Assume all CSS content have the following colour variables eg. rgb(var(--color))</h5>
-<h5>This is to allow background opacity without enclosing extra container on element eg. rgba(var(--color), 0.5)</h5>
+<h5>Note - Assume all CSS content have the following colour variables eg. rgb(var(--color))<br />
+This is to allow background opacity without enclosing extra container on element eg. rgba(var(--color), 0.5)</h5>
 <button onclick="document.querySelector('#variables-style').classList.toggle('hidden')">Show CSS</button>
 <pre id="variables-style" class="hidden">
 :root {
@@ -116,6 +116,7 @@ pre {
   border: 1px solid rgb(var(--foreground));
   overflow: auto;
   max-height: 50dvh;
+  text-wrap: wrap;
 }
 .blank {
   height: 15dvh;
@@ -139,8 +140,8 @@ let js = document.createElement('script');
 
 
 <h2>Floating Action Buttons</h2>
-<h5>Designed by location of menu(s), on corners of screen, responsive</h5>
-<h5>Assume all menus fit on a min screen aspect-ratio of 1:1</h5>
+<h5>Designed by location of menu(s), on corners of screen, responsive<br />
+Assume all menus fit on a min screen aspect-ratio of 1:1</h5>
 <button onclick="document.querySelector('#fab-style').classList.toggle('hidden')">Show CSS</button>
 <button onclick="document.querySelector('#fab-script').classList.toggle('hidden')">Show JS</button>
 <pre id="fab-style" class="hidden">
@@ -322,7 +323,7 @@ js = document.createElement('script');
 js.innerHTML = document.querySelector('#fab-script').innerHTML.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');
 document.body.appendChild(js);
 </script>
-<pre id="fab-tag">Refer to home and theme toggle buttons on this page for example</pre>
+<pre id="fab-tag">Refer to home button on bottom left and dark mode toggle button on bottom right of this page</pre>
 
 
 <h2>Pop-Up Content</h2>
@@ -512,12 +513,12 @@ function generatePopupContent(url) {
 			.replace('_WIDTH_' , isTrack ? 660 : 290)
 			.replace('_URL_', url.replace('music.apple.com', 'embed.music.apple.com'));
     }
-    if (url.includes('twitter.com')) {
+    if (url.includes('twitter.com') || url.includes('x.com')) {
         //process twitter embed, data-height for timeline is max width
 		if(url.includes('/status/')) {
-		  return '<blockquote class="twitter-tweet tw-align-center" data-conversation="none" _DATA_THEME_ data-height="_DATA_HEIGHT_"><a href="_URL_"></a></blockquote>'
-			.replace('_DATA_THEME_', document.querySelector('html').classList.contains('darked') ? 'data-theme="dark"' : '')
-			.replace('_URL_', url)
+		  return '<div style="display: flex;"><blockquote class="twitter-tweet tw-align-center" data-conversation="none" _data_theme_ data-height="_DATA_HEIGHT_"><a href="_URL_"></a></blockquote><script async="async" charset="utf-8" src="https://platform.twitter.com/widgets.js"></script></div>'
+			.replace('_data_theme_', document.querySelector('html').classList.contains('darked') ? 'data-theme="dark"' : '')
+			.replace('_URL_', url.replace('x.com', 'twitter.com'))
 			.replace('_DATA_HEIGHT_', 0.6*window.innerHeight);
 		}
     }
@@ -528,9 +529,9 @@ function generatePopupContent(url) {
         return '<iframe class="yt-video" allow="autoplay *; encrypted-media *;" allowfullscreen="" frameborder="0" style="max-height: 360px;" src="https://www.youtube.com/embed/_ID_?enablejsapi=1"></iframe>'
 		.replace('_ID_', id);
     }
-    if (url.includes('instagram.com/p/')) {
+    if (url.includes('instagram.com/p/') || url.includes('instagram.com/reel/')) {
         //process instagram embed
-        return '<center><blockquote class="instagram-media" style="_STYLE_" data-instgrm-permalink="_URL_" data-instgrm-version="14" style="padding:0;"></blockquote></center>'
+        return '<center><blockquote class="instagram-media" style="_STYLE_" data-instgrm-permalink="_URL_" data-instgrm-version="14" style="padding:0;"></blockquote></center><script async="async" src="https://www.instagram.com/embed.js"></script>'
 		.replace('_STYLE_', window.innerWidth >= 576 ? 'width:550px;' : '')
 		.replace('_URL_', url);
     }
@@ -588,21 +589,36 @@ document.body.appendChild(js);
 </script>
 <h5>Displayed initially as normal link tag with target="_blank" (open in new window/tab)</h5>
 <pre>
-This is where you put the &lt;a href="[LINK]" target="_blank"&gt;
+This fallback and integration is as simple as adding a link like
+&lt;a href="[LINK]" target="_blank"&gt;
   [TEXT]
-&lt;/a&gt; so it's inline.
+&lt;/a&gt;
+so it's inline.
 </pre>
-<div class="omake">"There's a thing called give and take, you know?" Yeah Isaki gave you a kiss so she can take your- All according to <a href="https://jisho.org/search/keikaku" target="_blank">keikaku</a> haha</div>
+<div class="omake">
+"There's a thing called give and take, you know?" Yeah Isaki gave you a kiss so she can take your- All according to <a href="https://jisho.org/search/keikaku" target="_blank">keikaku</a> haha
+</div>
 <h5>When mouse over, link will be transformed to class popup if URL is valid (click tag to close popup)<br/>
 Container class "popup", first child class "text", other children class "content"</h5>
 <pre id="popup-tag">
-This is where you put the &lt;div class="popup" data=url="[LINK]"&gt;
+The link will transform into
+&lt;div class="popup" data=url="[LINK]"&gt;
   &lt;div class="text"&gt;[TEXT]&lt;/div&gt;
   &lt;div class="content"&gt;[CONTENT]&lt;/div&gt;
-&lt;/div&gt; so it's inline.
+&lt;/div&gt;
+and behave the same, just that right-clicking on it will show popup, if available.
 </pre>
+<h5>Jisho.org and Twitter/X post embed</h5>
 <div class="testing omake">
-"There's a thing called give and take, you know?" Yeah Isaki gave you a kiss so she can take your- All according to <a href="https://jisho.org/search/keikaku" target="_blank">keikaku</a> haha
+Also for the occasion, let me say <a href="https://x.com/3rdMR_staff/status/1773364439212839227?s=20" target="_blank">happy birthday to Miyazawa Koharu</a>, arguably the best member in MusicRay'n 3rd Generation (still no group name yet lol), just a beauty in general and if have not heard of her saying <a href="https://jisho.org/search/yada" target="_blank">yada</a> yada" you need to watch the weekly video livestream(?) series on Tuesdays (whenever she is featured) to hear her say it. She's 25 though. *laughs*
+</div>
+<h5>Apple Music embed</h5>
+<div class="testing omake">
+P.S. Wow this <a href="https://music.apple.com/jp/album/fantasies-ep/1719381137?l=en-US" target="_blank">Bombay Bicycle Club's new single</a> recommended by Apple Music is actually kinda dope haha we will talk about them next week I guess.
+</div>
+<h5>Instagram post and YouTube embeds</h5>
+<div class="testing omake">
+I intend these to not be spoilers but heck, sorry <a href="https://www.instagram.com/reel/C4iK6LJvo3q/?utm_source=ig_web_copy_link" target="_blank">Kanno Mai</a> and <a href="https://www.youtube.com/watch?v=UTLsbTVljgI" target="_blank">Nagae Rika</a>, we can wait for our fictional encounters later this month. *giggles*
 </div>
 
 
@@ -894,9 +910,9 @@ document.body.appendChild(js);
 
 
 <h2>Table of Contents</h2>
-<h5>Container class "agenda" contains inline style for grid customization (using variable or fallback, max-width)</h5>
-<h5>Children class "item" for content (with link to section, see address bar after click)</h5>
-<h5>Variables: --columns to change no. of columns default 3, --aspect-ratio to fix ratio default 1</h5>
+<h5>Container class "agenda" contains inline style for grid customization (using variable or fallback, max-width)<br />
+Children class "item" for content (with link to section, see address bar after click)</h5>
+<h5>Style variables: --columns to change no. of columns default 3, --aspect-ratio to if not 1:1</h5>
 <button onclick="document.querySelector('#agenda-style').classList.toggle('hidden')">Show CSS</button>
 <pre id="agenda-style" class="hidden">
 .agenda {
@@ -937,14 +953,15 @@ css.innerHTML = document.querySelector('#agenda-style').innerHTML;
 document.body.appendChild(css);
 </script>
 <pre id="agenda-tag">
-&lt;div class="agenda" style="grid-template-columns: repeat([NO_OF_COLS], 1fr);"&gt;
+&lt;div class="agenda" style="--aspect-ratio: [RATIO]; --columns: [COLS];"&gt;
   &lt;div class="item"&gt;&lt;/div&gt;
   &lt;div class="item"&gt;&lt;/div&gt;
   &lt;div class="item"&gt;&lt;/div&gt;
   ...
 &lt;/div&gt;
 </pre>
-<div class="agenda" style="max-width: 600px; --columns: 2; --aspect-ratio: 1.17;">
+<h5>6 items, 2 columns, aspect ratio 1.17</h5>
+<div class="agenda" style="--columns: 2; --aspect-ratio: 1.17;">
   <div class="item">
     <table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto;">
       <tbody>
@@ -1047,10 +1064,9 @@ document.body.appendChild(css);
 
 
 <h2>Data Table</h2>
-<h5>Responsive width, smaller in text for mobile</h5>
-<h5>Use table generators (eg. <a href="https://divtable.com/generator/">DivTable.com</a>) to render HTML, add container + inline, add table into container, add classes for children</h5>
-<h5>By default will show as horizontal borders; Add class "all-borders" to include vertical borders</h5>
-<h5>By default will not freeze columns; Add class "freeze-(left/right)" to freeze first/last column</h5>
+<h5>Responsive width table (not height responsive, no sticky rows) with horizontal borders</h5>
+<h5>Use table generators (eg. <a href="https://divtable.com/generator/">DivTable.com</a>) to render HTML and add container and inline styles (optional)</h5>
+<h5>Add class "all-borders" to include vertical borders, "freeze-(left/right)" to freeze first/last column</h5>
 <button onclick="document.querySelector('#datatable-style').classList.toggle('hidden')">Show CSS</button>
 <pre id="datatable-style" class="hidden">
 .datatable {
@@ -1104,7 +1120,7 @@ css.innerHTML = document.querySelector('#datatable-style').innerHTML;
 document.body.appendChild(css);
 </script>
 <pre id="datatable-tag">
-&lt;div class="datatable" style="font-size: 0.9em;"&gt;
+&lt;div class="datatable freeze-left freeze-right all-borders"&gt;
   &lt;table&gt;
     &lt;tbody&gt;
       &lt;tr&gt;
@@ -1125,7 +1141,8 @@ document.body.appendChild(css);
   &lt;/table&gt;
 &lt;/div&gt;
 </pre>
-<div class="datatable freeze-left" style="font-size: 0.9em;">
+<h5>Freeze first column, inline smaller font</h5>
+<div class="datatable freeze-left">
     <table>
       <tbody>
         <tr>
@@ -1412,25 +1429,37 @@ document.body.appendChild(css);
 
 
 <h2>Accordion</h2>
-<h5>Container "accordion" (with id), child "header" to toggle child "content" and "footer", child "footer" to allow close from end of content</h5>
+<h5>Container "accordion" (optionally, with id) contains child class "header" to expand children "content" and optional "footer", latter to allow collapse</h5>
 <button onclick="document.querySelector('#accordion-style').classList.toggle('hidden')">Show CSS</button>
 <button onclick="document.querySelector('#accordion-script').classList.toggle('hidden')">Show JS</button>
 <pre id="accordion-style" class="hidden">
 .accordion {
   cursor: pointer;
-  border-color: rgb(var(--secondary));
-  border-style: solid;
-  border-width: 2px 2px 1em;
-  transition: border 0.2s;
 }
 .accordion:hover {
   border-color: rgb(var(--primary));
 }
+.accordion .header {
+  padding: 4px 8px;
+  background-color: rgb(var(--accent));
+  border-radius: 12px;
+}
+.accordion.show .header {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
 .accordion .content {
   cursor: initial;
+  border: 5px dashed rgb(var(--accent));
+  border-top: 0;
+  border-bottom: 0;
 }
 .accordion .footer {
+  background-color: rgb(var(--accent));
   text-align: center;
+  border-radius: 12px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 }
 .accordion .content,
 .accordion .footer {
@@ -1778,10 +1807,12 @@ function addScales() {
 
 
 <h2>Conversation</h2>
-<h5>For selected lines of text wrapped in container "conversation", will be styled to have chat boxes, left and right aligned</h5>
-<h5>To set who is right aligned, add "data-sender" attribute; Sender name is determined by first "data-separator" attribute detected (default colon)</h5>
+<h5>For selected lines of text with separator wrapped in container "conversation"<br />
+Content will be styled to have chat boxes, left and right aligned</h5>
 <h5>Note: Uses innerText property which removes tags and only read per line in HTML (separator '\n'), do not style text</h5>
-<h5>Add data-animate attribute to allow enactment of conversation blocks; Will auto scroll if has overflow</h5>
+<h5>To set custom seaprator, define "data-separator" attribute, default colon ':'<br />
+To set who is right aligned, define "data-sender" attribute, else all left align<br />
+To allow enactment of lines, define "data-animate" attribute; Will auto scroll if container overflow</h5>
 <button onclick="document.querySelector('#conversation-style').classList.toggle('hidden')">Show CSS</button>
 <button onclick="document.querySelector('#conversation-script').classList.toggle('hidden')">Show JS</button>
 <pre id="conversation-style" class="hidden">
@@ -2008,11 +2039,11 @@ js.innerHTML = document.querySelector('#conversation-script').innerHTML.replace(
 document.body.appendChild(js);
 </script>
 <pre id="conversation-tag">
-&lt;div class="conversation" data-separator="[SEPARATOR]" data-sender="[SENDER_NAME]" onclick="animateConversation(this)"&gt;
-  [LINES_OF_ONTENT]
+&lt;div class="conversation" data-separator="[SEPARATOR_CHAR]" data-sender="[SENDER_NAME]" data-animate&gt;
+  [LINES_OF_CONTENT]
 &lt;/div&gt;
 </pre>
-<h5>TWO PARTY CONVERSATION, SENDER NOT DEFINED</h5>
+<h5>TWO PARTY CONVERSATION, SENDER NOT DEFINED, NO INLINE STYLES</h5>
 <div class="conversation" data-separator="|">
   <div>Nan | I saw you brought someone home in the afternoon, who was that?</div>
   <div>Shouhei | Uh...</div>
@@ -2023,12 +2054,12 @@ document.body.appendChild(js);
 </div>
 <h5>MORE THAN TWO PARTY CONVERSATION, SENDER DEFINED, ANIMATED</h5>
 <div class="conversation" data-sender="Shouhei" data-animate style="max-height: 185px; overflow-y: auto;">
-  <div>Nan: Onii-chan, who is she?</div>
+  <div>Miyu: Onii-chan, who is she?</div>
   <div>Inori: I didn't know you have such an adorable sister!!</div>
   <div>Shouhei: Uh...</div>
-  <div>Nan: Is she your girlfriend??</div>
+  <div>Miyu: I-Is she your girlfriend??</div>
   <div>Inori: Are you jealous I am hanging out with your brother? That's so cute!</div>
-  <div>Nan: W-what are you talking about? Of course not!</div>
+  <div>Miyu: W-what are you talking about? Of course not!</div>
   <div>Shouhei: LOL</div>
 </div>
 
@@ -2134,7 +2165,9 @@ document.body.appendChild(css);
   [CONTENT]
 &lt;/div&gt;
 </pre>
-<div class="omake">WORTHY MENTION: COLLECTING CD<br> This technically doesn't fall in this category, since I wouldn't call collecting songs a thing, but hey, it's sort of like it. You like the songs, you buy them and they stack up. <span class="emoji" title="*laughs*">😆</span> Not going to do pricing on this one because... I spent a lot. Over the past decade alone, I've spent a lot. A good portion of my salary when I was in the Army went to those, and those were the first things I bought with my own money. So yeah, I'll update if I can count them all haha maybe I can do this</div>
+<div class="omake">
+WORTHY MENTION: COLLECTING CD<br>This technically doesn't fall in this category, since I wouldn't call collecting songs a thing, but hey, it's sort of like it. You like the songs, you buy them and they stack up. *laughs* Not going to do pricing on this one because... I spent a lot. Over the past decade alone, I've spent a lot. A good portion of my salary when I was in the Army went to those, and those were the first things I bought with my own money. So yeah, I'll update if I can count them all haha maybe I can do this
+</div>
 <br />
 <br />
 <div class="blank"></div>
