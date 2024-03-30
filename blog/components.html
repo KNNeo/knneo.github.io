@@ -13,18 +13,12 @@
 	<title>Components</title>
 </head>
 <body>
-<div class="action-menu home bottom-left">
-	<a class="fab back material-icons" href="../index.html" title="Back To Homepage">home</a>
-</div>
-<div class="action-menu home bottom-right">
-	<a class="fab theme material-icons" title="Toggle Dark Mode" onclick="toggleTheme()">brightness_high</a>
-</div>
 <div id="contents" class="post-body entry-content" style="font-family: Noto Sans;">
 <h1 style="text-align: center;">COMPONENTS</h1>
 <hr>
 
-<h5>Note - Assume all CSS content have the following colour variables eg. rgb(var(--color))<br />
-This is to allow background opacity without enclosing extra container on element eg. rgba(var(--color), 0.5)</h5>
+<h5>Note: Assume all CSS content have the following colour variables ie. rgb(var(--color))<br />
+This is to allow background transparency without enclosing container on elements eg. rgba(var(--color), 0.5)</h5>
 <button onclick="document.querySelector('#variables-style').classList.toggle('hidden')">Show CSS</button>
 <pre id="variables-style" class="hidden">
 :root {
@@ -54,7 +48,6 @@ body {
   background-color: rgb(var(--background));
   transition: background .2s linear;
   line-height: 1.5;
-  overflow-x: hidden;
 }
 
 blockquote {
@@ -67,13 +60,13 @@ a {
 
 a img,
 table div[style|=background] {
-    box-sizing: border-box;
+  box-sizing: border-box;
   border: 2px solid rgb(var(--secondary));
 }
 
 a img:hover,
 table div[style|=background]:hover {
-    border-color: rgb(var(--primary));
+  border-color: rgb(var(--primary));
 }
 
 a:hover {
@@ -81,12 +74,12 @@ a:hover {
 }
 
 .post-body {
-    overflow-x: hidden;
+  overflow-x: hidden;
 }
 
 .tr-caption {
-    font-size: 0.7rem;
-    max-width: 680px;
+  font-size: 0.7rem;
+  max-width: 680px;
 }
 
 .tr-caption-container {
@@ -94,7 +87,7 @@ a:hover {
     margin-bottom: .5em;
 }
 
-/*Assign class based on image resize for responsive, see blog.js resizeImg()*/
+/* RESPONSIVE IMAGES */
 .img-width-fit {
   width: 100%;
   height: 100%;
@@ -123,8 +116,8 @@ pre {
   border: 1px dashed rgb(var(--foreground));
 }
 .blank::before {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
   content: 'This section is intentionally left blank'
 }
 .hidden {
@@ -140,8 +133,11 @@ let js = document.createElement('script');
 
 
 <h2>Floating Action Buttons</h2>
-<h5>Designed by location of menu(s), on corners of screen, responsive<br />
-Assume all menus fit on a min screen aspect-ratio of 1:1</h5>
+<h5>Action menus on corners of screen with lists of buttons, responsive to content<br />
+On scroll and on mobile screens, menus will hide on scroll down and scrolled down certain level<br />
+Assume all menus fit on a min screen aspect-ratio of 1:1, max-width 680px</h5>
+<h5>Create .action-menu class with location of menu (bottom-left/bottom-right) as class name, children .fab class</h5>
+<h5>Note: FAB implementation is separate from menu design, only generic (.fab) and specific classes required</h5>
 <button onclick="document.querySelector('#fab-style').classList.toggle('hidden')">Show CSS</button>
 <button onclick="document.querySelector('#fab-script').classList.toggle('hidden')">Show JS</button>
 <pre id="fab-style" class="hidden">
@@ -238,12 +234,10 @@ a.fab:focus-within {
 }
 </pre>
 <pre id="fab-script" class="hidden">
-window.addEventListener('load', displayFAB);
+window.addEventListener('load', initFab);
+window.addEventListener('scroll', toggleActionsOnScroll);
 // initial load
-function displayFAB() {
-	// if overlay element present
-	if(document.querySelector('#Overlay') != null && document.querySelector('#Overlay').style.display != 'none')
-		return;
+function initFab() {
 	// if share feature unavailable, remove button
 	if(!navigator.share) {
 		document.querySelector('.fab.share')?.remove();
@@ -255,37 +249,26 @@ function toggleActionsOnScroll() {
 	// position of buttons on scroll
 	let pageDown = document.body.scrollTop > 0.3 * document.documentElement.clientHeight || 
 	document.documentElement.scrollTop > 0.3 * document.documentElement.clientHeight;
-	if(!isBlogger()) {
-		if (pageDown) {
-			toggleActions(['.fab.share', '.fab.search', '.fab.top'], '.action-menu.bottom-right');
-		}
-		else {
-			toggleActions(['.fab.share', '.fab.search', '.fab.theme'], '.action-menu.bottom-right');
-		}
+	if (pageDown) {
+		toggleActions(['.fab.share', '.fab.search', '.fab.top'], '.action-menu.bottom-right');
 	}
 	else {
-		if (pageDown) {
-			toggleActions(['.fab.share', '.fab.top'], '.action-menu.bottom-right');
-		}
-		else {
-			toggleActions(['.fab.share', '.fab.search'], '.action-menu.bottom-right');
-		}
-		if(isMediumWidth()) toggleActions(['.fab.sidebar'], '.action-menu.bottom-left');
-		else toggleActions([], '.action-menu.bottom-left');
+		toggleActions(['.fab.share', '.fab.search', '.fab.theme'], '.action-menu.bottom-right');
 	}
 	
 	// works with header, when scroll down/up, hide/show buttons
 	let st = window.pageYOffset || document.documentElement.scrollTop;
-	let diff = st - window['scrollTop'];
-	let scrollDown = st > 0.3 * document.documentElement.clientHeight && diff &lt;= 0.1;
+	let diff = st - window['scroll-top'];
+	let scrollDown = pageDown && diff &lt;= 0.1;
 	if(scrollDown || !pageDown) {
 		document.querySelector('.action-menu.bottom-left')?.classList.remove('hide');
 		document.querySelector('.action-menu.bottom-right')?.classList.remove('hide');
 	}
-	else if(isSmallWidth()) {
+	else if(window.innerWidth &lt; 500) {
 		document.querySelector('.action-menu.bottom-left')?.classList.add('hide');
 		document.querySelector('.action-menu.bottom-right')?.classList.add('hide');
 	}
+	window['scroll-top'] = st;
 }
 
 // generic toggle FAB function based on residing menu
@@ -323,7 +306,22 @@ js = document.createElement('script');
 js.innerHTML = document.querySelector('#fab-script').innerHTML.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');
 document.body.appendChild(js);
 </script>
-<pre id="fab-tag">Refer to home button on bottom left and dark mode toggle button on bottom right of this page</pre>
+<pre id="fab-tag">
+&lt;div class="action-menu bottom-left"&gt;
+  &lt;div class="fab back"&gt;...&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="action-menu bottom-right"&gt;
+  &lt;div class="fab theme"&gt;...&lt;/div&gt;
+&lt;/div&gt;
+</pre>
+<div class="action-menu bottom-left">
+	<a class="fab back material-icons" href="./index.html" title="Back To Homepage">home</a>
+</div>
+<div class="action-menu bottom-right">
+	<a class="fab share material-icons" title="Share This Page" onclick="alert('Thanks for sharing! But this will hide on browsers which do not support navigator.share feature')">share</a>
+	<a class="fab theme material-icons" title="Toggle Dark Mode" onclick="toggleTheme()">brightness_high</a>
+	<a class="fab top material-icons hidden" title="Go To Top" onclick="document.body.scrollTop = 0; document.documentElement.scrollTop = 0;">arrow_upward</a>
+</div>
 
 
 <h2>Pop-Up Content</h2>
@@ -605,7 +603,7 @@ The link will transform into
   &lt;div class="text"&gt;[TEXT]&lt;/div&gt;
   &lt;div class="content"&gt;[CONTENT]&lt;/div&gt;
 &lt;/div&gt;
-and behave the same, just that right-clicking on it will show popup, if available.
+and behave the same on left click, just that right click will show popup, if available.
 </pre>
 <h5>Jisho.org frame</h5>
 <div class="omake">
@@ -1003,7 +1001,7 @@ document.body.appendChild(css);
   ...
 &lt;/div&gt;
 </pre>
-<h5>6 items, 3 columns, aspect ratio 1.17</h5>
+<h5>6 items, 3 columns, aspect ratio 2</h5>
 <div class="agenda" style="--aspect-ratio: 1.17;">
   <div class="item">
     <table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto;">
@@ -1104,8 +1102,8 @@ document.body.appendChild(css);
     </table>
   </div>
 </div>
-<h5>2 items, 2 columns, default aspect ratio, custom max width</h5>
-<div class="agenda" style="--columns: 2; max-width: 400px;">
+<h5>2 items, 2 columns, default aspect ratio, inline style max width</h5>
+<div class="agenda" style="--columns: 2; max-width: 320px;">
   <div class="item">
     <table
       align="center"
@@ -2164,8 +2162,8 @@ document.body.appendChild(js);
 
 
 <h2>Abbreviation</h2>
-<h5>Extension of abbr element, to allow touch to show title</h5>
-<h5>Uses new dialog HTML element to render pop up</h5>
+<h5>Extension of abbr element, to allow click/touch to show title</h5>
+<h5>Uses new dialog HTML element to render popup</h5>
 <button onclick="document.querySelector('#abbreviation-style').classList.toggle('hidden')">Show CSS</button>
 <button onclick="document.querySelector('#abbreviation-script').classList.toggle('hidden')">Show JS</button>
 <pre id="abbreviation-style" class="hidden">
