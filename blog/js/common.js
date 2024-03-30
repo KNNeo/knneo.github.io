@@ -462,7 +462,7 @@ function generatePopupContent(url) {
     if (testUrl.includes('instagram.com/p/') || testUrl.includes('instagram.com/reel/')) {
         //process instagram embed
         return '<center><blockquote class="instagram-media" style="' + (!isSmallWidth() ? 'width:550px;' : '') + '" data-instgrm-permalink="' +
-            url + '" data-instgrm-version="14" style="padding:0;"></blockquote></center><script async="async" src="//www.instagram.com/embed.js"></script>';
+            url + '" data-instgrm-version="14" style="padding:0;"></blockquote></center><script async="async" src="https://www.instagram.com/embed.js"></script>';
     }
     if (testUrl.includes('jisho.org/search/')) {
         //process page as iframe
