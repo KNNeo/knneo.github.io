@@ -14,7 +14,7 @@ function showSearch() {
 	nextBtn.classList.add('search-next');
 	nextBtn.innerText = 'Next';
 	nextBtn.style.fontSize = '1em';
-	nextBtn.setAttribute('onclick', 'removeDialog()');
+	nextBtn.setAttribute('onclick', 'onSearch()');
 	searchContainer.appendChild(nextBtn);
 	
 	let closeBtn = document.createElement('button');
@@ -35,7 +35,7 @@ function onSearchKeyUp() {
 	// console.log(event.keyCode);
 	if (event.key === 'Enter') // "Enter" key
 	{
-		onSearch(event.target.value);
+		onSearch();
 		event.target.blur();
 	}
 	if (event.key === 'Escape') // "Escape" key
@@ -60,8 +60,8 @@ function onSearchKeyDown() {
 	return false;
 }
 
-function onSearch(val) {
-	let inputVal = val.toLowerCase();
+function onSearch() {
+	let inputVal = document.querySelector('.search-input').value.toLowerCase();
 	let indexesKeys = Object.keys(searchIndex.indexes).filter(k => inputVal.toLowerCase().split(' ').includes(k));
 	// create lists of relevant keywords
 	let postIdLists = [];
@@ -125,7 +125,7 @@ function showResults(posts) {
 	else if(window['search-results'].length < 1)
 		resultTally.innerText = 'No results';
 	else
-		resultTally.innerText = ((window['search-results'].length % window['search-size'])) + ' results';
+		resultTally.innerText = 'End of results';
 	document.querySelector('.input-result').appendChild(resultTally);
 }
 

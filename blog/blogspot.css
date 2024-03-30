@@ -457,6 +457,9 @@ span.emoji {
 	.post span {
 		display: block;
 	}
+	.input-result .post {
+		font-size: 0.875em;
+	}
 }
 
 /*MEDIA QUERIES - LARGE SCREENS*/
