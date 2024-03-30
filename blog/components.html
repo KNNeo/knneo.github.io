@@ -23,7 +23,8 @@
 <h1 style="text-align: center;">COMPONENTS</h1>
 <hr>
 
-<h5>Note - Assume all CSS content have the following base variables:</h5>
+<h5>Note - Assume all CSS content have the following colour variables eg. rgb(var(--color))</h5>
+<h5>This is to allow background opacity without enclosing extra container on element eg. rgba(var(--color), 0.5)</h5>
 <button onclick="document.querySelector('#variables-style').classList.toggle('hidden')">Show CSS</button>
 <pre id="variables-style" class="hidden">
 :root {
@@ -136,8 +137,9 @@ document.body.appendChild(css);
 let js = document.createElement('script');
 </script>
 
-<h1>Floating Action Buttons</h1>
-<h5>Designed by location of menu(s), on four corners of screen</h5>
+
+<h2>Floating Action Buttons</h2>
+<h5>Designed by location of menu(s), on corners of screen, responsive</h5>
 <h5>Assume all menus fit on a min screen aspect-ratio of 1:1</h5>
 <button onclick="document.querySelector('#fab-style').classList.toggle('hidden')">Show CSS</button>
 <button onclick="document.querySelector('#fab-script').classList.toggle('hidden')">Show JS</button>
@@ -238,16 +240,12 @@ a.fab:focus-within {
 window.addEventListener('load', displayFAB);
 // initial load
 function displayFAB() {
-	// for initial state
+	// if overlay element present
 	if(document.querySelector('#Overlay') != null && document.querySelector('#Overlay').style.display != 'none')
 		return;
+	// if share feature unavailable, remove button
 	if(!navigator.share) {
 		document.querySelector('.fab.share')?.remove();
-	}
-	if(isBlogger()) {
-		toggleActions(['.fab.share', '.fab.search'], '.action-menu.bottom-right');
-		if(isMediumWidth()) toggleActions(['.fab.sidebar'], '.action-menu.bottom-left');
-		else toggleActions([], '.action-menu.bottom-left');
 	}
 }
 
@@ -289,7 +287,7 @@ function toggleActionsOnScroll() {
 	}
 }
 
-// generic toggle FAB function
+// generic toggle FAB function based on residing menu
 function toggleActions(showElements, parentElement) {
 	if(!showElements || !parentElement) return;
 	if(typeof(parentElement) == 'string') parentElement = document.querySelector(parentElement);
@@ -324,9 +322,10 @@ js = document.createElement('script');
 js.innerHTML = document.querySelector('#fab-script').innerHTML.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');
 document.body.appendChild(js);
 </script>
+<pre id="fab-tag">Refer to home and theme toggle buttons on this page for example</pre>
 
 
-<h1>Pop-Up Content</h1>
+<h2>Pop-Up Content</h2>
 <h5>On right-click of external links, supported URLs will show embed content/iframe</h5>
 <button onclick="document.querySelector('#popup-style').classList.toggle('hidden')">Show CSS</button>
 <button onclick="document.querySelector('#popup-script').classList.toggle('hidden')">Show JS</button>
@@ -607,7 +606,7 @@ This is where you put the &lt;div class="popup" data=url="[LINK]"&gt;
 </div>
 
 
-<h1>Carousel</h1>
+<h2>Carousel</h2>
 <h5>Container class "carousel", all child items class "item", all but first child class "hide"<br/>
 Click/tap container fast (&lt;200ms) will turn off transition (for observing differences)</h5>
 <button onclick="document.querySelector('#carousel-style').classList.toggle('hidden')">Show CSS</button>
@@ -894,7 +893,7 @@ document.body.appendChild(js);
 </div>
 
 
-<h1>Table of Contents</h1>
+<h2>Table of Contents</h2>
 <h5>Container class "agenda" contains inline style for grid customization (using variable or fallback, max-width)</h5>
 <h5>Children class "item" for content (with link to section, see address bar after click)</h5>
 <h5>Variables: --columns to change no. of columns default 3, --aspect-ratio to fix ratio default 1</h5>
@@ -1047,7 +1046,7 @@ document.body.appendChild(css);
 </div>
 
 
-<h1>Data Table</h1>
+<h2>Data Table</h2>
 <h5>Responsive width, smaller in text for mobile</h5>
 <h5>Use table generators (eg. <a href="https://divtable.com/generator/">DivTable.com</a>) to render HTML, add container + inline, add table into container, add classes for children</h5>
 <h5>By default will show as horizontal borders; Add class "all-borders" to include vertical borders</h5>
@@ -1412,7 +1411,7 @@ document.body.appendChild(css);
 </div>
 
 
-<h1>Accordion</h1>
+<h2>Accordion</h2>
 <h5>Container "accordion" (with id), child "header" to toggle child "content" and "footer", child "footer" to allow close from end of content</h5>
 <button onclick="document.querySelector('#accordion-style').classList.toggle('hidden')">Show CSS</button>
 <button onclick="document.querySelector('#accordion-script').classList.toggle('hidden')">Show JS</button>
@@ -1621,7 +1620,7 @@ function focusOnExpandFineprint() {
   }
 }
 </script>
-<h1>Fine Print</h1>
+<h2>Fine Print</h2>
 <h5>Container "fineprint", single element with reduced font, used on unimportant paragraphs to save space<br />
 (Not to be confused with Accordion where content to be paired with header)</h5>
 <pre>
@@ -1758,7 +1757,7 @@ function addScales() {
   }
 }
 </script>
-<h1>Rating Scale</h1>
+<h2>Rating Scale</h2>
 <h5>Container "scale", js to populate div children, to show scale (in this case out of 5)</h5>
 <pre>
 &lt;div class="scale" data-id="3" data-scale="5"&gt;
@@ -1778,7 +1777,7 @@ function addScales() {
  -->
 
 
-<h1>Conversation</h1>
+<h2>Conversation</h2>
 <h5>For selected lines of text wrapped in container "conversation", will be styled to have chat boxes, left and right aligned</h5>
 <h5>To set who is right aligned, add "data-sender" attribute; Sender name is determined by first "data-separator" attribute detected (default colon)</h5>
 <h5>Note: Uses innerText property which removes tags and only read per line in HTML (separator '\n'), do not style text</h5>
@@ -2034,7 +2033,7 @@ document.body.appendChild(js);
 </div>
 
 
-<h1>Abbreviation</h1>
+<h2>Abbreviation</h2>
 <h5>Extension of abbr element, to allow touch to show title</h5>
 <h5>Uses new dialog HTML element to render pop up</h5>
 <button onclick="document.querySelector('#abbreviation-style').classList.toggle('hidden')">Show CSS</button>
@@ -2115,7 +2114,7 @@ document.body.appendChild(js);
 </pre>
 <abbr class="abbreviation" title="Thank Goodness It's Friday">TGIF</abbr>
 
-<h1>Omake</h1>
+<h2>Omake</h2>
 <h5>Wrapped element to show extra content</h5>
 <button onclick="document.querySelector('#omake-style').classList.toggle('hidden')">Show CSS</button>
 <pre id="omake-style" class="hidden">
