@@ -445,19 +445,16 @@ function generatePopupContent(url) {
 				'"></a></blockquote><script async="async" charset="utf-8" src="https://platform.twitter.com/widgets.js"></script></div>';
 		}
     }
-    if (testUrl.includes('youtube.com/watch')) {
+    if (url.includes('youtube.com/watch') || url.includes('youtu.be/') || url.includes('youtube.com/shorts')) {
         //process youtube embed
         let id = url.substring(url.indexOf('?v=') + 3);
-        return '<iframe class="yt-video" allow="autoplay; encrypted-media" allowfullscreen="" frameborder="0" style="max-height: 360px;" src="' +
-            'https://www.youtube.com/embed/' + id +
-            '?enablejsapi=1"></iframe>';
-    }
-    if (testUrl.includes('youtu.be/')) {
-        //process youtube embed
-        let id = url.substring(url.indexOf('youtu.be/') + 9);
-        return '<iframe class="yt-video" allow="autoplay; encrypted-media" allowfullscreen="" frameborder="0" style="max-height: 360px;" src="' +
-            'https://www.youtube.com/embed/' + id +
-            '?enablejsapi=1"></iframe>';
+		let altDomain = url.includes('youtu.be/');
+		let isShorts = url.includes('youtube.com/shorts');
+		if(altDomain) id = url.substring(url.indexOf('youtu.be/') + 9);
+		if(isShorts) id = url.substring(url.indexOf('youtube.com/shorts/') + 19, url.length);
+        return '<iframe class="yt-video" allow="autoplay; encrypted-media; web-share;" allowfullscreen="" frameborder="0" style="_STYLE_" src="https://www.youtube.com/embed/_ID_?enablejsapi=1"></iframe>'
+		.replace('_ID_', id)
+		.replace('_STYLE_', isShorts ? 'min-height: 360px;' : 'max-height: 360px;');
     }
     if (testUrl.includes('instagram.com/p/') || testUrl.includes('instagram.com/reel/')) {
         //process instagram embed
