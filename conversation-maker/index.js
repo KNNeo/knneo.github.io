@@ -178,6 +178,7 @@ function hideAllConversations() {
 	{
 		conv.querySelector('.messages').removeAttribute('data-running');
 		conv.classList.add('hidden');
+		clearInterval(window['timer']);
 	}
 }
 
@@ -274,7 +275,7 @@ function processConversations() {
       footer.className = 'footer message';
       footer.innerText = '🔁';
 	  footer.title = 'Replay Conversation';
-      footer.setAttribute('onclick', 'animateConversation()');
+      footer.setAttribute('onclick', 'startConversation()');
       converse.appendChild(footer);
     }
   }
@@ -303,43 +304,6 @@ function setReaction() {
 }
 
 function animateConversation() {
-	let conversation = event.target.closest('.conversation').querySelector('.messages');
-	allowRunMessages(conversation);
-	
-	// read lines
-	let lines = conversation.querySelectorAll('.message');
-	if(Array.from(lines).filter(l => l.classList.contains('hide')).length > 0) return;
-	for(let line of lines)
-	{
-		line.classList.add('hide');
-	}
-	// set timing to display and scroll
-	for(let l = 0; l < lines.length; l++)
-	{
-		setTimeout(function() {
-			if(conversation.getAttribute('data-running') != null) {
-				if(window.ping && !lines[l].classList.contains('footer') && lines[l].getAttribute('data-system') == null) // play sound effect on each message
-					sfxAudio.play();
-				if(lines[l].classList.contains('footer'))
-					disableRunMessages(conversation);
-				lines[l].classList.remove('hide');
-				let heightAboveItem = Array.from(lines).slice(0,l).reduce(function(total, current, index) {
-					return total + current.getBoundingClientRect().height;
-				}, 0);
-				let currentHeight = lines[l].getBoundingClientRect().height;
-				let diff = heightAboveItem + currentHeight - conversation.clientHeight; // delta to fix item height rounding
-				// console.log(heightAboveItem + currentHeight, conversation.clientHeight);
-				if(diff > 0) {
-					if(diff < currentHeight) // newest message is not aligned to bottom of container
-						conversation.scrollBy({ top: diff, behavior: 'smooth' });
-					else
-						conversation.scrollBy({ top: currentHeight, behavior: 'smooth' });
-				}
-				else // newest message is not at or beyond bottom of container
-					conversation.scrollTo({ top: 0 });
-			}
-		}, l*2000);
-	}
 }
 
 function startConversation() {
@@ -352,11 +316,14 @@ function startConversation() {
 		line.classList.add('hide');
 	
 	let footer = conversation.querySelector('.footer');
-	footer.classList.remove('hide');
 	footer.innerText = '🔽';
 	footer.title = 'Play Next Message';
 	footer.setAttribute('onclick', 'nextMessage()');
 	footer.click();
+	
+	window['timer'] = setInterval(function() {
+		footer.click();
+	}, 2000);
 }
 
 function nextMessage() {
@@ -386,7 +353,7 @@ function nextMessage() {
 		conversation.scrollTo({ top: 0 });
 	
 	// if end of conversation, allow replay
-	if(l >= lines.length - 2) {
+	if(l >= lines.length - 1) {
 		let footer = conversation.querySelector('.footer');
 		footer.innerText = '🔁';
 		footer.title = 'Replay Conversation';
@@ -397,6 +364,7 @@ function nextMessage() {
 			behavior: 'smooth'
 		});
 		disableRunMessages(conversation);
+		clearInterval(window['timer']);
 		return;
 	}
 }
@@ -413,6 +381,7 @@ function allowRunMessages(conversation) {
 function disableRunMessages(conversation) {
 	// remove status
 	conversation.removeAttribute('data-running');
+	clearInterval(window['timer']);
 	// remove scroll capture
 	conversation.removeAttribute('onwheel');
 	conversation.removeAttribute('onmousewheel');
