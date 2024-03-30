@@ -336,15 +336,15 @@ document.body.appendChild(js);
 	cursor: pointer;
 }
 
-.popup .text {
+.popup > .text {
   display: inline;
 }
 
-.popup .text:hover {
+.popup > .text:hover {
   color: rgb(var(--foreground));
 }
 
-.popup .content {
+.popup > .content {
   display: none;
   padding-top: 10px;
   left: 0;
@@ -352,10 +352,10 @@ document.body.appendChild(js);
   margin: auto;
   text-align: center;
   max-width: 98%;
-  animation: fadeIn 0.2s ease-in 0.1s both;
+  animation: fade-in 0.2s ease-in 0.1s both;
 }
 
-.popup.show .content {
+.popup.show > .content {
   display: block;
   position: absolute;
   z-index: 9;
@@ -379,7 +379,7 @@ document.body.appendChild(js);
 	opacity: 0;
 }
 
-@keyframes fadeIn {
+@keyframes fade-in {
   from {
     opacity: 0;
     transform: translate3d(0, -5%, 0);
@@ -393,8 +393,9 @@ document.body.appendChild(js);
 <pre id="popup-script" class="hidden">
 window.addEventListener('load', addPopupTriggers);
 function addPopupTriggers() {
-    for (let a of document.querySelectorAll('.testing a[target="_blank"]')) // for production remove testing class
-		a.addEventListener('mouseover', renderPopup);
+    for (let a of document.querySelectorAll('a[target="_blank"]'))
+		if(!a.classList.contains('ignore')) // for production remove ignore class
+			a.addEventListener('mouseover', renderPopup);
 }
 
 function addPopupEvents() {
@@ -415,7 +416,7 @@ function closePopups() {
 		video.contentWindow.postMessage('{"event":"command","func":"stopVideo","args":""}', '*');
 	
 	// close all popups
-	for (let popup of document.querySelectorAll('.post-body.entry-content .show')) {
+	for (let popup of document.querySelectorAll('.popup.show')) {
 		popup.classList.remove('show');
 	}
 	
@@ -445,9 +446,7 @@ function renderPopup() {
 
     let focus = document.createElement('div');
     focus.classList.add('content');
-    focus.classList.add('fadeIn');
-	if(!processLink.includes('twitter.com') && !processLink.includes('/status/'))
-		focus.style.paddingTop = '10px';
+    focus.classList.add('fade-in');
     focus.innerHTML = newContent;
 	focus.addEventListener('click', closePopups);
 
@@ -507,7 +506,7 @@ function generatePopupContent(url) {
     }
     if (url.includes('music.apple.com')) {
         //process itunes embed
-    let isTrack = url.includes('i=');
+		let isTrack = url.includes('i=');
         return '<iframe allow="autoplay *; encrypted-media *;" frameborder="0" height="_HEIGHT_" sandbox="allow-modals allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation" src="_URL_" style="background: transparent; max-width: _WIDTH_px; overflow: hidden; width: 100%;"></iframe>'
 			.replace('_HEIGHT_', isTrack ? 170 : 450)
 			.replace('_WIDTH_' , isTrack ? 660 : 290)
@@ -581,7 +580,7 @@ function hideOverlay() {
 </pre>
 <script id="popup-loader">
 css = document.createElement('style');
-css.innerHTML = document.querySelector('#popup-style').innerHTML;
+css.innerHTML = document.querySelector('#popup-style').innerHTML.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');
 document.body.appendChild(css);
 js = document.createElement('script');
 js.innerHTML = document.querySelector('#popup-script').innerHTML.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');
@@ -596,9 +595,9 @@ This fallback and integration is as simple as adding a link like
 so it's inline.
 </pre>
 <div class="omake">
-"There's a thing called give and take, you know?" Yeah Isaki gave you a kiss so she can take your- All according to <a href="https://jisho.org/search/keikaku" target="_blank">keikaku</a> haha
+"There's a thing called give and take, you know?" Yeah Isaki gave you a kiss so she can take your- All according to <a href="https://jisho.org/search/keikaku" class="ignore" target="_blank">keikaku</a> haha
 </div>
-<h5>When mouse over, link will be transformed to class popup if URL is valid (click tag to close popup)<br/>
+<h5>When mouse hover, link will be transformed to class popup if URL is supported (click tag to close popup)<br/>
 Container class "popup", first child class "text", other children class "content"</h5>
 <pre id="popup-tag">
 The link will transform into
@@ -608,17 +607,61 @@ The link will transform into
 &lt;/div&gt;
 and behave the same, just that right-clicking on it will show popup, if available.
 </pre>
-<h5>Jisho.org and Twitter/X post embed</h5>
-<div class="testing omake">
-Also for the occasion, let me say <a href="https://x.com/3rdMR_staff/status/1773364439212839227?s=20" target="_blank">happy birthday to Miyazawa Koharu</a>, arguably the best member in MusicRay'n 3rd Generation (still no group name yet lol), just a beauty in general and if have not heard of her saying <a href="https://jisho.org/search/yada" target="_blank">yada</a> yada" you need to watch the weekly video livestream(?) series on Tuesdays (whenever she is featured) to hear her say it. She's 25 though. *laughs*
+<h5>Jisho.org frame</h5>
+<div class="omake">
+"There's a thing called give and take, you know?" Yeah Isaki gave you a kiss so she can take your- All according to <a href="https://jisho.org/search/keikaku" target="_blank">keikaku</a> haha</div>
+<h5>Apple Music release/track embeds</h5>
+<div class="omake">
+I also took the chance to listen to some live albums including
+<a href="https://music.apple.com/jp/album/wacci-live-at-%E6%97%A5%E6%9C%AC%E6%AD%A6%E9%81%93%E9%A4%A8-2021-youdience/1730894444?l=en-US" target="_blank"><b>wacci's live from 2021</b></a>, and
+<a href="https://music.apple.com/jp/album/just-like-this-2023-live/1730871602?l=en-US" target="_blank"><b>SPYAIR's live from last year</b></a>
+featuring YOSUKE the new singer. Don't ask if I listened to all, I only pick
+<a href="https://music.apple.com/jp/album/saijokyu-wacci-live-at-nippon-budoukan-2021-youdience/1730894444?i=1730894838&amp;l=en-US" target="_blank">the</a>
+<a href="https://music.apple.com/jp/album/just-one-life-just-like-this-2023-live/1730871602?i=1730871814&amp;l=en-US" target="_blank">ones</a>
+I like. IKE-san still better though. *laughs* Alright, it's different, it's
+like if someone shaved their beard away, you know?
 </div>
-<h5>Apple Music embed</h5>
-<div class="testing omake">
-P.S. Wow this <a href="https://music.apple.com/jp/album/fantasies-ep/1719381137?l=en-US" target="_blank">Bombay Bicycle Club's new single</a> recommended by Apple Music is actually kinda dope haha we will talk about them next week I guess.
+<h5>Instagram post/reel embeds</h5>
+<div class="omake">
+If not for IDOLY PRIDE's live tweets from
+  <a
+    href="https://twitter.com/sasaki_nao_0306/status/1680366792617885696?s=20"
+    target="_blank"
+    >the lot</a
+  >
+  <a
+    href="https://twitter.com/Kanon_Takao/status/1677923717417144321?s=20"
+    target="_blank"
+    >of them</a
+  >&nbsp;(ie. not MusicRay'n and their tiny images haha) I would have died from
+  anxiety. Instead I'm going to die of sensory overload on Instagram HAHA
+  <a
+    href="https://www.instagram.com/p/CuwcJg-PMWZ/?utm_source=ig_web_copy_link&amp;igshid=MzRlODBiNWFlZA=="
+    target="_blank"
+    >just see</a
+  >
+  <a
+    href="https://www.instagram.com/reel/CurZfAhhGJG/?utm_source=ig_web_copy_link&amp;igshid=MzRlODBiNWFlZA=="
+    target="_blank"
+    >for yourself</a
+  >
+  dude</div>
+<h5>YouTube embeds</h5>
+<div class="omake">
+Okay, didn't expect YouTube to recommend me
+<a href="https://www.youtube.com/watch?v=VWk4cQyeXbQ" target="_blank"
+  >Ogura Yui's halloween livestream</a
+>
+yesterday, it was pretty good for what it is, she just naturally gave us
+fanservice I can't even. *giggles*
+<a href="https://www.youtube.com/watch?v=eVpFGyckOJU" target="_blank"
+  >The new song's music video</a
+>
+though, not that great. *laughs*
 </div>
-<h5>Instagram post and YouTube embeds</h5>
-<div class="testing omake">
-I intend these to not be spoilers but heck, sorry <a href="https://www.instagram.com/reel/C4iK6LJvo3q/?utm_source=ig_web_copy_link" target="_blank">Kanno Mai</a> and <a href="https://www.youtube.com/watch?v=UTLsbTVljgI" target="_blank">Nagae Rika</a>, we can wait for our fictional encounters later this month. *giggles*
+<h5>Blogger images (popup will also work with left click)</h5>
+<div class="omake">
+No, no overall assessment you can leave now- <a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgJV8EW2i5YB8Ndf4OLZadcn-6rZIigy7udwa1ijYgJOo0Z1hka9iqtUqJ4MLNAkwLJfxupFrBP-K_g9rV8Y1cGwqK6a3UpcE_wPXFlujXKIKONI4cyvuUvqeQw9rPMUCIN2ZobxCjE2K2VlKQjoBtOBQliJyZ9tRT1nWvkx420eSePDoUlzg-jqVqQ/s320/PXL_20230308_121315627.jpg" target="_blank">Koharu-chan</a>. *laughs*
 </div>
 
 
@@ -960,8 +1003,8 @@ document.body.appendChild(css);
   ...
 &lt;/div&gt;
 </pre>
-<h5>6 items, 2 columns, aspect ratio 1.17</h5>
-<div class="agenda" style="--columns: 2; --aspect-ratio: 1.17;">
+<h5>6 items, 3 columns, aspect ratio 1.17</h5>
+<div class="agenda" style="--aspect-ratio: 1.17;">
   <div class="item">
     <table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left: auto; margin-right: auto;">
       <tbody>
@@ -1055,6 +1098,73 @@ document.body.appendChild(css);
         <tr>
           <td class="tr-caption" style="text-align: center;">
             Ganbare Douki-chan Vol.10
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<h5>2 items, 2 columns, default aspect ratio, custom max width</h5>
+<div class="agenda" style="--columns: 2; max-width: 400px;">
+  <div class="item">
+    <table
+      align="center"
+      cellpadding="0"
+      cellspacing="0"
+      class="tr-caption-container"
+      style="margin-left: auto; margin-right: auto;"
+    >
+      <tbody>
+        <tr>
+          <td style="text-align: center;">
+            <a
+              href="#ComicDengekiDaiouji"
+              style="margin-left: auto; margin-right: auto;"
+              ><img
+                border="0"
+                data-original-height="500"
+                data-original-width="349"
+                height="320"
+                src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhaZ678A-NiWDgdQs4bx5D6C8T5CtATLRq-iRT3BJ-B02LHMbFvTq3KjfwIuBM6cvaaZYTXaUVxbHMR_LZCiWlqSna0aXdBVctuv8A5NWOgu1x6xIXvi9SUxP2LinKU_ByfiTMd_EtwZBtI9mlvbsGi-QyhyG2WfM13LsnCwz5t-0KqPA/s320/10704905.jpg"
+                width="226"
+            /></a>
+          </td>
+        </tr>
+        <tr>
+          <td class="tr-caption" style="text-align: center;">
+            Comic Dengeki Daiouji Vol.125
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="item">
+    <table
+      align="center"
+      cellpadding="0"
+      cellspacing="0"
+      class="tr-caption-container"
+      style="margin-left: auto; margin-right: auto;"
+    >
+      <tbody>
+        <tr>
+          <td style="text-align: center;">
+            <a
+              href="./pages/2024/02/the-twenty-second-book-worth-of-photos.html"
+              style="margin-left: auto; margin-right: auto;"
+              ><img
+                border="0"
+                data-original-height="640"
+                data-original-width="452"
+                height="320"
+                src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjjyOnfJl_B2hzD5Dv8DXt6Um0AzQ783MyarmTK8SBpUfZf_nqDNPRxmghbYZL2zqQWWQh8_Jv6ImFfMs1HH9wLtMbJJpjUGeLaoNKvP45dr3pPxWpOQPwE2snFSDQsncZBb0DxNed6D8uNEDTPe96lT0YQJ4zWA0qAPSvRDItqYVUwD2Od9NUJNa4L6Nw/s320/10694326.jpg"
+                width="226"
+            /></a>
+          </td>
+        </tr>
+        <tr>
+          <td class="tr-caption" style="text-align: center;">
+            Ogura Yui Photobook "Yuitabi"
           </td>
         </tr>
       </tbody>
@@ -1436,33 +1546,22 @@ document.body.appendChild(css);
 .accordion {
   cursor: pointer;
 }
-.accordion:hover {
-  border-color: rgb(var(--primary));
-}
-.accordion .header {
+.accordion > .header {
   padding: 4px 8px;
   background-color: rgb(var(--accent));
-  border-radius: 12px;
 }
-.accordion.show .header {
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-}
-.accordion .content {
+.accordion > .content {
   cursor: initial;
-  border: 5px dashed rgb(var(--accent));
+  border: 5px solid rgb(var(--accent));
   border-top: 0;
   border-bottom: 0;
 }
-.accordion .footer {
+.accordion > .footer {
   background-color: rgb(var(--accent));
   text-align: center;
-  border-radius: 12px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
 }
-.accordion .content,
-.accordion .footer {
+.accordion > .content,
+.accordion > .footer {
   padding: 4px 8px;
   display: none;
 }
@@ -1471,8 +1570,8 @@ document.body.appendChild(css);
   border-color: rgb(var(--foreground));
 }
 
-.accordion.show .content,
-.accordion.show .footer {
+.accordion.show > .content,
+.accordion.show > .footer {
   display: block;
 }
 </pre>
@@ -1493,7 +1592,7 @@ function toggleExpander() {
 </pre>
 <script id="accordion-loader">
 css = document.createElement('style');
-css.innerHTML = document.querySelector('#accordion-style').innerHTML;
+css.innerHTML = document.querySelector('#accordion-style').innerHTML.replace(/&lt;/g,'<').replace(/&gt;/g,'>');
 document.body.appendChild(css);
 js = document.createElement('script');
 js.innerHTML = document.querySelector('#accordion-script').innerHTML.replace(/&lt;/g,'<').replace(/&gt;/g,'>');
@@ -2150,7 +2249,6 @@ document.body.appendChild(js);
 <button onclick="document.querySelector('#omake-style').classList.toggle('hidden')">Show CSS</button>
 <pre id="omake-style" class="hidden">
 .omake {
-	border-radius: 8px;
 	background-color: rgb(var(--accent));
 	padding: 1em;
 }
