@@ -318,7 +318,7 @@ document.body.appendChild(js);
 	<a class="fab back material-icons" href="./index.html" title="Back To Homepage">home</a>
 </div>
 <div class="action-menu bottom-right">
-	<a class="fab share material-icons" title="Share This Page" onclick="alert('Thanks for sharing! But this will hide on browsers which do not support navigator.share feature')">share</a>
+	<a class="fab share material-icons" title="Share This Page" onclick="popupText('Thanks for sharing! But this will hide on browsers which do not support navigator.share feature')">share</a>
 	<a class="fab theme material-icons" title="Toggle Dark Mode" onclick="toggleTheme()">brightness_high</a>
 	<a class="fab top material-icons hidden" title="Go To Top" onclick="document.body.scrollTop = 0; document.documentElement.scrollTop = 0;">arrow_upward</a>
 </div>
@@ -519,12 +519,16 @@ function generatePopupContent(url) {
 			.replace('_DATA_HEIGHT_', 0.6*window.innerHeight);
 		}
     }
-    if (url.includes('youtube.com/watch') || url.includes('youtu.be/')) {
+    if (url.includes('youtube.com/watch') || url.includes('youtu.be/') || url.includes('youtube.com/shorts')) {
         //process youtube embed
         let id = url.substring(url.indexOf('?v=') + 3);
-		if(url.includes('youtu.be/')) id = url.substring(url.indexOf('youtu.be/') + 9);
-        return '<iframe class="yt-video" allow="autoplay *; encrypted-media *;" allowfullscreen="" frameborder="0" style="max-height: 360px;" src="https://www.youtube.com/embed/_ID_?enablejsapi=1"></iframe>'
-		.replace('_ID_', id);
+		let altDomain = url.includes('youtu.be/');
+		let isShorts = url.includes('youtube.com/shorts');
+		if(altDomain) id = url.substring(url.indexOf('youtu.be/') + 9);
+		if(isShorts) id = url.substring(url.indexOf('youtube.com/shorts/') + 19, url.length);
+        return '<iframe class="yt-video" allow="autoplay; encrypted-media; web-share;" allowfullscreen="" frameborder="0" style="_STYLE_" src="https://www.youtube.com/embed/_ID_?enablejsapi=1"></iframe>'
+		.replace('_ID_', id)
+		.replace('_STYLE_', isShorts ? 'min-height: 360px;' : 'max-height: 360px;');
     }
     if (url.includes('instagram.com/p/') || url.includes('instagram.com/reel/')) {
         //process instagram embed
@@ -644,7 +648,7 @@ If not for IDOLY PRIDE's live tweets from
     >for yourself</a
   >
   dude</div>
-<h5>YouTube embeds</h5>
+<h5>YouTube video/YouTube Shorts embeds</h5>
 <div class="omake">
 Okay, didn't expect YouTube to recommend me
 <a href="https://www.youtube.com/watch?v=VWk4cQyeXbQ" target="_blank"
@@ -652,10 +656,10 @@ Okay, didn't expect YouTube to recommend me
 >
 yesterday, it was pretty good for what it is, she just naturally gave us
 fanservice I can't even. *giggles*
-<a href="https://www.youtube.com/watch?v=eVpFGyckOJU" target="_blank"
-  >The new song's music video</a
+<a href="https://www.youtube.com/shorts/K4YyHrKXntc" target="_blank"
+  >The new song's dance video</a
 >
-though, not that great. *laughs*
+though. *laughs*
 </div>
 <h5>Blogger images (popup will also work with left click)</h5>
 <div class="omake">
