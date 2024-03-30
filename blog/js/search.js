@@ -35,36 +35,7 @@ function onSearchKeyUp() {
 	// console.log(event.keyCode);
 	if (event.key === 'Enter') // "Enter" key
 	{
-		let inputVal = event.target.value.toLowerCase();
-		let indexesKeys = Object.keys(searchIndex.indexes).filter(k => inputVal.toLowerCase().split(' ').includes(k));
-		// create lists of relevant keywords
-		let postIdLists = [];
-		let postIds = [];
-		if(indexesKeys.length > 0) {
-			for(let key of indexesKeys)
-			{
-				let list = searchIndex.indexes[key];
-				// console.log(list);				
-				postIdLists.push(list);
-			}
-		}
-		
-		// filter keywords if appear in all lists
-		for(let sublist of postIdLists)
-		{
-			for(let value of sublist)
-			{
-				// console.log(value);
-				if(postIdLists.filter(l => l.includes(value)).length == indexesKeys.length)
-					postIds.push(value);
-			}
-		}
-		
-		// update global variable & results div
-		window['search-results'] = searchIndex.posts.filter((current, index, arr) => current.date && current.title && postIds.includes(current.id));
-		window['search-page'] = 0;
-		showResults(window['search-results'].length > window['search-size'] ? window['search-results'].slice(0,window['search-size']) : window['search-results']);
-		
+		onSearch(event.target.value);
 		event.target.blur();
 	}
 	if (event.key === 'Escape') // "Escape" key
@@ -87,6 +58,38 @@ function onSearchKeyDown() {
 		window['ctrled'] = true;
 	}
 	return false;
+}
+
+function onSearch(val) {
+	let inputVal = val.toLowerCase();
+	let indexesKeys = Object.keys(searchIndex.indexes).filter(k => inputVal.toLowerCase().split(' ').includes(k));
+	// create lists of relevant keywords
+	let postIdLists = [];
+	let postIds = [];
+	if(indexesKeys.length > 0) {
+		for(let key of indexesKeys)
+		{
+			let list = searchIndex.indexes[key];
+			// console.log(list);				
+			postIdLists.push(list);
+		}
+	}
+	
+	// filter keywords if appear in all lists
+	for(let sublist of postIdLists)
+	{
+		for(let value of sublist)
+		{
+			// console.log(value);
+			if(postIdLists.filter(l => l.includes(value)).length == indexesKeys.length)
+				postIds.push(value);
+		}
+	}
+	
+	// update global variable & results div
+	window['search-results'] = searchIndex.posts.filter((current, index, arr) => current.date && current.title && postIds.includes(current.id));
+	window['search-page'] = 0;
+	showResults(window['search-results'].length > window['search-size'] ? window['search-results'].slice(0,window['search-size']) : window['search-results']);
 }
 
 function showResults(posts) {
