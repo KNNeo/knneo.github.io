@@ -410,11 +410,11 @@ function generatePopupContent(content) {
     }
     if (url.includes('youtube.com/watch') || url.includes('youtu.be/') || url.includes('youtube.com/shorts')) {
         //process youtube embed
-        let id = url.substring(url.indexOf('?v=') + 3);
+        let id = content.substring(content.indexOf('?v=') + 3);
 		let altDomain = url.includes('youtu.be/');
 		let isShorts = url.includes('youtube.com/shorts');
-		if (altDomain) id = url.substring(url.indexOf('youtu.be/') + 9);
-		if (isShorts) id = url.substring(url.indexOf('youtube.com/shorts/') + 19, url.length);
+		if (altDomain) id = content.substring(content.indexOf('youtu.be/') + 9);
+		if (isShorts) id = content.substring(content.indexOf('youtube.com/shorts/') + 19, url.length);
         return '<iframe class="yt-video" allow="autoplay; encrypted-media; web-share;" allowfullscreen="" frameborder="0" style="_style_" src="https://www.youtube.com/embed/_id_?enablejsapi=1"></iframe>'
 		.replace('_id_', id)
 		.replace('_style_', isShorts ? 'min-height: 360px;' : 'max-height: 360px;');
