@@ -35,6 +35,19 @@ function startup() {
 	setTimeout(scrollToSectionByUrl, 200);
 }
 
+function windowOnResize() {
+	// sidebar content on blogger must show on larger screens
+	if (!isMediumWidth()) {
+		if(document.getElementById('LinkList1') != null) document.getElementById('LinkList1').style.display = '';
+		if(document.getElementById('BlogArchive1') != null) document.getElementById('BlogArchive1').style.display = '';	
+		let outer = document.getElementsByClassName('column-left-outer')[0];
+		if(outer != null)
+			outer.style.position = '';
+	}
+	displayFAB();
+	closePopups();
+};
+
 //==FUNCTIONS==//
 // Convert text to icon for footer labels
 function renderLabelIcon() {
@@ -192,7 +205,7 @@ function toggleExpander() {
 	parent.querySelector('.header').scrollIntoView({ block: 'center' });
 }
 
-////DIALOG////
+// Dialog component
 function popupText(input) {
 	let dialogDiv = document.querySelector('.dialog');
 	if(dialogDiv == null) {
@@ -292,13 +305,11 @@ function closePopups() {
 		document.querySelector('.fab.close') != null && !document.querySelector('.fab.close').classList.contains('hidden'))
 		return; // prevent kill if from sidebar
 	// kill youtube videos playing
-	for(let video of document.querySelectorAll('.yt-video')) {
+	for(let video of document.querySelectorAll('.yt-video'))
 		video.contentWindow.postMessage('{"event":"command","func":"stopVideo","args":""}', '*');
-	}
-	
-	for (let popup of document.querySelectorAll('.post-body.entry-content .new-thumbnail')) {
+	// hide all popup content
+	for (let popup of document.querySelectorAll('.post-body.entry-content .new-thumbnail'))
 		popup.classList.remove('new-thumbnail');
-	}
 	
 	displayFAB();
 	hideOverlay();
@@ -306,16 +317,16 @@ function closePopups() {
 
 function renderPopup() {
     event.preventDefault();
-	let processLink = this.href;
+	let url = this.href;
 	
 	//exclusion for blogger	images
-    if ((processLink.includes('blogspot.com') || processLink.includes('blogger.googleusercontent.com')) && this.target == '') return;
+    if ((url.includes('blogspot.com') || url.includes('blogger.googleusercontent.com')) && this.target == '') return;
 	//exclusion for if target is not _blank
     if (this.target == '') return;
 	//exclusion class, if any
     if (this.classList.contains('opt-out')) return;
 	//if not compatible for any design
-    let newContent = generatePopupContent(processLink);
+    let newContent = generatePopupContent(url);
     if (newContent == null) return;
     let thumbnail = document.createElement('div');
     thumbnail.classList.add('new-t');
@@ -327,27 +338,17 @@ function renderPopup() {
     let focus = document.createElement('div');
     focus.classList.add('new-thumbnail-focus');
     focus.classList.add('fadeIn');
-	if(!processLink.includes('twitter.com') && !processLink.includes('/status/'))
+	if(!url.includes('twitter.com') && !url.includes('/status/'))
 		focus.style.paddingTop = '10px';
     focus.innerHTML = newContent;
 	focus.addEventListener('click', closePopups);
 
     thumbnail.appendChild(initial);
     thumbnail.appendChild(focus);
-	thumbnail.setAttribute('data-url', processLink);
+	thumbnail.setAttribute('data-url', url);
 
     this.outerHTML = thumbnail.outerHTML;
     addPopupEvents();
-
-	//FAB to close
-	// let closeButton = document.createElement('a');
-	// closeButton.id = 'CloseBtn';
-	// closeButton.classList.add('material-icons');
-	// closeButton.title = 'Close Popup';
-	// closeButton.innerText = 'close';
-	// closeButton.addEventListener('click', closePopups);
-	// if(document.getElementById('CloseBtn') != undefined) document.getElementById('CloseBtn').remove();
-	// document.body.appendChild(closeButton);
 	
 	return thumbnail;
 }
@@ -532,30 +533,6 @@ function goToTop() {
 	document.documentElement.scrollTop = 0;
 }
 
-function hideImagesOnError() {
-	for(let img of document.querySelectorAll('img')) {
-		img.style.display = img.complete ? '' : 'none';
-		img.addEventListener('error', function() {
-			img.parentElement.parentElement.style.display = 'none';
-			img.classList.add('failed');
-		});
-		img.src = 'https://knneo.github.io/resources/spacer.gif';
-	}
-}
-
-function windowOnResize() {
-	// sidebar content on blogger must show on larger screens
-	if (!isMediumWidth()) {
-		if(document.getElementById('LinkList1') != null) document.getElementById('LinkList1').style.display = '';
-		if(document.getElementById('BlogArchive1') != null) document.getElementById('BlogArchive1').style.display = '';	
-		let outer = document.getElementsByClassName('column-left-outer')[0];
-		if(outer != null)
-			outer.style.position = '';
-	}
-	displayFAB();
-	closePopups();
-};
-
 async function sharePage() {
   try {
 	let pageTitle = document.querySelector('.post-title.entry-title')?.innerText || document.querySelector('.title')?.innerText;
@@ -683,12 +660,9 @@ function showAllThumbnails(tn) {
 
 // Responsive image resizing based on screen dimensions
 function resizeImages() {
-    //current issues
-    /*
-    ~Exclusion list for class lists to avoid on parent element eg. when parent element in post div
-    ~Consider writing in whitelist case then with blacklist case
+    /* Current limitations
     ~Images that always resize to 100% instead of retaining original size which can fit screen, consider putting back original size if no overflow
-    ~Consluion: Consider redo whole list based on stricter requirements, and clearer ranges/lists to maintain exclusions
+	~Images need to have width and height attribute, especially if tr has multiple td/img
     */
     for (var p of document.querySelectorAll("img"))
 	{
