@@ -600,20 +600,17 @@ function hideImagesOnError() {
 }
 
 function windowOnResize() {
-	// sidebar content on blogger
-	// if (!isMediumWidth()) {
-		// if(document.getElementById('LinkList1') != null) document.getElementById('LinkList1').style.display = '';
-		// if(document.getElementById('BlogArchive1') != null) document.getElementById('BlogArchive1').style.display = '';	
-		// let outer = document.getElementsByClassName('column-left-outer')[0];
-		// if(outer != null)
-			// outer.style.position = '';
-	// }
+	// sidebar content on blogger must show on larger screens
+	if (!isMediumWidth()) {
+		if(document.getElementById('LinkList1') != null) document.getElementById('LinkList1').style.display = '';
+		if(document.getElementById('BlogArchive1') != null) document.getElementById('BlogArchive1').style.display = '';	
+		let outer = document.getElementsByClassName('column-left-outer')[0];
+		if(outer != null)
+			outer.style.position = '';
+	}
 	let overlay = document.querySelector('.overlay');
 	if(overlay != null && overlay.style.display != 'none')
 		closePopups();
-	
-	// displayFAB();
-	// resizeImages();
 };
 
 async function sharePage() {
