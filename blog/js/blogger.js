@@ -183,9 +183,8 @@ function reduceResults() {
 		}
 		
 		//add button to expand/collapse
-		for (let titleBar of document.getElementsByClassName('post-title entry-title')) {
+		for (let titleBar of document.getElementsByClassName('post-title entry-title'))
 			titleBar.innerHTML = '<table><tbody><tr><td><div class="search-expander"><i class="material-icons">unfold_less</i></div></td><td>' + titleBar.innerHTML + '</td></tr></tbody></table>';
-		}
 		//add click logic
 		for (let i = 0; i < document.getElementsByClassName('post-title entry-title').length; i++) {
 			document.getElementsByClassName('search-expander')[i].addEventListener("click", function() {
@@ -214,9 +213,8 @@ function reduceResults() {
 // Fix search results to return 5 results instead of 1
 function fixLabelResults() {
 	if(document.getElementById("Label1") == undefined) return;
-    for (let link of document.getElementById("Label1").getElementsByTagName("a")) {
+    for (let link of document.getElementById("Label1").getElementsByTagName("a"))
         link.href = link.href += link.href.includes("?") ? "&max-results=5" : "?max-results=5";
-    }
 }
 
 // Convert text to icon for footer next previous posts
