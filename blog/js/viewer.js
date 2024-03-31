@@ -1,44 +1,41 @@
 //--VIEWER--//
 function generateViewer() {
 	let viewer = document.querySelector('.viewer');
-	if(viewer == null)
-	{
+	if(viewer == null) {
+		// create viewer
 		viewer = document.createElement('div');
 		viewer.classList.add('viewer');
 		document.body.appendChild(viewer);
 	}
-	if(viewer != null)
-	{
+	if(viewer != null) {
+		// prevent right click
 		viewer.addEventListener('contextmenu', function(e) {
 			e.preventDefault();
 			return false;
 		}, false);
+		// if esc key close viewer
+		window.addEventListener('keyup', function() {
+			if(event.keyCode == 27 && typeof closeViewer == 'function') closeViewer();
+		});
 	}
 
-	let imageNo = 0;
 	window['viewer-list'] = [];
-	for(let img of document.getElementsByTagName('img'))
-	{
+	for(let img of document.getElementsByTagName('img')) {
 		if(img.parentElement.tagName.toUpperCase() == 'A' && 
 		!img.parentElement.href.includes('#'))
-		{
 			window['viewer-list'].push(img.parentElement);
-		}
 	}
 	
 	//any image with url will open in new tab (non-external)
-	for (let img of document.getElementsByTagName('img'))
-	{
+	for (let img of document.getElementsByTagName('img')) {
 		let elem = img.parentElement;
 		if(elem.tagName.toUpperCase() == 'A' &&
-		elem.getAttribute('target') != '_blank')
-		{
+		elem.getAttribute('target') != '_blank') {
 			let srcInd = img.src.replace('//','').indexOf('/');
 			let srcDomain = srcInd >= 0 ? img.src.substring(0,srcInd) : null;
 			let fileInd = elem.href.replace('//','').indexOf('/');
 			let fileDomain = fileInd >= 0 ? elem.href.substring(0,fileInd) : null;
-			if(srcDomain == fileDomain) // image src must be in same domain as link href
-			{
+			if(srcDomain == fileDomain) { // image src must be in same domain as link href
 				elem.addEventListener('click', function(e) {
 					e.preventDefault();
 				});
@@ -49,7 +46,7 @@ function generateViewer() {
 }
 
 function updateImageNo(image) {
-	imageNo = 0;
+	let imageNo = 0;
 	for(let img of window['viewer-list'])
 	{
 		if(img.href == image.href)
@@ -177,17 +174,14 @@ function closeViewer() {
 	let viewer = document.querySelector('.viewer');
 	viewer.classList.remove('open');
 	if(document.getElementById('CloseBtn') != undefined)
-		document.getElementById('CloseBtn').remove();
-	
+		document.getElementById('CloseBtn').remove();	
 	document.body.style.overflow = '';
 }
 
 //--LOADER--//
 function runLoader() {
-	for(let loader of document.querySelectorAll('.loader'))
-	{
-		switch(document.querySelector('.loader').innerText)
-		{
+	for(let loader of document.querySelectorAll('.loader')) {
+		switch(document.querySelector('.loader').innerText)	{
 			case 'hourglass_full': 
 				document.querySelector('.loader').innerText = 'hourglass_empty';
 				break;
@@ -204,16 +198,8 @@ function runLoader() {
 	}
 	if(window['loading'] && document.querySelectorAll('.loader').length > 0)
 		setTimeout(runLoader, 500);
-	else
-	{
+	else {
 		for(let loader of document.querySelectorAll('.loader'))
-		{
 			loader.parentElement.removeChild(loader);
-		}
 	}
 }
-
-window.addEventListener('keyup', function() {
-	// if escape close viewer
-	if(event.keyCode == 27 && typeof closeViewer == 'function') closeViewer();
-});

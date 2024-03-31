@@ -24,9 +24,8 @@ function setTheme() {
 			document.head.appendChild(themeColor);
 			localStorage.setItem(defaultThemeItem, themeColor.content); // save data
 		}
-		if (window.matchMedia('(prefers-color-scheme: dark)').matches) { // if device dark mode
+		if (window.matchMedia('(prefers-color-scheme: dark)').matches) // if device dark mode
 			toggleTheme(); // toggle, will save data
-		}
 	}
 	// if button .darkmode in DOM, allow toggle modes
 	window.addEventListener('load', addThemeEvents);

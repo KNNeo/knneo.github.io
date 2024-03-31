@@ -4,47 +4,40 @@ const pageHeader = document.querySelector('.page-header');
 
 function generateHeader() {
 	if(pageHeader != null) {
-		let header = document.createElement('div');
-		
-		//clone element to put in header
+		let header = document.createElement('div');		
+		// clone date to put in header
 		if(document.querySelector('.published') != null)
-			header.appendChild(document.querySelector('.published').cloneNode(true));
-		
-		//clone element to put in header
+			header.appendChild(document.querySelector('.published').cloneNode(true));		
+		// clone header to put in header
 		if(document.querySelector('.title') != null)
 			header.appendChild(document.querySelector('.title').cloneNode(true));
-		
-		let tags = document.querySelector(".hashtags") || document.querySelector("#hashtags");
-		if(tags != null)
-		{
+		// clone hashtags to put in header
+		let hashtags = document.querySelector('.hashtags') || document.querySelector('#hashtags');
+		if(hashtags != null) {
 			//clone element to put in header
-			let hashtags = document.createElement('div');
-			hashtags.classList.add('hashtags');
-			for(let hashtag of tags.querySelectorAll('a'))
-			{
+			let tags = document.createElement('div');
+			tags.classList.add('hashtags');
+			for(let hashtag of hashtags.querySelectorAll('a')) {
 				let clone = hashtag.cloneNode(true);
-				// for hashtags, have to add back click event
+				// have to add back click event
 				clone.addEventListener('click', function() {
 					window.location.hash = this.title;
 				});
-				hashtags.appendChild(clone);
+				tags.appendChild(clone);
 			}
-			header.appendChild(hashtags);
+			header.appendChild(tags);
 		}
-		
-		//add header to document, add window events	
+		// add header to document, add window events	
 		pageHeader.innerHTML = '';
 		pageHeader.appendChild(header);
+		// add scroll event for header
 		window.addEventListener('scroll', headerOnScroll);
 	}
 }
 
 function headerOnScroll() {
-	// event.preventDefault();
 	let st = window.pageYOffset || document.documentElement.scrollTop;
 	let diff = st - window['scrollTop'];
-	// console.log(st, window['scrollTop'], diff);
-	// diff == 1 is for initial load if navigate to section (chrome)
 	toggleHeader(st > 0.3 * document.documentElement.clientHeight, diff <= 0.1);
 	window['scrollTop'] = st;
 }
@@ -65,9 +58,8 @@ function toggleHeader(minYOffset, scrollUp) {
 		else
 			pageHeader.classList.remove('show');	
 	}
-	else {
+	else
 		pageHeader.classList.remove('show');
-	}
 }
 
 function generateReadTime() {
@@ -78,8 +70,7 @@ function generateReadTime() {
 		let wpm = text.trim().split(/\s+/).length / 250;
 		let ipm = calculateIpmSeconds(12, 5) / 60;
 		let time = Math.ceil(wpm + ipm);
-		// console.log(wpm, ipm, time);
-		
+		// console.log(wpm, ipm, time);		
 		if(document.querySelector('.published') != null && time > 1)
 			document.querySelector('.published').innerText += ' - ' + time + ' min read';
 	}

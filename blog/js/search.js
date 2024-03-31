@@ -67,20 +67,15 @@ function onSearch() {
 	let postIdLists = [];
 	let postIds = [];
 	if(indexesKeys.length > 0) {
-		for(let key of indexesKeys)
-		{
+		for(let key of indexesKeys)	{
 			let list = searchIndex.indexes[key];
-			// console.log(list);				
 			postIdLists.push(list);
 		}
 	}
 	
 	// filter keywords if appear in all lists
-	for(let sublist of postIdLists)
-	{
-		for(let value of sublist)
-		{
-			// console.log(value);
+	for(let sublist of postIdLists)	{
+		for(let value of sublist) {
 			if(postIdLists.filter(l => l.includes(value)).length == indexesKeys.length)
 				postIds.push(value);
 		}
@@ -93,11 +88,11 @@ function onSearch() {
 }
 
 function showResults(posts) {
-	document.querySelector('.input-result').innerHTML = '';
+	let result = document.querySelector('.input-result');
+	result.innerHTML = '';
 	
 	// render result page 1
-	for(let post of posts)
-	{
+	for(let post of posts) {
 		let resultDiv = document.createElement('div');
 		resultDiv.classList.add('post');
 		
@@ -111,7 +106,7 @@ function showResults(posts) {
 		resultUrl.innerText = post.title;
 		resultDiv.appendChild(resultUrl);
 		
-		document.querySelector('.input-result').appendChild(resultDiv);
+		result.appendChild(resultDiv);
 	}
 	
 	// show more results if not at end
@@ -126,7 +121,7 @@ function showResults(posts) {
 		resultTally.innerText = 'No results';
 	else
 		resultTally.innerText = 'End of results';
-	document.querySelector('.input-result').appendChild(resultTally);
+	result.appendChild(resultTally);
 }
 
 function showNextResults() {
