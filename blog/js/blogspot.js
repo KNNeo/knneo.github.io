@@ -5,9 +5,7 @@ window['dark-name'] = 'blog-theme';
 // allow toggle of emoji display
 function toggleEmojiDisplay() {
 	if(event.target != null)
-	{
 		event.target.innerText = event.target.innerText == 'mood' ? 'sentiment_neutral' : 'mood';
-	}
 	for(let emoji of document.querySelectorAll('.emoji'))
 	{
 		let temp = emoji.textContent;
@@ -19,9 +17,7 @@ function toggleEmojiDisplay() {
 // allow toggle of popups to show (supported) embed instead of external link
 function toggleInlinePopups() {
 	if(event.target != null)
-	{
 		event.target.innerText = event.target.innerText == 'launch' ? 'crop_din' : 'launch';
-	}
 }
 
 // back button to each page

@@ -26,32 +26,20 @@ function startup() {
 	
 	// Asynchronous Events
 	setTimeout(addHashtags, 0); // generateHeader, generateReadTime
-	setTimeout(showAbbrAsDialog, 0);
-	setTimeout(setExpander, 0);
-	setTimeout(displayFAB, 0);
-	setTimeout(addHoverForLinks, 0);
 	setTimeout(resizeImages, 0);
-	setTimeout(olderNewerTextToIcon, 0);
+	setTimeout(displayFAB, 0);
+	setTimeout(setExpander, 0);
+	setTimeout(addHoverForLinks, 0);
+	setTimeout(showAbbrAsDialog, 0);
+	setTimeout(renderLabelIcon, 0);
 	setTimeout(scrollToSectionByUrl, 200);
 }
 
 //==FUNCTIONS==//
-// Convert text to icon for footer next previous posts and labels
-function olderNewerTextToIcon() {
-    if (document.getElementById("blog-pager-newer-link") != null)
-		document.getElementById("blog-pager-newer-link").getElementsByTagName("a")[0].innerHTML = 
-		"<i class='material-icons latest-post' style='padding:0;'>arrow_back</i>";
-    if (document.getElementById("blog-pager-older-link") != null)
-		document.getElementById("blog-pager-older-link").getElementsByTagName("a")[0].innerHTML = 
-		"<i class='material-icons latest-post' style='padding:0;'>arrow_forward</i>";
-	if (document.getElementsByClassName('home-link').length > 0) {
-		document.getElementsByClassName('home-link')[0].classList.add('display-none');
-	}
-	
+// Convert text to icon for footer labels
+function renderLabelIcon() {
 	for(let label of document.querySelectorAll('#Label1 li a, .post-tags a'))
-	{
-		label.innerHTML = '<span class="material-icons small-icons">' + labelTextToIcon(label.innerText) + '</span>' + label.innerText + '</a>';
-	}
+		label.innerHTML = '<span class="material-icons small-icons">' + labelTextToIcon(label.innerText) + '</span>' + label.innerText + '</a>';	
 }
 
 function labelTextToIcon(iconText) {
@@ -86,7 +74,6 @@ function labelTextToIcon(iconText) {
 	}
 }
 
-
 // Add hashtags for Entertainment News posts with anchors
 function addHashtags() {
 	// empty hashtags if any content
@@ -97,9 +84,8 @@ function addHashtags() {
 		
 		//ignore old id and if is search result
 		if(window.location.href.includes("/search/")) {
-			for(let element of document.querySelectorAll("[id='hashtags']")) {
+			for(let element of document.querySelectorAll("[id='hashtags']"))
 				element.style.display = 'none';
-			}
 			return;
 		}
 		
@@ -136,8 +122,7 @@ function addHashtags() {
 		
 		// render
 		if(hashtags.length > 0) {
-			for(let item of hashtags)
-			{
+			for(let item of hashtags) {
 				let newItem = document.createElement('a');
 				newItem.innerText = '#' + item.tag;
 				newItem.title = item.tag;
@@ -152,10 +137,7 @@ function addHashtags() {
 
 function scrollToSectionByUrl() {
 	if(window.location.hash.length > 0)
-	{
 		scrollToElement(document.getElementById(window.location.hash.substring(1)));
-		// setTimeout(scrollToSectionByUrl, 500);
-	}
 }
 
 function scrollToElement(elem) {
@@ -173,7 +155,7 @@ function scrollToElement(elem) {
 }
 
 // Abbreviation to show as dialog if not using mouse to hover
-// Exception for published field in github site
+// Exception to include: published field in github site
 function showAbbrAsDialog() {
 	for(let abbr of document.querySelectorAll('.published, abbr[title]'))
 	{
@@ -213,8 +195,7 @@ function toggleExpander() {
 ////DIALOG////
 function popupText(input) {
 	let dialogDiv = document.querySelector('.dialog');
-	if(dialogDiv == null)
-	{
+	if(dialogDiv == null) {
 		dialogDiv = document.createElement('div');
 		dialogDiv.classList.add('dialog');
 		document.body.appendChild(dialogDiv);
@@ -231,8 +212,7 @@ function createDialog(node) {
 	if(!dialog.classList.contains('box')) dialog.classList.add('box');
 	if(typeof node == 'string')
 		dialog.innerHTML = node;
-	if(typeof node == 'object')
-	{
+	if(typeof node == 'object') {
 		let clonedNode = node.cloneNode(true);
 		dialog.appendChild(clonedNode);
 	}
@@ -249,8 +229,7 @@ function createDialog(node) {
 function removeDialog() {
 	if(event) event.preventDefault(); // Prevent the default form submission
 	let dialogDiv = document.querySelector('.dialog');
-	if(dialogDiv != null)
-	{
+	if(dialogDiv != null) {
 		dialogDiv.remove();
 	}	
 }
@@ -321,19 +300,8 @@ function closePopups() {
 		popup.classList.remove('new-thumbnail');
 	}
 	
-	// document.getElementById('CloseBtn')?.style.display = 'none';
-	
 	displayFAB();
 	hideOverlay();
-	// toggle sidebar if from sidebar
-	/*let sidebar = document.getElementById('SidebarBtn');
-	if(sidebar != null && overlay != null && 
-	overlay.style.backgroundColor == 'black')
-		sidebar.click();
-	else { // remove overlay
-		hideOverlay();
-		// displayFAB();
-	}*/
 }
 
 function renderPopup() {
@@ -476,30 +444,6 @@ function showOverlay() {
 
 function hideOverlay() {
 	document.querySelector('.overlay')?.remove();
-}
-
-function toggleOverlay(fromSidebar) {
-	let body = document.body;
-	let overlay = document.querySelector('.overlay');
-	// if no overlay
-    if (overlay == undefined) {
-		overlay = document.createElement('div');
-		overlay.className = 'overlay hide';
-		overlay.addEventListener('click', closePopups);
-		overlay.addEventListener('contextmenu', function() {
-			event.preventDefault();
-		});
-		body.appendChild(overlay);
-	}
-	
-	// set overlay
-	overlay.classList.toggle('hide');
-	// overlay.style.backgroundColor = fromSidebar ? 'black' : '';
-	// overlay.style.zIndex = fromSidebar ? '8' : '';
-	
-	// change buttons
-	document.querySelector('.action-menu.bottom-left')?.classList.toggle('hide');
-	document.querySelector('.action-menu.bottom-right')?.classList.toggle('hide');
 }
 
 // Floating action button events

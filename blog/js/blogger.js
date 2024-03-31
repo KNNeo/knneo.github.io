@@ -3,6 +3,7 @@ function preloadSequence() {
 	if(typeof addMetadata == 'function') addMetadata();
 	if(typeof reduceResults == 'function') reduceResults();
 	if(typeof fixLabelResults == 'function') fixLabelResults();
+	if(typeof fixPageNavigation == 'function') fixPageNavigation();
 	if(typeof fixNavigationResults == 'function') fixNavigationResults();
 	if(typeof addLabelForNavigation == 'function') addLabelForNavigation();
 	if(typeof addFloatingActionButtons == 'function') addFloatingActionButtons();
@@ -72,15 +73,12 @@ function reduceResults() {
 		window.location.href.includes(window.location.origin + '/p/'))
 		return;
 	//Remove content
-	for (var footer of document.getElementsByClassName('post-footer-line-2')) {
+	for (let footer of document.getElementsByClassName('post-footer-line-2'))
 		footer.innerHTML = '<hr>';
-	}
-	while (document.getElementsByClassName('date-header')[0] != undefined) {
+	while (document.getElementsByClassName('date-header')[0] != undefined)
 		document.getElementsByClassName('date-header')[0].remove(); //remove header
-	}
-	while (document.getElementsByClassName('blog-feeds')[0] != undefined) {
+	while (document.getElementsByClassName('blog-feeds')[0] != undefined)
 		document.getElementsByClassName('blog-feeds')[0].remove(); //remove feed
-	}
 
 	if(!window.location.href.includes('The%20Statement')) // if not statement labels
 	{
@@ -91,7 +89,7 @@ function reduceResults() {
 			document.getElementById('hashtags').parentElement.removeChild(document.getElementById('hashtags'));
 		let posts = document.getElementsByClassName('post');
 		let counter = 0;
-		for (var post of posts)
+		for (let post of posts)
 		{
 			//definition and preprocessing
 			let footer = post.getElementsByClassName('post-footer')[0];
@@ -178,20 +176,20 @@ function reduceResults() {
 	}
 	else // show all content
 	{
-		for (var content of document.getElementsByClassName('post-body entry-content'))
+		for (let content of document.getElementsByClassName('post-body entry-content'))
 		{
 			if (content.parentElement.getElementsByTagName('h3').length > 0)
 				content.style.display = 'none';
 		}
 		
 		//add button to expand/collapse
-		for (var titleBar of document.getElementsByClassName('post-title entry-title')) {
+		for (let titleBar of document.getElementsByClassName('post-title entry-title')) {
 			titleBar.innerHTML = '<table><tbody><tr><td><div class="search-expander"><i class="material-icons">unfold_less</i></div></td><td>' + titleBar.innerHTML + '</td></tr></tbody></table>';
 		}
 		//add click logic
-		for (var i = 0; i < document.getElementsByClassName('post-title entry-title').length; i++) {
+		for (let i = 0; i < document.getElementsByClassName('post-title entry-title').length; i++) {
 			document.getElementsByClassName('search-expander')[i].addEventListener("click", function() {
-				var titleBar = this.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
+				let titleBar = this.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
 				if (titleBar.getElementsByClassName('entry-content')[0].style.display == 'none') {
 					titleBar.getElementsByClassName('entry-content')[0].style.display = '';
 					this.getElementsByTagName('i')[0].innerText = 'unfold_more';
@@ -204,7 +202,7 @@ function reduceResults() {
 			});
 		}
 		//fix table cell border depending on content type due to mix of post contents
-		for (var table of document.getElementsByTagName('td')) {
+		for (let table of document.getElementsByTagName('td')) {
 			if (table.getElementsByTagName('img').length > 0 || table.className == 'tr-caption') {
 				table.style.border = 'none';
 				table.style.padding = '0';
@@ -216,15 +214,27 @@ function reduceResults() {
 // Fix search results to return 5 results instead of 1
 function fixLabelResults() {
 	if(document.getElementById("Label1") == undefined) return;
-    for (var link of document.getElementById("Label1").getElementsByTagName("a")) {
+    for (let link of document.getElementById("Label1").getElementsByTagName("a")) {
         link.href = link.href += link.href.includes("?") ? "&max-results=5" : "?max-results=5";
     }
+}
+
+// Convert text to icon for footer next previous posts
+function fixPageNavigation() {
+    if (document.getElementById("blog-pager-newer-link") != null)
+		document.getElementById("blog-pager-newer-link").getElementsByTagName("a")[0].innerHTML = 
+		"<i class='material-icons latest-post' style='padding:0;'>arrow_back</i>";
+    if (document.getElementById("blog-pager-older-link") != null)
+		document.getElementById("blog-pager-older-link").getElementsByTagName("a")[0].innerHTML = 
+		"<i class='material-icons latest-post' style='padding:0;'>arrow_forward</i>";
+	if (document.getElementsByClassName('home-link').length > 0)
+		document.getElementsByClassName('home-link')[0].classList.add('display-none');	
 }
 
 // Fix number of pages to display on older and newer links
 function fixNavigationResults() {
     if (document.getElementsByClassName('blog-pager-older-link').length > 0) {
-        var pagerLink = document.getElementsByClassName('blog-pager-older-link')[0].href;
+        let pagerLink = document.getElementsByClassName('blog-pager-older-link')[0].href;
         if (pagerLink.includes('&max-results=5') || pagerLink.includes('&max-results=20'))
             pagerLink = pagerLink.replace('&max-results=5', '&max-results=1');
         else
@@ -260,8 +270,8 @@ function fixLightbox() {
 
 function cleanupLightbox() {
     if (document.body.parentElement.className != "v2") {
-        var browseContainer = document.getElementsByClassName("CSS_LIGHTBOX_PHOTO_BROWSE_CONTAINER")[0];
-        var attributeContainerHolder = document.getElementsByClassName("CSS_LAYOUT_COMPONENT CSS_LIGHTBOX_ATTRIBUTION_INDEX_CONTAINER")[0].firstChild;
+        let browseContainer = document.getElementsByClassName("CSS_LIGHTBOX_PHOTO_BROWSE_CONTAINER")[0];
+        let attributeContainerHolder = document.getElementsByClassName("CSS_LAYOUT_COMPONENT CSS_LIGHTBOX_ATTRIBUTION_INDEX_CONTAINER")[0].firstChild;
         attributeContainerHolder.firstChild.remove();
         attributeContainerHolder.firstChild.style.width = "100%";
         attributeContainerHolder.style.width = "100%";
@@ -274,7 +284,7 @@ function cleanupLightbox() {
 function toggleSearch() {
     goToTop();
 	if(document.getElementById('CustomBlogSearch') == null) return;
-    var barDisp = document.getElementById('CustomBlogSearch').style.display;
+    let barDisp = document.getElementById('CustomBlogSearch').style.display;
     if (barDisp == 'none' || barDisp == '') {
         document.getElementById('CustomBlogSearch').style.display = 'block';
 		document.getElementById('BlogSearch').focus();
