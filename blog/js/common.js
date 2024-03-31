@@ -283,7 +283,7 @@ function togglePopup() {
 		//hide
         this.classList.remove('new-thumbnail');
 		// switchToButton('GoToTopBtn');
-		document.getElementById('CloseBtn')?.style.display = 'none';
+		// document.getElementById('CloseBtn')?.style.display = 'none';
 		hideOverlay();
 	}
     else {
@@ -321,7 +321,7 @@ function closePopups() {
 		popup.classList.remove('new-thumbnail');
 	}
 	
-	document.getElementById('CloseBtn')?.style.display = 'none';
+	// document.getElementById('CloseBtn')?.style.display = 'none';
 	
 	displayFAB();
 	
@@ -372,14 +372,14 @@ function renderPopup() {
     addPopupEvents();
 
 	//FAB to close
-	let closeButton = document.createElement('a');
-	closeButton.id = 'CloseBtn';
-	closeButton.classList.add('material-icons');
-	closeButton.title = 'Close Popup';
-	closeButton.innerText = 'close';
-	closeButton.addEventListener('click', closePopups);
-	if(document.getElementById('CloseBtn') != undefined) document.getElementById('CloseBtn').remove();
-	document.body.appendChild(closeButton);
+	// let closeButton = document.createElement('a');
+	// closeButton.id = 'CloseBtn';
+	// closeButton.classList.add('material-icons');
+	// closeButton.title = 'Close Popup';
+	// closeButton.innerText = 'close';
+	// closeButton.addEventListener('click', closePopups);
+	// if(document.getElementById('CloseBtn') != undefined) document.getElementById('CloseBtn').remove();
+	// document.body.appendChild(closeButton);
 	
 	return thumbnail;
 }
