@@ -104,7 +104,7 @@ function addConversation(name) {
 	if(name) {
 		newOpt.innerText = name;
 		let newId = 'text' + selectionDiv.childElementCount;
-		newOpt.value = newId;		
+		newOpt.value = newId;
 		selectionDiv.appendChild(newOpt);
 		
 		let template = document.querySelector('.template-message');
@@ -127,7 +127,20 @@ function renameConversation() {
 }
 
 function deleteConversation() {
-	window['conversation-messages'][selectionDiv.value] = null;
+	// empty current item
+	delete window['conversation-messages'][selectionDiv.value];
+	// shift keys
+	let keys = Object.keys(window['conversation-messages']);
+	for(let i = 1; i <= keys.length; i++) {
+		if(!window['conversation-messages']['text' + i]) {
+			window['conversation-messages']['text' + i] = window['conversation-messages']['text' + (1+i)];
+			delete window['conversation-messages']['text' + (1+i)];
+		}
+	}
+	// empty last item
+	delete window['conversation-messages']['text' + (1+keys.length)];
+	
+	// save and reload
 	saveToLocalStorage();
 	window.location.reload();
 }
@@ -184,10 +197,11 @@ function hideAllConversations() {
 
 function readFromLocalStorage() {
 	window['conversation-messages'] = JSON.parse(localStorage.getItem('conversation-messages') || '{}');
-	for(let key of Object.keys(window['conversation-messages']))
-	{
-		if(window['conversation-messages'][key]) {
-			let item = window['conversation-messages'][key];
+	let keys = Object.keys(window['conversation-messages']);
+	for(let i = 1; i <= keys.length; i++) { // to avoid sorting if deleted any conversation
+		let key = 'text' + i;
+		let item = window['conversation-messages'][key];
+		if(item && item.name) {
 			addConversation(item.name);
 			let conversation = document.querySelector('#'+key);
 			if(item.content) // editor content
