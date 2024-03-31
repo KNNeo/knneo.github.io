@@ -173,7 +173,7 @@ function generateTimeline(timelineList, querySelector) {
 					if(dat.url && dat.url.length > 0)
 					{
 						url.classList.add(dat.pos);
-						url.href = (dat.url.startsWith('http') ? '' : 'https://twitter.com/') + dat.url;
+						url.href = dat.url;
 						// url.setAttribute('target', '_blank');
 						elems.push(url);
 					}
