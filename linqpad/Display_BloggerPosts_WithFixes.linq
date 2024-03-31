@@ -45,7 +45,7 @@ void Main()
 	var showMatches = true; //if has match show full match object, else just object with description
 	var showOk = false; //if post no issues don't show
 	 //----------ADD INDEXES HERE----------//
-	List<int> includeIndex = new List<int> { 34 };
+	List<int> includeIndex = new List<int> { 1 };
 	if(includeIndex.Count > 0) Console.WriteLine("[SELECTIVE_CHECKS_ACTIVATED - " + String.Join(", ", includeIndex) + "]");
 	else Console.WriteLine("[ALL_CHECKS_ACTIVATED]");
 	
@@ -96,7 +96,7 @@ void Main()
 		#region 01 custom search by regex
 		if(includeIndex.Count() == 0 || includeIndex.Contains(1))
 		{
-	        expression = @"(.fbcdn.net/)"; // change custom query in regex here, put 0 as includeIndex
+	        expression = @"(twitter.com|x.com)/(KlassicNote)"; // change custom query in regex here, put 0 as includeIndex
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {

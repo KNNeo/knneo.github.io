@@ -30,6 +30,7 @@
  * [ok]	add lazy loading to img tags
  * [ok]	replace italics with emphasis tag
  * [ok] replace inline style with class due to universal font-size use
+ * [ok] fix own twitter/x handle (KlassicNote -> aozakish)
  */
 
 bool TraceMode = false;
@@ -350,7 +351,7 @@ void Main()
 
 List<int> FixContent(ref string content)
 {
-	List<int> includeIndex = new List<int> { 1, 2, 3, 14, 15, 16, 17, 18, 21, 24, 29, 31, 32, 33 };
+	List<int> includeIndex = new List<int> { 1, 2, 3, 14, 15, 16, 17, 18, 21, 24, 29, 31, 32, 33, 34 };
 	List<int> count = new List<int>();
 	string expression;
     string prefix, midfix, suffix;
@@ -631,7 +632,6 @@ List<int> FixContent(ref string content)
 			count.Add(32);
             content = Regex.Replace(content, expression, "<em>$1</em>");
         };
-		
 	}
     #endregion
 	
@@ -651,7 +651,18 @@ List<int> FixContent(ref string content)
 			count.Add(33);
             content = Regex.Replace(content, expression, @"class=""skip-section""");
         };
-		
+	}	
+	#endregion
+	
+	#region 34 fix own twitter/x handle (KlassicNote -> aozakish)
+	if(includeIndex.Count() == 0 || includeIndex.Contains(34))
+	{
+        expression = @"(twitter.com|x.com)/(KlassicNote)";
+        match = Regex.Match(content, expression);
+        if(match.Success) {
+			count.Add(34);
+            content = Regex.Replace(content, expression, "twitter.com/aozakish");
+        };
 	}	
 	#endregion
 	
