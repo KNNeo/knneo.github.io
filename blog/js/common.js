@@ -308,32 +308,31 @@ function togglePopup() {
 }
 
 function closePopups() {
-	if(document.getElementById('Overlay')?.style.display != 'none' && 
+	let overlay = document.getElementById('Overlay');
+	if(overlay?.style.display != 'none' && 
 		document.querySelector('.fab.close') != null && !document.querySelector('.fab.close').classList.contains('hidden'))
 		return; // prevent kill if from sidebar
 	// kill youtube videos playing
-	for(let video of document.querySelectorAll('.yt-video'))
-	{
+	for(let video of document.querySelectorAll('.yt-video')) {
 		video.contentWindow.postMessage('{"event":"command","func":"stopVideo","args":""}', '*');
 	}
 	
-	for (let page of document.getElementsByClassName('post-body entry-content')) {
-		for (let popup of page.getElementsByClassName('new-thumbnail')) {
-			popup.classList.remove('new-thumbnail');
-		}
+	for (let popup of document.querySelectorAll('.post-body.entry-content .new-thumbnail')) {
+		popup.classList.remove('new-thumbnail');
 	}
-	if(document.getElementById('CloseBtn') != null)
-		document.getElementById('CloseBtn').style.display = 'none';
+	
+	document.getElementById('CloseBtn')?.style.display = 'none';
 	
 	displayFAB();
 	
-	//remove overlay if
-	if(document.getElementById('SidebarBtn') != null && document.getElementById('Overlay') != null && 
-	document.getElementById('Overlay').style.backgroundColor == 'black')
-		document.getElementById('SidebarBtn').click(); //from sidebar
-	else {
-		toggleOverlay(false);
-		displayFAB();
+	// toggle sidebar if from sidebar
+	let sidebar = document.getElementById('SidebarBtn');
+	if(sidebar != null && overlay != null && 
+	overlay.style.backgroundColor == 'black')
+		sidebar.click();
+	else { // remove overlay
+		overlay.classList.add('hide');
+		// displayFAB();
 	}
 }
 
