@@ -283,8 +283,8 @@ function togglePopup() {
 		//hide
         this.classList.remove('new-thumbnail');
 		// switchToButton('GoToTopBtn');
-		if(document.getElementById('CloseBtn') != null) document.getElementById('CloseBtn').style.display = 'none';
-		toggleOverlay(false);
+		document.getElementById('CloseBtn')?.style.display = 'none';
+		hideOverlay();
 	}
     else {
 		//display
@@ -295,7 +295,7 @@ function togglePopup() {
         }
         this.classList.add('new-thumbnail');
 		// switchToButton('CloseBtn');
-		toggleOverlay(false);
+		showOverlay();
 		if(typeof fixExternalFrame == 'function') fixExternalFrame(this);
 		renderEmbedProcess();
 		// if below threshold height scroll up, else open popup without scroll
@@ -331,7 +331,7 @@ function closePopups() {
 	overlay.style.backgroundColor == 'black')
 		sidebar.click();
 	else { // remove overlay
-		overlay.classList.add('hide');
+		hideOverlay();
 		// displayFAB();
 	}
 }
@@ -462,6 +462,20 @@ function generatePopupContent(content) {
 		.replace('_url_', content);
     }
     return null;
+}
+
+function showOverlay() {
+	let overlay = document.createElement('div');
+	overlay.className = 'overlay';
+	overlay.addEventListener('click', closePopups);
+	overlay.addEventListener('contextmenu', function() {
+		event.preventDefault();
+	});
+	document.body.appendChild(overlay);
+}
+
+function hideOverlay() {
+	document.querySelector('.overlay')?.remove();
 }
 
 function toggleOverlay(fromSidebar) {
