@@ -324,16 +324,16 @@ function closePopups() {
 	// document.getElementById('CloseBtn')?.style.display = 'none';
 	
 	displayFAB();
-	
+	hideOverlay();
 	// toggle sidebar if from sidebar
-	let sidebar = document.getElementById('SidebarBtn');
+	/*let sidebar = document.getElementById('SidebarBtn');
 	if(sidebar != null && overlay != null && 
 	overlay.style.backgroundColor == 'black')
 		sidebar.click();
 	else { // remove overlay
 		hideOverlay();
 		// displayFAB();
-	}
+	}*/
 }
 
 function renderPopup() {
