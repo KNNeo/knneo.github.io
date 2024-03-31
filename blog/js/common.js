@@ -203,6 +203,7 @@ function setExpander() {
 		accordion.querySelector('.footer')?.addEventListener('click', toggleExpander);
 	}
 }
+
 function toggleExpander() {
 	let parent = event.target.closest('.accordion');
 	parent.classList.toggle('show');
@@ -303,7 +304,7 @@ function togglePopup() {
 			top: document.querySelector('html').scrollTop + this.getBoundingClientRect().top - (this.getBoundingClientRect().top >= thresholdHeight ? thresholdHeight : this.getBoundingClientRect().top), 
 			behavior: 'smooth'
 		});
-    }	
+    }
 }
 
 function closePopups() {
@@ -367,8 +368,6 @@ function renderPopup() {
     thumbnail.appendChild(initial);
     thumbnail.appendChild(focus);
 	thumbnail.setAttribute('data-url', processLink);
-	
-	renderEmbedProcess();
 
     this.outerHTML = thumbnail.outerHTML;
     addPopupEvents();
@@ -387,10 +386,8 @@ function renderPopup() {
 }
 
 function renderEmbedProcess() {
-	try
-	{
-		if(document.querySelector('#tweet') == null)
-		{
+	try {
+		if(document.querySelector('#tweet') == null) {
 			let tweet = document.createElement('script');
 			tweet.id = 'tweet';
 			tweet.src = 'https://platform.twitter.com/widgets.js';
@@ -400,8 +397,7 @@ function renderEmbedProcess() {
 			document.head.appendChild(tweet);
 		}
 		
-		if(document.querySelector('#insta') == null)
-		{
+		if(document.querySelector('#insta') == null) {
 			let insta = document.createElement('script');
 			insta.id = 'insta';
 			insta.src = 'https://www.instagram.com/embed.js';
@@ -413,36 +409,35 @@ function renderEmbedProcess() {
 		
 		if(typeof twttr != 'undefined') twttr.widgets.load(); // to render twitter embed
 		if(typeof instgrm != 'undefined') window.instgrm.Embeds.process(); // to render instagram embed
-		return true;
 	}
-	catch(err)
-	{
+	catch(err) {
 		console.error(err);
-		return false;
 	}
 }
 
-function generatePopupContent(url) {
-	if (!url) return null;
-	let testUrl = url.toLowerCase();
-    if (testUrl.includes('.jpg') || testUrl.includes('.png') || testUrl.includes('.gif') || testUrl.includes('blogger.googleusercontent.com')) {
+function generatePopupContent(content) {
+	if (!content) return null;
+	let url = content.toLowerCase();
+    if (url.includes('.jpg') || url.includes('.png') || url.includes('.gif') || url.includes('blogger.googleusercontent.com')) {
         //process image
-        return '<div class="separator"><img style="max-height: 360px; max-width: 100%;" src="' + url + '" /></div>';
+        return '<div class="separator"><img style="max-height: 360px; max-width: 100%;" src="_url_" /></div>'.replace('_url_', content);
     }
-    if (testUrl.includes('music.apple.com')) {
+    if (url.includes('music.apple.com')) {
         //process itunes embed
-		let isTrack = testUrl.includes('i=');
-        return '<iframe allow="autoplay *; encrypted-media *;" frameborder="0" height="'+ (!isTrack ? 450 : 170) +'" sandbox="allow-modals allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation" src="' +
-            url.replace('music.apple.com', 'embed.music.apple.com') +
-            '" style="background: transparent; max-width: ' + (isSmallWidth() && !isTrack ? 290 : 660) + 'px; overflow: hidden; width: 100%;"></iframe>';
+		let isTrack = url.includes('i=');
+        return '<iframe allow="autoplay; encrypted-media;" frameborder="0" height="_height_" sandbox="allow-modals allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation" src="_url_" style="background: transparent; max-width: _width_px; overflow: hidden; width: 100%;"></iframe>'
+		.replace('_height_', isTrack ? 170 : 450)
+		.replace('_width_' , isTrack ? 660 : 290)
+		.replace('_url_', content.replace('music.apple.com', 'embed.music.apple.com'));
     }
-    if (testUrl.includes('twitter.com') || testUrl.includes('x.com')) {
+    if (url.includes('twitter.com') || url.includes('x.com')) {
         //process twitter embed
 		//data-height for timeline is max width
-		if(testUrl.includes('/status/')) {
-			return '<div style="display: flex;"><blockquote class="twitter-tweet tw-align-center" data-conversation="none" ' + (isBlogger() || document.querySelector('html').classList.contains('darked') ? 'data-theme="dark"' : '') + ' data-height="' + 0.6*window.innerHeight + '"><a href="' +
-				url.replace('x.com', 'twitter.com') +
-				'"></a></blockquote><script async="async" charset="utf-8" src="https://platform.twitter.com/widgets.js"></script></div>';
+		if (url.includes('/status/')) {
+			return '<div style="display: flex;"><blockquote class="twitter-tweet tw-align-center" data-conversation="none" _data_theme_ data-height="_height_"><a href="_url_"></a></blockquote></div>'
+			.replace('_data_theme_', document.querySelector('html').classList.contains('darked') ? 'data-theme="dark"' : '')
+			.replace('_url_', content.replace('x.com', 'twitter.com'))
+			.replace('_height_', 0.5*window.innerHeight);
 		}
     }
     if (url.includes('youtube.com/watch') || url.includes('youtu.be/') || url.includes('youtube.com/shorts')) {
@@ -450,21 +445,22 @@ function generatePopupContent(url) {
         let id = url.substring(url.indexOf('?v=') + 3);
 		let altDomain = url.includes('youtu.be/');
 		let isShorts = url.includes('youtube.com/shorts');
-		if(altDomain) id = url.substring(url.indexOf('youtu.be/') + 9);
-		if(isShorts) id = url.substring(url.indexOf('youtube.com/shorts/') + 19, url.length);
-        return '<iframe class="yt-video" allow="autoplay; encrypted-media; web-share;" allowfullscreen="" frameborder="0" style="_STYLE_" src="https://www.youtube.com/embed/_ID_?enablejsapi=1"></iframe>'
-		.replace('_ID_', id)
-		.replace('_STYLE_', isShorts ? 'min-height: 360px;' : 'max-height: 360px;');
+		if (altDomain) id = url.substring(url.indexOf('youtu.be/') + 9);
+		if (isShorts) id = url.substring(url.indexOf('youtube.com/shorts/') + 19, url.length);
+        return '<iframe class="yt-video" allow="autoplay; encrypted-media; web-share;" allowfullscreen="" frameborder="0" style="_style_" src="https://www.youtube.com/embed/_id_?enablejsapi=1"></iframe>'
+		.replace('_id_', id)
+		.replace('_style_', isShorts ? 'min-height: 360px;' : 'max-height: 360px;');
     }
-    if (testUrl.includes('instagram.com/p/') || testUrl.includes('instagram.com/reel/')) {
+    if (url.includes('instagram.com/p/') || url.includes('instagram.com/reel/')) {
         //process instagram embed
-        return '<center><blockquote class="instagram-media" style="' + (!isSmallWidth() ? 'width:550px;' : '') + '" data-instgrm-permalink="' +
-            url + '" data-instgrm-version="14" style="padding:0;"></blockquote></center><script async="async" src="https://www.instagram.com/embed.js"></script>';
+        return '<center><blockquote class="instagram-media" style="_style_" data-instgrm-permalink="_url_" data-instgrm-version="14" style="padding:0;"></blockquote></center>'
+		.replace('_style_', window.innerWidth >= 550 ? 'width:550px;' : '')
+		.replace('_url_', content);
     }
-    if (testUrl.includes('jisho.org/search/')) {
+    if (url.includes('jisho.org/search/')) {
         //process page as iframe
-        return '<iframe id="jisho-frame" src="' +
-            url + '" style="height:min(50vh,450px);width:min(98%,760px);"></iframe>';
+        return '<iframe id="jisho-frame" src="_url_" style="height:min(50vh,450px);width:min(98%,760px);"></iframe>'
+		.replace('_url_', content);
     }
     return null;
 }
@@ -491,10 +487,6 @@ function toggleOverlay(fromSidebar) {
 	// change buttons
 	document.querySelector('.action-menu.bottom-left')?.classList.toggle('hide');
 	document.querySelector('.action-menu.bottom-right')?.classList.toggle('hide');
-}
-
-function toggleDisplay(element, defaultValue) {
-	return element.style.display == '' ? defaultValue : '';
 }
 
 // Floating action button events
@@ -584,29 +576,30 @@ function goToTop() {
 }
 
 function hideImagesOnError() {
-	for(let image of document.getElementsByTagName('img')) {
-		image.style.display = image.complete ? '' : 'none';
-		image.addEventListener('error', function() {
-			image.parentElement.parentElement.style.display = 'none';
-			image.classList.add('failed');
+	for(let img of document.querySelectorAll('img')) {
+		img.style.display = img.complete ? '' : 'none';
+		img.addEventListener('error', function() {
+			img.parentElement.parentElement.style.display = 'none';
+			img.classList.add('failed');
 		});
-		image.src = 'https://knneo.github.io/resources/spacer.gif';
+		img.src = 'https://knneo.github.io/resources/spacer.gif';
 	}
 }
 
 function windowOnResize() {
-	if (!isMediumWidth()) {
-		if(document.getElementById('LinkList1') != null) document.getElementById('LinkList1').style.display = '';
-		if(document.getElementById('BlogArchive1') != null) document.getElementById('BlogArchive1').style.display = '';	
-		let outer = document.getElementsByClassName('column-left-outer')[0];
-		if(outer != null)
-			outer.style.position = '';
-	}
-	if(document.getElementById('Overlay') != null && document.getElementById('Overlay').style.display != 'none')
+	// if (!isMediumWidth()) {
+		// if(document.getElementById('LinkList1') != null) document.getElementById('LinkList1').style.display = '';
+		// if(document.getElementById('BlogArchive1') != null) document.getElementById('BlogArchive1').style.display = '';	
+		// let outer = document.getElementsByClassName('column-left-outer')[0];
+		// if(outer != null)
+			// outer.style.position = '';
+	// }
+	let overlay = document.querySelector('.overlay');
+	if(overlay != null && overlay.style.display != 'none')
 		closePopups();
 	
-	displayFAB();
-	resizeImages();
+	// displayFAB();
+	// resizeImages();
 };
 
 async function sharePage() {
