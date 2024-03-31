@@ -319,6 +319,10 @@ function toggleSidebar() {
 		document.getElementById('BlogArchive1').style.display = toggleDisplay(document.getElementById('BlogArchive1'), 'none');
 }
 
+function toggleDisplay(element, defaultValue) {
+	return element.style.display == '' ? defaultValue : '';
+}
+
 function fixExternalFrame(thumbnail) {
 	if(!isBlogger()) return;
 	//fix iframes in thumbnails that don't fit content width
