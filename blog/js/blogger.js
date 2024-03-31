@@ -292,7 +292,10 @@ function toggleSidebar() {
 	let collapseSidebarArchive = window.innerHeight <= 960;
 	
 	// toggle body overlay
-    toggleOverlay(true);
+    if(!document.querySelector('.overlay')?.classList.contains('hidden'))
+		hideOverlay();
+	else
+		showOverlay();
 	
 	// left sidebar element
     let outer = document.getElementsByClassName('column-left-outer')[0];
