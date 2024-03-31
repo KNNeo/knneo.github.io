@@ -608,9 +608,8 @@ function windowOnResize() {
 		if(outer != null)
 			outer.style.position = '';
 	}
-	let overlay = document.querySelector('.overlay');
-	if(overlay != null && overlay.style.display != 'none')
-		closePopups();
+	displayFAB();
+	closePopups();
 };
 
 async function sharePage() {
