@@ -944,7 +944,7 @@ function generateProfileSocialIcons(social) {
 		span.classList.add('profile-social');
 		span.href = social[page];
 		span.target = '_blank';
-		span.title = 'External Link';
+		span.title = page.toLowerCase() != page ? page : 'External Link';
 		
 		let icon = document.createElement('i');
 		icon.classList.add('bi');
