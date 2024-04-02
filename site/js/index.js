@@ -660,39 +660,32 @@ function closestClass(inputElement, targetClassName) {
 window.addEventListener('load', startup);
 window.addEventListener('resize', startup);
 function startup() {
-	if(document.body.getBoundingClientRect().width <= 400 && document.querySelector('.landing') != null) 
-	{
+	// block page if cannot fit screen width (see statistics.html)
+	if(document.body.getBoundingClientRect().width <= 400 && document.querySelector('.landing') != null) {
 		document.querySelector('.landing').style.display = 'block';
 		localStorage.removeItem('elements');
 		return;
 	}
-	let testJson = JSON.parse(document.querySelector('#data').textContent);
-	if (typeof testJson == 'object' && testJson.length > 0) // test json
-	{
+	// load data
+	if (document.querySelector('#data')?.textContent != null) { // script json in HTML DOM
+		let testJson = JSON.parse(document.querySelector('#data')?.textContent || []);
 		console.log('using inline html embedded json');
 		setPageElements(testJson);
 	}
-	else if(typeof pageElements != 'undefined') // if not tied to js file with pageElements
-	{
+	else if(typeof pageElements != 'undefined') { // if not tied to js file with pageElements
 		window['editor'] = true;
 		setPageElements(pageElements);
 	}
 	// else if(localStorage.getItem('elements') != null) // if have storage
-	// {
 		// setPageElements();
-	// }
-	// else if(typeof getJson == 'function' && document.querySelector('#data-id') != null) // if json exists
-	// {
-		// let source = document.querySelector('#data-id').src;
-		// getJson(source, setPageElements);
-	// }
+	else if(typeof getJson == 'function' && document.querySelector('#data-id') != null) // if #data-id exists pointing to json file
+		getJson(document.querySelector('#data-id').src, setPageElements);
 	else
-	{
 		console.error('no data source found');
-	}
+	
+	// set first load flag
 	let firstLoad = window['loaded'] != true;
 	window['loaded'] = true;
-	// if(firstLoad) startup();
 	
 	if(typeof closeViewer == 'function') closeViewer();
 }
