@@ -666,10 +666,10 @@ function startup() {
 		localStorage.removeItem('elements');
 		return;
 	}
-	
+	let testJson = JSON.parse(document.querySelector('#data').textContent);
 	if (typeof testJson == 'object' && testJson.length > 0) // test json
 	{
-		console.log('using test json');
+		console.log('using inline html embedded json');
 		setPageElements(testJson);
 	}
 	else if(typeof pageElements != 'undefined') // if not tied to js file with pageElements
@@ -681,11 +681,11 @@ function startup() {
 	// {
 		// setPageElements();
 	// }
-	else if(typeof getJson == 'function' && document.querySelector('#data-id') != null) // if json exists
-	{
-		let source = document.querySelector('#data-id').src;
-		getJson(source, setPageElements);
-	}
+	// else if(typeof getJson == 'function' && document.querySelector('#data-id') != null) // if json exists
+	// {
+		// let source = document.querySelector('#data-id').src;
+		// getJson(source, setPageElements);
+	// }
 	else
 	{
 		console.error('no data source found');
