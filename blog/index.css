@@ -37,6 +37,10 @@ a:visited {
   color: rgb(var(--secondary));
 }
 
+a:hover {
+  color: rgb(var(--foreground));
+}
+
 /*By Class*/
 .failed { /*Depreceated: Old FB images*/
 	/* display: none; */
