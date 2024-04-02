@@ -433,16 +433,7 @@ a:hover {
 }
 
 /*calendar category labels*/
-.color[data-id="アイドル"] {
-	color: var(--accent);
-}
-
-.bg[data-id="アイドル"] {
-	background-color: var(--foreground);
-	color: var(--background);
-}
-
-.bg.disabled {
+span.bg.disabled {
 	background-color: transparent;
 }
 
