@@ -7,6 +7,7 @@ function showSearch() {
 	let search = document.createElement('input');
 	search.classList.add('search-input');
 	search.style.fontSize = '1em';
+	search.title = 'Search by word, date in "yyyy" or "MM" or "dd"';
 	search.setAttribute('onkeyup', 'onSearchKeyUp()');
 	searchContainer.appendChild(search);
 	

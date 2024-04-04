@@ -97,7 +97,11 @@ void Main()
 			.Select(t => t.ToLower().Trim())
 			.Distinct()
 			.Where(c => c.Length > 2 && !stopWords.Contains(c))
-			.ToArray();
+			.ToList();
+		// add searchable published date
+		tokens.Add(published.ToString("yyyy"));
+		tokens.Add(published.ToString("MM"));
+		tokens.Add(published.ToString("dd"));
 		if(p == 2) {
 			//Console.WriteLine(tokens);
 			//return;
