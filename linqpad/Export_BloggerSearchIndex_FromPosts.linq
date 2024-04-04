@@ -90,18 +90,21 @@ void Main()
 			continue;
 		
         var content = entry.Element(_+"content").Value;
+		// excluded words
 		var stopWords = new List<string>() { "the", "a", "is", "of" };
+		// remove extra tags, filter by special characters and whitespace, lowercase, other filters (if any)
 		var tokens = RemoveAllTags(content)
 			.Split(new string[] { " ", ".", ",", "!", "?", "&nbsp;", "&quot;", "*", ":", ";", "-", "(", ")", "[", "]", "\"", "'" }, StringSplitOptions.RemoveEmptyEntries)
 			.ToList()
 			.Select(t => t.ToLower().Trim())
 			.Distinct()
-			.Where(c => c.Length > 2 && !stopWords.Contains(c))
+			.Where(c => c.Length > 2 && !stopWords.Contains(c)) // min word length, remove excluded words
 			.ToList();
 		// add searchable published date
 		tokens.Add(published.ToString("yyyy"));
 		tokens.Add(published.ToString("MM"));
 		tokens.Add(published.ToString("dd"));
+		// debug
 		if(p == 2) {
 			//Console.WriteLine(tokens);
 			//return;
@@ -125,7 +128,7 @@ void Main()
 		}
         #endregion
 		
-		//Console.WriteLine(searchIndex);		
+		//Console.WriteLine(searchIndex.indexes.Where(i => i.Key.Length == 4));
     }
 	
 	#region Export search index into JSON
