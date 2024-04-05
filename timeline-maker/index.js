@@ -73,6 +73,14 @@ function initialize() {
 	timelineDiv.addEventListener(isFirefox ? 'DOMMouseScroll' : 'mousewheel', onWheel);
 }
 
+function loadData() {
+	document.querySelector('#data').textContent = localStorage.getItem('timeline-edit-data');
+}
+
+function saveData() {
+	localStorage.setItem('timeline-edit-data', document.querySelector('#data').textContent);
+}
+
 function generateTimeline(timelineList, querySelector) {
 	let list = document.querySelector(querySelector);
 	list.innerHTML = '';
@@ -283,5 +291,7 @@ function removeDialog() {
 //--INITIAL--//
 function startup() {
 	initialize();
+	loadData();
 	generateTimeline(JSON.parse(document.querySelector('#data').textContent), '.timeline');
+	saveData();
 }
