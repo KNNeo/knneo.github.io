@@ -67,6 +67,96 @@ function toggleOrientation() {
 	startup();
 }
 
+function toggleEditor() {
+	popupText('<textarea id="editor" name="editor" rows="8" cols="40" style="max-width: 90%;">' + 
+	loadEdit() + 
+	'</textarea>' + 
+	'<div><a class="add bi bi-copy" href="javascript:void(0);" title="Copy Data" onclick="navigator.clipboard.writeText(document.querySelector("#data").textContent);"></a>' + 
+	'<a class="add bi bi-x-square" href="javascript:void(0);" title="Save/Close Data" onclick="saveEdit()"></a></div>');	
+}
+
+function loadEdit() {
+	let json = JSON.parse(document.querySelector('#data').textContent);
+	let markup = '';
+	
+	for(let item of json)
+	{
+		markup += 'SKIP ' + (item.skip ?? 0) + '\n';  // find skip if any
+		let left = item.data.filter(d => d.pos == 'left')[0];  // find first
+		if(left)
+			markup += 'LEFT ' + (left.txt ? left.txt : left.img + ',' + left.url) + '\n';
+		let right = item.data.filter(d => d.pos == 'right')[0];  // find first
+		if(right)
+			markup += 'RIGHT ' + (right.txt ? right.txt : right.img + ',' + right.url) + '\n';
+		markup += '\n';
+	}
+	
+	// console.log(markup);
+	
+	/*
+	Output object example in markup:
+	================================
+	skip 4
+	left text
+	right xxx.jpg,https://knneo.github.io/
+	================================
+	Assumption: Text has no newline characters
+	*/
+	
+	return markup;
+}
+
+function saveEdit() {
+	let markup = document.querySelector("#editor").value.split('\n\n');
+	let json = [];
+	
+	let counter = 0;
+	for(let segment of markup)
+	{
+		let obj = {
+			"id": ++counter,
+			"data": []
+		};
+		let items = segment.split('\n');
+		for(let item of items)
+		{
+			if(item.startsWith('SKIP')) {
+				let skipVal = parseInt(item.replace('SKIP','').trim());
+				if(skipVal)
+					obj.skip = skipVal;
+				continue;
+			}
+			
+			let dataObj = {};
+			if(item.startsWith('LEFT'))
+				dataObj.pos = 'left';
+			if(item.startsWith('RIGHT'))
+				dataObj.pos = 'right';
+			
+			let val = item.replace('LEFT','').replace('RIGHT','').trim();
+			if(val.indexOf(',') < 0 && val.length > 0) // text value
+				dataObj.txt = val;
+			if(val.indexOf(',') < 0 && val.indexOf('.jpg') >= 0) // image value jpg (for now)
+				dataObj.img = val;
+				if(val.indexOf('.jpg') >= 0 && val.indexOf(',') < 0) // image value jpg (for now)
+					dataObj.img = val;
+				if(val.indexOf('.jpg') >= 0 && val.indexOf(',') >= 0) { // image value with url
+					dataObj.img = val.split(',')[0];
+					dataObj.url = val.split(',')[1];
+				}
+			obj.data.push(dataObj);
+		}
+		json.push(obj);
+	}
+	
+	// console.log(json);
+	
+	document.querySelector("#data").textContent = JSON.stringify(json);
+	saveData();
+	startup();
+	removeDialog();
+}
+
 //--FUNCTIONS--//
 function initialize() {
 	document.title = config.title;
@@ -74,14 +164,18 @@ function initialize() {
 }
 
 function loadData() {
-	if(document.querySelector('#data').textContent == null) {
+	// if empty, create
+	if(document.querySelector('#data') == null) {
+		console.log('no data found, creating')
 		let data = document.createElement('script');
+		data.id = 'data';
 		data.setAttribute('type','application/json');
 		data.setAttribute('defer','');
 		document.querySelector('head').appendChild(data);
 	}
-	if(document.querySelector('#data').textContent.length < 1)
-		document.querySelector('#data').textContent = localStorage.getItem('timeline-edit-data');
+	// if empty inline, load from local storage (inline to override)
+	if(document.querySelector('#data').textContent.trim().length < 3)
+		document.querySelector('#data').textContent = localStorage.getItem('timeline-edit-data') ?? '[]';
 }
 
 function saveData() {
