@@ -74,7 +74,14 @@ function initialize() {
 }
 
 function loadData() {
-	document.querySelector('#data').textContent = localStorage.getItem('timeline-edit-data');
+	if(document.querySelector('#data').textContent == null) {
+		let data = document.createElement('script');
+		data.setAttribute('type','application/json');
+		data.setAttribute('defer','');
+		document.querySelector('head').appendChild(data);
+	}
+	if(document.querySelector('#data').textContent.length < 1)
+		document.querySelector('#data').textContent = localStorage.getItem('timeline-edit-data');
 }
 
 function saveData() {
