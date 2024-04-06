@@ -15,17 +15,21 @@
     <title>Timeline Creator</title>
 </head>
 <body onload="startup()">
-	<h2>Timeline</h2>
-	<h5>Responsive web timeline, in horizontal/vertical orientation, with special dimmed mode</h5>
+	<header class="header">
+		<h2>Timeline</h2>
+		<h5>Responsive web timeline, in horizontal/vertical orientation, with special dimmed mode</h5>
+	</header>
 	<!--TIMELINE-->
-	<div class="timeline"></div>
+	<main class="timeline"></main>
 	<!--SETTINGS-->
-	<h3 class="settings">
-		<a class="darkmode bi bi-brightness-high" href="javascript:void(0);" title="Toggle Dark Mode" onclick="toggleDarkMode()" oncontextmenu="false"></a>
-		<a class="edit bi bi-pencil-square" href="javascript:void(0);" title="Toggle Editor" onclick="toggleEditor()" oncontextmenu="false"></a>
-		<a class="code bi bi-arrow-repeat" href="javascript:void(0);" title="Rotate Timeline" onclick="toggleOrientation()" oncontextmenu="false"></a>
-		<a class="clear bi bi-lightbulb" href="javascript:void(0);" title="Toggle Dim Mode" onclick="toggleDimMode()" oncontextmenu="false"></a>
-	</h3>
-	<a class="home" href="../index.html">knneo.github.io</a>
+	<footer>
+		<h3 class="settings">
+			<a class="darkmode bi bi-brightness-high" href="javascript:void(0);" title="Toggle Dark Mode" onclick="toggleDarkMode()" oncontextmenu="false"></a>
+			<a class="edit bi bi-pencil-square" href="javascript:void(0);" title="Toggle Editor" onclick="toggleEditor()" oncontextmenu="false"></a>
+			<a class="code bi bi-arrow-repeat" href="javascript:void(0);" title="Rotate Timeline" onclick="toggleOrientation()" oncontextmenu="false"></a>
+			<a class="clear bi bi-lightbulb" href="javascript:void(0);" title="Toggle Dim Mode" onclick="toggleDimMode()" oncontextmenu="false"></a>
+		</h3>
+		<a class="home" href="../index.html">knneo.github.io</a>
+	</footer>
 </body>
 </html>
