@@ -69,14 +69,15 @@ function toggleOrientation() {
 
 function toggleEditor() {
 	popupText('<textarea id="editor" name="editor" rows="8" cols="40" style="max-width: 90%;">' + 
-	loadEdit() + 
+	loadEdit(document.querySelector('#data').textContent) + 
 	'</textarea>' + 
-	'<div><a class="add bi bi-copy" href="javascript:void(0);" title="Copy Data" onclick="navigator.clipboard.writeText(document.querySelector("#data").textContent);"></a>' + 
-	'<a class="add bi bi-x-square" href="javascript:void(0);" title="Save/Close Data" onclick="saveEdit()"></a></div>');	
+	'<div><a class="bi bi-stickies" href="javascript:void(0);" title="Load Example" onclick="document.querySelector(\'#editor\').value=loadEdit(document.querySelector(\'#example\').textContent);"></a>' + 
+	'<a class="bi bi-copy" href="javascript:void(0);" title="Copy Data" onclick="navigator.clipboard.writeText(document.querySelector("#editor").textContent);"></a>' + 
+	'<a class="bi bi-x-square" href="javascript:void(0);" title="Save/Close Data" onclick="saveEdit()"></a></div>');	
 }
 
-function loadEdit() {
-	let json = JSON.parse(document.querySelector('#data').textContent);
+function loadEdit(content) {
+	let json = JSON.parse(content);
 	let markup = '';
 	
 	for(let item of json)
