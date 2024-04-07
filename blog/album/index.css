@@ -135,8 +135,8 @@ body {
 	text-decoration: none;
 }
 
-#DarkModeBtn:active,
-#BackBtn:active {
+#DarkModeBtn:hover,
+#BackBtn:hover {
 	box-shadow: 1px 1px;
 	transform: translate(2px, 2px);
 }
