@@ -263,6 +263,7 @@ span.emoji {
 	color: rgb(var(--primary));
 }
 
+.post-tags a.selected,
 .post-tags a:hover {
 	box-shadow: 1px 1px;
 	transform: translate(2px, 2px);

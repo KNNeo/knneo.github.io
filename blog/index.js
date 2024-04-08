@@ -9,36 +9,27 @@ window.addEventListener('hashchange', filterByTag);
 function filterByTag() {
 	let tag = event.target.id || window.location.hash.replace('#','');
 	let isAll = tag == 'All' || tag == '';
-	window.location.hash = !isAll ? '#' + tag : '';
-	
-	let filters = document.querySelector('.post-tags.filters');
-	for(let filter of (filters.querySelectorAll('a') ?? []))
-	{
-		let hide = !filter.href.endsWith('#All') && !isAll && !filter.href.endsWith('#' + tag);
-		if(hide)
-			filter.classList.add('hidden');
+	// update browser location hash
+	window.location.hash = isAll ? '' : '#' + tag;
+	// update filter buttons
+	for(let filter of document.querySelector('.post-tags.filters').querySelectorAll('a')) {
+		if(filter.href.endsWith('#All') || !filter.href.endsWith('#' + tag))
+			filter.classList.remove('selected');
 		else
-			filter.classList.remove('hidden');
+			filter.classList.add('selected');
 	}
-
-	if(isAll)
-		document.querySelector('a[href="#All"]')?.classList.add('hidden');
-	else
-		document.querySelector('a[href="#All"]')?.classList.remove('hidden');
-	
-	for(let post of (document.querySelectorAll('.post') ?? []))
-	{
-		post.classList.add('hidden');
+	// update post visibility
+	for(let post of (document.querySelectorAll('.post') ?? [])) {
 		let tags = post.getAttribute('data-tags')?.split(',') || [];
-		let hide = !isAll && !tags.includes(tag) && !post.querySelector('.publish')?.innerText.startsWith(tag);
-		if(!hide)
+		if(isAll || tags.includes(tag))
 			post.classList.remove('hidden');
+		else
+			post.classList.add('hidden');
 	}
+	// update post count
 	let posts = document.querySelectorAll('.post:not(.hidden)');
-	if(posts.length == 0) window.location.hash = '#All';
 	if(posts.length > 0)
 		document.querySelector('.count').innerText = 'Showing ' + posts.length + ' published posts' + (isAll ? '' : ' (' + window.location.hash + ')');
-	// goToTop();
 }
 
 function randomPost() {
@@ -52,14 +43,6 @@ function goToTop() {
 	history.replaceState(null, null, ' ');
 }
 
-function goBack() {
-	window.location.href = '../index.html';
-}
-
-function goToIndex() {
-	window.location.href = '../blogger-view/index.html';
-}
-
 function toggleThumbnailDesign() {
 	event.target.innerText = event.target.innerText == 'checklist' ? 'checklist_rtl' : 'checklist';
 	document.querySelector('.archive-list').classList.toggle('flip');
@@ -70,12 +53,10 @@ function toggleActionsOnScroll() {
 	// position of buttons
 	let pageDown = document.body.scrollTop > 0.3 * document.documentElement.clientHeight || 
 	document.documentElement.scrollTop > 0.3 * document.documentElement.clientHeight;
-	if (pageDown) {
+	if (pageDown)
 		toggleActions(['.fab.search', '.fab.top'], '.action-menu.bottom-right');
-	}
-	else {
+	else
 		toggleActions(['.fab.thumb-design', '.fab.search', '.fab.theme'], '.action-menu.bottom-right');
-	}
 }
 
 function toggleActions(showElements, parentElement) {
@@ -84,14 +65,11 @@ function toggleActions(showElements, parentElement) {
 	
 	// hide all in parent element: assume has fab class children
 	for(let fab of parentElement.querySelectorAll('.fab'))
-	{
 		fab.classList.add('hidden');
-	}
 	
 	// show button(s) specified
 	if(Array.isArray(showElements)) {
-		for(let elem of showElements)
-		{
+		for(let elem of showElements) {
 			if(typeof(elem) == 'string') elem = document.querySelector(elem);
 			if(elem) elem.classList.remove('hidden');
 		}
@@ -105,8 +83,7 @@ function toggleActions(showElements, parentElement) {
 ////DIALOG////
 function popupText(input) {
 	let dialogDiv = document.querySelector('.dialog');
-	if(dialogDiv == null)
-	{
+	if(dialogDiv == null) {
 		dialogDiv = document.createElement('div');
 		dialogDiv.classList.add('dialog');
 		document.body.appendChild(dialogDiv);
@@ -123,8 +100,7 @@ function createDialog(node) {
 	if(!dialog.classList.contains('box')) dialog.classList.add('box');
 	if(typeof node == 'string')
 		dialog.innerHTML = node;
-	if(typeof node == 'object')
-	{
+	if(typeof node == 'object') {
 		let clonedNode = node.cloneNode(true);
 		dialog.appendChild(clonedNode);
 	}
@@ -142,7 +118,5 @@ function removeDialog() {
 	if(event) event.preventDefault(); // Prevent the default form submission
 	let dialogDiv = document.querySelector('.dialog');
 	if(dialogDiv != null)
-	{
 		dialogDiv.remove();
-	}	
 }
