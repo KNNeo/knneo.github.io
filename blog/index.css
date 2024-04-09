@@ -678,6 +678,7 @@ abbr.imgpop:hover img {
 
 .img-width-auto {
 	width: auto;
+	max-width: 100%;
 }
 
 .img-separator {
