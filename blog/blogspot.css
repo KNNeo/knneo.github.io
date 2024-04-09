@@ -470,6 +470,17 @@ span.emoji {
 	}
 }
 
+/*MEDIA QUERIES - CLOSED FOLD SCREENS*/
+@media only screen and (max-width: 400px) {
+	.thumb img {
+		max-width: 100%;
+	}
+	.latest:hover .anchors {
+		justify-content: flex-end;
+	}
+}
+
+
 /*MEDIA QUERIES - HOMEPAGE*/
 @media only screen and (min-width: 1080px) {
 	.action-menu.home.bottom-left {
