@@ -29,6 +29,8 @@ function generateHeader() {
 		}
 		// add header to document, add window events	
 		pageHeader.innerHTML = '';
+		pageHeader.classList.add('show');
+		pageHeader.classList.add('hide');
 		pageHeader.appendChild(header);
 		// add scroll event for header
 		window.addEventListener('scroll', headerOnScroll);
@@ -51,15 +53,15 @@ function toggleHeader(minYOffset, scrollUp) {
 			pageHeader.querySelector('.hashtags').classList.remove('show');
 		// exclusion: hide if header is larger than minCoverHeight
 		if(pageHeader.height >= minCoverHeight)
-			pageHeader.classList.remove('show');
+			pageHeader.classList.add('hide');
 		
 		if(!isSmallWidth() || scrollUp)
-			pageHeader.classList.add('show');
+			pageHeader.classList.remove('hide');
 		else
-			pageHeader.classList.remove('show');	
+			pageHeader.classList.add('hide');	
 	}
 	else
-		pageHeader.classList.remove('show');
+		pageHeader.classList.add('hide');
 }
 
 function generateReadTime() {

@@ -180,12 +180,10 @@ a:hover {
 
 .action-menu.bottom-left {
 	left: calc(50% - 39ch);
-	transition: all 0.2s ease-out;
 }
 
 .action-menu.bottom-right {
 	right: calc(50% - 38ch);
-	transition: all 0.2s ease-out;
 }
 
 .action-menu.bottom-left.hide {
@@ -207,12 +205,17 @@ a:hover {
 	opacity: 0;
 	z-index: -1;
 	background-color: rgb(var(--background));
-	transition: all .2s ease-out;
+	transition: opacity .2s ease-out;
 }
 
 .page-header.show {
 	opacity: 1;
 	z-index: 1;
+}
+
+.page-header.hide {
+	opacity: 0;
+	z-index: -1;
 }
 
 .page-header .hashtags a {
@@ -437,23 +440,27 @@ span.emoji {
 @media only screen and (max-width: 880px) {
 	.action-menu.bottom-left {
 		left: 15px;
-		transform: translateX(0);
+		transition: transform 0.2s ease-out;
 	}
 	.action-menu.bottom-right {
 		right: 15px;
+		transition: transform 0.2s ease-out;
+	}
+	.action-menu.bottom-left.show {
+		transform: translateX(0);
+	}
+	.action-menu.bottom-right.show {
 		transform: translateX(0);
 	}
 	.action-menu.bottom-left.hide {
 		transform: translateX(-15em);
+		opacity: 1;
+		z-index: 1;
 	}
 	.action-menu.bottom-right.hide {
 		transform: translateX(15em);
-	}
-	.page-header {
-		transform: translateY(-20em);
-	}
-	.page-header.show {
-		transform: translateY(0);
+		opacity: 1;
+		z-index: 1;
 	}
 	.post span {
 		display: block;
@@ -463,16 +470,14 @@ span.emoji {
 	}
 }
 
-/*MEDIA QUERIES - LARGE SCREENS*/
+/*MEDIA QUERIES - HOMEPAGE*/
 @media only screen and (min-width: 1080px) {
 	.action-menu.home.bottom-left {
 		left: 20px;
-		transition: all 0.2s ease-out;
 	}
 
 	.action-menu.home.bottom-right {
 		right: 15px;
-		transition: all 0.2s ease-out;
 	}
 }
 

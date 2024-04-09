@@ -455,6 +455,8 @@ function displayFAB() {
 	if(!navigator.share) {
 		document.querySelector('.fab.share')?.remove();
 	}
+	document.querySelector('.action-menu.bottom-left')?.classList.add('show');
+	document.querySelector('.action-menu.bottom-right')?.classList.add('show');
 	if(isBlogger()) {
 		toggleActions(['.fab.share', '.fab.search'], '.action-menu.bottom-right');
 		if(isMediumWidth()) toggleActions(['.fab.sidebar'], '.action-menu.bottom-left');
