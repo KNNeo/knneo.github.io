@@ -726,10 +726,6 @@ function resizeImage(p) {
 				table.querySelectorAll('img').forEach(img => img.classList.remove('img-width-fit'));
 				table.querySelectorAll('img').forEach(img => img.classList.add('img-width-auto'));
 			}
-			if (p.width + 20 >= table.style.maxWidth)
-				p.classList.add('img-width-fit');
-			else
-				p.classList.add('img-width-auto');
 		}
 		else if (p.width + 20 >= bodyWidth)
 			p.classList.add('img-width-fit');
