@@ -102,6 +102,12 @@ h1, h4 {
 	line-height: 1;
 }
 
+.post-tags.filters a:hover::before {
+	content: attr(title);
+	vertical-align: text-top;
+	text-transform: uppercase;
+}
+
 #BackBtn {
 	position: fixed;
 	display: block;
