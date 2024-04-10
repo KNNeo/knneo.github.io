@@ -40,10 +40,6 @@ a:hover {
 	padding: 0 0.2em;
 }
 
-.post-body {
-    overflow-x: hidden;
-}
-
 .post {
     padding: 4px;
 }
@@ -174,8 +170,6 @@ a:hover {
 	max-width: 66ch;
 	overflow-x: hidden;
 	margin: auto;
-	right: 0;
-	left: 0;
 }
 
 .action-menu.bottom-left {
