@@ -6,8 +6,7 @@ window['dark-name'] = 'blog-theme';
 function toggleEmojiDisplay() {
 	if(event.target != null)
 		event.target.innerText = event.target.innerText == 'mood' ? 'sentiment_neutral' : 'mood';
-	for(let emoji of document.querySelectorAll('.emoji'))
-	{
+	for(let emoji of document.querySelectorAll('.emoji')) {
 		let temp = emoji.textContent;
 		emoji.innerText = emoji.title;
 		emoji.title = temp;
@@ -43,37 +42,18 @@ function onTouchMove() {
 	let swipeUp = window['touchY'] - event.touches[0].clientY;
 	let swipeLeft = window['touchX'] - event.touches[0].clientX;
 	let swipeRight = event.touches[0].clientX - window['touchX'];
-	console.log(swipeUp > 0, swipeDown > 0, swipeLeft > 0, swipeRight > 0);
+	// console.log('up', 'down', 'left', 'right');
+	// console.log(swipeUp, swipeDown, swipeLeft, swipeRight);
 	//--SWIPE LEFT--//
-	if(swipeLeft > swipeUp && swipeLeft > swipeDown) {
-		//next
+	if(swipeLeft > swipeUp && swipeLeft > swipeDown && swipeLeft > 200) {
+		//newer post
 		document.querySelector('.next')?.click();
 		return;
 	}
 	//--SWIPE RIGHT--//
-	if(swipeRight > swipeUp && swipeRight > swipeDown) {
-		//previous
+	if(swipeRight > swipeUp && swipeRight > swipeDown && swipeRight > 200) {
+		//older post
 		document.querySelector('.prev')?.click();
 		return;
 	}
 }
-
-// experimental: character count for block of text defined
-function countCharacters() {
-	for(let paragraph of document.querySelectorAll('.count.characters'))
-	{
-		let count = paragraph.innerText.length;
-		console.log(paragraph.innerText, count);
-		paragraph.innerText += ' [' + count + ' characters]';
-	}
-}
-
-function countWords() {
-	for(let paragraph of document.querySelectorAll('.count.words'))
-	{
-		let count = paragraph.innerText.split(' ').length;
-		console.log(paragraph.innerText, count);
-		paragraph.innerText += ' [' + count + ' words]';
-	}
-}
-
