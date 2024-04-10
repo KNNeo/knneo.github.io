@@ -480,9 +480,8 @@ span.emoji {
 	}
 }
 
-
 /*MEDIA QUERIES - HOMEPAGE*/
-@media only screen and (min-width: 1080px) {
+@media only screen and (min-width: 880px) {
 	.action-menu.home.bottom-left {
 		left: 20px;
 	}
@@ -505,5 +504,16 @@ span.emoji {
 	.action-menu.bottom-right {
 		transition: none;
 		transform: none;
+	}
+}
+
+/*MEDIA QUERIES - FOR PRINT ON WHITE PAPER*/
+@media print {
+	.darked:root {
+		--primary: 27, 63, 255;
+		--secondary: 96, 159, 255;
+		--background: 255, 255, 255;
+		--foreground: 0, 0, 0;
+		--accent: 221, 221, 221;
 	}
 }
