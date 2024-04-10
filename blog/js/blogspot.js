@@ -42,8 +42,8 @@ function onTouchMove() {
 	let swipeUp = window['touchY'] - event.touches[0].clientY;
 	let swipeLeft = window['touchX'] - event.touches[0].clientX;
 	let swipeRight = event.touches[0].clientX - window['touchX'];
-	console.log('up', 'down', 'left', 'right');
-	console.log(swipeUp, swipeDown, swipeLeft, swipeRight);
+	// console.log('up', 'down', 'left', 'right');
+	// console.log(swipeUp, swipeDown, swipeLeft, swipeRight);
 	//--SWIPE LEFT--//
 	if(swipeLeft > swipeUp && swipeLeft > swipeDown && swipeLeft > 120) {
 		//newer post
