@@ -335,9 +335,15 @@ function startConversation() {
 	footer.setAttribute('onclick', 'nextMessage()');
 	footer.click();
 	
-	window['timer'] = setInterval(function() {
-		footer.click();
-	}, 2000);
+	toggleConversation();
+}
+
+function toggleConversation() {
+	let conversation = document.querySelector('.conversation:not(.hidden)');
+	if(conversation.getAttribute('data-running') != null)
+		disableRunMessages(conversation);
+	else
+		allowRunMessages(conversation);
 }
 
 function nextMessage() {
@@ -377,8 +383,7 @@ function nextMessage() {
 			top: heightAboveItem + currentHeight + footer.getBoundingClientRect().height, 
 			behavior: 'smooth'
 		});
-		disableRunMessages(conversation);
-		clearInterval(window['timer']);
+		toggleConversation();
 		return;
 	}
 }
@@ -386,6 +391,9 @@ function nextMessage() {
 function allowRunMessages(conversation) {
 	// set status
 	conversation.setAttribute('data-running', '');
+	window['timer'] = setInterval(function() {
+		conversation.querySelector('.footer').click();
+	}, 2000);
 	// disable scroll capture
 	conversation.setAttribute('onwheel', 'event.preventDefault()');
 	conversation.setAttribute('onmousewheel', 'event.preventDefault()');
