@@ -538,4 +538,8 @@ const mosaicArray = [
 {"id":"ゆるふわパーカー_エレナ.jpg","sm":"https://doax.cc/res/pic_star_s/852.png","md":"https://doax.cc/res/pic_star_s/852.png","lg":"https://doax.cc/res/pic_star/852.png","og":"https://doax.cc/res/pic_star/852.png"},
 {"id":"ホワイト・プリンス_紅葉.jpg","sm":"https://doax.cc/res/pic_star_s/311_6.png","md":"https://doax.cc/res/pic_star_s/311_6.png","lg":"https://doax.cc/res/pic_star/311_6.png","og":"https://doax.cc/res/pic_star/311_6.png"},
 {"id":"もふもふクマちゃん_みさき.jpg","sm":"https://doax.cc/res/pic_star_s/860.png","md":"https://doax.cc/res/pic_star_s/860.png","lg":"https://doax.cc/res/pic_star/860.png","og":"https://doax.cc/res/pic_star/860.png"},
+{"id":"ホワイト・プリンス_ロベリア.jpg","sm":"https://doax.cc/res/pic_star_s/311_13.png","md":"https://doax.cc/res/pic_star_s/311_13.png","lg":"https://doax.cc/res/pic_star/311_13.png","og":"https://doax.cc/res/pic_star/311_13.png"},
+{"id":"ホワイト・プリンス_こころ.jpg","sm":"https://doax.cc/res/pic_star_s/311_4.png","md":"https://doax.cc/res/pic_star_s/311_4.png","lg":"https://doax.cc/res/pic_star/311_4.png","og":"https://doax.cc/res/pic_star/311_4.png"},
+{"id":"ラブリー・モード_こはる.jpg","sm":"https://doax.cc/res/pic_star_s/866_4.png","md":"https://doax.cc/res/pic_star_s/866_4.png","lg":"https://doax.cc/res/pic_star/866_4.png","og":"https://doax.cc/res/pic_star/866_4.png"},
+{"id":"ラブリー・モード_ロベリア.jpg","sm":"https://doax.cc/res/pic_star_s/866_3.png","md":"https://doax.cc/res/pic_star_s/866_3.png","lg":"https://doax.cc/res/pic_star/866_3.png","og":"https://doax.cc/res/pic_star/866_3.png"},
 ];
