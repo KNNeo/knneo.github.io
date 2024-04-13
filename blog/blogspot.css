@@ -110,7 +110,7 @@ a:hover {
 	object-fit: cover;
 }
 
-.anchors {
+.latest .anchors {
 	display: none;
 	position: absolute;
 	width: calc(100% - 156px);
@@ -124,7 +124,7 @@ a:hover {
 	scrollbar-width: none; /* Firefox */
 }
 
-.anchors::-webkit-scrollbar {
+.latest .anchors::-webkit-scrollbar {
 	width: 0 !important
 } /* Safari and Chrome */
 
@@ -141,6 +141,11 @@ a:hover {
 
 .latest .anchors a:hover {
 	color: rgb(var(--foreground));
+}
+
+.latest[data-tags="TheFanfiction"] img {
+    object-fit: cover;
+    object-position: 50% 0%;
 }
 
 .title {
