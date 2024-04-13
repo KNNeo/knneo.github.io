@@ -23,7 +23,7 @@ function startup() {
 	window.addEventListener('scroll', toggleActionsOnScroll);
 	window.addEventListener('resize', windowOnResize);
 	window.addEventListener('hashchange', scrollToSectionByUrl);
-	window.addEventListener('popstate', windowOnPop);
+	window.addEventListener('popstate', windowOnHistoryChange);
 	
 	// Asynchronous Events
 	setTimeout(addHashtags, 0); // generateHeader, generateReadTime
@@ -49,8 +49,7 @@ function windowOnResize() {
 	closePopups();
 };
 
-function windowOnPop() {
-	alert('test');
+function windowOnHistoryChange() {
 	// if viewer open, close and return
 	if(document.querySelector('.viewer')?.classList.contains('open')) {
 		event.preventDefault();
