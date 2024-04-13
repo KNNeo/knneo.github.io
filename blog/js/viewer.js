@@ -6,11 +6,14 @@ function generateViewer() {
 		viewer = document.createElement('div');
 		viewer.classList.add('viewer');
 		document.body.appendChild(viewer);
+		if(!localStorage.getItem('viewer-hints') || localStorage.getItem('viewer-hints') == 'true')
+			toggleViewerHints();
 	}
 	if(viewer != null) {
 		// prevent right click
-		viewer.addEventListener('contextmenu', function(e) {
-			e.preventDefault();
+		viewer.addEventListener('contextmenu', function() {
+			event.preventDefault();
+			toggleViewerHints();
 			return false;
 		}, false);
 		// if esc key close viewer
@@ -42,6 +45,14 @@ function generateViewer() {
 				elem.addEventListener('click', openViewer);
 			}
 		}
+	}
+}
+
+function toggleViewerHints() {
+	let viewer = document.querySelector('.viewer');
+	if(viewer != null) {
+		viewer.classList.toggle('hints');
+		localStorage.setItem('viewer-hints', viewer.classList.contains('hints'));
 	}
 }
 
