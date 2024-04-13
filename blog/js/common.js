@@ -50,6 +50,7 @@ function windowOnResize() {
 };
 
 function windowOnPop() {
+	alert('test');
 	// if viewer open, close and return
 	if(document.querySelector('.viewer')?.classList.contains('open')) {
 		event.preventDefault();
