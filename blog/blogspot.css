@@ -286,6 +286,10 @@ span.emoji {
     text-align: center;
 }
 
+.emoji {
+	font-family: Noto Color Emoji;
+}
+
 /*Fixes from universal font-size change*/
 .head-title {
 	font-size: 1.125em;

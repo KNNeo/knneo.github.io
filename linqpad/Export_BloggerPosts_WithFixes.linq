@@ -578,12 +578,16 @@ List<int> FixContent(ref string content)
 	if(includeIndex.Count() == 0 || includeIndex.Contains(24))
 	{
 		if(TraceMode) Console.WriteLine("replace common phrases with emoji");
+		// sorted by alphabetical order of original string, then emoji length
 		Dictionary<string, string> emojis = new Dictionary<string, string>()
 		{
-			{"laughs",	"😆"}, {"giggles",			"🤭"}, {"sob",		"😢"}, {"silence",	"😐"}, {"pukes",	"🤮"}, {"ugh", 			"🙄"},
-			{"wink",	"😉"}, {"dabs",				"😎"}, {"thumbs up","👍"}, {"sigh",		"😩"}, {"blessed", 	"🥰"}, {"shrugs", 		"🤷"},
-			{"cringe",	"😬"}, {"fingers crossed",	"🤞"}, {"smiles",	"😊"}, {"screams",	"😱"}, {"phew",		"😌"}, {"chef's kiss",	"😚"},
-			{"sshh",	"🤫"}, {"speechless",		"😲"}, {"sniff",	"😢"}, {"gasp",		"😲"}, {"mind blown","🤯"}, {"fap fap fap",	"🍆💦💦"}
+			{"blessed", 		"🥰"}, {"chu",			"😘"}, {"cringe",		"😬"}, {"dabs",		"😎"}, 
+			{"fingers crossed",	"🤞"}, {"gasp",			"😲"}, {"giggles",		"🤭"}, {"kiss",		"😘"}, 
+			{"laughs",			"😆"}, {"mind blown",	"🤯"}, {"phew",			"😌"}, {"pukes",	"🤮"}, 
+			{"silence",			"😐"}, {"sob",			"😢"}, {"screams",		"😱"}, {"shrugs", 	"🤷"}, 
+			{"sigh",			"😩"}, {"smiles",		"😊"}, {"speechless",	"😲"}, {"sshh",		"🤫"}, 
+			{"sniff",			"😢"}, {"thumbs up",	"👍"}, {"ugh", 			"🙄"}, {"wink",		"😉"}, 
+			{"chef's kiss",		"😙🤌"}, {"fap fap fap",	"🍆💦💦"}
 		};
 		
 		foreach(var emoji in emojis)
