@@ -52,16 +52,19 @@ function windowOnResize() {
 function windowOnPop() {
 	// if viewer open, close and return
 	if(document.querySelector('.viewer')?.classList.contains('open')) {
+		event.preventDefault();
 		closeViewer();
 		return;
 	}
 	// if dialog open, close and return
 	if(document.querySelector('.dialog') != null) {
+		event.preventDefault();
 		removeDialog();
 		return;
 	}
 	// if popup open, close and return
 	if(document.querySelector('.overlay') != null) {
+		event.preventDefault();
 		closePopups();
 		return;
 	}
