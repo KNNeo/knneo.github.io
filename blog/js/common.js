@@ -23,6 +23,7 @@ function startup() {
 	window.addEventListener('scroll', toggleActionsOnScroll);
 	window.addEventListener('resize', windowOnResize);
 	window.addEventListener('hashchange', scrollToSectionByUrl);
+	window.addEventListener('popstate', windowOnPop);
 	
 	// Asynchronous Events
 	setTimeout(addHashtags, 0); // generateHeader, generateReadTime
@@ -47,6 +48,24 @@ function windowOnResize() {
 	displayFAB();
 	closePopups();
 };
+
+function windowOnPop() {
+	// if viewer open, close and return
+	if(document.querySelector('.viewer')?.classList.contains('open')) {
+		closeViewer();
+		return;
+	}
+	// if dialog open, close and return
+	if(document.querySelector('.dialog') != null) {
+		removeDialog();
+		return;
+	}
+	// if popup open, close and return
+	if(document.querySelector('.overlay') != null) {
+		closePopups();
+		return;
+	}
+}
 
 //==FUNCTIONS==//
 // Convert text to icon for footer labels
