@@ -22,7 +22,7 @@ function startup() {
 	// Window events
 	window.addEventListener('scroll', toggleActionsOnScroll);
 	window.addEventListener('resize', windowOnResize);
-	window.addEventListener('hashchange', scrollToSectionByUrl);
+	// window.addEventListener('hashchange', scrollToSectionByUrl);
 	window.addEventListener('popstate', windowOnHistoryChange);
 	
 	// Asynchronous Events
