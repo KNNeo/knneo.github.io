@@ -1,30 +1,34 @@
 /*Variables*/
 :root {
-  --primary: rgba(27, 0, 255, 1);
-  --secondary: rgba(96, 159, 255, 1);
-  --background: rgba(255, 255, 255, 1);
-  --foreground: rgba(0, 0, 0, 1);
-  --accent: rgb(211, 211, 211, 1);
+	--primary: 27, 63, 255;
+	--secondary: 96, 159, 255;
+	--background: 244, 246, 255;
+	--foreground: 0, 0, 0;
+	--accent: 221, 221, 221;
 }
 
 .darked:root {
-  --primary: rgba(0, 228, 255, 1);
-  --secondary: rgba(0, 171, 191, 1);
-  --background: rgba(0, 0, 0, 1);
-  --foreground: rgba(255, 255, 255, 1);
-  --accent: rgb(128, 128, 128, 1);
+	--primary: 0, 228, 255;
+	--secondary: 0, 171, 191;
+	--background: 0, 17, 20;
+	--foreground: 255, 255, 255;
+	--accent: 69, 69, 69;
 }
 
 html {
 	font-family: Open Sans;
-	background-color: var(--background);
-	color: var(--foreground);
+	background-color: rgb(var(--background));
+	color: rgb(var(--foreground));
 	color-scheme: light;
 	transition: 0.2s background-color linear;
 }
 
 html.darked {
 	color-scheme: dark;
+}
+
+body {
+	font-size: calc(1rem + 0.25vw);
 }
 
 h1, h4 {
@@ -59,16 +63,16 @@ h1, h4 {
 }
 
 .keyword {
-	color: var(--primary);
+	color: rgb(var(--primary));
 	line-height: 1.5;
 }
 
 .keyword:visited {
-	color: var(--secondary);
+	color: rgb(var(--secondary));
 }
 
 .keyword:hover {
-	color: var(--foreground);
+	color: rgb(var(--foreground));
 	text-decoration: none;
 }
 
@@ -81,7 +85,7 @@ h1, h4 {
 	right: 20px;
 	z-index: 8;
 	outline: none;
-	color: var(--foreground);
+	color: rgb(var(--foreground));
 	cursor: pointer;
 	-webkit-user-select: none;
 	-khtml-user-select: none;
@@ -92,10 +96,10 @@ h1, h4 {
 
 .post-tags.filters a {
 	padding: 8px 6px 6px 6px;
-	color: var(--foreground);
-	border: 1px solid var(--foreground);
-	background-color: var(--background);
-	box-shadow: 3px 3px var(--foreground);
+	color: rgb(var(--foreground));
+	border: 1px solid rgb(var(--foreground));
+	background-color: rgb(var(--background));
+	box-shadow: 3px 3px rgb(var(--foreground));
 	border-radius: 8px;
 	transition: background .2s linear;
 	text-decoration: none;
@@ -116,7 +120,7 @@ h1, h4 {
     left: 20px;
 	z-index: 8;
 	outline: none;
-	color: var(--foreground);
+	color: rgb(var(--foreground));
 	cursor: pointer;
 	padding: 8px 6px 6px 6px;
 	-webkit-user-select: none;
@@ -124,9 +128,9 @@ h1, h4 {
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
-	border: 1px solid var(--foreground);
-	background-color: var(--background);
-	box-shadow: 3px 3px var(--foreground);
+	border: 1px solid rgb(var(--foreground));
+	background-color: rgb(var(--background));
+	box-shadow: 3px 3px rgb(var(--foreground));
 	border-radius: 8px;
 	transition: background .2s linear;
 	text-decoration: none;
@@ -147,13 +151,13 @@ h1, h4 {
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
-	color: var(--foreground);
+	color: rgb(var(--foreground));
 	cursor: pointer;
 	padding: 8px 6px 6px 6px;
 	transition: opacity 0.3s;
-	border: 1px solid var(--foreground);
-	background-color: var(--background);
-	box-shadow: 3px 3px var(--foreground);
+	border: 1px solid rgb(var(--foreground));
+	background-color: rgb(var(--background));
+	box-shadow: 3px 3px rgb(var(--foreground));
 	border-radius: 8px;
 	transition: background .2s linear;
 	text-decoration: none;
@@ -204,13 +208,13 @@ h1, h4 {
 @media only screen and (max-width: 780px) {
 	.sitemap {
 		column-width: 11em;
-		line-height: 1.8;
+		line-height: 2;
 	}
 	.fanfics .season {
 		min-width: 9em;
 	}
 	.fanfics .season div {
-		line-height: 1.8;
+		line-height: 2;
 	}
 	.keyword {
 		font-size: 0.8em;
