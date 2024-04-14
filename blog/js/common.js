@@ -53,21 +53,21 @@ function windowOnHistoryChange() {
 	// if viewer open, close and return
 	if(document.querySelector('.viewer')?.classList.contains('open')) {
 		event.preventDefault();
-		window['history-change'] = true;
+		window['scroll-top'] = window.scrollTop;
 		closeViewer();
 		return;
 	}
 	// if dialog open, close and return
 	if(document.querySelector('.dialog') != null) {
 		event.preventDefault();
-		window['history-change'] = true;
+		window['scroll-top'] = window.scrollTop;
 		removeDialog();
 		return;
 	}
 	// if popup open, close and return
 	if(document.querySelector('.overlay') != null) {
 		event.preventDefault();
-		window['history-change'] = true;
+		window['scroll-top'] = window.scrollTop;
 		closePopups();
 		return;
 	}
@@ -174,10 +174,11 @@ function addHashtags() {
 }
 
 function scrollToSectionByUrl() {
-	if(window['history-change']) { // if triggered popstate, revert hashchange
+	if(window['scroll-top']) { // if triggered popstate, revert hashchange
 		event.preventDefault();
 		history.forward();
-		window['history-change'] = false;
+		window.scrollTo(0, window['scroll-top']);
+		window['scroll-top'] = 0;
 	}
 	if(window.location.hash.length > 0)
 		scrollToElement(document.getElementById(window.location.hash.substring(1)));
