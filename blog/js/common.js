@@ -22,7 +22,7 @@ function startup() {
 	// Window events
 	window.addEventListener('scroll', toggleActionsOnScroll);
 	window.addEventListener('resize', windowOnResize);
-	// window.addEventListener('hashchange', scrollToSectionByUrl);
+	window.addEventListener('hashchange', scrollToSectionByUrl);
 	window.addEventListener('popstate', windowOnHistoryChange);
 	
 	// Asynchronous Events
@@ -177,16 +177,14 @@ function addHashtags() {
 }
 
 function scrollToSectionByUrl() {
+	if(window.location.hash.length > 0)
+		scrollToElement(document.getElementById(window.location.hash.substring(1)));
 	if(window['scroll-top']) { // if triggered popstate, revert hashchange
 		event.preventDefault();
 		history.forward();
-		setTimeout(function() {
-			window.scrollTo(0, window['scroll-top']);
-			window['scroll-top'] = 0;
-		}, 200);
+		window.scrollTo(0, window['scroll-top']);
+		window['scroll-top'] = 0;
 	}
-	if(window.location.hash.length > 0)
-		scrollToElement(document.getElementById(window.location.hash.substring(1)));
 }
 
 function scrollToElement(elem) {

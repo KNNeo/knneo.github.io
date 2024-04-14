@@ -17,14 +17,8 @@ function generateHeader() {
 			//clone element to put in header
 			let tags = document.createElement('div');
 			tags.classList.add('hashtags');
-			for(let hashtag of hashtags.querySelectorAll('a')) {
-				let clone = hashtag.cloneNode(true);
-				// have to add back click event
-				clone.addEventListener('click', function() {
-					window.location.hash = this.title;
-				});
-				tags.appendChild(clone);
-			}
+			for(let hashtag of hashtags.querySelectorAll('a'))
+				tags.appendChild(hashtag.cloneNode(true));
 			header.appendChild(tags);
 		}
 		// add header to document, add window events	
