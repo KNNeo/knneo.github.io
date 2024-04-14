@@ -177,8 +177,10 @@ function scrollToSectionByUrl() {
 	if(window['scroll-top']) { // if triggered popstate, revert hashchange
 		event.preventDefault();
 		history.forward();
-		window.scrollTo(0, window['scroll-top']);
-		window['scroll-top'] = 0;
+		setTimeout(function() {
+			window.scrollTo(0, window['scroll-top']);
+			window['scroll-top'] = 0;
+		}, 200);
 	}
 	if(window.location.hash.length > 0)
 		scrollToElement(document.getElementById(window.location.hash.substring(1)));
