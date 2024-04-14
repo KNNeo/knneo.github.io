@@ -375,7 +375,7 @@ span.emoji {
 }
 
 .viewer.hints .viewer-nav.prev::before {
-	content: "<";
+	content: "⬅️";
 	position: absolute;
 	left: 10px;
 	height: 100%;
@@ -399,7 +399,7 @@ span.emoji {
 }
 
 .viewer.hints .viewer-nav.next::before {
-	content: ">";
+	content: "➡️";
 	position: absolute;
 	right: 10px;
 	height: 100%;
