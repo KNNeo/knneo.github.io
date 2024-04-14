@@ -163,7 +163,7 @@ function generateLayout() {
 		include.classList.add('filter');
 		include.placeholder = config.placeholder.include;
 		include.addEventListener('input', function() {
-			window['includeCriteria'] = this.value;
+			window['includeCriteria'] = event.target.value;
 			generateGrid();
 		});
 		
@@ -171,7 +171,7 @@ function generateLayout() {
 		exclude.classList.add('filter');
 		exclude.placeholder = config.placeholder.exclude;
 		exclude.addEventListener('input', function() {
-			window['excludeCriteria'] = this.value;
+			window['excludeCriteria'] = event.target.value;
 			generateGrid();
 		});
 	}
@@ -239,21 +239,22 @@ function generateTagsList() {
 		tag.innerText = button.value;
 		tag.tabIndex = -1;
 		tag.addEventListener('click',function() {
+			let filter = event.target;
 			// to include or reset
-			switch(this.getAttribute('filter'))
+			switch(filter.getAttribute('filter'))
 			{
 				case 'exclude':
-					toggleVariable('excludeCriteria', this.value);
-					toggleVariable('includeCriteria', this.value);
-					this.setAttribute('filter', 'include');
+					toggleVariable('excludeCriteria', filter.value);
+					toggleVariable('includeCriteria', filter.value);
+					filter.setAttribute('filter', 'include');
 					break;
 				case 'include':
-					toggleVariable('includeCriteria', this.value);
-					this.removeAttribute('filter');
+					toggleVariable('includeCriteria', filter.value);
+					filter.removeAttribute('filter');
 					break;
 				default:
-					toggleVariable('includeCriteria', this.value);
-					this.setAttribute('filter', 'include');
+					toggleVariable('includeCriteria', filter.value);
+					filter.setAttribute('filter', 'include');
 					break;
 			}
 			include.value = window['includeCriteria'];
@@ -261,22 +262,23 @@ function generateTagsList() {
 			generateGrid();
 		});
 		tag.addEventListener('contextmenu',function() {
+			let filter = event.target;
 			// to exclude or reset
 			event.preventDefault();
-			switch(this.getAttribute('filter'))
+			switch(filter.getAttribute('filter'))
 			{
 				case 'include':
-					toggleVariable('includeCriteria', this.value);
-					toggleVariable('excludeCriteria', this.value);
-					this.setAttribute('filter', 'exclude');
+					toggleVariable('includeCriteria', filter.value);
+					toggleVariable('excludeCriteria', filter.value);
+					filter.setAttribute('filter', 'exclude');
 					break;
 				case 'exclude':
-					toggleVariable('excludeCriteria', this.value);
-					this.removeAttribute('filter');
+					toggleVariable('excludeCriteria', filter.value);
+					filter.removeAttribute('filter');
 					break;
 				default:
-					toggleVariable('excludeCriteria', this.value);
-					this.setAttribute('filter', 'exclude');
+					toggleVariable('excludeCriteria', filter.value);
+					filter.setAttribute('filter', 'exclude');
 					break;
 			}
 			include.value = window['includeCriteria'];
@@ -384,16 +386,15 @@ function generateGrid() {
 			let gridItemImage = document.createElement('img');
 			gridItemImage.alt = '';
 			gridItemImage.title = getFilenameInfo(imageUrl).filename.split(config.separator).join('\n');
-			// gridItemImage.src = item[getThumbnailPrefix()] || 'https://knneo.github.io/resources/spacer.gif';
-			gridItemImage.setAttribute('data-image', item[getThumbnailPrefix()] || 'https://knneo.github.io/resources/spacer.gif');
+			gridItemImage.setAttribute('data-image', getThumbnailByPrefix(item));
 			gridItemImage.setAttribute('data-src', item['og']);
 			gridItemImage.setAttribute('loading', 'lazy');
 			gridItemImage.addEventListener('click', function() {
-				openViewer(this.parentElement);
+				openViewer(event.target.parentElement);
 			});
-			gridItemImage.addEventListener('contextmenu', function(e) {
-				e.preventDefault();
-				let keywords = this.title.split('\n');
+			gridItemImage.addEventListener('contextmenu', function() {
+				event.preventDefault();
+				let keywords = event.target.title.split('\n');
 				if(keywords.filter(k => !window['includeCriteria'].includes(k)).length >= keywords.length) // if no keywords in filter
 					toggleVariable('includeCriteria', keywords[0]);
 				else {
@@ -408,9 +409,9 @@ function generateGrid() {
 				generateGrid();
 				return false;
 			}, false);
-			gridItemImage.addEventListener('error', function(e) {
-				e.preventDefault();
-				console.log(this.title);
+			gridItemImage.addEventListener('error', function() {
+				event.preventDefault();
+				console.log(event.target.title);
 			});
 			gridItem.appendChild(gridItemImage);
 			observer.observe(gridItemImage);
@@ -446,24 +447,19 @@ function toggleVariable(variable, value) {
 	}
 }
 
-function getThumbnailPrefix() {
-	let prefix = '';
-	
+function getThumbnailByPrefix(item) {	
 	switch(window['preset'])
 	{
 	  case 'photo_size_select_small':
-		prefix = 'sm';
-		break;
+		return item['sm'];
 	  case 'photo_size_select_large':
-		prefix = 'md';
+		return item['md'];
 		break;
 	  case 'photo_size_select_actual':
-		prefix = 'lg';
+		return item['lg'];
 	  default:
-		break;
+		return 'https://knneo.github.io/resources/spacer.gif';
 	}
-	
-	return prefix;
 }
 
 function calculateColumns() {
@@ -728,25 +724,25 @@ function onTouchMoveViewer() {
 	//--SWIPE LEFT--//
 	if(swipeLeft > swipeUp && swipeLeft > swipeDown) {
 		onClickViewerNext();
-		this.removeEventListener('touchmove', onTouchMoveViewer);
+		event.target.removeEventListener('touchmove', onTouchMoveViewer);
 		return;
 	}
 	//--SWIPE RIGHT--//
 	if(swipeRight > swipeUp && swipeRight > swipeDown) {
 		onClickViewerPrev();
-		this.removeEventListener('touchmove', onTouchMoveViewer);
+		event.target.removeEventListener('touchmove', onTouchMoveViewer);
 		return;
 	}
 	//--SWIPE DOWN--//
 	if(swipeDown > swipeLeft && swipeDown > swipeRight) {
 		closeViewer();
-		this.removeEventListener('touchmove', onTouchMoveViewer);
+		event.target.removeEventListener('touchmove', onTouchMoveViewer);
 		return;
 	}
 	//--SWIPE UP--//
 	if(swipeUp > swipeLeft && swipeUp > swipeRight) {
 		closeViewer();
-		this.removeEventListener('touchmove', onTouchMoveViewer);
+		event.target.removeEventListener('touchmove', onTouchMoveViewer);
 		return;
 	}
 }
@@ -848,11 +844,11 @@ function createDialog(node) {
 	if(typeof node == 'object')
 		dialog.appendChild(node);
 	dialog.addEventListener('click', function() {
-		this.remove();
+		event.target.remove();
 	});
 	dialog.addEventListener('keyup', function() {
 		if (event.key === ' ' || event.key === 'Enter')
-			this.remove();
+			event.target.remove();
 	});
 	return dialog;
 }
