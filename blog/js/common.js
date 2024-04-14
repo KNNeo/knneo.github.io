@@ -55,6 +55,7 @@ function windowOnHistoryChange() {
 		event.preventDefault();
 		window['scroll-top'] = window.scrollTop;
 		closeViewer();
+		scrollToSectionByUrl();
 		return;
 	}
 	// if dialog open, close and return
@@ -62,6 +63,7 @@ function windowOnHistoryChange() {
 		event.preventDefault();
 		window['scroll-top'] = window.scrollTop;
 		removeDialog();
+		scrollToSectionByUrl();
 		return;
 	}
 	// if popup open, close and return
@@ -69,6 +71,7 @@ function windowOnHistoryChange() {
 		event.preventDefault();
 		window['scroll-top'] = window.scrollTop;
 		closePopups();
+		scrollToSectionByUrl();
 		return;
 	}
 }
