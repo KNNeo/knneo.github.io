@@ -45,13 +45,13 @@ function onTouchMove() {
 	// console.log('up', 'down', 'left', 'right');
 	// console.log(swipeUp, swipeDown, swipeLeft, swipeRight);
 	//--SWIPE LEFT--//
-	if(swipeLeft > swipeUp && swipeLeft > swipeDown && swipeLeft > 120) {
+	if(swipeLeft > swipeUp && swipeLeft > swipeDown && swipeLeft > 150) {
 		//newer post
 		document.querySelector('.next')?.click();
 		return;
 	}
 	//--SWIPE RIGHT--//
-	if(swipeRight > swipeUp && swipeRight > swipeDown && swipeRight > 120) {
+	if(swipeRight > swipeUp && swipeRight > swipeDown && swipeRight > 150) {
 		//older post
 		document.querySelector('.prev')?.click();
 		return;
