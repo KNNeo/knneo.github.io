@@ -55,7 +55,7 @@ function updateEditor() {
 	window['conversation-messages'][conversation.id].content = conversation.querySelector('.editor textarea').value;
 	saveToLocalStorage();
 	updateSenderOptions(conversation);
-	allowRunMessages(conversation);
+	allowRunMessages();
 }
 
 function updateSenderOptions(conversation) {
@@ -333,7 +333,6 @@ function startConversation() {
 	footer.innerText = '🔽';
 	footer.title = 'Play Next Message';
 	footer.setAttribute('onclick', 'nextMessage()');
-	footer.click();
 	
 	toggleConversation();
 }
@@ -341,14 +340,14 @@ function startConversation() {
 function toggleConversation() {
 	let conversation = document.querySelector('.conversation:not(.hidden)');
 	if(conversation.getAttribute('data-running') != null)
-		disableRunMessages(conversation);
+		disableRunMessages();
 	else
-		allowRunMessages(conversation);
+		allowRunMessages();
 }
 
 function nextMessage() {
 	// read lines
-	let conversation = event.target.closest('.conversation').querySelector('.messages');
+	let conversation = event.target.closest('.conversation');
 	let lines = conversation.querySelectorAll('.message');
 	let l = Array.from(lines).indexOf(conversation.querySelector('.message.hide'));	
 	// play sound effect on each message
@@ -361,49 +360,54 @@ function nextMessage() {
 		return total + current.getBoundingClientRect().height;
 	}, 0);
 	let currentHeight = lines[l].getBoundingClientRect().height;
-	let diff = heightAboveItem + currentHeight - conversation.clientHeight; // delta to fix item height rounding
+	let diff = heightAboveItem + currentHeight - conversation.querySelector('.messages').clientHeight; // delta to fix item height rounding
 	// console.log(heightAboveItem + currentHeight, conversation.clientHeight);
 	if(diff > 0) {
 		if(diff < currentHeight) // newest message is not aligned to bottom of container
-			conversation.scrollBy({ top: diff, behavior: 'smooth' });
+			conversation.querySelector('.messages').scrollBy({ top: diff, behavior: 'smooth' });
 		else
-			conversation.scrollBy({ top: currentHeight, behavior: 'smooth' });
+			conversation.querySelector('.messages').scrollBy({ top: currentHeight, behavior: 'smooth' });
 	}
 	else // newest message is not at or beyond bottom of container
-		conversation.scrollTo({ top: 0 });
+		conversation.querySelector('.messages').scrollTo({ top: 0 });
 	
 	// if end of conversation, allow replay
 	if(l >= lines.length - 1) {
 		let footer = conversation.querySelector('.footer');
+		footer.className = 'footer message';
 		footer.innerText = '🔁';
 		footer.title = 'Replay Conversation';
 		footer.setAttribute('onclick', 'startConversation()');
 		
-		conversation.scrollBy({ 
+		conversation.querySelector('.messages').scrollBy({ 
 			top: heightAboveItem + currentHeight + footer.getBoundingClientRect().height, 
 			behavior: 'smooth'
 		});
 		toggleConversation();
 		return;
 	}
+	
+	if(conversation.getAttribute('data-running') != null)
+		setTimeout(function() {
+			conversation.querySelector('.footer').click();
+		}, 2000);
 }
 
-function allowRunMessages(conversation) {
+function allowRunMessages() {
+	let conversation = document.querySelector('.conversation:not(.hidden)');
 	// set status
 	conversation.setAttribute('data-running', '');
-	window['timer'] = setInterval(function() {
-		conversation.querySelector('.footer').click();
-	}, 2000);
+	conversation.querySelector('.footer').click();
 	// disable scroll capture
 	conversation.setAttribute('onwheel', 'event.preventDefault()');
 	conversation.setAttribute('onmousewheel', 'event.preventDefault()');
 	conversation.setAttribute('ontouchstart', 'event.preventDefault()');	
 }
 
-function disableRunMessages(conversation) {
+function disableRunMessages() {
+	let conversation = document.querySelector('.conversation:not(.hidden)');
 	// remove status
 	conversation.removeAttribute('data-running');
-	clearInterval(window['timer']);
 	// remove scroll capture
 	conversation.removeAttribute('onwheel');
 	conversation.removeAttribute('onmousewheel');
