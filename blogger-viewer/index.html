@@ -7,14 +7,22 @@
 	<meta name="theme-color" content="white">
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="mobile-web-app-capable" content="yes">
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css?family=Noto Sans" rel="stylesheet" />
-    <link rel="stylesheet" href="index.css" />
-	<script src="../darkmode.js"></script>
-	<script src="../get.js" defer></script>
+    <link href="../fonts.css" rel="stylesheet" />
+    <link href="index.css" rel="stylesheet" />
+	<script src="darkmode.js"></script>
 	<script src="index.js" defer></script>
-    <title></title>
+    <title>Blogger Viewer</title>
 </head>
 <body>
+<div class="loader"></div>
+<div class="selector">
+	<h2>Configuration</h2>
+	<label><h5>Input <input class="xml" type="file" accept="application/xml" /></h5></label>
+	<label><h5>CSS <input class="css" type="file" accept="text/css" multiple /></h5></label>
+	<label><h5>JS <input class="js" type="file" accept="text/javascript" multiple /></h5></label>
+	<label><h5>Run JS on Load Post <input class="js-onload" type="checkbox"/></h5></label>
+	<button onclick="load()"><h2>Load</h2></button>
+</div>
+<div id="contents" class="content block inactive post-body entry-content"></div>
 </body>
 </html>

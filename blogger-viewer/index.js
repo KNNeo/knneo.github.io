@@ -1,4 +1,40 @@
-function readFile(file) {
+/* DOM ELEMENT REFERENCES */
+let inputXml = document.querySelector('.xml');
+let inputCss = document.querySelector('.css');
+let inputJs = document.querySelector('.js');
+let inputJsOnload = document.querySelector('.js-onload');
+
+function load() {
+	runLoader();
+	let xmlFiles = inputXml.files;
+	// console.log('xml', xml[0]?.name, xml[0]?.type);
+	if(xmlFiles && xmlFiles.length > 0)
+		readXmlFile(xmlFiles[0]);
+	else
+		console.error('NO_XML_DETECTED');
+	
+	let cssFiles = inputCss.files;
+	// console.log('cssFiles', cssFiles[0]?.name, cssFiles[0]?.type);
+	if(cssFiles && cssFiles.length > 0) {
+		for(let file of cssFiles)
+			readCssFiles(file);
+	}
+	else
+		console.error('NO_CSS_DETECTED');
+	
+	if(!inputJsOnload.checked) {
+		let jsFiles = inputJs.files;
+		// console.log('jsFiles', jsFiles[0]?.name, jsFiles[0]?.type);
+		if(jsFiles && jsFiles.length > 0) {
+			for(let file of jsFiles)
+				readJsFiles(file);
+		}
+		else
+			console.error('NO_JS_DETECTED');
+	}
+}
+
+function readXmlFile(file) {
 	if(file.name.toLowerCase().endsWith('.xml'))
 	{
 		reader = new FileReader();
@@ -8,21 +44,47 @@ function readFile(file) {
 		};
 		reader.readAsText(file);
 		if(document.querySelector('.selector') != null)
-			document.querySelector('.selector').remove();
+			document.querySelector('.selector').classList.add('hide');
 	}
 	else
-	{
-		alert('wrong file input');
-	}
+		console.error('WRONG_FILE_INPUT');
 }
 
-function onSelect(e) {
-	runLoader();
-	var list = e.target.files;
-	// console.log('onSelect', list[0].name, list[0].type);
-	if(list && list.length > 0) {
-		readFile(list[0]);
+function readCssFiles(file) {
+	if(file.name.toLowerCase().endsWith('.css'))
+	{
+		reader = new FileReader();
+		reader.onload = function (e) {
+			// console.log(e.target.result);
+			let css = document.createElement('style');
+			css.innerHTML = e.target.result;
+			document.body.appendChild(css);
+		};
+		reader.readAsText(file);
+		if(document.querySelector('.selector') != null)
+			document.querySelector('.selector').classList.add('hide');
 	}
+	else
+		console.error('WRONG_FILE_INPUT');
+}
+
+function readJsFiles(file) {
+	if(file.name.toLowerCase().endsWith('.js'))
+	{
+		reader = new FileReader();
+		reader.onload = function (e) {
+			// console.log(e.target.result);
+			let js = document.createElement('script');
+			js.classList.add('js-script');
+			js.innerHTML = e.target.result;
+			document.body.appendChild(js);
+		};
+		reader.readAsText(file);
+		if(document.querySelector('.selector') != null)
+			document.querySelector('.selector').classList.add('hide');
+	}
+	else
+		console.error('WRONG_FILE_INPUT');
 }
 
 function processXml(doc) {
@@ -47,8 +109,8 @@ function generateHomepage() {
 	
 	let homeTitle = document.createElement('h1');
 	homeTitle.classList.add('title');
-	homeTitle.innerText = 'Blogger Viewer';
-	document.title = window['doc'].querySelector('title').textContent;
+	homeTitle.innerText = window['doc'].querySelector('title').textContent;
+	document.title = homeTitle.innerText;
 	document.querySelector('.home').appendChild(homeTitle);
 	
 	let prelude = document.createElement('p');
@@ -65,15 +127,6 @@ function generateHomepage() {
 	preText.appendChild(preLink);
 	prelude.appendChild(preText);
 	document.querySelector('.home').appendChild(prelude);
-	
-	let content = document.createElement('div');
-	content.id = 'contents';
-	content.classList.add('content');
-	content.classList.add('block');
-	content.classList.add('inactive');
-	content.classList.add('post-body');
-	content.classList.add('entry-content');
-	document.body.appendChild(content);
 	
 	generatePages();
 }
@@ -158,6 +211,16 @@ function createFrame(postIndex) {
 		document.body.appendChild(renderEntry(window['posts'][postIndex+1], postIndex, 'right'));
 		
 	document.querySelector('.content').appendChild(contentContainer);
+	if(inputJsOnload.checked) {
+		let jsFiles = inputJs.files;
+		// console.log('jsFiles', jsFiles[0]?.name, jsFiles[0]?.type);
+		if(jsFiles && jsFiles.length > 0) {
+			for(let file of jsFiles)
+				readJsFiles(file);
+		}
+		else
+			console.error('NO_JS_DETECTED');
+	}
 	
 	window.addEventListener('resize', function() {
 		if(document.querySelector('.side.left') != null)
@@ -257,6 +320,10 @@ function toggleFrame() {
 		document.querySelector('.close').remove();
 		document.querySelector('.top').remove();
 	}
+	if(inputJsOnload.checked) {
+		for(let script of document.querySelectorAll('.js-script'))
+			script.remove();
+	}
 }
 
 function goToTop() {
@@ -295,22 +362,3 @@ function runLoader() {
 		}
 	}
 }
-
-window.addEventListener('load', function() {	
-	let loader = document.createElement('div');
-	loader.classList.add('loader');
-	// loader.classList.add('material-icons');
-	document.body.appendChild(loader);
-	
-	let selectorDiv = document.createElement('div');
-	selectorDiv.classList.add('selector');
-	
-		let selector = document.createElement('input');
-		selector.type = 'file';
-		selector.accept = 'application/xml';
-		selector.addEventListener('change', onSelect);
-		selectorDiv.appendChild(selector);
-		
-	document.body.appendChild(selectorDiv);
-});
-
