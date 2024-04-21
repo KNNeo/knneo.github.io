@@ -387,10 +387,32 @@ function nextMessage() {
 		return;
 	}
 	
-	if(conversation.getAttribute('data-running') != null)
+	// if still running, call next message
+	if(conversation.getAttribute('data-running') != null) {
+		// calculate next message pop time
+		let readLength = lines[l-1]?.innerText.length ?? 1;
+		let readTime = Math.floor(readLength / 5) * 1000;
+		if(!readTime) readTime = 2000;
+		// console.log(lines[l-1]?.innerText, readTime);
+		// setTimeout(function() {
+			// if(lines[l+1]) {
+				// let loader = document.createElement('div');
+				// loader.classList.add('loader');
+				// loader.innerText = '...';
+				// conversation.querySelector('.messages').insertBefore(loader, lines[l+1]);
+			// }
+		// }, readTime);
+		
+		let writeLength = lines[l]?.innerText.length ?? 1;
+		let writeTime = Math.floor(writeLength / 5) * 1500;
+		if(!writeTime) writeTime = 2000;
+		// console.log(lines[l]?.innerText, writeTime);
+		// call next
 		setTimeout(function() {
+			conversation.querySelector('.loader')?.remove();
 			conversation.querySelector('.footer').click();
-		}, 2000);
+		}, writeTime);
+	}
 }
 
 function allowRunMessages() {
