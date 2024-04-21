@@ -16,7 +16,7 @@
 			"src": "/resources/icons/flask-svgrepo-com.svg",
 			"type": "image/svg+xml",
 			"sizes": "any",
-			"purpose": "monochrome"
+			"purpose": "maskable"
 		},
 		{
 			"src": "/resources/icons/flask-svgrepo-com.png",
