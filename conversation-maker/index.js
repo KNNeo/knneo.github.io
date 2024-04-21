@@ -390,25 +390,40 @@ function nextMessage() {
 	// if still running, call next message
 	if(conversation.getAttribute('data-running') != null) {
 		// calculate next message pop time
-		let readLength = lines[l-1]?.innerText.length ?? 1;
+		let readLength = lines[l]?.innerText.length ?? 1;
 		let readTime = Math.floor(readLength / 5) * 1000;
-		if(!readTime) readTime = 2000;
+		if(!readTime) readTime = 1500;
 		// console.log(lines[l-1]?.innerText, readTime);
 		// setTimeout(function() {
 			// if(lines[l+1]) {
-				// let loader = document.createElement('div');
-				// loader.classList.add('loader');
-				// loader.innerText = '...';
-				// conversation.querySelector('.messages').insertBefore(loader, lines[l+1]);
+				// console.log('add loader');
+				// let lineDiv = document.createElement('div');
+				// lineDiv.classList.add('loader');
+				// lineDiv.setAttribute('data-name', lines[l+1].getAttribute('data-name'));
+				// if(lines[l+1].getAttribute('data-sender'))
+					// lineDiv.setAttribute('data-sender', lines[l+1].getAttribute('data-sender'));
+	  
+				// let messageDiv = document.createElement('div');
+				// messageDiv.classList.add('container');
+				
+					// let loader = document.createElement('span');
+					// loader.innerText = '．．．';
+					
+				// messageDiv.appendChild(loader);
+				
+				// lineDiv.appendChild(messageDiv);
+      
+				// conversation.querySelector('.messages').insertBefore(lineDiv, lines[l+1]);
 			// }
 		// }, readTime);
 		
-		let writeLength = lines[l]?.innerText.length ?? 1;
+		let writeLength = lines[l+1]?.innerText.length ?? 1;
 		let writeTime = Math.floor(writeLength / 5) * 1500;
 		if(!writeTime) writeTime = 2000;
 		// console.log(lines[l]?.innerText, writeTime);
 		// call next
 		setTimeout(function() {
+			// console.log('call next');
 			conversation.querySelector('.loader')?.remove();
 			conversation.querySelector('.footer').click();
 		}, writeTime);

@@ -106,6 +106,7 @@ a:hover {
 	-ms-overflow-style: none;  /* IE and Edge */
 	scrollbar-width: none;  /* Firefox */
 }
+.conversation .loader,
 .conversation .message {
 	display: flex;
 	align-items: center;
@@ -115,6 +116,10 @@ a:hover {
 .conversation .message.hide {
 	opacity: 0;
 }
+.conversation .loader {
+	position: absolute;
+}
+.conversation .loader .container,
 .conversation .message .container {
 	margin: 8px;
 	padding: 6px;
@@ -125,9 +130,11 @@ a:hover {
 .conversation .message[data-system] {
 	justify-content: center;
 }
+.conversation .loader[data-sender],
 .conversation .message[data-sender] {
 	justify-content: flex-end;
 }
+.conversation .loader[data-name]::before,
 .conversation .message[data-name]::before {
 	content: attr(data-name);
     white-space: nowrap;
