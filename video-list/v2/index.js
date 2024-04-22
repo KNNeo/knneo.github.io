@@ -3,9 +3,9 @@ const pageTitle = 'Video Playlist';
 const playlistId = 'PL_jWj0Wl8TG-UlSmo4HG3kDtTJYBO4UgB';
 const apiKey = function() {
 	// contains method to obtain YouTube API v3 key to query
-	return localStorage.getItem('apiKey');
+	return localStorage.getItem('videolist-key');
 };
-const version = '20230121';
+const version = '20240422';
 
 //--COMMON EVENTS--//
 //on startup
@@ -13,6 +13,7 @@ const windowHeight = window.innerHeight;
 const windowWidth = window.innerWidth;
 //generate from json file
 const spacer = 'https://knneo.github.io/resources/spacer.gif';
+const baseUrl = 'https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50';
 //do not touch
 let list = [];
 window.addEventListener('load', openRequest);
@@ -40,18 +41,22 @@ function fadeIn() {
 }
 
 function checkLastUpdated(check) {
-	// console.log(check, localStorage.getItem('etag'));
-	let lastTag = localStorage.getItem('etag') || '';
+	// console.log(check, localStorage.getItem('videolist-etag'));
+	let lastTag = localStorage.getItem('videolist-etag') || '';
 	let nowTag = check;
 	return lastTag == nowTag;
 }
 
 function checkVer() {
 	//for any changes to local storage, can wipe remotely if number not tally
-	if(localStorage.getItem('ver') != version)
+	if(localStorage.getItem('videolist-ver') != version)
 	{
-		localStorage.clear();
-		localStorage.setItem('ver', version);
+		localStorage.removeItem('videolist-list');
+		localStorage.removeItem('videolist-deleted');
+		localStorage.removeItem('videolist-search');
+		localStorage.removeItem('videolist-with-playlist');
+		localStorage.removeItem('videolist-etag');
+		localStorage.setItem('videolist-ver', version);
 	}
 }
 
@@ -60,16 +65,13 @@ function openRequest() {
 	initializeVariables();
 	renderMenu();
 	runLoader();
-	getJson("https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50" +
-		"&playlistId=" + playlistId + 
-		"&key=" + apiKey(), onLoadJson);
+	getJson(baseUrl + '&playlistId=' + playlistId + '&key=' + apiKey(), onLoadJson);
 }
 
 function onLoadJson(response) {
 	if(response != null) 
 	{
-		// console.log('response available', response);
-		
+		console.log('response available', response);
 		//process the rest
 		let items = response.items.filter(l => l.snippet.thumbnails.default != null);
 		if(response.nextPageToken)
@@ -79,23 +81,21 @@ function onLoadJson(response) {
 			if(checkLastUpdated(response.etag))
 			{
 				console.log('no change to playlist: load from storage');
-				window['list'] = JSON.parse(localStorage.getItem('list'));
-				window['deleted'] = JSON.parse(localStorage.getItem('deleted'));
+				window['list'] = JSON.parse(localStorage.getItem('videolist-list'));
+				window['deleted'] = JSON.parse(localStorage.getItem('videolist-deleted'));
 				startup();
 			}
 			else //load response, get next response via token
 			{
 				if(!window['connected'])
-					localStorage.setItem('etag', response.etag);
+					localStorage.setItem('videolist-etag', response.etag);
 				
 				// console.log(items);
 				window['list'] = window['list'].concat(items);
 				window['deleted'] = window['deleted'].concat(response.items.filter(l => l.snippet.thumbnails.default == null));
 				window['connected'] = true;
-				getJson("https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50" +
-					"&pageToken=" + response.nextPageToken + 
-					"&playlistId=" + playlistId + 
-					"&key=" + apiKey(), onLoadJson);
+				getJson(baseUrl + '&pageToken=' + response.nextPageToken +  
+					'&playlistId=' + playlistId + '&key=' + apiKey(), onLoadJson);
 			}
 		}
 		else //load last response, start render
@@ -122,8 +122,8 @@ function onLoadJson(response) {
 				};
 			});
 			// console.log('done', window['list']);
-			localStorage.setItem('list', JSON.stringify(window['list']));
-			localStorage.setItem('deleted', JSON.stringify(window['deleted']));
+			localStorage.setItem('videolist-list', JSON.stringify(window['list']));
+			localStorage.setItem('videolist-deleted', JSON.stringify(window['deleted']));
 			startup();
 		}
 	}
@@ -139,6 +139,7 @@ function initializeVariables() {
 	window['deleted'] = [];
 	window['loading'] = true;
 	window['connected'] = false;
+	window['response'] = [];
 }
 
 function startup() {
@@ -182,7 +183,7 @@ function renderMenu() {
 	search.classList.add('material-icons');
 	search.title = 'Search Video/Channel';
 	search.innerText = 'search';
-	if(localStorage.getItem('search')?.length > 0) {
+	if(localStorage.getItem('videolist-search')?.length > 0) {
 		search.innerText = 'saved_search';
 		search.style.color = 'var(--foreground)';
 	}
@@ -209,7 +210,7 @@ function renderMenu() {
 	let withPlaylist = document.createElement('a');
 	withPlaylist.classList.add('material-icons');
 	withPlaylist.title = 'Playing Video Only';
-	withPlaylist.innerText =  localStorage.getItem('with-playlist') == 'true' ? 'queue_music' : 'music_note';
+	withPlaylist.innerText =  localStorage.getItem('videolist-with-playlist') == 'true' ? 'queue_music' : 'music_note';
 	withPlaylist.addEventListener('click', toggleWithPlaylist);
 		
 	document.querySelector('.menu').appendChild(withPlaylist);
@@ -246,13 +247,13 @@ function toggleSearch(event) {
 			if (input != null) {
 				event.target.innerText = 'saved_search';
 				event.target.style.color = 'var(--foreground)';
-				localStorage.setItem('search', input || '');
+				localStorage.setItem('videolist-search', input || '');
 			}
 			break;
 		case 'saved_search':
 			event.target.innerText = 'search';
 			event.target.style.color = '';
-			localStorage.setItem('search', '');
+			localStorage.setItem('videolist-search', '');
 			break;
 		default:
 			break;
@@ -265,12 +266,12 @@ function toggleWithPlaylist(event) {
 		case 'queue_music':
 			event.target.innerText = 'music_note';
 			event.target.title = 'Playing Video Only';
-			localStorage.setItem('with-playlist', false);
+			localStorage.setItem('videolist-with-playlist', false);
 			break;
 		case 'music_note':
 			event.target.innerText = 'queue_music';
 			event.target.title = 'Playing Video with Playlist';
-			localStorage.setItem('with-playlist', true);
+			localStorage.setItem('videolist-with-playlist', true);
 			break;
 		default:
 			break;
@@ -280,7 +281,7 @@ function toggleWithPlaylist(event) {
 
 function randomVideo() {
 	let random = list[Math.floor(Math.random() * list.length)];
-	window.open(random.video.url + (localStorage.getItem('with-playlist') == 'true' ? '&list=' + playlistId : ''));
+	window.open(random.video.url + (localStorage.getItem('videolist-with-playlist') == 'true' ? '&list=' + playlistId : ''));
 }
 
 function renderList() {
@@ -288,9 +289,9 @@ function renderList() {
 	
 	for(let v of list.filter(l => 
 		l.video.title.toLowerCase()
-		.includes((localStorage.getItem('search') || '').toLowerCase()) ||
+		.includes((localStorage.getItem('videolist-search') || '').toLowerCase()) ||
 		l.channel.title.toLowerCase()
-		.includes((localStorage.getItem('search') || '').toLowerCase())
+		.includes((localStorage.getItem('videolist-search') || '').toLowerCase())
 		))
 	{
 		let video = document.createElement('div');
@@ -302,9 +303,6 @@ function renderList() {
 			let thumbnail = document.createElement('img');
 			thumbnail.classList.add('thumbnail');
 			thumbnail.setAttribute('data-image', v.video.thumbnail);
-			// thumbnail.style.backgroundSize = 'contain';
-			// thumbnail.style.backgroundRepeat = 'no-repeat';
-			// thumbnail.style.backgroundPosition = 'center';
 			thumbnail.style.width = '120px';
 			thumbnail.title = v.video.title;
 			thumbnail.addEventListener('click', function() {
@@ -316,7 +314,7 @@ function renderList() {
 			let title = document.createElement('div');
 			
 				let titleLink = document.createElement('a');
-				titleLink.href = v.video.url + (localStorage.getItem('with-playlist') == 'true' ? '&list=' + playlistId : '');
+				titleLink.href = v.video.url + (localStorage.getItem('videolist-with-playlist') == 'true' ? '&list=' + playlistId : '');
 				titleLink.innerText = v.video.title;
 				titleLink.setAttribute('target','_blank');
 			
@@ -370,7 +368,7 @@ function setInput(id) {
 	let input = prompt('Enter ' + id);
 
 	if (input != null) {
-		localStorage.setItem('apiKey', input);
+		localStorage.setItem('videolist-key', input);
 		location.reload();
 	}
 }
