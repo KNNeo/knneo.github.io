@@ -32,8 +32,6 @@ function fadeIn() {
 			thumbnail.src = thumbnail.getAttribute('data-image');
             elem.classList.add('tile-view');
             setTimeout(function() { elem.classList.add('no-delay'); }, 500);
-			if(elem.getAttribute('data-status') == null || elem.getAttribute('data-status').length < 1)
-				elem.setAttribute('data-status', getEmbedStatus(elem.id) ?? '');
         }
 		else {
             elem.classList.remove('tile-view');
@@ -43,9 +41,10 @@ function fadeIn() {
 }
 
 function getEmbedStatus(videoId) {
-	get('https://www.youtube.com/embed/darZbXulSDI', function(response) {
-		return response.innerText?.toLowerCase().includes('Video unavailable') ? 'unavailable' : '';
-	});
+	if(window.location.href.startsWith('https://knneo.github.io'))
+		get('https://www.youtube.com/embed/darZbXulSDI', function(response) {
+			return response.innerText?.toLowerCase().includes('Video unavailable') ? 'unavailable' : '';
+		});
 }
 
 function checkLastUpdated(check) {
@@ -127,6 +126,7 @@ function onLoadJson(response) {
 						url: 'https://www.youtube.com/channel/'
 						+ res.snippet.videoOwnerChannelId,
 					},
+					status: getEmbedStatus(res.snippet.resourceId.videoId)
 				};
 			});
 			// console.log('done', window['list']);
@@ -307,6 +307,7 @@ function renderList() {
 		video.classList.add('tile');
 		video.classList.add('shadowed');
 		video.id = v.video.id;
+		if(v.status == 'unavailable') video.setAttribute('data-status', 'unavailable');
 		
 			let thumbnail = document.createElement('img');
 			thumbnail.classList.add('thumbnail');
