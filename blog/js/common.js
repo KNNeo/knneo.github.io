@@ -179,6 +179,8 @@ function addHashtags() {
 function scrollToSectionByUrl() {
 	if(window.location.hash.length > 0)
 		scrollToElement(document.getElementById(window.location.hash.substring(1)));
+	else
+		window.location.href += '#'; // to set empty hash, facilitate popstate
 	if(window['scroll-top']) { // if triggered popstate, revert hashchange
 		event.preventDefault();
 		history.forward();
