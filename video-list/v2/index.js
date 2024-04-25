@@ -30,14 +30,22 @@ function fadeIn() {
 		let thumbnail = elem.querySelector('img');
         if (thumbnail.complete && inView) {
 			thumbnail.src = thumbnail.getAttribute('data-image');
-            elem.classList.add("tile-view");
-            setTimeout(function() { elem.classList.add("no-delay"); }, 500);
+            elem.classList.add('tile-view');
+            setTimeout(function() { elem.classList.add('no-delay'); }, 500);
+			if(elem.getAttribute('data-status') == null || elem.getAttribute('data-status').length < 1)
+				elem.setAttribute('data-status', getEmbedStatus(elem.id) ?? '');
         }
 		else {
-            elem.classList.remove("tile-view");
-            elem.classList.remove("no-delay");
+            elem.classList.remove('tile-view');
+            elem.classList.remove('no-delay');
         }
     }
+}
+
+function getEmbedStatus(videoId) {
+	get('https://www.youtube.com/embed/darZbXulSDI', function(response) {
+		return response.innerText?.toLowerCase().includes('Video unavailable') ? 'unavailable' : '';
+	});
 }
 
 function checkLastUpdated(check) {
@@ -71,7 +79,7 @@ function openRequest() {
 function onLoadJson(response) {
 	if(response != null) 
 	{
-		console.log('response available', response);
+		// console.log('response available', response);
 		//process the rest
 		let items = response.items.filter(l => l.snippet.thumbnails.default != null);
 		if(response.nextPageToken)
