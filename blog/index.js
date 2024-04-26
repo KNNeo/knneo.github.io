@@ -3,8 +3,16 @@ window['dark-theme'] = '#001114';
 window['dark-name'] = 'blog-theme';
 window['urls'] = [];
 window['search-results'] = [];
+window.addEventListener('load', removeLinkExtensions);
 window.addEventListener('scroll', toggleActionsOnScroll);
 window.addEventListener('hashchange', filterByTag);
+
+function removeLinkExtensions() {
+	if(!window.location.href.startsWith('file:///')) {
+		for(let a of document.querySelectorAll('a'))
+			a.href = a.href.replace('.html', '');
+	}
+}
 
 function filterByTag() {
 	let tag = event.target.id || window.location.hash.replace('#','');
