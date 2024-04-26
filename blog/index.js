@@ -3,7 +3,7 @@ window['dark-theme'] = '#001114';
 window['dark-name'] = 'blog-theme';
 window['urls'] = [];
 window['search-results'] = [];
-addServiceWorker();
+window.addEventListener('load', addServiceWorker);
 window.addEventListener('load', removeLinkExtensions);
 window.addEventListener('scroll', toggleActionsOnScroll);
 window.addEventListener('hashchange', filterByTag);
@@ -11,7 +11,7 @@ window.addEventListener('hashchange', filterByTag);
 // service worker implementation
 function addServiceWorker() {
 	if (navigator && 'serviceWorker' in navigator) {
-	  navigator.serviceWorker.register('js/sw.js', { scope: '/' })
+	  navigator.serviceWorker.register('sw.js')
 		.then(function(registration) {
 			console.log('Service worker registered:', registration.scope);
 		}, function(err) {
