@@ -4,7 +4,6 @@ window['dark-name'] = 'blog-theme';
 
 function postLoadSequence() {
 	setTimeout(function() {
-		addServiceWorker();
 		addSwipeEvents();
 		removeLinkExtensions();
 		if(typeof generateViewer == 'function') generateViewer();
@@ -73,17 +72,5 @@ function removeLinkExtensions() {
 			if(a.href.includes('knneo.github.io') || a.href.includes('knwebreports'))
 				a.href = a.href.replace('.html', '');
 		}
-	}
-}
-
-// service worker implementation
-function addServiceWorker() {
-	if (navigator && 'serviceWorker' in navigator) {
-	  navigator.serviceWorker.register('../../../js/sw.js')
-		.then(function(registration) {
-			console.log('Service worker registered:', registration.scope);
-		}, function(err) {
-			console.log('Service worker registration failed:', err);
-		});
 	}
 }
