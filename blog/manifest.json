@@ -1,0 +1,22 @@
+{
+	"background_color": "#ffffff",
+	"description": "Klassic Note Web Reports Archive",
+	"dir": "ltr",
+	"display": "standalone",
+	"name": "Klassic Note Web Reports",
+	"scope": "/",
+	"short_name": "Klassic Note",
+	"start_url": "/",
+	"theme_color": "#ffffff",
+	"lang": "en",
+	"categories": [],
+	"screenshots": [],
+	"icons": [
+		{
+			"src": "storytime.png",
+			"type": "image/png",
+			"sizes": "any",
+			"purpose": "any"
+		}
+	]
+}

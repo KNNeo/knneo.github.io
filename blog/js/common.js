@@ -13,20 +13,17 @@ const isMediumWidth = function () {
 window.addEventListener('load', startup);
 
 function startup() {
-	// Synchronous Functions
-	if(typeof preloadSequence == 'function') preloadSequence();
-	if(typeof toggleEmojiDisplay == 'function') toggleEmojiDisplay();
-	if(typeof generateViewer == 'function') setTimeout(generateViewer, 0);
-	if(typeof addSwipeEvents == 'function') setTimeout(addSwipeEvents, 0);
-	if(typeof removeLinkExtensions == 'function') setTimeout(removeLinkExtensions, 0);
+	// Per Module Functions
+	if(typeof preLoadSequence == 'function') preLoadSequence();
+	if(typeof postLoadSequence == 'function') postLoadSequence();
 	
-	// Window events
+	// Global Window Events
 	window.addEventListener('scroll', toggleActionsOnScroll);
 	window.addEventListener('resize', windowOnResize);
 	window.addEventListener('hashchange', scrollToSectionByUrl);
 	window.addEventListener('popstate', windowOnHistoryChange);
 	
-	// Asynchronous Events
+	// Global Asynchronous Events
 	setTimeout(addHashtags, 0); // generateHeader, generateReadTime
 	setTimeout(resizeImages, 0);
 	setTimeout(displayFAB, 0);

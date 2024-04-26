@@ -2,16 +2,14 @@ window['light-theme'] = '#f4f6ff';
 window['dark-theme'] = '#001114';
 window['dark-name'] = 'blog-theme';
 
-// remove .html extensions, facilitate static site routing
-function removeLinkExtensions() {
-	if(!window.location.href.startsWith('file:///')) {
-		for(let a of document.querySelectorAll('a')) {
-			if(a.href.includes('knneo.github.io') || a.href.includes('knwebreports'))
-				a.href = a.href.replace('.html', '');
-		}
-	}
+function postLoadSequence() {
+	setTimeout(function() {
+		if(typeof generateViewer == 'function') generateViewer();
+		addSwipeEvents();
+		removeLinkExtensions();
+		addServiceWorker();
+	}, 0);
 }
-
 // allow toggle of emoji display
 function toggleEmojiDisplay() {
 	if(event.target != null)
@@ -65,5 +63,30 @@ function onTouchMove() {
 		//older post
 		document.querySelector('.prev')?.click();
 		return;
+	}
+}
+
+// remove .html extensions, facilitate static site routing
+function removeLinkExtensions() {
+	if(!window.location.href.startsWith('file:///')) {
+		for(let a of document.querySelectorAll('a')) {
+			if(a.href.includes('knneo.github.io') || a.href.includes('knwebreports'))
+				a.href = a.href.replace('.html', '');
+		}
+	}
+}
+
+// service worker implementation
+function addServiceWorker() {
+	if (navigator && 'serviceWorker' in navigator) {
+	  window.addEventListener('load', function() {
+		navigator.serviceWorker.register('js/sw.js')
+		  .then(function(registration) {
+			console.log('Service worker registered:', registration.scope);
+			startup();
+		  }, function(err) {
+			console.log('Service worker registration failed:', err);
+		  });
+	  });
 	}
 }

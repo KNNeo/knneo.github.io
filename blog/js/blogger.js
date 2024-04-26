@@ -1,4 +1,4 @@
-function preloadSequence() {
+function preLoadSequence() {
 	if(typeof addSearchBar == 'function') addSearchBar();
 	if(typeof addMetadata == 'function') addMetadata();
 	if(typeof reduceResults == 'function') reduceResults();
