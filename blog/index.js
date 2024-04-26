@@ -14,7 +14,7 @@ function addServiceWorker() {
 	  navigator.serviceWorker.register('sw.js', {
 		  sync: {
 			tags: [
-			  { name: 'update-cache', minPeriod: 60 }, // Update cache every minute
+			  { name: 'update-cache', maxPeriod: 60 }, // Update cache every minute
 			],
 		  },
 		})
