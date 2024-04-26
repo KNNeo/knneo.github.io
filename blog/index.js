@@ -13,10 +13,9 @@ function addServiceWorker() {
 	if (navigator && 'serviceWorker' in navigator) {
 	  navigator.serviceWorker.register('sw.js', {
 		  sync: {
-			periodicSync: {
-			  minPeriod: 60, // Minimum interval between sync events (in seconds)
-			  maxPeriod: 24 * 60 * 60, // Maximum interval between sync events (in seconds)
-			},
+			tags: [
+			  { name: 'update-cache', minPeriod: 60 }, // Update cache every minute
+			],
 		  },
 		})
 		.then(function(registration) {
