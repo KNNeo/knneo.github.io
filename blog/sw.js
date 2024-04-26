@@ -40,3 +40,35 @@ self.addEventListener('fetch', function(event) {
       })
   );
 });
+
+self.addEventListener('sync', function(event) {
+  if (event.tag === 'update-cache') {
+    event.waitUntil(
+      caches.open(CACHE_NAME)
+        .then((cache) => {
+          return cache.keys().then((keys) => {
+            return Promise.all(
+              keys.map((key) => {
+                // Check if the key represents an image resource (e.g., using URL or extension)
+                if (isImageResource(key)) {
+                  return fetch(key) // Fetch the image from the network
+                    .then((response) => {
+                      if (response.ok) {
+                        // Update cache with the new response
+                        return cache.put(key, response.clone());
+                      }
+                    });
+                }
+                return null; // Skip non-image resources
+              })
+            );
+          });
+        })
+    );
+  }
+});
+
+function isImageResource(key) {
+  // as long as it's static image, won't catch loaded image files ie. must end with extension
+  return /\.(png|jpg|jpeg|gif)$/.test(key.url);
+}
