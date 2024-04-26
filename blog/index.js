@@ -11,7 +11,7 @@ window.addEventListener('hashchange', filterByTag);
 // service worker implementation
 function addServiceWorker() {
 	if (navigator && 'serviceWorker' in navigator) {
-	  navigator.serviceWorker.register('js/sw.js')
+	  navigator.serviceWorker.register('js/sw.js', { scope: '/' })
 		.then(function(registration) {
 			console.log('Service worker registered:', registration.scope);
 		}, function(err) {
