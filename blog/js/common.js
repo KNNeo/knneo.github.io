@@ -18,7 +18,8 @@ function startup() {
 	if(typeof toggleEmojiDisplay == 'function') toggleEmojiDisplay();
 	if(typeof generateViewer == 'function') setTimeout(generateViewer, 0);
 	if(typeof addSwipeEvents == 'function') setTimeout(addSwipeEvents, 0);
-
+	if(typeof removeLinkExtensions == 'function') setTimeout(removeLinkExtensions, 0);
+	
 	// Window events
 	window.addEventListener('scroll', toggleActionsOnScroll);
 	window.addEventListener('resize', windowOnResize);
