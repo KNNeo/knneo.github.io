@@ -4,10 +4,10 @@ window['dark-name'] = 'blog-theme';
 
 function postLoadSequence() {
 	setTimeout(function() {
-		if(typeof generateViewer == 'function') generateViewer();
+		addServiceWorker();
 		addSwipeEvents();
 		removeLinkExtensions();
-		addServiceWorker();
+		if(typeof generateViewer == 'function') generateViewer();
 	}, 0);
 }
 // allow toggle of emoji display
@@ -79,14 +79,11 @@ function removeLinkExtensions() {
 // service worker implementation
 function addServiceWorker() {
 	if (navigator && 'serviceWorker' in navigator) {
-	  window.addEventListener('load', function() {
-		navigator.serviceWorker.register('../../../js/sw.js')
-		  .then(function(registration) {
+	  navigator.serviceWorker.register('../../../js/sw.js')
+		.then(function(registration) {
 			console.log('Service worker registered:', registration.scope);
-			startup();
-		  }, function(err) {
+		}, function(err) {
 			console.log('Service worker registration failed:', err);
-		  });
-	  });
+		});
 	}
 }

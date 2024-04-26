@@ -1,14 +1,4 @@
 const CACHE_NAME = 'klassic-note-web-reports-v1';
-const cacheUrls = getCacheUrls();
-
-function getCacheUrls() {
-	let list = ['/'];	
-	// all header assets
-	list.push(Array.from(document.querySelectorAll('link,script')).map(l => l.href));	
-	// all images
-	list.push(Array.from(document.querySelectorAll('img')).map(i => i.src));	
-	return list;
-}
 
 self.addEventListener('install', function(event) {
   // Perform install steps
@@ -16,10 +6,19 @@ self.addEventListener('install', function(event) {
     caches.open(CACHE_NAME)
       .then(function(cache) {
         console.log('Opened cache');
-        return cache.addAll(cacheUrls);
+        return cache.addAll(getCacheUrls());
       })
   );
 });
+
+function getCacheUrls() {
+	let list = ['/'];	
+	// all header assets
+	list.concat(Array.from(document.querySelectorAll('link,script')).map(l => l.href));	
+	// all images
+	list.concat(Array.from(document.querySelectorAll('img')).map(i => i.src));	
+	return list;
+}
 
 self.addEventListener('fetch', function(event) {
   event.respondWith(
