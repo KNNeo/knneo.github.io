@@ -4,7 +4,7 @@ window['dark-name'] = 'blog-theme';
 
 // remove .html extensions, facilitate static site routing
 function removeLinkExtensions() {
-	if(window.location.href.startsWith('file:///')) {
+	if(!window.location.href.startsWith('file:///')) {
 		for(let a of document.querySelectorAll('a')) {
 			if(a.href.includes('knneo.github.io') || a.href.includes('knwebreports'))
 				a.href = a.href.replace('.html', '');
