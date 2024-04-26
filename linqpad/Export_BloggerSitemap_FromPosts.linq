@@ -10,7 +10,7 @@ void Main()
 	bool WriteFanficList = false;
 	bool TraceMode = false;
 	int MaxHashtagLength = 32;
-	string defaultFont = "Noto Sans";
+	string defaultFont = "Noto Sans, Arial, sans-serif;";
     Console.WriteLine("WriteTitleOnConsole is " + WriteTitleOnConsole + "; Set as true to see post titles");
     Console.WriteLine("\tPost with changes will appear here");
 	Console.WriteLine("\tIf edit from Blogger img tags will be missing self-enclosing slash, format on web version to fix");

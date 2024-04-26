@@ -37,7 +37,7 @@ bool TraceMode = false;
 bool WriteTitleOnConsole = true;
 bool RenderHomepageOnly = false;
 string searchTerm = "";
-string defaultFont = "Noto Sans";
+string defaultFont = "Noto Sans, Arial, sans-serif;";
 string blogTitle = "Klassic Note Web Reports";
 string domainLink = "https://knwebreports.blogspot.com/";
 string xmlPath = @"C:\Users\KAINENG\Downloads\";
@@ -210,7 +210,7 @@ void Main()
 			output.AppendLine("<meta property=\"og:url\" content=\"" + pageLink + "\"/>");
 			output.AppendLine("<meta property=\"og:type\" content=\"website\"/>");
 	        output.AppendLine("<link href=\"../../../storytime.ico\" rel=\"icon\" />");
-	        output.AppendLine("<link href=\"../../../../fonts.css\" rel=\"stylesheet\" />");
+	        output.AppendLine("<link href=\"../../../fonts.css\" rel=\"stylesheet\" />");
 			// cursive font only used twice in posts so far
 	        if(content.Contains("Dancing Script"))
 				output.AppendLine("<link href='https://fonts.googleapis.com/css?family=Dancing Script' rel='stylesheet' />");
@@ -224,7 +224,7 @@ void Main()
 	        output.AppendLine("<script src=\"../../../js/search.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
 	        output.AppendLine("<script src=\"../../../js/searchIndex.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
 	        output.AppendLine("<title>" + (postTitle.Length > 0 ? postTitle : "A Random Statement") + "</title>");
-	        output.AppendLine("<body style=\"font-family: " + defaultFont + ";\">");
+	        output.AppendLine("<body style=\"font-family: " + defaultFont + "\">");
 	        output.AppendLine("<div id=\"contents\" class=\"post-body entry-content\">");
 			if (originalLink != "")
 	            output.AppendLine("<small style=\"text-align: center;\"><p><i>This is an archive from <a href=\"" + originalLink + "\">" + blogTitle + "</a></i></p></small>");
