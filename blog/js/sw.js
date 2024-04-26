@@ -1,5 +1,4 @@
 const CACHE_NAME = 'klassic-note-web-reports-v1';
-const REQUEST_DESTINATIONS = ['image', 'script', 'style', 'font'];
 
 self.addEventListener('install', function(event) {
   // Perform install steps
@@ -13,8 +12,6 @@ self.addEventListener('install', function(event) {
 });
 
 self.addEventListener('fetch', function(event) {
-  // Check if the request is for an image
-  if (REQUEST_DESTINATIONS.includes(event.request.destination)) {
     const request = event.request;
     event.respondWith(
       caches.match(request) // Try to serve from cache first
@@ -34,5 +31,4 @@ self.addEventListener('fetch', function(event) {
             });
         })
     );
-  }
 });
