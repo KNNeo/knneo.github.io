@@ -90,9 +90,6 @@ function reduceResults() {
 		window.location.href.includes(window.location.origin + '/b/blog-preview') || 
 		window.location.href.includes(window.location.origin + '/p/'))
 		return;
-	// remove footer
-	// while (document.querySelector('.post-footer-line-2') != null)
-		// document.querySelector('.post-footer-line-2').remove();
 	// remove header
 	while (document.querySelector('.date-header') != null)
 		document.querySelector('.date-header').remove();
@@ -170,6 +167,9 @@ function reduceResults() {
 			if (content.parentElement.querySelector('h3') != null)
 				content.style.display = 'none'; // permanently hide
 		}
+		// change footer to horizontal rule
+		for (let footer of document.querySelectorAll('.post-footer-line-2'))
+			footer.innerHTML = '<hr>';
 		// add button to expand/collapse
 		// for (let titleBar of document.getElementsByClassName('post-title entry-title'))
 			// titleBar.innerHTML = '<table><tbody><tr><td><div class="search-expander"><i class="material-icons">unfold_less</i></div></td><td>' + titleBar.innerHTML + '</td></tr></tbody></table>';
@@ -189,12 +189,12 @@ function reduceResults() {
 			// });
 		// }
 		//fix table cell border depending on content type due to mix of post contents
-		for (let table of document.getElementsByTagName('td')) {
-			if (table.getElementsByTagName('img').length > 0 || table.className == 'tr-caption') {
-				table.style.border = 'none';
-				table.style.padding = '0';
-			}
-		}
+		// for (let table of document.getElementsByTagName('td')) {
+			// if (table.getElementsByTagName('img').length > 0 || table.className == 'tr-caption') {
+				// table.style.border = 'none';
+				// table.style.padding = '0';
+			// }
+		// }
 	}
 }
 
