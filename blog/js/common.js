@@ -9,19 +9,6 @@ const isMediumWidth = function () {
 	return window.innerWidth <= 1024;
 }
 
-function windowOnResize() {
-	// sidebar content on blogger must show on larger screens
-	if (!isMediumWidth()) {
-		if(document.getElementById('LinkList1') != null) document.getElementById('LinkList1').style.display = '';
-		if(document.getElementById('BlogArchive1') != null) document.getElementById('BlogArchive1').style.display = '';	
-		let outer = document.getElementsByClassName('column-left-outer')[0];
-		if(outer != null)
-			outer.style.position = '';
-	}
-	displayFAB();
-	closePopups();
-};
-
 function windowOnHistoryChange() {
 	// if viewer open, close and return
 	if(document.querySelector('.viewer')?.classList.contains('open')) {
@@ -90,51 +77,42 @@ function labelTextToIcon(iconText) {
 
 // Add hashtags for Entertainment News posts with anchors
 function addHashtags() {
-	// empty hashtags if any content
-	let tags = document.querySelector(".hashtags") || document.querySelector("#hashtags");
-	if(tags != null)
+	let tags = document.querySelector('#hashtags, .hashtags');
+	if (tags != null)
 	{
-		tags.innerHTML = '';
-		
-		//ignore old id and if is search result
+		// empty hashtags if any content
+		tags.innerHTML = '';		
+		// if is search result, remove all old hashtags
 		if(window.location.href.includes("/search/")) {
 			for(let element of document.querySelectorAll("[id='hashtags']"))
 				element.style.display = 'none';
 			return;
-		}
-		
-		// recreate hashtags
+		}		
+		// create hashtags
 		var hashtags = [];		
-		// add anything with anchor
+		// add any tag with anchor
 		let sections = document.querySelectorAll(".post-body [id]:not(#hashtags):not(#news-thumbnail):not(.twitter-tweet iframe[id]):not(#table):not(#music):not(.list):not(audio):not(video):not(object)");
 		if(sections.length > 0)
 		{
 			for(let section of sections) {
-				if(section.id.length > 1 && section.id.length <= 64)
-					hashtags.push({
-						tag: section.id, 
-						target: section.id
-					});
+				if(section.id.length > 1 && section.id.length <= 64) // set max id length
+					hashtags.push({ tag: section.id, target: section.id });
 				else {
 					console.error('hashtag length too long: ' + section.id);
 					return;
 				}
 			}
 		}
-		// special case: klassic note
-		for(let span of document.querySelectorAll(".post-body span")) {
-			if(span.innerText == "This Week on Klassic Note") {
+		// special case for klassic note: one per post, inner text is 'This Week on Klassic Note'
+		for(let span of document.querySelectorAll('.post-body span')) {
+			if(span.innerText == 'This Week on Klassic Note') {
 				//set id on class
-				span.id = "KlassicNote";
-				hashtags.push({
-					tag: "ThisWeekOnKlassicNote", 
-					target: span.id
-				});
+				span.id = 'KlassicNote';
+				hashtags.push({ tag: 'ThisWeekOnKlassicNote', target: span.id });
 				break;
 			}
 		}
-		
-		// render
+		// render hashtag
 		if(hashtags.length > 0) {
 			for(let item of hashtags) {
 				let newItem = document.createElement('a');
@@ -150,9 +128,10 @@ function addHashtags() {
 }
 
 function scrollToSectionByUrl() {
+	// used to set initial scroll if location has hash
 	if(window.location.hash.length > 0)
 		scrollToElement(document.getElementById(window.location.hash.substring(1)));
-	if(window['scroll-top']) { // if triggered popstate, revert hashchange
+	if(window['scroll-top']) { // if popstate triggered, revert hashchange (works only if has selected anchor
 		event.preventDefault();
 		history.forward();
 		window.scrollTo(0, window['scroll-top']);
@@ -161,24 +140,26 @@ function scrollToSectionByUrl() {
 }
 
 function scrollToElement(elem) {
-	if(elem != null)
-	{
+	// helper function to scroll to any element, assuming header is present
+	if(elem != null) {
 		let newPos = document.documentElement.scrollTop + (elem?.getBoundingClientRect().top || 0) - (document.querySelector('.page-header')?.getBoundingClientRect().height || 0) - 5;
 		// console.log(window['pos'], newPos);
-		if(window['pos'] != parseInt(newPos)) // detect final position of section on render
+		// detect final position of section on render
+		if(window['pos'] != parseInt(newPos))
 			window['pos'] = parseInt(newPos);
-		if(document.documentElement.scrollTop != newPos) // then, check against scrollTop
+		// check against scrollTop
+		if(document.documentElement.scrollTop != newPos)
 			document.documentElement.scrollTop = newPos;
-		if(typeof toggleHeader === 'function') // for github page
+		// for github pages, show page header
+		if(typeof toggleHeader === 'function')
 			toggleHeader(true);
 	}
 }
 
-// Abbreviation to show as dialog if not using mouse to hover
-// Exception to include: published field in github site
 function showAbbrAsDialog() {
-	for(let abbr of document.querySelectorAll('.published, abbr[title]'))
-	{
+	// Abbreviation to show as dialog if not using mouse to hover
+	// Exception: published field in github site
+	for(let abbr of document.querySelectorAll('.published, abbr[title]')) {
 		abbr.addEventListener('click', function() {
 			event.preventDefault();
 			popupText(event.target.title);
@@ -186,10 +167,9 @@ function showAbbrAsDialog() {
 	}
 }
 
-// Fineprint component, click to toggle show full text or condensed
 function focusOnExpandFineprint() {
-	for(let fp of document.querySelectorAll('.fineprint'))
-	{
+	// Fineprint component, click to toggle show full text or condensed
+	for(let fp of document.querySelectorAll('.fineprint')) {
 		fp.addEventListener('click', function() {
 			fp.classList.toggle('show');
 			fp.scrollIntoView({ block: 'center' });
@@ -197,13 +177,10 @@ function focusOnExpandFineprint() {
 	}
 }
 
-// Accordion component, click to toggle show extra text or just header
 function setExpander() {
-	for(let accordion of document.querySelectorAll('.accordion'))
-	{
-		accordion.querySelector('.header')?.addEventListener('click', toggleExpander);
-		accordion.querySelector('.footer')?.addEventListener('click', toggleExpander);
-	}
+	// Accordion component, click to toggle show extra text or just header
+	for(let expander of document.querySelectorAll('.accordion .header, .accordion .footer'))
+		expander?.addEventListener('click', toggleExpander);
 }
 
 function toggleExpander() {
@@ -212,8 +189,8 @@ function toggleExpander() {
 	parent.querySelector('.header').scrollIntoView({ block: 'center' });
 }
 
-// Dialog component
 function popupText(input) {
+	// Dialog component
 	let dialogDiv = document.querySelector('.dialog');
 	if(dialogDiv == null) {
 		dialogDiv = document.createElement('div');
@@ -227,14 +204,15 @@ function popupText(input) {
 }
 
 function createDialog(node) {
-	// node in dialog will not have events!
+	// Helper function to create dialog with content
+	// Note: Node in dialog will not have events! Manual add back or write as attribute!
 	let dialog = document.createElement('dialog');
 	if(!dialog.classList.contains('box')) dialog.classList.add('box');
 	if(typeof node == 'string')
 		dialog.innerHTML = node;
 	if(typeof node == 'object') {
 		let clonedNode = node.cloneNode(true);
-		dialog.appendChild(clonedNode);
+	dialog.appendChild(clonedNode);
 	}
 	dialog.addEventListener('click', function() {
 		if(event.target.parentElement == document.querySelector('.dialog'))
@@ -248,10 +226,7 @@ function createDialog(node) {
 
 function removeDialog() {
 	if(event) event.preventDefault(); // Prevent the default form submission
-	let dialogDiv = document.querySelector('.dialog');
-	if(dialogDiv != null) {
-		dialogDiv.remove();
-	}	
+	document.querySelector('.dialog')?.remove();
 }
 
 // Popup element, based on content type
@@ -273,29 +248,26 @@ function addPopupEvents() {
 }
 
 function togglePopup() {
+	// show or hide content popup
 	event.preventDefault();
 	if(document.querySelector('#PopupBtn') != null && document.querySelector('#PopupBtn').innerText == 'launch')
-	{
 		window.open(this.getAttribute('data-url'), '_blank');
-	}
     else if (this.classList.contains('new-thumbnail')) {
-		//hide
+		// hide thumbnails
         this.classList.remove('new-thumbnail');
-		// switchToButton('GoToTopBtn');
-		// document.getElementById('CloseBtn')?.style.display = 'none';
+		// must hide overlay
 		hideOverlay();
 	}
     else {
-		//display
-        for (let page of document.getElementsByClassName('post-body entry-content')) {
-            for (let popup of page.getElementsByClassName('new-thumbnail')) {
-                popup.classList.remove('new-thumbnail');
-            }
-        }
+		// display
+        for (let popup of document.querySelectorAll('.post-body.entry-content .new-thumbnail'))
+			popup.classList.remove('new-thumbnail');
         this.classList.add('new-thumbnail');
 		// switchToButton('CloseBtn');
+		// must show overlay
 		showOverlay();
 		if(typeof fixExternalFrame == 'function') fixExternalFrame(this);
+		// manual render social embed scripts, not the same as when it's loaded already
 		renderEmbedProcess();
 		// if below threshold height scroll up, else open popup without scroll
 		let thresholdHeight = 0.4*window.innerHeight;
@@ -308,40 +280,40 @@ function togglePopup() {
 
 function closePopups() {
 	let overlay = document.getElementById('Overlay');
+	// prevent kill if from sidebar
 	if(overlay?.style.display != 'none' && 
 		document.querySelector('.fab.close') != null && !document.querySelector('.fab.close').classList.contains('hidden'))
-		return; // prevent kill if from sidebar
+		return;
 	// kill youtube videos playing
 	for(let video of document.querySelectorAll('.yt-video'))
 		video.contentWindow.postMessage('{"event":"command","func":"stopVideo","args":""}', '*');
 	// hide all popup content
 	for (let popup of document.querySelectorAll('.post-body.entry-content .new-thumbnail'))
 		popup.classList.remove('new-thumbnail');
-	
+	// update fabs and overlay
 	displayFAB();
 	hideOverlay();
 }
 
 function renderPopup() {
     event.preventDefault();
-	let url = this.href;
-	
+	let url = this.href;	
 	//exclusion for blogger	images
     if ((url.includes('blogspot.com') || url.includes('blogger.googleusercontent.com')) && this.target == '') return;
-	//exclusion for if target is not _blank
+	// exclusion for if not open in new tab
     if (this.target == '') return;
-	//exclusion class, if any
+	// exclusion class, if any
     if (this.classList.contains('opt-out')) return;
-	//if not compatible for any design
+	// if not compatible for any design
     let newContent = generatePopupContent(url);
     if (newContent == null) return;
     let thumbnail = document.createElement('div');
     thumbnail.classList.add('new-t');
-
+	// clone popup content
     let initial = document.createElement('a');
     initial.classList.add('new-thumbnail-initial');
     initial.innerHTML = this.innerHTML;
-
+	// minor fixes for thumbnail display and layout
     let focus = document.createElement('div');
     focus.classList.add('new-thumbnail-focus');
     focus.classList.add('fadeIn');
@@ -349,14 +321,13 @@ function renderPopup() {
 		focus.style.paddingTop = '10px';
     focus.innerHTML = newContent;
 	focus.addEventListener('click', closePopups);
-
+	// bring it all together
     thumbnail.appendChild(initial);
     thumbnail.appendChild(focus);
 	thumbnail.setAttribute('data-url', url);
-
+	// update (illegally) thumbnail popup with embed content
     this.outerHTML = thumbnail.outerHTML;
-    addPopupEvents();
-	
+    addPopupEvents();	
 	return thumbnail;
 }
 
@@ -475,7 +446,7 @@ function toggleActionsOnScroll() {
 	// position of buttons on scroll
 	let pageDown = document.body.scrollTop > 0.3 * document.documentElement.clientHeight || 
 	document.documentElement.scrollTop > 0.3 * document.documentElement.clientHeight;
-	if(!isBlogger()) {
+	if(!isBlogger()) { // if not in blogger, show all buttons applicable
 		if (pageDown) {
 			toggleActions(['.fab.share', '.fab.search', '.fab.top'], '.action-menu.bottom-right');
 		}
@@ -483,13 +454,10 @@ function toggleActionsOnScroll() {
 			toggleActions(['.fab.share', '.fab.search', '.fab.theme'], '.action-menu.bottom-right');
 		}
 	}
-	else {
-		if (pageDown) {
-			toggleActions(['.fab.share', '.fab.top'], '.action-menu.bottom-right');
-		}
-		else {
-			toggleActions(['.fab.share', '.fab.search'], '.action-menu.bottom-right');
-		}
+	else { 
+		// do not show too many as small screen space
+		if (pageDown) toggleActions(['.fab.share', '.fab.top'], '.action-menu.bottom-right');
+		else toggleActions(['.fab.share', '.fab.search'], '.action-menu.bottom-right');
 		if(isMediumWidth()) toggleActions(['.fab.sidebar'], '.action-menu.bottom-left');
 		else toggleActions([], '.action-menu.bottom-left');
 	}
@@ -509,19 +477,17 @@ function toggleActionsOnScroll() {
 }
 
 function toggleActions(showElements, parentElement) {
+	// allow toggle button from menu type
 	if(!showElements || !parentElement) return;
 	if(typeof(parentElement) == 'string') parentElement = document.querySelector(parentElement);
 	
 	// hide all in parent element: assume has fab class children
 	for(let fab of parentElement.querySelectorAll('.fab'))
-	{
 		fab.classList.add('hidden');
-	}
 	
 	// show button(s) specified
 	if(Array.isArray(showElements)) {
-		for(let elem of showElements)
-		{
+		for(let elem of showElements) {
 			if(typeof(elem) == 'string') elem = document.querySelector(elem);
 			if(elem != null) elem.classList.remove('hidden');
 		}
@@ -561,21 +527,20 @@ async function sharePage() {
 function setThumbnails() {
 	// check thumbnail images with links
 	let thumbImagesWithLinks = Array.from(document.querySelectorAll('.thumbnail img')).filter(i => i.parentElement.tagName.toLowerCase() === 'a');
-	if(thumbImagesWithLinks.length > 0)
-	{
-		console.error("Thumbnail has image with link: Will prevent switchThumbnails assignment");
-		console.log(thumbImagesWithLinks);
+	if(thumbImagesWithLinks.length > 0) {
+		console.error('Thumbnail has image with link: Will prevent switchThumbnails assignment');
+		console.error(thumbImagesWithLinks);
 		return;
 	}
 	// check thumbnail class names logic violation
 	let thumbInitials = Array.from(document.querySelectorAll('.thumbnail')).filter(i => i.querySelectorAll('.thumbnail-initial:not(.thumbnail-pop)').length != 1);
-	if(thumbInitials.length > 0) // no of thumbnails with initial class not exactly 1
-	{
+	// no of thumbnails with initial class not exactly 1
+	if(thumbInitials.length > 0) {
 		console.error("Thumbnail classList definition error: Will prevent switchThumbnails assignment");
 		console.log(thumbInitials);
 		return;
 	}
-	
+	// process thumbnail logic
     for (let thumbnail of document.querySelectorAll('.thumbnail')) {
 	    // ignore new borders if span width
 	    // if(Array.from(thumbnail.querySelectorAll('tr')).filter(tr => tr.querySelectorAll('td').length > 1).length > 0)
@@ -585,9 +550,8 @@ function setThumbnails() {
 		// add click event for first thumbnail content
         let allThumbImages = thumbnail.querySelectorAll('img');
 		// show if loaded first content
-		if(allThumbImages.length > 0 && allThumbImages[0].complete) {
+		if(allThumbImages.length > 0 && allThumbImages[0].complete)
 			thumbnail.classList.add('show');
-		}
         for (let thumbImage of allThumbImages) {
             thumbImage.onclick = function() {
                 switchThumbnails(event.target.closest('.thumbnail'));
@@ -598,13 +562,11 @@ function setThumbnails() {
 					showAllThumbnails(thumbnail);
 				};
         }
-		// if text only (experimental)
+		// text only (experimental)
 		if(allThumbImages.length < 1 &&
 		thumbnail.querySelectorAll('.thumbnail-initial').length > 0 &&
 		thumbnail.querySelectorAll('.thumbnail-pop').length > 0)
 		{
-			thumbnail.style.display = 'inline';
-			
 			let textElement = document.createElement('span');
 			textElement.classList.add('thumbnail-text');
 			textElement.innerHTML = thumbnail.querySelectorAll('.thumbnail-initial')[0].innerHTML;
@@ -619,11 +581,10 @@ function setThumbnails() {
 				if(document.querySelector('.thumbnail-dialog') == null)
 					document.body.appendChild(dialogElement);
 				dialogElement.showModal();
-			};
-			
+			};			
+			thumbnail.style.display = 'inline';
 			thumbnail.replaceWith(textElement);
-		}
-		
+		}		
 		// add indices
 		let counter = 1;
         let items = thumbnail.querySelectorAll('.thumbnail-initial');
@@ -637,15 +598,14 @@ function setThumbnails() {
 }
 
 function switchThumbnails(tn, index) {
+	// helper function to switch thumbnail content, in order and loop
     let tc = tn.getElementsByClassName('thumbnail-initial');
 	// identify current active
 	let active = Array.from(tc).findIndex(t => !t.classList.contains('thumbnail-pop'));
 	if(active == null) return;
 	// to reset before setting new active
-	for(let t of tc) {
-		if(!t.classList.contains('thumbnail-pop'))
-			t.classList.add('thumbnail-pop');
-	}
+	for(let t of tc.filter(c => !c.classList.contains('thumbnail-pop')))
+		t.classList.add('thumbnail-pop');
 	// show next active
 	let nextActive = tc[active].nextElementSibling;
 	if(nextActive == null) nextActive = tn.firstElementChild;
@@ -663,18 +623,18 @@ function switchThumbnails(tn, index) {
 }
 
 function showAllThumbnails(tn) {
+	// when thumbnails count exceed max no, right click thumbnail to show all in viewer
 	if(typeof openImagesInViewer == 'function' && document.querySelector('.viewer') != null)
 		openImagesInViewer(tn.querySelectorAll('.thumbnail-initial'));
 }
 
-// Responsive image resizing based on screen dimensions
 function resizeImages() {
-    /* Current limitations
+    /* Responsive image resizing based on screen dimensions
+	Current limitations:
     ~Images that always resize to 100% instead of retaining original size which can fit screen, consider putting back original size if no overflow
 	~Images need to have width and height attribute, especially if tr has multiple td/img
     */
-    for (var p of document.querySelectorAll("img"))
-	{
+    for (var p of document.querySelectorAll('img')) {
 		resizeImage(p);
 		p.addEventListener('load', function() {
 			resizeImage(p);
@@ -692,16 +652,12 @@ function resizeImage(p) {
 	var imgHeight = p.height;
 	if(showLog) console.log('width x height', imgWidth, imgHeight);
 	// exclusion list
-	if ((isBlogger() && (imgWidth < 20 || imgHeight < 20)) || 
-		p.id == 'news-thumbnail')
-	{
+	if ((isBlogger() && (imgWidth < 20 || imgHeight < 20)) || p.id == 'news-thumbnail') {
 		if(showLog) console.log('exclusion', p, p.parentElement);
 		p.classList.add('img-unchanged');
 		return;
-	}
-	
-	// if(showLog)	console.log('orientation: ' + (imgWidth >= imgHeight ? 'landscape' : 'portrait'));
-	
+	}	
+	// if(showLog)	console.log('orientation: ' + (imgWidth >= imgHeight ? 'landscape' : 'portrait'));	
 	// adjust dimensions
 	if(p.parentElement && p.parentElement.parentElement) {
 		let bodyWidth = document.querySelector('.post-body.entry-content')?.clientWidth;
@@ -738,27 +694,22 @@ function resizeImage(p) {
 			p.classList.add('img-width-fit');
 		else
 			p.classList.add('img-width-auto');
-			
 		// special case: to avoid resize issue on reload
-		if(p.classList && p.classList.contains('img-width-fit') && p.classList.contains('img-width-auto'))
-			p.classList.remove('img-width-auto');
-	
+		if (p.classList && p.classList.contains('img-width-fit') && p.classList.contains('img-width-auto'))
+			p.classList.remove('img-width-auto');	
 		// special case: separator class
 		if (p.parentElement.className == 'separator' ||
 			p.parentElement.parentElement.className == 'separator') {
 			p.parentElement.classList.add('img-separator');
 			if(showLog) console.log('separator', p.style.marginLeft, p.style.marginRight);
 		}
-		if(p.parentElement.tagName == 'A' &&
-		p.parentElement.marginLeft != '' &&
-		p.parentElement.marginRight != '')
-		{
+		// special case: image with links, fix margins
+		if (p.parentElement.tagName == 'A' && p.parentElement.marginLeft != '' && p.parentElement.marginRight != '') {
 			p.parentElement.style.marginLeft = null;
 			p.parentElement.style.marginRight = null;
 			p.parentElement.classList.add('img-separator');
 		}
 	}
-
-	// set thumbnails again after adjusted
+	// set thumbnails again after adjusted image size
     setThumbnails();
 }
