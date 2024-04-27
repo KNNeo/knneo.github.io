@@ -169,6 +169,11 @@ function renderPage() {
 	// render buttons
 	renderButtons();
 	renderFooter();
+	// if single page, calculate section height
+	if(window['main'].isSinglePage) {
+		for(let section of document.querySelectorAll('.section'))
+			section.style.height = 'calc(100% - ' + ((document.querySelector('.menu').getBoundingClientRect().height + document.querySelector('.footer').getBoundingClientRect().height) + 'px') + ')';
+	}
 	// add focus events
 	for(let focusable of document.querySelectorAll('.focusable')) {
 		focusable.tabIndex = 0;
@@ -185,8 +190,6 @@ function renderMain() {
 	if(document.querySelector('.main') != null) {
 		let main = document.querySelector('.main');
 		main.classList.add('focusable');
-		if(content.isSinglePage)
-			main.style.height = 'calc(100% - ' + ((document.querySelector('.menu').getBoundingClientRect().height + 35) + 'px') + ')';
 		
 		if(content.sectionNo > 0) {
 			let prevDiv = document.createElement('div');
@@ -253,8 +256,6 @@ function renderSection(sectionNo) {
 	let section = document.querySelectorAll('.section')[sectionNo];// > mainSectionNo ? sectionNo - mainSectionNo : sectionNo];
 	let main = window['main'];
 	let content = window['elements'][sectionNo];
-	if(main.isSinglePage)
-		section.style.height = 'calc(100% - ' + ((document.querySelector('.menu').getBoundingClientRect().height + 35) + 'px') + ')';
 	
 	let prevDiv = document.createElement('div');
 	prevDiv.classList.add('page-prev');

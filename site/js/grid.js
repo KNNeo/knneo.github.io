@@ -189,7 +189,7 @@ function renderGrid(sectionNo, content, isSinglePage) {
 				{
 					if(mediumScreenWidth()) // if mobile, all in one row
 					{
-						img.style.height = (100 / (component.datas.length + 1)) + '%';
+						img.style.height = (100 / (component.rows)) + '%';
 					}
 					else //if desktop, all in n rows where n = component.rows
 					{
