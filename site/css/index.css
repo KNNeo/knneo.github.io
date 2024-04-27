@@ -95,6 +95,7 @@ a {
 	flex-direction: column;
 	justify-content: center;
 	text-align: center;
+	z-index: 1;
 	transition: opacity 1s;
 }
 
@@ -425,6 +426,26 @@ a {
 	font-size: 0.9em;
 	max-width: 90px;
 	max-height: 90px;
+}
+
+.image {
+    width: 80%;
+    height: 100%;
+	margin: auto;
+    object-fit: contain;
+}
+
+.images {
+	width: 100%;
+}
+
+.images img {
+	margin: 5px;
+}
+
+.images .caption {
+	width: 100%;
+	margin: 5px;
 }
 
 .gallery {

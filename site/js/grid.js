@@ -96,7 +96,7 @@ function renderGrid(sectionNo, content, isSinglePage) {
 		let elem = document.querySelector('#section'+sectionNo+'cell'+index);
 		if(component.type == 'title')
 		{
-			elem.style.verticalAlign = 'center';
+			// elem.style.verticalAlign = 'center';
 			elem.style.textAlign = component.align || 'center';
 			
 			if(component.prefix)
@@ -124,38 +124,37 @@ function renderGrid(sectionNo, content, isSinglePage) {
 		}
 		else if(component.type == 'image')
 		{
-			let img = document.createElement('div');
+			let img = document.createElement('img');
 			img.classList.add(component.type);
 			img.setAttribute('loading', 'lazy');
-			if(component.tooltip && component.tooltip.length > 0) img.title = component.tooltip;
-			img.style.backgroundImage = addBackgroundUrlClause(component.source);
-			img.style.width = '100%';//component.rows > 1 ? '80%' : '100%';
-			img.style.height = '100%';
-			img.style.margin = 'auto';
-			img.style.backgroundSize = 'contain';
-			img.style.backgroundRepeat = 'no-repeat';
-			img.style.backgroundPosition = 'center';
+			if(component.tooltip && component.tooltip.length > 0)
+				img.title = component.tooltip;
+			img.src = component.source;
+			// img.style.width = '100%';//component.rows > 1 ? '80%' : '100%';
+			// img.style.height = '100%';
+			// img.style.margin = 'auto';
+			// img.style.backgroundSize = 'contain';
+			// img.style.backgroundRepeat = 'no-repeat';
+			// img.style.backgroundPosition = 'center';
 			// img.addEventListener('contextmenu', function(e) { e.preventDefault(); });
 			
-			if(component.link && component.link.length > 0)
-			{
+			if(component.link && component.link.length > 0)	{
 				let linkContainer = document.createElement('div');
 				linkContainer.style.width = '100%';
 				linkContainer.style.height = largeScreenWidth() ? '80%' : '100%';
 				linkContainer.style.verticalAlign = 'center';
 
-					let url = document.createElement('a');
-					url.href = component.link;
-					url.appendChild(img);
+				let url = document.createElement('a');
+				url.href = component.link;
+				url.appendChild(img);
 					
 				linkContainer.appendChild(url);
 				elem.appendChild(linkContainer);
 			}
-			else
-			{
+			else {
 				img.classList.add('focusable');
 				elem.appendChild(img);
-			}			
+			}
 		}
 		else if(component.type == 'images')
 		{
@@ -164,7 +163,7 @@ function renderGrid(sectionNo, content, isSinglePage) {
 			
 			let gallery = document.createElement('div');
 			gallery.classList.add(component.type);
-			gallery.style.width = '100%';
+			// gallery.style.width = '100%';
 			
 			for(let data of component.datas)
 			{
@@ -203,7 +202,7 @@ function renderGrid(sectionNo, content, isSinglePage) {
 						}
 					}
 				}
-				img.style.margin = '5px';
+				// img.style.margin = '5px';
 				img.addEventListener('contextmenu', function(e) { e.preventDefault(); });
 				
 				if(data.link)
@@ -226,8 +225,8 @@ function renderGrid(sectionNo, content, isSinglePage) {
 				caption.classList.add('caption');
 				caption.classList.add('focusable');
 				caption.innerText = component.caption;
-				caption.style.width = '100%';
-				caption.style.margin = '5px';
+				// caption.style.width = '100%';
+				// caption.style.margin = '5px';
 				gallery.appendChild(caption);
 			}
 			
