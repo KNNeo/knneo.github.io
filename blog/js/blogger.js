@@ -30,6 +30,19 @@ function preLoadSequence() {
 	document.body.style.display = 'block';
 }
 
+function windowOnResize() {
+	// sidebar content on blogger must show on larger screens
+	if (!isMediumWidth()) {
+		if(document.getElementById('LinkList1') != null) document.getElementById('LinkList1').style.display = '';
+		if(document.getElementById('BlogArchive1') != null) document.getElementById('BlogArchive1').style.display = '';	
+		let outer = document.getElementsByClassName('column-left-outer')[0];
+		if(outer != null)
+			outer.style.position = '';
+	}
+	displayFAB();
+	closePopups();
+}
+
 function addSearchBar() {
 	// remove native search bar, add back on page header
 	let search = document.createElement('div');
