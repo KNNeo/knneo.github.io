@@ -182,7 +182,7 @@ function renderGrid(sectionNo, content, isSinglePage) {
 					}
 					else //if desktop, all in one row
 					{
-						img.style.width = (100 / (component.columns + 1)) + '%';
+						img.style.width = (100 / (component.columns)) + '%';
 					}
 				}
 				if(component.rows > 0)
@@ -199,6 +199,7 @@ function renderGrid(sectionNo, content, isSinglePage) {
 						if(component.datas.length == component.rows) {
 							gallery.style.display = 'flex';
 							gallery.style.flexDirection = 'column';
+							gallery.style.justifyContent = 'center';
 						}
 					}
 				}
