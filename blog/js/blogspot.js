@@ -19,6 +19,7 @@ function postLoadSequence() {
 	setTimeout(addHoverForLinks, 0);
 	setTimeout(showAbbrAsDialog, 0);
 	setTimeout(renderLabelIcon, 0);
+	setTimeout(toggleEmojiDisplay, 0);
 	setTimeout(scrollToSectionByUrl, 200);
 	setTimeout(function() {
 		addSwipeEvents();
@@ -29,7 +30,7 @@ function postLoadSequence() {
 
 // allow toggle of emoji display
 function toggleEmojiDisplay() {
-	if(event.target != null)
+	if(event?.target != null)
 		event.target.innerText = event.target.innerText == 'mood' ? 'sentiment_neutral' : 'mood';
 	for(let emoji of document.querySelectorAll('.emoji')) {
 		let temp = emoji.textContent;
