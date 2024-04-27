@@ -10,7 +10,7 @@ function preLoadSequence() {
 	fixNavigationResults();
 	fixLabelForNavigation();
 	fixLightbox();
-	if(typeof addFloatingActionButtons == 'function') addFloatingActionButtons();
+	addFloatingActionButtons();
 
 	// Global Window Events
 	window.addEventListener('scroll', toggleActionsOnScroll);
@@ -29,41 +29,6 @@ function preLoadSequence() {
 	setTimeout(scrollToSectionByUrl, 200);
 	//open body if no other fixes
 	document.body.style.display = 'block';
-}
-
-function addFloatingActionButtons() {
-	let [bottomLeftMenu, bottomRightMenu] = addMenus();
-	if(navigator.share) addButton(['fab', 'share'], 'Share This Page', 'share', sharePage, bottomRightMenu);
-	addButton(['fab', 'search'], 'Search This Blog', 'search', toggleSearch, bottomRightMenu);
-	addButton(['fab', 'top'], 'Go To Top', 'arrow_upward', goToTop, bottomRightMenu);
-	addButton(['fab', 'sidebar'], 'Toggle Menu', 'menu', toggleSidebar, bottomLeftMenu);
-	addButton(['fab', 'close', 'hidden'], 'Close Menu', 'menu_open', toggleSidebar, document.querySelector('.column-left-inner'));
-}
-
-function addMenus() {
-	let menuLeft = document.createElement('div');
-	menuLeft.classList.add('action-menu');
-	menuLeft.classList.add('bottom-left');
-	document.body.appendChild(menuLeft);
-	
-	let menuRight = document.createElement('div');
-	menuRight.classList.add('action-menu');
-	menuRight.classList.add('bottom-right');
-	document.body.appendChild(menuRight);
-	
-	return [menuLeft, menuRight];
-}
-
-function addButton(classes, title, googleIconName, clickEvent, parentElement) {
-	let fabButton = document.createElement('a');
-	if(Array.isArray(classes)) fabButton.className = classes.join(' ');
-	else fabButton.className = classes;
-	fabButton.classList.add('material-icons');
-	fabButton.title = title;
-	fabButton.innerText = googleIconName;
-	if(clickEvent) fabButton.onclick = clickEvent;
-	if(parentElement) parentElement.appendChild(fabButton);
-	else document.body.appendChild(fabButton);
 }
 
 function addSearchBar() {
@@ -170,31 +135,6 @@ function reduceResults() {
 		// change footer to horizontal rule
 		for (let footer of document.querySelectorAll('.post-footer-line-2'))
 			footer.innerHTML = '<hr>';
-		// add button to expand/collapse
-		// for (let titleBar of document.getElementsByClassName('post-title entry-title'))
-			// titleBar.innerHTML = '<table><tbody><tr><td><div class="search-expander"><i class="material-icons">unfold_less</i></div></td><td>' + titleBar.innerHTML + '</td></tr></tbody></table>';
-		// add click logic for expand/collapse
-		// for (let i = 0; i < document.getElementsByClassName('post-title entry-title').length; i++) {
-			// document.getElementsByClassName('search-expander')[i].addEventListener("click", function() {
-				// let titleBar = this.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
-				// if (titleBar.getElementsByClassName('entry-content')[0].style.display == 'none') {
-					// titleBar.getElementsByClassName('entry-content')[0].style.display = '';
-					// this.getElementsByTagName('i')[0].innerText = 'unfold_more';
-				// } else {
-					// titleBar.getElementsByClassName('entry-content')[0].style.display = 'none';
-					// this.style.color = 'white';
-					// this.getElementsByTagName('i')[0].innerText = 'unfold_less';
-				// }
-				// setThumbnails();
-			// });
-		// }
-		//fix table cell border depending on content type due to mix of post contents
-		// for (let table of document.getElementsByTagName('td')) {
-			// if (table.getElementsByTagName('img').length > 0 || table.className == 'tr-caption') {
-				// table.style.border = 'none';
-				// table.style.padding = '0';
-			// }
-		// }
 	}
 }
 
@@ -253,71 +193,112 @@ function fixLightbox() {
 }
 
 function cleanupLightbox() {
-    if (document.body.parentElement.className != "v2") {
-        let browseContainer = document.getElementsByClassName("CSS_LIGHTBOX_PHOTO_BROWSE_CONTAINER")[0];
-        let attributeContainerHolder = document.getElementsByClassName("CSS_LAYOUT_COMPONENT CSS_LIGHTBOX_ATTRIBUTION_INDEX_CONTAINER")[0].firstChild;
-        attributeContainerHolder.firstChild.remove();
-        attributeContainerHolder.firstChild.style.width = "100%";
-        attributeContainerHolder.style.width = "100%";
-        document.getElementsByClassName("CSS_LIGHTBOX_BG_MASK_TRANSPARENT")[0].style.height = "120%";
+    if (document.body.parentElement.className != 'v2') {
+		// set lightbox container to 100% height width
+        // let browseContainer = document.querySelector('.CSS_LIGHTBOX_PHOTO_BROWSE_CONTAINER');
+        let attributeContainerHolder = document.querySelector('.CSS_LAYOUT_COMPONENT CSS_LIGHTBOX_ATTRIBUTION_INDEX_CONTAINER').firstChild;
+		if(attributeContainerHolder != null) {
+			attributeContainerHolder.firstChild.remove();
+			attributeContainerHolder.firstChild.style.width = '100%';
+			attributeContainerHolder.style.width = '100%';
+		}
+		// set bottom image selection to 120% height, will overflow but don't matter as container cannot scroll
+		let lightboxMask = document.querySelector('.CSS_LIGHTBOX_BG_MASK_TRANSPARENT');
+		if(lightboxMask != null)
+			lightboxMask.style.height = '120%';
+		document.getElementById('Blog1')?.removeEventListener('click', cleanupLightbox);
     }
-	document.getElementById('Blog1')?.removeEventListener('click', cleanupLightbox);
 }
 
-// Others, Blogger Only
+function addFloatingActionButtons() {
+	// manual add menus and buttons to avoid writing in blogger theme
+	let [bottomLeftMenu, bottomRightMenu] = addMenus();
+	if(navigator.share) addButton(['fab', 'share'], 'Share This Page', 'share', sharePage, bottomRightMenu);
+	addButton(['fab', 'search'], 'Search This Blog', 'search', toggleSearch, bottomRightMenu);
+	addButton(['fab', 'top'], 'Go To Top', 'arrow_upward', goToTop, bottomRightMenu);
+	addButton(['fab', 'sidebar'], 'Toggle Menu', 'menu', toggleSidebar, bottomLeftMenu);
+	addButton(['fab', 'close', 'hidden'], 'Close Menu', 'menu_open', toggleSidebar, document.querySelector('.column-left-inner'));
+}
+
+function addMenus() {
+	// helper function to create menus
+	let menuLeft = document.createElement('div');
+	menuLeft.classList.add('action-menu');
+	menuLeft.classList.add('bottom-left');
+	document.body.appendChild(menuLeft);
+	
+	let menuRight = document.createElement('div');
+	menuRight.classList.add('action-menu');
+	menuRight.classList.add('bottom-right');
+	document.body.appendChild(menuRight);
+	
+	return [menuLeft, menuRight];
+}
+
+function addButton(classes, title, googleIconName, clickEvent, parentElement) {
+	// helper function to create buttons in menu
+	let fabButton = document.createElement('a');
+	if(Array.isArray(classes)) fabButton.className = classes.join(' ');
+	else fabButton.className = classes;
+	fabButton.classList.add('material-icons');
+	fabButton.title = title;
+	fabButton.innerText = googleIconName;
+	if(clickEvent) fabButton.onclick = clickEvent;
+	if(parentElement) parentElement.appendChild(fabButton);
+	else document.body.appendChild(fabButton);
+}
+
 function toggleSearch() {
     goToTop();
-	if(document.getElementById('CustomBlogSearch') == null) return;
-    let barDisp = document.getElementById('CustomBlogSearch').style.display;
+	// button to toggle search bar
+	let customBlogSearch = document.getElementById('CustomBlogSearch');
+	let blogSearch = document.getElementById('BlogSearch');
+	if(customBlogSearch == null) return;
+    let barDisp = customBlogSearch.style.display;
     if (barDisp == 'none' || barDisp == '') {
-        document.getElementById('CustomBlogSearch').style.display = 'block';
-		document.getElementById('BlogSearch').focus();
-	}
-    else {
-        document.getElementById('CustomBlogSearch').style.display = 'none';
-		document.getElementById('BlogSearch').innerText = '';
-		document.getElementById('BlogSearch').blur();
+        customBlogSearch.style.display = 'block';
+		blogSearch.focus();
+	} else {
+        customBlogSearch.style.display = 'none';
+		blogSearch.innerText = '';
+		blogSearch.blur();
 	}
 }
 
 function toggleSidebar() {
+	// button to toggle left sidebar as hidden in mobile widths
+	// define screen widths for sidebar modules
 	let collapseSidebarWidth = window.innerWidth < 780;
 	let collapseSidebarLinks = window.innerHeight <= 640;
-	let collapseSidebarArchive = window.innerHeight <= 960;
-	
+	let collapseSidebarArchive = window.innerHeight <= 960;	
 	// toggle body overlay
     if(document.querySelector('.overlay') != null)
 		hideOverlay();
 	else
-		showOverlay();
-	
-	// left sidebar element
-    let outer = document.getElementsByClassName('column-left-outer')[0];
-	outer.style.position = toggleDisplay(outer, 'fixed');
-	
+		showOverlay();	
+	// fix location of left sidebar
+	toggleDisplay(document.querySelector('.column-left-outer'), 'fixed');
+	// toggle menu open/close icons
 	let menuStatus = document.querySelector('.fab.sidebar');
 	menuStatus.innerText = menuStatus.innerText == 'menu' ? 'menu_open' : 'menu';
-	
+	// icons in mobile widths offset from edge of screen
     let iconLeft = collapseSidebarWidth ? '0' : '5px';
     outer.style.left = outer.style.left == '' ? iconLeft : '';
-	
-    let iconBottom = '4px';
-    outer.style.bottom = outer.style.bottom == '' ? iconBottom : '';
+    outer.style.bottom = outer.style.bottom == '' ? '4px' : '';
     outer.style.margin = outer.style.margin == '' ? 'auto' : '';
     outer.style.zIndex = outer.style.zIndex != 9 ? 9 : '';
-	
-    let aside = outer.getElementsByTagName('aside')[0];
-    aside.style.display = toggleDisplay(aside, 'block');
-	
+	// toggle desktop left sidebar on mobile widths
+    toggleDisplay(outer.querySelector('aside'), 'block');
+	// hide close button if popup exist
 	document.querySelector('.fab.close')?.classList.toggle('hidden');
     if (collapseSidebarLinks)
-		document.getElementById('LinkList1').style.display = toggleDisplay(document.getElementById('LinkList1'), 'none');
+		toggleDisplay(document.getElementById('LinkList1'), 'none');
     if (collapseSidebarArchive)
-		document.getElementById('BlogArchive1').style.display = toggleDisplay(document.getElementById('BlogArchive1'), 'none');
+		toggleDisplay(document.getElementById('BlogArchive1'), 'none');
 }
 
 function toggleDisplay(element, defaultValue) {
-	return element.style.display == '' ? defaultValue : '';
+	element.style.display = element.style.display == '' ? defaultValue : '';
 }
 
 function fixExternalFrame(thumbnail) {
