@@ -2,6 +2,21 @@
 window.addEventListener('load', preLoadSequence);
 
 function preLoadSequence() {
+	// Window Events
+	window.addEventListener('scroll', toggleActionsOnScroll);
+	window.addEventListener('resize', windowOnResize);
+	window.addEventListener('hashchange', scrollToSectionByUrl);
+	window.addEventListener('popstate', windowOnHistoryChange);	
+	// Asynchronous Events
+	setTimeout(addHashtags, 0); // generateHeader, generateReadTime
+	setTimeout(resizeImages, 0);
+	setTimeout(displayFAB, 0);
+	setTimeout(setExpander, 0);
+	setTimeout(addHoverForLinks, 0);
+	setTimeout(showAbbrAsDialog, 0);
+	setTimeout(renderLabelIcon, 0);
+	setTimeout(scrollToSectionByUrl, 200);
+	// Blogger Fixes
 	addSearchBar();
 	addMetadata();
 	reduceResults();
@@ -11,23 +26,7 @@ function preLoadSequence() {
 	fixLabelForNavigation();
 	fixLightbox();
 	addFloatingActionButtons();
-
-	// Global Window Events
-	window.addEventListener('scroll', toggleActionsOnScroll);
-	window.addEventListener('resize', windowOnResize);
-	window.addEventListener('hashchange', scrollToSectionByUrl);
-	window.addEventListener('popstate', windowOnHistoryChange);
-	
-	// Global Asynchronous Events
-	setTimeout(addHashtags, 0); // generateHeader, generateReadTime
-	setTimeout(resizeImages, 0);
-	setTimeout(displayFAB, 0);
-	setTimeout(setExpander, 0);
-	setTimeout(addHoverForLinks, 0);
-	setTimeout(showAbbrAsDialog, 0);
-	setTimeout(renderLabelIcon, 0);
-	setTimeout(scrollToSectionByUrl, 200);
-	//open body if no other fixes
+	// Open body if all fixes cleared
 	document.body.style.display = 'block';
 }
 
