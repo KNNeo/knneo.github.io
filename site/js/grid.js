@@ -193,7 +193,9 @@ function renderGrid(sectionNo, content, isSinglePage) {
 					}
 					else //if desktop, all in n rows where n = component.rows
 					{
-						img.style.width = (100 / (component.rows + 1)) + '%';
+						img.style.width = (100 / component.rows) + '%';
+						if(largeScreenWidth())
+							img.style.width = (100 / (component.rows + 0.8)) + '%';
 						if(component.datas.length == component.rows) {
 							gallery.style.display = 'flex';
 							gallery.style.flexDirection = 'column';
