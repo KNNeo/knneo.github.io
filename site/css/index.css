@@ -16,7 +16,6 @@
 }
 
 html {
-	font-family: Open Sans;
 	-webkit-user-select: none;
 	-khtml-user-select: none;
 	-moz-user-select: none;
@@ -139,9 +138,9 @@ a {
 	opacity: 1;
 }
 
-.page-next .material-icons,
-.page-prev .material-icons {
-	font-size: 3rem;
+.page-next .bi,
+.page-prev .bi {
+	font-size: 2rem;
 	color: var(--foreground);
 }
 
@@ -228,6 +227,7 @@ a {
 }
 
 .contents .home {
+    line-height: 0;
 	padding: 0 1px;
 	transition: transform 0.1s;
 }
@@ -304,9 +304,9 @@ a {
 	z-index: 9;
 }
 
-.button-top .material-icons,
-.button-editor .material-icons,
-.button-close .material-icons {
+.button-top .bi,
+.button-editor .bi,
+.button-close .bi {
 	font-size: 2rem;
 }
 

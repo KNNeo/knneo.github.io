@@ -27,7 +27,7 @@ function getScreenHeight() {
 //--EVENTS--//
 function scrollToNextPage() {
 	event.stopPropagation();
-	let nextPage = closestClass(this, 'section').nextElementSibling;
+	let nextPage = this.closest('.section').nextElementSibling;
 	if(nextPage != null)
 		if(document.body.classList.contains('single'))
 			scrollToPage(nextPage.getAttribute('data-section'));
@@ -36,7 +36,7 @@ function scrollToNextPage() {
 
 function scrollToPrevPage() {
 	event.stopPropagation();
-	let prevPage = closestClass(this, 'section').previousElementSibling;
+	let prevPage = this.closest('.section').previousElementSibling;
 	if(prevPage != null) {
 		if(document.body.classList.contains('single'))
 			scrollToPage(prevPage.getAttribute('data-section'));
@@ -45,10 +45,8 @@ function scrollToPrevPage() {
 }
 
 function scrollToPage(sectionNo) {
-	if(window['main'].isSinglePage)
-	{
-		for(let section of document.querySelectorAll('.section'))
-		{
+	if(window['main'].isSinglePage) {
+		for(let section of document.querySelectorAll('.section')) {
 			section.style.opacity = 0;
 			section.style.zIndex = 0;
 		}
@@ -56,12 +54,7 @@ function scrollToPage(sectionNo) {
 		document.querySelectorAll('.section')[sectionNo].style.zIndex = 1;
 	}
 	else
-	{
 		document.querySelectorAll('.section')[sectionNo].focus();
-		// setTimeout(function() {
-			// document.querySelectorAll('.section')[sectionNo].focus();
-		// }, 500);
-	}
 }
 
 function scrollToMainPage(el, onLoad) {
@@ -77,35 +70,27 @@ function scrollToMainPage(el, onLoad) {
 
 function toggleGoToTop() {
 	// When the user scrolls down to viewport from the top of the document, change floating action button
-	if (document.querySelector('.page').scrollTop >= document.body.clientHeight) {
+	if (document.querySelector('.page').scrollTop >= document.body.clientHeight)
 		document.querySelector('.button-top').style.visibility = 'visible';
-	} else {
+	else
 		document.querySelector('.button-top').style.visibility = '';
-	}
 }
 
 function toggleEditor() {
-	if(document.querySelector('.editor') != null)
-	{
+	if(document.querySelector('.editor') != null) {
 		let editorText = document.querySelector('.editor-area').value;
 		let isClosing = document.querySelector('.editor').style.display == 'block'; //previous state	
 		document.querySelector('.editor').style.display = isClosing ? 'none' : 'block';
 		localStorage.setItem('elements', editorText);
 		document.querySelector('.editor').value = isClosing ? '' : localStorage.getItem('elements');
-		if(isClosing)
-		{
-			if(editorText.trim().startsWith('http') && editorText.trim().endsWith('.json')) // if address of json is in editor
-			{
-				getJson(editorText, setPageElements);
-			}
-			else // raw json text
-			{
-				setPageElements();
-			}
+		if(isClosing) {
+			// if(editorText.trim().startsWith('http') && editorText.trim().endsWith('.json')) // if address of json is in editor
+				// getJson(editorText, setPageElements);
+			// else // raw json text
+			setPageElements();
 		}
 	}
-	else
-	{
+	else {
 		let editor = document.createElement('div');
 		// editor.id = 'editor';
 		editor.classList.add('editor');
@@ -134,8 +119,7 @@ function toggleEditor() {
 
 //--RENDER FUNCTIONS--//
 function renderPage() {
-	document.querySelector('.page').innerHTML = '';
-	
+	document.querySelector('.page').innerHTML = '';	
 	// render sections
 	for(let sectionNo = 0; sectionNo < window['elements'].length; sectionNo++) {
 		if(window['elements'][sectionNo].isMain) {
@@ -160,12 +144,10 @@ function renderPage() {
 			});
 			document.querySelector('.page').appendChild(newSection);
 		}
-	}
-	
+	}	
 	// set page by type
 	document.body.className = '';
-	if(window['main'].isSinglePage)
-	{
+	if(window['main'].isSinglePage) {
 		document.body.classList.add('single');
 		
 		let menu = document.createElement('div');
@@ -174,15 +156,11 @@ function renderPage() {
 		
 		scrollToPage(window['main'].sectionNo);
 	}
-	else
-	{
+	else {
 		document.body.classList.add('one');
 		for(let section of document.querySelectorAll('.one .section'))
-		{
 			section.style.height = window.innerHeight + 'px';
-		}
 	}
-	
 	// render page elements
 	renderMain();
 	renderMenu();
@@ -191,13 +169,11 @@ function renderPage() {
 		if(!window['elements'][sectionNo].isMain)
 			renderSection(sectionNo);
 	}
-
+	// render buttons
 	renderButtons();
 	renderFooter();
-	
 	// add focus events
-	for(let focusable of document.querySelectorAll('.focusable'))
-	{
+	for(let focusable of document.querySelectorAll('.focusable')) {
 		focusable.tabIndex = 0;
 		focusable.addEventListener('keyup', function() {
 			if(event.keyCode == 13)
@@ -222,22 +198,17 @@ function renderMain() {
 			let prevButton = document.createElement('a');
 			prevButton.classList.add('focusable');
 			prevButton.title = 'Previous';
-			if(main.previousElementSibling == null)
-				nextButton.style.opacity = '0';
-			else
-				nextButton.href = 'javascript:void(0)';
+			if(main.previousElementSibling == null)	nextButton.style.opacity = '0';
+			else nextButton.href = 'javascript:void(0)';
 			prevButton.addEventListener('click', scrollToPrevPage);
-			// prevButton.addEventListener('touchstart', scrollToPrevPage);
-			let prevButtonIcon = document.createElement('i');
-			prevButtonIcon.classList.add('material-icons');
-			prevButtonIcon.innerText = content.isSinglePage ? 'arrow_left' : 'arrow_drop_up';
+			let prevButtonIcon = document.createElement('a');
+			prevButtonIcon.className = content.isSinglePage ? 'bi bi-caret-left-fill' : 'bi bi-caret-up-fill';
 			prevButton.appendChild(prevButtonIcon);
 			prevDiv.appendChild(prevButton);
 			main.appendChild(prevDiv);
 		}
 		
-		if(content.prefix)
-		{
+		if(content.prefix) {
 			let mainPre = document.createElement('h3');
 			mainPre.classList.add('title');
 			mainPre.innerText = content.prefix;
@@ -249,16 +220,14 @@ function renderMain() {
 		mainTitle.innerText = content.title;
 		main.appendChild(mainTitle);
 		
-		if(content.suffix)
-		{
+		if(content.suffix) {
 			let mainPost = document.createElement('h5');
 			mainPost.classList.add('title');
 			mainPost.innerText = content.suffix;
 			main.appendChild(mainPost);
 		}
 		
-		if(!content.isSinglePage)
-		{
+		if(!content.isSinglePage) {
 			let menu = document.createElement('div');
 			menu.classList.add('menu');
 			main.appendChild(menu);
@@ -271,15 +240,11 @@ function renderMain() {
 			let nextButton = document.createElement('a');
 			nextButton.classList.add('focusable');
 			nextButton.title = 'Next';
-			if(main.nextElementSibling == null)
-				nextButton.style.opacity = '0';
-			else
-				nextButton.href = 'javascript:void(0)';
+			if(main.nextElementSibling == null) nextButton.style.opacity = '0';
+			else nextButton.href = 'javascript:void(0)';
 			nextButton.addEventListener('click', scrollToNextPage);
-			// nextButton.addEventListener('touchstart', scrollToNextPage);
-			let nextButtonIcon = document.createElement('i');
-			nextButtonIcon.classList.add('material-icons');
-			nextButtonIcon.innerText = content.isSinglePage ? 'arrow_right' : 'arrow_drop_down';
+			let nextButtonIcon = document.createElement('a');
+			nextButtonIcon.className = content.isSinglePage ? 'bi bi-caret-right-fill' : 'bi bi-caret-down-fill';
 			nextButton.appendChild(nextButtonIcon);
 			nextDiv.appendChild(nextButton);
 			main.appendChild(nextDiv);
@@ -292,8 +257,8 @@ function renderSection(sectionNo) {
 	let main = window['main'];
 	let content = window['elements'][sectionNo];
 	if(main.isSinglePage)
-		section.style.height = 'calc(100% - ' + ((document.querySelector('.menu').getBoundingClientRect().height + 35) + 'px') + ')';	
-		
+		section.style.height = 'calc(100% - ' + ((document.querySelector('.menu').getBoundingClientRect().height + 35) + 'px') + ')';
+	
 	let prevDiv = document.createElement('div');
 	prevDiv.classList.add('page-prev');
 	prevDiv.classList.add('not-selectable');
@@ -307,10 +272,8 @@ function renderSection(sectionNo) {
 	else
 		prevButton.href = 'javascript:void(0)';
 	prevButton.addEventListener('click',scrollToPrevPage);
-	// prevButton.addEventListener('touchstart',scrollToPrevPage);
-	let prevButtonIcon = document.createElement('i');
-	prevButtonIcon.classList.add('material-icons');
-	prevButtonIcon.innerText = main.isSinglePage ? 'arrow_left' : 'arrow_drop_up';
+	let prevButtonIcon = document.createElement('a');
+	prevButtonIcon.className = main.isSinglePage ? 'bi bi-caret-left-fill' : 'bi bi-caret-up-fill';
 	prevButton.appendChild(prevButtonIcon);
 	prevDiv.appendChild(prevButton);
 	section.appendChild(prevDiv);
@@ -347,43 +310,37 @@ function renderSection(sectionNo) {
 		renderGrid(sectionNo, content, main.isSinglePage);
 	}
 	
-	// if(!main.isSinglePage)
-	// {
-		let nextDiv = document.createElement('div');
-		nextDiv.classList.add('page-next');
-		nextDiv.classList.add('not-selectable');
-		let nextButton = document.createElement('a');
-		nextButton.classList.add('focusable');
-		nextButton.title = 'Next';
-		if(section.nextElementSibling == null || !section.nextElementSibling.classList.contains('section')) {
-			nextButton.style.visibility = 'hidden';
-			nextButton.style.opacity = '0';
-		}
-		else
-			nextButton.href = 'javascript:void(0)';
-		nextButton.addEventListener('click',scrollToNextPage);
-		// nextButton.addEventListener('touchstart',scrollToNextPage);
-		let nextButtonIcon = document.createElement('i');
-		nextButtonIcon.classList.add('material-icons');
-		nextButtonIcon.innerText = main.isSinglePage ? 'arrow_right' : 'arrow_drop_down';
-		nextButton.appendChild(nextButtonIcon);
-		nextDiv.appendChild(nextButton);
-		section.appendChild(nextDiv);
-	// }
+	let nextDiv = document.createElement('div');
+	nextDiv.classList.add('page-next');
+	nextDiv.classList.add('not-selectable');
+	let nextButton = document.createElement('a');
+	nextButton.classList.add('focusable');
+	nextButton.title = 'Next';
+	if(section.nextElementSibling == null || !section.nextElementSibling.classList.contains('section')) {
+		nextButton.style.visibility = 'hidden';
+		nextButton.style.opacity = '0';
+	}
+	else
+		nextButton.href = 'javascript:void(0)';
+	nextButton.addEventListener('click',scrollToNextPage);
+	let nextButtonIcon = document.createElement('a');
+	nextButtonIcon.className = main.isSinglePage ? 'bi bi-caret-right-fill' : 'bi bi-caret-down-fill';
+	nextButton.appendChild(nextButtonIcon);
+	nextDiv.appendChild(nextButton);
+	section.appendChild(nextDiv);
 }
 
 function renderMenu() {
 	let content = window['main'];
-	if(window['elements'].filter(el => el.type == 'grid').length > 0)
-	{
+	if(window['elements'].filter(el => el.type == 'grid').length > 0) {
 		let contentList = document.createElement('div');
 		contentList.classList.add('contents');
-		
+		// define icon size by configuration
 		let iconSize = '10vw';
 		let iconFontSize = '1.5rem';
 		let maxIconSize = '120px';
 		let drawerHeight = '15vh';
-		let homeIconSize = '95px';
+		let homeIconSize = '90px';
 		if (content.isSinglePage) {
 			iconFontSize = '1rem';
 			maxIconSize = '90px';
@@ -397,7 +354,6 @@ function renderMenu() {
 		}
 		// document.querySelector('.menu').style.minHeight = content.isSinglePage && smallScreenWidth() ? drawerHeight : '';
 		// document.querySelector('.menu').style.maxHeight = content.isSinglePage && smallScreenWidth() ? drawerHeight : '';
-
 		//drawer, home icon
 		if(content.isSinglePage)
 		{
@@ -422,13 +378,12 @@ function renderMenu() {
 				// if(getScreenHeight() < 760)
 					// document.querySelector('.menu').style.maxHeight = drawerHeight;
 			// }
-			
+			// add home icon
 			let contentItem = document.createElement('div');
-			contentItem.classList.add('material-icons');
-			contentItem.classList.add('home');
-			contentItem.classList.add('focusable');
+			// contentItem.classList.add('material-icons');
+			contentItem.className = 'home focusable bi bi-house-fill';
 			contentItem.style.fontSize = homeIconSize;
-			contentItem.innerText = 'home';
+			// contentItem.innerText = 'home';
 			contentItem.addEventListener('keyup', function() {
 				event.stopPropagation();
 				event.preventDefault();
@@ -449,8 +404,8 @@ function renderMenu() {
 			contentList.appendChild(contentItem);
 		}
 		
-		let elements = window['elements'].filter(el => !el.isMain && el.type == 'grid');
-		
+		// add elements to menu
+		let elements = window['elements'].filter(el => !el.isMain && el.type == 'grid');		
 		if(elements.length == window['elements'].filter(el => el.type == 'grid' && el.image && el.image.length > 0).length)
 		{
 			//image icons
@@ -540,44 +495,37 @@ function renderMenu() {
 					// document.querySelector('.menu').style.maxHeight = drawerHeight;
 				// });
 				contentList.appendChild(contentItem);
-			}				
-		}
-		
-		//drawer, spacer
-		if(content.isSinglePage)
-		{
+			}
+		}		
+		// drawer, spacer
+		if(content.isSinglePage) {
 			let contentItem = document.createElement('div');
 			contentItem.style.padding = '4px';
 			contentList.appendChild(contentItem);
 		}
-		
+		// add into DOM
 		document.querySelector('.menu').innerHTML = '';
 		document.querySelector('.menu').appendChild(contentList);
 	}
 }
 
 function renderButtons() {
-	let topButtonIcon = document.createElement('i');
-	topButtonIcon.classList.add('button');
-	topButtonIcon.classList.add('button-top');
-	topButtonIcon.classList.add('material-icons');
-	topButtonIcon.classList.add('not-selectable');
+	// go to top button
+	let topButtonIcon = document.createElement('a');
+	topButtonIcon.className = 'button button-top not-selectable bi bi-arrow-up';
 	topButtonIcon.title = 'Back To Top';
-	topButtonIcon.innerText = 'keyboard_double_arrow_up';
-	if(document.querySelector('.button-top') == null)
-	{
+	if (document.querySelector('.button-top') == null) {
 		document.body.appendChild(topButtonIcon);
 		document.querySelector('.button-top').addEventListener('click', scrollToMainPage);
 		document.querySelector('.page').addEventListener('scroll', toggleGoToTop);
 	}
-	else
-	{
-		if(window['main'].isSinglePage || isMobile()) 
+	else if (document.querySelector('.button-top') != null) {
+		if(window['main'].isSinglePage || isMobile())
 			document.querySelector('.button-top').style.right = '10px';
 		else 
 			document.querySelector('.button-top').style.right = null;		
 	}
-
+	// editor button (depreceated)
 	// let editorButtonIcon = document.createElement('a');
 	// editorButtonIcon.classList.add('button');
 	// editorButtonIcon.classList.add('button-editor');
@@ -585,40 +533,35 @@ function renderButtons() {
 	// editorButtonIcon.classList.add('not-selectable');
 	// editorButtonIcon.title = 'Toggle Editor';
 	// editorButtonIcon.innerText = 'code';
-	// if(document.querySelector('.button-editor') == null)
-	// {
+	// if(document.querySelector('.button-editor') == null) {
 		// document.body.appendChild(editorButtonIcon);
 		// document.querySelector('.button-editor').addEventListener('click', toggleEditor);
 	// }
-	// else
-	// {
+	// else {
 		// if(window['main'].isSinglePage || isMobile()) 
 			// document.querySelector('.button-editor').style.right = '10px';
 		// else 
 			// document.querySelector('.button-editor').style.right = null;
 	// }
-	
-	let closeButtonIcon = document.createElement('i');
-	closeButtonIcon.classList.add('button');
-	closeButtonIcon.classList.add('button-close');
-	closeButtonIcon.classList.add('material-icons');
-	closeButtonIcon.classList.add('not-selectable');
+	// exit button
+	let closeButtonIcon = document.createElement('a');
+	closeButtonIcon.className = 'button button-close not-selectable bi bi-x-lg';
 	closeButtonIcon.title = 'Close Popup';
-	closeButtonIcon.innerText = 'close';
-	if(window['main'].isSinglePage || isMobile()) 
+	// closeButtonIcon.innerText = 'close';
+	if (window['main'].isSinglePage || isMobile()) 
 		closeButtonIcon.style.right = '10px';
-	if(document.querySelector('.button-close') == null)
-	{
+	if (window['main'].hasExit && document.querySelector('.button-close') == null) {
 		document.body.appendChild(closeButtonIcon);
-		document.querySelector('.button-close').addEventListener('click', function() { window.location.href = '../index.html'; });
-		document.querySelector('.button-close').addEventListener('contextmenu', function() {
-			event.preventDefault();
-			window['single'] = window['single'] != undefined ? !window['single'] : true;
-			getJson(document.querySelector('#data-id').src, setPageElements);
+		document.querySelector('.button-close').addEventListener('click', function() {
+			window.location.href = window['main'].exitUrl;
 		});
+		// document.querySelector('.button-close').addEventListener('contextmenu', function() {
+			// event.preventDefault();
+			// window['single'] = window['single'] != undefined ? !window['single'] : true;
+			// getJson(document.querySelector('#data-id').src, setPageElements);
+		// });
 	}
-	else
-	{
+	else if (document.querySelector('.button-close') != null) {
 		if(window['main'].isSinglePage || isMobile()) 
 			document.querySelector('.button-close').style.right = '10px';
 		else 
@@ -627,21 +570,19 @@ function renderButtons() {
 }
 
 function renderFooter() {
+	// footer text
 	let footer = document.createElement('div');
 	footer.classList.add('footer');
 	footer.innerText = window['main'].footer ?? '';
 	document.querySelector('.page').appendChild(footer);
-	
+	// set nav buttons on footer settings, based on single page bottom menu
 	if(window['main'].isSinglePage) {
 		let menuHeight = document.querySelector('.menu').getBoundingClientRect().height + 'px';
 		document.querySelector('.footer').style.bottom = menuHeight;
-		for(let pagePrev of document.querySelectorAll('.page-prev')) {
+		for(let pagePrev of document.querySelectorAll('.page-prev'))
 			pagePrev.style.bottom = menuHeight;
-		}
-		
-		for(let pageNext of document.querySelectorAll('.page-next')) {
+		for(let pageNext of document.querySelectorAll('.page-next'))
 			pageNext.style.bottom = menuHeight;
-		}
 	}
 }
 
@@ -649,6 +590,7 @@ function renderFooter() {
 function addBackgroundUrlClause(url) { return "url('" + url + "')"; }
 
 function closestClass(inputElement, targetClassName) {
+	// defunct, can use closest() now
     while ((inputElement.classList.length == 0 || !inputElement.classList.contains(targetClassName)) 
 		&& inputElement.parentElement.tagName.toUpperCase() != "BODY") {
         inputElement = inputElement.parentElement;
@@ -678,32 +620,31 @@ function startup() {
 	}
 	// else if(localStorage.getItem('elements') != null) // if have storage
 		// setPageElements();
-	else if(typeof getJson == 'function' && document.querySelector('#data-id') != null) // if #data-id exists pointing to json file
-		getJson(document.querySelector('#data-id').src, setPageElements);
+	// else if(typeof getJson == 'function' && document.querySelector('#data-id') != null) // if #data-id exists pointing to json file
+		// getJson(document.querySelector('#data-id').src, setPageElements);
 	else
 		console.error('no data source found');
 	
 	// set first load flag
 	let firstLoad = window['loaded'] != true;
 	window['loaded'] = true;
-	
+	// close viewer if open
 	if(typeof closeViewer == 'function') closeViewer();
 }
 
 function setPageElements(content) {
-	if(content != null) // save into localstorage
-	{
+	// if items exist, save into localstorage
+	if(content != null) {
 		localStorage.setItem('elements', JSON.stringify(content, null, '\t'));
 		if(document.querySelector('.editor-area') != null)
 			document.querySelector('.editor-area').value = localStorage.getItem('elements');
-		
 	}
-	if(!window['editor'] && document.querySelector('.button-editor') != null) // if no editor, reset localstorage
-	{
+	// if no editor, reset localstorage
+	if(!window['editor'] && document.querySelector('.button-editor') != null) {
 		document.querySelector('.button-editor').style.display = 'none';
 		localStorage.removeItem('elements');
 	}
-	
+	// render elements
 	renderVariables();
 	setTimeout(renderPage, 1);
 	setTimeout(function () {
@@ -711,25 +652,17 @@ function setPageElements(content) {
 	}, 500); // after load page, scroll to main section
 }
 
-function renderVariables() {	
+function renderVariables() {
+	// load from local storage
 	window['elements'] = JSON.parse(localStorage.getItem('elements'));
-
 	// filter items based on availability of js files
 	if(typeof renderChart != 'function') // if no chart.js
-	{
 		window['elements'] = window['elements'].filter(pe => pe.type != 'chart');
-	}
 	if(typeof renderGrid != 'function') // if no grid.js
-	{
-		window['elements'] = window['elements'].filter(pe => pe.type != 'grid');
-	}
-	
+		window['elements'] = window['elements'].filter(pe => pe.type != 'grid');	
 	// to allow multiple instances of charts based on data, in format 'container<no>'
-	var k = 'container';
-	for(i = 0; i < window['elements'].length; i++) {
-		window[k+i] = + i;
-	}
-	
+	for(i = 0; i < window['elements'].length; i++)
+		window['container'+i] = + i;	
 	// define base values
 	let mainSectionNo = window['elements'].findIndex(pe => pe.isMain);
 	window['main'] = window['elements'][mainSectionNo];
