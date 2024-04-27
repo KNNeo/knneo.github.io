@@ -5,13 +5,13 @@ window['dark-name'] = 'blog-theme';
 window.addEventListener('load', postLoadSequence);
 
 function postLoadSequence() {
-	// Global Window Events
+	// Window Events
 	window.addEventListener('scroll', toggleActionsOnScroll);
 	window.addEventListener('resize', windowOnResize);
 	window.addEventListener('hashchange', scrollToSectionByUrl);
 	window.addEventListener('popstate', windowOnHistoryChange);
 	
-	// Global Asynchronous Events
+	// Asynchronous Events
 	setTimeout(addHashtags, 0); // generateHeader, generateReadTime
 	setTimeout(resizeImages, 0);
 	setTimeout(displayFAB, 0);
@@ -26,6 +26,12 @@ function postLoadSequence() {
 		removeLinkExtensions();
 		if(typeof generateViewer == 'function') generateViewer();
 	}, 0);
+}
+
+function windowOnResize() {
+	// sidebar content on blogger must show on larger screens
+	displayFAB();
+	closePopups();
 }
 
 // allow toggle of emoji display
