@@ -604,7 +604,7 @@ function switchThumbnails(tn, index) {
 	let active = Array.from(tc).findIndex(t => !t.classList.contains('thumbnail-pop'));
 	if(active == null) return;
 	// to reset before setting new active
-	for(let t of tc.filter(c => !c.classList.contains('thumbnail-pop')))
+	for(let t of Array.from(tc).filter(c => !c.classList.contains('thumbnail-pop')))
 		t.classList.add('thumbnail-pop');
 	// show next active
 	let nextActive = tc[active].nextElementSibling;
