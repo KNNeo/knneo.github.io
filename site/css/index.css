@@ -488,6 +488,9 @@ a {
 	.one .text {
 		font-size: 0.9em;
 	}
+	.image {
+		width: 35%;
+	}
 	.gallery img {
 		height: 20vw;
 	}
@@ -495,19 +498,16 @@ a {
 
 /*SMALL SCREEN HEIGHT*/
 @media only screen and (max-height: 800px) {
-	.icon {
-	}
 }
 
 /*MEDIUM SCREEN WIDTH*/
 @media only screen and (max-width: 1200px) {
-	.icon {
-	}
 }
 
 /*LARGE SCREEN WIDTH*/
 @media only screen and (min-width: 1600px) {
-	.icon {
+	.image {
+		width: 60%;
 	}
 }
 
