@@ -1,7 +1,7 @@
 //main function to render detachable component
 function renderGrid(sectionNo, content, isSinglePage) {
 	let section = document.querySelector('#section'+sectionNo);
-	section.style.height = isSinglePage ? '80%' : '75%';
+	// section.style.height = isSinglePage ? '80%' : '75%';
 	section.innerHTML = '';
 	
 	let table = document.createElement('table');
@@ -107,10 +107,11 @@ function renderGrid(sectionNo, content, isSinglePage) {
 				elem.appendChild(pre);
 			}
 			
-			let titleType = 'h1';
-			if(smallScreenWidth()) titleType = 'h2';
-			if(smallScreenHeight()) titleType = 'h3';
-			let title = document.createElement(titleType);
+			// let titleType = 'h1';
+			// if(smallScreenWidth()) titleType = 'h2';
+			// if(smallScreenHeight()) titleType = 'h3';
+			let title = document.createElement('div');
+			title.classList.add('title');
 			title.innerText = component.title;
 			elem.appendChild(title);
 			

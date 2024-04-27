@@ -81,6 +81,15 @@ a {
 	padding: 5px;
 }
 
+.section .title {
+	font-size: 1.5em;
+	font-weight: bold;
+}
+
+.main.section .title {
+	font-size: revert;
+}
+
 .section {
 	display: flex;
 	flex-direction: column;
@@ -89,8 +98,17 @@ a {
 	transition: opacity 1s;
 }
 
-.one .section {
-	/* height: 100vh; */
+.section div[id] {
+	height: 75%;
+}
+
+.single .section div[id] {
+	height: 80%;
+}
+
+.single .section.hidden {
+	opacity: 0;
+	z-index: 0;
 }
 
 .one .page {
