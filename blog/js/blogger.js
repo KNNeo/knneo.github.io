@@ -4,11 +4,11 @@ window.addEventListener('load', preLoadSequence);
 function preLoadSequence() {
 	addSearchBar();
 	addMetadata();
-	if(typeof reduceResults == 'function') reduceResults();
-	if(typeof fixLabelResults == 'function') fixLabelResults();
-	if(typeof fixPageNavigation == 'function') fixPageNavigation();
-	if(typeof fixNavigationResults == 'function') fixNavigationResults();
-	if(typeof addLabelForNavigation == 'function') addLabelForNavigation();
+	reduceResults();
+	fixLabelResults();
+	fixPageNavigation();
+	fixNavigationResults();
+	addLabelForNavigation();
 	if(typeof addFloatingActionButtons == 'function') addFloatingActionButtons();
 	if(typeof fixLightbox == 'function') fixLightbox();
 
@@ -83,8 +83,8 @@ function addMetadata() {
 	document.head.appendChild(viewport);
 }
 
-// collapse search results from full post views
 function reduceResults() {
+	// collapse search results from full post views
 	// exceptions to ignore: single posts, previews, pages, linqpad
     if ((window.location.href.includes(window.location.origin + '/20') && window.location.href.includes('.html')) || 
 		window.location.href.includes(window.location.origin + '/b/blog-preview') || 
@@ -165,7 +165,7 @@ function reduceResults() {
 		// hide titles
 		for (let content of document.querySelectorAll('.post-body.entry-content')) {
 			if (content.parentElement.querySelector('h3') != null)
-				content.style.display = 'none'; // permanently hide
+				content.remove(); // permanently hide
 		}
 		// change footer to horizontal rule
 		for (let footer of document.querySelectorAll('.post-footer-line-2'))
@@ -198,53 +198,48 @@ function reduceResults() {
 	}
 }
 
-// Fix search results to return 5 results instead of 1
 function fixLabelResults() {
-	if(document.getElementById("Label1") == undefined) return;
-    for (let link of document.getElementById("Label1").getElementsByTagName("a"))
-        link.href = link.href += link.href.includes("?") ? "&max-results=5" : "?max-results=5";
+	// fix search results to return 5 results instead of 1
+    for (let link of document.querySelectorAll('#Label1 a'))
+		link.href = link.href += link.href.includes('?') ? '&max-results=5' : '?max-results=5';
 }
 
-// Convert text to icon for footer next previous posts
 function fixPageNavigation() {
-    if (document.getElementById("blog-pager-newer-link") != null)
-		document.getElementById("blog-pager-newer-link").getElementsByTagName("a")[0].innerHTML = 
-		"<i class='material-icons latest-post' style='padding:0;'>arrow_back</i>";
-    if (document.getElementById("blog-pager-older-link") != null)
-		document.getElementById("blog-pager-older-link").getElementsByTagName("a")[0].innerHTML = 
-		"<i class='material-icons latest-post' style='padding:0;'>arrow_forward</i>";
-	if (document.getElementsByClassName('home-link').length > 0)
-		document.getElementsByClassName('home-link')[0].classList.add('display-none');	
+	// convert text to icon for footer next previous posts
+	document.querySelector('#blog-pager-newer-link a')?.innerHTML = '<i class="material-icons latest-post" style="padding:0;">arrow_back</i>';
+	document.querySelector('#blog-pager-older-link a')?.innerHTML = '<i class="material-icons latest-post" style="padding:0;">arrow_forward</i>';
+	document.querySelector('.home-link')?.remove();	
 }
 
-// Fix number of pages to display on older and newer links
 function fixNavigationResults() {
-    if (document.getElementsByClassName('blog-pager-older-link').length > 0) {
-        let pagerLink = document.getElementsByClassName('blog-pager-older-link')[0].href;
+	// fix number of pages to display on older and newer links
+    if (document.querySelector('.blog-pager-older-link') != null) {
+        let pagerLink = document.querySelector('.blog-pager-older-link').href;
         if (pagerLink.includes('&max-results=5') || pagerLink.includes('&max-results=20'))
             pagerLink = pagerLink.replace('&max-results=5', '&max-results=1');
         else
             pagerLink += '&max-results=1';
 
-        if (document.getElementsByClassName('blog-pager-newer-link').length > 0) {
-            pagerLink = document.getElementsByClassName('blog-pager-newer-link')[0].href;
-            if (pagerLink.includes('&max-results=5'))
-                pagerLink = pagerLink.replace('&max-results=5', '&max-results=1');
-            else
-                pagerLink += '&max-results=1';
-        }
     }
+    if (document.querySelector('.blog-pager-newer-link') != null) {
+		let pagerLink = document.querySelector('.blog-pager-newer-link').href;
+		if (pagerLink.includes('&max-results=5'))
+			pagerLink = pagerLink.replace('&max-results=5', '&max-results=1');
+		else
+			pagerLink += '&max-results=1';
+	}
 }
 
-// Add arrows for search labels when in smaller screens
 function addLabelForNavigation() {
-	if(document.getElementById("Label1") == undefined) return;
-    document.getElementById("Label1").innerHTML = '<i class="material-icons bar-left" style="font-size: 48px;">arrow_left</i><i class="material-icons bar-right" style="font-size: 48px;">arrow_right</i>' + document.getElementById("Label1").innerHTML;
-    document.getElementById("Label1").getElementsByClassName("bar-right")[0].addEventListener("click", function() {
-        document.getElementById("Label1").getElementsByTagName("ul")[0].scrollLeft += 100;
+	// add arrows for post labels when in smaller screens for navigation
+	if(document.getElementById('Label1') == undefined) return;
+	let labels = document.getElementById('Label1');
+    labels.innerHTML += '<i class="material-icons bar-left" style="font-size: 48px;">arrow_left</i><i class="material-icons bar-right" style="font-size: 48px;">arrow_right</i>';
+    labels.querySelector('.bar-right').addEventListener('click', function() {
+        labels.querySelector('ul')?.scrollLeft += 100;
     });
-    document.getElementById("Label1").getElementsByClassName("bar-left")[0].addEventListener("click", function() {
-        document.getElementById("Label1").getElementsByTagName("ul")[0].scrollLeft -= 100;
+    labels.querySelector('.bar-left').addEventListener('click', function() {
+        labels.querySelector('ul')?.scrollLeft -= 100;
     });
 }
 
