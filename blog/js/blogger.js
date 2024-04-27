@@ -2,8 +2,8 @@
 window.addEventListener('load', preLoadSequence);
 
 function preLoadSequence() {
-	if(typeof addSearchBar == 'function') addSearchBar();
-	if(typeof addMetadata == 'function') addMetadata();
+	addSearchBar();
+	addMetadata();
 	if(typeof reduceResults == 'function') reduceResults();
 	if(typeof fixLabelResults == 'function') fixLabelResults();
 	if(typeof fixPageNavigation == 'function') fixPageNavigation();
@@ -67,47 +67,47 @@ function addButton(classes, title, googleIconName, clickEvent, parentElement) {
 }
 
 function addSearchBar() {
+	// remove native search bar, add back on page header
 	let search = document.createElement('div');
 	search.id = 'CustomBlogSearch';
 	search.innerHTML = '<div class="widget-content"><div id="_form"><form action="' + window.location.origin + '/search" class="gsc-search-box" target="_top"><div cellpadding="0" cellspacing="0" class="gsc-search-box"><div><div><span class="gsc-input"><input id="BlogSearch" autocomplete="off" class="gsc-input" name="q" size="10" title="search" type="text" value=""></span><span class="gsc-search-button" style="display: none;"><input class="gsc-search-button" name="max-results" title="search" type="submit" value="5"></span></div></div></div></form></div></div>';
-	
-	if(document.getElementById('CustomBlogSearch') != null) document.getElementById('CustomBlogSearch').remove();
-	if(document.getElementsByClassName('header-outer').length > 0)
-		document.getElementsByClassName('header-outer')[0].appendChild(search);
+	document.getElementById('CustomBlogSearch')?.remove();
+	document.querySelector('.header-outer')?.appendChild(search);
 }
 
-function addMetadata() {	
+function addMetadata() {
+	// add metadata to allow responsive, not hardcoded in blogger theme
 	let viewport = document.createElement('meta');
 	viewport.setAttribute('name','viewport');
 	viewport.setAttribute('content','width=device-width,initial-scale=1.0');
 	document.head.appendChild(viewport);
 }
 
-// For search, collapse all results
+// collapse search results from full post views
 function reduceResults() {
-	//Exceptions in order: single posts, previews, pages, linqpad
+	// exceptions to ignore: single posts, previews, pages, linqpad
     if ((window.location.href.includes(window.location.origin + '/20') && window.location.href.includes('.html')) || 
 		window.location.href.includes(window.location.origin + '/b/blog-preview') || 
 		window.location.href.includes(window.location.origin + '/p/'))
 		return;
-	//Remove content
-	for (let footer of document.getElementsByClassName('post-footer-line-2'))
-		footer.innerHTML = '<hr>';
-	while (document.getElementsByClassName('date-header')[0] != undefined)
-		document.getElementsByClassName('date-header')[0].remove(); //remove header
-	while (document.getElementsByClassName('blog-feeds')[0] != undefined)
-		document.getElementsByClassName('blog-feeds')[0].remove(); //remove feed
-
-	if(!window.location.href.includes('The%20Statement')) // if not statement labels
+	// remove footer
+	while (document.querySelector('.post-footer-line-2') != null)
+		document.querySelector('.post-footer-line-2').remove();
+	// remove header
+	while (document.querySelector('.date-header') != null)
+		document.querySelector('.date-header').remove();
+	// remove feed
+	while (document.querySelector('.blog-feeds') != null)
+		document.querySelector('.blog-feeds').remove();
+	// for statement search pages, show posts with body and footer only, no title
+	if(!window.location.href.includes('The%20Statement'))
 	{
 		let columnCenterInner = document.getElementsByClassName('column-center-inner')[0];
 		columnCenterInner.classList.add('homepage-column-center-inner');
 		
 		if(document.getElementById('hashtags') != undefined)
 			document.getElementById('hashtags').parentElement.removeChild(document.getElementById('hashtags'));
-		let posts = document.getElementsByClassName('post');
-		let counter = 0;
-		for (let post of posts)
+		for (let post of document.querySelectorAll('.post'))
 		{
 			//definition and preprocessing
 			let footer = post.getElementsByClassName('post-footer')[0];
@@ -188,8 +188,6 @@ function reduceResults() {
 			post.innerHTML = '';
 			latestPost.appendChild(innerPostLink);
 			post.appendChild(latestPost);
-			
-			counter++;
 		}
 	}
 	else // show all content
