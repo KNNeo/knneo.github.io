@@ -429,6 +429,8 @@ a.fab:focus-within {
 
 .latest-post-thumb {
 	border-color: transparent;
+	width: 150px;
+	height: 150px;
 }
 
 .latest-post-thumb:hover {

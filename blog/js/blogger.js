@@ -99,109 +99,81 @@ function reduceResults() {
 	// remove feed
 	while (document.querySelector('.blog-feeds') != null)
 		document.querySelector('.blog-feeds').remove();
-	// for statement search pages, show posts with body and footer only, no title
+	// if not statement search page, show post thumbnails
 	if(!window.location.href.includes('The%20Statement'))
 	{
-		let columnCenterInner = document.getElementsByClassName('column-center-inner')[0];
+		let columnCenterInner = document.querySelector('.column-center-inner');
 		columnCenterInner.classList.add('homepage-column-center-inner');
-		
-		if(document.getElementById('hashtags') != undefined)
-			document.getElementById('hashtags').parentElement.removeChild(document.getElementById('hashtags'));
+		// remove all post hashtag ids
+		while (document.getElementById('hashtags') != null)
+			document.getElementById('hashtags').remove();
 		for (let post of document.querySelectorAll('.post'))
 		{
-			//definition and preprocessing
-			let footer = post.getElementsByClassName('post-footer')[0];
-			if(footer) footer.parentElement.removeChild(footer);
-			let title = post.getElementsByClassName('post-title')[0];
-			let link = title != undefined ? title.getElementsByTagName('a')[0] : undefined;
-			let snippet = post.getElementsByClassName('post-body')[0];
-			for(let styleDiv of snippet.getElementsByTagName('style'))
-			{
-				styleDiv.parentElement.removeChild(styleDiv); //remove style
-			}
-			let statement = snippet.getElementsByTagName('b');
-			let thumb = snippet.getElementsByClassName('post-thumbnail');
-			if(thumb.length > 0)
-				thumb = snippet.getElementsByClassName('post-thumbnail')[0].getAttribute('data-src');
-			else if (snippet.getElementsByTagName('img').length > 0)
-				thumb = snippet.getElementsByTagName('img')[0].src;
-			
-			//generate thumb
+			// definition and preprocessing
+			// remove footers
+			post.querySelector('.post-footer')?.remove();
+			let title = post.querySelector('.post-title');
+			let link = title?.querySelector('a');
+			let snippet = post.querySelector('.post-body');
+			// remove page styles
+			while (snippet.querySelector('style') != null)
+				snippet.querySelector('style').remove();
+			//generate page thumbnails
 			let latestPost = document.createElement('div');
 			latestPost.classList.add('latest-post');
-							
 			let innerPostLink = document.createElement('a');
 			innerPostLink.href = link?.href ?? '/search/label/The%20Statement?max-results=5';
-			
-			let latestPostThumb = document.createElement('div');
-			// latestPostThumb.style.position = 'relative';
-			
-			if(thumb.length > 0)
-			{
+			//generate page thumbnail image
+			let latestPostThumb = document.createElement('div');			
+			// find thumbnail image, if any
+			let thumb = snippet.querySelector('.post-thumbnail');
+			if (thumb != null)
+				thumb = snippet.querySelector('.post-thumbnail').getAttribute('data-src');
+			else if (snippet.querySelector('img') != null)
+				thumb = snippet.querySelector('img').src;			
+			if (thumb != null) {
 				let homeThumb = document.createElement('img');
 				homeThumb.classList.add('latest-post-thumb');
-				homeThumb.style.width = '150px';
-				homeThumb.style.height = '150px';
 				homeThumb.src = thumb;
 				latestPostThumb.appendChild(homeThumb);
 			}
-			
-			let tags = post.querySelectorAll(".post-body [id]:not(#hashtags):not(#news-thumbnail):not(.twitter-tweet iframe[id]):not(#table):not(#music):not(.list):not(audio):not(video):not(object)");
-			if(false && link?.href && tags.length > 0)
-			{
-				let tagsDiv = document.createElement('div');
-				tagsDiv.classList.add('anchors');
-				
-				for(let tag of tags)
-				{
-					let tagDiv = document.createElement('a');
-					tagDiv.innerText = '#' + tag.id;
-					tagDiv.href = link?.href + tagDiv.innerText;
-					tagsDiv.appendChild(tagDiv);
-				}
-				
-				latestPostThumb.appendChild(tagsDiv);
-			}
-			
+			// generate post title
 			let latestPostTitle = document.createElement('h3');
-			latestPostTitle.classList.add(title == undefined ? 'latest-post-statement' : 'latest-post-title');
 			latestPostTitle.classList.add('post-title');
-			latestPostTitle.innerText = title?.getElementsByTagName('a')[0]?.innerText ?? statement[0].innerText;
-			
+			latestPostTitle.classList.add(title != null ? 'latest-post-title' : 'latest-post-statement');
+			latestPostTitle.innerText = title?.querySelector('a')?.innerText ?? snippet.querySelector('b').innerText;
+			// generate post summary: first x characters with ellipse
 			let latestPostSummary = document.createElement('div');
 			latestPostSummary.classList.add('summary');
 			let excerpt = snippet.innerText.trim();
 			latestPostSummary.innerHTML = (title == undefined ? '' : excerpt.substring(0, excerpt.substring(280, 350).indexOf(' ') + 280).trim() + '...');
-			
+			// bringing it all together
 			let outerWrapper = document.createElement('div');
 			outerWrapper.classList.add('outer');
 			if(link != undefined && thumb != undefined) outerWrapper.appendChild(latestPostThumb);
-			
 			let innerWrapper = document.createElement('div');
 			innerWrapper.classList.add('inner');
 			innerWrapper.appendChild(latestPostTitle);
-			if(title != undefined) innerWrapper.appendChild(latestPostSummary);
-			
+			if(title != undefined) innerWrapper.appendChild(latestPostSummary);			
 			outerWrapper.appendChild(innerWrapper);
 			innerPostLink.appendChild(outerWrapper);
-			
+			// clear current post content and replace
 			post.innerHTML = '';
 			latestPost.appendChild(innerPostLink);
 			post.appendChild(latestPost);
 		}
 	}
-	else // show all content
+	else // for statement search pages, show all content
 	{
-		for (let content of document.getElementsByClassName('post-body entry-content'))
-		{
-			if (content.parentElement.getElementsByTagName('h3').length > 0)
-				content.style.display = 'none';
-		}
-		
-		//add button to expand/collapse
+		// if no post title, hide
+		for (let content of document.querySelectorAll('.post-body.entry-content')) {
+			if (content.parentElement.querySelector('h3') != null)
+				content.style.display = 'none'; // permanently hide
+		}		
+		// add button to expand/collapse
 		for (let titleBar of document.getElementsByClassName('post-title entry-title'))
 			titleBar.innerHTML = '<table><tbody><tr><td><div class="search-expander"><i class="material-icons">unfold_less</i></div></td><td>' + titleBar.innerHTML + '</td></tr></tbody></table>';
-		//add click logic
+		// add click logic
 		for (let i = 0; i < document.getElementsByClassName('post-title entry-title').length; i++) {
 			document.getElementsByClassName('search-expander')[i].addEventListener("click", function() {
 				let titleBar = this.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
