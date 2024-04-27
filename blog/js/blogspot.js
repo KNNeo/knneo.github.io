@@ -1,14 +1,32 @@
 window['light-theme'] = '#f4f6ff';
 window['dark-theme'] = '#001114';
 window['dark-name'] = 'blog-theme';
+// Single onLoad event control: put all functions in sequence
+window.addEventListener('load', postLoadSequence);
 
 function postLoadSequence() {
+	// Global Window Events
+	window.addEventListener('scroll', toggleActionsOnScroll);
+	window.addEventListener('resize', windowOnResize);
+	window.addEventListener('hashchange', scrollToSectionByUrl);
+	window.addEventListener('popstate', windowOnHistoryChange);
+	
+	// Global Asynchronous Events
+	setTimeout(addHashtags, 0); // generateHeader, generateReadTime
+	setTimeout(resizeImages, 0);
+	setTimeout(displayFAB, 0);
+	setTimeout(setExpander, 0);
+	setTimeout(addHoverForLinks, 0);
+	setTimeout(showAbbrAsDialog, 0);
+	setTimeout(renderLabelIcon, 0);
+	setTimeout(scrollToSectionByUrl, 200);
 	setTimeout(function() {
 		addSwipeEvents();
 		removeLinkExtensions();
 		if(typeof generateViewer == 'function') generateViewer();
 	}, 0);
 }
+
 // allow toggle of emoji display
 function toggleEmojiDisplay() {
 	if(event.target != null)

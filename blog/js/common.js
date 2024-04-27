@@ -9,31 +9,6 @@ const isMediumWidth = function () {
 	return window.innerWidth <= 1024;
 }
 
-// Single onLoad event control: put all functions in sequence
-window.addEventListener('load', startup);
-
-function startup() {
-	// Per Module Functions
-	if(typeof preLoadSequence == 'function') preLoadSequence();
-	if(typeof postLoadSequence == 'function') postLoadSequence();
-	
-	// Global Window Events
-	window.addEventListener('scroll', toggleActionsOnScroll);
-	window.addEventListener('resize', windowOnResize);
-	window.addEventListener('hashchange', scrollToSectionByUrl);
-	window.addEventListener('popstate', windowOnHistoryChange);
-	
-	// Global Asynchronous Events
-	setTimeout(addHashtags, 0); // generateHeader, generateReadTime
-	setTimeout(resizeImages, 0);
-	setTimeout(displayFAB, 0);
-	setTimeout(setExpander, 0);
-	setTimeout(addHoverForLinks, 0);
-	setTimeout(showAbbrAsDialog, 0);
-	setTimeout(renderLabelIcon, 0);
-	setTimeout(scrollToSectionByUrl, 200);
-}
-
 function windowOnResize() {
 	// sidebar content on blogger must show on larger screens
 	if (!isMediumWidth()) {

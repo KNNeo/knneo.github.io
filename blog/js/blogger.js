@@ -1,3 +1,6 @@
+// Single onLoad event control: put all functions in sequence
+window.addEventListener('load', preLoadSequence);
+
 function preLoadSequence() {
 	if(typeof addSearchBar == 'function') addSearchBar();
 	if(typeof addMetadata == 'function') addMetadata();
@@ -9,6 +12,21 @@ function preLoadSequence() {
 	if(typeof addFloatingActionButtons == 'function') addFloatingActionButtons();
 	if(typeof fixLightbox == 'function') fixLightbox();
 
+	// Global Window Events
+	window.addEventListener('scroll', toggleActionsOnScroll);
+	window.addEventListener('resize', windowOnResize);
+	window.addEventListener('hashchange', scrollToSectionByUrl);
+	window.addEventListener('popstate', windowOnHistoryChange);
+	
+	// Global Asynchronous Events
+	setTimeout(addHashtags, 0); // generateHeader, generateReadTime
+	setTimeout(resizeImages, 0);
+	setTimeout(displayFAB, 0);
+	setTimeout(setExpander, 0);
+	setTimeout(addHoverForLinks, 0);
+	setTimeout(showAbbrAsDialog, 0);
+	setTimeout(renderLabelIcon, 0);
+	setTimeout(scrollToSectionByUrl, 200);
 	//open body if no other fixes
 	document.body.style.display = 'block';
 }
