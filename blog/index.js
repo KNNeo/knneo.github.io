@@ -5,6 +5,7 @@ window['urls'] = [];
 window['search-results'] = [];
 window.addEventListener('load', addServiceWorker);
 window.addEventListener('load', removeLinkExtensions);
+window.addEventListener('load', hideDescription);
 window.addEventListener('scroll', toggleActionsOnScroll);
 window.addEventListener('hashchange', filterByTag);
 
@@ -32,6 +33,12 @@ function removeLinkExtensions() {
 		for(let a of document.querySelectorAll('a'))
 			a.href = a.href.replace('.html', '');
 	}
+}
+
+// hide description if hosted
+function hideDescription() {
+	if(!window.location.href.includes('knneo.github.io'))
+		document.querySelector('.home-header h6')?.classList.add('hidden');
 }
 
 function filterByTag() {
