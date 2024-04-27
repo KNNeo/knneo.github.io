@@ -9,8 +9,8 @@ function preLoadSequence() {
 	fixPageNavigation();
 	fixNavigationResults();
 	addLabelForNavigation();
+	fixLightbox();
 	if(typeof addFloatingActionButtons == 'function') addFloatingActionButtons();
-	if(typeof fixLightbox == 'function') fixLightbox();
 
 	// Global Window Events
 	window.addEventListener('scroll', toggleActionsOnScroll);
@@ -206,8 +206,10 @@ function fixLabelResults() {
 
 function fixPageNavigation() {
 	// convert text to icon for footer next previous posts
-	document.querySelector('#blog-pager-newer-link a')?.innerHTML = '<i class="material-icons latest-post" style="padding:0;">arrow_back</i>';
-	document.querySelector('#blog-pager-older-link a')?.innerHTML = '<i class="material-icons latest-post" style="padding:0;">arrow_forward</i>';
+	if(document.querySelector('#blog-pager-newer-link a') != null)
+		document.querySelector('#blog-pager-newer-link a').innerHTML = '<i class="material-icons latest-post" style="padding:0;">arrow_back</i>';
+	if(document.querySelector('#blog-pager-older-link a') != null)
+		document.querySelector('#blog-pager-older-link a').innerHTML = '<i class="material-icons latest-post" style="padding:0;">arrow_forward</i>';
 	document.querySelector('.home-link')?.remove();	
 }
 
@@ -243,10 +245,9 @@ function addLabelForNavigation() {
     });
 }
 
-// To fix lightbox gallery not covering screen on Chrome mobile, run only once per refresh
 function fixLightbox() {
-	if(document.getElementById("Blog1") != null)
-		document.getElementById("Blog1").addEventListener("click", cleanupLightbox);
+	// fix lightbox gallery not covering screen on Chrome mobile, run only once per refresh
+	document.getElementById('Blog1')?.addEventListener('click', cleanupLightbox);
 }
 
 function cleanupLightbox() {
@@ -258,7 +259,7 @@ function cleanupLightbox() {
         attributeContainerHolder.style.width = "100%";
         document.getElementsByClassName("CSS_LIGHTBOX_BG_MASK_TRANSPARENT")[0].style.height = "120%";
     }
-	document.getElementById("Blog1").removeEventListener("click", cleanupLightbox);
+	document.getElementById('Blog1')?.removeEventListener('click', cleanupLightbox);
 }
 
 // Others, Blogger Only
