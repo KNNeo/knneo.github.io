@@ -389,12 +389,64 @@ a {
 	margin: 2px;
 }
 
+.icon,
+.text {
+	width: 10vw;
+	height: 10vw;
+	max-width: 120px;
+	max-height: 120px;
+	font-size: 1.5em;
+}
+
+.home {
+	font-size: 90px;
+}
+
+.single .icon,
+.single .text {
+	font-size: 0.9em;
+	max-width: 90px;
+	max-height: 90px;
+}
+
+/*SMALL SCREEN WIDTH*/
 @media only screen and (max-width: 800px) {
 	.container {
 		 width: 99%;
 		 margin: 0;
 	}
+	.icon,
+	.text {
+		width: 19vw;
+		height: 19vw;
+		max-width: 80px;
+		max-height: 80px;
+		font-size: 1em;
+		font-size: 80px;
+	}
 	.one .text {
 		font-size: 0.9em;
 	}
+}
+
+/*SMALL SCREEN HEIGHT*/
+@media only screen and (max-height: 800px) {
+	.icon {
+	}
+}
+
+/*MEDIUM SCREEN WIDTH*/
+@media only screen and (max-width: 1200px) {
+	.icon {
+	}
+}
+
+/*LARGE SCREEN WIDTH*/
+@media only screen and (min-width: 1600px) {
+	.icon {
+	}
+}
+
+/*SMALL MOBILE DEVICE*/
+@media only screen and (pointer:coarse) and (max-width: 480px) {
 }

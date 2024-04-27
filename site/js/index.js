@@ -336,22 +336,22 @@ function renderMenu() {
 		let contentList = document.createElement('div');
 		contentList.classList.add('contents');
 		// define icon size by configuration
-		let iconSize = '10vw';
-		let iconFontSize = '1.5rem';
-		let maxIconSize = '120px';
-		let drawerHeight = '15vh';
-		let homeIconSize = '90px';
-		if (content.isSinglePage) {
-			iconFontSize = '1rem';
-			maxIconSize = '90px';
-		}
-		if (smallScreenWidth()) {
-			iconSize = '19vw';
-			drawerHeight = '30px';
-			iconFontSize = '1rem';
-			maxIconSize = '80px';
-			homeIconSize = '80px';
-		}
+		// let iconSize = '10vw';
+		// let maxIconSize = '120px';
+		// let iconFontSize = '1.5rem';
+		// let drawerHeight = '15vh';
+		// let homeIconSize = '90px';
+		// if (content.isSinglePage) {
+			// iconFontSize = '1rem';
+			// maxIconSize = '90px';
+		// }
+		// if (smallScreenWidth()) {
+			// iconSize = '19vw';
+			// maxIconSize = '80px';
+			// drawerHeight = '30px';
+			// iconFontSize = '1rem';
+			// homeIconSize = '80px';
+		// }
 		// document.querySelector('.menu').style.minHeight = content.isSinglePage && smallScreenWidth() ? drawerHeight : '';
 		// document.querySelector('.menu').style.maxHeight = content.isSinglePage && smallScreenWidth() ? drawerHeight : '';
 		//drawer, home icon
@@ -382,7 +382,7 @@ function renderMenu() {
 			let contentItem = document.createElement('div');
 			// contentItem.classList.add('material-icons');
 			contentItem.className = 'home focusable bi bi-house-fill';
-			contentItem.style.fontSize = homeIconSize;
+			// contentItem.style.fontSize = homeIconSize;
 			// contentItem.innerText = 'home';
 			contentItem.addEventListener('keyup', function() {
 				event.stopPropagation();
@@ -416,10 +416,10 @@ function renderMenu() {
 				let contentItem = document.createElement('div');
 				contentItem.classList.add('icon');
 				contentItem.classList.add('focusable');
-				contentItem.style.width = iconSize;
-				contentItem.style.height = iconSize;
-				contentItem.style.maxWidth = maxIconSize;
-				contentItem.style.maxHeight = maxIconSize;
+				// contentItem.style.width = iconSize;
+				// contentItem.style.height = iconSize;
+				// contentItem.style.maxWidth = maxIconSize;
+				// contentItem.style.maxHeight = maxIconSize;
 				contentItem.title = window['elements'][section].text || '';
 				contentItem.style.backgroundImage = addBackgroundUrlClause(window['elements'][section].image);
 				contentItem.addEventListener('keyup', function() {
@@ -459,11 +459,11 @@ function renderMenu() {
 				contentItem.classList.add('focusable');
 				if(window['elements'][section].highlight)
 					contentItem.classList.add('highlight');
-				contentItem.style.width = iconSize;
-				contentItem.style.height = iconSize;
-				contentItem.style.maxWidth = maxIconSize;
-				contentItem.style.maxHeight = maxIconSize;
-				contentItem.style.fontSize = iconFontSize;
+				// contentItem.style.width = iconSize;
+				// contentItem.style.height = iconSize;
+				// contentItem.style.maxWidth = maxIconSize;
+				// contentItem.style.maxHeight = maxIconSize;
+				// contentItem.style.fontSize = iconFontSize;
 				contentItem.innerText = window['elements'][section].text;
 				contentItem.title = contentItem.innerText || '';
 				contentItem.addEventListener('keyup', function() {
