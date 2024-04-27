@@ -717,7 +717,7 @@ abbr.imgpop:hover img {
 .new-thumbnail .new-thumbnail-focus img {
 	border-radius: 0;
 	border: 2px solid rgb(var(--primary));
-    filter: drop-shadow(2px 4px 6px var(--background));
+    filter: drop-shadow(2px 4px 6px rgb(var(--background)));
 }
 
 .twitter-tweet.twitter-tweet-rendered {
@@ -977,14 +977,14 @@ abbr.imgpop:hover img {
   .bar-left {
     position: absolute;
     font-size: 48px;
-    background-image: linear-gradient(to right, var(--background), transparent);
+    background-image: linear-gradient(to right, rgba(var(--background), 1), rgba(var(--background), 0));
     height: 68px;
   }
   .bar-right {
     position: absolute;
     right: 0;
     font-size: 48px;
-    background-image: linear-gradient(to left, var(--background), transparent);
+    background-image: linear-gradient(to left, rgba(var(--background), 1), rgba(var(--background), 0));
     height: 68px;
   }
   .search-expander i {
