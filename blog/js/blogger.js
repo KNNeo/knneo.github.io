@@ -8,7 +8,7 @@ function preLoadSequence() {
 	fixLabelResults();
 	fixPageNavigation();
 	fixNavigationResults();
-	addLabelForNavigation();
+	fixLabelForNavigation();
 	fixLightbox();
 	if(typeof addFloatingActionButtons == 'function') addFloatingActionButtons();
 
@@ -232,16 +232,16 @@ function fixNavigationResults() {
 	}
 }
 
-function addLabelForNavigation() {
+function fixLabelForNavigation() {
 	// add arrows for post labels when in smaller screens for navigation
 	if(document.getElementById('Label1') == undefined) return;
 	let labels = document.getElementById('Label1');
     labels.innerHTML += '<i class="material-icons bar-left" style="font-size: 48px;">arrow_left</i><i class="material-icons bar-right" style="font-size: 48px;">arrow_right</i>';
     labels.querySelector('.bar-right').addEventListener('click', function() {
-        labels.querySelector('ul')?.scrollLeft += 100;
+        document.querySelector('#Label1 ul')?.scrollLeft += 100;
     });
     labels.querySelector('.bar-left').addEventListener('click', function() {
-        labels.querySelector('ul')?.scrollLeft -= 100;
+        document.querySelector('#Label1 ul')?.scrollLeft -= 100;
     });
 }
 
