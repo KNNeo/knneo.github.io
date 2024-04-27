@@ -46,12 +46,9 @@ function scrollToPrevPage() {
 
 function scrollToPage(sectionNo) {
 	if(window['main'].isSinglePage) {
-		for(let section of document.querySelectorAll('.section')) {
-			section.style.opacity = 0;
-			section.style.zIndex = 0;
-		}
-		document.querySelectorAll('.section')[sectionNo].style.opacity = 1;
-		document.querySelectorAll('.section')[sectionNo].style.zIndex = 1;
+		for(let section of document.querySelectorAll('.section'))
+			section.classList.add('hidden');
+		document.querySelectorAll('.section')[sectionNo].classList.remove('hidden');
 	}
 	else
 		document.querySelectorAll('.section')[sectionNo].focus();
