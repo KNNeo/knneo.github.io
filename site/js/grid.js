@@ -195,7 +195,7 @@ function renderGrid(sectionNo, content, isSinglePage) {
 					else //if desktop, all in n rows where n = component.rows
 					{
 						img.style.width = (100 / component.rows) + '%';
-						if(largeScreenWidth())
+						if(largeScreenWidth()) // if large screen, scale more
 							img.style.width = (100 / (component.rows + 0.8)) + '%';
 						if(component.datas.length == component.rows) {
 							gallery.style.display = 'flex';
@@ -239,7 +239,7 @@ function renderGrid(sectionNo, content, isSinglePage) {
 			
 			let gallery = document.createElement('div');
 			gallery.classList.add(component.type);
-			gallery.style.width = '100%';
+			// gallery.style.width = '100%';
 			
 			for(let galleryIndex = 0; galleryIndex < component.datas.length; galleryIndex++)
 			{
@@ -250,21 +250,23 @@ function renderGrid(sectionNo, content, isSinglePage) {
 				img.classList.add('focusable');
 				img.src = data.thumbnail;
 				img.alt = data.tooltip;
-				if(data.grid)
-				{
+				if(data.grid) {
 					img.setAttribute('data-section', sectionNo);
 					img.setAttribute('data-component', index);
 					img.setAttribute('data-gallery', galleryIndex);
 				}
-				else img.setAttribute('data-src', data.source);
-				if(smallScreenWidth())
-				{
-					img.style.height = '20vw';
-				}
-				else if (component.size && component.size == 'lg') img.style.height = '12vw';
-				else img.style.height = '8vw';
-				img.style.margin = '5px';
-				if(data.source) img.style.cursor = 'pointer';
+				else
+					img.setAttribute('data-src', data.source);
+				// if(smallScreenWidth())
+				// {
+					// img.style.height = '20vw';
+				// }
+				if (component.size && component.size == 'lg') 
+					img.classList.add('lg');
+					// img.style.height = '12vw';
+				// else img.style.height = '8vw';
+				// img.style.margin = '5px';
+				// if(data.source) img.style.cursor = 'pointer';
 				if(data.grid || data.source)
 					img.addEventListener('click', function() {
 						event.stopPropagation();
@@ -282,9 +284,9 @@ function renderGrid(sectionNo, content, isSinglePage) {
 				let caption = document.createElement('div');
 				caption.classList.add('caption');
 				caption.innerText = component.caption;
-				caption.style.width = '100%';
+				// caption.style.width = '100%';
 				// caption.style.height = '20%';
-				caption.style.margin = '5px';
+				// caption.style.margin = '5px';
 				gallery.appendChild(caption);
 			}
 			

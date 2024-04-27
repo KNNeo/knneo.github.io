@@ -427,6 +427,28 @@ a {
 	max-height: 90px;
 }
 
+.gallery {
+	width: 100%;
+}
+
+.gallery img {
+	height: 8vw;
+	margin: 5px;
+}
+
+.gallery img[data-src] {
+	cursor: pointer;
+}
+
+.gallery img.lg {
+	height: 12vw;
+}
+
+.gallery .caption {
+	width: 100%;
+	margin: 5px;
+}
+
 /*SMALL SCREEN WIDTH*/
 @media only screen and (max-width: 800px) {
 	.container {
@@ -444,6 +466,9 @@ a {
 	}
 	.one .text {
 		font-size: 0.9em;
+	}
+	.gallery img {
+		height: 20vw;
 	}
 }
 
