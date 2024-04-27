@@ -108,9 +108,7 @@ span.small-icons {
 }
 
 .quickedit,
-.status-msg-wrap,
-.post-count,
-.display-none {
+.status-msg-wrap {
   display: none;
 }
 
