@@ -238,10 +238,12 @@ function fixLabelForNavigation() {
 	let labels = document.getElementById('Label1');
     labels.innerHTML += '<i class="material-icons bar-left" style="font-size: 48px;">arrow_left</i><i class="material-icons bar-right" style="font-size: 48px;">arrow_right</i>';
     labels.querySelector('.bar-right').addEventListener('click', function() {
-        document.querySelector('#Label1 ul')?.scrollLeft += 100;
+		if(document.querySelector('#Label1 ul') != null)
+			document.querySelector('#Label1 ul').scrollLeft += 100;
     });
     labels.querySelector('.bar-left').addEventListener('click', function() {
-        document.querySelector('#Label1 ul')?.scrollLeft -= 100;
+		if(document.querySelector('#Label1 ul') != null)
+			document.querySelector('#Label1 ul').scrollLeft -= 100;
     });
 }
 
