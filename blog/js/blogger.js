@@ -236,7 +236,7 @@ function fixLabelForNavigation() {
 	// add arrows for post labels when in smaller screens for navigation
 	if(document.getElementById('Label1') == undefined) return;
 	let labels = document.getElementById('Label1');
-    labels.innerHTML += '<i class="material-icons bar-left" style="font-size: 48px;">arrow_left</i><i class="material-icons bar-right" style="font-size: 48px;">arrow_right</i>';
+    labels.innerHTML = '<i class="material-icons bar-left" style="font-size: 48px;">arrow_left</i><i class="material-icons bar-right" style="font-size: 48px;">arrow_right</i>' + labels.innerHTML;
     labels.querySelector('.bar-right').addEventListener('click', function() {
 		if(document.querySelector('#Label1 ul') != null)
 			document.querySelector('#Label1 ul').scrollLeft += 100;
