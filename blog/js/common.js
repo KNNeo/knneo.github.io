@@ -530,6 +530,7 @@ function setThumbnails() {
 	if(thumbImagesWithLinks.length > 0) {
 		console.error('Thumbnail has image with link: Will prevent switchThumbnails assignment');
 		console.error(thumbImagesWithLinks);
+		disableThumbnails();
 		return;
 	}
 	// check thumbnail class names logic violation
@@ -538,6 +539,7 @@ function setThumbnails() {
 	if(thumbInitials.length > 0) {
 		console.error("Thumbnail classList definition error: Will prevent switchThumbnails assignment");
 		console.log(thumbInitials);
+		disableThumbnails();
 		return;
 	}
 	// process thumbnail logic
@@ -595,6 +597,13 @@ function setThumbnails() {
 			}
         }
     }
+}
+
+function disableThumbnails() {
+	for(let thumb of document.querySelectorAll('.thumbnail-initial'))
+		thumb.classList.toggle('thumbnail-initial');
+	for(let thumb of document.querySelectorAll('.thumbnail-pop'))
+		thumb.classList.toggle('thumbnail-pop');
 }
 
 function switchThumbnails(tn, index) {
