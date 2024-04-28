@@ -1,18 +1,38 @@
-const CACHE_NAME = 'knwebreports-20240428';
+const CACHE_NAME_PAGES = 'html-20240428';
+const CACHE_NAME_RESOURCES = 'script-20240428';
+const CACHE_NAME_STATIC = 'default-20240428';
+const ALL_CACHES = [];
 
 self.addEventListener('install', function(event) {
   // Perform install steps
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(function(cache) {
-        console.log('Opened cache');
-        return cache;
-      })
+  event.waitUntil(Promise.all(
+		ALL_CACHES.map(name => caches.open(name))
+	).then(function(caches) {
+		console.log('Opened cache');
+		return caches;
+	})
   );
 });
 
 self.addEventListener('fetch', function(event) {
   const request = event.request;
+  const url = new URL(request.url);
+  const fileType = url.pathname.split('.').pop();
+  // Decide cache based on file extension
+  let cacheName = CACHE_NAME_STATIC;
+  switch(fileType.toLowerCase()) {
+	  case 'html':
+		cacheName = CACHE_NAME_PAGES;
+		break;
+	  case 'css':
+	  case 'js':
+		cacheName = CACHE_NAME_RESOURCES;
+		break;
+	  default:
+	    cacheName = CACHE_NAME_STATIC;
+		break;
+  };
+  
   event.respondWith(
     caches.match(request) // Try to serve from cache first
       .then((cachedResponse) => {
@@ -26,7 +46,7 @@ self.addEventListener('fetch', function(event) {
             .then((response) => {
               // Clone the response for caching
               const responseClone = response.clone();
-              caches.open(CACHE_NAME)
+              caches.open(cacheName)
                 .then((cache) => cache.put(request, responseClone));
               return response;
             });
@@ -46,7 +66,7 @@ self.addEventListener('activate', (event) => {
     caches.keys().then((cacheNames) => {
       return Promise.all(
         cacheNames.map((cacheName) => {
-          if (cacheName != CACHE_NAME) {
+          if (ALL_CACHES.filter(name => name != cacheName).length < 1) {
             return caches.delete(cacheName);
           }
         })
@@ -58,7 +78,7 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('sync', function(event) {
   if (event.tag === 'update-cache') {
     event.waitUntil(
-      caches.open(CACHE_NAME)
+      caches.open(CACHE_NAME_STATIC)
         .then((cache) => {
           return cache.keys().then((keys) => {
             return Promise.all(
