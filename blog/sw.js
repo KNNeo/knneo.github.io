@@ -1,4 +1,4 @@
-const CACHE_NAME = 'klassic-note-web-reports-v1';
+const CACHE_NAME = 'knwebreports-20240428';
 
 self.addEventListener('install', function(event) {
   // Perform install steps
@@ -38,6 +38,20 @@ self.addEventListener('fetch', function(event) {
           });
         }
       })
+  );
+});
+
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((cacheName) => {
+          if (cacheName != CACHE_NAME) {
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    })
   );
 });
 
