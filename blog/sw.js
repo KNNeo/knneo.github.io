@@ -1,4 +1,4 @@
-const CACHE_NAME_PAGES = 'html-20240429';
+const CACHE_NAME_PAGES = 'html-20240429-1';
 const CACHE_NAME_RESOURCES = 'script-20240428';
 const CACHE_NAME_STATIC = 'default-20240428';
 const ALL_CACHES = [];
