@@ -14,13 +14,14 @@
 	<script src="images.js" type="application/javascript" charset="utf-8" defer></script>
 	<script src="index.js" type="application/javascript" charset="utf-8" defer></script>
 	<script type="application/javascript" charset="utf-8" defer>
-	// removeLinkExtensions
-	if(!window.location.href.startsWith('file:///')) {
-		for(let a of document.querySelectorAll('a')) {
-			if(a.href.includes('knneo.github.io') || a.href.includes('knwebreports'))
-				a.href = a.href.replace('index.html', '').replace('.html', '/');
+	window.addEventListener('load', function() {
+		if(!window.location.href.startsWith('file:///')) {
+			for(let a of document.querySelectorAll('a')) {
+				if(a.href.includes('knneo.github.io') || a.href.includes('knwebreports'))
+					a.href = a.href.replace('index.html', '').replace('.html', '/');
+			}
 		}
-	}
+	});
 	</script>
 	<title>Image Archive</title>
 </head>
