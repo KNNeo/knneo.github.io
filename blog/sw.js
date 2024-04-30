@@ -34,12 +34,9 @@ self.addEventListener('fetch', function(event) {
   };
   
   event.respondWith(
-    caches.match(request) // Try to serve from cache first
+    caches.match(request) // Try to find in cache
       .then((cachedResponse) => {
-        if (cachedResponse) {
-          return cachedResponse;
-        }
-        // Not found in cache, check online status
+        // Check online status
         if (navigator.onLine) {
           // Online, fetch from network and potentially cache for future use
           return fetch(request)
@@ -50,8 +47,11 @@ self.addEventListener('fetch', function(event) {
                 .then((cache) => cache.put(request, responseClone));
               return response;
             });
+        } else if (cachedResponse) {
+		  // Offline but in cache
+          return cachedResponse;
         } else {
-          // Offline, return a fallback UI or error message (optional)
+          // Offline but not in cache, return a fallback UI or error message (optional)
           return new Response('Content not available offline', {
             status: 404,
             statusText: 'Not Found',
