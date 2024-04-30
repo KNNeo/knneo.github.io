@@ -95,7 +95,7 @@ function removeLinkExtensions() {
 	if(!window.location.href.startsWith('file:///')) {
 		for(let a of document.querySelectorAll('a')) {
 			if(a.href.includes('knneo.github.io') || a.href.includes('knwebreports'))
-				a.href = a.href.replace('index.html', '').replace('.html', '');
+				a.href = a.href.replace('index.html', '').replace('.html', '/');
 		}
 	}
 }
