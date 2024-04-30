@@ -2,6 +2,7 @@
 const CACHE_NAME_PAGES = 'html-20240429-1';
 const CACHE_NAME_RESOURCES = 'script-20240428';
 const CACHE_NAME_STATIC = 'default-20240428';
+const ALL_CACHES = [ CACHE_NAME_PAGES, CACHE_NAME_RESOURCES, CACHE_NAME_STATIC ];
 
 self.addEventListener('install', function(event) {
   // Perform install steps
@@ -27,11 +28,12 @@ self.addEventListener('fetch', function(event) {
 	cacheName = CACHE_NAME_RESOURCES;
   
   event.respondWith(
-    caches.match(request) // Try to find in cache
+    caches.match(request) 
       .then((cachedResponse) => {
-	if (cachedResponse) {
-          return cachedResponse;
-	}
+		// Try to find in cache
+		if (cachedResponse) {
+		  return cachedResponse;
+		}
         // Check online status
         if (navigator.onLine) {
           // Online, fetch from network and potentially cache for future use
