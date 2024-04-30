@@ -6,6 +6,7 @@ window['search-results'] = [];
 window.addEventListener('load', addServiceWorker);
 window.addEventListener('load', removeLinkExtensions);
 window.addEventListener('load', hideDescription);
+window.addEventListener('load', hideHomeButton);
 window.addEventListener('scroll', toggleActionsOnScroll);
 window.addEventListener('hashchange', filterByTag);
 
@@ -30,8 +31,10 @@ function addServiceWorker() {
 // remove .html extensions, facilitate static site routing
 function removeLinkExtensions() {
 	if(!window.location.href.startsWith('file:///')) {
-		for(let a of document.querySelectorAll('a'))
-			a.href = a.href.replace('index.html', '').replace('.html', '/');
+		for(let a of document.querySelectorAll('a')) {
+			if(a.href.includes('knneo.github.io') || a.href.includes('knwebreports'))
+				a.href = a.href.replace('index.html', '').replace('.html', '/');
+		}
 	}
 }
 
@@ -41,6 +44,13 @@ function hideDescription() {
 		document.querySelector('.home-header h6')?.classList.add('hidden');
 }
 
+// hide home button if at root
+function hideHomeButton() {
+	if(window.location.pathname == '/')
+		document.querySelector('.back')?.classList.add('hidden');
+}
+
+// when click on button tags, will filter by tag on each post
 function filterByTag() {
 	let tag = event.target.id || window.location.hash.replace('#','');
 	let isAll = tag == 'All' || tag == '';
@@ -67,6 +77,7 @@ function filterByTag() {
 		document.querySelector('.count').innerText = 'Showing ' + posts.length + ' published posts' + (isAll ? '' : ' (' + window.location.hash + ')');
 }
 
+// selects random post from filtered
 function randomPost() {
 	let urls = Array.from(document.querySelectorAll('.post:not(.hidden)')).map(p => p.querySelector('a').href);
 	window.location.href = urls[Math.floor(Math.random() * urls.length)];
