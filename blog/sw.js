@@ -1,7 +1,7 @@
+// Caches, in decreasing order of update frequency
 const CACHE_NAME_PAGES = 'html-20240429-1';
 const CACHE_NAME_RESOURCES = 'script-20240428';
 const CACHE_NAME_STATIC = 'default-20240428';
-const ALL_CACHES = [];
 
 self.addEventListener('install', function(event) {
   // Perform install steps
@@ -18,20 +18,13 @@ self.addEventListener('fetch', function(event) {
   const request = event.request;
   const url = new URL(request.url);
   const fileType = url.pathname.split('.').pop();
-  // Decide cache based on file extension
+  // Decide cache based on Accept header
   let cacheName = CACHE_NAME_STATIC;
-  switch(fileType.toLowerCase()) {
-	  case 'html':
-		cacheName = CACHE_NAME_PAGES;
-		break;
-	  case 'css':
-	  case 'js':
-		cacheName = CACHE_NAME_RESOURCES;
-		break;
-	  default:
-	    cacheName = CACHE_NAME_STATIC;
-		break;
-  };
+  if (request.headers.get('Accept').includes('text/html'))
+	cacheName = CACHE_NAME_PAGES;
+  else if (request.headers.get('Accept').includes('text/css') || 
+  request.headers.get('Accept').includes('application.javascript'))
+	cacheName = CACHE_NAME_RESOURCES;
   
   event.respondWith(
     caches.match(request) // Try to find in cache
