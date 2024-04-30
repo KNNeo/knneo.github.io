@@ -36,6 +36,9 @@ self.addEventListener('fetch', function(event) {
   event.respondWith(
     caches.match(request) // Try to find in cache
       .then((cachedResponse) => {
+	if (cachedResponse) {
+          return cachedResponse;
+	}
         // Check online status
         if (navigator.onLine) {
           // Online, fetch from network and potentially cache for future use
@@ -47,9 +50,6 @@ self.addEventListener('fetch', function(event) {
                 .then((cache) => cache.put(request, responseClone));
               return response;
             });
-        } else if (cachedResponse) {
-		  // Offline but in cache
-          return cachedResponse;
         } else {
           // Offline but not in cache, return a fallback UI or error message (optional)
           return new Response('Content not available offline', {
