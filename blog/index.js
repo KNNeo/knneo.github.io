@@ -31,7 +31,7 @@ function addServiceWorker() {
 function removeLinkExtensions() {
 	if(!window.location.href.startsWith('file:///')) {
 		for(let a of document.querySelectorAll('a'))
-			a.href = a.href.replace('.html', '');
+			a.href = a.href.replace('index.html', '').replace('.html', '');
 	}
 }
 
