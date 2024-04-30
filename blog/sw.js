@@ -31,8 +31,7 @@ self.addEventListener('fetch', function(event) {
 		  let cacheName = CACHE_NAME_STATIC;
 		  if (request.headers.get('Accept').includes('text/html'))
 			cacheName = CACHE_NAME_PAGES;
-		  if (request.headers.get('Accept').includes('text/css') || 
-		  request.headers.get('Accept').includes('application/javascript'))
+		  if (request.headers.get('Accept').includes('text/css') || request.url.endsWith('.js'))
 			cacheName = CACHE_NAME_RESOURCES;
           // Online, fetch from network and potentially cache for future use
           return fetch(request)
