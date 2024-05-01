@@ -179,12 +179,10 @@ a:hover {
 
 .action-menu.bottom-left {
 	left: calc(50% - 39ch);
-	flex-direction: row-reverse;
 }
 
 .action-menu.bottom-right {
 	right: calc(50% - 38ch);
-	flex-direction: row;
 }
 
 .action-menu.bottom-left.hide {
@@ -463,10 +461,12 @@ span.emoji {
 	.action-menu.bottom-left {
 		left: 15px;
 		transition: transform 0.2s ease-in-out;
+		flex-direction: row-reverse;
 	}
 	.action-menu.bottom-right {
 		right: 15px;
 		transition: transform 0.2s ease-in-out;
+		flex-direction: row;
 	}
 	.action-menu.bottom-left.show {
 		transform: translateX(0);
