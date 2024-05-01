@@ -55,7 +55,6 @@ h1, h4 {
 	display: flex;
 	overflow-x: auto;
 	gap: 12px;
-	padding-bottom: 2em;
 }
 
 .fanfics .season {
@@ -143,8 +142,6 @@ h1, h4 {
 	display: block;
 	visibility: visible;
 	opacity: 1;
-	bottom: 80px;
-    right: 20px;
 	z-index: 7;
 	-webkit-user-select: none;
 	-khtml-user-select: none;
@@ -165,6 +162,12 @@ h1, h4 {
 }
 
 #GoToTopBtn {
+    right: 20px;
+	bottom: 20px;	
+}
+
+#DarkModeBtn {
+    right: 80px;
 	bottom: 20px;	
 }
 
@@ -187,10 +190,10 @@ h1, h4 {
 	}
 	#GoToTopBtn,
 	#DarkModeBtn {
-		right: 15px;
+		bottom: 15px;
 	}
 	#DarkModeBtn {
-		bottom: 75px;
+		right: 80px;
 	}
 	#GoToTopBtn,
 	#BackBtn {
@@ -209,6 +212,9 @@ h1, h4 {
 	.sitemap {
 		column-width: 11em;
 		line-height: 2;
+	}
+	.fanfics {
+		margin-bottom: 4em;
 	}
 	.fanfics .season {
 		min-width: 9em;

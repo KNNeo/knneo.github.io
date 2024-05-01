@@ -264,7 +264,8 @@ void Main()
 		fanString += "<div><span>#" + ++counter + "</span> <a class=\"keyword\" title=\"" + item.Title + "\" href=\"" + item.KeywordUrl + "\">" + key[2] + "</a></div>\r\n";
 		fanDate = date;
 	}
-	fanString = fanString.Replace("<div></div>\r\n","");
+	//fanString = fanString.Replace("<div></div>\r\n","");
+	fanString += "</div>";
     
     //Write into page
     string fileString = File.ReadAllText(blogpath + "\\template.html");
