@@ -112,4 +112,4 @@ function removeLinkExtensions() {
 				a.href = a.href.replace('index.html', '').replace('.html', '/');
 		}
 	}
-});
+}
