@@ -39,7 +39,7 @@ function generateArchive() {
 		let title = '';
 		let filterArray = mosaicArray
 			.filter(unique)
-			.filter(m => m.imgFilename.toLowerCase().includes(window['filter'] || ''));
+			.filter(m => getImageFilename(m.imgUrl).toLowerCase().includes(window['filter'] || ''));
 		for(let mosaic of filterArray)
 			title = generateArchiveGroup(mosaic, title);
 	}
@@ -63,7 +63,7 @@ function generateArchiveGroup(mosaic, check) {
 	
 		let imageSpan = document.createElement('img');
 		imageSpan.classList.add('tile-image');
-		imageSpan.title = mosaic.imgFilename;
+		imageSpan.title = getImageFilename(mosaic.imgUrl);
 		imageSpan.setAttribute('loading', 'lazy');
 		imageSpan.setAttribute('data-image', mosaic.imgUrl);
 		imageSpan.addEventListener('click', function() {
@@ -86,6 +86,11 @@ function generateArchiveGroup(mosaic, check) {
 	observer.observe(imageDiv);
 	
 	return mosaic.title;
+}
+
+//get filename from image url
+function getImageFilename(url) {
+	return url.substring(url.lastIndexOf('/') + 1);
 }
 
 //add back button to each page

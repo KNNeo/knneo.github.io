@@ -151,7 +151,7 @@ string GenerateImageIndex(IEnumerable<XElement> xmlPosts, string outputFileDir)
 		if(pageTagsXml.Any(xml => POST_IGNORE_TAGS.Contains(xml)))
 			continue;
 		// Create output page link and index in linked list
-        var pageLink = "./" + Path.GetFileNameWithoutExtension(BLOGGER_XML_DIRECTORY.Replace(BLOGGER_XML_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER)) + "/" + publishDate.Year.ToString("0000") + "/"  + publishDate.Month.ToString("00") + "/"  + Path.GetFileNameWithoutExtension(bloggerLink) + "." + postExtension;
+        var pageLink = "../" + Path.GetFileNameWithoutExtension(BLOGGER_XML_DIRECTORY.Replace(BLOGGER_XML_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER)) + "/" + publishDate.Year.ToString("0000") + "/"  + publishDate.Month.ToString("00") + "/"  + Path.GetFileNameWithoutExtension(bloggerLink) + "." + postExtension;
 
         // Export list of images from latest
 		var urls = new List<string>();
@@ -161,7 +161,16 @@ string GenerateImageIndex(IEnumerable<XElement> xmlPosts, string outputFileDir)
         {
 			if(IMAGE_DOMAINS_LIST.Any(id => match.Groups[4].Value.Contains(id)) && !urls.Contains(match.Groups[4].Value))
 			{
-				imageExport += ",{\"title\":\"" + postTitle.Replace("\"", "\\\"") + "\", \"titleUrl\":\"" + pageLink + "\", \"imgUrl\":\"" + match.Groups[4].Value + "\", \"imgFilename\": \"" + Path.GetFileName(match.Groups[4].Value) + "\"}";
+				var titleItem = new MosaicItem() {
+					Id = p,
+					Title = postTitle.Replace("\"", "\\\""),
+					Url = pageLink
+				};
+				var imageItem = new MosaicItem() {
+					Id = p,
+					Url = match.Groups[4].Value
+				};
+				imageExport += ",{\"title\":\"" + titleItem.Title + "\", \"titleUrl\":\"" + titleItem.Url + "\", \"imgUrl\":\"" + imageItem.Url + "\"}";
 				urls.Add(match.Groups[4].Value);
 			}
         	match = match.NextMatch();
@@ -194,4 +203,10 @@ void GenerateIndexFile(string archiveString, int postCount)
     // Write into homepage file
     File.WriteAllText(HOMEPAGE_FILENAME, archiveString);
 }
+
+public class MosaicItem
+{
+    public int Id { get; set; }
+    public string Title { get; set; }
+    public string Url { get; set; }
 }
