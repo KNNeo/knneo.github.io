@@ -33,11 +33,7 @@ string HOMEPAGE_FILENAME = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\b
 string POST_TEMPLATE_FILENAME = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\template\post.html";
 
 // POST SETTINGS
-List<string> POST_DOM_TEMPLATE = new List<string>() {
-	"",
-	"",
-	""
-};
+List<string> POST_DOM_TEMPLATE = new List<string>() { };
 List<String> POST_IGNORE_TAGS = new List<string>() { "The Archive" };
 
 void Main()
@@ -673,7 +669,7 @@ bool IsLatestPost(DateTime publishDate)
 	return DateTime.Compare(publishDate, new DateTime(beforeDate.Year, beforeDate.Month, 1)) >= 0;
 }
 
-public class MatchItem
+class MatchItem
 {
     public string Title { get; set; }
     public string Item { get; set; }
