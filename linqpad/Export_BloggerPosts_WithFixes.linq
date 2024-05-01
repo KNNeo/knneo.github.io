@@ -7,32 +7,6 @@
   <Namespace>System.Windows.Forms</Namespace>
 </Query>
 
-/* NOTES
- * (1) Place blogspot xml file in archivepath
- * (2) Create blogpath since did not do checking for directory exist
- * (3) Change BLOG_DOMAIN_URL to desired domain as exported
- * (4) FIX POST ATTRIBUTES and FIX POST CONTENT can be removed as desired
- * (5) If edit from Blogger img tags will be missing self-enclosing slash, format on web version to fix
- * [Status] List of Cases
- * [ok]	fix twitter embed
- * [ok]	fix youtube iframe size
- * [ok]	remove embed styles for thumbnail normal/hover (posts with sp-thumbnail will be ignored)
- * [ok]	old blog link to current blog
- * [ok]	current blog link to relative
- * [ok]	remove hashtags on post level
- * [ok]	alternate links detection for new popups (youtu.be)
- * [ok]	any link not referenced within blog to open on new tab
- * [ok]	remove add href to hashtags script
- * [ok]	fix primary and secondary colours to variables
- * [ok]	replace common phrases with emoji
- * [ok]	reduce resolution of uploaded images to 1600 pixels max
- * []	censor words
- * [ok]	add lazy loading to img tags
- * [ok]	replace italics with emphasis tag
- * [ok] replace inline style with class due to universal font-size use
- * [ok] fix own twitter/x handle (KlassicNote -> aozakish)
- */
-
 // DEBUG
 bool DEBUG_MODE = false;
 string DEBUG_SEARCHTERM = "";
@@ -42,6 +16,7 @@ bool HOMEPAGE_ONLY = false;
 bool WRITE_TITLE_ON_CONSOLE = true;
 int DOTS_PER_LINE_CONSOLE = 100;
 string BLOG_DOMAIN_URL = "https://knwebreports.blogspot.com/";
+XNamespace DEFAULT_XML_NAMESPACE = XNamespace.Get("http://www.w3.org/2005/Atom");
 
 // HOMEPAGE SETTINGS
 string HTML_BODY_FONTFAMILY = "Noto Sans, Arial, sans-serif;";
@@ -67,116 +42,135 @@ void Main()
 	Console.WriteLine("> Note: If execution is stuck, is likely due to Blogger img tags missing self-enclosing slash, format on Web and re-export");
     if(!WRITE_TITLE_ON_CONSOLE) Console.WriteLine("> WRITE_TITLE_ON_CONSOLE is " + WRITE_TITLE_ON_CONSOLE + "; Set as true to see post titles");
     if(HOMEPAGE_ONLY) Console.WriteLine("> HOMEPAGE_ONLY is " + HOMEPAGE_ONLY + "; Set as false to update posts");
-	Console.WriteLine("===================================================================================");
-    Console.WriteLine("Reading Config...");
-	
+	Console.WriteLine("===================================================================================");	
+	var inputFileDir = GetBloggerXmlFilePath(BLOGGER_XML_DIRECTORY, ARCHIVE_XML_DIRECTORY, DEBUG_MODE);
+	var bloggerPosts = GetBloggerPostsPublished(inputFileDir, Path.Combine(OUTPUT_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER));
+	var linkedList = GetBloggerPostsLinkedList(bloggerPosts, inputFileDir);
+	var homepageString = GenerateBloggerPosts(bloggerPosts, linkedList, Path.Combine(OUTPUT_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER));
+	GenerateHomepage(homepageString, bloggerPosts.ToList().Count);
+	Console.WriteLine("===================================================================================");	
+	// Output as completed
+	Console.WriteLine("Done.");
+}
+
+string GetBloggerXmlFilePath(string inputPath, string backupPath, bool debugMode)
+{
+    Console.WriteLine("Reading Config...");	
 	//Get xml file from BLOGGER_XML_DIRECTORY, move to ARCHIVE_XML_DIRECTORY
 	//If not found, will run file detected in ARCHIVE_XML_DIRECTORY
 	//Assume filename is blog-*.xml
-    string[] sources = Directory.GetFiles(BLOGGER_XML_DIRECTORY, "blog-*.xml");
+    string[] sources = Directory.GetFiles(inputPath, "blog-*.xml");
     if(sources.Length == 1)
 	{
-        if(DEBUG_MODE) Console.WriteLine($"Single xml source found; Moving to {ARCHIVE_XML_DIRECTORY}");		
-	    string[] dests = Directory.GetFiles(Path.GetDirectoryName(ARCHIVE_XML_DIRECTORY), "blog-*.xml");
+        if(debugMode) Console.WriteLine($"Single xml source found; Moving to {backupPath}");		
+	    string[] dests = Directory.GetFiles(Path.GetDirectoryName(backupPath), "blog-*.xml");
 	    if(dests.Length == 1)
 		{
-	        if(DEBUG_MODE) Console.WriteLine("Destination file found; Moving to archive");
-        	File.Delete(dests[0].Replace(ARCHIVE_XML_DIRECTORY, $"{ARCHIVE_XML_DIRECTORY}archive\\"));
-        	File.Move(dests[0], dests[0].Replace(ARCHIVE_XML_DIRECTORY, $"{ARCHIVE_XML_DIRECTORY}archive\\"));
+	        if(debugMode) Console.WriteLine("Destination file found; Moving to archive");
+        	File.Delete(dests[0].Replace(backupPath, $"{backupPath}archive\\"));
+        	File.Move(dests[0], dests[0].Replace(backupPath, $"{backupPath}archive\\"));
 		}
-        File.Move(sources[0], sources[0].Replace(BLOGGER_XML_DIRECTORY, ARCHIVE_XML_DIRECTORY));
+        File.Move(sources[0], sources[0].Replace(inputPath, backupPath));
 	}
     else if(sources.Length == 0)
     {
-        if(DEBUG_MODE) Console.WriteLine($"No xml source found; proceed in {ARCHIVE_XML_DIRECTORY}");
+        if(debugMode) Console.WriteLine($"No xml source found; proceed in {backupPath}");
     }
     else
     {
-        if(DEBUG_MODE) Console.WriteLine($"More than 1 xml source found; using file in {ARCHIVE_XML_DIRECTORY}");
+        if(debugMode) Console.WriteLine($"More than 1 xml source found; using file in {backupPath}");
     }	
 	//Read xml file to process
 	//Can only have exactly one file per query, else fail, require manual intervention
-    string[] xmls = Directory.GetFiles(Path.GetDirectoryName(ARCHIVE_XML_DIRECTORY), "blog-*.xml");
+    string[] xmls = Directory.GetFiles(Path.GetDirectoryName(backupPath), "blog-*.xml");
     if(xmls.Length == 1)
 	{
-        if(DEBUG_MODE) Console.WriteLine("File found");
-        BLOGGER_XML_DIRECTORY = xmls[0];
+        if(debugMode) Console.WriteLine("File found");
+        inputPath = xmls[0];
 	}
     else if(xmls.Length == 0)
     {
-        if(DEBUG_MODE) Console.WriteLine("No xml files found");
-        return;
+        throw new FileNotFoundException("No xml files found");
     }
     else
     {
-        if(DEBUG_MODE) Console.WriteLine("More than 1 xml files found");
-        return;
-    }	
+        throw new NotSupportedException("More than 1 xml files found");
+    }
+	
+	return inputPath;
+}
+
+IEnumerable<XElement> GetBloggerPostsPublished(string inputFileDir, string outputFileDir)
+{
 	//Read file
-	Console.WriteLine("Reading XML Export... " + BLOGGER_XML_DIRECTORY);
-    string text = File.ReadAllText(BLOGGER_XML_DIRECTORY);
-    XDocument doc = XDocument.Parse(text);    
+	Console.WriteLine("Reading XML Export... " + inputFileDir);
+    string text = File.ReadAllText(inputFileDir);
+    XDocument doc = XDocument.Parse(text);
     //Use XNamespaces to deal with "xmlns" attributes
-    //Underscore represents default namespace
-    var _ = XNamespace.Get("http://www.w3.org/2005/Atom");
-    var app = XNamespace.Get("http://purl.org/atom/app#");
     //Find published posts
-    var xmlPosts = doc.Root.Elements(_+"entry")
+    var xmlPosts = doc.Root.Elements(DEFAULT_XML_NAMESPACE+"entry")
         // Exclude entries that are not template, settings, or page
-        .Where(entry => !entry.Element(_+"category").Attribute("term").ToString().Contains("#template"))
-        .Where(entry => !entry.Element(_+"category").Attribute("term").ToString().Contains("#settings"))
-        .Where(entry => !entry.Element(_+"category").Attribute("term").ToString().Contains("#page"))
+        .Where(entry => !entry.Element(DEFAULT_XML_NAMESPACE+"category").Attribute("term").ToString().Contains("#template"))
+        .Where(entry => !entry.Element(DEFAULT_XML_NAMESPACE+"category").Attribute("term").ToString().Contains("#settings"))
+        .Where(entry => !entry.Element(DEFAULT_XML_NAMESPACE+"category").Attribute("term").ToString().Contains("#page"))
         // Exclude any draft posts, do not have page URL created
-        .Where(entry => !entry.Descendants(app+"draft").Any(draft => draft.Value != "no"));    
+        .Where(entry => !entry.Descendants(XNamespace.Get("http://purl.org/atom/app#")+"draft").Any(draft => draft.Value != "no"));    
     //Clear Files in output folder
-    var destPath = Path.Combine(OUTPUT_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER);
-    if(Directory.Exists(destPath) && !HOMEPAGE_ONLY)
-        Directory.Delete(destPath, true);
-    Directory.CreateDirectory(destPath);	
-	// var allTags = new List<string>();    
+    if(Directory.Exists(outputFileDir) && !HOMEPAGE_ONLY)
+        Directory.Delete(outputFileDir, true);
+    Directory.CreateDirectory(outputFileDir);
+	return xmlPosts;
+}
+
+List<string> GetBloggerPostsLinkedList(IEnumerable<XElement> xmlPosts, string inputFileDir)
+{
 	//Create linked list for all posts links to allow navigation between posts
 	var linkedList = new List<string>();
 	foreach(var entry in xmlPosts)
 	{
-        DateTime publishDate = DateTime.Parse(entry.Element(_+"published").Value);
-        string postExtension = entry.Element(_+"content").Attribute("type").Value ?? "html";
+        DateTime publishDate = DateTime.Parse(entry.Element(DEFAULT_XML_NAMESPACE+"published").Value);
+        string postExtension = entry.Element(DEFAULT_XML_NAMESPACE+"content").Attribute("type").Value ?? "html";
         XElement empty = new XElement("empty");
         XAttribute emptA = new XAttribute("empty","");
-        string bloggerLink = ((entry.Elements(_+"link")
+        string bloggerLink = ((entry.Elements(DEFAULT_XML_NAMESPACE+"link")
             .FirstOrDefault(e => e.Attribute("rel").Value == "alternate") ?? empty)
             .Attribute("href") ?? emptA).Value;
         var pageLink = "./" + Path.GetFileNameWithoutExtension(BLOGGER_XML_DIRECTORY.Replace(BLOGGER_XML_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER)) + "/" + publishDate.Year.ToString("0000") + "/"  + publishDate.Month.ToString("00") + "/"  + Path.GetFileNameWithoutExtension(bloggerLink) + "." + postExtension;
 		if(!string.IsNullOrWhiteSpace(bloggerLink))
 			linkedList.Add(pageLink);
-	}	
+	}
+	return linkedList;
+}
+
+string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedList, string outputFileDir)
+{
     // Process XML content per post
     var homepageString = new StringBuilder();
     for (var p = 0; p < xmlPosts.Count(); p++)
     {
 		var entry = xmlPosts.ElementAt(p);
        	// Extract data from XML
-        string postContent = entry.Element(_+"content").Value;
-        DateTime publishDate = DateTime.Parse(entry.Element(_+"published").Value);
-        // DateTime updated = DateTime.Parse(entry.Element(_+"updated").Value);
-        string postTitle = entry.Element(_+"title").Value;
-        string postExtension = entry.Element(_+"content").Attribute("type").Value ?? "html";
+        string postContent = entry.Element(DEFAULT_XML_NAMESPACE+"content").Value;
+        DateTime publishDate = DateTime.Parse(entry.Element(DEFAULT_XML_NAMESPACE+"published").Value);
+        string postTitle = entry.Element(DEFAULT_XML_NAMESPACE+"title").Value;
+        string postExtension = entry.Element(DEFAULT_XML_NAMESPACE+"content").Attribute("type").Value ?? "html";
         XElement empty = new XElement("empty");
         XAttribute emptA = new XAttribute("empty","");
-        string bloggerLink = ((entry.Elements(_+"link")
+        string bloggerLink = ((entry.Elements(DEFAULT_XML_NAMESPACE+"link")
             .FirstOrDefault(e => e.Attribute("rel").Value == "alternate") ?? empty)
             .Attribute("href") ?? emptA).Value;
 		// If not post URL, skip
 		if(string.IsNullOrWhiteSpace(bloggerLink))
 			continue;
 		// Create output folders to put html file as per Blogger design ie. <domain>/<yyyy>/<MM>/<post-title>.html
-        var yearfolder = Path.Combine(destPath, publishDate.Year.ToString("0000"));
-        if(!Directory.Exists(yearfolder)) Directory.CreateDirectory(destPath);
+        var yearfolder = Path.Combine(outputFileDir, publishDate.Year.ToString("0000"));
+        if(!Directory.Exists(yearfolder)) Directory.CreateDirectory(outputFileDir);
         var monthfolder = Path.Combine(yearfolder, publishDate.Month.ToString("00"));
         if(!Directory.Exists(monthfolder)) Directory.CreateDirectory(monthfolder);
         string outFileName = Path.GetFileNameWithoutExtension(bloggerLink) + "." + postExtension;
         var pageOutputPath = Path.Combine(monthfolder, outFileName);
         // Find post labels
-        var pageTagsXml = entry.Elements(_+"category")
+        var pageTagsXml = entry.Elements(DEFAULT_XML_NAMESPACE+"category")
         	.Where(e => !e.Attribute("term").ToString().Contains("#post")).Select(q => q.Attribute("term").Value).ToList();        
 		// Post labels to ignore and not render
 		if(pageTagsXml.Any(xml => POST_IGNORE_TAGS.Contains(xml)))
@@ -340,18 +334,41 @@ void Main()
 			}
         }
     }
+	return homepageString.ToString();
+}
+
+void GenerateHomepage(string homepageString, int postCount)
+{
     // Write all additions into output home page
     string fileString = File.ReadAllText(OUTPUT_DIRECTORY + "\\template.html")
 		.Replace("_TITLE_", HTML_TITLE)
 		.Replace("_URL_", BLOG_DOMAIN_URL)
 		.Replace("_ARCHIVE_", homepageString.ToString())
 		.Replace("_FONT_", HTML_BODY_FONTFAMILY)
-		.Replace("_COUNT_", xmlPosts.ToList().Count.ToString());
+		.Replace("_COUNT_", postCount.ToString());
     File.WriteAllText(OUTPUT_DIRECTORY + "\\index.html", fileString);
-	// Output as completed
-	Console.WriteLine("Done.");
 }
 
+/* FIXES
+ * [Status] List of Cases
+ * [ok]	fix twitter embed
+ * [ok]	fix youtube iframe size
+ * [ok]	remove embed styles for thumbnail normal/hover (posts with sp-thumbnail will be ignored)
+ * [ok]	old blog link to current blog
+ * [ok]	current blog link to relative
+ * [ok]	remove hashtags on post level
+ * [ok]	alternate links detection for new popups (youtu.be)
+ * [ok]	any link not referenced within blog to open on new tab
+ * [ok]	remove add href to hashtags script
+ * [ok]	fix primary and secondary colours to variables
+ * [ok]	replace common phrases with emoji
+ * [ok]	reduce resolution of uploaded images to 1600 pixels max
+ * []	censor words
+ * [ok]	add lazy loading to img tags
+ * [ok]	replace italics with emphasis tag
+ * [ok] replace inline style with class due to universal font-size use
+ * [ok] fix own twitter/x handle (KlassicNote -> aozakish)
+ */
 List<int> FixPostContent(ref string content)
 {
 	List<int> includeIndex = new List<int> { 1, 2, 3, 14, 15, 16, 17, 18, 21, 24, 29, 31, 32, 33, 34 };
