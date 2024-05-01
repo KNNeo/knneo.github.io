@@ -10,7 +10,7 @@
 /* NOTES
  * (1) Place blogspot xml file in archivepath
  * (2) Create blogpath since did not do checking for directory exist
- * (3) Change domainLink to desired domain as exported
+ * (3) Change BLOG_DOMAIN_URL to desired domain as exported
  * (4) FIX POST ATTRIBUTES and FIX POST CONTENT can be removed as desired
  * (5) If edit from Blogger img tags will be missing self-enclosing slash, format on web version to fix
  * [Status] List of Cases
@@ -33,164 +33,171 @@
  * [ok] fix own twitter/x handle (KlassicNote -> aozakish)
  */
 
-bool TraceMode = false;
-bool WriteTitleOnConsole = true;
-bool RenderHomepageOnly = false;
-string searchTerm = "";
-string defaultFont = "Noto Sans, Arial, sans-serif;";
-string blogTitle = "Klassic Note Web Reports";
-string domainLink = "https://knwebreports.blogspot.com/";
-string xmlPath = @"C:\Users\KAINENG\Downloads\";
-string archivePath = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\";
-string outputPath = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\";
-string outputFolder = "pages";
+// DEBUG
+bool DEBUG_MODE = false;
+string DEBUG_SEARCHTERM = "";
+
+// PROGRAM SETTINGS
+bool HOMEPAGE_ONLY = false;
+bool WRITE_TITLE_ON_CONSOLE = true;
+int DOTS_PER_LINE_CONSOLE = 100;
+string BLOG_DOMAIN_URL = "https://knwebreports.blogspot.com/";
+
+// HOMEPAGE SETTINGS
+string HTML_BODY_FONTFAMILY = "Noto Sans, Arial, sans-serif;";
+string HTML_TITLE = "Klassic Note Web Reports";
+
+// INPUT OUTPUT SETTINGS
+string BLOGGER_XML_DIRECTORY = @"C:\Users\KAINENG\Downloads\";
+string ARCHIVE_XML_DIRECTORY = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\";
+string OUTPUT_DIRECTORY = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\";
+string OUTPUT_DIRECTORY_SUBFOLDER = "pages";
+
+// POST SETTINGS
+List<string> POST_DOM_TEMPLATE = new List<string>() {
+	"",
+	"",
+	""
+};
+List<String> POST_IGNORE_TAGS = new List<string>() { "The Archive" };
 
 void Main()
 {
+	//Pre-execution notice
 	Console.WriteLine("> Note: If execution is stuck, is likely due to Blogger img tags missing self-enclosing slash, format on Web and re-export");
+    if(!WRITE_TITLE_ON_CONSOLE) Console.WriteLine("> WRITE_TITLE_ON_CONSOLE is " + WRITE_TITLE_ON_CONSOLE + "; Set as true to see post titles");
+    if(HOMEPAGE_ONLY) Console.WriteLine("> HOMEPAGE_ONLY is " + HOMEPAGE_ONLY + "; Set as false to update posts");
 	Console.WriteLine("===================================================================================");
     Console.WriteLine("Reading Config...");
-    if(!WriteTitleOnConsole) Console.WriteLine("> WriteTitleOnConsole is " + WriteTitleOnConsole + "; Set as true to see post titles");
-    if(RenderHomepageOnly) Console.WriteLine("> RenderHomepageOnly is " + RenderHomepageOnly + "; Set as false to update posts");
 	
-	//Get xml file from source, move to archivepath
-	//If not found in source, will run file in archivepath
-    string[] sources = Directory.GetFiles(xmlPath, "blog-*.xml");
+	//Get xml file from BLOGGER_XML_DIRECTORY, move to ARCHIVE_XML_DIRECTORY
+	//If not found, will run file detected in ARCHIVE_XML_DIRECTORY
+	//Assume filename is blog-*.xml
+    string[] sources = Directory.GetFiles(BLOGGER_XML_DIRECTORY, "blog-*.xml");
     if(sources.Length == 1)
 	{
-        if(TraceMode) Console.WriteLine("Single xml source found; Moving to archivepath");
-		
-	    string[] dests = Directory.GetFiles(Path.GetDirectoryName(archivePath), "blog-*.xml");
+        if(DEBUG_MODE) Console.WriteLine($"Single xml source found; Moving to {ARCHIVE_XML_DIRECTORY}");		
+	    string[] dests = Directory.GetFiles(Path.GetDirectoryName(ARCHIVE_XML_DIRECTORY), "blog-*.xml");
 	    if(dests.Length == 1)
 		{
-	        if(TraceMode) Console.WriteLine("Destination file found; Moving to archive");
-        	File.Delete(dests[0].Replace(archivePath, archivePath + @"archive\"));
-        	File.Move(dests[0], dests[0].Replace(archivePath, archivePath + @"archive\"));
+	        if(DEBUG_MODE) Console.WriteLine("Destination file found; Moving to archive");
+        	File.Delete(dests[0].Replace(ARCHIVE_XML_DIRECTORY, $"{ARCHIVE_XML_DIRECTORY}archive\\"));
+        	File.Move(dests[0], dests[0].Replace(ARCHIVE_XML_DIRECTORY, $"{ARCHIVE_XML_DIRECTORY}archive\\"));
 		}
-		
-        File.Move(sources[0], sources[0].Replace(xmlPath, archivePath));
+        File.Move(sources[0], sources[0].Replace(BLOGGER_XML_DIRECTORY, ARCHIVE_XML_DIRECTORY));
 	}
     else if(sources.Length == 0)
     {
-        if(TraceMode) Console.WriteLine("No xml source found; proceed in archivepath");
+        if(DEBUG_MODE) Console.WriteLine($"No xml source found; proceed in {ARCHIVE_XML_DIRECTORY}");
     }
     else
     {
-        if(TraceMode) Console.WriteLine("More than 1 xml source found; using file in archivepath");
-    }
-	
-	//Get xml file to process
+        if(DEBUG_MODE) Console.WriteLine($"More than 1 xml source found; using file in {ARCHIVE_XML_DIRECTORY}");
+    }	
+	//Read xml file to process
 	//Can only have exactly one file per query, else fail, require manual intervention
-    string[] xmls = Directory.GetFiles(Path.GetDirectoryName(archivePath), "blog-*.xml");
+    string[] xmls = Directory.GetFiles(Path.GetDirectoryName(ARCHIVE_XML_DIRECTORY), "blog-*.xml");
     if(xmls.Length == 1)
 	{
-        if(TraceMode) Console.WriteLine("File found");
-        xmlPath = xmls[0];
+        if(DEBUG_MODE) Console.WriteLine("File found");
+        BLOGGER_XML_DIRECTORY = xmls[0];
 	}
     else if(xmls.Length == 0)
     {
-        if(TraceMode) Console.WriteLine("No xml files found");
+        if(DEBUG_MODE) Console.WriteLine("No xml files found");
         return;
     }
     else
     {
-        if(TraceMode) Console.WriteLine("More than 1 xml files found");
+        if(DEBUG_MODE) Console.WriteLine("More than 1 xml files found");
         return;
-    }
-	
+    }	
 	//Read file
-	Console.WriteLine("Reading XML Export... " + xmlPath);
-    string text = File.ReadAllText(xmlPath);
-    XDocument doc = XDocument.Parse(text);
-    
-    // Use XNamespaces to deal with those pesky "xmlns" attributes.
-    // The underscore represents the default namespace.
+	Console.WriteLine("Reading XML Export... " + BLOGGER_XML_DIRECTORY);
+    string text = File.ReadAllText(BLOGGER_XML_DIRECTORY);
+    XDocument doc = XDocument.Parse(text);    
+    //Use XNamespaces to deal with "xmlns" attributes
+    //Underscore represents default namespace
     var _ = XNamespace.Get("http://www.w3.org/2005/Atom");
     var app = XNamespace.Get("http://purl.org/atom/app#");
-    
-    var posts = doc.Root.Elements(_+"entry")
-        // An <entry> is either a post, or some bit of metadata no one cares about.
-        // Exclude entries that don't have a child like <category term="...#post"/>
+    //Find published posts
+    var xmlPosts = doc.Root.Elements(_+"entry")
+        // Exclude entries that are not template, settings, or page
         .Where(entry => !entry.Element(_+"category").Attribute("term").ToString().Contains("#template"))
         .Where(entry => !entry.Element(_+"category").Attribute("term").ToString().Contains("#settings"))
         .Where(entry => !entry.Element(_+"category").Attribute("term").ToString().Contains("#page"))
-        // Exclude any entries with an <app:draft> element except <app:draft>no</app:draft>
-        .Where(entry => !entry.Descendants(app+"draft").Any(draft => draft.Value != "no"));
-    
-    #region Only For Export: Clear Files in output folder
-    var destPath = Path.Combine(outputPath, outputFolder);
-    if(Directory.Exists(destPath) && RenderHomepageOnly)
+        // Exclude any draft posts, do not have page URL created
+        .Where(entry => !entry.Descendants(app+"draft").Any(draft => draft.Value != "no"));    
+    //Clear Files in output folder
+    var destPath = Path.Combine(OUTPUT_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER);
+    if(Directory.Exists(destPath) && !HOMEPAGE_ONLY)
         Directory.Delete(destPath, true);
     Directory.CreateDirectory(destPath);	
-    var allTags = new List<string>();
-    #endregion
-    
-	// Linked list for all page links to find navigation
-	var postList = new List<string>();
-	foreach(var entry in posts)
+	// var allTags = new List<string>();    
+	//Create linked list for all posts links to allow navigation between posts
+	var linkedList = new List<string>();
+	foreach(var entry in xmlPosts)
 	{
-        DateTime published = DateTime.Parse(entry.Element(_+"published").Value);
-        string type = entry.Element(_+"content").Attribute("type").Value ?? "html";
+        DateTime publishDate = DateTime.Parse(entry.Element(_+"published").Value);
+        string postExtension = entry.Element(_+"content").Attribute("type").Value ?? "html";
         XElement empty = new XElement("empty");
         XAttribute emptA = new XAttribute("empty","");
-        string originalLink = ((entry.Elements(_+"link")
+        string bloggerLink = ((entry.Elements(_+"link")
             .FirstOrDefault(e => e.Attribute("rel").Value == "alternate") ?? empty)
             .Attribute("href") ?? emptA).Value;
-        var pageLink = "./" + Path.GetFileNameWithoutExtension(xmlPath.Replace(xmlPath, outputFolder)) + "/" + published.Year.ToString("0000") + "/"  + published.Month.ToString("00") + "/"  + Path.GetFileNameWithoutExtension(originalLink) + "." + type;
-		if(!string.IsNullOrWhiteSpace(originalLink))
-			postList.Add(pageLink);
-	}
-	
+        var pageLink = "./" + Path.GetFileNameWithoutExtension(BLOGGER_XML_DIRECTORY.Replace(BLOGGER_XML_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER)) + "/" + publishDate.Year.ToString("0000") + "/"  + publishDate.Month.ToString("00") + "/"  + Path.GetFileNameWithoutExtension(bloggerLink) + "." + postExtension;
+		if(!string.IsNullOrWhiteSpace(bloggerLink))
+			linkedList.Add(pageLink);
+	}	
     // Process XML content per post
     var homepageString = new StringBuilder();
-    for (var p = 0; p < posts.Count(); p++)
+    for (var p = 0; p < xmlPosts.Count(); p++)
     {
-		var entry = posts.ElementAt(p);
+		var entry = xmlPosts.ElementAt(p);
        	// Extract data from XML
-        string content = entry.Element(_+"content").Value;
-        DateTime published = DateTime.Parse(entry.Element(_+"published").Value);
-        DateTime updated = DateTime.Parse(entry.Element(_+"updated").Value);
+        string postContent = entry.Element(_+"content").Value;
+        DateTime publishDate = DateTime.Parse(entry.Element(_+"published").Value);
+        // DateTime updated = DateTime.Parse(entry.Element(_+"updated").Value);
         string postTitle = entry.Element(_+"title").Value;
-        string type = entry.Element(_+"content").Attribute("type").Value ?? "html";
+        string postExtension = entry.Element(_+"content").Attribute("type").Value ?? "html";
         XElement empty = new XElement("empty");
         XAttribute emptA = new XAttribute("empty","");
-        string originalLink = ((entry.Elements(_+"link")
+        string bloggerLink = ((entry.Elements(_+"link")
             .FirstOrDefault(e => e.Attribute("rel").Value == "alternate") ?? empty)
             .Attribute("href") ?? emptA).Value;
-		if(string.IsNullOrWhiteSpace(originalLink))
+		// If not post URL, skip
+		if(string.IsNullOrWhiteSpace(bloggerLink))
 			continue;
-            
-        var yearfolder = Path.Combine(destPath, published.Year.ToString("0000"));
+		// Create output folders to put html file as per Blogger design ie. <domain>/<yyyy>/<MM>/<post-title>.html
+        var yearfolder = Path.Combine(destPath, publishDate.Year.ToString("0000"));
         if(!Directory.Exists(yearfolder)) Directory.CreateDirectory(destPath);
-        var monthfolder = Path.Combine(yearfolder, published.Month.ToString("00"));
+        var monthfolder = Path.Combine(yearfolder, publishDate.Month.ToString("00"));
         if(!Directory.Exists(monthfolder)) Directory.CreateDirectory(monthfolder);
-        string outFileName = Path.GetFileNameWithoutExtension(originalLink) + "." + type;
-        var outPath = Path.Combine(monthfolder, outFileName);
-        
-        var tags = entry.Elements(_+"category")
-        // An <entry> is either a post, or some bit of metadata no one cares about.
-        // Exclude entries that don't have a child like <category term="...#post"/>
-        .Where(e => !e.Attribute("term").ToString().Contains("#post")).Select(q => q.Attribute("term").Value).ToList();
-        
-		// if tagged "The Archive" ignore and do not render
-		if(tags.Contains("The Archive"))
+        string outFileName = Path.GetFileNameWithoutExtension(bloggerLink) + "." + postExtension;
+        var pageOutputPath = Path.Combine(monthfolder, outFileName);
+        // Find post labels
+        var pageTagsXml = entry.Elements(_+"category")
+        	.Where(e => !e.Attribute("term").ToString().Contains("#post")).Select(q => q.Attribute("term").Value).ToList();        
+		// Post labels to ignore and not render
+		if(pageTagsXml.Any(xml => POST_IGNORE_TAGS.Contains(xml)))
 			continue;
-		
-        var pageLink = "./" + Path.GetFileNameWithoutExtension(xmlPath.Replace(xmlPath, outputFolder)) + "/" + published.Year.ToString("0000") + "/"  + published.Month.ToString("00") + "/"  + Path.GetFileNameWithoutExtension(originalLink) + "." + type;
-        var pageIndex = postList.IndexOf(pageLink);
-		
-		if(!RenderHomepageOnly) {
-	        // Fix post attributes (TODO)
+		// Create output page link and index in linked list
+        var pageLink = "./" + Path.GetFileNameWithoutExtension(BLOGGER_XML_DIRECTORY.Replace(BLOGGER_XML_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER)) + "/" + publishDate.Year.ToString("0000") + "/"  + publishDate.Month.ToString("00") + "/"  + Path.GetFileNameWithoutExtension(bloggerLink) + "." + postExtension;
+        var pageIndex = linkedList.IndexOf(pageLink);
+		// Process page content
+		if(!HOMEPAGE_ONLY)
+		{
+			// TODO:
+	        // Fix post attributes
 	        // fix url of ent news, by year except 2014
 			
-	        // Fix post content
-			List<int> count = FixContent(ref content);
-			
-	        // Debug: Find Content
-			if(TraceMode && !string.IsNullOrWhiteSpace(searchTerm) && (content.IndexOf(searchTerm) >= 0 || postTitle.IndexOf(searchTerm) >= 0))
+	        // Find Content in debug mode
+			if(DEBUG_MODE && !string.IsNullOrWhiteSpace(DEBUG_SEARCHTERM) && (postContent.IndexOf(DEBUG_SEARCHTERM) >= 0 || postTitle.IndexOf(DEBUG_SEARCHTERM) >= 0))
 				Console.WriteLine(postTitle);
-
-			// Generate HTML
+	        // Fix post content
+			List<int> fixCount = FixPostContent(ref postContent);
+			#region Generate HTML
+			// Add to post string builder
 			var output = new StringBuilder();
 	        output.AppendLine("<!DOCTYPE html>");
 	        output.AppendLine("<html lang=\"en-SG\">");
@@ -201,9 +208,10 @@ void Main()
 	        output.AppendLine("<meta name=\"mobile-web-app-capable\" content=\"yes\">");
 	        output.AppendLine("<meta name=\"theme-color\" content=\"white\">");
 			output.AppendLine("<meta property=\"og:title\" content=\"" + postTitle + "\"/>");
-			if (TraceMode) Console.WriteLine("Find first image of post for sharing, if any");
-	        Match match = Regex.Match(content, @"(?s)<img(.*?)src=""(.*?)""(.*?)/>");
-	        if(match.Success) {
+			if (DEBUG_MODE) Console.WriteLine("Find first image of post for sharing, if any");
+	        Match match = Regex.Match(postContent, @"(?s)<img(.*?)src=""(.*?)""(.*?)/>");
+	        if(match.Success)
+			{
 	            var thumbnailUrl = match.Groups[2].Value;
 				output.AppendLine("<meta property=\"og:image\" content=\"" + thumbnailUrl + "\"/>");
 			}
@@ -212,7 +220,7 @@ void Main()
 	        output.AppendLine("<link href=\"../../../storytime.ico\" rel=\"icon\" />");
 	        output.AppendLine("<link href=\"../../../fonts.css\" rel=\"stylesheet\" />");
 			// cursive font only used twice in posts so far
-	        if(content.Contains("Dancing Script"))
+	        if(postContent.Contains("Dancing Script"))
 				output.AppendLine("<link href='https://fonts.googleapis.com/css?family=Dancing Script' rel='stylesheet' />");
 	        output.AppendLine("<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../index.css\" />");
 	        output.AppendLine("<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../blogspot.css\" />");
@@ -224,20 +232,20 @@ void Main()
 	        output.AppendLine("<script src=\"../../../js/search.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
 	        output.AppendLine("<script src=\"../../../js/searchIndex.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
 	        output.AppendLine("<title>" + (postTitle.Length > 0 ? postTitle : "A Random Statement") + "</title>");
-	        output.AppendLine("<body style=\"font-family: " + defaultFont + "\">");
+	        output.AppendLine("<body style=\"font-family: " + HTML_BODY_FONTFAMILY + "\">");
 	        output.AppendLine("<div id=\"contents\" class=\"post-body entry-content\">");
-			if (originalLink != "")
-	            output.AppendLine("<small style=\"text-align: center;\"><p><i>This is an archive from <a href=\"" + originalLink + "\">" + blogTitle + "</a></i></p></small>");
-	        output.AppendLine("<small title=\"" + published.ToString("yyyy-MM-ddTHH:mm:sszzz") + " (Singapore Time)\" class=\"published\">" + published.ToString("dddd, dd MMMM yyyy") + "</small>");
+			if (bloggerLink != "")
+	            output.AppendLine("<small style=\"text-align: center;\"><p><i>This is an archive from <a href=\"" + bloggerLink + "\">" + HTML_TITLE + "</a></i></p></small>");
+	        output.AppendLine("<small title=\"" + publishDate.ToString("yyyy-MM-ddTHH:mm:sszzz") + " (Singapore Time)\" class=\"published\">" + publishDate.ToString("dddd, dd MMMM yyyy") + "</small>");
 	        output.AppendLine("<div class=\"title\">" + postTitle + "</div>");
-			if(content.Contains("id=\"") && !content.Contains("=\"hashtags\""))
+			if(postContent.Contains("id=\"") && !postContent.Contains("=\"hashtags\""))
 				output.AppendLine("<div class=\"hashtags\"></div>");
 	        output.AppendLine("<div class=\"page-header\"></div>");
-	        output.Append(Uglify.Html(content));
+	        output.Append(Uglify.Html(postContent));
 	        output.Append("<hr>");
-	        if(tags.Count > 0)
+	        if(pageTagsXml.Count > 0)
 	            output.Append("<div class=\"post-tags\"><h4>Reported in </h4>" + 
-					string.Join("", tags.OrderBy(t => t).Select(tag => "<a href=\"../../../index.html#" + tag.Replace(" ","") +"\">" + tag + "</a>")) + 
+					string.Join("", pageTagsXml.OrderBy(t => t).Select(tag => "<a href=\"../../../index.html#" + tag.Replace(" ","") +"\">" + tag + "</a>")) + 
 					"</div>");
 	        output.Append("<h6 style=\"text-align: center;\">Copyright (c) 2014-" + DateTime.Now.Year + " Klassic Note Web Reports</h6>");
 	        output.Append("<br>");
@@ -246,10 +254,10 @@ void Main()
 	        output.Append("<br>");
 	        output.AppendLine("</div>");
 			output.AppendLine("<div class=\"action-menu bottom-left\">");
-			if(postList.IndexOf(pageLink) > 0)
-				output.AppendLine("<a class=\"fab next material-icons\" href='" + postList[postList.IndexOf(pageLink) - 1].Replace("./", "../../../") + "' title=\"Newer Post\">skip_next</a>");
-			if(postList.IndexOf(pageLink) < postList.Count() - 1)
-				output.AppendLine("<a class=\"fab prev material-icons\" href='" + postList[postList.IndexOf(pageLink) + 1].Replace("./", "../../../") + "' title=\"Older Post\">skip_previous</a>");
+			if(linkedList.IndexOf(pageLink) > 0)
+				output.AppendLine("<a class=\"fab next material-icons\" href='" + linkedList[linkedList.IndexOf(pageLink) - 1].Replace("./", "../../../") + "' title=\"Newer Post\">skip_next</a>");
+			if(linkedList.IndexOf(pageLink) < linkedList.Count() - 1)
+				output.AppendLine("<a class=\"fab prev material-icons\" href='" + linkedList[linkedList.IndexOf(pageLink) + 1].Replace("./", "../../../") + "' title=\"Older Post\">skip_previous</a>");
 			output.AppendLine("<a class=\"fab back material-icons\" href=\"../../../index.html\" title=\"Back To Homepage\">home</a>");
 			output.AppendLine("</div>");
 	        output.AppendLine("</div>");
@@ -261,60 +269,56 @@ void Main()
 			output.AppendLine("</div>");
 	        output.AppendLine("</body>");
 	        output.AppendLine("</html>");
-			
-	        // Write output file (partial HTML for Jekyll)
-	        using (StreamWriter writer = File.CreateText(outPath)) {
+			#endregion			
+	        // Write output file as html
+	        using (StreamWriter writer = File.CreateText(pageOutputPath))
+			{
 				writer.Write(output.ToString());
-			}
-			
-			// Show progress, in post title or in summary
-		    if(WriteTitleOnConsole || TraceMode)
-		        Console.WriteLine("||> " + (postTitle.Length > 0 ? postTitle : "POST W/O TITLE DATED " + published.ToString("yyyy-MM-dd")) + (count.Count > 0 ? "\t[" + string.Join(",", count) + "]" : ""));
-			else if(p % 100 == 99)
+			}			
+			// Show progress, as post title or as represented by dot (100 per line)
+		    if(WRITE_TITLE_ON_CONSOLE || DEBUG_MODE)
+		        Console.WriteLine("||> " + (postTitle.Length > 0 ? postTitle : "POST W/O TITLE DATED " + publishDate.ToString("yyyy-MM-dd")) + (fixCount.Count > 0 ? "\t[" + string.Join(",", fixCount) + "]" : ""));
+			else if(p % DOTS_PER_LINE_CONSOLE == DOTS_PER_LINE_CONSOLE - 1)
 		        Console.WriteLine(".");
 			else
 		        Console.Write(".");
 		}
 		
-        // Process home page
-		if (TraceMode) Console.WriteLine("Process home page");
-        var tagList = string.Join(",",tags).Replace(" ","").Replace("-"," ");
+        // Add post content to home page
+		if (DEBUG_MODE) Console.WriteLine("Process home page");
+        var tagList = string.Join(",",pageTagsXml).Replace(" ","").Replace("-"," ");
         var dataId = " data-tags=\""+tagList+"\"";
-        foreach(var tag in tags)
-        {
-            if(!allTags.Contains(tag))
-				allTags.Add(tag);
-        }
-        
-        if (originalLink == "") // wiwhout post link
-            homepageString.AppendLine("<div class=\"post\"><span>" + published.ToString("yyyy.MM.dd") + "</span>" + postTitle + "</div>");
+		//foreach(var tag in tags)
+		//{
+		//    if(!allTags.Contains(tag))
+		//		allTags.Add(tag);
+		//}
+        // For posts without post link, add name only(?)
+        if (string.IsNullOrWhiteSpace(bloggerLink))
+            homepageString.AppendLine("<div class=\"post\"><span>" + publishDate.ToString("yyyy.MM.dd") + "</span>" + postTitle + "</div>");
 		else
         {
-			if(postTitle == "") // without title
-			{
-				continue;
-			}
-			else
+        	// For posts with link and with title
+			if(!string.IsNullOrWhiteSpace(postTitle))
 			{
 		        var thumbnailUrl = "";
 				var anchors = new List<string>();
 				var excluded = new List<string>() { "hashtags", "table", "music" };
-				var isLatest = IsLatestPost(published);
+				var isLatest = IsLatestPost(publishDate);
 				// For latest post, show expanded content
 				if(isLatest)
 				{
 			        // Find first image, if any
-					if (TraceMode) Console.WriteLine("Find first image for home page, if any");
-			        Match match = Regex.Match(content, @"(?s)<img(.*?)src=""(.*?)""(.*?)/>");
-					//Console.WriteLine(content);
+					if (DEBUG_MODE) Console.WriteLine("Find first image for home page, if any");
+			        Match match = Regex.Match(postContent, @"(?s)<img(.*?)src=""(.*?)""(.*?)/>");
+					//Console.WriteLine(postContent);
 			        if(match.Success)
 			            thumbnailUrl = match.Groups[2].Value;
 			        if(thumbnailUrl.Contains("scontent-sin.xx.fbcdn.net"))
-			            thumbnailUrl = "";
-					
-					// Find all anchors
-					if (TraceMode) Console.WriteLine("Find all anchors");
-			        match = Regex.Match(content, @"(?s)(div|blockquote)(.*?) id=""(.*?)""(.*?)(>)");
+			            thumbnailUrl = "";					
+					// Find all anchors in div or blockquote tags
+					if (DEBUG_MODE) Console.WriteLine("Find all anchors");
+			        match = Regex.Match(postContent, @"(?s)(div|blockquote)(.*?) id=""(.*?)""(.*?)(>)");
 	        		while(match.Success) {
 						 //Console.WriteLine(match.Groups[3].Value);
 						 if(match.Groups[3].Value.Length > 1 && !excluded.Contains(match.Groups[3].Value))
@@ -323,33 +327,32 @@ void Main()
 					}
 					//Console.WriteLine(anchors);
 				}
-				
+				// Add to homepage string builder
                 homepageString.AppendLine(isLatest 
 					? "<div class=\"post latest\"" + dataId + ">" + 
-					(thumbnailUrl.Length > 0 ? "<span class=\"publish\">"+published.ToString("yyyy.MM.dd")+"</span>" : "") + 
+					(thumbnailUrl.Length > 0 ? "<span class=\"publish\">"+publishDate.ToString("yyyy.MM.dd")+"</span>" : "") + 
 					"<div class=\"thumb\">" + 
 						"<a href=\"" + pageLink + "\">" + postTitle + "</a>" + 
 						(anchors.Count > 0 ? "<div class=\"anchors\">" + string.Join("", anchors.Select(a => "<a href=\"" + (pageLink + "#" + a) + "\">#" + a + "</a>")) + "</div>" : "") + 
 						(thumbnailUrl.Length > 0 ? "<div><img loading=\"lazy\" src=\"" + thumbnailUrl + "\"/></div>" : "") + 
 					"</div></div>"
-					: "<div class=\"post\"" + dataId + "><span class=\"publish\">" + published.ToString("yyyy.MM.dd") + " </span><a href=\""+pageLink+"\">" + postTitle + "</a></div>");
+					: "<div class=\"post\"" + dataId + "><span class=\"publish\">" + publishDate.ToString("yyyy.MM.dd") + " </span><a href=\""+pageLink+"\">" + postTitle + "</a></div>");
 			}
         }
     }
-    
-    //Write into home page
-    string fileString = File.ReadAllText(outputPath + "\\template.html")
-		.Replace("_TITLE_", blogTitle)
-		.Replace("_URL_", domainLink)
+    // Write all additions into output home page
+    string fileString = File.ReadAllText(OUTPUT_DIRECTORY + "\\template.html")
+		.Replace("_TITLE_", HTML_TITLE)
+		.Replace("_URL_", BLOG_DOMAIN_URL)
 		.Replace("_ARCHIVE_", homepageString.ToString())
-		.Replace("_FONT_", defaultFont)
-		.Replace("_COUNT_", posts.ToList().Count.ToString());
-    File.WriteAllText(outputPath + "\\index.html", fileString);
-	
+		.Replace("_FONT_", HTML_BODY_FONTFAMILY)
+		.Replace("_COUNT_", xmlPosts.ToList().Count.ToString());
+    File.WriteAllText(OUTPUT_DIRECTORY + "\\index.html", fileString);
+	// Output as completed
 	Console.WriteLine("Done.");
 }
 
-List<int> FixContent(ref string content)
+List<int> FixPostContent(ref string content)
 {
 	List<int> includeIndex = new List<int> { 1, 2, 3, 14, 15, 16, 17, 18, 21, 24, 29, 31, 32, 33, 34 };
 	List<int> count = new List<int>();
@@ -516,7 +519,7 @@ List<int> FixContent(ref string content)
 			&& !url.Contains("blogger.")
 			&& !url.Contains("bp.blogspot.com")
 			&& !url.Contains("../../")
-			&& !url.Contains(domainLink)
+			&& !url.Contains(BLOG_DOMAIN_URL)
 			) {
 				if(!count.Contains(18)) count.Add(18);
                 var replacement = prefix + url + midfix + match.Groups[6].Value + suffix;
@@ -543,7 +546,7 @@ List<int> FixContent(ref string content)
         #endregion
         
         #region remove add href to hashtags script
-		if(TraceMode) Console.WriteLine("remove add href to hashtags script");
+		if(DEBUG_MODE) Console.WriteLine("remove add href to hashtags script");
         var childDivScript = "<script>var childDivs = document.getElementById('hashtags').getElementsByTagName('a'); for( i=0; i< childDivs.length; i++ ) {  var childDiv = childDivs[i];  childDiv.href = '/search?q=' + childDiv.text.substring(1); } </script>";
         if(content.Contains(childDivScript)) 
 			count.Add(18);
@@ -554,7 +557,7 @@ List<int> FixContent(ref string content)
     #region 21 fix primary and secondary colours to variables
 	if(includeIndex.Count() == 0 || includeIndex.Contains(21))
 	{
-		if(TraceMode) Console.WriteLine("fix primary and secondary colours to variables");
+		if(DEBUG_MODE) Console.WriteLine("fix primary and secondary colours to variables");
         var primaryColour = "#00e4ff";
         var headerPrefixColour = "#00b8cc";
         var headerPrefixColourRgb1 = "rgb(0, 184, 204)";
@@ -577,7 +580,7 @@ List<int> FixContent(ref string content)
     #region 24 replace common phrases with emoji
 	if(includeIndex.Count() == 0 || includeIndex.Contains(24))
 	{
-		if(TraceMode) Console.WriteLine("replace common phrases with emoji");
+		if(DEBUG_MODE) Console.WriteLine("replace common phrases with emoji");
 		// sorted by alphabetical order of original string, then emoji length
 		Dictionary<string, string> emojis = new Dictionary<string, string>()
 		{
