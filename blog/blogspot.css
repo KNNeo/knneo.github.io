@@ -295,6 +295,11 @@ span.emoji {
 	font-family: Noto Color Emoji;
 }
 
+a.fab[href] {
+	display: initial;
+    height: auto;
+}
+
 /*Fixes from universal font-size change*/
 .head-title {
 	font-size: 1.125em;

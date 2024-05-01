@@ -6,9 +6,9 @@ function generateViewer() {
 		viewer = document.createElement('div');
 		viewer.classList.add('viewer');
 		document.body.appendChild(viewer);
-		if(!localStorage.getItem('viewer-hints') || localStorage.getItem('viewer-hints') == 'true')
-			toggleViewerHints();
 	}
+	if(!localStorage.getItem('viewer-hints') || localStorage.getItem('viewer-hints') == 'true')
+		toggleViewerHints();
 	if(viewer != null) {
 		// prevent right click
 		viewer.addEventListener('contextmenu', function() {
