@@ -1,4 +1,7 @@
-<Query Kind="Program" />
+<Query Kind="Program">
+  <NuGetReference>Rock.Core.Newtonsoft</NuGetReference>
+  <Namespace>Newtonsoft.Json</Namespace>
+</Query>
 
 // DEBUG
 bool DEBUG_MODE = false;
@@ -119,8 +122,10 @@ IEnumerable<XElement> GetBloggerPostsPublished(string inputFileDir, string outpu
 
 string GenerateImageIndex(IEnumerable<XElement> xmlPosts, string outputFileDir)
 {
+	List<MosaicItem> titles = new List<MosaicItem>();
+	List<MosaicItem> images = new List<MosaicItem>();
     // Process XML content per post
-	string imageExport = "[\"\"";
+	//string imageExport = "[\"\"";
     for (var p = 0; p < xmlPosts.Count(); p++)
     {
 		var entry = xmlPosts.ElementAt(p);
@@ -161,21 +166,23 @@ string GenerateImageIndex(IEnumerable<XElement> xmlPosts, string outputFileDir)
         {
 			if(IMAGE_DOMAINS_LIST.Any(id => match.Groups[4].Value.Contains(id)) && !urls.Contains(match.Groups[4].Value))
 			{
-				var titleItem = new MosaicItem() {
-					Id = p,
-					Title = postTitle.Replace("\"", "\\\""),
-					Url = pageLink
-				};
-				var imageItem = new MosaicItem() {
-					Id = p,
-					Url = match.Groups[4].Value
-				};
-				imageExport += ",{\"title\":\"" + titleItem.Title + "\", \"titleUrl\":\"" + titleItem.Url + "\", \"imgUrl\":\"" + imageItem.Url + "\"}";
+				images.Add(new MosaicItem() {
+					id = p,
+					url = match.Groups[4].Value
+				});
+				//imageExport += ",{\"title\":\"" + titleItem.Title + "\", \"titleUrl\":\"" + titleItem.Url + "\", \"imgUrl\":\"" + imageItem.Url + "\"}";
 				urls.Add(match.Groups[4].Value);
 			}
         	match = match.NextMatch();
         };
+		// Add title if images exist in post
 		if(DEBUG_MODE) Console.WriteLine(urls.Count);
+		if(urls.Count > 0)
+			titles.Add(new MosaicItem() {
+						id = p,
+						title = postTitle.Replace("\"", "\\\""),
+						url = pageLink
+					});
 		// Show progress, as post title or as represented by dot (100 per line)
 	    if(WRITE_TITLE_ON_CONSOLE || DEBUG_MODE)
 	        Console.WriteLine("||> " + (postTitle.Length > 0 ? postTitle : "POST W/O TITLE DATED " + publishDate.ToString("yyyy-MM-dd")));
@@ -186,9 +193,12 @@ string GenerateImageIndex(IEnumerable<XElement> xmlPosts, string outputFileDir)
     }
     
 	//Export list of images with limit
-    imageExport = "const mosaicArray = " + imageExport.Replace("[\"\",", "[") + "];";
+    //imageExport = "const mosaicArray = " + imageExport.Replace("[\"\",", "[") + "];";
 	//Console.WriteLine(imageExport);
-    return imageExport;
+	//return imageExport;
+	return "const imageIndex = {\"posts\":_POSTS_,\"images\":_IMAGES_}"
+		.Replace("_POSTS_",JsonConvert.SerializeObject(titles))
+		.Replace("_IMAGES_",JsonConvert.SerializeObject(images, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore }));
 }
 
 void GenerateIndexFile(string archiveString, int postCount)
@@ -206,7 +216,7 @@ void GenerateIndexFile(string archiveString, int postCount)
 
 public class MosaicItem
 {
-    public int Id { get; set; }
-    public string Title { get; set; }
-    public string Url { get; set; }
+    public int id { get; set; }
+    public string title { get; set; }
+    public string url { get; set; }
 }

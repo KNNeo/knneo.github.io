@@ -13,16 +13,6 @@
 	<script src="../js/theme.js" type="application/javascript" charset="utf-8"></script>
 	<script src="images.js" type="application/javascript" charset="utf-8" defer></script>
 	<script src="index.js" type="application/javascript" charset="utf-8" defer></script>
-	<script type="application/javascript" charset="utf-8" defer>
-	window.addEventListener('load', function() {
-		if(!window.location.href.startsWith('file:///')) {
-			for(let a of document.querySelectorAll('a')) {
-				if(a.href.includes('knneo.github.io') || a.href.includes('knwebreports'))
-					a.href = a.href.replace('index.html', '').replace('.html', '/');
-			}
-		}
-	});
-	</script>
 	<title>Image Archive</title>
 </head>
 <body onload="generateArchive()" style="font-family: Noto Sans, Arial, sans-serif;">
@@ -33,5 +23,9 @@
 		<input class="input" onKeyUp="onFilterKeyUp()"></input>
 	</div>
 	<div class="contents"></div>
+	<h3>
+		<a class="next" href="javascript:void(0);" onclick="generateNext()">Show more</a>
+	</h3>
+</body>
 </body>
 </html>

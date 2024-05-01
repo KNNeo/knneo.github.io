@@ -34,58 +34,64 @@ function onFilterKeyUp() {
 }
 
 function generateArchive() {
-	if(typeof mosaicArray == 'object') {
-		list.innerHTML = '';		
-		let title = '';
-		let filterArray = mosaicArray
-			.filter(unique)
-			.filter(m => getImageFilename(m.imgUrl).toLowerCase().includes(window['filter'] || ''));
-		for(let mosaic of filterArray)
-			title = generateArchiveGroup(mosaic, title);
+	if(typeof imageIndex == 'object') {
+		list.innerHTML = '';
+		for(let post of imageIndex.posts.slice(0, 3))
+			window['id'] = generateArchiveGroup(post, window['id']);
+		removeLinkExtensions();
 	}
 }
 
-function generateArchiveGroup(mosaic, check) {
-	if(check != mosaic.title) {
+function generateArchiveGroup(post, check) {
+	if(check != post.id) {
 		let titleContainer = document.createElement('a');
 		titleContainer.classList.add('title');
-		titleContainer.href = mosaic.titleUrl;
+		titleContainer.href = post.url;
 		
 		let titleDiv = document.createElement('h4');
-		titleDiv.innerText = mosaic.title;				
+		titleDiv.innerText = post.title;				
 		titleContainer.appendChild(titleDiv);	
 		
 		list.appendChild(titleContainer);
 	}
-
-	let imageDiv = document.createElement('div');
-	imageDiv.classList.add('tile');
 	
-		let imageSpan = document.createElement('img');
-		imageSpan.classList.add('tile-image');
-		imageSpan.title = getImageFilename(mosaic.imgUrl);
-		imageSpan.setAttribute('loading', 'lazy');
-		imageSpan.setAttribute('data-image', mosaic.imgUrl);
-		imageSpan.addEventListener('click', function() {
-			for(let fit of document.querySelectorAll('.fit')) {
-				if(fit != event.target.parentElement)
-					fit.classList.remove('fit');
-			}
-			event.target.parentElement.classList.toggle('fit');
-			event.target.src = event.target.src.replace('/s320/', '/s640/');
-		});
-		imageSpan.addEventListener('load', function() {
-			if(!event.target.classList.contains('loaded'))
-				counter.innerText = 1 + parseInt(counter.innerText);
-			event.target.classList.add('loaded');
-		});
+	for(let item of imageIndex.images.filter(m => m.id == post.id))
+	{
+		let imageDiv = document.createElement('div');
+		imageDiv.classList.add('tile');
 		
-		imageDiv.appendChild(imageSpan);
+			let imageSpan = document.createElement('img');
+			imageSpan.classList.add('tile-image');
+			imageSpan.title = getImageFilename(item.url);
+			imageSpan.setAttribute('loading', 'lazy');
+			imageSpan.setAttribute('data-image', item.url);
+			imageSpan.addEventListener('click', function() {
+				for(let fit of document.querySelectorAll('.fit')) {
+					if(fit != event.target.parentElement)
+						fit.classList.remove('fit');
+				}
+				event.target.parentElement.classList.toggle('fit');
+				event.target.src = event.target.src.replace('/s320/', '/s640/');
+			});
+			imageSpan.addEventListener('load', function() {
+				if(!event.target.classList.contains('loaded'))
+					counter.innerText = 1 + parseInt(counter.innerText);
+				event.target.classList.add('loaded');
+			});
+			
+			imageDiv.appendChild(imageSpan);
+		
+		list.appendChild(imageDiv);
+		observer.observe(imageDiv);
+	}
 	
-	list.appendChild(imageDiv);
-	observer.observe(imageDiv);
-	
-	return mosaic.title;
+	return post.id;
+}
+
+function generateNext() {
+	for(let post of imageIndex.posts.slice(window['id'], window['id'] + 3))
+		window['id'] = generateArchiveGroup(post, window['id']);
+	removeLinkExtensions();
 }
 
 //get filename from image url
@@ -97,3 +103,13 @@ function getImageFilename(url) {
 function goBack() {
 	window.history.back();
 }
+
+// remove .html extensions, facilitate static site routing
+function removeLinkExtensions() {
+	if(!window.location.href.startsWith('file:///')) {
+		for(let a of document.querySelectorAll('a')) {
+			if(a.href.includes('knneo.github.io') || a.href.includes('knwebreports'))
+				a.href = a.href.replace('index.html', '').replace('.html', '/');
+		}
+	}
+});
