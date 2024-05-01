@@ -19,7 +19,7 @@ self.addEventListener('fetch', function(event) {
   // Perform fetch of any url in application
   const request = event.request;
   event.respondWith(
-    caches.match(request) 
+    checkCaches(request)
       .then((cachedResponse) => {
 		// Try to find in cache
 		if (cachedResponse) {
@@ -97,6 +97,17 @@ self.addEventListener('sync', function(event) {
     );
   }
 });
+
+async function checkCaches(request) {
+  for (const cacheName of ALL_CACHES) {
+    const cache = await caches.open(cacheName);
+    const cachedResponse = await cache.match(request);
+    if (cachedResponse) {
+      return cachedResponse;
+    }
+  }
+  return null; // No match found in desired caches
+}
 
 function isImageResource(key) {
   // As long as it's static image, won't catch loaded image files ie. must end with extension
