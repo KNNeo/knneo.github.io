@@ -17,6 +17,7 @@ bool WRITE_TITLE_ON_CONSOLE = true;
 int DOTS_PER_LINE_CONSOLE = 100;
 string BLOG_DOMAIN_URL = "https://knwebreports.blogspot.com/";
 XNamespace DEFAULT_XML_NAMESPACE = XNamespace.Get("http://www.w3.org/2005/Atom");
+List<string> GOOGLE_FONTS_URLS = new List<string>() { "Dancing Script" };
 
 // HOMEPAGE SETTINGS
 string HTML_BODY_FONTFAMILY = "Noto Sans, Arial, sans-serif;";
@@ -27,6 +28,9 @@ string BLOGGER_XML_DIRECTORY = @"C:\Users\KAINENG\Downloads\";
 string ARCHIVE_XML_DIRECTORY = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\";
 string OUTPUT_DIRECTORY = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\";
 string OUTPUT_DIRECTORY_SUBFOLDER = "pages";
+string HOMEPAGE_TEMPLATE_FILENAME = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\template\homepage.html";
+string HOMEPAGE_FILENAME = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\index.html";
+string POST_TEMPLATE_FILENAME = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\template\post.html";
 
 // POST SETTINGS
 List<string> POST_DOM_TEMPLATE = new List<string>() {
@@ -193,41 +197,21 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
 			#region Generate HTML
 			// Add to post string builder
 			var output = new StringBuilder();
-	        output.AppendLine("<!DOCTYPE html>");
-	        output.AppendLine("<html lang=\"en-SG\">");
-	        output.AppendLine("<head>");
-	        output.AppendLine("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>");
-	        output.AppendLine("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
-	        output.AppendLine("<meta name=\"apple-mobile-web-app-capable\" content=\"yes\">");
-	        output.AppendLine("<meta name=\"mobile-web-app-capable\" content=\"yes\">");
-	        output.AppendLine("<meta name=\"theme-color\" content=\"white\">");
-			output.AppendLine("<meta property=\"og:title\" content=\"" + postTitle + "\"/>");
 			if (DEBUG_MODE) Console.WriteLine("Find first image of post for sharing, if any");
+	        string thumbnailUrl = null;
 	        Match match = Regex.Match(postContent, @"(?s)<img(.*?)src=""(.*?)""(.*?)/>");
 	        if(match.Success)
 			{
-	            var thumbnailUrl = match.Groups[2].Value;
-				output.AppendLine("<meta property=\"og:image\" content=\"" + thumbnailUrl + "\"/>");
+	            thumbnailUrl = match.Groups[2].Value;
 			}
-			output.AppendLine("<meta property=\"og:url\" content=\"" + pageLink + "\"/>");
-			output.AppendLine("<meta property=\"og:type\" content=\"website\"/>");
-	        output.AppendLine("<link href=\"../../../storytime.ico\" rel=\"icon\" />");
-	        output.AppendLine("<link href=\"../../../fonts.css\" rel=\"stylesheet\" />");
-			// cursive font only used twice in posts so far
-	        if(postContent.Contains("Dancing Script"))
-				output.AppendLine("<link href='https://fonts.googleapis.com/css?family=Dancing Script' rel='stylesheet' />");
-	        output.AppendLine("<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../index.css\" />");
-	        output.AppendLine("<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../blogspot.css\" />");
-	        output.AppendLine("<script src=\"../../../js/theme.js\" type=\"application/javascript\" charset=\"utf-8\"></script>");
-	        output.AppendLine("<script src=\"../../../js/blogspot.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
-	        output.AppendLine("<script src=\"../../../js/common.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
-	        output.AppendLine("<script src=\"../../../js/header.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
-	        output.AppendLine("<script src=\"../../../js/viewer.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
-	        output.AppendLine("<script src=\"../../../js/search.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
-	        output.AppendLine("<script src=\"../../../js/searchIndex.js\" type=\"application/javascript\" charset=\"utf-8\" defer></script>");
-	        output.AppendLine("<title>" + (postTitle.Length > 0 ? postTitle : "A Random Statement") + "</title>");
-	        output.AppendLine("<body style=\"font-family: " + HTML_BODY_FONTFAMILY + "\">");
-	        output.AppendLine("<div id=\"contents\" class=\"post-body entry-content\">");
+			// Add external fonts though Google Fonts, if any
+			var externalFonts = new StringBuilder();
+			foreach(var font in GOOGLE_FONTS_URLS)
+			{
+		        if(postContent.Contains(font)) // TODO: Regex find css font-family property
+					externalFonts.AppendLine($"<link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css?family={font}\" />");
+			}
+			// Actual content to put in <body> tag
 			if (bloggerLink != "")
 	            output.AppendLine("<small style=\"text-align: center;\"><p><i>This is an archive from <a href=\"" + bloggerLink + "\">" + HTML_TITLE + "</a></i></p></small>");
 	        output.AppendLine("<small title=\"" + publishDate.ToString("yyyy-MM-ddTHH:mm:sszzz") + " (Singapore Time)\" class=\"published\">" + publishDate.ToString("dddd, dd MMMM yyyy") + "</small>");
@@ -246,29 +230,19 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
 	        output.Append("<br>");
 	        output.Append("<br>");
 	        output.Append("<br>");
-	        output.AppendLine("</div>");
-			output.AppendLine("<div class=\"action-menu bottom-left\">");
-			if(linkedList.IndexOf(pageLink) > 0)
-				output.AppendLine("<a class=\"fab next material-icons\" href='" + linkedList[linkedList.IndexOf(pageLink) - 1].Replace("./", "../../../") + "' title=\"Newer Post\">skip_next</a>");
-			if(linkedList.IndexOf(pageLink) < linkedList.Count() - 1)
-				output.AppendLine("<a class=\"fab prev material-icons\" href='" + linkedList[linkedList.IndexOf(pageLink) + 1].Replace("./", "../../../") + "' title=\"Older Post\">skip_previous</a>");
-			output.AppendLine("<a class=\"fab back material-icons\" href=\"../../../index.html\" title=\"Back To Homepage\">home</a>");
-			output.AppendLine("</div>");
-	        output.AppendLine("</div>");
-			output.AppendLine("<div class=\"action-menu bottom-right\">");
-			output.AppendLine("<a class=\"fab share material-icons\" title=\"Share This Page\" onclick=\"sharePage()\">share</a>");
-			output.AppendLine("<a class=\"fab search material-icons\" title=\"Search This Blog\" onclick=\"showSearch()\">search</a>");	
-			output.AppendLine("<a class=\"fab theme material-icons\" title=\"Toggle Dark Mode\" onclick=\"toggleTheme()\">brightness_high</a>");
-			output.AppendLine("<a class=\"fab top material-icons hidden\" title=\"Go To Top\" onclick=\"goToTop()\">arrow_upward</a>");
-			output.AppendLine("</div>");
-	        output.AppendLine("</body>");
-	        output.AppendLine("</html>");
 			#endregion			
-	        // Write output file as html
-	        using (StreamWriter writer = File.CreateText(pageOutputPath))
-			{
-				writer.Write(output.ToString());
-			}			
+		    // Write all additions into output home page
+		    string fileString = File.ReadAllText(POST_TEMPLATE_FILENAME)
+				.Replace("_TITLE_", postTitle.Length > 0 ? postTitle : "A Random Statement")
+				.Replace("_IMAGE_", thumbnailUrl)
+				.Replace("_LINK_", pageLink)
+				.Replace("_FONTS_", externalFonts.Length > 0 ? externalFonts.ToString() : "")
+				.Replace("_BODYFONT_", HTML_BODY_FONTFAMILY)
+				.Replace("_CONTENTS_", output.ToString())
+				.Replace("_PREVLINK_", linkedList.IndexOf(pageLink) < linkedList.Count() - 1 ? linkedList[linkedList.IndexOf(pageLink) + 1].Replace("./", "../../../") : "")
+				.Replace("_NEXTLINK_", linkedList.IndexOf(pageLink) > 0 ? linkedList[linkedList.IndexOf(pageLink) - 1].Replace("./", "../../../") : "");
+		    // Write into homepage file
+		    File.WriteAllText(pageOutputPath, fileString);	
 			// Show progress, as post title or as represented by dot (100 per line)
 		    if(WRITE_TITLE_ON_CONSOLE || DEBUG_MODE)
 		        Console.WriteLine("||> " + (postTitle.Length > 0 ? postTitle : "POST W/O TITLE DATED " + publishDate.ToString("yyyy-MM-dd")) + (fixCount.Count > 0 ? "\t[" + string.Join(",", fixCount) + "]" : ""));
@@ -282,11 +256,6 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
 		if (DEBUG_MODE) Console.WriteLine("Process home page");
         var tagList = string.Join(",",pageTagsXml).Replace(" ","").Replace("-"," ");
         var dataId = " data-tags=\""+tagList+"\"";
-		//foreach(var tag in tags)
-		//{
-		//    if(!allTags.Contains(tag))
-		//		allTags.Add(tag);
-		//}
         // For posts without post link, add name only(?)
         if (string.IsNullOrWhiteSpace(bloggerLink))
             homepageString.AppendLine("<div class=\"post\"><span>" + publishDate.ToString("yyyy.MM.dd") + "</span>" + postTitle + "</div>");
@@ -340,13 +309,14 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
 void GenerateHomepage(string homepageString, int postCount)
 {
     // Write all additions into output home page
-    string fileString = File.ReadAllText(OUTPUT_DIRECTORY + "\\template.html")
+    string fileString = File.ReadAllText(HOMEPAGE_TEMPLATE_FILENAME)
 		.Replace("_TITLE_", HTML_TITLE)
 		.Replace("_URL_", BLOG_DOMAIN_URL)
 		.Replace("_ARCHIVE_", homepageString.ToString())
 		.Replace("_FONT_", HTML_BODY_FONTFAMILY)
 		.Replace("_COUNT_", postCount.ToString());
-    File.WriteAllText(OUTPUT_DIRECTORY + "\\index.html", fileString);
+    // Write into homepage file
+    File.WriteAllText(HOMEPAGE_FILENAME, fileString);
 }
 
 /* FIXES
