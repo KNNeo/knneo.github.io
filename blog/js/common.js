@@ -474,6 +474,8 @@ function toggleActionsOnScroll() {
 		document.querySelector('.action-menu.bottom-left')?.classList.add('hide');
 		document.querySelector('.action-menu.bottom-right')?.classList.add('hide');
 	}
+	// hide viewer if open and use wants to scroll
+	closeViewer();
 }
 
 function toggleActions(showElements, parentElement) {

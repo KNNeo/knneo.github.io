@@ -183,10 +183,12 @@ function openImagesInViewer(images) {
 
 function closeViewer() {
 	let viewer = document.querySelector('.viewer');
-	viewer.classList.remove('open');
-	if(document.getElementById('CloseBtn') != undefined)
-		document.getElementById('CloseBtn').remove();	
-	document.body.style.overflow = '';
+	if(viewer != null) {
+		viewer.classList.remove('open');
+		if(document.getElementById('CloseBtn') != undefined)
+			document.getElementById('CloseBtn').remove();	
+		document.body.style.overflow = '';
+	}
 }
 
 //--LOADER--//
