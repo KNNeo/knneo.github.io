@@ -1,9 +1,9 @@
 //--HEADER--//
 const isFirefox = (/Firefox/i.test(navigator.userAgent));
-const pageHeader = document.querySelector('.page-header');
 
 function generateHeader() {
-	if(pageHeader != null) {
+	if(document.querySelector('.page-header') != null) {
+		let pageHeader = document.querySelector('.page-header');
 		let header = document.createElement('div');		
 		// clone date to put in header
 		if(document.querySelector('.published') != null)
@@ -39,6 +39,7 @@ function headerOnScroll() {
 }
 
 function toggleHeader(minYOffset, scrollUp) {
+	let pageHeader = document.querySelector('.page-header');
 	let minCoverHeight = 0.4*window.innerHeight;
 	// console.log(minYOffset, scrollUp);
 	if (minYOffset) {
