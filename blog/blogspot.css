@@ -272,11 +272,6 @@ span.emoji {
 	color: rgb(var(--foreground));
 }
 
-.hidden {
-	display: none;
-	height: 0;
-}
-
 .thumbnail {
 	padding-top: 1em;
 }
@@ -298,6 +293,11 @@ span.emoji {
 a.fab:not([href=""]) {
 	display: initial;
     height: auto;
+}
+
+a.fab.hidden {
+	display: none;
+	height: 0;
 }
 
 /*Fixes from universal font-size change*/
