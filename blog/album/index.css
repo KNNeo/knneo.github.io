@@ -88,6 +88,10 @@ body {
 	font-size: 36px;
 }
 
+.hidden {
+    display: none;
+}
+
 #BackBtn {
 	position: fixed;
 	display: block;
@@ -112,14 +116,14 @@ body {
 	text-decoration: none;
 }
 
+#GoToTopBtn,
 #DarkModeBtn {
 	position: fixed;
 	display: block;
 	visibility: visible;
 	opacity: 1;
-	bottom: 20px;
-    right: calc(50% - 320px);
 	z-index: 7;
+    right: calc(50% - 320px);
 	-webkit-user-select: none;
 	-khtml-user-select: none;
 	-moz-user-select: none;
@@ -137,6 +141,15 @@ body {
 	text-decoration: none;
 }
 
+#GoToTopBtn {
+	bottom: 20px;	
+}
+
+#DarkModeBtn {
+    bottom: 80px;
+}
+
+#GoToTopBtn:hover,
 #DarkModeBtn:hover,
 #BackBtn:hover {
 	box-shadow: 1px 1px;
@@ -145,16 +158,20 @@ body {
 
 /*MEDIA QUERIES - BUTTON POSITION*/
 @media only screen and (max-width: 780px) {
-  #BackBtn {
-    left: 15px;
-  }
-  #DarkModeBtn {
-    right: 15px;
-  }
-  #DarkModeBtn,
-  #BackBtn {
-    bottom: 15px;
-  }
+	#BackBtn {
+		left: 15px;
+	}
+	#GoToTopBtn,
+	#DarkModeBtn {
+		bottom: 15px;
+	}
+	#DarkModeBtn {
+		right: 80px;
+	}
+	#GoToTopBtn,
+	#BackBtn {
+		bottom: 15px;
+	}
 }
 
 @media only screen and (min-width: 320px) {

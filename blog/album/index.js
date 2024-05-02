@@ -39,6 +39,8 @@ function generateArchive() {
 		window['images'] = imageIndex.posts.filter(p => imageIndex.images.filter(i => i.id == p.id && i.url.toLowerCase().includes(window['filter'] ?? '')).length > 0);
 		for(let post of window['images'].slice(0, 3))
 			window['id'] = generateArchiveGroup(post, window['id']);
+		window['loaded'] = 2; // window['loaded'] = index of window['images']
+		removeShowMoreIfEnd();
 		removeLinkExtensions();
 	}
 }
@@ -90,10 +92,13 @@ function generateArchiveGroup(post, check) {
 }
 
 function generateNext() {
-	let next = window['images'].slice(window['id'], window['id'] + 3);
+	let next = window['images'].slice(window['loaded'] + 1, window['loaded'] + 4);
+	// console.log(next);
 	if(next.length > 0) {
 		for(let post of next)
 			window['id'] = generateArchiveGroup(post, window['id']);
+		window['loaded'] += 3; // window['loaded'] = index of window['images']
+		removeShowMoreIfEnd();
 		removeLinkExtensions();
 	}
 	else
@@ -108,6 +113,12 @@ function getImageFilename(url) {
 //add back button to each page
 function goBack() {
 	window.history.back();
+}
+
+// hide show more button if hit end of array
+function removeShowMoreIfEnd() {
+	if(window['images'].length - 1 <= window['loaded']) // window['loaded'] = index of window['images']
+		document.querySelector('.next').classList.add('hidden');
 }
 
 // remove .html extensions, facilitate static site routing
