@@ -40,14 +40,14 @@ function removeLinkExtensions() {
 
 // hide description if hosted
 function hideDescription() {
-	if(!window.location.href.includes('knneo.github.io'))
-		document.querySelector('.home-header h6')?.classList.add('hidden');
+	if(window.location.href.includes('knneo.github.io'))
+		document.querySelector('.home-header h6')?.classList.remove('hidden');
 }
 
 // hide home button if at root
 function hideHomeButton() {
-	if(window.location.pathname == '/')
-		document.querySelector('.back')?.classList.add('hidden');
+	if(window.location.pathname != '/')
+		document.querySelector('.back')?.classList.remove('hidden');
 }
 
 // when click on button tags, will filter by tag on each post
