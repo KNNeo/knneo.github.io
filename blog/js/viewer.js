@@ -154,7 +154,7 @@ function openImageInViewer(image) {
 
 function openImagesInViewer(images) {
 	//each object in images should contain [1] position, [2] img src
-	console.log(images);
+	// console.log(images);
 	let viewer = document.querySelector('.viewer');
 	if(viewer.childNodes.length > 0) viewer.innerHTML = '';
 	
