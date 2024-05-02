@@ -22,7 +22,7 @@ function postLoadSequence() {
 	setTimeout(toggleEmojiDisplay, 0);
 	setTimeout(scrollToSectionByUrl, 200);
 	setTimeout(function() {
-		addSwipeEvents();
+		// addSwipeEvents();
 		removeLinkExtensions();
 		if(typeof generateViewer == 'function') generateViewer();
 	}, 0);
