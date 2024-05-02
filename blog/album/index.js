@@ -36,7 +36,8 @@ function onFilterKeyUp() {
 function generateArchive() {
 	if(typeof imageIndex == 'object') {
 		list.innerHTML = '';
-		for(let post of imageIndex.posts.slice(0, 3))
+		window['images'] = imageIndex.posts.filter(p => imageIndex.images.filter(i => i.id == p.id && i.url.toLowerCase().includes(window['filter'] ?? '')).length > 0);
+		for(let post of window['images'].slice(0, 3))
 			window['id'] = generateArchiveGroup(post, window['id']);
 		removeLinkExtensions();
 	}
@@ -55,7 +56,7 @@ function generateArchiveGroup(post, check) {
 		list.appendChild(titleContainer);
 	}
 	
-	for(let item of imageIndex.images.filter(m => m.id == post.id))
+	for(let item of imageIndex.images.filter(i => i.id == post.id && i.url.toLowerCase().includes(window['filter'] ?? '')))
 	{
 		let imageDiv = document.createElement('div');
 		imageDiv.classList.add('tile');
@@ -89,9 +90,14 @@ function generateArchiveGroup(post, check) {
 }
 
 function generateNext() {
-	for(let post of imageIndex.posts.slice(window['id'], window['id'] + 3))
-		window['id'] = generateArchiveGroup(post, window['id']);
-	removeLinkExtensions();
+	let next = window['images'].slice(window['id'], window['id'] + 3);
+	if(next.length > 0) {
+		for(let post of next)
+			window['id'] = generateArchiveGroup(post, window['id']);
+		removeLinkExtensions();
+	}
+	else
+		alert('no more images found!');
 }
 
 //get filename from image url
