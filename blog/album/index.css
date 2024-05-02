@@ -163,10 +163,10 @@ body {
 	}
 	#GoToTopBtn,
 	#DarkModeBtn {
-		bottom: 15px;
+		right: 15px;
 	}
 	#DarkModeBtn {
-		right: 80px;
+		bottom: 80px;
 	}
 	#GoToTopBtn,
 	#BackBtn {
