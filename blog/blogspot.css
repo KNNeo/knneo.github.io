@@ -295,7 +295,7 @@ span.emoji {
 	font-family: Noto Color Emoji;
 }
 
-a.fab[href] {
+a.fab:not([href=""]) {
 	display: initial;
     height: auto;
 }
