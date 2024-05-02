@@ -295,6 +295,7 @@ a.fab:not([href=""]) {
     height: auto;
 }
 
+div.hidden,
 a.fab.hidden {
 	display: none;
 	height: 0;
