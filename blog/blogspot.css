@@ -290,15 +290,15 @@ span.emoji {
 	font-family: Noto Color Emoji;
 }
 
-a.fab:not([href=""]) {
-	display: initial;
-    height: auto;
-}
-
 div.hidden,
 a.fab.hidden {
 	display: none;
 	height: 0;
+}
+
+a.fab:not([href=""]) {
+	display: initial;
+    height: auto;
 }
 
 /*Fixes from universal font-size change*/
