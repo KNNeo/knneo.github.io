@@ -684,10 +684,10 @@ function resizeImage(p) {
 			// p.classList.add('img-width-fit');
 		if(p.closest('table')) { // table
 			let table = p.closest('table');
-			let max = Math.max(...Array.from(table.querySelectorAll('tr')).map(tr => tr.querySelectorAll('img').length > 1 ? Array.from(tr.querySelectorAll('img')).reduce((imgs, img) => imgs + img.width, 0) : 0)); // with more than 1 column of images
-			if(!table.style.width && !table.style.maxWidth && max) {
+			let maxImgWidth = Math.max(...Array.from(table.querySelectorAll('tr')).map(tr => tr.querySelectorAll('img').length > 1 ? Array.from(tr.querySelectorAll('img')).reduce((imgs, img) => imgs + img.width, 0) : 0)); // with more than 1 column of images
+			if(!table.style.width && !table.style.maxWidth && maxImgWidth) {
 				table.style.width = '100%';
-				table.style.maxWidth = max + 'px';
+				table.style.maxWidth = maxImgWidth + 'px';
 			}
 			if(showLog)
 				console.log(table, parseInt(table.style.maxWidth), parseInt(table.style.maxWidth) + 20 >= bodyWidth);
@@ -700,6 +700,9 @@ function resizeImage(p) {
 				table.querySelectorAll('img').forEach(img => img.classList.remove('img-width-fit'));
 				table.querySelectorAll('img').forEach(img => img.classList.add('img-width-auto'));
 			}
+			// for even smaller width screens, single image column
+			if (p.width + 20 >= bodyWidth && p.closest('tr').querySelectorAll('img').length < 2)
+				p.classList.add('img-width-fit');
 		}
 		else if (p.width + 20 >= bodyWidth)
 			p.classList.add('img-width-fit');

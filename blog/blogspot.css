@@ -505,6 +505,12 @@ a.fab:not([href=""]) {
 	}
 	.latest:hover .anchors {
 		justify-content: flex-end;
+		flex-direction: column-reverse;
+		width: calc(100% - 108px);
+	}
+	.action-menu.bottom-left,
+	.action-menu.bottom-right {
+		flex-direction: column;
 	}
 }
 
