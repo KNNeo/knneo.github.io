@@ -134,11 +134,54 @@ pre {
   display: none;
 }
 </style>
+<style id="theme-style">
+/*ALTERNATE THEMES - FOR THEME SWITCHER*/
+.theme-red-darkblue:root {
+	--primary: 255, 105, 105;
+	--secondary: 187, 37, 37;
+	--background: 20, 30, 70;
+	--foreground: 255, 245, 224;
+	--accent: 115 115 115;
+}
+
+.theme-red-dirtygreen:root {
+	--primary: 255, 3, 3;
+	--secondary: 78, 110, 129;
+	--background: 46, 56, 64;
+	--foreground: 249, 219, 187;
+	--accent: 121, 121, 121;
+}
+
+.theme-red-blue:root {
+	--primary: 193, 18, 31;
+	--secondary: 120, 0, 0;
+	--background: 253, 240, 213;
+	--foreground: 0, 48, 73;
+	--accent: 102, 155, 188;
+}
+
+.theme-flat:root {
+	--primary: 242, 204, 143;
+	--secondary: 224, 122, 95;
+	--background: 61, 64, 91;
+	--foreground: 244, 241, 222;
+	--accent: 129, 178, 154;
+}
+</style>
+<script id="theme-script" defer>
+document.querySelector('h1').addEventListener('click', function() {
+	let newClassName = prompt('Enter full theme name [red-darkblue|red-dirtygreen|red-blue|flat]','theme-');
+	if(newClassName.length > 6)
+		document.querySelector('html').className = newClassName;
+});
+</script>
 <script id="base-loader">
 let css = document.createElement('style');
 css.innerHTML = document.querySelector('#variables-style').innerHTML;
 document.body.appendChild(css);
 let js = document.createElement('script');
+js.innerHTML = document.querySelector('#theme-script').innerHTML;
+document.body.appendChild(js);
 </script>
 
 
