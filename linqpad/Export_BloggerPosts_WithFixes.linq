@@ -22,6 +22,7 @@ List<string> GOOGLE_FONTS_URLS = new List<string>() { "Dancing Script" };
 // HOMEPAGE SETTINGS
 string HTML_BODY_FONTFAMILY = "Noto Sans, Arial, sans-serif;";
 string HTML_TITLE = "Klassic Note Web Reports";
+string HTML_THUMBNAIL_SINCE = "2023-01-01";
 
 // INPUT OUTPUT SETTINGS
 string BLOGGER_XML_DIRECTORY = @"C:\Users\KAINENG\Downloads\";
@@ -665,8 +666,7 @@ List<int> FixPostContent(ref string content)
 
 bool IsLatestPost(DateTime publishDate)
 {
-	DateTime beforeDate = DateTime.Now.AddYears(-1);
-	return DateTime.Compare(publishDate, new DateTime(beforeDate.Year, beforeDate.Month, 1)) >= 0;
+	return DateTime.Compare(publishDate, DateTime.Parse(HTML_THUMBNAIL_SINCE)) >= 0;
 }
 
 class MatchItem
