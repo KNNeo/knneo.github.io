@@ -96,7 +96,7 @@ void Main()
 		#region 01 custom search by regex
 		if(includeIndex.Count() == 0 || includeIndex.Contains(1))
 		{
-	        expression = @"(twitter.com|x.com)/(KlassicNote)"; // change custom query in regex here, put 0 as includeIndex
+	        expression = @"//platform.twitter.com/widgets.js"; // change custom query in regex here, put 0 as includeIndex
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
