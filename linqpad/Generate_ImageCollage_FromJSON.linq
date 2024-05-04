@@ -114,7 +114,7 @@ void Main()
 		{
 			var filename = file.ishou + "_" + file.chara + ".jpg";
 			var item = new ImageCollageItem();
-			item.filename = filename;
+			item.id = filename;
 			if(noDownload) 
 			{
 				var dataOne = data.FirstOrDefault(d => d.name.Trim() == file.search.Trim());
@@ -213,7 +213,7 @@ class MapDataItem
 
 class ImageCollageItem
 {
-	public string filename { get; set; }
+	public string id { get; set; }
 	public string sm { get; set; }
 	public string md { get; set; }
 	public string lg { get; set; }
