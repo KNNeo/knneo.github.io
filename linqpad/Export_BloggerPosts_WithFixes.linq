@@ -274,8 +274,11 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
 					//Console.WriteLine(postContent);
 			        if(match.Success)
 			            thumbnailUrl = match.Groups[2].Value;
+					// Exceptions (TODO: Set as config)
 			        if(thumbnailUrl.Contains("scontent-sin.xx.fbcdn.net"))
-			            thumbnailUrl = "";					
+			            thumbnailUrl = "";
+					if(pageTagsXml.Any(xml => "The Dreams".Contains(xml)))
+			            thumbnailUrl = "resources/dream.jpg";
 					// Find all anchors in div or blockquote tags
 					if (DEBUG_MODE) Console.WriteLine("Find all anchors");
 			        match = Regex.Match(postContent, @"(?s)(div|blockquote)(.*?) id=""(.*?)""(.*?)(>)");
