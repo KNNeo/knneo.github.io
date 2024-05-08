@@ -23,6 +23,7 @@ List<string> GOOGLE_FONTS_URLS = new List<string>() { "Dancing Script" };
 string HTML_BODY_FONTFAMILY = "Noto Sans, Arial, sans-serif;";
 string HTML_TITLE = "Klassic Note Web Reports";
 string HTML_THUMBNAIL_SINCE = "2023-01-01";
+List<String> POST_IGNORE_LABELS = new List<string>() { "The Archive" };
 
 // INPUT OUTPUT SETTINGS
 string BLOGGER_XML_DIRECTORY = @"C:\Users\KAINENG\Downloads\";
@@ -32,10 +33,6 @@ string OUTPUT_DIRECTORY_SUBFOLDER = "pages";
 string HOMEPAGE_TEMPLATE_FILENAME = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\template\homepage.html";
 string HOMEPAGE_FILENAME = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\index.html";
 string POST_TEMPLATE_FILENAME = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\template\post.html";
-
-// POST SETTINGS
-List<string> POST_DOM_TEMPLATE = new List<string>() { };
-List<String> POST_IGNORE_TAGS = new List<string>() { "The Archive" };
 
 void Main()
 {
@@ -136,8 +133,12 @@ List<string> GetBloggerPostsLinkedList(IEnumerable<XElement> xmlPosts, string in
         string bloggerLink = ((entry.Elements(DEFAULT_XML_NAMESPACE+"link")
             .FirstOrDefault(e => e.Attribute("rel").Value == "alternate") ?? empty)
             .Attribute("href") ?? emptA).Value;
+        // Find post labels
+        var pageTagsXml = entry.Elements(DEFAULT_XML_NAMESPACE+"category")
+        	.Where(e => !e.Attribute("term").ToString().Contains("#post")).Select(q => q.Attribute("term").Value).ToList();    
         var pageLink = "./" + Path.GetFileNameWithoutExtension(BLOGGER_XML_DIRECTORY.Replace(BLOGGER_XML_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER)) + "/" + publishDate.Year.ToString("0000") + "/"  + publishDate.Month.ToString("00") + "/"  + Path.GetFileNameWithoutExtension(bloggerLink) + "." + postExtension;
-		if(!string.IsNullOrWhiteSpace(bloggerLink))
+		// If has valid published link, and not including post labels to ignore and not render
+		if(!string.IsNullOrWhiteSpace(bloggerLink) && !pageTagsXml.Any(xml => POST_IGNORE_LABELS.Contains(xml)))
 			linkedList.Add(pageLink);
 	}
 	return linkedList;
@@ -174,7 +175,7 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
         var pageTagsXml = entry.Elements(DEFAULT_XML_NAMESPACE+"category")
         	.Where(e => !e.Attribute("term").ToString().Contains("#post")).Select(q => q.Attribute("term").Value).ToList();        
 		// Post labels to ignore and not render
-		if(pageTagsXml.Any(xml => POST_IGNORE_TAGS.Contains(xml)))
+		if(pageTagsXml.Any(xml => POST_IGNORE_LABELS.Contains(xml)))
 			continue;
 		// Create output page link and index in linked list
         var pageLink = "./" + Path.GetFileNameWithoutExtension(BLOGGER_XML_DIRECTORY.Replace(BLOGGER_XML_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER)) + "/" + publishDate.Year.ToString("0000") + "/"  + publishDate.Month.ToString("00") + "/"  + Path.GetFileNameWithoutExtension(bloggerLink) + "." + postExtension;
