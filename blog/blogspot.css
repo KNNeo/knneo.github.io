@@ -496,6 +496,16 @@ a.fab.hidden {
 	.input-result .post {
 		font-size: 0.875em;
 	}
+	.latest:hover:has(.anchors) .thumb a {
+		margin-bottom: 3em;
+	}
+	.latest:hover .publish {
+		display: none;
+	}
+	.latest:hover .anchors {
+		justify-content: flex-end;
+		flex-direction: column-reverse;
+	}
 }
 
 /*MEDIA QUERIES - CLOSED FOLD SCREENS*/
@@ -504,8 +514,6 @@ a.fab.hidden {
 		max-width: 100%;
 	}
 	.latest:hover .anchors {
-		justify-content: flex-end;
-		flex-direction: column-reverse;
 		width: calc(100% - 108px);
 	}
 	.action-menu.bottom-left,
