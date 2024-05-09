@@ -375,6 +375,9 @@ function renderGallery() {
 			let inOverview = galleryDiv.classList.contains('overview');
 			galleryDiv.classList.remove('overview');
 			settingsDiv.classList.remove('hidden');
+			if(window.variables.selected == parseInt(this.getAttribute('data-id'))) {
+				window.variables.selected = 0;
+			}
 			if(window.variables.selected != parseInt(this.getAttribute('data-id'))) {
 				scrollToItem(parseInt(this.getAttribute('data-id')));
 			}
