@@ -1,5 +1,4 @@
 //--STARTUP--//
-// addServiceWorker();
 window.addEventListener('load', startup);
 window.addEventListener('resize', onResize);
 window.addEventListener('keyup', onKeyUp);
@@ -10,6 +9,18 @@ window.addEventListener('beforeunload', onUnload);
 
 //--EVENTS--//
 function startup() {
+	// add service worker if available
+	if (navigator && 'serviceWorker' in navigator) {
+	  window.addEventListener('load', function() {
+		navigator.serviceWorker.register('sw.js')
+		  .then(function(registration) {
+			console.log('Service worker registered:', registration.scope);
+		  }, function(err) {
+			console.log('Service worker registration failed:', err);
+		  });
+	  });
+	}
+	// startup regardless if taken from cache
 	onFeedback();
 	renderVariables();
 	renderSettings();
@@ -19,21 +30,6 @@ function startup() {
 	generateFilters();
 	generateHomepage();
 	setTabs();
-}
-
-function addServiceWorker() {
-	// not using for now, pending further analysis of use
-	if (navigator && 'serviceWorker' in navigator) {
-	  window.addEventListener('load', function() {
-		navigator.serviceWorker.register('sw.js')
-		  .then(function(registration) {
-			console.log('Service worker registered:', registration.scope);
-			startup();
-		  }, function(err) {
-			console.log('Service worker registration failed:', err);
-		  });
-	  });
-	}
 }
 
 function onResize() {
