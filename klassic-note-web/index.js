@@ -11,14 +11,18 @@ window.addEventListener('beforeunload', onUnload);
 function startup() {
 	// add service worker if available
 	if (navigator && 'serviceWorker' in navigator) {
-	  window.addEventListener('load', function() {
-		navigator.serviceWorker.register('sw.js')
-		  .then(function(registration) {
+	  navigator.serviceWorker.register('sw.js', {
+		  sync: {
+			tags: [
+			  { name: 'update-cache', maxPeriod: 60 }, // Update cache every minute
+			],
+		  },
+		})
+		.then(function(registration) {
 			console.log('Service worker registered:', registration.scope);
-		  }, function(err) {
+		}, function(err) {
 			console.log('Service worker registration failed:', err);
-		  });
-	  });
+		});
 	}
 	// startup regardless if taken from cache
 	onFeedback();
