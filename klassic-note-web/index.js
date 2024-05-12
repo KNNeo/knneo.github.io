@@ -753,6 +753,9 @@ function onChangeOption() {
 //flow is generally generateHomepage -> query[Module/Component] -> generate[Module/Component]
 function generateHomepage() {
 	window['mode'] = 'home';
+	window['song-id'] = 0;
+	window['release-id'] = 0;
+	window['artist-id'] = 0;
 	
 	//initial query for options
 	let query = "SELECT KNID, KNYEAR, SongTitle, ArtistTitle FROM Song";
