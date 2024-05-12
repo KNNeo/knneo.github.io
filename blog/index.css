@@ -801,7 +801,7 @@ abbr.imgpop:hover img {
 	background-color: rgb(var(--background));
 	color: rgb(var(--foreground));	
 	padding: 10px;
-	max-width: 640px;
+	max-width: 90%;
 	max-height: 80%;
 }
 
