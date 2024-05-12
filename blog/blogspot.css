@@ -296,7 +296,7 @@ a.fab.hidden {
 	height: 0;
 }
 
-.action-menu.bottom-left .fab:not([href=""]) {
+.action-menu.bottom-left:not(.home) .fab:not([href=""]) {
 	display: initial;
     height: auto;
 }
