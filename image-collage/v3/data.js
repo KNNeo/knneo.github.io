@@ -542,4 +542,12 @@ const mosaicArray = [
 {"id":"ホワイト・プリンス_こころ.jpg","sm":"https://doax.cc/res/pic_star_s/311_4.png","md":"https://doax.cc/res/pic_star_s/311_4.png","lg":"https://doax.cc/res/pic_star/311_4.png","og":"https://doax.cc/res/pic_star/311_4.png"},
 {"id":"ラブリー・モード_こはる.jpg","sm":"https://doax.cc/res/pic_star_s/866_4.png","md":"https://doax.cc/res/pic_star_s/866_4.png","lg":"https://doax.cc/res/pic_star/866_4.png","og":"https://doax.cc/res/pic_star/866_4.png"},
 {"id":"ラブリー・モード_ロベリア.jpg","sm":"https://doax.cc/res/pic_star_s/866_3.png","md":"https://doax.cc/res/pic_star_s/866_3.png","lg":"https://doax.cc/res/pic_star/866_3.png","og":"https://doax.cc/res/pic_star/866_3.png"},
+{"id":"プランタン・ロゼ_ヒトミ.jpg","sm":"https://doax.cc/res/pic_star_s/502.png","md":"https://doax.cc/res/pic_star_s/502.png","lg":"https://doax.cc/res/pic_star/502.png","og":"https://doax.cc/res/pic_star/502.png"},
+{"id":"テイクユアマーク_ヒトミ.jpg","sm":"https://doax.cc/res/pic_star_s/784_10.png","md":"https://doax.cc/res/pic_star_s/784_10.png","lg":"https://doax.cc/res/pic_star/784_10.png","og":"https://doax.cc/res/pic_star/784_10.png"},
+{"id":"テイクユアマーク_なぎさ.jpg","sm":"https://doax.cc/res/pic_star_s/784_11.png","md":"https://doax.cc/res/pic_star_s/784_11.png","lg":"https://doax.cc/res/pic_star/784_11.png","og":"https://doax.cc/res/pic_star/784_11.png"},
+{"id":"シーサイド・パトロール_エリーゼ.jpg","sm":"https://doax.cc/res/pic_star_s/869_5.png","md":"https://doax.cc/res/pic_star_s/869_5.png","lg":"https://doax.cc/res/pic_star/869_5.png","og":"https://doax.cc/res/pic_star/869_5.png"},
+{"id":"シーサイド・パトロール_エレナ.jpg","sm":"https://doax.cc/res/pic_star_s/869_2.png","md":"https://doax.cc/res/pic_star_s/869_2.png","lg":"https://doax.cc/res/pic_star/869_2.png","og":"https://doax.cc/res/pic_star/869_2.png"},
+{"id":"シーサイド・パトロール_あやね.jpg","sm":"https://doax.cc/res/pic_star_s/869_8.png","md":"https://doax.cc/res/pic_star_s/869_8.png","lg":"https://doax.cc/res/pic_star/869_8.png","og":"https://doax.cc/res/pic_star/869_8.png"},
+{"id":"はいからブルーマー_パティ.jpg","sm":"https://doax.cc/res/pic_star_s/872.png","md":"https://doax.cc/res/pic_star_s/872.png","lg":"https://doax.cc/res/pic_star/872.png","og":"https://doax.cc/res/pic_star/872.png"},
+{"id":"はいからブルーマー_しずく.jpg","sm":"https://doax.cc/res/pic_star_s/873.png","md":"https://doax.cc/res/pic_star_s/873.png","lg":"https://doax.cc/res/pic_star/873.png","og":"https://doax.cc/res/pic_star/873.png"},
 ];
