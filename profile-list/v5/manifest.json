@@ -6,7 +6,7 @@
 	"name": "推し図鑑",
 	"scope": "/",
 	"short_name": "Profiles",
-	"start_url": "/",
+	"start_url": "/profile-list/v5/",
 	"theme_color": "#ffffff",
 	"lang": "en",
 	"categories": [],
