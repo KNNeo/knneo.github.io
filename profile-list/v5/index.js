@@ -438,9 +438,12 @@ function generateWantedListCard(id) {
 	let icons = config.labels.icon.split('|');
 	let stats = generateProfilePointers(profile, icons);	
 	
+	let rating = ratingAsStars(profile.rating, config.rating.max);
+	
 	right.appendChild(name);
 	right.appendChild(date);
 	right.appendChild(stats);
+	right.appendChild(rating);
 	card.appendChild(left);
 	card.appendChild(right);
 	wanted.appendChild(card);
