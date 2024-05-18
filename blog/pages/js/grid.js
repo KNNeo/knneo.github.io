@@ -61,7 +61,10 @@ function renderGrid(sectionNo, content, isSinglePage) {
 				
 			
 			let item = content.componentData[count];
-			// td.innerText = item.type;
+			if(item && item.url)
+			{
+				td.setAttribute('onclick', 'window.location.href = "' + item.url + '"');
+			}
 			if(item && item.rows != undefined)
 			{
 				td.setAttribute('rowspan', item.rows);
@@ -96,30 +99,51 @@ function renderGrid(sectionNo, content, isSinglePage) {
 		let elem = document.querySelector('#section'+sectionNo+'cell'+index);
 		if(component.type == 'title')
 		{
-			// elem.style.verticalAlign = 'center';
 			elem.style.textAlign = component.align || 'center';
 			
 			if(component.prefix)
 			{
-				let pre = document.createElement('div');
+				let pre = document.createElement(component.prefixUrl ? 'a' : 'div');
 				pre.classList.add('caption');
+				if(component.prefixUrl)
+					pre.href = component.prefixUrl;
 				pre.innerText = component.prefix;
 				elem.appendChild(pre);
 			}
 			
-			// let titleType = 'h1';
-			// if(smallScreenWidth()) titleType = 'h2';
-			// if(smallScreenHeight()) titleType = 'h3';
-			let title = document.createElement('div');
-			title.classList.add('title');
-			title.innerText = component.title;
-			elem.appendChild(title);
+			if(component.prefixIcon)
+			{
+				let icon = document.createElement('img');
+				icon.classList.add('caption-icon');
+				icon.src = component.prefixIcon;
+				elem.appendChild(icon);
+			}
+			
+			if(component.title)
+			{
+				let title = document.createElement(component.titleUrl ? 'a' : 'div');
+				title.classList.add('title');
+				title.innerText = component.title;
+				if(component.titleUrl)
+					title.href = component.titleUrl;
+				elem.appendChild(title);
+			}
 			
 			if(component.suffix)
 			{
-				let post = document.createElement('div');
+				let post = document.createElement(component.suffixUrl ? 'a' : 'div');
 				post.innerText = component.suffix;
-				elem.appendChild(post);
+				if(component.suffixUrl)
+					post.href = component.suffixUrl;
+				elem.appendChild(post);	
+			}
+			
+			if(component.suffixIcon)
+			{
+				let icon = document.createElement('img');
+				icon.classList.add('caption-icon');
+				icon.src = component.suffixIcon;
+				elem.appendChild(icon);
 			}
 		}
 		else if(component.type == 'image')

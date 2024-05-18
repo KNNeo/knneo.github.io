@@ -144,7 +144,7 @@ function renderPage() {
 	}	
 	// set page by type
 	document.body.className = '';
-	if(window['main'].isSinglePage) {
+	if(window['main']?.isSinglePage) {
 		document.body.classList.add('single');
 		
 		let menu = document.createElement('div');
@@ -170,7 +170,7 @@ function renderPage() {
 	renderButtons();
 	renderFooter();
 	// if single page, calculate section height
-	if(window['main'].isSinglePage) {
+	if(window['main']?.isSinglePage) {
 		for(let section of document.querySelectorAll('.section'))
 			section.style.height = 'calc(100% - ' + ((document.querySelector('.menu').getBoundingClientRect().height + document.querySelector('.footer').getBoundingClientRect().height) + 'px') + ')';
 	}
@@ -182,6 +182,8 @@ function renderPage() {
 				this.click();
 		});
 	}
+	// remove .html extensions, facilitate static site routing
+	removeLinkExtensions();
 }
 
 function renderMain() {
@@ -272,7 +274,7 @@ function renderSection(sectionNo) {
 	else
 		prevButton.href = 'javascript:void(0)';
 	prevButton.addEventListener('click',scrollToPrevPage);
-	let prevButtonIcon = renderGoogleIcon(main.isSinglePage ? 'arrow_left' : 'arrow_drop_up');
+	let prevButtonIcon = renderGoogleIcon(main?.isSinglePage ? 'arrow_left' : 'arrow_drop_up');
 	prevButton.appendChild(prevButtonIcon);
 	prevDiv.appendChild(prevButton);
 	section.appendChild(prevDiv);
@@ -306,7 +308,7 @@ function renderSection(sectionNo) {
 		component.id = 'section' + sectionNo;
 		section.appendChild(component);
 		
-		renderGrid(sectionNo, content, main.isSinglePage);
+		renderGrid(sectionNo, content, main?.isSinglePage);
 	}
 	
 	let nextDiv = document.createElement('div');
@@ -322,7 +324,7 @@ function renderSection(sectionNo) {
 	else
 		nextButton.href = 'javascript:void(0)';
 	nextButton.addEventListener('click',scrollToNextPage);
-	let nextButtonIcon = renderGoogleIcon(main.isSinglePage ? 'arrow_right' : 'arrow_drop_down');
+	let nextButtonIcon = renderGoogleIcon(main?.isSinglePage ? 'arrow_right' : 'arrow_drop_down');
 	nextButton.appendChild(nextButtonIcon);
 	nextDiv.appendChild(nextButton);
 	section.appendChild(nextDiv);
@@ -334,7 +336,7 @@ function renderMenu() {
 		let contentList = document.createElement('div');
 		contentList.classList.add('contents');
 		// add home icon
-		if(content.isSinglePage)
+		if(content?.isSinglePage)
 		{
 			let contentItem = renderGoogleIcon('home', ['home','focusable','not-selectable']);
 			contentItem.addEventListener('keyup', function() {
@@ -360,7 +362,7 @@ function renderMenu() {
 			//image icons
 			for(let section = 0; section < window['elements'].length; section++)
 			{
-				if(section == content.sectionNo)
+				if(section == content?.sectionNo)
 					continue;
 				let contentItem = document.createElement('div');
 				contentItem.className = 'icon focusable';
@@ -377,7 +379,7 @@ function renderMenu() {
 					scrollToPage(section);
 					// if(smallScreenWidth() || smallScreenHeight())
 						// document.querySelector('.menu').style.maxHeight = drawerHeight;
-					if(content.isSinglePage)
+					if(content?.isSinglePage)
 						event.target.scrollIntoView({ inline: 'center', behavior: 'smooth' });
 				});
 				if(window['elements'][section].text)
@@ -390,7 +392,7 @@ function renderMenu() {
 			//text icons
 			for(let section = 0; section < window['elements'].length; section++)
 			{
-				if(section == content.sectionNo)
+				if(section == content?.sectionNo)
 					continue;
 				let contentItem = document.createElement('div');
 				contentItem.className = 'box text focusable';
@@ -409,21 +411,23 @@ function renderMenu() {
 					scrollToPage(section);
 					// if(smallScreenWidth() || smallScreenHeight())
 						// document.querySelector('.menu').style.maxHeight = drawerHeight;
-					if(content.isSinglePage)
+					if(content?.isSinglePage)
 						event.target.scrollIntoView({ inline: 'center', behavior: 'smooth' });
 				});
 				contentList.appendChild(contentItem);
 			}
 		}		
 		// drawer, spacer
-		if(content.isSinglePage) {
+		if(content?.isSinglePage) {
 			let contentItem = document.createElement('div');
 			contentItem.style.padding = '4px';
 			contentList.appendChild(contentItem);
 		}
 		// add into DOM
-		document.querySelector('.menu').innerHTML = '';
-		document.querySelector('.menu').appendChild(contentList);
+		if(document.querySelector('.menu') != null) {
+			document.querySelector('.menu').innerHTML = '';
+			document.querySelector('.menu').appendChild(contentList);
+		}
 	}
 }
 
@@ -437,7 +441,7 @@ function renderButtons() {
 		document.querySelector('.page').addEventListener('scroll', toggleGoToTop);
 	}
 	else if (document.querySelector('.button-top') != null) {
-		if(window['main'].isSinglePage || isMobile())
+		if(window['main']?.isSinglePage || isMobile())
 			document.querySelector('.button-top').style.right = '10px';
 		else 
 			document.querySelector('.button-top').style.right = null;		
@@ -445,12 +449,12 @@ function renderButtons() {
 	// exit button
 	let closeButtonIcon = renderGoogleIcon('close', ['button','button-close','not-selectable']);
 	closeButtonIcon.title = 'Close Popup';
-	if (window['main'].isSinglePage || isMobile()) 
+	if (window['main']?.isSinglePage || isMobile()) 
 		closeButtonIcon.style.right = '10px';
-	if (window['main'].hasExit && document.querySelector('.button-close') == null) {
+	if (window['main']?.hasExit && document.querySelector('.button-close') == null) {
 		document.body.appendChild(closeButtonIcon);
 		document.querySelector('.button-close').addEventListener('click', function() {
-			window.location.href = window['main'].exitUrl;
+			window.location.href = window['main']?.exitUrl;
 		});
 		// document.querySelector('.button-close').addEventListener('contextmenu', function() {
 			// event.preventDefault();
@@ -459,7 +463,7 @@ function renderButtons() {
 		// });
 	}
 	else if (document.querySelector('.button-close') != null) {
-		if(window['main'].isSinglePage || isMobile()) 
+		if(window['main']?.isSinglePage || isMobile()) 
 			document.querySelector('.button-close').style.right = '10px';
 		else 
 			document.querySelector('.button-close').style.right = null;
@@ -470,10 +474,10 @@ function renderFooter() {
 	// footer text
 	let footer = document.createElement('div');
 	footer.classList.add('footer');
-	footer.innerText = window['main'].footer ?? '';
+	footer.innerText = window['main']?.footer ?? '';
 	document.querySelector('.page').appendChild(footer);
 	// set nav buttons on footer settings, based on single page bottom menu
-	if(window['main'].isSinglePage) {
+	if(window['main']?.isSinglePage) {
 		let menuHeight = document.querySelector('.menu').getBoundingClientRect().height + 'px';
 		document.querySelector('.footer').style.bottom = menuHeight;
 		for(let pagePrev of document.querySelectorAll('.page-prev'))
@@ -510,6 +514,15 @@ function renderGoogleIcon(iconName, addClass = []) {
 		newIcon.classList.add(extra);
 	newIcon.innerText = iconName;
 	return newIcon;
+}
+
+function removeLinkExtensions() {
+	if(!window.location.href.startsWith('file:///')) {
+		for(let a of document.querySelectorAll('a')) {
+			if(a.href.includes('knneo.github.io') || a.href.includes('knwebreports'))
+				a.href = a.href.replace('index.html', '').replace('.html', '');
+		}
+	}
 }
 
 //--STARTUP FUNCTIONS--//
@@ -579,6 +592,8 @@ function renderVariables() {
 		window['container'+i] = + i;	
 	// define base values
 	let mainSectionNo = window['elements'].findIndex(pe => pe.isMain);
-	window['main'] = window['elements'][mainSectionNo];
-	window['main']['sectionNo'] = mainSectionNo;
+	if(mainSectionNo >= 0) {
+		window['main'] = window['elements'][mainSectionNo];
+		window['main']['sectionNo'] = mainSectionNo;
+	}
 }

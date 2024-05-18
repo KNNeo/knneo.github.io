@@ -124,6 +124,16 @@ a {
     padding: 15px;
 }
 
+.container td[onclick] {
+    cursor: pointer;
+	transition: background-color .4s, transform .4s;
+}
+
+.container td[onclick]:hover {
+    background-color: var(--accent);
+	transform: scale(1.1);
+}
+
 .container, .box {
 	width: 80vw;
 	margin: 0 auto;
@@ -167,6 +177,12 @@ a {
 
 .caption {
 	font-size: 0.7em;
+}
+
+.caption-icon {
+	width: 7em;
+	height: 7em;
+	object-fit: cover;
 }
 
 .footer {
@@ -518,4 +534,7 @@ a {
 
 /*SMALL MOBILE DEVICE*/
 @media only screen and (pointer:coarse) and (max-width: 480px) {
+	.container td[onclick] {
+		border: 1px solid var(--accent);
+	}
 }
