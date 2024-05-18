@@ -63,7 +63,7 @@ function renderGrid(sectionNo, content, isSinglePage) {
 			let item = content.componentData[count];
 			if(item && item.url)
 			{
-				td.setAttribute('onclick', 'window.location.href = "' + item.url + '"');
+				td.setAttribute('onclick', 'window.location.href = "' + processLinkExtensions(item.url) + '"');
 			}
 			if(item && item.rows != undefined)
 			{

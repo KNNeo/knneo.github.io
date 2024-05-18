@@ -518,11 +518,15 @@ function renderGoogleIcon(iconName, addClass = []) {
 
 function removeLinkExtensions() {
 	if(!window.location.href.startsWith('file:///')) {
-		for(let a of document.querySelectorAll('a')) {
-			if(a.href.includes('knneo.github.io') || a.href.includes('knwebreports'))
-				a.href = a.href.replace('index.html', '').replace('.html', '');
-		}
+		for(let a of document.querySelectorAll('a'))
+			a.href = processLinkExtensions(a.href);
 	}
+}
+
+function processLinkExtensions(url) {
+	if(url.includes('knneo.github.io') || url.includes('knwebreports'))
+		return url.replace('index.html', '').replace('.html', '');
+	return url;
 }
 
 //--STARTUP FUNCTIONS--//
