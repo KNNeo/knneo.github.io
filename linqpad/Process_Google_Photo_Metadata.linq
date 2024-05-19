@@ -16,8 +16,9 @@
 void Main()
 {
 	//variables
-	var fullMode = false;
-	var analysisMode = true;
+	bool fullMode = false;
+	bool analysisMode = true;
+	DateTimeOffset afterDateTimeOffset = DateTimeOffset.Parse("1900-01-01");
 	
 	//read
 	string folderpath = @"C:\Users\KAINENG\Documents\LINQPad Queries\photos-takeout\Takeout";
@@ -37,27 +38,31 @@ void Main()
 		string text = File.ReadAllText(f);
 		
 		if(text.Length > 0)
-		{		
+		{
 			var jsonObj = JsonConvert.DeserializeObject<GooglePhotosMetadata>(text);
-			jsonList.Add(jsonObj);
-			//Console.WriteLine(jsonObj.title + " | " + jsonObj.description);
-			if(jsonObj.people == null || jsonObj.people.Count != 1) //without tag
+			if(!string.IsNullOrWhiteSpace(jsonObj?.photoTakenTime?.formatted) && 
+			GooglePhotosDateTime(jsonObj.photoTakenTime.formatted) > afterDateTimeOffset)
 			{
-				//Console.WriteLine("> " + jsonObj.description);
-				nameList.Add(jsonObj.description);
-			}
-			else //with tag
-			{
-				foreach(var person in jsonObj.people)
+				jsonList.Add(jsonObj);
+				//Console.WriteLine(jsonObj.title + " | " + jsonObj.description);
+				if(jsonObj.people == null || jsonObj.people.Count != 1) //without tag
 				{
-					nameList.Add(person.name);
-					peopleList.Add(person.name);
-					if(!jsonObj.description.Trim().Contains(person.name.Trim())) {
-						namePeopleList.Add(
-						person.name + " | " + 
-						jsonObj.description + " | " + 
-						ParseGooglePhotosDateTime(jsonObj.photoTakenTime.formatted) + 
-						(analysisMode ? " | " + jsonObj.title : ""));
+					//Console.WriteLine("> " + jsonObj.description);
+					nameList.Add(jsonObj.description);
+				}
+				else //with tag
+				{
+					foreach(var person in jsonObj.people)
+					{
+						nameList.Add(person.name);
+						peopleList.Add(person.name);
+						if(!jsonObj.description.Trim().Contains(person.name.Trim())) {
+							namePeopleList.Add(
+							person.name + " | " + 
+							jsonObj.description + " | " + 
+							ParseGooglePhotosDateTime(jsonObj.photoTakenTime.formatted) + 
+							(analysisMode ? " | " + jsonObj.title : ""));
+						}
 					}
 				}
 			}
@@ -141,6 +146,16 @@ string ParseGooglePhotosDateTime(string input) {
 				CultureInfo.InvariantCulture.DateTimeFormat, 
 				DateTimeStyles.AllowWhiteSpaces
 			).AddHours(8).ToString("yyyy.MM.dd HH:mm:ss") + " SGT";
+}
+
+DateTimeOffset GooglePhotosDateTime(string input) {
+	if(input.Contains("Sept")) input = input.Replace("Sept", "Sep");
+	return DateTimeOffset.ParseExact(
+				input.Replace(" UTC", "Z"),
+				"d MMM yyyy, HH:mm:ss %K", 
+				CultureInfo.InvariantCulture.DateTimeFormat, 
+				DateTimeStyles.AllowWhiteSpaces
+			).AddHours(8);
 }
 
 // Define other methods and classes here
