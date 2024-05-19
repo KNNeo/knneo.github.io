@@ -17,6 +17,7 @@
 
 html {
 	font-family: 'Noto Sans', 'Helvetica', 'Arial', 'sans-serif';
+	font-size: calc(1rem + 0.25vw);
 	background-color: var(--background);
 	color: var(--foreground);
 	height: 100%;
@@ -48,11 +49,6 @@ a {
     width: 100%;
     left: 0;
     right: 0;
-}
-
-#random-count {
-	font-weight: normal;
-	font-size: small;
 }
 
 #search, #options {
@@ -100,7 +96,7 @@ a {
 }
 
 .search-buttons a {
-	font-size: 24px;
+	font-size: 1.3em;
 }
 
 .overlay-background:after {
@@ -208,9 +204,6 @@ a {
 	font-size: 0.9em;
 }
 
-.list th {
-    /* white-space: nowrap;	 */
-}
 
 .list tr:hover > td {
 	background-color: var(--accent);
@@ -231,7 +224,7 @@ a {
 }
 
 .material-icons {
-	font-size: 20px;
+    font-size: 1.25em;
 	vertical-align: bottom;
 	text-decoration: none;
 	color: var(--foreground);
@@ -242,11 +235,11 @@ a {
 }
 
 .not-selectable {
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 
 .tab {
@@ -269,9 +262,6 @@ a {
 
 .tab-button:not([disabled]):hover {
     background-color: var(--accent);
-}
-
-.tab-view {
 }
 
 .tags {
@@ -307,7 +297,7 @@ a {
 }
 
 .settings .material-icons {
-	font-size: 24px;
+	font-size: 1.3em;
 }
 
 .search-buttons .material-icons:hover, 
@@ -355,10 +345,6 @@ a {
     right: 0;
     text-align: center;
 	padding: 10px;
-    font-size: 24px;
-}
-
-.playlist {
 }
 
 .related .tag,
@@ -465,7 +451,6 @@ a {
 	font-family: linefont;
     font-size: 9em;
     padding: 0 15px;
-	/* font-variation-settings: 'ROND' 0; */
 	font-variation-settings: 'wght' 50, 'wdth' 140;
 }
 
