@@ -454,7 +454,7 @@ function renderButtons() {
 	if (window['main']?.hasExit && document.querySelector('.button-close') == null) {
 		document.body.appendChild(closeButtonIcon);
 		document.querySelector('.button-close').addEventListener('click', function() {
-			window.location.href = window['main']?.exitUrl;
+			window.location.href = processLinkExtensions(window['main']?.exitUrl);
 		});
 		// document.querySelector('.button-close').addEventListener('contextmenu', function() {
 			// event.preventDefault();
