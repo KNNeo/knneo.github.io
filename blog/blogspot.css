@@ -502,6 +502,9 @@ a.fab.hidden {
 	.latest:hover .publish {
 		display: none;
 	}
+	.page-header .hashtags {
+		display: none;
+	}
 }
 
 /*MEDIA QUERIES - CLOSED FOLD SCREENS*/
