@@ -50,7 +50,7 @@ function toggleHeader(minYOffset, scrollUp) {
 		if(pageHeader.height >= minCoverHeight)
 			pageHeader.classList.add('hide');
 		
-		if(!isSmallWidth() || scrollUp)
+		if(scrollUp)
 			pageHeader.classList.remove('hide');
 		else
 			pageHeader.classList.add('hide');	
