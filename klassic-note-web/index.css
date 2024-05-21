@@ -83,6 +83,10 @@ a {
 	z-index: -1;
 }
 
+#cover img {
+	cursor: pointer;
+}
+
 #queue-options {
 	height: 1.75em;
 }
