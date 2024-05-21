@@ -308,7 +308,7 @@ function renderSection(sectionNo) {
 		component.id = 'section' + sectionNo;
 		section.appendChild(component);
 		
-		renderGrid(sectionNo, content, main?.isSinglePage);
+		renderGrid(sectionNo, content);
 	}
 	
 	let nextDiv = document.createElement('div');

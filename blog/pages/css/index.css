@@ -280,13 +280,13 @@ a {
 	transform: scale(0.9);		
 }
 
-.text {
+.menu .text {
     border-radius: 100%;
 	transition: transform 0.1s;
 }
 
-.text:focus-visible,
-.text:hover {
+.menu .text:focus-visible,
+.menu .text:hover {
 	border: 3px solid var(--foreground);
 	background-color: var(--accent);
 	transform: scale(0.9);	
@@ -430,8 +430,8 @@ a {
 	margin: 2px;
 }
 
-.icon,
-.text {
+.menu .icon,
+.menu .text {
 	width: 10vw;
 	height: 10vw;
 	max-width: 120px;
@@ -455,6 +455,7 @@ a {
     height: 100%;
 	margin: auto;
     object-fit: contain;
+	vertical-align: middle;
 }
 
 .images {
@@ -514,6 +515,26 @@ a {
 	max-width: 25%;
 }
 
+.image-section a {
+    display: inline-block;
+}
+
+/* two column-layout instead of four columns */
+@media screen and (max-width: 800px) {
+  .masonry .column {
+    flex: 50%;
+    max-width: 50%;
+  }
+}
+
+/* two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .masonry .column {
+    flex: 100%;
+    max-width: 100%;
+  }
+}
+
 .masonry img {
 	vertical-align: middle;
 	width: 100%;
@@ -528,6 +549,13 @@ a {
 .masonry .caption {
 	width: 100%;
 	margin: 5px;
+}
+
+.paragraph.text {
+	font-size: 0.9em;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
 }
 
 

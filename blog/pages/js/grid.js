@@ -1,5 +1,5 @@
 //main function to render detachable component
-function renderGrid(sectionNo, content, isSinglePage) {
+function renderGrid(sectionNo, content, source) {
 	let section = document.querySelector('#section'+sectionNo);
 	// section.style.height = isSinglePage ? '80%' : '75%';
 	section.innerHTML = '';
@@ -100,9 +100,13 @@ function renderGrid(sectionNo, content, isSinglePage) {
 		{
 			renderTitle(sectionNo, index, component);
 		}
+		if(component.type == 'paragraph')
+		{
+			renderParagraph(sectionNo, index, component);
+		}
 		if(component.type == 'image')
 		{
-			renderImage(sectionNo, index, component);
+			renderImage(sectionNo, index, component, source);
 		}
 		if(component.type == 'images')
 		{
@@ -174,8 +178,25 @@ function renderTitle(sectionNo, index, component) {
 	}
 }
 
-function renderImage(sectionNo, index, component) {
+function renderParagraph(sectionNo, index, component) {
 	let elem = document.querySelector('#section'+sectionNo+'cell'+index);
+	elem.style.textAlign = component.align || 'center';
+	
+	if(component.text)
+	{
+		let title = document.createElement(component.italics ? 'em' : 'div');
+		title.classList.add(component.type);
+		title.classList.add('text');
+		title.innerText = component.text;
+		elem.appendChild(title);
+	}
+	
+}
+
+function renderImage(sectionNo, index, component, source) {
+	let elem = document.querySelector('#section'+sectionNo+'cell'+index);
+	if(source == 'masonry') elem.classList.add('image-section');
+	
 	let img = document.createElement('img');
 	img.classList.add(component.type);
 	img.setAttribute('loading', 'lazy');
@@ -369,15 +390,13 @@ function renderMasonry(sectionNo, index, component) {
 				}
 				else
 					img.setAttribute('data-src', data.source);
-				// if (component.size && component.size == 'lg') 
-					// img.classList.add('lg');
 				if(data.grid || data.source)
 					img.addEventListener('click', function() {
 						event.stopPropagation();
 						if(this.getAttribute('data-src') != null && typeof openImageUrlInViewer == 'function')
 							return openImageUrlInViewer(this.getAttribute('data-src'));
 						if(typeof openGridInViewer == 'function')
-							return openGridInViewer(this.getAttribute('data-section'), this.getAttribute('data-component'), this.getAttribute('data-gallery'));
+							return openGridInViewer(this.getAttribute('data-section'), this.getAttribute('data-component'), this.getAttribute('data-gallery'), component.type);
 					});
 				img.addEventListener('contextmenu', function(e) { e.preventDefault(); });
 				rowDiv.appendChild(img);
@@ -394,12 +413,12 @@ function renderTags(sectionNo, index, component) {
 	let tags = document.createElement('div');
 	tags.classList.add(component.type);
 	
-	tags.innerHTML = typeof component.values == 'string' ? component.values : component.values.map(c => '<span class="tags-value">' + component.prefix + c + '</span>').join('');
+	tags.innerHTML = typeof component.values == 'string' ? component.values : component.values.map(c => '<span class="tags-value">' + (component.prefix ?? '') + c + '</span>').join('');
 	
 	elem.appendChild(tags);	
 }
 
-function openGridInViewer(sectionIndex, componentIndex, galleryIndex) {
+function openGridInViewer(sectionIndex, componentIndex, galleryIndex, source) {
 	let viewer = document.querySelector('.viewer');
 	viewer.tabIndex = 0;
 	if(viewer.style.visibility != 'visible') viewer.style.visibility = 'visible';
@@ -417,7 +436,7 @@ function openGridInViewer(sectionIndex, componentIndex, galleryIndex) {
 	viewer.focus();	
 	
 	let galleryData = window['elements'][sectionIndex]['componentData'][componentIndex]['datas'][galleryIndex].grid;
-	renderGrid((sectionIndex) + 'viewer', galleryData);	
+	renderGrid((sectionIndex) + 'viewer', galleryData, source);	
 	adjustViewerMargin();
 	
 	for(let focusable of document.querySelectorAll('.focusable'))
