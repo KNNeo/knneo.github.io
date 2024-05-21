@@ -1548,7 +1548,7 @@ function generateArtistReleaseInfo(contents) {
 		centerContent: true,
 		iconColumnName: 'Release Title',
 		iconValueColumnName: 'Reviewed',
-		iconId: 'reviews',
+		iconId: 'verified',
 		iconTooltip: 'Reviewed'
 	});
 }
