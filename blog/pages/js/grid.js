@@ -96,178 +96,266 @@ function renderGrid(sectionNo, content, isSinglePage) {
 	for(let index = 0; index < content.componentData.length; index++)
 	{
 		let component = content.componentData[index];
-		let elem = document.querySelector('#section'+sectionNo+'cell'+index);
 		if(component.type == 'title')
 		{
-			elem.style.textAlign = component.align || 'center';
-			
-			if(component.prefix)
-			{
-				let pre = document.createElement(component.prefixUrl ? 'a' : 'div');
-				pre.classList.add('caption');
-				if(component.prefixUrl)
-					pre.href = component.prefixUrl;
-				pre.innerText = component.prefix;
-				elem.appendChild(pre);
-			}
-			
-			if(component.prefixIcon)
-			{
-				let icon = document.createElement('img');
-				icon.classList.add('caption-icon');
-				icon.src = component.prefixIcon;
-				elem.appendChild(icon);
-			}
-			
-			if(component.title)
-			{
-				let title = document.createElement(component.titleUrl ? 'a' : 'div');
-				title.classList.add('title');
-				title.innerText = component.title;
-				if(component.titleUrl)
-					title.href = component.titleUrl;
-				elem.appendChild(title);
-			}
-			
-			if(component.suffix)
-			{
-				let post = document.createElement(component.suffixUrl ? 'a' : 'div');
-				post.innerText = component.suffix;
-				if(component.suffixUrl)
-					post.href = component.suffixUrl;
-				elem.appendChild(post);	
-			}
-			
-			if(component.suffixIcon)
-			{
-				let icon = document.createElement('img');
-				icon.classList.add('caption-icon');
-				icon.src = component.suffixIcon;
-				elem.appendChild(icon);
-			}
+			renderTitle(sectionNo, index, component);
 		}
-		else if(component.type == 'image')
+		if(component.type == 'image')
 		{
-			let img = document.createElement('img');
-			img.classList.add(component.type);
-			img.setAttribute('loading', 'lazy');
-			if(component.tooltip && component.tooltip.length > 0)
-				img.title = component.tooltip;
-			img.src = component.source;
-			// img.style.width = '100%';//component.rows > 1 ? '80%' : '100%';
-			// img.style.height = '100%';
-			// img.style.margin = 'auto';
-			// img.style.backgroundSize = 'contain';
-			// img.style.backgroundRepeat = 'no-repeat';
-			// img.style.backgroundPosition = 'center';
-			// img.addEventListener('contextmenu', function(e) { e.preventDefault(); });
-			
-			if(component.link && component.link.length > 0)	{
-				let linkContainer = document.createElement('div');
-				linkContainer.style.width = '100%';
-				linkContainer.style.height = largeScreenWidth() ? '80%' : '100%';
-				linkContainer.style.verticalAlign = 'center';
+			renderImage(sectionNo, index, component);
+		}
+		if(component.type == 'images')
+		{
+			renderImages(sectionNo, index, component);
+		}
+		if(component.type == 'gallery')
+		{
+			renderGallery(sectionNo, index, component);
+		}
+		if(component.type == 'masonry')
+		{
+			renderMasonry(sectionNo, index, component);
+		}
+		else if(component.type == 'tags')
+		{
+			renderTags(sectionNo, index, component);
+		}
+	}
+	
+}
 
-				let url = document.createElement('a');
-				url.href = component.link;
-				url.appendChild(img);
-					
-				linkContainer.appendChild(url);
-				elem.appendChild(linkContainer);
+function renderTitle(sectionNo, index, component) {
+	let elem = document.querySelector('#section'+sectionNo+'cell'+index);
+	elem.style.textAlign = component.align || 'center';
+	
+	if(component.prefix)
+	{
+		let pre = document.createElement(component.prefixUrl ? 'a' : 'div');
+		pre.classList.add('caption');
+		if(component.prefixUrl)
+			pre.href = component.prefixUrl;
+		pre.innerText = component.prefix;
+		elem.appendChild(pre);
+	}
+	
+	if(component.prefixIcon)
+	{
+		let icon = document.createElement('img');
+		icon.classList.add('caption-icon');
+		icon.src = component.prefixIcon;
+		elem.appendChild(icon);
+	}
+	
+	if(component.title)
+	{
+		let title = document.createElement(component.titleUrl ? 'a' : 'div');
+		title.classList.add('title');
+		title.innerText = component.title;
+		if(component.titleUrl)
+			title.href = component.titleUrl;
+		elem.appendChild(title);
+	}
+	
+	if(component.suffix)
+	{
+		let post = document.createElement(component.suffixUrl ? 'a' : 'div');
+		post.innerText = component.suffix;
+		if(component.suffixUrl)
+			post.href = component.suffixUrl;
+		elem.appendChild(post);	
+	}
+	
+	if(component.suffixIcon)
+	{
+		let icon = document.createElement('img');
+		icon.classList.add('caption-icon');
+		icon.src = component.suffixIcon;
+		elem.appendChild(icon);
+	}
+}
+
+function renderImage(sectionNo, index, component) {
+	let elem = document.querySelector('#section'+sectionNo+'cell'+index);
+	let img = document.createElement('img');
+	img.classList.add(component.type);
+	img.setAttribute('loading', 'lazy');
+	if(component.tooltip && component.tooltip.length > 0)
+		img.title = component.tooltip;
+	img.src = component.source;
+	
+	if(component.link && component.link.length > 0)	{
+		let linkContainer = document.createElement('div');
+		linkContainer.style.width = '100%';
+		linkContainer.style.height = largeScreenWidth() ? '80%' : '100%';
+		linkContainer.style.verticalAlign = 'center';
+
+		let url = document.createElement('a');
+		url.href = component.link;
+		url.appendChild(img);
+			
+		linkContainer.appendChild(url);
+		elem.appendChild(linkContainer);
+	}
+	else {
+		img.classList.add('focusable');
+		elem.appendChild(img);
+	}
+}
+
+function renderImages(sectionNo, index, component) {
+	let elem = document.querySelector('#section'+sectionNo+'cell'+index);
+	if(typeof generateViewer == 'function') generateViewer();
+	
+	let gallery = document.createElement('div');
+	gallery.classList.add(component.type);
+	
+	for(let data of component.datas)
+	{
+		let url = document.createElement('a');
+		
+		let img = document.createElement('img');
+		img.setAttribute('loading', 'lazy');
+		if(data.tooltip && data.tooltip.length > 0) img.title = data.tooltip;
+		img.src = data.thumbnail;
+		img.setAttribute('data-src', data.source);
+		if(component.columns > 0) 
+		{
+			if(mediumScreenWidth()) // if mobile, all in one row
+			{
+				img.style.width = (100 / (component.datas.length + 1)) + '%';
 			}
-			else {
-				img.classList.add('focusable');
-				elem.appendChild(img);
+			else //if desktop, all in one row
+			{
+				img.style.width = (100 / (component.columns)) + '%';
 			}
 		}
-		else if(component.type == 'images')
+		if(component.rows > 0)
 		{
-			// elem.style.height = '100%';
-			if(typeof generateViewer == 'function') generateViewer();
-			
-			let gallery = document.createElement('div');
-			gallery.classList.add(component.type);
-			// gallery.style.width = '100%';
-			
-			for(let data of component.datas)
+			if(mediumScreenWidth()) // if mobile, all in one row
 			{
-				let url = document.createElement('a');
-				
-				let img = document.createElement('img');
-				img.setAttribute('loading', 'lazy');
-				if(data.tooltip && data.tooltip.length > 0) img.title = data.tooltip;
-				img.src = data.thumbnail;
-				img.setAttribute('data-src', data.source);
-				if(component.columns > 0) 
-				{
-					if(mediumScreenWidth()) // if mobile, all in one row
-					{
-						img.style.width = (100 / (component.datas.length + 1)) + '%';
-					}
-					else //if desktop, all in one row
-					{
-						img.style.width = (100 / (component.columns)) + '%';
-					}
-				}
-				if(component.rows > 0)
-				{
-					if(mediumScreenWidth()) // if mobile, all in one row
-					{
-						// img.style.height = (100 / (component.rows)) + '%';
-					}
-					else //if desktop, all in n rows where n = component.rows
-					{
-						img.style.width = (100 / component.rows) + '%';
-						if(largeScreenWidth()) // if large screen, scale more
-							img.style.width = (100 / (component.rows + 0.8)) + '%';
-						if(component.datas.length == component.rows) {
-							gallery.style.display = 'flex';
-							gallery.style.flexDirection = 'column';
-							gallery.style.justifyContent = 'center';
-						}
-					}
-				}
-				// img.style.margin = '5px';
-				img.addEventListener('contextmenu', function(e) { e.preventDefault(); });
-				
-				if(data.link)
-					url.href = data.link;
-				else {
-					img.classList.add('focusable');	
-					img.addEventListener('click', function() {						
-						event.stopPropagation();
-						openImageUrlInViewer(this.getAttribute('data-src')); 
-					});
-				}
-				
-				url.appendChild(img);
-				gallery.appendChild(url);
+				// img.style.height = (100 / (component.rows)) + '%';
 			}
-			
-			if(component.caption && component.caption.length > 0)
-			{		
-				let caption = document.createElement('div');
-				caption.classList.add('caption');
-				caption.classList.add('focusable');
-				caption.innerText = component.caption;
-				// caption.style.width = '100%';
-				// caption.style.margin = '5px';
-				gallery.appendChild(caption);
+			else //if desktop, all in n rows where n = component.rows
+			{
+				img.style.width = (100 / component.rows) + '%';
+				if(largeScreenWidth()) // if large screen, scale more
+					img.style.width = (100 / (component.rows + 0.8)) + '%';
+				if(component.datas.length == component.rows) {
+					gallery.style.display = 'flex';
+					gallery.style.flexDirection = 'column';
+					gallery.style.justifyContent = 'center';
+				}
 			}
-			
-			elem.appendChild(gallery);
 		}
-		else if(component.type == 'gallery')
+		// img.style.margin = '5px';
+		img.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+		
+		if(data.link)
+			url.href = data.link;
+		else {
+			img.classList.add('focusable');	
+			img.addEventListener('click', function() {						
+				event.stopPropagation();
+				openImageUrlInViewer(this.getAttribute('data-src')); 
+			});
+		}
+		
+		url.appendChild(img);
+		gallery.appendChild(url);
+	}
+	
+	if(component.caption && component.caption.length > 0)
+	{		
+		let caption = document.createElement('div');
+		caption.classList.add('caption');
+		caption.classList.add('focusable');
+		caption.innerText = component.caption;
+		// caption.style.width = '100%';
+		// caption.style.margin = '5px';
+		gallery.appendChild(caption);
+	}
+	
+	elem.appendChild(gallery);
+}
+
+function renderGallery(sectionNo, index, component) {
+	let elem = document.querySelector('#section'+sectionNo+'cell'+index);
+	if(typeof generateViewer == 'function') generateViewer();
+	
+	let gallery = document.createElement('div');
+	gallery.classList.add(component.type);
+	
+	for(let galleryIndex = 0; galleryIndex < component.datas.length; galleryIndex++)
+	{
+		let data = component.datas[galleryIndex];
+		let img = document.createElement('img');
+		img.setAttribute('loading', 'lazy');
+		if(data.tooltip && data.tooltip.length > 0) img.title = data.tooltip;
+		img.classList.add('focusable');
+		img.src = data.thumbnail;
+		img.alt = data.tooltip;
+		if(data.grid) {
+			img.setAttribute('data-section', sectionNo);
+			img.setAttribute('data-component', index);
+			img.setAttribute('data-gallery', galleryIndex);
+		}
+		else
+			img.setAttribute('data-src', data.source);
+		// if(smallScreenWidth())
+		// {
+			// img.style.height = '20vw';
+		// }
+		if (component.size && component.size == 'lg') 
+			img.classList.add('lg');
+			// img.style.height = '12vw';
+		// else img.style.height = '8vw';
+		// img.style.margin = '5px';
+		// if(data.source) img.style.cursor = 'pointer';
+		if(data.grid || data.source)
+			img.addEventListener('click', function() {
+				event.stopPropagation();
+				if(this.getAttribute('data-src') != null && typeof openImageUrlInViewer == 'function')
+					return openImageUrlInViewer(this.getAttribute('data-src'));
+				if(typeof openGridInViewer == 'function')
+					return openGridInViewer(this.getAttribute('data-section'), this.getAttribute('data-component'), this.getAttribute('data-gallery'));
+			});
+		img.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+		gallery.appendChild(img);
+	}
+	
+	if(component.caption && component.caption.length > 0)
+	{		
+		let caption = document.createElement('div');
+		caption.classList.add('caption');
+		caption.innerText = component.caption;
+		// caption.style.width = '100%';
+		// caption.style.height = '20%';
+		// caption.style.margin = '5px';
+		gallery.appendChild(caption);
+	}
+	
+	elem.appendChild(gallery);
+}
+
+function renderMasonry(sectionNo, index, component) {
+	let elem = document.querySelector('#section'+sectionNo+'cell'+index);
+	if(typeof generateViewer == 'function') generateViewer();
+	
+	let gallery = document.createElement('div');
+	gallery.classList.add(component.type);
+	
+	let totalCol = 4; // smallest denominator for largest screens
+	let totalRow = Math.ceil(component.datas.length / 4);
+	
+	for(let row = 0; row < totalCol; row++)
+	{
+		let rowDiv = document.createElement('div');
+		rowDiv.classList.add('column');
+		for(let col = 0; col < totalRow; col++)
 		{
-			if(typeof generateViewer == 'function') generateViewer();
-			
-			let gallery = document.createElement('div');
-			gallery.classList.add(component.type);
-			// gallery.style.width = '100%';
-			
-			for(let galleryIndex = 0; galleryIndex < component.datas.length; galleryIndex++)
-			{
-				let data = component.datas[galleryIndex];
+			let galleryIndex = row*totalRow+col;
+			let data = component.datas[galleryIndex];
+			if(data) {
 				let img = document.createElement('img');
 				img.setAttribute('loading', 'lazy');
 				if(data.tooltip && data.tooltip.length > 0) img.title = data.tooltip;
@@ -281,16 +369,8 @@ function renderGrid(sectionNo, content, isSinglePage) {
 				}
 				else
 					img.setAttribute('data-src', data.source);
-				// if(smallScreenWidth())
-				// {
-					// img.style.height = '20vw';
-				// }
-				if (component.size && component.size == 'lg') 
-					img.classList.add('lg');
-					// img.style.height = '12vw';
-				// else img.style.height = '8vw';
-				// img.style.margin = '5px';
-				// if(data.source) img.style.cursor = 'pointer';
+				// if (component.size && component.size == 'lg') 
+					// img.classList.add('lg');
 				if(data.grid || data.source)
 					img.addEventListener('click', function() {
 						event.stopPropagation();
@@ -300,33 +380,23 @@ function renderGrid(sectionNo, content, isSinglePage) {
 							return openGridInViewer(this.getAttribute('data-section'), this.getAttribute('data-component'), this.getAttribute('data-gallery'));
 					});
 				img.addEventListener('contextmenu', function(e) { e.preventDefault(); });
-				gallery.appendChild(img);
+				rowDiv.appendChild(img);
 			}
-			
-			if(component.caption && component.caption.length > 0)
-			{		
-				let caption = document.createElement('div');
-				caption.classList.add('caption');
-				caption.innerText = component.caption;
-				// caption.style.width = '100%';
-				// caption.style.height = '20%';
-				// caption.style.margin = '5px';
-				gallery.appendChild(caption);
-			}
-			
-			elem.appendChild(gallery);
 		}
-		else if(component.type == 'tags')
-		{
-			let tags = document.createElement('div');
-			tags.classList.add(component.type);
-			
-			tags.innerHTML = typeof component.values == 'string' ? component.values : component.values.map(c => '<span class="tags-value">' + component.prefix + c + '</span>').join('');
-			
-			elem.appendChild(tags);
-		}
+		gallery.appendChild(rowDiv);
 	}
 	
+	elem.appendChild(gallery);
+}
+
+function renderTags(sectionNo, index, component) {
+	let elem = document.querySelector('#section'+sectionNo+'cell'+index);
+	let tags = document.createElement('div');
+	tags.classList.add(component.type);
+	
+	tags.innerHTML = typeof component.values == 'string' ? component.values : component.values.map(c => '<span class="tags-value">' + component.prefix + c + '</span>').join('');
+	
+	elem.appendChild(tags);	
 }
 
 function openGridInViewer(sectionIndex, componentIndex, galleryIndex) {

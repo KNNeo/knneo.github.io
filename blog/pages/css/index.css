@@ -134,6 +134,11 @@ a {
 	transform: scale(1.1);
 }
 
+.container td[rowspan] .gallery,
+.container td[rowspan] .masonry {
+    height: 100%;
+}
+
 .container, .box {
 	width: 80vw;
 	margin: 0 auto;
@@ -468,7 +473,11 @@ a {
 
 .gallery {
 	width: 100%;
-    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
     overflow-y: auto;
 }
 
@@ -477,7 +486,8 @@ a {
 	margin: 5px;
 }
 
-.gallery img[data-src] {
+.gallery img[data-src],
+.gallery img[data-gallery] {
 	cursor: pointer;
 }
 
@@ -489,6 +499,37 @@ a {
 	width: 100%;
 	margin: 5px;
 }
+
+.masonry {
+	width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: center;
+    overflow-y: auto;
+}
+
+.masonry .column {
+	flex: 25%;
+	max-width: 25%;
+}
+
+.masonry img {
+	vertical-align: middle;
+	width: 100%;
+    object-fit: cover;
+}
+
+.masonry img[data-src],
+.masonry img[data-gallery] {
+	cursor: pointer;
+}
+
+.masonry .caption {
+	width: 100%;
+	margin: 5px;
+}
+
 
 /*SMALL SCREEN WIDTH*/
 @media only screen and (max-width: 800px) {
