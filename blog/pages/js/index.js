@@ -303,7 +303,7 @@ function renderSection(sectionNo) {
 		renderChart(sectionNo, content);
 	}
 	
-	if(content.type == 'grid' && content.componentData)	{
+	if(content.type == 'grid' && content.cData)	{
 		let component = document.createElement('div');
 		component.id = 'section' + sectionNo;
 		section.appendChild(component);

@@ -9,23 +9,23 @@ function renderGrid(sectionNo, content, source) {
 	
 	let tbody = document.createElement('tbody');
 	
-	content.componentData.sort(function(a,b) {
+	content.cData.sort(function(a,b) {
 		return a.sortOrder - b.sortOrder;
 	});
 	
 	//for mobile, stack all elements in one column
 	if(mediumScreenWidth() && content.columns > 1)
 	{
-		content.componentData = content.componentData.filter(cd => cd.type && cd.type != 'spacer');
-		let totalCells = content.componentData.length;
+		content.cData = content.cData.filter(cd => cd.type && cd.type != 'spacer');
+		let totalCells = content.cData.length;
 		content.columns = 1;
 		content.rows = totalCells;
-		for(let c = 0; c < content.componentData.length; c++)
+		for(let c = 0; c < content.cData.length; c++)
 		{
-			content.componentData[c].columns = 1;
-			content.componentData[c].rows = 1;
+			content.cData[c].columns = 1;
+			content.cData[c].rows = 1;
 		}
-		content.componentData.sort(function(a,b) {
+		content.cData.sort(function(a,b) {
 			return a.mobileSortOrder - b.mobileSortOrder;
 		});	
 	}
@@ -60,7 +60,7 @@ function renderGrid(sectionNo, content, source) {
 				// td.style.height = (100 / content.columns) + '%';
 				
 			
-			let item = content.componentData[count];
+			let item = content.cData[count];
 			if(item && item.url)
 			{
 				td.setAttribute('onclick', 'window.location.href = "' + processLinkExtensions(item.url) + '"');
@@ -93,9 +93,9 @@ function renderGrid(sectionNo, content, source) {
 	section.appendChild(table);
 	
 	//render data: from left to right, top to bottom
-	for(let index = 0; index < content.componentData.length; index++)
+	for(let index = 0; index < content.cData.length; index++)
 	{
-		let component = content.componentData[index];
+		let component = content.cData[index];
 		if(component.type == 'title')
 		{
 			renderTitle(sectionNo, index, component);
@@ -435,7 +435,7 @@ function openGridInViewer(sectionIndex, componentIndex, galleryIndex, source) {
 	viewer.appendChild(component);
 	viewer.focus();	
 	
-	let galleryData = window['elements'][sectionIndex]['componentData'][componentIndex]['datas'][galleryIndex].grid;
+	let galleryData = window['elements'][sectionIndex]['cData'][componentIndex]['datas'][galleryIndex].grid;
 	renderGrid((sectionIndex) + 'viewer', galleryData, source);	
 	adjustViewerMargin();
 	
