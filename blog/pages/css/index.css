@@ -556,11 +556,12 @@ a {
 
 .paragraph.text.expand {
 	position: absolute;
-    max-width: 90%;
-    max-height: 40%;
+	max-width: 90%;
+	max-height: 90%;
+	top: 1em;
 	left: 0;
 	right: 0;
-    margin: auto;
+	margin: auto;
 	background-color: var(--background);
 }
 
@@ -627,7 +628,7 @@ a {
 		display: inline;
 	}
 	.image.landscape {
-		width: 100%;
+		width: 70%;
 	}
 }
 
@@ -635,12 +636,5 @@ a {
 @media only screen and (min-width: 1601px) {
 	.image {
 		width: 60%;
-	}
-}
-
-/*SMALL MOBILE DEVICE*/
-@media only screen and (pointer:coarse) and (max-width: 480px) {
-	.container td[onclick] {
-		border: 1px solid var(--accent);
 	}
 }
