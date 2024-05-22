@@ -188,6 +188,10 @@ function renderParagraph(sectionNo, index, component) {
 		title.classList.add(component.type);
 		title.classList.add('text');
 		title.innerText = component.text;
+		if(smallScreenWidth())
+			title.addEventListener('click', function() {
+				event.target.classList.toggle('expand');
+			});
 		elem.appendChild(title);
 	}
 	
@@ -203,6 +207,11 @@ function renderImage(sectionNo, index, component, source) {
 	if(component.tooltip && component.tooltip.length > 0)
 		img.title = component.tooltip;
 	img.src = component.source;
+	img.addEventListener('load', function() {
+		let imgWidth = event.target.clientWidth;
+		let imgHeight = event.target.clientHeight;
+		event.target.classList.add(imgWidth >= imgHeight ? 'landscape' : 'portrait');
+	});
 	
 	if(component.link && component.link.length > 0)	{
 		let linkContainer = document.createElement('div');
@@ -367,7 +376,8 @@ function renderMasonry(sectionNo, index, component) {
 	
 	let totalCol = 4; // smallest denominator for largest screens
 	let totalRow = Math.ceil(component.datas.length / 4);
-	
+	if(component.shuffle)
+		component.datas.sort(function(a, b){return 2*Math.random()-1});
 	for(let row = 0; row < totalCol; row++)
 	{
 		let rowDiv = document.createElement('div');

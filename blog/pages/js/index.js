@@ -524,7 +524,7 @@ function removeLinkExtensions() {
 }
 
 function processLinkExtensions(url) {
-	if(url.includes('knneo.github.io') || url.includes('knwebreports'))
+	if(url.includes('knneo.github.io') || url.includes('knwebreports') || url.startsWith('../'))
 		return url.replace('index.html', '').replace('.html', '');
 	return url;
 }
