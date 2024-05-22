@@ -407,7 +407,7 @@ function renderMasonry(sectionNo, index, component) {
 			}
 			else
 				img.setAttribute('data-src', data.source);
-			if(data.grid || data.source)
+			if(data.grid || data.source) {
 				img.addEventListener('click', function() {
 					event.stopPropagation();
 					if(this.getAttribute('data-src') != null && typeof openImageUrlInViewer == 'function')
@@ -415,8 +415,42 @@ function renderMasonry(sectionNo, index, component) {
 					if(typeof openGridInViewer == 'function')
 						return openGridInViewer(this.getAttribute('data-section'), this.getAttribute('data-component'), this.getAttribute('data-gallery'), component.type);
 				});
+				img.addEventListener('load', shiftMasonryItems);
+			}
 			img.addEventListener('contextmenu', function(e) { e.preventDefault(); });
 			gallery.querySelectorAll('.column')[galleryIndex % 4].appendChild(img);
+		}
+	}
+}
+
+function shiftMasonryItems() {
+	let diff = 200;
+	// shift items up if possible
+	let gallery = event.target.closest('.masonry');
+	// if fully loaded, then continue
+	if(Array.from(gallery.querySelectorAll('img')).filter(i => i.complete).length != gallery.querySelectorAll('img').length)
+		return;
+	// find all column heights
+	let columns = gallery.querySelectorAll('.column');
+	let columnHeights = Array.from(columns).map(g => g.getBoundingClientRect().height);
+	// console.log(columnHeights);
+	// if have disparity
+	let minHeight = Math.min(...columnHeights);
+	let maxHeight = Math.max(...columnHeights);
+	if(maxHeight - minHeight > diff) {
+		// destination: shortest height column
+		let destColumn = columns[columnHeights.indexOf(minHeight)];
+		// console.log(destColumn);
+		// source: column with last item equal or lesser than disparity
+		let sourceColumn = Array.from(columns).filter(c => c.querySelectorAll('img')[c.querySelectorAll('img').length-1].clientHeight <= diff && c != destColumn);
+		if(sourceColumn.length > 0) {
+			sourceColumn = sourceColumn[0];
+			// console.log(sourceColumn);
+			// move image from source to dest column
+			let source = sourceColumn.querySelectorAll('img')[sourceColumn.querySelectorAll('img').length-1];
+			let clone = source.cloneNode(true);
+			source.remove();
+			destColumn.appendChild(clone);
 		}
 	}
 }
