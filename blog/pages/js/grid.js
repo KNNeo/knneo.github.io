@@ -375,49 +375,50 @@ function renderMasonry(sectionNo, index, component) {
 	gallery.classList.add(component.type);
 	
 	let totalCol = 4; // smallest denominator for largest screens
-	let totalRow = Math.ceil(component.datas.length / 4);
+	// sort items before render
 	if(component.reverse)
 		component.datas.reverse();
 	if(component.shuffle && !component.reverse)
 		component.datas.sort(function(a, b){return 2*Math.random()-1});
+	// create masonry
 	for(let row = 0; row < totalCol; row++)
 	{
 		let rowDiv = document.createElement('div');
 		rowDiv.classList.add('column');
-		for(let col = 0; col < totalRow; col++)
-		{
-			let galleryIndex = row*totalRow+col;
-			let data = component.datas[galleryIndex];
-			if(data) {
-				let img = document.createElement('img');
-				img.setAttribute('loading', 'lazy');
-				if(data.tooltip && data.tooltip.length > 0) img.title = data.tooltip;
-				img.classList.add('focusable');
-				img.src = data.thumbnail;
-				img.alt = data.tooltip;
-				if(data.grid) {
-					img.setAttribute('data-section', sectionNo);
-					img.setAttribute('data-component', index);
-					img.setAttribute('data-gallery', galleryIndex);
-				}
-				else
-					img.setAttribute('data-src', data.source);
-				if(data.grid || data.source)
-					img.addEventListener('click', function() {
-						event.stopPropagation();
-						if(this.getAttribute('data-src') != null && typeof openImageUrlInViewer == 'function')
-							return openImageUrlInViewer(this.getAttribute('data-src'));
-						if(typeof openGridInViewer == 'function')
-							return openGridInViewer(this.getAttribute('data-section'), this.getAttribute('data-component'), this.getAttribute('data-gallery'), component.type);
-					});
-				img.addEventListener('contextmenu', function(e) { e.preventDefault(); });
-				rowDiv.appendChild(img);
-			}
-		}
 		gallery.appendChild(rowDiv);
-	}
-	
+	}	
 	elem.appendChild(gallery);
+	// render items to each column
+	for(let d = 0; d < component.datas.length; d++)
+	{
+		let galleryIndex = d;
+		let data = component.datas[galleryIndex];
+		if(data) {
+			let img = document.createElement('img');
+			img.setAttribute('loading', 'lazy');
+			if(data.tooltip && data.tooltip.length > 0) img.title = data.tooltip;
+			img.classList.add('focusable');
+			img.src = data.thumbnail;
+			img.alt = data.tooltip;
+			if(data.grid) {
+				img.setAttribute('data-section', sectionNo);
+				img.setAttribute('data-component', index);
+				img.setAttribute('data-gallery', galleryIndex);
+			}
+			else
+				img.setAttribute('data-src', data.source);
+			if(data.grid || data.source)
+				img.addEventListener('click', function() {
+					event.stopPropagation();
+					if(this.getAttribute('data-src') != null && typeof openImageUrlInViewer == 'function')
+						return openImageUrlInViewer(this.getAttribute('data-src'));
+					if(typeof openGridInViewer == 'function')
+						return openGridInViewer(this.getAttribute('data-section'), this.getAttribute('data-component'), this.getAttribute('data-gallery'), component.type);
+				});
+			img.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+			gallery.querySelectorAll('.column')[galleryIndex % 4].appendChild(img);
+		}
+	}
 }
 
 function renderTags(sectionNo, index, component) {
