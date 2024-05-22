@@ -627,6 +627,9 @@ a {
 	.image-section a:has(.landscape) {
 		display: inline;
 	}
+	.image.portrait {
+		width: 70%;
+	}
 	.image.landscape {
 		width: 70%;
 	}
