@@ -153,7 +153,8 @@ a {
 }
 
 .viewer .container {
-    padding: 50px 25px;
+	cursor: initial;
+	padding: 50px 25px;
 }
 
 .handle {
@@ -369,6 +370,7 @@ a {
 	text-align: center;
 	transition: opacity 0.5s, visibility 0.5s;
 	background: rgba(255, 255, 255, 0.6); /*semi-transparent background*/
+	cursor: pointer;
 }
 
 .darked .viewer {
