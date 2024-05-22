@@ -188,7 +188,7 @@ function renderParagraph(sectionNo, index, component) {
 		title.classList.add(component.type);
 		title.classList.add('text');
 		title.innerText = component.text;
-		if(smallScreenWidth())
+		if(mediumScreenWidth())
 			title.addEventListener('click', function() {
 				event.target.classList.toggle('expand');
 			});
@@ -376,7 +376,9 @@ function renderMasonry(sectionNo, index, component) {
 	
 	let totalCol = 4; // smallest denominator for largest screens
 	let totalRow = Math.ceil(component.datas.length / 4);
-	if(component.shuffle)
+	if(component.reverse)
+		component.datas.reverse();
+	if(component.shuffle && !component.reverse)
 		component.datas.sort(function(a, b){return 2*Math.random()-1});
 	for(let row = 0; row < totalCol; row++)
 	{

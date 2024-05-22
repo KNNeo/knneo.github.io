@@ -452,15 +452,8 @@ function renderButtons() {
 	if (window['main']?.isSinglePage || isMobile()) 
 		closeButtonIcon.style.right = '10px';
 	if (window['main']?.hasExit && document.querySelector('.button-close') == null) {
+		closeButtonIcon.href = processLinkExtensions(window['main']?.exitUrl);
 		document.body.appendChild(closeButtonIcon);
-		document.querySelector('.button-close').addEventListener('click', function() {
-			window.location.href = processLinkExtensions(window['main']?.exitUrl);
-		});
-		// document.querySelector('.button-close').addEventListener('contextmenu', function() {
-			// event.preventDefault();
-			// window['single'] = window['single'] != undefined ? !window['single'] : true;
-			// getJson(document.querySelector('#data-id').src, setPageElements);
-		// });
 	}
 	else if (document.querySelector('.button-close') != null) {
 		if(window['main']?.isSinglePage || isMobile()) 
@@ -517,14 +510,13 @@ function renderGoogleIcon(iconName, addClass = []) {
 }
 
 function removeLinkExtensions() {
-	if(!window.location.href.startsWith('file:///')) {
-		for(let a of document.querySelectorAll('a'))
-			a.href = processLinkExtensions(a.href);
-	}
+	for(let a of document.querySelectorAll('a'))
+		a.href = processLinkExtensions(a.href);
 }
 
 function processLinkExtensions(url) {
-	if(url.includes('knneo.github.io') || url.includes('knwebreports') || url.startsWith('../'))
+	if(!window.location.href.startsWith('file:///') && 
+		(url.includes('knneo.github.io') || url.includes('knwebreports')))
 		return url.replace('index.html', '').replace('.html', '');
 	return url;
 }

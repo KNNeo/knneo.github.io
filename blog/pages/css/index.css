@@ -182,6 +182,7 @@ a {
 .page-prev .material-icons {
 	font-size: 3em;
 	color: var(--foreground);
+	text-decoration: none;
 }
 
 .caption {
@@ -330,6 +331,7 @@ a {
 	padding: 8px 6px 6px 6px;
 	border-radius: 7px;
 	font-size: 2em;
+	text-decoration: none;
 }
 
 .button-top {
@@ -539,17 +541,16 @@ a {
 }
 
 .paragraph.text {
-	display: block;
 	font-size: 0.9em;
 	width: 100%;
+    height: 100%;
 	overflow-y: auto;
 }
 
 .paragraph.text.expand {
 	position: absolute;
-	width: calc(100% - 2em);
-    height: calc(100% - 2em);
-	top: 1em;
+    max-width: 90%;
+    max-height: 30%;
 	left: 0;
 	right: 0;
     margin: auto;
@@ -561,6 +562,9 @@ a {
 	.container {
 		 width: 99%;
 		 margin: 0;
+	}
+	.container td {
+		padding: 0;
 	}
 	.menu .icon,
 	.menu .text {
@@ -574,7 +578,7 @@ a {
 	.one .menu .text {
 		font-size: 0.9em;
 	}
-	.image {
+	.image.portrait {
 		width: 35%;
 	}
 	.gallery img {
@@ -584,13 +588,24 @@ a {
 		flex: 50%;
 		max-width: 50%;
 	}
-	.paragraph.text {
-		height: 100%;
+	.paragraph.text.expand {
+		max-height: 4	0%;
 	}
 }
 
 /*SMALL SCREEN HEIGHT*/
 @media only screen and (max-height: 800px) {
+}
+
+/*MEDIUM SCREEN WIDTH*/
+@media only screen and (max-width: 1200px) {
+	.image.portrait {
+		width: 35%;
+	}
+	.paragraph.text {
+        display: block;
+		height: 100%;
+	}
 }
 
 /*MEDIUM SCREEN WIDTH*/
