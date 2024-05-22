@@ -52,6 +52,8 @@ function scrollToPage(sectionNo) {
 			section.classList.add('hidden');
 		document.querySelectorAll('.section')[sectionNo].classList.remove('hidden');
 	}
+	else if(window['main'].scrollSnap)
+		document.querySelectorAll('.section')[sectionNo].scrollIntoView();
 	else
 		document.querySelectorAll('.section')[sectionNo].focus();
 }
