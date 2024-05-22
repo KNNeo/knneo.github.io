@@ -26,6 +26,7 @@ function getScreenHeight() {
 
 //--EVENTS--//
 function scrollToNextPage() {
+	event.preventDefault();
 	event.stopPropagation();
 	let nextPage = this.closest('.section').nextElementSibling;
 	if(nextPage != null)
@@ -35,6 +36,7 @@ function scrollToNextPage() {
 }
 
 function scrollToPrevPage() {
+	event.preventDefault();
 	event.stopPropagation();
 	let prevPage = this.closest('.section').previousElementSibling;
 	if(prevPage != null) {
