@@ -557,7 +557,7 @@ a {
 .paragraph.text.expand {
 	position: absolute;
     max-width: 90%;
-    max-height: 30%;
+    max-height: 40%;
 	left: 0;
 	right: 0;
     margin: auto;
