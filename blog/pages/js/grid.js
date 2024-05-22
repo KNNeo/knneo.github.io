@@ -404,23 +404,26 @@ function renderMasonry(sectionNo, index, component) {
 				img.setAttribute('data-section', sectionNo);
 				img.setAttribute('data-component', index);
 				img.setAttribute('data-gallery', galleryIndex);
+				img.setAttribute('data-type', component.type);
 			}
 			else
 				img.setAttribute('data-src', data.source);
 			if(data.grid || data.source) {
-				img.addEventListener('click', function() {
-					event.stopPropagation();
-					if(this.getAttribute('data-src') != null && typeof openImageUrlInViewer == 'function')
-						return openImageUrlInViewer(this.getAttribute('data-src'));
-					if(typeof openGridInViewer == 'function')
-						return openGridInViewer(this.getAttribute('data-section'), this.getAttribute('data-component'), this.getAttribute('data-gallery'), component.type);
-				});
+				img.addEventListener('click', onClickGalleryImage);
 				img.addEventListener('load', shiftMasonryItems);
 			}
 			img.addEventListener('contextmenu', function(e) { e.preventDefault(); });
 			gallery.querySelectorAll('.column')[galleryIndex % 4].appendChild(img);
 		}
 	}
+}
+
+function onClickGalleryImage() {
+	event.stopPropagation();
+	if(event.target.getAttribute('data-src') != null && typeof openImageUrlInViewer == 'function')
+		return openImageUrlInViewer(event.target.getAttribute('data-src'));
+	if(typeof openGridInViewer == 'function')
+		return openGridInViewer(event.target.getAttribute('data-section'), event.target.getAttribute('data-component'), event.target.getAttribute('data-gallery'), event.target.getAttribute('data-type'));
 }
 
 function shiftMasonryItems() {
@@ -449,6 +452,7 @@ function shiftMasonryItems() {
 			// move image from source to dest column
 			let source = sourceColumn.querySelectorAll('img')[sourceColumn.querySelectorAll('img').length-1];
 			let clone = source.cloneNode(true);
+			clone.addEventListener('click', onClickGalleryImage);
 			source.remove();
 			destColumn.appendChild(clone);
 		}
