@@ -529,12 +529,6 @@ function processLinkExtensions(url) {
 window.addEventListener('load', startup);
 window.addEventListener('resize', startup);
 function startup() {
-	// block page if cannot fit screen width (see statistics.html)
-	if(document.body.getBoundingClientRect().width <= 400 && document.querySelector('.landing') != null) {
-		document.querySelector('.landing').style.display = 'block';
-		localStorage.removeItem('elements');
-		return;
-	}
 	// load data
 	if (document.querySelector('#data')?.textContent != null) { // script json in HTML DOM
 		let testJson = JSON.parse(document.querySelector('#data')?.textContent || []);

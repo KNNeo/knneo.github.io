@@ -1,18 +1,18 @@
 /*Variables*/
 :root {
-	--primary: #0065ff;
-	--secondary: #609fff;
-	--background: #fff;
-	--foreground: #000;
-	--accent: lightgray;
+	--primary: 27, 63, 255;
+	--secondary: 96, 159, 255;
+	--background: 244, 246, 255;
+	--foreground: 0, 0, 0;
+	--accent: 221, 221, 221;
 }
 
 .darked:root {
-	--primary: #00e4ff;
-	--secondary: #00abbf;
-	--background: #000;
-	--foreground: #fff;
-	--accent: gray;
+	--primary: 0, 228, 255;
+	--secondary: 0, 171, 191;
+	--background: 0, 17, 20;
+	--foreground: 255, 255, 255;
+	--accent: 69, 69, 69;
 }
 
 html {
@@ -21,8 +21,8 @@ html {
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
-	color: var(--foreground);
-	background-color: var(--background);
+	color: rgb(var(--foreground));
+	background-color: rgb(var(--background));
 	color-scheme: light;
 	height: 100%;
 }
@@ -38,21 +38,7 @@ body {
 }
 
 a {
-	color: var(--foreground);
-}
-
-.landing {
-	width: 100vw;
-	height: 100%;
-	display: none;
-	z-index: 1;
-}
-
-.landing p {
-    position: relative;
-    top: 50%;
-    padding: 0;
-    text-align: center;
+	color: rgb(var(--foreground));
 }
 
 .page {
@@ -67,14 +53,10 @@ a {
 	z-index: 5;
 	bottom: 0;
 	position: fixed;
-	background-color: var(--background);
+	background-color: rgb(var(--background));
 	overflow: auto;
     padding: 0 2px;
 	width: 100%;
-}
-
-.page-title {
-	margin: 0 auto;
 }
 
 .title {
@@ -134,7 +116,7 @@ a {
 }
 
 .container td[onclick]:hover {
-    background-color: var(--accent);
+    background-color: rgb(var(--accent));
 	transform: scale(1.1);
 }
 
@@ -165,6 +147,10 @@ a {
 	justify-content: center;
 }
 
+.page-title {
+	margin: 0 auto;
+}
+
 .page-prev .focusable,
 .page-next .focusable {
 	cursor: pointer;
@@ -182,7 +168,7 @@ a {
 .page-next .material-icons,
 .page-prev .material-icons {
 	font-size: 3em;
-	color: var(--foreground);
+	color: rgb(var(--foreground));
 	text-decoration: none;
 }
 
@@ -203,7 +189,7 @@ a {
 	bottom: 0;
 	left: 0;
 	right: 0;
-	color: var(--foreground);
+	color: rgb(var(--foreground));
 }
 
 .single .footer {
@@ -216,8 +202,8 @@ a {
 }
 
 .box {	
-	border: 3px solid var(--foreground);
-	background-color: var(--background);
+	border: 3px solid rgb(var(--foreground));
+	background-color: rgb(var(--background));
 	display: flex;
 	font-size: 0.8em;
 	word-wrap: break-word;
@@ -228,24 +214,24 @@ a {
 
 .box:active,
 .page-element:active {
-	color: var(--accent);
-	border: 3px solid var(--accent);
-	background-color: var(--background);
+	color: rgb(var(--accent));
+	border: 3px solid rgb(var(--accent));
+	background-color: rgb(var(--background));
 }
 
 .highlight {
-	background-color: var(--secondary);
+	background-color: rgb(var(--secondary));
 }
 
 .icon {
-	border: 3px solid var(--foreground);
-	background-color: var(--accent);
+	border: 3px solid rgb(var(--foreground));
+	background-color: rgb(var(--accent));
 	transition: transform 0.1s;
 }
 
 .icon:focus-visible,
 .icon:hover {
-	border: 3px solid var(--accent);
+	border: 3px solid rgb(var(--accent));
 	filter: grayscale(1);
 	transform: scale(0.9);
 }
@@ -282,7 +268,7 @@ a {
 }
 
 .contents .home:hover {
-	color: var(--accent);
+	color: rgb(var(--accent));
 	transform: scale(0.9);		
 }
 
@@ -293,8 +279,8 @@ a {
 
 .menu .text:focus-visible,
 .menu .text:hover {
-	border: 3px solid var(--foreground);
-	background-color: var(--accent);
+	border: 3px solid rgb(var(--foreground));
+	background-color: rgb(var(--accent));
 	transform: scale(0.9);	
 }
 
@@ -369,12 +355,8 @@ a {
 	visibility: hidden;
 	text-align: center;
 	transition: opacity 0.5s, visibility 0.5s;
-	background: rgba(255, 255, 255, 0.6); /*semi-transparent background*/
+	background: rgba(var(--background), 0.6); /*semi-transparent background*/
 	cursor: pointer;
-}
-
-.darked .viewer {
-	background: rgba(0, 0, 0, 0.6); /*semi-transparent background*/
 }
 
 .editor {
@@ -397,7 +379,7 @@ a {
 
 .section-viewer {
 	border: 2px solid;
-	background-color: var(--background);
+	background-color: rgb(var(--background));
 	width: 80%;
 	height: 80%;
 	left: 0;
@@ -432,8 +414,8 @@ a {
 }
 
 .tags-value {
-	border: 1px solid var(--foreground);
-    box-shadow: 2px 2px var(--foreground);
+	border: 1px solid rgb(var(--foreground));
+    box-shadow: 2px 2px rgb(var(--foreground));
     padding: 2px 5px;
 	margin: 2px;
 }
@@ -492,7 +474,7 @@ a {
 	width: 100%;
     display: flex;
     flex-wrap: wrap;
-    align-content: flex-start;
+    align-content: center;
     justify-content: center;
     align-items: center;
 }
@@ -561,7 +543,7 @@ a {
 	left: 0;
 	right: 0;
 	margin: auto;
-	background-color: var(--background);
+	background-color: rgb(var(--background));
 }
 
 /*MEDIUM SCREEN WIDTH*/
