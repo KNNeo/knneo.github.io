@@ -554,9 +554,8 @@ a.fab.hidden {
 	body,
 	.latest,
 	.viewer,
-	.page-header a,
-	.action-menu.bottom-left,
-	.action-menu.bottom-right {
+	.page-header,
+	.action-menu {
 		transition: none;
 		transform: none;
 	}
