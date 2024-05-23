@@ -492,10 +492,9 @@ a {
 	width: 100%;
     display: flex;
     flex-wrap: wrap;
-    align-content: center;
-    align-items: center;
+    align-content: flex-start;
     justify-content: center;
-    overflow-y: auto;
+    align-items: center;
 }
 
 .gallery img {
