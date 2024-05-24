@@ -507,11 +507,6 @@ a {
     overflow-y: auto;
 }
 
-.masonry .column {
-	flex: 25%;
-	max-width: 25%;
-}
-
 .masonry img {
 	vertical-align: middle;
 	width: 100%;
@@ -602,10 +597,6 @@ a {
 	}
 	.gallery img {
 		height: 20vw;
-	}
-	.masonry .column {
-		flex: 50%;
-		max-width: 50%;
 	}
 	.paragraph.text.expand {
 		max-height: 4	0%;

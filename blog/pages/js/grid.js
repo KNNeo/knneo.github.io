@@ -374,7 +374,7 @@ function renderMasonry(sectionNo, index, component) {
 	let gallery = document.createElement('div');
 	gallery.classList.add(component.type);
 	
-	let totalCol = 4; // smallest denominator for largest screens
+	let totalCol = Math.min(Math.floor(window.innerWidth / 200), 5); // smallest denominator for largest screens
 	// sort items before render
 	if(component.reverse)
 		component.datas.reverse();
@@ -385,6 +385,8 @@ function renderMasonry(sectionNo, index, component) {
 	{
 		let rowDiv = document.createElement('div');
 		rowDiv.classList.add('column');
+		rowDiv.style.flex = (100 / totalCol) + '%';
+		rowDiv.style.maxWidth = rowDiv.style.flex;
 		gallery.appendChild(rowDiv);
 	}	
 	elem.appendChild(gallery);
@@ -413,7 +415,7 @@ function renderMasonry(sectionNo, index, component) {
 				img.addEventListener('load', shiftMasonryItems);
 			}
 			img.addEventListener('contextmenu', function(e) { e.preventDefault(); });
-			gallery.querySelectorAll('.column')[galleryIndex % 4].appendChild(img);
+			gallery.querySelectorAll('.column')[galleryIndex % totalCol].appendChild(img);
 		}
 	}
 }
