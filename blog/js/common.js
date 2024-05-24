@@ -238,7 +238,7 @@ function addHoverForLinks() {
 function addPopupEvents() {
     for (let popup of document.querySelectorAll('.post-body.entry-content .new-t')) {
 		popup.querySelector('.new-thumbnail-initial').href = popup.getAttribute('data-url');
-		popup.addEventListener('contextmenu', togglePopup);
+		popup.addEventListener('dblclick', togglePopup);
 		let dataUrl = popup.getAttribute('data-url').toLowerCase();
 		if(dataUrl.includes('.jpg') || dataUrl.includes('.png') || dataUrl.includes('.gif') || dataUrl.includes('blogger.googleusercontent.com'))
 			popup.addEventListener('click', togglePopup);
