@@ -375,13 +375,14 @@ function shiftMasonryItems() {
 		// if have disparity
 		let minHeight = Math.min(...columnHeights);
 		let maxHeight = Math.max(...columnHeights);
+		// if have empty column, ignore
 		if(minHeight < 1) return;
 		if(maxHeight - minHeight > diff) {
 			// destination: shortest height column
 			let destColumn = columns[columnHeights.indexOf(minHeight)];
 			// console.log(destColumn);
-			// source: column with last item equal or lesser than disparity
-			let sourceColumn = Array.from(columns).filter(c => c.querySelectorAll('img')[c.querySelectorAll('img').length-1]?.clientHeight <= diff && c != destColumn);
+			// source: tallest height column that isn't destination
+			let sourceColumn = Array.from(columns).filter(c => c.getBoundingClientRect().height == maxHeight && c != destColumn);
 			if(sourceColumn.length > 0) {
 				sourceColumn = sourceColumn[0];
 				// console.log(sourceColumn);
