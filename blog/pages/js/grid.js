@@ -477,7 +477,8 @@ function openGridInViewer(sectionIndex, componentIndex, galleryIndex, source) {
 	viewer.appendChild(component);
 	viewer.focus();	
 	// render grid
-	let galleryData = window['elements'][sectionIndex]['cData'][componentIndex]['datas'][galleryIndex].grid;
+	let filtered = window['elements'][sectionIndex]['cData'][componentIndex]['datas'].filter(data => !data.skip);
+	let galleryData = filtered[galleryIndex].grid;
 	renderGrid((sectionIndex) + 'viewer', galleryData, source);	
 	adjustViewerMargin();
 	// add focusables
