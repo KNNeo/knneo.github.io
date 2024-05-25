@@ -246,9 +246,17 @@ function renderGallery(sectionNo, index, component) {
 	// render gallery container
 	let gallery = document.createElement('div');
 	gallery.classList.add(component.type);
+	// filter items based on tags
+	let filtered = component.datas.filter(data => !data.skip);
+	if(filtered.length < 1) {
+		let message = document.createElement('div');
+		message.innerText = 'No entries found';
+		elem.appendChild(message);
+		return;
+	}
 	// render images in gallery	
-	for(let galleryIndex = 0; galleryIndex < component.datas.length; galleryIndex++) {
-		let data = component.datas[galleryIndex];
+	for(let galleryIndex = 0; galleryIndex < filtered.length; galleryIndex++) {
+		let data = filtered[galleryIndex];
 		let img = document.createElement('img');
 		img.classList.add('focusable');
 		img.setAttribute('loading', 'lazy');
@@ -292,12 +300,20 @@ function renderMasonry(sectionNo, index, component) {
 	gallery.style.height = elem.getBoundingClientRect().height + 'px';
 	// total columns: smallest denominator for largest screens or based on screen width
 	let totalCol = Math.min(Math.floor(window.innerWidth / 200), 5);
+	// filter items based on tags
+	let filtered = component.datas.filter(data => !data.skip);
+	if(filtered.length < 1) {
+		let message = document.createElement('div');
+		message.innerText = 'No entries found';
+		elem.appendChild(message);
+		return;
+	}
 	// sort items before render
 	if(component.reverse)
-		component.datas.reverse();
+		filtered.reverse();
 	// allow shuffle
 	if(component.shuffle && !component.reverse)
-		component.datas.sort(function(a, b){return 2*Math.random()-1});
+		filtered.sort(function(a, b){return 2*Math.random()-1});
 	// create masonry columns
 	for(let row = 0; row < totalCol; row++)	{
 		let rowDiv = document.createElement('div');
@@ -308,9 +324,9 @@ function renderMasonry(sectionNo, index, component) {
 	}	
 	elem.appendChild(gallery);
 	// render items to each column, round robin
-	for(let d = 0; d < component.datas.length; d++) {
+	for(let d = 0; d < filtered.length; d++) {
 		let galleryIndex = d;
-		let data = component.datas[galleryIndex];
+		let data = filtered[galleryIndex];
 		if(data) {
 			let img = document.createElement('img');
 			img.setAttribute('loading', 'lazy');
@@ -391,16 +407,58 @@ function renderTags(sectionNo, index, component) {
 			let tagSpan = document.createElement('span');
 			tagSpan.classList.add('tags-value');
 			tagSpan.innerText = (component.prefix ?? '') + tagValue;
-			if(component.filter)
-				tagSpan.addEventListener('click', filterMasonryItems);
+			if(component.filter) {
+				tagSpan.setAttribute('data-filter', tagValue);
+				tagSpan.addEventListener('click', filterItems);
+			}
 			tags.appendChild(tagSpan);
 		}
 	}
 	elem.appendChild(tags);	
 }
 
-function filterMasonryItems() {
-	return;
+function filterItems() {
+	let filterValue = event.target.getAttribute('data-filter')	|| '';
+	let newElements = window['elements'];
+	if(filterValue) {
+		// hide all images in GALLERY or MASONRY not in filter
+		let pagesToFilter = newElements.filter(e => e.cData && e.cData.filter(cd => cd.type == 'gallery' || cd.type == 'masonry').length > 0);
+		for(let page of pagesToFilter) {
+			for(let component of page.cData) {
+				if(component.datas)
+					for(let data of component.datas) {
+						for(let innerComp of data.grid.cData) {
+							if(innerComp.type == 'tags' && !innerComp.values.includes(filterValue)) {
+								data.skip = true;
+							}
+						}
+						if(data.grid.cData.filter(data => data.type == 'tags').length < 1) {
+							data.skip = true;							
+						}
+					}
+			}
+		}
+		// set local storage
+		localStorage.setItem('elements', JSON.stringify(newElements, null, '\t'));
+		renderPage();
+		showActiveFilter('"' + filterValue + '"');
+	}
+}
+
+function showActiveFilter(filterValue) {
+	let active = document.createElement('div');
+	active.classList.add('notification');
+	active.appendChild(document.createTextNode('Showing items with ' + filterValue));
+	let action = document.createElement('a');
+	action.classList.add('action');
+	action.href = 'javascript:void(0)';
+	action.innerText = 'Click to reset';
+	action.addEventListener('click', function() {
+		startup();
+		event.target.closest('.notification').remove();
+	});
+	active.appendChild(action);
+	document.body.appendChild(active);
 }
 
 function openGridInViewer(sectionIndex, componentIndex, galleryIndex, source) {

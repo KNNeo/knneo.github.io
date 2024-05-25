@@ -406,11 +406,15 @@ a {
     justify-content: center;
 }
 
-.tags-value {
+.tags-value {	
 	border: 1px solid rgb(var(--foreground));
     box-shadow: 2px 2px rgb(var(--foreground));
     padding: 2px 5px;
 	margin: 2px;
+}
+
+.tags-value[data-filter] {
+	cursor: pointer;
 }
 
 .tags-value:hover {
@@ -523,6 +527,11 @@ a {
 	margin: 5px;
 }
 
+.gallery .hidden,
+.masonry .hidden {
+	
+}
+
 .paragraph.text {
 	font-size: 0.9em;
 	width: 100%;
@@ -539,6 +548,23 @@ a {
 	right: 0;
 	margin: auto;
 	background-color: rgb(var(--background));
+}
+
+.notification {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 1;
+	padding: 1em;
+	background-color: rgb(var(--background));
+	text-align: center;
+}
+
+.notification .action {
+	display: block;
+	font-size: 0.8em;
+	cursor: pointer;
 }
 
 /*MEDIUM SCREEN WIDTH*/
