@@ -158,10 +158,8 @@ a {
 	transition: opacity 0.5s;
 }
 
-.section:focus-visible .focusable,
-.focusable:focus-visible,
-.section:hover .focusable,
-.focusable:active {
+.section:focus .focusable,
+.focusable:focus {
 	opacity: 1;
 }
 
@@ -229,7 +227,7 @@ a {
 	transition: transform 0.1s;
 }
 
-.icon:focus-visible,
+.icon:focus,
 .icon:hover {
 	border: 3px solid rgb(var(--accent));
 	filter: grayscale(1);
@@ -277,7 +275,7 @@ a {
 	transition: transform 0.1s;
 }
 
-.menu .text:focus-visible,
+.menu .text:focus,
 .menu .text:hover {
 	border: 3px solid rgb(var(--foreground));
 	background-color: rgb(var(--accent));

@@ -32,7 +32,10 @@ function scrollToNextPage() {
 	if(nextPage != null)
 		if(document.body.classList.contains('single'))
 			scrollToPage(nextPage.getAttribute('data-section'));
-		nextPage.focus();
+		else if(window['main'].scrollSnap)
+			nextPage.scrollIntoView({ inline: 'center', behavior: 'smooth' });
+		else
+			nextPage.focus();
 }
 
 function scrollToPrevPage() {
@@ -42,7 +45,10 @@ function scrollToPrevPage() {
 	if(prevPage != null) {
 		if(document.body.classList.contains('single'))
 			scrollToPage(prevPage.getAttribute('data-section'));
-		prevPage.focus();
+		else if(window['main'].scrollSnap)
+			prevPage.scrollIntoView({ inline: 'center', behavior: 'smooth' });
+		else
+			prevPage.focus();
 	}
 }
 
@@ -53,7 +59,7 @@ function scrollToPage(sectionNo) {
 		document.querySelectorAll('.section')[sectionNo].classList.remove('hidden');
 	}
 	else if(window['main'].scrollSnap)
-		document.querySelectorAll('.section')[sectionNo].scrollIntoView();
+		document.querySelectorAll('.section')[sectionNo].scrollIntoView({ inline: 'center', behavior: 'smooth' });
 	else
 		document.querySelectorAll('.section')[sectionNo].focus();
 }
@@ -62,8 +68,15 @@ function scrollToMainPage(el, onLoad) {
 	// console.log(firstLoad);
 	if(!window['loaded'] || !onLoad)
 	{
-		if(document.querySelector('.main') != null)
-			document.querySelector('.main').focus();
+		let main = document.querySelector('.main');
+		if(main != null) {
+			if(window['main'].scrollSnap)
+				main.scrollIntoView({ inline: 'center', behavior: 'smooth' });
+			else
+				main.focus();
+		}
+		else if(window['main'].scrollSnap)
+				document.querySelector('.page').firstElementChild.scrollIntoView({ inline: 'center', behavior: 'smooth' });
 		else
 			document.querySelector('.page').firstElementChild.focus();
 	}
