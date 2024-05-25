@@ -68,6 +68,10 @@ a:hover, label:hover {
 	right: 1em;
 }
 
+.filters .settings {
+	z-index: 1;
+}
+
 .details,
 .filters {
 	width: 100%;
@@ -85,9 +89,11 @@ a:hover, label:hover {
 .details div,
 .filters div {
 	display: flex;
-    flex-wrap: wrap;
-    align-content: center;
-    justify-content: center;
+	flex-wrap: wrap;
+	justify-content: center;
+	max-width: 80%;
+	max-height: 70%;
+	overflow: auto;
 }
 
 .details div a,
@@ -100,7 +106,12 @@ a:hover, label:hover {
 
 .details div h3,
 .filters div h3 {
-	flex: 0 0 99dvw;
+	background-color: var(--background);
+	flex: 0 0 99%;
+	padding-top: 3em;
+	position: sticky;
+	margin: 0;
+	top: 0;
 }
 
 .home {

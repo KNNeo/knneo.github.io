@@ -254,9 +254,9 @@ function showFilters() {
 	 // if no orientation mapped, create map; does not work if all items not loaded
 	if(window.variables.items[0].orientation == null)
 		generateOrientationValues();
-	let allTags = generateTagClouds();
-	renderFilters(allTags);
-	
+	// render filter values based on generated and existing data
+	renderFilters();
+	// show if hidden
 	if(filtersDiv.classList.contains('hidden'))
 		filtersDiv.classList.remove('hidden');
 }
@@ -309,7 +309,8 @@ function scrollToSelected() {
 }
 
 //--FUNCTIONS--//
-function renderFilters(tags) {
+function renderFilters() {
+	let tags = generateTagClouds();
 	// clear all tags
 	for(let tag of filtersDiv.querySelectorAll('div'))
 	{
