@@ -335,8 +335,9 @@ function renderSection(sectionNo) {
 function renderMenu() {
 	let content = window['main'];
 	if(window['elements'].filter(el => el.type == 'grid').length > 0) {
-		let contentList = document.createElement('div');
-		contentList.classList.add('contents');
+		let contentList = document.querySelector('.menu');
+		if(contentList == null) return;
+		contentList.innerHTML = '';
 		// add home icon
 		if(content?.isSinglePage)
 		{
@@ -421,16 +422,11 @@ function renderMenu() {
 				contentList.appendChild(contentItem);
 			}
 		}		
-		// drawer, spacer
+		// spacer
 		if(content?.isSinglePage) {
 			let contentItem = document.createElement('div');
 			contentItem.style.padding = '4px';
 			contentList.appendChild(contentItem);
-		}
-		// add into DOM
-		if(document.querySelector('.menu') != null) {
-			document.querySelector('.menu').innerHTML = '';
-			document.querySelector('.menu').appendChild(contentList);
 		}
 	}
 }
