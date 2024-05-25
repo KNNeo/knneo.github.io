@@ -17,7 +17,7 @@ void Main()
 	Console.WriteLine("==================================================================================================");
     string archivepath = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\";
     string blogpath = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\sitemap\";
-    string outputFolder = "pages";
+    string outputFolder = "posts";
     string filepath = "";
 	
 	//Get xml file from source, move to archivepath
