@@ -259,7 +259,6 @@ a {
 }
 
 .contents .home {
-    /* line-height: 0; */
 	padding: 0 1px;
 	transition: transform 0.1s;
 	cursor: pointer;
@@ -433,6 +432,7 @@ a {
 }
 
 .home {
+	text-decoration: none;
 	font-size: 90px;
 }
 

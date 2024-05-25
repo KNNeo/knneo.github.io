@@ -28,28 +28,21 @@ function getScreenHeight() {
 function scrollToNextPage() {
 	event.preventDefault();
 	event.stopPropagation();
-	let nextPage = this.closest('.section').nextElementSibling;
+	if(event.key && event.key.toLowerCase() != ' ' && event.key.toLowerCase() != 'enter')
+		return;
+	let nextPage = event.target.closest('.section').nextElementSibling;
 	if(nextPage != null)
-		if(document.body.classList.contains('single'))
-			scrollToPage(nextPage.getAttribute('data-section'));
-		else if(window['main'].scrollSnap)
-			nextPage.scrollIntoView({ inline: 'center', behavior: 'smooth' });
-		else
-			nextPage.focus();
+		scrollToPage(nextPage.getAttribute('data-section'));
 }
 
 function scrollToPrevPage() {
 	event.preventDefault();
 	event.stopPropagation();
-	let prevPage = this.closest('.section').previousElementSibling;
-	if(prevPage != null) {
-		if(document.body.classList.contains('single'))
-			scrollToPage(prevPage.getAttribute('data-section'));
-		else if(window['main'].scrollSnap)
-			prevPage.scrollIntoView({ inline: 'center', behavior: 'smooth' });
-		else
-			prevPage.focus();
-	}
+	if(event.key && event.key.toLowerCase() != ' ' && event.key.toLowerCase() != 'enter')
+		return;
+	let prevPage = event.target.closest('.section').previousElementSibling;
+	if(prevPage != null)
+		scrollToPage(prevPage.getAttribute('data-section'));
 }
 
 function scrollToPage(sectionNo) {
@@ -58,28 +51,16 @@ function scrollToPage(sectionNo) {
 			section.classList.add('hidden');
 		document.querySelectorAll('.section')[sectionNo].classList.remove('hidden');
 	}
-	else if(window['main'].scrollSnap)
-		document.querySelectorAll('.section')[sectionNo].scrollIntoView({ inline: 'center', behavior: 'smooth' });
 	else
-		document.querySelectorAll('.section')[sectionNo].focus();
+		document.querySelectorAll('.section')[sectionNo].scrollIntoView({ inline: 'center', behavior: 'smooth' });
 }
 
 function scrollToMainPage(el, onLoad) {
-	// console.log(firstLoad);
-	if(!window['loaded'] || !onLoad)
-	{
-		let main = document.querySelector('.main');
-		if(main != null) {
-			if(window['main'].scrollSnap)
-				main.scrollIntoView({ inline: 'center', behavior: 'smooth' });
-			else
-				main.focus();
-		}
-		else if(window['main'].scrollSnap)
-				document.querySelector('.page').firstElementChild.scrollIntoView({ inline: 'center', behavior: 'smooth' });
-		else
-			document.querySelector('.page').firstElementChild.focus();
-	}
+	let mainPage = document.querySelector('.main');
+	if(mainPage != null)
+		scrollToPage(mainPage.getAttribute('data-section'));
+	else // scroll to first page
+		document.querySelector('.section').scrollIntoView({ inline: 'center', behavior: 'smooth' });
 }
 
 function toggleGoToTop() {
@@ -222,6 +203,7 @@ function renderMain() {
 			else
 				nextButton.href = 'javascript:void(0)';
 			prevButton.addEventListener('click', scrollToPrevPage);
+			prevButton.addEventListener('keyup', scrollToPrevPage);
 			let prevButtonIcon = renderGoogleIcon(content.isSinglePage ? 'arrow_left' : 'arrow_drop_up');
 			prevButton.appendChild(prevButtonIcon);
 			prevDiv.appendChild(prevButton);
@@ -265,6 +247,7 @@ function renderMain() {
 			else
 				nextButton.href = 'javascript:void(0)';
 			nextButton.addEventListener('click', scrollToNextPage);
+			nextButton.addEventListener('keyup', scrollToNextPage);
 			let nextButtonIcon = renderGoogleIcon(content.isSinglePage ? 'arrow_right' : 'arrow_drop_down');
 			nextButton.appendChild(nextButtonIcon);
 			nextDiv.appendChild(nextButton);
@@ -290,7 +273,8 @@ function renderSection(sectionNo) {
 	}
 	else
 		prevButton.href = 'javascript:void(0)';
-	prevButton.addEventListener('click',scrollToPrevPage);
+	prevButton.addEventListener('click', scrollToPrevPage);
+	prevButton.addEventListener('keyup', scrollToPrevPage);
 	let prevButtonIcon = renderGoogleIcon(main?.isSinglePage ? 'arrow_left' : 'arrow_drop_up');
 	prevButton.appendChild(prevButtonIcon);
 	prevDiv.appendChild(prevButton);
@@ -340,7 +324,8 @@ function renderSection(sectionNo) {
 	}
 	else
 		nextButton.href = 'javascript:void(0)';
-	nextButton.addEventListener('click',scrollToNextPage);
+	nextButton.addEventListener('click', scrollToNextPage);
+	nextButton.addEventListener('keyup', scrollToNextPage);
 	let nextButtonIcon = renderGoogleIcon(main?.isSinglePage ? 'arrow_right' : 'arrow_drop_down');
 	nextButton.appendChild(nextButtonIcon);
 	nextDiv.appendChild(nextButton);
@@ -356,6 +341,8 @@ function renderMenu() {
 		if(content?.isSinglePage)
 		{
 			let contentItem = renderGoogleIcon('home', ['home','focusable','not-selectable']);
+			contentItem.title = 'Main Page';
+			contentItem.href = 'javascript:void(0)';
 			contentItem.addEventListener('keyup', function() {
 				event.stopPropagation();
 				event.preventDefault();
@@ -452,6 +439,7 @@ function renderButtons() {
 	// go to top button
 	let topButtonIcon = renderGoogleIcon('keyboard_double_arrow_up', ['button','button-top','not-selectable']);
 	topButtonIcon.title = 'Back To Top';
+	topButtonIcon.href = 'javascript:void(0)';
 	if (document.querySelector('.button-top') == null) {
 		document.body.appendChild(topButtonIcon);
 		document.querySelector('.button-top').addEventListener('click', scrollToMainPage);
@@ -552,16 +540,8 @@ function startup() {
 		window['editor'] = true;
 		setPageElements(pageElements);
 	}
-	// else if(localStorage.getItem('elements') != null) // if have storage
-		// setPageElements();
-	// else if(typeof getJson == 'function' && document.querySelector('#data-id') != null) // if #data-id exists pointing to json file
-		// getJson(document.querySelector('#data-id').src, setPageElements);
 	else
 		console.error('no data source found');
-	
-	// set first load flag
-	let firstLoad = window['loaded'] != true;
-	window['loaded'] = true;
 	// close viewer if open
 	if(typeof closeViewer == 'function') closeViewer();
 }
@@ -580,10 +560,8 @@ function setPageElements(content) {
 	}
 	// render elements
 	renderVariables();
-	setTimeout(renderPage, 1);
-	setTimeout(function () {
-		scrollToMainPage(this, true);
-	}, 500); // after load page, scroll to main section
+	renderPage();
+	scrollToMainPage(this, true);
 }
 
 function renderVariables() {
