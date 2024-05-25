@@ -159,7 +159,9 @@ a {
 }
 
 .section:focus .focusable,
-.focusable:focus {
+.section:hover .focusable,
+.focusable:focus,
+.focusable:hover {
 	opacity: 1;
 }
 
@@ -525,11 +527,6 @@ a {
 .masonry .caption {
 	width: 100%;
 	margin: 5px;
-}
-
-.gallery .hidden,
-.masonry .hidden {
-	
 }
 
 .paragraph.text {
