@@ -359,12 +359,13 @@ function shiftMasonryItems() {
 		// if have disparity
 		let minHeight = Math.min(...columnHeights);
 		let maxHeight = Math.max(...columnHeights);
+		if(minHeight < 1) return;
 		if(maxHeight - minHeight > diff) {
 			// destination: shortest height column
 			let destColumn = columns[columnHeights.indexOf(minHeight)];
 			// console.log(destColumn);
 			// source: column with last item equal or lesser than disparity
-			let sourceColumn = Array.from(columns).filter(c => c.querySelectorAll('img')[c.querySelectorAll('img').length-1].clientHeight <= diff && c != destColumn);
+			let sourceColumn = Array.from(columns).filter(c => c.querySelectorAll('img')[c.querySelectorAll('img').length-1]?.clientHeight <= diff && c != destColumn);
 			if(sourceColumn.length > 0) {
 				sourceColumn = sourceColumn[0];
 				// console.log(sourceColumn);
@@ -382,9 +383,24 @@ function shiftMasonryItems() {
 function renderTags(sectionNo, index, component) {
 	let elem = document.querySelector('#section'+sectionNo+'cell'+index);
 	let tags = document.createElement('div');
-	tags.classList.add(component.type);	
-	tags.innerHTML = typeof component.values == 'string' ? component.values : component.values.map(c => '<span class="tags-value">' + (component.prefix ?? '') + c + '</span>').join('');	
+	tags.classList.add(component.type);
+	if(component.values == 'string')
+		tags.innerHTML = component.values;
+	else {
+		for(let tagValue of component.values) {
+			let tagSpan = document.createElement('span');
+			tagSpan.classList.add('tags-value');
+			tagSpan.innerText = (component.prefix ?? '') + tagValue;
+			if(component.filter)
+				tagSpan.addEventListener('click', filterMasonryItems);
+			tags.appendChild(tagSpan);
+		}
+	}
 	elem.appendChild(tags);	
+}
+
+function filterMasonryItems() {
+	return;
 }
 
 function openGridInViewer(sectionIndex, componentIndex, galleryIndex, source) {
