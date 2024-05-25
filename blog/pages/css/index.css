@@ -136,7 +136,7 @@ a {
 
 .viewer .container {
 	cursor: initial;
-	padding: 50px 25px;
+	padding: 1em;
 }
 
 .handle {
@@ -543,6 +543,7 @@ a {
 	top: 1em;
 	left: 0;
 	right: 0;
+	bottom: 1em;
 	margin: auto;
 	background-color: rgb(var(--background));
 }
