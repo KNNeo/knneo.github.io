@@ -409,7 +409,7 @@ function renderTags(sectionNo, index, component) {
 			tagSpan.classList.add('tags-value');
 			tagSpan.innerText = (component.prefix ?? '') + tagValue;
 			if(component.filter) {
-				tagSpan.setAttribute('data-filter', tagValue);
+				tagSpan.setAttribute('data-filter', tagSpan.innerText);
 				tagSpan.addEventListener('click', filterItems);
 			}
 			tags.appendChild(tagSpan);
@@ -429,9 +429,8 @@ function filterItems() {
 				if(component.datas)
 					for(let data of component.datas) {
 						for(let innerComp of data.grid.cData) {
-							if(innerComp.type == 'tags' && !innerComp.values.includes(filterValue)) {
+							if(innerComp.type == 'tags' && !innerComp.values.map(v => (innerComp.prefix ?? '') + v).includes(filterValue))
 								data.skip = true;
-							}
 						}
 						if(data.grid.cData.filter(data => data.type == 'tags').length < 1) {
 							data.skip = true;							
@@ -447,7 +446,9 @@ function filterItems() {
 }
 
 function showActiveFilter(filterValue) {
-	let active = document.createElement('div');
+	let active = document.querySelector('.notification') ?? document.createElement('div');
+	if(active.childElementCount > 0)
+		active.innerHTML = '';
 	active.classList.add('notification');
 	active.appendChild(document.createTextNode('Showing items with ' + filterValue));
 	let action = document.createElement('a');
@@ -455,8 +456,8 @@ function showActiveFilter(filterValue) {
 	action.href = 'javascript:void(0)';
 	action.innerText = 'Click to reset';
 	action.addEventListener('click', function() {
-		startup();
 		event.target.closest('.notification').remove();
+		startup();
 	});
 	active.appendChild(action);
 	document.body.appendChild(active);
