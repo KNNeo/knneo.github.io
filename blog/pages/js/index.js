@@ -113,7 +113,7 @@ function toggleEditor() {
 }
 
 //--RENDER FUNCTIONS--//
-function renderPage() {
+function renderBody() {
 	document.querySelector('.page').innerHTML = '';	
 	// render sections
 	for(let sectionNo = 0; sectionNo < window['elements'].length; sectionNo++) {
@@ -530,34 +530,25 @@ function startup() {
 	if (document.querySelector('#data')?.textContent != null) { // script json in HTML DOM
 		let testJson = JSON.parse(document.querySelector('#data')?.textContent || []);
 		console.log('using inline html embedded json');
-		setPageElements(testJson);
+		localStorage.setItem('elements', JSON.stringify(testJson, null, '\t'));
 	}
 	else if(typeof pageElements != 'undefined') { // if not tied to js file with pageElements
-		window['editor'] = true;
-		setPageElements(pageElements);
+		console.log('using js object pageElements');
+		localStorage.setItem('elements', JSON.stringify(pageElements, null, '\t'));
 	}
 	else
 		console.error('no data source found');
-	// close viewer if open
-	if(typeof closeViewer == 'function') closeViewer();
+	// if stored, render
+	if(localStorage.getItem('elements') != null)
+		renderPage();
 }
 
-function setPageElements(content) {
-	// if items exist, save into localstorage
-	if(content != null) {
-		localStorage.setItem('elements', JSON.stringify(content, null, '\t'));
-		if(document.querySelector('.editor-area') != null)
-			document.querySelector('.editor-area').value = localStorage.getItem('elements');
-	}
-	// if no editor, reset localstorage
-	if(!window['editor'] && document.querySelector('.button-editor') != null) {
-		document.querySelector('.button-editor').style.display = 'none';
-		localStorage.removeItem('elements');
-	}
-	// render elements
+function renderPage() {
+	// assume data at local storage
 	renderVariables();
-	renderPage();
+	renderBody();
 	scrollToMainPage(this, true);
+	if(typeof closeViewer == 'function') closeViewer();
 }
 
 function renderVariables() {
