@@ -1,8 +1,9 @@
 // Caches, in decreasing order of update frequency
-const CACHE_NAME_PAGES = 'html-20240523';
+const CACHE_NAME_POSTS = 'posts-20240525';
+const CACHE_NAME_PAGES = 'pages-20240525';
 const CACHE_NAME_RESOURCES = 'script-20240524-1';
 const CACHE_NAME_STATIC = 'default-20240428';
-const ALL_CACHES = [ CACHE_NAME_PAGES, CACHE_NAME_RESOURCES, CACHE_NAME_STATIC ];
+const ALL_CACHES = [ CACHE_NAME_POSTS, CACHE_NAME_PAGES, CACHE_NAME_RESOURCES, CACHE_NAME_STATIC ];
 
 self.addEventListener('install', function(event) {
   // Perform install steps
@@ -29,8 +30,10 @@ self.addEventListener('fetch', function(event) {
         if (navigator.onLine) {
 		  // Decide cache based on Accept header
 		  let cacheName = CACHE_NAME_STATIC;
-		  if (request.headers.get('Accept').includes('text/html'))
+		  if (request.headers.get('Accept').includes('text/html') && request.url.includes('/pages/'))
 			cacheName = CACHE_NAME_PAGES;
+		  if (request.headers.get('Accept').includes('text/html') && request.url.includes('/posts/'))
+			cacheName = CACHE_NAME_POSTS;
 		  if (request.headers.get('Accept').includes('text/css') || request.url.endsWith('.js'))
 			cacheName = CACHE_NAME_RESOURCES;
           // Online, fetch from network and potentially cache for future use
