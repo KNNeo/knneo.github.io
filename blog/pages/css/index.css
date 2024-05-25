@@ -464,6 +464,12 @@ a {
 	margin: 5px;
 }
 
+.images .block {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
 .gallery {
 	width: 100%;
     display: flex;
@@ -551,6 +557,9 @@ a {
 
 /*MEDIUM SCREEN WIDTH*/
 @media only screen and (max-width: 1200px) {
+	.image {
+		width: 50%;
+	}
 	.image.portrait {
 		width: 35%;
 	}
@@ -596,5 +605,8 @@ a {
 @media only screen and (min-width: 1601px) {
 	.image {
 		width: 60%;
+	}
+	.menu .text {
+		font-size: 0.9em;
 	}
 }
