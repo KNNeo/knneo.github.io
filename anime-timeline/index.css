@@ -51,10 +51,6 @@ h2, h3, .labels {
 	border-bottom: 1px solid var(--foreground);
 }
 
-.active-period {
-	background-color: var(--foreground);
-}
-
 .anime-table tr:first-child > th {
     position: sticky;
     position: webkit-sticky;
@@ -97,6 +93,14 @@ h2, h3, .labels {
 	max-height: 150px;
 }
 
+.current-period {
+	background-color: var(--accent);
+}
+
+.active-period {
+	background-color: var(--foreground);
+}
+
 .active-period:hover .show-overlay {
 	display: block;
 	position: absolute;
@@ -108,10 +112,6 @@ h2, h3, .labels {
 	text-align: center;
 	padding: 4px 8px;
 	z-index: 3;
-}
-
-.current-period {
-	background-color: var(--accent);
 }
 
 .settings a {

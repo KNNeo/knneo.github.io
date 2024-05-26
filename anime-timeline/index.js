@@ -4,7 +4,7 @@ let isSortByGenreCountAsc;
 let startYear = 2008;
 let startSeason = 'Autumn';
 let currentYear = 2024;
-let currentSeason = 'Winter';
+let currentSeason = 'Spring';
 let endYear = 2024;
 let seasons = ['','Winter','Spring','Summer','Autumn'];
 let seasonArray = new Array();
