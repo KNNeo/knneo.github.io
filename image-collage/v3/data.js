@@ -550,4 +550,11 @@ const mosaicArray = [
 {"id":"シーサイド・パトロール_あやね.jpg","sm":"https://doax.cc/res/pic_star_s/869_8.png","md":"https://doax.cc/res/pic_star_s/869_8.png","lg":"https://doax.cc/res/pic_star/869_8.png","og":"https://doax.cc/res/pic_star/869_8.png"},
 {"id":"はいからブルーマー_パティ.jpg","sm":"https://doax.cc/res/pic_star_s/872.png","md":"https://doax.cc/res/pic_star_s/872.png","lg":"https://doax.cc/res/pic_star/872.png","og":"https://doax.cc/res/pic_star/872.png"},
 {"id":"はいからブルーマー_しずく.jpg","sm":"https://doax.cc/res/pic_star_s/873.png","md":"https://doax.cc/res/pic_star_s/873.png","lg":"https://doax.cc/res/pic_star/873.png","og":"https://doax.cc/res/pic_star/873.png"},
+{"id":"オープンユアハート_ほのか.jpg","sm":"https://doax.cc/res/pic_star_s/692_2.png","md":"https://doax.cc/res/pic_star_s/692_2.png","lg":"https://doax.cc/res/pic_star/692_2.png","og":"https://doax.cc/res/pic_star/692_2.png"},
+{"id":"きまぐれニャンメイド_モニカ.jpg","sm":"https://doax.cc/res/pic_star_s/880_17.png","md":"https://doax.cc/res/pic_star_s/880_17.png","lg":"https://doax.cc/res/pic_star/880_17.png","og":"https://doax.cc/res/pic_star/880_17.png"},
+{"id":"きまぐれニャンメイド_つくし.jpg","sm":"https://doax.cc/res/pic_star_s/880_20.png","md":"https://doax.cc/res/pic_star_s/880_20.png","lg":"https://doax.cc/res/pic_star/880_20.png","og":"https://doax.cc/res/pic_star/880_20.png"},
+{"id":"きまぐれニャンメイド_カンナ.jpg","sm":"https://doax.cc/res/pic_star_s/880_16.png","md":"https://doax.cc/res/pic_star_s/880_16.png","lg":"https://doax.cc/res/pic_star/880_16.png","og":"https://doax.cc/res/pic_star/880_16.png"},
+{"id":"きまぐれニャンメイド_パティ.jpg","sm":"https://doax.cc/res/pic_star_s/880_19.png","md":"https://doax.cc/res/pic_star_s/880_19.png","lg":"https://doax.cc/res/pic_star/880_19.png","og":"https://doax.cc/res/pic_star/880_19.png"},
+{"id":"きまぐれニャンメイド_紅葉.jpg","sm":"https://doax.cc/res/pic_star_s/880_8.png","md":"https://doax.cc/res/pic_star_s/880_8.png","lg":"https://doax.cc/res/pic_star/880_8.png","og":"https://doax.cc/res/pic_star/880_8.png"},
+{"id":"きまぐれニャンメイド_シャンディ.jpg","sm":"https://doax.cc/res/pic_star_s/880_27.png","md":"https://doax.cc/res/pic_star_s/880_27.png","lg":"https://doax.cc/res/pic_star/880_27.png","og":"https://doax.cc/res/pic_star/880_27.png"},
 ];
