@@ -32,7 +32,7 @@ function incrementCurrency(multiplier) {
 }
 
 function updateCurrency() {
-	currencyDiv.innerText = 'Bank: ' + asCurrency(window.game.bank ?? 0);
+	currencyDiv.innerText = 'Bank: ' + asCurrency(window.game.bank);
 }
 
 function updateRate() {
@@ -65,36 +65,38 @@ function showDetails() {
 
 		let stats = document.createElement('div');
 		stats.classList.add('stats');
-		stats.innerHTML = window.game.locale.display.level + window.item.level + ' | ' + (window.item.percent ?? 0) + '%<br>' + asCurrency(window.item.rate) + '/' + window.game.locale.display.seconds;
+		stats.innerHTML = window.game.locale.display.level + window.item.level + (window.item.level >= window.game.worlds[worldId].maxLevel ? ' (MAX)' : ' | ' + (window.item.percent ?? 0) + '%') + '<br>' + asCurrency(window.item.rate) + '/' + window.game.locale.display.seconds;
 		detailsDiv.appendChild(stats);
 		
-		let progress = document.createElement('progress');
-		progress.classList.add('progress');
-		progress.setAttribute('min', 0);
-		progress.setAttribute('max', 100);
-		progress.setAttribute('value', window.item.percent ?? 0);
-		detailsDiv.appendChild(progress);
-		
-		let action1 = document.createElement('div');
-		action1.classList.add('action');
-		// if level 0 unlock, else if bar filled level up, else boost
-		action1.innerText = window.game.locale.action.unlock + ' - ' + asCurrency(calculateUnlock(worldId, seqId));
-		if(window.item.level > 0)
-			action1.innerText = window.game.locale.action.boost + ' - ' + asCurrency(calculateBoost(worldId, seqId, window.item.level));
-		if(window.item.percent > 99)
-			action1.innerText = window.game.locale.action.level_up + ' - ' + asCurrency(calculateLevelUp(worldId, seqId, window.item.level));
-		action1.setAttribute('data-action', action1.innerText.split(' - ')[0]);
-		action1.addEventListener('click', onAction);
-		detailsDiv.appendChild(action1);
-		
-		let action2 = document.createElement('div');
-		action2.classList.add('action');
-		if(window.item.level < 10 || window.item.percent > 99)
-			action2.classList.add('hidden');
-		action2.innerText = window.game.locale.action.maxBoost + ' - ' + asCurrency(calculateMaxBoost(worldId, seqId, window.item.level, window.item.percent, window.game.worlds[worldId].delta));
-		action2.setAttribute('data-action', action2.innerText.split(' - ')[0]);
-		action2.addEventListener('click', onAction);
-		detailsDiv.appendChild(action2);
+		if(window.item.level < window.game.worlds[worldId].maxLevel) {
+			let progress = document.createElement('progress');
+			progress.classList.add('progress');
+			progress.setAttribute('min', 0);
+			progress.setAttribute('max', 100);
+			progress.setAttribute('value', window.item.percent ?? 0);
+			detailsDiv.appendChild(progress);
+			
+			let action1 = document.createElement('div');
+			action1.classList.add('action');
+			// if level 0 unlock, else if bar filled level up, else boost
+			action1.innerText = window.game.locale.action.unlock + ' - ' + asCurrency(calculateUnlock(worldId, seqId));
+			if(window.item.level > 0)
+				action1.innerText = window.game.locale.action.boost + ' - ' + asCurrency(calculateBoost(worldId, seqId, window.item.level));
+			if(window.item.percent > 99)
+				action1.innerText = window.game.locale.action.level_up + ' - ' + asCurrency(calculateLevelUp(worldId, seqId, window.item.level));
+			action1.setAttribute('data-action', action1.innerText.split(' - ')[0]);
+			action1.addEventListener('click', onAction);
+			detailsDiv.appendChild(action1);
+			
+			let action2 = document.createElement('div');
+			action2.classList.add('action');
+			if(window.item.level < 10 || window.item.percent > 99)
+				action2.classList.add('hidden');
+			action2.innerText = window.game.locale.action.maxBoost + ' - ' + asCurrency(calculateMaxBoost(worldId, seqId, window.item.level, window.item.percent, window.game.worlds[worldId].delta));
+			action2.setAttribute('data-action', action2.innerText.split(' - ')[0]);
+			action2.addEventListener('click', onAction);
+			detailsDiv.appendChild(action2);
+		}
 		
 		info.querySelector('.info').appendChild(detailsDiv);
 	}
@@ -170,6 +172,11 @@ function onAction() {
 				event.target.innerText = window.game.locale.action.boost + ' - ' + asCurrency(calculateBoost(worldId, seqId, window.item.level));
 				if(window.item.level >= 10 || window.item.percent > 99)
 					event.target.nextSibling.classList.remove('hidden');
+				if(window.item.level >= window.game.worlds[worldId].maxLevel) {
+					event.target.classList.add('hidden');
+					event.target.nextSibling.classList.add('hidden');
+					event.target.closest('.character').querySelector('.progress').classList.add('hidden');
+				}
 				event.target.nextSibling.setAttribute('data-action', window.game.locale.action.maxBoost);
 				event.target.nextSibling.innerText = window.game.locale.action.maxBoost + ' - ' + asCurrency(calculateMaxBoost(worldId, seqId, window.item.level, window.item.percent, window.game.worlds[worldId].delta));
 			}
@@ -183,13 +190,13 @@ function onAction() {
 	}
 	
 	//update rate
-	window.item.rate = window.item.level; // currently based on level
+	window.item.rate = calculateNewRate(worldId, seqId, window.item.level); // currently based on level
 	updateRate();
 	//update view
 	event.target.setAttribute('data-action', event.target.innerText.split(' - ')[0]);
 	event.target.closest('.character').setAttribute('data-level', window.item.level);
 	event.target.closest('.character').querySelector('.progress').setAttribute('value', window.item.percent);
-	event.target.closest('.character').querySelector('.stats').innerHTML = window.game.locale.display.level + window.item.level + ' | ' + (window.item.percent ?? 0) + '%<br>' + asCurrency(window.item.rate) + '/' + window.game.locale.display.seconds;
+	event.target.closest('.character').querySelector('.stats').innerHTML = window.game.locale.display.level + window.item.level + (window.item.level >= window.game.worlds[worldId].maxLevel ? ' (MAX)' : ' | ' + (window.item.percent ?? 0) + '%') + '<br>' + asCurrency(window.item.rate) + '/' + window.game.locale.display.seconds;
 	
 	// update game
 	save();	
@@ -349,6 +356,15 @@ function calculateLevelUp(world, seqNo, level) {
 	return calculateBoost(world, seqNo, level) * 50;
 }
 
+function calculateNewRate(world, seqNo, level) {
+	let newRate = 0;
+	if(level >= 0) newRate += Math.min(window.game.worlds[world].maxLevel/ 4, level);
+	if(level >= 50) newRate += Math.min(2*window.game.worlds[world].maxLevel/4, 2*(level-window.game.worlds[world].maxLevel/4));
+	if(level >= 100) newRate += Math.min(3*window.game.worlds[world].maxLevel/4, 3*(level-2*window.game.worlds[world].maxLevel/4));
+	if(level >= 150) newRate += Math.min(4*window.game.worlds[world].maxLevel/4, 4*(level-3*window.game.worlds[world].maxLevel/4));
+	return newRate;
+}
+
 function asCustomDateTime(seconds) {
 	let display = '';
 	
@@ -369,6 +385,7 @@ function asCustomDateTime(seconds) {
 }
 
 function asCurrency(number) {
+	if(!number) number = 0;
 	let shift = 0;
 	let suffix = '';
 	while (!suffix && shift <= number.toString().length - 1) // if suffix empty, find previous in config array
@@ -430,26 +447,46 @@ function createDialog(node) {
 
 //--INITIAL--//
 function startup() {
-	getJson(
-		document.getElementById('data-id').src,
-		function(content) {
-			if(content) {
-				window.game = JSON.parse(localStorage.getItem('idle-game')) ?? content;
-				// filter by unique tag
-				window.game.items = window.game.items
-					.reduce(function(total, current, index, arr) {
-						if(!total.map(m => m['tags']).includes(current['tags']))
-							total.push(current);
-						return total;
-					}, []);
-				
-				// DOM level properties
-				document.title = window.game.title;
-				renderDisplay();
-				renderGame();
+	let data = document.getElementById('data');
+	if(data.src)
+		getJson(
+			data.src,
+			function(content) {
+				console.log('read from external json');
+				if(content) {
+					window.game = JSON.parse(localStorage.getItem('idle-game')) ?? content;
+					// filter by unique tag
+					window.game.items = window.game.items
+						.reduce(function(total, current, index, arr) {
+							if(!total.map(m => m['tags']).includes(current['tags']))
+								total.push(current);
+							return total;
+						}, []);
+					
+					// DOM level properties
+					document.title = window.game.title;
+					renderDisplay();
+					renderGame();
+				}
 			}
-		}
-	);
+		);
+	if(data.textContent) {
+		console.log('read from inline json');
+		window.game = data.textContent;
+		// filter by unique tag
+		window.game.items = window.game.items
+			.reduce(function(total, current, index, arr) {
+				if(!total.map(m => m['tags']).includes(current['tags']))
+					total.push(current);
+				return total;
+			}, []);
+		
+		// DOM level properties
+		document.title = window.game.title;
+		renderDisplay();
+		renderGame();
+	}
+		
 }
 
 function idle() {
