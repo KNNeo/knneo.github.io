@@ -568,7 +568,10 @@ a {
 /*MEDIUM SCREEN WIDTH*/
 @media only screen and (max-width: 1600px) {
 	.image {
-		width: 70%;
+		width: 100%;
+	}
+	.image.landscape {
+		width: 60%;
 	}
 	.image-section a {
 		display: inline-block;
@@ -579,7 +582,7 @@ a {
 	}
 }
 
-/*MEDIUM SCREEN WIDTH*/
+/*MEDIUM SCREEN WIDTH - SINGLE ROW GRID MAX WIDTH*/
 @media only screen and (max-width: 1200px) {
 	.image {
 		width: 50%;
@@ -590,6 +593,12 @@ a {
 	.paragraph.text {
         display: block;
 		height: 100%;
+	}
+	.gallery img {
+		height: 10vw;
+	}
+	.gallery img.lg {
+		height: 20vw;
 	}
 }
 
@@ -616,18 +625,17 @@ a {
 	.gallery img {
 		height: 20vw;
 	}
-}
-
-/*SMALL SCREEN HEIGHT*/
-@media only screen and (max-height: 800px) {
+	.gallery img.lg {
+		height: 30vw;
+	}
 }
 
 /*LARGE SCREEN WIDTH*/
 @media only screen and (min-width: 1601px) {
-	.image {
+	.image.portrait {
 		width: 60%;
 	}
-	.menu .text {
-		font-size: 0.9em;
+	.image.landscape {
+		width: 90%;
 	}
 }

@@ -65,51 +65,7 @@ function scrollToMainPage(el, onLoad) {
 
 function toggleGoToTop() {
 	// When the user scrolls down to viewport from the top of the document, change floating action button
-	if (document.querySelector('.page').scrollTop >= document.body.clientHeight)
-		document.querySelector('.button-top').style.visibility = 'visible';
-	else
-		document.querySelector('.button-top').style.visibility = '';
-}
-
-function toggleEditor() {
-	if(document.querySelector('.editor') != null) {
-		let editorText = document.querySelector('.editor-area').value;
-		let isClosing = document.querySelector('.editor').style.display == 'block'; //previous state	
-		document.querySelector('.editor').style.display = isClosing ? 'none' : 'block';
-		localStorage.setItem('elements', editorText);
-		document.querySelector('.editor').value = isClosing ? '' : localStorage.getItem('elements');
-		if(isClosing) {
-			// if(editorText.trim().startsWith('http') && editorText.trim().endsWith('.json')) // if address of json is in editor
-				// getJson(editorText, setPageElements);
-			// else // raw json text
-			setPageElements();
-		}
-	}
-	else {
-		let editor = document.createElement('div');
-		// editor.id = 'editor';
-		editor.classList.add('editor');
-		// editor.style.height = '100%';
-		// editor.style.width = '100%';
-		// editor.style.display = 'block';
-		// editor.style.position = 'absolute';
-		// editor.style.border = '0';
-		// editor.style.top = '0';
-		// editor.style.zIndex = 10;
-		
-		let editorArea = document.createElement('textarea');
-		// editorArea.id = 'editor-area';
-		editorArea.classList.add('editor-area');
-		// editorArea.style.height = '95%';
-		// editorArea.style.width = '90%';
-		// editorArea.style.display = 'block';
-		// editorArea.style.marginLeft = 'auto';
-		// editorArea.style.marginRight = 'auto';
-		editorArea.value = localStorage.getItem('elements');
-		editor.appendChild(editorArea);
-		
-		document.body.appendChild(editor);
-	}
+	document.querySelector('.button-top').style.visibility = document.querySelector('.page').scrollTop >= document.body.clientHeight ? 'visible' : '';
 }
 
 //--RENDER FUNCTIONS--//
@@ -352,7 +308,6 @@ function renderMenu() {
 			});
 			contentItem.addEventListener('click', function() {
 				event.stopPropagation();
-				// document.querySelector('.menu').style.maxHeight = document.querySelector('.menu').style.maxHeight == 'initial' ? drawerHeight : 'initial';
 				scrollToPage(content.sectionNo);
 				if(content.isSinglePage)
 					event.target.scrollIntoView({ inline: 'center' });
@@ -382,8 +337,6 @@ function renderMenu() {
 				contentItem.addEventListener('click', function() {
 					event.stopPropagation();
 					scrollToPage(section);
-					// if(smallScreenWidth() || smallScreenHeight())
-						// document.querySelector('.menu').style.maxHeight = drawerHeight;
 					if(content?.isSinglePage)
 						event.target.scrollIntoView({ inline: 'center', behavior: 'smooth' });
 				});
@@ -414,8 +367,6 @@ function renderMenu() {
 				contentItem.addEventListener('click', function() {
 					event.stopPropagation();
 					scrollToPage(section);
-					// if(smallScreenWidth() || smallScreenHeight())
-						// document.querySelector('.menu').style.maxHeight = drawerHeight;
 					if(content?.isSinglePage)
 						event.target.scrollIntoView({ inline: 'center', behavior: 'smooth' });
 				});

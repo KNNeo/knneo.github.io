@@ -1,8 +1,6 @@
 function generateViewer() {
-	initializeVariablesForViewer();
-	
-	if(document.querySelector('.viewer') == null)
-	{
+	// create viewer
+	if(document.querySelector('.viewer') == null) {
 		let viewer = document.createElement('div');
 		viewer.classList.add('viewer');
 		viewer.tabIndex = 0;
@@ -19,9 +17,11 @@ function generateViewer() {
 		});
 		document.body.appendChild(viewer);
 	}
+	// initialize viewer
+	initializeViewerVariables();
 }
 
-function initializeVariablesForViewer() {
+function initializeViewerVariables() {
 	window['singleView'] = false;
 	window['imageNo'] = 0;
 	window['linkedImgList'] = [];
@@ -29,12 +29,9 @@ function initializeVariablesForViewer() {
 
 function updateImageNo(image) {
 	window['imageNo'] = 0;
-	for(let img of window['linkedImgList'])
-	{
+	for(let img of window['linkedImgList']) {
 		if(img.style.backgroundImage == image.style.backgroundImage)
-		{
 			return window['imageNo'];
-		}
 		window['imageNo']++;
 	}
 	return 0;
@@ -48,9 +45,7 @@ function openViewer(image) {
 function createLinkedList() {
 	window['linkedImgList'] = [];
 	for(let img of document.getElementsByClassName('grid-image'))
-	{
 		window['linkedImgList'].push(img);
-	}
 }
 
 function openImageUrlInViewer(url) {	
@@ -83,7 +78,8 @@ function openImageUrlInViewer(url) {
 			adjustViewerMargin();
 		}, 100);
 	});	
-	if(viewer.childNodes.length > 0) viewer.innerHTML = '';
+	if(viewer.childNodes.length > 0)
+		viewer.innerHTML = '';
 	viewer.style.paddingTop = '0';
 	viewer.appendChild(loader);
 	viewer.appendChild(img);
@@ -98,38 +94,30 @@ function adjustViewerMargin() {
 	if(viewer.childElementCount == 0) return;
 	viewer.style.paddingTop = '0';
 	let image = viewer.lastElementChild;
-	// if(!image.complete) setTimeout(adjustViewerMargin, 200);
 	viewer.style.paddingTop = (window.innerHeight - image.getBoundingClientRect().height)/2 + 'px';
 }
 
 function closeViewer() {
 	let viewer = document.querySelector('.viewer');
-	if(viewer != null)
-	{
+	if(viewer != null) {
 		viewer.style.visibility = '';
 		viewer.style.opacity = '0';
 		viewer.innerHTML = '';
 	}
-	
+	// add focus
 	for(let focusable of document.querySelectorAll('.focusable'))
-	{
 		focusable.tabIndex = 0;
-	}
-	
+	// remove loader on complete
 	for(let loader of document.querySelectorAll('.loader'))
-	{
 		loader.remove();
-	}
-	
+	// focus on main window
 	window['active']?.focus();
 }
 
 //LOADER//
 function runLoader() {
-	for(let loader of document.querySelectorAll('.loader'))
-	{
-		switch(document.querySelector('.loader').innerText)
-		{
+	for(let loader of document.querySelectorAll('.loader')) {
+		switch(document.querySelector('.loader').innerText)	{
 			case 'hourglass_full': 
 				document.querySelector('.loader').innerText = 'hourglass_empty';
 				break;
@@ -146,11 +134,8 @@ function runLoader() {
 	}
 	if(window['loading'] && document.querySelectorAll('.loader').length > 0)
 		setTimeout(runLoader, 500);
-	else
-	{
+	else {
 		for(let loader of document.querySelectorAll('.loader'))
-		{
 			loader.remove();
-		}
 	}
 }
