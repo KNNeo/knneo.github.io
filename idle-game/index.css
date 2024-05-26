@@ -183,13 +183,25 @@ a:hover {
 
 .expanded {
 	background-color: var(--background);
-    width: 90%;
-	margin: 1% 10%;
-    display: flex;
+	width: 90%;
+	display: flex;
 }
 
 .info {
 	width: 100%;
+}
+
+.expanded .name {
+	display: none;
+}
+
+.full-name {
+	display: none;
+}
+
+.expanded .full-name {
+    display: block;
+    padding-bottom: 1em;
 }
 
 .pic {

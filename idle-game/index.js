@@ -262,8 +262,9 @@ function renderWorld() {
 			
 				let charaImage = document.createElement('img');
 				charaImage.classList.add('pic');
-				charaImage.title = listItem.description;
-				charaImage.src = listItem.filename;
+				charaImage.src = listItem.fileName;
+				charaImage.title = listItem.shortName;
+				charaImage.alt = listItem.name;
 				charaImage.addEventListener('click', showDetails);
 				charaDiv.appendChild(charaImage);
 				
@@ -271,11 +272,17 @@ function renderWorld() {
 				
 				let charaInfo = document.createElement('div');
 				charaInfo.classList.add('info');
-				
+
 				let charaName = document.createElement('div');
 				charaName.classList.add('name');
-				charaName.innerText = listItem.tags;
+				charaName.innerText = listItem.shortName;
+				charaName.title = listItem.name;
 				charaInfo.appendChild(charaName);
+			
+				let charaFullName = document.createElement('div');
+				charaFullName.classList.add('full-name');
+				charaFullName.innerText = listItem.name;
+				charaInfo.appendChild(charaFullName);
 			
 				charaDiv.appendChild(charaInfo);
 
