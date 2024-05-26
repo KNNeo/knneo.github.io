@@ -239,24 +239,20 @@ function renderWorld() {
 		display.appendChild(title);
 		
 		let list = [];
-		for(let i = 0; i < world.maxAsset; i++)
-		{
+		for(let i = 0; i < world.maxAsset; i++)	{
 			if(!world.characters)
-				world.characters = [createCharacter(list, i)];
+				world.characters = [createCharacter(list, i, world)];
 			else if(i >= world.characters.length)
-				world.characters.push(createCharacter(list, i));
-			
+				world.characters.push(createCharacter(list, i, world));			
 			if(world.characters[i])
 				list.push(world.characters[i]);
-		}
-		
+		}		
 		// console.log('list', list);
 		
 		let charasDiv = document.createElement('div');
 		charasDiv.classList.add('characters');
-			
-		for(let listItem of list)
-		{
+		
+		for(let listItem of list) {
 			let charaDiv = document.createElement('div');
 			charaDiv.classList.add('character');
 			charaDiv.classList.add('card');
@@ -290,20 +286,33 @@ function renderWorld() {
 	});
 }
 
-function createCharacter(list, order) {
+function createCharacter(list, order, world) {
 	let newId = -1;
+	let randomize = window.game.items && (!world.items || world.items.length != world.maxAsset);
 	do
 	{
-		newId = Math.floor(Math.random() * window.game.items.length);
+		if(randomize) // random by default
+			newId = Math.floor(Math.random() * window.game.items.length);
+		else // create by order
+			newId = world.items.indexOf(world.items.filter(i => i.order-1 == order)[0]);
 	} while(list.length > 0 && newId >= 0 && list.map(l => l.id).includes(newId));
 	
-	return {
-		...window.game.items[newId],
-		"id": newId,
-		"order": order,
-		"level": 0,
-		"rate": 0, // currency per second
-	};
+	if(randomize)
+		return {
+			...window.game.items[newId],
+			"id": newId,
+			"order": order,
+			"level": 0,
+			"rate": 0,
+		};
+	else
+		return {
+			...world.items[newId],
+			"id": newId,
+			"order": order,
+			"level": 0,
+			"rate": 0,
+		};
 }
 
 function renderGame() {
@@ -353,7 +362,7 @@ function calculateDelta(progress, delta) {
 }
 
 function calculateLevelUp(world, seqNo, level) {
-	return calculateBoost(world, seqNo, level) * 50;
+	return calculateBoost(world, seqNo, level) * 10;
 }
 
 function calculateNewRate(world, seqNo, level) {
@@ -448,45 +457,34 @@ function createDialog(node) {
 //--INITIAL--//
 function startup() {
 	let data = document.getElementById('data');
-	if(data.src)
-		getJson(
-			data.src,
-			function(content) {
-				console.log('read from external json');
-				if(content) {
-					window.game = JSON.parse(localStorage.getItem('idle-game')) ?? content;
-					// filter by unique tag
-					window.game.items = window.game.items
-						.reduce(function(total, current, index, arr) {
-							if(!total.map(m => m['tags']).includes(current['tags']))
-								total.push(current);
-							return total;
-						}, []);
-					
-					// DOM level properties
-					document.title = window.game.title;
-					renderDisplay();
-					renderGame();
-				}
-			}
-		);
-	if(data.textContent) {
+	if(localStorage.getItem('idle-game') != null) {
+		console.log('read from local storage');
+		load(JSON.parse(localStorage.getItem('idle-game')));
+	}
+	else if(data.src) {
+		console.log('read from external json');
+		getJson(data.src, load);
+	}
+	else if(data.textContent) {
 		console.log('read from inline json');
-		window.game = data.textContent;
-		// filter by unique tag
+		load(JSON.parse(data.textContent));
+	}
+}
+
+function load(content) {
+	window.game = content ?? '{}';
+	// filter item pool by unique tag
+	if(window.game.items)
 		window.game.items = window.game.items
 			.reduce(function(total, current, index, arr) {
 				if(!total.map(m => m['tags']).includes(current['tags']))
 					total.push(current);
 				return total;
 			}, []);
-		
-		// DOM level properties
-		document.title = window.game.title;
-		renderDisplay();
-		renderGame();
-	}
-		
+	// DOM level properties
+	document.title = window.game.title;
+	renderDisplay();
+	renderGame();
 }
 
 function idle() {
