@@ -58,6 +58,10 @@ body {
 	padding: 2px 5px;
 }
 
+.page-list a:nth-child(even) {
+	color: rgb(var(--secondary));
+}
+
 .page-list > a:hover {
 	color: rgb(var(--foreground));
 	text-decoration: underline;
