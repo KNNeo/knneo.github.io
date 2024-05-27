@@ -509,17 +509,12 @@ a {
 	margin: 5px;
 }
 
-.paragraph.text {
-	font-size: 0.9em;
-	width: 100%;
-    height: 100%;
-	overflow-y: auto;
+.viewer .section td:has(.paragraph:not(.expand)) {
+	position: relative;
 }
 
-.paragraph.text.expand {
+.paragraph.text {
 	position: absolute;
-	max-width: 100%;
-	max-height: 100%;
 	top: 0;
 	left: 0;
 	right: 0;
@@ -527,6 +522,10 @@ a {
 	padding: 1em;
 	box-sizing: border-box;
 	background-color: rgb(var(--background));
+	font-size: 0.9em;
+	width: 100%;
+	height: 99%;
+	overflow-y: auto;
 }
 
 .notification {
@@ -569,7 +568,7 @@ a {
 	}
 }
 
-/*MEDIUM SCREEN WIDTH - SINGLE ROW GRID MAX WIDTH*/
+/*MEDIUM SCREEN WIDTH*/
 @media only screen and (max-width: 1200px) {
 	.image.landscape {
 		width: 45%;
@@ -580,10 +579,6 @@ a {
 	td[rowspan] .images img {
 		width: 90%;		
 	}
-	.paragraph.text {
-        display: block;
-		height: 100%;
-	}
 	.gallery img {
 		height: 10vw;
 	}
@@ -591,14 +586,14 @@ a {
 		height: 20vw;
 	}
 	.viewer .section .image.portrait {
-		width: 35%;
+		width: 80%;
 	}
 	.viewer .section .image.landscape {
-		width: 50%;
+		width: 80%;
 	}
 }
 
-/*SMALL SCREEN WIDTH*/
+/*SMALL SCREEN WIDTH - SINGLE ROW GRID MAX WIDTH*/
 @media only screen and (max-width: 800px) {
 	.container {
 		 width: 99%;
@@ -632,6 +627,14 @@ a {
 	}
 	.viewer .section .image.landscape {
 		width: 80%;
+	}
+}
+
+/*LARGE SCREEN WIDTH*/
+@media only screen and (min-width: 1201px) {
+	.paragraph.text {
+		position: initial;
+		padding: 0;
 	}
 }
 
