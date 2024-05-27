@@ -142,7 +142,7 @@ function renderParagraph(sectionNo, index, component) {
 		title.classList.add(component.type);
 		title.classList.add('text');
 		title.innerText = component.text;
-		if(mediumScreenWidth())
+		if(smallScreenWidth())
 			title.addEventListener('click', function() {
 				event.target.classList.toggle('expand');
 			});
