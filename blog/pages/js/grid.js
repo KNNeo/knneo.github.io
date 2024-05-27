@@ -12,7 +12,7 @@ function renderGrid(sectionNo, content, source) {
 		return a.sortOrder - b.sortOrder;
 	});	
 	//for mobile, stack all elements in one column
-	if(mediumScreenWidth() && content.columns > 1) {
+	if(smallScreenWidth() && content.columns > 1) {
 		content.cData = content.cData.filter(cd => cd.type && cd.type != 'spacer');
 		let totalCells = content.cData.length;
 		content.columns = 1;

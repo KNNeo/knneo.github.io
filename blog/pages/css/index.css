@@ -25,6 +25,7 @@ html {
 	background-color: rgb(var(--background));
 	color-scheme: light;
 	height: 100%;
+	overflow-x: hidden;
 }
 
 html.darked {
@@ -434,14 +435,10 @@ a {
     object-fit: contain;
 }
 
-.image.portrait,
-.image.landscape {
-	width: 80%;
-}
-
 .images {
 	width: 100%;
-    height: 100%;
+	height: 100%;
+	display: contents;
 }
 
 .images img {
@@ -551,8 +548,11 @@ a {
 
 /*MEDIUM SCREEN WIDTH*/
 @media only screen and (max-width: 1600px) {
-	.image {
-		width: 100%;
+	.image.portrait {
+		width: 40%;
+	}
+	td[rowspan] .image.portrait {
+		width: 80%;		
 	}
 	.viewer .section a {
 		display: inline-block;
@@ -573,6 +573,12 @@ a {
 @media only screen and (max-width: 1200px) {
 	.image.landscape {
 		width: 45%;
+	}
+	td[rowspan] .image.portrait {
+		width: 100%;		
+	}
+	td[rowspan] .images img {
+		width: 90%;		
 	}
 	.paragraph.text {
         display: block;
@@ -611,6 +617,9 @@ a {
 	}
 	.image.landscape {
 		width: 65%;
+	}
+	td[rowspan] .image.portrait {
+		width: 45%;		
 	}
 	.gallery img {
 		height: 20vw;
