@@ -152,7 +152,6 @@ function renderParagraph(sectionNo, index, component) {
 
 function renderImage(sectionNo, index, component, source) {
 	let elem = document.querySelector('#section'+sectionNo+'cell'+index);
-	if(source == 'masonry') elem.classList.add('image-section');
 	// render single image
 	let img = document.createElement('img');
 	img.classList.add(component.type);
@@ -468,16 +467,16 @@ function openGridInViewer(sectionIndex, componentIndex, galleryIndex, source) {
 	viewer.tabIndex = 0;
 	if(viewer.style.visibility != 'visible') viewer.style.visibility = 'visible';
 	if(viewer.style.opacity != '1') viewer.style.opacity = '1';
-	// add viewer container
+	// add viewer section container
 	let component = document.createElement('div');
 	component.id = 'section' + (sectionIndex) + 'viewer';
-	component.classList.add('section-viewer');
+	component.classList.add('section');
 	component.addEventListener('click', function() {
 		event.stopPropagation();
 	});
 	viewer.appendChild(component);
 	viewer.focus();	
-	// render grid
+	// render grid in viewer
 	let filtered = window['elements'][sectionIndex]['cData'][componentIndex]['datas'].filter(data => !data.skip);
 	let galleryData = filtered[galleryIndex].grid;
 	renderGrid((sectionIndex) + 'viewer', galleryData, source);	

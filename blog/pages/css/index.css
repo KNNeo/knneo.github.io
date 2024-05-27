@@ -354,25 +354,7 @@ a {
 	cursor: pointer;
 }
 
-.editor {
-	height: 100%;
-	width: 100%;
-	display: block;
-	position: absolute;
-	border: 0;
-	top: 0;
-	z-index: 10;
-}
-
-.editor-area {
-	height: 95%;
-	width: 90%;
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
-}
-
-.section-viewer {
+.viewer .section {
 	border: 2px solid;
 	background-color: rgb(var(--background));
 	width: 80%;
@@ -382,8 +364,8 @@ a {
 	margin: auto;
 }
 
-.section-viewer table,
-.section-viewer tbody {
+.viewer .section table,
+.viewer .section tbody {
 	height: 100%;
 	width: 100%;
 	
@@ -572,17 +554,17 @@ a {
 	.image {
 		width: 100%;
 	}
-	.image-section a {
+	.viewer .section a {
 		display: inline-block;
 	}
-	.image-section a:has(.portrait),
-	.image-section a:has(.landscape) {
+	.viewer .section a:has(.image.portrait),
+	.viewer .section a:has(.image.landscape) {
 		display: inline;
 	}
-	.image-section .image.portrait {
+	.viewer .section .image.portrait {
 		width: 70%;
 	}
-	.image-section .image.landscape {
+	.viewer .section .image.landscape {
 		width: 90%;
 	}
 }
@@ -602,10 +584,10 @@ a {
 	.gallery img.lg {
 		height: 20vw;
 	}
-	.image-section .image.portrait {
+	.viewer .section .image.portrait {
 		width: 35%;
 	}
-	.image-section .image.landscape {
+	.viewer .section .image.landscape {
 		width: 50%;
 	}
 }
@@ -636,10 +618,10 @@ a {
 	.gallery img.lg {
 		height: 30vw;
 	}
-	.image-section .image.portrait {
+	.viewer .section .image.portrait {
 		width: 50%;
 	}
-	.image-section .image.landscape {
+	.viewer .section .image.landscape {
 		width: 80%;
 	}
 }
