@@ -30,10 +30,8 @@ self.addEventListener('fetch', function(event) {
         if (navigator.onLine) {
 		  // Decide cache based on Accept header
 		  let cacheName = CACHE_NAME_STATIC;
-		  if (request.headers.get('Accept').includes('text/html') && request.url.includes('/pages/'))
-			cacheName = CACHE_NAME_PAGES;
-		  if (request.headers.get('Accept').includes('text/html') && request.url.includes('/posts/'))
-			cacheName = CACHE_NAME_POSTS;
+		  if (request.headers.get('Accept').includes('text/html'))
+			cacheName = request.url.includes('/posts/') ? CACHE_NAME_POSTS : CACHE_NAME_PAGES;
 		  if (request.headers.get('Accept').includes('text/css') || request.url.endsWith('.js'))
 			cacheName = CACHE_NAME_RESOURCES;
           // Online, fetch from network and potentially cache for future use
