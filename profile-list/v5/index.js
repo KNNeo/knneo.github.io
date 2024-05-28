@@ -97,8 +97,10 @@ function ititializePageEvents() {
 }
 
 function loadSources() {
-	getJson(config.source, function(response) {
-		window['source'] = response;
+	if (document.querySelector('#data')?.textContent != null) {
+		console.log('using inline html embedded json');
+		let dataJson = JSON.parse(document.querySelector('#data')?.textContent || []);
+		window['source'] = dataJson;
 		window['profileList'] = window['source'].filter(n => !(n.inactive === true) && config.profile.include(n));
 		window['calendarList'] = window['source'].filter(n => !(n.inactive === true) && config.calendar.include(n));
 		window['timelineList'] = window['source'].filter(n => !(n.inactive === true) && config.timeline.include(n));
@@ -107,7 +109,20 @@ function loadSources() {
 		window['calendarDOBlist'] = createDOBlist(window['calendarList'], 0, 50);
 		stopLoader();
 		renderPage();
-	});
+	}
+	else if(config.source)
+		getJson(config.source, function(response) {
+			console.log('using external json from config');
+			window['source'] = response;
+			window['profileList'] = window['source'].filter(n => !(n.inactive === true) && config.profile.include(n));
+			window['calendarList'] = window['source'].filter(n => !(n.inactive === true) && config.calendar.include(n));
+			window['timelineList'] = window['source'].filter(n => !(n.inactive === true) && config.timeline.include(n));
+			window['friendList'] = window['source'].filter(n => !(n.inactive === true) && n.category == 'friends');
+			window['timelineDOBlist'] = createDOBlist(window['timelineList'], 1, 35, true);
+			window['calendarDOBlist'] = createDOBlist(window['calendarList'], 0, 50);
+			stopLoader();
+			renderPage();
+		});
 }
 
 function renderPage() {
