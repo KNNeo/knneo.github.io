@@ -144,8 +144,9 @@ function onTouchEnd() {
 function removeLinkExtensions() {
 	if(!window.location.href.startsWith('file:///')) {
 		for(let a of document.querySelectorAll('a')) {
-			if(a.href.includes('knneo.github.io') || a.href.includes('knwebreports.onrender.com'))
-				a.href = a.href.replace('index.html', '').replace('.html', '');
+			let ref = a.getAttribute('href');
+			if(ref && ref.includes('knneo.github.io') || ref.includes('knwebreports.onrender.com'))
+				a.href = ref.replace('index.html', '').replace('.html', '');
 		}
 	}
 }
