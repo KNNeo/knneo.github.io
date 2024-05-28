@@ -22,7 +22,7 @@ function postLoadSequence() {
 	setTimeout(toggleEmojiDisplay, 0);
 	setTimeout(scrollToSectionByUrl, 200);
 	setTimeout(function() {
-		// addSwipeEvents();
+		addSwipeEvents();
 		removeLinkExtensions();
 		if(typeof generateViewer == 'function') generateViewer();
 	}, 0);
@@ -62,33 +62,83 @@ function goBack() {
 function addSwipeEvents() {
 	document.querySelector('.post-body.entry-content').addEventListener('touchstart', onTouchStart);
 	document.querySelector('.post-body.entry-content').addEventListener('touchmove', onTouchMove);
+	document.querySelector('.post-body.entry-content').addEventListener('touchend', onTouchEnd);
 }
 
 function onTouchStart() {
-	window['touchY'] = event.touches[0].clientY;
-	window['touchX'] = event.touches[0].clientX;
+	// console.log('onTouchStart', event.changedTouches[0]);
+	window['touchY'] = event.changedTouches[0].clientY;
+	window['touchX'] = event.changedTouches[0].clientX;
 }
 
 function onTouchMove() {
-	let swipeDown = event.touches[0].clientY - window['touchY'];
-	let swipeUp = window['touchY'] - event.touches[0].clientY;
-	let swipeLeft = window['touchX'] - event.touches[0].clientX;
-	let swipeRight = event.touches[0].clientX - window['touchX'];
+	// console.log('onTouchMove', event.changedTouches[0]);
+	let swipeDown = event.changedTouches[0].clientY - window['touchY'];
+	let swipeUp = window['touchY'] - event.changedTouches[0].clientY;
+	let swipeLeft = window['touchX'] - event.changedTouches[0].clientX;
+	let swipeRight = event.changedTouches[0].clientX - window['touchX'];
 	// console.log('up', 'down', 'left', 'right');
 	// console.log(swipeUp, swipeDown, swipeLeft, swipeRight);
+	document.querySelector('.next').style.backgroundColor = '';
+	document.querySelector('.prev').style.backgroundColor = '';
+	//--SWIPE UP--//
+	if(swipeUp > swipeLeft && swipeUp > swipeRight && swipeUp > 100) {
+		// ignore
+		return;
+	}
+	//--SWIPE DOWN--//
+	if(swipeDown > swipeLeft && swipeDown > swipeRight && swipeDown > 100) {
+		// ignore
+		return;
+	}
 	//--SWIPE LEFT--//
-	if(swipeLeft > swipeUp && swipeLeft > swipeDown && swipeLeft > 150) {
+	if(swipeLeft > swipeUp && swipeLeft > swipeDown && swipeLeft > 100) {
+		//newer post
+		document.querySelector('.next').style.backgroundColor = 'rgb(var(--secondary))';
+		return;
+	}
+	//--SWIPE RIGHT--//
+	if(swipeRight > swipeUp && swipeRight > swipeDown && swipeRight > 100) {
+		//older post
+		document.querySelector('.prev').style.backgroundColor = 'rgb(var(--secondary))';
+		return;
+	}
+}
+
+function onTouchEnd() {
+	// console.log('onTouchEnd', event.changedTouches[0]);
+	let swipeDown = event.changedTouches[0].clientY - window['touchY'];
+	let swipeUp = window['touchY'] - event.changedTouches[0].clientY;
+	let swipeLeft = window['touchX'] - event.changedTouches[0].clientX;
+	let swipeRight = event.changedTouches[0].clientX - window['touchX'];
+	// console.log('up', 'down', 'left', 'right');
+	// console.log(swipeUp, swipeDown, swipeLeft, swipeRight);
+	document.querySelector('.next').style.backgroundColor = '';
+	document.querySelector('.prev').style.backgroundColor = '';
+	//--SWIPE UP--//
+	if(swipeUp > swipeLeft && swipeUp > swipeRight && swipeUp > 100) {
+		// ignore
+		return;
+	}
+	//--SWIPE DOWN--//
+	if(swipeDown > swipeLeft && swipeDown > swipeRight && swipeDown > 100) {
+		// ignore
+		return;
+	}
+	//--SWIPE LEFT--//
+	if(swipeLeft > swipeUp && swipeLeft > swipeDown && swipeLeft > 100) {
 		//newer post
 		document.querySelector('.next')?.click();
 		return;
 	}
 	//--SWIPE RIGHT--//
-	if(swipeRight > swipeUp && swipeRight > swipeDown && swipeRight > 150) {
+	if(swipeRight > swipeUp && swipeRight > swipeDown && swipeRight > 100) {
 		//older post
 		document.querySelector('.prev')?.click();
 		return;
 	}
 }
+
 
 // remove .html extensions, facilitate static site routing
 function removeLinkExtensions() {
