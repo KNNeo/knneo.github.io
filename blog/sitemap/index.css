@@ -212,7 +212,9 @@ h1, h4 {
 @media only screen and (max-width: 780px) {
 	.sitemap {
 		column-width: 11em;
-		line-height: 2;
+	}
+	.keyword {
+		font-size: 0.8em;
 	}
 	.fanfics {
 		margin-bottom: 4em;
@@ -223,8 +225,11 @@ h1, h4 {
 	.fanfics .season div {
 		line-height: 2;
 	}
-	.keyword {
-		font-size: 0.8em;
+}
+
+@media only screen and (pointer: coarse) and (max-width: 780px) {
+	.sitemap {
+		line-height: 2;
 	}
 }
 
@@ -234,8 +239,7 @@ h1, h4 {
 	.post-tags.filters a,
 	#BackBtn,
 	#GoToTopBtn,
-	#DarkModeBtn
-	{
+	#DarkModeBtn {
 		transition: none;
 	}
 }
