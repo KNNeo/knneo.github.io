@@ -654,8 +654,10 @@ abbr.imgpop:hover img {
 	cursor: pointer;
 }
 
-.thumbnail tr:hover img,
-.thumbnail tr:hover video {
+.thumbnail tr:has(> :last-child:nth-child(1)) img:hover,
+.thumbnail tr:has(> :last-child:nth-child(1)) video:hover,
+.thumbnail tr:has(> :last-child:nth-child(2)):hover img,
+.thumbnail tr:has(> :last-child:nth-child(2)):hover video {
     border-color: rgb(var(--primary));
 }
 
