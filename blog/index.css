@@ -691,6 +691,9 @@ abbr.imgpop:hover img {
 	display: inline;
 	cursor: pointer;
 }
+.new-t.image-pop::before {
+	content: "🖼️";
+}
 .new-thumbnail-focus {
 	display: none;
 }

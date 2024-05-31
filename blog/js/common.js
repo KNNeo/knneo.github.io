@@ -240,8 +240,10 @@ function addPopupEvents() {
 		popup.querySelector('.new-thumbnail-initial').href = popup.getAttribute('data-url');
 		popup.addEventListener('contextmenu', togglePopup);
 		let dataUrl = popup.getAttribute('data-url').toLowerCase();
-		if(dataUrl.includes('.jpg') || dataUrl.includes('.png') || dataUrl.includes('.gif') || dataUrl.includes('blogger.googleusercontent.com'))
-			popup.addEventListener('click', togglePopup);
+		if(dataUrl.includes('.jpg') || dataUrl.includes('.png') || dataUrl.includes('.gif') || dataUrl.includes('blogger.googleusercontent.com')){
+			popup.classList.add('image-pop');
+			popup.addEventListener('click', togglePopup);			
+		}
 		else
 			popup.querySelector('.new-thumbnail-focus').addEventListener('click', closePopups);
     }
