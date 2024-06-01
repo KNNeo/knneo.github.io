@@ -103,7 +103,7 @@ function showResults(posts) {
 		resultDiv.appendChild(publishSpan);
 		
 		let resultUrl = document.createElement('a');
-		resultUrl.href = post.url;
+		resultUrl.href = processLinkExtensions(post.url);
 		resultUrl.innerText = post.title;
 		resultDiv.appendChild(resultUrl);
 		

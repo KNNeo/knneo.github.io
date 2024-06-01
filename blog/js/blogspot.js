@@ -139,14 +139,15 @@ function onTouchEnd() {
 	}
 }
 
-
 // remove .html extensions, facilitate static site routing
 function removeLinkExtensions() {
-	if(!window.location.href.startsWith('file:///')) {
-		for(let a of document.querySelectorAll('a')) {
-			let ref = a.getAttribute('href');
-			if(ref && (ref.includes('knneo.github.io') || ref.includes('knwebreports.onrender.com')))
-				a.href = ref.replace('index.html', '').replace('.html', '');
-		}
-	}
+	for(let a of document.querySelectorAll('a'))
+		a.href = processLinkExtensions(a.href);
+}
+
+function processLinkExtensions(url) {
+	if(!window.location.href.startsWith('file:///') && 
+		(url.includes('knneo.github.io') || url.includes('knwebreports')))
+		return url.replace('index.html', '').replace('.html', '');
+	return url;
 }
