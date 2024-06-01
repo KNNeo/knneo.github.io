@@ -554,7 +554,7 @@ function setThumbnails() {
 		// set height for first thumbnail content
 		thumbnail.style.height = thumbnail.querySelector('.thumbnail-initial:not(.thumbnail-pop)').offsetHeight + 'px';
 		// add click event for first thumbnail content
-        let allThumbImages = thumbnail.querySelectorAll('img');
+        let allThumbImages = thumbnail.querySelectorAll('td > img');
 		// show if loaded first content
 		if(allThumbImages.length > 0 && allThumbImages[0].complete)
 			thumbnail.classList.add('show');
