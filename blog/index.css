@@ -789,16 +789,34 @@ abbr.imgpop:hover img {
 	padding-right: 0;
 }
 
+.agenda .item a {
+	display: initial;
+	position: relative;
+}
+
+.agenda .item a:not([href^="file"]):not([href^="#"]):not([href^="javascript"])::before {
+	font-family: "Material Icons";
+    content: "open_in_new";
+    position: absolute;
+	font-size: 2rem;
+    left: 0.5rem;
+	color: rgb(var(--secondary));
+}
+
+.agenda .item a:not([href^="file"]):not([href^="#"]):not([href^="javascript"]):hover::before {
+	color: rgb(var(--primary));
+}
+
 .agenda .item img {
 	width: 100%;
-    height: 12.5em;
+	height: 12.5rem;
 	object-fit: cover;
 	box-sizing: border-box;
 	transition: border 0.1s;
 }
 
 .agenda .item a img {
-	border-width: 2px 2px 1em;
+	border-width: 2px 2px 1rem;
 }
 
 /*DIALOG*/
