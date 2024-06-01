@@ -14,6 +14,7 @@ void Main()
     Console.WriteLine("WriteTitleOnConsole is " + WriteTitleOnConsole + "; Set as true to see post titles");
     string folderpath = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\";
     string blogpath = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\";
+    string postsFolder = "posts";
     string filepath = "";
 	
 	SearchIndex searchIndex = new SearchIndex()
@@ -72,7 +73,7 @@ void Main()
             .Attribute("href") ?? emptA).Value;
 		if(string.IsNullOrWhiteSpace(originalLink))
 			continue;
-		var pageLink = "./posts" + Path.GetFileNameWithoutExtension(filepath.Replace(filepath, blogpath)) + "/" + published.Year.ToString("0000") + "/"  + published.Month.ToString("00") + "/"  + Path.GetFileNameWithoutExtension(originalLink) + "." + type;
+		var pageLink = "./" + postsFolder + Path.GetFileNameWithoutExtension(filepath.Replace(filepath, blogpath)) + "/" + published.Year.ToString("0000") + "/"  + published.Month.ToString("00") + "/"  + Path.GetFileNameWithoutExtension(originalLink) + "." + type;
         
         if(WriteTitleOnConsole || TraceMode)
             Console.WriteLine(title != "" ? title : "A Random Statement");
