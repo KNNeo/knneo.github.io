@@ -89,8 +89,8 @@ a:hover {
     align-items: center;
 }
 .card img {
-	width: 120px;
-	height: 120px;
+	width: 100px;
+	height: 100px;
 	object-fit: cover;
 }
 .card .profile-box-label {
