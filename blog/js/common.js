@@ -454,7 +454,12 @@ function createElementFromJson(response) {
 				contentRow.innerText = new Date(response.data[key]).toLocaleDateString();
 				contentDiv.appendChild(contentRow);
 			} // date treatment
-			if(typeof(key) == 'string' && ['about','name','status','synopsis','title','year'].includes(key)) {
+			if(typeof(key) == 'string' && key == 'aired') {
+				let contentRow = document.createElement('div');
+				contentRow.innerText = response.data[key].string;
+				contentDiv.appendChild(contentRow);
+			} // date period treatment
+			if(typeof(key) == 'string' && ['about','name','score','synopsis','title','type'].includes(key)) {
 				let contentRow = document.createElement('div');
 				contentRow.innerText = response.data[key];
 				contentDiv.appendChild(contentRow);
