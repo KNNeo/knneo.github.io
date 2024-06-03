@@ -557,4 +557,10 @@ const mosaicArray = [
 {"id":"きまぐれニャンメイド_パティ.jpg","sm":"https://doax.cc/res/pic_star_s/880_19.png","md":"https://doax.cc/res/pic_star_s/880_19.png","lg":"https://doax.cc/res/pic_star/880_19.png","og":"https://doax.cc/res/pic_star/880_19.png"},
 {"id":"きまぐれニャンメイド_紅葉.jpg","sm":"https://doax.cc/res/pic_star_s/880_8.png","md":"https://doax.cc/res/pic_star_s/880_8.png","lg":"https://doax.cc/res/pic_star/880_8.png","og":"https://doax.cc/res/pic_star/880_8.png"},
 {"id":"きまぐれニャンメイド_シャンディ.jpg","sm":"https://doax.cc/res/pic_star_s/880_27.png","md":"https://doax.cc/res/pic_star_s/880_27.png","lg":"https://doax.cc/res/pic_star/880_27.png","og":"https://doax.cc/res/pic_star/880_27.png"},
+{"id":"花鳥風月_女天狗.jpg","sm":"https://doax.cc/res/pic_star_s/574_5.png","md":"https://doax.cc/res/pic_star_s/574_5.png","lg":"https://doax.cc/res/pic_star/574_5.png","og":"https://doax.cc/res/pic_star/574_5.png"},
+{"id":"恋風天舞・緋_フィオナ.jpg","sm":"https://doax.cc/res/pic_star_s/324_4.png","md":"https://doax.cc/res/pic_star_s/324_4.png","lg":"https://doax.cc/res/pic_star/324_4.png","og":"https://doax.cc/res/pic_star/324_4.png"},
+{"id":"きまぐれニャンメイド_ルナ.jpg","sm":"https://doax.cc/res/pic_star_s/880_11.png","md":"https://doax.cc/res/pic_star_s/880_11.png","lg":"https://doax.cc/res/pic_star/880_11.png","og":"https://doax.cc/res/pic_star/880_11.png"},
+{"id":"きまぐれニャンメイド_ゆきの.jpg","sm":"https://doax.cc/res/pic_star_s/880_28.png","md":"https://doax.cc/res/pic_star_s/880_28.png","lg":"https://doax.cc/res/pic_star/880_28.png","og":"https://doax.cc/res/pic_star/880_28.png"},
+{"id":"きまぐれニャンメイド_ほのか.jpg","sm":"https://doax.cc/res/pic_star_s/880_2.png","md":"https://doax.cc/res/pic_star_s/880_2.png","lg":"https://doax.cc/res/pic_star/880_2.png","og":"https://doax.cc/res/pic_star/880_2.png"},
+{"id":"きまぐれニャンメイド_マリー.jpg","sm":"https://doax.cc/res/pic_star_s/880_3.png","md":"https://doax.cc/res/pic_star_s/880_3.png","lg":"https://doax.cc/res/pic_star/880_3.png","og":"https://doax.cc/res/pic_star/880_3.png"},
 ];
