@@ -112,7 +112,7 @@ void Main()
 		}
 		
 		searchIndex.posts.Add(new SearchIndexPost() {
-			title = title,
+			title = title.Replace("&nbsp;"," ").Replace("&quot;","\""),
 			url = pageLink,
 			date = published.ToString("yyyy.MM.dd"),
 			id = p
