@@ -410,7 +410,59 @@ function generatePopupContent(content) {
         return '<iframe id="jisho-frame" src="_url_" style="height:min(50vh,450px);width:min(98%,760px);"></iframe>'
 		.replace('_url_', content);
     }
+    if (url.includes('myanimelist.net/')) {
+		//courtesy of jikan.moe, process custom div from api
+		let result = '<div class="mal-frame"></div>';
+        //process page as iframe
+		if(url.includes('/anime/')) { // myanimelist.net/anime/54233/Sasayaku_You_ni_Koi_wo_Utau
+			let id = content.substring(content.indexOf('/anime/')+1+6, content.lastIndexOf('/'));
+			getJson('https://api.jikan.moe/v4/anime/{id}'.replace('{id}', id), createElementFromJson);
+			return result;
+		}
+		if(url.includes('/character/')) { // myanimelist.net/character/199341/Aki_Mizuguchi
+			let id = content.substring(content.indexOf('/character/')+1+10, content.lastIndexOf('/'));
+			getJson('https://api.jikan.moe/v4/characters/{id}'.replace('{id}', id), createElementFromJson);
+			return result;
+		}
+		if(url.includes('/people/')) { // myanimelist.net/people/10071/Mikako_Komatsu
+			let id = content.substring(content.indexOf('/people/')+1+7, content.lastIndexOf('/'));
+			getJson('https://api.jikan.moe/v4/people/{id}'.replace('{id}', id), createElementFromJson);
+			return result;
+		}
+    }
     return null;
+}
+
+function createElementFromJson(response) {
+	if(response && response.data) {
+		// console.log(response.data);
+		// get url to find back parent container
+		let url = response.data.url;
+		// assume json is flat unless specially traversed
+		let contentDiv = document.createElement('div');
+		contentDiv.classList.add('mal-container');
+		// render fields from response data
+		for(let key of Object.keys(response.data))
+		{
+			if(typeof(key) == 'string' && key == 'images') {
+				let contentRow = document.createElement('img');
+				contentRow.src = response.data[key]['jpg']['image_url'];
+				contentDiv.appendChild(contentRow);
+			} // image source
+			if(typeof(key) == 'string' && key == 'birthday') {
+				let contentRow = document.createElement('div');
+				contentRow.innerText = new Date(response.data[key]).toLocaleDateString();
+				contentDiv.appendChild(contentRow);
+			} // date treatment
+			if(typeof(key) == 'string' && ['about','name','status','synopsis','title','year'].includes(key)) {
+				let contentRow = document.createElement('div');
+				contentRow.innerText = response.data[key];
+				contentDiv.appendChild(contentRow);
+			} // for all other fields as specified by key
+		}
+		// replace html of temp container
+		document.querySelector('.new-t[data-url="_url_"] .new-thumbnail-focus .mal-frame'.replace('_url_', url)).innerHTML = contentDiv.outerHTML;
+	}
 }
 
 function showOverlay() {
@@ -728,4 +780,21 @@ function resizeImage(p) {
 	}
 	// set thumbnails again after adjusted image size
     setThumbnails();
+}
+
+async function getJson(source, callback) {
+	try	{
+		const response = await fetch(source);
+		if(response.ok && response.status == 200) {
+			const result = await response.json();
+			callback(result);
+		} else {
+			console.error('getJson: ' + response);
+			callback(null);
+		}
+	}
+	catch(e) {
+		console.error('getJson: ' + e.message);
+		callback(null);
+	}
 }
