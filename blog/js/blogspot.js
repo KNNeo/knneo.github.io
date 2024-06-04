@@ -72,6 +72,9 @@ function onTouchStart() {
 }
 
 function onTouchMove() {
+	// prevent navigation when with mal popup
+	if(event.target.closest('.mal-frame') != null)
+		return;
 	// console.log('onTouchMove', event.changedTouches[0]);
 	let swipeDown = event.changedTouches[0].clientY - window['touchY'];
 	let swipeUp = window['touchY'] - event.changedTouches[0].clientY;
@@ -106,6 +109,9 @@ function onTouchMove() {
 }
 
 function onTouchEnd() {
+	// prevent navigation when with mal popup
+	if(event.target.closest('.mal-frame') != null)
+		return;
 	// console.log('onTouchEnd', event.changedTouches[0]);
 	let swipeDown = event.changedTouches[0].clientY - window['touchY'];
 	let swipeUp = window['touchY'] - event.changedTouches[0].clientY;
