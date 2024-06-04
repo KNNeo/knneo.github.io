@@ -745,10 +745,9 @@ abbr.imgpop:hover img {
 
 .mal-container div {
 	width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
 	padding-bottom: 6px;
 	font-size: 1rem;
+	text-wrap: wrap;
 }
 
 .mal-container img {
