@@ -231,7 +231,7 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
 			#endregion			
 		    // Write all additions into output home page
 		    string fileString = File.ReadAllText(POST_TEMPLATE_FILENAME)
-				.Replace("_TITLE_", (postTitle.Length > 0 ? postTitle : "A Random Statement") + " | " + HTML_TITLE)
+				.Replace("_TITLE_", postTitle.Length > 0 ? postTitle : "A Random Statement")
 				.Replace("_IMAGE_", thumbnailUrl)
 				.Replace("_LINK_", pageLink)
 				.Replace("_FONTS_", externalFonts.Length > 0 ? externalFonts.ToString() : "")
