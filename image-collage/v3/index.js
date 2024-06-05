@@ -63,7 +63,6 @@ const title = document.querySelector('.title');
 const description = document.querySelector('.description');
 const content = document.querySelector('.content');
 const grid = document.querySelector('.grid');
-const collage = document.querySelector('.collage');
 const tags = document.querySelector('.tags');
 const menu = document.querySelector('.menu');
 const settings = document.querySelector('.settings');
@@ -71,8 +70,6 @@ const viewer = document.querySelector('.viewer');
 const preset = document.querySelector('#preset');
 const include = document.querySelector('#include');
 const exclude = document.querySelector('#exclude');
-const prev = document.querySelector('#viewer-prev');
-const next = document.querySelector('#viewer-next');
 const callback = (entries, observer) => {
 	entries.forEach((elem) => {
 		let thumbnail = elem.target;
@@ -91,19 +88,17 @@ function startup() {
 	generateTags();
 	generateLayout();
 	generateViewer();
-	collage.addEventListener(isFirefox ? 'DOMMouseScroll' : 'mousewheel', onScroll);
-	collage.addEventListener('touchstart', onTouchStart);
-	collage.addEventListener('touchmove', onTouchMove);
-	// collage.addEventListener('scroll', fadeIn);
+	grid.addEventListener(isFirefox ? 'DOMMouseScroll' : 'mousewheel', onScroll);
+	grid.addEventListener('touchstart', onTouchStart);
+	grid.addEventListener('touchmove', onTouchMove);
 	window.addEventListener('resize', onResize);
-	// window.addEventListener('resize', fadeIn);
 }
 
 function initializeVariables() {
 	window['isFirefox'] = (/Firefox/i.test(navigator.userAgent));
 	window['includeCriteria'] = '';
 	window['excludeCriteria'] = '';
-	window['horizontal'] = isHorizontalLayout();
+	
 	window['preset'] = 'photo_size_select_small';
 	window['slideshow'] = null;
 }
@@ -148,7 +143,7 @@ function generateTags() {
 }
 
 function generateLayout() {
-	resetLayout();
+	menu.style.maxWidth = (config.menu.width || 400) + 'px';
 	
 	document.title = config.title ?? 'Image Collage';
 
@@ -176,9 +171,8 @@ function generateLayout() {
 		});
 	}
 	
-	for(let [key, value] of Object.entries(config.setting))
-	{
-		if(key == 'expand' && window['horizontal'])
+	for(let [key, value] of Object.entries(config.setting)) {
+		if(key == 'expand' && isHorizontalLayout())
 			document.querySelector('.' + key).classList.add('hidden');			
 		else if(value)
 			document.querySelector('.' + key).classList.remove('hidden');
@@ -187,25 +181,9 @@ function generateLayout() {
 	}
 	
 	generateTagsList();
-	generateLayoutCollage();
 	generateGrid();
 	if(grid.childElementCount == 0)
 		grid.innerText = 'No Data';
-}
-
-function resetLayout() {
-	if(window['horizontal']) {
-		document.body.setAttribute('layout', 'horizontal');
-		menu.style.width = config.menu.width + 'px' || 0;
-		if(window.innerHeight > 800)
-			tags.classList.add('expanded');
-	}
-	else {
-		document.body.setAttribute('layout', 'vertical');
-		menu.style.width = '';
-		menu.style.height = config.menu.height + 'px' || '';
-	}
-	
 }
 
 function generateTagsList() {
@@ -241,8 +219,7 @@ function generateTagsList() {
 		tag.addEventListener('click',function() {
 			let filter = event.target;
 			// to include or reset
-			switch(filter.getAttribute('filter'))
-			{
+			switch(filter.getAttribute('filter')) {
 				case 'exclude':
 					toggleVariable('excludeCriteria', filter.value);
 					toggleVariable('includeCriteria', filter.value);
@@ -265,8 +242,7 @@ function generateTagsList() {
 			let filter = event.target;
 			// to exclude or reset
 			event.preventDefault();
-			switch(filter.getAttribute('filter'))
-			{
+			switch(filter.getAttribute('filter')) {
 				case 'include':
 					toggleVariable('includeCriteria', filter.value);
 					toggleVariable('excludeCriteria', filter.value);
@@ -298,14 +274,16 @@ function generateTagsList() {
 }
 
 function generateViewer() {	
-	viewer.addEventListener('contextmenu', function(e) {
-		e.preventDefault();
+	viewer.addEventListener('contextmenu', function() {
+		event.preventDefault();
 		return false;
 	}, false);		
-	viewer.addEventListener('keyup', function(e) {
-		if (event.keyCode === 37 && prev != null)
+	document.body.addEventListener('keyup', function() {
+		let prev = document.querySelector('.viewer-nav.prev');
+		let next = document.querySelector('.viewer-nav.next');
+		if (event.key == 'ArrowLeft' && prev != null)
 			prev.click();
-		if (event.keyCode === 39 && next != null)
+		if (event.key == 'ArrowRight' && next != null)
 			next.click();
 		return false;
 	}, false);
@@ -315,8 +293,7 @@ function generateStats() {
 	let filtered = generateFiltered(mosaicArray)
 	.reduce(function(total, current, arr) {
 		let names = getFilenameInfo(current.id).filename.split(config.separator);
-		for(let name of names)
-		{
+		for(let name of names) {
 			if(total[name] == undefined)
 				total[name] = 1;
 			else
@@ -326,9 +303,8 @@ function generateStats() {
 	}, {});
 	
 	let countArray = [];
-	for(let item of Object.keys(filtered))
-	{
-		// console.log(filtered[item]);
+	for(let item of Object.keys(filtered)) {
+		if(config.debug) console.log(filtered[item]);
 		if(filtered[item] >= config.tag.min && 
 			filtered[item] <= config.tag.max &&
 			!config.tag.hidden.includes(item))
@@ -338,18 +314,8 @@ function generateStats() {
 	popupText(countArray.sort(function(a,b) { return b[1] - a[1]; }).map(m => m[0] + ' - ' + m[1]).join('<br>'));
 }
 
-function generateLayoutCollage() {
-	if(window['horizontal']) 
-		collage.style.width = (config.menu.width >= 0.5*window.innerWidth ? 0.5*window.innerWidth : window.innerWidth - config.menu.width) + 'px';
-	else
-		collage.style.width = '';
-	collage.style.height = (window.innerHeight) + 'px';
-}
-
 function generateGrid() {
 	let prevValue = '';
-	let columns = calculateColumns();
-	let thumbWidth = calculateThumbnailSize();
 	grid.innerHTML = '';
 	
 	let filterArray = generateFiltered().sort(function(a,b) {
@@ -361,18 +327,14 @@ function generateGrid() {
 		return a[prop].localeCompare(b[prop], config.sort.locale);
 	});
 	
-	if(config.debug)
-		console.log("thumbWidth", thumbWidth);
-	let itemWidth = thumbWidth + 'px';
-	let itemHeight = (thumbWidth*config.grid.thumbnail.ratio) + 'px';
-	
+	let [thumbWidth, thumbHeight] = calculateThumbnailSize();
 	for(let item of filterArray) {
 		let imageUrl = item.id;
 		
 		let gridItem = document.createElement('div');
 		gridItem.classList.add('grid-item');
-		gridItem.style.width = itemWidth;
-		gridItem.style.height = itemHeight;
+		gridItem.style.width = thumbWidth + 'px';
+		gridItem.style.height = thumbHeight + 'px';
 		
 		let prefix = imageUrl.substring(0, config.grid.banner.length);
 		if(config.grid.banner.length > 0 && prevValue != prefix) {
@@ -383,43 +345,42 @@ function generateGrid() {
 			prevValue = prefix;
 		}
 		
-			let gridItemImage = document.createElement('img');
-			gridItemImage.alt = '';
-			gridItemImage.title = getFilenameInfo(imageUrl).filename.split(config.separator).join('\n');
-			gridItemImage.setAttribute('data-image', getThumbnailByPrefix(item));
-			gridItemImage.setAttribute('data-src', item['og']);
-			gridItemImage.setAttribute('loading', 'lazy');
-			gridItemImage.addEventListener('click', function() {
-				openViewer(event.target.parentElement);
-			});
-			gridItemImage.addEventListener('contextmenu', function() {
-				event.preventDefault();
-				let keywords = event.target.title.split('\n');
-				if(keywords.filter(k => !window['includeCriteria'].includes(k)).length >= keywords.length) // if no keywords in filter
-					toggleVariable('includeCriteria', keywords[0]);
-				else {
-					let inFilter = keywords.filter(k => window['includeCriteria'].includes(k))[0];
-					let notFilter = keywords.filter(k => !window['includeCriteria'].includes(k));
-					
-					toggleVariable('includeCriteria', inFilter);
-					toggleVariable('includeCriteria', notFilter[0]);
-				}
-				include.value = window['includeCriteria'];
-				generateTagsList();
-				generateGrid();
-				return false;
-			}, false);
-			gridItemImage.addEventListener('error', function() {
-				event.preventDefault();
-				console.log(event.target.title);
-			});
-			gridItem.appendChild(gridItemImage);
-			observer.observe(gridItemImage);
+		let gridItemImage = document.createElement('img');
+		gridItemImage.alt = '';
+		gridItemImage.title = getFilenameInfo(imageUrl).filename.split(config.separator).join('\n');
+		gridItemImage.setAttribute('data-image', getThumbnailByPrefix(item));
+		gridItemImage.setAttribute('data-src', item['og']);
+		gridItemImage.setAttribute('loading', 'lazy');
+		gridItemImage.addEventListener('click', function() {
+			openViewer(event.target.parentElement);
+		});
+		gridItemImage.addEventListener('contextmenu', function() {
+			event.preventDefault();
+			let keywords = event.target.title.split('\n');
+			if(keywords.filter(k => !window['includeCriteria'].includes(k)).length >= keywords.length) // if no keywords in filter
+				toggleVariable('includeCriteria', keywords[0]);
+			else {
+				let inFilter = keywords.filter(k => window['includeCriteria'].includes(k))[0];
+				let notFilter = keywords.filter(k => !window['includeCriteria'].includes(k));
+				
+				toggleVariable('includeCriteria', inFilter);
+				toggleVariable('includeCriteria', notFilter[0]);
+			}
+			include.value = window['includeCriteria'];
+			generateTagsList();
+			generateGrid();
+			return false;
+		}, false);
+		gridItemImage.addEventListener('error', function() {
+			event.preventDefault();
+			console.log(event.target.title);
+		});
+		gridItem.appendChild(gridItemImage);
+		observer.observe(gridItemImage);
 			
 		grid.appendChild(gridItem);
 	}
 
-	// setTimeout(fadeIn, 0);
 	if(document.querySelector('.counter') != null)
 		document.querySelector('.counter').innerText = filterArray.length;
 }
@@ -442,14 +403,12 @@ function toggleVariable(variable, value) {
 		window[variable] = window[variable].replace('|' + value,'').replace(value,'');
 		if(window[variable].startsWith('|')) window[variable] = window[variable].substring(1);
 	}
-	else {
+	else
 		window[variable] += (window[variable].length > 0 ? '|' : '') + value;
-	}
 }
 
 function getThumbnailByPrefix(item) {	
-	switch(window['preset'])
-	{
+	switch(window['preset']) {
 	  case 'photo_size_select_small':
 		return item['sm'];
 	  case 'photo_size_select_large':
@@ -462,10 +421,23 @@ function getThumbnailByPrefix(item) {
 	}
 }
 
-function calculateColumns() {
+function calculateThumbnailSize() {
+	let gridWidth = grid.getBoundingClientRect().width;
+	let columns = calculateColumns(gridWidth);
+	let thumbWidth = gridWidth / columns;
+	let thumbHeight = (thumbWidth*config.grid.thumbnail.ratio) + 'px';
+	
+	if(config.debug) {
+		console.log('gridWidth', gridWidth);
+		console.log('columns', columns);
+		console.log('calculateThumbnailSize', thumbWidth, thumbHeight);
+	}
+	return [thumbWidth, thumbHeight];
+}
+
+function calculateColumns(gridWidth) {
 	let columns = 0;
-	switch(window['preset'])
-	{
+	switch(window['preset']) {
 	  case 'photo_size_select_small':
 		columns = config.tag.preset[0];
 		break;
@@ -477,31 +449,14 @@ function calculateColumns() {
 	  default:
 		break;
 	}
-	columns = Math.round((window.innerWidth - (window['horizontal'] ? config.menu.width : 0)) / columns);
+	columns = Math.round(gridWidth / columns);
 	return columns < config.grid.column.min ? config.grid.column.min : columns;
-}
-
-function calculateThumbnailSize() {
-	let columns = calculateColumns();
-	grid.style.height = '101%';
-	let gridWidth = grid.getBoundingClientRect().width;
-	grid.style.height = '';
-	let thumbWidth = gridWidth / columns;
-	
-	if(config.debug) {
-		console.log('gridWidth', gridWidth);
-		console.log('columns', columns);
-		console.log('calculateThumbnailSize', thumbWidth);
-	}
-	return thumbWidth;
 }
 
 function fadeIn() {
 	let boxes = document.querySelectorAll('.grid-item:not(.tile-view)');
     for (let elem of boxes) {
-        // let elem = boxes[i]
         let distInViewFromTop = elem.getBoundingClientRect().top;
-        // let distInViewFromBottom = elem.getBoundingClientRect().bottom;
 		let inView = distInViewFromTop >= 0 && distInViewFromTop <= window.innerHeight;
 		let thumbnail = elem.querySelector('img');
         if (thumbnail.complete && inView) {
@@ -518,30 +473,24 @@ function fadeIn() {
 
 //EVENTS//
 function onResize() {
-	//size grid again
-	window['horizontal'] = isHorizontalLayout();
+	//resize grid
 	document.querySelector('.expand').innerText = 'unfold_more';
 	tags.classList.remove('expanded');
-	generateLayout();
-
-	//resize images again
-	let thumbWidth = calculateThumbnailSize();
-	let itemWidth = thumbWidth + 'px';
-	let itemHeight = (thumbWidth*config.grid.thumbnail.ratio) + 'px';
-	for(let gridItem of document.querySelectorAll('.grid-item'))
-	{
-		gridItem.style.width = itemWidth;
-		gridItem.style.height = itemHeight;		
+	generateLayout();	
+	//resize images
+	let [thumbWidth, thumbHeight] = calculateThumbnailSize();
+	for(let gridItem of document.querySelectorAll('.grid-item')) {
+		gridItem.style.width = thumbWidth + 'px';
+		gridItem.style.height = thumbHeight + 'px';
 	}
 }
 
 function onScroll(e) {
-	if(!window['horizontal'])
-	{
+	if(!isHorizontalLayout()) {
 		let scrollDelta = isFirefox ? -e.detail*100 : e.wheelDelta;
 		menu.style.height = scrollDelta < 0 ? 0 : '';
 		tags.style.height = menu.style.height;
-		collage.style.height = scrollDelta < 0 ? window.innerHeight + 'px' : (window.innerHeight - menu.getBoundingClientRect().height) + 'px';
+		grid.style.height = scrollDelta < 0 ? window.innerHeight + 'px' : (window.innerHeight - menu.getBoundingClientRect().height) + 'px';
 	}
 }
 
@@ -555,14 +504,9 @@ function onTouchMove() {
 	let swipeUp = window['touchY'] - event.touches[0].clientY;
 	let swipeLeft = window['touchX'] - event.touches[0].clientX;
 	let swipeRight = event.touches[0].clientX - window['touchX'];
-	if(config.debug)
-		console.log(swipeUp > 0, swipeDown > 0, swipeLeft > 0, swipeRight > 0);
-	if(!window['horizontal'])
-	{
-		menu.style.height = swipeUp > 0 ? 0 : '';
-		tags.style.height = menu.style.height;
-		collage.style.height = swipeUp > 0 ? window.innerHeight + 'px' : (window.innerHeight - menu.getBoundingClientRect().height) + 'px';
-	}
+	if(config.debug) console.log(swipeUp > 0, swipeDown > 0, swipeLeft > 0, swipeRight > 0);
+	menu.style.height = swipeUp > 0 ? 0 : '';
+	tags.style.height = menu.style.height;
 }
 
 function onTogglePreset() {
@@ -609,8 +553,6 @@ function onToggleExpander() {
 	  default:
 		break;
 	}
-	collage.style.height = (window.innerHeight) + 'px';
-	// setTimeout(fadeIn, 0);
 }
 
 function onClearAll() {

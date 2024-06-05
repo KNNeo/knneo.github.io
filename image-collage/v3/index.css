@@ -28,26 +28,18 @@ body {
 	height: 100%;
 }
 
-body[layout='horizontal'] .content {
-	display: flex;
-}
-
 .content {
 	height: 100%;
-	
-}
-body[layout='horizontal'] .expander {
-	display: none;
-}
-
-.title {
-	cursor: pointer;
 }
 
 .description {
 	max-height: 5em;
-	height: 100%;
 	overflow: auto;
+}
+
+.tags {
+	position: relative;
+	max-height: calc(100% - 240px);
 }
 
 .tags div {
@@ -57,20 +49,13 @@ body[layout='horizontal'] .expander {
 	max-height: 2em;
 	overflow-x: auto;
 	text-align: center;
+	position: relative;
 }
 
 .tags div::-webkit-scrollbar { 
 	height: 0;
 }
 
-.tags .category-title {
-	display: inline;
-}
-
-.tags.expanded {
-	position: relative;
-	max-height: calc(100% - 240px);	
-}
 
 .tags.expanded .category-title {
 	display: block;
@@ -89,10 +74,6 @@ body[layout='horizontal'] .expander {
     align-content: flex-start;
 	max-height: 100%;
 	overflow-y: auto;
-}
-
-body[layout='vertical'] .tags.expanded div {
-	max-height: 46dvh;
 }
 
 .tag {
@@ -125,6 +106,12 @@ body[layout='vertical'] .tags.expanded div {
 	content: " - ";
 }
 
+.collage {
+	width: 100%;
+	height: 100%;
+	overflow-y: scroll;
+}
+
 .grid {
 	width: 100%;
 	display: flex;
@@ -142,13 +129,8 @@ body[layout='vertical'] .tags.expanded div {
 .grid-item img {
 	width: 100%;
 	height: 100%;
-	object-fit: cover;
-	transition: all 0.1s ease;	
-	image-rendering: crisp-edges;
-	image-rendering: -moz-crisp-edges;          /* Firefox */
-	image-rendering: -o-crisp-edges;            /* Opera */
-	image-rendering: -webkit-optimize-contrast; /* Webkit (non-standard naming)*/
-	-ms-interpolation-mode: nearest-neighbor;   /* IE (non-standard property) */
+    object-fit: cover;
+	transition: all 0.1s ease;
 }
 
 .grid-item img:hover {
@@ -195,10 +177,6 @@ body[layout='vertical'] .tags.expanded div {
 	font-size: 0.9em;
 }
 
-.table {
-	display: flex;
-	width: 100%;
-}
 .counter {
 	padding: 0 5px;
 	text-align: left;
@@ -237,17 +215,13 @@ body[layout='vertical'] .tags.expanded div {
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	max-height: 100%;
+	width: 100%;
+	margin: auto;
 }
 
 .title,
 .description {
 	margin: 10px 0;
-}
-
-.collage {
-  overflow: auto;
-  white-space: nowrap;
 }
 
 .dialog dialog {
@@ -338,4 +312,38 @@ body[layout='vertical'] .tags.expanded div {
 
 .viewer.zoom img {
 	object-fit: cover;	
+}
+
+@media (orientation: landscape) {
+	.content {
+		display: flex;
+	}
+	.menu {
+		height: 100%;
+	}
+	.expander {
+		display: none;
+	}
+	.category-title {
+		margin: 0;
+		padding: 1em;
+		position: sticky;
+		top: 0;
+		background-color: var(--background);
+	}
+}
+
+@media (orientation: portrait) {
+	.tags div {
+		max-height: 40px;
+	}
+	.tags.expanded div {
+		max-height: 46dvh;
+	}
+	.tags .category-title {
+		display: inline;
+	}
+	.tag {
+		height: 36px;
+	}
 }
