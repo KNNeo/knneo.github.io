@@ -878,13 +878,14 @@ abbr.imgpop:hover img {
 	font-family: "Material Icons";
     content: "open_in_new";
     position: absolute;
-	font-size: 2rem;
-    left: 0.5rem;
-	color: rgb(var(--secondary));
+    font-size: 1.5rem;
+    width: 2rem;
+    color: rgb(var(--foreground));
+    background-color: rgb(var(--secondary));
 }
 
 .agenda .item a:not([href^="file"]):not([href^="#"]):not([href^="javascript"]):hover::before {
-	color: rgb(var(--primary));
+    background-color: rgb(var(--primary));
 }
 
 .agenda .item img {
