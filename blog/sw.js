@@ -1,7 +1,7 @@
 // Caches, in decreasing order of update frequency
 const CACHE_NAME_POSTS = 'posts-20240604';
 const CACHE_NAME_PAGES = 'pages-20240603';
-const CACHE_NAME_RESOURCES = 'script-20240606';
+const CACHE_NAME_RESOURCES = 'script-20240606-1';
 const CACHE_NAME_STATIC = 'default-20240531';
 const ALL_CACHES = [ CACHE_NAME_POSTS, CACHE_NAME_PAGES, CACHE_NAME_RESOURCES, CACHE_NAME_STATIC ];
 
@@ -27,7 +27,7 @@ self.addEventListener('fetch', function(event) {
 		  return cachedResponse;
 		}
         // Check online status
-        if (navigator.onLine) {
+        else if (navigator.onLine) {
 		  // Decide cache based on Accept header
 		  let cacheName = CACHE_NAME_STATIC;
 		  if (request.headers.get('Accept').includes('text/html'))
