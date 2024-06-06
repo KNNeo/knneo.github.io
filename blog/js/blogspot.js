@@ -148,7 +148,7 @@ function onTouchEnd() {
 // remove .html extensions, facilitate static site routing
 function removeLinkExtensions() {
 	for(let a of document.querySelectorAll('a'))
-		a.href = processLinkExtensions(a.href);
+		a.setAttribute('href', processLinkExtensions(a.getAttribute('href')));
 }
 
 function processLinkExtensions(url) {
