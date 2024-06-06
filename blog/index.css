@@ -874,7 +874,7 @@ abbr.imgpop:hover img {
 	position: relative;
 }
 
-.agenda .item a:not([href^="file"]):not([href^="#"]):not([href^="javascript"])::before {
+.agenda .item a:not([href^="file"]):not([href^="#"]):not([href^="javascript"]):not([target^="_blank"]):not(.new-thumbnail-initial)::before {
 	font-family: "Material Icons";
     content: "open_in_new";
     position: absolute;
@@ -884,7 +884,7 @@ abbr.imgpop:hover img {
     background-color: rgb(var(--secondary));
 }
 
-.agenda .item a:not([href^="file"]):not([href^="#"]):not([href^="javascript"]):hover::before {
+.agenda .item a:not([href^="file"]):not([href^="#"]):not([href^="javascript"]):not([target^="_blank"]):not(.new-thumbnail-initial):hover::before {
     background-color: rgb(var(--primary));
 }
 
