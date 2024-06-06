@@ -731,28 +731,82 @@ abbr.imgpop:hover img {
     width: min(100%, 480px); /*fix tweet embed use display flex*/
 }
 
-.mal-container {
+.mal-frame .mal-container {
 	border: 1px solid rgb(var(--foreground));
 	background-color: rgb(var(--background));
 	box-shadow: 3px 3px rgb(var(--foreground));
 	color: rgb(var(--foreground));
 	padding: 6px;
-	max-width: min(95%,760px);
+	max-width: min(95%,640px);
 	max-height: min(50vh,450px);
 	margin: auto;
     overflow-y: auto;
+	display: flex;
+	flex-wrap: wrap;
 }
 
-.mal-container div {
-	width: 100%;
-	padding-bottom: 6px;
+.mal-content,
+.mal-associated {
+	min-width: 50%;
+	max-width: 100%;
+    padding-bottom: 1em;
 	font-size: 1rem;
 	text-wrap: wrap;
+    margin: auto;
 }
 
 .mal-container img {
 	width: 100%;
 	max-width: 160px;
+}
+
+.mal-container .mal-associated img {
+    max-width: 125px;
+}
+
+.mal-associated {
+    font-size: 0.85rem;
+	max-width: 50%;
+}
+
+.mal-associated div:first-child,
+.mal-related > div {
+    text-align: start;
+}
+
+.mal-associated img {
+	max-width: 50%;
+}
+
+.mal-related {
+	display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.mal-related img {
+	width: 95%;
+}
+
+.mal-related > div {
+	max-width: 20%;
+    font-size: initial;
+}
+
+.mal-related > div:not(:first-child) {
+    text-align: center;
+    font-size: 0.75rem;
+	text-wrap: wrap;
+}
+
+.mal-related div:first-child {
+	min-width: 100%;
+}
+
+.mal-description {
+    padding-bottom: 1em;
+	min-width: 100%;
+	text-wrap: wrap;
 }
 
 /*DATA TABLE*/
@@ -1092,6 +1146,12 @@ abbr.imgpop:hover img {
 	}
 	.fab.close {
 		margin-left: 20px;
+	}
+	.mal-related > div {
+		max-width: 30%;
+	}
+	.mal-related > div:nth-child(n+5) {
+		display: none;
 	}
 }
 

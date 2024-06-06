@@ -407,26 +407,29 @@ function generatePopupContent(content) {
     }
     if (url.includes('jisho.org/search/')) {
         //process page as iframe
-        return '<iframe id="jisho-frame" src="_url_" style="height:min(50vh,450px);width:min(98%,760px);"></iframe>'
+        return '<iframe id="jisho-frame" src="_url_" style="height:min(50vh,450px);width:min(98%,640px);"></iframe>'
 		.replace('_url_', content);
     }
     if (url.includes('myanimelist.net/')) {
 		//courtesy of jikan.moe, process custom div from api
-		let result = '<div class="mal-frame"></div>';
+		let result = '<div class="mal-frame {type}"></div>';
         //process page as iframe
 		if(url.includes('/anime/')) { // myanimelist.net/anime/54233/Sasayaku_You_ni_Koi_wo_Utau
+			result = result.replace('{type}', 'anime');
 			let id = content.substring(content.indexOf('/anime/')+1+6, content.lastIndexOf('/'));
 			getJson('https://api.jikan.moe/v4/anime/{id}'.replace('{id}', id), createElementFromJson);
 			return result;
 		}
 		if(url.includes('/character/')) { // myanimelist.net/character/199341/Aki_Mizuguchi
+			result = result.replace('{type}', 'character');
 			let id = content.substring(content.indexOf('/character/')+1+10, content.lastIndexOf('/'));
-			getJson('https://api.jikan.moe/v4/characters/{id}'.replace('{id}', id), createElementFromJson);
+			getJson('https://api.jikan.moe/v4/characters/{id}/full'.replace('{id}', id), createElementFromJson);
 			return result;
 		}
 		if(url.includes('/people/')) { // myanimelist.net/people/10071/Mikako_Komatsu
+			result = result.replace('{type}', 'people');
 			let id = content.substring(content.indexOf('/people/')+1+7, content.lastIndexOf('/'));
-			getJson('https://api.jikan.moe/v4/people/{id}'.replace('{id}', id), createElementFromJson);
+			getJson('https://api.jikan.moe/v4/people/{id}/full'.replace('{id}', id), createElementFromJson);
 			return result;
 		}
     }
@@ -435,15 +438,79 @@ function generatePopupContent(content) {
 
 function createElementFromJson(response) {
 	if(response && response.data) {
+		// assume json is flat unless specially traversed
 		// console.log(response.data);
 		// get url to find back parent container
 		let url = response.data.url;
-		// assume json is flat unless specially traversed
+		// render container
+		let containerDiv = document.createElement('div');
+		containerDiv.classList.add('mal-container');
+		// render sections
 		let contentDiv = document.createElement('div');
-		contentDiv.classList.add('mal-container');
+		contentDiv.classList.add('mal-content');
+		let associatedDiv = document.createElement('div');
+		associatedDiv.classList.add('mal-associated');
+		let descriptionDiv = document.createElement('div');
+		descriptionDiv.classList.add('mal-description');
+		let relatedDiv = document.createElement('div');
+		relatedDiv.classList.add('mal-related');
 		// render fields from response data
 		for(let key of Object.keys(response.data))
 		{
+			if(typeof(key) == 'string' && key == 'voices' && url.includes('/people/')) {
+				let contentTitle = document.createElement('div');
+				contentTitle.innerText = 'Appears On';
+				associatedDiv.appendChild(contentTitle);
+				
+				let mains = response.data[key].filter(d => d.role == 'Main');
+				let selection = mains[0];
+				// console.log(selection);
+				let contentImg = document.createElement('img');
+				contentImg.src = selection.anime.images.jpg.image_url;
+				associatedDiv.appendChild(contentImg);
+				
+				let contentBlock = document.createElement('div');
+				contentBlock.innerText = selection.anime.title;
+				associatedDiv.appendChild(contentBlock);
+				
+				let contentHeader = document.createElement('div');
+				contentHeader.innerText = 'Also Appears On';
+				relatedDiv.appendChild(contentHeader);
+				
+				let related = mains.slice(1).sort(r => 2*Math.random()-1).slice(0,5);
+				// console.log(related);
+				for(let anime of related) {
+					let contentRow = document.createElement('div');
+					
+					let contentTitle = document.createElement('div');
+					contentTitle.innerText = 'Appears On';
+					if(!url.includes('/people/')) contentRow.appendChild(contentTitle);
+					
+					let contentImg = document.createElement('img');
+					contentImg.src = anime.anime.images.jpg.image_url;
+					contentRow.appendChild(contentImg);
+					
+					let contentBlock = document.createElement('div');
+					contentBlock.innerText = anime.anime.title;
+					contentRow.appendChild(contentBlock);
+					
+					relatedDiv.appendChild(contentRow);
+				}
+			} // associated and related block for people
+			if(typeof(key) == 'string' && key == 'anime' && url.includes('/character/')) {
+				// console.log(response.data[key][0]);
+				let contentHeader = document.createElement('div');
+				contentHeader.innerText = 'Appears On';
+				associatedDiv.appendChild(contentHeader);
+				
+				let contentImg = document.createElement('img');
+				contentImg.src = response.data[key][0].anime.images.jpg.image_url;
+				associatedDiv.appendChild(contentImg);
+				
+				let contentBlock = document.createElement('div');
+				contentBlock.innerText = response.data[key][0].anime.title;
+				associatedDiv.appendChild(contentBlock);
+			} // associated block for character
 			if(typeof(key) == 'string' && key == 'images') {
 				let contentRow = document.createElement('img');
 				contentRow.src = response.data[key]['jpg']['image_url'];
@@ -459,14 +526,24 @@ function createElementFromJson(response) {
 				contentRow.innerText = response.data[key].string;
 				contentDiv.appendChild(contentRow);
 			} // date period treatment
-			if(typeof(key) == 'string' && ['about','name','score','synopsis','title','type'].includes(key)) {
+			if(typeof(key) == 'string' && ['about','synopsis'].includes(key)) {
+				let contentRow = document.createElement('div');
+				contentRow.innerText = response.data[key];
+				descriptionDiv.appendChild(contentRow);
+			} // specific fields as specified by key
+			if(typeof(key) == 'string' && ['name','score','title','type'].includes(key)) {
 				let contentRow = document.createElement('div');
 				contentRow.innerText = response.data[key];
 				contentDiv.appendChild(contentRow);
 			} // for all other fields as specified by key
 		}
-		// replace html of temp container
-		document.querySelector('.new-t[data-url="_url_"] .new-thumbnail-focus .mal-frame'.replace('_url_', url)).innerHTML = contentDiv.outerHTML;
+		// append sections to container
+		containerDiv.appendChild(contentDiv);
+		if(associatedDiv.childElementCount > 0) containerDiv.appendChild(associatedDiv);
+		containerDiv.appendChild(descriptionDiv);
+		if(relatedDiv.childElementCount > 0) containerDiv.appendChild(relatedDiv);
+		// replace html of initial container
+		document.querySelector('.new-t[data-url="_url_"] .new-thumbnail-focus .mal-frame'.replace('_url_', url)).innerHTML = containerDiv.outerHTML;
 	}
 }
 
