@@ -880,7 +880,7 @@ abbr.imgpop:hover img {
     position: absolute;
     font-size: 1.5rem;
     width: 2rem;
-    color: rgb(var(--foreground));
+    color: rgb(var(--background));
     background-color: rgb(var(--secondary));
 }
 
