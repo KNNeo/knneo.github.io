@@ -113,10 +113,9 @@ IEnumerable<XElement> GetBloggerPostsPublished(string inputFileDir, string outpu
         .Where(entry => !entry.Element(DEFAULT_XML_NAMESPACE+"category").Attribute("term").ToString().Contains("#page"))
         // Exclude any draft posts, do not have page URL created
         .Where(entry => !entry.Descendants(XNamespace.Get("http://purl.org/atom/app#")+"draft").Any(draft => draft.Value != "no"));    
-    //Clear Files in output folder
-    if(Directory.Exists(outputFileDir) && !HOMEPAGE_ONLY)
-        Directory.Delete(outputFileDir, true);
-    Directory.CreateDirectory(outputFileDir);
+    //Create output folder if missing
+    if(!Directory.Exists(outputFileDir) && !HOMEPAGE_ONLY)
+		Directory.CreateDirectory(outputFileDir);
 	return xmlPosts;
 }
 
@@ -239,7 +238,7 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
 				.Replace("_CONTENTS_", output.ToString())
 				.Replace("_PREVLINK_", linkedList.IndexOf(pageLink) < linkedList.Count() - 1 ? linkedList[linkedList.IndexOf(pageLink) + 1].Replace("./", "../../../") : "")
 				.Replace("_NEXTLINK_", linkedList.IndexOf(pageLink) > 0 ? linkedList[linkedList.IndexOf(pageLink) - 1].Replace("./", "../../../") : "");
-		    // Write into homepage file
+		    // Write into homepage file, or overwrite if exists
 		    File.WriteAllText(pageOutputPath, fileString);	
 			// Show progress, as post title or as represented by dot (100 per line)
 		    if(WRITE_TITLE_ON_CONSOLE || DEBUG_MODE)
