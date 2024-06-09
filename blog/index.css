@@ -1156,6 +1156,14 @@ abbr.imgpop:hover img {
 	}
 }
 
+/*MEDIA QUERIES - LARGE SCREEN WIDTH */
+@media only screen and (max-width: 1280px) {
+	.action-menu.bottom-right {
+		bottom: 20px;
+		right: calc(50% - 64ch);
+	}
+}
+
 /*MEDIA QUERIES - REDUCED MOTION*/
 @media (prefers-reduced-motion: reduce) {
 	.fadeIn {
@@ -1165,9 +1173,7 @@ abbr.imgpop:hover img {
 	.thumbnail,
 	.thumbnail-initial,
 	.thumbnail-initial img,
-	.thumbnail-initial video,
-	.omake
-	{
+	.omake {
 		transition: none;
 	}
 }

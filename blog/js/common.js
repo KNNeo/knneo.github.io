@@ -37,44 +37,6 @@ function windowOnHistoryChange() {
 }
 
 //==FUNCTIONS==//
-// Convert text to icon for footer labels
-function renderLabelIcon() {
-	for(let label of document.querySelectorAll('#Label1 li a, .post-tags a'))
-		label.innerHTML = '<span class="material-icons small-icons">' + labelTextToIcon(label.innerText) + '</span>' + label.innerText + '</a>';	
-}
-
-function labelTextToIcon(iconText) {
-	switch (iconText)
-	{
-		case 'The Entertainment News':
-			return 'newspaper';
-			break;
-		case 'The Klassic Note':
-			return 'music_note';
-			break;
-		case 'The Dreams':
-			return 'cloud';
-			break;
-		case 'The Everyday Life':
-			return 'nightlife';
-			break;
-		case 'The Fanfiction':
-			return 'category';
-			break;
-		case 'The Statement':
-			return 'campaign';
-			break;
-		case 'The Welfare Package':
-			return 'inventory_2';
-			break;
-		case 'The Review':
-			return 'edit_note';
-			break;
-		default:
-			break;
-	}
-}
-
 // Add hashtags for Entertainment News posts with anchors
 function addHashtags() {
 	let tags = document.querySelector('#hashtags, .hashtags');
@@ -127,8 +89,8 @@ function addHashtags() {
 	if(typeof generateReadTime == 'function') generateReadTime();
 }
 
+// Set initial scroll if current page url has hash
 function scrollToSectionByUrl() {
-	// used to set initial scroll if location has hash
 	if(window.location.hash.length > 0)
 		scrollToElement(document.getElementById(window.location.hash.substring(1)));
 	if(window['scroll-top']) { // if popstate triggered, revert hashchange (works only if has selected anchor
@@ -189,6 +151,7 @@ function toggleExpander() {
 	parent.querySelector('.header').scrollIntoView({ block: 'center' });
 }
 
+// Dialog element, to show popup content
 function popupText(input) {
 	// Dialog component
 	let dialogDiv = document.querySelector('.dialog');
@@ -417,26 +380,26 @@ function generatePopupContent(content) {
 		if(url.includes('/anime/')) { // myanimelist.net/anime/54233/Sasayaku_You_ni_Koi_wo_Utau
 			result = result.replace('{type}', 'anime');
 			let id = content.substring(content.indexOf('/anime/')+1+6, content.lastIndexOf('/'));
-			getJson('https://api.jikan.moe/v4/anime/{id}'.replace('{id}', id), createElementFromJson);
+			getJson('https://api.jikan.moe/v4/anime/{id}'.replace('{id}', id), createMalElementFromJson);
 			return result;
 		}
 		if(url.includes('/character/')) { // myanimelist.net/character/199341/Aki_Mizuguchi
 			result = result.replace('{type}', 'character');
 			let id = content.substring(content.indexOf('/character/')+1+10, content.lastIndexOf('/'));
-			getJson('https://api.jikan.moe/v4/characters/{id}/full'.replace('{id}', id), createElementFromJson);
+			getJson('https://api.jikan.moe/v4/characters/{id}/full'.replace('{id}', id), createMalElementFromJson);
 			return result;
 		}
 		if(url.includes('/people/')) { // myanimelist.net/people/10071/Mikako_Komatsu
 			result = result.replace('{type}', 'people');
 			let id = content.substring(content.indexOf('/people/')+1+7, content.lastIndexOf('/'));
-			getJson('https://api.jikan.moe/v4/people/{id}/full'.replace('{id}', id), createElementFromJson);
+			getJson('https://api.jikan.moe/v4/people/{id}/full'.replace('{id}', id), createMalElementFromJson);
 			return result;
 		}
     }
     return null;
 }
 
-function createElementFromJson(response) {
+function createMalElementFromJson(response) {
 	if(response && response.data) {
 		// assume json is flat unless specially traversed
 		// console.log(response.data);
@@ -547,6 +510,7 @@ function createElementFromJson(response) {
 	}
 }
 
+// overlay element for popups
 function showOverlay() {
 	let overlay = document.createElement('div');
 	overlay.className = 'overlay';
@@ -563,12 +527,11 @@ function hideOverlay() {
 
 // Floating action button events
 function displayFAB() {
-	// for initial state
+	// initial state assume all menus hidden
 	if(document.querySelector('#Overlay') != null && document.querySelector('#Overlay').style.display != 'none')
 		return;
-	if(!navigator.share) {
+	if(!navigator.share)
 		document.querySelector('.fab.share')?.remove();
-	}
 	document.querySelector('.action-menu.bottom-left')?.classList.add('show');
 	document.querySelector('.action-menu.bottom-right')?.classList.add('show');
 	if(isBlogger()) {
@@ -583,12 +546,10 @@ function toggleActionsOnScroll() {
 	let pageDown = document.body.scrollTop > 0.3 * document.documentElement.clientHeight || 
 	document.documentElement.scrollTop > 0.3 * document.documentElement.clientHeight;
 	if(!isBlogger()) { // if not in blogger, show all buttons applicable
-		if (pageDown) {
+		if (pageDown)
 			toggleActions(['.fab.share', '.fab.search', '.fab.top'], '.action-menu.bottom-right');
-		}
-		else {
+		else
 			toggleActions(['.fab.share', '.fab.search', '.fab.theme'], '.action-menu.bottom-right');
-		}
 	}
 	else { 
 		// do not show too many as small screen space
@@ -768,7 +729,7 @@ function switchThumbnails(tn, index) {
 		let activeHeight = parseInt(tn.style.height.replace('px',''));
 		if(Math.abs(activeHeight - nextActive.offsetHeight) > 10)
 			tn.style.height = nextActive.offsetHeight + 'px';
-	}, tn.classList.contains('fastscroll') && !isSmallWidth() ? 0 : 200);
+	}, tn.classList.contains('fastscroll') ? 0 : 200);
 }
 
 function showAllThumbnails(tn) {
@@ -777,9 +738,9 @@ function showAllThumbnails(tn) {
 		openImagesInViewer(tn.querySelectorAll('.thumbnail-initial'));
 }
 
+// Responsive image resizing based on screen dimensions
 function resizeImages() {
-    /* Responsive image resizing based on screen dimensions
-	Current limitations:
+    /* Current assumptions:
     ~Images that always resize to 100% instead of retaining original size which can fit screen, consider putting back original size if no overflow
 	~Images need to have width and height attribute, especially if tr has multiple td/img
     */
