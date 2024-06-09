@@ -292,7 +292,7 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
 				}
 				// Add to homepage string builder
                 homepageString.AppendLine(isLatest 
-					? "<div class=\"post latest\"" + dataId + ">" + 
+					? "<div class=\"box latest post\"" + dataId + ">" + 
 					(thumbnailUrl.Length > 0 ? "<span class=\"publish\">"+publishDate.ToString("yyyy.MM.dd")+"</span>" : "") + 
 					"<div class=\"thumb\">" + 
 						"<a href=\"" + pageLink + "\">" + postTitle + "</a>" + 

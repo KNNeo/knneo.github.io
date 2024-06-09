@@ -24,6 +24,7 @@ body {
 	transition: background .2s linear;
 	line-height: 1.5;
 	font-size: calc(1rem + 0.25vw);
+	max-width: 100% !important;
 }
 
 a {
@@ -32,6 +33,26 @@ a {
 
 a:hover {
 	color: rgb(var(--foreground));
+}
+
+.box {
+	background-color: rgb(var(--background));
+	box-shadow: 3px 3px rgb(var(--foreground));
+	border: 1px solid rgb(var(--foreground));
+	border-radius: 8px;
+	transition: background .2s linear;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.box.selected,
+.box:hover,
+.box:focus-within {
+	box-shadow: 1px 1px rgb(var(--foreground));
+	transform: translate(2px,2px);
 }
 
 .tr-caption {
@@ -50,28 +71,19 @@ a:hover {
 }
 
 .latest {
-	box-shadow: 3px 3px rgb(var(--foreground));
 	border: 2px solid rgb(var(--foreground));
-	position: relative;
-	display: inline-block;
 	width: min(95%, 410px);
+	display: inline-block;
+	position: relative;
 	margin: 4px 2px;
 	vertical-align: top;
 	font-size: initial;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-	border-radius: 8px;
-	transition: background .2s linear;
 }
 
-.latest:hover {
-	box-shadow: 1px 1px;
-	transform: translate(2px,2px);
+.latest:hover .publish {
+	display: none;
 }
-
+	
 .latest a {
 	font-weight: bold;
 	line-height: initial;
@@ -112,6 +124,10 @@ a:hover {
 
 .latest .anchors {
 	display: none;
+    flex-wrap: wrap;
+    align-content: flex-end;
+    justify-content: center;
+    align-items: center;
 	position: absolute;
 	width: calc(100% - 156px);
 	max-height: 33%;
@@ -120,7 +136,8 @@ a:hover {
 	bottom: 0;
 	right: 0;
 	overflow: auto;
-	padding: 3px 0;
+    padding: 5px 0;
+	gap: 5px;
 	scrollbar-width: none; /* Firefox */
 }
 
@@ -222,15 +239,15 @@ a:hover {
 	white-space: nowrap;
 }
 
-a.material-icons {
+.material-icons {
 	text-decoration: none;
 }
 
-span.small-icons {
+.small-icons {
     vertical-align: sub;
 }
 
-span.emoji {
+.emoji {
 	white-space: nowrap;
 }
 
@@ -251,25 +268,9 @@ span.emoji {
 }
 
 .post-tags a {
-	border-radius: 8px;
-	box-shadow: 3px 3px rgb(var(--foreground));
-	border: 1px solid rgb(var(--foreground));
-	background-color: rgb(var(--background));
 	padding: 6px;
     white-space: nowrap;
 	text-decoration: none;
-	transition: background .2s linear;
-}
-
-.post-tags a:visited {
-	color: rgb(var(--primary));
-}
-
-.post-tags a.selected,
-.post-tags a:hover {
-	box-shadow: 1px 1px;
-	transform: translate(2px, 2px);
-	color: rgb(var(--foreground));
 }
 
 .thumbnail {
@@ -320,10 +321,6 @@ a.fab.hidden {
 	text-transform: uppercase;
 }
 
-.material-icons {
-	font-size: 2em;
-}
-
 .inverted {
   filter: invert(1);
 }
@@ -338,6 +335,35 @@ a.fab.hidden {
 
 .darked .custom-table tr:hover > td {
 	background-color: gray;
+}
+
+.action-menu {
+	position: fixed;
+	display: block;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	transition: opacity .2s linear, background .2s linear;	
+	z-index: 7;
+}
+
+.action-menu.bottom-left {
+	bottom: 20px;
+	left: 20px;
+}
+
+.action-menu.bottom-right {
+	bottom: 20px;
+	right: 20px;
+}
+
+.fab {
+	color: rgb(var(--foreground));
+	font-size: 2em;
+	padding: 8px 6px 6px 6px;
+	cursor: pointer;
+	line-height: 1;
+    text-decoration: none;
 }
 
 /*Custom viewer*/
@@ -499,9 +525,6 @@ a.fab.hidden {
 	.latest:hover:has(.anchors) .thumb > a {
 		margin-bottom: 3em;
 	}
-	.latest:hover .publish {
-		display: none;
-	}
 	.page-header {
 		opacity: 1;
 		z-index: 1;
@@ -552,7 +575,7 @@ a.fab.hidden {
 		animation: none;
 	}
 	body,
-	.latest,
+	.box,
 	.viewer,
 	.page-header,
 	.action-menu {
