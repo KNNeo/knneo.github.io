@@ -248,6 +248,10 @@ a:hover {
 	text-transform: uppercase;
 }
 
+.news-thumbnail {
+	display: none;
+}
+
 .head-prefix {
 	background-color: rgb(var(--secondary));
 	border-radius: 5px;
@@ -259,10 +263,6 @@ a:hover {
 
 .head-title {
 	font-size: 1.125em;
-}
-
-.news-thumbnail {
-	display: none;
 }
 
 .hashtags {
@@ -277,23 +277,30 @@ a:hover {
 	padding: 3px;
 }
 
+/* mini notice to skip to section on top of post */
 .skip-section {
 	font-size: 0.625em;
 	padding: 5px;
 	text-align: center;
 }
 
+/* font requirement to support chef's kiss reaction */
 .emoji {
 	font-family: Noto Color Emoji;
 	white-space: nowrap;
 }
 
+/* for single colour transparent background images - 11vs12 */
 .inverted {
-  filter: invert(1);
+	filter: invert(1);
 }
 
 .darked .inverted {
-  filter: invert(0);
+	filter: invert(0);
+}
+
+.heading {
+	font-size: 1.35em;
 }
 
 /* CAROUSEL */
@@ -486,7 +493,6 @@ a:hover {
 	text-wrap: wrap;
 }
 
-
 /*DATA TABLE*/
 .datatable {
 	white-space: nowrap;
@@ -631,8 +637,7 @@ a:hover {
 	display: block;
 }
 
-/*Fixes from universal font-size change*/
-
+/* Action menu with FABs */
 .action-menu {
 	position: fixed;
 	display: block;

@@ -19,11 +19,22 @@ string BLOG_DOMAIN_URL = "https://knwebreports.blogspot.com/";
 XNamespace DEFAULT_XML_NAMESPACE = XNamespace.Get("http://www.w3.org/2005/Atom");
 List<string> GOOGLE_FONTS_URLS = new List<string>() { "Dancing Script" };
 
-// HOMEPAGE SETTINGS
+// PAGE SETTINGS
 string HTML_BODY_FONTFAMILY = "Noto Sans, Arial, sans-serif;";
 string HTML_TITLE = "Klassic Note Web Reports";
 string HTML_THUMBNAIL_SINCE = "2023-01-01";
 List<String> POST_IGNORE_LABELS = new List<string>() { "The Archive" };
+Dictionary<String, String> POST_LABEL_ICONTEXT = new Dictionary<String, String>()
+{
+	{ "The Entertainment News", "newspaper" },
+	{ "The Klassic Note", "music_note" },
+	{ "The Dreams", "cloud" },
+	{ "The Everyday Life", "nightlife" },
+	{ "The Fanfiction", "category" },
+	{ "The Welfare Package", "inventory_2" },
+	{ "The Review", "edit_note" },
+	{ "The Statement", "campaign" }
+};
 
 // INPUT OUTPUT SETTINGS
 string BLOGGER_XML_DIRECTORY = @"C:\Users\KAINENG\Downloads\";
@@ -220,7 +231,7 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
 	        output.Append("<hr>");
 	        if(pageTagsXml.Count > 0)
 	            output.Append("<div class=\"post-tags\"><h4>Reported in </h4>" + 
-					string.Join("", pageTagsXml.OrderBy(t => t).Select(tag => "<a class=\"box\" href=\"../../../index.html#" + tag.Replace(" ","") +"\">" + tag + "</a>")) + 
+					string.Join("", pageTagsXml.OrderBy(t => t).Select(tag => POST_LABEL_ICONTEXT.TryGetValue(tag, out String tagValue) ? "<a class=\"box\" href=\"../../../index.html#" + tag.Replace(" ","") +"\">" + "<span class=\"material-icons small-icons\">" + tagValue + "</span>" + tag + "</a>" : "")) + 
 					"</div>");
 	        output.Append("<h6 style=\"text-align: center;\">All text content © 2014-2024 Klassic Note Web Reports</h6>");
 	        output.Append("<br>");

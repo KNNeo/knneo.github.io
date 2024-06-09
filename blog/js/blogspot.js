@@ -18,7 +18,6 @@ function postLoadSequence() {
 	setTimeout(setExpander, 0);
 	setTimeout(addHoverForLinks, 0);
 	setTimeout(showAbbrAsDialog, 0);
-	setTimeout(renderLabelIcon, 0);
 	setTimeout(toggleEmojiDisplay, 0);
 	setTimeout(scrollToSectionByUrl, 200);
 	setTimeout(function() {
