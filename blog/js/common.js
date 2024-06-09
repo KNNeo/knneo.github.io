@@ -765,6 +765,8 @@ function switchThumbnails(tn, index) {
 		window['tn'] = new Date();
 	// set height change delay due to transition
 	setTimeout(function() {
+		let activeHeight = parseInt(tn.style.height.replace('px',''));
+		if(Math.abs(activeHeight - nextActive.offsetHeight) > 10)
 			tn.style.height = nextActive.offsetHeight + 'px';
 	}, tn.classList.contains('fastscroll') && !isSmallWidth() ? 0 : 200);
 }

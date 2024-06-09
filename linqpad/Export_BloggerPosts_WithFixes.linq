@@ -220,9 +220,9 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
 	        output.Append("<hr>");
 	        if(pageTagsXml.Count > 0)
 	            output.Append("<div class=\"post-tags\"><h4>Reported in </h4>" + 
-					string.Join("", pageTagsXml.OrderBy(t => t).Select(tag => "<a href=\"../../../index.html#" + tag.Replace(" ","") +"\">" + tag + "</a>")) + 
+					string.Join("", pageTagsXml.OrderBy(t => t).Select(tag => "<a class=\"box\" href=\"../../../index.html#" + tag.Replace(" ","") +"\">" + tag + "</a>")) + 
 					"</div>");
-	        output.Append("<h6 style=\"text-align: center;\">Copyright (c) 2014-" + DateTime.Now.Year + " Klassic Note Web Reports</h6>");
+	        output.Append("<h6 style=\"text-align: center;\">All text content © 2014-2024 Klassic Note Web Reports</h6>");
 	        output.Append("<br>");
 	        output.Append("<br>");
 	        output.Append("<br>");
