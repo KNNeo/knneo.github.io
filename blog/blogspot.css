@@ -98,14 +98,13 @@ a:hover {
 	width: 100%;
 }
 
-.latest:hover .thumb .anchors a {
-	margin-bottom: 0;
-}
-
 .latest:hover:has(.anchors) .thumb a {
 	margin-bottom: 2em;
 }
 
+.latest:hover .thumb .anchors a {
+	margin-bottom: 0;
+}
 .latest .thumb img {
 	border-radius: 5px;
 	width: 150px;
@@ -558,6 +557,20 @@ a:hover {
 	position: relative;
 }
 
+.agenda .item img {
+	width: 100%;
+	height: 12.5rem;
+	object-fit: cover;
+	box-sizing: border-box;
+	transition: border 0.1s;
+	border-width: 2px 2px 1rem;
+    border-color: rgb(var(--secondary));
+}
+
+.agenda .item img:hover {
+    border-color: rgb(var(--primary));
+}
+
 .agenda .item a:not([href^="file"]):not([href^="#"]):not([href^="javascript"]):not([target^="_blank"]):not(.new-thumbnail-initial)::before {
 	font-family: "Material Icons";
     content: "open_in_new";
@@ -570,18 +583,6 @@ a:hover {
 
 .agenda .item a:not([href^="file"]):not([href^="#"]):not([href^="javascript"]):not([target^="_blank"]):not(.new-thumbnail-initial):hover::before {
     background-color: rgb(var(--primary));
-}
-
-.agenda .item img {
-	width: 100%;
-	height: 12.5rem;
-	object-fit: cover;
-	box-sizing: border-box;
-	transition: border 0.1s;
-}
-
-.agenda .item a img {
-	border-width: 2px 2px 1rem;
 }
 
 /*DIALOG*/
