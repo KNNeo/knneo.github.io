@@ -35,6 +35,7 @@ Dictionary<String, String> POST_LABEL_ICONTEXT = new Dictionary<String, String>(
 	{ "The Review", "edit_note" },
 	{ "The Statement", "campaign" }
 };
+List<String> POST_OLD_DOMAINS = new List<string>() { "https://knwebreports2014.blogspot.com/", "http://knwebreports2014.blogspot.com/" };
 
 // INPUT OUTPUT SETTINGS
 string BLOGGER_XML_DIRECTORY = @"C:\Users\KAINENG\Downloads\";
@@ -422,25 +423,17 @@ List<int> FixPostContent(ref string content)
     #region 14 old blog link to current blog
 	if(includeIndex.Count() == 0 || includeIndex.Contains(14))
 	{
-		//https
-        expression = @"(?s)(href=""https://knwebreports2014.blogspot.com/)(.*?)(>)";
-        match = Regex.Match(content, expression);
-        while(match.Success) {
-			count.Add(14);
-            var replacement = match.Value.Replace("target=\"_blank\"", "").Replace("https://knwebreports2014.blogspot.com/", "../../");
-            content = content.Replace(match.Value, replacement);
-            match = match.NextMatch();
-        };
-		
-		//http
-        expression = @"(?s)(href=""http://knwebreports2014.blogspot.com/)(.*?)(>)";
-        match = Regex.Match(content, expression);
-        while(match.Success) {
-			count.Add(14);
-            var replacement = match.Value.Replace("target=\"_blank\"", "").Replace("http://knwebreports2014.blogspot.com/", "../../");
-            content = content.Replace(match.Value, replacement);
-            match = match.NextMatch();
-        };
+		foreach(var domain in POST_OLD_DOMAINS)
+		{
+	        expression = @"(?s)(href=""" + domain +")(.*?)(>)";
+	        match = Regex.Match(content, expression);
+	        while(match.Success) {
+				count.Add(14);
+	            var replacement = match.Value.Replace("target=\"_blank\"", "").Replace(domain, "../../");
+	            content = content.Replace(match.Value, replacement);
+	            match = match.NextMatch();
+	        };
+		}
 	}
     #endregion
     
@@ -448,21 +441,11 @@ List<int> FixPostContent(ref string content)
 	if(includeIndex.Count() == 0 || includeIndex.Contains(15))
 	{
 		//https
-        expression = @"(?s)(href=""https://knwebreports.blogspot.com/)(.*?)(>)";
+        expression = @"(?s)(href=""" + BLOG_DOMAIN_URL + ")(.*?)(>)";
         match = Regex.Match(content, expression);
         while(match.Success) {
 			count.Add(15);
-            var replacement = match.Value.Replace("target=\"_blank\"", "").Replace("https://knwebreports.blogspot.com/", "../../");
-            content = content.Replace(match.Value, replacement);
-            match = match.NextMatch();
-        };
-		
-		//http
-        expression = @"(?s)(href=""http://knwebreports.blogspot.com/)(.*?)(>)";
-        match = Regex.Match(content, expression);
-        while(match.Success) {
-			count.Add(15);
-            var replacement = match.Value.Replace("target=\"_blank\"", "").Replace("http://knwebreports.blogspot.com/", "../../");
+            var replacement = match.Value.Replace("target=\"_blank\"", "").Replace(BLOG_DOMAIN_URL, "../../");
             content = content.Replace(match.Value, replacement);
             match = match.NextMatch();
         };
