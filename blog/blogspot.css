@@ -26,12 +26,26 @@ body {
 	font-size: calc(1rem + 0.25vw);
 }
 
+/* Link properties - IN THIS ORDER */
 a {
 	color: rgb(var(--primary));
 }
 
+a img { 
+    box-sizing: border-box;
+	border: 2px solid rgb(var(--secondary));
+}
+
+a img:hover {
+    border-color: rgb(var(--primary));
+}
+
+a:visited {
+  color: rgb(var(--secondary));
+}
+
 a:hover {
-	color: rgb(var(--foreground));
+  color: rgb(var(--foreground));
 }
 
 /* Edits from Blogger classes */
@@ -216,14 +230,14 @@ a:hover {
     justify-content: center;
 }
 
-.post-tags h4 {
-	margin: 0;
-}
-
 .post-tags a {
 	padding: 6px;
     white-space: nowrap;
 	text-decoration: none;
+}
+
+.post-tags a:visited {
+	color: rgb(var(--primary));
 }
 
 /* Posts - Overlays */
@@ -272,7 +286,7 @@ a:hover {
 	opacity: 0;
 }
 
-/* Posts - General */
+/* Posts - Content */
 .published {
 	text-transform: uppercase;
 }
@@ -328,8 +342,14 @@ a:hover {
 	filter: invert(0);
 }
 
+/* typically in all caps, do not style uppercase here */
 .heading {
 	font-size: 1.35em;
+}
+
+/* at bottom of post */
+.post-tags h4 {
+	margin: 0;
 }
 
 /* CAROUSEL */
@@ -694,7 +714,8 @@ a:hover {
 	z-index: -1;
 }
 
-.fab {
+.fab,
+.fab:visited {
 	color: rgb(var(--foreground));
 	font-size: 2em;
 	padding: 8px 6px 6px 6px;
