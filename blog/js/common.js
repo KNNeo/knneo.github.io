@@ -10,24 +10,29 @@ const isMediumWidth = function () {
 }
 
 function windowOnHistoryChange() {
+	window['in-page'] = true;
 	// if viewer open, close and return
-	if(document.querySelector('.viewer')?.classList.contains('open')) {
-		event.preventDefault();
+	if(document.querySelector('.viewer')?.classList.contains('open') && window.location.hash != '#_view_') {
+		console.log('close viewer');
+		// event.preventDefault();
 		closeViewer();
-		return;
 	}
 	// if dialog open, close and return
-	if(document.querySelector('.dialog') != null) {
-		event.preventDefault();
+	else if(document.querySelector('.dialog') != null && window.location.hash != '#_dialog_') {
+		console.log('close dialog');
+		// event.preventDefault();
 		removeDialog();
-		return;
 	}
 	// if popup open, close and return
-	if(document.querySelector('.overlay') != null) {
-		event.preventDefault();
+	else if(document.querySelector('.overlay') != null && window.location.hash != '#_overlay_') {
+		console.log('close popup overlay');
+		// event.preventDefault();
 		closePopups();
-		return;
 	}
+	if(window.location.hash.length > 2) // with delay to prevent hashchange
+		setTimeout(function() {
+			scrollToElement(document.getElementById(window.location.hash.substring(1)));
+		}, 0);
 }
 
 //==FUNCTIONS==//
@@ -85,32 +90,19 @@ function addHashtags() {
 
 // Set initial scroll if current page url has hash
 function scrollToSectionByUrl() {
-	if(window.location.hash.length > 0) {
+	if(window.location.hash.length > 2 && !window['in-page']) // not triggered via windowOnHistoryChange
 		scrollToElement(document.getElementById(window.location.hash.substring(1)));
-		window.location.hash = '_';
-	}
-	// if(window['scroll-top']) { // if popstate triggered, revert hashchange (works only if has selected anchor
-	// 	event.preventDefault();
-	// 	history.forward();
-	// 	window.scrollTo(0, window['scroll-top']);
-	// 	window['scroll-top'] = 0;
-	// }
+	window['in-page'] = false;
 }
 
 function scrollToElement(elem) {
 	// helper function to scroll to any element, assuming header is present
 	if(elem != null) {
 		let newPos = document.documentElement.scrollTop + (elem?.getBoundingClientRect().top || 0) - (document.querySelector('.page-header')?.getBoundingClientRect().height || 0) - 5;
-		// console.log(window['pos'], newPos);
-		// detect final position of section on render
-		if(window['pos'] != parseInt(newPos))
-			window['pos'] = parseInt(newPos);
+		console.log(newPos);
 		// check against scrollTop
 		if(document.documentElement.scrollTop != newPos)
 			document.documentElement.scrollTop = newPos;
-		// for github pages, show page header
-		if(typeof toggleHeader === 'function')
-			toggleHeader(true);
 	}
 }
 
@@ -160,6 +152,7 @@ function popupText(input) {
 	dialogDiv.innerHTML = '';
 	dialogDiv.appendChild(dialog);
 	dialog.showModal();
+	window.location.hash = '_dialog_';
 }
 
 function createDialog(node) {
@@ -186,6 +179,7 @@ function createDialog(node) {
 function removeDialog() {
 	if(event) event.preventDefault(); // Prevent the default form submission
 	document.querySelector('.dialog')?.remove();
+	window.location.hash = '_';
 }
 
 // Popup element, based on content type
@@ -515,10 +509,12 @@ function showOverlay() {
 		event.preventDefault();
 	});
 	document.body.appendChild(overlay);
+	window.location.hash = '_overlay_';
 }
 
 function hideOverlay() {
 	document.querySelector('.overlay')?.remove();
+	window.location.hash = '_';
 }
 
 // Floating action button events
@@ -557,8 +553,9 @@ function toggleActionsOnScroll() {
 	
 	// works with header, when scroll down/up, hide/show buttons
 	let st = window.pageYOffset || document.documentElement.scrollTop;
-	let diff = st - window['scrollTop'];
+	let diff = st - (window['scrollTop'] || 0);
 	let scrollDown = st > 0.3 * document.documentElement.clientHeight && diff <= 0.1;
+	// console.log(diff, scrollDown);
 	if(scrollDown || !pageDown) {
 		document.querySelector('.action-menu.bottom-left')?.classList.remove('hide');
 		document.querySelector('.action-menu.bottom-right')?.classList.remove('hide');
@@ -567,8 +564,16 @@ function toggleActionsOnScroll() {
 		document.querySelector('.action-menu.bottom-left')?.classList.add('hide');
 		document.querySelector('.action-menu.bottom-right')?.classList.add('hide');
 	}
+	if(typeof toggleHeaderByOffset == 'function')
+		toggleHeaderByOffset(st > 0.3 * document.documentElement.clientHeight, !window['initial-load'] || diff <= 0.1);
+	// set scroll state
+	window['scrollTop'] = st;
+	// fake anchor to prevent popstate
+	// window.location.hash = '_';
+	console.log('toggleActionsOnScroll');
 	// hide viewer if open and use wants to scroll
-	closeViewer();
+	if(document.querySelector('.viewer.open') != null)
+		closeViewer();
 }
 
 function toggleActions(showElements, parentElement) {
