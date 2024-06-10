@@ -1,18 +1,18 @@
 // Caches, in decreasing order of update frequency
 const CACHE_NAME_POSTS = 'posts-20240609';
 const CACHE_NAME_PAGES = 'pages-20240609';
-const CACHE_NAME_RESOURCES = 'script-20240609';
+const CACHE_NAME_RESOURCES = 'script-20240610';
 const CACHE_NAME_STATIC = 'default-20240531';
 const ALL_CACHES = [ CACHE_NAME_POSTS, CACHE_NAME_PAGES, CACHE_NAME_RESOURCES, CACHE_NAME_STATIC ];
 
 self.addEventListener('install', function(event) {
   // Perform install steps
   event.waitUntil(Promise.all(
-		ALL_CACHES.map(name => caches.open(name))
-	).then(function(caches) {
-		console.log('Opened cache');
-		return caches;
-	})
+    ALL_CACHES.map(name => caches.open(name))
+  ).then(function(caches) {
+    console.log('Opened cache');
+    return caches;
+  })
   );
 });
 
@@ -22,24 +22,24 @@ self.addEventListener('fetch', function(event) {
   event.respondWith(
     checkCaches(request)
       .then((cachedResponse) => {
-		// Try to find in cache
-		if (cachedResponse) {
-		  return cachedResponse;
-		}
+    // Try to find in cache
+    if (cachedResponse) {
+      return cachedResponse;
+    }
         // Check online status
         else if (navigator.onLine) {
-		  // Decide cache based on Accept header
-		  let cacheName = CACHE_NAME_STATIC;
-		  if (request.headers.get('Accept').includes('text/html'))
-			cacheName = request.url.includes('/posts/') ? CACHE_NAME_POSTS : CACHE_NAME_PAGES;
-		  if (request.headers.get('Accept').includes('text/css') || request.url.endsWith('.js'))
-			cacheName = CACHE_NAME_RESOURCES;
+      // Decide cache based on Accept header
+      let cacheName = CACHE_NAME_STATIC;
+      if (request.headers.get('Accept').includes('text/html'))
+      cacheName = request.url.includes('/posts/') ? CACHE_NAME_POSTS : CACHE_NAME_PAGES;
+      if (request.headers.get('Accept').includes('text/css') || request.url.endsWith('.js'))
+      cacheName = CACHE_NAME_RESOURCES;
           // Online, fetch from network and potentially cache for future use
           return fetch(request)
             .then((response) => {
               // Clone the response for caching
-              const responseClone = response.clone();		
-			  // Open cache and add response
+              const responseClone = response.clone();    
+        // Open cache and add response
               caches.open(cacheName)
                 .then((cache) => cache.put(request, responseClone));
               return response;
@@ -58,16 +58,16 @@ self.addEventListener('fetch', function(event) {
 self.addEventListener('activate', (event) => {
   // Perform delete of cache if name does not exist
   event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames.map((cacheName) => {
-          if (ALL_CACHES.filter(name => name != cacheName).length < 1) {
-            return caches.delete(cacheName);
-          }
+  caches.keys().then((cacheNames) => {
+    return Promise.all(
+      cacheNames.map((cacheName) => {
+        if (!ALL_CACHES.includes(cacheName))
+          return caches.delete(cacheName);
         })
       );
     }).then(() => {
-      window.location.reload(); // Restart the app
+      if(confirm('app has been updated, click ok to reload'))
+        window.location.reload(); // Restart the app
     });
   );
 });
@@ -83,7 +83,7 @@ self.addEventListener('sync', function(event) {
               keys.map((key) => {
                 // Check if the key represents an image resource
                 if (isImageResource(key)) {
-				  // If is image, fetch from network
+                  // If is image, fetch from network
                   return fetch(key) 
                     .then((response) => {
                       if (response.ok) {
