@@ -163,7 +163,7 @@ function addHashtags() {
 		// create hashtags
 		var hashtags = [];		
 		// add any tag with anchor
-		let sections = document.querySelectorAll(".post-body [id]:not(#hashtags):not(#news-thumbnail):not(.twitter-tweet iframe[id]):not(#table):not(#music):not(.list):not(audio):not(video):not(object)");
+		let sections = document.querySelectorAll(".post-body [id]:not(#hashtags):not(#news-thumbnail):not(#disclaimer):not(.twitter-tweet iframe[id]):not(#table):not(#music):not(.list):not(audio):not(video):not(object)");
 		if(sections.length > 0)
 		{
 			for(let section of sections) {
