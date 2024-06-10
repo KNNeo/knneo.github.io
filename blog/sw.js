@@ -66,7 +66,9 @@ self.addEventListener('activate', (event) => {
           }
         })
       );
-    })
+    }).then(() => {
+      window.location.reload(); // Restart the app
+    });
   );
 });
 
