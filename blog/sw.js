@@ -65,9 +65,6 @@ self.addEventListener('activate', (event) => {
           return caches.delete(cacheName);
         })
       );
-    }).then(() => {
-      if(confirm('app has been updated, click ok to reload'))
-        window.location.reload(); // Restart the app
     });
   );
 });
