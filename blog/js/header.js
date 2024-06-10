@@ -27,18 +27,18 @@ function generateHeader() {
 		pageHeader.classList.add('hide');
 		pageHeader.appendChild(header);
 		// add scroll event for header
-		window.addEventListener('scroll', headerOnScroll);
+		// window.addEventListener('scroll', headerOnScroll);
 	}
 }
 
 function headerOnScroll() {
 	let st = window.pageYOffset || document.documentElement.scrollTop;
 	let diff = st - window['scrollTop'];
-	toggleHeader(st > 0.3 * document.documentElement.clientHeight, diff <= 0.1);
+	toggleHeaderByOffset(st > 0.3 * document.documentElement.clientHeight, diff <= 0.1);
 	window['scrollTop'] = st;
 }
 
-function toggleHeader(minYOffset, scrollUp) {
+function toggleHeaderByOffset(minYOffset, scrollUp) {
 	let pageHeader = document.querySelector('.page-header');
 	let minCoverHeight = 0.4*window.innerHeight;
 	// console.log(minYOffset, scrollUp);
@@ -48,15 +48,22 @@ function toggleHeader(minYOffset, scrollUp) {
 			pageHeader.querySelector('.hashtags').classList.remove('show');
 		// exclusion: hide if header is larger than minCoverHeight
 		if(pageHeader.height >= minCoverHeight)
-			pageHeader.classList.add('hide');
-		
+			toggleHeader(false);		
 		if(scrollUp)
-			pageHeader.classList.remove('hide');
+			toggleHeader(true);
 		else
-			pageHeader.classList.add('hide');	
+			toggleHeader(false);
 	}
 	else
-		pageHeader.classList.add('hide');
+		toggleHeader(false);
+}
+
+function toggleHeader(forced) {
+	let pageHeader = document.querySelector('.page-header');
+	if(forced)
+		pageHeader.classList.remove('hide');
+	else
+		pageHeader.classList.add('hide');	
 }
 
 function generateReadTime() {
