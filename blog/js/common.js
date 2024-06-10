@@ -13,25 +13,19 @@ function windowOnHistoryChange() {
 	// if viewer open, close and return
 	if(document.querySelector('.viewer')?.classList.contains('open')) {
 		event.preventDefault();
-		window['scroll-top'] = window.scrollTop;
 		closeViewer();
-		scrollToSectionByUrl();
 		return;
 	}
 	// if dialog open, close and return
 	if(document.querySelector('.dialog') != null) {
 		event.preventDefault();
-		window['scroll-top'] = window.scrollTop;
 		removeDialog();
-		scrollToSectionByUrl();
 		return;
 	}
 	// if popup open, close and return
 	if(document.querySelector('.overlay') != null) {
 		event.preventDefault();
-		window['scroll-top'] = window.scrollTop;
 		closePopups();
-		scrollToSectionByUrl();
 		return;
 	}
 }
@@ -91,14 +85,16 @@ function addHashtags() {
 
 // Set initial scroll if current page url has hash
 function scrollToSectionByUrl() {
-	if(window.location.hash.length > 0)
+	if(window.location.hash.length > 0) {
 		scrollToElement(document.getElementById(window.location.hash.substring(1)));
-	if(window['scroll-top']) { // if popstate triggered, revert hashchange (works only if has selected anchor
-		event.preventDefault();
-		history.forward();
-		window.scrollTo(0, window['scroll-top']);
-		window['scroll-top'] = 0;
+		window.location.hash = '_';
 	}
+	// if(window['scroll-top']) { // if popstate triggered, revert hashchange (works only if has selected anchor
+	// 	event.preventDefault();
+	// 	history.forward();
+	// 	window.scrollTo(0, window['scroll-top']);
+	// 	window['scroll-top'] = 0;
+	// }
 }
 
 function scrollToElement(elem) {
