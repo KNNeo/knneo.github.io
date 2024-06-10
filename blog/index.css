@@ -325,6 +325,12 @@ a.fab:focus-within {
 	opacity: 0;
 }
 
+.skip-section {
+	font-size: 0.625em;
+	padding: 5px;
+	text-align: center;
+}
+
 #CloseBtn {
   position: fixed;
   display: none;
