@@ -554,7 +554,7 @@ function toggleActionsOnScroll() {
 	// works with header, when scroll down/up, hide/show buttons
 	let st = window.pageYOffset || document.documentElement.scrollTop;
 	let diff = st - (window['scrollTop'] || 0);
-	let scrollDown = st > 0.3 * document.documentElement.clientHeight && diff <= 0.1;
+	let scrollDown = st > 0.3 * document.documentElement.clientHeight && diff >= 0.1;
 	// console.log(diff, scrollDown);
 	if(scrollDown || !pageDown) {
 		document.querySelector('.action-menu.bottom-left')?.classList.remove('hide');
@@ -565,12 +565,9 @@ function toggleActionsOnScroll() {
 		document.querySelector('.action-menu.bottom-right')?.classList.add('hide');
 	}
 	if(typeof toggleHeaderByOffset == 'function')
-		toggleHeaderByOffset(st > 0.3 * document.documentElement.clientHeight, !window['initial-load'] || diff <= 0.1);
+		toggleHeaderByOffset(st > 0.3 * document.documentElement.clientHeight, diff >= 0.1);
 	// set scroll state
 	window['scrollTop'] = st;
-	// fake anchor to prevent popstate
-	// window.location.hash = '_';
-	console.log('toggleActionsOnScroll');
 	// hide viewer if open and use wants to scroll
 	if(document.querySelector('.viewer.open') != null)
 		closeViewer();

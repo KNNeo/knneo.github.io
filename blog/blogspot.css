@@ -92,10 +92,6 @@ a:hover {
 	text-decoration: none;
 }
 
-.small-icons {
-    vertical-align: sub;
-}
-
 /* Homepage */
 .post {
     padding: 4px;
@@ -224,6 +220,12 @@ a:hover {
     flex-wrap: wrap;
     align-items: center;
     gap: 8px;
+}
+
+.post-tags .small-icons {
+    vertical-align: sub;
+    font-size: 1.3rem;
+    margin-right: 2px;
 }
 
 .post-tags.filters {
@@ -868,14 +870,14 @@ a:hover {
 /*MEDIA QUERIES - MEDIUM SCREEN WIDTH*/
 @media only screen and (max-width: 880px) {
 	.action-menu.bottom-left {
-		bottom: 20px;
+		bottom: 15px;
 		left: 15px;
 		transition: transform 0.2s ease-in-out;
 		flex-direction: row-reverse;
 	}
 	.action-menu.bottom-right {
-		bottom: 20px;
-		right: 20px;
+		bottom: 15px;
+		right: 15px;
 		transition: transform 0.2s ease-in-out;
 		flex-direction: row;
 	}
