@@ -957,6 +957,8 @@ a:hover {
 	.page-header,
 	.thumbnail,
 	.thumbnail-initial,
+	.thumbnail-initial img, .thumbnail-initial video,
+	.agenda .item img,
 	.action-menu.bottom-left.show,
 	.action-menu.bottom-right.show {
 		transition: none;
