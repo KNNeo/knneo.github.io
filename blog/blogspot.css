@@ -955,6 +955,8 @@ a:hover {
 	.box,
 	.viewer,
 	.page-header,
+	.thumbnail,
+	.thumbnail-initial,
 	.action-menu.bottom-left.show,
 	.action-menu.bottom-right.show {
 		transition: none;
