@@ -647,3 +647,16 @@ a {
 		width: 90%;
 	}
 }
+
+/*MEDIA QUERIES - REDUCED MOTION*/
+@media (prefers-reduced-motion: reduce) {
+	.section,
+	.viewer,
+	.menu .icon,
+	.menu .text,
+	.page-prev .focusable, 
+	.page-next .focusable,
+	.container td {
+		transition: none;
+	}
+}
