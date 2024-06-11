@@ -954,16 +954,13 @@ a:hover {
 
 /*MEDIA QUERIES - REDUCED MOTION*/
 @media (prefers-reduced-motion: reduce) {
-	.fadeIn {
-		animation: none;
-	}
 	body,
 	.box,
 	.viewer,
 	.page-header,
-	.action-menu {
+	.action-menu.bottom-left.show,
+	.action-menu.bottom-right.show {
 		transition: none;
-		transform: none;
 	}
 }
 
@@ -977,11 +974,27 @@ a:hover {
 		--accent: 221, 221, 221;
 	}
 	.page-header,
-	.action-menu
-	{
+	.action-menu {
 		display: none;
 	}
 	a:visited {
 	  color: rgb(var(--primary));
+	}
+	.thumbnail-initial img, .thumbnail-initial video,
+	.agenda .item img {
+		border-bottom-width: initial;
+	}
+	.thumbnail-initial {
+		position: initial;
+	}
+	.thumbnail-pop {
+		visibility: visible;
+		opacity: 1;
+	}
+	.thumbnail .thumbnail-initial[data-index][data-length]::before {
+		content: "";
+	}
+	.thumbnail:has(.thumbnail-initial[data-index][data-length]) {
+		padding-top: 0;
 	}
 }
