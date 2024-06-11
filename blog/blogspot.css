@@ -350,6 +350,22 @@ a:hover {
 	margin: 0;
 }
 
+/*Assign class based on image resize for responsive, see blog.js resizeImg()*/
+.img-width-fit {
+	width: 100%;
+	height: auto;
+}
+
+.img-width-auto {
+	width: auto;
+	max-width: 100%;
+}
+
+.img-separator {
+	margin-left: auto;
+	margin-right: auto;
+}
+
 /* CAROUSEL */
 .thumbnail {
     position: relative;
