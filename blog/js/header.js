@@ -43,18 +43,19 @@ function toggleHeaderByOffset(minYOffset, scrollUp) {
 	let minCoverHeight = 0.4*window.innerHeight;
 	// console.log(minYOffset, scrollUp);
 	if (minYOffset) {
-		// exclusion: hide if scroll down minCoverHeight
+		// exclusion: hide hashtags if scroll down minCoverHeight
 		if(pageHeader.getBoundingClientRect().height >= minCoverHeight)
 			pageHeader.querySelector('.hashtags').classList.remove('show');
 		// exclusion: hide if header is larger than minCoverHeight
 		if(pageHeader.height >= minCoverHeight)
-			toggleHeader(false);		
+			toggleHeader(false);
+		// above all else if scroll down, hide header
 		if(scrollUp)
 			toggleHeader(true);
 		else
 			toggleHeader(false);
 	}
-	else
+	else // hide header if not read min scroll distance down
 		toggleHeader(false);
 }
 

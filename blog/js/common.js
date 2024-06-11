@@ -3,7 +3,7 @@ const isBlogger = function() {
 	return window.location.href.includes('.blogspot.com'); //if false, is blogger
 };
 const isSmallWidth = function() {
-	return window.innerWidth <= 500;
+	return window.innerWidth <= 880;
 }
 const isMediumWidth = function () {
 	return window.innerWidth <= 1024;
@@ -534,38 +534,29 @@ function displayFAB() {
 }
 
 function toggleActionsOnScroll() {
-	// position of buttons on scroll
+	// toggle button display on scroll
 	let pageDown = document.body.scrollTop > 0.3 * document.documentElement.clientHeight || 
 	document.documentElement.scrollTop > 0.3 * document.documentElement.clientHeight;
-	if(!isBlogger()) { // if not in blogger, show all buttons applicable
-		if (pageDown)
-			toggleActions(['.fab.share', '.fab.search', '.fab.top'], '.action-menu.bottom-right');
-		else
-			toggleActions(['.fab.share', '.fab.search', '.fab.theme'], '.action-menu.bottom-right');
-	}
-	else { 
-		// do not show too many as small screen space
-		if (pageDown) toggleActions(['.fab.share', '.fab.top'], '.action-menu.bottom-right');
-		else toggleActions(['.fab.share', '.fab.search'], '.action-menu.bottom-right');
-		if(isMediumWidth()) toggleActions(['.fab.sidebar'], '.action-menu.bottom-left');
-		else toggleActions([], '.action-menu.bottom-left');
-	}
-	
-	// works with header, when scroll down/up, hide/show buttons
+	if (pageDown)
+		toggleActions(['.fab.share', '.fab.search', '.fab.top'], '.action-menu.bottom-right');
+	else
+		toggleActions(['.fab.share', '.fab.search', '.fab.theme'], '.action-menu.bottom-right');
+	// calculate scroll difference and scroll from top
 	let st = window.pageYOffset || document.documentElement.scrollTop;
 	let diff = st - (window['scrollTop'] || 0);
 	let scrollDown = st > 0.3 * document.documentElement.clientHeight && diff >= 0.1;
-	// console.log(diff, scrollDown);
-	if(scrollDown || !pageDown) {
+	// toggle action menus display on scroll
+	if(!scrollDown || !pageDown) {
 		document.querySelector('.action-menu.bottom-left')?.classList.remove('hide');
 		document.querySelector('.action-menu.bottom-right')?.classList.remove('hide');
 	}
-	else if(isSmallWidth()) {
+	else if(isSmallWidth()) { // on smaller screens hide when scroll down
 		document.querySelector('.action-menu.bottom-left')?.classList.add('hide');
 		document.querySelector('.action-menu.bottom-right')?.classList.add('hide');
 	}
+	// toggle page header
 	if(typeof toggleHeaderByOffset == 'function')
-		toggleHeaderByOffset(st > 0.3 * document.documentElement.clientHeight, diff >= 0.1);
+		toggleHeaderByOffset(st > 0.3 * document.documentElement.clientHeight, diff <= 0.1);
 	// set scroll state
 	window['scrollTop'] = st;
 	// hide viewer if open and use wants to scroll
