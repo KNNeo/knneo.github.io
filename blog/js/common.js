@@ -414,10 +414,17 @@ function createMalElementFromJson(response) {
 				let contentTitle = document.createElement('div');
 				contentTitle.innerText = 'Appears On';
 				associatedDiv.appendChild(contentTitle);
-				
-				let mains = response.data[key].filter(d => d.role == 'Main');
-				let selection = mains[0];
-				// console.log(selection);
+				// remove duplicates
+				// console.log(response.data[key]);
+				let list = response.data[key].reduce(function(total, current, index, arr) {
+					if(arr.map(a => a.anime.mal_id).includes(current.anime.mal_id))
+						total.push(current);
+					return total;
+				}, []);
+				// for featured, show one main role from own list
+				let mains = list.filter(d => window['shows-list'].includes(d.anime.mal_id) && d.role == 'Main');
+				let selection = mains.sort(r => 2*Math.random()-1)[0];
+				// console.log(mains);
 				let contentImg = document.createElement('img');
 				contentImg.src = selection.anime.images.jpg.image_url;
 				associatedDiv.appendChild(contentImg);
@@ -430,8 +437,13 @@ function createMalElementFromJson(response) {
 				contentHeader.innerText = 'Also Appears On';
 				relatedDiv.appendChild(contentHeader);
 				
-				let related = mains.slice(1).sort(r => 2*Math.random()-1).slice(0,5);
-				// console.log(related);
+				// for related, show other roles from own list
+				mains = list.filter(d => window['shows-list'].includes(d.anime.mal_id) && d.anime.mal_id != selection.anime.mal_id);
+				// if not enough, show everything else
+				if(mains.length < 5) mains = list.filter(d => d.role == 'Main');
+				// if still not enough, show remaining
+				let related = mains.length > 5 ? mains.sort(r => 2*Math.random()-1).slice(0,5) : mains.sort(r => 2*Math.random()-1);
+				// console.log(mains);
 				for(let anime of related) {
 					let contentRow = document.createElement('div');
 					

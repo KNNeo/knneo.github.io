@@ -502,9 +502,12 @@ a:hover {
     margin: auto;
 }
 
-.mal-container img {
+.new-thumbnail .new-thumbnail-focus .mal-container img {
 	width: 100%;
 	max-width: 160px;
+	padding: 1px;
+	filter: none;
+	border: none;
 }
 
 .mal-container .mal-associated img {
