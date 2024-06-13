@@ -341,6 +341,15 @@ const templates = [
 		url: 'https://kitoakari-fc.com/',
 		format: 'Video Live',
 	},
+	{
+		name: '夏川椎菜のずっとゲームしてるだけ',
+		startDayNo: 5,
+		startTime: 2000,
+		lengthMinutes: 60,
+		channel: 'ファミ通ゲーム実況ch',
+		url: 'https://www.youtube.com/@famitsugamelive',
+		format: 'Video Live',
+	},
 ];
 
 //--COMMON EVENTS--//
@@ -608,7 +617,7 @@ function addDetailedEventToCalendar() {
 			(t.startDate && !t.endDate && today >= parseInt(t.startDate.replace(/-/g,''))) ||  
 			(t.endDate && !t.startDate && today <= parseInt(t.endDate.replace(/-/g,''))) || 
 			(!t.startDate && !t.endDate))
-		.sort((a,b) => a.startDayNo - b.startDayNo)
+		.sort((a,b) => (a.startDayNo*10000 + (a.startTime || 9999)) - (b.startDayNo*10000 + (b.startTime || 9999)))
 	) {
 		if(templateEvent.startDayNo && templateEvent.startDayNo == 7)
 			templateEvent.startDayNo = 0;
@@ -813,28 +822,68 @@ function getLastDayOfMonth(monthNo, yearNo) {
 	}
 }
 
-function showTemplates() {
+function showSchedule() {
 	let today = parseInt(new Date().toISOString().slice(0,10).replace(/-/g,''));
-	let closeBtn = '<input type="button" value="Close" onclick="removeDialog()"><br>';
-	let displayText = closeBtn + templates
-		.filter(t => 
-			(t.startDate && parseInt(t.startDate.replace(/-/g,'')) <= today) ||  
-			(t.endDate && parseInt(t.endDate.replace(/-/g,'')) >= today) || 
+	let list = templates.filter(t => 
+			(t.startDate && t.endDate &&
+			today >= parseInt(t.startDate.replace(/-/g,'')) && today <= parseInt(t.endDate.replace(/-/g,''))) ||  
+			(t.startDate && !t.endDate && today >= parseInt(t.startDate.replace(/-/g,''))) ||  
+			(t.endDate && !t.startDate && today <= parseInt(t.endDate.replace(/-/g,''))) || 
 			(!t.startDate && !t.endDate))
-		.sort((a,b) => a.startDayNo - b.startDayNo)
-		.map(t => 
-			t.name + '<br><small>' + 
-			(t.frequency || '') + ' ' + t.format + '<br>' +
-			(t.startDayNo == 7 ? daysOfWeek[0] : daysOfWeek[t.startDayNo] || '') + 
-			(t.startTime && t.lengthMinutes ? ', ' + t.startTime + ' - ' + getEndTime(t.startTime, t.lengthMinutes) + '<br>' : '<br>') + 
-			'</small>')
-		.join('<br><br>') + closeBtn;
+		.sort((a,b) => (a.startDayNo*10000 + (a.startTime || 9999)) - (b.startDayNo*10000 + (b.startTime || 9999)));
 	
-	popupText(displayText);
+	let container = document.createElement('div');
+	container.classList.add('schedule');
+	
+		for(let day of daysOfWeek)
+		{
+			let regularDiv = document.createElement('div');
+			regularDiv.classList.add('regular');
+			
+			let dayTitle = document.createElement('h4');
+			dayTitle.innerText = day;
+			regularDiv.appendChild(dayTitle);
+			
+			let block = document.createElement('div');
+			block.classList.add('day');
+			let dayNo = day == 'Sun' ? 7 : daysOfWeek.indexOf(day);
+			let dayList = list.filter(l => l.startDayNo == dayNo);
+			// console.log(dayNo, dayList);
+			block.innerHTML = dayList.map(t => '<div title="' + t.name + '">' + t.name + '</div><small>' + 
+			(t.frequency || '') + ' ' + t.format + 
+			(t.startTime && t.lengthMinutes ? '<br>' + t.startTime + ' (' + t.lengthMinutes + 'mins)<br>' : '<br>') + '</small>').join('<br>');
+			regularDiv.appendChild(block);
+			
+			container.appendChild(regularDiv);
+		}
+	
+		let irregularDiv = document.createElement('div');
+		irregularDiv.classList.add('irregular');
+		let dayTitle = document.createElement('h4');
+		dayTitle.innerText = 'Irregular';
+		irregularDiv.appendChild(dayTitle);
+		let irregularList = list.filter(l => !l.startDayNo);
+		for(let irregular of irregularList)
+		{
+			let block = document.createElement('div');
+			block.classList.add('day');
+			block.innerHTML = [irregular].map(t => '<div title="' + t.name + '">' + t.name + '</div><small>' + 
+			(t.frequency || '') + ' ' + t.format + 
+			(t.startTime && t.lengthMinutes ? '<br>' + t.startTime + ' (' + t.lengthMinutes + 'mins)<br>' : '<br>') + '</small>').join('\n');
+			irregularDiv.appendChild(block);
+		}
+		container.appendChild(irregularDiv);
+	
+	let btn = document.createElement('button');
+	btn.setAttribute('onclick', 'removeDialog()');
+	btn.innerText = 'Close';
+	container.appendChild(btn);
+	
+	popupText(container);
 }
 
 function showData() {
-	popupText('<textarea id="data" name="data" rows="8" cols="40" style="max-width: 90%;">' + localStorage.getItem('calendar-marked-v2') + '</textarea>' + 
+	popupText('<textarea id="data" name="data" rows="8" cols="40">' + localStorage.getItem('calendar-marked-v2') + '</textarea>' + 
 	'<input type="submit" value="Copy" onclick="navigator.clipboard.writeText(document.querySelector(\'#data\').value);">' + 
 	'<input type="submit" value="Close" onclick="updateData()">');
 }
@@ -945,9 +994,10 @@ function createDialog(node) {
 		let clonedNode = node.cloneNode(true);
 		dialog.appendChild(clonedNode);
 	}
-	// dialog.addEventListener('click', function() {
-		// this.remove();
-	// });
+	dialog.addEventListener('click', function() {
+		if(event.target.parentElement == document.querySelector('.dialog'))
+			removeDialog();
+	});
 	dialog.addEventListener('keyup', function() {
 		if (event.key === 'Enter')
 			this.remove();

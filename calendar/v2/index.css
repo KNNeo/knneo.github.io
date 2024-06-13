@@ -34,6 +34,11 @@ a:visited {
 	color: var(--secondary);
 }
 
+button,
+input[type="submit"] {
+	cursor: pointer;
+}
+
 /*Generic*/
 .bi {
 	font-size: 1.5em;
@@ -179,9 +184,41 @@ a:visited {
 	background-color: var(--background);
 	color: var(--foreground);	
 	padding: 10px;
-	max-width: 360px;
+	max-width: 95%;
+	max-height: 75%;
+	cursor: pointer;
 }
+
 .dialog dialog a {
 	background-color: var(--background);
 	color: var(--primary);
+}
+
+.dialog textarea {
+	width: 100%;
+}
+
+.schedule {
+	cursor: initial;
+	display: flex;
+	flex-wrap: wrap;
+    justify-content: space-between;
+    justify-content: center;
+}
+
+.schedule .regular,
+.schedule .irregular {
+	width: 25%;
+	overflow-y: auto;
+}
+
+.schedule .day {
+	font-size: 0.9em;
+	padding-bottom: 1em;
+}
+
+.schedule .day div {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
