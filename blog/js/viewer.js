@@ -19,7 +19,9 @@ function generateViewer() {
 		// if esc key close viewer
 		window.addEventListener('keyup', function() {
 			if(event.keyCode == 27 && typeof closeViewer == 'function') closeViewer();
-		});
+		});		
+		viewer.addEventListener('touchstart', onViewerTouchStart);
+		viewer.addEventListener('touchend', onViewerTouchEnd);
 	}
 
 	window['viewer-list'] = [];
@@ -217,5 +219,47 @@ function runLoader() {
 	else {
 		for(let loader of document.querySelectorAll('.loader'))
 			loader.parentElement.removeChild(loader);
+	}
+}
+
+//--TOUCH EVENTS--//
+
+function onViewerTouchStart() {
+	// console.log('onTouchStart', event.changedTouches[0]);
+	window['touchY'] = event.changedTouches[0].clientY;
+	window['touchX'] = event.changedTouches[0].clientX;
+}
+
+function onViewerTouchEnd() {
+	// console.log('onTouchEnd', event.changedTouches[0]);
+	let swipeDown = event.changedTouches[0].clientY - window['touchY'];
+	let swipeUp = window['touchY'] - event.changedTouches[0].clientY;
+	let swipeLeft = window['touchX'] - event.changedTouches[0].clientX;
+	let swipeRight = event.changedTouches[0].clientX - window['touchX'];
+	// console.log('up', 'down', 'left', 'right');
+	// console.log(swipeUp, swipeDown, swipeLeft, swipeRight);
+	document.querySelector('.next').style.backgroundColor = '';
+	document.querySelector('.prev').style.backgroundColor = '';
+	//--SWIPE UP--//
+	if(swipeUp > swipeLeft && swipeUp > swipeRight && swipeUp > 100) {
+		// ignore
+		return;
+	}
+	//--SWIPE DOWN--//
+	if(swipeDown > swipeLeft && swipeDown > swipeRight && swipeDown > 100) {
+		// ignore
+		return;
+	}
+	//--SWIPE LEFT--//
+	if(swipeLeft > swipeUp && swipeLeft > swipeDown && swipeLeft > 100) {
+		//newer post
+		document.querySelector('.viewer-nav.next')?.click();
+		return;
+	}
+	//--SWIPE RIGHT--//
+	if(swipeRight > swipeUp && swipeRight > swipeDown && swipeRight > 100) {
+		//older post
+		document.querySelector('.viewer-nav.prev')?.click();
+		return;
 	}
 }
