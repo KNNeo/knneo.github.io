@@ -111,7 +111,7 @@ void Main()
     // Process sitemap page
 	var sitemapItems = new List<SitemapItem>();
 	var fanficItems = new List<SitemapItem>();
-	var exclusions = new List<string>() { "hashtags", "news-thumbnail", "music", "menu", "table", "video" };
+	var exclusions = new List<string>() { "hashtags", "news-thumbnail", "music", "menu", "table", "video", "disclaimer" };
 	
     // Process XML content per post
     for (var p = 0; p < posts.Count(); p++)
