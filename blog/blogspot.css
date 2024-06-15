@@ -610,6 +610,7 @@ a:hover {
 	margin-right: auto;
 	display: grid;
 	grid-template-columns: repeat(var(--columns, 3), 1fr);
+	align-items: baseline;
 }
 
 .agenda .item table.tr-caption-container {
