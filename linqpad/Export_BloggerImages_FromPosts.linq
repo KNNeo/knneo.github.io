@@ -34,9 +34,9 @@ void Main()
     if(HOMEPAGE_ONLY) Console.WriteLine("> HOMEPAGE_ONLY is " + HOMEPAGE_ONLY + "; Set as false to update posts");
 	Console.WriteLine("> Image domains to detect are:\n*" + string.Join("\n*", IMAGE_DOMAINS_LIST));
 	Console.WriteLine("===================================================================================");	
-	var inputFileDir = GetBloggerXmlFilePath(BLOGGER_XML_DIRECTORY, ARCHIVE_XML_DIRECTORY, DEBUG_MODE);
-	var bloggerPosts = GetBloggerPostsPublished(inputFileDir, null);
-	var pageString = GenerateImageIndex(bloggerPosts, Path.Combine(OUTPUT_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER));
+	var inputFileDirs = GetBloggerXmlFilePath(BLOGGER_XML_DIRECTORY, ARCHIVE_XML_DIRECTORY);
+	var bloggerPosts = GetBloggerPostsPublished(inputFileDirs);
+	var pageString = GenerateImageIndex(bloggerPosts);
 	GenerateIndexFile(pageString, bloggerPosts.ToList().Count);
 	Console.WriteLine();
 	Console.WriteLine("===================================================================================");	
@@ -44,20 +44,20 @@ void Main()
 	Console.WriteLine("Done.");
 }
 
-string GetBloggerXmlFilePath(string inputPath, string backupPath, bool debugMode)
+string[] GetBloggerXmlFilePath(string inputPath, string backupPath)
 {
     Console.WriteLine("Reading Config...");	
-	//Get xml file from BLOGGER_XML_DIRECTORY, move to ARCHIVE_XML_DIRECTORY
-	//If not found, will run file detected in ARCHIVE_XML_DIRECTORY
-	//Assume filename is blog-*.xml
+	// Get xml file from BLOGGER_XML_DIRECTORY, move to ARCHIVE_XML_DIRECTORY
+	// If not found, will run file detected in ARCHIVE_XML_DIRECTORY
+	// Assume filename is blog-*.xml
     string[] sources = Directory.GetFiles(inputPath, "blog-*.xml");
     if(sources.Length == 1)
 	{
-        if(debugMode) Console.WriteLine($"Single xml source found; Moving to {backupPath}");		
+        if(DEBUG_MODE) Console.WriteLine($"Single xml source found; Moving file to {backupPath}");		
 	    string[] dests = Directory.GetFiles(Path.GetDirectoryName(backupPath), "blog-*.xml");
 	    if(dests.Length == 1)
 		{
-	        if(debugMode) Console.WriteLine("Destination file found; Moving to archive");
+	        if(DEBUG_MODE) Console.WriteLine("Destination file found; Moving to archive");
         	File.Delete(dests[0].Replace(backupPath, $"{backupPath}archive\\"));
         	File.Move(dests[0], dests[0].Replace(backupPath, $"{backupPath}archive\\"));
 		}
@@ -65,19 +65,29 @@ string GetBloggerXmlFilePath(string inputPath, string backupPath, bool debugMode
 	}
     else if(sources.Length == 0)
     {
-        if(debugMode) Console.WriteLine($"No xml source found; proceed in {backupPath}");
+        if(DEBUG_MODE) Console.WriteLine($"No xml source found; proceed in {backupPath}");
     }
     else
     {
-        if(debugMode) Console.WriteLine($"More than 1 xml source found; using file in {backupPath}");
-    }	
-	//Read xml file to process
-	//Can only have exactly one file per query, else fail, require manual intervention
+        if(DEBUG_MODE) Console.WriteLine($"More than 1 xml source found; Moving all files to {backupPath}");	
+	    string[] dests = Directory.GetFiles(Path.GetDirectoryName(backupPath), "blog-*.xml");
+	    if(DEBUG_MODE) Console.WriteLine("Destination files found; Moving all files to archive");
+	    foreach(var dest in dests)
+		{
+        	File.Delete(dest.Replace(backupPath, $"{backupPath}archive\\"));
+        	File.Move(dest, dest.Replace(backupPath, $"{backupPath}archive\\"));
+		}
+	    foreach(var source in sources)
+		{
+        	File.Move(source, source.Replace(inputPath, backupPath));
+		}
+    }
+	// Read xml files to process
     string[] xmls = Directory.GetFiles(Path.GetDirectoryName(backupPath), "blog-*.xml");
     if(xmls.Length == 1)
 	{
-        if(debugMode) Console.WriteLine("File found");
-        inputPath = xmls[0];
+        if(DEBUG_MODE) Console.WriteLine("File found");
+        //inputPath = xmls[0];
 	}
     else if(xmls.Length == 0)
     {
@@ -85,40 +95,42 @@ string GetBloggerXmlFilePath(string inputPath, string backupPath, bool debugMode
     }
     else
     {
-        throw new NotSupportedException("More than 1 xml files found");
+        throw new NotSupportedException("More than 1 xml files found; Appending all files for process");
     }
 	
-	return inputPath;
+	return xmls;
 }
 
-IEnumerable<XElement> GetBloggerPostsPublished(string inputFileDir, string outputFileDir)
+List<XElement> GetBloggerPostsPublished(string[] inputFiles)
 {
-	//Read file
-	Console.WriteLine("Reading XML Export... " + inputFileDir);
-    string text = File.ReadAllText(inputFileDir);
-    XDocument doc = XDocument.Parse(text);
-    //Use XNamespaces to deal with "xmlns" attributes
-    //Find published posts
-    var xmlPosts = doc.Root.Elements(DEFAULT_XML_NAMESPACE+"entry")
-        // Exclude entries that are not template, settings, or page
-        .Where(entry => !entry.Element(DEFAULT_XML_NAMESPACE+"category").Attribute("term").ToString().Contains("#template"))
-        .Where(entry => !entry.Element(DEFAULT_XML_NAMESPACE+"category").Attribute("term").ToString().Contains("#settings"))
-        .Where(entry => !entry.Element(DEFAULT_XML_NAMESPACE+"category").Attribute("term").ToString().Contains("#page"))
-        // Exclude any draft posts, do not have page URL created
-        .Where(entry => !entry.Descendants(XNamespace.Get("http://purl.org/atom/app#")+"draft").Any(draft => draft.Value != "no"));
-    //Clear Files in output folder
-    //if(Directory.Exists(outputFileDir) && !HOMEPAGE_ONLY)
-    //    Directory.Delete(outputFileDir, true);
-    //Directory.CreateDirectory(outputFileDir);
-	return xmlPosts;
+    List<XElement> xmlPosts = new List<XElement>();
+	foreach(var inputFile in inputFiles)
+	{
+		// Read file
+		Console.WriteLine("Reading XML Export... " + inputFile);
+	    string text = File.ReadAllText(inputFile);
+	    XDocument doc = XDocument.Parse(text);
+	    // Use XNamespaces to deal with "xmlns" attributes
+	    // Find published posts
+	    xmlPosts.AddRange(doc.Root.Elements(DEFAULT_XML_NAMESPACE+"entry")
+	        // Exclude entries that are not template, settings, or page
+	        .Where(entry => !entry.Element(DEFAULT_XML_NAMESPACE+"category").Attribute("term").ToString().Contains("#template"))
+	        .Where(entry => !entry.Element(DEFAULT_XML_NAMESPACE+"category").Attribute("term").ToString().Contains("#settings"))
+	        .Where(entry => !entry.Element(DEFAULT_XML_NAMESPACE+"category").Attribute("term").ToString().Contains("#page"))
+	        // Exclude any draft posts, do not have page URL created
+	        .Where(entry => !entry.Descendants(XNamespace.Get("http://purl.org/atom/app#")+"draft").Any(draft => draft.Value != "no"))
+			.ToList());
+		Console.WriteLine($"Total posts found: {xmlPosts.Count}");
+	}
+	// Order by publich date
+	return xmlPosts.OrderByDescending(x => DateTime.Parse(x.Element(DEFAULT_XML_NAMESPACE+"published").Value)).ToList();
 }
 
-string GenerateImageIndex(IEnumerable<XElement> xmlPosts, string outputFileDir)
+string GenerateImageIndex(List<XElement> xmlPosts)
 {
 	List<MosaicItem> titles = new List<MosaicItem>();
 	List<MosaicItem> images = new List<MosaicItem>();
     // Process XML content per post
-	//string imageExport = "[\"\"";
     for (var p = 0; p < xmlPosts.Count(); p++)
     {
 		var entry = xmlPosts.ElementAt(p);
@@ -136,6 +148,7 @@ string GenerateImageIndex(IEnumerable<XElement> xmlPosts, string outputFileDir)
 		if(string.IsNullOrWhiteSpace(bloggerLink))
 			continue;
 		// Create output folders to put html file as per Blogger design ie. <domain>/<yyyy>/<MM>/<post-title>.html
+		var outputFileDir = Path.Combine(OUTPUT_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER);
         var yearfolder = Path.Combine(outputFileDir, publishDate.Year.ToString("0000"));
         if(!Directory.Exists(yearfolder)) Directory.CreateDirectory(outputFileDir);
         var monthfolder = Path.Combine(yearfolder, publishDate.Month.ToString("00"));
@@ -163,13 +176,13 @@ string GenerateImageIndex(IEnumerable<XElement> xmlPosts, string outputFileDir)
 					id = p,
 					url = match.Groups[4].Value
 				});
-				//imageExport += ",{\"title\":\"" + titleItem.Title + "\", \"titleUrl\":\"" + titleItem.Url + "\", \"imgUrl\":\"" + imageItem.Url + "\"}";
 				urls.Add(match.Groups[4].Value);
 			}
         	match = match.NextMatch();
         };
 		// Add title if images exist in post
-		if(DEBUG_MODE) Console.WriteLine(urls.Count);
+		if(DEBUG_MODE)
+			Console.WriteLine(urls.Count);
 		if(urls.Count > 0)
 			titles.Add(new MosaicItem() {
 						id = p,
@@ -184,11 +197,7 @@ string GenerateImageIndex(IEnumerable<XElement> xmlPosts, string outputFileDir)
 		else
 	        Console.Write(".");
     }
-    
 	//Export list of images with limit
-    //imageExport = "const mosaicArray = " + imageExport.Replace("[\"\",", "[") + "];";
-	//Console.WriteLine(imageExport);
-	//return imageExport;
 	return "const imageIndex = {\"posts\":_POSTS_,\"images\":_IMAGES_}"
 		.Replace("_POSTS_",JsonConvert.SerializeObject(titles))
 		.Replace("_IMAGES_",JsonConvert.SerializeObject(images, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore }));
@@ -196,14 +205,6 @@ string GenerateImageIndex(IEnumerable<XElement> xmlPosts, string outputFileDir)
 
 void GenerateIndexFile(string archiveString, int postCount)
 {
-    // Write all additions into output home page
-    //string fileString = File.ReadAllText(HOMEPAGE_TEMPLATE_FILENAME)
-	//	.Replace("_TITLE_", HTML_TITLE)
-	//	.Replace("_URL_", BLOG_DOMAIN_URL)
-	//	.Replace("_ARCHIVE_", archiveString.ToString())
-	//	.Replace("_FONT_", HTML_BODY_FONTFAMILY)
-	//	.Replace("_COUNT_", postCount.ToString());
-    // Write into homepage file
     File.WriteAllText(HOMEPAGE_FILENAME, archiveString);
 }
 
