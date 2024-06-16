@@ -250,6 +250,7 @@ a:hover {
 	z-index: -1;
 	background-color: rgb(var(--background));
 	transition: opacity .2s ease-in-out;
+	filter: drop-shadow(0 6px 6px rgb(var(--background)));
 }
 
 .page-header.show {
