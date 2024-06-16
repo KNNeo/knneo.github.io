@@ -6,6 +6,13 @@
 // DEBUG
 bool DEBUG_MODE = false;
 
+// INPUT OUTPUT SETTINGS
+string BLOGGER_XML_DIRECTORY = @"C:\Users\KAINENG\Downloads\";
+string ARCHIVE_XML_DIRECTORY = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\";
+string OUTPUT_DIRECTORY = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\";
+string OUTPUT_DIRECTORY_SUBFOLDER = "posts";
+string HOMEPAGE_FILENAME = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\album\images.js";
+
 // PROGRAM SETTINGS
 bool HOMEPAGE_ONLY = false;
 bool WRITE_TITLE_ON_CONSOLE = false;
@@ -14,13 +21,6 @@ int DOTS_PER_LINE_CONSOLE = 100;
 XNamespace DEFAULT_XML_NAMESPACE = XNamespace.Get("http://www.w3.org/2005/Atom");
 List<string> GOOGLE_FONTS_URLS = new List<string>() { "Dancing Script" };
 List<string> IMAGE_DOMAINS_LIST = new List<string>() { "ggpht.com", "bp.blogspot.com", "blogger.googleusercontent.com" };
-
-// INPUT OUTPUT SETTINGS
-string BLOGGER_XML_DIRECTORY = @"C:\Users\KAINENG\Downloads\";
-string ARCHIVE_XML_DIRECTORY = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\";
-string OUTPUT_DIRECTORY = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\";
-string OUTPUT_DIRECTORY_SUBFOLDER = "posts";
-string HOMEPAGE_FILENAME = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\album\images.js";
 
 // POST SETTINGS
 List<String> POST_IGNORE_TAGS = new List<string>() { "The Archive" };
