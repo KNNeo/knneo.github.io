@@ -157,7 +157,7 @@ string GenerateImageIndex(List<XElement> xmlPosts)
         var pageOutputPath = Path.Combine(monthfolder, outFileName);
         // Find post labels
         var pageTagsXml = entry.Elements(DEFAULT_XML_NAMESPACE+"category")
-        	.Where(e => !e.Attribute("term").ToString().Contains("#post")).Select(q => q.Attribute("term").Value).ToList();        
+        	.Where(e => !e.Attribute("term").ToString().Contains("#post")).Select(q => q.Attribute("term").Value).ToList();
 		// Post labels to ignore and not render
 		if(pageTagsXml.Any(xml => POST_IGNORE_TAGS.Contains(xml)))
 			continue;
