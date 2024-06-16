@@ -23,7 +23,7 @@ string ARCHIVE_XML_DIRECTORY = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog
 string OUTPUT_DIRECTORY = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\";
 string OUTPUT_DIRECTORY_SUBFOLDER = "posts";
 string HOMEPAGE_FILENAME = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\sitemap\index.html";
-string POST_TEMPLATE_FILENAME = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\sitemap\template.html";
+string POST_TEMPLATE_FILENAME = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\template\sitemap.html";
 bool WRITE_FANFIC_LIST = true;
 
 // POST SETTINGS
@@ -42,16 +42,14 @@ void Main()
 {
 	//Pre-execution notice
 	Console.WriteLine("> Note: If execution is stuck, is likely due to Blogger img tags missing self-enclosing slash, format on Web and re-export");
-	Console.WriteLine("> Note: Only images within Blogger known domain will be exported; External images will be ignored, to include add in domain");
     if(!WRITE_TITLE_ON_CONSOLE) Console.WriteLine("> WRITE_TITLE_ON_CONSOLE is " + WRITE_TITLE_ON_CONSOLE + "; Set as true to see post titles");
     if(HOMEPAGE_ONLY) Console.WriteLine("> HOMEPAGE_ONLY is " + HOMEPAGE_ONLY + "; Set as false to update posts");
-	Console.WriteLine("> Image domains to detect are:\n*" + string.Join("\n*", IMAGE_DOMAINS_LIST));
-	Console.WriteLine("===================================================================================");	
+	Console.WriteLine("===================================================================================");
 	var inputFileDirs = GetBloggerXmlFilePath(BLOGGER_XML_DIRECTORY, ARCHIVE_XML_DIRECTORY);
 	var bloggerPosts = GetBloggerPostsPublished(inputFileDirs);
 	var pageSections = GenerateSitemap(bloggerPosts);
 	GenerateSitemapFile(pageSections);
-	Console.WriteLine("===================================================================================");	
+	Console.WriteLine("===================================================================================");
 	// Output as completed
 	Console.WriteLine("Done.");
 }
@@ -255,7 +253,7 @@ SitemapSections GenerateSitemap(List<XElement> xmlPosts)
 	//Generate sitemap string by category
     var animeString = "";
 	char animeTitle = '_';
-	foreach(var item in sitemapItems.Where(i => i.Tags.Contains("The Entertainment News")).OrderBy(i => i.Keyword))
+	foreach(var item in sitemapItems.Where(i => i.Tags.Any(t => SITEMAP_GROUPS.TryGetValue(t, out string tagValue) && tagValue == "Anime")).OrderBy(i => i.Keyword))
 	{
 		var key = Char.ToUpper(item.Keyword[0]);
 		animeString += (animeTitle != key ? ("<h3 class=\"title\">" + key + "</h3>\r\n") : "");
@@ -265,7 +263,7 @@ SitemapSections GenerateSitemap(List<XElement> xmlPosts)
 	
     var packageString = "";
 	char packageTitle = '_';
-	foreach(var item in sitemapItems.Where(i => i.Tags.Contains("The Klassic Note") || i.Tags.Contains("The Welfare Package") || i.Tags.Contains("The Everyday Life")).OrderBy(i => i.Keyword))
+	foreach(var item in sitemapItems.Where(i => i.Tags.Any(t => SITEMAP_GROUPS.TryGetValue(t, out string tagValue) && tagValue == "Packages")).OrderBy(i => i.Keyword))
 	{
 		var key = Char.ToUpper(item.Keyword[0]);
 		packageString += (packageTitle != key ? ("<h3 class=\"title\">" + key + "</h3>\r\n") : "");
@@ -300,7 +298,11 @@ void GenerateSitemapFile(SitemapSections sections)
 {
     //Write into page
     string fileString = File.ReadAllText(POST_TEMPLATE_FILENAME);
-    fileString = fileString.Replace("_FONT_", HTML_BODY_FONTFAMILY).Replace("_ANIME_", sections.Anime).Replace("_PACKAGE_", sections.Packages).Replace("_FANFICS_", sections.Fanfics);	
+    fileString = fileString
+		.Replace("_FONT_", HTML_BODY_FONTFAMILY)
+		.Replace("_ANIME_", sections.Anime)
+		.Replace("_PACKAGE_", sections.Packages)
+		.Replace("_FANFICS_", sections.Fanfics);	
     File.WriteAllText(HOMEPAGE_FILENAME, fileString);
 }
 
