@@ -152,7 +152,6 @@ function openImageInViewer(image) {
 	
 	window['loading'] = true;
 	viewer.classList.add('open');
-	window.location.hash = '_view_';
 }
 
 function openImagesInViewer(images) {
@@ -182,7 +181,6 @@ function openImagesInViewer(images) {
 	
 	viewer.appendChild(container);
 	viewer.classList.add('open');
-	window.location.hash = '_view_';
 }
 
 function closeViewer() {
@@ -193,7 +191,6 @@ function closeViewer() {
 			document.getElementById('CloseBtn').remove();	
 		document.body.style.overflow = '';
 	}
-	window.location.hash = '_';
 }
 
 //--LOADER--//
