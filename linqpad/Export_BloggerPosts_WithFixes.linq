@@ -22,6 +22,7 @@ List<string> GOOGLE_FONTS_URLS = new List<string>() { "Dancing Script" };
 // PAGE SETTINGS
 string HTML_BODY_FONTFAMILY = "Noto Sans, Arial, sans-serif;";
 string HTML_TITLE = "Klassic Note Web Reports";
+string HTML_DESCRIPTION = "If it is worth taking Note, it will be a Klassic.";
 string HTML_THUMBNAIL_SINCE = "2023-01-01";
 List<String> POST_IGNORE_LABELS = new List<string>() { "The Archive" };
 Dictionary<String, String> POST_LABEL_ICONTEXT = new Dictionary<String, String>()
@@ -53,7 +54,7 @@ void Main()
     if(!WRITE_TITLE_ON_CONSOLE) Console.WriteLine("> WRITE_TITLE_ON_CONSOLE is " + WRITE_TITLE_ON_CONSOLE + "; Set as true to see post titles");
     if(HOMEPAGE_ONLY) Console.WriteLine("> HOMEPAGE_ONLY is " + HOMEPAGE_ONLY + "; Set as false to update posts");
 	Console.WriteLine("===================================================================================");	
-	var inputFileDirs = GetBloggerXmlFilePath(BLOGGER_XML_DIRECTORY, ARCHIVE_XML_DIRECTORY, DEBUG_MODE);
+	var inputFileDirs = GetBloggerXmlFilePath(BLOGGER_XML_DIRECTORY, ARCHIVE_XML_DIRECTORY);
 	var bloggerPosts = GetBloggerPostsPublished(inputFileDirs);
 	var outputFilesDir = Path.Combine(OUTPUT_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER);
 	var linkedList = GetBloggerPostsLinkedList(bloggerPosts);
@@ -206,7 +207,7 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
         var pageOutputPath = Path.Combine(monthfolder, outFileName);
         // Find post labels
         var pageTagsXml = entry.Elements(DEFAULT_XML_NAMESPACE+"category")
-        	.Where(e => !e.Attribute("term").ToString().Contains("#post")).Select(q => q.Attribute("term").Value).ToList();        
+        	.Where(e => !e.Attribute("term").ToString().Contains("#post")).Select(q => q.Attribute("term").Value).ToList();
 		// Post labels to ignore and not render
 		if(pageTagsXml.Any(xml => POST_IGNORE_LABELS.Contains(xml)))
 			continue;
@@ -242,10 +243,10 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
 					externalFonts.AppendLine($"<link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css?family={font}\" />");
 			}
 			// All content to put in <body> tag
-			if (bloggerLink != "")
-			{
-	            output.AppendLine("<small style=\"text-align: center;\"><p><i>This is an archive from <a href=\"" + bloggerLink + "\">" + HTML_TITLE + "</a></i></p></small>");
-			}
+			//if (bloggerLink != "")
+			//{
+	        //    output.AppendLine("<small style=\"text-align: center;\"><p><i>This is an archive from <a href=\"" + bloggerLink + "\">" + HTML_TITLE + "</a></i></p></small>");
+			//}
 	        output.AppendLine("<small title=\"" + publishDate.ToString("yyyy-MM-ddTHH:mm:sszzz") + " (Singapore Time)\" class=\"published\">" + publishDate.ToString("dddd, dd MMMM yyyy") + "</small>");
 	        output.AppendLine("<div class=\"title\">" + postTitle + "</div>");
 			if(postContent.Contains("id=\"") && !postContent.Contains("=\"hashtags\""))
@@ -349,6 +350,7 @@ void GenerateHomepage(string homepageString, int postCount)
     // Write all additions into output home page
     string fileString = File.ReadAllText(HOMEPAGE_TEMPLATE_FILENAME)
 		.Replace("_TITLE_", HTML_TITLE)
+		.Replace("_DESCRIPTION_", HTML_DESCRIPTION)
 		.Replace("_URL_", BLOG_DOMAIN_URL)
 		.Replace("_ARCHIVE_", homepageString.ToString())
 		.Replace("_FONT_", HTML_BODY_FONTFAMILY)
