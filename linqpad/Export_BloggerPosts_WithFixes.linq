@@ -11,6 +11,15 @@
 bool DEBUG_MODE = false;
 string DEBUG_SEARCHTERM = "";
 
+// INPUT OUTPUT SETTINGS
+string BLOGGER_XML_DIRECTORY = @"C:\Users\KAINENG\Downloads\";
+string ARCHIVE_XML_DIRECTORY = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\";
+string OUTPUT_DIRECTORY = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\";
+string OUTPUT_DIRECTORY_SUBFOLDER = "posts";
+string HOMEPAGE_TEMPLATE_FILENAME = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\template\homepage.html";
+string HOMEPAGE_FILENAME = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\index.html";
+string POST_TEMPLATE_FILENAME = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\template\post.html";
+
 // PROGRAM SETTINGS
 bool HOMEPAGE_ONLY = false;
 bool WRITE_TITLE_ON_CONSOLE = true;
@@ -19,7 +28,7 @@ string BLOG_DOMAIN_URL = "https://knwebreports.blogspot.com/";
 XNamespace DEFAULT_XML_NAMESPACE = XNamespace.Get("http://www.w3.org/2005/Atom");
 List<string> GOOGLE_FONTS_URLS = new List<string>() { "Dancing Script" };
 
-// PAGE SETTINGS
+// POST SETTINGS
 string HTML_BODY_FONTFAMILY = "Noto Sans, Arial, sans-serif;";
 string HTML_TITLE = "Klassic Note Web Reports";
 string HTML_DESCRIPTION = "If it is worth taking Note, it will be a Klassic.";
@@ -36,16 +45,11 @@ Dictionary<String, String> POST_LABEL_ICONTEXT = new Dictionary<String, String>(
 	{ "The Review", "edit_note" },
 	{ "The Statement", "campaign" }
 };
-List<String> POST_OLD_DOMAINS = new List<string>() { "https://knwebreports2014.blogspot.com/", "http://knwebreports2014.blogspot.com/" };
-
-// INPUT OUTPUT SETTINGS
-string BLOGGER_XML_DIRECTORY = @"C:\Users\KAINENG\Downloads\";
-string ARCHIVE_XML_DIRECTORY = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\";
-string OUTPUT_DIRECTORY = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\";
-string OUTPUT_DIRECTORY_SUBFOLDER = "posts";
-string HOMEPAGE_TEMPLATE_FILENAME = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\template\homepage.html";
-string HOMEPAGE_FILENAME = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\index.html";
-string POST_TEMPLATE_FILENAME = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\template\post.html";
+List<String> POST_OLD_DOMAINS = new List<string>()
+{
+	"https://knwebreports2014.blogspot.com/",
+	"http://knwebreports2014.blogspot.com/"
+};
 
 void Main()
 {
