@@ -10,21 +10,20 @@ const isMediumWidth = function () {
 }
 
 function windowOnHistoryChange() {
-	window['in-page'] = true;
 	// if viewer open, close and return
-	if(document.querySelector('.viewer')?.classList.contains('open') && window.location.hash != '#_view_') {
+	if(document.querySelector('.viewer')?.classList.contains('open')) {
 		console.log('close viewer');
 		// event.preventDefault();
 		closeViewer();
 	}
 	// if dialog open, close and return
-	else if(document.querySelector('.dialog') != null && window.location.hash != '#_dialog_') {
+	else if(document.querySelector('.dialog') != null) {
 		console.log('close dialog');
 		// event.preventDefault();
 		removeDialog();
 	}
 	// if popup open, close and return
-	else if(document.querySelector('.overlay') != null && window.location.hash != '#_overlay_') {
+	else if(document.querySelector('.overlay') != null) {
 		console.log('close popup overlay');
 		// event.preventDefault();
 		closePopups();
@@ -90,9 +89,8 @@ function addHashtags() {
 
 // Set initial scroll if current page url has hash
 function scrollToSectionByUrl() {
-	if(window.location.hash.length > 2 && !window['in-page']) // not triggered via windowOnHistoryChange
+	if(window.location.hash.length > 2) // not triggered via windowOnHistoryChange
 		scrollToElement(document.getElementById(window.location.hash.substring(1)));
-	window['in-page'] = false;
 }
 
 function scrollToElement(elem) {
@@ -152,7 +150,6 @@ function popupText(input) {
 	dialogDiv.innerHTML = '';
 	dialogDiv.appendChild(dialog);
 	dialog.showModal();
-	window.location.hash = '_dialog_';
 }
 
 function createDialog(node) {
@@ -179,7 +176,6 @@ function createDialog(node) {
 function removeDialog() {
 	if(event) event.preventDefault(); // Prevent the default form submission
 	document.querySelector('.dialog')?.remove();
-	window.location.hash = '_';
 }
 
 // Popup element, based on content type
@@ -521,12 +517,10 @@ function showOverlay() {
 		event.preventDefault();
 	});
 	document.body.appendChild(overlay);
-	window.location.hash = '_overlay_';
 }
 
 function hideOverlay() {
 	document.querySelector('.overlay')?.remove();
-	window.location.hash = '_';
 }
 
 // Floating action button events

@@ -4,7 +4,6 @@ window.addEventListener('load', function() {
 	window.addEventListener('scroll', toggleActionsOnScroll);
 	window.addEventListener('resize', windowOnResize);
 	window.addEventListener('hashchange', scrollToSectionByUrl);
-	window.addEventListener('popstate', windowOnHistoryChange);	
 	// Asynchronous Events
 	setTimeout(addHashtags, 0);
 	setTimeout(resizeImages, 0);
