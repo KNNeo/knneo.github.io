@@ -4,230 +4,253 @@
   <Namespace>System.Windows.Forms</Namespace>
 </Query>
 
+// DEBUG
+bool DEBUG_MODE = false;
+
+// PROGRAM SETTINGS
+bool HOMEPAGE_ONLY = false;
+bool WRITE_TITLE_ON_CONSOLE = false;
+int DOTS_PER_LINE_CONSOLE = 100;
+int MAX_HASHTAH_LENGTH = 32;
+//string BLOG_DOMAIN_URL = "https://knwebreports.blogspot.com/";
+XNamespace DEFAULT_XML_NAMESPACE = XNamespace.Get("http://www.w3.org/2005/Atom");
+List<string> GOOGLE_FONTS_URLS = new List<string>() { "Dancing Script" };
+List<string> IMAGE_DOMAINS_LIST = new List<string>() { "ggpht.com", "bp.blogspot.com", "blogger.googleusercontent.com" };
+
+// INPUT OUTPUT SETTINGS
+string BLOGGER_XML_DIRECTORY = @"C:\Users\KAINENG\Downloads\";
+string ARCHIVE_XML_DIRECTORY = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\";
+string OUTPUT_DIRECTORY = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\";
+string OUTPUT_DIRECTORY_SUBFOLDER = "posts";
+string HOMEPAGE_FILENAME = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\sitemap\index.html";
+string POST_TEMPLATE_FILENAME = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\sitemap\template.html";
+bool WRITE_FANFIC_LIST = true;
+
+// POST SETTINGS
+string HTML_BODY_FONTFAMILY = "Noto Sans, Arial, sans-serif;";
+List<String> POST_IGNORE_TAGS = new List<string>() { "The Archive" };
+// TODO: Group based on page xml tag found, return list instead of object class
+Dictionary<String, String> SITEMAP_GROUPS = new Dictionary<String, String>()
+{
+	{ "The Entertainment News", "Anime" },
+	{ "The Klassic Note", "Packages" },
+	{ "The Everyday Life", "Packages" },
+	{ "The Welfare Package", "Packages" }
+};
+
 void Main()
 {
-    bool WriteTitleOnConsole = false;
-	bool WriteFanficList = false;
-	bool TraceMode = false;
-	int MaxHashtagLength = 32;
-	string defaultFont = "Noto Sans, Arial, sans-serif;";
-    Console.WriteLine("WriteTitleOnConsole is " + WriteTitleOnConsole + "; Set as true to see post titles");
-    Console.WriteLine("\tPost with changes will appear here");
-	Console.WriteLine("\tIf edit from Blogger img tags will be missing self-enclosing slash, format on web version to fix");
-	Console.WriteLine("==================================================================================================");
-    string archivepath = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\";
-    string blogpath = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\sitemap\";
-    string outputFolder = "posts";
-    string filepath = "";
-	
-	//Get xml file from source, move to archivepath
-	//If not found in source, will run file in archivepath
-	string sourcepath = @"C:\Users\KAINENG\Downloads\";
-    string[] sources = Directory.GetFiles(sourcepath, "blog-*.xml");
+	//Pre-execution notice
+	Console.WriteLine("> Note: If execution is stuck, is likely due to Blogger img tags missing self-enclosing slash, format on Web and re-export");
+	Console.WriteLine("> Note: Only images within Blogger known domain will be exported; External images will be ignored, to include add in domain");
+    if(!WRITE_TITLE_ON_CONSOLE) Console.WriteLine("> WRITE_TITLE_ON_CONSOLE is " + WRITE_TITLE_ON_CONSOLE + "; Set as true to see post titles");
+    if(HOMEPAGE_ONLY) Console.WriteLine("> HOMEPAGE_ONLY is " + HOMEPAGE_ONLY + "; Set as false to update posts");
+	Console.WriteLine("> Image domains to detect are:\n*" + string.Join("\n*", IMAGE_DOMAINS_LIST));
+	Console.WriteLine("===================================================================================");	
+	var inputFileDirs = GetBloggerXmlFilePath(BLOGGER_XML_DIRECTORY, ARCHIVE_XML_DIRECTORY);
+	var bloggerPosts = GetBloggerPostsPublished(inputFileDirs);
+	var pageSections = GenerateSitemap(bloggerPosts);
+	GenerateSitemapFile(pageSections);
+	Console.WriteLine("===================================================================================");	
+	// Output as completed
+	Console.WriteLine("Done.");
+}
+
+string[] GetBloggerXmlFilePath(string inputPath, string backupPath)
+{
+    Console.WriteLine("Reading Config...");	
+	// Get xml file from BLOGGER_XML_DIRECTORY, move to ARCHIVE_XML_DIRECTORY
+	// If not found, will run file detected in ARCHIVE_XML_DIRECTORY
+	// Assume filename is blog-*.xml
+    string[] sources = Directory.GetFiles(inputPath, "blog-*.xml");
     if(sources.Length == 1)
 	{
-        if(TraceMode) Console.WriteLine("Source found; Moving to archivepath");
-		
-	    string[] dests = Directory.GetFiles(Path.GetDirectoryName(archivepath), "blog-*.xml");
+        if(DEBUG_MODE) Console.WriteLine($"Single xml source found; Moving file to {backupPath}");		
+	    string[] dests = Directory.GetFiles(Path.GetDirectoryName(backupPath), "blog-*.xml");
 	    if(dests.Length == 1)
 		{
-	        if(TraceMode) Console.WriteLine("Destination file found; Moving to archive");
-        	File.Delete(dests[0].Replace(archivepath, archivepath + @"archive\"));
-        	File.Move(dests[0], dests[0].Replace(archivepath, archivepath + @"archive\"));
+	        if(DEBUG_MODE) Console.WriteLine("Destination file found; Moving to archive");
+        	File.Delete(dests[0].Replace(backupPath, $"{backupPath}archive\\"));
+        	File.Move(dests[0], dests[0].Replace(backupPath, $"{backupPath}archive\\"));
 		}
-		
-        File.Move(sources[0], sources[0].Replace(sourcepath,archivepath));
+        File.Move(sources[0], sources[0].Replace(inputPath, backupPath));
 	}
     else if(sources.Length == 0)
     {
-        if(TraceMode) Console.WriteLine("No xml source found; proceed in archivepath");
+        if(DEBUG_MODE) Console.WriteLine($"No xml source found; proceed in {backupPath}");
     }
     else
     {
-        if(TraceMode) Console.WriteLine("More than 1 source files found; proceed in archivepath");
+        if(DEBUG_MODE) Console.WriteLine($"More than 1 xml source found; Moving all files to {backupPath}");	
+	    string[] dests = Directory.GetFiles(Path.GetDirectoryName(backupPath), "blog-*.xml");
+	    if(DEBUG_MODE) Console.WriteLine("Destination files found; Moving all files to archive");
+	    foreach(var dest in dests)
+		{
+        	File.Delete(dest.Replace(backupPath, $"{backupPath}archive\\"));
+        	File.Move(dest, dest.Replace(backupPath, $"{backupPath}archive\\"));
+		}
+	    foreach(var source in sources)
+		{
+        	File.Move(source, source.Replace(inputPath, backupPath));
+		}
     }
-	
-	//Get xml file to process
-	//Can only have exactly one file per query, else fail, require manual intervention
-    string[] xmls = Directory.GetFiles(Path.GetDirectoryName(archivepath), "blog-*.xml");
+	// Read xml files to process
+    string[] xmls = Directory.GetFiles(Path.GetDirectoryName(backupPath), "blog-*.xml");
     if(xmls.Length == 1)
 	{
-        if(TraceMode) Console.WriteLine("File found");
-        filepath = xmls[0];
+        if(DEBUG_MODE) Console.WriteLine("File found");
+        //inputPath = xmls[0];
 	}
     else if(xmls.Length == 0)
     {
-        if(TraceMode) Console.WriteLine("No xml files found");
-        return;
+        throw new FileNotFoundException("No xml files found");
     }
     else
     {
-        if(TraceMode) Console.WriteLine("More than 1 xml files found");
-        return;
+        throw new NotSupportedException("More than 1 xml files found; Appending all files for process");
     }
 	
-	//Read file
-    string text = File.ReadAllText(filepath);
-    XDocument doc = XDocument.Parse(text);
-    
-    // Use XNamespaces to deal with those pesky "xmlns" attributes.
-    // The underscore represents the default namespace.
-    var _ = XNamespace.Get("http://www.w3.org/2005/Atom");
-    var app = XNamespace.Get("http://purl.org/atom/app#");
-    
-    var posts = doc.Root.Elements(_+"entry")
-        // An <entry> is either a post, or some bit of metadata no one cares about.
-        // Exclude entries that don't have a child like <category term="...#post"/>
-        .Where(entry => !entry.Element(_+"category").Attribute("term").ToString().Contains("#template"))
-        .Where(entry => !entry.Element(_+"category").Attribute("term").ToString().Contains("#settings"))
-        .Where(entry => !entry.Element(_+"category").Attribute("term").ToString().Contains("#page"))
-        // Exclude any entries with an <app:draft> element except <app:draft>no</app:draft>
-        .Where(entry => !entry.Descendants(app+"draft").Any(draft => draft.Value != "no"));
-    
-    #region Only For Export
-    var destPath = Path.Combine(blogpath, outputFolder);
-//    if(Directory.Exists(destPath))
-//        Directory.Delete(destPath, true);
-//    Directory.CreateDirectory(destPath);	
-    var allTags = new List<string>();
-    #endregion
-    
-	// Linked list for all page links to find navigation
-	var postList = new List<string>();
-	foreach(var entry in posts)
+	return xmls;
+}
+
+List<XElement> GetBloggerPostsPublished(string[] inputFiles)
+{
+    List<XElement> xmlPosts = new List<XElement>();
+	foreach(var inputFile in inputFiles)
 	{
-        DateTime published = DateTime.Parse(entry.Element(_+"published").Value);
-        string type = entry.Element(_+"content").Attribute("type").Value ?? "html";
-        XElement empty = new XElement("empty");
-        XAttribute emptA = new XAttribute("empty","");
-        string originalLink = ((entry.Elements(_+"link")
-            .FirstOrDefault(e => e.Attribute("rel").Value == "alternate") ?? empty)
-            .Attribute("href") ?? emptA).Value;
-        var pageLink = "./" + Path.GetFileNameWithoutExtension(filepath.Replace(filepath, outputFolder)) + "/" + published.Year.ToString("0000") + "/"  + published.Month.ToString("00") + "/"  + Path.GetFileNameWithoutExtension(originalLink) + "." + type;
-		if(!string.IsNullOrWhiteSpace(originalLink))
-			postList.Add(pageLink);
-	}	
-	
+		// Read file
+		Console.WriteLine("Reading XML Export... " + inputFile);
+	    string text = File.ReadAllText(inputFile);
+	    XDocument doc = XDocument.Parse(text);
+	    // Use XNamespaces to deal with "xmlns" attributes
+	    // Find published posts
+	    xmlPosts.AddRange(doc.Root.Elements(DEFAULT_XML_NAMESPACE+"entry")
+	        // Exclude entries that are not template, settings, or page
+	        .Where(entry => !entry.Element(DEFAULT_XML_NAMESPACE+"category").Attribute("term").ToString().Contains("#template"))
+	        .Where(entry => !entry.Element(DEFAULT_XML_NAMESPACE+"category").Attribute("term").ToString().Contains("#settings"))
+	        .Where(entry => !entry.Element(DEFAULT_XML_NAMESPACE+"category").Attribute("term").ToString().Contains("#page"))
+	        // Exclude any draft posts, do not have page URL created
+	        .Where(entry => !entry.Descendants(XNamespace.Get("http://purl.org/atom/app#")+"draft").Any(draft => draft.Value != "no"))
+			.ToList());
+		Console.WriteLine($"Total posts found: {xmlPosts.Count}");
+	}
+	// Order by publich date
+	return xmlPosts.OrderByDescending(x => DateTime.Parse(x.Element(DEFAULT_XML_NAMESPACE+"published").Value)).ToList();
+}
+
+SitemapSections GenerateSitemap(List<XElement> xmlPosts)
+{
     // Process sitemap page
 	var sitemapItems = new List<SitemapItem>();
 	var fanficItems = new List<SitemapItem>();
 	var exclusions = new List<string>() { "hashtags", "news-thumbnail", "music", "menu", "table", "video", "disclaimer" };
 	
     // Process XML content per post
-    for (var p = 0; p < posts.Count(); p++)
+    for (var p = 0; p < xmlPosts.Count(); p++)
     {
-		var entry = posts.ElementAt(p);
-	
-        //FIX POST ATTRIBUTES
-        //fix url of ent news, by year except 2014
-        
-        // FIX POST CONTENT
-        List<int> count = new List<int>();
-        string oldContent = entry.Element(_+"content").Value;
-        string content = entry.Element(_+"content").Value.Replace("\n ", " ").Replace("  ", " ").Replace("   ", " ");
-            
+		var entry = xmlPosts.ElementAt(p);
        	// Extract data from XML
-        DateTime published = DateTime.Parse(entry.Element(_+"published").Value);
-        DateTime updated = DateTime.Parse(entry.Element(_+"updated").Value);
-        string title = entry.Element(_+"title").Value;
-        //Console.WriteLine("Processing...  " + (title != "" ? title : "A Random Statement"));
-        string type = entry.Element(_+"content").Attribute("type").Value ?? "html";
+        string postContent = entry.Element(DEFAULT_XML_NAMESPACE+"content").Value;
+        DateTime publishDate = DateTime.Parse(entry.Element(DEFAULT_XML_NAMESPACE+"published").Value);
+        string postTitle = entry.Element(DEFAULT_XML_NAMESPACE+"title").Value;
+        string postExtension = entry.Element(DEFAULT_XML_NAMESPACE+"content").Attribute("type").Value ?? "html";
         XElement empty = new XElement("empty");
         XAttribute emptA = new XAttribute("empty","");
-        string originalLink = ((entry.Elements(_+"link")
+        string bloggerLink = ((entry.Elements(DEFAULT_XML_NAMESPACE+"link")
             .FirstOrDefault(e => e.Attribute("rel").Value == "alternate") ?? empty)
             .Attribute("href") ?? emptA).Value;
-		if(string.IsNullOrWhiteSpace(originalLink))
+		// If not post URL, skip
+		if(string.IsNullOrWhiteSpace(bloggerLink))
 			continue;
-            
-        var yearfolder = Path.Combine(destPath, published.Year.ToString("0000"));
-//        if(!Directory.Exists(yearfolder)) Directory.CreateDirectory(destPath);
-        var monthfolder = Path.Combine(yearfolder, published.Month.ToString("00"));
-//        if(!Directory.Exists(monthfolder)) Directory.CreateDirectory(monthfolder);
-        string outFileName = Path.GetFileNameWithoutExtension(originalLink) + "." + type;
-        var outPath = Path.Combine(monthfolder, outFileName);
-        
-        var tags = entry.Elements(_+"category")
-        // An <entry> is either a post, or some bit of metadata no one cares about.
-        // Exclude entries that don't have a child like <category term="...#post"/>
-        .Where(e => !e.Attribute("term").ToString().Contains("#post")).Select(q => q.Attribute("term").Value).ToList();
-        
-        if(WriteTitleOnConsole || TraceMode)
-            Console.WriteLine((title != "" ? title : "A Random Statement") + (count.Count > 0 ? "\t[" + string.Join(",", count) + "]" : ""));
-		else if(p % 100 == 99)
-            Console.WriteLine(".");
+		// Create output folders to put html file as per Blogger design ie. <domain>/<yyyy>/<MM>/<post-title>.html
+		var outputFileDir = Path.Combine(OUTPUT_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER);
+        var yearfolder = Path.Combine(outputFileDir, publishDate.Year.ToString("0000"));
+        if(!Directory.Exists(yearfolder)) Directory.CreateDirectory(outputFileDir);
+        var monthfolder = Path.Combine(yearfolder, publishDate.Month.ToString("00"));
+        if(!Directory.Exists(monthfolder)) Directory.CreateDirectory(monthfolder);
+        string outFileName = Path.GetFileNameWithoutExtension(bloggerLink) + "." + postExtension;
+        var pageOutputPath = Path.Combine(monthfolder, outFileName);
+        // Find post labels
+        var pageTagsXml = entry.Elements(DEFAULT_XML_NAMESPACE+"category")
+        	.Where(e => !e.Attribute("term").ToString().Contains("#post")).Select(q => q.Attribute("term").Value).ToList();        
+		// Post labels to ignore and not render
+		if(pageTagsXml.Any(xml => POST_IGNORE_TAGS.Contains(xml)))
+			continue;
+		
+		// Create output page link and index in linked list
+        var pageLink = "../" + Path.GetFileNameWithoutExtension(BLOGGER_XML_DIRECTORY.Replace(BLOGGER_XML_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER)) + "/" + publishDate.Year.ToString("0000") + "/"  + publishDate.Month.ToString("00") + "/"  + Path.GetFileNameWithoutExtension(bloggerLink) + "." + postExtension;
+		
+		// Show progress, as post title or as represented by dot (100 per line)
+	    if(WRITE_TITLE_ON_CONSOLE || DEBUG_MODE)
+	        Console.WriteLine("||> " + (postTitle.Length > 0 ? postTitle : "POST W/O TITLE DATED " + publishDate.ToString("yyyy-MM-dd")));
+		else if(p % DOTS_PER_LINE_CONSOLE == DOTS_PER_LINE_CONSOLE - 1)
+	        Console.WriteLine(".");
 		else
-            Console.Write(".");
-        
-		if(tags.Contains("The Archive") || tags.Contains("The Statement"))
-			continue;
+	        Console.Write(".");
+			
+		if (DEBUG_MODE) Console.WriteLine("Process home page");
+        var tagList = string.Join("-",pageTagsXml).Replace(" ","").Replace("-"," ");
 		
-        var pageLink = "../" + Path.GetFileNameWithoutExtension(filepath.Replace(filepath, outputFolder)) + "/" + published.Year.ToString("0000") + "/"  + published.Month.ToString("00") + "/"  + Path.GetFileNameWithoutExtension(originalLink) + "." + type;
-        var pageIndex = postList.IndexOf(pageLink);
-		
-		if (TraceMode) Console.WriteLine("Process home page");
-        var tagList = string.Join("-",tags).Replace(" ","").Replace("-"," ");
-		
-		if(tags.Contains("The Fanfiction")) // custom tag display
+		if(pageTagsXml.Contains("The Fanfiction")) // custom tag display
 		{
 			// Find single img title
 	        var expression = @"(?s)(img)(.*?) title=""(.*?)""(.*?)(>)";
-	        var match = Regex.Match(content, expression);
+	        var match = Regex.Match(postContent, expression);
     		while(match.Success) {
 				//Console.WriteLine(match.Groups[3].Value);
 				if(match.Groups[3].Value.Length > 1)
 				{
 					fanficItems.Add(new SitemapItem() {
-						Title = title,
+						Title = postTitle,
 						TitleUrl = pageLink,
-						Keyword = "Fanfiction|" + published.ToString("yyyy.MM.dd") + "|" + match.Groups[3].Value,
+						Keyword = "Fanfiction|" + publishDate.ToString("yyyy.MM.dd") + "|" + match.Groups[3].Value,
 						KeywordUrl = pageLink
 					});
 				}
         		match = match.NextMatch();
 			}
-			//Console.WriteLine(tagList);
 		}
-		else if(originalLink != "" && title != "") // without title
+		else if(bloggerLink != "" && postTitle != "") // without title
 		{
 			var anchors = new List<string>();
 			// Find all anchors
 	        var expression = @"(?s)(div|blockquote)(.*?) id=""(.*?)""(.*?)(>)";
-	        var match = Regex.Match(content, expression);
+	        var match = Regex.Match(postContent, expression);
     		while(match.Success) {
 				//Console.WriteLine(match.Groups[3].Value);
 				if(match.Groups[3].Value.Length > 1 && 
-				match.Groups[3].Value.Length <= MaxHashtagLength && 
+				match.Groups[3].Value.Length <= MAX_HASHTAH_LENGTH && 
 				!exclusions.Any(e => match.Groups[3].Value.Contains(e)) && 
 				!int.TryParse(match.Groups[3].Value, out int _) &&
 				!match.Groups[4].Value.Contains("none"))
 				{
 					anchors.Add(match.Groups[3].Value);
 					sitemapItems.Add(new SitemapItem() {
-						Title = title,
+						Title = postTitle,
 						TitleUrl = pageLink,
 						Keyword = match.Groups[3].Value,
 						KeywordUrl = pageLink + "#" + match.Groups[3].Value,
-						Tags = tags
+						Tags = pageTagsXml
 					});
 				}
         		match = match.NextMatch();
 			}
-			//Console.WriteLine("Anchors - " + anchors.ToString());
-			//textString += string.Join("", anchors.Select(a => "<a href=\"" + (pageLink + "#" + a) + "\">#" + a + "</a>"));
 		}
-		
-        var classes = " class=\"Post "+tagList+"\"";
-        foreach(var tag in tags)
-        {
-            if(!allTags.Contains(tag))
-				allTags.Add(tag);
-        }
-		
     }
 	
-	if(TraceMode)
+	if(DEBUG_MODE)
 		Console.WriteLine(sitemapItems);
+	// Output fanfic stats
+	if(WRITE_FANFIC_LIST)
+	{
+		Console.WriteLine(fanficItems
+			.GroupBy(g => g.Keyword.Split('|')[2])
+			.Select(s => new {
+		         Fanfiction = s.Key, 
+		         Count = s.Count()
+		    })
+			.OrderByDescending(x => x.Count));
+	}
 	
 	//Generate sitemap string by category
     var animeString = "";
@@ -264,23 +287,28 @@ void Main()
 		fanString += "<div><span>#" + ++counter + "</span> <a class=\"keyword\" title=\"" + item.Title + "\" href=\"" + item.KeywordUrl + "\">" + key[2] + "</a></div>\r\n";
 		fanDate = date;
 	}
-	//fanString = fanString.Replace("<div></div>\r\n","");
 	fanString += "</div>";
-    
-    //Write into page
-    string fileString = File.ReadAllText(blogpath + "\\template.html");
-    fileString = fileString.Replace("_FONT_", defaultFont).Replace("_ANIME_", animeString).Replace("_PACKAGE_", packageString).Replace("_FANFICS_", fanString);	
-    File.WriteAllText(blogpath + "\\index.html", fileString);
 	
-	//Fanfic stats
-	if(WriteFanficList)
-		Console.WriteLine(fanficItems
-			.GroupBy(g => g.Keyword.Split('|')[2])
-			.Select(s => new {
-		         Fanfiction = s.Key, 
-		         Count = s.Count()
-		    })
-		    .OrderByDescending(x => x.Count));
+	return new SitemapSections() {
+		Anime = animeString,
+		Packages = packageString,
+		Fanfics = fanString
+	};
+}
+
+void GenerateSitemapFile(SitemapSections sections)
+{
+    //Write into page
+    string fileString = File.ReadAllText(POST_TEMPLATE_FILENAME);
+    fileString = fileString.Replace("_FONT_", HTML_BODY_FONTFAMILY).Replace("_ANIME_", sections.Anime).Replace("_PACKAGE_", sections.Packages).Replace("_FANFICS_", sections.Fanfics);	
+    File.WriteAllText(HOMEPAGE_FILENAME, fileString);
+}
+
+public class SitemapSections
+{
+    public string Anime { get; set; }
+    public string Packages { get; set; }
+    public string Fanfics { get; set; }
 }
 
 public class SitemapItem
