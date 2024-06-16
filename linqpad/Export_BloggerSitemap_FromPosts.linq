@@ -7,16 +7,6 @@
 // DEBUG
 bool DEBUG_MODE = false;
 
-// PROGRAM SETTINGS
-bool HOMEPAGE_ONLY = false;
-bool WRITE_TITLE_ON_CONSOLE = false;
-int DOTS_PER_LINE_CONSOLE = 100;
-int MAX_HASHTAH_LENGTH = 32;
-//string BLOG_DOMAIN_URL = "https://knwebreports.blogspot.com/";
-XNamespace DEFAULT_XML_NAMESPACE = XNamespace.Get("http://www.w3.org/2005/Atom");
-List<string> GOOGLE_FONTS_URLS = new List<string>() { "Dancing Script" };
-List<string> IMAGE_DOMAINS_LIST = new List<string>() { "ggpht.com", "bp.blogspot.com", "blogger.googleusercontent.com" };
-
 // INPUT OUTPUT SETTINGS
 string BLOGGER_XML_DIRECTORY = @"C:\Users\KAINENG\Downloads\";
 string ARCHIVE_XML_DIRECTORY = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\";
@@ -24,12 +14,18 @@ string OUTPUT_DIRECTORY = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\bl
 string OUTPUT_DIRECTORY_SUBFOLDER = "posts";
 string HOMEPAGE_FILENAME = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\sitemap\index.html";
 string POST_TEMPLATE_FILENAME = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\template\sitemap.html";
-bool WRITE_FANFIC_LIST = true;
 
-// POST SETTINGS
-string HTML_BODY_FONTFAMILY = "Noto Sans, Arial, sans-serif;";
-List<String> POST_IGNORE_TAGS = new List<string>() { "The Archive" };
+// PROGRAM SETTINGS
+bool HOMEPAGE_ONLY = false;
+bool WRITE_TITLE_ON_CONSOLE = false;
+int DOTS_PER_LINE_CONSOLE = 100;
+//string BLOG_DOMAIN_URL = "https://knwebreports.blogspot.com/";
+XNamespace DEFAULT_XML_NAMESPACE = XNamespace.Get("http://www.w3.org/2005/Atom");
+//List<string> GOOGLE_FONTS_URLS = new List<string>() { "Dancing Script" };
+//List<string> IMAGE_DOMAINS_LIST = new List<string>() { "ggpht.com", "bp.blogspot.com", "blogger.googleusercontent.com" };
 // TODO: Group based on page xml tag found, return list instead of object class
+bool WRITE_FANFIC_LIST = true;
+int MAX_HASHTAG_LENGTH = 32;
 Dictionary<String, String> SITEMAP_GROUPS = new Dictionary<String, String>()
 {
 	{ "The Entertainment News", "Anime" },
@@ -38,6 +34,9 @@ Dictionary<String, String> SITEMAP_GROUPS = new Dictionary<String, String>()
 	{ "The Welfare Package", "Packages" }
 };
 
+// POST SETTINGS
+string HTML_BODY_FONTFAMILY = "Noto Sans, Arial, sans-serif;";
+List<String> POST_IGNORE_TAGS = new List<string>() { "The Archive" };
 void Main()
 {
 	//Pre-execution notice
@@ -217,7 +216,7 @@ SitemapSections GenerateSitemap(List<XElement> xmlPosts)
     		while(match.Success) {
 				//Console.WriteLine(match.Groups[3].Value);
 				if(match.Groups[3].Value.Length > 1 && 
-				match.Groups[3].Value.Length <= MAX_HASHTAH_LENGTH && 
+				match.Groups[3].Value.Length <= MAX_HASHTAG_LENGTH && 
 				!exclusions.Any(e => match.Groups[3].Value.Contains(e)) && 
 				!int.TryParse(match.Groups[3].Value, out int _) &&
 				!match.Groups[4].Value.Contains("none"))
