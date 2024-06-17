@@ -32,6 +32,14 @@ function showSearch() {
 	document.body.setAttribute('onkeydown', 'onSearchKeyDown()');
 }
 
+function onSearch() {
+	// check if search index data has been loaded
+	if(document.querySelector('#search-index') == null)
+		loadScript(searchBlog);
+	else
+		searchBlog();
+}
+
 function onSearchKeyUp() {
 	// console.log(event.keyCode);
 	if (event.key === 'Enter') // "Enter" key
@@ -61,7 +69,8 @@ function onSearchKeyDown() {
 	return false;
 }
 
-function onSearch() {
+function searchBlog() {
+	// find post ids from input
 	let inputVal = document.querySelector('.search-input').value.toLowerCase();
 	let indexesKeys = Object.keys(searchIndex.indexes).filter(k => inputVal.toLowerCase().split(' ').includes(k));
 	// create lists of relevant keywords
@@ -130,4 +139,15 @@ function showNextResults() {
 	showResults(window['search-results'].length > window['search-page']*window['search-size'] 
 			? window['search-results'].slice(window['search-page']*window['search-size'], (1+window['search-page'])*window['search-size'])
 			: window['search-results'].slice(window['search-page']*window['search-size']));
+}
+
+function loadScript(callback) {
+	let indexScript = document.createElement('script');
+	indexScript.id = 'search-index';
+	indexScript.src = 'js/searchIndex.js';
+	indexScript.type = 'application/javascript';
+	indexScript.charset = 'utf-8';
+	indexScript.onreadystatechange = function() { callback(); };
+    indexScript.onload = function() { callback(); };
+	document.head.appendChild(indexScript);
 }
