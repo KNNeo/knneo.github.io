@@ -1,3 +1,4 @@
+// For knwebreports.blogspot.com
 // Single onLoad event control: put all functions in sequence
 window.addEventListener('load', function() {
 	// Window Events

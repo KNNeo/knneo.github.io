@@ -1,17 +1,17 @@
 /*Variables*/
 :root {
 	--primary: 27, 63, 255;
-	--secondary: 96, 159, 255;
-	--background: 244, 246, 255;
-	--foreground: 0, 0, 0;
+	--secondary: 117, 153, 255;
+	--background: 245, 245, 255;
+	--foreground: 0, 20, 20;
 	--accent: 221, 221, 221;
 }
 
 .darked:root {
-	--primary: 0, 228, 255;
-	--secondary: 0, 171, 191;
-	--background: 0, 17, 20;
-	--foreground: 255, 255, 255;
+	--primary: 50, 228, 255;
+	--secondary: 50, 178, 205;
+	--background: 0, 20, 20;
+	--foreground: 245, 245, 255;
 	--accent: 69, 69, 69;
 }
 
@@ -233,16 +233,20 @@ a:hover {
 }
 
 .post-tags.filters.expanded a {
-    width: 12.5%;
-    min-width: 100px;
+    width: max(15%, 110px);
+}
+
+.post-tags.filters.expanded .box {
+    text-transform: uppercase;
+}
+
+.post-tags.filters.expanded .box span {
+    display: block;
 }
 
 .post-tags.filters.expanded .material-icons {
     font-size: 2rem;
-}
-
-.post-tags.filters.expanded span {
-    display: block;
+    text-transform: initial;
 }
 
 .post-tags a {

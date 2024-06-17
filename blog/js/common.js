@@ -1,4 +1,5 @@
-//constants
+// For knneo.github.io and knwebreports.onrender.com
+// Constants
 const isBlogger = function() {
 	return window.location.href.includes('.blogspot.com'); //if false, is blogger
 };
