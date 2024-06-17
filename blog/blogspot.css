@@ -358,13 +358,17 @@ a:hover {
 }
 
 /* typically in all caps, do not style uppercase here */
-.heading {
+.page-heading {
 	font-size: 1.35em;
 }
 
 /* at bottom of post */
 .post-tags h4 {
 	margin: 0;
+}
+
+.page-footer {
+	text-align: center;
 }
 
 /*Assign class based on image resize for responsive, see blog.js resizeImg()*/

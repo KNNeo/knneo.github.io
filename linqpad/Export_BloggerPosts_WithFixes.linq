@@ -29,6 +29,7 @@ XNamespace DEFAULT_XML_NAMESPACE = XNamespace.Get("http://www.w3.org/2005/Atom")
 List<string> GOOGLE_FONTS_URLS = new List<string>() { "Dancing Script" };
 
 // POST SETTINGS
+bool PAGE_TOP_RENDER_BLOGGER_REF = false;
 string HTML_BODY_FONTFAMILY = "Noto Sans, Arial, sans-serif;";
 string HTML_TITLE = "Klassic Note Web Reports";
 string HTML_DESCRIPTION = "If it is worth taking Note, it will be a Klassic.";
@@ -247,10 +248,10 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
 					externalFonts.AppendLine($"<link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css?family={font}\" />");
 			}
 			// All content to put in <body> tag
-			//if (bloggerLink != "")
-			//{
-	        //    output.AppendLine("<small style=\"text-align: center;\"><p><i>This is an archive from <a href=\"" + bloggerLink + "\">" + HTML_TITLE + "</a></i></p></small>");
-			//}
+			if (PAGE_TOP_RENDER_BLOGGER_REF && bloggerLink != "")
+			{
+	            output.AppendLine("<small style=\"text-align: center;\"><p><i>This is an archive from <a href=\"" + bloggerLink + "\">" + HTML_TITLE + "</a></i></p></small>");
+			}
 	        output.AppendLine("<small title=\"" + publishDate.ToString("yyyy-MM-ddTHH:mm:sszzz") + " (Singapore Time)\" class=\"published\">" + publishDate.ToString("dddd, dd MMMM yyyy") + "</small>");
 	        output.AppendLine("<div class=\"title\">" + postTitle + "</div>");
 			if(postContent.Contains("id=\"") && !postContent.Contains("=\"hashtags\""))
@@ -265,7 +266,7 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
 					string.Join("", pageTagsXml.OrderBy(t => t).Select(tag => POST_LABEL_ICONTEXT.TryGetValue(tag, out String tagValue) ? "<a class=\"box\" href=\"../../../index.html#" + tag.Replace(" ","") +"\">" + "<span class=\"material-icons small-icons\">" + tagValue + "</span>" + tag + "</a>" : "")) + 
 					"</div>");
 			}
-	        output.Append("<h6 style=\"text-align: center;\">All text content © 2014-2024 Klassic Note Web Reports</h6>");
+	        output.Append($"<h6 class=\"page-footer\">All text © {publishDate.ToString("yyyy")} {HTML_TITLE}</h6>");
 	        output.Append("<br>");
 	        output.Append("<br>");
 	        output.Append("<br>");
