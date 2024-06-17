@@ -232,6 +232,19 @@ a:hover {
     justify-content: center;
 }
 
+.post-tags.filters.expanded a {
+    width: 12.5%;
+    min-width: 100px;
+}
+
+.post-tags.filters.expanded .material-icons {
+    font-size: 2rem;
+}
+
+.post-tags.filters.expanded span {
+    display: block;
+}
+
 .post-tags a {
 	padding: 6px;
     white-space: nowrap;
@@ -886,15 +899,18 @@ a:hover {
 
 /*MEDIA QUERIES - MEDIUM SCREEN WIDTH*/
 @media only screen and (max-width: 880px) {
+	.post-tags.filters.expanded .material-icons {
+		font-size: 1.5rem;
+	}
 	.action-menu.bottom-left {
-		bottom: 15px;
-		left: 15px;
+		bottom: 10px;
+		left: 8px;
 		transition: transform 0.2s ease-in-out;
 		flex-direction: row-reverse;
 	}
 	.action-menu.bottom-right {
-		bottom: 15px;
-		right: 15px;
+		bottom: 10px;
+		right: 10px;
 		transition: transform 0.2s ease-in-out;
 		flex-direction: row;
 	}
