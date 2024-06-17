@@ -7,60 +7,29 @@
   <Namespace>System.Windows.Forms</Namespace>
 </Query>
 
-/* Objective: To generate RSS XML file as per example
-<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0">
-<channel>
-  <title>My Awesome Website Updates</title>
-  <link>https://www.example.com/</link> 
-  <description>Get the latest updates from my website!</description>
-  <language>en-us</language>
-  <managingEditor>youremail@example.com</managingEditor>
-  <webMaster>youremail@example.com</webMaster>
-  <pubDate>Mon, 17 Jun 2024 16:49:00 GMT</pubDate>
-
-  <item>
-    <title>This is a Sample Blog Post Title</title>
-    <link>https://www.example.com/post1</link>  <description>This is a summary of the blog post content.</description>
-    <pubDate>Mon, 10 Jun 2024 10:00:00 GMT</pubDate>
-  </item>
-
-  <item>
-    <title>Another Sample Post</title>
-    <link>https://www.example.com/post2</link>  <description>Another summary of a blog post.</description>
-    <pubDate>Mon, 15 Jun 2024 15:30:00 GMT</pubDate>
-  </item>
-
-</channel>
-</rss>
-
-Assumptions:
+/* Assumptions:
 * All files detected are HTML or non-encrypted text-based files
 */
 
 // DEBUG
 bool DEBUG_MODE = false;
-string DEBUG_SEARCHTERM = "";
 
 // INPUT OUTPUT SETTINGS
 string BLOGGER_XML_DIRECTORY = @"C:\Users\KAINENG\Downloads\";
 string ARCHIVE_XML_DIRECTORY = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\";
 string OUTPUT_DIRECTORY = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\";
 string OUTPUT_DIRECTORY_SUBFOLDER = "posts";
-string HOMEPAGE_TEMPLATE_FILENAME = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\template\homepage.html";
 string HOMEPAGE_FILENAME = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\rss20.xml";
 
 // PROGRAM SETTINGS
 bool HOMEPAGE_ONLY = false;
 bool WRITE_TITLE_ON_CONSOLE = true;
-int DOTS_PER_LINE_CONSOLE = 100;
-string BLOG_DOMAIN_URL = "https://knwebreports.blogspot.com/";
 string FEED_DOMAIN_URL = "https://knwebreports.onrender.com/";
 string FEED_URL = "https://knwebreports.onrender.com/rss20.xml";
 XNamespace DEFAULT_XML_NAMESPACE = XNamespace.Get("http://www.w3.org/2005/Atom");
 List<string> GOOGLE_FONTS_URLS = new List<string>() { "Dancing Script" };
 string TIMEZONE_SUFFIX_STRING = "+0800";
-int POSTS_MAX_COUNT = 100;
+int POSTS_MAX_COUNT = 50;
 
 // POST SETTINGS
 string HTML_TITLE = "Klassic Note Web Reports";
@@ -204,13 +173,23 @@ List<FeedItem> GenerateFeedItems(List<XElement> xmlPosts, string outputFileDir)
 			continue;
 		// Create output page link and index in linked list
         var pageLink = "./" + Path.GetFileNameWithoutExtension(BLOGGER_XML_DIRECTORY.Replace(BLOGGER_XML_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER)) + "/" + publishDate.Year.ToString("0000") + "/"  + publishDate.Month.ToString("00") + "/"  + Path.GetFileNameWithoutExtension(bloggerLink) + "." + postExtension;
-
+		
+		// Create feed item
 		FeedItem newItem = new FeedItem();
 		
 		newItem.title = postTitle;
 		
 		// TODO: Generate description from HTML content
-		newItem.description = postTitle;
+		var index = postContent.IndexOf("<div>");
+		if(index + 1000 > postContent.Length) index = 0;
+		var pageSummary = postContent.Substring(index, postContent.Length > 1000 ? 1000 : postContent.Length);
+		var substitutes = new string[] { "<div>", "</div>", "<br />", "<div class=\"news=thumbnail\"", "<div class=\"hashtags\"></div>", "\n" };
+		foreach(var sub in substitutes)
+		{
+			pageSummary = pageSummary.Replace(sub, "").Replace("  ", " ").Trim();
+		}
+		newItem.description = pageSummary;
+		
 		
 		newItem.link = FEED_DOMAIN_URL + Path.GetFileNameWithoutExtension(BLOGGER_XML_DIRECTORY.Replace(BLOGGER_XML_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER)) + "/" + publishDate.Year.ToString("0000") + "/"  + publishDate.Month.ToString("00") + "/"  + Path.GetFileNameWithoutExtension(bloggerLink) + "." + postExtension;
 		
