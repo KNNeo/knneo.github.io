@@ -56,7 +56,7 @@ a:hover {
 }
 
 .tr-caption {
-	font-size: 0.8em;
+	font-size: 0.7em;
 	max-width: 680px;
 	padding: 0 0.2em;
 }
@@ -232,7 +232,8 @@ a:hover {
 }
 
 .post-tags.filters.expanded a {
-    width: max(15%, 125px);
+    width: 15%;
+    min-width: 120px;
 }
 
 .post-tags.filters.expanded .box {
@@ -908,8 +909,13 @@ a:hover {
 
 /*MEDIA QUERIES - MEDIUM SCREEN WIDTH*/
 @media only screen and (max-width: 880px) {
-	.post-tags.filters.expanded .material-icons {
-		font-size: 1.5em;
+	.post-tags.filters.expanded {
+		display: flex;
+		flex-wrap: nowrap;
+		overflow-x: auto;
+		padding-bottom: 6px;
+		padding-right: 4px;
+		justify-content: flex-start;
 	}
 	.action-menu.bottom-left {
 		bottom: 10px;
@@ -948,9 +954,6 @@ a:hover {
 	.post span {
 		display: block;
 	}
-	/* .input-result .post {
-		font-size: 0.875em;
-	} */
 	.latest:hover:has(.anchors) .thumb > a {
 		margin-bottom: 3em; /* changing this will affect layout shift of .latest when hover*/
 	}

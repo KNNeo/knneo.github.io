@@ -27,6 +27,7 @@ int DOTS_PER_LINE_CONSOLE = 100;
 string BLOG_DOMAIN_URL = "https://knwebreports.blogspot.com/";
 XNamespace DEFAULT_XML_NAMESPACE = XNamespace.Get("http://www.w3.org/2005/Atom");
 List<string> GOOGLE_FONTS_URLS = new List<string>() { "Dancing Script" };
+bool SHOW_POST_LABELs_COUNT = false;
 
 // POST SETTINGS
 bool PAGE_TOP_RENDER_BLOGGER_REF = false;
@@ -154,9 +155,9 @@ List<XElement> GetBloggerPostsPublished(string[] inputFiles)
 
 List<string> GetBloggerPostsLinkedList(List<XElement> xmlPosts)
 {
-	//Read file
+	// Read file
 	Console.WriteLine("Creating Linked List...");
-	//Create linked list for all posts links to allow navigation between posts
+	// Create linked list for all posts links to allow navigation between posts
 	var linkedList = new List<string>();
 	foreach(var entry in xmlPosts)
 	{
@@ -180,11 +181,13 @@ List<string> GetBloggerPostsLinkedList(List<XElement> xmlPosts)
 
 string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedList, string outputFileDir)
 {
-    //Create output folder if missing
+    // Create output folder if missing
     if(!Directory.Exists(outputFileDir) && !HOMEPAGE_ONLY)
 		Directory.CreateDirectory(outputFileDir);
-	//Read file
+	// Read file
 	Console.WriteLine("Processing Blogger posts...");
+	// Collate post labels
+	Dictionary<String, int> labelCount = new Dictionary<String, int>();
     // Process XML content per post
     var homepageString = new StringBuilder();
     for (var p = 0; p < xmlPosts.Count(); p++)
@@ -216,6 +219,14 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
 		// Post labels to ignore and not render
 		if(pageTagsXml.Any(xml => POST_IGNORE_LABELS.Contains(xml)))
 			continue;
+		// Add to labels collation
+		foreach(var tag in pageTagsXml)
+		{
+			if(labelCount.ContainsKey(tag))
+				labelCount[tag] += 1;
+			else
+				labelCount[tag] = 1;
+		}
 		// Create output page link and index in linked list
         var pageLink = "./" + Path.GetFileNameWithoutExtension(BLOGGER_XML_DIRECTORY.Replace(BLOGGER_XML_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER)) + "/" + publishDate.Year.ToString("0000") + "/"  + publishDate.Month.ToString("00") + "/"  + Path.GetFileNameWithoutExtension(bloggerLink) + "." + postExtension;
         var pageIndex = linkedList.IndexOf(pageLink);
@@ -347,6 +358,9 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
 			}
         }
     }
+	// Show collated label counts
+	if (DEBUG_MODE) Console.WriteLine("Print labels total count");
+	if (SHOW_POST_LABELs_COUNT) Console.WriteLine(labelCount.OrderByDescending(x => x.Value));
 	return homepageString.ToString();
 }
 
