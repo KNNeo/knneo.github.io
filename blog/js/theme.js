@@ -48,7 +48,8 @@ function toggleTheme() {
 
 function setThemeColorMeta(theme) {
 	// dependent on parent class of each html tag
-	theme.content = document.documentElement.classList.contains('darked') ? defaultLightTheme : defaultDarkTheme;
+	if(theme)
+		theme.content = document.documentElement.classList.contains('darked') ? defaultLightTheme : defaultDarkTheme;
 }
 
 setTheme();
