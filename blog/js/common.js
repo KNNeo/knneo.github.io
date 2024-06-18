@@ -480,11 +480,11 @@ function createMalElementFromJson(response) {
 				contentRow.src = response.data[key]['jpg']['image_url'];
 				contentDiv.appendChild(contentRow);
 			} // image source
-			if(typeof(key) == 'string' && key == 'birthday') {
+			if(typeof(key) == 'string' && key == 'birthday' && response.data[key] != null) {
 				let contentRow = document.createElement('div');
 				contentRow.innerText = new Date(response.data[key]).toLocaleDateString();
 				contentDiv.appendChild(contentRow);
-			} // date treatment
+			} // date treatment, can be null
 			if(typeof(key) == 'string' && key == 'aired') {
 				let contentRow = document.createElement('div');
 				contentRow.innerText = response.data[key].string;
