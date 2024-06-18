@@ -50,7 +50,7 @@ a:hover {
 
 /* Edits from Blogger classes */
 .post-body.entry-content {
-	max-width: 65ch;
+	max-width: 780px;
 	overflow-x: hidden;
 	margin: auto;
 }
