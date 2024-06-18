@@ -1,4 +1,4 @@
-const defaultLightTheme = window['light-theme'] ?? '#f4f6ff';
+const defaultLightTheme = window['light-theme'] ?? '#f5f5ff';
 const defaultDarkTheme = window['dark-theme'] ?? '#001114';
 const defaultThemeItem = window['theme-name'] ?? 'blog-theme';
 
