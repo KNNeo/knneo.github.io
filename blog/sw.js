@@ -1,6 +1,6 @@
 // Caches, in decreasing order of update frequency
 const CACHE_NAME_HOME = 'home-20240617';
-const CACHE_NAME_POSTS = 'posts-20240617';
+const CACHE_NAME_POSTS = 'posts-20240618';
 const CACHE_NAME_PAGES = 'pages-20240617';
 const CACHE_NAME_RESOURCES = 'script-20240618';
 const CACHE_NAME_STATIC = 'default-20240531';
