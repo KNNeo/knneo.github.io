@@ -113,7 +113,7 @@ function showResults(posts) {
 		resultDiv.appendChild(publishSpan);
 		
 		let resultUrl = document.createElement('a');
-		resultUrl.href = processLinkExtensions(post.url) + '#:~:text=' + window['search-input'];
+		resultUrl.href = processLinkExtensions(post.url.replace(window.location.href.includes('knneo.github.io') ? '../' : '__', '../blog/')) + '#:~:text=' + window['search-input'];
 		resultUrl.innerText = post.title;
 		resultDiv.appendChild(resultUrl);
 		
