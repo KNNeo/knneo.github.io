@@ -72,6 +72,7 @@ function onSearchKeyDown() {
 function searchBlog() {
 	// find post ids from input
 	let inputVal = document.querySelector('.search-input').value.toLowerCase();
+	window['search-input'] = encodeURIComponent(inputVal);
 	let indexesKeys = Object.keys(searchIndex.indexes).filter(k => inputVal.toLowerCase().split(' ').includes(k));
 	// create lists of relevant keywords
 	let postIdLists = [];
@@ -112,7 +113,7 @@ function showResults(posts) {
 		resultDiv.appendChild(publishSpan);
 		
 		let resultUrl = document.createElement('a');
-		resultUrl.href = processLinkExtensions(post.url);
+		resultUrl.href = processLinkExtensions(post.url) + '#:~:text=' + window['search-input'];
 		resultUrl.innerText = post.title;
 		resultDiv.appendChild(resultUrl);
 		
