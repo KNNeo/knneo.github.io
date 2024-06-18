@@ -154,7 +154,7 @@ function removeLinkExtensions() {
 
 function processLinkExtensions(url) {
 	if(!window.location.href.startsWith('file:///') && 
-		(url.includes('knneo.github.io') || url.includes('knwebreports')))
+		(url.includes('knneo.github.io') || url.includes('knwebreports') || url.startsWith('../../../')))
 		return url.replace('index.html', '').replace('.html', '');
 	return url;
 }
