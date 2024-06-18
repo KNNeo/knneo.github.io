@@ -15,6 +15,8 @@ function setTheme() {
 		}
 		if(saved == defaultDarkTheme) // if theme is dark, toggle
 			toggleTheme();
+		else
+			setThemeColorMeta(theme); // else remember to update theme color meta tag
 	}
 	else { // no save data
 		if (!theme) { // no meta on DOM
@@ -39,12 +41,14 @@ function addThemeEvents() {
 
 function toggleTheme() {
 	let theme = document.querySelector('meta[name="theme-color"]');
-	if(document.documentElement.classList.contains('darked')) //parent class of each page
-		theme.content = defaultLightTheme;
-	else
-		theme.content = defaultDarkTheme;
+	setThemeColorMeta(theme);
 	document.documentElement.classList.toggle('darked');
 	localStorage.setItem(defaultThemeItem, theme.content);
+}
+
+function setThemeColorMeta(theme) {
+	// dependent on parent class of each html tag
+	theme.content = document.documentElement.classList.contains('darked') ? defaultLightTheme : defaultDarkTheme;
 }
 
 setTheme();
