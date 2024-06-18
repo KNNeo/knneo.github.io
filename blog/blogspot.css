@@ -223,7 +223,7 @@ a:hover {
 
 .post-tags .small-icons {
     vertical-align: sub;
-    font-size: 1.3em;
+    font-size: 1.5em;
     margin-right: 2px;
 }
 
@@ -232,7 +232,7 @@ a:hover {
 }
 
 .post-tags.filters.expanded a {
-    width: max(15%, 110px);
+    width: max(15%, 125px);
 }
 
 .post-tags.filters.expanded .box {
@@ -316,7 +316,6 @@ a:hover {
 	padding: 3px 5px;
 	text-align: center;
 	line-height: 0;
-	font-size: 0.9em;
 }
 
 .head-title {
