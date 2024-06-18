@@ -222,9 +222,9 @@ a:hover {
 }
 
 .post-tags .small-icons {
-    vertical-align: sub;
-    font-size: 1.5em;
-    margin-right: 2px;
+	vertical-align: sub;
+	font-size: 1.25em;
+	margin-right: 2px;
 }
 
 .post-tags.filters {
@@ -358,7 +358,7 @@ a:hover {
 
 /* typically in all caps, do not style uppercase here */
 .page-heading {
-	font-size: 1.2em;
+	font-size: 1.25em;
 }
 
 /* at bottom of post */
