@@ -56,7 +56,7 @@ a:hover {
 }
 
 .tr-caption {
-	font-size: 80%;
+	font-size: 0.8em;
 	max-width: 680px;
 	padding: 0 0.2em;
 }
@@ -215,16 +215,15 @@ a:hover {
 }
 
 .post-tags {
-	font-size: 0.9em;
 	display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 8px;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px;
 }
 
 .post-tags .small-icons {
     vertical-align: sub;
-    font-size: 1.3rem;
+    font-size: 1.3em;
     margin-right: 2px;
 }
 
@@ -245,7 +244,7 @@ a:hover {
 }
 
 .post-tags.filters.expanded .material-icons {
-    font-size: 2rem;
+    font-size: 2em;
     text-transform: initial;
 }
 
@@ -518,7 +517,7 @@ a:hover {
 	min-width: 50%;
 	max-width: 100%;
     padding-bottom: 1em;
-	font-size: 1rem;
+    font-size: initial;
 	text-wrap: wrap;
     margin: auto;
 }
@@ -536,7 +535,7 @@ a:hover {
 }
 
 .mal-associated {
-    font-size: 0.85rem;
+    font-size: 0.7em;
 	max-width: 50%;
 }
 
@@ -566,7 +565,7 @@ a:hover {
 
 .mal-related > div:not(:first-child) {
     text-align: center;
-    font-size: 0.75rem;
+    font-size: 0.7em;
 	text-wrap: wrap;
 }
 
@@ -664,7 +663,7 @@ a:hover {
 	font-family: "Material Icons";
     content: "open_in_new";
     position: absolute;
-    font-size: 1.5rem;
+    font-size: 1.5em;
     width: 2rem;
     color: rgb(var(--background));
     background-color: rgb(var(--secondary));
@@ -908,7 +907,7 @@ a:hover {
 /*MEDIA QUERIES - MEDIUM SCREEN WIDTH*/
 @media only screen and (max-width: 880px) {
 	.post-tags.filters.expanded .material-icons {
-		font-size: 1.5rem;
+		font-size: 1.5em;
 	}
 	.action-menu.bottom-left {
 		bottom: 10px;
