@@ -181,8 +181,8 @@ a:hover {
 }
 
 .latest .anchors a {
-	font-size: 0.8em;
-	padding: 3px 0;
+    font-size: 0.7em;
+    padding: 0.25rem 0;
 	width: auto;
 }
 
@@ -319,7 +319,7 @@ a:hover {
 }
 
 .head-title {
-	font-size: 1.125em;
+	font-size: 1.25em;
 }
 
 .hashtags {
