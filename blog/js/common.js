@@ -420,6 +420,8 @@ function createMalElementFromJson(response) {
 				}, []);
 				// for featured, show one main role from own list
 				let mains = list.filter(d => window['shows-list'].includes(d.anime.mal_id) && d.role == 'Main');
+				if(mains.length < 1) mains = list.filter(d => window['shows-list'].includes(d.anime.mal_id));
+				if(mains.length < 1) mains = list.filter(d => d.role == 'Main');
 				let selection = mains.sort(r => 2*Math.random()-1)[0];
 				// console.log(mains);
 				let contentImg = document.createElement('img');
