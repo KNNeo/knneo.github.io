@@ -50,7 +50,7 @@ a:hover {
 
 /* Edits from Blogger classes */
 .post-body.entry-content {
-	max-width: 780px;
+	max-width: 66ch;
 	overflow-x: hidden;
 	margin: auto;
 }
@@ -400,11 +400,14 @@ a:hover {
 }
 
 .thumbnail-initial {
-	position: absolute;
 	left: 0;
 	right: 0;
 	opacity: 1;
 	transition: opacity 0.4s, left 0.2s;
+}
+
+.thumbnail.show .thumbnail-initial {
+	position: absolute;	
 }
 
 .thumbnail.fastscroll .thumbnail-initial {
