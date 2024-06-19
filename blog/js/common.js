@@ -13,26 +13,9 @@ const isMediumWidth = function () {
 function windowOnHistoryChange() {
 	// if viewer open, close and return
 	if(document.querySelector('.viewer')?.classList.contains('open')) {
-		console.log('close viewer');
-		// event.preventDefault();
+		// console.log('close viewer');
 		closeViewer();
 	}
-	// if dialog open, close and return
-	else if(document.querySelector('.dialog') != null) {
-		console.log('close dialog');
-		// event.preventDefault();
-		removeDialog();
-	}
-	// if popup open, close and return
-	else if(document.querySelector('.overlay') != null) {
-		console.log('close popup overlay');
-		// event.preventDefault();
-		closePopups();
-	}
-	if(window.location.hash.length > 2) // with delay to prevent hashchange
-		setTimeout(function() {
-			scrollToElement(document.getElementById(window.location.hash.substring(1)));
-		}, 0);
 }
 
 //==FUNCTIONS==//

@@ -11,7 +11,7 @@ function postLoadSequence() {
 	window.addEventListener('scroll', toggleActionsOnScroll);
 	window.addEventListener('resize', windowOnResize);
 	window.addEventListener('hashchange', scrollToSectionByUrl);
-	// window.addEventListener('popstate', windowOnHistoryChange);
+	window.addEventListener('popstate', windowOnHistoryChange);
 	
 	// Asynchronous Events
 	setTimeout(addHashtags, 0); // generateHeader, generateReadTime
