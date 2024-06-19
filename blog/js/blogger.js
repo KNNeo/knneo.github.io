@@ -1112,7 +1112,7 @@ function toggleSidebar() {
     outerWrapper.style.margin = outerWrapper.style.margin == '' ? 'auto' : '';
     outerWrapper.style.zIndex = outerWrapper.style.zIndex != 9 ? 9 : '';
 	// toggle desktop left sidebar on mobile widths
-    toggleDisplay(outer.querySelector('aside'), 'block');
+    toggleDisplay(outerWrapper.querySelector('aside'), 'block');
 	// hide close button if popup exist
 	document.querySelector('.fab.close')?.classList.toggle('hidden');
     if (collapseSidebarLinks)
