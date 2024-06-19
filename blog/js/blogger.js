@@ -1097,9 +1097,11 @@ function toggleSidebar() {
     if(document.querySelector('.overlay') != null)
 		hideOverlay();
 	else
-		showOverlay();	
+		showOverlay();
+	// left sidebar element
+	let outer = document.getElementsByClassName('column-left-outer')[0];
 	// fix location of left sidebar
-	toggleDisplay(document.querySelector('.column-left-outer'), 'fixed');
+	outer.style.position = toggleDisplay(outer, 'fixed');
 	// toggle menu open/close icons
 	let menuStatus = document.querySelector('.fab.sidebar');
 	menuStatus.innerText = menuStatus.innerText == 'menu' ? 'menu_open' : 'menu';
