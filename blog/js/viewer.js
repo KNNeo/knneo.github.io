@@ -143,7 +143,7 @@ function openImageInViewer(image) {
 		window['loading'] = false;
 		runLoader();
 	});
-	img.addEventListener('click', closeViewer);	
+	viewer.addEventListener('click', closeViewer);	
 	if(viewer.querySelector('img'))
 		viewer.querySelector('img').remove();
 	viewer.appendChild(img);
@@ -185,8 +185,9 @@ function openImagesInViewer(images) {
 
 function closeViewer() {
 	let viewer = document.querySelector('.viewer');
-	if(viewer != null) {
+	if(viewer != null && event.target == viewer.querySelector('img')) {
 		viewer.classList.remove('open');
+		viewer.removeEventListener('click', closeViewer);	
 		document.body.style.overflow = '';
 		if(window.location.hash == '#viewer')
 			window.history.replaceState({}, document.title, window.location.pathname);

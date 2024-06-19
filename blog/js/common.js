@@ -12,7 +12,7 @@ const isMediumWidth = function () {
 
 function windowOnHistoryChange() {
 	// if viewer open, close and return
-	if(document.querySelector('.viewer')?.classList.contains('open')) {
+	if(document.querySelector('.viewer')?.classList.contains('open') && window.location.hash != '#viewer') {
 		// console.log('close viewer');
 		closeViewer();
 	}

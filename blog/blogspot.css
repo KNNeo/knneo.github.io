@@ -805,6 +805,13 @@ a:hover {
 	background-image: linear-gradient(to right, rgba(var(--background), 1), rgba(var(--background), 0));
 }
 
+.viewer.hints::before {
+	content: "❎";
+	position: absolute;
+	z-index: 10;
+	font-size: 2em;
+}
+
 .viewer.hints .viewer-nav.prev::before {
 	content: "⬅️";
 	position: absolute;
