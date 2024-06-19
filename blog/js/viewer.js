@@ -150,6 +150,7 @@ function openImageInViewer(image) {
 	// display viewer and run loader
 	window['loading'] = true;
 	viewer.classList.add('open');
+	window.location.hash = 'viewer';
 }
 
 function openImagesInViewer(images) {
@@ -179,15 +180,16 @@ function openImagesInViewer(images) {
 	// display viewer
 	viewer.appendChild(container);
 	viewer.classList.add('open');
+	window.location.hash = 'viewer';
 }
 
 function closeViewer() {
 	let viewer = document.querySelector('.viewer');
 	if(viewer != null) {
 		viewer.classList.remove('open');
-		if(document.getElementById('CloseBtn') != undefined)
-			document.getElementById('CloseBtn').remove();	
 		document.body.style.overflow = '';
+		if(window.location.hash == '#viewer')
+			window.history.replaceState({}, document.title, window.location.pathname);
 	}
 }
 
