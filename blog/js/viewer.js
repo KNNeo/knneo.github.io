@@ -58,7 +58,7 @@ function toggleViewerHints() {
 	}
 }
 
-function updateImageNo(image) {
+function getImageIndex(image) {
 	let imageNo = 0;
 	for(let img of window['viewer-list'])
 	{
@@ -77,9 +77,8 @@ function openViewer() {
 }
 
 function openImageInViewer(image) {
-	let imgNo = updateImageNo(image);
 	let viewer = document.querySelector('.viewer');
-	
+	// create nav if missing
 	let viewerPrev = document.querySelector('.viewer-nav.prev');
 	if(!viewerPrev) {
 		viewerPrev = document.createElement('div');
@@ -87,6 +86,15 @@ function openImageInViewer(image) {
 		viewerPrev.classList.add('prev');
 		viewer.appendChild(viewerPrev);
 	}
+	let viewerNext = document.querySelector('.viewer-nav.next');
+	if(!viewerNext) {
+		viewerNext = document.createElement('div');
+		viewerNext.classList.add('viewer-nav');
+		viewerNext.classList.add('next');
+		viewer.appendChild(viewerNext);
+	}
+	// show nav based on index
+	let imgNo = getImageIndex(image);
 	if(imgNo-1 >= 0) {
 		viewerPrev.classList.add('prev');
 		viewerPrev.onclick = function(e) {
@@ -96,16 +104,7 @@ function openImageInViewer(image) {
 		};
 	}
 	else {
-		viewerPrev.classList.remove('prev');
-		viewerPrev.onclick = null;
-	}
-	
-	let viewerNext = document.querySelector('.viewer-nav.next');
-	if(!viewerNext) {
-		viewerNext = document.createElement('div');
-		viewerNext.classList.add('viewer-nav');
-		viewerNext.classList.add('next');
-		viewer.appendChild(viewerNext);
+		viewerPrev.remove();
 	}
 	if(imgNo+1 < window['viewer-list'].length) {
 		viewerNext.classList.add('next');
@@ -116,10 +115,9 @@ function openImageInViewer(image) {
 		};
 	}
 	else {
-		viewerNext.classList.remove('next');
-		viewerNext.onclick = null;
+		viewerNext.remove();
 	}
-	
+	// create loader
 	let loader = document.querySelector('.viewer.loader');
 	if(!loader) {
 		loader = document.createElement('div');
@@ -132,7 +130,7 @@ function openImageInViewer(image) {
 		runLoader();
 		closeViewer();		
 	};
-	
+	// render image
 	let thumbnail = image.cloneNode(true);
 	let img = document.createElement('img');
 	img.id = thumbnail.id;
@@ -149,7 +147,7 @@ function openImageInViewer(image) {
 	if(viewer.querySelector('img'))
 		viewer.querySelector('img').remove();
 	viewer.appendChild(img);
-	
+	// display viewer and run loader
 	window['loading'] = true;
 	viewer.classList.add('open');
 }
@@ -159,10 +157,10 @@ function openImagesInViewer(images) {
 	// console.log(images);
 	let viewer = document.querySelector('.viewer');
 	if(viewer.childNodes.length > 0) viewer.innerHTML = '';
-	
+	// create container for images
 	let container = document.createElement('div');
 	container.classList.add('overview');
-	
+	// add images to container (has theoretical limit based on screen)
 	images.forEach(function(image, index, array) {
 		let imgContainer = document.createElement('div');
 		imgContainer.classList.add('item');
@@ -178,7 +176,7 @@ function openImagesInViewer(images) {
 		container.appendChild(imgContainer);
 		
 	});
-	
+	// display viewer
 	viewer.appendChild(container);
 	viewer.classList.add('open');
 }
@@ -220,14 +218,13 @@ function runLoader() {
 }
 
 //--TOUCH EVENTS--//
-
-function onViewerTouchStart() {
+function onViewerTouchStart(event) {
 	// console.log('onTouchStart', event.changedTouches[0]);
 	window['touchY'] = event.changedTouches[0].clientY;
 	window['touchX'] = event.changedTouches[0].clientX;
 }
 
-function onViewerTouchEnd() {
+function onViewerTouchEnd(event) {
 	// console.log('onTouchEnd', event.changedTouches[0]);
 	let swipeDown = event.changedTouches[0].clientY - window['touchY'];
 	let swipeUp = window['touchY'] - event.changedTouches[0].clientY;
