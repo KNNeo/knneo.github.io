@@ -28,8 +28,8 @@ function setTheme() {
 }
 
 function toggleTheme() {
-	setThemeColorMeta();
 	document.documentElement.classList.toggle('darked');
+	setThemeColorMeta();
 	saveTheme();
 }
 
