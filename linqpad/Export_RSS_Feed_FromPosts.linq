@@ -204,18 +204,24 @@ List<FeedItem> GenerateFeedItems(List<XElement> xmlPosts, string outputFileDir)
 void GenerateFeed(List<FeedItem> feedItems)
 {
 	// Generate file content
-	string feedString = @"<?xml version=""1.0"" encoding=""utf-8"" ?><rss version=""2.0"" xmlns:atom=""http://www.w3.org/2005/Atom"">
-		<channel>
-		<title>_TITLE_</title>
-		<link>_LINK_</link>
-		<atom:link href=""_XML_"" rel=""self"" type=""application/rss+xml""/>
-		<atom:link rel=""hub"" href=""http://pubsubhubbub.appspot.com""/>
-		<description>_DESCRIPTION_</description>
-		<language>en</language></channel>_ITEMS_</rss>"
+	string feedString = @"<?xml version=""1.0"" encoding=""utf-8"" ?>
+		<rss version=""2.0"" xmlns:atom=""http://www.w3.org/2005/Atom"">
+			<channel>
+				<title>_TITLE_</title>
+				<link>_LINK_</link>
+				<atom:link href=""_XML_"" rel=""self"" type=""application/rss+xml""/>
+				<atom:link rel=""hub"" href=""http://pubsubhubbub.appspot.com""/>
+				<description>_DESCRIPTION_</description>
+				<language>en</language>
+				<pubDate>_DATETIME_</pubDate>
+			</channel>
+		_ITEMS_
+		</rss>"
 		.Replace("_TITLE_", HTML_TITLE)
 		.Replace("_LINK_", FEED_DOMAIN_URL)
 		.Replace("_XML_", FEED_URL)
 		.Replace("_DESCRIPTION_", HTML_DESCRIPTION)
+		.Replace("_DATETIME_", DateTime.Now.ToString($"ddd, dd MMM yyyy HH:mm:ss {TIMEZONE_SUFFIX_STRING}"))
 		.Replace("_ITEMS_", String.Join(" ", feedItems.Select(f => $"<item><title>{f.title}</title><description><![CDATA[{f.description}]]></description><link>{f.link}</link><pubDate>{f.pubDate}</pubDate></item>").ToArray()));	
 	
     // Write into homepage file
