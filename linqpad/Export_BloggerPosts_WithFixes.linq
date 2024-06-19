@@ -618,7 +618,9 @@ List<int> FixPostContent(ref string content)
 			{"silence",			"😐"}, {"sob",			"😢"}, {"screams",		"😱"}, {"shrugs", 	"🤷"}, 
 			{"sigh",			"😩"}, {"smiles",		"😊"}, {"speechless",	"😲"}, {"sshh",		"🤫"}, 
 			{"sniff",			"😢"}, {"thumbs up",	"👍"}, {"ugh", 			"🙄"}, {"wink",		"😉"}, 
-			{"chef's kiss",		"😙🤌"}, {"fap fap fap",	"🍆💦💦"}, {"fap",		"🍆"}
+			{"chef's kiss",		"😙🤌"}, {"fap",			"🍆"}, {"prays",		"🙏"}, {"fap fap fap",	"🍆💦💦"},
+			{"wink wink",		"😉😉"}, {"claps",		"👏"}, {"applauds",		"👏"}, {"yawns",	"🥱"},
+			{"yay",				"🙌"}, {"applauses",	"👏"}
 		};
 		
 		foreach(var emoji in emojis)

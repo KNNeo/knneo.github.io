@@ -96,7 +96,7 @@ void Main()
 		#region 01 custom search by regex
 		if(includeIndex.Count() == 0 || includeIndex.Contains(1))
 		{
-	        expression = @"(font-size: x-small;)"; // change custom query in regex here, put 0 as includeIndex
+	        expression = @"(\*applauses\*)"; // change custom query in regex here, put 0 as includeIndex
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 	            fixes.Add(new MatchItem() {
@@ -246,15 +246,22 @@ void Main()
         #region 24 replace common phrases with emoji
 		if(includeIndex.Count() == 0 || includeIndex.Contains(24))
 		{
-			var phrases = new string[]{
-				"laughs", "giggles", "sob", "silence", "pukes", "ugh", "wink", "dabs", 
+			var includedPhrases = new string[]{
+				"laughs", "giggles", "sob", "silence", "pukes", "ugh", "wink", "dabs", "kiss",
 				"thumbs up", "sigh", "blessed", "shrugs", "cringe", "fingers crossed", "smiles", "screams",
-				"phew", "chef's kiss", "sshh", "speechless", "sniff", "gasp", "mind blown", "fap fap fap"
+				"phew", "chef's kiss", "sshh", "speechless", "sniff", "gasp", "mind blown", "fap fap fap", "fap",
+				"prays", "wink wink", "claps", "applauds", "yawns", "yay", "chu"
+			};
+			var excludedPhrases = new string[]{
+				"yikes", "oof", "tch. ", "taps brain", "ahem", "ack", "umph", "hype", "technically", "nosebleeds", "pft", "bonk", "yawn",
+				"catches kiss", "fake laughs", "small", "pant", "faints", "points at self", "kinda", "maybe"
 			};
 	        expression = @"(\*)(.*?)(\*)";
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
-				if(match.Groups[2].Value.Length > 1 && match.Groups[2].Value.Length < 16 && phrases.Contains(match.Groups[2].Value))
+				if(match.Groups[2].Value.Length > 1 && match.Groups[2].Value.Length < 16 && 
+				!includedPhrases.Contains(match.Groups[2].Value.ToLower()) && 
+				!excludedPhrases.Contains(match.Groups[2].Value.ToLower()))
 		            fixes.Add(new MatchItem() {
 							match = showMatches ? match : null,
 							description = "[24] emoji \"" + match.Groups[2].Value + "\" found",
