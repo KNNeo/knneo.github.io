@@ -1099,18 +1099,18 @@ function toggleSidebar() {
 	else
 		showOverlay();
 	// left sidebar element
-	let outer = document.getElementsByClassName('column-left-outer')[0];
+	let outerWrapper = document.querySelector('.column-left-outer');
 	// fix location of left sidebar
-	outer.style.position = toggleDisplay(outer, 'fixed');
+	outerWrapper.style.position = outerWrapper.style.position == '' ? 'fixed' : '';
 	// toggle menu open/close icons
 	let menuStatus = document.querySelector('.fab.sidebar');
 	menuStatus.innerText = menuStatus.innerText == 'menu' ? 'menu_open' : 'menu';
 	// icons in mobile widths offset from edge of screen
     let iconLeft = collapseSidebarWidth ? '0' : '5px';
-    outer.style.left = outer.style.left == '' ? iconLeft : '';
-    outer.style.bottom = outer.style.bottom == '' ? '4px' : '';
-    outer.style.margin = outer.style.margin == '' ? 'auto' : '';
-    outer.style.zIndex = outer.style.zIndex != 9 ? 9 : '';
+    outerWrapper.style.left = outerWrapper.style.left == '' ? iconLeft : '';
+    outerWrapper.style.bottom = outerWrapper.style.bottom == '' ? '4px' : '';
+    outerWrapper.style.margin = outerWrapper.style.margin == '' ? 'auto' : '';
+    outerWrapper.style.zIndex = outerWrapper.style.zIndex != 9 ? 9 : '';
 	// toggle desktop left sidebar on mobile widths
     toggleDisplay(outer.querySelector('aside'), 'block');
 	// hide close button if popup exist
