@@ -15,6 +15,14 @@
 	--accent: 69, 69, 69;
 }
 
+.darked2:root {
+	--primary: 25, 255, 0;
+	--secondary: 0, 160, 0;
+	--background: 0, 0, 0;
+	--foreground: 255, 255, 255;
+	--accent: 69, 69, 69;
+}
+
 body {
 	display: block;
 	padding: 0 10px;
