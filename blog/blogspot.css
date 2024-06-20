@@ -59,7 +59,6 @@ a:hover {
 /* Edits from Blogger classes */
 .post-body.entry-content {
 	max-width: 66ch;
-	/* overflow-x: hidden; */
 	margin: auto;
 }
 
@@ -416,8 +415,7 @@ a:hover {
 }
 
 .thumbnail.show .thumbnail-initial {
-	position: absolute;	
-    overflow: hidden;
+	position: absolute;
 }
 
 .thumbnail.fastscroll .thumbnail-initial {
@@ -434,7 +432,7 @@ a:hover {
 
 .thumbnail-pop {
 	visibility: hidden;
-	left: 80%;
+	left: 60%;
 	opacity: 0;
 }
 
@@ -991,6 +989,9 @@ a:hover {
 		z-index: 1;
 		transform: translateY(-20em);
 	}
+	.thumbnail-pop {
+		left: 10%;
+	}
 }
 
 /*MEDIA QUERIES - LARGE SCREEN WIDTH*/
@@ -1011,6 +1012,9 @@ a:hover {
 	body:has(.home-header) .action-menu.bottom-right {
 		right: 20px;
 		bottom: 20px;
+	}
+	.thumbnail-pop {
+		left: 80%;
 	}
 }
 
