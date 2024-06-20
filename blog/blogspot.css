@@ -59,7 +59,7 @@ a:hover {
 /* Edits from Blogger classes */
 .post-body.entry-content {
 	max-width: 66ch;
-	overflow-x: hidden;
+	/* overflow-x: hidden; */
 	margin: auto;
 }
 
@@ -417,6 +417,7 @@ a:hover {
 
 .thumbnail.show .thumbnail-initial {
 	position: absolute;	
+    overflow: hidden;
 }
 
 .thumbnail.fastscroll .thumbnail-initial {
@@ -458,10 +459,11 @@ a:hover {
 
 .thumbnail .thumbnail-initial[data-index][data-length]::before {
     content: attr(data-index) " / " attr(data-length);
-    position: absolute;
-    top: -1em;
-    left: 0;
-    right: 0;
+    display: block;
+    /* position: absolute; */
+    /* top: -1em; */
+    /* left: 0; */
+    /* right: 0; */
     font-size: 0.7em;
     text-align: center;
 }
