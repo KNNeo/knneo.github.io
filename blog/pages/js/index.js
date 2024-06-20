@@ -416,11 +416,13 @@ function renderButtons() {
 }
 
 function renderFooter() {
-	// footer text
-	let footer = document.createElement('div');
-	footer.classList.add('footer');
-	footer.innerText = window['main']?.footer ?? '';
-	document.querySelector('.page').appendChild(footer);
+	if(window['main']?.footer) {
+		// footer text
+		let footer = document.createElement('div');
+		footer.classList.add('footer');
+		footer.innerText = window['main']?.footer ?? '';
+		document.querySelector('.page').appendChild(footer);
+	}
 	// set nav buttons on footer settings, based on single page bottom menu
 	if(window['main']?.isSinglePage) {
 		let menuHeight = document.querySelector('.menu').getBoundingClientRect().height + 'px';

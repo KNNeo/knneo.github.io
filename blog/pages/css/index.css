@@ -113,12 +113,14 @@ a {
 
 .container td[onclick] {
     cursor: pointer;
-	transition: background-color .4s, transform .4s;
+	transform: scale(0.95);
+	transition: background-color .2s, transform .2s;
 }
 
 .container td[onclick]:hover {
     background-color: rgb(var(--accent));
-	transform: scale(1.1);
+	transform: scale(1);
+	border: 2px solid rgb(var(--foreground));
 }
 
 .container td[rowspan] .gallery,
