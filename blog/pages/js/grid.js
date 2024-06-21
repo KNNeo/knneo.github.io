@@ -49,8 +49,11 @@ function renderGrid(sectionNo, content, source) {
 			td.style.height = content.rows > 1 ? (100 / content.rows) + '%' : '100%';
 			
 			let item = content.cData[count];
-			if(item && item.url)
-				td.setAttribute('onclick', 'window.location.href = "' + processLinkExtensions(item.url) + '"');
+			if(item && item.url) {
+				td.tabIndex = 0;
+				td.setAttribute('onclick', 'window.location.href = processLinkExtensions("'+item.url+'")');
+				td.setAttribute('onkeyup', 'if(event.key.toLowerCase() == "enter") window.location.href = processLinkExtensions("'+item.url+'")');
+			}
 			if(item && item.rows != undefined) {
 				td.setAttribute('rowspan', item.rows);
 				for(let r = 1; r < item.rows; r++)
@@ -100,7 +103,7 @@ function renderTitle(sectionNo, index, component) {
 		let pre = document.createElement(component.prefixUrl ? 'a' : 'div');
 		pre.classList.add('caption');
 		if(component.prefixUrl)
-			pre.href = component.prefixUrl;
+			pre.href = processLinkExtensions(component.prefixUrl);
 		pre.innerText = component.prefix;
 		elem.appendChild(pre);
 	}
@@ -115,14 +118,14 @@ function renderTitle(sectionNo, index, component) {
 		title.classList.add('title');
 		title.innerText = component.title;
 		if(component.titleUrl)
-			title.href = component.titleUrl;
+			title.href = processLinkExtensions(component.titleUrl);
 		elem.appendChild(title);
 	}	
 	if(component.suffix) {
 		let post = document.createElement(component.suffixUrl ? 'a' : 'div');
 		post.innerText = component.suffix;
 		if(component.suffixUrl)
-			post.href = component.suffixUrl;
+			post.href = processLinkExtensions(component.suffixUrl);
 		elem.appendChild(post);	
 	}
 	if(component.suffixIcon) {

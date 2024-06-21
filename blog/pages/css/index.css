@@ -117,6 +117,7 @@ a {
 	transition: background-color .2s, transform .2s;
 }
 
+.container td[onclick]:focus,
 .container td[onclick]:hover {
     background-color: rgb(var(--accent));
 	transform: scale(1);
@@ -270,6 +271,7 @@ a {
 	cursor: pointer;
 }
 
+.menu .home:focus,
 .menu .home:hover {
 	color: rgb(var(--accent));
 	transform: scale(0.9);		
@@ -404,6 +406,7 @@ a {
 	cursor: pointer;
 }
 
+.tags-value:focus,
 .tags-value:hover {
     box-shadow: none;
     transform: translate(2px, 2px);

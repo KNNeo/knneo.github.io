@@ -46,7 +46,7 @@ function scrollToPrevPage() {
 }
 
 function scrollToPage(sectionNo) {
-	if(window['main'].isSinglePage) {
+	if(window['main']?.isSinglePage) {
 		for(let section of document.querySelectorAll('.section'))
 			section.classList.add('hidden');
 		document.querySelectorAll('.section')[sectionNo].classList.remove('hidden');
