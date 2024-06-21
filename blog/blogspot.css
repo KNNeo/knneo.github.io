@@ -452,7 +452,7 @@ a:hover {
 }
 
 .thumbnail:has(.thumbnail-initial[data-index][data-length]) {
-	padding-top: 1em;
+	padding-top: 0.5em;
 }
 
 .thumbnail .thumbnail-initial[data-index][data-length]::before {
@@ -1012,9 +1012,6 @@ a:hover {
 	body:has(.home-header) .action-menu.bottom-right {
 		right: 20px;
 		bottom: 20px;
-	}
-	.thumbnail-pop {
-		left: 80%;
 	}
 }
 
