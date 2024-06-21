@@ -24,6 +24,7 @@ List<string> IMAGE_DOMAINS_LIST = new List<string>() { "ggpht.com", "bp.blogspot
 
 // POST SETTINGS
 List<String> POST_IGNORE_TAGS = new List<string>() { "The Archive" };
+string POSTS_SINCE = "2000-01-01";
 
 void Main()
 {
@@ -122,12 +123,15 @@ List<XElement> GetBloggerPostsPublished(string[] inputFiles)
 			.ToList());
 		Console.WriteLine($"Total posts found: {xmlPosts.Count}");
 	}
-	// Order by publich date
-	return xmlPosts.OrderByDescending(x => DateTime.Parse(x.Element(DEFAULT_XML_NAMESPACE+"published").Value)).ToList();
+	// Filter by earliest date, order by publish date desc
+	return xmlPosts.Where(x => DateTime.Parse(x.Element(DEFAULT_XML_NAMESPACE+"published").Value) > DateTime.Parse(POSTS_SINCE))
+		.OrderByDescending(x => DateTime.Parse(x.Element(DEFAULT_XML_NAMESPACE+"published").Value)).ToList();
 }
 
 string GenerateImageIndex(List<XElement> xmlPosts)
 {
+	// Read file
+	Console.WriteLine($"Processing {xmlPosts.Count()} Blogger posts...");
 	List<MosaicItem> titles = new List<MosaicItem>();
 	List<MosaicItem> images = new List<MosaicItem>();
     // Process XML content per post

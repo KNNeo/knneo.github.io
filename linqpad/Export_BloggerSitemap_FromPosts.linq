@@ -37,6 +37,8 @@ Dictionary<String, String> SITEMAP_GROUPS = new Dictionary<String, String>()
 // POST SETTINGS
 string HTML_BODY_FONTFAMILY = "Noto Sans, Arial, sans-serif;";
 List<String> POST_IGNORE_TAGS = new List<string>() { "The Archive" };
+string POSTS_SINCE = "2000-01-01";
+
 void Main()
 {
 	//Pre-execution notice
@@ -131,12 +133,15 @@ List<XElement> GetBloggerPostsPublished(string[] inputFiles)
 			.ToList());
 		Console.WriteLine($"Total posts found: {xmlPosts.Count}");
 	}
-	// Order by publich date
-	return xmlPosts.OrderByDescending(x => DateTime.Parse(x.Element(DEFAULT_XML_NAMESPACE+"published").Value)).ToList();
+	// Filter by earliest date, order by publish date desc
+	return xmlPosts.Where(x => DateTime.Parse(x.Element(DEFAULT_XML_NAMESPACE+"published").Value) > DateTime.Parse(POSTS_SINCE))
+		.OrderByDescending(x => DateTime.Parse(x.Element(DEFAULT_XML_NAMESPACE+"published").Value)).ToList();
 }
 
 SitemapSections GenerateSitemap(List<XElement> xmlPosts)
 {
+	// Read file
+	Console.WriteLine($"Processing {xmlPosts.Count()} Blogger posts...");
     // Process sitemap page
 	var sitemapItems = new List<SitemapItem>();
 	var fanficItems = new List<SitemapItem>();

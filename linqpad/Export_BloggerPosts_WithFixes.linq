@@ -30,11 +30,12 @@ List<string> GOOGLE_FONTS_URLS = new List<string>() { "Dancing Script" };
 bool SHOW_POST_LABELs_COUNT = false;
 
 // POST SETTINGS
-bool PAGE_TOP_RENDER_BLOGGER_REF = false;
+bool POST_LINK_TO_BLOGGER = false;
 string HTML_BODY_FONTFAMILY = "Noto Sans, Arial, sans-serif;";
 string HTML_TITLE = "Klassic Note Web Reports";
 string HTML_DESCRIPTION = "If it is worth taking Note, it will be a Klassic.";
 string HTML_THUMBNAIL_SINCE = "2023-01-01";
+string POSTS_SINCE = "2000-01-01";
 List<String> POST_IGNORE_LABELS = new List<string>() { "The Archive" };
 Dictionary<String, String> POST_LABEL_ICONTEXT = new Dictionary<String, String>()
 {
@@ -149,8 +150,9 @@ List<XElement> GetBloggerPostsPublished(string[] inputFiles)
 			.ToList());
 		Console.WriteLine($"Total posts found: {xmlPosts.Count}");
 	}
-	// Order by publich date
-	return xmlPosts.OrderByDescending(x => DateTime.Parse(x.Element(DEFAULT_XML_NAMESPACE+"published").Value)).ToList();
+	// Filter by earliest date, order by publish date desc
+	return xmlPosts.Where(x => DateTime.Parse(x.Element(DEFAULT_XML_NAMESPACE+"published").Value) > DateTime.Parse(POSTS_SINCE))
+		.OrderByDescending(x => DateTime.Parse(x.Element(DEFAULT_XML_NAMESPACE+"published").Value)).ToList();
 }
 
 List<string> GetBloggerPostsLinkedList(List<XElement> xmlPosts)
@@ -185,7 +187,7 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
     if(!Directory.Exists(outputFileDir) && !HOMEPAGE_ONLY)
 		Directory.CreateDirectory(outputFileDir);
 	// Read file
-	Console.WriteLine("Processing Blogger posts...");
+	Console.WriteLine($"Processing {xmlPosts.Count()} Blogger posts...");
 	// Collate post labels
 	Dictionary<String, int> labelCount = new Dictionary<String, int>();
     // Process XML content per post
@@ -259,7 +261,7 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
 					externalFonts.AppendLine($"<link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css?family={font}\" />");
 			}
 			// All content to put in <body> tag
-			if (PAGE_TOP_RENDER_BLOGGER_REF && bloggerLink != "")
+			if (POST_LINK_TO_BLOGGER && bloggerLink != "")
 			{
 	            output.AppendLine("<small style=\"text-align: center;\"><p><i>This is an archive from <a href=\"" + bloggerLink + "\">" + HTML_TITLE + "</a></i></p></small>");
 			}
