@@ -51,8 +51,10 @@ function scrollToPage(sectionNo) {
 			section.classList.add('hidden');
 		document.querySelectorAll('.section')[sectionNo].classList.remove('hidden');
 	}
-	else
+	else {
 		document.querySelectorAll('.section')[sectionNo].scrollIntoView({ inline: 'center', behavior: 'smooth' });
+		if(window['main'].sectionNo != sectionNo) document.querySelectorAll('.section')[sectionNo].focus();
+	}
 }
 
 function scrollToMainPage(el, onLoad) {
@@ -151,7 +153,7 @@ function renderMain() {
 			let prevDiv = document.createElement('div');
 			prevDiv.classList.add('page-prev');
 			prevDiv.classList.add('not-selectable');
-			let prevButton = document.createElement('a');
+			let prevButton = renderGoogleIcon(content.isSinglePage ? 'arrow_left' : 'arrow_drop_up');
 			prevButton.classList.add('focusable');
 			prevButton.title = 'Previous';
 			if(main.previousElementSibling == null)
@@ -160,8 +162,6 @@ function renderMain() {
 				nextButton.href = 'javascript:void(0)';
 			prevButton.addEventListener('click', scrollToPrevPage);
 			prevButton.addEventListener('keyup', scrollToPrevPage);
-			let prevButtonIcon = renderGoogleIcon(content.isSinglePage ? 'arrow_left' : 'arrow_drop_up');
-			prevButton.appendChild(prevButtonIcon);
 			prevDiv.appendChild(prevButton);
 			main.appendChild(prevDiv);
 		}
@@ -195,7 +195,7 @@ function renderMain() {
 			let nextDiv = document.createElement('div');
 			nextDiv.classList.add('page-next');
 			nextDiv.classList.add('not-selectable');
-			let nextButton = document.createElement('a');
+			let nextButton = renderGoogleIcon(content.isSinglePage ? 'arrow_right' : 'arrow_drop_down');
 			nextButton.classList.add('focusable');
 			nextButton.title = 'Next';
 			if(main.nextElementSibling == null)
@@ -204,8 +204,6 @@ function renderMain() {
 				nextButton.href = 'javascript:void(0)';
 			nextButton.addEventListener('click', scrollToNextPage);
 			nextButton.addEventListener('keyup', scrollToNextPage);
-			let nextButtonIcon = renderGoogleIcon(content.isSinglePage ? 'arrow_right' : 'arrow_drop_down');
-			nextButton.appendChild(nextButtonIcon);
 			nextDiv.appendChild(nextButton);
 			main.appendChild(nextDiv);
 		}
@@ -220,7 +218,7 @@ function renderSection(sectionNo) {
 	let prevDiv = document.createElement('div');
 	prevDiv.classList.add('page-prev');
 	prevDiv.classList.add('not-selectable');
-	let prevButton = document.createElement('a');
+	let prevButton = renderGoogleIcon(main?.isSinglePage ? 'arrow_left' : 'arrow_drop_up');
 	prevButton.classList.add('focusable');
 	prevButton.title = 'Previous';
 	if(section.previousElementSibling == null || !section.previousElementSibling.classList.contains('section')) {
@@ -231,8 +229,6 @@ function renderSection(sectionNo) {
 		prevButton.href = 'javascript:void(0)';
 	prevButton.addEventListener('click', scrollToPrevPage);
 	prevButton.addEventListener('keyup', scrollToPrevPage);
-	let prevButtonIcon = renderGoogleIcon(main?.isSinglePage ? 'arrow_left' : 'arrow_drop_up');
-	prevButton.appendChild(prevButtonIcon);
 	prevDiv.appendChild(prevButton);
 	section.appendChild(prevDiv);
 	
@@ -271,7 +267,7 @@ function renderSection(sectionNo) {
 	let nextDiv = document.createElement('div');
 	nextDiv.classList.add('page-next');
 	nextDiv.classList.add('not-selectable');
-	let nextButton = document.createElement('a');
+	let nextButton = renderGoogleIcon(main?.isSinglePage ? 'arrow_right' : 'arrow_drop_down');
 	nextButton.classList.add('focusable');
 	nextButton.title = 'Next';
 	if(section.nextElementSibling == null || !section.nextElementSibling.classList.contains('section')) {
@@ -282,8 +278,6 @@ function renderSection(sectionNo) {
 		nextButton.href = 'javascript:void(0)';
 	nextButton.addEventListener('click', scrollToNextPage);
 	nextButton.addEventListener('keyup', scrollToNextPage);
-	let nextButtonIcon = renderGoogleIcon(main?.isSinglePage ? 'arrow_right' : 'arrow_drop_down');
-	nextButton.appendChild(nextButtonIcon);
 	nextDiv.appendChild(nextButton);
 	section.appendChild(nextDiv);
 }
