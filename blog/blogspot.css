@@ -924,14 +924,6 @@ a:hover {
 
 /*MEDIA QUERIES - MEDIUM SCREEN WIDTH*/
 @media only screen and (max-width: 880px) {
-	.post-tags.filters.expanded {
-		display: flex;
-		flex-wrap: nowrap;
-		overflow-x: auto;
-		padding-bottom: 6px;
-		padding-right: 4px;
-		justify-content: flex-start;
-	}
 	.action-menu.bottom-left {
 		bottom: 10px;
 		left: 8px;
@@ -1012,6 +1004,18 @@ a:hover {
 	body:has(.home-header) .action-menu.bottom-right {
 		right: 20px;
 		bottom: 20px;
+	}
+}
+
+/*MEDIA QUERIES - TOUCH INPUT*/
+@media only screen and (pointer: coarse) {
+	.post-tags.filters.expanded {
+		display: flex;
+		flex-wrap: nowrap;
+		overflow-x: auto;
+		padding-bottom: 6px;
+		padding-right: 4px;
+		justify-content: flex-start;
 	}
 }
 
