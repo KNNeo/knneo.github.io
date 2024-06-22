@@ -19,7 +19,7 @@ const config = {
 	sort: {
 		order: 'asc',
 		locale: 'ja-JP',
-		property: 'id',
+		property: 'nm',
 	},
 	setting: {
 		clear: true,
@@ -112,8 +112,8 @@ function generateTags() {
 	//generate tags by design
 	window['buttonArray'] = generateFiltered()
 	.map(function(file) {
-		let filenameIndex = file.id.includes('/') ? file.id.lastIndexOf('/') : -1;
-		return getFilenameInfo(file.id).filename;
+		let filenameIndex = file.nm.includes('/') ? file.nm.lastIndexOf('/') : -1;
+		return getFilenameInfo(file.nm).filename;
 	})
 	.reduce(function(total, current, _, _) {
 		let updated = total;
@@ -292,7 +292,7 @@ function generateViewer() {
 function generateStats() {
 	let filtered = generateFiltered(mosaicArray)
 	.reduce(function(total, current, arr) {
-		let names = getFilenameInfo(current.id).filename.split(config.separator);
+		let names = getFilenameInfo(current.nm).filename.split(config.separator);
 		for(let name of names) {
 			if(total[name] == undefined)
 				total[name] = 1;
@@ -329,7 +329,7 @@ function generateGrid() {
 	
 	let [thumbWidth, thumbHeight] = calculateThumbnailSize();
 	for(let item of filterArray) {
-		let imageUrl = item.id;
+		let imageUrl = item.nm;
 		
 		let gridItem = document.createElement('div');
 		gridItem.classList.add('grid-item');
@@ -392,9 +392,9 @@ function generateFiltered() {
 	if(config.debug) console.log('included', includeArray);
 	if(config.debug) console.log('excluded', excludeArray);
 	return mosaicArray.filter(m => 
-		(window['includeCriteria'].length == 0 || includeArray.filter(s => m.id.toLowerCase().includes(s.toLowerCase() + config.separator) || m.id.toLowerCase().includes(config.separator + s.toLowerCase())).length == includeArray.length) && 
-		(window['excludeCriteria'].length == 0 || excludeArray.filter(s => !m.id.toLowerCase().includes(s.toLowerCase() + config.separator) && !m.id.toLowerCase().includes(config.separator + s.toLowerCase())).length == excludeArray.length) &&
-		(config.tag.exclude ?? []).filter(f => m.id.includes(f)).length < 1
+		(window['includeCriteria'].length == 0 || includeArray.filter(s => m.nm.toLowerCase().includes(s.toLowerCase() + config.separator) || m.nm.toLowerCase().includes(config.separator + s.toLowerCase())).length == includeArray.length) && 
+		(window['excludeCriteria'].length == 0 || excludeArray.filter(s => !m.nm.toLowerCase().includes(s.toLowerCase() + config.separator) && !m.nm.toLowerCase().includes(config.separator + s.toLowerCase())).length == excludeArray.length) &&
+		(config.tag.exclude ?? []).filter(f => m.nm.includes(f)).length < 1
 	);
 }
 
@@ -612,7 +612,7 @@ function openImageInViewer(image) {
 	});
 	
 	let img = document.createElement('img');
-	img.id = image.id;
+	img.nm = image.nm;
 	img.src = image.getAttribute('data-src');
 	img.alt = '';
 	img.title = '';
