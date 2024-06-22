@@ -15,15 +15,18 @@
 		<title>Title</title>
 	</head>
 	<body onload="startup()" onunload="idle()">
-		<h3 class="settings currency"></h3>
-		<h4 class="rate"></h4>
-		<hr>
+		<div class="header">
+			<h3 class="currency"></h3>
+			<h4 class="rate"></h4>
+			<hr>
+		</div>
 		<div class="display"></div>
-		<h3 class="settings">
+		<br />
+		<div class="settings">
 			<a class="darkmode bi bi-brightness-high" href="javascript:void(0);" title="Toggle Dark Mode" onclick="toggleDarkMode()" oncontextmenu="false"></a>
 			<a class="filter bi bi-cash-stack" href="javascript:void(0);" title="MONEY!!!" onclick="incrementCurrency()" oncontextmenu="false"></a>
 			<a class="slideshow bi bi-trash3" href="javascript:void(0);" title="Reset Game" onclick="resetGame()" oncontextmenu="false"></a>
-		</h3>
+		</div>
 		<a class="home" href="../index.html">knneo.github.io</a>
 	</body>
 </html>

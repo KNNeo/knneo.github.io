@@ -157,6 +157,14 @@ a:hover {
 
 
 /*NEW*/
+.header {
+	background-color: var(--background);
+	position: sticky;
+	top: 0;
+	z-index: 1;
+	padding: 1px;
+}
+
 .display {
 	max-width: 480px;
     margin: auto;
@@ -206,12 +214,16 @@ a:hover {
 
 .pic {
 	cursor: pointer;
-	border-radius: 6px;
-	max-height: 150px;
+	border-top-left-radius: 6px;
+	border-top-right-radius: 6px;
+	height: 150px;
 }
 
 .expanded .pic {
-	max-height: 250px;
+	border-top-right-radius: 0;
+	border-top-left-radius: 6px;
+	border-bottom-left-radius: 6px;
+	height: 250px;
 }
 
 .card[data-level="0"] .pic {
@@ -220,6 +232,13 @@ a:hover {
 
 .darked .card[data-level="0"] .pic {
 	filter: brightness(30%);
+}
+
+.card[data-level="200"]::before {
+	content: "🆗";
+	position: absolute;
+	top: 2px;
+	left: 2px;
 }
 
 .summary {
@@ -242,6 +261,10 @@ a:hover {
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
+}
+
+.action:hover {
+	background-color: var(--accent);
 }
 
 .hidden {

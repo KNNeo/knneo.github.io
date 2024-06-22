@@ -76,6 +76,15 @@ function showDetails() {
 			progress.setAttribute('value', window.item.percent ?? 0);
 			detailsDiv.appendChild(progress);
 			
+			let action2 = document.createElement('div');
+			action2.classList.add('action');
+			if(window.item.level < 10 || window.item.percent > 99)
+				action2.classList.add('hidden');
+			action2.innerText = window.game.locale.action.maxBoost + ' - ' + asCurrency(calculateMaxBoost(worldId, seqId, window.item.level, window.item.percent, window.game.worlds[worldId].delta));
+			action2.setAttribute('data-action', action2.innerText.split(' - ')[0]);
+			action2.addEventListener('click', onAction);
+			detailsDiv.appendChild(action2);
+			
 			let action1 = document.createElement('div');
 			action1.classList.add('action');
 			// if level 0 unlock, else if bar filled level up, else boost
@@ -87,15 +96,6 @@ function showDetails() {
 			action1.setAttribute('data-action', action1.innerText.split(' - ')[0]);
 			action1.addEventListener('click', onAction);
 			detailsDiv.appendChild(action1);
-			
-			let action2 = document.createElement('div');
-			action2.classList.add('action');
-			if(window.item.level < 10 || window.item.percent > 99)
-				action2.classList.add('hidden');
-			action2.innerText = window.game.locale.action.maxBoost + ' - ' + asCurrency(calculateMaxBoost(worldId, seqId, window.item.level, window.item.percent, window.game.worlds[worldId].delta));
-			action2.setAttribute('data-action', action2.innerText.split(' - ')[0]);
-			action2.addEventListener('click', onAction);
-			detailsDiv.appendChild(action2);
 		}
 		
 		info.querySelector('.info').appendChild(detailsDiv);
@@ -120,9 +120,9 @@ function onAction() {
 				window.item.percent = 0;
 				event.target.innerText = window.game.locale.action.boost + ' - ' + asCurrency(calculateBoost(worldId, seqId, window.item.level));
 				if(window.item.level >= 10 || window.item.percent > 99)
-					event.target.nextSibling.classList.remove('hidden');
-				event.target.nextSibling.setAttribute('data-action', window.game.locale.action.maxBoost);
-				event.target.nextSibling.innerText = window.game.locale.action.maxBoost + ' - ' + asCurrency(calculateMaxBoost(worldId, seqId, window.item.level, window.item.percent, window.game.worlds[worldId].delta));
+					event.target.previousSibling.classList.remove('hidden');
+				event.target.previousSibling.setAttribute('data-action', window.game.locale.action.maxBoost);
+				event.target.previousSibling.innerText = window.game.locale.action.maxBoost + ' - ' + asCurrency(calculateMaxBoost(worldId, seqId, window.item.level, window.item.percent, window.game.worlds[worldId].delta));
 			}
 			else
 			{
@@ -137,8 +137,8 @@ function onAction() {
 				window.item.percent = 100;
 				event.target.classList.add('hidden');
 				event.target.innerText = window.game.locale.action.level_up + ' - ' + asCurrency(calculateLevelUp(worldId, seqId, window.item.level));
-				event.target.previousSibling.setAttribute('data-action', event.target.innerText.split(' - ')[0]);
-				event.target.previousSibling.innerText = window.game.locale.action.level_up + ' - ' + asCurrency(calculateLevelUp(worldId, seqId, window.item.level));
+				event.target.nextSibling.setAttribute('data-action', event.target.innerText.split(' - ')[0]);
+				event.target.nextSibling.innerText = window.game.locale.action.level_up + ' - ' + asCurrency(calculateLevelUp(worldId, seqId, window.item.level));
 			}
 			else
 			{
@@ -151,10 +151,10 @@ function onAction() {
 			{
 				decrementCurrency(amt);
 				window.item.percent += window.game.worlds[worldId].delta;
-				event.target.nextSibling.innerText = window.game.locale.action.maxBoost + ' - ' + asCurrency(calculateMaxBoost(worldId, seqId, window.item.level, window.item.percent, window.game.worlds[worldId].delta));
+				event.target.previousSibling.innerText = window.game.locale.action.maxBoost + ' - ' + asCurrency(calculateMaxBoost(worldId, seqId, window.item.level, window.item.percent, window.game.worlds[worldId].delta));
 				if(window.item.percent > 99) {
 					event.target.innerText = window.game.locale.action.level_up + ' - ' + asCurrency(calculateLevelUp(worldId, seqId, window.item.level));
-					event.target.nextSibling.classList.add('hidden');
+					event.target.previousSibling.classList.add('hidden');
 				}
 			}
 			else
@@ -171,14 +171,14 @@ function onAction() {
 				window.item.percent = 0;
 				event.target.innerText = window.game.locale.action.boost + ' - ' + asCurrency(calculateBoost(worldId, seqId, window.item.level));
 				if(window.item.level >= 10 || window.item.percent > 99)
-					event.target.nextSibling.classList.remove('hidden');
+					event.target.previousSibling.classList.remove('hidden');
 				if(window.item.level >= window.game.worlds[worldId].maxLevel) {
 					event.target.classList.add('hidden');
-					event.target.nextSibling.classList.add('hidden');
+					event.target.previousSibling.classList.add('hidden');
 					event.target.closest('.character').querySelector('.progress').classList.add('hidden');
 				}
-				event.target.nextSibling.setAttribute('data-action', window.game.locale.action.maxBoost);
-				event.target.nextSibling.innerText = window.game.locale.action.maxBoost + ' - ' + asCurrency(calculateMaxBoost(worldId, seqId, window.item.level, window.item.percent, window.game.worlds[worldId].delta));
+				event.target.previousSibling.setAttribute('data-action', window.game.locale.action.maxBoost);
+				event.target.previousSibling.innerText = window.game.locale.action.maxBoost + ' - ' + asCurrency(calculateMaxBoost(worldId, seqId, window.item.level, window.item.percent, window.game.worlds[worldId].delta));
 			}
 			else
 			{
