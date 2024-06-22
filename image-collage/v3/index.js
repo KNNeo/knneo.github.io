@@ -51,6 +51,10 @@ const config = {
 		thumbnail: {
 			ratio: 9/16,
 		},
+		star: {
+			text: '⭐',
+			tooltip: '覚醒'
+		}
 	},
 	separator: '_',
 };
@@ -340,9 +344,20 @@ function generateGrid() {
 		if(config.grid.banner.length > 0 && prevValue != prefix) {
 			let overlay = document.createElement('div');
 			overlay.classList.add('banner');
+			overlay.classList.add('prefix');
 			overlay.innerText = prefix;
+			overlay.title = prefix;
 			gridItem.appendChild(overlay);
 			prevValue = prefix;
+		}
+		
+		if(config.grid.star && item.st) {
+			let highlight = document.createElement('div');
+			highlight.classList.add('banner');
+			highlight.classList.add('star');
+			highlight.innerText = config.grid.star.text;
+			highlight.title = config.grid.star.tooltip;
+			gridItem.appendChild(highlight);
 		}
 		
 		let gridItemImage = document.createElement('img');
