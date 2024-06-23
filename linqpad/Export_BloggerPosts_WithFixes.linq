@@ -38,7 +38,7 @@ string HTML_THUMBNAIL_SINCE = "2023-01-01";
 bool POSTS_LINK_TO_BLOGGER = false;
 string POSTS_SINCE = "2000-01-01";
 string POST_TAGS_PREFIX_TEXT = "Reported in";
-List<String> POST_IGNORE_LABELS = new List<string>() { "The Archive", "The Statement" };
+List<String> POST_IGNORE_LABELS = new List<string>() { "The Archive" };
 Dictionary<String, String> POST_LABEL_ICONTEXT = new Dictionary<String, String>()
 {
 	{ "The Entertainment News", "newspaper" },
