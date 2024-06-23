@@ -95,7 +95,12 @@ function showDetails() {
 				action1.innerText = window.game.locale.action.level_up + ' - ' + asCurrency(calculateLevelUp(worldId, seqId, window.item.level));
 			action1.setAttribute('data-action', action1.innerText.split(' - ')[0]);
 			action1.addEventListener('click', onAction);
-			detailsDiv.appendChild(action1);
+			if(window.game.worlds[worldId].unlockInOrder) {
+				let previous = seqId - 1 > 0 ? window.game.worlds[worldId].characters[seqId-1] : null;
+				if(window.item.level > 0 || (previous && previous.level == previous.maxLevel && window.item.level == 0))
+					detailsDiv.appendChild(action1);
+			}
+			if(!window.game.worlds[worldId].unlockInOrder) detailsDiv.appendChild(action1);
 		}
 		
 		info.querySelector('.info').appendChild(detailsDiv);
