@@ -28,15 +28,17 @@ string BLOG_DOMAIN_URL = "https://knwebreports.blogspot.com/";
 XNamespace DEFAULT_XML_NAMESPACE = XNamespace.Get("http://www.w3.org/2005/Atom");
 List<string> GOOGLE_FONTS_URLS = new List<string>() { "Dancing Script" };
 bool SHOW_POST_LABELs_COUNT = false;
+bool GENERATE_SLUG_BY_POST_TITLE = false;
 
 // POST SETTINGS
-bool POST_LINK_TO_BLOGGER = false;
-string HTML_BODY_FONTFAMILY = "Noto Sans, Arial, sans-serif;";
+string HTML_BODY_STYLE_FONTFAMILY = "Noto Sans, Arial, sans-serif;";
 string HTML_TITLE = "Klassic Note Web Reports";
 string HTML_DESCRIPTION = "If it is worth taking Note, it will be a Klassic.";
 string HTML_THUMBNAIL_SINCE = "2023-01-01";
+bool POSTS_LINK_TO_BLOGGER = false;
 string POSTS_SINCE = "2000-01-01";
-List<String> POST_IGNORE_LABELS = new List<string>() { "The Archive" };
+string POST_TAGS_PREFIX_TEXT = "Reported in";
+List<String> POST_IGNORE_LABELS = new List<string>() { "The Archive", "The Statement" };
 Dictionary<String, String> POST_LABEL_ICONTEXT = new Dictionary<String, String>()
 {
 	{ "The Entertainment News", "newspaper" },
@@ -164,18 +166,20 @@ List<string> GetBloggerPostsLinkedList(List<XElement> xmlPosts)
 	foreach(var entry in xmlPosts)
 	{
         DateTime publishDate = DateTime.Parse(entry.Element(DEFAULT_XML_NAMESPACE+"published").Value);
+        string postTitle = entry.Element(DEFAULT_XML_NAMESPACE+"title").Value;
         string postExtension = entry.Element(DEFAULT_XML_NAMESPACE+"content").Attribute("type").Value ?? "html";
         XElement empty = new XElement("empty");
         XAttribute emptA = new XAttribute("empty","");
         string bloggerLink = ((entry.Elements(DEFAULT_XML_NAMESPACE+"link")
             .FirstOrDefault(e => e.Attribute("rel").Value == "alternate") ?? empty)
             .Attribute("href") ?? emptA).Value;
+		string generatedLink = GenerateSlug(postTitle);
         // Find post labels
         var pageTagsXml = entry.Elements(DEFAULT_XML_NAMESPACE+"category")
         	.Where(e => !e.Attribute("term").ToString().Contains("#post")).Select(q => q.Attribute("term").Value).ToList();    
-        var pageLink = "./" + Path.GetFileNameWithoutExtension(BLOGGER_XML_DIRECTORY.Replace(BLOGGER_XML_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER)) + "/" + publishDate.Year.ToString("0000") + "/"  + publishDate.Month.ToString("00") + "/"  + Path.GetFileNameWithoutExtension(bloggerLink) + "." + postExtension;
+        var pageLink = "./" + Path.GetFileNameWithoutExtension(BLOGGER_XML_DIRECTORY.Replace(BLOGGER_XML_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER)) + "/" + publishDate.Year.ToString("0000") + "/"  + publishDate.Month.ToString("00") + "/"  + (GENERATE_SLUG_BY_POST_TITLE ? generatedLink : Path.GetFileNameWithoutExtension(bloggerLink)) + "." + postExtension;
 		// If has valid published link, and not including post labels to ignore and not render
-		if(!string.IsNullOrWhiteSpace(bloggerLink) && !pageTagsXml.Any(xml => POST_IGNORE_LABELS.Contains(xml)))
+		if(!string.IsNullOrWhiteSpace((GENERATE_SLUG_BY_POST_TITLE ? generatedLink : Path.GetFileNameWithoutExtension(bloggerLink))) && !pageTagsXml.Any(xml => POST_IGNORE_LABELS.Contains(xml)))
 			linkedList.Add(pageLink);
 	}
 	return linkedList;
@@ -205,6 +209,7 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
         string bloggerLink = ((entry.Elements(DEFAULT_XML_NAMESPACE+"link")
             .FirstOrDefault(e => e.Attribute("rel").Value == "alternate") ?? empty)
             .Attribute("href") ?? emptA).Value;
+		string generatedLink = GenerateSlug(postTitle);
 		// If not post URL, skip
 		if(string.IsNullOrWhiteSpace(bloggerLink))
 			continue;
@@ -213,7 +218,7 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
         if(!Directory.Exists(yearfolder)) Directory.CreateDirectory(outputFileDir);
         var monthfolder = Path.Combine(yearfolder, publishDate.Month.ToString("00"));
         if(!Directory.Exists(monthfolder)) Directory.CreateDirectory(monthfolder);
-        string outFileName = Path.GetFileNameWithoutExtension(bloggerLink) + "." + postExtension;
+        string outFileName = (GENERATE_SLUG_BY_POST_TITLE ? generatedLink : Path.GetFileNameWithoutExtension(bloggerLink)) + "." + postExtension;
         var pageOutputPath = Path.Combine(monthfolder, outFileName);
         // Find post labels
         var pageTagsXml = entry.Elements(DEFAULT_XML_NAMESPACE+"category")
@@ -230,7 +235,7 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
 				labelCount[tag] = 1;
 		}
 		// Create output page link and index in linked list
-        var pageLink = "./" + Path.GetFileNameWithoutExtension(BLOGGER_XML_DIRECTORY.Replace(BLOGGER_XML_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER)) + "/" + publishDate.Year.ToString("0000") + "/"  + publishDate.Month.ToString("00") + "/"  + Path.GetFileNameWithoutExtension(bloggerLink) + "." + postExtension;
+        var pageLink = "./" + Path.GetFileNameWithoutExtension(BLOGGER_XML_DIRECTORY.Replace(BLOGGER_XML_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER)) + "/" + publishDate.Year.ToString("0000") + "/"  + publishDate.Month.ToString("00") + "/"  + (GENERATE_SLUG_BY_POST_TITLE ? generatedLink : Path.GetFileNameWithoutExtension(bloggerLink)) + "." + postExtension;
         var pageIndex = linkedList.IndexOf(pageLink);
 		// Process page content
 		if(!HOMEPAGE_ONLY)
@@ -261,7 +266,7 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
 					externalFonts.AppendLine($"<link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css?family={font}\" />");
 			}
 			// All content to put in <body> tag
-			if (POST_LINK_TO_BLOGGER && bloggerLink != "")
+			if (POSTS_LINK_TO_BLOGGER && bloggerLink != "")
 			{
 	            output.AppendLine("<small style=\"text-align: center;\"><p><i>This is an archive from <a href=\"" + bloggerLink + "\">" + HTML_TITLE + "</a></i></p></small>");
 			}
@@ -275,7 +280,7 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
 	        output.Append("<hr>");
 	        if(pageTagsXml.Count > 0)
 			{
-	            output.Append("<div class=\"post-tags\"><h4>Reported in </h4>" + 
+	            output.Append($"<div class=\"post-tags\"><h4>{POST_TAGS_PREFIX_TEXT} </h4>" + 
 					string.Join("", pageTagsXml.OrderBy(t => t).Select(tag => POST_LABEL_ICONTEXT.TryGetValue(tag, out String tagValue) ? "<a class=\"box\" href=\"../../../index.html#" + tag.Replace(" ","") +"\">" + "<span class=\"material-icons small-icons\">" + tagValue + "</span>" + tag + "</a>" : "")) + 
 					"</div>");
 			}
@@ -290,7 +295,7 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
 				.Replace("_IMAGE_", thumbnailUrl)
 				.Replace("_LINK_", pageLink)
 				.Replace("_FONTS_", externalFonts.Length > 0 ? externalFonts.ToString() : "")
-				.Replace("_BODYFONT_", HTML_BODY_FONTFAMILY)
+				.Replace("_BODYFONT_", HTML_BODY_STYLE_FONTFAMILY)
 				.Replace("_CONTENTS_", output.ToString())
 				.Replace("_PREVLINK_", linkedList.IndexOf(pageLink) < linkedList.Count() - 1 ? linkedList[linkedList.IndexOf(pageLink) + 1].Replace("./", "../../../") : "")
 				.Replace("_NEXTLINK_", linkedList.IndexOf(pageLink) > 0 ? linkedList[linkedList.IndexOf(pageLink) - 1].Replace("./", "../../../") : "");
@@ -374,7 +379,7 @@ void GenerateHomepage(string homepageString, int postCount)
 		.Replace("_DESCRIPTION_", HTML_DESCRIPTION)
 		.Replace("_URL_", BLOG_DOMAIN_URL)
 		.Replace("_ARCHIVE_", homepageString.ToString())
-		.Replace("_FONT_", HTML_BODY_FONTFAMILY)
+		.Replace("_FONT_", HTML_BODY_STYLE_FONTFAMILY)
 		.Replace("_COUNT_", postCount.ToString());
     // Write into homepage file
     File.WriteAllText(HOMEPAGE_FILENAME, fileString);
@@ -710,6 +715,16 @@ List<int> FixPostContent(ref string content)
         Console.WriteLine(matchItems);
 	
 	return count;
+}
+
+string GenerateSlug(string title, int maxLength = 45)
+{
+	string slug = title.ToLower();
+	slug = Regex.Replace(slug, @"\s+", "-");
+	slug = Regex.Replace(slug, @"[^a-z0-9\-_]", "");
+	slug = Regex.Replace(slug, @"\b\d(?!\d)", "");
+	slug = slug.Replace("--","-").Trim('-');
+	return slug.Length > maxLength ? slug.Substring(0, slug.Substring(0, maxLength).LastIndexOf('-')) : slug;
 }
 
 bool IsLatestPost(DateTime publishDate)
