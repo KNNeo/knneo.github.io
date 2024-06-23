@@ -65,10 +65,10 @@ function showDetails() {
 
 		let stats = document.createElement('div');
 		stats.classList.add('stats');
-		stats.innerHTML = window.game.locale.display.level + window.item.level + (window.item.level >= window.game.worlds[worldId].maxLevel ? ' (MAX)' : ' | ' + (window.item.percent ?? 0) + '%') + '<br>' + asCurrency(window.item.rate) + '/' + window.game.locale.display.seconds;
+		stats.innerHTML = window.game.locale.display.level + window.item.level + (window.item.level >= window.item.maxLevel ? ' (MAX)' : ' | ' + (window.item.percent ?? 0) + '%') + '<br>' + asCurrency(window.item.rate) + '/' + window.game.locale.display.seconds;
 		detailsDiv.appendChild(stats);
 		
-		if(window.item.level < window.game.worlds[worldId].maxLevel) {
+		if(window.item.level < window.item.maxLevel) {
 			let progress = document.createElement('progress');
 			progress.classList.add('progress');
 			progress.setAttribute('min', 0);
@@ -172,7 +172,7 @@ function onAction() {
 				event.target.innerText = window.game.locale.action.boost + ' - ' + asCurrency(calculateBoost(worldId, seqId, window.item.level));
 				if(window.item.level >= 10 || window.item.percent > 99)
 					event.target.previousSibling.classList.remove('hidden');
-				if(window.item.level >= window.game.worlds[worldId].maxLevel) {
+				if(window.item.level >= window.item.maxLevel) {
 					event.target.classList.add('hidden');
 					event.target.previousSibling.classList.add('hidden');
 					event.target.closest('.character').querySelector('.progress').classList.add('hidden');
@@ -196,7 +196,7 @@ function onAction() {
 	event.target.setAttribute('data-action', event.target.innerText.split(' - ')[0]);
 	event.target.closest('.character').setAttribute('data-level', window.item.level);
 	event.target.closest('.character').querySelector('.progress').setAttribute('value', window.item.percent);
-	event.target.closest('.character').querySelector('.stats').innerHTML = window.game.locale.display.level + window.item.level + (window.item.level >= window.game.worlds[worldId].maxLevel ? ' (MAX)' : ' | ' + (window.item.percent ?? 0) + '%') + '<br>' + asCurrency(window.item.rate) + '/' + window.game.locale.display.seconds;
+	event.target.closest('.character').querySelector('.stats').innerHTML = window.game.locale.display.level + window.item.level + (window.item.level >= window.item.maxLevel ? ' (MAX)' : ' | ' + (window.item.percent ?? 0) + '%') + '<br>' + asCurrency(window.item.rate) + '/' + window.game.locale.display.seconds;
 	
 	// update game
 	save();	
@@ -374,10 +374,10 @@ function calculateLevelUp(world, seqNo, level) {
 
 function calculateNewRate(world, seqNo, level) {
 	let newRate = 0;
-	if(level >= 0) newRate += Math.min(window.game.worlds[world].maxLevel/ 4, level);
-	if(level >= 50) newRate += Math.min(2*window.game.worlds[world].maxLevel/4, 2*(level-window.game.worlds[world].maxLevel/4));
-	if(level >= 100) newRate += Math.min(3*window.game.worlds[world].maxLevel/4, 3*(level-2*window.game.worlds[world].maxLevel/4));
-	if(level >= 150) newRate += Math.min(4*window.game.worlds[world].maxLevel/4, 4*(level-3*window.game.worlds[world].maxLevel/4));
+	if(level >= 0) newRate += Math.min(window.item.maxLevel/ 4, level);
+	if(level >= 50) newRate += Math.min(2*window.item.maxLevel/4, 2*(level-window.item.maxLevel/4));
+	if(level >= 100) newRate += Math.min(3*window.item.maxLevel/4, 3*(level-2*window.item.maxLevel/4));
+	if(level >= 150) newRate += Math.min(4*window.item.maxLevel/4, 4*(level-3*window.item.maxLevel/4));
 	return newRate;
 }
 
