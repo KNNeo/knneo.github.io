@@ -34,6 +34,12 @@ body > * {
 
 input {
 	margin: 10px;
+	font-size: 5ch;
+}
+
+input[type="number"] {
+	width: 30%;
+	max-width: 5em;
 }
 
 input:disabled {
