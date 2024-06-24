@@ -180,15 +180,15 @@ List<FeedItem> GenerateFeedItems(List<XElement> xmlPosts, string outputFileDir)
 		newItem.title = postTitle;
 		
 		// TODO: Generate description from HTML content
-		var index = postContent.IndexOf("<div>");
-		if(index + 1000 > postContent.Length) index = 0;
-		var pageSummary = postContent.Substring(index, postContent.Length > 1000 ? 1000 : postContent.Length);
-		var substitutes = new string[] { "<div>", "</div>", "<br />", "<div class=\"news=thumbnail\"", "<div class=\"hashtags\"></div>", "\n" };
-		foreach(var sub in substitutes)
-		{
-			pageSummary = pageSummary.Replace(sub, "").Replace("  ", " ").Trim();
-		}
-		newItem.description = pageSummary;
+		//var index = postContent.IndexOf("<div>");
+		//if(index + 1000 > postContent.Length) index = 0;
+		//var pageSummary = postContent.Substring(index, postContent.Length > 1000 ? 1000 : postContent.Length);
+		//var substitutes = new string[] { "<div>", "</div>", "<br />", "<div class=\"news=thumbnail\"", "<div class=\"hashtags\"></div>", "\n" };
+		//foreach(var sub in substitutes)
+		//{
+		//	pageSummary = pageSummary.Replace(sub, "").Replace("  ", " ").Trim();
+		//}
+		//newItem.description = pageSummary;
 		
 		
 		newItem.link = FEED_DOMAIN_URL + Path.GetFileNameWithoutExtension(BLOGGER_XML_DIRECTORY.Replace(BLOGGER_XML_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER)) + "/" + publishDate.Year.ToString("0000") + "/"  + publishDate.Month.ToString("00") + "/"  + Path.GetFileNameWithoutExtension(bloggerLink) + "." + postExtension;
