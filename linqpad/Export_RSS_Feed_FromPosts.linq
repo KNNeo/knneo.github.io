@@ -177,12 +177,13 @@ List<FeedItem> GenerateFeedItems(List<XElement> xmlPosts, string outputFileDir)
 		// Create feed item
 		FeedItem newItem = new FeedItem();
 		
-		newItem.title = postTitle;
+		newItem.title = string.IsNullOrWhiteSpace(postTitle) ? "A Random Statement" : postTitle;
 		
 		// TODO: Generate description from HTML content
-		var index = postContent.IndexOf("<div>");
-		if(index + 1000 > postContent.Length) index = 0;
-		var pageSummary = postContent.Substring(index, postContent.Length > 1000 ? 1000 : postContent.Length);
+		var index = postContent.IndexOf("<br />");
+		if(index + 200 > postContent.Length) index = 0;
+		if(index < 0) index = 0;
+		var pageSummary = postContent.Substring(index, postContent.Length > 200 ? 200 : postContent.Length);
 		var substitutes = new string[] { "<div>", "</div>", "<br />", "<div class=\"news=thumbnail\"", "<div class=\"hashtags\"></div>", "\n" };
 		foreach(var sub in substitutes)
 		{
