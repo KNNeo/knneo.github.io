@@ -97,7 +97,8 @@ function showDetails() {
 			action1.addEventListener('click', onAction);
 			if(window.game.worlds[worldId].unlockInOrder) {
 				let previous = seqId - 1 > 0 ? window.game.worlds[worldId].characters[seqId-1] : null;
-				if(window.item.level > 0 || (previous && previous.level == previous.maxLevel && window.item.level == 0))
+				console.log(previous);
+				if(window.item.level > 0 || (window.item.level == 0 && (seqId == 0 || (previous && previous.level == previous.maxLevel))))
 					detailsDiv.appendChild(action1);
 			}
 			if(!window.game.worlds[worldId].unlockInOrder) detailsDiv.appendChild(action1);
