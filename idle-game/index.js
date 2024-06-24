@@ -32,7 +32,8 @@ function incrementCurrency(multiplier) {
 }
 
 function updateCurrency() {
-	currencyDiv.innerText = 'Bank: ' + asCurrency(window.game.bank);
+	currencyDiv.innerText = 'Bank: ' + asCurrencyUnits(window.game.bank);
+	currencyDiv.title = asCurrencyNumber(window.game.bank);
 }
 
 function updateRate() {
@@ -41,7 +42,7 @@ function updateRate() {
 			return t + c.rate; 
 		}, 0);
 	}, 0);
-	rateDiv.innerText = asCurrency(rate) + '/' + window.game.locale.display.seconds;
+	rateDiv.innerText = asCurrencyUnits(rate) + '/' + window.game.locale.display.seconds;
 }
 
 //--EVENT HANDLERS--//
@@ -65,7 +66,7 @@ function showDetails() {
 
 		let stats = document.createElement('div');
 		stats.classList.add('stats');
-		stats.innerHTML = window.game.locale.display.level + window.item.level + (window.item.level >= window.item.maxLevel ? ' (MAX)' : ' | ' + (window.item.percent ?? 0) + '%') + '<br>' + asCurrency(window.item.rate) + '/' + window.game.locale.display.seconds;
+		stats.innerHTML = window.game.locale.display.level + window.item.level + (window.item.level >= window.item.maxLevel ? ' (MAX)' : ' | ' + (window.item.percent ?? 0) + '%') + '<br>' + asCurrencyUnits(window.item.rate) + '/' + window.game.locale.display.seconds;
 		detailsDiv.appendChild(stats);
 		
 		if(window.item.level < window.item.maxLevel) {
@@ -80,7 +81,7 @@ function showDetails() {
 			action2.classList.add('action');
 			if(window.item.level < 10 || window.item.percent > 99)
 				action2.classList.add('hidden');
-			action2.innerText = window.game.locale.action.maxBoost + ' - ' + asCurrency(calculateMaxBoost(worldId, seqId, window.item.level, window.item.percent, window.game.worlds[worldId].delta));
+			action2.innerText = window.game.locale.action.maxBoost + ' - ' + asCurrencyUnits(calculateMaxBoost(worldId, seqId, window.item.level, window.item.percent, window.game.worlds[worldId].delta));
 			action2.setAttribute('data-action', action2.innerText.split(' - ')[0]);
 			action2.addEventListener('click', onAction);
 			detailsDiv.appendChild(action2);
@@ -88,11 +89,11 @@ function showDetails() {
 			let action1 = document.createElement('div');
 			action1.classList.add('action');
 			// if level 0 unlock, else if bar filled level up, else boost
-			action1.innerText = window.game.locale.action.unlock + ' - ' + asCurrency(calculateUnlock(worldId, seqId));
+			action1.innerText = window.game.locale.action.unlock + ' - ' + asCurrencyUnits(calculateUnlock(worldId, seqId));
 			if(window.item.level > 0)
-				action1.innerText = window.game.locale.action.boost + ' - ' + asCurrency(calculateBoost(worldId, seqId, window.item.level));
+				action1.innerText = window.game.locale.action.boost + ' - ' + asCurrencyUnits(calculateBoost(worldId, seqId, window.item.level));
 			if(window.item.percent > 99)
-				action1.innerText = window.game.locale.action.level_up + ' - ' + asCurrency(calculateLevelUp(worldId, seqId, window.item.level));
+				action1.innerText = window.game.locale.action.level_up + ' - ' + asCurrencyUnits(calculateLevelUp(worldId, seqId, window.item.level));
 			action1.setAttribute('data-action', action1.innerText.split(' - ')[0]);
 			action1.addEventListener('click', onAction);
 			if(window.game.worlds[worldId].unlockInOrder) {
@@ -124,11 +125,11 @@ function onAction() {
 				decrementCurrency(amt);
 				window.item.level = 1;
 				window.item.percent = 0;
-				event.target.innerText = window.game.locale.action.boost + ' - ' + asCurrency(calculateBoost(worldId, seqId, window.item.level));
+				event.target.innerText = window.game.locale.action.boost + ' - ' + asCurrencyUnits(calculateBoost(worldId, seqId, window.item.level));
 				if(window.item.level >= 10 || window.item.percent > 99)
 					event.target.previousSibling.classList.remove('hidden');
 				event.target.previousSibling.setAttribute('data-action', window.game.locale.action.maxBoost);
-				event.target.previousSibling.innerText = window.game.locale.action.maxBoost + ' - ' + asCurrency(calculateMaxBoost(worldId, seqId, window.item.level, window.item.percent, window.game.worlds[worldId].delta));
+				event.target.previousSibling.innerText = window.game.locale.action.maxBoost + ' - ' + asCurrencyUnits(calculateMaxBoost(worldId, seqId, window.item.level, window.item.percent, window.game.worlds[worldId].delta));
 			}
 			else
 			{
@@ -142,9 +143,9 @@ function onAction() {
 				decrementCurrency(amt);
 				window.item.percent = 100;
 				event.target.classList.add('hidden');
-				event.target.innerText = window.game.locale.action.level_up + ' - ' + asCurrency(calculateLevelUp(worldId, seqId, window.item.level));
+				event.target.innerText = window.game.locale.action.level_up + ' - ' + asCurrencyUnits(calculateLevelUp(worldId, seqId, window.item.level));
 				event.target.nextSibling.setAttribute('data-action', event.target.innerText.split(' - ')[0]);
-				event.target.nextSibling.innerText = window.game.locale.action.level_up + ' - ' + asCurrency(calculateLevelUp(worldId, seqId, window.item.level));
+				event.target.nextSibling.innerText = window.game.locale.action.level_up + ' - ' + asCurrencyUnits(calculateLevelUp(worldId, seqId, window.item.level));
 			}
 			else
 			{
@@ -157,9 +158,9 @@ function onAction() {
 			{
 				decrementCurrency(amt);
 				window.item.percent += window.game.worlds[worldId].delta;
-				event.target.previousSibling.innerText = window.game.locale.action.maxBoost + ' - ' + asCurrency(calculateMaxBoost(worldId, seqId, window.item.level, window.item.percent, window.game.worlds[worldId].delta));
+				event.target.previousSibling.innerText = window.game.locale.action.maxBoost + ' - ' + asCurrencyUnits(calculateMaxBoost(worldId, seqId, window.item.level, window.item.percent, window.game.worlds[worldId].delta));
 				if(window.item.percent > 99) {
-					event.target.innerText = window.game.locale.action.level_up + ' - ' + asCurrency(calculateLevelUp(worldId, seqId, window.item.level));
+					event.target.innerText = window.game.locale.action.level_up + ' - ' + asCurrencyUnits(calculateLevelUp(worldId, seqId, window.item.level));
 					event.target.previousSibling.classList.add('hidden');
 				}
 			}
@@ -175,7 +176,7 @@ function onAction() {
 				decrementCurrency(amt);
 				window.item.level += 1;
 				window.item.percent = 0;
-				event.target.innerText = window.game.locale.action.boost + ' - ' + asCurrency(calculateBoost(worldId, seqId, window.item.level));
+				event.target.innerText = window.game.locale.action.boost + ' - ' + asCurrencyUnits(calculateBoost(worldId, seqId, window.item.level));
 				if(window.item.level >= 10 || window.item.percent > 99)
 					event.target.previousSibling.classList.remove('hidden');
 				if(window.item.level >= window.item.maxLevel) {
@@ -184,7 +185,7 @@ function onAction() {
 					event.target.closest('.character').querySelector('.progress').classList.add('hidden');
 				}
 				event.target.previousSibling.setAttribute('data-action', window.game.locale.action.maxBoost);
-				event.target.previousSibling.innerText = window.game.locale.action.maxBoost + ' - ' + asCurrency(calculateMaxBoost(worldId, seqId, window.item.level, window.item.percent, window.game.worlds[worldId].delta));
+				event.target.previousSibling.innerText = window.game.locale.action.maxBoost + ' - ' + asCurrencyUnits(calculateMaxBoost(worldId, seqId, window.item.level, window.item.percent, window.game.worlds[worldId].delta));
 			}
 			else
 			{
@@ -202,7 +203,7 @@ function onAction() {
 	event.target.setAttribute('data-action', event.target.innerText.split(' - ')[0]);
 	event.target.closest('.character').setAttribute('data-level', window.item.level);
 	event.target.closest('.character').querySelector('.progress').setAttribute('value', window.item.percent);
-	event.target.closest('.character').querySelector('.stats').innerHTML = window.game.locale.display.level + window.item.level + (window.item.level >= window.item.maxLevel ? ' (MAX)' : ' | ' + (window.item.percent ?? 0) + '%') + '<br>' + asCurrency(window.item.rate) + '/' + window.game.locale.display.seconds;
+	event.target.closest('.character').querySelector('.stats').innerHTML = window.game.locale.display.level + window.item.level + (window.item.level >= window.item.maxLevel ? ' (MAX)' : ' | ' + (window.item.percent ?? 0) + '%') + '<br>' + asCurrencyUnits(window.item.rate) + '/' + window.game.locale.display.seconds;
 	
 	// update game
 	save();	
@@ -339,7 +340,7 @@ function renderGame() {
 		let increment = incrementCurrency(multiplier);
 		if(multiplier && increment)
 			popupContent('<div>' + window.game.idle.display.offline + ' ' + asCustomDateTime(multiplier) + '<br>' + 
-						window.game.idle.display.gain + ' ' + asCurrency(multiplier * increment) + '</div>'
+						window.game.idle.display.gain + ' ' + asCurrencyUnits(multiplier * increment) + '</div>'
 		+ '<br><button class="bi" onclick="this.closest(\'dialog\').remove();">OK</button>');
 	}
 	
@@ -406,7 +407,7 @@ function asCustomDateTime(seconds) {
 	return display;
 }
 
-function asCurrency(number) {
+function asCurrencyUnits(number) {
 	if(!number) number = 0;
 	let shift = 0;
 	let suffix = '';
@@ -416,9 +417,20 @@ function asCurrency(number) {
 	}
 	
 	// if valid prefix, reduce number
-	let reduced = (number / Math.pow(10, number.toString().length - shift)) ?? number;
-	
+	let reduced = (number / Math.pow(10, number.toString().length - shift)) ?? number;	
 	return window.game.currency.prefix + parseInt(reduced) + suffix;
+}
+
+function asCurrencyNumber(number) {
+	let reduced = '';
+	let length = number.toString().length;
+	for(let n = 1; n <= length; n++)
+	{
+		reduced = number.toString()[length-n] + reduced;
+		if(n % 3 == 0 && n > 0)
+			reduced = ',' + reduced;
+	}	
+	return window.game.currency.prefix + reduced;
 }
 
 function save() {
