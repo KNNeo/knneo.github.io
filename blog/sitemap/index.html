@@ -6,38 +6,29 @@
 	<meta name="theme-color" content="white">
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="mobile-web-app-capable" content="yes">
-    <link rel="stylesheet" href="../fonts.css" />
-	<link rel="stylesheet" href="index.css" />
-	<link rel="icon" sizes="192x192" type="image/png" href="../storytime.png" />
-	<link rel="apple-touch-icon" sizes="192x192" href="../storytime.png" />
+    <link rel="stylesheet" href="../css/fonts.css" />
+	<link rel="stylesheet" href="../css/sitemap.css" />
+	<link rel="icon" sizes="192x192" type="image/png" href="../resources/storytime.png" />
+	<link rel="apple-touch-icon" sizes="192x192" href="../resources/storytime.png" />
 	<script src="../js/theme.js" type="application/javascript" charset="utf-8"></script>
-	<script type="application/javascript" charset="utf-8" defer>
-	window.addEventListener('load', function() {
-		if(!window.location.href.startsWith('file:///')) {
-			for(let a of document.querySelectorAll('a')) {
-				if(a.href.includes('knneo.github.io') || a.href.includes('knwebreports'))
-					a.href = a.href.replace('index.html', '').replace('.html', '');
-			}
-		}
-	});
-	</script>
+	<script src="../js/routing.js" type="application/javascript" charset="utf-8"></script>
 	<title>Sitemap</title>
 </head>
 <body style="font-family: Noto Sans, Arial, sans-serif;">
-<a id="BackBtn" class="material-icons" href="../index.html" title="Go Back">home</a>
-<a id="DarkModeBtn" class="material-icons" title="Toggle Dark Mode" href="javascript:void(0);" onclick="toggleDarkMode()">brightness_high</a>
-<a id="GoToTopBtn" class="material-icons" title="Go To Top" href="javascript:void(0);" onclick="document.body.scrollTop = 0; document.documentElement.scrollTop = 0;">arrow_upward</a>
-<p class="post-tags filters">
-	<a title="The Anime" onclick="document.querySelector('.anime').previousElementSibling.scrollIntoView()" href="javascript:void(0);">
-	<span class="material-icons">newspaper</span></a>
-	<a title="The Reviews" onclick="document.querySelector('.package').previousElementSibling.scrollIntoView()" href="javascript:void(0);">
-	<span class="material-icons">inventory_2</span></a>
-	<a title="The Fanfiction" onclick="document.querySelector('.fanfics').previousElementSibling.scrollIntoView()" href="javascript:void(0);">
-	<span class="material-icons">category</span></a>
-</p>
-<h1>SITEMAP</h1>
-<h2><span class="material-icons small-icons">newspaper</span> THE ANIME</h2>
-<div class="sitemap anime"><h3 class="title">3</h3>
+	<a id="BackBtn" class="material-icons" href="../index.html" title="Go Back">home</a>
+	<a id="DarkModeBtn" class="material-icons" title="Toggle Dark Mode" href="javascript:void(0);" onclick="toggleDarkMode()">brightness_high</a>
+	<a id="GoToTopBtn" class="material-icons" title="Go To Top" href="javascript:void(0);" onclick="document.body.scrollTop = 0; document.documentElement.scrollTop = 0;">arrow_upward</a>
+	<p class="post-tags filters">
+		<a title="The Anime" onclick="document.querySelector('.anime').previousElementSibling.scrollIntoView()" href="javascript:void(0);">
+		<span class="material-icons">newspaper</span></a>
+		<a title="The Reviews" onclick="document.querySelector('.package').previousElementSibling.scrollIntoView()" href="javascript:void(0);">
+		<span class="material-icons">inventory_2</span></a>
+		<a title="The Fanfiction" onclick="document.querySelector('.fanfics').previousElementSibling.scrollIntoView()" href="javascript:void(0);">
+		<span class="material-icons">category</span></a>
+	</p>
+	<h1>SITEMAP</h1>
+	<h2><span class="material-icons small-icons">newspaper</span> THE ANIME</h2>
+	<div class="sitemap anime"><h3 class="title">3</h3>
 <a class="keyword" title="The Entertainment News 2018 Edition Issue #14" href="../posts/2018/04/the-entertainment-news-2018-edition_8.html#3DKanojo01">3DKanojo01</a><br>
 <a class="keyword" title="The Entertainment News 2017 Edition Issue #2" href="../posts/2017/01/the-entertainment-news-2017-edition_8.html#3Lion12">3Lion12</a><br>
 <a class="keyword" title="The Entertainment News 2017 Edition Issue #3" href="../posts/2017/01/the-entertainment-news-2017-edition_15.html#3Lion13">3Lion13</a><br>
@@ -1431,9 +1422,9 @@
 <a class="keyword" title="The Entertainment News 2018 Edition Issue #1" href="../posts/2018/01/the-entertainment-news-2018-edition_7.html#YoriMoi01">YoriMoi01</a><br>
 <a class="keyword" title="The Entertainment News '23 Issue #28" href="../posts/2023/07/the-entertainment-news-23-issue-28.html#YumemiruDanshi01">YumemiruDanshi01</a><br>
 </div>
-<br>
-<h2><span class="material-icons small-icons">inventory_2</span> THE REVIEWS</h2>
-<div class="sitemap package"><h3 class="title">1</h3>
+	<br>
+	<h2><span class="material-icons small-icons">inventory_2</span> THE REVIEWS</h2>
+	<div class="sitemap package"><h3 class="title">1</h3>
 <a class="keyword" title="15 Years of Watching Anime: 15 Questions and Answers" href="../posts/2023/10/15-years-of-watching-anime-15-questions.html#15YearsOfAnime">15YearsOfAnime</a><br>
 <h3 class="title">2</h3>
 <a class="keyword" title="The Klassic Note Song Awards - Official Results (2019)" href="../posts/2019/12/the-klassic-note-song-awards-official.html#2019TheTop20">2019TheTop20</a><br>
@@ -1795,9 +1786,9 @@
 <a class="keyword" title="The Klassic Note Review 2023.12 + Omake (from 2018)" href="../posts/2023/12/the-klassic-note-review-202312-omake.html#YUKINamidaMetro">YUKINamidaMetro</a><br>
 <a class="keyword" title="The Klassic Note Review 2017.03 Issue 2" href="../posts/2017/03/the-klassic-note-review-201703-issue-2.html#YuukiAiraPaleMoon">YuukiAiraPaleMoon</a><br>
 </div>
-<br>
-<h2><span class="material-icons small-icons">category</span> THE FANFICTION</h2>
-<div class="fanfics"><div></div>
+	<br>
+	<h2><span class="material-icons small-icons">category</span> THE FANFICTION</h2>
+	<div class="fanfics"><div></div>
 <div class="season"><b class="title">SEASON 1</b><br>
 <div><span>#1</span> <a class="keyword" title="The Fanfiction 20230701" href="../posts/2023/07/the-fanfiction-20230701.html">Takahashi Rie</a></div>
 <div><span>#2</span> <a class="keyword" title="The Fanfiction 20230708" href="../posts/2023/07/the-fanfiction-20230708.html">Amamiya Sora</a></div>

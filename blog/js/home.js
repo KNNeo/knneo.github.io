@@ -4,7 +4,6 @@ window['dark-name'] = 'blog-theme';
 window['urls'] = [];
 window['search-results'] = [];
 window.addEventListener('load', addServiceWorker);
-window.addEventListener('load', removeLinkExtensions);
 window.addEventListener('load', hideDescription);
 window.addEventListener('load', hideHomeButton);
 window.addEventListener('scroll', toggleActionsOnScroll);
@@ -26,19 +25,6 @@ function addServiceWorker() {
 			console.log('Service worker registration failed:', err);
 		});
 	}
-}
-
-// remove .html extensions, facilitate static site routing
-function removeLinkExtensions() {
-	for(let a of document.querySelectorAll('a'))
-		a.href = processLinkExtensions(a.href);
-}
-
-function processLinkExtensions(url) {
-	if(!window.location.href.startsWith('file:///') && 
-		(url.includes('knneo.github.io') || url.includes('knwebreports')))
-		return url.replace('index.html', '').replace('.html', '');
-	return url;
 }
 
 // hide description if hosted

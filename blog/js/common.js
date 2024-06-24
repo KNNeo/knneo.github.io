@@ -1,79 +1,15 @@
 // For knneo.github.io and knwebreports.onrender.com
-// Constants
-const isBlogger = function() {
-	return window.location.href.includes('.blogspot.com'); //if false, is blogger
-};
-const isSmallWidth = function() {
-	return window.innerWidth <= 880;
-}
-const isMediumWidth = function () {
-	return window.innerWidth <= 1024;
-}
-
-function windowOnHistoryChange() {
-	// if viewer open, close and return
-	if(document.querySelector('.viewer')?.classList.contains('open') && window.location.hash != '#viewer') {
-		// console.log('close viewer');
-		closeViewer();
-	}
-}
-
-//==FUNCTIONS==//
-// Add hashtags for Entertainment News posts with anchors
-function addHashtags() {
-	let tags = document.querySelector('#hashtags, .hashtags');
-	if (tags != null)
-	{
-		// empty hashtags if any content
-		tags.innerHTML = '';		
-		// if is search result, remove all old hashtags
-		if(window.location.href.includes("/search/")) {
-			for(let element of document.querySelectorAll("[id='hashtags']"))
-				element.style.display = 'none';
-			return;
-		}		
-		// create hashtags
-		var hashtags = [];		
-		// add any tag with anchor
-		let sections = document.querySelectorAll(".post-body [id]:not(#hashtags):not(#news-thumbnail):not(#disclaimer):not(.twitter-tweet iframe[id]):not(#table):not(#music):not(.list):not(audio):not(video):not(object)");
-		if(sections.length > 0)
-		{
-			for(let section of sections) {
-				if(section.id.length > 1 && section.id.length <= 64) // set max id length
-					hashtags.push({ tag: section.id, target: section.id });
-				else {
-					console.error('hashtag length too long: ' + section.id);
-					return;
-				}
-			}
-		}
-		// special case for klassic note: one per post, inner text is 'This Week on Klassic Note'
-		for(let span of document.querySelectorAll('.post-body span')) {
-			if(span.innerText == 'This Week on Klassic Note') {
-				//set id on class
-				span.id = 'KlassicNote';
-				hashtags.push({ tag: 'ThisWeekOnKlassicNote', target: span.id });
-				break;
-			}
-		}
-		// render hashtag
-		if(hashtags.length > 0) {
-			for(let item of hashtags) {
-				let newItem = document.createElement('a');
-				newItem.innerText = '#' + item.tag;
-				newItem.title = item.tag;
-				newItem.href = '#' + item.target;
-				tags.appendChild(newItem);
-			}
-		}
-	}
-	if(typeof generateHeader == 'function') generateHeader();
-	if(typeof generateReadTime == 'function') generateReadTime();
+//--EVENT LISTENERS--//
+function windowOnResize() {
+	console.log('windowOnResize');
+	// sidebar content on blogger must show on larger screens
+	displayFAB();
+	closePopups();
 }
 
 // Set initial scroll if current page url has hash
 function scrollToSectionByUrl() {
-	if(window.location.hash.length > 2) // not triggered via windowOnHistoryChange
+	if(window.location.hash.length > 2)
 		scrollToElement(document.getElementById(window.location.hash.substring(1)));
 }
 
@@ -88,29 +24,16 @@ function scrollToElement(elem) {
 	}
 }
 
-function showAbbrAsDialog() {
-	// Abbreviation to show as dialog if not using mouse to hover
-	// Exception: published field in github site
-	for(let abbr of document.querySelectorAll('.published, abbr[title]')) {
-		abbr.addEventListener('click', function() {
-			event.preventDefault();
-			popupText(event.target.title);
-		});
+function windowOnHistoryChange() {
+	// if viewer open, close and return
+	if(document.querySelector('.viewer')?.classList.contains('open') && window.location.hash != '#viewer') {
+		// console.log('close viewer');
+		closeViewer();
 	}
 }
 
-function focusOnExpandFineprint() {
-	// Fineprint component, click to toggle show full text or condensed
-	for(let fp of document.querySelectorAll('.fineprint')) {
-		fp.addEventListener('click', function() {
-			fp.classList.toggle('show');
-			fp.scrollIntoView({ block: 'center' });
-		});
-	}
-}
-
+//--ACCORDION--//
 function setExpander() {
-	// Accordion component, click to toggle show extra text or just header
 	for(let expander of document.querySelectorAll('.accordion .header, .accordion .footer'))
 		expander?.addEventListener('click', toggleExpander);
 }
@@ -121,8 +44,18 @@ function toggleExpander() {
 	parent.querySelector('.header').scrollIntoView({ block: 'center' });
 }
 
-// Dialog element, to show popup content
-function popupText(input) {
+//--ABBR OVERRIDE--//
+function showAbbrAsDialog() {
+	// Exception: published field in github site
+	for(let abbr of document.querySelectorAll('.published, abbr[title]')) {
+		abbr.addEventListener('click', function() {
+			event.preventDefault();
+			popupContent(event.target.title);
+		});
+	}
+}
+
+function popupContent(input) {
 	// Dialog component
 	let dialogDiv = document.querySelector('.dialog');
 	if(dialogDiv == null) {
@@ -145,7 +78,7 @@ function createDialog(node) {
 		dialog.innerHTML = node;
 	if(typeof node == 'object') {
 		let clonedNode = node.cloneNode(true);
-	dialog.appendChild(clonedNode);
+		dialog.appendChild(clonedNode);
 	}
 	dialog.addEventListener('click', function() {
 		if(event.target.parentElement == document.querySelector('.dialog'))
@@ -162,10 +95,46 @@ function removeDialog() {
 	document.querySelector('.dialog')?.remove();
 }
 
-// Popup element, based on content type
+//--POPUP--//
 function addHoverForLinks() {
     for (let link of document.querySelectorAll('.post-body.entry-content a[target]'))
 		link.addEventListener('mouseover', renderPopup);
+}
+
+function renderPopup() {
+    event.preventDefault();
+	let url = this.href;	
+	//exclusion for blogger	images
+    if ((url.includes('blogspot.com') || url.includes('blogger.googleusercontent.com')) && this.target == '') return;
+	// exclusion for if not open in new tab
+    if (this.target == '') return;
+	// exclusion class, if any
+    if (this.classList.contains('opt-out')) return;
+	// if not compatible for any design
+    let newContent = generatePopupContent(url);
+    if (newContent == null) return;
+    let thumbnail = document.createElement('div');
+    thumbnail.classList.add('new-t');
+	// clone popup content
+    let initial = document.createElement('a');
+    initial.classList.add('new-thumbnail-initial');
+    initial.innerHTML = this.innerHTML;
+	// minor fixes for thumbnail display and layout
+    let focus = document.createElement('div');
+    focus.classList.add('new-thumbnail-focus');
+    focus.classList.add('fadeIn');
+	if(!url.includes('twitter.com') && !url.includes('/status/'))
+		focus.style.paddingTop = '10px';
+    focus.innerHTML = newContent;
+	focus.addEventListener('click', closePopups);
+	// bring it all together
+    thumbnail.appendChild(initial);
+    thumbnail.appendChild(focus);
+	thumbnail.setAttribute('data-url', url);
+	// update (illegally) thumbnail popup with embed content
+    this.outerHTML = thumbnail.outerHTML;
+    addPopupEvents();	
+	return thumbnail;
 }
 
 function addPopupEvents() {
@@ -228,42 +197,6 @@ function closePopups() {
 	// update fabs and overlay
 	displayFAB();
 	hideOverlay();
-}
-
-function renderPopup() {
-    event.preventDefault();
-	let url = this.href;	
-	//exclusion for blogger	images
-    if ((url.includes('blogspot.com') || url.includes('blogger.googleusercontent.com')) && this.target == '') return;
-	// exclusion for if not open in new tab
-    if (this.target == '') return;
-	// exclusion class, if any
-    if (this.classList.contains('opt-out')) return;
-	// if not compatible for any design
-    let newContent = generatePopupContent(url);
-    if (newContent == null) return;
-    let thumbnail = document.createElement('div');
-    thumbnail.classList.add('new-t');
-	// clone popup content
-    let initial = document.createElement('a');
-    initial.classList.add('new-thumbnail-initial');
-    initial.innerHTML = this.innerHTML;
-	// minor fixes for thumbnail display and layout
-    let focus = document.createElement('div');
-    focus.classList.add('new-thumbnail-focus');
-    focus.classList.add('fadeIn');
-	if(!url.includes('twitter.com') && !url.includes('/status/'))
-		focus.style.paddingTop = '10px';
-    focus.innerHTML = newContent;
-	focus.addEventListener('click', closePopups);
-	// bring it all together
-    thumbnail.appendChild(initial);
-    thumbnail.appendChild(focus);
-	thumbnail.setAttribute('data-url', url);
-	// update (illegally) thumbnail popup with embed content
-    this.outerHTML = thumbnail.outerHTML;
-    addPopupEvents();	
-	return thumbnail;
 }
 
 function renderEmbedProcess() {
@@ -494,7 +427,24 @@ function createMalElementFromJson(response) {
 	}
 }
 
-// overlay element for popups
+async function getJson(source, callback) {
+	try	{
+		const response = await fetch(source);
+		if(response.ok && response.status == 200) {
+			const result = await response.json();
+			callback(result);
+		} else {
+			console.error('getJson: ' + response);
+			callback(null);
+		}
+	}
+	catch(e) {
+		console.error('getJson: ' + e.message);
+		callback(null);
+	}
+}
+
+//--OVERLAY--//
 function showOverlay() {
 	let overlay = document.createElement('div');
 	overlay.className = 'overlay';
@@ -509,7 +459,7 @@ function hideOverlay() {
 	document.querySelector('.overlay')?.remove();
 }
 
-// Floating action button events
+//--FLOATING ACTION BUTTONS--//
 function displayFAB() {
 	// initial state assume all menus hidden
 	if(document.querySelector('#Overlay') != null && document.querySelector('#Overlay').style.display != 'none')
@@ -518,11 +468,6 @@ function displayFAB() {
 		document.querySelector('.fab.share')?.remove();
 	document.querySelector('.action-menu.bottom-left')?.classList.add('show');
 	document.querySelector('.action-menu.bottom-right')?.classList.add('show');
-	if(isBlogger()) {
-		toggleActions(['.fab.share', '.fab.search'], '.action-menu.bottom-right');
-		if(isMediumWidth()) toggleActions(['.fab.sidebar'], '.action-menu.bottom-left');
-		else toggleActions([], '.action-menu.bottom-left');
-	}
 }
 
 function toggleActionsOnScroll() {
@@ -542,7 +487,7 @@ function toggleActionsOnScroll() {
 		document.querySelector('.action-menu.bottom-left')?.classList.remove('hide');
 		document.querySelector('.action-menu.bottom-right')?.classList.remove('hide');
 	}
-	else if(isSmallWidth()) { // on smaller screens hide when scroll down
+	else if(window.innerWidth <= 780) { // on smaller screens hide when scroll down
 		document.querySelector('.action-menu.bottom-left')?.classList.add('hide');
 		document.querySelector('.action-menu.bottom-right')?.classList.add('hide');
 	}
@@ -591,7 +536,7 @@ function goToTop() {
 async function sharePage() {
   try {
 	let pageTitle = document.querySelector('.post-title.entry-title')?.innerText || document.querySelector('.title')?.innerText;
-	let pageText = 'From Klassic Note Web Reports' + (!isBlogger() ? ' Archive' : '');
+	let pageText = 'Klassic Note Web Reports';
 	if(navigator.share)
 		await navigator.share({
 			title: pageTitle,
@@ -603,7 +548,7 @@ async function sharePage() {
   }
 }
 
-// Multi-image thumbnail: Define max caption height, onclick event
+//--CAROUSEL--//
 function setThumbnails() {
 	// check thumbnail images with links
 	let thumbImagesWithLinks = Array.from(document.querySelectorAll('.thumbnail img')).filter(i => i.parentElement.tagName.toLowerCase() === 'a');
@@ -645,28 +590,28 @@ function setThumbnails() {
 				};
         }
 		// text only (experimental)
-		if(allThumbImages.length < 1 &&
-		thumbnail.querySelectorAll('.thumbnail-initial').length > 0 &&
-		thumbnail.querySelectorAll('.thumbnail-pop').length > 0)
-		{
-			let textElement = document.createElement('span');
-			textElement.classList.add('thumbnail-text');
-			textElement.innerHTML = thumbnail.querySelectorAll('.thumbnail-initial')[0].innerHTML;
-			let popupText = thumbnail.querySelectorAll('.thumbnail-pop')[0].innerHTML;
-			textElement.onclick = function() {
-				let dialogElement = document.querySelector('.thumbnail-dialog') ?? document.createElement('dialog');
-				dialogElement.className = 'thumbnail-dialog';
-				dialogElement.onclick = function() {
-					this.close();
-				};
-				dialogElement.innerHTML = popupText;
-				if(document.querySelector('.thumbnail-dialog') == null)
-					document.body.appendChild(dialogElement);
-				dialogElement.showModal();
-			};			
-			thumbnail.style.display = 'inline';
-			thumbnail.replaceWith(textElement);
-		}		
+		// if(allThumbImages.length < 1 &&
+		// thumbnail.querySelectorAll('.thumbnail-initial').length > 0 &&
+		// thumbnail.querySelectorAll('.thumbnail-pop').length > 0)
+		// {
+			// let textElement = document.createElement('span');
+			// textElement.classList.add('thumbnail-text');
+			// textElement.innerHTML = thumbnail.querySelectorAll('.thumbnail-initial')[0].innerHTML;
+			// let popupText = thumbnail.querySelectorAll('.thumbnail-pop')[0].innerHTML;
+			// textElement.onclick = function() {
+				// let dialogElement = document.querySelector('.thumbnail-dialog') ?? document.createElement('dialog');
+				// dialogElement.className = 'thumbnail-dialog';
+				// dialogElement.onclick = function() {
+					// this.close();
+				// };
+				// dialogElement.innerHTML = popupText;
+				// if(document.querySelector('.thumbnail-dialog') == null)
+					// document.body.appendChild(dialogElement);
+				// dialogElement.showModal();
+			// };			
+			// thumbnail.style.display = 'inline';
+			// thumbnail.replaceWith(textElement);
+		// }
 		// add indices
 		let counter = 1;
         let items = thumbnail.querySelectorAll('.thumbnail-initial');
@@ -719,7 +664,7 @@ function showAllThumbnails(tn) {
 		openImagesInViewer(tn.querySelectorAll('.thumbnail-initial'));
 }
 
-// Responsive image resizing based on screen dimensions
+//--RESPONSIVE IMAGES--//
 function resizeImages() {
     /* Current assumptions:
     ~Images that always resize to 100% instead of retaining original size which can fit screen, consider putting back original size if no overflow
@@ -743,7 +688,7 @@ function resizeImage(p) {
 	var imgHeight = p.height;
 	if(showLog) console.log('width x height', imgWidth, imgHeight);
 	// exclusion list
-	if ((isBlogger() && (imgWidth < 20 || imgHeight < 20)) || p.id == 'news-thumbnail') {
+	if (imgWidth < 20 || imgHeight < 20 || p.id == 'news-thumbnail') {
 		if(showLog) console.log('exclusion', p, p.parentElement);
 		p.classList.add('img-unchanged');
 		return;
@@ -806,21 +751,4 @@ function resizeImage(p) {
 	}
 	// set thumbnails again after adjusted image size
     setThumbnails();
-}
-
-async function getJson(source, callback) {
-	try	{
-		const response = await fetch(source);
-		if(response.ok && response.status == 200) {
-			const result = await response.json();
-			callback(result);
-		} else {
-			console.error('getJson: ' + response);
-			callback(null);
-		}
-	}
-	catch(e) {
-		console.error('getJson: ' + e.message);
-		callback(null);
-	}
 }

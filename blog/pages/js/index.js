@@ -457,18 +457,6 @@ function renderGoogleIcon(iconName, addClass = []) {
 	return newIcon;
 }
 
-function removeLinkExtensions() {
-	for(let a of document.querySelectorAll('a'))
-		a.href = processLinkExtensions(a.href);
-}
-
-function processLinkExtensions(url) {
-	if(!window.location.href.startsWith('file:///') && 
-		(url.includes('knneo.github.io') || url.includes('knwebreports')))
-		return url.replace('index.html', '').replace('.html', '');
-	return url;
-}
-
 //--STARTUP FUNCTIONS--//
 window.addEventListener('load', startup);
 window.addEventListener('resize', startup);

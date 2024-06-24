@@ -182,14 +182,6 @@ SitemapSections GenerateSitemap(List<XElement> xmlPosts)
 		// Create output page link and index in linked list
         var pageLink = "../" + Path.GetFileNameWithoutExtension(BLOGGER_XML_DIRECTORY.Replace(BLOGGER_XML_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER)) + "/" + publishDate.Year.ToString("0000") + "/"  + publishDate.Month.ToString("00") + "/"  + Path.GetFileNameWithoutExtension(bloggerLink) + "." + postExtension;
 		
-		// Show progress, as post title or as represented by dot (100 per line)
-	    if(WRITE_TITLE_ON_CONSOLE || DEBUG_MODE)
-	        Console.WriteLine("||> " + (postTitle.Length > 0 ? postTitle : "POST W/O TITLE DATED " + publishDate.ToString("yyyy-MM-dd")));
-		else if(p % DOTS_PER_LINE_CONSOLE == DOTS_PER_LINE_CONSOLE - 1)
-	        Console.WriteLine(".");
-		else
-	        Console.Write(".");
-			
 		if (DEBUG_MODE) Console.WriteLine("Process home page");
         var tagList = string.Join("-",pageTagsXml).Replace(" ","").Replace("-"," ");
 		
@@ -238,6 +230,14 @@ SitemapSections GenerateSitemap(List<XElement> xmlPosts)
         		match = match.NextMatch();
 			}
 		}
+		
+		// Show progress, as post title or as represented by dot (100 per line)
+	    if(WRITE_TITLE_ON_CONSOLE || DEBUG_MODE)
+	        Console.WriteLine("||> " + (postTitle.Length > 0 ? postTitle : "POST W/O TITLE DATED " + publishDate.ToString("yyyy-MM-dd")));
+		else if(p % DOTS_PER_LINE_CONSOLE == DOTS_PER_LINE_CONSOLE - 1)
+	        Console.WriteLine(".");
+		else
+	        Console.Write(".");
     }
 	
 	if(DEBUG_MODE)

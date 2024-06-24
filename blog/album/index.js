@@ -120,13 +120,3 @@ function removeShowMoreIfEnd() {
 	if(window['images'].length - 1 <= window['loaded']) // window['loaded'] = index of window['images']
 		document.querySelector('.next').classList.add('hidden');
 }
-
-// remove .html extensions, facilitate static site routing
-function removeLinkExtensions() {
-	if(!window.location.href.startsWith('file:///')) {
-		for(let a of document.querySelectorAll('a')) {
-			if(a.href.includes('knneo.github.io') || a.href.includes('knwebreports'))
-				a.href = a.href.replace('index.html', '').replace('.html', '');
-		}
-	}
-}
