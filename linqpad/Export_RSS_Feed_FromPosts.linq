@@ -213,7 +213,6 @@ void GenerateFeed(List<FeedItem> feedItems)
 				<atom:link rel=""hub"" href=""http://pubsubhubbub.appspot.com""/>
 				<description>_DESCRIPTION_</description>
 				<language>en</language>
-				<pubDate>_DATETIME_</pubDate>
 			</channel>
 		_ITEMS_
 		</rss>"
@@ -221,7 +220,6 @@ void GenerateFeed(List<FeedItem> feedItems)
 		.Replace("_LINK_", FEED_DOMAIN_URL)
 		.Replace("_XML_", FEED_URL)
 		.Replace("_DESCRIPTION_", HTML_DESCRIPTION)
-		.Replace("_DATETIME_", DateTime.Now.ToString($"ddd, dd MMM yyyy HH:mm:ss {TIMEZONE_SUFFIX_STRING}"))
 		.Replace("_ITEMS_", String.Join(" ", feedItems.Select(f => $"<item><title>{f.title}</title><description><![CDATA[{f.description}]]></description><link>{f.link}</link><pubDate>{f.pubDate}</pubDate></item>").ToArray()));	
 	
     // Write into homepage file
