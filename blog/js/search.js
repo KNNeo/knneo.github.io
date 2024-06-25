@@ -28,7 +28,7 @@ function showSearch() {
 	results.classList.add('input-result');
 	searchContainer.appendChild(results);
 	
-	popupText(searchContainer);
+	popupContent(searchContainer);
 	document.body.setAttribute('onkeydown', 'onSearchKeyDown()');
 }
 
@@ -143,9 +143,10 @@ function showNextResults() {
 }
 
 function loadScript(callback) {
+	if(document.querySelector('#search-index') != null) return;
 	let indexScript = document.createElement('script');
 	indexScript.id = 'search-index';
-	indexScript.src = 'js/searchIndex.js';
+	indexScript.src = window.location.href.includes('/posts/') ? '../../../../js/searchIndex.js' : 'js/searchIndex.js';
 	indexScript.type = 'application/javascript';
 	indexScript.charset = 'utf-8';
 	indexScript.onreadystatechange = function() { callback(); };

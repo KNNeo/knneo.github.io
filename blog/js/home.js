@@ -117,7 +117,7 @@ function toggleActions(showElements, parentElement) {
 }
 
 ////DIALOG////
-function popupText(input) {
+function popupContent(input) {
 	let dialogDiv = document.querySelector('.dialog');
 	if(dialogDiv == null) {
 		dialogDiv = document.createElement('div');
