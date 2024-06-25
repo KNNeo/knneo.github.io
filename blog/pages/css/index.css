@@ -113,15 +113,16 @@ a {
 
 .container td[onclick] {
     cursor: pointer;
-	transform: scale(0.95);
+	transform: scale(0.9);
+	border: 2px solid transparent;
 	transition: background-color .2s, transform .2s;
 }
 
 .container td[onclick]:focus,
 .container td[onclick]:hover {
-    background-color: rgb(var(--accent));
+	background-color: rgb(var(--accent));
+	border-color: rgb(var(--foreground));
 	transform: scale(1);
-	border: 2px solid rgb(var(--foreground));
 }
 
 .container td[rowspan] .gallery,
