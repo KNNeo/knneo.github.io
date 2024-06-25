@@ -4,6 +4,7 @@ window['dark-name'] = 'blog-theme';
 window['urls'] = [];
 window['search-results'] = [];
 window.addEventListener('load', addServiceWorker);
+window.addEventListener('load', removeLinkExtensions);
 window.addEventListener('load', hideDescription);
 window.addEventListener('load', hideHomeButton);
 window.addEventListener('scroll', toggleActionsOnScroll);

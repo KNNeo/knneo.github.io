@@ -671,6 +671,7 @@ function resizeImages() {
 	~Images need to have width and height attribute, especially if tr has multiple td/img
     */
     for (var pic of document.querySelectorAll('img')) {
+		resizeImage(pic);
 		pic.addEventListener('load', function() {
 			resizeImage(pic);
 			setThumbnails();
