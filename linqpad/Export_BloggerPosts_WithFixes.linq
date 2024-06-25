@@ -23,6 +23,7 @@ string POST_TEMPLATE_FILENAME = @"C:\Users\KAINENG\Documents\GitHub\knneo.github
 // PROGRAM SETTINGS
 bool HOMEPAGE_ONLY = false;
 bool WRITE_TITLE_ON_CONSOLE = true;
+bool DELETE_OUTPUT_DIRECTORY = false;
 int DOTS_PER_LINE_CONSOLE = 100;
 string BLOG_DOMAIN_URL = "https://knwebreports.blogspot.com/";
 XNamespace DEFAULT_XML_NAMESPACE = XNamespace.Get("http://www.w3.org/2005/Atom");
@@ -177,7 +178,7 @@ List<string> GetBloggerPostsLinkedList(List<XElement> xmlPosts)
         // Find post labels
         var pageTagsXml = entry.Elements(DEFAULT_XML_NAMESPACE+"category")
         	.Where(e => !e.Attribute("term").ToString().Contains("#post")).Select(q => q.Attribute("term").Value).ToList();    
-        var pageLink = "./" + Path.GetFileNameWithoutExtension(BLOGGER_XML_DIRECTORY.Replace(BLOGGER_XML_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER)) + "/" + publishDate.Year.ToString("0000") + "/"  + publishDate.Month.ToString("00") + "/"  + (GENERATE_SLUG_BY_POST_TITLE ? generatedLink : Path.GetFileNameWithoutExtension(bloggerLink)) + "." + postExtension;
+        var pageLink = "./" + Path.GetFileNameWithoutExtension(BLOGGER_XML_DIRECTORY.Replace(BLOGGER_XML_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER)) + "/" + publishDate.Year.ToString("0000") + "/"  + publishDate.Month.ToString("00") + "/"  + (GENERATE_SLUG_BY_POST_TITLE ? generatedLink : Path.GetFileNameWithoutExtension(bloggerLink)) + "/index." + postExtension;
 		// If has valid published link, and not including post labels to ignore and not render
 		if(!string.IsNullOrWhiteSpace((GENERATE_SLUG_BY_POST_TITLE ? generatedLink : Path.GetFileNameWithoutExtension(bloggerLink))) && !pageTagsXml.Any(xml => POST_IGNORE_LABELS.Contains(xml)))
 			linkedList.Add(pageLink);
@@ -190,6 +191,9 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
     // Create output folder if missing
     if(!Directory.Exists(outputFileDir) && !HOMEPAGE_ONLY)
 		Directory.CreateDirectory(outputFileDir);
+    // Delete output folder as per settings
+	if(DELETE_OUTPUT_DIRECTORY)
+		Directory.Delete(outputFileDir, true);
 	// Read file
 	Console.WriteLine($"Processing {xmlPosts.Count()} Blogger posts...");
 	// Collate post labels
@@ -218,8 +222,10 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
         if(!Directory.Exists(yearfolder)) Directory.CreateDirectory(outputFileDir);
         var monthfolder = Path.Combine(yearfolder, publishDate.Month.ToString("00"));
         if(!Directory.Exists(monthfolder)) Directory.CreateDirectory(monthfolder);
-        string outFileName = (GENERATE_SLUG_BY_POST_TITLE ? generatedLink : Path.GetFileNameWithoutExtension(bloggerLink)) + "." + postExtension;
-        var pageOutputPath = Path.Combine(monthfolder, outFileName);
+        var postFolder = Path.Combine(monthfolder, GENERATE_SLUG_BY_POST_TITLE ? generatedLink : Path.GetFileNameWithoutExtension(bloggerLink));
+        if(!Directory.Exists(postFolder)) Directory.CreateDirectory(postFolder);
+        string outFileName = "index." + postExtension;
+        var pageOutputPath = Path.Combine(postFolder, outFileName);
         // Find post labels
         var pageTagsXml = entry.Elements(DEFAULT_XML_NAMESPACE+"category")
         	.Where(e => !e.Attribute("term").ToString().Contains("#post")).Select(q => q.Attribute("term").Value).ToList();
@@ -235,7 +241,7 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
 				labelCount[tag] = 1;
 		}
 		// Create output page link and index in linked list
-        var pageLink = "./" + Path.GetFileNameWithoutExtension(BLOGGER_XML_DIRECTORY.Replace(BLOGGER_XML_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER)) + "/" + publishDate.Year.ToString("0000") + "/"  + publishDate.Month.ToString("00") + "/"  + (GENERATE_SLUG_BY_POST_TITLE ? generatedLink : Path.GetFileNameWithoutExtension(bloggerLink)) + "." + postExtension;
+        var pageLink = "./" + Path.GetFileNameWithoutExtension(BLOGGER_XML_DIRECTORY.Replace(BLOGGER_XML_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER)) + "/" + publishDate.Year.ToString("0000") + "/"  + publishDate.Month.ToString("00") + "/"  + (GENERATE_SLUG_BY_POST_TITLE ? generatedLink : Path.GetFileNameWithoutExtension(bloggerLink)) + "/index." + postExtension;
         var pageIndex = linkedList.IndexOf(pageLink);
 		// Process page content
 		if(!HOMEPAGE_ONLY)

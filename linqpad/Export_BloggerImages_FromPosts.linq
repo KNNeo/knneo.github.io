@@ -21,6 +21,7 @@ int DOTS_PER_LINE_CONSOLE = 100;
 XNamespace DEFAULT_XML_NAMESPACE = XNamespace.Get("http://www.w3.org/2005/Atom");
 List<string> GOOGLE_FONTS_URLS = new List<string>() { "Dancing Script" };
 List<string> IMAGE_DOMAINS_LIST = new List<string>() { "ggpht.com", "bp.blogspot.com", "blogger.googleusercontent.com" };
+bool GENERATE_SLUG_BY_POST_TITLE = false;
 
 // POST SETTINGS
 List<String> POST_IGNORE_TAGS = new List<string>() { "The Archive" };
@@ -148,6 +149,7 @@ string GenerateImageIndex(List<XElement> xmlPosts)
         string bloggerLink = ((entry.Elements(DEFAULT_XML_NAMESPACE+"link")
             .FirstOrDefault(e => e.Attribute("rel").Value == "alternate") ?? empty)
             .Attribute("href") ?? emptA).Value;
+		string generatedLink = GenerateSlug(postTitle);
 		// If not post URL, skip
 		if(string.IsNullOrWhiteSpace(bloggerLink))
 			continue;
@@ -166,7 +168,7 @@ string GenerateImageIndex(List<XElement> xmlPosts)
 		if(pageTagsXml.Any(xml => POST_IGNORE_TAGS.Contains(xml)))
 			continue;
 		// Create output page link and index in linked list
-        var pageLink = "../" + Path.GetFileNameWithoutExtension(BLOGGER_XML_DIRECTORY.Replace(BLOGGER_XML_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER)) + "/" + publishDate.Year.ToString("0000") + "/"  + publishDate.Month.ToString("00") + "/"  + Path.GetFileNameWithoutExtension(bloggerLink) + "." + postExtension;
+        var pageLink = "../" + Path.GetFileNameWithoutExtension(BLOGGER_XML_DIRECTORY.Replace(BLOGGER_XML_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER)) + "/" + publishDate.Year.ToString("0000") + "/"  + publishDate.Month.ToString("00") + "/"  + (GENERATE_SLUG_BY_POST_TITLE ? generatedLink : Path.GetFileNameWithoutExtension(bloggerLink)) + "/index." + postExtension;
 
         // Export list of images from latest
 		var urls = new List<string>();
@@ -210,6 +212,16 @@ string GenerateImageIndex(List<XElement> xmlPosts)
 void GenerateIndexFile(string archiveString, int postCount)
 {
     File.WriteAllText(HOMEPAGE_FILENAME, archiveString);
+}
+
+string GenerateSlug(string title, int maxLength = 45)
+{
+	string slug = title.ToLower();
+	slug = Regex.Replace(slug, @"\s+", "-");
+	slug = Regex.Replace(slug, @"[^a-z0-9\-_]", "");
+	slug = Regex.Replace(slug, @"\b\d(?!\d)", "");
+	slug = slug.Replace("--","-").Trim('-');
+	return slug.Length > maxLength ? slug.Substring(0, slug.Substring(0, maxLength).LastIndexOf('-')) : slug;
 }
 
 public class MosaicItem
