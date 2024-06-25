@@ -12,6 +12,7 @@ function onLoad() {
 	window.addEventListener('resize', windowOnResize);
 	window.addEventListener('hashchange', scrollToSectionByUrl);
 	window.addEventListener('popstate', windowOnHistoryChange);	
+
 	// Asynchronous Events
 	setTimeout(resizeImages, 0);
 	setTimeout(toggleEmojiDisplay, 0);
@@ -21,6 +22,7 @@ function onLoad() {
 	setTimeout(addSwipeEvents, 0);
 	setTimeout(generateHeader, 0); // generateHashtags, generateReadTime
 	setTimeout(generateViewer, 0);
+	setTimeout(removeLinkExtensions, 0);
 	setTimeout(scrollToSectionByUrl, 200);
 }
 
