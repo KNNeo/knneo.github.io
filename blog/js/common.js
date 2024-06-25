@@ -670,11 +670,11 @@ function resizeImages() {
     ~Images that always resize to 100% instead of retaining original size which can fit screen, consider putting back original size if no overflow
 	~Images need to have width and height attribute, especially if tr has multiple td/img
     */
-    for (var p of document.querySelectorAll('img')) {
-		resizeImage(p);
-		p.addEventListener('load', function() {
-			resizeImage(p);
-		}); // redundancy for slow networks
+    for (var pic of document.querySelectorAll('img')) {
+		pic.addEventListener('load', function() {
+			resizeImage(pic);
+			setThumbnails();
+		}); // for slow networks
     }
 }
 
