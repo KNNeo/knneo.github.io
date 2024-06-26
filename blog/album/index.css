@@ -73,6 +73,14 @@ body {
 	height: 90px;
 	object-fit: cover;
 	cursor: pointer;
+	transition: height 0.2s;
+}
+
+/*MEDIA QUERIES - REDUCED MOTION*/
+@media (prefers-reduced-motion: reduce) {
+	.tile-image {
+		transition: none;
+	}
 }
 
 .tile-image:hover {
@@ -80,8 +88,8 @@ body {
 }
 
 .fit .tile-image {
-    width: 100%;
-	height: auto;
+	width: 99%;
+	height: 99%;
 }
 
 .material-icons {

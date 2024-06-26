@@ -75,6 +75,10 @@ function generateArchiveGroup(post, check) {
 				}
 				event.target.parentElement.classList.toggle('fit');
 				event.target.src = event.target.src.replace('/s320/', '/s640/');
+				window['image-fit'] = event.target;
+				setTimeout(function() {
+					window['image-fit'].scrollIntoView({ behavior: "smooth", block: "center", inline: "center" });
+				}, 100);
 			});
 			imageSpan.addEventListener('load', function() {
 				if(!event.target.classList.contains('loaded'))
