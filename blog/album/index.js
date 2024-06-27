@@ -34,6 +34,7 @@ function onFilterKeyUp() {
 }
 
 function generateArchive() {
+	window['id'] = null;
 	if(typeof imageIndex == 'object') {
 		list.innerHTML = '';
 		window['images'] = imageIndex.posts.filter(p => imageIndex.images.filter(i => i.id == p.id && i.url.toLowerCase().includes(window['filter'] ?? '')).length > 0);
@@ -69,16 +70,24 @@ function generateArchiveGroup(post, check) {
 			imageSpan.setAttribute('loading', 'lazy');
 			imageSpan.setAttribute('data-image', item.url);
 			imageSpan.addEventListener('click', function() {
+				let expanded = event.target.parentElement.classList.contains('fit');
 				for(let fit of document.querySelectorAll('.fit')) {
 					if(fit != event.target.parentElement)
 						fit.classList.remove('fit');
 				}
-				event.target.parentElement.classList.toggle('fit');
-				event.target.src = event.target.src.replace('/s320/', '/s640/');
-				window['image-fit'] = event.target;
-				setTimeout(function() {
-					window['image-fit'].scrollIntoView({ behavior: "smooth", block: "center", inline: "center" });
-				}, 100);
+				if(expanded) {
+					event.target.parentElement.classList.remove('fit');
+					event.target.src = event.target.src.replace('/s640/', '/s320/');
+					event.target.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+				}
+				else {
+					event.target.parentElement.classList.add('fit');
+					event.target.src = event.target.src.replace('/s320/', '/s640/');
+					window['image-fit'] = event.target;
+					setTimeout(function() {
+						window['image-fit'].scrollIntoView({ behavior: "smooth", block: "center", inline: "center" });
+					}, 100);
+				}
 			});
 			imageSpan.addEventListener('load', function() {
 				if(!event.target.classList.contains('loaded'))

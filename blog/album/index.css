@@ -73,6 +73,7 @@ body {
 	height: 90px;
 	object-fit: cover;
 	cursor: pointer;
+	transition: height 0.2s;
 }
 
 /*MEDIA QUERIES - REDUCED MOTION*/
@@ -89,7 +90,6 @@ body {
 .fit .tile-image {
 	width: 99%;
 	height: 99%;
-	transition: height 0.2s;
 }
 
 .material-icons {
