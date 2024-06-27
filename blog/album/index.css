@@ -42,6 +42,11 @@ body {
 	background-color: rgb(var(--background));
 }
 
+.input {
+	margin-top: 1rem;
+	max-width: 100%;
+}
+
 .input:focus {
 	font-size: 2em;
 }
