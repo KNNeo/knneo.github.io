@@ -261,7 +261,7 @@ SitemapSections GenerateSitemap(List<XElement> xmlPosts)
 	foreach(var item in sitemapItems.Where(i => i.Tags.Any(t => SITEMAP_GROUPS.TryGetValue(t, out string tagValue) && tagValue == "Anime")).OrderBy(i => i.Keyword))
 	{
 		var key = Char.ToUpper(item.Keyword[0]);
-		animeString += (animeTitle != key ? ("<h3 class=\"title\">" + key + "</h3>\r\n") : "");
+		animeString += (animeTitle != key ? ("<h3 class=\"title\" data-id=\"" + key + "\">" + key + "</h3>\r\n") : "");
 		animeString += "<a class=\"keyword\" title=\"" + item.Title + "\" href=\"" + item.KeywordUrl + "\">" + item.Keyword + "</a><br>\r\n";
 		animeTitle = key;
 	}
@@ -271,7 +271,7 @@ SitemapSections GenerateSitemap(List<XElement> xmlPosts)
 	foreach(var item in sitemapItems.Where(i => i.Tags.Any(t => SITEMAP_GROUPS.TryGetValue(t, out string tagValue) && tagValue == "Packages")).OrderBy(i => i.Keyword))
 	{
 		var key = Char.ToUpper(item.Keyword[0]);
-		packageString += (packageTitle != key ? ("<h3 class=\"title\">" + key + "</h3>\r\n") : "");
+		packageString += (packageTitle != key ? ("<h3 class=\"title\" data-id=\"" + key + "\">" + key + "</h3>\r\n") : "");
 		packageString += "<a class=\"keyword\" title=\"" + item.Title + "\" href=\"" + item.KeywordUrl + "\">" + item.Keyword + "</a><br>\r\n";
 		packageTitle = key;
 	}
