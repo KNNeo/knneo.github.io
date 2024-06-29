@@ -662,7 +662,7 @@ a {
 	.menu .text,
 	.page-prev .focusable, 
 	.page-next .focusable,
-	.container td {
+	.container td[onclick] {
 		transition: none;
 	}
 }

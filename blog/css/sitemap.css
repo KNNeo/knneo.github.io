@@ -59,7 +59,7 @@ h1, h4 {
 .directory {
 	display: flex;
 	flex-wrap: wrap;
-	padding: 8px 0;
+    padding: 14px 0;
 	gap: 4px;
 }
 
@@ -116,8 +116,8 @@ h1, h4 {
 	display: flex;
 	gap: 12px;
 	visibility: visible;
-	top: 20px;
-	right: 20px;
+	top: 10px;
+	right: 10px;
 	z-index: 8;
 	outline: none;
 	color: rgb(var(--foreground));
@@ -257,12 +257,10 @@ h1, h4 {
 	.fanfics .season {
 		min-width: 9em;
 	}
-	.fanfics .season div {
-		line-height: 2;
-	}
 }
 
 @media only screen and (pointer: coarse) and (max-width: 780px) {
+	.fanfics .season div,
 	.sitemap {
 		line-height: 2;
 	}
