@@ -303,8 +303,8 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
 				.Replace("_FONTS_", externalFonts.Length > 0 ? externalFonts.ToString() : "")
 				.Replace("_BODYFONT_", HTML_BODY_STYLE_FONTFAMILY)
 				.Replace("_CONTENTS_", output.ToString())
-				.Replace("_PREVLINK_", linkedList.IndexOf(pageLink) < linkedList.Count() - 1 ? linkedList[linkedList.IndexOf(pageLink) + 1].Replace("./", "../../../") : "")
-				.Replace("_NEXTLINK_", linkedList.IndexOf(pageLink) > 0 ? linkedList[linkedList.IndexOf(pageLink) - 1].Replace("./", "../../../") : "");
+				.Replace("_PREVLINK_", linkedList.IndexOf(pageLink) < linkedList.Count() - 1 ? linkedList[linkedList.IndexOf(pageLink) + 1].Replace("./", "../../../../") : "")
+				.Replace("_NEXTLINK_", linkedList.IndexOf(pageLink) > 0 ? linkedList[linkedList.IndexOf(pageLink) - 1].Replace("./", "../../../../") : "");
 		    // Write into homepage file, or overwrite if exists
 		    File.WriteAllText(pageOutputPath, fileString);	
 			// Show progress, as post title or as represented by dot (100 per line)
@@ -489,7 +489,7 @@ List<int> FixPostContent(ref string content)
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 				count.Add(14);
-	            var replacement = match.Value.Replace("target=\"_blank\"", "").Replace(domain, "../../");
+	            var replacement = match.Value.Replace("target=\"_blank\"", "").Replace(domain, "../../../").Replace(".html", "/index.html");
 	            content = content.Replace(match.Value, replacement);
 	            match = match.NextMatch();
 	        };
@@ -505,7 +505,7 @@ List<int> FixPostContent(ref string content)
         match = Regex.Match(content, expression);
         while(match.Success) {
 			count.Add(15);
-            var replacement = match.Value.Replace("target=\"_blank\"", "").Replace(BLOG_DOMAIN_URL, "../../");
+            var replacement = match.Value.Replace("target=\"_blank\"", "").Replace(BLOG_DOMAIN_URL, "../../../").Replace(".html", "/index.html");
             content = content.Replace(match.Value, replacement);
             match = match.NextMatch();
         };

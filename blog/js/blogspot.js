@@ -113,13 +113,15 @@ function onTouchEnd() {
 	//--SWIPE LEFT--//
 	if(swipeLeft > swipeUp && swipeLeft > swipeDown && swipeLeft > 100) {
 		//newer post
-		document.querySelector('.next')?.click();
+		if(document.querySelector('.next').getAttribute('href').length > 0)
+			document.querySelector('.next')?.click();
 		return;
 	}
 	//--SWIPE RIGHT--//
 	if(swipeRight > swipeUp && swipeRight > swipeDown && swipeRight > 100) {
 		//older post
-		document.querySelector('.prev')?.click();
+		if(document.querySelector('.prev').getAttribute('href').length > 0)
+			document.querySelector('.prev')?.click();
 		return;
 	}
 }
