@@ -492,17 +492,23 @@ a {
 
 .masonry {
 	width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    justify-content: center;
-    overflow-y: auto;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	justify-content: center;
+	overflow-y: auto;
+	overflow-x: hidden;
 }
 
 .masonry img {
 	vertical-align: middle;
 	width: 100%;
-    object-fit: cover;
+	object-fit: cover;
+	transition: transform .1s;
+}
+
+.masonry img:hover {
+	transform: scale(1.2);
 }
 
 .masonry img[data-src],
