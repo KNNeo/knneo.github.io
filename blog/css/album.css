@@ -33,6 +33,7 @@ body {
 }
 
 .banner {
+	padding-top: 1rem;
 	position: sticky;
 	top: 0;
 }
@@ -42,8 +43,17 @@ body {
 	background-color: rgb(var(--background));
 }
 
+.banner::before {
+	content: "search";
+	font-family: 'Material Icons';
+	vertical-align: middle;
+}
+
+.banner:has(.input:focus)::before {
+	content: "";
+}
+
 .input {
-	margin-top: 1rem;
 	max-width: 100%;
 }
 

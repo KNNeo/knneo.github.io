@@ -11,7 +11,7 @@ string BLOGGER_XML_DIRECTORY = @"C:\Users\KAINENG\Downloads\";
 string ARCHIVE_XML_DIRECTORY = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\";
 string OUTPUT_DIRECTORY = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\";
 string OUTPUT_DIRECTORY_SUBFOLDER = "posts";
-string HOMEPAGE_FILENAME = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\album\images.js";
+string HOMEPAGE_FILENAME = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\js\images.js";
 
 // PROGRAM SETTINGS
 bool HOMEPAGE_ONLY = false;
@@ -21,6 +21,7 @@ int DOTS_PER_LINE_CONSOLE = 100;
 XNamespace DEFAULT_XML_NAMESPACE = XNamespace.Get("http://www.w3.org/2005/Atom");
 List<string> GOOGLE_FONTS_URLS = new List<string>() { "Dancing Script" };
 List<string> IMAGE_DOMAINS_LIST = new List<string>() { "ggpht.com", "bp.blogspot.com", "blogger.googleusercontent.com" };
+List<string> CONTENT_SKIP_SUBSTRINGS = new List<string>() { "news-thumbnail", "</div>", "class=\"agenda\"", "<div><br /></div>" };
 bool GENERATE_SLUG_BY_POST_TITLE = false;
 
 // POST SETTINGS
@@ -170,6 +171,13 @@ string GenerateImageIndex(List<XElement> xmlPosts)
 		// Create output page link and index in linked list
         var pageLink = "../" + Path.GetFileNameWithoutExtension(BLOGGER_XML_DIRECTORY.Replace(BLOGGER_XML_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER)) + "/" + publishDate.Year.ToString("0000") + "/"  + publishDate.Month.ToString("00") + "/"  + (GENERATE_SLUG_BY_POST_TITLE ? generatedLink : Path.GetFileNameWithoutExtension(bloggerLink)) + "/index." + postExtension;
 
+		// Skip parts, in order
+		foreach(var part in CONTENT_SKIP_SUBSTRINGS)
+		{
+			if(postContent.IndexOf(part) >= 0)
+				postContent = postContent.Substring(postContent.IndexOf(part));
+		}
+		
         // Export list of images from latest
 		var urls = new List<string>();
         var expression = @"(?s)(<img)(.*?)(src="")(.*?)("")";
