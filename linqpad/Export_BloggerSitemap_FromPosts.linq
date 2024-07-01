@@ -10,10 +10,10 @@ bool DEBUG_MODE = false;
 // INPUT OUTPUT SETTINGS
 string BLOGGER_XML_DIRECTORY = @"C:\Users\KAINENG\Downloads\";
 string ARCHIVE_XML_DIRECTORY = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\";
-string OUTPUT_DIRECTORY = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\";
+string OUTPUT_DIRECTORY = @"C:\Users\KAINENG\Documents\GitHub\knreports\";
 string OUTPUT_DIRECTORY_SUBFOLDER = "posts";
-string HOMEPAGE_FILENAME = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\sitemap\index.html";
-string POST_TEMPLATE_FILENAME = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\template\sitemap.html";
+string HOMEPAGE_FILENAME = @"C:\Users\KAINENG\Documents\GitHub\knreports\sitemap\index.html";
+string POST_TEMPLATE_FILENAME = @"C:\Users\KAINENG\Documents\GitHub\knreports\template\sitemap.html";
 
 // PROGRAM SETTINGS
 bool HOMEPAGE_ONLY = false;
@@ -33,11 +33,13 @@ Dictionary<String, String> SITEMAP_GROUPS = new Dictionary<String, String>()
 	{ "The Everyday Life", "Packages" },
 	{ "The Welfare Package", "Packages" }
 };
-bool GENERATE_SLUG_BY_POST_TITLE = false;
+bool GENERATE_SLUG_BY_POST_TITLE = true;
+int GENERATE_SLUG_MAX_LENGTH = 70;
+string BLOGGER_XML_RENAME_SUFFIX = "knreports";
 
 // POST SETTINGS
 string HTML_BODY_FONTFAMILY = "Noto Sans, Arial, sans-serif;";
-List<String> POST_IGNORE_TAGS = new List<string>() { "The Archive" };
+List<String> POST_IGNORE_TAGS = new List<string>() { "The Archive", "The Statement" };
 string POSTS_SINCE = "2000-01-01";
 
 void Main()
@@ -56,6 +58,7 @@ void Main()
 	Console.WriteLine("Done.");
 }
 
+
 string[] GetBloggerXmlFilePath(string inputPath, string backupPath)
 {
     Console.WriteLine("Reading Config...");	
@@ -67,13 +70,16 @@ string[] GetBloggerXmlFilePath(string inputPath, string backupPath)
 	{
         if(DEBUG_MODE) Console.WriteLine($"Single xml source found; Moving file to {backupPath}");		
 	    string[] dests = Directory.GetFiles(Path.GetDirectoryName(backupPath), "blog-*.xml");
-	    if(dests.Length == 1)
+	    if(DEBUG_MODE) Console.WriteLine("Destination files found; Moving all files to archive");
+	    foreach(var dest in dests)
 		{
-	        if(DEBUG_MODE) Console.WriteLine("Destination file found; Moving to archive");
-        	File.Delete(dests[0].Replace(backupPath, $"{backupPath}archive\\"));
-        	File.Move(dests[0], dests[0].Replace(backupPath, $"{backupPath}archive\\"));
+			if(dest.Contains(BLOGGER_XML_RENAME_SUFFIX))
+			{
+	        	File.Delete(dest.Replace(backupPath, $"{backupPath}archive\\"));
+	        	File.Move(dest, dest.Replace(backupPath, $"{backupPath}archive\\"));
+			}
 		}
-        File.Move(sources[0], sources[0].Replace(inputPath, backupPath));
+        File.Move(sources[0], sources[0].Replace(inputPath, backupPath).Replace(".xml", "-" + BLOGGER_XML_RENAME_SUFFIX + ".xml"));
 	}
     else if(sources.Length == 0)
     {
@@ -86,12 +92,15 @@ string[] GetBloggerXmlFilePath(string inputPath, string backupPath)
 	    if(DEBUG_MODE) Console.WriteLine("Destination files found; Moving all files to archive");
 	    foreach(var dest in dests)
 		{
-        	File.Delete(dest.Replace(backupPath, $"{backupPath}archive\\"));
-        	File.Move(dest, dest.Replace(backupPath, $"{backupPath}archive\\"));
+			if(dest.Contains(BLOGGER_XML_RENAME_SUFFIX))
+			{
+	        	File.Delete(dest.Replace(backupPath, $"{backupPath}archive\\"));
+	        	File.Move(dest, dest.Replace(backupPath, $"{backupPath}archive\\"));
+			}
 		}
 	    foreach(var source in sources)
 		{
-        	File.Move(source, source.Replace(inputPath, backupPath));
+        	File.Move(source, source.Replace(inputPath, backupPath).Replace(".xml", "-" + BLOGGER_XML_RENAME_SUFFIX + ".xml"));
 		}
     }
 	// Read xml files to process
@@ -107,7 +116,7 @@ string[] GetBloggerXmlFilePath(string inputPath, string backupPath)
     }
     else
     {
-        throw new NotSupportedException("More than 1 xml files found; Appending all files for process");
+        if(DEBUG_MODE) Console.WriteLine("More than 1 xml files found; Appending all files for process");
     }
 	
 	return xmls;
@@ -311,14 +320,15 @@ void GenerateSitemapFile(SitemapSections sections)
     File.WriteAllText(HOMEPAGE_FILENAME, fileString);
 }
 
-string GenerateSlug(string title, int maxLength = 45)
+string GenerateSlug(string title)
 {
 	string slug = title.ToLower();
+	slug = slug.Replace("&quot;","");
 	slug = Regex.Replace(slug, @"\s+", "-");
 	slug = Regex.Replace(slug, @"[^a-z0-9\-_]", "");
-	slug = Regex.Replace(slug, @"\b\d(?!\d)", "");
-	slug = slug.Replace("--","-").Trim('-');
-	return slug.Length > maxLength ? slug.Substring(0, slug.Substring(0, maxLength).LastIndexOf('-')) : slug;
+	//slug = Regex.Replace(slug, @"\b\d(?!\d)", "");
+	slug = slug.Replace("--","-").Replace("--","-").Trim('-');
+	return slug.Length > GENERATE_SLUG_MAX_LENGTH ? slug.Substring(0, slug.Substring(0, GENERATE_SLUG_MAX_LENGTH).LastIndexOf('-')) : slug;
 }
 
 public class SitemapSections

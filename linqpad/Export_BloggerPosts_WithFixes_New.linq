@@ -14,33 +14,34 @@ string DEBUG_SEARCHTERM = "";
 // INPUT OUTPUT SETTINGS
 string BLOGGER_XML_DIRECTORY = @"C:\Users\KAINENG\Downloads\";
 string ARCHIVE_XML_DIRECTORY = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\";
-string OUTPUT_DIRECTORY = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\";
+string OUTPUT_DIRECTORY = @"C:\Users\KAINENG\Documents\GitHub\knreports\";
 string OUTPUT_DIRECTORY_SUBFOLDER = "posts";
-string HOMEPAGE_TEMPLATE_FILENAME = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\template\homepage.html";
-string HOMEPAGE_FILENAME = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\index.html";
-string POST_TEMPLATE_FILENAME = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\template\post.html";
-string BLOGGER_XML_RENAME_SUFFIX = "knwebreports";
+string HOMEPAGE_TEMPLATE_FILENAME = @"C:\Users\KAINENG\Documents\GitHub\knreports\template\homepage.html";
+string HOMEPAGE_FILENAME = @"C:\Users\KAINENG\Documents\GitHub\knreports\index.html";
+string POST_TEMPLATE_FILENAME = @"C:\Users\KAINENG\Documents\GitHub\knreports\template\post.html";
+string BLOGGER_XML_RENAME_SUFFIX = "knreports";
 
 // PROGRAM SETTINGS
 bool HOMEPAGE_ONLY = false;
 bool WRITE_TITLE_ON_CONSOLE = true;
 bool DELETE_OUTPUT_DIRECTORY = false;
 int DOTS_PER_LINE_CONSOLE = 100;
-string BLOG_DOMAIN_URL = "https://knwebreports.blogspot.com/";
+string BLOG_DOMAIN_URL = "https://klassicnotereports.blogspot.com/";
 XNamespace DEFAULT_XML_NAMESPACE = XNamespace.Get("http://www.w3.org/2005/Atom");
 List<string> GOOGLE_FONTS_URLS = new List<string>() { "Dancing Script" };
 bool SHOW_POST_LABELs_COUNT = false;
-bool GENERATE_SLUG_BY_POST_TITLE = false;
+bool GENERATE_SLUG_BY_POST_TITLE = true;
+int GENERATE_SLUG_MAX_LENGTH = 70;
 
 // POST SETTINGS
 string HTML_BODY_STYLE_FONTFAMILY = "Noto Sans, Arial, sans-serif;";
-string HTML_TITLE = "Klassic Note Web Reports";
+string HTML_TITLE = "Klassic Note Reports";
 string HTML_DESCRIPTION = "If it is worth taking Note, it will be a Klassic.";
 string HTML_THUMBNAIL_SINCE = "2023-01-01";
 bool POSTS_LINK_TO_BLOGGER = false;
 string POSTS_SINCE = "2000-01-01";
-string POST_TAGS_PREFIX_TEXT = "Reported in";
-List<String> POST_IGNORE_LABELS = new List<string>() { "The Archive" };
+string POST_TAGS_PREFIX_TEXT = "Read more";
+List<String> POST_IGNORE_LABELS = new List<string>() { "The Archive", "The Statement" };
 Dictionary<String, String> POST_LABEL_ICONTEXT = new Dictionary<String, String>()
 {
 	{ "The Entertainment News", "newspaper" },
@@ -54,6 +55,7 @@ Dictionary<String, String> POST_LABEL_ICONTEXT = new Dictionary<String, String>(
 };
 List<String> POST_OLD_DOMAINS = new List<string>()
 {
+	"https://knwebreports.blogspot.com/",
 	"https://knwebreports2014.blogspot.com/",
 	"http://knwebreports2014.blogspot.com/"
 };
@@ -87,11 +89,14 @@ string[] GetBloggerXmlFilePath(string inputPath, string backupPath)
 	{
         if(DEBUG_MODE) Console.WriteLine($"Single xml source found; Moving file to {backupPath}");		
 	    string[] dests = Directory.GetFiles(Path.GetDirectoryName(backupPath), "blog-*.xml");
-	    if(dests.Length == 1)
+	    if(DEBUG_MODE) Console.WriteLine("Destination files found; Moving all files to archive");
+	    foreach(var dest in dests)
 		{
-	        if(DEBUG_MODE) Console.WriteLine("Destination file found; Moving to archive");
-        	File.Delete(dests[0].Replace(backupPath, $"{backupPath}archive\\"));
-        	File.Move(dests[0], dests[0].Replace(backupPath, $"{backupPath}archive\\"));
+			if(dest.Contains(BLOGGER_XML_RENAME_SUFFIX))
+			{
+	        	File.Delete(dest.Replace(backupPath, $"{backupPath}archive\\"));
+	        	File.Move(dest, dest.Replace(backupPath, $"{backupPath}archive\\"));
+			}
 		}
         File.Move(sources[0], sources[0].Replace(inputPath, backupPath).Replace(".xml", "-" + BLOGGER_XML_RENAME_SUFFIX + ".xml"));
 	}
@@ -106,8 +111,11 @@ string[] GetBloggerXmlFilePath(string inputPath, string backupPath)
 	    if(DEBUG_MODE) Console.WriteLine("Destination files found; Moving all files to archive");
 	    foreach(var dest in dests)
 		{
-        	File.Delete(dest.Replace(backupPath, $"{backupPath}archive\\"));
-        	File.Move(dest, dest.Replace(backupPath, $"{backupPath}archive\\"));
+			if(dest.Contains(BLOGGER_XML_RENAME_SUFFIX))
+			{
+	        	File.Delete(dest.Replace(backupPath, $"{backupPath}archive\\"));
+	        	File.Move(dest, dest.Replace(backupPath, $"{backupPath}archive\\"));
+			}
 		}
 	    foreach(var source in sources)
 		{
@@ -152,8 +160,8 @@ List<XElement> GetBloggerPostsPublished(string[] inputFiles)
 	        // Exclude any draft posts, do not have page URL created
 	        .Where(entry => !entry.Descendants(XNamespace.Get("http://purl.org/atom/app#")+"draft").Any(draft => draft.Value != "no"))
 			.ToList());
-		Console.WriteLine($"Total posts found: {xmlPosts.Count}");
 	}
+	Console.WriteLine($"Total posts found: {xmlPosts.Count}");
 	// Filter by earliest date, order by publish date desc
 	return xmlPosts.Where(x => DateTime.Parse(x.Element(DEFAULT_XML_NAMESPACE+"published").Value) > DateTime.Parse(POSTS_SINCE))
 		.OrderByDescending(x => DateTime.Parse(x.Element(DEFAULT_XML_NAMESPACE+"published").Value)).ToList();
@@ -292,8 +300,6 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
 					"</div>");
 			}
 	        output.Append($"<h6 class=\"page-footer\">All text © {publishDate.ToString("yyyy")} {HTML_TITLE}</h6>");
-	        output.Append("<br>");
-	        output.Append("<br>");
 	        output.Append("<br>");
 	        output.Append("<br>");
 		    // Write all additions into output home page
@@ -724,14 +730,15 @@ List<int> FixPostContent(ref string content)
 	return count;
 }
 
-string GenerateSlug(string title, int maxLength = 45)
+string GenerateSlug(string title)
 {
 	string slug = title.ToLower();
+	slug = slug.Replace("&quot;","");
 	slug = Regex.Replace(slug, @"\s+", "-");
 	slug = Regex.Replace(slug, @"[^a-z0-9\-_]", "");
-	slug = Regex.Replace(slug, @"\b\d(?!\d)", "");
-	slug = slug.Replace("--","-").Trim('-');
-	return slug.Length > maxLength ? slug.Substring(0, slug.Substring(0, maxLength).LastIndexOf('-')) : slug;
+	//slug = Regex.Replace(slug, @"\b\d(?!\d)", "");
+	slug = slug.Replace("--","-").Replace("--","-").Trim('-');
+	return slug.Length > GENERATE_SLUG_MAX_LENGTH ? slug.Substring(0, slug.Substring(0, GENERATE_SLUG_MAX_LENGTH).LastIndexOf('-')) : slug;
 }
 
 bool IsLatestPost(DateTime publishDate)
