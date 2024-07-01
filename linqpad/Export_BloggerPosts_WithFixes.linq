@@ -19,6 +19,7 @@ string OUTPUT_DIRECTORY_SUBFOLDER = "posts";
 string HOMEPAGE_TEMPLATE_FILENAME = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\template\homepage.html";
 string HOMEPAGE_FILENAME = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\index.html";
 string POST_TEMPLATE_FILENAME = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\blog\template\post.html";
+string BLOGGER_XML_RENAME_SUFFIX = "knwebreports";
 
 // PROGRAM SETTINGS
 bool HOMEPAGE_ONLY = false;
@@ -92,7 +93,7 @@ string[] GetBloggerXmlFilePath(string inputPath, string backupPath)
         	File.Delete(dests[0].Replace(backupPath, $"{backupPath}archive\\"));
         	File.Move(dests[0], dests[0].Replace(backupPath, $"{backupPath}archive\\"));
 		}
-        File.Move(sources[0], sources[0].Replace(inputPath, backupPath));
+        File.Move(sources[0], sources[0].Replace(inputPath, backupPath).Replace(".xml", "-" + BLOGGER_XML_RENAME_SUFFIX + ".xml"));
 	}
     else if(sources.Length == 0)
     {
@@ -110,7 +111,7 @@ string[] GetBloggerXmlFilePath(string inputPath, string backupPath)
 		}
 	    foreach(var source in sources)
 		{
-        	File.Move(source, source.Replace(inputPath, backupPath));
+        	File.Move(source, source.Replace(inputPath, backupPath).Replace(".xml", "-" + DateTime.Now.ToString("HHmmss-ffff") + ".xml"));
 		}
     }
 	// Read xml files to process
