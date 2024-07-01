@@ -1,7 +1,7 @@
 // Caches, in decreasing order of update frequency
 const CACHE_DB = 'klassicnote-db-20240622';
 const CACHE_CONTENT = 'klassicnote-web-20240519';
-const CACHE_RESOURCES = 'klassicnote-static-20240510';
+const CACHE_RESOURCES = 'klassicnote-static-20240701';
 const ALL_CACHES = [ CACHE_DB, CACHE_CONTENT, CACHE_RESOURCES ];
 
 self.addEventListener('install', function(event) {
