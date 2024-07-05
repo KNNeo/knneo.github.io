@@ -24,7 +24,7 @@ XNamespace DEFAULT_XML_NAMESPACE = XNamespace.Get("http://www.w3.org/2005/Atom")
 //List<string> IMAGE_DOMAINS_LIST = new List<string>() { "ggpht.com", "bp.blogspot.com", "blogger.googleusercontent.com" };
 int MIN_TOKEN_LENGTH = 3;
 List<string> TOKEN_IGNORE_WORDS = new List<string>() { "the", "a", "is", "of", "http", "https" };
-List<string> TOKEN_SPLIT_DELIMITERS = new List<string> { " ", ".", ",", "!", "?", "&nbsp;", "&quot;", "*", ":", ";", "-", "(", ")", "[", "]", "/", "\"", "\n", "...", "…", "‘", "’", "=", "“", "”", "~" };
+List<string> TOKEN_SPLIT_DELIMITERS = new List<string> { " ", ".", ",", "!", "?", "&nbsp;", "&quot;", "*", ":", ";", "-", "(", ")", "[", "]", "/", "\"", "\n", "...", "…", "‘", "’", "=", "“", "”", "|" };
 int TOKEN_MIN_CONSECUTIVE_CHARACTERS = 3;
 bool GENERATE_SLUG_BY_POST_TITLE = true;
 int GENERATE_SLUG_MAX_LENGTH = 70;
@@ -188,7 +188,7 @@ SearchIndex GenerateSearchIndex(List<XElement> xmlPosts)
 			continue;
 		// Create output page link and index in linked list
         var pageLink = "" + Path.GetFileNameWithoutExtension(BLOGGER_XML_DIRECTORY.Replace(BLOGGER_XML_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER)) + "/" + publishDate.Year.ToString("0000") + "/"  + publishDate.Month.ToString("00") + "/"  + (GENERATE_SLUG_BY_POST_TITLE ? generatedLink : Path.GetFileNameWithoutExtension(bloggerLink)) + "/index." + postExtension;
-		// Generate index: Remove extra tags, filter by condition in order of descending occurence, select distinct
+		// Generate index: Remove extra tags, split by delimiter, filter by condition in order of descending occurence, select distinct
 		var tokens = RemoveAllTags(postContent)
 			.Split(TOKEN_SPLIT_DELIMITERS.ToArray(), StringSplitOptions.RemoveEmptyEntries) // Split by delimiters
 			.Where(c => !c.Any(c => c > TOKEN_MAX_UNICODE_VALUE)) // Max unicode value for all characters in words
