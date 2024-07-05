@@ -23,11 +23,13 @@ XNamespace DEFAULT_XML_NAMESPACE = XNamespace.Get("http://www.w3.org/2005/Atom")
 //List<string> GOOGLE_FONTS_URLS = new List<string>() { "Dancing Script" };
 //List<string> IMAGE_DOMAINS_LIST = new List<string>() { "ggpht.com", "bp.blogspot.com", "blogger.googleusercontent.com" };
 int MIN_TOKEN_LENGTH = 3;
-List<string> TOKEN_STOP_WORDS = new List<string>() { "the", "a", "is", "of" };
-List<string> TOKEN_SPLIT_CHARACTERS = new List<string> { " ", ".", ",", "!", "?", "&nbsp;", "&quot;", "*", ":", ";", "-", "(", ")", "[", "]", "\"" };
+List<string> TOKEN_IGNORE_WORDS = new List<string>() { "the", "a", "is", "of", "http", "https" };
+List<string> TOKEN_SPLIT_DELIMITERS = new List<string> { " ", ".", ",", "!", "?", "&nbsp;", "&quot;", "*", ":", ";", "-", "(", ")", "[", "]", "/", "\"", "\n", "...", "…", "‘", "’", "=", "“", "”", "~" };
+int TOKEN_MIN_CONSECUTIVE_CHARACTERS = 3;
 bool GENERATE_SLUG_BY_POST_TITLE = true;
 int GENERATE_SLUG_MAX_LENGTH = 70;
 string BLOGGER_XML_RENAME_SUFFIX = "knreports";
+int TOKEN_MAX_UNICODE_VALUE = 255;
 
 // POST SETTINGS
 List<String> POST_IGNORE_TAGS = new List<string>() { "The Archive", "The Statement" };
@@ -190,11 +192,12 @@ SearchIndex GenerateSearchIndex(List<XElement> xmlPosts)
 		// Generate index
 		// Remove extra tags, filter by special characters and whitespace, lowercase, other filters (if any)
 		var tokens = RemoveAllTags(postContent)
-			.Split(TOKEN_SPLIT_CHARACTERS.ToArray(), StringSplitOptions.RemoveEmptyEntries)
-			.ToList()
+			.Split(TOKEN_SPLIT_DELIMITERS.ToArray(), StringSplitOptions.RemoveEmptyEntries) // Split by delimiters
+			.Where(c => !c.Any(c => c > TOKEN_MAX_UNICODE_VALUE)) // Max unicode value for all characters in words
+			.Where(c => !c.Any(c => c.Length >= MIN_TOKEN_LENGTH)) // Min word length
+			.Where(c => !c.Any(c => !TOKEN_IGNORE_WORDS.Contains(c))) // Ignore excluded words (full)
 			.Select(t => t.ToLower().Trim())
 			.Distinct()
-			.Where(c => c.Length >= MIN_TOKEN_LENGTH && !TOKEN_STOP_WORDS.Contains(c)) // Min word length, ignore excluded words
 			.ToList();
 		// Add published date to index
 		tokens.Add(publishDate.ToString("yyyy"));
@@ -207,7 +210,7 @@ SearchIndex GenerateSearchIndex(List<XElement> xmlPosts)
 		}
 		
 		searchIndex.posts.Add(new SearchIndexPost() {
-			title = postTitle.Replace("&nbsp;"," ").Replace("&quot;","\""),
+			title = postTitle,
 			url = pageLink,
 			date = publishDate.ToString("yyyy.MM.dd"),
 			id = p
