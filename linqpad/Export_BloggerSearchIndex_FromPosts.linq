@@ -188,14 +188,13 @@ SearchIndex GenerateSearchIndex(List<XElement> xmlPosts)
 			continue;
 		// Create output page link and index in linked list
         var pageLink = "" + Path.GetFileNameWithoutExtension(BLOGGER_XML_DIRECTORY.Replace(BLOGGER_XML_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER)) + "/" + publishDate.Year.ToString("0000") + "/"  + publishDate.Month.ToString("00") + "/"  + (GENERATE_SLUG_BY_POST_TITLE ? generatedLink : Path.GetFileNameWithoutExtension(bloggerLink)) + "/index." + postExtension;
-
-		// Generate index
-		// Remove extra tags, filter by special characters and whitespace, lowercase, other filters (if any)
+		// Generate index: Remove extra tags, filter by condition in order of descending occurence, select distinct
 		var tokens = RemoveAllTags(postContent)
 			.Split(TOKEN_SPLIT_DELIMITERS.ToArray(), StringSplitOptions.RemoveEmptyEntries) // Split by delimiters
 			.Where(c => !c.Any(c => c > TOKEN_MAX_UNICODE_VALUE)) // Max unicode value for all characters in words
 			.Where(c => !c.Any(c => c.Length >= MIN_TOKEN_LENGTH)) // Min word length
 			.Where(c => !c.Any(c => !TOKEN_IGNORE_WORDS.Contains(c))) // Ignore excluded words (full)
+			.Where(c => Regex.Match(c, @"([a-zA-Z])\1{" + TOKEN_MIN_CONSECUTIVE_CHARACTERS + ",}")) // Consecutive characters in words
 			.Select(t => t.ToLower().Trim())
 			.Distinct()
 			.ToList();
@@ -208,15 +207,14 @@ SearchIndex GenerateSearchIndex(List<XElement> xmlPosts)
 			//Console.WriteLine(tokens);
 			//return;
 		}
-		
+		// Add post title to index
 		searchIndex.posts.Add(new SearchIndexPost() {
 			title = postTitle,
 			url = pageLink,
 			date = publishDate.ToString("yyyy.MM.dd"),
 			id = p
 		});
-		
-        #region Create search index
+		// Add tokens to index
 		foreach (string token in tokens)
 		{
 			if (!searchIndex.indexes.ContainsKey(token))
@@ -225,8 +223,6 @@ SearchIndex GenerateSearchIndex(List<XElement> xmlPosts)
 			}
 			searchIndex.indexes[token].Add(p); // p represents unique id
 		}
-        #endregion
-		
 		// Show progress, as post title or as represented by dot (100 per line)
 	    if(WRITE_TITLE_ON_CONSOLE || DEBUG_MODE)
 	        Console.WriteLine("||> " + (postTitle.Length > 0 ? postTitle : "POST W/O TITLE DATED " + publishDate.ToString("yyyy-MM-dd")));
