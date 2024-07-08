@@ -3,12 +3,12 @@ const config = {};
 const example = [
 	{
 		"audio":"https://res.cloudinary.com/klassicnote/video/upload/soundboard/shoushimin01_ichigo_tart.mp3",
-		"quote":"\"ichigo taruto\"",
+		"quote":"Strawberry Tart",
 		"fav":true
 	},
 	{
 		"audio":"https://res.cloudinary.com/klassicnote/video/upload/soundboard/gijiharem01_tsundere.mp3",
-		"quote":"i-it's not like i'm doing this for you!",
+		"quote":"I-it's not like I'm doing this for you!",
 		"fav":false
 	}
 ];
