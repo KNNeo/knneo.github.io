@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en-SG">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+    <link id="fonts-css" rel="stylesheet" type="text/css" href="../fonts.css">
+    <link id="index-css" rel="stylesheet" type="text/css" href="index.css">
+    <link id="bs-css" rel="stylesheet" type="text/css" href="../resources/bootstrap-icons.css">
+	<script src="../darkmode.js" type="application/javascript" charset="utf-8"></script>
+	<script src="../fetch.js" type="application/javascript" charset="utf-8"></script>
+	<script id="data-id" src="" defer></script>
+	<script src="index.js" defer></script>
+    <title>Soundboard</title>
+</head>
+<body onload="startup()" onkeydown="onKeyDown()">
+	<h3>Soundboard</h3>
+	<h6>Snippets of audio from the Internet</h6>
+	<div class="page">
+		<div class="sound">
+			<span class="material-icons box control" onclick="onControl(event)">add_link</span>
+			<audio class="audio" preload ="none" controls >
+				<source src="null" type="audio/mpeg">
+				Your browser does not support the audio tag.
+			</audio>
+			<i class="material-icons box action" onclick="onAction(event)">favorite_border</i>
+			<input placeholder="Quote" class="quote" onchange="onQuote(event)"></input>
+		</div>
+		<br />
+		<h3 class="settings">
+			<a class="material-icons code" href="javascript:void(0);" title="Show Data" onclick="loadExample()" oncontextmenu="false">public</a>
+			<a class="material-icons darkmode" href="javascript:void(0);" title="Toggle Dark Mode" onclick="toggleDarkMode()" oncontextmenu="false">brightness_high</a>
+		</h3>
+		<h3 class="settings">
+			<a href="../index.html">knneo.github.io</a>
+		</h3>
+	</div>
+</body>
+</html>
