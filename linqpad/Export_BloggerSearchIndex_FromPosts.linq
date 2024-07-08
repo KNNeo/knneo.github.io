@@ -22,16 +22,24 @@ int DOTS_PER_LINE_CONSOLE = 100;
 XNamespace DEFAULT_XML_NAMESPACE = XNamespace.Get("http://www.w3.org/2005/Atom");
 //List<string> GOOGLE_FONTS_URLS = new List<string>() { "Dancing Script" };
 //List<string> IMAGE_DOMAINS_LIST = new List<string>() { "ggpht.com", "bp.blogspot.com", "blogger.googleusercontent.com" };
-int MIN_TOKEN_LENGTH = 3;
-List<string> TOKEN_IGNORE_WORDS = new List<string>() { "the", "a", "is", "of", "http", "https" };
-List<string> TOKEN_SPLIT_DELIMITERS = new List<string> { 
-	" ", ".", ",", "!", "?", "&nbsp;", "&quot;", "*", ":", ";", "(", ")", "[", "]", "/", "\"", "\n", "...", "…", "‘", "’", "=", "“", "”", "|" 
+Dictionary<string, string> TOKEN_FIX_UNICODES = new Dictionary<string, string>() {
+	{"‘", "'"},
+	{"’", "'"},
+	{"…", "..."},
+	{"“", "\""},
+	{"”", "\""}
 };
+List<string> TOKEN_SPLIT_DELIMITERS = new List<string> { 
+	" ", ".", ",", "!", "?", "&nbsp;", "&quot;", "*", ":", ";", "(", ")", "[", "]", "/", "\"", "\n", "...", "=", "“", "”", "|", "-", "~"
+};
+List<string> TOKEN_IGNORE_WORDS = new List<string>() { "the", "a", "is", "of", "http", "https" };
+List<char> TOKEN_TRIM_CHARACTERS = new List<char>() { '\'' };
+int TOKEN_MAX_UNICODE_VALUE = 255;
+int MIN_TOKEN_LENGTH = 3;
 int TOKEN_MIN_CONSECUTIVE_CHARACTERS = 3;
 bool GENERATE_SLUG_BY_POST_TITLE = true;
 int GENERATE_SLUG_MAX_LENGTH = 70;
 string BLOGGER_XML_RENAME_SUFFIX = "knreports";
-int TOKEN_MAX_UNICODE_VALUE = 255;
 
 // POST SETTINGS
 List<String> POST_IGNORE_TAGS = new List<string>() { "The Archive", "The Statement" };
@@ -190,15 +198,20 @@ SearchIndex GenerateSearchIndex(List<XElement> xmlPosts)
 			continue;
 		// Create output page link and index in linked list
         var pageLink = "" + Path.GetFileNameWithoutExtension(BLOGGER_XML_DIRECTORY.Replace(BLOGGER_XML_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER)) + "/" + publishDate.Year.ToString("0000") + "/"  + publishDate.Month.ToString("00") + "/"  + (GENERATE_SLUG_BY_POST_TITLE ? generatedLink : Path.GetFileNameWithoutExtension(bloggerLink)) + "/index." + postExtension;
+		// Fix unicode value representation affecting token split
+		foreach(var dict in TOKEN_FIX_UNICODES)
+		{
+			postContent = postContent.Replace(dict.Key, dict.Value);
+		}
 		// Generate index: Remove extra tags, split by delimiter, filter by condition in order of descending occurence, select distinct
 		var startIndex = postContent.IndexOf("<div") >= 0 ? postContent.IndexOf("<div") : 0;
 		var tokens = RemoveAllTags(postContent.Substring(startIndex)) // avoid inline styles
 			.Split(TOKEN_SPLIT_DELIMITERS.ToArray(), StringSplitOptions.RemoveEmptyEntries) // Split by delimiters
-			.Where(c => !c.Any(t => t > TOKEN_MAX_UNICODE_VALUE)) // Max unicode value for all characters in words
-			.Where(c => c.Length >= MIN_TOKEN_LENGTH) // Min word length
 			.Where(c => !TOKEN_IGNORE_WORDS.Contains(c)) // Ignore excluded words (full)
+			.Where(c => !c.Any(t => t > TOKEN_MAX_UNICODE_VALUE)) // Max unicode value for all characters in words
+			.Select(c => c.ToLower().Trim(TOKEN_TRIM_CHARACTERS.ToArray()))
+			.Where(c => c.Length >= MIN_TOKEN_LENGTH) // Min word length
 			.Where(c => !Regex.IsMatch(c, @"([a-zA-Z])\1{" + TOKEN_MIN_CONSECUTIVE_CHARACTERS + ",}")) // Consecutive characters in words
-			.Select(c => c.ToLower().Trim())
 			.Distinct()
 			.ToList();
 		// Add published date to index
