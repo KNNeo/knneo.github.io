@@ -5,6 +5,11 @@ const example = [
 		"audio":"https://res.cloudinary.com/klassicnote/video/upload/soundboard/shoushimin01_ichigo_tart.mp3",
 		"quote":"\"ichigo taruto\"",
 		"fav":true
+	},
+	{
+		"audio":"https://res.cloudinary.com/klassicnote/video/upload/soundboard/gijiharem01_tsundere.mp3",
+		"quote":"i-it's not like i'm doing this for you!",
+		"fav":false
 	}
 ];
 
@@ -74,6 +79,7 @@ function load() {
 		sound.querySelector('.audio').src = item.audio;
 		sound.querySelector('.quote').value = item.quote || '';
 		sound.querySelector('.action').innerText = item.fav ? 'favorite' : 'favorite_border';
+		counter++;
 	}
 }
 

@@ -26,6 +26,15 @@
 			<i class="material-icons box action" onclick="onAction(event)">favorite_border</i>
 			<input placeholder="Quote" class="quote" onchange="onQuote(event)"></input>
 		</div>
+		<div class="sound">
+			<span class="material-icons box control" onclick="onControl(event)">add_link</span>
+			<audio class="audio" preload ="none" controls >
+				<source src="null" type="audio/mpeg">
+				Your browser does not support the audio tag.
+			</audio>
+			<i class="material-icons box action" onclick="onAction(event)">favorite_border</i>
+			<input placeholder="Quote" class="quote" onchange="onQuote(event)"></input>
+		</div>
 		<br />
 		<h3 class="settings">
 			<a class="material-icons code" href="javascript:void(0);" title="Show Data" onclick="loadExample()" oncontextmenu="false">public</a>
