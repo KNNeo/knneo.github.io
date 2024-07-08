@@ -288,8 +288,8 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
 	        output.AppendLine("<small title=\"" + publishDate.ToString("yyyy-MM-ddTHH:mm:sszzz") + " (Singapore Time)\" class=\"published\">" + publishDate.ToString("dddd, dd MMMM yyyy") + "</small>");
 	        output.AppendLine("<div class=\"title\">" + postTitle + "</div>");
 			if(postContent.Contains("id=\"") && !postContent.Contains("=\"hashtags\""))
-				output.AppendLine("<div class=\"hashtags\"></div>");
-	        output.AppendLine("<div class=\"page-header\"></div>");
+				output.AppendLine("<div class=\"post-hashtags\"></div>");
+	        output.AppendLine("<div class=\"post-header\"></div>");
 			// Actual content to put in post-content class, HTML condensed
 	        output.Append(Uglify.Html(postContent));
 	        output.Append("<hr>");
@@ -417,10 +417,13 @@ void GenerateHomepage(string homepageString, int postCount)
  * [ok]	replace italics with emphasis tag
  * [ok] replace inline style with class due to universal font-size use
  * [ok] fix own twitter/x handle (KlassicNote -> aozakish)
+ * [ok] page replacements for new blog (2024)
+ * [ok] agenda class item -> class agenda-item
+ * [ok] class thumbnail -> class carousel
  */
 List<int> FixPostContent(ref string content)
 {
-	List<int> includeIndex = new List<int> { 1, 2, 3, 14, 15, 16, 17, 18, 21, 24, 29, 31, 32, 33, 34 };
+	List<int> includeIndex = new List<int> { 1, 2, 3, 14, 15, 16, 17, 18, 21, 24, 29, 31, 32, 33, 34, 35, 36, 37 };
 	List<int> count = new List<int>();
 	string expression;
     string prefix, midfix, suffix;
@@ -676,7 +679,7 @@ List<int> FixPostContent(ref string content)
     #region 31 add lazy loading to img tags
 	if(includeIndex.Count() == 0 || includeIndex.Contains(31))
 	{
-        content = content.Replace("<img", "<img loading=\"lazy\"");		
+        content = content.Replace("<img", "<img loading=\"lazy\"");
 	}
     #endregion
 	
@@ -721,6 +724,53 @@ List<int> FixPostContent(ref string content)
             content = Regex.Replace(content, expression, "twitter.com/aozakish");
         };
 	}	
+	#endregion
+	
+	#region 35 class replacements for new blog (2024)
+	if(includeIndex.Count() == 0 || includeIndex.Contains(35))
+	{
+		var replacements = new Dictionary<String, String>() {
+			{"news-thumbnail",	"post-thumbnail"},
+			{"hashtags",		"post-hashtags"},
+			{"head-prefix",		"header-prefix"},
+			{"head-title",		"header-title"},
+		};
+		
+		foreach(var replace in replacements)
+		{
+	        expression = $"(?s)class=\"({replace.Key})\"";
+	        match = Regex.Match(content, expression);
+	        if(match.Success) {
+				count.Add(35);
+	            content = content.Replace(match.Groups[1].Value, replace.Value);
+	            match = match.NextMatch();
+	        };
+		}
+	}
+	#endregion
+	
+	#region 36 agenda class item -> class agenda-item
+	if(includeIndex.Count() == 0 || includeIndex.Contains(36))
+	{
+		// this replacement must be done first before all other component classes
+        if(content.Contains(@"class=""agenda""")) {
+			count.Add(36);
+            content = content.Replace(@"class=""item""", @"class=""agenda-item""");
+        };
+	}
+	#endregion
+	
+	#region 37 class thumbnail -> class carousel
+	if(includeIndex.Count() == 0 || includeIndex.Contains(37))
+	{
+        if(content.Contains(@"class=""thumbnail""")) {
+			count.Add(37);
+            content = content.Replace(@"class=""thumbnail""", @"class=""carousel""");
+            content = content.Replace(@"class=""thumbnail-initial hover-hidden""", @"class=""carousel-item""");
+            content = content.Replace(@"class=""thumbnail-initial thumbnail-pop hover-visible""", @"class=""carousel-item hide""");
+            content = content.Replace(@"setThumbnails();", @"setCarousels();");
+        };
+	}
 	#endregion
 	
     //Add to debug
