@@ -30,10 +30,10 @@ Dictionary<string, string> TOKEN_FIX_UNICODES = new Dictionary<string, string>()
 	{"”", "\""}
 };
 List<string> TOKEN_SPLIT_DELIMITERS = new List<string> { 
-	" ", ".", ",", "!", "?", "&nbsp;", "&quot;", "*", ":", ";", "(", ")", "[", "]", "/", "\"", "\n", "...", "=", "“", "”", "|", "-", "~"
+	" ", ".", ",", "!", "?", "&nbsp;", "&quot;", , ":", ";", "(", ")", "[", "]", "/", "\"", "\n", "...", "=", "“", "”", "|", "~"
 };
 List<string> TOKEN_IGNORE_WORDS = new List<string>() { "the", "a", "is", "of", "http", "https" };
-List<char> TOKEN_TRIM_CHARACTERS = new List<char>() { '\'' };
+List<char> TOKEN_TRIM_CHARACTERS = new List<char>() { '\'', '*', '-' };
 int TOKEN_MAX_UNICODE_VALUE = 255;
 int MIN_TOKEN_LENGTH = 3;
 int TOKEN_MIN_CONSECUTIVE_CHARACTERS = 3;
