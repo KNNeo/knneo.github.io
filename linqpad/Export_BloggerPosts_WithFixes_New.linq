@@ -308,6 +308,8 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
 				.Replace("_IMAGE_", thumbnailUrl)
 				.Replace("_LINK_", pageLink)
 				.Replace("_FONTS_", externalFonts.Length > 0 ? externalFonts.ToString() : "")
+				.Replace("_CSS_", GenerateStyleLinks(postContent))
+				.Replace("_JS_", GenerateScriptLinks(postContent))
 				.Replace("_BODYFONT_", HTML_BODY_STYLE_FONTFAMILY)
 				.Replace("_CONTENTS_", output.ToString())
 				.Replace("_PREVLINK_", linkedList.IndexOf(pageLink) < linkedList.Count() - 1 ? linkedList[linkedList.IndexOf(pageLink) + 1].Replace("./", "../../../../") : "")
@@ -396,6 +398,62 @@ void GenerateHomepage(string homepageString, int postCount)
 		.Replace("_COUNT_", postCount.ToString());
     // Write into homepage file
     File.WriteAllText(HOMEPAGE_FILENAME, fileString);
+}
+
+string GenerateStyleLinks(string content)
+{
+	// common components, in order
+	var components = new string[] { "carousel", "accordion", "agenda", "datatable" };
+	var styles = new StringBuilder();
+	foreach(var comp in components)
+	{
+		if(content.Contains($"class=\"{comp}\""))
+			styles.AppendLine($"<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../../css/{comp}.css\"/>");
+	}
+
+	// special component: popup
+	if(content.Contains($"target=\"_blank\""))
+		styles.AppendLine($"<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../../css/popup.css\"/>");
+
+	// special component: dialog
+	if(content.Contains($"abbr title="))
+		styles.AppendLine($"<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../../css/dialog.css\"/>");
+
+	// special component: viewer
+	var expression = @"(?s)(<a)(.*?)(><img)(.*?)(</a>)";
+	var match = Regex.Match(content, expression);
+	if(match.Success) 
+		styles.AppendLine($"<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../../css/viewer.css\"/>");
+
+	return styles.ToString();
+}
+
+string GenerateScriptLinks(string content)
+{
+	// common components, in order
+	var components = new string[] { "carousel", "accordion", "agenda", "datatable" };
+	var scripts = new StringBuilder();
+	foreach(var comp in components)
+	{
+		if(content.Contains($"class=\"{comp}\""))
+			scripts.AppendLine($"<script type=\"application/javascript\" charset=\"utf-8\" src=\"../../../../js/{comp}.js\" defer></script>");
+	}
+
+	// special component: popup
+	if(content.Contains($"target=\"_blank\""))
+		scripts.AppendLine($"<script type=\"application/javascript\" charset=\"utf-8\" src=\"../../../../js/popup.js\" defer></script>");
+
+	// special component: dialog
+	if(content.Contains($"abbr title="))
+		scripts.AppendLine($"<script type=\"application/javascript\" charset=\"utf-8\" src=\"../../../../js/dialog.js\" defer></script>");
+
+	// special component: viewer
+	var expression = @"(?s)(<a)(.*?)(><img)(.*?)(</a>)";
+	var match = Regex.Match(content, expression);
+	if(match.Success) 
+		scripts.AppendLine($"<script type=\"application/javascript\" charset=\"utf-8\" src=\"../../../../js/viewer.js\" defer></script>");
+
+	return scripts.ToString();
 }
 
 /* FIXES
