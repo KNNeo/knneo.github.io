@@ -169,7 +169,7 @@ function toggleAudio() {
 }
 
 function showData() {
-	popupText('<textarea id="data" name="data" rows="8" cols="40" style="max-width: 90%;">' + localStorage.getItem('conversation-messages') + '</textarea>' + 
+	popupText('<textarea id="data" name="data" rows="8" cols="40" style="max-width: 90%;">' + (localStorage.getItem('conversation-messages') || '') + '</textarea>' + 
 	'<div><a class="add bi bi-copy" href="javascript:void(0);" title="Copy Data" onclick="navigator.clipboard.writeText(document.querySelector(\'#data\').value);"></a>' + 
 	'<a class="add bi bi-x-square" href="javascript:void(0);" title="Save/Close Data" onclick="updateData()"></a></div>');
 }
@@ -219,7 +219,7 @@ function readFromLocalStorage() {
 }
 
 function saveToLocalStorage() {
-	localStorage.setItem('conversation-messages', JSON.stringify(window['conversation-messages']));
+	localStorage.setItem('conversation-messages', JSON.stringify(window['conversation-messages'] || ''));
 }
 
 function processConversations() {
