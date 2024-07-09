@@ -210,6 +210,7 @@ SearchIndex GenerateSearchIndex(List<XElement> xmlPosts)
 			.Where(c => !TOKEN_IGNORE_WORDS.Contains(c)) // Ignore excluded words (full)
 			.Where(c => !c.Any(t => t > TOKEN_MAX_UNICODE_VALUE)) // Max unicode value for all characters in words
 			.Select(c => c.ToLower().Trim(TOKEN_TRIM_CHARACTERS.ToArray()))
+			.Where(c => !c.Contains('*')) // Self-censored words
 			.Where(c => c.Length >= MIN_TOKEN_LENGTH) // Min word length
 			.Where(c => !Regex.IsMatch(c, @"([a-zA-Z])\1{" + TOKEN_MIN_CONSECUTIVE_CHARACTERS + ",}")) // Consecutive characters in words
 			.Distinct()
