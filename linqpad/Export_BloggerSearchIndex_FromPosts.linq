@@ -196,8 +196,8 @@ SearchIndex GenerateSearchIndex(List<XElement> xmlPosts)
 		// Post labels to ignore and not render
 		if(pageTagsXml.Any(xml => POST_IGNORE_TAGS.Contains(xml)))
 			continue;
-		// Create output page link and index in linked list
-        var pageLink = "" + Path.GetFileNameWithoutExtension(BLOGGER_XML_DIRECTORY.Replace(BLOGGER_XML_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER)) + "/" + publishDate.Year.ToString("0000") + "/"  + publishDate.Month.ToString("00") + "/"  + (GENERATE_SLUG_BY_POST_TITLE ? generatedLink : Path.GetFileNameWithoutExtension(bloggerLink)) + "/index." + postExtension;
+		// Create output page link and index in linked list (relative to root directory)
+        var pageLink = "/" + Path.GetFileNameWithoutExtension(BLOGGER_XML_DIRECTORY.Replace(BLOGGER_XML_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER)) + "/" + publishDate.Year.ToString("0000") + "/"  + publishDate.Month.ToString("00") + "/"  + (GENERATE_SLUG_BY_POST_TITLE ? generatedLink : Path.GetFileNameWithoutExtension(bloggerLink)) + "/index." + postExtension;
 		// Fix unicode value representation affecting token split
 		foreach(var dict in TOKEN_FIX_UNICODES)
 		{
