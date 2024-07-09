@@ -215,6 +215,7 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
        	// Extract data from XML
         string postContent = entry.Element(DEFAULT_XML_NAMESPACE+"content").Value;
         DateTime publishDate = DateTime.Parse(entry.Element(DEFAULT_XML_NAMESPACE+"published").Value);
+        DateTime updateDate = DateTime.Parse(entry.Element(DEFAULT_XML_NAMESPACE+"updated").Value);
         string postTitle = entry.Element(DEFAULT_XML_NAMESPACE+"title").Value;
         string postExtension = entry.Element(DEFAULT_XML_NAMESPACE+"content").Attribute("type").Value ?? "html";
         XElement empty = new XElement("empty");
@@ -285,7 +286,7 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
 			{
 	            output.AppendLine("<small style=\"text-align: center;\"><p><i>This is an archive from <a href=\"" + bloggerLink + "\">" + HTML_TITLE + "</a></i></p></small>");
 			}
-	        output.AppendLine("<small title=\"" + publishDate.ToString("yyyy-MM-ddTHH:mm:sszzz") + " (Singapore Time)\" class=\"published\">" + publishDate.ToString("dddd, dd MMMM yyyy") + "</small>");
+	        output.AppendLine("<small title=\"Published: " + publishDate.ToString("yyyy-MM-dd HH:mmzzz") + "<br />Updated: " + updateDate.ToString("yyyy-MM-dd HH:mmzzz") + "\" class=\"published\">" + publishDate.ToString("dddd, dd MMMM yyyy") + "</small>");
 	        output.AppendLine("<div class=\"title\">" + postTitle + "</div>");
 			if(postContent.Contains("id=\"") && !postContent.Contains("=\"hashtags\""))
 				output.AppendLine("<div class=\"post-hashtags\"></div>");
