@@ -353,7 +353,7 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
 			{
 		        var thumbnailUrl = "";
 				var anchors = new List<string>();
-				var excluded = new List<string>() { "hashtags", "table", "music" };
+				var excluded = new List<string>() { "hashtags", "table", "music", "disclaimer" };
 				var isLatest = IsLatestPost(publishDate);
 				// For latest post, show expanded content
 				if(isLatest)
