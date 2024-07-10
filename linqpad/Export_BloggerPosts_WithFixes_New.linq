@@ -187,9 +187,12 @@ List<string> GetBloggerPostsLinkedList(List<XElement> xmlPosts)
         // Find post labels
         var pageTagsXml = entry.Elements(DEFAULT_XML_NAMESPACE+"category")
         	.Where(e => !e.Attribute("term").ToString().Contains("#post")).Select(q => q.Attribute("term").Value).ToList();    
-        var pageLink = "./" + Path.GetFileNameWithoutExtension(BLOGGER_XML_DIRECTORY.Replace(BLOGGER_XML_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER)) + "/" + publishDate.Year.ToString("0000") + "/"  + publishDate.Month.ToString("00") + "/"  + (GENERATE_SLUG_BY_POST_TITLE ? generatedLink : Path.GetFileNameWithoutExtension(bloggerLink)) + "/index." + postExtension;
+        var pageLink = "./" + Path.GetFileNameWithoutExtension(BLOGGER_XML_DIRECTORY.Replace(BLOGGER_XML_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER)) + 
+			"/" + publishDate.Year.ToString("0000") + "/"  + publishDate.Month.ToString("00") + 
+			"/"  + (GENERATE_SLUG_BY_POST_TITLE ? generatedLink : Path.GetFileNameWithoutExtension(bloggerLink)) + "/index." + postExtension;
 		// If has valid published link, and not including post labels to ignore and not render
-		if(!string.IsNullOrWhiteSpace((GENERATE_SLUG_BY_POST_TITLE ? generatedLink : Path.GetFileNameWithoutExtension(bloggerLink))) && !pageTagsXml.Any(xml => POST_IGNORE_LABELS.Contains(xml)))
+		if(!string.IsNullOrWhiteSpace((GENERATE_SLUG_BY_POST_TITLE ? generatedLink : Path.GetFileNameWithoutExtension(bloggerLink))) 
+				&& !pageTagsXml.Any(xml => POST_IGNORE_LABELS.Contains(xml)))
 			linkedList.Add(pageLink);
 	}
 	return linkedList;
@@ -251,7 +254,9 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
 				labelCount[tag] = 1;
 		}
 		// Create output page link and index in linked list
-        var pageLink = "./" + Path.GetFileNameWithoutExtension(BLOGGER_XML_DIRECTORY.Replace(BLOGGER_XML_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER)) + "/" + publishDate.Year.ToString("0000") + "/"  + publishDate.Month.ToString("00") + "/"  + (GENERATE_SLUG_BY_POST_TITLE ? generatedLink : Path.GetFileNameWithoutExtension(bloggerLink)) + "/index." + postExtension;
+        var pageLink = "./" + Path.GetFileNameWithoutExtension(BLOGGER_XML_DIRECTORY.Replace(BLOGGER_XML_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER)) + 
+			"/" + publishDate.Year.ToString("0000") + "/"  + publishDate.Month.ToString("00") + 
+			"/"  + (GENERATE_SLUG_BY_POST_TITLE ? generatedLink : Path.GetFileNameWithoutExtension(bloggerLink)) + "/index." + postExtension;
         var pageIndex = linkedList.IndexOf(pageLink);
 		// Process page content
 		if(!HOMEPAGE_ONLY)
@@ -286,7 +291,9 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
 			{
 	            output.AppendLine("<small style=\"text-align: center;\"><p><i>This is an archive from <a href=\"" + bloggerLink + "\">" + HTML_TITLE + "</a></i></p></small>");
 			}
-	        output.AppendLine("<small title=\"Published: " + publishDate.ToString("yyyy-MM-dd HH:mmzzz") + "<br />Updated: " + updateDate.ToString("yyyy-MM-dd HH:mmzzz") + "\" class=\"published\">" + publishDate.ToString("dddd, dd MMMM yyyy") + "</small>");
+	        output.AppendLine("<small title=\"Published: " + publishDate.ToString("yyyy-MM-dd HH:mm") + 
+				" (GMT+8)<br />Updated: " + updateDate.ToString("yyyy-MM-dd HH:mm") + " (GMT+8)\" class=\"published\">" + publishDate.ToString("dddd, dd MMMM yyyy") + 
+				"</small>");
 	        output.AppendLine("<div class=\"title\">" + postTitle + "</div>");
 			if(postContent.Contains("id=\"") && !postContent.Contains("=\"hashtags\""))
 				output.AppendLine("<div class=\"post-hashtags\"></div>");
@@ -297,7 +304,9 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
 	        if(pageTagsXml.Count > 0)
 			{
 	            output.Append($"<div class=\"post-tags\"><h4>{POST_TAGS_PREFIX_TEXT} </h4>" + 
-					string.Join("", pageTagsXml.OrderBy(t => t).Select(tag => POST_LABEL_ICONTEXT.TryGetValue(tag, out String tagValue) ? "<a class=\"box\" href=\"../../../index.html#" + tag.Replace(" ","") +"\">" + "<span class=\"material-icons small-icons\">" + tagValue + "</span>" + tag + "</a>" : "")) + 
+					string.Join("", pageTagsXml.OrderBy(t => t).Select(tag => POST_LABEL_ICONTEXT.TryGetValue(tag, out String tagValue) 
+					? "<a class=\"box\" href=\"../../../index.html#" + tag.Replace(" ","") +"\">" + 
+					"<span class=\"material-icons small-icons\">" + tagValue + "</span>" + tag + "</a>" : "")) + 
 					"</div>");
 			}
 	        output.Append($"<h6 class=\"page-footer\">All text © {publishDate.ToString("yyyy")} {HTML_TITLE}</h6>");
@@ -319,7 +328,8 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
 		    File.WriteAllText(pageOutputPath, fileString);	
 			// Show progress, as post title or as represented by dot (100 per line)
 		    if(WRITE_TITLE_ON_CONSOLE || DEBUG_MODE)
-		        Console.WriteLine("||> " + (postTitle.Length > 0 ? postTitle : "POST W/O TITLE DATED " + publishDate.ToString("yyyy-MM-dd")) + (fixCount.Count > 0 ? "\t[" + string.Join(",", fixCount) + "]" : ""));
+		        Console.WriteLine("||> " + (postTitle.Length > 0 ? postTitle : "POST W/O TITLE DATED " + publishDate.ToString("yyyy-MM-dd")) + 
+					(fixCount.Count > 0 ? "\t[" + string.Join(",", fixCount) + "]" : ""));
 			else if(p % DOTS_PER_LINE_CONSOLE == DOTS_PER_LINE_CONSOLE - 1)
 		        Console.WriteLine(".");
 			else
@@ -374,10 +384,13 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
 					(thumbnailUrl.Length > 0 ? "<span class=\"publish\">"+publishDate.ToString("yyyy.MM.dd")+"</span>" : "") + 
 					"<div class=\"thumb\">" + 
 						"<a href=\"" + pageLink + "\">" + postTitle + "</a>" + 
-						(anchors.Count > 0 ? "<div class=\"anchors\">" + string.Join("", anchors.Select(a => "<a href=\"" + (pageLink + "#" + a) + "\">#" + a + "</a>")) + "</div>" : "") + 
+						(anchors.Count > 0 
+						? "<div class=\"anchors\">" + string.Join("", anchors.Select(a => "<a href=\"" + (pageLink + "#" + a) + "\">#" + a + "</a>")) + "</div>" 
+						: "") + 
 						(thumbnailUrl.Length > 0 ? "<div><img loading=\"lazy\" src=\"" + thumbnailUrl + "\"/></div>" : "") + 
 					"</div></div>"
-					: "<div class=\"post\"" + dataId + "><span class=\"publish\">" + publishDate.ToString("yyyy.MM.dd") + " </span><a href=\""+pageLink+"\">" + postTitle + "</a></div>");
+					: "<div class=\"post\"" + dataId + "><span class=\"publish\">" + publishDate.ToString("yyyy.MM.dd") + " </span>" +
+					"<a href=\""+pageLink+"\">" + postTitle + "</a></div>");
 			}
         }
     }
@@ -416,10 +429,6 @@ string GenerateStyleLinks(string content)
 	if(content.Contains($"target=\"_blank\""))
 		styles.AppendLine($"<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../../css/popup.css\"/>");
 
-	// special component: dialog
-	if(content.Contains($"abbr title="))
-		styles.AppendLine($"<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../../css/dialog.css\"/>");
-
 	// special component: viewer
 	var expression = @"(?s)(<a)(.*?)(><img)(.*?)(</a>)";
 	var match = Regex.Match(content, expression);
@@ -444,10 +453,6 @@ string GenerateScriptLinks(string content)
 	if(content.Contains($"target=\"_blank\""))
 		scripts.AppendLine($"<script type=\"application/javascript\" charset=\"utf-8\" src=\"../../../../js/popup.js\" defer></script>");
 
-	// special component: dialog
-	if(content.Contains($"abbr title="))
-		scripts.AppendLine($"<script type=\"application/javascript\" charset=\"utf-8\" src=\"../../../../js/dialog.js\" defer></script>");
-
 	// special component: viewer
 	var expression = @"(?s)(<a)(.*?)(><img)(.*?)(</a>)";
 	var match = Regex.Match(content, expression);
@@ -467,11 +472,13 @@ string GenerateScriptLinks(string content)
  * [ok]	remove hashtags on post level
  * [ok]	alternate links detection for new popups (youtu.be)
  * [ok]	any link not referenced within blog to open on new tab
+ * [ok]	any link not referenced within blog to open on new tab (thumbnails)
+ * [ok]	remove add href to hashtags script
  * [ok]	remove add href to hashtags script
  * [ok]	fix primary and secondary colours to variables
  * [ok]	replace common phrases with emoji
  * [ok]	reduce resolution of uploaded images to 1600 pixels max
- * []	censor words
+ * [ok]	censor words
  * [ok]	add lazy loading to img tags
  * [ok]	replace italics with emphasis tag
  * [ok] replace inline style with class due to universal font-size use
@@ -479,10 +486,11 @@ string GenerateScriptLinks(string content)
  * [ok] page replacements for new blog (2024)
  * [ok] agenda class item -> class agenda-item
  * [ok] class thumbnail -> class carousel
+ * [ok] fix head-prefix hardcoded styles
  */
 List<int> FixPostContent(ref string content)
 {
-	List<int> includeIndex = new List<int> { 1, 2, 3, 14, 15, 16, 17, 18, 21, 24, 29, 31, 32, 33, 34, 35, 36, 37 };
+	List<int> includeIndex = new List<int> { 14, 15, 18, 19, 20, 24, 29, 31, 32, 33, 34, 35, 36, 37, 38 };
 	List<int> count = new List<int>();
 	string expression;
     string prefix, midfix, suffix;
@@ -494,61 +502,6 @@ List<int> FixPostContent(ref string content)
     // [1] Define Regex Expression (loose or strict)
     // [2] Replace String According to Expression (simple without format, or simple with format, or complex use UpdateRegexContent)
 	
-	#region 01 fix twitter embed
-	if(includeIndex.Count() == 0 || includeIndex.Contains(1))
-	{
-        expression = @"(""//platform.twitter.com)";
-        match = Regex.Match(content, expression);
-        while(match.Success) {
-			count.Add(1);
-			content = content.Replace(match.Value, match.Value.Replace("//platform.twitter.com", "https://platform.twitter.com"));
-            match = match.NextMatch();
-        };
-		
-        expression = @"(?s)(<blockquote)(.*?)(?<=class=""twitter-tweet)(.*?)(>)";
-        match = Regex.Match(content, expression);
-        while(match.Success && match.Groups[2].Value.EndsWith("twitter-tweet") && !match.Groups[3].Value.Contains("tw-align-center")) {
-			count.Add(1);
-			content = content.Replace(match.Value, match.Value.Replace("twitter-tweet", "twitter-tweet tw-align-center"));
-            match = match.NextMatch();
-        };
-	}
-	#endregion
-	
-	#region 02 fix youtube iframe size
-	if(includeIndex.Count() == 0 || includeIndex.Contains(2))
-	{
-        expression = @"(height=""315"")";
-        match = Regex.Match(content, expression);
-        while(match.Success) {
-			count.Add(2);
-			content = content.Replace(match.Value, match.Value.Replace("height=\"315\"", ""));
-            match = match.NextMatch();
-        };
-		
-        expression = @"(width=""560"")";
-        match = Regex.Match(content, expression);
-        while(match.Success) {
-			count.Add(2);
-			content = content.Replace(match.Value, match.Value.Replace("width=\"560\"", ""));
-            match = match.NextMatch();
-        };
-	}
-	#endregion
-    
-    #region 03 remove embed styles for thumbnail normal/hover (posts with sp-thumbnail will be ignored)
-	if(includeIndex.Count() == 0 || includeIndex.Contains(3))
-	{
-        expression = @"(?s)(<style)(.*?)(.thumbnail .hover)(.*?)(</style>)";
-        match = Regex.Match(content, expression);
-        while(match.Success) {
-			count.Add(3);
-			content = content.Replace(match.Value, "");
-            match = match.NextMatch();
-        };
-	}
-    #endregion
-    
     #region 14 old blog link to current blog
 	if(includeIndex.Count() == 0 || includeIndex.Contains(14))
 	{
@@ -581,46 +534,13 @@ List<int> FixPostContent(ref string content)
 	}
     #endregion
     
-    #region 16 remove hashtags on post level
-	if(includeIndex.Count() == 0 || includeIndex.Contains(16))
-	{
-        expression = @"(?s)(<script>)(.*?)(var hashtags)(.*?)(</script>)";
-        match = Regex.Match(content, expression);
-        while(match.Success) {
-			count.Add(16);
-			content = content.Replace(match.Value, "");
-            match = match.NextMatch();
-        };
-	}
-    #endregion
-    
-    #region 17 alternate links detection for new popups (youtu.be)
-	if(includeIndex.Count() == 0 || includeIndex.Contains(17))
-	{
-        expression = @"(href=""https://youtu.be)(.*?)(>)";
-        match = Regex.Match(content, expression);
-        while(match.Success) {
-			count.Add(17);
-			content = content.Replace(match.Value, match.Value.Replace("https://youtu.be", "https://www.youtube.com/watch?v="));
-            match = match.NextMatch();
-        };
-		
-        expression = @"(href=""http://youtu.be)(.*?)(>)";
-        match = Regex.Match(content, expression);
-        while(match.Success) {
-			content = content.Replace(match.Value, match.Value.Replace("http://youtu.be", "https://www.youtube.com/watch?v="));
-            match = match.NextMatch();
-        };
-	}
-    #endregion
-    
     #region 18 any link not referenced within blog to open on new tab
 	if(includeIndex.Count() == 0 || includeIndex.Contains(18))
 	{
         prefix = @"<a href=""";
         midfix = @""" target=""_blank""";
         suffix = ">";
-        expression = @"(?s)(<a )(.*?)(href="")(.*?)("")(.*?)(>)";        
+        expression = @"(?s)(<a )(.*?)(href="")(.*?)("")(.*?)(>)";
         match = Regex.Match(content, expression);
         while(match.Success) {
 			var url = match.Groups[4].Value;
@@ -637,7 +557,16 @@ List<int> FixPostContent(ref string content)
 			}
             match = match.NextMatch();			
         };
-		
+	}
+    #endregion
+    
+    #region 19 any link not referenced within blog to open on new tab (thumbnails)
+	if(includeIndex.Count() == 0 || includeIndex.Contains(19))
+	{
+        prefix = @"<a href=""";
+        midfix = @""" target=""_blank""";
+        suffix = ">";
+        expression = @"(?s)(<a )(.*?)(href="")(.*?)("")(.*?)(>)";
         expression = @"(?s)(<div class=""thumbnail"")(.*?)(<a )(.*?)(href="")(.*?)("")(.*?)(>)(.*?)(</a)(.*?)(/div>)";        
         match = Regex.Match(content, expression);
         while(match.Success) {
@@ -647,43 +576,24 @@ List<int> FixPostContent(ref string content)
 			&& !match.Groups[10].Value.Contains(">")
 			&& (url.Contains("blogger.") || url.Contains("bp.blogspot.com"))
 			) {
-				if(!count.Contains(18)) count.Add(18);
-                var replacement = match.Groups[1].Value + match.Groups[2].Value + prefix + url + midfix + match.Groups[8].Value + suffix + match.Groups[10].Value + match.Groups[11].Value + match.Groups[12].Value + match.Groups[13].Value;
+				count.Add(19);
+                var replacement = match.Groups[1].Value + match.Groups[2].Value + prefix + url + midfix + match.Groups[8].Value + suffix 
+					+ match.Groups[10].Value + match.Groups[11].Value + match.Groups[12].Value + match.Groups[13].Value;
 				content = content.Replace(match.Value, replacement);
 			}
             match = match.NextMatch();
         };
-        #endregion
-        
-        #region remove add href to hashtags script
-		if(DEBUG_MODE) Console.WriteLine("remove add href to hashtags script");
-        var childDivScript = "<script>var childDivs = document.getElementById('hashtags').getElementsByTagName('a'); for( i=0; i< childDivs.length; i++ ) {  var childDiv = childDivs[i];  childDiv.href = '/search?q=' + childDiv.text.substring(1); } </script>";
-        if(content.Contains(childDivScript)) 
-			count.Add(18);
-        content = content.Replace(childDivScript, "");
 	}
     #endregion
             
-    #region 21 fix primary and secondary colours to variables
-	if(includeIndex.Count() == 0 || includeIndex.Contains(21))
+    #region 20 remove add href to hashtags script
+	if(includeIndex.Count() == 0 || includeIndex.Contains(20))
 	{
-		if(DEBUG_MODE) Console.WriteLine("fix primary and secondary colours to variables");
-        var primaryColour = "#00e4ff";
-        var headerPrefixColour = "#00b8cc";
-        var headerPrefixColourRgb1 = "rgb(0, 184, 204)";
-        var headerPrefixColourRgb2 = "rgb(9, 165, 184)";
-		var whiteBorder = "1px solid white;";
-        if(content.Contains(primaryColour) || 
-		content.Contains(headerPrefixColour) || 
-		content.Contains(headerPrefixColourRgb1) || 
-		content.Contains(headerPrefixColourRgb2) || 
-		content.Contains(whiteBorder)) 
-			count.Add(21);
-        content = content.Replace(primaryColour, "rgb(var(--primary))");
-        content = content.Replace(headerPrefixColour, "rgb(var(--secondary))");
-        content = content.Replace(headerPrefixColourRgb1, "rgb(var(--secondary))");
-        content = content.Replace(headerPrefixColourRgb2, "rgb(var(--secondary))");
-        content = content.Replace(whiteBorder, "1px solid rgb(var(--foreground));");
+		if(DEBUG_MODE) Console.WriteLine("remove add href to hashtags script");
+        var childDivScript = "<script>var childDivs = document.getElementById('hashtags').getElementsByTagName('a'); for( i=0; i< childDivs.length; i++ ) {  var childDiv = childDivs[i];  childDiv.href = '/search?q=' + childDiv.text.substring(1); } </script>";
+        if(content.Contains(childDivScript)) 
+			count.Add(20);
+        content = content.Replace(childDivScript, "");
 	}
     #endregion
 	
@@ -725,11 +635,17 @@ List<int> FixPostContent(ref string content)
     #region 30 censor words
 	if(includeIndex.Count() == 0 || includeIndex.Contains(30))
 	{
-        expression = @"(.*?)(fuck)(.*?)";
+		var censored = new Dictionary<String, String>()
+		{
+			{"fuck", "f**k"},
+			{"bitch", "b*tch"},
+			{"sex", "s*x"}
+		};
+        expression = @"(fuck|bitch|sex)";
         match = Regex.Match(content, expression);
         while(match.Success) {
 			count.Add(30);
-            content = content.Replace(match.Groups[2].Value, "f**k");
+            content = content.Replace(match.Groups[1].Value, censored[match.Groups[1].Value]);
             match = match.NextMatch();
         };
 	}
@@ -779,10 +695,10 @@ List<int> FixPostContent(ref string content)
         expression = @"(twitter.com|x.com)/(KlassicNote)";
         match = Regex.Match(content, expression);
         if(match.Success) {
-			count.Add(34);
-            content = Regex.Replace(content, expression, "twitter.com/aozakish");
+			if(!count.Contains(34)) count.Add(34);
+            content = Regex.Replace(content, expression, "x.com/aozakish");
         };
-	}	
+	}
 	#endregion
 	
 	#region 35 class replacements for new blog (2024)
@@ -800,7 +716,7 @@ List<int> FixPostContent(ref string content)
 	        expression = $"(?s)class=\"({replace.Key})\"";
 	        match = Regex.Match(content, expression);
 	        if(match.Success) {
-				count.Add(35);
+				if(!count.Contains(35)) count.Add(35);
 	            content = content.Replace(match.Groups[1].Value, replace.Value);
 	            match = match.NextMatch();
 	        };
@@ -832,6 +748,14 @@ List<int> FixPostContent(ref string content)
 	}
 	#endregion
 	
+	#region 38 fix hardcoded styles
+	if(includeIndex.Count() == 0 || includeIndex.Contains(38))
+	{
+		count.Add(38);
+		content = content.Replace("style=\"background: #09a5b8; border-radius: 5px; padding: 3px 5px; text-align: center; vertical-align: text-bottom;\"", "class=\"head-prefix\"");
+	}
+	#endregion
+	    
     //Add to debug
     if(matchItems.Count() > 0)
         Console.WriteLine(matchItems);
