@@ -289,11 +289,13 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
 			// All content to put in <body> tag
 			if (POSTS_LINK_TO_BLOGGER && bloggerLink != "")
 			{
-	            output.AppendLine("<small style=\"text-align: center;\"><p><i>This is an archive from <a href=\"" + bloggerLink + "\">" + HTML_TITLE + "</a></i></p></small>");
+	            output.AppendLine("<small style=\"text-align: center;\"><p><em>This is an archive from <a href=\"" + bloggerLink + "\">" + HTML_TITLE + "</a></em></p></small>");
 			}
-	        output.AppendLine("<small title=\"Published: " + publishDate.ToString("yyyy-MM-dd HH:mm") + 
-				" (GMT+8)<br />Updated: " + updateDate.ToString("yyyy-MM-dd HH:mm") + " (GMT+8)\" class=\"published\">" + publishDate.ToString("dddd, dd MMMM yyyy") + 
-				"</small>");
+			var publishDateString = publishDate.ToString("yyyy-MM-dd HH:mm") + " (GMT+8)";
+			var updateDateString = updateDate.ToString("yyyy-MM-dd HH:mm") + " (GMT+8)";
+	        output.AppendLine("<small title=\"Published: " + publishDateString + 
+				(publishDateString == updateDateString ? "\"" : "<br />&nbsp;&nbsp;Updated: " + updateDateString + "\"") +
+				" class=\"published\">" + publishDate.ToString("dddd, dd MMMM yyyy") + "</small>");
 	        output.AppendLine("<div class=\"title\">" + postTitle + "</div>");
 			if(postContent.Contains("id=\"") && !postContent.Contains("=\"hashtags\""))
 				output.AppendLine("<div class=\"post-hashtags\"></div>");
