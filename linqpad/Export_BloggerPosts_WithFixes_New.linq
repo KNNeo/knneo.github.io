@@ -432,7 +432,7 @@ string GenerateStyleLinks(string content)
 string GenerateScriptLinks(string content)
 {
 	// common components, in order
-	var components = new string[] { "carousel", "accordion", "agenda", "datatable" };
+	var components = new string[] { "carousel", "accordion" };
 	var scripts = new StringBuilder();
 	foreach(var comp in components)
 	{
