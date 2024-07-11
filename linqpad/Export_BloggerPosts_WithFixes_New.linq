@@ -639,11 +639,14 @@ List<int> FixPostContent(ref string content)
 	{
 		var censored = new Dictionary<String, String>()
 		{
+			{"FUCK", "F**K"},
+			{"BITCH", "B*TCH"},
+			{"SEX", "S*x"}
 			{"fuck", "f**k"},
 			{"bitch", "b*tch"},
 			{"sex", "s*x"}
-		};
-        expression = @"(fuck|bitch|sex)";
+		}; // case sensitive
+        expression = @"(?i)(fuck|bitch|sex)"; // case insensitive
         match = Regex.Match(content, expression);
         while(match.Success) {
 			count.Add(30);
