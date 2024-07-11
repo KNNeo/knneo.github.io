@@ -1,4 +1,5 @@
 <Query Kind="Program">
+  <Reference>&lt;RuntimeDirectory&gt;\System.Text.RegularExpressions.dll</Reference>
   <NuGetReference>Rock.Core.Newtonsoft</NuGetReference>
   <Namespace>Newtonsoft.Json</Namespace>
 </Query>
@@ -18,7 +19,7 @@ string HOMEPAGE_FILENAME = @"C:\Users\KAINENG\Documents\GitHub\knreports\js\sear
 bool HOMEPAGE_ONLY = false;
 bool WRITE_TITLE_ON_CONSOLE = false;
 int DOTS_PER_LINE_CONSOLE = 100;
-//string BLOG_DOMAIN_URL = "https://knwebreports.blogspot.com/";
+string BLOG_DOMAIN_URL = "https://knreports.blogspot.com/";
 XNamespace DEFAULT_XML_NAMESPACE = XNamespace.Get("http://www.w3.org/2005/Atom");
 //List<string> GOOGLE_FONTS_URLS = new List<string>() { "Dancing Script" };
 //List<string> IMAGE_DOMAINS_LIST = new List<string>() { "ggpht.com", "bp.blogspot.com", "blogger.googleusercontent.com" };
@@ -44,6 +45,12 @@ string BLOGGER_XML_RENAME_SUFFIX = "knreports";
 // POST SETTINGS
 List<String> POST_IGNORE_TAGS = new List<string>() { "The Archive", "The Statement" };
 string POSTS_SINCE = "2000-01-01";
+List<String> POST_OLD_DOMAINS = new List<string>()
+{
+	"https://knwebreports.blogspot.com/",
+	"https://knwebreports2014.blogspot.com/",
+	"http://knwebreports2014.blogspot.com/"
+};
 
 void Main()
 {
@@ -301,4 +308,295 @@ public string RemoveAllTags(string content) {
     };
 	
 	return content;
+}
+
+/*SOURCE FROM EXPORT POSTS*/
+
+List<int> FixPostContent(ref string content)
+{
+	List<int> includeIndex = new List<int> { 14, 15, 18, 19, 20, 24, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38 };
+	List<int> count = new List<int>();
+	string expression;
+    string prefix, midfix, suffix;
+    Match match;
+    List<MatchItem> matchItems = new List<MatchItem>();
+    
+    // All regions of change to include in order: [1] detection expression [2] increment if detected [3] replacement
+    // Process XML content per post	if is not simple replace
+    // [1] Define Regex Expression (loose or strict)
+    // [2] Replace String According to Expression (simple without format, or simple with format, or complex use UpdateRegexContent)
+	
+    #region 14 old blog link to current blog
+	if(includeIndex.Count() == 0 || includeIndex.Contains(14))
+	{
+		foreach(var domain in POST_OLD_DOMAINS)
+		{
+	        expression = @"(?s)(href=""" + domain +")(.*?)(>)";
+	        match = Regex.Match(content, expression);
+	        while(match.Success) {
+				count.Add(14);
+	            var replacement = match.Value.Replace("target=\"_blank\"", "").Replace(domain, "../../../").Replace(".html", "/index.html");
+	            content = content.Replace(match.Value, replacement);
+	            match = match.NextMatch();
+	        };
+		}
+	}
+    #endregion
+    
+    #region 15 current blog link to relative
+	if(includeIndex.Count() == 0 || includeIndex.Contains(15))
+	{
+		//https
+        expression = @"(?s)(href=""" + BLOG_DOMAIN_URL + ")(.*?)(>)";
+        match = Regex.Match(content, expression);
+        while(match.Success) {
+			count.Add(15);
+            var replacement = match.Value.Replace("target=\"_blank\"", "").Replace(BLOG_DOMAIN_URL, "../../../").Replace(".html", "/index.html");
+            content = content.Replace(match.Value, replacement);
+            match = match.NextMatch();
+        };
+	}
+    #endregion
+    
+    #region 18 any link not referenced within blog to open on new tab
+	if(includeIndex.Count() == 0 || includeIndex.Contains(18))
+	{
+        prefix = @"<a href=""";
+        midfix = @""" target=""_blank""";
+        suffix = ">";
+        expression = @"(?s)(<a )(.*?)(href="")(.*?)("")(.*?)(>)";
+        match = Regex.Match(content, expression);
+        while(match.Success) {
+			var url = match.Groups[4].Value;
+			if(!match.Groups[6].Value.Contains("_blank")
+			&& !url.StartsWith("#")
+			&& !url.Contains("blogger.")
+			&& !url.Contains("bp.blogspot.com")
+			&& !url.Contains("../../")
+			&& !url.Contains(BLOG_DOMAIN_URL)
+			) {
+				if(!count.Contains(18)) count.Add(18);
+                var replacement = prefix + url + midfix + match.Groups[6].Value + suffix;
+                content = content.Replace(match.Value, replacement);
+			}
+            match = match.NextMatch();			
+        };
+	}
+    #endregion
+    
+    #region 19 any link not referenced within blog to open on new tab (thumbnails)
+	if(includeIndex.Count() == 0 || includeIndex.Contains(19))
+	{
+        prefix = @"<a href=""";
+        midfix = @""" target=""_blank""";
+        suffix = ">";
+        expression = @"(?s)(<a )(.*?)(href="")(.*?)("")(.*?)(>)";
+        expression = @"(?s)(<div class=""thumbnail"")(.*?)(<a )(.*?)(href="")(.*?)("")(.*?)(>)(.*?)(</a)(.*?)(/div>)";        
+        match = Regex.Match(content, expression);
+        while(match.Success) {
+			var url = match.Groups[6].Value;
+			if(!match.Groups[8].Value.Contains("_blank")
+			&& !match.Groups[10].Value.Contains("<")
+			&& !match.Groups[10].Value.Contains(">")
+			&& (url.Contains("blogger.") || url.Contains("bp.blogspot.com"))
+			) {
+				count.Add(19);
+                var replacement = match.Groups[1].Value + match.Groups[2].Value + prefix + url + midfix + match.Groups[8].Value + suffix 
+					+ match.Groups[10].Value + match.Groups[11].Value + match.Groups[12].Value + match.Groups[13].Value;
+				content = content.Replace(match.Value, replacement);
+			}
+            match = match.NextMatch();
+        };
+	}
+    #endregion
+            
+    #region 20 remove add href to hashtags script
+	if(includeIndex.Count() == 0 || includeIndex.Contains(20))
+	{
+		if(DEBUG_MODE) Console.WriteLine("remove add href to hashtags script");
+        var childDivScript = "<script>var childDivs = document.getElementById('hashtags').getElementsByTagName('a'); for( i=0; i< childDivs.length; i++ ) {  var childDiv = childDivs[i];  childDiv.href = '/search?q=' + childDiv.text.substring(1); } </script>";
+        if(content.Contains(childDivScript)) 
+			count.Add(20);
+        content = content.Replace(childDivScript, "");
+	}
+    #endregion
+	
+    #region 24 replace common phrases with emoji
+	if(includeIndex.Count() == 0 || includeIndex.Contains(24))
+	{
+		if(DEBUG_MODE) Console.WriteLine("replace common phrases with emoji");
+		// sorted by alphabetical order of original string, then emoji length
+		Dictionary<string, string> emojis = new Dictionary<string, string>()
+		{
+			{"blessed", 		"🥰"}, {"chu",			"😘"}, {"cringe",		"😬"}, {"dabs",		"😎"}, 
+			{"fingers crossed",	"🤞"}, {"gasp",			"😲"}, {"giggles",		"🤭"}, {"kiss",		"😘"}, 
+			{"laughs",			"😆"}, {"mind blown",	"🤯"}, {"phew",			"😌"}, {"pukes",	"🤮"}, 
+			{"silence",			"😐"}, {"sob",			"😢"}, {"screams",		"😱"}, {"shrugs", 	"🤷"}, 
+			{"sigh",			"😩"}, {"smiles",		"😊"}, {"speechless",	"😲"}, {"sshh",		"🤫"}, 
+			{"sniff",			"😢"}, {"thumbs up",	"👍"}, {"ugh", 			"🙄"}, {"wink",		"😉"}, 
+			{"chef's kiss",		"😙🤌"}, {"fap",			"🍆"}, {"prays",		"🙏"}, {"fap fap fap",	"🍆💦💦"},
+			{"wink wink",		"😉😉"}, {"claps",		"👏"}, {"applauds",		"👏"}, {"yawns",	"🥱"},
+			{"yay",				"🙌"}, {"applauses",	"👏"}
+		};
+		
+		foreach(var emoji in emojis)
+		{
+			var initial = "*" + emoji.Key + "*";
+	        content = content.Replace(initial, "<span class=\"emoji\" title=\"" + emoji.Value + "\">" + initial + "</span>");
+		}
+	}
+    #endregion
+	
+	#region 29 reduce resolution of uploaded images to 1600px max
+	if(includeIndex.Count() == 0 || includeIndex.Contains(29))
+	{
+		if(content.Contains("s4032") || content.Contains("s4080") || content.Contains("s2048"))
+			count.Add(29);
+		content = content.Replace(@"/s4032/", @"/s1600/").Replace(@"/s4080/", @"/s1600/").Replace(@"/s2048/", @"/s1600/");
+	}
+    #endregion
+	
+    #region 30 censor words
+	if(includeIndex.Count() == 0 || includeIndex.Contains(30))
+	{
+		var censored = new Dictionary<String, String>()
+		{
+			{"FUCK", "F**K"},
+			{"BITCH", "B*TCH"},
+			{"SEX", "S*X"},
+			{"ASS", "A**"},
+			{"fuck", "f**k"},
+			{"bitch", "b*tch"},
+			{"sex", "s*x"},
+			{"ass", "a**"}
+		}; // case sensitive
+        expression = @"(?i)\b(fuck|bitch|sex|ass)\b"; // case insensitive
+        match = Regex.Match(content, expression);
+        while(match.Success) {
+			count.Add(30);
+			if(censored.TryGetValue(match.Groups[1].Value, out String keyValue))
+			{
+            	content = content.Replace(match.Groups[1].Value, keyValue);
+			}
+            match = match.NextMatch();
+        };
+	}
+    #endregion
+	
+    #region 31 add lazy loading to img tags
+	if(includeIndex.Count() == 0 || includeIndex.Contains(31))
+	{
+        content = content.Replace("<img", "<img loading=\"lazy\"");
+	}
+    #endregion
+	
+    #region 32 replace italics with emphasis tag
+	if(includeIndex.Count() == 0 || includeIndex.Contains(32))
+	{
+        expression = @"<i\b[^>]*>(.*?)<\/i>";
+        match = Regex.Match(content, expression);
+        if(match.Success) {
+			count.Add(32);
+            content = Regex.Replace(content, expression, "<em>$1</em>");
+        };
+	}
+    #endregion
+	
+	#region 33 replace inline style with class due to universal font-size use
+	if(includeIndex.Count() == 0 || includeIndex.Contains(33))
+	{
+        expression = @"style=""font-size: large;""";
+        match = Regex.Match(content, expression);
+        if(match.Success) {
+			count.Add(33);
+            content = Regex.Replace(content, expression, @"class=""head-title""");
+        };
+		
+        expression = @"style=""font-size: x-small;""";
+        match = Regex.Match(content, expression);
+        if(match.Success) {
+			count.Add(33);
+            content = Regex.Replace(content, expression, @"class=""skip-section""");
+        };
+	}	
+	#endregion
+	
+	#region 34 fix own twitter/x handle (KlassicNote -> aozakish)
+	if(includeIndex.Count() == 0 || includeIndex.Contains(34))
+	{
+        expression = @"(twitter.com|x.com)/(KlassicNote)";
+        match = Regex.Match(content, expression);
+        if(match.Success) {
+			if(!count.Contains(34)) count.Add(34);
+            content = Regex.Replace(content, expression, "x.com/aozakish");
+        };
+	}
+	#endregion
+	
+	#region 35 class replacements for new blog (2024)
+	if(includeIndex.Count() == 0 || includeIndex.Contains(35))
+	{
+		var replacements = new Dictionary<String, String>() {
+			{"news-thumbnail",	"post-thumbnail"},
+			{"hashtags",		"post-hashtags"},
+			{"head-prefix",		"header-prefix"},
+			{"head-title",		"header-title"},
+		};
+		
+		foreach(var replace in replacements)
+		{
+	        expression = $"(?s)class=\"({replace.Key})\"";
+	        match = Regex.Match(content, expression);
+	        if(match.Success) {
+				if(!count.Contains(35)) count.Add(35);
+	            content = content.Replace(match.Groups[1].Value, replace.Value);
+	            match = match.NextMatch();
+	        };
+		}
+	}
+	#endregion
+	
+	#region 36 agenda class item -> class agenda-item
+	if(includeIndex.Count() == 0 || includeIndex.Contains(36))
+	{
+		// this replacement must be done first before all other component classes
+        if(content.Contains(@"class=""agenda""")) {
+			count.Add(36);
+            content = content.Replace(@"class=""item""", @"class=""agenda-item""");
+        };
+	}
+	#endregion
+	
+	#region 37 class thumbnail -> class carousel
+	if(includeIndex.Count() == 0 || includeIndex.Contains(37))
+	{
+        if(content.Contains(@"class=""thumbnail""")) {
+			count.Add(37);
+            content = content.Replace(@"class=""thumbnail""", @"class=""carousel""");
+            content = content.Replace(@"class=""thumbnail-initial hover-hidden""", @"class=""carousel-item""");
+            content = content.Replace(@"class=""thumbnail-initial thumbnail-pop hover-visible""", @"class=""carousel-item hide""");
+            content = content.Replace(@"setThumbnails();", @"setCarousels();");
+        };
+	}
+	#endregion
+	
+	#region 38 fix hardcoded styles
+	if(includeIndex.Count() == 0 || includeIndex.Contains(38))
+	{
+		count.Add(38);
+		content = content.Replace("style=\"background: #09a5b8; border-radius: 5px; padding: 3px 5px; text-align: center; vertical-align: text-bottom;\"", "class=\"head-prefix\"");
+	}
+	#endregion
+	    
+    //Add to debug
+    if(matchItems.Count() > 0)
+        Console.WriteLine(matchItems);
+	
+	return count;
+}
+
+class MatchItem
+{
+    public string Title { get; set; }
+    public string Item { get; set; }
 }
