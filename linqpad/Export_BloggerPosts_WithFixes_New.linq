@@ -26,7 +26,7 @@ bool HOMEPAGE_ONLY = false;
 bool WRITE_TITLE_ON_CONSOLE = true;
 bool DELETE_OUTPUT_DIRECTORY = false;
 int DOTS_PER_LINE_CONSOLE = 100;
-string BLOG_DOMAIN_URL = "https://klassicnotereports.blogspot.com/";
+string BLOG_DOMAIN_URL = "https://knreports.blogspot.com/";
 XNamespace DEFAULT_XML_NAMESPACE = XNamespace.Get("http://www.w3.org/2005/Atom");
 List<string> GOOGLE_FONTS_URLS = new List<string>() { "Dancing Script" };
 bool SHOW_POST_LABELs_COUNT = false;
@@ -492,7 +492,7 @@ string GenerateScriptLinks(string content)
  */
 List<int> FixPostContent(ref string content)
 {
-	List<int> includeIndex = new List<int> { 14, 15, 18, 19, 20, 24, 29, 31, 32, 33, 34, 35, 36, 37, 38 };
+	List<int> includeIndex = new List<int> { 14, 15, 18, 19, 20, 24, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38 };
 	List<int> count = new List<int>();
 	string expression;
     string prefix, midfix, suffix;
@@ -641,16 +641,21 @@ List<int> FixPostContent(ref string content)
 		{
 			{"FUCK", "F**K"},
 			{"BITCH", "B*TCH"},
-			{"SEX", "S*x"}
+			{"SEX", "S*X"},
+			{"ASS", "A**"},
 			{"fuck", "f**k"},
 			{"bitch", "b*tch"},
-			{"sex", "s*x"}
+			{"sex", "s*x"},
+			{"ass", "a**"}
 		}; // case sensitive
-        expression = @"(?i)(fuck|bitch|sex)"; // case insensitive
+        expression = @"(?i)\b(fuck|bitch|sex|ass)\b"; // case insensitive
         match = Regex.Match(content, expression);
         while(match.Success) {
 			count.Add(30);
-            content = content.Replace(match.Groups[1].Value, censored[match.Groups[1].Value]);
+			if(censored.TryGetValue(match.Groups[1].Value, out String keyValue))
+			{
+            	content = content.Replace(match.Groups[1].Value, keyValue);
+			}
             match = match.NextMatch();
         };
 	}
