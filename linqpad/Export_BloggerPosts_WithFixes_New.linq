@@ -758,14 +758,15 @@ List<int> FixPostContent(ref string content)
 	}
 	#endregion
 	
-	#region 38 fix hardcoded styles
+	#region 38 fix hardcoded header-prefix style
 	if(includeIndex.Count() == 0 || includeIndex.Contains(38))
 	{
 		count.Add(38);
-		content = content.Replace("style=\"background: #09a5b8; border-radius: 5px; padding: 3px 5px; text-align: center; vertical-align: text-bottom;\"", "class=\"head-prefix\"");
+		// class="head-prefix"
+		content = content.Replace("style=\"background: #09a5b8; border-radius: 5px; padding: 3px 5px; text-align: center; vertical-align: text-bottom;\"", "class=\"header-prefix\"");
 	}
 	#endregion
-	    
+	
     //Add to debug
     if(matchItems.Count() > 0)
         Console.WriteLine(matchItems);
