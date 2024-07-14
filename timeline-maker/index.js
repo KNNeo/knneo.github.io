@@ -85,10 +85,10 @@ function loadEdit(content) {
 		markup += 'SKIP ' + (item.skip ?? 0) + '\n';  // find skip if any
 		let left = item.data.filter(d => d.pos == 'left')[0];  // find first
 		if(left)
-			markup += 'LEFT ' + (left.txt ? left.txt : left.img + ',' + left.url) + '\n';
+			markup += 'LEFT ' + (left.txt ? left.txt : left.img + ',' + (left.url || '')) + '\n';
 		let right = item.data.filter(d => d.pos == 'right')[0];  // find first
 		if(right)
-			markup += 'RIGHT ' + (right.txt ? right.txt : right.img + ',' + right.url) + '\n';
+			markup += 'RIGHT ' + (right.txt ? right.txt : right.img + ',' + (right.url || '')) + '\n';
 		markup += '\n';
 	}
 	
@@ -115,8 +115,7 @@ function saveEdit() {
 	for(let segment of markup)
 	{
 		let obj = {
-			"id": ++counter,
-			"data": []
+			"id": ++counter
 		};
 		let items = segment.split('\n');
 		for(let item of items)
@@ -145,13 +144,19 @@ function saveEdit() {
 					dataObj.img = val.split(',')[0];
 					dataObj.url = val.split(',')[1];
 				}
-			obj.data.push(dataObj);
+			if(Object.keys(dataObj).length > 0) {
+				if(!obj.data) obj.data = [];
+				obj.data.push(dataObj);
+			}
 		}
 		json.push(obj);
 	}
-	
-	// console.log(json);
-	
+	// clear end padded skips
+	while(!json[--counter].data && counter >= 0)
+	{
+		json = json.filter((item, index) => index != counter);
+	}	
+	// console.log(json);	
 	document.querySelector("#data").textContent = JSON.stringify(json);
 	saveData();
 	startup();
