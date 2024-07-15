@@ -461,14 +461,18 @@ List<int> FixPostContent(ref string content)
 	{
 		var censored = new Dictionary<String, String>()
 		{
-			{"FUCK", "F**K"},
-			{"BITCH", "B*TCH"},
-			{"SEX", "S*X"},
-			{"ASS", "A**"},
-			{"fuck", "f**k"},
-			{"bitch", "b*tch"},
-			{"sex", "s*x"},
-			{"ass", "a**"}
+			{"CUM", "C*M"}, {"cum", "c*m"},
+			{"cRAP", "CR*P"}, {"crap", "cr*p"},
+			{"FUCK", "F**K"}, {"fuck", "f**k"},
+			{"FUCKING", "F**KING"}, {"fucking", "f**king"},
+			{"BITCH", "B*TCH"}, {"bitch", "b*tch"},
+			{"BITCHING", "B*TCHING"}, {"bitching", "b*tching"},
+			{"SEX", "S*X"}, {"sex", "s*x"},
+			{"ASS", "A**"}, {"ass", "a**"},
+			{"ASSHOLE", "A**HOLE"}, {"asshole", "a**hole"},
+			{"SHIT", "SH*T"}, {"shit", "sh*t"},
+			{"SHITTING", "SH*TTING"}, {"shitting", "sh*tting"},
+			{"BULLSHIT", "BULLSH*T"}, {"bullshit", "bullsh*t"}
 		}; // case sensitive
         expression = @"(?i)\b(fuck|bitch|sex|ass)\b"; // case insensitive
         match = Regex.Match(content, expression);
