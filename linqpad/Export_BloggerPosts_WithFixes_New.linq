@@ -640,7 +640,7 @@ List<int> FixPostContent(ref string content)
 		var censored = new Dictionary<String, String>()
 		{
 			{"CUM", "C*M"}, {"cum", "c*m"},
-			{"cRAP", "CR*P"}, {"crap", "cr*p"},
+			{"CRAP", "CR*P"}, {"crap", "cr*p"},
 			{"FUCK", "F**K"}, {"fuck", "f**k"},
 			{"FUCKING", "F**KING"}, {"fucking", "f**king"},
 			{"BITCH", "B*TCH"}, {"bitch", "b*tch"},
@@ -652,7 +652,7 @@ List<int> FixPostContent(ref string content)
 			{"SHITTING", "SH*TTING"}, {"shitting", "sh*tting"},
 			{"BULLSHIT", "BULLSH*T"}, {"bullshit", "bullsh*t"}
 		}; // case sensitive
-        expression = @"(?i)\b(fuck|bitch|sex|ass)\b"; // case insensitive
+        expression = @"(?i)\b(cum|crap|fuck|fucking|bitch|bitching|sex|ass|asshole|shit|shitting|bullshit)\b"; // case insensitive
         match = Regex.Match(content, expression);
         while(match.Success) {
 			count.Add(30);
