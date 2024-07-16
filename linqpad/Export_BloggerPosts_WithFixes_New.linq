@@ -34,7 +34,6 @@ bool GENERATE_SLUG_BY_POST_TITLE = true;
 int GENERATE_SLUG_MAX_LENGTH = 70;
 
 // POST SETTINGS
-string HTML_BODY_STYLE_FONTFAMILY = "Noto Sans, Arial, sans-serif;";
 string HTML_TITLE = "Klassic Note Reports";
 string HTML_DESCRIPTION = "If it is worth taking Note, it will be a Klassic.";
 string HTML_THUMBNAIL_SINCE = "2023-01-01";
@@ -322,7 +321,6 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
 				.Replace("_FONTS_", externalFonts.Length > 0 ? externalFonts.ToString() : "")
 				.Replace("_CSS_", GenerateStyleLinks(postContent))
 				.Replace("_JS_", GenerateScriptLinks(postContent))
-				.Replace("_BODYFONT_", HTML_BODY_STYLE_FONTFAMILY)
 				.Replace("_CONTENTS_", output.ToString())
 				.Replace("_PREVLINK_", linkedList.IndexOf(pageLink) < linkedList.Count() - 1 ? linkedList[linkedList.IndexOf(pageLink) + 1].Replace("./", "../../../../") : "")
 				.Replace("_NEXTLINK_", linkedList.IndexOf(pageLink) > 0 ? linkedList[linkedList.IndexOf(pageLink) - 1].Replace("./", "../../../../") : "");
@@ -389,7 +387,7 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
 						(anchors.Count > 0 
 						? "<div class=\"anchors\">" + string.Join("", anchors.Select(a => "<a href=\"" + (pageLink + "#" + a) + "\">#" + a + "</a>")) + "</div>" 
 						: "") + 
-						(thumbnailUrl.Length > 0 ? "<div><img loading=\"lazy\" src=\"" + thumbnailUrl + "\"/></div>" : "") + 
+						(thumbnailUrl.Length > 0 ? "<div><img alt=\"\" loading=\"lazy\" src=\"" + thumbnailUrl + "\"/></div>" : "") + 
 					"</div></div>"
 					: "<div class=\"post\"" + dataId + "><span class=\"publish\">" + publishDate.ToString("yyyy.MM.dd") + " </span>" +
 					"<a href=\""+pageLink+"\">" + postTitle + "</a></div>");
@@ -410,7 +408,6 @@ void GenerateHomepage(string homepageString, int postCount)
 		.Replace("_DESCRIPTION_", HTML_DESCRIPTION)
 		.Replace("_URL_", BLOG_DOMAIN_URL)
 		.Replace("_ARCHIVE_", homepageString.ToString())
-		.Replace("_FONT_", HTML_BODY_STYLE_FONTFAMILY)
 		.Replace("_COUNT_", postCount.ToString());
     // Write into homepage file
     File.WriteAllText(HOMEPAGE_FILENAME, fileString);
@@ -668,7 +665,7 @@ List<int> FixPostContent(ref string content)
     #region 31 add lazy loading to img tags
 	if(includeIndex.Count() == 0 || includeIndex.Contains(31))
 	{
-        content = content.Replace("<img", "<img loading=\"lazy\"");
+        content = content.Replace("<img", "<img alt=\"\" loading=\"lazy\"");
 	}
     #endregion
 	
