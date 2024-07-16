@@ -296,7 +296,7 @@ SitemapSections GenerateSitemap(List<XElement> xmlPosts)
 		var date = DateTime.ParseExact(key[1], "yyyy.MM.dd", null);
 		if(date >= fanDate.AddDays(14)) // assume breaks between seasons
 			fanString += "</div>\r\n<div class=\"season\"><b class=\"title\">SEASON " + ++seasonNo + "</b><br>\r\n";
-		fanString += "<div><span>#" + ++counter + "</span> <a class=\"keyword\" title=\"" + item.Title + "\" href=\"" + item.KeywordUrl + "\">" + key[2] + "</a></div>\r\n";
+		fanString += "<div><span>" + (++counter).ToString("00") + "</span> <a class=\"keyword\" title=\"" + item.Title + "\" href=\"" + item.KeywordUrl + "\">" + key[2] + "</a></div>\r\n";
 		fanDate = date;
 	}
 	fanString += "</div>";
