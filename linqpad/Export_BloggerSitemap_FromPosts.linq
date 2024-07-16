@@ -19,10 +19,7 @@ string POST_TEMPLATE_FILENAME = @"C:\Users\KAINENG\Documents\GitHub\knreports\te
 bool HOMEPAGE_ONLY = false;
 bool WRITE_TITLE_ON_CONSOLE = false;
 int DOTS_PER_LINE_CONSOLE = 100;
-//string BLOG_DOMAIN_URL = "https://knwebreports.blogspot.com/";
 XNamespace DEFAULT_XML_NAMESPACE = XNamespace.Get("http://www.w3.org/2005/Atom");
-//List<string> GOOGLE_FONTS_URLS = new List<string>() { "Dancing Script" };
-//List<string> IMAGE_DOMAINS_LIST = new List<string>() { "ggpht.com", "bp.blogspot.com", "blogger.googleusercontent.com" };
 // TODO: Group based on page xml tag found, return list instead of object class
 bool WRITE_FANFIC_LIST = true;
 int MAX_HASHTAG_LENGTH = 32;
