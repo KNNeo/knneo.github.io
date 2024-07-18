@@ -26,96 +26,52 @@ function getScreenHeight() {
 
 //--EVENTS--//
 function scrollToNextPage() {
+	event.preventDefault();
 	event.stopPropagation();
-	let nextPage = this.closest('.section').nextElementSibling;
+	if(event.key && event.key.toLowerCase() != ' ' && event.key.toLowerCase() != 'enter')
+		return;
+	let nextPage = event.target.closest('.section').nextElementSibling;
 	if(nextPage != null)
-		if(document.body.classList.contains('single'))
-			scrollToPage(nextPage.getAttribute('data-section'));
-		nextPage.focus();
+		scrollToPage(nextPage.getAttribute('data-section'));
 }
 
 function scrollToPrevPage() {
+	event.preventDefault();
 	event.stopPropagation();
-	let prevPage = this.closest('.section').previousElementSibling;
-	if(prevPage != null) {
-		if(document.body.classList.contains('single'))
-			scrollToPage(prevPage.getAttribute('data-section'));
-		prevPage.focus();
-	}
+	if(event.key && event.key.toLowerCase() != ' ' && event.key.toLowerCase() != 'enter')
+		return;
+	let prevPage = event.target.closest('.section').previousElementSibling;
+	if(prevPage != null)
+		scrollToPage(prevPage.getAttribute('data-section'));
 }
 
 function scrollToPage(sectionNo) {
-	if(window['main'].isSinglePage) {
+	if(window['main']?.isSinglePage) {
 		for(let section of document.querySelectorAll('.section'))
 			section.classList.add('hidden');
 		document.querySelectorAll('.section')[sectionNo].classList.remove('hidden');
 	}
-	else
-		document.querySelectorAll('.section')[sectionNo].focus();
+	else {
+		document.querySelectorAll('.section')[sectionNo].scrollIntoView({ inline: 'center', behavior: 'smooth' });
+		if(window['main'].sectionNo != sectionNo) document.querySelectorAll('.section')[sectionNo].focus();
+	}
 }
 
 function scrollToMainPage(el, onLoad) {
-	// console.log(firstLoad);
-	if(!window['loaded'] || !onLoad)
-	{
-		if(document.querySelector('.main') != null)
-			document.querySelector('.main').focus();
-		else
-			document.querySelector('.page').firstElementChild.focus();
-	}
+	let mainPage = document.querySelector('.main');
+	if(mainPage != null)
+		scrollToPage(mainPage.getAttribute('data-section'));
+	else // scroll to first page
+		document.querySelector('.section').scrollIntoView({ inline: 'center', behavior: 'smooth' });
 }
 
 function toggleGoToTop() {
 	// When the user scrolls down to viewport from the top of the document, change floating action button
-	if (document.querySelector('.page').scrollTop >= document.body.clientHeight)
-		document.querySelector('.button-top').style.visibility = 'visible';
-	else
-		document.querySelector('.button-top').style.visibility = '';
-}
-
-function toggleEditor() {
-	if(document.querySelector('.editor') != null) {
-		let editorText = document.querySelector('.editor-area').value;
-		let isClosing = document.querySelector('.editor').style.display == 'block'; //previous state	
-		document.querySelector('.editor').style.display = isClosing ? 'none' : 'block';
-		localStorage.setItem('elements', editorText);
-		document.querySelector('.editor').value = isClosing ? '' : localStorage.getItem('elements');
-		if(isClosing) {
-			// if(editorText.trim().startsWith('http') && editorText.trim().endsWith('.json')) // if address of json is in editor
-				// getJson(editorText, setPageElements);
-			// else // raw json text
-			setPageElements();
-		}
-	}
-	else {
-		let editor = document.createElement('div');
-		// editor.id = 'editor';
-		editor.classList.add('editor');
-		// editor.style.height = '100%';
-		// editor.style.width = '100%';
-		// editor.style.display = 'block';
-		// editor.style.position = 'absolute';
-		// editor.style.border = '0';
-		// editor.style.top = '0';
-		// editor.style.zIndex = 10;
-		
-		let editorArea = document.createElement('textarea');
-		// editorArea.id = 'editor-area';
-		editorArea.classList.add('editor-area');
-		// editorArea.style.height = '95%';
-		// editorArea.style.width = '90%';
-		// editorArea.style.display = 'block';
-		// editorArea.style.marginLeft = 'auto';
-		// editorArea.style.marginRight = 'auto';
-		editorArea.value = localStorage.getItem('elements');
-		editor.appendChild(editorArea);
-		
-		document.body.appendChild(editor);
-	}
+	document.querySelector('.button-top').style.visibility = document.querySelector('.page').scrollTop >= document.body.clientHeight ? 'visible' : '';
 }
 
 //--RENDER FUNCTIONS--//
-function renderPage() {
+function renderBody() {
 	document.querySelector('.page').innerHTML = '';	
 	// render sections
 	for(let sectionNo = 0; sectionNo < window['elements'].length; sectionNo++) {
@@ -144,7 +100,7 @@ function renderPage() {
 	}	
 	// set page by type
 	document.body.className = '';
-	if(window['main'].isSinglePage) {
+	if(window['main']?.isSinglePage) {
 		document.body.classList.add('single');
 		
 		let menu = document.createElement('div');
@@ -170,7 +126,7 @@ function renderPage() {
 	renderButtons();
 	renderFooter();
 	// if single page, calculate section height
-	if(window['main'].isSinglePage) {
+	if(window['main']?.isSinglePage) {
 		for(let section of document.querySelectorAll('.section'))
 			section.style.height = 'calc(100% - ' + ((document.querySelector('.menu').getBoundingClientRect().height + document.querySelector('.footer').getBoundingClientRect().height) + 'px') + ')';
 	}
@@ -182,6 +138,9 @@ function renderPage() {
 				this.click();
 		});
 	}
+	// remove .html extensions, facilitate static site routing
+	if(typeof processLinkExtensions == 'function')
+		removeLinkExtensions();
 }
 
 function renderMain() {
@@ -195,15 +154,15 @@ function renderMain() {
 			let prevDiv = document.createElement('div');
 			prevDiv.classList.add('page-prev');
 			prevDiv.classList.add('not-selectable');
-			let prevButton = document.createElement('a');
+			let prevButton = renderGoogleIcon(content.isSinglePage ? 'arrow_left' : 'arrow_drop_up');
 			prevButton.classList.add('focusable');
 			prevButton.title = 'Previous';
-			if(main.previousElementSibling == null)	nextButton.style.opacity = '0';
-			else nextButton.href = 'javascript:void(0)';
+			if(main.previousElementSibling == null)
+				nextButton.style.opacity = '0';
+			else
+				nextButton.href = 'javascript:void(0)';
 			prevButton.addEventListener('click', scrollToPrevPage);
-			let prevButtonIcon = document.createElement('a');
-			prevButtonIcon.className = content.isSinglePage ? 'bi bi-caret-left-fill' : 'bi bi-caret-up-fill';
-			prevButton.appendChild(prevButtonIcon);
+			prevButton.addEventListener('keyup', scrollToPrevPage);
 			prevDiv.appendChild(prevButton);
 			main.appendChild(prevDiv);
 		}
@@ -237,15 +196,15 @@ function renderMain() {
 			let nextDiv = document.createElement('div');
 			nextDiv.classList.add('page-next');
 			nextDiv.classList.add('not-selectable');
-			let nextButton = document.createElement('a');
+			let nextButton = renderGoogleIcon(content.isSinglePage ? 'arrow_right' : 'arrow_drop_down');
 			nextButton.classList.add('focusable');
 			nextButton.title = 'Next';
-			if(main.nextElementSibling == null) nextButton.style.opacity = '0';
-			else nextButton.href = 'javascript:void(0)';
+			if(main.nextElementSibling == null)
+				nextButton.style.opacity = '0';
+			else
+				nextButton.href = 'javascript:void(0)';
 			nextButton.addEventListener('click', scrollToNextPage);
-			let nextButtonIcon = document.createElement('a');
-			nextButtonIcon.className = content.isSinglePage ? 'bi bi-caret-right-fill' : 'bi bi-caret-down-fill';
-			nextButton.appendChild(nextButtonIcon);
+			nextButton.addEventListener('keyup', scrollToNextPage);
 			nextDiv.appendChild(nextButton);
 			main.appendChild(nextDiv);
 		}
@@ -260,7 +219,7 @@ function renderSection(sectionNo) {
 	let prevDiv = document.createElement('div');
 	prevDiv.classList.add('page-prev');
 	prevDiv.classList.add('not-selectable');
-	let prevButton = document.createElement('a');
+	let prevButton = renderGoogleIcon(main?.isSinglePage ? 'arrow_left' : 'arrow_drop_up');
 	prevButton.classList.add('focusable');
 	prevButton.title = 'Previous';
 	if(section.previousElementSibling == null || !section.previousElementSibling.classList.contains('section')) {
@@ -269,10 +228,8 @@ function renderSection(sectionNo) {
 	}
 	else
 		prevButton.href = 'javascript:void(0)';
-	prevButton.addEventListener('click',scrollToPrevPage);
-	let prevButtonIcon = document.createElement('a');
-	prevButtonIcon.className = main.isSinglePage ? 'bi bi-caret-left-fill' : 'bi bi-caret-up-fill';
-	prevButton.appendChild(prevButtonIcon);
+	prevButton.addEventListener('click', scrollToPrevPage);
+	prevButton.addEventListener('keyup', scrollToPrevPage);
 	prevDiv.appendChild(prevButton);
 	section.appendChild(prevDiv);
 	
@@ -300,18 +257,18 @@ function renderSection(sectionNo) {
 		renderChart(sectionNo, content);
 	}
 	
-	if(content.type == 'grid' && content.componentData)	{
+	if(content.type == 'grid' && content.cData)	{
 		let component = document.createElement('div');
 		component.id = 'section' + sectionNo;
 		section.appendChild(component);
 		
-		renderGrid(sectionNo, content, main.isSinglePage);
+		renderGrid(sectionNo, content);
 	}
 	
 	let nextDiv = document.createElement('div');
 	nextDiv.classList.add('page-next');
 	nextDiv.classList.add('not-selectable');
-	let nextButton = document.createElement('a');
+	let nextButton = renderGoogleIcon(main?.isSinglePage ? 'arrow_right' : 'arrow_drop_down');
 	nextButton.classList.add('focusable');
 	nextButton.title = 'Next';
 	if(section.nextElementSibling == null || !section.nextElementSibling.classList.contains('section')) {
@@ -320,10 +277,8 @@ function renderSection(sectionNo) {
 	}
 	else
 		nextButton.href = 'javascript:void(0)';
-	nextButton.addEventListener('click',scrollToNextPage);
-	let nextButtonIcon = document.createElement('a');
-	nextButtonIcon.className = main.isSinglePage ? 'bi bi-caret-right-fill' : 'bi bi-caret-down-fill';
-	nextButton.appendChild(nextButtonIcon);
+	nextButton.addEventListener('click', scrollToNextPage);
+	nextButton.addEventListener('keyup', scrollToNextPage);
 	nextDiv.appendChild(nextButton);
 	section.appendChild(nextDiv);
 }
@@ -331,57 +286,15 @@ function renderSection(sectionNo) {
 function renderMenu() {
 	let content = window['main'];
 	if(window['elements'].filter(el => el.type == 'grid').length > 0) {
-		let contentList = document.createElement('div');
-		contentList.classList.add('contents');
-		// define icon size by configuration
-		// let iconSize = '10vw';
-		// let maxIconSize = '120px';
-		// let iconFontSize = '1.5rem';
-		// let drawerHeight = '15vh';
-		// let homeIconSize = '90px';
-		// if (content.isSinglePage) {
-			// iconFontSize = '1rem';
-			// maxIconSize = '90px';
-		// }
-		// if (smallScreenWidth()) {
-			// iconSize = '19vw';
-			// maxIconSize = '80px';
-			// drawerHeight = '30px';
-			// iconFontSize = '1rem';
-			// homeIconSize = '80px';
-		// }
-		// document.querySelector('.menu').style.minHeight = content.isSinglePage && smallScreenWidth() ? drawerHeight : '';
-		// document.querySelector('.menu').style.maxHeight = content.isSinglePage && smallScreenWidth() ? drawerHeight : '';
-		//drawer, home icon
-		if(content.isSinglePage)
+		let contentList = document.querySelector('.menu');
+		if(contentList == null) return;
+		contentList.innerHTML = '';
+		// add home icon
+		if(content?.isSinglePage)
 		{
-			// add drag handle if mobile, or low screen height
-			// if(smallScreenWidth() || smallScreenHeight())
-			// {
-				// let contentItem = document.createElement('div');
-				// contentItem.classList.add('handle');
-				// contentItem.classList.add('material-icons');
-				// contentItem.classList.add('focusable');
-				// contentItem.innerText = 'drag_handle';
-				// contentItem.addEventListener('click', function() {
-					// event.stopPropagation();
-					// document.querySelector('.menu').style.maxHeight = document.querySelector('.menu').style.maxHeight == 'initial' ? drawerHeight : 'initial';
-				// });
-				// contentItem.addEventListener('touchmove', function() {
-					// event.stopPropagation();
-					// document.querySelector('.menu').style.maxHeight = (getScreenHeight() - event.touches[0].clientY + 20) + 'px';
-				// });
-				// contentList.appendChild(contentItem);
-				
-				// if(getScreenHeight() < 760)
-					// document.querySelector('.menu').style.maxHeight = drawerHeight;
-			// }
-			// add home icon
-			let contentItem = document.createElement('div');
-			// contentItem.classList.add('material-icons');
-			contentItem.className = 'home focusable bi bi-house-fill';
-			// contentItem.style.fontSize = homeIconSize;
-			// contentItem.innerText = 'home';
+			let contentItem = renderGoogleIcon('home', ['home','focusable','not-selectable']);
+			contentItem.title = 'Main Page';
+			contentItem.href = 'javascript:void(0)';
 			contentItem.addEventListener('keyup', function() {
 				event.stopPropagation();
 				event.preventDefault();
@@ -390,15 +303,10 @@ function renderMenu() {
 			});
 			contentItem.addEventListener('click', function() {
 				event.stopPropagation();
-				// document.querySelector('.menu').style.maxHeight = document.querySelector('.menu').style.maxHeight == 'initial' ? drawerHeight : 'initial';
 				scrollToPage(content.sectionNo);
 				if(content.isSinglePage)
 					event.target.scrollIntoView({ inline: 'center' });
 			});
-			// contentItem.addEventListener('touchstart', function() {
-				// event.stopPropagation();
-				// scrollToPage(content.sectionNo);
-			// });
 			contentList.appendChild(contentItem);
 		}
 		
@@ -409,15 +317,10 @@ function renderMenu() {
 			//image icons
 			for(let section = 0; section < window['elements'].length; section++)
 			{
-				if(section == content.sectionNo)
+				if(section == content?.sectionNo)
 					continue;
 				let contentItem = document.createElement('div');
-				contentItem.classList.add('icon');
-				contentItem.classList.add('focusable');
-				// contentItem.style.width = iconSize;
-				// contentItem.style.height = iconSize;
-				// contentItem.style.maxWidth = maxIconSize;
-				// contentItem.style.maxHeight = maxIconSize;
+				contentItem.className = 'icon focusable';
 				contentItem.title = window['elements'][section].text || '';
 				contentItem.style.backgroundImage = addBackgroundUrlClause(window['elements'][section].image);
 				contentItem.addEventListener('keyup', function() {
@@ -429,16 +332,9 @@ function renderMenu() {
 				contentItem.addEventListener('click', function() {
 					event.stopPropagation();
 					scrollToPage(section);
-					// if(smallScreenWidth() || smallScreenHeight())
-						// document.querySelector('.menu').style.maxHeight = drawerHeight;
-					if(content.isSinglePage)
+					if(content?.isSinglePage)
 						event.target.scrollIntoView({ inline: 'center', behavior: 'smooth' });
 				});
-				// contentItem.addEventListener('touchstart', function() {
-					// event.stopPropagation();
-					// scrollToPage(section, content.isSinglePage);
-					// document.querySelector('.menu').style.maxHeight = drawerHeight;
-				// });
 				if(window['elements'][section].text)
 					contentItem.title = window['elements'][section].text;
 				contentList.appendChild(contentItem);
@@ -449,19 +345,12 @@ function renderMenu() {
 			//text icons
 			for(let section = 0; section < window['elements'].length; section++)
 			{
-				if(section == content.sectionNo)
+				if(section == content?.sectionNo)
 					continue;
 				let contentItem = document.createElement('div');
-				contentItem.classList.add('box');
-				contentItem.classList.add('text');
-				contentItem.classList.add('focusable');
+				contentItem.className = 'box text focusable';
 				if(window['elements'][section].highlight)
 					contentItem.classList.add('highlight');
-				// contentItem.style.width = iconSize;
-				// contentItem.style.height = iconSize;
-				// contentItem.style.maxWidth = maxIconSize;
-				// contentItem.style.maxHeight = maxIconSize;
-				// contentItem.style.fontSize = iconFontSize;
 				contentItem.innerText = window['elements'][section].text;
 				contentItem.title = contentItem.innerText || '';
 				contentItem.addEventListener('keyup', function() {
@@ -473,94 +362,48 @@ function renderMenu() {
 				contentItem.addEventListener('click', function() {
 					event.stopPropagation();
 					scrollToPage(section);
-					// if(smallScreenWidth() || smallScreenHeight())
-						// document.querySelector('.menu').style.maxHeight = drawerHeight;
-					if(content.isSinglePage)
+					if(content?.isSinglePage)
 						event.target.scrollIntoView({ inline: 'center', behavior: 'smooth' });
 				});
-				// contentItem.addEventListener('touchstart', function() {
-					// event.stopPropagation();
-					// contentItem.style.boxShadow = '1px 1px';
-					// contentItem.style.transform = 'translate(2px, 2px)';
-					// scrollToPage(section);
-					// document.querySelector('.menu').style.maxHeight = drawerHeight;
-				// });
-				// contentItem.addEventListener('touchend', function() {
-					// event.stopPropagation();
-					// contentItem.style.boxShadow = '';
-					// contentItem.style.transform = '';
-					// scrollToPage(section);
-					// document.querySelector('.menu').style.maxHeight = drawerHeight;
-				// });
 				contentList.appendChild(contentItem);
 			}
 		}		
-		// drawer, spacer
-		if(content.isSinglePage) {
+		// spacer
+		if(content?.isSinglePage) {
 			let contentItem = document.createElement('div');
 			contentItem.style.padding = '4px';
 			contentList.appendChild(contentItem);
 		}
-		// add into DOM
-		document.querySelector('.menu').innerHTML = '';
-		document.querySelector('.menu').appendChild(contentList);
 	}
 }
 
 function renderButtons() {
 	// go to top button
-	let topButtonIcon = document.createElement('a');
-	topButtonIcon.className = 'button button-top not-selectable bi bi-arrow-up';
+	let topButtonIcon = renderGoogleIcon('keyboard_double_arrow_up', ['button','button-top','not-selectable']);
 	topButtonIcon.title = 'Back To Top';
+	topButtonIcon.href = 'javascript:void(0)';
 	if (document.querySelector('.button-top') == null) {
 		document.body.appendChild(topButtonIcon);
 		document.querySelector('.button-top').addEventListener('click', scrollToMainPage);
 		document.querySelector('.page').addEventListener('scroll', toggleGoToTop);
 	}
 	else if (document.querySelector('.button-top') != null) {
-		if(window['main'].isSinglePage || isMobile())
+		if(window['main']?.isSinglePage || isMobile())
 			document.querySelector('.button-top').style.right = '10px';
 		else 
 			document.querySelector('.button-top').style.right = null;		
 	}
-	// editor button (depreceated)
-	// let editorButtonIcon = document.createElement('a');
-	// editorButtonIcon.classList.add('button');
-	// editorButtonIcon.classList.add('button-editor');
-	// editorButtonIcon.classList.add('material-icons');
-	// editorButtonIcon.classList.add('not-selectable');
-	// editorButtonIcon.title = 'Toggle Editor';
-	// editorButtonIcon.innerText = 'code';
-	// if(document.querySelector('.button-editor') == null) {
-		// document.body.appendChild(editorButtonIcon);
-		// document.querySelector('.button-editor').addEventListener('click', toggleEditor);
-	// }
-	// else {
-		// if(window['main'].isSinglePage || isMobile()) 
-			// document.querySelector('.button-editor').style.right = '10px';
-		// else 
-			// document.querySelector('.button-editor').style.right = null;
-	// }
 	// exit button
-	let closeButtonIcon = document.createElement('a');
-	closeButtonIcon.className = 'button button-close not-selectable bi bi-x-lg';
+	let closeButtonIcon = renderGoogleIcon('close', ['button','button-close','not-selectable']);
 	closeButtonIcon.title = 'Close Popup';
-	// closeButtonIcon.innerText = 'close';
-	if (window['main'].isSinglePage || isMobile()) 
+	if (window['main']?.isSinglePage || isMobile()) 
 		closeButtonIcon.style.right = '10px';
-	if (window['main'].hasExit && document.querySelector('.button-close') == null) {
+	if (window['main']?.hasExit && document.querySelector('.button-close') == null) {
+		closeButtonIcon.href = typeof processLinkExtensions == 'function' ? processLinkExtensions(window['main']?.exitUrl) : window['main']?.exitUrl;
 		document.body.appendChild(closeButtonIcon);
-		document.querySelector('.button-close').addEventListener('click', function() {
-			window.location.href = window['main'].exitUrl;
-		});
-		// document.querySelector('.button-close').addEventListener('contextmenu', function() {
-			// event.preventDefault();
-			// window['single'] = window['single'] != undefined ? !window['single'] : true;
-			// getJson(document.querySelector('#data-id').src, setPageElements);
-		// });
 	}
 	else if (document.querySelector('.button-close') != null) {
-		if(window['main'].isSinglePage || isMobile()) 
+		if(window['main']?.isSinglePage || isMobile()) 
 			document.querySelector('.button-close').style.right = '10px';
 		else 
 			document.querySelector('.button-close').style.right = null;
@@ -568,13 +411,15 @@ function renderButtons() {
 }
 
 function renderFooter() {
-	// footer text
-	let footer = document.createElement('div');
-	footer.classList.add('footer');
-	footer.innerText = window['main'].footer ?? '';
-	document.querySelector('.page').appendChild(footer);
+	if(window['main']?.footer) {
+		// footer text
+		let footer = document.createElement('div');
+		footer.classList.add('footer');
+		footer.innerText = window['main']?.footer ?? '';
+		document.querySelector('.page').appendChild(footer);
+	}
 	// set nav buttons on footer settings, based on single page bottom menu
-	if(window['main'].isSinglePage) {
+	if(window['main']?.isSinglePage) {
 		let menuHeight = document.querySelector('.menu').getBoundingClientRect().height + 'px';
 		document.querySelector('.footer').style.bottom = menuHeight;
 		for(let pagePrev of document.querySelectorAll('.page-prev'))
@@ -596,58 +441,50 @@ function closestClass(inputElement, targetClassName) {
     return inputElement;
 }
 
+function renderBootstrapIcon(iconClass, addClass = []) {
+	let newIcon = document.createElement('a');
+	newIcon.className = 'bi ' + iconClass;
+	for(let extra of addClass)
+		newIcon.classList.add(extra);
+	return newIcon;
+}
+
+function renderGoogleIcon(iconName, addClass = []) {
+	let newIcon = document.createElement('a');
+	newIcon.className = 'material-icons';
+	for(let extra of addClass)
+		newIcon.classList.add(extra);
+	newIcon.innerText = iconName;
+	return newIcon;
+}
+
 //--STARTUP FUNCTIONS--//
 window.addEventListener('load', startup);
 window.addEventListener('resize', startup);
 function startup() {
-	// block page if cannot fit screen width (see statistics.html)
-	if(document.body.getBoundingClientRect().width <= 400 && document.querySelector('.landing') != null) {
-		document.querySelector('.landing').style.display = 'block';
-		localStorage.removeItem('elements');
-		return;
-	}
 	// load data
 	if (document.querySelector('#data')?.textContent != null) { // script json in HTML DOM
 		let testJson = JSON.parse(document.querySelector('#data')?.textContent || []);
 		console.log('using inline html embedded json');
-		setPageElements(testJson);
+		localStorage.setItem('elements', JSON.stringify(testJson, null, '\t'));
 	}
 	else if(typeof pageElements != 'undefined') { // if not tied to js file with pageElements
-		window['editor'] = true;
-		setPageElements(pageElements);
+		console.log('using js object pageElements');
+		localStorage.setItem('elements', JSON.stringify(pageElements, null, '\t'));
 	}
-	// else if(localStorage.getItem('elements') != null) // if have storage
-		// setPageElements();
-	// else if(typeof getJson == 'function' && document.querySelector('#data-id') != null) // if #data-id exists pointing to json file
-		// getJson(document.querySelector('#data-id').src, setPageElements);
 	else
 		console.error('no data source found');
-	
-	// set first load flag
-	let firstLoad = window['loaded'] != true;
-	window['loaded'] = true;
-	// close viewer if open
-	if(typeof closeViewer == 'function') closeViewer();
+	// if stored, render
+	if(localStorage.getItem('elements') != null)
+		renderPage();
 }
 
-function setPageElements(content) {
-	// if items exist, save into localstorage
-	if(content != null) {
-		localStorage.setItem('elements', JSON.stringify(content, null, '\t'));
-		if(document.querySelector('.editor-area') != null)
-			document.querySelector('.editor-area').value = localStorage.getItem('elements');
-	}
-	// if no editor, reset localstorage
-	if(!window['editor'] && document.querySelector('.button-editor') != null) {
-		document.querySelector('.button-editor').style.display = 'none';
-		localStorage.removeItem('elements');
-	}
-	// render elements
+function renderPage() {
+	// assume data at local storage
 	renderVariables();
-	setTimeout(renderPage, 1);
-	setTimeout(function () {
-		scrollToMainPage(this, true);
-	}, 500); // after load page, scroll to main section
+	renderBody();
+	scrollToMainPage(this, true);
+	if(typeof closeViewer == 'function') closeViewer();
 }
 
 function renderVariables() {
@@ -663,6 +500,8 @@ function renderVariables() {
 		window['container'+i] = + i;	
 	// define base values
 	let mainSectionNo = window['elements'].findIndex(pe => pe.isMain);
-	window['main'] = window['elements'][mainSectionNo];
-	window['main']['sectionNo'] = mainSectionNo;
+	if(mainSectionNo >= 0) {
+		window['main'] = window['elements'][mainSectionNo];
+		window['main']['sectionNo'] = mainSectionNo;
+	}
 }
