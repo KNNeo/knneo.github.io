@@ -416,7 +416,7 @@ void GenerateHomepage(string homepageString, int postCount)
 string GenerateStyleLinks(string content)
 {
 	// common components, in order
-	var components = new string[] { "carousel", "accordion", "agenda", "datatable" };
+	var components = new string[] { "carousel", "accordion", "agenda", "datatable", "conversation" };
 	var styles = new StringBuilder();
 	foreach(var comp in components)
 	{
@@ -440,7 +440,7 @@ string GenerateStyleLinks(string content)
 string GenerateScriptLinks(string content)
 {
 	// common components, in order
-	var components = new string[] { "carousel", "accordion" };
+	var components = new string[] { "carousel", "accordion", "conversation" };
 	var scripts = new StringBuilder();
 	foreach(var comp in components)
 	{
