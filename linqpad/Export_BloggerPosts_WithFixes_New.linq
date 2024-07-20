@@ -38,7 +38,8 @@ string HTML_TITLE = "Klassic Note Reports";
 string HTML_DESCRIPTION = "If it is worth taking Note, it will be a Klassic.";
 string HTML_THUMBNAIL_SINCE = "2023-01-01";
 bool POSTS_LINK_TO_BLOGGER = false;
-string POSTS_SINCE = "2000-01-01";
+string POSTS_INCLUDE_SINCE = "2000-01-01";
+string POSTS_PROCESS_SINCE = "2024-07-01";
 string POST_TAGS_PREFIX_TEXT = "Read more";
 List<String> POST_IGNORE_LABELS = new List<string>() { "The Archive", "The Statement" };
 Dictionary<String, String> POST_LABEL_ICONTEXT = new Dictionary<String, String>()
@@ -162,7 +163,7 @@ List<XElement> GetBloggerPostsPublished(string[] inputFiles)
 	}
 	Console.WriteLine($"Total posts found: {xmlPosts.Count}");
 	// Filter by earliest date, order by publish date desc
-	return xmlPosts.Where(x => DateTime.Parse(x.Element(DEFAULT_XML_NAMESPACE+"published").Value) > DateTime.Parse(POSTS_SINCE))
+	return xmlPosts.Where(x => DateTime.Parse(x.Element(DEFAULT_XML_NAMESPACE+"published").Value) > DateTime.Parse(POSTS_INCLUDE_SINCE))
 		.OrderByDescending(x => DateTime.Parse(x.Element(DEFAULT_XML_NAMESPACE+"published").Value)).ToList();
 }
 
@@ -258,7 +259,7 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
 			"/"  + (GENERATE_SLUG_BY_POST_TITLE ? generatedLink : Path.GetFileNameWithoutExtension(bloggerLink)) + "/index." + postExtension;
         var pageIndex = linkedList.IndexOf(pageLink);
 		// Process page content
-		if(!HOMEPAGE_ONLY)
+		if(!HOMEPAGE_ONLY && publishDate >= DateTime.Parse(POSTS_PROCESS_SINCE))
 		{
 			// TODO:
 	        // Fix post attributes
