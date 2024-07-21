@@ -143,6 +143,14 @@ a:hover {
 	background-color: var(--primary);
 	border-radius: 8px 8px 0 8px;
 }
+.conversation .message[data-sender] .container[onclick] {
+	cursor: pointer;
+	background-color: initial;
+	border: 2px solid var(--foreground);
+}
+.conversation .message[data-sender] .container[onclick]:hover {
+	background-color: var(--primary);
+}
 .conversation .message[data-system] .container {
 	background-color: var(--secondary);
 }
@@ -175,6 +183,7 @@ a:hover {
 	font-size: 2em;
 	justify-content: center;
 	cursor: pointer;
+	display: inline-block;
 }
 .menu {
     display: flex;
