@@ -28,7 +28,7 @@ function showMessages() {
 		document.querySelector('#' + conversation.id + ' .messages').innerHTML = document.querySelector('#' + conversation.id + ' .editor textarea').value;
 		processConversations();
 		document.querySelector('#' + conversation.id + ' .messages').classList.remove('hidden');
-		document.querySelector('#' + conversation.id + ' .messages .footer').scrollIntoView();
+		document.querySelector('#' + conversation.id + ' .messages .footer')?.scrollIntoView();
 	}
 	disableRunMessages(conversation);
 }
@@ -42,7 +42,8 @@ function showEditor() {
 		document.querySelector('#' + conversation.id + ' .editor').classList.remove('hidden');
 		updateSenderOptions(conversation);
 		let sender = conversation.querySelector('.messages').getAttribute('data-sender');
-		conversation.querySelector('.sender option[value=' + sender + ']').selected = sender;
+		if(sender != null)
+			conversation.querySelector('.sender option[value=' + sender + ']').selected = sender;
 	}
 	disableRunMessages(conversation);
 	document.querySelector('#' + conversation.id + ' .messages').innerHTML = '';
@@ -371,6 +372,7 @@ function nextMessage() {
 		if (lines[l].getAttribute('data-sender') == null)
 			window.choice = 0;
 	} else // must reset if no alternate choices found
+		allowRunMessages();
 		window.choice = 0;
 	// show message
 	lines[l].classList.remove('hide');
