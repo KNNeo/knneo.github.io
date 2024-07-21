@@ -374,6 +374,9 @@ function nextMessage() {
 	} else // must reset if no alternate choices found
 		allowRunMessages();
 		window.choice = 0;
+	// change size if emoji
+	if(/\p{Emoji}/u.test(lines[l].innerText))
+		lines[l].classList.add('emoji');
 	// show message
 	lines[l].classList.remove('hide');
 	let heightAboveItem = Array.from(lines).slice(0, l).reduce(function (total, current, index) {
@@ -430,7 +433,7 @@ function nextMessage() {
 		setTimeout(function () {
 			// console.log('call next');
 			conversation.querySelector('.loader')?.remove();
-			conversation.querySelector('.footer').click();
+			conversation.querySelector('.footer')?.click();
 		}, writeTime);
 	}
 }
@@ -455,7 +458,7 @@ function waitForSender() {
 		setTimeout(function () {
 			// console.log('call next');
 			conversation.querySelector('.loader')?.remove();
-			conversation.querySelector('.footer').click();
+			conversation.querySelector('.footer')?.click();
 		}, 1500);
 	} else
 		setTimeout(waitForSender, 1000);
