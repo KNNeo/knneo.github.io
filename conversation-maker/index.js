@@ -245,6 +245,9 @@ function processConversations() {
 			for (let message of line.trim().substring(line.indexOf(lineSeparator) + 1).trim().split(choiceSeparator)) {
 				let messageDiv = document.createElement('div');
 				messageDiv.classList.add('container');
+				// change size if emoji
+				if(lines[l].innerText.replace(/(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])/g,'').length < 1)
+					messageDiv.classList.add('emoji');
 				let messageText = document.createElement('span');
 				if (!isSystem) // for non-system, if line has no sender, use previous
 					lineDiv.setAttribute('data-name', !isUrl && line.includes(lineSeparator) ? line.trim().substring(0, line.indexOf(lineSeparator)).trim() : prevName);
@@ -374,9 +377,6 @@ function nextMessage() {
 	} else // must reset if no alternate choices found
 		allowRunMessages();
 		window.choice = 0;
-	// change size if emoji
-	if(/\p{Emoji}/u.test(lines[l].innerText))
-		lines[l].classList.add('emoji');
 	// show message
 	lines[l].classList.remove('hide');
 	let heightAboveItem = Array.from(lines).slice(0, l).reduce(function (total, current, index) {

@@ -116,7 +116,7 @@ a:hover {
 .conversation .message.hide {
 	opacity: 0;
 }
-.conversation .message.emoji .container {
+.conversation .message .container.emoji {
 	font-size: 2em;
 }
 .conversation .loader {
