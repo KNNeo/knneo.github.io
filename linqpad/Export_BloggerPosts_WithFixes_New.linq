@@ -44,14 +44,14 @@ string POST_TAGS_PREFIX_TEXT = "Read more";
 List<String> POST_IGNORE_LABELS = new List<string>() { "The Archive", "The Statement" };
 Dictionary<String, String> POST_LABEL_ICONTEXT = new Dictionary<String, String>()
 {
-	{ "The Entertainment News", "newspaper" },
-	{ "The Klassic Note", "music_note" },
-	{ "The Dreams", "cloud" },
-	{ "The Everyday Life", "nightlife" },
-	{ "The Fanfiction", "category" },
-	{ "The Welfare Package", "inventory_2" },
-	{ "The Review", "edit_note" },
-	{ "The Statement", "campaign" }
+	//{ "The Entertainment News", "newspaper" },
+	//{ "The Klassic Note", "music_note" },
+	//{ "The Dreams", "cloud" },
+	//{ "The Everyday Life", "nightlife" },
+	//{ "The Fanfiction", "category" },
+	//{ "The Welfare Package", "inventory_2" },
+	//{ "The Review", "edit_note" },
+	//{ "The Statement", "campaign" }
 };
 List<String> POST_OLD_DOMAINS = new List<string>()
 {
@@ -307,8 +307,9 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
 			{
 	            output.Append($"<div class=\"post-tags\"><h4>{POST_TAGS_PREFIX_TEXT} </h4>" + 
 					string.Join("", pageTagsXml.OrderBy(t => t).Select(tag => POST_LABEL_ICONTEXT.TryGetValue(tag, out String tagValue) 
-					? "<a class=\"box\" href=\"../../../index.html#" + tag.Replace(" ","") +"\">" + 
-					"<span class=\"material-icons small-icons\">" + tagValue + "</span>" + tag + "</a>" : "")) + 
+					? "<a class=\"box\" href=\"../../../../index.html#" + tag.Replace(" ","") +"\">" + 
+					"<span class=\"material-icons small-icons\">" + tagValue + "</span>" + tag + "</a>" 
+					: "<a class=\"box\" href=\"../../../../index.html#" + tag.Replace(" ","") +"\">" + tag + "</a>")) + 
 					"</div>");
 			}
 	        output.Append($"<h6 class=\"page-footer\">All text © {publishDate.ToString("yyyy")} {HTML_TITLE}</h6>");
