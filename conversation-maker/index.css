@@ -150,6 +150,8 @@ a:hover {
 	cursor: pointer;
 	background-color: initial;
 	border: 2px solid var(--foreground);
+	white-space: nowrap;
+	overflow-x: auto;
 }
 .conversation .message[data-sender] .container[onclick]:hover {
 	background-color: var(--primary);

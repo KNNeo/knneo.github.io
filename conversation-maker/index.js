@@ -1,5 +1,6 @@
 //--DEFAULT SETTINGS--//
 const config = {};
+const emojiRegex = /(\p{Emoji}|\p{Emoji_Presentation}|\p{Emoji_Modifier}|\p{Emoji_Modifier_Base}|\p{Emoji_Component}|\p{Extended_Pictographic})+/gv;
 
 //--DOM NODE REFERENCES--//
 const selectionDiv = document.querySelector('#selection');
@@ -228,7 +229,6 @@ function processConversations() {
 		let lineSeparator = converse.getAttribute('data-separator') || ':';
 		let choiceSeparator = '|';
 		let systemMessagePrefix = '===';
-		let emojiRegex = /(\p{Emoji}|\p{Emoji_Presentation}|\p{Emoji_Modifier}|\p{Emoji_Modifier_Base}|\p{Emoji_Component}|\p{Extended_Pictographic})+/gv;
 		let lines = converse.innerText.split('\n');
 		if (lines.length < 2) {
 			converse.innerHTML = 'Click on Editor to create a conversation list';
@@ -242,12 +242,12 @@ function processConversations() {
 			let isUrl = line.startsWith('https://') || line.startsWith('http://');
 			let lineDiv = document.createElement('div');
 			lineDiv.classList.add('message');
-
 			for (let message of line.trim().substring(line.indexOf(lineSeparator) + 1).trim().split(choiceSeparator)) {
 				let messageDiv = document.createElement('div');
 				messageDiv.classList.add('container');
 				// change size if only contains emoji
-				if(message.replace(emojiRegex, '').length < 2) {
+				let emojiMatch = message.trim().match(emojiRegex);
+				if(emojiMatch && emojiMatch.length == 1) {
 					messageDiv.classList.add('emoji');
 					message += `\uFE0F`; // variation selector, can only fix single character
 				}
@@ -367,6 +367,7 @@ function nextMessage() {
 			else {
 				disableRunMessages();
 				setChoices(lines[l].querySelectorAll('.container'));
+				// console.log('wait for reply');
 				setTimeout(waitForSender, 500);
 			}
 		}
@@ -377,9 +378,10 @@ function nextMessage() {
 		}
 		if (lines[l].getAttribute('data-sender') == null)
 			window.choice = 0;
-	} else // must reset if no alternate choices found
+	} else { // must reset if no alternate choices found
 		allowRunMessages();
 		window.choice = 0;
+	}
 	// show message
 	lines[l].classList.remove('hide');
 	let heightAboveItem = Array.from(lines).slice(0, l).reduce(function (total, current, index) {
@@ -416,7 +418,7 @@ function nextMessage() {
 			top: heightAboveItem + currentHeight + footer.getBoundingClientRect().height,
 			behavior: 'smooth'
 		});
-		toggleConversation();
+		disableRunMessages(conversation);
 		return;
 	}
 
@@ -432,7 +434,6 @@ function nextMessage() {
 		if (!writeTime)
 			writeTime = 2500;
 		// console.log(lines[l]?.innerText, writeTime);
-		// call next
 		setTimeout(function () {
 			// console.log('call next');
 			conversation.querySelector('.loader')?.remove();
@@ -443,17 +444,19 @@ function nextMessage() {
 
 function setChoices(choices) {
 	// add event listeners
-	for (let c = 0; c < choices.length; c++)
-		choices[c].setAttribute('onclick', 'window.choice = ' + (1+c));
+	for (let c = 0; c < choices.length; c++) {
+		choices[c].setAttribute('onclick', 'window.choice=' + (1+c));
+		choices[c].setAttribute('oncontextmenu', 'popupText(this.innerText);return false');
+	}
 }
 
 function waitForSender() {
-	console.log('await reply');
+	// console.log('await reply');
 	if (window.choice) {
 		let conversation = document.querySelector('.conversation:not(.hidden)');
 		let lines = conversation.querySelectorAll('.message');
 		let l = Array.from(lines).indexOf(conversation.querySelector('.message.hide'));
-		// update choice now on previous line with respect to nextMessage(0
+		// update choice now on previous line with respect to nextMessage
 		for (let choice of lines[l - 1].querySelectorAll('.container:not(:nth-child(' + window.choice + '))'))
 			choice.classList.add('hidden');
 		for (let choice of lines[l - 1].querySelectorAll('.container'))
@@ -463,23 +466,28 @@ function waitForSender() {
 			conversation.querySelector('.loader')?.remove();
 			conversation.querySelector('.footer')?.click();
 		}, 1500);
-	} else
+	}
+	else
 		setTimeout(waitForSender, 1000);
 }
 
 function allowRunMessages() {
+	// console.log('allow run messages');
 	let conversation = document.querySelector('.conversation:not(.hidden)');
+	if(!conversation)
+		return;
 	// set status
 	conversation.setAttribute('data-running', '');
 	if (conversation.querySelector('.footer') != null)
 		conversation.querySelector('.footer').click();
 	// disable scroll capture
-	conversation.setAttribute('onwheel', 'event.preventDefault()');
-	conversation.setAttribute('onmousewheel', 'event.preventDefault()');
-	conversation.setAttribute('ontouchstart', 'event.preventDefault()');
+	conversation.setAttribute('onwheel', 'return false');
+	conversation.setAttribute('onmousewheel', 'return false');
+	conversation.setAttribute('ontouchstart', 'return false');
 }
 
 function disableRunMessages(conversation) {
+	// console.log('disable run messages');
 	if(!conversation)
 		conversation = document.querySelector('.conversation:not(.hidden)');
 	// remove status
@@ -515,9 +523,10 @@ function createDialog(node) {
 		let clonedNode = node.cloneNode(true);
 		dialog.appendChild(clonedNode);
 	}
-	// dialog.addEventListener('click', function() {
-	// this.remove();
-	// });
+	dialog.addEventListener('click', function() {
+		if(event.target.parentElement == document.querySelector('.dialog'))
+			removeDialog();
+	});
 	dialog.addEventListener('keyup', function () {
 		if (event.key === 'Enter')
 			this.remove();
