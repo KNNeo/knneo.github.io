@@ -228,6 +228,7 @@ function processConversations() {
 		let lineSeparator = converse.getAttribute('data-separator') || ':';
 		let choiceSeparator = '|';
 		let systemMessagePrefix = '===';
+		let emojiRegex = /\p{Emoji}/v;
 		let lines = converse.innerText.split('\n');
 		if (lines.length < 2) {
 			converse.innerHTML = 'Click on Editor to create a conversation list';
@@ -246,7 +247,7 @@ function processConversations() {
 				let messageDiv = document.createElement('div');
 				messageDiv.classList.add('container');
 				// change size if emoji
-				if(lines[l].innerText.replace(/(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])/g,'').length < 1)
+				if(message.replace(emojiRegex, '').length < 1)
 					messageDiv.classList.add('emoji');
 				let messageText = document.createElement('span');
 				if (!isSystem) // for non-system, if line has no sender, use previous
