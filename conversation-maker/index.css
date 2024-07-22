@@ -183,6 +183,10 @@ a:hover {
     border-radius: 99px;
     background-color: var(--foreground);
 }
+.conversation .message .reactions[data-selected] {
+	font-size: 0.6em;
+	line-height: 0;
+}
 .conversation .editor textarea {
     width: 100%;
 	height: calc(100% - 25px);

@@ -306,23 +306,26 @@ function processConversations() {
 
 function toggleReactions() {
 	let message = event.target.closest('.message');
+	if (!message) return;
 	if (message.querySelector('.reactions') != null) {
 		message.querySelector('.reactions').remove();
+		message.removeAttribute('data-selected');
 	} else {
 		let template = document.querySelector('.template-reactions');
 		let reactions = template.content.cloneNode(true);
-		message.querySelector('div').appendChild(reactions);
+		message.querySelector('.container').appendChild(reactions);
 	}
 }
 
 function setReaction() {
 	let message = event.target.closest('.message');
 	if (message.querySelector('.reactions') != null) {
-		message.querySelector('.reactions').innerHTML = '';
+		let reaction = event.target.cloneNode(true);
+		reaction.setAttribute('onclick', 'event.target.remove()');		
+		message.querySelector('.reactions').setAttribute('data-selected', '');
+		message.querySelector('.reactions').innerHTML = '';	
+		message.querySelector('.reactions').appendChild(reaction);
 	}
-	let reaction = event.target.cloneNode(true);
-	reaction.setAttribute('onclick', 'event.target.remove()');
-	message.querySelector('.reactions').appendChild(reaction);
 }
 
 function startConversation() {
