@@ -247,7 +247,7 @@ function processConversations() {
 				messageDiv.classList.add('container');
 				// change size if only contains emoji
 				let emojiMatch = message.trim().match(emojiRegex);
-				if(emojiMatch && emojiMatch.length == 1) {
+				if(emojiMatch && emojiMatch.length == 1 && message.replace(emojiMatch[0],'').length < 1) {
 					messageDiv.classList.add('emoji');
 					message += `\uFE0F`; // variation selector, can only fix single character
 				}
