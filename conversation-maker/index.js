@@ -228,7 +228,7 @@ function processConversations() {
 		let lineSeparator = converse.getAttribute('data-separator') || ':';
 		let choiceSeparator = '|';
 		let systemMessagePrefix = '===';
-		let emojiRegex = /\p{Emoji}/gv;
+		let emojiRegex = /(\p{Emoji}|\p{Emoji_Presentation}|\p{Emoji_Modifier}|\p{Emoji_Modifier_Base}|\p{Emoji_Component}|\p{Extended_Pictographic})+/gv;
 		let lines = converse.innerText.split('\n');
 		if (lines.length < 2) {
 			converse.innerHTML = 'Click on Editor to create a conversation list';
