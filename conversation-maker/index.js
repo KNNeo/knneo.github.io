@@ -477,8 +477,9 @@ function allowRunMessages() {
 	conversation.setAttribute('ontouchstart', 'event.preventDefault()');
 }
 
-function disableRunMessages() {
-	let conversation = document.querySelector('.conversation:not(.hidden)');
+function disableRunMessages(conversation) {
+	if(!conversation)
+		conversation = document.querySelector('.conversation:not(.hidden)');
 	// remove status
 	conversation.removeAttribute('data-running');
 	// remove scroll capture
