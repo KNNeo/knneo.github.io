@@ -247,8 +247,10 @@ function processConversations() {
 				let messageDiv = document.createElement('div');
 				messageDiv.classList.add('container');
 				// change size if only contains emoji
-				if(message.replace(emojiRegex, '').length < 2)
+				if(message.replace(emojiRegex, '').length < 2) {
 					messageDiv.classList.add('emoji');
+					message += `\uFE0F`; // variation selector, can only fix single character
+				}
 				let messageText = document.createElement('span');
 				if (!isSystem) // for non-system, if line has no sender, use previous
 					lineDiv.setAttribute('data-name', !isUrl && line.includes(lineSeparator) ? line.trim().substring(0, line.indexOf(lineSeparator)).trim() : prevName);
@@ -426,7 +428,7 @@ function nextMessage() {
 	if (conversation.getAttribute('data-running') != null) {
 		// calculate next message pop time
 		let writeLength = lines[l + 1]?.innerText.length ?? 1;
-		let writeTime = writeLength > 15 ? 2500 : 1500;
+		let writeTime = writeLength > 20 ? 2500 : 1500;
 		if (!writeTime)
 			writeTime = 2500;
 		// console.log(lines[l]?.innerText, writeTime);
