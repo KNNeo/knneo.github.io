@@ -10,6 +10,7 @@
 // DEBUG
 bool DEBUG_MODE = false;
 string DEBUG_SEARCHTERM = "";
+Dictionary<int, int> fixCounts = new Dictionary<int, int>();
 
 // INPUT OUTPUT SETTINGS
 string BLOGGER_XML_DIRECTORY = @"C:\Users\KAINENG\Downloads\";
@@ -73,7 +74,9 @@ void Main()
 	var linkedList = GetBloggerPostsLinkedList(bloggerPosts);
 	var homepageString = GenerateBloggerPosts(bloggerPosts, linkedList, Path.Combine(OUTPUT_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER));
 	GenerateHomepage(homepageString, bloggerPosts.ToList().Count);
-	Console.WriteLine("===================================================================================");	
+	Console.WriteLine("===================================================================================");
+	Console.WriteLine("FIX COUNTS");
+	Console.WriteLine(fixCounts.OrderBy(x => x.Key));
 	// Output as completed
 	Console.WriteLine("Done.");
 }
@@ -774,6 +777,14 @@ List<int> FixPostContent(ref string content)
     if(matchItems.Count() > 0)
         Console.WriteLine(matchItems);
 	
+    //Add to collation of fixes
+	foreach(var key in count)
+	{
+		if(fixCounts.TryGetValue(key, out int val))
+			fixCounts[key] = ++val;
+		else
+			fixCounts.Add(key, 1);
+	}
 	return count;
 }
 
