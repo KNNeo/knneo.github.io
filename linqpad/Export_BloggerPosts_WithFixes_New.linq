@@ -494,7 +494,7 @@ string GenerateScriptLinks(string content)
  */
 List<int> FixPostContent(ref string content)
 {
-	List<int> includeIndex = new List<int> { 14, 15, 18, 19, 20, 24, 29, 31, 32, 33, 34, 35, 36, 37, 38 };
+	List<int> includeIndex = new List<int> { 14, 15, 18, 24, 29, 31, 32, 33, 34, 35, 36, 37, 38 };
 	List<int> count = new List<int>();
 	string expression;
     string prefix, midfix, suffix;
@@ -563,48 +563,12 @@ List<int> FixPostContent(ref string content)
         };
 	}
     #endregion
-    
-    #region 19 any link not referenced within blog to open on new tab (thumbnails)
-	if(includeIndex.Count() == 0 || includeIndex.Contains(19))
-	{
-        prefix = @"<a href=""";
-        midfix = @""" target=""_blank""";
-        suffix = ">";
-        expression = @"(?s)(<a )(.*?)(href="")(.*?)("")(.*?)(>)";
-        expression = @"(?s)(<div class=""thumbnail"")(.*?)(<a )(.*?)(href="")(.*?)("")(.*?)(>)(.*?)(</a)(.*?)(/div>)";        
-        match = Regex.Match(content, expression);
-        while(match.Success) {
-			var url = match.Groups[6].Value;
-			if(!match.Groups[8].Value.Contains("_blank")
-			&& !match.Groups[10].Value.Contains("<")
-			&& !match.Groups[10].Value.Contains(">")
-			&& (url.Contains("blogger.") || url.Contains("bp.blogspot.com"))
-			) {
-				count.Add(19);
-                var replacement = match.Groups[1].Value + match.Groups[2].Value + prefix + url + midfix + match.Groups[8].Value + suffix 
-					+ match.Groups[10].Value + match.Groups[11].Value + match.Groups[12].Value + match.Groups[13].Value;
-				content = content.Replace(match.Value, replacement);
-			}
-            match = match.NextMatch();
-        };
-	}
-    #endregion
-            
-    #region 20 remove add href to hashtags script
-	if(includeIndex.Count() == 0 || includeIndex.Contains(20))
-	{
-		if(DEBUG_MODE) Console.WriteLine("remove add href to hashtags script");
-        var childDivScript = "<script>var childDivs = document.getElementById('hashtags').getElementsByTagName('a'); for( i=0; i< childDivs.length; i++ ) {  var childDiv = childDivs[i];  childDiv.href = '/search?q=' + childDiv.text.substring(1); } </script>";
-        if(content.Contains(childDivScript)) 
-			count.Add(20);
-        content = content.Replace(childDivScript, "");
-	}
-    #endregion
 	
     #region 24 replace common phrases with emoji
 	if(includeIndex.Count() == 0 || includeIndex.Contains(24))
 	{
 		if(DEBUG_MODE) Console.WriteLine("replace common phrases with emoji");
+		count.Add(24);
 		// sorted by alphabetical order of original string, then emoji length
 		Dictionary<string, string> emojis = new Dictionary<string, string>()
 		{
@@ -670,6 +634,7 @@ List<int> FixPostContent(ref string content)
     #region 31 add lazy loading to img tags
 	if(includeIndex.Count() == 0 || includeIndex.Contains(31))
 	{
+		count.Add(31);
         content = content.Replace("<img", "<img alt=\"\" loading=\"lazy\"");
 	}
     #endregion
