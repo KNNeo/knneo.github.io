@@ -387,13 +387,14 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
                 homepageString.AppendLine(isLatest 
 					? "<div class=\"box latest post\"" + dataId + ">" + 
 					(thumbnailUrl.Length > 0 ? "<span class=\"publish\">"+publishDate.ToString("yyyy.MM.dd")+"</span>" : "") + 
+					"<a href=\"" + pageLink + "\">" + 
 					"<div class=\"thumb\">" + 
-						"<a href=\"" + pageLink + "\">" + postTitle + "</a>" + 
-						(anchors.Count > 0 
-						? "<div class=\"anchors\">" + string.Join("", anchors.Select(a => "<a href=\"" + (pageLink + "#" + a) + "\">#" + a + "</a>")) + "</div>" 
-						: "") + 
 						(thumbnailUrl.Length > 0 ? "<div><img alt=\"\" loading=\"lazy\" src=\"" + thumbnailUrl + "\"/></div>" : "") + 
-					"</div></div>"
+						"<h4>" + postTitle + "</h4>" + 
+						//(anchors.Count > 0 
+						//? "<div class=\"anchors\">" + string.Join("", anchors.Select(a => "<a href=\"" + (pageLink + "#" + a) + "\">#" + a + "</a>")) + "</div>" 
+						//: "") + 
+					"</div></a></div>"
 					: "<div class=\"post\"" + dataId + "><span class=\"publish\">" + publishDate.ToString("yyyy.MM.dd") + " </span>" +
 					"<a href=\""+pageLink+"\">" + postTitle + "</a></div>");
 			}
