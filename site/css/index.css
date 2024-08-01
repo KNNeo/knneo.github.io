@@ -664,11 +664,13 @@ a {
 @media (prefers-reduced-motion: reduce) {
 	.section,
 	.viewer,
+	.menu .home,
 	.menu .icon,
 	.menu .text,
 	.page-prev .focusable, 
 	.page-next .focusable,
-	.container td[onclick] {
+	.container td[onclick],
+	.masonry img {
 		transition: none;
 	}
 }
