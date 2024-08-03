@@ -274,7 +274,9 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
 	        // Fix post content
 			List<int> fixCount = FixPostContent(ref postContent);
 			// Add to post string builder to generate HTML
-			var output = new StringBuilder();
+			var header = new StringBuilder();
+			var article = new StringBuilder();
+			var footer = new StringBuilder();
 			if (DEBUG_MODE) Console.WriteLine("Find first image of post for sharing, if any");
 	        string thumbnailUrl = null;
 	        Match match = Regex.Match(postContent, @"(?s)<img(.*?)src=""(.*?)""(.*?)/>");
@@ -292,32 +294,30 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
 			// All content to put in <body> tag
 			if (POSTS_LINK_TO_BLOGGER && bloggerLink != "")
 			{
-	            output.AppendLine("<small style=\"text-align: center;\"><p><em>This is an archive from <a href=\"" + bloggerLink + "\">" + HTML_TITLE + "</a></em></p></small>");
+	            header.AppendLine("<small style=\"text-align: center;\"><p><em>This is an archive from <a href=\"" + bloggerLink + "\">" + HTML_TITLE + "</a></em></p></small>");
 			}
 			var publishDateString = publishDate.ToString("yyyy-MM-dd HH:mm") + " (GMT+8)";
 			var updateDateString = updateDate.ToString("yyyy-MM-dd HH:mm") + " (GMT+8)";
-	        output.AppendLine("<small title=\"Published: " + publishDateString + 
+	        header.AppendLine("<small title=\"Published: " + publishDateString + 
 				(publishDateString == updateDateString ? "\"" : "<br />&nbsp;&nbsp;Updated: " + updateDateString + "\"") +
 				" class=\"published\">" + publishDate.ToString("dddd, dd MMMM yyyy") + "</small>");
-	        output.AppendLine("<div class=\"title\">" + postTitle + "</div>");
+	        header.AppendLine("<div class=\"title\">" + postTitle + "</div>");
 			if(postContent.Contains("id=\"") && !postContent.Contains("=\"hashtags\""))
-				output.AppendLine("<div class=\"post-hashtags\"></div>");
-	        output.AppendLine("<div class=\"post-header\"></div>");
+				header.AppendLine("<div class=\"post-hashtags\"></div>");
+	        header.AppendLine("<div class=\"post-header\"></div>");
 			// Actual content to put in post-content class, HTML condensed
-	        output.Append(Uglify.Html(postContent));
-	        output.Append("<hr>");
+	        article.Append(Uglify.Html(postContent));
+	        footer.Append("<hr>");
 	        if(pageTagsXml.Count > 0)
 			{
-	            output.Append($"<div class=\"post-tags\"><h4>{POST_TAGS_PREFIX_TEXT} </h4>" + 
+	            footer.Append($"<div class=\"post-tags\"><h4>{POST_TAGS_PREFIX_TEXT} </h4>" + 
 					string.Join("", pageTagsXml.OrderBy(t => t).Select(tag => POST_LABEL_ICONTEXT.TryGetValue(tag, out String tagValue) 
 					? "<a class=\"box\" href=\"../../../../index.html#" + tag.Replace(" ","") +"\">" + 
 					"<span class=\"material-icons small-icons\">" + tagValue + "</span>" + tag + "</a>" 
 					: "<a class=\"box\" href=\"../../../../index.html#" + tag.Replace(" ","") +"\">" + tag + "</a>")) + 
 					"</div>");
 			}
-	        output.Append($"<h6 class=\"page-footer\">All text © {publishDate.ToString("yyyy")} {HTML_TITLE}</h6>");
-	        output.Append("<br>");
-	        output.Append("<br>");
+	        footer.Append($"<h6 class=\"page-footer\">All text © {publishDate.ToString("yyyy")} {HTML_TITLE}</h6>");
 		    // Write all additions into output home page
 		    string fileString = File.ReadAllText(POST_TEMPLATE_FILENAME)
 				.Replace("_TITLE_", postTitle.Length > 0 ? postTitle : "A Random Statement")
@@ -326,7 +326,9 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
 				.Replace("_FONTS_", externalFonts.Length > 0 ? externalFonts.ToString() : "")
 				.Replace("_CSS_", GenerateStyleLinks(postContent))
 				.Replace("_JS_", GenerateScriptLinks(postContent))
-				.Replace("_CONTENTS_", output.ToString())
+				.Replace("_HEADER_", header.ToString())
+				.Replace("_CONTENTS_", article.ToString())
+				.Replace("_FOOTER_", footer.ToString())
 				.Replace("_PREVLINK_", linkedList.IndexOf(pageLink) < linkedList.Count() - 1 ? linkedList[linkedList.IndexOf(pageLink) + 1].Replace("./", "../../../../") : "")
 				.Replace("_NEXTLINK_", linkedList.IndexOf(pageLink) > 0 ? linkedList[linkedList.IndexOf(pageLink) - 1].Replace("./", "../../../../") : "");
 		    // Write into homepage file, or overwrite if exists
