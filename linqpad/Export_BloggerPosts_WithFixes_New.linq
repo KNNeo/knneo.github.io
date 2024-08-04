@@ -307,7 +307,7 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
 				(publishDateString == updateDateString ? "\"" : "<br />&nbsp;&nbsp;Updated: " + updateDateString + "\"") +
 				" class=\"published\">" + publishDate.ToString("dddd, dd MMMM yyyy") + "</small>");
 	        header.AppendLine("<div class=\"title\">" + postTitle + "</div>");
-			if(postContent.Contains("id=\"") && !postContent.Contains("=\"hashtags\""))
+			if(postContent.Contains("id=\"") && !postContent.Contains("=\"post-hashtags\""))
 				header.AppendLine("<div class=\"post-hashtags\"></div>");
 	        header.AppendLine("<div class=\"post-header\"></div>");
 			// Actual content to put in post-content class, HTML condensed
