@@ -37,10 +37,10 @@ int GENERATE_SLUG_MAX_LENGTH = 70;
 // POST SETTINGS
 string HTML_TITLE = "Klassic Note Reports";
 string HTML_DESCRIPTION = "If it is worth taking Note, it will be a Klassic.";
-string HTML_THUMBNAIL_SINCE = "2023-01-01";
 bool POSTS_LINK_TO_BLOGGER = false;
 string POSTS_INCLUDE_SINCE = "2000-01-01";
 string POSTS_PROCESS_SINCE = "2024-07-01";
+string POST_THUMBNAIL_SINCE = "2020-01-01";
 string POST_TAGS_PREFIX_TEXT = "Read more";
 List<String> POST_IGNORE_LABELS = new List<string>() { "The Archive", "The Statement" };
 Dictionary<String, String> POST_LABEL_ICONTEXT = new Dictionary<String, String>()
@@ -53,6 +53,11 @@ Dictionary<String, String> POST_LABEL_ICONTEXT = new Dictionary<String, String>(
 	//{ "The Welfare Package", "inventory_2" },
 	//{ "The Review", "edit_note" },
 	//{ "The Statement", "campaign" }
+};
+Dictionary<String, String> POST_LABEL_THUMBNAIL = new Dictionary<String, String>()
+{
+	{ "The Klassic Note", "resources/klassic_note.jpg" },
+	{ "The Dreams", "resources/dreams.jpg" }
 };
 List<String> POST_OLD_DOMAINS = new List<string>()
 {
@@ -372,8 +377,13 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
 					// Exceptions (TODO: Set as config)
 			        if(thumbnailUrl.Contains("scontent-sin.xx.fbcdn.net"))
 			            thumbnailUrl = "";
-					if(pageTagsXml.Any(xml => "The Dreams".Contains(xml)))
-			            thumbnailUrl = "resources/dream.jpg";
+					// If not thumbnail found in post, set default thumbnail by first label found
+					if(String.IsNullOrWhiteSpace(thumbnailUrl))
+					{
+						var firstLabel = pageTagsXml.FirstOrDefault(xml => POST_LABEL_THUMBNAIL.Keys.Contains(xml));
+						if(firstLabel != null)
+				            thumbnailUrl = POST_LABEL_THUMBNAIL[firstLabel];
+					}
 					// Find all anchors in div or blockquote tags
 					if (DEBUG_MODE) Console.WriteLine("Find all anchors");
 			        match = Regex.Match(postContent, @"(?s)(div|blockquote)(.*?) id=""(.*?)""(.*?)(>)");
@@ -769,7 +779,7 @@ string GenerateSlug(string title)
 
 bool IsLatestPost(DateTime publishDate)
 {
-	return DateTime.Compare(publishDate, DateTime.Parse(HTML_THUMBNAIL_SINCE)) >= 0;
+	return DateTime.Compare(publishDate, DateTime.Parse(POST_THUMBNAIL_SINCE)) >= 0;
 }
 
 class MatchItem
