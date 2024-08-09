@@ -25,6 +25,7 @@ string BLOGGER_XML_RENAME_SUFFIX = "knreports";
 // PROGRAM SETTINGS
 bool HOMEPAGE_ONLY = false;
 bool WRITE_TITLE_ON_CONSOLE = true;
+bool WRITE_FIXES_ON_CONSOLE = false;
 bool DELETE_OUTPUT_DIRECTORY = false;
 int DOTS_PER_LINE_CONSOLE = 100;
 string BLOG_DOMAIN_URL = "https://knreports.blogspot.com/";
@@ -80,8 +81,11 @@ void Main()
 	var homepageString = GenerateBloggerPosts(bloggerPosts, linkedList, Path.Combine(OUTPUT_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER));
 	GenerateHomepage(homepageString, bloggerPosts.ToList().Count);
 	Console.WriteLine("===================================================================================");
-	Console.WriteLine("FIX COUNTS");
-	Console.WriteLine(fixCounts.OrderBy(x => x.Key));
+	if(WRITE_FIXES_ON_CONSOLE)
+	{
+		Console.WriteLine("FIX COUNTS");
+		Console.WriteLine(fixCounts.OrderBy(x => x.Key));
+	}
 	// Output as completed
 	Console.WriteLine("Done.");
 }
@@ -458,7 +462,7 @@ string GenerateStyleLinks(string content)
 string GenerateScriptLinks(string content)
 {
 	// common components, in order
-	var components = new string[] { "carousel", "accordion", "conversation" };
+	var components = new string[] { "carousel", "accordion", "conversation", "disclaimer" };
 	var scripts = new StringBuilder();
 	foreach(var comp in components)
 	{
