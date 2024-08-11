@@ -219,6 +219,8 @@ SitemapSections GenerateSitemap(List<XElement> xmlPosts)
 	        var match = Regex.Match(postContent, expression);
     		while(match.Success) {
 				//Console.WriteLine(match.Groups[3].Value);
+				if(match.Groups[3].Value.Length > MAX_HASHTAG_LENGTH)
+					throw new Exception($"Hashtag {match.Groups[3].Value} exceeds max length {MAX_HASHTAG_LENGTH} in {postTitle}");
 				if(match.Groups[3].Value.Length > 1 && 
 				match.Groups[3].Value.Length <= MAX_HASHTAG_LENGTH && 
 				!exclusions.Any(e => match.Groups[3].Value.Contains(e)) && 
@@ -292,7 +294,7 @@ SitemapSections GenerateSitemap(List<XElement> xmlPosts)
 		var key = item.Keyword.Split('|'); // Fanfiction|date|name
 		var date = DateTime.ParseExact(key[1], "yyyy.MM.dd", null);
 		if(date >= fanDate.AddDays(14)) // assume breaks between seasons
-			fanString += "</div>\r\n<div class=\"season\"><b class=\"title\">SEASON " + ++seasonNo + "</b><br>\r\n";
+			fanString += "</div>\r\n<div class=\"season\"><b class=\"title\">Season " + ++seasonNo + "</b><br>\r\n";
 		fanString += "<div><span>" + (++counter).ToString("00") + "</span> <a class=\"keyword\" title=\"" + item.Title + "\" href=\"" + item.KeywordUrl + "\">" + key[2] + "</a></div>\r\n";
 		fanDate = date;
 	}
