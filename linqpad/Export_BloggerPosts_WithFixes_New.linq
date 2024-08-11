@@ -442,7 +442,7 @@ string GenerateStyleLinks(string content)
 	var styles = new StringBuilder();
 	foreach(var comp in components)
 	{
-		if(content.Contains($"class=\"{comp}\""))
+		if(content.Contains($"class=\"{comp}"))
 			styles.AppendLine($"<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../../css/{comp}.css\"/>");
 	}
 
@@ -466,7 +466,7 @@ string GenerateScriptLinks(string content)
 	var scripts = new StringBuilder();
 	foreach(var comp in components)
 	{
-		if(content.Contains($"class=\"{comp}\""))
+		if(content.Contains($"class=\"{comp}"))
 			scripts.AppendLine($"<script type=\"application/javascript\" charset=\"utf-8\" src=\"../../../../js/{comp}.js\" defer></script>");
 	}
 
