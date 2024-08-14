@@ -285,20 +285,19 @@ SitemapSections GenerateSitemap(List<XElement> xmlPosts)
 	}
 	
 	//Generate sitemap string (fanfic)
-    var fanString = "<div>";
+    var fanString = "";
 	var seasonNo = 0;
 	var counter = 0;
-	var fanDate = DateTime.Parse("1900-01-01");
+	var prevDate = DateTime.Parse("1900-01-01");
 	foreach(var item in fanficItems.OrderBy(i => i.Keyword))
 	{
 		var key = item.Keyword.Split('|'); // Fanfiction|date|name
 		var date = DateTime.ParseExact(key[1], "yyyy.MM.dd", null);
-		if(date >= fanDate.AddDays(14)) // assume breaks between seasons
-			fanString += "</div>\r\n<div class=\"season\"><b class=\"title\">Season " + ++seasonNo + "</b><br>\r\n";
+		if(date >= prevDate.AddDays(14)) // assume breaks between seasons
+			fanString += "<h3 class=\"title\">Season " + ++seasonNo + "</h3>\r\n";
 		fanString += "<div><span>" + (++counter).ToString("00") + "</span> <a class=\"keyword\" title=\"" + item.Title + "\" href=\"" + item.KeywordUrl + "\">" + key[2] + "</a></div>\r\n";
-		fanDate = date;
+		prevDate = date;
 	}
-	fanString += "</div>";
 	
 	return new SitemapSections() {
 		Anime = animeString,
