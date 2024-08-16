@@ -1,0 +1,65 @@
+/*Variables*/
+:root {
+  --primary: #0065ff;
+  --secondary: #609fff;
+  --background: #fff;
+  --foreground: #000;
+  --accent: lightgray;
+}
+
+.darked:root {
+  --primary: #00e4ff;
+  --secondary: #00abbf;
+  --background: #000;
+  --foreground: #fff;
+  --accent: gray;
+}
+
+html {
+	font-family: Noto Sans;
+	background-color: var(--background);
+	color: var(--foreground);
+}
+
+body {
+  margin: 0;
+  text-align: center;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+a {
+	color: var(--primary);
+}
+
+button,
+input {
+	font-size: 1rem;
+	max-width: 10ch;
+	margin: auto;
+}
+
+.hidden {
+	display: none;
+}
+
+.page {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.settings a {
+	color: var(--foreground);
+	text-decoration: none;
+	display: flex;
+	justify-content: center;
+    padding: 5px;
+}
+
+.settings a:hover {
+	color: var(--primary);
+}
