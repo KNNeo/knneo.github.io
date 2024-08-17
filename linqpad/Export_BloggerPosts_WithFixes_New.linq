@@ -23,17 +23,18 @@ string POST_TEMPLATE_FILENAME = @"C:\Users\KAINENG\Documents\GitHub\knreports\te
 string BLOGGER_XML_RENAME_SUFFIX = "knreports";
 
 // PROGRAM SETTINGS
+static bool GENERATE_SLUG_BY_POST_TITLE = true;
+static int GENERATE_SLUG_MAX_LENGTH = 70;
 bool HOMEPAGE_ONLY = false;
 bool WRITE_TITLE_ON_CONSOLE = true;
 bool WRITE_FIXES_ON_CONSOLE = false;
 bool DELETE_OUTPUT_DIRECTORY = false;
 int DOTS_PER_LINE_CONSOLE = 100;
-string BLOG_DOMAIN_URL = "https://knreports.blogspot.com/";
+string BLOG_DOMAIN_URL = "https://klassicnotereports.blogspot.com/";
 XNamespace DEFAULT_XML_NAMESPACE = XNamespace.Get("http://www.w3.org/2005/Atom");
 List<string> GOOGLE_FONTS_URLS = new List<string>() { "Dancing Script" };
 bool SHOW_POST_LABELs_COUNT = false;
-bool GENERATE_SLUG_BY_POST_TITLE = true;
-int GENERATE_SLUG_MAX_LENGTH = 70;
+bool SHOW_LINKED_LIST = false;
 
 // POST SETTINGS
 string HTML_TITLE = "Klassic Note Reports";
@@ -77,7 +78,7 @@ void Main()
 	var inputFileDirs = GetBloggerXmlFilePath(BLOGGER_XML_DIRECTORY, ARCHIVE_XML_DIRECTORY);
 	var bloggerPosts = GetBloggerPostsPublished(inputFileDirs);
 	var outputFilesDir = Path.Combine(OUTPUT_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER);
-	var linkedList = GetBloggerPostsLinkedList(bloggerPosts);
+	var linkedList = GenerateBloggerPostsLinkedList(bloggerPosts);
 	var homepageString = GenerateBloggerPosts(bloggerPosts, linkedList, Path.Combine(OUTPUT_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER));
 	GenerateHomepage(homepageString, bloggerPosts.ToList().Count);
 	Console.WriteLine("===================================================================================");
@@ -179,12 +180,12 @@ List<XElement> GetBloggerPostsPublished(string[] inputFiles)
 		.OrderByDescending(x => DateTime.Parse(x.Element(DEFAULT_XML_NAMESPACE+"published").Value)).ToList();
 }
 
-List<string> GetBloggerPostsLinkedList(List<XElement> xmlPosts)
+List<LinkedListItem> GenerateBloggerPostsLinkedList(List<XElement> xmlPosts)
 {
 	// Read file
 	Console.WriteLine("Creating Linked List...");
 	// Create linked list for all posts links to allow navigation between posts
-	var linkedList = new List<string>();
+	var linkedList = new List<LinkedListItem>();
 	foreach(var entry in xmlPosts)
 	{
         DateTime publishDate = DateTime.Parse(entry.Element(DEFAULT_XML_NAMESPACE+"published").Value);
@@ -195,6 +196,10 @@ List<string> GetBloggerPostsLinkedList(List<XElement> xmlPosts)
         string bloggerLink = ((entry.Elements(DEFAULT_XML_NAMESPACE+"link")
             .FirstOrDefault(e => e.Attribute("rel").Value == "alternate") ?? empty)
             .Attribute("href") ?? emptA).Value;
+		foreach(var domain in POST_OLD_DOMAINS)
+		{
+			bloggerLink = bloggerLink.Replace(domain, BLOG_DOMAIN_URL);
+		}
 		string generatedLink = GenerateSlug(postTitle);
         // Find post labels
         var pageTagsXml = entry.Elements(DEFAULT_XML_NAMESPACE+"category")
@@ -205,12 +210,14 @@ List<string> GetBloggerPostsLinkedList(List<XElement> xmlPosts)
 		// If has valid published link, and not including post labels to ignore and not render
 		if(!string.IsNullOrWhiteSpace((GENERATE_SLUG_BY_POST_TITLE ? generatedLink : Path.GetFileNameWithoutExtension(bloggerLink))) 
 				&& !pageTagsXml.Any(xml => POST_IGNORE_LABELS.Contains(xml)))
-			linkedList.Add(pageLink);
+			linkedList.Add(new LinkedListItem(bloggerLink, pageLink));
 	}
+	if(SHOW_LINKED_LIST)
+		Console.WriteLine(linkedList);
 	return linkedList;
 }
 
-string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedList, string outputFileDir)
+string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<LinkedListItem> linkedList, string outputFileDir)
 {
     // Create output folder if missing
     if(!Directory.Exists(outputFileDir) && !HOMEPAGE_ONLY)
@@ -238,6 +245,10 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
         string bloggerLink = ((entry.Elements(DEFAULT_XML_NAMESPACE+"link")
             .FirstOrDefault(e => e.Attribute("rel").Value == "alternate") ?? empty)
             .Attribute("href") ?? emptA).Value;
+		foreach(var domain in POST_OLD_DOMAINS)
+		{
+			bloggerLink = bloggerLink.Replace(domain, BLOG_DOMAIN_URL);
+		}
 		string generatedLink = GenerateSlug(postTitle);
 		// If not post URL, skip
 		if(string.IsNullOrWhiteSpace(bloggerLink))
@@ -269,7 +280,7 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
         var pageLink = "./" + Path.GetFileNameWithoutExtension(BLOGGER_XML_DIRECTORY.Replace(BLOGGER_XML_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER)) + 
 			"/" + publishDate.Year.ToString("0000") + "/"  + publishDate.Month.ToString("00") + 
 			"/"  + (GENERATE_SLUG_BY_POST_TITLE ? generatedLink : Path.GetFileNameWithoutExtension(bloggerLink)) + "/index." + postExtension;
-        var pageIndex = linkedList.IndexOf(pageLink);
+        var pageIndex = linkedList.FindIndex(l => l.Destination == pageLink);
 		// Process page content
 		if(!HOMEPAGE_ONLY && publishDate >= DateTime.Parse(POSTS_PROCESS_SINCE))
 		{
@@ -281,7 +292,7 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
 			if(DEBUG_MODE && !string.IsNullOrWhiteSpace(DEBUG_SEARCHTERM) && (postContent.IndexOf(DEBUG_SEARCHTERM) >= 0 || postTitle.IndexOf(DEBUG_SEARCHTERM) >= 0))
 				Console.WriteLine(postTitle);
 	        // Fix post content
-			List<int> fixCount = FixPostContent(ref postContent);
+			List<int> fixCount = FixPostContent(ref postContent, linkedList);
 			// Add to post string builder to generate HTML
 			var header = new StringBuilder();
 			var article = new StringBuilder();
@@ -338,10 +349,10 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<string> linkedL
 				.Replace("_HEADER_", header.ToString())
 				.Replace("_CONTENTS_", article.ToString())
 				.Replace("_FOOTER_", footer.ToString())
-				.Replace("_PREVLINK_", linkedList.IndexOf(pageLink) < linkedList.Count() - 1 ? linkedList[linkedList.IndexOf(pageLink) + 1].Replace("./", "../../../../") : "")
-				.Replace("_NEXTLINK_", linkedList.IndexOf(pageLink) > 0 ? linkedList[linkedList.IndexOf(pageLink) - 1].Replace("./", "../../../../") : "");
+				.Replace("_PREVLINK_", pageIndex < linkedList.Count() - 1 ? linkedList[pageIndex + 1].Destination.Replace("./", "../../../../") : "")
+				.Replace("_NEXTLINK_", pageIndex > 0 ? linkedList[pageIndex - 1].Destination.Replace("./", "../../../../") : "");
 		    // Write into homepage file, or overwrite if exists
-		    File.WriteAllText(pageOutputPath, fileString);	
+		    File.WriteAllText(pageOutputPath, fileString);
 			// Show progress, as post title or as represented by dot (100 per line)
 		    if(WRITE_TITLE_ON_CONSOLE || DEBUG_MODE)
 		        Console.WriteLine("||> " + (postTitle.Length > 0 ? postTitle : "POST W/O TITLE DATED " + publishDate.ToString("yyyy-MM-dd")) + 
@@ -509,7 +520,7 @@ string GenerateScriptLinks(string content)
  * [ok] class thumbnail -> class carousel
  * [ok] fix head-prefix hardcoded styles
  */
-List<int> FixPostContent(ref string content)
+List<int> FixPostContent(ref string content, List<LinkedListItem> linkedList)
 {
 	List<int> includeIndex = new List<int> { 14, 15, 18, 24, 29, 31, 32, 33, 34, 35, 36, 37, 38 };
 	List<int> count = new List<int>();
@@ -524,15 +535,34 @@ List<int> FixPostContent(ref string content)
     // [2] Replace String According to Expression (simple without format, or simple with format, or complex use UpdateRegexContent)
 	
     #region 14 old blog link to current blog
+	// NOTE: This does not cover domain names during Blogger export and import to a new Blogger site!
 	if(includeIndex.Count() == 0 || includeIndex.Contains(14))
 	{
 		foreach(var domain in POST_OLD_DOMAINS)
 		{
-	        expression = @"(?s)(href=""" + domain +")(.*?)(>)";
+	        expression = @"(?s)(href=\"")(" + domain + ")(.*?)(\")(.*?)(>)";
 	        match = Regex.Match(content, expression);
 	        while(match.Success) {
 				count.Add(14);
-	            var replacement = match.Value.Replace("target=\"_blank\"", "").Replace(domain, "../../../").Replace(".html", "/index.html");
+				var bloggerLink = match.Groups[2].Value + match.Groups[3].Value;
+				//Console.WriteLine("                 " + bloggerLink);
+				foreach(var oldDomain in POST_OLD_DOMAINS)
+				{
+					bloggerLink = bloggerLink.Replace(oldDomain, BLOG_DOMAIN_URL);
+				}
+				//Console.WriteLine("                 " + bloggerLink);
+				var linkedListItem = linkedList.FirstOrDefault(l => bloggerLink.StartsWith(l.Source));
+				//Console.WriteLine("                 " + (linkedListItem?.Destination ?? "INVALID"));
+				if(linkedListItem == null) {
+					if(DEBUG_MODE)
+						Console.WriteLine(match.Groups[2].Value + match.Groups[3].Value + " NOT FOUND IN LINKED LIST");
+					break;
+				}
+	            var replacement = match.Value.Replace("target=\"_blank\"", "")
+											.Replace(domain, BLOG_DOMAIN_URL)
+											.Replace(linkedListItem.Source, linkedListItem.Destination)
+											.Replace("./posts/", "../../../");
+				//Console.WriteLine("                 " + replacement);
 	            content = content.Replace(match.Value, replacement);
 	            match = match.NextMatch();
 	        };
@@ -544,11 +574,19 @@ List<int> FixPostContent(ref string content)
 	if(includeIndex.Count() == 0 || includeIndex.Contains(15))
 	{
 		//https
-        expression = @"(?s)(href=""" + BLOG_DOMAIN_URL + ")(.*?)(>)";
+	    expression = @"(?s)(href=\"")(" + BLOG_DOMAIN_URL + ")(.*?)(\")(.*?)(>)";
         match = Regex.Match(content, expression);
         while(match.Success) {
 			count.Add(15);
-            var replacement = match.Value.Replace("target=\"_blank\"", "").Replace(BLOG_DOMAIN_URL, "../../../").Replace(".html", "/index.html");
+			var linkedListItem = linkedList.FirstOrDefault(l => (match.Groups[2].Value + match.Groups[3].Value).StartsWith(l.Source));
+			if(linkedListItem == null) {
+				if(DEBUG_MODE)
+					Console.WriteLine(match.Groups[2].Value + match.Groups[3].Value + " NOT FOUND IN LINKED LIST");
+				break;
+			}
+            var replacement = match.Value.Replace("target=\"_blank\"", "")
+											.Replace(BLOG_DOMAIN_URL, "../../../")
+											.Replace(".html", "/index.html");
             content = content.Replace(match.Value, replacement);
             match = match.NextMatch();
         };
@@ -770,7 +808,12 @@ List<int> FixPostContent(ref string content)
 	return count;
 }
 
-string GenerateSlug(string title)
+bool IsLatestPost(DateTime publishDate)
+{
+	return DateTime.Compare(publishDate, DateTime.Parse(POST_THUMBNAIL_SINCE)) >= 0;
+}
+
+static string GenerateSlug(string title)
 {
 	string slug = title.ToLower();
 	slug = slug.Replace("&quot;","");
@@ -781,9 +824,16 @@ string GenerateSlug(string title)
 	return slug.Length > GENERATE_SLUG_MAX_LENGTH ? slug.Substring(0, slug.Substring(0, GENERATE_SLUG_MAX_LENGTH).LastIndexOf('-')) : slug;
 }
 
-bool IsLatestPost(DateTime publishDate)
+class LinkedListItem
 {
-	return DateTime.Compare(publishDate, DateTime.Parse(POST_THUMBNAIL_SINCE)) >= 0;
+    public string Source { get; set; } // old url generated
+    public string Destination { get; set; } // full url generated
+	
+	public LinkedListItem(string before, string after)
+	{
+		Source = before;
+		Destination = after;
+	}
 }
 
 class MatchItem
