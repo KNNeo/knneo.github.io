@@ -38,7 +38,7 @@ a:hover, label:hover {
 .title, 
 .subtitle,
 .home,
-.gallery[title]::before {
+.gallery[prompt]::before {
     filter: drop-shadow(2px 4px 2px var(--background));	
 }
 
@@ -120,6 +120,10 @@ a:hover, label:hover {
 	top: 0;
 }
 
+.filters .tags:not(:has(a)) {
+	display: none;
+}
+
 .home {
 	position: absolute;
     left: 0;
@@ -162,17 +166,10 @@ body .gallery {
 
 .gallery[prompt]::before {
 	content: attr(prompt);
-	font-size: 0.8em;
 	position: fixed;
-	bottom: 4em;
+	bottom: 3em;
 	left: 0;
 	right: 0;
-	background-color: var(--accent);
-	border-radius: 8px;
-    width: 50%;
-	max-width: 500px;
-    margin: auto;
-	padding: 6px 8px;
 }
 
 .gallery img[data-link] {
