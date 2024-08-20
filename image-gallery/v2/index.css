@@ -37,7 +37,8 @@ a:hover, label:hover {
 .bi,
 .title, 
 .subtitle,
-.home {
+.home,
+.gallery[title]::before {
     filter: drop-shadow(2px 4px 2px var(--background));	
 }
 
@@ -157,6 +158,21 @@ body .gallery {
 .gallery {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
+}
+
+.gallery[prompt]::before {
+	content: attr(prompt);
+	font-size: 0.8em;
+	position: fixed;
+	bottom: 4em;
+	left: 0;
+	right: 0;
+	background-color: var(--accent);
+	border-radius: 8px;
+    width: 50%;
+	max-width: 500px;
+    margin: auto;
+	padding: 6px 8px;
 }
 
 .gallery img[data-link] {

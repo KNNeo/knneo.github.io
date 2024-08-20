@@ -16,12 +16,16 @@ let progressDiv = document.querySelector('.progress');
 //--HELPERS--//
 function scrollToItem(itemNo) {
 	let allItems = document.querySelectorAll('.gallery img');
+	for(let item of allItems)
+		item.classList.remove('selected');
 	let selectItem = itemNo || 0;
 	if(allItems.length > 0) {
 		allItems[selectItem].scrollIntoView({
 			inline: 'center', behavior: 'smooth'
 		});
 		window.variables.selected = selectItem;
+		if(window.variables.prompter)
+			galleryDiv.setAttribute('prompt', allItems[selectItem].title);
 	}
 }
 
@@ -116,6 +120,7 @@ function onWheel() {
 	event.preventDefault();
 	let scrollDelta = isFirefox ? -event.detail*50 : event.wheelDelta;
 	galleryDiv.scrollLeft -= scrollDelta;
+	galleryDiv.removeAttribute('prompt');
 }
 
 function onMouseDown() {
@@ -403,6 +408,7 @@ function renderGallery() {
 	if(window.variables.display.overview)
 		galleryDiv.addEventListener('contextmenu', function() {
 			galleryDiv.classList.add('overview');
+			galleryDiv.removeAttribute('prompt');
 			settingsDiv.classList.add('hidden');
 			if(window.variables.selected)
 				document.querySelectorAll('.gallery img')[parseInt(window.variables.selected)].scrollIntoView({ inline: 'center' });
