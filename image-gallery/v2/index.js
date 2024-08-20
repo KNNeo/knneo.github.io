@@ -490,13 +490,17 @@ function createSource() {
 
 //--INITIAL--//
 function startup() {
-	getJson(document.getElementById('data-id').src, startLoad);
+	if(document.getElementById('data-id').src)
+		getJson(document.getElementById('data-id').src, startLoad);
+	else if (document.getElementById('data-id').textContent) {
+		startLoad(JSON.parse(document.getElementById('data-id').textContent));
+	}
 }
 
 function startLoad(content) {
 	window.variables = content;
 	window.variables.base = window.variables.items
-		.filter(i => window.variables.filter ? i[window.variables.filter.category].includes(window.variables.filter.value) : true)
+		.filter(i => window.variables.filter && window.variables.filter.category ? i[window.variables.filter.category].includes(window.variables.filter.value || '') : true)
 		.sort(function(a,b) {
 			if(window.variables.sort && window.variables.sort.order && window.variables.sort.value)
 			{
@@ -511,6 +515,14 @@ function startLoad(content) {
 		});
 	document.title = window.variables.title;
 	titleDiv.innerText = window.variables.title;
+	subtitleDiv.innerText = window.variables.subtitle;
+	if(window.variables.display.subtitle) {
+		subtitleDiv.classList.remove('hidden');
+		if(subtitleDiv.innerText.startsWith('http')) {
+			subtitleDiv.style.cursor = 'pointer';
+			subtitleDiv.setAttribute('onclick', "window.open(this.innerText, '_blank').focus()");
+		}
+	}
 	noticeDiv.innerText = window.variables.notice;
 	
 	renderDisplay();

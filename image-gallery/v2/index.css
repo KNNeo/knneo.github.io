@@ -63,6 +63,11 @@ a:hover, label:hover {
 	top: 0;
 }
 
+.subtitle {
+	left: 0;
+	top: 3em;
+}
+
 .settings {
 	top: 0;
 	right: 1em;
