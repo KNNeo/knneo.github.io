@@ -52,7 +52,7 @@ function generateTagClouds() {
 					total.push({
 						value: tag,
 						category: filter.className,
-						count: arr.filter(f => f == tag).length
+						count: arr.filter(f => f.split(window.variables.filter?.delimiter || ',').includes(tag)).length
 					});
 			}
 			return total;
