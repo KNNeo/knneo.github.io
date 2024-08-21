@@ -5,7 +5,7 @@ Static Pages/Views
 ---
 **Would You Rather?** - [Inactive] Simple input output text formatter<br/>
 **Profile List** - Profile boxes with age timeline and birthday calendar (PWA-compatible)<br/>
-**Calendar** - Simple calendar for creating and removing regular events, month display<br/>
+**Calendar** - [Inactive] Simple calendar for creating and removing regular events, month display<br/>
 **Data Table** - [Inactive] Table filtering using p5.js with csv file input<br/>
 **Music Database** - SQL.js driven music database and query views (PWA-compatible)<br/>
 **Image Gallery** - Dynamic horizontal view image gallery with viewer and slideshow<br/>
@@ -24,7 +24,10 @@ Static Pages/Views
 <!-- end -->
 **Video Playlist** - YouTube APIv3 playlist loader with custom options and search<br/>
 **Checklist** - [Inactive] Simple checklist with in browser storage of fixed values<br/>
-**Bingo** - Single player Bingo game system with up to 3 cards with custom win patterns (Re-creation of Bingo Luau)<br/><br/>
+**Quiz** - Custom multiple quiz maker with score history and timer for each question<br/><br/>
+**Bingo** - Single player Bingo game system with up to 3 cards with custom win patterns (Re-creation attempt of Bingo Luau)<br/><br/>
+**Dice** - Simple dice game with AI system with score history (Re-creation of video game "Cult of the Lamb" mini-game Knucklebones))<br/><br/>
+**Idle** - Template for idle game with rates for each level up and unlock of items in each world (set of items to unlock)<br/><br/>
 
 Tools
 ---
