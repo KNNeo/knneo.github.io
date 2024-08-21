@@ -44,7 +44,7 @@ function generateTagClouds() {
 	{
 		// generate unique tags
 		let filterList = window.variables.items
-		.map(i => i[filter.className])
+		.map(i => i[filter.className] || '')
 		.reduce(function(total, current, index, arr) {
 			for(let tag of current.split(window.variables.filter?.delimiter || ','))
 			{
@@ -341,7 +341,7 @@ function renderFilters() {
 			tagDiv.title = tag.value + '(' + tag.count + ')';
 			tagDiv.innerText = tag.value;
 			tagDiv.addEventListener('click', function() {
-				let filtered = window.variables.base.filter(i => i[tag.category].split(window.variables.filter?.delimiter || ',').includes(tag.value));
+				let filtered = window.variables.base.filter(i => i[tag.category] && i[tag.category].split(window.variables.filter?.delimiter || ',').includes(tag.value));
 				window.variables.base = filtered.length > 0 ? filtered : window.variables.items.filter(i => i[tag.category] == tag.value); // filter existing if has values, else reset and filter
 				hideFilters();
 				renderGallery();
