@@ -48,9 +48,9 @@ function generateTagClouds() {
 		.reduce(function(total, current, index, arr) {
 			for(let tag of current.split(window.variables.filter?.delimiter || ','))
 			{
-				if(tag && !total.map(m => m.value).includes(tag))
+				if(tag && tag.length > 2 && !total.map(m => m.value).includes(tag))
 					total.push({
-						value: tag,
+						value: tag.trim(),
 						category: filter.className,
 						count: arr.filter(f => f.split(window.variables.filter?.delimiter || ',').includes(tag)).length
 					});
@@ -58,7 +58,7 @@ function generateTagClouds() {
 			return total;
 		}, [])
 		.sort(function(a,b) {
-			return b.count - a.count;
+			return a.value.localeCompare(b.value, window.variables.locale || 'en-US');
 		});
 		allTags = allTags.concat(filterList);
 	}
