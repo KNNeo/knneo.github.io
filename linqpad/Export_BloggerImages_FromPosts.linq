@@ -186,21 +186,36 @@ string GenerateImageIndex(List<XElement> xmlPosts)
 				postContent = postContent.Substring(postContent.IndexOf(part));
 		}
 		
-        // Export list of images from latest
 		var urls = new List<string>();
-        var expression = @"(?s)(<img)(.*?)(src="")(.*?)("")";
-        var match = Regex.Match(postContent, expression);
-        while(match.Success)
+        // Export list of images
+        var imgExpression = @"(?s)(<img)(.*?)(src="")(.*?)("")";
+        var imgMatch = Regex.Match(postContent, imgExpression);
+        while(imgMatch.Success)
         {
-			if(IMAGE_DOMAINS_LIST.Any(id => match.Groups[4].Value.Contains(id)) && !urls.Contains(match.Groups[4].Value))
+			if(IMAGE_DOMAINS_LIST.Any(id => imgMatch.Groups[4].Value.Contains(id)) && !urls.Contains(imgMatch.Groups[4].Value))
 			{
 				images.Add(new MosaicItem() {
 					id = p,
-					url = match.Groups[4].Value
+					url = imgMatch.Groups[4].Value
 				});
-				urls.Add(match.Groups[4].Value);
+				urls.Add(imgMatch.Groups[4].Value);
 			}
-        	match = match.NextMatch();
+        	imgMatch = imgMatch.NextMatch();
+        };
+        // Export list of links to images
+        var aExpression = @"(?s)(<a)(.*?)(href="")(.*?)("")";
+        var aMatch = Regex.Match(postContent, aExpression);
+        while(aMatch.Success)
+        {
+			if(IMAGE_DOMAINS_LIST.Any(id => aMatch.Groups[4].Value.Contains(id)) && !urls.Contains(aMatch.Groups[4].Value))
+			{
+				images.Add(new MosaicItem() {
+					id = p,
+					url = aMatch.Groups[4].Value
+				});
+				urls.Add(aMatch.Groups[4].Value);
+			}
+        	aMatch = aMatch.NextMatch();
         };
 		// Add title if images exist in post
 		if(DEBUG_MODE)
