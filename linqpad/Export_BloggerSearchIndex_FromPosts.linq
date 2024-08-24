@@ -35,6 +35,14 @@ List<string> TOKEN_SPLIT_DELIMITERS = new List<string> {
 };
 List<string> TOKEN_IGNORE_WORDS = new List<string>() { "the", "a", "is", "of", "http", "https" };
 List<char> TOKEN_TRIM_CHARACTERS = new List<char>() { '\'', '*', '-' };
+List<string> TOKEN_INCLUDE_TERMS = new List<string>() { "happy birthday", "song awards", "klassic note",
+    "aizawa saya", "amamiya sora", "anzai chika", "asakura momo", "baba fumika", "fuchigami mai", "hanazawa kana", "hidaka rina",
+	"hikasa youko", "hondo kaede", "horie yui", "ishihara kaori", "isobe karin", "kanno mai", "kayano ai", "kido ibuki", "kitou akari",
+	"koga aoi", "kohara konomi", "komatsu mikako", "kotobuki minako", "kouno marika", "minase inori", "nagae rika", "naganawa maria",
+	"nagatsuma juuri", "natsukawa shiina", "numakura manami", "ogura yui", "omigawa chiaki", "ookubo rumi", "oonishi saori", "oono yuuko",
+	"oozora naomi", "sakura ayane", "sasaki nao", "satou satomi", "tachibana haru", "tachibana rika", "takahashi rie", "takao kanon",
+	"taketatsu ayana", "tomatsu haruka", "tomita miyu", "touyama nao", "toyosaki aki", "toyota moe", "tsuda minami", "ueda reina",
+	"uesaka sumire", "waki azumi", "yoshimura haruka", "yukimura eri", "yuuki aoi" };
 int TOKEN_MAX_UNICODE_VALUE = 255;
 int MIN_TOKEN_LENGTH = 3;
 int TOKEN_MIN_CONSECUTIVE_CHARACTERS = 3;
@@ -212,7 +220,7 @@ SearchIndex GenerateSearchIndex(List<XElement> xmlPosts)
 		}
 		// Generate index: Remove extra tags, split by delimiter, filter by condition in order of descending occurence, select distinct
 		var startIndex = postContent.IndexOf("<div") >= 0 ? postContent.IndexOf("<div") : 0;
-		var tokens = RemoveAllTags(postContent.Substring(startIndex)) // avoid inline styles
+		var tokens = CleanupHtml(postContent.Substring(startIndex)) // avoid inline styles
 			.Split(TOKEN_SPLIT_DELIMITERS.ToArray(), StringSplitOptions.RemoveEmptyEntries) // Split by delimiters
 			.Where(c => !TOKEN_IGNORE_WORDS.Contains(c)) // Ignore excluded words (full)
 			.Where(c => !c.Any(t => t > TOKEN_MAX_UNICODE_VALUE)) // Max unicode value for all characters in words
@@ -222,6 +230,8 @@ SearchIndex GenerateSearchIndex(List<XElement> xmlPosts)
 			.Where(c => !Regex.IsMatch(c, @"([a-zA-Z])\1{" + TOKEN_MIN_CONSECUTIVE_CHARACTERS + ",}")) // Consecutive characters in words
 			.Distinct()
 			.ToList();
+		// Add custom included terms eg. phrases, index only support single words
+		tokens.AddRange(TOKEN_INCLUDE_TERMS.Where(t => CleanupHtml(postContent.Substring(startIndex)).Contains(t)));
 		// Add published date to index
 		tokens.Add(publishDate.ToString("yyyy"));
 		tokens.Add(publishDate.ToString("MM"));
@@ -289,7 +299,7 @@ public class SearchIndexPost {
 	public int id { get; set; }
 }
 
-public string RemoveAllTags(string content) {
+public string CleanupHtml(string content) {
 	var urls = new List<string>();
     var expression = @"(?s)(<)(.*?)(>)";
     var match = Regex.Match(content, expression);
@@ -306,6 +316,8 @@ public string RemoveAllTags(string content) {
 		content = content.Replace(match.Value, " ");
     	match = match.NextMatch();
     };
+	content = Regex.Replace(content, @"\t|\n|\r", "");
+	content = Regex.Replace(content, @"\s+", " ");
 	
 	return content;
 }
