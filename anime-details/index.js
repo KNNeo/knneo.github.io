@@ -51,14 +51,14 @@ function processState() {
 				let state = config.voices.find(s => s.name == voice.person.name);
 				if(!state)
 					config.voices.push({
-						characters: [{...chars.character, role: chars.role, show: show.title}],
+						characters: [{...chars.character, role: chars.role, showTitle: show.title, showId: show.mal_id}],
 						name: voice.person.name,
 						id: voice.person.mal_id
 					});
 				else {
 					let character = state.characters?.find(c => c.name == chars.character.name);
 					if(!character)
-						state.characters.push({...chars.character, role: chars.role, show: show.title});
+						state.characters.push({...chars.character, role: chars.role, showTitle: show.title, showId: show.mal_id});
 				}
 			}
 		}
@@ -204,6 +204,7 @@ function showAllCharacters(name) {
 		grid.appendChild(header2);
 		
 		for(let character of voice.characters.sort(function(a,b) { return (a.role + a.show + a.name).localeCompare((b.role + b.show + b.name), config.locale) })) {
+			console.log(character);
 			let role = document.createElement('pre');
 			role.classList.add('small');
 			role.innerText = character.role.slice(0,4);
@@ -212,14 +213,18 @@ function showAllCharacters(name) {
 			
 			let show = document.createElement('pre');
 			show.classList.add('small');
-			show.innerText = character.show;
-			show.title = character.show;
+			show.innerText = character.showTitle;
+			show.title = character.showTitle;
+			show.setAttribute('data-id', character.showId);
+			show.setAttribute('onclick', 'showAnimeDetails(this.getAttribute("data-id"))');
 			grid.appendChild(show);
 			
 			let name = document.createElement('pre');
 			name.classList.add('small');
 			name.innerText = character.name.replace(',','');
 			name.title = character.name.replace(',','');
+			name.setAttribute('data-id', character.mal_id);
+			name.setAttribute('onclick', 'showCharacterDetails(this.getAttribute("data-id"))');
 			grid.appendChild(name);
 		}
 		
@@ -229,7 +234,17 @@ function showAllCharacters(name) {
 
 function showPeopleDetails(id) {
 	popupContent('Loading...');
-	getJson('https://api.jikan.moe/v4/people/{id}'.replace('{id}', id), createMalElementFromJson);
+	getJson('https://api.jikan.moe/v4/people/{id}/full'.replace('{id}', id), createMalElementFromJson);
+}
+
+function showAnimeDetails(id) {
+	popupContent('Loading...');
+	getJson('https://api.jikan.moe/v4/anime/{id}/full'.replace('{id}', id), createMalElementFromJson);
+}
+
+function showCharacterDetails(id) {
+	popupContent('Loading...');
+	getJson('https://api.jikan.moe/v4/characters/{id}/full'.replace('{id}', id), createMalElementFromJson);
 }
 
 function createMalElementFromJson(response) {

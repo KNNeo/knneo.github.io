@@ -115,6 +115,93 @@ body {
     padding: 5px;
 }
 
+.mal-container {
+	border: 1px solid rgb(var(--foreground));
+	background-color: rgb(var(--background));
+	box-shadow: 3px 3px rgb(var(--foreground));
+	color: rgb(var(--foreground));
+	padding: 6px;
+	max-width: min(95%,640px);
+	max-height: min(50vh,450px);
+	margin: auto;
+	overflow-y: auto;
+	display: flex;
+	flex-wrap: wrap;
+    font-size: initial;
+}
+
+.mal-container img {
+	width: 100%;
+	max-width: 160px;
+	padding: 1px;
+	filter: none;
+	border: none;
+}
+
+.mal-container .mal-associated img {
+	width: 70%;
+	max-width: 125px;
+}
+
+.mal-content,
+.mal-associated {
+	min-width: 50%;
+	max-width: 100%;
+	padding-bottom: 1rem;
+	text-wrap: wrap;
+	margin: auto;
+}
+
+.mal-associated {
+	width: 50%;
+	max-width: 100%;
+	padding-bottom: 1rem;
+	text-wrap: wrap;
+	margin: auto;
+	font-size: 0.7em;
+}
+
+.mal-associated div:first-child,
+.mal-related > div {
+	text-align: start;
+}
+
+.mal-associated img {
+	max-width: 50%;
+}
+
+.mal-related {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+.mal-related img {
+	width: 95%;
+}
+
+.mal-related > div {
+	max-width: 20%;
+	font-size: initial;
+}
+
+.mal-related > div:not(:first-child) {
+	text-align: center;
+	font-size: 0.7em;
+	text-wrap: wrap;
+}
+
+.mal-related div:first-child {
+	min-width: 100%;
+}
+
+.mal-description {
+	padding-bottom: 1rem;
+	min-width: 100%;
+	text-wrap: wrap;
+	overflow-wrap: break-word;
+}
+
 /*DIALOG*/
 .dialog dialog {
 	background-color: var(--background);
