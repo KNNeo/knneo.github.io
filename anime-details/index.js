@@ -9,8 +9,9 @@ const config = {
 	messages: {
 		start: 'Starting...',
 		process: 'Processing... "{id}"',
-		stop: 'Process cancelled by user',
-		complete: 'Processing complete.'
+		stop: 'Process cancelled by user.',
+		complete: 'Processing complete.',
+		restart: 'Save loaded. Restart to fetch again.',
 	},
 	display: {
 		min: 2,
@@ -63,7 +64,9 @@ function processState() {
 			}
 		}
 	}
-	displayChart();
+	displayChart(config.voices
+		.filter(v => v.characters.length >= config.display.min) 
+		.sort(function(a,b) { return b.characters.length - a.characters.length }));
 }
 
 function stopProcess() {
@@ -96,8 +99,9 @@ function processShow(id, content, time) {
 	}
 	
 	if(config.shows.length >= config.ids.length) {
-		outputPre.innerText = config.messages.complete;
 		breakButton.classList.add('hidden');
+		restartButton.classList.remove('hidden');
+		outputPre.innerText = config.messages.complete;
 	}
 }
 
@@ -119,8 +123,10 @@ function processCharacters(id, content, time) {
 		console.error('Error processing characters', id);
 	}
 	
-	if(config.shows.length >= config.ids.length)
+	if(config.shows.length >= config.ids.length) {
 		outputPre.innerText = config.messages.complete;
+		save();
+	}
 }
 
 function staggerCall(list, url, callback, delayMs) {
@@ -145,8 +151,12 @@ function staggerCall(list, url, callback, delayMs) {
 	}
 }
 
-function displayChart() {
+function displayChart(voices) {
+	// save user sort order before render
+	let nameOrder = resultsDiv.querySelector('.header.name')?.getAttribute('data-order');
+	let countOrder = resultsDiv.querySelector('.header.count')?.getAttribute('data-order');
 	resultsDiv.innerHTML = '';
+	
 	let search = document.createElement('input');
 	search.classList.add('search');
 	search.setAttribute('onchange', 'filterNames()');
@@ -154,17 +164,20 @@ function displayChart() {
 	
 	let header1 = document.createElement('pre');
 	header1.classList.add('header');
+	header1.classList.add('name');
 	header1.innerText = 'NAME';
+	if(nameOrder) header1.setAttribute('data-order', nameOrder);
+	header1.setAttribute('onclick', 'sortChart("name")');
 	resultsDiv.appendChild(header1);
 	
 	let header2 = document.createElement('pre');
 	header2.classList.add('header');
+	header2.classList.add('count');
 	header2.innerText = 'COUNT';
+	if(countOrder) header2.setAttribute('data-order', countOrder);
+	header2.setAttribute('onclick', 'sortChart("count")');
 	resultsDiv.appendChild(header2);
 	
-	let voices = config.voices
-		.filter(v => v.characters.length >= config.display.min) 
-		.sort(function(a,b) { return b.characters.length - a.characters.length });
 	for(let voice of voices) {
 		let div1 = document.createElement('pre');
 		div1.classList.add('name');
@@ -179,6 +192,44 @@ function displayChart() {
 		div2.innerText = voice.characters.length;
 		div2.setAttribute('onclick', 'showAllCharacters(this.previousSibling.title)');
 		resultsDiv.appendChild(div2);
+	}
+}
+
+function sortChart(fieldName) {
+	// update order attribute
+	let order = event.target.getAttribute('data-order');
+	if(order == 'asc')
+		order = 'desc';
+	else if(order == 'desc')
+		order = '';
+	else
+		order = 'asc';
+	event.target.setAttribute('data-order', order);
+	
+	let list = config.voices
+		.filter(v => v.characters.length >= config.display.min);
+	
+	// sort by field name and order
+	switch(fieldName) {
+		case 'name':
+			if(order == 'asc')
+				displayChart(list.sort(function(a,b) { return a.name.localeCompare(b.name, config.locale) }));
+			else if(order == 'desc')
+				displayChart(list.sort(function(a,b) { return b.name.localeCompare(a.name, config.locale) }));
+			else
+				displayChart(list);
+			break;
+		case 'count':
+			if(order == 'asc')
+				displayChart(list.sort(function(a,b) { return a.characters.length - b.characters.length }));
+			else if(order == 'desc')
+				displayChart(list.sort(function(a,b) { return b.characters.length - a.characters.length }));
+			else
+				displayChart(list);
+			break;
+		default:
+			displayChart(list);
+			break;
 	}
 }
 
@@ -203,8 +254,10 @@ function showAllCharacters(name) {
 		header2.innerText = 'CHARACTER';
 		grid.appendChild(header2);
 		
-		for(let character of voice.characters.sort(function(a,b) { return (a.role + a.show + a.name).localeCompare((b.role + b.show + b.name), config.locale) })) {
-			console.log(character);
+		let characters = voice.characters.sort(function(a,b) {
+			return (a.role + a.showTitle + a.name).localeCompare((b.role + b.showTitle + b.name), config.locale);
+		});
+		for(let character of characters) {
 			let role = document.createElement('pre');
 			role.classList.add('small');
 			role.innerText = character.role.slice(0,4);
@@ -427,9 +480,37 @@ function filterNames() {
 	}
 }
 
+function load() {
+	if(localStorage.getItem('anime-details') != null) {
+		let ids = JSON.parse(localStorage.getItem('anime-details-ids'));
+		if(!ids) ids = config.ids;
+		let voices = JSON.parse(localStorage.getItem('anime-details-voices'));
+		if(!voices) voices = config.voices;
+		// set state
+		config.ids = ids;
+		config.voices = voices;
+		
+		inputTextarea.classList.add('hidden');
+		generateButton.classList.add('hidden');
+		restartButton.classList.remove('hidden');
+		
+		displayChart(config.voices
+			.filter(v => v.characters.length >= config.display.min) 
+			.sort(function(a,b) { return b.characters.length - a.characters.length }));
+	}
+	inputTextarea.value = config.ids;
+	outputPre.innerText = config.messages.restart;
+}
+
+function save() {
+	localStorage.setItem('anime-details', new Date());
+	localStorage.setItem('anime-details-ids', JSON.stringify(config.ids));
+	localStorage.setItem('anime-details-voices', JSON.stringify(config.voices));
+}
+
 //--INITIAL--//
 function startup() {
-	inputTextarea.value = config.ids;
+	load();
 }
 
 //--DIALOG--//
@@ -455,6 +536,12 @@ function createDialog(node) {
 	if(typeof node == 'string')
 		dialog.innerHTML = node;
 	if(typeof node == 'object') {
+		let closeDiv = document.createElement('button');
+		closeDiv.classList.add('close');
+		closeDiv.innerText = 'Close';
+		closeDiv.setAttribute('onclick', 'removeDialog()');
+		dialog.appendChild(closeDiv);
+		
 		let clonedNode = node.cloneNode(true);
 		dialog.appendChild(clonedNode);
 	}
