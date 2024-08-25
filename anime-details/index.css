@@ -1,0 +1,135 @@
+/*Variables*/
+:root {
+  --primary: #1b00ff;
+  --secondary: #609fff;
+  --background: #fff;
+  --foreground: #000;
+  --accent: lightgray;
+}
+
+.darked:root {
+  --primary: #00e4ff;
+  --secondary: #00abbf;
+  --background: #000;
+  --foreground: #fff;
+  --accent: gray;
+}
+
+html {
+	font-size: calc(1rem + 0.25vw);
+	font-family: Noto Sans, Arial, sans-serif;
+	background-color: var(--background);
+	color: var(--foreground);
+}
+
+body {
+	margin: 0;
+	text-align: center;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.hidden {
+	display: none !important;
+}
+
+.box {
+	margin: 5px;
+	vertical-align: top;
+	scroll-snap-align: center;
+	white-space: normal;
+	touch-action: manipulation;
+}
+
+.shadowed {
+  border: 1px solid lightgray;
+  box-shadow: 3px 3px;
+}
+
+.shadowed:active {
+  box-shadow: 1px 1px;
+  transform: translate(2px,2px);
+}
+
+.unshadowed {
+	filter: opacity(100%);
+	transition: filter 1s;
+}
+
+/*ON THIS PAGE*/
+.input {
+	width: 100%;
+	max-width: 300px;
+	height: 100px;
+}
+
+.output {
+	overflow: auto;
+	white-space: normal;
+}
+
+.generate {
+	display: block;
+	margin: auto;
+}
+
+.grid {
+	max-width: 300px;
+	margin: auto;
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+    align-items: center;
+}
+
+.grid .small {
+	font-size: 0.7em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.grid .name:hover,
+.grid .count:hover {
+	text-decoration: dotted underline;
+}
+
+.search {
+	grid-column: 1 / span 2;
+}
+
+.header {
+	text-decoration: underline;
+}
+
+.dialog .grid {
+	grid-template-columns: 40px 1fr 1fr;
+}
+
+.settings a {
+	color: var(--foreground);
+	text-decoration: none;
+	display: flex;
+	justify-content: center;
+    padding: 5px;
+}
+
+/*DIALOG*/
+.dialog dialog {
+	background-color: var(--background);
+	color: var(--foreground);	
+	padding: 10px;
+	max-width: 90%;
+	max-height: 80%;
+    margin: auto;
+}
+
+.dialog dialog::backdrop {
+	background-color: var(--background);
+}
+
+.dialog dialog a {
+	background-color: var(--background);
+	color: var(--primary);
+}

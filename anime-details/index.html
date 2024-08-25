@@ -8,17 +8,24 @@
     <link id="index-css" rel="stylesheet" type="text/css" href="index.css">
     <link id="bs-css" rel="stylesheet" type="text/css" href="../resources/bootstrap-icons.css">
 	<script src="../darkmode.js" type="application/javascript" charset="utf-8"></script>
-	<!-- <script src="../fetch.js" type="application/javascript" charset="utf-8"></script> -->
+	<script src="../fetch.js" type="application/javascript" charset="utf-8"></script>
 	<script id="data-id" src="" defer></script>
 	<script src="index.js" defer></script>
-	<!-- <script src="grid.js" defer></script> -->
-	<!-- <script src="viewer.js" defer></script> -->
-    <title>Title</title>
+    <title>Shows Analysis</title>
 </head>
 <body onload="startup()" onkeydown="onKeyDown()">
-	<h2>Title</h2>
-	<h6>Subtitle</h6>
-	<div class="page"></div>
+	<h2>MAL Voice Actor Analysis</h2>
+	<h6>Using <a href="https://jikan.moe/" target="_blank"> MyAnimeList Jikan.Moe API</a> to find out based on a list of Anime IDs, character count for voice actors.</h6>
+	<div class="page">
+		<textarea class="input" placeholder="[list of ids]"></textarea>
+		<button class="generate" onclick="generateList()">Process</button>
+		<button class="break hidden" onclick="stopProcess()">Stop</button>
+		<button class="restart hidden" onclick="window.location.reload()">Restart</button>
+		<pre class="output">Fill in textbox to start</pre>
+		<hr>
+		<div class="grid results">
+		</div>
+	</div>
 	<h3 class="settings">
 		<a title="Toggle Dark Mode" class="darkmode material-icons" href="javascript:void(0);" onclick="toggleDarkMode()">brightness_high</a>
 		<div class="spacer"> </div>
