@@ -76,6 +76,11 @@ function stopProcess() {
 	outputPre.innerText = config.messages.stop;
 }
 
+function restartProcess() {
+	inputTextarea.classList.remove('hidden');
+	generateButton.classList.remove('hidden');
+	restartButton.classList.add('hidden');
+}
 
 //--FUNCTIONS--//
 function unique(value, index, array) {
