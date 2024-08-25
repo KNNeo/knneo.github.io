@@ -220,7 +220,8 @@ SearchIndex GenerateSearchIndex(List<XElement> xmlPosts)
 		}
 		// Generate index: Remove extra tags, split by delimiter, filter by condition in order of descending occurence, select distinct
 		var startIndex = postContent.IndexOf("<div") >= 0 ? postContent.IndexOf("<div") : 0;
-		var tokens = CleanupHtml(postContent.Substring(startIndex)) // avoid inline styles
+		postContent = CleanupHtml(postContent.ToLower().Substring(startIndex)); // avoid inline styles
+		var tokens = postContent
 			.Split(TOKEN_SPLIT_DELIMITERS.ToArray(), StringSplitOptions.RemoveEmptyEntries) // Split by delimiters
 			.Where(c => !TOKEN_IGNORE_WORDS.Contains(c)) // Ignore excluded words (full)
 			.Where(c => !c.Any(t => t > TOKEN_MAX_UNICODE_VALUE)) // Max unicode value for all characters in words
@@ -231,7 +232,7 @@ SearchIndex GenerateSearchIndex(List<XElement> xmlPosts)
 			.Distinct()
 			.ToList();
 		// Add custom included terms eg. phrases, index only support single words
-		tokens.AddRange(TOKEN_INCLUDE_TERMS.Where(t => CleanupHtml(postContent.Substring(startIndex)).Contains(t)));
+		tokens.AddRange(TOKEN_INCLUDE_TERMS.Where(t => postContent.Contains(t)));
 		// Add published date to index
 		tokens.Add(publishDate.ToString("yyyy"));
 		tokens.Add(publishDate.ToString("MM"));
@@ -252,9 +253,7 @@ SearchIndex GenerateSearchIndex(List<XElement> xmlPosts)
 		foreach (string token in tokens)
 		{
 			if (!searchIndex.indexes.ContainsKey(token))
-			{
 				searchIndex.indexes.Add(token, new List<int>());
-			}
 			searchIndex.indexes[token].Add(p); // p represents unique id
 		}
 		// Show progress, as post title or as represented by dot (100 per line)
