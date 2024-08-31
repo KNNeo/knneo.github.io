@@ -318,13 +318,21 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<LinkedListItem>
 			}
 			var publishDateString = publishDate.ToString("yyyy-MM-dd HH:mm") + " (GMT+8)";
 			var updateDateString = updateDate.ToString("yyyy-MM-dd HH:mm") + " (GMT+8)";
-	        header.AppendLine("<small title=\"Published: " + publishDateString + 
+	        header.AppendLine("<a class=\"back material-symbols\" href=\"../../../../index.html\" title=\"Back To Homepage\">arrow_back</a>");
+	        header.AppendLine("<h2 class=\"post-title\">" + postTitle + "</h2>");
+	        article.AppendLine("<h2 class=\"post-title\">" + postTitle + "</h2>");
+			article.AppendLine("<div style=\"display: flex; justify-content: space-between;\">");
+	        article.AppendLine("<small title=\"Published: " + publishDateString + 
 				(publishDateString == updateDateString ? "\"" : "<br />&nbsp;&nbsp;Updated: " + updateDateString + "\"") +
 				" class=\"published\">" + publishDate.ToString("dddd, dd MMMM yyyy") + "</small>");
-	        header.AppendLine("<div class=\"post-title\">" + postTitle + "</div>");
+			article.AppendLine("<span>");
+	        article.AppendLine("<a class=\"prev material-symbols\" _PREVLINK_ title=\"Older Post\">arrow_back_ios</a>");
+	        article.AppendLine("<a class=\"next material-symbols\" _NEXTLINK_ title=\"Newer Post\">arrow_forward_ios</a>");
+			article.AppendLine("</span>");
+			article.AppendLine("</div>");
 			if(postContent.Contains("id=\"") && !postContent.Contains("=\"post-hashtags\""))
-				header.AppendLine("<div class=\"post-hashtags\"></div>");
-	        header.AppendLine("<div class=\"post-header\"></div>");
+				article.AppendLine("<div class=\"post-hashtags\"></div>");
+	        //header.AppendLine("<div class=\"post-header\"></div>");
 			// Actual content to put in post-content class, HTML condensed
 	        article.Append(Uglify.Html(postContent));
 	        footer.Append("<hr>");
@@ -349,8 +357,8 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<LinkedListItem>
 				.Replace("_HEADER_", header.ToString())
 				.Replace("_CONTENTS_", article.ToString())
 				.Replace("_FOOTER_", footer.ToString())
-				.Replace("_PREVLINK_", pageIndex < linkedList.Count() - 1 ? linkedList[pageIndex + 1].Destination.Replace("./", "../../../../") : "")
-				.Replace("_NEXTLINK_", pageIndex > 0 ? linkedList[pageIndex - 1].Destination.Replace("./", "../../../../") : "");
+				.Replace("_PREVLINK_", pageIndex < linkedList.Count() - 1 ? $"href=\"{linkedList[pageIndex + 1].Destination.Replace("./", "../../../../")}\"" : "")
+				.Replace("_NEXTLINK_", pageIndex > 0 ? $"href=\"{linkedList[pageIndex - 1].Destination.Replace("./", "../../../../")}\"" : "");
 		    // Write into homepage file, or overwrite if exists
 		    File.WriteAllText(pageOutputPath, fileString);
 			// Show progress, as post title or as represented by dot (100 per line)
