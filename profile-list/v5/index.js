@@ -97,7 +97,7 @@ function ititializePageEvents() {
 }
 
 function loadSources() {
-	if (document.querySelector('#data')?.textContent != null) {
+	if (document.querySelector('#data')?.textContent && document.querySelector('#data')?.textContent.length > 0) {
 		console.log('using inline html embedded json');
 		let dataJson = JSON.parse(document.querySelector('#data')?.textContent || []);
 		window['source'] = dataJson;
@@ -112,7 +112,7 @@ function loadSources() {
 	}
 	else if(config.source)
 		getJson(config.source, function(response) {
-			console.log('using external json from config');
+			console.log('using external json url from config');
 			window['source'] = response;
 			window['profileList'] = window['source'].filter(n => !(n.inactive === true) && config.profile.include(n));
 			window['calendarList'] = window['source'].filter(n => !(n.inactive === true) && config.calendar.include(n));
