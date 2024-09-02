@@ -42,7 +42,7 @@ List<string> TOKEN_INCLUDE_TERMS = new List<string>() { "happy birthday", "song 
 	"nagatsuma juuri", "natsukawa shiina", "numakura manami", "ogura yui", "omigawa chiaki", "ookubo rumi", "oonishi saori", "oono yuuko",
 	"oozora naomi", "sakura ayane", "sasaki nao", "satou satomi", "tachibana haru", "tachibana rika", "takahashi rie", "takao kanon",
 	"taketatsu ayana", "tomatsu haruka", "tomita miyu", "touyama nao", "toyosaki aki", "toyota moe", "tsuda minami", "ueda reina",
-	"uesaka sumire", "waki azumi", "yoshimura haruka", "yukimura eri", "yuuki aoi" };
+	"uesaka sumire", "waki azumi", "yoshimura haruka", "yukimura eri", "yuuki aoi", "bromide photo" };
 int TOKEN_MAX_UNICODE_VALUE = 255;
 int MIN_TOKEN_LENGTH = 3;
 int TOKEN_MIN_CONSECUTIVE_CHARACTERS = 3;
