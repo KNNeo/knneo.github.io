@@ -289,9 +289,22 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<LinkedListItem>
 	        // fix url of ent news, by year except 2014
 			
 	        // Find Content in debug mode
-			if(DEBUG_MODE && !string.IsNullOrWhiteSpace(DEBUG_SEARCHTERM) && (postContent.IndexOf(DEBUG_SEARCHTERM) >= 0 || postTitle.IndexOf(DEBUG_SEARCHTERM) >= 0))
-				Console.WriteLine(postTitle);
-	        // Fix post content
+			if(DEBUG_SEARCHTERM.Length > 0)
+			{
+		        Match contentWhitespace = Regex.Match(postContent, DEBUG_SEARCHTERM);
+		        if(contentWhitespace.Success)
+				{
+					Console.WriteLine("search term found: " + postTitle);
+					continue;
+				}
+		        Match titleWhitespace = Regex.Match(postTitle, DEBUG_SEARCHTERM);
+		        if(contentWhitespace.Success)
+				{
+					Console.WriteLine("search term found: " + postTitle);
+					continue;
+				}
+			}
+			// Fix post content
 			List<int> fixCount = FixPostContent(ref postContent, linkedList);
 			// Add to post string builder to generate HTML
 			var header = new StringBuilder();
