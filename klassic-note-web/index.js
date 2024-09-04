@@ -2514,18 +2514,18 @@ function clearModules() {
 }
 
 function updateSong() {	
-	window['mode'] = 'song';
-	let playlistOpen = document.querySelector('#song-queue').innerText === 'format_indent_increase';
-	hideContextMenus(true);
-	clearModules();
-	
 	// data-id on tr
 	let id = event.target.closest('tr')?.getAttribute('data-id') ?? window['song-id'];
 	if(id) {
+		window['mode'] = 'song';
+		hideContextMenus(true);
+		clearModules();
+	
 		let query = "SELECT * FROM Song WHERE ID = " + id;
 		if(debugMode) console.log('updateSong', query);
 		queryDb(query, updateOptions);
 		// window['playlist'].push(id.toString());
+		let playlistOpen = document.querySelector('#song-queue').innerText === 'format_indent_increase';
 		if(playlistOpen) // from playlist selection
 		{
 			window['playing'] = window['playlist'].indexOf(id) - 1;
