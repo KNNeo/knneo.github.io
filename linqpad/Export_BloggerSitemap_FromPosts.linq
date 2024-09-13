@@ -194,17 +194,17 @@ SitemapSections GenerateSitemap(List<XElement> xmlPosts)
 		
 		if(pageTagsXml.Contains("The Fanfiction")) // custom tag display
 		{
-			// Find single img title
-	        var expression = @"(?s)(img)(.*?) title=""(.*?)""(.*?)(>)";
+			// Find single img title with alt
+	        var expression = @"(?s)img(.*?)alt=""(.*?)""(.*?)title=""(.*?)""(.*?)(>)";
 	        var match = Regex.Match(postContent, expression);
     		while(match.Success) {
-				//Console.WriteLine(match.Groups[3].Value);
-				if(match.Groups[3].Value.Length > 1)
+				//Console.WriteLine(match.Groups[4].Value);
+				if(match.Groups[4].Value.Length > 1)
 				{
 					fanficItems.Add(new SitemapItem() {
 						Title = postTitle,
 						TitleUrl = pageLink,
-						Keyword = "Fanfiction|" + publishDate.ToString("yyyy.MM.dd") + "|" + match.Groups[3].Value,
+						Keyword = "Fanfiction|" + publishDate.ToString("yyyy.MM.dd") + "|" + match.Groups[4].Value,
 						KeywordUrl = pageLink
 					});
 				}
