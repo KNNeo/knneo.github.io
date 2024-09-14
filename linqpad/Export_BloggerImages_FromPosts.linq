@@ -196,7 +196,8 @@ string GenerateImageIndex(List<XElement> xmlPosts)
 			{
 				images.Add(new MosaicItem() {
 					id = p,
-					url = imgMatch.Groups[4].Value
+					url = imgMatch.Groups[4].Value,
+					index = imgMatch.Index
 				});
 				urls.Add(imgMatch.Groups[4].Value);
 			}
@@ -211,7 +212,8 @@ string GenerateImageIndex(List<XElement> xmlPosts)
 			{
 				images.Add(new MosaicItem() {
 					id = p,
-					url = aMatch.Groups[4].Value
+					url = aMatch.Groups[4].Value,
+					index = imgMatch.Index
 				});
 				urls.Add(aMatch.Groups[4].Value);
 			}
@@ -261,4 +263,5 @@ public class MosaicItem
     public int id { get; set; }
     public string title { get; set; }
     public string url { get; set; }
+    public int index { get; set; }
 }
