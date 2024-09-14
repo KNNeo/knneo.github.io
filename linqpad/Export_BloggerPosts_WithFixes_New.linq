@@ -333,6 +333,8 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<LinkedListItem>
 			var updateDateString = updateDate.ToString("yyyy-MM-dd HH:mm") + " (GMT+8)";
 	        header.AppendLine("<a class=\"back material-symbols\" href=\"../../../../index.html\" title=\"Back To Homepage\">arrow_back</a>");
 	        header.AppendLine("<h2 class=\"post-title\">" + postTitle + "</h2>");
+	        header.AppendLine("<a class=\"share material-symbols\" title=\"Share This Post\" href=\"javascript:void(0);\" onclick=\"sharePost()\">share</a>");
+	        header.AppendLine("<a class=\"like bordered material-symbols\" title=\"Like This Post\" href=\"javascript:void(0);\" onclick=\"likePost()\">favorite</a>");
 	        article.AppendLine("<h2 class=\"post-title\">" + postTitle + "</h2>");
 			article.AppendLine("<div style=\"display: flex; justify-content: space-between;\">");
 	        article.AppendLine("<small title=\"Published: " + publishDateString + 
@@ -434,8 +436,8 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<LinkedListItem>
 				// Add to homepage string builder
                 homepageString.AppendLine(isLatest 
 					? "<div class=\"box latest post\"" + dataId + ">" + 
-					(thumbnailUrl.Length > 0 ? "<span class=\"publish\">"+publishDate.ToString("yyyy.MM.dd")+"</span>" : "") + 
 					"<a href=\"" + pageLink + "\">" + 
+					(thumbnailUrl.Length > 0 ? "<span class=\"publish\">"+publishDate.ToString("yyyy.MM.dd")+"</span>" : "") + 
 					"<div class=\"thumb\">" + 
 						(thumbnailUrl.Length > 0 ? "<div><img alt=\"\" loading=\"lazy\" src=\"" + thumbnailUrl + "\"/></div>" : "") + 
 						"<h4>" + postTitle + "</h4>" + 
