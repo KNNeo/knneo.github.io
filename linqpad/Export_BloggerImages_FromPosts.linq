@@ -192,6 +192,8 @@ string GenerateImageIndex(List<XElement> xmlPosts)
         var imgMatch = Regex.Match(postContent, imgExpression);
         while(imgMatch.Success)
         {
+			if(imgMatch.Index <= 0)
+				throw new Exception($"Index for {imgMatch.Groups[4].Value} not found.");
 			if(IMAGE_DOMAINS_LIST.Any(id => imgMatch.Groups[4].Value.Contains(id)) && !urls.Contains(imgMatch.Groups[4].Value))
 			{
 				images.Add(new MosaicItem() {
@@ -204,16 +206,19 @@ string GenerateImageIndex(List<XElement> xmlPosts)
         	imgMatch = imgMatch.NextMatch();
         };
         // Export list of links to images
-        var aExpression = @"(?s)(<a)(.*?)(href="")(.*?)("")";
+        var aExpression = @"(?s)(<a)(.*?)(href="")(.*?)("")(.*?)(</a)";
         var aMatch = Regex.Match(postContent, aExpression);
         while(aMatch.Success)
         {
-			if(IMAGE_DOMAINS_LIST.Any(id => aMatch.Groups[4].Value.Contains(id)) && !urls.Contains(aMatch.Groups[4].Value))
+			if(aMatch.Index <= 0)
+				throw new Exception($"Index for {aMatch.Groups[4].Value} not found.");
+			if(IMAGE_DOMAINS_LIST.Any(id => aMatch.Groups[4].Value.Contains(id)) && !urls.Contains(aMatch.Groups[4].Value)
+				&& !aMatch.Groups[6].Value.Contains("<img"))
 			{
 				images.Add(new MosaicItem() {
 					id = p,
 					url = aMatch.Groups[4].Value,
-					index = imgMatch.Index
+					index = aMatch.Index
 				});
 				urls.Add(aMatch.Groups[4].Value);
 			}
