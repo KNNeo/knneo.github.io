@@ -336,7 +336,7 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<LinkedListItem>
 	        header.AppendLine("<a class=\"share material-symbols\" title=\"Share This Post\" href=\"javascript:void(0);\" onclick=\"sharePost()\">share</a>");
 	        header.AppendLine("<a class=\"like bordered material-symbols\" title=\"Like This Post\" href=\"javascript:void(0);\" onclick=\"likePost()\">favorite</a>");
 	        article.AppendLine("<h2 class=\"post-title\">" + postTitle + "</h2>");
-			article.AppendLine("<div style=\"display: flex; justify-content: space-between;\">");
+			article.AppendLine("<div class=\"post-info\">");
 	        article.AppendLine("<small title=\"Published: " + publishDateString + 
 				(publishDateString == updateDateString ? "\"" : "<br />&nbsp;&nbsp;Updated: " + updateDateString + "\"") +
 				" class=\"published\">" + publishDate.ToString("dddd, dd MMMM yyyy") + "</small>");
@@ -347,7 +347,6 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<LinkedListItem>
 			article.AppendLine("</div>");
 			if(postContent.Contains("id=\"") && !postContent.Contains("=\"post-hashtags\""))
 				article.AppendLine("<div class=\"post-hashtags\"></div>");
-	        //header.AppendLine("<div class=\"post-header\"></div>");
 			// Actual content to put in post-content class, HTML condensed
 	        article.Append(Uglify.Html(postContent));
 	        footer.Append("<hr>");
