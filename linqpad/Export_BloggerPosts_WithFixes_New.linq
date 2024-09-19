@@ -475,8 +475,10 @@ string GenerateStyleLinks(string content)
 	var styles = new StringBuilder();
 	foreach(var comp in components)
 	{
-		if(content.Contains($"class=\"{comp}"))
+		if(content.Contains($"class=\"{comp}")) {
 			styles.AppendLine($"<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../../css/{comp}.css\"/>");
+			styles.AppendLine($"<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../../css/viewer.css\"/>");
+		}
 	}
 
 	// special component: popup
@@ -486,7 +488,7 @@ string GenerateStyleLinks(string content)
 	// special component: viewer
 	var expression = @"(?s)(<a)(.*?)(><img)(.*?)(</a>)";
 	var match = Regex.Match(content, expression);
-	if(match.Success) 
+	if(match.Success && styles.ToString().IndexOf("viewer.css") < 0) 
 		styles.AppendLine($"<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../../css/viewer.css\"/>");
 
 	return styles.ToString();
@@ -499,8 +501,10 @@ string GenerateScriptLinks(string content)
 	var scripts = new StringBuilder();
 	foreach(var comp in components)
 	{
-		if(content.Contains($"class=\"{comp}"))
+		if(content.Contains($"class=\"{comp}")) {
 			scripts.AppendLine($"<script type=\"application/javascript\" charset=\"utf-8\" src=\"../../../../js/{comp}.js\" defer></script>");
+			scripts.AppendLine($"<script type=\"application/javascript\" charset=\"utf-8\" src=\"../../../../js/viewer.js\" defer></script>");
+		}
 	}
 
 	// special component: popup
@@ -510,7 +514,7 @@ string GenerateScriptLinks(string content)
 	// special component: viewer
 	var expression = @"(?s)(<a)(.*?)(><img)(.*?)(</a>)";
 	var match = Regex.Match(content, expression);
-	if(match.Success) 
+	if(match.Success && scripts.ToString().IndexOf("viewer.js") < 0)
 		scripts.AppendLine($"<script type=\"application/javascript\" charset=\"utf-8\" src=\"../../../../js/viewer.js\" defer></script>");
 
 	return scripts.ToString();
