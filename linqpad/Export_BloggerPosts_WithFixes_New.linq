@@ -11,6 +11,8 @@
 bool DEBUG_MODE = false;
 string DEBUG_SEARCHTERM = "";
 Dictionary<int, int> fixCounts = new Dictionary<int, int>();
+Dictionary<String, int> labelCounts = new Dictionary<String, int>();
+Dictionary<String, int> emojiCounts = new Dictionary<String, int>();
 
 // INPUT OUTPUT SETTINGS
 string BLOGGER_XML_DIRECTORY = @"C:\Users\KAINENG\Downloads\";
@@ -28,6 +30,7 @@ static int GENERATE_SLUG_MAX_LENGTH = 70;
 bool HOMEPAGE_ONLY = false;
 bool WRITE_TITLE_ON_CONSOLE = true;
 bool WRITE_FIXES_ON_CONSOLE = false;
+bool WRITE_EMOJICOUNT_ON_CONSOLE = false;
 bool DELETE_OUTPUT_DIRECTORY = false;
 int DOTS_PER_LINE_CONSOLE = 100;
 string BLOG_DOMAIN_URL = "https://klassicnotereports.blogspot.com/";
@@ -86,6 +89,11 @@ void Main()
 	{
 		Console.WriteLine("FIX COUNTS");
 		Console.WriteLine(fixCounts.OrderBy(x => x.Key));
+	}
+	if(WRITE_EMOJICOUNT_ON_CONSOLE)
+	{
+		Console.WriteLine("EMOJI COUNTS");
+		Console.WriteLine(emojiCounts.OrderByDescending(x => x.Value));
 	}
 	// Output as completed
 	Console.WriteLine("Done.");
@@ -227,8 +235,6 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<LinkedListItem>
 		Directory.Delete(outputFileDir, true);
 	// Read file
 	Console.WriteLine($"Processing {xmlPosts.Count()} Blogger posts...");
-	// Collate post labels
-	Dictionary<String, int> labelCount = new Dictionary<String, int>();
     // Process XML content per post
     var homepageString = new StringBuilder();
     for (var p = 0; p < xmlPosts.Count(); p++)
@@ -271,10 +277,10 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<LinkedListItem>
 		// Add to labels collation
 		foreach(var tag in pageTagsXml)
 		{
-			if(labelCount.ContainsKey(tag))
-				labelCount[tag] += 1;
+			if(labelCounts.ContainsKey(tag))
+				labelCounts[tag] += 1;
 			else
-				labelCount[tag] = 1;
+				labelCounts[tag] = 1;
 		}
 		// Create output page link and index in linked list
         var pageLink = "./" + Path.GetFileNameWithoutExtension(BLOGGER_XML_DIRECTORY.Replace(BLOGGER_XML_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER)) + 
@@ -451,7 +457,7 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<LinkedListItem>
     }
 	// Show collated label counts
 	if (DEBUG_MODE) Console.WriteLine("Print labels total count");
-	if (SHOW_POST_LABELs_COUNT) Console.WriteLine(labelCount.OrderByDescending(x => x.Value));
+	if (SHOW_POST_LABELs_COUNT) Console.WriteLine(labelCounts.OrderByDescending(x => x.Value));
 	return homepageString.ToString();
 }
 
@@ -666,8 +672,25 @@ List<int> FixPostContent(ref string content, List<LinkedListItem> linkedList)
 		
 		foreach(var emoji in emojis)
 		{
-			var initial = "*" + emoji.Key + "*";
-	        content = content.Replace(initial, "<span class=\"emoji\" title=\"" + emoji.Value + "\">" + initial + "</span>");
+			if(WRITE_EMOJICOUNT_ON_CONSOLE)
+			{
+		        expression = "\\*" + emoji.Key + "\\*";
+		        match = Regex.Match(content, expression);
+		        while(match.Success) {
+		        	content = content.Replace(match.Value, "<span class=\"emoji\" title=\"" + emoji.Value + "\">" + match.Value + "</span>");
+					// add to emoji count dictionary
+					if(!emojiCounts.ContainsKey(emoji.Key))
+						emojiCounts.Add(emoji.Key, 1);
+					else
+						emojiCounts[emoji.Key] += 1;
+		            match = match.NextMatch();
+		        };
+			}
+			else
+			{
+				expression = "*" + emoji.Key + "*";
+		        content = content.Replace(expression, "<span class=\"emoji\" title=\"" + emoji.Value + "\">" + expression + "</span>");
+			}
 		}
 	}
     #endregion
