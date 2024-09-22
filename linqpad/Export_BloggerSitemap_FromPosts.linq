@@ -18,10 +18,9 @@ string POST_TEMPLATE_FILENAME = @"C:\Users\KAINENG\Documents\GitHub\knreports\te
 // PROGRAM SETTINGS
 bool HOMEPAGE_ONLY = false;
 bool WRITE_TITLE_ON_CONSOLE = false;
+bool WRITE_FANFIC_LIST_ON_CONSOLE = false;
 int DOTS_PER_LINE_CONSOLE = 100;
 XNamespace DEFAULT_XML_NAMESPACE = XNamespace.Get("http://www.w3.org/2005/Atom");
-// TODO: Group based on page xml tag found, return list instead of object class
-bool WRITE_FANFIC_LIST = true;
 int MAX_HASHTAG_LENGTH = 32;
 Dictionary<String, String> SITEMAP_GROUPS = new Dictionary<String, String>()
 {
@@ -252,7 +251,7 @@ SitemapSections GenerateSitemap(List<XElement> xmlPosts)
 	if(DEBUG_MODE)
 		Console.WriteLine(sitemapItems);
 	// Output fanfic stats
-	if(WRITE_FANFIC_LIST)
+	if(WRITE_FANFIC_LIST_ON_CONSOLE)
 	{
 		Console.WriteLine(fanficItems
 			.GroupBy(g => g.Keyword.Split('|')[2])
