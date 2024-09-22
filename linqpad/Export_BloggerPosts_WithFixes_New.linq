@@ -347,8 +347,8 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<LinkedListItem>
 				(publishDateString == updateDateString ? "\"" : "<br />&nbsp;&nbsp;Updated: " + updateDateString + "\"") +
 				" class=\"published\">" + publishDate.ToString("dddd, dd MMMM yyyy") + "</small>");
 			article.AppendLine("<span>");
-	        article.AppendLine("<a class=\"prev material-symbols\" _PREVLINK_ title=\"Older Post\">arrow_back_ios</a>");
-	        article.AppendLine("<a class=\"next material-symbols\" _NEXTLINK_ title=\"Newer Post\">arrow_forward_ios</a>");
+	        article.AppendLine("<a class=\"prev material-symbols\" href=\"_PREVLINK_\" title=\"Older Post\">arrow_back_ios</a>");
+	        article.AppendLine("<a class=\"next material-symbols\" href=\"_NEXTLINK_\" title=\"Newer Post\">arrow_forward_ios</a>");
 			article.AppendLine("</span>");
 			article.AppendLine("</div>");
 			if(postContent.Contains("id=\"") && !postContent.Contains("=\"post-hashtags\""))
@@ -377,8 +377,8 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<LinkedListItem>
 				.Replace("_HEADER_", header.ToString())
 				.Replace("_CONTENTS_", article.ToString())
 				.Replace("_FOOTER_", footer.ToString())
-				.Replace("_PREVLINK_", pageIndex < linkedList.Count() - 1 ? $"href=\"{linkedList[pageIndex + 1].Destination.Replace("./", "../../../../")}\"" : "")
-				.Replace("_NEXTLINK_", pageIndex > 0 ? $"href=\"{linkedList[pageIndex - 1].Destination.Replace("./", "../../../../")}\"" : "");
+				.Replace("_PREVLINK_", pageIndex < linkedList.Count() - 1 ? linkedList[pageIndex + 1].Destination.Replace("./", "../../../../") : "javascript:void(0);")
+				.Replace("_NEXTLINK_", pageIndex > 0 ? linkedList[pageIndex - 1].Destination.Replace("./", "../../../../") : "javascript:void(0);");
 		    // Write into homepage file, or overwrite if exists
 		    File.WriteAllText(pageOutputPath, fileString);
 			// Show progress, as post title or as represented by dot (100 per line)
