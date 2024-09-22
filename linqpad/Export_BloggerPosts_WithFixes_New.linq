@@ -661,10 +661,10 @@ List<int> FixPostContent(ref string content, List<LinkedListItem> linkedList)
 		{
 			if(WRITE_EMOJICOUNT_ON_CONSOLE)
 			{
-		        expression = "\\*" + emoji.Key + "\\*";
+				expression = "\\*" + emoji.Key.Replace(" ", @"\s*?\n?\s*?") + "\\*";
 		        match = Regex.Match(content, expression);
 		        while(match.Success) {
-		        	content = content.Replace(match.Value, "<span class=\"emoji\" title=\"" + emoji.Value + "\">" + match.Value + "</span>");
+		        	content = content.Replace(match.Value, "<span class=\"emoji\" title=\"" + emoji.Value + "\">*" + emoji.Key + "*</span>");
 					// add to emoji count dictionary
 					if(!emojiCounts.ContainsKey(emoji.Key))
 						emojiCounts.Add(emoji.Key, 1);
@@ -675,8 +675,8 @@ List<int> FixPostContent(ref string content, List<LinkedListItem> linkedList)
 			}
 			else
 			{
-				expression = "*" + emoji.Key + "*";
-		        content = content.Replace(expression, "<span class=\"emoji\" title=\"" + emoji.Value + "\">" + expression + "</span>");
+				expression = "\\*" + emoji.Key.Replace(" ", @"\s*?\n?\s*?") + "\\*";
+		        content = Regex.Replace(content, expression, "<span class=\"emoji\" title=\"" + emoji.Value + "\">*" + emoji.Key + "*</span>");
 			}
 		}
 	}
