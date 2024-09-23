@@ -8,10 +8,6 @@
 
 // DEBUG
 bool DEBUG_MODE = false;
-string DEBUG_SEARCHTERM = "";
-Dictionary<int, int> fixCounts = new Dictionary<int, int>();
-Dictionary<String, int> labelCounts = new Dictionary<String, int>();
-Dictionary<String, int> emojiCounts = new Dictionary<String, int>();
 
 // INPUT OUTPUT SETTINGS
 string BLOGGER_XML_DIRECTORY = @"C:\Users\KAINENG\Downloads\";
@@ -20,7 +16,6 @@ string OUTPUT_DIRECTORY = @"C:\Users\KAINENG\Documents\GitHub\knreports\";
 string OUTPUT_DIRECTORY_SUBFOLDER = "posts";
 string HOMEPAGE_TEMPLATE_FILENAME = @"C:\Users\KAINENG\Documents\GitHub\knreports\pages\aozaki-shouhei-adventures\template.html";
 string HOMEPAGE_FILENAME = @"C:\Users\KAINENG\Documents\GitHub\knreports\pages\aozaki-shouhei-adventures\index.html";
-string POST_TEMPLATE_FILENAME = @"C:\Users\KAINENG\Documents\GitHub\knreports\pages\aozaki-shouhei-adventures\template.html";
 string BLOGGER_XML_RENAME_SUFFIX = "knreports";
 
 // PROGRAM SETTINGS
@@ -28,25 +23,13 @@ static bool GENERATE_SLUG_BY_POST_TITLE = true;
 static int GENERATE_SLUG_MAX_LENGTH = 70;
 bool HOMEPAGE_ONLY = false;
 bool WRITE_TITLE_ON_CONSOLE = true;
-bool WRITE_FIXES_ON_CONSOLE = false;
-bool WRITE_EMOJICOUNT_ON_CONSOLE = false;
 bool DELETE_OUTPUT_DIRECTORY = false;
 int DOTS_PER_LINE_CONSOLE = 100;
 string BLOG_DOMAIN_URL = "https://klassicnotereports.blogspot.com/";
 XNamespace DEFAULT_XML_NAMESPACE = XNamespace.Get("http://www.w3.org/2005/Atom");
-List<string> GOOGLE_FONTS_URLS = new List<string>() { "Dancing Script" };
-bool SHOW_POST_LABELs_COUNT = false;
-bool SHOW_LINKED_LIST = false;
 
 // POST SETTINGS
-string HTML_TITLE = "Klassic Note Reports";
-string HTML_DESCRIPTION = "If it is worth taking Note, it will be a Klassic.";
-bool POSTS_LINK_TO_BLOGGER = false;
 string POSTS_INCLUDE_SINCE = "2000-01-01";
-string POSTS_PROCESS_SINCE = "2024-07-01";
-string POST_THUMBNAIL_SINCE = "2020-01-01";
-string POST_TAGS_PREFIX_TEXT = "Read more";
-List<String> POST_IGNORE_LABELS = new List<string>() { "The Archive", "The Statement" };
 List<String> POST_OLD_DOMAINS = new List<string>()
 {
 	"https://knwebreports.blogspot.com/",
@@ -103,7 +86,7 @@ Dictionary<int, String> PAGE_TAGS = new Dictionary<int, String>() {
 	{46, "WakiAzumi,Neighbour,Birthday,Dinner"},
 	{47, "AizawaSaya,Acquaintance,CocktailBar,HangingOut"},
 	{48, "TachibanaRika,Acquaintance,SwimmingPool,Cleaning"},
-};
+}; // additional content, not from blog posts
 
 void Main()
 {
@@ -118,16 +101,6 @@ void Main()
 	var homepageString = GenerateBloggerPosts(bloggerPosts, Path.Combine(OUTPUT_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER));
 	GenerateFile(homepageString);
 	Console.WriteLine("===================================================================================");
-	if(WRITE_FIXES_ON_CONSOLE)
-	{
-		Console.WriteLine("FIX COUNTS");
-		Console.WriteLine(fixCounts.OrderBy(x => x.Key));
-	}
-	if(WRITE_EMOJICOUNT_ON_CONSOLE)
-	{
-		Console.WriteLine("EMOJI COUNTS");
-		Console.WriteLine(emojiCounts.OrderByDescending(x => x.Value));
-	}
 	// Output as completed
 	Console.WriteLine("Done.");
 }
