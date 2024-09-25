@@ -834,7 +834,7 @@ List<int> FixPostContent(ref string content, List<LinkedListItem> linkedList)
 	if(includeIndex.Count() == 0 || includeIndex.Contains(39))
 	{
 		count.Add(39);
-		content = Regex.Replace(content, "cellspacing=\"\d\"", "cellspacing=\"0\"");
+		content = Regex.Replace(content, "cellspacing=\"\\d\"", "cellspacing=\"0\"");
 	}
 	#endregion
 	
