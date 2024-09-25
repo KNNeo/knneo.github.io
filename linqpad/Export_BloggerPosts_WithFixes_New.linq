@@ -538,10 +538,11 @@ string GenerateScriptLinks(string content)
  * [ok] agenda class item -> class agenda-item
  * [ok] class thumbnail -> class carousel
  * [ok] fix head-prefix hardcoded styles
+ * [] standardize cell spacing attribute for tables
  */
 List<int> FixPostContent(ref string content, List<LinkedListItem> linkedList)
 {
-	List<int> includeIndex = new List<int> { 14, 15, 18, 24, 29, 31, 32, 33, 34, 35, 36, 37, 38 };
+	List<int> includeIndex = new List<int> { 14, 15, 18, 24, 29, 31, 32, 33, 34, 35, 36, 37, 38, 39 };
 	List<int> count = new List<int>();
 	string expression;
     string prefix, midfix, suffix;
@@ -826,6 +827,14 @@ List<int> FixPostContent(ref string content, List<LinkedListItem> linkedList)
 		count.Add(38);
 		// class="head-prefix"
 		content = content.Replace("style=\"background: #09a5b8; border-radius: 5px; padding: 3px 5px; text-align: center; vertical-align: text-bottom;\"", "class=\"header-prefix\"");
+	}
+	#endregion
+
+	#region 39 standardize cell spacing attribute for tables
+	if(includeIndex.Count() == 0 || includeIndex.Contains(39))
+	{
+		count.Add(39);
+		content = Regex.Replace(content, "cellspacing=\"\d\"", "cellspacing=\"0\"");
 	}
 	#endregion
 	
