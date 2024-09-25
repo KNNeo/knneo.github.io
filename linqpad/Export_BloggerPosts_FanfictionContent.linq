@@ -86,7 +86,7 @@ Dictionary<int, String> PAGE_TAGS = new Dictionary<int, String>() {
 	{46, "WakiAzumi,Neighbour,Birthday,Dinner"},
 	{47, "AizawaSaya,Acquaintance,CocktailBar,HangingOut"},
 	{48, "TachibanaRika,Acquaintance,SwimmingPool,Cleaning"},
-}; // additional content, not from blog posts
+}; // TODO: additional content not from blog posts to read from JSON file
 
 void Main()
 {
@@ -316,16 +316,28 @@ List<FanfictionContent> GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, str
 
 void GenerateFile(List<FanfictionContent> fanfics)
 {
-	string template = "{\"tooltip\":\"_CHARACTER_\",\"thumbnail\":\"_THUMBNAIL_\",\"grid\":{\"type\":\"grid\",\"columns\":2,\"rows\":8,\"cData\":[{\"type\":\"image\",\"rows\":7,\"tooltip\":\"\",\"source\":\"_THUMBNAIL_\",\"link\":\"_LINK_\"},{\"type\":\"paragraph\",\"rows\":7,\"italics\":true,\"text\":\"_CONTENT_\"},{\"columns\":2,\"type\":\"tags\",\"prefix\":\"#\",\"filter\":true,\"values\":[_TAGS_]}]}}";
-    // Write all additions into output home page
+	// Write all into output file
     string fileString = File.ReadAllText(HOMEPAGE_TEMPLATE_FILENAME)
-		.Replace("\"_SEASON1_\"", String.Join(",", fanfics.Where(x => x.season == 1).Select(x => template.Replace("_CHARACTER_", x.character).Replace("_THUMBNAIL_", x.thumb).Replace("_CONTENT_", x.content).Replace("_TAGS_", PAGE_TAGS.TryGetValue(x.index, out String tagList) ? String.Join(",", tagList.Split(',').Select(y => "\"" + y + "\"")) : ""))))
-		.Replace("\"_SEASON2_\"", String.Join(",", fanfics.Where(x => x.season == 2).Select(x => template.Replace("_CHARACTER_", x.character).Replace("_THUMBNAIL_", x.thumb).Replace("_CONTENT_", x.content).Replace("_TAGS_", PAGE_TAGS.TryGetValue(x.index, out String tagList) ? String.Join(",", tagList.Split(',').Select(y => "\"" + y + "\"")) : ""))))
-		.Replace("\"_SEASON3_\"", String.Join(",", fanfics.Where(x => x.season == 3).Select(x => template.Replace("_CHARACTER_", x.character).Replace("_THUMBNAIL_", x.thumb).Replace("_CONTENT_", x.content).Replace("_TAGS_", PAGE_TAGS.TryGetValue(x.index, out String tagList) ? String.Join(",", tagList.Split(',').Select(y => "\"" + y + "\"")) : ""))))
-		.Replace("\"_SEASON4_\"", String.Join(",", fanfics.Where(x => x.season == 4).Select(x => template.Replace("_CHARACTER_", x.character).Replace("_THUMBNAIL_", x.thumb).Replace("_CONTENT_", x.content).Replace("_TAGS_", PAGE_TAGS.TryGetValue(x.index, out String tagList) ? String.Join(",", tagList.Split(',').Select(y => "\"" + y + "\"")) : ""))))
+		.Replace("\"_SEASON1_\"", FormatPageSection(fanfics.Where(x => x.season == 1)))
+		.Replace("\"_SEASON2_\"", FormatPageSection(fanfics.Where(x => x.season == 2)))
+		.Replace("\"_SEASON3_\"", FormatPageSection(fanfics.Where(x => x.season == 3)))
+		.Replace("\"_SEASON4_\"", FormatPageSection(fanfics.Where(x => x.season == 4)))
 		;
-    // Write into homepage file
+    // Write into file
     File.WriteAllText(HOMEPAGE_FILENAME, fileString);
+}
+
+string FormatPageSection(List<FanfictionContent> list)
+{
+	string template = "{\"tooltip\":\"_CHARACTER_\",\"thumbnail\":\"_THUMBNAIL_\",\"grid\":{\"type\":\"grid\",\"columns\":2,\"rows\":8,\"cData\":[{\"type\":\"image\",\"rows\":7,\"tooltip\":\"\",\"source\":\"_THUMBNAIL_\",\"link\":\"_LINK_\"},{\"type\":\"paragraph\",\"rows\":7,\"italics\":true,\"text\":\"_CONTENT_\"},{\"columns\":2,\"type\":\"tags\",\"prefix\":\"#\",\"filter\":true,\"values\":[_TAGS_]}]}}";
+	return String.Join(",", list.Select(x => 
+		template
+			.Replace("_CHARACTER_", x.character)
+			.Replace("_THUMBNAIL_", x.thumb)
+			.Replace("_LINK_", x.link)
+			.Replace("_CONTENT_", x.content)
+			.Replace("_TAGS_", PAGE_TAGS.TryGetValue(x.index, out String tagList) ? String.Join(",", tagList.Split(',').Select(y => "\"" + y + "\"")) : ""))
+		);
 }
 
 static string GenerateSlug(string title)
