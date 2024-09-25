@@ -318,10 +318,10 @@ void GenerateFile(List<FanfictionContent> fanfics)
 {
 	// Write all into output file
     string fileString = File.ReadAllText(HOMEPAGE_TEMPLATE_FILENAME)
-		.Replace("\"_SEASON1_\"", FormatPageSection(fanfics.Where(x => x.season == 1)))
-		.Replace("\"_SEASON2_\"", FormatPageSection(fanfics.Where(x => x.season == 2)))
-		.Replace("\"_SEASON3_\"", FormatPageSection(fanfics.Where(x => x.season == 3)))
-		.Replace("\"_SEASON4_\"", FormatPageSection(fanfics.Where(x => x.season == 4)))
+		.Replace("\"_SEASON1_\"", FormatPageSection(fanfics.Where(x => x.season == 1).ToList()))
+		.Replace("\"_SEASON2_\"", FormatPageSection(fanfics.Where(x => x.season == 2).ToList()))
+		.Replace("\"_SEASON3_\"", FormatPageSection(fanfics.Where(x => x.season == 3).ToList()))
+		.Replace("\"_SEASON4_\"", FormatPageSection(fanfics.Where(x => x.season == 4).ToList()))
 		;
     // Write into file
     File.WriteAllText(HOMEPAGE_FILENAME, fileString);
