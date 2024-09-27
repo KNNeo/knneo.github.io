@@ -326,18 +326,18 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<LinkedListItem>
 			}
 			var publishDateString = publishDate.ToString("yyyy-MM-dd HH:mm") + " (GMT+8)";
 			var updateDateString = updateDate.ToString("yyyy-MM-dd HH:mm") + " (GMT+8)";
-	        header.AppendLine("<a class=\"back material-symbols\" href=\"../../../../index.html\" title=\"Back To Homepage\">arrow_back</a>");
+	        header.AppendLine("<a class=\"back material-icons\" href=\"../../../../index.html\" title=\"Back To Homepage\">arrow_back</a>");
 	        header.AppendLine("<h2 class=\"post-title\">" + postTitle + "</h2>");
-	        header.AppendLine("<a class=\"share material-symbols\" title=\"Share This Post\" href=\"javascript:void(0);\" onclick=\"sharePost()\">share</a>");
-	        header.AppendLine("<a class=\"like bordered material-symbols\" title=\"Like This Post\" href=\"javascript:void(0);\" onclick=\"likePost()\">favorite</a>");
+	        header.AppendLine("<a class=\"share material-icons\" title=\"Share This Post\" href=\"javascript:void(0);\" onclick=\"sharePost()\">share</a>");
+	        header.AppendLine("<a class=\"like bordered material-icons\" title=\"Like This Post\" href=\"javascript:void(0);\" onclick=\"likePost()\">favorite_border</a>");
 	        article.AppendLine("<h2 class=\"post-title\">" + postTitle + "</h2>");
 			article.AppendLine("<div class=\"post-info\">");
 	        article.AppendLine("<small title=\"Published: " + publishDateString + 
 				(publishDateString == updateDateString ? "\"" : "<br />&nbsp;&nbsp;Updated: " + updateDateString + "\"") +
 				" class=\"published\">" + publishDate.ToString("dddd, dd MMMM yyyy") + "</small>");
 			article.AppendLine("<span>");
-	        article.AppendLine("<a class=\"prev material-symbols\" href=\"_PREVLINK_\" title=\"Older Post\">arrow_back_ios</a>");
-	        article.AppendLine("<a class=\"next material-symbols\" href=\"_NEXTLINK_\" title=\"Newer Post\">arrow_forward_ios</a>");
+	        article.AppendLine("<a class=\"prev material-icons\" href=\"_PREVLINK_\" title=\"Older Post\">arrow_back_ios</a>");
+	        article.AppendLine("<a class=\"next material-icons\" href=\"_NEXTLINK_\" title=\"Newer Post\">arrow_forward_ios</a>");
 			article.AppendLine("</span>");
 			article.AppendLine("</div>");
 			if(postContent.Contains("id=\"") && !postContent.Contains("=\"post-hashtags\""))
