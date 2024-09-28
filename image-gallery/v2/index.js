@@ -366,6 +366,10 @@ function renderDisplay() {
 function renderGallery() {
 	progressDiv.style.top = '0';
 	galleryDiv.innerHTML = '';
+	if(window.variables.base < 1) {
+		galleryDiv.innerHTML = '<p>No items found</p>';
+		return;
+	}
 	// render all items
 	for(let [index, value] of window.variables.base.entries())
 	{
