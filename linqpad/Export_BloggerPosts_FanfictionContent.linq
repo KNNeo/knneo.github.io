@@ -86,6 +86,7 @@ Dictionary<int, String> PAGE_TAGS = new Dictionary<int, String>() {
 	{46, "WakiAzumi,Neighbour,Birthday,Dinner"},
 	{47, "AizawaSaya,Acquaintance,CocktailBar,HangingOut"},
 	{48, "TachibanaRika,Acquaintance,SwimmingPool,Cleaning"},
+	{49, "Lynn,Acquaintance,SummerHolidays,Flashback"},
 }; // TODO: additional content not from blog posts to read from JSON file
 
 void Main()
