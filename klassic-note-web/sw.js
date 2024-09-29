@@ -1,5 +1,5 @@
 // Caches, in decreasing order of update frequency
-const CACHE_DB = 'klassicnote-db-20240928';
+const CACHE_DB = 'klassicnote-db-20240929';
 const CACHE_CONTENT = 'klassicnote-web-20240519';
 const CACHE_RESOURCES = 'klassicnote-static-20240701';
 const ALL_CACHES = [ CACHE_DB, CACHE_CONTENT, CACHE_RESOURCES ];
