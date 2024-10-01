@@ -558,6 +558,8 @@ List<int> FixPostContent(ref string content, List<LinkedListItem> linkedList)
 	// NOTE: This does not cover domain names during Blogger export and import to a new Blogger site!
 	if(includeIndex.Count() == 0 || includeIndex.Contains(14))
 	{
+		if(DEBUG_MODE) Console.WriteLine("Fix #" + 14);
+		// based on POST_OLD_DOMAINS
 		foreach(var domain in POST_OLD_DOMAINS)
 		{
 	        expression = @"(?s)(href=\"")(" + domain + ")(.*?)(\")(.*?)(>)";
@@ -593,20 +595,24 @@ List<int> FixPostContent(ref string content, List<LinkedListItem> linkedList)
     #region 15 current blog link to relative
 	if(includeIndex.Count() == 0 || includeIndex.Contains(15))
 	{
-		//https
+		if(DEBUG_MODE) Console.WriteLine("Fix #" + 15);
+		//https only
 	    expression = @"(?s)(href=\"")(" + BLOG_DOMAIN_URL + ")(.*?)(\")(.*?)(>)";
         match = Regex.Match(content, expression);
         while(match.Success) {
 			count.Add(15);
 			var linkedListItem = linkedList.FirstOrDefault(l => (match.Groups[2].Value + match.Groups[3].Value).StartsWith(l.Source));
-			if(linkedListItem == null) {
-				if(DEBUG_MODE)
-					Console.WriteLine(match.Groups[2].Value + match.Groups[3].Value + " NOT FOUND IN LINKED LIST");
-				break;
-			}
+			if(linkedListItem == null)
+				throw new Exception(match.Groups[2].Value + match.Groups[3].Value + " NOT FOUND IN LINKED LIST");
             var replacement = match.Value.Replace("target=\"_blank\"", "")
-											.Replace(BLOG_DOMAIN_URL, "../../../")
-											.Replace(".html", "/index.html");
+											.Replace(linkedListItem.Source, linkedListItem.Destination)
+											.Replace("./", "../../../../");
+			if(DEBUG_MODE) {
+				Console.WriteLine(match.Groups[2].Value + match.Groups[3].Value);
+				Console.WriteLine(linkedListItem);
+				Console.WriteLine(match.Value);
+				Console.WriteLine(replacement);
+			}
             content = content.Replace(match.Value, replacement);
             match = match.NextMatch();
         };
@@ -616,6 +622,7 @@ List<int> FixPostContent(ref string content, List<LinkedListItem> linkedList)
     #region 18 any link not referenced within blog to open on new tab
 	if(includeIndex.Count() == 0 || includeIndex.Contains(18))
 	{
+		if(DEBUG_MODE) Console.WriteLine("Fix #" + 18);
         prefix = @"<a href=""";
         midfix = @""" target=""_blank""";
         suffix = ">";
@@ -642,7 +649,7 @@ List<int> FixPostContent(ref string content, List<LinkedListItem> linkedList)
     #region 24 replace common phrases with emoji
 	if(includeIndex.Count() == 0 || includeIndex.Contains(24))
 	{
-		if(DEBUG_MODE) Console.WriteLine("replace common phrases with emoji");
+		if(DEBUG_MODE) Console.WriteLine("Fix #" + 24);
 		count.Add(24);
 		// sorted by alphabetical order of original string, then emoji length
 		Dictionary<string, string> emojis = new Dictionary<string, string>()
@@ -686,6 +693,7 @@ List<int> FixPostContent(ref string content, List<LinkedListItem> linkedList)
 	#region 29 reduce resolution of uploaded images to 1600px max
 	if(includeIndex.Count() == 0 || includeIndex.Contains(29))
 	{
+		if(DEBUG_MODE) Console.WriteLine("Fix #" + 29);
 		if(content.Contains("s4032") || content.Contains("s4080") || content.Contains("s2048"))
 			count.Add(29);
 		content = content.Replace(@"/s4032/", @"/s1600/").Replace(@"/s4080/", @"/s1600/").Replace(@"/s2048/", @"/s1600/");
@@ -695,6 +703,7 @@ List<int> FixPostContent(ref string content, List<LinkedListItem> linkedList)
     #region 30 censor words
 	if(includeIndex.Count() == 0 || includeIndex.Contains(30))
 	{
+		if(DEBUG_MODE) Console.WriteLine("Fix #" + 30);
 		var censored = new Dictionary<String, String>()
 		{
 			{"CUM", "C*M"}, {"cum", "c*m"},
@@ -726,6 +735,7 @@ List<int> FixPostContent(ref string content, List<LinkedListItem> linkedList)
     #region 31 add lazy loading to img tags
 	if(includeIndex.Count() == 0 || includeIndex.Contains(31))
 	{
+		if(DEBUG_MODE) Console.WriteLine("Fix #" + 31);
 		count.Add(31);
         content = content.Replace("<img", "<img alt=\"\" loading=\"lazy\"");
 	}
@@ -734,6 +744,7 @@ List<int> FixPostContent(ref string content, List<LinkedListItem> linkedList)
     #region 32 replace italics with emphasis tag
 	if(includeIndex.Count() == 0 || includeIndex.Contains(32))
 	{
+		if(DEBUG_MODE) Console.WriteLine("Fix #" + 32);
         expression = @"<i\b[^>]*>(.*?)<\/i>";
         match = Regex.Match(content, expression);
         if(match.Success) {
@@ -746,6 +757,7 @@ List<int> FixPostContent(ref string content, List<LinkedListItem> linkedList)
 	#region 33 replace inline style with class due to universal font-size use
 	if(includeIndex.Count() == 0 || includeIndex.Contains(33))
 	{
+		if(DEBUG_MODE) Console.WriteLine("Fix #" + 33);
         expression = @"style=""font-size: large;""";
         match = Regex.Match(content, expression);
         if(match.Success) {
@@ -765,6 +777,7 @@ List<int> FixPostContent(ref string content, List<LinkedListItem> linkedList)
 	#region 34 fix own twitter/x handle (KlassicNote -> aozakish)
 	if(includeIndex.Count() == 0 || includeIndex.Contains(34))
 	{
+		if(DEBUG_MODE) Console.WriteLine("Fix #" + 34);
         expression = @"(twitter.com|x.com)/(KlassicNote)";
         match = Regex.Match(content, expression);
         if(match.Success) {
@@ -777,6 +790,7 @@ List<int> FixPostContent(ref string content, List<LinkedListItem> linkedList)
 	#region 35 class replacements for new blog (2024)
 	if(includeIndex.Count() == 0 || includeIndex.Contains(35))
 	{
+		if(DEBUG_MODE) Console.WriteLine("Fix #" + 35);
 		var replacements = new Dictionary<String, String>() {
 			{"news-thumbnail",	"post-thumbnail"},
 			{"hashtags",		"post-hashtags"},
@@ -800,7 +814,8 @@ List<int> FixPostContent(ref string content, List<LinkedListItem> linkedList)
 	#region 36 agenda class item -> class agenda-item
 	if(includeIndex.Count() == 0 || includeIndex.Contains(36))
 	{
-		// this replacement must be done first before all other component classes
+		if(DEBUG_MODE) Console.WriteLine("Fix #" + 36);
+		// this replacement must be done first before all other component classes due to non-unique item class
         if(content.Contains(@"class=""agenda""")) {
 			count.Add(36);
             content = content.Replace(@"class=""item""", @"class=""agenda-item""");
@@ -811,6 +826,7 @@ List<int> FixPostContent(ref string content, List<LinkedListItem> linkedList)
 	#region 37 class thumbnail -> class carousel
 	if(includeIndex.Count() == 0 || includeIndex.Contains(37))
 	{
+		if(DEBUG_MODE) Console.WriteLine("Fix #" + 37);
         if(content.Contains(@"class=""thumbnail""")) {
 			count.Add(37);
             content = content.Replace(@"class=""thumbnail""", @"class=""carousel""");
@@ -824,8 +840,8 @@ List<int> FixPostContent(ref string content, List<LinkedListItem> linkedList)
 	#region 38 fix hardcoded header-prefix style
 	if(includeIndex.Count() == 0 || includeIndex.Contains(38))
 	{
+		if(DEBUG_MODE) Console.WriteLine("Fix #" + 38);
 		count.Add(38);
-		// class="head-prefix"
 		content = content.Replace("style=\"background: #09a5b8; border-radius: 5px; padding: 3px 5px; text-align: center; vertical-align: text-bottom;\"", "class=\"header-prefix\"");
 	}
 	#endregion
@@ -833,6 +849,7 @@ List<int> FixPostContent(ref string content, List<LinkedListItem> linkedList)
 	#region 39 standardize cell spacing attribute for tables
 	if(includeIndex.Count() == 0 || includeIndex.Contains(39))
 	{
+		if(DEBUG_MODE) Console.WriteLine("Fix #" + 39);
 		count.Add(39);
 		content = Regex.Replace(content, "cellspacing=\"\\d\"", "cellspacing=\"0\"");
 		content = Regex.Replace(content, "cellpadding=\"\\d\"", "cellpadding=\"0\"");
