@@ -352,7 +352,7 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<LinkedListItem>
 						.Select(tag => "<a class=\"box\" href=\"../../../../index.html#" + tag.Replace(" ","") +"\">" + tag + "</a>")) + 
 					"</div>");
 			}
-	        footer.Append($"<h6 class=\"page-footer\">All text © {publishDate.ToString("yyyy")} {HTML_TITLE}</h6>");
+	        footer.Append($"<h6 class=\"page-footer\">Copyright © {HTML_TITLE} {publishDate.ToString("yyyy")}. All rights reserved.</h6>");
 		    // Write all additions into output home page
 		    string fileString = File.ReadAllText(POST_TEMPLATE_FILENAME)
 				.Replace("_TITLE_", postTitle.Length > 0 ? postTitle : "A Random Statement")
