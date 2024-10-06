@@ -92,6 +92,7 @@ Dictionary<int, String> PAGE_TAGS = new Dictionary<int, String>() {
 	{47, "AizawaSaya,Acquaintance,CocktailBar,Night,HangingOut,CurrentEvents"},
 	{48, "TachibanaRika,Acquaintance,SwimmingPool,Cleaning,CurrentEvents"},
 	{49, "Lynn,Acquaintance,SummerHolidays,Flashback"},
+	{50, "AizawaSaya,Acquaintance,Sleeping,HangingOut,CurrentEvents"},
 }; // TODO: additional content not from blog posts to read from JSON file
 
 void Main()
@@ -335,7 +336,7 @@ void GenerateFile(List<FanfictionContent> fanfics)
 
 string FormatPageSection(List<FanfictionContent> list)
 {
-	string template = "{\"tooltip\":\"_CHARACTER_\",\"thumbnail\":\"_THUMBNAIL_\",\"grid\":{\"type\":\"grid\",\"columns\":2,\"rows\":8,\"cData\":[{\"type\":\"image\",\"rows\":7,\"tooltip\":\"\",\"source\":\"_THUMBNAIL_\",\"link\":\"_LINK_\"},{\"type\":\"paragraph\",\"rows\":7,\"italics\":true,\"text\":\"_CONTENT_\"},{\"columns\":2,\"type\":\"tags\",\"prefix\":\"#\",\"filter\":true,\"values\":[_TAGS_]}]}}";
+	string template = "{\"tooltip\":\"_CHARACTER_\",\"thumbnail\":\"_THUMBNAIL_\",\"grid\":{\"type\":\"grid\",\"columns\":2,\"rows\":8,\"items\":[{\"type\":\"image\",\"rows\":7,\"tooltip\":\"\",\"source\":\"_THUMBNAIL_\",\"link\":\"_LINK_\"},{\"type\":\"paragraph\",\"rows\":7,\"align\":\"center\",\"italics\":true,\"text\":\"_CONTENT_\"},{\"columns\":2,\"type\":\"tags\",\"prefix\":\"#\",\"filter\":true,\"values\":[_TAGS_]}]}}";
 	return String.Join(",", list.Select(x => 
 		template
 			.Replace("_CHARACTER_", x.character)
