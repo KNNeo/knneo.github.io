@@ -32,6 +32,18 @@ body {
 	user-select: none;
 }
 
+a {
+	color: var(--primary);
+}
+
+a:visited {
+	color: var(--secondary);
+}
+
+a:hover {
+	color: var(--foreground);
+}
+
 .hidden {
 	display: none !important;
 }
