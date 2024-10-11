@@ -49,6 +49,7 @@ void Main()
 	var bloggerPosts = GetBloggerPostsPublished(inputFileDirs);
 	var pageSections = GenerateSitemap(bloggerPosts);
 	GenerateSitemapFile(pageSections);
+	Console.WriteLine("");
 	Console.WriteLine("===================================================================================");
 	// Output as completed
 	Console.WriteLine("Done.");
@@ -293,11 +294,12 @@ SitemapSections GenerateSitemap(List<XElement> xmlPosts)
 		var key = item.Keyword.Split('|'); // Fanfiction|date|name
 		var date = DateTime.ParseExact(key[1], "yyyy.MM.dd", null);
 		if(date >= prevDate.AddDays(14)) // assume breaks between seasons
-			fanString += "</div><div class=\"season\"><h3 class=\"title\">Season " + ++seasonNo + "</h3>\r\n";
-		fanString += "<div><span>" + (++counter).ToString("00") + "</span> <a class=\"keyword\" title=\"" + item.Title + "\" href=\"" + item.KeywordUrl + "\">" + key[2] + "</a></div>\r\n";
+			fanString += "</div><div><h3 class=\"title\">Season " + ++seasonNo + "</h3>\r\n";
+		fanString += "<a class=\"keyword\" data-id=\"" + (++counter).ToString("00") + "\" title=\"" + item.Title + "\" href=\"" + item.KeywordUrl + "\">" + key[2] + "</a><br>\r\n";
 		prevDate = date;
 	}
 	fanString += "</div>";
+	fanString = fanString.Replace("<div></div>","");
 	
 	return new SitemapSections() {
 		Anime = animeString,
