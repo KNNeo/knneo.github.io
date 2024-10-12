@@ -2659,6 +2659,11 @@ function generateDataAsTableRows(contents, parameters) {
 		if(skipColumns.includes(columns[r])) continue;
 		
 		let tr = document.createElement('tr');
+		tr.tabIndex = 0;
+		tr.addEventListener('mouseover', onHoverTableRow);
+		tr.addEventListener('mouseout', onHoverTableRow);
+		tr.addEventListener('focus', onHoverTableRow);
+		tr.addEventListener('blur', onHoverTableRow);
 	
 		let tc = document.createElement('td');
 		tc.innerHTML = columns[r];
@@ -2753,6 +2758,10 @@ function generateDataAsTableList(contents, parameters) {
 		}
 	
 		let tr = document.createElement('tr');
+		tr.addEventListener('mouseover', onHoverTableRow);
+		tr.addEventListener('mouseout', onHoverTableRow);
+		tr.addEventListener('focus', onHoverTableRow);
+		tr.addEventListener('blur', onHoverTableRow);
 		tr.setAttribute('data-id', row[columnIndexKNID]);
 		
 		let tc = document.createElement('td');
@@ -2766,7 +2775,7 @@ function generateDataAsTableList(contents, parameters) {
 			tc.addEventListener('keyup', function() {
 				if(event.key == 'Enter')
 					clickFunc(event);
-			});
+			});	
 			tc.addEventListener('click', clickFunc);
 		}
 		
@@ -2895,7 +2904,14 @@ function generateDataAsTableWithHeader(contents, parameters) {
 		let columnIndexRankNo = contents.columns.indexOf(groupColumn);
 		
 		let tr = document.createElement('tr');
+		tr.tabIndex = 0;
 		tr.setAttribute('data-id', row[columnIndexKNID] ?? 0);
+		tr.addEventListener('focus', onHoverDataTableRow);
+		tr.addEventListener('blur', onHoverDataTableRow);
+		tr.addEventListener('mouseover', onHoverDataTableRow);
+		tr.addEventListener('mouseout', onHoverDataTableRow);
+		tr.addEventListener('touchstart', onHoverDataTableRow);
+		tr.addEventListener('touchend', onHoverDataTableRow);
 		if(debugMode)
 			console.log('highlight', document.querySelector('#options').value.replace(categoryIcons[2], ''), row[columnIndexKNID]);
 		if(document.querySelector('#options').value.replace(categoryIcons[2], '') == row[columnIndexKNID]) {
@@ -2903,21 +2919,15 @@ function generateDataAsTableWithHeader(contents, parameters) {
 				console.log('highlighted');
 			tr.classList.add('highlight');
 			tr.classList.add('not-selectable');
-			tr.addEventListener('active', onHoverTableRow);
 		}
 		else if(row[columnIndexKNID]) {
 			tr.style.cursor = 'pointer';
-			tr.tabIndex = 0;
 			tr.addEventListener('keyup', function() {
 				if(event.key == 'Enter')
 					updateSong(event);
 			});
 			tr.addEventListener('click', updateSong);
-			tr.addEventListener('mouseover', onHoverTableRow);
-			tr.addEventListener('mouseout', onHoverTableRow);
 		}
-		tr.addEventListener('touchstart', onHoverTableRow);
-		tr.addEventListener('touchend', onHoverTableRow);
 		
 		for(let col = 0; col < columns.length ; col++)
 		{
@@ -2991,6 +3001,10 @@ function generateCellValue(columns, row, textColumn, iconColumn, iconTooltip, ic
 }
 
 function onHoverTableRow() {
+	event.target.closest('tr').classList.toggle('highlight');
+}
+
+function onHoverDataTableRow() {
 	let rowCells = event.target.closest('tr').getElementsByTagName('td');
 	let spanRow = findTableSiblingRow(event.target.closest('tr'));
 	let spanCell = spanRow.querySelector('td[rowspan]');
@@ -3001,9 +3015,7 @@ function onHoverTableRow() {
 	
 	// highlight rest of row
 	for(let cell of rowCells)
-	{
 		cell.classList.toggle('highlight');
-	}
 }
 
 function findTableSiblingRow(cell) {
