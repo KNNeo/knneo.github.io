@@ -75,7 +75,7 @@ Dictionary<int, String> PAGE_TAGS = new Dictionary<int, String>() {
 	{31, "AmamiyaSora,Acquaintance,Hotel,Evening,CurrentEvents"},
 	{32, "KitouAkari,ExGirlfriend,WinterHolidays,Morning,FirstDate,Flashback"},
 	{33, "AizawaSaya,Acquaintance,CocktailBar,Night,Introduction,CurrentEvents"},
-	{34, "UesakaSumire,Stranger,ExColleague,Christmas,HelpingHand,Evening,CurrentEvents"},
+	{34, "UesakaSumire,Stranger,Colleague,Christmas,HelpingHand,Evening,Flashback"},
 	{35, "UedaReina,Stranger,Introduction,CurrentEvents"},
 	{36, "AsakuraMomo,Acquaintance,TrainRide,CurrentEvents"},
 	
@@ -93,6 +93,7 @@ Dictionary<int, String> PAGE_TAGS = new Dictionary<int, String>() {
 	{48, "TachibanaRika,Acquaintance,SwimmingPool,Cleaning,CurrentEvents"},
 	{49, "Lynn,Acquaintance,SummerHolidays,Flashback"},
 	{50, "AizawaSaya,Acquaintance,Sleeping,HangingOut,CurrentEvents"},
+	{51, "UesakaSumire,Stranger,Drinking,Dinner,HangingOut,Flashback"},
 }; // TODO: additional content not from blog posts to read from JSON file
 
 void Main()
