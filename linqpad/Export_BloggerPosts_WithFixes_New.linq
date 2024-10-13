@@ -842,8 +842,10 @@ List<int> FixPostContent(ref string content, List<LinkedListItem> linkedList)
 	if(includeIndex.Count() == 0 || includeIndex.Contains(38))
 	{
 		if(DEBUG_MODE) Console.WriteLine("Fix #" + 38);
-		count.Add(38);
-		content = content.Replace("style=\"background: #09a5b8; border-radius: 5px; padding: 3px 5px; text-align: center; vertical-align: text-bottom;\"", "class=\"header-prefix\"");
+        if(content.Contains(@"background: #09a5b8; border-radius: 5px; padding: 3px 5px; text-align: center; vertical-align: text-bottom;")) {
+			count.Add(38);
+			content = content.Replace("style=\"background: #09a5b8; border-radius: 5px; padding: 3px 5px; text-align: center; vertical-align: text-bottom;\"", "class=\"header-prefix\"");
+		}
 	}
 	#endregion
 
@@ -851,9 +853,11 @@ List<int> FixPostContent(ref string content, List<LinkedListItem> linkedList)
 	if(includeIndex.Count() == 0 || includeIndex.Contains(39))
 	{
 		if(DEBUG_MODE) Console.WriteLine("Fix #" + 39);
-		count.Add(39);
-		content = Regex.Replace(content, "cellspacing=\"\\d\"", "cellspacing=\"0\"");
-		content = Regex.Replace(content, "cellpadding=\"\\d\"", "cellpadding=\"0\"");
+        if(Regex.IsMatch(content, "cellspacing=\"[1-9]\"")) {
+			count.Add(39);
+			content = Regex.Replace(content, "cellspacing=\"\\d\"", "cellspacing=\"0\"");
+			content = Regex.Replace(content, "cellpadding=\"\\d\"", "cellpadding=\"0\"");
+		}
 	}
 	#endregion
 	
