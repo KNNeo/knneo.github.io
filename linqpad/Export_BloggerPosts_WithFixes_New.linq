@@ -9,7 +9,7 @@
 
 // DEBUG
 bool DEBUG_MODE = false;
-string POSTS_SEARCHTERM = @"";
+string POSTS_SEARCHTERM = "";
 Dictionary<int, int> fixCounts = new Dictionary<int, int>();
 Dictionary<String, int> labelCounts = new Dictionary<String, int>();
 Dictionary<String, int> emojiCounts = new Dictionary<String, int>();
