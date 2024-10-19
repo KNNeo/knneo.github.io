@@ -9,7 +9,7 @@
 
 // DEBUG
 bool DEBUG_MODE = false;
-string DEBUG_SEARCHTERM = "";
+string POSTS_SEARCHTERM = @"";
 Dictionary<int, int> fixCounts = new Dictionary<int, int>();
 Dictionary<String, int> labelCounts = new Dictionary<String, int>();
 Dictionary<String, int> emojiCounts = new Dictionary<String, int>();
@@ -284,19 +284,19 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<LinkedListItem>
 	        // fix url of ent news, by year except 2014
 			
 	        // Find Content in debug mode
-			if(DEBUG_SEARCHTERM.Length > 0)
+			if(POSTS_SEARCHTERM.Length > 0)
 			{
-		        Match contentWhitespace = Regex.Match(postContent, DEBUG_SEARCHTERM);
+		        Match contentWhitespace = Regex.Match(postContent, POSTS_SEARCHTERM);
 		        if(contentWhitespace.Success)
 				{
-					Console.WriteLine("search term found: " + postTitle);
-					continue;
+					Console.WriteLine(postTitle);
+					Console.WriteLine("search term found: " + contentWhitespace);
 				}
-		        Match titleWhitespace = Regex.Match(postTitle, DEBUG_SEARCHTERM);
-		        if(contentWhitespace.Success)
+		        Match titleWhitespace = Regex.Match(postTitle, POSTS_SEARCHTERM);
+		        if(titleWhitespace.Success)
 				{
-					Console.WriteLine("search term found: " + postTitle);
-					continue;
+					Console.WriteLine(postTitle);
+					Console.WriteLine("search term found: " + titleWhitespace);
 				}
 			}
 			// Fix post content
