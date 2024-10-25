@@ -17,6 +17,7 @@ string OUTPUT_DIRECTORY_SUBFOLDER = "posts";
 string HOMEPAGE_TEMPLATE_FILENAME = @"C:\Users\KAINENG\Documents\GitHub\knreports\pages\aozaki-shouhei-adventures\template.html";
 string HOMEPAGE_FILENAME = @"C:\Users\KAINENG\Documents\GitHub\knreports\pages\aozaki-shouhei-adventures\index.html";
 string BLOGGER_XML_RENAME_SUFFIX = "knreports";
+string TAGS_TXT_FILENAME = @"C:\Users\KAINENG\Documents\GitHub\knreports\pages\aozaki-shouhei-adventures\tags.txt";
 
 // PROGRAM SETTINGS
 static bool GENERATE_SLUG_BY_POST_TITLE = true;
@@ -39,64 +40,20 @@ List<String> POST_OLD_DOMAINS = new List<string>()
 };
 // CONSIDER: Name, relationship, time of day, weather, CurrentEvents/Flashback, introduction, key events
 // DO NOT CONSIDER: Story related information, plot twists, key items
-Dictionary<Int32, String> PAGE_TAGS = new Dictionary<Int32, String>() {
-	{0101, "TakahashiRie,Colleague,Lunch,CurrentEvents,Introduction"},
-	{0102, "AmamiyaSora,Acquaintance,Cooking,Morning,CurrentEvents"},
-	{0103, "AsakuraMomo,Acquaintance,TrainRide,CurrentEvents"},
-	{0104, "NatsukawaShiina,YoungerStepsister,Morning,GachaMachine,Keychain,CurrentEvents"},
-	{0105, "HanazawaKana,Acquaintance,MyMansion,Rain,Introduction,CurrentEvents"},
-	{0106, "MinaseInori,Benefactor,SummerFestival,Evening,PlaygroundRide,CurrentEvents"},
-	{0107, "WakiAzumi,Neighbour,FootBath,Night,CurrentEvents"},
-	{0108, "MinaseInori,Benefactor,SummerFestival,Sparklers,Evening,CurrentEvents"},
-	{0109, "KogaAoi,Girlfriend,SummerFestival,ShavedIce,Jealous,CurrentEvents"},
+Dictionary<int, String> PAGE_TAGS => GetPageTags();
 	
-	{0201, "KitouAkari,ExGirlfriend,FamilyRestaurant,NewMenu,Flashback"},
-	{0202, "KitouAkari,ExGirlfriend,ChristmasParty,Confession,Night,Flashback"},
-	{0203, "ToyosakiAki,Stranger,BicycleRental,HangingOut,Afternoon,Flashback"},
-	{0204, "HanazawaKana,Acquaintance,Bakery,CurrentEvents"},
-	{0205, "KomatsuMikako,Neighbour,Cafe,NTR,Flashback"},
-	{0206, "TachibanaRika,Stranger,Cafe,Flashback"},
-	{0207, "TaketatsuAyana,Cousin,Married,HoldingHands,Flashback"},
-	{0208, "MinaseInori,Benefactor,NatsukawaAbode,Afternoon,CurrentEvents"},
-	{0209, "NatsukawaShiina,YoungerStepsister,NatsukawaAbode,Morning,CurrentEvents"},
-	{0210, "KitouAkari,ExGirlfriend,Christmas,Night,Flashback"},
-	{0211, "UesakaSumire,Stranger,Christmas,PickUpGirl,Secret,Night,CurrentEvents"},
-	{0212, "TakahashiRie,Colleague,NewYears,HouseDate,Afternoon,CurrentEvents"},
-	
-	{0301, "KogaAoi,Girlfriend,BeachDate,Overcast,CurrentEvents"},
-	{0302, "KounoMarika,Cousin,SummerHolidays,Flashback"},
-	{0303, "TakahashiRie,Colleague,AmusementPark,Birthday,CurrentEvents"},
-	{0304, "NatsukawaShiina,YoungerStepsister,Introduction,Flashback"},
-	{0305, "MinaseInori,Benefactor,NatsukawaAbode,WhiteDay,CurrentEvents"},
-	{0306, "KannoMai,Tenant,MyMansion,Bathroom,Morning,CurrentEvents"},
-	{0307, "NagaeRika,ChildhoodFriend,Aquarium,HangingOut,CurrentEvents"},
-	{0308, "AmamiyaSora,Acquaintance,CherryBlossoms,CurrentEvents"},
-	{0309, "AmamiyaSora,Acquaintance,Hotel,Evening,CurrentEvents"},
-	{0310, "AmamiyaSora,Acquaintance,Hotel,Evening,CurrentEvents"},
-	{0311, "KitouAkari,ExGirlfriend,WinterHolidays,Morning,FirstDate,Flashback"},
-	{0312, "AizawaSaya,Acquaintance,CocktailBar,Night,Introduction,CurrentEvents"},
-	{0313, "UesakaSumire,Stranger,Colleague,Christmas,HelpingHand,Evening,Flashback"},
-	{0314, "UedaReina,Stranger,Introduction,CurrentEvents"},
-	{0315, "AsakuraMomo,Acquaintance,TrainRide,CurrentEvents"},
-	
-	{0401, "TakahashiRie,Colleague,Dinner,Evening,Confession,Rejection,CurrentEvents"},
-	{0402, "UedaReina,Acquaintance,NatsukawaAbode,Afternoon,Confession,CurrentEvents"},
-	{0403, "NatsukawaShiina,YoungerStepsister,TrySail,AmamiyaSora,AsakuraMomo,Jealous,Mesaging,CurrentEvents"},
-	{0404, "HanazawaKana,Acquaintance,Relative,CurrentEvents"},
-	{0405, "IshiharaKaori,Stranger,Shrine,Yukata,Afternoon,SummerFestival,CurrentEvents"},
-	{0406, "OguraYui,Tenant,MyMansion,Streamer,Night,CurrentEvents"},
-	{0407, "KannoMai,Tenant,MyMansion,Gossip,Morning,CurrentEvents"},
-	{0408, "KogaAoi,Girlfriend,TrainRide,CurrentEvents"},
-	{0409, "AmamiyaSora,Acquaintance,HighSchool,Flashback"},
-	{0410, "WakiAzumi,Neighbour,Birthday,Dinner,Evening,Married,CurrentEvents"},
-	{0411, "AizawaSaya,Acquaintance,CocktailBar,Night,HangingOut,CurrentEvents"},
-	{0412, "TachibanaRika,Acquaintance,SwimmingPool,Cleaning,CurrentEvents"},
-	{0413, "Lynn,Acquaintance,SummerHolidays,Flashback"},
-	{0414, "AizawaSaya,Acquaintance,Sleeping,HangingOut,CurrentEvents"},
-	{0415, "UesakaSumire,Stranger,Drinking,Dinner,HangingOut,Flashback"},
-	{0416, "KitouAkari,ExGirlfriend,Hammock,HangingOut,Flashback"},
-	{0417, "ToyotaMoe,Tenant,MyMansion,Shower,CloseUp,CurrentEvents"},
-}; // TODO: additional content not from blog posts to read from JSON file
+Dictionary<Int32, String> GetPageTags()
+{
+	var list = new Dictionary<Int32, String>();
+	List<String> rows = File.ReadAllLines(TAGS_TXT_FILENAME).ToList();
+	foreach(var row in rows)
+	{
+		var parts = row.Split(' ');
+		if(Int32.TryParse(parts[0], out Int32 id) && !String.IsNullOrWhiteSpace(parts[1]))
+			list.Add(id, parts[1].Trim());
+	}
+	return list;
+}
 
 void Main()
 {
@@ -104,7 +61,7 @@ void Main()
 	Console.WriteLine("> Note: If execution is stuck, is likely due to Blogger img tags missing self-enclosing slash, format on Web and re-export");
     if(!WRITE_TITLE_ON_CONSOLE) Console.WriteLine("> WRITE_TITLE_ON_CONSOLE is " + WRITE_TITLE_ON_CONSOLE + "; Set as true to see post titles");
     if(HOMEPAGE_ONLY) Console.WriteLine("> HOMEPAGE_ONLY is " + HOMEPAGE_ONLY + "; Set as false to update posts");
-	Console.WriteLine("===================================================================================");	
+	Console.WriteLine("===================================================================================");
 	var inputFileDirs = GetBloggerXmlFilePath(BLOGGER_XML_DIRECTORY, ARCHIVE_XML_DIRECTORY);
 	var bloggerPosts = GetBloggerPostsPublished(inputFileDirs);
 	var outputFilesDir = Path.Combine(OUTPUT_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER);
