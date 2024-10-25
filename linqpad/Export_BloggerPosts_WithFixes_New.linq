@@ -46,7 +46,7 @@ bool POSTS_LINK_TO_BLOGGER = false;
 string POSTS_INCLUDE_SINCE = "2000-01-01";
 string POSTS_PROCESS_SINCE = "2024-07-01";
 string POST_THUMBNAIL_SINCE = "2020-01-01";
-string POST_TAGS_PREFIX_TEXT = "Read more";
+string POST_TAGS_PREFIX_TEXT = "Reported under";
 List<String> POST_IGNORE_LABELS = new List<string>() { "The Archive", "The Statement" };
 Dictionary<String, String> POST_LABEL_THUMBNAIL = new Dictionary<String, String>()
 {
@@ -347,7 +347,7 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<LinkedListItem>
 	        if(pageTagsXml.Count > 0)
 			{
 	            footer.Append($"<div class=\"post-tags\"><h4>{POST_TAGS_PREFIX_TEXT} </h4>" + 
-					string.Join("", pageTagsXml.OrderBy(t => t)
+					string.Join("", pageTagsXml.OrderByDescending(t => t.Length)
 						.Select(tag => "<a class=\"box\" href=\"../../../../index.html#" + tag.Replace(" ","") +"\">" + tag + "</a>")) + 
 					"</div>");
 			}
