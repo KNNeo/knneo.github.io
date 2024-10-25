@@ -23,6 +23,7 @@ static bool GENERATE_SLUG_BY_POST_TITLE = true;
 static int GENERATE_SLUG_MAX_LENGTH = 70;
 bool HOMEPAGE_ONLY = false;
 bool WRITE_TITLE_ON_CONSOLE = true;
+bool WRITE_FANFIC_LIST_ON_CONSOLE = true;
 bool DELETE_OUTPUT_DIRECTORY = false;
 int DOTS_PER_LINE_CONSOLE = 100;
 string BLOG_DOMAIN_URL = "https://klassicnotereports.blogspot.com/";
@@ -38,63 +39,63 @@ List<String> POST_OLD_DOMAINS = new List<string>()
 };
 // CONSIDER: Name, relationship, time of day, weather, CurrentEvents/Flashback, introduction, key events
 // DO NOT CONSIDER: Story related information, plot twists, key items
-Dictionary<int, String> PAGE_TAGS = new Dictionary<int, String>() {
-	{0, ""},
-	{1, "TakahashiRie,Colleague,Lunch,CurrentEvents,Introduction"},
-	{2, "AmamiyaSora,Acquaintance,Cooking,Morning,CurrentEvents"},
-	{3, "AsakuraMomo,Acquaintance,TrainRide,CurrentEvents"},
-	{4, "NatsukawaShiina,YoungerStepsister,Morning,GachaMachine,Keychain,CurrentEvents"},
-	{5, "HanazawaKana,Acquaintance,MyMansion,Rain,Introduction,CurrentEvents"},
-	{6, "MinaseInori,Benefactor,SummerFestival,Evening,PlaygroundRide,CurrentEvents"},
-	{7, "WakiAzumi,Neighbour,FootBath,Night,CurrentEvents"},
-	{8, "MinaseInori,Benefactor,SummerFestival,Sparklers,Evening,CurrentEvents"},
-	{9, "KogaAoi,Girlfriend,SummerFestival,ShavedIce,Jealous,CurrentEvents"},
+Dictionary<Int32, String> PAGE_TAGS = new Dictionary<Int32, String>() {
+	{0101, "TakahashiRie,Colleague,Lunch,CurrentEvents,Introduction"},
+	{0102, "AmamiyaSora,Acquaintance,Cooking,Morning,CurrentEvents"},
+	{0103, "AsakuraMomo,Acquaintance,TrainRide,CurrentEvents"},
+	{0104, "NatsukawaShiina,YoungerStepsister,Morning,GachaMachine,Keychain,CurrentEvents"},
+	{0105, "HanazawaKana,Acquaintance,MyMansion,Rain,Introduction,CurrentEvents"},
+	{0106, "MinaseInori,Benefactor,SummerFestival,Evening,PlaygroundRide,CurrentEvents"},
+	{0107, "WakiAzumi,Neighbour,FootBath,Night,CurrentEvents"},
+	{0108, "MinaseInori,Benefactor,SummerFestival,Sparklers,Evening,CurrentEvents"},
+	{0109, "KogaAoi,Girlfriend,SummerFestival,ShavedIce,Jealous,CurrentEvents"},
 	
-	{10, "KitouAkari,ExGirlfriend,FamilyRestaurant,NewMenu,Flashback"},
-	{11, "KitouAkari,ExGirlfriend,ChristmasParty,Confession,Night,Flashback"},
-	{12, "ToyosakiAki,Stranger,BicycleRental,HangingOut,Afternoon,Flashback"},
-	{13, "HanazawaKana,Acquaintance,Bakery,CurrentEvents"},
-	{14, "KomatsuMikako,Neighbour,Cafe,NTR,Flashback"},
-	{15, "TachibanaRika,Stranger,Cafe,Flashback"},
-	{16, "TaketatsuAyana,Cousin,Married,HoldingHands,Flashback"},
-	{17, "MinaseInori,Benefactor,NatsukawaAbode,Afternoon,CurrentEvents"},
-	{18, "NatsukawaShiina,YoungerStepsister,NatsukawaAbode,Morning,CurrentEvents"},
-	{19, "KitouAkari,ExGirlfriend,Christmas,Night,Flashback"},
-	{20, "UesakaSumire,Stranger,Christmas,PickUpGirl,Secret,Night,CurrentEvents"},
-	{21, "TakahashiRie,Colleague,NewYears,HouseDate,Afternoon,CurrentEvents"},
+	{0201, "KitouAkari,ExGirlfriend,FamilyRestaurant,NewMenu,Flashback"},
+	{0202, "KitouAkari,ExGirlfriend,ChristmasParty,Confession,Night,Flashback"},
+	{0203, "ToyosakiAki,Stranger,BicycleRental,HangingOut,Afternoon,Flashback"},
+	{0204, "HanazawaKana,Acquaintance,Bakery,CurrentEvents"},
+	{0205, "KomatsuMikako,Neighbour,Cafe,NTR,Flashback"},
+	{0206, "TachibanaRika,Stranger,Cafe,Flashback"},
+	{0207, "TaketatsuAyana,Cousin,Married,HoldingHands,Flashback"},
+	{0208, "MinaseInori,Benefactor,NatsukawaAbode,Afternoon,CurrentEvents"},
+	{0209, "NatsukawaShiina,YoungerStepsister,NatsukawaAbode,Morning,CurrentEvents"},
+	{0210, "KitouAkari,ExGirlfriend,Christmas,Night,Flashback"},
+	{0211, "UesakaSumire,Stranger,Christmas,PickUpGirl,Secret,Night,CurrentEvents"},
+	{0212, "TakahashiRie,Colleague,NewYears,HouseDate,Afternoon,CurrentEvents"},
 	
-	{22, "KogaAoi,Girlfriend,BeachDate,Overcast,CurrentEvents"},
-	{23, "KounoMarika,Cousin,SummerHolidays,Flashback"},
-	{24, "TakahashiRie,Colleague,AmusementPark,Birthday,CurrentEvents"},
-	{25, "NatsukawaShiina,YoungerStepsister,Introduction,Flashback"},
-	{26, "MinaseInori,Benefactor,NatsukawaAbode,WhiteDay,CurrentEvents"},
-	{27, "KannoMai,Tenant,MyMansion,Bathroom,Morning,CurrentEvents"},
-	{28, "NagaeRika,ChildhoodFriend,Aquarium,HangingOut,CurrentEvents"},
-	{29, "AmamiyaSora,Acquaintance,CherryBlossoms,CurrentEvents"},
-	{30, "AmamiyaSora,Acquaintance,Hotel,Evening,CurrentEvents"},
-	{31, "AmamiyaSora,Acquaintance,Hotel,Evening,CurrentEvents"},
-	{32, "KitouAkari,ExGirlfriend,WinterHolidays,Morning,FirstDate,Flashback"},
-	{33, "AizawaSaya,Acquaintance,CocktailBar,Night,Introduction,CurrentEvents"},
-	{34, "UesakaSumire,Stranger,Colleague,Christmas,HelpingHand,Evening,Flashback"},
-	{35, "UedaReina,Stranger,Introduction,CurrentEvents"},
-	{36, "AsakuraMomo,Acquaintance,TrainRide,CurrentEvents"},
+	{0301, "KogaAoi,Girlfriend,BeachDate,Overcast,CurrentEvents"},
+	{0302, "KounoMarika,Cousin,SummerHolidays,Flashback"},
+	{0303, "TakahashiRie,Colleague,AmusementPark,Birthday,CurrentEvents"},
+	{0304, "NatsukawaShiina,YoungerStepsister,Introduction,Flashback"},
+	{0305, "MinaseInori,Benefactor,NatsukawaAbode,WhiteDay,CurrentEvents"},
+	{0306, "KannoMai,Tenant,MyMansion,Bathroom,Morning,CurrentEvents"},
+	{0307, "NagaeRika,ChildhoodFriend,Aquarium,HangingOut,CurrentEvents"},
+	{0308, "AmamiyaSora,Acquaintance,CherryBlossoms,CurrentEvents"},
+	{0309, "AmamiyaSora,Acquaintance,Hotel,Evening,CurrentEvents"},
+	{0310, "AmamiyaSora,Acquaintance,Hotel,Evening,CurrentEvents"},
+	{0311, "KitouAkari,ExGirlfriend,WinterHolidays,Morning,FirstDate,Flashback"},
+	{0312, "AizawaSaya,Acquaintance,CocktailBar,Night,Introduction,CurrentEvents"},
+	{0313, "UesakaSumire,Stranger,Colleague,Christmas,HelpingHand,Evening,Flashback"},
+	{0314, "UedaReina,Stranger,Introduction,CurrentEvents"},
+	{0315, "AsakuraMomo,Acquaintance,TrainRide,CurrentEvents"},
 	
-	{37, "TakahashiRie,Colleague,Dinner,Evening,Confession,Rejection,CurrentEvents"},
-	{38, "UedaReina,Acquaintance,NatsukawaAbode,Afternoon,Confession,CurrentEvents"},
-	{39, "NatsukawaShiina,YoungerStepsister,TrySail,AmamiyaSora,AsakuraMomo,Jealous,Mesaging,CurrentEvents"},
-	{40, "HanazawaKana,Acquaintance,Relative,CurrentEvents"},
-	{41, "IshiharaKaori,Stranger,Shrine,Yukata,Afternoon,SummerFestival,CurrentEvents"},
-	{42, "OguraYui,Tenant,MyMansion,Streamer,Night,CurrentEvents"},
-	{43, "KannoMai,Tenant,MyMansion,Gossip,Morning,CurrentEvents"},
-	{44, "KogaAoi,Girlfriend,TrainRide,CurrentEvents"},
-	{45, "AmamiyaSora,Acquaintance,HighSchool,Flashback"},
-	{46, "WakiAzumi,Neighbour,Birthday,Dinner,Evening,Married,CurrentEvents"},
-	{47, "AizawaSaya,Acquaintance,CocktailBar,Night,HangingOut,CurrentEvents"},
-	{48, "TachibanaRika,Acquaintance,SwimmingPool,Cleaning,CurrentEvents"},
-	{49, "Lynn,Acquaintance,SummerHolidays,Flashback"},
-	{50, "AizawaSaya,Acquaintance,Sleeping,HangingOut,CurrentEvents"},
-	{51, "UesakaSumire,Stranger,Drinking,Dinner,HangingOut,Flashback"},
-	{52, "KitouAkari,ExGirlfriend,Hammock,HangingOut,Flashback"},
+	{0401, "TakahashiRie,Colleague,Dinner,Evening,Confession,Rejection,CurrentEvents"},
+	{0402, "UedaReina,Acquaintance,NatsukawaAbode,Afternoon,Confession,CurrentEvents"},
+	{0403, "NatsukawaShiina,YoungerStepsister,TrySail,AmamiyaSora,AsakuraMomo,Jealous,Mesaging,CurrentEvents"},
+	{0404, "HanazawaKana,Acquaintance,Relative,CurrentEvents"},
+	{0405, "IshiharaKaori,Stranger,Shrine,Yukata,Afternoon,SummerFestival,CurrentEvents"},
+	{0406, "OguraYui,Tenant,MyMansion,Streamer,Night,CurrentEvents"},
+	{0407, "KannoMai,Tenant,MyMansion,Gossip,Morning,CurrentEvents"},
+	{0408, "KogaAoi,Girlfriend,TrainRide,CurrentEvents"},
+	{0409, "AmamiyaSora,Acquaintance,HighSchool,Flashback"},
+	{0410, "WakiAzumi,Neighbour,Birthday,Dinner,Evening,Married,CurrentEvents"},
+	{0411, "AizawaSaya,Acquaintance,CocktailBar,Night,HangingOut,CurrentEvents"},
+	{0412, "TachibanaRika,Acquaintance,SwimmingPool,Cleaning,CurrentEvents"},
+	{0413, "Lynn,Acquaintance,SummerHolidays,Flashback"},
+	{0414, "AizawaSaya,Acquaintance,Sleeping,HangingOut,CurrentEvents"},
+	{0415, "UesakaSumire,Stranger,Drinking,Dinner,HangingOut,Flashback"},
+	{0416, "KitouAkari,ExGirlfriend,Hammock,HangingOut,Flashback"},
+	{0417, "ToyotaMoe,Tenant,MyMansion,Shower,CloseUp,CurrentEvents"},
 }; // TODO: additional content not from blog posts to read from JSON file
 
 void Main()
@@ -109,6 +110,7 @@ void Main()
 	var outputFilesDir = Path.Combine(OUTPUT_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER);
 	var homepageString = GenerateBloggerPosts(bloggerPosts, Path.Combine(OUTPUT_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER));
 	GenerateFile(homepageString);
+	WriteFanficListFromTags();
 	Console.WriteLine("===================================================================================");
 	// Output as completed
 	Console.WriteLine("Done.");
@@ -334,6 +336,36 @@ void GenerateFile(List<FanfictionContent> fanfics)
 		;
     // Write into file
     File.WriteAllText(HOMEPAGE_FILENAME, fileString);
+}
+
+void WriteFanficListFromTags()
+{
+	if(WRITE_FANFIC_LIST_ON_CONSOLE) {
+		var peopleList = new Dictionary<String, Int32>();
+		var tagsList = new Dictionary<String, Int32>();
+		foreach(var list in PAGE_TAGS.Values)
+		{
+			if(String.IsNullOrWhiteSpace(list)) continue;
+			var tags = list.Split(',').ToList();
+			if(peopleList.ContainsKey(tags[0]))
+				peopleList[tags[0]] += 1;
+			else
+				peopleList.Add(tags[0], 1);
+			
+			foreach(var tag in tags.Skip(1))
+			{
+				if(tagsList.ContainsKey(tags[0]))
+					tagsList[tags[0]] += 1;
+				else
+					tagsList.Add(tags[0], 1);
+			}
+		}
+		
+		Console.WriteLine("=====TAGS=====");
+		Console.WriteLine(tagsList.OrderByDescending(x => x.Value));
+		Console.WriteLine("=====PEOPLE=====");
+		Console.WriteLine(peopleList.OrderByDescending(x => x.Value));
+	}
 }
 
 string FormatPageSection(List<FanfictionContent> list)
