@@ -344,7 +344,6 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<LinkedListItem>
 				article.AppendLine("<div class=\"post-hashtags\"></div>");
 			// Actual content to put in post-content class, HTML condensed
 	        article.Append(Uglify.Html(postContent));
-	        footer.Append("<hr>");
 	        if(pageTagsXml.Count > 0)
 			{
 	            footer.Append($"<div class=\"post-tags\"><h4>{POST_TAGS_PREFIX_TEXT} </h4>" + 
