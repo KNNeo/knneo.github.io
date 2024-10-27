@@ -590,7 +590,7 @@ function onClearAll() {
 function onToggleSidebar() {
 	event.target.innerText = event.target.innerText == 'menu' ? 'menu_open' : 'menu';
 	document.querySelector('.menu').classList.toggle('hidden');
-	document.querySelector('.menu').style.maxWidth = document.querySelector('.menu').style.maxWidth == config.menu.width + 'px' ? 0 : config.menu.width + 'px'; // required to render
+	document.querySelector('.menu').style.maxWidth = document.querySelector('.menu').classList.contains('hidden') ? 0 : config.menu.width + 'px'; // required to render
 	generateGrid();
 }
 
