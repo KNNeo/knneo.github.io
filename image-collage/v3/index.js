@@ -22,6 +22,7 @@ const config = {
 		property: 'nm',
 	},
 	setting: {
+		sidebar: true,
 		clear: true,
 		expand: true,
 		darkmode: true,
@@ -35,7 +36,7 @@ const config = {
 			groups: ['衣装', 'キャラクター'],
 			ratio: [4, 1],
 		},
-		preset: [160, 320, 480],
+		preset: [160, 320, 640],
 		min: 2,
 		max: 9999,
 		exclude: ['覚醒'],
@@ -46,7 +47,7 @@ const config = {
 			length: 1,
 		},
 		column: {
-			min: 3,
+			min: 2,
 		},
 		thumbnail: {
 			ratio: 9/16,
@@ -540,7 +541,7 @@ function onTogglePreset() {
 		break;
 	}
 	
-	window['preset'] = preset.innerText;	
+	window['preset'] = preset.innerText;
 	generateGrid();
 }
 
@@ -583,6 +584,11 @@ function onClearAll() {
 	include.value = window['includeCriteria'];
 	window['excludeCriteria'] = '';
 	exclude.value = window['excludeCriteria'];
+	generateGrid();
+}
+
+function onToggleSidebar() {
+	document.querySelector('.menu').style.maxWidth = document.querySelector('.menu').style.maxWidth == config.menu.width + 'px' ? 0 : config.menu.width + 'px';
 	generateGrid();
 }
 

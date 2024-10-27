@@ -330,6 +330,17 @@ body {
 	object-fit: cover;	
 }
 
+.sidebar {
+	text-decoration: none;
+	color: var(--foreground);
+	background-color: var(--background);
+	position: fixed;
+	top: 0;
+	left: 0;
+	padding: 0.5em;
+	z-index: 3;
+}
+
 @media (orientation: landscape) {
 	.content {
 		display: flex;
@@ -361,5 +372,8 @@ body {
 	}
 	.tag {
 		height: 36px;
+	}
+	.sidebar {
+		display: none;
 	}
 }
