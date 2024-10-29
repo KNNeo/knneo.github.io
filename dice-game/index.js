@@ -457,7 +457,7 @@ function chooseCell() {
 	let method = window['ai'];
 	if(method == 'balanced') // to kill combo when present, else get highest score possible
 	{
-		if(Math.random() > 0.5)
+		if(Math.random() > 0.35)
 			method = 'aggressive';
 		else
 			method = 'defensive';
