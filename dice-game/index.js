@@ -504,13 +504,14 @@ function chooseCell() {
 				col3.reduce((total, dice) => dice == 6 ? total + 1 : total, 0)
 			];
 			// console.log('right', counts3);
-			// filter weight
+			// priority checks
+			// check if column has current
 			selectCol1 = counts1.map(c => c > 0 ? -1 : c).indexOf(-1) == current;
 			selectCol2 = counts2.map(c => c > 0 ? -1 : c).indexOf(-1) == current;
 			selectCol3 = counts3.map(c => c > 0 ? -1 : c).indexOf(-1) == current;
 			// console.log('select', selectCol1, selectCol2, selectCol3);
 			
-			// make choice
+			// make choice, rightmost column first
 			if(selectCol3 && Array.from(document.querySelectorAll('.opponent.cell.col3:not([data-id])')).length > 0)
 				choice = 3;
 			else if(selectCol2 && Array.from(document.querySelectorAll('.opponent.cell.col2:not([data-id])')).length > 0)
@@ -565,13 +566,15 @@ function chooseCell() {
 				col3.reduce((total, dice) => dice == 6 ? total + 1 : total, 0)
 			];
 			// console.log('right', counts3);
-			// filter weight, check non-empty columns (does not cater to same count)
-			selectCol1 = counts1[current] > 0 && Math.max(...counts1) == current;
-			selectCol2 = counts2[current] > 0 && Math.max(...counts2) == current;
-			selectCol3 = counts3[current] > 0 && Math.max(...counts3) == current;
+			// priority checks
+			// check columns with similar as current
+			// check for empty columns
+			selectCol1 = counts1[current] > 0 && (col1.includes(current) || col1.filter(x => x && x > 0).length == 0);
+			selectCol2 = counts2[current] > 0 && (col2.includes(current) || col2.filter(x => x && x > 0).length == 0);
+			selectCol3 = counts3[current] > 0 && (col3.includes(current) || col3.filter(x => x && x > 0).length == 0);
 			// console.log('select', selectCol1, selectCol2, selectCol3);
 			
-			// make choice
+			// make choice, rightmost column first
 			if(selectCol3 && Array.from(document.querySelectorAll('.opponent.cell.col3:not([data-id])')).length > 0)
 				choice = 3;
 			else if(selectCol2 && Array.from(document.querySelectorAll('.opponent.cell.col2:not([data-id])')).length > 0)
