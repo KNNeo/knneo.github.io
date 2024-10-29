@@ -578,9 +578,12 @@ function chooseCell() {
 
 function chooseAny(col1Priority, col2Priority, col3Priority, isCol1Empty, isCol2Empty, isCol3Empty) {
 	let pri = [null, col1Priority ? 1 : null, col2Priority ? 2 : null, col3Priority ? 3 : null].filter(x => x != null);
-	if(pri.length > 0)
-		return pri[Math.floor(Math.random() * pri.length)];
 	let arr = [null, isCol1Empty ? 1 : null, isCol2Empty ? 2 : null, isCol3Empty ? 3 : null].filter(x => x != null);
+	if(pri.length > 0) {
+		let choice = pri[Math.floor(Math.random() * pri.length)];
+		if(arr.indexOf(choice) >= 0)
+			return choice;
+	}
 	return arr[Math.floor(Math.random() * arr.length)];
 }
 
