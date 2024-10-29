@@ -290,6 +290,9 @@ void GenerateFile(List<FanfictionContent> fanfics)
 		.Replace("\"_SEASON2_\"", FormatPageSection(fanfics.Where(x => x.season == 2).ToList()))
 		.Replace("\"_SEASON3_\"", FormatPageSection(fanfics.Where(x => x.season == 3).ToList()))
 		.Replace("\"_SEASON4_\"", FormatPageSection(fanfics.Where(x => x.season == 4).ToList()))
+		.Replace("\"_ALL_\"", FormatPageSection(fanfics))
+		.Replace("\"_2023_\"", FormatPageSection(fanfics.Where(x => x.season <= 2).ToList()))
+		.Replace("\"_2024_\"", FormatPageSection(fanfics.Where(x => x.season == 3 && x.season == 4).ToList()))
 		;
     // Write into file
     File.WriteAllText(HOMEPAGE_FILENAME, fileString);
