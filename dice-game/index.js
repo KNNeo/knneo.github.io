@@ -568,10 +568,10 @@ function chooseCell() {
 				col3.reduce((total, dice) => dice == 6 ? total + 1 : total, 0)
 			];
 			// console.log('right', counts3);
-			// filter weight
-			selectCol1 = counts1[current] > 0;
-			selectCol2 = counts2[current] > 0;
-			selectCol3 = counts3[current] > 0;
+			// filter weight, check non-empty columns (does not cater to same count)
+			selectCol1 = counts1[current] > 0 && Math.max(...counts1) == current;
+			selectCol2 = counts2[current] > 0 && Math.max(...counts2) == current;
+			selectCol3 = counts3[current] > 0 && Math.max(...counts3) == current;
 			// console.log('select', selectCol1, selectCol2, selectCol3);
 			
 			// make choice
