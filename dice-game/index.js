@@ -457,7 +457,7 @@ function chooseCell() {
 	if(method == 'balanced') // to kill combo when present, else get highest score possible
 	{
 		// calculate all player filled
-		let allCells = Array.from(document.querySelectorAll('.player.cell.col1'))
+		let allCells = Array.from(document.querySelectorAll('.player.cell'))
 			.map(c => parseInt(c.getAttribute('data-id')) || 0);
 		if(allCells.filter(x => x && x > 0).length > 4) // if half filled, be aggressive
 			method = 'aggressive';
