@@ -507,11 +507,11 @@ function chooseCell() {
 			// console.log('right', counts3);
 			// priority checks
 			// check if column has current
-			selectCol1 = counts1.map(c => c > 0 ? -1 : c).indexOf(-1) == current;
-			selectCol2 = counts2.map(c => c > 0 ? -1 : c).indexOf(-1) == current;
-			selectCol3 = counts3.map(c => c > 0 ? -1 : c).indexOf(-1) == current;
+			selectCol1 = counts1.map(c => c > 0 ? -1 : c).indexOf(-1) == current || col1.includes(current);
+			selectCol2 = counts2.map(c => c > 0 ? -1 : c).indexOf(-1) == current || col2.includes(current);
+			selectCol3 = counts3.map(c => c > 0 ? -1 : c).indexOf(-1) == current || col3.includes(current);
 			// console.log('select', selectCol1, selectCol2, selectCol3);
-			// check for empty columns		
+			// check for empty columns
 			emptyCols1 = Array.from(document.querySelectorAll('.opponent.cell.col1:not([data-id])')).length;
 			emptyCols2 = Array.from(document.querySelectorAll('.opponent.cell.col2:not([data-id])')).length;
 			emptyCols3 = Array.from(document.querySelectorAll('.opponent.cell.col3:not([data-id])')).length;
@@ -568,7 +568,7 @@ function chooseCell() {
 			emptyCols1 = Array.from(document.querySelectorAll('.opponent.cell.col1:not([data-id])')).length;
 			emptyCols2 = Array.from(document.querySelectorAll('.opponent.cell.col2:not([data-id])')).length;
 			emptyCols3 = Array.from(document.querySelectorAll('.opponent.cell.col3:not([data-id])')).length;
-			// console.log('empty', emptyCols1, emptyCols2, emptyCols3);	
+			// console.log('empty', emptyCols1, emptyCols2, emptyCols3);
 			// make choice, fallback random available column
 			choice = chooseAny(selectCol1, selectCol2, selectCol3, emptyCols1, emptyCols2, emptyCols3);
 			break;
