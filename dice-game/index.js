@@ -453,6 +453,7 @@ function chooseCell() {
 	let col1 = [], col2 = [], col3 = [];
 	let counts1 = [], counts2 = [], counts3 = [];
 	let selectCol1 = false, selectCol2 = false, selectCol3 = false;
+	let emptyCols1 = 3, emptyCols2 = 3, emptyCols3 = 3;
 	let method = window['ai'];
 	if(method == 'balanced') // to kill combo when present, else get highest score possible
 	{
@@ -510,22 +511,13 @@ function chooseCell() {
 			selectCol2 = counts2.map(c => c > 0 ? -1 : c).indexOf(-1) == current;
 			selectCol3 = counts3.map(c => c > 0 ? -1 : c).indexOf(-1) == current;
 			// console.log('select', selectCol1, selectCol2, selectCol3);
-			
-			// make choice, rightmost column first
-			if(selectCol3 && Array.from(document.querySelectorAll('.opponent.cell.col3:not([data-id])')).length > 0)
-				choice = 3;
-			else if(selectCol2 && Array.from(document.querySelectorAll('.opponent.cell.col2:not([data-id])')).length > 0)
-				choice = 2;
-			else if(selectCol1 && Array.from(document.querySelectorAll('.opponent.cell.col1:not([data-id])')).length > 0)
-				choice = 1;
-			else {
-				if(Array.from(document.querySelectorAll('.opponent.cell.col3:not([data-id])')).length > 0)
-					choice = 3;
-				if(Array.from(document.querySelectorAll('.opponent.cell.col2:not([data-id])')).length > 0)
-					choice = 2;
-				if(Array.from(document.querySelectorAll('.opponent.cell.col1:not([data-id])')).length > 0)
-					choice = 1;
-			}
+			// check for empty columns		
+			emptyCols1 = Array.from(document.querySelectorAll('.opponent.cell.col1:not([data-id])')).length;
+			emptyCols2 = Array.from(document.querySelectorAll('.opponent.cell.col2:not([data-id])')).length;
+			emptyCols3 = Array.from(document.querySelectorAll('.opponent.cell.col3:not([data-id])')).length;
+			// console.log('empty', emptyCols1, emptyCols2, emptyCols3);	
+			// make choice, fallback random available column
+			choice = chooseAny(selectCol1, selectCol2, selectCol3, emptyCols1, emptyCols2, emptyCols3);
 			break;
 		case 'defensive': // to get highest score possible
 			// compile self values
@@ -568,30 +560,28 @@ function chooseCell() {
 			// console.log('right', counts3);
 			// priority checks
 			// check columns with similar as current
-			// check for empty columns
-			selectCol1 = counts1[current] > 0 && (col1.includes(current) || col1.filter(x => x && x > 0).length == 0);
-			selectCol2 = counts2[current] > 0 && (col2.includes(current) || col2.filter(x => x && x > 0).length == 0);
-			selectCol3 = counts3[current] > 0 && (col3.includes(current) || col3.filter(x => x && x > 0).length == 0);
+			selectCol1 = counts1[current] > 0 || col1.includes(current) || col1.filter(x => x && x > 0).length == 0;
+			selectCol2 = counts2[current] > 0 || col2.includes(current) || col2.filter(x => x && x > 0).length == 0;
+			selectCol3 = counts3[current] > 0 || col3.includes(current) || col3.filter(x => x && x > 0).length == 0;
 			// console.log('select', selectCol1, selectCol2, selectCol3);
-			
-			// make choice, rightmost column first
-			if(selectCol3 && Array.from(document.querySelectorAll('.opponent.cell.col3:not([data-id])')).length > 0)
-				choice = 3;
-			else if(selectCol2 && Array.from(document.querySelectorAll('.opponent.cell.col2:not([data-id])')).length > 0)
-				choice = 2;
-			else if(selectCol1 && Array.from(document.querySelectorAll('.opponent.cell.col1:not([data-id])')).length > 0)
-				choice = 1;
-			else {
-				if(Array.from(document.querySelectorAll('.opponent.cell.col3:not([data-id])')).length > 0)
-					choice = 3;
-				if(Array.from(document.querySelectorAll('.opponent.cell.col2:not([data-id])')).length > 0)
-					choice = 2;
-				if(Array.from(document.querySelectorAll('.opponent.cell.col1:not([data-id])')).length > 0)
-					choice = 1;
-			}
+			// check for empty columns		
+			emptyCols1 = Array.from(document.querySelectorAll('.opponent.cell.col1:not([data-id])')).length;
+			emptyCols2 = Array.from(document.querySelectorAll('.opponent.cell.col2:not([data-id])')).length;
+			emptyCols3 = Array.from(document.querySelectorAll('.opponent.cell.col3:not([data-id])')).length;
+			// console.log('empty', emptyCols1, emptyCols2, emptyCols3);	
+			// make choice, fallback random available column
+			choice = chooseAny(selectCol1, selectCol2, selectCol3, emptyCols1, emptyCols2, emptyCols3);
 			break;
 	}
 	return choice;
+}
+
+function chooseAny(col1Priority, col2Priority, col3Priority, isCol1Empty, isCol2Empty, isCol3Empty) {
+	let pri = [null, col1Priority ? 1 : null, col2Priority ? 2 : null, col3Priority ? 3 : null].filter(x => x != null);
+	if(pri.length > 0)
+		return pri[Math.floor(Math.random() * pri.length)];
+	let arr = [null, isCol1Empty ? 1 : null, isCol2Empty ? 2 : null, isCol3Empty ? 3 : null].filter(x => x != null);
+	return arr[Math.floor(Math.random() * arr.length)];
 }
 
 //--RULES--//
