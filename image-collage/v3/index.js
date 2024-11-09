@@ -594,8 +594,7 @@ function openImageInViewer(image) {
 		}, 250);
 	});
 	img.addEventListener('click', closeViewer);
-	img.addEventListener('mousedown', onZoomInViewer);
-	img.addEventListener('mouseup', onZoomOutViewer);
+	img.addEventListener('mouseup', onZoomViewer);
 	img.addEventListener('mousemove', onMouseMoveViewer);
 	
 	if(viewer.childNodes.length > 0)
@@ -672,17 +671,10 @@ function closeViewer() {
 	viewer.classList.remove('open');
 }
 
-function onZoomInViewer() {
+function onZoomViewer() {
 	if(event.button == 2) {
 		if(window['slideshow'] != null) return;
-		viewer.classList.add('zoom');
-	}
-}
-
-function onZoomOutViewer() {
-	if(event.button == 2) {
-		if(window['slideshow'] != null) return;
-		viewer.classList.remove('zoom');
+		viewer.classList.toggle('zoom');
 	}
 }
 
