@@ -57,25 +57,26 @@ function generateTags() {
 	//generate tags by design
 	window['buttonArray'] = generateFiltered()
 	.map(function(file) {
-		let filenameIndex = file.nm.includes('/') ? file.nm.lastIndexOf('/') : -1;
+		let filenameIndex = file.nm && file.nm.includes('/') ? file.nm.lastIndexOf('/') : -1;
 		return getFilenameInfo(file.nm).filename;
 	})
 	.reduce(function(total, current, _, _) {
-		let updated = total;
-		current.split(config.separator).forEach(function(tag, index, _) {
-			let existing = updated.filter(a => a.value == tag);
-			// console.log(tag, existing);
-			let existingFirst = existing[0];
-			if(existingFirst) {
-				//remove this tag, add back with new count
-				updated = updated.filter(a => a.value.toLowerCase() != tag.toLowerCase());
-			}
-			updated.push({
-				value: tag,
-				count: existingFirst?.count ? existingFirst?.count + 1 : 1,
-				category: config.tag.category ? index : null,
+		let updated = total || [];
+		if(updated.length > 0)
+			current.split(config.separator).forEach(function(tag, index, _) {
+				let existing = updated.filter(a => a.value == tag);
+				// console.log(tag, existing);
+				let existingFirst = existing[0];
+				if(existingFirst) {
+					//remove this tag, add back with new count
+					updated = updated.filter(a => a.value.toLowerCase() != tag.toLowerCase());
+				}
+				updated.push({
+					value: tag,
+					count: existingFirst?.count ? existingFirst?.count + 1 : 1,
+					category: config.tag.category ? index : null,
+				});
 			});
-		});
 		return updated;
 	},[])
 	.filter(function(item) {
@@ -274,7 +275,7 @@ function generateGrid() {
 	
 	let [thumbWidth, thumbHeight] = calculateThumbnailSize();
 	for(let item of filterArray) {
-		let imageUrl = item.nm;
+		let imageUrl = item.nm || '';
 		
 		let gridItem = document.createElement('div');
 		gridItem.classList.add('grid-item');
@@ -302,8 +303,8 @@ function generateGrid() {
 		}
 		
 		let gridItemImage = document.createElement('img');
-		gridItemImage.alt = '';
-		gridItemImage.title = getFilenameInfo(imageUrl).filename.split(config.separator).join('\n');
+		gridItemImage.alt = item.ds || '';
+		gridItemImage.title = item.ct || getFilenameInfo(imageUrl).filename.split(config.separator).join('\n');
 		gridItemImage.setAttribute('data-image', getThumbnailByPrefix(item));
 		gridItemImage.setAttribute('data-src', item['og']);
 		gridItemImage.setAttribute('loading', 'lazy');
@@ -664,7 +665,7 @@ function toggleZoom() {
 }
 
 function getFilenameInfo(url) {
-	if(url.lastIndexOf('.') >= 0) { // assume file name with extension
+	if(url && url.lastIndexOf('.') >= 0) { // assume file name with extension
 		let filename = url.substring(url.lastIndexOf('/')+1, url.lastIndexOf('.'));
 		let extension = url.substring(url.lastIndexOf('.')+1);
 		return {filename, extension};
