@@ -23,8 +23,8 @@ const config = {
 	},
 	setting: {
 		sidebar: true,
-		clear: true,
-		expand: true,
+		clear: false,
+		expand: false,
 		darkmode: true,
 		preset: true,
 		filter: true,
@@ -50,7 +50,7 @@ const config = {
 			min: 2,
 		},
 		thumbnail: {
-			ratio: 9/16,
+			ratio: 1.2,
 		},
 		star: {
 			text: '⭐',
