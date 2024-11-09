@@ -326,7 +326,14 @@ body {
 }
 
 .viewer.zoom img {
-	object-fit: cover;	
+	object-fit: cover;
+	object-position: var(--horizontal) var(--vertical);
+	cursor: move;
+}
+
+.viewer.zoom .prev,
+.viewer.zoom .next {
+	display: none;
 }
 
 .sidebar {

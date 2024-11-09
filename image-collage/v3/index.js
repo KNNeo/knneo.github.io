@@ -594,7 +594,9 @@ function openImageInViewer(image) {
 		}, 250);
 	});
 	img.addEventListener('click', closeViewer);
-	img.addEventListener('contextmenu', toggleZoom);
+	img.addEventListener('mousedown', onZoomInViewer);
+	img.addEventListener('mouseup', onZoomOutViewer);
+	img.addEventListener('mousemove', onMouseMoveViewer);
 	
 	if(viewer.childNodes.length > 0)
 		viewer.innerHTML = '';
@@ -655,15 +657,33 @@ function onTouchMoveViewer() {
 	}
 }
 
+function onMouseMoveViewer() {
+	// console.log(event.clientX, event.clientY);
+	// console.log(viewer.clientWidth, viewer.clientHeight);
+	let normalizeX = event.clientX / viewer.clientWidth * 100;
+	let normalizeY = event.clientY / viewer.clientHeight * 100;
+	event.target.style.setProperty('--horizontal', normalizeX + '%');
+	event.target.style.setProperty('--vertical', normalizeY + '%');
+}
+
 function closeViewer() {	
 	stopSlideshow();
 	viewer.classList.remove('zoom');
 	viewer.classList.remove('open');
 }
 
-function toggleZoom() {
-	if(window['slideshow'] != null) return;
-	viewer.classList.toggle('zoom');
+function onZoomInViewer() {
+	if(event.button == 2) {
+		if(window['slideshow'] != null) return;
+		viewer.classList.add('zoom');
+	}
+}
+
+function onZoomOutViewer() {
+	if(event.button == 2) {
+		if(window['slideshow'] != null) return;
+		viewer.classList.remove('zoom');
+	}
 }
 
 function getFilenameInfo(url) {
