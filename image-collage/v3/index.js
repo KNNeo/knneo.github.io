@@ -313,19 +313,21 @@ function generateGrid() {
 		});
 		gridItemImage.addEventListener('contextmenu', function() {
 			event.preventDefault();
-			let keywords = event.target.title.split('\n');
-			if(keywords.filter(k => !window['includeCriteria'].includes(k)).length >= keywords.length) // if no keywords in filter
-				toggleVariable('includeCriteria', keywords[0]);
-			else {
-				let inFilter = keywords.filter(k => window['includeCriteria'].includes(k))[0];
-				let notFilter = keywords.filter(k => !window['includeCriteria'].includes(k));
-				
-				toggleVariable('includeCriteria', inFilter);
-				toggleVariable('includeCriteria', notFilter[0]);
+			if(config.tag.category.groups.length > 0) {
+				let keywords = event.target.title.split('\n');
+				if(keywords.filter(k => !window['includeCriteria'].includes(k)).length >= keywords.length) // if no keywords in filter
+					toggleVariable('includeCriteria', keywords[0]);
+				else {
+					let inFilter = keywords.filter(k => window['includeCriteria'].includes(k))[0];
+					let notFilter = keywords.filter(k => !window['includeCriteria'].includes(k));
+					
+					toggleVariable('includeCriteria', inFilter);
+					toggleVariable('includeCriteria', notFilter[0]);
+				}
+				include.value = window['includeCriteria'];
+				generateTagsList();
+				generateGrid();
 			}
-			include.value = window['includeCriteria'];
-			generateTagsList();
-			generateGrid();
 			return false;
 		}, false);
 		gridItemImage.addEventListener('error', function() {
