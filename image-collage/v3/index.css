@@ -178,8 +178,7 @@ body {
 }
 
 .loader {
-	display: flex;
-	justify-content: center;
+	display: block;
 	padding: 10px;
 	font-size: 24px;
 	position: absolute;
