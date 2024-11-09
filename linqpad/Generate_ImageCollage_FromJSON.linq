@@ -114,7 +114,7 @@ void Main()
 		{
 			var filename = file.ishou + "_" + file.chara + ".jpg";
 			var item = new ImageCollageItem();
-			item.id = filename;
+			item.nm = filename;
 			if(noDownload) 
 			{
 				var dataOne = data.FirstOrDefault(d => d.name.Trim() == file.search.Trim());
@@ -143,13 +143,12 @@ void Main()
 	{
 		case "string":
 			var sb = new StringBuilder();
-			sb.AppendLine("const mosaicArray = [");
 			foreach(var line in output)
 			{
 				sb.AppendLine(JsonConvert.SerializeObject(line) + ",");
 			}
-			sb.AppendLine("];");
-			File.WriteAllText(destination, sb.ToString());
+			var templateText = File.ReadAllText(template).Replace("_DATA_", sb.ToString());
+			File.WriteAllText(destination, templateText);
 			Console.WriteLine("Done.");
 			break;
 		default:
@@ -213,7 +212,7 @@ class MapDataItem
 
 class ImageCollageItem
 {
-	public string id { get; set; }
+	public string nm { get; set; }
 	public string sm { get; set; }
 	public string md { get; set; }
 	public string lg { get; set; }
