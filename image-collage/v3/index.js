@@ -382,7 +382,7 @@ function calculateThumbnailSize() {
 	let gridWidth = grid.getBoundingClientRect().width;
 	let columns = calculateColumns(gridWidth);
 	let thumbWidth = gridWidth / columns;
-	let thumbHeight = (thumbWidth*config.grid.thumbnail.ratio) + 'px';
+	let thumbHeight = thumbWidth*config.grid.thumbnail.ratio;
 	
 	if(config.debug) {
 		console.log('gridWidth', gridWidth);
