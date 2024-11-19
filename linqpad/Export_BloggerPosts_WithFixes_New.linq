@@ -50,7 +50,7 @@ string POST_TAGS_PREFIX_TEXT = "Reported under";
 List<String> POST_IGNORE_LABELS = new List<string>() { "The Archive", "The Statement" };
 Dictionary<String, String> POST_LABEL_THUMBNAIL = new Dictionary<String, String>()
 {
-	{ "The Klassic Note", "resources/klassic_note.jpg" },
+	{ "The Klassic Note", "resources/klassic-note.jpg" },
 	{ "The Dreams", "resources/dreams.jpg" }
 };
 List<String> POST_OLD_DOMAINS = new List<string>()
