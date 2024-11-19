@@ -539,12 +539,12 @@ string GenerateScriptLinks(string content)
  * [ok] class thumbnail -> class carousel
  * [ok] fix head-prefix hardcoded styles
  * [ok] remove attributes for tables
- * [] fix image attributes
+ * [ok] fix image attributes
  * [] remove trailing slash on void elements
  */
 List<int> FixPostContent(ref string content, List<LinkedListItem> linkedList)
 {
-	List<int> includeIndex = new List<int> { 14, 15, 18, 24, 29, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41 };
+	List<int> includeIndex = new List<int> { 14, 15, 18, 24, 29, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40 };
 	List<int> count = new List<int>();
 	string expression;
     string prefix, midfix, suffix;
