@@ -538,11 +538,13 @@ string GenerateScriptLinks(string content)
  * [ok] agenda class item -> class agenda-item
  * [ok] class thumbnail -> class carousel
  * [ok] fix head-prefix hardcoded styles
- * [] standardize cell spacing attribute for tables
+ * [ok] remove attributes for tables
+ * [] fix image attributes
+ * [] remove trailing slash on void elements
  */
 List<int> FixPostContent(ref string content, List<LinkedListItem> linkedList)
 {
-	List<int> includeIndex = new List<int> { 14, 15, 18, 24, 29, 31, 32, 33, 34, 35, 36, 37, 38, 39 };
+	List<int> includeIndex = new List<int> { 14, 15, 18, 24, 29, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41 };
 	List<int> count = new List<int>();
 	string expression;
     string prefix, midfix, suffix;
@@ -848,18 +850,37 @@ List<int> FixPostContent(ref string content, List<LinkedListItem> linkedList)
 	}
 	#endregion
 
-	#region 39 standardize cell spacing attribute for tables
+	#region 39 remove attributes for tables
 	if(includeIndex.Count() == 0 || includeIndex.Contains(39))
 	{
 		if(DEBUG_MODE) Console.WriteLine("Fix #" + 39);
+		content = Regex.Replace(content, "align=\"center\"", "");
         if(Regex.IsMatch(content, "cellspacing=\"[1-9]\"")) {
 			count.Add(39);
-			content = Regex.Replace(content, "cellspacing=\"\\d\"", "cellspacing=\"0\"");
-			content = Regex.Replace(content, "cellpadding=\"\\d\"", "cellpadding=\"0\"");
+			content = Regex.Replace(content, "cellspacing=\"\\d\"", "");
+			content = Regex.Replace(content, "cellpadding=\"\\d\"", "");
 		}
 	}
 	#endregion
 	
+	#region 40 fix image attributes
+	if(includeIndex.Count() == 0 || includeIndex.Contains(40))
+	{
+		if(DEBUG_MODE) Console.WriteLine("Fix #" + 40);
+		content = Regex.Replace(content, "border=\"0\"", "");
+		//TODO: Replace missing height="180" for every width="320" found
+	}
+	#endregion
+
+	#region 41 remove trailing slash on void elements
+	if(includeIndex.Count() == 0 || includeIndex.Contains(41))
+	{
+		if(DEBUG_MODE) Console.WriteLine("Fix #" + 41);
+		content = Regex.Replace(content, "/>", "");
+		content = Regex.Replace(content, " />", ""); // with spacing
+	}
+	#endregion
+
     //Add to debug
     if(matchItems.Count() > 0)
         Console.WriteLine(matchItems);
