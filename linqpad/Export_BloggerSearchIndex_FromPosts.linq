@@ -14,6 +14,7 @@ string ARCHIVE_XML_DIRECTORY = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog
 string OUTPUT_DIRECTORY = @"C:\Users\KAINENG\Documents\GitHub\knreports\";
 string OUTPUT_DIRECTORY_SUBFOLDER = "posts";
 string HOMEPAGE_FILENAME = @"C:\Users\KAINENG\Documents\GitHub\knreports\js\searchIndex.js";
+string OUTPUT_FILENAME = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archive\index.sql";
 
 // PROGRAM SETTINGS
 bool HOMEPAGE_ONLY = false;
@@ -70,7 +71,8 @@ void Main()
 	var inputFileDirs = GetBloggerXmlFilePath(BLOGGER_XML_DIRECTORY, ARCHIVE_XML_DIRECTORY);
 	var bloggerPosts = GetBloggerPostsPublished(inputFileDirs);
 	var searchIndex = GenerateSearchIndex(bloggerPosts);
-	GenerateSearchIndexFile(searchIndex);
+	// GenerateSearchIndexFile(searchIndex);
+	GenerateSearchIndexScript(searchIndex);
 	Console.WriteLine();
 	Console.WriteLine("===================================================================================");	
 	// Output as completed
@@ -167,15 +169,16 @@ List<XElement> GetBloggerPostsPublished(string[] inputFiles)
 		.OrderByDescending(x => DateTime.Parse(x.Element(DEFAULT_XML_NAMESPACE+"published").Value)).ToList();
 }
 
-SearchIndex GenerateSearchIndex(List<XElement> xmlPosts)
+List<SearchIndexContent> GenerateSearchIndex(List<XElement> xmlPosts)
 {
 	// Read file
 	Console.WriteLine($"Processing {xmlPosts.Count()} Blogger posts...");
-	SearchIndex searchIndex = new SearchIndex()
-	{
-		posts = new List<SearchIndexPost>(),
-		indexes = new Dictionary<string, List<int>>(),
-	}; 
+	// SearchIndex searchIndex = new SearchIndex()
+	// {
+	// 	posts = new List<SearchIndexPost>(),
+	// 	indexes = new Dictionary<string, List<int>>(),
+	// }; 
+	List<SearchIndexContent> indexContent = new List<SearchIndexContent>();
 	
     // Process XML content per post
     for (var p = 0; p < xmlPosts.Count(); p++)
@@ -221,41 +224,46 @@ SearchIndex GenerateSearchIndex(List<XElement> xmlPosts)
 		// Generate index: Remove extra tags, split by delimiter, filter by condition in order of descending occurence, select distinct
 		var startIndex = postContent.IndexOf("<div") >= 0 ? postContent.IndexOf("<div") : 0;
 		postContent = CleanupHtml(postContent.ToLower().Substring(startIndex)); // avoid inline styles
-		var tokens = postContent
-			.Split(TOKEN_SPLIT_DELIMITERS.ToArray(), StringSplitOptions.RemoveEmptyEntries) // Split by delimiters
-			.Where(c => !TOKEN_IGNORE_WORDS.Contains(c)) // Ignore excluded words (full)
-			.Where(c => !c.Any(t => t > TOKEN_MAX_UNICODE_VALUE)) // Max unicode value for all characters in words
-			.Select(c => c.ToLower().Trim(TOKEN_TRIM_CHARACTERS.ToArray()))
-			.Where(c => !c.Contains('*')) // Self-censored words
-			.Where(c => c.Length >= MIN_TOKEN_LENGTH) // Min word length
-			.Where(c => !Regex.IsMatch(c, @"([a-zA-Z])\1{" + TOKEN_MIN_CONSECUTIVE_CHARACTERS + ",}")) // Consecutive characters in words
-			.Distinct()
-			.ToList();
-		// Add custom included terms eg. phrases, index only support single words
-		tokens.AddRange(TOKEN_INCLUDE_TERMS.Where(t => postContent.Contains(t)));
-		// Add published date to index
-		tokens.Add(publishDate.ToString("yyyy"));
-		tokens.Add(publishDate.ToString("MM"));
-		tokens.Add(publishDate.ToString("dd"));
-		// debug
-		if(p == 2) {
-			//Console.WriteLine(tokens);
-			//return;
-		}
-		// Add post title to index
-		searchIndex.posts.Add(new SearchIndexPost() {
+		indexContent.Add(new SearchIndexContent() {
 			title = postTitle,
 			url = pageLink,
-			date = publishDate.ToString("yyyy.MM.dd"),
-			id = p
+			content = postContent
 		});
+		// var tokens = postContent
+		// 	.Split(TOKEN_SPLIT_DELIMITERS.ToArray(), StringSplitOptions.RemoveEmptyEntries) // Split by delimiters
+		// 	.Where(c => !TOKEN_IGNORE_WORDS.Contains(c)) // Ignore excluded words (full)
+		// 	.Where(c => !c.Any(t => t > TOKEN_MAX_UNICODE_VALUE)) // Max unicode value for all characters in words
+		// 	.Select(c => c.ToLower().Trim(TOKEN_TRIM_CHARACTERS.ToArray()))
+		// 	.Where(c => !c.Contains('*')) // Self-censored words
+		// 	.Where(c => c.Length >= MIN_TOKEN_LENGTH) // Min word length
+		// 	.Where(c => !Regex.IsMatch(c, @"([a-zA-Z])\1{" + TOKEN_MIN_CONSECUTIVE_CHARACTERS + ",}")) // Consecutive characters in words
+		// 	.Distinct()
+		// 	.ToList();
+		// Add custom included terms eg. phrases, index only support single words
+		// tokens.AddRange(TOKEN_INCLUDE_TERMS.Where(t => postContent.Contains(t)));
+		// Add published date to index
+		// tokens.Add(publishDate.ToString("yyyy"));
+		// tokens.Add(publishDate.ToString("MM"));
+		// tokens.Add(publishDate.ToString("dd"));
+		// debug
+		// if(p == 2) {
+			//Console.WriteLine(tokens);
+			//return;
+		// }
+		// Add post title to index
+		// searchIndex.posts.Add(new SearchIndexPost() {
+		// 	title = postTitle,
+		// 	url = pageLink,
+		// 	date = publishDate.ToString("yyyy.MM.dd"),
+		// 	id = p
+		// });
 		// Add tokens to index
-		foreach (string token in tokens)
-		{
-			if (!searchIndex.indexes.ContainsKey(token))
-				searchIndex.indexes.Add(token, new List<int>());
-			searchIndex.indexes[token].Add(p); // p represents unique id
-		}
+		// foreach (string token in tokens)
+		// {
+		// 	if (!searchIndex.indexes.ContainsKey(token))
+		// 		searchIndex.indexes.Add(token, new List<int>());
+		// 	searchIndex.indexes[token].Add(p); // p represents unique id
+		// }
 		// Show progress, as post title or as represented by dot (100 per line)
 	    if(WRITE_TITLE_ON_CONSOLE || DEBUG_MODE)
 	        Console.WriteLine("||> " + (postTitle.Length > 0 ? postTitle : "POST W/O TITLE DATED " + publishDate.ToString("yyyy-MM-dd")));
@@ -265,14 +273,28 @@ SearchIndex GenerateSearchIndex(List<XElement> xmlPosts)
 	        Console.Write(".");
     }
 	
-	return searchIndex;
+	return indexContent;
+}
+
+string GenerateSearchIndexScript(List<SearchIndexContent> indexes)
+{
+	StringBuilder sb = new StringBuilder();
+	sb.AppendLine(@"CREATE VIRTUAL TABLE IF NOT EXISTS SearchIndex USING fts5(Title, URL, Content);");
+	foreach(var page in indexes)
+	{
+		sb.AppendLine(@"INSERT INTO SearchIndex (Title, URL, Content) VALUES (""@Title"", ""@URL"", ""@Content"");"
+			.Replace("@Title", postTitle)
+			.Replace("@URL", relativeUrl)
+			.Replace("@Content", postContent));
+	}
+    File.WriteAllText(OUTPUT_FILENAME, sb.ToString());
 }
 
 void GenerateSearchIndexFile(SearchIndex searchIndex)
 {
 	// Export search index into JSON
-    string export = "const searchIndex = " + JsonConvert.SerializeObject(searchIndex) + ";";
-    File.WriteAllText(HOMEPAGE_FILENAME, export);
+	string export = "const searchIndex = " + JsonConvert.SerializeObject(searchIndex) + ";";
+	File.WriteAllText(HOMEPAGE_FILENAME, export);
 }
 
 string GenerateSlug(string title)
@@ -296,6 +318,12 @@ public class SearchIndexPost {
 	public string url { get; set; }
 	public string date { get; set; }
 	public int id { get; set; }
+}
+
+public class SearchIndexContent {
+	public string title { get; set; }
+	public string url { get; set; }
+	public string content { get; set; }
 }
 
 public string CleanupHtml(string content) {
