@@ -216,18 +216,24 @@ List<SearchIndexContent> GenerateSearchIndex(List<XElement> xmlPosts)
 			continue;
 		// Create output page link and index in linked list (relative to root directory)
         var pageLink = "/" + Path.GetFileNameWithoutExtension(BLOGGER_XML_DIRECTORY.Replace(BLOGGER_XML_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER)) + "/" + publishDate.Year.ToString("0000") + "/"  + publishDate.Month.ToString("00") + "/"  + (GENERATE_SLUG_BY_POST_TITLE ? generatedLink : Path.GetFileNameWithoutExtension(bloggerLink)) + "/index." + postExtension;
+		// Check for post content to exclude from search index
+		var condition = "";
+		if(postContent.Contains("#disclaimer"))
+			condition = "disclaimer";
 		// Fix unicode value representation affecting token split
-		foreach(var dict in TOKEN_FIX_UNICODES)
-		{
-			postContent = postContent.Replace(dict.Key, dict.Value);
-		}
+		// foreach(var dict in TOKEN_FIX_UNICODES)
+		// {
+		// 	postContent = postContent.Replace(dict.Key, dict.Value);
+		// }
 		// Generate index: Remove extra tags, split by delimiter, filter by condition in order of descending occurence, select distinct
 		var startIndex = postContent.IndexOf("<div") >= 0 ? postContent.IndexOf("<div") : 0;
 		postContent = CleanupHtml(postContent.ToLower().Substring(startIndex)); // avoid inline styles
 		indexContent.Add(new SearchIndexContent() {
 			title = postTitle,
 			url = pageLink,
-			content = postContent
+			content = postContent,
+			date = publishDate.ToString("yyyy.MM.dd"),
+			flag = condition
 		});
 		// var tokens = postContent
 		// 	.Split(TOKEN_SPLIT_DELIMITERS.ToArray(), StringSplitOptions.RemoveEmptyEntries) // Split by delimiters
@@ -279,13 +285,15 @@ List<SearchIndexContent> GenerateSearchIndex(List<XElement> xmlPosts)
 string GenerateSearchIndexScript(List<SearchIndexContent> indexes)
 {
 	StringBuilder sb = new StringBuilder();
-	sb.AppendLine(@"CREATE VIRTUAL TABLE IF NOT EXISTS SearchIndex USING fts5(Title, URL, Content);");
+	sb.AppendLine(@"CREATE VIRTUAL TABLE IF NOT EXISTS SearchIndex USING fts5(title, url, content, date, flag);");
 	foreach(var page in indexes)
 	{
-		sb.AppendLine(@"INSERT INTO SearchIndex (Title, URL, Content) VALUES (""@Title"", ""@URL"", ""@Content"");"
-			.Replace("@Title", postTitle)
-			.Replace("@URL", relativeUrl)
-			.Replace("@Content", postContent));
+		sb.AppendLine(@"INSERT INTO SearchIndex (title, url, content, date, flag) VALUES (""@title"", ""@url"", ""@content"", ""@date"", ""@flag"");"
+			.Replace("@title", page.title)
+			.Replace("@url", page.url)
+			.Replace("@content", page.content)
+			.Replace("@content", page.date)
+			.Replace("@content", page.flag ?? ""));
 	}
     File.WriteAllText(OUTPUT_FILENAME, sb.ToString());
 }
@@ -324,6 +332,8 @@ public class SearchIndexContent {
 	public string title { get; set; }
 	public string url { get; set; }
 	public string content { get; set; }
+	public string date { get; set; }
+	public string flag { get; set; }
 }
 
 public string CleanupHtml(string content) {
