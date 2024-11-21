@@ -282,18 +282,18 @@ List<SearchIndexContent> GenerateSearchIndex(List<XElement> xmlPosts)
 	return indexContent;
 }
 
-string GenerateSearchIndexScript(List<SearchIndexContent> indexes)
+void GenerateSearchIndexScript(List<SearchIndexContent> indexes)
 {
 	StringBuilder sb = new StringBuilder();
-	sb.AppendLine(@"CREATE VIRTUAL TABLE IF NOT EXISTS SearchIndex USING fts5(title, url, content, date, flag);");
+	sb.AppendLine(@"CREATE VIRTUAL TABLE IF NOT EXISTS SearchIndex USING fts5(title, url, date, flag, content);");
 	foreach(var page in indexes)
 	{
-		sb.AppendLine(@"INSERT INTO SearchIndex (title, url, content, date, flag) VALUES (""@title"", ""@url"", ""@content"", ""@date"", ""@flag"");"
+		sb.AppendLine(@"INSERT INTO SearchIndex (title, url, date, flag, content) VALUES (""@title"", ""@url"", ""@date"", ""@flag"", ""@content"");"
 			.Replace("@title", page.title)
 			.Replace("@url", page.url)
-			.Replace("@content", page.content)
-			.Replace("@content", page.date)
-			.Replace("@content", page.flag ?? ""));
+			.Replace("@date", page.date)
+			.Replace("@flag", page.flag ?? "")
+			.Replace("@content", page.content));
 	}
     File.WriteAllText(OUTPUT_FILENAME, sb.ToString());
 }
