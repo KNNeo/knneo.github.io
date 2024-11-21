@@ -229,9 +229,9 @@ List<SearchIndexContent> GenerateSearchIndex(List<XElement> xmlPosts)
 		var startIndex = postContent.IndexOf("<div") >= 0 ? postContent.IndexOf("<div") : 0;
 		postContent = CleanupHtml(postContent.ToLower().Substring(startIndex)); // avoid inline styles
 		indexContent.Add(new SearchIndexContent() {
-			title = postTitle,
+			title = postTitle.Replace("'", "''").Replace("\"", "\"\""),
 			url = pageLink,
-			content = postContent,
+			content = postContent.Replace("'", "''").Replace("\"", "\"\""),
 			date = publishDate.ToString("yyyy.MM.dd"),
 			flag = condition
 		});
