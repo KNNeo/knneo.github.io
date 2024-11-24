@@ -298,7 +298,7 @@ function generateGrid() {
 			highlight.classList.add('banner');
 			highlight.classList.add('star');
 			highlight.innerText = config.grid.star.text;
-			highlight.title = config.grid.star.tooltip;
+			highlight.title = item[config.grid.star.property] || config.grid.star.tooltip;
 			gridItem.appendChild(highlight);
 		}
 		
