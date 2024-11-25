@@ -53,7 +53,7 @@ const config = {
 			ratio: 1.2,
 		},
 		star: {
-			text: '🔞',
+			text: '⚠️',
 			property: 'tt',
 			tooltip: ''
 		}
