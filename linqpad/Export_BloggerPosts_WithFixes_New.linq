@@ -380,7 +380,7 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<LinkedListItem>
         // Add post content to home page
 		if (DEBUG_MODE) Console.WriteLine("Process home page");
         var tagList = string.Join(",",pageTagsXml).Replace(" ","").Replace("-"," ");
-        var dataId = " data-tags=\""+tagList+"\"";
+        var dataTags = " data-tags=\""+tagList+"\"";
         // For posts without post link, add name only(?)
         if (string.IsNullOrWhiteSpace(bloggerLink))
 		{
@@ -427,8 +427,8 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<LinkedListItem>
 				}
 				// Add to homepage string builder
                 homepageString.AppendLine(isLatest 
-					? "<div class=\"box latest post\"" + dataId + ">" + 
-					"<a href=\"" + pageLink + "\">" + 
+					? "<a class=\"box latest post\" href=\"" + pageLink + "\">" + 
+					"<div " + dataTags + ">" + 					
 					(thumbnailUrl.Length > 0 ? "<span class=\"publish\">"+publishDate.ToString("yyyy.MM.dd")+"</span>" : "") + 
 					"<div class=\"thumb\">" + 
 						(thumbnailUrl.Length > 0 ? "<div><img alt=\"\" loading=\"lazy\" src=\"" + thumbnailUrl + "\"/></div>" : "") + 
@@ -436,8 +436,8 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<LinkedListItem>
 						//(anchors.Count > 0 
 						//? "<div class=\"anchors\">" + string.Join("", anchors.Select(a => "<a href=\"" + (pageLink + "#" + a) + "\">#" + a + "</a>")) + "</div>" 
 						//: "") + 
-					"</div></a></div>"
-					: "<div class=\"post\"" + dataId + "><span class=\"publish\">" + publishDate.ToString("yyyy.MM.dd") + " </span>" +
+					"</div></div></a>"
+					: "<div class=\"post\"" + dataTags + "><span class=\"publish\">" + publishDate.ToString("yyyy.MM.dd") + " </span>" +
 					"<a href=\""+pageLink+"\">" + postTitle + "</a></div>");
 			}
         }
@@ -662,7 +662,7 @@ List<int> FixPostContent(ref string content, List<LinkedListItem> linkedList)
 			{"silence",			"😐"}, {"sob",			"😢"}, {"screams",		"😱"}, {"shrugs", 	"🤷"}, 
 			{"sigh",			"😩"}, {"smiles",		"😊"}, {"speechless",	"😲"}, {"sshh",		"🤫"}, 
 			{"sniff",			"😢"}, {"thumbs up",	"👍"}, {"ugh", 			"🙄"}, {"wink",		"😉"}, 
-			{"chef's kiss",		"😙🤌"}, {"fap",			"🍆"}, {"prays",		"🙏"}, {"fap fap fap",	"🍆💦💦"},
+			{"chef's kiss",		"😙🤌"}, {"fap",			"🍆"}, {"prays",		"🙏"}, {"fap fap fap",	"🍆🍆💦"},
 			{"wink wink",		"😉😉"}, {"claps",		"👏"}, {"applauds",		"👏"}, {"yawns",	"🥱"},
 			{"yay",				"🙌"}, {"applauses",	"👏"}
 		};
