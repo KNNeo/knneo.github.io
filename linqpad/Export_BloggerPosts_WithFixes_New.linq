@@ -427,8 +427,7 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<LinkedListItem>
 				}
 				// Add to homepage string builder
                 homepageString.AppendLine(isLatest 
-					? "<a class=\"box latest post\" href=\"" + pageLink + "\">" + 
-					"<div " + dataTags + ">" + 					
+					? "<a class=\"box latest post\"" + dataTags + " href=\"" + pageLink + "\">" + 
 					(thumbnailUrl.Length > 0 ? "<span class=\"publish\">"+publishDate.ToString("yyyy.MM.dd")+"</span>" : "") + 
 					"<div class=\"thumb\">" + 
 						(thumbnailUrl.Length > 0 ? "<div><img alt=\"\" loading=\"lazy\" src=\"" + thumbnailUrl + "\"/></div>" : "") + 
@@ -436,7 +435,7 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<LinkedListItem>
 						//(anchors.Count > 0 
 						//? "<div class=\"anchors\">" + string.Join("", anchors.Select(a => "<a href=\"" + (pageLink + "#" + a) + "\">#" + a + "</a>")) + "</div>" 
 						//: "") + 
-					"</div></div></a>"
+					"</div></a>"
 					: "<div class=\"post\"" + dataTags + "><span class=\"publish\">" + publishDate.ToString("yyyy.MM.dd") + " </span>" +
 					"<a href=\""+pageLink+"\">" + postTitle + "</a></div>");
 			}
