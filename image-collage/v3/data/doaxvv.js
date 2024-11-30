@@ -41,6 +41,11 @@ const config = {
 		max: 9999,
 		exclude: ['覚醒'],
 		hidden: ['2013','2014','2015','2016','2017','2018','2019','2020','2021','2022','2023'],
+		sort: {
+			order: 'asc',
+			locale: 'ja-JP',
+			property: 'value',
+		},
 	},
 	grid: {
 		banner: {
