@@ -62,7 +62,7 @@ function generateTags() {
 	})
 	.reduce(function(total, current, _, _) {
 		let updated = total || [];
-		if(updated.length > 0)
+		if(current && current.length > 0)
 			current.split(config.separator).forEach(function(tag, index, _) {
 				let existing = updated.filter(a => a.value == tag);
 				// console.log(tag, existing);
@@ -83,7 +83,16 @@ function generateTags() {
 		return item.count >= config.tag.min && item.count <= config.tag.max && config.tag.hidden.filter(t => item.value.includes(t)).length < 1;
 	})
 	.sort(function(a,b) {
-		return b.count - a.count;
+		// based on values in reduce function
+		let prop = config.tag.sort.property;
+		if(!a[prop] || !b[prop])
+			return 0;
+		if(typeof a[prop] == 'number' && typeof b[prop] == 'number')
+			return config.tag.sort.order == 'desc' ? b[prop] - a[prop] : a[prop] - b[prop];
+		// else string
+		if(config.tag.sort.order == 'desc')
+			return b[prop].localeCompare(a[prop], config.tag.sort.locale);
+		return a[prop].localeCompare(b[prop], config.tag.sort.locale);
 	});
 	if(config.debug) console.log(window['buttonArray']);
 }
