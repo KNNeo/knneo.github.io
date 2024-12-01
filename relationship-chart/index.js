@@ -116,7 +116,7 @@ function onKeyDown() {
 //--EVENT HANDLERS--//
 function openEditor() {
 	viewerDiv.classList.remove('hidden');
-	editorTextarea.value = JSON.stringify(window.data.list);
+	editorTextarea.value = convertToInstructions(window.data.list);
 }
 
 function closeEditor() {
@@ -127,7 +127,7 @@ function onPreview() {
 	try {
 		window.data = {
 			...config,
-			"list": JSON.parse(editorTextarea.value),
+			"list": convertToConfig(editorTextarea.value),
 		};
 		drawBoard();
 		viewerDiv.classList.add('hidden');
@@ -324,6 +324,50 @@ function nextCoordinate(coordinates) {
 	
 	// return error if unidentified
 	return alert('INVALID_SEQUENCE');
+}
+
+function convertToInstructions(list) {
+	let inst = '';
+	
+	for(let val of list) {
+		inst += 'ID ' + val.id;
+		inst += '\nNAME ' + val.name;
+		for(let rel of val.relations) {
+			inst += '\nLINK ' + rel.id;
+			inst += ' AS ' + rel.rel;
+		}
+		inst += '\n\n';
+	}
+	return inst;
+}
+
+function convertToConfig(value) {
+	let list = [];
+	
+	let lines = value.split('\n');
+	let item = { relations: [] };
+	for(let line of lines) {
+		if(!line) {
+			if(item.id) list.push(item);
+			item = { relations: [] };
+			continue;
+		}
+		if(line.startsWith('ID'))
+			item.id = line.substring(line.indexOf(' ') + 1);
+		if(line.startsWith('NAME'))
+			item.name = line.substring(line.indexOf(' ') + 1);
+		if(line.startsWith('LINK')) {
+			let sub = line.substring(line.indexOf(' ') + 1);
+			let parts = sub.split('AS');
+			let rel = {
+				id: parts[0].trim(),
+				rel: parts[1].trim()
+			};
+			item.relations.push(rel);
+		}
+	}
+	
+	return list;
 }
 
 //--INITIAL--//
