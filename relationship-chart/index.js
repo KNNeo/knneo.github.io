@@ -169,27 +169,19 @@ function drawNodes() {
 		rect.setAttribute("stroke-width", config.diagram.border);
 		diagramDiv.appendChild(rect);
 		if (item.name) {
-			// draw textBox
-			let textBox = document.createElementNS(
-					"http://www.w3.org/2000/svg",
-					"text");
-			textBox.setAttribute("fill", "var(--background)");
-			textBox.innerHTML = item.name;
-			diagramDiv.appendChild(textBox);
-			// position textBox from bottom left corner
-			// textBox x: rect x + half rect width - half textBox width
-			// textBox y: rect y + half textBox height - stroke-width * half rect height
-			textBox.setAttribute(
-				"x",
-				rect1X +
-				0.5 * rect.getBoundingClientRect().width -
-				0.5 * textBox.getBoundingClientRect().width);
-			textBox.setAttribute(
-				"y",
-				rect1Y +
-				0.5 * textBox.getBoundingClientRect().height -
-				5 +
-				0.5 * rect.getBoundingClientRect().height);
+			// draw text box
+			let textArea = document.createElementNS(
+				"http://www.w3.org/2000/svg",
+				"foreignObject"
+			);
+			textArea.setAttribute("x", rect1X);
+			textArea.setAttribute("y", rect1Y);
+			textArea.setAttribute("width", config.node.width);
+			textArea.setAttribute("height", config.node.height);
+			let textDiv = document.createElement("div");
+			textDiv.innerText = item.name;
+			textArea.appendChild(textDiv);
+			diagramDiv.appendChild(textArea);
 		}
 	}
 }
