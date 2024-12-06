@@ -97,7 +97,7 @@ function onPreview() {
 			...config,
 			"list": convertToConfig(editorTextarea.value),
 		};
-		localStorage.setItem(config.id, window.data);
+		localStorage.setItem(config.id, JSON.stringify(window.data));
 		drawBoard();
 		viewerDiv.classList.add('hidden');
 	} catch {
