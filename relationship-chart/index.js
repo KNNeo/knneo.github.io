@@ -99,11 +99,13 @@ function onPreview() {
 		};
 		localStorage.setItem(config.id, JSON.stringify(window.data));
 		drawBoard();
-		viewerDiv.classList.add('hidden');
+		closeEditor();
 	} catch {
-		if (confirm('JSON format invalid: Click on OK to reset, or Cancel to fix.'))
+		if (confirm('JSON format invalid: Click on OK to reset, or Cancel to fix.')) {
 			window.data = config;
-			editorTextarea.value = convertToInstructions(window.data.list);
+			drawBoard();
+			closeEditor();
+		}
 	}
 }
 
@@ -397,7 +399,7 @@ function convertToInstructions(list) {
 			inst += "ID " + val.id;
 		if (val.name)
 			inst += "\nNAME " + val.name;
-		if (val.relations)
+		if (val.relations && val.relations.length > 0)
 			for (let rel of val.relations) {
 				inst += "\nLINK " + rel.id;
 				inst += " AS " + rel.rel;
