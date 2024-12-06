@@ -407,7 +407,7 @@ function convertToInstructions(list) {
 		if (val.relations && val.relations.length > 0)
 			for (let rel of val.relations) {
 				inst += "\nLINK " + rel.id;
-				inst += " AS " + rel.rel;
+				if (rel.rel) inst += " AS " + rel.rel;
 			}
 	}
 	inst = inst.trim() + "\n\n";
