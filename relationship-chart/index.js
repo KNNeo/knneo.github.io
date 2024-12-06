@@ -400,6 +400,7 @@ function convertToInstructions(list) {
 	let inst = "";
 	// iterate list
 	for (let val of list) {
+		inst += "\n\n";
 		if (val.id) inst += "ID " + val.id;
 		if (val.name) inst += "\nNAME " + val.name;
 		if (val.image) inst += "\nIMAGE " + val.image;
