@@ -172,7 +172,7 @@ function drawNodes() {
 		rect.setAttribute("fill", config.palette[i % config.palette.length]);
 		rect.setAttribute("stroke", "var(--foreground)");
 		rect.setAttribute("stroke-width", config.diagram.border);
-		diagramDiv.appendChild(rect);
+		if (item.id != "RESERVED") diagramDiv.appendChild(rect);
 		if (item.name) {
 			// draw text box
 			let textArea = document.createElementNS(
@@ -426,9 +426,10 @@ function convertToConfig(value) {
 			};
 			continue;
 		}
-		if (line.startsWith("ID"))
+		if (line.startsWith("ID")) {
 			item.id = line.substring(line.indexOf(" ") + 1);
-
+			if (item.id == "RESERVED") continue;
+		}
 		if (line.startsWith("NAME"))
 			item.name = line.substring(line.indexOf(" ") + 1);
 		if (line.startsWith("LINK")) {
