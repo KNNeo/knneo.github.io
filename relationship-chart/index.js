@@ -1,5 +1,6 @@
 //--DEFAULT SETTINGS--//
 const config = {
+	id: 'relationship-chart',
 	diagram: {
 		// width: 1400,
 		// height: 840,
@@ -94,12 +95,12 @@ function onPreview() {
 			...config,
 			"list": convertToConfig(editorTextarea.value),
 		};
+		localStorage.setItem(config.id, window.data);
 		drawBoard();
 		viewerDiv.classList.add('hidden');
 	} catch {
-		if (confirm('JSON format invalid: Click on OK to reset')) {
-			editorTextarea.value = JSON.stringify(window.data.list);
-		}
+		if (confirm('JSON format invalid: Click on OK to reset'))
+			editorTextarea.value = convertToInstructions(window.data.list);
 	}
 }
 
@@ -457,11 +458,17 @@ function convertToConfig(value) {
 //--INITIAL--//
 function startup() {
 	// initialize data
+	let storage = localStorage.getItem(config.id);
+	if(storage)
+		window.data = JSON.parse(storage);
 	window.data = {
 		...config
 	};
-	if (config.command)
+	// if have initial config
+	if (config.command) {
 		window.data.list = convertToConfig(config.command);
+		config.command = null;
+	}
 	sizeDiagram();
 	drawBoard();
 }
