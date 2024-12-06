@@ -102,7 +102,9 @@ function onPreview() {
 		closeEditor();
 	} catch {
 		if (confirm('JSON format invalid: Click on OK to reset, or Cancel to fix.')) {
-			window.data = config;
+			window.data = {
+				...config
+			};
 			drawBoard();
 			closeEditor();
 		}
