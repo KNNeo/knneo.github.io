@@ -13,7 +13,7 @@ const config = {
 	arrow: { size: 4 },
 	gap: {
 		horizontal: 1,
-		vertical: 0.5
+		vertical: 1
 	},
 	palette: [
 		"#1f77b4",
