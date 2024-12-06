@@ -102,9 +102,6 @@ function onPreview() {
 		closeEditor();
 	} catch {
 		if (confirm('JSON format invalid: Click on OK to reset, or Cancel to fix.')) {
-			window.data = {
-				...config
-			};
 			startup();
 			closeEditor();
 		}
@@ -465,12 +462,12 @@ function convertToConfig(value) {
 //--INITIAL--//
 function startup() {
 	// initialize data
-	let storage = localStorage.getItem(config.id);
-	if(storage)
-		window.data = JSON.parse(storage);
 	window.data = {
 		...config
 	};
+	let storage = localStorage.getItem(config.id);
+	if(storage)
+		window.data = JSON.parse(storage);
 	// if have initial config
 	if (config.command) {
 		window.data.list = convertToConfig(config.command);
