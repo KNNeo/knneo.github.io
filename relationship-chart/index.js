@@ -374,7 +374,6 @@ function nextCoordinate(coordinates) {
 	// console.log(borderingTopRight, borderingBottomRight, borderingBottomLeft, borderingTopLeft);
 	// console.log('right bottom left top');
 	// console.log(borderingRight, borderingBottom, borderingLeft, borderingTop);
-
 	// if reach right edge of furthest node, move down
 	// if reach bottom edge of furthest node, move left
 	// if reach left edge of furthest node, move up
@@ -397,6 +396,7 @@ function convertToInstructions(list) {
 	let inst = "";
 	// iterate list
 	for (let val of list) {
+		inst += "\n\n";
 		if (val.id)
 			inst += "ID " + val.id;
 		if (val.name)
@@ -407,7 +407,7 @@ function convertToInstructions(list) {
 				inst += " AS " + rel.rel;
 			}
 	}
-	inst += "\n\n";
+	inst = inst.trim() + "\n\n";
 	// console.log(inst);
 	return inst;
 }
