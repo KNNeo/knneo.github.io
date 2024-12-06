@@ -465,13 +465,13 @@ function startup() {
 	window.data = {
 		...config
 	};
-	// if have initial config
-	if (config.command)
-		window.data.list = convertToConfig(config.command);
 	// if have storage
 	let storage = localStorage.getItem(config.id);
 	if(storage)
 		window.data = JSON.parse(storage);
+	// if have initial config
+	if (config.command)
+		window.data.list = convertToConfig(config.command);
 	sizeDiagram();
 	drawBoard();
 }
