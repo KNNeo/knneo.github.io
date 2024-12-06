@@ -101,7 +101,8 @@ function onPreview() {
 		drawBoard();
 		viewerDiv.classList.add('hidden');
 	} catch {
-		if (confirm('JSON format invalid: Click on OK to reset'))
+		if (confirm('JSON format invalid: Click on OK to reset, or Cancel to fix.'))
+			window.data = config;
 			editorTextarea.value = convertToInstructions(window.data.list);
 	}
 }
