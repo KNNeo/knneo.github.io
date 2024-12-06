@@ -13,6 +13,10 @@ const config = {
 	arrow: {
 		size: 4
 	},
+	gap: {
+		horizontal: 1,
+		vertical: 0.5
+	},
 	palette: [
 		"#1f77b4",
 		"#ff7f0e",
@@ -148,18 +152,18 @@ function drawNodes() {
 		// find next location of node
 		coordinates = nextCoordinate(coordinates);
 		// console.log(coordinates);
-
-		// 1st rect is center, else to the right of 1st called #node1
+		// 1st rect is center, else based on coordinates
+		// center of 1st node top left corner + coordinate * no of nodes (min 2)
 		let rect1X =
 			i == 0
-			 ? (diagramDiv.width.baseVal.value - config.node.width) / 2
-			 : parseInt(document.querySelector(baseId).getAttribute("x")) +
-			coordinates[0] * (config.node.width + config.node.width);
+				? (diagramDiv.width.baseVal.value - config.node.width) / 2
+				: parseInt(document.querySelector(baseId).getAttribute("x")) +
+				  coordinates[0] * (config.gap.horizontal + 1) * config.node.width;
 		let rect1Y =
 			i == 0
-			 ? (diagramDiv.height.baseVal.value - config.node.height) / 2
-			 : parseInt(document.querySelector(baseId).getAttribute("y")) +
-			coordinates[1] * (config.node.width + config.node.height);
+				? (diagramDiv.height.baseVal.value - config.node.height) / 2
+				: parseInt(document.querySelector(baseId).getAttribute("y")) +
+				  coordinates[1] * (config.gap.vertical + 1) * config.node.height;
 		// draw rect
 		let rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
 		rect.id = item.id;
@@ -173,17 +177,36 @@ function drawNodes() {
 		rect.setAttribute("stroke", "var(--foreground)");
 		rect.setAttribute("stroke-width", config.diagram.border);
 		if (item.id != "RESERVED") diagramDiv.appendChild(rect);
+		if (item.image) {
+			let textArea = document.createElementNS(
+				"http://www.w3.org/2000/svg",
+				"foreignObject"
+			);
+			textArea.setAttribute("x", rect1X + 0.5 * config.diagram.border);
+			textArea.setAttribute("y", rect1Y + 0.5 * config.diagram.border);
+			textArea.setAttribute("width", config.node.width - config.diagram.border);
+			textArea.setAttribute("height", config.node.height - config.diagram.border);
+			let img = document.createElement("object");
+			img.setAttribute("data", item.image);
+			img.setAttribute("x", rect1X);
+			img.setAttribute("y", rect1Y);
+			img.setAttribute("width", config.node.width);
+			img.setAttribute("height", config.node.height);
+			textArea.appendChild(img);
+			diagramDiv.appendChild(textArea);
+		}
 		if (item.name) {
 			// draw text box
 			let textArea = document.createElementNS(
 				"http://www.w3.org/2000/svg",
 				"foreignObject"
 			);
-			textArea.setAttribute("x", rect1X);
-			textArea.setAttribute("y", rect1Y);
-			textArea.setAttribute("width", config.node.width);
-			textArea.setAttribute("height", config.node.height);
+			textArea.setAttribute("x", rect1X + 0.5 * config.diagram.border);
+			textArea.setAttribute("y", rect1Y + 0.5 * config.diagram.border);
+			textArea.setAttribute("width", config.node.width - config.diagram.border);
+			textArea.setAttribute("height", config.node.height - config.diagram.border);
 			let textDiv = document.createElement("div");
+			textDiv.style.background = config.palette[i % config.palette.length];
 			textDiv.innerText = item.name;
 			textArea.appendChild(textDiv);
 			diagramDiv.appendChild(textArea);
@@ -206,12 +229,7 @@ function drawLines() {
 	}
 	// plot lines
 	for (let point of points) {
-
-		let {
-			source,
-			destination,
-			label
-		} = point;
+		let { source, destination, label } = point;
 		// create line
 
 		let line = document.createElementNS("http://www.w3.org/2000/svg", "line");
@@ -331,6 +349,7 @@ function drawLines() {
 }
 
 function nextCoordinate(coordinates) {
+	// initial point
 	if (!coordinates || coordinates.length != 2)
 		return [0, 0];
 	let [x, y] = coordinates;
@@ -398,6 +417,7 @@ function convertToInstructions(list) {
 			inst += "ID " + val.id;
 		if (val.name)
 			inst += "\nNAME " + val.name;
+		if (val.image) inst += "\nIMAGE " + val.image;
 		if (val.relations && val.relations.length > 0)
 			for (let rel of val.relations) {
 				inst += "\nLINK " + rel.id;
@@ -455,6 +475,10 @@ function convertToConfig(value) {
 			} else
 				item.x = parseInt(sub);
 		}
+		if (line.startsWith("IMAGE")) {
+			let sub = line.substring(line.indexOf(" ") + 1);
+			item.image = sub;
+		}
 	}
 	// console.log(list);
 	return list;
@@ -484,7 +508,6 @@ function sizeDiagram() {
 	if (config.diagram?.height)
 		diagramDiv.setAttribute("height", config.diagram?.height);
 	if (!config.diagram?.width || !config.diagram?.height) {
-		console.log("autosize svg");
 		// determine by total elements to render
 		let size = window.data.list.length;
 		let grid = Math.ceil(Math.sqrt(size)) + 1;
@@ -497,5 +520,6 @@ function sizeDiagram() {
 		// console.log(x2 - x1, y2 - y1);
 		diagramDiv.setAttribute("width", x2 - x1);
 		diagramDiv.setAttribute("height", y2 - y1);
+		console.log("autosize svg", x2 - x1, y2 - y1);
 	}
 }
