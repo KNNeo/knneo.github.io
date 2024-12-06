@@ -90,6 +90,8 @@ function closeEditor() {
 }
 
 function onPreview() {
+	if(!editorTextarea.value.endsWith("\n\n"))
+		editorTextarea.value += "\n\n";
 	try {
 		window.data = {
 			...config,
