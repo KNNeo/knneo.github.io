@@ -97,9 +97,9 @@ function onPreview() {
 			...config,
 			"list": convertToConfig(editorTextarea.value),
 		};
-		localStorage.setItem(config.id, JSON.stringify(window.data));
 		drawBoard();
 		closeEditor();
+		localStorage.setItem(config.id, JSON.stringify(window.data));
 	} catch {
 		if (confirm('JSON format invalid: Click on OK to reset, or Cancel to fix.')) {
 			startup();
