@@ -478,6 +478,11 @@ function startup() {
 	drawBoard();
 }
 
+function resize() {
+	sizeDiagram();
+	drawBoard();
+}
+
 function sizeDiagram() {
 	// diagram size based on window dimensions if no values provided
 	if (config.diagram?.width)
