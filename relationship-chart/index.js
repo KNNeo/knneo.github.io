@@ -286,10 +286,8 @@ function drawLines() {
 			(deltaY > 0 ? -1 : 1) * 0.5 * config.node.height +
 			(deltaY > 0 ? -1 : 1) * markerWidth;
 			// for arrows spanning multiple number of nodes
-			if (Math.abs(deltaY) > 3 * config.node.height)
-				destX -= 0.5 * markerWidth;
-			if (Math.abs(deltaX) > 2 * config.node.width)
-				destY += config.arrow.size + 5;
+			if (Math.abs(deltaY) > 3 * config.node.height) destX -= 0.5 * markerWidth;
+			if (Math.abs(deltaX) > 2 * config.node.width) destY += 0.5 * markerWidth;
 		}
 		// draw line
 		let deltaY = sourceX == destX ? config.node.height : 0;
