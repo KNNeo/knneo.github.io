@@ -102,7 +102,8 @@ function onPreview() {
 	try {
 		window.data = {
 			...config,
-			list: convertToConfig(editorTextarea.value)
+			list: convertToConfig(editorTextarea.value),
+			command: editorTextarea.value
 		};
 		drawBoard();
 		closeEditor();
