@@ -105,7 +105,7 @@ function onPreview() {
 			window.data = {
 				...config
 			};
-			drawBoard();
+			startup();
 			closeEditor();
 		}
 	}
