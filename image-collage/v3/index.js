@@ -223,7 +223,7 @@ function generateTagsList() {
 			tag.setAttribute('filter', 'exclude');
 		if(button.category)
 			tags.childNodes[button.category].appendChild(tag);
-		else
+		else if (tags.childNodes.length > 0)
 			tags.childNodes[0].appendChild(tag);
 	}	
 }
