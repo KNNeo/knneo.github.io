@@ -4,16 +4,18 @@ const config = {
 	diagram: {
 		// width: 1400,
 		// height: 840,
-		border: 5
 	},
 	node: {
 		width: 100,
-		height: 60
+		height: 60,
+		border: 5,
+		gap: {
+			horizontal: 1,
+			vertical: 0.5
+		}
 	},
-	arrow: { size: 4 },
-	gap: {
-		horizontal: 1,
-		vertical: 1
+	arrow: {
+		size: 4
 	},
 	palette: [
 		"#1f77b4",
@@ -38,25 +40,28 @@ LINK user1 AS Wife
 
 ID user3
 NAME Mary
-LINK user1 AS Colleagues
+// LINK user1 AS Colleagues
+LINK user5 AS Secret Lover
+LINK user2 AS Sister
 
 ID RESERVED
 
 ID user5
 NAME Janson
 LINK user1 AS Bestie
+LINK user8 AS Friend
 
 ID user6
 NAME Bob
-LINK user1 AS Father
+LINK user3 AS Friend
 
 ID user7
 NAME Peter
 LINK user6 AS Brother
+LINK user8 AS Cousin
 
 ID user8
 NAME Justin
-LINK user7 AS Cousin
 
 ID user9
 NAME Alicia
@@ -67,6 +72,7 @@ NAME Jan
 LINK user1 AS Acquaintance
 LINK user6 AS Friend
 LINK user3 AS Friend
+LINK user4 AS Brother
 
 ID RESERVED
 
@@ -74,7 +80,8 @@ ID RESERVED
 
 ID user4
 NAME Henry
-LINK user3 AS Friend
+// LINK user5 AS Divorced
+LINK user3 AS ???
 
 `
 };
@@ -102,8 +109,7 @@ function onPreview() {
 	try {
 		window.data = {
 			...config,
-			list: convertToConfig(editorTextarea.value),
-			command: editorTextarea.value
+			list: convertToConfig(editorTextarea.value)
 		};
 		drawBoard();
 		closeEditor();
@@ -129,9 +135,9 @@ function drawResources() {
 	let arrow = document.createElementNS("http://www.w3.org/2000/svg", "marker");
 	arrow.id = "triangle";
 	arrow.setAttribute("xmlns", "http://www.w3.org/2000/svg");
-	arrow.setAttribute("viewBox", "0 0 " + 4 * config.arrow.size + " 10");
-	arrow.setAttribute("refX", config.arrow.size - 3);
-	arrow.setAttribute("refY", "5");
+	arrow.setAttribute("viewBox", "0 0 8 10");
+	arrow.setAttribute("refX", 1);
+	arrow.setAttribute("refY", 5);
 	arrow.setAttribute("markerUnits", "strokeWidth");
 	arrow.setAttribute("markerWidth", (config.arrow.size / 3) * 4);
 	arrow.setAttribute("markerHeight", config.arrow.size);
@@ -139,7 +145,7 @@ function drawResources() {
 	arrow.setAttribute("fill", "var(--foreground)");
 	// arrow path (fixed)
 	let arrowPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
-	// first L is for line, second is for marker
+	// move to (0,0), draw to (10,5), draw to (0,10), close shape
 	arrowPath.setAttribute("d", "M 0 0 L 10 5 L 0 10 z");
 	arrow.appendChild(arrowPath);
 	diagramDiv.appendChild(arrow);
@@ -159,12 +165,12 @@ function drawNodes() {
 			i == 0
 				? (diagramDiv.width.baseVal.value - config.node.width) / 2
 				: parseInt(document.querySelector(baseId).getAttribute("x")) +
-				  coordinates[0] * (config.gap.horizontal + 1) * config.node.width;
+				  coordinates[0] * (config.node.gap.horizontal + 1) * config.node.width;
 		let rect1Y =
 			i == 0
 				? (diagramDiv.height.baseVal.value - config.node.height) / 2
 				: parseInt(document.querySelector(baseId).getAttribute("y")) +
-				  coordinates[1] * (config.gap.vertical + 1) * config.node.height;
+				  coordinates[1] * (config.node.gap.vertical + 1) * config.node.height;
 		// draw rect
 		let rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
 		rect.id = item.id;
@@ -176,17 +182,17 @@ function drawNodes() {
 		rect.setAttribute("height", config.node.height);
 		rect.setAttribute("fill", config.palette[i % config.palette.length]);
 		rect.setAttribute("stroke", "var(--foreground)");
-		rect.setAttribute("stroke-width", config.diagram.border);
+		rect.setAttribute("stroke-width", config.node.border);
 		if (item.id != "RESERVED") diagramDiv.appendChild(rect);
 		if (item.image) {
 			let textArea = document.createElementNS(
 				"http://www.w3.org/2000/svg",
 				"foreignObject"
 			);
-			textArea.setAttribute("x", rect1X + 0.5 * config.diagram.border);
-			textArea.setAttribute("y", rect1Y + 0.5 * config.diagram.border);
-			textArea.setAttribute("width", config.node.width - config.diagram.border);
-			textArea.setAttribute("height", config.node.height - config.diagram.border);
+			textArea.setAttribute("x", rect1X + 0.5 * config.node.border);
+			textArea.setAttribute("y", rect1Y + 0.5 * config.node.border);
+			textArea.setAttribute("width", config.node.width - config.node.border);
+			textArea.setAttribute("height", config.node.height - config.node.border);
 			let img = document.createElement("object");
 			img.setAttribute("data", item.image);
 			img.setAttribute("x", rect1X);
@@ -202,10 +208,10 @@ function drawNodes() {
 				"http://www.w3.org/2000/svg",
 				"foreignObject"
 			);
-			textArea.setAttribute("x", rect1X + 0.5 * config.diagram.border);
-			textArea.setAttribute("y", rect1Y + 0.5 * config.diagram.border);
-			textArea.setAttribute("width", config.node.width - config.diagram.border);
-			textArea.setAttribute("height", config.node.height - config.diagram.border);
+			textArea.setAttribute("x", rect1X + 0.5 * config.node.border);
+			textArea.setAttribute("y", rect1Y + 0.5 * config.node.border);
+			textArea.setAttribute("width", config.node.width - config.node.border);
+			textArea.setAttribute("height", config.node.height - config.node.border);
 			let textDiv = document.createElement("div");
 			textDiv.innerText = item.name;
 			textDiv.style.background = config.palette[i % config.palette.length];
@@ -232,9 +238,8 @@ function drawLines() {
 	// plot lines
 	for (let point of points) {
 		let { source, destination, label } = point;
-		// create line
-		let line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-		// find start end points from edge of node to another
+		// find start end points from center of node to another
+		// excludes marker size
 		let sourceX =
 			parseInt(
 				document.querySelector("[data-id=" + source + "]").getAttribute("x")
@@ -255,42 +260,59 @@ function drawLines() {
 				document.querySelector("[data-id=" + destination + "]").getAttribute("y")
 			) +
 			0.5 * config.node.height;
-		// calculate delta
-		// horizontal line
-		if (sourceY == destY) {
-			let delta = destX - sourceX;
-			sourceX += (delta > 0 ? 1 : -1) * 0.5 * config.node.width;
-			destX +=
-				(delta > 0 ? -1 : 1) * 0.5 * config.node.width + (delta > 0 ? -15 : 15);
+		// adjust for corners of nodes
+		if (sourceX > destX) {
+			// left: move source left, move dest right
+			sourceX -= 0.5 * config.node.width + 0.5 * config.node.border;
+			destX += 0.5 * config.node.width + 0.5 * config.node.border;
 		}
-		// vertical line
-		else if (sourceX == destX) {
-			let delta = destY - sourceY;
-			sourceY += (delta > 0 ? 1 : -1) * 0.5 * config.node.height;
-			destY +=
-				(delta > 0 ? -1 : 1) * 0.5 * config.node.height + (delta > 0 ? -15 : 15);
+		if (sourceX < destX) {
+			// right: move source right, move dest left
+			sourceX += 0.5 * config.node.width + 0.5 * config.node.border;
+			destX -= 0.5 * config.node.width + 0.5 * config.node.border;
 		}
-		// diagonal line
-		else {
-			let markerWidth = (config.arrow.size / 3) * 4 + 5;
-			let deltaX = destX - sourceX;
-			let deltaY = destY - sourceY;
-			// for direction out of center of node
-			sourceX += (deltaX > 0 ? 1 : -1) * 0.5 * config.node.width;
-			sourceY += (deltaY > 0 ? 1 : -1) * 0.5 * config.node.height;
-			// for direction out of center of node and marker width
-			destX +=
-				(deltaX > 0 ? -1 : 1) * 0.5 * config.node.width +
-				(deltaX > 0 ? -1 : 1) * markerWidth;
-			destY +=
-				(deltaY > 0 ? -1 : 1) * 0.5 * config.node.height +
-				(deltaY > 0 ? -1 : 1) * markerWidth;
-			// for arrows spanning multiple number of nodes
-			if (Math.abs(deltaY) > 2 * config.node.height) destX -= 0.5 * markerWidth;
-			if (Math.abs(deltaX) > 2 * config.node.width) destY += 0.5 * markerWidth;
+		// vertical line: adjust y
+		if (sourceY > destY) {
+			// up: move source up, move dest down
+			sourceY -= 0.5 * config.node.height + 0.5 * config.node.border;
+			destY += 0.5 * config.node.height + 0.5 * config.node.border;
 		}
-		// draw line
-		let deltaY = sourceX == destX ? config.node.height : 0;
+		if (sourceY < destY) {
+			// down: move source down, move source up
+			sourceY += 0.5 * config.node.height + 0.5 * config.node.border;
+			destY -= 0.5 * config.node.height + 0.5 * config.node.border;
+		}
+		// adjust for marker
+		let deltaX = destX - sourceX;
+		let deltaY = destY - sourceY;
+		let markerViewboxWidth = 8;
+		let angle = Math.atan2(deltaY, deltaX);
+		let offsetX = markerViewboxWidth * Math.cos(angle);
+		let offsetY = markerViewboxWidth * Math.sin(angle);
+		// console.log(label, deltaX, deltaY);
+		if (deltaX < 0 && deltaY == 0) {
+			// console.log("left");
+			destX += 2 * markerViewboxWidth;
+		}
+		if (deltaY < 0 && deltaX == 0) {
+			// console.log("up");
+			destY += 2 * markerViewboxWidth;
+		}
+		if (deltaX > 0 && deltaY == 0) {
+			// console.log("right");
+			destX -= 2 * markerViewboxWidth;
+		}
+		if (deltaY > 0 && deltaX == 0) {
+			// console.log("down");
+			destY -= 2 * markerViewboxWidth;
+		}
+		if (deltaX != 0 && deltaY != 0) {
+			// console.log("diagonal");
+			destX -= offsetX;
+			destY -= offsetY;
+		}
+		// create line
+		let line = document.createElementNS("http://www.w3.org/2000/svg", "line");
 		line.setAttribute("x1", sourceX);
 		line.setAttribute("y1", sourceY);
 		line.setAttribute("x2", destX);
@@ -470,16 +492,9 @@ function startup() {
 	};
 	// if have storage
 	let storage = localStorage.getItem(config.id);
-	if(storage)
-		window.data = JSON.parse(storage);
-	// if have command, convert to list
-	if (window.data.command)
-		window.data.list = convertToConfig(window.data.command);
-	sizeDiagram();
-	drawBoard();
-}
-
-function resize() {
+	if (storage) window.data = JSON.parse(storage);
+	// if have initial config
+	if (config.command) window.data.list = convertToConfig(config.command);
 	sizeDiagram();
 	drawBoard();
 }
@@ -497,10 +512,10 @@ function sizeDiagram() {
 		// console.log(size, grid);
 		// [x1,y1] and [x2,y2] be bottom left and top right corner of diagram
 		// now dependent on gap and node dimensions
-		let x1 = -1 * (config.gap.horizontal + 1 + config.node.width) * grid;
-		let y1 = -1 * (config.gap.vertical + 1 + config.node.height) * grid;
-		let x2 = 1 * (config.gap.horizontal + 1 + config.node.width) * grid;
-		let y2 = 1 * (config.gap.vertical + 1 + config.node.height) * grid;
+		let x1 = -1 * (config.node.gap.horizontal + 1 + config.node.width) * grid;
+		let y1 = -1 * (config.node.gap.vertical + 1 + config.node.height) * grid;
+		let x2 = 1 * (config.node.gap.horizontal + 1 + config.node.width) * grid;
+		let y2 = 1 * (config.node.gap.vertical + 1 + config.node.height) * grid;
 		// console.log([x1, y1], [x2, y2]);
 		diagramDiv.setAttribute("width", x2 - x1);
 		diagramDiv.setAttribute("height", y2 - y1);
