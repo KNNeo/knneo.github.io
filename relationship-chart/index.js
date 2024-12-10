@@ -11,7 +11,7 @@ const config = {
 		border: 5,
 		gap: {
 			horizontal: 1,
-			vertical: 0.5
+			vertical: 1
 		}
 	},
 	arrow: {
