@@ -495,7 +495,8 @@ function startup() {
 	let storage = localStorage.getItem(config.id);
 	if (storage) window.data = JSON.parse(storage);
 	// if have initial config
-	if (window.data.command) window.data.list = convertToConfig(window.data.command);
+	if (window.data.command)
+		window.data.list = convertToConfig(window.data.command);
 	sizeDiagram();
 	drawBoard();
 }
