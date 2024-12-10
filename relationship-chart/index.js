@@ -109,7 +109,8 @@ function onPreview() {
 	try {
 		window.data = {
 			...config,
-			list: convertToConfig(editorTextarea.value)
+			list: convertToConfig(editorTextarea.value),
+			command: editorTextarea.value
 		};
 		drawBoard();
 		closeEditor();
@@ -285,26 +286,26 @@ function drawLines() {
 		// adjust for marker
 		let deltaX = destX - sourceX;
 		let deltaY = destY - sourceY;
-		let markerViewboxWidth = 8;
+		let markerViewboxWidth = 16;
 		let angle = Math.atan2(deltaY, deltaX);
 		let offsetX = markerViewboxWidth * Math.cos(angle);
 		let offsetY = markerViewboxWidth * Math.sin(angle);
 		// console.log(label, deltaX, deltaY);
 		if (deltaX < 0 && deltaY == 0) {
 			// console.log("left");
-			destX += 2 * markerViewboxWidth;
+			destX += markerViewboxWidth;
 		}
 		if (deltaY < 0 && deltaX == 0) {
 			// console.log("up");
-			destY += 2 * markerViewboxWidth;
+			destY += markerViewboxWidth;
 		}
 		if (deltaX > 0 && deltaY == 0) {
 			// console.log("right");
-			destX -= 2 * markerViewboxWidth;
+			destX -= markerViewboxWidth;
 		}
 		if (deltaY > 0 && deltaX == 0) {
 			// console.log("down");
-			destY -= 2 * markerViewboxWidth;
+			destY -= markerViewboxWidth;
 		}
 		if (deltaX != 0 && deltaY != 0) {
 			// console.log("diagonal");
