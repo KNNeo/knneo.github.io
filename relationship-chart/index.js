@@ -14,6 +14,7 @@ const config = {
 			vertical: 1
 		}
 	},
+	curve: 8,
 	command: `
 ID user1
 NAME James
@@ -137,6 +138,10 @@ function loadSettings() {
 				setting.value = window.data.node.gap.vertical;
 				setting.parentElement.querySelector('span').innerText = setting.value;
 				break;
+			case "border-radius":
+				setting.value = window.data.curve;
+				setting.parentElement.querySelector('span').innerText = setting.value;
+				break;
 			default:
 				break;
 		}
@@ -160,6 +165,9 @@ function onSettingChange() {
 			break;
 		case "node-gap-vertical":
 			window.data.node.gap.vertical = parseFloat(event.target.value);
+			break;
+		case "border-radius":
+			window.data.curve = parseInt(event.target.value);
 			break;
 		default:
 			break;
@@ -236,6 +244,7 @@ function drawNodes() {
 		rect.setAttribute("y", rect1Y);
 		rect.setAttribute("width", window.data.node.width);
 		rect.setAttribute("height", window.data.node.height);
+		rect.setAttribute("rx", window.data.curve);
 		rect.setAttribute("fill", "var(--background)");
 		if (window.data.palette)
 			rect.setAttribute(
@@ -292,6 +301,8 @@ function drawNodes() {
 			textDiv.innerText = item.name;
 			textDiv.style.color = "var(--foreground)";
 			textDiv.style.background = "var(--background)";
+			textDiv.style.borderRadius =
+				window.data.curve - 0.5 * window.data.node.border + "px";
 			if (window.data.palette)
 				textDiv.style.background =
 					typeof window.data.palette == "object"
@@ -392,8 +403,7 @@ function drawLines() {
 			}
 			let refLength = refHeight / Math.cos(refAngle);
 			let refWidth = Math.sqrt(refLength * refLength - refHeight * refHeight);
-			if(Math.abs(angle) == threshold1)
-				refWidth = 0.5 * window.data.node.width;
+			if (Math.abs(angle) == threshold1) refWidth = 0.5 * window.data.node.width;
 			// console.log("by width", refAngle, refWidth, refHeight);
 			if (deltaX > 0 && deltaY < 0) {
 				sourceX += refWidth;
@@ -433,8 +443,7 @@ function drawLines() {
 			let refAngle = Math.PI / 2 - Math.abs(angle);
 			let refLength = refWidth / Math.sin(refAngle);
 			let refHeight = Math.sqrt(refLength * refLength - refWidth * refWidth);
-			if(Math.abs(angle) == threshold2)
-				refHeight = 0.5 * window.data.node.height;
+			if (Math.abs(angle) == threshold2) refHeight = 0.5 * window.data.node.height;
 			// console.log("by height", refAngle, refWidth, refHeight);
 			sourceX -= refWidth;
 			destX += refWidth;
@@ -527,7 +536,7 @@ function drawLines() {
 					5 +
 					0.5 * line.getBoundingClientRect().height
 			);
-			let padding = 8;
+			let padding = 10;
 			let wrapper = document.createElementNS("http://www.w3.org/2000/svg", "rect");
 			wrapper.classList.add("label");
 			wrapper.setAttribute("fill", "var(--foreground)");
@@ -544,6 +553,7 @@ function drawLines() {
 				"height",
 				textBox.getBoundingClientRect().height + padding
 			);
+			wrapper.setAttribute("rx", window.data.curve);
 			// remove initial box for calculation, render wrapper first
 			diagramSvg.removeChild(textBox);
 			diagramSvg.appendChild(wrapper);
