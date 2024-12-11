@@ -127,7 +127,23 @@ function previewEditor() {
 function openSettings() {
 	viewerDiv.innerHTML = '';
 	viewerDiv.appendChild(settingTemplate.content.cloneNode(true));
+	loadSettings();
 	viewerDiv.classList.remove("hidden");
+}
+
+function loadSettings() {
+	for(let setting of viewerDiv.querySelectorAll('input')) {
+		switch(setting.id) {
+			case "node-width":
+				setting.value = window.data.node.width;
+				break;
+			case "node-height":
+				setting.value = window.data.node.height;
+				break;
+			default:
+				break;
+		}
+	}
 }
 
 function closeSettings() {

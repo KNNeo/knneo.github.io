@@ -39,8 +39,8 @@
 		</div>
 	</template>
 	<template class="setting">
-		<label>Node Width: <input id="node-width" type="number" min="10" max="999" onchange="onSettingChange()" /></label>
-		<label>Node Height: <input id="node-height" type="number" min="10" max="999" onchange="onSettingChange()" /></label>
+		<label>Node Width: <input id="node-width" type="range" min="10" max="1000" step="10" onchange="onSettingChange()" /></label>
+		<label>Node Height: <input id="node-height" type="range" min="10" max="1000" step="10" onchange="onSettingChange()" /></label>
 		<div>
 			<button class="preview" onclick="saveSettings()">Save</button>
 			<button class="close" onclick="closeSettings()">Close</button>
