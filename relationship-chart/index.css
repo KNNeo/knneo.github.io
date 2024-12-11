@@ -108,6 +108,7 @@ ul {
 
 .page {
 	width: 100%;
+	height: calc(100dvh - 250px);
 	overflow: auto;
 }
 
