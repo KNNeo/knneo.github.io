@@ -14,18 +14,6 @@ const config = {
 			vertical: 1
 		}
 	},
-	palette: [
-		"#1f77b4",
-		"#ff7f0e",
-		"#2ca02c",
-		"#d62728",
-		"#9467bd",
-		"#8c564b",
-		"#e377c2",
-		"#7f7f7f",
-		"#bcbd22",
-		"#17becf"
-	],
 	command: `
 ID user1
 NAME James
@@ -37,7 +25,6 @@ LINK user1 AS Wife
 
 ID user3
 NAME Mary
-// LINK user1 AS Colleagues
 LINK user5 AS Secret Lover
 LINK user2 AS Sister
 
@@ -77,7 +64,6 @@ ID RESERVED
 
 ID user4
 NAME Henry
-// LINK user5 AS Divorced
 LINK user3 AS ???
 
 `
@@ -250,12 +236,15 @@ function drawNodes() {
 		rect.setAttribute("y", rect1Y);
 		rect.setAttribute("width", window.data.node.width);
 		rect.setAttribute("height", window.data.node.height);
-		rect.setAttribute(
-			"fill",
-			typeof window.data.palette == "object"
-				? window.data.palette[i % window.data.palette.length]
-				: window.data.palette
-		);
+		rect.setAttribute("fill", "var(--background)");
+		if (window.data.palette)
+			rect.setAttribute(
+				"fill",
+				typeof window.data.palette == "object"
+					? window.data.palette[i % window.data.palette.length]
+					: window.data.palette
+			);
+		if (item.color && item.color.bg) rect.setAttribute("fill", item.color.bg);
 		rect.setAttribute("stroke", "var(--foreground)");
 		rect.setAttribute("stroke-width", window.data.node.border);
 		if (item.id != "RESERVED") diagramSvg.appendChild(rect);
@@ -301,10 +290,17 @@ function drawNodes() {
 			);
 			let textDiv = document.createElement("div");
 			textDiv.innerText = item.name;
-			textDiv.style.background =
-				typeof window.data.palette == "object"
-					? window.data.palette[i % window.data.palette.length]
-					: window.data.palette;
+			textDiv.style.color = "var(--foreground)";
+			textDiv.style.background = "var(--background)";
+			if (window.data.palette)
+				textDiv.style.background =
+					typeof window.data.palette == "object"
+						? window.data.palette[i % window.data.palette.length]
+						: window.data.palette;
+			if (item.color) {
+				textDiv.style.background = item.color.bg;
+				textDiv.style.color = item.color.text;
+			}
 			textArea.appendChild(textDiv);
 			diagramSvg.appendChild(textArea);
 		}
@@ -569,6 +565,16 @@ function convertToConfig(value) {
 			let sub = line.substring(line.indexOf(" ") + 1);
 			item.image = sub;
 		}
+		if (line.startsWith("COLOR")) {
+			let sub = line.substring(line.indexOf(" ") + 1);
+			if (sub.includes("ON")) {
+				let parts = sub.split("ON");
+				item.color = {
+					text: parts[0].trim(),
+					bg: parts[1].trim()
+				};
+			} else item.color = { text: sub };
+		}
 	}
 	// console.log(list);
 	return list;
@@ -603,10 +609,14 @@ function sizeDiagram() {
 		// console.log(size, grid);
 		// [x1,y1] and [x2,y2] be bottom left and top right corner of diagram
 		// now dependent on gap and node dimensions
-		let x1 = -1 * (window.data.node.gap.horizontal + 1 + window.data.node.width) * grid;
-		let y1 = -1 * (window.data.node.gap.vertical + 1 + window.data.node.height) * grid;
-		let x2 = 1 * (window.data.node.gap.horizontal + 1 + window.data.node.width) * grid;
-		let y2 = 1 * (window.data.node.gap.vertical + 1 + window.data.node.height) * grid;
+		let x1 =
+			-1 * (window.data.node.gap.horizontal + 1 + window.data.node.width) * grid;
+		let y1 =
+			-1 * (window.data.node.gap.vertical + 1 + window.data.node.height) * grid;
+		let x2 =
+			1 * (window.data.node.gap.horizontal + 1 + window.data.node.width) * grid;
+		let y2 =
+			1 * (window.data.node.gap.vertical + 1 + window.data.node.height) * grid;
 		// console.log([x1, y1], [x2, y2]);
 		diagramSvg.setAttribute("width", x2 - x1);
 		diagramSvg.setAttribute("height", y2 - y1);
