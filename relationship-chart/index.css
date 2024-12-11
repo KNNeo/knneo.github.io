@@ -40,12 +40,8 @@ a:hover {
 }
 
 label {
+	width: 300px;
 	text-align: start;
-}
-
-label span {
-    width: 50px;
-    display: inline-block;
 }
 
 input[type="range"] {
@@ -56,6 +52,7 @@ ul {
 	width: 80%;
 	text-align: start;
 	text-wrap-style: pretty;
+	font-size: 0.8em;
 }
 
 .bi {
@@ -89,7 +86,7 @@ ul {
 .viewer .close {
 	border: 0;
 	border-radius: 16px;
-	padding: 8px;
+	padding: 8px 16px;
 	margin: 8px;
 	height: 40px;
 	cursor: pointer;

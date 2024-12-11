@@ -170,10 +170,10 @@ function onSettingChange() {
 			window.data.node.height = parseInt(event.target.value);
 			break;
 		case "node-gap-horizontal":
-			window.data.node.gap.horizontal = parseInt(event.target.value);
+			window.data.node.gap.horizontal = parseFloat(event.target.value);
 			break;
 		case "node-gap-vertical":
-			window.data.node.gap.vertical = parseInt(event.target.value);
+			window.data.node.gap.vertical = parseFloat(event.target.value);
 			break;
 		default:
 			break;
