@@ -109,7 +109,7 @@ function previewEditor() {
 	if (!editorTextarea.value.endsWith("\n\n")) editorTextarea.value += "\n\n";
 	try {
 		window.data = {
-			...config,
+			...window.data,
 			list: convertToConfig(editorTextarea.value),
 			command: editorTextarea.value
 		};
@@ -137,11 +137,11 @@ function loadSettings() {
 		switch(setting.id) {
 			case "node-width":
 				setting.value = window.data.node.width;
-				setting.parentElement.querySelector('span').innerText = window.data.node.width;
+				setting.parentElement.querySelector('span').innerText = setting.value;
 				break;
 			case "node-height":
 				setting.value = window.data.node.height;
-				setting.parentElement.querySelector('span').innerText = window.data.node.width;
+				setting.parentElement.querySelector('span').innerText = setting.value;
 				break;
 			default:
 				break;
@@ -168,6 +168,7 @@ function onSettingChange() {
 }
 
 function saveSettings() {
+	sizeDiagram();
 	drawBoard();
 	closeSettings();
 	localStorage.setItem(window.data.id, JSON.stringify(window.data));
