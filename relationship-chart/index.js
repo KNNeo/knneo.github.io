@@ -14,9 +14,6 @@ const config = {
 			vertical: 1
 		}
 	},
-	arrow: {
-		size: 4
-	},
 	palette: [
 		"#1f77b4",
 		"#ff7f0e",
@@ -140,8 +137,8 @@ function drawResources() {
 	arrow.setAttribute("refX", 1);
 	arrow.setAttribute("refY", 5);
 	arrow.setAttribute("markerUnits", "strokeWidth");
-	arrow.setAttribute("markerWidth", (config.arrow.size / 3) * 4);
-	arrow.setAttribute("markerHeight", config.arrow.size);
+	arrow.setAttribute("markerWidth", 6);
+	arrow.setAttribute("markerHeight", 4);
 	arrow.setAttribute("orient", "auto");
 	arrow.setAttribute("fill", "var(--foreground)");
 	// arrow path (fixed)
@@ -261,26 +258,26 @@ function drawLines() {
 				document.querySelector("[data-id=" + destination + "]").getAttribute("y")
 			) +
 			0.5 * config.node.height;
-		// adjust for corners of nodes
+		// adjust for corners of nodes and destination border if any
 		if (sourceX > destX) {
 			// left: move source left, move dest right
-			sourceX -= 0.5 * config.node.width + 0.5 * config.node.border;
+			sourceX -= 0.5 * config.node.width;
 			destX += 0.5 * config.node.width + 0.5 * config.node.border;
 		}
 		if (sourceX < destX) {
 			// right: move source right, move dest left
-			sourceX += 0.5 * config.node.width + 0.5 * config.node.border;
+			sourceX += 0.5 * config.node.width;
 			destX -= 0.5 * config.node.width + 0.5 * config.node.border;
 		}
 		// vertical line: adjust y
 		if (sourceY > destY) {
 			// up: move source up, move dest down
-			sourceY -= 0.5 * config.node.height + 0.5 * config.node.border;
+			sourceY -= 0.5 * config.node.height;
 			destY += 0.5 * config.node.height + 0.5 * config.node.border;
 		}
 		if (sourceY < destY) {
 			// down: move source down, move source up
-			sourceY += 0.5 * config.node.height + 0.5 * config.node.border;
+			sourceY += 0.5 * config.node.height;
 			destY -= 0.5 * config.node.height + 0.5 * config.node.border;
 		}
 		// adjust for marker
