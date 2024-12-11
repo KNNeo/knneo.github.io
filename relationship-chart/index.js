@@ -118,6 +118,7 @@ function previewEditor() {
 		localStorage.setItem(window.data.id, JSON.stringify(window.data));
 	} catch {
 		if (confirm("JSON format invalid: Click on OK to reset, or Cancel to fix.")) {
+			localStorage.removeItem(window.data.id);
 			startup();
 			closeEditor();
 		}
