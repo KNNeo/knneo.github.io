@@ -231,12 +231,16 @@ function drawNodes() {
 			i == 0
 				? (diagramSvg.width.baseVal.value - window.data.node.width) / 2
 				: parseInt(document.querySelector(baseId).getAttribute("x")) +
-				  coordinates[0] * (window.data.node.gap.horizontal + 1) * window.data.node.width;
+				  coordinates[0] *
+						(window.data.node.gap.horizontal + 1) *
+						window.data.node.width;
 		let rect1Y =
 			i == 0
 				? (diagramSvg.height.baseVal.value - window.data.node.height) / 2
 				: parseInt(document.querySelector(baseId).getAttribute("y")) +
-				  coordinates[1] * (window.data.node.gap.vertical + 1) * window.data.node.height;
+				  coordinates[1] *
+						(window.data.node.gap.vertical + 1) *
+						window.data.node.height;
 		// draw rect
 		let rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
 		rect.id = item.id;
@@ -262,8 +266,14 @@ function drawNodes() {
 			);
 			textArea.setAttribute("x", rect1X + 0.5 * window.data.node.border);
 			textArea.setAttribute("y", rect1Y + 0.5 * window.data.node.border);
-			textArea.setAttribute("width", window.data.node.width - window.data.node.border);
-			textArea.setAttribute("height", window.data.node.height - window.data.node.border);
+			textArea.setAttribute(
+				"width",
+				window.data.node.width - window.data.node.border
+			);
+			textArea.setAttribute(
+				"height",
+				window.data.node.height - window.data.node.border
+			);
 			let img = document.createElement("object");
 			img.setAttribute("data", item.image);
 			img.setAttribute("x", rect1X);
@@ -281,8 +291,14 @@ function drawNodes() {
 			);
 			textArea.setAttribute("x", rect1X + 0.5 * window.data.node.border);
 			textArea.setAttribute("y", rect1Y + 0.5 * window.data.node.border);
-			textArea.setAttribute("width", window.data.node.width - window.data.node.border);
-			textArea.setAttribute("height", window.data.node.height - window.data.node.border);
+			textArea.setAttribute(
+				"width",
+				window.data.node.width - window.data.node.border
+			);
+			textArea.setAttribute(
+				"height",
+				window.data.node.height - window.data.node.border
+			);
 			let textDiv = document.createElement("div");
 			textDiv.innerText = item.name;
 			textDiv.style.background =
