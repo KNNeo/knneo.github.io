@@ -137,9 +137,11 @@ function loadSettings() {
 		switch(setting.id) {
 			case "node-width":
 				setting.value = window.data.node.width;
+				setting.parentElement.querySelector('span').innerText = window.data.node.width;
 				break;
 			case "node-height":
 				setting.value = window.data.node.height;
+				setting.parentElement.querySelector('span').innerText = window.data.node.width;
 				break;
 			default:
 				break;
@@ -154,16 +156,15 @@ function closeSettings() {
 function onSettingChange() {
 	switch(event.target.id) {
 		case "node-width":
-			window.data.node.width = event.target.value;
-			event.target.parentElement.querySelector('span').innerText = event.target.value;
+			window.data.node.width = parseInt(event.target.value);
 			break;
 		case "node-height":
-			window.data.node.height = event.target.value;
-			event.target.parentElement.querySelector('span').innerText = event.target.value;
+			window.data.node.height = parseInt(event.target.value);
 			break;
 		default:
 			break;
 	}
+	loadSettings();
 }
 
 function saveSettings() {
