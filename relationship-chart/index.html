@@ -31,15 +31,19 @@
 		</h3>
 		<div class="viewer hidden"></div>
 	</body>
-	<template class="template-edit">
+	<template class="edit">
 		<textarea class="editor"></textarea>
 		<div>
-			<button class="preview" onclick="onPreview()">Preview</button>
+			<button class="preview" onclick="previewEditor()">Preview</button>
 			<button class="close" onclick="closeEditor()">Close</button>
 		</div>
 	</template>
-	<template class="template-setting">
-		<label>Node Width: <input type="number" min="10" max="999" /></label>
-		<label>Node Height: <input type="number" min="10" max="999" /></label>
+	<template class="setting">
+		<label>Node Width: <input id="node-width" type="number" min="10" max="999" onchange="onSettingChange()" /></label>
+		<label>Node Height: <input id="node-height" type="number" min="10" max="999" onchange="onSettingChange()" /></label>
+		<div>
+			<button class="preview" onclick="saveSettings()">Save</button>
+			<button class="close" onclick="closeSettings()">Close</button>
+		</div>
 	</template>
 </html>

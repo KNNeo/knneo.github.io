@@ -84,10 +84,10 @@ LINK user3 AS ???
 };
 
 //--HTML DOM NODE REFERENCES--//
-const diagramDiv = document.querySelector(".diagram");
-const viewerDiv = document.querySelector(".viewer");
-const editTemplate = document.querySelector('.template-edit');	
-const settingTemplate = document.querySelector('.template-setting');	
+const diagramDiv = document.querySelector("div.diagram");
+const viewerDiv = document.querySelector("div.viewer");
+const editTemplate = document.querySelector('template.edit');	
+const settingTemplate = document.querySelector('template.setting');	
 
 //--HTML DOM FUNCTIONS--//
 function onKeyDown() {}
@@ -104,7 +104,7 @@ function closeEditor() {
 	viewerDiv.classList.add("hidden");
 }
 
-function onPreview() {
+function previewEditor() {
 	let editorTextarea = viewerDiv.querySelector(".editor");
 	if (!editorTextarea.value.endsWith("\n\n")) editorTextarea.value += "\n\n";
 	try {
@@ -132,6 +132,25 @@ function openSettings() {
 
 function closeSettings() {
 	viewerDiv.classList.add("hidden");
+}
+
+function onSettingChange() {
+	switch(event.target.id) {
+		case "node-width":
+			window.data.node.width = event.target.value;
+			break;
+		case "node-height":
+			window.data.node.height = event.target.value;
+			break;
+		default:
+			break;
+	}
+}
+
+function saveSettings() {
+	drawBoard();
+	closeSettings();
+	localStorage.setItem(config.id, JSON.stringify(window.data));
 }
 
 //--FUNCTIONS--//
