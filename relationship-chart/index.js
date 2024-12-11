@@ -115,7 +115,7 @@ function previewEditor() {
 		};
 		drawBoard();
 		closeEditor();
-		localStorage.setItem(config.id, JSON.stringify(window.data));
+		localStorage.setItem(window.data.id, JSON.stringify(window.data));
 	} catch {
 		if (confirm("JSON format invalid: Click on OK to reset, or Cancel to fix.")) {
 			startup();
@@ -166,7 +166,7 @@ function onSettingChange() {
 function saveSettings() {
 	drawBoard();
 	closeSettings();
-	localStorage.setItem(config.id, JSON.stringify(window.data));
+	localStorage.setItem(window.data.id, JSON.stringify(window.data));
 }
 
 //--FUNCTIONS--//
@@ -210,14 +210,14 @@ function drawNodes() {
 		// center of 1st node top left corner + coordinate * no of nodes (min 2)
 		let rect1X =
 			i == 0
-				? (diagramSvg.width.baseVal.value - config.node.width) / 2
+				? (diagramSvg.width.baseVal.value - window.data.node.width) / 2
 				: parseInt(document.querySelector(baseId).getAttribute("x")) +
-				  coordinates[0] * (config.node.gap.horizontal + 1) * config.node.width;
+				  coordinates[0] * (window.data.node.gap.horizontal + 1) * window.data.node.width;
 		let rect1Y =
 			i == 0
-				? (diagramSvg.height.baseVal.value - config.node.height) / 2
+				? (diagramSvg.height.baseVal.value - window.data.node.height) / 2
 				: parseInt(document.querySelector(baseId).getAttribute("y")) +
-				  coordinates[1] * (config.node.gap.vertical + 1) * config.node.height;
+				  coordinates[1] * (window.data.node.gap.vertical + 1) * window.data.node.height;
 		// draw rect
 		let rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
 		rect.id = item.id;
@@ -225,32 +225,32 @@ function drawNodes() {
 		rect.setAttribute("data-id", item.id);
 		rect.setAttribute("x", rect1X);
 		rect.setAttribute("y", rect1Y);
-		rect.setAttribute("width", config.node.width);
-		rect.setAttribute("height", config.node.height);
+		rect.setAttribute("width", window.data.node.width);
+		rect.setAttribute("height", window.data.node.height);
 		rect.setAttribute(
 			"fill",
-			typeof config.palette == "object"
-				? config.palette[i % config.palette.length]
-				: config.palette
+			typeof window.data.palette == "object"
+				? window.data.palette[i % window.data.palette.length]
+				: window.data.palette
 		);
 		rect.setAttribute("stroke", "var(--foreground)");
-		rect.setAttribute("stroke-width", config.node.border);
+		rect.setAttribute("stroke-width", window.data.node.border);
 		if (item.id != "RESERVED") diagramSvg.appendChild(rect);
 		if (item.image) {
 			let textArea = document.createElementNS(
 				"http://www.w3.org/2000/svg",
 				"foreignObject"
 			);
-			textArea.setAttribute("x", rect1X + 0.5 * config.node.border);
-			textArea.setAttribute("y", rect1Y + 0.5 * config.node.border);
-			textArea.setAttribute("width", config.node.width - config.node.border);
-			textArea.setAttribute("height", config.node.height - config.node.border);
+			textArea.setAttribute("x", rect1X + 0.5 * window.data.node.border);
+			textArea.setAttribute("y", rect1Y + 0.5 * window.data.node.border);
+			textArea.setAttribute("width", window.data.node.width - window.data.node.border);
+			textArea.setAttribute("height", window.data.node.height - window.data.node.border);
 			let img = document.createElement("object");
 			img.setAttribute("data", item.image);
 			img.setAttribute("x", rect1X);
 			img.setAttribute("y", rect1Y);
-			img.setAttribute("width", config.node.width);
-			img.setAttribute("height", config.node.height);
+			img.setAttribute("width", window.data.node.width);
+			img.setAttribute("height", window.data.node.height);
 			textArea.appendChild(img);
 			diagramSvg.appendChild(textArea);
 		}
@@ -260,16 +260,16 @@ function drawNodes() {
 				"http://www.w3.org/2000/svg",
 				"foreignObject"
 			);
-			textArea.setAttribute("x", rect1X + 0.5 * config.node.border);
-			textArea.setAttribute("y", rect1Y + 0.5 * config.node.border);
-			textArea.setAttribute("width", config.node.width - config.node.border);
-			textArea.setAttribute("height", config.node.height - config.node.border);
+			textArea.setAttribute("x", rect1X + 0.5 * window.data.node.border);
+			textArea.setAttribute("y", rect1Y + 0.5 * window.data.node.border);
+			textArea.setAttribute("width", window.data.node.width - window.data.node.border);
+			textArea.setAttribute("height", window.data.node.height - window.data.node.border);
 			let textDiv = document.createElement("div");
 			textDiv.innerText = item.name;
 			textDiv.style.background =
-				typeof config.palette == "object"
-					? config.palette[i % config.palette.length]
-					: config.palette;
+				typeof window.data.palette == "object"
+					? window.data.palette[i % window.data.palette.length]
+					: window.data.palette;
 			textArea.appendChild(textDiv);
 			diagramSvg.appendChild(textArea);
 		}
@@ -299,43 +299,43 @@ function drawLines() {
 			parseInt(
 				document.querySelector("[data-id=" + source + "]").getAttribute("x")
 			) +
-			0.5 * config.node.width;
+			0.5 * window.data.node.width;
 		let sourceY =
 			parseInt(
 				document.querySelector("[data-id=" + source + "]").getAttribute("y")
 			) +
-			0.5 * config.node.height;
+			0.5 * window.data.node.height;
 		let destX =
 			parseInt(
 				document.querySelector("[data-id=" + destination + "]").getAttribute("x")
 			) +
-			0.5 * config.node.width;
+			0.5 * window.data.node.width;
 		let destY =
 			parseInt(
 				document.querySelector("[data-id=" + destination + "]").getAttribute("y")
 			) +
-			0.5 * config.node.height;
+			0.5 * window.data.node.height;
 		// adjust for corners of nodes and destination border if any
 		if (sourceX > destX) {
 			// left: move source left, move dest right
-			sourceX -= 0.5 * config.node.width;
-			destX += 0.5 * config.node.width + 0.5 * config.node.border;
+			sourceX -= 0.5 * window.data.node.width;
+			destX += 0.5 * window.data.node.width + 0.5 * window.data.node.border;
 		}
 		if (sourceX < destX) {
 			// right: move source right, move dest left
-			sourceX += 0.5 * config.node.width;
-			destX -= 0.5 * config.node.width + 0.5 * config.node.border;
+			sourceX += 0.5 * window.data.node.width;
+			destX -= 0.5 * window.data.node.width + 0.5 * window.data.node.border;
 		}
 		// vertical line: adjust y
 		if (sourceY > destY) {
 			// up: move source up, move dest down
-			sourceY -= 0.5 * config.node.height;
-			destY += 0.5 * config.node.height + 0.5 * config.node.border;
+			sourceY -= 0.5 * window.data.node.height;
+			destY += 0.5 * window.data.node.height + 0.5 * window.data.node.border;
 		}
 		if (sourceY < destY) {
 			// down: move source down, move source up
-			sourceY += 0.5 * config.node.height;
-			destY -= 0.5 * config.node.height + 0.5 * config.node.border;
+			sourceY += 0.5 * window.data.node.height;
+			destY -= 0.5 * window.data.node.height + 0.5 * window.data.node.border;
 		}
 		// adjust for marker
 		let deltaX = destX - sourceX;
@@ -546,7 +546,7 @@ function startup() {
 		...config
 	};
 	// if have storage
-	let storage = localStorage.getItem(config.id);
+	let storage = localStorage.getItem(window.data.id);
 	if (storage) window.data = JSON.parse(storage);
 	// if have initial config
 	if (window.data.command)
@@ -557,21 +557,21 @@ function startup() {
 
 function sizeDiagram() {
 	// diagram size based on window dimensions if no values provided
-	if (config.diagram?.width)
-		diagramSvg.setAttribute("width", config.diagram?.width);
-	if (config.diagram?.height)
-		diagramSvg.setAttribute("height", config.diagram?.height);
-	if (!config.diagram?.width || !config.diagram?.height) {
+	if (window.data.diagram?.width)
+		diagramSvg.setAttribute("width", window.data.diagram?.width);
+	if (window.data.diagram?.height)
+		diagramSvg.setAttribute("height", window.data.diagram?.height);
+	if (!window.data.diagram?.width || !window.data.diagram?.height) {
 		// determine by total elements to render
 		let size = window.data.list.length;
 		let grid = Math.ceil(Math.sqrt(size)) + 1;
 		// console.log(size, grid);
 		// [x1,y1] and [x2,y2] be bottom left and top right corner of diagram
 		// now dependent on gap and node dimensions
-		let x1 = -1 * (config.node.gap.horizontal + 1 + config.node.width) * grid;
-		let y1 = -1 * (config.node.gap.vertical + 1 + config.node.height) * grid;
-		let x2 = 1 * (config.node.gap.horizontal + 1 + config.node.width) * grid;
-		let y2 = 1 * (config.node.gap.vertical + 1 + config.node.height) * grid;
+		let x1 = -1 * (window.data.node.gap.horizontal + 1 + window.data.node.width) * grid;
+		let y1 = -1 * (window.data.node.gap.vertical + 1 + window.data.node.height) * grid;
+		let x2 = 1 * (window.data.node.gap.horizontal + 1 + window.data.node.width) * grid;
+		let y2 = 1 * (window.data.node.gap.vertical + 1 + window.data.node.height) * grid;
 		// console.log([x1, y1], [x2, y2]);
 		diagramSvg.setAttribute("width", x2 - x1);
 		diagramSvg.setAttribute("height", y2 - y1);
