@@ -5,6 +5,7 @@
   --background: #fff;
   --foreground: #000;
   --accent: lightgray;
+  --sml: 0.8em;
 }
 
 .darked:root {
@@ -42,6 +43,7 @@ a:hover {
 label {
 	width: 300px;
 	text-align: start;
+	font-size: var(--sml);
 }
 
 input[type="range"] {
@@ -52,7 +54,7 @@ ul {
 	width: 80%;
 	text-align: start;
 	text-wrap-style: pretty;
-	font-size: 0.8em;
+	font-size: var(--sml);
 }
 
 .bi {
