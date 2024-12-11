@@ -61,14 +61,14 @@ a:hover {
     justify-content: center;
 }
 
-.editor {
+.viewer .editor {
 	width: 80%;
 	height: 80%;
 	resize: none;
 }
 
-.preview,
-.close {
+.viewer .preview,
+.viewer .close {
 	border: 0;
 	border-radius: 16px;
 	padding: 8px;
@@ -77,10 +77,10 @@ a:hover {
 	cursor: pointer;
 }
 
-.preview:hover,
-.preview:focus,
-.close:hover,
-.close:focus {
+.viewer .preview:hover,
+.viewer .preview:focus,
+.viewer .close:hover,
+.viewer .close:focus {
 	background: var(--accent);
 	color:var(--foreground);
 }

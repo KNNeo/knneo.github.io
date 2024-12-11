@@ -86,15 +86,18 @@ LINK user3 AS ???
 //--HTML DOM NODE REFERENCES--//
 const diagramDiv = document.querySelector(".diagram");
 const viewerDiv = document.querySelector(".viewer");
-const editorTextarea = document.querySelector(".editor");
+const editTemplate = document.querySelector('.template-edit');	
+const settingTemplate = document.querySelector('.template-setting');	
 
 //--HTML DOM FUNCTIONS--//
 function onKeyDown() {}
 
 //--EVENT HANDLERS--//
 function openEditor() {
+	viewerDiv.innerHTML = '';
+	viewerDiv.appendChild(editTemplate.content.cloneNode(true));
 	viewerDiv.classList.remove("hidden");
-	editorTextarea.value = convertToInstructions(window.data.list);
+	viewerDiv.querySelector('.editor').value = convertToInstructions(window.data.list);
 }
 
 function closeEditor() {
@@ -102,6 +105,7 @@ function closeEditor() {
 }
 
 function onPreview() {
+	let editorTextarea = viewerDiv.querySelector(".editor");
 	if (!editorTextarea.value.endsWith("\n\n")) editorTextarea.value += "\n\n";
 	try {
 		window.data = {
@@ -118,6 +122,16 @@ function onPreview() {
 			closeEditor();
 		}
 	}
+}
+
+function openSettings() {
+	viewerDiv.innerHTML = '';
+	viewerDiv.appendChild(settingTemplate.content.cloneNode(true));
+	viewerDiv.classList.remove("hidden");
+}
+
+function closeSettings() {
+	viewerDiv.classList.add("hidden");
 }
 
 //--FUNCTIONS--//
