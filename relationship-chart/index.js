@@ -143,6 +143,14 @@ function loadSettings() {
 				setting.value = window.data.node.height;
 				setting.parentElement.querySelector('span').innerText = setting.value;
 				break;
+			case "node-gap-horizontal":
+				setting.value = window.data.node.gap.horizontal;
+				setting.parentElement.querySelector('span').innerText = setting.value;
+				break;
+			case "node-gap-vertical":
+				setting.value = window.data.node.gap.vertical;
+				setting.parentElement.querySelector('span').innerText = setting.value;
+				break;
 			default:
 				break;
 		}
@@ -160,6 +168,12 @@ function onSettingChange() {
 			break;
 		case "node-height":
 			window.data.node.height = parseInt(event.target.value);
+			break;
+		case "node-gap-horizontal":
+			window.data.node.gap.horizontal = parseInt(event.target.value);
+			break;
+		case "node-gap-vertical":
+			window.data.node.gap.vertical = parseInt(event.target.value);
 			break;
 		default:
 			break;
