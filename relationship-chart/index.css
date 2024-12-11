@@ -39,6 +39,19 @@ a:hover {
 	color: var(--primary);	
 }
 
+label {
+	text-align: start;
+}
+
+label span {
+    width: 50px;
+    display: inline-block;
+}
+
+input[type="range"] {
+    width: 100%;
+}
+
 .bi {
     font-size: 1.5em;
     padding: 3px;
