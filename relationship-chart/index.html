@@ -32,13 +32,32 @@
 		<div class="viewer hidden"></div>
 	</body>
 	<template class="edit">
-		<textarea class="editor"></textarea>
+		<h2>Instructions</h2>
+		<ul>
+			<li>All instructions start with keyword in caps, separated by rows</li>
+			<li>All nodes end with newline, grouped by empty row</li>
+			<li>All nodes must have ID to create empty node</li>
+			<li>(Optional) Fill in NAME, IMAGE url, LINK [ID_TO_LINK] AS [LINK_LABEL]</li>
+			<li>Example:<br>
+				<code>
+					ID user1<br>
+					NAME James<br>
+					LINK user3<br>
+					<br>
+					ID user2<br>
+					NAME Maria<br>
+					LINK user1 AS Wife<br>
+				</code>
+			</li>
+		</ul>
+		<textarea class="editor" rows="20"></textarea>
 		<div>
 			<button class="preview" onclick="previewEditor()">Preview</button>
 			<button class="close" onclick="closeEditor()">Close</button>
 		</div>
 	</template>
 	<template class="setting">
+		<h2>Settings</h2>
 		<label>Node Width: <span></span><input id="node-width" type="range" min="50" max="1000" step="10" oninput="onSettingChange()" /></label>
 		<label>Node Height: <span></span><input id="node-height" type="range" min="50" max="1000" step="10" oninput="onSettingChange()" /></label>
 		<div>
