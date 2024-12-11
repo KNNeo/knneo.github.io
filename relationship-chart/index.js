@@ -84,7 +84,7 @@ LINK user3 AS ???
 };
 
 //--HTML DOM NODE REFERENCES--//
-const diagramDiv = document.querySelector("div.diagram");
+const diagramSvg = document.querySelector("svg.diagram");
 const viewerDiv = document.querySelector("div.viewer");
 const editTemplate = document.querySelector('template.edit');	
 const settingTemplate = document.querySelector('template.setting');	
@@ -155,7 +155,7 @@ function saveSettings() {
 
 //--FUNCTIONS--//
 function drawBoard() {
-	diagramDiv.innerHTML = "";
+	diagramSvg.innerHTML = "";
 	drawResources();
 	drawNodes();
 	drawLines();
@@ -179,7 +179,7 @@ function drawResources() {
 	// move to (0,0), draw to (10,5), draw to (0,10), close shape
 	arrowPath.setAttribute("d", "M 0 0 L 10 5 L 0 10 z");
 	arrow.appendChild(arrowPath);
-	diagramDiv.appendChild(arrow);
+	diagramSvg.appendChild(arrow);
 }
 
 function drawNodes() {
@@ -194,12 +194,12 @@ function drawNodes() {
 		// center of 1st node top left corner + coordinate * no of nodes (min 2)
 		let rect1X =
 			i == 0
-				? (diagramDiv.width.baseVal.value - config.node.width) / 2
+				? (diagramSvg.width.baseVal.value - config.node.width) / 2
 				: parseInt(document.querySelector(baseId).getAttribute("x")) +
 				  coordinates[0] * (config.node.gap.horizontal + 1) * config.node.width;
 		let rect1Y =
 			i == 0
-				? (diagramDiv.height.baseVal.value - config.node.height) / 2
+				? (diagramSvg.height.baseVal.value - config.node.height) / 2
 				: parseInt(document.querySelector(baseId).getAttribute("y")) +
 				  coordinates[1] * (config.node.gap.vertical + 1) * config.node.height;
 		// draw rect
@@ -219,7 +219,7 @@ function drawNodes() {
 		);
 		rect.setAttribute("stroke", "var(--foreground)");
 		rect.setAttribute("stroke-width", config.node.border);
-		if (item.id != "RESERVED") diagramDiv.appendChild(rect);
+		if (item.id != "RESERVED") diagramSvg.appendChild(rect);
 		if (item.image) {
 			let textArea = document.createElementNS(
 				"http://www.w3.org/2000/svg",
@@ -236,7 +236,7 @@ function drawNodes() {
 			img.setAttribute("width", config.node.width);
 			img.setAttribute("height", config.node.height);
 			textArea.appendChild(img);
-			diagramDiv.appendChild(textArea);
+			diagramSvg.appendChild(textArea);
 		}
 		if (item.name) {
 			// draw text box
@@ -255,7 +255,7 @@ function drawNodes() {
 					? config.palette[i % config.palette.length]
 					: config.palette;
 			textArea.appendChild(textDiv);
-			diagramDiv.appendChild(textArea);
+			diagramSvg.appendChild(textArea);
 		}
 	}
 }
@@ -359,14 +359,14 @@ function drawLines() {
 		line.setAttribute("stroke", "var(--foreground)");
 		line.setAttribute("stroke-width", 5);
 		line.setAttribute("marker-end", "url(#triangle)");
-		diagramDiv.appendChild(line);
+		diagramSvg.appendChild(line);
 		// draw textBox
 		if (label) {
 			let textBox = document.createElementNS("http://www.w3.org/2000/svg", "text");
 			textBox.setAttribute("font-size", "0.8em");
 			textBox.setAttribute("fill", "var(--background)");
 			textBox.innerHTML = label;
-			diagramDiv.appendChild(textBox);
+			diagramSvg.appendChild(textBox);
 			// position textBox from bottom left corner
 			// textBox x: line x (orientation dependent) + half line width - half textBox width
 			// textBox y: line y (orientation dependent) + half textBox height - stroke-width * half line height
@@ -401,9 +401,9 @@ function drawLines() {
 				textBox.getBoundingClientRect().height + padding
 			);
 			// remove initial box for calculation, render wrapper first
-			diagramDiv.removeChild(textBox);
-			diagramDiv.appendChild(wrapper);
-			diagramDiv.appendChild(textBox);
+			diagramSvg.removeChild(textBox);
+			diagramSvg.appendChild(wrapper);
+			diagramSvg.appendChild(textBox);
 		}
 	}
 }
@@ -542,9 +542,9 @@ function startup() {
 function sizeDiagram() {
 	// diagram size based on window dimensions if no values provided
 	if (config.diagram?.width)
-		diagramDiv.setAttribute("width", config.diagram?.width);
+		diagramSvg.setAttribute("width", config.diagram?.width);
 	if (config.diagram?.height)
-		diagramDiv.setAttribute("height", config.diagram?.height);
+		diagramSvg.setAttribute("height", config.diagram?.height);
 	if (!config.diagram?.width || !config.diagram?.height) {
 		// determine by total elements to render
 		let size = window.data.list.length;
@@ -557,8 +557,8 @@ function sizeDiagram() {
 		let x2 = 1 * (config.node.gap.horizontal + 1 + config.node.width) * grid;
 		let y2 = 1 * (config.node.gap.vertical + 1 + config.node.height) * grid;
 		// console.log([x1, y1], [x2, y2]);
-		diagramDiv.setAttribute("width", x2 - x1);
-		diagramDiv.setAttribute("height", y2 - y1);
+		diagramSvg.setAttribute("width", x2 - x1);
+		diagramSvg.setAttribute("height", y2 - y1);
 		console.log("autosize svg", x2 - x1, y2 - y1);
 	}
 }
