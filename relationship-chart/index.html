@@ -17,7 +17,7 @@
 	</head>
 	<body onload="startup()" onkeydown="onKeyDown()">
 		<h3>Relationship Chart</h3>
-		<h6>A <em>very</em> simple grid based design with arrows to point between names</h6>
+		<h6>A very simple grid based design with arrows to point between names</h6>
 		<div class="page">
 			<svg class="diagram" onresize="resize()"></svg>
 		</div>
@@ -36,7 +36,8 @@
 		<ul>
 			<li>All instructions start with keyword in caps, separated by rows</li>
 			<li>All nodes end with newline, grouped by empty row</li>
-			<li>All nodes must have ID to create empty node</li>
+			<li>All nodes must have ID to create new, use ID RESERVED to create empty</li>
+			<li>All nodes are generated in outwards spiral clockwise ie. right - down - left x2 - up x2 - right x3 etc</li>
 			<li>(Optional) Fill in NAME, IMAGE url, LINK [ID_TO_LINK] AS [LINK_LABEL]</li>
 			<li>Example:<br>
 				<code>
