@@ -111,12 +111,23 @@ ul {
 	overflow: auto;
 }
 
-.node + foreignObject div {
-	color: var(--foreground);
+.node + foreignObject div,
+.node + foreignObject + foreignObject div {
+	color: var(--background);
 	width: 100%;
 	height: 100%;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	overflow: auto hidden;
+	overflow-x: auto hidden;
+}
+
+.node + foreignObject:has(object) + foreignObject div {
+	height: auto;
+	position: absolute;
+	bottom: 0;
+}
+
+.node + foreignObject object {
+	object-fit: cover;
 }
