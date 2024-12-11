@@ -360,7 +360,7 @@ function drawLines() {
 		);
 		// with respect to x plane facing right (absolute angle)
 		// 0 radian < (by height) < threshold1 < (by width) < threshold2 < (by height) < 3.14 radian
-		console.log(label, Math.abs(angle), threshold1, threshold2);
+		// console.log(label, Math.abs(angle), threshold1, threshold2);
 		if (adjustNodeCenter && Math.abs(angle) < threshold1) {
 			let refWidth = 0.5 * window.data.node.width;
 			let refAngle = Math.abs(angle);
@@ -380,7 +380,7 @@ function drawLines() {
 		}
 		if (
 			adjustNodeCenter &&
-			Math.abs(angle) > threshold1 &&
+			Math.abs(angle) >= threshold1 &&
 			Math.abs(angle) < threshold2
 		) {
 			let refHeight = 0.5 * window.data.node.height;
@@ -392,6 +392,8 @@ function drawLines() {
 			}
 			let refLength = refHeight / Math.cos(refAngle);
 			let refWidth = Math.sqrt(refLength * refLength - refHeight * refHeight);
+			if(Math.abs(angle) == threshold1)
+				refWidth = 0.5 * window.data.node.width;
 			// console.log("by width", refAngle, refWidth, refHeight);
 			if (deltaX > 0 && deltaY < 0) {
 				sourceX += refWidth;
@@ -426,12 +428,14 @@ function drawLines() {
 				destY += refHeight;
 			} // 3
 		}
-		if (adjustNodeCenter && Math.abs(angle) > threshold2) {
+		if (adjustNodeCenter && Math.abs(angle) >= threshold2) {
 			let refWidth = 0.5 * window.data.node.width;
 			let refAngle = Math.PI / 2 - Math.abs(angle);
 			let refLength = refWidth / Math.sin(refAngle);
 			let refHeight = Math.sqrt(refLength * refLength - refWidth * refWidth);
-			console.log("by height", refAngle, refWidth, refHeight);
+			if(Math.abs(angle) == threshold2)
+				refHeight = 0.5 * window.data.node.height;
+			// console.log("by height", refAngle, refWidth, refHeight);
 			sourceX -= refWidth;
 			destX += refWidth;
 			if (deltaY > 0) {
