@@ -178,7 +178,12 @@ function drawNodes() {
 		rect.setAttribute("y", rect1Y);
 		rect.setAttribute("width", config.node.width);
 		rect.setAttribute("height", config.node.height);
-		rect.setAttribute("fill", config.palette[i % config.palette.length]);
+		rect.setAttribute(
+			"fill",
+			typeof config.palette == "object"
+				? config.palette[i % config.palette.length]
+				: config.palette
+		);
 		rect.setAttribute("stroke", "var(--foreground)");
 		rect.setAttribute("stroke-width", config.node.border);
 		if (item.id != "RESERVED") diagramDiv.appendChild(rect);
@@ -212,7 +217,10 @@ function drawNodes() {
 			textArea.setAttribute("height", config.node.height - config.node.border);
 			let textDiv = document.createElement("div");
 			textDiv.innerText = item.name;
-			textDiv.style.background = config.palette[i % config.palette.length];
+			textDiv.style.background =
+				typeof config.palette == "object"
+					? config.palette[i % config.palette.length]
+					: config.palette;
 			textArea.appendChild(textDiv);
 			diagramDiv.appendChild(textArea);
 		}
