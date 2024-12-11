@@ -12,9 +12,22 @@ const config = {
 		gap: {
 			horizontal: 1,
 			vertical: 1
-		}
+		},
+		color: "white"
 	},
 	curve: 8,
+	palette: [
+		"#0450b4",
+		"#046dc8",
+		"#1184a7",
+		"#15a2a2",
+		"#6fb1a0",
+		"#b4418e",
+		"#d94a8c",
+		"#ea515f",
+		"#fe7434",
+		"#fea802"
+	],
 	command: `
 ID user1
 NAME James
@@ -299,7 +312,7 @@ function drawNodes() {
 			);
 			let textDiv = document.createElement("div");
 			textDiv.innerText = item.name;
-			textDiv.style.color = "var(--foreground)";
+			textDiv.style.color = window.data.node.color || "var(--foreground)";
 			textDiv.style.background = "var(--background)";
 			textDiv.style.borderRadius =
 				window.data.curve - 0.5 * window.data.node.border + "px";
@@ -553,7 +566,10 @@ function drawLines() {
 				"height",
 				textBox.getBoundingClientRect().height + padding
 			);
-			wrapper.setAttribute("rx", window.data.curve);
+			wrapper.setAttribute(
+				"rx",
+				0.5 * (textBox.getBoundingClientRect().height + padding)
+			);
 			// remove initial box for calculation, render wrapper first
 			diagramSvg.removeChild(textBox);
 			diagramSvg.appendChild(wrapper);
