@@ -58,6 +58,10 @@ function updateEditor() {
 	allowRunMessages();
 }
 
+function saveToLocalStorage() {
+	localStorage.setItem('conversation-messages', JSON.stringify(window['conversation-messages'] || ''));
+}
+
 function updateSenderOptions(conversation) {
 	let selection = conversation.querySelector('.sender');
 	let separator = conversation.querySelector('.messages').getAttribute('data-separator') || ':';
@@ -157,6 +161,30 @@ function clearConversations() {
 	}
 }
 
+function setReaction() {
+	let message = event.target.closest('.message');
+	if (message.querySelector('.reactions') != null) {
+		let reaction = event.target.cloneNode(true);
+		reaction.setAttribute('onclick', 'event.target.remove()');		
+		message.querySelector('.reactions').setAttribute('data-selected', '');
+		message.querySelector('.reactions').innerHTML = '';	
+		message.querySelector('.reactions').appendChild(reaction);
+	}
+}
+
+function toggleReactions() {
+	let message = event.target.closest('.message');
+	if (!message) return;
+	if (message.querySelector('.reactions') != null) {
+		message.querySelector('.reactions').remove();
+		message.removeAttribute('data-selected');
+	} else {
+		let template = document.querySelector('.template-reactions');
+		let reactions = template.content.cloneNode(true);
+		message.querySelector('.container').appendChild(reactions);
+	}
+}
+
 function toggleAudio() {
 	switch (event.target.className) {
 	case 'audio bi bi-volume-up':
@@ -189,41 +217,6 @@ function updateData() {
 }
 
 //--FUNCTIONS--//
-function hideAllConversations() {
-	for (let conv of document.querySelectorAll('.conversation')) {
-		conv.querySelector('.messages').removeAttribute('data-running');
-		conv.classList.add('hidden');
-		clearInterval(window['timer']);
-	}
-}
-
-function readFromLocalStorage() {
-	window['conversation-messages'] = JSON.parse(localStorage.getItem('conversation-messages') || '{}');
-	let keys = Object.keys(window['conversation-messages']);
-	for (let i = 1; i <= keys.length; i++) { // to avoid sorting if deleted any conversation
-		let key = 'text' + i;
-		let item = window['conversation-messages'][key];
-		if (item && item.name) {
-			addConversation(item.name);
-			let conversation = document.querySelector('#' + key);
-			if (item.content) // editor content
-				conversation.querySelector('.editor textarea').value = item.content;
-			if (item.separator) { // separator input
-				conversation.querySelector('.messages').setAttribute('data-separator', item.separator);
-				conversation.querySelector('.editor .separator').value = item.separator;
-			}
-			if (item.sender) { // sender input
-				conversation.querySelector('.messages').setAttribute('data-sender', item.sender);
-				updateSenderOptions(conversation);
-			}
-		}
-	}
-}
-
-function saveToLocalStorage() {
-	localStorage.setItem('conversation-messages', JSON.stringify(window['conversation-messages'] || ''));
-}
-
 function processConversations() {
 	for (let converse of document.querySelectorAll('.conversation .messages')) {
 		let lineSeparator = converse.getAttribute('data-separator') || ':';
@@ -301,30 +294,6 @@ function processConversations() {
 			footer.setAttribute('onclick', 'startConversation()');
 			converse.appendChild(footer);
 		}
-	}
-}
-
-function toggleReactions() {
-	let message = event.target.closest('.message');
-	if (!message) return;
-	if (message.querySelector('.reactions') != null) {
-		message.querySelector('.reactions').remove();
-		message.removeAttribute('data-selected');
-	} else {
-		let template = document.querySelector('.template-reactions');
-		let reactions = template.content.cloneNode(true);
-		message.querySelector('.container').appendChild(reactions);
-	}
-}
-
-function setReaction() {
-	let message = event.target.closest('.message');
-	if (message.querySelector('.reactions') != null) {
-		let reaction = event.target.cloneNode(true);
-		reaction.setAttribute('onclick', 'event.target.remove()');		
-		message.querySelector('.reactions').setAttribute('data-selected', '');
-		message.querySelector('.reactions').innerHTML = '';	
-		message.querySelector('.reactions').appendChild(reaction);
 	}
 }
 
@@ -550,4 +519,35 @@ function removeDialog() {
 function startup() {
 	readFromLocalStorage();
 	hideAllConversations();
+}
+
+function readFromLocalStorage() {
+	window['conversation-messages'] = JSON.parse(localStorage.getItem('conversation-messages') || '{}');
+	let keys = Object.keys(window['conversation-messages']);
+	for (let i = 1; i <= keys.length; i++) { // to avoid sorting if deleted any conversation
+		let key = 'text' + i;
+		let item = window['conversation-messages'][key];
+		if (item && item.name) {
+			addConversation(item.name);
+			let conversation = document.querySelector('#' + key);
+			if (item.content) // editor content
+				conversation.querySelector('.editor textarea').value = item.content;
+			if (item.separator) { // separator input
+				conversation.querySelector('.messages').setAttribute('data-separator', item.separator);
+				conversation.querySelector('.editor .separator').value = item.separator;
+			}
+			if (item.sender) { // sender input
+				conversation.querySelector('.messages').setAttribute('data-sender', item.sender);
+				updateSenderOptions(conversation);
+			}
+		}
+	}
+}
+
+function hideAllConversations() {
+	for (let conv of document.querySelectorAll('.conversation')) {
+		conv.querySelector('.messages').removeAttribute('data-running');
+		conv.classList.add('hidden');
+		clearInterval(window['timer']);
+	}
 }
