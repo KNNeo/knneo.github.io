@@ -838,7 +838,7 @@ function callNumber() {
 	if(config.debug) console.log('rand', rand);
 	window['board'].push(rand);
 	document.querySelector('.board' + rand).classList.add('selected');
-	document.querySelector('.call-count').innerText = window['board'].length + ' / 75';
+	document.querySelector('.call-count').innerText = window['board'].length.padStart(2, ' ') + ' / 75';
 	
 	//update history
 	if(window['call-hist'].length >= 5)
