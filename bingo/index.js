@@ -663,6 +663,7 @@ function renderCell() {
 	let div = document.createElement('div');
 	
 	let header = document.createElement('div');
+	header.classList.('call-count');
 	header.innerText = config.locale.display.latest;
 	div.appendChild(header);
 	
@@ -837,6 +838,7 @@ function callNumber() {
 	if(config.debug) console.log('rand', rand);
 	window['board'].push(rand);
 	document.querySelector('.board' + rand).classList.add('selected');
+	document.querySelector('.call-count').innerText = window['board'].length + ' / 75';
 	
 	//update history
 	if(window['call-hist'].length >= 5)
