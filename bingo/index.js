@@ -663,7 +663,7 @@ function renderCell() {
 	let div = document.createElement('div');
 	
 	let header = document.createElement('div');
-	header.classList.('call-count');
+	header.classList.add('call-count');
 	header.innerText = config.locale.display.latest;
 	div.appendChild(header);
 	
