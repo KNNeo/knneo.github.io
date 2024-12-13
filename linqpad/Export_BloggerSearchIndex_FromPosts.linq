@@ -285,7 +285,7 @@ List<SearchIndexContent> GenerateSearchIndex(List<XElement> xmlPosts)
 void GenerateSearchIndexScript(List<SearchIndexContent> indexes)
 {
 	StringBuilder sb = new StringBuilder();
-	sb.AppendLine(@"CREATE VIRTUAL TABLE IF NOT EXISTS SearchIndex USING fts5(title, url, date, flag, content);");
+	sb.AppendLine(@"CREATE VIRTUAL TABLE IF NOT EXISTS SearchIndex USING fts5(title, url, date, flag, content, tokenize=""unicode61 tokenchars ''''"");");
 	foreach(var page in indexes)
 	{
 		sb.AppendLine(@"INSERT INTO SearchIndex (title, url, date, flag, content) VALUES (""@title"", ""@url"", ""@date"", ""@flag"", ""@content"");"
