@@ -64,11 +64,9 @@ a:hover {
 }
 .cell {
 	border: 1px solid var(--accent);
-	box-shadow: 3px 3px;
 }
 .cell:active {
-	box-shadow: 1px 1px;
-	transform: translate(2px,2px);
+	border: 1px solid var(--foreground);
 }
 .pattern > div {
     display: flex;
