@@ -495,7 +495,6 @@ function renderDisplay() {
 	td2.appendChild(renderBoard());
 	
 	let td3 = document.createElement('td');
-	td3.classList.add('box');
 	td3.classList.add('call');
 	
 	let trX = document.createElement('tr');
@@ -572,7 +571,7 @@ function renderCard(numbers, selected, latest) {
 		for(n = 0; n < 5; n++)
 		{
 			let td = document.createElement('td');
-			td.classList.add('shadowed');
+			td.classList.add('cell');
 			if(latest && m == 0 && n > 0)
 			{
 				continue;
@@ -631,7 +630,7 @@ function renderCard(numbers, selected, latest) {
 		let generate = document.createElement('td');
 		generate.classList.add('generate');
 		generate.setAttribute('colspan', '5');
-		generate.classList.add('shadowed');
+		generate.classList.add('cell');
 		generate.classList.add('large-font');
 		generate.innerText = config.locale.generate.new;
 		generate.addEventListener('click', onGenerateClicked);
@@ -651,7 +650,7 @@ function renderActions() {
 	
 	let bingo = document.createElement('div');
 	bingo.id = 'bingo';
-	bingo.classList.add('shadowed');
+	bingo.classList.add('cell');
 	bingo.classList.add('large-font');
 	bingo.innerText = config.locale.action.start;
 	bingo.addEventListener('click', onBingoClicked);
@@ -691,7 +690,7 @@ function renderHistory() {
 	{
 		let hist = document.createElement('span');
 		hist.classList.add('box');
-		// hist.classList.add('shadowed');
+		// hist.classList.add('cell');
 		hist.classList.add('square-pattern');
 		hist.innerText = h;
 		
@@ -733,7 +732,7 @@ function renderBoard() {
 		{			
 			let td = document.createElement('td');
 			td.classList.add('board' + (m*15+n+1));
-			td.classList.add('shadowed');
+			td.classList.add('cell');
 			td.classList.add('square-board');
 			td.setAttribute('data-id', m*15+n+1);
 			td.innerText = numbers[m*15+n];

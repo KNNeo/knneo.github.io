@@ -62,22 +62,22 @@ a:hover {
 	touch-action: manipulation;
 	text-align: center;
 }
-.set.pattern > div {
+.cell {
+	border: 1px solid var(--accent);
+	box-shadow: 3px 3px;
+}
+.cell:active {
+	box-shadow: 1px 1px;
+	transform: translate(2px,2px);
+}
+.pattern > div {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-.box.call {
+.call {
     display: flex;
     justify-content: center;
-}
-.shadowed {
-	border: 1px solid var(--accent);
-	box-shadow: 3px 3px;
-}
-.shadowed:active {
-	box-shadow: 1px 1px;
-	transform: translate(2px,2px);
 }
 .list {
 	display: flex;
