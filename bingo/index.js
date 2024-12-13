@@ -378,7 +378,7 @@ function generatePattern(shape) {
 		if(!window['ended']) return;
 		let index = config.patterns.map(p => p.name).indexOf(window['combination']);
 		window['combination'] = config.patterns[index > config.patterns.length ? 0 : index + 1];
-		if(window['combination']) this.parentElement.parentElement.classList.add('.set');
+		if(window['combination']) this.parentElement.parentElement.classList.add('set');
 		window['combination-set'] = null;
 		window['custom'] = null;
 		generatePattern(window['combination']);
