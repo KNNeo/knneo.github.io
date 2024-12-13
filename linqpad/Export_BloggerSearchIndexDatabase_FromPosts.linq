@@ -6,6 +6,10 @@
 
 // DEBUG
 bool DEBUG_MODE = false;
+string POSTS_SEARCHTERM = "";
+Dictionary<int, int> fixCounts = new Dictionary<int, int>();
+Dictionary<String, int> labelCounts = new Dictionary<String, int>();
+Dictionary<String, int> emojiCounts = new Dictionary<String, int>();
 
 // INPUT OUTPUT SETTINGS
 string BLOGGER_XML_DIRECTORY = @"C:\Users\KAINENG\Downloads\";
@@ -17,12 +21,15 @@ string OUTPUT_FILENAME = @"C:\Users\KAINENG\Documents\LINQPad Queries\blog-archi
 // PROGRAM SETTINGS
 bool HOMEPAGE_ONLY = false;
 bool WRITE_TITLE_ON_CONSOLE = false;
+bool WRITE_EMOJICOUNT_ON_CONSOLE = false;
 int DOTS_PER_LINE_CONSOLE = 100;
 string BLOG_DOMAIN_URL = "https://knreports.blogspot.com/";
 XNamespace DEFAULT_XML_NAMESPACE = XNamespace.Get("http://www.w3.org/2005/Atom");
 bool GENERATE_SLUG_BY_POST_TITLE = true;
 int GENERATE_SLUG_MAX_LENGTH = 70;
 string BLOGGER_XML_RENAME_SUFFIX = "knreports";
+List<String> POST_IGNORE_LABELS = new List<string>() { "The Archive", "The Statement" };
+bool SHOW_LINKED_LIST = false;
 
 // POST SETTINGS
 List<String> POST_IGNORE_TAGS = new List<string>() { "The Archive", "The Statement" };
@@ -43,7 +50,8 @@ void Main()
 	Console.WriteLine("===================================================================================");	
 	var inputFileDirs = GetBloggerXmlFilePath(BLOGGER_XML_DIRECTORY, ARCHIVE_XML_DIRECTORY);
 	var bloggerPosts = GetBloggerPostsPublished(inputFileDirs);
-	var searchIndex = GenerateSearchIndex(bloggerPosts);
+	var linkedList = GenerateBloggerPostsLinkedList(bloggerPosts);
+	var searchIndex = GenerateSearchIndex(bloggerPosts, linkedList);
 	GenerateSearchIndexScript(searchIndex);
 	Console.WriteLine();
 	Console.WriteLine("===================================================================================");	
@@ -141,7 +149,44 @@ List<XElement> GetBloggerPostsPublished(string[] inputFiles)
 		.OrderByDescending(x => DateTime.Parse(x.Element(DEFAULT_XML_NAMESPACE+"published").Value)).ToList();
 }
 
-List<SearchIndexContent> GenerateSearchIndex(List<XElement> xmlPosts)
+List<LinkedListItem> GenerateBloggerPostsLinkedList(List<XElement> xmlPosts)
+{
+	// Read file
+	Console.WriteLine("Creating Linked List...");
+	// Create linked list for all posts links to allow navigation between posts
+	var linkedList = new List<LinkedListItem>();
+	foreach(var entry in xmlPosts)
+	{
+        DateTime publishDate = DateTime.Parse(entry.Element(DEFAULT_XML_NAMESPACE+"published").Value);
+        string postTitle = entry.Element(DEFAULT_XML_NAMESPACE+"title").Value;
+        string postExtension = entry.Element(DEFAULT_XML_NAMESPACE+"content").Attribute("type").Value ?? "html";
+        XElement empty = new XElement("empty");
+        XAttribute emptA = new XAttribute("empty","");
+        string bloggerLink = ((entry.Elements(DEFAULT_XML_NAMESPACE+"link")
+            .FirstOrDefault(e => e.Attribute("rel").Value == "alternate") ?? empty)
+            .Attribute("href") ?? emptA).Value;
+		foreach(var domain in POST_OLD_DOMAINS)
+		{
+			bloggerLink = bloggerLink.Replace(domain, BLOG_DOMAIN_URL);
+		}
+		string generatedLink = GenerateSlug(postTitle);
+        // Find post labels
+        var pageTagsXml = entry.Elements(DEFAULT_XML_NAMESPACE+"category")
+        	.Where(e => !e.Attribute("term").ToString().Contains("#post")).Select(q => q.Attribute("term").Value).ToList();    
+        var pageLink = "./" + Path.GetFileNameWithoutExtension(BLOGGER_XML_DIRECTORY.Replace(BLOGGER_XML_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER)) + 
+			"/" + publishDate.Year.ToString("0000") + "/"  + publishDate.Month.ToString("00") + 
+			"/"  + (GENERATE_SLUG_BY_POST_TITLE ? generatedLink : Path.GetFileNameWithoutExtension(bloggerLink)) + "/index." + postExtension;
+		// If has valid published link, and not including post labels to ignore and not render
+		if(!string.IsNullOrWhiteSpace((GENERATE_SLUG_BY_POST_TITLE ? generatedLink : Path.GetFileNameWithoutExtension(bloggerLink))) 
+				&& !pageTagsXml.Any(xml => POST_IGNORE_LABELS.Contains(xml)))
+			linkedList.Add(new LinkedListItem(bloggerLink, pageLink));
+	}
+	if(SHOW_LINKED_LIST)
+		Console.WriteLine(linkedList);
+	return linkedList;
+}
+
+List<SearchIndexContent> GenerateSearchIndex(List<XElement> xmlPosts, List<LinkedListItem> linkedList)
 {
 	// Read file
 	Console.WriteLine($"Processing {xmlPosts.Count()} Blogger posts...");
@@ -159,7 +204,8 @@ List<SearchIndexContent> GenerateSearchIndex(List<XElement> xmlPosts)
 		
        	// Extract data from XML
        	// Extract data from XML
-        string postContent = FixPostContent(entry.Element(DEFAULT_XML_NAMESPACE+"content").Value);
+        string postContent = entry.Element(DEFAULT_XML_NAMESPACE+"content").Value;
+		FixPostContent(ref postContent, linkedList);
         DateTime publishDate = DateTime.Parse(entry.Element(DEFAULT_XML_NAMESPACE+"published").Value);
         string postTitle = entry.Element(DEFAULT_XML_NAMESPACE+"title").Value;
         string postExtension = entry.Element(DEFAULT_XML_NAMESPACE+"content").Attribute("type").Value ?? "html";
@@ -637,6 +683,18 @@ List<int> FixPostContent(ref string content, List<LinkedListItem> linkedList)
 			fixCounts.Add(key, 1);
 	}
 	return count;
+}
+
+class LinkedListItem
+{
+    public string Source { get; set; } // old url generated
+    public string Destination { get; set; } // full url generated
+	
+	public LinkedListItem(string before, string after)
+	{
+		Source = before;
+		Destination = after;
+	}
 }
 
 class MatchItem
