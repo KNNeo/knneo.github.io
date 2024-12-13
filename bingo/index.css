@@ -132,6 +132,7 @@ a:hover {
 }
 .history span {
 	display: inline-block;
+    line-height: 2;
 }
 .settings {
 	margin: 0;

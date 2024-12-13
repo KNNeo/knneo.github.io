@@ -691,9 +691,8 @@ function renderHistory() {
 	{
 		let hist = document.createElement('span');
 		hist.classList.add('box');
-		// hist.classList.add('cell');
 		hist.classList.add('square-pattern');
-		hist.innerText = h;
+		hist.innerText = ('' + h).padStart(2, ' ');
 		
 		history.appendChild(hist);
 	}
