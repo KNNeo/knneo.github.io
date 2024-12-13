@@ -340,7 +340,7 @@ string GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<LinkedListItem>
 	        article.AppendLine("<a class=\"next material-icons\" href=\"_NEXTLINK_\" title=\"Newer Post\">arrow_forward_ios</a>");
 			article.AppendLine("</span>");
 			article.AppendLine("</div>");
-			if(postContent.Contains("id=\"") && !postContent.Contains("=\"post-hashtags\""))
+			if(postContent.Contains("id=\""))
 				article.AppendLine("<div class=\"post-hashtags\"></div>");
 			// Actual content to put in post-content class, HTML condensed
 	        article.Append("<div class=\"post-content\">" + Uglify.Html(postContent) + "</div>");
