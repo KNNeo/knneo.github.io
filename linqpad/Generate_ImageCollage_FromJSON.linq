@@ -24,7 +24,7 @@ void Main()
 {
 	//variables
 	bool checkFiles = true;
-	bool noDownload = true;
+	bool noDownload = false; // false will download images, true will ensure links are online
 	var generateObjectAs = "string"; // accepted data types: object, string
 	
 	var separator = '_';
@@ -33,10 +33,10 @@ void Main()
 	var prefixLg = "size" + separator + "lg" + separator;
 	
 	string dataurl = ""; // master data source
-	string datapath = @"\\Kaineng-pc\bromides\ssr_data.json"; // master data
-	string mappingpath = @"\\Kaineng-pc\bromides\my_ssr_data.json"; // mapping data
-	string thumbpath = @"\\Kaineng-pc\bromides\thumbs\"; // ends with backslash
-	string destination = @"C:\Users\KAINENG\Documents\GitHub\knneo.github.io\image-collage\v3\data.js";
+	string datapath = @""; // file from dataUrl
+	string mappingpath = @""; // swlf mapped mapping data
+	string thumbpath = @""; // ends with backslash; ignored if noDownload is true
+	string destination = @""; // image-collage v3 data
 	
 	if(!string.IsNullOrWhiteSpace(dataurl))
 	{
@@ -57,6 +57,7 @@ void Main()
     {
         string json = r.ReadToEnd();
         mapper = JsonConvert.DeserializeObject<List<MapDataItem>>(json);
+		mapper = mapper.Where(x => x.ishou != null && x.chara != null).ToList();
 		//Console.WriteLine(mapper);
     }
 	
@@ -115,6 +116,7 @@ void Main()
 			var filename = file.ishou + "_" + file.chara + ".jpg";
 			var item = new ImageCollageItem();
 			item.nm = filename;
+			if(file.kakusei) item.st = 1;
 			if(noDownload) 
 			{
 				var dataOne = data.FirstOrDefault(d => d.name.Trim() == file.search.Trim());
@@ -143,12 +145,13 @@ void Main()
 	{
 		case "string":
 			var sb = new StringBuilder();
+			sb.AppendLine("const mosaicArray = [");
 			foreach(var line in output)
 			{
-				sb.AppendLine(JsonConvert.SerializeObject(line) + ",");
+				sb.AppendLine(JsonConvert.SerializeObject(line, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore }) + ",");
 			}
-			var templateText = File.ReadAllText(template).Replace("_DATA_", sb.ToString());
-			File.WriteAllText(destination, templateText);
+			sb.AppendLine("];");
+			File.WriteAllText(destination, sb.ToString());
 			Console.WriteLine("Done.");
 			break;
 		default:
@@ -208,13 +211,15 @@ class MapDataItem
 	public string chara { get; set; }
 	public string search { get; set; }	
 	public bool collab { get; set; }
+	public bool kakusei { get; set; }
 }
 
 class ImageCollageItem
 {
-	public string nm { get; set; }
-	public string sm { get; set; }
-	public string md { get; set; }
-	public string lg { get; set; }
-	public string og { get; set; }
+	public string nm { get; set; } // name
+	public string sm { get; set; } // small thumbnail
+	public string md { get; set; } // medium thumbnail
+	public string lg { get; set; } // large thumbnail
+	public string og { get; set; } // original image
+	public int? st { get; set; } // star
 }
