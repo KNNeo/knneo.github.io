@@ -353,12 +353,12 @@ function createOrUpdateCustom() {
 }
 
 function toggleAutoFill() {
-	config.autofill = !config.autofill;
-	popupTextGoAway(config.autofill ? 'AUTO' : 'MANUAL');
+	config.autoFill = !config.autoFill;
+	popupTextGoAway(config.autoFill ? 'AUTO' : 'MANUAL');
 }
 
 function showLatestResult() {
-	alert(window['result']);
+	alert(window['result'] || 'No result in session!');
 }
 
 //--FUNCTIONS--//
