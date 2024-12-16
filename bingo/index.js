@@ -352,6 +352,15 @@ function createOrUpdateCustom() {
 	document.querySelector('.pattern-title').innerText = 'Custom';
 }
 
+function toggleAutoFill() {
+	config.autofill = !config.autofill;
+	popupTextGoAway(config.autofill ? 'AUTO' : 'MANUAL');
+}
+
+function showLatestResult() {
+	alert(window['result']);
+}
+
 //--FUNCTIONS--//
 function generatePattern(shape) {	
 	let div = document.createElement('div');
@@ -445,6 +454,7 @@ function initializeVariables() {
 	window['cards'] = smallScreen() ? 1 : config.cards.playable;
 	window['bingo'] = [];
 	window['countdown'] = 0;
+	window['result'] = '';
 }
 
 function renderTitle() {
@@ -912,8 +922,10 @@ function endBingo() {
 			let card = document.querySelectorAll('.card')[c];
 			let score = scoreCard(card);
 			result += '\nCard ' + (1 + c) + ' - Marked: ' + score[0] + ' Correct: ' + score[1] + '  Wrong: ' + score[2];
+			result += ' Bingo: ' + checkBingo(c);
 		}
-		alert(result);
+		window['result'] = result;
+		showLatestResult();
 	}
 }
 
