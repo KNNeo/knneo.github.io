@@ -613,11 +613,11 @@ function renderCard(numbers, selected, latest) {
 }
 
 function scoreCard(card) {
-	let selected = Array.from(card.querySelectorAll('.selected')).map(cell => parseInt(cell.innerText || '0'));
+	let marked = Array.from(card.querySelectorAll('.selected')).map(cell => parseInt(cell.innerText || '0'));
 	let revealed = window['board'];
 	let correct = 0;
 	let wrong = 0;
-	for(let cell of selected) {
+	for(let cell of marked) {
 		if(cell && revealed.indexOf(cell) >= 0)
 			correct++;
 		else if (!cell) //is free space
@@ -626,7 +626,7 @@ function scoreCard(card) {
 			wrong++;
 	}
 
-	return [correct, wrong];
+	return [marked, correct, wrong];
 }
 
 function renderActions() {
@@ -848,7 +848,7 @@ function autoFillCards(value) {
 }
 
 function runCountdown() {
-	popupTextGoAway('LAST');
+	popupTextGoAway('LAST ' + config.countdown.turns);
 	window['countdown'] = window['board'].length + config.countdown.turns;
 	setTimeout(function() {
 		window['ended'] = false;
@@ -911,7 +911,7 @@ function endBingo() {
 		for(let c = 0; c < window['cards']; c++) {
 			let card = document.querySelectorAll('.card')[c];
 			let score = scoreCard(card);
-			result += '\n\nMarked correct: ' + score[0] + ' Marked wrong: ' + score[1];
+			result += '\nCard ' + (1 + c) + ' - Marked: ' + score[0] + ' Correct: ' + score[1] + '  Wrong: ' + score[2];
 		}
 		alert(result);
 	}
