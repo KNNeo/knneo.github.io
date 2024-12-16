@@ -900,7 +900,6 @@ function endBingo() {
 	if(config.countdown.turns && window['cards'] > 1 && !window['countdown'])
 		runCountdown();
 	else {
-		window['countdown'] = 0;
 		popupTextGoAway(config.countdown.turns ? 'END' : 'BINGO');
 		document.querySelector('#bingo').style.display = '';
 		document.querySelector('#bingo').innerText = config.locale.action.reset;
@@ -912,6 +911,9 @@ function endBingo() {
 			result += '\n\nMarked correct: ' + score[0] + ' Marked wrong: ' + score[1];
 		}
 		alert(result);
+		setTimeout(function() {
+			window['countdown'] = 0;
+		}, config.interval);
 	}
 }
 
