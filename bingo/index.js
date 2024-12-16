@@ -830,7 +830,7 @@ function callNumber() {
 	//call again if has not ended and board not all called
 	else if(!boardFull && !window['ended'])
 		setTimeout(callNumber, config.interval);
-	else
+	else if(boardFull)
 		endBingo();
 }
 
