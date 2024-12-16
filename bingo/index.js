@@ -849,8 +849,10 @@ function autoFillCards(value) {
 function runCountdown() {
 	popupTextGoAway('LAST');
 	window['countdown'] = window['board'].length + config.countdown.turns;
-	window['ended'] = false;
-	setTimeout(callNumber, config.interval);
+	setTimeout(function() {
+		window['ended'] = false;
+		callNumber();
+	}, config.interval);
 }
 
 function checkBingo(id) {
