@@ -306,9 +306,9 @@ function onCellClicked() {
 		let pattern = config.patterns.find(p => p.name == window['combination']).selected;
 		let revealed = window['board'];
 		if(config.debug) console.log('cell', selected, pattern, revealed);
-		
-		let count = isAnyBingo(pattern) ? null : pattern.length;
-		if(isAnyBingo(pattern))
+		// compare against pattern
+		let count = isPatternMatch(pattern) ? null : pattern.length;
+		if(isPatternMatch(pattern))
 		{
 			// if has combo, check on all then find smallest value
 			let counts = [];
@@ -389,7 +389,7 @@ function generatePattern(shape) {
 	pattern.classList.add('pattern-grid');
 	let [,selected] = generateMatrix(shape && shape.selected || null);
 	// for any combinations
-	if(shape && shape.selected && isAnyBingo(shape.selected))
+	if(shape && shape.selected && isPatternMatch(shape.selected))
 	{
 		window['combination-set'] = shape.name;
 		generatePatternSet(shape);
@@ -476,8 +476,7 @@ function renderTitle() {
 function renderDisplay() {
 	displayDiv.innerHTML = '';
 	//three sections: pattern, board, call
-	//sub sections: -, -, [call, call-history]
-	
+	//sub sections: -, -, [call, call-history]	
 	let table = document.createElement('table');
 	table.classList.add('box');
 	table.style.margin = 'auto';
@@ -645,6 +644,21 @@ function renderCard(numbers, selected, latest) {
 	return table;
 }
 
+function scoreCard(card) {
+	let selected = Array.from(card.querySelectorAll('.selected')).map(cell => parseInt(cell.innerText));
+	let revealed = window['board'];
+	let correct = 0;
+	let wrong = 0;
+	for(let cell of selected) {
+		if(revealed.indexOf(selected.value) >= 0)
+			correct++;
+		else
+			wrong++;
+	}
+
+	return [correct, wrong];
+}
+
 function renderActions() {
 	menuDiv.innerHTML = '';
 	
@@ -804,7 +818,7 @@ function startBingo() {
 	for(let generate of document.querySelectorAll('.away'))
 	{
 		let combination = config.patterns.find(p => p.name == window['combination']);
-		generate.innerText = (isAnyBingo(combination.selected) ? combination.selected[0].length : combination.selected.length) + ' ' + config.locale.remainder;
+		generate.innerText = (isPatternMatch(combination.selected) ? combination.selected[0].length : combination.selected.length) + ' ' + config.locale.remainder;
 	}
 	
 	setTimeout(callNumber, 500);
@@ -870,7 +884,7 @@ function callNumber() {
 }
 
 function autoFillCards(value) {
-	//limitation: does not update if user clicked it off
+	//limitation: does not update again if user clicked it off
 	//limitation: does not auto fill free space
 	for(let card of document.querySelectorAll('.card'))
 	{
@@ -882,7 +896,7 @@ function autoFillCards(value) {
 				cell.click();
 			}
 		}
-	}	
+	}
 }
 
 function checkBingo(id) {
@@ -892,7 +906,7 @@ function checkBingo(id) {
 	let revealed = window['board'];
 	let pattern = config.patterns.find(p => p.name == window['combination']).selected;
 	
-	if(isBingo && revealed.length < (isAnyBingo(pattern) ? Math.min(...pattern.map(pp => pp.length)) : pattern.length))
+	if(isBingo && revealed.length < (isPatternMatch(pattern) ? Math.min(...pattern.map(pp => pp.length)) : pattern.length))
 	{
 		if(config.debug) alert('game has not revealed minimum for card to bingo');
 		return false;
@@ -937,6 +951,11 @@ function endBingo() {
 	window['ended'] = true;
 	document.querySelector('#bingo').style.display = '';
 	document.querySelector('#bingo').innerText = config.locale.action.reset;
+	// tally correct and wrong selections
+	for(let card of document.querySelectorAll('.card')) {
+		let score = scoreCard(card);
+		console.log('card no.', c, ':', score[0], 'correct', score[1], 'wrong');
+	}
 }
 
 function resetBingo() {
@@ -958,6 +977,6 @@ function resetBingo() {
 	return true;
 }
 
-function isAnyBingo(pattern) {
+function isPatternMatch(pattern) {
 	return pattern.filter(a => typeof(a) == 'object').length == pattern.length;
 }
