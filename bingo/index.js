@@ -795,7 +795,7 @@ function callNumber() {
 		pauseBingo();
 		return;
 	}
-	let boardFull = window['board'].length >= 75;
+	let boardFull = window['board'].length > 75;
 	//generate number
 	let rand = 0;
 	do {
@@ -824,7 +824,7 @@ function callNumber() {
 	document.querySelector('.category').innerText = '';
 	setTimeout(function() { document.querySelector('.category').innerText = window['category']; }, 250);
 	//if countdown available, end if exceeded
-	if(window['countdown'] && window['board'].length > window['countdown'])
+	if(window['countdown'] && window['board'].length >= window['countdown'])
 		endBingo();
 	//call again if has not ended and board not all called
 	else if(!boardFull && !window['ended'])
