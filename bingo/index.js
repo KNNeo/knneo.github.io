@@ -743,6 +743,7 @@ function popupTextGoAway(textVal) {
 
 //--GAME FUNCTIONS--//
 function startBingo() {
+	window['countdown'] = 0;
 	window['ended'] = false;
 	window['board'] = [];
 	let board = renderBoard();
@@ -913,9 +914,6 @@ function endBingo() {
 			result += '\n\nMarked correct: ' + score[0] + ' Marked wrong: ' + score[1];
 		}
 		alert(result);
-		setTimeout(function() {
-			window['countdown'] = 0;
-		}, config.interval);
 	}
 }
 
