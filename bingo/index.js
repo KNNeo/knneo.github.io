@@ -743,7 +743,7 @@ function popupTextGoAway(textVal) {
 
 //--GAME FUNCTIONS--//
 function startBingo() {
-	window['ended'] = 0;
+	window['ended'] = false;
 	window['board'] = [];
 	let board = renderBoard();
 	document.querySelector('.board').innerHTML = '';
@@ -848,8 +848,8 @@ function autoFillCards(value) {
 
 function runCountdown() {
 	popupTextGoAway('LAST');
-	window['countdown'] = window['ended'] + config.countdown.turns;
-	window['ended'] = 0;
+	window['countdown'] = window['board'].length + config.countdown.turns;
+	window['ended'] = false;
 	setTimeout(callNumber, config.interval);
 }
 
@@ -896,10 +896,11 @@ function checkBingo(id) {
 
 function endBingo() {
 	if(config.debug) console.log('end');
-	window['ended'] = window['board'].length;
+	window['ended'] = true;
 	if(config.countdown.turns && window['cards'] > 1 && !window['countdown'])
 		runCountdown();
 	else {
+		window['countdown'] = 0;
 		popupTextGoAway(config.countdown.turns ? 'END' : 'BINGO');
 		document.querySelector('#bingo').style.display = '';
 		document.querySelector('#bingo').innerText = config.locale.action.reset;
