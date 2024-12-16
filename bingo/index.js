@@ -171,7 +171,7 @@ const config = {
 		},
 	],
 };
-// pattern limited to single outcomes, eg. can't do "any horizontal"
+//pattern limited to single outcomes, eg. can't do "any horizontal"
 const smallScreen = function() {
     const match = window.matchMedia('(pointer:coarse)');
     const isMobile = match && match.matches;
@@ -295,33 +295,33 @@ function onCellClicked() {
 		let pattern = config.patterns.find(p => p.name == window['combination']).selected;
 		let revealed = window['board'];
 		if(config.debug) console.log('cell', selected, pattern, revealed);
-		// compare against pattern
+		//compare against pattern
 		let count = isPatternMatch(pattern) ? null : pattern.length;
 		if(isPatternMatch(pattern))	{
-			// if has combo, check on all then find smallest value
+			//if has combo, check on all then find smallest value
 			let counts = [];
 			for(let p = 0; p < pattern.length; p++)	{
 				counts[p] = pattern[p].length;
 				for(let selection of selected)
 				{
-					// if user selected is in pattern cell and board has pattern cell
-					// if free space, don't have to check board
+					//if user selected is in pattern cell and board has pattern cell
+					//if free space, don't have to check board
 					if(pattern[p].indexOf(selection.index) >= 0 && (selection.index == 13 || revealed.indexOf(selection.value) >= 0))
-						counts[p]--; // reduce count
+						counts[p]--; //reduce count
 				}
 			}
-			// console.log(counts);
+			//console.log(counts);
 			count = Math.min(...counts);
 		}
 		else {
 			for(let selection of selected) {
-				// if user selected is in pattern cell and board has pattern cell
-				// if free space, don't have to check board
+				//if user selected is in pattern cell and board has pattern cell
+				//if free space, don't have to check board
 				if(pattern.indexOf(selection.index) >= 0 && (selection.index == 13 || revealed.indexOf(selection.value) >= 0))
-					count--; // reduce count
+					count--; //reduce count
 			}
 		}
-		// set remainder text
+		//set remainder text
 		document.querySelectorAll('.away')[c].setAttribute('data-away', count);
 		document.querySelectorAll('.away')[c].innerText = count + ' ' + config.locale.remainder;
 	}
@@ -329,7 +329,7 @@ function onCellClicked() {
 
 function toggleDaub() {
 	if(window['ended'])	{
-		let maxStyles = 3; // as per css, .daub<no>
+		let maxStyles = 3; //as per css, .daub<no>
 		window['daub'] = (window['daub'] + 1 > maxStyles) ? 0 : window['daub'] + 1;
 		titleDiv.classList = 'title daub' + window['daub'];
 		localStorage.setItem('daub', window['daub']);
@@ -372,7 +372,7 @@ function generatePattern(shape) {
 	let pattern = document.createElement('div');
 	pattern.classList.add('pattern-grid');
 	let [,selected] = generateMatrix(shape && shape.selected || null);
-	// for any combinations
+	//for any combinations
 	if(shape && shape.selected && isPatternMatch(shape.selected))
 	{
 		window['combination-set'] = shape.name;
@@ -409,7 +409,7 @@ function generatePatternSet(shapes) {
 		}, 1000 * n);
 	}
 	setTimeout(function() {
-		// console.log('shapes');
+		//console.log('shapes');
 		if(window['combination-set'] != shapes.name) return;
 		generatePatternSet(shapes);
 	}, 1000 * shapes.selected.length);
@@ -419,12 +419,12 @@ function generateMatrix(set) {
 	let numbers = [];
 	let selected = [];
 	for(i = 0; i < 25; i++) {
-		// free cell
+		//free cell
 		if(!set && i == 12) {
 			numbers[i] = config.locale.free;
 			continue;
 		}
-		// randomize
+		//randomize
 		let rnd = 0;
 		do {
 			rnd = Math.floor(Math.random() * 15) + ((i % 5) * 15) + 1;
@@ -439,11 +439,12 @@ function generateMatrix(set) {
 
 function initializeVariables() {
 	window['daub'] = localStorage.getItem('daub');
-	window['ended'] = true;
+	window['ended'] = 0;
 	window['paused'] = false;
 	window['combination'] = null;
 	window['cards'] = smallScreen() ? 1 : config.cards.playable;
-	window['bingo'] = [];	
+	window['bingo'] = [];
+	window['countdown'] = 0;
 }
 
 function renderTitle() {
@@ -548,7 +549,6 @@ function renderCard(numbers, selected, latest) {
 			//if card on board
 			if(numbers) {
 				td.classList.add('square-card');
-				// td.classList.add('large-font');
 				td.setAttribute('data-id', m*5+n+1);
 				td.innerText = numbers && numbers[m*5+n] || '';
 				td.addEventListener('click', function() {
@@ -560,7 +560,7 @@ function renderCard(numbers, selected, latest) {
 				});
 			}
 			else if(latest && m == 0 && n == 0) {
-				// call box
+				//call box
 				td.classList.add('square-call');
 				td.setAttribute('colspan', 5);
 				td.setAttribute('rowspan', 5);
@@ -577,7 +577,7 @@ function renderCard(numbers, selected, latest) {
 				td.appendChild(latestDiv);						
 			}
 			else {
-				// create pattern grid
+				//create pattern grid
 				td.classList.add('square-pattern');
 				td.setAttribute('data-id', m*5+n+1);
 				td.addEventListener('click', createOrUpdateCustom);
@@ -590,7 +590,7 @@ function renderCard(numbers, selected, latest) {
 		}
 		tbody.appendChild(tr);
 	}
-	// create generate button for card
+	//create generate button for card
 	if(numbers)	{
 		let row = document.createElement('tr');
 		
@@ -620,7 +620,7 @@ function scoreCard(card) {
 	for(let cell of selected) {
 		if(cell && revealed.indexOf(cell) >= 0)
 			correct++;
-		else if (!cell) // is free space
+		else if (!cell) //is free space
 			correct++;
 		else
 			wrong++;
@@ -677,7 +677,7 @@ function renderHistory() {
 		
 		history.appendChild(hist);
 	}
-	// if no history
+	//if no history
 	if(historyList.length < 1) {
 		let hist = document.createElement('span');
 		hist.innerText = '-';		
@@ -748,10 +748,10 @@ function startBingo() {
 	let board = renderBoard();
 	document.querySelector('.board').innerHTML = '';
 	document.querySelector('.board').appendChild(board);
-	// if custom pattern
+	//if custom pattern
 	if(window['custom']) {
 		window['combination'] = 'Custom';
-		// if same as previous set, set again
+		//if same as previous set, set again
 		let customExist = config.patterns.find(p => p.name == 'Custom');
 		if(!customExist || customExist.selected.toString() != window['custom'].toString())
 		{
@@ -762,15 +762,15 @@ function startBingo() {
 			});
 		}
 	}
-	// if no pattern set before start, random one
+	//if no pattern set before start, random one
 	if(!window['combination']) {
 		let combination = config.patterns[Math.floor((Math.random() * config.patterns.length))];
 		generatePattern(combination);
 	}
-	// change generate buttons to check
+	//change generate buttons to check
 	for(let generate of document.querySelectorAll('.generate'))
 		generate.innerText = config.locale.generate.check;
-	// set initial remainder text
+	//set initial remainder text
 	for(let generate of document.querySelectorAll('.away')) {
 		let combination = config.patterns.find(p => p.name == window['combination']);
 		generate.innerText = (isPatternMatch(combination.selected) ? combination.selected[0].length : combination.selected.length) + ' ' + config.locale.remainder;
@@ -789,17 +789,18 @@ function pauseBingo() {
 
 function callNumber() {
 	if(config.debug) console.log('bingo', window['bingo']);
-	if(window['bingo'].filter(b => b && b == 1).length >= window['cards'].length)
+	if(window['bingo'].filter(b => b && b == 1).length >= window['cards'])
 		return;
 	if(window['paused']) {
 		pauseBingo();
 		return;
-	}	
+	}
+	let boardFull = window['board'].length >= 75;
 	//generate number
 	let rand = 0;
 	do {
 		rand = Math.floor((Math.random() * 75)) + 1;
-	} while(window['board'].includes(rand) && window['board'].length < 75);
+	} while(window['board'].includes(rand) && !boardFull);
 	if(config.debug) console.log('rand', rand);
 	window['board'].push(rand);
 	document.querySelector('.board' + rand).classList.add('selected');
@@ -816,17 +817,17 @@ function callNumber() {
 	document.querySelector('.latest').innerText = '';
 	setTimeout(function() { document.querySelector('.latest').innerText = window['call']; }, 250);
 	setTimeout(function() { if(config.autoFill) autoFillCards(window['call']);	}, 500);
-	// set card header columns
+	//set card header columns
 	let category = config.cards.labels[Math.floor((rand-1) / 15)];
 	if(config.debug) console.log('category', category);
 	window['category'] = category;
 	document.querySelector('.category').innerText = '';
-	setTimeout(function() { document.querySelector('.category').innerText = window['category']; }, 250);	
+	setTimeout(function() { document.querySelector('.category').innerText = window['category']; }, 250);
+	//if countdown available, end if exceeded
+	if(window['countdown'] && window['board'].length > window['countdown'])
+		endBingo();
 	//call again if has not ended and board not all called
-	if(window['board'].length < 75 && !window['ended'])
-		setTimeout(callNumber, config.interval);
-	//if countdown available, call till end of countdown if multiple cards in play
-	else if (window['cards'].length > 1 && window['ended'] && window['board'].length < 75 && window['ended'] + config.countdown.turns < window['board'].length)
+	else if(!boardFull && !window['ended'])
 		setTimeout(callNumber, config.interval);
 	else
 		endBingo();
@@ -843,6 +844,13 @@ function autoFillCards(value) {
 			}
 		}
 	}
+}
+
+function runCountdown() {
+	popupTextGoAway('LAST');
+	window['countdown'] = window['ended'] + config.countdown.turns;
+	window['ended'] = 0;
+	setTimeout(callNumber, config.interval);
 }
 
 function checkBingo(id) {
@@ -888,14 +896,21 @@ function checkBingo(id) {
 
 function endBingo() {
 	if(config.debug) console.log('end');
-	popupTextGoAway(config.countdown.turns ? 'END' : 'BINGO');
 	window['ended'] = window['board'].length;
-	document.querySelector('#bingo').style.display = '';
-	document.querySelector('#bingo').innerText = config.locale.action.reset;
-	// tally correct and wrong selections
-	for(let card of document.querySelectorAll('.card')) {
-		let score = scoreCard(card);
-		console.log('card no.', c, ':', score[0], 'correct', score[1], 'wrong');
+	if(config.countdown.turns && window['cards'] > 1 && !window['countdown'])
+		runCountdown();
+	else {
+		popupTextGoAway(config.countdown.turns ? 'END' : 'BINGO');
+		document.querySelector('#bingo').style.display = '';
+		document.querySelector('#bingo').innerText = config.locale.action.reset;
+		//tally correct and wrong selections
+		let result = 'Card scores from left to right:\n';
+		for(let c = 0; c < window['cards']; c++) {
+			let card = document.querySelectorAll('.card')[c];
+			let score = scoreCard(card);
+			result += '\nMarked correct: ' + score[0] + 'Marked wrong: ' + score[1];
+		}
+		alert(result);
 	}
 }
 
@@ -905,7 +920,7 @@ function resetBingo() {
 	document.querySelector('.history').innerHTML = '';
 	document.querySelector('.board').innerHTML = '';
 	document.querySelector('.board').appendChild(renderBoard());
-	// reset to generate
+	//reset to generate
 	for(let generate of document.querySelectorAll('.generate'))
 		generate.innerText = config.locale.generate.new;
 	initializeVariables();

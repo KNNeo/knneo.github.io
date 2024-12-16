@@ -162,8 +162,12 @@ a:hover {
 	padding: 3px;
 }
 
+.history div {
+    display: flex;
+    justify-content: space-around;
+}
+
 .history span {
-	display: inline-block;
 	line-height: 2;
 }
 
