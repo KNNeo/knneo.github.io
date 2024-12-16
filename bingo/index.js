@@ -908,7 +908,7 @@ function endBingo() {
 		for(let c = 0; c < window['cards']; c++) {
 			let card = document.querySelectorAll('.card')[c];
 			let score = scoreCard(card);
-			result += '\nMarked correct: ' + score[0] + 'Marked wrong: ' + score[1];
+			result += '\n\nMarked correct: ' + score[0] + ' Marked wrong: ' + score[1];
 		}
 		alert(result);
 	}
