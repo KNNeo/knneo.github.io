@@ -7,6 +7,9 @@ const config = {
 		"playable": 3,
 		"labels": ['B','I','N','G','O'],
 	},
+	"countdown": {
+		"turns": 5
+	}
 	"locale": {
 		"title": "BINGO",
 		"free": "FREE",
@@ -785,7 +788,7 @@ function popupTextGoAway(textVal) {
 
 //--GAME FUNCTIONS--//
 function startBingo() {
-	window['ended'] = false;
+	window['ended'] = 0;
 	window['board'] = [];
 	let board = renderBoard();
 	document.querySelector('.board').innerHTML = '';
@@ -837,7 +840,7 @@ function pauseBingo() {
 
 function callNumber() {
 	if(config.debug) console.log('bingo', window['bingo']);
-	if(window['ended'] == true || window['bingo'].filter(b => b && b == 1).length == window['cards'].length)
+	if(window['bingo'].filter(b => b && b == 1).length >= window['cards'].length)
 		return;
 	if(window['paused'] == true) {
 		pauseBingo();
@@ -878,8 +881,11 @@ function callNumber() {
 	document.querySelector('.category').innerText = '';
 	setTimeout(function() { document.querySelector('.category').innerText = window['category']; }, 250);
 	
-	//call again
-	if(window['board'].length < 75 && window['ended'] == false)
+	//call again if has not ended and board not all called
+	if(window['board'].length < 75 && !window['ended'])
+		setTimeout(callNumber, config.interval);
+	//if countdown available, call till end of countdown if multiple cards in play
+	else if (window['cards'].length > 1 && window['ended'] && window['board'].length < 75 && window['ended'] + config.countdown.turns < window['board'].length)
 		setTimeout(callNumber, config.interval);
 	else
 		endBingo();
@@ -949,8 +955,8 @@ function checkBingo(id) {
 
 function endBingo() {
 	if(config.debug) console.log('end');
-	popupTextGoAway('BINGO');
-	window['ended'] = true;
+	popupTextGoAway(config.countdown.turns ? 'END' : 'BINGO');
+	window['ended'] = window['board'].length;
 	document.querySelector('#bingo').style.display = '';
 	document.querySelector('#bingo').innerText = config.locale.action.reset;
 	// tally correct and wrong selections
