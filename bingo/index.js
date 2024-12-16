@@ -645,12 +645,14 @@ function renderCard(numbers, selected, latest) {
 }
 
 function scoreCard(card) {
-	let selected = Array.from(card.querySelectorAll('.selected')).map(cell => parseInt(cell.innerText));
+	let selected = Array.from(card.querySelectorAll('.selected')).map(cell => parseInt(cell.innerText || '0'));
 	let revealed = window['board'];
 	let correct = 0;
 	let wrong = 0;
 	for(let cell of selected) {
-		if(revealed.indexOf(selected.value) >= 0)
+		if(cell && revealed.indexOf(cell) >= 0)
+			correct++;
+		else if (!cell) // is free space
 			correct++;
 		else
 			wrong++;
