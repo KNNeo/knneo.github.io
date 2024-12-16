@@ -439,7 +439,7 @@ function generateMatrix(set) {
 
 function initializeVariables() {
 	window['daub'] = localStorage.getItem('daub');
-	window['ended'] = 0;
+	window['ended'] = true;
 	window['paused'] = false;
 	window['combination'] = null;
 	window['cards'] = smallScreen() ? 1 : config.cards.playable;
