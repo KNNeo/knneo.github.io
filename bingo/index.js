@@ -170,11 +170,9 @@ const config = {
 };
 // pattern limited to single outcomes, eg. can't do "any horizontal"
 const smallScreen = function() {
-    return window.innerWidth <= 640;
-};
-const isMobile = function() {
     const match = window.matchMedia('(pointer:coarse)');
-    return (match && match.matches && window.innerWidth <= 480);
+    const isMobile = match && match.matches;
+    return isMobile || window.innerWidth <= 880;
 };
 
 //--DOM REFERENCES--//
@@ -196,6 +194,8 @@ function startup() {
 
 function toggleCards() {
 	if(!window['ended'])
+		return popupTextGoAway('🚫');
+	if(smallScreen())
 		return popupTextGoAway(window['cards']);
 	switch(window['cards'])
 	{
@@ -397,7 +397,7 @@ function generatePattern(shape) {
 	}
 	if(config.debug) console.log(selected);
 	let table = renderCard(null, selected);
-	if(isMobile() || smallScreen()) table.style.margin = 'auto';
+	if(smallScreen()) table.style.margin = 'auto';
 	pattern.appendChild(table);
 	
 	div.appendChild(pattern);
@@ -461,7 +461,7 @@ function initializeVariables() {
 	window['ended'] = true;
 	window['paused'] = false;
 	window['combination'] = null;
-	window['cards'] = isMobile() || smallScreen() ? 1 : config.cards.playable;
+	window['cards'] = smallScreen() ? 1 : config.cards.playable;
 	window['bingo'] = [];	
 }
 
@@ -499,12 +499,12 @@ function renderDisplay() {
 	
 	let trX = document.createElement('tr');
 	
-	if(!isMobile() || !smallScreen()) tr.appendChild(td1);
-	if(isMobile() || smallScreen()) 
+	if(!smallScreen()) tr.appendChild(td1);
+	if(smallScreen()) 
 		td2.setAttribute('colspan', 2);
 	tr.appendChild(td2);
-	if(!isMobile() || !smallScreen()) tr.appendChild(td3);
-	if(isMobile() || smallScreen()) 
+	if(!smallScreen()) tr.appendChild(td3);
+	if(smallScreen()) 
 	{
 		trX.appendChild(td1);
 		td3.style.display = 'flex';
@@ -512,7 +512,7 @@ function renderDisplay() {
 	}
 	
 	tbody.appendChild(tr);
-	if(isMobile() || smallScreen()) tbody.appendChild(trX);
+	if(smallScreen()) tbody.appendChild(trX);
 
 	table.appendChild(tbody);
 	displayDiv.appendChild(table);	
@@ -673,7 +673,7 @@ function renderCell() {
 	window['call-hist'] = [];
 	let hist = document.createElement('div');
 	hist.classList.add('history');
-	if(isMobile() || smallScreen()) {
+	if(smallScreen()) {
 		hist.style.display = 'inline-block';
 		hist.style.width = '100%';
 	}
@@ -933,7 +933,7 @@ function checkBingo(id) {
 
 function endBingo() {
 	if(config.debug) console.log('end');
-	popupTextGoAway('BINGO!!!');
+	popupTextGoAway('BINGO');
 	window['ended'] = true;
 	document.querySelector('#bingo').style.display = '';
 	document.querySelector('#bingo').innerText = config.locale.action.reset;
