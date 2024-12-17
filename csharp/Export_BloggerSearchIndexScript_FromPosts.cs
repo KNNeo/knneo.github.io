@@ -229,7 +229,9 @@ public class Program {
 			if(postContent.Contains("#disclaimer"))
 				condition = "disclaimer";
 			var startIndex = postContent.IndexOf("<div") >= 0 ? postContent.IndexOf("<div") : 0;
-			postContent = CleanupHtml(postContent.ToLower().Substring(startIndex)); // avoid inline styles
+			 // Avoid inline styles
+			postContent = CleanupHtml(postContent.ToLower().Substring(startIndex));
+			// Replace quotes for sqlite script
 			indexContent.Add(new SearchIndexContent() {
 				title = postTitle.Replace("'", "''").Replace("\"", "\"\""),
 				url = pageLink,
@@ -276,7 +278,15 @@ public class Program {
 	}
 
 	static string CleanupHtml(string content) {
-		//remove start tags
+		// Remove unimportant tags
+		var expression = @"(?s)(<img|class=""carousel"")(.*?)(/>)";
+		var match = Regex.Match(content, expression);
+		while(match.Success)
+		{
+			content = content.Replace(match.Value, "");
+			match = match.NextMatch();
+		};
+		// Remove start tags
 		var expression = @"(?s)(<)(.*?)(>)";
 		var match = Regex.Match(content, expression);
 		while(match.Success)
@@ -284,7 +294,7 @@ public class Program {
 			content = content.Replace(match.Value, " ");
 			match = match.NextMatch();
 		};
-		//remove end tags
+		// Remove end tags
 		expression = @"(?s)(</)(.*?)(>)";
 		match = Regex.Match(content, expression);
 		while(match.Success)
@@ -292,6 +302,7 @@ public class Program {
 			content = content.Replace(match.Value, " ");
 			match = match.NextMatch();
 		};
+		// Remove tabs, newline, carriage characters, consecutive whitespaces
 		content = Regex.Replace(content, @"\t|\n|\r", "");
 		content = Regex.Replace(content, @"\s+", " ");	
 		return content;
