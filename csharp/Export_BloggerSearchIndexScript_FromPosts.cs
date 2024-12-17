@@ -287,8 +287,8 @@ public class Program {
 			match = match.NextMatch();
 		};
 		// Remove start tags
-		var expression = @"(?s)(<)(.*?)(>)";
-		var match = Regex.Match(content, expression);
+		expression = @"(?s)(<)(.*?)(>)";
+		match = Regex.Match(content, expression);
 		while(match.Success)
 		{
 			content = content.Replace(match.Value, " ");
