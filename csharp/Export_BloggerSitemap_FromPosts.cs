@@ -69,8 +69,8 @@ public class Program {
 		if(sources.Length == 1)
 		{
 			if(DEBUG_MODE) Console.WriteLine($"Single xml source found; Moving file to {backupPath}");
-			Console.WriteLine(Path.GetDirectoryName(backupPath), "blog-*.xml");
-			string[] dests = Directory.GetFiles(Path.GetDirectoryName(backupPath), "blog-*.xml");
+			Console.WriteLine(Path.Combine(backupPath), "blog-*.xml");
+			string[] dests = Directory.GetFiles(Path.Combine(backupPath), "blog-*.xml");
 			if(DEBUG_MODE) Console.WriteLine("Destination files found; Moving all files to archive");
 			foreach(var dest in dests)
 			{
@@ -89,7 +89,7 @@ public class Program {
 		else
 		{
 			if(DEBUG_MODE) Console.WriteLine($"More than 1 xml source found; Moving all files to {backupPath}");	
-			string[] dests = Directory.GetFiles(Path.GetDirectoryName(backupPath), "blog-*.xml");
+			string[] dests = Directory.GetFiles(Path.Combine(backupPath), "blog-*.xml");
 			if(DEBUG_MODE) Console.WriteLine("Destination files found; Moving all files to archive");
 			foreach(var dest in dests)
 			{
