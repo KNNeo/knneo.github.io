@@ -6,6 +6,7 @@ using System.Linq;
 using System.Xml.Linq;
 using System.IO;
 using System.Text;
+using System.Reflection;
 
 public class Program {
     // DEBUG
@@ -22,7 +23,7 @@ public class Program {
     // PROGRAM SETTINGS
     static bool HOMEPAGE_ONLY = false;
     static bool WRITE_TITLE_ON_CONSOLE = false;
-    static bool WRITE_FANFIC_LIST_ON_CONSOLE = false;
+    static bool WRITE_FANFIC_LIST_ON_CONSOLE = true;
     static int DOTS_PER_LINE_CONSOLE = 100;
     static XNamespace DEFAULT_XML_NAMESPACE = XNamespace.Get("http://www.w3.org/2005/Atom");
     static int MAX_HASHTAG_LENGTH = 32;
@@ -259,13 +260,14 @@ public class Program {
         // Output fanfic stats
         if(WRITE_FANFIC_LIST_ON_CONSOLE)
         {
-            Console.WriteLine(fanficItems
+            Console.WriteLine();
+            Console.WriteLine(OutputTable<FanficItem>(fanficItems
                 .GroupBy(g => g.Keyword.Split('|')[2])
-                .Select(s => new {
-                    Fanfiction = s.Key, 
+                .Select(s => new FanficItem() {
+                    Name = s.Key, 
                     Count = s.Count()
                 })
-                .OrderByDescending(x => x.Count));
+                .OrderByDescending(x => x.Count).ToList()));
         }
         
         //Generate sitemap string by category
@@ -335,6 +337,55 @@ public class Program {
         slug = slug.Replace("--","-").Replace("--","-").Trim('-');
         return slug.Length > GENERATE_SLUG_MAX_LENGTH ? slug.Substring(0, slug.Substring(0, GENERATE_SLUG_MAX_LENGTH).LastIndexOf('-')) : slug;
     }
+
+    static String OutputTable<T>(List<T> data)
+    {
+        if (data == null || !data.Any())
+            throw new Exception("No data to display.");
+        // Use reflection to get property names (headers)
+        var properties = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+        var headers = properties.Select(p => p.Name).ToList();
+        // Get values for each row
+        var rows = data
+            .Select(item => properties.Select(p => p.GetValue(item)?.ToString() ?? string.Empty).ToList())
+            .ToList();
+        // Determine column widths
+        var columnWidths = headers
+            .Select((header, index) => Math.Max(header.Length, rows.Max(row => row[index].Length)))
+            .ToList();
+        // Print the table
+        var sb = new StringBuilder();
+        sb.AppendLine(OutputRow(headers, columnWidths, properties, isHeader: true));
+        sb.AppendLine(OutputLine(columnWidths));
+        foreach (var row in rows)
+        {
+            sb.AppendLine(OutputRow(row, columnWidths, properties, isHeader: false));
+        }
+        return sb.ToString();
+    }
+
+    static String OutputLine(List<int> columnWidths)
+    {
+        return string.Join("+", columnWidths.Select(width => new string('-', width)));
+    }
+
+    static String OutputRow(List<string> row, List<int> columnWidths, PropertyInfo[] properties, bool isHeader)
+    {
+        return string.Join("|", row.Select((cell, index) =>
+        {
+            var alignment = isHeader || properties[index].PropertyType != typeof(int)
+                ? cell.PadRight(columnWidths[index]) // Left-align headers and non-integers
+                : cell.PadLeft((columnWidths[index] - cell.Length) / 2 + cell.Length).PadRight(columnWidths[index]); // Center-align integers
+
+            return alignment;
+        }));
+    }
+}
+
+public class FanficItem
+{
+    public string Name { get; set; }
+    public int Count { get; set; }
 }
 
 public class SitemapSections
@@ -352,3 +403,4 @@ public class SitemapItem
     public string KeywordUrl { get; set; }
 	public List<string> Tags { get; set; }
 }
+
