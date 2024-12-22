@@ -54,7 +54,6 @@ public class Program {
         var bloggerPosts = GetBloggerPostsPublished(inputFileDirs);
         var pageSections = GenerateSitemap(bloggerPosts);
         GenerateSitemapFile(pageSections);
-        Console.WriteLine("");
         Console.WriteLine("===================================================================================");
         // Output as completed
         Console.WriteLine("Done.");
