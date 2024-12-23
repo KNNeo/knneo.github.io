@@ -40,6 +40,7 @@ function generateList() {
 	outputPre.innerText = config.messages.start;
 	config.ids = inputTextarea.value.split(',').map(v => parseInt(v)).filter(unique);
 	config.voices = [];
+	config.shows = [];
 	config.display.roles = config.display?.role ? (config.display.role || []).split(',') : [];
 	// assume config.ids is non empty and is list of ids
 	crawlShowsList();
