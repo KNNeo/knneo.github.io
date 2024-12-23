@@ -120,12 +120,19 @@ a:hover {
 	grid-template-columns: 60px 1fr 1fr;
 }
 
+.settings {
+	display: flex;
+	justify-content: center;
+	gap: 8px;
+}
+
 .settings a {
 	color: var(--foreground);
 	text-decoration: none;
-	display: flex;
-	justify-content: center;
-    padding: 5px;
+}
+
+.settings a:hover {
+	color: var(--accent);
 }
 
 .mal-container {

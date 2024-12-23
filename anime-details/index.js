@@ -511,6 +511,13 @@ function load() {
 	outputPre.innerText = config.messages.restart;
 }
 
+function clear() {
+	if(confirm('This will clear all data fetched, and current view. Confirm?')) {
+		localStorage.removeItem('anime-details');
+		startup();
+	}
+}
+
 function save() {
 	localStorage.setItem('anime-details', new Date());
 	localStorage.setItem('anime-details-ids', JSON.stringify(config.ids));
