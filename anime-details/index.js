@@ -38,6 +38,7 @@ function generateList() {
 	breakButton.classList.remove('hidden');
 	outputPre.innerText = config.messages.start;
 	config.ids = inputTextarea.value.split(',').map(v => parseInt(v)).filter(unique);
+	config.voices = [];
 	// assume config.ids is non empty and is list of ids
 	crawlShowsList();
 	// assume config.shows has anime details fetched from API
