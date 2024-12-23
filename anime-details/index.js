@@ -14,7 +14,8 @@ const config = {
 		restart: 'Save loaded. Restart to fetch again.',
 	},
 	display: {
-		min: 2,
+		min: 1,
+		role: 'Main'
 	}
 };
 
@@ -39,6 +40,7 @@ function generateList() {
 	outputPre.innerText = config.messages.start;
 	config.ids = inputTextarea.value.split(',').map(v => parseInt(v)).filter(unique);
 	config.voices = [];
+	config.display.roles = config.display?.role ? (config.display.role || []).split(',') : [];
 	// assume config.ids is non empty and is list of ids
 	crawlShowsList();
 	// assume config.shows has anime details fetched from API
@@ -47,7 +49,7 @@ function generateList() {
 
 function processState() {
 	for(let show of config.shows){
-		for(let chars of show?.characters || []) {
+		for(let chars of show?.characters.filter(s => config.display.roles.length > 0 ? config.display.roles.includes(s.role) : true) || []) {
 			let voice = chars.voice_actors?.find(c => c.language == config.language) || {};
 			if(voice && voice.person) {
 				let state = config.voices.find(s => s.name == voice.person.name);
