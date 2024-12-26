@@ -334,19 +334,21 @@ public class Program {
 				header.AppendLine("<a class=\"share material-icons\" title=\"Share This Post\" href=\"javascript:void(0);\" onclick=\"sharePost()\">share</a>");
 				header.AppendLine("<a class=\"like bordered material-icons\" title=\"Like This Post\" href=\"javascript:void(0);\" onclick=\"likePost()\">favorite_border</a>");
 				article.AppendLine("<h2 class=\"post-title\">" + postTitle + "</h2>");
-				article.AppendLine("<div class=\"post-info\">");
-				article.AppendLine("<small title=\"Published: " + publishDateString + 
+				article.Append("<div class=\"post-info\">");
+				article.Append("<small title=\"Published: " + publishDateString + 
 					(publishDateString == updateDateString ? "\"" : "<br />&nbsp;&nbsp;Updated: " + updateDateString + "\"") +
 					" class=\"published\">" + publishDate.ToString("dddd, dd MMMM yyyy") + "</small>");
-				article.AppendLine("<span>");
-				article.AppendLine("<a class=\"prev material-icons\" href=\"_PREVLINK_\" title=\"Older Post\">arrow_back_ios</a>");
-				article.AppendLine("<a class=\"next material-icons\" href=\"_NEXTLINK_\" title=\"Newer Post\">arrow_forward_ios</a>");
-				article.AppendLine("</span>");
+				article.Append("<span>");
+				article.Append("<a class=\"prev material-icons\" href=\"_PREVLINK_\" title=\"Older Post\">arrow_back_ios</a>");
+				article.Append("<a class=\"next material-icons\" href=\"_NEXTLINK_\" title=\"Newer Post\">arrow_forward_ios</a>");
+				article.Append("</span>");
 				article.AppendLine("</div>");
 				if(postContent.Contains("id=\""))
 					article.AppendLine("<div class=\"post-hashtags\"></div>");
 				// Actual content to put in post-content class, HTML condensed
-				article.Append("<div class=\"post-content\">" + Uglify.Html(postContent) + "</div>");
+				article.Append("<div class=\"post-content\">");
+				article.Append(Uglify.Html(postContent));
+				article.AppendLine("</div>");
 				if(pageTagsXml.Count > 0)
 				{
 					footer.Append($"<div class=\"post-tags\"><h4>{POST_TAGS_PREFIX_TEXT} </h4>" + 
@@ -355,18 +357,18 @@ public class Program {
 						"</div>");
 				}
 				var copyrightYears = publishDate.Year >= updateDate.Year ? updateDate.Year.ToString() : publishDate.Year + "-" + updateDate.Year;
-				footer.Append($"<h6 class=\"page-footer\">Copyright © {HTML_TITLE} {copyrightYears}. All rights reserved.</h6>");
+				footer.AppendLine($"<h6 class=\"page-footer\">Copyright © {HTML_TITLE} {copyrightYears}. All rights reserved.</h6>");
 				// Write all additions into output home page
 				string fileString = File.ReadAllText(POST_TEMPLATE_FILENAME)
 					.Replace("_TITLE_", postTitle.Length > 0 ? postTitle : "A Random Statement")
 					.Replace("_IMAGE_", thumbnailUrl)
 					.Replace("_LINK_", pageLink)
-					.Replace("_FONTS_", externalFonts.Length > 0 ? externalFonts.ToString() : "")
-					.Replace("_CSS_", GenerateStyleLinks(postContent))
-					.Replace("_JS_", GenerateScriptLinks(postContent))
-					.Replace("_HEADER_", header.ToString())
-					.Replace("_CONTENTS_", article.ToString())
-					.Replace("_FOOTER_", footer.ToString())
+					.Replace("_FONTS_\n", externalFonts.Length > 0 ? externalFonts.ToString() : "")
+					.Replace("_CSS_\n", GenerateStyleLinks(postContent))
+					.Replace("_JS_\n", GenerateScriptLinks(postContent))
+					.Replace("_HEADER_\n", header.ToString())
+					.Replace("_CONTENTS_\n", article.ToString())
+					.Replace("_FOOTER_\n", footer.ToString())
 					.Replace("_PREVLINK_", pageIndex < linkedList.Count() - 1 ? linkedList[pageIndex + 1].Destination.Replace("./", "../../../../") : "javascript:void(0);")
 					.Replace("_NEXTLINK_", pageIndex > 0 ? linkedList[pageIndex - 1].Destination.Replace("./", "../../../../") : "javascript:void(0);");
 				// Write into homepage file, or overwrite if exists
@@ -466,7 +468,7 @@ public class Program {
 	static string GenerateStyleLinks(string content)
 	{
 		// common components, in order
-		var components = new string[] { "carousel", "accordion", "agenda", "datatable", "conversation" };
+		var components = new string[] { "accordion", "agenda", "carousel", "conversation", "datatable", "disclaimer" };
 		var styles = new StringBuilder();
 		foreach(var comp in components)
 		{
@@ -486,33 +488,33 @@ public class Program {
 		if(match.Success && styles.ToString().IndexOf("viewer.css") < 0) 
 			styles.AppendLine($"<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../../css/viewer.css\"/>");
 
-		return styles.ToString();
+		return styles.Length > 0 ? styles.ToString() : String.Empty;
 	}
 
 	static string GenerateScriptLinks(string content)
 	{
 		// common components, in order
-		var components = new string[] { "carousel", "accordion", "conversation", "disclaimer" };
+		var components = new string[] { "accordion", "carousel", "conversation", "disclaimer" };
 		var scripts = new StringBuilder();
 		foreach(var comp in components)
 		{
 			if(content.Contains($"class=\"{comp}")) {
-				scripts.AppendLine($"<script type=\"application/javascript\" charset=\"utf-8\" src=\"../../../../js/{comp}.js\" defer></script>");
-				scripts.AppendLine($"<script type=\"application/javascript\" charset=\"utf-8\" src=\"../../../../js/viewer.js\" defer></script>");
+				scripts.AppendLine($"<script src=\"../../../../js/{comp}.js\" defer></script>");
+				scripts.AppendLine($"<script src=\"../../../../js/viewer.js\" defer></script>");
 			}
 		}
 
 		// special component: popup
 		if(content.Contains($"target=\"_blank\""))
-			scripts.AppendLine($"<script type=\"application/javascript\" charset=\"utf-8\" src=\"../../../../js/popup.js\" defer></script>");
+			scripts.AppendLine($"<script src=\"../../../../js/popup.js\" defer></script>");
 
 		// special component: viewer
 		var expression = @"(?s)(<a)(.*?)(><img)(.*?)(</a>)";
 		var match = Regex.Match(content, expression);
 		if(match.Success && scripts.ToString().IndexOf("viewer.js") < 0)
-			scripts.AppendLine($"<script type=\"application/javascript\" charset=\"utf-8\" src=\"../../../../js/viewer.js\" defer></script>");
+			scripts.AppendLine($"<script src=\"../../../../js/viewer.js\" defer></script>");
 
-		return scripts.ToString();
+		return scripts.Length > 0 ? scripts.ToString() : String.Empty;
 	}
 
 	/* FIXES
