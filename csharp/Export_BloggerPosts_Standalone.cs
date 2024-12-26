@@ -1,5 +1,7 @@
 using System;
 using System.Windows;
+using System.Net;
+using System.Web;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Linq;
@@ -20,10 +22,10 @@ public class Program {
 	// INPUT OUTPUT SETTINGS
 	static string BLOGGER_XML_DIRECTORY = @"/home/kaineng/Downloads";
 	static string ARCHIVE_XML_DIRECTORY = @"/home/kaineng/Documents/Workspaces";
-	static string OUTPUT_DIRECTORY = @"/home/kaineng/Documents/Repositories/knreports";
+	static string OUTPUT_DIRECTORY = @"/home/kaineng/Documents/Workspaces/knreports";
 	static string OUTPUT_DIRECTORY_SUBFOLDER = "posts";
 	static string HOMEPAGE_TEMPLATE_FILENAME = @"/home/kaineng/Documents/Repositories/knreports/template/homepage.html";
-	static string HOMEPAGE_FILENAME = @"/home/kaineng/Documents/Repositories/knreports/index.html";
+	static string HOMEPAGE_FILENAME = @"/home/kaineng/Documents/Workspaces/knreports/index.html";
 	static string POST_TEMPLATE_FILENAME = @"/home/kaineng/Documents/Repositories/knreports/template/post.html";
 	static string BLOGGER_XML_RENAME_SUFFIX = "knreports";
 
@@ -41,6 +43,7 @@ public class Program {
 	static List<string> GOOGLE_FONTS_URLS = new List<string>() { "Dancing Script", "Caveat" };
 	static bool SHOW_POST_LABELs_COUNT = false;
 	static bool SHOW_LINKED_LIST = false;
+	static List<string> FILE_DOWNLOAD_FORMATS = new List<string>() { ".jpg", ".png", ".gif" };
 
 	// POST SETTINGS
 	static string HTML_TITLE = "Klassic Note Reports";
@@ -524,16 +527,17 @@ public class Program {
 		// imgsrc folder: images without links
 		if (DEBUG_MODE) Console.WriteLine(">>IMGSRC - Find src in img");
         var imgSrcCount = 0;
-        match = Regex.Match(oldContent, @"(?s)<img(.*?)src=""(.*?)""(.*?)>");
+        var match = Regex.Match(content, @"(?s)<img(.*?)src=""(.*?)""(.*?)>");
         while(match.Success)
 		{
 			if(DEBUG_MODE) Console.WriteLine(match);
 			var url = match.Groups[2].Value;
+			Console.WriteLine(url);
 			var urlWithoutFilename = url.Substring(0, url.LastIndexOf('/') + 1);
-			var downloadFolder = "data/imgsrc/";
-		    var dataFolder = Path.Combine(monthfolder, downloadFolder);
+			var downloadFolder = "../data/imgsrc/";
+		    var dataFolder = Path.Combine(monthFolder, downloadFolder);
 			// download to local and return file name
-			var newFileName = DownloadFileToLocal('IMGSRC', url, dataFolder);
+			var newFileName = DownloadFileToLocal("IMGSRC", url, dataFolder);
 			// set as relative path
 			if(newFileName != null) {
 				content = content.Replace(urlWithoutFilename, downloadFolder);
@@ -545,16 +549,17 @@ public class Program {
         // imglink folder: links to images
 		if (DEBUG_MODE) Console.WriteLine(">>IMGLINK - Find href in img with link");
         var imgLinkCount = 0;
-        match = Regex.Match(oldContent, @"(?s)href\s*=\s*""(.*?)""");
+        match = Regex.Match(content, @"(?s)href\s*=\s*""(.*?)""");
         while(match.Success)
 		{
 			if(DEBUG_MODE) Console.WriteLine(match);
 			var url = match.Groups[1].Value;
+			Console.WriteLine(url);
 			var urlWithoutFilename = url.Substring(0, url.LastIndexOf('/') + 1);
-			var downloadFolder = "data/imglink/";
-		    var dataFolder = Path.Combine(monthfolder, downloadFolder);
+			var downloadFolder = "../data/imglink/";
+		    var dataFolder = Path.Combine(monthFolder, downloadFolder);
 			// download to local and return file name
-			var newFileName = DownloadFileToLocal('IMGLINK', url, dataFolder);
+			var newFileName = DownloadFileToLocal("IMGLINK", url, dataFolder);
 			// set as relative path
 			if(newFileName != null) {
 				content = content.Replace(urlWithoutFilename, downloadFolder);
@@ -566,16 +571,17 @@ public class Program {
         // divimg folder: images as background-image in divs
 		if (DEBUG_MODE) Console.WriteLine(">>DIVIMG - Find background-image in div");
         var divImgCount = 0;
-        match = Regex.Match(oldContent, @"background-image:\s*url\((.*?)\)");
+        match = Regex.Match(content, @"background-image:\s*url\((.*?)\)");
         while(match.Success)
 		{
 			if(DEBUG_MODE) Console.WriteLine(match);
 			var url = match.Groups[1].Value;
+			Console.WriteLine(url);
 			var urlWithoutFilename = url.Substring(0, url.LastIndexOf('/') + 1);
-			var downloadFolder = "data/divimg/";
-		    var dataFolder = Path.Combine(monthfolder, downloadFolder);
+			var downloadFolder = "../data/divimg/";
+		    var dataFolder = Path.Combine(monthFolder, downloadFolder);
 			// download to local and return file name
-			var newFileName = DownloadFileToLocal('DIVIMG', url, dataFolder);
+			var newFileName = DownloadFileToLocal("DIVIMG", url, dataFolder);
 			// set as relative path
 			if(newFileName != null) {
 				content = content.Replace(urlWithoutFilename, downloadFolder);
@@ -591,7 +597,7 @@ public class Program {
     {
         string localFileName = null;
         //Console.WriteLine(url);
-        if(AcceptedFormats.Any(format => url.EndsWith(format)))
+        if(FILE_DOWNLOAD_FORMATS.Any(format => url.EndsWith(format)))
         {
             var filename = url.Substring(url.LastIndexOf('/') + 1);
             if(!Directory.Exists(downloadFolderLocation)) Directory.CreateDirectory(downloadFolderLocation);
@@ -613,35 +619,7 @@ public class Program {
         return localFileName;
     }
 
-	/* FIXES
-	* [Status] List of Cases
-	* [ok]	fix twitter embed
-	* [ok]	fix youtube iframe size
-	* [ok]	remove embed styles for thumbnail normal/hover (posts with sp-thumbnail will be ignored)
-	* [ok]	old blog link to current blog
-	* [ok]	current blog link to relative
-	* [ok]	remove hashtags on post level
-	* [ok]	alternate links detection for new popups (youtu.be)
-	* [ok]	any link not referenced within blog to open on new tab
-	* [ok]	any link not referenced within blog to open on new tab (thumbnails)
-	* [ok]	remove add href to hashtags script
-	* [ok]	remove add href to hashtags script
-	* [ok]	fix primary and secondary colours to variables
-	* [ok]	replace common phrases with emoji
-	* [ok]	reduce resolution of uploaded images to 1600 pixels max
-	* [ok]	censor words
-	* [ok]	add lazy loading to img tags
-	* [ok]	replace italics with emphasis tag
-	* [ok] replace inline style with class due to universal font-size use
-	* [ok] fix own twitter/x handle (KlassicNote -> aozakish)
-	* [ok] page replacements for new blog (2024)
-	* [ok] agenda class item -> class agenda-item
-	* [ok] class thumbnail -> class carousel
-	* [ok] fix head-prefix hardcoded styles
-	* [ok] remove attributes for tables
-	* [ok] fix image attributes
-	* [] remove trailing slash on void elements
-	*/
+	/*SOURCE FROM EXPORT POSTS*/
 	static List<int> FixPostContent(ref string content, List<LinkedListItem> linkedList)
 	{
 		List<int> includeIndex = new List<int> { 14, 15, 18, 24, 29, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40 };
