@@ -6,11 +6,11 @@ let timer = null;
 let timestamps = new Array();
 //title_string,table_row,time_in_seconds,rank_till_time
 //for ranks with more than 1 result, order is same as order of push not table_row
-timestamps.push(['2024',0,1001,1,'SHE'S','Memories']);
+timestamps.push(['2024',0,1001,1,'SHE\'S','Memories']);
 timestamps.push(['2024',0,955,2,'Dannie May','Kaokao']);
 timestamps.push(['2024',0,906,3,'mol-74','BACKLIT']);
 timestamps.push(['2024',0,867,4,'SPYAIR','Orange']);
-timestamps.push(['2024',0,773,5,'Hanazawa Kana','It's My Thing']);
+timestamps.push(['2024',0,773,5,'Hanazawa Kana','It\'s My Thing']);
 timestamps.push(['2024',0,820,5,'Amamiya Sora','JACKPOT JOKER']);
 timestamps.push(['2024',0,681,6,'miwa','Soredemo Tada']);
 timestamps.push(['2024',0,726,6,'Homecomings','slowboat']);
@@ -29,7 +29,6 @@ timestamps.push(['2024',0,137,17,'SoundOrion','Sunny Canvas']);
 timestamps.push(['2024',0,95,18,'ammo','Itokenai']);
 timestamps.push(['2024',0,49,19,'Scenarioart','High Teen']);
 timestamps.push(['2024',0,0,20,'YUKI','One, One, One']);
-
 
 timestamps.push(['2023', 1,935, 1,'Homecomings','US']);
 timestamps.push(['2023', 2,888, 2,'mol-74','0.1s']);
