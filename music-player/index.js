@@ -18,7 +18,7 @@ timestamps.push(['2024',0,637,7,'Ogura Yui','Kimiiro no Kiseki']);
 timestamps.push(['2024',0,594,8,'Asakura Momo','Sweet Essence']);
 timestamps.push(['2024',0,553,9,'Kodama Hikari','Charge!']);
 timestamps.push(['2024',0,510,10,'Sangatsu no Phantasia','Ai no Fukashigi']);
-timestamps.push(['2024',0,468,11,'Sono ni Naru','Soumonka']);
+timestamps.push(['2024',0,468,11,'Soko ni Naru','Soumonka']);
 timestamps.push(['2024',0,418,12,'eill','Kakumei Zenya']);
 timestamps.push(['2024',0,371,13,'fhana','Tenshi-tachi no Uta']);
 timestamps.push(['2024',0,329,14,'Creepy Nuts','Bling-Bang-Bang-Born']);
