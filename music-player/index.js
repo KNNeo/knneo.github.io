@@ -1,11 +1,35 @@
 //timestamp display for audio player
-let tableID = '2023';
+let tableID = '2024';
 let playerID = tableID + 'Player';
 let domain = 'https://res.cloudinary.com/klassicnote/video/upload/audio/';
 let timer = null;
 let timestamps = new Array();
 //title_string,table_row,time_in_seconds,rank_till_time
 //for ranks with more than 1 result, order is same as order of push not table_row
+timestamps.push(['2024',1,1002,1,'SHE\'S','Memories']);
+timestamps.push(['2024',2,955,2,'Dannie May','Kaokao']);
+timestamps.push(['2024',3,906,3,'mol-74','BACKLIT']);
+timestamps.push(['2024',4,867,4,'SPYAIR','Orange']);
+timestamps.push(['2024',5,772,5,'Hanazawa Kana','It\'s My Thing']);
+timestamps.push(['2024',6,820,5,'Amamiya Sora','JACKPOT JOKER']);
+timestamps.push(['2024',7,681,6,'miwa','Soredemo Tada']);
+timestamps.push(['2024',8,726,6,'Homecomings','slowboat']);
+timestamps.push(['2024',9,637,7,'Ogura Yui','Kimiiro no Kiseki']);
+timestamps.push(['2024',10,595,8,'Asakura Momo','Sweet Essence']);
+timestamps.push(['2024',11,553,9,'Kodama Hikari','Charge!']);
+timestamps.push(['2024',12,510,10,'Sangatsu no Phantasia','Ai no Fukashigi']);
+timestamps.push(['2024',13,468,11,'Sono ni Naru','Soumonka']);
+timestamps.push(['2024',14,418,12,'eill','Kakumei Zenya']);
+timestamps.push(['2024',15,371,13,'fhana','Tenshi-tachi no Uta']);
+timestamps.push(['2024',16,329,14,'Creepy Nuts','Bling-Bang-Bang-Born']);
+timestamps.push(['2024',17,241,15,'Lavt','Yuusou Musou']);
+timestamps.push(['2024',18,287,15,'Eve','Teenage Blue']);
+timestamps.push(['2024',19,188,16,'Omoinotake','Ikuokukounen']);
+timestamps.push(['2024',20,137,17,'SoundOrion','Sunny Canvas']);
+timestamps.push(['2024',21,96,18,'ammo','Itokenai']);
+timestamps.push(['2024',22,49,19,'Scenarioart','High Teen']);
+timestamps.push(['2024',23,0,20,'YUKI','One, One, One']);
+
 timestamps.push(['2023', 1,935, 1,'Homecomings','US']);
 timestamps.push(['2023', 2,888, 2,'mol-74','0.1s']);
 timestamps.push(['2023', 3,846, 3,'Kroi','Fuurai']);
