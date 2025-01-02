@@ -48,11 +48,12 @@ function generateTagClouds() {
 		.reduce(function(total, current, index, arr) {
 			for(let tag of current.split(window.variables.filter?.delimiter || ','))
 			{
-				if(tag && tag.length > 2 && !total.map(m => m.value).includes(tag))
+				let value = tag.trim();
+				if(value && value.length > 2 && !total.map(m => m.value).includes(value))
 					total.push({
-						value: tag.trim(),
+						value,
 						category: filter.className,
-						count: arr.filter(f => f.split(window.variables.filter?.delimiter || ',').includes(tag)).length
+						count: arr.filter(f => f.split(window.variables.filter?.delimiter || ',').includes(value)).length
 					});
 			}
 			return total;
