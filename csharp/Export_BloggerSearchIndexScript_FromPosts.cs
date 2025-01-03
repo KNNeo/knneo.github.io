@@ -233,9 +233,9 @@ public class Program {
 			postContent = CleanupHtml(postContent.ToLower().Substring(startIndex));
 			// Replace quotes for sqlite script
 			indexContent.Add(new SearchIndexContent() {
-				title = postTitle.Replace("'", "''").Replace("\"", "\"\""),
+				title = postTitle.Replace("'", "''"),
 				url = pageLink,
-				content = postContent.Replace("'", "''").Replace("\"", "\"\""),
+				content = postContent.Replace("'", "''"),
 				date = publishDate.ToString("yyyy.MM.dd"),
 				flag = condition
 			});
@@ -256,7 +256,7 @@ public class Program {
 		sb.AppendLine(@"CREATE VIRTUAL TABLE IF NOT EXISTS SearchIndex USING fts5(title, url, date, flag, content, tokenize=""unicode61 tokenchars ''''"");");
 		foreach(var page in indexes)
 		{
-			sb.AppendLine(@"INSERT INTO SearchIndex (title, url, date, flag, content) VALUES (""@title"", ""@url"", ""@date"", ""@flag"", ""@content"");"
+			sb.AppendLine(@"INSERT INTO SearchIndex (title, url, date, flag, content) VALUES ('@title', '@url', '@date', '@flag', '@content');"
 				.Replace("@title", page.title)
 				.Replace("@url", page.url)
 				.Replace("@date", page.date)
@@ -278,9 +278,25 @@ public class Program {
 	}
 
 	static string CleanupHtml(string content) {
-		// Remove unimportant tags
-		var expression = @"(?s)(<img|class=""carousel"")(.*?)(/>)";
-		var match = Regex.Match(content, expression);
+		string expression = @"";
+		Match match = null;
+		// Remove content of unimportant tags (most to least specific)
+		expression = @"(?s)(<div class=""carousel-item hide"")(.*?)(/div>)";
+		match = Regex.Match(content, expression);
+		while(match.Success)
+		{
+			content = content.Replace(match.Value, "");
+			match = match.NextMatch();
+		};
+		expression = @"(?s)(<span class=""header-prefix"")(.*?)(/div>)";
+		match = Regex.Match(content, expression);
+		while(match.Success)
+		{
+			content = content.Replace(match.Value, "");
+			match = match.NextMatch();
+		};
+		expression = @"(?s)(<img)(.*?)(/>)";
+		match = Regex.Match(content, expression);
 		while(match.Success)
 		{
 			content = content.Replace(match.Value, "");
@@ -302,9 +318,15 @@ public class Program {
 			content = content.Replace(match.Value, " ");
 			match = match.NextMatch();
 		};
+		// Remove postscripts
+		content = Regex.Replace(content, @"p.p.s.", "");
+		content = Regex.Replace(content, @"p.s.", "");
+		// Remove all potential emoji
+		content = Regex.Replace(content, @"(\*blessed\*|\*chu\*|\*kiss\*|\*cringe\*|\*dabs\*|\*fingers crossed\*|\*gasp\*|\*speechless\*|\*giggles\*|\*laughs\*)", "");
 		// Remove tabs, newline, carriage characters, consecutive whitespaces
 		content = Regex.Replace(content, @"\t|\n|\r", "");
-		content = Regex.Replace(content, @"\s+", " ");	
+		content = Regex.Replace(content, @"\s+,", "");
+		content = Regex.Replace(content, @"\s+", " ");
 		return content;
 	}
 
