@@ -341,9 +341,14 @@ function renderFilters() {
 			tagDiv.href = 'javascript:void(0);';
 			tagDiv.title = tag.value + '(' + tag.count + ')';
 			tagDiv.innerText = tag.value;
+			if(window.variables.filter &&
+				window.variables.filter.category == tag.category &&
+				window.variables.filter.value == tag.value) {
+					tagDiv.classList.add('selected');
+			}
 			tagDiv.addEventListener('click', function() {
-				let filtered = window.variables.base.filter(i => i[tag.category] && i[tag.category].split(window.variables.filter?.delimiter || ',').includes(tag.value));
-				window.variables.base = filtered.length > 0 ? filtered : window.variables.items.filter(i => i[tag.category] == tag.value); // filter existing if has values, else reset and filter
+				window.variables.filter = tag;
+				setBase(window.variables.base);
 				hideFilters();
 				renderGallery();
 			});
@@ -512,20 +517,6 @@ function startup() {
 
 function startLoad(content) {
 	window.variables = content;
-	window.variables.base = window.variables.items
-		.filter(i => window.variables.filter && window.variables.filter.category ? i[window.variables.filter.category].includes(window.variables.filter.value || '') : true)
-		.sort(function(a,b) {
-			if(window.variables.sort && window.variables.sort.order && window.variables.sort.value)
-			{
-				if(window.variables.sort.order.toLowerCase() == 'asc')
-					return a[window.variables.sort.value] - b[window.variables.sort.value];
-				if(window.variables.sort.order.toLowerCase() == 'desc')
-					return b[window.variables.sort.value] - a[window.variables.sort.value];
-				if(window.variables.sort.order.toLowerCase() == 'random')
-					return (2*Math.random()) - 1;
-			}
-			return 0;
-		});
 	document.title = window.variables.title;
 	titleDiv.innerText = window.variables.title;
 	subtitleDiv.innerText = window.variables.subtitle;
@@ -538,6 +529,28 @@ function startLoad(content) {
 	}
 	noticeDiv.innerText = window.variables.notice;
 	
+	setBase();
 	renderDisplay();
 	renderGallery();
+}
+
+function setBase(baseData) {
+	window.variables.base = (baseData || window.variables.items)
+		.filter(i => window.variables.filter && window.variables.filter.category 
+			? i[window.variables.filter.category].includes(window.variables.filter.value || '') 
+			: true)
+		.sort(function(a,b) {
+			if(window.variables.sort && window.variables.sort.order && window.variables.sort.value)
+			{
+				if(window.variables.sort.order.toLowerCase() == 'asc')
+					return a[window.variables.sort.value] - b[window.variables.sort.value];
+				if(window.variables.sort.order.toLowerCase() == 'desc')
+					return b[window.variables.sort.value] - a[window.variables.sort.value];
+				if(window.variables.sort.order.toLowerCase() == 'random')
+					return (2*Math.random()) - 1;
+			}
+			return 0;
+		});
+	if(window.variables.base.length < 1)
+		setBase();
 }
