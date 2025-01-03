@@ -10,6 +10,7 @@ let overviewDiv = document.querySelector('.overview');
 let noticeDiv = document.querySelector('.details .info');
 let detailsDiv = document.querySelector('.details');
 let filtersDiv = document.querySelector('.filters');
+let messageDiv = document.querySelector('.message');
 let settingsDiv = document.querySelector('.settings');
 let progressDiv = document.querySelector('.progress');
 
@@ -276,7 +277,9 @@ function hideFilters() {
 }
 
 function resetFilters() {
-	window.variables.base = window.variables.items;
+	window.variables.filters = [];
+	window.variables.filter = null;
+	setBase();
 	hideFilters();
 	renderGallery();
 }
@@ -559,5 +562,13 @@ function setBase(baseData) {
 	if(window.variables.base.length < 1) {
 		window.variables.filters = [];
 		setBase();
+	}
+	if(window.variables.filters && window.variables.base.length < window.variables.items.length) {
+		messageDiv.setAttribute('data-count', window.variables.filters.length);
+		messageDiv.innerText = 'Filters active:\n' + window.variables.filters.map(f => f.category + ' - ' + f.value).join('\n');
+	}
+	else if(window.variables.base.length >= window.variables.items.length) {
+		messageDiv.removeAttribute('data-count');
+		messageDiv.innerText = '';
 	}
 }

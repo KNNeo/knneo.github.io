@@ -38,6 +38,7 @@ a:hover, label:hover {
 .title, 
 .subtitle,
 .home,
+.message,
 .gallery[prompt]::before {
     filter: drop-shadow(2px 4px 2px var(--background));	
 }
@@ -46,7 +47,8 @@ a:hover, label:hover {
 .subtitle,
 .details,
 .filters, 
-.settings {
+.settings,
+.message {
 	position: absolute;
 	-webkit-user-select: none;
 	-khtml-user-select: none;
@@ -128,6 +130,17 @@ a:hover, label:hover {
 
 .filters .tags:not(:has(a)) {
 	display: none;
+}
+
+.message {
+    top: 4em;
+    right: 2em;
+}
+
+.message[data-count] {
+    border: 2px solid var(--foreground);
+    border-radius: 8px;
+    padding: 6px;
 }
 
 .home {
