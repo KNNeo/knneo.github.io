@@ -43,9 +43,10 @@ function generateTagClouds() {
 	// dependent on list of filter containers in html
 	for(let filter of document.querySelectorAll('.filters div'))
 	{
+		let category = filter.classList[0];
 		// generate unique tags
 		let filterList = window.variables.items
-		.map(i => i[filter.className] || '')
+		.map(i => i[category] || '')
 		.reduce(function(total, current, index, arr) {
 			for(let tag of current.split(window.variables.filter?.delimiter || ','))
 			{
@@ -53,7 +54,7 @@ function generateTagClouds() {
 				if(value && value.length > 2 && !total.map(m => m.value).includes(value))
 					total.push({
 						value,
-						category: filter.className,
+						category,
 						count: arr.filter(f => f.split(window.variables.filter?.delimiter || ',').includes(value)).length
 					});
 			}
@@ -324,14 +325,35 @@ function scrollToSelected() {
 function renderFilters() {
 	// generate all tags
 	let tags = generateTagClouds();
-	for(let tag of filtersDiv.querySelectorAll('div'))
+	for(let filterDiv of filtersDiv.querySelectorAll('div, select'))
 	{
-		tag.innerHTML = '';
-		// add tag title
-		let tagDiv = document.createElement('h3');
-		tagDiv.style.textTransform = 'uppercase';
-		tagDiv.innerText = tag.className;
-		tag.appendChild(tagDiv);
+		filterDiv.innerHTML = '';
+		if(filterDiv.classList.contains('dropdown')) {
+			// add tag title
+			let tagDiv = document.createElement('h3');
+			tagDiv.style.textTransform = 'uppercase';
+			tagDiv.innerText = filterDiv.classList[0];
+			filterDiv.appendChild(tagDiv);
+			// add tag dropdown
+			let tagSelect = document.createElement('select');
+			tagSelect.addEventListener('change', function() {
+				window.variables.filter = {
+					category: filterDiv.classList[0],
+					value: event.target.value
+				};
+				setBase(window.variables.base);
+				hideFilters();
+				renderGallery();
+			});
+			filterDiv.appendChild(tagSelect);
+		}
+		else {
+			// add tag title
+			let tagDiv = document.createElement('h3');
+			tagDiv.style.textTransform = 'uppercase';
+			tagDiv.innerText = filterDiv.className;
+			filterDiv.appendChild(tagDiv);
+		}
 	}	
 	// render tags by category
 	for(let tag of tags)
@@ -339,23 +361,38 @@ function renderFilters() {
 		let filterDiv = filtersDiv.querySelector('.' + tag.category);
 		if(filterDiv != null)
 		{
-			let tagDiv = document.createElement('a');
-			tagDiv.href = 'javascript:void(0);';
-			tagDiv.title = tag.value + '(' + tag.count + ')';
-			tagDiv.innerText = tag.value;
-			if(window.variables.filters && window.variables.filters.length &&
-				window.variables.filters
-					.filter(i => 
-						i.category == tag.category && i.value == tag.value)
-						.length)
-					tagDiv.classList.add('selected');
-			tagDiv.addEventListener('click', function() {
-				window.variables.filter = tag;
-				setBase(window.variables.base);
-				hideFilters();
-				renderGallery();
-			});
-			filterDiv.appendChild(tagDiv);
+			if(filterDiv.classList.contains('dropdown')) {
+				let tagDiv = document.createElement('option');
+				tagDiv.title = tag.value + '(' + tag.count + ')';
+				tagDiv.innerText = tag.value;
+				tagDiv.value = tag.value;
+				if(window.variables.filters && window.variables.filters.length &&
+					window.variables.filters
+						.filter(i => 
+							i.category == tag.category && i.value == tag.value)
+							.length)
+							tagDiv.selected = true;
+				filterDiv.querySelector('select').appendChild(tagDiv);
+			}
+			else {
+				let tagDiv = document.createElement('a');
+				tagDiv.href = 'javascript:void(0);';
+				tagDiv.title = tag.value + '(' + tag.count + ')';
+				tagDiv.innerText = tag.value;
+				if(window.variables.filters && window.variables.filters.length &&
+					window.variables.filters
+						.filter(i => 
+							i.category == tag.category && i.value == tag.value)
+							.length)
+						tagDiv.classList.add('selected');
+				tagDiv.addEventListener('click', function() {
+					window.variables.filter = tag;
+					setBase(window.variables.base);
+					hideFilters();
+					renderGallery();
+				});
+				filterDiv.appendChild(tagDiv);
+			}
 		}
 	}
 	// render search description
@@ -391,6 +428,7 @@ function renderDisplay() {
 function renderGallery() {
 	progressDiv.style.top = '0';
 	galleryDiv.innerHTML = '';
+	galleryDiv.removeAttribute('prompt');
 	if(window.variables?.base < 1) {
 		galleryDiv.innerHTML = '<p>No items found</p>';
 		return;
@@ -557,13 +595,17 @@ function startLoad(content) {
 function setBase(baseData) {
 	if(window.variables && !window.variables.filters)
 		window.variables.filters = [];
-	if(window.variables?.filters && window.variables?.filter)
+	if(window.variables?.filters && window.variables?.filter &&
+		window.variables.filter.category && window.variables.filter.value)
 		window.variables.filters.push(window.variables.filter);
 	if(baseData || window.variables?.items)
 		window.variables.base = (baseData || window.variables?.items)
-			.filter(i => window.variables.filter && window.variables.filter.category 
-				? i[window.variables.filter.category].includes(window.variables.filter.value || '') 
-				: true)
+			.filter(function(i) {
+				if(window.variables.filter && window.variables.filter.category
+					&& window.variables.filter.value)
+					return i[window.variables.filter.category].includes(window.variables.filter.value || '');
+				return true;
+			})
 			.sort(function(a,b) {
 				if(window.variables.sort && window.variables.sort.order && window.variables.sort.value)
 				{
@@ -576,8 +618,10 @@ function setBase(baseData) {
 				}
 				return 0;
 			});
-	if(window.variables?.base.length < 1)
-		resetFilters();
+	if(window.variables?.base.length < 1) {
+		window.variables.filters = [];
+		setTimeout(setBase, 200);
+	}
 	if(window.variables?.filters && window.variables?.base.length < window.variables?.items.length) {
 		messageDiv.setAttribute('data-count', window.variables.filters.length);
 		messageDiv.innerText = 'Filters Active:\n' + window.variables.filters.map(f => f.category.capitalize() + ' - ' + f.value).join('\n');
