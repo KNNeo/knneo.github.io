@@ -506,9 +506,8 @@ function createSource() {
 function startup() {
 	if(document.getElementById('data-id').src)
 		getJson(document.getElementById('data-id').src, startLoad);
-	else if (document.getElementById('data-id').textContent) {
+	else if (document.getElementById('data-id').textContent)
 		startLoad(JSON.parse(document.getElementById('data-id').textContent));
-	}
 }
 
 function startLoad(content) {
