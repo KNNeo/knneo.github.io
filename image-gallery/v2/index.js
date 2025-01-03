@@ -19,7 +19,7 @@ function scrollToItem(itemNo) {
 	for(let item of allItems)
 		item.classList.remove('selected');
 	let selectItem = itemNo || 0;
-	if(allItems.length > 0) {
+	if(allItems.length) {
 		allItems[selectItem].scrollIntoView({
 			inline: 'center', behavior: 'smooth'
 		});
@@ -341,11 +341,12 @@ function renderFilters() {
 			tagDiv.href = 'javascript:void(0);';
 			tagDiv.title = tag.value + '(' + tag.count + ')';
 			tagDiv.innerText = tag.value;
-			if(window.variables.filter &&
-				window.variables.filter.category == tag.category &&
-				window.variables.filter.value == tag.value) {
+			if(window.variables.filters && window.variables.filters.length &&
+				window.variables.filters
+					.filter(i => 
+						i.category == tag.category && i.value == tag.value)
+						.length)
 					tagDiv.classList.add('selected');
-			}
 			tagDiv.addEventListener('click', function() {
 				window.variables.filter = tag;
 				setBase(window.variables.base);
@@ -535,6 +536,10 @@ function startLoad(content) {
 }
 
 function setBase(baseData) {
+	if(!window.variables.filters)
+		window.variables.filters = [];
+	if(window.variables.filter)
+		window.variables.filters.push(window.variables.filter);
 	window.variables.base = (baseData || window.variables.items)
 		.filter(i => window.variables.filter && window.variables.filter.category 
 			? i[window.variables.filter.category].includes(window.variables.filter.value || '') 
@@ -551,6 +556,8 @@ function setBase(baseData) {
 			}
 			return 0;
 		});
-	if(window.variables.base.length < 1)
+	if(window.variables.base.length < 1) {
+		window.variables.filters = [];
 		setBase();
+	}
 }
