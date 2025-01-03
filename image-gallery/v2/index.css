@@ -34,15 +34,6 @@ a:hover, label:hover {
     padding: 3px;
 }
 
-.bi,
-.title, 
-.subtitle,
-.home,
-.message,
-.gallery[prompt]::before {
-    filter: drop-shadow(2px 4px 2px var(--background));	
-}
-
 .title, 
 .subtitle,
 .details,
@@ -195,6 +186,13 @@ body .gallery {
 	bottom: 3em;
 	left: 0;
 	right: 0;
+    width: 100%;
+    max-width: fit-content;
+    padding: 2px 2em;
+    margin: auto;
+    background-color: var(--accent);
+    border-radius: 0 99px 99px 99px;
+    border: 2px solid var(--foreground);
 }
 
 .gallery img[data-link] {
