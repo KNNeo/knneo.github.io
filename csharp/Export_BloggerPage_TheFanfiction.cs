@@ -316,7 +316,7 @@ public class Program {
                         season = publishDate >= prevDate.AddDays(14) ? ++season : season,
                         index = ++counter,
                         title = postTitle,
-                        link = "../" + pageLink,
+                        link = "../../" + pageLink,
                         character = postFeatured,
                         thumb = postThumbnail,
                         content = textContent
