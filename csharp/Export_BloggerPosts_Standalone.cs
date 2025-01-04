@@ -72,14 +72,14 @@ public class Program {
 		Console.WriteLine("> Note: If execution is stuck, is likely due to Blogger img tags missing self-enclosing slash, format on Web and re-export");
 		if(!WRITE_TITLE_ON_CONSOLE) Console.WriteLine("> WRITE_TITLE_ON_CONSOLE is " + WRITE_TITLE_ON_CONSOLE + "; Set as true to see post titles");
 		if(HOMEPAGE_ONLY) Console.WriteLine("> HOMEPAGE_ONLY is " + HOMEPAGE_ONLY + "; Set as false to update posts");
-		Console.WriteLine("===================================================================================");	
+		Console.WriteLine("================================================================================");	
 		var inputFileDirs = GetBloggerXmlFilePath(BLOGGER_XML_DIRECTORY, ARCHIVE_XML_DIRECTORY);
 		var bloggerPosts = GetBloggerPostsPublished(inputFileDirs);
 		// var outputFilesDir = Path.Combine(OUTPUT_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER);
 		var linkedList = GenerateBloggerPostsLinkedList(bloggerPosts);
 		var homepageString = GenerateBloggerPosts(bloggerPosts, linkedList, Path.Combine(OUTPUT_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER));
 		GenerateHomepage(homepageString, bloggerPosts.ToList().Count);
-		Console.WriteLine("===================================================================================");
+		Console.WriteLine("================================================================================");
 		if(WRITE_FIXES_ON_CONSOLE)
 		{
 			Console.WriteLine("FIX COUNTS");

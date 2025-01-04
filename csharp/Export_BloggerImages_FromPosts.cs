@@ -45,13 +45,13 @@ public class Program {
 		if(!WRITE_TITLE_ON_CONSOLE) Console.WriteLine("> WRITE_TITLE_ON_CONSOLE is " + WRITE_TITLE_ON_CONSOLE + "; Set as true to see post titles");
 		if(HOMEPAGE_ONLY) Console.WriteLine("> HOMEPAGE_ONLY is " + HOMEPAGE_ONLY + "; Set as false to update posts");
 		Console.WriteLine("> Image domains to detect are:\n*" + string.Join("\n*", IMAGE_DOMAINS_LIST));
-		Console.WriteLine("===================================================================================");	
+		Console.WriteLine("================================================================================");	
 		var inputFileDirs = GetBloggerXmlFilePath(BLOGGER_XML_DIRECTORY, ARCHIVE_XML_DIRECTORY);
 		var bloggerPosts = GetBloggerPostsPublished(inputFileDirs);
 		var pageString = GenerateImageIndex(bloggerPosts);
 		GenerateIndexFile(pageString, bloggerPosts.ToList().Count);
 		Console.WriteLine();
-		Console.WriteLine("===================================================================================");	
+		Console.WriteLine("================================================================================");	
 		// Output as completed
 		Console.WriteLine("Done.");
 	}
