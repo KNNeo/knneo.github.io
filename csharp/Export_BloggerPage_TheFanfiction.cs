@@ -368,10 +368,10 @@ public class Program {
                 
                 foreach(var tag in tags.Skip(1))
                 {
-                    if(tagsList.ContainsKey(tags[0]))
-                        tagsList[tags[0]] += 1;
+                    if(tagsList.ContainsKey(tag))
+                        tagsList[tag] += 1;
                     else
-                        tagsList.Add(tags[0], 1);
+                        tagsList.Add(tag, 1);
                 }
             }
             
