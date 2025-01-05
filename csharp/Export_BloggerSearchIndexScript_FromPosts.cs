@@ -57,7 +57,7 @@ public class Program {
 		Console.WriteLine();
 		Console.WriteLine("================================================================================");	
 		// Output as completed
-		Console.WriteLine("Done.");
+		Console.WriteLine("Done generate search index script.");
 	}
 
 	static string[] GetBloggerXmlFilePath(string inputPath, string backupPath)

@@ -53,7 +53,7 @@ public class Program {
 		Console.WriteLine();
 		Console.WriteLine("================================================================================");	
 		// Output as completed
-		Console.WriteLine("Done.");
+		Console.WriteLine("Done export images.");
 	}
 
 	static string[] GetBloggerXmlFilePath(string inputPath, string backupPath)

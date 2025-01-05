@@ -56,7 +56,7 @@ public class Program {
         GenerateSitemapFile(pageSections);
         Console.WriteLine("================================================================================");
         // Output as completed
-        Console.WriteLine("Done.");
+        Console.WriteLine("Done generate sitemap.");
     }
 
 	static string[] GetBloggerXmlFilePath(string inputPath, string backupPath)

@@ -91,7 +91,7 @@ public class Program {
 			Console.WriteLine(emojiCounts.OrderByDescending(x => x.Value));
 		}
 		// Output as completed
-		Console.WriteLine("Done.");
+		Console.WriteLine("Done export posts and resources (standalone).");
 	}
 
 	static string[] GetBloggerXmlFilePath(string inputPath, string backupPath)

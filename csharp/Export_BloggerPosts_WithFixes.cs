@@ -31,7 +31,7 @@ public class Program {
 	static bool GENERATE_SLUG_BY_POST_TITLE = true;
 	static int GENERATE_SLUG_MAX_LENGTH = 70;
 	static bool HOMEPAGE_ONLY = false;
-	static bool WRITE_TITLE_ON_CONSOLE = true;
+	static bool WRITE_TITLE_ON_CONSOLE = false;
 	static bool WRITE_FIXES_ON_CONSOLE = false;
 	static bool WRITE_EMOJICOUNT_ON_CONSOLE = false;
 	static bool DELETE_OUTPUT_DIRECTORY = false;
@@ -88,7 +88,7 @@ public class Program {
 			Console.WriteLine(emojiCounts.OrderByDescending(x => x.Value));
 		}
 		// Output as completed
-		Console.WriteLine("Done.");
+		Console.WriteLine("Done export posts.");
 	}
 
 	static string[] GetBloggerXmlFilePath(string inputPath, string backupPath)

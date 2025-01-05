@@ -80,7 +80,7 @@ public class Program {
         WriteFanficListFromTags();
 		Console.WriteLine("================================================================================");
 		// Output as completed
-		Console.WriteLine("Done.");
+		Console.WriteLine("Done generate fanfiction page.");
 	}
 
 	static string[] GetBloggerXmlFilePath(string inputPath, string backupPath)
