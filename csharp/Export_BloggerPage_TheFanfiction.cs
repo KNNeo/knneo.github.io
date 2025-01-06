@@ -7,13 +7,13 @@ using System.Xml.Linq;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using System.Diagnostics;
 using NUglify;
 using NUglify.Html;
 
 public class Program {
 	// DEBUG
 	static bool DEBUG_MODE = false;
-	static string POSTS_SEARCHTERM = "";
 
 	// INPUT OUTPUT SETTINGS
 	static string BLOGGER_XML_DIRECTORY = @"/home/kaineng/Downloads";
@@ -28,9 +28,9 @@ public class Program {
 	// PROGRAM SETTINGS
 	static bool GENERATE_SLUG_BY_POST_TITLE = true;
 	static int GENERATE_SLUG_MAX_LENGTH = 70;
-	static bool HOMEPAGE_ONLY = false;
-	static bool WRITE_TITLE_ON_CONSOLE = true;
-    static bool WRITE_FANFIC_LIST_ON_CONSOLE = true;
+	static bool WRITE_TITLE_ON_CONSOLE = false;
+    static bool WRITE_TAGS_COUNT_ON_CONSOLE = false;
+    static bool WRITE_PEOPLE_COUNT_ON_CONSOLE = true;
 	static bool DELETE_OUTPUT_DIRECTORY = false;
 	static int DOTS_PER_LINE_CONSOLE = 100;
 	static string BLOG_DOMAIN_URL = "https://klassicnotereports.blogspot.com/";
@@ -40,7 +40,6 @@ public class Program {
 	// POST SETTINGS
 	static string POSTS_INCLUDE_SINCE = "2000-01-01";
 	static string POSTS_PROCESS_SINCE = "2023-07-01";
-	static string POST_THUMBNAIL_SINCE = "2020-01-01";
 	static List<String> POST_INCLUDE_LABELS = new List<string>() { "The Fanfiction" };
 	static List<String> POST_OLD_DOMAINS = new List<string>()
 	{
@@ -67,20 +66,24 @@ public class Program {
 	static void Main()
 	{
 		// Pre-execution notice
-		Console.WriteLine("> Note: If execution is stuck, is likely due to Blogger img tags missing self-enclosing slash, format on Web and re-export");
-		if(!WRITE_TITLE_ON_CONSOLE) Console.WriteLine("> WRITE_TITLE_ON_CONSOLE is " + WRITE_TITLE_ON_CONSOLE + "; Set as true to see post titles");
-		if(HOMEPAGE_ONLY) Console.WriteLine("> HOMEPAGE_ONLY is " + HOMEPAGE_ONLY + "; Set as false to update posts");
 		Console.WriteLine("================================================================================");
+		// Console.WriteLine("> If execution is stuck, is likely due to Blogger img tags missing self-enclosing slash, format on Web and re-export");
+		if(!WRITE_TITLE_ON_CONSOLE) Console.WriteLine("> WRITE_TITLE_ON_CONSOLE is " + WRITE_TITLE_ON_CONSOLE + "; Set as True to see post titles");
+		Console.WriteLine("================================================================================");
+        Stopwatch stopwatch = new Stopwatch();
+        stopwatch.Start();
 		var inputFileDirs = GetBloggerXmlFilePath(BLOGGER_XML_DIRECTORY, ARCHIVE_XML_DIRECTORY);
 		var bloggerPosts = GetBloggerPostsPublished(inputFileDirs);
 		// var outputFilesDir = Path.Combine(OUTPUT_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER);
 		var linkedList = GenerateBloggerPostsLinkedList(bloggerPosts);
 		var fanfics = GenerateBloggerPosts(bloggerPosts, linkedList, Path.Combine(OUTPUT_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER));
         GenerateFile(fanfics);
+		Console.WriteLine();
         WriteFanficListFromTags();
 		Console.WriteLine("================================================================================");
 		// Output as completed
-		Console.WriteLine("Done generate fanfiction page.");
+        stopwatch.Stop();
+		Console.WriteLine("Done generate fanfiction page. Time taken: " + stopwatch.Elapsed.ToString(@"m\:ss\.fff"));
 	}
 
 	static string[] GetBloggerXmlFilePath(string inputPath, string backupPath)
@@ -212,7 +215,7 @@ public class Program {
 	static List<FanfictionContent> GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<LinkedListItem> linkedList, string outputFileDir)
 	{
 		// Create output folder if missing
-		if(!Directory.Exists(outputFileDir) && !HOMEPAGE_ONLY)
+		if(!Directory.Exists(outputFileDir))
 			Directory.CreateDirectory(outputFileDir);
 		// Delete output folder as per settings
 		if(DELETE_OUTPUT_DIRECTORY)
@@ -231,7 +234,7 @@ public class Program {
 			// Extract data from XML
 			string postContent = entry.Element(DEFAULT_XML_NAMESPACE+"content").Value;
 			DateTime publishDate = DateTime.Parse(entry.Element(DEFAULT_XML_NAMESPACE+"published").Value);
-			DateTime updateDate = DateTime.Parse(entry.Element(DEFAULT_XML_NAMESPACE+"updated").Value);
+			// DateTime updateDate = DateTime.Parse(entry.Element(DEFAULT_XML_NAMESPACE+"updated").Value);
 			string postTitle = entry.Element(DEFAULT_XML_NAMESPACE+"title").Value;
 			string postExtension = entry.Element(DEFAULT_XML_NAMESPACE+"content").Attribute("type").Value ?? "html";
 			XElement empty = new XElement("empty");
@@ -244,18 +247,15 @@ public class Program {
 				bloggerLink = bloggerLink.Replace(domain, BLOG_DOMAIN_URL);
 			}
 			string generatedLink = GenerateSlug(postTitle);
-			// If not post URL, skip
-			if(string.IsNullOrWhiteSpace(bloggerLink))
-				continue;
 			// Create output folders to put html file as per Blogger design ie. <domain>/<yyyy>/<MM>/<post-title>.html
-			var yearfolder = Path.Combine(outputFileDir, publishDate.Year.ToString("0000"));
-			if(!Directory.Exists(yearfolder)) Directory.CreateDirectory(outputFileDir);
-			var monthfolder = Path.Combine(yearfolder, publishDate.Month.ToString("00"));
-			if(!Directory.Exists(monthfolder)) Directory.CreateDirectory(monthfolder);
-			var postFolder = Path.Combine(monthfolder, GENERATE_SLUG_BY_POST_TITLE ? generatedLink : Path.GetFileNameWithoutExtension(bloggerLink));
-			if(!Directory.Exists(postFolder)) Directory.CreateDirectory(postFolder);
-			string outFileName = "index." + postExtension;
-			var pageOutputPath = Path.Combine(postFolder, outFileName);
+			// var yearfolder = Path.Combine(outputFileDir, publishDate.Year.ToString("0000"));
+			// if(!Directory.Exists(yearfolder)) Directory.CreateDirectory(outputFileDir);
+			// var monthfolder = Path.Combine(yearfolder, publishDate.Month.ToString("00"));
+			// if(!Directory.Exists(monthfolder)) Directory.CreateDirectory(monthfolder);
+			// var postFolder = Path.Combine(monthfolder, GENERATE_SLUG_BY_POST_TITLE ? generatedLink : Path.GetFileNameWithoutExtension(bloggerLink));
+			// if(!Directory.Exists(postFolder)) Directory.CreateDirectory(postFolder);
+			// string outFileName = "index." + postExtension;
+			// var pageOutputPath = Path.Combine(postFolder, outFileName);
 			// Find post labels
 			var pageTagsXml = entry.Elements(DEFAULT_XML_NAMESPACE+"category")
 				.Where(e => !e.Attribute("term").ToString().Contains("#post")).Select(q => q.Attribute("term").Value).ToList();
@@ -266,9 +266,9 @@ public class Program {
 			var pageLink = "./" + Path.GetFileNameWithoutExtension(BLOGGER_XML_DIRECTORY.Replace(BLOGGER_XML_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER)) + 
 				"/" + publishDate.Year.ToString("0000") + "/"  + publishDate.Month.ToString("00") + 
 				"/"  + (GENERATE_SLUG_BY_POST_TITLE ? generatedLink : Path.GetFileNameWithoutExtension(bloggerLink)) + "/index." + postExtension;
-			var pageIndex = linkedList.FindIndex(l => l.Destination == pageLink);
+			// var pageIndex = linkedList.FindIndex(l => l.Destination == pageLink);
 			// Process page content
-			if(!HOMEPAGE_ONLY && publishDate >= DateTime.Parse(POSTS_PROCESS_SINCE))
+			if(publishDate >= DateTime.Parse(POSTS_PROCESS_SINCE))
 			{
                 // Find first img tag title, if any
                 if (DEBUG_MODE) Console.WriteLine("Find first img tag title, if any");
@@ -354,7 +354,7 @@ public class Program {
 
     static void WriteFanficListFromTags()
     {
-        if(WRITE_FANFIC_LIST_ON_CONSOLE) {
+        if(WRITE_TAGS_COUNT_ON_CONSOLE || WRITE_PEOPLE_COUNT_ON_CONSOLE) {
             var peopleList = new Dictionary<String, Int32>();
             var tagsList = new Dictionary<String, Int32>();
             foreach(var list in PAGE_TAGS.Values)
@@ -375,18 +375,22 @@ public class Program {
                 }
             }
             
-            Console.WriteLine("=========TAGS=========");
-            Console.WriteLine(OutputTable<PrintItem>(tagsList.Select(t => 
-                new PrintItem(){
-                    Name = t.Key,
-                    Count = t.Value
-                }).OrderByDescending(x => x.Count).ToList()));
-            Console.WriteLine("========PEOPLE========");
-            Console.WriteLine(OutputTable<PrintItem>(peopleList.Select(t => 
-                new PrintItem(){
-                    Name = t.Key,
-                    Count = t.Value
-                }).OrderByDescending(x => x.Count).ToList()));
+			if(WRITE_TAGS_COUNT_ON_CONSOLE) {
+				Console.WriteLine("=========TAGS=========");
+				Console.WriteLine(OutputTable<PrintItem>(tagsList.Select(t => 
+					new PrintItem(){
+						Name = t.Key,
+						Count = t.Value
+					}).OrderByDescending(x => x.Count).ToList()));
+			}
+			if(WRITE_PEOPLE_COUNT_ON_CONSOLE) {
+				Console.WriteLine("========PEOPLE========");
+				Console.WriteLine(OutputTable<PrintItem>(peopleList.Select(t => 
+					new PrintItem(){
+						Name = t.Key,
+						Count = t.Value
+					}).OrderByDescending(x => x.Count).ToList()));
+			}
         }
     }
 

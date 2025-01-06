@@ -6,6 +6,7 @@ using System.Linq;
 using System.Xml.Linq;
 using System.IO;
 using System.Text;
+using System.Diagnostics;
 using System.Reflection;
 
 public class Program {
@@ -21,7 +22,6 @@ public class Program {
     static string POST_TEMPLATE_FILENAME = @"/home/kaineng/Documents/Repositories/knreports/template/sitemap.html";
 
     // PROGRAM SETTINGS
-    static bool HOMEPAGE_ONLY = false;
     static bool WRITE_TITLE_ON_CONSOLE = false;
     static bool WRITE_FANFIC_LIST_ON_CONSOLE = true;
     static int DOTS_PER_LINE_CONSOLE = 100;
@@ -46,17 +46,19 @@ public class Program {
     static void Main()
     {
         //Pre-execution notice
-        Console.WriteLine("> Note: If execution is stuck, is likely due to Blogger img tags missing self-enclosing slash, format on Web and re-export");
-        if(!WRITE_TITLE_ON_CONSOLE) Console.WriteLine("> WRITE_TITLE_ON_CONSOLE is " + WRITE_TITLE_ON_CONSOLE + "; Set as true to see post titles");
-        if(HOMEPAGE_ONLY) Console.WriteLine("> HOMEPAGE_ONLY is " + HOMEPAGE_ONLY + "; Set as false to update posts");
+		Console.WriteLine("================================================================================");
+		// Console.WriteLine("> If execution is stuck, is likely due to Blogger img tags missing self-enclosing slash, format on Web and re-export");
+        if(!WRITE_TITLE_ON_CONSOLE) Console.WriteLine("> WRITE_TITLE_ON_CONSOLE is " + WRITE_TITLE_ON_CONSOLE + "; Set as True to see post titles");
         Console.WriteLine("================================================================================");
+        Stopwatch stopwatch = new Stopwatch();
+        stopwatch.Start();
         var inputFileDirs = GetBloggerXmlFilePath(BLOGGER_XML_DIRECTORY, ARCHIVE_XML_DIRECTORY);
         var bloggerPosts = GetBloggerPostsPublished(inputFileDirs);
         var pageSections = GenerateSitemap(bloggerPosts);
         GenerateSitemapFile(pageSections);
         Console.WriteLine("================================================================================");
-        // Output as completed
-        Console.WriteLine("Done generate sitemap.");
+        stopwatch.Stop();
+		Console.WriteLine("Done generate sitemap. Time taken: " + stopwatch.Elapsed.ToString(@"m\:ss\.fff"));
     }
 
 	static string[] GetBloggerXmlFilePath(string inputPath, string backupPath)
@@ -143,7 +145,7 @@ public class Program {
                 // Exclude any draft posts, do not have page URL created
                 .Where(entry => !entry.Descendants(XNamespace.Get("http://purl.org/atom/app#")+"draft").Any(draft => draft.Value != "no"))
                 .ToList());
-            Console.WriteLine($"Total posts found: {xmlPosts.Count}");
+            if(DEBUG_MODE) Console.WriteLine($"Total posts found: {xmlPosts.Count}");
         }
         // Filter by earliest date, order by publish date desc
         return xmlPosts.Where(x => DateTime.Parse(x.Element(DEFAULT_XML_NAMESPACE+"published").Value) > DateTime.Parse(POSTS_SINCE))
@@ -174,9 +176,6 @@ public class Program {
                 .FirstOrDefault(e => e.Attribute("rel").Value == "alternate") ?? empty)
                 .Attribute("href") ?? emptA).Value;
             string generatedLink = GenerateSlug(postTitle);
-            // If not post URL, skip
-            if(string.IsNullOrWhiteSpace(bloggerLink))
-                continue;
             // Create output folders to put html file as per Blogger design ie. <domain>/<yyyy>/<MM>/<post-title>.html
             var outputFileDir = Path.Combine(OUTPUT_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER);
             var yearfolder = Path.Combine(outputFileDir, publishDate.Year.ToString("0000"));

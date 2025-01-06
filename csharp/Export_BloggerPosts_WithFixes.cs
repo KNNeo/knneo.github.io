@@ -6,6 +6,7 @@ using System.Linq;
 using System.Xml.Linq;
 using System.IO;
 using System.Text;
+using System.Diagnostics;
 using NUglify;
 using NUglify.Html;
 
@@ -66,16 +67,20 @@ public class Program {
 	static void Main()
 	{
 		// Pre-execution notice
-		Console.WriteLine("> Note: If execution is stuck, is likely due to Blogger img tags missing self-enclosing slash, format on Web and re-export");
-		if(!WRITE_TITLE_ON_CONSOLE) Console.WriteLine("> WRITE_TITLE_ON_CONSOLE is " + WRITE_TITLE_ON_CONSOLE + "; Set as true to see post titles");
-		if(HOMEPAGE_ONLY) Console.WriteLine("> HOMEPAGE_ONLY is " + HOMEPAGE_ONLY + "; Set as false to update posts");
-		Console.WriteLine("================================================================================");	
-		var inputFileDirs = GetBloggerXmlFilePath(BLOGGER_XML_DIRECTORY, ARCHIVE_XML_DIRECTORY);
+		Console.WriteLine("================================================================================");
+		// Console.WriteLine("> If execution is stuck, is likely due to Blogger img tags missing self-enclosing slash, format on Web and re-export");
+		if(!WRITE_TITLE_ON_CONSOLE) Console.WriteLine("> WRITE_TITLE_ON_CONSOLE is " + WRITE_TITLE_ON_CONSOLE + "; Set as True to see post titles");
+		if(HOMEPAGE_ONLY) Console.WriteLine("> HOMEPAGE_ONLY is " + HOMEPAGE_ONLY + "; Set as False to update posts");
+		Console.WriteLine("================================================================================");
+        Stopwatch stopwatch = new Stopwatch();
+        stopwatch.Start();
+  		var inputFileDirs = GetBloggerXmlFilePath(BLOGGER_XML_DIRECTORY, ARCHIVE_XML_DIRECTORY);
 		var bloggerPosts = GetBloggerPostsPublished(inputFileDirs);
 		// var outputFilesDir = Path.Combine(OUTPUT_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER);
 		var linkedList = GenerateBloggerPostsLinkedList(bloggerPosts);
 		var homepageString = GenerateBloggerPosts(bloggerPosts, linkedList, Path.Combine(OUTPUT_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER));
 		GenerateHomepage(homepageString, bloggerPosts.ToList().Count);
+		Console.WriteLine();
 		Console.WriteLine("================================================================================");
 		if(WRITE_FIXES_ON_CONSOLE)
 		{
@@ -88,7 +93,8 @@ public class Program {
 			Console.WriteLine(emojiCounts.OrderByDescending(x => x.Value));
 		}
 		// Output as completed
-		Console.WriteLine("Done export posts.");
+        stopwatch.Stop();
+		Console.WriteLine("Done export posts. Time taken: " + stopwatch.Elapsed.ToString(@"m\:ss\.fff"));
 	}
 
 	static string[] GetBloggerXmlFilePath(string inputPath, string backupPath)
@@ -174,7 +180,7 @@ public class Program {
 				.Where(entry => !entry.Descendants(XNamespace.Get("http://purl.org/atom/app#")+"draft").Any(draft => draft.Value != "no"))
 				.ToList());
 		}
-		Console.WriteLine($"Total posts found: {xmlPosts.Count}");
+		if(DEBUG_MODE) Console.WriteLine($"Total posts found: {xmlPosts.Count}");
 		// Filter by earliest date, order by publish date desc
 		return xmlPosts.Where(x => DateTime.Parse(x.Element(DEFAULT_XML_NAMESPACE+"published").Value) > DateTime.Parse(POSTS_INCLUDE_SINCE))
 			.OrderByDescending(x => DateTime.Parse(x.Element(DEFAULT_XML_NAMESPACE+"published").Value)).ToList();
@@ -238,19 +244,14 @@ public class Program {
 			DateTime updateDate = DateTime.Parse(entry.Element(DEFAULT_XML_NAMESPACE+"updated").Value);
 			string postTitle = entry.Element(DEFAULT_XML_NAMESPACE+"title").Value;
 			string postExtension = entry.Element(DEFAULT_XML_NAMESPACE+"content").Attribute("type").Value ?? "html";
-			XElement empty = new XElement("empty");
-			XAttribute emptA = new XAttribute("empty","");
 			string bloggerLink = ((entry.Elements(DEFAULT_XML_NAMESPACE+"link")
-				.FirstOrDefault(e => e.Attribute("rel").Value == "alternate") ?? empty)
-				.Attribute("href") ?? emptA).Value;
+				.FirstOrDefault(e => e.Attribute("rel").Value == "alternate") ?? new XElement("empty"))
+				.Attribute("href") ?? new XAttribute("empty","")).Value;
 			foreach(var domain in POST_OLD_DOMAINS)
 			{
 				bloggerLink = bloggerLink.Replace(domain, BLOG_DOMAIN_URL);
 			}
 			string generatedLink = GenerateSlug(postTitle);
-			// If not post URL, skip
-			if(string.IsNullOrWhiteSpace(bloggerLink))
-				continue;
 			// Create output folders to put html file as per Blogger design ie. <domain>/<yyyy>/<MM>/<post-title>.html
 			var yearfolder = Path.Combine(outputFileDir, publishDate.Year.ToString("0000"));
 			if(!Directory.Exists(yearfolder)) Directory.CreateDirectory(outputFileDir);
@@ -383,7 +384,7 @@ public class Program {
 					Console.Write(".");
 			}
 			// Add post content to home page
-			if (DEBUG_MODE) Console.WriteLine("Process home page");
+			if(DEBUG_MODE) Console.WriteLine("Process home page");
 			var tagList = string.Join(",",pageTagsXml).Replace(" ","").Replace("-"," ");
 			var dataTags = " data-tags=\""+tagList+"\"";
 			// For posts without post link, add name only(?)
@@ -454,6 +455,7 @@ public class Program {
 
 	static void GenerateHomepage(string homepageString, int postCount)
 	{
+		if (DEBUG_MODE) Console.WriteLine("Writing homepage...");
 		// Write all additions into output home page
 		string fileString = File.ReadAllText(HOMEPAGE_TEMPLATE_FILENAME)
 			.Replace("_TITLE_", HTML_TITLE)

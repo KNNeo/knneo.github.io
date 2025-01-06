@@ -6,6 +6,7 @@ using System.Linq;
 using System.Xml.Linq;
 using System.IO;
 using System.Text;
+using System.Diagnostics;
 using NUglify;
 using NUglify.Html;
 using Newtonsoft.Json;
@@ -22,7 +23,6 @@ public class Program {
 	static string HOMEPAGE_FILENAME = @"/home/kaineng/Documents/Repositories/knreports/js/images.js";
 
 	// PROGRAM SETTINGS
-	static bool HOMEPAGE_ONLY = false;
 	static bool WRITE_TITLE_ON_CONSOLE = false;
 	static int DOTS_PER_LINE_CONSOLE = 100;
 	static XNamespace DEFAULT_XML_NAMESPACE = XNamespace.Get("http://www.w3.org/2005/Atom");
@@ -40,20 +40,22 @@ public class Program {
 	static void Main()
 	{
 		//Pre-execution notice
-		Console.WriteLine("> Note: If execution is stuck, is likely due to Blogger img tags missing self-enclosing slash, format on Web and re-export");
-		Console.WriteLine("> Note: Only images within Blogger known domain will be exported; External images will be ignored, to include add in domain");
-		if(!WRITE_TITLE_ON_CONSOLE) Console.WriteLine("> WRITE_TITLE_ON_CONSOLE is " + WRITE_TITLE_ON_CONSOLE + "; Set as true to see post titles");
-		if(HOMEPAGE_ONLY) Console.WriteLine("> HOMEPAGE_ONLY is " + HOMEPAGE_ONLY + "; Set as false to update posts");
-		Console.WriteLine("> Image domains to detect are:\n*" + string.Join("\n*", IMAGE_DOMAINS_LIST));
+		Console.WriteLine("================================================================================");
+		// Console.WriteLine("> If execution is stuck, is likely due to Blogger img tags missing self-enclosing slash, format on Web and re-export");
+		Console.WriteLine("> By default non-Blogger images will be ignored; Add in extra domain in IMAGE_DOMAINS_LIST where applicable");
+		if(!WRITE_TITLE_ON_CONSOLE) Console.WriteLine("> WRITE_TITLE_ON_CONSOLE is " + WRITE_TITLE_ON_CONSOLE + "; Set as True to see post titles");
+		Console.WriteLine("> Image domains to detect:\n*" + string.Join("\n*", IMAGE_DOMAINS_LIST));
 		Console.WriteLine("================================================================================");	
+		Stopwatch stopwatch = new Stopwatch();
+        stopwatch.Start();
 		var inputFileDirs = GetBloggerXmlFilePath(BLOGGER_XML_DIRECTORY, ARCHIVE_XML_DIRECTORY);
 		var bloggerPosts = GetBloggerPostsPublished(inputFileDirs);
 		var pageString = GenerateImageIndex(bloggerPosts);
 		GenerateIndexFile(pageString, bloggerPosts.ToList().Count);
 		Console.WriteLine();
 		Console.WriteLine("================================================================================");	
-		// Output as completed
-		Console.WriteLine("Done export images.");
+        stopwatch.Stop();
+		Console.WriteLine("Done export image links. Time taken: " + stopwatch.Elapsed.ToString(@"m\:ss\.fff"));
 	}
 
 	static string[] GetBloggerXmlFilePath(string inputPath, string backupPath)
@@ -140,7 +142,7 @@ public class Program {
 				// Exclude any draft posts, do not have page URL created
 				.Where(entry => !entry.Descendants(XNamespace.Get("http://purl.org/atom/app#")+"draft").Any(draft => draft.Value != "no"))
 				.ToList());
-			Console.WriteLine($"Total posts found: {xmlPosts.Count}");
+			// Console.WriteLine($"Total posts found: {xmlPosts.Count}");
 		}
 		// Filter by earliest date, order by publish date desc
 		return xmlPosts.Where(x => DateTime.Parse(x.Element(DEFAULT_XML_NAMESPACE+"published").Value) > DateTime.Parse(POSTS_SINCE))
@@ -168,9 +170,6 @@ public class Program {
 				.FirstOrDefault(e => e.Attribute("rel").Value == "alternate") ?? empty)
 				.Attribute("href") ?? emptA).Value;
 			string generatedLink = GenerateSlug(postTitle);
-			// If not post URL, skip
-			if(string.IsNullOrWhiteSpace(bloggerLink))
-				continue;
 			// Create output folders to put html file as per Blogger design ie. <domain>/<yyyy>/<MM>/<post-title>.html
 			var outputFileDir = Path.Combine(OUTPUT_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER);
 			var yearfolder = Path.Combine(outputFileDir, publishDate.Year.ToString("0000"));
