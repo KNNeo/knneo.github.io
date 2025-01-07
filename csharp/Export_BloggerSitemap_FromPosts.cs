@@ -16,7 +16,7 @@ public class Program {
     // INPUT OUTPUT SETTINGS
 	static string BLOGGER_XML_DIRECTORY = @"/home/kaineng/Downloads";
 	static string ARCHIVE_XML_DIRECTORY = @"/home/kaineng/Documents/Workspaces";
-	static string OUTPUT_DIRECTORY = @"/home/kaineng/Documents/Repositories/knreports";
+	// static string OUTPUT_DIRECTORY = @"/home/kaineng/Documents/Repositories/knreports";
     static string OUTPUT_DIRECTORY_SUBFOLDER = "posts";
     static string HOMEPAGE_FILENAME = @"/home/kaineng/Documents/Repositories/knreports/sitemap/index.html";
     static string POST_TEMPLATE_FILENAME = @"/home/kaineng/Documents/Repositories/knreports/template/sitemap.html";
@@ -177,13 +177,13 @@ public class Program {
                 .Attribute("href") ?? emptA).Value;
             string generatedLink = GenerateSlug(postTitle);
             // Create output folders to put html file as per Blogger design ie. <domain>/<yyyy>/<MM>/<post-title>.html
-            var outputFileDir = Path.Combine(OUTPUT_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER);
-            var yearfolder = Path.Combine(outputFileDir, publishDate.Year.ToString("0000"));
-            if(!Directory.Exists(yearfolder)) Directory.CreateDirectory(outputFileDir);
-            var monthfolder = Path.Combine(yearfolder, publishDate.Month.ToString("00"));
-            if(!Directory.Exists(monthfolder)) Directory.CreateDirectory(monthfolder);
-            string outFileName = Path.GetFileNameWithoutExtension(bloggerLink) + "." + postExtension;
-            var pageOutputPath = Path.Combine(monthfolder, outFileName);
+            // var outputFileDir = Path.Combine(OUTPUT_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER);
+            // var yearfolder = Path.Combine(outputFileDir, publishDate.Year.ToString("0000"));
+            // if(!Directory.Exists(yearfolder)) Directory.CreateDirectory(outputFileDir);
+            // var monthfolder = Path.Combine(yearfolder, publishDate.Month.ToString("00"));
+            // if(!Directory.Exists(monthfolder)) Directory.CreateDirectory(monthfolder);
+            // string outFileName = Path.GetFileNameWithoutExtension(bloggerLink) + "." + postExtension;
+            // var pageOutputPath = Path.Combine(monthfolder, outFileName);
             // Find post labels
             var pageTagsXml = entry.Elements(DEFAULT_XML_NAMESPACE+"category")
                 .Where(e => !e.Attribute("term").ToString().Contains("#post")).Select(q => q.Attribute("term").Value).ToList();        
@@ -194,7 +194,7 @@ public class Program {
             var pageLink = "../" + Path.GetFileNameWithoutExtension(BLOGGER_XML_DIRECTORY.Replace(BLOGGER_XML_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER)) + "/" + publishDate.Year.ToString("0000") + "/"  + publishDate.Month.ToString("00") + "/"  + (GENERATE_SLUG_BY_POST_TITLE ? generatedLink : Path.GetFileNameWithoutExtension(bloggerLink)) + "/index." + postExtension;
 
             if (DEBUG_MODE) Console.WriteLine("Process home page");
-            var tagList = string.Join("-",pageTagsXml).Replace(" ","").Replace("-"," ");
+            //var tagList = string.Join("-",pageTagsXml).Replace(" ","").Replace("-"," ");
             
             if(pageTagsXml.Contains("The Fanfiction")) // custom tag display
             {
