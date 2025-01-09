@@ -686,5 +686,13 @@ const config = {
 {"nm":"ソワレ・ドーレ_みさき.jpg","sm":"https://doax.cc/res/pic_star_s/939_10.png","md":"https://doax.cc/res/pic_star_s/939_10.png","lg":"https://doax.cc/res/pic_star/939_10.png","og":"https://doax.cc/res/pic_star/939_10.png","st":1},
 {"nm":"ソワレ・ドーレ_かすみ.jpg","sm":"https://doax.cc/res/pic_star_s/939_1.png","md":"https://doax.cc/res/pic_star_s/939_1.png","lg":"https://doax.cc/res/pic_star/939_1.png","og":"https://doax.cc/res/pic_star/939_1.png"},
 {"nm":"ソワレ・ドーレ_パティ.jpg","sm":"https://doax.cc/res/pic_star_s/939_19.png","md":"https://doax.cc/res/pic_star_s/939_19.png","lg":"https://doax.cc/res/pic_star/939_19.png","og":"https://doax.cc/res/pic_star/939_19.png"},
+{"nm":"フレーズノエル_モニカ.jpg","sm":"https://doax.cc/res/pic_star_s/111_17.png","md":"https://doax.cc/res/pic_star_s/111_17.png","lg":"https://doax.cc/res/pic_star/111_17.png","og":"https://doax.cc/res/pic_star/111_17.png"},
+{"nm":"フレーズノエル_みさき.jpg","sm":"https://doax.cc/res/pic_star_s/111_13.png","md":"https://doax.cc/res/pic_star_s/111_13.png","lg":"https://doax.cc/res/pic_star/111_13.png","og":"https://doax.cc/res/pic_star/111_13.png"},
+{"nm":"メリクリ☆スターライト_モニカ.jpg","sm":"https://doax.cc/res/pic_star_s/954_17.png","md":"https://doax.cc/res/pic_star_s/954_17.png","lg":"https://doax.cc/res/pic_star/954_17.png","og":"https://doax.cc/res/pic_star/954_17.png"},
+{"nm":"紫電清霜_ほのか.jpg","sm":"https://doax.cc/res/pic_star_s/956_1.png","md":"https://doax.cc/res/pic_star_s/956_1.png","lg":"https://doax.cc/res/pic_star/956_1.png","og":"https://doax.cc/res/pic_star/956_1.png"},
+{"nm":"紫電清霜_エイミー.jpg","sm":"https://doax.cc/res/pic_star_s/956_3.png","md":"https://doax.cc/res/pic_star_s/956_3.png","lg":"https://doax.cc/res/pic_star/956_3.png","og":"https://doax.cc/res/pic_star/956_3.png"},
+{"nm":"振袖・梅升形_つくし.jpg","sm":"https://doax.cc/res/pic_star_s/960.png","md":"https://doax.cc/res/pic_star_s/960.png","lg":"https://doax.cc/res/pic_star/960.png","og":"https://doax.cc/res/pic_star/960.png"},
+{"nm":"紫電清霜_紅葉.jpg","sm":"https://doax.cc/res/pic_star_s/956_10.png","md":"https://doax.cc/res/pic_star_s/956_10.png","lg":"https://doax.cc/res/pic_star/956_10.png","og":"https://doax.cc/res/pic_star/956_10.png"},
+{"nm":"紫電清霜_こころ.jpg","sm":"https://doax.cc/res/pic_star_s/956_6.png","md":"https://doax.cc/res/pic_star_s/956_6.png","lg":"https://doax.cc/res/pic_star/956_6.png","og":"https://doax.cc/res/pic_star/956_6.png"},
 ],
 };
