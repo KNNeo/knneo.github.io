@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Net.Http;
 using Newtonsoft.Json;
@@ -20,9 +21,9 @@ public class Program {
 	static void Main()
 	{
 		//variables
-		bool debugMode = true;
+		bool debugMode = false;
 		bool checkFiles = true;
-		bool noDownload = true; // false will download images, true will ensure links are online
+		bool noDownload = false; // false will download images, true will ensure links are online
 		var generateObjectAs = "string"; // accepted data types: object, string
 		var separator = '_';
 		var prefixSm = "size" + separator + "sm" + separator;
@@ -52,15 +53,16 @@ public class Program {
 			Console.WriteLine("Reading data file...");
 			string json = r.ReadToEnd();
 			data = JsonConvert.DeserializeObject<List<SourceDataItem>>(json);
-			if(debugMode) Console.WriteLine(data);
+			if(debugMode) Console.WriteLine(OutputTable<SourceDataItem>(data));
 		}
 			
 		List<MapDataItem> mapper = new List<MapDataItem>();
 		using (StreamReader r = new StreamReader(mappingpath))
 		{
+			Console.WriteLine("Reading mapping file...");
 			string json = r.ReadToEnd();
 			mapper = JsonConvert.DeserializeObject<List<MapDataItem>>(json);
-			if(debugMode) Console.WriteLine(mapper);
+			if(debugMode) Console.WriteLine(OutputTable<MapDataItem>(mapper));
 		}
 		
 		if(checkFiles)
@@ -169,7 +171,7 @@ public class Program {
 
 	static void DownloadTo(string url, string directory)
 	{
-		Console.WriteLine("\tDownloading... " + url);
+		Console.WriteLine("Downloading... " + url);
 		using (var client = new HttpClient())
 		{
 			using (var s = client.GetStreamAsync(url))
@@ -203,6 +205,49 @@ public class Program {
 			new Bitmap(image, targetWidth, targetHeight).Save(newFileName);
 		}
 	}
+
+    static String OutputTable<T>(List<T> data)
+    {
+        if (data == null || !data.Any())
+            throw new Exception("No data to display.");
+        // Use reflection to get property names (headers)
+        var properties = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+        var headers = properties.Select(p => p.Name).ToList();
+        // Get values for each row
+        var rows = data
+            .Select(item => properties.Select(p => p.GetValue(item)?.ToString() ?? string.Empty).ToList())
+            .ToList();
+        // Determine column widths
+        var columnWidths = headers
+            .Select((header, index) => Math.Max(header.Length, rows.Max(row => row[index].Length)))
+            .ToList();
+        // Print the table
+        var sb = new StringBuilder();
+        sb.AppendLine(OutputRow(headers, columnWidths, properties, isHeader: true));
+        sb.AppendLine(OutputLine(columnWidths));
+        foreach (var row in rows)
+        {
+            sb.AppendLine(OutputRow(row, columnWidths, properties, isHeader: false));
+        }
+        return sb.ToString();
+    }
+
+    static String OutputLine(List<int> columnWidths)
+    {
+        return string.Join("+", columnWidths.Select(width => new string('-', width)));
+    }
+
+    static String OutputRow(List<string> row, List<int> columnWidths, PropertyInfo[] properties, bool isHeader)
+    {
+        return string.Join("|", row.Select((cell, index) =>
+        {
+            var alignment = isHeader || properties[index].PropertyType != typeof(int)
+                ? cell.PadRight(columnWidths[index]) // Left-align headers and non-integers
+                : cell.PadLeft((columnWidths[index] - cell.Length) / 2 + cell.Length).PadRight(columnWidths[index]); // Center-align integers
+
+            return alignment;
+        }));
+    }
 }
 
 public class SourceDataItem
