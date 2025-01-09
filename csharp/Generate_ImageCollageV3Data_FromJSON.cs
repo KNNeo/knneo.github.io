@@ -23,7 +23,7 @@ public class Program {
 		//variables
 		bool debugMode = false;
 		bool checkFiles = true;
-		bool noDownload = false; // false will download images, true will ensure links are online
+		bool noDownload = true; // false will download images, true will ensure links are online
 		var generateObjectAs = "string"; // accepted data types: object, string
 		var separator = '_';
 		var prefixSm = "size" + separator + "sm" + separator;
