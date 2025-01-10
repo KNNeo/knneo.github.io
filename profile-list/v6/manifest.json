@@ -1,0 +1,23 @@
+{
+	"background_color": "#ffffff",
+	"description": "Profile List",
+	"dir": "ltr",
+	"display": "standalone",
+	"name": "Profiles",
+	"scope": "/",
+	"short_name": "Profiles",
+	"start_url": "/",
+	"theme_color": "#ffffff",
+	"lang": "en",
+	"categories": [],
+	"screenshots": [],
+	"icons": [
+		{
+			"src": "user-circle-svgrepo-com.png",
+			"type": "image/png",
+			"sizes": "any",
+			"purpose": "any"
+		}
+	],
+	"shortcuts": []
+}
