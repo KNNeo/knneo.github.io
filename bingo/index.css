@@ -86,15 +86,16 @@ a:hover {
 	border: 1px solid var(--foreground);
 }
 
-.pattern>div {
+.display {
+	display: flex;
+    justify-content: center;
+    gap: 0 16px;
+}
+
+.pattern > div {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-}
-
-.call {
-	display: flex;
-	justify-content: center;
 }
 
 .list {
@@ -208,7 +209,6 @@ a:hover {
 }
 
 @media only screen and (max-width : 1040px) {
-
 	/*scrollbars for top and bottom labels only on desktop*/
 	div {
 		scrollbar-width: 0 !important;
@@ -220,5 +220,34 @@ a:hover {
 
 	body {
 		font-size: 0.8em;
+	}
+	.display {
+		flex-wrap: wrap;
+	}
+	.board {
+		order: -1;
+		flex-basis: 100%;
+	}
+	.list {
+		display: flex;
+		overflow-x: auto;
+		scroll-snap-type: x mandatory;
+        align-items: initial;
+        justify-content: initial;
+	}
+	.card {
+        flex: 1 0 100vw;
+        position: relative;
+	}
+	.list:has(.card:nth-child(2)) .card::before {
+		font-family: 'Material Icons';
+		content: attr(data-id);
+		position: absolute;
+        top: 0;
+        left: 1em;
+        font-size: 2em;
+	}
+	.card table {
+		margin: auto;
 	}
 }

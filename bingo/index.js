@@ -198,8 +198,6 @@ function startup() {
 function toggleCards() {
 	if(!window['ended'])
 		return popupTextGoAway('🚫');
-	if(smallScreen())
-		return popupTextGoAway(window['cards']);
 	switch(window['cards']) {
 		case 1:
 		default:
@@ -468,15 +466,7 @@ function renderTitle() {
 function renderDisplay() {
 	displayDiv.innerHTML = '';
 	//three sections: pattern, board, call
-	//sub sections: -, -, [call, call-history]	
-	let table = document.createElement('table');
-	table.classList.add('box');
-	table.style.margin = 'auto';
-	
-	let tbody = document.createElement('tbody');
-	
-	let tr = document.createElement('tr');
-	
+	//sub sections: -, -, [call, call-history]
 	let td1 = document.createElement('td');
 	td1.classList.add('pattern');
 	
@@ -488,24 +478,9 @@ function renderDisplay() {
 	let td3 = document.createElement('td');
 	td3.classList.add('call');
 	
-	let trX = document.createElement('tr');
-	
-	if(!smallScreen()) tr.appendChild(td1);
-	if(smallScreen()) 
-		td2.setAttribute('colspan', 2);
-	tr.appendChild(td2);
-	if(!smallScreen()) tr.appendChild(td3);
-	if(smallScreen()) {
-		trX.appendChild(td1);
-		td3.style.display = 'flex';
-		trX.appendChild(td3);
-	}
-	
-	tbody.appendChild(tr);
-	if(smallScreen()) tbody.appendChild(trX);
-
-	table.appendChild(tbody);
-	displayDiv.appendChild(table);	
+	displayDiv.appendChild(td1);
+	displayDiv.appendChild(td2);
+	displayDiv.appendChild(td3);
 }
 
 function renderCards() {
@@ -513,15 +488,19 @@ function renderCards() {
 	for(c = 0; c < window['cards']; c++) {
 		let div = document.createElement('div');
 		div.classList.add('card');
-		
+		// id to dispolay card no using css before
+		let id = (1+c);
+		if(c == 0) id = 'one';
+		if(c == 1) id = 'two';
+		div.setAttribute('data-id', 'looks_' + id);
+		// generate table for numbers
 		let [a,b] = generateMatrix();
 		let table = renderCard(a,b);
 		div.appendChild(table);	
-		
+		// action button
 		let away = document.createElement('div');
 		away.classList.add('away');
 		div.appendChild(away);
-		
 		listDiv.appendChild(div);
 	}
 	
