@@ -29,7 +29,7 @@ public class Program {
 	static bool GENERATE_SLUG_BY_POST_TITLE = true;
 	static int GENERATE_SLUG_MAX_LENGTH = 70;
 	static bool WRITE_TITLE_ON_CONSOLE = false;
-    static bool WRITE_TAGS_COUNT_ON_CONSOLE = false;
+    static bool WRITE_TAGS_COUNT_ON_CONSOLE = true;
     static bool WRITE_PEOPLE_COUNT_ON_CONSOLE = true;
 	static bool DELETE_OUTPUT_DIRECTORY = false;
 	static int DOTS_PER_LINE_CONSOLE = 100;
