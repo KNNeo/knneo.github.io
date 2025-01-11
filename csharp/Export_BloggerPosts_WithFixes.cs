@@ -434,10 +434,10 @@ public class Program {
 					// Add to homepage string builder
 					homepageString.AppendLine(isLatest 
 						? "<a class=\"box latest post\"" + dataTags + " href=\"" + pageLink + "\">" + 
-						(thumbnailUrl.Length > 0 ? "<span class=\"publish\">"+publishDate.ToString("yyyy.MM.dd")+"</span>" : "") + 
 						"<div class=\"thumb\">" + 
 							(thumbnailUrl.Length > 0 ? "<div><img alt=\"\" loading=\"lazy\" src=\"" + thumbnailUrl + "\"/></div>" : "") + 
-							"<h4>" + postTitle + "</h4>" + 
+							"<h5 title=\"" + postTitle + "\">" + postTitle + "</h5>" + 
+							(thumbnailUrl.Length > 0 ? "<span class=\"publish\">"+publishDate.ToString("yyyy.MM.dd")+"</span>" : "") + 
 							//(anchors.Count > 0 
 							//? "<div class=\"anchors\">" + string.Join("", anchors.Select(a => "<a href=\"" + (pageLink + "#" + a) + "\">#" + a + "</a>")) + "</div>" 
 							//: "") + 
