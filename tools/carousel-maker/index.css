@@ -41,6 +41,17 @@ a:hover {
   color: var(--primary);
 }
 
+label,
+button {
+  display: block;
+  margin: auto;
+  padding: 1em;
+}
+
+textarea {
+  font-family: monospace;
+}
+
 .hidden {
 	display: none;
 }
