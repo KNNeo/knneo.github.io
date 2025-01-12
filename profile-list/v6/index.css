@@ -29,6 +29,7 @@ html.darked {
 }
 body {
 	background-color: var(--background);
+	font-size: calc(1rem + 0.25vw);
 	color: var(--foreground);
 	max-width: 380px;
 	margin: auto;
