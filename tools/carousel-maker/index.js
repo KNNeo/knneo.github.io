@@ -32,7 +32,7 @@ function createCarousel(input) {
     for(let table of temp.querySelectorAll('table')) {
         let item = document.createElement('div');
         item.className = 'carousel-item';
-        if(counter++ > 0) item.classList.add('hidden');
+        if(counter++ > 0) item.classList.add('hide');
         for(let link of table.querySelectorAll('a')) {
             link.parentElement.appendChild(removeLinksInImages(link));
             link.parentElement.removeChild(link);
