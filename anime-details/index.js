@@ -50,7 +50,7 @@ function generateList() {
 
 function processState() {
 	for(let show of config.shows){
-		for(let chars of show?.characters.filter(s => config.display.roles.length > 0 ? config.display.roles.includes(s.role) : true) || []) {
+		for(let chars of show?.characters?.filter(s => config.display.roles.length > 0 ? config.display.roles.includes(s.role) : true) || []) {
 			let voice = chars.voice_actors?.find(c => c.language == config.language) || {};
 			if(voice && voice.person) {
 				let state = config.voices.find(s => s.name == voice.person.name);
