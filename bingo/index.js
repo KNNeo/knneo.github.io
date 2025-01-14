@@ -492,7 +492,35 @@ function renderCards() {
 		let id = (1+c);
 		if(c == 0) id = 'one';
 		if(c == 1) id = 'two';
-		div.setAttribute('data-id', 'looks_' + id);
+		div.setAttribute('data-icon', 'looks_' + id);
+		div.setAttribute('data-id', c); // zero-based
+		// create prev next buttons for desktop navigation
+		if(c > 0) {
+			let nav = document.createElement('div');
+			nav.classList.add('prev');
+			nav.classList.add('material-icons');
+			nav.innerText = 'navigate_before';
+			nav.addEventListener('click', function() {
+				let id = parseInt(event.target.closest('.card').getAttribute('data-id'));
+				let prevCard = document.querySelectorAll('.card')[id-1];
+				if(prevCard)
+					prevCard.scrollIntoView();
+			})
+			div.appendChild(nav);
+		}
+		if(c < window['cards'] - 1) {
+			let nav = document.createElement('div');
+			nav.classList.add('next');
+			nav.classList.add('material-icons');
+			nav.innerText = 'navigate_next';
+			nav.addEventListener('click', function() {
+				let id = parseInt(event.target.closest('.card').getAttribute('data-id'));
+				let nextCard = document.querySelectorAll('.card')[id+1]; // zero-based
+				if(nextCard)
+					nextCard.scrollIntoView();
+			})
+			div.appendChild(nav);
+		}
 		// generate table for numbers
 		let [a,b] = generateMatrix();
 		let table = renderCard(a,b);
@@ -503,7 +531,6 @@ function renderCards() {
 		div.appendChild(away);
 		listDiv.appendChild(div);
 	}
-	
 }
 
 function renderCard(numbers, selected, latest) {

@@ -108,6 +108,22 @@ a:hover {
 	padding: 10px;
 }
 
+.card .prev,
+.card .next {
+	position: absolute;
+    top: 50%;
+	width: 15%;
+	height: 15%;
+}
+
+.card .prev {
+	left: 0;
+}
+
+.card .next {
+	right: 0;
+}
+
 .square-board {
 	width: 40px;
 	aspect-ratio: 1 / 1;
@@ -241,7 +257,7 @@ a:hover {
 	}
 	.list:has(.card:nth-child(2)) .card::before {
 		font-family: 'Material Icons';
-		content: attr(data-id);
+		content: attr(data-icon);
 		position: absolute;
         top: 0;
         left: 1em;
