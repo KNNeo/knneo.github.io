@@ -112,6 +112,7 @@ a:hover {
 	align-items: center;
 	opacity: 1;
     padding: 0 8px 4px;
+    position: relative;
 }
 .conversation .message.hide {
 	opacity: 0;
@@ -141,6 +142,10 @@ a:hover {
 .conversation .message[data-name]::before {
 	content: attr(data-name);
     white-space: nowrap;
+}
+.conversation .message[data-sender] + .message[data-sender]::before,
+.conversation .message[data-recipient] + .message[data-recipient]::before {
+    content: "";
 }
 .conversation .message[data-sender] .container {
 	background-color: var(--primary);
