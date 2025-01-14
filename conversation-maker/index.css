@@ -143,10 +143,6 @@ a:hover {
 	content: attr(data-name);
     white-space: nowrap;
 }
-.conversation .message[data-sender] + .message[data-sender]::before,
-.conversation .message[data-recipient] + .message[data-recipient]::before {
-    content: "";
-}
 .conversation .message[data-sender] .container {
 	background-color: var(--primary);
 	border-radius: 8px 8px 0 8px;
