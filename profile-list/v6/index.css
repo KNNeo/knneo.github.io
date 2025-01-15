@@ -300,8 +300,8 @@ a:hover {
 }
 .calendar td {
     border-radius: 99px;
-    min-width: 2.5em;
-    height: 2.5em;
+    min-width: 2em;
+    height: 2em;
 }
 .calendar-popitem {
     position: absolute;
