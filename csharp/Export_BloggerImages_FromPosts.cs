@@ -187,6 +187,14 @@ public class Program {
 			// Create output page link and index in linked list
 			var pageLink = "../" + Path.GetFileNameWithoutExtension(BLOGGER_XML_DIRECTORY.Replace(BLOGGER_XML_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER)) + "/" + publishDate.Year.ToString("0000") + "/"  + publishDate.Month.ToString("00") + "/"  + (GENERATE_SLUG_BY_POST_TITLE ? generatedLink : Path.GetFileNameWithoutExtension(bloggerLink)) + "/index." + postExtension;
 
+			// Show progress, as post title or as represented by dot (100 per line)
+			if(WRITE_TITLE_ON_CONSOLE || DEBUG_MODE)
+				Console.WriteLine("||> " + (postTitle.Length > 0 ? postTitle : "POST W/O TITLE DATED " + publishDate.ToString("yyyy-MM-dd")));
+			else if(p % DOTS_PER_LINE_CONSOLE == DOTS_PER_LINE_CONSOLE - 1)
+				Console.WriteLine(".");
+			else
+				Console.Write(".");
+				
 			// Skip parts, in order
 			foreach(var part in CONTENT_SKIP_SUBSTRINGS)
 			{
@@ -241,13 +249,6 @@ public class Program {
 							title = postTitle.Replace("\"", "\\\"").Replace("&quot;", "\"\""),
 							url = pageLink
 						});
-			// Show progress, as post title or as represented by dot (100 per line)
-			if(WRITE_TITLE_ON_CONSOLE || DEBUG_MODE)
-				Console.WriteLine("||> " + (postTitle.Length > 0 ? postTitle : "POST W/O TITLE DATED " + publishDate.ToString("yyyy-MM-dd")));
-			else if(p % DOTS_PER_LINE_CONSOLE == DOTS_PER_LINE_CONSOLE - 1)
-				Console.WriteLine(".");
-			else
-				Console.Write(".");
 		}
 		//Export list of images with limit
 		return "const imageIndex = {\"posts\":_POSTS_,\"images\":_IMAGES_}"

@@ -176,6 +176,15 @@ public class Program {
                 .FirstOrDefault(e => e.Attribute("rel").Value == "alternate") ?? empty)
                 .Attribute("href") ?? emptA).Value;
             string generatedLink = GenerateSlug(postTitle);
+            
+            // Show progress, as post title or as represented by dot (100 per line)
+            if(WRITE_TITLE_ON_CONSOLE || DEBUG_MODE)
+                Console.WriteLine("||> " + (postTitle.Length > 0 ? postTitle : "POST W/O TITLE DATED " + publishDate.ToString("yyyy-MM-dd")));
+            else if(p % DOTS_PER_LINE_CONSOLE == DOTS_PER_LINE_CONSOLE - 1)
+                Console.WriteLine(".");
+            else
+                Console.Write(".");
+                
             // Create output folders to put html file as per Blogger design ie. <domain>/<yyyy>/<MM>/<post-title>.html
             // var outputFileDir = Path.Combine(OUTPUT_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER);
             // var yearfolder = Path.Combine(outputFileDir, publishDate.Year.ToString("0000"));
@@ -243,14 +252,6 @@ public class Program {
                     match = match.NextMatch();
                 }
             }
-            
-            // Show progress, as post title or as represented by dot (100 per line)
-            if(WRITE_TITLE_ON_CONSOLE || DEBUG_MODE)
-                Console.WriteLine("||> " + (postTitle.Length > 0 ? postTitle : "POST W/O TITLE DATED " + publishDate.ToString("yyyy-MM-dd")));
-            else if(p % DOTS_PER_LINE_CONSOLE == DOTS_PER_LINE_CONSOLE - 1)
-                Console.WriteLine(".");
-            else
-                Console.Write(".");
         }
         
         if(DEBUG_MODE)

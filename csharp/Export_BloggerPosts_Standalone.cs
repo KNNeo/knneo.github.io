@@ -289,6 +289,14 @@ public class Program {
 				// Fix post attributes
 				// fix url of ent news, by year except 2014
 				
+				// Show progress, as post title or as represented by dot (100 per line)
+				if(WRITE_TITLE_ON_CONSOLE || DEBUG_MODE)
+					Console.WriteLine("||> " + (postTitle.Length > 0 ? postTitle : "POST W/O TITLE DATED " + publishDate.ToString("yyyy-MM-dd")));
+				else if(p % DOTS_PER_LINE_CONSOLE == DOTS_PER_LINE_CONSOLE - 1)
+					Console.WriteLine(".");
+				else
+					Console.Write(".");
+				
 				// Find Content in debug mode
 				if(POSTS_SEARCHTERM.Length > 0)
 				{
@@ -307,6 +315,9 @@ public class Program {
 				}
 				// Fix post content
 				List<int> fixCount = FixPostContent(ref postContent, linkedList);
+				if(DEBUG_MODE)
+					Console.WriteLine((fixCount.Count > 0 ? "\t[" + string.Join(",", fixCount) + "]" : ""));
+
                 // Download static files based on config
                 List<int> downloadCount = DownloadStaticFiles(ref postContent, monthfolder);
                 if (DEBUG_MODE) Console.WriteLine($"Total {downloadCount.Count()} new images downloaded");
@@ -378,14 +389,6 @@ public class Program {
 					.Replace("_NEXTLINK_", pageIndex > 0 ? linkedList[pageIndex - 1].Destination.Replace("./", "../../../../") : "javascript:void(0);");
 				// Write into homepage file, or overwrite if exists
 				File.WriteAllText(pageOutputPath, fileString);
-				// Show progress, as post title or as represented by dot (100 per line)
-				if(WRITE_TITLE_ON_CONSOLE || DEBUG_MODE)
-					Console.WriteLine("||> " + (postTitle.Length > 0 ? postTitle : "POST W/O TITLE DATED " + publishDate.ToString("yyyy-MM-dd")) + 
-						(fixCount.Count > 0 ? "\t[" + string.Join(",", fixCount) + "]" : ""));
-				else if(p % DOTS_PER_LINE_CONSOLE == DOTS_PER_LINE_CONSOLE - 1)
-					Console.WriteLine(".");
-				else
-					Console.Write(".");
 			}
 			// Add post content to home page
 			if (DEBUG_MODE) Console.WriteLine("Process home page");

@@ -287,6 +287,14 @@ public class Program {
 				// Fix post attributes
 				// fix url of ent news, by year except 2014
 				
+				// Show progress, as post title or as represented by dot (100 per line)
+				if(WRITE_TITLE_ON_CONSOLE || DEBUG_MODE)
+					Console.WriteLine("||> " + (postTitle.Length > 0 ? postTitle : "POST W/O TITLE DATED " + publishDate.ToString("yyyy-MM-dd")));
+				else if(p % DOTS_PER_LINE_CONSOLE == DOTS_PER_LINE_CONSOLE - 1)
+					Console.WriteLine(".");
+				else
+					Console.Write(".");
+				
 				// Find Content in debug mode
 				if(POSTS_SEARCHTERM.Length > 0)
 				{
@@ -305,6 +313,9 @@ public class Program {
 				}
 				// Fix post content
 				List<int> fixCount = FixPostContent(ref postContent, linkedList);
+				if(DEBUG_MODE)
+					Console.WriteLine((fixCount.Count > 0 ? "\t[" + string.Join(",", fixCount) + "]" : ""));
+
 				// Add to post string builder to generate HTML
 				var header = new StringBuilder();
 				var article = new StringBuilder();
@@ -374,14 +385,6 @@ public class Program {
 					.Replace("_NEXTLINK_", pageIndex > 0 ? linkedList[pageIndex - 1].Destination.Replace("./", "../../../../") : "javascript:void(0);");
 				// Write into homepage file, or overwrite if exists
 				File.WriteAllText(pageOutputPath, fileString);
-				// Show progress, as post title or as represented by dot (100 per line)
-				if(WRITE_TITLE_ON_CONSOLE || DEBUG_MODE)
-					Console.WriteLine("||> " + (postTitle.Length > 0 ? postTitle : "POST W/O TITLE DATED " + publishDate.ToString("yyyy-MM-dd")) + 
-						(fixCount.Count > 0 ? "\t[" + string.Join(",", fixCount) + "]" : ""));
-				else if(p % DOTS_PER_LINE_CONSOLE == DOTS_PER_LINE_CONSOLE - 1)
-					Console.WriteLine(".");
-				else
-					Console.Write(".");
 			}
 			// Add post content to home page
 			if(DEBUG_MODE) Console.WriteLine("Process home page");
@@ -545,7 +548,8 @@ public class Program {
 	* [ok] class thumbnail -> class carousel
 	* [ok] fix head-prefix hardcoded styles
 	* [ok] remove attributes for tables
-	* [ok] fix image attributes
+	* [ok] fix image border attribute
+	* [manual] fix image width height attributes
 	* [] remove trailing slash on void elements
 	*/
 	static List<int> FixPostContent(ref string content, List<LinkedListItem> linkedList)
@@ -869,19 +873,78 @@ public class Program {
 		}
 		#endregion
 		
-		#region 40 fix image attributes
+		#region 40 fix image border attribute
 		if(includeIndex.Count() == 0 || includeIndex.Contains(40))
 		{
 			if(DEBUG_MODE) Console.WriteLine("Fix #" + 40);
-			content = Regex.Replace(content, "border=\"0\"", "");
-			//TODO: Replace missing height="180" for every width="320" found
+			if(Regex.IsMatch(content, "border=\"0\"")) {
+				count.Add(40);
+				content = Regex.Replace(content, "border=\"0\"", "");
+			}
 		}
 		#endregion
 
-		#region 41 remove trailing slash on void elements
+		#region 41 fix image width height attributes
 		if(includeIndex.Count() == 0 || includeIndex.Contains(41))
 		{
 			if(DEBUG_MODE) Console.WriteLine("Fix #" + 41);
+			//Replace missing HEIGHT for every img WIDTH property found
+			expression = @"(?s)data-original-height=""([0-9]*)""(.*?)data-original-width=""([0-9]*)""(.*?)width=""([0-9]*)""(.*?)/>";
+			match = Regex.Match(content, expression);
+			while(match.Success) {
+				// Console.WriteLine("2--" + match.Groups[2].Value);
+				// Console.WriteLine("4--" + match.Groups[4].Value);
+				// Console.WriteLine("6--" + match.Groups[6].Value);
+				if(!match.Groups[2].Value.Contains("height=")
+					&& !match.Groups[4].Value.Contains("height=")
+					&& !match.Groups[6].Value.Contains("height=")) {
+					count.Add(41);
+					// calculate new height
+					var newHeight = 0;
+					var width = int.Parse(match.Groups[5].Value);
+					var originalWidth = int.Parse(match.Groups[3].Value);
+					var originalHeight = int.Parse(match.Groups[1].Value);
+					if(width > 0 && originalWidth > 0 && originalHeight > 0)
+						newHeight = originalHeight * width / originalWidth;
+					if(newHeight > 0)
+						content = content.Replace(match.Groups[4].Value, match.Groups[4].Value + $" height=\"{newHeight}\" ");
+					Console.WriteLine($"Image missing height attribute!");
+					Console.WriteLine($"originalHeight: {originalHeight} originalWidth: {originalWidth} width: {width} newHeight:{newHeight}");
+				}
+				match = match.NextMatch();
+			}
+			//Replace missing WIDTH for every img HEIGHT property found
+			expression = @"(?s)data-original-height=""([0-9]*)""(.*?)data-original-width=""([0-9]*)""(.*?)height=""([0-9]*)""(.*?)/>";
+			match = Regex.Match(content, expression);
+			while(match.Success) {
+				// Console.WriteLine("2--" + match.Groups[2].Value);
+				// Console.WriteLine("4--" + match.Groups[4].Value);
+				// Console.WriteLine("6--" + match.Groups[6].Value);
+				if(!match.Groups[2].Value.Contains("width=")
+					&& !match.Groups[4].Value.Contains("width=")
+					&& !match.Groups[6].Value.Contains("width=")) {
+					count.Add(41);
+					// calculate new width
+					var newWidth = 0;
+					var height = int.Parse(match.Groups[5].Value);
+					var originalWidth = int.Parse(match.Groups[3].Value);
+					var originalHeight = int.Parse(match.Groups[1].Value);
+					if(height > 0 && originalWidth > 0 && originalHeight > 0)
+						newWidth = originalHeight * height / originalWidth;
+					if(newWidth > 0)
+						content = content.Replace(match.Groups[6].Value, match.Groups[6].Value + $" height=\"{newWidth}\" ");
+					Console.WriteLine($"Image missing width attribute!");
+					Console.WriteLine($"originalHeight: {originalHeight} originalWidth: {originalWidth} height: {height} newWidth:{newWidth}");
+				}
+				match = match.NextMatch();
+			}
+		}
+		#endregion
+
+		#region 42 remove trailing slash on void elements
+		if(includeIndex.Count() == 0 || includeIndex.Contains(42))
+		{
+			if(DEBUG_MODE) Console.WriteLine("Fix #" + 42);
 			content = Regex.Replace(content, "/>", "");
 			content = Regex.Replace(content, " />", ""); // with spacing
 		}
