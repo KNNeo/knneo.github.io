@@ -34,8 +34,11 @@ function createCarousel(input) {
         item.className = 'carousel-item';
         if(counter++ > 0) item.classList.add('hide');
         for(let link of table.querySelectorAll('a')) {
-            link.parentElement.appendChild(removeLinksInImages(link));
-            link.parentElement.removeChild(link);
+            let elem = removeLinksInImages(link);
+            if(elem) {
+                link.parentElement.appendChild(elem);
+                link.parentElement.removeChild(link);
+            }
         }
         item.innerHTML = table.outerHTML;
         output.appendChild(item);
