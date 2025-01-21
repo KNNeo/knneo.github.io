@@ -347,9 +347,9 @@ public class Program {
 				header.AppendLine("<a class=\"like bordered material-icons\" title=\"Like This Post\" href=\"javascript:void(0);\" onclick=\"likePost()\">favorite_border</a>");
 				article.AppendLine("<h2 class=\"post-title\">" + postTitle + "</h2>");
 				article.Append("<div class=\"post-info\">");
-				article.Append("<small data-publish=\"" + publishDateString + 
-					(publishDateString == updateDateString ? "\"" : " data-update=\"" + updateDateString + "\"") +
-					" class=\"published\">" + publishDate.ToString("dddd, dd MMMM yyyy") + "</small>");
+				article.Append("<small data-published=\"" + publishDateString + 
+					(publishDateString == updateDateString ? "\"" : " data-updated=\"" + updateDateString + "\"") +
+					" class=\"post-date\">" + publishDate.ToString("dddd, dd MMMM yyyy") + "</small>");
 				article.Append("<span>");
 				article.Append("<a class=\"prev material-icons\" href=\"_PREVLINK_\" title=\"Older Post\">arrow_back_ios</a>");
 				article.Append("<a class=\"next material-icons\" href=\"_NEXTLINK_\" title=\"Newer Post\">arrow_forward_ios</a>");
