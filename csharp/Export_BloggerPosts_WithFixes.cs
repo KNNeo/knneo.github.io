@@ -349,7 +349,7 @@ public class Program {
 				article.Append("<div class=\"post-info\">");
 				article.Append("<small tabIndex=\"0\" data-published=\"" + publishDateString + "\"" +
 					(publishDateString == updateDateString ? "" : (" data-updated=\"" + updateDateString + "\"")) +
-					" class=\"post-date\">" + publishDate.ToString("dddd, dd MMMM yyyy") + "</small>");
+					" class=\"post-date\">" + publishDate.ToString("dddd dd MMMM yyyy") + "</small>");
 				article.Append("<span>");
 				article.Append("<a class=\"prev material-icons\" href=\"_PREVLINK_\" title=\"Older Post\">arrow_back_ios</a>");
 				article.Append("<a class=\"next material-icons\" href=\"_NEXTLINK_\" title=\"Newer Post\">arrow_forward_ios</a>");
