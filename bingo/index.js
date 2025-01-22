@@ -864,10 +864,12 @@ function autoFillCards(value) {
 }
 
 function runCountdown() {
-	popupTextGoAway('LAST ' + config.countdown.turns);
-	window['countdown'] = window['board'].length + config.countdown.turns;
+	window['remaining'] = config.countdown.turns;
+	window['countdown'] = window['board'].length + window['remaining'];
+	popupTextGoAway('LAST ' + window['remaining']--);
 	setTimeout(function() {
 		window['ended'] = false;
+		popupTextGoAway('LAST ' + window['remaining']--);
 		callNumber();
 	}, config.interval);
 }
