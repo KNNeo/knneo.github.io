@@ -921,18 +921,18 @@ function endBingo() {
 	if(config.countdown.turns && window['cards'] > 1 && !window['countdown'])
 		runCountdown();
 	else {
-		popupTextGoAway(config.countdown.turns ? 'END' : 'BINGO');
 		document.querySelector('#bingo').style.display = '';
 		document.querySelector('#bingo').innerText = config.locale.action.reset;
 		//tally correct and wrong selections
-		let result = 'Card scores from left to right:\n';
+		let result = 'Card scores from left to right:';
 		for(let c = 0; c < window['cards']; c++) {
 			let card = document.querySelectorAll('.card')[c];
 			let score = scoreCard(card);
-			result += '\nCard ' + (1 + c) + ' - Marked: ' + score[0] + ' Correct: ' + score[1] + '  Wrong: ' + score[2];
-			result += ' Bingo: ' + checkBingo(c);
+			result += '\n[Card ' + (1 + c) + '] - Marked: ' + score[0] + ' Correct: ' + score[1] + '  Wrong: ' + score[2] + ' Bingo: ' + (checkBingo(c) ? 'Yes' : 'No');
+			result += '\n\nClick on scoreboard button to see this again!';
 		}
 		window['result'] = result;
+		popupTextGoAway(config.countdown.turns ? 'END' : 'BINGO');
 		showLatestResult();
 	}
 }
