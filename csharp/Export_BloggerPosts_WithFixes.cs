@@ -63,6 +63,10 @@ public class Program {
 		"https://knwebreports2014.blogspot.com/",
 		"http://knwebreports2014.blogspot.com/"
 	};
+	static List<String> POST_FIRST_THUMBNAIL_EXCLUDED = new List<string>()
+	{
+		"scontent-sin.xx.fbcdn.net"
+	};
 
 	static void Main()
 	{
@@ -337,22 +341,22 @@ public class Program {
 				// All content to put in <body> tag
 				if (POSTS_LINK_TO_BLOGGER && bloggerLink != "")
 				{
-					header.AppendLine("<small style=\"text-align: center;\"><p><em>This is an archive from <a href=\"" + bloggerLink + "\">" + HTML_TITLE + "</a></em></p></small>");
+					article.AppendLine("<small style=\"text-align: center;\"><p><em>This is an archive from <a href=\"" + bloggerLink + "\">" + HTML_TITLE + "</a></em></p></small>");
 				}
 				var publishDateString = publishDate.ToString("yyyy-MM-ddTHH:mm:sszzz");
 				var updateDateString = updateDate.ToString("yyyy-MM-ddTHH:mm:sszzz");
-				header.AppendLine("<a class=\"back material-icons\" href=\"../../../../index.html\" title=\"Back To Homepage\">arrow_back</a>");
-				header.AppendLine("<h2 class=\"post-title\">" + postTitle + "</h2>");
-				header.AppendLine("<a class=\"share material-icons\" title=\"Share This Post\" href=\"javascript:void(0);\" onclick=\"sharePost()\">share</a>");
-				header.AppendLine("<a class=\"like bordered material-icons\" title=\"Like This Post\" href=\"javascript:void(0);\" onclick=\"likePost()\">favorite_border</a>");
-				article.AppendLine("<h2 class=\"post-title\">" + postTitle + "</h2>");
-				article.Append("<div class=\"post-info\">");
-				article.Append("<small tabIndex=\"0\" data-published=\"" + publishDateString + "\"" +
+				// header.AppendLine("<a class=\"back material-icons\" href=\"../../../../index.html\" title=\"Back To Homepage\">arrow_back</a>");
+				// header.AppendLine("<h2 class=\"post-title\">" + postTitle + "</h2>");
+				// header.AppendLine("<a class=\"share material-icons\" title=\"Share This Post\" href=\"javascript:void(0);\" onclick=\"sharePost()\">share</a>");
+				// header.AppendLine("<a class=\"like bordered material-icons\" title=\"Like This Post\" href=\"javascript:void(0);\" onclick=\"likePost()\">favorite_border</a>");
+				// article.AppendLine("<h2 class=\"post-title\">" + postTitle + "</h2>");
+				header.Append("<div class=\"post-info\">");
+				header.Append("<small tabIndex=\"0\" data-published=\"" + publishDateString + "\"" +
 					(publishDateString == updateDateString ? "" : (" data-updated=\"" + updateDateString + "\"")) +
 					" class=\"post-date\">" + publishDate.ToString("dddd dd MMMM yyyy") + "</small>");
-				article.Append("<span>");
-				article.Append("<a class=\"prev material-icons\" href=\"_PREVLINK_\" title=\"Older Post\">arrow_back_ios</a>");
-				article.Append("<a class=\"next material-icons\" href=\"_NEXTLINK_\" title=\"Newer Post\">arrow_forward_ios</a>");
+				header.Append("<span>");
+				// article.Append("<a class=\"prev material-icons\" href=\"_PREVLINK_\" title=\"Older Post\">arrow_back_ios</a>");
+				// article.Append("<a class=\"next material-icons\" href=\"_NEXTLINK_\" title=\"Newer Post\">arrow_forward_ios</a>");
 				article.Append("</span>");
 				article.AppendLine("</div>");
 				if(postContent.Contains("id=\""))
@@ -368,8 +372,8 @@ public class Program {
 							.Select(tag => "<a class=\"box\" href=\"../../../../index.html#" + tag.Replace(" ","") +"\">" + tag + "</a>")) + 
 						"</div>");
 				}
-				var copyrightYears = publishDate.Year >= updateDate.Year ? updateDate.Year.ToString() : publishDate.Year + "-" + updateDate.Year;
-				footer.AppendLine($"<h6 class=\"page-footer\">Copyright © {HTML_TITLE} {copyrightYears}. All rights reserved.</h6>");
+				var copyrightYear = publishDate.Year >= updateDate.Year ? updateDate.Year.ToString() : publishDate.Year + "-" + updateDate.Year;
+				// footer.AppendLine($"<h6 class=\"page-footer\">Copyright © {HTML_TITLE} {copyrightYear}. All rights reserved.</h6>");
 				// Write all additions into output home page
 				string fileString = File.ReadAllText(POST_TEMPLATE_FILENAME)
 					.Replace("_TITLE_", postTitle.Length > 0 ? postTitle : "A Random Statement")
@@ -378,9 +382,10 @@ public class Program {
 					.Replace("_FONTS_\n", externalFonts.Length > 0 ? externalFonts.ToString() : "")
 					.Replace("_CSS_\n", GenerateStyleLinks(postContent))
 					.Replace("_JS_\n", GenerateScriptLinks(postContent))
-					.Replace("_HEADER_\n", header.ToString())
+					.Replace("_DATE_\n", header.ToString())
 					.Replace("_CONTENTS_\n", article.ToString())
 					.Replace("_FOOTER_\n", footer.ToString())
+					.Replace("_COPYRIGHT_\n", $"Copyright © {HTML_TITLE} {copyrightYear}. All rights reserved.")
 					.Replace("_PREVLINK_", pageIndex < linkedList.Count() - 1 ? linkedList[pageIndex + 1].Destination.Replace("./", "../../../../") : "javascript:void(0);")
 					.Replace("_NEXTLINK_", pageIndex > 0 ? linkedList[pageIndex - 1].Destination.Replace("./", "../../../../") : "javascript:void(0);");
 				// Write into homepage file, or overwrite if exists
@@ -393,7 +398,7 @@ public class Program {
 			// For posts without post link, add name only(?)
 			if (string.IsNullOrWhiteSpace(bloggerLink))
 			{
-				homepageString.AppendLine("<div class=\"post\"><span>" + publishDate.ToString("yyyy.MM.dd") + "</span>" + postTitle + "</div>");
+				homepageString.AppendLine("<div class=\"post\"><span data-published=\"" + publishDate.ToString("yyyy-MM-ddTHH:mm:sszzz") + "\" class=\"publish\">" + publishDate.ToString("dd MMMM yyyy") + "</span>" + postTitle + "</div>");
 			}
 			else
 			{
@@ -401,8 +406,8 @@ public class Program {
 				if(!string.IsNullOrWhiteSpace(postTitle))
 				{
 					var thumbnailUrl = "";
-					var anchors = new List<string>();
-					var excluded = new List<string>() { "hashtags", "table", "music", "disclaimer" };
+					// var anchors = new List<string>();
+					// var excluded = new List<string>() { "hashtags", "table", "music", "disclaimer" };
 					var isLatest = IsLatestPost(publishDate);
 					// For latest post, show expanded content
 					if(isLatest)
@@ -413,25 +418,26 @@ public class Program {
 						//Console.WriteLine(postContent);
 						if(match.Success)
 							thumbnailUrl = match.Groups[2].Value;
-						// Exceptions (TODO: Set as config)
-						if(thumbnailUrl.Contains("scontent-sin.xx.fbcdn.net"))
+						// Exceptions, to clear thumbnail url (does not find next)
+						if(POST_FIRST_THUMBNAIL_EXCLUDED.Any(term => thumbnailUrl.Contains(term)))
 							thumbnailUrl = "";
-						// If not thumbnail found in post, set default thumbnail by first label found
+						// If no thumbnail found in post, set default thumbnail by first label as per config
 						if(String.IsNullOrWhiteSpace(thumbnailUrl))
 						{
-							var firstLabel = pageTagsXml.FirstOrDefault(xml => POST_LABEL_THUMBNAIL.Keys.Contains(xml));
-							if(firstLabel != null)
-								thumbnailUrl = POST_LABEL_THUMBNAIL[firstLabel];
+							if (DEBUG_MODE) Console.WriteLine("No image found, finding default by post label");
+								var firstLabel = pageTagsXml.FirstOrDefault(xml => POST_LABEL_THUMBNAIL.Keys.Contains(xml));
+								if(firstLabel != null)
+									thumbnailUrl = POST_LABEL_THUMBNAIL[firstLabel];
 						}
 						// Find all anchors in div or blockquote tags
-						if (DEBUG_MODE) Console.WriteLine("Find all anchors");
-						match = Regex.Match(postContent, @"(?s)(div|blockquote)(.*?) id=""(.*?)""(.*?)(>)");
-						while(match.Success) {
-							//Console.WriteLine(match.Groups[3].Value);
-							if(match.Groups[3].Value.Length > 1 && !excluded.Contains(match.Groups[3].Value))
-								anchors.Add(match.Groups[3].Value);
-							match = match.NextMatch();
-						}
+						// if (DEBUG_MODE) Console.WriteLine("Find all anchors");
+						// match = Regex.Match(postContent, @"(?s)(div|blockquote)(.*?) id=""(.*?)""(.*?)(>)");
+						// while(match.Success) {
+						// 	//Console.WriteLine(match.Groups[3].Value);
+						// 	if(match.Groups[3].Value.Length > 1 && !excluded.Contains(match.Groups[3].Value))
+						// 		anchors.Add(match.Groups[3].Value);
+						// 	match = match.NextMatch();
+						// }
 						//Console.WriteLine(anchors);
 					}
 					// Add to homepage string builder
@@ -445,7 +451,7 @@ public class Program {
 							//? "<div class=\"anchors\">" + string.Join("", anchors.Select(a => "<a href=\"" + (pageLink + "#" + a) + "\">#" + a + "</a>")) + "</div>" 
 							//: "") + 
 						"</div></a>"
-						: "<div class=\"post\"" + dataTags + "><span class=\"publish\">" + publishDate.ToString("yyyy.MM.dd") + " </span>" +
+						: "<div class=\"post\"" + dataTags + "><span data-published=\"" + publishDate.ToString("yyyy-MM-ddTHH:mm:sszzz") + "\" class=\"publish\">" + publishDate.ToString("dd MMMM yyyy") + " </span>" +
 						"<a href=\""+pageLink+"\">" + postTitle + "</a></div>");
 				}
 			}
