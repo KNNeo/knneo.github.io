@@ -398,7 +398,7 @@ public class Program {
 			// For posts without post link, add name only(?)
 			if (string.IsNullOrWhiteSpace(bloggerLink))
 			{
-				homepageString.AppendLine("<div class=\"post\"><span data-published=\"" + publishDate.ToString("yyyy-MM-ddTHH:mm:sszzz") + "\" class=\"publish\">" + publishDate.ToString("dd MMMM yyyy") + "</span>" + postTitle + "</div>");
+				homepageString.AppendLine("<div class=\"post\"><span data-published=\"" + publishDate.ToString("yyyy-MM-ddTHH:mm:sszzz") + "\" class=\"publish\">" + publishDate.ToString("dd MMM yyyy") + "</span>" + postTitle + "</div>");
 			}
 			else
 			{
@@ -446,12 +446,12 @@ public class Program {
 						"<div class=\"thumb\">" + 
 							(thumbnailUrl.Length > 0 ? "<div><img alt=\"\" loading=\"lazy\" src=\"" + thumbnailUrl + "\"/></div>" : "") + 
 							"<h5 title=\"" + postTitle + "\">" + postTitle + "</h5>" + 
-							(thumbnailUrl.Length > 0 ? "<div data-published=\"" + publishDate.ToString("yyyy-MM-ddTHH:mm:sszzz") + "\" class=\"publish\">" + publishDate.ToString("dd MMMM yyyy") + "</div>" : "") + 
+							(thumbnailUrl.Length > 0 ? "<span data-published=\"" + publishDate.ToString("yyyy-MM-ddTHH:mm:sszzz") + "\" class=\"publish\">" + publishDate.ToString("dd MMM yyyy") + "</span>" : "") + 
 							//(anchors.Count > 0 
 							//? "<div class=\"anchors\">" + string.Join("", anchors.Select(a => "<a href=\"" + (pageLink + "#" + a) + "\">#" + a + "</a>")) + "</div>" 
 							//: "") + 
 						"</div></a>"
-						: "<div class=\"post\"" + dataTags + "><span data-published=\"" + publishDate.ToString("yyyy-MM-ddTHH:mm:sszzz") + "\" class=\"publish\">" + publishDate.ToString("dd MMMM yyyy") + " </span>" +
+						: "<div class=\"post\"" + dataTags + "><span data-published=\"" + publishDate.ToString("yyyy-MM-ddTHH:mm:sszzz") + "\" class=\"publish\">" + publishDate.ToString("dd MMM yyyy") + " </span>" +
 						"<a href=\""+pageLink+"\">" + postTitle + "</a></div>");
 				}
 			}
