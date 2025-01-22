@@ -350,15 +350,15 @@ public class Program {
 				// header.AppendLine("<a class=\"share material-icons\" title=\"Share This Post\" href=\"javascript:void(0);\" onclick=\"sharePost()\">share</a>");
 				// header.AppendLine("<a class=\"like bordered material-icons\" title=\"Like This Post\" href=\"javascript:void(0);\" onclick=\"likePost()\">favorite_border</a>");
 				// article.AppendLine("<h2 class=\"post-title\">" + postTitle + "</h2>");
-				header.Append("<div class=\"post-info\">");
+				// header.Append("<div class=\"post-info\">");
 				header.Append("<small tabIndex=\"0\" data-published=\"" + publishDateString + "\"" +
 					(publishDateString == updateDateString ? "" : (" data-updated=\"" + updateDateString + "\"")) +
 					" class=\"post-date\">" + publishDate.ToString("dddd dd MMMM yyyy") + "</small>");
-				header.Append("<span>");
+				// header.Append("<span>");
 				// article.Append("<a class=\"prev material-icons\" href=\"_PREVLINK_\" title=\"Older Post\">arrow_back_ios</a>");
 				// article.Append("<a class=\"next material-icons\" href=\"_NEXTLINK_\" title=\"Newer Post\">arrow_forward_ios</a>");
-				article.Append("</span>");
-				article.AppendLine("</div>");
+				// article.Append("</span>");
+				// article.AppendLine("</div>");
 				if(postContent.Contains("id=\""))
 					article.AppendLine("<div class=\"post-hashtags\"></div>");
 				// Actual content to put in post-content class, HTML condensed
