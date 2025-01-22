@@ -440,7 +440,7 @@ public class Program {
 						"<div class=\"thumb\">" + 
 							(thumbnailUrl.Length > 0 ? "<div><img alt=\"\" loading=\"lazy\" src=\"" + thumbnailUrl + "\"/></div>" : "") + 
 							"<h5 title=\"" + postTitle + "\">" + postTitle + "</h5>" + 
-							(thumbnailUrl.Length > 0 ? "<span class=\"publish\">"+publishDate.ToString("yyyy.MM.dd")+"</span>" : "") + 
+							(thumbnailUrl.Length > 0 ? "<div data-published=\"" + publishDate.ToString("yyyy-MM-ddTHH:mm:sszzz") + "\" class=\"publish\">" + publishDate.ToString("dd MMMM yyyy") + "</div>" : "") + 
 							//(anchors.Count > 0 
 							//? "<div class=\"anchors\">" + string.Join("", anchors.Select(a => "<a href=\"" + (pageLink + "#" + a) + "\">#" + a + "</a>")) + "</div>" 
 							//: "") + 
