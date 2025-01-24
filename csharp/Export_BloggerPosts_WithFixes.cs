@@ -376,9 +376,10 @@ public class Program {
 				// footer.AppendLine($"<h6 class=\"page-footer\">Copyright © {HTML_TITLE} {copyrightYear}. All rights reserved.</h6>");
 				// Write all additions into output home page
 				string fileString = File.ReadAllText(POST_TEMPLATE_FILENAME)
-					.Replace("_TITLE_", postTitle.Length > 0 ? postTitle : "A Random Statement")
+					.Replace("_TITLE_", (postTitle.Length > 0 ? postTitle : "A Random Statement") + " - " + HTML_TITLE)
 					.Replace("_IMAGE_", thumbnailUrl)
 					.Replace("_LINK_", pageLink)
+					.Replace("_DESCRIPTION_", HTML_DESCRIPTION)
 					.Replace("_FONTS_\n", externalFonts.Length > 0 ? externalFonts.ToString() : "")
 					.Replace("_CSS_\n", GenerateStyleLinks(postContent))
 					.Replace("_JS_\n", GenerateScriptLinks(postContent))

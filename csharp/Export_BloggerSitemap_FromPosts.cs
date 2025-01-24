@@ -39,6 +39,8 @@ public class Program {
     static string BLOGGER_XML_RENAME_SUFFIX = "knreports";
 
     // POST SETTINGS
+	static string HTML_TITLE = "Klassic Note Reports";
+	static string HTML_DESCRIPTION = "If it is worth taking Note, it will be a Klassic.";
     static string HTML_BODY_FONTFAMILY = "Noto Sans, Arial, sans-serif;";
     static List<String> POST_IGNORE_TAGS = new List<string>() { "The Archive", "The Statement" };
     static string POSTS_SINCE = "2000-01-01";
@@ -319,6 +321,8 @@ public class Program {
         //Write into page
         string fileString = File.ReadAllText(POST_TEMPLATE_FILENAME);
         fileString = fileString
+			.Replace("_TITLE_", HTML_TITLE)
+			.Replace("_DESCRIPTION_", HTML_DESCRIPTION)
             .Replace("_FONT_", HTML_BODY_FONTFAMILY)
             .Replace("_ANIME_", sections.Anime)
             .Replace("_PACKAGE_", sections.Packages)
