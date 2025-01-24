@@ -446,7 +446,7 @@ function generateMatrix(set) {
 		do {
 			rnd = Math.floor(Math.random() * 15) + ((i % 5) * 15) + 1;
 		}
-		while (numbers.indexOf(rnd) >= 0)
+		while (numbers.indexOf(rnd) >= 0);
 		numbers[i] = rnd;
 		if(set) selected[i] = set.includes(i+1);
 	}
@@ -721,9 +721,7 @@ function renderHistory() {
 }
 
 function renderBoard() {
-	let numbers = [];
-	for(i = 0; i < 75; i++)
-		numbers.push(i+1);
+	let numbers = Array.from({ length: 75 }, (_, i) => i + 1);
 	
 	let table = document.createElement('table');
 	table.classList.add('box');
