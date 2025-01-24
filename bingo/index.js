@@ -933,7 +933,7 @@ function endBingo() {
 		}
 		window['result'] = result;
 		popupTextGoAway(config.countdown.turns ? 'END' : 'BINGO');
-		showLatestResult();
+		setTimeout(showLatestResult, 1000);
 	}
 }
 
