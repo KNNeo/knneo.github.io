@@ -93,8 +93,8 @@ public class Program {
 		}
 		if(WRITE_EMOJICOUNT_ON_CONSOLE)
 		{
-			Console.WriteLine("EMOJI COUNTS");
-			Console.WriteLine(emojiCounts.OrderByDescending(x => x.Value));
+			Console.WriteLine("EMOJI COUNTS (MORE THAN 1 MENTION)");
+			Console.WriteLine(emojiCounts.Where(x => x.Value > 1).OrderByDescending(x => x.Value));
 		}
 		// Output as completed
         stopwatch.Stop();
