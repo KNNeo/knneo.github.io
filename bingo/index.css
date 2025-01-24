@@ -110,6 +110,7 @@ a:hover {
 
 .card .prev,
 .card .next {
+	display: none;
 	position: absolute;
     top: 50%;
 	width: 15%;
@@ -268,4 +269,9 @@ a:hover {
 	.card table {
 		margin: auto;
 	}
+	.card .prev,
+	.card .next {
+		display: block;
+	}
+	
 }

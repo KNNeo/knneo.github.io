@@ -2,17 +2,19 @@
 const config = {
 	debug: false,
 	autoFill: false,
+	autoPause: true,
 	interval: 7500,
 	cards: {
 		playable: 3,
 		labels: ['B','I','N','G','O'],
 	},
-	countdown: {
-		turns: 5
-	},
 	locale: {
-		title: "BINGO",
+		title: "BINGO GAME",
 		free: "FREE",
+		countdown: {
+			start: "ENDING",
+			prefix: "LAST",
+		},
 		display: {
 			pattern: "PATTERN",
 			latest: "LATEST",
@@ -29,7 +31,14 @@ const config = {
 			pause: "PAUSE",
 			resume: "RESUME",
 			reset: "RESET",
+		},
+		end: {
+			single: "BINGO",
+			multiple: "END",
 		}
+	},
+	popup: {
+		delay: 1000,
 	},
 	patterns: [
 		{
@@ -187,6 +196,7 @@ let menuDiv = document.querySelector('.menu');
 //--DOM EVENTS--//
 function startup() {
 	initializeVariables();
+	initializeWindow();
 	renderTitle();
 	renderDisplay();
 	renderCards();
@@ -453,6 +463,14 @@ function initializeVariables() {
 	window['bingo'] = [];
 	window['countdown'] = 0;
 	window['result'] = '';
+}
+
+function initializeWindow() {
+	// pause game on defocus
+    window.addEventListener('blur', function() {
+		if(config.autoPause && !window['ended'] && !window['paused'])
+			document.querySelector('#bingo').click();
+    });
 }
 
 function renderTitle() {
@@ -737,12 +755,12 @@ function renderBoard() {
 	return table;
 }
 
-function popupTextGoAway(textVal) {	
+function popupTextGoAway(text) {	
 	//create popup and show
 	let popup = document.createElement('div');
 	popup.classList.add('go-away');
 	popup.classList.add('text');
-	popup.innerText = textVal;
+	popup.innerText = text;
 	document.querySelector('.go-away')?.remove();
 	document.body.appendChild(popup);	
 	//add class to fade
@@ -754,7 +772,7 @@ function popupTextGoAway(textVal) {
 	//remove after hide
 	setTimeout(function() {
 		popup.remove();
-	}, 1000);
+	}, config.popup.delay);
 }
 
 //--GAME FUNCTIONS--//
@@ -868,12 +886,12 @@ function autoFillCards(value) {
 }
 
 function runCountdown() {
-	window['remaining'] = config.countdown.turns;
+	window['remaining'] = 5;
 	window['countdown'] = window['board'].length + window['remaining'];
-	popupTextGoAway('LAST ' + window['remaining']--);
+	popupTextGoAway(config.locale.countdown.start);
 	setTimeout(function() {
 		window['ended'] = false;
-		popupTextGoAway('LAST ' + window['remaining']--);
+		popupTextGoAway(config.locale.countdown.prefix + ' ' + window['remaining']--);
 		callNumber();
 	}, config.interval);
 }
@@ -922,7 +940,7 @@ function checkBingo(id) {
 function endBingo() {
 	if(config.debug) console.log('end');
 	window['ended'] = true;
-	if(config.countdown.turns && window['cards'] > 1 && !window['countdown'])
+	if(5 && window['cards'] > 1 && !window['countdown'])
 		runCountdown();
 	else {
 		document.querySelector('#bingo').style.display = '';
@@ -936,7 +954,7 @@ function endBingo() {
 			result += '\n\nClick on scoreboard button to see this again!';
 		}
 		window['result'] = result;
-		popupTextGoAway(config.countdown.turns ? 'END' : 'BINGO');
+		popupTextGoAway(5 && window['cards'] > 1 ? config.locale.end.multiple : config.locale.end.single);
 		setTimeout(showLatestResult, 1000);
 	}
 }
