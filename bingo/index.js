@@ -471,6 +471,31 @@ function initializeWindow() {
 		if(config.autoPause && !window['ended'] && !window['paused'])
 			document.querySelector('#bingo').click();
     });
+    window.addEventListener('keyup', function() {
+		switch(event.key) {
+			case 'p':
+				if(!window['ended'] && !window['paused'])
+					document.querySelector('#bingo').click();
+				break;
+			case 'a':
+				document.querySelector('.settings .autofill').click();
+				break;
+			case 'c':
+				document.querySelector('.settings .cards').click();
+				break;
+			case 't':
+				document.querySelector('.settings .timer').click();
+				break;
+			case 's':
+				document.querySelector('.settings .scoreboard').click();
+				break;
+			case 'd':
+				document.querySelector('.settings .darkmode').click();
+				break;
+			default:
+				break;
+		}
+    });
 }
 
 function renderTitle() {
