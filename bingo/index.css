@@ -197,11 +197,13 @@ a:hover {
 }
 
 .hidden::before {
-	content: "-PAUSED-";
+	content: "- PAUSED -";
 	position: absolute;
 	text-align: center;
 	visibility: visible;
 	font-size: 2em;
+    left: 0;
+    right: 0;
 }
 
 .go-away {

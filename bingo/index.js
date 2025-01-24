@@ -792,6 +792,9 @@ function startBingo() {
 		let combination = config.patterns.find(p => p.name == window['combination']);
 		generate.innerText = (isPatternMatch(combination.selected) ? combination.selected[0].length : combination.selected.length) + ' ' + config.locale.remainder;
 	}
+	//autofill free space
+	if(config.autoFill)
+		autoFillCards(config.locale.free);
 	//call
 	setTimeout(callNumber, 500);
 	return true;
@@ -851,10 +854,11 @@ function callNumber() {
 }
 
 function autoFillCards(value) {
-	//limitations: does not fill free space, does not update again if user clicked it off
+	//limitations: does not update again if user un-clicked it
 	for(let card of document.querySelectorAll('.card'))	{
 		for(let cell of card.querySelectorAll('td')) {
-			if(cell.innerText == value.toString()) {
+			if((cell.innerText == value.toString() || cell.innerText == config.locale.free) 
+				&& !cell.classList.contains('selected')) {
 				//trigger click event
 				if(config.debug) console.log(card, cell, cell.innerText);
 				cell.click();
@@ -938,6 +942,7 @@ function endBingo() {
 }
 
 function resetBingo() {
+	document.querySelector('.call-count').innerHTML = '';
 	document.querySelector('.category').innerHTML = '';
 	document.querySelector('.latest').innerHTML = '';
 	document.querySelector('.history').innerHTML = '';
