@@ -681,7 +681,7 @@ public class Program {
 				{"sniff",			"😢"}, {"thumbs up",	"👍"}, {"ugh", 			"🙄"}, {"wink",		"😉"}, 
 				{"chef's kiss",		"😙🤌"}, {"fap",			"🍆"}, {"prays",		"🙏"}, {"fap fap fap",	"🍆🍆💦"},
 				{"wink wink",		"😉😉"}, {"claps",		"👏"}, {"applauds",		"👏"}, {"yawns",	"🥱"},
-				{"yay",				"🙌"}, {"applauses",	"👏"}, {"tehe",		"😋"}, {"tehepero",		"😋"}
+				{"yay",				"🙌"}, {"applauses",	"👏"}, {"tehe",			"🤜😋"}, {"tehepero", "🤜😋"}
 			};
 			
 			foreach(var emoji in emojis)
