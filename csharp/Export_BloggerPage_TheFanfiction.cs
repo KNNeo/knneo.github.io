@@ -362,12 +362,14 @@ public class Program {
             {
                 if(String.IsNullOrWhiteSpace(list)) continue;
                 var tags = list.Split(',').ToList();
-                if(peopleList.ContainsKey(tags[0]))
-                    peopleList[tags[0]] += 1;
+                if(tags.Count() < 1) continue;
+                // people
+                if(peopleList.ContainsKey(tags[1]))
+                    peopleList[tags[1]] += 1;
                 else
-                    peopleList.Add(tags[0], 1);
-                
-                foreach(var tag in tags.Skip(1))
+                    peopleList.Add(tags[1], 1);
+                // tags
+                foreach(var tag in tags.Skip(1).Append(tags[0]))
                 {
                     if(tagsList.ContainsKey(tag))
                         tagsList[tag] += 1;
