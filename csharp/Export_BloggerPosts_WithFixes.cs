@@ -918,6 +918,7 @@ public class Program {
 					if(newHeight > 0)
 						content = content.Replace(match.Groups[4].Value, match.Groups[4].Value + $" height=\"{newHeight}\" ");
 					Console.WriteLine($"Image missing height attribute!");
+					// Console.WriteLine(match.Value);
 					Console.WriteLine($"originalHeight: {originalHeight} originalWidth: {originalWidth} width: {width} newHeight:{newHeight}");
 				}
 				match = match.NextMatch();
@@ -943,6 +944,7 @@ public class Program {
 					if(newWidth > 0)
 						content = content.Replace(match.Groups[6].Value, match.Groups[6].Value + $" height=\"{newWidth}\" ");
 					Console.WriteLine($"Image missing width attribute!");
+					// Console.WriteLine(match.Value);
 					Console.WriteLine($"originalHeight: {originalHeight} originalWidth: {originalWidth} height: {height} newWidth:{newWidth}");
 				}
 				match = match.NextMatch();
