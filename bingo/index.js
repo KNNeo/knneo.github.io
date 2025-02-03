@@ -217,11 +217,14 @@ function toggleCards() {
 			window['cards'] = 5;
 			break;
 		case 5:
+			window['cards'] = 0;
+			break;
+		case 0:
 			window['cards'] = 1;
 			break;
 	}
 	if(config.debug) alert('Cards playable is now ' + window['cards']);
-	popupTextGoAway(window['cards']);
+	popupTextGoAway(window['cards'] || 'DISPLAY MODE');
 	renderCards();
 }
 
@@ -971,7 +974,7 @@ function checkBingo(id) {
 function endBingo() {
 	if(config.debug) console.log('end');
 	window['ended'] = true;
-	if(5 && window['cards'] > 1 && !window['countdown'])
+	if(window['cards'] > 1 && !window['countdown'])
 		runCountdown();
 	else {
 		document.querySelector('#bingo').style.display = '';

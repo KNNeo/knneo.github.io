@@ -92,6 +92,10 @@ a:hover {
     gap: 0 16px;
 }
 
+:not(:has(.card)) .display {
+	font-size: 3.5em;
+}
+
 .pattern > div {
 	display: flex;
 	flex-direction: column;
@@ -102,6 +106,7 @@ a:hover {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+    min-height: 2em;
 }
 
 .card {
@@ -126,7 +131,7 @@ a:hover {
 }
 
 .square-board {
-	width: 40px;
+    width: 1.5em;
 	aspect-ratio: 1 / 1;
 }
 
@@ -138,13 +143,13 @@ a:hover {
 }
 
 .square-pattern {
-	width: 20px;
-	height: 20px;
+    width: 1em;
+    height: 1em;
 }
 
 .square-call {
-	width: 125px;
-	height: 125px;
+    width: 6em;
+    height: 6em;
 }
 
 .selected {
@@ -183,6 +188,8 @@ a:hover {
 .history div {
     display: flex;
     justify-content: space-evenly;
+    flex-wrap: wrap;
+    gap: 0.25em;
 }
 
 .history span {
