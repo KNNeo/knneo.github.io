@@ -617,11 +617,10 @@ function renderCard(numbers, selected, latest) {
 				td.setAttribute('data-id', m*5+n+1);
 				td.innerText = numbers && numbers[m*5+n] || '';
 				td.addEventListener('click', function() {
-					if(!window['ended']) {
-						this.classList.toggle('daub' + window['daub']);
-						this.classList.toggle('selected');
+					this.classList.toggle('daub' + window['daub']);
+					this.classList.toggle('selected');
+					if(!window['ended'])
 						onCellClicked();
-					}
 				});
 			}
 			else if(latest && m == 0 && n == 0) {
@@ -839,6 +838,9 @@ function startBingo() {
 		let combination = config.patterns.find(p => p.name == window['combination']);
 		generate.innerText = (isPatternMatch(combination.selected) ? combination.selected[0].length : combination.selected.length) + ' ' + config.locale.remainder;
 	}
+	//clear all cards of daubs
+	for(let cell of document.querySelectorAll('.cell.square-card'))
+		cell.className = 'cell square-card';
 	//autofill free space
 	if(config.autoFill)
 		autoFillCards(config.locale.free);
