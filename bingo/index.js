@@ -473,6 +473,12 @@ function initializeWindow() {
     });
     window.addEventListener('keyup', function() {
 		switch(event.key) {
+			case ' ':
+				if(window['ended'])
+					document.querySelector('#bingo').click();
+				if(!window['ended'] && !window['paused'])
+					document.querySelector('#bingo').click();
+				break;
 			case 'p':
 				if(!window['ended'] && !window['paused'])
 					document.querySelector('#bingo').click();
