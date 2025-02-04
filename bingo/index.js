@@ -858,7 +858,7 @@ function pauseBingo() {
 
 function callNumber() {
 	if(config.debug) console.log('bingo', window['bingo']);
-	if(window['bingo'].filter(b => b && b == 1).length >= window['cards'])
+	if(window['cards'] && window['bingo'].filter(b => b && b == 1).length >= window['cards'])
 		return;
 	if(window['paused']) {
 		pauseBingo();
