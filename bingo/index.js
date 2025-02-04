@@ -180,11 +180,8 @@ const config = {
 		},
 	],
 };
-//pattern limited to single outcomes, eg. can't do "any horizontal"
 const smallScreen = function() {
-    const match = window.matchMedia('(pointer:coarse)');
-    const isMobile = match && match.matches;
-    return isMobile || window.innerWidth <= 880;
+    return window.innerWidth <= 1040px;
 };
 
 //--DOM REFERENCES--//
@@ -217,7 +214,7 @@ function toggleCards() {
 			window['cards'] = 5;
 			break;
 		case 5:
-			window['cards'] = 0;
+			window['cards'] = smallScreen() ? 1 : 0;
 			break;
 		case 0:
 			window['cards'] = 1;
