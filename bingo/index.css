@@ -45,6 +45,7 @@ a:hover {
 }
 
 .menu {
+    width: 95%;
 	max-width: 640px;
 	margin: 10px auto;
 }
@@ -76,6 +77,7 @@ a:hover {
 	white-space: normal;
 	touch-action: manipulation;
 	text-align: center;
+    border-spacing: 0.1em;
 }
 
 .cell {
@@ -148,8 +150,8 @@ a:hover {
 }
 
 .square-call {
-    width: calc(6em + 10px);
-    height: calc(6em + 10px);
+    width: 6.5em;
+    height: 6.5em;
 }
 
 .selected {
