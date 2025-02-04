@@ -1,8 +1,11 @@
 //--SETTINGS--//
 const config = {
 	debug: false,
-	autoFill: false,
-	autoPause: true,
+	auto:  {
+		fill: false,
+		bingo: false,
+		pause: true,
+	},
 	interval: 7500,
 	cards: {
 		playable: 3,
@@ -361,8 +364,8 @@ function createOrUpdateCustom() {
 }
 
 function toggleAutoFill() {
-	config.autoFill = !config.autoFill;
-	popupTextGoAway(config.autoFill ? 'AUTO' : 'MANUAL');
+	config.auto.fill = !config.auto.fill;
+	popupTextGoAway(config.auto.fill ? 'AUTO' : 'MANUAL');
 }
 
 function showLatestResult() {
@@ -468,7 +471,7 @@ function initializeVariables() {
 function initializeWindow() {
 	// pause game on defocus
     window.addEventListener('blur', function() {
-		if(config.autoPause && !window['ended'] && !window['paused'])
+		if(config.auto.pause && !window['ended'] && !window['paused'])
 			document.querySelector('#bingo').click();
     });
     window.addEventListener('keyup', function() {
@@ -842,7 +845,7 @@ function startBingo() {
 	for(let cell of document.querySelectorAll('.cell.square-card'))
 		cell.className = 'cell square-card';
 	//autofill free space
-	if(config.autoFill)
+	if(config.auto.fill)
 		autoFillCards(config.locale.free);
 	//call
 	setTimeout(callNumber, 500);
@@ -884,8 +887,10 @@ function callNumber() {
 	//update latest
 	window['call'] = rand;
 	document.querySelector('.latest').innerText = '';
+	//async function calls
 	setTimeout(function() { document.querySelector('.latest').innerText = window['call']; }, 250);
-	setTimeout(function() { if(config.autoFill) autoFillCards(window['call']);	}, 500);
+	setTimeout(function() { if(config.auto.fill) autoFillCards(window['call']); }, 500);
+	setTimeout(function() { if(config.auto.bingo) autoBingoCards(); }, 750);
 	//set card header columns
 	let category = config.cards.labels[Math.floor((rand-1) / 15)];
 	if(config.debug) console.log('category', category);
@@ -903,14 +908,27 @@ function callNumber() {
 }
 
 function autoFillCards(value) {
-	//limitations: does not update again if user un-clicked it
+	//limitation: does not update again if user un-clicked it
 	for(let card of document.querySelectorAll('.card'))	{
 		for(let cell of card.querySelectorAll('td')) {
 			if((cell.innerText == value.toString() || cell.innerText == config.locale.free) 
 				&& !cell.classList.contains('selected')) {
 				//trigger click event
-				if(config.debug) console.log(card, cell, cell.innerText);
+				if(config.debug) console.log('autoFill', card, cell);
 				cell.click();
+			}
+		}
+	}
+}
+
+function autoBingoCards() {
+	//limitation: does not bingo if user un-clicked any correct cells
+	for(let card of document.querySelectorAll('.card'))	{
+		for(let cell of card.querySelectorAll('.away')) {
+			if(cell.getAttribute('data-away') == '0') {
+				//trigger click event
+				if(config.debug) console.log('autoBingo', card, cell);
+				card.querySelector('.generate').click();
 			}
 		}
 	}
