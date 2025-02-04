@@ -789,10 +789,10 @@ function renderBoard() {
 function popupTextGoAway(text) {	
 	//create popup and show
 	let popup = document.createElement('div');
-	popup.classList.add('go-away');
+	popup.classList.add('popup');
 	popup.classList.add('text');
 	popup.innerText = text;
-	document.querySelector('.go-away')?.remove();
+	document.querySelector('.popup')?.remove();
 	document.body.appendChild(popup);	
 	//add class to fade
 	popup.classList.add('fade');	

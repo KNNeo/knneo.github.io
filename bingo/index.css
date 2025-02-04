@@ -110,7 +110,7 @@ a:hover {
 }
 
 .card {
-	padding: 10px;
+	padding: 1em;
 }
 
 .card .prev,
@@ -148,8 +148,8 @@ a:hover {
 }
 
 .square-call {
-    width: 6em;
-    height: 6em;
+    width: calc(6em + 10px);
+    height: calc(6em + 10px);
 }
 
 .selected {
@@ -214,7 +214,7 @@ a:hover {
     right: 0;
 }
 
-.go-away {
+.popup {
 	width: 100dvw;
 	height: auto;
 	position: fixed;
@@ -226,11 +226,11 @@ a:hover {
 	text-shadow: 4px 4px var(--background);
 }
 
-.go-away.fade {
+.popup.fade {
 	transition: opacity 1s;
 }
 
-.go-away.hide {
+.popup.hide {
 	opacity: 0;
 }
 
@@ -254,6 +254,9 @@ a:hover {
 		order: -1;
 		flex-basis: 100%;
 	}
+	.board table {
+		margin: auto;
+	}
 	.list {
 		display: flex;
 		overflow-x: auto;
@@ -264,6 +267,7 @@ a:hover {
 	.card {
         flex: 1 0 100vw;
         position: relative;
+		padding: 0;
 	}
 	.list:has(.card:nth-child(2)) .card::before {
 		font-family: 'Material Icons';
