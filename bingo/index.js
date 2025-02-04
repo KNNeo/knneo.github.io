@@ -181,7 +181,7 @@ const config = {
 	],
 };
 const smallScreen = function() {
-    return window.innerWidth <= 1040px;
+    return window.innerWidth <= 1040;
 };
 
 //--DOM REFERENCES--//
