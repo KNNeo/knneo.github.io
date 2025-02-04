@@ -69,6 +69,11 @@ textarea {
 	touch-action: manipulation;
 }
 
+.message {
+  display: block;
+  height: 1em;
+}
+
 .shadowed {
   border: 1px solid lightgray;
   box-shadow: 3px 3px;
