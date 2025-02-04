@@ -863,6 +863,8 @@ function callNumber() {
 	if(config.debug) console.log('bingo', window['bingo']);
 	if(window['cards'] && window['bingo'].filter(b => b && b == 1).length >= window['cards'])
 		return;
+	if(window['ended'])
+		return;
 	if(window['paused']) {
 		pauseBingo();
 		return;
@@ -887,16 +889,16 @@ function callNumber() {
 	//update latest
 	window['call'] = rand;
 	document.querySelector('.latest').innerText = '';
-	//async function calls
-	setTimeout(function() { document.querySelector('.latest').innerText = window['call']; }, 250);
-	setTimeout(function() { if(config.auto.fill) autoFillCards(window['call']); }, 500);
-	setTimeout(function() { if(config.auto.bingo) autoBingoCards(); }, 750);
 	//set card header columns
 	let category = config.cards.labels[Math.floor((rand-1) / 15)];
 	if(config.debug) console.log('category', category);
 	window['category'] = category;
 	document.querySelector('.category').innerText = '';
+	//async function calls
 	setTimeout(function() { document.querySelector('.category').innerText = window['category']; }, 250);
+	setTimeout(function() { document.querySelector('.latest').innerText = window['call']; }, 250);
+	setTimeout(function() { if(config.auto.fill) autoFillCards(window['call']); }, 500);
+	setTimeout(function() { if(config.auto.bingo) autoBingoCards(); }, 750);
 	//if countdown available, end if exceeded
 	if(window['countdown'] && window['board'].length > window['countdown'])
 		endBingo();
