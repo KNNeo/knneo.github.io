@@ -4,6 +4,7 @@ const config = {};
 //--DOM NODE REFERENCES--//
 let sourceTextArea = document.querySelector('textarea#source');
 let destTextArea = document.querySelector('textarea#dest');
+let messageSpan = document.querySelector('span.message');
 
 //--DOM FUNCTIONS--//
 function onKeyDown() {
@@ -18,8 +19,16 @@ function onButtonClick(event) {
         alert('No table tag found! This will only detect tables!');
     else if(sourceTextArea.value.includes('class="carousel"'))
         alert('Carousel already set! Remove if meant to create new!');
-    else
+    else {
         destTextArea.value = createCarousel(sourceTextArea.value);
+        if(navigator.clipboard) {
+            navigator.clipboard.writeText(destTextArea.value);
+            messageSpan.innerText = 'Copied to clipboard!';
+            setTimeout(function() {
+                messageSpan.innerText = '';
+            }, 1000);
+        }
+    }
 }
 
 //--FUNCTIONS--//
