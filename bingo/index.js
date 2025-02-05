@@ -6,11 +6,17 @@ const config = {
 		bingo: false,
 		pause: true,
 	},
-	interval: 7500,
 	cards: {
 		playable: 3,
 		labels: ['B','I','N','G','O'],
 	},
+	daubs: [
+		'lightgray-gray',
+		'blue-cyan',
+		'pink-darkred',
+		'lime-green'
+	],
+	interval: 7500,
 	locale: {
 		title: "BINGO GAME",
 		free: "FREE",
@@ -206,12 +212,11 @@ function startup() {
 }
 
 function toggleDaub() {
-	if(window['ended'])	{
-		let maxStyles = 3; //as per css, .daub<no>
-		window['daub'] = (window['daub'] + 1 > maxStyles) ? 0 : window['daub'] + 1;
-		titleDiv.classList = 'title daub' + window['daub'];
-		localStorage.setItem('daub', window['daub']);
-	}
+	let id = config.daubs.indexOf(window['daub']);
+	window['daub'] = (id + 1 >= config.daubs.length) > ? config.daubs[0] : config.daubs[id + 1];
+	localStorage.setItem('daub', window['daub']);
+	let colors = window['daub'].split('-');
+	document.documentElement.style.setProperty('--daub', document.documentElement.classList.contains('darked') && colors.length > 1 ? colors[1] : colors[0]);
 }
 
 function toggleCards() {
@@ -375,7 +380,6 @@ function togglePause() {
 
 function createOrUpdateCustom() {
 	if(!window['ended'] || window['combination-set']) return;
-	this.classList.toggle('daub' + window['daub']);
 	this.classList.toggle('selected');
 	let values = Array.from(document.querySelectorAll('.pattern-grid .selected')).map(p => parseInt(p.getAttribute('data-id')));
 	window['custom'] = values;	
@@ -392,7 +396,7 @@ function initializeVariables() {
 	window['bingo'] = [];
 	window['countdown'] = 0;
 	window['result'] = '';
-	window['call-hist'] = [];
+	window['history'] = [];
 }
 
 function initializeWindow() {
@@ -538,11 +542,9 @@ function generateMatrix(set) {
 }
 
 function renderTitle() {
-	window['daub'] = 0;
 	document.title = config.locale.title;
-	titleDiv.classList = 'title daub' + window['daub'];
+	titleDiv.classList = 'title selected';
 	titleDiv.innerText = config.locale.title;
-	localStorage.setItem('daub', window['daub']);
 }
 
 function renderDisplay() {
@@ -659,7 +661,6 @@ function renderCard(numbers, selected, latest) {
 				td.setAttribute('data-id', m*5+n+1);
 				td.innerText = numbers && numbers[m*5+n] || '';
 				td.addEventListener('click', function() {
-					this.classList.toggle('daub' + window['daub']);
 					this.classList.toggle('selected');
 					if(!window['ended'])
 						onCellClicked();
@@ -671,7 +672,6 @@ function renderCard(numbers, selected, latest) {
 				td.setAttribute('data-id', m*5+n+1);
 				td.addEventListener('click', createOrUpdateCustom);
 				if(selected[m*5+n] == true) {
-					td.classList.toggle('daub' + window['daub']);
 					td.classList.add('selected');
 				}
 			}
@@ -915,10 +915,10 @@ function callNumber() {
 	document.querySelector('.board' + rand).classList.add('selected');
 	document.querySelector('.call-count').innerText = ('' + window['board'].length).padStart(2, ' ') + ' / 75';
 	//update history
-	if(window['call-hist'].length >= 5)
-		window['call-hist'].pop();
-	if(window['call']) window['call-hist'].unshift(window['call']);
-	renderPastCallValues(window['call-hist']);
+	if(window['history'].length >= 5)
+		window['history'].pop();
+	if(window['call']) window['history'].unshift(window['call']);
+	renderPastCallValues(window['history']);
 	//update latest
 	window['call'] = rand;
 	document.querySelector('.latest').innerText = '';
