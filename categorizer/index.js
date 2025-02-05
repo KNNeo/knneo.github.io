@@ -218,17 +218,17 @@ function renderPresets() {
     closeButton.innerText = 'Close';
     actions.appendChild(closeButton);
 
-    drawerSection.appendChild(actions);
+    presetSection.appendChild(actions);
 
     let list = document.createElement('div');
     list.className = 'list';
     for(let preset of config.presets) {
         let selectButton = document.createElement('button');
-        selectButton.className = 'button';
+        selectButton.className = 'button box';
         selectButton.setAttribute('onclick', 'selectPreset()');
         selectButton.dataset.id = preset.id;
         selectButton.innerText = preset.name;
         list.appendChild(selectButton);
     }
-    drawerSection.appendChild(list);
+    presetSection.appendChild(list);
 }

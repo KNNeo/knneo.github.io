@@ -143,6 +143,8 @@ header {
   margin: auto;
   left: 0;
   right: 0;
+  background-color: var(--background);
+  z-index: 1;
 }
 
 section.presets,
@@ -161,6 +163,7 @@ section.drawer {
   z-index: 1;
 }
 
+section.presets.hidden,
 section.drawer.hidden {
   transform: translateY(100%);
   display: block;
