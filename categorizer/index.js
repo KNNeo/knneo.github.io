@@ -102,19 +102,23 @@ function addPreset() {
     let result = prompt('Key in a name!');
     if(result) {
         let preset = {
-            id: new Date().toISOString(),
+            id: 1 + (config.presets.length || 0),
             name: result,
             list: []
         };
-        // create in ui
-        let selectButton = document.createElement('button');
-        selectButton.className = 'item box';
-        selectButton.setAttribute('onclick', 'selectPreset()');
-        selectButton.dataset.id = preset.id;
-        selectButton.innerText = preset.name;
-        presetSection.appendChild(selectButton);
-        // update data
-        config.presets.push(preset);
+        result = prompt('Key in categories comma-separated!');
+        if(result) {
+            preset.categories = result.split(',').map(r => r.trim());
+            // create in ui
+            let selectButton = document.createElement('button');
+            selectButton.className = 'item box';
+            selectButton.setAttribute('onclick', 'selectPreset()');
+            selectButton.dataset.id = preset.id;
+            selectButton.innerText = preset.name;
+            presetSection.appendChild(selectButton);
+            // update data
+            config.presets.push(preset);
+        }
     }
 }
 
@@ -138,7 +142,8 @@ function getUniqueCategories(list) {
 //--INITIAL--//
 function startup() {
     window.data = window.data?.current || config.presets[0];
-    window.data.categories = getUniqueCategories(window.data.list);
+    if(window.data.categories.length < 1)
+        window.data.categories = getUniqueCategories(window.data.list);
     renderCanvas();
     renderDrawer();
     renderPresets();
