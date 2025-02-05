@@ -280,13 +280,19 @@ function onGenerateClicked() {
 		case config.locale.generate.new:
 			let [a,b] = generateMatrix();
 			let newCard = renderCard(a,b);
-			document.querySelectorAll('.card')[id].innerHTML = '';
-			document.querySelectorAll('.card')[id].appendChild(newCard);
+			let cardDiv = document.querySelectorAll('.card')[id];
+			cardDiv.innerHTML = '';
+			let c = 1+id;
+			// create prev next buttons for mobile navigation
+			if(c > 0)
+				cardDiv.appendChild(renderPrevious());
+			if(c < window['cards'] - 1)
+				cardDiv.appendChild(renderNext());
+			cardDiv.appendChild(newCard);
 			
 			let away = document.createElement('div');
 			away.classList.add('away');
-			document.querySelectorAll('.card')[id].appendChild(away);
-			
+			cardDiv.appendChild(away);			
 			break;
 		case config.locale.generate.check:
 			if(checkBingo(id) == true)
@@ -568,37 +574,11 @@ function renderCards() {
 		if(id > 9) id = '9_plus';
 		div.setAttribute('data-icon', 'filter_' + id);
 		div.setAttribute('data-id', c); // zero-based
-		// create prev next buttons for desktop navigation
-		if(c > 0) {
-			let nav = document.createElement('div');
-			nav.classList.add('prev');
-			nav.classList.add('material-icons');
-			nav.innerText = 'navigate_before';
-			nav.addEventListener('click', function() {
-				let id = parseInt(event.target.closest('.card').getAttribute('data-id'));
-				let prevCard = document.querySelectorAll('.card')[id-1];
-				if(prevCard) {
-					prevCard.scrollIntoView();
-					listDiv.setAttribute('data-selected', prevCard.getAttribute('data-id'));
-				}
-			})
-			div.appendChild(nav);
-		}
-		if(c < window['cards'] - 1) {
-			let nav = document.createElement('div');
-			nav.classList.add('next');
-			nav.classList.add('material-icons');
-			nav.innerText = 'navigate_next';
-			nav.addEventListener('click', function() {
-				let id = parseInt(event.target.closest('.card').getAttribute('data-id'));
-				let nextCard = document.querySelectorAll('.card')[id+1]; // zero-based
-				if(nextCard) {
-					nextCard.scrollIntoView();
-					listDiv.setAttribute('data-selected', nextCard.getAttribute('data-id'));
-				}
-			})
-			div.appendChild(nav);
-		}
+		// create prev next buttons for mobile navigation
+		if(c > 0)
+			div.appendChild(renderPrevious());
+		if(c < window['cards'] - 1)
+			div.appendChild(renderNext());
 		// generate table for numbers
 		let [a,b] = generateMatrix();
 		let table = renderCard(a,b);
@@ -609,6 +589,38 @@ function renderCards() {
 		div.appendChild(away);
 		listDiv.appendChild(div);
 	}
+}
+
+function renderPrevious() {
+	let nav = document.createElement('div');
+	nav.classList.add('prev');
+	nav.classList.add('material-icons');
+	nav.innerText = 'navigate_before';
+	nav.addEventListener('click', function() {
+		let id = parseInt(event.target.closest('.card').getAttribute('data-id'));
+		let prevCard = document.querySelectorAll('.card')[id-1];
+		if(prevCard) {
+			prevCard.scrollIntoView();
+			listDiv.setAttribute('data-selected', prevCard.getAttribute('data-id'));
+		}
+	});
+	return nav;
+}
+
+function renderNext() {
+	let nav = document.createElement('div');
+	nav.classList.add('next');
+	nav.classList.add('material-icons');
+	nav.innerText = 'navigate_next';
+	nav.addEventListener('click', function() {
+		let id = parseInt(event.target.closest('.card').getAttribute('data-id'));
+		let nextCard = document.querySelectorAll('.card')[id+1]; // zero-based
+		if(nextCard) {
+			nextCard.scrollIntoView();
+			listDiv.setAttribute('data-selected', nextCard.getAttribute('data-id'));
+		}
+	});
+	return nav;
 }
 
 function renderCard(numbers, selected, latest) {
