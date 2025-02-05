@@ -137,7 +137,7 @@ function getUniqueCategories(list) {
 
 //--INITIAL--//
 function startup() {
-    window.data = window.data.current || config.presets[0];
+    window.data = window.data?.current || config.presets[0];
     window.data.categories = getUniqueCategories(window.data.list);
     renderCanvas();
     renderCategories();
@@ -226,7 +226,7 @@ function renderPresets() {
         let selectButton = document.createElement('button');
         selectButton.className = 'button';
         selectButton.setAttribute('onclick', 'selectPreset()');
-        selectBUtton.dataset.id = preset.id;
+        selectButton.dataset.id = preset.id;
         selectButton.innerText = preset.name;
         list.appendChild(selectButton);
     }
