@@ -94,7 +94,7 @@ function addItem() {
 }
 
 
-function showPresets() {
+function togglePresets() {
     presetSection.classList.toggle('hidden');
 }
 
@@ -140,10 +140,10 @@ function startup() {
     window.data = window.data?.current || config.presets[0];
     window.data.categories = getUniqueCategories(window.data.list);
     renderCanvas();
-    renderCategories();
-    renderItems();
     renderDrawer();
     renderPresets();
+    renderCategories();
+    renderItems();
 }
 
 function renderCanvas() {
@@ -214,7 +214,7 @@ function renderPresets() {
 
     let closeButton = document.createElement('button');
     closeButton.className = 'button bi bi-x';
-    closeButton.setAttribute('onclick', 'toggleDrawer()');
+    closeButton.setAttribute('onclick', 'togglePresets()');
     closeButton.innerText = 'Close';
     actions.appendChild(closeButton);
 
@@ -224,7 +224,7 @@ function renderPresets() {
     list.className = 'list';
     for(let preset of config.presets) {
         let selectButton = document.createElement('button');
-        selectButton.className = 'button box';
+        selectButton.className = 'item box';
         selectButton.setAttribute('onclick', 'selectPreset()');
         selectButton.dataset.id = preset.id;
         selectButton.innerText = preset.name;

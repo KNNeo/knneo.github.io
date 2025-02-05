@@ -169,6 +169,7 @@ section.drawer.hidden {
   display: block;
 }
 
+section.presets .actions,
 section.drawer .actions {
   flex: 1 0 100%;
   padding: 1em;
