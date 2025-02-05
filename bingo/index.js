@@ -392,6 +392,7 @@ function initializeVariables() {
 	window['bingo'] = [];
 	window['countdown'] = 0;
 	window['result'] = '';
+	window['call-hist'] = [];
 }
 
 function initializeWindow() {
