@@ -213,7 +213,7 @@ function startup() {
 
 function toggleDaub() {
 	let id = config.daubs.indexOf(window['daub']);
-	window['daub'] = (id + 1 >= config.daubs.length) > ? config.daubs[0] : config.daubs[id + 1];
+	window['daub'] = (id + 1 >= config.daubs.length) ? config.daubs[0] : config.daubs[id + 1];
 	localStorage.setItem('daub', window['daub']);
 	let colors = window['daub'].split('-');
 	document.documentElement.style.setProperty('--daub', document.documentElement.classList.contains('darked') && colors.length > 1 ? colors[1] : colors[0]);
