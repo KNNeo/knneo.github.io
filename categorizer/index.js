@@ -142,7 +142,7 @@ function getUniqueCategories(list) {
 //--INITIAL--//
 function startup() {
     window.data = window.data?.current || config.presets[0];
-    if(window.data.categories.length < 1)
+    if(!window.data.categories || window.data.categories.length < 1)
         window.data.categories = getUniqueCategories(window.data.list);
     renderCanvas();
     renderDrawer();
