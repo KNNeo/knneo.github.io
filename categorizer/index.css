@@ -154,7 +154,7 @@ section.drawer {
   height: 50%;
   background-color: var(--accent);
   position: absolute;
-  bottom: 0;
+  bottom: -1em;
   left: 0;
   right: 0;
   margin: auto;
@@ -165,7 +165,7 @@ section.drawer {
 
 section.presets.hidden,
 section.drawer.hidden {
-  transform: translateY(100%);
+  transform: translateY(150%);
   display: block;
 }
 

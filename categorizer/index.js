@@ -108,9 +108,9 @@ function addPreset() {
         };
         // create in ui
         let selectButton = document.createElement('button');
-        selectButton.className = 'button';
+        selectButton.className = 'item box';
         selectButton.setAttribute('onclick', 'selectPreset()');
-        selectBUtton.dataset.id = preset.id;
+        selectButton.dataset.id = preset.id;
         selectButton.innerText = preset.name;
         presetSection.appendChild(selectButton);
         // update data
@@ -226,15 +226,12 @@ function renderPresets() {
 
     presetSection.appendChild(actions);
 
-    let list = document.createElement('div');
-    list.className = 'list';
     for(let preset of config.presets) {
         let selectButton = document.createElement('button');
         selectButton.className = 'item box';
         selectButton.setAttribute('onclick', 'selectPreset()');
         selectButton.dataset.id = preset.id;
         selectButton.innerText = preset.name;
-        list.appendChild(selectButton);
+        presetSection.appendChild(selectButton);
     }
-    presetSection.appendChild(list);
 }
