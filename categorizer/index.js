@@ -61,8 +61,9 @@ function selectPreset() {
 //--FUNCTIONS--//
 function getUniqueCategories(list) {
     return list.reduce(function(total, current, index, arr) {
-        if(!total.includes(current.category))
+        if(current.category && !total.includes(current.category))
             total.push(current.category);
+        return total;
     }, []);
 }
 
@@ -79,12 +80,12 @@ function startup() {
 function renderCanvas() {
     let canvasDiv = document.createElement('div');
     canvasDiv.className = 'canvas';
-    canvasDiv.id = window.data.id;
+    canvasDiv.id = 'area-' + window.data.id;
     pageSection.appendChild(canvasDiv);
 }
 
 function renderCategories() {
-    let canvas = document.querySelector('#' + window.data.id);
+    let canvas = document.querySelector('#area-' + window.data.id);
     for(let category of window.data.categories) {
         let categoryDiv = document.createElement('div');
         categoryDiv.className = 'category';
