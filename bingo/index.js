@@ -395,7 +395,7 @@ function initializeVariables() {
 	window['bingo'] = [];
 	window['countdown'] = 0;
 	window['result'] = '';
-	window['history'] = [];
+	window['hist'] = [];
 }
 
 function initializeWindow() {
@@ -920,10 +920,10 @@ function callNumber() {
 	document.querySelector('.board' + rand).classList.add('selected');
 	document.querySelector('.call-count').innerText = ('' + window['board'].length).padStart(2, ' ') + ' / 75';
 	//update history
-	if(window['history'].length >= 5)
-		window['history'].pop();
-	if(window['call']) window['history'].unshift(window['call']);
-	renderPastCallValues(window['history']);
+	if(window['hist'].length >= 5)
+		window['hist'].pop();
+	if(window['call']) window['hist'].unshift(window['call']);
+	renderPastCallValues(window['hist']);
 	//update latest
 	window['call'] = rand;
 	document.querySelector('.latest').innerText = '';
