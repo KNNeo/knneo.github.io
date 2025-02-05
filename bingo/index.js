@@ -449,7 +449,7 @@ function generatePattern(shape) {
 	let div = document.createElement('div');
 	
 	let header = document.createElement('div');
-	header.classList.add('pattern-header'):
+	header.classList.add('pattern-header');
 	header.innerText = config.locale.display.pattern;
 	header.addEventListener('click', function() {
 		if(!window['ended']) return;
