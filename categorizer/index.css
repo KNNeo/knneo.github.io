@@ -138,6 +138,13 @@ button[onclick] {
   align-content: flex-start;
 }
 
+header {
+  position: absolute;
+  margin: auto;
+  left: 0;
+  right: 0;
+}
+
 section.presets,
 section.drawer {
   width: 100%;
