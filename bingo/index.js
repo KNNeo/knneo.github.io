@@ -205,6 +205,15 @@ function startup() {
 	renderCell();
 }
 
+function toggleDaub() {
+	if(window['ended'])	{
+		let maxStyles = 3; //as per css, .daub<no>
+		window['daub'] = (window['daub'] + 1 > maxStyles) ? 0 : window['daub'] + 1;
+		titleDiv.classList = 'title daub' + window['daub'];
+		localStorage.setItem('daub', window['daub']);
+	}
+}
+
 function toggleCards() {
 	if(!window['ended'])
 		return popupTextGoAway('🚫');
@@ -248,6 +257,16 @@ function toggleInterval() {
 	}
 	if(config.debug) alert('Time interval between calls is now ' + config.interval);
 	popupTextGoAway(config.interval / 1000 + 's');
+}
+
+function toggleAutoFill() {
+	config.auto.fill = !config.auto.fill;
+	config.auto.bingo = !config.auto.bingo;
+	popupTextGoAway(config.auto.fill ? 'AUTO' : 'MANUAL');
+}
+
+function showLatestResult() {
+	alert(window['result'] || 'No result in session!');
 }
 
 //--EVENT LISTENERS--//
@@ -338,15 +357,6 @@ function onCellClicked() {
 	}
 }
 
-function toggleDaub() {
-	if(window['ended'])	{
-		let maxStyles = 3; //as per css, .daub<no>
-		window['daub'] = (window['daub'] + 1 > maxStyles) ? 0 : window['daub'] + 1;
-		titleDiv.classList = 'title daub' + window['daub'];
-		localStorage.setItem('daub', window['daub']);
-	}
-}
-
 function togglePause() {
 	window['paused'] = !window['paused'];
 	event.target.innerText = event.target.innerText == 'pause' ? 'play_arrow' : 'pause';
@@ -363,16 +373,57 @@ function createOrUpdateCustom() {
 	document.querySelector('.pattern-title').innerText = 'Custom';
 }
 
-function toggleAutoFill() {
-	config.auto.fill = !config.auto.fill;
-	popupTextGoAway(config.auto.fill ? 'AUTO' : 'MANUAL');
-}
-
-function showLatestResult() {
-	alert(window['result'] || 'No result in session!');
-}
-
 //--FUNCTIONS--//
+function initializeVariables() {
+	window['daub'] = localStorage.getItem('daub');
+	window['ended'] = true;
+	window['paused'] = false;
+	window['combination'] = null;
+	window['cards'] = smallScreen() ? 1 : config.cards.playable;
+	window['bingo'] = [];
+	window['countdown'] = 0;
+	window['result'] = '';
+}
+
+function initializeWindow() {
+	// pause game on defocus
+    window.addEventListener('blur', function() {
+		if(config.auto.pause && !window['ended'] && !window['paused'])
+			document.querySelector('#bingo').click();
+    });
+    window.addEventListener('keyup', function() {
+		switch(event.key) {
+			case ' ':
+				if(window['ended'])
+					document.querySelector('#bingo').click();
+				if(!window['ended'] && !window['paused'])
+					document.querySelector('#bingo').click();
+				break;
+			case 'p':
+				if(!window['ended'] && !window['paused'])
+					document.querySelector('#bingo').click();
+				break;
+			case 'a':
+				document.querySelector('.settings .autofill').click();
+				break;
+			case 'c':
+				document.querySelector('.settings .cards').click();
+				break;
+			case 't':
+				document.querySelector('.settings .timer').click();
+				break;
+			case 's':
+				document.querySelector('.settings .scoreboard').click();
+				break;
+			case 'd':
+				document.querySelector('.settings .darkmode').click();
+				break;
+			default:
+				break;
+		}
+    });
+}
+
 function generatePattern(shape) {	
 	let div = document.createElement('div');
 	
@@ -455,56 +506,6 @@ function generateMatrix(set) {
 	}
 	if(config.debug) console.log('numbers', [numbers, selected]);
 	return [numbers, selected];
-}
-
-function initializeVariables() {
-	window['daub'] = localStorage.getItem('daub');
-	window['ended'] = true;
-	window['paused'] = false;
-	window['combination'] = null;
-	window['cards'] = smallScreen() ? 1 : config.cards.playable;
-	window['bingo'] = [];
-	window['countdown'] = 0;
-	window['result'] = '';
-}
-
-function initializeWindow() {
-	// pause game on defocus
-    window.addEventListener('blur', function() {
-		if(config.auto.pause && !window['ended'] && !window['paused'])
-			document.querySelector('#bingo').click();
-    });
-    window.addEventListener('keyup', function() {
-		switch(event.key) {
-			case ' ':
-				if(window['ended'])
-					document.querySelector('#bingo').click();
-				if(!window['ended'] && !window['paused'])
-					document.querySelector('#bingo').click();
-				break;
-			case 'p':
-				if(!window['ended'] && !window['paused'])
-					document.querySelector('#bingo').click();
-				break;
-			case 'a':
-				document.querySelector('.settings .autofill').click();
-				break;
-			case 'c':
-				document.querySelector('.settings .cards').click();
-				break;
-			case 't':
-				document.querySelector('.settings .timer').click();
-				break;
-			case 's':
-				document.querySelector('.settings .scoreboard').click();
-				break;
-			case 'd':
-				document.querySelector('.settings .darkmode').click();
-				break;
-			default:
-				break;
-		}
-    });
 }
 
 function renderTitle() {
@@ -679,23 +680,6 @@ function renderCard(numbers, selected, latest) {
 	return table;
 }
 
-function scoreCard(card) {
-	let marked = Array.from(card.querySelectorAll('.selected')).map(cell => parseInt(cell.innerText || '0'));
-	let revealed = window['board'];
-	let correct = 0;
-	let wrong = 0;
-	for(let cell of marked) {
-		if(cell && revealed.indexOf(cell) >= 0)
-			correct++;
-		else if (!cell) //is free space
-			correct++;
-		else
-			wrong++;
-	}
-
-	return [marked.length, correct, wrong];
-}
-
 function renderActions() {
 	menuDiv.innerHTML = '';	
 	let bingo = document.createElement('div');
@@ -804,6 +788,10 @@ function popupTextGoAway(text) {
 	setTimeout(function() {
 		popup.remove();
 	}, config.popup.delay);
+}
+
+function isPatternMatch(pattern) {
+	return pattern.filter(a => typeof(a) == 'object').length == pattern.length;
 }
 
 //--GAME FUNCTIONS--//
@@ -1010,6 +998,23 @@ function endBingo() {
 	}
 }
 
+function scoreCard(card) {
+	let marked = Array.from(card.querySelectorAll('.selected')).map(cell => parseInt(cell.innerText || '0'));
+	let revealed = window['board'];
+	let correct = 0;
+	let wrong = 0;
+	for(let cell of marked) {
+		if(cell && revealed.indexOf(cell) >= 0)
+			correct++;
+		else if (!cell) //is free space
+			correct++;
+		else
+			wrong++;
+	}
+
+	return [marked.length, correct, wrong];
+}
+
 function resetBingo() {
 	document.querySelector('.call-count').innerHTML = '';
 	document.querySelector('.category').innerHTML = '';
@@ -1024,8 +1029,4 @@ function resetBingo() {
 	generatePattern();
 	renderCards();
 	return true;
-}
-
-function isPatternMatch(pattern) {
-	return pattern.filter(a => typeof(a) == 'object').length == pattern.length;
 }
