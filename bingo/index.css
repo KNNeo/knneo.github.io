@@ -151,11 +151,13 @@ a:hover {
 }
 
 .square-call {
-    width: 6.5em;
-    height: 6.5em;
-	display: flex;
-    justify-content: space-evenly;
-    flex-direction: column;
+    width: calc(5em + 10px);
+}
+
+.square-history {
+	width: 2em;
+    height: 1em;
+    line-height: 1;
 }
 
 .selected {

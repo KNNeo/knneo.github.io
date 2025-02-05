@@ -200,9 +200,9 @@ function startup() {
 	renderTitle();
 	renderDisplay();
 	renderCards();
-	renderActions();
+	renderAction();
 	generatePattern();
-	renderCell();
+	renderCall();
 }
 
 function toggleDaub() {
@@ -664,23 +664,6 @@ function renderCard(numbers, selected, latest) {
 						onCellClicked();
 				});
 			}
-			else if(latest && m == 0 && n == 0) {
-				//call box
-				td.classList.add('square-call');
-				td.setAttribute('colspan', 5);
-				td.setAttribute('rowspan', 5);
-				
-				let category = document.createElement('b');
-				category.classList.add('category');
-				td.appendChild(category);
-				
-				window['call'] = null;
-				let latestDiv = document.createElement('div');
-				latestDiv.classList.add('latest');
-				latestDiv.classList.add('huge-font');
-				latestDiv.innerText = window['call'];
-				td.appendChild(latestDiv);						
-			}
 			else {
 				//create pattern grid
 				td.classList.add('square-pattern');
@@ -717,7 +700,7 @@ function renderCard(numbers, selected, latest) {
 	return table;
 }
 
-function renderActions() {
+function renderAction() {
 	menuDiv.innerHTML = '';	
 	let bingo = document.createElement('div');
 	bingo.id = 'bingo';
@@ -729,50 +712,74 @@ function renderActions() {
 	menuDiv.appendChild(bingo);
 }
 
-function renderCell() {
+function renderCall() {
 	document.querySelector('.call').innerHTML = '';
 	
 	let div = document.createElement('div');
-	
+	// header
 	let header = document.createElement('div');
 	header.classList.add('call-count');
 	header.innerText = config.locale.display.latest;
 	div.appendChild(header);
 	
-	let [_,b] = generateMatrix();
-	div.appendChild(renderCard(null, b, true));
+	let [_,b] = generateMatrix();	
+	//call box
+	let table = document.createElement('table');
+	table.classList.add('box');
 	
-	window['call-hist'] = [];
-	let hist = document.createElement('div');
-	hist.classList.add('history');
-	if(smallScreen()) {
-		hist.style.display = 'inline-block';
-		hist.style.width = '100%';
+	let tbody = document.createElement('tbody');
+	let tr = document.createElement('tr');
+	let td = document.createElement('td');
+	td.classList.add('cell');
+	td.classList.add('square-call');
+	td.setAttribute('colspan', 5);
+	td.setAttribute('rowspan', 5);
+	
+	let category = document.createElement('b');
+	category.classList.add('category');
+	td.appendChild(category);
+	
+	window['call'] = null;
+	let latestDiv = document.createElement('div');
+	latestDiv.classList.add('latest');
+	latestDiv.classList.add('huge-font');
+	latestDiv.innerText = window['call'];
+	td.appendChild(latestDiv);
+	tr.appendChild(td);
+	
+	// history
+	let row1Cell = document.createElement('td');
+	row1Cell.classList.add('cell');
+	row1Cell.classList.add('square-history');
+	row1Cell.classList.add('history');
+	tr.appendChild(row1Cell);
+	tbody.appendChild(tr);
+
+	for(h = 1; h < 5; h++) {
+		let tr = document.createElement('tr');
+		
+		let rowCell = document.createElement('td');
+		rowCell.classList.add('cell');
+		rowCell.classList.add('square-history');
+		rowCell.classList.add('history');
+		tr.appendChild(rowCell);
+		tbody.appendChild(tr);
 	}
-	hist.appendChild(renderHistory());
-	div.appendChild(hist);	
 	
+	table.appendChild(tbody);
+	div.appendChild(table);	
+
 	document.querySelector('.call').appendChild(div);
 }
 
-function renderHistory() {
+function renderPastCallValues(list) {
 	let history = document.createElement('div');
-	let historyList = Array.from(window['call-hist']);	
-	for (let h of historyList) {
-		let hist = document.createElement('span');
-		hist.classList.add('box');
-		hist.classList.add('square-pattern');
-		hist.innerText = ('' + h).padStart(2, ' ');
-		
-		history.appendChild(hist);
+	let historyList = document.querySelectorAll('.history');
+	for (let h = 0; h < historyList.length; h++) {
+		let histElem = historyList[h];
+		if(histElem && list[h])
+			histElem.innerText = list[h];
 	}
-	//if no history
-	if(historyList.length < 1) {
-		let hist = document.createElement('span');
-		hist.innerText = '-';		
-		history.appendChild(hist);
-	}	
-	return history;
 }
 
 function renderBoard() {
@@ -909,9 +916,7 @@ function callNumber() {
 	if(window['call-hist'].length >= 5)
 		window['call-hist'].pop();
 	if(window['call']) window['call-hist'].unshift(window['call']);
-	let history = document.querySelector('.history');
-	history.innerHTML = '';
-	history.appendChild(renderHistory());	
+	renderPastCallValues(window['call']);
 	//update latest
 	window['call'] = rand;
 	document.querySelector('.latest').innerText = '';
