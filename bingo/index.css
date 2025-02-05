@@ -109,6 +109,7 @@ a:hover {
 	justify-content: center;
 	align-items: center;
     min-height: 2em;
+    flex-wrap: wrap;
 }
 
 .card {
@@ -268,6 +269,7 @@ a:hover {
 		scroll-snap-type: x mandatory;
         align-items: initial;
         justify-content: initial;
+		flex-wrap: nowrap;
 	}
 	.card {
         flex: 1 0 100vw;

@@ -226,6 +226,9 @@ function toggleCards() {
 			window['cards'] = 5;
 			break;
 		case 5:
+			window['cards'] = 10;
+			break;
+		case 10:
 			window['cards'] = smallScreen() ? 1 : 0;
 			break;
 		case 0:
@@ -241,18 +244,18 @@ function toggleInterval() {
 	if(!window['ended'])
 		return popupTextGoAway(config.interval / 1000 + 's');
 	switch(config.interval) {
-		case 5000:
-		default:
+		case 10000:
 			config.interval = 7500;
 			break;
 		case 7500:
-			config.interval = 10000;
+			config.interval = 5000;
 			break;
-		case 10000:
+		case 5000:
+		default:
 			config.interval = 2500;
 			break;
 		case 2500:
-			config.interval = 5000;
+			config.interval = 10000;
 			break;
 	}
 	if(config.debug) alert('Time interval between calls is now ' + config.interval);
@@ -391,13 +394,11 @@ function initializeWindow() {
 		if(config.auto.pause && !window['ended'] && !window['paused'])
 			document.querySelector('#bingo').click();
     });
+	// global key actions
     window.addEventListener('keyup', function() {
 		switch(event.key) {
 			case ' ':
-				if(window['ended'])
-					document.querySelector('#bingo').click();
-				if(!window['ended'] && !window['paused'])
-					document.querySelector('#bingo').click();
+				document.querySelector('#bingo').click();
 				break;
 			case 'p':
 				if(!window['ended'] && !window['paused'])
@@ -418,6 +419,26 @@ function initializeWindow() {
 			case 'd':
 				document.querySelector('.settings .darkmode').click();
 				break;
+			case 'ArrowUp':
+				let header = document.querySelector('.pattern-header');
+				if(header) header.click();
+			case 'ArrowLeft':
+				let prevId = listDiv.getAttribute('data-selected') || 0;
+				let prevCard = listDiv.querySelector('.card[data-id="' + prevId + '"]');
+				let prev = prevCard && prevCard.querySelector('.prev');
+				if(prev) prev.click();
+				break;
+			case 'ArrowRight':
+				let nextId = listDiv.getAttribute('data-selected') || 0;
+				let nextCard = listDiv.querySelector('.card[data-id="' + nextId + '"]');
+				let next = nextCard && nextCard.querySelector('.next');
+				if(next) next.click();
+				break;
+			case 'ArrowDown':
+				let currentId = listDiv.getAttribute('data-selected') || 0;
+				let currentCard = listDiv.querySelector('.card[data-id="' + currentId + '"]');
+				let generate = currentCard && currentCard.querySelector('.generate');
+				if(generate) generate.click();
 			default:
 				break;
 		}
@@ -428,6 +449,7 @@ function generatePattern(shape) {
 	let div = document.createElement('div');
 	
 	let header = document.createElement('div');
+	header.classList.add('pattern-header'):
 	header.innerText = config.locale.display.pattern;
 	header.addEventListener('click', function() {
 		if(!window['ended']) return;
@@ -543,9 +565,8 @@ function renderCards() {
 		div.classList.add('card');
 		// id to dispolay card no using css before
 		let id = (1+c);
-		if(c == 0) id = 'one';
-		if(c == 1) id = 'two';
-		div.setAttribute('data-icon', 'looks_' + id);
+		if(id > 9) id = '9_plus';
+		div.setAttribute('data-icon', 'filter_' + id);
 		div.setAttribute('data-id', c); // zero-based
 		// create prev next buttons for desktop navigation
 		if(c > 0) {
@@ -556,8 +577,10 @@ function renderCards() {
 			nav.addEventListener('click', function() {
 				let id = parseInt(event.target.closest('.card').getAttribute('data-id'));
 				let prevCard = document.querySelectorAll('.card')[id-1];
-				if(prevCard)
+				if(prevCard) {
 					prevCard.scrollIntoView();
+					listDiv.setAttribute('data-selected', prevCard.getAttribute('data-id'));
+				}
 			})
 			div.appendChild(nav);
 		}
@@ -569,8 +592,10 @@ function renderCards() {
 			nav.addEventListener('click', function() {
 				let id = parseInt(event.target.closest('.card').getAttribute('data-id'));
 				let nextCard = document.querySelectorAll('.card')[id+1]; // zero-based
-				if(nextCard)
+				if(nextCard) {
 					nextCard.scrollIntoView();
+					listDiv.setAttribute('data-selected', nextCard.getAttribute('data-id'));
+				}
 			})
 			div.appendChild(nav);
 		}
@@ -684,6 +709,7 @@ function renderActions() {
 	menuDiv.innerHTML = '';	
 	let bingo = document.createElement('div');
 	bingo.id = 'bingo';
+	bingo.tabIndex = 0;
 	bingo.classList.add('cell');
 	bingo.classList.add('large-font');
 	bingo.innerText = config.locale.action.start;
