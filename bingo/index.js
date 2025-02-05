@@ -12,7 +12,7 @@ const config = {
 	},
 	daubs: [
 		'lightgray-gray',
-		'blue-cyan',
+		'cyan-blue',
 		'pink-darkred',
 		'lime-green'
 	],
@@ -542,9 +542,15 @@ function generateMatrix(set) {
 }
 
 function renderTitle() {
+	let colors = window['daub'].split('-');
+	document.documentElement.style.setProperty('--daub', document.documentElement.classList.contains('darked') && colors.length > 1 ? colors[1] : colors[0]);
+
 	document.title = config.locale.title;
 	titleDiv.classList = 'title selected';
 	titleDiv.innerText = config.locale.title;
+	setTimeout(function() {
+		titleDiv.classList.remove('selected');
+	}, 1000);
 }
 
 function renderDisplay() {
