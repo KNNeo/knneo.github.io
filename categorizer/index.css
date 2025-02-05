@@ -19,6 +19,8 @@ html {
 	font-family: Noto Sans;
 	background-color: var(--background);
 	color: var(--foreground);
+  width: 100%;
+  height: 100%;
 }
 
 body {
@@ -29,6 +31,9 @@ body {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
 }
 
 a,
@@ -47,6 +52,35 @@ a:hover {
 
 .inverted:hover {
 	color: var(--primary);
+}
+
+.page {
+  width: 100%;
+  height: calc(100% - 60px);
+}
+
+.drawer {
+  width: 100%;
+  max-width: 640px;
+  height: 50%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  transform: translateY(0);
+  transition: transform 0.2s ease-in-out;
+  z-index: 1;
+  background-color: var(--accent);
+}
+
+.drawer.hidden {
+  transform: translateY(100%);
+  display: block;
+}
+
+.settings {
+  height: 60px;
+  margin: 0;
 }
 
 .hidden {
