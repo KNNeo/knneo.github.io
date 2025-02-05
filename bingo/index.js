@@ -918,7 +918,7 @@ function callNumber() {
 	if(window['call-hist'].length >= 5)
 		window['call-hist'].pop();
 	if(window['call']) window['call-hist'].unshift(window['call']);
-	renderPastCallValues(window['call']);
+	renderPastCallValues(window['call-hist']);
 	//update latest
 	window['call'] = rand;
 	document.querySelector('.latest').innerText = '';
