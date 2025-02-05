@@ -46,6 +46,33 @@ a:hover {
   color: var(--primary);
 }
 
+button {
+	box-sizing: content-box;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+button[onclick] {
+	cursor: pointer;
+}
+
+.button {
+  border: 0;
+  border-radius: 99px;
+  color: var(--background);
+  display: flex;
+  align-items: center;
+  margin: auto;
+  padding-right: 0.85em;
+}
+
+.button::before {
+  font-size: 2em;
+}
+
 .inverted {
 	color: var(--foreground);
 }
@@ -69,33 +96,70 @@ a:hover {
 }
 
 .category {
+  position: relative;
   display: flex;
   justify-content: center;
   align-content: center;
   align-items: center;
   flex-wrap: wrap;
   border: 2px solid var(--accent);
-  width: 100%;
-  height: 50%;
+  width: calc(100% - 1em);
+  height: calc(50% - 1em);
 }
 
-.drawer {
+.category::before {
+  position: absolute;
+  content: attr(data-id);
+  z-index: 0;
+  top: 1em;
+  opacity: 0.7;
+}
+
+.item {
+  margin: 1em;
+  padding: 0.5em 1em;
+  cursor: pointer;
+}
+
+.box {
+  border-radius: 8px;
+  background-color: var(--secondary);
+}
+
+.box:hover {
+  background-color: var(--primary);
+}
+
+section.drawer {
   width: 100%;
   max-width: 640px;
   height: 50%;
+  background-color: var(--accent);
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
+  margin: auto;
   transform: translateY(0);
   transition: transform 0.2s ease-in-out;
   z-index: 1;
-  background-color: var(--accent);
+
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  align-content: flex-start;
 }
 
-.drawer.hidden {
+section.drawer.hidden {
   transform: translateY(100%);
   display: block;
+}
+
+section.drawer .actions {
+  flex: 1 0 100%;
+  padding: 1em;
+  display: flex;
 }
 
 .settings {
@@ -105,27 +169,4 @@ a:hover {
 
 .hidden {
 	display: none;
-}
-
-.box {
-	margin: 5px;
-	vertical-align: top;
-	scroll-snap-align: center;
-	white-space: normal;
-	touch-action: manipulation;
-}
-
-.shadowed {
-  border: 1px solid lightgray;
-  box-shadow: 3px 3px;
-}
-
-.shadowed:active {
-  box-shadow: 1px 1px;
-  transform: translate(2px,2px);
-}
-
-.unshadowed {
-	filter: opacity(100%);
-	transition: filter 1s;
 }
