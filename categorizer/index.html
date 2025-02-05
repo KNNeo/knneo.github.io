@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en-SG">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+    <link id="fonts-css" rel="stylesheet" type="text/css" href="../fonts.css">
+    <link id="index-css" rel="stylesheet" type="text/css" href="index.css">
+    <link id="bs-css" rel="stylesheet" type="text/css" href="../resources/bootstrap-icons.css">
+	<script src="../darkmode.js" type="application/javascript" charset="utf-8"></script>
+	<script id="data-id" src="" defer></script>
+	<script src="index.js" defer></script>
+    <title>Categorizer</title>
+</head>
+<body onload="startup()">
+	<header>
+		<h2>Categorizer</h2>
+		<h6>Put things however you want! And come back where you left them!</h6>
+		<button onclick="onDismissHeader()">Dismiss</button>
+	</header>
+	<section class="page"></section>
+	<section class="drawer"></section>
+	<footer>
+		<h3 class="settings">
+			<a title="Select Preset" class="inverted bi bi-box-arrow-in-down" href="javascript:void(0);" onclick="addItem()"></a>
+			<a title="Add Item" class="inverted bi bi-plus" href="javascript:void(0);" onclick="addItem()"></a>
+			<a title="Toggle Dark Mode" class="inverted darkmode bi bi-brightness-high-fill" href="javascript:void(0);" onclick="toggleDarkMode()" ></a>
+			<div class="spacer"> </div>
+			<a href="../index.html">knneo.github.io</a>
+		</h3>
+	</footer>
+</body>
+</html>
