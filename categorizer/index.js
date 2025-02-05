@@ -36,7 +36,7 @@ function onDismissHeader() {
 //--EVENT HANDLERS--//
 function dragItem() {
     let elem = event.target;
-    let id = '.item[data-id="' + elem.dataset.id + '"][data=category="' + elem.dataset.category + '"]';
+    let id = '.item[data-id="' + elem.dataset.id + '"][data-category="' + elem.dataset.category + '"]';
     event.dataTransfer.setData("text", id);
 }
 
@@ -92,7 +92,7 @@ function renderCategories() {
         categoryDiv.setAttribute('data-id', category);
         categoryDiv.setAttribute('ondragover', 'allowDrop()');
         categoryDiv.setAttribute('ondrop', 'dropItem()');
-        canvas.appendChild(categoryArea);
+        canvas.appendChild(categoryDiv);
     }
 }
 
@@ -116,7 +116,9 @@ function renderItems() {
 
 function renderDrawer() {
     let closeButton = document.createElement('button');
-    button.setAttribute('onclick', 'toggleDrawer()');
+    closeButton.className = 'inverted bi bi-x-fill';
+    closeButton.setAttribute('onclick', 'toggleDrawer()');
+    closeButton.innerText = 'Close';
 
     drawerSection.appendChild(closeButton);
 }
