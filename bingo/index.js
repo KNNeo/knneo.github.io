@@ -774,6 +774,7 @@ function renderCall() {
 }
 
 function renderPastCallValues(list) {
+	if(!list || list.length < 1) return;
 	let history = document.createElement('div');
 	let historyList = document.querySelectorAll('.history');
 	for (let h = 0; h < historyList.length; h++) {
