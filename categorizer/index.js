@@ -147,6 +147,8 @@ function startup() {
 }
 
 function renderCanvas() {
+    pageSection.innerHTML = '';
+
     let canvasDiv = document.createElement('div');
     canvasDiv.className = 'canvas';
     canvasDiv.id = 'area-' + window.data.id;
@@ -184,6 +186,8 @@ function renderItems() {
 }
 
 function renderDrawer() {
+    drawerSection.innerHTML = '';
+    
     let actions = document.createElement('div');
     actions.className = 'actions';
 
@@ -203,6 +207,8 @@ function renderDrawer() {
 }
 
 function renderPresets() {
+    presetSection.innerHTML = '';
+
     let actions = document.createElement('div');
     actions.className = 'actions';
 
