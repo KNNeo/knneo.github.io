@@ -185,7 +185,7 @@ function renderItems() {
 
 function renderDrawer() {
     let actions = document.createElement('div');
-    addButton.className = 'actions';
+    actions.className = 'actions';
 
     let addButton = document.createElement('button');
     addButton.className = 'button bi bi-plus';
@@ -204,7 +204,7 @@ function renderDrawer() {
 
 function renderPresets() {
     let actions = document.createElement('div');
-    addButton.className = 'actions';
+    actions.className = 'actions';
 
     let addButton = document.createElement('button');
     addButton.className = 'button bi bi-plus';
