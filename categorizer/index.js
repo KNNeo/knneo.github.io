@@ -3,6 +3,7 @@ const config = {
     presets: [
         {
             id: 1,
+            name: "Gender Sort",
             list: [
                 {
                     id: 1,
@@ -27,6 +28,7 @@ const config = {
 let header = document.querySelector('header');
 let pageSection = document.querySelector('section.page');
 let drawerSection = document.querySelector('section.drawer');
+let presetSection = document.querySelector('section.presets');
 
 //--DOM FUNCTIONS--//
 function onDismissHeader() {
@@ -92,8 +94,36 @@ function addItem() {
 }
 
 
-function selectPreset() {
+function showPresets() {
+    presetSection.classList.toggle('hidden');
+}
 
+function addPreset() {
+    let result = prompt('Key in a name!');
+    if(result) {
+        let preset = {
+            id: new Date().toISOString(),
+            name: result,
+            list: []
+        };
+        // create in ui
+        let selectButton = document.createElement('button');
+        selectButton.className = 'button';
+        selectButton.setAttribute('onclick', 'selectPreset()');
+        selectBUtton.dataset.id = preset.id;
+        selectButton.innerText = preset.name;
+        presetSection.appendChild(selectButton);
+        // update data
+        config.presets.push(preset);
+    }
+}
+
+function selectPreset() {
+    window.data.current = config.presets.find(p => p.id == event.target.dataset.id);
+    if(window.data.current)
+        startup();
+    else
+        alert('Preset not found!');
 }
 
 //--FUNCTIONS--//
@@ -107,12 +137,13 @@ function getUniqueCategories(list) {
 
 //--INITIAL--//
 function startup() {
-    window.data = config.presets[0];
+    window.data = window.data.current || config.presets[0];
     window.data.categories = getUniqueCategories(window.data.list);
     renderCanvas();
     renderCategories();
     renderItems();
     renderDrawer();
+    renderPresets();
 }
 
 function renderCanvas() {
@@ -169,4 +200,35 @@ function renderDrawer() {
     actions.appendChild(closeButton);
 
     drawerSection.appendChild(actions);
+}
+
+function renderPresets() {
+    let actions = document.createElement('div');
+    addButton.className = 'actions';
+
+    let addButton = document.createElement('button');
+    addButton.className = 'button bi bi-plus';
+    addButton.setAttribute('onclick', 'addPreset()');
+    addButton.innerText = 'Add Preset';
+    actions.appendChild(addButton);
+
+    let closeButton = document.createElement('button');
+    closeButton.className = 'button bi bi-x';
+    closeButton.setAttribute('onclick', 'toggleDrawer()');
+    closeButton.innerText = 'Close';
+    actions.appendChild(closeButton);
+
+    drawerSection.appendChild(actions);
+
+    let list = document.createElement('div');
+    list.className = 'list';
+    for(let preset of config.presets) {
+        let selectButton = document.createElement('button');
+        selectButton.className = 'button';
+        selectButton.setAttribute('onclick', 'selectPreset()');
+        selectBUtton.dataset.id = preset.id;
+        selectButton.innerText = preset.name;
+        list.appendChild(selectButton);
+    }
+    drawerSection.appendChild(list);
 }

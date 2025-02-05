@@ -130,6 +130,15 @@ button[onclick] {
   background-color: var(--primary);
 }
 
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  align-content: flex-start;
+}
+
+section.presets,
 section.drawer {
   width: 100%;
   max-width: 640px;
@@ -143,12 +152,6 @@ section.drawer {
   transform: translateY(0);
   transition: transform 0.2s ease-in-out;
   z-index: 1;
-
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  align-content: flex-start;
 }
 
 section.drawer.hidden {
@@ -160,6 +163,10 @@ section.drawer .actions {
   flex: 1 0 100%;
   padding: 1em;
   display: flex;
+}
+
+section.presets {
+  height: 25%;
 }
 
 .settings {
