@@ -265,9 +265,8 @@ a:hover {
 	}
 	.list {
 		display: flex;
-		overflow-x: auto;
+		overflow-x: scroll;
 		scroll-snap-type: x mandatory;
-        align-items: initial;
         justify-content: initial;
 		flex-wrap: nowrap;
 	}
