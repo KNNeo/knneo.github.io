@@ -38,8 +38,8 @@ function onDismissHeader() {
 //--EVENT HANDLERS--//
 function dragItem() {
     let elem = event.target;
-    let id = '.item[data-id="' + elem.dataset.id + '"][data-category="' + elem.dataset.category + '"]';
-    event.dataTransfer.setData("text", id);
+    let selector = '[data-id="' + elem.dataset.id + '"][data-category="' + elem.dataset.category + '"]';
+    event.dataTransfer.setData('text', selector);
 }
 
 function allowDrop() {
@@ -49,21 +49,21 @@ function allowDrop() {
 
 function dropItem() {
     event.preventDefault();
-    var data = event.dataTransfer.getData("text");
-    event.target.appendChild(document.querySelector(data));
-    document.querySelector(data).dataset.category = event.target.dataset.id;
+    var selector = '.item' + event.dataTransfer.getData('text');
+    event.target.appendChild(document.querySelector(selector));
+    document.querySelector(selector).dataset.category = event.target.dataset.id;
 }
 
 function dropIntoIcon() {
     event.preventDefault();
-    var data = event.dataTransfer.getData("text");
-    drawerSection.appendChild(document.querySelector(data));
-    document.querySelector(data).dataset.category = 'drawer';
-    event.target.classList.toggle('bi-folder2');
+    var selector = '.item' + event.dataTransfer.getData('text');
+    drawerSection.appendChild(document.querySelector(selector));
+    document.querySelector(selector).dataset.category = 'drawer';
     event.target.classList.toggle('bi-folder2-open');
+    event.target.classList.toggle('bi-check-circle');
     setTimeout(function() {
-        document.querySelector('.settings .drawer').classList.toggle('bi-folder2');
-        event.target.classList.toggle('bi-folder2-open');
+        document.querySelector('.settings .drawer').classList.toggle('bi-folder2-open');
+        document.querySelector('.settings .drawer').classList.toggle('bi-check-circle');
     }, 1000);
 }
 
@@ -128,6 +128,7 @@ function selectPreset() {
         startup();
     else
         alert('Preset not found!');
+    togglePresets();
 }
 
 //--FUNCTIONS--//

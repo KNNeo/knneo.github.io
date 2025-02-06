@@ -74,6 +74,7 @@ button[onclick] {
 }
 
 .inverted {
+  font-size: 1.5em;
 	color: var(--foreground);
 }
 
@@ -83,7 +84,7 @@ button[onclick] {
 
 .page {
   width: 100%;
-  height: calc(100% - 60px);
+  height: calc(100% - 65px);
 }
 
 .canvas {
@@ -93,6 +94,10 @@ button[onclick] {
   align-items: center;
   width: 100%;
   height: 100%;
+}
+
+.canvas:has(:nth-child(3)) .category {
+  height: calc(33% - 1em);
 }
 
 .category {
@@ -181,7 +186,7 @@ section.presets {
 }
 
 .settings {
-  height: 60px;
+  height: 65px;
   margin: 0;
 }
 
