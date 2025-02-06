@@ -59,7 +59,7 @@ function dropItem() {
     // update data
     var item = window.data.list.find(i => i.id == elem.dataset.id);
     if(item)
-        item.category = elem.dataset.id;
+        item.category = event.target.dataset.id;
     save();
 }
 
@@ -73,7 +73,7 @@ function dropDrawerItem() {
     // update data
     var item = window.data.list.find(i => i.id == elem.dataset.id);
     if(item)
-        item.category = elem.dataset.id;
+        item.category = event.target.dataset.id;
     save();
     // update icons
     event.target.classList.toggle('bi-folder2-open');
@@ -173,7 +173,7 @@ function startup() {
 
 function loadData() {
     let storage = JSON.parse(localStorage.getItem(config.id));
-    if(!window.data?.current && storage && storage.presets && storage.presets.length > 0)
+    if(!window.data?.current && storage && storage.length > 0)
         config.presets = storage;
     window.data = (window.data?.current && config.presets.find(p => p.id == window.data.current.id)) || config.presets[0];
     if(!window.data.categories || window.data.categories.length < 1)
