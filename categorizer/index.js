@@ -148,7 +148,7 @@ function onSelectCategory() {
         dest.appendChild(source);
         // update backend
         let newDest = document.querySelector('.item[data-id="' + elem.dataset.id + '"][data-category="' + elem.dataset.source + '"]');
-        newDest.dataset.category = event.target.dataset.destination;
+        newDest.dataset.category = event.target.dataset.destination == '[Uncategorized]' ? 'drawer' : event.target.dataset.destination;
         // update data
         var item = window.data.list.find(i => i.id == newDest.dataset.id);
         if(item)
