@@ -124,7 +124,7 @@ function moveItem() {
     title.innerText = 'Select a category';
     content.appendChild(title);
 
-    let allCategories = window.data.categories;
+    let allCategories = JSON.parse(JSON.stringify(window.data.categories));
     allCategories.push('[Uncategorized]');
     for(let category of allCategories) {
         let button = document.createElement('button');
