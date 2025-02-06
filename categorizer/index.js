@@ -1,5 +1,6 @@
 //--DEFAULT SETTINGS--//
 const config = {
+    id: 'categorizer-presets',
     presets: [
         {
             id: 1,
@@ -59,6 +60,7 @@ function dropItem() {
     var item = window.data.list.find(i => i.id == elem.dataset.id);
     if(item)
         item.category = elem.dataset.id;
+    save();
 }
 
 function dropDrawerItem() {
@@ -72,6 +74,7 @@ function dropDrawerItem() {
     var item = window.data.list.find(i => i.id == elem.dataset.id);
     if(item)
         item.category = elem.dataset.id;
+    save();
     // update icons
     event.target.classList.toggle('bi-folder2-open');
     event.target.classList.toggle('bi-check-circle');
@@ -154,16 +157,27 @@ function getUniqueCategories(list) {
     }, []);
 }
 
+function save() {
+    localStorage.setItem(config.id, JSON.stringify(config.presets));
+}
+
 //--INITIAL--//
 function startup() {
-    window.data = window.data?.current || config.presets[0];
-    if(!window.data.categories || window.data.categories.length < 1)
-        window.data.categories = getUniqueCategories(window.data.list);
+    loadData();
     renderCanvas();
     renderDrawer();
     renderPresets();
     renderCategories();
     renderItems();
+}
+
+function loadData() {
+    let storage = JSON.parse(localStorage.getItem(config.id));
+    if(!window.data?.current && storage && storage.presets && storage.presets.length > 0)
+        config.presets = storage;
+    window.data = (window.data?.current && config.presets.find(p => p.id == window.data.current.id)) || config.presets[0];
+    if(!window.data.categories || window.data.categories.length < 1)
+        window.data.categories = getUniqueCategories(window.data.list);
 }
 
 function renderCanvas() {
