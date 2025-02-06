@@ -189,7 +189,7 @@ function loadData() {
     // done, can remove temp set from select preset
     if(window.data.current) delete window.data.current;
     // reset category fields
-    window.data.categories = getUniqueCategories(window.data.list.filter(c => c == 'drawer'));
+    window.data.categories = getUniqueCategories(window.data.list).filter(c => c != 'drawer');
 }
 
 function renderCanvas() {
