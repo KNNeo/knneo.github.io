@@ -89,27 +89,29 @@ function toggleDrawer() {
 }
 
 function addItem() {
-    let result = prompt('Key in a name!');
-    if(result) {
-        let item = {
-            id: new Date().toISOString(),
-            name: result,
-            category: 'drawer'
-        };
-        // create in ui
-        let itemDiv = document.createElement('div');
-        itemDiv.className = 'item box';
-        itemDiv.setAttribute('draggable', 'true');
-        itemDiv.setAttribute('ondragstart', 'dragItem()');
-        itemDiv.setAttribute('data-id', item.id);
-        itemDiv.setAttribute('data-category', item.category);
-        itemDiv.innerText = item.name;
-        drawerSection.appendChild(itemDiv);
-        // update data
-        window.data.list.push(item);
+    let results = prompt('Key in a name, or comma separated list of names');
+    if(results) {
+        results = results.split(',').map(r => r.trim());
+        for(let value of results) {
+            let item = {
+                id: new Date().toISOString(),
+                name: value,
+                category: 'drawer'
+            };
+            // create in ui
+            let itemDiv = document.createElement('div');
+            itemDiv.className = 'item box';
+            itemDiv.setAttribute('draggable', 'true');
+            itemDiv.setAttribute('ondragstart', 'dragItem()');
+            itemDiv.setAttribute('data-id', item.id);
+            itemDiv.setAttribute('data-category', item.category);
+            itemDiv.innerText = item.name;
+            drawerSection.appendChild(itemDiv);
+            // update data
+            window.data.list.push(item);
+        }
     }
 }
-
 
 function togglePresets() {
     presetSection.classList.toggle('hidden');
@@ -146,6 +148,12 @@ function selectPreset() {
     else
         alert('Preset not found!');
     togglePresets();
+}
+
+function addCategory() {
+    let category = prompt('Key in a name!');
+    if(category)
+        renderCategory(category);
 }
 
 //--FUNCTIONS--//
@@ -190,15 +198,18 @@ function renderCanvas() {
 }
 
 function renderCategories() {
+    for(let category of window.data.categories)
+        renderCategory(category);
+}
+
+function renderCategory(category) {
     let canvas = document.querySelector('#area-' + window.data.id);
-    for(let category of window.data.categories) {
-        let categoryDiv = document.createElement('div');
-        categoryDiv.className = 'category';
-        categoryDiv.setAttribute('data-id', category);
-        categoryDiv.setAttribute('ondragover', 'allowDrop()');
-        categoryDiv.setAttribute('ondrop', 'dropItem()');
-        canvas.appendChild(categoryDiv);
-    }
+    let categoryDiv = document.createElement('div');
+    categoryDiv.className = 'category';
+    categoryDiv.setAttribute('data-id', category);
+    categoryDiv.setAttribute('ondragover', 'allowDrop()');
+    categoryDiv.setAttribute('ondrop', 'dropItem()');
+    canvas.appendChild(categoryDiv);
 }
 
 function renderItems() {
@@ -246,11 +257,17 @@ function renderPresets() {
     let actions = document.createElement('div');
     actions.className = 'actions';
 
-    let addButton = document.createElement('button');
-    addButton.className = 'button bi bi-plus';
-    addButton.setAttribute('onclick', 'addPreset()');
-    addButton.innerText = 'Add Preset';
-    actions.appendChild(addButton);
+    let addPreset = document.createElement('button');
+    addPreset.className = 'button bi bi-plus';
+    addPreset.setAttribute('onclick', 'addPreset()');
+    addPreset.innerText = 'Add Preset';
+    actions.appendChild(addPreset);
+
+    let addCategory = document.createElement('button');
+    addCategory.className = 'button bi bi-plus';
+    addCategory.setAttribute('onclick', 'addCategory()');
+    addCategory.innerText = 'Add Category';
+    actions.appendChild(addCategory);
 
     let closeButton = document.createElement('button');
     closeButton.className = 'button bi bi-x';
