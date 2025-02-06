@@ -153,6 +153,7 @@ function onSelectCategory() {
     }
     else
         alert('Unable to move to category!');
+    removeDialog();
 }
 
 function togglePresets() {
