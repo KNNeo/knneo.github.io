@@ -69,12 +69,26 @@ button[onclick] {
   border-radius: 99px;
   display: flex;
   align-items: center;
+  justify-content: center;
   margin: auto;
   padding-right: 0.85em;
+  font-size: 1em;
 }
 
 .button::before {
   font-size: 2em;
+}
+
+.tab {
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+}
+
+section.presets .actions:has(.tab), 
+section.drawer .actions:has(.tab) {
+  padding-top: 0;
+  gap: .5em;
 }
 
 .inverted {
@@ -84,6 +98,16 @@ button[onclick] {
 
 .inverted:hover {
   color: var(--primary);
+}
+
+.preset {
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+.preset:hover {
+  background-color: var(--foreground);
+  color: var(--background);
 }
 
 .page {
@@ -234,6 +258,10 @@ section.presets.hidden,
 section.drawer.hidden {
   transform: translateY(150%);
   display: block;
+}
+
+section.drawer:not(:has(.item))::after {
+  content: "No items";
 }
 
 section.presets .actions,

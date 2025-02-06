@@ -242,13 +242,13 @@ function renderDrawer() {
     actions.className = 'actions';
 
     let addButton = document.createElement('button');
-    addButton.className = 'button bi bi-plus';
+    addButton.className = 'tab button bi bi-plus';
     addButton.setAttribute('onclick', 'addItem()');
     addButton.innerText = 'Add Item';
     actions.appendChild(addButton);
 
     let closeButton = document.createElement('button');
-    closeButton.className = 'button bi bi-x';
+    closeButton.className = 'tab button bi bi-x';
     closeButton.setAttribute('onclick', 'toggleDrawer()');
     closeButton.innerText = 'Close';
     actions.appendChild(closeButton);
@@ -263,19 +263,19 @@ function renderPresets() {
     actions.className = 'actions';
 
     let addPreset = document.createElement('button');
-    addPreset.className = 'button bi bi-plus';
+    addPreset.className = 'tab button bi bi-plus';
     addPreset.setAttribute('onclick', 'addPreset()');
     addPreset.innerText = 'Add Preset';
     actions.appendChild(addPreset);
 
     let addCategory = document.createElement('button');
-    addCategory.className = 'button bi bi-plus';
+    addCategory.className = 'tab button bi bi-plus';
     addCategory.setAttribute('onclick', 'addCategory()');
     addCategory.innerText = 'Add Category';
     actions.appendChild(addCategory);
 
     let closeButton = document.createElement('button');
-    closeButton.className = 'button bi bi-x';
+    closeButton.className = 'tab button bi bi-x';
     closeButton.setAttribute('onclick', 'togglePresets()');
     closeButton.innerText = 'Close';
     actions.appendChild(closeButton);
@@ -284,7 +284,7 @@ function renderPresets() {
 
     for(let preset of config.presets) {
         let selectButton = document.createElement('button');
-        selectButton.className = 'item box';
+        selectButton.className = 'item button preset';
         selectButton.setAttribute('onclick', 'selectPreset()');
         selectButton.dataset.id = preset.id;
         selectButton.innerText = preset.name;
