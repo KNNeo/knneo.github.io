@@ -142,9 +142,8 @@ function onSelectCategory() {
         // add to new
         let dest = document.querySelector('.category[data-id="' + event.target.dataset.destination + '"]');
         dest.appendChild(source);
-        source.parentElement.removeChild(source);  
         // update backend
-        let newDest = document.querySelector('.item[data-id="' + elem.dataset.id + '"][data-category="' + event.target.dataset.destination + '"]');
+        let newDest = document.querySelector('.item[data-id="' + elem.dataset.id + '"][data-category="' + elem.dataset.source + '"]');
         newDest.dataset.category = event.target.dataset.destination;
         // update data
         var item = window.data.list.find(i => i.id == newDest.dataset.id);
