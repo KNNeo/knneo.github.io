@@ -65,6 +65,7 @@ function dropItem() {
 
 function dropDrawerItem() {
     event.preventDefault();
+    // update ui
     var selector = event.dataTransfer.getData(window.data.id);
     drawerSection.appendChild(document.querySelector(selector));
     // update backend
@@ -101,6 +102,7 @@ function addItem() {
             // create in ui
             let itemDiv = document.createElement('div');
             itemDiv.className = 'item box';
+            itemDiv.setAttribute('ontouchmove', 'moveItem()');
             itemDiv.setAttribute('draggable', 'true');
             itemDiv.setAttribute('ondragstart', 'dragItem()');
             itemDiv.setAttribute('data-id', item.id);
@@ -122,7 +124,9 @@ function moveItem() {
     title.innerText = 'Select a category';
     content.appendChild(title);
 
-    for(let category of window.data.categories) {
+    let allCategories = window.data.categories;
+    allCategories.push('[Uncategorized]');
+    for(let category of allCategories) {
         let button = document.createElement('button');
         button.className = 'item button';
         button.setAttribute('data-destination', category);
@@ -140,7 +144,7 @@ function onSelectCategory() {
         // remove from current
         let source = document.querySelector('.item[data-id="' + elem.dataset.id + '"][data-category="' + elem.dataset.source + '"]');
         // add to new
-        let dest = document.querySelector('.category[data-id="' + event.target.dataset.destination + '"]');
+        let dest = document.querySelector('.category[data-id="' + event.target.dataset.destination + '"]') ||  document.querySelector('.drawer');
         dest.appendChild(source);
         // update backend
         let newDest = document.querySelector('.item[data-id="' + elem.dataset.id + '"][data-category="' + elem.dataset.source + '"]');
@@ -150,6 +154,13 @@ function onSelectCategory() {
         if(item)
             item.category = event.target.dataset.destination;
         save();
+        // update icons
+        document.querySelector('.settings .drawer').classList.remove('bi-folder2-open');
+        document.querySelector('.settings .drawer').classList.add('bi-check-circle');
+        setTimeout(function() {
+            document.querySelector('.settings .drawer').classList.add('bi-folder2-open');
+            document.querySelector('.settings .drawer').classList.remove('bi-check-circle');
+        }, 1000);
     }
     else
         alert('Unable to move to category!');
