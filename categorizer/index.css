@@ -143,13 +143,20 @@ button[onclick] {
   align-content: flex-start;
 }
 
-header {
+.header {
   position: absolute;
   margin: auto;
   left: 0;
   right: 0;
   background-color: var(--background);
+  transform: translateY(0);
+  transition: transform 0.2s ease-in-out;
   z-index: 1;
+}
+
+.header.hidden {
+  transform: translateY(-100%);
+  display: block;
 }
 
 section.presets,
