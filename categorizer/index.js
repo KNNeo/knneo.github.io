@@ -38,8 +38,8 @@ function onDismissHeader() {
 //--EVENT HANDLERS--//
 function dragItem() {
     let elem = event.target;
-    let selector = '[data-id="' + elem.dataset.id + '"][data-category="' + elem.dataset.category + '"]';
-    event.dataTransfer.setData('text', selector);
+    let selector = '.item[data-id="' + elem.dataset.id + '"][data-category="' + elem.dataset.category + '"]';
+    event.dataTransfer.setData(window.data.id, selector);
 }
 
 function allowDrop() {
@@ -49,16 +49,23 @@ function allowDrop() {
 
 function dropItem() {
     event.preventDefault();
-    var selector = '.item' + event.dataTransfer.getData('text');
+    var selector = event.dataTransfer.getData(window.data.id);
     event.target.appendChild(document.querySelector(selector));
     document.querySelector(selector).dataset.category = event.target.dataset.id;
+    var item = window.data.list.find(i => i.id == selector.dataset.id);
+    if(item)
+        item.category = event.target.dataset.id;
 }
 
 function dropIntoIcon() {
     event.preventDefault();
-    var selector = '.item' + event.dataTransfer.getData('text');
+    var selector = event.dataTransfer.getData(window.data.id);
     drawerSection.appendChild(document.querySelector(selector));
     document.querySelector(selector).dataset.category = 'drawer';
+    var item = window.data.list.find(i => i.id == selector.dataset.id);
+    if(item)
+        item.category = event.target.dataset.id;
+    // update icons
     event.target.classList.toggle('bi-folder2-open');
     event.target.classList.toggle('bi-check-circle');
     setTimeout(function() {
