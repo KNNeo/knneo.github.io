@@ -49,22 +49,29 @@ function allowDrop() {
 
 function dropItem() {
     event.preventDefault();
+    // update ui
     var selector = event.dataTransfer.getData(window.data.id);
     event.target.appendChild(document.querySelector(selector));
-    document.querySelector(selector).dataset.category = event.target.dataset.id;
-    var item = window.data.list.find(i => i.id == selector.dataset.id);
+    // update backend
+    let elem = document.querySelector(selector);
+    elem.dataset.category = event.target.dataset.id;
+    // update data
+    var item = window.data.list.find(i => i.id == elem.dataset.id);
     if(item)
-        item.category = event.target.dataset.id;
+        item.category = elem.dataset.id;
 }
 
-function dropIntoIcon() {
+function dropDrawerItem() {
     event.preventDefault();
     var selector = event.dataTransfer.getData(window.data.id);
     drawerSection.appendChild(document.querySelector(selector));
-    document.querySelector(selector).dataset.category = 'drawer';
-    var item = window.data.list.find(i => i.id == selector.dataset.id);
+    // update backend
+    let elem = document.querySelector(selector);
+    elem.dataset.category = event.target.dataset.id;
+    // update data
+    var item = window.data.list.find(i => i.id == elem.dataset.id);
     if(item)
-        item.category = event.target.dataset.id;
+        item.category = elem.dataset.id;
     // update icons
     event.target.classList.toggle('bi-folder2-open');
     event.target.classList.toggle('bi-check-circle');
