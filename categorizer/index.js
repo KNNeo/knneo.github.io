@@ -94,7 +94,7 @@ function addItem() {
         results = results.split(',').map(r => r.trim());
         for(let value of results) {
             let item = {
-                id: new Date().toISOString(),
+                id: new Date().toISOString() + '-' + results.indexOf(value),
                 name: value,
                 category: 'drawer'
             };
@@ -180,19 +180,24 @@ function startup() {
 }
 
 function loadData() {
+    // take from storage
     let storage = JSON.parse(localStorage.getItem(config.id));
     if(!window.data?.current && storage && storage.length > 0)
         config.presets = storage;
+    // set data
     window.data = (window.data?.current && config.presets.find(p => p.id == window.data.current.id)) || config.presets[0];
-    if(!window.data.categories || window.data.categories.length < 1)
-        window.data.categories = getUniqueCategories(window.data.list);
+    // done, can remove temp set from select preset
+    if(window.data.current) delete window.data.current;
+    // reset category fields
+    window.data.categories = getUniqueCategories(window.data.list.filter(c => c == 'drawer'));
 }
 
 function renderCanvas() {
     pageSection.innerHTML = '';
 
     let canvasDiv = document.createElement('div');
-    canvasDiv.className = 'canvas';
+    canvasDiv.classList.add('canvas');
+    if(config.borderless) canvasDiv.classList.add('borderless');
     canvasDiv.id = 'area-' + window.data.id;
     pageSection.appendChild(canvasDiv);
 }
@@ -205,7 +210,7 @@ function renderCategories() {
 function renderCategory(category) {
     let canvas = document.querySelector('#area-' + window.data.id);
     let categoryDiv = document.createElement('div');
-    categoryDiv.className = 'category';
+    categoryDiv.classList.add('category');
     categoryDiv.setAttribute('data-id', category);
     categoryDiv.setAttribute('ondragover', 'allowDrop()');
     categoryDiv.setAttribute('ondrop', 'dropItem()');
