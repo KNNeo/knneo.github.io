@@ -113,6 +113,49 @@ function addItem() {
     }
 }
 
+function moveItem() {
+    let content = document.createElement('div');
+    content.setAttribute('data-id', event.target.dataset.id);
+    content.setAttribute('data-source', event.target.dataset.category);
+
+    let title = document.createElement('div');
+    title.innerText = 'Select a category';
+    content.appendChild(title);
+
+    for(let category of window.data.categories) {
+        let button = document.createElement('button');
+        button.className = 'item button';
+        button.setAttribute('data-destination', category);
+        button.setAttribute('onclick', 'onSelectCategory()');
+        button.innerText = category;
+        content.appendChild(button);
+    }
+    popupContent(content);
+}
+
+function onSelectCategory() {
+    if(event.target && event.target.dataset.destination &&
+        event.target.closest('[data-id][data-source]')) {
+        let elem = event.target.closest('[data-id][data-source]');
+        // remove from current
+        let source = document.querySelector('.item[data-id="' + elem.dataset.id + '"][data-category="' + elem.dataset.source + '"]');
+        // add to new
+        let dest = document.querySelector('.category[data-id="' + event.target.dataset.destination + '"]');
+        dest.appendChild(source);
+        source.parentElement.removeChild(source);  
+        // update backend
+        let newDest = document.querySelector('.item[data-id="' + elem.dataset.id + '"][data-category="' + event.target.dataset.destination + '"]');
+        newDest.dataset.category = event.target.dataset.destination;
+        // update data
+        var item = window.data.list.find(i => i.id == newDest.dataset.id);
+        if(item)
+            item.category = event.target.dataset.destination;
+        save();
+    }
+    else
+        alert('Unable to move to category!');
+}
+
 function togglePresets() {
     presetSection.classList.toggle('hidden');
 }
@@ -169,6 +212,62 @@ function save() {
     localStorage.setItem(config.id, JSON.stringify(config.presets));
 }
 
+function popupContent(input) {
+	if(!input) {
+		alert('No content found');
+		return;
+	}
+	// create dialog component if missing
+	let dialog = document.querySelector('.dialog');
+	if(!dialog) {
+		dialog = document.createElement('dialog');
+		dialog.tabIndex = 0;
+		dialog.addEventListener('click', function() {
+			if(event.target == document.querySelector('dialog'))
+				removeDialog();
+		});
+		dialog.addEventListener('keyup', function() {
+			if(event.key != 'Space' || event.key != 'Enter') return;
+			if(event.target.closest('.content')) return;
+			event.preventDefault();
+			removeDialog();
+		});
+		document.body.appendChild(dialog);
+	}
+	dialog.className = 'dialog';
+
+	let dialogDiv = createDialog(input);
+	dialog.innerHTML = '';
+	dialog.appendChild(dialogDiv);
+	dialog.showModal();
+	setTimeout(function() {
+		document.querySelector('.dialog').classList.add('open');
+	}, 0);
+}
+
+function createDialog(node) {
+	// Helper function to create dialog with content
+	// Note: Node in dialog will not have events! Manual add back or write as attribute!
+	let box = document.createElement('div');
+	if(typeof node == 'string') {
+		box.classList.add('box');
+		box.innerHTML = node;
+	}
+	if(typeof node == 'object') {
+		box.classList.add('content');
+		let clonedNode = node.cloneNode(true);
+		box.appendChild(clonedNode);
+	}
+	return box;
+}
+
+function removeDialog() {
+	document.querySelector('.dialog')?.classList.remove('open');
+	setTimeout(function() {
+		document.querySelector('.dialog')?.close();
+	}, 250);
+}
+
 //--INITIAL--//
 function startup() {
     loadData();
@@ -221,6 +320,7 @@ function renderItems() {
     for(let item of window.data.list) {
         let itemDiv = document.createElement('div');
         itemDiv.className = 'item box';
+        itemDiv.setAttribute('touchmove', 'moveItem()');
         itemDiv.setAttribute('draggable', 'true');
         itemDiv.setAttribute('ondragstart', 'dragItem()');
         itemDiv.setAttribute('data-id', item.id);
