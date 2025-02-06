@@ -98,6 +98,11 @@ button[onclick] {
 }
 
 /* LANDSCAPE */
+.canvas:has(.category:nth-child(2)) {
+  --rows: 1;
+  --columns: 2;
+}
+
 .canvas:has(.category:nth-child(3)) {
   --rows: 2;
   --columns: 2;
@@ -123,6 +128,11 @@ button[onclick] {
 
 /* PORTRAIT */
 @media (max-aspect-ratio: 4 / 5) {
+  .canvas:has(.category:nth-child(2)) {
+    --rows: 2;
+    --columns: 1;
+  }
+  
   .canvas:has(.category:nth-child(3)) {
     overflow-y: auto;
     --rows: 3;
