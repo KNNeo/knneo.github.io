@@ -320,7 +320,7 @@ function renderItems() {
     for(let item of window.data.list) {
         let itemDiv = document.createElement('div');
         itemDiv.className = 'item box';
-        itemDiv.setAttribute('touchmove', 'moveItem()');
+        itemDiv.setAttribute('ontouchmove', 'moveItem()');
         itemDiv.setAttribute('draggable', 'true');
         itemDiv.setAttribute('ondragstart', 'dragItem()');
         itemDiv.setAttribute('data-id', item.id);
