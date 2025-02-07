@@ -5,7 +5,8 @@ const config = {
 	"dimmed": true,
 	"orientation": window.innerWidth > window.innerHeight ? "horizontal" : "vertical",
 	"size": 40,
-	"scroll": 0.1
+	"scroll": 0.1,
+	"formats": ".jpg|.webp"
 };
 
 //--DOM NODE REFERENCES--//
@@ -136,14 +137,13 @@ function saveEdit() {
 			let val = item.replace('LEFT','').replace('RIGHT','').trim();
 			if(val.indexOf(',') < 0 && val.length > 0) // text value
 				dataObj.txt = val;
-			if(val.indexOf(',') < 0 && val.indexOf('.jpg') >= 0) // image value jpg (for now)
+			let isStaticImage = config.formats.split('|').find(f => val.indexOf(f) >= 0); // static images (for now)
+			if(isStaticImage && val.indexOf(',') < 0) // image only
 				dataObj.img = val;
-				if(val.indexOf('.jpg') >= 0 && val.indexOf(',') < 0) // image value jpg (for now)
-					dataObj.img = val;
-				if(val.indexOf('.jpg') >= 0 && val.indexOf(',') >= 0) { // image value with url
-					dataObj.img = val.split(',')[0];
-					dataObj.url = val.split(',')[1];
-				}
+			if(isStaticImage && val.indexOf(',') >= 0) { // image value with url
+				dataObj.img = val.split(',')[0];
+				dataObj.url = val.split(',')[1];
+			}
 			if(Object.keys(dataObj).length > 0) {
 				if(!obj.data) obj.data = [];
 				obj.data.push(dataObj);
@@ -155,8 +155,8 @@ function saveEdit() {
 	while(!json[--counter].data && counter >= 0)
 	{
 		json = json.filter((item, index) => index != counter);
-	}	
-	// console.log(json);	
+	}
+	// console.log(json);
 	document.querySelector("#data").textContent = JSON.stringify(json);
 	saveData();
 	startup();
