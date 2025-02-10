@@ -16,7 +16,8 @@ window.addEventListener('resize', showDimensions);
 
 function startup() {
 	renderElements();
-	showDimensions();	
+	showDimensions();
+	removeLinkExtensions();
 }
 
 function renderElements() {
