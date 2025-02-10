@@ -284,7 +284,6 @@ function removeDialog() {
 function startup() {
     loadData();
     renderCanvas();
-    renderDrawer();
     renderPresets();
     renderCategories();
     renderItems();
@@ -347,53 +346,7 @@ function renderItems() {
     }
 }
 
-function renderDrawer() {
-    drawerSection.innerHTML = '';
-    
-    let actions = document.createElement('div');
-    actions.className = 'actions';
-
-    let addButton = document.createElement('button');
-    addButton.className = 'tab button bi bi-plus';
-    addButton.setAttribute('onclick', 'addItem()');
-    addButton.innerText = 'Add Item';
-    actions.appendChild(addButton);
-
-    let closeButton = document.createElement('button');
-    closeButton.className = 'tab button bi bi-x';
-    closeButton.setAttribute('onclick', 'toggleDrawer()');
-    closeButton.innerText = 'Close';
-    actions.appendChild(closeButton);
-
-    drawerSection.appendChild(actions);
-}
-
 function renderPresets() {
-    presetSection.innerHTML = '';
-
-    let actions = document.createElement('div');
-    actions.className = 'actions';
-
-    let addPreset = document.createElement('button');
-    addPreset.className = 'tab button bi bi-plus';
-    addPreset.setAttribute('onclick', 'addPreset()');
-    addPreset.innerText = 'Add Preset';
-    actions.appendChild(addPreset);
-
-    let addCategory = document.createElement('button');
-    addCategory.className = 'tab button bi bi-plus';
-    addCategory.setAttribute('onclick', 'addCategory()');
-    addCategory.innerText = 'Add Category';
-    actions.appendChild(addCategory);
-
-    let closeButton = document.createElement('button');
-    closeButton.className = 'tab button bi bi-x';
-    closeButton.setAttribute('onclick', 'togglePresets()');
-    closeButton.innerText = 'Close';
-    actions.appendChild(closeButton);
-
-    presetSection.appendChild(actions);
-
     for(let preset of config.presets) {
         let selectButton = document.createElement('button');
         selectButton.className = 'item button preset';

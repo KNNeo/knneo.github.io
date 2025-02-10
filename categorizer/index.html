@@ -7,7 +7,8 @@
     <link id="fonts-css" rel="stylesheet" type="text/css" href="../fonts.css">
     <link id="index-css" rel="stylesheet" type="text/css" href="index.css">
     <link id="bs-css" rel="stylesheet" type="text/css" href="../resources/bootstrap-icons.css">
-	<script src="../darkmode.js" type="application/javascript" charset="utf-8"></script>
+	<script src="../darkmode.js"></script>
+	<script src="../routing.js" defer></script>
 	<script id="data-id" src="" defer></script>
 	<script src="index.js" defer></script>
     <title>Categorizer</title>
@@ -19,8 +20,19 @@
 		<button onclick="onDismissHeader()">Dismiss</button>
 	</header>
 	<section class="page"></section>
-	<section class="drawer list hidden"></section>
-	<section class="presets list hidden"></section>
+	<section class="drawer list hidden">
+		<div class="actions">
+			<button class="tab button bi bi-plus" onclick="addItem()">Add Item</button>
+			<button class="tab button bi bi-x" onclick="toggleDrawer()">Close</button>
+		</div>
+	</section>
+	<section class="presets list hidden">
+		<div class="actions">
+			<button class="tab button bi bi-plus" onclick="addPreset()">Add Preset</button>
+			<button class="tab button bi bi-plus" onclick="addCategory()">Add Category</button>
+			<button class="tab button bi bi-x" onclick="togglePresets()">Close</button>
+		</div>
+	</section>
 	<footer>
 		<h3 class="settings">
 			<a title="Select Preset" class="inverted bi bi-box-arrow-in-down" href="javascript:void(0);" onclick="togglePresets()"></a>
