@@ -256,7 +256,7 @@ a:hover {
 		padding: 0;
 	}
 	.list:has(.card:nth-child(2)) .card::before {
-		font-family: 'Material Icons';
+		font-family: Material Icons;
 		content: attr(data-icon);
 		position: absolute;
         top: 0;
