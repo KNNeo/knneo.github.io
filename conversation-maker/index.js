@@ -43,7 +43,7 @@ function showEditor() {
 		document.querySelector('#' + conversation.id + ' .editor').classList.remove('hidden');
 		updateSenderOptions(conversation);
 		let sender = conversation.querySelector('.messages').getAttribute('data-sender');
-		if(sender != null)
+		if (sender != null)
 			conversation.querySelector('.sender option[value=' + sender + ']').selected = sender;
 	}
 	disableRunMessages(conversation);
@@ -105,7 +105,7 @@ function updateSeparator() {
 
 function addConversation(name) {
 	let newOpt = document.createElement('option');
-	if (!name || !typeof(name) == 'string')
+	if (!name || !typeof (name) == 'string')
 		name = prompt('Key in name:');
 	if (name) {
 		newOpt.innerText = name;
@@ -165,9 +165,9 @@ function setReaction() {
 	let message = event.target.closest('.message');
 	if (message.querySelector('.reactions') != null) {
 		let reaction = event.target.cloneNode(true);
-		reaction.setAttribute('onclick', 'event.target.remove()');		
+		reaction.setAttribute('onclick', 'event.target.remove()');
 		message.querySelector('.reactions').setAttribute('data-selected', '');
-		message.querySelector('.reactions').innerHTML = '';	
+		message.querySelector('.reactions').innerHTML = '';
 		message.querySelector('.reactions').appendChild(reaction);
 	}
 }
@@ -187,15 +187,15 @@ function toggleReactions() {
 
 function toggleAudio() {
 	switch (event.target.className) {
-	case 'audio bi bi-volume-up':
-		event.target.className = 'audio bi bi-volume-mute';
-		window.ping = false;
-		break;
-	case 'audio bi bi-volume-mute':
-		event.target.className = 'audio bi bi-volume-up';
-		window.ping = true;
-	default:
-		break;
+		case 'audio bi bi-volume-up':
+			event.target.className = 'audio bi bi-volume-mute';
+			window.ping = false;
+			break;
+		case 'audio bi bi-volume-mute':
+			event.target.className = 'audio bi bi-volume-up';
+			window.ping = true;
+		default:
+			break;
 	}
 }
 
@@ -221,7 +221,7 @@ function processConversations() {
 	for (let converse of document.querySelectorAll('.conversation .messages')) {
 		let lineSeparator = converse.getAttribute('data-separator') || ':';
 		let choiceSeparator = '|';
-		let systemMessagePrefix = '===';
+		let systemMessagePrefixSuffix = '===';
 		let lines = converse.innerText.split('\n');
 		if (lines.length < 2) {
 			converse.innerHTML = 'Click on Editor to create a conversation list';
@@ -231,7 +231,7 @@ function processConversations() {
 
 		let prevName = '';
 		for (let line of lines) {
-			let isSystem = line.startsWith(systemMessagePrefix) && line.endsWith(systemMessagePrefix);
+			let isSystem = line.startsWith(systemMessagePrefixSuffix) && line.endsWith(systemMessagePrefixSuffix);
 			let isUrl = line.startsWith('https://') || line.startsWith('http://');
 			let lineDiv = document.createElement('div');
 			lineDiv.classList.add('message');
@@ -240,7 +240,7 @@ function processConversations() {
 				messageDiv.classList.add('container');
 				// change size if only contains emoji
 				let emojiMatch = message.trim().match(emojiRegex);
-				if(emojiMatch && emojiMatch.length == 1 && message.replace(emojiMatch[0],'').length < 1) {
+				if (emojiMatch && emojiMatch.length == 1 && message.replace(emojiMatch[0], '').length < 1) {
 					messageDiv.classList.add('emoji');
 					message += `\uFE0F`; // variation selector, can only fix single character
 				}
@@ -298,25 +298,26 @@ function processConversations() {
 }
 
 function startConversation() {
-	let conversation = event.target.closest('.conversation').querySelector('.messages');
-
-	// read lines
-	let lines = conversation.querySelectorAll('.message');
+	let conversation = event.target.closest('.conversation');
+	let messages = conversation.querySelector('.messages');
+	// hide all lines
+	let lines = messages.querySelectorAll('.message');
 	if (Array.from(lines).filter(l => l.classList.contains('hide')).length > 0)
 		return;
 	for (let line of lines)
 		line.classList.add('hide');
-
-	let footer = conversation.querySelector('.footer');
+	// show manual
+	let footer = messages.querySelector('.footer');
 	footer.innerText = '🔽';
 	footer.title = 'Play Next Message';
 	footer.setAttribute('onclick', 'nextMessage()');
-
+	// start run
 	toggleConversation();
 }
 
 function toggleConversation() {
-	let conversation = document.querySelector('.conversation:not(.hidden)');
+	// assume one conversation with data-animate attribute on page
+	let conversation = document.querySelector('.conversation[data-animate]:not(.hidden)');
 	if (conversation.getAttribute('data-running') != null)
 		disableRunMessages();
 	else
@@ -417,7 +418,7 @@ function nextMessage() {
 function setChoices(choices) {
 	// add event listeners
 	for (let c = 0; c < choices.length; c++) {
-		choices[c].setAttribute('onclick', 'window.choice=' + (1+c));
+		choices[c].setAttribute('onclick', 'window.choice=' + (1 + c));
 		choices[c].setAttribute('oncontextmenu', 'popupText(this.innerText);return false');
 	}
 }
@@ -445,8 +446,8 @@ function waitForSender() {
 
 function allowRunMessages() {
 	// console.log('allow run messages');
-	let conversation = document.querySelector('.conversation:not(.hidden)');
-	if(!conversation)
+	let conversation = document.querySelector('.conversation[data-animate]:not(.hidden)');
+	if (!conversation)
 		return;
 	// set status
 	conversation.setAttribute('data-running', '');
@@ -460,8 +461,9 @@ function allowRunMessages() {
 
 function disableRunMessages(conversation) {
 	// console.log('disable run messages');
-	if(!conversation)
-		conversation = document.querySelector('.conversation:not(.hidden)');
+	let conversation = document.querySelector('.conversation[data-animate]:not(.hidden)');
+	if (!conversation)
+		return;
 	// remove status
 	conversation.removeAttribute('data-running');
 	// remove scroll capture
@@ -495,8 +497,8 @@ function createDialog(node) {
 		let clonedNode = node.cloneNode(true);
 		dialog.appendChild(clonedNode);
 	}
-	dialog.addEventListener('click', function() {
-		if(event.target.parentElement == document.querySelector('.dialog'))
+	dialog.addEventListener('click', function () {
+		if (event.target.parentElement == document.querySelector('.dialog'))
 			removeDialog();
 	});
 	dialog.addEventListener('keyup', function () {
