@@ -461,9 +461,8 @@ function allowRunMessages() {
 
 function disableRunMessages(conversation) {
 	// console.log('disable run messages');
-	let conversation = document.querySelector('.conversation[data-animate]:not(.hidden)');
 	if (!conversation)
-		return;
+		conversation = document.querySelector('.conversation[data-animate]:not(.hidden)');
 	// remove status
 	conversation.removeAttribute('data-running');
 	// remove scroll capture
