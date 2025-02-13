@@ -55,7 +55,7 @@ function updateEditor() {
 	window['conversation-messages'][conversation.id].content = conversation.querySelector('.editor textarea').value;
 	saveToLocalStorage();
 	updateSenderOptions(conversation);
-	allowRunMessages();
+	allowRunMessages(conversation);
 }
 
 function saveToLocalStorage() {
@@ -319,9 +319,9 @@ function toggleConversation() {
 	// assume one conversation with data-animate attribute on page
 	let conversation = document.querySelector('.conversation[data-animate]:not(.hidden)');
 	if (conversation.getAttribute('data-running') != null)
-		disableRunMessages();
+		disableRunMessages(conversation);
 	else
-		allowRunMessages();
+		allowRunMessages(conversation);
 }
 
 function nextMessage() {
@@ -338,21 +338,21 @@ function nextMessage() {
 			if (lines[l].getAttribute('data-sender') == null)
 				window.choice = Math.ceil(lines[l].querySelectorAll('.container').length * Math.random());
 			else {
-				disableRunMessages();
+				disableRunMessages(conversation);
 				setChoices(lines[l].querySelectorAll('.container'));
 				// console.log('wait for reply');
 				setTimeout(waitForSender, 500);
 			}
 		}
 		if (window.choice) {
-			allowRunMessages();
+			allowRunMessages(conversation);
 			for (let choice of lines[l].querySelectorAll('.container:not(:nth-child(' + window.choice + '))'))
 				choice.classList.add('hidden');
 		}
 		if (lines[l].getAttribute('data-sender') == null)
 			window.choice = 0;
 	} else { // must reset if no alternate choices found
-		allowRunMessages();
+		allowRunMessages(conversation);
 		window.choice = 0;
 	}
 	// show message
@@ -444,11 +444,9 @@ function waitForSender() {
 		setTimeout(waitForSender, 1000);
 }
 
-function allowRunMessages() {
+function allowRunMessages(conversation) {
 	// console.log('allow run messages');
-	let conversation = document.querySelector('.conversation[data-animate]:not(.hidden)');
-	if (!conversation)
-		return;
+	if (!conversation) return;
 	// set status
 	conversation.setAttribute('data-running', '');
 	if (conversation.querySelector('.footer') != null)
@@ -461,8 +459,7 @@ function allowRunMessages() {
 
 function disableRunMessages(conversation) {
 	// console.log('disable run messages');
-	if (!conversation)
-		conversation = document.querySelector('.conversation[data-animate]:not(.hidden)');
+	if (!conversation) return;
 	// remove status
 	conversation.removeAttribute('data-running');
 	// remove scroll capture
