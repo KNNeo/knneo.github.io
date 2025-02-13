@@ -218,82 +218,86 @@ function updateData() {
 
 //--FUNCTIONS--//
 function processConversations() {
-	for (let converse of document.querySelectorAll('.conversation .messages')) {
-		let lineSeparator = converse.getAttribute('data-separator') || ':';
-		let choiceSeparator = '|';
-		let systemMessagePrefixSuffix = '===';
-		let lines = converse.innerText.split('\n');
-		if (lines.length < 2) {
-			converse.innerHTML = 'Click on Editor to create a conversation list';
-			continue;
-		} else
-			converse.innerHTML = '';
+	for (let converse of document.querySelectorAll('.conversation .messages'))
+		processConversation(converse);
+}
 
-		let prevName = '';
-		for (let line of lines) {
-			let isSystem = line.startsWith(systemMessagePrefixSuffix) && line.endsWith(systemMessagePrefixSuffix);
-			let isUrl = line.startsWith('https://') || line.startsWith('http://');
-			let lineDiv = document.createElement('div');
-			lineDiv.classList.add('message');
-			for (let message of line.trim().substring(line.indexOf(lineSeparator) + 1).trim().split(choiceSeparator)) {
-				let messageDiv = document.createElement('div');
-				messageDiv.classList.add('container');
-				// change size if only contains emoji
-				let emojiMatch = message.trim().match(emojiRegex);
-				if (emojiMatch && emojiMatch.length == 1 && message.replace(emojiMatch[0], '').length < 1) {
-					messageDiv.classList.add('emoji');
-					message += `\uFE0F`; // variation selector, can only fix single character
-				}
-				let messageText = document.createElement('span');
-				if (!isSystem) // for non-system, if line has no sender, use previous
-					lineDiv.setAttribute('data-name', !isUrl && line.includes(lineSeparator) ? line.trim().substring(0, line.indexOf(lineSeparator)).trim() : prevName);
-				prevName = lineDiv.getAttribute('data-name');
-				if (converse.getAttribute('data-sender') != null) {
-					if (isSystem)
-						lineDiv.setAttribute('data-system', '');
+function processConversation(converse) {
+	let lineSeparator = converse.getAttribute('data-separator') || ':';
+	let choiceSeparator = '|';
+	let systemMessagePrefixSuffix = '===';
+	let lines = converse.innerText.split('\n');
+	if (lines.length < 2) {
+		converse.innerHTML = 'Click on Editor to create a conversation list';
+		continue;
+	} else
+		converse.innerHTML = '';
+	// render lines
+	let prevName = '';
+	for (let line of lines) {
+		let isSystem = line.startsWith(systemMessagePrefixSuffix) && line.endsWith(systemMessagePrefixSuffix);
+		let isUrl = line.startsWith('https://') || line.startsWith('http://');
+		let lineDiv = document.createElement('div');
+		lineDiv.classList.add('message');
+		for (let message of line.trim().substring(line.indexOf(lineSeparator) + 1).trim().split(choiceSeparator)) {
+			let messageDiv = document.createElement('div');
+			messageDiv.classList.add('container');
+			// change size if only contains emoji
+			let emojiMatch = message.trim().match(emojiRegex);
+			if (emojiMatch && emojiMatch.length == 1 && message.replace(emojiMatch[0], '').length < 1) {
+				messageDiv.classList.add('emoji');
+				message += `\uFE0F`; // variation selector, can only fix single character
+			}
+			let messageText = document.createElement('span');
+			if (!isSystem) // for non-system, if line has no sender, use previous
+				lineDiv.setAttribute('data-name', !isUrl && line.includes(lineSeparator) ? line.trim().substring(0, line.indexOf(lineSeparator)).trim() : prevName);
+			prevName = lineDiv.getAttribute('data-name');
+			if (converse.getAttribute('data-sender') != null) {
+				if (isSystem)
+					lineDiv.setAttribute('data-system', '');
+				else {
+					if (isUrl)
+						lineDiv.setAttribute('data-url', '');
+					if (converse.getAttribute('data-sender').toLowerCase() == lineDiv.getAttribute('data-name').toLowerCase())
+						lineDiv.setAttribute('data-sender', '');
 					else {
-						if (isUrl)
-							lineDiv.setAttribute('data-url', '');
-						if (converse.getAttribute('data-sender').toLowerCase() == lineDiv.getAttribute('data-name').toLowerCase())
-							lineDiv.setAttribute('data-sender', '');
-						else {
-							lineDiv.setAttribute('data-recipient', '');
-							lineDiv.setAttribute('onclick', 'toggleReactions()');
-						}
+						lineDiv.setAttribute('data-recipient', '');
+						lineDiv.setAttribute('onclick', 'toggleReactions()');
 					}
 				}
-				messageText.innerText = message;
-				if (isSystem)
-					messageText.innerText = line.trim();
-				messageDiv.appendChild(messageText);
-				if (isUrl) {
-					messageDiv.innerHTML = '';
-					let messageLink = document.createElement('a');
-					messageLink.href = line.trim();
-					messageLink.innerText = line.trim();
-					messageDiv.appendChild(messageLink);
-
-					let messageImg = document.createElement('img');
-					messageImg.src = line.trim();
-					messageImg.alt = '';
-					messageImg.setAttribute('onload', 'event.target.previousElementSibling.remove()');
-					messageImg.setAttribute('onerror', 'event.target.remove()');
-					messageImg.setAttribute('oncontextmenu', 'return false');
-					messageDiv.appendChild(messageImg);
-				}
-				lineDiv.appendChild(messageDiv);
 			}
+			messageText.innerText = message;
+			if (isSystem)
+				messageText.innerText = line.trim();
+			messageDiv.appendChild(messageText);
+			if (isUrl) {
+				messageDiv.innerHTML = '';
+				let messageLink = document.createElement('a');
+				messageLink.href = line.trim();
+				messageLink.innerText = line.trim();
+				messageDiv.appendChild(messageLink);
 
-			converse.appendChild(lineDiv);
+				let messageImg = document.createElement('img');
+				messageImg.src = line.trim();
+				messageImg.alt = '';
+				messageImg.setAttribute('onload', 'event.target.previousElementSibling.remove()');
+				messageImg.setAttribute('onerror', 'event.target.remove()');
+				messageImg.setAttribute('oncontextmenu', 'return false');
+				messageDiv.appendChild(messageImg);
+			}
+			lineDiv.appendChild(messageDiv);
 		}
-		if (converse.getAttribute('data-animate') != null) {
-			let footer = document.createElement('div');
-			footer.className = 'footer message';
-			footer.innerText = '🔁';
-			footer.title = 'Replay Conversation';
-			footer.setAttribute('onclick', 'startConversation()');
-			converse.appendChild(footer);
-		}
+
+		converse.appendChild(lineDiv);
+	}
+	// if data-animate present, add replay button
+	if (converse.getAttribute('data-animate') != null) {
+		let footer = document.createElement('div');
+		footer.className = 'footer message';
+		footer.innerText = '🔁';
+		footer.title = 'Replay Conversation';
+		footer.setAttribute('onclick', 'startConversation()');
+		converse.appendChild(footer);
 	}
 }
 
@@ -332,8 +336,9 @@ function nextMessage() {
 	// play sound effect on each message
 	if (window.ping && !lines[l].classList.contains('footer') && lines[l].getAttribute('data-system') == null)
 		sfxAudio.play();
-	// show random line in message containers
+	// if multiple messages found on line
 	if (lines[l].querySelectorAll('.container').length > 1) {
+		// choice not made, show all messages for input
 		if (!window.choice) {
 			if (lines[l].getAttribute('data-sender') == null)
 				window.choice = Math.ceil(lines[l].querySelectorAll('.container').length * Math.random());
@@ -344,19 +349,23 @@ function nextMessage() {
 				setTimeout(waitForSender, 500);
 			}
 		}
+		// choice made, hide other messages on line and continue
 		if (window.choice) {
 			allowRunMessages(conversation);
 			for (let choice of lines[l].querySelectorAll('.container:not(:nth-child(' + window.choice + '))'))
 				choice.classList.add('hidden');
 		}
+		// exclusion: if not sender, choose first option
 		if (lines[l].getAttribute('data-sender') == null)
 			window.choice = 0;
-	} else { // must reset if no alternate choices found
+	} else {
+		// set continue if no alternate choices found
 		allowRunMessages(conversation);
 		window.choice = 0;
 	}
 	// show message
 	lines[l].classList.remove('hide');
+	// calculate scroll to show next message
 	let heightAboveItem = Array.from(lines).slice(0, l).reduce(function (total, current, index) {
 		return total + current.getBoundingClientRect().height;
 	}, 0);
@@ -364,7 +373,8 @@ function nextMessage() {
 	let diff = heightAboveItem + currentHeight - conversation.querySelector('.messages').clientHeight; // delta to fix item height rounding
 	// console.log(heightAboveItem + currentHeight, conversation.clientHeight);
 	if (diff > 0) {
-		if (diff < currentHeight) // newest message is not aligned to bottom of container
+		// newest message is not aligned to bottom of container
+		if (diff < currentHeight)
 			conversation.querySelector('.messages').scrollBy({
 				top: diff,
 				behavior: 'smooth'
@@ -374,11 +384,11 @@ function nextMessage() {
 				top: currentHeight,
 				behavior: 'smooth'
 			});
-	} else // newest message is not at or beyond bottom of container
+	} else
+		// newest message is not at or beyond bottom of container
 		conversation.querySelector('.messages').scrollTo({
 			top: 0
 		});
-
 	// if end of conversation, allow replay
 	if (l >= lines.length - 1) {
 		let footer = conversation.querySelector('.footer');
@@ -386,26 +396,24 @@ function nextMessage() {
 		footer.innerText = '🔁';
 		footer.title = 'Replay Conversation';
 		footer.setAttribute('onclick', 'startConversation()');
-
+		// scroll to show footer
 		conversation.querySelector('.messages').scrollBy({
 			top: heightAboveItem + currentHeight + footer.getBoundingClientRect().height,
 			behavior: 'smooth'
 		});
+		// stop animation
 		disableRunMessages(conversation);
 		return;
 	}
-
 	// avoid run if prompt to choose
 	if (lines[l].querySelectorAll('.container').length > 1 && lines[l].getAttribute('data-sender') != null && !window.choice)
 		return;
-
 	// if still running, call next message
 	if (conversation.getAttribute('data-running') != null) {
 		// calculate next message pop time
 		let writeLength = lines[l + 1]?.innerText.length ?? 1;
 		let writeTime = writeLength > 20 ? 2500 : 1500;
-		if (!writeTime)
-			writeTime = 2500;
+		if (!writeTime) writeTime = 2500;
 		// console.log(lines[l]?.innerText, writeTime);
 		setTimeout(function () {
 			// console.log('call next');
