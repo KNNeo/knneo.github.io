@@ -229,7 +229,7 @@ function processConversation(converse) {
 	let lines = converse.innerText.split('\n');
 	if (lines.length < 2) {
 		converse.innerHTML = 'Click on Editor to create a conversation list';
-		continue;
+		return;
 	} else
 		converse.innerHTML = '';
 	// render lines
@@ -248,10 +248,12 @@ function processConversation(converse) {
 				messageDiv.classList.add('emoji');
 				message += `\uFE0F`; // variation selector, can only fix single character
 			}
+			// actual message
 			let messageText = document.createElement('span');
 			if (!isSystem) // for non-system, if line has no sender, use previous
 				lineDiv.setAttribute('data-name', !isUrl && line.includes(lineSeparator) ? line.trim().substring(0, line.indexOf(lineSeparator)).trim() : prevName);
 			prevName = lineDiv.getAttribute('data-name');
+			// check sender type
 			if (converse.getAttribute('data-sender') != null) {
 				if (isSystem)
 					lineDiv.setAttribute('data-system', '');
@@ -266,17 +268,19 @@ function processConversation(converse) {
 					}
 				}
 			}
+			// extract text after sender name identified
 			messageText.innerText = message;
 			if (isSystem)
-				messageText.innerText = line.trim();
+				messageText.innerText = line.replace(/===/g,'').trim();
 			messageDiv.appendChild(messageText);
 			if (isUrl) {
 				messageDiv.innerHTML = '';
+				// change to link tag
 				let messageLink = document.createElement('a');
 				messageLink.href = line.trim();
 				messageLink.innerText = line.trim();
 				messageDiv.appendChild(messageLink);
-
+				// try render image
 				let messageImg = document.createElement('img');
 				messageImg.src = line.trim();
 				messageImg.alt = '';
@@ -287,7 +291,6 @@ function processConversation(converse) {
 			}
 			lineDiv.appendChild(messageDiv);
 		}
-
 		converse.appendChild(lineDiv);
 	}
 	// if data-animate present, add replay button
@@ -316,16 +319,7 @@ function startConversation() {
 	footer.title = 'Play Next Message';
 	footer.setAttribute('onclick', 'nextMessage()');
 	// start run
-	toggleConversation();
-}
-
-function toggleConversation() {
-	// assume one conversation with data-animate attribute on page
-	let conversation = document.querySelector('.conversation[data-animate]:not(.hidden)');
-	if (conversation.getAttribute('data-running') != null)
-		disableRunMessages(conversation);
-	else
-		allowRunMessages(conversation);
+	toggleConversation(conversation);
 }
 
 function nextMessage() {
@@ -363,7 +357,7 @@ function nextMessage() {
 		allowRunMessages(conversation);
 		window.choice = 0;
 	}
-	// show message
+	// unhide first hidden message
 	lines[l].classList.remove('hide');
 	// calculate scroll to show next message
 	let heightAboveItem = Array.from(lines).slice(0, l).reduce(function (total, current, index) {
@@ -401,8 +395,8 @@ function nextMessage() {
 			top: heightAboveItem + currentHeight + footer.getBoundingClientRect().height,
 			behavior: 'smooth'
 		});
-		// stop animation
-		disableRunMessages(conversation);
+		// check if need to continue
+		toggleConversation(conversation);
 		return;
 	}
 	// avoid run if prompt to choose
@@ -450,6 +444,14 @@ function waitForSender() {
 	}
 	else
 		setTimeout(waitForSender, 1000);
+}
+
+function toggleConversation(conversation) {
+    if (!conversation) return;
+	if (conversation.getAttribute('data-running') != null)
+		disableRunMessages(conversation);
+	else
+		allowRunMessages(conversation);
 }
 
 function allowRunMessages(conversation) {
