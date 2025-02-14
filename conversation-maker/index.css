@@ -207,11 +207,11 @@ a:hover {
 }
 .conversation .footer {
 	display: none;
-	font-size: var(--lg);
+	font-size: 2em;
 	justify-content: center;
 	cursor: pointer;
 }
-.conversation[data-animate] .footer {
+.conversation .messages[data-animate] .footer {
 	display: inline;
 }
 .menu {
