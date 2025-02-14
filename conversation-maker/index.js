@@ -68,7 +68,7 @@ function saveEditor(event) {
 
 function updateEditor(event) {
 	saveEditor(event);
-	allowRunMessages(conversation);
+	allowRunMessages(event.target.closest('.conversation'));
 }
 
 function saveToLocalStorage() {
@@ -323,9 +323,12 @@ function startConversation() {
 	// hide all lines
 	let lines = messages.querySelectorAll('.message');
 	if (Array.from(lines).filter(l => l.classList.contains('hide')).length > 0)
-		return;
+		return; // should not start if still have lines hidden, means is running
 	for (let line of lines)
 		line.classList.add('hide');
+	// show all choices
+	for(let choice of messages.querySelectorAll('.container.hidden'))
+		choice.classList.remove('hidden');
 	// show manual
 	let footer = messages.querySelector('.footer');
 	footer.innerText = '🔽';
@@ -368,8 +371,7 @@ function nextMessage() {
 		if (lines[l].getAttribute('data-sender') == null)
 			window.choice = 0;
 	} else {
-		// set continue if no alternate choices found
-		allowRunMessages(conversation);
+		// set choice if no alternate choices found
 		window.choice = 0;
 	}
 	// unhide first hidden message
@@ -415,7 +417,7 @@ function nextMessage() {
 		return;
 	}
 	// avoid run if prompt to choose
-	if (lines[l].querySelectorAll('.container').length > 1 && lines[l].getAttribute('data-sender') != null && !window.choice)
+	if (lines[l].querySelectorAll('.container').length > 1 && !window.choice)
 		return;
 	// if still running, call next message
 	if (conversation.getAttribute('data-running') != null) {
