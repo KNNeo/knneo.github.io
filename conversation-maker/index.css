@@ -139,9 +139,9 @@ a:hover {
 .conversation .message[data-sender] {
 	justify-content: flex-end;
 }
-.conversation .loader[data-name]::before,
-.conversation .message[data-name]::before {
-	content: attr(data-name);
+.conversation .loader[aria-label]::before,
+.conversation .message[aria-label]::before {
+	content: attr(aria-label);
     white-space: nowrap;
 }
 .conversation .message[data-sender] .container {
@@ -206,10 +206,13 @@ a:hover {
     background-color: var(--accent);
 }
 .conversation .footer {
-	font-size: 2em;
+	display: none;
+	font-size: var(--lg);
 	justify-content: center;
 	cursor: pointer;
-	display: inline-block;
+}
+.conversation[data-animate] .footer {
+	display: inline;
 }
 .menu {
     display: flex;
