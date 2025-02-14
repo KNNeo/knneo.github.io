@@ -183,13 +183,14 @@ a:hover {
 	position: absolute;
     border-radius: 99px;
     background-color: var(--foreground);
+    z-index: 1;
 }
 .conversation .message .reactions[data-selected] {
 	font-size: 0.6em;
 	line-height: 0;
 }
 .conversation .editor textarea {
-    width: 100%;
+    width: calc(100% - 2em);
 	height: calc(100% - 25px);
 }
 .conversation .footer {
