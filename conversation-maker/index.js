@@ -328,8 +328,13 @@ function startConversation() {
 	// show all choices
 	for(let choice of messages.querySelectorAll('.container.hidden'))
 		choice.classList.remove('hidden');
+	// create manual next message trigger
+	let footer = messages.querySelector('.footer');
+	footer.innerText = '🔽';
+	footer.title = 'Play Next Message';
+	footer.setAttribute('onclick', 'nextMessage()');
 	// start run
-	toggleConversation(conversation);
+    toggleConversation(conversation);
 }
 
 function nextMessage() {
