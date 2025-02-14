@@ -57,12 +57,12 @@ function saveEditor(event) {
 		saveToLocalStorage();
 		updateSenderOptions(conversation);
 		// change icon
-		event.target.classList.contains('bi-floppy');
-		event.target.classList.contains('bi-check2-circle');
+		event.target.classList.toggle('bi-floppy');
+		event.target.classList.toggle('bi-check2-circle');
 		setTimeout(function() {
-			event.target.classList.contains('bi-floppy');
-			event.target.classList.contains('bi-check2-circle');
-		}, 1000);
+			event.target.classList.toggle('bi-floppy');
+			event.target.classList.toggle('bi-check2-circle');
+		}, 500);
 	}
 }
 
