@@ -50,11 +50,24 @@ function showEditor() {
 	document.querySelector('#' + conversation.id + ' .messages').innerHTML = '';
 }
 
-function updateEditor() {
-	let conversation = event.target.closest('.conversation');
-	window['conversation-messages'][conversation.id].content = conversation.querySelector('.editor textarea').value;
-	saveToLocalStorage();
-	updateSenderOptions(conversation);
+function saveEditor(event) {
+	if(event.target.classList.contains('bi-floppy')) {
+		let conversation = event.target.closest('.conversation');
+		window['conversation-messages'][conversation.id].content = conversation.querySelector('.editor textarea').value;
+		saveToLocalStorage();
+		updateSenderOptions(conversation);
+		// change icon
+		event.target.classList.contains('bi-floppy');
+		event.target.classList.contains('bi-check2-circle');
+		setTimeout(function() {
+			event.target.classList.contains('bi-floppy');
+			event.target.classList.contains('bi-check2-circle');
+		}, 1000);
+	}
+}
+
+function updateEditor(event) {
+	saveEditor(event);
 	allowRunMessages(conversation);
 }
 
@@ -332,11 +345,13 @@ function nextMessage() {
 		sfxAudio.play();
 	// if multiple messages found on line
 	if (lines[l].querySelectorAll('.container').length > 1) {
-		// choice not made, show all messages for input
+		// choice not made
 		if (!window.choice) {
 			if (lines[l].getAttribute('data-sender') == null)
+				// not from sender, choose at random
 				window.choice = Math.ceil(lines[l].querySelectorAll('.container').length * Math.random());
 			else {
+				// from sender, show choices and wait
 				disableRunMessages(conversation);
 				setChoices(lines[l].querySelectorAll('.container'));
 				// console.log('wait for reply');

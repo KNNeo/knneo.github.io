@@ -41,16 +41,17 @@
 	<template class="template-message">
 		<div class="conversation hidden" id="">
 			<a class="bi bi-chat-dots" href="javascript:void(0);" onclick="showMessages()" title="Show Conversation"> CONVERSATION</a>
-			<a class="bi bi-pencil" href="javascript:void(0);" onclick="showEditor()"title="Show Editor"> EDITOR</a>
+			<a class="bi bi-pencil" href="javascript:void(0);" onclick="showEditor()" title="Show Editor"> EDITOR</a>
 			<div class="view messages" data-animate></div>
 			<div class="view editor">
-				<textarea title="editor" placeholder="Message text here..." onchange="updateEditor()"></textarea>
+				<textarea title="editor" placeholder="Message text here..." onchange="updateEditor(event)"></textarea>
 				<label for="sender">Sender:</label>
 				<select name="sender" class="sender" id="sender" onchange="updateSender()">
 					<option value="">======</option>
 				</select>
 				<label for="separator">Separator:</label>
 				<input name="sender" class="separator" id="separator" placeholder=":" onchange="updateSeparator()"></input>
+				<a class="bi bi-floppy save" href="javascript:void(0);" onclick="saveEditor(event)" title="Save Changes"></a>
 			</div>
 		</div>
 	</template>

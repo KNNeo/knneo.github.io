@@ -80,6 +80,7 @@ a:hover {
 	height: calc(100% - 300px);
 }
 .conversation {
+	position: relative;
 	height: 100%;
 }
 .conversation a {
@@ -192,6 +193,17 @@ a:hover {
 .conversation .editor textarea {
     width: calc(100% - 2em);
 	height: calc(100% - 25px);
+}
+.conversation .save {
+    position: absolute;
+    bottom: 1.5em;
+    right: 1em;
+    background-color: var(--background);
+    border-radius: 99px;
+    width: 40px;
+}
+.conversation .save:active {
+    background-color: var(--accent);
 }
 .conversation .footer {
 	font-size: 2em;
