@@ -84,15 +84,15 @@ function generateTags() {
 	})
 	.sort(function(a,b) {
 		// based on values in reduce function
-		let prop = config.tag.sort.property;
+		let prop = config.tag?.sort?.property;
 		if(!a[prop] || !b[prop])
 			return 0;
 		if(typeof a[prop] == 'number' && typeof b[prop] == 'number')
-			return config.tag.sort.order == 'desc' ? b[prop] - a[prop] : a[prop] - b[prop];
+			return config.tag?.sort?.order == 'desc' ? b[prop] - a[prop] : a[prop] - b[prop];
 		// else string
-		if(config.tag.sort.order == 'desc')
-			return b[prop].localeCompare(a[prop], config.tag.sort.locale);
-		return a[prop].localeCompare(b[prop], config.tag.sort.locale);
+		if(config.tag?.sort?.order == 'desc')
+			return b[prop].localeCompare(a[prop], config.tag?.sort?.locale);
+		return a[prop].localeCompare(b[prop], config.tag?.sort?.locale);
 	});
 	if(config.debug) console.log(window['buttonArray']);
 }
