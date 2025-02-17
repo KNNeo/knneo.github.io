@@ -366,6 +366,17 @@ function generateFiltered() {
 	);
 }
 
+function generateOrientationValues() {
+	let values = generateFiltered();
+	for(let item of values)	{
+		let itemDiv = document.querySelector('.collage img[data-src="' + item.og + '"]');
+		item.nm = ((itemDiv?.naturalWidth >= itemDiv?.naturalHeight && 'Landscape') 
+			|| (itemDiv?.naturalWidth < itemDiv?.naturalHeight && 'Portrait') 
+			|| 'Unknown') + config.separator + (item.nm || '');
+	}
+	return values;
+}
+
 function toggleVariable(variable, value) {
 	if(window[variable].includes(value)) {
 		window[variable] = window[variable].replace('|' + value,'').replace(value,'');
