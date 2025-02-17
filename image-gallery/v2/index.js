@@ -25,8 +25,8 @@ function scrollToItem(itemNo) {
 			inline: 'center', behavior: 'smooth'
 		});
 		window.variables.selected = selectItem;
-		if(window.variables.prompter)
-			galleryDiv.setAttribute('prompt', allItems[selectItem].title);
+		if(window.variables.prompter && allItems[selectItem][window.variables.prompter])
+			galleryDiv.setAttribute('data-caption', allItems[selectItem][window.variables.prompter]);
 	}
 }
 
@@ -285,6 +285,10 @@ function resetFilters() {
 	renderGallery();
 }
 
+function hideMessage() {
+	messageDiv.classList.add('hidden');
+}
+
 function toggleAutoScroll() {
 	event.target.classList.toggle('bi-play-circle-fill');
 	event.target.classList.toggle('bi-pause-circle-fill');
@@ -319,6 +323,10 @@ function scrollToSelected() {
 	galleryDiv.classList.remove('overview');
 	settingsDiv.classList.remove('hidden');
 	scrollToItem(window.variables.selected ?? 0);
+}
+
+function toggleCaptions() {
+	galleryDiv.classList.toggle('captions');
 }
 
 //--FUNCTIONS--//

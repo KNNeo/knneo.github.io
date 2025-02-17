@@ -180,8 +180,8 @@ body .gallery {
   scrollbar-width: none;  /* Firefox */
 }
 
-.gallery[prompt]::before {
-	content: attr(prompt);
+.gallery.captions[data-caption]::before {
+	content: attr(data-caption);
 	position: fixed;
 	bottom: 3em;
 	left: 0;
@@ -191,7 +191,6 @@ body .gallery {
     padding: 2px 2em;
     margin: auto;
     background-color: var(--accent);
-    border-radius: 0 99px 99px 99px;
     border: 2px solid var(--foreground);
 }
 
