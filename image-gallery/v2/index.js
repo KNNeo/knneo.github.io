@@ -630,6 +630,11 @@ function setBase(baseData) {
 		window.variables.filters = [];
 		setTimeout(setBase, 200);
 	}
+	setMessage();
+}
+
+function setMessage() {
+	messageDiv.innerText = '';
 	if(window.variables.limit && window.variables.base.length > window.variables.limit) {
 		window.variables.base = window.variables.base.slice(0, window.variables.limit);
 		messageDiv.innerText += 'Showing first ' + window.variables.limit + ' results\n';
