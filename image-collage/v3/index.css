@@ -336,6 +336,18 @@ body {
 	display: none;
 }
 
+.viewer.captions .caption {
+    position: absolute;
+    bottom: 1em;
+    left: 0;
+    right: 0;
+    background-color: var(--background);
+}
+
+.viewer.captions.zoom .caption {
+	display: none;
+}
+
 .sidebar {
 	text-decoration: none;
 	color: var(--foreground);

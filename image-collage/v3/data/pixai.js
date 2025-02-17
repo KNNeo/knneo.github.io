@@ -30,6 +30,7 @@ const config = {
 		filter: true,
 		slideshow: 5,
 		stats: false,
+		captions: true,
 	},
 	tag: {
 		category: {

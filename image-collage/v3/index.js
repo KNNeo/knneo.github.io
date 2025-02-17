@@ -557,6 +557,11 @@ function onToggleSidebar() {
 	generateGrid();
 }
 
+function onToggleCaptions() {
+	event.target.innerText = event.target.innerText == 'subtitles' ? 'subtitles_off' : 'subtitles';
+	viewer.classList.toggle('captions');
+}
+
 //VIEWER//
 function createLinkedList(selector) {
 	window['viewer-list'] = Array.from(document.querySelectorAll(selector));
@@ -616,6 +621,10 @@ function openImageInViewer(image) {
 	img.addEventListener('click', closeViewer);
 	img.addEventListener('mouseup', onZoomViewer);
 	img.addEventListener('mousemove', onMouseMoveViewer);
+
+	let caption = document.createElement('div');
+	caption.classList.add('caption');
+	caption.innerText = image.title;
 	
 	if(viewer.childNodes.length > 0)
 		viewer.innerHTML = '';
@@ -625,6 +634,7 @@ function openImageInViewer(image) {
 		viewer.appendChild(viewerNext);
 	viewer.appendChild(loader);
 	viewer.appendChild(img);
+	viewer.appendChild(caption);
 	viewer.focus();
 	window['loading'] = true;
 	
