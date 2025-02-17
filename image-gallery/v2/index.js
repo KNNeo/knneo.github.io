@@ -126,7 +126,7 @@ function onWheel() {
 	event.preventDefault();
 	let scrollDelta = isFirefox ? -event.detail*50 : event.wheelDelta;
 	galleryDiv.scrollLeft -= scrollDelta;
-	galleryDiv.removeAttribute('prompt');
+	galleryDiv.removeAttribute('data-caption');
 }
 
 function onMouseDown() {
