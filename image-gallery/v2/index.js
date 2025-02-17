@@ -630,6 +630,10 @@ function setBase(baseData) {
 		window.variables.filters = [];
 		setTimeout(setBase, 200);
 	}
+	if(window.variables.limit && window.variables.base.length > window.variables.limit) {
+		window.variables.base = window.variables.base.slice(0, window.variables.limit);
+		messageDiv.innerText = 'Showing first ' + window.variables.limit + ' results\n';
+	}
 	if(window.variables?.filters && window.variables?.base.length < window.variables?.items.length) {
 		messageDiv.setAttribute('data-count', window.variables.filters.length);
 		messageDiv.innerText = 'Filters Active:\n' + window.variables.filters.map(f => f.category.capitalize() + ' - ' + f.value).join('\n');
