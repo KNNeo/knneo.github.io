@@ -192,6 +192,7 @@ body .gallery {
     margin: auto;
     background-color: var(--accent);
     border: 2px solid var(--foreground);
+	cursor: pointer;
 }
 
 .gallery img[data-link] {
