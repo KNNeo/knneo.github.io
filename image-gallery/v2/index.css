@@ -132,6 +132,7 @@ a:hover, label:hover {
 .message {
     top: 4em;
     right: 2em;
+	cursor: pointer;
 }
 
 .message[data-count] {
@@ -192,7 +193,6 @@ body .gallery {
     margin: auto;
     background-color: var(--accent);
     border: 2px solid var(--foreground);
-	cursor: pointer;
 }
 
 .gallery img[data-link] {
