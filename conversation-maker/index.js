@@ -144,10 +144,11 @@ function addConversation(name) {
 
 function renameConversation() {
 	let newName = prompt('Key in new name:', window['conversation-messages'][selectionDiv.value].name);
-	if (newName != null)
+	if (newName != null) {
 		window['conversation-messages'][selectionDiv.value].name = newName;
-	saveToLocalStorage();
-	window.location.reload();
+		saveToLocalStorage();
+		window.location.reload();
+	}
 }
 
 function deleteConversation() {
