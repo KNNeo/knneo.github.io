@@ -110,7 +110,7 @@ a:hover {
 .conversation .loader,
 .conversation .message {
 	display: flex;
-	align-items: center;
+    flex-direction: column;
 	opacity: 1;
     padding: 0 8px 4px;
     position: relative;
@@ -132,17 +132,26 @@ a:hover {
 	border-radius: 10px 10px 10px 0;
 	text-align: left;
 }
+.conversation .message[data-recipient] {
+	justify-self: flex-start;
+}
 .conversation .message[data-system] {
-	justify-content: center;
+	justify-self: center;
 }
 .conversation .loader[data-sender],
 .conversation .message[data-sender] {
-	justify-content: flex-end;
+	justify-self: flex-end;
 }
 .conversation .loader[aria-label]::before,
-.conversation .message[aria-label]::before {
+.conversation .message[aria-label][data-first]::before {
 	content: attr(aria-label);
     white-space: nowrap;
+}
+.conversation .message[aria-label][data-first][data-recipient]::before {
+    text-align: start;
+}
+.conversation .message[aria-label][data-first][data-sender]::before {
+    text-align: end;
 }
 .conversation .message[data-sender] .container {
 	background-color: var(--primary);
