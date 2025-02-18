@@ -151,26 +151,28 @@ function renameConversation() {
 }
 
 function deleteConversation() {
-	// empty current item
-	delete window['conversation-messages'][selectionDiv.value];
-	// shift keys
-	let keys = Object.keys(window['conversation-messages']);
-	for (let i = 1; i <= keys.length; i++) {
-		if (!window['conversation-messages']['text' + i]) {
-			window['conversation-messages']['text' + i] = window['conversation-messages']['text' + (1 + i)];
-			delete window['conversation-messages']['text' + (1 + i)];
+	if(confirm('Confirm delete current conversation? This action cannot be reversed.')) {
+		// empty current item
+		delete window['conversation-messages'][selectionDiv.value];
+		// shift keys
+		let keys = Object.keys(window['conversation-messages']);
+		for (let i = 1; i <= keys.length; i++) {
+			if (!window['conversation-messages']['text' + i]) {
+				window['conversation-messages']['text' + i] = window['conversation-messages']['text' + (1 + i)];
+				delete window['conversation-messages']['text' + (1 + i)];
+			}
 		}
+		// empty last item
+		delete window['conversation-messages']['text' + (1 + keys.length)];
+	
+		// save and reload
+		saveToLocalStorage();
+		window.location.reload();
 	}
-	// empty last item
-	delete window['conversation-messages']['text' + (1 + keys.length)];
-
-	// save and reload
-	saveToLocalStorage();
-	window.location.reload();
 }
 
 function clearConversations() {
-	if (confirm('Delete all conversations? This cannot be reversed!')) {
+	if (confirm('Delete all conversations? This action cannot be reversed!')) {
 		window['conversation-messages'] = {};
 		saveToLocalStorage();
 		window.location.reload();
