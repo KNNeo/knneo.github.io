@@ -83,8 +83,9 @@ function updateSenderOptions(conversation) {
 	let lines = (window['conversation-messages'][conversation.id]?.content || '').split('\n');
 	if (!lines || lines.length < 2)
 		return;
-	if (selection.childElementCount > 1)
-		selection.innerHTML = '<option value="">=====</option>';
+	let value = selection.value;
+	// reset and render
+	selection.innerHTML = '<option value="">=====</option>';
 	let senders = lines.reduce(function (total, line) {
 		let isUrl = line.startsWith('https://') || line.startsWith('http://');
 		let name = isUrl ? '' : line.trim().substring(0, line.indexOf(separator)).trim();
@@ -100,6 +101,8 @@ function updateSenderOptions(conversation) {
 		newOpt.onchange = 'updateSender()';
 		selection.appendChild(newOpt);
 	}
+	if(value)
+		selection.value = value;
 }
 
 function updateSender() {
