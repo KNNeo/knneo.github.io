@@ -113,6 +113,10 @@ a:hover {
     flex-direction: column;
 	opacity: 1;
     padding: 0 8px 4px;
+	position: relative;
+}
+.conversation .message:has(:nth-child(2)) {
+	flex-direction: row;
 }
 .conversation .message.hide {
 	opacity: 0;
@@ -145,12 +149,14 @@ a:hover {
 .conversation .message[aria-label][data-first]::before {
 	content: attr(aria-label);
     white-space: nowrap;
+    position: absolute;
+    top: -1em;
 }
 .conversation .message[aria-label][data-first][data-recipient]::before {
-    text-align: start;
+    left: 1em;
 }
 .conversation .message[aria-label][data-first][data-sender]::before {
-    text-align: end;
+    right: 1em;
 }
 .conversation .message[data-sender] .container {
 	background-color: var(--primary);
