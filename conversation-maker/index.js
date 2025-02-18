@@ -270,8 +270,11 @@ function processConversation(converse) {
 			}
 			// actual message
 			let messageText = document.createElement('span');
+			let senderDefined = line.includes(lineSeparator);
 			if (!isSystem) // for non-system, if line has no sender, use previous
-				lineDiv.setAttribute('aria-label', !isUrl && line.includes(lineSeparator) ? line.trim().substring(0, line.indexOf(lineSeparator)).trim() : prevName);
+				lineDiv.setAttribute('aria-label', !isUrl && senderDefined ? line.trim().substring(0, line.indexOf(lineSeparator)).trim() : prevName);
+			if (senderDefined)
+				lineDiv.setAttribute('data-first', '');
 			prevName = lineDiv.getAttribute('aria-label');
 			// check sender type
 			if (converse.getAttribute('data-sender') != null) {
