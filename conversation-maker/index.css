@@ -113,7 +113,6 @@ a:hover {
     flex-direction: column;
 	opacity: 1;
     padding: 0 8px 4px;
-    position: relative;
 }
 .conversation .message.hide {
 	opacity: 0;
