@@ -112,7 +112,6 @@ a:hover {
 	display: flex;
     flex-direction: column;
 	opacity: 1;
-    padding: 0 8px 4px;
 	position: relative;
 }
 .conversation .message:has(:nth-child(2)) {
@@ -137,6 +136,7 @@ a:hover {
 }
 .conversation .message[data-recipient] {
 	justify-self: flex-start;
+    text-align: start;
 }
 .conversation .message[data-system] {
 	justify-self: center;
@@ -144,18 +144,17 @@ a:hover {
 .conversation .loader[data-sender],
 .conversation .message[data-sender] {
 	justify-self: flex-end;
+    text-align: end;
 }
 .conversation .loader[aria-label]::before,
-.conversation .message[aria-label][data-first]::before {
+.conversation .messages[data-names] .message[aria-label][data-first]::before {
 	content: attr(aria-label);
     white-space: nowrap;
-    position: absolute;
-    top: -1em;
 }
-.conversation .message[aria-label][data-first][data-recipient]::before {
+.conversation .messages[data-names] .message[aria-label][data-first][data-recipient]::before {
     left: 1em;
 }
-.conversation .message[aria-label][data-first][data-sender]::before {
+.conversation .messages[data-names] .message[aria-label][data-first][data-sender]::before {
     right: 1em;
 }
 .conversation .message[data-sender] .container {

@@ -119,6 +119,16 @@ function updateSeparator() {
 	saveToLocalStorage();
 }
 
+function updateNames() {
+    let conversation = event.target.closest('.conversation');
+    window['conversation-messages'][conversation.id].names = event.target.checked;
+    if(event.target.checked)
+        conversation.querySelector('.messages').setAttribute('data-names', '');
+    else
+        conversation.querySelector('.messages').removeAttribute('data-names');
+    saveToLocalStorage();
+}
+
 function addConversation(name) {
 	let newOpt = document.createElement('option');
 	if (!name || !typeof (name) == 'string')
@@ -573,6 +583,10 @@ function readFromLocalStorage() {
 				conversation.querySelector('.messages').setAttribute('data-sender', item.sender);
 				updateSenderOptions(conversation);
 			}
+            if(item.names) {
+				conversation.querySelector('.messages').setAttribute('data-names', '');
+				conversation.querySelector('.editor .names').checked = item.names;
+            }
 		}
 	}
 }
