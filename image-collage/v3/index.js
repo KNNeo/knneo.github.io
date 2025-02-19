@@ -291,15 +291,17 @@ function generateGrid() {
 		gridItem.style.width = thumbWidth + 'px';
 		gridItem.style.height = thumbHeight + 'px';
 		
-		let prefix = imageUrl.substring(0, config.grid.banner.length);
-		if(config.grid.banner.length > 0 && prevValue != prefix) {
-			let overlay = document.createElement('div');
-			overlay.classList.add('banner');
-			overlay.classList.add('prefix');
-			overlay.innerText = prefix;
-			overlay.title = prefix;
-			gridItem.appendChild(overlay);
-			prevValue = prefix;
+		if(config.grid?.banner?.length) {
+            let prefix = imageUrl.substring(0, config.grid.banner.length);
+            if(prevValue != prefix) {
+                let overlay = document.createElement('div');
+                overlay.classList.add('banner');
+                overlay.classList.add('prefix');
+                overlay.innerText = prefix;
+                overlay.title = prefix;
+                gridItem.appendChild(overlay);
+                prevValue = prefix;
+            }
 		}
 		
 		if(config.grid.star && item.st) {
@@ -360,8 +362,14 @@ function generateFiltered() {
 	if(config.debug) console.log('included', includeArray);
 	if(config.debug) console.log('excluded', excludeArray);
 	return config.data.filter(m => 
-		(window['includeCriteria'].length == 0 || includeArray.filter(s => m.nm.toLowerCase().includes(s.toLowerCase() + config.separator) || m.nm.toLowerCase().includes(config.separator + s.toLowerCase())).length == includeArray.length) && 
-		(window['excludeCriteria'].length == 0 || excludeArray.filter(s => !m.nm.toLowerCase().includes(s.toLowerCase() + config.separator) && !m.nm.toLowerCase().includes(config.separator + s.toLowerCase())).length == excludeArray.length) &&
+		(window['includeCriteria'].length == 0 || includeArray.filter(s => 
+            (m.nm && !m.nm.includes(config.separator) && m.nm.toLowerCase().includes(s.toLowerCase())) || 
+            (m.nm && m.nm.toLowerCase().includes(s.toLowerCase() + config.separator)) || 
+            (m.nm && m.nm.toLowerCase().includes(config.separator + s.toLowerCase()))
+        ).length == includeArray.length) && 
+		(window['excludeCriteria'].length == 0 || excludeArray.filter(s => 
+            !m.nm.toLowerCase().includes(s.toLowerCase() + config.separator) && !m.nm.toLowerCase().includes(config.separator + s.toLowerCase())
+        ).length == excludeArray.length) &&
 		(config.tag.exclude ?? []).filter(f => m.nm.includes(f)).length < 1
 	);
 }
@@ -370,9 +378,9 @@ function generateOrientationValues() {
 	let values = generateFiltered();
 	for(let item of values)	{
 		let itemDiv = document.querySelector('.collage img[data-src="' + item.og + '"]');
-		item.nm = ((itemDiv?.naturalWidth >= itemDiv?.naturalHeight && 'Landscape') 
+		item.nm += config.separator + ((itemDiv?.naturalWidth >= itemDiv?.naturalHeight && 'Landscape') 
 			|| (itemDiv?.naturalWidth < itemDiv?.naturalHeight && 'Portrait') 
-			|| 'Unknown') + config.separator + (item.nm || '');
+			|| 'Unknown');
 	}
 	return values;
 }
