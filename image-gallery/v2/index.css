@@ -181,7 +181,7 @@ body .gallery {
   scrollbar-width: none;  /* Firefox */
 }
 
-.gallery.captions[data-caption]::before {
+.gallery.captions[data-caption]:not(.overview)::before {
 	content: attr(data-caption);
 	position: fixed;
 	bottom: 3em;
@@ -204,7 +204,7 @@ body .gallery {
 	transform: scale(0.95);
 }
 
-.overview img {
+.gallery.overview img {
 	position: relative;
 	top: 20dvh;
 	width: max(50px, 30%);
@@ -212,7 +212,7 @@ body .gallery {
 	z-index: 10;
 }
 
-.overview img:hover {
+.gallery.overview img:hover {
 	top: -10dvh;
 	transform: scale(5);
 	z-index: 9;
