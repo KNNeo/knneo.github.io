@@ -107,7 +107,6 @@ a:hover {
 	-ms-overflow-style: none;  /* IE and Edge */
 	scrollbar-width: none;  /* Firefox */
 }
-.conversation .loader,
 .conversation .message {
 	display: flex;
     flex-direction: column;
@@ -123,10 +122,7 @@ a:hover {
 .conversation .message .container.emoji span {
 	font-size: 2em;
 }
-.conversation .loader {
-	position: absolute;
-}
-.conversation .loader .container,
+.conversation .loader,
 .conversation .message .container {
 	margin: 8px;
 	padding: 6px;
@@ -134,6 +130,7 @@ a:hover {
 	border-radius: 10px 10px 10px 0;
 	text-align: left;
 }
+.conversation .loader,
 .conversation .message[data-recipient] {
 	justify-self: flex-start;
     text-align: start;
@@ -141,12 +138,10 @@ a:hover {
 .conversation .message[data-system] {
 	justify-self: center;
 }
-.conversation .loader[data-sender],
 .conversation .message[data-sender] {
 	justify-self: flex-end;
     text-align: end;
 }
-.conversation .loader[aria-label]::before,
 .conversation .messages[data-names] .message[aria-label][data-first]::before {
 	content: attr(aria-label);
     white-space: nowrap;

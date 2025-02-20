@@ -283,9 +283,9 @@ function processConversation(converse) {
 			let messageText = document.createElement('span');
 			let senderDefined = line.includes(lineSeparator);
 			if (!isSystem) // for non-system, if line has no sender, use previous
-				lineDiv.setAttribute('aria-label', !isUrl && senderDefined ? line.trim().substring(0, line.indexOf(lineSeparator)).trim() : prevName);
-			if (senderDefined)
-				lineDiv.setAttribute('data-first', '');
+            lineDiv.setAttribute('aria-label', !isUrl && senderDefined ? line.trim().substring(0, line.indexOf(lineSeparator)).trim() : prevName);
+        if (senderDefined)
+            lineDiv.setAttribute('data-first', '');
 			prevName = lineDiv.getAttribute('aria-label');
 			// check sender type
 			if (converse.getAttribute('data-sender') != null) {
@@ -359,7 +359,8 @@ function startConversation() {
 function nextMessage() {
 	// read lines
 	let conversation = document.querySelector('.conversation:not(.hidden)');
-	let lines = conversation.querySelectorAll('.message');
+	let messages = conversation.querySelector('.messages');
+	let lines = messages.querySelectorAll('.message');
 	let l = Array.from(lines).indexOf(conversation.querySelector('.message.hide'));
 	// play sound effect on each message
 	if (window.ping && !lines[l].classList.contains('footer') && lines[l].getAttribute('data-system') == null)
@@ -392,32 +393,103 @@ function nextMessage() {
 		// set choice if no alternate choices found
 		window.choice = 0;
 	}
-	// unhide first hidden message
-	lines[l].classList.remove('hide');
-	// calculate scroll to show next message
-	let heightAboveItem = Array.from(lines).slice(0, l).reduce(function (total, current, index) {
-		return total + current.getBoundingClientRect().height;
-	}, 0);
-	let currentHeight = lines[l].getBoundingClientRect().height;
-	let diff = heightAboveItem + currentHeight - conversation.querySelector('.messages').clientHeight; // delta to fix item height rounding
-	// console.log(heightAboveItem + currentHeight, conversation.clientHeight);
-	if (diff > 0) {
-		// newest message is not aligned to bottom of container
-		if (diff < currentHeight)
-			conversation.querySelector('.messages').scrollBy({
-				top: diff,
-				behavior: 'smooth'
+	// not recipient, show message directly
+	if (l == 0 || lines[l].getAttribute('data-loaded') != null || lines[l].getAttribute('data-recipient') == null) {
+		// unhide first hidden message
+		lines[l].classList.remove('hide');
+		// calculate scroll to show next message
+		let currentHeight = lines[l].getBoundingClientRect().height;
+		let heightAboveItem = Array.from(lines).slice(0, l).reduce(function (total, current, index) {
+			return total + current.getBoundingClientRect().height;
+		}, 0);
+		let diff = heightAboveItem + currentHeight - conversation.querySelector('.messages').clientHeight; // delta to fix item height rounding
+		// console.log(heightAboveItem + currentHeight, conversation.clientHeight);
+		if (diff > 0) {
+			// newest message is not aligned to bottom of container
+			if (diff < currentHeight)
+				conversation.querySelector('.messages').scrollBy({
+					top: diff,
+					behavior: 'smooth'
+				});
+			else
+				conversation.querySelector('.messages').scrollBy({
+					top: currentHeight,
+					behavior: 'smooth'
+				});
+		} else
+			// newest message is not at or beyond bottom of container
+			conversation.querySelector('.messages').scrollTo({
+				top: 0
 			});
-		else
-			conversation.querySelector('.messages').scrollBy({
-				top: currentHeight,
-				behavior: 'smooth'
+	}
+	else if (lines[l].getAttribute('data-loading') != null) {
+		// loading, remove loader and trigger again
+		messages.removeChild(messages.querySelector('.loader'));
+        // scroll back up
+        conversation.querySelector('.messages').scrollBy({
+            top: -1*window['loader'],
+            behavior: 'smooth'
+        });
+		// if still running, call next message
+		if (conversation.getAttribute('data-running') != null) {
+            // current line is now same as next line without loader
+            if (l < lines.length - 1)
+                lines[l].setAttribute('data-loaded', '');
+			// do not calculate next message pop time, set minimum delay
+			setTimeout(function () {
+				// console.log('hide loader');
+				conversation.querySelector('.footer')?.click();
+			}, 200);
+			return;
+		}
+	}
+	else {
+		// add loader, calculate scroll dist
+		let loader = document.createElement('div');
+		loader.className = 'message loader';
+		loader.innerText = '• • •';
+		messages.insertBefore(loader, lines[l]);
+        // scroll down
+		// calculate scroll to show next message
+		let currentHeight = 16 + loader.getBoundingClientRect().height;
+		let heightAboveItem = Array.from(lines).slice(0, l).reduce(function (total, current, index) {
+			return total + current.getBoundingClientRect().height;
+		}, 0);
+		let diff = heightAboveItem + currentHeight - conversation.querySelector('.messages').clientHeight; // delta to fix item height rounding
+		// console.log(heightAboveItem + currentHeight, conversation.clientHeight);
+		if (diff > 0) {
+            window['loader'] = currentHeight;
+			// newest message is not aligned to bottom of container
+			if (diff < currentHeight)
+				conversation.querySelector('.messages').scrollBy({
+					top: diff,
+					behavior: 'smooth'
+				});
+			else
+				conversation.querySelector('.messages').scrollBy({
+					top: currentHeight,
+					behavior: 'smooth'
+				});
+		} else
+			// newest message is not at or beyond bottom of container
+			conversation.querySelector('.messages').scrollTo({
+				top: 0
 			});
-	} else
-		// newest message is not at or beyond bottom of container
-		conversation.querySelector('.messages').scrollTo({
-			top: 0
-		});
+		// if still running, call next message
+		if (conversation.getAttribute('data-running') != null) {
+            lines[l].setAttribute('data-loading', '');
+            // calculate next message pop time
+            let writeLength = lines[l + 1]?.innerText.length ?? 1;
+            let writeTime = writeLength > 20 ? 2500 : 1500;
+            if (!writeTime) writeTime = 2500;
+			// do not calculate next message pop time
+			setTimeout(function () {
+				// console.log('call loader');
+				conversation.querySelector('.footer')?.click();
+			}, writeTime);
+			return;
+		}
+	}
 	// if end of conversation, allow replay
 	if (l >= lines.length - 1) {
 		let footer = conversation.querySelector('.footer');
@@ -425,11 +497,6 @@ function nextMessage() {
 		footer.innerText = '🔁';
 		footer.title = 'Replay Conversation';
 		footer.setAttribute('onclick', 'startConversation()');
-		// scroll to show footer
-		conversation.querySelector('.messages').scrollBy({
-			top: heightAboveItem + currentHeight + footer.getBoundingClientRect().height,
-			behavior: 'smooth'
-		});
 		// check if need to continue
 		toggleConversation(conversation);
 		return;
@@ -437,7 +504,7 @@ function nextMessage() {
 	// avoid run if prompt to choose
 	if (lines[l].querySelectorAll('.container').length > 1 && !window.choice)
 		return;
-	// if still running, call next message
+	// if still running, call next message (after loader)
 	if (conversation.getAttribute('data-running') != null) {
 		// calculate next message pop time
 		let writeLength = lines[l + 1]?.innerText.length ?? 1;
@@ -446,7 +513,6 @@ function nextMessage() {
 		// console.log(lines[l]?.innerText, writeTime);
 		setTimeout(function () {
 			// console.log('call next');
-			conversation.querySelector('.loader')?.remove();
 			conversation.querySelector('.footer')?.click();
 		}, writeTime);
 	}
@@ -473,7 +539,6 @@ function waitForSender() {
 			choice.removeAttribute('onclick');
 		setTimeout(function () {
 			// console.log('call next');
-			conversation.querySelector('.loader')?.remove();
 			conversation.querySelector('.footer')?.click();
 		}, 1500);
 	}
@@ -584,9 +649,9 @@ function readFromLocalStorage() {
 				updateSenderOptions(conversation);
 			}
             if(item.names) {
-				conversation.querySelector('.messages').setAttribute('data-names', '');
-				conversation.querySelector('.editor .names').checked = item.names;
-            }
+                conversation.querySelector('.messages').setAttribute('data-names', '');
+                conversation.querySelector('.editor .names').checked = item.names;
+			}
 		}
 	}
 }
