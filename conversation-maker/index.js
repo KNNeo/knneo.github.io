@@ -394,7 +394,7 @@ function nextMessage() {
 		window.choice = 0;
 	}
 	// not recipient, show message directly
-	if (l == 0 || lines[l].getAttribute('data-loaded') != null || lines[l].getAttribute('data-recipient') == null) {
+	if (l == 0 || lines[l].getAttribute('data-loaded') != null || lines[l].getAttribute('data-recipient') == null || lines[l].getAttribute('data-first') == null) {
 		// unhide first hidden message
 		lines[l].classList.remove('hide');
 		// calculate scroll to show next message
@@ -423,13 +423,21 @@ function nextMessage() {
 			});
 	}
 	else if (lines[l].getAttribute('data-loading') != null) {
-		// loading, remove loader and trigger again
-		messages.removeChild(messages.querySelector('.loader'));
-        // scroll back up
-        conversation.querySelector('.messages').scrollBy({
-            top: -1*window['loader'],
-            behavior: 'smooth'
-        });
+        if(messages.querySelector('.loader')) {
+			// do not calculate next message pop time
+			setTimeout(function () {
+                // loading, remove loader and trigger again
+                messages.removeChild(messages.querySelector('.loader'));
+                // scroll back up
+                conversation.querySelector('.messages').scrollBy({
+                    top: -1*window['loader'],
+                    behavior: 'smooth'
+                });
+				// console.log('call loader');
+				conversation.querySelector('.footer')?.click();
+			}, window['next']);
+			return;
+        }
 		// if still running, call next message
 		if (conversation.getAttribute('data-running') != null) {
             // current line is now same as next line without loader
@@ -439,7 +447,7 @@ function nextMessage() {
 			setTimeout(function () {
 				// console.log('hide loader');
 				conversation.querySelector('.footer')?.click();
-			}, 200);
+			}, 500);
 			return;
 		}
 	}
@@ -478,15 +486,12 @@ function nextMessage() {
 		// if still running, call next message
 		if (conversation.getAttribute('data-running') != null) {
             lines[l].setAttribute('data-loading', '');
-            // calculate next message pop time
-            let writeLength = lines[l + 1]?.innerText.length ?? 1;
-            let writeTime = writeLength > 20 ? 2500 : 1500;
-            if (!writeTime) writeTime = 2500;
+            window['next'] = calculateWriteTime(lines[l + 1]?.innerText);
 			// do not calculate next message pop time
 			setTimeout(function () {
 				// console.log('call loader');
 				conversation.querySelector('.footer')?.click();
-			}, writeTime);
+			}, window['next']);
 			return;
 		}
 	}
@@ -506,16 +511,27 @@ function nextMessage() {
 		return;
 	// if still running, call next message (after loader)
 	if (conversation.getAttribute('data-running') != null) {
-		// calculate next message pop time
-		let writeLength = lines[l + 1]?.innerText.length ?? 1;
-		let writeTime = writeLength > 20 ? 2500 : 1500;
-		if (!writeTime) writeTime = 2500;
-		// console.log(lines[l]?.innerText, writeTime);
+        let writeTime = calculateWriteTime(lines[l + 1]?.innerText);
 		setTimeout(function () {
 			// console.log('call next');
 			conversation.querySelector('.footer')?.click();
 		}, writeTime);
 	}
+}
+
+function calculateWriteTime(text) {
+    // calculate next message pop time
+    let writeLength = text && text.length || 1;
+    let writeTime = 1000;
+    let emojiLength = text.trim().match(emojiRegex);
+    if(emojiLength && writeLength < 5)
+        return writeTime;
+    if(writeLength > 1)
+        writeTime = 1500;
+    if(writeLength > 10)
+        writeTime += writeLength / 10 * 1000;
+    if (!writeTime) writeTime = 2500;
+    return writeTime;
 }
 
 function setChoices(choices) {
