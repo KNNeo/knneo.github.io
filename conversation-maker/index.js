@@ -435,7 +435,7 @@ function nextMessage() {
                 });
 				// console.log('call loader');
 				conversation.querySelector('.footer')?.click();
-			}, window['next']);
+			}, 500);
 			return;
         }
 		// if still running, call next message
