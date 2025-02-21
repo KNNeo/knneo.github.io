@@ -362,7 +362,6 @@ function nextMessage() {
 	let messages = conversation.querySelector('.messages');
 	let lines = messages.querySelectorAll('.message');
 	let l = Array.from(lines).indexOf(conversation.querySelector('.message.hide'));
-		sfxAudio.play();
 	// if multiple messages found on line
 	if (lines[l].querySelectorAll('.container').length > 1) {
 		// choice not made
@@ -395,6 +394,7 @@ function nextMessage() {
 	if (l == 0 || lines[l].getAttribute('data-loaded') != null || lines[l].getAttribute('data-recipient') == null || lines[l].getAttribute('data-first') == null) {
         // play sound effect on each message
         if (window.ping && !lines[l].classList.contains('footer') && lines[l].getAttribute('data-system') == null)
+            sfxAudio.play();
 		// unhide first hidden message
 		lines[l].classList.remove('hide');
 		// calculate scroll to show next message
