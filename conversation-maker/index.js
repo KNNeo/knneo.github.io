@@ -693,3 +693,15 @@ function hideAllConversations() {
 		clearInterval(window['timer']);
 	}
 }
+
+function initializeWindow() {
+    // pause current conversation on blur
+    window.addEventListener('blur', function() {
+        let conversation = document.querySelector('.conversation:not(.hidden)');
+        if(conversation && conversation.getAttribute('data-running') != null)
+            conversation.setAttribute('data-paused', '');
+        let footer = conversation.querySelector('.footer');
+        footer.style.opacity = 1;
+        footer.style.height = 'calc(100% - 50px)';
+    });
+}

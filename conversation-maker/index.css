@@ -236,6 +236,10 @@ a:hover {
 .conversation .messages[data-animate] .footer {
     display: inline;
 }
+.conversation[data-paused] .messages .footer {
+    position: absolute;
+    top: calc(100% - 50px);
+}
 .menu {
     display: flex;
     justify-content: center;
