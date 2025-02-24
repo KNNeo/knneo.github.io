@@ -13,9 +13,11 @@ function onKeyDown() {
 //--EVENT HANDLERS--//
 function selectConversation() {
 	hideAllConversations();
+    document.querySelector('.page').removeAttribute('data-fullscreen');
 	if (event.target.value) {
 		document.querySelector('#' + event.target.value).classList.remove('hidden');
 		document.querySelector('#' + event.target.value).firstElementChild.click();
+        document.querySelector('#' + event.target.value + ' .messages').style.height = '';
 		event.target.blur();
 	}
 }
@@ -243,6 +245,18 @@ function updateData() {
 		startup();
 	}
 	removeDialog();
+}
+
+function toggleFullscreen() {
+    let pageDiv = document.querySelector('.page');
+    if(pageDiv.getAttribute('data-fullscreen') == null)
+        pageDiv.setAttribute('data-fullscreen', '');
+    else {
+        pageDiv.removeAttribute('data-fullscreen');
+        document.querySelector('.conversation:not(.hidden) .messages').style.height = '';
+    }
+    event.target.classList.toggle('bi-fullscreen');
+    event.target.classList.toggle('bi-fullscreen-exit');
 }
 
 //--FUNCTIONS--//
@@ -491,7 +505,7 @@ function nextMessage() {
 			setTimeout(function () {
 				// console.log('call loader');
 				conversation.querySelector('.footer')?.click();
-			}, window['next']);
+			}, 0.5* (window['next'] || 1500));
 			return;
 		}
 	}
