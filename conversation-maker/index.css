@@ -134,25 +134,24 @@
   }
   .conversation .loader,
   .conversation .message[data-recipient] {
-      justify-self: flex-start;
-      text-align: start;
+      justify-self: start;
+      align-items: start;
   }
   .conversation .message[data-system] {
-      justify-self: center;
+      align-items: center;
   }
   .conversation .message[data-sender] {
-      justify-self: flex-end;
       text-align: end;
+      align-items: end;
   }
   .conversation .messages[data-names] .message[aria-label][data-first]::before {
       content: attr(aria-label);
       white-space: nowrap;
   }
-  .conversation .messages[data-names] .message[aria-label][data-first][data-recipient]::before {
-      left: 1em;
+  .conversation .messages[data-names] .message[aria-label][data-first]::before {
+      padding: 0 8px;
   }
   .conversation .messages[data-names] .message[aria-label][data-first][data-sender]::before {
-      right: 1em;
       flex: 1 0 100%;
   }
   .conversation .message[data-sender] .container {
