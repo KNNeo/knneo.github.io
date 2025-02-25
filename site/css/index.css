@@ -56,7 +56,7 @@ a {
 	position: fixed;
 	background-color: rgb(var(--background));
 	overflow: auto;
-    padding: 0 2px;
+	padding: 0 2px;
 	width: 100%;
 }
 
@@ -108,11 +108,11 @@ a {
 }
 
 .container td {
-    padding: 15px;
+	padding: 15px;
 }
 
 .container td[onclick] {
-    cursor: pointer;
+	cursor: pointer;
 	transform: scale(0.9);
 	border: 2px solid transparent;
 	transition: background-color .2s, transform .2s;
@@ -127,7 +127,7 @@ a {
 
 .container td[rowspan] .gallery,
 .container td[rowspan] .masonry {
-    height: 100%;
+	height: 100%;
 }
 
 .container, .box {
@@ -188,7 +188,7 @@ a {
 }
 
 .footer {
-    text-align: center;
+	text-align: center;
 	padding: 20px;
 	font-size: 0.7em;
 	bottom: 0;
@@ -214,7 +214,7 @@ a {
 	word-wrap: break-word;
 	align-items: center;
 	justify-content: center;
-    z-index: 1;
+	z-index: 1;
 }
 
 .box:active,
@@ -256,15 +256,15 @@ a {
 }
 
 .one .menu {
-    flex-wrap: wrap;
-    justify-content: center;	
+	flex-wrap: wrap;
+	justify-content: center;	
 }
 
 .menu .text {
-    margin: 0;
+	margin: 0;
 	cursor: pointer;
-    flex-grow: 0;
-    flex-shrink: 0;
+	flex-grow: 0;
+	flex-shrink: 0;
 }
 
 .menu .home {
@@ -279,7 +279,7 @@ a {
 }
 
 .menu .text {
-    border-radius: 100%;
+	border-radius: 100%;
 	transition: transform 0.1s;
 }
 
@@ -378,28 +378,28 @@ a {
 }
 
 .loader {
-    display: flex;
-    justify-content: center;
-    padding: 10px;
-    font-size: 2em;
-    position: absolute;
-    width: 100%;
-    margin: auto;
-    z-index: 1000;
+	display: flex;
+	justify-content: center;
+	padding: 10px;
+	font-size: 2em;
+	position: absolute;
+	width: 100%;
+	margin: auto;
+	z-index: 1000;
 	background: transparent;
 }
 
 .tags {
-    font-size: 0.8em;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+	font-size: 0.8em;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
 }
 
 .tags-value {	
 	border: 1px solid rgb(var(--foreground));
-    box-shadow: 2px 2px rgb(var(--foreground));
-    padding: 2px 5px;
+	box-shadow: 2px 2px rgb(var(--foreground));
+	padding: 2px 5px;
 	margin: 2px;
 }
 
@@ -409,8 +409,8 @@ a {
 
 .tags-value:focus,
 .tags-value:hover {
-    box-shadow: none;
-    transform: translate(2px, 2px);
+	box-shadow: none;
+	transform: translate(2px, 2px);
 }
 
 .menu .icon,
@@ -435,10 +435,10 @@ a {
 }
 
 .image {
-    width: 100%;
-    height: 100%;
+	width: 100%;
+	height: 100%;
 	margin: auto;
-    object-fit: contain;
+	object-fit: contain;
 }
 
 .images {
@@ -464,11 +464,11 @@ a {
 
 .gallery {
 	width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    align-content: center;
-    justify-content: center;
-    align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	align-content: center;
+	justify-content: center;
+	align-items: center;
 }
 
 .gallery img {
