@@ -624,6 +624,8 @@ function openImageInViewer(image) {
 				img.style.transform = 'scale(1)';
 			window['loading'] = false;
 			runLoader();
+            if(window['slideshow'] != null)
+                window['slideshow'] = setTimeout(runSlideshow, config.setting.slideshow * 1000);	
 		}, 250);
 	});
 	img.addEventListener('click', closeViewer);
@@ -734,13 +736,11 @@ function startSlideshow() {
 }
 
 function runSlideshow() {
-	if(window['slideshow'] != null)
-	{
+	if(window['slideshow'] != null)	{
 		let images = generateFiltered();
 		let image = images[Math.floor(Math.random()*images.length)];
 		openImageInViewer(document.querySelector('img[data-src="' + image.og + '"]'));
 		runLoader();
-		window['slideshow'] = setTimeout(runSlideshow, config.setting.slideshow * 1000);	
 	}
 }
 
@@ -751,8 +751,7 @@ function stopSlideshow() {
 
 //LOADER//
 function runLoader() {
-	for(let loader of document.querySelectorAll('.loader'))
-	{
+	for(let loader of document.querySelectorAll('.loader'))	{
 		switch(document.querySelector('.loader').innerText)
 		{
 			case 'hourglass_full': 
