@@ -526,6 +526,8 @@ public class Program {
 		var match = Regex.Match(content, expression);
 		if(match.Success && scripts.ToString().IndexOf("viewer.js") < 0)
 			scripts.AppendLine($"<script src=\"../../../../js/viewer.js\" defer></script>");
+		if(match.Success && scripts.ToString().IndexOf("loader.js") < 0)
+			scripts.AppendLine($"<script src=\"../../../../js/loader.js\" defer></script>");
 
 		return scripts.Length > 0 ? scripts.ToString() : String.Empty;
 	}
