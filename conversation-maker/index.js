@@ -255,8 +255,8 @@ function toggleFullscreen() {
         pageDiv.removeAttribute('data-fullscreen');
         document.querySelector('.conversation:not(.hidden) .messages').style.height = '';
     }
-    event.target.classList.toggle('bi-fullscreen');
-    event.target.classList.toggle('bi-fullscreen-exit');
+    event.target.classList.toggle('bi-phone');
+    event.target.classList.toggle('bi-circle');
 }
 
 //--FUNCTIONS--//
