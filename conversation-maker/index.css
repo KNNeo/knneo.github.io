@@ -116,8 +116,25 @@ a:hover {
 .page[data-fullscreen] .conversation:not(.hidden) .messages {
     position: absolute;
     top: 0;
-    height: 100%;
-    width: 100%;
+    height: calc(100% - 84px);
+    width: calc(100% - 32px);
+    padding: 8px;
+    margin: 8px;
+    border-radius: 38px;
+    resize: none;
+}
+.page[data-fullscreen] .fullscreen {
+    position: absolute;
+    width: 42px;
+    height: 42px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    bottom: 8px;
+    border-radius: 99px;
+}
+.page[data-fullscreen] .home {
+    visibility: hidden;
 }
 .conversation .message {
     display: flex;
