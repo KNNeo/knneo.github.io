@@ -202,9 +202,10 @@ a:hover {
     border-radius: 4px;
 }
 .conversation .message .reactions {
-    line-height: 0.5;
     position: absolute;
+    white-space: nowrap;
     border-radius: 99px;
+    line-height: 0.5;
     background-color: var(--foreground);
     z-index: 1;
 }
