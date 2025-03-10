@@ -225,6 +225,7 @@ function toggleAudio() {
 		case 'audio bi bi-volume-mute':
 			event.target.className = 'audio bi bi-volume-up';
 			window.ping = true;
+            sfxAudio.play();
 		default:
 			break;
 	}
