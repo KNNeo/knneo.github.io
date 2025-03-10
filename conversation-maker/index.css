@@ -116,11 +116,9 @@ a:hover {
 .page[data-fullscreen] .conversation:not(.hidden) .messages {
     position: absolute;
     top: 0;
-    height: calc(100% - 84px);
-    width: calc(100% - 32px);
-    padding: 8px;
-    margin: 8px;
-    border-radius: 38px;
+    height: calc(100% - 74px);
+    width: calc(100% - 34px);
+    margin: 16px;
     resize: none;
 }
 .page[data-fullscreen] .fullscreen {
