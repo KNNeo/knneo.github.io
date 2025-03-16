@@ -37,7 +37,7 @@ public class Program {
 	static bool WRITE_FIXES_ON_CONSOLE = false;
 	static bool WRITE_EMOJICOUNT_ON_CONSOLE = false;
 	static bool DELETE_OUTPUT_DIRECTORY = false;
-	static int DOTS_PER_LINE_CONSOLE = 100;
+	static int DOTS_PER_LINE_CONSOLE = 80;
 	static string BLOG_DOMAIN_URL = "https://klassicnotereports.blogspot.com/";
 	static XNamespace DEFAULT_XML_NAMESPACE = XNamespace.Get("http://www.w3.org/2005/Atom");
 	static List<string> GOOGLE_FONTS_URLS = new List<string>() { "Dancing Script", "Caveat" };
@@ -263,6 +263,13 @@ public class Program {
 			if(!Directory.Exists(postFolder)) Directory.CreateDirectory(postFolder);
 			string outFileName = "index." + postExtension;
 			var pageOutputPath = Path.Combine(postFolder, outFileName);
+            // Show progress, as post title or as represented by dot
+            if(WRITE_TITLE_ON_CONSOLE || DEBUG_MODE)
+                Console.WriteLine("||> " + (postTitle.Length > 0 ? postTitle : "POST W/O TITLE DATED " + publishDate.ToString("yyyy-MM-dd")));
+            else if(p % DOTS_PER_LINE_CONSOLE == DOTS_PER_LINE_CONSOLE - 1)
+                Console.WriteLine(".");
+            else
+                Console.Write(".");
 			// Find post labels
 			var pageTagsXml = entry.Elements(DEFAULT_XML_NAMESPACE+"category")
 				.Where(e => !e.Attribute("term").ToString().Contains("#post")).Select(q => q.Attribute("term").Value).ToList();
@@ -288,14 +295,6 @@ public class Program {
 				// TODO:
 				// Fix post attributes
 				// fix url of ent news, by year except 2014
-				
-				// Show progress, as post title or as represented by dot (100 per line)
-				if(WRITE_TITLE_ON_CONSOLE || DEBUG_MODE)
-					Console.WriteLine("||> " + (postTitle.Length > 0 ? postTitle : "POST W/O TITLE DATED " + publishDate.ToString("yyyy-MM-dd")));
-				else if(p % DOTS_PER_LINE_CONSOLE == DOTS_PER_LINE_CONSOLE - 1)
-					Console.WriteLine(".");
-				else
-					Console.Write(".");
 				
 				// Find Content in debug mode
 				if(POSTS_SEARCHTERM.Length > 0)

@@ -24,7 +24,7 @@ public class Program {
 
 	// PROGRAM SETTINGS
 	static bool WRITE_TITLE_ON_CONSOLE = false;
-	static int DOTS_PER_LINE_CONSOLE = 100;
+	static int DOTS_PER_LINE_CONSOLE = 80;
 	static XNamespace DEFAULT_XML_NAMESPACE = XNamespace.Get("http://www.w3.org/2005/Atom");
 	static List<string> GOOGLE_FONTS_URLS = new List<string>() { "Dancing Script" };
 	static List<string> IMAGE_DOMAINS_LIST = new List<string>() { "ggpht.com", "bp.blogspot.com", "blogger.googleusercontent.com" };
@@ -178,6 +178,13 @@ public class Program {
 			if(!Directory.Exists(monthfolder)) Directory.CreateDirectory(monthfolder);
 			string outFileName = Path.GetFileNameWithoutExtension(bloggerLink) + "." + postExtension;
 			var pageOutputPath = Path.Combine(monthfolder, outFileName);
+			// Show progress, as post title or as represented by dot
+			if(WRITE_TITLE_ON_CONSOLE || DEBUG_MODE)
+				Console.WriteLine("||> " + (postTitle.Length > 0 ? postTitle : "POST W/O TITLE DATED " + publishDate.ToString("yyyy-MM-dd")));
+			else if(p % DOTS_PER_LINE_CONSOLE == DOTS_PER_LINE_CONSOLE - 1)
+				Console.WriteLine(".");
+			else
+				Console.Write(".");
 			// Find post labels
 			var pageTagsXml = entry.Elements(DEFAULT_XML_NAMESPACE+"category")
 				.Where(e => !e.Attribute("term").ToString().Contains("#post")).Select(q => q.Attribute("term").Value).ToList();
@@ -186,15 +193,6 @@ public class Program {
 				continue;
 			// Create output page link and index in linked list
 			var pageLink = "../" + Path.GetFileNameWithoutExtension(BLOGGER_XML_DIRECTORY.Replace(BLOGGER_XML_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER)) + "/" + publishDate.Year.ToString("0000") + "/"  + publishDate.Month.ToString("00") + "/"  + (GENERATE_SLUG_BY_POST_TITLE ? generatedLink : Path.GetFileNameWithoutExtension(bloggerLink)) + "/index." + postExtension;
-
-			// Show progress, as post title or as represented by dot (100 per line)
-			if(WRITE_TITLE_ON_CONSOLE || DEBUG_MODE)
-				Console.WriteLine("||> " + (postTitle.Length > 0 ? postTitle : "POST W/O TITLE DATED " + publishDate.ToString("yyyy-MM-dd")));
-			else if(p % DOTS_PER_LINE_CONSOLE == DOTS_PER_LINE_CONSOLE - 1)
-				Console.WriteLine(".");
-			else
-				Console.Write(".");
-				
 			// Skip parts, in order
 			foreach(var part in CONTENT_SKIP_SUBSTRINGS)
 			{
@@ -251,7 +249,8 @@ public class Program {
 						});
 		}
 		//Export list of images with limit
-		return "const imageIndex = {\"posts\":_POSTS_,\"images\":_IMAGES_}"
+		return "const imageIndex = {\"ver\":\"_VERSION_\",\"posts\":_POSTS_,\"images\":_IMAGES_}"
+            .Replace("_VERSION_", DateTime.Now.ToString("yyyyMMdd"))
 			.Replace("_POSTS_",JsonConvert.SerializeObject(titles))
 			.Replace("_IMAGES_",JsonConvert.SerializeObject(images, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore }));
 	}

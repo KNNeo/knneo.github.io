@@ -32,7 +32,7 @@ public class Program {
     static bool WRITE_TAGS_COUNT_ON_CONSOLE = true;
     static bool WRITE_PEOPLE_COUNT_ON_CONSOLE = true;
 	static bool DELETE_OUTPUT_DIRECTORY = false;
-	static int DOTS_PER_LINE_CONSOLE = 100;
+	static int DOTS_PER_LINE_CONSOLE = 80;
 	static string BLOG_DOMAIN_URL = "https://klassicnotereports.blogspot.com/";
 	static XNamespace DEFAULT_XML_NAMESPACE = XNamespace.Get("http://www.w3.org/2005/Atom");
 	static bool SHOW_LINKED_LIST = false;
@@ -247,24 +247,13 @@ public class Program {
 				bloggerLink = bloggerLink.Replace(domain, BLOG_DOMAIN_URL);
 			}
 			string generatedLink = GenerateSlug(postTitle);
-            
-			// Show progress, as post title or as represented by dot (100 per line)
+			// Show progress, as post title or as represented by dot
 			if(WRITE_TITLE_ON_CONSOLE || DEBUG_MODE)
 				Console.WriteLine("||> " + (postTitle.Length > 0 ? postTitle : "POST W/O TITLE DATED " + publishDate.ToString("yyyy-MM-dd")));
 			else if(p % DOTS_PER_LINE_CONSOLE == DOTS_PER_LINE_CONSOLE - 1)
 				Console.WriteLine(".");
 			else
 				Console.Write(".");
-				
-			// Create output folders to put html file as per Blogger design ie. <domain>/<yyyy>/<MM>/<post-title>.html
-			// var yearfolder = Path.Combine(outputFileDir, publishDate.Year.ToString("0000"));
-			// if(!Directory.Exists(yearfolder)) Directory.CreateDirectory(outputFileDir);
-			// var monthfolder = Path.Combine(yearfolder, publishDate.Month.ToString("00"));
-			// if(!Directory.Exists(monthfolder)) Directory.CreateDirectory(monthfolder);
-			// var postFolder = Path.Combine(monthfolder, GENERATE_SLUG_BY_POST_TITLE ? generatedLink : Path.GetFileNameWithoutExtension(bloggerLink));
-			// if(!Directory.Exists(postFolder)) Directory.CreateDirectory(postFolder);
-			// string outFileName = "index." + postExtension;
-			// var pageOutputPath = Path.Combine(postFolder, outFileName);
 			// Find post labels
 			var pageTagsXml = entry.Elements(DEFAULT_XML_NAMESPACE+"category")
 				.Where(e => !e.Attribute("term").ToString().Contains("#post")).Select(q => q.Attribute("term").Value).ToList();

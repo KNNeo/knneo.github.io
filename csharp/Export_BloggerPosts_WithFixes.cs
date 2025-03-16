@@ -36,7 +36,7 @@ public class Program {
 	static bool WRITE_FIXES_ON_CONSOLE = false;
 	static bool WRITE_EMOJICOUNT_ON_CONSOLE = false;
 	static bool DELETE_OUTPUT_DIRECTORY = false;
-	static int DOTS_PER_LINE_CONSOLE = 100;
+	static int DOTS_PER_LINE_CONSOLE = 80;
 	static string BLOG_DOMAIN_URL = "https://klassicnotereports.blogspot.com/";
 	static XNamespace DEFAULT_XML_NAMESPACE = XNamespace.Get("http://www.w3.org/2005/Atom");
 	static List<string> GOOGLE_FONTS_URLS = new List<string>() { "Dancing Script", "Caveat" };
@@ -265,6 +265,13 @@ public class Program {
 			if(!Directory.Exists(postFolder)) Directory.CreateDirectory(postFolder);
 			string outFileName = "index." + postExtension;
 			var pageOutputPath = Path.Combine(postFolder, outFileName);
+            // Show progress, as post title or as represented by dot
+            if(WRITE_TITLE_ON_CONSOLE || DEBUG_MODE)
+                Console.WriteLine("||> " + (postTitle.Length > 0 ? postTitle : "POST W/O TITLE DATED " + publishDate.ToString("yyyy-MM-dd")));
+            else if(p % DOTS_PER_LINE_CONSOLE == DOTS_PER_LINE_CONSOLE - 1)
+                Console.WriteLine(".");
+            else
+                Console.Write(".");
 			// Find post labels
 			var pageTagsXml = entry.Elements(DEFAULT_XML_NAMESPACE+"category")
 				.Where(e => !e.Attribute("term").ToString().Contains("#post")).Select(q => q.Attribute("term").Value).ToList();
@@ -290,14 +297,6 @@ public class Program {
 				// TODO:
 				// Fix post attributes
 				// fix url of ent news, by year except 2014
-				
-				// Show progress, as post title or as represented by dot (100 per line)
-				if(WRITE_TITLE_ON_CONSOLE || DEBUG_MODE)
-					Console.WriteLine("||> " + (postTitle.Length > 0 ? postTitle : "POST W/O TITLE DATED " + publishDate.ToString("yyyy-MM-dd")));
-				else if(p % DOTS_PER_LINE_CONSOLE == DOTS_PER_LINE_CONSOLE - 1)
-					Console.WriteLine(".");
-				else
-					Console.Write(".");
 				
 				// Find Content in debug mode
 				if(POSTS_SEARCHTERM.Length > 0)
@@ -481,18 +480,25 @@ public class Program {
 	static string GenerateStyleLinks(string content)
 	{
 		// common components, in order
-		var components = new string[] { "accordion", "agenda", "carousel", "conversation", "datatable", "disclaimer" };
+		var components = new string[] { "accordion", "agenda", "conversation", "datatable", "disclaimer" };
 		var styles = new StringBuilder();
 		foreach(var comp in components)
 		{
-			if(content.Contains($"class=\"{comp}")) {
+			if(content.Contains($"class=\"{comp}"))
 				styles.AppendLine($"<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../../css/{comp}.css\"/>");
-				styles.AppendLine($"<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../../css/viewer.css\"/>");
-			}
 		}
 
+		// special component: carousel
+		if(content.Contains($"class=\"carousel\""))
+        {
+		    if(styles.ToString().IndexOf("carousel.css") < 0) 
+			    styles.AppendLine($"<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../../css/carousel.css\"/>");
+		    if(styles.ToString().IndexOf("viewer.css") < 0) 
+				styles.AppendLine($"<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../../css/viewer.css\"/>");
+        }
+
 		// special component: popup
-		if(content.Contains($"target=\"_blank\""))
+		if(content.Contains($"target=\"_blank\"") && styles.ToString().IndexOf("popup.css") < 0)
 			styles.AppendLine($"<link rel=\"stylesheet\" type=\"text/css\" href=\"../../../../css/popup.css\"/>");
 
 		// special component: viewer
@@ -507,27 +513,38 @@ public class Program {
 	static string GenerateScriptLinks(string content)
 	{
 		// common components, in order
-		var components = new string[] { "accordion", "carousel", "conversation", "disclaimer" };
+		var components = new string[] { "accordion", "conversation", "disclaimer" };
 		var scripts = new StringBuilder();
 		foreach(var comp in components)
 		{
-			if(content.Contains($"class=\"{comp}")) {
+			if(content.Contains($"class=\"{comp}"))
 				scripts.AppendLine($"<script src=\"../../../../js/{comp}.js\" defer></script>");
-				scripts.AppendLine($"<script src=\"../../../../js/viewer.js\" defer></script>");
-			}
 		}
 
+		// special component: carousel
+		if(content.Contains($"class=\"carousel\""))
+        {
+		    if(scripts.ToString().IndexOf("carousel.js") < 0)
+			    scripts.AppendLine($"<script src=\"../../../../js/carousel.js\" defer></script>");
+		    if(scripts.ToString().IndexOf("viewer.js") < 0)
+                scripts.AppendLine($"<script src=\"../../../../js/viewer.js\" defer></script>");
+        }
+
 		// special component: popup
-		if(content.Contains($"target=\"_blank\""))
-			scripts.AppendLine($"<script src=\"../../../../js/popup.js\" defer></script>");
+		if(content.Contains($"target=\"_blank\"")) {
+		    if(scripts.ToString().IndexOf("loader.js") < 0)
+			    scripts.AppendLine($"<script src=\"../../../../js/loader.js\" defer></script>");
+		    if(scripts.ToString().IndexOf("popup.js") < 0)
+			    scripts.AppendLine($"<script src=\"../../../../js/popup.js\" defer></script>");
+        }
 
 		// special component: viewer
 		var expression = @"(?s)(<a)(.*?)(><img)(.*?)(</a>)";
 		var match = Regex.Match(content, expression);
-		if(match.Success && scripts.ToString().IndexOf("viewer.js") < 0)
-			scripts.AppendLine($"<script src=\"../../../../js/viewer.js\" defer></script>");
 		if(match.Success && scripts.ToString().IndexOf("loader.js") < 0)
 			scripts.AppendLine($"<script src=\"../../../../js/loader.js\" defer></script>");
+		if(match.Success && scripts.ToString().IndexOf("viewer.js") < 0)
+			scripts.AppendLine($"<script src=\"../../../../js/viewer.js\" defer></script>");
 
 		return scripts.Length > 0 ? scripts.ToString() : String.Empty;
 	}
