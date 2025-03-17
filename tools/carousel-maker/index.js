@@ -13,21 +13,38 @@ function onKeyDown() {
 
 //--EVENT HANDLERS--//
 function onButtonClick(event) {
+    switch(event.target.title) {
+        case 'Convert':
+            onConvert();
+            break;
+        case 'Copy':
+            onCopy();
+            break;
+        default:
+            alert('Invalid Command!');
+            break;
+    }
+}
+
+function onConvert() {
     if(!sourceTextArea.value)
         alert('Fill in something for source HTML!');
     else if(!sourceTextArea.value.includes('<table'))
         alert('No table tag found! This will only detect tables!');
     else if(sourceTextArea.value.includes('class="carousel"'))
         alert('Carousel already set! Remove if meant to create new!');
-    else {
+    else
         destTextArea.value = createCarousel(sourceTextArea.value);
-        if(navigator.clipboard) {
-            navigator.clipboard.writeText(destTextArea.value);
-            messageSpan.innerText = 'Copied to clipboard!';
-            setTimeout(function() {
-                messageSpan.innerText = '';
-            }, 1000);
-        }
+}
+
+function onCopy() {
+    if(navigator.clipboard) {
+        navigator.clipboard.writeText(destTextArea.value);
+        messageSpan.innerText = 'Copied to clipboard!';
+        destTextArea.value = '';
+        setTimeout(function() {
+            messageSpan.innerText = '';
+        }, 1000);
     }
 }
 

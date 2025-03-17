@@ -20,12 +20,13 @@
 			<label for="source">Source HTML:</label>
 			<textarea id="source" rows="15" cols="50"></textarea>
 		</span>
-		<button onclick="onButtonClick(event)">Convert</button>
+		<button onclick="onButtonClick(event)" title="Convert">Convert</button>
 		<span>
 			<label for="dest">Output HTML:</label>
 			<textarea id="dest" rows="15" cols="50"></textarea>
-			<span class="message"></span>
 		</span>
+		<button onclick="onButtonClick(event)" title="Copy">Copy Result</button>
+        <span class="message"></span>
 	</div>
 	<h3 class="settings">
 		<a title="Toggle Dark Mode" class="darkmode material-icons" href="javascript:void(0);" onclick="toggleDarkMode()">brightness_high</a>
