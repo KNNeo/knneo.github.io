@@ -1,5 +1,10 @@
 //--DEFAULT SETTINGS--//
-const config = {};
+const config = {
+    hide: {
+        code: true,
+        clear: true
+    }
+};
 const emojiRegex = /(\p{Emoji}|\p{Emoji_Presentation}|\p{Emoji_Modifier}|\p{Emoji_Modifier_Base}|\p{Emoji_Component}|\p{Extended_Pictographic})+/gv;
 
 //--DOM NODE REFERENCES--//
@@ -506,7 +511,7 @@ function nextMessage() {
 			setTimeout(function () {
 				// console.log('call loader');
 				conversation.querySelector('.footer')?.click();
-			}, 0.5* (window['next'] || 1500));
+			}, window['next']);
 			return;
 		}
 	}
@@ -526,7 +531,7 @@ function nextMessage() {
 		return;
 	// if still running, call next message (after loader)
 	if (conversation.getAttribute('data-running') != null) {
-        let writeTime = calculateWriteTime(lines[l + 1]?.innerText);
+        let writeTime = calculateWriteTime(lines[l + 1]?.innerText) + (lines[l + 1].getAttribute('data-sender') == null ? 0 : 1000);
 		setTimeout(function () {
 			// console.log('call next');
 			conversation.querySelector('.footer')?.click();
@@ -538,14 +543,15 @@ function calculateWriteTime(text) {
     // calculate next message pop time
     let writeLength = text && text.length || 1;
     let writeTime = 1000;
-    let emojiLength = text.trim().match(emojiRegex);
-    if(emojiLength && writeLength < 5)
+    let isEmoji = text.trim().match(emojiRegex);
+    if(isEmoji && writeLength < 5)
         return writeTime;
-    if(writeLength > 1)
+    if(writeLength > 3)
         writeTime = 1500;
-    if(writeLength > 10)
-        writeTime += writeLength / 10 * 1000;
-    if (!writeTime) writeTime = 2500;
+    if(writeLength > 12)
+        writeTime += writeLength / 12 * 1500;
+    if (!writeTime)
+        writeTime = 1500;
     return writeTime;
 }
 
@@ -571,7 +577,7 @@ function waitForSender() {
 		setTimeout(function () {
 			// console.log('call next');
 			conversation.querySelector('.footer')?.click();
-		}, 1500);
+		}, calculateWriteTime(lines[l + 1]?.innerText));
 	}
 	else
 		setTimeout(waitForSender, 1000);
@@ -607,6 +613,26 @@ function disableRunMessages(conversation) {
 	conversation.removeAttribute('onwheel');
 	conversation.removeAttribute('onmousewheel');
 	conversation.removeAttribute('ontouchstart');
+}
+
+function togglePause(conversation) {
+    if(!conversation)
+        conversation = document.querySelector('.conversation:not(.hidden)');
+    let footer = conversation.querySelector('.footer');
+    if(conversation && conversation.getAttribute('data-paused') != null) {
+        footer.style.opacity = 0;
+        footer.style.height = '';
+        conversation.removeAttribute('data-paused');
+        footer.setAttribute('onclick', 'nextMessage()');
+	    allowRunMessages(conversation);
+    }
+    else {
+        footer.style.opacity = 1;
+        footer.style.height = 'calc(100% - 50px)';
+        conversation.setAttribute('data-paused', '');
+        footer.setAttribute('onclick', 'togglePause()');
+        disableRunMessages(conversation);
+    }
 }
 
 //--DIALOG--//
@@ -658,6 +684,7 @@ function removeDialog() {
 function startup() {
 	readFromLocalStorage();
 	hideAllConversations();
+    initializeWindow();
 }
 
 function readFromLocalStorage() {
@@ -700,9 +727,13 @@ function initializeWindow() {
     window.addEventListener('blur', function() {
         let conversation = document.querySelector('.conversation:not(.hidden)');
         if(conversation && conversation.getAttribute('data-running') != null)
-            conversation.setAttribute('data-paused', '');
-        let footer = conversation.querySelector('.footer');
-        footer.style.opacity = 1;
-        footer.style.height = 'calc(100% - 50px)';
+            togglePause(conversation);
     });
+    // hide setting icons where specified in config, default show all in DOM
+    for(let key of Object.keys(config.hide)) {
+        let setting = document.querySelector('.settings .' + key);
+        let value = config.hide[key];
+        if(setting && value)
+            setting.classList.add('hidden');
+    }
 }
