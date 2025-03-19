@@ -3,11 +3,15 @@ const config = {
     hide: {
         code: true,
         clear: true
-    }
+    },
+	option: {
+		default: '====='
+	}
 };
 const emojiRegex = /(\p{Emoji}|\p{Emoji_Presentation}|\p{Emoji_Modifier}|\p{Emoji_Modifier_Base}|\p{Emoji_Component}|\p{Extended_Pictographic})+/gv;
 
 //--DOM NODE REFERENCES--//
+const pageDiv = document.querySelector('.page');
 const selectionDiv = document.querySelector('#selection');
 const sfxAudio = document.querySelector('.sfx');
 
@@ -18,6 +22,8 @@ function onKeyDown() {
 //--EVENT HANDLERS--//
 function selectConversation() {
 	hideAllConversations();
+	if(selectionDiv.value == config.option.default && pageDiv.getAttribute('data-fullscreen') != null)
+		pageDiv.removeAttribute('data-fullscreen');
 	if (event.target.value) {
 		document.querySelector('#' + event.target.value).classList.remove('hidden');
 		document.querySelector('#' + event.target.value).firstElementChild.click();
@@ -91,7 +97,7 @@ function updateSenderOptions(conversation) {
 		return;
 	let value = selection.value;
 	// reset and render
-	selection.innerHTML = '<option value="">=====</option>';
+	selection.innerHTML = '<option value="">' + config.option.default + '</option>';
 	let senders = lines.reduce(function (total, line) {
 		let isUrl = line.startsWith('https://') || line.startsWith('http://');
 		let name = isUrl ? '' : line.trim().substring(0, line.indexOf(separator)).trim();
@@ -253,7 +259,7 @@ function updateData() {
 }
 
 function toggleFullscreen() {
-    let pageDiv = document.querySelector('.page');
+    let pageDiv = pageDiv;
     if(pageDiv.getAttribute('data-fullscreen') == null) {
         pageDiv.setAttribute('data-fullscreen', '');
 		let doc = document.documentElement;
