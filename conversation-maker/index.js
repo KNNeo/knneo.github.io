@@ -18,7 +18,6 @@ function onKeyDown() {
 //--EVENT HANDLERS--//
 function selectConversation() {
 	hideAllConversations();
-    document.querySelector('.page').removeAttribute('data-fullscreen');
 	if (event.target.value) {
 		document.querySelector('#' + event.target.value).classList.remove('hidden');
 		document.querySelector('#' + event.target.value).firstElementChild.click();
