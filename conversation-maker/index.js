@@ -255,11 +255,29 @@ function updateData() {
 
 function toggleFullscreen() {
     let pageDiv = document.querySelector('.page');
-    if(pageDiv.getAttribute('data-fullscreen') == null)
+    if(pageDiv.getAttribute('data-fullscreen') == null) {
         pageDiv.setAttribute('data-fullscreen', '');
+		let doc = document.documentElement;
+		if (doc.requestFullscreen)
+			doc.requestFullscreen();
+		else if (doc.mozRequestFullScreen) //Firefox 
+			doc.mozRequestFullScreen();
+		else if (doc.webkitRequestFullscreen) //Chrome, Safari, Opera
+			doc.webkitRequestFullscreen();
+		else if (doc.msRequestFullscreen) //IE,Edge
+			doc.msRequestFullscreen();
+	}
     else {
         pageDiv.removeAttribute('data-fullscreen');
         document.querySelector('.conversation:not(.hidden) .messages').style.height = '';
+		if (document.exitFullscreen)
+			document.exitFullscreen();
+		else if (document.mozCancelFullScreen) //Firefox
+			document.mozCancelFullScreen();
+		else if (document.webkitExitFullscreen) //Chrome, Safari, Opera
+			document.webkitExitFullscreen();
+		else if (document.msExitFullscreen) //IE, Edge
+			document.msExitFullscreen();
     }
     event.target.classList.toggle('bi-phone');
     event.target.classList.toggle('bi-circle');
