@@ -1,31 +1,39 @@
 //--DEFAULT SETTINGS--//
-let emptyText = 'No Data';
+const config = {
+	storage: {
+		cols: 'item-shuffle-no-of-cols',
+		rows: 'item-shuffle-no-of-rows',
+		list: 'item-shuffle-list',
+		history: 'item-shuffle-history'
+	}
+	placeholder: 'No Data'
+};
 
 //--FUNCTIONS--//
 window.addEventListener('load', function() {
-	document.getElementById('input1').value = parseInt(localStorage.getItem('no-of-cols'));
-	document.getElementById('input2').value = parseInt(localStorage.getItem('no-of-rows'));
+	document.getElementById('input1').value = parseInt(localStorage.getItem(config.storage.cols));
+	document.getElementById('input2').value = parseInt(localStorage.getItem(config.storage.rows));
 	document.getElementById('result1').style.display = 'none';
-	document.getElementById('history').innerText = localStorage.getItem('history') != null ? localStorage.getItem('history') : emptyText;
+	document.getElementById('history').innerText = localStorage.getItem(config.storage.history) != null ? localStorage.getItem(config.storage.history) : config.placeholder;
 });
 
 function loadPreset(textbox) {
 	document.getElementById(textbox.name).value = list.join('\n');
-	localStorage.setItem('list', document.getElementById(textbox.name).value); 
+	localStorage.setItem(config.storage.list, document.getElementById(textbox.name).value); 
 }
 
 function generate() {
-	// localStorage.setItem('list', document.getElementById('locations').value); 
+	// localStorage.setItem(config.storage.list, document.getElementById('locations').value); 
 	
     let columns = parseInt(document.getElementById('input1')?.value ?? 0);
     let rows = parseInt(document.getElementById('input2')?.value ?? 0);
-	if(columns != parseInt(localStorage.getItem('no-of-cols')) || rows != parseInt(localStorage.getItem('no-of-rows'))) reset();
-	localStorage.setItem('no-of-cols', columns);
-	localStorage.setItem('no-of-rows', rows);
+	if(columns != parseInt(localStorage.getItem(config.storage.cols)) || rows != parseInt(localStorage.getItem(config.storage.rows))) reset();
+	localStorage.setItem(config.storage.cols, columns);
+	localStorage.setItem(config.storage.rows, rows);
 	
 	if(columns <= 1 || rows <= 1) return;
 	let histories = document.getElementById('history').innerText.split('\n');
-	if(document.getElementById('history').innerText == emptyText)
+	if(document.getElementById('history').innerText == config.placeholder)
 		histories = [];
 	
 	let item1 = {
@@ -50,14 +58,14 @@ function generate() {
 	document.getElementById('result1').style.display = document.getElementById('result1').innerText.length > 0 ? '' : 'none';
 	
 	// add to history
-	let newVal = document.getElementById('history').innerText == emptyText 
+	let newVal = document.getElementById('history').innerText == config.placeholder 
 	? document.getElementById('result1').innerText 
 	: document.getElementById('result1').innerText + '\n' + document.getElementById('history').innerText;
 	document.getElementById('history').innerText = newVal;
-	localStorage.setItem('history', newVal);
+	localStorage.setItem(config.storage.history, newVal);
 }
 
 function reset() {
-	document.getElementById('history').innerText = emptyText;
-	localStorage.setItem('history', document.getElementById('history').innerText);
+	document.getElementById('history').innerText = config.placeholder;
+	localStorage.setItem(config.storage.history, document.getElementById('history').innerText);
 }

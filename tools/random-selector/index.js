@@ -1,5 +1,5 @@
 //--DEFAULT SETTINGS--//
-let config = {
+const config = {
 	id: {
 		list: 'random-selector-list',
 		history: 'random-selector-history',
