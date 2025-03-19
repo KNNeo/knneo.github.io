@@ -22,8 +22,8 @@ function onKeyDown() {
 //--EVENT HANDLERS--//
 function selectConversation() {
 	hideAllConversations();
-	if(selectionDiv.value == config.option.default && pageDiv.getAttribute('data-fullscreen') != null)
-		pageDiv.removeAttribute('data-fullscreen');
+	if(!selectionDiv.value && pageDiv.getAttribute('data-fullscreen') != null)
+		toggleFullscreen();
 	if (event.target.value) {
 		document.querySelector('#' + event.target.value).classList.remove('hidden');
 		document.querySelector('#' + event.target.value).firstElementChild.click();
@@ -273,7 +273,8 @@ function toggleFullscreen() {
 	}
     else {
         pageDiv.removeAttribute('data-fullscreen');
-        document.querySelector('.conversation:not(.hidden) .messages').style.height = '';
+        if(document.querySelector('.conversation:not(.hidden)'))
+            document.querySelector('.conversation:not(.hidden) .messages').style.height = '';
 		if (document.exitFullscreen)
 			document.exitFullscreen();
 		else if (document.mozCancelFullScreen) //Firefox
@@ -283,8 +284,11 @@ function toggleFullscreen() {
 		else if (document.msExitFullscreen) //IE, Edge
 			document.msExitFullscreen();
     }
-    event.target.classList.toggle('bi-phone');
-    event.target.classList.toggle('bi-circle');
+    // update icon
+    if(document.querySelector('.fullscreen')) {
+        document.querySelector('.fullscreen').classList.toggle('bi-phone');
+        document.querySelector('.fullscreen').classList.toggle('bi-circle');
+    }
 }
 
 //--FUNCTIONS--//
