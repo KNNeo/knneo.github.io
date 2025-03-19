@@ -259,7 +259,6 @@ function updateData() {
 }
 
 function toggleFullscreen() {
-    let pageDiv = pageDiv;
     if(pageDiv.getAttribute('data-fullscreen') == null) {
         pageDiv.setAttribute('data-fullscreen', '');
 		let doc = document.documentElement;
