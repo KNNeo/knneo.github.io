@@ -710,7 +710,7 @@ function startup() {
 }
 
 function readFromLocalStorage() {
-	window['conversation-messages'] = JSON.parse(localStorage.getItem('conversation-messages') || '{}');
+	window['conversation-messages'] = JSON.parse(localStorage.getItem('conversation-messages') || '{}') || {};
 	let keys = Object.keys(window['conversation-messages']);
 	for (let i = 1; i <= keys.length; i++) { // to avoid sorting if deleted any conversation
 		let key = 'text' + i;
