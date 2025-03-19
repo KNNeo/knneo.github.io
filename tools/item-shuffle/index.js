@@ -5,7 +5,7 @@ const config = {
 		rows: 'item-shuffle-no-of-rows',
 		list: 'item-shuffle-list',
 		history: 'item-shuffle-history'
-	}
+	},
 	placeholder: 'No Data'
 };
 
