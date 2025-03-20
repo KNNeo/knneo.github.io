@@ -1,8 +1,147 @@
-//--HELPERS--//
-
 //--CONSTANTS--//
-// see data file, under data folder
-const isFirefox = (/Firefox/i.test(navigator.userAgent));
+// or see data file, under data folder
+const config = {
+    "title": "It'sマイアイドル",
+    "notice": "[画像提供：https://suruga-ya.com/]",
+    "worlds": [
+        {
+            "name": "ワールド1",
+            "delta": 10,
+            "maxAsset": 12,
+            "unlockInOrder": true,
+            "items": [
+                {
+                    "order": 1,
+                    "maxLevel": 50,
+                    "fileName": "https://www.suruga-ya.jp/database/pics_light/game/g3589666.jpg",
+                    "shortName": "悠木碧",
+                    "name": "『キュピット』悠木碧"
+                },
+                {
+                    "order": 2,
+                    "maxLevel": 100,
+                    "fileName": "https://cdn.suruga-ya.jp/database/pics_light/game/gg736849.jpg",
+                    "shortName": "夏川椎菜",
+                    "name": "『ゲーマー』夏川椎菜"
+                },
+                {
+                    "order": 3,
+                    "maxLevel": 200,
+                    "fileName": "https://www.suruga-ya.jp/database/pics_light/game/gl940093.jpg",
+                    "shortName": "高橋李依",
+                    "name": "『オフィスレディ』高橋李依"
+                },
+                {
+                    "order": 4,
+                    "maxLevel": 200,
+                    "fileName": "https://cdn.suruga-ya.jp/database/pics_light/game/gl703371.jpg",
+                    "shortName": "豊田萌絵",
+                    "name": "『カフェメイド』豊田萌絵"
+                },
+                {
+                    "order": 5,
+                    "maxLevel": 200,
+                    "fileName": "https://cdn.suruga-ya.jp/database/pics_light/game/gg963022.jpg",
+                    "shortName": "雨宮天",
+                    "name": "『キャバ嬢』雨宮天"
+                },
+                {
+                    "order": 6,
+                    "maxLevel": 200,
+                    "fileName": "https://cdn.suruga-ya.jp/database/pics_light/game/gg944191.jpg",
+                    "shortName": "水瀬いのり",
+                    "name": "『夏と線香花火』水瀬いのり"
+                },
+                {
+                    "order": 7,
+                    "maxLevel": 200,
+                    "fileName": "https://cdn.suruga-ya.jp/database/pics_light/game/gg548880.jpg",
+                    "shortName": "東山奈央",
+                    "name": "『バドミントン』東山奈央"
+                },
+                {
+                    "order": 8,
+                    "maxLevel": 200,
+                    "fileName": "https://cdn.suruga-ya.jp/database/pics_light/game/gl109941.jpg",
+                    "shortName": "花澤香菜",
+                    "name": "『タオル被る』花澤香菜"
+                },
+                {
+                    "order": 9,
+                    "maxLevel": 200,
+                    "fileName": "https://cdn.suruga-ya.jp/database/pics_light/game/gl355318.jpg",
+                    "shortName": "Lynn",
+                    "name": "『サマードレス』Lynn"
+                },
+                {
+                    "order": 10,
+                    "maxLevel": 200,
+                    "fileName": "https://cdn.suruga-ya.jp/database/pics_light/game/gl793465.jpg",
+                    "shortName": "鬼頭明里",
+                    "name": "『手袋ない冬』鬼頭明里"
+                },
+                {
+                    "order": 11,
+                    "maxLevel": 200,
+                    "fileName": "https://www.suruga-ya.jp/database/pics_light/game/gn212358.jpg",
+                    "shortName": "上坂すみれ",
+                    "name": "『白いシンデレラ』上坂すみれ"
+                },
+                {
+                    "order": 12,
+                    "maxLevel": 200,
+                    "fileName": "https://cdn.suruga-ya.jp/database/pics_light/game/gl802843.jpg",
+                    "shortName": "会沢紗弥",
+                    "name": "『ピンクロリータ』会沢紗弥"
+                }
+            ]
+        }
+    ],
+    "idle": {
+        "max": 86400,
+        "display": {
+            "offline": "オフライン時間：",
+            "gain": "収穫:"
+        },
+        "units": {
+            "day": "日",
+            "hour": "時間",
+            "minute": "分",
+            "second": "秒"
+        }
+    },
+    "locale": {
+        "display": {
+            "level": "親愛度",
+            "seconds": "秒",
+            "no_money": "お金が足りない！"
+        },
+        "action": {
+            "unlock": "解放",
+            "boost": "ブースト",
+            "maxBoost": "100%ブースト",
+            "level_up": "レベルアップ"
+        }
+    },
+    "currency": {
+        "prefix": "¥",
+        "suffix": [
+            "",
+            "",
+            "",
+            "",
+            "万",
+            "",
+            "",
+            "",
+            "億",
+            "",
+            "",
+            "",
+            "万億"
+        ]
+    }
+};
 
 //--DOM NODE REFERENCES--//
 let detailsDiv = document.querySelector('.details');
@@ -47,6 +186,8 @@ function updateRate() {
 
 //--EVENT HANDLERS--//
 function showDetails() {
+	if(event.key && event.key != 'Enter')
+		return;
 	let info = event.target.closest('.character');
 	if(info.querySelector('.details') != null) {
 		info.classList.remove('expanded');
@@ -213,9 +354,7 @@ function onAction() {
 function showDisplay(id) {
 	// hide all components besides first
 	for(let display of displaysDiv)
-	{
 		display.classList.add('hidden');
-	}
 	
 	displaysDiv[id].classList.remove('hidden');
 }
@@ -274,6 +413,7 @@ function renderWorld() {
 				charaImage.alt = listItem.name;
 				charaImage.tabIndex = 0;
 				charaImage.setAttribute('onclick', 'showDetails()');
+				charaImage.setAttribute('onkeyup', 'showDetails()');
 				charaDiv.appendChild(charaImage);
 				
 				charaDiv.appendChild(charaImage);
@@ -486,21 +626,29 @@ function startup() {
 	if(localStorage.getItem('idle-game') != null) {
 		console.log('read from local storage');
 		load(JSON.parse(localStorage.getItem('idle-game')));
+		return;
 	}
-	else if(data.src) {
+	if(data.src) {
 		console.log('read from external json');
 		getJson(data.src, load);
+		return;
 	}
-	else if(data.textContent) {
+	if(data.textContent) {
 		console.log('read from inline json');
 		load(JSON.parse(data.textContent));
+		return;
+	}
+	if(config) {
+		console.log('read from const config');
+		load(config);
+		return;
 	}
 }
 
 function load(content) {
-	window.game = content ?? '{}';
+	window.game = content ?? alert('no data found');
 	// filter item pool by unique tag
-	if(window.game.items)
+	if(window.game && window.game.items)
 		window.game.items = window.game.items
 			.reduce(function(total, current, index, arr) {
 				if(!total.map(m => m['tags']).includes(current['tags']))
@@ -508,9 +656,11 @@ function load(content) {
 				return total;
 			}, []);
 	// DOM level properties
-	document.title = window.game.title;
-	renderDisplay();
-	renderGame();
+	if(window.game) {
+		document.title = window.game.title;
+		renderDisplay();
+		renderGame();
+	}
 }
 
 function idle() {

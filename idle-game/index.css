@@ -35,6 +35,11 @@ button {
 	color: var(--foreground);
 }
 
+img:focus-visible,
+button:focus-visible {
+	outline: var(--primary);
+}
+
 .material-icons {
 	cursor: pointer;
 	padding: 7px;
