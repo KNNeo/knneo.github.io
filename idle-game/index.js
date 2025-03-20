@@ -238,7 +238,7 @@ function showDetails() {
 			action1.setAttribute('data-action', action1.innerText.split(' - ')[0]);
 			action1.setAttribute('onclick', 'onAction()');
 			if(window.game.worlds[worldId].unlockInOrder) {
-				let previous = seqId - 1 > 0 ? window.game.worlds[worldId].characters[seqId-1] : null;
+				let previous = seqId - 1 >= 0 ? window.game.worlds[worldId].characters[seqId-1] : null;
 				console.log(previous);
 				if(window.item.level > 0 || (window.item.level == 0 && (seqId == 0 || (previous && previous.level == previous.maxLevel))))
 					detailsDiv.appendChild(action1);
