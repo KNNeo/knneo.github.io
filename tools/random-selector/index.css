@@ -57,3 +57,11 @@ input {
 	padding: 1px;
 	/* border: 1px solid black; */
 }
+
+.settings a {
+	display: flex;
+	justify-content: center;
+	color: var(--foreground);
+	text-decoration: none;
+	padding: 5px;
+}
