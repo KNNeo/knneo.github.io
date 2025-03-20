@@ -29,17 +29,6 @@ body {
 	margin: 0;
 }
 
-button {
-	font-family: Noto Sans;
-	background-color: var(--background);
-	color: var(--foreground);
-}
-
-img:focus-visible,
-button:focus-visible {
-    outline: 4px solid var(--primary);
-}
-
 .material-icons {
 	cursor: pointer;
 	padding: 7px;
@@ -179,6 +168,17 @@ a:hover {
 .display {
 	max-width: 480px;
     margin: auto;
+}
+
+.display button {
+	font-family: Noto Sans;
+	background-color: var(--background);
+	color: var(--foreground);
+}
+
+.display img:focus-visible,
+.display button:focus-visible {
+    outline: 4px solid var(--primary);
 }
 
 .characters {
