@@ -77,16 +77,16 @@ function showDetails() {
 			progress.setAttribute('value', window.item.percent ?? 0);
 			detailsDiv.appendChild(progress);
 			
-			let action2 = document.createElement('div');
+			let action2 = document.createElement('button');
 			action2.classList.add('action');
 			if(window.item.level < 10 || window.item.percent > 99)
 				action2.classList.add('hidden');
 			action2.innerText = window.game.locale.action.maxBoost + ' - ' + asCurrencyUnits(calculateMaxBoost(worldId, seqId, window.item.level, window.item.percent, window.game.worlds[worldId].delta));
 			action2.setAttribute('data-action', action2.innerText.split(' - ')[0]);
-			action2.addEventListener('click', onAction);
+			action2.setAttribute('onclick', 'onAction()');
 			detailsDiv.appendChild(action2);
 			
-			let action1 = document.createElement('div');
+			let action1 = document.createElement('button');
 			action1.classList.add('action');
 			// if level 0 unlock, else if bar filled level up, else boost
 			action1.innerText = window.game.locale.action.unlock + ' - ' + asCurrencyUnits(calculateUnlock(worldId, seqId));
@@ -95,7 +95,7 @@ function showDetails() {
 			if(window.item.percent > 99)
 				action1.innerText = window.game.locale.action.level_up + ' - ' + asCurrencyUnits(calculateLevelUp(worldId, seqId, window.item.level));
 			action1.setAttribute('data-action', action1.innerText.split(' - ')[0]);
-			action1.addEventListener('click', onAction);
+			action1.setAttribute('onclick', 'onAction()');
 			if(window.game.worlds[worldId].unlockInOrder) {
 				let previous = seqId - 1 > 0 ? window.game.worlds[worldId].characters[seqId-1] : null;
 				console.log(previous);
@@ -272,7 +272,8 @@ function renderWorld() {
 				charaImage.src = listItem.fileName;
 				charaImage.title = listItem.shortName;
 				charaImage.alt = listItem.name;
-				charaImage.addEventListener('click', showDetails);
+				charaImage.tabIndex = 0;
+				charaImage.setAttribute('onclick', 'showDetails()');
 				charaDiv.appendChild(charaImage);
 				
 				charaDiv.appendChild(charaImage);
