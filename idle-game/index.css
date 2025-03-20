@@ -176,6 +176,10 @@ a:hover {
 	color: var(--foreground);
 }
 
+.display img:focus-visible {
+    outline: none;
+}
+
 .display .card:has(img:focus-visible),
 .display .action:focus-visible {
     outline: 4px solid var(--primary);

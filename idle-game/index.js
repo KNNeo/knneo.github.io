@@ -582,6 +582,7 @@ function popupContent(input) {
 	dialogDiv.innerHTML = '';
 	dialogDiv.appendChild(dialog);
 	dialog.showModal();
+	dialog.focus();
 }
 
 function createDialog(node) {
