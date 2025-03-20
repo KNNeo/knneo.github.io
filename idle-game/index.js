@@ -395,18 +395,18 @@ function renderWorld() {
 			let charaDiv = document.createElement('div');
 			charaDiv.classList.add('character');
 			charaDiv.classList.add('card');
-			charaDiv.tabIndex = 0;
 			charaDiv.setAttribute('data-world', index);
 			charaDiv.setAttribute('data-level', listItem.level);
 			charaDiv.setAttribute('data-seq', listItem.order);
-			charaDiv.setAttribute('onclick', 'showDetails()');
-			charaDiv.setAttribute('onkeyup', 'showDetails()');
 			
 				let charaImage = document.createElement('img');
 				charaImage.classList.add('pic');
 				charaImage.src = listItem.fileName;
 				charaImage.title = listItem.shortName;
 				charaImage.alt = listItem.name;
+				charaImage.tabIndex = 0;
+				charaImage.setAttribute('onclick', 'showDetails()');
+				charaImage.setAttribute('onkeyup', 'showDetails()');
 				charaDiv.appendChild(charaImage);
 				
 				let charaInfo = document.createElement('div');
