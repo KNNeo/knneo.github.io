@@ -37,7 +37,7 @@ button {
 
 img:focus-visible,
 button:focus-visible {
-	outline: var(--primary);
+    outline: 4px solid var(--primary);
 }
 
 .material-icons {
