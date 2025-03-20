@@ -114,7 +114,7 @@ const config = {
         "display": {
             "level": "親愛度",
             "seconds": "秒",
-            "no_money": "お金が足りない！"
+            "no_money": "お金が足りない！あと"
         },
         "action": {
             "unlock": "解放",
@@ -261,8 +261,7 @@ function onAction() {
 	{
 		case window.game.locale.action.unlock: // unlock
 			amt = calculateUnlock(worldId, seqId);
-			if(window.game.bank >= amt)
-			{
+			if(window.game.bank >= amt) {
 				decrementCurrency(amt);
 				window.item.level = 1;
 				window.item.percent = 0;
@@ -272,15 +271,13 @@ function onAction() {
 				event.target.previousSibling.setAttribute('data-action', window.game.locale.action.maxBoost);
 				event.target.previousSibling.innerText = window.game.locale.action.maxBoost + ' - ' + asCurrencyUnits(calculateMaxBoost(worldId, seqId, window.item.level, window.item.percent, window.game.worlds[worldId].delta));
 			}
-			else
-			{
-				popupContent(window.game.locale.display.no_money);
+			else {
+				popupContent(window.game.locale.display.no_money + '\n' + asCurrencyNumber(amt - window.game.bank));
 			}
 			break;
 		case window.game.locale.action.maxBoost: // boost to 100%
 			amt = calculateMaxBoost(worldId, seqId, window.item.level, window.item.percent, window.game.worlds[worldId].delta);
-			if(window.game.bank >= amt)
-			{
+			if(window.game.bank >= amt) {
 				decrementCurrency(amt);
 				window.item.percent = 100;
 				event.target.classList.add('hidden');
@@ -288,15 +285,13 @@ function onAction() {
 				event.target.nextSibling.setAttribute('data-action', event.target.innerText.split(' - ')[0]);
 				event.target.nextSibling.innerText = window.game.locale.action.level_up + ' - ' + asCurrencyUnits(calculateLevelUp(worldId, seqId, window.item.level));
 			}
-			else
-			{
-				popupContent(window.game.locale.display.no_money);
+			else {
+				popupContent(window.game.locale.display.no_money + '\n' + asCurrencyNumber(amt - window.game.bank));
 			}
 			break;
 		case window.game.locale.action.boost: // boost
 			amt = calculateBoost(worldId, seqId, window.item.level);
-			if(window.game.bank >= amt)
-			{
+			if(window.game.bank >= amt) {
 				decrementCurrency(amt);
 				window.item.percent += window.game.worlds[worldId].delta;
 				event.target.previousSibling.innerText = window.game.locale.action.maxBoost + ' - ' + asCurrencyUnits(calculateMaxBoost(worldId, seqId, window.item.level, window.item.percent, window.game.worlds[worldId].delta));
@@ -305,15 +300,13 @@ function onAction() {
 					event.target.previousSibling.classList.add('hidden');
 				}
 			}
-			else
-			{
-				popupContent(window.game.locale.display.no_money);
+			else {
+				popupContent(window.game.locale.display.no_money + '\n' + asCurrencyNumber(amt - window.game.bank));
 			}
 			break;
 		case window.game.locale.action.level_up: // level up
 			amt = calculateLevelUp(worldId, seqId, window.item.level);
-			if(window.game.bank >= amt)
-			{
+			if(window.game.bank >= amt) {
 				decrementCurrency(amt);
 				window.item.level += 1;
 				window.item.percent = 0;
@@ -328,9 +321,8 @@ function onAction() {
 				event.target.previousSibling.setAttribute('data-action', window.game.locale.action.maxBoost);
 				event.target.previousSibling.innerText = window.game.locale.action.maxBoost + ' - ' + asCurrencyUnits(calculateMaxBoost(worldId, seqId, window.item.level, window.item.percent, window.game.worlds[worldId].delta));
 			}
-			else
-			{
-				popupContent(window.game.locale.display.no_money);
+			else {
+				popupContent(window.game.locale.display.no_money + '\n' + asCurrencyNumber(amt - window.game.bank));
 			}
 			break;
 		default:
@@ -444,8 +436,7 @@ function renderWorld() {
 function createCharacter(list, order, world) {
 	let newId = -1;
 	let randomize = window.game.items && (!world.items || world.items.length != world.maxAsset);
-	do
-	{
+	do {
 		if(randomize) // random by default
 			newId = Math.floor(Math.random() * window.game.items.length);
 		else // create by order
@@ -549,11 +540,12 @@ function asCustomDateTime(seconds) {
 }
 
 function asCurrencyUnits(number) {
+	// format: reduced number with currency prefix and units suffix
 	if(!number) number = 0;
 	let shift = 0;
 	let suffix = '';
-	while (!suffix && shift <= number.toString().length - 1) // if suffix empty, find previous in config array
-	{
+	while (!suffix && shift <= number.toString().length - 1) {
+		// if suffix empty, find previous in config array
 		suffix = window.game.currency.suffix[number.toString().length - ++shift] ?? '';
 	}
 	
@@ -563,10 +555,10 @@ function asCurrencyUnits(number) {
 }
 
 function asCurrencyNumber(number) {
+	// format: full number with currency prefix
 	let reduced = '';
 	let length = number.toString().length;
-	for(let n = 1; n <= length; n++)
-	{
+	for(let n = 1; n <= length; n++) {
 		reduced = number.toString()[length-n] + reduced;
 		if(n % 3 == 0 && n > 0)
 			reduced = ',' + reduced;
@@ -582,8 +574,7 @@ function save() {
 ////DIALOG////
 function popupContent(input) {
 	let dialogDiv = document.querySelector('.dialog');
-	if(dialogDiv == null)
-	{
+	if(dialogDiv == null) {
 		dialogDiv = document.createElement('div');
 		dialogDiv.classList.add('dialog');
 		document.body.appendChild(dialogDiv);
@@ -598,14 +589,15 @@ function createDialog(node) {
 	// node in dialog will not have events!
 	let dialog = document.createElement('dialog');
 	if(!dialog.classList.contains('box')) dialog.classList.add('box');
-	if(typeof node == 'string')
-	{
+	if(typeof node == 'string') {
 		let containerDiv = document.createElement('div');
-		containerDiv.innerHTML = node;
+		if(node.startsWith('<') || node.endsWith('>'))
+			containerDiv.innerHTML = node;
+		else
+			containerDiv.innerText = node;
 		dialog.appendChild(containerDiv);
 	}
-	if(typeof node == 'object')
-	{
+	if(typeof node == 'object') {
 		let clonedNode = node.cloneNode(true);
 		dialog.appendChild(clonedNode);
 	}
