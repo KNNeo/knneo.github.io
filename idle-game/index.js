@@ -198,8 +198,8 @@ function showDetails() {
 		info.classList.add('expanded');
 		
 		// zero-based ids
-		let worldId = parseInt(event.target.closest('.character').getAttribute('data-world'));
-		let seqId = parseInt(event.target.closest('.character').getAttribute('data-seq'));
+		let worldId = parseInt(info.getAttribute('data-world'));
+		let seqId = parseInt(info.getAttribute('data-seq'));
 		window.item = window.game.worlds[worldId].characters[seqId];
 		
 		let detailsDiv = document.createElement('div');
@@ -251,8 +251,9 @@ function showDetails() {
 }
 
 function onAction() {
-	let worldId = parseInt(event.target.closest('.character').getAttribute('data-world'));
-	let seqId = parseInt(event.target.closest('.character').getAttribute('data-seq'));
+	let info = event.target.closest('.character');
+	let worldId = parseInt(info.getAttribute('data-world'));
+	let seqId = parseInt(info.getAttribute('data-seq'));
 	window.item = window.game.worlds[worldId].characters[seqId];
 	let amt = 0;
 	
@@ -394,20 +395,18 @@ function renderWorld() {
 			let charaDiv = document.createElement('div');
 			charaDiv.classList.add('character');
 			charaDiv.classList.add('card');
+			charaDiv.tabIndex = 0;
 			charaDiv.setAttribute('data-world', index);
 			charaDiv.setAttribute('data-level', listItem.level);
 			charaDiv.setAttribute('data-seq', listItem.order);
+			charaDiv.setAttribute('onclick', 'showDetails()');
+			charaDiv.setAttribute('onkeyup', 'showDetails()');
 			
 				let charaImage = document.createElement('img');
 				charaImage.classList.add('pic');
 				charaImage.src = listItem.fileName;
 				charaImage.title = listItem.shortName;
 				charaImage.alt = listItem.name;
-				charaImage.tabIndex = 0;
-				charaImage.setAttribute('onclick', 'showDetails()');
-				charaImage.setAttribute('onkeyup', 'showDetails()');
-				charaDiv.appendChild(charaImage);
-				
 				charaDiv.appendChild(charaImage);
 				
 				let charaInfo = document.createElement('div');

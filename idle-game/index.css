@@ -176,8 +176,8 @@ a:hover {
 	color: var(--foreground);
 }
 
-.display img:focus-visible,
-.display button:focus-visible {
+.display .card:focus-visible,
+.display .action:focus-visible {
     outline: 4px solid var(--primary);
 }
 
