@@ -186,6 +186,7 @@ function updateRate() {
 
 //--EVENT HANDLERS--//
 function showDetails() {
+	event.stopPropagation();
 	if(event.key && event.key != 'Enter')
 		return;
 	let info = event.target.closest('.character');
@@ -251,6 +252,7 @@ function showDetails() {
 }
 
 function onAction() {
+	event.stopPropagation();
 	let info = event.target.closest('.character');
 	let worldId = parseInt(info.getAttribute('data-world'));
 	let seqId = parseInt(info.getAttribute('data-seq'));
@@ -582,7 +584,6 @@ function popupContent(input) {
 	dialogDiv.innerHTML = '';
 	dialogDiv.appendChild(dialog);
 	dialog.showModal();
-	dialog.focus();
 }
 
 function createDialog(node) {
