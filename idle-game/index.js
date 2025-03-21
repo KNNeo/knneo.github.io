@@ -186,7 +186,7 @@ function updateRate() {
 
 //--EVENT HANDLERS--//
 function showDetails() {
-	event.stopPropagation();
+	event.stopImmediatePropagation();
 	if(event.key && event.key != 'Enter')
 		return;
 	let info = event.target.closest('.character');
@@ -602,14 +602,14 @@ function createDialog(node) {
 		let clonedNode = node.cloneNode(true);
 		dialog.appendChild(clonedNode);
 	}
-	dialog.addEventListener('click', function() {
+	dialog.onclick =  function() {
 		if(event.target == event.target.closest('dialog'))
 			this.remove();
-	});
-	dialog.addEventListener('keyup', function() {
+	};
+	dialog.onkeyup = function() {
 		if (event.key === ' ' || event.key === 'Enter')
 			this.remove();
-	});
+	};
 	return dialog;
 }
 
