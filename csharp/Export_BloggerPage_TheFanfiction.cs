@@ -56,9 +56,9 @@ public class Program {
         List<String> rows = File.ReadAllLines(EXTENDED_TAGS_FILENAME).ToList();
         foreach(var row in rows)
         {
-            var parts = row.Split(' ');
+            var parts = row.Split(',');
             if(Int32.TryParse(parts[0], out Int32 id) && !String.IsNullOrWhiteSpace(parts[1]))
-                list.Add(id, parts[1].Trim());
+                list.Add(id, String.Join(',',parts.Skip(1)));
         }
         return list;
     }
