@@ -785,7 +785,7 @@ public class Program {
 		if(includeIndex.Count() == 0 || includeIndex.Contains(32))
 		{
 			if(DEBUG_MODE) Console.WriteLine("Fix #" + 32);
-			expression = @"(?s)<i\b[^>]*>(.*?)(?<=<\/i>)";
+			expression = @"(?s)<i\b[^>]*>(.*?)(?<=<\/i\s*>)";
 			match = Regex.Match(content, expression);
 			if(match.Success) {
 				count.Add(32);
