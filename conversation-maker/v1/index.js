@@ -1,5 +1,8 @@
 //--DEFAULT SETTINGS--//
 const config = {
+	storage: {
+		messages: 'conversation-messages',
+	},
     hide: {
         code: true,
         clear: true
@@ -84,7 +87,7 @@ function updateEditor(event) {
 }
 
 function saveToLocalStorage() {
-	localStorage.setItem('conversation-messages', JSON.stringify(window['conversation-messages'] || ''));
+	localStorage.setItem(config.storage.messages, JSON.stringify(window['conversation-messages'] || ''));
 }
 
 function updateSenderOptions(conversation) {
@@ -242,17 +245,17 @@ function toggleAudio() {
 }
 
 function showData() {
-	popupText('<textarea id="data" name="data" rows="8" cols="40" style="max-width: 90%;">' + (localStorage.getItem('conversation-messages') || '') + '</textarea>' +
+	popupText('<textarea id="data" name="data" rows="8" cols="40" style="max-width: 90%;">' + (localStorage.getItem(config.storage.messages) || '') + '</textarea>' +
 		'<div><a class="add bi bi-copy" href="javascript:void(0);" title="Copy Data" onclick="navigator.clipboard.writeText(document.querySelector(\'#data\').value);"></a>' +
 		'<a class="add bi bi-x-square" href="javascript:void(0);" title="Save/Close Data" onclick="updateData()"></a></div>');
 }
 
 function updateData() {
-	if (localStorage.getItem('conversation-messages') != document.querySelector('#data').value) // update if different
+	if (localStorage.getItem(config.storage.messages) != document.querySelector('#data').value) // update if different
 	{
 		if (document.querySelector('#data').value.length < 1) // set empty
 			document.querySelector('#data').value = '{}';
-		localStorage.setItem('conversation-messages', document.querySelector('#data').value);
+		localStorage.setItem(config.storage.messages, document.querySelector('#data').value);
 		startup();
 	}
 	removeDialog();
@@ -714,7 +717,7 @@ function startup() {
 }
 
 function readFromLocalStorage() {
-	window['conversation-messages'] = JSON.parse(localStorage.getItem('conversation-messages') || '{}') || {};
+	window['conversation-messages'] = JSON.parse(localStorage.getItem(config.storage.messages) || '{}') || {};
 	let keys = Object.keys(window['conversation-messages']);
 	for (let i = 1; i <= keys.length; i++) { // to avoid sorting if deleted any conversation
 		let key = 'text' + i;
