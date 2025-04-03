@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en-SG">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+    <link id="fonts-css" rel="stylesheet" type="text/css" href="../../fonts.css">
+    <link id="index-css" rel="stylesheet" type="text/css" href="index.css">
+    <link id="bs-css" rel="stylesheet" type="text/css" href="../../resources/bootstrap-icons.css">
+	<script src="../../darkmode.js" type="application/javascript" charset="utf-8"></script>
+	<script src="index.js" defer></script>
+    <title>Conversation Starter</title>
+</head>
+<body onload="startup()" onkeydown="onKeyDown()">
+	<div class="page">
+		<h2>Conversations</h2>
+		<h5>Curated animations of chat lines using text editor</h5>
+		<!--DROPDOWN-->
+		<div>
+			<label for="selection">Select Conversation:</label>
+			<div class="menu">
+				<select name="selection" id="selection" class="selection" onchange="selectConversation()">
+					<option value="">======</option>
+				</select>
+				<a class="add bi bi-plus-square" href="javascript:void(0);" title="Add New Conversation" onclick="addConversation()"></a>
+				<a class="add bi bi-pencil-square" href="javascript:void(0);" title="Rename Conversation" onclick="renameConversation()"></a>
+				<a class="delete bi bi-x-square" href="javascript:void(0);" title="Delete Current Conversation" onclick="deleteConversation()" oncontextmenu="false"></a>
+			</div>
+		</div>
+		<!--MESSAGE BOX-->
+		<div class="container"></div>
+		<!--SETTINGS-->
+		<h3 class="settings">
+			<a class="fullscreen bi bi-phone" href="javascript:void(0);" title="Toggle Fullscreen" onclick="toggleFullscreen()" oncontextmenu="false"></a>
+			<a class="audio bi bi-volume-mute" href="javascript:void(0);" title="Toggle Audio" onclick="toggleAudio()" oncontextmenu="false"></a>
+			<a class="darkmode bi bi-brightness-high" href="javascript:void(0);" title="Toggle Dark Mode" onclick="toggleDarkMode()" oncontextmenu="false"></a>
+			<a class="code bi bi-code-square" href="javascript:void(0);" title="Show Data" onclick="showData()" oncontextmenu="false"></a>
+			<a class="clear bi bi-trash" href="javascript:void(0);" title="Clear All Conversations" onclick="clearConversations()" oncontextmenu="false"></a>
+		</h3>
+		<a class="home" href="../../index.html">knneo.github.io</a>
+	</div>
+	<template class="template-message">
+		<div class="conversation hidden" id="">
+			<a class="bi bi-chat-dots" href="javascript:void(0);" onclick="showMessages()" title="Show Conversation"> CONVERSATION</a>
+			<a class="bi bi-pencil" href="javascript:void(0);" onclick="showEditor()" title="Show Editor"> EDITOR</a>
+			<div class="view messages" data-animate></div>
+			<div class="view editor">
+				<textarea title="editor" placeholder="Message text here..." onchange="updateEditor(event)"></textarea>
+				<label for="sender">Sender:</label>
+				<select name="sender" class="sender" id="sender" onchange="updateSender()">
+					<option value="">======</option>
+				</select>
+				<label for="separator">Separator:</label>
+				<input name="sender" class="separator" id="separator" placeholder=":" onchange="updateSeparator()"></input>
+				<label for="names">Show Names:</label>
+				<input type="checkbox" name="names" class="names" id="names" onchange="updateNames()"></input>
+				<a class="bi bi-floppy save" href="javascript:void(0);" onclick="saveEditor(event)" title="Save Changes"></a>
+			</div>
+		</div>
+	</template>
+	<template class="template-reactions">
+		<div class="reactions">
+			<a class="reaction" href="javascript:void(0);" onclick="setReaction()" title="Good">👍</a>
+			<a class="reaction" href="javascript:void(0);" onclick="setReaction()"title="Love">❤️</a>
+			<a class="reaction" href="javascript:void(0);" onclick="setReaction()"title="Laughs">😂</a>
+			<a class="reaction" href="javascript:void(0);" onclick="setReaction()"title="Angry">😡</a>
+		</div>
+	</template>
+	<audio class="sfx hidden" src="resource/pixelbay-happy-pop-2-185287-floraphonic.mp3"></audio>
+</body>
+</html>
