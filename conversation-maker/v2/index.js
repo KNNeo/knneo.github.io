@@ -319,13 +319,12 @@ function processConversation(converse) {
 		// render message container
 		let lineDiv = document.createElement('div');
 		lineDiv.classList.add('message');
-		// find end of section
+		converse.appendChild(lineDiv);
+		// find start of section
 		if(line.startsWith(config.wrapper.section) && line.endsWith(config.wrapper.section)) {
-			let sectionDiv = converse.lastElementChild || lineDiv;
-			if(sectionDiv) sectionDiv.setAttribute('data-section', line.replace(new RegExp(config.wrapper.section, 'g'),'').trim());
+			lineDiv.setAttribute('data-section', line.replace(new RegExp(config.wrapper.section, 'g'),'').trim());
 			continue;
 		}
-		converse.appendChild(lineDiv);
 		// render messages
 		let isSystem = line.startsWith(config.wrapper.system) && line.endsWith(config.wrapper.system);
 		let isUrl = line.startsWith('https://') || line.startsWith('http://');
