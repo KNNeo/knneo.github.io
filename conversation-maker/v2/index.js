@@ -1,5 +1,8 @@
 //--DEFAULT SETTINGS--//
 const config = {
+	auto: {
+		fullscreen: true
+	},
 	storage: {
 		messages: 'conversation-messages-v2',
 	},
@@ -269,15 +272,21 @@ function updateData() {
 function toggleFullscreen() {
     if(pageDiv.getAttribute('data-fullscreen') == null) {
         pageDiv.setAttribute('data-fullscreen', '');
-		let doc = document.documentElement;
-		if (doc.requestFullscreen)
-			doc.requestFullscreen();
-		else if (doc.mozRequestFullScreen) //Firefox 
-			doc.mozRequestFullScreen();
-		else if (doc.webkitRequestFullscreen) //Chrome, Safari, Opera
-			doc.webkitRequestFullscreen();
-		else if (doc.msRequestFullscreen) //IE,Edge
-			doc.msRequestFullscreen();
+		try {
+			let doc = document.documentElement;
+			if (doc.requestFullscreen)
+				doc.requestFullscreen();
+			else if (doc.mozRequestFullScreen) // Firefox 
+				doc.mozRequestFullScreen();
+			else if (doc.webkitRequestFullscreen) // Chrome, Safari, Opera
+				doc.webkitRequestFullscreen();
+			else if (doc.msRequestFullscreen) // IE,Edge
+				doc.msRequestFullscreen();
+		}
+		catch(e) {
+			// Expected: programatic call of fullscreen API not allowed
+			console.error(e);
+		}
 	}
     else {
         pageDiv.removeAttribute('data-fullscreen');
@@ -285,11 +294,11 @@ function toggleFullscreen() {
             document.querySelector('.conversation:not(.hidden) .messages').style.height = '';
 		if (document.exitFullscreen)
 			document.exitFullscreen();
-		else if (document.mozCancelFullScreen) //Firefox
+		else if (document.mozCancelFullScreen) // Firefox
 			document.mozCancelFullScreen();
-		else if (document.webkitExitFullscreen) //Chrome, Safari, Opera
+		else if (document.webkitExitFullscreen) // Chrome, Safari, Opera
 			document.webkitExitFullscreen();
-		else if (document.msExitFullscreen) //IE, Edge
+		else if (document.msExitFullscreen) // IE, Edge
 			document.msExitFullscreen();
     }
     // update icon
@@ -790,4 +799,7 @@ function initializeWindow() {
         if(setting && value)
             setting.classList.add('hidden');
     }
+	// auto fullscreen, will not work with fullscreen API but does not break logic
+	if(config.auto.fullscreen)
+		toggleFullscreen();
 }
