@@ -34,7 +34,7 @@ const config = {
 	},
 	tag: {
 		category: {
-			groups: ['Orientation', 'Flag'],
+			groups: ['Flag', 'Orientation'],
 			ratio: [1, 1],
 		},
 		size: [160, 320, 640],
