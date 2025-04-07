@@ -805,5 +805,5 @@ function initializeWindow() {
     }
 	// auto fullscreen, will not work with fullscreen API but does not break logic
 	if(config.auto.fullscreen)
-		toggleFullscreen();
+		document.querySelector('.fullscreen').click();
 }
