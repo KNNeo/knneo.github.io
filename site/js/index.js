@@ -380,7 +380,7 @@ function renderMenu() {
 function renderButtons() {
 	// go to top button
 	let topButtonIcon = renderGoogleIcon('keyboard_double_arrow_up', ['button','button-top','not-selectable']);
-	topButtonIcon.title = 'Back To Top';
+	topButtonIcon.title = 'Go To Top';
 	topButtonIcon.href = 'javascript:void(0)';
 	if (document.querySelector('.button-top') == null) {
 		document.body.appendChild(topButtonIcon);
@@ -395,7 +395,7 @@ function renderButtons() {
 	}
 	// exit button
 	let closeButtonIcon = renderGoogleIcon('close', ['button','button-close','not-selectable']);
-	closeButtonIcon.title = 'Close Popup';
+	closeButtonIcon.title = 'Exit Page';
 	if (window['main']?.isSinglePage || isMobile()) 
 		closeButtonIcon.style.right = '10px';
 	if (window['main']?.hasExit && document.querySelector('.button-close') == null) {
