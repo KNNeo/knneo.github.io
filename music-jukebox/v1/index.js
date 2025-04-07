@@ -171,7 +171,7 @@ function generateLayoutPlayer() {
 	let back = document.createElement('a');
 	back.classList.add('back');
 	back.style.verticalAlign = 'top';
-	back.href = '../../index.html';
+	back.href = 'https://knneo.github.io/';
 	back.innerText = 'knneo.github.io';
 	settings.appendChild(back);
 	
