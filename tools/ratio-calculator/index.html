@@ -1,42 +1,48 @@
 <!DOCTYPE html>
 <html lang="en-SG">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
 	<meta content="utf-8" http-equiv="encoding">
-    <link rel="stylesheet" type="text/css" href="../../fonts.css">
-    <link rel="stylesheet" type="text/css" href="index.css">
+	<link rel="stylesheet" type="text/css" href="../../fonts.css">
+	<link rel="stylesheet" type="text/css" href="index.css">
 	<script src="../../darkmode.js" type="application/javascript" charset="utf-8"></script>
-    <title>RATIO CALCULATOR</title>
+	<title>RATIO CALCULATOR</title>
 </head>
 <body>
 	<h3>RATIO CALCULATOR</h3>
-	<h6>Just because I don't know to use a calculator for this without writing this out</h6>
+	<h6>Because I don't know how to use a calculator for this without writing this out</h6>
 	<div id="inputs">
 		<div>
-			<label><input id="divisor" class="input" title="divisor" type="number" placeholder="width of A" /><span class="unit"></span></label>
+			<label><input id="divisor" class="input" title="divisor" type="number" placeholder="width (A)" /><span class="unit"></span></label>
 			<span> ~ </span>
-			<label><input id="initial" class="input" title="intiial" type="number" placeholder="height of A" /><span class="unit"></span></label>
+			<label><input id="initial" class="input" title="intiial" type="number" placeholder="height (A)" /><span class="unit"></span></label>
 		</div>
 		<div>↓</div>
 		<div>
-			<label><input id="multiplier" class="input" title="multiplier" type="number" placeholder="width of B" /><span class="unit"></span></label>
+			<label><input id="multiplier" class="input" title="multiplier" type="number" placeholder="width (B)" /><span class="unit"></span></label>
 			<span> ~ </span>
-			<label><input id="result" class="input" title="result" type="number" placeholder="height of B" disabled /><span class="unit"></span></label>
+			<label><input id="result" class="input" title="result" type="number" placeholder="height (B)" disabled /><span class="unit"></span></label>
 		</div>
 	</div>
 	<div id="actions">
 		<input id="calculate" type="button" onclick="calculate()" value="Calculate" />
-		<div id="status" type="text" disabled></div>
+		<div id="status" class="status" type="text" disabled></div>
 	</div>
 	<div>
+		<h3>HOW THIS WORKS</h3>
 		<p>
-			HOW THIS WORKS<br />
-			Assume objects A and B have the same ratio, and only height of B is unknown: <br />
+			Assume objects A and B of known dimensions have the same ratio, and only height of B is unknown:
+		</p>
+		<p>
 			<code>{height of B} = {height of A} x {width of B} / {width of A}</code>
+		</p>
+		<p>
+			<em>(Or as my dad taught me: "up times down divide by up")</em>
 		</p>
 	</div>
 	<h3 id="settings" class="settings">
+		<a title="Toggle Dark Mode" class="darkmode material-icons" href="javascript:void(0);" onclick="toggleDarkMode()">brightness_high</a>
 		<a href="../../index.html">knneo.github.io</a>
 	</h3>
 </body>

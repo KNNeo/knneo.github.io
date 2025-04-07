@@ -22,7 +22,6 @@ html {
 }
 
 body > * {
-  margin: auto;
   text-align: center;
   overflow-x: hidden;
   -webkit-user-select: none;
@@ -38,7 +37,7 @@ input {
 }
 
 input[type="number"] {
-	width: 30%;
+	width: 35%;
 	max-width: 5em;
 }
 
@@ -47,7 +46,19 @@ input:disabled {
 	background-color: var(--accent);
 }
 
+code {
+  padding: 1em;
+  border: 1px dashed var(--foreground);
+}
+
+.status {
+  border: 1px double var(--foreground);
+}
+
 .settings a {
+	display: flex;
+	justify-content: center;
 	color: var(--foreground);
 	text-decoration: none;
+	padding: 5px;
 }
