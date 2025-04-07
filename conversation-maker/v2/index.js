@@ -316,15 +316,15 @@ function processConversation(converse) {
 	// render lines
 	let prevName = '';
 	for (let line of lines) {
-		// find end of section
-		if(line.startsWith(config.wrapper.section) && line.endsWith(config.wrapper.section)) {
-			let prevLineDiv = converse.lastElementChild;
-			prevLineDiv.setAttribute('data-section', line.replace(new RegExp(config.wrapper.section, 'g'),'').trim());
-			continue;
-		}
 		// render message container
 		let lineDiv = document.createElement('div');
 		lineDiv.classList.add('message');
+		// find end of section
+		if(line.startsWith(config.wrapper.section) && line.endsWith(config.wrapper.section)) {
+			let sectionDiv = converse.lastElementChild || lineDiv;
+			if(sectionDiv) sectionDiv.setAttribute('data-section', line.replace(new RegExp(config.wrapper.section, 'g'),'').trim());
+			continue;
+		}
 		converse.appendChild(lineDiv);
 		// render messages
 		let isSystem = line.startsWith(config.wrapper.system) && line.endsWith(config.wrapper.system);
