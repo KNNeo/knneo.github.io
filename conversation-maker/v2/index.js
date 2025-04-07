@@ -270,7 +270,7 @@ function updateData() {
 }
 
 function toggleFullscreen() {
-	if(pageDiv.querySelector('.conversation:not(.hidden)'))
+	if(!pageDiv.querySelector('.conversation:not(.hidden)'))
 		return console.error('unable to fullscreen, no conversation selected');
 	if(pageDiv.querySelector('.editor:not(.hidden)'))
 		return console.error('unable to fullscreen, still in editor');
