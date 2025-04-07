@@ -320,8 +320,6 @@ function scrollGallery() {
 }
 
 function scrollToSelected() {
-	galleryDiv.classList.remove('overview');
-	settingsDiv.classList.remove('hidden');
 	scrollToItem(window.variables.selected ?? 0);
 }
 
@@ -487,8 +485,6 @@ function renderGallery() {
 	if(window.variables?.display.overview)
 		galleryDiv.addEventListener('contextmenu', function() {
 			galleryDiv.classList.add('overview');
-			galleryDiv.removeAttribute('prompt');
-			settingsDiv.classList.add('hidden');
 			if(window.variables.selected)
 				document.querySelectorAll('.gallery img')[parseInt(window.variables.selected)].scrollIntoView({ inline: 'center' });
 		});

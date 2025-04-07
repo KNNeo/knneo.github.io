@@ -295,6 +295,7 @@ body {
 	padding: 7px;
 }
 
+:has(.gallery.overview) :is(.title, .settings, .message, .home),
 .hidden {
 	display: none;
 }
