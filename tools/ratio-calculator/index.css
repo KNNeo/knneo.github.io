@@ -31,17 +31,18 @@ body > * {
   user-select: none;
 }
 
-input {
+.input,
+.icon {
 	margin: 10px;
 	font-size: 4ch;
 }
 
-input[type="number"] {
+.input[type="number"] {
 	width: 35%;
 	max-width: 5em;
 }
 
-input:disabled {
+.input:disabled {
 	color: var(--foreground);
 	background-color: var(--accent);
 }
