@@ -1,5 +1,4 @@
 //--NOTES--//
-//Default separator is '_' (underscore) unless stated in settings
 //Filenames of images to be in the format of <tag>_<tag>, if with extension eg. '.jpg' will be removed
 //Thumbnail filenames to be in format '<prefix>_<id>' according to preset; original has no prefix
 //Data in data.js, variable config.data
@@ -26,7 +25,7 @@ const config = {
 		clear: true,
 		expand: true,
 		darkmode: true,
-		preset: true,
+		size: true,
 		filter: true,
 		slideshow: 5,
 		stats: true,
@@ -36,7 +35,7 @@ const config = {
 			groups: ['衣装', 'キャラクター'],
 			ratio: [4, 1],
 		},
-		preset: [160, 320, 640],
+		size: [160, 320, 640],
 		min: 2,
 		max: 9999,
 		exclude: ['覚醒'],

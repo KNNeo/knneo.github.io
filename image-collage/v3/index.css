@@ -389,7 +389,7 @@ body {
 		display: inline;
 	}
 	.tag {
-		height: 36px;
+        height: auto;
 	}
 	.sidebar {
 		display: none;

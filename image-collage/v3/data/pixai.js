@@ -1,5 +1,4 @@
 //--NOTES--//
-//Default separator is ',' (underscore) unless stated in settings
 //Filenames of images to be in the format of <tag>,<tag>, if with extension eg. '.jpg' will be removed
 //Thumbnail filenames to be in format '<prefix>,<id>' according to preset; original has no prefix
 //Data in data.js, variable config.data
@@ -26,7 +25,7 @@ const config = {
 		clear: false,
 		expand: false,
 		darkmode: true,
-		preset: true,
+		size: true,
 		filter: true,
 		slideshow: 5,
 		stats: false,
@@ -37,7 +36,7 @@ const config = {
 			groups: ['Orientation', 'Flag'],
 			ratio: [1, 1],
 		},
-		preset: [160, 320, 640],
+		size: [160, 320, 640],
 		min: 2,
 		max: 9999,
 		exclude: [],
