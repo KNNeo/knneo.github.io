@@ -456,7 +456,11 @@ function nextMessage() {
 		window.choice = 0;
 	}
 	// not recipient, show message directly
-	if (l == 0 || lines[l].getAttribute('data-loaded') != null || lines[l].getAttribute('data-recipient') == null || lines[l].getAttribute('data-first') == null) {
+	if (l == 0 || 
+		lines[l].getAttribute('data-section') != null || 
+		lines[l].getAttribute('data-loaded') != null || 
+		lines[l].getAttribute('data-recipient') == null || 
+		lines[l].getAttribute('data-first') == null) {
         // play sound effect on each message
         if (window.ping && !lines[l].classList.contains('footer') && lines[l].getAttribute('data-system') == null)
             sfxAudio.play();
@@ -469,7 +473,12 @@ function nextMessage() {
 		}, 0);
 		let diff = heightAboveItem + currentHeight - conversation.querySelector('.messages').clientHeight; // delta to fix item height rounding
 		// console.log(heightAboveItem + currentHeight, conversation.clientHeight);
-		if (diff > 0) {
+		if(lines[l].getAttribute('data-section') != null)
+			// scroll to beginning of section at bottom
+			conversation.querySelector('.messages').scrollTo({
+				top: diff
+			});
+		else if (diff > 0) {
 			// newest message is not aligned to bottom of container
 			if (diff < currentHeight)
 				conversation.querySelector('.messages').scrollBy({
