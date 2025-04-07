@@ -320,7 +320,6 @@ function processConversation(converse) {
 		// render message container
 		let lineDiv = document.createElement('div');
 		lineDiv.classList.add('message');
-		converse.appendChild(lineDiv);
 		// find start of section, skip and put on next message
 		if(line.startsWith(config.wrapper.section) && line.endsWith(config.wrapper.section)) {
 			sectionName = line.replace(new RegExp(config.wrapper.section, 'g'),'').trim();
@@ -330,6 +329,7 @@ function processConversation(converse) {
 			lineDiv.setAttribute('data-section', sectionName);
 			sectionName = '';
 		}
+		converse.appendChild(lineDiv);
 		// render messages
 		let isSystem = line.startsWith(config.wrapper.system) && line.endsWith(config.wrapper.system);
 		let isUrl = line.startsWith('https://') || line.startsWith('http://');
