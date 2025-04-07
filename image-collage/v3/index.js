@@ -33,9 +33,6 @@ function startup() {
 	generateTags();
 	generateLayout();
 	generateViewer();
-	grid.addEventListener(isFirefox ? 'DOMMouseScroll' : 'mousewheel', onScroll);
-	grid.addEventListener('touchstart', onTouchStart);
-	grid.addEventListener('touchmove', onTouchMove);
 	window.addEventListener('resize', onResize);
 }
 
@@ -472,30 +469,6 @@ function onResize() {
 		gridItem.style.width = thumbWidth + 'px';
 		gridItem.style.height = thumbHeight + 'px';
 	}
-}
-
-function onScroll(e) {
-	if(!isHorizontalLayout()) {
-		let scrollDelta = isFirefox ? -e.detail*100 : e.wheelDelta;
-		menu.style.height = scrollDelta < 0 ? 0 : '';
-		tags.style.height = menu.style.height;
-		grid.style.height = scrollDelta < 0 ? window.innerHeight + 'px' : (window.innerHeight - menu.getBoundingClientRect().height) + 'px';
-	}
-}
-
-function onTouchStart() {
-	window['touchY'] = event.touches[0].clientY;
-	window['touchX'] = event.touches[0].clientX;
-}
-
-function onTouchMove() {
-	let swipeDown = event.touches[0].clientY - window['touchY'];
-	let swipeUp = window['touchY'] - event.touches[0].clientY;
-	let swipeLeft = window['touchX'] - event.touches[0].clientX;
-	let swipeRight = event.touches[0].clientX - window['touchX'];
-	if(config.debug) console.log(swipeUp > 0, swipeDown > 0, swipeLeft > 0, swipeRight > 0);
-	menu.style.height = swipeUp > 0 ? 0 : '';
-	tags.style.height = menu.style.height;
 }
 
 function onToggleSize() {

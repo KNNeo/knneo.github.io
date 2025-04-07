@@ -357,7 +357,7 @@ body {
 	color: var(--foreground);
 	background-color: var(--background);
 	position: fixed;
-	bottom: 0;
+	top: 0;
 	left: 0;
 	padding: 0.5em;
 	z-index: 3;
@@ -394,8 +394,5 @@ body {
 	}
 	.tag {
         height: auto;
-	}
-	.sidebar {
-		display: none;
 	}
 }

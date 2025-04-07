@@ -21,7 +21,6 @@ const config = {
 		property: 'nm',
 	},
 	setting: {
-		sidebar: true,
 		clear: true,
 		expand: true,
 		darkmode: true,

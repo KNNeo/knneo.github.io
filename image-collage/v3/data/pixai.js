@@ -21,7 +21,6 @@ const config = {
 		property: '',
 	},
 	setting: {
-		sidebar: true,
 		clear: false,
 		expand: false,
 		darkmode: true,
