@@ -13,7 +13,6 @@ const tags = document.querySelector('.tags');
 const menu = document.querySelector('.menu');
 const settings = document.querySelector('.settings');
 const viewer = document.querySelector('.viewer');
-const preset = document.querySelector('#preset');
 const include = document.querySelector('#include');
 const exclude = document.querySelector('#exclude');
 const callback = (entries, observer) => {
@@ -502,19 +501,19 @@ function onTouchMove() {
 function onToggleSize() {
 	switch(event.target.innerText) {
 	  case 'photo_size_select_actual':
-		preset.innerText = 'photo_size_select_small';
+		event.target.innerText = 'photo_size_select_small';
 		break
 	  case 'photo_size_select_small':
-		preset.innerText = 'photo_size_select_large';
+		event.target.innerText = 'photo_size_select_large';
 		break;
 	  case 'photo_size_select_large':
-		preset.innerText = 'photo_size_select_actual';
+		event.target.innerText = 'photo_size_select_actual';
 		break;
 	  default:
 		break;
 	}
 	
-	window['preset'] = preset.innerText;
+	window['preset'] = event.target.innerText;
 	generateGrid();
 }
 
