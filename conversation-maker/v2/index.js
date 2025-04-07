@@ -270,6 +270,8 @@ function updateData() {
 }
 
 function toggleFullscreen() {
+	if(pageDiv.querySelector('.editor:not(.hidden)'))
+		return console.error('unable to fullscreen, still in editor');
     if(pageDiv.getAttribute('data-fullscreen') == null) {
         pageDiv.setAttribute('data-fullscreen', '');
 		try {
