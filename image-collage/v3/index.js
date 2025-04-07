@@ -577,6 +577,18 @@ function onToggleRatio() {
 			config.grid.thumbnail.ratio = 16/9;
 			generateGrid();
 			break;
+		case 16/9:
+			config.grid.thumbnail.ratio = 9/16;
+			generateGrid();
+			break;
+		case 9/16:
+			config.grid.thumbnail.ratio = 5/7;
+			generateGrid();
+			break;
+		case 5/7:
+			config.grid.thumbnail.ratio = 4/5;
+			generateGrid();
+			break;
 		default:
 			config.grid.thumbnail.ratio = 1;
 			generateGrid();
