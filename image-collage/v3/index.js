@@ -2,6 +2,7 @@
 const isHorizontalLayout = function() { 
 	return matchMedia('all and (orientation:landscape)').matches; 
 }
+const spacer = 'https://knneo.github.io/resources/spacer.gif';
 
 //--REFERENCES--//
 const title = document.querySelector('.title');
@@ -316,8 +317,11 @@ function generateGrid() {
 		let gridItemImage = document.createElement('img');
 		gridItemImage.alt = item.ds || '';
 		gridItemImage.title = item.ct || getFilenameInfo(imageUrl).filename.split(config.separator).join('\n');
-		gridItemImage.setAttribute('data-image', getThumbnailByPrefix(item));
-		gridItemImage.setAttribute('data-src', item['og']);
+		let thumbnail = getThumbnailByPreset(item);
+		if(thumbnail == spacer)
+			console.error('thumbnail not found', item);
+		gridItemImage.setAttribute('data-image', thumbnail);
+		gridItemImage.setAttribute('data-src', item['og'] || item['lg'] || item['md'] || item['sm'] || spacer);
 		gridItemImage.setAttribute('loading', 'lazy');
 		gridItemImage.addEventListener('click', function() {
 			openViewer(event.target.parentElement);
@@ -394,17 +398,16 @@ function toggleVariable(variable, value) {
 		window[variable] += (window[variable].length > 0 ? '|' : '') + value;
 }
 
-function getThumbnailByPrefix(item) {	
+function getThumbnailByPreset(item) {
 	switch(window['preset']) {
 	  case 'photo_size_select_small':
-		return item['sm'];
+		return item['sm'] || spacer;
 	  case 'photo_size_select_large':
-		return item['md'];
-		break;
+		return item['md'] || item['sm'] || spacer;
 	  case 'photo_size_select_actual':
-		return item['lg'];
+		return item['lg'] || item['md'] || item['sm'] || spacer;
 	  default:
-		return 'https://knneo.github.io/resources/spacer.gif';
+		return spacer;
 	}
 }
 
@@ -613,6 +616,8 @@ function openImageInViewer(image) {
 	let img = document.createElement('img');
 	img.nm = image.nm;
 	img.src = image.getAttribute('data-src');
+	if(img.src == spacer)
+		console.error('source image not found', img);
 	img.alt = '';
 	img.title = '';
 	img.style.transform = 'scale(0.8)';
