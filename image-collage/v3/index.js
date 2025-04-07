@@ -128,11 +128,6 @@ function generateLayout() {
 	}
 	
 	for(let [key, value] of Object.entries(config.setting)) {
-		if(document.querySelector('.' + key).classList.contains('default')) {
-			if(key == 'crop')
-				document.querySelector('.' + key).click();
-		}
-
 		if(key == 'expand' && isHorizontalLayout())
 			document.querySelector('.' + key).classList.add('hidden');			
 		else if(value)
@@ -569,46 +564,22 @@ function onToggleCaptions() {
 }
 
 function onToggleRatio() {
-	// assume orientation fixed based on config.grid.thumbnail.ratio (< 1 is portrait, else landscape)
-	switch(event.target.innerText) {
-		case 'crop_square':
-			event.target.innerText = 'crop_5_4';
+	switch(config.grid.thumbnail.ratio) {
+		case 1:
 			config.grid.thumbnail.ratio = 5/4;
 			generateGrid();
-			break
-		case 'crop_5_4':
-			event.target.innerText = 'crop_7_5';
+			break;
+		case 5/4:
 			config.grid.thumbnail.ratio = 7/5;
 			generateGrid();
 			break;
-		case 'crop_7_5':
-			event.target.innerText = 'crop_3_2';
-			config.grid.thumbnail.ratio = 3/2;
-			generateGrid();
-			break;
-		case 'crop_3_2':
-			event.target.innerText = 'crop_16_9';
+		case 7/5:
 			config.grid.thumbnail.ratio = 16/9;
 			generateGrid();
 			break;
-		case 'crop_16_9':
-			event.target.innerText = 'crop_square';
+		default:
 			config.grid.thumbnail.ratio = 1;
 			generateGrid();
-			break;
-		default:
-			// read from config to update icon
-			let horizontalRatio = config.grid.thumbnail.ratio;
-			if(config.grid.thumbnail.ratio < 1) {
-				event.target.classList.add('rotate-90');
-				horizontalRatio = 1 / config.grid.thumbnail.ratio;
-			}
-			if(horizontalRatio == 1) event.target.innerText = 'crop_square';
-			else if(horizontalRatio <= 5/4) event.target.innerText = 'crop_5_4';
-			else if(horizontalRatio <= 7/5) event.target.innerText = 'crop_7_5';
-			else if(horizontalRatio <= 3/2) event.target.innerText = 'crop_3_2';
-			else event.target.innerText = 'crop_16_9';
-
 			break;
 	}
 }
