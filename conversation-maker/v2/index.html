@@ -44,7 +44,7 @@
 			<a class="bi bi-chat-dots" href="javascript:void(0);" onclick="showMessages()" title="Show Conversation"> CONVERSATION</a>
 			<a class="bi bi-pencil" href="javascript:void(0);" onclick="showEditor()" title="Show Editor"> EDITOR</a>
 			<div class="view messages" data-animate></div>
-			<div class="view editor">
+			<div class="view editor hidden">
 				<textarea title="editor" placeholder="Message text here..." onchange="updateEditor(event)"></textarea>
 				<label for="sender">Sender:</label>
 				<select name="sender" class="sender" id="sender" onchange="updateSender()">
