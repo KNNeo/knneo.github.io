@@ -315,15 +315,20 @@ function processConversation(converse) {
 		converse.innerHTML = '';
 	// render lines
 	let prevName = '';
+	let sectionName = '';
 	for (let line of lines) {
 		// render message container
 		let lineDiv = document.createElement('div');
 		lineDiv.classList.add('message');
 		converse.appendChild(lineDiv);
-		// find start of section
+		// find start of section, skip and put on next message
 		if(line.startsWith(config.wrapper.section) && line.endsWith(config.wrapper.section)) {
-			lineDiv.setAttribute('data-section', line.replace(new RegExp(config.wrapper.section, 'g'),'').trim());
+			sectionName = line.replace(new RegExp(config.wrapper.section, 'g'),'').trim();
 			continue;
+		}
+		if(sectionName) {
+			lineDiv.setAttribute('data-section', sectionName);
+			sectionName = '';
 		}
 		// render messages
 		let isSystem = line.startsWith(config.wrapper.system) && line.endsWith(config.wrapper.system);
@@ -396,11 +401,13 @@ function processConversation(converse) {
 function startConversation() {
 	let conversation = event.target.closest('.conversation');
 	let messages = conversation.querySelector('.messages');
-	// hide all lines
-	let lines = messages.querySelectorAll('.message');
-	if (Array.from(lines).filter(l => l.classList.contains('hide')).length > 0)
+	// hide all lines from last section, if any
+	let lines = Array.from(messages.querySelectorAll('.message'));
+	if (lines.filter(l => l.classList.contains('hide')).length > 0)
 		return; // should not start if still have lines hidden, means is running
-	for (let line of lines)
+	let sections = messages.querySelectorAll('.message[data-section]');
+	let lastSectionIndex = sections.length > 0 ? lines.indexOf(sections[sections.length - 1]) : 0;
+	for (let line of lines.slice(lastSectionIndex))
 		line.classList.add('hide');
 	// show all choices
 	for(let choice of messages.querySelectorAll('.container.hidden'))
