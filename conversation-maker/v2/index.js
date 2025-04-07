@@ -7,8 +7,13 @@ const config = {
         code: true,
         clear: true
     },
-	option: {
-		default: '====='
+	separator: {
+		line: ':',
+		choice: '|'
+	},
+	wrapper: {
+		system: '===',
+		section: '---'
 	}
 };
 const emojiRegex = /(\p{Emoji}|\p{Emoji_Presentation}|\p{Emoji_Modifier}|\p{Emoji_Modifier_Base}|\p{Emoji_Component}|\p{Extended_Pictographic})+/gv;
@@ -100,7 +105,7 @@ function updateSenderOptions(conversation) {
 		return;
 	let value = selection.value;
 	// reset and render
-	selection.innerHTML = '<option value="">' + config.option.default + '</option>';
+	selection.innerHTML = '<option value="">======</option>';
 	let senders = lines.reduce(function (total, line) {
 		let isUrl = line.startsWith('https://') || line.startsWith('http://');
 		let name = isUrl ? '' : line.trim().substring(0, line.indexOf(separator)).trim();
@@ -301,9 +306,7 @@ function processConversations() {
 }
 
 function processConversation(converse) {
-	let lineSeparator = converse.getAttribute('data-separator') || ':';
-	let choiceSeparator = '|';
-	let systemMessagePrefixSuffix = '===';
+	let lineSeparator = converse.getAttribute('data-separator') || config.separator.line;
 	let lines = converse.innerText.split('\n');
 	if (lines.length < 2) {
 		converse.innerHTML = 'Click on Editor to create a conversation list';
@@ -313,13 +316,20 @@ function processConversation(converse) {
 	// render lines
 	let prevName = '';
 	for (let line of lines) {
-		let isSystem = line.startsWith(systemMessagePrefixSuffix) && line.endsWith(systemMessagePrefixSuffix);
-		let isUrl = line.startsWith('https://') || line.startsWith('http://');
-		// render messages
+		// find end of section
+		if(line.startsWith(config.wrapper.section) && line.endsWith(config.wrapper.section)) {
+			let prevLineDiv = converse.lastElementChild;
+			prevLineDiv.setAttribute('data-section', line.replace(new RegExp(config.wrapper.section, 'g'),'').trim());
+			continue;
+		}
+		// render message container
 		let lineDiv = document.createElement('div');
 		lineDiv.classList.add('message');
 		converse.appendChild(lineDiv);
-		for (let message of line.trim().substring(line.indexOf(lineSeparator) + 1).trim().split(choiceSeparator)) {
+		// render messages
+		let isSystem = line.startsWith(config.wrapper.system) && line.endsWith(config.wrapper.system);
+		let isUrl = line.startsWith('https://') || line.startsWith('http://');
+		for (let message of line.trim().substring(line.indexOf(lineSeparator) + 1).trim().split(config.separator.choice)) {
 			let messageDiv = document.createElement('div');
 			messageDiv.classList.add('container');
 			// change size if only contains emoji
@@ -333,8 +343,8 @@ function processConversation(converse) {
 			let senderDefined = line.includes(lineSeparator);
 			if (!isSystem) // for non-system, if line has no sender, use previous
             lineDiv.setAttribute('aria-label', !isUrl && senderDefined ? line.trim().substring(0, line.indexOf(lineSeparator)).trim() : prevName);
-        if (senderDefined)
-            lineDiv.setAttribute('data-first', '');
+			if (senderDefined)
+				lineDiv.setAttribute('data-first', '');
 			prevName = lineDiv.getAttribute('aria-label');
 			// check sender type
 			if (converse.getAttribute('data-sender') != null) {
@@ -354,7 +364,7 @@ function processConversation(converse) {
 			// extract text after sender name identified
 			messageText.innerText = message;
 			if (isSystem)
-				messageText.innerText = line.replace(/===/g,'').trim();
+				messageText.innerText = line.replace(new RegExp(config.wrapper.system, 'g'),'').trim();
 			messageDiv.appendChild(messageText);
 			if (isUrl) {
 				messageDiv.innerHTML = '';
