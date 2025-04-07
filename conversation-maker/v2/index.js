@@ -406,7 +406,7 @@ function startConversation() {
 	if (lines.filter(l => l.classList.contains('hide')).length > 0)
 		return; // should not start if still have lines hidden, means is running
 	let sections = messages.querySelectorAll('.message[data-section]');
-	let lastSectionIndex = sections.length > 1 ? 1+lines.indexOf(sections[sections.length - 1]) : 0;
+	let lastSectionIndex = sections.length > 0 ? lines.indexOf(sections[sections.length - 1]) : 0;
 	for (let line of lines.slice(lastSectionIndex))
 		line.classList.add('hide');
 	// show all choices
