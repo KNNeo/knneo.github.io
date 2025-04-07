@@ -26,6 +26,7 @@ const config = {
 		expand: false,
 		darkmode: true,
 		size: true,
+		ratio: true,
 		filter: true,
 		slideshow: 5,
 		stats: false,

@@ -207,6 +207,10 @@ body {
 	padding: 0 5px;	
 }
 
+.settings a.rotate-90 {
+    transform: rotate(90deg);
+}
+
 .filters {
     display: flex;
     justify-content: center
