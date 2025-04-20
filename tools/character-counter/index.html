@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en-SG">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+    <link id="fonts-css" rel="stylesheet" type="text/css" href="../../fonts.css">
+    <link id="index-css" rel="stylesheet" type="text/css" href="index.css">
+    <link id="bs-css" rel="stylesheet" type="text/css" href="../../resources/bootstrap-icons.css">
+	<script src="../../darkmode.js"></script>
+	<script src="index.js" defer></script>
+    <title>Character Count</title>
+</head>
+<body onload="startup()" onkeydown="onKeyDown()">
+	<h2>Character Count</h2>
+	<h6>Just a simple real-time textbox character count</h6>
+	<div class="page">
+		<textarea id="input" rows="15" cols="50" placeholder="Type something..." oninput="textAreaOnInput()"></textarea>
+		<div><span id="count"></span> characters</div>
+	</div>
+	<h3 class="settings">
+		<a title="Toggle Dark Mode" class="darkmode material-icons" href="javascript:void(0);" onclick="toggleDarkMode()">brightness_high</a>
+		<div class="spacer"> </div>
+		<a href="https://knneo.github.io/">knneo.github.io</a>
+	</h3>
+</body>
+</html>
