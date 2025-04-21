@@ -43,7 +43,7 @@ a:hover {
 }
 
 textarea {
-  width: 100%;
+  width: calc(100% - 1em);
   resize: vertical;
 }
 
