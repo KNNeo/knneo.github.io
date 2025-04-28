@@ -336,6 +336,15 @@ function renderList() {
             });
 			artistLabel.appendChild(artistInput);
 			mapping.appendChild(artistLabel);
+
+
+            let closeMapping = document.createElement('button');
+            closeMapping.innerText = 'Close';
+            closeMapping.addEventListener('click', function() {
+                event.stopPropagation();
+                video.classList.remove('overlay');
+            });
+            mapping.appendChild(closeMapping);
 		
 			let thumbnail = document.createElement('img');
 			thumbnail.classList.add('thumbnail');
