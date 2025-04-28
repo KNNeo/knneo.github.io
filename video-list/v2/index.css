@@ -1,101 +1,124 @@
 /*Variables*/
 :root {
-  --primary: #0065ff;
-  --secondary: #609fff;
-  --background: #fff;
-  --foreground: #000;
-  --accent: lightgray;
+    --primary: #0065ff;
+    --secondary: #609fff;
+    --background: #fff;
+    --foreground: #000;
+    --accent: lightgray;
 }
 
 .darked:root {
-  --primary: #00e4ff;
-  --secondary: #00abbf;
-  --background: #000;
-  --foreground: #fff;
-  --accent: gray;
+    --primary: #00e4ff;
+    --secondary: #00abbf;
+    --background: #000;
+    --foreground: #fff;
+    --accent: gray;
 }
 
 html {
-	font-family: Open Sans;
-	scroll-behavior: smooth;
-	background-color: var(--background);
-	color: var(--foreground);
+    font-family: Open Sans;
+    scroll-behavior: smooth;
+    background-color: var(--background);
+    color: var(--foreground);
 }
 
-body > * {
-  max-width: 480px;
-  margin: auto;
-  text-align: center;
-  overflow-x: hidden;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+body>* {
+    max-width: 480px;
+    margin: auto;
+    text-align: center;
+    overflow-x: hidden;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 a {
-	color: var(--primary);
-	cursor: pointer;
-	text-align: center;
-	margin: 5px;
+    color: var(--primary);
+    cursor: pointer;
+    text-align: center;
+    margin: 5px;
 }
 
 a:hover {
-	text-decoration: none;
+    text-decoration: none;
 }
 
 .menu {
-	margin: auto;
-	position: fixed;
-	top: 0;
-	left: 0;
-	right: 0;
-	z-index: 2;
-	background-color: var(--background);
+    margin: auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    background-color: var(--background);
 }
 
 .settings {
-	margin: auto;
-	position: fixed;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	z-index: 2;
-	background-color: var(--background);
+    margin: auto;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    background-color: var(--background);
 }
 
 .settings h3 {
-	margin-top: 0;
+    margin-top: 0;
 }
 
 .title {
-	margin: 3px 0;
+    margin: 3px 0;
 }
 
 .list {
-	padding: 95px 0 110px 0;
+    padding: 95px 0 110px 0;
 }
 
 .thumbnail {
-	cursor: pointer;
+    cursor: pointer;
 }
 
 .material-icons {
-	cursor: pointer;
-	padding: 10px;
+    cursor: pointer;
+    padding: 10px;
 }
+
 .closed {
-	display: none;
+    display: none;
 }
+
 .box {
-	position: relative;
-	margin: 5px;
-	vertical-align: top;
-	scroll-snap-align: center;
-	white-space: normal;
-	touch-action: manipulation;
+    position: relative;
+    margin: 5px;
+    vertical-align: top;
+    scroll-snap-align: center;
+    white-space: normal;
+    touch-action: manipulation;
 }
+
+.box .mapping {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--background);
+}
+
+.box.overlay .mapping {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+
+.box.overlay .mapping input {
+    font-size: 1.5em;
+    width: 90%;
+}
+
 .tile {
     -webkit-transition-delay: .3s;
     -o-transition-delay: .3s;
@@ -120,53 +143,68 @@ a:hover {
 }
 
 .shadowed {
-  border: 1px solid var(--foreground);
-  box-shadow: 3px 3px;
+    border: 1px solid var(--foreground);
+    box-shadow: 3px 3px;
 }
+
 .shadowed:active {
-  box-shadow: 1px 1px;
-  transform: translate(2px,2px);
+    box-shadow: 1px 1px;
+    transform: translate(2px, 2px);
 }
+
 .unshadowed {
-	filter: opacity(100%);
-	transition: filter 1s;
+    filter: opacity(100%);
+    transition: filter 1s;
 }
 
 .video-link,
 .video-link:visited {
-	color: var(--foreground);
+    color: var(--foreground);
 }
+
 .video-link:hover {
-	text-decoration: none;
+    text-decoration: none;
 }
 
 .hidden {
-	display: none;
+    display: none;
 }
 
 .settings a {
-	color: var(--foreground);
-	text-decoration: none;	
+    color: var(--foreground);
+    text-decoration: none;
 }
 
-.list > div[data-status=unavailable]::before {
-	position: absolute;
-	content: "UNAVAILABLE";
-	width: 100%;
-	height: 100%;
-	left: 0;
-	z-index: 10;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	background-color: var(--accent);
+.list>div[data-status=unavailable]::before {
+    position: absolute;
+    content: "UNAVAILABLE";
+    width: 100%;
+    height: 100%;
+    left: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--accent);
 }
 
 @media only screen and (max-width : 1040px) {
-/*scrollbars for top and bottom labels only on desktop*/
-html { font-size: 100%; }
-div { scrollbar-width: 0 !important; }
-div::-webkit-scrollbar { width: 0 !important }
-/*snap on touch is better on mobile than on desktop*/
-.profile-box { scroll-snap-align: center; }
+
+    /*scrollbars for top and bottom labels only on desktop*/
+    html {
+        font-size: 100%;
+    }
+
+    div {
+        scrollbar-width: 0 !important;
+    }
+
+    div::-webkit-scrollbar {
+        width: 0 !important
+    }
+
+    /*snap on touch is better on mobile than on desktop*/
+    .profile-box {
+        scroll-snap-align: center;
+    }
 }

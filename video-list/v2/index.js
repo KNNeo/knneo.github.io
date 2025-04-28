@@ -295,15 +295,52 @@ function renderList() {
 		))
 	{
 		let video = document.createElement('div');
+		video.id = v.video.id;
 		video.classList.add('box');
 		video.classList.add('tile');
 		video.classList.add('shadowed');
-		video.id = v.video.id;
+        video.addEventListener('contextmenu', function() {
+            event.preventDefault();
+            this.classList.toggle('overlay');
+        });
+
+            let mapping = document.createElement('div');
+            mapping.classList.add('mapping');
+			mapping.style.height = '90px';
+			video.appendChild(mapping);
+
+            let songLabel = document.createElement('label');
+            songLabel.classList.add('song');
+            songLabel.textContent = "Song Title:";
+            let songInput = document.createElement('input');
+            songInput.value = v.mapping?.song || v.video.title;
+            songInput.addEventListener('input', function() {
+                let vid = list.find(l => l.video.id == v.video.id);
+                if(!vid.mapping) vid.mapping = {};
+                vid.mapping.song = this.value;
+                localStorage.setItem('videolist-list', JSON.stringify(window['list']));
+            });
+			songLabel.appendChild(songInput);
+			mapping.appendChild(songLabel);
+
+            let artistLabel = document.createElement('label');
+            artistLabel.classList.add('artist');
+            artistLabel.textContent = "Artist Title:";
+            let artistInput = document.createElement('input');
+            artistInput.value = v.mapping?.artist || v.channel.title;
+            artistInput.addEventListener('input', function() {
+                let vid = list.find(l => l.video.id == v.video.id);
+                if(!vid.mapping) vid.mapping = {};
+                vid.mapping.artist = this.value;
+                localStorage.setItem('videolist-list', JSON.stringify(window['list']));
+            });
+			artistLabel.appendChild(artistInput);
+			mapping.appendChild(artistLabel);
 		
 			let thumbnail = document.createElement('img');
 			thumbnail.classList.add('thumbnail');
 			thumbnail.setAttribute('data-image', v.video.thumbnail);
-			thumbnail.style.width = '120px';
+			thumbnail.style.height = '90px';
 			thumbnail.title = v.video.title;
 			thumbnail.addEventListener('click', function() {
 				window.open(v.video.url);
