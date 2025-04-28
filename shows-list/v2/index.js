@@ -1,6 +1,6 @@
 //--SETTINGS--//
 const currentYear = 2025;
-const currentSeason = 'Winter';
+const currentSeason = 'Spring';
 const maxPerSeason = 7;
 const seasons = [
 	{ title:'Winter', altTitle:'' },
