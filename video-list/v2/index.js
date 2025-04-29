@@ -5,7 +5,7 @@ const apiKey = function() {
 	// contains method to obtain YouTube API v3 key to query
 	return localStorage.getItem('videolist-key');
 };
-const version = '20240422';
+const version = '20250429';
 
 //--COMMON EVENTS--//
 //on startup
@@ -109,10 +109,9 @@ function onLoadJson(response) {
 						id: res.snippet.resourceId.videoId,
 						title: res.snippet.title,
 						thumbnail: res.snippet.thumbnails.default.url,
-						date: res.snippet.publishedAt,
+						date: res.snippet.publishedAt.toString(),
 						url: 'https://www.youtube.com/watch?v='
 						+ res.snippet.resourceId.videoId,
-						
 					},
 					channel: {
 						id: res.snippet.videoOwnerChannelId,
