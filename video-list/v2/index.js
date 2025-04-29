@@ -109,6 +109,7 @@ function onLoadJson(response) {
 						id: res.snippet.resourceId.videoId,
 						title: res.snippet.title,
 						thumbnail: res.snippet.thumbnails.default.url,
+						date: res.snippet.publishedAt,
 						url: 'https://www.youtube.com/watch?v='
 						+ res.snippet.resourceId.videoId,
 						
@@ -306,7 +307,6 @@ function renderList() {
 
             let mapping = document.createElement('div');
             mapping.classList.add('mapping');
-			mapping.style.height = '90px';
 			video.appendChild(mapping);
 
             let songLabel = document.createElement('label');
@@ -349,7 +349,6 @@ function renderList() {
 			let thumbnail = document.createElement('img');
 			thumbnail.classList.add('thumbnail');
 			thumbnail.setAttribute('data-image', v.video.thumbnail);
-			thumbnail.style.height = '90px';
 			thumbnail.title = v.video.title;
 			thumbnail.addEventListener('click', function() {
 				window.open(v.video.url);
@@ -416,4 +415,28 @@ function setInput(id) {
 		localStorage.setItem('videolist-key', input);
 		location.reload();
 	}
+}
+
+function exportMappingData() {
+	let textOutput = '"Id","Date Added","Title","Channel","Thumbnail","Url","Song Title","Artist Title"';
+	let nowYear = luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: config.timezone}).year;
+	// title, MM/dd/yyyy, true, description, true
+	for(let v of window['list'])
+	{
+		textOutput += '\n';
+
+		let line = v + ',"' + v.video.date + '","' + v.video.title + '","' + v.channel.title + '","' + v.video.thumbnail + '","' + (v.mapping.title || '') +  '","' + (v.mapping.artist || '') + '"';
+		textOutput += line;
+	}
+	
+	//create download file
+	let downloadLink = document.createElement('a');
+	downloadLink.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(textOutput);
+	downloadLink.target = '_blank';
+	downloadLink.download = 'videos.csv';
+	document.body.appendChild(downloadLink);
+	downloadLink.click();
+	document.body.removeChild(downloadLink);
+	
+	console.log('Export done');
 }

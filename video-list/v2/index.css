@@ -79,6 +79,7 @@ a:hover {
 
 .thumbnail {
     cursor: pointer;
+    height: 90px;
 }
 
 .material-icons {
@@ -99,32 +100,33 @@ a:hover {
     touch-action: manipulation;
 }
 
-.box .mapping {
+.mapping {
     display: none;
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     background-color: var(--background);
+    height: 90px;
 }
 
-.box.overlay .mapping {
+.overlay .mapping {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     flex-direction: row;
 }
 
-.box.overlay .mapping label {
+.overlay .mapping label {
     flex: 0 0 50%;
 }
 
-.box.overlay .mapping input {
+.overlay .mapping input {
     font-size: 1.5em;
     width: 90%;
 }
 
-.box.overlay .mapping button {
+.overlay .mapping button {
     margin: auto;
 }
 
