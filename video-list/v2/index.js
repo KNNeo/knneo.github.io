@@ -7,22 +7,115 @@ const config = {
 	},
 	api: {
 		url: 'https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50'
-	}
+	},
+	list: {
+		temp: [],
+		active: [],
+		inactive: []
+	},
+	loading: true,
+	connected: false,
+	refresh: false
 };
 const apiKey = function() {
 	// contains method to obtain YouTube API v3 key to query
 	return localStorage.getItem('videolist-key');
 };
 
-//--COMMON EVENTS--//
-//on startup
+//--EVENT LISTENERS--//
 window.addEventListener('load', openRequest);
 window.addEventListener('scroll', fadeIn); 
+
+//--EVENT HANDLERS--//
+function toggleSort(event) {
+	switch(event.target.innerText) {
+		case 'swap_vert':
+			event.target.innerText = 'south';
+			list.sort(function(a,b) {
+				return a.video.title.localeCompare(b.video.title, 'ja');
+			});
+			break;
+		case 'south':
+			event.target.innerText = 'north';
+			list.sort(function(a,b) {
+				return b.video.title.localeCompare(a.video.title, 'ja');
+			});
+			break;
+		case 'north':
+			event.target.innerText = 'swap_vert';
+			list = Array.from(config.list.temp);
+			break;
+		default:
+			break;
+	}
+	renderList();
+}
+
+function toggleSearch(event) {	
+	switch(event.target.innerText) {
+		case 'search':
+			let input = prompt('Enter search term (case-insensitive):\n[Empty to reset, stored in memory]');
+			if (input != null) {
+				event.target.innerText = 'saved_search';
+				event.target.style.color = 'var(--foreground)';
+				localStorage.setItem('videolist-search', input || '');
+			}
+			break;
+		case 'saved_search':
+			event.target.innerText = 'search';
+			event.target.style.color = '';
+			localStorage.setItem('videolist-search', '');
+			break;
+		default:
+			break;
+	}
+	renderList();
+}
+
+function toggleWithPlaylist(event) {
+	switch(event.target.innerText) {
+		case 'queue_music':
+			event.target.innerText = 'music_note';
+			event.target.title = 'Playing Video Only';
+			localStorage.setItem('videolist-with-playlist', false);
+			break;
+		case 'music_note':
+			event.target.innerText = 'queue_music';
+			event.target.title = 'Playing Video with Playlist';
+			localStorage.setItem('videolist-with-playlist', true);
+			break;
+		default:
+			break;
+	}
+	renderList();
+}
+
+function toggleShowMapping(event) {
+	switch(event.target.innerText) {
+		case 'hdr_strong':
+			event.target.innerText = 'nat';
+			event.target.title = 'Showing Video Mapping';
+			localStorage.setItem('videolist-show-mapping', true);
+			break;
+		case 'nat':
+			event.target.innerText = 'hdr_strong';
+			event.target.title = 'Showing Original Tags';
+			localStorage.setItem('videolist-show-mapping', false);
+			break;
+		default:
+			break;
+	}
+	renderList();
+}
+
+function randomVideo() {
+	let random = list[Math.floor(Math.random() * list.length)];
+	window.open(random.video.url + (localStorage.getItem('videolist-with-playlist') == 'true' ? '&list=' + config.playlist.id : ''));
+}
 
 //--FUNCTIONS--//
 function openRequest() {
 	checkVer();
-	initializeVariables();
 	renderMenu();
 	runLoader();
 	getJson(config.api.url + '&playlistId=' + config.playlist.id + '&key=' + apiKey(), onLoadJson);
@@ -41,35 +134,6 @@ function checkVer(override) {
 	}
 }
 
-function initializeVariables() {
-	window['list'] = [];
-	window['deleted'] = [];
-	window['loading'] = true;
-	window['connected'] = false;
-	window['refresh'] = false;
-	window['response'] = [];
-}
-
-function fadeIn() {
-	let boxes = document.querySelectorAll(".tile");
-    for (let elem of boxes) {
-        // let elem = boxes[i]
-        let distInViewFromTop = elem.getBoundingClientRect().top - window.innerHeight + 20;
-        let distInViewFromBottom = elem.getBoundingClientRect().bottom + window.innerHeight - 20;
-		let inView = distInViewFromTop <= 0 && distInViewFromBottom > window.innerHeight;
-		let thumbnail = elem.querySelector('.thumbnail');
-        if (thumbnail.complete && inView) {
-			thumbnail.src = thumbnail.getAttribute('data-image');	
-            elem.classList.add('tile-view');
-            setTimeout(function() { elem.classList.add('no-delay'); }, 500);
-        }
-		else {
-            elem.classList.remove('tile-view');
-            elem.classList.remove('no-delay');
-        }
-    }
-}
-
 function isPlaylistUpdated(newTag) {
 	// console.log(check, localStorage.getItem('videolist-etag'));
 	let lastTag = localStorage.getItem('videolist-etag') || '';
@@ -86,34 +150,34 @@ function onLoadJson(response) {
 		{
 			// console.log('next token available', response.nextPageToken);
 			//if fetch same tag, then take from storage, skip load response
-			if(isPlaylistUpdated(response.etag) && (window['refresh'] || confirm('new data found on playlist! replace current data?')))
+			if(isPlaylistUpdated(response.etag) && (config.refresh || confirm('new data found on playlist! replace current data?')))
 			{
-				window['refresh'] = true;
+				config.refresh = true;
 				//set tag, load response, get next response via token
-				if(!window['connected'])
+				if(!config.connected)
 					localStorage.setItem('videolist-etag', response.etag);
 				
 				// console.log(items);
-				window['list'] = window['list'].concat(items);
-				window['deleted'] = window['deleted'].concat(response.items.filter(l => l.snippet.thumbnails.default == null));
-				window['connected'] = true;
+				config.list.active = config.list.active.concat(items);
+				config.list.inactive = config.list.inactive.concat(response.items.filter(l => l.snippet.thumbnails.default == null));
+				config.connected = true;
 				getJson(config.api.url + '&pageToken=' + response.nextPageToken +  
 					'&playlistId=' + config.playlist.id + '&key=' + apiKey(), onLoadJson);
 			}
 			else 
 			{
 				console.log('no change to playlist: load from storage');
-				window['list'] = JSON.parse(localStorage.getItem('videolist-list'));
-				window['deleted'] = JSON.parse(localStorage.getItem('videolist-deleted'));
+				config.list.active = JSON.parse(localStorage.getItem('videolist-list'));
+				config.list.inactive = JSON.parse(localStorage.getItem('videolist-deleted'));
 				startup();
 			}
 		}
 		else //load last response, start render
 		{
 			// console.log(items);
-			window['list'] = window['list'].concat(items);
-			window['deleted'] = window['deleted'].concat(response.items.filter(l => l.snippet.thumbnails.default == null));
-			window['list'] = window['list'].map(res => {
+			config.list.active = config.list.active.concat(items);
+			config.list.inactive = config.list.inactive.concat(response.items.filter(l => l.snippet.thumbnails.default == null));
+			config.list.active = config.list.active.map(res => {
 				return {
 					video: {
 						id: res.snippet.resourceId.videoId,
@@ -131,9 +195,9 @@ function onLoadJson(response) {
 					}
 				};
 			});
-			// console.log('done', window['list']);
-			localStorage.setItem('videolist-list', JSON.stringify(window['list']));
-			localStorage.setItem('videolist-deleted', JSON.stringify(window['deleted']));
+			// console.log('done', config.list.active, config.list.inactive);
+			localStorage.setItem('videolist-list', JSON.stringify(config.list.active));
+			localStorage.setItem('videolist-deleted', JSON.stringify(config.list.inactive));
 			startup();
 		}
 	}
@@ -144,14 +208,15 @@ function onLoadJson(response) {
 	}
 }
 
+//--RENDER--//
 function startup() {
-	window['refresh'] = false;
-	list = Array.from(window['list']);
+	config.refresh = false;
+	config.list.temp = Array.from(config.list.active);
 	stopLoader();
 	renderList();
 	window.scrollTo(0,0);
-	if(window['deleted'].length > 0)
-		console.log(window['deleted'].length + ' deleted video(s) detected');
+	if(config.list.inactive.length > 0)
+		console.log(config.list.inactive.length + ' deleted video(s) detected');
 }
 
 function renderMenu() {
@@ -222,96 +287,10 @@ function renderMenu() {
 	document.querySelector('.menu').appendChild(showMapping);
 }
 
-function toggleSort(event) {
-	switch(event.target.innerText) {
-		case 'swap_vert':
-			event.target.innerText = 'south';
-			list.sort(function(a,b) {
-				return a.video.title.localeCompare(b.video.title, 'ja');
-			});
-			break;
-		case 'south':
-			event.target.innerText = 'north';
-			list.sort(function(a,b) {
-				return b.video.title.localeCompare(a.video.title, 'ja');
-			});
-			break;
-		case 'north':
-			event.target.innerText = 'swap_vert';
-			list = Array.from(window['list']);
-			break;
-		default:
-			break;
-	}
-	renderList();
-}
-
-function toggleSearch(event) {	
-	switch(event.target.innerText) {
-		case 'search':
-			let input = prompt('Enter search term (case-insensitive):\n[Empty to reset, stored in memory]');
-			if (input != null) {
-				event.target.innerText = 'saved_search';
-				event.target.style.color = 'var(--foreground)';
-				localStorage.setItem('videolist-search', input || '');
-			}
-			break;
-		case 'saved_search':
-			event.target.innerText = 'search';
-			event.target.style.color = '';
-			localStorage.setItem('videolist-search', '');
-			break;
-		default:
-			break;
-	}
-	renderList();
-}
-
-function toggleWithPlaylist(event) {
-	switch(event.target.innerText) {
-		case 'queue_music':
-			event.target.innerText = 'music_note';
-			event.target.title = 'Playing Video Only';
-			localStorage.setItem('videolist-with-playlist', false);
-			break;
-		case 'music_note':
-			event.target.innerText = 'queue_music';
-			event.target.title = 'Playing Video with Playlist';
-			localStorage.setItem('videolist-with-playlist', true);
-			break;
-		default:
-			break;
-	}
-	renderList();
-}
-
-function toggleShowMapping(event) {
-	switch(event.target.innerText) {
-		case 'hdr_strong':
-			event.target.innerText = 'nat';
-			event.target.title = 'Showing Video Mapping';
-			localStorage.setItem('videolist-show-mapping', true);
-			break;
-		case 'nat':
-			event.target.innerText = 'hdr_strong';
-			event.target.title = 'Showing Original Tags';
-			localStorage.setItem('videolist-show-mapping', false);
-			break;
-		default:
-			break;
-	}
-	renderList();
-}
-
-function randomVideo() {
-	let random = list[Math.floor(Math.random() * list.length)];
-	window.open(random.video.url + (localStorage.getItem('videolist-with-playlist') == 'true' ? '&list=' + config.playlist.id : ''));
-}
-
 function renderList() {
 	document.querySelector('.list').innerHTML = '';
 	
-	for(let v of list.filter(l => 
+	for(let v of config.list.temp.filter(l => 
 		l.video.title.toLowerCase()
 		.includes((localStorage.getItem('videolist-search') || '').toLowerCase()) ||
 		l.channel.title.toLowerCase()
@@ -334,28 +313,28 @@ function renderList() {
 
             let songLabel = document.createElement('label');
             songLabel.classList.add('song');
-            songLabel.textContent = "Song Title:";
+            songLabel.textContent = "Song Title";
             let songInput = document.createElement('input');
             songInput.value = v.mapping?.song || v.video.title;
             songInput.addEventListener('input', function() {
-                let vid = list.find(l => l.video.id == v.video.id);
+                let vid = config.list.temp.find(l => l.video.id == v.video.id);
                 if(!vid.mapping) vid.mapping = {};
                 vid.mapping.song = this.value;
-                localStorage.setItem('videolist-list', JSON.stringify(window['list']));
+                localStorage.setItem('videolist-list', JSON.stringify(config.list.temp));
             });
 			songLabel.appendChild(songInput);
 			mapping.appendChild(songLabel);
 
             let artistLabel = document.createElement('label');
             artistLabel.classList.add('artist');
-            artistLabel.textContent = "Artist Title:";
+            artistLabel.textContent = "Artist Title";
             let artistInput = document.createElement('input');
             artistInput.value = v.mapping?.artist || v.channel.title;
             artistInput.addEventListener('input', function() {
-                let vid = list.find(l => l.video.id == v.video.id);
+                let vid = config.list.temp.find(l => l.video.id == v.video.id);
                 if(!vid.mapping) vid.mapping = {};
                 vid.mapping.artist = this.value;
-                localStorage.setItem('videolist-list', JSON.stringify(window['list']));
+                localStorage.setItem('videolist-list', JSON.stringify(config.list.temp));
             });
 			artistLabel.appendChild(artistInput);
 			mapping.appendChild(artistLabel);
@@ -408,6 +387,27 @@ function renderList() {
 	setTimeout(fadeIn, 200);
 }
 
+function fadeIn() {
+	let boxes = document.querySelectorAll(".tile");
+    for (let elem of boxes) {
+        // let elem = boxes[i]
+        let distInViewFromTop = elem.getBoundingClientRect().top - window.innerHeight + 20;
+        let distInViewFromBottom = elem.getBoundingClientRect().bottom + window.innerHeight - 20;
+		let inView = distInViewFromTop <= 0 && distInViewFromBottom > window.innerHeight;
+		let thumbnail = elem.querySelector('.thumbnail');
+        if (thumbnail.complete && inView) {
+			thumbnail.src = thumbnail.getAttribute('data-image');	
+            elem.classList.add('tile-view');
+            setTimeout(function() { elem.classList.add('no-delay'); }, 500);
+        }
+		else {
+            elem.classList.remove('tile-view');
+            elem.classList.remove('no-delay');
+        }
+    }
+}
+
+//--LOADER--//
 function runLoader() {
 	switch(document.querySelector('.loader').innerText)
 	{
@@ -424,14 +424,15 @@ function runLoader() {
 			document.querySelector('.loader').innerText = 'hourglass_empty';
 			break;
 	}
-	if(window['loading']) setTimeout(runLoader, 500);
+	if(config.loading) setTimeout(runLoader, 500);
 }
 
 function stopLoader() {
-	window['loading'] = false;
+	config.loading = false;
 	document.querySelector('.loader').classList.add('hidden');
 }
 
+//--INPUT--//
 function setInput(id) {
 	let input = prompt('Enter ' + id);
 
@@ -443,7 +444,7 @@ function setInput(id) {
 
 function exportMappingData() {
 	let textOutput = '"Id","Date Added","Title","Channel","Thumbnail","Url","Song Title","Artist Title"';
-	for(let v of window['list'])
+	for(let v of config.list.temp)
 	{
 		textOutput += '\n';
 
