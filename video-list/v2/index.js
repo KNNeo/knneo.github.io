@@ -28,22 +28,22 @@ window.addEventListener('scroll', fadeIn);
 
 //--EVENT HANDLERS--//
 function toggleSort(event) {
+	config.list.temp = Array.from(config.list.active);
 	switch(event.target.innerText) {
 		case 'swap_vert':
 			event.target.innerText = 'south';
-			list.sort(function(a,b) {
+			config.list.temp.sort(function(a,b) {
 				return a.video.title.localeCompare(b.video.title, 'ja');
 			});
 			break;
 		case 'south':
 			event.target.innerText = 'north';
-			list.sort(function(a,b) {
+			config.list.temp.sort(function(a,b) {
 				return b.video.title.localeCompare(a.video.title, 'ja');
 			});
 			break;
 		case 'north':
 			event.target.innerText = 'swap_vert';
-			list = Array.from(config.list.temp);
 			break;
 		default:
 			break;
