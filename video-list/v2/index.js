@@ -40,11 +40,10 @@ function fadeIn() {
     }
 }
 
-function checkLastUpdated(check) {
+function isPlaylistUpdated(newTag) {
 	// console.log(check, localStorage.getItem('videolist-etag'));
 	let lastTag = localStorage.getItem('videolist-etag') || '';
-	let nowTag = check;
-	return lastTag == nowTag;
+	return lastTag != newTag && confirm('new data found on playlist! replace current data?');
 }
 
 function checkVer(override) {
@@ -78,15 +77,9 @@ function onLoadJson(response) {
 		{
 			// console.log('next token available', response.nextPageToken);
 			//if fetch same tag, then take from storage, skip load response
-			if(checkLastUpdated(response.etag) && !confirm('new data found on playlist! replace current data?'))
+			if(isPlaylistUpdated(response.etag))
 			{
-				console.log('no change to playlist: load from storage');
-				window['list'] = JSON.parse(localStorage.getItem('videolist-list'));
-				window['deleted'] = JSON.parse(localStorage.getItem('videolist-deleted'));
-				startup();
-			}
-			else //load response, get next response via token
-			{
+				//set tag, load response, get next response via token
 				if(!window['connected'])
 					localStorage.setItem('videolist-etag', response.etag);
 				
@@ -96,6 +89,13 @@ function onLoadJson(response) {
 				window['connected'] = true;
 				getJson(baseUrl + '&pageToken=' + response.nextPageToken +  
 					'&playlistId=' + playlistId + '&key=' + apiKey(), onLoadJson);
+			}
+			else 
+			{
+				console.log('no change to playlist: load from storage');
+				window['list'] = JSON.parse(localStorage.getItem('videolist-list'));
+				window['deleted'] = JSON.parse(localStorage.getItem('videolist-deleted'));
+				startup();
 			}
 		}
 		else //load last response, start render
