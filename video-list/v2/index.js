@@ -32,7 +32,7 @@ const config = {
 			prompt: 'Enter search term (case-insensitive):\n[Empty to reset, stored in memory]',
 			icon: 'Search Video/Channel'
 		},
-		sort: 'Sort by Video Title',
+		sort: 'Sort by Date Added',
 		random: 'Play Random Video',
 		playback: {
 			video: 'Playing Video Only',
@@ -61,22 +61,22 @@ window.addEventListener('scroll', fadeIn);
 
 //--EVENT HANDLERS--//
 function toggleSort(event) {
-	config.list.temp = Array.from(config.list.active);
 	switch(event.target.innerText) {
 		case 'swap_vert':
 			event.target.innerText = 'south';
 			config.list.temp.sort(function(a,b) {
-				return a.video.title.localeCompare(b.video.title, 'ja');
+				return a.video.date.localeCompare(b.video.date, 'ja');
 			});
 			break;
 		case 'south':
 			event.target.innerText = 'north';
 			config.list.temp.sort(function(a,b) {
-				return b.video.title.localeCompare(a.video.title, 'ja');
+				return b.video.date.localeCompare(a.video.date, 'ja');
 			});
 			break;
 		case 'north':
 			event.target.innerText = 'swap_vert';
+			config.list.temp = Array.from(config.list.active);
 			break;
 		default:
 			break;
