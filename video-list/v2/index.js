@@ -1,25 +1,54 @@
 //--DEFAULT SETTINGS--//
-const pageTitle = 'Video Playlist';
-const playlistId = 'PL_jWj0Wl8TG-UlSmo4HG3kDtTJYBO4UgB';
+const config = {
+	version: '20250429',
+	title: 'Video Playlist',
+	playlist: {
+		id: 'PL_jWj0Wl8TG-UlSmo4HG3kDtTJYBO4UgB',
+	},
+	api: {
+		url: 'https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50'
+	}
+};
 const apiKey = function() {
 	// contains method to obtain YouTube API v3 key to query
 	return localStorage.getItem('videolist-key');
 };
-const version = '20250429';
 
 //--COMMON EVENTS--//
 //on startup
-const windowHeight = window.innerHeight;
-const windowWidth = window.innerWidth;
-//generate from json file
-const spacer = 'https://knneo.github.io/resources/spacer.gif';
-const baseUrl = 'https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50';
-//do not touch
-let list = [];
 window.addEventListener('load', openRequest);
 window.addEventListener('scroll', fadeIn); 
 
 //--FUNCTIONS--//
+function openRequest() {
+	checkVer();
+	initializeVariables();
+	renderMenu();
+	runLoader();
+	getJson(config.api.url + '&playlistId=' + config.playlist.id + '&key=' + apiKey(), onLoadJson);
+}
+
+function checkVer(override) {
+	//for any changes to local storage, can wipe remotely if number not tally
+	if(override || localStorage.getItem('videolist-ver') != config.version)
+	{
+		localStorage.removeItem('videolist-list');
+		localStorage.removeItem('videolist-deleted');
+		localStorage.removeItem('videolist-search');
+		localStorage.removeItem('videolist-with-playlist');
+		localStorage.removeItem('videolist-etag');
+		localStorage.setItem('videolist-ver', config.version);
+	}
+}
+
+function initializeVariables() {
+	window['list'] = [];
+	window['deleted'] = [];
+	window['loading'] = true;
+	window['connected'] = false;
+	window['response'] = [];
+}
+
 function fadeIn() {
 	let boxes = document.querySelectorAll(".tile");
     for (let elem of boxes) {
@@ -46,27 +75,6 @@ function isPlaylistUpdated(newTag) {
 	return lastTag != newTag && confirm('new data found on playlist! replace current data?');
 }
 
-function checkVer(override) {
-	//for any changes to local storage, can wipe remotely if number not tally
-	if(override || localStorage.getItem('videolist-ver') != version)
-	{
-		localStorage.removeItem('videolist-list');
-		localStorage.removeItem('videolist-deleted');
-		localStorage.removeItem('videolist-search');
-		localStorage.removeItem('videolist-with-playlist');
-		localStorage.removeItem('videolist-etag');
-		localStorage.setItem('videolist-ver', version);
-	}
-}
-
-function openRequest() {
-	checkVer();
-	initializeVariables();
-	renderMenu();
-	runLoader();
-	getJson(baseUrl + '&playlistId=' + playlistId + '&key=' + apiKey(), onLoadJson);
-}
-
 function onLoadJson(response) {
 	if(response != null) 
 	{
@@ -87,8 +95,8 @@ function onLoadJson(response) {
 				window['list'] = window['list'].concat(items);
 				window['deleted'] = window['deleted'].concat(response.items.filter(l => l.snippet.thumbnails.default == null));
 				window['connected'] = true;
-				getJson(baseUrl + '&pageToken=' + response.nextPageToken +  
-					'&playlistId=' + playlistId + '&key=' + apiKey(), onLoadJson);
+				getJson(config.api.url + '&pageToken=' + response.nextPageToken +  
+					'&playlistId=' + config.playlist.id + '&key=' + apiKey(), onLoadJson);
 			}
 			else 
 			{
@@ -134,14 +142,6 @@ function onLoadJson(response) {
 	}
 }
 
-function initializeVariables() {
-	window['list'] = [];
-	window['deleted'] = [];
-	window['loading'] = true;
-	window['connected'] = false;
-	window['response'] = [];
-}
-
 function startup() {
 	list = Array.from(window['list']);
 	stopLoader();
@@ -154,7 +154,7 @@ function startup() {
 function renderMenu() {
 	let title = document.createElement('h3');
 	title.classList.add('title');
-	title.innerText = pageTitle;
+	title.innerText = config.title;
 	title.style.cursor = 'pointer';
 	title.addEventListener('click', startup);
 	
@@ -170,7 +170,7 @@ function renderMenu() {
 	description.classList.add('title');
 	
 		let descriptionSource = document.createElement('a');
-		descriptionSource.href = 'https://www.youtube.com/playlist?list=' + playlistId;
+		descriptionSource.href = 'https://www.youtube.com/playlist?list=' + config.playlist.id;
 		descriptionSource.innerText = 'Go To YouTube Playlist';
 		descriptionSource.setAttribute('target','_blank');
 		
@@ -302,7 +302,7 @@ function toggleShowMapping(event) {
 
 function randomVideo() {
 	let random = list[Math.floor(Math.random() * list.length)];
-	window.open(random.video.url + (localStorage.getItem('videolist-with-playlist') == 'true' ? '&list=' + playlistId : ''));
+	window.open(random.video.url + (localStorage.getItem('videolist-with-playlist') == 'true' ? '&list=' + config.playlist.id : ''));
 }
 
 function renderList() {
@@ -379,7 +379,7 @@ function renderList() {
 			
 				let titleLink = document.createElement('a');
 				titleLink.classList.add('video-link');
-				titleLink.href = v.video.url + (localStorage.getItem('videolist-with-playlist') == 'true' ? '&list=' + playlistId : '');
+				titleLink.href = v.video.url + (localStorage.getItem('videolist-with-playlist') == 'true' ? '&list=' + config.playlist.id : '');
 				titleLink.innerText = localStorage.getItem('videolist-show-mapping') == 'true' ? (v.mapping?.song || v.video.title) : v.video.title;
 				titleLink.setAttribute('target','_blank');
 			
