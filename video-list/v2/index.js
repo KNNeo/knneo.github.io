@@ -73,7 +73,7 @@ function fadeIn() {
 function isPlaylistUpdated(newTag) {
 	// console.log(check, localStorage.getItem('videolist-etag'));
 	let lastTag = localStorage.getItem('videolist-etag') || '';
-	return lastTag != newTag && confirm('new data found on playlist! replace current data?');
+	return lastTag != newTag;
 }
 
 function onLoadJson(response) {
@@ -86,7 +86,7 @@ function onLoadJson(response) {
 		{
 			// console.log('next token available', response.nextPageToken);
 			//if fetch same tag, then take from storage, skip load response
-			if(window['refresh'] || isPlaylistUpdated(response.etag))
+			if(isPlaylistUpdated(response.etag) && (window['refresh'] || confirm('new data found on playlist! replace current data?')))
 			{
 				window['refresh'] = true;
 				//set tag, load response, get next response via token
