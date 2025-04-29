@@ -422,7 +422,7 @@ function exportMappingData() {
 	{
 		textOutput += '\n';
 
-		let line = '"' + v.video.id + '","' + v.video.date + '","' + v.video.title + '","' + v.channel.title + '","' + v.video.thumbnail + '","' + (v.mapping?.song || '') +  '","' + (v.mapping?.artist || '') + '"';
+		let line = '"' + v.video.id + '","' + v.video.date + '","' + v.video.title + '","' + v.channel.title + '","' + v.video.thumbnail + '","' + v.video.url + '","' + (v.mapping?.song || '') +  '","' + (v.mapping?.artist || '') + '"';
 		textOutput += line;
 	}
 	
