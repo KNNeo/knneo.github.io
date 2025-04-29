@@ -415,7 +415,7 @@ function renderList() {
 }
 
 function fadeIn() {
-	let boxes = list.querySelectorAll(".tile");
+	let boxes = listDiv.querySelectorAll(".tile");
     for (let elem of boxes) {
         // let elem = boxes[i]
         let distInViewFromTop = elem.getBoundingClientRect().top - window.innerHeight + 20;
