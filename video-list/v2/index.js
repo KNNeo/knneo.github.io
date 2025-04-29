@@ -78,7 +78,7 @@ function onLoadJson(response) {
 		{
 			// console.log('next token available', response.nextPageToken);
 			//if fetch same tag, then take from storage, skip load response
-			if(checkLastUpdated(response.etag))
+			if(checkLastUpdated(response.etag) && !confirm('new data found on playlist! replace current data?'))
 			{
 				console.log('no change to playlist: load from storage');
 				window['list'] = JSON.parse(localStorage.getItem('videolist-list'));
