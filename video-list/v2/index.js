@@ -47,9 +47,9 @@ function checkLastUpdated(check) {
 	return lastTag == nowTag;
 }
 
-function checkVer() {
+function checkVer(override) {
 	//for any changes to local storage, can wipe remotely if number not tally
-	if(localStorage.getItem('videolist-ver') != version)
+	if(override || localStorage.getItem('videolist-ver') != version)
 	{
 		localStorage.removeItem('videolist-list');
 		localStorage.removeItem('videolist-deleted');
@@ -419,19 +419,17 @@ function setInput(id) {
 
 function exportMappingData() {
 	let textOutput = '"Id","Date Added","Title","Channel","Thumbnail","Url","Song Title","Artist Title"';
-	let nowYear = luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: config.timezone}).year;
-	// title, MM/dd/yyyy, true, description, true
 	for(let v of window['list'])
 	{
 		textOutput += '\n';
 
-		let line = v + ',"' + v.video.date + '","' + v.video.title + '","' + v.channel.title + '","' + v.video.thumbnail + '","' + (v.mapping.title || '') +  '","' + (v.mapping.artist || '') + '"';
+		let line = '"' + v.video.id + '","' + v.video.date + '","' + v.video.title + '","' + v.channel.title + '","' + v.video.thumbnail + '","' + (v.mapping?.title || '') +  '","' + (v.mapping?.artist || '') + '"';
 		textOutput += line;
 	}
 	
 	//create download file
 	let downloadLink = document.createElement('a');
-	downloadLink.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(textOutput);
+	downloadLink.href = 'data:text/plain;charset=utf-16,' + encodeURIComponent(textOutput);
 	downloadLink.target = '_blank';
 	downloadLink.download = 'videos.csv';
 	document.body.appendChild(downloadLink);
