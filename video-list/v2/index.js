@@ -109,7 +109,7 @@ function onLoadJson(response) {
 						id: res.snippet.resourceId.videoId,
 						title: res.snippet.title,
 						thumbnail: res.snippet.thumbnails.default.url,
-						date: res.snippet.publishedAt.toString(),
+						date: res.snippet.publishedAt,
 						url: 'https://www.youtube.com/watch?v='
 						+ res.snippet.resourceId.videoId,
 					},
