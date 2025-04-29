@@ -46,6 +46,7 @@ function initializeVariables() {
 	window['deleted'] = [];
 	window['loading'] = true;
 	window['connected'] = false;
+	window['refresh'] = false;
 	window['response'] = [];
 }
 
@@ -85,8 +86,9 @@ function onLoadJson(response) {
 		{
 			// console.log('next token available', response.nextPageToken);
 			//if fetch same tag, then take from storage, skip load response
-			if(isPlaylistUpdated(response.etag))
+			if(window['refresh'] || isPlaylistUpdated(response.etag))
 			{
+				window['refresh'] = true;
 				//set tag, load response, get next response via token
 				if(!window['connected'])
 					localStorage.setItem('videolist-etag', response.etag);
@@ -143,6 +145,7 @@ function onLoadJson(response) {
 }
 
 function startup() {
+	window['refresh'] = false;
 	list = Array.from(window['list']);
 	stopLoader();
 	renderList();
