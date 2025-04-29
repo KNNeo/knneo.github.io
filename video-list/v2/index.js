@@ -188,15 +188,13 @@ function renderMenu() {
 		search.style.color = 'var(--foreground)';
 	}
 	search.addEventListener('click', toggleSearch);
-
 	document.querySelector('.menu').appendChild(search);
 	
 	let sort = document.createElement('a');
 	sort.classList.add('material-icons');
 	sort.title = 'Sort by Video Title';
 	sort.innerText = 'swap_vert';
-	sort.addEventListener('click', toggleSort);
-		
+	sort.addEventListener('click', toggleSort);		
 	document.querySelector('.menu').appendChild(sort);
 	
 	let shuffle = document.createElement('a');
@@ -204,16 +202,21 @@ function renderMenu() {
 	shuffle.title = 'Play Random Video';
 	shuffle.innerText = 'shuffle';
 	shuffle.addEventListener('click', randomVideo);
-		
 	document.querySelector('.menu').appendChild(shuffle);
 	
 	let withPlaylist = document.createElement('a');
 	withPlaylist.classList.add('material-icons');
-	withPlaylist.title = 'Playing Video Only';
+	withPlaylist.title = localStorage.getItem('videolist-with-playlist') == 'true' ? 'Playing Video with Playlist' : 'Playing Video Only';
 	withPlaylist.innerText =  localStorage.getItem('videolist-with-playlist') == 'true' ? 'queue_music' : 'music_note';
 	withPlaylist.addEventListener('click', toggleWithPlaylist);
-		
 	document.querySelector('.menu').appendChild(withPlaylist);
+
+	let showMapping = document.createElement('a');
+	showMapping.classList.add('material-icons');
+	showMapping.title = localStorage.getItem('videolist-show-mapping') == 'true' ? 'Showing Video Mapping' : 'Showing Original Tags';
+	showMapping.innerText =  localStorage.getItem('videolist-show-mapping') == 'true' ? 'nat' : 'hdr_strong';
+	showMapping.addEventListener('click', toggleShowMapping);
+	document.querySelector('.menu').appendChild(showMapping);
 }
 
 function toggleSort(event) {
@@ -272,6 +275,24 @@ function toggleWithPlaylist(event) {
 			event.target.innerText = 'queue_music';
 			event.target.title = 'Playing Video with Playlist';
 			localStorage.setItem('videolist-with-playlist', true);
+			break;
+		default:
+			break;
+	}
+	renderList();
+}
+
+function toggleShowMapping(event) {
+	switch(event.target.innerText) {
+		case 'hdr_strong':
+			event.target.innerText = 'nat';
+			event.target.title = 'Showing Video Mapping';
+			localStorage.setItem('videolist-show-mapping', true);
+			break;
+		case 'nat':
+			event.target.innerText = 'hdr_strong';
+			event.target.title = 'Showing Original Tags';
+			localStorage.setItem('videolist-show-mapping', false);
 			break;
 		default:
 			break;
@@ -357,8 +378,9 @@ function renderList() {
 			let title = document.createElement('div');
 			
 				let titleLink = document.createElement('a');
+				titleLink.classList.add('video-link');
 				titleLink.href = v.video.url + (localStorage.getItem('videolist-with-playlist') == 'true' ? '&list=' + playlistId : '');
-				titleLink.innerText = v.video.title;
+				titleLink.innerText = localStorage.getItem('videolist-show-mapping') == 'true' ? v.mapping.song : v.video.title;
 				titleLink.setAttribute('target','_blank');
 			
 				title.appendChild(titleLink);
@@ -368,9 +390,9 @@ function renderList() {
 			let channel = document.createElement('div');
 
 				let channelLink = document.createElement('a');
-				channelLink.innerText = v.channel.title;
-				channelLink.classList.add('video-link');
+				channelLink.classList.add('channel-link');
 				channelLink.href = v.channel.url;
+				channelLink.innerText = localStorage.getItem('videolist-show-mapping') == 'true' ? v.mapping.artist : v.channel.title;
 				channelLink.setAttribute('target','_blank');
 				
 				channel.appendChild(channelLink);

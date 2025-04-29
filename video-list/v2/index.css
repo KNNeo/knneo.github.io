@@ -168,12 +168,12 @@ a:hover {
     transition: filter 1s;
 }
 
-.video-link,
-.video-link:visited {
+.channel-link,
+.channel-link:visited {
     color: var(--foreground);
 }
 
-.video-link:hover {
+.channel-link:hover {
     text-decoration: none;
 }
 
