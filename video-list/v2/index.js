@@ -328,10 +328,10 @@ function renderList() {
 	listDiv.innerHTML = '';
 	
 	for(let v of config.list.temp.filter(l => 
-		l.video.title.toLowerCase()
-		.includes((localStorage.getItem(config.storage.search) || '').toLowerCase()) ||
-		l.channel.title.toLowerCase()
-		.includes((localStorage.getItem(config.storage.search) || '').toLowerCase())
+		l.video.title.toLowerCase().includes((localStorage.getItem(config.storage.search) || '').toLowerCase()) ||
+		l.channel.title.toLowerCase().includes((localStorage.getItem(config.storage.search) || '').toLowerCase()) ||
+		(l.mapping?.song || '').toLowerCase().includes((localStorage.getItem(config.storage.search) || '').toLowerCase()) ||
+		(l.mapping?.artist || '').toLowerCase().includes((localStorage.getItem(config.storage.search) || '').toLowerCase())
 		))
 	{
 		let video = document.createElement('div');
