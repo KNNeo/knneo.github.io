@@ -339,7 +339,7 @@ function renderList() {
 		video.classList.add('box');
 		video.classList.add('tile');
 		video.classList.add('shadowed');
-        video.addEventListener('contextmenu', function() {
+        video.addEventListener('dblclick', function() {
             event.preventDefault();
             this.classList.add('overlay');
         });
