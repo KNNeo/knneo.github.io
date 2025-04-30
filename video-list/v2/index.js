@@ -159,7 +159,6 @@ function checkVer(override) {
 	//for any changes to local storage, can wipe remotely if number not tally
 	if(override || localStorage.getItem(config.storage.version) != config.version)
 	{
-		localStorage.removeItem(config.storage.list);
 		localStorage.removeItem(config.storage.deleted);
 		localStorage.removeItem(config.storage.search);
 		localStorage.removeItem(config.storage.playback);
