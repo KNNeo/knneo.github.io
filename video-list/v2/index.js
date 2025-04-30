@@ -43,7 +43,14 @@ const config = {
 			show: 'Showing Video Mapping',
 			hide: 'Showing Original Tags'
 		}
-	}
+	},
+    icon: {
+        sort: {
+            asc: 'arrow_upward',
+            desc: 'arrow_downward',
+            default: 'swap_vert'
+        }
+    }
 };
 const apiKey = function() {
 	// contains method to obtain YouTube API v3 key to query
@@ -61,28 +68,34 @@ window.addEventListener('load', openRequest);
 window.addEventListener('scroll', fadeIn); 
 
 //--EVENT HANDLERS--//
-function toggleSort(event) {
-	switch(event.target.innerText) {
-		case 'swap_vert':
-			event.target.innerText = 'south';
-			config.list.temp.sort(function(a,b) {
-				return a.video.date.localeCompare(b.video.date, 'ja');
-			});
-			break;
-		case 'south':
-			event.target.innerText = 'north';
-			config.list.temp.sort(function(a,b) {
-				return b.video.date.localeCompare(a.video.date, 'ja');
-			});
-			break;
-		case 'north':
-			event.target.innerText = 'swap_vert';
-			config.list.temp = Array.from(config.list.active);
-			break;
-		default:
-			break;
-	}
+function toggleSort() {
+	switch(document.querySelector('.sort')?.innerText || 'default') {
+        case config.icon.sort.asc:
+            document.querySelector('.sort').innerText = config.icon.sort.desc;
+            break;
+        case config.icon.sort.desc:
+            document.querySelector('.sort').innerText = config.icon.sort.default;
+            break;
+        case config.icon.sort.default:
+        default:
+            document.querySelector('.sort').innerText = config.icon.sort.asc;
+            break;
+    }
+    config.list.temp.sort(sortList);
 	renderList();
+}
+
+function sortList(a, b) {
+    let val = document.querySelector('.sort')?.innerText || 'default';
+	switch(val) {
+        case config.icon.sort.asc:
+            return a.video.date.localeCompare(b.video.date);
+        case config.icon.sort.desc:
+            return b.video.date.localeCompare(a.video.date);
+        case config.icon.sort.default:
+        default:
+            return a.index - b.index;
+	}
 }
 
 function toggleSearch(event) {	
@@ -222,9 +235,10 @@ function onLoadJson(response) {
 			// console.log(items);
 			config.list.active = config.list.active.concat(items);
 			config.list.inactive = config.list.inactive.concat(response.items.filter(l => l.snippet.thumbnails.default == null));
-			config.list.active = config.list.active.map(res => {
+			config.list.active = config.list.active.map((res, ind) => {
 				//find mapping from previous data, if any
 				let newData = {
+                    index: ind,
 					video: {
 						id: res.snippet.resourceId.videoId,
 						title: res.snippet.title,
@@ -305,9 +319,10 @@ function renderMenu() {
 	menuDiv.appendChild(search);
 	
 	let sort = document.createElement('a');
+	sort.classList.add('sort');
 	sort.classList.add('material-icons');
 	sort.title = config.locale.sort;
-	sort.innerText = 'swap_vert';
+	sort.innerText = config.icon.sort.default;
 	sort.addEventListener('click', toggleSort);		
 	menuDiv.appendChild(sort);
 	
@@ -341,7 +356,7 @@ function renderList() {
 		l.channel.title.toLowerCase().includes((localStorage.getItem(config.storage.search) || '').toLowerCase()) ||
 		(l.mapping?.song || '').toLowerCase().includes((localStorage.getItem(config.storage.search) || '').toLowerCase()) ||
 		(l.mapping?.artist || '').toLowerCase().includes((localStorage.getItem(config.storage.search) || '').toLowerCase())
-		))
+		).sort(sortList))
 	{
 		let video = document.createElement('div');
 		video.id = v.video.id;
@@ -368,7 +383,7 @@ function renderList() {
                 let vid = config.list.temp.find(l => l.video.id == v.video.id);
                 if(!vid.mapping) vid.mapping = {};
                 vid.mapping.song = this.value;
-                localStorage.setItem(config.storage.list, JSON.stringify(config.list.temp));
+                save();
             });
 			songLabel.appendChild(songInput);
 			mapping.appendChild(songLabel);
@@ -382,7 +397,7 @@ function renderList() {
                 let vid = config.list.temp.find(l => l.video.id == v.video.id);
                 if(!vid.mapping) vid.mapping = {};
                 vid.mapping.artist = this.value;
-                localStorage.setItem(config.storage.list, JSON.stringify(config.list.temp));
+                save();
             });
 			artistLabel.appendChild(artistInput);
 			mapping.appendChild(artistLabel);
@@ -454,6 +469,14 @@ function fadeIn() {
             elem.classList.remove('no-delay');
         }
     }
+}
+
+function save() {
+    localStorage.setItem(config.storage.list, 
+        JSON.stringify(config.list.temp.sort(function(a,b) {
+            return a.index - b.index;
+        })
+    ));
 }
 
 //--LOADER--//
