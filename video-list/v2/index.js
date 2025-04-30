@@ -341,7 +341,7 @@ function renderList() {
 		video.classList.add('shadowed');
         video.addEventListener('contextmenu', function() {
             event.preventDefault();
-            this.classList.toggle('overlay');
+            this.classList.add('overlay');
         });
 
             let mapping = document.createElement('div');
@@ -382,6 +382,7 @@ function renderList() {
             closeMapping.addEventListener('click', function() {
                 event.stopPropagation();
                 video.classList.remove('overlay');
+				renderList();
             });
             mapping.appendChild(closeMapping);
 		
