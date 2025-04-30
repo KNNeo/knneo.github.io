@@ -189,7 +189,8 @@ function onLoadJson(response) {
 				//prevent confirm check
 				config.refresh = true;
 				//archive old info for use
-				config.list.archive = JSON.parse(JSON.stringify(config.list.active));
+				if(config.list.archive && !config.list.archive.length)
+					config.list.archive = JSON.parse(JSON.stringify(config.list.active));
 				//set tag, load response, get next response via token
 				if(!config.connected)
 					localStorage.setItem(config.storage.tag, response.etag);
@@ -241,6 +242,7 @@ function onLoadJson(response) {
 			// console.log('done', config.list.active, config.list.inactive);
 			localStorage.setItem(config.storage.list, JSON.stringify(config.list.active));
 			localStorage.setItem(config.storage.deleted, JSON.stringify(config.list.inactive));
+			config.list.archive = [];
 			startup();
 		}
 	}
