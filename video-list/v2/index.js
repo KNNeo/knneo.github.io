@@ -152,8 +152,6 @@ function openRequest() {
 	checkVer();
 	renderMenu();
 	runLoader();
-	//archive old info for use
-	config.list.archive = JSON.parse(JSON.stringify(config.list.active));
 	getJson(config.api.url + '&playlistId=' + config.playlist.id + '&key=' + apiKey(), onLoadJson);
 }
 
@@ -190,6 +188,8 @@ function onLoadJson(response) {
 			{
 				//prevent confirm check
 				config.refresh = true;
+				//archive old info for ref use
+				config.list.archive = JSON.parse(localStorage.getItem(config.storage.list));
 				//set tag, load response, get next response via token
 				if(!config.connected)
 					localStorage.setItem(config.storage.tag, response.etag);
