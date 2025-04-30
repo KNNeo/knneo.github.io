@@ -189,7 +189,7 @@ function onLoadJson(response) {
 				//prevent confirm check
 				config.refresh = true;
 				//archive old info for use
-				config.list.archive = config.list.active;
+				config.list.archive = JSON.parse(JSON.stringify(config.list.active));
 				//set tag, load response, get next response via token
 				if(!config.connected)
 					localStorage.setItem(config.storage.tag, response.etag);
@@ -216,8 +216,7 @@ function onLoadJson(response) {
 			config.list.inactive = config.list.inactive.concat(response.items.filter(l => l.snippet.thumbnails.default == null));
 			config.list.active = config.list.active.map(res => {
 				//find mapping from previous data, if any
-				var oldData = config.list.archive.find(x => x.video.id == res.snippet.resourceId.videoId);
-				return {
+				let newData = {
 					video: {
 						id: res.snippet.resourceId.videoId,
 						title: res.snippet.title,
@@ -231,9 +230,13 @@ function onLoadJson(response) {
 						title: res.snippet.videoOwnerChannelTitle,
 						url: 'https://www.youtube.com/channel/'
 						+ res.snippet.videoOwnerChannelId,
-					},
-					mapping: oldData?.mapping
+					}
 				};
+				
+				let oldData = config.list.archive.find(x => x.video && x.video.id == res.snippet.resourceId.videoId);
+				if(oldData && oldData.mapping)
+					newData.mapping = oldData.mapping;
+				return newData;
 			});
 			// console.log('done', config.list.active, config.list.inactive);
 			localStorage.setItem(config.storage.list, JSON.stringify(config.list.active));
