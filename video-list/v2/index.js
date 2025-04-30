@@ -147,6 +147,15 @@ function randomVideo() {
 	window.open(random.video.url + (localStorage.getItem(config.storage.playback) == 'true' ? '&list=' + config.playlist.id : ''));
 }
 
+function videoOnKeyUp() {
+    switch(event.key) {
+        case 'e':
+            event.preventDefault();
+            event.target.classList.add('overlay');
+            break;
+    }
+}
+
 //--FUNCTIONS--//
 function openRequest() {
 	checkVer();
@@ -339,6 +348,8 @@ function renderList() {
 		video.classList.add('box');
 		video.classList.add('tile');
 		video.classList.add('shadowed');
+        video.tabIndex = 0;
+        video.addEventListener('keyup', videoOnKeyUp);
         video.addEventListener('dblclick', function() {
             event.preventDefault();
             this.classList.add('overlay');
