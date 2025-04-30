@@ -189,7 +189,7 @@ function onLoadJson(response) {
 				//prevent confirm check
 				config.refresh = true;
 				//archive old info for ref use
-				config.list.archive = JSON.parse(localStorage.getItem(config.storage.list));
+				config.list.archive = JSON.parse(localStorage.getItem(config.storage.list)) || [];
 				//set tag, load response, get next response via token
 				if(!config.connected)
 					localStorage.setItem(config.storage.tag, response.etag);
