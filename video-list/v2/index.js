@@ -11,7 +11,8 @@ const config = {
 	list: {
 		temp: [],
 		active: [],
-		inactive: []
+		inactive: [],
+		archive: []
 	},
 	loading: true,
 	connected: false,
@@ -185,7 +186,10 @@ function onLoadJson(response) {
 			//if fetch same tag, then take from storage, skip load response
 			if(isPlaylistUpdated(response.etag) && (config.refresh || confirm('new data found on playlist! replace current data?')))
 			{
+				//prevent confirm check
 				config.refresh = true;
+				//archive old info for use
+				config.list.archive = config.list.active;
 				//set tag, load response, get next response via token
 				if(!config.connected)
 					localStorage.setItem(config.storage.tag, response.etag);
@@ -211,6 +215,8 @@ function onLoadJson(response) {
 			config.list.active = config.list.active.concat(items);
 			config.list.inactive = config.list.inactive.concat(response.items.filter(l => l.snippet.thumbnails.default == null));
 			config.list.active = config.list.active.map(res => {
+				//find mapping from previous data, if any
+				var oldData = config.list.archive.find(x => x.video.id == res.snippet.resourceId.videoId);
 				return {
 					video: {
 						id: res.snippet.resourceId.videoId,
@@ -225,7 +231,8 @@ function onLoadJson(response) {
 						title: res.snippet.videoOwnerChannelTitle,
 						url: 'https://www.youtube.com/channel/'
 						+ res.snippet.videoOwnerChannelId,
-					}
+					},
+					mapping: oldData?.mapping
 				};
 			});
 			// console.log('done', config.list.active, config.list.inactive);
