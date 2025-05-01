@@ -392,8 +392,12 @@ function renderList() {
                 let artsitField = event.target.closest('.box').querySelector('.artist input');
                 let [songVal, artistVal] = textVal.split('\t');
                 event.target.value = songVal;
-                if(artsitField)
+                event.target.dispatchEvent(new Event('input'));
+                if(artsitField) {
                     artsitField.value = artistVal;
+                    artsitField.dispatchEvent(new Event('input'));
+                }
+                
               });
 			songLabel.appendChild(songInput);
 			mapping.appendChild(songLabel);
