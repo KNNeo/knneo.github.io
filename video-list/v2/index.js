@@ -385,6 +385,16 @@ function renderList() {
                 vid.mapping.song = this.value;
                 save();
             });
+            songInput.addEventListener("paste", (event) => {
+                event.preventDefault();              
+                let textVal = (event.clipboardData || window.clipboardData).getData("text");
+                if(!textVal.includes('\t')) return event.target.value = textVal;
+                let artsitField = event.target.closest('.box').querySelector('.artist input');
+                let [songVal, artistVal] = textVal.split('\t');
+                event.target.value = songVal;
+                if(artsitField)
+                    artsitField.value = artistVal;
+              });
 			songLabel.appendChild(songInput);
 			mapping.appendChild(songLabel);
 
