@@ -3,8 +3,8 @@ const config = {
 	version: '20250429',
 	title: 'Video Playlist',
 	playlist: {
-		id: 'PL_jWj0Wl8TG-UlSmo4HG3kDtTJYBO4UgB',
-	},
+		id: 'PL_jWj0Wl8TG-UlSmo4HG3kDtTJYBO4UgB'
+    },
 	api: {
 		url: 'https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50'
 	},
@@ -25,10 +25,12 @@ const config = {
 		mapping: 'videolist-show-mapping',
 		tag: 'videolist-etag',
 		version: 'videolist-ver',
-		key: 'videolist-key'
+        playlistId: 'videolist-playlist-id',
+        playlistTitle: 'videolist-playlist-title',
+		apiKey: 'videolist-key'
 	},
 	locale: {
-		link: 'Go To YouTube Playlist',
+		link: 'View Playlist on YouTube',
 		search: {
 			prompt: 'Enter search term (case-insensitive):\n[Empty to reset, stored in memory]',
 			icon: 'Search Video/Channel'
@@ -54,7 +56,10 @@ const config = {
 };
 const apiKey = function() {
 	// contains method to obtain YouTube API v3 key to query
-	return localStorage.getItem(config.storage.key);
+	return localStorage.getItem(config.storage.apiKey);
+};
+const playlistId = function() {
+	return localStorage.getItem(config.storage.playlistId) || config.playlist.id;
 };
 
 //--DOM SELECTORS--//
@@ -174,7 +179,7 @@ function openRequest() {
 	checkVer();
 	renderMenu();
 	runLoader();
-	getJson(config.api.url + '&playlistId=' + config.playlist.id + '&key=' + apiKey(), onLoadJson);
+	getJson(config.api.url + '&playlistId=' + playlistId() + '&key=' + apiKey(), onLoadJson);
 }
 
 function checkVer(override) {
@@ -214,13 +219,13 @@ function onLoadJson(response) {
 				//set tag, load response, get next response via token
 				if(!config.connected)
 					localStorage.setItem(config.storage.tag, response.etag);
-				
+
 				// console.log(items);
 				config.list.active = config.list.active.concat(items);
 				config.list.inactive = config.list.inactive.concat(response.items.filter(l => l.snippet.thumbnails.default == null));
 				config.connected = true;
 				getJson(config.api.url + '&pageToken=' + response.nextPageToken +  
-					'&playlistId=' + config.playlist.id + '&key=' + apiKey(), onLoadJson);
+					'&playlistId=' + playlistId() + '&key=' + apiKey(), onLoadJson);
 			}
 			else 
 			{
@@ -288,9 +293,12 @@ function startup() {
 function renderMenu() {
 	let title = document.createElement('h3');
 	title.classList.add('title');
-	title.innerText = config.title;
+	title.innerText = localStorage.getItem(config.storage.playlistTitle) || config.title;
 	title.style.cursor = 'pointer';
-	title.addEventListener('click', startup);
+	title.addEventListener('click', function() {
+        setInput('playlistTitle');
+    });
+	title.addEventListener('contextmenu', startup);
 	
 	menuDiv.appendChild(title);
 	
@@ -523,7 +531,7 @@ function setInput(id) {
 	let input = prompt('Enter ' + id);
 
 	if (input != null) {
-		localStorage.setItem(config.storage.key, input);
+		localStorage.setItem(config.storage[id], input);
 		location.reload();
 	}
 }
