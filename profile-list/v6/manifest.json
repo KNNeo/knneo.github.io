@@ -3,14 +3,21 @@
 	"description": "Profile List",
 	"dir": "ltr",
 	"display": "standalone",
+	"id": "knneo-profiles",
 	"name": "Profiles",
+	"orientation": "portrait",
 	"scope": "/",
 	"short_name": "Profiles",
 	"start_url": "/",
-	"theme_color": "#ffffff",
 	"lang": "en",
-	"categories": [],
-	"screenshots": [],
+	"theme_color": "#ffffff",
+	"handle_links": "preferred",
+	"launch_handler": {
+		"client_mode": [
+			"navigate-existing",
+			"auto"
+		]
+	},
 	"icons": [
 		{
 			"src": "user-circle-svgrepo-com.png",
