@@ -253,7 +253,7 @@ function generateTimeline(timelineList, querySelector) {
 					let txt = document.createElement('div');
 					txt.classList.add(dat.pos);
 					txt.classList.add('txt');
-					if(dat.txt.match(emojiRegex)) txt.classList.add('emoji');
+					if(dat.txt.match(emojiRegex) && dat.txt.length < 5) txt.classList.add('emoji');
 					if(config.dimmed) txt.classList.add('dimmed');
 					if(dat.tooltip) {
 						txt.classList.add('interactive');	
