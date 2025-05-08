@@ -8,6 +8,7 @@ const config = {
 	"scroll": 0.1,
 	"formats": ".jpg|.webp"
 };
+const emojiRegex = /(\p{Emoji}|\p{Emoji_Presentation}|\p{Emoji_Modifier}|\p{Emoji_Modifier_Base}|\p{Emoji_Component}|\p{Extended_Pictographic})+/gv;
 
 //--DOM NODE REFERENCES--//
 let timelineDiv = document.querySelector('.timeline');
@@ -246,15 +247,13 @@ function generateTimeline(timelineList, querySelector) {
 		if(item.empty) blob.style.opacity = 0;
 		elems.push(blob);
 		
-		if(item.data && item.data.length > 0)
-		{
-			for(let dat of item.data)
-			{
-				if(dat.txt)
-				{
+		if(item.data && item.data.length > 0) {
+			for(let dat of item.data) {
+				if(dat.txt) {
 					let txt = document.createElement('div');
 					txt.classList.add(dat.pos);
 					txt.classList.add('txt');
+					if(dat.txt.match(emojiRegex)) txt.classList.add('emoji');
 					if(config.dimmed) txt.classList.add('dimmed');
 					if(dat.tooltip) {
 						txt.classList.add('interactive');	
@@ -264,8 +263,7 @@ function generateTimeline(timelineList, querySelector) {
 					elems.push(txt);
 				}
 				
-				if(dat.img)
-				{		
+				if(dat.img) {
 					let url = document.createElement('a');
 					let img = document.createElement('img');
 					img.classList.add(dat.pos);
@@ -285,8 +283,7 @@ function generateTimeline(timelineList, querySelector) {
 						elems.push(img);
 					}
 
-					if(dat.url && dat.url.length > 0)
-					{
+					if(dat.url && dat.url.length > 0) {
 						url.classList.add(dat.pos);
 						url.href = dat.url;
 						// url.setAttribute('target', '_blank');
