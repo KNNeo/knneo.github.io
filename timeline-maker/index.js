@@ -376,10 +376,6 @@ function createDialog(node) {
 		if(event.target.parentElement == document.querySelector('.dialog'))
 			removeDialog();
 	});
-	dialog.addEventListener('keyup', function() {
-		if (event.key === 'Enter')
-			this.remove();
-	});
 	return dialog;
 }
 
