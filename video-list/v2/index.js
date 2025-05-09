@@ -447,6 +447,8 @@ function renderList() {
 			
 				let titleLink = document.createElement('a');
 				titleLink.classList.add('video-link');
+                if(localStorage.getItem(config.storage.mapping) == 'true' && !v.mapping?.song)
+				    video.setAttribute('data-status', 'missing');
 				titleLink.href = v.video.url + (localStorage.getItem(config.storage.playback) == 'true' ? '&list=' + config.playlist.id : '');
 				titleLink.innerText = localStorage.getItem(config.storage.mapping) == 'true' ? (v.mapping?.song || v.video.title) : v.video.title;
 				titleLink.setAttribute('target','_blank');
@@ -460,6 +462,8 @@ function renderList() {
 				let channelLink = document.createElement('a');
 				channelLink.classList.add('channel-link');
 				channelLink.href = v.channel.url;
+                if(localStorage.getItem(config.storage.mapping) == 'true' && !v.mapping?.artist)
+				    video.setAttribute('data-status', 'missing');
 				channelLink.innerText = localStorage.getItem(config.storage.mapping) == 'true' ? (v.mapping?.artist || v.channel.title) : v.channel.title;
 				channelLink.setAttribute('target','_blank');
 				
