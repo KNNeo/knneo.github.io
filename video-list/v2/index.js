@@ -42,8 +42,8 @@ const config = {
 			playlist: 'Playing Video with Playlist'
 		},
 		mapping: {
-			show: 'Showing Video Mapping',
-			hide: 'Showing Original Tags'
+			show: 'Showing Mapping Data (Double-click to Edit)',
+			hide: 'Showing Original Title & Channel'
 		}
 	},
     icon: {
