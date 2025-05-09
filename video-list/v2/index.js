@@ -306,7 +306,7 @@ function renderMenu() {
 	description.classList.add('title');
 	
 		let descriptionSource = document.createElement('a');
-		descriptionSource.href = 'https://www.youtube.com/playlist?list=' + config.playlist.id;
+		descriptionSource.href = 'https://www.youtube.com/playlist?list=' + (localStorage.setItem(config.storage.playlistId) || config.playlist.id);
 		descriptionSource.innerText = config.locale.link;
 		descriptionSource.setAttribute('target','_blank');
 		
