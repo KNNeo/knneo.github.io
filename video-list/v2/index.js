@@ -162,7 +162,7 @@ function toggleShowMapping(event) {
 
 function randomVideo() {
 	let random = config.list.temp[Math.floor(Math.random() * config.list.temp.length)];
-	window.open(random.video.url + (localStorage.getItem(config.storage.playback) == 'true' ? '&list=' + config.playlist.id : ''));
+	window.open(random.video.url + (localStorage.getItem(config.storage.playback) == 'true' ? '&list=' + playlistId() : ''));
 }
 
 function videoOnKeyUp() {
@@ -306,7 +306,7 @@ function renderMenu() {
 	description.classList.add('title');
 	
 		let descriptionSource = document.createElement('a');
-		descriptionSource.href = 'https://www.youtube.com/playlist?list=' + (localStorage.getItem(config.storage.playlistId) || config.playlist.id);
+		descriptionSource.href = 'https://www.youtube.com/playlist?list=' + playlistId();
 		descriptionSource.innerText = config.locale.link;
 		descriptionSource.setAttribute('target','_blank');
 		
@@ -449,7 +449,7 @@ function renderList() {
 				titleLink.classList.add('video-link');
                 if(localStorage.getItem(config.storage.mapping) == 'true' && !v.mapping?.song)
 				    video.setAttribute('data-status', 'missing');
-				titleLink.href = v.video.url + (localStorage.getItem(config.storage.playback) == 'true' ? '&list=' + config.playlist.id + '&index=' + (1+v.index) : '');
+				titleLink.href = v.video.url + (localStorage.getItem(config.storage.playback) == 'true' ? '&list=' + playlistId() + '&index=' + (1+v.index) : '');
 				titleLink.innerText = localStorage.getItem(config.storage.mapping) == 'true' ? (v.mapping?.song || v.video.title) : v.video.title;
 				titleLink.setAttribute('target','_blank');
 			
