@@ -1,5 +1,7 @@
 //--DEFAULT SETTINGS--//
-const config = {};
+const config = {
+    keepLinks: false
+};
 
 //--DOM NODE REFERENCES--//
 let sourceTextArea = document.querySelector('textarea#source');
@@ -12,6 +14,21 @@ function onKeyDown() {
 }
 
 //--EVENT HANDLERS--//
+function toggleKeepLinks() {
+    switch(event.target.innerText) {
+        case 'insert_link':
+            event.target.innerText = 'link_off';
+            event.target.title = 'Remove Links In Tables';
+            config.keepLinks = false;
+            break;
+        default:
+            event.target.innerText = 'insert_link';
+            event.target.title = 'Keep Links In Tables';
+            config.keepLinks = true;
+            break;
+    }
+}
+
 function onButtonClick(event) {
     switch(event.target.title) {
         case 'Convert':
@@ -60,10 +77,12 @@ function createCarousel(input) {
         item.className = 'carousel-item';
         if(counter++ > 0) item.classList.add('hide');
         for(let link of table.querySelectorAll('a')) {
-            let elem = removeLinksInImages(link);
-            if(elem) {
-                link.parentElement.appendChild(elem);
-                link.parentElement.removeChild(link);
+            if(!config.keepLinks) {
+                let elem = removeLinksInImages(link);
+                if(elem) {
+                    link.parentElement.appendChild(elem);
+                    link.parentElement.removeChild(link);
+                }
             }
         }
         item.innerHTML = table.outerHTML;

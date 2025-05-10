@@ -88,3 +88,7 @@ textarea {
 	filter: opacity(100%);
 	transition: filter 1s;
 }
+
+.settings a.material-icons {
+    font-size: 1.5em;
+}
