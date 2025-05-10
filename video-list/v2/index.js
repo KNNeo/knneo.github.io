@@ -449,7 +449,7 @@ function renderList() {
 				titleLink.classList.add('video-link');
                 if(localStorage.getItem(config.storage.mapping) == 'true' && !v.mapping?.song)
 				    video.setAttribute('data-status', 'missing');
-				titleLink.href = v.video.url + (localStorage.getItem(config.storage.playback) == 'true' ? '&list=' + config.playlist.id : '');
+				titleLink.href = v.video.url + (localStorage.getItem(config.storage.playback) == 'true' ? '&list=' + config.playlist.id + '&index=' + (1+v.index) : '');
 				titleLink.innerText = localStorage.getItem(config.storage.mapping) == 'true' ? (v.mapping?.song || v.video.title) : v.video.title;
 				titleLink.setAttribute('target','_blank');
 			
