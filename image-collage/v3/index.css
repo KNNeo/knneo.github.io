@@ -70,6 +70,10 @@ a:focus-within {
 	height: 0;
 }
 
+.tags .category-title {
+    cursor: pointer;
+}
+
 .tags.expanded .category-title {
 	display: block;
     flex-basis: 100%;
@@ -99,14 +103,6 @@ a:focus-within {
     height: 2rem;
 }
 
-.tag::before {
-    font-family: 'Material Icons';
-    vertical-align: middle;
-    display: inline-block;
-    height: 1rem;
-    padding-right: 3px;
-}
-
 .tag:hover,
 .tag:focus-visible {
 	background-color: var(--foreground);
@@ -118,17 +114,9 @@ a:focus-within {
 	color: var(--background);
 }
 
-.tag[filter="include"]::before {
-	content: "add_circle_outline";
-}
-
 .tag[filter="exclude"] {
-	background-color: var(--foreground);
+	background-color: var(--accent);
 	color: var(--background);
-}
-
-.tag[filter="exclude"]::before {
-	content: "remove_circle_outline";
 }
 
 .collage {

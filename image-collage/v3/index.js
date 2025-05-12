@@ -150,7 +150,9 @@ function generateTagsList() {
 			
 				let title = document.createElement('h4');
 				title.classList.add('category-title');
+                title.title = 'Click to clear all tags in category';
 				title.innerText = current;
+                title.setAttribute('onclick', 'onClearCategory()');
 				tag.appendChild(title);
 				
 			tags.appendChild(tag);
@@ -518,6 +520,20 @@ function onToggleExpander() {
 	  default:
 		break;
 	}
+}
+
+function onClearCategory() {
+    let title = event.target.innerText;
+    if(title) {
+        let filteredTags = event.target.parentElement.querySelectorAll('.tag[filter]');
+        if(filteredTags.length) {
+            // to ensure all included
+            filteredTags.forEach(tag => tag.click());
+            // to ensure all removed due to exclusions
+            event.target.parentElement.querySelectorAll('.tag[filter]').forEach(tag => tag.click());
+            generateGrid();
+        }
+    }
 }
 
 function onClearAll() {
