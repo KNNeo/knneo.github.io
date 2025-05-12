@@ -254,7 +254,6 @@ a:focus-within {
     transform: rotate(90deg);
 }
 
-.sidebar:hover,
 .settings a:hover {
 	color: var(--primary);
 }
