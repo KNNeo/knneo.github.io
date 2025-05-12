@@ -10,7 +10,7 @@ const config = {
 		width: 350,
 	},
 	title: 'PixAI',
-	description: `pixai.art/@aozakish`,
+	description: `https://pixai.art/@aozakish`,
 	placeholder: {
 		include: 'Includes',
 		exclude: 'Excludes',
@@ -33,7 +33,7 @@ const config = {
 	},
 	tag: {
 		category: {
-			groups: ['Flag', 'Orientation'],
+			groups: ['Rating', 'Orientation'],
 			ratio: [1, 1],
 		},
 		size: [160, 320, 640],
@@ -41,6 +41,7 @@ const config = {
 		max: 9999,
 		exclude: [],
 		hidden: [],
+        radius: 16
 	},
 	grid: {
 		column: {

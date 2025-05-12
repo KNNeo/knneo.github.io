@@ -31,7 +31,9 @@ const observer = new IntersectionObserver(callback, {
 function startup() {
 	initializeVariables();
 	generateTags();
-	generateLayout();
+	generateSidebar();
+	generateTagsList();
+	generateGrid();
 	generateViewer();
 	window.addEventListener('resize', onResize);
 }
@@ -92,18 +94,22 @@ function generateTags() {
 		return a[prop].localeCompare(b[prop], config.tag?.sort?.locale);
 	});
 	if(config.debug) console.log(window['buttonArray']);
+
+    // update style
+    tags.style.setProperty('--border', (config.tag?.border || 0) + 'px');
+    tags.style.setProperty('--radius', (config.tag?.radius || 0) + 'px');
 }
 
-function generateLayout() {
+function generateSidebar() {
 	menu.style.maxWidth = (config.menu.width || 400) + 'px';
 	
-	document.title = config.title ?? 'Image Collage';
+	document.title = config.title ? config.title + ' - Image Collage' : 'Image Collage';
 
 	if(config.title && config.title.length > 0)
 		title.innerText = config.title;
 	
 	if(config.description && config.description.length > 0)
-		description.innerText = config.description;
+        description.innerHTML = config.description.startsWith('http') ? '<a href="' + config.description + '" target="_blank">' + config.description.substring(config.description.indexOf('://')+3) + '</a>' : config.description;
 
 	if(typeof config.setting.filter == 'boolean' && config.setting.filter) {
 		let include = document.querySelector('#include');
@@ -131,9 +137,6 @@ function generateLayout() {
 		else
 			document.querySelector('.' + key).classList.add('hidden');
 	}
-	
-	generateTagsList();
-	generateGrid();
 }
 
 function generateTagsList() {
@@ -467,7 +470,8 @@ function onResize() {
 	//resize grid
 	document.querySelector('.expand').innerText = 'unfold_more';
 	tags.classList.remove('expanded');
-	generateLayout();	
+	generateSidebar();
+	generateTagsList();
 	//resize images
 	let [thumbWidth, thumbHeight] = calculateThumbnailSize();
 	for(let gridItem of document.querySelectorAll('.grid-item')) {
@@ -685,6 +689,11 @@ function onClickViewerNext() {
 	return false;
 }
 
+function onTouchStart() {
+	window['touchX'] = event.touches[0].clientX;
+	window['touchY'] = event.touches[0].clientY;
+}
+
 function onTouchMoveViewer() {
 	let swipeDown = event.touches[0].clientY - window['touchY'];
 	let swipeUp = window['touchY'] - event.touches[0].clientY;
@@ -694,26 +703,26 @@ function onTouchMoveViewer() {
 		console.log(swipeUp > 0, swipeDown > 0, swipeLeft > 0, swipeRight > 0);
 	//--SWIPE LEFT--//
 	if(swipeLeft > swipeUp && swipeLeft > swipeDown) {
+	    viewer.removeAttribute('ontouchmove');
 		onClickViewerNext();
-		event.target.removeEventListener('touchmove', onTouchMoveViewer);
 		return;
 	}
 	//--SWIPE RIGHT--//
 	if(swipeRight > swipeUp && swipeRight > swipeDown) {
+	    viewer.removeAttribute('ontouchmove');
 		onClickViewerPrev();
-		event.target.removeEventListener('touchmove', onTouchMoveViewer);
 		return;
 	}
 	//--SWIPE DOWN--//
 	if(swipeDown > swipeLeft && swipeDown > swipeRight) {
+	    viewer.removeAttribute('ontouchmove');
 		closeViewer();
-		event.target.removeEventListener('touchmove', onTouchMoveViewer);
 		return;
 	}
 	//--SWIPE UP--//
 	if(swipeUp > swipeLeft && swipeUp > swipeRight) {
+	    viewer.removeAttribute('ontouchmove');
 		closeViewer();
-		event.target.removeEventListener('touchmove', onTouchMoveViewer);
 		return;
 	}
 }

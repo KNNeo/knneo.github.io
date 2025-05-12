@@ -15,7 +15,8 @@
 	--accent: gray;
 }
 
-html {
+html,
+button {
 	font-family: Open Sans;
 	background-color: var(--background);
 	color: var(--foreground);
@@ -26,6 +27,19 @@ body {
 	margin: 0;
 	overflow: hidden;
 	height: 100%;
+}
+
+a {
+	color: var(--primary);
+}
+
+a:visited {
+	color: var(--secondary);
+}
+
+a:hover,
+a:focus-within {
+	color: var(--foreground);
 }
 
 .content {
@@ -56,7 +70,6 @@ body {
 	height: 0;
 }
 
-
 .tags.expanded .category-title {
 	display: block;
     flex-basis: 100%;
@@ -77,15 +90,27 @@ body {
 }
 
 .tag {
-	margin: 3px;
+	margin: 4px;
 	cursor: pointer;
-	background-color: var(--background);
-	border: 1px solid var(--foreground);
 	color: var(--foreground);
+	background-color: var(--background);
+	border: var(--border) solid var(--foreground);
+    border-radius: var(--radius);
+    height: 2rem;
 }
 
+.tag::before {
+    font-family: 'Material Icons';
+    vertical-align: middle;
+    display: inline-block;
+    height: 1rem;
+    padding-right: 3px;
+}
+
+.tag:hover,
 .tag:focus-visible {
-	background-color: var(--accent);	
+	background-color: var(--foreground);
+	color: var(--background);
 }
 
 .tag[filter="include"] {
@@ -94,7 +119,7 @@ body {
 }
 
 .tag[filter="include"]::before {
-	content: "+ ";
+	content: "add_circle_outline";
 }
 
 .tag[filter="exclude"] {
@@ -103,13 +128,17 @@ body {
 }
 
 .tag[filter="exclude"]::before {
-	content: " - ";
+	content: "remove_circle_outline";
 }
 
 .collage {
 	width: 100%;
-    height: calc(100% - 15em);
+    height: calc(100% - 17em);
 	overflow-y: scroll;
+}
+
+:has(.menu.hidden) .collage {
+    height: 100%;
 }
 
 .grid {
@@ -204,6 +233,17 @@ body {
 	font-size: 0.9em;
 }
 
+.sidebar {
+	text-decoration: none;
+	color: var(--foreground);
+	background-color: var(--background);
+	position: fixed;
+	top: 0;
+	left: 0;
+	padding: 0.25em;
+	z-index: 3;
+}
+
 .settings a {
 	color: var(--foreground);
 	text-decoration: none;
@@ -212,6 +252,11 @@ body {
 
 .settings a.rotate-90 {
     transform: rotate(90deg);
+}
+
+.sidebar:hover,
+.settings a:hover {
+	color: var(--primary);
 }
 
 .filters {
@@ -355,17 +400,6 @@ body {
 	display: none;
 }
 
-.sidebar {
-	text-decoration: none;
-	color: var(--foreground);
-	background-color: var(--background);
-	position: fixed;
-	top: 0;
-	left: 0;
-	padding: 0.5em;
-	z-index: 3;
-}
-
 @media (orientation: landscape) {
 	.content {
 		display: flex;
@@ -397,9 +431,7 @@ body {
 	}
 	.tags .category-title {
 		display: inline;
-	}
-	.tag {
-        height: auto;
+        padding: 4px;
 	}
 }
 
