@@ -122,7 +122,8 @@ body {
 
 .grid-item {
 	position: relative;
-	border: 1px solid var(--background);
+	border: var(--border, 1px) solid var(--background);
+    border-radius: var(--radius, 0);
 	cursor: pointer;
 	overflow: hidden;
 	box-sizing: border-box;

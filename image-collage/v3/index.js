@@ -285,6 +285,8 @@ function generateGrid() {
 		gridItem.classList.add('grid-item');
 		gridItem.style.width = thumbWidth + 'px';
 		gridItem.style.height = thumbHeight + 'px';
+        gridItem.style.setProperty('--border', (config.grid?.thumbnail?.border || 1) + 'px');
+        gridItem.style.setProperty('--radius', (config.grid?.thumbnail?.radius || 0) + 'px');
 		
 		if(config.grid?.banner?.length) {
             let prefix = imageUrl.substring(0, config.grid.banner.length);

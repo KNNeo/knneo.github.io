@@ -48,6 +48,8 @@ const config = {
 		},
 		thumbnail: {
 			ratio: 1,
+            border: 4,
+            radius: 8
 		},
 		star: {
 			text: '⚠️',
