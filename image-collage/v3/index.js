@@ -54,7 +54,7 @@ function generateTags() {
 	// generate tags by design
 	window['buttonArray'] = generateFiltered()
 	.map(function(file) {
-		let filenameIndex = file.nm && file.nm.includes('/') ? file.nm.lastIndexOf('/') : -1;
+        let filenameIndex = file.nm && file.nm.includes('/') ? file.nm.lastIndexOf('/') : -1;
 		return getFilenameInfo(file.nm).filename;
 	})
 	.reduce(function(total, current, _, _) {
@@ -411,7 +411,7 @@ function calculateThumbnailSize() {
 	let gridWidth = grid.getBoundingClientRect().width;
 	let columns = calculateColumns(gridWidth);
 	let thumbWidth = gridWidth / columns;
-	let thumbHeight = thumbWidth*config.grid.thumbnail.ratio;
+	let thumbHeight = thumbWidth * (config.grid?.thumbnail?.ratio || 1);
 	
 	if(config.debug) {
 		console.log('gridWidth', gridWidth);
@@ -536,33 +536,52 @@ function onToggleCaptions() {
 }
 
 function onToggleRatio() {
-	switch(config.grid.thumbnail.ratio) {
+    let ratioSetting = document.querySelector('.ratio');
+    if(!config.grid)
+        config.grid = {};
+    if(!config.grid?.thumbnail) 
+        config.grid.thumbnail = {};
+	switch(config.grid?.thumbnail?.ratio) {
 		case 1:
 			config.grid.thumbnail.ratio = 5/4;
+            ratioSetting.innerText = 'crop_5_4';
+            ratioSetting.classList.add('rotate-90');
 			generateGrid();
 			break;
 		case 5/4:
 			config.grid.thumbnail.ratio = 7/5;
+            ratioSetting.innerText = 'crop_16_9'; // icon error
+            ratioSetting.classList.add('rotate-90');
 			generateGrid();
 			break;
 		case 7/5:
 			config.grid.thumbnail.ratio = 16/9;
+            ratioSetting.innerText = 'crop_7_5'; // icon error
+            ratioSetting.classList.add('rotate-90');
 			generateGrid();
 			break;
 		case 16/9:
 			config.grid.thumbnail.ratio = 9/16;
+            ratioSetting.innerText = 'crop_7_5'; // icon error
+            ratioSetting.classList.remove('rotate-90');
 			generateGrid();
 			break;
 		case 9/16:
 			config.grid.thumbnail.ratio = 5/7;
+            ratioSetting.innerText = 'crop_16_9'; // icon error
+            ratioSetting.classList.remove('rotate-90');
 			generateGrid();
 			break;
 		case 5/7:
 			config.grid.thumbnail.ratio = 4/5;
+            ratioSetting.innerText = 'crop_5_4';
+            ratioSetting.classList.remove('rotate-90');
 			generateGrid();
 			break;
 		default:
 			config.grid.thumbnail.ratio = 1;
+            ratioSetting.innerText = 'crop_square';
+            ratioSetting.classList.remove('rotate-90');
 			generateGrid();
 			break;
 	}

@@ -108,14 +108,16 @@ body {
 
 .collage {
 	width: 100%;
-	height: 100%;
+    height: calc(100% - 15em);
 	overflow-y: scroll;
 }
 
 .grid {
 	width: 100%;
+	height: 100%;
 	display: flex;
     flex-wrap: wrap;
+    align-content: flex-start;
 }
 
 .grid-item {
@@ -370,6 +372,9 @@ body {
 	.menu {
 		height: 100%;
 	}
+    .collage {
+        height: 100%;
+    }
 	.expander {
 		display: none;
 	}
@@ -394,5 +399,16 @@ body {
 	}
 	.tag {
         height: auto;
+	}
+}
+
+/*MEDIA QUERIES - REDUCED MOTION*/
+@media (prefers-reduced-motion: reduce) {
+    .grid-item img,
+    .viewer,
+    .viewer .prev,
+    .viewer .next,
+    .viewer img {
+		transition: none;
 	}
 }
