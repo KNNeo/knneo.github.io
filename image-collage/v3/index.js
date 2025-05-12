@@ -380,9 +380,12 @@ function generateOrientationValues() {
 	let values = generateFiltered();
 	for(let item of values)	{
 		let itemDiv = document.querySelector('.collage img[data-src="' + item.og + '"]');
-		item.nm += config.separator + ((itemDiv?.naturalWidth >= itemDiv?.naturalHeight && 'Landscape') 
-			|| (itemDiv?.naturalWidth < itemDiv?.naturalHeight && 'Portrait') 
-			|| 'Unknown');
+        let tags = item.nm.split(config.separator);
+        if(!tags.includes('Portrait') && itemDiv?.naturalWidth < itemDiv?.naturalHeight)
+            tags.push('Portrait');
+        if(!tags.includes('Landscape') && itemDiv?.naturalWidth >= itemDiv?.naturalHeight)
+            tags.push('Landscape');
+        item.nm = tags.join(config.separator);
 	}
 	return values;
 }
