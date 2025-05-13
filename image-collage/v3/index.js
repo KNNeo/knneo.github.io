@@ -2,12 +2,13 @@
 const isHorizontalLayout = function() { 
 	return matchMedia('all and (orientation:landscape)').matches; 
 }
+const isFirefox = (/Firefox/i.test(navigator.userAgent));
 const spacer = 'https://knneo.github.io/resources/spacer.gif';
 
 //--REFERENCES--//
 const title = document.querySelector('.title');
 const description = document.querySelector('.description');
-const content = document.querySelector('.content');
+const collage = document.querySelector('.collage');
 const grid = document.querySelector('.grid');
 const tags = document.querySelector('.tags');
 const menu = document.querySelector('.menu');
@@ -22,7 +23,7 @@ const callback = (entries, observer) => {
 	});
 };
 const observer = new IntersectionObserver(callback, {
-	root: document.querySelector('.collage'),
+	root: collage,
 	rootMargin: '10px',
 	threshold: 0,
 })
@@ -36,6 +37,7 @@ function startup() {
 	generateGrid();
 	generateViewer();
 	window.addEventListener('resize', onResize);
+	menu.addEventListener(isFirefox ? 'DOMMouseScroll' : 'mousewheel', onScrollSidebar);
 }
 
 function initializeVariables() {
@@ -384,7 +386,7 @@ function generateFiltered() {
 function generateOrientationValues() {
 	let values = generateFiltered();
 	for(let item of values)	{
-		let itemDiv = document.querySelector('.collage img[data-src="' + item.og + '"]');
+		let itemDiv = collage.querySelector('img[data-src="' + item.og + '"]');
         let tags = item.nm.split(config.separator);
         if(!tags.includes('Portrait') && itemDiv?.naturalWidth < itemDiv?.naturalHeight)
             tags.push('Portrait');
@@ -520,6 +522,11 @@ function onToggleExpander() {
 	  default:
 		break;
 	}
+}
+
+function onScrollSidebar() {
+	if(event.target == event.target.closest('.menu'))
+		collage.scrollTop -= isFirefox ? -event.detail*100 : event.wheelDelta;
 }
 
 function onClearCategory() {
