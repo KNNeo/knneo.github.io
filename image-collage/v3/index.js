@@ -103,7 +103,7 @@ function generateTags() {
 }
 
 function generateSidebar() {
-	menu.style.maxWidth = (config.menu.width || 400) + 'px';
+	menu.style.setProperty('--max-width', (config.menu.width || 400) + 'px');
 	
 	document.title = config.title ? config.title + ' - Image Collage' : 'Image Collage';
 
