@@ -24,6 +24,37 @@ function selectItem(container) {
 	container.classList.add('highlight');
 }
 
+function staggerTimeline() {
+	// assumption: each set of data is text/image or text only or image only
+	// assumption: first detected text element in data will be read position, then rest will follow, with image taking other side
+	let content = JSON.parse(document.querySelector('#data').textContent);
+	if(content.filter(c => 
+		c.data.filter(f => f.txt || f.img).length == 2 ||
+		c.data.filter(f => f.txt && !f.img).length == 1 ||
+		c.data.filter(f => f.img && !f.txt).length == 1
+	).length < content.length) {
+		alert('unable to process: each event should have an image, a text field or a set of each');
+		return;
+	}
+	let pos = content[0].data[0].pos;
+	for(let elem of content) {
+		let textData = elem.data.find(d => d.txt);
+		if(textData)
+			textData.pos = pos;
+		let imgData = elem.data.find(d => d.img);
+		if(imgData)
+			imgData.pos = invertPosition(textData.pos);
+		pos = invertPosition(pos);
+	}
+	document.querySelector('#data').textContent = JSON.stringify(content);
+	saveData();
+	startup();
+}
+
+function invertPosition(pos) {
+	return pos == 'left' ? 'right' : 'left';
+}
+
 //--EVENT HANDLERS--//
 function onWheel() {
 	event.preventDefault();
