@@ -474,8 +474,6 @@ function onResize() {
 	//resize grid
 	document.querySelector('.expand').innerText = 'unfold_more';
 	tags.classList.remove('expanded');
-	generateSidebar();
-	generateTagsList();
 	//resize images
 	let [thumbWidth, thumbHeight] = calculateThumbnailSize();
 	for(let gridItem of document.querySelectorAll('.grid-item')) {
@@ -558,8 +556,6 @@ function onClearAll() {
 function onToggleSidebar() {
 	event.target.innerText = event.target.innerText == 'menu' ? 'menu_open' : 'menu';
 	document.querySelector('.menu').classList.toggle('hidden');
-	document.querySelector('.menu').style.maxWidth = document.querySelector('.menu').classList.contains('hidden') ? 0 : config.menu.width + 'px'; // required to render
-	generateGrid();
 }
 
 function onToggleCaptions() {

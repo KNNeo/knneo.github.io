@@ -83,7 +83,7 @@ a:focus-within {
     background-color: var(--background);
 }
 
-.tags.expanded div {
+.tags.expanded > div {
 	display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -400,20 +400,20 @@ a:focus-within {
 	.expander {
 		display: none;
 	}
-	.category-title {
+	.tags .category-title {
 		margin: 0;
 		padding: 1em;
 		position: sticky;
 		top: 0;
 		background-color: var(--background);
 	}
+	.tags div {
+		max-height: 100%;
+	}
 }
 
 @media (orientation: portrait) {
-	.tags div {
-		max-height: 40px;
-	}
-	.tags.expanded div {
+	.tags.expanded > div {
 		max-height: 46dvh;
 	}
 	.tags .category-title {
