@@ -376,8 +376,9 @@ a:focus-within {
 .viewer.captions .caption {
     position: absolute;
     bottom: 1em;
-    left: 0;
-    right: 0;
+    left: 1em;
+    padding: 8px 12px;
+    border-radius: 8px;
     background-color: var(--background);
 }
 
@@ -419,6 +420,9 @@ a:focus-within {
 		display: inline;
         padding: 4px;
 	}
+    .viewer.captions .caption {
+        right: 1em;
+    }
 }
 
 /*MEDIA QUERIES - REDUCED MOTION*/
