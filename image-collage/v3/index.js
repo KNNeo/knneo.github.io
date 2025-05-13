@@ -524,7 +524,7 @@ function onToggleExpander() {
 
 function onScrollSidebar() {
 	if(event.target == event.target.closest('.menu'))
-		collage.scrollTop -= isFirefox ? -event.detail*100 : event.wheelDelta;
+		collage.scrollTop -= isFirefox ? -event.detail*20 : event.wheelDelta;
 }
 
 function onClearCategory() {
