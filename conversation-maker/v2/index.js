@@ -315,18 +315,18 @@ function toggleFullscreen() {
 
 //--FUNCTIONS--//
 function processConversations() {
-	for (let converse of document.querySelectorAll('.conversation .messages'))
-		processConversation(converse);
+	for (let messages of document.querySelectorAll('.conversation .messages'))
+		processConversation(messages);
 }
 
-function processConversation(converse) {
-	let lineSeparator = converse.getAttribute('data-separator') || config.separator.line;
-	let lines = converse.innerText.split('\n');
+function processConversation(conversation) {
+	let lineSeparator = conversation.getAttribute('data-separator') || config.separator.line;
+	let lines = conversation.innerText.split('\n');
 	if (lines.length < 2) {
-		converse.innerHTML = 'Click on Editor to create a conversation list';
+		conversation.innerHTML = 'Click on Editor to create a conversation list';
 		return;
 	} else
-		converse.innerHTML = '';
+		conversation.innerHTML = '';
 	// render lines
 	let prevName = '';
 	let sectionName = '';
@@ -343,7 +343,7 @@ function processConversation(converse) {
 			lineDiv.setAttribute('data-section', sectionName);
 			sectionName = '';
 		}
-		converse.appendChild(lineDiv);
+		conversation.appendChild(lineDiv);
 		// render messages
 		let isSystem = line.startsWith(config.wrapper.system) && line.endsWith(config.wrapper.system);
 		let isUrl = line.startsWith('https://') || line.startsWith('http://');
@@ -365,13 +365,13 @@ function processConversation(converse) {
 				lineDiv.setAttribute('data-first', '');
 			prevName = lineDiv.getAttribute('aria-label');
 			// check sender type
-			if (converse.getAttribute('data-sender') != null) {
+			if (conversation.getAttribute('data-sender') != null) {
 				if (isSystem)
 					lineDiv.setAttribute('data-system', '');
 				else {
 					if (isUrl)
 						lineDiv.setAttribute('data-url', '');
-					if (converse.getAttribute('data-sender').toLowerCase() == lineDiv.getAttribute('aria-label').toLowerCase())
+					if (conversation.getAttribute('data-sender').toLowerCase() == lineDiv.getAttribute('aria-label').toLowerCase())
 						lineDiv.setAttribute('data-sender', '');
 					else {
 						lineDiv.setAttribute('data-recipient', '');
@@ -380,9 +380,20 @@ function processConversation(converse) {
 				}
 			}
 			// extract text after sender name identified
-			messageText.innerText = message;
-			if (isSystem)
+			if (isSystem) // system message
 				messageText.innerText = line.replace(new RegExp(config.wrapper.system, 'g'),'').trim();
+			else if(message.includes('@') || message.includes('＠')) { // detect ampersand
+				// sender reference must be separated by ascii whitespace
+				for(let ref of message.split(' ')) {
+					let isRef = ref.startsWith('@');
+					let section = document.createElement('span');
+					if(isRef) section.classList.add('sender-ref');
+					section.innerText = (ref == message.split(' ')[0] ? '' : ' ') + ref;
+					messageText.appendChild(section);
+				}
+			}
+			else
+				messageText.innerText = message;
 			messageDiv.appendChild(messageText);
 			if (isUrl) {
 				messageDiv.innerHTML = '';
@@ -409,7 +420,7 @@ function processConversation(converse) {
 	footer.innerText = '🔁';
 	footer.title = 'Replay Conversation';
 	footer.setAttribute('onclick', 'startConversation()');
-	converse.appendChild(footer);
+	conversation.appendChild(footer);
 }
 
 function startConversation() {

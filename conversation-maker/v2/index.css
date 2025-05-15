@@ -161,6 +161,10 @@ a:hover {
 .conversation .message .container.emoji span {
     font-size: 2em;
 }
+.conversation .message .container span.sender-ref {
+    color: var(--primary);
+    font-weight: bold;
+}
 .conversation .loader,
 .conversation .message .container {
     margin: 8px;
