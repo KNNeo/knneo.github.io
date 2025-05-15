@@ -17,7 +17,8 @@ const config = {
 	wrapper: {
 		system: '===',
 		section: '---'
-	}
+	},
+	debug: false
 };
 const emojiRegex = /(\p{Emoji}|\p{Emoji_Presentation}|\p{Emoji_Modifier}|\p{Emoji_Modifier_Base}|\p{Emoji_Component}|\p{Extended_Pictographic})+/gv;
 
@@ -435,6 +436,7 @@ function startConversation() {
 }
 
 function nextMessage() {
+	if(config.debug) console.log('call next message');
 	// read lines
 	let conversation = document.querySelector('.conversation:not(.hidden)');
 	let messages = conversation.querySelector('.messages');
@@ -451,7 +453,6 @@ function nextMessage() {
 				// from sender, show choices and wait
 				disableRunMessages(conversation);
 				setChoices(lines[l].querySelectorAll('.container'));
-				// console.log('wait for reply');
 				setTimeout(waitForSender, 500);
 			}
 		}
@@ -520,7 +521,7 @@ function nextMessage() {
                     top: -1*window['loader'],
                     behavior: 'smooth'
                 });
-				// console.log('call loader');
+				if(config.debug) console.log('call loader');
 				conversation.querySelector('.footer')?.click();
 			}, 500);
 			return;
@@ -532,7 +533,7 @@ function nextMessage() {
                 lines[l].setAttribute('data-loaded', '');
 			// do not calculate next message pop time, set minimum delay
 			setTimeout(function () {
-				// console.log('hide loader');
+				if(config.debug) console.log('hide loader');
 				conversation.querySelector('.footer')?.click();
 			}, 500);
 			return;
@@ -600,7 +601,7 @@ function nextMessage() {
 	if (conversation.getAttribute('data-running') != null) {
         let writeTime = calculateWriteTime(lines[l + 1]?.innerText) + (lines[l + 1].getAttribute('data-sender') == null ? 0 : 1000);
 		setTimeout(function () {
-			// console.log('call next');
+			if(config.debug) console.log('call next');
 			conversation.querySelector('.footer')?.click();
 		}, writeTime);
 	}
@@ -631,7 +632,7 @@ function setChoices(choices) {
 }
 
 function waitForSender() {
-	// console.log('await reply');
+	if(config.debug) console.log('await reply');
 	if (window.choice) {
 		let conversation = document.querySelector('.conversation:not(.hidden)');
 		let lines = conversation.querySelectorAll('.message');
@@ -642,7 +643,7 @@ function waitForSender() {
 		for (let choice of lines[l - 1].querySelectorAll('.container'))
 			choice.removeAttribute('onclick');
 		setTimeout(function () {
-			// console.log('call next');
+			if(config.debug) console.log('reply selected, call next');
 			conversation.querySelector('.footer')?.click();
 		}, calculateWriteTime(lines[l + 1]?.innerText));
 	}
@@ -659,7 +660,7 @@ function toggleConversation(conversation) {
 }
 
 function allowRunMessages(conversation) {
-	console.log('allow run messages');
+	if(config.debug) console.log('allow run messages');
 	if (!conversation) return;
 	// set status
 	conversation.setAttribute('data-running', '');
@@ -672,7 +673,7 @@ function allowRunMessages(conversation) {
 }
 
 function disableRunMessages(conversation) {
-	console.log('disable run messages');
+	if(config.debug) console.log('disable run messages');
 	if (!conversation) return;
 	// remove status
 	conversation.removeAttribute('data-running');
@@ -688,14 +689,12 @@ function togglePause(conversation) {
     let footer = conversation.querySelector('.footer');
     if(conversation && conversation.getAttribute('data-paused') != null) {
         footer.style.opacity = 0;
-        footer.style.height = '';
         conversation.removeAttribute('data-paused');
         footer.setAttribute('onclick', 'nextMessage()');
 	    allowRunMessages(conversation);
     }
     else {
         footer.style.opacity = 1;
-        footer.style.height = 'calc(100% - 50px)';
         conversation.setAttribute('data-paused', '');
         footer.setAttribute('onclick', 'togglePause()');
         disableRunMessages(conversation);
