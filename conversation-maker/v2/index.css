@@ -264,7 +264,7 @@ a:hover {
 }
 .conversation[data-paused] .messages[data-animate] .footer {
     position: sticky;
-    bottom: 8px;
+    bottom: 0;
 }
 .menu {
     display: flex;

@@ -432,16 +432,16 @@ function startConversation() {
 	footer.title = 'Play Next Message';
 	footer.setAttribute('onclick', 'nextMessage()');
 	// start run
-    toggleConversation(conversation);
+    allowRunMessages(conversation);
 }
 
 function nextMessage() {
-	if(config.debug) console.log('call next message');
 	// read lines
 	let conversation = document.querySelector('.conversation:not(.hidden)');
 	let messages = conversation.querySelector('.messages');
 	let lines = messages.querySelectorAll('.message');
 	let l = Array.from(lines).indexOf(conversation.querySelector('.message.hide'));
+	if(config.debug) console.log('next message' + (1+l));
 	// if multiple messages found on line
 	if (lines[l].querySelectorAll('.container').length > 1) {
 		// choice not made
@@ -590,8 +590,7 @@ function nextMessage() {
 		footer.innerText = '🔁';
 		footer.title = 'Replay Conversation';
 		footer.setAttribute('onclick', 'startConversation()');
-		// check if need to continue
-		toggleConversation(conversation);
+		disableRunMessages(conversation);
 		return;
 	}
 	// avoid run if prompt to choose
@@ -651,14 +650,6 @@ function waitForSender() {
 		setTimeout(waitForSender, 1000);
 }
 
-function toggleConversation(conversation) {
-    if (!conversation) return;
-	if (conversation.getAttribute('data-running') != null)
-		disableRunMessages(conversation);
-	else
-		allowRunMessages(conversation);
-}
-
 function allowRunMessages(conversation) {
 	if(config.debug) console.log('allow run messages');
 	if (!conversation) return;
@@ -683,22 +674,24 @@ function disableRunMessages(conversation) {
 	conversation.removeAttribute('ontouchstart');
 }
 
-function togglePause(conversation) {
+function pauseConversation(conversation) {
     if(!conversation)
         conversation = document.querySelector('.conversation:not(.hidden)');
     let footer = conversation.querySelector('.footer');
-    if(conversation && conversation.getAttribute('data-paused') != null) {
-        footer.style.opacity = 0;
-        conversation.removeAttribute('data-paused');
-        footer.setAttribute('onclick', 'nextMessage()');
-	    allowRunMessages(conversation);
-    }
-    else {
-        footer.style.opacity = 1;
-        conversation.setAttribute('data-paused', '');
-        footer.setAttribute('onclick', 'togglePause()');
-        disableRunMessages(conversation);
-    }
+	footer.style.opacity = 1;
+	conversation.setAttribute('data-paused', '');
+	footer.setAttribute('onclick', 'resumeConversation()');
+	disableRunMessages(conversation);
+}
+
+function resumeConversation(conversation) {
+    if(!conversation)
+        conversation = document.querySelector('.conversation:not(.hidden)');
+    let footer = conversation.querySelector('.footer');
+	footer.style.opacity = 0;
+	conversation.removeAttribute('data-paused');
+	footer.setAttribute('onclick', 'nextMessage()');
+	allowRunMessages(conversation);
 }
 
 //--DIALOG--//
@@ -793,7 +786,7 @@ function initializeWindow() {
     window.addEventListener('blur', function() {
         let conversation = document.querySelector('.conversation:not(.hidden)');
         if(conversation && conversation.getAttribute('data-running') != null)
-            togglePause(conversation);
+            pauseConversation(conversation);
     });
     // hide setting icons where specified in config, default show all in DOM
     for(let key of Object.keys(config.hide)) {
