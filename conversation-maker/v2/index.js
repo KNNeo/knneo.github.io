@@ -470,7 +470,6 @@ function nextMessage() {
 	}
 	// not recipient, show message directly
 	if (l == 0 || 
-		lines[l].getAttribute('data-section') != null || 
 		lines[l].getAttribute('data-loaded') != null || 
 		lines[l].getAttribute('data-recipient') == null || 
 		lines[l].getAttribute('data-first') == null) {
@@ -659,7 +658,7 @@ function toggleConversation(conversation) {
 }
 
 function allowRunMessages(conversation) {
-	// console.log('allow run messages');
+	console.log('allow run messages');
 	if (!conversation) return;
 	// set status
 	conversation.setAttribute('data-running', '');
@@ -672,7 +671,7 @@ function allowRunMessages(conversation) {
 }
 
 function disableRunMessages(conversation) {
-	// console.log('disable run messages');
+	console.log('disable run messages');
 	if (!conversation) return;
 	// remove status
 	conversation.removeAttribute('data-running');
