@@ -46,13 +46,13 @@
 			<div class="view messages" data-animate></div>
 			<div class="view editor hidden">
 				<textarea title="editor" placeholder="Message text here..." onchange="updateEditor(event)"></textarea>
-				<label for="sender">Sender:</label>
+				<label for="sender" title="Name selected will appear in right side of conversation">Sender:</label>
 				<select name="sender" class="sender" id="sender" onchange="updateSender()">
 					<option value="">======</option>
 				</select>
-				<label for="separator">Separator:</label>
+				<label for="separator" title="For separation between name and message">Separator:</label>
 				<input name="sender" class="separator" id="separator" placeholder=":" onchange="updateSeparator()"></input>
-				<label for="names">Show Names:</label>
+				<label for="names" title="For group conversations, to identify multiple recipients">Show Names:</label>
 				<input type="checkbox" name="names" class="names" id="names" onchange="updateNames()"></input>
 				<a class="bi bi-floppy save" href="javascript:void(0);" onclick="saveEditor(event)" title="Save Changes"></a>
 			</div>
