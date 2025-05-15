@@ -470,6 +470,7 @@ function nextMessage() {
 	}
 	// not recipient, show message directly
 	if (l == 0 || 
+		lines[l].getAttribute('data-section') != null || 
 		lines[l].getAttribute('data-loaded') != null || 
 		lines[l].getAttribute('data-recipient') == null || 
 		lines[l].getAttribute('data-first') == null) {
