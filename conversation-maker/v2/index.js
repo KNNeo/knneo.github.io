@@ -451,8 +451,6 @@ function startConversation() {
 function nextMessage() {
 	let conversation = document.querySelector('.conversation:not(.hidden)');
 	// check if running status
-	if (conversation.getAttribute('data-running') == null)
-		return;
 	if (conversation.getAttribute('data-running') != null && conversation.getAttribute('data-paused') != null)
 		return;
 	let messages = conversation.querySelector('.messages');
@@ -476,7 +474,6 @@ function nextMessage() {
 		}
 		// choice made, hide other messages on line and continue
 		if (window.choice) {
-			allowRunMessages(conversation);
 			for (let choice of lines[l].querySelectorAll('.container:not(:nth-child(' + window.choice + '))'))
 				choice.classList.add('hidden');
 		}
@@ -659,7 +656,7 @@ function waitForSender() {
 			choice.removeAttribute('onclick');
 		setTimeout(function () {
 			if(config.debug) console.log('reply selected, call next');
-			conversation.querySelector('.footer')?.click();
+			allowRunMessages(conversation);
 		}, calculateWriteTime(lines[l + 1]?.innerText));
 	}
 	else
