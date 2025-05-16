@@ -382,7 +382,7 @@ function processConversation(conversation) {
 			// extract text after sender name identified
 			if (isSystem) // system message
 				messageText.innerText = line.replace(new RegExp(config.wrapper.system, 'g'),'').trim();
-			else if(message.includes('@') || message.includes('＠')) { // detect ampersand
+			else if(message.includes('@') || message.includes('\uff20')) { // detect ampersand （ascii, unicode)
 				// sender reference must be separated by ascii whitespace
 				for(let ref of message.split(' ')) {
 					let isRef = ref.startsWith('@');
@@ -391,6 +391,12 @@ function processConversation(conversation) {
 					section.innerText = (ref == message.split(' ')[0] ? '' : ' ') + ref;
 					messageText.appendChild(section);
 				}
+			}
+			else if (message.startsWith('http://') || message.startsWith('https://')) {
+				let url = document.createElement('a');
+				url.href = message;
+				url.innerText = message;
+				messageText.appendChild(url);
 			}
 			else
 				messageText.innerText = message;
