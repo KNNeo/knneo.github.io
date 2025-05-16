@@ -618,7 +618,8 @@ function nextMessage() {
 	if (conversation.getAttribute('data-running') != null && conversation.getAttribute('data-paused') == null) {
         let writeTime = calculateWriteTime(lines[l + 1]?.innerText) + (lines[l + 1].getAttribute('data-sender') == null ? 0 : 1000);
 		setTimeout(function () {
-			conversation.querySelector('.footer')?.click();
+			if(conversation.getAttribute('data-running') != null && conversation.getAttribute('data-paused') == null)
+				conversation.querySelector('.footer')?.click();
 		}, writeTime);
 	}
 }
@@ -629,6 +630,8 @@ function calculateWriteTime(text) {
     let writeTime = 1500;
     let isEmoji = text.trim().match(emojiRegex);
     if(isEmoji && writeLength < 5)
+        return writeTime;
+	if(text.startsWith('http://') || text.startsWith('https://'))
         return writeTime;
     if(writeLength > 12)
         return writeLength / 6 * writeTime;
