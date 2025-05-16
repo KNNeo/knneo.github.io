@@ -454,12 +454,15 @@ function startConversation() {
 }
 
 function nextMessage() {
-	// read lines
 	let conversation = document.querySelector('.conversation:not(.hidden)');
+	// check if running status
+	if (conversation.getAttribute('data-running') == null)
+		return;
 	let messages = conversation.querySelector('.messages');
 	let lines = messages.querySelectorAll('.message');
+	// read lines
 	let l = Array.from(lines).indexOf(conversation.querySelector('.message.hide'));
-	if(config.debug) console.log('next message' + (1+l));
+	if(config.debug) console.log('show message ' + (1+l));
 	// if multiple messages found on line
 	if (lines[l].querySelectorAll('.container').length > 1) {
 		// choice not made
@@ -618,7 +621,6 @@ function nextMessage() {
 	if (conversation.getAttribute('data-running') != null) {
         let writeTime = calculateWriteTime(lines[l + 1]?.innerText) + (lines[l + 1].getAttribute('data-sender') == null ? 0 : 1000);
 		setTimeout(function () {
-			if(config.debug) console.log('call next');
 			conversation.querySelector('.footer')?.click();
 		}, writeTime);
 	}
