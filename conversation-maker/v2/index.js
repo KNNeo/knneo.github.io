@@ -615,7 +615,7 @@ function nextMessage() {
 	if (lines[l].querySelectorAll('.container').length > 1 && !window.choice)
 		return;
 	// if still running, call next message (after loader)
-	if (conversation.getAttribute('data-running') != null) {
+	if (conversation.getAttribute('data-running') != null && conversation.getAttribute('data-paused') == null) {
         let writeTime = calculateWriteTime(lines[l + 1]?.innerText) + (lines[l + 1].getAttribute('data-sender') == null ? 0 : 1000);
 		setTimeout(function () {
 			conversation.querySelector('.footer')?.click();
