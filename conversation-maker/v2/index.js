@@ -451,7 +451,9 @@ function startConversation() {
 function nextMessage() {
 	let conversation = document.querySelector('.conversation:not(.hidden)');
 	// check if running status
-	if (conversation.getAttribute('data-running') == null)
+	if (!conversation.getAttribute('data-running'))
+		return;
+	if (conversation.getAttribute('data-paused'))
 		return;
 	let messages = conversation.querySelector('.messages');
 	let lines = messages.querySelectorAll('.message');
