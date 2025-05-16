@@ -90,11 +90,6 @@ function saveEditor(event) {
 	}
 }
 
-function updateEditor(event) {
-	saveEditor(event);
-	allowRunMessages(event.target.closest('.conversation'));
-}
-
 function saveToLocalStorage() {
 	localStorage.setItem(config.storage.messages, JSON.stringify(window['conversation-messages'] || ''));
 }
@@ -691,6 +686,7 @@ function disableRunMessages(conversation) {
 }
 
 function pauseConversation(conversation) {
+	if(config.debug) console.log('pause');
     if(!conversation)
         conversation = document.querySelector('.conversation:not(.hidden)');
     let footer = conversation.querySelector('.footer');
@@ -701,6 +697,7 @@ function pauseConversation(conversation) {
 }
 
 function resumeConversation(conversation) {
+	if(config.debug) console.log('resume');
     if(!conversation)
         conversation = document.querySelector('.conversation:not(.hidden)');
     let footer = conversation.querySelector('.footer');
