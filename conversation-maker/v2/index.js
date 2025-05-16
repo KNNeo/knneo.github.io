@@ -453,7 +453,7 @@ function nextMessage() {
 	// check if running status
 	if (conversation.getAttribute('data-running') == null)
 		return;
-	if (conversation.getAttribute('data-running') != null && conversation.getAttribute('data-paused') == null)
+	if (conversation.getAttribute('data-running') != null && conversation.getAttribute('data-paused') != null)
 		return;
 	let messages = conversation.querySelector('.messages');
 	let lines = messages.querySelectorAll('.message');
