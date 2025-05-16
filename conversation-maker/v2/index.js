@@ -394,6 +394,7 @@ function processConversation(conversation) {
 			}
 			else if (message.startsWith('http://') || message.startsWith('https://')) {
 				let url = document.createElement('a');
+				url.setAttribute('target', '_blank');
 				url.href = message;
 				url.innerText = message;
 				messageText.appendChild(url);
