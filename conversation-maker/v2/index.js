@@ -620,16 +620,12 @@ function nextMessage() {
 function calculateWriteTime(text) {
     // calculate next message pop time
     let writeLength = text && text.length || 1;
-    let writeTime = 1000;
+    let writeTime = 1500;
     let isEmoji = text.trim().match(emojiRegex);
     if(isEmoji && writeLength < 5)
         return writeTime;
-    if(writeLength > 3)
-        writeTime = 1500;
     if(writeLength > 12)
-        writeTime += writeLength / 12 * 1500;
-    if (!writeTime)
-        writeTime = 1500;
+        return writeLength / 6 * writeTime;
     return writeTime;
 }
 
