@@ -781,6 +781,7 @@ function generateProfilePointers(profile, icons) {
 		cellDiv.classList.add('profile-box-label');
 		cellDiv.classList.add('page-align');
 		cellDiv.classList.add('tr-caption');
+		cellDiv.title = point.label;
 		cellDiv.innerText = point.label;
 		if(icons) {
 			cellDiv.innerText = icons[config.labels.turningPoint.split('|').indexOf(point.label)];

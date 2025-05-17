@@ -80,7 +80,7 @@ a:hover {
 }
 .item {
 	white-space: nowrap;
-    margin: 6px;
+    margin: 0 8px;
     width: 100%;
 }
 .card {
@@ -88,13 +88,11 @@ a:hover {
     align-items: center;
     gap: 5px;
 	cursor: pointer;
-    background: var(--accent);
-    padding: 10px;
-	transition: background .2s linear;
+    padding: 8px;
 	border-radius: 8px;
 }
 .card:hover {
-    background: var(--secondary);	
+    background: var(--secondary);
 }
 .card .info {
     width: calc(100% - 100px);
@@ -132,7 +130,7 @@ a:hover {
     overflow-x: hidden;
 }
 .dialog .list li {
-	width: 100%:
+	width: 100%;
 }
 .inverted {
 	color: var(--foreground);
@@ -183,10 +181,11 @@ a:hover {
     justify-content: center;
 }
 .profile-box-label {
-	font-size: 80%;	
+	font-size: 40%;	
+	filter: contrast(1.2);
 }
 .profile-box-label.inactive {
-	filter: brightness(0);
+	filter: brightness(0) contrast(0) opacity(0.5);
 }
 .profile-image img,
 .profile-box-img {
@@ -199,7 +198,7 @@ a:hover {
 	border-radius: 28px;
 }
 .profile-details {
-    height: 40%;
+    height: 50%;
 	display: flex;
     justify-content: center;
 }
@@ -217,7 +216,7 @@ a:hover {
     justify-content: space-evenly;
 }
 .profile-pointers {
-    width: 66%;
+    width: 75%;
 	display: flex;
 	justify-content: center;	
 }
