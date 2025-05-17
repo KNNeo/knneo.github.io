@@ -248,8 +248,8 @@ a:hover {
 	font-size: 2em;
 }
 .view {
-	height: calc(100% - 200px);
-	margin: auto;
+    height: min(calc(100% - 200px), 75%);
+    margin: 8px;
 	display: flex;
     justify-content: center;
     align-items: center;
@@ -299,11 +299,15 @@ a:hover {
 	position: relative;
 }
 .calendar td {
-    border-radius: 99px;
+    border-radius: 12px;
     min-width: 2em;
     height: 2em;
 }
-.calendar-popitem {
+.calendar .calendar-name {
+	cursor: pointer;
+	color: var(--foreground);
+}
+.calendar .calendar-popitem {
     position: absolute;
     background-color: var(--background);
     right: 0;
@@ -319,7 +323,6 @@ a:hover {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-	gap: 8px;
 }
 .prev-month, .next-month,
 .calendar-legend label {	
@@ -347,15 +350,10 @@ a:hover {
     margin-bottom: 3px;
 	border-radius: 50%;
 }
-.calendar-name {
-	cursor: pointer;
-	color: var(--foreground);
-}
-.calendar .today {
-	text-decoration: underline solid var(--foreground) 5px;
-}
-.calendar .today[data-id] {
-    text-decoration-color: var(--background);
+.calendar-box .export {
+    padding: 0 8px;
+    font-size: 1em;
+    width: 100%;
 }
 
 /*TIMELINE*/
@@ -372,8 +370,9 @@ a:hover {
 .timeline .grid {
 	/* border: 1px solid var(--foreground); */
 	margin: auto;
-    overflow-y: auto;
+    /* overflow-y: auto; */
 	padding: 5px;
+    font-size: 0.85em;
 	
 	display: grid;
     grid-template-columns: 0 100px 30px auto;
@@ -412,7 +411,7 @@ a:hover {
 
 .timeline .blob {
 	grid-column-start: 3;
-	font-size: 1.6em;
+	font-size: 5em;
 }
 
 .timeline .blob-horiz {
@@ -476,6 +475,10 @@ a:hover {
 	font-weight: bold;
 	filter: none;
 	z-index: 10;
+}
+
+.calendar .bg {
+    cursor: pointer;
 }
 
 /*calendar category labels*/

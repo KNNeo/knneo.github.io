@@ -199,13 +199,22 @@ function addCalendarLegend() {
 		calendarLegend.insertBefore(label, calendarLegend.childNodes[0]); // before export button
 	}
 	// add css styles
-	let styleTemplate = ' .disabled[data-id="{name}"] { border-color: {value}; } .bg[data-id="{name}"] { background-color: {value}; color: black; } .bg:hover { background-color: var(--foreground); color: var(--background); } .color:hover { color: var(--foreground); }';
+	let lightStyleTemplate = ' .bg[data-id="{name}"] { background-color: {value}; color: white; } .bg:hover { background-color: var(--foreground); color: var(--background); }';
+    let darkStyleTemplate = ' .darked .bg[data-id="{name}"] { background-color: {value}; color: black; } .darked .bg:hover { background-color: var(--foreground); color: var(--background); }';
 	config.calendar.category.reverse(); // flip back
 	for(let c = 0; c < categories.length; c++) {
 		let categoryIndex = config.calendar.category.indexOf(categories[c]);
 		let styleSheet = document.createElement('style');
-		styleSheet.innerText = styleTemplate.replace(/{name}/g, config.calendar.category[categoryIndex]).replace(/{value}/g, config.calendar.categoryColor[categoryIndex]);
+        // light theme
+		styleSheet.innerText = lightStyleTemplate.replace(/{name}/g, config.calendar.category[categoryIndex]).replace(/{value}/g, (config.calendar.categoryLightColor || config.calendar.categoryColor)[categoryIndex]);
 		document.head.appendChild(styleSheet);
+        
+        // dark theme
+        if(config.calendar.categoryDarkColor) {
+            styleSheet = styleSheet.cloneNode(true);
+            styleSheet.innerText = darkStyleTemplate.replace(/{name}/g, config.calendar.category[categoryIndex]).replace(/{value}/g, config.calendar.categoryDarkColor[categoryIndex]);
+            document.head.appendChild(styleSheet);
+        }
 	}
 }
 
@@ -246,5 +255,4 @@ function exportCalendar() {
 	document.body.removeChild(downloadLink);
 	
 	console.log('Export done');
-	// document.getElementById('exportBtn').setAttribute('disabled','');
 }

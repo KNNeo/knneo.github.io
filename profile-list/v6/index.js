@@ -27,8 +27,9 @@ const config = {
 		include: function(n) {
 			return config.calendar.category.includes(n.category);
 		},
-		category: ['アイドル', '女性声優', 'DOAXVV', 'IDOLY PRIDE', 'ミュージックレイン3期生'], // in legend display order
-		categoryColor: ['lightgray', 'cyan', 'chartreuse', 'violet', 'orangered'], // in order of category
+		category: ['アイドル', '女性声優', 'DOAXVV', 'IDOLY PRIDE', 'DayRe:'], // legend, in display order
+		categoryLightColor: ['gray', 'blue', 'darkgreen', 'violet', 'orangered'], // (light theme) background color of date, in category order
+        categoryDarkColor: ['lightgray', 'cyan', 'chartreuse', 'hotpink', 'orange'], // (dark theme) background color of date, in category order
 		daysOfWeek: ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],
 		months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 	},
@@ -41,7 +42,7 @@ const config = {
 		include: function(n) {
 			return n.dob && config.timeline.category.includes(n.category);
 		},
-		category: ['Me', '女性声優', 'ミュージックレイン3期生'],
+		category: ['Me', '女性声優', 'DayRe:'],
 	},
 };
 const isLandscape = function() {
