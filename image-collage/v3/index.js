@@ -556,6 +556,12 @@ function onClearAll() {
 function onToggleSidebar() {
 	event.target.innerText = event.target.innerText == 'menu' ? 'menu_open' : 'menu';
 	document.querySelector('.menu').classList.toggle('hidden');
+	//resize images
+	let [thumbWidth, thumbHeight] = calculateThumbnailSize();
+	for(let gridItem of document.querySelectorAll('.grid-item')) {
+		gridItem.style.width = thumbWidth + 'px';
+		gridItem.style.height = thumbHeight + 'px';
+	}
 }
 
 function onToggleCaptions() {
