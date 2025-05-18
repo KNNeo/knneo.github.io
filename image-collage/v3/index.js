@@ -384,10 +384,14 @@ function generateFiltered() {
 }
 
 function generateOrientationValues() {
-    /**REMEMBER TO LOAD ALL THUMBNAILS BEFORE RUNNING THIS FUNCTION!!!**/
 	let values = generateFiltered();
 	for(let item of values)	{
 		let itemDiv = collage.querySelector('img[data-src="' + item.og + '"]');
+        if(!itemDiv.complete) {
+            alert('image not loaded, cannot determine orientation!')
+            console.error('generateOrientationValues: image not loaded!', item.og);
+            return;
+        }
         let tags = item.nm.split(config.separator);
         if(!tags.includes('Portrait') && itemDiv?.naturalWidth < itemDiv?.naturalHeight)
             tags.push('Portrait');
