@@ -384,6 +384,7 @@ function generateFiltered() {
 }
 
 function generateOrientationValues() {
+    /**REMEMBER TO LOAD ALL THUMBNAILS BEFORE RUNNING THIS FUNCTION!!!**/
 	let values = generateFiltered();
 	for(let item of values)	{
 		let itemDiv = collage.querySelector('img[data-src="' + item.og + '"]');
