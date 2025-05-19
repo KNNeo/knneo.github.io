@@ -470,19 +470,18 @@ function nextMessage() {
 				// from sender, show choices and wait
 				disableRunMessages(conversation);
 				setChoices(lines[l].querySelectorAll('.container'));
-				setTimeout(waitForSender, 500);
+				setTimeout(waitForSender, 200);
 			}
 		}
 		// choice made, hide other messages on line and continue
 		if (window.choice) {
+			for(let choice of lines[l].querySelectorAll('.container'))
+				choice.classList.remove('hidden');
 			for (let choice of lines[l].querySelectorAll('.container:not(:nth-child(' + window.choice + '))'))
 				choice.classList.add('hidden');
 		}
-		// exclusion: if not sender, choose first option
-		if (lines[l].getAttribute('data-sender') == null)
-			window.choice = 0;
 	} else {
-		// set choice if no alternate choices found
+		// reset choice if no alternate choices found
 		window.choice = 0;
 	}
 	// not recipient, show message directly
