@@ -459,7 +459,6 @@ function nextMessage() {
 	let lines = messages.querySelectorAll('.message');
 	// read lines
 	let l = Array.from(lines).indexOf(conversation.querySelector('.message.hide'));
-	if(config.debug) console.log('show message ' + (1+l));
 	// if multiple messages found on line
 	if (lines[l].querySelectorAll('.container').length > 1) {
 		// choice not made
@@ -492,6 +491,7 @@ function nextMessage() {
 		lines[l].getAttribute('data-loaded') != null || 
 		lines[l].getAttribute('data-recipient') == null || 
 		lines[l].getAttribute('data-first') == null) {
+		if(config.debug) console.log('show message ' + (1+l));
         // play sound effect on each message
         if (window.ping && !lines[l].classList.contains('footer') && lines[l].getAttribute('data-system') == null)
             sfxAudio.play();
@@ -538,7 +538,7 @@ function nextMessage() {
                     top: -1*window['loader'],
                     behavior: 'smooth'
                 });
-				if(config.debug) console.log('call loader');
+				if(config.debug) console.log('show loader');
 				conversation.querySelector('.footer')?.click();
 			}, 500);
 			return;
@@ -594,7 +594,7 @@ function nextMessage() {
             window['next'] = calculateWriteTime(lines[l + 1]?.innerText);
 			// do not calculate next message pop time
 			setTimeout(function () {
-				// console.log('call loader');
+				if(config.debug) console.log('create loader');
 				conversation.querySelector('.footer')?.click();
 			}, window['next']);
 			return;
