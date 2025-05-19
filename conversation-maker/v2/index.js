@@ -272,20 +272,22 @@ function toggleFullscreen() {
 		return console.error('unable to fullscreen, still in editor');
     if(pageDiv.getAttribute('data-fullscreen') == null) {
         pageDiv.setAttribute('data-fullscreen', '');
-		try {
-			let doc = document.documentElement;
-			if (doc.requestFullscreen)
-				doc.requestFullscreen();
-			else if (doc.mozRequestFullScreen) // Firefox 
-				doc.mozRequestFullScreen();
-			else if (doc.webkitRequestFullscreen) // Chrome, Safari, Opera
-				doc.webkitRequestFullscreen();
-			else if (doc.msRequestFullscreen) // IE,Edge
-				doc.msRequestFullscreen();
-		}
-		catch(e) {
-			// Expected: programatic call of fullscreen API not allowed
-			console.error(e);
+		if(event?.type == 'click') {
+			try {
+				let doc = document.documentElement;
+				if (doc.requestFullscreen)
+					doc.requestFullscreen();
+				else if (doc.mozRequestFullScreen) // Firefox 
+					doc.mozRequestFullScreen();
+				else if (doc.webkitRequestFullscreen) // Chrome, Safari, Opera
+					doc.webkitRequestFullscreen();
+				else if (doc.msRequestFullscreen) // IE,Edge
+					doc.msRequestFullscreen();
+			}
+			catch(e) {
+				// Expected: programatic call of fullscreen API not allowed
+				console.error(e);
+			}
 		}
 	}
     else {
@@ -812,5 +814,5 @@ function initializeWindow() {
     }
 	// auto fullscreen, will not work with fullscreen API but does not break logic
 	if(config.auto.fullscreen)
-		document.querySelector('.fullscreen').click();
+		toggleFullscreen();
 }
