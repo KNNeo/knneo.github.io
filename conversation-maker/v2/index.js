@@ -692,6 +692,8 @@ function pauseConversation(conversation) {
 	if(config.debug) console.log('pause');
     if(!conversation)
         conversation = document.querySelector('.conversation:not(.hidden)');
+	if(conversation.getAttribute('data-running') == null || conversation.getAttribute('data-paused') != null)
+		return;
     let footer = conversation.querySelector('.footer');
 	footer.style.opacity = 1;
 	conversation.setAttribute('data-paused', '');
@@ -703,6 +705,8 @@ function resumeConversation(conversation) {
 	if(config.debug) console.log('resume');
     if(!conversation)
         conversation = document.querySelector('.conversation:not(.hidden)');
+	if(conversation.getAttribute('data-running') == null || conversation.getAttribute('data-paused') == null)
+		return;
     let footer = conversation.querySelector('.footer');
 	footer.style.opacity = 0;
 	conversation.removeAttribute('data-paused');
