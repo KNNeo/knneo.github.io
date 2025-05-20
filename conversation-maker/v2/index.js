@@ -343,8 +343,8 @@ function processConversation(conversation) {
 		conversation.appendChild(lineDiv);
 		// render messages
 		let isSystem = line.startsWith(config.wrapper.system) && line.endsWith(config.wrapper.system);
-		let isUrl = line.startsWith('https://') || line.startsWith('http://');
 		for (let message of line.trim().substring(line.indexOf(lineSeparator) + 1).trim().split(config.separator.choice)) {
+			let isUrl = message.startsWith('https://') || line.startsWith('http://');
 			let messageDiv = document.createElement('div');
 			messageDiv.classList.add('container');
 			// change size if only contains emoji
