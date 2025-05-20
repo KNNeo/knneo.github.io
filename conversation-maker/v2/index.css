@@ -163,6 +163,10 @@ a:hover {
     flex-direction: row;
     justify-content: flex-end;
 }
+.conversation .message[data-recipient]:has(> :nth-child(2)) {
+    flex-direction: row;
+    justify-content: flex-start;
+}
 .conversation .message.hide {
     opacity: 0;
 }
@@ -181,13 +185,16 @@ a:hover {
     border-radius: 10px 10px 10px 0;
     text-align: left;
 }
-.conversation .loader,
-.conversation .message[data-recipient] {
+.conversation .loader {
     justify-self: start;
     align-items: start;
 }
 .conversation .message[data-system] {
     align-items: center;
+}
+.conversation .message[data-recipient] {
+    text-align: start;
+    align-items: start;
 }
 .conversation .message[data-sender] {
     text-align: end;
@@ -200,6 +207,7 @@ a:hover {
 .conversation .messages[data-names] .message[aria-label][data-first]::before {
     padding: 0 8px;
 }
+.conversation .messages[data-names] .message[aria-label][data-first][data-recipient]::before,
 .conversation .messages[data-names] .message[aria-label][data-first][data-sender]::before {
     flex: 1 0 100%;
 }
