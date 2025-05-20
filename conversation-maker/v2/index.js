@@ -403,12 +403,12 @@ function processConversation(conversation) {
 				messageDiv.innerHTML = '';
 				// change to link tag
 				let messageLink = document.createElement('a');
-				messageLink.href = line.trim();
-				messageLink.innerText = line.trim();
+				messageLink.href = message.trim();
+				messageLink.innerText = message.trim();
 				messageDiv.appendChild(messageLink);
 				// try render image
 				let messageImg = document.createElement('img');
-				messageImg.src = line.trim();
+				messageImg.src = message.trim();
 				messageImg.alt = '';
 				messageImg.setAttribute('onload', 'event.target.previousElementSibling.remove()');
 				messageImg.setAttribute('onerror', 'event.target.remove()');
