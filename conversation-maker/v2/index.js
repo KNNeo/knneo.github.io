@@ -339,6 +339,7 @@ function processConversation(conversation) {
 		if(sectionName) {
 			lineDiv.setAttribute('data-section', sectionName);
 			sectionName = '';
+			prevName = '';
 		}
 		conversation.appendChild(lineDiv);
 		// render messages
@@ -357,7 +358,7 @@ function processConversation(conversation) {
 			let messageText = document.createElement('span');
 			let senderDefined = line.includes(lineSeparator);
 			if (!isSystem) // for non-system, if line has no sender, use previous
-            lineDiv.setAttribute('aria-label', !isUrl && senderDefined ? line.trim().substring(0, line.indexOf(lineSeparator)).trim() : prevName);
+            	lineDiv.setAttribute('aria-label', senderDefined ? line.trim().substring(0, line.indexOf(lineSeparator)).trim() : prevName);
 			if (senderDefined)
 				lineDiv.setAttribute('data-first', '');
 			prevName = lineDiv.getAttribute('aria-label');
