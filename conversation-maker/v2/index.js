@@ -213,7 +213,7 @@ function setReaction() {
 	let message = event.target.closest('.message');
 	if (message.querySelector('.reactions') != null) {
 		let reaction = event.target.cloneNode(true);
-		reaction.setAttribute('onclick', 'event.target.remove()');
+		reaction.setAttribute('onclick', 'toggleReactions()');
 		message.querySelector('.reactions').setAttribute('data-selected', '');
 		message.querySelector('.reactions').innerHTML = '';
 		message.querySelector('.reactions').appendChild(reaction);
@@ -229,7 +229,7 @@ function toggleReactions() {
 	} else {
 		let template = document.querySelector('.template-reactions');
 		let reactions = template.content.cloneNode(true);
-		message.querySelector('.container').appendChild(reactions);
+		message.appendChild(reactions);
 	}
 }
 

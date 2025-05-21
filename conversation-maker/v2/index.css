@@ -248,15 +248,24 @@ a:hover {
 }
 .conversation .message .reactions {
     position: absolute;
+    bottom: 0;
     white-space: nowrap;
     border-radius: 99px;
-    line-height: 0.5;
+    padding: 0.5em 1em;
     background-color: var(--foreground);
     z-index: 1;
 }
 .conversation .message .reactions[data-selected] {
     font-size: 0.6em;
-    line-height: 0;
+    padding: 0.5em;
+    line-height: 1;
+    margin: 0 1em;
+}
+.conversation .message .reactions .reaction:hover {
+    text-decoration: none;
+}
+.conversation .message .reactions:not([data-selected]) .reaction:hover {
+    background-color: var(--accent);
 }
 .conversation .editor textarea {
     width: calc(100% - 2em);
