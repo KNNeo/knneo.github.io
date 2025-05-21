@@ -706,7 +706,7 @@ function resumeConversation(conversation) {
 	if(config.debug) console.log('resume');
     if(!conversation)
         conversation = document.querySelector('.conversation:not(.hidden)');
-	if(conversation.getAttribute('data-running') == null || conversation.getAttribute('data-paused') == null)
+	if(conversation.getAttribute('data-paused') == null)
 		return;
     let footer = conversation.querySelector('.footer');
 	footer.style.opacity = 0;
