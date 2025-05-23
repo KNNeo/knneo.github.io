@@ -26,7 +26,7 @@ public class Program {
 	static bool WRITE_TITLE_ON_CONSOLE = false;
 	static int DOTS_PER_LINE_CONSOLE = 80;
 	static XNamespace DEFAULT_XML_NAMESPACE = XNamespace.Get("http://www.w3.org/2005/Atom");
-	static List<string> GOOGLE_FONTS_URLS = new List<string>() { "Dancing Script" };
+	// static List<string> GOOGLE_FONTS_URLS = new List<string>() { "Dancing Script" };
 	static List<string> IMAGE_DOMAINS_LIST = new List<string>() { "ggpht.com", "bp.blogspot.com", "blogger.googleusercontent.com" };
 	static List<string> CONTENT_SKIP_SUBSTRINGS = new List<string>() { "news-thumbnail", "</div>", "class=\"agenda\"", "<div><br /></div>" };
 	static bool GENERATE_SLUG_BY_POST_TITLE = true;
@@ -176,8 +176,8 @@ public class Program {
 			if(!Directory.Exists(yearfolder)) Directory.CreateDirectory(outputFileDir);
 			var monthfolder = Path.Combine(yearfolder, publishDate.Month.ToString("00"));
 			if(!Directory.Exists(monthfolder)) Directory.CreateDirectory(monthfolder);
-			string outFileName = Path.GetFileNameWithoutExtension(bloggerLink) + "." + postExtension;
-			var pageOutputPath = Path.Combine(monthfolder, outFileName);
+			// string outFileName = Path.GetFileNameWithoutExtension(bloggerLink) + "." + postExtension;
+			// var pageOutputPath = Path.Combine(monthfolder, outFileName);
 			// Show progress, as post title or as represented by dot
 			if(WRITE_TITLE_ON_CONSOLE || DEBUG_MODE)
 				Console.WriteLine("||> " + (postTitle.Length > 0 ? postTitle : "POST W/O TITLE DATED " + publishDate.ToString("yyyy-MM-dd")));
