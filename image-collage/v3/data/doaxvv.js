@@ -10,7 +10,7 @@ const config = {
 		width: 500,
 	},
 	title: 'VVブロマイド図鑑',
-	description: `Gallery based on tag separated filenames\n\n©コーエーテクモゲームス All rights reserved.	`,
+	description: `Gallery based on tag separated filenames<br>©コーエーテクモゲームス All rights reserved.	`,
 	placeholder: {
 		include: '以内の…',
 		exclude: '以外の…',
@@ -28,6 +28,7 @@ const config = {
 		filter: true,
 		slideshow: 5,
 		stats: true,
+        ratio: false,
 	},
 	tag: {
 		category: {
