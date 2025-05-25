@@ -274,6 +274,7 @@ a:focus-within {
 .title,
 .description {
 	margin: 10px 0;
+    text-align: center;
 }
 
 .dialog dialog {
