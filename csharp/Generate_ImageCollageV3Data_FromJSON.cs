@@ -30,8 +30,8 @@ public class Program {
 		var prefixMd = "size" + separator + "md" + separator;
 		var prefixLg = "size" + separator + "lg" + separator;		
 		string dataurl = "https://doax.cc/api/ssr_data.json"; // master data source
-		string datapath = @"/home/kaineng/Documents/Workspaces/doaxvv/ssr_data.json"; // master data
-		string mappingpath = @"/media/kaineng/PORTABLE/RBKN/My Workplace/Workplace/BACKUPS/my_ssr_data.json"; // mapping data
+		string datapath = @"/home/kaineng/Documents/Workspaces/doaxvv/doaxvv_ssr_data.json"; // master data
+		string mappingpath = @"/media/kaineng/PORTABLE/RBKN/My Workplace/Workplace/BACKUPS/doaxvv_ssr_data.json"; // mapping data
 		string thumbpath = @"/home/kaineng/Documents/Workspaces/doaxvv/thumbs/"; // ends with slash; ignored if noDownload is true
 		string destination = @"/home/kaineng/Documents/Repositories/knneo.github.io/image-collage/v3/data/doaxvv.js";
 		// Pre-execution notice
@@ -86,6 +86,13 @@ public class Program {
 						//record image url
 						var url = @"https://doax.cc/res/pic_star/" + dataOne.id + ".png";
 						Console.WriteLine("URL identified: " + url);
+
+                        if(file.kakusei)
+                        {
+                            //record image url
+                            url = @"https://doax.cc/res/pic_star/" + dataOne.id + "_m.png";
+                            Console.WriteLine("URL identified: " + url);
+                        }
 					}
 					else
 					{
@@ -101,6 +108,13 @@ public class Program {
 							ResizeImageToNew(thumbpath + filename, thumbpath + prefixMd + filename, 400, 0);
 						if(!File.Exists(thumbpath + prefixLg + filename))
 							ResizeImageToNew(thumbpath + filename, thumbpath + prefixLg + filename, 800, 0);
+
+                        if(file.kakusei)
+                        {
+						    //download image
+                            url = @"https://doax.cc/res/pic_star/" + dataOne.id + "_m.png";
+						    DownloadTo(url, thumbpath + filename.Replace(".jpg", "_覚醒" + ".jpg"));
+                        }
 					}
 				}
 				else if(dataOne == null) 
@@ -127,20 +141,20 @@ public class Program {
 					var dataOne = data.FirstOrDefault(d => d.name.Trim() == file.search.Trim());
 					if(dataOne != null)
 					{
-						var url = @"https://doax.cc/res/pic_star/" + dataOne.id + ".png";
+						var url = @"https://doax.cc/res/pic_star/" + dataOne.id + (file.kakusei ? "_m" : "") + ".png"; // kakusei to show as source, online only
 						var thumb = @"https://doax.cc/res/pic_star_s/" + dataOne.id + ".png";
 						item.sm = thumb;
 						item.md = thumb;
 						item.lg = url;
 						item.og = url;
-					}				
+					}
 				}
 				else
 				{
 					item.sm = "file://" + thumbpath.Replace("\\","/") + prefixSm + filename;
 					item.md = "file://" + thumbpath.Replace("\\","/") + prefixMd + filename;
 					item.lg = "file://" + thumbpath.Replace("\\","/") + prefixLg + filename;
-					item.og = "file://" + thumbpath.Replace("\\","/") + filename;
+					item.og = "file://" + thumbpath.Replace("\\","/") + (file.kakusei ? filename.Replace(".jpg", "_覚醒" + ".jpg") : filename);
 				}
 				output.Add(item);
 			}
