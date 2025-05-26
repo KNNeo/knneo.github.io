@@ -276,8 +276,8 @@ function generateGrid() {
 	grid.innerHTML = '';
 	
 	let filterArray = generateFiltered().sort(function(a,b) {
-		let prop = config.sort.property;
-		if(!a[prop] || !b[prop])
+		let prop = config.sort?.property;
+		if(!prop || !a[prop] || !b[prop])
 			return 0;
 		if(config.sort.order == 'desc')
 			return b[prop].localeCompare(a[prop], config.sort.locale);
