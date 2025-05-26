@@ -581,7 +581,7 @@ public class Program {
 	*/
 	static List<int> FixPostContent(ref string content, List<LinkedListItem> linkedList)
 	{
-		List<int> includeIndex = new List<int> { 14, 15, 18, 24, 29, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40 };
+		List<int> includeIndex = new List<int> { 14, 15, 16, 18, 24, 29, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40 };
 		List<int> count = new List<int>();
 		string expression;
 		string prefix, midfix, suffix;
@@ -653,6 +653,19 @@ public class Program {
 					Console.WriteLine(replacement);
 				}
 				content = content.Replace(match.Value, replacement);
+				match = match.NextMatch();
+			};
+		}
+		#endregion
+		
+		#region 16 remove hashtags on post level
+		if(includeIndex.Count() == 0 || includeIndex.Contains(16))
+		{
+			expression = @"(?s)(<div class=""post-hashtags"">).*?)(</div>)";
+			match = Regex.Match(content, expression);
+			while(match.Success) {
+				count.Add(16);
+				content = content.Replace(match.Value, "");
 				match = match.NextMatch();
 			};
 		}
