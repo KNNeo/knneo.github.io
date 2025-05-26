@@ -23,7 +23,7 @@ public class Program {
 		//variables
 		bool debugMode = false;
 		bool checkFiles = true;
-		bool noDownload = true; // false will download images, true will ensure links are online
+		bool downloadFiles = false; // false will use links from dataUrl
 		var generateObjectAs = "string"; // accepted data types: object, string
 		var separator = '_';
 		var prefixSm = "size" + separator + "sm" + separator;
@@ -32,13 +32,13 @@ public class Program {
 		string dataurl = "https://doax.cc/api/ssr_data.json"; // master data source
 		string datapath = @"/home/kaineng/Documents/Workspaces/doaxvv/doaxvv_ssr_data.json"; // master data
 		string mappingpath = @"/media/kaineng/PORTABLE/RBKN/My Workplace/Workplace/BACKUPS/doaxvv_ssr_data.json"; // mapping data
-		string thumbpath = @"/home/kaineng/Documents/Workspaces/doaxvv/thumbs/"; // ends with slash; ignored if noDownload is true
+		string thumbpath = @"/home/kaineng/Documents/Workspaces/doaxvv/thumbs/"; // ends with slash; ignored if downloadFiles is false
 		string destination = @"/home/kaineng/Documents/Repositories/knneo.github.io/image-collage/v3/data/doaxvv.js";
 		// Pre-execution notice
 		Console.WriteLine("================================================================================");
 		if(!checkFiles) Console.WriteLine($"checkFiles is {checkFiles}; change to True to check downloaded images");
-		if(noDownload) Console.WriteLine($"noDownload is {noDownload}; change to False to downloaded images");
-		if(!noDownload) Console.WriteLine($"noDownload is {noDownload}; change to True to keep links in output online");
+		if(!downloadFiles) Console.WriteLine($"downloadFiles is {downloadFiles}; change to True to downloaded images");
+		if(downloadFiles) Console.WriteLine($"downloadFiles is {downloadFiles}; change to False to keep links in output online");
 		Console.WriteLine("================================================================================");
 		// download data file
 		if(!string.IsNullOrWhiteSpace(dataurl))
@@ -79,9 +79,9 @@ public class Program {
 				var dataOne = data.FirstOrDefault(d => d.name.Trim() == file.search.Trim());
 				if(debugMode) Console.WriteLine("Found " + dataOne);
 				
-				if(dataOne != null && !File.Exists(thumbpath + filename))
+				if(dataOne != null)
 				{
-					if(noDownload)
+					if(!downloadFiles)
 					{
 						//record image url
 						var url = @"https://doax.cc/res/pic_star/" + dataOne.id + ".png";
@@ -94,7 +94,7 @@ public class Program {
                             Console.WriteLine("URL identified: " + url);
                         }
 					}
-					else
+					else if(!File.Exists(thumbpath + filename))
 					{
 						//download image
 						var url = @"https://doax.cc/res/pic_star/" + dataOne.id + ".png";
@@ -108,14 +108,13 @@ public class Program {
 							ResizeImageToNew(thumbpath + filename, thumbpath + prefixMd + filename, 400, 0);
 						if(!File.Exists(thumbpath + prefixLg + filename))
 							ResizeImageToNew(thumbpath + filename, thumbpath + prefixLg + filename, 800, 0);
-
-                        if(file.kakusei)
-                        {
-						    //download image
-                            url = @"https://doax.cc/res/pic_star/" + dataOne.id + "_m.png";
-						    DownloadTo(url, thumbpath + filename.Replace(".jpg", "_覚醒" + ".jpg"));
-                        }
 					}
+                    else if (file.kakusei && !File.Exists(thumbpath + filename.Replace(".jpg", "_覚醒" + ".jpg")))
+                    {
+                        //download image
+                        var url = @"https://doax.cc/res/pic_star/" + dataOne.id + "_m.png";
+                        DownloadTo(url, thumbpath + filename.Replace(".jpg", "_覚醒" + ".jpg"));
+                    }
 				}
 				else if(dataOne == null) 
 				{
@@ -136,7 +135,7 @@ public class Program {
 				var item = new ImageCollageItem();
 				item.nm = filename;
 				if(file.kakusei) item.st = 1;
-				if(noDownload) 
+				if(!downloadFiles) 
 				{
 					var dataOne = data.FirstOrDefault(d => d.name.Trim() == file.search.Trim());
 					if(dataOne != null)
