@@ -661,7 +661,7 @@ public class Program {
 		#region 16 remove hashtags on post level
 		if(includeIndex.Count() == 0 || includeIndex.Contains(16))
 		{
-			expression = @"(?s)(<div class=""post-hashtags"">).*?)(</div>)";
+			expression = @"(?s)(<div class=""post-hashtags"">)(.*?)(</div>)";
 			match = Regex.Match(content, expression);
 			while(match.Success) {
 				count.Add(16);
