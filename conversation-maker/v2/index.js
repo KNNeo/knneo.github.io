@@ -42,6 +42,10 @@ function selectConversation() {
         document.querySelector('#' + event.target.value + ' .messages').style.height = '';
 		event.target.blur();
 	}
+	if(document.querySelector('.section') != null) {
+		document.querySelector('.section').classList.remove('bi-file-earmark-break-fill');
+		document.querySelector('.section').classList.add('bi-file-break');
+	}
 }
 
 function showMessages() {
@@ -316,14 +320,55 @@ function toggleFullscreen() {
 function selectSection() {
 	if(!pageDiv.querySelector('.conversation:not(.hidden)'))
 		return console.error('unable to select section, no conversation selected');
-	if(pageDiv.querySelector('.editor:not(.hidden)'))
-		return console.error('unable to select section, still in editor');
-	let conversation = pageDiv.querySelector('.conversation:not(.hidden)');
-	if(!conversation.querySelector('.message[data-section]'))
-		return alert('no sections detected, add in editor');
-	let sections = Array.from(conversation.querySelectorAll('.message[data-section]'))
-					.map(section => '<button>' + section.getAttribute('data-section') + '</button>');
-	popupText('<div class="sections">' + sections.join('') + '</div>');
+	if(event.target.classList.contains('bi-file-break')) {
+		// show sections
+		if(pageDiv.querySelector('.editor:not(.hidden)'))
+			return console.error('unable to select section, still in editor');
+		let conversation = pageDiv.querySelector('.conversation:not(.hidden)');
+		if(!conversation.querySelector('.message[data-section]'))
+			return alert('no sections detected, add in editor');
+		let sections = Array.from(conversation.querySelectorAll('.message[data-section]'))
+						.map(section => '<button onclick="onSelectSection()">' + section.getAttribute('data-section') + '</button>');
+		popupText('<div class="sections">' + sections.join('') + '</div>');
+	}
+	if(event.target.classList.contains('bi-file-earmark-break-fill')) {
+		// reset sections
+		let conversation = pageDiv.querySelector('.conversation:not(.hidden)');
+		conversation.querySelector('a').click();
+	}
+}
+
+function onSelectSection() {
+	document.querySelector('.section').classList.remove('bi-file-break');
+	document.querySelector('.section').classList.add('bi-file-earmark-break-fill');
+	let sectionName = event.target.innerText;
+	// find out which lines are in section
+	let lines = pageDiv.querySelectorAll('.conversation:not(.hidden) .messages .message');
+	let sectionLine = Array.from(lines).indexOf(pageDiv.querySelector('.conversation:not(.hidden) .messages .message[data-section="' + sectionName + '"]')); // assume section names unique
+	// console.log(sectionLine);
+	// mark and remove lines not in range
+	for(l = 0; l < sectionLine; l++) {
+		let line = lines[l];
+		if(line)
+			line.setAttribute('data-range', '');
+	}
+	for(let line of pageDiv.querySelectorAll('.conversation:not(.hidden) .messages .message[data-range]'))
+		line.remove();
+	// find out which lines are in next section onwards (if not last)
+	lines = pageDiv.querySelectorAll('.conversation:not(.hidden) .messages .message');
+	sectionName = Array.from(lines).indexOf(pageDiv.querySelector('.conversation:not(.hidden) .messages .message:not([data-section]) + .message[data-section]')); // assume section names unique
+	// console.log(sectionName);
+	if(sectionName < 0)
+		sectionName = lines.length - 1;
+	// mark and remove lines not in range
+	for(l = sectionName; l < lines.length - 1; l++) {
+		let line = lines[l];
+		if(line)
+			line.setAttribute('data-range', '');
+	}
+	for(let line of pageDiv.querySelectorAll('.conversation:not(.hidden) .messages .message[data-range]'))
+		line.remove();
+	removeDialog();
 }
 
 //--FUNCTIONS--//
@@ -725,7 +770,7 @@ function resumeConversation(conversation) {
 	if(conversation.getAttribute('data-paused') == null)
 		return;
     let footer = conversation.querySelector('.footer');
-	footer.style.opacity = 0;
+	footer.style.opacity = '';
 	conversation.removeAttribute('data-paused');
 	footer.setAttribute('onclick', 'nextMessage()');
 	allowRunMessages(conversation);
