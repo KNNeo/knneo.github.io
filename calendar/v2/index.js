@@ -663,7 +663,7 @@ function createHourButtonArray(form) {
 function createMinuteButtonArray(form) {
 	let list = document.createElement('div');
 	let minute = form.querySelector('#start_minute');
-	for(let m = minute; m < minute.max; h+= 5) {
+	for(let m = minute; m < minute.max; m += 5) {
 		let btn = document.createElement('button');
 		btn.title = String(h).padStart(2,'0');
 		btn.innerText = m;
