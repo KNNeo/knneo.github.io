@@ -1,356 +1,355 @@
 //--DEFAULT SETTINGS--//
-const timezone = 'Asia/Tokyo';
-const daysOfWeek = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-const monthsOfYear = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-const templates = [
-	{
-		name: '高橋李依・上田麗奈 仕事で会えないからラジオはじめました。',
-		startDayNo: 1,
-		startDate: '2023-07-24',
-		startTime: 1300,
-		lengthMinutes: 30,
-		recurringWeeks: 'alternate',
-		channel: 'インターネットラジオステーション＜音泉＞',
-		url: 'https://www.onsen.ag/program/shigohaji',
-		format: 'Audio Premiere',
-	},
-	{
-		name: '長江里加の“じゅうななへんげ”',
-		startDayNo: 1,
-		startTime: 2200,
-		lengthMinutes: 30,
-		recurringWeeks: [1,2,3,4,5],
-		channel: 'シーサイドチャンネル',
-		url: 'https://www.youtube.com/@SeasideChannel',
-		format: 'Audio Premiere',
-	},
-	{
-		name: '本気出せ！#大空直美',
-		startDayNo: 1,
-		startTime: 2200,
-		lengthMinutes: 30,
-		recurringWeeks: [2,4],
-		channel: 'ニコニコチャンネル',
-		url: 'https://ch.nicovideo.jp/onetone',
-		format: 'Audio Live',
-	},
-	{
-		name: '東山奈央のラジオ＠リビング',
-		startDayNo: 1,
-		startTime: 2300,
-		lengthMinutes: 30,
-		recurringWeeks: [1,2,3,4,5],
-		channel: '文化放送『超！A&G＋』',
-		url: 'http://www.joqr.co.jp/naoliving/',
-		format: 'Audio Live',
-	},
-	{
-		name: '菅野真衣のマイペースマイワールド',
-		startDate: '2023-01-02',
-		startDayNo: 1,
-		startTime: 2430,
-		lengthMinutes: 30,
-		recurringWeeks: [1,2,3,4,5],
-		channel: 'ニコニコチャンネル',
-		url: 'https://ch.nicovideo.jp/maimild',
-		format: 'Audio Live',
-	},
-	{
-		name: '夏川椎菜のCultureZ',
-		startDayNo: 1,
-		startTime: 2500,
-		endDate: '2023-03-20',
-		lengthMinutes: 120,
-		recurringWeeks: [1,2,3,4,5],
-		channel: 'YouTube',
-		url: 'https://www.youtube.com/@CultureZ_',
-		format: 'Video Live',
-	},
-	{
-		name: 'Lynnのおしゃべりんらじお',
-		startDayNo: 1,
-		startTime: 2530,
-		lengthMinutes: 30,
-		recurringWeeks: [1,2,3,4,5],
-		channel: '文化放送『超！A&G＋』',
-		url: 'https://www.joqr.co.jp/qr/program/lynn/',
-		format: 'Audio Live',
-	},
-	{
-		name: '会沢紗弥のエンディングは上機嫌で',
-		startDayNo: 2,
-		startTime: 2100,
-		lengthMinutes: 30,
-		recurringWeeks: [2,4],
-		channel: 'ニコニコチャンネル',
-		url: 'https://ch.nicovideo.jp/voicegarage/blomaga/ar1898536',
-		format: 'Video Live',
-	},
-	{
-		name: 'TrySailのTRYangle harmony',
-		startDayNo: 2,
-		startTime: 2200,
-		lengthMinutes: 30,
-		recurringWeeks: [1,2,3,4,5],
-		channel: 'ニコニコチャンネル',
-		url: 'http://try.secondshot.jp/',
-		format: 'Audio Live',
-	},
-	{
-		name: '山根綺・富田美憂 ややとみの',
-		startDayNo: 2,
-		startTime: 2230,
-		lengthMinutes: 30,
-		recurringWeeks: [1,2,3,4,5],
-		channel: 'ニコニコチャンネル',
-		url: 'http://yayatomi.secondshot.jp/',
-		format: 'Video Live',
-	},
-	{
-		name: '佐倉としたい大西',
-		startDayNo: 2,
-		startTime: 2330,
-		endDate: '2023-03-28',
-		lengthMinutes: 30,
-		recurringWeeks: [1,2,3,4,5],
-		channel: '文化放送『超！A&G＋』',
-		url: 'https://www.joqr.co.jp/qr/program/toshitai/',
-		format: 'Video Live',
-	},
-	{
-		name: 'ミュージックレイン3期生 新番組ベータ版',
-		startDayNo: 2,
-		startTime: 2330,
-		lengthMinutes: 30,
-		recurringWeeks: [1,2,3,4,5],
-		channel: 'ニコニコチャンネル',
-		url: 'http://beta.secondshot.jp/',
-		format: 'Video Live',
-	},
-	{
-		name: '鬼頭明里のsmiley pop',
-		startDayNo: 3,
-		startTime: 1930,
-		endDate: '2023-09-27',
-		lengthMinutes: 30,
-		recurringWeeks: [1,2,3,4,5],
-		channel: '文化放送『超！A&G＋』',
-		url: 'http://smp.secondshot.jp/',
-		format: 'Audio Live',
-	},
-	{
-		name: '麻倉ももの日常系ラジオ',
-		startDayNo: 3,
-		startTime: 2100,
-		lengthMinutes: 30,
-		recurringWeeks: [1,2,3,4,5],
-		channel: 'Radiotalk',
-		url: 'https://radiotalk.jp/program/108065',
-		format: 'Audio Live',
-	},
-	{
-		name: 'たかみなと大西のたかにしや',
-		startDayNo: 3,
-		startTime: 2200,
-		endDate: '2023-06-14',
-		lengthMinutes: 30,
-		recurringWeeks: [1,2,3,4,5],
-		channel: 'ニコニコ動画',
-		url: 'http://takanishi.secondshot.jp/',
-		format: 'Video Live',
-	},
-	{
-		name: 'Pyxisのキラキラ大作戦！',
-		startDayNo: 3,
-		startTime: 2230,
-		lengthMinutes: 30,
-		recurringWeeks: [1,2,3,4,5],
-		channel: 'ニコニコ動画',
-		url: 'http://pyxis.secondshot.jp/',
-		format: 'Video Live',
-	},
-	{
-		name: '戸松遥のココロ☆ハルカス',
-		startDate: '2023-02-02',
-		startDayNo: 4,
-		startTime: 2130,
-		lengthMinutes: 30,
-		recurringWeeks: 'alternate',
-		channel: 'ニコニコ動画',
-		url: 'http://harukas.secondshot.jp/',
-		format: 'Audio Live',
-	},
-	{
-		name: '寿美菜子のラフラフ',
-		startDate: '2023-02-09',
-		startDayNo: 4,
-		startTime: 2130,
-		lengthMinutes: 30,
-		recurringWeeks: 'alternate',
-		channel: 'ニコニコ動画',
-		url: 'http://laugh-rough.secondshot.jp/',
-		format: 'Audio Live',
-	},
-	{
-		name: '豊崎愛生のおかえりらじお',
-		startDayNo: 4,
-		startTime: 2200,
-		lengthMinutes: 60,
-		recurringWeeks: [1,2,3,4,5],
-		channel: '文化放送『超！A&G＋』',
-		url: 'http://okaeri.secondshot.jp/',
-		format: 'Audio Live',
-	},
-	{
-		name: '花澤香菜のひとりでできるかな？',
-		startDayNo: 4,
-		startTime: 2300,
-		lengthMinutes: 30,
-		recurringWeeks: [1,2,3,4,5],
-		channel: '文化放送『超！A&G＋』',
-		url: 'https://www.joqr.co.jp/qr/program/dekirukana/',
-		format: 'Audio Live',
-	},
-	{
-		name: '上田麗奈のひみつばこ',
-		startDayNo: 4,
-		startTime: 2330,
-		lengthMinutes: 30,
-		recurringWeeks: [1,2,3,4,5],
-		channel: '文化放送『超！A&G＋』',
-		url: 'https://www.joqr.co.jp/qr/program/himi2/',
-		format: 'Audio Live',
-	},
-	{
-		name: '竹達・沼倉の初ラジ！',
-		startDayNo: 6,
-		startDate: '2023-04-01',
-		startTime: 1900,
-		endDate: '2023-06-30',
-		lengthMinutes: 30,
-		recurringWeeks: [1,2,3,4,5],
-		channel: '文化放送『超！A&G＋』',
-		url: 'https://www.joqr.co.jp/qr/program/wiwi/',
-		format: 'Audio Live',
-	},
-	{
-		name: '小原好美のココロおきなく',
-		startDayNo: 7,
-		startTime: 2000,
-		lengthMinutes: 30,
-		recurringWeeks: [1,2,3,4,5],
-		channel: '文化放送『超！A&G＋』',
-		url: 'https://www.joqr.co.jp/qr/program/kokoradi/',
-		format: 'Audio Live',
-	},
-	{
-		name: '水瀬いのり MELODY FLAG',
-		startDayNo: 7,
-		startTime: 2200,
-		lengthMinutes: 30,
-		recurringWeeks: [1,2,3,4,5],
-		channel: '文化放送',
-		url: 'http://melody-flag.com',
-		format: 'Audio Live',
-		notes: 'Note: Archive on YouTube the following day'
-	},
-	{
-		name: 'さやとみはるのさんかくカンケイ',
-		startDayNo: 3,
-		startDate: '2023-07-05',
-		startTime: 1800,
-		endDate: '2023-08-02',
-		lengthMinutes: 30,
-		recurringWeeks: 'alternate',
-		channel: 'インターネットラジオステーション＜音泉＞',
-		url: 'https://www.onsen.ag/program/sankaku',
-		format: 'Video Live',
-	},
-	{
-		name: 'イヤホンズの三平方の定理',
-		startDayNo: 2,
-		startDate: '2023-06-23',
-		lengthMinutes: 30,
-		recurringWeeks: [4],
-		channel: 'インターネットラジオステーション＜音泉＞',
-		url: 'https://www.onsen.ag/program/omimi',
-		format: 'Audio Premiere',
-	},
-	{
-		name: '堀江由衣の天使のたまご',
-		startDayNo: 5,
-		startTime: 2500,
-		lengthMinutes: 30,
-		channel: '文化放送',
-		url: 'https://horie-yui.com/radio/',
-		format: 'Audio Live',
-		notes: 'Note: Archive on YouTube the following day'
-	},
-	{
-		name: 'きどまだSeason2',
-		channel: 'OPENREC.tv',
-		frequency: 'Monthly',
-		url: 'https://www.openrec.tv/user/kido-ibuki',
-		format: 'Video Live',
-	},
-	{
-		name: 'MIYU学院 放送部っ！',
-		channel: 'ニコニコ動画',
-		frequency: 'Monthly',
-		url: 'https://ch.nicovideo.jp/miyugaku',
-		format: 'Video Live',
-	},
-	{
-		name: '大久保瑠美の◯◯な件',
-		channel: 'ニコニコ動画',
-		frequency: 'Monthly',
-		endDate: '2023-09-30',
-		url: 'https://ch.nicovideo.jp/seigura',
-		format: 'Video Live',
-	},
-	{
-		name: '大久保瑠美の◯◯な件',
-		channel: 'OPENREC.tv',
-		frequency: 'Monthly',
-		url: 'https://www.openrec.tv/user/rumimaru_official',
-		format: 'Video Live',
-	},
-	{
-		name: '日笠・佐倉は余談を許さない',
-		startDayNo: 4,
-		startDate: '2023-10-05',
-		startTime: 2130,
-		lengthMinutes: 30,
-		channel: '文化放送『超！A&G＋』',
-		url: 'https://www.joqr.co.jp/qr/program/yodan/',
-		format: 'Audio Live',
-	},
-	{
-		name: '礒部花凜のどなたか助けてくれませんか？',
-		channel: 'ニコニコ動画',
-		frequency: 'Monthly',
-		url: 'https://ch.nicovideo.jp/Carin',
-		format: 'Video Live',
-	},
-	{
-		name: '鬼頭明里のふくみみラジオ',
-		startDayNo: 3,
-		startTime: 2130,
-		lengthMinutes: 30,
-		channel: '鬼頭明里オフィシャルファンクラブ『Smiley Light Village』',
-		url: 'https://kitoakari-fc.com/',
-		format: 'Video Live',
-	},
-	{
-		name: '夏川椎菜のずっとゲームしてるだけ',
-		startDayNo: 5,
-		startTime: 2000,
-		lengthMinutes: 60,
-		channel: 'ファミ通ゲーム実況ch',
-		url: 'https://www.youtube.com/@famitsugamelive',
-		format: 'Video Live',
-	},
-];
+const config = {
+	days: ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],
+	months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+	templates: [
+		{
+			name: '高橋李依・上田麗奈 仕事で会えないからラジオはじめました。',
+			startDayNo: 1, startDate: '2023-07-24',
+			startTime: 1300, lengthMinutes: 30,
+			recurringWeeks: 'alternate',
+			channel: 'インターネットラジオステーション＜音泉＞',
+			url: 'https://www.onsen.ag/program/shigohaji',
+			format: 'Audio Premiere',
+		},
+		{
+			name: '長江里加の“じゅうななへんげ”',
+			startDayNo: 1,
+			startTime: 2200,
+			lengthMinutes: 30,
+			recurringWeeks: [1,2,3,4,5],
+			channel: 'シーサイドチャンネル',
+			url: 'https://www.youtube.com/@SeasideChannel',
+			format: 'Audio Premiere',
+		},
+		{
+			name: '本気出せ！#大空直美',
+			startDayNo: 1,
+			startTime: 2200,
+			lengthMinutes: 30,
+			recurringWeeks: [2,4],
+			channel: 'ニコニコチャンネル',
+			url: 'https://ch.nicovideo.jp/onetone',
+			format: 'Audio Live',
+		},
+		{
+			name: '東山奈央のラジオ＠リビング',
+			startDayNo: 1,
+			startTime: 2300,
+			lengthMinutes: 30,
+			recurringWeeks: [1,2,3,4,5],
+			channel: '文化放送『超！A&G＋』',
+			url: 'http://www.joqr.co.jp/naoliving/',
+			format: 'Audio Live',
+		},
+		{
+			name: '菅野真衣のマイペースマイワールド',
+			startDate: '2023-01-02',
+			startDayNo: 1,
+			startTime: 2430,
+			lengthMinutes: 30,
+			recurringWeeks: [1,2,3,4,5],
+			channel: 'ニコニコチャンネル',
+			url: 'https://ch.nicovideo.jp/maimild',
+			format: 'Audio Live',
+		},
+		{
+			name: '夏川椎菜のCultureZ',
+			startDayNo: 1,
+			startTime: 2500,
+			endDate: '2023-03-20',
+			lengthMinutes: 120,
+			recurringWeeks: [1,2,3,4,5],
+			channel: 'YouTube',
+			url: 'https://www.youtube.com/@CultureZ_',
+			format: 'Video Live',
+		},
+		{
+			name: 'Lynnのおしゃべりんらじお',
+			startDayNo: 1,
+			startTime: 2530,
+			lengthMinutes: 30,
+			recurringWeeks: [1,2,3,4,5],
+			channel: '文化放送『超！A&G＋』',
+			url: 'https://www.joqr.co.jp/qr/program/lynn/',
+			format: 'Audio Live',
+		},
+		{
+			name: '会沢紗弥のエンディングは上機嫌で',
+			startDayNo: 2,
+			startTime: 2100,
+			lengthMinutes: 30,
+			recurringWeeks: [2,4],
+			channel: 'ニコニコチャンネル',
+			url: 'https://ch.nicovideo.jp/voicegarage/blomaga/ar1898536',
+			format: 'Video Live',
+		},
+		{
+			name: 'TrySailのTRYangle harmony',
+			startDayNo: 2,
+			startTime: 2200,
+			lengthMinutes: 30,
+			recurringWeeks: [1,2,3,4,5],
+			channel: 'ニコニコチャンネル',
+			url: 'http://try.secondshot.jp/',
+			format: 'Audio Live',
+		},
+		{
+			name: '山根綺・富田美憂 ややとみの',
+			startDayNo: 2,
+			startTime: 2230,
+			lengthMinutes: 30,
+			recurringWeeks: [1,2,3,4,5],
+			channel: 'ニコニコチャンネル',
+			url: 'http://yayatomi.secondshot.jp/',
+			format: 'Video Live',
+		},
+		{
+			name: '佐倉としたい大西',
+			startDayNo: 2,
+			startTime: 2330,
+			endDate: '2023-03-28',
+			lengthMinutes: 30,
+			recurringWeeks: [1,2,3,4,5],
+			channel: '文化放送『超！A&G＋』',
+			url: 'https://www.joqr.co.jp/qr/program/toshitai/',
+			format: 'Video Live',
+		},
+		{
+			name: 'ミュージックレイン3期生 新番組ベータ版',
+			startDayNo: 2,
+			startTime: 2330,
+			lengthMinutes: 30,
+			recurringWeeks: [1,2,3,4,5],
+			channel: 'ニコニコチャンネル',
+			url: 'http://beta.secondshot.jp/',
+			format: 'Video Live',
+		},
+		{
+			name: '鬼頭明里のsmiley pop',
+			startDayNo: 3,
+			startTime: 1930,
+			endDate: '2023-09-27',
+			lengthMinutes: 30,
+			recurringWeeks: [1,2,3,4,5],
+			channel: '文化放送『超！A&G＋』',
+			url: 'http://smp.secondshot.jp/',
+			format: 'Audio Live',
+		},
+		{
+			name: '麻倉ももの日常系ラジオ',
+			startDayNo: 3,
+			startTime: 2100,
+			lengthMinutes: 30,
+			recurringWeeks: [1,2,3,4,5],
+			channel: 'Radiotalk',
+			url: 'https://radiotalk.jp/program/108065',
+			format: 'Audio Live',
+		},
+		{
+			name: 'たかみなと大西のたかにしや',
+			startDayNo: 3,
+			startTime: 2200,
+			endDate: '2023-06-14',
+			lengthMinutes: 30,
+			recurringWeeks: [1,2,3,4,5],
+			channel: 'ニコニコ動画',
+			url: 'http://takanishi.secondshot.jp/',
+			format: 'Video Live',
+		},
+		{
+			name: 'Pyxisのキラキラ大作戦！',
+			startDayNo: 3,
+			startTime: 2230,
+			lengthMinutes: 30,
+			recurringWeeks: [1,2,3,4,5],
+			channel: 'ニコニコ動画',
+			url: 'http://pyxis.secondshot.jp/',
+			format: 'Video Live',
+		},
+		{
+			name: '戸松遥のココロ☆ハルカス',
+			startDate: '2023-02-02',
+			startDayNo: 4,
+			startTime: 2130,
+			lengthMinutes: 30,
+			recurringWeeks: 'alternate',
+			channel: 'ニコニコ動画',
+			url: 'http://harukas.secondshot.jp/',
+			format: 'Audio Live',
+		},
+		{
+			name: '寿美菜子のラフラフ',
+			startDate: '2023-02-09',
+			startDayNo: 4,
+			startTime: 2130,
+			lengthMinutes: 30,
+			recurringWeeks: 'alternate',
+			channel: 'ニコニコ動画',
+			url: 'http://laugh-rough.secondshot.jp/',
+			format: 'Audio Live',
+		},
+		{
+			name: '豊崎愛生のおかえりらじお',
+			startDayNo: 4,
+			startTime: 2200,
+			lengthMinutes: 60,
+			recurringWeeks: [1,2,3,4,5],
+			channel: '文化放送『超！A&G＋』',
+			url: 'http://okaeri.secondshot.jp/',
+			format: 'Audio Live',
+		},
+		{
+			name: '花澤香菜のひとりでできるかな？',
+			startDayNo: 4,
+			startTime: 2300,
+			lengthMinutes: 30,
+			recurringWeeks: [1,2,3,4,5],
+			channel: '文化放送『超！A&G＋』',
+			url: 'https://www.joqr.co.jp/qr/program/dekirukana/',
+			format: 'Audio Live',
+		},
+		{
+			name: '上田麗奈のひみつばこ',
+			startDayNo: 4,
+			startTime: 2330,
+			lengthMinutes: 30,
+			recurringWeeks: [1,2,3,4,5],
+			channel: '文化放送『超！A&G＋』',
+			url: 'https://www.joqr.co.jp/qr/program/himi2/',
+			format: 'Audio Live',
+		},
+		{
+			name: '竹達・沼倉の初ラジ！',
+			startDayNo: 6,
+			startDate: '2023-04-01',
+			startTime: 1900,
+			endDate: '2023-06-30',
+			lengthMinutes: 30,
+			recurringWeeks: [1,2,3,4,5],
+			channel: '文化放送『超！A&G＋』',
+			url: 'https://www.joqr.co.jp/qr/program/wiwi/',
+			format: 'Audio Live',
+		},
+		{
+			name: '小原好美のココロおきなく',
+			startDayNo: 7,
+			startTime: 2000,
+			lengthMinutes: 30,
+			recurringWeeks: [1,2,3,4,5],
+			channel: '文化放送『超！A&G＋』',
+			url: 'https://www.joqr.co.jp/qr/program/kokoradi/',
+			format: 'Audio Live',
+		},
+		{
+			name: '水瀬いのり MELODY FLAG',
+			startDayNo: 7,
+			startTime: 2200,
+			lengthMinutes: 30,
+			recurringWeeks: [1,2,3,4,5],
+			channel: '文化放送',
+			url: 'http://melody-flag.com',
+			format: 'Audio Live',
+			notes: 'Note: Archive on YouTube the following day'
+		},
+		{
+			name: 'さやとみはるのさんかくカンケイ',
+			startDayNo: 3,
+			startDate: '2023-07-05',
+			startTime: 1800,
+			endDate: '2023-08-02',
+			lengthMinutes: 30,
+			recurringWeeks: 'alternate',
+			channel: 'インターネットラジオステーション＜音泉＞',
+			url: 'https://www.onsen.ag/program/sankaku',
+			format: 'Video Live',
+		},
+		{
+			name: 'イヤホンズの三平方の定理',
+			startDayNo: 2,
+			startDate: '2023-06-23',
+			lengthMinutes: 30,
+			recurringWeeks: [4],
+			channel: 'インターネットラジオステーション＜音泉＞',
+			url: 'https://www.onsen.ag/program/omimi',
+			format: 'Audio Premiere',
+		},
+		{
+			name: '堀江由衣の天使のたまご',
+			startDayNo: 5,
+			startTime: 2500,
+			lengthMinutes: 30,
+			channel: '文化放送',
+			url: 'https://horie-yui.com/radio/',
+			format: 'Audio Live',
+			notes: 'Note: Archive on YouTube the following day'
+		},
+		{
+			name: 'きどまだSeason2',
+			channel: 'OPENREC.tv',
+			frequency: 'Monthly',
+			url: 'https://www.openrec.tv/user/kido-ibuki',
+			format: 'Video Live',
+		},
+		{
+			name: 'MIYU学院 放送部っ！',
+			channel: 'ニコニコ動画',
+			frequency: 'Monthly',
+			url: 'https://ch.nicovideo.jp/miyugaku',
+			format: 'Video Live',
+		},
+		{
+			name: '大久保瑠美の◯◯な件',
+			channel: 'ニコニコ動画',
+			frequency: 'Monthly',
+			endDate: '2023-09-30',
+			url: 'https://ch.nicovideo.jp/seigura',
+			format: 'Video Live',
+		},
+		{
+			name: '大久保瑠美の◯◯な件',
+			channel: 'OPENREC.tv',
+			frequency: 'Monthly',
+			url: 'https://www.openrec.tv/user/rumimaru_official',
+			format: 'Video Live',
+		},
+		{
+			name: '日笠・佐倉は余談を許さない',
+			startDayNo: 4,
+			startDate: '2023-10-05',
+			startTime: 2130,
+			lengthMinutes: 30,
+			channel: '文化放送『超！A&G＋』',
+			url: 'https://www.joqr.co.jp/qr/program/yodan/',
+			format: 'Audio Live',
+		},
+		{
+			name: '礒部花凜のどなたか助けてくれませんか？',
+			channel: 'ニコニコ動画',
+			frequency: 'Monthly',
+			url: 'https://ch.nicovideo.jp/Carin',
+			format: 'Video Live',
+		},
+		{
+			name: '鬼頭明里のふくみみラジオ',
+			startDayNo: 3,
+			startTime: 2130,
+			lengthMinutes: 30,
+			channel: '鬼頭明里オフィシャルファンクラブ『Smiley Light Village』',
+			url: 'https://kitoakari-fc.com/',
+			format: 'Video Live',
+		},
+		{
+			name: '夏川椎菜のずっとゲームしてるだけ',
+			startDayNo: 5,
+			startTime: 2000,
+			lengthMinutes: 60,
+			channel: 'ファミ通ゲーム実況ch',
+			url: 'https://www.youtube.com/@famitsugamelive',
+			format: 'Video Live',
+		},
+	]
+};
 
 //--COMMON EVENTS--//
 window['mode'] = 'month'; // change html for default icon (ends with _week or _month)
@@ -470,7 +469,7 @@ function generateCalendarMonthTable(year, month, _week, day, array) {
 	
 	let title = document.createElement('div');
 	title.style.gridColumn = 'span 3';
-	title.innerText = monthsOfYear[month] + ' ' + year;
+	title.innerText = config.months[month] + ' ' + year;
 	row.appendChild(title);
 	
 	let next = document.createElement('a');
@@ -518,7 +517,7 @@ function generateCalendarMonthTable(year, month, _week, day, array) {
 	row.classList.add('header');
 	row.classList.add('row');
 	
-	for(let day of daysOfWeek)
+	for(let day of config.days)
 	{
 		let dayDiv = document.createElement('div');
 		dayDiv.innerText = day;
@@ -545,7 +544,7 @@ function generateCalendarMonthTable(year, month, _week, day, array) {
 				cell.classList.add('cell');
 				cell.setAttribute('data-id', array[week][day]);			// day of month
 				cell.setAttribute('data-day', day == 0 ? 7 : day);		// day of week (0 is sunday)
-				cell.setAttribute('data-month', monthsOfYear[month]);	// month
+				cell.setAttribute('data-month', config.months[month]);	// month
 				cell.setAttribute('data-year', window['year']);			// year
 				cell.setAttribute('data-date', 10000*window['year'] + 100*(month + 1) + array[week][day]); // date as number
 			}
@@ -571,6 +570,13 @@ function addDetailedEventToCalendar() {
 	// Clone and append the template content to the container
 	let template = document.querySelector('#add-event-template');
 	let clone = document.importNode(template.content, true);
+	// Generate times and duration buttons
+	let hourButtons = clone.querySelector('.hour_buttons');
+	hourButtons.appendChild(createHourButtonArray(clone));
+	let minuteButtons = clone.querySelector('.minute_buttons');
+	minuteButtons.appendChild(createMinuteButtonArray(clone));
+	let durationButtons = clone.querySelector('.duration_buttons');
+	durationButtons.appendChild(createDurationButtonArray(clone));
 	popupText(clone);
 	
 	// Handle form submission
@@ -607,10 +613,10 @@ function addDetailedEventToCalendar() {
 	let groupName = '';
 	let dropdown = form.querySelector('#event-select');
 	dropdown.addEventListener('change', function() {
-		populateForm(templates.find(t => t.name + '-' + t.channel == this.value));
+		populateForm(config.templates.find(t => t.name + '-' + t.channel == this.value));
 	});
 	let today = parseInt(new Date().toISOString().slice(0,10).replace(/-/g,''));
-	for(let templateEvent of templates
+	for(let templateEvent of config.templates
 		.filter(t => 
 			(t.startDate && t.endDate &&
 			today >= parseInt(t.startDate.replace(/-/g,'')) && today <= parseInt(t.endDate.replace(/-/g,''))) ||  
@@ -623,7 +629,7 @@ function addDetailedEventToCalendar() {
 			templateEvent.startDayNo = 0;
 		if(groupName != templateEvent.startDayNo) { // push previous group
 			runningGroup = document.createElement('optgroup');
-			runningGroup.label = daysOfWeek[templateEvent.startDayNo] || 'Irregular';
+			runningGroup.label = config.days[templateEvent.startDayNo] || 'Irregular';
 		}
 		
 		let option = document.createElement('option');
@@ -637,8 +643,44 @@ function addDetailedEventToCalendar() {
 		}
 	}
 	
-	if(templates.length > 0)
+	if(config.templates.length > 0)
 		dropdown.appendChild(runningGroup);
+}
+
+function createHourButtonArray(form) {
+	let list = document.createElement('div');
+	let hour = form.querySelector('#start_hour');
+	for(let h = hour.min; h < hour.max; h++) {
+		let btn = document.createElement('button');
+		btn.innerText = h.padStart(2,'0');
+		btn.setAttribute('onclick', 'event.target.closest("form").querySelector("#start_hour").value=this.innerText');
+		list.appendChild(btn);
+	}
+	return list;
+}
+
+function createMinuteButtonArray(form) {
+	let list = document.createElement('div');
+	let minute = form.querySelector('#start_minute');
+	for(let m = minute; m < minute.max; h+= 5) {
+		let btn = document.createElement('button');
+		btn.innerText = m.padStart(2,'0');
+		btn.setAttribute('onclick', 'event.target.closest("form").querySelector("#start_minute").value=this.innerText');
+		list.appendChild(btn);
+	}
+	return list;
+}
+
+function createDurationButtonArray(form) {
+	let list = document.createElement('div');
+	let duration = form.querySelector('#duration');
+	for(let d = 5; d < 480; d += 5) {
+		let btn = document.createElement('button');
+		btn.innerText = d;
+		btn.setAttribute('onclick', 'event.target.closest("form").querySelector("#duration").value=this.innerText;');
+		list.appendChild(btn);
+	}
+	return list;
 }
 
 // Function to populate form fields based on selected event
@@ -668,8 +710,8 @@ function populateForm(selectedEvent) {
 		form.querySelector('#start_minute').value = minutes;
 		form.querySelector('#duration').value = selectedEvent.lengthMinutes;
 		form.querySelector('#description').value = 
-			(dayOfWeek ? daysOfWeek[dayOfWeek == 7 ? 0 : dayOfWeek] + ', ' : '') + 
-			monthsOfYear[latestDate.getMonth()] + ' ' + latestDate.getDate() + 
+			(dayOfWeek ? config.days[dayOfWeek == 7 ? 0 : dayOfWeek] + ', ' : '') + 
+			config.months[latestDate.getMonth()] + ' ' + latestDate.getDate() + 
 			(selectedEvent.startTime ? ' | ' + selectedEvent.startTime + '-' + getEndTime(selectedEvent.startTime, selectedEvent.lengthMinutes) : '') + '\n' +
 			selectedEvent.name + '\n' + 
 			selectedEvent.format + '\n' + 
@@ -701,8 +743,8 @@ function generateDescription() {
 	const startTime = form.querySelector('#start_hour').value && parseInt(form.querySelector('#start_minute').value && form.querySelector('#start_hour').value + form.querySelector('#start_minute').value);
 	const lengthMinutes = parseInt(form.querySelector('#duration').value);
 	form.querySelector('#description').value = 
-			(dayOfWeek ? daysOfWeek[dayOfWeek == 7 ? 0 : dayOfWeek] + ', ' : '') + // optional field if update via form
-			monthsOfYear[latestDate.getMonth()] + ' ' + latestDate.getDate() + 
+			(dayOfWeek ? config.days[dayOfWeek == 7 ? 0 : dayOfWeek] + ', ' : '') + // optional field if update via form
+			config.months[latestDate.getMonth()] + ' ' + latestDate.getDate() + 
 			(startTime && lengthMinutes ? ' | ' + startTime + '-' + getEndTime(startTime, lengthMinutes) : '') + '\n' +
 			form.querySelector('#name').value + '\n' + 
 			window.format + '\n' + 
@@ -732,7 +774,7 @@ function addMarkedEventsToMonthCalendar() {
 	let list = JSON.parse(localStorage.getItem('calendar-marked-v2') ?? '[]');
 	for(let item of list)
 	{
-		let box = document.querySelector('div[data-id="' + item.date + '"][data-month="' + monthsOfYear[item.month] + '"][data-year="' + item.year + '"]');
+		let box = document.querySelector('div[data-id="' + item.date + '"][data-month="' + config.months[item.month] + '"][data-year="' + item.year + '"]');
 		if(box != null) {
 			createSummaryEvent(box, item);
 			for(let cell of box.querySelectorAll('div'))
@@ -824,7 +866,7 @@ function getLastDayOfMonth(monthNo, yearNo) {
 
 function showSchedule() {
 	let today = parseInt(new Date().toISOString().slice(0,10).replace(/-/g,''));
-	let list = templates.filter(t => 
+	let list = config.templates.filter(t => 
 			(t.startDate && t.endDate &&
 			today >= parseInt(t.startDate.replace(/-/g,'')) && today <= parseInt(t.endDate.replace(/-/g,''))) ||  
 			(t.startDate && !t.endDate && today >= parseInt(t.startDate.replace(/-/g,''))) ||  
@@ -835,7 +877,7 @@ function showSchedule() {
 	let container = document.createElement('div');
 	container.classList.add('schedule');
 	
-		for(let day of daysOfWeek)
+		for(let day of config.days)
 		{
 			let regularDiv = document.createElement('div');
 			regularDiv.classList.add('regular');
@@ -846,7 +888,7 @@ function showSchedule() {
 			
 			let block = document.createElement('div');
 			block.classList.add('day');
-			let dayNo = day == 'Sun' ? 7 : daysOfWeek.indexOf(day);
+			let dayNo = day == 'Sun' ? 7 : config.days.indexOf(day);
 			let dayList = list.filter(l => l.startDayNo == dayNo);
 			// console.log(dayNo, dayList);
 			block.innerHTML = dayList.map(t => '<div title="' + t.name + '">' + t.name + '</div><small>' + 
@@ -917,7 +959,7 @@ function exportEventsToCalendar() {
 			textOutput += '\n';
 		
 			//date formatting
-			let monthNo = monthsOfYear.indexOf(marked.month); // zero-based
+			let monthNo = config.months.indexOf(marked.month); // zero-based
 			
 			let startHour = parseInt(details.startTime/100);
 			let realStartDate = new Date(marked.year, monthNo, marked.date);
