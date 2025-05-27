@@ -116,7 +116,7 @@ a:hover {
 .page[data-fullscreen] .conversation:not(.hidden) .messages {
     position: absolute;
     top: 4.5em;
-    height: calc(100% - 60px - 4.5em);
+    height: calc(100% - 60px - 4em);
     width: 100%;
     resize: none;
 }
@@ -133,16 +133,23 @@ a:hover {
 .page[data-fullscreen] .home {
     visibility: hidden;
 }
-.page[data-fullscreen] .selection {
+.header {
+    display: none;
+}
+.page[data-fullscreen] .header {
     position: absolute;
-    top: 0;
+    top: 0.25em;
     left: 0;
     width: 100%;
-    font-size: 1.5rem;
-    padding: 1rem;
+    font-size: 1em;
+    height: 4em;
     z-index: 1;
     border: 0;
     background-color: var(--background);
+
+    display: grid;
+    grid-template-columns: 50px auto 50px 50px;
+    align-items: center;
 }
 .conversation .message {
     display: flex;

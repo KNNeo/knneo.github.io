@@ -272,6 +272,7 @@ function toggleFullscreen() {
 		return console.error('unable to fullscreen, still in editor');
     if(pageDiv.getAttribute('data-fullscreen') == null) {
         pageDiv.setAttribute('data-fullscreen', '');
+		pageDiv.querySelector('.header span').innerText = selectionDiv.querySelector('option[value="' + selectionDiv.value + '"')?.innerText;
 		if(event?.type == 'click') {
 			try {
 				let doc = document.documentElement;
