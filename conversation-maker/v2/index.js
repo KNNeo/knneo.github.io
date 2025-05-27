@@ -42,10 +42,6 @@ function selectConversation() {
         document.querySelector('#' + event.target.value + ' .messages').style.height = '';
 		event.target.blur();
 	}
-	if(document.querySelector('.section') != null) {
-		document.querySelector('.section').classList.remove('bi-file-earmark-break-fill');
-		document.querySelector('.section').classList.add('bi-file-break');
-	}
 }
 
 function showMessages() {
@@ -58,6 +54,10 @@ function showMessages() {
 		processConversations();
 		document.querySelector('#' + conversation.id + ' .messages').classList.remove('hidden');
 		document.querySelector('#' + conversation.id + ' .messages .footer')?.scrollIntoView();
+	}
+	if(document.querySelector('.section') != null) {
+		document.querySelector('.section').classList.remove('bi-file-earmark-break-fill');
+		document.querySelector('.section').classList.add('bi-file-break');
 	}
 	disableRunMessages(conversation);
 }
