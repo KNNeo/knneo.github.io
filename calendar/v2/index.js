@@ -665,7 +665,7 @@ function createMinuteButtonArray(form) {
 	let minute = form.querySelector('#start_minute');
 	for(let m = minute; m < minute.max; m += 5) {
 		let btn = document.createElement('button');
-		btn.title = String(h).padStart(2,'0');
+		btn.title = String(m).padStart(2,'0');
 		btn.innerText = m;
 		btn.setAttribute('onclick', 'event.target.closest("form").querySelector("#start_minute").value=this.title');
 		list.appendChild(btn);
