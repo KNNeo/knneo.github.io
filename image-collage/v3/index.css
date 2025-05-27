@@ -343,12 +343,30 @@ a:focus-within {
 
 .viewer .prev:hover {
 	opacity: 0.5;
-	background-image: linear-gradient(to left, transparent, var(--background));
+	background-image: linear-gradient(to left, transparent, 65%, var(--background));
+}
+
+.viewer .prev:hover::before {
+	position: absolute;
+	font-family: 'Material Icons';
+	font-size: 6em;
+	content: "navigate_before";
+    left: 0;
+    top: 45%;
 }
 
 .viewer .next:hover {
 	opacity: 0.5;
-	background-image: linear-gradient(to right, transparent, var(--background));
+	background-image: linear-gradient(to right, transparent, 65%, var(--background));
+}
+
+.viewer .next:hover::before {
+	position: absolute;
+	font-family: 'Material Icons';
+	font-size: 6em;
+	content: "navigate_next";
+    right: 0;
+    top: 45%;
 }
 
 .viewer img {
