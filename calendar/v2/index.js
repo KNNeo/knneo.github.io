@@ -650,10 +650,11 @@ function addDetailedEventToCalendar() {
 function createHourButtonArray(form) {
 	let list = document.createElement('div');
 	let hour = form.querySelector('#start_hour');
-	for(let h = hour.min; h < hour.max; h++) {
+	for(let h = hour.min; h <= hour.max; h++) {
 		let btn = document.createElement('button');
-		btn.innerText = h.padStart(2,'0');
-		btn.setAttribute('onclick', 'event.target.closest("form").querySelector("#start_hour").value=this.innerText');
+		btn.title = String(h).padStart(2,'0');
+		btn.innerText = h;
+		btn.setAttribute('onclick', 'event.target.closest("form").querySelector("#start_hour").value=this.title');
 		list.appendChild(btn);
 	}
 	return list;
@@ -664,8 +665,9 @@ function createMinuteButtonArray(form) {
 	let minute = form.querySelector('#start_minute');
 	for(let m = minute; m < minute.max; h+= 5) {
 		let btn = document.createElement('button');
-		btn.innerText = m.padStart(2,'0');
-		btn.setAttribute('onclick', 'event.target.closest("form").querySelector("#start_minute").value=this.innerText');
+		btn.title = String(h).padStart(2,'0');
+		btn.innerText = m;
+		btn.setAttribute('onclick', 'event.target.closest("form").querySelector("#start_minute").value=this.title');
 		list.appendChild(btn);
 	}
 	return list;
@@ -674,10 +676,11 @@ function createMinuteButtonArray(form) {
 function createDurationButtonArray(form) {
 	let list = document.createElement('div');
 	let duration = form.querySelector('#duration');
-	for(let d = 5; d < 480; d += 5) {
+	for(let d = 5; d <= 120; d += 5) {
 		let btn = document.createElement('button');
-		btn.innerText = d;
-		btn.setAttribute('onclick', 'event.target.closest("form").querySelector("#duration").value=this.innerText;');
+		btn.innerText = (Math.floor(d / 60) > 0 ? Math.floor(d / 60) + 'h ' : '') + (d % 60) + 'm';
+		btn.title = d;
+		btn.setAttribute('onclick', 'event.target.closest("form").querySelector("#duration").value=parseInt(this.title)');
 		list.appendChild(btn);
 	}
 	return list;

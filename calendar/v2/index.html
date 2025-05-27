@@ -50,13 +50,13 @@
 		<label for="start_minute">Minutes</label>
 		<input type="number" id="start_minute" name="start_minute" min="0" max="59" 
 		onchange="this.value=String(this.value).padStart(2,'0');" style="width: 10%;">
-		<div class="hour_buttons" style="height: 10%;"></div>
-		<div class="minute_buttons" style="height: 10%;"></div>
+		<div class="hour_buttons" style="height: 10%; overflow-y: auto;"></div>
+		<div class="minute_buttons" style="height: 10%; overflow-y: auto;"></div>
 		<br>
 		<br>
 		<label for="duration">Duration (minutes)</label>
 		<input type="number" id="duration" name="duration" min="1" required style="width: 10%;">
-		<div class="duration_buttons" style="height: 10%;"></div>
+		<div class="duration_buttons" style="height: 10%; overflow-y: auto;"></div>
 		<br>
 		<br>
 		<label for="description">Description</label><input type="button" value="Generate" onclick="generateDescription()">
