@@ -246,6 +246,16 @@ a:hover {
     width: 100%;
     border-radius: 4px;
 }
+.conversation:not([data-running]) .message[data-section]::after {
+    position: absolute;
+    width: 100%;
+    top: -8px;
+    margin: auto;
+    text-align: center;
+    font-size: 0.7em;
+    color: var(--accent);
+    content: "--- " attr(data-section) " ---";
+}
 .conversation .message .reactions {
     position: absolute;
     bottom: 0;
