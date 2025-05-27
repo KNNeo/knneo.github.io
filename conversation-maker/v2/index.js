@@ -290,6 +290,8 @@ function toggleFullscreen() {
 				console.error(e);
 			}
 		}
+		else
+			event.preventDefault();
 	}
     else {
         pageDiv.removeAttribute('data-fullscreen');
@@ -309,6 +311,19 @@ function toggleFullscreen() {
         document.querySelector('.fullscreen').classList.toggle('bi-phone');
         document.querySelector('.fullscreen').classList.toggle('bi-circle');
     }
+}
+
+function selectSection() {
+	if(!pageDiv.querySelector('.conversation:not(.hidden)'))
+		return console.error('unable to select section, no conversation selected');
+	if(pageDiv.querySelector('.editor:not(.hidden)'))
+		return console.error('unable to select section, still in editor');
+	let conversation = pageDiv.querySelector('.conversation:not(.hidden)');
+	if(!conversation.querySelector('.message[data-section]'))
+		return alert('no sections detected, add in editor');
+	let sections = Array.from(conversation.querySelectorAll('.message[data-section]'))
+					.map(section => '<button>' + section.getAttribute('data-section') + '</button>');
+	popupText('<div class="sections">' + sections.join('') + '</div>');
 }
 
 //--FUNCTIONS--//

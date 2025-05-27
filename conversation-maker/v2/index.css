@@ -320,6 +320,17 @@ a:hover {
 .separator {
     width: 2ch;
 }
+.sections button {
+    display: block;
+    width: 100%;
+    background-color: var(--foreground);
+    color: var(--background);
+    border-radius: 99px;
+}
+.sections button:hover {
+    background-color: var(--accent);
+    color: var(--foreground);
+}
 .dialog {
     position: fixed;
 }
