@@ -277,11 +277,14 @@ function generateGrid() {
 	
 	let filterArray = generateFiltered().sort(function(a,b) {
 		let prop = config.sort?.property;
-		if(!prop || !a[prop] || !b[prop])
-			return 0;
+		if(!prop || !a[prop] || !b[prop]) {
+			if(!config.sort?.order)
+				return 0;
+			return config.sort.order == 'desc' ? -1 : 1;
+		}
 		if(config.sort.order == 'desc')
-			return b[prop].localeCompare(a[prop], config.sort.locale);
-		return a[prop].localeCompare(b[prop], config.sort.locale);
+			return b[prop].localeCompare(a[prop], config.sort?.locale || '');
+		return a[prop].localeCompare(b[prop], config.sort?.locale || '');
 	});
 	
 	let [thumbWidth, thumbHeight] = calculateThumbnailSize();
