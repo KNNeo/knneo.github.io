@@ -72,6 +72,18 @@ a:focus-within {
     cursor: pointer;
 }
 
+.tags .category-title::after {
+	content: "filter_alt_off";
+	font-family: "Material Icons";
+    vertical-align: text-top;
+    padding-left: 4px;
+    font-size: 1.25em;
+}
+
+.tags div:has([filter]) .category-title::after {
+	content: "filter_alt";
+}
+
 .tags.expanded .category-title {
 	display: block;
     flex-basis: 100%;
