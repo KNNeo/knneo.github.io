@@ -37,6 +37,7 @@ function startup() {
 }
 
 function editDataSource() {
+    event.preventDefault();
 	let source = prompt('Key in source JSON url', document.getElementById('data-id')?.src || '');
 	if(source) {
 		document.getElementById('data-id').src = source;
@@ -191,16 +192,16 @@ function generateTagsList() {
 			// to include or reset
 			switch(filter.getAttribute('filter')) {
 				case 'exclude':
-					toggleVariable('excludeCriteria', filter.value);
-					toggleVariable('includeCriteria', filter.value);
+					toggleVariable('exclude', filter.value);
+					toggleVariable('include', filter.value);
 					filter.setAttribute('filter', 'include');
 					break;
 				case 'include':
-					toggleVariable('includeCriteria', filter.value);
+					toggleVariable('include', filter.value);
 					filter.removeAttribute('filter');
 					break;
 				default:
-					toggleVariable('includeCriteria', filter.value);
+					toggleVariable('include', filter.value);
 					filter.setAttribute('filter', 'include');
 					break;
 			}
@@ -214,16 +215,16 @@ function generateTagsList() {
 			event.preventDefault();
 			switch(filter.getAttribute('filter')) {
 				case 'include':
-					toggleVariable('includeCriteria', filter.value);
-					toggleVariable('excludeCriteria', filter.value);
+					toggleVariable('include', filter.value);
+					toggleVariable('exclude', filter.value);
 					filter.setAttribute('filter', 'exclude');
 					break;
 				case 'exclude':
-					toggleVariable('excludeCriteria', filter.value);
+					toggleVariable('exclude', filter.value);
 					filter.removeAttribute('filter');
 					break;
 				default:
-					toggleVariable('excludeCriteria', filter.value);
+					toggleVariable('exclude', filter.value);
 					filter.setAttribute('filter', 'exclude');
 					break;
 			}
@@ -350,13 +351,13 @@ function generateGrid() {
 			if(window.data.tag.category.groups.length > 0) {
 				let keywords = event.target.title.split('\n');
 				if(keywords.filter(k => !window.include.includes(k)).length >= keywords.length) // if no keywords in filter
-					toggleVariable('includeCriteria', keywords[0]);
+					toggleVariable('include', keywords[0]);
 				else {
 					let inFilter = keywords.filter(k => window.include.includes(k))[0];
 					let notFilter = keywords.filter(k => !window.include.includes(k));
 					
-					toggleVariable('includeCriteria', inFilter);
-					toggleVariable('includeCriteria', notFilter[0]);
+					toggleVariable('include', inFilter);
+					toggleVariable('include', notFilter[0]);
 				}
 				include.value = window.include;
 				generateTagsList();
