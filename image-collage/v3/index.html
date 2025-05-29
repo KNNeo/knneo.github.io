@@ -11,11 +11,12 @@
 	<link rel="icon" sizes="192x192" type="image/png" href="../../resources/icons/flask-svgrepo-com.png" />
 	<link rel="apple-touch-icon" sizes="192x192" href="../../resources/icons/flask-svgrepo-com.png" />
 	<script src="../../darkmode.js"></script>
-	<script src="data/pixai.js" defer></script>
+	<script src="../../fetch.js"></script>
+	<script id="data-id" src="https://knneo.github.io/image-collage/v3/data/pixai.json" defer></script>
 	<script src="index.js" defer></script>
 	<title></title>
 </head>
-<body onload="startup()">
+<body onload="startup()" onresize="resize()">
 <div class="content">
 	<a class="sidebar material-icons" href="javascript:void(0);" title="Toggle Sidebar" onclick="onToggleSidebar()">menu_open</a>
 	<div class="menu">
