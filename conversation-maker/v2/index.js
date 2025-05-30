@@ -46,12 +46,11 @@ function selectConversation() {
 
 function showMessages() {
 	let conversation = event.target.closest('.conversation');
-	for (let view of document.querySelectorAll('#' + conversation.id + ' .view')) {
-		view.classList.add('hidden');
-	}
 	if (conversation.id) {
-		document.querySelector('#' + conversation.id + ' .messages').innerHTML = document.querySelector('#' + conversation.id + ' .editor textarea').value;
-		processConversations();
+		if(conversation.querySelector('.editor:not(.hidden)')) {
+			document.querySelector('#' + conversation.id + ' .messages').innerHTML = document.querySelector('#' + conversation.id + ' .editor textarea').value;
+			processConversations();
+		}
 		document.querySelector('#' + conversation.id + ' .messages').classList.remove('hidden');
 		document.querySelector('#' + conversation.id + ' .messages .footer')?.scrollIntoView();
 	}
@@ -59,14 +58,14 @@ function showMessages() {
 		document.querySelector('.section').classList.remove('bi-file-earmark-break-fill');
 		document.querySelector('.section').classList.add('bi-file-break');
 	}
+	for (let view of document.querySelectorAll('#' + conversation.id + ' .view:not(.messages)')) {
+		view.classList.add('hidden');
+	}
 	disableRunMessages(conversation);
 }
 
 function showEditor() {
 	let conversation = event.target.closest('.conversation');
-	for (let view of document.querySelectorAll('#' + conversation.id + ' .view')) {
-		view.classList.add('hidden');
-	}
 	if (conversation.id) {
 		document.querySelector('#' + conversation.id + ' .editor').classList.remove('hidden');
 		updateSenderOptions(conversation);
@@ -74,8 +73,10 @@ function showEditor() {
 		if (sender != null)
 			conversation.querySelector('.sender option[value=' + sender + ']').selected = sender;
 	}
+	for (let view of document.querySelectorAll('#' + conversation.id + ' .view:not(.editor)')) {
+		view.classList.add('hidden');
+	}
 	disableRunMessages(conversation);
-	document.querySelector('#' + conversation.id + ' .messages').innerHTML = '';
 }
 
 function saveEditor(event) {
