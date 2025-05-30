@@ -115,8 +115,8 @@ a:hover {
 }
 .page[data-fullscreen] .conversation:not(.hidden) .messages {
     position: absolute;
-    top: 4.5em;
-    height: calc(100% - 60px - 4em);
+    top: 4em;
+    height: calc(100% - 8em);
     width: 100%;
     resize: none;
 }
@@ -146,11 +146,11 @@ a:hover {
 }
 .page[data-fullscreen] .footer {
     position: absolute;
-    bottom: 0.25em;
+    bottom: 0;
     left: 0;
     width: 100%;
     font-size: 1em;
-    height: 60px;
+    height: 4em;
     z-index: 1;
     border: 0;
     background-color: var(--background);
