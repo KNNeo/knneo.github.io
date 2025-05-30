@@ -513,6 +513,9 @@ function startConversation() {
 	// show all choices
 	for(let choice of messages.querySelectorAll('.container.hidden'))
 		choice.classList.remove('hidden');
+	// clear all reactions
+	for(let reactions of messages.querySelectorAll('.reactions'))
+		reactions.remove();
 	// create manual next message trigger
 	let footer = messages.querySelector('.footer');
 	footer.innerText = '🔽';
