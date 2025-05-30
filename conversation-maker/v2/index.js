@@ -49,7 +49,7 @@ function showMessages() {
 	if (conversation.id) {
 		if(!conversation.querySelector('.message') || conversation.querySelector('.editor:not(.hidden)')) {
 			document.querySelector('#' + conversation.id + ' .messages').innerHTML = document.querySelector('#' + conversation.id + ' .editor textarea').value;
-			processConversation(document.querySelector('#' + conversation.id + '.messages'));
+			processConversations();
 		}
 		document.querySelector('#' + conversation.id + ' .messages').classList.remove('hidden');
 		document.querySelector('#' + conversation.id + ' .messages .footer')?.scrollIntoView();
