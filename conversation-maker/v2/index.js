@@ -47,9 +47,9 @@ function selectConversation() {
 function showMessages() {
 	let conversation = event.target.closest('.conversation');
 	if (conversation.id) {
-		if(conversation.querySelector('.editor:not(.hidden)')) {
+		if(!conversation.querySelector('.message') || conversation.querySelector('.editor:not(.hidden)')) {
 			document.querySelector('#' + conversation.id + ' .messages').innerHTML = document.querySelector('#' + conversation.id + ' .editor textarea').value;
-			processConversations();
+			processConversation(document.querySelector('#' + conversation.id + '.messages'));
 		}
 		document.querySelector('#' + conversation.id + ' .messages').classList.remove('hidden');
 		document.querySelector('#' + conversation.id + ' .messages .footer')?.scrollIntoView();
