@@ -160,7 +160,7 @@ a:hover {
     align-items: center;
 }
 .page[data-fullscreen] .footer .input {
-    border: 1px solid var(--foreground);
+    border: 1px inset var(--foreground);
     border-radius: 8px;
     height: 40px;
 }
