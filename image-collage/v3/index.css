@@ -55,7 +55,7 @@ a:focus-within {
 	max-height: calc(100% - 240px);
 }
 
-.tags div {
+.tags > div {
 	-ms-overflow-style: none;
 	scrollbar-width: none;
 	width: 100%;
@@ -64,21 +64,21 @@ a:focus-within {
 	position: relative;
 }
 
-.tags div::-webkit-scrollbar { 
+.tags > div::-webkit-scrollbar { 
 	height: 0;
 }
 
-.tags .category-title {
-    cursor: pointer;
-}
-
-.tags div:has([filter]) .category-title::after {
+.tags > div:has([filter]) .category-title::after {
 	content: "clear_all";
 	font-family: "Material Icons";
     vertical-align: text-top;
     padding-left: 4px;
     font-size: 1.5em;
     font-weight: initial;
+}
+
+.tags .category-title {
+    cursor: pointer;
 }
 
 .tags.expanded .category-title {
@@ -435,14 +435,17 @@ a:focus-within {
 		top: 0;
 		background-color: var(--background);
 	}
-	.tags div {
+	.tags > div {
 		max-height: 100%;
 	}
 }
 
 @media (orientation: portrait) {
+	.tags > div {
+		max-height: 48px;
+	}
 	.tags.expanded > div {
-		max-height: 46dvh;
+		max-height: 48dvh;
 	}
 	.tags .category-title {
 		display: inline;
