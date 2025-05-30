@@ -237,6 +237,15 @@ function toggleReactions() {
 	}
 }
 
+function clearReactions() {
+	// clear those that have not been set ie. more than 1 child
+	for(let message of document.querySelectorAll('.message:has(.reactions .reaction:nth-child(2))')) {
+		if(message == event.target.closest('.message')) continue;
+		message.querySelector('.reactions').remove();
+		message.removeAttribute('data-selected');
+	}
+}
+
 function toggleAudio() {
 	switch (event.target.className) {
 		case 'audio bi bi-volume-up':
@@ -865,6 +874,7 @@ function hideAllConversations() {
 
 function initializeWindow() {
     // pause current conversation on blur
+	window.addEventListener('click', clearReactions);
     window.addEventListener('blur', function() {
         let conversation = document.querySelector('.conversation:not(.hidden)');
         if(conversation && conversation.getAttribute('data-running') != null)
