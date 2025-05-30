@@ -52,7 +52,7 @@ function showMessages() {
 			processConversation(document.querySelector('#' + conversation.id + ' .messages'));
 		}
 		document.querySelector('#' + conversation.id + ' .messages').classList.remove('hidden');
-		document.querySelector('#' + conversation.id + ' .messages .footer')?.scrollIntoView();
+		document.querySelector('#' + conversation.id + ' .messages .action')?.scrollIntoView();
 	}
 	if(document.querySelector('.section') != null) {
 		document.querySelector('.section').classList.remove('bi-file-earmark-break-fill');
@@ -492,7 +492,7 @@ function processConversation(conversation) {
 	}
     // footer
 	let footer = document.createElement('div');
-	footer.className = 'footer message';
+	footer.className = 'action message';
 	footer.innerText = '🔁';
 	footer.title = 'Replay Conversation';
 	footer.setAttribute('onclick', 'startConversation()');
@@ -517,7 +517,7 @@ function startConversation() {
 	for(let reactions of messages.querySelectorAll('.reactions'))
 		reactions.remove();
 	// create manual next message trigger
-	let footer = messages.querySelector('.footer');
+	let footer = messages.querySelector('.action');
 	footer.innerText = '🔽';
 	footer.title = 'Play Next Message';
 	footer.setAttribute('onclick', 'nextMessage()');
@@ -567,7 +567,7 @@ function nextMessage() {
 		lines[l].getAttribute('data-first') == null) {
 		if(config.debug) console.log('show message ' + (1+l));
         // play sound effect on each message
-        if (window.ping && !lines[l].classList.contains('footer') && lines[l].getAttribute('data-system') == null)
+        if (window.ping && !lines[l].classList.contains('action') && lines[l].getAttribute('data-system') == null)
             sfxAudio.play();
 		// unhide first hidden message
 		lines[l].classList.remove('hide');
@@ -613,7 +613,7 @@ function nextMessage() {
                     behavior: 'smooth'
                 });
 				if(config.debug) console.log('show loader');
-				conversation.querySelector('.footer')?.click();
+				conversation.querySelector('.action')?.click();
 			}, 500);
 			return;
         }
@@ -625,7 +625,7 @@ function nextMessage() {
 			// do not calculate next message pop time, set minimum delay
 			setTimeout(function () {
 				if(config.debug) console.log('hide loader');
-				conversation.querySelector('.footer')?.click();
+				conversation.querySelector('.action')?.click();
 			}, 500);
 			return;
 		}
@@ -669,15 +669,15 @@ function nextMessage() {
 			// do not calculate next message pop time
 			setTimeout(function () {
 				if(config.debug) console.log('create loader');
-				conversation.querySelector('.footer')?.click();
+				conversation.querySelector('.action')?.click();
 			}, window['next']);
 			return;
 		}
 	}
 	// if end of conversation, allow replay
 	if (l >= lines.length - 1) {
-		let footer = conversation.querySelector('.footer');
-		footer.className = 'footer message';
+		let footer = conversation.querySelector('.action');
+		footer.className = 'action message';
 		footer.innerText = '🔁';
 		footer.title = 'Replay Conversation';
 		footer.setAttribute('onclick', 'startConversation()');
@@ -692,7 +692,7 @@ function nextMessage() {
         let writeTime = calculateWriteTime(lines[l + 1]?.innerText) + (lines[l + 1].getAttribute('data-sender') == null ? 0 : 1000);
 		setTimeout(function () {
 			if(conversation.getAttribute('data-running') != null && conversation.getAttribute('data-paused') == null)
-				conversation.querySelector('.footer')?.click();
+				conversation.querySelector('.action')?.click();
 		}, writeTime);
 	}
 }
@@ -744,8 +744,8 @@ function allowRunMessages(conversation) {
 	if (!conversation) return;
 	// set status
 	conversation.setAttribute('data-running', '');
-	if (conversation.querySelector('.footer') != null)
-		conversation.querySelector('.footer').click();
+	if (conversation.querySelector('.action') != null)
+		conversation.querySelector('.action').click();
 	// disable scroll capture
 	conversation.setAttribute('onwheel', 'return false');
 	conversation.setAttribute('onmousewheel', 'return false');
@@ -769,7 +769,7 @@ function pauseConversation(conversation) {
         conversation = document.querySelector('.conversation:not(.hidden)');
 	if(conversation.getAttribute('data-running') == null || conversation.getAttribute('data-paused') != null)
 		return;
-    let footer = conversation.querySelector('.footer');
+    let footer = conversation.querySelector('.action');
 	footer.style.opacity = 1;
 	conversation.setAttribute('data-paused', '');
 	footer.setAttribute('onclick', 'resumeConversation()');
@@ -782,7 +782,7 @@ function resumeConversation(conversation) {
         conversation = document.querySelector('.conversation:not(.hidden)');
 	if(conversation.getAttribute('data-paused') == null)
 		return;
-    let footer = conversation.querySelector('.footer');
+    let footer = conversation.querySelector('.action');
 	footer.style.opacity = '';
 	conversation.removeAttribute('data-paused');
 	footer.setAttribute('onclick', 'nextMessage()');

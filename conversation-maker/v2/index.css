@@ -120,16 +120,6 @@ a:hover {
     width: 100%;
     resize: none;
 }
-.page[data-fullscreen] .fullscreen {
-    position: absolute;
-    width: 42px;
-    height: 42px;
-    left: 0;
-    right: 0;
-    margin: auto;
-    bottom: 8px;
-    border-radius: 99px;
-}
 .page[data-fullscreen] .home {
     visibility: hidden;
 }
@@ -150,6 +140,29 @@ a:hover {
     display: grid;
     grid-template-columns: 50px auto 50px 50px;
     align-items: center;
+}
+.footer {
+    display: none;
+}
+.page[data-fullscreen] .footer {
+    position: absolute;
+    bottom: 0.25em;
+    left: 0;
+    width: 100%;
+    font-size: 1em;
+    height: 60px;
+    z-index: 1;
+    border: 0;
+    background-color: var(--background);
+
+    display: grid;
+    grid-template-columns: 50px auto 50px 50px;
+    align-items: center;
+}
+.page[data-fullscreen] .footer .input {
+    border: 1px solid var(--foreground);
+    border-radius: 8px;
+    height: 40px;
 }
 .conversation .message {
     display: flex;
@@ -299,16 +312,16 @@ a:hover {
 .conversation .save:active {
     background-color: var(--accent);
 }
-.conversation .footer {
+.conversation .action {
     display: none;
     font-size: 2em;
     justify-content: center;
     cursor: pointer;
 }
-.conversation .messages[data-animate] .footer {
+.conversation .messages[data-animate] .action {
     display: inline;
 }
-.conversation[data-paused] .messages[data-animate] .footer {
+.conversation[data-paused] .messages[data-animate] .action {
     position: sticky;
     bottom: 0;
 }
