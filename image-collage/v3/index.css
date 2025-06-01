@@ -239,6 +239,15 @@ a:focus-within {
 	z-index: 3;
 }
 
+:has(.menu.hidden) .sidebar {
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+:has(.menu.hidden) .sidebar:hover {
+    opacity: 1;
+}
+
 .settings a {
 	color: var(--foreground);
 	text-decoration: none;
