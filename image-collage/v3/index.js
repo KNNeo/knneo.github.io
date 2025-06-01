@@ -38,9 +38,14 @@ function startup() {
 
 function editDataSource() {
     event.preventDefault();
-	let source = prompt('Key in source JSON url', document.getElementById('data-id')?.src || '');
+	let source = prompt('Enter source JSON url/key', document.getElementById('data-id')?.src || '');
 	if(source) {
-		document.getElementById('data-id').src = source;
+        if(source.startsWith('https://')) // full address
+            document.getElementById('data-id').src = source;
+        else if(source.endsWith('.json')) // assume home directory at data folder
+            document.getElementById('data-id').src = window.location.href + source;
+        else // assume home directory at data folder & file format json
+            document.getElementById('data-id').src = window.location.href + source + '.json';
 		startup();
 	}
 }
