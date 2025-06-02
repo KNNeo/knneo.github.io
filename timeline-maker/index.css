@@ -71,20 +71,20 @@ a:hover {
 .timeline {
 	position: relative;
     height: calc(100% - 250px);
-	max-width: 480px;
     overflow: auto;
-    margin: auto;
 }
 .horizontal.timeline {
 	max-width: 100%;
-    height: auto;
+    display: flex;
 }
 .vertical .grid {
-    padding: 80% 0;
 	display: grid;
     grid-template-columns: 1fr 25px 1fr;
     align-items: center;
     justify-items: center;
+	max-width: 480px;
+    margin: auto;
+    padding: 50vh 0;
 }
 .vertical .grid .container {
 	display: contents;
@@ -137,7 +137,8 @@ a:hover {
     grid-template-rows: 1fr 25px 1fr;
     align-items: center;
     justify-items: center;
-    height: 480px;
+    max-height: 480px;
+	margin: auto;
 }
 .horizontal .grid .blob {
 	-ms-writing-mode: tb-rl;
