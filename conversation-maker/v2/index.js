@@ -26,6 +26,8 @@ const emojiRegex = /(\p{Emoji}|\p{Emoji_Presentation}|\p{Emoji_Modifier}|\p{Emoj
 const pageDiv = document.querySelector('.page');
 const selectionDiv = document.querySelector('#selection');
 const sfxAudio = document.querySelector('.sfx');
+const settingsSection = document.querySelector('.settings .section');
+const footerInput = document.querySelector('.footer .input');
 
 //--DOM FUNCTIONS--//
 function onKeyDown() {
@@ -54,9 +56,9 @@ function showMessages() {
 		document.querySelector('#' + conversation.id + ' .messages').classList.remove('hidden');
 		document.querySelector('#' + conversation.id + ' .messages .action')?.scrollIntoView();
 	}
-	if(document.querySelector('.section') != null) {
-		document.querySelector('.section').classList.remove('bi-file-earmark-break-fill');
-		document.querySelector('.section').classList.add('bi-file-break');
+	if(settingsSection != null) {
+		settingsSection.classList.remove('bi-file-earmark-break-fill');
+		settingsSection.classList.add('bi-file-break');
 	}
 	for (let view of document.querySelectorAll('#' + conversation.id + ' .view:not(.messages)')) {
 		view.classList.add('hidden');
@@ -328,10 +330,9 @@ function toggleFullscreen() {
 }
 
 function selectSection() {
-	let status = event.target || document.querySelector('.section');
 	if(!pageDiv.querySelector('.conversation:not(.hidden)'))
 		return console.error('unable to select section, no conversation selected');
-	if(status.classList.contains('bi-file-break')) {
+	if(settingsSection.classList.contains('bi-file-break')) {
 		// show sections
 		if(pageDiv.querySelector('.editor:not(.hidden)'))
 			return console.error('unable to select section, still in editor');
@@ -342,8 +343,8 @@ function selectSection() {
 						.map(section => '<button onclick="onSelectSection()">' + section.getAttribute('data-section') + '</button>');
 		popupText('<div class="sections">' + sections.join('') + '</div>');
 	}
-	if(status.classList.contains('bi-file-earmark-break-fill')) {
-		document.querySelector('.footer .input').innerText = '';
+	if(settingsSection.classList.contains('bi-file-earmark-break-fill')) {
+		footerInput.innerText = '';
 		// reset sections
 		let conversation = pageDiv.querySelector('.conversation:not(.hidden)');
 		conversation.querySelector('.messages').innerHTML = conversation.querySelector('.editor textarea').value;
@@ -352,10 +353,10 @@ function selectSection() {
 }
 
 function onSelectSection() {
-	document.querySelector('.section').classList.remove('bi-file-break');
-	document.querySelector('.section').classList.add('bi-file-earmark-break-fill');
+	settingsSection.classList.remove('bi-file-break');
+	settingsSection.classList.add('bi-file-earmark-break-fill');
 	let sectionName = event.target.innerText;
-	document.querySelector('.footer .input').innerText = sectionName || '';
+	footerInput.innerText = sectionName || '';
 	// stop current running conversation
 	let conversation = pageDiv.querySelector('.conversation:not(.hidden)');
 	disableRunMessages(conversation);
