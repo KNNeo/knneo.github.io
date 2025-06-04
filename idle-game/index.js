@@ -180,13 +180,13 @@ function updateCurrency() {
 }
 
 function updateRate() {
-	let rate = window.game.worlds.reduce(function(total, world, index) {
+	window.game.rate = window.game.worlds.reduce(function(total, world, index) {
 		return total + world.characters.reduce(function(t, c, i) { 
 			return t + c.rate; 
 		}, 0);
 	}, 0);
-	rateDiv.innerText = asCurrencyUnits(rate) + '/' + window.game.locale.display.seconds;
-	rateDiv.title = asCurrencyNumber(rate);
+	rateDiv.innerText = asCurrencyUnits(window.game.rate) + '/' + window.game.locale.display.seconds;
+	rateDiv.title = asCurrencyNumber(window.game.rate);
 }
 
 //--EVENT HANDLERS--//
@@ -348,6 +348,39 @@ function onAction() {
 	
 	// update game
 	save();	
+}
+
+function showStats(){
+	let list = [
+		{ title: 'Total Money: ', value: window.game.bank },
+		{ title: 'Overall Rate: ', value: window.game.rate },
+	];
+	for(let world of window.game.worlds) {
+		list.push({ title: world.name });
+		list.push({ title: 'Items Unlocked: ', value: world.characters?.filter(c => c.level > 0).length  });
+		for(let char of world.characters) {
+			if(char.level < 1) continue;
+			list.push({ title: char.name });
+			list.push({ 
+				title: config.locale.display.level, 
+				level: char.level, s: '/', 
+				maxLevel: char.maxLevel, 
+				r: ' (', rate: asCurrencyUnits(char.rate) + '/' + window.game.locale.display.seconds, q: ')' 
+			});
+		}
+	}
+
+	let stats = document.createElement('div');
+	for(let listItem of list) {
+		let stat = document.createElement('div');
+		for(let key of Object.keys(listItem)) {
+			let item = document.createElement('span');
+			item.innerText = listItem[key];
+			stat.appendChild(item);
+		}
+		stats.appendChild(stat);
+	}
+	popupContent(stats);
 }
 
 //--FUNCTIONS--//
