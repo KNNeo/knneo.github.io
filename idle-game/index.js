@@ -602,7 +602,7 @@ function asCurrencyNumber(number) {
 	let length = number.toString().length;
 	for(let n = 1; n <= length; n++) {
 		reduced = number.toString()[length-n] + reduced;
-		if(n % 3 == 0 && n > 0)
+		if(n % 3 == 0 && n > 0 && n < length)
 			reduced = ',' + reduced;
 	}
 	return (window.game.currency.prefix || '') + reduced + (window.game.currency.suffix || '');
@@ -659,7 +659,7 @@ function createDialog(node) {
 			this.remove();
 	};
 	dialog.onkeyup = function() {
-		if (event.key === ' ' || event.key === 'Enter')
+		if ((event.key === ' ' || event.key === 'Enter') && event.target == event.target.closest('dialog'))
 			this.remove();
 	};
 	return dialog;
