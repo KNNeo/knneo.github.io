@@ -159,6 +159,7 @@ function decrementCurrency(decrement) {
 }
 
 function incrementCurrency(multiplier) {
+	// multiplier is no of sec passed, default is 1s
 	let increment = window.game.worlds.reduce(function(total, world, index) {
 		return total + world.characters.reduce(function(t, c, i) { 
 			return t + c.rate; 
@@ -167,6 +168,8 @@ function incrementCurrency(multiplier) {
 	window.game.bank = (window.game.bank ?? 0) + ((multiplier ?? 1) * increment);
 	updateCurrency();
 	save();
+	if(!multiplier)
+		popupTextGoAway('+' + asCurrencyUnits(increment));
 	return increment;
 }
 
@@ -182,6 +185,7 @@ function updateRate() {
 		}, 0);
 	}, 0);
 	rateDiv.innerText = asCurrencyUnits(rate) + '/' + window.game.locale.display.seconds;
+	rateDiv.title = asCurrencyNumber(rate);
 }
 
 //--EVENT HANDLERS--//
@@ -611,6 +615,27 @@ function createDialog(node) {
 			this.remove();
 	};
 	return dialog;
+}
+
+function popupTextGoAway(textVal) {	
+	//create popup and show
+	let popup = document.createElement('div');
+	popup.classList.add('go-away');
+	popup.classList.add('text');
+	popup.innerText = textVal;
+	document.querySelector('.go-away')?.remove();
+	document.body.appendChild(popup);
+	
+	//add class to fade
+	popup.classList.add('fade');
+	
+	//add class to hide
+	setTimeout(function() {
+		popup.classList.add('hide');
+	}, 10);
+	setTimeout(function() {
+		popup.classList.add('hidden');
+	}, 1000);
 }
 
 //--INITIAL--//

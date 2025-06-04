@@ -283,6 +283,26 @@ a:hover {
 	background-color: var(--accent);
 }
 
+.go-away {
+    width: 100dvw;
+    height: auto;
+	position: fixed;
+	top: 0;
+	left: 0;
+    z-index: 1;
+    font-size: 5em;
+	text-align: center;
+	text-shadow: 4px 4px var(--background);
+}
+
+.go-away.fade {
+	transition: opacity 1s;
+}
+
+.go-away.hide {
+	opacity: 0;
+}
+
 .hidden {
 	display: none;
 }
