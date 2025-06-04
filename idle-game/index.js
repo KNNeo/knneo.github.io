@@ -365,7 +365,7 @@ function showStats(){
 			if(char.level < 1) continue;
 			list.push({ title: char.name });
 			list.push({ 
-				title: config.locale.display.level, 
+				title: window.game.locale.display.level, 
 				level: char.level, s: '/', 
 				maxLevel: char.maxLevel, 
 				r: ' (', rate: asCurrencyUnits(char.rate) + '/' + window.game.locale.display.seconds, q: ')' 
@@ -383,6 +383,13 @@ function showStats(){
 		}
 		stats.appendChild(stat);
 	}
+	let button = document.createElement('button');
+	button.className = 'bi';
+	button.innerText = 'OK';
+	button.onclick = function() {
+		event.target.closest('dialog').remove();
+	};
+	stats.appendChild(button);
 	popupContent(stats);
 }
 
