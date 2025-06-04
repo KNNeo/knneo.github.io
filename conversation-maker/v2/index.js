@@ -287,7 +287,7 @@ function toggleFullscreen() {
     if(pageDiv.getAttribute('data-fullscreen') == null) {
         pageDiv.setAttribute('data-fullscreen', '');
 		pageDiv.querySelector('.header span').innerText = selectionDiv.querySelector('option[value="' + selectionDiv.value + '"')?.innerText;
-		if(event?.type == 'click') {
+		if(event?.type != 'click') {
 			try {
 				let doc = document.documentElement;
 				if (doc.requestFullscreen)
@@ -344,6 +344,7 @@ function selectSection() {
 	if(event.target.classList.contains('bi-file-earmark-break-fill')) {
 		// reset sections
 		let conversation = pageDiv.querySelector('.conversation:not(.hidden)');
+		conversation.querySelector('.messages').innerHTML = conversation.querySelector('.editor textarea').value;
 		conversation.querySelector('a').click();
 	}
 }
@@ -352,9 +353,12 @@ function onSelectSection() {
 	document.querySelector('.section').classList.remove('bi-file-break');
 	document.querySelector('.section').classList.add('bi-file-earmark-break-fill');
 	let sectionName = event.target.innerText;
+	// stop current running conversation
+	let conversation = pageDiv.querySelector('.conversation:not(.hidden)');
+	disableRunMessages(conversation);
 	// find out which lines are in section
-	let lines = pageDiv.querySelectorAll('.conversation:not(.hidden) .messages .message');
-	let sectionLine = Array.from(lines).indexOf(pageDiv.querySelector('.conversation:not(.hidden) .messages .message[data-section="' + sectionName + '"]')); // assume section names unique
+	let lines = conversation.querySelectorAll('.messages .message');
+	let sectionLine = Array.from(lines).indexOf(conversation.querySelector('.messages .message[data-section="' + sectionName + '"]')); // assume section names unique
 	// console.log(sectionLine);
 	// mark and remove lines not in range
 	for(l = 0; l < sectionLine; l++) {
@@ -362,11 +366,11 @@ function onSelectSection() {
 		if(line)
 			line.setAttribute('data-range', '');
 	}
-	for(let line of pageDiv.querySelectorAll('.conversation:not(.hidden) .messages .message[data-range]'))
+	for(let line of conversation.querySelectorAll('.messages .message[data-range]'))
 		line.remove();
 	// find out which lines are in next section onwards (if not last)
-	lines = pageDiv.querySelectorAll('.conversation:not(.hidden) .messages .message');
-	sectionName = Array.from(lines).indexOf(pageDiv.querySelector('.conversation:not(.hidden) .messages .message:not([data-section]) + .message[data-section]')); // assume section names unique
+	lines = conversation.querySelectorAll('.messages .message');
+	sectionName = Array.from(lines).indexOf(conversation.querySelector('.messages .message:not([data-section]) + .message[data-section]')); // assume section names unique
 	// console.log(sectionName);
 	if(sectionName < 0)
 		sectionName = lines.length - 1;
@@ -376,7 +380,7 @@ function onSelectSection() {
 		if(line)
 			line.setAttribute('data-range', '');
 	}
-	for(let line of pageDiv.querySelectorAll('.conversation:not(.hidden) .messages .message[data-range]'))
+	for(let line of conversation.querySelectorAll('.messages .message[data-range]'))
 		line.remove();
 	removeDialog();
 }

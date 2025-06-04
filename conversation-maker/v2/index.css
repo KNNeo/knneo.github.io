@@ -160,9 +160,12 @@ a:hover {
     align-items: center;
 }
 .page[data-fullscreen] .footer .input {
-    border: 1px inset var(--foreground);
+    border: 2px inset var(--foreground);
     border-radius: 8px;
     height: 40px;
+}
+.page[data-fullscreen] .footer .input:active {
+    border-color: var(--accent);
 }
 .conversation .message {
     display: flex;
@@ -336,9 +339,10 @@ a:hover {
 .sections button {
     display: block;
     width: 100%;
-    background-color: var(--foreground);
     color: var(--background);
     border-radius: 99px;
+    padding: 8px;
+    background-color: var(--foreground);
 }
 .sections button:hover {
     background-color: var(--accent);
