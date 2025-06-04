@@ -160,12 +160,16 @@ a:hover {
     align-items: center;
 }
 .page[data-fullscreen] .footer .input {
-    border: 2px inset var(--foreground);
+    border: 2px inset var(--accent);
+    color: var(--accent);
     border-radius: 8px;
     height: 40px;
+    text-align: start;
+    font-size: 1.5em;
+    padding: 0 8px;
 }
 .page[data-fullscreen] .footer .input:active {
-    border-color: var(--accent);
+    border-color: var(--foreground);
 }
 .conversation .message {
     display: flex;

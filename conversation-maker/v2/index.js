@@ -328,9 +328,10 @@ function toggleFullscreen() {
 }
 
 function selectSection() {
+	let status = event.target || document.querySelector('.section');
 	if(!pageDiv.querySelector('.conversation:not(.hidden)'))
 		return console.error('unable to select section, no conversation selected');
-	if(event.target.classList.contains('bi-file-break')) {
+	if(status.classList.contains('bi-file-break')) {
 		// show sections
 		if(pageDiv.querySelector('.editor:not(.hidden)'))
 			return console.error('unable to select section, still in editor');
@@ -341,7 +342,8 @@ function selectSection() {
 						.map(section => '<button onclick="onSelectSection()">' + section.getAttribute('data-section') + '</button>');
 		popupText('<div class="sections">' + sections.join('') + '</div>');
 	}
-	if(event.target.classList.contains('bi-file-earmark-break-fill')) {
+	if(status.classList.contains('bi-file-earmark-break-fill')) {
+		document.querySelector('.footer .input').innerText = '';
 		// reset sections
 		let conversation = pageDiv.querySelector('.conversation:not(.hidden)');
 		conversation.querySelector('.messages').innerHTML = conversation.querySelector('.editor textarea').value;
@@ -353,6 +355,7 @@ function onSelectSection() {
 	document.querySelector('.section').classList.remove('bi-file-break');
 	document.querySelector('.section').classList.add('bi-file-earmark-break-fill');
 	let sectionName = event.target.innerText;
+	document.querySelector('.footer .input').innerText = sectionName || '';
 	// stop current running conversation
 	let conversation = pageDiv.querySelector('.conversation:not(.hidden)');
 	disableRunMessages(conversation);
