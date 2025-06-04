@@ -99,15 +99,16 @@ a:hover {
 
 .settings {
 	position: absolute;
-    bottom: 20px;
-    right: 0;
     left: 0;
+    right: 0;
+    bottom: 2em;
 }
 
 .home {
+	position: absolute;
     left: 0;
     right: 0;
-	bottom: 1em;
+	bottom: 0.5em;
 	text-decoration: none;
 	font-weight: bold;
 }

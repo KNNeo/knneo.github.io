@@ -172,7 +172,7 @@ function incrementCurrency(multiplier) {
 	updateCurrency();
 	save();
 	// show if manual increment
-	if(event?.target?.classList.contains('money'))
+	if(event?.target?.classList && event.target.classList.contains('money'))
 		popupTextGoAway('+' + asCurrencyUnits(increment));
 	return increment;
 }
