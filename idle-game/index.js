@@ -114,7 +114,10 @@ const config = {
         "display": {
             "level": "親愛度",
             "seconds": "秒",
-            "no_money": "お金が足りない！あと"
+            "no_money": "お金が足りない！あと",
+			"total_money": "総計：",
+			"total_rate": "稼ぐ率：",
+			"unlocked": "解除数："
         },
         "action": {
             "unlock": "解放",
@@ -124,8 +127,7 @@ const config = {
         }
     },
     "currency": {
-        "prefix": "¥",
-        "suffix": [
+        "unit": [
             "",
             "",
             "",
@@ -139,7 +141,8 @@ const config = {
             "",
             "",
             "万億"
-        ]
+        ],
+        "suffix": "💛",
     }
 };
 
@@ -352,12 +355,12 @@ function onAction() {
 
 function showStats(){
 	let list = [
-		{ title: 'Total Money: ', value: window.game.bank },
-		{ title: 'Overall Rate: ', value: window.game.rate },
+		{ title: window.game.locale.display.total_money, value: asCurrencyNumber(window.game.bank) },
+		{ title: window.game.locale.display.total_rate, value: asCurrencyNumber(window.game.rate) },
 	];
 	for(let world of window.game.worlds) {
 		list.push({ title: world.name });
-		list.push({ title: 'Items Unlocked: ', value: world.characters?.filter(c => c.level > 0).length  });
+		list.push({ title: window.game.locale.display.unlocked, value: world.characters?.filter(c => c.level > 0).length  });
 		for(let char of world.characters) {
 			if(char.level < 1) continue;
 			list.push({ title: char.name });
@@ -582,15 +585,15 @@ function asCurrencyUnits(number) {
 	// format: reduced number with currency prefix and units suffix
 	if(!number) number = 0;
 	let shift = 0;
-	let suffix = '';
-	while (!suffix && shift <= number.toString().length - 1) {
+	let unit = '';
+	while (!unit && shift <= number.toString().length - 1) {
 		// if suffix empty, find previous in config array
-		suffix = window.game.currency.suffix[number.toString().length - ++shift] ?? '';
+		unit = window.game.currency.unit[number.toString().length - ++shift] ?? '';
 	}
 	
 	// if valid prefix, reduce number
 	let reduced = (number / Math.pow(10, number.toString().length - shift)) ?? number;	
-	return window.game.currency.prefix + parseInt(reduced) + suffix;
+	return (window.game.currency.prefix || '') + parseInt(reduced) + unit + (window.game.currency.suffix || '');
 }
 
 function asCurrencyNumber(number) {
@@ -601,8 +604,8 @@ function asCurrencyNumber(number) {
 		reduced = number.toString()[length-n] + reduced;
 		if(n % 3 == 0 && n > 0)
 			reduced = ',' + reduced;
-	}	
-	return window.game.currency.prefix + reduced;
+	}
+	return (window.game.currency.prefix || '') + reduced + (window.game.currency.suffix || '');
 }
 
 function save() {
@@ -680,12 +683,12 @@ function startup() {
 		load(JSON.parse(localStorage.getItem('idle-game')));
 		return;
 	}
-	if(data.src) {
+	if(data?.src) {
 		console.log('read from external json');
 		getJson(data.src, load);
 		return;
 	}
-	if(data.textContent) {
+	if(data?.textContent) {
 		console.log('read from inline json');
 		load(JSON.parse(data.textContent));
 		return;
