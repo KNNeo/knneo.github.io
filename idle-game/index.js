@@ -386,9 +386,7 @@ function showStats(){
 	let button = document.createElement('button');
 	button.className = 'bi';
 	button.innerText = 'OK';
-	button.onclick = function() {
-		event.target.closest('dialog').remove();
-	};
+	button.setAttribute('onclick', "event.target.closest('dialog').remove()");
 	stats.appendChild(button);
 	popupContent(stats);
 }
