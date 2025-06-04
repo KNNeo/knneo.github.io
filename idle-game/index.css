@@ -166,7 +166,9 @@ a:hover {
 }
 
 .display {
-	max-width: 480px;
+    max-width: min(100%, 640px);
+    max-height: calc(100dvh - 200px);
+    overflow-y: auto;
     margin: auto;
 }
 
