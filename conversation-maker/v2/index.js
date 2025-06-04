@@ -389,7 +389,7 @@ function processConversations() {
 
 function processConversation(conversation) {
 	let lineSeparator = conversation.getAttribute('data-separator') || config.separator.line;
-	let lines = conversation.innerText.split('\n');
+	let lines = conversation.innerHTML.split('\n');
 	if (lines.length < 2) {
 		conversation.innerHTML = 'Click on Editor to create a conversation list';
 		return;
