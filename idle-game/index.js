@@ -168,7 +168,8 @@ function incrementCurrency(multiplier) {
 	window.game.bank = (window.game.bank ?? 0) + ((multiplier ?? 1) * increment);
 	updateCurrency();
 	save();
-	if(!multiplier)
+	// show if manual increment
+	if(event.target.classList.contains('money'))
 		popupTextGoAway('+' + asCurrencyUnits(increment));
 	return increment;
 }
