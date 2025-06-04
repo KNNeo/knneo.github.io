@@ -514,10 +514,10 @@ function calculateLevelUp(world, seqNo, level) {
 
 function calculateNewRate(world, seqNo, level) {
 	let newRate = 0;
-	if(level >= 0) newRate += Math.min(50, 1*(level-0));
-	if(level >= 50) newRate += Math.min(100, 2*(level-50));
-	if(level >= 100) newRate += Math.min(150, 3*(level-100));
-	if(level >= 150) newRate += Math.min(200, 4*(level-150));
+	if(level >= 0) newRate += Math.min(50, 1*seqNo*(level-0));
+	if(level >= 50) newRate += Math.min(100, 2*seqNo*(level-50));
+	if(level >= 100) newRate += Math.min(150, 3*seqNo*(level-100));
+	if(level >= 150) newRate += Math.min(200, 4*seqNo*(level-150));
 	return newRate;
 }
 
