@@ -54,7 +54,7 @@ function initializeVariables(data) {
 	window.data = data;
 	window.include = '';
 	window.exclude = '';
-	window.preset = 'photo_size_select_small';
+	window.preset = settings.querySelector('.size')?.innerText || 'photo_size_select_small';
 	window.slideshow = null;
 	menu.addEventListener(isFirefox ? 'DOMMouseScroll' : 'mousewheel', onScrollSidebar);
 	initializeCollage();
