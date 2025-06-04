@@ -633,11 +633,22 @@ function createDialog(node) {
 	if(!dialog.classList.contains('box')) dialog.classList.add('box');
 	if(typeof node == 'string') {
 		let containerDiv = document.createElement('div');
-		if(node.startsWith('<') || node.endsWith('>'))
+		if(node.startsWith('<') || node.endsWith('>')) {
 			containerDiv.innerHTML = node;
-		else
+			dialog.appendChild(containerDiv);
+		}
+		else {
 			containerDiv.innerText = node;
-		dialog.appendChild(containerDiv);
+
+			let button = document.createElement('button');
+			button.className = 'bi';
+			button.innerText = 'OK';
+			button.onclick = function() {
+				event.target.closest('dialog').remove();
+			};
+			dialog.appendChild(containerDiv);
+			dialog.appendChild(button);
+		}
 	}
 	if(typeof node == 'object') {
 		let clonedNode = node.cloneNode(true);
