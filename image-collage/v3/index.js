@@ -345,12 +345,13 @@ function generateGrid() {
 		
 		let gridItemImage = document.createElement('img');
 		gridItemImage.alt = item.ds || '';
-		gridItemImage.title = item.ct || getFilenameInfo(imageUrl).filename.split(window.data.separator).join('\n');
+		gridItemImage.title = getFilenameInfo(imageUrl).filename.split(window.data.separator).join('\n');
 		let thumbnail = getThumbnailSizeBySetting(item);
 		if(thumbnail == spacer)
 			console.error('thumbnail not found', item);
 		gridItemImage.setAttribute('data-image', thumbnail);
 		gridItemImage.setAttribute('data-src', item['og'] || item['lg'] || item['md'] || item['sm'] || spacer);
+		gridItemImage.setAttribute('data-caption', item.ct);
 		gridItemImage.setAttribute('loading', 'lazy');
 		gridItemImage.addEventListener('click', function() {
 			openViewer(event.target.parentElement);
@@ -721,7 +722,7 @@ function openImageInViewer(image) {
 
 	let caption = document.createElement('div');
 	caption.classList.add('caption');
-	caption.innerText = image.title;
+	caption.innerText = image.getAttribute('data-caption');
 	
 	if(viewer.childNodes.length > 0)
 		viewer.innerHTML = '';
