@@ -1,17 +1,19 @@
 /* DIFFERENCES FROM IMAGE COLLAGE V3
 * change grid click event listener
 * on resize all dialogs close
+* adjust dialog style in css
 */
 
 //--FUNCTIONS--//
 function popupPlayer(url) {
     let playerHtml = generatePlayerByURL(url);
-    popupContent(playerHtml);
+    if(typeof popupContent == 'function')
+        popupContent(playerHtml);
 }
 
 function generatePlayerByURL(url) {
-	let embedWidth = 800; // as per apple documentation, fixed
-	let embedHeight = 450; // as per apple documentation, fixed
+    let embedWidth = 800; // as per apple documentation, fixed
+    let embedHeight = 450; // as per apple documentation, fixed
     if (url.includes('music.apple.com')) {
         //process itunes embed
         return '<iframe allow="autoplay *; encrypted-media *;" frameborder="0" height="'+ embedHeight +'" sandbox="allow-modals allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation-by-user-activation" src="' +
