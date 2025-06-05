@@ -2,6 +2,7 @@
 * change grid click event listener
 * on resize all dialogs close
 * adjust dialog style in css
+* change grid contextmenu event listener, loop tags
 */
 
 //--FUNCTIONS--//

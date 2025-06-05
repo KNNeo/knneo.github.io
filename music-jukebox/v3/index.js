@@ -357,16 +357,17 @@ function generateGrid() {
 		});
 		gridItemImage.addEventListener('contextmenu', function() {
 			event.preventDefault();
-			if(window.data.tag.category.groups.length > 0) {
-				let keywords = event.target.title.split('\n');
-				if(keywords.filter(k => !window.include.includes(k)).length >= keywords.length) // if no keywords in filter
-					toggleVariable('include', keywords[0]);
-				else {
-					let inFilter = keywords.filter(k => window.include.includes(k))[0];
-					let notFilter = keywords.filter(k => !window.include.includes(k));
-					
-					toggleVariable('include', inFilter);
-					toggleVariable('include', notFilter[0]);
+			let keywords = event.target.title.split('\n');
+			if(window.data.tag.category.groups.length > 0 && window.data.tag.category.groups.length == keywords.length) {
+				if(keywords.filter(k => window.include.includes(k)).length < 1) // if no keywords in filter
+					toggleVariable('include', keywords[0]); // toggle first keyword
+				else { // toggle next keyword
+					let includeArray = window.include.split('|');
+					let inFilterIndex = keywords.findIndex(k => includeArray.includes(k)); // assume unique tags
+					let notFilterIndex = 1 + inFilterIndex < keywords.length ? 1 + inFilterIndex : 0; // loop around if include last keyword
+					// console.log(inFilterIndex, notFilterIndex);
+					toggleVariable('include', keywords[inFilterIndex]);
+					toggleVariable('include', keywords[notFilterIndex]);
 				}
 				include.value = window.include;
 				generateTagsList();
