@@ -455,6 +455,9 @@ a:focus-within {
 	.tags > div {
 		max-height: 48px;
 	}
+	.tags.expanded {
+        height: 60vh;
+	}
 	.tags.expanded > div {
 		max-height: calc(100% / var(--categories, 1) * var(--ratio, 1));
 	}
