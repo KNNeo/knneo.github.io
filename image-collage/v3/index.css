@@ -445,7 +445,7 @@ a:focus-within {
 		background-color: var(--background);
 	}
 	.tags > div {
-		max-height: 100%;
+		max-height: calc(100% / var(--categories, 1) * var(--ratio, 1));
 	}
 }
 
@@ -454,7 +454,7 @@ a:focus-within {
 		max-height: 48px;
 	}
 	.tags.expanded > div {
-		max-height: 48dvh;
+		max-height: calc(100% / var(--categories, 1) * var(--ratio, 1));
 	}
 	.tags .category-title {
 		display: inline;

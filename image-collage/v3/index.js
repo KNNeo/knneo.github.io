@@ -123,6 +123,8 @@ function generateTags() {
 
 function generateSidebar() {
 	menu.style.setProperty('--max-width', (window.data.menu.width || 400) + 'px');
+	if(menu.closest('.content'))
+		menu.closest('.content').style.setProperty('--menu-height', (menu.getBoundingClientRect()?.height || 0) + 'px');
 	
 	document.title = window.data.title ? window.data.title + ' - Image Collage' : 'Image Collage';
 
@@ -162,11 +164,13 @@ function generateSidebar() {
 
 function generateTagsList() {
 	tags.innerHTML = '';
+	tags.style.setProperty('--categories', window.data.tag.category.ratio.reduce((total, r) => total + r) || window.data.tag.category.groups.length);
 	
 	if(window.data.tag.category && window.data.tag.category.groups) {
 		let sections = window.data.tag.category.ratio.reduce((sum, r) => sum + r, 0);
 		window.data.tag.category.groups.forEach(function(current, index, _) {
 			let tag = document.createElement('div');
+			tag.style.setProperty('--ratio', window.data.tag.category.ratio[index]);
 			if(isHorizontalLayout()) tag.style.maxHeight = (100 / sections * window.data.tag.category.ratio[index]) + '%';
 			
 				let title = document.createElement('h4');
