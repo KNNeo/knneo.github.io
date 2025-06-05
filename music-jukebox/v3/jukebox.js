@@ -3,6 +3,8 @@
 * on resize all dialogs close
 * adjust dialog style in css
 * change grid contextmenu event listener, loop tags
+* change height of grid in portrait mode to depend on menu height
+* change height of menu tags in landscape mode to depend on ratio in config
 */
 
 //--FUNCTIONS--//
