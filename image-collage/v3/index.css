@@ -108,6 +108,10 @@ a:focus-within {
 	border: var(--border) solid var(--foreground);
     border-radius: var(--radius);
     height: 2rem;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+    white-space: nowrap;
+    max-width: 15em;
 }
 
 .tag:hover,
