@@ -32,6 +32,7 @@ public class Program {
 	static int GENERATE_SLUG_MAX_LENGTH = 70;
 	static List<String> POST_IGNORE_LABELS = new List<string>() { "The Archive", "The Statement" };
 	static bool SHOW_LINKED_LIST = false;
+	static bool VERIFY_HTML = 'auto';
 
 	// POST SETTINGS
 	static string POSTS_SINCE = "2000-01-01";
@@ -280,6 +281,17 @@ public class Program {
 	static string CleanupHtml(string content) {
 		string expression = @"";
 		Match match = null;
+
+		/* Considerations:
+		* Must correspond to first highlight of content +/- number of words or start/end of paragraph or emoji (wrapped by asterisk)
+		* eg. highlight +/-3 words around fox => "[The quick brown fox jumps over a] lazy dog."
+		* eg. highlight +/-4 words around over => "The [quick brown fox jumps over a lazy dog.] *laughs*"
+		* Cannot be in (potential) initially hidden elements eg. carousel, disclaimer lineup
+		* Cannot be headers prefix for use in Entertainment News
+		* Cannot be image elements which are tags without break
+		* Cannot be postscripts ie. P.S. & P.P.S.
+		*/
+
 		// Remove content of unimportant tags (most to least specific)
 		expression = @"(?s)(<div class=""carousel-item hide"")(.*?)(/div>)";
 		match = Regex.Match(content, expression);
@@ -327,7 +339,26 @@ public class Program {
 		content = Regex.Replace(content, @"\t|\n|\r", "");
 		content = Regex.Replace(content, @"\s+,", "");
 		content = Regex.Replace(content, @"\s+", " ");
+		// Verify content on screen
+		if(VERIFY_HTML.ToLower() == 'manual' && !VerifyHtml(content))
+			throw new Exception('Verify HTML content failed!');
 		return content;
+	}
+
+	static bool VerifyHtml(string content) {
+		Console.WriteLine("================================================================================");
+        Console.WriteLine(content);
+		Console.WriteLine("================================================================================");
+        Console.WriteLine("Do you verify this content? (y/n):");
+
+        while (true)
+        {
+            ConsoleKeyInfo key = Console.ReadKey(true);
+            if (key.KeyChar == 'y' || key.KeyChar == 'Y')
+                return true;
+            else if (key.KeyChar == 'n' || key.KeyChar == 'N')
+                return false;
+        }
 	}
 
 	/*SOURCE FROM EXPORT POSTS*/
