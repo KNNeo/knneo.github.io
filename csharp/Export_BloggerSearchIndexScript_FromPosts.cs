@@ -32,7 +32,7 @@ public class Program {
 	static int GENERATE_SLUG_MAX_LENGTH = 70;
 	static List<String> POST_IGNORE_LABELS = new List<string>() { "The Archive", "The Statement" };
 	static bool SHOW_LINKED_LIST = false;
-	static bool VERIFY_HTML = 'auto';
+	static string VERIFY_HTML = "auto";
 
 	// POST SETTINGS
 	static string POSTS_SINCE = "2000-01-01";
@@ -340,8 +340,8 @@ public class Program {
 		content = Regex.Replace(content, @"\s+,", "");
 		content = Regex.Replace(content, @"\s+", " ");
 		// Verify content on screen
-		if(VERIFY_HTML.ToLower() == 'manual' && !VerifyHtml(content))
-			throw new Exception('Verify HTML content failed!');
+		if(VERIFY_HTML.ToLower() == "manual" && !VerifyHtml(content))
+			throw new Exception("Verify HTML content failed!");
 		return content;
 	}
 
