@@ -300,11 +300,19 @@ function generateGrid() {
 	
 	let filterArray = generateFiltered().sort(function(a,b) {
 		let prop = window.data.sort?.property;
+        // if property not found, sort list as is
 		if(!prop || !a[prop] || !b[prop]) {
 			if(!window.data.sort?.order)
 				return 0;
 			return window.data.sort.order == 'desc' ? -1 : 1;
 		}
+        if(new Date(a[prop]) != 'Invalid Date' && new Date(b[prop]) != 'Invalid Date') {
+            // convert dates to int string
+            a[prop] = new Date(a[prop]).getTime();
+            b[prop] = new Date(b[prop]).getTime();
+            return window.data.sort.order == 'desc' ? b[prop] - a[prop] : a[prop] - b[prop];
+        }
+        // sort string by locale if any
 		if(window.data.sort.order == 'desc')
 			return b[prop].localeCompare(a[prop], window.data.sort?.locale || '');
 		return a[prop].localeCompare(b[prop], window.data.sort?.locale || '');
