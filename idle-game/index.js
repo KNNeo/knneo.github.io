@@ -623,7 +623,21 @@ function save() {
 	localStorage.setItem('idle-game', JSON.stringify(window.game));
 }
 
-////DIALOG////
+//--DEBUG--//
+function generateBoostMatrix(world, seqNo) {
+	console.log('unlock:', calculateUnlock(world, seqNo));
+	for(let lvl = 1; lvl <= 200; lvl++) {
+		console.log('level', lvl.toString(), '-', calculateBoost(world, seqNo, lvl), calculateLevelUp(world, seqNo, lvl));
+	}
+}
+
+function generateRateMatrix(world, seqNo) {
+	for(let lvl = 1; lvl <= 200; lvl++) {
+		console.log('level', lvl.toString(), '-', calculateNewRate(world, seqNo, lvl));
+	}
+}
+
+//--DIALOG--//
 function popupContent(input) {
 	let dialogDiv = document.querySelector('.dialog');
 	if(dialogDiv == null) {
