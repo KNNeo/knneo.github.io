@@ -9,6 +9,7 @@ const config = {
             "delta": 10,
             "maxAsset": 12,
             "unlockInOrder": true,
+			"maxBoostFrom": 1,
             "items": [
                 {
                     "order": 1,
@@ -229,7 +230,7 @@ function showDetails() {
 			
 			let action2 = document.createElement('button');
 			action2.classList.add('action');
-			if(window.item.level < 10 || window.item.percent > 99)
+			if(window.item.level < (window.game.worlds[worldId].maxBoostFrom || 10) || window.item.percent > 99)
 				action2.classList.add('hidden');
 			action2.innerText = window.game.locale.action.maxBoost + ' - ' + asCurrencyUnits(calculateMaxBoost(worldId, seqId, window.item.level, window.item.percent, window.game.worlds[worldId].delta));
 			action2.setAttribute('data-action', action2.innerText.split(' - ')[0]);
