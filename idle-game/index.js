@@ -430,10 +430,10 @@ function renderWorld() {
 			if(!world.characters)
 				world.characters = [createCharacter(list, i, world)];
 			else if(i >= world.characters.length)
-				world.characters.push(createCharacter(list, i, world));			
+				world.characters.push(createCharacter(list, i, world));
 			if(world.characters[i])
 				list.push(world.characters[i]);
-		}		
+		}
 		// console.log('list', list);
 		
 		let charasDiv = document.createElement('div');
@@ -446,6 +446,8 @@ function renderWorld() {
 			charaDiv.setAttribute('data-world', index);
 			charaDiv.setAttribute('data-level', listItem.level);
 			charaDiv.setAttribute('data-seq', listItem.order);
+			if(listItem.level >= listItem.maxLevel)
+				charaDiv.setAttribute('data-complete', '');
 			
 				let charaImage = document.createElement('img');
 				charaImage.classList.add('pic');
@@ -497,6 +499,7 @@ function createCharacter(list, order, world) {
 			"order": order,
 			"level": 0,
 			"rate": 0,
+			"maxLevel": 200
 		};
 	else
 		return {
@@ -505,6 +508,7 @@ function createCharacter(list, order, world) {
 			"order": order,
 			"level": 0,
 			"rate": 0,
+			"maxLevel": 200
 		};
 }
 

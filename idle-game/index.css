@@ -252,7 +252,7 @@ a:hover {
 	filter: brightness(30%);
 }
 
-.card[data-level="200"]::before {
+.card[data-complete]::before {
 	content: "🆗";
 	position: absolute;
 	top: 2px;
