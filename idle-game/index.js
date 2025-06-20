@@ -565,12 +565,7 @@ function calculateLevelUp(world, seqNo, level) {
 }
 
 function calculateNewRate(world, seqNo, level) {
-	let newRate = 0;
-	if(level >= 0) newRate += Math.min(50, 1*(1+world)*(1+seqNo)*(level-0));
-	if(level >= 50) newRate += Math.min(100, 2*(1+world)*(1+seqNo)*(level-50));
-	if(level >= 100) newRate += Math.min(150, 3*(1+world)*(1+seqNo)*(level-100));
-	if(level >= 150) newRate += Math.min(200, 4*(1+world)*(1+seqNo)*(level-150));
-	return newRate;
+	return Math.floor(calculateBoost(world, seqNo, level)*Math.exp(level / (window.game.worlds[world].maxLevel || 200)));
 }
 
 function asCustomDateTime(seconds) {
@@ -609,6 +604,7 @@ function asCurrencyUnits(number) {
 
 function asCurrencyNumber(number) {
 	// format: full number with currency prefix
+	if(!number) number = 0;
 	let reduced = '';
 	let length = number.toString().length;
 	for(let n = 1; n <= length; n++) {
@@ -626,14 +622,16 @@ function save() {
 
 //--DEBUG--//
 function generateBoostMatrix(world, seqNo) {
+	//zero-based
 	console.log('unlock:', calculateUnlock(world, seqNo));
-	for(let lvl = 1; lvl <= 200; lvl++) {
+	for(let lvl = 1; lvl <= (window.game.worlds[world].maxLevel || 200); lvl++) {
 		console.log('level', lvl.toString(), '-', calculateBoost(world, seqNo, lvl), calculateLevelUp(world, seqNo, lvl));
 	}
 }
 
 function generateRateMatrix(world, seqNo) {
-	for(let lvl = 1; lvl <= 200; lvl++) {
+	//zero-based
+	for(let lvl = 1; lvl <= (window.game.worlds[world].maxLevel || 200); lvl++) {
 		console.log('level', lvl.toString(), '-', calculateNewRate(world, seqNo, lvl));
 	}
 }
