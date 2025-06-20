@@ -509,8 +509,7 @@ function createCharacter(list, order, world) {
 			"id": newId,
 			"order": order,
 			"level": 0,
-			"rate": 0,
-			"maxLevel": 200
+			"rate": 0
 		};
 }
 
