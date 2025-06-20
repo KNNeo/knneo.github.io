@@ -328,6 +328,7 @@ function onAction() {
 					event.target.classList.add('hidden');
 					event.target.previousSibling.classList.add('hidden');
 					event.target.closest('.character').querySelector('.progress').classList.add('hidden');
+					event.target.closest('.character').setAttribute('data-complete', '');
 				}
 				event.target.previousSibling.setAttribute('data-action', window.game.locale.action.maxBoost);
 				event.target.previousSibling.innerText = window.game.locale.action.maxBoost + ' - ' + asCurrencyUnits(calculateMaxBoost(worldId, seqId, window.item.level, window.item.percent, window.game.worlds[worldId].delta));
