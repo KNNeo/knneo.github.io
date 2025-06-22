@@ -724,7 +724,16 @@ function openImageInViewer(image) {
                 window.slideshow = setTimeout(runSlideshow, window.data.setting.slideshow * 1000);	
 		}, 250);
 	});
-	img.addEventListener('click', closeViewer);
+	img.addEventListener('click', function() {
+        let gridImage = grid.querySelector('img[data-src="' + img.src + '"');
+        if(gridImage) {
+            // scroll image to top of screen when close viewer
+            collage.scrollTo({
+                top: gridImage.getBoundingClientRect().y
+            });
+        }
+        closeViewer();
+    });
 	img.addEventListener('mouseup', onZoomViewer);
 	img.addEventListener('mousemove', onMouseMoveViewer);
 
@@ -839,8 +848,10 @@ function startSlideshow() {
 function runSlideshow() {
 	if(window.slideshow != null)	{
 		let images = generateFiltered();
-		let image = images[Math.floor(Math.random()*images.length)];
-		openImageInViewer(document.querySelector('img[data-src="' + image.og + '"]'));
+		let item = images[Math.floor(Math.random()*images.length)];
+        let image = document.querySelector('img[data-src="' + (item['og'] || item['lg'] || item['md'] || item['sm'] || spacer) + '"]');
+        if(!image) console.error('unable to start slideshow: image not found', item);
+		openImageInViewer(image);
 		runLoader();
 	}
 }
