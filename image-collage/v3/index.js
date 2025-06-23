@@ -726,12 +726,8 @@ function openImageInViewer(image) {
 	});
 	img.addEventListener('click', function() {
         let gridImage = grid.querySelector('img[data-src="' + img.src + '"');
-        if(gridImage) {
-            // scroll image to top of screen when close viewer
-            collage.scrollTo({
-                top: gridImage.getBoundingClientRect().y + (isHorizontalLayout ? 0 : menu.getBoundingClientRect().height)
-            });
-        }
+        if(gridImage) // scroll image to top of screen when close viewer
+            gridImage.scrollIntoView();
         closeViewer();
     });
 	img.addEventListener('mouseup', onZoomViewer);
