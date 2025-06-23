@@ -564,7 +564,7 @@ function calculateLevelUp(world, seqNo, level) {
 }
 
 function calculateNewRate(world, seqNo, level) {
-	return Math.floor(calculateBoost(world, seqNo, level)*Math.exp(level / (window.game.worlds[world].maxLevel || 200)));
+	return Math.floor(calculateBoost(world, seqNo, level)/10*Math.exp(level / (window.game.worlds[world].maxLevel || 200)));
 }
 
 function asCustomDateTime(seconds) {
