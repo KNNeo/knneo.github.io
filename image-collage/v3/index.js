@@ -729,7 +729,7 @@ function openImageInViewer(image) {
         if(gridImage) {
             // scroll image to top of screen when close viewer
             collage.scrollTo({
-                top: gridImage.getBoundingClientRect().y
+                top: gridImage.getBoundingClientRect().y + (isHorizontalLayout ? 0 : menu.getBoundingClientRect().height)
             });
         }
         closeViewer();
