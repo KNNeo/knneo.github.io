@@ -246,7 +246,9 @@ function generateTagsList() {
 			tag.setAttribute('filter', 'include');
 		if(window.exclude.split(window.data.separator).includes(button.value))
 			tag.setAttribute('filter', 'exclude');
-		if(button.category)
+        if(button.category > window.data.tag.category.groups.length-1)
+			tags.childNodes[window.data.tag.category.groups.length-1].appendChild(tag);
+		else if(button.category)
 			tags.childNodes[button.category].appendChild(tag);
 		else if (tags.childNodes.length > 0)
 			tags.childNodes[0].appendChild(tag);
@@ -390,7 +392,7 @@ function generateGrid() {
 		}, false);
 		gridItemImage.addEventListener('error', function() {
 			event.preventDefault();
-			console.log(event.target.title);
+			console.log(event.target.getAttribute('data-image'));
 		});
 		gridItem.appendChild(gridItemImage);
 		observer.observe(gridItemImage);
