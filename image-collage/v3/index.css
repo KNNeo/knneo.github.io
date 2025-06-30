@@ -330,6 +330,7 @@ a:focus-within {
 	top: 0;
 	visibility: hidden;
 	opacity: 0;
+	cursor: var(--cursor, initial);
 }
 
 .viewer.open {

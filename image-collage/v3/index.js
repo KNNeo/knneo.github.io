@@ -57,6 +57,7 @@ function initializeVariables(data) {
 	window.preset = settings.querySelector('.size')?.innerText || 'photo_size_select_small';
 	window.slideshow = null;
 	menu.addEventListener(isFirefox ? 'DOMMouseScroll' : 'mousewheel', onScrollSidebar);
+	window.addEventListener('mousemove', hideMouseInViewer);
 	initializeCollage();
 }
 
@@ -723,7 +724,7 @@ function openImageInViewer(image) {
 			window['loading'] = false;
 			runLoader();
             if(window.slideshow != null)
-                window.slideshow = setTimeout(runSlideshow, window.data.setting.slideshow * 1000);	
+                window.slideshow = setTimeout(runSlideshow, window.data.setting.slideshow * 1000);
 		}, 250);
 	});
 	img.addEventListener('click', function() {
@@ -809,8 +810,19 @@ function onMouseMoveViewer() {
 	if(window.data.debug) console.log(viewer.clientWidth, viewer.clientHeight);
 	let normalizeX = event.clientX / viewer.clientWidth * 100;
 	let normalizeY = event.clientY / viewer.clientHeight * 100;
-	event.target.style.setProperty('--horizontal', normalizeX + '%');
-	event.target.style.setProperty('--vertical', normalizeY + '%');
+	event.target.style.setProperty('--horizontal', normalizeX.toFixed(2) + '%');
+	event.target.style.setProperty('--vertical', normalizeY.toFixed(2) + '%');
+}
+
+function hideMouseInViewer() {
+	if(viewer.classList.contains('open')) {
+		viewer.style.setProperty('--cursor', '');
+		viewer.getBoundingClientRect(); // for style refresh
+		setTimeout(function() {
+			viewer.style.setProperty('--cursor', 'none');
+			viewer.getBoundingClientRect();
+		}, 3000);
+	}
 }
 
 function closeViewer() {	
