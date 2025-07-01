@@ -550,6 +550,8 @@ function onToggleSize() {
 }
 
 function onToggleExpander() {
+	if(menu.closest('.content'))
+		menu.closest('.content').style.setProperty('--menu-height', (menu.getBoundingClientRect()?.height || 0) + 'px');
 	switch(event.target.innerText) {
 	  case 'unfold_more':
 		event.target.innerText = 'unfold_less';

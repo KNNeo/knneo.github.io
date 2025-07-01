@@ -131,7 +131,7 @@ a:focus-within {
 
 .collage {
 	width: 100%;
-    height: calc(100% - 17em);
+    height: calc(100% - var(--menu-height, 17em));
 	overflow-y: scroll;
 }
 
