@@ -528,6 +528,7 @@ function resize() {
 		gridItem.style.width = thumbWidth + 'px';
 		gridItem.style.height = thumbHeight + 'px';
 	}
+	setTimeout(setMenuHeight, 300);
 }
 
 function onToggleSize() {
@@ -550,8 +551,6 @@ function onToggleSize() {
 }
 
 function onToggleExpander() {
-	if(menu.closest('.content'))
-		menu.closest('.content').style.setProperty('--menu-height', (menu.getBoundingClientRect()?.height || 0) + 'px');
 	switch(event.target.innerText) {
 	  case 'unfold_more':
 		event.target.innerText = 'unfold_less';
@@ -570,6 +569,7 @@ function onToggleExpander() {
 	  default:
 		break;
 	}
+	setTimeout(setMenuHeight, 300);
 }
 
 function onScrollSidebar() {
@@ -612,6 +612,7 @@ function onToggleSidebar() {
 		gridItem.style.width = thumbWidth + 'px';
 		gridItem.style.height = thumbHeight + 'px';
 	}
+	setTimeout(setMenuHeight, 300);
 }
 
 function onToggleCaptions() {
@@ -669,6 +670,11 @@ function onToggleRatio() {
 			generateGrid();
 			break;
 	}
+}
+
+function setMenuHeight() {
+	if(menu.closest('.content'))
+		menu.closest('.content').style.setProperty('--menu-height', (menu.getBoundingClientRect()?.height || 0) + 'px');
 }
 
 //--VIEWER--//
