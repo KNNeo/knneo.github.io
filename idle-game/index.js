@@ -278,7 +278,7 @@ function onAction() {
 				window.item.level = 1;
 				window.item.percent = 0;
 				event.target.innerText = window.game.locale.action.boost + ' - ' + asCurrencyUnits(calculateBoost(worldId, seqId, window.item.level));
-				if(window.item.level >= 10 || window.item.percent > 99)
+				if(window.item.level >= (window.game.worlds[worldId].maxBoostFrom || 10) || window.item.percent > 99)
 					event.target.previousSibling.classList.remove('hidden');
 				event.target.previousSibling.setAttribute('data-action', window.game.locale.action.maxBoost);
 				event.target.previousSibling.innerText = window.game.locale.action.maxBoost + ' - ' + asCurrencyUnits(calculateMaxBoost(worldId, seqId, window.item.level, window.item.percent, window.game.worlds[worldId].delta));
@@ -323,7 +323,7 @@ function onAction() {
 				window.item.level += 1;
 				window.item.percent = 0;
 				event.target.innerText = window.game.locale.action.boost + ' - ' + asCurrencyUnits(calculateBoost(worldId, seqId, window.item.level));
-				if(window.item.level >= 10 || window.item.percent > 99)
+				if(window.item.level >= (window.game.worlds[worldId].maxBoostFrom || 10) || window.item.percent > 99)
 					event.target.previousSibling.classList.remove('hidden');
 				if(window.item.level >= window.item.maxLevel) {
 					event.target.classList.add('hidden');
