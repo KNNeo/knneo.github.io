@@ -693,7 +693,7 @@ function openImageInViewer(image) {
 	viewer.setAttribute('index', imgNo);
 	viewer.setAttribute('ontouchstart', 'onTouchStart()');
 	viewer.setAttribute('ontouchmove', 'onTouchMoveViewer()');
-	viewer.style.setProperty('--fit', window.data.slideshow?.cover ? 'cover' : 'contain');
+	viewer.style.setProperty('--fit', window.data?.slideshow?.cover ? 'cover' : 'contain');
 	
 	let viewerPrev = document.createElement('a');
 	viewerPrev.classList.add('prev');
@@ -733,7 +733,7 @@ function openImageInViewer(image) {
 			window['loading'] = false;
 			runLoader();
             if(window.slideshow?.run != null)
-                window.slideshow.run = setTimeout(runSlideshow, (window.data.slideshow?.duration || 5) * 1000);
+                window.slideshow.run = setTimeout(runSlideshow, (window.data?.slideshow?.duration || 5) * 1000);
 		}, 250);
 	});
 	img.addEventListener('click', function() {
@@ -829,7 +829,7 @@ function hideMouseInViewer() {
 		viewer.getBoundingClientRect(); // for style refresh
 		setTimeout(function() {
 			// auto hide based on config
-			if((window.data?.cursor || window.data.slideshow?.cursor) != 'hide') return;
+			if((window.data?.cursor || window.data?.slideshow?.cursor) != 'hide') return;
 			viewer.style.setProperty('--cursor', 'none');
 			viewer.getBoundingClientRect();
 		}, 3000);
@@ -880,22 +880,22 @@ function runSlideshow() {
 		window.slideshow.history.push(image);
 		// calculate new history list based on max
 		let defaultMax = 5;
-		if(!window.data.slideshow?.history)
+		if(!window.data?.slideshow?.history)
 			window.data.slideshow.history = defaultMax;
-		if(typeof window.data.slideshow?.history == 'string' && window.data.slideshow?.history.endsWith('%')) {
+		if(typeof window.data?.slideshow?.history == 'string' && window.data?.slideshow?.history.endsWith('%')) {
 			// if percentage, convert to number
-			let percentNumber = parseInt(window.data.slideshow?.history);
+			let percentNumber = parseInt(window.data?.slideshow?.history);
 			if(percentNumber != NaN) {
-				window.data.slideshow?.history = Math.floor(percentNumber/100*images.length);
-				if(window.data.slideshow?.history >= images.length)
-					window.data.slideshow?.history -= 1;
+				window.data?.slideshow?.history = Math.floor(percentNumber/100*images.length);
+				if(window.data?.slideshow?.history >= images.length)
+					window.data?.slideshow?.history -= 1;
 			}
 			else
-				window.data.slideshow?.history = defaultMax;
+				window.data?.slideshow?.history = defaultMax;
 		}
 		// slice if exceeded
-		if(window.slideshow.history.length > window.data.slideshow?.history)
-			window.slideshow.history = window.slideshow.history.slice(-1*window.data.slideshow?.history);
+		if(window.slideshow.history.length > window.data?.slideshow?.history)
+			window.slideshow.history = window.slideshow.history.slice(-1*window.data?.slideshow?.history);
 		openImageInViewer(image);
 		runLoader();
 	}
