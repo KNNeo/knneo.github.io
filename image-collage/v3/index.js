@@ -886,12 +886,12 @@ function runSlideshow() {
 			// if percentage, convert to number
 			let percentNumber = parseInt(window.data?.slideshow?.history);
 			if(percentNumber != NaN) {
-				window.data?.slideshow?.history = Math.floor(percentNumber/100*images.length);
+				window.data?.slideshow.history = Math.floor(percentNumber/100*images.length);
 				if(window.data?.slideshow?.history >= images.length)
-					window.data?.slideshow?.history -= 1;
+					window.data?.slideshow.history -= 1;
 			}
 			else
-				window.data?.slideshow?.history = defaultMax;
+				window.data?.slideshow.history = defaultMax;
 		}
 		// slice if exceeded
 		if(window.slideshow.history.length > window.data?.slideshow?.history)
