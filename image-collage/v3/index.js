@@ -869,7 +869,7 @@ function startSlideshow() {
 function runSlideshow() {
 	if(window.slideshow?.run != null) {
 		let history = window.slideshow.history.map(h => h['og'] || h['lg'] || h['md'] || h['sm']);
-		let images = generateFiltered().filter(i => history.includes(i['og'] || i['lg'] || i['md'] || i['sm']));
+		let images = generateFiltered().filter(i => !history.includes(i['og'] || i['lg'] || i['md'] || i['sm']));
 		let item = images[Math.floor(Math.random()*images.length)];
         let image = document.querySelector('img[data-src="' + (item['og'] || item['lg'] || item['md'] || item['sm']) + '"]');
         if(!image) {
