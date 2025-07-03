@@ -881,7 +881,7 @@ function runSlideshow() {
 		// calculate new history list based on max
 		let defaultMax = 5;
 		if(!window.data.slideshow?.history)
-			window.data.slideshow?.history = defaultMax;
+			window.data.slideshow.history = defaultMax;
 		if(typeof window.data.slideshow?.history == 'string' && window.data.slideshow?.history.endsWith('%')) {
 			// if percentage, convert to number
 			let percentNumber = parseInt(window.data.slideshow?.history);
