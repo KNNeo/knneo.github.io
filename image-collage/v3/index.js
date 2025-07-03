@@ -55,7 +55,7 @@ function initializeVariables(data) {
 	window.include = '';
 	window.exclude = '';
 	window.preset = settings.querySelector('.size')?.innerText || 'photo_size_select_small';
-	window.slideshow = null;
+	window.slideshow = { run: null, history: [] };
 	menu.addEventListener(isFirefox ? 'DOMMouseScroll' : 'mousewheel', onScrollSidebar);
 	window.addEventListener('mousemove', hideMouseInViewer);
 	initializeCollage();
@@ -698,13 +698,13 @@ function openImageInViewer(image) {
 	let viewerPrev = document.createElement('a');
 	viewerPrev.classList.add('prev');
 	viewerPrev.classList.add('viewer-nav');
-	if(imgNo-1 >= 0 && window.slideshow == null)
+	if(imgNo-1 >= 0 && window.slideshow?.run == null)
 		viewerPrev.addEventListener('click', onClickViewerPrev, false);
 	
 	let viewerNext = document.createElement('a');
 	viewerNext.classList.add('next');
 	viewerNext.classList.add('viewer-nav');
-	if(imgNo+1 < window['viewer-list'].length && window.slideshow == null)
+	if(imgNo+1 < window['viewer-list'].length && window.slideshow?.run == null)
 		viewerNext.addEventListener('click', onClickViewerNext, false);
 	
 	let loader = document.createElement('div');
@@ -732,8 +732,8 @@ function openImageInViewer(image) {
 				img.style.transform = 'scale(1)';
 			window['loading'] = false;
 			runLoader();
-            if(window.slideshow != null)
-                window.slideshow = setTimeout(runSlideshow, (window.data.slideshow?.duration || 5) * 1000);
+            if(window.slideshow?.run != null)
+                window.slideshow.run = setTimeout(runSlideshow, (window.data.slideshow?.duration || 5) * 1000);
 		}, 250);
 	});
 	img.addEventListener('click', function() {
@@ -751,9 +751,9 @@ function openImageInViewer(image) {
 	
 	if(viewer.childNodes.length > 0)
 		viewer.innerHTML = '';
-	if(imgNo-1 >= 0 && window.slideshow == null)
+	if(imgNo-1 >= 0 && window.slideshow?.run == null)
 		viewer.appendChild(viewerPrev);
-	if(imgNo+1 < window['viewer-list'].length && window.slideshow == null)
+	if(imgNo+1 < window['viewer-list'].length && window.slideshow?.run == null)
 		viewer.appendChild(viewerNext);
 	viewer.appendChild(loader);
 	viewer.appendChild(img);
@@ -844,7 +844,7 @@ function closeViewer() {
 
 function onZoomViewer() {
 	if(event.button == 2) {
-		if(window.slideshow != null) return;
+		if(window.slideshow?.run != null) return;
 		viewer.classList.toggle('zoom');
 	}
 }
@@ -862,24 +862,48 @@ function getFilenameInfo(url) {
 //--SLIDESHOW--//
 function startSlideshow() {
 	createLinkedList('.grid-item img');
-	window.slideshow = -1;
+	window.slideshow.run = -1;
 	runSlideshow();
 }
 
 function runSlideshow() {
-	if(window.slideshow != null)	{
-		let images = generateFiltered();
+	if(window.slideshow?.run != null) {
+		let history = window.slideshow.history.map(h => h['og'] || h['lg'] || h['md'] || h['sm']);
+		let images = generateFiltered().filter(i => history.includes(i['og'] || i['lg'] || i['md'] || i['sm']));
 		let item = images[Math.floor(Math.random()*images.length)];
-        let image = document.querySelector('img[data-src="' + (item['og'] || item['lg'] || item['md'] || item['sm'] || spacer) + '"]');
-        if(!image) console.error('unable to start slideshow: image not found', item);
+        let image = document.querySelector('img[data-src="' + (item['og'] || item['lg'] || item['md'] || item['sm']) + '"]');
+        if(!image) {
+			console.error('unable to run slideshow: image not found', item);
+			return closeViewer(); // which will stop slideshow
+		}
+		// add to history
+		window.slideshow.history.push(image);
+		// calculate new history list based on max
+		let defaultMax = 5;
+		if(!window.data.slideshow?.history)
+			window.data.slideshow?.history = defaultMax;
+		if(typeof window.data.slideshow?.history == 'string' && window.data.slideshow?.history.endsWith('%')) {
+			// if percentage, convert to number
+			let percentNumber = parseInt(window.data.slideshow?.history);
+			if(percentNumber != NaN) {
+				window.data.slideshow?.history = Math.floor(percentNumber/100*images.length);
+				if(window.data.slideshow?.history >= images.length)
+					window.data.slideshow?.history -= 1;
+			}
+			else
+				window.data.slideshow?.history = defaultMax;
+		}
+		// slice if exceeded
+		if(window.slideshow.history.length > window.data.slideshow?.history)
+			window.slideshow.history = window.slideshow.history.slice(-1*window.data.slideshow?.history);
 		openImageInViewer(image);
 		runLoader();
 	}
 }
 
 function stopSlideshow() {
-	clearTimeout(window.slideshow);
-	window.slideshow = null;
+	clearTimeout(window.slideshow.run);
+	window.slideshow.run = null;
 }
 
 //--LOADER--//
