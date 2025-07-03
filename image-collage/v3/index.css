@@ -393,7 +393,7 @@ a:focus-within {
 
 .viewer img {
 	transition: transform 0.2s;
-	object-fit: contain;
+	object-fit: var(--fit);
 	width: 100%;
 	height: 100%;
 	-webkit-user-select: none;

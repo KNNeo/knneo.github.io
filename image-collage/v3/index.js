@@ -693,6 +693,7 @@ function openImageInViewer(image) {
 	viewer.setAttribute('index', imgNo);
 	viewer.setAttribute('ontouchstart', 'onTouchStart()');
 	viewer.setAttribute('ontouchmove', 'onTouchMoveViewer()');
+	viewer.style.setProperty('--fit', window.data.slideshow?.cover ? 'cover' : 'contain');
 	
 	let viewerPrev = document.createElement('a');
 	viewerPrev.classList.add('prev');
@@ -732,7 +733,7 @@ function openImageInViewer(image) {
 			window['loading'] = false;
 			runLoader();
             if(window.slideshow != null)
-                window.slideshow = setTimeout(runSlideshow, window.data.setting.slideshow * 1000);
+                window.slideshow = setTimeout(runSlideshow, (window.data.slideshow?.duration || 5) * 1000);
 		}, 250);
 	});
 	img.addEventListener('click', function() {
@@ -827,6 +828,8 @@ function hideMouseInViewer() {
 		viewer.style.setProperty('--cursor', '');
 		viewer.getBoundingClientRect(); // for style refresh
 		setTimeout(function() {
+			// auto hide based on config
+			if((window.data?.cursor || window.data.slideshow?.cursor) != 'hide') return;
 			viewer.style.setProperty('--cursor', 'none');
 			viewer.getBoundingClientRect();
 		}, 3000);
