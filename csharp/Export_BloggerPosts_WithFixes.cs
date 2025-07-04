@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System.Linq;
 using System.Xml.Linq;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Diagnostics;
 using NUglify;
@@ -89,12 +90,21 @@ public class Program {
 		if(WRITE_FIXES_ON_CONSOLE)
 		{
 			Console.WriteLine("FIX COUNTS");
-			Console.WriteLine(fixCounts.OrderBy(x => x.Key));
+			Console.WriteLine(OutputTable<PrintItem>(fixCounts.OrderBy(x => x.Key)
+                .Select(x => new PrintItem(){
+                    Name = x.Key.ToString(),
+                    Count = x.Value
+                }).ToList()));
 		}
 		if(WRITE_EMOJICOUNT_ON_CONSOLE)
 		{
 			Console.WriteLine("EMOJI COUNTS (MORE THAN 1 MENTION)");
-			Console.WriteLine(emojiCounts.Where(x => x.Value > 1).OrderByDescending(x => x.Value));
+			Console.WriteLine(OutputTable<PrintItem>(emojiCounts.Where(x => x.Value > 0)
+                .OrderByDescending(x => x.Value)
+                .Select(x => new PrintItem(){
+                    Name = x.Key,
+                    Count = x.Value
+                }).ToList()));
 		}
 		// Output as completed
         stopwatch.Stop();
@@ -701,45 +711,71 @@ public class Program {
 		#region 24 replace common phrases with emoji
 		if(includeIndex.Count() == 0 || includeIndex.Contains(24))
 		{
-			if(DEBUG_MODE) Console.WriteLine("Fix #" + 24);
-			count.Add(24);
-			// sorted by alphabetical order of original string, then emoji length
-			Dictionary<string, string> emojis = new Dictionary<string, string>()
-			{
-				{"blessed", 		"🥰"}, {"chu",			"😘"}, {"cringe",		"😬"}, {"dabs",		"😎"}, 
-				{"fingers crossed",	"🤞"}, {"gasp",			"😲"}, {"giggles",		"🤭"}, {"kiss",		"😘"}, 
-				{"laughs",			"😂"}, {"mind blown",	"🤯"}, {"phew",			"😌"}, {"pukes",	"🤮"}, 
-				{"silence",			"😐"}, {"sob",			"😢"}, {"screams",		"😱"}, {"shrugs", 	"🤷"}, 
-				{"sigh",			"😩"}, {"smiles",		"😊"}, {"speechless",	"😲"}, {"sshh",		"🤫"}, 
-				{"sniff",			"👃🤤"}, {"thumbs up",	"👍"}, {"ugh", 			"🙄"}, {"wink",		"😉"}, 
-				{"chef's kiss",		"😙🤌"}, {"fap",			"🍆"}, {"prays",		"🙏"}, {"fap fap fap",	"🍆🍆💦"},
-				{"wink wink",		"😉😉"}, {"claps",		"👏"}, {"applauds",		"👏"}, {"yawns",	"🥱"},
-				{"yay",				"🙌"}, {"applauses",	"👏"}, {"tehe",			"😆"}, {"pero", "😋"},
-				{"tehepero", "😆😋"}, {"wow",		"😲"}, {"cries",		"😭"}
-			};
-			
-			foreach(var emoji in emojis)
-			{
-				if(WRITE_EMOJICOUNT_ON_CONSOLE)
-				{
-					expression = "\\*" + emoji.Key.Replace(" ", @"\s*?\n?\s*?") + "\\*";
-					match = Regex.Match(content, expression);
-					while(match.Success) {
-						content = content.Replace(match.Value, "<span class=\"emoji\" title=\"" + emoji.Value + "\">*" + emoji.Key + "*</span>");
-						// add to emoji count dictionary
-						if(!emojiCounts.ContainsKey(emoji.Key))
-							emojiCounts.Add(emoji.Key, 1);
-						else
-							emojiCounts[emoji.Key] += 1;
-						match = match.NextMatch();
-					};
-				}
-				else
-				{
-					expression = "\\*" + emoji.Key.Replace(" ", @"\s*?\n?\s*?") + "\\*";
-					content = Regex.Replace(content, expression, "<span class=\"emoji\" title=\"" + emoji.Value + "\">*" + emoji.Key + "*</span>");
-				}
-			}
+            // sorted by alphabetical order of original string, then emoji length
+            Dictionary<string, string> emojis = new Dictionary<string, string>()
+            {
+                {"blessed", 		"🥰"}, {"chu",			"😘"}, {"cringe",		"😬"}, {"dabs",		"😎"}, 
+                {"fingers crossed",	"🤞"}, {"gasp",			"😲"}, {"giggles",		"🤭"}, {"kiss",		"😘"}, 
+                {"laughs",			"😂"}, {"mind blown",	"🤯"}, {"phew",			"😌"}, {"pukes",	"🤮"}, 
+                {"silence",			"😐"}, {"sob",			"😢"}, {"screams",		"😱"}, {"shrugs", 	"🤷"}, 
+                {"sigh",			"😩"}, {"smiles",		"😊"}, {"speechless",	"😲"}, {"sshh",		"🤫"}, 
+                {"sniff",			"👃🤤"}, {"thumbs up",	"👍"}, {"ugh", 			"🙄"}, {"wink",		"😉"}, 
+                {"chef's kiss",		"😙🤌"}, {"fap",			"🍆"}, {"prays",		"🙏"}, {"fap fap fap",	"🍆🍆💦"},
+                {"wink wink",		"😉😉"}, {"claps",		"👏"}, {"applauds",		"👏"}, {"yawns",	"🥱"},
+                {"yay",				"🙌"}, {"applauses",	"👏"}, {"tehe",			"😆"}, {"pero", "😋"},
+                {"tehepero", "😆😋"}, {"wow",		"😲"}, {"salutes",		"🫡"}
+            };
+            
+			if(DEBUG_MODE) {
+                Console.WriteLine("Fix #" + 24);
+                // find unique phrases that can convert to emoji, not running actual
+                var includedPhrases = emojis.Select(x => x.Key).ToList();
+                var excludedPhrases = new List<string> {
+                    "yikes", "oof", "tch. ", "taps brain", "ahem", "ack", "umph", "hype", "technically", "nosebleeds", "pft", "bonk", "yawn",
+                    "catches kiss", "fake laughs", "small", "pant", "faints", "points at self", "kinda", "maybe", "shakes head", "sometimes"
+                };
+                expression = "\\*(.*?)\\*";
+                match = Regex.Match(content, expression);
+                while(match.Success) {
+                    if(match.Groups[1].Value.Length > 1 && match.Groups[1].Value.Length < 16 && 
+                    !includedPhrases.Contains(match.Groups[1].Value.ToLower()) && 
+                    !excludedPhrases.Contains(match.Groups[1].Value.ToLower())) {
+                        var key = match.Groups[1].Value;
+                        // Console.Write(key);
+                        // add to emoji count dictionary
+                        if(!emojiCounts.ContainsKey(key))
+                            emojiCounts.Add(key, 1);
+                        else
+                            emojiCounts[key] += 1;
+                    }
+                    match = match.NextMatch();
+                };
+            }
+            else {
+                count.Add(24);
+                foreach(var emoji in emojis)
+                {
+                    if(WRITE_EMOJICOUNT_ON_CONSOLE)
+                    {
+                        expression = "\\*" + emoji.Key.Replace(" ", @"\s*?\n?\s*?") + "\\*";
+                        match = Regex.Match(content, expression);
+                        while(match.Success) {
+                            content = content.Replace(match.Value, "<span class=\"emoji\" title=\"" + emoji.Value + "\">*" + emoji.Key + "*</span>");
+                            // add to emoji count dictionary
+                            if(!emojiCounts.ContainsKey(emoji.Key))
+                                emojiCounts.Add(emoji.Key, 1);
+                            else
+                                emojiCounts[emoji.Key] += 1;
+                            match = match.NextMatch();
+                        };
+                    }
+                    else
+                    {
+                        expression = "\\*" + emoji.Key.Replace(" ", @"\s*?\n?\s*?") + "\\*";
+                        content = Regex.Replace(content, expression, "<span class=\"emoji\" title=\"" + emoji.Value + "\">*" + emoji.Key + "*</span>");
+                    }
+                }
+            }
 		}
 		#endregion
 		
@@ -994,8 +1030,10 @@ public class Program {
 		#endregion
 
 		//Add to debug
-		if(matchItems.Count() > 0)
-			Console.WriteLine(matchItems);
+		if(matchItems.Count() > 0) {
+            foreach(var item in matchItems)
+			    Console.WriteLine(item.Title);
+        }
 		
 		//Add to collation of fixes
 		foreach(var key in count)
@@ -1023,6 +1061,56 @@ public class Program {
 		slug = slug.Replace("--","-").Replace("--","-").Trim('-');
 		return slug.Length > GENERATE_SLUG_MAX_LENGTH ? slug.Substring(0, slug.Substring(0, GENERATE_SLUG_MAX_LENGTH).LastIndexOf('-')) : slug;
 	}
+    
+    static String OutputTable<T>(List<T> data)
+    {
+        if (data == null || !data.Any())
+            throw new Exception("No data to display.");
+        // Use reflection to get property names (headers)
+        var properties = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+        var headers = properties.Select(p => p.Name).ToList();
+        // Get values for each row
+        var rows = data
+            .Select(item => properties.Select(p => p.GetValue(item)?.ToString() ?? string.Empty).ToList())
+            .ToList();
+        // Determine column widths
+        var columnWidths = headers
+            .Select((header, index) => Math.Max(header.Length, rows.Max(row => row[index].Length)))
+            .ToList();
+        // Print the table
+        var sb = new StringBuilder();
+        sb.AppendLine(OutputRow(headers, columnWidths, properties, isHeader: true));
+        sb.AppendLine(OutputLine(columnWidths));
+        foreach (var row in rows)
+        {
+            sb.AppendLine(OutputRow(row, columnWidths, properties, isHeader: false));
+        }
+        return sb.ToString();
+    }
+
+    static String OutputLine(List<int> columnWidths)
+    {
+        return string.Join("+", columnWidths.Select(width => new string('-', width)));
+    }
+
+    static String OutputRow(List<string> row, List<int> columnWidths, PropertyInfo[] properties, bool isHeader)
+    {
+        return string.Join("|", row.Select((cell, index) =>
+        {
+            var alignment = isHeader || properties[index].PropertyType != typeof(int)
+                ? cell.PadRight(columnWidths[index]) // Left-align headers and non-integers
+                : cell.PadLeft((columnWidths[index] - cell.Length) / 2 + cell.Length).PadRight(columnWidths[index]); // Center-align integers
+
+            return alignment;
+        }));
+    }
+
+}
+
+public class PrintItem
+{
+    public string Name { get; set; }
+    public int Count { get; set; }
 }
 
 public class LinkedListItem
