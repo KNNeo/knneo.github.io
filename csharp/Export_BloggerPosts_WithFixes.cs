@@ -715,7 +715,7 @@ public class Program {
 				{"chef's kiss",		"😙🤌"}, {"fap",			"🍆"}, {"prays",		"🙏"}, {"fap fap fap",	"🍆🍆💦"},
 				{"wink wink",		"😉😉"}, {"claps",		"👏"}, {"applauds",		"👏"}, {"yawns",	"🥱"},
 				{"yay",				"🙌"}, {"applauses",	"👏"}, {"tehe",			"😆"}, {"pero", "😋"},
-				{"tehepero", "😆😋"}, {"wow",		"😲"}
+				{"tehepero", "😆😋"}, {"wow",		"😲"}, {"cries",		"😭"}
 			};
 			
 			foreach(var emoji in emojis)
