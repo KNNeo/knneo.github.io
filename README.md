@@ -2,7 +2,7 @@
 
 All done by yours truly unless otherwise stated. Built to support Firefox and Chromium-based browsers.
 
-Whole site uses a universal theme file darkmode.js (unless where self-implemented eg. Music Database) to switch between light/dark themes.
+Whole site uses a universal theme file theme.js (unless where self-implemented eg. Music Database) to switch between light/dark themes, with system default on initial visit.
 
 All versions are kept for archiving purposes, but only latest versions will show up on home page.
 
