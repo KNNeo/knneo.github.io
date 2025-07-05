@@ -16,13 +16,15 @@ public class Program {
 	static bool DEBUG_MODE = false;
 
 	// INPUT OUTPUT SETTINGS
-	static string BLOGGER_XML_DIRECTORY = @"/home/kaineng/Downloads";
-	static string ARCHIVE_XML_DIRECTORY = @"/home/kaineng/Documents/Workspaces";
+    static string INPUT_SEARCH_WILDCARD = "feed-*.atom";
+    static string INPUT_SEARCH_FILE_FORMAT = INPUT_SEARCH_WILDCARD.Substring(INPUT_SEARCH_WILDCARD.IndexOf('.'));
+	static string INPUT_FILE_RENAME_SUFFIX = "knreports";
+	static string BLOGGER_EXPORT_FILE_DIRECTORY = @"/home/kaineng/Downloads";
+	static string ARCHIVE_EXPORT_FILE_DIRECTORY = @"/home/kaineng/Documents/Workspaces";
 	static string OUTPUT_DIRECTORY = @"/home/kaineng/Documents/Repositories/knreports";
 	static string OUTPUT_DIRECTORY_SUBFOLDER = "posts";
 	static string HOMEPAGE_TEMPLATE_FILENAME = @"/home/kaineng/Documents/Repositories/knreports/pages/aozaki-shouhei-adventures/template.html";
 	static string HOMEPAGE_FILENAME = @"/home/kaineng/Documents/Repositories/knreports/pages/aozaki-shouhei-adventures/index.html";
-	static string BLOGGER_XML_RENAME_SUFFIX = "knreports";
     static string EXTENDED_TAGS_FILENAME = @"/home/kaineng/Documents/Repositories/knreports/pages/aozaki-shouhei-adventures/tags.txt";
 
 	// PROGRAM SETTINGS
@@ -35,11 +37,13 @@ public class Program {
 	static int DOTS_PER_LINE_CONSOLE = 80;
 	static string BLOG_DOMAIN_URL = "https://klassicnotereports.blogspot.com/";
 	static XNamespace DEFAULT_XML_NAMESPACE = XNamespace.Get("http://www.w3.org/2005/Atom");
+    static XNamespace DEFAULT_BLOGGER_NAMESPACE = XNamespace.Get("http://schemas.google.com/blogger/2018");
 	static bool SHOW_LINKED_LIST = false;
 
 	// POST SETTINGS
 	static string POSTS_INCLUDE_SINCE = "2000-01-01";
 	static string POSTS_PROCESS_SINCE = "2023-07-01";
+	static List<String> POST_IGNORE_LABELS = new List<string>() { "The Archive", "The Statement" };
 	static List<String> POST_INCLUDE_LABELS = new List<string>() { "The Fanfiction" };
 	static List<String> POST_OLD_DOMAINS = new List<string>()
 	{
@@ -72,11 +76,11 @@ public class Program {
 		Console.WriteLine("================================================================================");
         Stopwatch stopwatch = new Stopwatch();
         stopwatch.Start();
-		var inputFileDirs = GetBloggerXmlFilePath(BLOGGER_XML_DIRECTORY, ARCHIVE_XML_DIRECTORY);
-		var bloggerPosts = GetBloggerPostsPublished(inputFileDirs);
-		// var outputFilesDir = Path.Combine(OUTPUT_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER);
+  		var inputFileDirs = GetBloggerExportFilePath(BLOGGER_EXPORT_FILE_DIRECTORY, ARCHIVE_EXPORT_FILE_DIRECTORY);
+		var xmlElements = INPUT_SEARCH_FILE_FORMAT == ".xml" ? GetBloggerPostsPublishedFromXml(inputFileDirs) : GetBloggerPostsPublishedFromAtom(inputFileDirs);
+        var bloggerPosts = GenerateBloggerPosts(xmlElements);
 		var linkedList = GenerateBloggerPostsLinkedList(bloggerPosts);
-		var fanfics = GenerateBloggerPosts(bloggerPosts, linkedList, Path.Combine(OUTPUT_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER));
+		var fanfics = ProcessBloggerPosts(bloggerPosts, linkedList, Path.Combine(OUTPUT_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER));
         GenerateFile(fanfics);
 		Console.WriteLine();
         WriteFanficListFromTags();
@@ -86,40 +90,39 @@ public class Program {
 		Console.WriteLine("Done generate fanfiction page. Time taken: " + stopwatch.Elapsed.ToString(@"m\:ss\.fff"));
 	}
 
-	static string[] GetBloggerXmlFilePath(string inputPath, string backupPath)
+	static string[] GetBloggerExportFilePath(string inputPath, string backupPath)
 	{
 		Console.WriteLine("Reading Config...");	
-		// Get xml file from BLOGGER_XML_DIRECTORY, move to ARCHIVE_XML_DIRECTORY
-		// If not found, will run file detected in ARCHIVE_XML_DIRECTORY
-		// Assume filename is blog-*.xml
-		string[] sources = Directory.GetFiles(inputPath, "blog-*.xml");
+		// Get xml file from BLOGGER_EXPORT_FILE_DIRECTORY, move to ARCHIVE_EXPORT_FILE_DIRECTORY
+		// If not found, will run file detected in ARCHIVE_EXPORT_FILE_DIRECTORY
+		string[] sources = Directory.GetFiles(inputPath, INPUT_SEARCH_WILDCARD);
 		if(sources.Length == 1)
 		{
-			if(DEBUG_MODE) Console.WriteLine($"Single xml source found; Moving file to {backupPath}");
-			string[] dests = Directory.GetFiles(Path.Combine(backupPath), "blog-*.xml");
+			if(DEBUG_MODE) Console.WriteLine($"Single input source found; Moving file to {backupPath}");
+			string[] dests = Directory.GetFiles(Path.Combine(backupPath), INPUT_SEARCH_WILDCARD);
 			if(DEBUG_MODE) Console.WriteLine($"{dests.Length} files found; Moving files to archive");
 			foreach(var dest in dests)
 			{
-				if(dest.Contains(BLOGGER_XML_RENAME_SUFFIX))
+				if(dest.Contains(INPUT_FILE_RENAME_SUFFIX))
 				{
 					File.Delete(dest.Replace(backupPath, $"{backupPath}/archive"));
 					File.Move(dest, dest.Replace(backupPath, $"{backupPath}/archive"));
 				}
 			}
-			File.Move(sources[0], sources[0].Replace(inputPath, backupPath).Replace(".xml", "-" + BLOGGER_XML_RENAME_SUFFIX + ".xml"));
+			File.Move(sources[0], sources[0].Replace(inputPath, backupPath).Replace(INPUT_SEARCH_FILE_FORMAT, (sources[0].Contains("-") ? "" : "-" + DateTime.Now.ToString("mm-dd-yyyy")) + "-" + INPUT_FILE_RENAME_SUFFIX + INPUT_SEARCH_FILE_FORMAT));
 		}
 		else if(sources.Length == 0)
 		{
-			if(DEBUG_MODE) Console.WriteLine($"No xml source found; proceed in {backupPath}");
+			if(DEBUG_MODE) Console.WriteLine($"No input source found; proceed in {backupPath}");
 		}
 		else
 		{
-			if(DEBUG_MODE) Console.WriteLine($"More than 1 xml source found; Moving all files to {backupPath}");	
-			string[] dests = Directory.GetFiles(Path.Combine(backupPath), "blog-*.xml");
+			if(DEBUG_MODE) Console.WriteLine($"More than 1 input source found; Moving all files to {backupPath}");	
+			string[] dests = Directory.GetFiles(Path.Combine(backupPath), INPUT_SEARCH_WILDCARD);
 			if(DEBUG_MODE) Console.WriteLine("Destination files found; Moving all files to archive");
 			foreach(var dest in dests)
 			{
-				if(dest.Contains(BLOGGER_XML_RENAME_SUFFIX))
+				if(dest.Contains(INPUT_FILE_RENAME_SUFFIX))
 				{
 					File.Delete(dest.Replace(backupPath, $"{backupPath}/archive"));
 					File.Move(dest, dest.Replace(backupPath, $"{backupPath}/archive"));
@@ -127,11 +130,11 @@ public class Program {
 			}
 			foreach(var source in sources)
 			{
-				File.Move(source, source.Replace(inputPath, backupPath).Replace(".xml", "-" + BLOGGER_XML_RENAME_SUFFIX + ".xml"));
+				File.Move(source, source.Replace(inputPath, backupPath).Replace(INPUT_SEARCH_FILE_FORMAT, (sources[0].Contains("-") ? "" : "-" + DateTime.Now.ToString("mm-dd-yyyy")) + "-" + INPUT_FILE_RENAME_SUFFIX + INPUT_SEARCH_FILE_FORMAT));
 			}
 		}
 		// Read xml files to process
-		string[] xmls = Directory.GetFiles(backupPath, "blog-*.xml");
+		string[] xmls = Directory.GetFiles(backupPath, INPUT_SEARCH_WILDCARD);
 		if(xmls.Length == 1)
 		{
 			if(DEBUG_MODE) Console.WriteLine("File found");
@@ -139,17 +142,17 @@ public class Program {
 		}
 		else if(xmls.Length == 0)
 		{
-			throw new FileNotFoundException("No xml files found");
+			throw new FileNotFoundException("No input files found");
 		}
 		else
 		{
-			if(DEBUG_MODE) Console.WriteLine("More than 1 xml files found; Appending all files for process");
+			if(DEBUG_MODE) Console.WriteLine("More than 1 input files found; Appending all files for process");
 		}
 		
 		return xmls;
 	}
 
-	static List<XElement> GetBloggerPostsPublished(string[] inputFiles)
+	static List<XElement> GetBloggerPostsPublishedFromXml(string[] inputFiles)
 	{
 		List<XElement> xmlPosts = new List<XElement>();
 		foreach(var inputFile in inputFiles)
@@ -169,50 +172,103 @@ public class Program {
 				.Where(entry => !entry.Descendants(XNamespace.Get("http://purl.org/atom/app#")+"draft").Any(draft => draft.Value != "no"))
 				.ToList());
 		}
-		Console.WriteLine($"Total posts found: {xmlPosts.Count}");
+		if(DEBUG_MODE) Console.WriteLine($"Total posts found: {xmlPosts.Count}");
 		// Filter by earliest date, order by publish date desc
 		return xmlPosts.Where(x => DateTime.Parse(x.Element(DEFAULT_XML_NAMESPACE+"published").Value) > DateTime.Parse(POSTS_INCLUDE_SINCE))
 			.OrderByDescending(x => DateTime.Parse(x.Element(DEFAULT_XML_NAMESPACE+"published").Value)).ToList();
 	}
 
-	static List<LinkedListItem> GenerateBloggerPostsLinkedList(List<XElement> xmlPosts)
+	static List<XElement> GetBloggerPostsPublishedFromAtom(string[] inputFiles)
+	{
+		List<XElement> xmlPosts = new List<XElement>();
+		foreach(var inputFile in inputFiles)
+		{
+			// Read file
+			Console.WriteLine("Reading Atom Export... " + inputFile);
+			string text = File.ReadAllText(inputFile);
+			XDocument doc = XDocument.Parse(text);
+			// Use XNamespaces to deal with "xmlns" attributes
+			// Find published posts
+			xmlPosts.AddRange(doc.Root.Elements(DEFAULT_XML_NAMESPACE+"entry")
+				// Exclude entries that are not page
+				.Where(entry => !entry.Element(DEFAULT_BLOGGER_NAMESPACE+"type").Value.Contains("PAGE"))
+				// Exclude any draft posts, do not have page URL created
+				.Where(entry => !entry.Element(DEFAULT_BLOGGER_NAMESPACE+"status").Value.Contains("DRAFT"))
+				.ToList());
+		}
+		if(DEBUG_MODE) Console.WriteLine($"Total posts found: {xmlPosts.Count}");
+		// Filter by earliest date, order by publish date desc
+		return xmlPosts.Where(x => DateTime.Parse(x.Element(DEFAULT_XML_NAMESPACE+"published").Value) > DateTime.Parse(POSTS_INCLUDE_SINCE))
+			.OrderByDescending(x => DateTime.Parse(x.Element(DEFAULT_XML_NAMESPACE+"published").Value)).ToList();
+    }
+
+    static List<BloggerPost> GenerateBloggerPosts(List<XElement> xmlPosts)
+    {
+		// Read file
+		Console.WriteLine("Generate Blogger Posts...");
+		// Create linked list for all posts links to allow navigation between posts
+		var postsList = new List<BloggerPost>();
+		foreach(var entry in xmlPosts)
+		{
+			DateTime publishDate = DateTime.Parse(entry.Element(DEFAULT_XML_NAMESPACE+"published").Value);
+		    if(DEBUG_MODE) Console.WriteLine(publishDate);
+			DateTime updateDate = DateTime.Parse(entry.Element(DEFAULT_XML_NAMESPACE+"updated").Value);
+		    if(DEBUG_MODE) Console.WriteLine(updateDate);
+			string postTitle = entry.Element(DEFAULT_XML_NAMESPACE+"title").Value;
+		    if(DEBUG_MODE) Console.WriteLine(postTitle);
+			string postExtension = entry.Element(DEFAULT_XML_NAMESPACE+"content").Attribute("type").Value ?? "html";
+		    if(DEBUG_MODE) Console.WriteLine(postExtension);
+			XElement empty = new XElement("empty");
+			XAttribute emptA = new XAttribute("empty","");
+			string bloggerLink = entry.Element(DEFAULT_BLOGGER_NAMESPACE+"filename")?.Value ?? ((entry.Elements(DEFAULT_XML_NAMESPACE+"link")
+				.FirstOrDefault(e => e.Attribute("rel").Value == "alternate") ?? empty)
+				.Attribute("href") ?? emptA).Value;
+			foreach(var domain in POST_OLD_DOMAINS)
+				bloggerLink = bloggerLink.Replace(domain, BLOG_DOMAIN_URL);
+		    if(DEBUG_MODE) Console.WriteLine(bloggerLink);
+            // Generate source (Blogger) and destination url (Relative)
+			string generatedLink = GenerateSlug(postTitle);
+			var pageLink = "./" + Path.GetFileNameWithoutExtension(BLOGGER_EXPORT_FILE_DIRECTORY.Replace(BLOGGER_EXPORT_FILE_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER)) + 
+				"/" + publishDate.Year.ToString("0000") + "/"  + publishDate.Month.ToString("00") + 
+				"/"  + (GENERATE_SLUG_BY_POST_TITLE ? generatedLink : Path.GetFileNameWithoutExtension(bloggerLink)) + "/index." + postExtension;
+		    if(DEBUG_MODE) Console.WriteLine(pageLink);
+			// Find post labels
+			var pageTagsXml = entry.Elements(DEFAULT_XML_NAMESPACE+"category")?
+				.Where(e => !e.Attribute("term")?.ToString().Contains("#post") ?? false).Select(q => q.Attribute("term").Value).ToList() ?? new List<string>();
+		    if(DEBUG_MODE) Console.WriteLine(String.Join(',', pageTagsXml));
+            // Post Content in HTML
+			string postContent = entry.Element(DEFAULT_XML_NAMESPACE+"content").Value;
+
+			// If has valid published link, and not including post labels to ignore and not render
+			if(!string.IsNullOrWhiteSpace((GENERATE_SLUG_BY_POST_TITLE ? generatedLink : Path.GetFileNameWithoutExtension(bloggerLink))) && !pageTagsXml.Any(tags => POST_IGNORE_LABELS.Contains(tags)))
+            {
+				postsList.Add(new BloggerPost(publishDate, updateDate, postTitle, postExtension, bloggerLink, pageTagsXml, pageLink, postContent));
+            }
+		}
+		return postsList;
+    }
+
+	static List<LinkedListItem> GenerateBloggerPostsLinkedList(List<BloggerPost> blogPosts)
 	{
 		// Read file
 		Console.WriteLine("Creating Linked List...");
 		// Create linked list for all posts links to allow navigation between posts
 		var linkedList = new List<LinkedListItem>();
-		foreach(var entry in xmlPosts)
+		foreach(var post in blogPosts)
 		{
-			DateTime publishDate = DateTime.Parse(entry.Element(DEFAULT_XML_NAMESPACE+"published").Value);
-			string postTitle = entry.Element(DEFAULT_XML_NAMESPACE+"title").Value;
-			string postExtension = entry.Element(DEFAULT_XML_NAMESPACE+"content").Attribute("type").Value ?? "html";
-			XElement empty = new XElement("empty");
-			XAttribute emptA = new XAttribute("empty","");
-			string bloggerLink = ((entry.Elements(DEFAULT_XML_NAMESPACE+"link")
-				.FirstOrDefault(e => e.Attribute("rel").Value == "alternate") ?? empty)
-				.Attribute("href") ?? emptA).Value;
-			foreach(var domain in POST_OLD_DOMAINS)
-			{
-				bloggerLink = bloggerLink.Replace(domain, BLOG_DOMAIN_URL);
-			}
-			string generatedLink = GenerateSlug(postTitle);
-			// Find post labels
-			var pageTagsXml = entry.Elements(DEFAULT_XML_NAMESPACE+"category")
-				.Where(e => !e.Attribute("term").ToString().Contains("#post")).Select(q => q.Attribute("term").Value).ToList();    
-			var pageLink = "./" + Path.GetFileNameWithoutExtension(BLOGGER_XML_DIRECTORY.Replace(BLOGGER_XML_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER)) + 
-				"/" + publishDate.Year.ToString("0000") + "/"  + publishDate.Month.ToString("00") + 
-				"/"  + (GENERATE_SLUG_BY_POST_TITLE ? generatedLink : Path.GetFileNameWithoutExtension(bloggerLink)) + "/index." + postExtension;
+			string generatedLink = GenerateSlug(post.Title);
 			// If has valid published link, and not including post labels to ignore and not render
-			if(!string.IsNullOrWhiteSpace((GENERATE_SLUG_BY_POST_TITLE ? generatedLink : Path.GetFileNameWithoutExtension(bloggerLink))) 
-					&& pageTagsXml.Any(xml => POST_INCLUDE_LABELS.Contains(xml)))
-				linkedList.Add(new LinkedListItem(bloggerLink, pageLink));
+			if(!string.IsNullOrWhiteSpace((GENERATE_SLUG_BY_POST_TITLE ? generatedLink : Path.GetFileNameWithoutExtension(post.SourceUrl))) && !post.Tags.Any(tags => POST_IGNORE_LABELS.Contains(tags)))
+            {
+				linkedList.Add(new LinkedListItem(post.SourceUrl, post.DestinationUrl));
+            }
 		}
-		if(SHOW_LINKED_LIST)
-			Console.WriteLine(linkedList);
+		if(DEBUG_MODE || SHOW_LINKED_LIST)
+			Console.WriteLine(OutputTable<LinkedListItem>(linkedList));
 		return linkedList;
 	}
 
-	static List<FanfictionContent> GenerateBloggerPosts(IEnumerable<XElement> xmlPosts, List<LinkedListItem> linkedList, string outputFileDir)
+	static List<FanfictionContent> ProcessBloggerPosts(List<BloggerPost> xmlPosts, List<LinkedListItem> linkedList, string outputFileDir)
 	{
 		// Create output folder if missing
 		if(!Directory.Exists(outputFileDir))
@@ -230,23 +286,13 @@ public class Program {
         // process in chronological order
 		for (var p = xmlPosts.Count() - 1; p >= 0; p--)
 		{
-			var entry = xmlPosts.ElementAt(p);
+			var entry = xmlPosts[p];
 			// Extract data from XML
-			string postContent = entry.Element(DEFAULT_XML_NAMESPACE+"content").Value;
-			DateTime publishDate = DateTime.Parse(entry.Element(DEFAULT_XML_NAMESPACE+"published").Value);
-			// DateTime updateDate = DateTime.Parse(entry.Element(DEFAULT_XML_NAMESPACE+"updated").Value);
-			string postTitle = entry.Element(DEFAULT_XML_NAMESPACE+"title").Value;
-			string postExtension = entry.Element(DEFAULT_XML_NAMESPACE+"content").Attribute("type").Value ?? "html";
-			XElement empty = new XElement("empty");
-			XAttribute emptA = new XAttribute("empty","");
-			string bloggerLink = ((entry.Elements(DEFAULT_XML_NAMESPACE+"link")
-				.FirstOrDefault(e => e.Attribute("rel").Value == "alternate") ?? empty)
-				.Attribute("href") ?? emptA).Value;
-			foreach(var domain in POST_OLD_DOMAINS)
-			{
-				bloggerLink = bloggerLink.Replace(domain, BLOG_DOMAIN_URL);
-			}
-			string generatedLink = GenerateSlug(postTitle);
+			string postContent = entry.Content;
+			DateTime publishDate = entry.PublishDate;
+			string postTitle = entry.Title;
+			string postExtension = entry.Extension;
+			string bloggerLink = entry.SourceUrl;
 			// Show progress, as post title or as represented by dot
 			if(WRITE_TITLE_ON_CONSOLE || DEBUG_MODE)
 				Console.WriteLine("||> " + (postTitle.Length > 0 ? postTitle : "POST W/O TITLE DATED " + publishDate.ToString("yyyy-MM-dd")));
@@ -255,16 +301,13 @@ public class Program {
 			else
 				Console.Write(".");
 			// Find post labels
-			var pageTagsXml = entry.Elements(DEFAULT_XML_NAMESPACE+"category")
-				.Where(e => !e.Attribute("term").ToString().Contains("#post")).Select(q => q.Attribute("term").Value).ToList();
+			var pageTagsXml = entry.Tags;
 			// Post labels to ignore and not render
-			if(!pageTagsXml.Any(xml => POST_INCLUDE_LABELS.Contains(xml)))
+			if(!pageTagsXml.Any(tag => POST_INCLUDE_LABELS.Contains(tag)))
 				continue;
 			// Create output page link and index in linked list
-			var pageLink = "./" + Path.GetFileNameWithoutExtension(BLOGGER_XML_DIRECTORY.Replace(BLOGGER_XML_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER)) + 
-				"/" + publishDate.Year.ToString("0000") + "/"  + publishDate.Month.ToString("00") + 
-				"/"  + (GENERATE_SLUG_BY_POST_TITLE ? generatedLink : Path.GetFileNameWithoutExtension(bloggerLink)) + "/index." + postExtension;
-			// var pageIndex = linkedList.FindIndex(l => l.Destination == pageLink);
+            var pageLink = entry.DestinationUrl.Replace("./", "../");
+            
 			// Process page content
 			if(publishDate >= DateTime.Parse(POSTS_PROCESS_SINCE))
 			{
@@ -452,6 +495,30 @@ public class Program {
 		slug = slug.Replace("--","-").Replace("--","-").Trim('-');
 		return slug.Length > GENERATE_SLUG_MAX_LENGTH ? slug.Substring(0, slug.Substring(0, GENERATE_SLUG_MAX_LENGTH).LastIndexOf('-')) : slug;
 	}
+}
+
+public class BloggerPost
+{
+    public DateTime PublishDate { get; set; }
+    public DateTime UpdateDate { get; set; }
+    public string Title { get; set; }
+    public string Extension { get; set; }
+    public string SourceUrl { get; set; }
+    public string DestinationUrl { get; set; }
+    public List<string> Tags { get; set; }
+    public string Content { get; set; }
+
+    public BloggerPost(DateTime publishDate, DateTime updateDate, string postTitle, string postExtension, string bloggerLink, List<string> pageTags, string pageLink, string postContent)
+    {
+        PublishDate = publishDate;
+        UpdateDate = updateDate;
+        Title = postTitle;
+        Extension = postExtension;
+        SourceUrl = bloggerLink;
+        DestinationUrl = pageLink;
+        Tags = pageTags;
+        Content = postContent;
+    }
 }
 
 public class LinkedListItem
