@@ -269,7 +269,7 @@ public class Program {
 			var monthfolder = Path.Combine(yearfolder, publishDate.Month.ToString("00"));
 			if(!Directory.Exists(monthfolder)) Directory.CreateDirectory(monthfolder);
 			// Show progress, as post title or as represented by dot
-			if(WRITE_TITLE_ON_CONSOLE || DEBUG_MODE)
+			if(WRITE_TITLE_ON_CONSOLE || DEBUG_MODE || VERIFY_HTML.ToLower() == "manual")
 				Console.WriteLine("||> " + (postTitle.Length > 0 ? postTitle : "POST W/O TITLE DATED " + publishDate.ToString("yyyy-MM-dd")));
 			else if(p % DOTS_PER_LINE_CONSOLE == DOTS_PER_LINE_CONSOLE - 1)
 				Console.WriteLine(".");
@@ -384,8 +384,21 @@ public class Program {
 		// Remove postscripts
 		content = Regex.Replace(content, @"p.p.s.", "");
 		content = Regex.Replace(content, @"p.s.", "");
-		// Remove all potential emoji
-		content = Regex.Replace(content, @"(\*blessed\*|\*chu\*|\*kiss\*|\*cringe\*|\*dabs\*|\*fingers crossed\*|\*gasp\*|\*speechless\*|\*giggles\*|\*laughs\*)", "");
+		// Remove all potential emoji    
+        Dictionary<string, string> emojis = new Dictionary<string, string>()
+        {
+            {"blessed", 		"🥰"}, {"chu",			"😘"}, {"cringe",		"😬"}, {"dabs",		"😎"}, 
+            {"fingers crossed",	"🤞"}, {"gasp",			"😲"}, {"giggles",		"🤭"}, {"kiss",		"😘"}, 
+            {"laughs",			"😂"}, {"mind blown",	"🤯"}, {"phew",			"😌"}, {"pukes",	"🤮"}, 
+            {"silence",			"😐"}, {"sob",			"😢"}, {"screams",		"😱"}, {"shrugs", 	"🤷"}, 
+            {"sigh",			"😩"}, {"smiles",		"😊"}, {"speechless",	"😲"}, {"sshh",		"🤫"}, 
+            {"sniff",			"👃🤤"}, {"thumbs up",	"👍"}, {"ugh", 			"🙄"}, {"wink",		"😉"}, 
+            {"chef's kiss",		"😙🤌"}, {"fap",			"🍆"}, {"prays",		"🙏"}, {"fap fap fap",	"🍆🍆💦"},
+            {"wink wink",		"😉😉"}, {"claps",		"👏"}, {"applauds",		"👏"}, {"yawns",	"🥱"},
+            {"yay",				"🙌"}, {"applauses",	"👏"}, {"tehe",			"😆"}, {"pero", "😋"},
+            {"tehepero", "😆😋"}, {"wow",		"😲"}, {"salutes",		"🫡"}
+        };        
+		content = Regex.Replace(content, string.Join("|", emojis.Keys.Select(phrase => Regex.Escape($"*{phrase}*"))), "");
 		// Remove tabs, newline, carriage characters, consecutive whitespaces
 		content = Regex.Replace(content, @"\t|\n|\r", "");
 		content = Regex.Replace(content, @"\s+,", "");
