@@ -24,13 +24,12 @@ function setInitialTheme() {
 		if (!theme) { // no meta on DOM
 			let themeColor = document.createElement('meta');
 			themeColor.name = 'theme-color';
-			themeColor.content = document.documentElement.classList.contains('darked') ? defaultDarkTheme : defaultLightTheme;
+			themeColor.content = prefersColorScheme.matches ? defaultDarkTheme : defaultLightTheme;
 			document.head.appendChild(themeColor);
-			localStorage.setItem(defaultThemeItem, themeColor.content); // save data
 		}
-		if (prefersColorScheme.matches) { // if device dark mode
-			toggleDarkMode(); // toggle, will save data
-		}
+        // set system default
+        localStorage.setItem(defaultThemeItem, systemDefaultTheme);
+        prefersColorScheme.dispatchEvent(new Event('change'));
 	}
 	// if button .darkmode in DOM, allow toggle modes
 	window.addEventListener('load', addDarkModeEvents);
