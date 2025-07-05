@@ -400,7 +400,8 @@ public class Program {
         };        
 		content = Regex.Replace(content, string.Join("|", emojis.Keys.Select(phrase => Regex.Escape($"*{phrase}*"))), "");
 		// Remove tabs, newline, carriage characters, consecutive whitespaces
-		content = Regex.Replace(content, @"\t|\n|\r", "");
+		content = Regex.Replace(content, @"\n", " ");
+		content = Regex.Replace(content, @"\t|\r", "");
 		content = Regex.Replace(content, @"\s+,", "");
 		content = Regex.Replace(content, @"\s+", " ");
 		// Verify content on screen
