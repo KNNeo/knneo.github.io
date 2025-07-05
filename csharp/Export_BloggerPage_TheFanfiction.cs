@@ -16,11 +16,11 @@ public class Program {
 	static bool DEBUG_MODE = false;
 
 	// INPUT OUTPUT SETTINGS
-    static string INPUT_SEARCH_WILDCARD = "feed-*.atom";
+    static string INPUT_SEARCH_WILDCARD = "feed*.atom";
     static string INPUT_SEARCH_FILE_FORMAT = INPUT_SEARCH_WILDCARD.Substring(INPUT_SEARCH_WILDCARD.IndexOf('.'));
 	static string INPUT_FILE_RENAME_SUFFIX = "knreports";
 	static string BLOGGER_EXPORT_FILE_DIRECTORY = @"/home/kaineng/Downloads";
-	static string ARCHIVE_EXPORT_FILE_DIRECTORY = @"/home/kaineng/Documents/Workspaces";
+	static string WORKING_EXPORT_FILE_DIRECTORY = @"/home/kaineng/Documents/Workspaces";
 	static string OUTPUT_DIRECTORY = @"/home/kaineng/Documents/Repositories/knreports";
 	static string OUTPUT_DIRECTORY_SUBFOLDER = "posts";
 	static string HOMEPAGE_TEMPLATE_FILENAME = @"/home/kaineng/Documents/Repositories/knreports/pages/aozaki-shouhei-adventures/template.html";
@@ -76,7 +76,7 @@ public class Program {
 		Console.WriteLine("================================================================================");
         Stopwatch stopwatch = new Stopwatch();
         stopwatch.Start();
-  		var inputFileDirs = GetBloggerExportFilePath(BLOGGER_EXPORT_FILE_DIRECTORY, ARCHIVE_EXPORT_FILE_DIRECTORY);
+  		var inputFileDirs = GetBloggerExportFilePath(BLOGGER_EXPORT_FILE_DIRECTORY, WORKING_EXPORT_FILE_DIRECTORY);
 		var xmlElements = INPUT_SEARCH_FILE_FORMAT == ".xml" ? GetBloggerPostsPublishedFromXml(inputFileDirs) : GetBloggerPostsPublishedFromAtom(inputFileDirs);
         var bloggerPosts = GenerateBloggerPosts(xmlElements);
 		var linkedList = GenerateBloggerPostsLinkedList(bloggerPosts);
@@ -93,8 +93,8 @@ public class Program {
 	static string[] GetBloggerExportFilePath(string inputPath, string backupPath)
 	{
 		Console.WriteLine("Reading Config...");	
-		// Get xml file from BLOGGER_EXPORT_FILE_DIRECTORY, move to ARCHIVE_EXPORT_FILE_DIRECTORY
-		// If not found, will run file detected in ARCHIVE_EXPORT_FILE_DIRECTORY
+		// Get xml file from BLOGGER_EXPORT_FILE_DIRECTORY, move to WORKING_EXPORT_FILE_DIRECTORY
+		// If not found, will run file detected in WORKING_EXPORT_FILE_DIRECTORY
 		string[] sources = Directory.GetFiles(inputPath, INPUT_SEARCH_WILDCARD);
 		if(sources.Length == 1)
 		{
@@ -109,7 +109,7 @@ public class Program {
 					File.Move(dest, dest.Replace(backupPath, $"{backupPath}/archive"));
 				}
 			}
-			File.Move(sources[0], sources[0].Replace(inputPath, backupPath).Replace(INPUT_SEARCH_FILE_FORMAT, (sources[0].Contains("-") ? "" : "-" + DateTime.Now.ToString("mm-dd-yyyy")) + "-" + INPUT_FILE_RENAME_SUFFIX + INPUT_SEARCH_FILE_FORMAT));
+			File.Move(sources[0], sources[0].Replace(inputPath, backupPath).Replace(INPUT_SEARCH_FILE_FORMAT, (sources[0].Contains("-") ? "" : "-" + DateTime.Now.ToString("MM-dd-yyyy")) + "-" + INPUT_FILE_RENAME_SUFFIX + INPUT_SEARCH_FILE_FORMAT));
 		}
 		else if(sources.Length == 0)
 		{
@@ -130,7 +130,7 @@ public class Program {
 			}
 			foreach(var source in sources)
 			{
-				File.Move(source, source.Replace(inputPath, backupPath).Replace(INPUT_SEARCH_FILE_FORMAT, (sources[0].Contains("-") ? "" : "-" + DateTime.Now.ToString("mm-dd-yyyy")) + "-" + INPUT_FILE_RENAME_SUFFIX + INPUT_SEARCH_FILE_FORMAT));
+				File.Move(source, source.Replace(inputPath, backupPath).Replace(INPUT_SEARCH_FILE_FORMAT, (sources[0].Contains("-") ? "" : "-" + DateTime.Now.ToString("MM-dd-yyyy")) + "-" + INPUT_FILE_RENAME_SUFFIX + INPUT_SEARCH_FILE_FORMAT));
 			}
 		}
 		// Read xml files to process
