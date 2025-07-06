@@ -677,6 +677,7 @@ function onToggleSearch() {
     switch(event.target.innerText) {
         case 'saved_search':
             event.target.innerText = 'search';
+            event.target.title = 'Search by Caption';
             window.data.search = '';
             generateGrid();
             break;
@@ -684,6 +685,7 @@ function onToggleSearch() {
             let result = prompt('Key in search term (case-insensitive):');
             if(result) {
                 event.target.innerText = 'saved_search';
+                event.target.title = 'Search by Caption (' + result + ')';
                 window.data.search = result.toLowerCase();
                 generateGrid();
             }
