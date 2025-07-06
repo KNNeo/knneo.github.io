@@ -397,8 +397,13 @@ public class Program {
             {"wink wink",		"😉😉"}, {"claps",		"👏"}, {"applauds",		"👏"}, {"yawns",	"🥱"},
             {"yay",				"🙌"}, {"applauses",	"👏"}, {"tehe",			"😆"}, {"pero", "😋"},
             {"tehepero", "😆😋"}, {"wow",		"😲"}, {"salutes",		"🫡"}
-        };        
-		content = Regex.Replace(content, string.Join("|", emojis.Keys.Select(phrase => Regex.Escape($"*{phrase}*"))), "");
+        };
+        var includedPhrases = emojis.Select(x => x.Key).ToList();
+        var excludedPhrases = new List<string> {
+            "yikes", "oof", "tch. ", "taps brain", "ahem", "ack", "umph", "hype", "technically", "nosebleeds", "pft", "bonk", "yawn",
+            "catches kiss", "fake laughs", "small", "pant", "faints", "points at self", "kinda", "maybe", "shakes head", "sometimes"
+        };
+		content = Regex.Replace(content, string.Join("|", includedPhrases.Concat(excludedPhrases).Select(phrase => Regex.Escape($"*{phrase}*"))), "");
 		// Remove tabs, newline, carriage characters, consecutive whitespaces
 		content = Regex.Replace(content, @"\n", " ");
 		content = Regex.Replace(content, @"\t|\r", "");
