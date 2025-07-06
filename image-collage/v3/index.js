@@ -418,11 +418,12 @@ function generateFiltered() {
             (m.nm && !m.nm.includes(window.data.separator) && m.nm.toLowerCase().includes(s.toLowerCase())) || 
             (m.nm && m.nm.toLowerCase().includes(s.toLowerCase() + window.data.separator)) || 
             (m.nm && m.nm.toLowerCase().includes(window.data.separator + s.toLowerCase()))
-        ).length == includeArray.length) && 
-		(window.exclude.length == 0 || excludeArray.filter(s => 
+        ).length == includeArray.length) 
+        && (window.exclude.length == 0 || excludeArray.filter(s => 
             !m.nm.toLowerCase().includes(s.toLowerCase() + window.data.separator) && !m.nm.toLowerCase().includes(window.data.separator + s.toLowerCase())
-        ).length == excludeArray.length) &&
-		(window.data.tag.exclude ?? []).filter(f => m.nm.includes(f)).length < 1
+        ).length == excludeArray.length) 
+        && (window.data.tag.exclude ?? []).filter(f => m.nm.includes(f)).length < 1
+        && (!window.data.search || !m.ct || m.ct.toLowerCase().includes(window.data.search))
 	);
 }
 
@@ -670,6 +671,25 @@ function onToggleRatio() {
 			generateGrid();
 			break;
 	}
+}
+
+function onToggleSearch() {
+    switch(event.target.innerText) {
+        case 'saved_search':
+            event.target.innerText = 'search';
+            window.data.search = '';
+            generateGrid();
+            break;
+        case 'search':
+            let result = prompt('Key in search term (case-insensitive):');
+            if(result) {
+                event.target.innerText = 'saved_search';
+                window.data.search = result.toLowerCase();
+                generateGrid();
+            }
+        default:
+            break;
+    }
 }
 
 function setMenuHeight() {
