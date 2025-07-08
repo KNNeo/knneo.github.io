@@ -36,16 +36,16 @@ function startup() {
 		initializeVariables(JSON.parse(document.getElementById('data-id').textContent));
 }
 
-function editDataSource() {
+function setData() {
     event.preventDefault();
-	let source = prompt('Enter source JSON url/key', document.getElementById('data-id')?.src || '');
+	let source = prompt('Enter source url/key', document.getElementById('data-id')?.src || '');
 	if(source) {
         if(source.startsWith('https://')) // full address
             document.getElementById('data-id').src = source;
         else if(source.endsWith('.json')) // assume home directory at data folder
-            document.getElementById('data-id').src = window.location.href + source;
+            document.getElementById('data-id').src = 'data/' + source;
         else // assume home directory at data folder & file format json
-            document.getElementById('data-id').src = window.location.href + source + '.json';
+            document.getElementById('data-id').src = 'data/' + source + '.json';
 		startup();
 	}
 }
