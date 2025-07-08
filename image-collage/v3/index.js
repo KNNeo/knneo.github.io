@@ -413,18 +413,22 @@ function generateFiltered() {
 	let excludeArray = window.exclude.split('|');
 	if(window.data.debug) console.log('included', includeArray);
 	if(window.data.debug) console.log('excluded', excludeArray);
-	return window.data.data.filter(m => 
-		(window.include.length == 0 || includeArray.filter(s => 
-            (m.nm && !m.nm.includes(window.data.separator) && m.nm.toLowerCase().includes(s.toLowerCase())) || 
-            (m.nm && m.nm.toLowerCase().includes(s.toLowerCase() + window.data.separator)) || 
-            (m.nm && m.nm.toLowerCase().includes(window.data.separator + s.toLowerCase()))
-        ).length == includeArray.length) 
-        && (window.exclude.length == 0 || excludeArray.filter(s => 
-            !m.nm.toLowerCase().includes(s.toLowerCase() + window.data.separator) && !m.nm.toLowerCase().includes(window.data.separator + s.toLowerCase())
-        ).length == excludeArray.length) 
+    if(!window.data?.tag?.join) window.data.tag.join = 'and'; // default join method
+	return window.data.data.filter(m => {
+        let tagsIncluded = includeArray.filter(s => 
+                (m.nm && !m.nm.includes(window.data.separator) && m.nm.toLowerCase().includes(s.toLowerCase())) 
+                || (m.nm && m.nm.toLowerCase().includes(s.toLowerCase() + window.data.separator)) 
+                || (m.nm && m.nm.toLowerCase().includes(window.data.separator + s.toLowerCase()))
+            );
+        let tagsExcluded = excludeArray.filter(s => 
+                !m.nm.toLowerCase().includes(s.toLowerCase() + window.data.separator) 
+                && !m.nm.toLowerCase().includes(window.data.separator + s.toLowerCase())
+            );
+        return (window.include.length == 0 || (window.data?.tag?.join?.toLowerCase() == 'and' && tagsIncluded.length == includeArray.length) || (window.data?.tag?.join?.toLowerCase() == 'or' && tagsIncluded.length > 0))
+        && (window.exclude.length == 0 || (tagsExcluded.length == excludeArray.length)) 
         && (window.data.tag.exclude ?? []).filter(f => m.nm.includes(f)).length < 1
-        && (!window.data.search || !m.ct || m.ct.toLowerCase().includes(window.data.search))
-	);
+        && (!window.data.search || !m.ct || m.ct.toLowerCase().includes(window.data.search));   
+    });
 }
 
 function generateOrientationValues() {
