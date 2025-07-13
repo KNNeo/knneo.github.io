@@ -306,7 +306,7 @@ public class Program {
 			if(!pageTagsXml.Any(tag => POST_INCLUDE_LABELS.Contains(tag)))
 				continue;
 			// Create output page link and index in linked list
-            var pageLink = entry.DestinationUrl.Replace("./", "../");
+            var pageLink = entry.DestinationUrl.Replace("./", "");
             
 			// Process page content
 			if(publishDate >= DateTime.Parse(POSTS_PROCESS_SINCE))
