@@ -30,10 +30,10 @@ const observer = new IntersectionObserver(callback, {
 
 //--FUNCTIONS--//
 function startup() {
-	if(document.getElementById('data-id').src)
-		getJson(document.getElementById('data-id').src, initializeVariables);
-	else if (document.getElementById('data-id').textContent)
+    if (document.getElementById('data-id').textContent)
 		initializeVariables(JSON.parse(document.getElementById('data-id').textContent));
+	else if(document.getElementById('data-id').src)
+		getJson(document.getElementById('data-id').src, initializeVariables);
 }
 
 function setData() {
