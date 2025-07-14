@@ -218,7 +218,8 @@ function generateTagsList() {
 					break;
 			}
 			include.value = window.include;
-			exclude.value = window.exclude;			
+			exclude.value = window.exclude;
+			filter.scrollIntoView({ block: "center" });
 			generateGrid();
 		});
 		tag.addEventListener('contextmenu',function() {
@@ -241,7 +242,8 @@ function generateTagsList() {
 					break;
 			}
 			include.value = window.include;
-			exclude.value = window.exclude;			
+			exclude.value = window.exclude;
+			filter.scrollIntoView({ block: "center" });
 			generateGrid();
 		});
 		
