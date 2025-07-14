@@ -171,6 +171,7 @@ function generateTagsList() {
 		let sections = window.data.tag.category.ratio.reduce((sum, r) => sum + r, 0);
 		window.data.tag.category.groups.forEach(function(current, index, _) {
 			let tag = document.createElement('div');
+			tag.classList.add('tags-category');
 			tag.style.setProperty('--ratio', window.data.tag.category.ratio[index]);
 			if(isHorizontalLayout()) tag.style.maxHeight = (100 / sections * window.data.tag.category.ratio[index]) + '%';
 			
@@ -186,6 +187,7 @@ function generateTagsList() {
 	}
 	else {
 		let tag = document.createElement('div');
+		tag.classList.add('tags-category');
 		tags.appendChild(tag);
 	}
 	
@@ -580,6 +582,17 @@ function onToggleExpander() {
 function onScrollSidebar() {
 	if(event.target == event.target.closest('.menu'))
 		collage.scrollTop -= isFirefox ? -event.detail*20 : event.wheelDelta;
+	if(!isHorizontalLayout() && event.target.closest('.tags')) {
+		event.preventDefault();
+		// scroll with respect to category element
+		let categoryDiv = event.target.closest('.tags-category');
+		if(categoryDiv) {
+			// calc with respect to title element
+			let height = categoryDiv.querySelector('h4')?.getBoundingClientRect().height;
+			let scrollDelta = event.wheelDelta < 0 ? -height : height;
+			categoryDiv.scrollTop -= scrollDelta;
+		}
+	}
 }
 
 function onClearCategory() {
