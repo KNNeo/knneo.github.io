@@ -115,7 +115,7 @@ a:focus-within {
 
 .tag:hover,
 .tag:focus-visible {
-	background-color: var(--foreground);
+	background-color: var(--primary);
 	color: var(--background);
 }
 
