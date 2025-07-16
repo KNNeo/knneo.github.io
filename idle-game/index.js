@@ -1,12 +1,12 @@
 //--CONSTANTS--//
 // or see data file, under data folder
 const config = {
-    "title": "It'sマイアイドル",
+    "title": "It'sマイアイドル!",
     "notice": "[画像提供：https://suruga-ya.com/]",
     "worlds": [
         {
             "name": "ワールド1",
-            "delta": 10,
+            "delta": 20,
             "maxAsset": 12,
             "unlockInOrder": true,
 			"maxBoostFrom": 1,
@@ -41,6 +41,7 @@ const config = {
                 },
                 {
                     "order": 5,
+					"delta": 10,
                     "maxLevel": 200,
                     "fileName": "https://cdn.suruga-ya.jp/database/pics_light/game/gg963022.jpg",
                     "shortName": "雨宮天",
@@ -48,6 +49,7 @@ const config = {
                 },
                 {
                     "order": 6,
+					"delta": 10,
                     "maxLevel": 200,
                     "fileName": "https://cdn.suruga-ya.jp/database/pics_light/game/gg944191.jpg",
                     "shortName": "水瀬いのり",
@@ -55,6 +57,7 @@ const config = {
                 },
                 {
                     "order": 7,
+					"delta": 10,
                     "maxLevel": 200,
                     "fileName": "https://cdn.suruga-ya.jp/database/pics_light/game/gg548880.jpg",
                     "shortName": "東山奈央",
@@ -62,6 +65,7 @@ const config = {
                 },
                 {
                     "order": 8,
+					"delta": 10,
                     "maxLevel": 200,
                     "fileName": "https://cdn.suruga-ya.jp/database/pics_light/game/gl109941.jpg",
                     "shortName": "花澤香菜",
@@ -69,6 +73,7 @@ const config = {
                 },
                 {
                     "order": 9,
+					"delta": 5,
                     "maxLevel": 200,
                     "fileName": "https://cdn.suruga-ya.jp/database/pics_light/game/gl355318.jpg",
                     "shortName": "Lynn",
@@ -76,6 +81,7 @@ const config = {
                 },
                 {
                     "order": 10,
+					"delta": 5,
                     "maxLevel": 200,
                     "fileName": "https://cdn.suruga-ya.jp/database/pics_light/game/gl793465.jpg",
                     "shortName": "鬼頭明里",
@@ -83,6 +89,7 @@ const config = {
                 },
                 {
                     "order": 11,
+					"delta": 5,
                     "maxLevel": 200,
                     "fileName": "https://www.suruga-ya.jp/database/pics_light/game/gn212358.jpg",
                     "shortName": "上坂すみれ",
@@ -90,6 +97,7 @@ const config = {
                 },
                 {
                     "order": 12,
+					"delta": 5,
                     "maxLevel": 200,
                     "fileName": "https://cdn.suruga-ya.jp/database/pics_light/game/gl802843.jpg",
                     "shortName": "会沢紗弥",
@@ -99,7 +107,7 @@ const config = {
         }
     ],
     "idle": {
-        "max": 86400,
+        "max": 28800,
         "display": {
             "offline": "オフライン時間：",
             "gain": "収穫:"
@@ -232,7 +240,7 @@ function showDetails() {
 			action2.classList.add('action');
 			if(window.item.level < (window.game.worlds[worldId].maxBoostFrom || 10) || window.item.percent > 99)
 				action2.classList.add('hidden');
-			action2.innerText = window.game.locale.action.maxBoost + ' - ' + asCurrencyUnits(calculateMaxBoost(worldId, seqId, window.item.level, window.item.percent, window.game.worlds[worldId].delta));
+			action2.innerText = window.game.locale.action.maxBoost + ' - ' + asCurrencyUnits(calculateMaxBoost(worldId, seqId, window.item.level, window.item.percent, window.item.delta || window.game.worlds[worldId].delta));
 			action2.setAttribute('data-action', action2.innerText.split(' - ')[0]);
 			action2.setAttribute('onclick', 'onAction()');
 			detailsDiv.appendChild(action2);
@@ -281,14 +289,14 @@ function onAction() {
 				if(window.item.level >= (window.game.worlds[worldId].maxBoostFrom || 10) || window.item.percent > 99)
 					event.target.previousSibling.classList.remove('hidden');
 				event.target.previousSibling.setAttribute('data-action', window.game.locale.action.maxBoost);
-				event.target.previousSibling.innerText = window.game.locale.action.maxBoost + ' - ' + asCurrencyUnits(calculateMaxBoost(worldId, seqId, window.item.level, window.item.percent, window.game.worlds[worldId].delta));
+				event.target.previousSibling.innerText = window.game.locale.action.maxBoost + ' - ' + asCurrencyUnits(calculateMaxBoost(worldId, seqId, window.item.level, window.item.percent, window.item.delta || window.game.worlds[worldId].delta));
 			}
 			else {
 				popupContent(window.game.locale.display.no_money + '\n' + asCurrencyNumber(amt - window.game.bank));
 			}
 			break;
 		case window.game.locale.action.maxBoost: // boost to 100%
-			amt = calculateMaxBoost(worldId, seqId, window.item.level, window.item.percent, window.game.worlds[worldId].delta);
+			amt = calculateMaxBoost(worldId, seqId, window.item.level, window.item.percent, window.item.delta || window.game.worlds[worldId].delta);
 			if(window.game.bank >= amt) {
 				decrementCurrency(amt);
 				window.item.percent = 100;
@@ -305,8 +313,8 @@ function onAction() {
 			amt = calculateBoost(worldId, seqId, window.item.level);
 			if(window.game.bank >= amt) {
 				decrementCurrency(amt);
-				window.item.percent += window.game.worlds[worldId].delta;
-				event.target.previousSibling.innerText = window.game.locale.action.maxBoost + ' - ' + asCurrencyUnits(calculateMaxBoost(worldId, seqId, window.item.level, window.item.percent, window.game.worlds[worldId].delta));
+				window.item.percent += window.item.delta || window.game.worlds[worldId].delta;
+				event.target.previousSibling.innerText = window.game.locale.action.maxBoost + ' - ' + asCurrencyUnits(calculateMaxBoost(worldId, seqId, window.item.level, window.item.percent, window.item.delta || window.game.worlds[worldId].delta));
 				if(window.item.percent > 99) {
 					event.target.innerText = window.game.locale.action.level_up + ' - ' + asCurrencyUnits(calculateLevelUp(worldId, seqId, window.item.level));
 					event.target.previousSibling.classList.add('hidden');
@@ -332,7 +340,7 @@ function onAction() {
 					event.target.closest('.character').setAttribute('data-complete', '');
 				}
 				event.target.previousSibling.setAttribute('data-action', window.game.locale.action.maxBoost);
-				event.target.previousSibling.innerText = window.game.locale.action.maxBoost + ' - ' + asCurrencyUnits(calculateMaxBoost(worldId, seqId, window.item.level, window.item.percent, window.game.worlds[worldId].delta));
+				event.target.previousSibling.innerText = window.game.locale.action.maxBoost + ' - ' + asCurrencyUnits(calculateMaxBoost(worldId, seqId, window.item.level, window.item.percent, window.item.delta || window.game.worlds[worldId].delta));
 			}
 			else {
 				popupContent(window.game.locale.display.no_money + '\n' + asCurrencyNumber(amt - window.game.bank));
