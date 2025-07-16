@@ -192,7 +192,7 @@ function incrementCurrency(multiplier) {
 }
 
 function updateCurrency() {
-	currencyDiv.innerText = 'Bank: ' + asCurrencyUnits(window.game.bank);
+	currencyDiv.innerText = asCurrencyUnits(window.game.bank);
 	currencyDiv.title = asCurrencyNumber(window.game.bank);
 }
 
