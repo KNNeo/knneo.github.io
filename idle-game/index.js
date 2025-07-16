@@ -5,7 +5,7 @@ const config = {
     "notice": "[画像提供：https://suruga-ya.com/]",
     "worlds": [
         {
-            "name": "ワールド1",
+            "name": "初心者ワールド",
             "delta": 20,
             "maxAsset": 12,
             "unlockInOrder": true,
@@ -149,7 +149,12 @@ const config = {
             "",
             "",
             "",
-            "万億"
+            "万億",
+			"兆",
+			"",
+			"",
+			"",
+			"万兆"
         ],
         "suffix": "🍫",
     }
@@ -552,7 +557,8 @@ function resetGame() {
 }
 
 function calculateUnlock(world, seqNo) {
-	return (world) + (seqNo >= 1 ? 1000 * Math.pow(10, seqNo) : 0); // first in world unlock always free
+	// unlock value for first item in world always free
+	return (world) + (seqNo >= 1 ? 1000 * Math.pow(10, seqNo) : 0);
 }
 
 function calculateBoost(world, seqNo, level) {
@@ -572,6 +578,7 @@ function calculateLevelUp(world, seqNo, level) {
 }
 
 function calculateNewRate(world, seqNo, level) {
+	// based on natural log, from 1 to 2.xxx
 	return Math.floor(calculateBoost(world, seqNo, level)/10*Math.exp(level / (window.game.worlds[world].maxLevel || 200)));
 }
 
@@ -623,7 +630,6 @@ function asCurrencyNumber(number) {
 }
 
 function save() {
-	//save
 	localStorage.setItem('idle-game', JSON.stringify(window.game));
 }
 
@@ -760,6 +766,7 @@ function load(content) {
 }
 
 function idle() {
+	// record time in order to calculate time passed when load in
 	window.game.time = new Date();
 	save();
 }
