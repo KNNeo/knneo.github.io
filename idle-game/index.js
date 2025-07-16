@@ -369,11 +369,10 @@ function onAction() {
 }
 
 function showStats(){
-	let list = [
-		{ title: window.game.locale.display.total_money, value: asCurrencyNumber(window.game.bank) },
-		{ title: window.game.locale.display.total_rate, value: asCurrencyNumber(window.game.rate) },
-	];
+	let list = [];
 	for(let world of window.game.worlds) {
+		list.push({ title: window.game.locale.display.total_money, value: asCurrencyNumber(window.game.bank) });
+		list.push({ title: window.game.locale.display.total_rate, value: asCurrencyNumber(window.game.rate) });
 		list.push({ title: world.name });
 		list.push({ title: window.game.locale.display.unlocked, value: world.characters?.filter(c => c.level > 0).length  });
 		for(let char of world.characters) {
