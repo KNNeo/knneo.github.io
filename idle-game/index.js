@@ -164,7 +164,7 @@ const config = {
 let detailsDiv = document.querySelector('.details');
 let settingsDiv = document.querySelector('.settings');
 let progressDiv = document.querySelector('.progress');
-let displaysDiv = document.querySelectorAll('.display');
+let displayDivList = document.querySelectorAll('.display');
 let currencyDiv = document.querySelector('.currency');
 let rateDiv = document.querySelector('.rate');
 
@@ -408,92 +408,93 @@ function showStats(){
 //--FUNCTIONS--//
 function showDisplay(id) {
 	// hide all components besides first
-	for(let display of displaysDiv)
+	for(let display of displayDivList)
 		display.classList.add('hidden');
 	
-	displaysDiv[id].classList.remove('hidden');
+	displayDivList[id].classList.remove('hidden');
+	window.game.active = id;
 }
 
 function renderDisplay() {
-	showDisplay(0);	
-	renderWorld();	
+	// default is first world for now
+	let active = window.game.active || 0;
+	showDisplay(active);
+	renderWorld(active);
 	save();
 }
 
-function renderWorld() {
+function renderWorld(id) {
 	// each display is one world
 	// any world defined more than config, show as not met requirement to unlock
-	if(!window.game.worlds) {
+	if(!window.game.worlds || window.game.worlds.length < 1 + id) {
 		console.error('worlds not found: add in config');
 		return;
 	}
 	
-	window.game.worlds.forEach((world, index) => {
-		let display = displaysDiv[index];
-		if(display == null) {
-			console.error('world display not found: add to html');
-			return;
-		}
+	let display = displayDivList[id];
+	if(display == null) {
+		console.error('world display not found: add to html');
+		return;
+	}
+	
+	let title = document.createElement('h1');
+	title.innerText = world.name;
+	display.appendChild(title);
+	
+	let list = [];
+	for(let i = 0; i < world.maxAsset; i++)	{
+		if(!world.characters)
+			world.characters = [createCharacter(list, i, world)];
+		else if(i >= world.characters.length)
+			world.characters.push(createCharacter(list, i, world));
+		if(world.characters[i])
+			list.push(world.characters[i]);
+	}
+	// console.log('list', list);
+	
+	let charasDiv = document.createElement('div');
+	charasDiv.classList.add('characters');
+	
+	for(let listItem of list) {
+		let charaDiv = document.createElement('div');
+		charaDiv.classList.add('character');
+		charaDiv.classList.add('card');
+		charaDiv.setAttribute('data-world', index);
+		charaDiv.setAttribute('data-level', listItem.level);
+		charaDiv.setAttribute('data-seq', listItem.order);
+		if(listItem.level >= listItem.maxLevel)
+			charaDiv.setAttribute('data-complete', '');
 		
-		let title = document.createElement('h1');
-		title.innerText = world.name;
-		display.appendChild(title);
-		
-		let list = [];
-		for(let i = 0; i < world.maxAsset; i++)	{
-			if(!world.characters)
-				world.characters = [createCharacter(list, i, world)];
-			else if(i >= world.characters.length)
-				world.characters.push(createCharacter(list, i, world));
-			if(world.characters[i])
-				list.push(world.characters[i]);
-		}
-		// console.log('list', list);
-		
-		let charasDiv = document.createElement('div');
-		charasDiv.classList.add('characters');
-		
-		for(let listItem of list) {
-			let charaDiv = document.createElement('div');
-			charaDiv.classList.add('character');
-			charaDiv.classList.add('card');
-			charaDiv.setAttribute('data-world', index);
-			charaDiv.setAttribute('data-level', listItem.level);
-			charaDiv.setAttribute('data-seq', listItem.order);
-			if(listItem.level >= listItem.maxLevel)
-				charaDiv.setAttribute('data-complete', '');
+			let charaImage = document.createElement('img');
+			charaImage.classList.add('pic');
+			charaImage.src = listItem.fileName;
+			charaImage.title = listItem.shortName;
+			charaImage.alt = listItem.name;
+			charaImage.tabIndex = 0;
+			charaImage.setAttribute('onclick', 'showDetails()');
+			charaImage.setAttribute('onkeyup', 'showDetails()');
+			charaDiv.appendChild(charaImage);
 			
-				let charaImage = document.createElement('img');
-				charaImage.classList.add('pic');
-				charaImage.src = listItem.fileName;
-				charaImage.title = listItem.shortName;
-				charaImage.alt = listItem.name;
-				charaImage.tabIndex = 0;
-				charaImage.setAttribute('onclick', 'showDetails()');
-				charaImage.setAttribute('onkeyup', 'showDetails()');
-				charaDiv.appendChild(charaImage);
-				
-				let charaInfo = document.createElement('div');
-				charaInfo.classList.add('info');
+			let charaInfo = document.createElement('div');
+			charaInfo.classList.add('info');
 
-				let charaName = document.createElement('div');
-				charaName.classList.add('name');
-				charaName.innerText = listItem.shortName;
-				charaName.title = listItem.name;
-				charaInfo.appendChild(charaName);
-			
-				let charaFullName = document.createElement('div');
-				charaFullName.classList.add('full-name');
-				charaFullName.innerText = listItem.name;
-				charaInfo.appendChild(charaFullName);
-			
-				charaDiv.appendChild(charaInfo);
-
-			charasDiv.appendChild(charaDiv);
-		}
+			let charaName = document.createElement('div');
+			charaName.classList.add('name');
+			charaName.innerText = listItem.shortName;
+			charaName.title = listItem.name;
+			charaInfo.appendChild(charaName);
 		
-		display.appendChild(charasDiv);
-	});
+			let charaFullName = document.createElement('div');
+			charaFullName.classList.add('full-name');
+			charaFullName.innerText = listItem.name;
+			charaInfo.appendChild(charaFullName);
+		
+			charaDiv.appendChild(charaInfo);
+
+		charasDiv.appendChild(charaDiv);
+	}
+	
+	display.appendChild(charasDiv);
 }
 
 function createCharacter(list, order, world) {
@@ -547,7 +548,8 @@ function renderGame() {
 function resetGame() {
 	if(confirm('Confirm to reset? Your progress will be lost!')) {
 		localStorage.removeItem('idle-game');
-		displaysDiv[0].remove();
+		for(let displayDiv of displayDivList)
+			displayDiv.remove();
 		currencyDiv.remove();
 		rateDiv.innerHTML = 'Refresh to start over';
 		window.game = null;
