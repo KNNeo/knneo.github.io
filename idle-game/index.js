@@ -431,6 +431,7 @@ function renderWorld(id) {
 		return;
 	}
 	
+	let world = window.game.worlds[id];
 	let display = displayDivList[id];
 	if(display == null) {
 		console.error('world display not found: add to html');
