@@ -406,21 +406,20 @@ function showStats(){
 }
 
 //--FUNCTIONS--//
+function renderDisplay() {
+	// default is first world for now
+	let active = window.game.active;
+	showDisplay(active);
+	renderWorld(active);
+	save();
+}
+
 function showDisplay(id) {
 	// hide all components besides first
 	for(let display of displayDivList)
 		display.classList.add('hidden');
 	
 	displayDivList[id].classList.remove('hidden');
-	window.game.active = id;
-}
-
-function renderDisplay() {
-	// default is first world for now
-	let active = window.game.active || 0;
-	showDisplay(active);
-	renderWorld(active);
-	save();
 }
 
 function renderWorld(id) {
@@ -438,10 +437,28 @@ function renderWorld(id) {
 		return;
 	}
 	
+	let header = document.createElement('div');
+
+	if(id > 0) {
+		let prev = document.createElement('a');
+		prev.className = 'prev bi bi-caret-left-fill';
+		prev.setAttribute('onclick', 'window.game.active = ' + (id-1) + ';renderDisplay();');
+		header.appendChild(prev);
+	}
+
 	let title = document.createElement('h1');
 	title.innerText = world.name;
-	display.appendChild(title);
+	header.appendChild(title);
 	
+	if(id < window.game.worlds - 1) {
+		let next = document.createElement('a');
+		next.className = 'prev bi bi-caret-right-fill';
+		prev.setAttribute('onclick', 'window.game.active = ' + (id+1) + ';renderDisplay();');
+		header.appendChild(next);
+	}
+
+	display.appendChild(header);
+
 	let list = [];
 	for(let i = 0; i < world.maxAsset; i++)	{
 		if(!world.characters)
@@ -762,6 +779,7 @@ function load(content) {
 	// DOM level properties
 	if(window.game) {
 		document.title = window.game.title;
+		window.game.active = window.game.active || 0;
 		renderDisplay();
 		renderGame();
 	}
