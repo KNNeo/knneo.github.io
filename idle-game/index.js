@@ -460,7 +460,7 @@ function renderWorld(id) {
 		let charaDiv = document.createElement('div');
 		charaDiv.classList.add('character');
 		charaDiv.classList.add('card');
-		charaDiv.setAttribute('data-world', index);
+		charaDiv.setAttribute('data-world', id);
 		charaDiv.setAttribute('data-level', listItem.level);
 		charaDiv.setAttribute('data-seq', listItem.order);
 		if(listItem.level >= listItem.maxLevel)
