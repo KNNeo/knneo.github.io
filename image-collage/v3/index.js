@@ -438,10 +438,11 @@ function generateFiltered() {
 function generateOrientationValues() {
 	let values = generateFiltered();
 	for(let item of values)	{
-		let itemDiv = collage.querySelector('img[data-src="' + item.og + '"]');
-        if(!itemDiv.complete) {
-            alert('image not loaded, cannot determine orientation!')
-            console.error('generateOrientationValues: image not loaded!', item.og);
+        let source = item['og'] || item['lg'] || item['md'] || item['sm'];
+		let itemDiv = collage.querySelector('img[data-src="' + source + '"]');
+        if(!itemDiv || !itemDiv.complete) {
+            alert('all images not fully loaded, cannot determine orientation!\nscroll down all the way to load all images')
+            console.error('generateOrientationValues: image not loaded!', source);
             return;
         }
         let tags = item.nm.split(window.data.separator);
