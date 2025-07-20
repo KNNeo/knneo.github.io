@@ -13,6 +13,7 @@ const outputCanvas = document.querySelector('canvas#output');
 const outputCanvasContext = outputCanvas.getContext('2d');
 const thresholdInput = document.querySelector('input#threshold');
 const messageDiv = document.querySelector('div#message');
+const examplesDiv = document.querySelector('div#examples');
 
 //--DOM FUNCTIONS--//
 function onKeyDown() {
@@ -115,11 +116,21 @@ function startup() {
         uploadInput.click();
     });
     uploadInput.addEventListener('change', function (e) {
-        const file = e.target.files[0];
+        let file = e.target.files[0];
         if (!file) return;
 
-        const img = new Image();
+        let img = new Image();
         img.onload = () => processImage(img);
         img.src = URL.createObjectURL(file);
     });
+    if(examplesDiv && examplesDiv.childElementCount > 0) {
+        examplesDiv.querySelectorAll('img').forEach(function(e) {
+            e.addEventListener('click', function(i) {
+                const img = new Image();
+                img.crossOrigin = `Anonymous`;
+                img.onload = () => processImage(img);
+                img.src = i.target.src;
+            });
+        });
+    }
 }
