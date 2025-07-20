@@ -755,7 +755,7 @@ function openImageInViewer(image) {
 	loader.addEventListener('click', function() {
 		window['loading'] = false;
 		runLoader();
-		closeViewer();		
+		closeViewer();
 	});
 	
 	let img = document.createElement('img');
@@ -778,12 +778,7 @@ function openImageInViewer(image) {
                 window.slideshow.run = setTimeout(runSlideshow, (window.data?.slideshow?.duration || 5) * 1000);
 		}, 250);
 	});
-	img.addEventListener('click', function() {
-        let gridImage = grid.querySelector('img[data-src="' + img.src + '"');
-        if(gridImage) // scroll image to top of screen when close viewer
-            gridImage.scrollIntoView();
-        closeViewer();
-    });
+	img.addEventListener('click', closeViewer);
 	img.addEventListener('mouseup', onZoomViewer);
 	img.addEventListener('mousemove', onMouseMoveViewer);
 
@@ -878,8 +873,14 @@ function hideMouseInViewer() {
 	}
 }
 
-function closeViewer() {	
-	stopSlideshow();
+function closeViewer() {
+    if(window.slideshow.run) {
+        stopSlideshow();
+        let gridImage = grid.querySelector('img[data-src="' + (event.target?.src || '') + '"');
+        if(gridImage)
+            // scroll image to top of screen when close viewer
+            gridImage.scrollIntoView();
+    }
 	viewer.classList.remove('zoom');
 	viewer.classList.remove('open');
 }
