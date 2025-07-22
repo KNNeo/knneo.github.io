@@ -11,6 +11,7 @@ const description = document.querySelector('.description');
 const collage = document.querySelector('.collage');
 const grid = document.querySelector('.grid');
 const tags = document.querySelector('.tags');
+const sidebar = document.querySelector('.sidebar');
 const menu = document.querySelector('.menu');
 const settings = document.querySelector('.settings');
 const viewer = document.querySelector('.viewer');
@@ -126,6 +127,10 @@ function generateSidebar() {
 	menu.style.setProperty('--max-width', (window.data.menu.width || 400) + 'px');
 	if(menu.closest('.content'))
 		menu.closest('.content').style.setProperty('--menu-height', (menu.getBoundingClientRect()?.height || 0) + 'px');
+	if(window.data.menu.display && window.data.menu.display == 'hidden') {
+		menu.classList.add(window.data.menu.display);
+		if(sidebar) sidebar.innerText = 'menu';
+	}
 	
 	document.title = window.data.title ? window.data.title + ' - Image Collage' : 'Image Collage';
 
