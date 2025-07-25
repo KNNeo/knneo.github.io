@@ -555,6 +555,12 @@ function fadeIn() {
 }
 
 //--EVENTS--//
+function toggle() {
+    //console.log(event.key);
+    let elem = document.querySelector('[onclick][data-key=' + event.key + ']');
+    if(elem) elem.click();
+}
+
 function resize() {
 	//resize grid
 	document.querySelector('.expand').innerText = 'unfold_more';
