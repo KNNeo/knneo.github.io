@@ -811,6 +811,8 @@ function openImageInViewer(image) {
 
 	let caption = document.createElement('div');
 	caption.classList.add('caption');
+    if(window.data.grid?.caption?.align)
+        caption.style.setProperty('--align', window.data.grid.caption.align);
 	caption.innerText = image.getAttribute('data-caption');
 	
 	if(viewer.childNodes.length > 0)

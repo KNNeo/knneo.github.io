@@ -426,6 +426,7 @@ a:focus-within {
     padding: 8px 12px;
     border-radius: 8px;
     background-color: var(--background);
+    text-align: var(--align, center);
 }
 
 .viewer.captions.zoom .caption {
