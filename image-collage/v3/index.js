@@ -393,7 +393,7 @@ function generateGrid() {
 			console.error('thumbnail not found', item);
 		gridItemImage.setAttribute('data-image', thumbnail);
 		gridItemImage.setAttribute('data-src', item['og'] || item['lg'] || item['md'] || item['sm'] || spacer);
-		gridItemImage.setAttribute('data-caption', item.ct);
+		gridItemImage.setAttribute('data-caption', item.ct || '');
 		gridItemImage.setAttribute('loading', 'lazy');
 		gridItemImage.addEventListener('click', function() {
 			openViewer(event.target.parentElement);
