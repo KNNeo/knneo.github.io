@@ -174,11 +174,16 @@ a:focus-within {
 	border: 1px solid var(--background);
 	z-index: 2;
 	cursor: initial;
+    text-decoration: none;
 	-webkit-user-select: none;
 	-khtml-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
+}
+
+.banner[href] {
+	cursor: pointer;
 }
 
 .prefix {

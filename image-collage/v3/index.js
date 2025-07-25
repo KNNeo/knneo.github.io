@@ -374,11 +374,14 @@ function generateGrid() {
 					let highlight = document.createElement('a');
 					highlight.classList.add('banner');
 					highlight.classList.add('star');
-					highlight.href = itemVal;
+					highlight.setAttribute('href', itemVal);
 					highlight.setAttribute('target', '_blank');
+			        highlight.innerText = window.data.grid.star.text;
 					highlight.title = window.data.grid.star.tooltip || itemVal;
+			        gridItem.appendChild(highlight);
 				}
 			}
+            else
 			gridItem.appendChild(highlight);
 		}
 		
