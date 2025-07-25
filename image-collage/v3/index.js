@@ -131,7 +131,7 @@ function generateSidebar() {
 		menu.classList.add(window.data.menu.display);
 		if(sidebar) sidebar.innerText = 'menu';
 	}
-	else {
+	else if (menu.classList.contains(window.data.menu.display)) {
 		menu.classList.remove(window.data.menu.display);
 		if(sidebar) sidebar.innerText = 'menu_open';
 	}
