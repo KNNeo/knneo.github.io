@@ -354,12 +354,27 @@ function generateGrid() {
             }
 		}
 		
-		if(window.data.grid.star && item.st) {
+		if(window.data.grid.star && item[window.data.grid.star.property]) {
+			let itemVal = item[window.data.grid.star.property];
+			// universal tag (boolean)
 			let highlight = document.createElement('div');
 			highlight.classList.add('banner');
 			highlight.classList.add('star');
 			highlight.innerText = window.data.grid.star.text;
-			highlight.title = item[window.data.grid.star.property] || window.data.grid.star.tooltip;
+			highlight.title = window.data.grid.star.tooltip || itemVal;
+
+			if(typeof itemVal == 'string') {
+				// item remark (string)
+				if(itemVal.startsWith('https://') || itemVal.startsWith('http://')) {
+					// url
+					let highlight = document.createElement('a');
+					highlight.classList.add('banner');
+					highlight.classList.add('star');
+					highlight.href = itemVal;
+					highlight.setAttribute('target', '_blank');
+					highlight.title = window.data.grid.star.tooltip || itemVal;
+				}
+			}
 			gridItem.appendChild(highlight);
 		}
 		
