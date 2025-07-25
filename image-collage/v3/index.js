@@ -131,6 +131,10 @@ function generateSidebar() {
 		menu.classList.add(window.data.menu.display);
 		if(sidebar) sidebar.innerText = 'menu';
 	}
+	else {
+		menu.classList.remove(window.data.menu.display);
+		if(sidebar) sidebar.innerText = 'menu_open';
+	}
 	
 	document.title = window.data.title ? window.data.title + ' - Image Collage' : 'Image Collage';
 
