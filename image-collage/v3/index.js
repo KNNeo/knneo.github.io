@@ -105,7 +105,7 @@ function generateTags() {
 		return item.count >= window.data.tag.min && item.count <= window.data.tag.max && window.data.tag.hidden.filter(t => item.value.includes(t)).length < 1;
 	})
 	.sort(function(a,b) {
-		// based on values in reduce function
+		// based on values in reduce function: value/count/category
 		let prop = window.data.tag?.sort?.property;
 		if(!a[prop] || !b[prop])
 			return 0;
