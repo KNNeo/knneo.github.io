@@ -25,6 +25,7 @@ public class Program {
 	static string OUTPUT_DIRECTORY_SUBFOLDER = "posts";
 	static string HOMEPAGE_TEMPLATE_FILENAME = @"/home/kaineng/Documents/Repositories/knreports/pages/aozaki-shouhei-adventures/template.html";
 	static string HOMEPAGE_FILENAME = @"/home/kaineng/Documents/Repositories/knreports/pages/aozaki-shouhei-adventures/index.html";
+    static string REPLACE_TEXT_FILENAME = @"/home/kaineng/Documents/Repositories/knreports/posts/mapping.txt";
     static string EXTENDED_TAGS_FILENAME = @"/home/kaineng/Documents/Repositories/knreports/pages/aozaki-shouhei-adventures/tags.txt";
 
 	// PROGRAM SETTINGS
@@ -51,13 +52,26 @@ public class Program {
 		"https://knwebreports2014.blogspot.com/",
 		"http://knwebreports2014.blogspot.com/"
 	};
+    static Dictionary<String, String> POST_TEXT_REPLACE => ReadTextFile(REPLACE_TEXT_FILENAME);
+    static Dictionary<String, String> ReadTextFile(string filename)
+    {
+        var list = new Dictionary<String, String>();
+        List<String> rows = File.ReadAllLines(filename).ToList();
+        foreach(var row in rows)
+        {
+            var parts = row.Split(',');
+            if(parts.Length > 1 && !String.IsNullOrWhiteSpace(parts[0]) && !String.IsNullOrWhiteSpace(parts[1]))
+                list.Add(parts[0], parts[1]);
+        }
+        return list;
+    }
     // CONSIDER: Name, relationship, time of day, weather, CurrentEvents/Flashback, introduction, key events
     // DO NOT CONSIDER: Story related information, plot twists, key items
-    static Dictionary<int, String> PAGE_TAGS => GetPageTags();
-    static Dictionary<Int32, String> GetPageTags()
+    static Dictionary<int, String> PAGE_TAGS => GetPageTags(EXTENDED_TAGS_FILENAME);
+    static Dictionary<Int32, String> GetPageTags(string filename)
     {
         var list = new Dictionary<Int32, String>();
-        List<String> rows = File.ReadAllLines(EXTENDED_TAGS_FILENAME).ToList();
+        List<String> rows = File.ReadAllLines(filename).ToList();
         foreach(var row in rows)
         {
             var parts = row.Split(',');
@@ -311,6 +325,17 @@ public class Program {
 			// Process page content
 			if(publishDate >= DateTime.Parse(POSTS_PROCESS_SINCE))
 			{
+                #region 1 search and replace exact text
+                if(DEBUG_MODE) Console.WriteLine("Fix #" + 1);
+                foreach(var keyValuePair in POST_TEXT_REPLACE)
+                {
+                    if(postContent.Contains(keyValuePair.Key))
+                    {
+                        postContent = postContent.Replace(keyValuePair.Key, keyValuePair.Value);
+                    }
+                }
+                #endregion
+		
                 // Find first img tag title, if any
                 if (DEBUG_MODE) Console.WriteLine("Find first img tag title, if any");
                 Match postFeaturedMatch = Regex.Match(postContent, @"(?s)img(.*?)alt=""(.*?)""(.*?)src=""(.*?)""(.*?)title=""(.*?)""(.*?)(>)");

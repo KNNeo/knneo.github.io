@@ -30,6 +30,7 @@ public class Program {
 	static string HOMEPAGE_TEMPLATE_FILENAME = @"/home/kaineng/Documents/Repositories/knreports/template/homepage.html";
 	static string HOMEPAGE_FILENAME = @"/home/kaineng/Documents/Repositories/knreports/index.html";
 	static string POST_TEMPLATE_FILENAME = @"/home/kaineng/Documents/Repositories/knreports/template/post.html";
+    static string REPLACE_TEXT_FILENAME = @"/home/kaineng/Documents/Repositories/knreports/posts/mapping.txt";
 
 	// PROGRAM SETTINGS
 	static bool GENERATE_SLUG_BY_POST_TITLE = true;
@@ -52,7 +53,7 @@ public class Program {
 	static string HTML_DESCRIPTION = "If it is worth taking Note, it will be a Klassic.";
 	static bool POSTS_LINK_TO_BLOGGER = false;
 	static string POSTS_INCLUDE_SINCE = "2000-01-01";
-	static string POSTS_PROCESS_SINCE = "2024-07-01";
+	static string POSTS_PROCESS_SINCE = "2023-07-01";
 	static string POST_THUMBNAIL_SINCE = "2020-01-01";
 	static string POST_TAGS_PREFIX_TEXT = "Reported under";
 	static List<String> POST_IGNORE_LABELS = new List<string>() { "The Archive", "The Statement" };
@@ -71,6 +72,19 @@ public class Program {
 	{
 		"scontent-sin.xx.fbcdn.net"
 	};
+    static Dictionary<String, String> POST_TEXT_REPLACE => ReadTextFile(REPLACE_TEXT_FILENAME);
+    static Dictionary<String, String> ReadTextFile(string filename)
+    {
+        var list = new Dictionary<String, String>();
+        List<String> rows = File.ReadAllLines(filename).ToList();
+        foreach(var row in rows)
+        {
+            var parts = row.Split(',');
+            if(parts.Length > 1 && !String.IsNullOrWhiteSpace(parts[0]) && !String.IsNullOrWhiteSpace(parts[1]))
+                list.Add(parts[0], parts[1]);
+        }
+        return list;
+    }
 
 	static void Main()
 	{
@@ -640,7 +654,7 @@ public class Program {
     #endregion
 	static List<int> FixPostContent(ref string content, List<LinkedListItem> linkedList)
 	{
-		List<int> includeIndex = new List<int> { 14, 15, 16, 18, 24, 29, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40 };
+		List<int> includeIndex = new List<int> { 1, 14, 15, 16, 18, 24, 29, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40 };
 		List<int> count = new List<int>();
 		string expression;
 		string prefix, midfix, suffix;
@@ -651,6 +665,21 @@ public class Program {
 		// Process XML content per post	if is not simple replace
 		// [1] Define Regex Expression (loose or strict)
 		// [2] Replace String According to Expression (simple without format, or simple with format, or complex use UpdateRegexContent)
+
+        #region 1 search and replace exact text
+		if(includeIndex.Count() == 0 || includeIndex.Contains(1))
+        {
+			if(DEBUG_MODE) Console.WriteLine("Fix #" + 1);
+            foreach(var keyValuePair in POST_TEXT_REPLACE)
+            {
+                if(content.Contains(keyValuePair.Key))
+                {
+					count.Add(1);
+                    content = content.Replace(keyValuePair.Key, keyValuePair.Value);
+                }
+            }
+        }
+        #endregion
 		
 		#region 14 old blog link to current blog
 		// NOTE: This does not cover domain names during Blogger export and import to a new Blogger site!
