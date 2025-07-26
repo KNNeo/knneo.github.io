@@ -904,7 +904,7 @@ function hideMouseInViewer() {
 			if((window.data?.cursor || window.data?.slideshow?.cursor) != 'hide') return;
 			viewer.style.setProperty('--cursor', 'none');
 			viewer.getBoundingClientRect();
-		}, 3000);
+		}, 5000);
 	}
 }
 
