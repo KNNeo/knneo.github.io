@@ -53,7 +53,7 @@ public class Program {
 	static string HTML_DESCRIPTION = "If it is worth taking Note, it will be a Klassic.";
 	static bool POSTS_LINK_TO_BLOGGER = false;
 	static string POSTS_INCLUDE_SINCE = "2000-01-01";
-	static string POSTS_PROCESS_SINCE = "2023-07-01";
+	static string POSTS_PROCESS_SINCE = "2024-07-01";
 	static string POST_THUMBNAIL_SINCE = "2020-01-01";
 	static string POST_TAGS_PREFIX_TEXT = "Reported under";
 	static List<String> POST_IGNORE_LABELS = new List<string>() { "The Archive", "The Statement" };
