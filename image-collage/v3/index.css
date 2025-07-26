@@ -213,13 +213,19 @@ a:focus-within {
 }
 
 .loader {
-	display: block;
-	padding: 10px;
-	font-size: 24px;
-	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 2em;
 	width: 100%;
-	margin: auto;
+	height: 100%;
 	z-index: 11;
+
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 
 .back {
@@ -326,8 +332,8 @@ a:focus-within {
 	z-index: 9;
 	position: fixed;
 	background-color: var(--background);
-	width: 100%;
-	height: 100%;
+	width: 100dvw;
+	height: 100dvh;
 	padding-top: 0;
 	text-align: center;
 	transition: opacity 0.3s, visibility 0.3s;
