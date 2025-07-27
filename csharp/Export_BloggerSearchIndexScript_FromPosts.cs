@@ -295,7 +295,7 @@ public class Program {
 				title = postTitle.Replace("'", "''"),
 				url = pageLink,
 				content = postContent.Replace("'", "''"),
-				date = publishDate.ToString("yyyy.MM.dd"),
+				date = publishDate.ToString("yyyyMMdd"),
 				flag = condition
 			});
 		}
