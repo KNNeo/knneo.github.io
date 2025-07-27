@@ -46,6 +46,12 @@ public class Program {
 		"https://knwebreports2014.blogspot.com/",
 		"http://knwebreports2014.blogspot.com/"
 	};
+    static Dictionary<String, String> POSTTITLE_TEXT_REPLACE = new Dictionary<String, String>()
+    {
+        {"'23", "2023"},
+        {"'24", "2024"},
+        {"'25", "2025"}
+    };
 
 	static void Main()
 	{
@@ -289,7 +295,7 @@ public class Program {
 				condition = "disclaimer";
 			var startIndex = postContent.IndexOf("<div") >= 0 ? postContent.IndexOf("<div") : 0;
 			 // Avoid inline styles
-			postContent = CleanupHtml(postContent.ToLower().Substring(startIndex));
+			postContent = CleanupTitle(postTitle) + CleanupHtml(postContent.ToLower().Substring(startIndex));
 			// Replace quotes for sqlite script
 			indexContent.Add(new SearchIndexContent() {
 				title = postTitle.Replace("'", "''"),
@@ -328,6 +334,18 @@ public class Program {
 		slug = slug.Replace("--","-").Replace("--","-").Trim('-');
 		return slug.Length > GENERATE_SLUG_MAX_LENGTH ? slug.Substring(0, slug.Substring(0, GENERATE_SLUG_MAX_LENGTH).LastIndexOf('-')) : slug;
 	}
+
+    static string CleanupTitle(string title)
+    {
+        foreach(var keyValuePair in POSTTITLE_TEXT_REPLACE)
+        {
+            if(title.Contains(keyValuePair.Key))
+            {
+                title = title.Replace(keyValuePair.Key, keyValuePair.Value);
+            }
+        }
+        return title.ToLower();
+    }
 
 	static string CleanupHtml(string content) {
 		string expression = @"";
