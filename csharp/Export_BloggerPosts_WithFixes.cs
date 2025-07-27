@@ -50,7 +50,20 @@ public class Program {
 
 	// POST SETTINGS
 	static string HTML_TITLE = "Klassic Note Reports";
-	static string HTML_DESCRIPTION = "If it is worth taking Note, it will be a Klassic.";
+	static string HTML_DESCRIPTION_DEFAULT = "If it is worth taking Note, it will be a Klassic.";
+    static Dictionary<String, String> HTML_DESCRIPTION_MAPPING = new Dictionary<String, String>()
+    {
+        { "The Entertainment News", "Honest opinions and terrible jokes on my views of anime and music" },
+        { "The Fanfiction", "Me in a cringeworthy fictional world with my idols" },
+        { "The Dreams", "Things you don't see when awake" }
+    };
+    static string GetHtmlDescriptionByTags(List<string> pageTags)
+    {
+        if(pageTags.Count < 1) return HTML_DESCRIPTION_DEFAULT;
+        HTML_DESCRIPTION_MAPPING.TryGetValue(pageTags.First(), out String description);
+        if(String.IsNullOrWhiteSpace(description)) return HTML_DESCRIPTION_DEFAULT;
+        else return description;
+    }
 	static bool POSTS_LINK_TO_BLOGGER = false;
 	static string POSTS_INCLUDE_SINCE = "2000-01-01";
 	static string POSTS_PROCESS_SINCE = "2024-07-01";
@@ -450,7 +463,7 @@ public class Program {
 					.Replace("_TITLE_", postTitle.Length > 0 ? postTitle : "A Random Statement")
 					.Replace("_IMAGE_", thumbnailUrl)
 					.Replace("_LINK_", pageLink)
-					.Replace("_DESCRIPTION_", HTML_DESCRIPTION)
+					.Replace("_DESCRIPTION_", HTML_DESCRIPTION_DEFAULT)
 					.Replace("_FONTS_\n", externalFonts.Length > 0 ? externalFonts.ToString() : "")
 					.Replace("_CSS_\n", GenerateStyleLinks(postContent))
 					.Replace("_JS_\n", GenerateScriptLinks(postContent))
@@ -540,7 +553,7 @@ public class Program {
 		// Write all additions into output home page
 		string fileString = File.ReadAllText(HOMEPAGE_TEMPLATE_FILENAME)
 			.Replace("_TITLE_", HTML_TITLE)
-			.Replace("_DESCRIPTION_", HTML_DESCRIPTION)
+			.Replace("_DESCRIPTION_", HTML_DESCRIPTION_DEFAULT)
 			.Replace("_URL_", BLOG_DOMAIN_URL)
 			.Replace("_ARCHIVE_", homepageString.ToString())
 			.Replace("_COUNT_", postCount.ToString());
