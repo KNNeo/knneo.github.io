@@ -57,10 +57,10 @@ GAMES
 
 Tools
 ---
-**Blogger/Export/Viewer** - For reading and parsing simple view of Blogger XML export<br/>
 **Birthday/Paradox/Calculator** - Calculate chances of getting duplicates in selection of items as defined by "Birthday Problem"<br/>
 **Collage/Maker** - Internal tool to convert list of table elements to custom collage format (see Klassic Note Reports)<br/>
 **Character/Counter** - No fuzz toll to count number of characters within a textbox<br/>
+**Blogger/Export/Viewer** - [❌Discontinued] For reading and parsing simple view of Blogger XML export<br/>
 **Bounty/Hunter/Calculator** - Red Dead Redemption Online Bounty Hunter profit to time calculator, with timer<br/>
 **Ratio/Calculator** - Ratio calculator based on simple math<br/>
 **Random/Selector** - Input selector, with history and auto reset if list exhausted<br/>
