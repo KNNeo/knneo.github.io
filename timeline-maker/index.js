@@ -117,11 +117,12 @@ function loadEdit(content) {
 	{
 		markup += 'SKIP ' + (item.skip ?? 0) + '\n';  // find skip if any
 		let left = item.data.filter(d => d.pos == 'left')[0];  // find first
+		// for text add quotes
 		if(left)
-			markup += 'LEFT ' + (left.txt ? left.txt : left.img + ',' + (left.url || '')) + '\n';
+			markup += 'LEFT ' + (left.txt ? '"' + left.txt + '"' : left.img + ',' + (left.url || '')) + '\n';
 		let right = item.data.filter(d => d.pos == 'right')[0];  // find first
 		if(right)
-			markup += 'RIGHT ' + (right.txt ? right.txt : right.img + ',' + (right.url || '')) + '\n';
+			markup += 'RIGHT ' + (right.txt ? '"' + right.txt + '"' : right.img + ',' + (right.url || '')) + '\n';
 		markup += '\n';
 	}
 	
@@ -167,8 +168,8 @@ function saveEdit() {
 				dataObj.pos = 'right';
 			
 			let val = item.replace('LEFT','').replace('RIGHT','').trim();
-			if(val.indexOf(',') < 0 && val.length > 0) // text value
-				dataObj.txt = val;
+			if(val.startsWith('"') && val.endsWith('"') && val.length > 0) // text value
+				dataObj.txt = val.slice(1, val.length -1);
 			let isStaticImage = config.formats.split('|').find(f => val.indexOf(f) >= 0); // static images (for now)
 			if(isStaticImage && val.indexOf(',') < 0) // image only
 				dataObj.img = val;
