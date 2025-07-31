@@ -34,6 +34,7 @@ public class Program {
 	static bool WRITE_TITLE_ON_CONSOLE = false;
     static bool WRITE_TAGS_COUNT_ON_CONSOLE = true;
     static bool WRITE_PEOPLE_COUNT_ON_CONSOLE = true;
+    static bool WRITE_SOURCE_COUNT_ON_CONSOLE = true;
 	static bool DELETE_OUTPUT_DIRECTORY = false;
 	static int DOTS_PER_LINE_CONSOLE = 80;
 	static string BLOG_DOMAIN_URL = "https://klassicnotereports.blogspot.com/";
@@ -412,7 +413,7 @@ public class Program {
 
     static void WriteFanficListFromTags()
     {
-        if(WRITE_TAGS_COUNT_ON_CONSOLE || WRITE_PEOPLE_COUNT_ON_CONSOLE) {
+        if(WRITE_TAGS_COUNT_ON_CONSOLE || WRITE_PEOPLE_COUNT_ON_CONSOLE || WRITE_SOURCE_COUNT_ON_CONSOLE) {
             var peopleList = new Dictionary<String, Int32>();
             var tagsList = new Dictionary<String, Int32>();
             foreach(var list in PAGE_TAGS.Values)
@@ -451,6 +452,16 @@ public class Program {
 						Count = t.Value
 					}).OrderByDescending(x => x.Count).ToList()));
 			}
+            // NOTE: Assume mapping file only has replacements for Fanfiction
+            if(WRITE_SOURCE_COUNT_ON_CONSOLE) {
+                var sourcesList = POST_TEXT_REPLACE.Keys;
+                var items = new List<PrintItem>() {
+                    new PrintItem() { Name = "Suruga-ya", Count = sourcesList.Count(s => s.Contains("suruga-ya.jp")) },
+                    new PrintItem() { Name = "Cloudinary", Count = sourcesList.Count(s => s.Contains("res.cloudinary.com")) }
+                };
+				Console.WriteLine("=====SOURCE=====");
+				Console.WriteLine(OutputTable<PrintItem>(items));
+            }
         }
     }
 
