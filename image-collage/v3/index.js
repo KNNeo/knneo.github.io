@@ -336,7 +336,6 @@ function generateGrid() {
 	
 	let [thumbWidth, thumbHeight] = calculateThumbnailSize();
 	for(let item of filterArray) {
-		let imageUrl = item.nm || '';
 		
 		let gridItem = document.createElement('div');
 		gridItem.classList.add('grid-item');
@@ -345,20 +344,26 @@ function generateGrid() {
         gridItem.style.setProperty('--border', (window.data.grid?.thumbnail?.border || 1) + 'px');
         gridItem.style.setProperty('--radius', (window.data.grid?.thumbnail?.radius || 0) + 'px');
 		
-		if(window.data.grid?.banner?.length) {
-            let prefix = imageUrl.substring(0, window.data.grid.banner.length);
+		if(window.data.grid?.banner) {
+			// as property, or if not object, as string
+            let prefix = item[window.data.grid.banner.property] || (item.nm || '').substring(0, window.data.grid.banner.length);
             if(prevValue != prefix) {
                 let overlay = document.createElement('div');
                 overlay.classList.add('banner');
                 overlay.classList.add('prefix');
                 overlay.innerText = prefix;
                 overlay.title = prefix;
-                gridItem.appendChild(overlay);
+				if(item[window.data.grid?.banner?.property]) {
+					overlay.classList.add('grid-item');
+					grid.appendChild(overlay);
+				}
+				else 
+					gridItem.appendChild(overlay);
                 prevValue = prefix;
             }
 		}
 		
-		if(window.data.grid.star && item[window.data.grid.star.property]) {
+		if(window.data.grid?.star && item[window.data.grid.star.property]) {
 			let itemVal = item[window.data.grid.star.property];
 			// universal tag (boolean)
 			let highlight = document.createElement('div');
@@ -387,7 +392,7 @@ function generateGrid() {
 		
 		let gridItemImage = document.createElement('img');
 		gridItemImage.alt = item.ds || '';
-		gridItemImage.title = getFilenameInfo(imageUrl).filename.split(window.data.separator).join('\n');
+		gridItemImage.title = getFilenameInfo(item.nm || '').filename.split(window.data.separator).join('\n');
 		let thumbnail = getThumbnailSizeBySetting(item);
 		if(thumbnail == spacer)
 			console.error('thumbnail not found', item);
