@@ -6,7 +6,8 @@ const config = {
 	"orientation": window.innerWidth > window.innerHeight ? "horizontal" : "vertical",
 	"size": 40,
 	"scroll": 0.1,
-	"formats": ".jpg|.webp"
+	"formats": ".jpg|.webp",
+    "storage": "timeline-edit-data"
 };
 const emojiRegex = /(\p{Emoji}|\p{Emoji_Presentation}|\p{Emoji_Modifier}|\p{Emoji_Modifier_Base}|\p{Emoji_Component}|\p{Extended_Pictographic})+/gv;
 
@@ -214,11 +215,11 @@ function loadData() {
 	}
 	// if empty inline, load from local storage (inline to override)
 	if(document.querySelector('#data').textContent.trim().length < 3)
-		document.querySelector('#data').textContent = localStorage.getItem('timeline-edit-data') ?? '[]';
+		document.querySelector('#data').textContent = localStorage.getItem(config.storage) ?? '[]';
 }
 
 function saveData() {
-	localStorage.setItem('timeline-edit-data', document.querySelector('#data').textContent);
+	localStorage.setItem(config.storage, document.querySelector('#data').textContent);
 }
 
 function generateTimeline(timelineList, querySelector) {
