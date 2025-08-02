@@ -182,6 +182,13 @@ a:focus-within {
 	user-select: none;
 }
 
+.grid-item.banner {
+	position: initial;
+    width: 100%;
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
 .banner[href] {
 	cursor: pointer;
 }

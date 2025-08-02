@@ -344,16 +344,22 @@ function generateGrid() {
         gridItem.style.setProperty('--border', (window.data.grid?.thumbnail?.border || 1) + 'px');
         gridItem.style.setProperty('--radius', (window.data.grid?.thumbnail?.radius || 0) + 'px');
 		
-		if(window.data.grid?.banner) {
+		if(window.data.grid?.banner && item[window.data.grid.banner.property]) {
 			// as property, or if not object, as string
-            let prefix = item[window.data.grid.banner.property] || (item.nm || '').substring(0, window.data.grid.banner.length);
+            let prefix = (item[window.data.grid.banner.property] || '');
+            if(window.data.grid.banner.start && window.data.grid.banner.end)
+                prefix = prefix.substring(window.data.grid.banner.start || 0, window.data.grid.banner.end).trim();
+            else if(window.data.grid.banner.start)
+                prefix = prefix.substring(0, window.data.grid.banner.start).trim();
+            else if(window.data.grid.banner.end)
+                prefix = prefix.substring(prefix.length - window.data.grid.banner.end).trim();
             if(prevValue != prefix) {
                 let overlay = document.createElement('div');
                 overlay.classList.add('banner');
                 overlay.classList.add('prefix');
                 overlay.innerText = prefix;
                 overlay.title = prefix;
-				if(item[window.data.grid?.banner?.property]) {
+				if(window.data.grid?.banner?.type == 'grid') {
 					overlay.classList.add('grid-item');
 					grid.appendChild(overlay);
 				}
@@ -568,11 +574,11 @@ function toggle() {
 
 function resize() {
 	//resize grid
-	document.querySelector('.expand').innerText = 'unfold_more';
-	tags.classList.remove('expanded');
+    document.querySelector('.expand').innerText = 'unfold_more';
+    tags.classList.remove('expanded');
 	//resize images
 	let [thumbWidth, thumbHeight] = calculateThumbnailSize();
-	for(let gridItem of document.querySelectorAll('.grid-item')) {
+	for(let gridItem of document.querySelectorAll('.grid-item:not(.banner)')) {
 		gridItem.style.width = thumbWidth + 'px';
 		gridItem.style.height = thumbHeight + 'px';
 	}
