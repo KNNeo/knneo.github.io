@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en-SG">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+    <link id="fonts-css" rel="stylesheet" type="text/css" href="../../fonts.css">
+    <link id="bs-css" rel="stylesheet" type="text/css" href="../../resources/bootstrap-icons.css">
+    <link id="index-css" rel="stylesheet" type="text/css" href="index.css">
+	<script src="../../theme.js" type="application/javascript" charset="utf-8"></script>
+	<script src="index.js" type="application/javascript" charset="utf-8" defer></script>
+	<script id="example" type="application/json" defer></script>
+    <title>Timeline Creator</title>
+</head>
+<body onload="startup()">
+	<header class="header">
+		<h2>Timeline</h2>
+		<h5>Responsive web timeline in horizontal/vertical orientations with dimmed mode</h5>
+	</header>
+	<main class="timeline"></main>
+	<footer>
+		<h3 class="settings">
+			<a class="darkmode bi bi-brightness-high" href="javascript:void(0);" title="Toggle Dark Mode" onclick="toggleDarkMode()" oncontextmenu="customSetTheme()" oncontextmenu="false"></a>
+			<a class="edit bi bi-pencil-square" href="javascript:void(0);" title="Toggle Editor" onclick="openEditor()" oncontextmenu="false"></a>
+			<a class="code bi bi-arrow-repeat" href="javascript:void(0);" title="Rotate Timeline" onclick="toggleOrientation()" oncontextmenu="false"></a>
+			<a class="clear bi bi-lightbulb" href="javascript:void(0);" title="Toggle Dim Mode" onclick="toggleDimMode()" oncontextmenu="false"></a>
+			<a class="re-align bi bi-arrow-left-right" href="javascript:void(0);" title="Set Arrangement" onclick="showLayouts()" oncontextmenu="false"></a>
+		</h3>
+		<a class="home" href="https://knneo.github.io/">knneo.github.io</a>
+	</footer>
+</body>
+</html>
