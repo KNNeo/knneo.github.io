@@ -61,7 +61,7 @@ public class Program {
         foreach(var row in rows)
         {
             var parts = row.Split(',');
-            if(parts.Length > 1 && !String.IsNullOrWhiteSpace(parts[0]) && !String.IsNullOrWhiteSpace(parts[1]))
+            if(parts.Length > 1 && !String.IsNullOrWhiteSpace(parts[0]))
                 list.Add(parts[0], parts[1]);
         }
         return list;
@@ -76,7 +76,7 @@ public class Program {
         foreach(var row in rows)
         {
             var parts = row.Split(',');
-            if(Int32.TryParse(parts[0], out Int32 id) && !String.IsNullOrWhiteSpace(parts[1]))
+            if(Int32.TryParse(parts[0], out Int32 id) && !String.IsNullOrWhiteSpace(parts[0]))
                 list.Add(id, String.Join(',',parts.Skip(1)));
         }
         return list;
@@ -330,7 +330,7 @@ public class Program {
                 if(DEBUG_MODE) Console.WriteLine("Fix #" + 1);
                 foreach(var keyValuePair in POST_TEXT_REPLACE)
                 {
-                    if(postContent.Contains(keyValuePair.Key))
+                    if(postContent.Contains(keyValuePair.Key) && !String.IsNullOrWhiteSpace(keyValuePair.Value))
                     {
                         postContent = postContent.Replace(keyValuePair.Key, keyValuePair.Value);
                     }
@@ -422,13 +422,16 @@ public class Program {
                 var tags = list.Split(',').ToList();
                 if(tags.Count() < 1) continue;
                 // people
-                if(peopleList.ContainsKey(tags[1]))
-                    peopleList[tags[1]] += 1;
+                var person = tags[1];
+                if(peopleList.ContainsKey(person))
+                    peopleList[person] += 1;
                 else
-                    peopleList.Add(tags[1], 1);
+                    peopleList.Add(person, 1);
                 // tags
-                foreach(var tag in tags.Skip(1).Append(tags[0]))
+                foreach(var tag in tags)
                 {
+                    // should not contain people
+                    if(peopleList.ContainsKey(tag)) continue;
                     if(tagsList.ContainsKey(tag))
                         tagsList[tag] += 1;
                     else
@@ -457,7 +460,8 @@ public class Program {
                 var sourcesList = POST_TEXT_REPLACE.Keys;
                 var items = new List<PrintItem>() {
                     new PrintItem() { Name = "Suruga-ya", Count = sourcesList.Count(s => s.Contains("suruga-ya.jp")) },
-                    new PrintItem() { Name = "Cloudinary", Count = sourcesList.Count(s => s.Contains("res.cloudinary.com")) }
+                    new PrintItem() { Name = "Cloudinary", Count = sourcesList.Count(s => s.Contains("res.cloudinary.com")) },
+                    new PrintItem() { Name = "Total", Count = sourcesList.Count() }
                 };
 				Console.WriteLine("=====SOURCE=====");
 				Console.WriteLine(OutputTable<PrintItem>(items));

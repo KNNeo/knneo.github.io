@@ -93,7 +93,7 @@ public class Program {
         foreach(var row in rows)
         {
             var parts = row.Split(',');
-            if(parts.Length > 1 && !String.IsNullOrWhiteSpace(parts[0]) && !String.IsNullOrWhiteSpace(parts[1]))
+            if(parts.Length > 1 && !String.IsNullOrWhiteSpace(parts[0]))
                 list.Add(parts[0], parts[1]);
         }
         return list;
@@ -685,7 +685,7 @@ public class Program {
 			if(DEBUG_MODE) Console.WriteLine("Fix #" + 1);
             foreach(var keyValuePair in POST_TEXT_REPLACE)
             {
-                if(content.Contains(keyValuePair.Key))
+                if(content.Contains(keyValuePair.Key) && !String.IsNullOrWhiteSpace(keyValuePair.Value))
                 {
 					count.Add(1);
                     content = content.Replace(keyValuePair.Key, keyValuePair.Value);
