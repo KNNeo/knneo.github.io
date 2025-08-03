@@ -59,6 +59,7 @@ function initializeVariables(data) {
 	window.slideshow = { run: null, history: [] };
 	menu.addEventListener(isFirefox ? 'DOMMouseScroll' : 'mousewheel', onScrollSidebar);
 	window.addEventListener('mousemove', hideMouseInViewer);
+	window.addEventListener('focus', focusInView);
 	initializeCollage();
 }
 
@@ -566,6 +567,13 @@ function fadeIn() {
     }
 }
 
+function focusInView() {
+    // focus on top left element on collage scroll
+    let imageInView = Array.from(collage.querySelectorAll('.grid-item img')).find(i => i.getBoundingClientRect().y > 0);
+    if(imageInView)
+        imageInView.focus();
+}
+
 //--EVENTS--//
 function keypress() {
     //console.log(event.key);
@@ -584,10 +592,7 @@ function keypress() {
         case 'PageUp':
         case 'Home':
         case 'End':
-            // focus on top left element on collage scroll
-            let imageInView = Array.from(collage.querySelectorAll('.grid-item img')).find(i => i.getBoundingClientRect().y > 0);
-            if(imageInView)
-                imageInView.focus();
+            focusInView();
             break;
         default:
             // based on setting
