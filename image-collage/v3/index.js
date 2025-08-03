@@ -568,13 +568,33 @@ function fadeIn() {
 
 //--EVENTS--//
 function keypress() {
-    console.log(event.key);
-    let elem = document.querySelector('[onclick][data-key=' + event.key + ']');
-    if(event.key == 'Escape')
-        closeViewer();
-    else if(event.key == 'Enter' && event.target.closest('.grid-item'))
-        event.target.click();
-    else if(elem) elem.click();
+    //console.log(event.key);
+    switch(event.key) {
+        case 'Escape':
+            closeViewer();
+            break;
+        case 'Enter':
+            // open image in viewer
+            if(event.target.closest('.grid-item'))
+                event.target.click();
+            break;
+        case 'ArrowDown':
+        case 'PageDown':
+        case 'ArrowUp':
+        case 'PageUp':
+        case 'Home':
+        case 'End':
+            // focus on top left element on collage scroll
+            let imageInView = Array.from(collage.querySelectorAll('.grid-item img')).find(i => i.getBoundingClientRect().y > 0);
+            if(imageInView)
+                imageInView.focus();
+            break;
+        default:
+            // based on setting
+            let elem = document.querySelector('[onclick][data-key=' + event.key + ']');
+            if(elem) elem.click();
+            break;
+    }
 }
 
 function resize() {
