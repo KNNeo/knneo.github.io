@@ -113,6 +113,12 @@ a:hover {
 	font-size: 1.2em;
 	text-decoration: none;
 }
+.stars {
+    margin-right: 1em;
+}
+.tier {
+    white-space: nowrap;
+}
 .list {
 	list-style-type: none;
 	padding: 0 5px;

@@ -851,7 +851,7 @@ function generateProfileSocial(profile) {
 			popupContent(processOption(profile.intro, false) + 
 			'<p style="font-style: italic;">"' + processOption(profile.description, false) + 
 			'"</p>Star Rating:<br>' + ratingAsStars(profile.rating, config.rating.max)?.outerHTML + 
-			'<small>' + (config.rating.tiers[profile.rating - 1] ?? '') + '</small>');
+			'<small class="tier">' + (config.rating.tiers[profile.rating - 1] ?? '') + '</small>');
 			let dialog = document.querySelector('.dialog dialog');
 		});
 		
@@ -1007,6 +1007,7 @@ function updateTime() {
 }
 function ratingAsStars(rating, total) {
 	let stars = document.createElement('span');
+    stars.classList.add('stars');
 	stars.title = rating + '/' + total;
 	for(s = 0; s < Math.max(rating, total); s++)
 	{
