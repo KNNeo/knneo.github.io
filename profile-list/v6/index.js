@@ -1,7 +1,6 @@
 //--SETTINGS--//
 const config = {
 	title: '推し図鑑',
-	source: 'https://knneo.github.io/profile-list/v6/profiles.json',
 	buttons: {
 		random: true,
 		all: true,
@@ -104,8 +103,8 @@ function loadSources() {
 		stopLoader();
 		renderPage();
 	}
-	else if(config.source)
-		getJson(config.source, function(response) {
+	else if(document.querySelector('#data').src)
+		getJson(document.querySelector('#data').src, function(response) {
 			console.log('using external json url from config');
 			config.data = response;
 			stopLoader();
@@ -536,7 +535,7 @@ function findFriendIdByProfile(friends) {
 			.sort(function(a,b) {
 				return b.id.split('-').length - a.id.split('-').length;
 			})
-			.find( function(p) {
+			.find(function(p) {
 				let count = p.id.split('-').length;
 				let check0 = (p.id.includes(friends[0].id + '-') || p.id.includes('-' + friends[0].id + '-') || p.id.includes('-' + friends[0].id));
 				let check1 = (p.id.includes(friends[1].id + '-') || p.id.includes('-' + friends[1].id + '-') || p.id.includes('-' + friends[1].id));
