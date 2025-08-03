@@ -397,6 +397,7 @@ function generateGrid() {
 		}
 		
 		let gridItemImage = document.createElement('img');
+        gridItemImage.tabIndex = 0;
 		gridItemImage.alt = item.ds || '';
 		gridItemImage.title = getFilenameInfo(item.nm || '').filename.split(window.data.separator).join('\n');
 		let thumbnail = getThumbnailSizeBySetting(item);
@@ -566,10 +567,14 @@ function fadeIn() {
 }
 
 //--EVENTS--//
-function toggle() {
-    //console.log(event.key);
+function keypress() {
+    console.log(event.key);
     let elem = document.querySelector('[onclick][data-key=' + event.key + ']');
-    if(elem) elem.click();
+    if(event.key == 'Escape')
+        closeViewer();
+    else if(event.key == 'Enter' && event.target.closest('.grid-item'))
+        event.target.click();
+    else if(elem) elem.click();
 }
 
 function resize() {
@@ -601,6 +606,7 @@ function onToggleSize() {
 	}
 	
 	window.preset = event.target.innerText;
+    popupTextGoAway(window.preset.toUpperCase().slice(window.preset.lastIndexOf('_') + 1));
 	generateGrid();
 }
 
@@ -623,6 +629,7 @@ function onToggleExpander() {
 	  default:
 		break;
 	}
+    popupTextGoAway(event.target.innerText.toUpperCase().slice(event.target.innerText.lastIndexOf('_') + 1));
 	setTimeout(setMenuHeight, 300);
 }
 
@@ -677,16 +684,19 @@ function onToggleSidebar() {
 		gridItem.style.width = thumbWidth + 'px';
 		gridItem.style.height = thumbHeight + 'px';
 	}
+    event.target.focus();
 	setTimeout(setMenuHeight, 300);
 }
 
 function onToggleCaptions() {
 	event.target.innerText = event.target.innerText == 'subtitles' ? 'subtitles_off' : 'subtitles';
 	viewer.classList.toggle('captions');
+    popupTextGoAway(event.target.innerText);
 }
 
 function onToggleRatio() {
     let ratioSetting = document.querySelector('.ratio');
+    if(!ratioSetting) return;
     if(!window.data.grid)
         window.data.grid = {};
     if(!window.data.grid?.thumbnail) 
@@ -696,45 +706,40 @@ function onToggleRatio() {
 			window.data.grid.thumbnail.ratio = 5/4;
             ratioSetting.innerText = 'crop_5_4';
             ratioSetting.classList.add('rotate-90');
-			generateGrid();
 			break;
 		case 5/4:
 			window.data.grid.thumbnail.ratio = 7/5;
             ratioSetting.innerText = 'crop_16_9'; // icon error
             ratioSetting.classList.add('rotate-90');
-			generateGrid();
 			break;
 		case 7/5:
 			window.data.grid.thumbnail.ratio = 16/9;
             ratioSetting.innerText = 'crop_7_5'; // icon error
             ratioSetting.classList.add('rotate-90');
-			generateGrid();
 			break;
 		case 16/9:
 			window.data.grid.thumbnail.ratio = 9/16;
             ratioSetting.innerText = 'crop_7_5'; // icon error
             ratioSetting.classList.remove('rotate-90');
-			generateGrid();
 			break;
 		case 9/16:
 			window.data.grid.thumbnail.ratio = 5/7;
             ratioSetting.innerText = 'crop_16_9'; // icon error
             ratioSetting.classList.remove('rotate-90');
-			generateGrid();
 			break;
 		case 5/7:
 			window.data.grid.thumbnail.ratio = 4/5;
             ratioSetting.innerText = 'crop_5_4';
             ratioSetting.classList.remove('rotate-90');
-			generateGrid();
 			break;
 		default:
 			window.data.grid.thumbnail.ratio = 1;
             ratioSetting.innerText = 'crop_square';
             ratioSetting.classList.remove('rotate-90');
-			generateGrid();
 			break;
 	}
+    popupTextGoAway(ratioSetting.innerText, window.data.grid.thumbnail.ratio > 1 ? 'rotate-90' : '');
+    generateGrid();
 }
 
 function onToggleSearch() {
@@ -922,10 +927,12 @@ function hideMouseInViewer() {
 function closeViewer() {
     if(window.slideshow.run) {
         stopSlideshow();
-        let gridImage = grid.querySelector('img[data-src="' + (event.target?.src || '') + '"');
-        if(gridImage)
+        let gridImage = grid.querySelector('img[data-src="' + (viewer.querySelector('img')?.src || '') + '"');
+        if(gridImage) {
             // scroll image to top of screen when close viewer
-            gridImage.scrollIntoView();
+            gridImage.scrollIntoView({ block: 'center' });
+            gridImage.focus();
+        }
     }
 	viewer.classList.remove('zoom');
 	viewer.classList.remove('open');
@@ -1022,6 +1029,28 @@ function runLoader() {
 }
 
 //--DIALOG--//
+function popupTextGoAway(text, className) {
+	//create popup and show
+	let popup = document.createElement('div');
+    if(className)
+        popup.className = className;
+	popup.classList.add('popup');
+	popup.classList.add('material-icons');
+	popup.innerText = text;
+	document.querySelector('.popup')?.remove();
+	document.body.appendChild(popup);	
+	//add class to fade
+	popup.classList.add('fade');
+	//add class to hide
+	setTimeout(function() {
+		popup.classList.add('hide');
+	}, 10);
+	//remove after hide
+	setTimeout(function() {
+		popup.remove();
+	}, 1000);
+}
+
 function popupText(input) {
 	let dialogDiv = document.querySelector('.dialog');
 	if(dialogDiv == null) {

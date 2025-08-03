@@ -41,6 +41,10 @@ a:focus-within {
 	color: var(--foreground);
 }
 
+.material-icons.rotate-90 {
+    transform: rotate(90deg);
+}
+
 .content {
 	height: 100%;
 }
@@ -163,6 +167,10 @@ a:focus-within {
 	transition: all 0.1s ease;
 }
 
+.grid-item:has(img:focus-visible) {
+	border: var(--border, 1px) solid var(--foreground);
+}
+
 .grid-item img:hover {
 	transform: scale(1.2);
 }
@@ -273,10 +281,6 @@ a:focus-within {
 	color: var(--foreground);
 	text-decoration: none;
 	padding: 0 5px;	
-}
-
-.settings a.rotate-90 {
-    transform: rotate(90deg);
 }
 
 .settings a:hover {
@@ -444,6 +448,30 @@ a:focus-within {
 
 .viewer.captions.zoom .caption {
 	display: none;
+}
+
+.popup {
+	width: 100dvw;
+	height: auto;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	font-size: 8em;
+	text-align: center;
+	text-shadow: 4px 4px var(--background);
+}
+
+.popup.material-icons {
+	font-family: 'Material Icons', 'Open Sans';
+}
+
+.popup.fade {
+	transition: opacity 1s;
+}
+
+.popup.hide {
+	opacity: 0;
 }
 
 @media (orientation: landscape) {
