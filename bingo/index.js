@@ -213,7 +213,7 @@ function startup() {
 
 function toggleDaub() {
 	let id = config.daubs.indexOf(window['daub']);
-	window['daub'] = (id + 1 >= config.daubs.length) ? config.daubs[0] : config.daubs[id + 1];
+	window['daub'] = (id < 0 || id + 1 >= config.daubs.length) ? config.daubs[0] : config.daubs[id + 1];
 	localStorage.setItem('daub', window['daub']);
 	renderTitle();
 }
