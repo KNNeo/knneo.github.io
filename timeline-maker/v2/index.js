@@ -106,7 +106,8 @@ function toggleDimMode() {
 
 function toggleOrientation() {
 	config.orientation = config.orientation == 'horizontal' ? 'vertical' : 'horizontal';
-	startup();
+	timelineDiv.classList.toggle('horizontal');
+	timelineDiv.classList.toggle('vertical');
 }
 
 function openEditor() {
@@ -261,10 +262,6 @@ function generateTimeline(timelineList, querySelector) {
 	
 	let listBlock = document.createElement('div');
 	listBlock.classList.add('grid');
-	if (config.orientation == 'horizontal')
-		listBlock.style.gridAutoColumns = config.size + 'px';
-	else
-		listBlock.style.gridAutoRows = config.size + 'px';
 	
 	let spacing = calculateSpacing();
 	let displayList = timelineList
@@ -286,10 +283,10 @@ function generateTimeline(timelineList, querySelector) {
 		}, []);
 	
     // pad empty spaces at end so timeline can be within view
-	if(displayList.length && config.orientation == 'horizontal') {
-		for(s = 0; s < Math.floor((timelineDiv.clientWidth / 100) / config.size); s++)
-			displayList.push({ "empty": true });
-	}
+	// if(displayList.length && config.orientation == 'horizontal') {
+	// 	for(s = 0; s < Math.floor((timelineDiv.clientWidth / 100) / config.size); s++)
+	// 		displayList.push({ "empty": true });
+	// }
 	
 	let count = 0;
     let textPos = ['start', 'alternate', 'ltr'].includes(config.layout) ? 'left' : 'right';
@@ -367,40 +364,28 @@ function generateTimeline(timelineList, querySelector) {
 		
 		let leftElems = elems.filter(e => e.classList.contains('left'));
 		if(leftElems.length > 0) {
-			if(config.orientation == 'horizontal') 
-				leftElems[0].style.gridColumnStart = count;
 			container.appendChild(leftElems[0]);
 		}
 		else {
 			let leftElems = document.createElement('div');
-			if(config.orientation == 'horizontal') 
-				leftElems.style.gridColumnStart = count;
 			leftElems.classList.add('left');
 			container.appendChild(leftElems);
 		}
 		let centerElems = elems.filter(e => e.classList.contains('center'));
 		if(centerElems.length > 0) {
-			if(config.orientation == 'horizontal') 
-				centerElems[0].style.gridColumnStart = count;
 			container.appendChild(centerElems[0]);
 		}
 		else {
 			centerElems = document.createElement('div');
-			if(config.orientation == 'horizontal') 
-				centerElems.style.gridColumnStart = count;
 			centerElems.classList.add('center');
 			container.appendChild(centerElems);
 		}
 		let rightElems = elems.filter(e => e.classList.contains('right'));
 		if(rightElems.length > 0) {
-			if(config.orientation == 'horizontal') 
-				rightElems[0].style.gridColumnStart = count;
 			container.appendChild(rightElems[0]);
 		}
 		else {
 			rightElems = document.createElement('div');
-			if(config.orientation == 'horizontal') 
-				rightElems.style.gridColumnStart = count;
 			rightElems.classList.add('right');
 			container.appendChild(rightElems);
 		}
