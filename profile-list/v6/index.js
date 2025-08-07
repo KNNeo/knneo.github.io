@@ -170,25 +170,25 @@ function stopLoader() {
 //--EVENTS--//
 function onSearch() {
 	// console.log(event.target.value);
-	config.search = event.target.value;
+	config.search = event.target.value.toLowerCase();
 	filterWantedListBySearch();
 	if(event.key === 'Enter') // select first result
 		wantedListDiv.querySelector('.item')?.click();
 }
 
 function filterWantedListBySearch() {
-	let term = config.search.toLowerCase();
+	// no inactive flag, has rating, has no other profile selected or filter by that, then filter by name or nickname
 	config.list.profiles = config.data
 	.filter(n => !(n.inactive === true) && n.rating &&
 	(config.profiles.length == 0 || config.profiles.filter(p => p.id != n.id).length > 0) &&
-	(n.name.toLowerCase().includes(term) || (n.nickname?.toLowerCase().includes(term) ?? false)));
+	(n.name.toLowerCase().includes(config.search) || (n.nickname?.toLowerCase().includes(config.search) ?? false)));
 	generateWantedList(true);
 }
 
 function clearWantedList() {
 	searchDiv.value = '';
 	profileDetailsDiv.innerHTML = '';
-	profileImageDiv.innerHTML = '<h2 class="title">' + config.title + '</h2>';
+	profileImageDiv.innerHTML = '<h2 class="title">' + (config.title || '') + '</h2>';
 	config.profiles = [];
 	config.multi = false;
 	loadSources();
@@ -197,7 +197,7 @@ function clearWantedList() {
 
 function selectRandomProfile() {
 	let items = wantedListDiv.querySelectorAll('.item');
-	generateProfileFromJSON(items[Math.floor(list.length*Math.random())]);
+	generateProfileFromJSON(items[Math.floor(items.length*Math.random())]);
 }
 
 function onTouchStart(e) {
