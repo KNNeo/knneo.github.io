@@ -12,14 +12,12 @@ function generateMiniCalendar(year, month, list = [], showLegend = false) {
 	
 	// generate calendar HTML
 	let table = generateMiniCalendarTable(year, month, calendarArray);	
-	// calendar.appendChild(table);
-	
 	document.querySelector('.calendar').innerHTML = table;
-	// document.querySelector('.calendar').appendChild(calendar);
 	
-	// add marked items on expanded calendar
+	// change variable to match current calendar
 	config.calendar.month = month;
-	addEventsToMiniCalendar(table, list);
+	// add marked items on expanded calendar
+	addEventsToMiniCalendar(year, table, list);
 	
 	if(showLegend)
 		addCalendarLegend();
@@ -46,7 +44,7 @@ function generateMiniCalendarTable(year, month, array) {
 	let htmlString = '<table class="box"><tbody><tr><th>' + 
 	(month+1 > 1 ? '<i class="inverted prev-month bi bi-arrow-left"></i>' : '') + 
 	'</th><th colspan="5">' + 
-	config.calendar.months[month] + ' ' + new Date().getFullYear() + 
+	config.calendar.months[month] + ' ' + year + 
 	'</th><th>'	+ 
 	(month+1 < 12 ? '<i class="inverted next-month bi bi-arrow-right"></i>' : '') + 
 	'</th></tr><tr>' + config.calendar.daysOfWeek.map(w => '<td>' + w + '</td>').join('') + '</tr>';
@@ -63,24 +61,22 @@ function generateMiniCalendarTable(year, month, array) {
 	return htmlString;
 }
 
-function addEventsToMiniCalendar(htmlString, DOBlist) {
+function addEventsToMiniCalendar(year, htmlString, DOBlist) {
 	// replace cells in table with relevant dates
 	for (let item of DOBlist) {
 		//calculate if birthday this year has passed
 		let currentYear = new Date().getFullYear();
-		let birthdayInYear = new Date(new Date().getFullYear(), new Date(item.date.replace('????', currentYear)).getMonth(), new Date(item.date.replace('????', currentYear)).getDate());
-				
+		let birthdayInYear = new Date(year, new Date(item.date.replace('????', year)).getMonth(), new Date(item.date.replace('????', year)).getDate());
+		
 		let thisAge;
-		//define thisAge
+		// update age is passed current date
 		if (item.currentAge <= 1) thisAge = '??';
 		else if (isBirthdayPassed(currentYear + item.date.substring(4))) thisAge = item.currentAge;
-		else thisAge = item.currentAge + 1;
+		else thisAge = item.currentAge + (currentYear - year);
 		// console.log(item.category + '|' + item.name + '|' + item.currentAge);
 		if (config.calendar.category == null) continue;
 		
-		//replace html based on thisAge
-		// let colorClass = 'color-' + item.category;
-		// let backgroundClass = 'bg-' + item.category;
+		// replace html based on age on calendar year
 		let dateCell = '<td>' + birthdayInYear.getDate() + '</td>';
 		let monthId = config.calendar.months[birthdayInYear.getMonth()];
 		let message = '<b onclick="generateProfileFromJSON(this)" class="calendar-name color" data-id="' + item.category + '">' + item.name + '</b> turns ' + thisAge + '</b> (' + birthdayInYear.getDate() + ' ' + monthId.substring(0, 3) + ')';
@@ -103,7 +99,7 @@ function addEventsToMiniCalendar(htmlString, DOBlist) {
 	
 	document.querySelector('.calendar').innerHTML = htmlString;
 	
-	//add today
+	// add today, stackable to day with events
 	let today = luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: config.timezone});
 	for(let date of document.querySelectorAll('.calendar td'))
 	{
@@ -113,9 +109,8 @@ function addEventsToMiniCalendar(htmlString, DOBlist) {
 	if(today.classList)
 		today.classList.add('today');
 	
-	//global variable for month navigation
-	//events for month buttons
-	// config.calendar.month = monthNo;
+	// global variable for month navigation
+	// events for month buttons
 	if (config.calendar.month > 0) document.querySelector('.prev-month').addEventListener('click', function() {
 		generateMiniCalendar(
 			luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: config.timezone}).year,
