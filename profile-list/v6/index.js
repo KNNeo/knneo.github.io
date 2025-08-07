@@ -157,11 +157,11 @@ function runLoader() {
 		loaderDiv.classList.toggle(loaderStates[0]);
 	}
 	if(config.loading) setTimeout(runLoader, 500);
+	else loaderDiv.classList.add('hidden');
 }
 
 function stopLoader() {
 	config.loading = false;
-	loaderDiv.classList.add('hidden');
 }
 
 //--EVENTS--//
@@ -174,13 +174,11 @@ function onSearch() {
 }
 
 function filterWantedListBySearch() {
+	let term = config.search.toLowerCase();
 	config.list.profiles = config.data
-	.filter(n => !(n.inactive === true) 
-	&& n.rating 
-	&& (config.profiles.length == 0 || config.profiles.filter(p => p.id != n.id).length > 0)
-	&& (n.name.toLowerCase().includes(config.search.toLowerCase())
-	|| (n.nickname?.toLowerCase().includes(config.search.toLowerCase()) ?? false))
-	);
+	.filter(n => !(n.inactive === true) && n.rating &&
+	(config.profiles.length == 0 || config.profiles.filter(p => p.id != n.id).length > 0) &&
+	(n.name.toLowerCase().includes(term) || (n.nickname?.toLowerCase().includes(term) ?? false)));
 	generateWantedList(true);
 }
 
