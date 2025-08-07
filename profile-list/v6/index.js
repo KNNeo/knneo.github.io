@@ -7,6 +7,7 @@ const config = {
 	},
 	rating: {
 		max: 5,
+		prefix: 'Star Rating:',
 		tiers: [
 			'',
 			'',
@@ -840,7 +841,7 @@ function generateProfileSocial(profile) {
 		span.addEventListener('click', function() {
 			popupContent(processOption(profile.intro, false) + 
 			'<p style="font-style: italic;">"' + processOption(profile.description, false) + 
-			'"</p>Star Rating:<br>' + ratingAsStars(profile.rating, config.rating.max)?.outerHTML + 
+			'"</p>' + config.rating.prefix + '<br>' + ratingAsStars(profile.rating, config.rating.max)?.outerHTML + 
 			'<small class="tier">' + (config.rating.tiers[profile.rating - 1] ?? '') + '</small>');
 			let dialog = document.querySelector('.dialog dialog');
 		});
@@ -1011,17 +1012,26 @@ function ratingAsStars(rating, total) {
 function processComment(comment, refs) {
 	let commentArr = [];
 	let added = false;
-	for(let ref of refs)
-	{
+	for(let ref of refs) {
 		let refText = ref.substring(0, ref.indexOf('}')+1);
 		let refLink = ref.replace(refText, '');
-		let replaced = comment.replace(refText, '<a target="_blank" href="' + refLink + '">' + refText + '</a>');
-		if(config.debug)
-			console.log('processComment', replaced, comment);
-		if(replaced != comment)
-		{
-			commentArr.push(replaced.replace('{','').replace('}',''));
-			added = true;
+		if(config.data.find(n => !(n.inactive === true) && config.profile.include(n) && n.id == refLink)) {
+			// existing profile
+			let replaced = comment.replace(refText, '<a target="_blank" onclick="generateProfileFromJSON(this)" data-name="' + refLink + '">' + refText + '</a>');
+			if(config.debug) console.log('processComment profileId', replaced, comment);
+			if(replaced != comment)	{
+				commentArr.push(replaced.replace('{','').replace('}',''));
+				added = true;
+			}
+		}
+		else if(refLink) {
+			// url
+			let replaced = comment.replace(refText, '<a target="_blank" href="' + refLink + '">' + refText + '</a>');
+			if(config.debug) console.log('processComment link', replaced, comment);
+			if(replaced != comment)	{
+				commentArr.push(replaced.replace('{','').replace('}',''));
+				added = true;
+			}
 		}
 	}
 	if(!added)
