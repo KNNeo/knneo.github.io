@@ -839,8 +839,8 @@ function generateProfileSocial(profile) {
 		span.href = 'javascript:void(0)';
 		span.title = 'Comments';
 		span.addEventListener('click', function() {
-			popupContent(processOption(profile.intro, false) + 
-			'<p style="font-style: italic;">"' + processOption(profile.description, false) + 
+			popupContent(processComment(processOption(profile.intro, false), profile.links) + 
+			'<p style="font-style: italic;">"' + processComment(processOption(profile.description, false), profile.links) + 
 			'"</p>' + config.rating.prefix + '<br>' + ratingAsStars(profile.rating, config.rating.max)?.outerHTML + 
 			'<small class="tier">' + (config.rating.tiers[profile.rating - 1] ?? '') + '</small>');
 			let dialog = document.querySelector('.dialog dialog');
@@ -979,12 +979,14 @@ function getAge(DOB) {
 	if(config.debug) console.log('getAge', today, birthDate);
 	return parseInt(today.diff(birthDate, 'years').years);
 }
+
 function isBirthdayPassed(DOB) {
 	let birthDateStr = DOB.replace('.', '-').replace('.', '-'); //yyyy.MM.dd -> yyyy-MM-dd
 	let birthDate = luxon.DateTime.fromISO(birthDateStr.substring(0, 10), {zone: config.timezone}); 
 	let today = luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: config.timezone});
 	return today.diff(birthDate, 'days').days >= 0;
 }
+
 function updateTime() {
 	if(timeDiv != null)	{
 		let time = document.querySelector('.time');
@@ -995,6 +997,7 @@ function updateTime() {
 		setTimeout(updateTime, 1000);
 	}
 }
+
 function ratingAsStars(rating, total) {
 	let stars = document.createElement('span');
     stars.classList.add('stars');
@@ -1009,6 +1012,7 @@ function ratingAsStars(rating, total) {
 	}
 	return stars;
 }
+
 function processComment(comment, refs) {
 	let commentArr = [];
 	let added = false;
@@ -1038,9 +1042,11 @@ function processComment(comment, refs) {
 		commentArr.push(comment);
 	return commentArr.join('<br/>');
 }
+
 function findComment(profile, commentIndexStr) { 
 	return profile.comments.find(c => c.includes(commentIndexStr))?.replace(commentIndexStr,'');
 }
+
 function processOption(option, returnBool) { 
 	return returnBool ? 
 		option.includes('Yes') : 
@@ -1055,6 +1061,7 @@ function processOption(option, returnBool) {
 			.replace('[8]','')
 			.replace('[9]','');
 }
+
 function dupeStringCheck(source, compare) { return source == compare ? source : compare; }
 
 ////CHECK////
