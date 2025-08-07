@@ -52,12 +52,19 @@ const isLandscape = function() {
 window.addEventListener('load', startup);
 
 //--REFERENCES--//
+let loaderDiv = document.querySelector('.loader');
+let titleDiv = document.querySelector('.title');
 let profileDiv = document.querySelector('.profile');
 let profileImageDiv = document.querySelector('.profile-image');
 let profileDetailsDiv = document.querySelector('.profile-details');
 let viewDiv = document.querySelector('.view');
 let pageDivs = document.querySelectorAll('.page');
 let searchDiv = document.querySelector('#search');
+let timelineHorizontalDiv = document.querySelector('#timeline-horiz');
+let timelineVerticalDiv = document.querySelector('#timeline-vert');
+let calendarDiv = document.querySelector('.calendar');
+let timeDiv = document.querySelector('.time');
+let wantedListDiv = document.querySelector('.list');
 
 //--FUNCTIONS--//
 function startup() {
@@ -83,14 +90,13 @@ function initializeVariables() {
 
 function ititializePageEvents() {
 	// set title
-	if(config.title)
-	{
+	if(config.title) {
 		document.title = config.title;
-		document.querySelector('.title').innerText = config.title;
+		if(titleDiv)
+			titleDiv.innerText = config.title;
 	}
 	// add touch events
-	for(let box of pageDivs)
-	{
+	for(let box of pageDivs) {
 		box.addEventListener('touchstart', onTouchStart);
 		box.addEventListener('touchmove', onTouchMove, false);
 	}
@@ -132,30 +138,27 @@ function loadData() {
 
 function toggleView(id) {
 	//change page
-	let isSelect = typeof pageClass == 'string';
 	for(let page of pageDivs)
-	{
 		page.classList.add('hidden');
-	}
 	pageDivs[id-1].classList.remove('hidden');
 }
 
 function runLoader() {
-	if(document.querySelector('.loader').classList.length < 3 ||
-		document.querySelector('.loader').classList.contains('bi-hourglass-top'))
+	if(loaderDiv.classList.length < 3 ||
+		loaderDiv.classList.contains('bi-hourglass-top'))
 	{
-		document.querySelector('.loader').classList.remove('bi-hourglass-top');
-		document.querySelector('.loader').classList.add('bi-hourglass-split');
+		loaderDiv.classList.remove('bi-hourglass-top');
+		loaderDiv.classList.add('bi-hourglass-split');
 	}
-	else if(document.querySelector('.loader').classList.contains('bi-hourglass-split'))
+	else if(loaderDiv.classList.contains('bi-hourglass-split'))
 	{
-		document.querySelector('.loader').classList.remove('bi-hourglass-split');
-		document.querySelector('.loader').classList.add('bi-hourglass-bottom');
+		loaderDiv.classList.remove('bi-hourglass-split');
+		loaderDiv.classList.add('bi-hourglass-bottom');
 	}
-	else if(document.querySelector('.loader').classList.contains('bi-hourglass-bottom'))
+	else if(loaderDiv.classList.contains('bi-hourglass-bottom'))
 	{
-		document.querySelector('.loader').classList.remove('bi-hourglass-bottom');
-		document.querySelector('.loader').classList.add('bi-hourglass-top');
+		loaderDiv.classList.remove('bi-hourglass-bottom');
+		loaderDiv.classList.add('bi-hourglass-top');
 	}
 	
 	if(config.loading) setTimeout(runLoader, 500);
@@ -163,7 +166,7 @@ function runLoader() {
 
 function stopLoader() {
 	config.loading = false;
-	document.querySelector('.loader').classList.add('hidden');
+	loaderDiv.classList.add('hidden');
 }
 
 //--EVENTS--//
@@ -172,7 +175,7 @@ function onSearch() {
 	config.search = event.target.value;
 	filterWantedListBySearch();
 	if(event.key === 'Enter') // select first result
-		document.querySelector('.list .item')?.click();
+		wantedListDiv.querySelector('.item')?.click();
 }
 
 function filterWantedListBySearch() {
@@ -197,8 +200,8 @@ function clearWantedList() {
 }
 
 function selectRandomProfile() {
-	let list = document.querySelectorAll('.list .item');
-	generateProfileFromJSON(list[Math.floor(list.length*Math.random())]);
+	let items = wantedListDiv.querySelectorAll('.item');
+	generateProfileFromJSON(items[Math.floor(list.length*Math.random())]);
 }
 
 function onTouchStart(e) {
@@ -269,14 +272,12 @@ function onClickShowAll() {
 
 ////WANTED LIST////
 function generateWantedList(addReset) {
-	let wantedList = document.querySelector('.list');
-	wantedList.innerHTML = '';
+	wantedListDiv.innerHTML = '';
 
-	if(config.buttons.all)
-	{
+	if(config.buttons.all) {
 		let list = document.createElement('li');
 		list.appendChild(generateWantedListShowAll());
-		wantedList.appendChild(list);
+		wantedListDiv.appendChild(list);
 	}
 	
 	//create array
@@ -292,13 +293,13 @@ function generateWantedList(addReset) {
 	for (let profile of profileNamesList) {
 		let list = document.createElement('li');
 		list.appendChild(generateWantedListEntry(profile.id));
-		wantedList.appendChild(list);
+		wantedListDiv.appendChild(list);
 	}
 	
 	generateWantedListButtons(addReset && profileNamesList.length < 1);
 	
 	//scroll to front
-	wantedList.scrollLeft = 0;
+	wantedListDiv.scrollLeft = 0;
 }
 
 function generateWantedListEntry(id, autoAdd = []) {
@@ -464,14 +465,13 @@ function generateWantedListCard(id) {
 
 ////TIMELINE////
 function loadTimeline(width = 2500) {
-	// if(document.querySelector('#timeline') == null) return;
-	// document.querySelector('#timeline').innerHTML = '';
-	generateVerticalTimeline('timeline-vert', config.list.timeline.filter(prof => !prof.date.startsWith('????')), null, 'auto');
-	generateHorizontalTimeline('timeline-horiz', config.list.timeline.filter(prof => !prof.date.startsWith('????')), width, '160px');
-	addTimelineEvents(false);
+	let list = config.list.timeline.filter(prof => !prof.date.startsWith('????'));
+	generateVerticalTimeline(timelineVerticalDiv, list, null, 'auto');
+	generateHorizontalTimeline(timelineHorizontalDiv, list, width, '160px');
+	addTimelineEvents();
 }
 
-function addTimelineEvents(isHorizontal) {
+function addTimelineEvents() {
 	//on timeline wheel scroll adjust timeline length ie. redraw
 	document.querySelector('#timeline .grid-horiz')?.addEventListener('wheel', function(e) {
 		e.preventDefault();
@@ -484,18 +484,12 @@ function addTimelineEvents(isHorizontal) {
 		else if (newWidth > 10000) newWidth > 10000;
 		else loadTimeline(newWidth);
 	});
-	
-	//on scroll turn off all overlays in timeline and calendar
-	// window.addEventListener('scroll', function() {
-		// if (document.querySelector('#timeline').querySelectorAll('div').length > 0)
-			// document.querySelector('#timeline').querySelector('div').style.opacity = '0';
-	// });
 }
 
 ////CALENDAR////
 function loadCalendar() {
-	// createCalendar(luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: config.timezone}).month-1, config.list.calendar, true);
 	generateMiniCalendar(
+		calendarDiv,
 		luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: config.timezone}).year,
 		luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: config.timezone}).month-1, // month is zero-based
 		config.list.calendar, 
@@ -995,8 +989,7 @@ function isBirthdayPassed(DOB) {
 	return today.diff(birthDate, 'days').days >= 0;
 }
 function updateTime() {
-	if(document.querySelector('.time') != null)
-	{
+	if(timeDiv != null)	{
 		let time = document.querySelector('.time');
 		var now = luxon.DateTime.local().setZone(config.timezone);
 		time.innerText = now.toFormat('yyyy.MM.dd HH:mm:ss');
@@ -1026,8 +1019,6 @@ function processComment(comment, refs) {
 	{
 		let refText = ref.substring(0, ref.indexOf('}')+1);
 		let refLink = ref.replace(refText, '');
-		if(window.location.href.includes('knneo.github.io'))
-			refLink = refLink.replace(/knwebreports.blogspot.com/gi, 'knneo.github.io/blog/pages');
 		let replaced = comment.replace(refText, '<a target="_blank" href="' + refLink + '">' + refText + '</a>');
 		if(config.debug)
 			console.log('processComment', replaced, comment);

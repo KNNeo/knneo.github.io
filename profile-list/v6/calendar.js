@@ -1,4 +1,4 @@
-function generateMiniCalendar(year, month, list = [], showLegend = false) {
+function generateMiniCalendar(elem, year, month, list = [], showLegend = false) {
 	// add class or id to each cell, easier to add content
 	// use table tag, don't use css grid
 	// console.log(year, month);	
@@ -11,7 +11,7 @@ function generateMiniCalendar(year, month, list = [], showLegend = false) {
 	
 	// generate calendar HTML
 	let table = generateMiniCalendarTable(year, month, calendarArray);	
-	document.querySelector('.calendar').innerHTML = table;
+	elem.innerHTML = table;
 	
 	// change variable to match current calendar
 	config.calendar.month = month;
