@@ -148,7 +148,10 @@ function toggleView(id) {
 function runLoader() {
 	if(!loaderDiv) return;
 	let currentState = loaderStates.findIndex(x => loaderDiv.classList.contains(x));
-	if(currentState < loaderStates.length-1) {
+	if(currentState < 0) {
+		loaderDiv.classList.toggle(loaderStates[0]);
+	}
+	else if(currentState < loaderStates.length-1) {
 		loaderDiv.classList.toggle(loaderStates[currentState]);
 		loaderDiv.classList.toggle(loaderStates[1+currentState]);
 	}

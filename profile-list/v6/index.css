@@ -251,6 +251,10 @@ a:hover {
 	justify-content: center;
 	padding: 10px;
 	font-size: 2em;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
 }
 .view {
     height: min(calc(100% - 200px), 75%);
