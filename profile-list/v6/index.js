@@ -45,8 +45,10 @@ const config = {
 	},
 };
 const isLandscape = function() {
+	// follow css conditions
 	return window.matchMedia('(orientation:landscape) and (max-height : 640px)')?.matches;
-} //same as css conditions
+}
+const loaderStates = ['bi-hourglass-top','bi-hourglass-split','bi-hourglass-bottom'];
 
 //--STARTUP--//
 window.addEventListener('load', startup);
@@ -144,23 +146,16 @@ function toggleView(id) {
 }
 
 function runLoader() {
-	if(loaderDiv.classList.length < 3 ||
-		loaderDiv.classList.contains('bi-hourglass-top'))
-	{
-		loaderDiv.classList.remove('bi-hourglass-top');
-		loaderDiv.classList.add('bi-hourglass-split');
+	if(!loaderDiv) return;
+	let currentState = loaderStates.findIndex(x => loaderDiv.classList.contains(x));
+	if(currentState < loaderStates.length-1) {
+		loaderDiv.classList.toggle(loaderStates[currentState]);
+		loaderDiv.classList.toggle(loaderStates[1+currentState]);
 	}
-	else if(loaderDiv.classList.contains('bi-hourglass-split'))
-	{
-		loaderDiv.classList.remove('bi-hourglass-split');
-		loaderDiv.classList.add('bi-hourglass-bottom');
+	else {
+		loaderDiv.classList.toggle(loaderStates[currentState]);
+		loaderDiv.classList.toggle(loaderStates[0]);
 	}
-	else if(loaderDiv.classList.contains('bi-hourglass-bottom'))
-	{
-		loaderDiv.classList.remove('bi-hourglass-bottom');
-		loaderDiv.classList.add('bi-hourglass-top');
-	}
-	
 	if(config.loading) setTimeout(runLoader, 500);
 }
 
