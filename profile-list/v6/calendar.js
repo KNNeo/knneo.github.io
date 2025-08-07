@@ -1,11 +1,10 @@
 function generateMiniCalendar(year, month, list = [], showLegend = false) {
 	// add class or id to each cell, easier to add content
 	// use table tag, don't use css grid
-	// console.log(year, month);
-	
+	// console.log(year, month);	
 	let calendar = document.createElement('div');
 	
-	//TODO: allow start from monday
+	// TODO: allow start from monday
 	// generate calendar array
 	let calendarArray = generateCalendarArray(year, month);
 	// console.log(calendarArray);
@@ -19,8 +18,7 @@ function generateMiniCalendar(year, month, list = [], showLegend = false) {
 	// add marked items on expanded calendar
 	addEventsToMiniCalendar(year, table, list);
 	
-	if(showLegend)
-		addCalendarLegend();
+	if(showLegend) addCalendarLegend();
 }
 
 function generateCalendarArray(year, month) {
@@ -64,15 +62,15 @@ function generateMiniCalendarTable(year, month, array) {
 function addEventsToMiniCalendar(year, htmlString, DOBlist) {
 	// replace cells in table with relevant dates
 	for (let item of DOBlist) {
-		//calculate if birthday this year has passed
+		// calculate if birthday this year has passed
 		let currentYear = new Date().getFullYear();
 		let birthdayInYear = new Date(year, new Date(item.date.replace('????', year)).getMonth(), new Date(item.date.replace('????', year)).getDate());
 		
 		let thisAge;
 		// update age is passed current date
 		if (item.currentAge <= 1) thisAge = '??';
-		else if (isBirthdayPassed(currentYear + item.date.substring(4))) thisAge = item.currentAge;
-		else thisAge = item.currentAge + (currentYear - year);
+		else if (isBirthdayPassed(year + item.date.substring(4))) thisAge = item.currentAge;
+		else thisAge = item.currentAge + (year - currentYear);
 		// console.log(item.category + '|' + item.name + '|' + item.currentAge);
 		if (config.calendar.category == null) continue;
 		
@@ -101,8 +99,7 @@ function addEventsToMiniCalendar(year, htmlString, DOBlist) {
 	
 	// add today, stackable to day with events
 	let today = luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: config.timezone});
-	for(let date of document.querySelectorAll('.calendar td'))
-	{
+	for(let date of document.querySelectorAll('.calendar td')) {
 		if(1+config.calendar.month == today.month && date.innerText.endsWith(today.day.toString()))
 			today = date;
 	}
@@ -124,16 +121,6 @@ function addEventsToMiniCalendar(year, htmlString, DOBlist) {
 			++config.calendar.month, 
 			config.list.calendar
 		);
-		
-		//click as dialog
-		for(let date of document.querySelectorAll('.calendar td'))
-		{
-			let popitem = date.querySelector('.calendar-popitem');
-			if(popitem != null)
-				date.addEventListener('click', function() {
-					popupContent(popitem);
-				});
-		}
 	});
 	
 }
@@ -225,9 +212,7 @@ function filterCalendarList() {
 function exportCalendar() {
 	let textOutput = '"Subject","Start date","All Day Event","Description","Private"';
 	let nowYear = luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: config.timezone}).year;
-	// title, MM/dd/yyyy, true, description, true
-	for(let profile of config.list.calendar)
-	{
+	for(let profile of config.list.calendar) {
 		textOutput += '\n';
 		let formatDate = profile.date.substring(5,7) + '/' + profile.date.substring(8,10) + '/' + nowYear;
 		
@@ -236,6 +221,7 @@ function exportCalendar() {
 		let DOB = nowYear + profile.date.substring(4);
 		let IsBirthdayOver = isBirthdayPassed(DOB);
 		
+		// title, MM/dd/yyyy, true, description, true
 		let line = '"'+profile.name+'\'s Birthday'+(profile.date.includes('?') ? '' : ' ('+(IsBirthdayOver ? getAge(profile.date) : getAge(profile.date)+1)+')')+'","'+formatDate+'","true","'+(profile.date.includes('?') ? '' : ('Born ' + profile.date))+'","true"';
 		textOutput += line;
 	}
