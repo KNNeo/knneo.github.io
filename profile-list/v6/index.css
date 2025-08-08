@@ -152,7 +152,8 @@ a:hover {
 	justify-content: center;
 }
 .page-align li, .page-align a {
-    vertical-align: middle;
+    display: flex;
+    align-items: center;
 	line-height: 1.5;
 }
 .profile-box:hover .points {
@@ -271,7 +272,6 @@ a:hover {
 }
 .settings {
 	display: flex;
-    flex-direction: column;
 	justify-content: center;
     align-items: center;
 }
