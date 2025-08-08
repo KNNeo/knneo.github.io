@@ -1,7 +1,7 @@
 //--SETTINGS--//
 const config = {
 	title: '推し図鑑',
-	source: 'https://knneo.github.io/profile-list/v6/profiles.json',
+	source: 'https://knneo.github.io/profile-list/v5/profiles.json',
 	buttons: {
 		random: true,
 		all: true,
