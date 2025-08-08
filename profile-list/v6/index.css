@@ -154,6 +154,7 @@ a:hover {
 .page-align li, .page-align a {
     display: flex;
     align-items: center;
+    justify-content: center;
 	line-height: 1.5;
 }
 .profile-box:hover .points {
