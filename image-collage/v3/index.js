@@ -348,17 +348,19 @@ function generateGrid() {
             else if(window.data.grid.banner.end)
                 prefix = prefix.substring(prefix.length - window.data.grid.banner.end).trim();
             if(prevValue != prefix) {
-                let overlay = document.createElement('div');
+                let onGrid = window.data.grid?.banner?.type == 'grid';
+                let overlay = document.createElement(onGrid ? 'h3' : 'div');
                 overlay.classList.add('banner');
-                overlay.classList.add('prefix');
                 overlay.innerText = prefix;
                 overlay.title = prefix;
-				if(window.data.grid?.banner?.type == 'grid') {
+				if(onGrid) {
 					overlay.classList.add('grid-item');
 					grid.appendChild(overlay);
 				}
-				else 
+				else {
+                    overlay.classList.add('prefix');
 					gridItem.appendChild(overlay);
+                }
                 prevValue = prefix;
             }
 		}
@@ -574,6 +576,7 @@ function focusInView() {
 
 //--EVENTS--//
 function keypress() {
+    event.preventDefault();
     //console.log(event.key);
     switch(event.key) {
         case 'Escape':

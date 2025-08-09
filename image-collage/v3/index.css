@@ -195,6 +195,7 @@ a:focus-within {
 .grid-item.banner {
 	position: initial;
     width: 100%;
+    height: auto;
     font-weight: bold;
     font-size: 1.5em;
 }
