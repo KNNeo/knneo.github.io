@@ -364,6 +364,7 @@ a:hover {
     padding: 0 8px;
     font-size: 1em;
     width: 100%;
+    gap: 8px;
 }
 
 /*TIMELINE*/
