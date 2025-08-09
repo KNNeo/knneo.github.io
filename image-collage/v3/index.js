@@ -59,7 +59,6 @@ function initializeVariables(data) {
 	window.slideshow = { run: null, history: [] };
 	menu.addEventListener(isFirefox ? 'DOMMouseScroll' : 'mousewheel', onScrollSidebar);
 	window.addEventListener('mousemove', hideMouseInViewer);
-	window.addEventListener('focus', focusInView);
 	initializeCollage();
 }
 
@@ -335,15 +334,9 @@ function generateGrid() {
 		return a[prop].localeCompare(b[prop], window.data.sort?.locale || '');
 	});
 	
-	let [thumbWidth, thumbHeight] = calculateThumbnailSize();
 	for(let item of filterArray) {
-		
 		let gridItem = document.createElement('div');
 		gridItem.classList.add('grid-item');
-		gridItem.style.width = thumbWidth + 'px';
-		gridItem.style.height = thumbHeight + 'px';
-        gridItem.style.setProperty('--border', (window.data.grid?.thumbnail?.border || 1) + 'px');
-        gridItem.style.setProperty('--radius', (window.data.grid?.thumbnail?.radius || 0) + 'px');
 		
 		if(window.data.grid?.banner && item[window.data.grid.banner.property]) {
 			// as property, or if not object, as string
@@ -437,15 +430,20 @@ function generateGrid() {
 		}, false);
 		gridItemImage.addEventListener('error', function() {
 			event.preventDefault();
-			console.log(event.target.getAttribute('data-image'));
+			console.log('item not loaded:', event.target.getAttribute('data-image'));
 		});
 		gridItem.appendChild(gridItemImage);
 		observer.observe(gridItemImage);
-			
 		grid.appendChild(gridItem);
 	}
 
-	if(document.querySelector('.counter') != null)
+	let [thumbWidth, thumbHeight] = calculateThumbnailSize();
+    grid.style.setProperty('--width', thumbWidth + 'px');
+    grid.style.setProperty('--height', thumbHeight + 'px');
+    grid.style.setProperty('--border', (window.data.grid?.thumbnail?.border || 1) + 'px');
+    grid.style.setProperty('--radius', (window.data.grid?.thumbnail?.radius || 0) + 'px');
+	
+	if(document.querySelector('.counter'))
 		document.querySelector('.counter').innerText = filterArray.length;
 	if(!filterArray.length)
 		grid.innerText = 'No Data';
@@ -603,15 +601,14 @@ function keypress() {
 }
 
 function resize() {
-	//resize grid
+	// resize grid
     document.querySelector('.expand').innerText = 'unfold_more';
     tags.classList.remove('expanded');
-	//resize images
-	let [thumbWidth, thumbHeight] = calculateThumbnailSize();
-	for(let gridItem of document.querySelectorAll('.grid-item:not(.banner)')) {
-		gridItem.style.width = thumbWidth + 'px';
-		gridItem.style.height = thumbHeight + 'px';
-	}
+    // resize images
+    let [thumbWidth, thumbHeight] = calculateThumbnailSize();
+    grid.style.setProperty('--width', thumbWidth + 'px');
+    grid.style.setProperty('--height', thumbHeight + 'px');
+
 	setTimeout(setMenuHeight, 300);
 }
 
@@ -701,14 +698,14 @@ function onClearAll() {
 }
 
 function onToggleSidebar() {
+    // resize sidebar
 	event.target.innerText = event.target.innerText == 'menu' ? 'menu_open' : 'menu';
 	document.querySelector('.menu').classList.toggle('hidden');
-	//resize images
-	let [thumbWidth, thumbHeight] = calculateThumbnailSize();
-	for(let gridItem of document.querySelectorAll('.grid-item')) {
-		gridItem.style.width = thumbWidth + 'px';
-		gridItem.style.height = thumbHeight + 'px';
-	}
+    // resize images
+    let [thumbWidth, thumbHeight] = calculateThumbnailSize();
+    grid.style.setProperty('--width', thumbWidth + 'px');
+    grid.style.setProperty('--height', thumbHeight + 'px');
+    
     event.target.focus();
 	setTimeout(setMenuHeight, 300);
 }
@@ -839,6 +836,7 @@ function openImageInViewer(image) {
 		console.error('source image not found', img);
 	img.alt = '';
 	img.title = '';
+    // initial state zoomed out, on load zoom back in
 	img.style.transform = 'scale(0.8)';
 	img.style.opacity = 0;
 	img.addEventListener('load', function() {

@@ -155,24 +155,26 @@ a:focus-within {
 	position: relative;
 	border: var(--border, 1px) solid var(--background);
     border-radius: var(--radius, 0);
-	cursor: pointer;
-	overflow: hidden;
+	width: var(--width, 100%);
+	height: var(--height, 100%);
 	box-sizing: border-box;
+	overflow: hidden;
+	cursor: pointer;
 }
 
 .grid-item img {
 	width: 100%;
 	height: 100%;
     object-fit: cover;
-	transition: all 0.1s ease;
-}
-
-.grid-item:has(img:focus-visible) {
-	border: var(--border, 1px) solid var(--foreground);
+	transition: transform 0.1s ease;
 }
 
 .grid-item img:hover {
 	transform: scale(1.2);
+}
+
+.grid-item:has(img:focus-visible) {
+	border: var(--border, 1px) solid var(--foreground);
 }
 
 .banner {
