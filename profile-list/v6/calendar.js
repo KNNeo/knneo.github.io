@@ -110,6 +110,7 @@ function addEventsToMiniCalendar(year, htmlString, DOBlist) {
 	// events for month buttons
 	if (config.calendar.month > 0) document.querySelector('.prev-month').addEventListener('click', function() {
 		generateMiniCalendar(
+			calendarDiv,
 			luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: config.timezone}).year,
 			--config.calendar.month, 
 			config.list.calendar
@@ -117,6 +118,7 @@ function addEventsToMiniCalendar(year, htmlString, DOBlist) {
 	});
 	if (config.calendar.month < 11) document.querySelector('.next-month').addEventListener('click', function() {
 		generateMiniCalendar(
+			calendarDiv,
 			luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: config.timezone}).year,
 			++config.calendar.month, 
 			config.list.calendar
@@ -153,6 +155,7 @@ function addCalendarLegend() {
 				setTimeout(function() {
 					filterCalendarList();
 					generateMiniCalendar(
+						calendarDiv,
 						luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: config.timezone}).year,
 						config.calendar.month, 
 						config.list.calendar
@@ -169,6 +172,7 @@ function addCalendarLegend() {
 				setTimeout(function() {
 					filterCalendarList();
 					generateMiniCalendar(
+						calendarDiv,
 						luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: config.timezone}).year,
 						config.calendar.month, 
 						config.list.calendar
