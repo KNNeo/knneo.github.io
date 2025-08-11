@@ -71,7 +71,7 @@ function addEventsToMiniCalendar(year, htmlString, DOBlist) {
 		let thisAge;
 		// update age is passed current date
 		if (item.currentAge <= 1) thisAge = '??';
-		else if (isBirthdayPassed(year + item.date.substring(4))) thisAge = item.currentAge;
+		else if ((year + item.date.substring(4)).isAfterToday()) thisAge = item.currentAge;
 		else thisAge = item.currentAge + (year - currentYear + 1);
 		// console.log(item.category + '|' + item.name + '|' + item.currentAge);
 		if (config.calendar.category == null) continue;
@@ -230,10 +230,10 @@ function exportCalendar() {
 			//follow wanted-list-v2.js
 			let birthdayInYear = new Date(new Date().getFullYear(), new Date(profile.date.replace('????', nowYear)).getMonth(), new Date(profile.date.replace('????', nowYear)).getDate());
 			let DOB = nowYear + profile.date.substring(4);
-			let IsBirthdayOver = isBirthdayPassed(DOB);
+			let IsBirthdayOver = DOB.isAfterToday();
 			
 			// title, MM/dd/yyyy, true, description, true
-			let line = '"'+profile.name+'\'s Birthday'+(profile.date.includes('?') ? '' : ' ('+(IsBirthdayOver ? getAge(profile.date) : getAge(profile.date)+1)+')')+'","'+formatDate+'","true","'+(profile.date.includes('?') ? '' : ('Born ' + profile.date))+'","true"';
+			let line = '"'+profile.name+'\'s Birthday'+(profile.date.includes('?') ? '' : ' ('+(IsBirthdayOver ? profile.date.getAge() : profile.date.getAge()+1)+')')+'","'+formatDate+'","true","'+(profile.date.includes('?') ? '' : ('Born ' + profile.date))+'","true"';
 			textOutput += line;
 		}
 		

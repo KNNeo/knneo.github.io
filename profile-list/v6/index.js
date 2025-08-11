@@ -168,6 +168,17 @@ function stopLoader() {
 	config.loading = false;
 }
 
+function updateTime() {
+	if(timeDiv != null)	{
+		let time = document.querySelector('.time');
+		var now = luxon.DateTime.local().setZone(config.timezone);
+		time.innerText = now.toFormat('yyyy.MM.dd HH:mm:ss');
+		if(time.innerText.endsWith('00:00:00'))
+			renderPage();
+		setTimeout(updateTime, 1000);
+	}
+}
+
 //--EVENTS--//
 function onSearch() {
 	// console.log(event.target.value);
@@ -448,7 +459,7 @@ function generateWantedListCard(id) {
 	let icons = config.labels.icon.split('|');
 	let stats = generateProfilePointers(profile, icons);	
 	
-	let rating = ratingAsStars(profile.rating, config.rating.max);
+	let rating = ratingAsStarsDiv(profile.rating, config.rating.max);
 	
 	right.appendChild(name);
 	//right.appendChild(date);
@@ -500,7 +511,7 @@ function createDOBlist(profiles, minAge, maxAge, sort = false) {
 		let targetDOB = profile.dob;
 		if (targetDOB && targetDOB.length > 0) {
 			let birthDate = new Date(Date.parse(targetDOB.replace('.', '-').replace('.', '-').substring(0, 10)));
-			let age = getAge(targetDOB);
+			let age = targetDOB.getAge();
 			if (!birthDate.toUTCString().includes(NaN) && age >= minAge && age <= maxAge)
 				list.push({
 					category: profile.category,
@@ -712,7 +723,7 @@ function generateProfileDob(item) {
 	let DOBspan = document.createElement('span');
 	DOBspan.classList.add('DOB');
 	
-	let age = getAge(item.dob);
+	let age = item.dob.getAge();
 	if (age != undefined && age > 0) {
 		DOBspan.classList.add('points');
 		DOBspan.title = `${age} ${config.labels.ageSuffix}`;
@@ -841,7 +852,7 @@ function generateProfileSocial(profile) {
 		span.addEventListener('click', function() {
 			popupContent(processComment(processOption(profile.intro, false), profile.links) + 
 			'<p style="font-style: italic;">"' + processComment(processOption(profile.description, false), profile.links) + 
-			'"</p>' + config.rating.prefix + '<br>' + ratingAsStars(profile.rating, config.rating.max)?.outerHTML + 
+			'"</p>' + config.rating.prefix + '<br>' + ratingAsStarsDiv(profile.rating, config.rating.max)?.outerHTML + 
 			'<small class="tier">' + (config.rating.tiers[profile.rating - 1] ?? '') + '</small>');
 			let dialog = document.querySelector('.dialog dialog');
 		});
@@ -969,36 +980,8 @@ function generateProfileSocialIcons(container, social) {
 	}
 }
 
-////HELPER////
-function getAge(DOB) {
-	//support for date types: yyyy.MM.dd, ????.MM.dd, ????.??.??
-	if(DOB.includes('?')) return 0;
-	let birthDateStr = DOB.replace('.', '-').replace('.', '-');
-	let birthDate = luxon.DateTime.fromISO(birthDateStr.substring(0, 10), {zone: config.timezone});
-	let today = luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: config.timezone});
-	if(config.debug) console.log('getAge', today, birthDate);
-	return parseInt(today.diff(birthDate, 'years').years);
-}
-
-function isBirthdayPassed(DOB) {
-	let birthDateStr = DOB.replace('.', '-').replace('.', '-'); //yyyy.MM.dd -> yyyy-MM-dd
-	let birthDate = luxon.DateTime.fromISO(birthDateStr.substring(0, 10), {zone: config.timezone}); 
-	let today = luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: config.timezone});
-	return today.diff(birthDate, 'days').days >= 0;
-}
-
-function updateTime() {
-	if(timeDiv != null)	{
-		let time = document.querySelector('.time');
-		var now = luxon.DateTime.local().setZone(config.timezone);
-		time.innerText = now.toFormat('yyyy.MM.dd HH:mm:ss');
-		if(time.innerText.endsWith('00:00:00'))
-			renderPage();
-		setTimeout(updateTime, 1000);
-	}
-}
-
-function ratingAsStars(rating, total) {
+////HELPER FUNCTIONS////
+function ratingAsStarsDiv(rating, total) {
 	let stars = document.createElement('span');
     stars.classList.add('stars');
 	stars.title = rating + '/' + total;
@@ -1062,9 +1045,25 @@ function processOption(option, returnBool) {
 			.replace('[9]','');
 }
 
-function dupeStringCheck(source, compare) { return source == compare ? source : compare; }
+////PRIMITIVE HELPERS////
+String.prototype.getAge = function() {
+	//support for date types: yyyy.MM.dd, ????.MM.dd, ????.??.??
+	if(this.includes('?')) return 0;
+	let birthDateStr = this.replace('.', '-').replace('.', '-');
+	let birthDate = luxon.DateTime.fromISO(birthDateStr.substring(0, 10), {zone: config.timezone});
+	let today = luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: config.timezone});
+	if(config.debug) console.log('getAge', today, birthDate);
+	return parseInt(today.diff(birthDate, 'years').years);
+}
 
-////CHECK////
+String.prototype.isAfterToday = function() {
+	let birthDateStr = this.replace('.', '-').replace('.', '-'); //yyyy.MM.dd -> yyyy-MM-dd
+	let birthDate = luxon.DateTime.fromISO(birthDateStr.substring(0, 10), {zone: config.timezone}); 
+	let today = luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: config.timezone});
+	return today.diff(birthDate, 'days').days >= 0;
+}
+
+////CHECKS////
 function daysFromMe() {
 	let me = config.list.timeline.filter(t => t.name == 'Me')[0];
 	let others = config.list.timeline.filter(t => t.name != 'Me');
