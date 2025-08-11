@@ -72,7 +72,7 @@ function addEventsToMiniCalendar(year, htmlString, DOBlist) {
 		// update age is passed current date
 		if (item.currentAge <= 1) thisAge = '??';
 		else if (isBirthdayPassed(year + item.date.substring(4))) thisAge = item.currentAge;
-		else thisAge = item.currentAge + (year - currentYear);
+		else thisAge = item.currentAge + (year - currentYear + 1);
 		// console.log(item.category + '|' + item.name + '|' + item.currentAge);
 		if (config.calendar.category == null) continue;
 		
