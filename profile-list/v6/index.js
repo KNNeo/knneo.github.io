@@ -44,6 +44,28 @@ const config = {
 		},
 		category: ['Me', '女性声優', 'DayRe:'],
 	},
+	social: {
+		twitter: {
+			name: 'Twitter/X',
+			template: 'https://twitter.com/{id}'
+		},
+		twitter: {
+			name: 'Instagram',
+			template: 'https://www.instagram.com/{id}'
+		},
+		tiktok: {
+			name: 'TikTok',
+			template: 'https://www.tiktok.com/@{id}'
+		},
+		youtube: {
+			name: 'YouTube',
+			template: 'https://www.youtube.com/@{id}'
+		},
+		twitch: {
+			name: 'Twitch',
+			template: 'https://www.twitch.tv/{id}'
+		}
+	}
 };
 const isLandscape = function() {
 	// follow css conditions
@@ -837,145 +859,71 @@ function generateProfileSocial(profile) {
 	let cell = document.createElement('div');
 	cell.classList.add('profile-socials');
 	
-	//--SOCIAL VALUE--//	
+	//--SOCIAL MEDIA--//	
 	if(!config.multi && profile.social)
-		generateProfileSocialIcons(cell, profile.social);
+		generateProfileSocialButtons(cell, profile.social);
 	
-	if(!config.multi && cell.childNodes.length > 0 && profile.intro && profile.description && profile.rating) {
-		let span = document.createElement('a');
-		span.classList.add('profile-social');
-		span.classList.add('button');
-		span.href = 'javascript:void(0)';
-		span.title = 'Comments';
-		span.addEventListener('click', function() {
-			popupContent(processComment(profile.intro.removeNumberPrefix(), profile.links) + 
-			'<p style="font-style: italic;">"' + processComment(profile.description.removeNumberPrefix(), profile.links) + 
-			'"</p>' + config.rating.prefix + '<br>' + ratingAsStarsDiv(profile.rating, config.rating.max)?.outerHTML + 
-			'<small class="tier">' + (config.rating.tiers[profile.rating - 1] ?? '') + '</small>');
-			let dialog = document.querySelector('.dialog dialog');
-		});
-		
-		let icon = document.createElement('i');
-		icon.classList.add('bi');
-		icon.classList.add('bi-chat-text-fill');
-		span.appendChild(icon);
-		span.appendChild(document.createTextNode(span.title));
-		
-		cell.insertBefore(span, cell.childNodes[0]);
-	}
+	//--COMMENTS--//
+	if(!config.multi && cell.childNodes.length > 0 && profile.intro && profile.description && profile.rating)
+		generateProfileCommentButton(
+			cell, 
+			processComment(profile.intro.removeNumberPrefix(), profile.links), 
+			processComment(profile.description.removeNumberPrefix(), profile.links), 
+			ratingAsStarsDiv(profile.rating, config.rating.max)?.outerHTML
+		);
 	
 	return cell;
 }
 
-function generateProfileSocialIcons(container, social) {
-	if(social.twitter)
-	{
+function generateProfileSocialButtons(container, social) {	
+	for(let item of Object.keys(social)) {
 		let span = document.createElement('a');
 		span.classList.add('profile-social');
 		span.classList.add('button');
-		span.href = 'https://twitter.com/' + social.twitter;
 		span.target = '_blank';
-		span.title = 'Twitter';
-		
+
 		let icon = document.createElement('i');
 		icon.classList.add('bi');
-		icon.classList.add('bi-twitter');
+		
+		if (item.filter(k => Object.keys(profile.social).includes(k))) {
+			span.href = profile.social[item].template.replace('{id}', social[item]);
+			span.title = profile.social[item].name;			
+			icon.classList.add('bi-' + item);
+		}
+		else {
+			span.href = social[page];
+			span.title = page.toLowerCase() != page ? page : 'External Link';			
+			icon.classList.add('bi-box-arrow-up-right');			
+		}
+
 		span.appendChild(icon);
 		span.appendChild(document.createTextNode(span.title));
-		
 		container.appendChild(span);
 	}
+}
+
+function generateProfileCommentButton(container, header, body, footer) {
+	let span = document.createElement('a');
+	span.classList.add('profile-social');
+	span.classList.add('button');
+	span.href = 'javascript:void(0)';
+	span.title = 'Comments';
+	span.addEventListener('click', function() {
+		popupContent(
+			header + 
+			'<p style="font-style: italic;">"' + body + '"</p>' + 
+			config.rating.prefix + '<br>' + footer + 
+			'<small class="tier">' + (config.rating.tiers[profile.rating - 1] ?? '') + '</small>'
+		);
+	});
 	
-	if(social.instagram)
-	{
-		let span = document.createElement('a');
-		span.classList.add('profile-social');
-		span.classList.add('button');
-		span.href = 'https://www.instagram.com/' + social.instagram;
-		span.target = '_blank';
-		span.title = 'Instagram';
-		
-		let icon = document.createElement('i');
-		icon.classList.add('bi');
-		icon.classList.add('bi-instagram');
-		span.appendChild(icon);
-		span.appendChild(document.createTextNode(span.title));
-		
-		container.appendChild(span);
-	}
+	let icon = document.createElement('i');
+	icon.classList.add('bi');
+	icon.classList.add('bi-chat-text-fill');
+	span.appendChild(icon);
+	span.appendChild(document.createTextNode(span.title));
 	
-	if(social.tiktok)
-	{
-		let span = document.createElement('a');
-		span.classList.add('profile-social');
-		span.classList.add('button');
-		span.href = 'https://www.tiktok.com/@' + social.tiktok;
-		span.target = '_blank';
-		span.title = 'Tiktok';
-		
-		let icon = document.createElement('i');
-		icon.classList.add('bi');
-		icon.classList.add('bi-tiktok');
-		span.appendChild(icon);
-		span.appendChild(document.createTextNode(span.title));
-		
-		container.appendChild(span);
-	}
-	
-	if(social.youtube)
-	{
-		let span = document.createElement('a');
-		span.classList.add('profile-social');
-		span.classList.add('button');
-		span.href = 'https://www.youtube.com/@' + social.youtube;
-		span.target = '_blank';
-		span.title = 'YouTube';
-		
-		let icon = document.createElement('i');
-		icon.classList.add('bi');
-		icon.classList.add('bi-youtube');
-		span.appendChild(icon);
-		span.appendChild(document.createTextNode(span.title));
-		
-		container.appendChild(span);
-	}
-	
-	if(social.twitch)
-	{
-		let span = document.createElement('a');
-		span.classList.add('profile-social');
-		span.classList.add('button');
-		span.href = 'https://www.twitch.tv/' + social.twitch;
-		span.target = '_blank';
-		span.title = 'Twitch';
-		
-		let icon = document.createElement('i');
-		icon.classList.add('bi');
-		icon.classList.add('bi-twitch');
-		span.appendChild(icon);
-		span.appendChild(document.createTextNode(span.title));
-		
-		container.appendChild(span);
-	}
-	
-	let socials = ['twitter', 'instagram', 'youtube', 'twitch', 'tiktok'];
-	for(let page of Object.keys(social).filter(k => !socials.includes(k)))
-	{
-		let span = document.createElement('a');
-		span.classList.add('profile-social');
-		span.classList.add('button');
-		span.href = social[page];
-		span.target = '_blank';
-		span.title = page.toLowerCase() != page ? page : 'External Link';
-		
-		let icon = document.createElement('i');
-		icon.classList.add('bi');
-		icon.classList.add('bi-box-arrow-up-right');
-		span.appendChild(icon);
-		span.appendChild(document.createTextNode(span.title));
-		
-		container.appendChild(span);		
-	}
+	cell.insertBefore(span, cell.childNodes[0]);
 }
 
 ////HELPER FUNCTIONS////
