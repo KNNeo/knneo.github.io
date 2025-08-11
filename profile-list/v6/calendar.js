@@ -14,6 +14,7 @@ function generateMiniCalendar(elem, year, month, list = [], showLegend = false) 
 	elem.innerHTML = table;
 	
 	// change variable to match current calendar
+	config.calendar.year = year;
 	config.calendar.month = month;
 	// add marked items on expanded calendar
 	addEventsToMiniCalendar(year, table, list);
@@ -40,12 +41,13 @@ function generateCalendarArray(year, month) {
 function generateMiniCalendarTable(year, month, array) {
 	// render table
 	let htmlString = '<table class="box"><tbody><tr><th>' + 
-	(month+1 > 1 ? '<i class="inverted prev-month bi bi-arrow-left"></i>' : '') + 
+	'<i class="inverted prev-month bi bi-arrow-left"></i>' + 
 	'</th><th colspan="5">' + 
 	config.calendar.months[month] + ' ' + year + 
 	'</th><th>'	+ 
-	(month+1 < 12 ? '<i class="inverted next-month bi bi-arrow-right"></i>' : '') + 
-	'</th></tr><tr>' + config.calendar.daysOfWeek.map(w => '<td>' + w + '</td>').join('') + '</tr>';
+	'<i class="inverted next-month bi bi-arrow-right"></i>' + 
+	'</th></tr><tr>' + 
+	config.calendar.daysOfWeek.map(w => '<td>' + w + '</td>').join('') + '</tr>';
 	
 	for (let week = 0; week < 6; week++) {
 		htmlString += '<tr>';
@@ -101,7 +103,6 @@ function addEventsToMiniCalendar(year, htmlString, DOBlist) {
 	for(let cell of document.querySelectorAll('.calendar td')) {
 		let popup = cell.querySelector('.calendar-popitem')?.innerHTML;
 		if(popup) {
-			console.log(popup);
 			let elem = document.createElement('div');
 			elem.innerHTML = popup.replace('<br>','\n');
 			cell.title = elem.innerText || '';
@@ -117,25 +118,19 @@ function addEventsToMiniCalendar(year, htmlString, DOBlist) {
 	if(today.classList)
 		today.classList.add('today');
 	
-	// global variable for month navigation
-	// events for month buttons
-	if (config.calendar.month > 0) document.querySelector('.prev-month').addEventListener('click', function() {
-		generateMiniCalendar(
-			calendarDiv,
-			luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: config.timezone}).year,
-			--config.calendar.month, 
-			config.list.calendar
-		);
+	// events for month buttons using global variables for navigation
+	document.querySelector('.prev-month').addEventListener('click', function() {
+		let toPrevYear = --config.calendar.month < 0;
+		let prevMonth = toPrevYear ? 11 : config.calendar.month;
+		let prevYear = toPrevYear ? --config.calendar.year : config.calendar.year;
+		generateMiniCalendar(calendarDiv, prevYear, prevMonth, config.list.calendar);
 	});
-	if (config.calendar.month < 11) document.querySelector('.next-month').addEventListener('click', function() {
-		generateMiniCalendar(
-			calendarDiv,
-			luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: config.timezone}).year,
-			++config.calendar.month, 
-			config.list.calendar
-		);
+	document.querySelector('.next-month').addEventListener('click', function() {
+		let toNextYear = ++config.calendar.month > 11;
+		let nextMonth = toNextYear ? 0 : config.calendar.month;
+		let nextYear = toNextYear ? ++config.calendar.year : config.calendar.year;
+		generateMiniCalendar(calendarDiv, nextYear, nextMonth, config.list.calendar);
 	});
-	
 }
 
 function addCalendarLegend() {
@@ -184,7 +179,7 @@ function addCalendarLegend() {
 					filterCalendarList();
 					generateMiniCalendar(
 						calendarDiv,
-						luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: config.timezone}).year,
+						config.calendar.year,
 						config.calendar.month, 
 						config.list.calendar
 					);
