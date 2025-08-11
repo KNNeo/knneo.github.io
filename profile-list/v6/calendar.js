@@ -80,24 +80,33 @@ function addEventsToMiniCalendar(year, htmlString, DOBlist) {
 		let message = '<b onclick="generateProfileFromJSON(this)" class="calendar-name color" data-id="' + item.category + '">' + item.name + '</b> turns ' + thisAge + '</b> (' + birthdayInYear.getDate() + ' ' + monthId.substring(0, 3) + ')';
 		if (thisAge == '??')
 			message = 'Happy Birthday <b onclick="generateProfileFromJSON(this)" class="calendar-name color" data-id="' + item.category + '">' + item.name + '</b>!!';
-		let messageDiv = document.createElement('div');
-		messageDiv.innerHTML = message;
 		
 		if (thisAge == '??' && htmlString.indexOf(monthId) > -1 && htmlString.indexOf(dateCell) > -1 && item.name != 'Me') //no age
 			htmlString = htmlString.replace(dateCell, 
-			'<td title="' + messageDiv.innerText + '" onclick="popupContent(this.querySelector(\'.calendar-popitem\'))" class="bg" data-id="' + item.category + '"><div class="calendar-popitem">' + message + '</div>' + birthdayInYear.getDate() + '</td>');
+			'<td onclick="popupContent(this.querySelector(\'.calendar-popitem\'))" class="bg" data-id="' + item.category + '"><div class="calendar-popitem">' + message + '</div>' + birthdayInYear.getDate() + '</td>');
 		else if (htmlString.indexOf(monthId) > -1 && htmlString.indexOf(dateCell) > -1 && item.name != "Me") //with age
 			htmlString = htmlString.replace(dateCell, 
-			'<td title="' + messageDiv.innerText + '" onclick="popupContent(this.querySelector(\'.calendar-popitem\'))" class="bg" data-id="' + item.category + '"><div class="calendar-popitem">' + message + '</div>' + birthdayInYear.getDate() + '</td>');
+			'<td onclick="popupContent(this.querySelector(\'.calendar-popitem\'))" class="bg" data-id="' + item.category + '"><div class="calendar-popitem">' + message + '</div>' + birthdayInYear.getDate() + '</td>');
 		else if (thisAge == '??' && htmlString.indexOf(monthId) > -1) //append DOB, no age
 			htmlString = htmlString.replace('</div>' + birthdayInYear.getDate() + '</td>', 
-			'<br />' + message + '</div>' + birthdayInYear.getDate() + '</td>');
+			'<br>' + message + '</div>' + birthdayInYear.getDate() + '</td>');
 		else if (htmlString.indexOf(monthId) > -1) //append DOB, with age
 			htmlString = htmlString.replace('</div>' + birthdayInYear.getDate() + '</td>', 
-			'<br />' + message + '</div>' + birthdayInYear.getDate() + '</td>');
+			'<br>' + message + '</div>' + birthdayInYear.getDate() + '</td>');
 	}
 	
 	document.querySelector('.calendar').innerHTML = htmlString;
+
+	// copy popup content to title
+	for(let cell of document.querySelectorAll('.calendar td')) {
+		let popup = cell.querySelector('.calendar-popitem')?.innerHTML;
+		if(popup) {
+			console.log(popup);
+			let elem = document.createElement('div');
+			elem.innerHTML = popup.replace('<br>','\n');
+			cell.title = elem.innerText || '';
+		}
+	}
 	
 	// add today, stackable to day with events
 	let today = luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: config.timezone});
