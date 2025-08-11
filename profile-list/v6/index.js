@@ -884,15 +884,15 @@ function generateProfileSocialButtons(container, social) {
 
 		let icon = document.createElement('i');
 		icon.classList.add('bi');
-		
-		if (item.filter(k => Object.keys(profile.social).includes(k))) {
-			span.href = profile.social[item].template.replace('{id}', social[item]);
-			span.title = profile.social[item].name;			
+
+		if (config.social[item]) {
+			span.href = config.social[item].template.replace('{id}', social[item]);
+			span.title = config.social[item].name;			
 			icon.classList.add('bi-' + item);
 		}
 		else {
-			span.href = social[page];
-			span.title = page.toLowerCase() != page ? page : 'External Link';			
+			span.href = social[item];
+			span.title = item.toLowerCase() != item ? item : 'External Link';			
 			icon.classList.add('bi-box-arrow-up-right');			
 		}
 
