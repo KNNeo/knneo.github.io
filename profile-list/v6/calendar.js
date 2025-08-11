@@ -220,30 +220,32 @@ function filterCalendarList() {
 }
 
 function exportCalendar() {
-	let textOutput = '"Subject","Start date","All Day Event","Description","Private"';
-	let nowYear = luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: config.timezone}).year;
-	for(let profile of config.list.calendar) {
-		textOutput += '\n';
-		let formatDate = profile.date.substring(5,7) + '/' + profile.date.substring(8,10) + '/' + nowYear;
+	if(confirm('Confirm export calendar? It will be exported to Google Calendar-formatted CSV.')) {
+		let textOutput = '"Subject","Start date","All Day Event","Description","Private"';
+		let nowYear = luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: config.timezone}).year;
+		for(let profile of config.list.calendar) {
+			textOutput += '\n';
+			let formatDate = profile.date.substring(5,7) + '/' + profile.date.substring(8,10) + '/' + nowYear;
+			
+			//follow wanted-list-v2.js
+			let birthdayInYear = new Date(new Date().getFullYear(), new Date(profile.date.replace('????', nowYear)).getMonth(), new Date(profile.date.replace('????', nowYear)).getDate());
+			let DOB = nowYear + profile.date.substring(4);
+			let IsBirthdayOver = isBirthdayPassed(DOB);
+			
+			// title, MM/dd/yyyy, true, description, true
+			let line = '"'+profile.name+'\'s Birthday'+(profile.date.includes('?') ? '' : ' ('+(IsBirthdayOver ? getAge(profile.date) : getAge(profile.date)+1)+')')+'","'+formatDate+'","true","'+(profile.date.includes('?') ? '' : ('Born ' + profile.date))+'","true"';
+			textOutput += line;
+		}
 		
-		//follow wanted-list-v2.js
-		let birthdayInYear = new Date(new Date().getFullYear(), new Date(profile.date.replace('????', nowYear)).getMonth(), new Date(profile.date.replace('????', nowYear)).getDate());
-		let DOB = nowYear + profile.date.substring(4);
-		let IsBirthdayOver = isBirthdayPassed(DOB);
+		//create download file
+		let downloadLink = document.createElement('a');
+		downloadLink.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(textOutput);
+		downloadLink.target = '_blank';
+		downloadLink.download = 'profiles.csv';
+		document.body.appendChild(downloadLink);
+		downloadLink.click();
+		document.body.removeChild(downloadLink);
 		
-		// title, MM/dd/yyyy, true, description, true
-		let line = '"'+profile.name+'\'s Birthday'+(profile.date.includes('?') ? '' : ' ('+(IsBirthdayOver ? getAge(profile.date) : getAge(profile.date)+1)+')')+'","'+formatDate+'","true","'+(profile.date.includes('?') ? '' : ('Born ' + profile.date))+'","true"';
-		textOutput += line;
+		console.log('Export done');
 	}
-	
-	//create download file
-	let downloadLink = document.createElement('a');
-	downloadLink.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(textOutput);
-	downloadLink.target = '_blank';
-	downloadLink.download = 'profiles.csv';
-	document.body.appendChild(downloadLink);
-	downloadLink.click();
-	document.body.removeChild(downloadLink);
-	
-	console.log('Export done');
 }
