@@ -454,7 +454,7 @@ function generateWantedListCard(id) {
 	name.innerText = profile.name;
 	
 	let date = document.createElement('div');
-	date.innerText = profile.dob.startsWith('????') ? '' : processOption(profile.dob, false);
+	date.innerText = profile.dob.startsWith('????') ? '' : profile.dob.removeNumberPrefix();
 	
 	let icons = config.labels.icon.split('|');
 	let stats = generateProfilePointers(profile, icons);	
@@ -685,7 +685,7 @@ function generateProfileName(item) {
 	// name clickable if friend mode
 	let span = document.createElement(config.multi ? 'a' : 'span');
 	span.classList.add('profile-name');
-	span.title = item.nickname && item.nickname.length > 0 ? processOption(item.nickname, false) : '';
+	span.title = item.nickname && item.nickname.length > 0 ? item.nickname.removeNumberPrefix() : '';
 	span.innerText = item.name;
 	if(config.multi) 
 	{	
@@ -732,7 +732,7 @@ function generateProfileDob(item) {
 		});
 	}
 	//dob comment only appears if single profile
-	DOBspan.innerHTML = processOption(item.dob, false);
+	DOBspan.innerHTML = item.dob.removeNumberPrefix();
 	
 	//if dob is not in full, show as <dd MMM>
 	if(DOBspan.innerHTML.includes('????')) {
@@ -751,7 +751,7 @@ function generateProfileWithInnerHTML(profile, property) {
 	//--VALUE--//
 	cellDiv = document.createElement('div');
 	cellDiv.classList.add('shift-center');
-	cellDiv.innerHTML = processOption(profile[property], false);
+	cellDiv.innerHTML = profile[property].removeNumberPrefix();
 	cell.appendChild(cellDiv);
 
 	return cell;
@@ -762,8 +762,8 @@ function generateProfilePointers(profile, icons) {
 		let parts = item.split('|');
 		return {
 			label: parts[0],
-			value: processOption(parts[1], false),
-			bool: processOption(parts[1], true),
+			value: parts[1].removeNumberPrefix(),
+			bool: parts[1].includes('Yes'),
 			comment: parts[1].includes('[') ? findComment(profile, parts[1].substring(parts[1].indexOf('['))) : null, 
 		}
 	});
@@ -808,8 +808,7 @@ function generateProfilePointers(profile, icons) {
 		cell.appendChild(cellContainer);
 		
 		//--LINE BREAK--//
-		if(points.indexOf(point) < points.length - 1 && !icons)
-		{
+		if(points.indexOf(point) < points.length - 1 && !icons)	{
 			let hr = document.createElement('hr');
 			hr.style.margin = '0.2em';
 			cell.appendChild(hr);	
@@ -842,16 +841,15 @@ function generateProfileSocial(profile) {
 	if(!config.multi && profile.social)
 		generateProfileSocialIcons(cell, profile.social);
 	
-	if(!config.multi && cell.childNodes.length > 0 && profile.intro && profile.description && profile.rating)
-	{
+	if(!config.multi && cell.childNodes.length > 0 && profile.intro && profile.description && profile.rating) {
 		let span = document.createElement('a');
 		span.classList.add('profile-social');
 		span.classList.add('button');
 		span.href = 'javascript:void(0)';
 		span.title = 'Comments';
 		span.addEventListener('click', function() {
-			popupContent(processComment(processOption(profile.intro, false), profile.links) + 
-			'<p style="font-style: italic;">"' + processComment(processOption(profile.description, false), profile.links) + 
+			popupContent(processComment(profile.intro.removeNumberPrefix()), profile.links) + 
+			'<p style="font-style: italic;">"' + processComment(profile.description.removeNumberPrefix()), profile.links) + 
 			'"</p>' + config.rating.prefix + '<br>' + ratingAsStarsDiv(profile.rating, config.rating.max)?.outerHTML + 
 			'<small class="tier">' + (config.rating.tiers[profile.rating - 1] ?? '') + '</small>');
 			let dialog = document.querySelector('.dialog dialog');
@@ -985,8 +983,7 @@ function ratingAsStarsDiv(rating, total) {
 	let stars = document.createElement('span');
     stars.classList.add('stars');
 	stars.title = rating + '/' + total;
-	for(s = 0; s < Math.max(rating, total); s++)
-	{
+	for(s = 0; s < Math.max(rating, total); s++) {
 		let star = document.createElement('i');
 		star.classList.add('bi');
 		star.classList.add('bi-star' + (rating - s > 0 ? '-fill' : ''));
@@ -994,6 +991,10 @@ function ratingAsStarsDiv(rating, total) {
 		stars.appendChild(star);
 	}
 	return stars;
+}
+
+function findComment(profile, commentIndexStr) { 
+	return profile.comments.find(c => c.includes(commentIndexStr))?.removeNumberPrefix();
 }
 
 function processComment(comment, refs) {
@@ -1026,25 +1027,6 @@ function processComment(comment, refs) {
 	return commentArr.join('<br/>');
 }
 
-function findComment(profile, commentIndexStr) { 
-	return profile.comments.find(c => c.includes(commentIndexStr))?.replace(commentIndexStr,'');
-}
-
-function processOption(option, returnBool) { 
-	return returnBool ? 
-		option.includes('Yes') : 
-		option
-			.replace('[1]','')
-			.replace('[2]','')
-			.replace('[3]','')
-			.replace('[4]','')
-			.replace('[5]','')
-			.replace('[6]','')
-			.replace('[7]','')
-			.replace('[8]','')
-			.replace('[9]','');
-}
-
 ////PRIMITIVE HELPERS////
 String.prototype.getAge = function() {
 	//support for date types: yyyy.MM.dd, ????.MM.dd, ????.??.??
@@ -1061,6 +1043,10 @@ String.prototype.isAfterToday = function() {
 	let birthDate = luxon.DateTime.fromISO(birthDateStr.substring(0, 10), {zone: config.timezone}); 
 	let today = luxon.DateTime.fromISO(luxon.DateTime.now(), {zone: config.timezone});
 	return today.diff(birthDate, 'days').days >= 0;
+}
+
+String.prototype.removeNumberPrefix = function() {
+	return this.replace(/\[[1-9]\]/,'');
 }
 
 ////CHECKS////
