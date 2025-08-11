@@ -848,8 +848,8 @@ function generateProfileSocial(profile) {
 		span.href = 'javascript:void(0)';
 		span.title = 'Comments';
 		span.addEventListener('click', function() {
-			popupContent(processComment(profile.intro.removeNumberPrefix()), profile.links) + 
-			'<p style="font-style: italic;">"' + processComment(profile.description.removeNumberPrefix()), profile.links) + 
+			popupContent(processComment(profile.intro.removeNumberPrefix(), profile.links) + 
+			'<p style="font-style: italic;">"' + processComment(profile.description.removeNumberPrefix(), profile.links) + 
 			'"</p>' + config.rating.prefix + '<br>' + ratingAsStarsDiv(profile.rating, config.rating.max)?.outerHTML + 
 			'<small class="tier">' + (config.rating.tiers[profile.rating - 1] ?? '') + '</small>');
 			let dialog = document.querySelector('.dialog dialog');
