@@ -856,23 +856,23 @@ function filterWantedListByFriends(profileFriendsList, profile, currentProfile) 
 function generateProfileSocial(profile) {
 	if(config.debug) console.log('generateProfileSocial');
 	
-	let cell = document.createElement('div');
-	cell.classList.add('profile-socials');
+	let container = document.createElement('div');
+	container.classList.add('profile-socials');
 	
 	//--SOCIAL MEDIA--//	
 	if(!config.multi && profile.social)
-		generateProfileSocialButtons(cell, profile.social);
+		generateProfileSocialButtons(container, profile.social);
 	
 	//--COMMENTS--//
 	if(!config.multi && cell.childNodes.length > 0 && profile.intro && profile.description && profile.rating)
 		generateProfileCommentButton(
-			cell, 
+			container, 
 			processComment(profile.intro.removeNumberPrefix(), profile.links), 
 			processComment(profile.description.removeNumberPrefix(), profile.links), 
 			ratingAsStarsDiv(profile.rating, config.rating.max)?.outerHTML
 		);
 	
-	return cell;
+	return container;
 }
 
 function generateProfileSocialButtons(container, social) {	
@@ -923,7 +923,7 @@ function generateProfileCommentButton(container, header, body, footer) {
 	span.appendChild(icon);
 	span.appendChild(document.createTextNode(span.title));
 	
-	cell.insertBefore(span, cell.childNodes[0]);
+	container.insertBefore(span, cell.childNodes[0]);
 }
 
 ////HELPER FUNCTIONS////
