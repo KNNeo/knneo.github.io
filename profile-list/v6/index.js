@@ -864,7 +864,7 @@ function generateProfileSocial(profile) {
 		generateProfileSocialButtons(container, profile.social);
 	
 	//--COMMENTS--//
-	if(!config.multi && cell.childNodes.length > 0 && profile.intro && profile.description && profile.rating)
+	if(!config.multi && container.childNodes.length > 0 && profile.intro && profile.description && profile.rating)
 		generateProfileCommentButton(
 			container, 
 			processComment(profile.intro.removeNumberPrefix(), profile.links), 
