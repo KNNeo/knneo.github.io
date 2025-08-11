@@ -49,7 +49,7 @@ const config = {
 			name: 'Twitter/X',
 			template: 'https://twitter.com/{id}'
 		},
-		twitter: {
+		instagram: {
 			name: 'Instagram',
 			template: 'https://www.instagram.com/{id}'
 		},
