@@ -869,7 +869,9 @@ function generateProfileSocial(profile) {
 			container, 
 			processComment(profile.intro.removeNumberPrefix(), profile.links), 
 			processComment(profile.description.removeNumberPrefix(), profile.links), 
-			ratingAsStarsDiv(profile.rating, config.rating.max)?.outerHTML
+			config.rating.prefix + '<br>' + 
+			ratingAsStarsDiv(profile.rating, config.rating.max)?.outerHTML + 
+			'<small class="tier">' + (config.rating.tiers[profile.rating - 1] ?? '') + '</small>'
 		);
 	
 	return container;
@@ -912,8 +914,7 @@ function generateProfileCommentButton(container, header, body, footer) {
 		popupContent(
 			header + 
 			'<p style="font-style: italic;">"' + body + '"</p>' + 
-			config.rating.prefix + '<br>' + footer + 
-			'<small class="tier">' + (config.rating.tiers[profile.rating - 1] ?? '') + '</small>'
+			footer			
 		);
 	});
 	
@@ -923,7 +924,7 @@ function generateProfileCommentButton(container, header, body, footer) {
 	span.appendChild(icon);
 	span.appendChild(document.createTextNode(span.title));
 	
-	container.insertBefore(span, cell.childNodes[0]);
+	container.insertBefore(span, container.childNodes[0]);
 }
 
 ////HELPER FUNCTIONS////
