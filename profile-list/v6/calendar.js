@@ -80,13 +80,15 @@ function addEventsToMiniCalendar(year, htmlString, DOBlist) {
 		let message = '<b onclick="generateProfileFromJSON(this)" class="calendar-name color" data-id="' + item.category + '">' + item.name + '</b> turns ' + thisAge + '</b> (' + birthdayInYear.getDate() + ' ' + monthId.substring(0, 3) + ')';
 		if (thisAge == '??')
 			message = 'Happy Birthday <b onclick="generateProfileFromJSON(this)" class="calendar-name color" data-id="' + item.category + '">' + item.name + '</b>!!';
+		let messageDiv = document.createElement('div');
+		messageDiv.innerHTML = message;
 		
 		if (thisAge == '??' && htmlString.indexOf(monthId) > -1 && htmlString.indexOf(dateCell) > -1 && item.name != 'Me') //no age
 			htmlString = htmlString.replace(dateCell, 
-			'<td onclick="popupContent(this.querySelector(\'.calendar-popitem\'))" class="bg" data-id="' + item.category + '"><div class="calendar-popitem">' + message + '</div>' + birthdayInYear.getDate() + '</td>');
+			'<td onclick="popupContent(this.querySelector(\'.calendar-popitem\'))" class="bg" data-id="' + item.category + '"><div class="calendar-popitem" title="' + messageDiv.innerText + '">' + message + '</div>' + birthdayInYear.getDate() + '</td>');
 		else if (htmlString.indexOf(monthId) > -1 && htmlString.indexOf(dateCell) > -1 && item.name != "Me") //with age
 			htmlString = htmlString.replace(dateCell, 
-			'<td onclick="popupContent(this.querySelector(\'.calendar-popitem\'))" class="bg" data-id="' + item.category + '"><div class="calendar-popitem">' + message + '</div>' + birthdayInYear.getDate() + '</td>');
+			'<td onclick="popupContent(this.querySelector(\'.calendar-popitem\'))" class="bg" data-id="' + item.category + '"><div class="calendar-popitem" title="' + messageDiv.innerText + '">' + message + '</div>' + birthdayInYear.getDate() + '</td>');
 		else if (thisAge == '??' && htmlString.indexOf(monthId) > -1) //append DOB, no age
 			htmlString = htmlString.replace('</div>' + birthdayInYear.getDate() + '</td>', 
 			'<br />' + message + '</div>' + birthdayInYear.getDate() + '</td>');
