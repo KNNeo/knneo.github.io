@@ -157,9 +157,6 @@ a:hover {
     justify-content: center;
 	line-height: 1.5;
 }
-.profile-box:hover .points {
-    text-decoration: underline;
-}
 .points-note {
     position: absolute;
     background: var(--background);
@@ -189,8 +186,9 @@ a:hover {
     justify-content: center;
 }
 .profile-box-label {
-	font-size: 40%;	
+	font-size: 55%;	
 	filter: contrast(1.2);
+	white-space: nowrap;
 }
 .profile-box-label.inactive {
 	filter: brightness(0) contrast(0) opacity(0.5);
@@ -216,17 +214,21 @@ a:hover {
 	justify-content: space-evenly;
     align-items: center;
 	padding-bottom: 5px;
-	width: 100%;
+	width: auto;
     height: 100%;
 }
 .profile-details.multi {
 	height: auto;
     justify-content: space-evenly;
 }
+.profile-details div:hover .points {
+    text-decoration: underline;
+}
 .profile-pointers {
     width: 75%;
 	display: flex;
-	justify-content: center;	
+	justify-content: center;
+	gap: 8px;
 }
 .profile-pointers > div {
 	flex-basis: 33%;
@@ -477,7 +479,6 @@ a:hover {
 .timeline .container:hover ~ div,
 .timeline .dimmed {
 	color: var(--foreground);
-	/* filter: grayscale(90%) contrast(0.2); */
 }
 
 .timeline .selected {
@@ -500,11 +501,6 @@ a:hover {
     border: 3px solid var(--foreground);
 }
 
-.calendar .bg.today,
-.darked .calendar .bg.today {
-	background-color: var(--foreground);
-}
-
 /*calendar category labels*/
 span.bg.disabled {
 	background-color: transparent;
@@ -522,12 +518,6 @@ span.bg.disabled {
 	}
 	.profile-image img {
 		max-height: calc(94vh - 344px);
-	}
-}
-
-@media only screen and (pointer: fine) {
-	.calendar td:hover .calendar-popitem {
-		/* display: block; */
 	}
 }
 
