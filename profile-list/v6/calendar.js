@@ -37,7 +37,7 @@ function generateMiniCalendarTable(year, month, array) {
 	// render table
 	let htmlString = '<table class="box"><tbody><tr><th>' + 
 	'<i class="inverted prev-month bi bi-arrow-left"></i>' + 
-	'</th><th colspan="5"><span class="header">' + 
+	'</th><th colspan="5"><span>' + 
 	config.calendar.months[month] + ' ' + year + 
 	'</span></th><th>' + 
 	'<i class="inverted next-month bi bi-arrow-right"></i>' + 

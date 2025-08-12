@@ -327,6 +327,10 @@ a:hover {
     display: none;
 	color: var(--foreground);
 }
+.calendar-select {
+	font-family: inherit;
+	font-size: 1em;
+}
 .dialog .calendar-popitem {
     display: block;
     position: initial;

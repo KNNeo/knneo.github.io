@@ -551,8 +551,8 @@ function createDOBlist(profiles, minAge, maxAge, sort = false) {
 
 function showCalendarMonths() {
 	let [month, year] = event.target.innerText.split(' ');
-	popupContent('<input type="month" name="range" onchange="onSelectCalendarMonth()" '+
-		'min="2000-01" max="2099-12" value="' + year + '-' + (1+config.calendar.months.indexOf(month)) + '">');
+	popupContent('<input class="calendar-select" type="month" name="range" onchange="onSelectCalendarMonth()" '+
+		'min="2000-01" max="2099-12" value="' + year + '-' + (1+config.calendar.months.indexOf(month)).toString().padStart(2, "0") + '">');
 }
 
 function onSelectCalendarMonth() {
