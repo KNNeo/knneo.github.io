@@ -311,6 +311,7 @@ a:hover {
 	position: relative;
 }
 .calendar td {
+    border: 3px solid transparent;
     border-radius: 12px;
     min-width: 2em;
     height: 2em;
@@ -371,6 +372,20 @@ a:hover {
     font-size: 1em;
     width: 100%;
     gap: 8px;
+}
+
+.calendar .bg {
+    cursor: pointer;
+}
+
+.calendar .today {
+    border: 3px solid var(--foreground);
+}
+
+/*calendar category labels*/
+span.bg.disabled, 
+.darked span.bg.disabled {
+	background-color: transparent;
 }
 
 /*TIMELINE*/
@@ -491,23 +506,6 @@ a:hover {
 	font-weight: bold;
 	filter: none;
 	z-index: 10;
-}
-
-.calendar td {
-    border: 3px solid transparent;
-}
-
-.calendar .bg {
-    cursor: pointer;
-}
-
-.calendar .today {
-    border: 3px solid var(--foreground);
-}
-
-/*calendar category labels*/
-span.bg.disabled {
-	background-color: transparent;
 }
 
 /*scrollbars for top and bottom labels only on desktop*/

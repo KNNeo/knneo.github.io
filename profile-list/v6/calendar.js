@@ -186,8 +186,8 @@ function addCalendarLegend() {
 		calendarLegend.insertBefore(label, calendarLegend.childNodes[0]); // before export button
 	}
 	// add css styles
-	let lightStyleTemplate = ' .bg[data-id="{name}"] { background-color: {value}; color: white; } .bg:hover { background-color: var(--foreground); color: var(--background); }';
-    let darkStyleTemplate = ' .darked .bg[data-id="{name}"] { background-color: {value}; color: black; } .darked .bg:hover { background-color: var(--foreground); color: var(--background); }';
+	let lightStyleTemplate = ' .bg[data-id="{name}"] { background-color: {value}; border-color: {value}; color: white; } .bg:hover { background-color: var(--foreground); color: var(--background); }';
+    let darkStyleTemplate = ' .darked .bg[data-id="{name}"] { background-color: {value}; border-color: {value}; color: black; } .darked .bg:hover { background-color: var(--foreground); color: var(--background); }';
 	config.calendar.category.reverse(); // flip back
 	for(let c = 0; c < categories.length; c++) {
 		let categoryIndex = config.calendar.category.indexOf(categories[c]);
