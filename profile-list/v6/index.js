@@ -1066,11 +1066,12 @@ function createDialog(node) {
 		dialog.appendChild(clonedNode);
 	}
 	dialog.addEventListener('click', function () {
-		this.remove();
+		if(event.target == document.querySelector('dialog'))
+			event.target.remove();
 	});
 	dialog.addEventListener('keyup', function () {
 		if (event.key === ' ' || event.key === 'Enter')
-			this.remove();
+			event.target.remove();
 	});
 	return dialog;
 }
