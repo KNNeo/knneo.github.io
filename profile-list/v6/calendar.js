@@ -42,7 +42,7 @@ function generateMiniCalendarTable(year, month, array) {
 	// render table
 	let htmlString = '<table class="box"><tbody><tr><th>' + 
 	'<i class="inverted prev-month bi bi-arrow-left"></i>' + 
-	'</th><th colspan="5"><span class="header" onclick="selectCalendarMonth()">' + 
+	'</th><th colspan="5"><span class="header">' + 
 	config.calendar.months[month] + ' ' + year + 
 	'</span></th><th>' + 
 	'<i class="inverted next-month bi bi-arrow-right"></i>' + 
@@ -208,13 +208,6 @@ function addCalendarLegend() {
             document.head.appendChild(styleSheet);
         }
 	}
-}
-
-function selectCalendarMonth() {
-	let [month, year] = event.target.innerText.split(' ');
-	let monthNo = 1+config.calendar.months.indexOf(month);
-	popupContent('<input type="number" min="1" max="12" value="' + monthNo + '">' + 
-		'<input type="number" min="2000" max="2099" value="' + year + '">');
 }
 
 function filterCalendarList() {

@@ -521,6 +521,7 @@ function loadCalendar() {
 		luxon.DateTime.fromISO(luxon.DateTime.now(), { zone: config.timezone }).month - 1, // month is zero-based
 		config.list.calendar,
 		true);
+	calendarDiv.querySelector('.header').addEventListener('click', showCalendarMonths);
 }
 
 function createDOBlist(profiles, minAge, maxAge, sort = false) {
@@ -546,6 +547,17 @@ function createDOBlist(profiles, minAge, maxAge, sort = false) {
 			return Date.parse(a.date) - Date.parse(b.date)
 		});
 	return list;
+}
+
+function showCalendarMonths() {
+	let [month, year] = event.target.innerText.split(' ');
+	popupContent('<input type="month" name="range" onchange="onSelectCalendarMonth()" '+
+		'min="2000-01" max="2099-12" value="' + year + '-' + (1+config.calendar.months.indexOf(month)) + '">');
+}
+
+function onSelectCalendarMonth() {
+	let[year, month] = event.target.value.split('-');
+	generateMiniCalendar(calendarDiv, year, month-1, config.list.calendar);
 }
 
 ////GROUP MODE////
