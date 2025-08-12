@@ -795,7 +795,7 @@ function generateProfilePointers(profile, icons) {
 		cellContainer.appendChild(cellDiv);
 
 		//--POINTERS VALUE--//
-		let cellDiv = document.createElement('div');
+		cellDiv = document.createElement('div');
 		cellDiv.classList.add('page-align');
 		if (point.comment) {
 			cellDiv.title = point.comment;
