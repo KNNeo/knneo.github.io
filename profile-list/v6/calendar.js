@@ -1,24 +1,19 @@
-function generateMiniCalendar(elem, year, month, list = [], showLegend = false) {
-	// add class or id to each cell, easier to add content
-	// use table tag, don't use css grid
-	// console.log(year, month);	
-	let calendar = document.createElement('div');
-	
+function generateMiniCalendar(elem, year, month, list, headerFunction, showLegend = false) {
 	// TODO: allow start from monday
 	// generate calendar array
 	let calendarArray = generateCalendarArray(year, month);
 	// console.log(calendarArray);
-	
 	// generate calendar HTML
 	let table = generateMiniCalendarTable(year, month, calendarArray);	
-	elem.innerHTML = table;
-	
+	elem.innerHTML = table;	
 	// change variable to match current calendar
 	config.calendar.year = year;
 	config.calendar.month = month;
 	// add marked items on expanded calendar
-	addEventsToMiniCalendar(year, table, list);
-	
+	addEventsToMiniCalendar(year, table, list || []);
+	// to allow custom select month
+	elem.querySelector('.header').addEventListener('click', showCalendarMonths);
+	// show categories
 	if(showLegend) addCalendarLegend();
 }
 

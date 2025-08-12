@@ -520,8 +520,8 @@ function loadCalendar() {
 		luxon.DateTime.fromISO(luxon.DateTime.now(), { zone: config.timezone }).year,
 		luxon.DateTime.fromISO(luxon.DateTime.now(), { zone: config.timezone }).month - 1, // month is zero-based
 		config.list.calendar,
+		showCalendarMonths,
 		true);
-	calendarDiv.querySelector('.header').addEventListener('click', showCalendarMonths);
 }
 
 function createDOBlist(profiles, minAge, maxAge, sort = false) {
