@@ -378,13 +378,13 @@ a:hover {
     cursor: pointer;
 }
 
-.calendar .today {
+.calendar .bg.today[data-id] {
     border: 3px solid var(--foreground);
 }
 
 /*calendar category labels*/
-span.bg.disabled, 
-.darked span.bg.disabled {
+.bg.disabled[data-id], 
+.darked .bg.disabled[data-id] {
 	background-color: transparent;
 }
 
