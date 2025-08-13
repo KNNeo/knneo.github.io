@@ -68,7 +68,7 @@ public class Program {
     }
     // CONSIDER: Name, relationship, time of day, weather, CurrentEvents/Flashback, introduction, key events
     // DO NOT CONSIDER: Story related information, plot twists, key items
-    static Dictionary<int, String> PAGE_TAGS => GetPageTags(EXTENDED_TAGS_FILENAME);
+    static Dictionary<Int32, String> PAGE_TAGS => GetPageTags(EXTENDED_TAGS_FILENAME);
     static Dictionary<Int32, String> GetPageTags(string filename)
     {
         var list = new Dictionary<Int32, String>();
@@ -81,6 +81,7 @@ public class Program {
         }
         return list;
     }
+    static List<Int32> SORTORDER_MAPPING = new List<Int32>();
 
 	static void Main()
 	{
@@ -378,6 +379,7 @@ public class Program {
                     textContent = Regex.Replace(textContent, @"(?s)(<div)(.*?)(>)", "");
                     textContent = Regex.Replace(textContent, @"(?s)(</div)(.*?)(>)", "");
                     textContent = Regex.Replace(textContent, @"[ ]{2,}", " ");
+
                     fanfics.Add(new FanfictionContent()
                     {
                         season = publishDate >= prevDate.AddDays(14) ? ++season : season,
@@ -472,7 +474,7 @@ public class Program {
     static string FormatPageSection(List<FanfictionContent> list)
     {
         string template = "{\"tooltip\":\"_CHARACTER_\",\"thumbnail\":\"_THUMBNAIL_\",\"grid\":{\"type\":\"grid\",\"columns\":2,\"rows\":8,\"items\":[{\"type\":\"image\",\"rows\":7,\"tooltip\":\"\",\"source\":\"_THUMBNAIL_\",\"link\":\"_LINK_\"},{\"type\":\"paragraph\",\"rows\":7,\"align\":\"center\",\"italics\":true,\"text\":\"_CONTENT_\"},{\"columns\":2,\"type\":\"tags\",\"prefix\":\"#\",\"filter\":true,\"values\":[_TAGS_]}]}}";
-        return String.Join(",", list.Select(x => 
+        return String.Join(",", list.OrderBy(x => SORTORDER_MAPPING.Count() > 0 ? 1+SORTORDER_MAPPING.IndexOf(x.index) : x.index).Select(x => 
             template
                 .Replace("_CHARACTER_", x.character)
                 .Replace("_THUMBNAIL_", x.thumb)
