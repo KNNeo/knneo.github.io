@@ -552,7 +552,7 @@ function createDOBlist(profiles, minAge, maxAge, sort = false) {
 function showCalendarMonths() {
 	let [month, year] = event.target.innerText.split(' ');
 	popupContent('<input class="calendar-select" type="month" name="range" onchange="onSelectCalendarMonth()" '+
-		'min="2000-01" max="2099-12" value="' + year + '-' + (1+config.calendar.months.indexOf(month)).toString().padStart(2, "0") + '">');
+		'min="2000-01" max="2099-12" value="' + year + '-' + (1+config.calendar.months.indexOf(month)).toString().padStart(2, "0") + '">', true);
 }
 
 function onSelectCalendarMonth() {
@@ -938,7 +938,7 @@ function findComment(profile, commentIndexStr) {
 	return profile.comments.find(c => c.includes(commentIndexStr))?.removeNumberPrefix();
 }
 
-function processComment(comment, refs) {
+function processComment(comment, refs = []) {
 	let commentArr = [];
 	let added = false;
 	for (let ref of refs) {
@@ -1054,20 +1054,20 @@ function showProfilesImageCount(threshold) {
 }
 
 ////DIALOG////
-function popupContent(input) {
+function popupContent(input, blocking = false) {
 	let dialogDiv = document.querySelector('.dialog');
 	if (dialogDiv == null) {
 		dialogDiv = document.createElement('div');
 		dialogDiv.classList.add('dialog');
 		document.body.appendChild(dialogDiv);
 	}
-	let dialog = createDialog(input);
+	let dialog = createDialog(input, blocking);
 	dialogDiv.innerHTML = '';
 	dialogDiv.appendChild(dialog);
 	dialog.showModal();
 }
 
-function createDialog(node) {
+function createDialog(node, blocking) {
 	// node in dialog will not have events!
 	let dialog = document.createElement('dialog');
 	if (!dialog.classList.contains('box')) dialog.classList.add('box');
@@ -1078,12 +1078,12 @@ function createDialog(node) {
 		dialog.appendChild(clonedNode);
 	}
 	dialog.addEventListener('click', function () {
-		if(event.target == document.querySelector('dialog'))
-			event.target.remove();
+		if(!blocking || event.target == document.querySelector('dialog'))
+			event.target.closest('.dialog').remove();
 	});
 	dialog.addEventListener('keyup', function () {
 		if (event.key === ' ' || event.key === 'Enter')
-			event.target.remove();
+			event.target.closest('.dialog').remove();
 	});
 	return dialog;
 }
