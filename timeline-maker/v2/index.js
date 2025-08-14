@@ -24,6 +24,7 @@ function clearSelectItems() {
 function selectItem(container) {
 	clearSelectItems();
 	container.classList.add('highlight');
+    container.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
 }
 
 function staggerTimeline() {
@@ -94,7 +95,8 @@ function timelineOnScroll() {
 			min = diffX;
 		}
 	}
-	selectItem(selected.parentElement);	
+	clearSelectItems();
+	selected.parentElement.classList.add('highlight');
 }
 
 function toggleDimMode() {
