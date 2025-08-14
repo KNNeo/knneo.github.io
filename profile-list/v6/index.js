@@ -320,13 +320,11 @@ function generateWantedList(addReset) {
 	}
 
 	//create array
-	let profileNamesList = [];
-	for (let profileName of config.list.profiles) {
-		profileNamesList.push(profileName);
-	}
-	profileNamesList.sort(function (a, b) {
-		return a.name.localeCompare(b.name);
-	});
+	let profileNamesList = config.data
+		.filter(n => config.profile.include(n))
+		.sort(function (a, b) {
+			return a.name.localeCompare(b.name);
+		});
 
 	//create wanted list
 	for (let profile of profileNamesList) {
