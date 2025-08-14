@@ -344,9 +344,54 @@ a:hover {
 }
 
 /*CALENDAR*/
-.calendar .calendar-box {
+.calendar-box {
 	margin: auto;
 	max-width: 320px;
+}
+
+.calendar-box .export {
+	padding: 0 8px;
+	font-size: 1em;
+	width: 100%;
+	gap: 8px;
+}
+
+.calendar-legend label {
+	border-radius: 28px;
+}
+
+.calendar-legend label:hover {
+	background-color: var(--accent);
+}
+
+.calendar-legend input {
+	opacity: 0;
+	height: 0;
+	width: 0;
+}
+
+.calendar-legend-box {
+	display: inline-block;
+	height: 16px;
+	width: 16px;
+	border: 2px solid transparent;
+	vertical-align: middle;
+	margin-bottom: 3px;
+	border-radius: 50%;
+}
+
+.calendar-legend {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+.calendar .prev-month,
+.calendar .next-month,
+.calendar-legend label {
+	cursor: pointer;
+	padding: 5px;
+	white-space: nowrap;
 }
 
 .calendar table {
@@ -382,51 +427,6 @@ a:hover {
 .dialog .calendar-popitem {
 	display: block;
 	position: initial;
-}
-
-.calendar .calendar-legend {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
-}
-
-.calendar .prev-month,
-.calendar .next-month,
-.calendar .calendar-legend label {
-	cursor: pointer;
-	padding: 5px;
-	white-space: nowrap;
-}
-
-.calendar .calendar-legend label {
-	border-radius: 28px;
-}
-
-.calendar .calendar-legend label:hover {
-	background-color: var(--accent);
-}
-
-.calendar .calendar-legend input {
-	opacity: 0;
-	height: 0;
-	width: 0;
-}
-
-.calendar .calendar-legend-box {
-	display: inline-block;
-	height: 16px;
-	width: 16px;
-	border: 2px solid transparent;
-	vertical-align: middle;
-	margin-bottom: 3px;
-	border-radius: 50%;
-}
-
-.calendar .calendar-box .export {
-	padding: 0 8px;
-	font-size: 1em;
-	width: 100%;
-	gap: 8px;
 }
 
 /*calendar category labels, day with event (specific rendered from js)*/
