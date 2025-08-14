@@ -321,10 +321,7 @@ function generateWantedList(addReset) {
 
 	//create array
 	let profileNamesList = config.data
-		.filter(n => config.profile.include(n))
-		.sort(function (a, b) {
-			return a.name.localeCompare(b.name);
-		});
+		.filter(n => config.profile.include(n));
 
 	//create wanted list
 	for (let profile of profileNamesList) {
