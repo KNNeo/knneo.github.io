@@ -20,18 +20,25 @@ const config = {
 	timezone: 'Asia/Tokyo',
 	profile: {
 		include: function (n) {
-			return n.pointers;
+			return !(n.inactive === true) && n.pointers;
 		},
 	},
 	calendar: {
 		include: function (n) {
-			return config.calendar.category.includes(n.category);
+			return !(n.inactive === true) && config.calendar.category.includes(n.category);
 		},
 		category: ['アイドル', '女性声優', 'DOAXVV', 'IDOLY PRIDE', 'DayRe:'], // legend, in display order
 		categoryLightColor: ['gray', 'blue', 'darkgreen', 'violet', 'orangered'], // (light theme) background color of date, in category order
 		categoryDarkColor: ['lightgray', 'cyan', 'chartreuse', 'hotpink', 'orange'], // (dark theme) background color of date, in category order
 		daysOfWeek: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-		months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+		months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+		minAge: 0,
+		maxAge: 50
+	},
+	friends: {
+		include: function (n) {
+			return !(n.inactive === true) && n.category == 'friends';
+		},
 	},
 	labels: {
 		ageSuffix: 'years ago',
@@ -40,9 +47,11 @@ const config = {
 	},
 	timeline: {
 		include: function (n) {
-			return n.dob && config.timeline.category.includes(n.category);
+			return !(n.inactive === true) && n.dob && config.timeline.category.includes(n.category);
 		},
 		category: ['Me', '女性声優', 'DayRe:'],
+		minAge: 1,
+		maxAge: 35
 	},
 	social: {
 		twitter: {
@@ -153,12 +162,12 @@ function renderPage() {
 }
 
 function loadData() {
-	config.list.profiles = config.data.filter(n => !(n.inactive === true) && config.profile.include(n));
-	let calendarList = config.data.filter(n => !(n.inactive === true) && config.calendar.include(n));
-	let timelineList = config.data.filter(n => !(n.inactive === true) && config.timeline.include(n));
-	config.list.friends = config.data.filter(n => !(n.inactive === true) && n.category == 'friends');
-	config.list.timeline = createDOBlist(timelineList, 1, 35, true);
-	config.list.calendar = createDOBlist(calendarList, 0, 50);
+	config.list.profiles = config.data.filter(n => config.profile.include(n));
+	let calendarList = config.data.filter(n => config.calendar.include(n));
+	let timelineList = config.data.filter(n => config.timeline.include(n));
+	config.list.friends = config.data.filter(n => config.friends.include(n));
+	config.list.timeline = createDOBlist(timelineList, config.timeline.minAge, config.timeline.maxAge, true);
+	config.list.calendar = createDOBlist(calendarList, config.calendar.minAge, config.calendar.maxAge);
 }
 
 function toggleView(id) {
@@ -524,7 +533,7 @@ function loadCalendar() {
 		true);
 }
 
-function createDOBlist(profiles, minAge, maxAge, sort = false) {
+function createDOBlist(profiles, minAge = 0, maxAge = 99, sort = false) {
 	//create array with DOB info, age range inclusive
 	let list = new Array();
 	for (let profile of profiles) {
@@ -617,7 +626,8 @@ function generateProfileFromJSON(profileName) {
 	if (profile == null) {
 		config.profiles = [];
 		source = config.data;
-		profile = source.filter(n => !(n.inactive === true) && n.rating).find(function (n) {
+		profile = source.filter(n => config.profile.include(n))
+		.find(function (n) {
 			return n.id == profileName;
 		});
 	};
