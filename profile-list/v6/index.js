@@ -225,10 +225,16 @@ function onSearch() {
 
 function filterWantedListBySearch() {
 	// no inactive flag, has rating, has no other profile selected or filter by that, then filter by name or nickname
-	config.list.profiles = config.data
-		.filter(n => !(n.inactive === true) && n.rating &&
+	// if no search term show default order
+	config.list.profiles = config.search ? config.data
+		.filter(n => config.profile.include && config.profile.include(n) &&
 			(config.profiles.length == 0 || config.profiles.filter(p => p.id != n.id).length > 0) &&
-			(n.name.toLowerCase().includes(config.search) || (n.nickname?.toLowerCase().includes(config.search) ?? false)));
+			(n.name.toLowerCase().includes(config.search) || (n.nickname?.toLowerCase().includes(config.search) ?? false)))
+		.sort(function (a, b) {
+			return a.name.localeCompare(b.name);
+		}) : config.data
+		.filter(n => config.profile.include && config.profile.include(n))
+		.sort((a,b) => config.profile.sort && config.profile.sort(a,b));
 	generateWantedList(true);
 }
 
@@ -291,7 +297,7 @@ function onClickShowAll() {
 	wantedList.classList.add('list');
 	//create array, sort by name, ignore sort config
 	let profileNamesList = config.data
-		.filter(n => config.profile.include(n))
+		.filter(n => config.profile.include && config.profile.include(n))
 		.sort(function (a, b) {
 			return a.name.localeCompare(b.name);
 		});
@@ -320,8 +326,7 @@ function generateWantedList(addReset) {
 	}
 
 	//create array
-	let profileNamesList = config.data
-		.filter(n => config.profile.include(n));
+	let profileNamesList = config.list.profiles;
 
 	//create wanted list
 	for (let profile of profileNamesList) {
