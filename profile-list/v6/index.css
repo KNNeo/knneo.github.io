@@ -380,6 +380,7 @@ a:hover {
 
 .calendar .bg.today[data-id] {
     border: 3px solid var(--foreground);
+	background-color: var(--foreground);
 }
 
 /*calendar category labels*/
