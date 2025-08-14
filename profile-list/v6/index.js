@@ -22,6 +22,9 @@ const config = {
 		include: function (n) {
 			return !(n.inactive === true) && n.pointers;
 		},
+		sort: function(a,b) {
+			return a.order - b.order;
+		}
 	},
 	calendar: {
 		include: function (n) {
@@ -162,10 +165,11 @@ function renderPage() {
 }
 
 function loadData() {
-	config.list.profiles = config.data.filter(n => config.profile.include(n));
-	let calendarList = config.data.filter(n => config.calendar.include(n));
-	let timelineList = config.data.filter(n => config.timeline.include(n));
-	config.list.friends = config.data.filter(n => config.friends.include(n));
+	config.list.profiles = config.data.filter(n => config.profile.include && config.profile.include(n))
+		.sort((a,b) => config.profile.sort && config.profile.sort(a,b));
+	let calendarList = config.data.filter(n => config.calendar.include && config.calendar.include(n));
+	let timelineList = config.data.filter(n => config.timeline.include && config.timeline.include(n));
+	config.list.friends = config.data.filter(n => config.friends.include && config.friends.include(n));
 	config.list.timeline = createDOBlist(timelineList, config.timeline.minAge, config.timeline.maxAge, true);
 	config.list.calendar = createDOBlist(calendarList, config.calendar.minAge, config.calendar.maxAge);
 }
@@ -285,14 +289,12 @@ function onKeyUpWantedListEntry() {
 function onClickShowAll() {
 	let wantedList = document.createElement('div');
 	wantedList.classList.add('list');
-	//create array
-	let profileNamesList = [];
-	for (let profileName of config.data.filter(n => !(n.inactive === true) && config.profile.include(n)))
-		profileNamesList.push(profileName);
-
-	profileNamesList.sort(function (a, b) {
-		return a.name.localeCompare(b.name);
-	});
+	//create array, sort by name, ignore sort config
+	let profileNamesList = config.data
+		.filter(n => config.profile.include(n))
+		.sort(function (a, b) {
+			return a.name.localeCompare(b.name);
+		});
 
 	//create wanted list
 	for (let profile of profileNamesList)
