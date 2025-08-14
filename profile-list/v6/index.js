@@ -505,8 +505,6 @@ function generateWantedListCard(id) {
 function loadTimeline(width = 2500) {
 	let list = config.list.timeline.filter(prof => !prof.date.startsWith('????'));
 	generateVerticalTimeline(timelineVerticalDiv, list, null, 'auto');
-	// generateHorizontalTimeline(timelineHorizontalDiv, list, width, '160px');
-	// addTimelineEvents();
 }
 
 function addTimelineEvents() {

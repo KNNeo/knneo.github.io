@@ -2,18 +2,14 @@ function generateVerticalTimeline(elem, data, width, height) {
 	let timeline = document.createElement('div');
 	timeline.classList.add('block');
 	timeline.classList.add('grid');
-	// timeline.classList.add('box');
 	if(width) timeline.style.width = width;
 	if(height) timeline.style.height = height;
 	
 	let prev = null;
-	for(let item of data)
-	{
+	for(let item of data) {
 		if(prev) {
-			let gaps = Math.floor(getTimeframe(prev, item.date, 0.5, 'months'));
-			if(gaps > 0)
-				generateRows(timeline, gaps);
-			
+			let gaps = Math.floor(getTimeframe(prev, item.date, 1, 'months'));
+			if(gaps > 0) generateRows(timeline, gaps);
 		}
 		
 		generateRow(timeline, function() {
@@ -30,9 +26,7 @@ function generateVerticalTimeline(elem, data, width, height) {
 
 function generateRows(parentElem, repeat, onClick, item) {
 	for(i = 0; i < parseInt(repeat); i++)
-	{
 		generateRow(parentElem, onClick, item);
-	}
 }
 
 function generateRow(parentElem, onClick, item) {
@@ -40,10 +34,8 @@ function generateRow(parentElem, onClick, item) {
 	container.classList.add('container');
 	if(onClick) container.addEventListener('click', onClick);
 	
-	generateCell(container, 'thumb', item?.date);
-	
-	generateCell(container, 'blob', '|');
-	
+	generateCell(container, 'thumb', item?.date);	
+	generateCell(container, 'blob', '|');	
 	generateCell(container, 'description', item?.name);
 	
 	parentElem.appendChild(container);
@@ -51,9 +43,7 @@ function generateRow(parentElem, onClick, item) {
 
 function generateCells(parentElem, repeat, className, val) {
 	for(i = 0; i < parseInt(repeat); i++)
-	{
 		generateCell(parentElem, className, val);
-	}	
 }
 
 function generateCell(parentElem, className, val, onClick, onMouseover, onMouseout) {
@@ -71,7 +61,6 @@ function generateHorizontalTimeline(elem, data, width, height) {
 	let timeline = document.createElement('div');
 	timeline.classList.add('block');
 	timeline.classList.add('grid-horiz');
-	// timeline.classList.add('box');
 	if(width) timeline.style.width = width;
 	if(height) timeline.style.height = height;
 			
@@ -80,13 +69,10 @@ function generateHorizontalTimeline(elem, data, width, height) {
 	
 	let counter = 0;
 	let prev = null;
-	for(let item of data)
-	{
+	for(let item of data) {
 		if(prev) {
 			let gaps = Math.floor(getTimeframe(prev, item.date, 1, 'months'));
-			if(gaps > 0) {
-				generateCells(container, gaps, 'thumb-horiz', '');
-			}			
+			if(gaps > 0) generateCells(container, gaps, 'thumb-horiz', '');
 		}
 		
 		generateCell(container, 'thumb-horiz', item.date);
@@ -100,13 +86,11 @@ function generateHorizontalTimeline(elem, data, width, height) {
 	container.classList.add('container-horiz');
 
 	prev = null;
-	for(let item of data)
-	{
+	for(let item of data) {
 		if(prev) {
 			let gaps = Math.floor(getTimeframe(prev, item.date, 1, 'months'));
-			if(gaps > 0) {
+			if(gaps > 0)
 				generateCells(container, gaps, 'blob-horiz', '-');
-			}			
 		}
 		
 		generateCell(container, 'blob-horiz', '-', 
@@ -122,9 +106,7 @@ function generateHorizontalTimeline(elem, data, width, height) {
 		}, 
 		function() {
 			for(let select of document.querySelectorAll('.grid-horiz .selected'))
-			{
 				select.classList.remove('selected');
-			}			
 		});
 		
 		prev = item.date;
@@ -136,13 +118,11 @@ function generateHorizontalTimeline(elem, data, width, height) {
 	container.classList.add('container-horiz');
 
 	prev = null;
-	for(let item of data)
-	{
+	for(let item of data) {
 		if(prev) {
 			let gaps = Math.floor(getTimeframe(prev, item.date, 1, 'months'));
-			if(gaps > 0) {
+			if(gaps > 0)
 				generateCells(container, gaps, 'description-horiz', '');
-			}			
 		}
 		
 		generateCell(container, 'description-horiz', item.name);
