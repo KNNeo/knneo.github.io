@@ -430,16 +430,16 @@ a:hover {
 }
 
 /*calendar category labels, day with event (specific rendered from js)*/
-.calendar .bg {
+.calendar-box .bg {
 	cursor: pointer;
 }
 
-.calendar .bg.today[data-id] {
+.calendar-box .bg.today[data-id] {
 	background-color: var(--foreground);
 }
 
 /*calendar category labels when disabled*/
-.calendar .bg.disabled[data-id],
+.calendar-box .bg.disabled[data-id],
 .darked .calendar .bg.disabled[data-id] {
 	background-color: transparent;
 }
