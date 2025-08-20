@@ -456,7 +456,6 @@ public class Program {
 						"</div>");
 				}
 				var copyrightYear = publishDate.Year >= updateDate.Year ? updateDate.Year.ToString() : publishDate.Year + "-" + updateDate.Year;
-				// footer.AppendLine($"<h6 class=\"page-footer\">Copyright © {HTML_TITLE} {copyrightYear}. All rights reserved.</h6>");
 				// Write all additions into output home page
 				string fileString = File.ReadAllText(POST_TEMPLATE_FILENAME)
 					.Replace("_DOCTITLE_", (postTitle.Length > 0 ? postTitle : "A Random Statement") + " - " + HTML_TITLE)
@@ -470,7 +469,7 @@ public class Program {
 					.Replace("_DATE_\n", header.ToString())
 					.Replace("_CONTENTS_\n", article.ToString())
 					.Replace("_FOOTER_\n", footer.ToString())
-					.Replace("_COPYRIGHT_\n", $"Copyright © {HTML_TITLE} {copyrightYear}. All rights reserved.")
+					.Replace("_COPYRIGHT_\n", $"<div class=\"attribution\">Copyright © {HTML_TITLE} {copyrightYear}. All rights reserved.</div>")
 					.Replace("_PREVLINK_", pageIndex < linkedList.Count() - 1 ? linkedList[pageIndex + 1].Destination.Replace("./", "../../../../") : "javascript:void(0);")
 					.Replace("_NEXTLINK_", pageIndex > 0 ? linkedList[pageIndex - 1].Destination.Replace("./", "../../../../") : "javascript:void(0);");
 				// Write into homepage file, or overwrite if exists
