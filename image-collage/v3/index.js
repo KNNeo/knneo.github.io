@@ -636,6 +636,7 @@ function onToggleSize() {
 }
 
 function onToggleExpander() {
+    popupTextGoAway(event.target.innerText.toUpperCase().slice(event.target.innerText.lastIndexOf('_') + 1));
 	switch(event.target.innerText) {
 	  case 'unfold_more':
 		event.target.innerText = 'unfold_less';
@@ -654,7 +655,6 @@ function onToggleExpander() {
 	  default:
 		break;
 	}
-    popupTextGoAway(event.target.innerText.toUpperCase().slice(event.target.innerText.lastIndexOf('_') + 1));
 	setTimeout(setMenuHeight, 300);
 }
 
