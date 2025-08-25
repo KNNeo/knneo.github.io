@@ -20,11 +20,18 @@ function onKeyDown() {
 }
 
 function logTime() {
+    if(!commentInput.value){
+        let result = confirm('Insert comment:');
+        if(result) {
+            commentInput.value = result;
+        }
+    }
     config.times.push({
         time: new Date().toLocaleTimeString([], config.options),
-        comment: commentInput.innerText
+        comment: commentInput.value
     });
     localStorage.setItem(config.storage, config.times);
+    updateDisplay();
 }
 
 //--EVENT HANDLERS--//
@@ -52,6 +59,8 @@ function updateDisplay() {
 
     table.appendChild(tbody);
     tableDiv.appendChild(table);
+
+    tableDiv.querySelector('tr:last-child').scrollIntoView({ behavior: 'smooth', block: 'end' });
 }
 
 //--INITIAL--//

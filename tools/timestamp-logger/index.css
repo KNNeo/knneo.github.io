@@ -69,8 +69,25 @@ a:hover {
 }
 
 .table {
-  max-height: 50%;
+  margin: 4px;
+  max-height: 50vh;
   overflow: auto;
+}
+
+.table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table td {
+  padding: 4px;
+  border: 1px solid var(--foreground);
+  text-align: start;
+}
+
+.table tr td:first-child {
+  width: 200px;
+  text-align: center;
 }
 
 .comment {
@@ -78,8 +95,13 @@ a:hover {
 }
 
 .action {
-  border: 1px solid var(--secondary);
+  background: var(--foreground);
   border-radius: 99px;
+  font-size: 2.5em;
   width: 2em;
   height: 2em;
+}
+
+.action:active {
+  background: var(--secondary);
 }
