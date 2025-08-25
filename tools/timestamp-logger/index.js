@@ -15,7 +15,7 @@ let commentInput = document.querySelector('input.comment');
 
 //--DOM FUNCTIONS--//
 function onKeyDown() {
-	if(e.key == 'Space')
+	if(e.key == 'Enter')
         logTime();
 }
 
@@ -31,7 +31,7 @@ function logTime() {
         time: new Date().toLocaleTimeString([], config.options),
         comment: commentInput.value
     });
-    localStorage.setItem(config.storage, config.times);
+    localStorage.setItem(config.storage, JSON.stringify(config.times));
     updateDisplay();
 }
 
