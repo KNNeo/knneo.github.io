@@ -25,6 +25,9 @@ function commentOnKeyDown() {
 }
 
 function logTime() {
+    // to log time based on time of press
+    let date = new Date().toLocaleTimeString([], config.options);
+    // regardless of remember key in comment
     if(!commentInput.value){
         let result = prompt('Insert comment:');
         if(result) {
@@ -33,7 +36,7 @@ function logTime() {
         else return;
     }
     config.times.push({
-        time: new Date().toLocaleTimeString([], config.options),
+        time: date,
         comment: commentInput.value
     });
     updateData();
