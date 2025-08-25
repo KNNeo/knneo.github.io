@@ -52,6 +52,10 @@ function editComment() {
     }
 }
 
+function copyComment() {
+    commentInput.value = event.target.innerText;
+}
+
 function deleteRow() {
     let row = event.target.closest('tr');
     let date = row.querySelector('td');
@@ -83,7 +87,7 @@ function updateDisplay() {
 
         let td2 = document.createElement('td');
         td2.innerText = data.comment;
-        td2.setAttribute('onclick', 'editComment()');
+        td2.setAttribute('onclick', 'copyComment()');
         tr.appendChild(td2);
 
         let td3 = document.createElement('td');
