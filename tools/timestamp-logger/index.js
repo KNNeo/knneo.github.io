@@ -36,22 +36,46 @@ function logTime() {
         time: new Date().toLocaleTimeString([], config.options),
         comment: commentInput.value
     });
-    localStorage.setItem(config.storage, JSON.stringify(config.times));
-    updateDisplay();
+    updateData();
     commentInput.value = '';
 }
 
 //--EVENT HANDLERS--//
+function editComment() {
+    let result = confirm('Edit comment:', event.target.innerText);
+    if(result) {
+        let id = parseInt(event.target.closest('tr').getAttribute('data-id'));
+        if(id && id >= 0) {
+            config.times[id].comment = result;
+            updateData();
+        }
+    }
+}
 
+function deleteRow() {
+    let row = event.target.closest('tr');
+    let date = row.querySelector('td');
+    if(date) {
+        // chances of multi row delete? if hit 3dp milliseconds
+        config.times = config.times.filter(t => t.date != date);
+        updateData();
+    }
+}
 
 //--FUNCTIONS--//
+function updateData() {
+    localStorage.setItem(config.storage, JSON.stringify(config.times));
+    updateDisplay();
+}
+
 function updateDisplay() {
     tableDiv.innerHTML = '';
     let table = document.createElement('table');
     let tbody = document.createElement('tbody');
 
-    for(let data of config.times) {
+    config.times.forEach((data, index) => {
         let tr = document.createElement('tr');
+        tr.setAttribute('data-id', index);
 
         let td1 = document.createElement('td');
         td1.innerText = data.time;
@@ -59,10 +83,16 @@ function updateDisplay() {
 
         let td2 = document.createElement('td');
         td2.innerText = data.comment;
+        td2.setAttribute('onclick', 'editComment()');
         tr.appendChild(td2);
 
+        let td3 = document.createElement('td');
+        td3.className = 'bi bi-trash3';
+        td3.setAttribute('onclick', 'deleteRow()');
+        tr.appendChild(td3);
+
         tbody.appendChild(tr);
-    }
+    });
 
     table.appendChild(tbody);
     tableDiv.appendChild(table);
