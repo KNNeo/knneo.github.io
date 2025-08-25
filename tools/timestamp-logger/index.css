@@ -25,6 +25,13 @@ body {
   max-width: 640px;
   margin: auto;
   text-align: center;
+}
+
+a,
+a:visited {
+  color: var(--foreground);
+  text-decoration: none;
+  
   -webkit-user-select: none;
   -khtml-user-select: none;
   -moz-user-select: none;
@@ -32,41 +39,8 @@ body {
   user-select: none;
 }
 
-a,
-a:visited {
-  color: var(--foreground);
-  text-decoration: none;
-}
-
 a:hover {
   color: var(--primary);
-}
-
-.hidden {
-  display: none;
-}
-
-.box {
-  margin: 5px;
-  vertical-align: top;
-  scroll-snap-align: center;
-  white-space: normal;
-  touch-action: manipulation;
-}
-
-.shadowed {
-  border: 1px solid lightgray;
-  box-shadow: 3px 3px;
-}
-
-.shadowed:active {
-  box-shadow: 1px 1px;
-  transform: translate(2px, 2px);
-}
-
-.unshadowed {
-  filter: opacity(100%);
-  transition: filter 1s;
 }
 
 .table {
@@ -110,4 +84,8 @@ a:hover {
 
 .action:active {
   background: var(--secondary);
+}
+
+.hidden {
+  display: none;
 }
