@@ -57,7 +57,7 @@ function deleteRow() {
     let date = row.querySelector('td');
     if(date) {
         // chances of multi row delete? if hit 3dp milliseconds
-        config.times = config.times.filter(t => t.date != date.innerText);
+        config.times = config.times.filter(t => t.time != date.innerText);
         updateData();
     }
 }
