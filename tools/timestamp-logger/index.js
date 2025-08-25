@@ -26,7 +26,7 @@ function commentOnKeyDown() {
 
 function logTime() {
     if(!commentInput.value){
-        let result = confirm('Insert comment:');
+        let result = prompt('Insert comment:');
         if(result) {
             commentInput.value = result;
         }
@@ -42,7 +42,7 @@ function logTime() {
 
 //--EVENT HANDLERS--//
 function editComment() {
-    let result = confirm('Edit comment:', event.target.innerText);
+    let result = prompt('Edit comment:', event.target.innerText);
     if(result) {
         let id = parseInt(event.target.closest('tr').getAttribute('data-id'));
         if(id && id >= 0) {
@@ -57,7 +57,7 @@ function deleteRow() {
     let date = row.querySelector('td');
     if(date) {
         // chances of multi row delete? if hit 3dp milliseconds
-        config.times = config.times.filter(t => t.date != date);
+        config.times = config.times.filter(t => t.date != date.innerText);
         updateData();
     }
 }
