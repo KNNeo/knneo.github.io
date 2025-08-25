@@ -38,6 +38,7 @@ function logTime() {
     });
     localStorage.setItem(config.storage, JSON.stringify(config.times));
     updateDisplay();
+    commentInput.value = '';
 }
 
 //--EVENT HANDLERS--//
