@@ -12,12 +12,12 @@
 	<script src="index.js" defer></script>
     <title>Timestamp Logger</title>
 </head>
-<body onload="startup()">
+<body onload="startup()" onkeydown="onKeyDown()">
 	<h2>Timestamp Logger</h2>
 	<h6>A simple way to get a list of timings with a hit of a button</h6>
 	<div class="page">
 		<div class="table"></div>
-		<input class="comment" onchange="onChangeNote()" onkeydown="onKeyDown()"></input>
+		<input class="comment" onchange="onChangeNote()" onkeydown="commentOnKeyDown()"></input>
 		<br>
 		<br>
 		<button class="bi bi-stopwatch action" onclick="logTime()"></button>

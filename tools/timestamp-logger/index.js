@@ -15,7 +15,12 @@ let commentInput = document.querySelector('input.comment');
 
 //--DOM FUNCTIONS--//
 function onKeyDown() {
-	if(e.key == 'Enter')
+	if(event.key == 'Space')
+        logTime();
+}
+
+function commentOnKeyDown() {
+	if(event.key == 'Enter')
         logTime();
 }
 
