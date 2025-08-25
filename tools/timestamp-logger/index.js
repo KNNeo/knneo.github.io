@@ -25,6 +25,7 @@ function logTime() {
         if(result) {
             commentInput.value = result;
         }
+        else return;
     }
     config.times.push({
         time: new Date().toLocaleTimeString([], config.options),

@@ -22,7 +22,8 @@ html {
 }
 
 body {
-  margin: 0;
+  max-width: 640px;
+  margin: auto;
   text-align: center;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -70,7 +71,7 @@ a:hover {
 
 .table {
   margin: 4px;
-  max-height: 50vh;
+  height: 50vh;
   overflow: auto;
 }
 
@@ -91,7 +92,7 @@ a:hover {
 }
 
 .comment {
-  width: 100%;
+  width: 90%;
 }
 
 .action {
