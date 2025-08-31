@@ -434,8 +434,14 @@ a:hover {
 	cursor: pointer;
 }
 
+.calendar-box .today {
+	border: 3px solid var(--foreground);
+    box-sizing: border-box;
+}
+
 .calendar-box .bg.today[data-id] {
-	background-color: var(--foreground);
+    background-color: var(--foreground);
+    border: 3px solid var(--foreground);
 }
 
 /*calendar category labels when disabled*/
