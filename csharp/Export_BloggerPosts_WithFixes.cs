@@ -47,6 +47,7 @@ public class Program {
 	static List<string> GOOGLE_FONTS_URLS = new List<string>() { "Dancing Script", "Caveat" };
 	static bool SHOW_POST_LABELs_COUNT = false;
 	static bool SHOW_LINKED_LIST = false;
+    static bool INCLUDE_DRAFT_POSTS = false;
 
 	// POST SETTINGS
 	static string HTML_TITLE = "Klassic Note Reports";
@@ -245,7 +246,7 @@ public class Program {
 				// Exclude entries that are not page
 				.Where(entry => !entry.Element(DEFAULT_BLOGGER_NAMESPACE+"type").Value.Contains("PAGE"))
 				// Exclude any draft posts, do not have page URL created
-				.Where(entry => !entry.Element(DEFAULT_BLOGGER_NAMESPACE+"status").Value.Contains("DRAFT"))
+				.Where(entry => INCLUDE_DRAFT_POSTS ? true : !entry.Element(DEFAULT_BLOGGER_NAMESPACE+"status").Value.Contains("DRAFT"))
 				.ToList());
 		}
 		if(DEBUG_MODE) Console.WriteLine($"Total posts found: {xmlPosts.Count}");
@@ -262,6 +263,7 @@ public class Program {
 		var postsList = new List<BloggerPost>();
 		foreach(var entry in xmlPosts)
 		{
+            Boolean isDraft = entry.Element(DEFAULT_BLOGGER_NAMESPACE+"status").Value.Contains("DRAFT");
 			DateTime publishDate = DateTime.Parse(entry.Element(DEFAULT_XML_NAMESPACE+"published").Value);
 		    if(DEBUG_MODE) Console.WriteLine(publishDate);
 			DateTime updateDate = DateTime.Parse(entry.Element(DEFAULT_XML_NAMESPACE+"updated").Value);
@@ -294,7 +296,7 @@ public class Program {
 			// If has valid published link, and not including post labels to ignore and not render
 			if(!string.IsNullOrWhiteSpace((GENERATE_SLUG_BY_POST_TITLE ? generatedLink : Path.GetFileNameWithoutExtension(bloggerLink))) && !pageTagsXml.Any(tags => POST_IGNORE_LABELS.Contains(tags)))
             {
-				postsList.Add(new BloggerPost(publishDate, updateDate, postTitle, postExtension, bloggerLink, pageTagsXml, pageLink, postContent));
+				postsList.Add(new BloggerPost(publishDate, updateDate, postTitle, postExtension, isDraft ? pageLink : bloggerLink, pageTagsXml, pageLink, postContent));
             }
 		}
 		return postsList;
@@ -382,6 +384,8 @@ public class Program {
 				// Fix post attributes
 				// fix url of ent news, by year except 2014
 				
+                if(DEBUG_MODE)
+                    Console.WriteLine("Replace content before fixes");
 				// Find Content in debug mode
 				if(POSTS_SEARCHTERM.Length > 0)
 				{
@@ -666,6 +670,7 @@ public class Program {
     #endregion
 	static List<int> FixPostContent(ref string content, List<LinkedListItem> linkedList)
 	{
+        if(DEBUG_MODE) Console.WriteLine("Fixing post content...");
 		List<int> includeIndex = new List<int> { 1, 14, 15, 16, 18, 24, 29, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40 };
 		List<int> count = new List<int>();
 		string expression;
