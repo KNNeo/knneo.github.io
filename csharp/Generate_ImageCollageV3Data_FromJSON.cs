@@ -77,10 +77,10 @@ public class Program {
 				var filename = file.ishou + "_" + file.chara + ".jpg";
 				if(debugMode) Console.WriteLine("Processing..." + filename);
 				var dataOne = data.FirstOrDefault(d => d.name.Trim() == file.search.Trim());
-				if(debugMode) Console.WriteLine("Found " + dataOne);
-				
 				if(dataOne != null)
 				{
+                    if(debugMode) Console.WriteLine("Found " + dataOne.name);
+                    
 					if(!downloadFiles)
 					{
 						//record image url
