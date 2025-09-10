@@ -600,7 +600,7 @@ public class Program {
 	static string GenerateScriptLinks(string content)
 	{
 		// common components, in order
-		var components = new string[] { "accordion", "conversation", "disclaimer" };
+		var components = new string[] { "accordion", "agenda", "conversation", "disclaimer" };
 		var scripts = new StringBuilder();
 		foreach(var comp in components)
 		{
