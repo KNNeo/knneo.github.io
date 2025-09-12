@@ -287,7 +287,7 @@ public class Program {
 			if(pageTagsXml.Any(tag => POST_IGNORE_LABELS.Contains(tag)))
 				continue;
 			// Create output page link and index in linked list (relative to root directory)
-			var pageLink = entry.DestinationUrl;
+			var pageLink = entry.DestinationUrl.Replace("./", "/");
             
 			// Check for post content to exclude from search index
 			var condition = "";
