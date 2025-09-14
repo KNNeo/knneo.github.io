@@ -119,6 +119,7 @@ function updateSenderOptions(conversation) {
 			total.push(name);
 		return total;
 	}, []);
+	conversation.querySelector('.messages').setAttribute('data-senders', senders.join(','));
 
 	for (let sender of senders) {
 		let newOpt = document.createElement('option');
@@ -397,7 +398,7 @@ function processConversations() {
 
 function processConversation(conversation) {
 	let lineSeparator = conversation.getAttribute('data-separator') || config.separator.line;
-	let lines = conversation.innerHTML.split('\n');
+	let lines = conversation.innerText.split('\n');
 	if (lines.length < 2) {
 		conversation.innerHTML = 'Click on Editor to create a conversation list';
 		return;
@@ -460,16 +461,21 @@ function processConversation(conversation) {
 			if (isSystem) // system message
 				messageText.innerText = line.replace(new RegExp(config.wrapper.system, 'g'),'').trim();
 			else if(message.includes('@') || message.includes('\uff20')) { // detect ampersand （ascii, unicode)
-				// sender reference must be separated by ascii whitespace
+				// check for all senders
+				let senders = conversation.getAttribute('data-senders')?.split(',') ?? [];
+				senders.forEach(sender => {
+					message = message.replace('@' + sender, '@' + sender + ' ')
+									.replace('\uff20' + sender, '\uff20' + sender + ' ');
+				});
 				for(let ref of message.split(' ')) {
-					let isRef = ref.startsWith('@');
+					let isRef = ref.startsWith('@') || ref.startsWith('\uff20');
 					let section = document.createElement('span');
 					if(isRef) section.classList.add('sender-ref');
 					section.innerText = (ref == message.split(' ')[0] ? '' : ' ') + ref;
 					messageText.appendChild(section);
 				}
 			}
-			else if (message.startsWith('http://') || message.startsWith('https://')) {
+			else if (isUrl) {
 				let url = document.createElement('a');
 				url.setAttribute('target', '_blank');
 				url.href = message;
