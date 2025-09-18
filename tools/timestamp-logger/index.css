@@ -74,7 +74,6 @@ a:hover {
 }
 
 .action {
-  background: var(--foreground);
   border-radius: 99px;
   font-size: 2.5em;
   width: 2em;
