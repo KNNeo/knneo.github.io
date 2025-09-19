@@ -537,9 +537,9 @@ function createSource() {
 	// console.log('onSelectFiles', list);
 	
 	// checks for limits
-	if(Array.from(list).find(f => !window.variables.custom.maxFileSizeBytes || f.size > window.variables.custom.maxFileSizeBytes))
+	if(Array.from(list).find(f => window.variables.custom?.maxFileSizeBytes && f.size > window.variables.custom.maxFileSizeBytes))
 		alert('Some files selected too large: Slow loading times expected');
-	if(window.variables.custom.maxFileAmount && list.length > window.variables.custom.maxFileAmount)
+	if(window.variables.custom?.maxFileAmount && list.length > window.variables.custom?.maxFileAmount)
 		alert('File count selected too large: Slow loading times expected');
 	
 	// reset variables
@@ -556,7 +556,7 @@ function createSource() {
 			window.variables.items.push({
 				"order": i,
 				"filename": event.target.result,
-				"tags": window.variables.custom.showTagsAsFilename ? name.substring(0, name.lastIndexOf('.')) : undefined,
+				"tags": window.variables.custom?.showTagsAsFilename ? name.substring(0, name.lastIndexOf('.')) : undefined,
 			});
 			if(i >= list.length) {
 				hideFilters();
