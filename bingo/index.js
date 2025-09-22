@@ -387,7 +387,7 @@ function createOrUpdateCustom() {
 
 //--FUNCTIONS--//
 function initializeVariables() {
-	window['daub'] = localStorage.getItem('daub');
+	window['daub'] = localStorage.getItem('daub') || 'lightgray-gray';
 	window['ended'] = true;
 	window['paused'] = false;
 	window['combination'] = null;
