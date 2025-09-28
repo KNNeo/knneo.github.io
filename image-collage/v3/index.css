@@ -274,6 +274,7 @@ a:focus-within {
 :has(.menu.hidden) .sidebar {
     opacity: 0;
     transition: opacity 0.3s;
+	width: 100%;
 }
 
 :has(.menu.hidden) .sidebar:hover {
@@ -500,6 +501,10 @@ a:focus-within {
 	}
 	.tags > div {
 		max-height: calc(100% / var(--categories, 1) * var(--ratio, 1));
+	}
+	:has(.menu.hidden) .sidebar {
+		height: 100%;
+		width: auto;
 	}
 }
 
