@@ -666,12 +666,13 @@ public class Program {
 	* [ok] fix image border attribute
 	* [manual] fix image width height attributes
 	* [] remove trailing slash on void elements
+	* [] reduce myanimelist links
 	*/
     #endregion
 	static List<int> FixPostContent(ref string content, List<LinkedListItem> linkedList)
 	{
         if(DEBUG_MODE) Console.WriteLine("Fixing post content...");
-		List<int> includeIndex = new List<int> { 1, 14, 15, 16, 18, 24, 29, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40 };
+		List<int> includeIndex = new List<int> { 1, 14, 15, 16, 18, 24, 29, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 43 };
 		List<int> count = new List<int>();
 		string expression;
 		string prefix, midfix, suffix;
@@ -1120,6 +1121,19 @@ public class Program {
 			if(DEBUG_MODE) Console.WriteLine("Fix #" + 42);
 			content = Regex.Replace(content, "/>", "");
 			content = Regex.Replace(content, " />", ""); // with spacing
+		}
+		#endregion
+
+		#region 43 reduce myanimelist links
+		if (includeIndex.Count() == 0 || includeIndex.Contains(43))
+		{
+			if (DEBUG_MODE) Console.WriteLine("Fix #" + 43);
+			content = Regex.Replace(
+				content,
+				@"(https:\/\/myanimelist\.net\/[^\/]+\/\d+)\/[^\s""]+",
+				"$1"
+			);
+			count.Add(43);
 		}
 		#endregion
 
