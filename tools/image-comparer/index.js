@@ -22,15 +22,10 @@ function toggleAction() {
 
 function changeSource() {
     event.preventDefault();
-    let source = event.target.classList[0];
-    switch(source) {
-        case 'background':
-            prompt('For background image:', backgroundImg.src);
-            break;
-        case 'foreground':
-            prompt('For foreground image:', foregroundImg.src);
-            break;
-    }
+    const newBg = prompt('For background image:', backgroundImg.src);
+    if(newBg) backgroundImg.src = newBg;
+    const newFg = prompt('For foreground image:', foregroundImg.src);
+    if(newFg) foregroundImg.src = newFg;
 }
 
 //--FUNCTIONS--//
