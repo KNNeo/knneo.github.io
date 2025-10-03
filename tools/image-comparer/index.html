@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en-SG">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+    <link id="fonts-css" rel="stylesheet" type="text/css" href="../../fonts.css">
+    <link id="index-css" rel="stylesheet" type="text/css" href="index.css">
+    <link id="bs-css" rel="stylesheet" type="text/css" href="../../resources/bootstrap-icons.css">
+	<script src="../../theme.js"></script>
+	<script src="index.js" defer></script>
+    <title>Image Comparer</title>
+</head>
+<body onload="startup()" onkeydown="onKeyDown()">
+	<h2>Image Comparer</h2>
+	<h6>Just click/tap to see the difference!<br>Right-click/tap and hold to change URL</h6>
+	<div class="page see-thru">
+		<img class="foreground" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiI13BNLM1e2GKmnL1zRRIqY1MpOZCtnJGv3qcGethNtQkzo_eSRi2u7eHL2mTf6tQq8lHKZ3E92zyYbNSaCplbVKjMaPnrGPsq93rkAStdn6fhv7wQP99ZKneOQIUZ2lO5vdXPGIRt5UzxSKPaoKk2s4mJvz0iVvKcHyLGkR8OpEsk-DaerpVivTe3d5I/s640/PXL_20231108_123444245_MASK.png" oncontextmenu="changeSource()" />
+		<img class="background" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEivLXjLD4RdgxSt04Z4abfVF0tnp-34zXLZEcsWN53ZL-BjGXEN90IvOze4Vv-qfz9ZlT26LnoVLdZexVtw3T0n94YirWS3nyAvceJ2hE5kVmK0sM2ihUaJQmohmK6f2Z5qm4Ol2DWMA_T2U6-fXFKW8-iZxIcmaqFM5MPGe_XcM7CwspNDXkBClrkX4ac/s640/PXL_20231108_123444245.jpg" oncontextmenu="changeSource()" />
+	</div>
+	<h3 class="settings">
+		<a title="Toggle Dark Mode" class="darkmode material-icons" href="javascript:void(0);" onclick="toggleDarkMode()" oncontextmenu="customSetTheme()">brightness_high</a>
+		<a title="Toggle Foreground Overlay" class="transparency material-icons" href="javascript:void(0);" onclick="toggleTransparent()">opacity</a>
+		<a title="Toggle Switching Mode" class="action material-icons" href="javascript:void(0);" onclick="toggleAction()">ads_click</a>
+		<div class="spacer"> </div>
+		<a href="https://knneo.github.io/">knneo.github.io</a>
+	</h3>
+</body>
+</html>

@@ -1,0 +1,100 @@
+/*Variables*/
+:root {
+  --primary: #1b00ff;
+  --secondary: #609fff;
+  --background: #fff;
+  --foreground: #000;
+  --accent: lightgray;
+}
+
+.darked:root {
+  --primary: #00e4ff;
+  --secondary: #00abbf;
+  --background: #000;
+  --foreground: #fff;
+  --accent: gray;
+}
+
+html {
+	font-family: Noto Sans;
+	background-color: var(--background);
+	color: var(--foreground);
+  width: 100%;
+  height: 100%;
+  --height: calc(100% - 1.5rem);
+}
+
+body {
+  margin: 0;
+  text-align: center;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 100%;
+  height: var(--height);
+}
+
+h2, h6 {
+  margin-inline: auto;
+}
+
+a,
+a:visited {
+  color: var(--foreground);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--primary);
+}
+
+.page {
+  position: relative;
+  height: calc(100% - 200px);
+  margin: auto;
+}
+
+.page img {
+  height: 100%;
+  margin: auto;
+}
+
+.page .foreground {
+  display: none;
+}
+
+.page.toggle .foreground,
+.page:active .foreground {
+  display: block;
+}
+
+.page.toggle .background,
+.page:active .background {
+  display: none;
+}
+
+.page.see-thru.toggle .foreground,
+.page.see-thru:active .foreground {
+  display: block;
+  position: absolute;
+  justify-self: anchor-center;
+}
+
+.page.see-thru.toggle .background,
+.page.see-thru .background {
+  display: block;
+}
+
+.hidden {
+	display: none;
+}
+
+@media (orientation: portrait) {
+  .page img {
+    width: 100%;
+    height: auto;
+    margin: auto;
+  }
+}
