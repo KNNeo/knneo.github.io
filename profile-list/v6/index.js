@@ -641,6 +641,8 @@ function generateProfileFromJSON(profileName) {
 
 	//layout, in order
 	getProfileImage();
+	// set fixed height
+	profileImageDiv.style.height = profileImageDiv.querySelector('img')?.getBoundingClientRect().height + 'px';
 	let layout = setProfileOrderByFriend(config.profiles.slice(0, 3), friend);
 	if (layout.length > 0)
 		profileDetailsDiv.innerHTML = '';
