@@ -641,8 +641,6 @@ function generateProfileFromJSON(profileName) {
 
 	//layout, in order
 	getProfileImage();
-	// set fixed height
-	profileImageDiv.style.height = profileImageDiv.querySelector('img')?.getBoundingClientRect().height + 'px';
 	let layout = setProfileOrderByFriend(config.profiles.slice(0, 3), friend);
 	if (layout.length > 0)
 		profileDetailsDiv.innerHTML = '';
@@ -662,6 +660,10 @@ function generateProfileFromJSON(profileName) {
 function getProfileImage() {
 	//assume single image tag in profile-image element
 	let imgDiv = document.createElement('img');
+	imgDiv.addEventListener('load', function() {
+		// set fixed height
+		profileImageDiv.style.height = profileImageDiv.querySelector('img')?.getBoundingClientRect().height + 'px';
+	});
 	//find friend image with 3 names
 	let friend = findFriendIdByProfile(config.profiles.slice(0, 3));
 	if (friend)
