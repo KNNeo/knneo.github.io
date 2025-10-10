@@ -530,7 +530,7 @@ public class Program {
 					}
 					// Add to homepage string builder
 					homepageString.AppendLine(isLatest 
-						? "<a class=\"box latest post\"" + dataTags + " onclick\"processClickLink()\" href=\"" + pageLink + "\">" + 
+						? "<a class=\"box latest post\"" + dataTags + " onclick=\"processClickLink()\" href=\"" + pageLink + "\">" + 
 						"<div class=\"thumb\">" + 
 							(thumbnailUrl.Length > 0 ? "<div><img alt=\"\" loading=\"lazy\" src=\"" + thumbnailUrl + "\"/></div>" : "") + 
 							"<h5 title=\"" + postTitle + "\">" + postTitle + "</h5>" + 
@@ -540,7 +540,7 @@ public class Program {
 							//: "") + 
 						"</div></a>"
 						: "<div class=\"post\"" + dataTags + "><span data-published=\"" + publishDate.ToString("yyyy-MM-ddTHH:mm:sszzz") + "\" class=\"publish\">" + publishDate.ToString("dd MMM yyyy") + " </span>" +
-						"<a onclick\"processClickLink()\" href=\""+pageLink+"\">" + postTitle + "</a></div>");
+						"<a onclick=\"processClickLink()\" href=\""+pageLink+"\">" + postTitle + "</a></div>");
 				}
 			}
 		}
