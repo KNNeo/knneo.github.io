@@ -39,7 +39,9 @@ function startup() {
 
 function setData() {
     event.preventDefault();
+	window.overlay = true;
 	let source = prompt('Enter source url/key', document.getElementById('data-id')?.src || '');
+	window.overlay = false;
 	if(source) {
         if(source.startsWith('https://')) // full address
             document.getElementById('data-id').src = source;
@@ -52,6 +54,7 @@ function setData() {
 }
 
 function initializeVariables(data) {
+	window.overlay = false;
 	window.data = data;
 	window.include = '';
 	window.exclude = '';
@@ -598,7 +601,7 @@ function keypress() {
         default:
             // based on setting
             let elem = document.querySelector('[onclick][data-key=' + event.key + ']');
-            if(elem) elem.click();
+            if(elem && !window.overlay) elem.click();
             break;
     }
 }
@@ -776,7 +779,9 @@ function onToggleSearch() {
             generateGrid();
             break;
         case 'search':
+			window.overlay = true;
             let result = prompt('Key in search term (case-insensitive):');
+			window.overlay = false;
             if(result) {
                 event.target.innerText = 'saved_search';
                 event.target.title = 'Search by Caption (' + result + ')';
