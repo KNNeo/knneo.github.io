@@ -361,6 +361,26 @@ function generateTimeline(timelineList, querySelector) {
 						elems.push(url);
 					}
 				}
+				
+				if (dat.url && dat.url.length > 0 && 
+					(dat.url.includes('youtube.com/watch') || dat.url.includes('youtu.be/') || dat.url.includes('youtube.com/shorts'))) {
+					let id = content.substring(content.indexOf('?v=') + 3);
+					let altDomain = dat.url.includes('youtu.be/');
+					let isShorts = dat.url.includes('youtube.com/shorts');
+					if (altDomain) id = content.substring(content.indexOf('youtu.be/') + 9);
+					if (isShorts) id = content.substring(content.indexOf('youtube.com/shorts/') + 19, dat.url.length);
+					
+					let url = document.createElement('div');
+					url.classList.add(dat.pos);
+					url.innerHTML = '<div style="_div_"><iframe class="yt-video" allow="autoplay; encrypted-media; web-share;" allowfullscreen="" frameborder="0" style="_style_" src="https://www.youtube.com/embed/_id_?enablejsapi=1"></iframe></div>'
+						.replace('_id_', id)
+						.replace('_div_', isShorts ? '' : 'line-height: 0;')
+						.replace('_style_', isShorts
+							? 'width: 100%; height: 480px; display: block; margin: auto;'
+							: 'width: 100%; aspect-ratio: 16 / 9;'
+						);
+					elems.push(url);
+				}
 			}
 		}
 		
