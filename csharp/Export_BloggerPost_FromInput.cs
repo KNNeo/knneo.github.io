@@ -114,6 +114,18 @@ public class Program {
         Stopwatch stopwatch = new Stopwatch();
         stopwatch.Start();
 
+        String postContentInput = null;
+        try {
+            postContentInput = File.ReadAllText(BLOGGER_POST_CONTENT_FILENAME);
+            if(String.IsNullOrWhiteSpace(postContentInput))
+                throw new Exception();
+        }
+        catch {
+            Console.WriteLine($"Input file '{BLOGGER_POST_CONTENT_FILENAME}' missing!");
+            return;
+        }
+        Console.WriteLine("Post content detected!");
+
         String bloggerLinkInput = null;
         while(String.IsNullOrWhiteSpace(bloggerLinkInput)) {
             bloggerLinkInput = ReadInput("Blogger URL:");
@@ -138,18 +150,6 @@ public class Program {
 
         String pageLink = "./posts/" + publishDateTime.Year + "/" + publishDateTime.Month + "/" + GenerateSlug(postTitleInput) + "/index.html";
         Console.WriteLine("Output URL: " + pageLink);
-
-        String postContentInput = null;
-        try {
-            postContentInput = File.ReadAllText(BLOGGER_POST_CONTENT_FILENAME);
-            if(String.IsNullOrWhiteSpace(postContentInput))
-                throw new Exception();
-        }
-        catch {
-            Console.WriteLine($"Input file '{BLOGGER_POST_CONTENT_FILENAME}' missing!");
-            return;
-        }
-        Console.WriteLine("Post content detected!");
 
         BloggerPost bloggerPost = new BloggerPost(publishDateTime, publishDateTime, postTitleInput, "html", bloggerLinkInput, pageTags, pageLink, postContentInput);
 		var homepageString = ProcessBloggerPost(bloggerPost, Path.Combine(OUTPUT_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER));
