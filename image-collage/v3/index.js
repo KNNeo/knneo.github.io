@@ -41,7 +41,6 @@ function setData() {
     event.preventDefault();
 	window.overlay = true;
 	let source = prompt('Enter source url/key', document.getElementById('data-id')?.src || '');
-	window.overlay = false;
 	if(source) {
         if(source.startsWith('https://')) // full address
             document.getElementById('data-id').src = source;
@@ -51,6 +50,7 @@ function setData() {
             document.getElementById('data-id').src = 'data/' + source + '.json';
 		startup();
 	}
+	window.overlay = false;
 }
 
 function initializeVariables(data) {
@@ -600,8 +600,9 @@ function keypress() {
             break;
         default:
             // based on setting
+			if(window.overlay) return;
             let elem = document.querySelector('[onclick][data-key=' + event.key + ']');
-            if(elem && !window.overlay) elem.click();
+            if(elem) elem.click();
             break;
     }
 }
@@ -771,6 +772,7 @@ function onToggleRatio() {
 }
 
 function onToggleSearch() {
+	if(window.overlay) return;
     switch(event.target.innerText) {
         case 'saved_search':
             event.target.innerText = 'search';
