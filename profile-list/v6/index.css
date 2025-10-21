@@ -136,7 +136,7 @@ a:hover {
 
 .list {
 	list-style-type: none;
-	padding: 0 5px;
+	padding: 0;
 	margin: auto;
 	height: 48px;
 	max-width: 380px;
@@ -144,6 +144,11 @@ a:hover {
 	overflow-y: hidden;
 	display: flex;
 	align-items: center;
+}
+
+.list li:first-child {
+	position: sticky;
+	left: 0;
 }
 
 .list .item {
@@ -166,6 +171,7 @@ a:hover {
 	color: var(--foreground);
 }
 
+.inverted.selected,
 .inverted:hover {
 	color: var(--primary);
 }

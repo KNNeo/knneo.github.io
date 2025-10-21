@@ -179,6 +179,12 @@ function toggleView(id) {
 	for (let page of pageDivs)
 		page.classList.add('hidden');
 	pageDivs[id - 1].classList.remove('hidden');
+	if(event?.target) {
+		for(let btn of document.querySelectorAll('.view-button')) {
+			if(event.target == btn) btn.classList.add('selected');
+			else btn.classList.remove('selected');
+		}
+	}
 }
 
 function runLoader() {
