@@ -1,5 +1,6 @@
 //--DEFAULT SETTINGS--//
 const config = {
+    title: "Rank Your Favourite Voice Actresses",
     delay: 200,
     show: {
         test: false,
@@ -11,7 +12,7 @@ const config = {
         decimal: 2,
     },
     history: {
-        id: 'rank-sort-history'
+        id: "rank-sort-history"
     },
     members: [
         "Hanazawa Kana",
@@ -73,19 +74,6 @@ const config = {
     ]
 };
 
-let lstMember = new Array();
-let parent = new Array();
-let equal = new Array();
-let rec = new Array();
-let cmp1, cmp2;
-let head1, head2;
-let nrec;
-
-let numQuestion;
-let totalSize;
-let finishSize;
-let finishFlag;
-
 //--DOM NODE REFERENCES--//
 let elemOptionLeft = document.querySelector(".options .left");
 let elemOptionTie = document.querySelector(".options .tie");
@@ -138,10 +126,20 @@ function onOptionRight() {
     }, config.delay);
 }
 
-//--EVENT HANDLERS--//
-
-
 //--FUNCTIONS--//
+let lstMember = new Array();
+let parent = new Array();
+let equal = new Array();
+let rec = new Array();
+let cmp1, cmp2;
+let head1, head2;
+let nrec;
+
+let numQuestion;
+let totalSize;
+let finishSize;
+let finishFlag;
+
 function initList() {
     let n = 0;
     let mid;
@@ -193,7 +191,6 @@ function sortList(flag) {
     let i;
     let str;
 
-    //rec�ɕۑ�
     if (flag < 0) {
         rec[nrec] = lstMember[cmp1][head1];
         head1++;
@@ -395,6 +392,12 @@ function startup() {
             document.querySelector('.' + key)?.classList.add('hidden');
     }
     config.members = shuffle(config.members);
+    if (config.title) {
+        document.title = config.title;
+        document.querySelector(".title").innerText = config.title;
+    }
+    if(config.description)
+        document.querySelector(".description").innerText = config.description;
     initList();
     showImage();
 }
