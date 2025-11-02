@@ -417,16 +417,21 @@ function generateGrid() {
 					toggleVariable('include', keywords[0]); // toggle first keyword
 				else { // toggle next keyword
 					let includeArray = window.include.split('|');
-					let inFilterIndex = keywords.findIndex(k => includeArray.includes(k)); // assume unique tags
-					let notFilterIndex = 1 + inFilterIndex < keywords.length ? 1 + inFilterIndex : 0; // loop around if include last keyword
-					// console.log(inFilterIndex, notFilterIndex);
+					// assume unique tag across all categories
+					let currentIndex = keywords.findIndex(k => includeArray.includes(k));
+					// loop around if include last keyword
+					let nextIndex = 1 + currentIndex < keywords.length ? 1 + currentIndex : 0;
+					// toggle off current value, toggle on next value based on sequence
 					// assume tags length do not need to be same as groups length
-					toggleVariable('include', keywords[inFilterIndex]);
-					toggleVariable('include', keywords[notFilterIndex]);
+					toggleVariable('include', keywords[currentIndex]);
+					toggleVariable('include', keywords[nextIndex]);
 				}
 				include.value = window.include;
 				generateTagsList();
 				generateGrid();
+				let filter = document.querySelector('.tags .tag[value="' + window.include + '"]')
+				if(filter)
+					filter.scrollIntoView({ block: "center" });
 			}
 			else {
 				console.error('tag category groups do not exist, edit in config');
