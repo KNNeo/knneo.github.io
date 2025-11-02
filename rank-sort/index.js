@@ -6,13 +6,15 @@ const config = {
         test: false,
         battle: false,
         percent: true,
-        progress: true
+        progress: true,
+        history: true,
+        tie: true
     },
     progress: {
         decimal: 2,
     },
-    history: {
-        id: "rank-sort-history"
+    storage: {
+        result: "rank-sort-result"
     },
     members: [
         "Hanazawa Kana",
@@ -309,10 +311,11 @@ function showResult() {
     compareRankings();
     for (i = 0; i < config.members.length; i++) {
         let val = config.members[lstMember[0][i]].split("|");
+        //console.log(val[0], "from", val[1], "to", ranking);
         let name = val[0];
-        let delta = parseInt(val[1]) ? Math.abs(i - parseInt(val[1])) : "-";
-        let icon = delta != "-" ? (i - parseInt(val[1]) > 0 ? "arrow_drop_up" : "arrow_drop_down") : "-";
-        str += "<tr><td>" + (prev != ranking ? ranking : "") + "<\/td><td>" + name + "<\/td><td value=\"" + icon + "\">" + delta.toString() + "<\/td><\/tr>";
+        let delta = parseInt(val[1]) && ranking != parseInt(val[1]) ? Math.abs(ranking - parseInt(val[1])) : "-";
+        let icon = delta != "-" ? (ranking - parseInt(val[1]) < 0 ? "arrow_drop_up" : "arrow_drop_down") : "-";
+        str += "<tr><td value=\"" + ranking + "\">" + (prev != ranking ? ranking : "") + "<\/td><td>" + name + "<\/td><td value=\"" + icon + "\">" + delta.toString() + "<\/td><\/tr>";
         prev = ranking;
         if (i < config.members.length - 1) {
             if (equal[lstMember[0][i]] == lstMember[0][i + 1]) {
@@ -329,14 +332,51 @@ function showResult() {
     elemResult.classList.remove('hidden');
 }
 
+function saveResult() {
+    localStorage.setItem(config.storage.result,
+        JSON.stringify(Array.from(elemResult.querySelectorAll("tr")).reduce(function (total, current) {
+            let cells = current.querySelectorAll("td");
+            if (cells && cells.length) {
+                let val = {
+                    rank: cells[0].getAttribute("value"),
+                    name: cells[1].innerText,
+                    icon: cells[2].getAttribute("value"),
+                    change: cells[2].innerText
+                };
+                total.push(val);
+            }
+            return total;
+        }, [])));
+}
+
+function showPreviousResult() {
+    let storage = JSON.parse(localStorage.getItem(config.storage.result) || "[]");
+    if (storage.length) {
+        let str = "<table><tr><th>{Rank}<\/th><th>{Name}<\/th><th>{Change}<\/th><\/tr>"
+            .replace("{Rank}", "Rank")
+            .replace("{Name}", "Name")
+            .replace("{Change}", "Change");
+
+        let ranking = 0;
+        for (let item of storage) {
+            str += "<tr><td>" + (ranking != item.rank ? item.rank : "") + "<\/td><td>" + item.name + "<\/td><td value=\"" + item.icon + "\">" + item.change + "<\/td><\/tr>";
+            ranking = item.rank;
+        }
+        str += "<\/table>";
+        elemResult.innerHTML = str;
+    }
+    else
+        elemResult.innerHTML = "No result";
+    elemResult.classList.remove('hidden');
+}
+
 function compareRankings() {
-    let history = JSON.parse(localStorage.getItem(config.history.id) || '[]');
+    let storage = JSON.parse(localStorage.getItem(config.storage.result) || "[]");
     let list = [];
     if (history.length) {
         for (let member of config.members)
-            list.push(member + "|" + history.indexOf(member));
+            list.push(member + "|" + storage.find(x => x.name == member)?.rank || "");
     }
-    localStorage.setItem(config.history.id, JSON.stringify(config.members));
     config.members = list;
 }
 
@@ -396,7 +436,7 @@ function startup() {
         document.title = config.title;
         document.querySelector(".title").innerText = config.title;
     }
-    if(config.description)
+    if (config.description)
         document.querySelector(".description").innerText = config.description;
     initList();
     showImage();
