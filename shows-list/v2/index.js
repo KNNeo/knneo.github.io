@@ -1,6 +1,6 @@
 //--SETTINGS--//
 const currentYear = 2025;
-const currentSeason = 'Summer';
+const currentSeason = 'Autumn';
 const maxPerSeason = 7;
 const seasons = [
 	{ title:'Winter', altTitle:'' },
@@ -263,7 +263,7 @@ function generateAnimeArchive(filterList) {
 
 function generateAnimeCurrent(filterList) {
 	let id = 'currentList';
-	let title = 'Currently Watching (As of '  + currentSeason + ' ' + currentYear + ')';
+	let title = 'Currently Watching ('  + currentYear + ' ' + currentSeason + ')';
 	return generateList(id, title, filterList, false);	
 }
 
