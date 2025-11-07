@@ -63,7 +63,7 @@ function processImage(img) {
         let g = Math.round(data[i + 1] / 32) * 32;
         let b = Math.round(data[i + 2] / 32) * 32;
         let name = config.debug ? rgbToHsl(r, g, b) : classifyColor(r, g, b);
-        if (config.exclude?.length || !config.exclude.includes(name))
+        if (!config.exclude?.length || !config.exclude?.includes(name))
             colorCounts[name] = (colorCounts[name] || 0) + 1;
     }
 
