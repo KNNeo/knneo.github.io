@@ -135,6 +135,7 @@ function startup() {
         let img = new Image();
         img.onload = () => processImage(img);
         img.src = URL.createObjectURL(file);
+        e.target.value = null;
     });
     if(examplesDiv && examplesDiv.childElementCount > 0) {
         examplesDiv.querySelectorAll('img').forEach(function(e) {
