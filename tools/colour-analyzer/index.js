@@ -4,7 +4,8 @@ const config = {
     results: 10,
     tones: true,
     values: true,
-    debug: false
+    debug: false,
+    exclude: ['black','white']
 };
 
 //--DOM NODE REFERENCES--//
@@ -53,7 +54,7 @@ function processImage(img) {
         let g = Math.round(data[i + 1] / 32) * 32;
         let b = Math.round(data[i + 2] / 32) * 32;
         let name = config.debug ? rgbToHsl(r,g,b) : classifyColor(r, g, b);
-        if(config.tones || !['black','white'].includes(name))
+        if(typeof config.exclude != 'object' || config.exclude.includes(name))
             colorCounts[name] = (colorCounts[name] || 0) + 1;
     }
 
@@ -103,23 +104,24 @@ function rgbToHsl(r, g, b) {
 }
 
 function classifyColor(r, g, b) {
-  const [h, s, l] = rgbToHsl(r, g, b);
-
+  let [h, s, l] = rgbToHsl(r, g, b);
   // achromatic or low saturation: treat as black
-  if (l < 0.12 || s < 0.12) return "black";
+  if (l < 0.08 || s < 0.08) return "black";
   if (l > 0.92 && s < 0.1) return "white";
-
   // beige (light yellow range) for skin tones
   if (h >= 35 && h <= 55 && l > 0.6) return "beige";
-
+  // set as neutral lightness max saturation to get pure hue
+  s = 1;
+  l = 0.5;
+  // classify by hue value only
   if (h < 15 || h >= 345) return "red";
-  if (h < 45) return "orange";
+  if (h < 40) return "orange";
   if (h < 65) return "yellow";
-  if (h < 170) return "green";
-  if (h < 200) return "cyan";
-  if (h < 255) return "blue";
+  if (h < 160) return "green";
+  if (h < 180) return "cyan";
+  if (h < 260) return "blue";
   if (h < 290) return "purple";
-  if (h < 345) return "pink";
+  if (h < 345) return "pink";  
   return "unknown";
 }
 
