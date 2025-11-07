@@ -16,9 +16,9 @@
 }
 
 html {
-	font-family: Noto Sans;
-	background-color: var(--background);
-	color: var(--foreground);
+  font-family: Noto Sans;
+  background-color: var(--background);
+  color: var(--foreground);
 }
 
 body {
@@ -48,15 +48,15 @@ textarea {
 }
 
 .hidden {
-	display: none;
+  display: none;
 }
 
 .box {
-	margin: 5px;
-	vertical-align: top;
-	scroll-snap-align: center;
-	white-space: normal;
-	touch-action: manipulation;
+  margin: 5px;
+  vertical-align: top;
+  scroll-snap-align: center;
+  white-space: normal;
+  touch-action: manipulation;
 }
 
 .shadowed {
@@ -66,38 +66,48 @@ textarea {
 
 .shadowed:active {
   box-shadow: 1px 1px;
-  transform: translate(2px,2px);
+  transform: translate(2px, 2px);
 }
 
 .unshadowed {
-	filter: opacity(100%);
-	transition: filter 1s;
+  filter: opacity(100%);
+  transition: filter 1s;
 }
 
 .page {
-    display: flex;
-    justify-content: space-evenly;
-    width: min(100%, 420px);
-    margin: auto;
+  display: flex;
+  justify-content: space-evenly;
+  width: min(100%, 420px);
+  margin: auto;
+}
+
+.add {
+  width: 100px;
+  height: 150px;
 }
 
 #upload {
-    display: none;
+  display: none;
 }
 
-#upload + button {
-    font-size: 1.5em;
+#upload+button {
+  font-size: 1.5em;
 }
 
 #threshold {
-    font-size: 1.5em;
-    width: 8ch;
+  font-size: 1.5em;
+  width: 8ch;
 }
 
 #output {
-    object-fit: contain;
+  object-fit: contain;
+}
+
+#examples {
+  display: flex;
+  flex-wrap: wrap;
 }
 
 #examples img {
-    height: 150px;
+  height: 150px;
 }
