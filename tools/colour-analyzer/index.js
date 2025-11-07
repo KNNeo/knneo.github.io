@@ -2,6 +2,7 @@
 const config = {
     mode: 'capped', // capped|full
     results: 10,
+    tones: true,
     values: true,
     debug: false
 };
@@ -21,7 +22,18 @@ function onKeyDown() {
 }
 
 //--EVENT HANDLERS--//
-
+function toggleToneColours() {
+    switch(event.target.innerText) {
+        case 'invert_colors':
+            config.tones = false;
+            event.target.innerText = 'invert_colors_off';
+            break;
+        default:
+            config.tones = true;
+            event.target.innerText = 'invert_colors';
+            break;
+    }
+}
 
 //--FUNCTIONS--//
 function processImage(img) {
@@ -41,7 +53,8 @@ function processImage(img) {
         let g = Math.round(data[i + 1] / 32) * 32;
         let b = Math.round(data[i + 2] / 32) * 32;
         let name = config.debug ? rgbToHsl(r,g,b) : classifyColor(r, g, b);
-        colorCounts[name] = (colorCounts[name] || 0) + 1;
+        if(config.tones || !['black','white'].includes(name))
+            colorCounts[name] = (colorCounts[name] || 0) + 1;
     }
 
     let values = Array.from(Object.values(colorCounts));
