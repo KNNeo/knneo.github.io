@@ -28,6 +28,7 @@ function addExample() {
     if(url) {
         let item = document.createElement('img');
         item.src = url;
+        item.addEventListener('click', onExampleClick);
         examplesDiv.appendChild(item);
     }
 }
@@ -150,12 +151,14 @@ function startup() {
     });
     if (examplesDiv && examplesDiv.childElementCount > 0) {
         examplesDiv.querySelectorAll('img').forEach(function (e) {
-            e.addEventListener('click', function (i) {
-                const img = new Image();
-                img.crossOrigin = `Anonymous`;
-                img.onload = () => processImage(img);
-                img.src = i.target.src;
-            });
+            e.addEventListener('click', onExampleClick);
         });
     }
+}
+
+function onExampleClick() {
+    const img = new Image();
+    img.crossOrigin = `Anonymous`;
+    img.onload = () => processImage(img);
+    img.src = event.target.src;
 }

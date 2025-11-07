@@ -81,11 +81,6 @@ textarea {
   margin: auto;
 }
 
-.add {
-  width: 100px;
-  height: 150px;
-}
-
 #upload {
   display: none;
 }
@@ -106,6 +101,7 @@ textarea {
 #examples {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 #examples img {
