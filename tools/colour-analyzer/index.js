@@ -3,8 +3,7 @@ const config = {
     mode: 'capped', // capped|full
     results: 10,
     values: true,
-    debug: false,
-    exclude: ['black', 'white']
+    debug: false
 };
 
 //--DOM NODE REFERENCES--//
