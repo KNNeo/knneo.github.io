@@ -978,7 +978,7 @@ function closeViewer() {
 
 function onZoomViewer() {
 	if(event.button == 2) {
-		if(window.slideshow?.run != null) return;
+		if(window.data?.slideshow?.zoom == null) return;
 		viewer.classList.toggle('zoom');
 	}
 }
