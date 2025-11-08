@@ -18,6 +18,7 @@ DATA
 **Conversations** - Edit and playback message conversations<br/>
 **Timeline** - Simple horizontal/vertical timeline design, support for images and captions<br/>
 **Relationship Chart** - SVG rendering of grid-based relationship chart, text or image nodes with labelled arrows<br/>
+**Rank Sort** - Manual input basic rank sorting<br/>
 
 SHOWS
 
@@ -58,15 +59,18 @@ GAMES
 Tools
 ---
 **Birthday/Paradox/Calculator** - Calculate chances of getting duplicates in selection of items as defined by "Birthday Problem"<br/>
-**Collage/Maker** - Internal tool to convert list of table elements to custom collage format (see Klassic Note Reports)<br/>
-**Character/Counter** - No fuzz toll to count number of characters within a textbox<br/>
 **Blogger/Export/Viewer** - [❌Discontinued] For reading and parsing simple view of Blogger XML export<br/>
 **Bounty/Hunter/Calculator** - Red Dead Redemption Online Bounty Hunter profit to time calculator, with timer<br/>
+**Carousel/Maker** - Internal tool to convert list of table elements to custom carousel format (see [Klassic Note Reports](https://knreports.onrender.com/))<br/>
+**Character/Counter** - No fuzz tool to count number of characters within a textbox<br/>
+**Colour/Analyzer** - Simple SVG colour pixel test mapped to common colours (not accurate)<br/>
+**Frame/Loader** - Simple image fit viewport test for mobile devices<br/>
 **Ratio/Calculator** - Ratio calculator based on simple math<br/>
 **Random/Selector** - Input selector, with history and auto reset if list exhausted<br/>
 **Item/Shuffle** - Same as Random Selector, but as defined in position of a grid of items<br/>
-**Frame/Loader** - Simple image fit viewport test for mobile devices<br/><br/>
+**Timestamp/Logger** - Simple way to log time with remark, for tracking events on the fly<br/>
+<br/>
 
 Blog
 ---
-Old blog has been removed in view of transition to new site hosted on Render, see [knreports.onrender.com](https://knreports.onrender.com/)
+Old blog has been removed in view of transition to new site hosted on Render, see [Klassic Note Reports](https://knreports.onrender.com/)
