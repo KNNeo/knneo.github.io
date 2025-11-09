@@ -27,7 +27,7 @@ public class Program {
 
 	// PROGRAM SETTINGS
 	static bool WRITE_TITLE_ON_CONSOLE = false;
-	static int DOTS_PER_LINE_CONSOLE = 80;
+	static int DOTS_PER_LINE_CONSOLE = 100;
 	static XNamespace DEFAULT_XML_NAMESPACE = XNamespace.Get("http://www.w3.org/2005/Atom");
     static XNamespace DEFAULT_BLOGGER_NAMESPACE = XNamespace.Get("http://schemas.google.com/blogger/2018");
 	static List<string> IMAGE_DOMAINS_LIST = new List<string>() { "ggpht.com", "bp.blogspot.com", "blogger.googleusercontent.com" };

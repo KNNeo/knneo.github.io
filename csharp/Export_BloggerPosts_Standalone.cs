@@ -37,7 +37,7 @@ public class Program {
 	static bool WRITE_FIXES_ON_CONSOLE = false;
 	static bool WRITE_EMOJICOUNT_ON_CONSOLE = false;
 	static bool DELETE_OUTPUT_DIRECTORY = false;
-	static int DOTS_PER_LINE_CONSOLE = 80;
+	static int DOTS_PER_LINE_CONSOLE = 100;
 	static string BLOG_DOMAIN_URL = "https://klassicnotereports.blogspot.com/";
 	static XNamespace DEFAULT_XML_NAMESPACE = XNamespace.Get("http://www.w3.org/2005/Atom");
 	static List<string> GOOGLE_FONTS_URLS = new List<string>() { "Dancing Script", "Caveat" };

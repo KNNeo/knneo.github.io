@@ -36,7 +36,7 @@ public class Program {
     static bool WRITE_PEOPLE_COUNT_ON_CONSOLE = true;
     static bool WRITE_SOURCE_COUNT_ON_CONSOLE = false;
 	static bool DELETE_OUTPUT_DIRECTORY = false;
-	static int DOTS_PER_LINE_CONSOLE = 80;
+	static int DOTS_PER_LINE_CONSOLE = 100;
 	static string BLOG_DOMAIN_URL = "https://klassicnotereports.blogspot.com/";
 	static XNamespace DEFAULT_XML_NAMESPACE = XNamespace.Get("http://www.w3.org/2005/Atom");
     static XNamespace DEFAULT_BLOGGER_NAMESPACE = XNamespace.Get("http://schemas.google.com/blogger/2018");
