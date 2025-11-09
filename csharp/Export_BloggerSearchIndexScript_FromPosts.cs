@@ -265,6 +265,7 @@ public class Program {
 			// Extract data from XML
 			string postContent = entry.Content;
 			DateTime publishDate = entry.PublishDate;
+			DateTime updateDate = entry.UpdateDate;
 			string postTitle = entry.Title;
 			string postExtension = entry.Extension;
 			string bloggerLink = entry.SourceUrl;
@@ -301,7 +302,8 @@ public class Program {
 				title = postTitle.Replace("'", "''"),
 				url = pageLink,
 				content = postContent.Replace("'", "''"),
-				date = publishDate.ToString("yyyyMMdd"),
+				publish = publishDate.ToString("yyyyMMdd"),
+				update = updateDate.ToString("yyyyMMdd"),
 				flag = condition
 			});
 		}
@@ -311,13 +313,14 @@ public class Program {
 	static void GenerateSearchIndexScript(List<SearchIndexContent> indexes)
 	{
 		StringBuilder sb = new StringBuilder();
-		sb.AppendLine(@"CREATE VIRTUAL TABLE IF NOT EXISTS SearchIndex USING fts5(title, url, date, flag, content, tokenize=""unicode61 tokenchars ''''"");");
+		sb.AppendLine(@"CREATE VIRTUAL TABLE IF NOT EXISTS SearchIndex USING fts5(title, url, publish, update, flag, content, tokenize=""unicode61 tokenchars ''''"");");
 		foreach(var page in indexes)
 		{
-			sb.AppendLine(@"INSERT INTO SearchIndex (title, url, date, flag, content) VALUES ('@title', '@url', '@date', '@flag', '@content');"
+			sb.AppendLine(@"INSERT INTO SearchIndex (title, url, publish, update, flag, content) VALUES ('@title', '@url', '@publish', '@update', '@flag', '@content');"
 				.Replace("@title", page.title)
 				.Replace("@url", page.url)
-				.Replace("@date", page.date)
+				.Replace("@publish", page.publish)
+				.Replace("@update", page.update)
 				.Replace("@flag", page.flag ?? "")
 				.Replace("@content", page.content));
 		}
@@ -993,7 +996,8 @@ public class SearchIndexContent
 	public string title { get; set; }
 	public string url { get; set; }
 	public string content { get; set; }
-	public string date { get; set; }
+	public string publish { get; set; }
+	public string update { get; set; }
 	public string flag { get; set; }
 }
 
