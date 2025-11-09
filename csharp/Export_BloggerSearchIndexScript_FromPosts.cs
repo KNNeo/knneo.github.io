@@ -313,14 +313,14 @@ public class Program {
 	static void GenerateSearchIndexScript(List<SearchIndexContent> indexes)
 	{
 		StringBuilder sb = new StringBuilder();
-		sb.AppendLine(@"CREATE VIRTUAL TABLE IF NOT EXISTS SearchIndex USING fts5(title, url, publish, update, flag, content, tokenize=""unicode61 tokenchars ''''"");");
+		sb.AppendLine(@"CREATE VIRTUAL TABLE IF NOT EXISTS SearchIndex USING fts5(title, url, publish, updated, flag, content, tokenize=""unicode61 tokenchars ''''"");");
 		foreach(var page in indexes)
 		{
-			sb.AppendLine(@"INSERT INTO SearchIndex (title, url, publish, update, flag, content) VALUES ('@title', '@url', '@publish', '@update', '@flag', '@content');"
+			sb.AppendLine(@"INSERT INTO SearchIndex (title, url, publish, updated, flag, content) VALUES ('@title', '@url', '@publish', '@updated', '@flag', '@content');"
 				.Replace("@title", page.title)
 				.Replace("@url", page.url)
 				.Replace("@publish", page.publish)
-				.Replace("@update", page.update)
+				.Replace("@updated", page.update)
 				.Replace("@flag", page.flag ?? "")
 				.Replace("@content", page.content));
 		}
