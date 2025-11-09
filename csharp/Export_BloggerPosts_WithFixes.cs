@@ -332,6 +332,10 @@ public class Program {
 			Directory.Delete(outputFileDir, true);
 		// Read file
 		Console.WriteLine($"Processing {blogPosts.Count()} Blogger posts...");
+		// Search mode
+		var isSearchMode = POSTS_SEARCHTERM.Length > 0;
+		if(isSearchMode)
+			Console.WriteLine("=== POSTS_SEARCHTERM is non empty, search mode activated ===");
 		// Process XML content per post
 		var homepageString = new StringBuilder();
 		for (var p = 0; p < blogPosts.Count(); p++)
@@ -357,6 +361,8 @@ public class Program {
             // Show progress, as post title or as represented by dot
             if(WRITE_TITLE_ON_CONSOLE || DEBUG_MODE)
                 Console.WriteLine("||> " + (postTitle.Length > 0 ? postTitle : "POST W/O TITLE DATED " + publishDate.ToString("yyyy-MM-dd")));
+			else if(isSearchMode)
+				Console.Write("");
             else if(p % DOTS_PER_LINE_CONSOLE == DOTS_PER_LINE_CONSOLE - 1)
                 Console.WriteLine(".");
             else
@@ -386,8 +392,13 @@ public class Program {
 				
                 if(DEBUG_MODE)
                     Console.WriteLine("Replace content before fixes");
-				// Find Content in debug mode
-				if(POSTS_SEARCHTERM.Length > 0)
+				// Fix post content
+				List<int> fixCount = FixPostContent(ref postContent, linkedList);
+				if(DEBUG_MODE)
+					Console.WriteLine((fixCount.Count > 0 ? "\t[" + string.Join(",", fixCount) + "]" : ""));
+
+				// Find search term in post content
+				if(isSearchMode)
 				{
 					Match contentWhitespace = Regex.Match(postContent, POSTS_SEARCHTERM);
 					if(contentWhitespace.Success)
@@ -402,10 +413,6 @@ public class Program {
 						Console.WriteLine("search term found: " + titleWhitespace);
 					}
 				}
-				// Fix post content
-				List<int> fixCount = FixPostContent(ref postContent, linkedList);
-				if(DEBUG_MODE)
-					Console.WriteLine((fixCount.Count > 0 ? "\t[" + string.Join(",", fixCount) + "]" : ""));
 
 				// Add to post string builder to generate HTML
 				var header = new StringBuilder();
