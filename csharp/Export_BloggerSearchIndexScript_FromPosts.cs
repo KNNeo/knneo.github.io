@@ -8,6 +8,8 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Diagnostics;
+using System.Drawing;
+using System.Net.Http;
 
 public class Program {
 	// DEBUG
@@ -24,6 +26,7 @@ public class Program {
 	static string OUTPUT_DIRECTORY = @"/home/kaineng/Documents/Repositories/knreports";
 	static string OUTPUT_DIRECTORY_SUBFOLDER = "posts";
 	static string OUTPUT_FILENAME = @"/home/kaineng/Downloads/index.sql";
+    static string REPLACE_TEXT_FILENAME = @"/home/kaineng/Documents/Repositories/knreports/posts/mapping.txt";
 
 	// PROGRAM SETTINGS
 	static bool WRITE_TITLE_ON_CONSOLE = false;
@@ -36,15 +39,26 @@ public class Program {
 	static int GENERATE_SLUG_MAX_LENGTH = 70;
 	static bool SHOW_LINKED_LIST = false;
 	static string VERIFY_HTML = "auto";
+	static bool INCLUDE_THUMBNAIL = true;
+	static List<String> THUMBNAIL_FILE_FORMATS = new List<string>() { ".jpg", ".jpeg", ".gif", ".png" };
 
 	// POST SETTINGS
 	static string POSTS_INCLUDE_SINCE = "2000-01-01";
 	static List<String> POST_IGNORE_LABELS = new List<string>() { "The Archive", "The Statement" };
+	static Dictionary<String, String> POST_LABEL_THUMBNAIL = new Dictionary<String, String>()
+	{
+		{ "The Klassic Note", "https://knreports.onrender.com/resources/klassic-note.jpg" },
+		{ "The Dreams", "https://knreports.onrender.com/resources/dreams.jpg" }
+	};
 	static List<String> POST_OLD_DOMAINS = new List<string>()
 	{
 		"https://knwebreports.blogspot.com/",
 		"https://knwebreports2014.blogspot.com/",
 		"http://knwebreports2014.blogspot.com/"
+	};
+	static List<String> POST_FIRST_THUMBNAIL_EXCLUDED = new List<string>()
+	{
+		"scontent-sin.xx.fbcdn.net"
 	};
     static Dictionary<String, String> POSTTITLE_TEXT_REPLACE = new Dictionary<String, String>()
     {
@@ -52,6 +66,20 @@ public class Program {
         {"'24", "2024"},
         {"'25", "2025"}
     };
+    static Dictionary<String, String> POST_TEXT_REPLACE => ReadTextFile(REPLACE_TEXT_FILENAME);
+    static Dictionary<String, String> ReadTextFile(string filename)
+    {
+        var list = new Dictionary<String, String>();
+        List<String> rows = File.ReadAllLines(filename).ToList();
+        foreach(var row in rows)
+        {
+            var parts = row.Split(',');
+            if(parts.Length > 1 && !String.IsNullOrWhiteSpace(parts[0]))
+                list.Add(parts[0], parts[1]);
+        }
+        return list;
+    }
+
 
 	static void Main()
 	{
@@ -289,11 +317,64 @@ public class Program {
 				continue;
 			// Create output page link and index in linked list (relative to root directory)
 			var pageLink = entry.DestinationUrl.Replace("./", "/");
-            
 			// Check for post content to exclude from search index
 			var condition = "";
 			if(postContent.Contains("#disclaimer"))
 				condition = "disclaimer";
+			// Find thumbnail
+			var thumbnailUrl = "";
+			if(INCLUDE_THUMBNAIL) 
+			{
+				// Find first image, if any
+				if (DEBUG_MODE) Console.WriteLine("Find first image for home page, if any");
+				Match match = Regex.Match(postContent, @"(?s)<img(.*?)src=""(.*?)""(.*?)/>");
+				//Console.WriteLine(postContent);
+				if(match.Success)
+					thumbnailUrl = match.Groups[2].Value;
+				// Exceptions, to clear thumbnail url (does not find next)
+				if(POST_FIRST_THUMBNAIL_EXCLUDED.Any(term => thumbnailUrl.Contains(term)))
+					thumbnailUrl = "";
+				// Try find replacement
+				if(POST_TEXT_REPLACE.ContainsKey(thumbnailUrl))
+				{
+					Console.WriteLine("File replaceable with mapping");
+					thumbnailUrl = POST_TEXT_REPLACE[thumbnailUrl];
+				}
+				// If no thumbnail found in post, set default thumbnail by first label as per config
+				if(String.IsNullOrWhiteSpace(thumbnailUrl))
+				{
+					if (DEBUG_MODE) Console.WriteLine("No image found, finding default by post label");
+						var firstLabel = pageTagsXml.FirstOrDefault(xml => POST_LABEL_THUMBNAIL.Keys.Contains(xml));
+						if(firstLabel != null)
+							thumbnailUrl = POST_LABEL_THUMBNAIL[firstLabel];
+				}
+				// Download thumbnail
+				var filename = thumbnailUrl.Substring(thumbnailUrl.LastIndexOf('/'));
+				var localPath = Path.Join(WORKING_EXPORT_FILE_DIRECTORY, INPUT_FILE_RENAME_SUFFIX);
+				var thumbnailStr = "";
+				Console.WriteLine("Image to download:" + thumbnailUrl);
+				if(String.IsNullOrWhiteSpace(thumbnailUrl))
+					throw new Exception("thumbnailUrl is empty!");
+				if(!File.Exists(localPath + filename))
+				{
+					//if (DEBUG_MODE)
+					var format = filename.Substring(filename.LastIndexOf('.')).ToLower();
+					if(!THUMBNAIL_FILE_FORMATS.Contains(format))
+						throw new Exception($"Invalid file format! {thumbnailUrl}");
+					if(!Directory.Exists(localPath))
+						Directory.CreateDirectory(localPath);
+					DownloadTo(thumbnailUrl, localPath + filename);
+				}
+				//Convert thumbnail to base64
+				if(File.Exists(localPath + filename))
+				{
+					//if(DEBUG_MODE)
+					Console.WriteLine("Image to convert: " + localPath + filename);
+					thumbnailStr = ResizeImageToBase64(localPath + filename, 0, 180);
+				}
+				else
+					throw new Exception($"No thumbnail download found! {thumbnailUrl}");
+			}
 			var startIndex = postContent.IndexOf("<div") >= 0 ? postContent.IndexOf("<div") : 0;
 			 // Avoid inline styles
 			postContent = CleanupTitle(postTitle) + " " + CleanupHtml(postContent.Substring(startIndex));
@@ -304,6 +385,7 @@ public class Program {
 				content = postContent.Replace("'", "''"),
 				publish = publishDate.ToString("yyyyMMdd"),
 				update = updateDate.ToString("yyyyMMdd"),
+				thumbnail = thumbnailUrl,
 				flag = condition
 			});
 		}
@@ -313,14 +395,15 @@ public class Program {
 	static void GenerateSearchIndexScript(List<SearchIndexContent> indexes)
 	{
 		StringBuilder sb = new StringBuilder();
-		sb.AppendLine(@"CREATE VIRTUAL TABLE IF NOT EXISTS SearchIndex USING fts5(title, url, publish, updated, flag, content, tokenize=""unicode61 tokenchars ''''"");");
+		sb.AppendLine(@"CREATE VIRTUAL TABLE IF NOT EXISTS SearchIndex USING fts5(title, url, publish, updated, thumb, flag, content, tokenize=""unicode61 tokenchars ''''"");");
 		foreach(var page in indexes)
 		{
-			sb.AppendLine(@"INSERT INTO SearchIndex (title, url, publish, updated, flag, content) VALUES ('@title', '@url', '@publish', '@updated', '@flag', '@content');"
+			sb.AppendLine(@"INSERT INTO SearchIndex (title, url, publish, updated, thumb, flag, content) VALUES ('@title', '@url', '@publish', '@updated', '@thumb', '@flag', '@content');"
 				.Replace("@title", page.title)
 				.Replace("@url", page.url)
 				.Replace("@publish", page.publish)
 				.Replace("@updated", page.update)
+				.Replace("@thumb", page.thumbnail ?? "")
 				.Replace("@flag", page.flag ?? "")
 				.Replace("@content", page.content));
 		}
@@ -476,6 +559,65 @@ public class Program {
         }
 	}
 
+	static void DownloadTo(string url, string directory)
+	{
+		try {
+			if(DEBUG_MODE) Console.WriteLine("Downloading... " + url);
+			using (var client = new HttpClient())
+			{
+				using (var s = client.GetStreamAsync(url))
+				{
+					using (var fs = new FileStream(directory, FileMode.OpenOrCreate)) //filename
+					{
+						s.Result.CopyTo(fs);
+					}
+				}
+			}
+		}
+		catch(Exception e)
+		{
+			Console.WriteLine("Error on DownloadTo: " + url);
+			throw;
+		}
+	}
+
+	static string ResizeImageToBase64(string fileName, int targetWidth, int targetHeight)
+	{
+		using (Image image = Image.FromFile(fileName))
+		{
+			//Get the image current width
+			int imageWidth = image.Width;
+			//Get the image current height
+			int imageHeight = image.Height;
+
+			//Resize image if provided only one dimension value
+			if(targetWidth == 0 && targetHeight > 0)
+				targetWidth = targetHeight * imageHeight / imageWidth;
+			if(targetHeight == 0 && targetWidth > 0)
+				targetHeight = imageHeight * targetWidth / imageWidth;
+			if(targetWidth == 0 && targetHeight == 0)
+				throw new Exception("File dimensions not defined");
+			//if(DEBUG_MODE)
+			Console.WriteLine(targetWidth + " x " + targetHeight);
+			//Determine file format (static images with format suffix only)
+			var format = System.Drawing.Imaging.ImageFormat.Jpeg;
+			if(fileName.EndsWith(".gif"))
+				format = System.Drawing.Imaging.ImageFormat.Gif;
+			if(fileName.EndsWith(".png"))
+				format = System.Drawing.Imaging.ImageFormat.Png;
+			//Create new image using same image, different size, save as filename in folder
+			//Save into memory stream and convert to base64
+			using (var ms = new MemoryStream())
+			{    
+				using (var bitmap = new Bitmap(image, targetWidth, targetHeight))
+				{
+					bitmap.Save(ms, format);
+					return Convert.ToBase64String(ms.ToArray());
+				}
+			}
+		}
+	}
+
     static String OutputTable<T>(List<T> data)
     {
         if (data == null || !data.Any())
@@ -565,6 +707,7 @@ public class SearchIndexContent
 	public string content { get; set; }
 	public string publish { get; set; }
 	public string update { get; set; }
+	public string thumbnail { get; set; }
 	public string flag { get; set; }
 }
 
