@@ -756,7 +756,8 @@ public class Program {
 				var replacement = match.Value.Replace("target=\"_blank\"", "")
 												.Replace(BLOG_DOMAIN_URL, "/")
 												.Replace(linkedListItem.Source, linkedListItem.Destination)
-												.Replace("./", "../../../../");
+												.Replace("./", "../../../../")
+												.Replace("href=\"", "onclick=\"processClickLink()\" href=\"");
 				if(DEBUG_MODE) {
 					Console.WriteLine(linkedListItem);
 					Console.WriteLine(match.Value);
