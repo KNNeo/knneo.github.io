@@ -208,7 +208,7 @@ public class Program {
 
 			//Resize image if provided only one dimension value
 			if(targetWidth == 0 && targetHeight > 0)
-				targetWidth = 0;
+				targetWidth = targetHeight * imageHeight / imageWidth;
 			if(targetHeight == 0 && targetWidth > 0)
 				targetHeight = imageHeight * targetWidth / imageWidth;
 			if(targetWidth == 0 && targetHeight == 0)
