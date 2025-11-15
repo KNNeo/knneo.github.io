@@ -22,7 +22,6 @@ public class Program {
 	// INPUT OUTPUT SETTINGS
     static string INPUT_SEARCH_WILDCARD = "feed*.atom";
     static string INPUT_SEARCH_FILE_FORMAT = INPUT_SEARCH_WILDCARD.Substring(INPUT_SEARCH_WILDCARD.IndexOf('.'));
-	static string INPUT_FILE_RENAME_SUFFIX = "knreports";
 	static string BLOGGER_EXPORT_FILE_DIRECTORY = @"/home/kaineng/Downloads";
 	static string WORKING_EXPORT_FILE_DIRECTORY = @"/home/kaineng/Documents/Workspaces";
 	static string OUTPUT_DIRECTORY = @"/home/kaineng/Documents/Repositories/knreports";
@@ -48,6 +47,7 @@ public class Program {
 	static bool SHOW_POST_LABELs_COUNT = false;
 	static bool SHOW_LINKED_LIST = false;
     static bool INCLUDE_DRAFT_POSTS = false;
+	static string INPUT_FILE_RENAME_SUFFIX = "knwebreports";
 
 	// POST SETTINGS
 	static string HTML_TITLE = "Klassic Note Reports";
