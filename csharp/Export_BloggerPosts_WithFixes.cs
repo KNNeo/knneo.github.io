@@ -47,7 +47,7 @@ public class Program {
 	static bool SHOW_POST_LABELs_COUNT = false;
 	static bool SHOW_LINKED_LIST = false;
     static bool INCLUDE_DRAFT_POSTS = false;
-	static string INPUT_FILE_RENAME_SUFFIX = "knwebreports";
+	static string INPUT_FILE_RENAME_SUFFIX = "knreports";
 
 	// POST SETTINGS
 	static string HTML_TITLE = "Klassic Note Reports";
