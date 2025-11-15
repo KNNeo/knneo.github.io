@@ -14,7 +14,6 @@ using System.Net.Http;
 public class Program {
 	// DEBUG
 	static bool DEBUG_MODE = false;
-	static Dictionary<int, int> fixCounts = new Dictionary<int, int>();
 	static Dictionary<String, int> emojiCounts = new Dictionary<String, int>();
 
 	// INPUT OUTPUT SETTINGS
@@ -39,11 +38,12 @@ public class Program {
 	static int GENERATE_SLUG_MAX_LENGTH = 70;
 	static bool SHOW_LINKED_LIST = false;
 	static string VERIFY_HTML = "auto";
-	static bool INCLUDE_THUMBNAIL = true;
+	static bool INCLUDE_THUMBNAIL = false;
 	static List<String> THUMBNAIL_FILE_FORMATS = new List<string>() { ".jpg", ".jpeg", ".gif", ".png" };
 
 	// POST SETTINGS
 	static string POSTS_INCLUDE_SINCE = "2000-01-01";
+	static string POST_THUMBNAIL_SINCE = "2020-01-01";
 	static List<String> POST_IGNORE_LABELS = new List<string>() { "The Archive", "The Statement" };
 	static Dictionary<String, String> POST_LABEL_THUMBNAIL = new Dictionary<String, String>()
 	{
@@ -323,8 +323,7 @@ public class Program {
 				condition = "disclaimer";
 			// Find thumbnail
 			var thumbnailUrl = "";
-			if(INCLUDE_THUMBNAIL) 
-			{
+			if(IsLatestPost(publishDate)) {
 				// Find first image, if any
 				if (DEBUG_MODE) Console.WriteLine("Find first image for home page, if any");
 				Match match = Regex.Match(postContent, @"(?s)<img(.*?)src=""(.*?)""(.*?)/>");
@@ -337,9 +336,12 @@ public class Program {
 				// Try find replacement
 				if(POST_TEXT_REPLACE.ContainsKey(thumbnailUrl))
 				{
-					Console.WriteLine("File replaceable with mapping");
+					if (DEBUG_MODE) Console.WriteLine("File replaceable with mapping");
 					thumbnailUrl = POST_TEXT_REPLACE[thumbnailUrl];
 				}
+			}
+			if(INCLUDE_THUMBNAIL) 
+			{
 				// If no thumbnail found in post, set default thumbnail by first label as per config
 				if(String.IsNullOrWhiteSpace(thumbnailUrl))
 				{
@@ -352,12 +354,11 @@ public class Program {
 				var filename = thumbnailUrl.Substring(thumbnailUrl.LastIndexOf('/'));
 				var localPath = Path.Join(WORKING_EXPORT_FILE_DIRECTORY, INPUT_FILE_RENAME_SUFFIX);
 				var thumbnailStr = "";
-				Console.WriteLine("Image to download:" + thumbnailUrl);
+				if (DEBUG_MODE) Console.WriteLine("Image to download:" + thumbnailUrl);
 				if(String.IsNullOrWhiteSpace(thumbnailUrl))
 					throw new Exception("thumbnailUrl is empty!");
 				if(!File.Exists(localPath + filename))
 				{
-					//if (DEBUG_MODE)
 					var format = filename.Substring(filename.LastIndexOf('.')).ToLower();
 					if(!THUMBNAIL_FILE_FORMATS.Contains(format))
 						throw new Exception($"Invalid file format! {thumbnailUrl}");
@@ -365,12 +366,14 @@ public class Program {
 						Directory.CreateDirectory(localPath);
 					DownloadTo(thumbnailUrl, localPath + filename);
 				}
+				else if (DEBUG_MODE)
+					Console.WriteLine("Download skipped.");
 				//Convert thumbnail to base64
 				if(File.Exists(localPath + filename))
 				{
-					//if(DEBUG_MODE)
-					Console.WriteLine("Image to convert: " + localPath + filename);
-					thumbnailStr = ResizeImageToBase64(localPath + filename, 0, 180);
+					if (DEBUG_MODE) Console.WriteLine("Image to convert: " + localPath + filename);
+					ResizeImageToNew(localPath + filename, localPath + filename, 0, 180);
+					thumbnailStr = ConvertImageToBase64(localPath + filename);
 				}
 				else
 					throw new Exception($"No thumbnail download found! {thumbnailUrl}");
@@ -559,6 +562,11 @@ public class Program {
         }
 	}
 
+	static bool IsLatestPost(DateTime publishDate)
+	{
+		return DateTime.Compare(publishDate, DateTime.Parse(POST_THUMBNAIL_SINCE)) >= 0;
+	}
+
 	static void DownloadTo(string url, string directory)
 	{
 		try {
@@ -581,7 +589,7 @@ public class Program {
 		}
 	}
 
-	static string ResizeImageToBase64(string fileName, int targetWidth, int targetHeight)
+	static void ResizeImageToNew(string fileName, string newFileName, int targetWidth, int targetHeight)
 	{
 		using (Image image = Image.FromFile(fileName))
 		{
@@ -597,8 +605,21 @@ public class Program {
 				targetHeight = imageHeight * targetWidth / imageWidth;
 			if(targetWidth == 0 && targetHeight == 0)
 				throw new Exception("File dimensions not defined");
-			//if(DEBUG_MODE)
-			Console.WriteLine(targetWidth + " x " + targetHeight);
+			
+			//Create new image using same image, different size, save as filename in folder
+			new Bitmap(image, targetWidth, targetHeight).Save(newFileName);
+		}
+	}
+
+	static string ConvertImageToBase64(string fileName)
+	{
+		using (Image image = Image.FromFile(fileName))
+		{
+			//Get the image current width
+			int imageWidth = image.Width;
+			//Get the image current height
+			int imageHeight = image.Height;
+
 			//Determine file format (static images with format suffix only)
 			var format = System.Drawing.Imaging.ImageFormat.Jpeg;
 			if(fileName.EndsWith(".gif"))
@@ -609,7 +630,7 @@ public class Program {
 			//Save into memory stream and convert to base64
 			using (var ms = new MemoryStream())
 			{    
-				using (var bitmap = new Bitmap(image, targetWidth, targetHeight))
+				using (var bitmap = new Bitmap(image, imageWidth, imageHeight))
 				{
 					bitmap.Save(ms, format);
 					return Convert.ToBase64String(ms.ToArray());
