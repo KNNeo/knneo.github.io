@@ -398,7 +398,7 @@ public class Program {
 	static void GenerateSearchIndexScript(List<SearchIndexContent> indexes)
 	{
 		StringBuilder sb = new StringBuilder();
-		sb.AppendLine(@"CREATE VIRTUAL TABLE IF NOT EXISTS SearchIndex USING fts5(title, url, publish, updated, thumb, flag, content, tokenize=""unicode61 tokenchars ''''"");");
+		sb.AppendLine(@"CREATE VIRTUAL TABLE IF NOT EXISTS SearchIndex USING fts5(title, url, publish, updated, thumb, flag, content, tokenize=""unicode61 tokenchars '''-'"");");
 		foreach(var page in indexes)
 		{
 			sb.AppendLine(@"INSERT INTO SearchIndex (title, url, publish, updated, thumb, flag, content) VALUES ('@title', '@url', '@publish', '@updated', '@thumb', '@flag', '@content');"
@@ -459,9 +459,6 @@ public class Program {
 		content = Regex.Replace(content, @"Music News This Week", "");
 		content = Regex.Replace(content, @"Next Week on Klassic Note", "");
 		
-		/* NOTE: AFTER THIS STATEMENT ALL VALUES DETECTED ARE CASE INSENSITIVE! */
-		content = content.ToLower();
-
 		// Remove carousel items after first item
 		expression = @"(?s)(<div class=""carousel-item hide"")(.*?)(/div>)";
 		match = Regex.Match(content, expression);
