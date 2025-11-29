@@ -31,16 +31,26 @@ const observer = new IntersectionObserver(callback, {
 
 //--FUNCTIONS--//
 function startup() {
+	if(!document.getElementById('data-id')) {
+		console.log('no data found in dom, create');
+		let script = document.createElement('script');
+		script.id = 'data-id';
+		document.head.appendChild(script);
+	}
     if (document.getElementById('data-id').textContent)
 		initializeVariables(JSON.parse(document.getElementById('data-id').textContent));
 	else if(document.getElementById('data-id').src)
 		getJson(document.getElementById('data-id').src, initializeVariables);
+	else {
+		setData(localStorage.getItem('image_collage_data_id') || '');
+	}
 }
 
-function setData() {
+function setData(source) {
     event.preventDefault();
 	window.overlay = true;
-	let source = prompt('Enter source url/key', document.getElementById('data-id')?.src || '');
+	if(!source)
+		source = prompt('Enter source url/key', document.getElementById('data-id')?.src || '');
 	if(source) {
         if(source.startsWith('https://')) // full address
             document.getElementById('data-id').src = source;
@@ -48,6 +58,8 @@ function setData() {
             document.getElementById('data-id').src = 'data/' + source;
         else // assume home directory at data folder & file format json
             document.getElementById('data-id').src = 'data/' + source + '.json';
+		// save value to load again
+		localStorage.setItem('image_collage_data_id', document.getElementById('data-id').src);
 		startup();
 	}
 	window.overlay = false;
