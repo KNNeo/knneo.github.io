@@ -197,13 +197,14 @@ function generateTagsList() {
 			let tag = document.createElement('div');
 			tag.classList.add('tags-category');
 			tag.style.setProperty('--ratio', window.data.tag.category.ratio[index]);
-			if(isHorizontalLayout()) tag.style.maxHeight = (100 / sections * window.data.tag.category.ratio[index]) + '%';
+			if(isHorizontalLayout()) 
+				tag.style.setProperty('--height', (100 / sections * window.data.tag.category.ratio[index]) + '%');
 			
 				let title = document.createElement('h4');
 				title.classList.add('category-title');
                 title.title = 'Click to clear all tags in category';
 				title.innerText = current;
-                title.setAttribute('onclick', 'onClearCategory()');
+                title.setAttribute('onclick', 'onClickCategoryHeader()');
 				tag.appendChild(title);
 				
 			tags.appendChild(tag);
@@ -695,18 +696,27 @@ function onScrollSidebar() {
 	}
 }
 
-function onClearCategory() {
-    let title = event.target.innerText;
-    if(title) {
-        let filteredTags = event.target.parentElement.querySelectorAll('.tag[filter]');
-        if(filteredTags.length) {
-            // to ensure all included
-            filteredTags.forEach(tag => tag.click());
-            // to ensure all removed due to exclusions
-            event.target.parentElement.querySelectorAll('.tag[filter]').forEach(tag => tag.click());
-            generateGrid();
-        }
-    }
+function onClickCategoryHeader() {
+	let container = event.target.closest('.tags-category');
+	if(container.querySelector('.tag[filter]')) {
+		// remove filter
+		let title = event.target.innerText;
+		if(title) {
+			let filteredTags = event.target.parentElement.querySelectorAll('.tag[filter]');
+			if(filteredTags.length) {
+				// to ensure all included
+				filteredTags.forEach(tag => tag.click());
+				// to ensure all removed due to exclusions
+				event.target.parentElement.querySelectorAll('.tag[filter]').forEach(tag => tag.click());
+				generateGrid();
+			}
+		}
+	}
+	else {
+		// toggle expand/collapse
+		container.classList.toggle('expanded');
+		container.style.maxHeight = '100%';
+	}
 }
 
 function onClearAll() {

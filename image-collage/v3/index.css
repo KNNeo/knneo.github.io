@@ -63,17 +63,49 @@ a:focus-within {
 	-ms-overflow-style: none;
 	scrollbar-width: none;
 	width: 100%;
+	height: var(--height);
 	overflow-x: auto;
 	text-align: center;
 	position: relative;
+}
+
+.tags > div .category-title::after {
+	content: "open_in_full";
+	font-family: "Material Icons";
+    vertical-align: text-top;
+    padding-left: 4px;
+    font-size: 1.5em;
+    font-weight: initial;
 }
 
 .tags > div::-webkit-scrollbar { 
 	height: 0;
 }
 
-.tags > div:has([filter]) .category-title::after {
-	content: "clear_all";
+.tags:has(div.expanded) {
+	height: 100%;
+}
+
+.tags:has(div.expanded) div {
+	height: 0;
+}
+
+.tags:has(div.expanded) div.expanded {
+	height: 100%;
+}
+
+.tags:has(div.expanded) div.expanded .category-title::after {
+	content: "close_fullscreen";
+	font-family: "Material Icons";
+    vertical-align: text-top;
+    padding-left: 4px;
+    font-size: 1.5em;
+    font-weight: initial;
+}
+
+.tags > div:has([filter]) .category-title::after,
+.tags:has(div.expanded) > div:has([filter]) .category-title::after {
+	content: "filter_list_off";
 	font-family: "Material Icons";
     vertical-align: text-top;
     padding-left: 4px;
