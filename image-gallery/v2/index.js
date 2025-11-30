@@ -511,8 +511,7 @@ function checkComplete() {
 
 function changeSource(dest) {
 	// assume all same URL prefix for filename
-	for(let img of window.variables.items)
-	{
+	for(let img of window.variables.items) {
 		let name = img.filename;
 		img.filename = name.replace(name.substring(0, name.lastIndexOf('/')), dest);
 	}
@@ -527,6 +526,7 @@ function changeData() {
 }
 
 function changeDataFile(dest) {
+	if(!dest) dest = prompt('Enter source url/key');
 	document.getElementById('data-id').src = dest.endsWith('.json') ? dest : window.location.href.replace('index.html', 'data/' + dest + '.json');
 	hideFilters();
 	startup();
@@ -575,6 +575,8 @@ function startup() {
 		getJson(document.getElementById('data-id').src, startLoad);
 	else if (document.getElementById('data-id').textContent)
 		startLoad(JSON.parse(document.getElementById('data-id').textContent));
+	else
+		changeDataFile(localStorage.getItem('image_gallery_data_id') || '');
 }
 
 function startLoad(content) {
@@ -590,6 +592,7 @@ function startLoad(content) {
 		}
 	}
 	noticeDiv.innerText = window.variables?.notice;
+	localStorage.setItem('image_gallery_data_id', document.getElementById('data-id').src);
 	
 	setBase();
 	renderDisplay();
