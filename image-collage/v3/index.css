@@ -42,7 +42,7 @@ a:focus-within {
 }
 
 .material-icons.rotate-90 {
-    transform: rotate(90deg);
+	transform: rotate(90deg);
 }
 
 .content {
@@ -59,7 +59,7 @@ a:focus-within {
 	max-height: calc(100% - 240px);
 }
 
-.tags > div {
+.tags>div {
 	-ms-overflow-style: none;
 	scrollbar-width: none;
 	width: 100%;
@@ -69,68 +69,38 @@ a:focus-within {
 	position: relative;
 }
 
-.tags > div .category-title::after {
-	content: "open_in_full";
-	font-family: "Material Icons";
-    vertical-align: text-top;
-    padding-left: 4px;
-    font-size: 1.5em;
-    font-weight: initial;
-}
-
-.tags > div::-webkit-scrollbar { 
+.tags>div::-webkit-scrollbar {
 	height: 0;
 }
 
-.tags:has(div.expanded) {
-	height: 100%;
-}
-
-.tags:has(div.expanded) div {
-	height: 0;
-}
-
-.tags:has(div.expanded) div.expanded {
-	height: 100%;
-}
-
-.tags:has(div.expanded) div.expanded .category-title::after {
-	content: "close_fullscreen";
-	font-family: "Material Icons";
-    vertical-align: text-top;
-    padding-left: 4px;
-    font-size: 1.5em;
-    font-weight: initial;
-}
-
-.tags > div:has([filter]) .category-title::after,
-.tags:has(div.expanded) > div:has([filter]) .category-title::after {
+.tags>div:has([filter]) .category-title::after,
+.tags:has(div.expanded)>div:has([filter]) .category-title::after {
 	content: "filter_list_off";
 	font-family: "Material Icons";
-    vertical-align: text-top;
-    padding-left: 4px;
-    font-size: 1.5em;
-    font-weight: initial;
+	vertical-align: text-top;
+	padding-left: 4px;
+	font-size: 1.5em;
+	font-weight: initial;
 }
 
 .tags .category-title {
-    cursor: pointer;
+	cursor: pointer;
 }
 
 .tags.expanded .category-title {
-    flex-basis: 100%;
+	flex-basis: 100%;
 	display: block;
-    position: sticky;
-    top: 0;
-    margin: 0;
-    background-color: var(--background);
+	position: sticky;
+	top: 0;
+	margin: 0;
+	background-color: var(--background);
 }
 
-.tags.expanded > div {
+.tags.expanded>div {
 	display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-content: flex-start;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-content: flex-start;
 	max-height: 100%;
 	overflow-y: auto;
 }
@@ -141,12 +111,12 @@ a:focus-within {
 	color: var(--foreground);
 	background-color: var(--background);
 	border: var(--border) solid var(--foreground);
-    border-radius: var(--radius);
-    height: 2rem;
-    text-overflow: ellipsis;
-    overflow-x: hidden;
-    white-space: nowrap;
-    max-width: 15em;
+	border-radius: var(--radius);
+	height: 2rem;
+	text-overflow: ellipsis;
+	overflow-x: hidden;
+	white-space: nowrap;
+	max-width: 15em;
 }
 
 .tag:hover,
@@ -167,26 +137,26 @@ a:focus-within {
 
 .collage {
 	width: 100%;
-    height: calc(100% - var(--menu-height, 17em));
+	height: calc(100% - var(--menu-height, 17em));
 	overflow-y: scroll;
 }
 
 :has(.menu.hidden) .collage {
-    height: 100%;
+	height: 100%;
 }
 
 .grid {
 	width: 100%;
 	height: 100%;
 	display: flex;
-    flex-wrap: wrap;
-    align-content: flex-start;
+	flex-wrap: wrap;
+	align-content: flex-start;
 }
 
 .grid-item {
 	position: relative;
 	border: var(--border, 1px) solid var(--background);
-    border-radius: var(--radius, 0);
+	border-radius: var(--radius, 0);
 	width: var(--width, 100%);
 	height: var(--height, 100%);
 	box-sizing: border-box;
@@ -197,7 +167,7 @@ a:focus-within {
 .grid-item img {
 	width: 100%;
 	height: 100%;
-    object-fit: cover;
+	object-fit: cover;
 	transition: transform 0.1s ease;
 }
 
@@ -216,7 +186,7 @@ a:focus-within {
 	border: 1px solid var(--background);
 	z-index: 2;
 	cursor: initial;
-    text-decoration: none;
+	text-decoration: none;
 	-webkit-user-select: none;
 	-khtml-user-select: none;
 	-moz-user-select: none;
@@ -226,10 +196,10 @@ a:focus-within {
 
 .grid-item.banner {
 	position: initial;
-    width: 100%;
-    height: auto;
-    font-weight: bold;
-    font-size: 1.5em;
+	width: 100%;
+	height: auto;
+	font-weight: bold;
+	font-size: 1.5em;
 }
 
 .banner[href] {
@@ -304,19 +274,19 @@ a:focus-within {
 }
 
 :has(.menu.hidden) .sidebar {
-    opacity: 0;
-    transition: opacity 0.3s;
+	opacity: 0;
+	transition: opacity 0.3s;
 	width: 100%;
 }
 
 :has(.menu.hidden) .sidebar:hover {
-    opacity: 1;
+	opacity: 1;
 }
 
 .settings a {
 	color: var(--foreground);
 	text-decoration: none;
-	padding: 0 5px;	
+	padding: 0 5px;
 }
 
 .settings a:hover {
@@ -324,8 +294,8 @@ a:focus-within {
 }
 
 .filters {
-    display: flex;
-    justify-content: center
+	display: flex;
+	justify-content: center
 }
 
 .filter {
@@ -353,13 +323,13 @@ a:focus-within {
 .title,
 .description {
 	margin: 10px 0;
-    text-align: center;
+	text-align: center;
 }
 
 .dialog dialog {
 	border: 1px solid var(--foreground);
 	background-color: var(--background);
-	color: var(--foreground);	
+	color: var(--foreground);
 	padding: 10px;
 	max-width: 80%;
 	max-height: 80%;
@@ -392,7 +362,7 @@ a:focus-within {
 
 .viewer.open {
 	visibility: visible;
-	opacity: 1;	
+	opacity: 1;
 }
 
 .viewer .prev {
@@ -431,8 +401,8 @@ a:focus-within {
 	font-family: 'Material Icons';
 	font-size: 6em;
 	content: "navigate_before";
-    left: 0;
-    top: 45%;
+	left: 0;
+	top: 45%;
 }
 
 .viewer .next:hover {
@@ -445,8 +415,8 @@ a:focus-within {
 	font-family: 'Material Icons';
 	font-size: 6em;
 	content: "navigate_next";
-    right: 0;
-    top: 45%;
+	right: 0;
+	top: 45%;
 }
 
 .viewer img {
@@ -473,13 +443,13 @@ a:focus-within {
 }
 
 .viewer.captions .caption {
-    position: absolute;
-    bottom: 1em;
-    left: 1em;
-    padding: 8px 12px;
-    border-radius: 8px;
-    background-color: var(--background);
-    text-align: var(--align, center);
+	position: absolute;
+	bottom: 1em;
+	left: 1em;
+	padding: 8px 12px;
+	border-radius: 8px;
+	background-color: var(--background);
+	text-align: var(--align, center);
 }
 
 .viewer.captions.zoom .caption {
@@ -514,16 +484,20 @@ a:focus-within {
 	.content {
 		display: flex;
 	}
+
 	.menu {
 		max-width: var(--max-width);
 		height: 100%;
 	}
-    .collage {
-        height: 100%;
-    }
+
+	.collage {
+		height: 100%;
+	}
+
 	.expander {
 		display: none;
 	}
+
 	.tags .category-title {
 		margin: 0;
 		padding: 1em;
@@ -531,9 +505,42 @@ a:focus-within {
 		top: 0;
 		background-color: var(--background);
 	}
-	.tags > div {
+
+	.tags>div {
 		max-height: calc(100% / var(--categories, 1) * var(--ratio, 1));
 	}
+
+	.tags>div .category-title::after {
+		content: "open_in_full";
+		font-family: "Material Icons";
+		vertical-align: text-top;
+		padding-left: 4px;
+		font-size: 1.5em;
+		font-weight: initial;
+	}
+
+	.tags:has(div.expanded) {
+		height: 100%;
+	}
+
+	.tags:has(div.expanded) div {
+		height: 0;
+	}
+
+	.tags:has(div.expanded) div.expanded {
+		height: 100%;
+	}
+
+	.tags:has(div.expanded) div.expanded .category-title::after {
+		content: "close_fullscreen";
+		font-family: "Material Icons";
+		vertical-align: text-top;
+		padding-left: 4px;
+		font-size: 1.5em;
+		font-weight: initial;
+	}
+
+
 	:has(.menu.hidden) .sidebar {
 		height: 100%;
 		width: auto;
@@ -541,31 +548,37 @@ a:focus-within {
 }
 
 @media (orientation: portrait) {
-	.tags > div {
+	.tags>div {
 		max-height: 48px;
 	}
+
 	.tags.expanded {
-        height: 60vh;
+		height: 60vh;
 	}
-	.tags.expanded > div {
+
+	.tags.expanded>div {
 		max-height: calc(100% / var(--categories, 1) * var(--ratio, 1));
 	}
+
 	.tags .category-title {
 		display: inline;
-        padding: 4px;
+		padding: 4px;
 	}
-    .viewer.captions .caption {
-        right: 1em;
-    }
+
+	.viewer.captions .caption {
+		right: 1em;
+	}
+
 }
 
 /*MEDIA QUERIES - REDUCED MOTION*/
 @media (prefers-reduced-motion: reduce) {
-    .grid-item img,
-    .viewer,
-    .viewer .prev,
-    .viewer .next,
-    .viewer img {
+
+	.grid-item img,
+	.viewer,
+	.viewer .prev,
+	.viewer .next,
+	.viewer img {
 		transition: none;
 	}
 }

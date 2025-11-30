@@ -713,6 +713,7 @@ function onClickCategoryHeader() {
 		}
 	}
 	else {
+		if(!isHorizontalLayout()) return;
 		// toggle expand/collapse
 		container.classList.toggle('expanded');
 		container.style.maxHeight = '100%';
