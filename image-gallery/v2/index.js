@@ -527,7 +527,7 @@ function changeData() {
 
 function changeDataFile(dest) {
 	if(!dest) dest = prompt('Enter source url/key');
-	document.getElementById('data-id').src = dest.endsWith('.json') ? dest : window.location.href.replace('index.html', 'data/' + dest + '.json');
+	document.getElementById('data-id').src = dest.endsWith('.json') ? dest : window.location.href+ 'data/' + dest + '.json';
 	hideFilters();
 	startup();
 }
