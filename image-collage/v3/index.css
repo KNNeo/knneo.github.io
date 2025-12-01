@@ -139,6 +139,11 @@ a:focus-within {
 	width: 100%;
 	height: calc(100% - var(--menu-height, 17em));
 	overflow-y: scroll;
+	color-scheme: light;
+}
+
+.darked .collage {
+	color-scheme: dark;
 }
 
 :has(.menu.hidden) .collage {
