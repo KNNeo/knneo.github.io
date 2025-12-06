@@ -130,13 +130,17 @@ a:hover {
     font-weight: bold;
 }
 .grid .img {
+	max-width: 120px;
+	max-height: 120px;
 	border: 4px solid var(--foreground);
 }
 .grid .img.horizontal {
 	max-width: 120px;
+	max-height: initial;
 }
 .grid .img.vertical {
-	max-height: 120px;
+	max-width: auto;
+	max-height: initial;
 }
 .horizontal .grid {
 	display: flex;

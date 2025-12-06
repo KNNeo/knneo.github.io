@@ -429,12 +429,12 @@ function calculateSpacing() {
 }
 
 function resizeImage() {
-	let img = event.target.getBoundingClientRect();
-	let isHorizontal = img.height >= img.width;
+	let img = event.target;
+	let isHorizontal = img.getBoundingClientRect().height >= img.getBoundingClientRect().width;
 	if(isHorizontal)
-		event.target.classList.add('horizontal');
+		img.classList.add('horizontal');
 	else
-		event.target.classList.add('vertical');
+		img.classList.add('vertical');
 }
 
 //--DIALOG--//
