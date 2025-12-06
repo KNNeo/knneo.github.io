@@ -342,6 +342,7 @@ function generateTimeline(timelineList, querySelector) {
 					if (config.dimmed) img.classList.add('dimmed');
 					img.src = dat.img;
 					img.setAttribute('oncontextmenu', 'return false');
+					img.setAttribute('onload', 'resizeImage()');
 					img.title = dat.title ?? '';
 
 					if (dat.url && dat.url.length > 0)
@@ -425,6 +426,15 @@ function calculateSpacing() {
 	if (config.orientation == 'horizontal')
 		return Math.ceil(window.innerWidth / window.innerHeight);
 	return 1;
+}
+
+function resizeImage() {
+	let img = event.target.getBoundingClientRect();
+	let isHorizontal = img.height >= img.width;
+	if(isHorizontal)
+		event.target.classList.add('horizontal');
+	else
+		event.target.classList.add('vertical');
 }
 
 //--DIALOG--//
