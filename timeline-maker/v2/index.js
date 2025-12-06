@@ -1,7 +1,6 @@
 //--DEFAULT SETTINGS--//
 const isFirefox = (/Firefox/i.test(navigator.userAgent));
 const config = {
-	"title": "My Fanfiction Journey",
 	"dimmed": true,
 	"orientation": window.innerWidth > window.innerHeight ? "horizontal" : "vertical",
 	"size": 40,
@@ -231,7 +230,6 @@ function showLayouts() {
 
 //--FUNCTIONS--//
 function initialize() {
-	document.title = config.title;
 	timelineDiv.addEventListener(isFirefox ? 'DOMMouseScroll' : 'mousewheel', onWheel);
 }
 
