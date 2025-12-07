@@ -136,11 +136,9 @@ a:hover {
 	border: 4px solid var(--foreground);
 }
 .grid .img.horizontal {
-	max-width: 120px;
-	max-height: initial;
+	max-width: initial;
 }
 .grid .img.vertical {
-	max-width: auto;
 	max-height: initial;
 }
 .horizontal .grid {

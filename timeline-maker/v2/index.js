@@ -434,7 +434,7 @@ function calculateSpacing() {
 
 function resizeImage() {
 	let img = event.target;
-	let isHorizontal = img.getBoundingClientRect().height >= img.getBoundingClientRect().width;
+	let isHorizontal = img.getBoundingClientRect().width >= img.getBoundingClientRect().height;
 	if(isHorizontal)
 		img.classList.add('horizontal');
 	else
