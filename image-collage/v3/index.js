@@ -1,9 +1,11 @@
 //--CONSTANTS--//
-const isHorizontalLayout = function () {
-	return matchMedia('all and (orientation:landscape)').matches;
-}
-const isFirefox = (/Firefox/i.test(navigator.userAgent));
-const spacer = 'https://knneo.github.io/resources/spacer.gif';
+const config = {
+	isLandscape: function () {
+		return matchMedia('all and (orientation:landscape)').matches;
+	},
+	isFirefox: (/Firefox/i.test(navigator.userAgent)),
+	spacer: 'https://knneo.github.io/resources/config.spacer.gif'
+};
 
 //--REFERENCES--//
 const title = document.querySelector('.title');
@@ -72,7 +74,7 @@ function initializeVariables(data) {
 	window.exclude = '';
 	window.preset = settings.querySelector('.size')?.innerText || 'photo_size_select_small';
 	window.slideshow = { run: null, history: [] };
-	menu.addEventListener(isFirefox ? 'DOMMouseScroll' : 'mousewheel', onScrollSidebar);
+	menu.addEventListener(config.isFirefox ? 'DOMMouseScroll' : 'mousewheel', onScrollSidebar);
 	window.addEventListener('mousemove', hideMouseInViewer);
 	initializeCollage();
 }
@@ -178,7 +180,7 @@ function generateSidebar() {
 	}
 
 	for (let [key, value] of Object.entries(window.data.setting)) {
-		if (key == 'expand' && isHorizontalLayout())
+		if (key == 'expand' && config.isLandscape())
 			document.querySelector('.' + key).classList.add('hidden');
 		else if (value)
 			document.querySelector('.' + key).classList.remove('hidden');
@@ -197,7 +199,7 @@ function generateTagsList() {
 			let tag = document.createElement('div');
 			tag.classList.add('tags-category');
 			tag.style.setProperty('--ratio', window.data.tag.category.ratio[index]);
-			if (isHorizontalLayout())
+			if (config.isLandscape())
 				tag.style.setProperty('--height', (100 / sections * window.data.tag.category.ratio[index]) + '%');
 
 			let title = document.createElement('h4');
@@ -413,10 +415,10 @@ function generateGrid() {
 		gridItemImage.alt = item.ds || '';
 		gridItemImage.title = getFilenameInfo(item.nm || '').filename.split(window.data.separator).join('\n');
 		let thumbnail = getThumbnailSizeBySetting(item);
-		if (thumbnail == spacer)
+		if (thumbnail == config.spacer)
 			console.error('thumbnail not found', item);
 		gridItemImage.setAttribute('data-image', thumbnail);
-		gridItemImage.setAttribute('data-src', item['og'] || item['lg'] || item['md'] || item['sm'] || spacer);
+		gridItemImage.setAttribute('data-src', item['og'] || item['lg'] || item['md'] || item['sm'] || config.spacer);
 		gridItemImage.setAttribute('data-caption', item.ct || '');
 		gridItemImage.setAttribute('loading', 'lazy');
 		gridItemImage.addEventListener('click', function () {
@@ -489,8 +491,12 @@ function generateFiltered() {
 			!m.nm.toLowerCase().includes(s.toLowerCase() + window.data.separator)
 			&& !m.nm.toLowerCase().includes(window.data.separator + s.toLowerCase())
 		);
-		return (window.include.length == 0 || (window.data?.tag?.join?.toLowerCase() == 'and' && tagsIncluded.length == includeArray.length) || (window.data?.tag?.join?.toLowerCase() == 'or' && tagsIncluded.length > 0))
-			&& (window.exclude.length == 0 || (tagsExcluded.length == excludeArray.length))
+		//include tags
+		//exclude tags
+		//exclude from config
+		//include from search
+		return (window.include.length == 0 || (window.data.tag.join.toLowerCase() == 'and' && tagsIncluded.length == includeArray.length) || (window.data.tag.join.toLowerCase() == 'or' && tagsIncluded.length > 0))
+			&& (window.exclude.length == 0 || (tagsExcluded.length > 0))
 			&& (window.data.tag.exclude ?? []).filter(f => m.nm.includes(f)).length < 1
 			&& (!window.data.search || !m.ct || m.ct.toLowerCase().includes(window.data.search));
 	});
@@ -528,13 +534,13 @@ function toggleVariable(variable, value) {
 function getThumbnailSizeBySetting(item) {
 	switch (window.preset) {
 		case 'photo_size_select_small':
-			return item['sm'] || spacer;
+			return item['sm'] || config.spacer;
 		case 'photo_size_select_large':
-			return item['md'] || item['sm'] || spacer;
+			return item['md'] || item['sm'] || config.spacer;
 		case 'photo_size_select_actual':
-			return item['lg'] || item['md'] || item['sm'] || spacer;
+			return item['lg'] || item['md'] || item['sm'] || config.spacer;
 		default:
-			return spacer;
+			return config.spacer;
 	}
 }
 
@@ -682,8 +688,8 @@ function onToggleExpander() {
 
 function onScrollSidebar() {
 	if (event.target == event.target.closest('.menu'))
-		collage.scrollTop -= isFirefox ? -event.detail * 20 : event.wheelDelta;
-	if (!isHorizontalLayout() && event.target.closest('.tags')) {
+		collage.scrollTop -= config.isFirefox ? -event.detail * 20 : event.wheelDelta;
+	if (!config.isLandscape() && event.target.closest('.tags')) {
 		event.preventDefault();
 		// scroll with respect to category element
 		let categoryDiv = event.target.closest('.tags-category');
@@ -713,7 +719,7 @@ function onClickCategoryHeader() {
 		}
 	}
 	else {
-		if (!isHorizontalLayout()) return;
+		if (!config.isLandscape()) return;
 		// toggle expand/collapse
 		container.classList.toggle('expanded');
 		container.style.maxHeight = '100%';
@@ -870,7 +876,7 @@ function openImageInViewer(image) {
 	let img = document.createElement('img');
 	img.nm = image.nm;
 	img.src = image.getAttribute('data-src');
-	if (img.src == spacer)
+	if (img.src == config.spacer)
 		console.error('source image not found', img);
 	img.alt = '';
 	img.title = '';
