@@ -13,6 +13,7 @@
   --background: #000;
   --foreground: #fff;
   --accent: gray;
+  color-scheme: dark;
 }
 
 html {
