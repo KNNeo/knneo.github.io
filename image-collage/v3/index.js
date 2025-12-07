@@ -94,27 +94,27 @@ function generateTags() {
 	// generate tags by design
 	window['buttonArray'] = generateFiltered()
 	.map(function(file) {
-        let filenameIndex = file.nm && file.nm.includes('/') ? file.nm.lastIndexOf('/') : -1;
 		return getFilenameInfo(file.nm).filename;
 	})
 	.reduce(function(total, current, _, _) {
-		let updated = total || [];
 		if(current && current.length > 0)
 			current.split(window.data.separator).forEach(function(tag, index, _) {
-				let existing = updated.filter(a => a.value == tag);
-				// console.log(tag, existing);
-				let existingFirst = existing[0];
-				if(existingFirst) {
-					//remove this tag, add back with new count
-					updated = updated.filter(a => a.value.toLowerCase() != tag.toLowerCase());
+				for(let part of tag.trim().split(window.data.tag.separator)) {
+					let existing = total.filter(a => a.value == part);
+					// console.log(tag, existing);
+					let existingFirst = existing[0];
+					if(existingFirst) {
+						//remove this tag, add back with new count
+						total = total.filter(a => a.value.toLowerCase() != part.toLowerCase());
+					}
+					total.push({
+						value: part,
+						count: existingFirst?.count ? existingFirst?.count + 1 : 1,
+						category: window.data.tag.category ? index : null,
+					});
 				}
-				updated.push({
-					value: tag,
-					count: existingFirst?.count ? existingFirst?.count + 1 : 1,
-					category: window.data.tag.category ? index : null,
-				});
 			});
-		return updated;
+		return total;
 	},[])
 	.filter(function(item) {
 		return item.count >= window.data.tag.min && item.count <= window.data.tag.max && window.data.tag.hidden.filter(t => item.value.includes(t)).length < 1;
