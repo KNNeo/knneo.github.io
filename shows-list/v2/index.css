@@ -43,7 +43,7 @@ body {
 .filter-bar * {
 	font-family: Open Sans;
 	border: 1px solid var(--foreground);
-	background-color: white;
+	background-color: var(--background);
     padding: 2px;
 	margin: 2px;
 }
