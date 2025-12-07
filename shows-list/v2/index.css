@@ -157,15 +157,12 @@ a {
 
 .anime-row:hover,
 .new-anime-row:hover {
-	/* font-size: 1em; */
 	text-decoration: underline;
 }
 
 .anime-row:hover img,
 .new-anime-row:hover img {
 	width: 150px;
-	/* max-height: 200px; */
-	margin: 1.5em auto;
 	display: block;
 	z-index: 3;
 }
@@ -177,7 +174,6 @@ a {
 	top: -120px;
 	right: 0;
 	width: 200px;
-	height: 200px;
 }
 
 .text-expanded {
@@ -209,6 +205,8 @@ a {
 .year-display,
 .calendar-cell {
 	cursor: pointer;
+	margin: 1px;
+	padding: 2px;
 }
 
 .year-display:hover {

@@ -24,9 +24,9 @@ function initializeVariables() {
 function generateAnimeList() {
 	let currentList = showsArray.filter(s => s.type == 'TV' && s.year == currentYear && s.season == currentSeason);
 
-	let calendarList = generateAnimeCalendar(showsArray.filter(s => s.type == 'TV' && s.year >= startYear && s.season.length > 0 && s.MAL > 0));
+	let calendarList = generateAnimeCalendar(showsArray.filter(s => s.type == 'TV' && s.year >= startYear && s.season.length > 0 && s.id));
 
-	let timelineList = showsArray.filter(s => s.type == 'TV' && (s.year != currentYear || s.season != currentSeason)).sort((a, b) => b.sortOrder - a.sortOrder);
+	let timelineList = showsArray.filter(s => s.type == 'TV' && (s.year != currentYear || s.season != currentSeason)).sort((a, b) => b.order - a.order);
 
 	let moviesList = showsArray.filter(s => s.type == 'Movie');
 
@@ -69,7 +69,7 @@ function generateAnimeCalendar(list) {
 	let block = document.createElement('div');
 	block.classList.add('filter-bar');
 
-	let listGenres = showsArray.filter(sr => sr.season.length > 0).map(sa => sa.MAL);
+	let listGenres = showsArray.filter(sr => sr.season.length > 0).map(sa => sa.id);
 	let genres = showsRef.filter(sr => listGenres.includes(sr.id)).reduce((total, current, index, arr) => {
 		for (let genre of current.seriesGenre) {
 			// let key = genre.replace(/ /g,'');
@@ -95,11 +95,11 @@ function generateAnimeCalendar(list) {
 		window['filter'] = window['filter'] || '';
 		window['genre'] = this.value || '';
 		generateCalendarBox(showsArray.map(ca => {
-			let ref = showsRef.filter(s => s.id == ca.MAL);
+			let ref = showsRef.filter(s => s.id == ca.id);
 			return {
 				...ca,
 				handle: ref[0].seriesURL,
-				imgURL: ref[0].seriesImage,
+				image: ref[0].seriesImage,
 				genres: ref[0].seriesGenre,
 			}
 		}).filter(s =>
@@ -133,11 +133,11 @@ function generateAnimeCalendar(list) {
 		window['filter'] = this.value.toLowerCase() || '';
 		window['genre'] = window['genre'] || '';
 		generateCalendarBox(showsArray.map(ca => {
-			let ref = showsRef.filter(s => s.id == ca.MAL);
+			let ref = showsRef.filter(s => s.id == ca.id);
 			return {
 				...ca,
 				handle: ref[0].seriesURL,
-				imgURL: ref[0].seriesImage,
+				image: ref[0].seriesImage,
 				genres: ref[0].seriesGenre,
 			}
 		}).filter(s =>
@@ -214,18 +214,13 @@ function generateCalendarBox(list) {
 		for (let count = 0; count < maxPerSeason; count++) {
 			for (let s of seasons) {
 				let show = yearShows[s.title][count];
-				let ref = showsRef.filter(r => r.id == show.MAL);
-				// console.log(show, ref);
 
 				let i = document.createElement('a');
-				if (ref.length > 0) i.classList.add('calendar-cell');
+				if(show.url)
+					i.classList.add('calendar-cell');
 				if (show.title) i.classList.add('highlight');
-				if (show.title || (window['filter'] == '' && window['genre'] == '')) {
-					i.style.margin = '1px';
-					i.style.padding = '2px';
-				}
-				if(ref.length > 0 && ref[0])
-					i.href = ref[0].seriesURL;
+				if(show.url)
+					i.href = show.url;
 				i.setAttribute('target', '_blank');
 				i.innerText = show.title;
 				calendarDiv.appendChild(i);
@@ -308,22 +303,22 @@ function generateAnimeRow(item) {
 	row.classList.add('new-anime-row');
 	row.tabIndex = 0;
 
-	if (item.handle && item.handle.length > 0) {
-		let handler = document.createElement('a');
-		handler.href = (item.handle.startsWith('http') ? '' : 'https://twitter.com/') + item.handle;
-		handler.setAttribute('target', '_blank');
+	if (item.url && item.url.length > 0) {
+		let url = document.createElement('a');
+		url.href = item.url;
+		url.setAttribute('target', '_blank');
 
-		if (item.imgURL && item.imgURL.length > 0) {
+		if (item.image && item.image.length > 0) {
 			let img = document.createElement('img');
 			img.src = 'https://knneo.github.io/resources/spacer.gif';
-			img.alt = item.imgURL;
-			img.title = (item.handle.startsWith('http') ? '' : '@') + item.handle;
+			img.alt = item.image;
+			img.title = item.title;
 			if (item.circular)
 				img.style.borderRadius = '50%';
 
-			handler.appendChild(img);
+			url.appendChild(img);
 		}
-		row.appendChild(handler);
+		row.appendChild(url);
 	}
 
 	let rowText = document.createElement('span');
@@ -380,24 +375,24 @@ function generateTimeline(categoryId, categoryTitle, filterList, fold = true) {
 		let container = document.createElement('div');
 		container.classList.add('container');
 
-		if (item.handle && item.handle.length > 0) {
-			let handler = document.createElement('a');
-			handler.href = (item.handle.startsWith('http') ? '' : 'https://twitter.com/') + item.handle;
-			handler.setAttribute('target', '_blank');
+		if (item.url && item.url.length > 0) {
+			let url = document.createElement('a');
+			url.href = item.url;
+			url.setAttribute('target', '_blank');
 
-			if (item.imgURL && item.imgURL.length > 0) {
+			if (item.image && item.image.length > 0) {
 				let img = document.createElement('img');
 				img.classList.add('thumb');
 				img.classList.add('dimmed');
 				img.src = 'https://knneo.github.io/resources/spacer.gif';
-				img.alt = item.imgURL;
-				img.title = (item.handle.startsWith('http') ? '' : '@') + item.handle;
+				img.alt = item.image;
+				img.title = item.title;
 				if (item.circular)
 					img.style.borderRadius = '50%';
 
-				handler.appendChild(img);
+				url.appendChild(img);
 			}
-			container.appendChild(handler);
+			container.appendChild(url);
 		}
 
 		let blob = document.createElement('div');
