@@ -1,4 +1,5 @@
 //--SETTINGS--//
+const startYear = 2008;
 const currentYear = 2025;
 const currentSeason = 'Autumn';
 const maxPerSeason = 7;
@@ -23,7 +24,7 @@ function initializeVariables() {
 function generateAnimeList() {
 	let currentList = showsArray.filter(s => s.type == 'TV' && s.year == currentYear && s.season == currentSeason);
 
-	let calendarList = generateAnimeCalendar(showsArray.filter(s => s.type == 'TV' && s.year >= 2008 && s.season.length > 0 && s.MAL > 0));
+	let calendarList = generateAnimeCalendar(showsArray.filter(s => s.type == 'TV' && s.year >= startYear && s.season.length > 0 && s.MAL > 0));
 
 	let timelineList = showsArray.filter(s => s.type == 'TV' && (s.year != currentYear || s.season != currentSeason)).sort((a, b) => b.sortOrder - a.sortOrder);
 
@@ -103,7 +104,7 @@ function generateAnimeCalendar(list) {
 			}
 		}).filter(s =>
 			s.type == 'TV' &&
-			s.year >= 2008 &&
+			s.year >= startYear &&
 			s.season.length > 0 &&
 			(window['filter'].length == 0 || s.title.toLowerCase().includes(window['filter'])) &&
 			(window['genre'].length == 0 || s.genres.includes(window['genre']))
@@ -141,7 +142,7 @@ function generateAnimeCalendar(list) {
 			}
 		}).filter(s =>
 			s.type == 'TV' &&
-			s.year >= 2008 &&
+			s.year >= startYear &&
 			s.season.length > 0 &&
 			(window['filter'].length == 0 || s.title.toLowerCase().includes(window['filter'])) &&
 			(window['genre'].length == 0 || s.genres.includes(window['genre']))
@@ -163,7 +164,6 @@ function generateCalendarBox(list) {
 		calendarDiv = document.createElement('div');
 		calendarDiv.id = 'calendar';
 		calendarDiv.classList.add('calendar');
-		calendarDiv.style.gridTemplateColumns = 'auto auto auto auto auto';
 	}
 	else {
 		calendarDiv.innerHTML = '';
@@ -187,10 +187,10 @@ function generateCalendarBox(list) {
 	}
 
 	//cells
-	for (let y = 2008; y <= currentYear; y++) {
+	for (let y = startYear; y <= currentYear; y++) {
 		let t = document.createElement('div');
 		t.classList.add('calendar-year');
-		t.style.gridRow = (2 + ((y - 2008) * maxPerSeason)) + '/ span ' + maxPerSeason;
+		t.style.gridRow = (2 + ((y - startYear) * maxPerSeason)) + '/ span ' + maxPerSeason;
 
 		let tx = document.createElement('span');
 		tx.innerText = y;

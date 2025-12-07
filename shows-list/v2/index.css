@@ -90,6 +90,7 @@ body {
 
 .calendar {	
 	display: grid;
+	grid-template-columns: 40px 1fr 1fr 1fr 1fr;
 	min-height: 200px;
 	height: 50dvh;
 	max-height: 70dvh;
@@ -111,6 +112,7 @@ body {
 }
 
 .calendar-header {
+    align-content: center;
 	position: sticky;
 	top: 0;
 	text-align: center;
@@ -122,14 +124,12 @@ body {
 }
 
 .calendar-year {
+    align-content: center;
 	background-color: var(--background);
 	border: 1px solid var(--foreground);
 	font-weight: 900;
     margin: 1px;
     padding: 3px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .anime-row img,
