@@ -28,6 +28,12 @@ body {
 	padding: 10px;
 }
 
+a {
+	background-color: var(--background);
+	color: var(--foreground);
+	text-decoration: none;
+}
+
 .tr_bq {
 	display: flex;
 	cursor: pointer;

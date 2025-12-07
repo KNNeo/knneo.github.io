@@ -217,14 +217,16 @@ function generateCalendarBox(list) {
 				let ref = showsRef.filter(r => r.id == show.MAL);
 				// console.log(show, ref);
 
-				let i = document.createElement('div');
+				let i = document.createElement('a');
 				if (ref.length > 0) i.classList.add('calendar-cell');
 				if (show.title) i.classList.add('highlight');
 				if (show.title || (window['filter'] == '' && window['genre'] == '')) {
 					i.style.margin = '1px';
 					i.style.padding = '2px';
 				}
-				i.addEventListener('click', function () { window.open(ref[0].seriesURL, '_blank'); });
+				if(ref.length > 0 && ref[0])
+					i.href = ref[0].seriesURL;
+				i.setAttribute('target', '_blank');
 				i.innerText = show.title;
 				calendarDiv.appendChild(i);
 			}
@@ -304,6 +306,7 @@ function generateList(categoryId, categoryTitle, filterList, fold = true) {
 function generateAnimeRow(item) {
 	let row = document.createElement('div');
 	row.classList.add('new-anime-row');
+	row.tabIndex = 0;
 
 	if (item.handle && item.handle.length > 0) {
 		let handler = document.createElement('a');
