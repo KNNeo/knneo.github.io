@@ -1,13 +1,16 @@
 //--DEFAULT SETTINGS--//
 const isFirefox = (/Firefox/i.test(navigator.userAgent));
 const config = {
-	"dimmed": true,
-	"orientation": window.innerWidth > window.innerHeight ? "horizontal" : "vertical",
-	"size": 40,
-	"scroll": 0.1,
-	"formats": ".jpg|.webp",
-	"storage": "timeline-edit-data-v2",
-	"layout": "rtl" /*alternate|start|end|rtl|ltr*/
+	dimmed: true,
+	orientation: window.innerWidth > window.innerHeight ? "horizontal" : "vertical",
+	size: 40,
+	scroll: 0.1,
+	formats: ".jpg|.webp",
+	storage: {
+		data: "timeline-data-v2",
+		edit: "timeline-edit-data-v2"
+	},
+	layout: "rtl" /*alternate|start|end|rtl|ltr*/
 };
 const emojiRegex = /(\p{Emoji}|\p{Emoji_Presentation}|\p{Emoji_Modifier}|\p{Emoji_Modifier_Base}|\p{Emoji_Component}|\p{Extended_Pictographic})+/gv;
 
@@ -112,7 +115,7 @@ function toggleOrientation() {
 
 function openEditor() {
 	popupText('<textarea id="editor" name="editor" rows="8" cols="40" style="max-width: 90%;">' +
-		loadEdit(document.querySelector('#data').textContent) +
+		localStorage.getItem(config.storage.edit) +
 		'</textarea>' +
 		'<div><a class="bi bi-stickies" href="javascript:void(0);" title="Load Example" onclick="document.querySelector(\'#editor\').value=loadEdit(document.querySelector(\'#example\').textContent);"></a>' +
 		'<a class="bi bi-copy" href="javascript:void(0);" title="Copy Data" onclick="navigator.clipboard.writeText(document.querySelector("#editor").textContent);"></a>' +
@@ -157,6 +160,7 @@ function saveEdit() {
 		removeDialog();
 	}
 
+	localStorage.setItem(config.storage.edit, document.querySelector("#editor").value);
 	let json = [];
 	let newObj = { "id": 0 };
 	let obj = JSON.parse(JSON.stringify(newObj));
@@ -248,11 +252,11 @@ function loadData() {
 	}
 	// if empty inline, load from local storage (inline to override)
 	if (document.querySelector('#data').textContent.trim().length < 3)
-		document.querySelector('#data').textContent = localStorage.getItem(config.storage) ?? '[]';
+		document.querySelector('#data').textContent = localStorage.getItem(config.storage.data) ?? '[]';
 }
 
 function saveData() {
-	localStorage.setItem(config.storage, document.querySelector('#data').textContent);
+	localStorage.setItem(config.storage.data, document.querySelector('#data').textContent);
 }
 
 function generateTimeline(timelineList, querySelector) {
