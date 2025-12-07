@@ -466,7 +466,7 @@ function createDialog(node) {
 		dialog.appendChild(clonedNode);
 	}
 	dialog.addEventListener('click', function () {
-		if (event.target.parentElement == document.querySelector('.dialog'))
+		if (event.target == document.querySelector('.dialog'))
 			removeDialog();
 	});
 	return dialog;
