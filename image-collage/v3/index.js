@@ -453,7 +453,7 @@ function generateGrid() {
 				// scroll to filter where selected, else if deselected scroll to other include
 				let filter = document.querySelector('.tags .tag[filter="include"][value="' + window.include + '"]');
 				if (!filter) filter = document.querySelector('.tags .tag[filter="include"]');
-				if (filter) filter.scrollIntoView({ block: "center" });)
+				if (filter) filter.scrollIntoView({ block: "center" });
 			}
 			else {
 				console.error('tag category groups do not exist, edit in config');
