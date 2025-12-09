@@ -347,6 +347,7 @@ a:hover {
     border-radius: 99px;
     padding: 8px;
     background-color: var(--foreground);
+    cursor: pointer;
 }
 .sections button:hover {
     background-color: var(--accent);

@@ -351,7 +351,7 @@ function selectSection() {
 		// reset sections
 		let conversation = pageDiv.querySelector('.conversation:not(.hidden)');
 		conversation.querySelector('.messages').innerHTML = conversation.querySelector('.editor textarea').value;
-		conversation.querySelector('a').click();
+		processConversation(conversation.querySelector('.messages'));
 	}
 }
 
@@ -400,7 +400,7 @@ function processConversations() {
 
 function processConversation(conversation) {
 	let lineSeparator = conversation.getAttribute('data-separator') || config.separator.line;
-	let lines = conversation.innerText.split('\n');
+	let lines = conversation.innerHTML.split('\n');
 	if (lines.length < 2) {
 		conversation.innerHTML = 'Click on Editor to create a conversation list';
 		return;
