@@ -120,6 +120,8 @@ function updateSenderOptions(conversation) {
 		return total;
 	}, []);
 	conversation.querySelector('.messages').setAttribute('data-senders', senders.join(','));
+	if(!senders.length)
+		alert('no senders found! are you using a different separator?');
 
 	for (let sender of senders) {
 		let newOpt = document.createElement('option');
