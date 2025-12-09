@@ -351,7 +351,7 @@ function selectSection() {
 		// reset sections
 		let conversation = pageDiv.querySelector('.conversation:not(.hidden)');
 		conversation.querySelector('.messages').innerHTML = conversation.querySelector('.editor textarea').value;
-		processConversation(conversation.querySelector('.messages'));
+		conversation.querySelector('a').click();
 	}
 }
 
