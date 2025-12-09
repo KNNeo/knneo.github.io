@@ -246,7 +246,10 @@ function generateTagsList() {
 			}
 			include.value = window.include;
 			exclude.value = window.exclude;
-			filter.scrollIntoView({ block: "center" });
+			// scroll to filter where selected, else if deselected scroll to other include
+			if (filter.getAttribute('filter') != 'include')
+				filter = document.querySelector('.tags .tag[filter="include"]');
+			if (filter) filter.scrollIntoView({ block: "center" });
 			generateGrid();
 		});
 		tag.addEventListener('contextmenu', function () {
@@ -270,7 +273,10 @@ function generateTagsList() {
 			}
 			include.value = window.include;
 			exclude.value = window.exclude;
-			filter.scrollIntoView({ block: "center" });
+			// scroll to filter where selected, else if deselected scroll to other exclude
+			if (filter.getAttribute('filter') != 'exclude')
+				filter = document.querySelector('.tags .tag[filter="exclude"]');
+			if (filter) filter.scrollIntoView({ block: "center" });
 			generateGrid();
 		});
 
@@ -444,9 +450,10 @@ function generateGrid() {
 				include.value = window.include;
 				generateTagsList();
 				generateGrid();
-				let filter = document.querySelector('.tags .tag[value="' + window.include + '"]')
-				if (filter)
-					filter.scrollIntoView({ block: "center" });
+				// scroll to filter where selected, else if deselected scroll to other include
+				let filter = document.querySelector('.tags .tag[filter="include"][value="' + window.include + '"]');
+				if (!filter) filter = document.querySelector('.tags .tag[filter="include"]');
+				if (filter) filter.scrollIntoView({ block: "center" });)
 			}
 			else {
 				console.error('tag category groups do not exist, edit in config');
