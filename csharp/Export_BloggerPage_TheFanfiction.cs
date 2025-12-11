@@ -8,8 +8,6 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Diagnostics;
-using NUglify;
-using NUglify.Html;
 
 public class Program {
 	// DEBUG
@@ -473,15 +471,19 @@ public class Program {
 
     static string FormatPageSection(List<FanfictionContent> list)
     {
-        string template = "{\"tooltip\":\"_CHARACTER_\",\"thumbnail\":\"_THUMBNAIL_\",\"grid\":{\"type\":\"grid\",\"columns\":2,\"rows\":8,\"items\":[{\"type\":\"image\",\"rows\":7,\"tooltip\":\"\",\"source\":\"_THUMBNAIL_\",\"link\":\"_LINK_\"},{\"type\":\"paragraph\",\"rows\":7,\"align\":\"center\",\"italics\":true,\"text\":\"_CONTENT_\"},{\"columns\":2,\"type\":\"tags\",\"prefix\":\"#\",\"filter\":true,\"values\":[_TAGS_]}]}}";
+        string template = "{\"tooltip\":\"_CHARACTER_\",\"thumbnail\":\"_THUMBNAIL_\",\"width\":_WIDTH_,\"height\":_HEIGHT_,\"grid\":{\"type\":\"grid\",\"columns\":2,\"rows\":8,\"items\":[{\"type\":\"image\",\"rows\":7,\"tooltip\":\"\",\"source\":\"_THUMBNAIL_\",\"link\":\"_LINK_\"},{\"type\":\"paragraph\",\"rows\":7,\"align\":\"center\",\"italics\":true,\"text\":\"_CONTENT_\"},{\"columns\":2,\"type\":\"tags\",\"prefix\":\"#\",\"filter\":true,\"values\":[_TAGS_]}]}}";
         return String.Join(",", list.OrderBy(x => SORTORDER_MAPPING.Count() > 0 ? 1+SORTORDER_MAPPING.IndexOf(x.index) : x.index).Select(x => 
-            template
+		{
+			var hasTags = PAGE_TAGS.TryGetValue(x.index, out String tagList);
+			return template
                 .Replace("_CHARACTER_", x.character)
                 .Replace("_THUMBNAIL_", x.thumb)
+                .Replace("_WIDTH_", hasTags ? tagList.Split(',')[0] : "")
+                .Replace("_HEIGHT_", hasTags ? tagList.Split(',')[1] : "")
                 .Replace("_LINK_", x.link)
                 .Replace("_CONTENT_", x.content)
-                .Replace("_TAGS_", PAGE_TAGS.TryGetValue(x.index, out String tagList) ? String.Join(",", tagList.Split(',').Select(y => "\"" + y + "\"")) : ""))
-            );
+                .Replace("_TAGS_", hasTags ? String.Join(",", tagList.Split(',').Skip(2).Select(y => "\"" + y + "\"")) : "");
+		}));
     }
     
     static String OutputTable<T>(List<T> data)
