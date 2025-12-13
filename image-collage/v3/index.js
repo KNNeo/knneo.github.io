@@ -613,7 +613,7 @@ function focusInView() {
 //--EVENTS--//
 function keypress() {
 	event.preventDefault();
-	if(event.which >= 48 && event.which <= 57) {
+	if(config.isLandscape() && event.which >= 48 && event.which <= 57) {
 		// is number row
 		let cols = (event.which - 48) || 10; // normalize to 0 - 9
 		if(cols < window.data?.grid?.column?.min || 
