@@ -32,7 +32,7 @@ public class Program {
 	static bool WRITE_TITLE_ON_CONSOLE = false;
     static bool WRITE_TAGS_COUNT_ON_CONSOLE = true;
     static bool WRITE_PEOPLE_COUNT_ON_CONSOLE = true;
-    static bool WRITE_SOURCE_COUNT_ON_CONSOLE = false;
+    static bool WRITE_SOURCE_COUNT_ON_CONSOLE = true;
 	static bool DELETE_OUTPUT_DIRECTORY = false;
 	static int DOTS_PER_LINE_CONSOLE = 100;
 	static string BLOG_DOMAIN_URL = "https://klassicnotereports.blogspot.com/";
@@ -420,15 +420,15 @@ public class Program {
             {
                 if(String.IsNullOrWhiteSpace(list)) continue;
                 var tags = list.Split(',').ToList();
-                if(tags.Count() < 1) continue;
+                if(tags.Count() < 3) continue;
                 // people
-                var person = tags[1];
+                var person = tags[3];
                 if(peopleList.ContainsKey(person))
                     peopleList[person] += 1;
                 else
                     peopleList.Add(person, 1);
                 // tags
-                foreach(var tag in tags)
+                foreach(var tag in tags.Skip(3))
                 {
                     // should not contain people
                     if(peopleList.ContainsKey(tag)) continue;
