@@ -72,6 +72,7 @@ function initializeVariables(data) {
 	window.data = data;
 	window.include = '';
 	window.exclude = '';
+	window.columns = localStorage.getItem('image_collage_columns');
 	window.preset = settings.querySelector('.size')?.innerText || 'photo_size_select_small';
 	window.slideshow = { run: null, history: [] };
 	menu.addEventListener(config.isFirefox ? 'DOMMouseScroll' : 'mousewheel', onScrollSidebar);
@@ -580,6 +581,7 @@ function calculateColumns(gridWidth) {
 			break;
 	}
 	columns = Math.round(gridWidth / columns);
+	if(window.columns) columns = window.columns;
 	return columns < window.data.grid.column.min ? window.data.grid.column.min : columns;
 }
 
@@ -611,6 +613,15 @@ function focusInView() {
 //--EVENTS--//
 function keypress() {
 	event.preventDefault();
+	if(event.which >= 48 && event.which <= 57) {
+		// is number row
+		let cols = (event.which - 48) || 10; // normalize to 0 - 9
+		if(cols < window.data?.grid?.column?.min || 
+			cols > window.data?.grid?.column?.max
+		) return; // out of range
+		popupTextGoAway(cols + ' COLUMN' + (cols == 1 ? '' : 'S'));
+		return setColumns(cols); // if 0 set as 10
+	}
 	//console.log(event.key);
 	switch (event.key) {
 		case 'Escape':
@@ -666,12 +677,12 @@ function onToggleSize() {
 	}
 
 	window.preset = event.target.innerText;
-	popupTextGoAway(window.preset.toUpperCase().slice(window.preset.lastIndexOf('_') + 1));
+	popupTextGoAway(window.preset.toUpperCase().slice(window.preset.lastIndexOf('_') + 1), 'material-icons');
 	generateGrid();
 }
 
 function onToggleExpander() {
-	popupTextGoAway(event.target.innerText.toUpperCase().slice(event.target.innerText.lastIndexOf('_') + 1));
+	popupTextGoAway(event.target.innerText.toUpperCase().slice(event.target.innerText.lastIndexOf('_') + 1), 'material-icons');
 	switch (event.target.innerText) {
 		case 'unfold_more':
 			event.target.innerText = 'unfold_less';
@@ -761,7 +772,7 @@ function onToggleSidebar() {
 function onToggleCaptions() {
 	event.target.innerText = event.target.innerText == 'subtitles' ? 'subtitles_off' : 'subtitles';
 	viewer.classList.toggle('captions');
-	popupTextGoAway(event.target.innerText);
+	popupTextGoAway(event.target.innerText, 'material-icons');
 }
 
 function onToggleRatio() {
@@ -808,7 +819,7 @@ function onToggleRatio() {
 			ratioSetting.classList.remove('rotate-90');
 			break;
 	}
-	popupTextGoAway(ratioSetting.innerText, window.data.grid.thumbnail.ratio > 1 ? 'rotate-90' : '');
+	popupTextGoAway(ratioSetting.innerText, window.data.grid.thumbnail.ratio > 1 ? 'rotate-90' : '', 'material-icons');
 	generateGrid();
 }
 
@@ -839,6 +850,38 @@ function onToggleSearch() {
 function setMenuHeight() {
 	if (menu.closest('.content'))
 		menu.closest('.content').style.setProperty('--menu-height', (menu.getBoundingClientRect()?.height || 0) + 'px');
+}
+
+function setColumns(val) {
+	if(!config.isLandscape()) return;
+	if(event) event.preventDefault();
+	if(!val) {
+		let container = document.createElement('label');
+		let input = document.createElement('input');
+		input.classList.add('range');
+		input.type = 'range';
+		input.title = 'You can also use (1-9) to set no. of columns';
+		input.min = window.data?.grid?.column?.min || 2;
+		input.max = window.data?.grid?.column?.max || 20;
+		input.oninput = function() {
+			val = this.value;
+			this.setAttribute('data-value', val);
+			window.columns = parseInt(val);
+			localStorage.setItem('image_collage_columns', window.columns);
+			generateGrid();
+		};
+		let gridWidth = grid.getBoundingClientRect()?.width;
+		let cols = calculateColumns(gridWidth);
+		input.value = cols;
+		input.setAttribute('data-value', cols);
+		container.appendChild(input);
+		popupText(container);
+	}
+	else {
+		window.columns = parseInt(val);
+		localStorage.setItem('image_collage_columns', window.columns);
+		generateGrid();
+	}
 }
 
 //--VIEWER--//
@@ -1106,10 +1149,8 @@ function runLoader() {
 function popupTextGoAway(text, className) {
 	//create popup and show
 	let popup = document.createElement('div');
-	if (className)
-		popup.className = className;
+	if (className) popup.className = className;
 	popup.classList.add('popup');
-	popup.classList.add('material-icons');
 	popup.innerText = text;
 	document.querySelector('.popup')?.remove();
 	document.body.appendChild(popup);
@@ -1141,11 +1182,12 @@ function createDialog(node) {
 	let dialog = document.createElement('dialog');
 	if (!dialog.classList.contains('box')) dialog.classList.add('box');
 	if (typeof node == 'string')
-		dialog.innerHTML = node;
+		dialog.innerHTML = '<div>' + node + '</div>';
 	if (typeof node == 'object')
 		dialog.appendChild(node);
 	dialog.addEventListener('click', function () {
-		event.target.remove();
+		if(event.target == document.querySelector('dialog'))
+			event.target.remove();
 	});
 	dialog.addEventListener('keyup', function () {
 		if (event.key === ' ' || event.key === 'Enter')

@@ -298,6 +298,17 @@ a:focus-within {
 	color: var(--primary);
 }
 
+.range {
+	width: calc(100% - 1.5rem);
+}
+
+.range::after {
+	content: attr(data-value);
+    position: absolute;
+    right: 0.5rem;
+    color: var(--foreground);
+}
+
 .filters {
 	display: flex;
 	justify-content: center
