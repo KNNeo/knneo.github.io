@@ -109,6 +109,8 @@ a:hover {
 }
 .page[data-fullscreen] {
     position: relative;
+    max-width: calc(100% / 14 * 9);
+    height: calc(100% - 1em);
 }
 .page[data-fullscreen] .conversation:not(.hidden) {
     position: initial;
