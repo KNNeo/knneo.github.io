@@ -79,6 +79,12 @@ a:hover {
 .container {
     height: calc(100% - 300px);
 }
+.selection {
+    display: flex;
+    align-items: center;
+    padding: 4px 16px;
+    border: 2px inset var(--accent);
+}
 .conversation {
     position: relative;
     height: 100%;
@@ -109,8 +115,6 @@ a:hover {
 }
 .page[data-fullscreen] {
     position: relative;
-    max-width: calc(100% / 14 * 9);
-    height: calc(100% - 1em);
 }
 .page[data-fullscreen] .conversation:not(.hidden) {
     position: initial;
@@ -142,6 +146,12 @@ a:hover {
     display: grid;
     grid-template-columns: 50px auto 50px 50px;
     align-items: center;
+}
+.page[data-fullscreen] h5,
+.page[data-fullscreen] label,
+.page[data-fullscreen] .menu,
+.page[data-fullscreen] .settings {
+    display: none;
 }
 .footer {
     display: none;

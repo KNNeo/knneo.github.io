@@ -19,16 +19,20 @@
 		<div>
 			<label for="selection">Select Conversation:</label>
 			<div class="menu">
-				<select name="selection" id="selection" class="selection" onchange="selectConversation()">
-					<option value="">======</option>
-				</select>
+				<div id="selection" class="selection" onclick="selectConversation()" data-value="text0">
+					<div data-id="text0" onclic="onSelectConversation()">Messages</div>
+				</div>
 				<a class="add bi bi-plus-square" href="javascript:void(0);" title="Add New Conversation" onclick="addConversation()"></a>
 				<a class="add bi bi-pencil-square" href="javascript:void(0);" title="Rename Conversation" onclick="renameConversation()"></a>
 				<a class="delete bi bi-x-square" href="javascript:void(0);" title="Delete Current Conversation" onclick="deleteConversation()" oncontextmenu="false"></a>
 			</div>
 		</div>
 		<!--MESSAGE BOX-->
-		<div class="container"></div>
+		<div class="container">
+			<div class="conversation" id="text0">
+				<div class="view messages"></div>
+			</div>
+		</div>
 		<!--SETTINGS-->
 		<h3 class="settings">
 			<a class="section bi bi-file-break" href="javascript:void(0);" title="Select Section" onclick="selectSection()"></a>
@@ -41,7 +45,7 @@
 		<!--FULLSCREEN HEADER-->
 		<div class="header">
 			<a class="bi bi-chevron-left" href="javascript:void(0);" title="Back" onclick="toggleFullscreen()"></a>
-			<span>Conversation</span>
+			<span onclick="selectConversation()">Conversation</span>
 			<a class="bi bi-telephone" href="javascript:void(0);" title="Call"></a>
 			<a class="bi bi-three-dots-vertical" href="javascript:void(0);" title="Options"></a>
 		</div>
@@ -80,6 +84,9 @@
 			<a class="reaction" href="javascript:void(0);" onclick="setReaction()"title="Laughs">😂</a>
 			<a class="reaction" href="javascript:void(0);" onclick="setReaction()"title="Angry">😡</a>
 		</div>
+	</template>
+	<template class="template-conversations">
+		<div id="text0">=====</div>
 	</template>
 	<audio class="sfx hidden" src="../resource/pixelbay-happy-pop-2-185287-floraphonic.mp3"></audio>
 </body>

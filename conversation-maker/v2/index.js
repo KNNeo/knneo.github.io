@@ -35,15 +35,33 @@ function onKeyDown() {
 
 //--EVENT HANDLERS--//
 function selectConversation() {
+	let conversations = Array.from(selectionDiv.querySelectorAll('div[data-id]'))
+					.map(conv => '<button data-id="' + conv.getAttribute('data-id') + '" onclick="onSelectConversation()">' + conv.innerText + '</button>');
+	popupText('<div class="sections">' + conversations.join('') + '</div>');
+}
+
+function onSelectConversation() {
 	hideAllConversations();
-	if(!selectionDiv.value && pageDiv.getAttribute('data-fullscreen') != null)
-		toggleFullscreen();
-	if (event.target.value) {
-		document.querySelector('#' + event.target.value).classList.remove('hidden');
-		document.querySelector('#' + event.target.value).firstElementChild.click();
-        document.querySelector('#' + event.target.value + ' .messages').style.height = '';
+	// if(pageDiv.getAttribute('data-fullscreen') != null)
+	// 	toggleFullscreen();
+	if (event.target.getAttribute('data-id')) {
+		let id = event.target.getAttribute('data-id');
+		let elem = document.querySelector('#' + id);
+		if(elem) {
+			elem.classList.remove('hidden');
+			elem.firstElementChild.click();
+			elem.querySelector('.messages').style.height = '';
+		}
+		selectionDiv.setAttribute('data-value', id);
+		for(let conv of selectionDiv.querySelectorAll('div[data-id]')) {
+			conv.classList.add('hidden');
+			if(conv.getAttribute('data-id') == id)
+				conv.classList.remove('hidden');
+		}
+		pageDiv.querySelector('.header span').innerText = selectionDiv.querySelector('[data-id="' + selectionDiv.getAttribute('data-value') + '"')?.innerText;
 		event.target.blur();
 	}
+	removeDialog();
 }
 
 function showMessages() {
@@ -159,13 +177,14 @@ function updateNames() {
 }
 
 function addConversation(name) {
-	let newOpt = document.createElement('option');
+	let newOpt = document.createElement('div');
 	if (!name || !typeof (name) == 'string')
 		name = prompt('Key in name:');
 	if (name) {
 		newOpt.innerText = name;
 		let newId = 'text' + selectionDiv.childElementCount;
-		newOpt.value = newId;
+		newOpt.classList.add('hidden');
+		newOpt.setAttribute('data-id', newId);
 		selectionDiv.appendChild(newOpt);
 
 		let template = document.querySelector('.template-message');
@@ -182,9 +201,9 @@ function addConversation(name) {
 }
 
 function renameConversation() {
-	let newName = prompt('Key in new name:', window['conversation-messages'][selectionDiv.value].name);
+	let newName = prompt('Key in new name:', window['conversation-messages'][selectionDiv.getAttribute('data-value')].name);
 	if (newName != null) {
-		window['conversation-messages'][selectionDiv.value].name = newName;
+		window['conversation-messages'][selectionDiv.getAttribute('data-value')].name = newName;
 		saveToLocalStorage();
 		window.location.reload();
 	}
@@ -193,7 +212,7 @@ function renameConversation() {
 function deleteConversation() {
 	if(confirm('Confirm delete current conversation? This action cannot be reversed.')) {
 		// empty current item
-		delete window['conversation-messages'][selectionDiv.value];
+		delete window['conversation-messages'][selectionDiv.getAttribute('data-value')];
 		// shift keys
 		let keys = Object.keys(window['conversation-messages']);
 		for (let i = 1; i <= keys.length; i++) {
@@ -285,13 +304,11 @@ function updateData() {
 }
 
 function toggleFullscreen() {
-	if(!pageDiv.querySelector('.conversation:not(.hidden)'))
-		return console.error('unable to fullscreen, no conversation selected');
 	if(pageDiv.querySelector('.editor:not(.hidden)'))
 		return console.error('unable to fullscreen, still in editor');
     if(pageDiv.getAttribute('data-fullscreen') == null) {
         pageDiv.setAttribute('data-fullscreen', '');
-		pageDiv.querySelector('.header span').innerText = selectionDiv.querySelector('option[value="' + selectionDiv.value + '"')?.innerText;
+		pageDiv.querySelector('.header span').innerText = selectionDiv.querySelector('[data-id="' + selectionDiv.getAttribute('data-value') + '"')?.innerText;
 		if(event?.type != 'click') {
 			try {
 				let doc = document.documentElement;
@@ -855,6 +872,10 @@ function startup() {
 	readFromLocalStorage();
 	hideAllConversations();
     initializeWindow();
+	let initial = document.querySelector('.conversation[id]');
+	initial.classList.remove('hidden');
+	initial.firstElementChild.click();
+	initial.querySelector('.messages').style.height = '';
 }
 
 function readFromLocalStorage() {
