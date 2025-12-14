@@ -175,6 +175,8 @@ a:focus-within {
 
 .grid[data-mode="feed"] .grid-item {
 	scroll-snap-align: center;
+	border-radius: 0;
+	border: 0;
 }
 
 .grid-item img {
