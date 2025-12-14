@@ -72,7 +72,7 @@ function initializeVariables(data) {
 	window.data = data;
 	window.include = '';
 	window.exclude = '';
-	window.columns = localStorage.getItem('image_collage_columns');
+	window.columns = parseInt(localStorage.getItem('image_collage_columns') || 3);
 	window.preset = settings.querySelector('.size')?.innerText || 'photo_size_select_small';
 	window.slideshow = { run: null, history: [] };
 	menu.addEventListener(config.isFirefox ? 'DOMMouseScroll' : 'mousewheel', onScrollSidebar);
@@ -658,8 +658,10 @@ function resize() {
 	// resize grid
 	document.querySelector('.expand').innerText = 'unfold_more';
 	tags.classList.remove('expanded');
+	let feedMode = window.columns == 1 && !window.data?.grid?.banner;
+	grid.setAttribute('data-mode', feedMode ? 'feed' : '');
 	// resize images
-	let [thumbWidth, thumbHeight] = calculateThumbnailSize();
+	let [thumbWidth, thumbHeight] = calculateThumbnailSize(feedMode);
 	grid.style.setProperty('--width', thumbWidth + 'px');
 	grid.style.setProperty('--height', thumbHeight + 'px');
 
@@ -765,8 +767,10 @@ function onToggleSidebar() {
 	// resize sidebar
 	event.target.innerText = event.target.innerText == 'menu' ? 'menu_open' : 'menu';
 	document.querySelector('.menu').classList.toggle('hidden');
+	let feedMode = window.columns == 1 && !window.data?.grid?.banner;
+	grid.setAttribute('data-mode', feedMode ? 'feed' : '');
 	// resize images
-	let [thumbWidth, thumbHeight] = calculateThumbnailSize();
+	let [thumbWidth, thumbHeight] = calculateThumbnailSize(feedMode);
 	grid.style.setProperty('--width', thumbWidth + 'px');
 	grid.style.setProperty('--height', thumbHeight + 'px');
 

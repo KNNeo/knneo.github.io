@@ -150,17 +150,16 @@ a:focus-within {
 	height: 100%;
 }
 
+.collage:has(.grid[data-mode="feed"]) {
+	scroll-snap-type: y mandatory;
+}
+
 .grid {
 	width: 100%;
 	height: 100%;
 	display: flex;
 	flex-wrap: wrap;
 	align-content: flex-start;
-}
-
-.grid[data-mode="feed"] {
-	overflow-y: scroll;
-	scroll-snap-type: y mandatory;
 }
 
 .grid-item {
