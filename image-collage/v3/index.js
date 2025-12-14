@@ -469,8 +469,9 @@ function generateGrid() {
 		observer.observe(gridItemImage);
 		grid.appendChild(gridItem);
 	}
-
-	let [thumbWidth, thumbHeight] = calculateThumbnailSize();
+	let feedMode = window.columns == 1 && !window.data?.grid?.banner;
+	grid.setAttribute('data-mode', feedMode ? 'feed' : '');
+	let [thumbWidth, thumbHeight] = calculateThumbnailSize(feedMode);
 	grid.style.setProperty('--width', thumbWidth + 'px');
 	grid.style.setProperty('--height', thumbHeight + 'px');
 	grid.style.setProperty('--border', (window.data.grid?.thumbnail?.border || 1) + 'px');
@@ -552,11 +553,15 @@ function getThumbnailSizeBySetting(item) {
 	}
 }
 
-function calculateThumbnailSize() {
+function calculateThumbnailSize(fullscreen) {
 	let gridWidth = grid.getBoundingClientRect().width;
 	let columns = calculateColumns(gridWidth);
 	let thumbWidth = gridWidth / columns;
 	let thumbHeight = thumbWidth * (window.data.grid?.thumbnail?.ratio || 1);
+	if(fullscreen) {
+		thumbWidth = window.innerWidth;
+		thumbHeight = window.innerHeight;
+	}
 
 	if (window.data.debug) {
 		console.log('gridWidth', gridWidth);
