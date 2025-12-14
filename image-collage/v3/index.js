@@ -72,7 +72,7 @@ function initializeVariables(data) {
 	window.data = data;
 	window.include = '';
 	window.exclude = '';
-	window.columns = parseInt(localStorage.getItem('image_collage_columns') || 3);
+	window.columns = parseInt(localStorage.getItem('image_collage_columns') || 0);
 	window.preset = settings.querySelector('.size')?.innerText || 'photo_size_select_small';
 	window.slideshow = { run: null, history: [] };
 	menu.addEventListener(config.isFirefox ? 'DOMMouseScroll' : 'mousewheel', onScrollSidebar);
@@ -629,6 +629,9 @@ function keypress() {
 	}
 	//console.log(event.key);
 	switch (event.key) {
+		case '`':
+			// 0 to reset
+			setColumns(0);
 		case 'Escape':
 			closeViewer();
 			break;
@@ -869,19 +872,16 @@ function setColumns(val) {
 		input.classList.add('range');
 		input.type = 'range';
 		input.title = 'You can also use (1-9) to set no. of columns';
-		input.min = window.data?.grid?.column?.min || 1;
+		input.min = window.data?.grid?.column?.min || 0;
 		input.max = window.data?.grid?.column?.max || 20;
 		input.oninput = function() {
-			val = this.value;
-			this.setAttribute('data-value', val);
-			window.columns = parseInt(val);
+			window.columns = parseInt(this.value);
+			this.setAttribute('data-value', window.columns || 'Auto');
 			localStorage.setItem('image_collage_columns', window.columns);
 			generateGrid();
 		};
-		let gridWidth = grid.getBoundingClientRect()?.width;
-		let cols = calculateColumns(gridWidth);
-		input.value = cols;
-		input.setAttribute('data-value', cols);
+		input.value = window.columns;
+		input.setAttribute('data-value', window.columns || 'Auto');
 		container.appendChild(input);
 		popupText(container);
 	}

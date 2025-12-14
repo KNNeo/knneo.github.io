@@ -309,7 +309,7 @@ a:focus-within {
 }
 
 .range {
-	width: calc(100% - 1.5rem);
+	width: calc(100% - 2rem);
 }
 
 .range::after {
