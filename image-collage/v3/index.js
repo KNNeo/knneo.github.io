@@ -582,7 +582,7 @@ function calculateColumns(gridWidth) {
 	}
 	columns = Math.round(gridWidth / columns);
 	if(window.columns) columns = window.columns;
-	return columns < window.data.grid.column.min ? window.data.grid.column.min : columns;
+	return columns < window.data?.grid?.column?.min ? window.data.grid.column.min : columns;
 }
 
 function fadeIn() {
