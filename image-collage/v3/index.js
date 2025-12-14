@@ -853,7 +853,6 @@ function setMenuHeight() {
 }
 
 function setColumns(val) {
-	if(!config.isLandscape()) return;
 	if(event) event.preventDefault();
 	if(!val) {
 		let container = document.createElement('label');
@@ -861,7 +860,7 @@ function setColumns(val) {
 		input.classList.add('range');
 		input.type = 'range';
 		input.title = 'You can also use (1-9) to set no. of columns';
-		input.min = window.data?.grid?.column?.min || 2;
+		input.min = window.data?.grid?.column?.min || 1;
 		input.max = window.data?.grid?.column?.max || 20;
 		input.oninput = function() {
 			val = this.value;
