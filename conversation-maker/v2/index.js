@@ -28,6 +28,7 @@ const selectionDiv = document.querySelector('#selection');
 const sfxAudio = document.querySelector('.sfx');
 const settingsSection = document.querySelector('.settings .section');
 const footerInput = document.querySelector('.footer .input');
+const elemContext = document.querySelector('.context');
 
 //--DOM FUNCTIONS--//
 function onKeyDown() {
@@ -867,6 +868,60 @@ function removeDialog() {
 	}
 }
 
+//--CONTEXT MENU--//
+function showContextMenu() {
+	event.preventDefault();
+	event.stopPropagation();
+	document.addEventListener('click', hideContextMenu);
+	//context box
+	let box = document.body.getBoundingClientRect();
+	let x = event.clientX || event.target.getBoundingClientRect()?.x;
+	let y = (event.clientY - box.top - elemQueue.getBoundingClientRect().height) || event.target.getBoundingClientRect()?.y;
+	elemContext.style.top = y + 'px';
+	elemContext.style.left = x + 'px';
+	elemContext.classList.remove('hidden');
+	elemContext.innerHTML = '';
+	//render menu
+	let submenu = document.createElement('div');
+	submenu.id = 'menu-options';
+	//add to next in playlist
+	let edit = document.createElement('div');
+	edit.className = 'edit bi bi-pencil';
+	edit.innerText = 'Edit';
+	edit.onclick = showEditor;
+	submenu.appendChild(edit);
+	//toggle sound
+	let sound = document.createElement('div');
+	sound.className = 'audio bi bi-volume-up';
+	sound.innerText = 'Toggle Sound';
+	sound.onclick = toggleAudio;
+	submenu.appendChild(sound);
+	//toggle sound
+	let fullscreen = document.createElement('div');
+	fullscreen.className = 'audio bi bi-arrows-fullscreen';
+	fullscreen.innerText = 'Fullscreen';
+	fullscreen.onclick = toggleFullscreen;
+	submenu.appendChild(fullscreen);
+	elemContext.appendChild(submenu);
+	//adjust context if exceed window bottom
+	if (y + elemContext.getBoundingClientRect().height + 80 >= window.innerHeight) {
+		elemContext.style.top = (y - elemContext.getBoundingClientRect().height) + 'px';
+		if (y - elemContext.getBoundingClientRect().height < 0)
+			elemContext.style.top = 0;
+	}
+	//adjust context if exceed window right
+	if (x + elemContext.getBoundingClientRect().width + 80 >= window.innerWidth) {
+		elemContext.style.left = (x - elemContext.getBoundingClientRect().width) + 'px';
+		if (x - elemContext.getBoundingClientRect().width < 0)
+			elemContext.style.left = 0;
+	}
+}
+
+function hideContextMenu() {
+	if(!event.target.closest('.context'))
+		elemContext.classList.add('hidden');
+}
+
 //--INITIAL--//
 function startup() {
 	readFromLocalStorage();
@@ -914,8 +969,9 @@ function hideAllConversations() {
 }
 
 function initializeWindow() {
-    // pause current conversation on blur
+    // clear popups
 	window.addEventListener('click', clearReactions);
+    // pause current conversation on blur
     window.addEventListener('blur', function() {
         let conversation = document.querySelector('.conversation:not(.hidden)');
         if(conversation && conversation.getAttribute('data-running') != null)
