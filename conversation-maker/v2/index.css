@@ -208,7 +208,6 @@ a:hover {
 }
 
 .page[data-fullscreen] h5,
-.page[data-fullscreen] label,
 .page[data-fullscreen] .menu,
 .page[data-fullscreen] .settings {
     display: none;

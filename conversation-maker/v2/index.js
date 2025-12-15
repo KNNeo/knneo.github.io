@@ -100,6 +100,7 @@ function showEditor() {
 		view.classList.add('hidden');
 	}
 	disableRunMessages(conversation);
+	removeDialog();
 }
 
 function showEditorHelp() {
