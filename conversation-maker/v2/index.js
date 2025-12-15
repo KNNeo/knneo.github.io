@@ -1039,8 +1039,11 @@ function initializeHomepage() {
 	initial.classList.remove('hidden');
 	initial.firstElementChild.click();
 	initial.querySelector('.messages').style.height = '';
+	let conversations = Array.from(Object.keys(window['conversation-messages']));
+	if(!conversations.length) // if empty, force create
+		addConversation();
 	//render messages page
-	for(let selection of Array.from(Object.keys(window['conversation-messages']))) {
+	for(let selection of conversations) {
 		let ref = window['conversation-messages'][selection];
 		let item = document.createElement('div');
 		item.classList.add('homepage-item');
