@@ -130,17 +130,17 @@ function saveEditor(event) {
 		window['conversation-messages'][conversation.id].content = conversation.querySelector('.editor textarea').value;
 		saveToLocalStorage();
 		updateSenderOptions(conversation);
-		let latest = window['conversation-messages'][conversation.id];
-		let latestId = Object.keys(window['conversation-messages']).indexOf(conversation.id);
+		// let latest = window['conversation-messages'][conversation.id];
+		// let latestId = Object.keys(window['conversation-messages']).indexOf(conversation.id);
 		// shift keys down from current item
-		let keys = Object.keys(window['conversation-messages']);
-		for (let i = 1+latestId; i > 1; i--)
-			window['conversation-messages']['text' + i] = window['conversation-messages']['text' + (i - 1)];
+		// let keys = Object.keys(window['conversation-messages']);
+		// for (let i = 1+latestId; i > 1; i--)
+		// 	window['conversation-messages']['text' + i] = window['conversation-messages']['text' + (i - 1)];
 		// set latest item as first
-		window['conversation-messages']['text1'] = latest;
-		// clear conversations
-		for(let messages of document.querySelectorAll('.messages:not(.homepage)'))
-			messages.innerHTML = '';
+		// window['conversation-messages']['text1'] = latest;
+		// arrange order of current view
+		// conversation.parentElement.insertBefore(conversation, conversation.firstElementChild);
+		// conversation.remove();
 		// blink icon
 		event.target.classList.toggle('bi-floppy');
 		event.target.classList.toggle('bi-check2-circle');
