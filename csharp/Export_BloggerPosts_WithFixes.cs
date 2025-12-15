@@ -457,7 +457,9 @@ public class Program {
 					article.AppendLine("<div class=\"post-hashtags\"></div>");
 				// Actual content to put in post-content class, HTML condensed
 				article.Append("<div class=\"post-content\">");
-				article.Append(Uglify.Html(postContent));
+				var minifySettings = new Uglify.HtmlSettings(){ RemoveAttributeQuotes = false };
+				var minify = Uglify.Html(postContent, minifySettings);
+				article.Append(minify);
 				article.AppendLine("</div>");
 				if(pageTagsXml.Count > 0)
 				{
