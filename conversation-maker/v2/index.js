@@ -66,7 +66,7 @@ function onSelectConversation() {
 }
 
 function showMessages() {
-	let conversation = event.target.closest('.conversation');
+	let conversation = event.target.closest('.conversation') || document.querySelector('.conversation:not(.hidden)');
 	if (conversation.id) {
 		if(!conversation.querySelector('.message') || conversation.querySelector('.editor:not(.hidden)')) {
 			document.querySelector('#' + conversation.id + ' .messages').innerHTML = document.querySelector('#' + conversation.id + ' .editor textarea').value;
@@ -86,7 +86,7 @@ function showMessages() {
 }
 
 function showEditor() {
-	let conversation = event.target.closest('.conversation');
+	let conversation = event.target.closest('.conversation') || document.querySelector('.conversation:not(.hidden)');
 	if (conversation.id) {
 		document.querySelector('#' + conversation.id + ' .editor').classList.remove('hidden');
 		updateSenderOptions(conversation);

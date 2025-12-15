@@ -148,7 +148,7 @@ a:hover {
     position: initial;
 }
 
-.page[data-fullscreen] .conversation:not(.hidden) .messages {
+.page[data-fullscreen] .conversation:not(.hidden) :is(.messages, .editor) {
     position: absolute;
     top: 4em;
     height: calc(100% - 8em);
@@ -389,7 +389,7 @@ a:hover {
 
 .conversation .editor textarea {
     width: calc(100% - 2em);
-    height: calc(100% - 25px);
+    height: calc(100% - 3em);
 }
 
 .conversation .save {
