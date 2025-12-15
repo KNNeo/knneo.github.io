@@ -950,16 +950,16 @@ function showContextMenu() {
 	submenu.appendChild(trash);
 	contextDiv.appendChild(submenu);
 	//adjust context if exceed window bottom
-	if (y + contextDiv.getBoundingClientRect().height + 80 >= window.innerHeight) {
+	if (y + contextDiv.getBoundingClientRect().height + 80 >= pageDiv.getBoundingClientRect().height) {
 		contextDiv.style.top = (y - contextDiv.getBoundingClientRect().height) + 'px';
 		if (y - contextDiv.getBoundingClientRect().height < 0)
 			contextDiv.style.top = 0;
 	}
 	//adjust context if exceed window right
-	if (x + contextDiv.getBoundingClientRect().width + 80 >= window.innerWidth) {
+	if (x + contextDiv.getBoundingClientRect().width + 80 >= pageDiv.getBoundingClientRect().x + pageDiv.getBoundingClientRect().width) {
 		contextDiv.style.left = (x - contextDiv.getBoundingClientRect().width) + 'px';
-		if (x - contextDiv.getBoundingClientRect().width < 0)
-			contextDiv.style.left = 0;
+		if (x - contextDiv.getBoundingClientRect().width < pageDiv.getBoundingClientRect().x + pageDiv.getBoundingClientRect().width + contextDiv.getBoundingClientRect().width)
+			contextDiv.style.left = pageDiv.getBoundingClientRect().width - contextDiv.getBoundingClientRect().width + 'px';
 	}
 }
 

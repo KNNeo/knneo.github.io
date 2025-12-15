@@ -1,6 +1,6 @@
 /*Variables*/
 :root {
-    --primary: #609fff;
+    --primary: #39afff;
     --secondary: #eee;
     --background: #fff;
     --foreground: #000;
@@ -150,8 +150,8 @@ a:hover {
 
 .page[data-fullscreen] .conversation:not(.hidden) :is(.messages, .editor) {
     position: absolute;
-    top: 4em;
-    height: calc(100% - 8em);
+    top: 4.5em;
+    height: calc(100% - 9em);
     width: 100%;
     resize: none;
 }
@@ -189,6 +189,7 @@ a:hover {
 .header span {
     width: 100%;
     text-align: start;
+    white-space: nowrap;
 }
 
 .page[data-fullscreen] .header {
@@ -412,7 +413,7 @@ a:hover {
     width: calc(100% - 2em);
     height: calc(100% - 3em);
     resize: none;
-
+    padding: 0;
 }
 
 .conversation .save {
@@ -420,6 +421,7 @@ a:hover {
     bottom: 2.5em;
     right: 1em;
     background-color: var(--background);
+    border: 1px solid var(--accent);
     border-radius: 99px;
     width: 40px;
 }
@@ -429,6 +431,7 @@ a:hover {
     top: 0.5em;
     right: 4em;
     background-color: var(--background);
+    border: 1px solid var(--accent);
     border-radius: 99px;
     width: 40px;
 }
@@ -438,6 +441,7 @@ a:hover {
     top: 0.5em;
     right: 1em;
     background-color: var(--background);
+    border: 1px solid var(--accent);
     border-radius: 99px;
     width: 40px;
 }
@@ -521,8 +525,8 @@ a:hover {
     content: attr(data-initial);
 }
 
-.homepage .homepage-item .homepage-subtitle {
-    filter: brightness(0.8);
+.homepage .homepage-item .homepage-title {
+    font-weight: bold;
 }
 
 .dialog {
