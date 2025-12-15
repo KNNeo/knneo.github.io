@@ -250,7 +250,7 @@ function deleteConversation() {
 	
 		// save and reload
 		saveToLocalStorage();
-		initializeHomepage();
+		selectHomepage();
 	}
 }
 
@@ -1027,18 +1027,19 @@ function initializeHomepage() {
 	initial.firstElementChild.click();
 	initial.querySelector('.messages').style.height = '';
 	//render messages page
-	for(let selection of Array.from(selectionDiv.querySelectorAll('div[data-id]')).slice(1)) {
+	for(let selection of Array.from(Object.keys(window['conversation-messages']))) {
+		let ref = window['conversation-messages'][selection];
 		let item = document.createElement('div');
 		item.classList.add('homepage-item');
 		item.onclick = onSelectConversation;
 		item.setAttribute('data-id', selection.getAttribute('data-id'));
 		let thumb = document.createElement('div');
 		thumb.classList.add('homepage-thumb');
-		thumb.setAttribute('data-initial', selection.innerText[0]);
+		thumb.setAttribute('data-initial', ref.name[0]);
 		item.appendChild(thumb);
 		let title = document.createElement('div');
 		title.classList.add('homepage-title');
-		title.innerText = selection.innerText;
+		title.innerText = ref.name;
 		item.appendChild(title);
 		let conversation = document.querySelector('.conversation[id="' +  selection.getAttribute('data-id') + '"]');
 		let messages = conversation.querySelectorAll('.message:not(.action)');
