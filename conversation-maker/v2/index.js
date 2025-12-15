@@ -61,7 +61,7 @@ function onSelectConversation() {
 			if(conv.getAttribute('data-id') == id)
 				conv.classList.remove('hidden');
 		}
-		pageDiv.querySelector('.header span').innerText = selectionDiv.querySelector('[data-id="' + selectionDiv.getAttribute('data-value') + '"')?.innerText;
+		pageDiv.querySelector('.header span').innerText = window['conversation-messages'][document.querySelector('.conversation:not(.hidden)').id]?.name || selectionDiv.querySelector('[data-id="' + selectionDiv.getAttribute('data-value') + '"')?.innerText;
 		event.target.blur();
 	}
 	removeDialog();
