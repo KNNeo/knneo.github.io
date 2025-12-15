@@ -101,7 +101,7 @@ function showEditor() {
 		view.classList.add('hidden');
 	}
 	disableRunMessages(conversation);
-	removeDialog();
+	hideContextMenu();
 }
 
 function showEditorHelp() {
