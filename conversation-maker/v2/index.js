@@ -122,7 +122,7 @@ function saveToLocalStorage() {
 
 function updateSenderOptions(conversation) {
 	let selection = conversation.querySelector('.sender');
-	let separator = conversation.querySelector('.messages').getAttribute('data-separator') || ':';
+	let separator = conversation.querySelector('.messages').getAttribute('data-separator') || config.separator.line;
 	if (!window['conversation-messages'][conversation.id])
 		return;
 	let lines = (window['conversation-messages'][conversation.id]?.content || '').split('\n');
