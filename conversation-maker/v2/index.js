@@ -1032,7 +1032,7 @@ function initializeHomepage() {
 		let item = document.createElement('div');
 		item.classList.add('homepage-item');
 		item.onclick = onSelectConversation;
-		item.setAttribute('data-id', selection.getAttribute('data-id'));
+		item.setAttribute('data-id', selection);
 		let thumb = document.createElement('div');
 		thumb.classList.add('homepage-thumb');
 		thumb.setAttribute('data-initial', ref.name[0]);
@@ -1041,14 +1041,16 @@ function initializeHomepage() {
 		title.classList.add('homepage-title');
 		title.innerText = ref.name;
 		item.appendChild(title);
-		let conversation = document.querySelector('.conversation[id="' +  selection.getAttribute('data-id') + '"]');
-		let messages = conversation.querySelectorAll('.message:not(.action)');
-		if(messages.length > 1) {
-			let lastMessage = messages[messages.length - 1].innerText;
-			let subtitle = document.createElement('div');
-			subtitle.classList.add('homepage-subtitle');
-			subtitle.innerText = lastMessage;
-			item.appendChild(subtitle);
+		let conversation = document.querySelector('.conversation[id="' +  selection + '"]');
+		if(conversation) {
+			let messages = conversation.querySelectorAll('.message:not(.action)');
+			if(messages.length > 1) {
+				let lastMessage = messages[messages.length - 1].innerText;
+				let subtitle = document.createElement('div');
+				subtitle.classList.add('homepage-subtitle');
+				subtitle.innerText = lastMessage;
+				item.appendChild(subtitle);
+			}
 		}
 		homepageDiv.appendChild(item);
 	}
