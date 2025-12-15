@@ -28,7 +28,8 @@ const selectionDiv = document.querySelector('#selection');
 const sfxAudio = document.querySelector('.sfx');
 const settingsSection = document.querySelector('.settings .section');
 const footerInput = document.querySelector('.footer .input');
-const elemContext = document.querySelector('.context');
+const contextDiv = document.querySelector('.context');
+const homepageDiv = document.querySelector('.homepage');
 
 //--DOM FUNCTIONS--//
 function onKeyDown() {
@@ -890,16 +891,16 @@ function removeDialog() {
 function showContextMenu() {
 	event.preventDefault();
 	event.stopPropagation();
-	if(!elemContext.classList.contains('hidden'))
-		return elemContext.classList.add('hidden');
+	if(!contextDiv.classList.contains('hidden'))
+		return contextDiv.classList.add('hidden');
 	document.addEventListener('click', hideContextMenu);
 	//positioning
 	let x = (event.target.getBoundingClientRect()?.x + event.target.getBoundingClientRect()?.width) || event.clientX;
 	let y = (event.target.getBoundingClientRect()?.y + event.target.getBoundingClientRect()?.height) || event.clientY;
-	elemContext.style.top = y + 'px';
-	elemContext.style.left = x + 'px';
-	elemContext.classList.remove('hidden');
-	elemContext.innerHTML = '';
+	contextDiv.style.top = y + 'px';
+	contextDiv.style.left = x + 'px';
+	contextDiv.classList.remove('hidden');
+	contextDiv.innerHTML = '';
 	//render menu
 	let submenu = document.createElement('div');
 	submenu.className = 'menu-options';
@@ -921,24 +922,24 @@ function showContextMenu() {
 	fullscreen.innerText = 'Toggle Fullscreen';
 	fullscreen.onclick = toggleFullscreen;
 	submenu.appendChild(fullscreen);
-	elemContext.appendChild(submenu);
+	contextDiv.appendChild(submenu);
 	//adjust context if exceed window bottom
-	if (y + elemContext.getBoundingClientRect().height + 80 >= window.innerHeight) {
-		elemContext.style.top = (y - elemContext.getBoundingClientRect().height) + 'px';
-		if (y - elemContext.getBoundingClientRect().height < 0)
-			elemContext.style.top = 0;
+	if (y + contextDiv.getBoundingClientRect().height + 80 >= window.innerHeight) {
+		contextDiv.style.top = (y - contextDiv.getBoundingClientRect().height) + 'px';
+		if (y - contextDiv.getBoundingClientRect().height < 0)
+			contextDiv.style.top = 0;
 	}
 	//adjust context if exceed window right
-	if (x + elemContext.getBoundingClientRect().width + 80 >= window.innerWidth) {
-		elemContext.style.left = (x - elemContext.getBoundingClientRect().width) + 'px';
-		if (x - elemContext.getBoundingClientRect().width < 0)
-			elemContext.style.left = 0;
+	if (x + contextDiv.getBoundingClientRect().width + 80 >= window.innerWidth) {
+		contextDiv.style.left = (x - contextDiv.getBoundingClientRect().width) + 'px';
+		if (x - contextDiv.getBoundingClientRect().width < 0)
+			contextDiv.style.left = 0;
 	}
 }
 
 function hideContextMenu() {
 	if(!event.target.closest('.context'))
-		elemContext.classList.add('hidden');
+		contextDiv.classList.add('hidden');
 }
 
 //--INITIAL--//
@@ -946,10 +947,7 @@ function startup() {
 	readFromLocalStorage();
 	hideAllConversations();
     initializeWindow();
-	let initial = document.querySelector('.conversation[id]');
-	initial.classList.remove('hidden');
-	initial.firstElementChild.click();
-	initial.querySelector('.messages').style.height = '';
+	initializeHomepage();
 }
 
 function readFromLocalStorage() {
@@ -1006,4 +1004,33 @@ function initializeWindow() {
 	// auto fullscreen, will not work with fullscreen API but does not break logic
 	if(config.auto.fullscreen)
 		toggleFullscreen();
+}
+
+function initializeHomepage() {
+	homepageDiv.innerHTML = '';
+	//select first conversation
+	let initial = homepageDiv.closest('.conversation');
+	initial.classList.remove('hidden');
+	initial.firstElementChild.click();
+	initial.querySelector('.messages').style.height = '';
+	//render messages page
+	for(let selection of selectionDiv.querySelectorAll('div[data-id]').slice(1)) {
+		let item = document.createElement('div');
+		item.classList.add('homepage-item');
+		let thumb = document.createElement('div');
+		thumb.classList.add('homepage-thumb');
+		thumb.setAttribute('data-initial', selection.innerText[0]);
+		item.appendChild(thumb);
+		let title = document.createElement('div');
+		title.classList.add('homepage-title');
+		title.innerText = selection.innerText;
+		item.appendChild(title);
+		let conversation = document.querySelector('.conversation[id="' +  selection.getAttribute('data-id') + '"]');
+		let messages = conversation.querySelectorAll('.message:not(.action)');
+		let lastMessage = messages[messages.length - 1].innerText;
+		let subtitle = document.createElement('div');
+		subtitle.innerText = lastMessage;
+		item.appendChild(subtitle);
+		homepageDiv.appendChild(item);
+	}
 }
