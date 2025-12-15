@@ -160,9 +160,22 @@ a:hover {
     height: calc(100% - 4em);
 }
 
-.page[data-fullscreen]:has(.homepage-item) .header a:not(.add),
+.page[data-fullscreen]:has(.homepage-item) .header a,
 .page[data-fullscreen]:has(.homepage-item) .footer {
-    visibility: hidden;
+    display: none;
+}
+
+.page[data-fullscreen]:has(.homepage-item) .header a.add {
+    display: initial;
+    grid-area: 1 / 4 / 1 / 4;
+}
+
+.page[data-fullscreen]:not(:has(.homepage-item)) .header a.add {
+    display: none;
+}
+
+.page[data-fullscreen]:has(.homepage-item) .header span {
+    padding: 16px;
 }
 
 .page[data-fullscreen] .home {
@@ -176,10 +189,6 @@ a:hover {
 .header span {
     width: 100%;
     text-align: start;
-}
-
-:has(.homepage div) .header a {
-    visibility: hidden;
 }
 
 .page[data-fullscreen] .header {

@@ -220,6 +220,7 @@ function addConversation(name) {
 				name
 			};
 		saveToLocalStorage();
+		initializeHomepage();
 	}
 }
 
@@ -235,7 +236,7 @@ function renameConversation() {
 function deleteConversation() {
 	if(confirm('Confirm delete current conversation? This action cannot be reversed.')) {
 		// empty current item
-		delete window['conversation-messages'][selectionDiv.getAttribute('data-value')];
+		delete window['conversation-messages'][document.querySelector('.conversation:not(.hidden)').id];
 		// shift keys
 		let keys = Object.keys(window['conversation-messages']);
 		for (let i = 1; i <= keys.length; i++) {
@@ -249,7 +250,7 @@ function deleteConversation() {
 	
 		// save and reload
 		saveToLocalStorage();
-		window.location.reload();
+		initializeHomepage();
 	}
 }
 
@@ -922,12 +923,18 @@ function showContextMenu() {
 	sound.innerText = 'Toggle Sound';
 	sound.onclick = toggleAudio;
 	submenu.appendChild(sound);
-	//toggle sound
+	//toggle fullscreen
 	let fullscreen = document.createElement('div');
 	fullscreen.className = 'audio bi bi-arrows-fullscreen';
 	fullscreen.innerText = 'Toggle Fullscreen';
 	fullscreen.onclick = toggleFullscreen;
 	submenu.appendChild(fullscreen);
+	//delete conversation
+	let delete = document.createElement('div');
+	delete.className = 'audio bi bi-trash';
+	delete.innerText = 'Delete Conversation';
+	delete.onclick = deleteConversation;
+	submenu.appendChild(delete);
 	contextDiv.appendChild(submenu);
 	//adjust context if exceed window bottom
 	if (y + contextDiv.getBoundingClientRect().height + 80 >= window.innerHeight) {
@@ -1013,6 +1020,7 @@ function initializeWindow() {
 }
 
 function initializeHomepage() {
+	homepageDiv.innerHTML = '';
 	//select first conversation
 	let initial = homepageDiv.closest('.conversation');
 	initial.classList.remove('hidden');
