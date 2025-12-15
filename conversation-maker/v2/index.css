@@ -390,18 +390,40 @@ a:hover {
 .conversation .editor textarea {
     width: calc(100% - 2em);
     height: calc(100% - 3em);
+    resize: none;
+
 }
 
 .conversation .save {
     position: absolute;
-    bottom: 1.5em;
+    bottom: 2.5em;
     right: 1em;
     background-color: var(--background);
     border-radius: 99px;
     width: 40px;
 }
 
-.conversation .save:active {
+.conversation .help {
+    position: absolute;
+    top: 0.5em;
+    right: 4em;
+    background-color: var(--background);
+    border-radius: 99px;
+    width: 40px;
+}
+
+.conversation .close {
+    position: absolute;
+    top: 0.5em;
+    right: 1em;
+    background-color: var(--background);
+    border-radius: 99px;
+    width: 40px;
+}
+
+.conversation .save:active,
+.conversation .help:active,
+.conversation .close:active {
     background-color: var(--accent);
 }
 
@@ -478,6 +500,7 @@ a:hover {
     padding: 4px 6px;
     cursor: pointer;
 }
+
 .context .menu-options div:hover {
     background-color: var(--secondary);
 }

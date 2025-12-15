@@ -74,8 +74,9 @@
 				<input name="sender" class="separator" id="separator" placeholder=":" onchange="updateSeparator()"></input>
 				<label for="names" title="For group conversations, to identify multiple recipients">Show Names:</label>
 				<input type="checkbox" name="names" class="names" id="names" onchange="updateNames()"></input>
-				<a class="bi bi-floppy save" href="javascript:void(0);" onclick="saveEditor(event)" title="Save Changes"></a>
 				<a class="bi bi-x-circle close" href="javascript:void(0);" onclick="showMessages()" title="Close Editor"></a>
+				<a class="bi bi-question-circle help" href="javascript:void(0);" onclick="showEditorHelp()" title="Help"></a>
+				<a class="bi bi-floppy save" href="javascript:void(0);" onclick="saveEditor(event)" title="Save Changes"></a>
 			</div>
 		</div>
 	</template>

@@ -100,6 +100,26 @@ function showEditor() {
 	disableRunMessages(conversation);
 }
 
+function showEditorHelp() {
+	popupText(`<div style="text-align: start; font-size: 0.8em;">
+		<b>HOW TO USE EDITOR</b><br><br>
+		Each line represents a message in conversation<br>
+		- Messages detcted as link can be displayed as clickable URL<br>
+		- Messages detcted as image link can be displayed as image<br><br>
+		Use config.seaparator.line to define user and message, subsequent lines can omit if from same user<br><br>
+		Use "Show Names" to toggle names in group conversations<br><br>
+		Use "Sender" dropdown to select sender<br>
+		- Messages will be left-aligned, sender will be right-aligned<br><br>
+		Use config.seaparator.choice to add choice paths for messages<br>
+		- Must always start from sender, otherwise is random paths<br>
+		- Subsequent lines follow each path until next single choice path detected ie. no choice separator<br><br>
+		Use config.wrapper.system to define system messages, will be center aligned without message bubble<br><br>
+		Use config.wrapper.section to define sections:<br>
+		- Sections can be selected independently, otherwise all sections will be loaded in order<br>
+		- Sections can be played independently, otherwise will play latest section
+		<br></div>`);
+}
+
 function saveEditor(event) {
 	if(event.target.classList.contains('bi-floppy')) {
 		let conversation = event.target.closest('.conversation');
