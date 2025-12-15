@@ -159,7 +159,7 @@ function updateSenderOptions(conversation) {
 			total.push(name);
 		return total;
 	}, []);
-	conversation.querySelector('.messages').setAttribute('data-senders', senders.join(','));
+	conversation.querySelector('.messages').setAttribute('data-users', senders.join(','));
 	if(!senders.length)
 		alert('no senders found! are you using a different separator?');
 
@@ -429,6 +429,11 @@ function onSelectSection() {
 	removeDialog();
 }
 
+function selectHomepage() {
+	selectionDiv.querySelectorAll('div[data-id]').click();
+	initializeHomepage();
+}
+
 //--FUNCTIONS--//
 function processConversations() {
 	for (let messages of document.querySelectorAll('.conversation .messages'))
@@ -501,7 +506,7 @@ function processConversation(conversation) {
 				messageText.innerText = line.replace(new RegExp(config.wrapper.system, 'g'),'').trim();
 			else if(message.includes('@') || message.includes('\uff20')) { // detect ampersand （ascii, unicode)
 				// check for all senders
-				let senders = conversation.getAttribute('data-senders')?.split(',') ?? [];
+				let senders = conversation.getAttribute('data-users')?.split(',') ?? [];
 				senders.forEach(sender => {
 					message = message.replace('@' + sender, '@' + sender + ' ')
 									.replace('\uff20' + sender, '\uff20' + sender + ' ');
@@ -1014,9 +1019,11 @@ function initializeHomepage() {
 	initial.firstElementChild.click();
 	initial.querySelector('.messages').style.height = '';
 	//render messages page
-	for(let selection of selectionDiv.querySelectorAll('div[data-id]').slice(1)) {
+	for(let selection of Array.from(selectionDiv.querySelectorAll('div[data-id]')).slice(1)) {
 		let item = document.createElement('div');
 		item.classList.add('homepage-item');
+		item.onclick = onSelectConversation;
+		item.setAttribute('data-id', selection.getAttribute('data-id'));
 		let thumb = document.createElement('div');
 		thumb.classList.add('homepage-thumb');
 		thumb.setAttribute('data-initial', selection.innerText[0]);
@@ -1027,10 +1034,12 @@ function initializeHomepage() {
 		item.appendChild(title);
 		let conversation = document.querySelector('.conversation[id="' +  selection.getAttribute('data-id') + '"]');
 		let messages = conversation.querySelectorAll('.message:not(.action)');
-		let lastMessage = messages[messages.length - 1].innerText;
-		let subtitle = document.createElement('div');
-		subtitle.innerText = lastMessage;
-		item.appendChild(subtitle);
+		if(messages.length > 1) {
+			let lastMessage = messages[messages.length - 1].innerText;
+			let subtitle = document.createElement('div');
+			subtitle.innerText = lastMessage;
+			item.appendChild(subtitle);
+		}
 		homepageDiv.appendChild(item);
 	}
 }
