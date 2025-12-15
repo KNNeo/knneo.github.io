@@ -18,6 +18,7 @@ const config = {
 		system: '===',
 		section: '---'
 	},
+	delay: 1500,
 	debug: false
 };
 const emojiRegex = /(\p{Emoji}|\p{Emoji_Presentation}|\p{Emoji_Modifier}|\p{Emoji_Modifier_Base}|\p{Emoji_Component}|\p{Extended_Pictographic})+/gv;
@@ -761,7 +762,7 @@ function nextMessage() {
 function calculateWriteTime(text) {
     // calculate next message pop time
     let writeLength = text && text.length || 1;
-    let writeTime = 1500;
+    let writeTime = config.delay || 1500;
     let isEmoji = text.trim().match(emojiRegex);
     if(isEmoji && writeLength < 5)
         return writeTime;
