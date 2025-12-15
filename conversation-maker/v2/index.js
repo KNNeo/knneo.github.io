@@ -225,11 +225,11 @@ function addConversation(name) {
 }
 
 function renameConversation() {
-	let newName = prompt('Key in new name:', window['conversation-messages'][selectionDiv.getAttribute('data-value')].name);
+	let newName = prompt('Key in new name:', window['conversation-messages'][document.querySelector('.conversation:not(.hidden)').id].name);
 	if (newName != null) {
-		window['conversation-messages'][selectionDiv.getAttribute('data-value')].name = newName;
+		window['conversation-messages'][document.querySelector('.conversation:not(.hidden)').id].name = newName;
+		pageDiv.querySelector('.header span').innerText = newName;
 		saveToLocalStorage();
-		window.location.reload();
 	}
 }
 
