@@ -49,6 +49,7 @@ public class Program {
 	static bool SHOW_LINKED_LIST = false;
 	static bool INCLUDE_DRAFT_POSTS = false;
 	static List<string> FILE_DOWNLOAD_FORMATS = new List<string>() { ".jpg", ".png", ".gif" };
+	static HtmlSettings MINIFY_SETTINGS = new HtmlSettings(){ RemoveAttributeQuotes = true };
 
 	// POST SETTINGS
 	static string HTML_TITLE = "Klassic Note Reports";
@@ -462,7 +463,7 @@ public class Program {
 					article.AppendLine("<div class=\"post-hashtags\"></div>");
 				// Actual content to put in post-content class, HTML condensed
 				article.Append("<div class=\"post-content\">");
-				article.Append(Uglify.Html(postContent));
+				article.Append(Uglify.Html(postContent, MINIFY_SETTINGS));
 				article.AppendLine("</div>");
 				if(pageTagsXml.Count > 0)
 				{

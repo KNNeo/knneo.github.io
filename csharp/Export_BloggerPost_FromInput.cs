@@ -50,6 +50,7 @@ public class Program {
 	static bool SHOW_POST_LABELs_COUNT = false;
 	//static bool SHOW_LINKED_LIST = false;
     //static bool INCLUDE_DRAFT_POSTS = false;
+	static HtmlSettings MINIFY_SETTINGS = new HtmlSettings(){ RemoveAttributeQuotes = true };
 
 	// POST SETTINGS
 	static string HTML_TITLE = "Klassic Note Reports";
@@ -310,9 +311,7 @@ public class Program {
         if(postContent.Contains("id=\""))
             article.AppendLine("<div class=\"post-hashtags\"></div>");
         // Actual content to put in post-content class, HTML condensed
-        article.Append("<div class=\"post-content\">");
-        article.Append(Uglify.Html(postContent));
-        article.AppendLine("</div>");
+		article.Append(Uglify.Html(postContent, MINIFY_SETTINGS));
         if(pageTagsXml.Count > 0)
         {
             footer.Append($"<div class=\"post-tags\"><h4>{POST_TAGS_PREFIX_TEXT} </h4>" + 

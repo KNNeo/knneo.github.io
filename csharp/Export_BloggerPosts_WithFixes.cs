@@ -48,6 +48,7 @@ public class Program {
 	static bool SHOW_LINKED_LIST = false;
     static bool INCLUDE_DRAFT_POSTS = false;
 	static string INPUT_FILE_RENAME_SUFFIX = "knreports";
+	static HtmlSettings MINIFY_SETTINGS = new HtmlSettings(){ RemoveAttributeQuotes = true };
 
 	// POST SETTINGS
 	static string HTML_TITLE = "Klassic Note Reports";
@@ -457,9 +458,7 @@ public class Program {
 					article.AppendLine("<div class=\"post-hashtags\"></div>");
 				// Actual content to put in post-content class, HTML condensed
 				article.Append("<div class=\"post-content\">");
-				var minifySettings = new Uglify.HtmlSettings(){ RemoveAttributeQuotes = false };
-				var minify = Uglify.Html(postContent, minifySettings);
-				article.Append(minify);
+				article.Append(Uglify.Html(postContent, MINIFY_SETTINGS));
 				article.AppendLine("</div>");
 				if(pageTagsXml.Count > 0)
 				{

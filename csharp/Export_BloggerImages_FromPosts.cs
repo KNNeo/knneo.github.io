@@ -7,8 +7,6 @@ using System.Xml.Linq;
 using System.IO;
 using System.Text;
 using System.Diagnostics;
-using NUglify;
-using NUglify.Html;
 using Newtonsoft.Json;
 
 public class Program {
