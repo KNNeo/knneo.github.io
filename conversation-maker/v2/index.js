@@ -872,22 +872,23 @@ function removeDialog() {
 function showContextMenu() {
 	event.preventDefault();
 	event.stopPropagation();
+	if(!elemContext.classList.contains('hidden'))
+		return elemContext.classList.add('hidden');
 	document.addEventListener('click', hideContextMenu);
-	//context box
-	let box = document.body.getBoundingClientRect();
-	let x = event.clientX || event.target.getBoundingClientRect()?.x;
-	let y = (event.clientY - box.top - elemQueue.getBoundingClientRect().height) || event.target.getBoundingClientRect()?.y;
+	//positioning
+	let x = (event.target.getBoundingClientRect()?.x + event.target.getBoundingClientRect()?.width) || event.clientX;
+	let y = (event.target.getBoundingClientRect()?.y + event.target.getBoundingClientRect()?.height) || event.clientY;
 	elemContext.style.top = y + 'px';
 	elemContext.style.left = x + 'px';
 	elemContext.classList.remove('hidden');
 	elemContext.innerHTML = '';
 	//render menu
 	let submenu = document.createElement('div');
-	submenu.id = 'menu-options';
+	submenu.className = 'menu-options';
 	//add to next in playlist
 	let edit = document.createElement('div');
 	edit.className = 'edit bi bi-pencil';
-	edit.innerText = 'Edit';
+	edit.innerText = 'Edit Conversation';
 	edit.onclick = showEditor;
 	submenu.appendChild(edit);
 	//toggle sound
@@ -899,7 +900,7 @@ function showContextMenu() {
 	//toggle sound
 	let fullscreen = document.createElement('div');
 	fullscreen.className = 'audio bi bi-arrows-fullscreen';
-	fullscreen.innerText = 'Fullscreen';
+	fullscreen.innerText = 'Toggle Fullscreen';
 	fullscreen.onclick = toggleFullscreen;
 	submenu.appendChild(fullscreen);
 	elemContext.appendChild(submenu);

@@ -6,6 +6,7 @@
     --foreground: #000;
     --accent: lightgray;
 }
+
 .darked:root {
     --primary: #00abbf;
     --secondary: #444;
@@ -13,14 +14,18 @@
     --foreground: #fff;
     --accent: gray;
 }
-html, select {
+
+html,
+select {
     font-family: Noto Sans;
     background-color: var(--background);
     color: var(--foreground);
 }
+
 html {
     height: 100%;
 }
+
 body {
     margin: 0 auto;
     height: 100%;
@@ -32,6 +37,7 @@ body {
     -ms-user-select: none;
     user-select: none;
 }
+
 a {
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -42,12 +48,15 @@ a {
     text-decoration: none;
     font-weight: bold;
 }
+
 a:hover {
     color: var(--accent);
 }
+
 .hidden {
     display: none;
 }
+
 .box {
     margin: 5px;
     vertical-align: top;
@@ -55,70 +64,90 @@ a:hover {
     white-space: normal;
     touch-action: manipulation;
 }
+
 .shadowed {
     border: 1px solid lightgray;
     box-shadow: 3px 3px;
 }
+
 .shadowed:active {
     box-shadow: 1px 1px;
-    transform: translate(2px,2px);
+    transform: translate(2px, 2px);
 }
+
 .unshadowed {
     filter: opacity(100%);
     transition: filter 1s;
 }
+
 .bi {
     font-size: 1.75em;
 }
+
 /*Page-Specific*/
 .page {
     display: inline-block;
     width: 100%;
     height: 100%;
 }
+
 .container {
     height: calc(100% - 300px);
 }
+
 .selection {
     display: flex;
     align-items: center;
     padding: 4px 16px;
     border: 2px inset var(--accent);
 }
+
 .conversation {
     position: relative;
     height: 100%;
 }
+
 .conversation a {
     display: inline-block;
     padding: 12px 6px;
     font-size: 1.2em;
 }
+
 .conversation .view {
     height: calc(100% - 50px);
 }
+
 .conversation .messages {
     background-color: var(--secondary);
     overflow-y: auto;
     position: relative;
     resize: vertical;
 }
+
 .conversation[data-running] .messages {
     pointer-events: none;
 }
+
 .conversation .messages::-webkit-scrollbar {
-    display: none; /* Chrome, Safari and Opera */
+    display: none;
+    /* Chrome, Safari and Opera */
 }
+
 .conversation .messages {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
 }
+
 .page[data-fullscreen] {
     position: relative;
 }
+
 .page[data-fullscreen] .conversation:not(.hidden) {
     position: initial;
 }
+
 .page[data-fullscreen] .conversation:not(.hidden) .messages {
     position: absolute;
     top: 4em;
@@ -126,16 +155,20 @@ a:hover {
     width: 100%;
     resize: none;
 }
+
 .page[data-fullscreen] .home {
     visibility: hidden;
 }
+
 .header {
     display: none;
 }
-.header span { 
+
+.header span {
     width: 100%;
     text-align: start;
 }
+
 .page[data-fullscreen] .header {
     position: absolute;
     top: 0.25em;
@@ -151,15 +184,18 @@ a:hover {
     grid-template-columns: 50px auto 50px 50px;
     align-items: center;
 }
+
 .page[data-fullscreen] h5,
 .page[data-fullscreen] label,
 .page[data-fullscreen] .menu,
 .page[data-fullscreen] .settings {
     display: none;
 }
+
 .footer {
     display: none;
 }
+
 .page[data-fullscreen] .footer {
     position: absolute;
     bottom: 0;
@@ -175,6 +211,7 @@ a:hover {
     grid-template-columns: 50px auto 50px 50px;
     align-items: center;
 }
+
 .page[data-fullscreen] .footer .input {
     border: 2px inset var(--accent);
     color: var(--accent);
@@ -183,9 +220,11 @@ a:hover {
     font-size: 1.5em;
     padding: 4px 8px;
 }
+
 .page[data-fullscreen] .footer .input:active {
     border-color: var(--foreground);
 }
+
 .conversation .message {
     display: flex;
     flex-direction: column;
@@ -193,32 +232,40 @@ a:hover {
     opacity: 1;
     position: relative;
 }
+
 .conversation .message a {
     text-decoration: underline;
     font-weight: normal;
     padding: 0;
 }
+
 .conversation .message a:hover {
     color: var(--secondary);
 }
+
 .conversation .message[data-sender]:has(> :nth-child(2)) {
     flex-direction: row;
     justify-content: flex-end;
 }
+
 .conversation .message[data-recipient]:has(> :nth-child(2)) {
     flex-direction: row;
     justify-content: flex-start;
 }
+
 .conversation .message.hide {
     opacity: 0;
 }
+
 .conversation .message .container.emoji span {
     font-size: 2em;
 }
+
 .conversation .message .container span.sender-ref {
     color: var(--primary);
     font-weight: bold;
 }
+
 .conversation .loader,
 .conversation .message .container {
     margin: 8px;
@@ -227,36 +274,45 @@ a:hover {
     border-radius: 10px 10px 10px 0;
     text-align: left;
 }
+
 .conversation .loader {
     justify-self: start;
     align-items: start;
 }
+
 .conversation .message[data-system] {
     align-items: center;
 }
+
 .conversation .message[data-recipient] {
     text-align: start;
     align-items: start;
 }
+
 .conversation .message[data-sender] {
     text-align: end;
     align-items: end;
 }
+
 .conversation .messages[data-names] .message[aria-label][data-first]::before {
     content: attr(aria-label);
     white-space: nowrap;
 }
+
 .conversation .messages[data-names] .message[aria-label][data-first]::before {
     padding: 0 8px;
 }
+
 .conversation .messages[data-names] .message[aria-label][data-first][data-recipient]::before,
 .conversation .messages[data-names] .message[aria-label][data-first][data-sender]::before {
     flex: 1 0 100%;
 }
+
 .conversation .message[data-sender] .container {
     background-color: var(--primary);
     border-radius: 8px 8px 0 8px;
 }
+
 .conversation .message[data-sender] .container[onclick] {
     cursor: pointer;
     background-color: initial;
@@ -264,16 +320,20 @@ a:hover {
     white-space: nowrap;
     overflow-x: auto;
 }
+
 .conversation .message[data-sender] .container[onclick]:hover {
     background-color: var(--primary);
 }
+
 .conversation .message[data-system] .container {
     background-color: var(--secondary);
 }
+
 .conversation .message[data-url]:has(img) .container {
     width: min(20em, 60%);
     line-height: 0;
 }
+
 .conversation .message[data-url] a:not(.reaction) {
     font-weight: normal;
     text-decoration: underline;
@@ -281,13 +341,16 @@ a:hover {
     overflow-wrap: anywhere;
     line-height: 0;
 }
+
 .conversation .message[data-url] a:not(.reaction):hover {
     color: var(--background);
 }
+
 .conversation .message[data-url] img {
     width: 100%;
     border-radius: 4px;
 }
+
 .conversation:not([data-running]) .message[data-section]::after {
     position: absolute;
     width: 100%;
@@ -298,6 +361,7 @@ a:hover {
     color: var(--accent);
     content: "--- " attr(data-section) " ---";
 }
+
 .conversation .message .reactions {
     position: absolute;
     bottom: 0;
@@ -307,22 +371,27 @@ a:hover {
     background-color: var(--foreground);
     z-index: 1;
 }
+
 .conversation .message .reactions[data-selected] {
     font-size: 0.6em;
     padding: 0.5em;
     line-height: 1;
     margin: 0 1em;
 }
+
 .conversation .message .reactions .reaction:hover {
     text-decoration: none;
 }
+
 .conversation .message .reactions:not([data-selected]) .reaction:hover {
     background-color: var(--accent);
 }
+
 .conversation .editor textarea {
     width: calc(100% - 2em);
     height: calc(100% - 25px);
 }
+
 .conversation .save {
     position: absolute;
     bottom: 1.5em;
@@ -331,30 +400,37 @@ a:hover {
     border-radius: 99px;
     width: 40px;
 }
+
 .conversation .save:active {
     background-color: var(--accent);
 }
+
 .conversation .action {
     display: none;
     font-size: 2em;
     justify-content: center;
     cursor: pointer;
 }
+
 .conversation .messages[data-animate] .action {
     display: inline;
 }
+
 .conversation[data-paused] .messages[data-animate] .action {
     position: sticky;
     bottom: 0;
 }
+
 .menu {
     display: flex;
     justify-content: center;
     gap: 10px;
 }
+
 .separator {
     width: 2ch;
 }
+
 .sections button {
     display: block;
     width: 100%;
@@ -364,20 +440,44 @@ a:hover {
     background-color: var(--foreground);
     cursor: pointer;
 }
+
 .sections button:hover {
     background-color: var(--accent);
     color: var(--foreground);
 }
+
 .dialog {
     position: fixed;
 }
+
 .dialog dialog {
     background-color: var(--background);
-    color: var(--foreground);	
+    color: var(--foreground);
     padding: 10px;
     max-width: 360px;
     margin: auto;
 }
+
 .dialog dialog a {
     padding: 6px;
+}
+
+.context {
+    font-size: 0.65em;
+    position: absolute;
+    border-radius: 4px;
+    white-space: nowrap;
+    background-color: var(--background);
+    box-shadow: 1px 3px 0 0 var(--accent);
+}
+
+.context .menu-options div {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 6px;
+    cursor: pointer;
+}
+.context .menu-options div:hover {
+    background-color: var(--secondary);
 }
