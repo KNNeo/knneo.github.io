@@ -430,7 +430,7 @@ function onSelectSection() {
 }
 
 function selectHomepage() {
-	selectionDiv.querySelectorAll('div[data-id]').click();
+	selectionDiv.querySelector('div[data-id]').click();
 	initializeHomepage();
 }
 
@@ -1037,6 +1037,7 @@ function initializeHomepage() {
 		if(messages.length > 1) {
 			let lastMessage = messages[messages.length - 1].innerText;
 			let subtitle = document.createElement('div');
+			subtitle.classList.add('homepage-subtitle');
 			subtitle.innerText = lastMessage;
 			item.appendChild(subtitle);
 		}

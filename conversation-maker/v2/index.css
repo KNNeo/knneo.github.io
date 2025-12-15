@@ -499,6 +499,10 @@ a:hover {
     content: attr(data-initial);
 }
 
+.homepage .homepage-item .homepage-subtitle {
+    filter: brightness(0.7);
+}
+
 .dialog {
     position: fixed;
 }
