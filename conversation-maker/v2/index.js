@@ -1041,7 +1041,7 @@ function initializeHomepage() {
 	initial.querySelector('.messages').style.height = '';
 	let conversations = Array.from(Object.keys(window['conversation-messages']));
 	if(!conversations.length) // if empty, force create
-		addConversation();
+		addConversation('Saved Messages');
 	//render messages page
 	for(let selection of conversations) {
 		let ref = window['conversation-messages'][selection];
