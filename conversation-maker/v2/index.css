@@ -132,6 +132,10 @@ a:hover {
 .header {
     display: none;
 }
+.header span { 
+    width: 100%;
+    text-align: start;
+}
 .page[data-fullscreen] .header {
     position: absolute;
     top: 0.25em;
@@ -175,10 +179,9 @@ a:hover {
     border: 2px inset var(--accent);
     color: var(--accent);
     border-radius: 8px;
-    height: 40px;
     text-align: start;
     font-size: 1.5em;
-    padding: 0 8px;
+    padding: 4px 8px;
 }
 .page[data-fullscreen] .footer .input:active {
     border-color: var(--foreground);
