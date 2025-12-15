@@ -930,11 +930,11 @@ function showContextMenu() {
 	fullscreen.onclick = toggleFullscreen;
 	submenu.appendChild(fullscreen);
 	//delete conversation
-	let delete = document.createElement('div');
-	delete.className = 'audio bi bi-trash';
-	delete.innerText = 'Delete Conversation';
-	delete.onclick = deleteConversation;
-	submenu.appendChild(delete);
+	let trash = document.createElement('div');
+	trash.className = 'audio bi bi-trash';
+	trash.innerText = 'Delete Conversation';
+	trash.onclick = deleteConversation;
+	submenu.appendChild(trash);
 	contextDiv.appendChild(submenu);
 	//adjust context if exceed window bottom
 	if (y + contextDiv.getBoundingClientRect().height + 80 >= window.innerHeight) {
