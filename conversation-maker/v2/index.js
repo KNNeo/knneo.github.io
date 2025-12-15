@@ -44,10 +44,11 @@ function selectConversation() {
 
 function onSelectConversation() {
 	hideAllConversations();
+	homepageDiv.innerHTML = '';
 	// if(pageDiv.getAttribute('data-fullscreen') != null)
 	// 	toggleFullscreen();
-	if (event.target.getAttribute('data-id')) {
-		let id = event.target.getAttribute('data-id');
+	let id = (event.target.closest('.homepage-item') || event.target).getAttribute('data-id');
+	if (id) {
 		let elem = document.querySelector('#' + id);
 		if(elem) {
 			elem.classList.remove('hidden');
@@ -1012,7 +1013,6 @@ function initializeWindow() {
 }
 
 function initializeHomepage() {
-	homepageDiv.innerHTML = '';
 	//select first conversation
 	let initial = homepageDiv.closest('.conversation');
 	initial.classList.remove('hidden');

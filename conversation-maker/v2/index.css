@@ -156,6 +156,15 @@ a:hover {
     resize: none;
 }
 
+.page[data-fullscreen]:has(.homepage-item) .homepage.messages {
+    height: calc(100% - 4em);
+}
+
+.page[data-fullscreen]:has(.homepage-item) .header a:not(.add),
+.page[data-fullscreen]:has(.homepage-item) .footer {
+    visibility: hidden;
+}
+
 .page[data-fullscreen] .home {
     visibility: hidden;
 }
@@ -167,6 +176,10 @@ a:hover {
 .header span {
     width: 100%;
     text-align: start;
+}
+
+:has(.homepage div) .header a {
+    visibility: hidden;
 }
 
 .page[data-fullscreen] .header {
@@ -473,7 +486,7 @@ a:hover {
     border-top: 1px solid var(--accent);
     padding: 8px;
     display: grid;
-    grid-template-columns: 80px 1fr;
+    grid-template-columns: 70px 1fr;
     grid-template-rows: 1fr 1fr;
     align-items: center;
     justify-items: start;
@@ -490,6 +503,7 @@ a:hover {
     height: 60px;
     border-radius: 99px;
     border: 1px solid var(--accent);
+    background-color: var(--primary);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -500,7 +514,7 @@ a:hover {
 }
 
 .homepage .homepage-item .homepage-subtitle {
-    filter: brightness(0.7);
+    filter: brightness(0.8);
 }
 
 .dialog {
