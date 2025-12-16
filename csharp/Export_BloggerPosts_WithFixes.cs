@@ -35,7 +35,7 @@ public class Program {
 	static bool GENERATE_SLUG_BY_POST_TITLE = true;
 	static int GENERATE_SLUG_MAX_LENGTH = 70;
 	static bool HOMEPAGE_ONLY = false;
-	static bool WRITE_PROGRESS_ON_CONSOLE = false;
+	static bool WRITE_PROGRESS_ON_CONSOLE = true;
 	static bool WRITE_TITLE_ON_CONSOLE = false;
 	static bool WRITE_FIXES_ON_CONSOLE = false;
 	static bool WRITE_EMOJICOUNT_ON_CONSOLE = false;
@@ -120,9 +120,9 @@ public class Program {
 		var homepageString = ProcessBloggerPosts(bloggerPosts, linkedList, Path.Combine(OUTPUT_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER));
 		GenerateHomepage(homepageString, bloggerPosts.ToList().Count);
 		Console.WriteLine();
-		Console.WriteLine(new String('=', Console.WindowWidth));
 		if(WRITE_FIXES_ON_CONSOLE)
 		{
+			Console.WriteLine(new String('=', Console.WindowWidth));
 			Console.WriteLine("FIX COUNTS");
 			Console.WriteLine(OutputTable<PrintItem>(fixCounts.OrderBy(x => x.Key)
                 .Select(x => new PrintItem(){
@@ -132,6 +132,7 @@ public class Program {
 		}
 		if(WRITE_EMOJICOUNT_ON_CONSOLE)
 		{
+			Console.WriteLine(new String('=', Console.WindowWidth));
 			Console.WriteLine("EMOJI COUNTS (MORE THAN 1 MENTION)");
 			Console.WriteLine(OutputTable<PrintItem>(emojiCounts.Where(x => x.Value > 0)
                 .OrderByDescending(x => x.Value)
@@ -363,9 +364,11 @@ public class Program {
             // Show progress, as post title or as represented by dot
 			if(WRITE_PROGRESS_ON_CONSOLE && !DEBUG_MODE)
 			{
-				if(p == 0) Console.WriteLine();
 				Console.SetCursorPosition(0, Console.CursorTop);
-				Console.Write(new String('=', Console.WindowWidth - 5) + " " + Math.Floor((double)100 * (p + 1) / blogPosts.Count()).ToString().PadLeft(3) + "%");
+				var progressBarSize = Console.WindowWidth - 6;
+				var progressBarCount = (int)Math.Floor((double)progressBarSize * (p + 1) / blogPosts.Count());
+				var progressPercent = Math.Floor((double)100 * (p + 1) / blogPosts.Count());
+				Console.Write(new String('=', progressBarCount).PadRight(progressBarSize) + " " + progressPercent.ToString().PadLeft(3) + "%");
 			}
 			else
 			{
