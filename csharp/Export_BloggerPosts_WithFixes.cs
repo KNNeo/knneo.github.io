@@ -35,6 +35,7 @@ public class Program {
 	static bool GENERATE_SLUG_BY_POST_TITLE = true;
 	static int GENERATE_SLUG_MAX_LENGTH = 70;
 	static bool HOMEPAGE_ONLY = false;
+	static bool WRITE_PROGRESS_ON_CONSOLE = false;
 	static bool WRITE_TITLE_ON_CONSOLE = false;
 	static bool WRITE_FIXES_ON_CONSOLE = false;
 	static bool WRITE_EMOJICOUNT_ON_CONSOLE = false;
@@ -360,14 +361,23 @@ public class Program {
 			string outFileName = "index." + postExtension;
 			var pageOutputPath = Path.Combine(postFolder, outFileName);
             // Show progress, as post title or as represented by dot
-            if(WRITE_TITLE_ON_CONSOLE || DEBUG_MODE)
-                Console.WriteLine("||> " + (postTitle.Length > 0 ? postTitle : "POST W/O TITLE DATED " + publishDate.ToString("yyyy-MM-dd")));
-			else if(isSearchMode)
-				Console.Write("");
-            else if(p % DOTS_PER_LINE_CONSOLE == DOTS_PER_LINE_CONSOLE - 1)
-                Console.WriteLine(".");
-            else
-                Console.Write(".");
+			if(WRITE_PROGRESS_ON_CONSOLE && !DEBUG_MODE)
+			{
+				if(p == 0) Console.WriteLine();
+				Console.SetCursorPosition(0, Console.CursorTop);
+				Console.Write(new String('=', Console.WindowWidth - 5) + " " + Math.Floor(100 * (p + 1) / blogPosts.Count()).PadLeft(3) + "%");
+			}
+			else
+			{
+				if(WRITE_TITLE_ON_CONSOLE || DEBUG_MODE)
+					Console.WriteLine("||> " + (postTitle.Length > 0 ? postTitle : "POST W/O TITLE DATED " + publishDate.ToString("yyyy-MM-dd")));
+				else if(isSearchMode)
+					Console.Write("");
+				else if(p % DOTS_PER_LINE_CONSOLE == DOTS_PER_LINE_CONSOLE - 1)
+					Console.WriteLine(".");
+				else
+					Console.Write(".");
+			}
 			// Find post labels
 			var pageTagsXml = entry.Tags;
 			// Post labels to ignore and not render
