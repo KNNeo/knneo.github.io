@@ -365,7 +365,7 @@ public class Program {
 			{
 				if(p == 0) Console.WriteLine();
 				Console.SetCursorPosition(0, Console.CursorTop);
-				Console.Write(new String('=', Console.WindowWidth - 5) + " " + Math.Floor(100 * (p + 1) / blogPosts.Count()).PadLeft(3) + "%");
+				Console.Write(new String('=', Console.WindowWidth - 5) + " " + Math.Floor((double)100 * (p + 1) / blogPosts.Count()).ToString().PadLeft(3) + "%");
 			}
 			else
 			{
