@@ -29,9 +29,10 @@ public class Program {
 	// PROGRAM SETTINGS
 	static bool GENERATE_SLUG_BY_POST_TITLE = true;
 	static int GENERATE_SLUG_MAX_LENGTH = 70;
+	static bool WRITE_PROGRESS_ON_CONSOLE = true;
 	static bool WRITE_TITLE_ON_CONSOLE = false;
-    static bool WRITE_TAGS_COUNT_ON_CONSOLE = true;
-    static bool WRITE_PEOPLE_COUNT_ON_CONSOLE = true;
+    static bool WRITE_TAGS_COUNT_ON_CONSOLE = false;
+    static bool WRITE_PEOPLE_COUNT_ON_CONSOLE = false;
     static bool WRITE_SOURCE_COUNT_ON_CONSOLE = true;
 	static bool DELETE_OUTPUT_DIRECTORY = false;
 	static int DOTS_PER_LINE_CONSOLE = 100;
@@ -84,10 +85,10 @@ public class Program {
 	static void Main()
 	{
 		// Pre-execution notice
-		Console.WriteLine("================================================================================");
+		Console.WriteLine(new String('=', Console.WindowWidth));
 		// Console.WriteLine("> If execution is stuck, is likely due to Blogger img tags missing self-enclosing slash, format on Web and re-export");
 		if(!WRITE_TITLE_ON_CONSOLE) Console.WriteLine("> WRITE_TITLE_ON_CONSOLE is " + WRITE_TITLE_ON_CONSOLE + "; Set as True to see post titles");
-		Console.WriteLine("================================================================================");
+		Console.WriteLine(new String('=', Console.WindowWidth));
         Stopwatch stopwatch = new Stopwatch();
         stopwatch.Start();
   		var inputFileDirs = GetBloggerExportFilePath(BLOGGER_EXPORT_FILE_DIRECTORY, WORKING_EXPORT_FILE_DIRECTORY);
@@ -98,7 +99,6 @@ public class Program {
         GenerateFile(fanfics);
 		Console.WriteLine();
         WriteFanficListFromTags();
-		Console.WriteLine("================================================================================");
 		// Output as completed
         stopwatch.Stop();
 		Console.WriteLine("Done generate fanfiction page. Time taken: " + stopwatch.Elapsed.ToString(@"m\:ss\.fff"));
@@ -307,13 +307,25 @@ public class Program {
 			string postTitle = entry.Title;
 			string postExtension = entry.Extension;
 			string bloggerLink = entry.SourceUrl;
-			// Show progress, as post title or as represented by dot
-			if(WRITE_TITLE_ON_CONSOLE || DEBUG_MODE)
-				Console.WriteLine("||> " + (postTitle.Length > 0 ? postTitle : "POST W/O TITLE DATED " + publishDate.ToString("yyyy-MM-dd")));
-			else if(p % DOTS_PER_LINE_CONSOLE == DOTS_PER_LINE_CONSOLE - 1)
-				Console.WriteLine(".");
+            // Show progress, as post title or as represented by dot
+			if(WRITE_PROGRESS_ON_CONSOLE && !DEBUG_MODE)
+			{
+				var q = xmlPosts.Count() - 1 - p;
+				Console.SetCursorPosition(0, Console.CursorTop);
+				var progressBarSize = Console.WindowWidth - 6;
+				var progressBarCount = (int)Math.Floor((double)progressBarSize * (q + 1) / xmlPosts.Count());
+				var progressPercent = Math.Floor((double)100 * (q + 1) / xmlPosts.Count());
+				Console.Write(new String('=', progressBarCount).PadRight(progressBarSize) + " " + progressPercent.ToString().PadLeft(3) + "%");
+			}
 			else
-				Console.Write(".");
+			{
+				if(WRITE_TITLE_ON_CONSOLE || DEBUG_MODE)
+					Console.WriteLine("||> " + (postTitle.Length > 0 ? postTitle : "POST W/O TITLE DATED " + publishDate.ToString("yyyy-MM-dd")));
+				else if(p % DOTS_PER_LINE_CONSOLE == DOTS_PER_LINE_CONSOLE - 1)
+					Console.WriteLine(".");
+				else
+					Console.Write(".");
+			}
 			// Find post labels
 			var pageTagsXml = entry.Tags;
 			// Post labels to ignore and not render
@@ -414,6 +426,7 @@ public class Program {
     static void WriteFanficListFromTags()
     {
         if(WRITE_TAGS_COUNT_ON_CONSOLE || WRITE_PEOPLE_COUNT_ON_CONSOLE || WRITE_SOURCE_COUNT_ON_CONSOLE) {
+			Console.WriteLine();
             var peopleList = new Dictionary<String, Int32>();
             var tagsList = new Dictionary<String, Int32>();
             foreach(var list in PAGE_TAGS.Values)

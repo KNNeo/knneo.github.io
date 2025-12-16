@@ -14,7 +14,6 @@ using System.Net.Http;
 public class Program {
 	// DEBUG
 	static bool DEBUG_MODE = false;
-	static Dictionary<String, int> emojiCounts = new Dictionary<String, int>();
 
 	// INPUT OUTPUT SETTINGS
     static string INPUT_SEARCH_WILDCARD = "feed*.atom";
@@ -28,8 +27,8 @@ public class Program {
     static string REPLACE_TEXT_FILENAME = @"/home/kaineng/Documents/Repositories/knreports/posts/mapping.txt";
 
 	// PROGRAM SETTINGS
+	static bool WRITE_PROGRESS_ON_CONSOLE = true;
 	static bool WRITE_TITLE_ON_CONSOLE = false;
-	static bool WRITE_EMOJICOUNT_ON_CONSOLE = false;
 	static int DOTS_PER_LINE_CONSOLE = 100;
 	static string BLOG_DOMAIN_URL = "https://klassicnotereports.blogspot.com/";
 	static XNamespace DEFAULT_XML_NAMESPACE = XNamespace.Get("http://www.w3.org/2005/Atom");
@@ -84,10 +83,10 @@ public class Program {
 	static void Main()
 	{
 		//Pre-execution notice
-		Console.WriteLine("================================================================================");
+		Console.WriteLine(new String('=', Console.WindowWidth));
 		// Console.WriteLine("> If execution is stuck, is likely due to Blogger img tags missing self-enclosing slash, format on Web and re-export");
 		if(!WRITE_TITLE_ON_CONSOLE) Console.WriteLine("> WRITE_TITLE_ON_CONSOLE is " + WRITE_TITLE_ON_CONSOLE + "; Set as True to see post titles");
-		Console.WriteLine("================================================================================");	
+		Console.WriteLine(new String('=', Console.WindowWidth));	
         Stopwatch stopwatch = new Stopwatch();
         stopwatch.Start();
   		var inputFileDirs = GetBloggerExportFilePath(BLOGGER_EXPORT_FILE_DIRECTORY, WORKING_EXPORT_FILE_DIRECTORY);
@@ -97,7 +96,6 @@ public class Program {
 		var searchIndex = GenerateSearchIndex(bloggerPosts, linkedList);
 		GenerateSearchIndexScript(searchIndex);
 		Console.WriteLine();
-		Console.WriteLine("================================================================================");	
 		// Output as completed
         stopwatch.Stop();
 		Console.WriteLine("Done generate search index script. Time taken: " + stopwatch.Elapsed.ToString(@"m\:ss\.fff"));
@@ -303,13 +301,24 @@ public class Program {
 			if(!Directory.Exists(yearfolder)) Directory.CreateDirectory(outputFileDir);
 			var monthfolder = Path.Combine(yearfolder, publishDate.Month.ToString("00"));
 			if(!Directory.Exists(monthfolder)) Directory.CreateDirectory(monthfolder);
-			// Show progress, as post title or as represented by dot
-			if(WRITE_TITLE_ON_CONSOLE || DEBUG_MODE || VERIFY_HTML.ToLower() == "manual")
-				Console.WriteLine("||> " + (postTitle.Length > 0 ? postTitle : "POST W/O TITLE DATED " + publishDate.ToString("yyyy-MM-dd")));
-			else if(p % DOTS_PER_LINE_CONSOLE == DOTS_PER_LINE_CONSOLE - 1)
-				Console.WriteLine(".");
+            // Show progress, as post title or as represented by dot
+			if(WRITE_PROGRESS_ON_CONSOLE && !DEBUG_MODE)
+			{
+				Console.SetCursorPosition(0, Console.CursorTop);
+				var progressBarSize = Console.WindowWidth - 6;
+				var progressBarCount = (int)Math.Floor((double)progressBarSize * (p + 1) / xmlPosts.Count());
+				var progressPercent = Math.Floor((double)100 * (p + 1) / xmlPosts.Count());
+				Console.Write(new String('=', progressBarCount).PadRight(progressBarSize) + " " + progressPercent.ToString().PadLeft(3) + "%");
+			}
 			else
-				Console.Write(".");
+			{
+				if(WRITE_TITLE_ON_CONSOLE || DEBUG_MODE)
+					Console.WriteLine("||> " + (postTitle.Length > 0 ? postTitle : "POST W/O TITLE DATED " + publishDate.ToString("yyyy-MM-dd")));
+				else if(p % DOTS_PER_LINE_CONSOLE == DOTS_PER_LINE_CONSOLE - 1)
+					Console.WriteLine(".");
+				else
+					Console.Write(".");
+			}
 			// Find post labels
 			var pageTagsXml = entry.Tags;
 			// Post labels to ignore and not render
@@ -544,9 +553,9 @@ public class Program {
 	}
 
 	static bool VerifyHtml(string content) {
-		Console.WriteLine("================================================================================");
+		Console.WriteLine(new String('=', Console.WindowWidth));
         Console.WriteLine(content);
-		Console.WriteLine("================================================================================");
+		Console.WriteLine(new String('=', Console.WindowWidth));
         Console.WriteLine("Do you verify this content? (y/n):");
 
         while (true)
@@ -579,7 +588,7 @@ public class Program {
 				}
 			}
 		}
-		catch(Exception e)
+		catch(Exception)
 		{
 			Console.WriteLine("Error on DownloadTo: " + url);
 			throw;
