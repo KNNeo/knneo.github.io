@@ -4,7 +4,8 @@ const config = {
 		return matchMedia('all and (orientation:landscape)').matches;
 	},
 	isFirefox: (/Firefox/i.test(navigator.userAgent)),
-	spacer: 'https://knneo.github.io/resources/config.spacer.gif'
+	spacer: 'https://knneo.github.io/resources/config.spacer.gif',
+	sizes: ['photo_size_select_small', 'photo_size_select_large', 'photo_size_select_actual']
 };
 
 //--REFERENCES--//
@@ -572,7 +573,7 @@ function calculateThumbnailSize(fullscreen) {
 }
 
 function calculateColumns(gridWidth) {
-	let columns = 0;
+	let columns = 1;
 	switch (window.preset) {
 		case 'photo_size_select_small':
 			columns = window.data.tag.size[0];
@@ -672,23 +673,39 @@ function resize() {
 }
 
 function onToggleSize() {
-	switch (event.target.innerText) {
-		case 'photo_size_select_actual':
-			event.target.innerText = 'photo_size_select_small';
-			break
-		case 'photo_size_select_small':
-			event.target.innerText = 'photo_size_select_large';
-			break;
-		case 'photo_size_select_large':
-			event.target.innerText = 'photo_size_select_actual';
-			break;
-		default:
-			break;
-	}
-
+	let id = config.sizes.indexOf(event.target.innerText);
+	event.target.innerText = config.sizes[id+1 >= config.sizes.length ? 0 : id+1];
 	window.preset = event.target.innerText;
 	popupTextGoAway(window.preset.toUpperCase().slice(window.preset.lastIndexOf('_') + 1), 'material-icons');
 	generateGrid();
+}
+
+function setSize(val) {
+	if(event) event.preventDefault();
+	if(!val) {
+		let container = document.createElement('label');
+		let input = document.createElement('input');
+		input.classList.add('range');
+		input.type = 'range';
+		input.title = 'Drag to set image size to use';
+		input.min = 0;
+		input.max = config.sizes.length - 1;
+		input.oninput = function() {
+			window.preset = config.sizes[this.value];
+			this.setAttribute('data-value', window.preset);
+			localStorage.setItem('image_collage_size', window.preset);
+			generateGrid();
+		};
+		input.value = window.columns;
+		input.setAttribute('data-value', window.columns || 'Auto');
+		container.appendChild(input);
+		popupText(container);
+	}
+	else {
+		window.preset = val;
+		localStorage.setItem('image_collage_size', window.preset);
+		generateGrid();
+	}
 }
 
 function onToggleExpander() {
