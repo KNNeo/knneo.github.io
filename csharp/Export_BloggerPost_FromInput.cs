@@ -134,14 +134,14 @@ public class Program {
             bloggerLinkInput = ReadInput("Blogger URL:");
         }
 
-        String publishDateTimeInput = null;
-        while(String.IsNullOrWhiteSpace(publishDateTimeInput) || !DateTime.TryParseExact(publishDateTimeInput, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime publishDateTime)) {
-            publishDateTimeInput = ReadInput("Publish date:");
-        }
-
         String postTitleInput = null;
         while(String.IsNullOrWhiteSpace(postTitleInput)) {
             postTitleInput = ReadInput("Post title:");
+        }
+
+        String publishDateTimeInput = null;
+        while(String.IsNullOrWhiteSpace(publishDateTimeInput) || !DateTime.TryParseExact(publishDateTimeInput, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime publishDateTime)) {
+            publishDateTimeInput = ReadInput("Publish date:");
         }
 
         String pageTagsInput = null;
@@ -156,7 +156,6 @@ public class Program {
 
         BloggerPost bloggerPost = new BloggerPost(publishDateTime, publishDateTime, postTitleInput, "html", bloggerLinkInput, pageTags, pageLink, postContentInput, previousBloggerPostLinkInput);
 		var homepageString = ProcessBloggerPost(bloggerPost, Path.Combine(OUTPUT_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER));
-		Console.WriteLine();
 		Console.WriteLine("Homepage string to append:");
 		Console.WriteLine(homepageString);
 		Console.WriteLine("================================================================================");
@@ -313,7 +312,9 @@ public class Program {
         if(postContent.Contains("id=\""))
             article.AppendLine("<div class=\"post-hashtags\"></div>");
         // Actual content to put in post-content class, HTML condensed
+		article.Append("<div class=\"post-content\">");
 		article.Append(Uglify.Html(postContent, MINIFY_SETTINGS));
+		article.AppendLine("</div>");
         if(pageTagsXml.Count > 0)
         {
             footer.Append($"<div class=\"post-tags\"><h4>{POST_TAGS_PREFIX_TEXT} </h4>" + 
@@ -326,8 +327,8 @@ public class Program {
 		// Generate page url of previous post by input
 		if(!string.IsNullOrWhiteSpace(entry.PreviousUrl))
 		{
-			var previousPostBloggerPostName = entry.PreviousUrl.Substring(entry.PreviousUrl.LastIndexOf('/'), entry.PreviousUrl.LastIndexOf('.html') - entry.PreviousUrl.LastIndexOf('/') + 1);
-			previousPostLink = entry.PreviousUrl.Replace(previousPostBloggerPostName, GenerateSlug(previousPostBloggerPostName)).Replace(BLOG_DOMAIN_URL, "../../../../");
+			var previousPostBloggerPostName = entry.PreviousUrl.Substring(entry.PreviousUrl.LastIndexOf('/'), entry.PreviousUrl.LastIndexOf(".html") - entry.PreviousUrl.LastIndexOf('/') + 1);
+			previousPostLink = entry.PreviousUrl.Replace(previousPostBloggerPostName, "/" + GenerateSlug(previousPostBloggerPostName) + "/").Replace(BLOG_DOMAIN_URL, "../../../../posts/").Replace("html", "index.html");
 		}
         // Write all additions into output home page
         string fileString = File.ReadAllText(POST_TEMPLATE_FILENAME)
@@ -1076,11 +1077,11 @@ public class BloggerPost
     public string Extension { get; set; }
     public string SourceUrl { get; set; }
     public string DestinationUrl { get; set; }
-    public string? PreviousUrl { get; set; }
+    public string PreviousUrl { get; set; }
     public List<string> Tags { get; set; } = new List<string>();
     public string Content { get; set; }
 
-    public BloggerPost(DateTime publishDate, DateTime updateDate, string postTitle, string postExtension, string bloggerLink, List<string> pageTags, string pageLink, string postContent string? previousUrl)
+    public BloggerPost(DateTime publishDate, DateTime updateDate, string postTitle, string postExtension, string bloggerLink, List<string> pageTags, string pageLink, string postContent, string previousUrl)
     {
         PublishDate = publishDate;
         UpdateDate = updateDate;
