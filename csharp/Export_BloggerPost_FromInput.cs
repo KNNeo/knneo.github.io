@@ -127,6 +127,11 @@ public class Program {
         }
         Console.WriteLine("Post content detected!");
 
+        String previousBloggerPostLinkInput = null;
+        while(String.IsNullOrWhiteSpace(previousBloggerPostLinkInput)) {
+            previousBloggerPostLinkInput = ReadInput("Blogger URL (of previous post):");
+        }
+
         String bloggerLinkInput = null;
         while(String.IsNullOrWhiteSpace(bloggerLinkInput)) {
             bloggerLinkInput = ReadInput("Blogger URL:");
@@ -152,7 +157,7 @@ public class Program {
         String pageLink = "./posts/" + publishDateTime.Year + "/" + publishDateTime.Month + "/" + GenerateSlug(postTitleInput) + "/index.html";
         Console.WriteLine("Output URL: " + pageLink);
 
-        BloggerPost bloggerPost = new BloggerPost(publishDateTime, publishDateTime, postTitleInput, "html", bloggerLinkInput, pageTags, pageLink, postContentInput);
+        BloggerPost bloggerPost = new BloggerPost(publishDateTime, publishDateTime, postTitleInput, "html", bloggerLinkInput, pageTags, pageLink, postContentInput, previousBloggerPostLinkInput);
 		var homepageString = ProcessBloggerPost(bloggerPost, Path.Combine(OUTPUT_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER));
 		Console.WriteLine();
 		Console.WriteLine("Homepage string to append:");
@@ -320,6 +325,9 @@ public class Program {
                 "</div>");
         }
         var copyrightYear = publishDate.Year >= updateDate.Year ? updateDate.Year.ToString() : publishDate.Year + "-" + updateDate.Year;
+		// Generate page url of previous post by input
+		var previousPostBloggerPostName = entry.PreviousUrl.Substring(entry.PreviousUrl.LastIndexOf('/'), entry.PreviousUrl.LastIndexOf('.html') - entry.PreviousUrl.LastIndexOf('/') + 1);
+		var previousPostLink = entry.PreviousUrl.Replace(previousPostBloggerPostName, GenerateSlug(previousPostBloggerPostName)).Replace(BLOG_DOMAIN_URL, "../../../../");
         // Write all additions into output home page
         string fileString = File.ReadAllText(POST_TEMPLATE_FILENAME)
             .Replace("_DOCTITLE_", (postTitle.Length > 0 ? postTitle : "A Random Statement") + " - " + HTML_TITLE)
@@ -334,7 +342,7 @@ public class Program {
             .Replace("_CONTENTS_\n", article.ToString())
             .Replace("_FOOTER_\n", footer.ToString())
             .Replace("_COPYRIGHT_\n", $"<div class=\"attribution\">Copyright © {HTML_TITLE} {copyrightYear}. All rights reserved.</div>")
-            .Replace("_PREVLINK_", "javascript:void(0);")
+            .Replace("_PREVLINK_", previousPostLink)
             .Replace("_NEXTLINK_", "javascript:void(0);");
         // Write into homepage file, or overwrite if exists
         if (DEBUG_MODE) Console.WriteLine("Write to file");
@@ -398,6 +406,11 @@ public class Program {
 		// Show collated label counts
 		if (DEBUG_MODE) Console.WriteLine("Print labels total count");
 		if (SHOW_POST_LABELs_COUNT) Console.WriteLine(labelCounts.OrderByDescending(x => x.Value));
+
+		// Display page url to add to previous post
+		Console.WriteLine("Page Exported! URL: ");
+		Console.WriteLine(pageLink.Replace("./", "../../../../"));
+		Console.WriteLine();
 		return homepageString.ToString();
 	}
 
@@ -1062,10 +1075,11 @@ public class BloggerPost
     public string Extension { get; set; }
     public string SourceUrl { get; set; }
     public string DestinationUrl { get; set; }
+    public string PreviousUrl { get; set; }
     public List<string> Tags { get; set; } = new List<string>();
     public string Content { get; set; }
 
-    public BloggerPost(DateTime publishDate, DateTime updateDate, string postTitle, string postExtension, string bloggerLink, List<string> pageTags, string pageLink, string postContent)
+    public BloggerPost(DateTime publishDate, DateTime updateDate, string postTitle, string postExtension, string bloggerLink, List<string> pageTags, string pageLink, string postContent string previousUrl)
     {
         PublishDate = publishDate;
         UpdateDate = updateDate;
@@ -1075,6 +1089,7 @@ public class BloggerPost
         DestinationUrl = pageLink;
         Tags = pageTags;
         Content = postContent;
+		PreviousUrl = previousUrl;
     }
 }
 
