@@ -105,12 +105,12 @@ public class Program {
 	static void Main()
 	{
 		// Pre-execution notice
-		Console.WriteLine("================================================================================");
+		Console.WriteLine(new String('=', Console.WindowWidth));
 		// Console.WriteLine("> If execution is stuck, is likely due to Blogger img tags missing self-enclosing slash, format on Web and re-export");
 		if(!WRITE_TITLE_ON_CONSOLE) Console.WriteLine("> WRITE_TITLE_ON_CONSOLE is " + WRITE_TITLE_ON_CONSOLE + "; Set as True to see post titles");
 		if(HOMEPAGE_ONLY) Console.WriteLine("> HOMEPAGE_ONLY is " + HOMEPAGE_ONLY + "; Set as False to update posts");
-		if(DEBUG_MODE) Console.WriteLine("> DEBUG_MODE is " + DEBUG_MODE + "; Set as False to run Fix #14");
-		Console.WriteLine("================================================================================");
+		if(DEBUG_MODE) Console.WriteLine("> DEBUG_MODE is " + DEBUG_MODE + "; Set as False to hide debugging");
+		Console.WriteLine(new String('=', Console.WindowWidth));
         Stopwatch stopwatch = new Stopwatch();
         stopwatch.Start();
   		var inputFileDirs = GetBloggerExportFilePath(BLOGGER_EXPORT_FILE_DIRECTORY, WORKING_EXPORT_FILE_DIRECTORY);
@@ -120,7 +120,7 @@ public class Program {
 		var homepageString = ProcessBloggerPosts(bloggerPosts, linkedList, Path.Combine(OUTPUT_DIRECTORY, OUTPUT_DIRECTORY_SUBFOLDER));
 		GenerateHomepage(homepageString, bloggerPosts.ToList().Count);
 		Console.WriteLine();
-		Console.WriteLine("================================================================================");
+		Console.WriteLine(new String('=', Console.WindowWidth));
 		if(WRITE_FIXES_ON_CONSOLE)
 		{
 			Console.WriteLine("FIX COUNTS");
