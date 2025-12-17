@@ -1,0 +1,76 @@
+/* DIALOG */
+.dialog {
+	border: 2px solid rgb(var(--tertiary));
+	background-color: rgb(var(--background));
+	color: rgb(var(--foreground));
+	padding: 0;
+	opacity: 0;
+	transition: opacity .2s cubic-bezier(0.05, 0.7, 0.1, 1.0);
+	border-radius: 28px;
+	text-align: center;
+}
+
+.dialog::backdrop {
+	opacity: inherit;
+	transition: inherit;
+	background-color: rgba(var(--background), 0.3);
+	cursor: pointer;
+}
+
+.dialog[open] {
+	opacity: 0;
+}
+
+.dialog.open {
+	opacity: 1;
+	margin: auto;
+}
+
+.dialog[open]>div {
+	padding: 24px;
+}
+
+body:has(.dialog.open) {
+	overflow: hidden;
+}
+
+.dialog-header {
+	font-size: var(--lg);
+	padding-bottom: 16px;
+}
+
+.dialog-header::before {
+	font-family: Material Icons;
+	content: attr(data-name);
+	display: block;
+}
+
+.dialog-action {
+	display: flex;
+	justify-content: flex-end;
+	padding-top: 24px;
+}
+
+.dialog-action button {
+	font-weight: bold;
+	background: none;
+	border: none;
+	color: rgb(var(--primary));
+	display: block;
+	position: relative;
+	padding: 8px 12px;
+}
+
+.dialog-action button:hover,
+.dialog-action button:focus-within {
+	background-color: rgba(var(--tertiary), 0.4);
+}
+
+/* MEDIA QUERIES - REDUCED MOTION */
+@media (prefers-reduced-motion: reduce) {
+
+	.dialog,
+	.dialog::backdrop {
+		transition: none;
+	}
+}
