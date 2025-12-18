@@ -5,7 +5,10 @@ const config = {
 	},
 	isFirefox: (/Firefox/i.test(navigator.userAgent)),
 	spacer: 'https://knneo.github.io/resources/config.spacer.gif',
-	sizes: ['photo_size_select_small', 'photo_size_select_large', 'photo_size_select_actual']
+	presets: {
+		size: ['photo_size_select_small', 'photo_size_select_large', 'photo_size_select_actual'],
+		threshold: [6, 3, 1]
+	}
 };
 
 //--REFERENCES--//
@@ -74,7 +77,7 @@ function initializeVariables(data) {
 	window.include = '';
 	window.exclude = '';
 	window.columns = parseInt(localStorage.getItem('image_collage_columns') || 0);
-	window.preset = settings.querySelector('.size')?.innerText || 'photo_size_select_small';
+	window.preset = config.presets.size[config.presets.threshold.findIndex(x => x <= window.columns)] || config.presets.size[0];
 	window.slideshow = { run: null, history: [] };
 	menu.addEventListener(config.isFirefox ? 'DOMMouseScroll' : 'mousewheel', onScrollSidebar);
 	window.addEventListener('mousemove', hideMouseInViewer);
@@ -189,6 +192,9 @@ function generateSidebar() {
 		else
 			document.querySelector('.' + key).classList.add('hidden');
 	}
+
+	if(document.querySelector('.size'))
+		document.querySelector('.size').innerText = window.preset;
 }
 
 function generateTagsList() {
@@ -673,39 +679,11 @@ function resize() {
 }
 
 function onToggleSize() {
-	let id = config.sizes.indexOf(event.target.innerText);
-	event.target.innerText = config.sizes[id+1 >= config.sizes.length ? 0 : id+1];
+	let id = config.presets.size.indexOf(event.target.innerText);
+	event.target.innerText = config.presets.size[id+1 >= config.presets.size.length ? 0 : id+1];
 	window.preset = event.target.innerText;
 	popupTextGoAway(window.preset.toUpperCase().slice(window.preset.lastIndexOf('_') + 1), 'material-icons');
 	generateGrid();
-}
-
-function setSize(val) {
-	if(event) event.preventDefault();
-	if(!val) {
-		let container = document.createElement('label');
-		let input = document.createElement('input');
-		input.classList.add('range');
-		input.type = 'range';
-		input.title = 'Drag to set image size to use';
-		input.min = 0;
-		input.max = config.sizes.length - 1;
-		input.oninput = function() {
-			window.preset = config.sizes[this.value];
-			this.setAttribute('data-value', window.preset);
-			localStorage.setItem('image_collage_size', window.preset);
-			generateGrid();
-		};
-		input.value = window.columns;
-		input.setAttribute('data-value', window.columns || 'Auto');
-		container.appendChild(input);
-		popupText(container);
-	}
-	else {
-		window.preset = val;
-		localStorage.setItem('image_collage_size', window.preset);
-		generateGrid();
-	}
 }
 
 function onToggleExpander() {
@@ -893,6 +871,9 @@ function setColumns(val) {
 		input.max = window.data?.grid?.column?.max || 20;
 		input.oninput = function() {
 			window.columns = parseInt(this.value);
+			window.preset = config.presets.size[config.presets.threshold.findIndex(x => x <= window.columns)] || config.presets.size[0];
+			if(document.querySelector('.size'))
+				document.querySelector('.size').innerText = window.preset;
 			this.setAttribute('data-value', window.columns || 'Auto');
 			localStorage.setItem('image_collage_columns', window.columns);
 			generateGrid();
