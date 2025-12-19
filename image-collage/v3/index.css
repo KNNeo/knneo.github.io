@@ -528,9 +528,12 @@ a:focus-within {
 	content: attr(data-id);
 }
 
-.context .menu-options div[data-selected],
-.context .menu-options div:hover {
+.context .menu-options div[data-selected] {
 	background-color: var(--secondary);
+}
+
+.context .menu-options div:hover {
+	background-color: var(--accent);
 }
 
 @media (orientation: landscape) {
