@@ -129,15 +129,16 @@ function saveEditor(event) {
 		let conversation = event.target.closest('.conversation');
 		if(!window.saved) {
 			window['conversation-messages'][conversation.id].content = conversation.querySelector('.editor textarea').value;
-			conversation.querySelector('.editor textarea').setAttribute('disabled', '');
 			let latest = window['conversation-messages'][conversation.id];
 			let latestId = Object.keys(window['conversation-messages']).indexOf(conversation.id);
-			// shift keys from current item
-			let keys = Object.keys(window['conversation-messages']);
-			for (let i = 1+latestId; i >= 2; i--)
-				window['conversation-messages']['text' + i] = JSON.parse(JSON.stringify(window['conversation-messages']['text' + (i - 1)]));
-			// set latest item as first
-			window['conversation-messages']['text1'] = JSON.parse(JSON.stringify(latest));
+			if(latestId) {
+				// shift keys from current item
+				let keys = Object.keys(window['conversation-messages']);
+				for (let i = 1+latestId; i >= 2; i--)
+					window['conversation-messages']['text' + i] = JSON.parse(JSON.stringify(window['conversation-messages']['text' + (i - 1)]));
+				// set latest item as first
+				window['conversation-messages']['text1'] = JSON.parse(JSON.stringify(latest));
+			}
 			saveToLocalStorage();
 			updateSenderOptions(conversation);
 			window.saved = true;
