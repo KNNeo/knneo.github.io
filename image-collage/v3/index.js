@@ -23,6 +23,7 @@ const settings = document.querySelector('.settings');
 const viewer = document.querySelector('.viewer');
 const include = document.querySelector('#include');
 const exclude = document.querySelector('#exclude');
+const contextDiv = document.querySelector('.context');
 const callback = (entries, observer) => {
 	entries.forEach((elem) => {
 		let thumbnail = elem.target;
@@ -1233,16 +1234,16 @@ function showContextMenu() {
 	}
 	contextDiv.appendChild(submenu);
 	//adjust context if exceed window bottom
-	if (y + contextDiv.getBoundingClientRect().height + 80 >= pageDiv.getBoundingClientRect().height) {
+	if (y + contextDiv.getBoundingClientRect().height + 80 >= collage.getBoundingClientRect().height) {
 		contextDiv.style.top = (y - contextDiv.getBoundingClientRect().height) + 'px';
 		if (y - contextDiv.getBoundingClientRect().height < 0)
 			contextDiv.style.top = 0;
 	}
 	//adjust context if exceed window right
-	if (x + contextDiv.getBoundingClientRect().width + 80 >= pageDiv.getBoundingClientRect().x + pageDiv.getBoundingClientRect().width) {
+	if (x + contextDiv.getBoundingClientRect().width + 80 >= collage.getBoundingClientRect().x + collage.getBoundingClientRect().width) {
 		contextDiv.style.left = (x - contextDiv.getBoundingClientRect().width) + 'px';
-		if (x - contextDiv.getBoundingClientRect().width < pageDiv.getBoundingClientRect().x + pageDiv.getBoundingClientRect().width + contextDiv.getBoundingClientRect().width)
-			contextDiv.style.left = pageDiv.getBoundingClientRect().width - contextDiv.getBoundingClientRect().width + 'px';
+		if (x - contextDiv.getBoundingClientRect().width < collage.getBoundingClientRect().x + collage.getBoundingClientRect().width + contextDiv.getBoundingClientRect().width)
+			contextDiv.style.left = collage.getBoundingClientRect().width - contextDiv.getBoundingClientRect().width + 'px';
 	}
 }
 
