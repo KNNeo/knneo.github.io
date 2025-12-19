@@ -1224,8 +1224,10 @@ function showContextMenu() {
 	for(let tag of Array.from(event.target.title.split('\n'))) {
 		let menuItem = document.createElement('div');
 		menuItem.setAttribute('data-id', tag);
+		if(window.include.includes(tag))
+			menuItem.setAttribute('data-selected', tag);
 		menuItem.addEventListener('click', function() {
-			window.include = event.target.getAttribute('data-id');
+			window.include = window.include.includes(tag) ? '' : event.target.getAttribute('data-id');
 			include.value = window.include;
 			generateTagsList();
 			generateGrid();

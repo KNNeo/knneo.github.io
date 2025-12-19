@@ -528,6 +528,7 @@ a:focus-within {
 	content: attr(data-id);
 }
 
+.context .menu-options div[data-selected],
 .context .menu-options div:hover {
 	background-color: var(--secondary);
 }
