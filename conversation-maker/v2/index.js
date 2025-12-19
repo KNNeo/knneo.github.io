@@ -128,19 +128,17 @@ function saveEditor(event) {
 	if(event.target.classList.contains('bi-floppy')) {
 		let conversation = event.target.closest('.conversation');
 		window['conversation-messages'][conversation.id].content = conversation.querySelector('.editor textarea').value;
+		let latest = window['conversation-messages'][conversation.id];
+		let latestId = Object.keys(window['conversation-messages']).indexOf(conversation.id);
+		// shift keys down from current item
+		let keys = Object.keys(window['conversation-messages']);
+		for (let i = 1+latestId; i > 2; i--)
+			window['conversation-messages']['text' + i] = JSON.parse(JSON.stringify(window['conversation-messages']['text' + (i - 1)]));
+		// set latest item as first
+		window['conversation-messages']['text1'] = JSON.parse(JSON.stringify(latest));
 		saveToLocalStorage();
 		updateSenderOptions(conversation);
-		// let latest = window['conversation-messages'][conversation.id];
-		// let latestId = Object.keys(window['conversation-messages']).indexOf(conversation.id);
-		// shift keys down from current item
-		// let keys = Object.keys(window['conversation-messages']);
-		// for (let i = 1+latestId; i > 1; i--)
-		// 	window['conversation-messages']['text' + i] = window['conversation-messages']['text' + (i - 1)];
-		// set latest item as first
-		// window['conversation-messages']['text1'] = latest;
-		// arrange order of current view
-		// conversation.parentElement.insertBefore(conversation, conversation.firstElementChild);
-		// conversation.remove();
+		window.saved = true;
 		// blink icon
 		event.target.classList.toggle('bi-floppy');
 		event.target.classList.toggle('bi-check2-circle');
@@ -212,6 +210,11 @@ function updateNames() {
     saveToLocalStorage();
 }
 
+function onAddConversation() {
+	addConversation();
+	initializeHomepage();
+}
+
 function addConversation(name) {
 	let newOpt = document.createElement('div');
 	if (!name || !typeof (name) == 'string')
@@ -233,7 +236,6 @@ function addConversation(name) {
 				name
 			};
 		saveToLocalStorage();
-		initializeHomepage();
 	}
 }
 
@@ -446,7 +448,15 @@ function onSelectSection() {
 
 function selectHomepage() {
 	selectionDiv.querySelector('div[data-id]').click();
-	initializeHomepage();
+	if(window.saved) {
+		window.saved = false;
+		// remove all but homepage
+		for(let item of document.querySelectorAll('.container :not(#text0)'))
+			item.remove();
+		startup();
+	}
+	else
+		initializeHomepage();
 }
 
 //--FUNCTIONS--//
@@ -983,7 +993,8 @@ function readFromLocalStorage() {
 		let key = 'text' + i;
 		let item = window['conversation-messages'][key];
 		if (item && item.name) {
-			addConversation(item.name);
+			if(!document.querySelector('#' + key))
+				addConversation(item.name);
 			let conversation = document.querySelector('#' + key);
 			if (item.content) // editor content
 				conversation.querySelector('.editor textarea').value = item.content;
@@ -1033,7 +1044,6 @@ function initializeWindow() {
 }
 
 function initializeHomepage() {
-	homepageDiv.innerHTML = '';
 	//select first conversation
 	let initial = homepageDiv.closest('.conversation');
 	initial.classList.remove('hidden');
