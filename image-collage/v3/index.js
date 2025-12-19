@@ -1250,4 +1250,5 @@ function showContextMenu() {
 
 function hideContextMenu() {
 	contextDiv.classList.add('hidden');
+	document.removeEventListener('click', hideContextMenu);
 }
