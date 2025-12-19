@@ -513,6 +513,7 @@ a:focus-within {
 	white-space: nowrap;
 	background-color: var(--background);
 	box-shadow: 1px 3px 0 0 var(--accent);
+	z-index: 9;
 }
 
 .context .menu-options div {
