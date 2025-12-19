@@ -437,7 +437,7 @@ function generateGrid() {
 		gridItemImage.setAttribute('data-caption', item.ct || '');
 		gridItemImage.setAttribute('loading', 'lazy');
 		gridItemImage.addEventListener('click', openViewer);
-		gridItemImage.addEventListener('contextmenu', showContextMenu);
+		gridItemImage.addEventListener('contextmenu', showContextMenu, false);
 		gridItemImage.addEventListener('error', function () {
 			event.preventDefault();
 			console.log('item not loaded:', event.target.getAttribute('data-image'));
@@ -1211,8 +1211,8 @@ function showContextMenu() {
 		return contextDiv.classList.add('hidden');
 	document.addEventListener('click', hideContextMenu);
 	//positioning
-	let x = (event.target.getBoundingClientRect()?.x + event.target.getBoundingClientRect()?.width) || event.clientX;
-	let y = (event.target.getBoundingClientRect()?.y + event.target.getBoundingClientRect()?.height) || event.clientY;
+	let x = event.clientX;
+	let y = event.clientY;
 	contextDiv.style.top = y + 'px';
 	contextDiv.style.left = x + 'px';
 	contextDiv.classList.remove('hidden');
