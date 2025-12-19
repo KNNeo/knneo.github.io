@@ -435,39 +435,8 @@ function generateGrid() {
 		gridItemImage.setAttribute('data-src', item['og'] || item['lg'] || item['md'] || item['sm'] || config.spacer);
 		gridItemImage.setAttribute('data-caption', item.ct || '');
 		gridItemImage.setAttribute('loading', 'lazy');
-		gridItemImage.addEventListener('click', function () {
-			openViewer(event.target.parentElement);
-		});
-		gridItemImage.addEventListener('contextmenu', function () {
-			event.preventDefault();
-			let keywords = event.target.title.split('\n');
-			if (window.data.tag.category.groups?.length) {
-				if (keywords.filter(k => window.include.includes(k)).length < 1) // if no keywords in filter
-					toggleVariable('include', keywords[0]); // toggle first keyword
-				else { // toggle next keyword
-					let includeArray = window.include.split('|');
-					// assume unique tag across all categories
-					let currentIndex = keywords.findIndex(k => includeArray.includes(k));
-					// loop around if include last keyword
-					let nextIndex = 1 + currentIndex < keywords.length ? 1 + currentIndex : 0;
-					// toggle off current value, toggle on next value based on sequence
-					// assume tags length do not need to be same as groups length
-					toggleVariable('include', keywords[currentIndex]);
-					toggleVariable('include', keywords[nextIndex]);
-				}
-				include.value = window.include;
-				generateTagsList();
-				generateGrid();
-				// scroll to filter where selected, else if deselected scroll to other include
-				let filter = document.querySelector('.tags .tag[filter="include"][value="' + window.include + '"]');
-				if (!filter) filter = document.querySelector('.tags .tag[filter="include"]');
-				if (filter) filter.scrollIntoView({ block: "center" });
-			}
-			else {
-				console.error('tag category groups do not exist, edit in config');
-			}
-			return false;
-		}, false);
+		gridItemImage.addEventListener('click', openViewer);
+		gridItemImage.addEventListener('contextmenu', showContextMenu, false);
 		gridItemImage.addEventListener('error', function () {
 			event.preventDefault();
 			console.log('item not loaded:', event.target.getAttribute('data-image'));
@@ -545,6 +514,37 @@ function toggleVariable(variable, value) {
 	}
 	else
 		window[variable] += (window[variable].length > 0 ? '|' : '') + value;
+}
+
+function toggleTags() {
+	event.preventDefault();
+	let keywords = event.target.title.split('\n');
+	if (window.data.tag.category.groups?.length) {
+		if (keywords.filter(k => window.include.includes(k)).length < 1) // if no keywords in filter
+			toggleVariable('include', keywords[0]); // toggle first keyword
+		else { // toggle next keyword
+			let includeArray = window.include.split('|');
+			// assume unique tag across all categories
+			let currentIndex = keywords.findIndex(k => includeArray.includes(k));
+			// loop around if include last keyword
+			let nextIndex = 1 + currentIndex < keywords.length ? 1 + currentIndex : 0;
+			// toggle off current value, toggle on next value based on sequence
+			// assume tags length do not need to be same as groups length
+			toggleVariable('include', keywords[currentIndex]);
+			toggleVariable('include', keywords[nextIndex]);
+		}
+		include.value = window.include;
+		generateTagsList();
+		generateGrid();
+		// scroll to filter where selected, else if deselected scroll to other include
+		let filter = document.querySelector('.tags .tag[filter="include"][value="' + window.include + '"]');
+		if (!filter) filter = document.querySelector('.tags .tag[filter="include"]');
+		if (filter) filter.scrollIntoView({ block: "center" });
+	}
+	else {
+		console.error('tag category groups do not exist, edit in config');
+	}
+	return false;
 }
 
 function getThumbnailSizeBySetting(item) {
@@ -895,9 +895,9 @@ function createLinkedList(selector) {
 	window['viewer-list'] = Array.from(document.querySelectorAll(selector));
 }
 
-function openViewer(image) {
+function openViewer() {
 	createLinkedList('.grid-item img');
-	openImageInViewer(image.querySelector('img'));
+	openImageInViewer(event.target.parentElement.querySelector('img'));
 	runLoader();
 }
 
@@ -1200,4 +1200,53 @@ function createDialog(node) {
 			event.target.remove();
 	});
 	return dialog;
+}
+
+//--CONTEXT MENU--//
+function showContextMenu() {
+	event.preventDefault();
+	event.stopPropagation();
+	if(!contextDiv.classList.contains('hidden'))
+		return contextDiv.classList.add('hidden');
+	document.addEventListener('click', hideContextMenu);
+	//positioning
+	let x = (event.target.getBoundingClientRect()?.x + event.target.getBoundingClientRect()?.width) || event.clientX;
+	let y = (event.target.getBoundingClientRect()?.y + event.target.getBoundingClientRect()?.height) || event.clientY;
+	contextDiv.style.top = y + 'px';
+	contextDiv.style.left = x + 'px';
+	contextDiv.classList.remove('hidden');
+	contextDiv.innerHTML = '';
+	//render menu
+	let submenu = document.createElement('div');
+	submenu.className = 'menu-options';
+	//render tags
+	for(let tag of Array.from(event.target.title.split('\n'))) {
+		let menuItem = document.createElement('div');
+		menuItem.setAttribute('data-id', tag);
+		menuItem.addEventListener('click', function() {
+			window.include = event.target.getAttribute('data-id');
+			include.value = window.include;
+			generateTagsList();
+			generateGrid();
+		});
+		submenu.appendChild(menuItem);
+	}
+	contextDiv.appendChild(submenu);
+	//adjust context if exceed window bottom
+	if (y + contextDiv.getBoundingClientRect().height + 80 >= pageDiv.getBoundingClientRect().height) {
+		contextDiv.style.top = (y - contextDiv.getBoundingClientRect().height) + 'px';
+		if (y - contextDiv.getBoundingClientRect().height < 0)
+			contextDiv.style.top = 0;
+	}
+	//adjust context if exceed window right
+	if (x + contextDiv.getBoundingClientRect().width + 80 >= pageDiv.getBoundingClientRect().x + pageDiv.getBoundingClientRect().width) {
+		contextDiv.style.left = (x - contextDiv.getBoundingClientRect().width) + 'px';
+		if (x - contextDiv.getBoundingClientRect().width < pageDiv.getBoundingClientRect().x + pageDiv.getBoundingClientRect().width + contextDiv.getBoundingClientRect().width)
+			contextDiv.style.left = pageDiv.getBoundingClientRect().width - contextDiv.getBoundingClientRect().width + 'px';
+	}
+}
+
+function hideContextMenu() {
+	if(!event.target.closest('.context'))
+		contextDiv.classList.add('hidden');
 }

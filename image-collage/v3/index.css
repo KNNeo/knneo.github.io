@@ -506,6 +506,27 @@ a:focus-within {
 	opacity: 0;
 }
 
+.context {
+    font-size: 0.65em;
+    position: absolute;
+    border-radius: 4px;
+    white-space: nowrap;
+    background-color: var(--background);
+    box-shadow: 1px 3px 0 0 var(--accent);
+}
+
+.context .menu-options div {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 6px;
+    cursor: pointer;
+}
+
+.context .menu-options div:hover {
+    background-color: var(--secondary);
+}
+
 @media (orientation: landscape) {
 	.content {
 		display: flex;
