@@ -63,6 +63,7 @@ public class Program {
         var pageSections = GenerateSitemap(bloggerPosts);
         GenerateSitemapFile(pageSections);
         stopwatch.Stop();
+        Console.WriteLine();
 		Console.WriteLine("Done generate sitemap. Time taken: " + stopwatch.Elapsed.ToString(@"m\:ss\.fff"));
     }
 
@@ -342,7 +343,7 @@ public class Program {
         {
             var key = Char.ToUpper(item.Keyword[0]);
             animeString += (animeTitle != key ? ("<h4 class=\"title\" tabIndex=\"0\" data-id=\"" + key + "\">" + key + "</h4>\r\n") : "");
-            animeString += "<a class=\"keyword\" title=\"" + item.Title + "\" href=\"" + item.KeywordUrl + "\">" + item.Keyword + "</a>\r\n";
+            animeString += "<a class=\"keyword\" onclick=\"processClickLink()\" title=\"" + item.Title + "\" href=\"" + item.KeywordUrl + "\">" + item.Keyword + "</a>\r\n";
             animeTitle = key;
         }
         
@@ -352,7 +353,7 @@ public class Program {
         {
             var key = Char.ToUpper(item.Keyword[0]);
             packageString += (packageTitle != key ? ("<h4 class=\"title\" tabIndex=\"0\" data-id=\"" + key + "\">" + key + "</h4>\r\n") : "");
-            packageString += "<a class=\"keyword\" title=\"" + item.Title + "\" href=\"" + item.KeywordUrl + "\">" + item.Keyword + "</a>\r\n";
+            packageString += "<a class=\"keyword\" onclick=\"processClickLink()\" title=\"" + item.Title + "\" href=\"" + item.KeywordUrl + "\">" + item.Keyword + "</a>\r\n";
             packageTitle = key;
         }
         
@@ -367,7 +368,7 @@ public class Program {
             var date = DateTime.ParseExact(key[1], "yyyy.MM.dd", null);
             if(date >= prevDate.AddDays(14)) // assume breaks between seasons
                 fanString += "</div><div><h4 class=\"title\">Season " + ++seasonNo + "</h4>\r\n";
-            fanString += "<a class=\"keyword\" data-id=\"" + (++counter).ToString("00") + "\" title=\"" + item.Title + "\" href=\"" + item.KeywordUrl + "\">" + key[2] + "</a>\r\n";
+            fanString += "<a class=\"keyword\" onclick=\"processClickLink()\" data-id=\"" + (++counter).ToString("00") + "\" title=\"" + item.Title + "\" href=\"" + item.KeywordUrl + "\">" + key[2] + "</a>\r\n";
             prevDate = date;
         }
         fanString += "</div>";
