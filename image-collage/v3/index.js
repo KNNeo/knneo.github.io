@@ -1249,6 +1249,5 @@ function showContextMenu() {
 }
 
 function hideContextMenu() {
-	if(!event.target.closest('.context'))
-		contextDiv.classList.add('hidden');
+	contextDiv.classList.add('hidden');
 }
