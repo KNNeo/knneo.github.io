@@ -265,7 +265,7 @@ function deleteConversation() {
 	
 		// save and reload
 		saveToLocalStorage();
-		selectHomepage();
+		onSelectHomepage();
 	}
 }
 
@@ -446,12 +446,12 @@ function onSelectSection() {
 	removeDialog();
 }
 
-function selectHomepage() {
+function onSelectHomepage() {
 	selectionDiv.querySelector('div[data-id]').click();
 	if(window.saved) {
 		window.saved = false;
 		// remove all but homepage
-		for(let item of document.querySelectorAll('.container :not(#text0)'))
+		for(let item of document.querySelectorAll('.conversation:not(#text0)'))
 			item.remove();
 		startup();
 	}
@@ -1044,6 +1044,7 @@ function initializeWindow() {
 }
 
 function initializeHomepage() {
+	homepageDiv.innerHTML = '';
 	//select first conversation
 	let initial = homepageDiv.closest('.conversation');
 	initial.classList.remove('hidden');
@@ -1051,7 +1052,7 @@ function initializeHomepage() {
 	initial.querySelector('.messages').style.height = '';
 	let conversations = Array.from(Object.keys(window['conversation-messages']));
 	if(!conversations.length) // if empty, force create
-		addConversation();
+		return onAddConversation();
 	//render messages page
 	for(let selection of conversations) {
 		let ref = window['conversation-messages'][selection];
