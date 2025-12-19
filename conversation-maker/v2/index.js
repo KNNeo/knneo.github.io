@@ -12,6 +12,7 @@ const config = {
     },
 	separator: {
 		line: ':',
+		lines: [':', '：'],
 		choice: '|'
 	},
 	wrapper: {
@@ -138,6 +139,16 @@ function saveEditor(event) {
 					window['conversation-messages']['text' + i] = JSON.parse(JSON.stringify(window['conversation-messages']['text' + (i - 1)]));
 				// set latest item as first
 				window['conversation-messages']['text1'] = JSON.parse(JSON.stringify(latest));
+			}
+			// auto detect separator, if possible
+			let sepInput = conversation.querySelector('.editor #separator');
+			if(sepInput) {
+				let input = conversation.querySelector('.editor textarea').value.split('\n');
+				let separator = config.separator.lines.find(l => input.filter(c => c.includes(l)).length > 1);
+				if(separator) {
+					sepInput.value = separator;
+					sepInput.dispatchEvent(new Event('change'));
+				}
 			}
 			saveToLocalStorage();
 			updateSenderOptions(conversation);
