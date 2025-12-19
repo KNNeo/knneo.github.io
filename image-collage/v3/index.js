@@ -437,7 +437,7 @@ function generateGrid() {
 		gridItemImage.setAttribute('data-caption', item.ct || '');
 		gridItemImage.setAttribute('loading', 'lazy');
 		gridItemImage.addEventListener('click', openViewer);
-		gridItemImage.addEventListener('contextmenu', showContextMenu, false);
+		gridItemImage.addEventListener('contextmenu', showContextMenu);
 		gridItemImage.addEventListener('error', function () {
 			event.preventDefault();
 			console.log('item not loaded:', event.target.getAttribute('data-image'));
@@ -1229,6 +1229,7 @@ function showContextMenu() {
 			include.value = window.include;
 			generateTagsList();
 			generateGrid();
+			hideContextMenu();
 		});
 		submenu.appendChild(menuItem);
 	}

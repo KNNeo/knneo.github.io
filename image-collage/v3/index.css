@@ -314,9 +314,9 @@ a:focus-within {
 
 .range::after {
 	content: attr(data-value);
-    position: absolute;
-    right: 0.5rem;
-    color: var(--foreground);
+	position: absolute;
+	right: 0.5rem;
+	color: var(--foreground);
 }
 
 .filters {
@@ -507,24 +507,28 @@ a:focus-within {
 }
 
 .context {
-    font-size: 0.65em;
-    position: absolute;
-    border-radius: 4px;
-    white-space: nowrap;
-    background-color: var(--background);
-    box-shadow: 1px 3px 0 0 var(--accent);
+	font-size: 0.65em;
+	position: absolute;
+	border-radius: 4px;
+	white-space: nowrap;
+	background-color: var(--background);
+	box-shadow: 1px 3px 0 0 var(--accent);
 }
 
 .context .menu-options div {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    padding: 4px 6px;
-    cursor: pointer;
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	padding: 4px 6px;
+	cursor: pointer;
+}
+
+.context .menu-options div::before {
+	content: attr(data-id);
 }
 
 .context .menu-options div:hover {
-    background-color: var(--secondary);
+	background-color: var(--secondary);
 }
 
 @media (orientation: landscape) {
