@@ -316,6 +316,10 @@ function generateViewer() {
 			next.click();
 		return false;
 	}, false);
+	if(window.data?.viewer?.captions)
+		viewer.classList.add('captions');
+	else
+		viewer.classList.remove('captions');
 }
 
 function generateStats() {
@@ -948,7 +952,7 @@ function openImageInViewer(image) {
 			window['loading'] = false;
 			runLoader();
 			if (window.slideshow?.run != null)
-				window.slideshow.run = setTimeout(runSlideshow, (window.data?.slideshow?.duration || 5) * 1000);
+				window.slideshow.run = setTimeout(runSlideshow, (window.data?.viewer?.slideshow?.duration || 5) * 1000);
 		}, 250);
 	});
 	img.addEventListener('click', closeViewer);
@@ -1041,7 +1045,7 @@ function hideMouseInViewer() {
 		viewer.getBoundingClientRect(); // for style refresh
 		setTimeout(function () {
 			// auto hide based on config
-			if ((window.data?.cursor || window.data?.slideshow?.cursor) != 'hide') return;
+			if ((window.data?.viewer?.cursor || window.data?.viewer?.slideshow?.cursor) != 'hide') return;
 			viewer.style.setProperty('--cursor', 'none');
 			viewer.getBoundingClientRect();
 		}, 5000);
