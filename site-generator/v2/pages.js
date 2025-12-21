@@ -133,6 +133,7 @@ function renderExit() {
 	exit.href = typeof processLinkExtensions == "function"
 		? processLinkExtensions(config.data.exit)
 		: config.data.exit;
+	exit.setAttribute('oncontextmenu', 'resetChanges()');
 	if (!document.querySelector(".exit")) {
 		if (container)
 			container.insertBefore(exit, container.children[0]);
@@ -552,6 +553,7 @@ function renderMasonry(data, container) {
 		"--height",
 		"calc(" + container.getBoundingClientRect().height + "px - 1em)"
 	);
+	masonry.setAttribute('oncontextmenu', 'onMasonryContextMenu()');
 	container.appendChild(masonry);
 
 	if (data.config && data.config.length == 3) {
@@ -966,12 +968,70 @@ function resetSnackbar() {
 	startup();
 }
 
+//--CONTEXT MENU--//
+function showContextMenu(options) {
+	event.preventDefault();
+	event.stopPropagation();
+	let contextDiv = document.querySelector('.context') || document.createElement('div');
+	if(!document.querySelector('.context')) {
+		contextDiv.className = 'context hidden';
+		document.body.appendChild(contextDiv);
+	}
+	if(!contextDiv.classList.contains('hidden'))
+		return contextDiv.classList.add('hidden');
+	document.context = event.target;
+	document.addEventListener('click', hideContextMenu);
+	//positioning
+	let x = event.clientX;
+	let y = event.clientY;
+	contextDiv.style.top = y + 'px';
+	contextDiv.style.left = x + 'px';
+	contextDiv.classList.remove('hidden');
+	contextDiv.innerHTML = '';
+	//render menu
+	let submenu = document.createElement('div');
+	submenu.className = 'menu-options';
+	//render tags
+	for(let option of options) {
+		let menuItem = document.createElement('div');
+		menuItem.onclick = option.onclick;
+		menuItem.innerText = option.title;
+		submenu.appendChild(menuItem);
+	}
+	contextDiv.appendChild(submenu);
+	let targetParent = event.target.closest('section');
+	if(targetParent) {
+		//adjust context if exceed window bottom
+		if (y + contextDiv.getBoundingClientRect().height + 80 >= targetParent.getBoundingClientRect().height) {
+			contextDiv.style.top = (y - contextDiv.getBoundingClientRect().height) + 'px';
+			if (y - contextDiv.getBoundingClientRect().height < 0)
+				contextDiv.style.top = 0;
+		}
+		//adjust context if exceed window right
+		if (x + contextDiv.getBoundingClientRect().width + 80 >= targetParent.getBoundingClientRect().x + targetParent.getBoundingClientRect().width) {
+			contextDiv.style.left = (x - contextDiv.getBoundingClientRect().width) + 'px';
+			if (x - contextDiv.getBoundingClientRect().width < targetParent.getBoundingClientRect().x + targetParent.getBoundingClientRect().width + contextDiv.getBoundingClientRect().width)
+				contextDiv.style.left = targetParent.getBoundingClientRect().width - contextDiv.getBoundingClientRect().width + 'px';
+		}
+	}
+}
+
+function hideContextMenu() {
+	if(document.querySelector('.context'))
+		document.querySelector('.context').classList.add('hidden');
+	document.removeEventListener('click', hideContextMenu);
+}
+
 //--STARTUP--//
 function startup() {
 	if (pageMain) pageMain.innerText = "Loading...";
 	// load data
 	if (document.querySelector(".snackbar"))
 		console.log(document.querySelector(".snackbar").getAttribute("data-filter"));
+	else if (localStorage.getItem(window.btoa(window.location.href))) {
+		config.data = JSON.parse(localStorage.getItem(window.btoa(window.location.href)));
+		console.log("using local storage");
+	}
 	else if (dataScript?.innerText) {
 		// script json in HTML DOM
 		config.data = JSON.parse(dataScript?.innerText || []);
@@ -1014,6 +1074,10 @@ function render() {
 			.querySelector('section[data-index="' + (config.main || 0) + '"]')
 			.scrollIntoView();
 	}, 0);
+}
+
+function save() {
+	localStorage.setItem(window.btoa(window.location.href), JSON.stringify(config.data));
 }
 
 window.addEventListener("load", startup);

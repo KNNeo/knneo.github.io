@@ -337,6 +337,37 @@ body:has(.scrim:not(.hide)) {
 	bottom: -100%;
 }
 
+/* CONTEXT MENU */
+.context {
+	font-size: 0.75em;
+	position: absolute;
+	border-radius: 4px;
+	white-space: nowrap;
+	background-color: rgb(var(--background));
+	box-shadow: 1px 3px 0 0 rgb(var(--accent));
+	z-index: 9;
+}
+
+.context .menu-options div {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	padding: 4px 6px;
+	cursor: pointer;
+}
+
+.context .menu-options div::before {
+	content: attr(data-id);
+}
+
+.context .menu-options div[data-selected] {
+	background-color: rgb(var(--secondary));
+}
+
+.context .menu-options div:hover {
+	background-color: rgb(var(--accent));
+}
+
 /* GLOBAL HIDE CLASS */
 .hidden {
 	/* TODO: increase specificity */
