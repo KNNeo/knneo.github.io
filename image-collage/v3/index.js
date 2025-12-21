@@ -1104,18 +1104,18 @@ function runSlideshow() {
 		window.slideshow.history.push(image);
 		// calculate new history list based on max
 		let defaultMax = 5;
-		if (!window.data?.slideshow?.history)
-			window.data.slideshow.history = defaultMax;
+		if (!window.slideshow.history)
+			window.slideshow.history = defaultMax;
 		if (typeof window.data?.slideshow?.history == 'string' && window.data?.slideshow?.history.endsWith('%')) {
 			// if percentage, convert to number
 			let percentNumber = parseInt(window.data?.slideshow?.history);
 			if (percentNumber != NaN) {
-				window.data.slideshow.history = Math.floor(percentNumber / 100 * images.length);
+				window.slideshow.history = Math.floor(percentNumber / 100 * images.length);
 				if (window.data?.slideshow?.history >= images.length)
-					window.data.slideshow.history -= 1;
+					window.slideshow.history -= 1;
 			}
 			else
-				window.data.slideshow.history = defaultMax;
+				window.slideshow.history = defaultMax;
 		}
 		// slice if exceeded
 		if (window.slideshow.history.length > window.data?.slideshow?.history)
