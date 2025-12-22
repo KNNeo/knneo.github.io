@@ -988,10 +988,10 @@ function showContextMenu(options) {
 	submenu.className = 'menu-options';
 	//render tags
 	if (!options || !options.length) return;
-	options.sort(function(a, b) {
-		if(typeof a.order == 'number' && typeof b.order == 'number')
+	options.sort(function (a, b) {
+		if (typeof a.order == 'number' && typeof b.order == 'number')
 			return a.order - b.order;
-		if(typeof a.title == 'string' && typeof b.title == 'string')
+		if (typeof a.title == 'string' && typeof b.title == 'string')
 			return a.title.localeCompare(b.title);
 	})
 	for (let option of options) {
