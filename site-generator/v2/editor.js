@@ -6,25 +6,27 @@ function resetChanges() {
 
 function onMasonryContextMenu() {
 	let options = [
-		{ title: 'Add Masonry Item', disabled: true, onclick: function() {
+		{ title: 'Add Masonry Item', onclick: function() {
 			//find position of section and section item in data object
 			let section = document.context.closest('section');
 			let sectionIndex = parseInt(section.getAttribute('data-index'));
 			let gridItem = document.context.closest('.grid-item');
 			let gridItemIndex = parseInt(gridItem.style.getPropertyValue('--idx'));
             //obtain input (key in for now)
-            window.input = {};
-            window.input.title = prompt('key in title');
-            if(!window.input.title) return;
-            window.input.artist = prompt('key in artist');
-            if(!window.input.artist) return;
-            window.input.thumbnail = prompt('key in image url');
-            if(!window.input.thumbnail) return;
-            window.input.translation = prompt('key in translation of title');
-            window.input.title_url = prompt('key in title url in format: title|url', 'Melonbooks|');
-            if(!window.input.title_url) return;
-            window.input.artist_url = prompt('key in artist url in format: artist|url', 'Artist Twitter/X|');
-            if(!window.input.artist_url) return;
+            window.input = prompt('key in json (else click ok to skip)');
+            if(!window.input) {
+				window.input.title = prompt('key in title');
+				if(!window.input.title) return;
+				window.input.artist = prompt('key in artist');
+				if(!window.input.artist) return;
+				window.input.thumbnail = prompt('key in image url');
+				if(!window.input.thumbnail) return;
+				window.input.translation = prompt('key in translation of title');
+				window.input.title_url = prompt('key in title url in format: title|url', 'Melonbooks|');
+				if(!window.input.title_url) return;
+				window.input.artist_url = prompt('key in artist url in format: artist|url', 'Artist Twitter/X|');
+				if(!window.input.artist_url) return;
+			}
             //fixed template
 			let template = { 
 				"tooltip": window.input.title, 
@@ -48,7 +50,7 @@ function onMasonryContextMenu() {
 			save();
 			render();
 		}},
-		{ title: 'Add Masonry Item (Melonbooks)', onclick: function() {
+		{ title: 'Add Masonry Item (Melonbooks)', disabled: true, onclick: function() {
 			window.input = {};
 			window.input.source_url = prompt('key in url');
 			if(!window.input.source_url) return;
