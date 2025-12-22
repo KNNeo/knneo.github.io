@@ -174,7 +174,7 @@ function onMasonryContextMenu() {
 				let image = document.context;
 				let imageIndex = parseInt(image.getAttribute('data-images'));
 				//obtain data objects
-				let data = config.data.pages[sectionIndex].items[gridItemIndex - 1].images[imageIndex];
+				let data = config.data.pages[sectionIndex].items[gridItemIndex - 1].images.find(i => i.order == imageIndex);
 				let gridImage = data.grid.items[0];
 				let gridTitle = data.grid.items[1];
 				let gridTags = data.grid.items[2];
@@ -224,6 +224,7 @@ function onMasonryContextMenu() {
 					"height": 637
 				};
 				//load from data object and render again
+				imageIndex = config.data.pages[sectionIndex].items[gridItemIndex - 1].images.findIndex(i => i.order == imageIndex);
 				config.data.pages[sectionIndex].items[gridItemIndex - 1].images[imageIndex] = template;
 				save();
 				render();
