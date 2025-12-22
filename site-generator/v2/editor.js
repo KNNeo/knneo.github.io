@@ -13,20 +13,23 @@ function onMasonryContextMenu() {
 			let gridItem = document.context.closest('.grid-item');
 			let gridItemIndex = parseInt(gridItem.style.getPropertyValue('--idx'));
             //obtain input (key in for now)
-            window.input = prompt('key in json (else click ok to skip)');
-            if(!window.input) {
-				window.input.title = prompt('key in title');
-				if(!window.input.title) return;
-				window.input.artist = prompt('key in artist');
-				if(!window.input.artist) return;
-				window.input.thumbnail = prompt('key in image url');
-				if(!window.input.thumbnail) return;
-				window.input.translation = prompt('key in translation of title');
-				window.input.title_url = prompt('key in title url in format: title|url', 'Melonbooks|');
-				if(!window.input.title_url) return;
-				window.input.artist_url = prompt('key in artist url in format: artist|url', 'Artist Twitter/X|');
-				if(!window.input.artist_url) return;
-			}
+			window.input = {};
+			let jsonInput = prompt('key in json (optional)');
+			if(jsonInput) window.input = JSON.parse(jsonInput);
+			window.input.title = prompt('key in title', window.input.title);
+			if(!window.input.title) return;
+			window.input.artist = prompt('key in artist', window.input.artist);
+			if(!window.input.artist) return;
+			window.input.thumbnail = prompt('key in image url', window.input.thumbnail);
+			if(!window.input.thumbnail) return;
+			window.input.title_url = prompt('key in title url in format: title|url', window.input.title_url || 'Melonbooks|');
+			if(!window.input.title_url) return;
+			window.input.artist_url = prompt('key in artist url in format: artist|url', window.input.artist_url || 'Artist Twitter/X|');
+			if(!window.input.artist_url) return;
+			window.input.translation = prompt('key in translation of title (optional)', window.input.translation || '');
+			window.input.tags = prompt('key in tags, pipeline [|] separated (optional)', window.input.tags || '');
+			if(window.input.tags)
+				window.input.tags = window.input.tags.split('|');
             //fixed template
 			let template = { 
 				"tooltip": window.input.title, 
@@ -39,7 +42,7 @@ function onMasonryContextMenu() {
 							{ "text": window.input.title_url.split('|')[0], "url": window.input.title_url.split('|')[1] },
 							{ "text": window.input.artist_url.split('|')[0], "url": window.input.artist_url.split('|')[1] }
 						]},
-						{ "type": "tags", "rows": 2, "prefix": "#", "filter": true, "values": [] }
+						{ "type": "tags", "rows": 2, "prefix": "#", "filter": true, "values": window.input.tags || [] }
 					]
 				},
 				"width": 450,
