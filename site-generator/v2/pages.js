@@ -567,14 +567,19 @@ function renderMasonry(data, container) {
 		let totalCol = Math.min(calcColumns, config.masonry.maxColumns);
 		if (config.masonry.minColumns && totalCol < config.masonry.minColumns)
 			totalCol = config.masonry.minColumns;
-		// allow shuffle if no filter
-		if (data.shuffle && !data.reverse && !config.filter)
-			data.images.sort(function () { return 2 * Math.random() - 1 });
+		// sort via order, else create order
+		if(!data.images[0].order)
+			data.images.map(function(i, index) { i.order = index });
+		if (data.shuffle && !config.filter) {
+			let newOrder = Array.from({length: data.images.length}, (v, i) => i).sort(function () { return 2 * Math.random() - 1 });
+			data.images.map(function (i, index) { i.order = newOrder[index] });
+		}
+		if (data.reverse)
+			data.images.map(function (i, index) { i.order = data.images.length - index - 1 });
+		data.images.sort(function(a,b) { return b.order - a.order });
 		// filter images if notification detected (see startup)
 		let images = JSON.parse(JSON.stringify(data.images));
 		if (config.filter) images = images.filter((i) => !i.skip);
-		// sort items before render
-		if (data.reverse) images.reverse();
 		// create masonry columns
 		for (let row = 0; row < totalCol; row++) {
 			let colDiv = document.createElement("div");
@@ -594,7 +599,7 @@ function renderMasonry(data, container) {
 				if (item.tooltip && item.tooltip.length > 0) image.title = item.tooltip;
 				image.src = item.thumbnail || item.source;
 				image.alt = item.tooltip;
-				image.setAttribute("data-images", data.reverse ? images.length - 1 - d : d);
+				image.setAttribute("data-images", item.order);
 				// data for recursion render
 				if (item.grid)
 					image.setAttribute("data-type", data.type);
@@ -906,11 +911,11 @@ function openGridInDialog(sectionIndex, galleryIndex, type) {
 	);
 	if (itemsOfType && itemsOfType.length > 0) {
 		// render grid of first item type
-		let data = itemsOfType[0].images[parseInt(galleryIndex)].grid;
-		// console.log(data);
+		let data = itemsOfType[0].images.find(x => x.order == parseInt(galleryIndex));
+		// console.log(data.grid);
 		let section = document.querySelector("dialog section") || container;
-		section.setAttribute("data-type", data.type);
-		renderGrid(data, section);
+		section.setAttribute("data-type", data.grid.type);
+		renderGrid(data.grid, section);
 		if (!isGalleryContained && document.querySelector("dialog")) // remove fixed container size
 			document.querySelector("dialog").classList.remove('full');
 	}
