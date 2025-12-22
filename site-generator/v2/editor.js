@@ -60,11 +60,24 @@ function onMasonryContextMenu() {
 			save();
 			render();
 		}},
-		{ title: 'Add Masonry Item (Melonbooks)', disabled: true, onclick: function() {
-			window.input = {};
-			window.input.source_url = prompt('key in url');
-			if(!window.input.source_url) return;
-			getText(window.input.source_url, addMasonryItemMelonbooks);
+		{ title: 'Export Masonry Items', onclick: function() {
+			//find position of section and section item in data object
+			let section = document.context.closest('section');
+			let sectionIndex = parseInt(section.getAttribute('data-index'));
+			let gridItem = document.context.closest('.grid-item');
+			let gridItemIndex = parseInt(gridItem.style.getPropertyValue('--idx'));
+            //popup data for user, copy to clipboard
+			let data = JSON.stringify(config.data.pages[sectionIndex].items[gridItemIndex - 1].images);
+			let copyResult = prompt('Export complete! Click on ok to copy to clipboard.', data);
+			if(copyResult && navigator.clipboard)
+				navigator.clipboard.writeText(data);
+		}},
+		{ title: 'Export Page', onclick: function() {
+            //popup data for user, copy to clipboard
+			let data = JSON.stringify(config.data);
+			let copyResult = prompt('Export complete! Click on ok to copy to clipboard.', data);
+			if(copyResult && navigator.clipboard)
+				navigator.clipboard.writeText(data);
 		}}
 	];
 	if(event.target.closest('img')) {
