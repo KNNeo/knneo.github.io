@@ -607,7 +607,7 @@ function renderMasonry(data, container) {
 				if (item.grid || item.source) {
 					image.setAttribute("onclick", "onClickGalleryImage()");
 				}
-				if(item.width && item.height) {
+				if (item.width && item.height) {
 					image.width = item.width;
 					image.height = item.height;
 					addMasonryItem(image, masonry);
@@ -643,25 +643,25 @@ function addMasonryItem(item, gallery) {
 	// console.log('colNo', colNo);
 	let lowRangeColumns = [];
 	// marks within lowest range
-	for(let d = 0; d < columns.length; d++) {
+	for (let d = 0; d < columns.length; d++) {
 		let c = colNo + d >= columns.length ? colNo + d - columns.length : colNo + d;
 		lowRangeColumns[c] = Math.abs(columnHeights[c] - minHeight) < config.masonry.delta ? 1 : 0;
 	}
 	// console.log('low range', lowRangeColumns);
 	// check if single lowest
 	let singleLowest = lowRangeColumns.filter(x => x == 1).length == 1;
-	if(singleLowest) {
+	if (singleLowest) {
 		let ind = lowRangeColumns.indexOf(1);
 		// lowest is deviating from render order
-		if(colNo != ind) {
+		if (colNo != ind) {
 			colNo = ind;
 		}
 	}
 	else {
 		// group of similar, start from initial col no
-		for(let d = 0; d < columns.length; d++) {
+		for (let d = 0; d < columns.length; d++) {
 			let c = colNo + d >= columns.length ? colNo + d - columns.length : colNo + d;
-			if(lowRangeColumns[c]) {
+			if (lowRangeColumns[c]) {
 				colNo = c;
 				break;
 			}
@@ -934,9 +934,9 @@ function addHistoryState(property) {
 }
 
 function getMasonryDimensions(item) {
-	if(item.type != 'masonry') return console.error('wrong type!');
-	if(item.images && item.images.length)
-		item.images.forEach(function(x) {
+	if (item.type != 'masonry') return console.error('wrong type!');
+	if (item.images && item.images.length)
+		item.images.forEach(function (x) {
 			let img = document.querySelector('img[src="' + x.thumbnail + '"]');
 			x.width = img.naturalWidth;
 			x.height = img.naturalHeight;
@@ -973,11 +973,11 @@ function showContextMenu(options) {
 	event.preventDefault();
 	event.stopPropagation();
 	let contextDiv = document.querySelector('.context') || document.createElement('div');
-	if(!document.querySelector('.context')) {
+	if (!document.querySelector('.context')) {
 		contextDiv.className = 'context hidden';
 		document.body.appendChild(contextDiv);
 	}
-	if(!contextDiv.classList.contains('hidden'))
+	if (!contextDiv.classList.contains('hidden'))
 		return contextDiv.classList.add('hidden');
 	document.context = event.target;
 	document.addEventListener('click', hideContextMenu);
@@ -992,7 +992,9 @@ function showContextMenu(options) {
 	let submenu = document.createElement('div');
 	submenu.className = 'menu-options';
 	//render tags
-	for(let option of options) {
+	if (!options || !options.length) return;
+	for (let option of options) {
+		if (option.disabled) continue;
 		let menuItem = document.createElement('div');
 		menuItem.onclick = option.onclick;
 		menuItem.innerText = option.title;
@@ -1000,7 +1002,7 @@ function showContextMenu(options) {
 	}
 	contextDiv.appendChild(submenu);
 	let targetParent = event.target.closest('section');
-	if(targetParent) {
+	if (targetParent) {
 		//adjust context if exceed window bottom
 		if (y + contextDiv.getBoundingClientRect().height + 80 >= targetParent.getBoundingClientRect().height) {
 			contextDiv.style.top = (y - contextDiv.getBoundingClientRect().height) + 'px';
@@ -1017,7 +1019,7 @@ function showContextMenu(options) {
 }
 
 function hideContextMenu() {
-	if(document.querySelector('.context'))
+	if (document.querySelector('.context'))
 		document.querySelector('.context').classList.add('hidden');
 	document.removeEventListener('click', hideContextMenu);
 }
