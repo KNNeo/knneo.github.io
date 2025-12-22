@@ -129,11 +129,9 @@ function renderExit() {
 	let exit =
 		document.querySelector(".exit") || document.createElement("a");
 	exit.className = "exit material-icons";
-	exit.innerText = "arrow_back";
-	exit.href = typeof processLinkExtensions == "function"
-		? processLinkExtensions(config.data.exit)
-		: config.data.exit;
-	exit.setAttribute('oncontextmenu', 'resetChanges()');
+	exit.innerText = "menu";
+	exit.href = 'javascript:void(0);';
+	exit.setAttribute('onclick', 'onExitClick()');
 	if (!document.querySelector(".exit")) {
 		if (container)
 			container.insertBefore(exit, container.children[0]);
@@ -250,9 +248,9 @@ function renderDisclaimer() {
 	if (config.data.disclaimer && !window.data.ack) {
 		if (pageMain) pageMain.innerText = "";
 		let content = document.createElement('div');
-		content.innerText = 'This page contains suggestive content not suitable for minors.\n\nDo you wish to proceed?';
+		content.innerText = config.data.disclaimer.content;
 		if (typeof popupNotice == 'function')
-			popupNotice('Age Warning', 'no_adult_content', content, [
+			popupNotice(config.data.disclaimer.title, 'no_adult_content', content, [
 				{ title: 'Yes', click: 'onDisclaimerAction()' },
 				{ title: 'No', click: 'onDisclaimerAction()' }
 			]);
@@ -567,17 +565,14 @@ function renderMasonry(data, container) {
 		let totalCol = Math.min(calcColumns, config.masonry.maxColumns);
 		if (config.masonry.minColumns && totalCol < config.masonry.minColumns)
 			totalCol = config.masonry.minColumns;
+		// allow shuffle if no filter
+		if (data.shuffle && !data.reverse && !config.filter)
+			data.images.sort(function () { return 2 * Math.random() - 1 });
 		// filter images if notification detected (see startup)
 		let images = JSON.parse(JSON.stringify(data.images));
 		if (config.filter) images = images.filter((i) => !i.skip);
 		// sort items before render
 		if (data.reverse) images.reverse();
-		// allow shuffle
-		// if (data.shuffle && !data.reverse)
-		// 	images.sort(function (a, b) {
-		// 		return 2 * Math.random() - 1;
-		// 	});
-
 		// create masonry columns
 		for (let row = 0; row < totalCol; row++) {
 			let colDiv = document.createElement("div");
@@ -933,8 +928,8 @@ function addHistoryState(property) {
 	}
 }
 
-function getMasonryDimensions(item) {
-	if (item.type != 'masonry') return console.error('wrong type!');
+function updateMasonryDimensions(item) {
+	if (item.type != 'masonry') return alert('wrong type!');
 	if (item.images && item.images.length)
 		item.images.forEach(function (x) {
 			let img = document.querySelector('img[src="' + x.thumbnail + '"]');
@@ -993,6 +988,12 @@ function showContextMenu(options) {
 	submenu.className = 'menu-options';
 	//render tags
 	if (!options || !options.length) return;
+	options.sort(function(a, b) {
+		if(typeof a.order == 'number' && typeof b.order == 'number')
+			return a.order - b.order;
+		if(typeof a.title == 'string' && typeof b.title == 'string')
+			return a.title.localeCompare(b.title);
+	})
 	for (let option of options) {
 		if (option.disabled) continue;
 		let menuItem = document.createElement('div');
