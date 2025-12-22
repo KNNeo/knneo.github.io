@@ -547,10 +547,12 @@ function renderMasonry(data, container) {
 
 	let masonry = document.createElement("div");
 	masonry.className = "masonry";
-	masonry.style.setProperty(
-		"--height",
-		"calc(" + container.getBoundingClientRect().height + "px - 1em)"
-	);
+	masonry.addEventListener('resize', function() {
+		event.target.style.setProperty(
+			"--height",
+			"calc(" + event.target.parentElement.getBoundingClientRect().height + "px - 1em)"
+		);
+	});
 	masonry.setAttribute('oncontextmenu', 'onMasonryContextMenu()');
 	container.appendChild(masonry);
 
@@ -1084,5 +1086,5 @@ function save() {
 }
 
 window.addEventListener("load", startup);
-window.addEventListener("resize", startup);
+// window.addEventListener("resize", startup);
 window.addEventListener('popstate', onHistoryChange);
