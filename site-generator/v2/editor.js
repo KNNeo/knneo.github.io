@@ -67,8 +67,9 @@ function onMasonryContextMenu() {
 				window.input.translation = prompt('key in translation of title (optional)', window.input.translation || '');
 			if(!window.input.tags)
 				window.input.tags = prompt('key in tags, pipeline [|] separated (optional)', window.input.tags || '');
-			if(window.input.tags)
-				window.input.tags = window.input.tags.split('|');
+			let tags = [];
+			if(typeof window.input.tags == 'string' && window.input.tags.split('|')[0])
+				tags = window.input.tags.split('|');
             //fixed template
 			let template = { 
 				"tooltip": window.input.title, 
@@ -81,7 +82,7 @@ function onMasonryContextMenu() {
 							{ "text": window.input.title_url.split('|')[0], "url": window.input.title_url.split('|')[1] },
 							{ "text": window.input.artist_url.split('|')[0], "url": window.input.artist_url.split('|')[1] }
 						]},
-						{ "type": "tags", "rows": 2, "prefix": "#", "filter": true, "values": window.input.tags || [] }
+						{ "type": "tags", "rows": 2, "prefix": "#", "filter": true, "values": tags }
 					]
 				},
 				"width": 450,
@@ -147,8 +148,9 @@ function onMasonryContextMenu() {
 			if(!window.input.artist_url) return;
 			window.input.translation = prompt('key in translation of title (optional)', window.input.translation || '');
 			window.input.tags = prompt('key in tags, pipeline [|] separated (optional)', window.input.tags || '');
-			if(window.input.tags)
-				window.input.tags = window.input.tags.split('|');
+			let tags = [];
+			if(window.input.tags.split('|')[0])
+				tags = window.input.tags.split('|');
             //fixed template
 			let template = { 
 				"tooltip": window.input.title, 
@@ -161,7 +163,7 @@ function onMasonryContextMenu() {
 							{ "text": window.input.title_url.split('|')[0], "url": window.input.title_url.split('|')[1] },
 							{ "text": window.input.artist_url.split('|')[0], "url": window.input.artist_url.split('|')[1] }
 						]},
-						{ "type": "tags", "rows": 2, "prefix": "#", "filter": true, "values": window.input.tags || [] }
+						{ "type": "tags", "rows": 2, "prefix": "#", "filter": true, "values": tags }
 					]
 				},
 				"width": 450,
