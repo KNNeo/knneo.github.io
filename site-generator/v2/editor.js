@@ -6,7 +6,39 @@ function resetChanges() {
 
 function onMasonryContextMenu() {
 	let options = [
-		{ title: 'Add Masonry Item', onclick: function() {
+		{ title: 'Export Masonry', order: 98, onclick: function() {
+			//find position of section and section item in data object
+			let section = document.context.closest('section');
+			let sectionIndex = parseInt(section.getAttribute('data-index'));
+			let gridItem = document.context.closest('.grid-item');
+			let gridItemIndex = parseInt(gridItem.style.getPropertyValue('--idx'));
+            //popup data for user, copy to clipboard
+			let data = JSON.stringify(config.data.pages[sectionIndex].items[gridItemIndex - 1]);
+			let copyResult = prompt('Export complete! Click on ok to copy to clipboard.', data);
+			if(copyResult && navigator.clipboard)
+				navigator.clipboard.writeText(data);
+		}},
+		{ title: 'Export Page', order: 99, onclick: function() {
+            //popup data for user, copy to clipboard
+			let data = JSON.stringify(config.data);
+			let copyResult = prompt('Export complete! Click on ok to copy to clipboard.', data);
+			if(copyResult && navigator.clipboard)
+				navigator.clipboard.writeText(data);
+		}},
+		{ title: 'Clear Items', order: 4, onclick: function() {
+			//find position of section and section item in data object
+			let section = document.context.closest('section');
+			let sectionIndex = parseInt(section.getAttribute('data-index'));
+			let gridItem = document.context.closest('.grid-item');
+			let gridItemIndex = parseInt(gridItem.style.getPropertyValue('--idx'));
+            //popup confirm for user, then clear
+			if(confirm('confirm clear items? this action cannot be reversed.')) {
+				config.data.pages[sectionIndex].items[gridItemIndex - 1].images = [];
+				save();
+				render();
+			}
+		}},
+		{ title: 'Add Item', order: 1, onclick: function() {
 			//find position of section and section item in data object
 			let section = document.context.closest('section');
 			let sectionIndex = parseInt(section.getAttribute('data-index'));
@@ -59,29 +91,26 @@ function onMasonryContextMenu() {
 			config.data.pages[sectionIndex].items[gridItemIndex - 1].images.push(template);
 			save();
 			render();
-		}},
-		{ title: 'Export Masonry Items', onclick: function() {
+		}}
+	];
+	if(event.target.closest('img')) {
+		options.push({ title: 'Remove Item', order: 3, onclick: function() {
 			//find position of section and section item in data object
 			let section = document.context.closest('section');
 			let sectionIndex = parseInt(section.getAttribute('data-index'));
 			let gridItem = document.context.closest('.grid-item');
 			let gridItemIndex = parseInt(gridItem.style.getPropertyValue('--idx'));
-            //popup data for user, copy to clipboard
-			let data = JSON.stringify(config.data.pages[sectionIndex].items[gridItemIndex - 1].images);
-			let copyResult = prompt('Export complete! Click on ok to copy to clipboard.', data);
-			if(copyResult && navigator.clipboard)
-				navigator.clipboard.writeText(data);
-		}},
-		{ title: 'Export Page', onclick: function() {
-            //popup data for user, copy to clipboard
-			let data = JSON.stringify(config.data);
-			let copyResult = prompt('Export complete! Click on ok to copy to clipboard.', data);
-			if(copyResult && navigator.clipboard)
-				navigator.clipboard.writeText(data);
-		}}
-	];
-	if(event.target.closest('img')) {
-		options.push({ title: 'Edit Masonry Item', onclick: function() {
+			let image = document.context;
+			let imageIndex = parseInt(image.getAttribute('data-images'));
+            //popup confirm for user, then remove
+			if(confirm('confirm clear item? this action cannot be reversed.')) {
+				delete config.data.pages[sectionIndex].items[gridItemIndex - 1].images[imageIndex];
+				config.data.pages[sectionIndex].items[gridItemIndex - 1].images = config.data.pages[sectionIndex].items[gridItemIndex - 1].images.filter(i => i);
+				save();
+				render();
+			}
+		}});
+		options.push({ title: 'Edit Item', order: 2, onclick: function() {
 			//find position of section and section item in data object
 			let section = document.context.closest('section');
 			let sectionIndex = parseInt(section.getAttribute('data-index'));
@@ -143,22 +172,13 @@ function onMasonryContextMenu() {
 			save();
 			render();
 		}});
-		options.push({ title: 'Remove Masonry Item', onclick: function() {
-			//find position of section and section item in data object
-			let section = document.context.closest('section');
-			let sectionIndex = parseInt(section.getAttribute('data-index'));
-			let gridItem = document.context.closest('.grid-item');
-			let gridItemIndex = parseInt(gridItem.style.getPropertyValue('--idx'));
-			let image = document.context;
-			let imageIndex = parseInt(image.getAttribute('data-images'));
-            //add into data object and render again
-			delete config.data.pages[sectionIndex].items[gridItemIndex - 1].images[imageIndex];
-			config.data.pages[sectionIndex].items[gridItemIndex - 1].images = config.data.pages[sectionIndex].items[gridItemIndex - 1].images.filter(i => i);
-			save();
-			render();
-		}});
 	}
-	showContextMenu(options);
+	showContextMenu(options.sort(function(a, b) {
+		if(typeof a.order == 'number' && typeof b.order == 'number')
+			return a.order - b.order;
+		if(typeof a.title == 'string' && typeof b.title == 'string')
+			return a.title.localeCompare(b.title);
+	}));
 }
 
 function addMasonryItemMelonbooks(content) {
