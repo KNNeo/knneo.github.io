@@ -19,3 +19,19 @@ async function getJson(source, callback) {
 		callback(null);
 	}
 }
+
+async function getText(source, callback) {
+	try {
+		const response = await fetch(source);
+		if (response.ok && response.status == 200) {
+			const result = await response.text();
+			callback(result);
+		} else {
+			console.error('getText: ' + response);
+			callback(null);
+		}
+	}
+	catch (e) {
+		console.error('getText: ' + e.message, source);
+	}
+}

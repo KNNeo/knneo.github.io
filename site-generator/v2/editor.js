@@ -52,7 +52,7 @@ function onMasonryContextMenu() {
 			window.input = {};
 			window.input.source_url = prompt('key in url');
 			if(!window.input.source_url) return;
-			getXml(window.input.source_url, addMasonryItemMelonbooks);
+			getText(window.input.source_url, addMasonryItemMelonbooks);
 		}}
 	];
 	if(event.target.closest('img')) {
