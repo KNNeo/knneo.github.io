@@ -7,11 +7,38 @@ function resetChanges() {
 	}
 }
 
+function toggleFullscreen() {
+    if(pageMain.getAttribute('data-fullscreen') == null) {
+        pageMain.setAttribute('data-fullscreen', '');
+		let doc = document.documentElement;
+		if (doc.requestFullscreen)
+			doc.requestFullscreen();
+		else if (doc.mozRequestFullScreen) //Firefox 
+			doc.mozRequestFullScreen();
+		else if (doc.webkitRequestFullscreen) //Chrome, Safari, Opera
+			doc.webkitRequestFullscreen();
+		else if (doc.msRequestFullscreen) //IE,Edge
+			doc.msRequestFullscreen();
+	}
+    else {
+        pageMain.removeAttribute('data-fullscreen');
+		if (document.exitFullscreen)
+			document.exitFullscreen();
+		else if (document.mozCancelFullScreen) //Firefox
+			document.mozCancelFullScreen();
+		else if (document.webkitExitFullscreen) //Chrome, Safari, Opera
+			document.webkitExitFullscreen();
+		else if (document.msExitFullscreen) //IE, Edge
+			document.msExitFullscreen();
+    }
+}
+
 function onExitClick() {
 	event.preventDefault();
 	let options = [
-		{ title: 'Reset Changes', order: 1, onclick: resetChanges },
-		{ title: 'Exit', order: 2, onclick: function() {
+		{ title: 'Reset Changes', order: 2, onclick: resetChanges },
+		{ title: 'Full Screen', order: 1, onclick: toggleFullscreen },
+		{ title: 'Exit', order: 3, onclick: function() {
 			window.location.href = typeof processLinkExtensions == "function"
 				? processLinkExtensions(config.data.exit)
 				: config.data.exit;
