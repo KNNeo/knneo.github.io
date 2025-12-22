@@ -6,7 +6,7 @@ function resetChanges() {
 
 function onMasonryContextMenu() {
 	let options = [
-		{ title: 'Add Masonry Item', onclick: function() {
+		{ title: 'Add Masonry Item', disabled: true, onclick: function() {
 			//find position of section and section item in data object
 			let section = document.context.closest('section');
 			let sectionIndex = parseInt(section.getAttribute('data-index'));
@@ -47,6 +47,12 @@ function onMasonryContextMenu() {
 			config.data.pages[sectionIndex].items[gridItemIndex - 1].images.push(template);
 			save();
 			render();
+		}},
+		{ title: 'Add Masonry Item (Melonbooks)', onclick: function() {
+			window.input = {};
+			window.input.source_url = prompt('key in url');
+			if(!window.input.source_url) return;
+			getXml(window.input.source_url, addMasonryItemMelonbooks);
 		}}
 	];
 	if(event.target.closest('img')) {
@@ -66,4 +72,38 @@ function onMasonryContextMenu() {
 		}});
 	}
 	showContextMenu(options);
+}
+
+function addMasonryItemMelonbooks(content) {
+	//find position of section and section item in data object
+	let section = document.context.closest('section');
+	let sectionIndex = parseInt(section.getAttribute('data-index'));
+	let gridItem = document.context.closest('.grid-item');
+	let gridItemIndex = parseInt(gridItem.style.getPropertyValue('--idx'));
+	//obtain input from melonbooks
+	if(content) window.input.source = content;
+	if(window.input.source)
+		console.log(window.input.source);
+	//fixed template
+	let template = { 
+		"tooltip": window.input.title, 
+		"thumbnail": window.input.thumbnail, 
+		"grid": { 
+			"type": "grid", "columns": 2, "rows": 8, 
+			"items": [
+				{ "type": "image", "rows": 8, "tooltip": "", "source": window.input.thumbnail },
+				{ "type": "title", "rows": 6, "prefix": window.input.translation, "title": window.input.title, "suffix": window.input.artist, "links": [
+					{ "text": window.input.title_url.split('|')[0], "url": window.input.title_url.split('|')[1] },
+					{ "text": window.input.artist_url.split('|')[0], "url": window.input.artist_url.split('|')[1] }
+				]},
+				{ "type": "tags", "rows": 2, "prefix": "#", "filter": true, "values": [] }
+			]
+		},
+		"width": 450,
+		"height": 637
+	};
+	//add into data object and render again
+	config.data.pages[sectionIndex].items[gridItemIndex - 1].images.push(template);
+	save();
+	render();
 }
