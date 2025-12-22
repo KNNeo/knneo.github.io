@@ -38,7 +38,14 @@ function onExitClick() {
 	let options = [
 		{ title: 'Reset Changes', order: 2, onclick: resetChanges },
 		{ title: 'Full Screen', order: 1, onclick: toggleFullscreen },
-		{ title: 'Exit', order: 3, onclick: function() {
+		{ title: 'Export Page', order: 3, onclick: function() {
+            //popup data for user, copy to clipboard
+			let data = JSON.stringify(config.data);
+			let copyResult = prompt('Export complete! Click on ok to copy to clipboard.', data);
+			if(copyResult && navigator.clipboard)
+				navigator.clipboard.writeText(data);
+		}},
+		{ title: 'Exit', order: 4, onclick: function() {
 			window.location.href = typeof processLinkExtensions == "function"
 				? processLinkExtensions(config.data.exit)
 				: config.data.exit;
@@ -49,7 +56,7 @@ function onExitClick() {
 
 function onMasonryContextMenu() {
 	let options = [
-		{ title: 'Update Masonry Dimensions', order: 100, onclick: function() {
+		{ title: 'Update Masonry Dimensions', order: 99, onclick: function() {
 			//find position of section and section item in data object
 			let section = document.context.closest('section');
 			let sectionIndex = parseInt(section.getAttribute('data-index'));
@@ -67,13 +74,6 @@ function onMasonryContextMenu() {
 			let gridItemIndex = parseInt(gridItem.style.getPropertyValue('--idx'));
             //popup data for user, copy to clipboard
 			let data = JSON.stringify(config.data.pages[sectionIndex].items[gridItemIndex - 1]);
-			let copyResult = prompt('Export complete! Click on ok to copy to clipboard.', data);
-			if(copyResult && navigator.clipboard)
-				navigator.clipboard.writeText(data);
-		}},
-		{ title: 'Export Page', order: 99, onclick: function() {
-            //popup data for user, copy to clipboard
-			let data = JSON.stringify(config.data);
 			let copyResult = prompt('Export complete! Click on ok to copy to clipboard.', data);
 			if(copyResult && navigator.clipboard)
 				navigator.clipboard.writeText(data);
