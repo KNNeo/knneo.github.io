@@ -128,8 +128,8 @@ function onMasonryContextMenu() {
 				title: gridTitle.title,
 				artist: gridTitle.suffix,
 				thumbnail: gridImage.source,
-				title_url: gridTitle.links[0].url,
-				artist_url: gridTitle.links[1].url,
+				title_url: gridTitle.links[0].text + '|' + gridTitle.links[0].url,
+				artist_url: gridTitle.links[1].text + '|' + gridTitle.links[1].url,
 				translation: gridTitle.prefix,
 				tags: gridTags.values.join('|')
 			};
