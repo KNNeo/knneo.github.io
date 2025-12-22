@@ -29,6 +29,7 @@ function onMasonryContextMenu() {
 			let gridItem = document.context.closest('.grid-item');
 			let gridItemIndex = parseInt(gridItem.style.getPropertyValue('--idx'));
 			updateMasonryDimensions(config.data.pages[sectionIndex].items[gridItemIndex - 1]);
+			save();
 			alert('Update complete!');
 		}},
 		{ title: 'Export Masonry', order: 98, onclick: function() {
