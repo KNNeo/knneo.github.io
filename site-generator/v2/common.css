@@ -354,6 +354,7 @@ body:has(.scrim:not(.hide)) {
 	align-items: center;
 	gap: 4px;
 	padding: 4px 6px;
+	white-space: nowrap;
 	cursor: pointer;
 }
 

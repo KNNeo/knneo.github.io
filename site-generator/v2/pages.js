@@ -1012,13 +1012,13 @@ function showContextMenu(options) {
 	let targetParent = event.target.closest('section');
 	if (targetParent) {
 		//adjust context if exceed window bottom
-		if (y + contextDiv.getBoundingClientRect().height + 80 >= targetParent.getBoundingClientRect().height) {
+		if (y + contextDiv.getBoundingClientRect().height + 40 >= targetParent.getBoundingClientRect().height) {
 			contextDiv.style.top = (y - contextDiv.getBoundingClientRect().height) + 'px';
 			if (y - contextDiv.getBoundingClientRect().height < 0)
 				contextDiv.style.top = 0;
 		}
 		//adjust context if exceed window right
-		if (x + contextDiv.getBoundingClientRect().width + 80 >= targetParent.getBoundingClientRect().x + targetParent.getBoundingClientRect().width) {
+		if (x + contextDiv.getBoundingClientRect().width + 40 >= targetParent.getBoundingClientRect().x + targetParent.getBoundingClientRect().width) {
 			contextDiv.style.left = (x - contextDiv.getBoundingClientRect().width) + 'px';
 			if (x - contextDiv.getBoundingClientRect().width < targetParent.getBoundingClientRect().x + targetParent.getBoundingClientRect().width + contextDiv.getBoundingClientRect().width)
 				contextDiv.style.left = targetParent.getBoundingClientRect().width - contextDiv.getBoundingClientRect().width + 'px';
