@@ -78,9 +78,9 @@ function onMasonryContextMenu() {
 				for(let duplicate of duplicates) {
 					let image = gridItem.querySelector('img[data-images="' + duplicate.order + '"]');
 					if(image)
-						image.classList.add('blur');
+						image.classList.add('marked');
 				}
-				alert('All duplicates found and blurred!');
+				alert('All duplicates found and marked!');
 			}
 			else
 				alert('No duplicates found!');
