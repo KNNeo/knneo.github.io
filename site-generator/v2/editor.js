@@ -142,9 +142,11 @@ function onMasonryContextMenu() {
 			let tags = [];
 			if(typeof window.input.tags == 'string' && window.input.tags.split('|')[0])
 				tags = window.input.tags.split('|');
+			if(window.input.artist)
+				tags.push(window.input.artist);
             //fixed template
 			let template = { 
-				"tooltip": window.input.title, 
+				"tooltip": window.input.title + '\n' + window.input.artist, 
 				"thumbnail": window.input.thumbnail, 
 				"grid": { 
 					"type": "grid", "columns": 2, "rows": 8, 
