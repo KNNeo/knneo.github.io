@@ -234,7 +234,10 @@ function renderHeader() {
 	let header = document.createElement("header");
 	header.className = "hide centered";
 	header.innerText = config.data.header;
-	if (config.data.header) pageMain.appendChild(header);
+	if (config.data.header) {
+		pageMain.appendChild(header);
+		document.title = config.data.header;
+	}
 }
 
 function renderFooter() {
@@ -1046,6 +1049,12 @@ function startup() {
 		// script json in HTML DOM
 		config.data = JSON.parse(dataScript?.innerText || []);
 		console.log("using inline html embedded json");
+	} else if (dataScript?.src && typeof getJson == 'function') {
+		getJson(dataScript?.src, function(contents) {
+			config.data = contents;
+			init();
+		});
+		return console.log("using external data source");
 	} else console.error("no data source found");
 	// render if not empty
 	if (config.data && typeof config.data == "object")
