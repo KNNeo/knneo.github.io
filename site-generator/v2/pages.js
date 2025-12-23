@@ -553,7 +553,7 @@ function renderMasonry(data, container) {
 			"calc(" + event.target.parentElement.getBoundingClientRect().height + "px - 1em)"
 		);
 	});
-	masonry.setAttribute('oncontextmenu', 'onMasonryContextMenu()');
+	container.setAttribute('oncontextmenu', 'onMasonryContextMenu()');
 	container.appendChild(masonry);
 
 	if (data.config && data.config.length == 3) {
@@ -568,7 +568,7 @@ function renderMasonry(data, container) {
 		if (config.masonry.minColumns && totalCol < config.masonry.minColumns)
 			totalCol = config.masonry.minColumns;
 		// sort via order, else create order
-		if(!data.images[0].order)
+		if(data.images.length && !data.images[0].order)
 			data.images.map(function(i, index) { i.order = index });
 		if (data.shuffle && !config.filter) {
 			let newOrder = Array.from({length: data.images.length}, (v, i) => i).sort(function () { return 2 * Math.random() - 1 });

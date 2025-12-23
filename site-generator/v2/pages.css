@@ -363,6 +363,10 @@ section .masonry img {
 	transition: opacity var(--slow) cubic-bezier(0.05, 0.7, 0.1, 1);
 }
 
+section .masonry img.blur {
+	filter: blur(1px);
+}
+
 section .masonry:has(img:hover) img:not(:hover) {
 	opacity: 0.5;
 }

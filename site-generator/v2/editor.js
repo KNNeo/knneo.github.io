@@ -56,7 +56,7 @@ function onExitClick() {
 
 function onMasonryContextMenu() {
 	let options = [
-		{ title: 'Update Masonry Dimensions', order: 99, onclick: function() {
+		{ title: 'Update Masonry Dimensions', order: 12, onclick: function() {
 			//find position of section and section item in data object
 			let section = document.context.closest('section');
 			let sectionIndex = parseInt(section.getAttribute('data-index'));
@@ -66,7 +66,26 @@ function onMasonryContextMenu() {
 			save();
 			alert('Update complete!');
 		}},
-		{ title: 'Export Masonry', order: 98, onclick: function() {
+		{ title: 'Check Masonry Duplicates', order: 11, onclick: function() {
+			//find position of section and section item in data object
+			let section = document.context.closest('section');
+			let sectionIndex = parseInt(section.getAttribute('data-index'));
+			let gridItem = document.context.closest('.grid-item');
+			let gridItemIndex = parseInt(gridItem.style.getPropertyValue('--idx'));
+			let data = config.data.pages[sectionIndex].items[gridItemIndex - 1];
+			let duplicates = data.images.filter(i => data.images.filter(f => f.tooltip == i.tooltip && f.thumbnail == i.thumbnail).length > 1);
+			if(duplicates.length > 0) {
+				for(let duplicate of duplicates) {
+					let image = gridItem.querySelector('img[data-images="' + duplicate.order + '"]');
+					if(image)
+						image.classList.add('blur');
+				}
+				alert('All duplicates found and blurred!');
+			}
+			else
+				alert('No duplicates found!');
+		}},
+		{ title: 'Export Masonry', order: 10, onclick: function() {
 			//find position of section and section item in data object
 			let section = document.context.closest('section');
 			let sectionIndex = parseInt(section.getAttribute('data-index'));
