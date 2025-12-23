@@ -158,6 +158,7 @@ function onMasonryContextMenu() {
 				let image = document.context;
 				let imageIndex = parseInt(image.getAttribute('data-images'));
 				//popup confirm for user, then remove
+				imageIndex = config.data.pages[sectionIndex].items[gridItemIndex - 1].images.findIndex(i => i.order == imageIndex);
 				if(confirm('confirm clear item? this action cannot be reversed.')) {
 					delete config.data.pages[sectionIndex].items[gridItemIndex - 1].images[imageIndex];
 					config.data.pages[sectionIndex].items[gridItemIndex - 1].images = config.data.pages[sectionIndex].items[gridItemIndex - 1].images.filter(i => i);
