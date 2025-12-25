@@ -859,6 +859,16 @@ function onToggleSearch() {
 	}
 }
 
+function onRandomSelect() {
+	createLinkedList('.grid-item img');
+	window.slideshow.run = -1;
+	let images = generateFiltered();
+	let item = images[Math.floor(Math.random() * images.length)];
+	let image = document.querySelector('img[data-src="' + (item['og'] || item['lg'] || item['md'] || item['sm']) + '"]');
+	openImageInViewer(image);
+	runLoader();
+}
+
 function setMenuHeight() {
 	if (menu.closest('.content'))
 		menu.closest('.content').style.setProperty('--menu-height', (menu.getBoundingClientRect()?.height || 0) + 'px');

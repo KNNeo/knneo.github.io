@@ -298,6 +298,12 @@ a:focus-within {
 	opacity: 1;
 }
 
+.settings {
+	display: flex;
+	flex-wrap: wrap;
+    justify-content: center;
+}
+
 .settings a {
 	color: var(--foreground);
 	text-decoration: none;
