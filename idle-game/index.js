@@ -14,7 +14,7 @@ const config = {
                 {
                     "order": 1,
                     "maxLevel": 50,
-                    "fileName": "https://www.suruga-ya.jp/database/pics_light/game/g3589666.jpg",
+                    "fileName": "https://cdn.suruga-ya.jp/database/pics_light/game/g3589666.jpg",
                     "shortName": "悠木碧",
                     "name": "『キュピット』悠木碧"
                 },
@@ -28,7 +28,7 @@ const config = {
                 {
                     "order": 3,
                     "maxLevel": 200,
-                    "fileName": "https://www.suruga-ya.jp/database/pics_light/game/gl940093.jpg",
+                    "fileName": "https://cdn.suruga-ya.jp/database/pics_light/game/gl940093.jpg",
                     "shortName": "高橋李依",
                     "name": "『オフィスレディ』高橋李依"
                 },
@@ -91,7 +91,7 @@ const config = {
                     "order": 11,
 					"delta": 5,
                     "maxLevel": 200,
-                    "fileName": "https://www.suruga-ya.jp/database/pics_light/game/gn212358.jpg",
+                    "fileName": "https://cdn.suruga-ya.jp/database/pics_light/game/gn212358.jpg",
                     "shortName": "上坂すみれ",
                     "name": "『白いシンデレラ』上坂すみれ"
                 },
