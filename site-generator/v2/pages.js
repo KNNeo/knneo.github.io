@@ -11,6 +11,9 @@ const config = {
 		columnSize: 200,
 		delta: 150,
 		index: 0
+	},
+	sort: {
+		locale: 'ja'
 	}
 };
 const sectionTypes = ['main', 'title', 'paragraph', 'image', 'images', 'gallery', 'masonry', 'tags', 'grid', 'fullgrid', 'title-gallery'];
