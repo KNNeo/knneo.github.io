@@ -151,7 +151,7 @@ public class Program {
 
         List<String> pageTags = pageTagsInput.Split(",").ToList();
 
-        String pageLink = "./posts/" + publishDateTime.Year + "/" + publishDateTime.Month + "/" + GenerateSlug(postTitleInput) + "/index.html";
+        String pageLink = "./posts/" + publishDateTime.Year + "/" + publishDateTime.Month.ToString("00") + "/" + GenerateSlug(postTitleInput) + "/index.html";
         Console.WriteLine("Output URL: " + pageLink);
 
         BloggerPost bloggerPost = new BloggerPost(publishDateTime, publishDateTime, postTitleInput, "html", bloggerLinkInput, pageTags, pageLink, postContentInput, previousBloggerPostLinkInput);
