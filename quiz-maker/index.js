@@ -40,45 +40,7 @@ let settingsDiv = document.querySelector('.settings');
 let progressDiv = document.querySelector('.progress');
 
 //--DOM FUNCTIONS--//
-function generateTagClouds() {
-	let allTags = [];
-	
-	// dependent on list of filter containers in html
-	for(let filter of document.querySelectorAll('.filters div'))
-	{
-		// generate unique tags
-		let filterList = window.variables.items
-		.map(i => i[filter.className])
-		.reduce(function(total, current, index, arr) {
-			if(!total.map(m => m.value).includes(current))
-				total.push({
-					value: current,
-					category: filter.className,
-					count: arr.filter(f => f == current).length
-				});
-			return total;
-		}, [])
-		.sort(function(a,b) {
-			return b.count - a.count;
-		});
-		allTags = allTags.concat(filterList);
-	}
-	
-	return allTags;
-}
-
-function generateOrientationValues() {
-	for(let item of window.variables.items)
-	{
-		let itemDiv = document.querySelector('.gallery img[src="' + item.filename + '"]');
-		item.orientation = (itemDiv?.naturalWidth >= itemDiv?.naturalHeight && window.variables.orientation.landscape) 
-			|| (itemDiv?.naturalWidth < itemDiv?.naturalHeight && window.variables.orientation.portrait) 
-			|| null;
-	}
-}
-
-//--EVENT HANDLERS--//
-function onKeyDown() {
+function onKeyUp() {
 	//keyboard access
 	// if (['PageUp','PageDown','End','Home','ArrowLeft','ArrowRight'].indexOf(event.key) >= 0)
 		// event.preventDefault();
@@ -125,6 +87,92 @@ function onKeyDown() {
 	}
 }
 
+function showRules() {
+	popupContent(config.rules);
+}
+
+function showScores() {
+	let containerDiv = document.createElement('div');	
+	let titleDiv = document.createElement('div');
+	titleDiv.innerText = 'SCORES';
+	containerDiv.appendChild(titleDiv);
+	
+	let headerDiv = document.createElement('div');
+	headerDiv.innerText = 'time | score | timer';
+	containerDiv.appendChild(headerDiv);
+	
+	for(let score of window.variables.scores)
+	{
+		let scoreDiv = document.createElement('div');
+		scoreDiv.innerText = [score.timestamp, score.score + ' / ' + score.total, score.timer].join(' | ');
+		containerDiv.appendChild(scoreDiv);
+	}
+	
+	popupContent(containerDiv);
+}
+
+function clearScores() {
+	let result = prompt('Delete all scores? This action cannot be undone.');
+	if(result) {
+		localStorage.setItem('quiz-history', '[]');
+		alert('Scores cleared!');
+		startup();
+	}
+}
+
+function toggleDataset() {
+	let input = prompt('Datafile location:', document.getElementById('data-id').src);
+	if (input != null)
+		changeDataFile(input);
+	startup();
+	clear();
+}
+
+function changeDataFile(dest) {
+	document.getElementById('data-id').src = dest.endsWith('.json') ? dest : window.location.href.replace('index.html', 'data/' + dest + '.json');
+	startup();
+}
+
+function toggleTimer() {
+	let time = parseInt(event.target.getAttribute('data-timer'));
+	switch(time) {
+		case 2:
+			config.timer.each = 0;			
+			break;
+		case 3:
+			config.timer.each = 2;			
+			break;
+		case 5:
+			config.timer.each = 3;
+			break;
+		case 10:
+			config.timer.each = 5;
+			break;
+		default:
+			config.timer.each = 10;
+			break;
+	}
+	event.target.setAttribute('data-timer', config.timer.each);
+	popupTextGoAway(config.timer.each > 0 ? config.timer.each + 's' : '♾️');
+}
+
+function toggleMode() {
+	let mode = event.target.getAttribute('data-mode');
+	switch(mode) {
+		case 'practice':
+			config.mode = 'quiz';
+			break;
+		default:
+			config.mode = 'practice';
+			break;
+	}
+	event.target.classList.toggle('bi-braces');
+	event.target.classList.toggle('bi-braces-asterisk');
+	event.target.setAttribute('data-mode', config.mode);
+	popupTextGoAway(config.mode.toUpperCase());
+}
+
+//--EVENT HANDLERS--//
 function start() {
 	// check requirements for start
 	if(window.variables.base.length < config.options.total) // min config.options.total number of items
@@ -246,88 +294,6 @@ function clear() {
 	document.querySelector('.timer').setAttribute('data-timer', config.timer.each);
 }
 
-function showRules() {
-	popupContent(config.rules);
-}
-
-function showScores() {
-	let containerDiv = document.createElement('div');	
-	let titleDiv = document.createElement('div');
-	titleDiv.innerText = 'SCORES';
-	containerDiv.appendChild(titleDiv);
-	
-	let headerDiv = document.createElement('div');
-	headerDiv.innerText = 'time | score | timer';
-	containerDiv.appendChild(headerDiv);
-	
-	for(let score of window.variables.scores)
-	{
-		let scoreDiv = document.createElement('div');
-		scoreDiv.innerText = [score.timestamp, score.score + ' / ' + score.total, score.timer].join(' | ');
-		containerDiv.appendChild(scoreDiv);
-	}
-	
-	popupContent(containerDiv);
-}
-
-function clearScores() {
-	localStorage.setItem('quiz-history', '[]');
-	alert('Scores cleared!');
-	startup();
-}
-
-function toggleDataset() {
-	let input = prompt('Datafile location:', document.getElementById('data-id').src);
-	if (input != null)
-		changeDataFile(input);
-	startup();
-	clear();
-}
-
-function changeDataFile(dest) {
-	document.getElementById('data-id').src = dest.endsWith('.json') ? dest : window.location.href.replace('index.html', 'data/' + dest + '.json');
-	startup();
-}
-
-function toggleTimer() {
-	let time = parseInt(event.target.getAttribute('data-timer'));
-	switch(time) {
-		case 2:
-			config.timer.each = 0;			
-			break;
-		case 3:
-			config.timer.each = 2;			
-			break;
-		case 5:
-			config.timer.each = 3;
-			break;
-		case 10:
-			config.timer.each = 5;
-			break;
-		default:
-			config.timer.each = 10;
-			break;
-	}
-	event.target.setAttribute('data-timer', config.timer.each);
-	popupTextGoAway(config.timer.each > 0 ? config.timer.each + 's' : '♾️');
-}
-
-function toggleMode() {
-	let mode = event.target.getAttribute('data-mode');
-	switch(mode) {
-		case 'practice':
-			config.mode = 'quiz';
-			break;
-		default:
-			config.mode = 'practice';
-			break;
-	}
-	event.target.classList.toggle('bi-braces');
-	event.target.classList.toggle('bi-braces-asterisk');
-	event.target.setAttribute('data-mode', config.mode);
-	popupTextGoAway(config.mode.toUpperCase());
-}
-
 //--FUNCTIONS--//
 function checkComplete() {
 	let total = window.variables.base.length;
@@ -410,7 +376,7 @@ function popupTextGoAway(textVal) {
 	}, 10);
 }
 
-////DIALOG////
+//--DIALOG--//
 function popupContent(input) {
 	let dialogDiv = document.querySelector('.dialog');
 	if(dialogDiv == null)
@@ -458,7 +424,7 @@ function startup() {
 		function(content) {
 			window.variables = content;
 			window.variables.base = window.variables.items
-				// .filter(i => window.variables.filter ? i[window.variables.filter.category].includes(window.variables.filter.value) : true)
+				.filter(i => window.variables.filter ? i[window.variables.filter.category].includes(window.variables.filter.value) : true)
 				.sort(function(a,b) {
 					if(window.variables.sort && window.variables.sort.order && window.variables.sort.value)
 					{
