@@ -46,7 +46,7 @@ const config = {
 				links: ['station-1']
 			},
 		]
-	}
+	},
 	game: {
 		time: new Date(),
 		rate: {
