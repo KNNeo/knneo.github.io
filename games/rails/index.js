@@ -482,7 +482,7 @@ function chartProgress() {
 		if(station) {
 			// if on station, new position at station, calc again
 			if(timeDiffSec - nextDest.distance * window.game.rate.travel > 0) {
-				window.data.last = { station.x, station.y, station.id };
+				window.data.last = { x: station.x, ystation.y, station.id };
 				timeDiffSec -= nextDest.distance * window.game.rate.travel;
 				continue;
 			}
