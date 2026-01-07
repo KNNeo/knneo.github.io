@@ -1,14 +1,20 @@
 //--SETTINGS--//
-const startYear = 2008;
-const currentYear = 2025;
-const currentSeason = 'Autumn';
-const maxPerSeason = 7;
-const seasons = [
-	{ title: 'Winter', altTitle: '' },
-	{ title: 'Spring', altTitle: '' },
-	{ title: 'Summer', altTitle: '' },
-	{ title: 'Autumn', altTitle: '' },
-]; // in order
+const config = {
+	year: {
+		start: 2008,
+		end: 2025
+	},
+	season: {
+		current: 'Autumn',
+		max: 7,
+		list: [
+			{ title: 'Winter', altTitle: '' },
+			{ title: 'Spring', altTitle: '' },
+			{ title: 'Summer', altTitle: '' },
+			{ title: 'Autumn', altTitle: '' },
+		] // in order
+	}
+};
 
 function startup() {
 	initializeVariables();
@@ -22,18 +28,18 @@ function initializeVariables() {
 }
 
 function generateAnimeList() {
-	let currentList = showsArray.filter(s => s.type == 'TV' && s.year == currentYear && s.season == currentSeason);
+	let currentList = showsArray.filter(s => s.type == 'TV' && s.year == config.year.end && s.season == config.season.current);
 
-	let calendarList = generateAnimeCalendar(showsArray.filter(s => s.type == 'TV' && s.year >= startYear && s.season.length > 0 && s.id));
+	let calendarList = showsArray.filter(s => s.type == 'TV' && s.year >= config.year.start && s.season.length > 0 && s.id);
 
-	let timelineList = showsArray.filter(s => s.type == 'TV' && (s.year != currentYear || s.season != currentSeason)).sort((a, b) => b.order - a.order);
+	let timelineList = showsArray.filter(s => s.type == 'TV' && (s.year != config.year.end || s.season != config.season.current)).sort((a, b) => b.order - a.order);
 
 	let moviesList = showsArray.filter(s => s.type == 'Movie');
 
 	let directoryHTML = document.querySelector('.directory');
 	if (directoryHTML != null) {
 		directoryHTML.innerHTML = '';
-		directoryHTML.appendChild(calendarList);
+		directoryHTML.appendChild(generateAnimeCalendar(calendarList));
 	}
 
 	let showsHtml = document.querySelector('.current');
@@ -104,7 +110,7 @@ function generateAnimeCalendar(list) {
 			}
 		}).filter(s =>
 			s.type == 'TV' &&
-			s.year >= startYear &&
+			s.year >= config.year.start &&
 			s.season.length > 0 &&
 			(window['filter'].length == 0 || s.title.toLowerCase().includes(window['filter'])) &&
 			(window['genre'].length == 0 || s.genres.includes(window['genre']))
@@ -142,7 +148,7 @@ function generateAnimeCalendar(list) {
 			}
 		}).filter(s =>
 			s.type == 'TV' &&
-			s.year >= startYear &&
+			s.year >= config.year.start &&
 			s.season.length > 0 &&
 			(window['filter'].length == 0 || s.title.toLowerCase().includes(window['filter'])) &&
 			(window['genre'].length == 0 || s.genres.includes(window['genre']))
@@ -179,7 +185,7 @@ function generateCalendarBox(list) {
 
 	calendarDiv.appendChild(z);
 
-	for (let season of seasons) {
+	for (let season of config.season.list) {
 		let s = document.createElement('div');
 		s.classList.add('calendar-header');
 		s.innerText = season.title;
@@ -187,10 +193,10 @@ function generateCalendarBox(list) {
 	}
 
 	//cells
-	for (let y = startYear; y <= currentYear; y++) {
+	for (let y = config.year.start; y <= config.year.end; y++) {
 		let t = document.createElement('div');
 		t.classList.add('calendar-year');
-		t.style.gridRow = (2 + ((y - startYear) * maxPerSeason)) + '/ span ' + maxPerSeason;
+		t.style.gridRow = (2 + ((y - config.year.start) * config.season.max)) + '/ span ' + config.season.max;
 
 		let tx = document.createElement('span');
 		tx.innerText = y;
@@ -204,22 +210,22 @@ function generateCalendarBox(list) {
 		yearShows['Summer'] = list.filter(l => l.year == y && l.season == 'Summer');
 		yearShows['Autumn'] = list.filter(l => l.year == y && l.season == 'Autumn');
 
-		for (let s of seasons) {
-			while (yearShows[s.title].length < maxPerSeason) {
+		for (let s of config.season.list) {
+			while (yearShows[s.title].length < config.season.max) {
 				yearShows[s.title].push({ year: y, season: s.title, title: '' });
 			}
 		}
 		// console.log(yearShows);
 
-		for (let count = 0; count < maxPerSeason; count++) {
-			for (let s of seasons) {
+		for (let count = 0; count < config.season.max; count++) {
+			for (let s of config.season.list) {
 				let show = yearShows[s.title][count];
 
 				let i = document.createElement('a');
-				if(show.url)
+				if (show.url)
 					i.classList.add('calendar-cell');
 				if (show.title) i.classList.add('highlight');
-				if(show.url)
+				if (show.url)
 					i.href = show.url;
 				i.setAttribute('target', '_blank');
 				i.innerText = show.title;
@@ -246,7 +252,7 @@ function generateAnimeArchive(filterList) {
 
 function generateAnimeCurrent(filterList) {
 	let id = 'currentList';
-	let title = 'Currently Watching (' + currentYear + ' ' + currentSeason + ')';
+	let title = 'Currently Watching (' + config.year.end + ' ' + config.season.current + ')';
 	return generateList(id, title, filterList, false);
 }
 
