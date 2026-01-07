@@ -1,0 +1,151 @@
+/*Variables*/
+:root {
+	--primary: #1b00ff;
+	--secondary: #609fff;
+	--background: #fff;
+	--foreground: #000;
+	--accent: lightgray;
+	--sml: 0.8em;
+}
+
+.darked:root {
+	--primary: #00e4ff;
+	--secondary: #00abbf;
+	--background: #000;
+	--foreground: #fff;
+	--accent: gray;
+}
+
+html {
+	font-family: Noto Sans;
+	background-color: var(--background);
+	color: var(--foreground);
+}
+
+body {
+	margin: 0;
+	text-align: center;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+a {
+	color: var(--foreground);
+	text-decoration: none;
+}
+a:hover {
+	color: var(--primary);
+}
+
+label {
+	width: 300px;
+	text-align: start;
+	font-size: var(--sml);
+}
+
+input[type="range"] {
+	width: 100%;
+}
+
+ul {
+	width: 80%;
+	text-align: start;
+	text-wrap-style: pretty;
+	font-size: var(--sml);
+}
+
+.bi {
+	font-size: 1.5em;
+	padding: 3px;
+}
+
+.settings {
+	position: absolute;
+    right: 0;
+	top: 1em;
+	text-decoration: none;
+	font-weight: bold;
+	
+}
+
+.home {
+	position: absolute;
+    left: 0;
+    right: 0;
+	bottom: 1em;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+.viewer {
+	z-index: 9;
+	position: fixed;
+	background-color: var(--background);
+	width: 100%;
+	height: 100%;
+	padding-top: 0;
+	text-align: center;
+	transition: opacity 0.3s, visibility 0.3s;
+	top: 0;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.viewer .editor {
+	width: 80%;
+	resize: none;
+}
+
+.viewer .preview,
+.viewer .close {
+	border: 0;
+	border-radius: 16px;
+	padding: 8px 16px;
+	margin: 8px;
+	height: 40px;
+	cursor: pointer;
+}
+
+.viewer .preview:hover,
+.viewer .preview:focus,
+.viewer .close:hover,
+.viewer .close:focus {
+	background: var(--accent);
+	color: var(--foreground);
+}
+
+.hidden {
+	display: none;
+}
+
+.page {
+	width: 100%;
+	height: calc(100dvh - 250px);
+	overflow: auto;
+}
+
+.node + foreignObject div,
+.node + foreignObject + foreignObject div {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow-x: auto hidden;
+}
+
+.node + foreignObject:has(object) + foreignObject div {
+	height: auto;
+	position: absolute;
+	bottom: 0;
+}
+
+.node + foreignObject object {
+	object-fit: cover;
+}
