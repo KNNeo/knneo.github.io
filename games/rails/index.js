@@ -496,7 +496,7 @@ function drawTrain() {
 
 function chartProgress() {
 	if(!window.data.last) window.data.last = { x: 0, y: 0, id: 'station-1' };
-	if(config.debug) console.log(window.data.last);
+	if(config.debug) console.log('last position', window.data.last);
 	let timeDiffSec = Math.floor((new Date() - new Date(window.data.game.time)) / 1000);
 	let tries = 10;
 	while(timeDiffSec > 0 && tries > 0) {
@@ -534,8 +534,12 @@ function chartProgress() {
 		return console.error('max retry reached');
 	// update train position
 	if(document.querySelector("#train")) {
-		document.querySelector("#train").setAttribute("x", window.data.last.x);
-		document.querySelector("#train").setAttribute("y", window.data.last.y);
+		let diagWidth = parseInt(diagramSvg.getAttribute("width"));
+		let diagHeight = parseInt(diagramSvg.getAttribute("height"));
+		let rect1X = 0.5*diagWidth + window.data.last.x;
+		let rect1Y = 0.5*diagHeight + window.data.last.y;
+		document.querySelector("#train").setAttribute("x", rect1X);
+		document.querySelector("#train").setAttribute("y", rect1Y);
 	}
 }
 
