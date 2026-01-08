@@ -100,6 +100,7 @@ function drawBoard() {
 	drawResources();
 	drawNodes();
 	drawLines();
+	drawTrain();
 }
 
 function drawResources() {
@@ -131,37 +132,36 @@ function drawTrain() {
 		x: lastPos.x,
 		y: lastPos.y,
 	};
-	// let rect1X = 0.5*diagWidth + train.x - window.data.node.width;
-	// let rect1Y = 0.5*diagHeight + train.y - window.data.node.height;
-	// let textArea = document.createElementNS(
-	// 	"http://www.w3.org/2000/svg",
-	// 	"foreignObject"
-	// );
-	// textArea.id = train.id;
-	// textArea.setAttribute("x", rect1X + 0.5 * window.data.node.border);
-	// textArea.setAttribute("y", rect1Y + 0.5 * window.data.node.border);
-	// textArea.setAttribute(
-	// 	"width",
-	// 	window.data.node.width - window.data.node.border
-	// );
-	// textArea.setAttribute(
-	// 	"height",
-	// 	window.data.node.height - window.data.node.border
-	// );
+	let diagWidth = parseInt(diagramSvg.getAttribute("width"));
+	let diagHeight = parseInt(diagramSvg.getAttribute("height"));
+	let rect1X = 0.5*diagWidth + train.x - window.data.node.width;
+	let rect1Y = 0.5*diagHeight + train.y - window.data.node.height;
+	let textArea = document.createElementNS(
+		"http://www.w3.org/2000/svg",
+		"foreignObject"
+	);
+	textArea.id = train.id;
+	textArea.setAttribute("x", rect1X + 0.5 * window.data.node.border);
+	textArea.setAttribute("y", rect1Y + 0.5 * window.data.node.border);
+	textArea.setAttribute(
+		"width",
+		window.data.node.width - window.data.node.border
+	);
+	textArea.setAttribute(
+		"height",
+		window.data.node.height - window.data.node.border
+	);
 	let img = document.createElement("object");
-	img.id = train.id;
 	img.setAttribute("data", train.image);
 	if(train.image.startsWith("data:") && train.image.includes(';')) {
 		let pieces = train.image.split(';');
 		img.setAttribute("type", pieces[0].replace("data:",""));
 		img.setAttribute("data", train.image);
 	}
-	img.setAttribute("x", rect1X);
-	img.setAttribute("y", rect1Y);
 	img.setAttribute("width", window.data.node.width);
 	img.setAttribute("height", window.data.node.height);
-	// textArea.appendChild(img);
-	diagramSvg.appendChild(img);
+	textArea.appendChild(img);
+	diagramSvg.appendChild(textArea);
 }
 
 function drawNodes() {
