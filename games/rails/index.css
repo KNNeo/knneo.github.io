@@ -67,7 +67,7 @@ ul {
 }
 
 .settings {
-	position: absolute;
+	position: fixed;
     right: 0;
 	top: 1em;
 	text-decoration: none;
@@ -76,7 +76,7 @@ ul {
 }
 
 .home {
-	position: absolute;
+	position: fixed;
     left: 0;
     right: 0;
 	bottom: 0;

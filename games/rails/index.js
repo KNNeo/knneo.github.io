@@ -28,22 +28,22 @@ const config = {
 			{
 				id: 'station-2',
 				name: 'Seaside End',
-				x: 120,
-				y: -240,
+				x: 220,
+				y: -140,
 				links: ['station-1','station-3']
 			},
 			{
 				id: 'station-3',
-				name: 'Mountain view',
-				x: 135,
-				y: 500,
+				name: 'Mountain View',
+				x: 535,
+				y: 200,
 				links: ['station-1','station-2']
 			},
 			{
 				id: 'station-4',
 				name: 'West Annex',
-				x: -200,
-				y: -350,
+				x: -250,
+				y: -50,
 				links: ['station-1']
 			},
 		]
@@ -124,11 +124,13 @@ function drawResources() {
 
 function drawNodes() {
 	let coordinates = [];
+	let diagWidth = parseInt(diagramSvg.getAttribute("width"));
+	let diagHeight = parseInt(diagramSvg.getAttribute("height"));
 	for (let item of window.data.map.stations) {
 		// 1st rect is center, else based on coordinates
 		// center of 1st node top left corner + coordinate * no of nodes (min 2)
-		let rect1X = item.x - window.data.node.width;
-		let rect1Y = item.y - window.data.node.height;
+		let rect1X = 0.5*diagWidth + item.x - window.data.node.width;
+		let rect1Y = 0.5*diagHeight + item.y - window.data.node.height;
 		// draw rect
 		let rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
 		rect.id = item.id;
@@ -613,10 +615,18 @@ function sizeDiagram() {
 	if (window.data.diagram?.height)
 		diagramSvg.setAttribute("height", window.data.diagram?.height);
 	if (!window.data.diagram?.width || !window.data.diagram?.height) {
-		// determine by parent element
+		// determine by furthest station
 		let parent = diagramSvg.parentElement.getBoundingClientRect();
-		diagramSvg.setAttribute("width", parent.width);
-		diagramSvg.setAttribute("height", parent.height);
-		console.log("autosize svg", parent.width, parent.height);
+		let diagWidth = parent.width;
+		let diagHeight = parent.height;
+		if(window.data.map.stations) {
+			let maxX = Math.max(...window.data.map.stations.map(s => Math.abs(s.x)));
+			diagWidth = 2 * (maxX + 2 * window.data.node.width);
+			let maxY =  Math.max(...window.data.map.stations.map(s => Math.abs(s.y)));
+			diagHeight = 2 * (maxY + 2 * window.data.node.height);
+		}
+		diagramSvg.setAttribute("width", diagWidth);
+		diagramSvg.setAttribute("height", diagHeight);
+		console.log("autosize svg", diagWidth, diagHeight);
 	}
 }
