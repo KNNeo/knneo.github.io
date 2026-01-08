@@ -29,7 +29,7 @@ const config = {
 			{
 				id: 'station-2',
 				name: 'Seaside End',
-				x: 220,
+				x: 620,
 				y: -140,
 				links: ['station-1','station-3']
 			},
@@ -43,8 +43,8 @@ const config = {
 			{
 				id: 'station-4',
 				name: 'West Annex',
-				x: -250,
-				y: -50,
+				x: -350,
+				y: 100,
 				links: ['station-1']
 			},
 		]
