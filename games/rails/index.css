@@ -66,10 +66,20 @@ ul {
 	padding: 3px;
 }
 
+.log {
+	position: fixed;
+	width: min(100%, 50vw);
+	height: min(100%, 30vh);
+    left: 0;
+	top: 0;
+	text-decoration: none;
+	text-align: start;
+}
+
 .settings {
 	position: fixed;
     right: 0;
-	top: 1em;
+	top: 0;
 	text-decoration: none;
 	font-weight: bold;
 	text-align: end;

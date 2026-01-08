@@ -51,7 +51,7 @@ const config = {
 	},
 	game: {
 		time: new Date(),
-		rate: {
+		cost: {
 			travel: 10,
 			wait: 1,
 		}
@@ -59,7 +59,7 @@ const config = {
 };
 
 //--HTML DOM NODE REFERENCES--//
-const logP = document.querySelector("p.log");
+const logP = document.querySelector("div.log");
 const diagramSvg = document.querySelector("svg.diagram");
 const settingsH3 = document.querySelector("h3.settings");
 const settingsMenuDiv = settingsH3.querySelector("div.menu");
@@ -92,7 +92,7 @@ function selectDestination() {
 
 //--FUNCTIONS--//
 function log(input) {
-	logP += '[' + new Date().toLocaleTimeString() + ']' + input + "\n";
+	logP.innerText = logP.innerText + '[' + new Date().toLocaleTimeString() + ']' + input + "\n";
 }
 
 function drawBoard() {
@@ -386,40 +386,46 @@ function drawTrain() {
 }
 
 function chartProgress() {
-	if(!window.data.last) window.data.last = { x: 0, y: 0, id: 'station-1' };
-	if(config.debug) console.log('last position', window.data.last);
+	if(!window.data.last?.id) window.data.last = { x: 0, y: 0, id: 'station-1' };
+	log("train at (" + window.data.last.x + "," + window.data.last.y + ")");
 	let timeDiffSec = Math.floor((new Date() - new Date(window.data.game.time)) / 1000);
 	let tries = 10;
 	while(timeDiffSec > 0 && tries > 0) {
 		if(config.debug) console.log('chartProgress', timeDiffSec);
 		// travel to random station
-		let links = window.data.map.stations.find(s => s.links.includes(window.data.last.id))?.links.filter(l => l != window.data.last.id);
-		if(config.debug) console.log(links);
-		let id = links[Math.floor(Math.random()*(links.length-1))];
-		let station = window.data.map.stations.find(s => s.id == id);
-		if(config.debug) console.log('station', station.id);
+		let station = window.data.map.stations.find(s => s.id == window.data.last.id);
 		if(station) {
-			// if on station, new position at station, calc again
+			log("train moving towards " + station.name);
 			let distance = findDistance(window.data.last, station);
 			if(config.debug) console.log('distance', distance);
-			if(timeDiffSec - distance * window.data.game.rate.travel > 0) {
-				window.data.last = { x: station.x, y: station.y, id: station.id };
-				timeDiffSec -= distance * window.data.game.rate.travel;
+			// if at station, set new station
+			if(window.data.last.x == station.x && window.data.last.y == station.y) {
+				let links = window.data.map.stations.find(s => s.links.includes(window.data.last.id))?.links.filter(l => l != window.data.last.id);
+				if(config.debug) console.log(links);
+				let nextStation = links[Math.floor(Math.random()*(links.length-1))];
+				window.data.last.id = nextStation;
+				log("train moving towards " + nextStation);
 				continue;
 			}
-			// if en route, calculate new position
+			// if can reach station, new position at station, calc again
+			else if(timeDiffSec - distance * window.data.game.cost.travel > 0) {
+				// set new position
+				window.data.last = { x: station.x, y: station.y, id: station.id };
+				timeDiffSec -= distance * window.data.game.cost.travel;
+				continue;
+			}
+			// if en route, calculate newest position
 			else {
-				let distance = Math.floor(timeDiffSec / window.data.game.rate.travel);
+				let distance = Math.floor(timeDiffSec / window.data.game.cost.travel);
 				let newPos = pointAtDistance(window.data.last, station, distance);
+				// set new position
 				window.data.last = { ...newPos, id: station.id };
 				timeDiffSec = 0;
 				continue;
 			}
 		}
-		// flush array by replacing with new position
-
 		// if all else fails, retry
-		tries++;
+		tries--;
 	}
 	if(!tries)
 		return console.error('max retry reached');
@@ -431,7 +437,10 @@ function chartProgress() {
 		let rect1Y = 0.5*diagHeight + window.data.last.y;
 		document.querySelector("#train").setAttribute("x", rect1X);
 		document.querySelector("#train").setAttribute("y", rect1Y);
+		log("train moved to (" + window.data.last.x + "," + window.data.last.y + ")");
 	}
+	// update last run time
+	idle();
 }
 
 function nearestPoint(points, ref) {
