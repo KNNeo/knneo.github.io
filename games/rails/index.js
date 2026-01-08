@@ -123,7 +123,7 @@ function drawResources() {
 
 function drawNodes() {
 	let coordinates = [];
-	for (let item in window.data.stations) {
+	for (let item in window.map.stations) {
 		let item = window.data.list[i];
 		// 1st rect is center, else based on coordinates
 		// center of 1st node top left corner + coordinate * no of nodes (min 2)
@@ -227,7 +227,7 @@ function drawNodes() {
 function drawLines() {
 	// convert
 	let points = [];
-	for (let node of window.data.stations) {
+	for (let node of window.map.stations) {
 		points.push(
 			...node.links.map(function (r) {
 				return {
@@ -476,9 +476,9 @@ function chartProgress() {
 	let tries = 10;
 	while(timeDiffSec > 0 && tries > 0) {
 		// travel to random destination
-		let links = window.data.stations.find(s => s.links.includes(lastPos.id))?.links;
+		let links = window.map.stations.find(s => s.links.includes(lastPos.id))?.links;
 		let id = links[Math.floor(Math.random()*(links.length-1))];
-		let station = window.data.stations.find(s => s.id == id);
+		let station = window.map.stations.find(s => s.id == id);
 		if(station) {
 			// if on station, new position at station, calc again
 			if(timeDiffSec - nextDest.distance * window.game.rate.travel > 0) {
