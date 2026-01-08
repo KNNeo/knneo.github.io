@@ -475,7 +475,7 @@ function chartProgress() {
 		let station = window.data.map.stations.find(s => s.id == id);
 		if(station) {
 			// if on station, new position at station, calc again
-			let distance = distance(window.data.last, station);
+			let distance = distance(lastPos, station);
 			if(timeDiffSec - distance * window.data.game.rate.travel > 0) {
 				window.data.last = { x: station.x, y: station.y, id: station.id };
 				timeDiffSec -= nextDest.distance * window.data.game.rate.travel;
