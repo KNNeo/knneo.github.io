@@ -66,7 +66,7 @@ const settingsMenuDiv = settingsH3.querySelector("div.menu");
 //--HTML DOM FUNCTIONS--//
 function idle() {
 	// record time in order to calculate time passed when load in
-	window.game.time = new Date();
+	window.data.game.time = new Date();
 	save();
 }
 
@@ -124,7 +124,7 @@ function drawResources() {
 
 function drawNodes() {
 	let coordinates = [];
-	for (let item in window.data.map.stations) {
+	for (let item of window.data.map.stations) {
 		// 1st rect is center, else based on coordinates
 		// center of 1st node top left corner + coordinate * no of nodes (min 2)
 		let rect1X = item.x - window.data.node.width;
@@ -452,7 +452,7 @@ function drawLines() {
 
 function chartProgress() {
 	let lastPos = window.data.last || { x: 0, y: 0, id: 'station-1' };
-	let timeDiffSec = Math.floor((new Date() - new Date(window.game.time)) / 1000);
+	let timeDiffSec = Math.floor((new Date() - new Date(window.data.game.time)) / 1000);
 	let tries = 10;
 	while(timeDiffSec > 0 && tries > 0) {
 		// travel to random destination
@@ -461,14 +461,14 @@ function chartProgress() {
 		let station = window.data.map.stations.find(s => s.id == id);
 		if(station) {
 			// if on station, new position at station, calc again
-			if(timeDiffSec - nextDest.distance * window.game.rate.travel > 0) {
+			if(timeDiffSec - nextDest.distance * window.data.game.rate.travel > 0) {
 				window.data.last = { x: station.x, y: station.y, id: station.id };
-				timeDiffSec -= nextDest.distance * window.game.rate.travel;
+				timeDiffSec -= nextDest.distance * window.data.game.rate.travel;
 				continue;
 			}
 			// if en route, calculate new position
 			else {
-				let distance = Math.floor(timeDiffSec / window.game.rate.travel);
+				let distance = Math.floor(timeDiffSec / window.data.game.rate.travel);
 				let newPos = {
 					x: pointAtDistance(window.data.last.x, station.x, distance),
 					y: pointAtDistance(window.data.last.y, station.y, distance),
