@@ -98,8 +98,8 @@ function log(input) {
 function drawBoard() {
 	diagramSvg.innerHTML = "";
 	drawResources();
-	drawNodes();
 	drawLines();
+	drawNodes();
 	drawTrain();
 }
 
@@ -227,6 +227,8 @@ function drawLines() {
 				})
 			);
 	}
+	let diagWidth = parseInt(diagramSvg.getAttribute("width"));
+	let diagHeight = parseInt(diagramSvg.getAttribute("height"));
 	// plot lines
 	for (let point of points) {
 		let { source, destination, label } = point;
@@ -234,30 +236,24 @@ function drawLines() {
 			continue;
 		// find start end points from center of node to another
 		// excludes marker size
+		let sourceStation = window.data.map.stations.find(s => s.id == source);
+		let destStation = window.data.map.stations.find(s => s.id == destination);
+		let rect1X = 0.5*diagWidth + sourceStation.x - window.data.node.width;
+		let rect1Y = 0.5*diagHeight + sourceStation.y - window.data.node.height;
+		let rect2X = 0.5*diagWidth + destStation.x - window.data.node.width;
+		let rect2Y = 0.5*diagHeight + destStation.y - window.data.node.height;
 		let sourceX =
-			parseInt(
-				document.querySelector("[data-id=" + source + "]").getAttribute("x")
-			) +
+			rect1X +
 			0.5 * window.data.node.width;
 		let sourceY =
-			parseInt(
-				document.querySelector("[data-id=" + source + "]").getAttribute("y")
-			) +
+			rect1Y +
 			0.5 * window.data.node.height;
 		let destX =
-			parseInt(
-				document.querySelector("[data-id=" + destination + "]").getAttribute("x")
-			) +
+			rect2X +
 			0.5 * window.data.node.width;
 		let destY =
-			parseInt(
-				document.querySelector("[data-id=" + destination + "]").getAttribute("y")
-			) +
+			rect2Y +
 			0.5 * window.data.node.height;
-		// adjust for center of nodes and destination border if any
-		let adjustNodeCenter = true;
-		// adjust for corners of nodes and destination border if any
-		let adjustNodeCorner = false;
 		let deltaX = destX - sourceX;
 		let deltaY = destY - sourceY;
 		let angle = Math.atan2(deltaY, deltaX);
@@ -266,114 +262,6 @@ function drawLines() {
 			window.data.node.height,
 			-1 * window.data.node.width
 		);
-		// with respect to x plane facing right (absolute angle)
-		// 0 radian < (by height) < threshold1 < (by width) < threshold2 < (by height) < 3.14 radian
-		// console.log(label, Math.abs(angle), threshold1, threshold2);
-		if (adjustNodeCenter && Math.abs(angle) < threshold1) {
-			let refWidth = 0.5 * window.data.node.width;
-			let refAngle = Math.abs(angle);
-			let refLength = refWidth / Math.cos(refAngle);
-			let refHeight = Math.sqrt(refLength * refLength - refWidth * refWidth);
-			// console.log("by height", refAngle, refWidth, refHeight);
-			sourceX += refWidth;
-			destX -= refWidth;
-			if (deltaY < 0) {
-				sourceY -= refHeight;
-				destY += refHeight;
-			} // 4
-			if (deltaY > 0) {
-				sourceY += refHeight;
-				destY -= refHeight;
-			} // 6
-		}
-		if (
-			adjustNodeCenter &&
-			Math.abs(angle) >= threshold1 &&
-			Math.abs(angle) < threshold2
-		) {
-			let refHeight = 0.5 * window.data.node.height;
-			let refAngle = null;
-			if (Math.abs(angle) <= Math.PI / 4) {
-				refAngle = Math.PI / 4 - Math.abs(angle);
-			} else {
-				refAngle = -1 * (Math.PI / 2 - Math.abs(angle));
-			}
-			let refLength = refHeight / Math.cos(refAngle);
-			let refWidth = Math.sqrt(refLength * refLength - refHeight * refHeight);
-			if (Math.abs(angle) == threshold1) refWidth = 0.5 * window.data.node.width;
-			// console.log("by width", refAngle, refWidth, refHeight);
-			if (deltaX > 0 && deltaY < 0) {
-				sourceX += refWidth;
-				destX -= refWidth;
-				sourceY -= refHeight;
-				destY += refHeight;
-			} // 5
-			if (deltaX < 0 && deltaY < 0) {
-				sourceX -= refWidth;
-				destX += refWidth;
-				sourceY -= refHeight;
-				destY += refHeight;
-			} // 16
-			if (deltaX < 0 && deltaY > 0) {
-				sourceX -= refWidth;
-				destX += refWidth;
-				sourceY += refHeight;
-				destY -= refHeight;
-			} // 12
-			if (deltaX > 0 && deltaY > 0) {
-				sourceX += refWidth;
-				destX -= refWidth;
-				sourceY += refHeight;
-				destY -= refHeight;
-			} // 17
-			if (deltaX == 0 && deltaY > 0) {
-				sourceY += refHeight;
-				destY -= refHeight;
-			} // 13
-			if (deltaX == 0 && deltaY < 0) {
-				sourceY -= refHeight;
-				destY += refHeight;
-			} // 3
-		}
-		if (adjustNodeCenter && Math.abs(angle) >= threshold2) {
-			let refWidth = 0.5 * window.data.node.width;
-			let refAngle = Math.PI / 2 - Math.abs(angle);
-			let refLength = refWidth / Math.sin(refAngle);
-			let refHeight = Math.sqrt(refLength * refLength - refWidth * refWidth);
-			if (Math.abs(angle) == threshold2) refHeight = 0.5 * window.data.node.height;
-			// console.log("by height", refAngle, refWidth, refHeight);
-			sourceX -= refWidth;
-			destX += refWidth;
-			if (deltaY > 0) {
-				sourceY += refHeight;
-				destY -= refHeight;
-			} // 11
-			if (deltaY < 0) {
-				sourceY -= refHeight;
-				destY += refHeight;
-			}
-		}
-		if (adjustNodeCorner && sourceX > destX) {
-			// left: move source left, move dest right
-			sourceX -= 0.5 * window.data.node.width;
-			destX += 0.5 * window.data.node.width + 0.5 * window.data.node.border;
-		}
-		if (adjustNodeCorner && sourceX < destX) {
-			// right: move source right, move dest left
-			sourceX += 0.5 * window.data.node.width;
-			destX -= 0.5 * window.data.node.width + 0.5 * window.data.node.border;
-		}
-		// vertical line: adjust y
-		if (adjustNodeCorner && sourceY > destY) {
-			// up: move source up, move dest down
-			sourceY -= 0.5 * window.data.node.height;
-			destY += 0.5 * window.data.node.height + 0.5 * window.data.node.border;
-		}
-		if (adjustNodeCorner && sourceY < destY) {
-			// down: move source down, move source up
-			sourceY += 0.5 * window.data.node.height;
-			destY -= 0.5 * window.data.node.height + 0.5 * window.data.node.border;
-		}
 		// adjust for marker
 		let markerViewboxWidth = 16; // 2 * viewBox width
 		let offsetX = markerViewboxWidth * Math.cos(angle);
