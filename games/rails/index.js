@@ -1,5 +1,6 @@
 //--DEFAULT SETTINGS--//
 const config = {
+	debug: true,
 	id: 'idle-on-rails',
 	diagram: {
 		// width: 1400,
@@ -122,17 +123,52 @@ function drawResources() {
 	diagramSvg.appendChild(arrow);
 }
 
-function drawNodes() {
-	let diagWidth = parseInt(diagramSvg.getAttribute("width"));
-	let diagHeight = parseInt(diagramSvg.getAttribute("height"));
+function drawTrain() {
 	let lastPos = window.data.last || { x: 0, y: 0, id: 'station-1' };
-	// add train into stations
-	for (let item of window.data.map.stations.concat({
+	let train = {
 		image: "data:image/svg+xml;utf8,%3Csvg%20width%3D%22800px%22%20height%3D%22800px%22%20viewBox%3D%220%200%201024%201024%22%20class%3D%22icon%22%20%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M232.2%20927.5m-79.5%200a79.5%2079.5%200%201%200%20159%200%2079.5%2079.5%200%201%200-159%200Z%22%20fill%3D%22%238599A4%22%20%2F%3E%3Cpath%20d%3D%22M232.2%201015.9c-48.8%200-88.5-39.7-88.5-88.5s39.7-88.5%2088.5-88.5%2088.5%2039.7%2088.5%2088.5-39.7%2088.5-88.5%2088.5z%20m0-158.9c-38.9%200-70.5%2031.6-70.5%2070.5s31.6%2070.5%2070.5%2070.5%2070.5-31.6%2070.5-70.5-31.6-70.5-70.5-70.5z%22%20fill%3D%22%233E4152%22%20%2F%3E%3Cpath%20d%3D%22M391.2%20927.5m-79.5%200a79.5%2079.5%200%201%200%20159%200%2079.5%2079.5%200%201%200-159%200Z%22%20fill%3D%22%238599A4%22%20%2F%3E%3Cpath%20d%3D%22M391.2%201015.9c-48.8%200-88.5-39.7-88.5-88.5s39.7-88.5%2088.5-88.5%2088.5%2039.7%2088.5%2088.5-39.7%2088.5-88.5%2088.5z%20m0-158.9c-38.9%200-70.5%2031.6-70.5%2070.5s31.6%2070.5%2070.5%2070.5%2070.5-31.6%2070.5-70.5S430%20857%20391.2%20857z%22%20fill%3D%22%233E4152%22%20%2F%3E%3Cpath%20d%3D%22M550.1%20927.5m-79.5%200a79.5%2079.5%200%201%200%20159%200%2079.5%2079.5%200%201%200-159%200Z%22%20fill%3D%22%238599A4%22%20%2F%3E%3Cpath%20d%3D%22M550.1%201015.9c-48.8%200-88.5-39.7-88.5-88.5s39.7-88.5%2088.5-88.5%2088.5%2039.7%2088.5%2088.5-39.7%2088.5-88.5%2088.5z%20m0-158.9c-38.9%200-70.5%2031.6-70.5%2070.5s31.6%2070.5%2070.5%2070.5%2070.5-31.6%2070.5-70.5S589%20857%20550.1%20857z%22%20fill%3D%22%233E4152%22%20%2F%3E%3Cpath%20d%3D%22M709%20927.5m-79.5%200a79.5%2079.5%200%201%200%20159%200%2079.5%2079.5%200%201%200-159%200Z%22%20fill%3D%22%238599A4%22%20%2F%3E%3Cpath%20d%3D%22M709%201015.9c-48.8%200-88.5-39.7-88.5-88.5S660.3%20839%20709%20839s88.5%2039.7%2088.5%2088.5-39.7%2088.4-88.5%2088.4z%20m0-158.9c-38.9%200-70.5%2031.6-70.5%2070.5S670.1%20998%20709%20998s70.5-31.6%2070.5-70.5S747.9%20857%20709%20857z%22%20fill%3D%22%233E4152%22%20%2F%3E%3Cpath%20d%3D%22M996%20722.2c0-62.2-50.4-112.6-112.6-112.6H826l-13.2-73.9%2039.7-83.9H700.2l39.7%2083.9-13.2%2073.9H479.5v-44.1h53v-71.1c0-33.9-27.5-61.3-61.3-61.3h-385c-33.9%200-61.3%2027.5-61.3%2061.3v71.1h70.6v339.9h796.8l-24.1-70.6h15.3c62.1%200%20112.5-50.4%20112.5-112.6z%22%20fill%3D%22%23C1E7D8%22%20%2F%3E%3Cpath%20d%3D%22M892.3%20914.4H95.4c-5%200-9-4-9-9V574.5H24.7c-5%200-9-4-9-9v-71.1c0-38.8%2031.6-70.3%2070.3-70.3h385c38.8%200%2070.3%2031.6%2070.3%2070.3v71.1c0%205-4%209-9%209h-44v26.1H719l11.4-63.7-38.5-81.3c-1.3-2.8-1.1-6.1%200.5-8.7%201.7-2.6%204.5-4.2%207.6-4.2h152.3c3.1%200%206%201.6%207.6%204.2%201.6%202.6%201.8%205.9%200.5%208.7l-38.5%2081.3%2011.4%2063.7h49.9c67%200%20121.6%2054.5%20121.6%20121.6s-54.5%20121.6-121.6%20121.6h-2.7l20.1%2058.7c0.9%202.7%200.5%205.8-1.2%208.1s-4.2%203.8-7.1%203.8z%20m-787.9-18h775.3l-20.1-58.7c-0.9-2.7-0.5-5.8%201.2-8.1s4.4-3.8%207.3-3.8h15.3c57.1%200%20103.6-46.5%20103.6-103.6s-46.5-103.6-103.6-103.6H826c-4.4%200-8.1-3.1-8.9-7.4l-13.2-73.9c-0.3-1.8-0.1-3.7%200.7-5.4l33.6-71H714.4l33.6%2071c0.8%201.7%201.1%203.6%200.7%205.4l-13.2%2073.9c-0.8%204.3-4.5%207.4-8.9%207.4H479.5c-5%200-9-4-9-9v-44.1c0-5%204-9%209-9h44v-62.1c0-28.9-23.5-52.3-52.3-52.3h-385c-28.9%200-52.3%2023.5-52.3%2052.3v62.1h61.6c5%200%209%204%209%209v330.9z%22%20fill%3D%22%233E4152%22%20%2F%3E%3Cpath%20d%3D%22M391.2%20710.6H181.6V558.8h209.6z%22%20fill%3D%22%239B5C77%22%20%2F%3E%3Cpath%20d%3D%22M391.2%20719.6H181.6c-5%200-9-4-9-9V558.8c0-5%204-9%209-9h209.5c5%200%209%204%209%209v151.8c0.1%205-4%209-8.9%209z%20m-200.6-18h191.5V567.8H190.6v133.8z%22%20fill%3D%22%233E4152%22%20%2F%3E%3Cpath%20d%3D%22M286.4%20719.6c-5%200-9-4-9-9V558.8c0-5%204-9%209-9s9%204%209%209v151.8c0%205-4%209-9%209zM614.1%20618.6c-5%200-9-4-9-9v-63.2c0-5%204-9%209-9s9%204%209%209v63.2c0%205-4%209-9%209z%22%20fill%3D%22%233E4152%22%20%2F%3E%3Cpath%20d%3D%22M641.7%20551.3h-55.2c-5%200-9-4-9-9s4-9%209-9h55.2c5%200%209%204%209%209s-4%209-9%209z%22%20fill%3D%22%233E4152%22%20%2F%3E%3Cpath%20d%3D%22M788.3%20184.5c0-0.7%200.2-1.4%200.2-2%200-39.6-53.4-71.7-119.2-71.7-14.2%200-27.8%201.6-40.4%204.3%200.4-3.2%200.7-6.5%200.7-9.8%200-49.4-47.2-89.4-105.4-89.4-36.9%200-69.3%2016.1-88.1%2040.4-21.4-17-48.5-27.2-78-27.2-69.5%200-125.8%2056.3-125.8%20125.8s56.3%20125.8%20125.8%20125.8c21%200%2040.7-5.2%2058.1-14.3%2023.5%2027.6%2058.4%2045.2%2097.5%2045.2%2046.9%200%2087.7-25.3%20110.1-62.8%2012%203%2025%204.8%2038.6%205.2-1.2%206.5-1.8%2013.2-1.8%2020.1%200%2054.9%2040%2099.3%2089.4%2099.3s89.4-44.5%2089.4-99.3c-0.1-39.6-21-73.6-51.1-89.6z%22%20fill%3D%22%23ACD8CB%22%20%2F%3E%3Cpath%20d%3D%22M749.9%20382.4c-54.3%200-98.4-48.6-98.4-108.3%200-3.9%200.2-7.8%200.6-11.7-8.3-0.7-16.3-1.8-24.1-3.5-11.6%2017.6-27.3%2032.4-45.5%2043.1-20.8%2012.1-44.6%2018.6-68.8%2018.6-37.9%200-73.8-15.6-99.7-43.1-17.6%208.1-36.4%2012.2-55.9%2012.2-74.3%200-134.8-60.5-134.8-134.8S283.7%2020.1%20358.1%2020.1c27.7%200%2054%208.2%2076.6%2023.9%2021.6-23.4%2054.4-37.2%2089.5-37.2%2062.7%200%20113.7%2043.5%20114.4%2097.3%2010.1-1.6%2020.4-2.4%2030.7-2.4%2033.5%200%2065%207.9%2088.9%2022.3%2024.1%2014.5%2037.9%2034.1%2039.2%2055.3%2014.4%208.8%2026.6%2021.3%2035.5%2036.6%2010.1%2017.3%2015.4%2037.5%2015.4%2058.1%200%2059.8-44.2%20108.4-98.4%20108.4zM623.7%20239.8c0.7%200%201.5%200.1%202.2%200.3%2011.4%202.9%2023.8%204.5%2036.7%205%202.6%200.1%205.1%201.3%206.7%203.4%201.6%202%202.3%204.7%201.8%207.3-1.1%206-1.7%2012.2-1.7%2018.4%200%2049.8%2036.1%2090.3%2080.4%2090.3s80.4-40.5%2080.4-90.3c0-34.7-18.1-66.7-46.2-81.6-3.1-1.6-4.9-4.9-4.8-8.4%200-0.5%200.1-1%200.1-1.5v-0.2c-0.1-15.8-10.9-31.1-30.6-42.9-21.1-12.7-49.4-19.7-79.6-19.7-13%200-25.9%201.4-38.5%204.1-2.9%200.6-5.8-0.2-8-2.2s-3.2-4.9-2.8-7.8c0.4-3.1%200.6-5.9%200.6-8.7%200-44.3-43.2-80.4-96.4-80.4-32.8%200-63.1%2013.8-81%2036.9-1.5%201.9-3.6%203.1-6%203.4-2.4%200.3-4.8-0.4-6.7-1.9-20.9-16.5-45.9-25.2-72.4-25.2-64.4%200-116.8%2052.4-116.8%20116.8s52.4%20116.8%20116.8%20116.8c18.9%200%2037.1-4.5%2053.9-13.3%203.7-1.9%208.3-1.1%2011%202.1%2022.7%2026.7%2055.8%2042%2090.7%2042%2021%200%2041.7-5.6%2059.7-16.1%2017.5-10.2%2032.2-24.9%2042.6-42.3%201.8-2.7%204.8-4.3%207.9-4.3z%22%20fill%3D%22%233E4152%22%20%2F%3E%3C%2Fsvg%3E",
 		id: "train",
 		x: lastPos.x,
 		y: lastPos.y,
-	})) {
+	};
+	// let rect1X = 0.5*diagWidth + train.x - window.data.node.width;
+	// let rect1Y = 0.5*diagHeight + train.y - window.data.node.height;
+	// let textArea = document.createElementNS(
+	// 	"http://www.w3.org/2000/svg",
+	// 	"foreignObject"
+	// );
+	// textArea.id = train.id;
+	// textArea.setAttribute("x", rect1X + 0.5 * window.data.node.border);
+	// textArea.setAttribute("y", rect1Y + 0.5 * window.data.node.border);
+	// textArea.setAttribute(
+	// 	"width",
+	// 	window.data.node.width - window.data.node.border
+	// );
+	// textArea.setAttribute(
+	// 	"height",
+	// 	window.data.node.height - window.data.node.border
+	// );
+	let img = document.createElement("object");
+	img.id = train.id;
+	img.setAttribute("data", train.image);
+	if(train.image.startsWith("data:") && train.image.includes(';')) {
+		let pieces = train.image.split(';');
+		img.setAttribute("type", pieces[0].replace("data:",""));
+		img.setAttribute("data", train.image);
+	}
+	img.setAttribute("x", rect1X);
+	img.setAttribute("y", rect1Y);
+	img.setAttribute("width", window.data.node.width);
+	img.setAttribute("height", window.data.node.height);
+	// textArea.appendChild(img);
+	diagramSvg.appendChild(img);
+}
+
+function drawNodes() {
+	let diagWidth = parseInt(diagramSvg.getAttribute("width"));
+	let diagHeight = parseInt(diagramSvg.getAttribute("height"));
+	// add train into stations
+	for (let item of window.data.map.stations) {
 		// 1st rect is center, else based on coordinates
 		// center of 1st node top left corner + coordinate * no of nodes (min 2)
 		let rect1X = 0.5*diagWidth + item.x - window.data.node.width;
@@ -466,26 +502,31 @@ function drawLines() {
 
 function chartProgress() {
 	let lastPos = window.data.last || { x: 0, y: 0, id: 'station-1' };
+	if(config.debug) console.log(lastPos);
 	let timeDiffSec = Math.floor((new Date() - new Date(window.data.game.time)) / 1000);
 	let tries = 10;
 	while(timeDiffSec > 0 && tries > 0) {
-		// travel to random destination
-		let links = window.data.map.stations.find(s => s.links.includes(lastPos.id))?.links;
+		if(config.debug) console.log('chartProgress', timeDiffSec);
+		// travel to random station
+		let links = window.data.map.stations.find(s => s.links.includes(lastPos.id))?.links.filter(l => l != lastPos.id);
+		if(config.debug) console.log(links);
 		let id = links[Math.floor(Math.random()*(links.length-1))];
 		let station = window.data.map.stations.find(s => s.id == id);
+		if(config.debug) console.log('station', station.id);
 		if(station) {
 			// if on station, new position at station, calc again
-			let distance = distance(lastPos, station);
+			let distance = findDistance(lastPos, station);
+			if(config.debug) console.log('distance', distance);
 			if(timeDiffSec - distance * window.data.game.rate.travel > 0) {
 				window.data.last = { x: station.x, y: station.y, id: station.id };
-				timeDiffSec -= nextDest.distance * window.data.game.rate.travel;
+				timeDiffSec -= distance * window.data.game.rate.travel;
 				continue;
 			}
 			// if en route, calculate new position
 			else {
 				let distance = Math.floor(timeDiffSec / window.data.game.rate.travel);
 				let newPos = pointAtDistance(window.data.last, station, distance);
-				window.data.last = newPos;
+				window.data.last = { ...newPos, id: station.id };
 				timeDiffSec = 0;
 				continue;
 			}
@@ -497,6 +538,11 @@ function chartProgress() {
 	}
 	if(!tries)
 		return console.error('max retry reached');
+	// update train position
+	if(document.querySelector("#train")) {
+		document.querySelector("#train").setAttribute("x", window.data.last.x);
+		document.querySelector("#train").setAttribute("y", window.data.last.y);
+	}
 }
 
 function nearestPoint(points, ref) {
@@ -521,7 +567,7 @@ function nearestPoint(points, ref) {
 	};
 }
 
-function distance(a, b) {
+function findDistance(a, b) {
   const dx = b.x - a.x;
   const dy = b.y - a.y;
   return Math.hypot(dx, dy);
@@ -529,11 +575,13 @@ function distance(a, b) {
 
 function pointAtDistance(a, b, dist) {
   // find where in straight line between a and b, by dist from a
-  let D = distance(a, b);
+  let D = findDistance(a, b);
 
   if (D === 0) return { ...a };
 
   const t = dist / D;
+  const dx = b.x - a.x;
+  const dy = b.y - a.y;
 
   return {
     x: a.x + dx * t,
