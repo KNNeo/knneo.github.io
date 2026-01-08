@@ -230,6 +230,8 @@ function drawLines() {
 	// plot lines
 	for (let point of points) {
 		let { source, destination, label } = point;
+		if(document.querySelector("#" + source + "_" + destination) || document.querySelector("#" + destination + "_" + source))
+			continue;
 		// find start end points from center of node to another
 		// excludes marker size
 		let sourceX =
@@ -400,6 +402,7 @@ function drawLines() {
 		}
 		// create line
 		let line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		line.id = source + "_" + destination;
 		line.setAttribute("x1", sourceX);
 		line.setAttribute("y1", sourceY);
 		line.setAttribute("x2", destX);
