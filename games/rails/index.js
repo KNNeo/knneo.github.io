@@ -6,6 +6,7 @@ const config = {
 		// height: 840,
 	},
 	node: {
+		curve: 8,
 		width: 100,
 		height: 60,
 		border: 5,
@@ -123,24 +124,11 @@ function drawResources() {
 
 function drawNodes() {
 	let coordinates = [];
-	for (let item in window.map.stations) {
-		let item = window.data.list[i];
+	for (let item in window.data.map.stations) {
 		// 1st rect is center, else based on coordinates
 		// center of 1st node top left corner + coordinate * no of nodes (min 2)
-		let rect1X =
-			i == 0
-				? (diagramSvg.width.baseVal.value - window.data.node.width) / 2
-				: parseInt(document.querySelector(baseId).getAttribute("x")) +
-				  item.x *
-						(window.data.node.gap.horizontal + 1) *
-						window.data.node.width;
-		let rect1Y =
-			i == 0
-				? (diagramSvg.height.baseVal.value - window.data.node.height) / 2
-				: parseInt(document.querySelector(baseId).getAttribute("y")) +
-				  item.y *
-						(window.data.node.gap.vertical + 1) *
-						window.data.node.height;
+		let rect1X = item.x - window.data.node.width;
+		let rect1Y = item.y - window.data.node.height;
 		// draw rect
 		let rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
 		rect.id = item.id;
@@ -150,15 +138,10 @@ function drawNodes() {
 		rect.setAttribute("y", rect1Y);
 		rect.setAttribute("width", window.data.node.width);
 		rect.setAttribute("height", window.data.node.height);
-		rect.setAttribute("rx", window.data.curve);
+		rect.setAttribute("rx", window.data.node.curve);
 		rect.setAttribute("fill", "var(--background)");
 		if (window.data.palette)
-			rect.setAttribute(
-				"fill",
-				typeof window.data.palette == "object"
-					? window.data.palette[i % window.data.palette.length]
-					: window.data.palette
-			);
+			rect.setAttribute("fill", window.data.palette[0]);
 		if (item.color && item.color.bg) rect.setAttribute("fill", item.color.bg);
 		rect.setAttribute("stroke", "var(--foreground)");
 		rect.setAttribute("stroke-width", window.data.node.border);
@@ -210,10 +193,7 @@ function drawNodes() {
 			textDiv.style.borderRadius =
 				window.data.curve - 0.5 * window.data.node.border + "px";
 			if (window.data.palette)
-				textDiv.style.background =
-					typeof window.data.palette == "object"
-						? window.data.palette[i % window.data.palette.length]
-						: window.data.palette;
+				textDiv.style.background = window.data.palette[0];
 			if (item.color) {
 				textDiv.style.background = item.color.bg;
 				textDiv.style.color = item.color.text;
@@ -227,7 +207,7 @@ function drawNodes() {
 function drawLines() {
 	// convert
 	let points = [];
-	for (let node of window.map.stations) {
+	for (let node of window.data.map.stations) {
 		points.push(
 			...node.links.map(function (r) {
 				return {
@@ -476,9 +456,9 @@ function chartProgress() {
 	let tries = 10;
 	while(timeDiffSec > 0 && tries > 0) {
 		// travel to random destination
-		let links = window.map.stations.find(s => s.links.includes(lastPos.id))?.links;
+		let links = window.data.map.stations.find(s => s.links.includes(lastPos.id))?.links;
 		let id = links[Math.floor(Math.random()*(links.length-1))];
-		let station = window.map.stations.find(s => s.id == id);
+		let station = window.data.map.stations.find(s => s.id == id);
 		if(station) {
 			// if on station, new position at station, calc again
 			if(timeDiffSec - nextDest.distance * window.game.rate.travel > 0) {
