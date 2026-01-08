@@ -93,10 +93,6 @@ function selectDestination() {
 //--FUNCTIONS--//
 function log(input) {
 	logDiv.innerText = logDiv.innerText + '[' + new Date().toLocaleTimeString() + '] ' + input + "\n";
-	// reduce if too large
-	if(logDiv.innerText.split('\n').length > 10) {
-		logDiv.innerText = logDiv.innerText.split('\n').slice(0, 9).join('\n');
-	}
 }
 
 function drawBoard() {
