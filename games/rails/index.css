@@ -68,12 +68,13 @@ ul {
 
 .log {
 	position: fixed;
-	width: min(100%, 50vw);
+	width: min(100%, 70vw);
 	height: min(100%, 30vh);
     left: 0;
 	top: 0;
 	text-decoration: none;
 	text-align: start;
+	font-size: 0.8em;
 }
 
 .settings {

@@ -92,7 +92,7 @@ function selectDestination() {
 
 //--FUNCTIONS--//
 function log(input) {
-	logP.innerText = logP.innerText + '[' + new Date().toLocaleTimeString() + ']' + input + "\n";
+	logP.innerText = logP.innerText + '[' + new Date().toLocaleTimeString() + '] ' + input + "\n";
 }
 
 function drawBoard() {
@@ -387,7 +387,7 @@ function drawTrain() {
 
 function chartProgress() {
 	if(!window.data.last?.id) window.data.last = { x: 0, y: 0, id: 'station-1' };
-	log("train at (" + window.data.last.x + "," + window.data.last.y + ")");
+	log("train at (" + window.data.last.x.toFixed(0) + "," + window.data.last.toFixed(0) + ")");
 	let timeDiffSec = Math.floor((new Date() - new Date(window.data.game.time)) / 1000);
 	let tries = 10;
 	while(timeDiffSec > 0 && tries > 0) {
@@ -437,7 +437,7 @@ function chartProgress() {
 		let rect1Y = 0.5*diagHeight + window.data.last.y;
 		document.querySelector("#train").setAttribute("x", rect1X);
 		document.querySelector("#train").setAttribute("y", rect1Y);
-		log("train moved to (" + window.data.last.x + "," + window.data.last.y + ")");
+		log("train moved to (" + window.data.last.x.toFixed(0) + "," + window.data.last.y.toFixed(0) + ")");
 	}
 	// update last run time
 	idle();
@@ -560,6 +560,11 @@ function load() {
 
 function save() {
 	localStorage.setItem(window.data.id, JSON.stringify(window.data));
+}
+
+function clear() {
+	localStorage.removeItem(window.data.id);
+	window.location.reload();
 }
 
 //--INITIAL--//
