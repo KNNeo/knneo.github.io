@@ -595,7 +595,7 @@ function load() {
 }
 
 function save() {
-	localStorage.setItem(window.data.id, window.data);
+	localStorage.setItem(window.data.id, JSON.stringify(window.data));
 }
 
 //--INITIAL--//
