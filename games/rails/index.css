@@ -70,20 +70,21 @@ ul {
 	position: fixed;
 	width: min(100%, 70vw);
 	height: min(100%, 30vh);
-    left: 0;
+    right: 0;
 	top: 0;
 	text-decoration: none;
 	text-align: start;
 	font-size: 0.8em;
+    overflow: auto;
 }
 
 .settings {
 	position: fixed;
-    right: 0;
+    left: 0;
 	top: 0;
 	text-decoration: none;
 	font-weight: bold;
-	text-align: end;
+	text-align: start;
 }
 
 .home {
@@ -91,6 +92,15 @@ ul {
     left: 0;
     right: 0;
 	bottom: 0;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+.action {
+	position: fixed;
+    left: 0;
+    right: 0;
+	bottom: 1em;
 	text-decoration: none;
 	font-weight: bold;
 }

@@ -59,10 +59,10 @@ const config = {
 };
 
 //--HTML DOM NODE REFERENCES--//
-const logP = document.querySelector("div.log");
+const logDiv = document.querySelector("div.log");
 const diagramSvg = document.querySelector("svg.diagram");
-const settingsH3 = document.querySelector("h3.settings");
-const settingsMenuDiv = settingsH3.querySelector("div.menu");
+const settingsDiv = document.querySelector("div.settings");
+const settingsMenuDiv = settingsDiv.querySelector("div.menu");
 
 //--HTML DOM FUNCTIONS--//
 function idle() {
@@ -92,7 +92,11 @@ function selectDestination() {
 
 //--FUNCTIONS--//
 function log(input) {
-	logP.innerText = logP.innerText + '[' + new Date().toLocaleTimeString() + '] ' + input + "\n";
+	logDiv.innerText = logDiv.innerText + '[' + new Date().toLocaleTimeString() + '] ' + input + "\n";
+	// reduce if too large
+	if(logDiv.innerText.split('\n').length > 10) {
+		logDiv.innerText = logDiv.innerText.split('\n').slice(0, 9).join('\n');
+	}
 }
 
 function drawBoard() {
@@ -387,9 +391,10 @@ function drawTrain() {
 
 function chartProgress() {
 	if(!window.data.last?.id) window.data.last = { x: 0, y: 0, id: 'station-1' };
-	log("train at (" + window.data.last.x.toFixed(0) + "," + window.data.last.toFixed(0) + ")");
+	log("train at (" + window.data.last.x.toFixed(0) + "," + window.data.last.y.toFixed(0) + ")");
 	let timeDiffSec = Math.floor((new Date() - new Date(window.data.game.time)) / 1000);
 	let tries = 10;
+	let trainMoved = false;
 	while(timeDiffSec > 0 && tries > 0) {
 		if(config.debug) console.log('chartProgress', timeDiffSec);
 		// travel to random station
@@ -412,6 +417,7 @@ function chartProgress() {
 				// set new position
 				window.data.last = { x: station.x, y: station.y, id: station.id };
 				timeDiffSec -= distance * window.data.game.cost.travel;
+				trainMoved = true;
 				continue;
 			}
 			// if en route, calculate newest position
@@ -421,6 +427,7 @@ function chartProgress() {
 				// set new position
 				window.data.last = { ...newPos, id: station.id };
 				timeDiffSec = 0;
+				trainMoved = true;
 				continue;
 			}
 		}
@@ -437,7 +444,8 @@ function chartProgress() {
 		let rect1Y = 0.5*diagHeight + window.data.last.y;
 		document.querySelector("#train").setAttribute("x", rect1X);
 		document.querySelector("#train").setAttribute("y", rect1Y);
-		log("train moved to (" + window.data.last.x.toFixed(0) + "," + window.data.last.y.toFixed(0) + ")");
+		if(trainMoved)
+			log("train moved to (" + window.data.last.x.toFixed(0) + "," + window.data.last.y.toFixed(0) + ")");
 	}
 	// update last run time
 	idle();

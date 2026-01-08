@@ -15,14 +15,14 @@
 	<body onload="startup()" onpagehide="idle()">
 		<svg class="diagram"></svg>
 		<div class="log"></div>
-		<h3 class="settings">
+		<div class="settings">
 			<a class="darkmode bi bi-gear-fill" href="javascript:void(0);" title="Toggle Settings" onclick="toggleSettings()" oncontextmenu="false"></a>
 			<div class="menu hidden">
 				<a class="darkmode bi bi-brightness-high" href="javascript:void(0);" title="Toggle Dark Mode" onclick="toggleDarkMode()" oncontextmenu="customSetTheme()" oncontextmenu="false"></a>
 				<a class="darkmode bi bi-pencil-square" href="javascript:void(0);" title="Open Editor" onclick="openEditor()" oncontextmenu="false"></a>
 				<a class="darkmode bi bi-gear" href="javascript:void(0);" title="Open Settings" onclick="toggleSettings()" oncontextmenu="false"></a>
 			</div>
-		</h3>
+		</div>
 		<h3 class="action hidden">
 			<a class="darkmode bi bi-ticket-detailed" href="javascript:void(0);" title="Select Destination" onclick="selectDestination()" oncontextmenu="false">Set Destination</a>
 		</h3>
