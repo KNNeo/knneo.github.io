@@ -475,7 +475,8 @@ function chartProgress() {
 		let station = window.data.map.stations.find(s => s.id == id);
 		if(station) {
 			// if on station, new position at station, calc again
-			if(timeDiffSec - nextDest.distance * window.data.game.rate.travel > 0) {
+			let distance = distance(window.data.last, station);
+			if(timeDiffSec - distance * window.data.game.rate.travel > 0) {
 				window.data.last = { x: station.x, y: station.y, id: station.id };
 				timeDiffSec -= nextDest.distance * window.data.game.rate.travel;
 				continue;
@@ -483,10 +484,7 @@ function chartProgress() {
 			// if en route, calculate new position
 			else {
 				let distance = Math.floor(timeDiffSec / window.data.game.rate.travel);
-				let newPos = {
-					x: pointAtDistance(window.data.last.x, station.x, distance),
-					y: pointAtDistance(window.data.last.y, station.y, distance),
-				};
+				let newPos = pointAtDistance(window.data.last, station, distance);
 				window.data.last = newPos;
 				timeDiffSec = 0;
 				continue;
@@ -502,6 +500,7 @@ function chartProgress() {
 }
 
 function nearestPoint(points, ref) {
+  // find in array of points which is closer to ref
   let best = null;
   let bestDist = 0;
 
@@ -522,10 +521,15 @@ function nearestPoint(points, ref) {
 	};
 }
 
-function pointAtDistance(a, b, dist) {
+function distance(a, b) {
   const dx = b.x - a.x;
   const dy = b.y - a.y;
-  const D = Math.hypot(dx, dy);
+  return Math.hypot(dx, dy);
+}
+
+function pointAtDistance(a, b, dist) {
+  // find where in straight line between a and b, by dist from a
+  let D = distance(a, b);
 
   if (D === 0) return { ...a };
 
