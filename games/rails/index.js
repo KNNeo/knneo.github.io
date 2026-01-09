@@ -11,7 +11,8 @@ const config = {
 		width: 100,
 		height: 60,
 		border: 5,
-		color: "white"
+		color: "white",
+		background: "black"
 	},
 	map: {
 		stations: [
@@ -207,7 +208,7 @@ function drawNodes() {
 			let textDiv = document.createElement("div");
 			textDiv.title = item.name;
 			textDiv.innerText = item.name;
-			textDiv.style.color = window.data.node.color || "var(--foreground)";
+			textDiv.style.color = "var(--foreground)";
 			textDiv.style.background = "var(--background)";
 			textDiv.style.borderRadius =
 				window.data.curve - 0.5 * window.data.node.border + "px";
