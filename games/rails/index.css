@@ -79,6 +79,7 @@ ul {
 	height: min(100%, 30vh);
 	font-size: 0.8em;
     overflow: auto;
+	background-color: var(--background);
 }
 
 .settings {

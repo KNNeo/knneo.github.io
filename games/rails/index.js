@@ -78,6 +78,9 @@ function toggleSettings() {
 }
 
 function toggleLog() {
+	let icon = logDiv.querySelector('.bi');
+	icon.classList.toggle('bi-list');
+	icon.classList.toggle('bi-list-columns-reverse');
 	logListDiv.classList.toggle('hidden');
 }
 
