@@ -82,6 +82,8 @@ function toggleLog() {
 	icon.classList.toggle('bi-list');
 	icon.classList.toggle('bi-list-columns-reverse');
 	logListDiv.classList.toggle('hidden');
+	if(!logListDiv.classList.contains('hidden'))
+		logListDiv.scrollTo(0, logListDiv.scrollHeight);
 }
 
 function selectDestination() {
@@ -100,7 +102,9 @@ function selectDestination() {
 
 //--FUNCTIONS--//
 function log(input) {
-	logListDiv.innerText += '\n' + '[' + new Date().toLocaleTimeString() + '] ' + input;
+	logListDiv.innerHTML += '<br>' + '[' + new Date().toLocaleTimeString() + '] ' + input;
+	if(!logListDiv.classList.contains('hidden'))
+		logListDiv.scrollTo(0, logListDiv.scrollHeight);
 }
 
 function drawBoard() {
@@ -174,6 +178,7 @@ function drawNodes() {
 				window.data.node.height - window.data.node.border
 			);
 			let img = document.createElement("object");
+			img.title = item.name;
 			img.setAttribute("data", item.image);
 			if(item.image.startsWith("data:") && item.image.includes(';')) {
 				let pieces = item.image.split(';');
@@ -204,6 +209,7 @@ function drawNodes() {
 				window.data.node.height - window.data.node.border
 			);
 			let textDiv = document.createElement("div");
+			textDiv.title = item.name;
 			textDiv.innerText = item.name;
 			textDiv.style.color = window.data.node.color || "var(--foreground)";
 			textDiv.style.background = "var(--background)";
@@ -370,8 +376,8 @@ function drawTrain() {
 	let trainSize = Math.min(window.data.node.width, window.data.node.height);
 	let diagWidth = parseInt(diagramSvg.getAttribute("width"));
 	let diagHeight = parseInt(diagramSvg.getAttribute("height"));
-	let rect1X = 0.5*diagWidth + train.x - 0.5*trainSize;
-	let rect1Y = 0.5*diagHeight + train.y - 0.5*trainSize;
+	let rect1X = 0.5*diagWidth + train.x - 0.5*trainSize - 0.5*window.data.node.width;
+	let rect1Y = 0.5*diagHeight + train.y - 0.5*trainSize - 0.5*window.data.node.height;
 	let textArea = document.createElementNS(
 		"http://www.w3.org/2000/svg",
 		"foreignObject"
@@ -396,7 +402,8 @@ function drawTrain() {
 
 function chartProgress() {
 	if(!window.data.last?.id) window.data.last = { x: 0, y: 0, id: 'station-1' };
-	log("train at (" + window.data.last.x.toFixed(0) + "," + window.data.last.y.toFixed(0) + ")");
+	let oldPosition = JSON.parse(JSON.stringify(window.data.last));
+	log("train at (" + oldPosition.x.toFixed(0) + "," + oldPosition.y.toFixed(0) + ")");
 	let timeDiffSec = Math.floor((new Date() - new Date(window.data.game.time)) / 1000);
 	let tries = 10;
 	let trainMoved = false;
@@ -444,10 +451,12 @@ function chartProgress() {
 	// update train position
 	let train = document.querySelector("#train");
 	if(train) {
+		let trainSize = Math.min(window.data.node.width, window.data.node.height);
 		let diagWidth = parseInt(diagramSvg.getAttribute("width"));
 		let diagHeight = parseInt(diagramSvg.getAttribute("height"));
-		let rect1X = 0.5*diagWidth + window.data.last.x;
-		let rect1Y = 0.5*diagHeight + window.data.last.y;
+		let rect1X = 0.5*diagWidth + window.data.last.x - 0.5*trainSize - 0.5*window.data.node.width;
+		let rect1Y = 0.5*diagHeight + window.data.last.y - 0.5*trainSize - 0.5*window.data.node.height;
+		train.querySelector('object').style.transform = oldPosition.x < window.data.last.x ? '' : 'scale(-1,1)';
 		train.setAttribute("x", rect1X);
 		train.setAttribute("y", rect1Y);
 		train.scrollIntoView({ block: 'center', inline: 'center' });
