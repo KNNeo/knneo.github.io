@@ -367,10 +367,11 @@ function drawTrain() {
 		x: lastPos.x,
 		y: lastPos.y,
 	};
+	let trainSize = Math.min([window.data.node.width, window.data.node.height]);
 	let diagWidth = parseInt(diagramSvg.getAttribute("width"));
 	let diagHeight = parseInt(diagramSvg.getAttribute("height"));
-	let rect1X = 0.5*diagWidth + train.x;
-	let rect1Y = 0.5*diagHeight + train.y;
+	let rect1X = 0.5*diagWidth + train.x - 0.5*trainSize;
+	let rect1Y = 0.5*diagHeight + train.y - 0.5*trainSize;
 	let textArea = document.createElementNS(
 		"http://www.w3.org/2000/svg",
 		"foreignObject"
@@ -378,8 +379,8 @@ function drawTrain() {
 	textArea.id = train.id;
 	textArea.setAttribute("x", rect1X);
 	textArea.setAttribute("y", rect1Y);
-	textArea.setAttribute("width", window.data.node.width);
-	textArea.setAttribute("height", window.data.node.height);
+	textArea.setAttribute("width", trainSize);
+	textArea.setAttribute("height", trainSize);
 	let img = document.createElement("object");
 	img.setAttribute("data", train.image);
 	if(train.image.startsWith("data:") && train.image.includes(';')) {
@@ -387,8 +388,8 @@ function drawTrain() {
 		img.setAttribute("type", pieces[0].replace("data:",""));
 		img.setAttribute("data", train.image);
 	}
-	img.setAttribute("width", window.data.node.width);
-	img.setAttribute("height", window.data.node.height);
+	img.setAttribute("width", trainSize);
+	img.setAttribute("height", trainSize);
 	textArea.appendChild(img);
 	diagramSvg.appendChild(textArea);
 }
@@ -441,13 +442,15 @@ function chartProgress() {
 	if(!tries)
 		return console.error('max retry reached');
 	// update train position
-	if(document.querySelector("#train")) {
+	let train = document.querySelector("#train");
+	if(train) {
 		let diagWidth = parseInt(diagramSvg.getAttribute("width"));
 		let diagHeight = parseInt(diagramSvg.getAttribute("height"));
 		let rect1X = 0.5*diagWidth + window.data.last.x;
 		let rect1Y = 0.5*diagHeight + window.data.last.y;
-		document.querySelector("#train").setAttribute("x", rect1X);
-		document.querySelector("#train").setAttribute("y", rect1Y);
+		train.setAttribute("x", rect1X);
+		train.setAttribute("y", rect1Y);
+		train.scrollIntoView({ block: 'center', inline: 'center' });
 		if(trainMoved)
 			log("train moved to (" + window.data.last.x.toFixed(0) + "," + window.data.last.y.toFixed(0) + ")");
 	}
