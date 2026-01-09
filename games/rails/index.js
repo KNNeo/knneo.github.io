@@ -97,7 +97,7 @@ function selectDestination() {
 
 //--FUNCTIONS--//
 function log(input) {
-	logListDiv.innerText = logListDiv.innerText + '[' + new Date().toLocaleTimeString() + '] ' + input + "\n";
+	logListDiv.innerText += '\n' + '[' + new Date().toLocaleTimeString() + '] ' + input;
 }
 
 function drawBoard() {

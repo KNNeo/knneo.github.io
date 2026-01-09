@@ -68,7 +68,7 @@ ul {
 
 .log {
 	position: fixed;
-    right: 0;
+    left: 0;
 	top: 0;
 	text-decoration: none;
 	text-align: start;
@@ -83,11 +83,11 @@ ul {
 
 .settings {
 	position: fixed;
-    left: 0;
+    right: 0;
 	top: 0;
 	text-decoration: none;
 	font-weight: bold;
-	text-align: start;
+	text-align: end;
 }
 
 .home {
