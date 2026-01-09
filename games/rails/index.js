@@ -421,7 +421,7 @@ function chartProgress() {
 				if(config.debug) console.log(links);
 				let nextStation = links[Math.floor(Math.random()*(links.length-1))];
 				window.data.last.id = nextStation;
-				log("train moving towards " + nextStation);
+				log("train at station " + nextStation);
 				continue;
 			}
 			// if can reach station, new position at station, calc again
