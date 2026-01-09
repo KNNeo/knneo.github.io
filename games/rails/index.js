@@ -367,7 +367,7 @@ function drawTrain() {
 		x: lastPos.x,
 		y: lastPos.y,
 	};
-	let trainSize = Math.min([window.data.node.width, window.data.node.height]);
+	let trainSize = Math.min(window.data.node.width, window.data.node.height);
 	let diagWidth = parseInt(diagramSvg.getAttribute("width"));
 	let diagHeight = parseInt(diagramSvg.getAttribute("height"));
 	let rect1X = 0.5*diagWidth + train.x - 0.5*trainSize;
