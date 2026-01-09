@@ -60,6 +60,7 @@ const config = {
 
 //--HTML DOM NODE REFERENCES--//
 const logDiv = document.querySelector("div.log");
+const logListDiv = document.querySelector("div.log-list");
 const diagramSvg = document.querySelector("svg.diagram");
 const settingsDiv = document.querySelector("div.settings");
 const settingsMenuDiv = settingsDiv.querySelector("div.menu");
@@ -74,6 +75,10 @@ function idle() {
 //--EVENT HANDLERS--//
 function toggleSettings() {
 	settingsMenuDiv.classList.toggle('hidden');
+}
+
+function toggleLog() {
+	logDiv.classList.toggle('hidden');
 }
 
 function selectDestination() {
@@ -92,7 +97,7 @@ function selectDestination() {
 
 //--FUNCTIONS--//
 function log(input) {
-	logDiv.innerText = logDiv.innerText + '[' + new Date().toLocaleTimeString() + '] ' + input + "\n";
+	logListDiv.innerText = logListDiv.innerText + '[' + new Date().toLocaleTimeString() + '] ' + input + "\n";
 }
 
 function drawBoard() {
@@ -516,9 +521,9 @@ function popupContent(input) {
 	}
 	dialog.className = 'dialog';
 
-	let dialogDiv = createDialog(input);
+	let dialogListDiv = createDialog(input);
 	dialog.innerHTML = '';
-	dialog.appendChild(dialogDiv);
+	dialog.appendChild(dialogListDiv);
 	dialog.showModal();
 	setTimeout(function() {
 		document.querySelector('.dialog').classList.add('open');

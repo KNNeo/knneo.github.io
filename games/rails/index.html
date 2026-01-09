@@ -14,17 +14,20 @@
 	</head>
 	<body onload="startup()" onpagehide="idle()">
 		<svg class="diagram"></svg>
-		<div class="log"></div>
+		<div class="log">
+			<a class="bi bi-list-columns-reverse" href="javascript:void(0);" title="Toggle Log" onclick="toggleLog()" oncontextmenu="false"></a>
+			<div class="log-list hidden"></div>
+		</div>
 		<div class="settings">
-			<a class="darkmode bi bi-gear-fill" href="javascript:void(0);" title="Toggle Settings" onclick="toggleSettings()" oncontextmenu="false"></a>
+			<a class="bi bi-gear-fill" href="javascript:void(0);" title="Toggle Settings" onclick="toggleSettings()" oncontextmenu="false"></a>
 			<div class="menu hidden">
 				<a class="darkmode bi bi-brightness-high" href="javascript:void(0);" title="Toggle Dark Mode" onclick="toggleDarkMode()" oncontextmenu="customSetTheme()" oncontextmenu="false"></a>
-				<a class="darkmode bi bi-pencil-square" href="javascript:void(0);" title="Open Editor" onclick="openEditor()" oncontextmenu="false"></a>
-				<a class="darkmode bi bi-gear" href="javascript:void(0);" title="Open Settings" onclick="toggleSettings()" oncontextmenu="false"></a>
+				<a class="bi bi-pencil-square" href="javascript:void(0);" title="Open Editor" onclick="openEditor()" oncontextmenu="false"></a>
+				<a class="bi bi-gear" href="javascript:void(0);" title="Open Settings" onclick="toggleSettings()" oncontextmenu="false"></a>
 			</div>
 		</div>
 		<h3 class="action hidden">
-			<a class="darkmode bi bi-ticket-detailed" href="javascript:void(0);" title="Select Destination" onclick="selectDestination()" oncontextmenu="false">Set Destination</a>
+			<a class="bi bi-ticket-detailed" href="javascript:void(0);" title="Select Destination" onclick="selectDestination()" oncontextmenu="false">Set Destination</a>
 		</h3>
 		<h3 class="home">
 			<a href="https://knneo.github.io/">knneo.github.io</a>

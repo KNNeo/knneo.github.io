@@ -68,12 +68,15 @@ ul {
 
 .log {
 	position: fixed;
-	width: min(100%, 70vw);
-	height: min(100%, 30vh);
     right: 0;
 	top: 0;
 	text-decoration: none;
 	text-align: start;
+}
+
+.log-list {
+	width: min(100%, 70vw);
+	height: min(100%, 30vh);
 	font-size: 0.8em;
     overflow: auto;
 }
