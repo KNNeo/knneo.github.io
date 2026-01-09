@@ -402,8 +402,7 @@ function drawTrain() {
 
 function chartProgress() {
 	if(!window.data.last?.id) window.data.last = { x: 0, y: 0, id: 'station-1' };
-	let oldPosition = JSON.parse(JSON.stringify(window.data.last));
-	log("train at (" + oldPosition.x.toFixed(0) + "," + oldPosition.y.toFixed(0) + ")");
+	log("train at (" + window.data.last.x.toFixed(0) + "," + window.data.last.y.toFixed(0) + ")");
 	let timeDiffSec = Math.floor((new Date() - new Date(window.data.game.time)) / 1000);
 	let tries = 10;
 	let trainMoved = false;
@@ -456,7 +455,8 @@ function chartProgress() {
 		let diagHeight = parseInt(diagramSvg.getAttribute("height"));
 		let rect1X = 0.5*diagWidth + window.data.last.x - 0.5*trainSize - 0.5*window.data.node.width;
 		let rect1Y = 0.5*diagHeight + window.data.last.y - 0.5*trainSize - 0.5*window.data.node.height;
-		train.querySelector('object').style.transform = oldPosition.x < window.data.last.x ? '' : 'scale(-1,1)';
+		let station = window.data.map.stations.find(s => s.id == window.data.last.id);
+		train.querySelector('object').style.transform = station.x < window.data.last.x ? 'scale(-1,1)' : '';
 		train.setAttribute("x", rect1X);
 		train.setAttribute("y", rect1Y);
 		train.scrollIntoView({ block: 'center', inline: 'center' });
