@@ -418,7 +418,7 @@ function chartProgress() {
 			if(window.data.last.x == station.x && window.data.last.y == station.y) {
 				let links = window.data.map.stations.find(s => s.links.includes(window.data.last.id))?.links.filter(l => l != window.data.last.id);
 				if(config.debug) console.log(links);
-				let nextStation = links[Math.floor(Math.random()*(links.length-1))];
+				let nextStation = links[Math.floor(Math.random()*links.length)];
 				window.data.last.id = nextStation;
 				log("train at station " + nextStation);
 				continue;
