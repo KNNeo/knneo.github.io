@@ -11,10 +11,6 @@ const config = {
 		width: 100,
 		height: 60,
 		border: 5,
-		gap: {
-			horizontal: 1,
-			vertical: 1
-		},
 		color: "white"
 	},
 	map: {
@@ -52,7 +48,7 @@ const config = {
 	game: {
 		time: new Date(),
 		cost: {
-			travel: 10,
+			travel: 20,
 			wait: 1,
 		}
 	}
