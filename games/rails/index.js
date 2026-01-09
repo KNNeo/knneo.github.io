@@ -102,7 +102,7 @@ function selectDestination() {
 
 //--FUNCTIONS--//
 function log(input) {
-	logListDiv.innerHTML += '<br>' + '[' + new Date().toLocaleTimeString() + '] ' + input;
+	logListDiv.innerHTML += (logListDiv.innerHTML ? '<br>' : '') + '[' + new Date().toLocaleTimeString() + '] ' + input;
 	if(!logListDiv.classList.contains('hidden'))
 		logListDiv.scrollTo(0, logListDiv.scrollHeight);
 }
