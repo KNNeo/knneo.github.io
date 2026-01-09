@@ -78,7 +78,7 @@ function toggleSettings() {
 }
 
 function toggleLog() {
-	logDiv.classList.toggle('hidden');
+	logListDiv.classList.toggle('hidden');
 }
 
 function selectDestination() {
