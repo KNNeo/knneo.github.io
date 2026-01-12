@@ -2,6 +2,7 @@
 const config = {
 	debug: true,
 	id: 'idle-on-rails',
+	date: '20260112',
 	diagram: {
 		// width: 1400,
 		// height: 840,
@@ -100,6 +101,17 @@ function log(input) {
 	logListDiv.innerHTML += (logListDiv.innerHTML ? '<br>' : '') + '[' + new Date().toLocaleTimeString() + '] ' + input;
 	if(!logListDiv.classList.contains('hidden'))
 		logListDiv.scrollTo(0, logListDiv.scrollHeight);
+}
+
+function updateConfig() {
+	// window.data vs config
+	if(!window.data.date || window.data.date != config.date) {
+		window.data.date = config.date;
+		// only allow add
+		if(config.map.stations.length > window.data.map.stations.length)
+			window.data.map.stations = config.map.stations;
+		save();
+	}
 }
 
 function drawBoard() {
@@ -405,6 +417,7 @@ function chartProgress() {
 	if(station) {
 		log("train moving towards " + station.name);
 		while(timeDiffSec > 0 && tries > 0) {
+			tries--; // prevent endless loop
 			if(config.debug) console.log('chartProgress', timeDiffSec);
 			let distance = findDistance(window.data.last, station);
 			if(config.debug) console.log('distance', distance);
@@ -437,8 +450,6 @@ function chartProgress() {
 				}
 				continue;
 			}
-			// prevent endless loop
-			tries--;
 		}
 	}
 	if(!tries)
@@ -591,6 +602,7 @@ function clear() {
 function startup() {
 	load();
 	sizeDiagram();
+	updateConfig();
 	drawBoard();
 	chartProgress();
 }
