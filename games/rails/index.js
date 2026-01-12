@@ -417,6 +417,7 @@ function chartProgress() {
 	let tries = 10;
 	let trainMoved = false;
 	let travelRate = window.data.game.cost.travel || 1;
+	let waitRate = window.data.game.cost.wait || 0;
 	let station = window.data.map.stations.find(s => s.id == window.data.last.id);
 	if(station) {
 		log("train moving towards " + station.name);
@@ -425,13 +426,22 @@ function chartProgress() {
 			if(config.debug) console.log('chartProgress', timeDiffSec);
 			let distance = findDistance(window.data.last, station);
 			if(config.debug) console.log('distance', distance);
-			// if at station, set new station
+			// at station
 			if(window.data.last.x == station.x && window.data.last.y == station.y) {
-				let links = window.data.map.stations.find(s => s.links.includes(window.data.last.id))?.links.filter(l => l != window.data.last.id);
-				if(config.debug) console.log(links);
-				let nextStation = links[Math.floor(Math.random()*links.length)];
-				window.data.last.id = nextStation;
-				log("train at station " + nextStation);
+				if(!station.wait || timeDiffSec - station.wait * waitRate > 0) {
+					timeDiffSec -= (station.wait || 0) * waitRate;
+					// set new station
+					let links = window.data.map.stations.find(s => s.links.includes(window.data.last.id))?.links.filter(l => l != window.data.last.id);
+					if(config.debug) console.log(links);
+					let nextStation = links[Math.floor(Math.random()*links.length)];
+					station = window.data.map.stations.find(s => s.id == nextStation);
+					window.data.last.id = station.name;
+					log("train destination set to " + station.name);
+				}
+				else {
+					// wait at station (do not reduce time)
+					log("train waiting at station " + station.name);
+				}
 				continue;
 			}
 			// if can reach station, new position at station, calc again
