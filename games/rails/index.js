@@ -43,6 +43,13 @@ const config = {
 				y: 100,
 				links: ['station-1']
 			},
+			{
+				'id': 'station-5',
+				'name': 'West End',
+				'x': -350,
+				'y': 500,
+				'links': ['station-4']
+			}
 		]
 	},
 	game: {
@@ -107,12 +114,8 @@ function updateConfig() {
 	// window.data vs config
 	if(!window.data.date || window.data.date != config.date) {
 		window.data.date = config.date;
-		// add
-		if(config.map.stations.length > window.data.map.stations.length)
-			window.data.map.stations = config.map.stations;
-		// override
-		if(window.data.game.cost.travel != config.game.cost.travel)
-			window.data.game.cost.travel = config.game.cost.travel;
+		window.data.map.stations = config.map.stations;
+		window.data.game.cost.travel = config.game.cost.travel;
 		save();
 	}
 }
