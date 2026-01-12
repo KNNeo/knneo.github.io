@@ -104,7 +104,7 @@ function selectDestination() {
 }
 
 function onSelectDestination() {
-	if(window.data.next == event.target.getAttribute('data-id')) {
+	if(window.data.next && window.data.next?.id == event.target.getAttribute('data-id')) {
 		delete window.data.next;
 		log(event.target.getAttribute('data-name') + ' removed as destination');
 	}
