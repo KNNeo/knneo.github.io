@@ -10,9 +10,7 @@ const config = {
 		curve: 8,
 		width: 100,
 		height: 60,
-		border: 5,
-		color: "white",
-		background: "black"
+		border: 5
 	},
 	map: {
 		stations: [
@@ -403,14 +401,15 @@ function chartProgress() {
 	let timeDiffSec = Math.floor((new Date() - new Date(window.data.game.time)) / 1000);
 	let tries = 10;
 	let trainMoved = false;
-	while(timeDiffSec > 0 && tries > 0) {
-		if(config.debug) console.log('chartProgress', timeDiffSec);
-		// travel to random station
-		let station = window.data.map.stations.find(s => s.id == window.data.last.id);
-		if(station) {
-			log("train moving towards " + station.name);
+	let station = window.data.map.stations.find(s => s.id == window.data.last.id);
+	if(station) {
+		log("train moving towards " + station.name);
+		while(timeDiffSec > 0 && tries > 0) {
+			if(config.debug) console.log('chartProgress', timeDiffSec);
 			let distance = findDistance(window.data.last, station);
 			if(config.debug) console.log('distance', distance);
+			// countdown
+			tries--;
 			// if at station, set new station
 			if(window.data.last.x == station.x && window.data.last.y == station.y) {
 				let links = window.data.map.stations.find(s => s.links.includes(window.data.last.id))?.links.filter(l => l != window.data.last.id);
@@ -439,8 +438,6 @@ function chartProgress() {
 				continue;
 			}
 		}
-		// if all else fails, retry
-		tries--;
 	}
 	if(!tries)
 		return console.error('max retry reached');
