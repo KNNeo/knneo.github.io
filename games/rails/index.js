@@ -95,12 +95,12 @@ function selectDestination() {
 		dest.setAttribute('data-id', station.id);
 		if(window.data.next && station.id == window.data.next?.id)
 			dest.setAttribute('data-active', '');
-		dest.onclick = function() {
+		dest.addEventListener('click', function() {
 			window.data.next = { id: station.id };
 			save();
 			log(station.name + ' set as destination after reach' + nextStation.name);
 			removeDialog();
-		};
+		});
 		dest.innerText = station.name;
 		destDiv.appendChild(dest);
 	}
