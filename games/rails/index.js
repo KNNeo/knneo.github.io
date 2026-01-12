@@ -95,16 +95,18 @@ function selectDestination() {
 		dest.setAttribute('data-id', station.id);
 		if(window.data.next && station.id == window.data.next?.id)
 			dest.setAttribute('data-active', '');
-		dest.addEventListener('click', function() {
-			window.data.next = { id: station.id };
-			save();
-			log(station.name + ' set as destination after reach' + nextStation.name);
-			removeDialog();
-		});
+		dest.setAttribute('onclick', 'onSelectDestination()');
 		dest.innerText = station.name;
 		destDiv.appendChild(dest);
 	}
 	popupContent(destDiv);
+}
+
+function onSelectDestination() {
+	window.data.next = { id: event.target.getAttribute('data-id') };
+	save();
+	log(station.name + ' set as destination');
+	removeDialog();
 }
 
 //--FUNCTIONS--//
