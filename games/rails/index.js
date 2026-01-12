@@ -93,6 +93,7 @@ function selectDestination() {
 	for(let station of destinations) {
 		let dest = document.createElement('button');
 		dest.setAttribute('data-id', station.id);
+		dest.setAttribute('data-name', station.name);
 		if(window.data.next && station.id == window.data.next?.id)
 			dest.setAttribute('data-active', '');
 		dest.setAttribute('onclick', 'onSelectDestination()');
@@ -103,9 +104,15 @@ function selectDestination() {
 }
 
 function onSelectDestination() {
-	window.data.next = { id: event.target.getAttribute('data-id') };
+	if(window.data.next == event.target.getAttribute('data-id')) {
+		delete window.data.next;
+		log(event.target.getAttribute('data-name') + ' removed as destination');
+	}
+	else {
+		window.data.next = { id: event.target.getAttribute('data-id') };
+		log(event.target.getAttribute('data-name') + ' set as destination');
+	}
 	save();
-	log(station.name + ' set as destination');
 	removeDialog();
 }
 
