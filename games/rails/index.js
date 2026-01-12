@@ -2,7 +2,7 @@
 const config = {
 	debug: true,
 	id: 'idle-on-rails',
-	date: '20260112_1',
+	date: '20260112_2',
 	diagram: {
 		// width: 1400,
 		// height: 840,
@@ -111,8 +111,8 @@ function updateConfig() {
 		if(config.map.stations.length > window.data.map.stations.length)
 			window.data.map.stations = config.map.stations;
 		// override
-		if(window.data.game.cost.travel != config.map.game.cost.travel)
-			window.data.game.cost.travel = config.map.game.cost.travel;
+		if(window.data.game.cost.travel != config.game.cost.travel)
+			window.data.game.cost.travel = config.game.cost.travel;
 		save();
 	}
 }
