@@ -44,11 +44,11 @@ const config = {
 				links: ['station-1']
 			},
 			{
-				'id': 'station-5',
-				'name': 'West End',
-				'x': -350,
-				'y': 500,
-				'links': ['station-4']
+				id: 'station-5',
+				name: 'West End',
+				x: -350,
+				y: 500,
+				links: ['station-4']
 			}
 		]
 	},
@@ -68,13 +68,6 @@ const diagramSvg = document.querySelector("svg.diagram");
 const settingsDiv = document.querySelector("div.settings");
 const settingsMenuDiv = settingsDiv.querySelector("div.menu");
 
-//--HTML DOM FUNCTIONS--//
-function idle() {
-	// record time in order to calculate time passed when load in
-	window.data.game.time = new Date();
-	save();
-}
-
 //--EVENT HANDLERS--//
 function toggleSettings() {
 	settingsMenuDiv.classList.toggle('hidden');
@@ -90,17 +83,28 @@ function toggleLog() {
 }
 
 function selectDestination() {
-	let destinations = document.createElement('div');
-	for(let station of config.map.stations) {
+	let nextStation = config.map.stations.find(s => s.id == window.data.last.id);
+	let destinations = config.map.stations.filter(s => nextStation.links.includes(s.id));
+	if(!destinations.length)
+		popupContent('No destinations found! Will follow same return route.');
+
+	let destDiv = document.createElement('div');
+	destDiv.classList.add('destinations');
+	for(let station of destinations) {
 		let dest = document.createElement('button');
 		dest.setAttribute('data-id', station.id);
+		if(window.data.next && station.id == window.data.next?.id)
+			dest.setAttribute('data-active', '');
 		dest.onclick = function() {
-			log(station.name + ' selected.');
+			window.data.next = { id: station.id };
+			save();
+			log(station.name + ' set as destination after reach' + nextStation.name);
+			removeDialog();
 		};
 		dest.innerText = station.name;
-		destinations.appendChild(dest);
+		destDiv.appendChild(dest);
 	}
-	popupContent(destinations);
+	popupContent(destDiv);
 }
 
 //--FUNCTIONS--//
@@ -433,11 +437,17 @@ function chartProgress() {
 			if(window.data.last.x == station.x && window.data.last.y == station.y) {
 				if(!station.wait || timeDiffSec - station.wait * waitRate > 0) {
 					timeDiffSec -= (station.wait || 0) * waitRate;
-					// set new station
-					let links = window.data.map.stations.find(s => s.links.includes(window.data.last.id))?.links.filter(l => l != window.data.last.id);
-					if(config.debug) console.log(links);
-					let nextStation = links[Math.floor(Math.random()*links.length)];
-					station = window.data.map.stations.find(s => s.id == nextStation);
+					// set new station based on config, or random
+					if(window.data.next) {
+						station = window.data.map.stations.find(s => s.id == window.data.next.id);
+						delete window.data.next;
+					}
+					else {
+						let links = window.data.map.stations.find(s => s.links.includes(window.data.last.id))?.links.filter(l => l != window.data.last.id);
+						if(config.debug) console.log(links);
+						let nextStation = links[Math.floor(Math.random()*links.length)];
+						station = window.data.map.stations.find(s => s.id == nextStation);
+					}
 					window.data.last.id = station.name;
 					log("train destination set to " + station.name);
 				}
@@ -615,7 +625,13 @@ function clear() {
 	window.location.reload();
 }
 
-//--INITIAL--//
+//--HTML DOM FUNCTIONS--//
+function idle() {
+	// record time in order to calculate time passed when load in
+	window.data.game.time = new Date();
+	save();
+}
+
 function startup() {
 	load();
 	sizeDiagram();

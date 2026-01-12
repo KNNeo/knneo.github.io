@@ -104,9 +104,46 @@ ul {
 	position: fixed;
     left: 0;
     right: 0;
-	bottom: 1em;
-	text-decoration: none;
+	bottom: 4em;
+    width: fit-content;
+    margin: auto;
+}
+
+.action a {
 	font-weight: bold;
+	text-decoration: none;
+	font-size: 1em;
+	border: 2px solid var(--foreground);
+	border-radius: 99px;
+	border-radius: 99px;
+    padding: 4px 12px;
+
+}
+
+.action a::before {
+	padding-right: 8px;
+}
+
+.action a:hover {
+	border: 2px solid var(--primary);
+}
+.destinations {
+	display: flex;
+	flex-wrap: wrap;
+    gap: 8px;
+}
+
+.destinations button {
+	all: unset;
+	border: 2px solid var(--foreground);
+	border-radius: 99px;
+    padding: 4px 12px;
+	cursor: pointer;
+}
+
+.destinations button:hover,
+.destinations button[data-active] {
+	background-color: var(--secondary);
 }
 
 .viewer {
