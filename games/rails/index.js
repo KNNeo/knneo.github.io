@@ -48,7 +48,7 @@ const config = {
 	game: {
 		time: new Date(),
 		cost: {
-			travel: 20,
+			travel: 50,
 			wait: 1,
 		}
 	}
@@ -107,9 +107,12 @@ function updateConfig() {
 	// window.data vs config
 	if(!window.data.date || window.data.date != config.date) {
 		window.data.date = config.date;
-		// only allow add
+		// add
 		if(config.map.stations.length > window.data.map.stations.length)
 			window.data.map.stations = config.map.stations;
+		// override
+		if(window.data.game.cost.travel != config.map.game.cost.travel)
+			window.data.game.cost.travel = config.map.game.cost.travel;
 		save();
 	}
 }
@@ -413,6 +416,7 @@ function chartProgress() {
 	let timeDiffSec = Math.floor((new Date() - new Date(window.data.game.time)) / 1000);
 	let tries = 10;
 	let trainMoved = false;
+	let travelRate = window.data.game.cost.travel || 1;
 	let station = window.data.map.stations.find(s => s.id == window.data.last.id);
 	if(station) {
 		log("train moving towards " + station.name);
@@ -431,16 +435,16 @@ function chartProgress() {
 				continue;
 			}
 			// if can reach station, new position at station, calc again
-			else if(timeDiffSec - distance * window.data.game.cost.travel > 0) {
+			else if(timeDiffSec - distance * travelRate > 0) {
 				// set new position
 				window.data.last = { x: station.x, y: station.y, id: station.id };
-				timeDiffSec -= distance * window.data.game.cost.travel;
+				timeDiffSec -= distance * travelRate;
 				trainMoved = true;
 				continue;
 			}
 			// if en route, calculate newest position
 			else {
-				let distance = Math.floor(timeDiffSec / window.data.game.cost.travel);
+				let distance = Math.floor(timeDiffSec / travelRate);
 				timeDiffSec = 0;
 				if(distance > 0) {
 					let newPos = pointAtDistance(window.data.last, station, distance);
