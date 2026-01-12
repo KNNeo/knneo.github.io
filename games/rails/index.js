@@ -408,8 +408,6 @@ function chartProgress() {
 			if(config.debug) console.log('chartProgress', timeDiffSec);
 			let distance = findDistance(window.data.last, station);
 			if(config.debug) console.log('distance', distance);
-			// countdown
-			tries--;
 			// if at station, set new station
 			if(window.data.last.x == station.x && window.data.last.y == station.y) {
 				let links = window.data.map.stations.find(s => s.links.includes(window.data.last.id))?.links.filter(l => l != window.data.last.id);
@@ -430,13 +428,17 @@ function chartProgress() {
 			// if en route, calculate newest position
 			else {
 				let distance = Math.floor(timeDiffSec / window.data.game.cost.travel);
-				let newPos = pointAtDistance(window.data.last, station, distance);
-				// set new position
-				window.data.last = { ...newPos, id: station.id };
 				timeDiffSec = 0;
-				trainMoved = true;
+				if(distance > 0) {
+					let newPos = pointAtDistance(window.data.last, station, distance);
+					// set new position
+					window.data.last = { ...newPos, id: station.id };
+					trainMoved = true;
+				}
 				continue;
 			}
+			// prevent endless loop
+			tries--;
 		}
 	}
 	if(!tries)
