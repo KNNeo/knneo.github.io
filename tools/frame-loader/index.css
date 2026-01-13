@@ -14,10 +14,11 @@
   --foreground: #fff;
   --accent: gray;
 }
+
 html {
-	font-family: Noto Sans;
-	background-color: var(--background);
-	color: var(--foreground);
+  font-family: Noto Sans;
+  background-color: var(--background);
+  color: var(--foreground);
 }
 
 body {
@@ -27,29 +28,42 @@ body {
   -ms-user-select: none;
   user-select: none;
   text-align: center;
+  margin: 0;
+}
+
+a,
+a:visited {
+  color: var(--foreground);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--primary);
 }
 
 .container {
-	height: 100%;
-	width: 100%;
-	margin: 0;
+  height: 100%;
+  width: 100%;
+  margin: 0;
 }
 
-body.container {	
-	background-color: var(--accent);
+body.container {
+  background-color: var(--accent);
 }
 
 .frame {
-	height: 90%;
-	width: 90%;
-	margin: 0;
+  height: 99%;
+  width: 99%;
+  margin: 0;
+  resize: both;
 }
 
 .home {
-	text-decoration: none;
-	font-weight: bold;
+  text-decoration: none;
+  font-weight: bold;
 }
 
 .address {
-	width: 90%;	
+  width: 85%;
+  max-width: 640px;
 }
