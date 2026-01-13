@@ -114,10 +114,9 @@ ul {
 	text-decoration: none;
 	font-size: 1em;
 	border: 2px solid var(--foreground);
-	border-radius: 99px;
+	background-color: var(--background);
 	border-radius: 99px;
     padding: 4px 12px;
-
 }
 
 .action a::before {

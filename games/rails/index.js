@@ -506,6 +506,8 @@ function chartProgress() {
 		if(trainMoved)
 			log("train moved to (" + window.data.last.x.toFixed(0) + "," + window.data.last.y.toFixed(0) + ")");
 	}
+	if(timeDiffSec <= 0)
+		clearInterval(config.interval);
 	// update last run time
 	idle();
 }
@@ -646,7 +648,7 @@ function startup() {
 	sizeDiagram();
 	updateConfig();
 	drawBoard();
-	chartProgress();
+	config.interval = setInterval(chartProgress, 1000);
 }
 
 function sizeDiagram() {
