@@ -216,7 +216,7 @@ function generateSidebar() {
 			menu.appendChild(handle);
 		}
 	}
-	else {
+	else if(document.querySelector('.handle')) {
 		document.querySelector('.handle').classList.add('hidden');
 	}
 }
