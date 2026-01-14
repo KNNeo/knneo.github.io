@@ -361,6 +361,7 @@ a:focus-within {
 .handle {
 	display: none;
 	transform: rotate(180deg);
+	cursor: pointer;
 }
 
 .dialog dialog {

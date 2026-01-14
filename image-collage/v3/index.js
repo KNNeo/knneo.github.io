@@ -934,6 +934,7 @@ function onHandleMove() {
 		// stagger as multiple to prevent constant render
 		if(event.screenX % 10 == 0) {
 			localStorage.setItem(config.storage.width, event.screenX);
+			delete window.data.menu.display;
 			popupTextGoAway(event.screenX);
 			generateSidebar();
 		}
