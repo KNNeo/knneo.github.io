@@ -200,24 +200,17 @@ function generateSidebar() {
 
 	if(document.querySelector('.size'))
 		document.querySelector('.size').innerText = window.preset;
-	if(config.isLandscape()) {
-		if(document.querySelector('.handle'))
-			document.querySelector('.handle').classList.remove('hidden');
-		else {
-			let handle = document.createElement('div');
-			handle.className = 'handle material-icons';
-			handle.innerText = 'drag_handle';
-			handle.addEventListener('mousedown', function() {
-				// trigger drag mode
-				window.dragging = true;
-			});
-			window.addEventListener('mousemove', onHandleMove);
-			window.addEventListener('mouseup', onHandleUp);
-			menu.appendChild(handle);
-		}
-	}
-	else if(document.querySelector('.handle')) {
-		document.querySelector('.handle').classList.add('hidden');
+	if(!document.querySelector('.handle')) {
+		let handle = document.createElement('div');
+		handle.className = 'handle material-icons';
+		handle.innerText = 'drag_handle';
+		handle.addEventListener('mousedown', function() {
+			// trigger drag mode
+			window.dragging = true;
+		});
+		window.addEventListener('mousemove', onHandleMove);
+		window.addEventListener('mouseup', onHandleUp);
+		menu.appendChild(handle);
 	}
 }
 
