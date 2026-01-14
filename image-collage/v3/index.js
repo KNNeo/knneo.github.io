@@ -940,7 +940,7 @@ function onHandleMove() {
 		// can assume screenX is new width of left leaning sidebar
 		// stagger as multiple to prevent constant render
 		if(event.screenX % 10 == 0) {
-			localStorage.getItem(config.storage.width, event.screenX);
+			localStorage.setItem(config.storage.width, event.screenX);
 			popupTextGoAway(event.screenX);
 			generateSidebar();
 		}
