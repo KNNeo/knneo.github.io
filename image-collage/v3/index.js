@@ -4,10 +4,15 @@ const config = {
 		return matchMedia('all and (orientation:landscape)').matches;
 	},
 	isFirefox: (/Firefox/i.test(navigator.userAgent)),
-	spacer: 'https://knneo.github.io/resources/config.spacer.gif',
 	presets: {
 		size: ['photo_size_select_small', 'photo_size_select_large', 'photo_size_select_actual'],
 		threshold: [6, 3, 1]
+	},
+	spacer: 'https://knneo.github.io/resources/config.spacer.gif',
+	storage: {
+		id: 'image_collage_data_id',
+		columns: 'image_collage_columns',
+		width: 'image_collage_width'
 	}
 };
 
@@ -49,7 +54,7 @@ function startup() {
 	else if (document.getElementById('data-id').src)
 		getJson(document.getElementById('data-id').src, initializeVariables);
 	else {
-		setData(localStorage.getItem('image_collage_data_id') || '');
+		setData(localStorage.getItem(config.storage.id) || '');
 	}
 }
 
@@ -66,7 +71,7 @@ function setData(source) {
 		else // assume home directory at data folder & file format json
 			document.getElementById('data-id').src = 'data/' + source + '.json';
 		// save value to load again
-		localStorage.setItem('image_collage_data_id', document.getElementById('data-id').src);
+		localStorage.setItem(config.storage.id, document.getElementById('data-id').src);
 		startup();
 	}
 	window.overlay = false;
@@ -77,7 +82,7 @@ function initializeVariables(data) {
 	window.data = data;
 	window.include = '';
 	window.exclude = '';
-	window.columns = parseInt(localStorage.getItem('image_collage_columns') || 0);
+	window.columns = parseInt(localStorage.getItem(config.storage.columns) || 0);
 	window.preset = config.presets.size[config.presets.threshold.findIndex(x => x <= window.columns)] || config.presets.size[0];
 	window.slideshow = { run: null, history: [] };
 	menu.addEventListener(config.isFirefox ? 'DOMMouseScroll' : 'mousewheel', onScrollSidebar);
@@ -147,9 +152,8 @@ function generateTags() {
 }
 
 function generateSidebar() {
-	menu.style.setProperty('--max-width', (window.data.menu.width || 400) + 'px');
-	if (menu.closest('.content'))
-		menu.closest('.content').style.setProperty('--menu-height', (menu.getBoundingClientRect()?.height || 0) + 'px');
+	setMenuWidth();
+	setMenuHeight();
 	if (window.data.menu.display && window.data.menu.display == 'hidden') {
 		menu.classList.add(window.data.menu.display);
 		if (sidebar) sidebar.innerText = 'menu';
@@ -869,6 +873,12 @@ function onRandomSelect() {
 	runLoader();
 }
 
+function setMenuWidth() {
+	if(localStorage.getItem(config.storage.width))
+		window.data.menu.width = parseInt(localStorage.getItem(config.storage.width));
+	menu.style.setProperty('--max-width', (window.data.menu.width || 400) + 'px');
+}
+
 function setMenuHeight() {
 	if (menu.closest('.content'))
 		menu.closest('.content').style.setProperty('--menu-height', (menu.getBoundingClientRect()?.height || 0) + 'px');
@@ -890,7 +900,7 @@ function setColumns(val) {
 			if(document.querySelector('.size'))
 				document.querySelector('.size').innerText = window.preset;
 			this.setAttribute('data-value', window.columns || 'Auto');
-			localStorage.setItem('image_collage_columns', window.columns);
+			localStorage.setItem(config.storage.columns, window.columns);
 			generateGrid();
 		};
 		input.value = window.columns;
@@ -900,7 +910,7 @@ function setColumns(val) {
 	}
 	else {
 		window.columns = parseInt(val);
-		localStorage.setItem('image_collage_columns', window.columns);
+		localStorage.setItem(config.storage.columns, window.columns);
 		generateGrid();
 	}
 }
