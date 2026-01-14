@@ -200,6 +200,25 @@ function generateSidebar() {
 
 	if(document.querySelector('.size'))
 		document.querySelector('.size').innerText = window.preset;
+	if(config.isLandscape()) {
+		if(document.querySelector('.handle'))
+			document.querySelector('.handle').classList.remove('hidden');
+		else {
+			let handle = document.createElement('div');
+			handle.className = 'handle material-icons';
+			handle.innerText = 'drag_handle';
+			handle.addEventListener('mousedown', function() {
+				// trigger drag mode
+				window.dragging = true;
+			});
+			window.addEventListener('mousemove', onHandleMove);
+			window.addEventListener('mouseup', onHandleUp);
+			menu.appendChild(handle);
+		}
+	}
+	else {
+		document.querySelector('.handle').classList.add('hidden');
+	}
 }
 
 function generateTagsList() {
@@ -913,6 +932,23 @@ function setColumns(val) {
 		localStorage.setItem(config.storage.columns, window.columns);
 		generateGrid();
 	}
+}
+
+function onHandleMove() {
+	if(window.dragging) {
+		// console.log(event.screenX);
+		// can assume screenX is new width of left leaning sidebar
+		// stagger as multiple to prevent constant render
+		if(event.screenX % 10 == 0) {
+			localStorage.getItem(config.storage.width, event.screenX);
+			popupTextGoAway(event.screenX);
+			generateSidebar();
+		}
+	}
+}
+
+function onHandleUp() {
+	window.dragging = false;
 }
 
 //--VIEWER--//

@@ -301,7 +301,7 @@ a:focus-within {
 .settings {
 	display: flex;
 	flex-wrap: wrap;
-    justify-content: center;
+	justify-content: center;
 }
 
 .settings a {
@@ -356,6 +356,11 @@ a:focus-within {
 .description {
 	margin: 10px 0;
 	text-align: center;
+}
+
+.handle {
+	display: none;
+	transform: rotate(180deg);
 }
 
 .dialog dialog {
@@ -550,6 +555,14 @@ a:focus-within {
 	.menu {
 		max-width: var(--max-width);
 		height: 100%;
+		position: relative;
+	}
+
+	.handle {
+		display: block;
+		transform: rotate(90deg);
+		position: absolute;
+		right: 0;
 	}
 
 	.collage {
