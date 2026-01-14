@@ -2,7 +2,7 @@
 const config = {
 	debug: true,
 	id: 'idle-on-rails',
-	date: '20260112_2',
+	date: '20260114',
 	diagram: {
 		// width: 1400,
 		// height: 840,
@@ -41,7 +41,7 @@ const config = {
 				name: 'West Annex',
 				x: -350,
 				y: 100,
-				links: ['station-1']
+				links: ['station-1','station-5']
 			},
 			{
 				id: 'station-5',
