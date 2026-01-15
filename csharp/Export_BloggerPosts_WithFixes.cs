@@ -515,8 +515,6 @@ public class Program {
 				if(!string.IsNullOrWhiteSpace(postTitle))
 				{
 					var thumbnailUrl = "";
-					// var anchors = new List<string>();
-					// var excluded = new List<string>() { "hashtags", "table", "music", "disclaimer" };
 					var isLatest = IsLatestPost(publishDate);
 					// For latest post, show expanded content
 					if(isLatest)
@@ -538,29 +536,15 @@ public class Program {
 								if(firstLabel != null)
 									thumbnailUrl = POST_LABEL_THUMBNAIL[firstLabel];
 						}
-						// Find all anchors in div or blockquote tags
-						// if (DEBUG_MODE) Console.WriteLine("Find all anchors");
-						// match = Regex.Match(postContent, @"(?s)(div|blockquote)(.*?) id=""(.*?)""(.*?)(>)");
-						// while(match.Success) {
-						// 	//Console.WriteLine(match.Groups[3].Value);
-						// 	if(match.Groups[3].Value.Length > 1 && !excluded.Contains(match.Groups[3].Value))
-						// 		anchors.Add(match.Groups[3].Value);
-						// 	match = match.NextMatch();
-						// }
-						//Console.WriteLine(anchors);
 					}
 					// Add to homepage string builder
 					homepageString.AppendLine(isLatest 
 						? "<a class=\"box latest post\"" + dataTags + " onclick=\"processClickLink()\" href=\"" + pageLink + "\">" + 
-						"<div class=\"thumb\">" + 
-							(thumbnailUrl.Length > 0 ? "<div><img alt=\"\" loading=\"lazy\" src=\"" + thumbnailUrl + "\"/></div>" : "") + 
-							"<h5 title=\"" + postTitle + "\">" + postTitle + "</h5>" + 
-							(thumbnailUrl.Length > 0 ? "<span data-published=\"" + publishDate.ToString("yyyy-MM-ddTHH:mm:sszzz") + "\" class=\"publish\">" + publishDate.ToString("dd MMM yyyy") + "</span>" : "") + 
-							//(anchors.Count > 0 
-							//? "<div class=\"anchors\">" + string.Join("", anchors.Select(a => "<a href=\"" + (pageLink + "#" + a) + "\">#" + a + "</a>")) + "</div>" 
-							//: "") + 
-						"</div></a>"
-						: "<div class=\"post\"" + dataTags + "><span data-published=\"" + publishDate.ToString("yyyy-MM-ddTHH:mm:sszzz") + "\" class=\"publish\">" + publishDate.ToString("dd MMM yyyy") + " </span>" +
+							(thumbnailUrl.Length > 0 ? "<img class=\"thumb\" alt=\"\" loading=\"lazy\" src=\"" + thumbnailUrl + "\"/>" : "") + 
+							"<h5 class=\"title\" title=\"" + postTitle + "\">" + postTitle + "</h5>" + 
+							(thumbnailUrl.Length > 0 ? "<div class=\"publish\">" + publishDate.ToString("dd MMMM yyyy") + "</div>" : "") + 
+						"</a>"
+						: "<div class=\"post\"" + dataTags + "><span class=\"publish\">" + publishDate.ToString("dd MMMM yyyy") + " </span>" +
 						"<a onclick=\"processClickLink()\" href=\""+pageLink+"\">" + postTitle + "</a></div>");
 				}
 			}
