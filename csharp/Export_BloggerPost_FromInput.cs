@@ -390,18 +390,15 @@ public class Program {
                     }
                 }
                 if(DEBUG_MODE) Console.WriteLine("Add to homepage string builder");
-                homepageString.AppendLine(isLatest 
-                    ? "<a class=\"box latest post\"" + dataTags + " onclick=\"processClickLink()\" href=\"" + pageLink + "\">" + 
-                    "<div class=\"thumb\">" + 
-                        (thumbnailUrl.Length > 0 ? "<div><img alt=\"\" loading=\"lazy\" src=\"" + thumbnailUrl + "\"/></div>" : "") + 
-                        "<h5 title=\"" + postTitle + "\">" + postTitle + "</h5>" + 
-                        (thumbnailUrl.Length > 0 ? "<span data-published=\"" + publishDate.ToString("yyyy-MM-ddTHH:mm:sszzz") + "\" class=\"publish\">" + publishDate.ToString("dd MMM yyyy") + "</span>" : "") + 
-                        //(anchors.Count > 0 
-                        //? "<div class=\"anchors\">" + string.Join("", anchors.Select(a => "<a href=\"" + (pageLink + "#" + a) + "\">#" + a + "</a>")) + "</div>" 
-                        //: "") + 
-                    "</div></a>"
-                    : "<div class=\"post\"" + dataTags + "><span data-published=\"" + publishDate.ToString("yyyy-MM-ddTHH:mm:sszzz") + "\" class=\"publish\">" + publishDate.ToString("dd MMM yyyy") + " </span>" +
-                    "<a onclick=\"processClickLink()\" href=\""+pageLink+"\">" + postTitle + "</a></div>");
+				// Add to homepage string builder
+				homepageString.AppendLine(isLatest 
+					? "<a class=\"box latest post\"" + dataTags + " onclick=\"processClickLink()\" href=\"" + pageLink + "\">" + 
+						(thumbnailUrl.Length > 0 ? "<img class=\"thumb\" alt=\"\" loading=\"lazy\" src=\"" + thumbnailUrl + "\"/>" : "") + 
+						"<h5 class=\"title\" title=\"" + postTitle + "\">" + postTitle + "</h5>" + 
+						(thumbnailUrl.Length > 0 ? "<div class=\"publish\">" + publishDate.ToString("dd MMMM yyyy") + "</div>" : "") + 
+					"</a>"
+					: "<div class=\"post\"" + dataTags + "><span class=\"publish\">" + publishDate.ToString("dd MMMM yyyy") + " </span>" +
+					"<a onclick=\"processClickLink()\" href=\""+pageLink+"\">" + postTitle + "</a></div>");
             }
         }
 
