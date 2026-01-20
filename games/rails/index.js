@@ -648,7 +648,7 @@ function startup() {
 	sizeDiagram();
 	updateConfig();
 	drawBoard();
-	config.interval = setInterval(chartProgress, 1000);
+	config.interval = setInterval(chartProgress, 5000);
 }
 
 function sizeDiagram() {
