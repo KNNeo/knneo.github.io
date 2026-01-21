@@ -488,8 +488,6 @@ function chartProgress() {
 			}
 		}
 	}
-	if(!tries)
-		return console.error('max retry reached');
 	// update train position
 	let train = document.querySelector("#train");
 	if(train) {
