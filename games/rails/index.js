@@ -457,7 +457,7 @@ function chartProgress() {
 						let nextStation = links[Math.floor(Math.random()*links.length)];
 						station = window.data.map.stations.find(s => s.id == nextStation);
 					}
-					window.data.last.id = station.name;
+					window.data.last.id = station.id;
 					log("train destination set to " + station.name);
 				}
 				else {
