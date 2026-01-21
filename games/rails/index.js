@@ -55,7 +55,7 @@ const config = {
 	game: {
 		time: new Date(),
 		cost: {
-			travel: 50,
+			travel: 1,
 			wait: 1,
 		}
 	}
