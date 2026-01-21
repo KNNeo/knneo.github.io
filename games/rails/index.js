@@ -163,8 +163,8 @@ function drawResources() {
 }
 
 function drawNodes() {
-	let diagWidth = parseInt(diagramSvg.getAttribute("width"));
-	let diagHeight = parseInt(diagramSvg.getAttribute("height"));
+	let diagWidth = parseInt(diagramSvg.getAttribute("data-width"));
+	let diagHeight = parseInt(diagramSvg.getAttribute("data-height"));
 	// add train into stations
 	for (let item of window.data.map.stations) {
 		// 1st rect is center, else based on coordinates
@@ -267,8 +267,8 @@ function drawLines() {
 				})
 			);
 	}
-	let diagWidth = parseInt(diagramSvg.getAttribute("width"));
-	let diagHeight = parseInt(diagramSvg.getAttribute("height"));
+	let diagWidth = parseInt(diagramSvg.getAttribute("data-width"));
+	let diagHeight = parseInt(diagramSvg.getAttribute("data-height"));
 	// plot lines
 	for (let point of points) {
 		let { source, destination, label } = point;
@@ -400,8 +400,8 @@ function drawTrain() {
 		y: lastPos.y,
 	};
 	let trainSize = Math.min(window.data.node.width, window.data.node.height);
-	let diagWidth = parseInt(diagramSvg.getAttribute("width"));
-	let diagHeight = parseInt(diagramSvg.getAttribute("height"));
+	let diagWidth = parseInt(diagramSvg.getAttribute("data-width"));
+	let diagHeight = parseInt(diagramSvg.getAttribute("data-height"));
 	let rect1X = 0.5*diagWidth + train.x - 0.5*trainSize - 0.5*window.data.node.width;
 	let rect1Y = 0.5*diagHeight + train.y - 0.5*trainSize - 0.5*window.data.node.height;
 	let textArea = document.createElementNS(
@@ -492,15 +492,14 @@ function chartProgress() {
 	let train = document.querySelector("#train");
 	if(train) {
 		let trainSize = Math.min(window.data.node.width, window.data.node.height);
-		let diagWidth = parseInt(diagramSvg.getAttribute("width"));
-		let diagHeight = parseInt(diagramSvg.getAttribute("height"));
+		let diagWidth = parseInt(diagramSvg.getAttribute("data-width"));
+		let diagHeight = parseInt(diagramSvg.getAttribute("data-height"));
 		let rect1X = 0.5*diagWidth + window.data.last.x - 0.5*trainSize - 0.5*window.data.node.width;
 		let rect1Y = 0.5*diagHeight + window.data.last.y - 0.5*trainSize - 0.5*window.data.node.height;
 		let station = window.data.map.stations.find(s => s.id == window.data.last.id);
 		train.querySelector('object').style.transform = station.x < window.data.last.x ? 'scale(-1,1)' : '';
 		train.setAttribute("x", rect1X);
 		train.setAttribute("y", rect1Y);
-		train.scrollIntoView({ block: 'center', inline: 'center' });
 		if(trainMoved)
 			log("train moved to (" + window.data.last.x.toFixed(0) + "," + window.data.last.y.toFixed(0) + ")");
 	}
@@ -516,9 +515,18 @@ function moveToStation(name) {
 		train.querySelector('object').style.transform = station.x < window.data.last.x ? 'scale(-1,1)' : '';
 		train.setAttribute("x", x);
 		train.setAttribute("y", y);
-		train.scrollIntoView({ block: 'center', inline: 'center' });
 		log("train moved to (" + window.data.last.x.toFixed(0) + "," + window.data.last.y.toFixed(0) + ")");
 	}
+}
+
+function focus(element) {
+	let attributes = diagramSvg.getAttribute("viewBox").split(" ");
+	let posX = (element.getBoundingClientRect()?.x || 0) + parseInt(attributes[2] / 2);
+	let posY = (element.getBoundingClientRect()?.y || 0) + parseInt(attributes[3] / 2);
+	attributes[0] = posX;
+	attributes[1] = posY;
+	console.log(...attributes);
+	diagramSvg.setAttribute("viewBox", attributes.join(" "));
 }
 
 function nearestPoint(points, ref) {
@@ -663,9 +671,9 @@ function startup() {
 function sizeDiagram() {
 	// diagram size based on window dimensions if no values provided
 	if (window.data.diagram?.width)
-		diagramSvg.setAttribute("width", window.data.diagram?.width);
+		diagramSvg.setAttribute("data-width", window.data.diagram?.width);
 	if (window.data.diagram?.height)
-		diagramSvg.setAttribute("height", window.data.diagram?.height);
+		diagramSvg.setAttribute("data-height", window.data.diagram?.height);
 	if (!window.data.diagram?.width || !window.data.diagram?.height) {
 		// determine by furthest station
 		let parent = diagramSvg.parentElement.getBoundingClientRect();
@@ -677,8 +685,9 @@ function sizeDiagram() {
 			let maxY =  Math.max(...window.data.map.stations.map(s => Math.abs(s.y)));
 			diagHeight = 2 * (maxY + 2 * window.data.node.height);
 		}
-		diagramSvg.setAttribute("width", diagWidth);
-		diagramSvg.setAttribute("height", diagHeight);
+		diagramSvg.setAttribute("data-width", diagWidth);
+		diagramSvg.setAttribute("data-height", diagHeight);
+		diagramSvg.setAttribute("viewBox", "0 0 " + document.body.getBoundingClientRect().width + " " + document.body.getBoundingClientRect().height);
 		console.log("autosize svg", diagWidth, diagHeight);
 	}
 }
