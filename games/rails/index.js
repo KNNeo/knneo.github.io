@@ -55,7 +55,7 @@ const config = {
 	game: {
 		time: new Date(),
 		cost: {
-			travel: 1,
+			travel: 5,
 			wait: 1,
 		}
 	}
@@ -467,16 +467,16 @@ function chartProgress() {
 				continue;
 			}
 			// if can reach station, new position at station, calc again
-			else if(timeDiffSec - distance * travelRate > 0) {
+			else if(timeDiffSec - distance / travelRate > 0) {
 				// set new position
 				window.data.last = { x: station.x, y: station.y, id: station.id };
-				timeDiffSec -= distance * travelRate;
+				timeDiffSec -= distance / travelRate;
 				trainMoved = true;
 				continue;
 			}
 			// if en route, calculate newest position
 			else {
-				let distance = Math.floor(timeDiffSec / travelRate);
+				let distance = Math.floor(timeDiffSec * travelRate);
 				timeDiffSec = 0;
 				if(distance > 0) {
 					let newPos = pointAtDistance(window.data.last, station, distance);
@@ -510,6 +510,17 @@ function chartProgress() {
 		clearInterval(config.interval);
 	// update last run time
 	idle();
+}
+
+function moveToStation(name) {
+	let station = window.data.map.stations.find(s => s.id == name);
+	if(station) {
+		train.querySelector('object').style.transform = station.x < window.data.last.x ? 'scale(-1,1)' : '';
+		train.setAttribute("x", x);
+		train.setAttribute("y", y);
+		train.scrollIntoView({ block: 'center', inline: 'center' });
+		log("train moved to (" + window.data.last.x.toFixed(0) + "," + window.data.last.y.toFixed(0) + ")");
+	}
 }
 
 function nearestPoint(points, ref) {
