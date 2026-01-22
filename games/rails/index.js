@@ -676,6 +676,11 @@ function startup() {
 	config.interval = setInterval(chartProgress, 1000);
 }
 
+function resize() {
+	sizeDiagram();
+	chartProgress();
+}
+
 function sizeDiagram() {
 	// diagram size based on window dimensions if no values provided
 	if (window.data.diagram?.width)
