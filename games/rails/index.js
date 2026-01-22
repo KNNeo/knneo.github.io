@@ -427,6 +427,7 @@ function drawTrain() {
 }
 
 function chartProgress() {
+	if(config.debug) console.log('chartProgress');
 	if(!window.data.last?.id) window.data.last = { x: 0, y: 0, id: 'station-1' };
 	log("train at (" + window.data.last.x.toFixed(0) + "," + window.data.last.y.toFixed(0) + ")");
 	let timeDiffSec = Math.floor((new Date() - new Date(window.data.game.time)) / 1000);
@@ -439,7 +440,7 @@ function chartProgress() {
 		log("train moving towards " + station.name);
 		while(timeDiffSec > 0 && tries > 0) {
 			tries--; // prevent endless loop
-			if(config.debug) console.log('chartProgress', timeDiffSec);
+			if(config.debug) console.log('try #' + (10-tries+1), 'delta: ' + timeDiffSec);
 			let distance = findDistance(window.data.last, station);
 			if(config.debug) console.log('distance', distance);
 			// at station
@@ -466,7 +467,7 @@ function chartProgress() {
 				}
 				continue;
 			}
-			// if can reach station, new position at station, calc again
+			// can reach station, new position at station, calc again
 			else if(timeDiffSec - distance / travelRate > 0) {
 				// set new position
 				window.data.last = { x: station.x, y: station.y, id: station.id };
@@ -474,7 +475,7 @@ function chartProgress() {
 				trainMoved = true;
 				continue;
 			}
-			// if en route, calculate newest position
+			// en route, calculate newest position
 			else {
 				let distance = Math.floor(timeDiffSec * travelRate);
 				timeDiffSec = 0;
@@ -500,8 +501,10 @@ function chartProgress() {
 		train.querySelector('object').style.transform = station.x < window.data.last.x ? 'scale(-1,1)' : '';
 		train.setAttribute("x", rect1X);
 		train.setAttribute("y", rect1Y);
-		if(trainMoved)
+		if(trainMoved) {
+			focus(train);
 			log("train moved to (" + window.data.last.x.toFixed(0) + "," + window.data.last.y.toFixed(0) + ")");
+		}
 	}
 	if(timeDiffSec <= 0)
 		clearInterval(config.interval);
@@ -521,11 +524,16 @@ function moveToStation(name) {
 
 function focus(element) {
 	let attributes = diagramSvg.getAttribute("viewBox").split(" ");
-	let posX = (element.getBoundingClientRect()?.x || 0) + parseInt(attributes[2] / 2);
-	let posY = (element.getBoundingClientRect()?.y || 0) + parseInt(attributes[3] / 2);
+	//reset
+	attributes[0] = 0;
+	attributes[1] = 0;
+	diagramSvg.setAttribute("viewBox", attributes.join(" "));
+	//set based on params
+	let posX = (element.getBoundingClientRect()?.x || 0) - parseInt(attributes[2] / 2);
+	let posY = (element.getBoundingClientRect()?.y || 0) - parseInt(attributes[3] / 2);
 	attributes[0] = posX;
 	attributes[1] = posY;
-	console.log(...attributes);
+	if(config.debug) console.log(...attributes);
 	diagramSvg.setAttribute("viewBox", attributes.join(" "));
 }
 
@@ -665,7 +673,7 @@ function startup() {
 	sizeDiagram();
 	updateConfig();
 	drawBoard();
-	config.interval = setInterval(chartProgress, 5000);
+	config.interval = setInterval(chartProgress, 1000);
 }
 
 function sizeDiagram() {
