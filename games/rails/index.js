@@ -495,12 +495,25 @@ function chartProgress() {
 		let trainSize = Math.min(window.data.node.width, window.data.node.height);
 		let diagWidth = parseInt(diagramSvg.getAttribute("data-width"));
 		let diagHeight = parseInt(diagramSvg.getAttribute("data-height"));
-		let rect1X = 0.5*diagWidth + window.data.last.x - 0.5*trainSize - 0.5*window.data.node.width;
-		let rect1Y = 0.5*diagHeight + window.data.last.y - 0.5*trainSize - 0.5*window.data.node.height;
+		let beforeX = train.getAttribute("x");
+		let beforeY = train.getAttribute("y");
+		let afterX = 0.5*diagWidth + window.data.last.x - 0.5*trainSize - 0.5*window.data.node.width;
+		let afterY = 0.5*diagHeight + window.data.last.y - 0.5*trainSize - 0.5*window.data.node.height;
 		let station = window.data.map.stations.find(s => s.id == window.data.last.id);
 		train.querySelector('object').style.transform = station.x < window.data.last.x ? 'scale(-1,1)' : '';
-		train.setAttribute("x", rect1X);
-		train.setAttribute("y", rect1Y);
+		train.animate([
+			// from and to
+			{ x: beforeX, y: beforeY }, 
+			{ x: afterX, y: afterY }
+		], {
+			// Timing options
+			duration: 1000,
+			iterations: 1,
+			fill: 'forwards', // Keeps the object at dest
+			easing: 'ease-in-out'
+		});
+		train.setAttribute("x", afterX);
+		train.setAttribute("y", afterY);
 		if(trainMoved) {
 			focus(train);
 			log("train moved to (" + window.data.last.x.toFixed(0) + "," + window.data.last.y.toFixed(0) + ")");
