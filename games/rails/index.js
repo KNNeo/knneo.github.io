@@ -2,7 +2,7 @@
 const config = {
 	debug: true,
 	id: 'idle-on-rails',
-	date: '20260114',
+	date: '20260126',
 	diagram: {
 		// width: 1400,
 		// height: 840,
@@ -20,28 +20,28 @@ const config = {
 				name: 'Depot',
 				x: 0,
 				y: 0,
-				links: ['station-2','station-3','station-4']
+				links: ['station-2', 'station-3', 'station-4']
 			},
 			{
 				id: 'station-2',
 				name: 'Seaside End',
 				x: 620,
 				y: -140,
-				links: ['station-1','station-3']
+				links: ['station-1', 'station-3']
 			},
 			{
 				id: 'station-3',
 				name: 'Mountain View',
 				x: 535,
 				y: 200,
-				links: ['station-1','station-2']
+				links: ['station-1', 'station-2']
 			},
 			{
 				id: 'station-4',
 				name: 'West Annex',
 				x: -350,
 				y: 100,
-				links: ['station-1','station-5']
+				links: ['station-1', 'station-5']
 			},
 			{
 				id: 'station-5',
@@ -78,23 +78,23 @@ function toggleLog() {
 	icon.classList.toggle('bi-list');
 	icon.classList.toggle('bi-list-columns-reverse');
 	logListDiv.classList.toggle('hidden');
-	if(!logListDiv.classList.contains('hidden'))
+	if (!logListDiv.classList.contains('hidden'))
 		logListDiv.scrollTo(0, logListDiv.scrollHeight);
 }
 
 function selectDestination() {
 	let nextStation = config.map.stations.find(s => s.id == window.data.last.id);
 	let destinations = config.map.stations.filter(s => nextStation.links.includes(s.id));
-	if(!destinations.length)
+	if (!destinations.length)
 		popupContent('No destinations found! Will follow same return route.');
 
 	let destDiv = document.createElement('div');
 	destDiv.classList.add('destinations');
-	for(let station of destinations) {
+	for (let station of destinations) {
 		let dest = document.createElement('button');
 		dest.setAttribute('data-id', station.id);
 		dest.setAttribute('data-name', station.name);
-		if(window.data.next && station.id == window.data.next?.id)
+		if (window.data.next && station.id == window.data.next?.id)
 			dest.setAttribute('data-active', '');
 		dest.setAttribute('onclick', 'onSelectDestination()');
 		dest.innerText = station.name;
@@ -104,7 +104,7 @@ function selectDestination() {
 }
 
 function onSelectDestination() {
-	if(window.data.next && window.data.next?.id == event.target.getAttribute('data-id')) {
+	if (window.data.next && window.data.next?.id == event.target.getAttribute('data-id')) {
 		delete window.data.next;
 		log(event.target.getAttribute('data-name') + ' removed as destination');
 	}
@@ -119,13 +119,13 @@ function onSelectDestination() {
 //--FUNCTIONS--//
 function log(input) {
 	logListDiv.innerHTML += (logListDiv.innerHTML ? '<br>' : '') + '[' + new Date().toLocaleTimeString() + '] ' + input;
-	if(!logListDiv.classList.contains('hidden'))
+	if (!logListDiv.classList.contains('hidden'))
 		logListDiv.scrollTo(0, logListDiv.scrollHeight);
 }
 
 function updateConfig() {
 	// window.data vs config
-	if(!window.data.date || window.data.date != config.date) {
+	if (!window.data.date || window.data.date != config.date) {
 		window.data.date = config.date;
 		window.data.map.stations = config.map.stations;
 		window.data.game.cost.travel = config.game.cost.travel;
@@ -169,8 +169,8 @@ function drawNodes() {
 	for (let item of window.data.map.stations) {
 		// 1st rect is center, else based on coordinates
 		// center of 1st node top left corner + coordinate * no of nodes (min 2)
-		let rect1X = 0.5*diagWidth + item.x - window.data.node.width;
-		let rect1Y = 0.5*diagHeight + item.y - window.data.node.height;
+		let rect1X = 0.5 * diagWidth + item.x - window.data.node.width;
+		let rect1Y = 0.5 * diagHeight + item.y - window.data.node.height;
 		// draw rect
 		let rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
 		rect.id = item.id;
@@ -206,9 +206,9 @@ function drawNodes() {
 			let img = document.createElement("object");
 			img.title = item.name;
 			img.setAttribute("data", item.image);
-			if(item.image.startsWith("data:") && item.image.includes(';')) {
+			if (item.image.startsWith("data:") && item.image.includes(';')) {
 				let pieces = item.image.split(';');
-				img.setAttribute("type", pieces[0].replace("data:",""));
+				img.setAttribute("type", pieces[0].replace("data:", ""));
 				img.setAttribute("data", item.image);
 			}
 			img.setAttribute("x", rect1X);
@@ -257,7 +257,7 @@ function drawLines() {
 	// convert
 	let points = [];
 	for (let node of window.data.map.stations) {
-		if(node.links)
+		if (node.links)
 			points.push(
 				...node.links.map(function (r) {
 					return {
@@ -272,16 +272,16 @@ function drawLines() {
 	// plot lines
 	for (let point of points) {
 		let { source, destination, label } = point;
-		if(document.querySelector("#" + source + "_" + destination) || document.querySelector("#" + destination + "_" + source))
+		if (document.querySelector("#" + source + "_" + destination) || document.querySelector("#" + destination + "_" + source))
 			continue;
 		// find start end points from center of node to another
 		// excludes marker size
 		let sourceStation = window.data.map.stations.find(s => s.id == source);
 		let destStation = window.data.map.stations.find(s => s.id == destination);
-		let rect1X = 0.5*diagWidth + sourceStation.x - window.data.node.width;
-		let rect1Y = 0.5*diagHeight + sourceStation.y - window.data.node.height;
-		let rect2X = 0.5*diagWidth + destStation.x - window.data.node.width;
-		let rect2Y = 0.5*diagHeight + destStation.y - window.data.node.height;
+		let rect1X = 0.5 * diagWidth + sourceStation.x - window.data.node.width;
+		let rect1Y = 0.5 * diagHeight + sourceStation.y - window.data.node.height;
+		let rect2X = 0.5 * diagWidth + destStation.x - window.data.node.width;
+		let rect2Y = 0.5 * diagHeight + destStation.y - window.data.node.height;
 		let sourceX =
 			rect1X +
 			0.5 * window.data.node.width;
@@ -352,15 +352,15 @@ function drawLines() {
 			textBox.setAttribute(
 				"x",
 				Math.min(sourceX, destX) +
-					0.5 * line.getBoundingClientRect().width -
-					0.5 * textBox.getBoundingClientRect().width
+				0.5 * line.getBoundingClientRect().width -
+				0.5 * textBox.getBoundingClientRect().width
 			);
 			textBox.setAttribute(
 				"y",
 				Math.min(sourceY, destY) +
-					0.5 * textBox.getBoundingClientRect().height -
-					5 +
-					0.5 * line.getBoundingClientRect().height
+				0.5 * textBox.getBoundingClientRect().height -
+				5 +
+				0.5 * line.getBoundingClientRect().height
 			);
 			let padding = 10;
 			let wrapper = document.createElementNS("http://www.w3.org/2000/svg", "rect");
@@ -402,8 +402,8 @@ function drawTrain() {
 	let trainSize = Math.min(window.data.node.width, window.data.node.height);
 	let diagWidth = parseInt(diagramSvg.getAttribute("data-width"));
 	let diagHeight = parseInt(diagramSvg.getAttribute("data-height"));
-	let rect1X = 0.5*diagWidth + train.x - 0.5*trainSize - 0.5*window.data.node.width;
-	let rect1Y = 0.5*diagHeight + train.y - 0.5*trainSize - 0.5*window.data.node.height;
+	let rect1X = 0.5 * diagWidth + train.x - 0.5 * trainSize - 0.5 * window.data.node.width;
+	let rect1Y = 0.5 * diagHeight + train.y - 0.5 * trainSize - 0.5 * window.data.node.height;
 	let textArea = document.createElementNS(
 		"http://www.w3.org/2000/svg",
 		"foreignObject"
@@ -415,9 +415,9 @@ function drawTrain() {
 	textArea.setAttribute("height", trainSize);
 	let img = document.createElement("object");
 	img.setAttribute("data", train.image);
-	if(train.image.startsWith("data:") && train.image.includes(';')) {
+	if (train.image.startsWith("data:") && train.image.includes(';')) {
 		let pieces = train.image.split(';');
-		img.setAttribute("type", pieces[0].replace("data:",""));
+		img.setAttribute("type", pieces[0].replace("data:", ""));
 		img.setAttribute("data", train.image);
 	}
 	img.setAttribute("width", trainSize);
@@ -427,83 +427,76 @@ function drawTrain() {
 }
 
 function chartProgress() {
-	if(config.debug) console.log('chartProgress');
-	if(!window.data.last?.id) window.data.last = { x: 0, y: 0, id: 'station-1' };
+	if (config.debug) console.log('chartProgress');
+	if (!window.data.last?.id) window.data.last = { x: 0, y: 0, id: 'station-1' };
 	log("train at (" + window.data.last.x.toFixed(0) + "," + window.data.last.y.toFixed(0) + ")");
 	let timeDiffSec = Math.floor((new Date() - new Date(window.data.game.time)) / 1000);
-	let tries = 10;
 	let trainMoved = false;
 	let travelRate = window.data.game.cost.travel || 1;
 	let waitRate = window.data.game.cost.wait || 0;
 	let station = window.data.map.stations.find(s => s.id == window.data.last.id);
-	if(station) {
+	if (station && timeDiffSec > 0) {
 		log("train moving towards " + station.name);
-		while(timeDiffSec > 0 && tries > 0) {
-			tries--; // prevent endless loop
-			if(config.debug) console.log('try #' + (10-tries+1), 'delta: ' + timeDiffSec);
-			let distance = findDistance(window.data.last, station);
-			if(config.debug) console.log('distance', distance);
-			// at station
-			if(window.data.last.x == station.x && window.data.last.y == station.y) {
-				if(!station.wait || timeDiffSec - station.wait * waitRate > 0) {
-					timeDiffSec -= (station.wait || 0) * waitRate;
-					// set new station based on config, or random
-					if(window.data.next) {
-						station = window.data.map.stations.find(s => s.id == window.data.next.id);
-						delete window.data.next;
-					}
-					else {
-						let links = window.data.map.stations.find(s => s.links.includes(window.data.last.id))?.links.filter(l => l != window.data.last.id);
-						if(config.debug) console.log(links);
-						let nextStation = links[Math.floor(Math.random()*links.length)];
-						station = window.data.map.stations.find(s => s.id == nextStation);
-					}
-					window.data.last.id = station.id;
-					log("train destination set to " + station.name);
+		if (config.debug) console.log('delta: ' + timeDiffSec);
+		let distance = findDistance(window.data.last, station);
+		if (config.debug) console.log('distance', distance);
+		// at station
+		if (window.data.last.x == station.x && window.data.last.y == station.y) {
+			if (!station.wait || timeDiffSec - station.wait * waitRate > 0) {
+				timeDiffSec -= (station.wait || 0) * waitRate;
+				// set new station based on config, or random
+				if (window.data.next) {
+					station = window.data.map.stations.find(s => s.id == window.data.next.id);
+					delete window.data.next;
 				}
 				else {
-					// wait at station (do not reduce time)
-					log("train waiting at station " + station.name);
+					let links = window.data.map.stations.find(s => s.links.includes(window.data.last.id))?.links.filter(l => l != window.data.last.id);
+					if (config.debug) console.log(links);
+					let nextStation = links[Math.floor(Math.random() * links.length)];
+					station = window.data.map.stations.find(s => s.id == nextStation);
 				}
-				continue;
+				window.data.last.id = station.id;
+				log("train destination set to " + station.name);
 			}
-			// can reach station, new position at station, calc again
-			else if(timeDiffSec - distance / travelRate > 0) {
-				// set new position
-				window.data.last = { x: station.x, y: station.y, id: station.id };
-				timeDiffSec -= distance / travelRate;
-				trainMoved = true;
-				continue;
-			}
-			// en route, calculate newest position
 			else {
-				let distance = Math.floor(timeDiffSec * travelRate);
-				timeDiffSec = 0;
-				if(distance > 0) {
-					let newPos = pointAtDistance(window.data.last, station, distance);
-					// set new position
-					window.data.last = { ...newPos, id: station.id };
-					trainMoved = true;
-				}
-				continue;
+				// wait at station (do not reduce time)
+				log("train waiting at station " + station.name);
+			}
+		}
+		// can reach station, new position at station, calc again
+		else if (timeDiffSec - distance / travelRate > 0) {
+			// set new position
+			window.data.last = { x: station.x, y: station.y, id: station.id };
+			timeDiffSec -= distance / travelRate;
+			trainMoved = true;
+		}
+		// en route, calculate newest position
+		else {
+			let distance = Math.floor(timeDiffSec * travelRate);
+			timeDiffSec = 0;
+			if (distance > 0) {
+				let newPos = pointAtDistance(window.data.last, station, distance);
+				// set new position
+				window.data.last = { ...newPos, id: station.id };
+				trainMoved = true;
 			}
 		}
 	}
 	// update train position
 	let train = document.querySelector("#train");
-	if(train) {
+	if (trainMoved && train) {
 		let trainSize = Math.min(window.data.node.width, window.data.node.height);
 		let diagWidth = parseInt(diagramSvg.getAttribute("data-width"));
 		let diagHeight = parseInt(diagramSvg.getAttribute("data-height"));
 		let beforeX = train.getAttribute("x");
 		let beforeY = train.getAttribute("y");
-		let afterX = 0.5*diagWidth + window.data.last.x - 0.5*trainSize - 0.5*window.data.node.width;
-		let afterY = 0.5*diagHeight + window.data.last.y - 0.5*trainSize - 0.5*window.data.node.height;
+		let afterX = 0.5 * diagWidth + window.data.last.x - 0.5 * trainSize - 0.5 * window.data.node.width;
+		let afterY = 0.5 * diagHeight + window.data.last.y - 0.5 * trainSize - 0.5 * window.data.node.height;
 		let station = window.data.map.stations.find(s => s.id == window.data.last.id);
 		train.querySelector('object').style.transform = station.x < window.data.last.x ? 'scale(-1,1)' : '';
 		train.animate([
 			// from and to
-			{ x: beforeX, y: beforeY }, 
+			{ x: beforeX, y: beforeY },
 			{ x: afterX, y: afterY }
 		], {
 			// Timing options
@@ -514,20 +507,17 @@ function chartProgress() {
 		});
 		train.setAttribute("x", afterX);
 		train.setAttribute("y", afterY);
-		if(trainMoved) {
 			focus(train);
 			log("train moved to (" + window.data.last.x.toFixed(0) + "," + window.data.last.y.toFixed(0) + ")");
-		}
 	}
-	// if(timeDiffSec <= 0)
-		// clearInterval(config.interval);
-	// update last run time
-	idle();
+	if(timeDiffSec <= 0)
+		// update last run time
+		idle();
 }
 
 function moveToStation(name) {
 	let station = window.data.map.stations.find(s => s.id == name);
-	if(station) {
+	if (station) {
 		train.querySelector('object').style.transform = station.x < window.data.last.x ? 'scale(-1,1)' : '';
 		train.setAttribute("x", x);
 		train.setAttribute("y", y);
@@ -546,72 +536,72 @@ function focus(element) {
 	let posY = (element.getBoundingClientRect()?.y || 0) - parseInt(attributes[3] / 2);
 	attributes[0] = posX;
 	attributes[1] = posY;
-	if(config.debug) console.log(...attributes);
+	if (config.debug) console.log(...attributes);
 	diagramSvg.setAttribute("viewBox", attributes.join(" "));
 }
 
 function nearestPoint(points, ref) {
-  // find in array of points which is closer to ref
-  let best = null;
-  let bestDist = 0;
+	// find in array of points which is closer to ref
+	let best = null;
+	let bestDist = 0;
 
-  for (const p of points.filter(f => f.x != ref.x && f.y != ref.y)) {
-    const dx = p.x - ref.x;
-    const dy = p.y - ref.y;
-    const d2 = dx * dx + dy * dy;
+	for (const p of points.filter(f => f.x != ref.x && f.y != ref.y)) {
+		const dx = p.x - ref.x;
+		const dy = p.y - ref.y;
+		const d2 = dx * dx + dy * dy;
 
-    if (d2 < bestDist) {
-      bestDist = d2;
-      best = p.id;
-    }
-  }
-  if(bestDist)
-	return {
-		id: best,
-		distance: bestDist
-	};
+		if (d2 < bestDist) {
+			bestDist = d2;
+			best = p.id;
+		}
+	}
+	if (bestDist)
+		return {
+			id: best,
+			distance: bestDist
+		};
 }
 
 function findDistance(a, b) {
-  const dx = b.x - a.x;
-  const dy = b.y - a.y;
-  return Math.hypot(dx, dy);
+	const dx = b.x - a.x;
+	const dy = b.y - a.y;
+	return Math.hypot(dx, dy);
 }
 
 function pointAtDistance(a, b, dist) {
-  // find where in straight line between a and b, by dist from a
-  let D = findDistance(a, b);
+	// find where in straight line between a and b, by dist from a
+	let D = findDistance(a, b);
 
-  if (D === 0) return { ...a };
+	if (D === 0) return { ...a };
 
-  const t = dist / D;
-  const dx = b.x - a.x;
-  const dy = b.y - a.y;
+	const t = dist / D;
+	const dx = b.x - a.x;
+	const dy = b.y - a.y;
 
-  return {
-    x: a.x + dx * t,
-    y: a.y + dy * t
-  };
+	return {
+		x: a.x + dx * t,
+		y: a.y + dy * t
+	};
 }
 
 //--DIALOG--//
 function popupContent(input) {
-	if(!input) {
+	if (!input) {
 		alert('No content found');
 		return;
 	}
 	// create dialog component if missing
 	let dialog = document.querySelector('.dialog');
-	if(!dialog) {
+	if (!dialog) {
 		dialog = document.createElement('dialog');
 		dialog.tabIndex = 0;
-		dialog.addEventListener('click', function() {
-			if(event.target == document.querySelector('dialog'))
+		dialog.addEventListener('click', function () {
+			if (event.target == document.querySelector('dialog'))
 				removeDialog();
 		});
-		dialog.addEventListener('keyup', function() {
-			if(event.key != 'Space' || event.key != 'Enter') return;
-			if(event.target.closest('.content')) return;
+		dialog.addEventListener('keyup', function () {
+			if (event.key != 'Space' || event.key != 'Enter') return;
+			if (event.target.closest('.content')) return;
 			event.preventDefault();
 			removeDialog();
 		});
@@ -623,7 +613,7 @@ function popupContent(input) {
 	dialog.innerHTML = '';
 	dialog.appendChild(dialogListDiv);
 	dialog.showModal();
-	setTimeout(function() {
+	setTimeout(function () {
 		document.querySelector('.dialog').classList.add('open');
 	}, 0);
 }
@@ -632,11 +622,11 @@ function createDialog(node) {
 	// Helper function to create dialog with content
 	// Note: Node in dialog will not have events! Manual add back or write as attribute!
 	let box = document.createElement('div');
-	if(typeof node == 'string') {
+	if (typeof node == 'string') {
 		box.classList.add('box');
 		box.innerHTML = node;
 	}
-	if(typeof node == 'object') {
+	if (typeof node == 'object') {
 		box.classList.add('content');
 		let clonedNode = node.cloneNode(true);
 		box.appendChild(clonedNode);
@@ -646,7 +636,7 @@ function createDialog(node) {
 
 function removeDialog() {
 	document.querySelector('.dialog')?.classList.remove('open');
-	setTimeout(function() {
+	setTimeout(function () {
 		document.querySelector('.dialog')?.close();
 	}, 250);
 }
@@ -705,10 +695,10 @@ function sizeDiagram() {
 		let parent = diagramSvg.parentElement.getBoundingClientRect();
 		let diagWidth = parent.width;
 		let diagHeight = parent.height;
-		if(window.data.map.stations) {
+		if (window.data.map.stations) {
 			let maxX = Math.max(...window.data.map.stations.map(s => Math.abs(s.x)));
 			diagWidth = 2 * (maxX + 2 * window.data.node.width);
-			let maxY =  Math.max(...window.data.map.stations.map(s => Math.abs(s.y)));
+			let maxY = Math.max(...window.data.map.stations.map(s => Math.abs(s.y)));
 			diagHeight = 2 * (maxY + 2 * window.data.node.height);
 		}
 		diagramSvg.setAttribute("data-width", diagWidth);
