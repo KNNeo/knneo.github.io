@@ -69,6 +69,16 @@ const settingsDiv = document.querySelector("div.settings");
 const settingsMenuDiv = settingsDiv.querySelector("div.menu");
 
 //--EVENT HANDLERS--//
+function toggleProgress() {
+	let toPause = event.target.classList.contains('bi-play-circle');
+	event.target.classList.toggle('bi-play-circle');
+	event.target.classList.toggle('bi-pause-circle');
+	if(toPause)
+		clearInterval(config.interval);
+	else
+		config.interval = setInterval(chartProgress, 1000);
+}
+
 function toggleSettings() {
 	settingsMenuDiv.classList.toggle('hidden');
 }
