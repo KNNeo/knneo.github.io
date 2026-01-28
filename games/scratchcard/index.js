@@ -7,7 +7,7 @@ const config = {
         title: 'FRUITPICKER',
         subtitle: 'Win up to $10,000!',
         matches: ['🍒'], // max 5
-        grid: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0], // max 25
+        grid: [0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0], // max 25
         footer: 'Match 3 of any fruits shown on the top row to win'
     },
     scratch: {
