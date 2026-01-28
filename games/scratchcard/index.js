@@ -22,7 +22,11 @@ const scratcherSvg = document.querySelector('svg#scratcher');
 
 
 //--DOM FUNCTIONS--//
-
+function skipScratch() {
+    let viewBox = scratcherSvg.getAttribute('viewBox').split(' ').map(v => parseInt(v));
+    config.scratch.overlay = new Array(viewBox[2] * viewBox[3]).fill(true);
+    updateProgress();
+}
 
 //--EVENT HANDLERS--//
 
@@ -86,7 +90,9 @@ function renderCard() {
     // body: scratch grid of prizes
     let grid = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
     grid.classList.add('box');
-    grid.setAttribute('fill', 'var(--foreground)');
+    grid.setAttribute('stroke-width', 1);
+    grid.setAttribute('stroke', 'var(--foreground)');
+    grid.setAttribute('fill', 'var(--background)');
     grid.setAttribute('x', 0.5 * viewBox[2] - 0.45 * viewBox[2]);
     grid.setAttribute('y', blockPos);
     grid.setAttribute('width', 0.9 * viewBox[2]);
@@ -94,7 +100,7 @@ function renderCard() {
     scratcherSvg.appendChild(grid);
     // matches: 1 by 5 grid (0.1 width, 0.1 height)
     let gridArea = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject');
-    gridArea.setAttribute('x', 0.1 * viewBox[2]);
+    gridArea.setAttribute('x', 0.5 * viewBox[2] - 0.45 * viewBox[2]);
     gridArea.setAttribute('y', blockPos);
     gridArea.setAttribute('width', 0.9 * viewBox[2]);
     gridArea.setAttribute('height', 0.1 * viewBox[3]);
@@ -106,6 +112,7 @@ function renderCard() {
         gridArea.appendChild(gridAreaDiv);
     }
     scratcherSvg.appendChild(gridArea);
+    // scratch overlay (canvas)
     let overlayArea = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject');
     overlayArea.setAttribute('x', 0.5 * viewBox[2] - 0.45 * viewBox[2]);
     overlayArea.setAttribute('y', blockPos);
@@ -129,7 +136,7 @@ function renderCard() {
         if(config.card.grid.length < i) continue;
         let item = config.card.grid[i];
         let gridArea = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject');
-        gridArea.setAttribute('x', 0.1 * viewBox[2] + (i % 5) * 0.15 * viewBox[2]);
+        gridArea.setAttribute('x', 0.125 * viewBox[2] + (i % 5) * 0.15 * viewBox[2]);
         gridArea.setAttribute('y', blockPos + Math.floor(i / 5) * 0.1 * viewBox[3]);
         gridArea.setAttribute('width', 0.15 * viewBox[2]);
         gridArea.setAttribute('height', 0.1 * viewBox[3]);
