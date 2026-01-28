@@ -13,6 +13,16 @@ const config = {
 			"history": "HISTORY",
 		},
 	},
+	"rules": `[Adapted from video game "Cult of the Lamb"]
+
+* The game consists of two 3x3 boards, each belonging to their respective player.
+* The players take turns. On a player's turn, they roll a single 6-sided die, and place it in a cell on their board. A filled cell does not accept any more dice.
+* Each player has a score, which is the sum of all the dice values on their board, which is deterined by the score awarded by each column, which is also displayed.
+* Calculation applies to number of dice in each column eg. if a column is 4-4-4, then the score is 4x3 + 4x3 + 4x3 = 36.
+* If a player places different dice in the same column, the score awarded for each of those dice is multiplied by the number of dice of the same value in that column. e.g. if a column is 4-1-4 (4 appears twice), then the score is 4x2 + 1x1 + 4x2 = 17.
+* When a player places a die, all dice of the same value in the corresponding mirrored column (left, middle, or right) of the opponent's board gets destroyed.
+* The game ends when either player completely fills up their 3x3 board. The player with the higher score wins.
+`
 };
 const isMobile = function() {
     const match = window.matchMedia('(pointer:coarse)');
@@ -331,7 +341,7 @@ function showRules() {
 	let board = document.createElement('div');
 	board.classList.add('board');
 	board.classList.add('rotated');
-	board.innerText = rulesText;
+	board.innerText = config.rules;
 	
 	openItemInViewer(board);
 }
@@ -586,16 +596,3 @@ function chooseAny(col1Priority, col2Priority, col3Priority, isCol1Empty, isCol2
 	}
 	return arr[Math.floor(Math.random() * arr.length)];
 }
-
-//--RULES--//
-const rulesText = `[Adapted from video game "Cult of the Lamb"]
-
-* The game consists of two 3x3 boards, each belonging to their respective player.
-* Each player rolls a die, higher value goes first.
-* The players take turns. On a player's turn, they roll a single 6-sided die, and must place it in a column on their board. A filled column does not accept any more dice.
-* Each player has a score, which is the sum of all the dice values on their board. The score awarded by each column is also displayed.
-* If a player places multiple dice of the same value in the same column, the score awarded for each of those dice is multiplied by the number of dice of the same value in that column. e.g. if a column is 4-1-4, then the score is 4x2 + 1x1 + 4x2 = 17. 
-* Calculation applies to number of nice in each column eg. if a column is 4-4-4, then the score is 4x3 + 4x3 + 4x3 = 36.
-* When a player places a die, all dice of the same value in the corresponding column of the opponent's board gets destroyed.
-* The game ends when either player completely fills up their 3x3 board. The player with the higher score wins.
-`;
