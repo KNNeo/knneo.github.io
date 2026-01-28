@@ -33,10 +33,12 @@ function setDailyCard() {
 }
 
 function renderCard() {
+    // set dimensions
     scratcherSvg.style.maxWidth = config.card.width + 'px';
     scratcherSvg.style.border = '2px solid var(--foreground)';
     scratcherSvg.style.borderRadius = '8px';
     let viewBox = [0, 0, config.card.width, config.card.height];
+    scratcherSvg.setAttribute('viewBox', viewBox.join(' '));
     config.scratch.overlay = new Array(viewBox[2] * viewBox[3]).fill(false);
     // header: card logo, name, punchline
     // logo
