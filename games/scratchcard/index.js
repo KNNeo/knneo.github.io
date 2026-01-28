@@ -9,6 +9,7 @@ const config = {
         footer: 'Match 3 of any fruits shown on the top row to win'
     },
     scratch: {
+        threshold: 80,
         overlay: [],
         radius: 20
     }
@@ -95,19 +96,24 @@ function renderCard() {
         gridArea.appendChild(gridAreaDiv);
     }
     scratcherSvg.appendChild(gridArea);
-    let overlay = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-    overlay.style.position ='absolute';
-    overlay.setAttribute('fill', 'var(--accent)');
-    overlay.setAttribute('x', 0.5 * viewBox[2] - 0.45 * viewBox[2]);
-    overlay.setAttribute('y', blockPos);
+    let overlayArea = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject');
+    overlayArea.setAttribute('x', 0.5 * viewBox[2] - 0.45 * viewBox[2]);
+    overlayArea.setAttribute('y', blockPos);
+    overlayArea.setAttribute('width', 0.9 * viewBox[2]);
+    overlayArea.setAttribute('height', 0.6 * viewBox[3]);
+    let overlay = document.createElement('canvas');
+    overlay.id = 'overlay';
+    overlay.setAttribute('x', 0);
+    overlay.setAttribute('y', 0);
     overlay.setAttribute('width', 0.9 * viewBox[2]);
     overlay.setAttribute('height', 0.6 * viewBox[3]);
     overlay.onmousedown = onOverlayClick;
     overlay.onmousemove = onOverlayClickMove;
     overlay.onmouseup = onOverlayClick;
-    overlay.ontouchdown = onOverlayTouch;
+    overlay.ontouchstart = onOverlayTouch;
     overlay.ontouchmove = onOverlayTouchMove;
-    overlay.ontouchup = onOverlayTouch;
+    overlay.ontouchend = onOverlayTouch;
+    overlayArea.appendChild(overlay);
     // update pos
     blockPos += 0.1 * viewBox[3];
     // prizes: 5 by 5 grid (0.1 width, 0.15 height)
@@ -121,12 +127,16 @@ function renderCard() {
         gridArea.setAttribute('height', 0.1 * viewBox[3]);
             let gridAreaDiv = document.createElement('div');
             gridAreaDiv.style.fontSize = '1.5em';
-            gridAreaDiv.innerText = '🍒';
+            gridAreaDiv.innerText = item ? '🍒' : '🍌';
             gridAreaDiv.style.color = 'var(--foreground)';
             gridArea.appendChild(gridAreaDiv);
         scratcherSvg.appendChild(gridArea);
     }
-    scratcherSvg.appendChild(overlay);
+    scratcherSvg.appendChild(overlayArea);
+    let ctx = overlay.getContext('2d');
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.fillStyle = 'gray';
+    ctx.fillRect(0, 0, 0.9 * viewBox[2], 0.6 * viewBox[3]);
     // update pos
     blockPos += 0.5 * viewBox[3];
     // footer: instructions, condition to win
@@ -150,31 +160,32 @@ function onOverlayClickMove() {
     event.preventDefault();
     if(config.scratching) {
         let canvas = scratcherSvg.getBoundingClientRect();
-        console.log('click', event.offsetX, event.offsetY);
+        // console.log('click', event.offsetX, event.offsetY);
         scratch(event.offsetX, event.offsetY);
     }
 }
 
 function onOverlayTouch() {
-    config.scratching = event.type == 'touchdown';
+    config.scratching = event.type == 'touchstart';
 }
 
 function onOverlayTouchMove() {
     event.preventDefault();
-    if(config.scratching) {
-        let canvas = scratcherSvg.getBoundingClientRect();
+    if(config.scratching && document.querySelector('#overlay')) {
+        let overlay = document.querySelector('#overlay').getBoundingClientRect();
         let touch = event.touches[0];
-        let currentX = touch.clientX;
-        let currentY = touch.clientY;
-        console.log('touch', currentX, currentY);
+        // position based on screen
+        let currentX = touch.clientX - overlay.x;
+        let currentY = touch.clientY - overlay.y;
+        // console.log('touch', touch, currentX, currentY);
         scratch(currentX, currentY);
     }
 }
 
 function scratch(x, y) {
     let viewBox = scratcherSvg.getAttribute('viewBox').split(' ').map(v => parseInt(v));
-    let ctx = canvas.getContext('2d');
     // to hide overlay fill
+    let ctx = document.querySelector('#overlay')?.getContext('2d');
     ctx.globalCompositeOperation = 'destination-out';
     ctx.beginPath();
     ctx.arc(x, y, config.scratch.radius, 0, Math.PI * 2);
@@ -198,7 +209,18 @@ function scratch(x, y) {
 }
 
 function updateProgress() {
-
+    // check for truthy values
+    let scratchCount = config.scratch.overlay.filter(Boolean).length;
+    let overlay = document.querySelector('#overlay');
+    let percent = (scratchCount / (overlay.width * overlay.height)) * 100;
+    console.log('progress', percent.toFixed(2) + '%');
+    if (percent >= config.scratch.threshold) {
+        // more than the threshold, clear the scratch layer completely
+        overlay?.getContext('2d').clearRect(0, 0, overlay.width, overlay.height);
+        if(document.querySelector('#overlay'))
+            document.querySelector('#overlay').style.display = 'none';
+        console.log('scratch complete!');
+    }
 }
 
 //--INITIAL--//
