@@ -97,6 +97,12 @@ function renderCard() {
     overlay.setAttribute('y', blockPos);
     overlay.setAttribute('width', 0.9 * viewBox[2]);
     overlay.setAttribute('height', 0.6 * viewBox[3]);
+    overlay.onmousedown = onOverlayClick;
+    overlay.onmousemove = onOverlayClickMove;
+    overlay.onmouseup = onOverlayClick;
+    overlay.ontouchdown = onOverlayTouch;
+    overlay.ontouchmove = onOverlayTouchMove;
+    overlay.ontouchup = onOverlayTouch;
     // update pos
     blockPos += 0.1 * viewBox[3];
     // prizes: 5 by 5 grid (0.1 width, 0.15 height)
@@ -129,6 +135,33 @@ function renderCard() {
     footerDiv.style.color = 'var(--foreground)';
     footerArea.appendChild(footerDiv);
     scratcherSvg.appendChild(footerArea);
+}
+
+function onOverlayClick() {
+    config.scratching = event.target.type == 'mousedown';
+}
+
+function onOverlayClickMove() {
+    event.preventDefault();
+    if(config.scratching) {
+        let canvas = scratcherSvg.getBoundingClientRect();
+        console.log('click', event.offsetX, event.offsetY);
+    }
+}
+
+function onOverlayTouch() {
+    config.scratching = event.target.type == 'touchdown';
+}
+
+function onOverlayTouchMove() {
+    event.preventDefault();
+    if(config.scratching) {
+        let canvas = scratcherSvg.getBoundingClientRect();
+        let touch = event.touches[0];
+        let currentX = touch.clientX;
+        let currentY = touch.clientY;
+        console.log('touch', currentX, currentY);
+    }
 }
 
 //--INITIAL--//
