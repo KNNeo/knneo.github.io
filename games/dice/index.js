@@ -13,6 +13,10 @@ const config = {
 			"history": "HISTORY",
 		},
 	},
+	"storage": {
+		"wins": "dice-game-wins",
+		"scores": "dice-game-scores",
+	},
 	"rules": `[Adapted from video game "Cult of the Lamb"]
 
 * The game consists of two 3x3 boards, each belonging to their respective player.
@@ -96,8 +100,8 @@ function end() { // from trigger, end game
 	}
 
 	// record score
-	let wins = JSON.parse(localStorage.getItem('dice-game-wins') ?? '[]');
-	let scores = JSON.parse(localStorage.getItem('dice-game-scores') ?? '[]');
+	let wins = JSON.parse(localStorage.getItem(config.storage.wins) ?? '[]');
+	let scores = JSON.parse(localStorage.getItem(config.storage.scores) ?? '[]');
 
 	let playerScore = parseInt(document.querySelector('.player.total').innerText);
 	let opponentScore = parseInt(document.querySelector('.opponent.total').innerText);
@@ -118,8 +122,8 @@ function end() { // from trigger, end game
 
 	scores.unshift({ player: playerScore, opponent: opponentScore, win: whoWins });
 
-	localStorage.setItem('dice-game-wins', JSON.stringify([playerWins, opponentWins]));
-	localStorage.setItem('dice-game-scores', JSON.stringify(scores));
+	localStorage.setItem(config.storage.wins, JSON.stringify([playerWins, opponentWins]));
+	localStorage.setItem(config.storage.scores, JSON.stringify(scores));
 }
 
 function reload() {
@@ -337,8 +341,8 @@ function showScores() {
 	// show matches score, show list of scores
 	// wins array: [playerWins, opponentWins]
 	// scores object: { player: x, opponent: y, win: player }
-	let wins = JSON.parse(localStorage.getItem('dice-game-wins') ?? '[]');
-	let scores = JSON.parse(localStorage.getItem('dice-game-scores') ?? '[]');
+	let wins = JSON.parse(localStorage.getItem(config.storage.wins) ?? '[]');
+	let scores = JSON.parse(localStorage.getItem(config.storage.scores) ?? '[]');
 	// console.log(wins, scores);
 
 	let header = document.createElement('h5');
@@ -434,8 +438,8 @@ function showScores() {
 }
 
 function resetScores() {
-	localStorage.setItem('dice-game-wins', JSON.stringify([]));
-	localStorage.setItem('dice-game-scores', JSON.stringify([]));
+	localStorage.setItem(config.storage.wins, JSON.stringify([]));
+	localStorage.setItem(config.storage.scores, JSON.stringify([]));
 	location.reload();
 }
 
