@@ -120,7 +120,11 @@ function end() { // from trigger, end game
 	let playerWins = (wins[0] ?? 0) + (whoWins == 'player' ? 1 : 0);
 	let opponentWins = (wins[1] ?? 0) + (whoWins == 'opponent' ? 1 : 0);
 
-	scores.unshift({ player: playerScore, opponent: opponentScore, win: whoWins });
+	// record layout
+	let opponentCells = Array.from(document.querySelectorAll('.opponent.cell')).map(c => parseInt(c.getAttribute('data-id') || '0'));
+	let playerCels = Array.from(document.querySelectorAll('.player.cell')).map(c => parseInt(c.getAttribute('data-id') || '0'));
+
+	scores.unshift({ player: playerScore, opponent: opponentScore, win: whoWins, layout: [ opponent: opponentCells, player: playerCells ] });
 
 	localStorage.setItem(config.storage.wins, JSON.stringify([playerWins, opponentWins]));
 	localStorage.setItem(config.storage.scores, JSON.stringify(scores));
@@ -379,9 +383,10 @@ function showScores() {
 	let scoresDiv = document.createElement('div');
 	scoresDiv.classList.add('scores');
 
-	for (let score of scores) // opponent only
-	{
+	for (let score of scores) {
 		let scoreTr = document.createElement('tr');
+		scoreTr.setAttribute('data-id', scores.indexOf(score));
+		scoreTr.onclick = showMatchLayout;
 
 		let scoreTd = document.createElement('td');
 
@@ -435,6 +440,27 @@ function showScores() {
 	board.appendChild(resetter);
 
 	openItemInViewer(board);
+}
+
+function showMatchLayout() {
+	if(!event.target.getAttribute('data-id')) return;
+	let scores = JSON.parse(localStorage.getItem(config.storage.scores) ?? '[]');
+	let score = scores[parseInt(event.target.getAttribute('data-id'))];
+	if(!score.layout || !score.layout.opponent || !score.layout.player) return;
+	let opponentCells = document.querySelectorAll('.opponent.cell');
+	let playerCells = document.querySelectorAll('.player.cell');
+	for(let i = 0; i < 9; i++) {
+		let opponentCell = opponentCells[i];
+		opponentCell.setAttribute('data-id', score.layout.opponent[i]);
+		if(opponentCell.querySelector('.content'))
+			opponentCell.querySelector('.content').className = 'content bi bi-dice-' + score.layout.opponent[i];
+		let playerCell = playerCells[i];
+		playerCell.setAttribute('data-id', score.layout.player[i]);
+		if(playerCell.querySelector('.content'))
+			playerCell.querySelector('.content').className = 'content bi bi-dice-' + score.layout.player[i];
+	}
+	updateColumnScores();
+	closeViewer();
 }
 
 function resetScores() {
