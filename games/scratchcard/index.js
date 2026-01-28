@@ -108,7 +108,7 @@ function renderCard() {
         grid.appendChild(gridArea);
     }
     let overlay = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-    overlay.style.position: 'absolute';
+    overlay.style.position ='absolute';
     overlay.setAttribute('fill', 'var(--accent)');
     overlay.setAttribute('x', 0.5 * viewBox[2] - 0.45 * viewBox[2]);
     overlay.setAttribute('y', blockPos);
