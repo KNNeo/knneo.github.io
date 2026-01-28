@@ -1,6 +1,8 @@
 //--DEFAULT SETTINGS--//
 const config = {
     card: {
+        width: 400,
+        height: 600,
         logo: '🍒',
         title: 'FRUITPICKER',
         subtitle: 'Win up to $10,000!',
@@ -31,26 +33,30 @@ function setDailyCard() {
 }
 
 function renderCard() {
-    let viewBox = scratcherSvg.getAttribute('viewBox').split(' ').map(v => parseInt(v));
+    scratcherSvg.style.maxWidth = config.card.width + 'px';
+    scratcherSvg.style.border = '2px solid var(--foreground)';
+    scratcherSvg.style.borderRadius = '8px';
+    let viewBox = [0, 0, config.card.width, config.card.height];
     config.scratch.overlay = new Array(viewBox[2] * viewBox[3]).fill(false);
     // header: card logo, name, punchline
     // logo
     let blockPos = viewBox[1];
     let logoArea = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject');
-    logoArea.style.fontSize = '2.5em';
+    logoArea.style.fontSize = '4em';
     logoArea.setAttribute('x', 0.5 * viewBox[2] - 0.15 * viewBox[2]);
     logoArea.setAttribute('y', viewBox[1]);
     logoArea.setAttribute('width', 0.3 * viewBox[2]);
-    logoArea.setAttribute('height', 0.1 * viewBox[3]);
+    logoArea.setAttribute('height', 0.15 * viewBox[3]);
     let logoDiv = document.createElement('div');
     logoDiv.innerText = config.card.logo;
     logoDiv.style.color = 'var(--foreground)';
     logoArea.appendChild(logoDiv);
     scratcherSvg.appendChild(logoArea);
     // update pos
-    blockPos += 0.1 * viewBox[3];
+    blockPos += 0.15 * viewBox[3];
     // name
     let nameArea = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject');
+    nameArea.style.fontSize = '2em';
     nameArea.setAttribute('x', 0.5 * viewBox[2] - 0.45 * viewBox[2]);
     nameArea.setAttribute('y', blockPos);
     nameArea.setAttribute('width', 0.9 * viewBox[2]);
@@ -67,12 +73,14 @@ function renderCard() {
     punchlineArea.setAttribute('x', 0.5 * viewBox[2] - 0.45 * viewBox[2]);
     punchlineArea.setAttribute('y', blockPos);
     punchlineArea.setAttribute('width', 0.9 * viewBox[2]);
-    punchlineArea.setAttribute('height', 0.1 * viewBox[3]);
+    punchlineArea.setAttribute('height', 0.05 * viewBox[3]);
     let punchlineDiv = document.createElement('div');
     punchlineDiv.innerText = config.card.subtitle;
     punchlineDiv.style.color = 'var(--foreground)';
     punchlineArea.appendChild(punchlineDiv);
     scratcherSvg.appendChild(punchlineArea);
+    // update pos
+    blockPos += 0.05 * viewBox[3];
     // body: scratch grid of prizes
     let grid = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
     grid.classList.add('box');
@@ -82,15 +90,15 @@ function renderCard() {
     grid.setAttribute('width', 0.9 * viewBox[2]);
     grid.setAttribute('height', 0.6 * viewBox[3]);
     scratcherSvg.appendChild(grid);
-    // matches: 1 by 5 grid (0.1 width, 0.15 height)
+    // matches: 1 by 5 grid (0.1 width, 0.1 height)
     let gridArea = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject');
     gridArea.setAttribute('x', 0.1 * viewBox[2]);
     gridArea.setAttribute('y', blockPos);
-    gridArea.setAttribute('width', 0.1 * viewBox[2]);
+    gridArea.setAttribute('width', 0.9 * viewBox[2]);
     gridArea.setAttribute('height', 0.1 * viewBox[3]);
     for(let match of config.card.matches) {
         let gridAreaDiv = document.createElement('div');
-        gridAreaDiv.style.fontSize = '1.5em';
+        gridAreaDiv.style.fontSize = '2em';
         gridAreaDiv.innerText = match;
         gridAreaDiv.style.color = 'var(--foreground)';
         gridArea.appendChild(gridAreaDiv);
@@ -103,8 +111,6 @@ function renderCard() {
     overlayArea.setAttribute('height', 0.6 * viewBox[3]);
     let overlay = document.createElement('canvas');
     overlay.id = 'overlay';
-    overlay.setAttribute('x', 0);
-    overlay.setAttribute('y', 0);
     overlay.setAttribute('width', 0.9 * viewBox[2]);
     overlay.setAttribute('height', 0.6 * viewBox[3]);
     overlay.onmousedown = onOverlayClick;
@@ -116,17 +122,20 @@ function renderCard() {
     overlayArea.appendChild(overlay);
     // update pos
     blockPos += 0.1 * viewBox[3];
-    // prizes: 5 by 5 grid (0.1 width, 0.15 height)
+    // prizes: 5 by 5 grid (0.1 width, 0.1 height)
     for(let i = 0; i < 25; i++) {
         if(config.card.grid.length < i) continue;
         let item = config.card.grid[i];
         let gridArea = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject');
-        gridArea.setAttribute('x', 0.1 * viewBox[2] + Math.floor(i / 5) * 0.15 * viewBox[2]);
-        gridArea.setAttribute('y', (3+(i % 5)) * 0.1 * viewBox[3]);
-        gridArea.setAttribute('width', 0.1 * viewBox[2]);
+        gridArea.setAttribute('x', 0.1 * viewBox[2] + (i % 5) * 0.15 * viewBox[2]);
+        gridArea.setAttribute('y', blockPos + Math.floor(i / 5) * 0.1 * viewBox[3]);
+        gridArea.setAttribute('width', 0.15 * viewBox[2]);
         gridArea.setAttribute('height', 0.1 * viewBox[3]);
             let gridAreaDiv = document.createElement('div');
             gridAreaDiv.style.fontSize = '1.5em';
+            gridAreaDiv.style.width = '100%';
+            gridAreaDiv.style.height = '100%';
+            gridAreaDiv.style.placeContent = 'center';
             gridAreaDiv.innerText = item ? '🍒' : '🍌';
             gridAreaDiv.style.color = 'var(--foreground)';
             gridArea.appendChild(gridAreaDiv);
