@@ -20,35 +20,40 @@ const config = {
 				name: 'Depot',
 				x: 0,
 				y: 0,
-				links: ['station-2', 'station-3', 'station-4']
+				links: ['station-2', 'station-3', 'station-4'],
+				wait: 60
 			},
 			{
 				id: 'station-2',
 				name: 'Seaside End',
 				x: 620,
 				y: -140,
-				links: ['station-1', 'station-3']
+				links: ['station-1', 'station-3'],
+				wait: 30
 			},
 			{
 				id: 'station-3',
 				name: 'Mountain View',
 				x: 535,
 				y: 200,
-				links: ['station-1', 'station-2']
+				links: ['station-1', 'station-2'],
+				wait: 30
 			},
 			{
 				id: 'station-4',
 				name: 'West Annex',
 				x: -350,
 				y: 100,
-				links: ['station-1', 'station-5']
+				links: ['station-1', 'station-5'],
+				wait: 30
 			},
 			{
 				id: 'station-5',
 				name: 'West End',
 				x: -350,
 				y: 500,
-				links: ['station-4']
+				links: ['station-4'],
+				wait: 30
 			}
 		]
 	},
@@ -441,6 +446,8 @@ function chartProgress() {
 	if (!window.data.last?.id) window.data.last = { x: 0, y: 0, id: 'station-1' };
 	log("train at (" + window.data.last.x.toFixed(0) + "," + window.data.last.y.toFixed(0) + ")");
 	let timeDiffSec = Math.floor((new Date() - new Date(window.data.game.time)) / 1000);
+	if(timeDiffSec > 3600) // max 1h
+		timeDiffSec = 3600;
 	let trainMoved = false;
 	let travelRate = window.data.game.cost.travel || 1;
 	let waitRate = window.data.game.cost.wait || 0;
