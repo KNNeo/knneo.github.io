@@ -5,16 +5,20 @@ const config = {
         height: 600,
         logo: '🍒',
         title: 'FRUITPICKER',
-        subtitle: 'Win up to $10,000!',
-        matches: ['🍒'], // max 5
+        subtitle: 'Win up to $10,000!!',
+        matches: ['🍒','🍌','🥝','🍇','🍑'], // max 5
         grid: [], // max 25, to override
-        footer: 'Match 3 of any fruits shown on the top row to win'
+        footer: 'Match 3 of any fruits shown on the top row to win\nMatch 3: $100, Match 4: $1,000, Match 5: $10,000!'
     },
     scratch: {
         threshold: 80,
         overlay: [],
         radius: 30,
         color: 'gray'
+    },
+    message: {
+        win: 'YOU WIN!!',
+        lose: 'Better luck next time!'
     }
 };
 
@@ -41,12 +45,13 @@ function renderCard() {
     // reset card, set dimensions and card odds
     scratcherSvg.innerHTML = '';
     scratcherSvg.style.setProperty('--width', config.card.width + 'px');
-    config.card.grid = new Array(25).fill(false).map((elem, idx, arr) => {
-        if(arr.filter(a => a).length < 3)
-            return Math.random() < 0.1;
+    config.card.grid = new Array(25).fill(false).reduce((total, current, idx, arr) => {
+        if(total.filter(a => a).length < 5 && Math.random() < 0.1)
+            total.push(1);
         else
-            return elem;
-    });
+            total.push(0);
+        return total;
+    }, []);
     // set view and overlay for svg
     let viewBox = [0, 0, config.card.width, config.card.height];
     scratcherSvg.setAttribute('viewBox', viewBox.join(' '));
@@ -102,17 +107,16 @@ function renderCard() {
     grid.setAttribute('height', 0.6 * viewBox[3]);
     scratcherSvg.appendChild(grid);
     // matches: 1 by 5 grid (0.1 width, 0.1 height)
+    let match = config.card.matches[Math.floor(config.card.matches.length*Math.random())];
     let gridArea = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject');
     gridArea.setAttribute('x', 0.5 * viewBox[2] - 0.45 * viewBox[2]);
     gridArea.setAttribute('y', blockPos);
     gridArea.setAttribute('width', 0.9 * viewBox[2]);
     gridArea.setAttribute('height', 0.1 * viewBox[3]);
-    for(let match of config.card.matches) {
         let gridAreaDiv = document.createElement('div');
         gridAreaDiv.classList.add('lineup');
         gridAreaDiv.innerText = match;
         gridArea.appendChild(gridAreaDiv);
-    }
     scratcherSvg.appendChild(gridArea);
     // scratch overlay (canvas)
     let overlayArea = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject');
@@ -134,6 +138,7 @@ function renderCard() {
     // update pos
     blockPos += 0.1 * viewBox[3];
     // prizes: 5 by 5 grid (0.1 width, 0.1 height)
+    let mismatches = config.card.matches.filter(m => m != match);
     for(let i = 0; i < 25; i++) {
         if(config.card.grid.length < i) continue;
         let item = config.card.grid[i];
@@ -144,7 +149,7 @@ function renderCard() {
         gridArea.setAttribute('height', 0.1 * viewBox[3]);
             let gridAreaDiv = document.createElement('div');
             gridAreaDiv.classList.add('prize');
-            gridAreaDiv.innerText = item == true ? '🍒' : '';
+            gridAreaDiv.innerText = item ? match : mismatches[Math.floor(mismatches.length*Math.random())];
             gridArea.appendChild(gridAreaDiv);
         scratcherSvg.appendChild(gridArea);
     }
@@ -236,7 +241,60 @@ function updateProgress() {
             document.querySelector('#overlay').classList.add('hidden');
         // console.log('scratch complete!');
         config.scratching = false;
+        displayResult();
     }
+}
+
+function displayResult() {
+    if(config.card.grid.filter(g => g).length >= 3)
+        popupText(config.message.win);
+    else
+        popupText(config.message.lose);
+}
+
+//--DIALOG--//
+function popupText(input) {
+	let dialogDiv = document.querySelector('.dialog');
+	if (dialogDiv == null) {
+		dialogDiv = document.createElement('div');
+		dialogDiv.classList.add('dialog');
+		document.body.appendChild(dialogDiv);
+	}
+	let dialog = createDialog(input);
+	dialogDiv.innerHTML = '';
+	dialogDiv.appendChild(dialog);
+	dialog.showModal();
+}
+
+function createDialog(node) {
+	// node in dialog will not have events!
+	let dialog = document.createElement('dialog');
+	if (!dialog.classList.contains('box'))
+		dialog.classList.add('box');
+	if (typeof node == 'string')
+		dialog.innerHTML = node;
+	if (typeof node == 'object') {
+		let clonedNode = node.cloneNode(true);
+		dialog.appendChild(clonedNode);
+	}
+	dialog.addEventListener('click', function () {
+		if (event.target.parentElement == document.querySelector('.dialog'))
+			removeDialog();
+	});
+	dialog.addEventListener('keyup', function () {
+		if (event.key === 'Enter')
+			this.remove();
+	});
+	return dialog;
+}
+
+function removeDialog() {
+	if (event)
+		event.preventDefault(); // Prevent the default form submission
+	let dialogDiv = document.querySelector('.dialog');
+	if (dialogDiv != null) {
+		dialogDiv.remove();
+	}
 }
 
 //--INITIAL--//
