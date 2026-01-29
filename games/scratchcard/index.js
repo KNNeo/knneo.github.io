@@ -13,7 +13,7 @@ const config = {
     scratch: {
         threshold: 80,
         overlay: [],
-        radius: 20
+        radius: 30
     }
 };
 
@@ -37,10 +37,18 @@ function setDailyCard() {
 }
 
 function renderCard() {
-    // set dimensions
+    // reset card, set dimensions and card odds
+    scratcherSvg.innerHTML = '';
     scratcherSvg.style.maxWidth = config.card.width + 'px';
     scratcherSvg.style.border = '2px solid var(--foreground)';
     scratcherSvg.style.borderRadius = '8px';
+    config.card.grid = new Array(25).fill(false).map((elem, idx, arr) => {
+        if(arr.filter(a => a).length < 3)
+            return Math.random() < 0.1;
+        else
+            return elem;
+    });
+    // set view and overlay for svg
     let viewBox = [0, 0, config.card.width, config.card.height];
     scratcherSvg.setAttribute('viewBox', viewBox.join(' '));
     config.scratch.overlay = new Array(viewBox[2] * viewBox[3]).fill(false);
