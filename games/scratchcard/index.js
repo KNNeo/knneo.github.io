@@ -6,7 +6,7 @@ const config = {
         logo: '🍒',
         title: 'FRUITPICKER',
         subtitle: 'Win up to $10,000!!',
-        matches: ['🍒','🍌','🥝','🍇','🍑'], // max 5
+        matches: ['🍒','🍌','🥝','🍇','🍑','🍎','🍋','🍍','🍈','🍊'],
         grid: [], // max 25, to override
         footer: 'Match 3 of any fruits shown on the top row to win\nMatch 3: $100, Match 4: $1,000, Match 5: $10,000!'
     },
