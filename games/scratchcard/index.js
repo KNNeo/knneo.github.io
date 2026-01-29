@@ -149,7 +149,11 @@ function renderCard() {
         gridArea.setAttribute('height', 0.1 * viewBox[3]);
             let gridAreaDiv = document.createElement('div');
             gridAreaDiv.classList.add('prize');
-            gridAreaDiv.innerText = item ? match : mismatches[Math.floor(mismatches.length*Math.random())];
+            gridAreaDiv.innerText = mismatches[Math.floor(mismatches.length*Math.random())];
+            if(item) {
+                gridAreaDiv.classList.add('win');
+                gridAreaDiv.innerText = match;
+            }
             gridArea.appendChild(gridAreaDiv);
         scratcherSvg.appendChild(gridArea);
     }
@@ -236,6 +240,7 @@ function updateProgress() {
     // console.log('progress', percent.toFixed(2) + '%');
     if (percent >= config.scratch.threshold) {
         // more than the threshold, clear the scratch layer completely
+        scratcherSvg.setAttribute('data-complete', '');
         overlay?.getContext('2d').clearRect(0, 0, overlay.width, overlay.height);
         if(document.querySelector('#overlay'))
             document.querySelector('#overlay').classList.add('hidden');

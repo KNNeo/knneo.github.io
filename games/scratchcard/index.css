@@ -69,6 +69,10 @@ a:hover {
     font-size: 1.5em;
 }
 
+.scratcher[data-complete] .prize.win {
+    background: var(--primary);
+}
+
 .footer {
     font-size: 0.8em;
 }
