@@ -5,10 +5,10 @@ const config = {
         height: 600,
         logo: '🍒',
         title: 'FRUITPICKER',
-        subtitle: 'Win up to $10,000!!',
+        subtitle: 'Win up to $100!!',
         matches: ['🍒','🍌','🥝','🍇','🍑','🍎','🍋','🍍','🍈','🍊'],
         grid: [], // max 25, to override
-        footer: 'Match 3 of any fruits shown on the top row to win\nMatch 3: $100, Match 4: $1,000, Match 5: $10,000!'
+        footer: 'Match 3 of any fruits shown on the top row to win\nMatch 3: $1, Match 4: $10, Match 5: $100!'
     },
     scratch: {
         threshold: 80,
@@ -46,7 +46,7 @@ function renderCard() {
     scratcherSvg.innerHTML = '';
     scratcherSvg.style.setProperty('--width', config.card.width + 'px');
     config.card.grid = new Array(25).fill(false).reduce((total, current, idx, arr) => {
-        if(total.filter(a => a).length < 5 && Math.random() < 0.1)
+        if(total.filter(a => a).length < 5 && Math.random() < 0.05)
             total.push(1);
         else
             total.push(0);
