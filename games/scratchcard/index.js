@@ -44,6 +44,7 @@ function setDailyCard() {
 function renderCard() {
     // reset card, set dimensions and card odds
     scratcherSvg.innerHTML = '';
+    scratcherSvg.removeAttribute('data-complete');
     scratcherSvg.style.setProperty('--width', config.card.width + 'px');
     config.card.grid = new Array(25).fill(false).reduce((total, current, idx, arr) => {
         if(total.filter(a => a).length < 5 && Math.random() < 0.05)
