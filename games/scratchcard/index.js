@@ -11,9 +11,9 @@ const config = {
         footer: 'Match 3 of any fruits shown on the top row to win\nMatch 3: $1, Match 4: $10, Match 5: $100!'
     },
     scratch: {
-        threshold: 80,
+        threshold: 70,
         overlay: [],
-        radius: 30,
+        height: 50,
         color: 'gray'
     },
     message: {
@@ -185,7 +185,7 @@ function onOverlayClick() {
 function onOverlayClickMove() {
     event.preventDefault();
     if(config.scratching) {
-        // console.log('click', event.offsetX, event.offsetY);
+        console.log('click', event.offsetX, event.offsetY);
         scratch(event.offsetX, event.offsetY);
     }
 }
@@ -213,23 +213,43 @@ function scratch(x, y) {
     let ctx = document.querySelector('#overlay')?.getContext('2d');
     ctx.globalCompositeOperation = 'destination-out';
     ctx.beginPath();
-    ctx.arc(x, y, config.scratch.radius, 0, Math.PI * 2);
-    ctx.fill();
-    // determine circle of scratch radius
-    let minX = Math.max(0, Math.floor(x - config.scratch.radius));
-    let maxX = Math.min(viewBox[2], Math.ceil(x + config.scratch.radius));
-    let minY = Math.max(0, Math.floor(y - config.scratch.radius));
-    let maxY = Math.min(viewBox[3], Math.ceil(y + config.scratch.radius));
-    // for each pixel, mark as scratched
-    for (let i = minX; i < maxX; i++) {
-        for (let j = minY; j < maxY; j++) {
-            let dx = i - x;
-            let dy = j - y;
-            if (dx * dx + dy * dy <= config.scratch.radius * config.scratch.radius)
+    if(config.scratch.height) {
+        let w = 20; // fixed width
+        let h = config.scratch.height;
+        ctx.rect(x - w / 2, y - h / 2, w, h);
+        ctx.fill();
+        // determine area scratched
+        let minX = Math.max(0, Math.floor(x - w / 2));
+        let maxX = Math.min(viewBox[2], Math.ceil(x + w / 2));
+        let minY = Math.max(0, Math.floor(y - h / 2));
+        let maxY = Math.min(viewBox[3], Math.ceil(y + h / 2));
+        // console.log(minX, maxX, minY, maxY);
+        // for each pixel, mark as scratched
+        for (let i = minX; i < maxX; i++) {
+            for (let j = minY; j < maxY; j++) {
                 config.scratch.overlay[j * viewBox[2] + i] = true;
+            }
         }
     }
-
+    if(config.scratch.radius) {
+        ctx.arc(x, y, config.scratch.radius, 0, Math.PI * 2);
+        ctx.fill();
+        // determine circle of scratch radius
+        let minX = Math.max(0, Math.floor(x - config.scratch.radius));
+        let maxX = Math.min(viewBox[2], Math.ceil(x + config.scratch.radius));
+        let minY = Math.max(0, Math.floor(y - config.scratch.radius));
+        let maxY = Math.min(viewBox[3], Math.ceil(y + config.scratch.radius));
+        // console.log(minX, maxX, minY, maxY);
+        // for each pixel, mark as scratched
+        for (let i = minX; i < maxX; i++) {
+            for (let j = minY; j < maxY; j++) {
+                let dx = i - x;
+                let dy = j - y;
+                if (dx * dx + dy * dy <= config.scratch.radius * config.scratch.radius)
+                    config.scratch.overlay[j * viewBox[2] + i] = true;
+            }
+        }
+    }
     updateProgress();
 }
 
@@ -238,7 +258,7 @@ function updateProgress() {
     let scratchCount = config.scratch.overlay.filter(Boolean).length;
     let overlay = document.querySelector('#overlay');
     let percent = (scratchCount / (overlay.width * overlay.height)) * 100;
-    // console.log('progress', percent.toFixed(2) + '%');
+    console.log('progress', percent.toFixed(2) + '%');
     if (percent >= config.scratch.threshold) {
         // more than the threshold, clear the scratch layer completely
         scratcherSvg.setAttribute('data-complete', '');
