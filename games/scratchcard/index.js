@@ -246,6 +246,7 @@ function updateProgress() {
         if(document.querySelector('#overlay'))
             document.querySelector('#overlay').style.display = 'none';
         console.log('scratch complete!');
+        config.scratching = false;
     }
 }
 
