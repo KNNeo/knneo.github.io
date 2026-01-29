@@ -78,7 +78,7 @@ function toggleProgress() {
 	let toPause = event.target.classList.contains('bi-play-circle');
 	event.target.classList.toggle('bi-play-circle');
 	event.target.classList.toggle('bi-pause-circle');
-	if(toPause)
+	if (toPause)
 		clearInterval(config.interval);
 	else
 		config.interval = setInterval(chartProgress, 1000);
@@ -445,8 +445,8 @@ function chartProgress() {
 	if (config.debug) console.log('chartProgress');
 	if (!window.data.last?.id) window.data.last = { x: 0, y: 0, id: 'station-1' };
 	log("train at (" + window.data.last.x.toFixed(0) + "," + window.data.last.y.toFixed(0) + ")");
-	let timeDiffSec = Math.floor((new Date() - new Date(window.data.game.time)) / 1000);
-	if(timeDiffSec > 3600) // max 1h
+	let timeDiffSec = window.data.game.diff || Math.floor((new Date() - new Date(window.data.game.time)) / 1000);
+	if (timeDiffSec > 3600) // max 1h
 		timeDiffSec = 3600;
 	let trainMoved = false;
 	let travelRate = window.data.game.cost.travel || 1;
@@ -524,12 +524,16 @@ function chartProgress() {
 		});
 		train.setAttribute("x", afterX);
 		train.setAttribute("y", afterY);
-			focus(train);
-			log("train moved to (" + window.data.last.x.toFixed(0) + "," + window.data.last.y.toFixed(0) + ")");
+		focus(train);
+		log("train moved to (" + window.data.last.x.toFixed(0) + "," + window.data.last.y.toFixed(0) + ")");
 	}
-	if(timeDiffSec <= 0)
-		// update last run time
+	// update last run time, and diff for temp storage
+	if (timeDiffSec <= 0) {
 		idle();
+		window.data.game.diff = 0;
+	}
+	else
+		window.data.game.diff = timeDiffSec;
 }
 
 function moveToStation(name) {
@@ -683,9 +687,12 @@ function clear() {
 
 //--HTML DOM FUNCTIONS--//
 function idle() {
-	// record time in order to calculate time passed when load in
-	window.data.game.time = new Date();
-	save();
+	// when not running chartProgress
+	if(!window.data.game.diff) {
+		// record time in order to calculate time passed when load in
+		window.data.game.time = new Date();
+		save();
+	}
 }
 
 function startup() {
