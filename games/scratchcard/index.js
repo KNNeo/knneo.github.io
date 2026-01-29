@@ -214,7 +214,7 @@ function scratch(x, y) {
     ctx.globalCompositeOperation = 'destination-out';
     ctx.beginPath();
     if(config.scratch.height) {
-        let w = 20; // fixed width
+        let w = 15; // fixed width
         let h = config.scratch.height;
         ctx.rect(x - w / 2, y - h / 2, w, h);
         ctx.fill();
