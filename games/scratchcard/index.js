@@ -108,6 +108,7 @@ function onSelectCard() {
     let card = config.card.list.find(c => c.title == event.target.innerText);
     config.card.active = copyCard(card);
     renderCard();
+    removeDialog();
 }
 
 function setDailyCard() {
@@ -142,7 +143,7 @@ function renderMatchCard() {
     scratcherSvg.style.setProperty('--width', activeCard.width + 'px');
     if(!activeCard.match)
         activeCard.match = activeCard.matches[Math.floor(activeCard.matches.length*Math.random())];
-    let mismatches = activeCard.matches.filter(m => m != activeCard.match);
+    let mismatches = activeCard.matches.length > 1 ? activeCard.matches.filter(m => m != activeCard.match) : activeCard.match;
     activeCard.grid = new Array(activeCard.gridSize).fill(false).reduce((total, current, idx, arr) => {
         if(total.filter(a => a).length < activeCard.maxMatch && Math.random() < activeCard.winRate)
             total.push(activeCard.match);
