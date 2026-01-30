@@ -551,7 +551,7 @@ public class Program {
 				var feedItemTemplate = "<item><title>_TITLE_</title><link>_URL_</link><guid isPermaLink=\"true\">_URL_</guid><pubDate>_DATE_</pubDate><content:encoded><![CDATA[_CONTENT_]]></content:encoded></item>";
 				feedString.AppendLine(feedItemTemplate
 					.Replace("_TITLE_", postTitle)
-					.Replace("_URL_", FEED_DOMAIN_URL + pageLink)
+					.Replace("_URL_", FEED_DOMAIN_URL + pageLink.Replace("/index.html", ""))
 					.Replace("_DATE_", publishDate.AddHours(-8).ToString("R")) // RFC-1123 date format, GMT timezone
 					.Replace("_CONTENT_", postContent));
 			}
