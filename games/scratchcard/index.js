@@ -111,7 +111,7 @@ function onSelectCard() {
 }
 
 function setDailyCard() {
-    config.card.active = copyCard(config.card.example);
+    config.card.active = copyCard(config.card.example());
 }
 
 function saveCard() {
