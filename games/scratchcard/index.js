@@ -131,7 +131,7 @@ function renderCard() {
     if(config.card.active.type == 'match')
         renderMatchCard();
     if(config.card.active.complete) {
-        config.scratch.overlay = new Array(activeCard.width * activeCard.height).fill(true);
+        config.scratch.overlay = new Array(config.card.active.width * config.card.active.height).fill(true);
         updateProgress();
     }
 }
