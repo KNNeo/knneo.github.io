@@ -77,12 +77,9 @@ function onOverlayTouchMove() {
 
 //--FUNCTIONS--//
 function loadCard() {
-    try {
-        config.card.active = JSON.parse(localStorage.getItem(config.storage.id));
-    }
-    catch {
+    config.card.active = JSON.parse(localStorage.getItem(config.storage.id));
+    if(!config.card.active)
         setDailyCard();
-    }
 }
 
 function saveCard() {
