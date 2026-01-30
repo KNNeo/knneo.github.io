@@ -204,7 +204,7 @@ function renderMatchCard() {
     grid.setAttribute('x', 0.5 * viewBox[2] - 0.45 * viewBox[2]);
     grid.setAttribute('y', blockPos);
     grid.setAttribute('width', 0.9 * viewBox[2]);
-    grid.setAttribute('height', ((Math.floor(activeCard.gridSize / 5) * 0.1) + 0.1) * viewBox[3]);
+    grid.setAttribute('height', ((Math.ceil(activeCard.gridSize / 5) * 0.1) + 0.1) * viewBox[3]);
     scratcherSvg.appendChild(grid);
     // matches: 1 by 5 grid (0.1 width, 0.1 height)
     let gridArea = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject');
@@ -259,7 +259,7 @@ function renderMatchCard() {
     ctx.fillStyle = config.scratch.color;
     ctx.fillRect(0, 0, 0.9 * viewBox[2], 0.6 * viewBox[3]);
     // update pos
-    blockPos += (Math.floor(activeCard.gridSize / 5) * 0.1) * viewBox[3];
+    blockPos += ((Math.ceil(activeCard.gridSize / 5) * 0.1) + 0.1) * viewBox[3];
     // footer: instructions, condition to win
     let footerArea = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject');
     footerArea.setAttribute('x', 0.5 * viewBox[2] - 0.45 * viewBox[2]);
