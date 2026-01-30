@@ -19,13 +19,14 @@ const config = {
             },{
                 type: 'match',
                 width: 300,
-                height: 200,
+                height: 300,
                 background: 'red',
                 logo: '🧨',
                 title: 'FIRECRACKER',
-                subtitle: 'Win up to $888!!',
-                gridSize: 3,
+                subtitle: 'Win $888!!',
+                matches: ['🧨'],
                 minMatch: 3,
+                gridSize: 3,
                 winRate: 0.1,
                 footer: 'Scratch to find out if you won!'
             },
@@ -90,6 +91,21 @@ function loadCard() {
     config.card.active = JSON.parse(localStorage.getItem(config.storage.id));
     if(!config.card.active)
         setDailyCard();
+}
+
+function selectCard() {
+    let container = document.createElement('div');
+    for(let opt of config.card.list) {
+        let option = document.createElement('div');
+        option.innerText = opt.title;
+        container.appendChild(option);
+    }
+    popupContent(container);
+}
+
+function onSelectCard() {
+    let card = config.card.list.find(c => c.title == event.target.innerText);
+    config.card.active = copyCard(card);
 }
 
 function setDailyCard() {
