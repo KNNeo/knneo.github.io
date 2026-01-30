@@ -96,8 +96,9 @@ function loadCard() {
 function selectCard() {
     let container = document.createElement('div');
     for(let opt of config.card.list) {
-        let option = document.createElement('div');
+        let option = document.createElement('button');
         option.innerText = opt.title;
+        option.onclick = onSelectCard;
         container.appendChild(option);
     }
     popupContent(container);
